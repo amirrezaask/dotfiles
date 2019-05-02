@@ -8,7 +8,7 @@ export ZSH="/home/amirreza/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="michelebologna"
+ZSH_THEME="cloud"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -95,3 +95,5 @@ export PATH=/usr/go/bin:$PATH
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias cga="cd $GOPATH/src/github.com/amirrezaask"
+alias cgp="cd $GOPATH/src/git.raad.cloud/cloud"
+alias pp="cd ~/pro/paygear"
