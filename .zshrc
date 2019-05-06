@@ -67,8 +67,9 @@ plugins=(git zsh-autosuggestions)
 source $ZSH/oh-my-zsh.sh
 
 export GOPATH=/home/amirreza/go
-export PATH=/usr/go/bin:$PATH
-
+export PYTHONPATH=/home/amirreza/.local/bin
+export PATH=/usr/go/bin:$GOPATH/bin:$PYTHONPATH:/usr/local/Postman:$PATH
+# export GO111MODULE=on
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -94,6 +95,8 @@ export PATH=/usr/go/bin:$PATH
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-alias cga="cd $GOPATH/src/github.com/amirrezaask"
-alias cgp="cd $GOPATH/src/git.raad.cloud/cloud"
-alias pp="cd ~/pro/paygear"
+alias agp="cd $GOPATH/src/github.com/amirrezaask"
+alias pgp="cd $GOPATH/src/git.raad.cloud/cloud"
+alias ppp="cd ~/pro/paygear"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
