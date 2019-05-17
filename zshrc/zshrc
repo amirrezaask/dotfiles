@@ -68,8 +68,8 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
-
+plugins=(git zsh-autosuggestions)
+ZSH_DISABLE_COMPFIX=true
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
@@ -104,5 +104,8 @@ export PATH=/usr/go/bin:$GOPATH/bin:$PATH
 alias agp="cd $GOPATH/src/github.com/amirrezaask"
 alias pgp="cd $GOPATH/src/git.raad.cloud/cloud"
 alias ppp="cd ~/pro/paygear"
-
+#Hooks
+chpwd() {
+  ls
+}
 
