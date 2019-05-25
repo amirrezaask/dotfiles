@@ -26,6 +26,13 @@ font pango:Fira Code 10
 # X core fonts rendering does not support right-to-left and this being a bitmap
 # font, it doesn’t scale on retina/hidpi displays.
 
+for_window [class=".*"] border pixel 0
+smart_gaps on
+gaps inner 15 
+gaps outer 15
+
+
+
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
@@ -96,11 +103,11 @@ bindsym $mod+a focus parent
 # We use variables to avoid repeating the names in multiple places.
 set $ws1 "1: Terminals"
 set $ws2 "2: Browsers"
-set $ws3 "3: Editors"
-set $ws4 "4"
-set $ws5 "5"
-set $ws6 "6"
-set $ws7 "7"
+set $ws3 "3: IDE"
+set $ws4 "4: Media"
+set $ws5 "5: Database"
+set $ws6 "6: Social"
+set $ws7 "7: Files"
 set $ws8 "8"
 set $ws9 "9"
 set $ws10 "10"
@@ -166,16 +173,20 @@ bindsym $mod+r mode "resize"
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-        status_command i3status
+        status_command i3status -c ~/src/dotfiles/i3/i3status
 	position top
     	font pango:DejaVu Sans Mono 10
 }
-
+assign [class="vlc"] $ws4
 assign [class="X-terminal-emulator"] $ws1
 assign [class="Firefox"] $ws2
 assign [class="Google-chrome"] $ws2
 assign [class="Code - Insiders"] $ws3
-
+assign [class="jetbrains-datagrip"] $ws5
+assign [class="jetbrains-pycharm"] $ws3
+assign [class="jetbrains-goland"] $ws3
+assign [class="discord"] $ws6
+assign [class="Org.gnome.Nautilus"] $ws7
 # Pulse Audio controls
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% #increase sound volume
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% #decrease sound volume
@@ -196,5 +207,5 @@ bindsym XF86AudioPrev exec playerctl previous
 
 
 # Auto Run Programs
-exec feh --bg-scale Pictures/m.jpg
-
+exec --no-startup-id compton -b
+exec_always feh --bg-scale ~/Pictures/rick.png
