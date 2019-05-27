@@ -48,7 +48,7 @@ cpu_temperature 0 {
 }
 
 wireless wlp2s0 {
-    format_up = "(%quality at %essid, %bitrate / %frequency) %ip"
+    format_up = "(%quality at %essid) %ip"
     format_down = ""
 }
 
