@@ -8,7 +8,7 @@ export ZSH="/home/amirreza/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="agnoster"
+ZSH_THEME="lambda"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -62,13 +62,14 @@ ZSH_THEME="agnoster"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-autosuggestions)
+plugins=(git kubectl docker docker-compose kubetail zsh-autosuggestions)
 
 source $ZSH/oh-my-zsh.sh
 
 export GOPATH=/home/amirreza/go
 export PYTHONPATH=/home/amirreza/.local/bin
 export PATH=/usr/go/bin:$GOPATH/bin:$PYTHONPATH:/usr/local/Postman:$PATH
+export KUBECONFIG=cluster-merge:~/kubconfs/kubepaygear
 # export GO111MODULE=on
 # User configuration
 
@@ -97,6 +98,9 @@ export PATH=/usr/go/bin:$GOPATH/bin:$PYTHONPATH:/usr/local/Postman:$PATH
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias agp="cd $GOPATH/src/github.com/amirrezaask"
 alias pgp="cd $GOPATH/src/git.raad.cloud/cloud"
-alias ppp="cd ~/pro/paygear"
-
+alias ppp="cd ~/src/paygear"
+alias kube.paygear="kubectl config use-context raad"
+alias kt="kubetail" 
+alias code="code-insiders"
+alias lock="i3lock -i /home/amirreza/Pictures/black.png"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
