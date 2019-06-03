@@ -235,9 +235,13 @@ exec setxkbmap -option 'grp:alt_shift_toggle'
 exec --no-startup-id compton -b
 
 #Wallpaper
+<<<<<<< HEAD
 exec_always feh --bg-center ~/Pictures/rick.png
 # class        border  backgr. text indicator child_border
 client.focused #A6E22E #A6E22E #272822 #A074C4
 client.unfocused #1f2326 #1f2326 #AAAAAA #A074C4
 client.urgent #F92672 #F92672 #FFFFFF #DCCD69
 
+=======
+exec_always feh --bg-center ~/Pictures/dot_bot.png
+>>>>>>> ecfba295f73e2e58cfe7818db841f69e48395383
