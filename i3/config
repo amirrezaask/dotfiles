@@ -29,10 +29,11 @@ font pango:Fira Code 10
 
 
 #i3-gaps settings
-for_window [class=".*"] border pixel 0
+for_window [class=".*"] border pixel 3 
 smart_gaps on
 gaps inner 10 
 gaps outer 10
+smart_borders on
 # multi monitor support
 bindsym $mod+u move workspace to output up
 
@@ -101,8 +102,9 @@ bindsym $mod+a focus parent
 
 # focus the child container
 #bindsym $mod+d focus child
+
 #set casp lock to escap
-exec_always --no-startup-id setxkbmap -option casp:escape
+exec_always --no-startup-id setxkbmap -option caps:escape
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
 set $ws1 "1: "
@@ -219,20 +221,23 @@ bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute s
 bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
 bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # decrease screen brightness
 
-# Touchpad controls
-bindsym XF86TouchpadToggle exec /some/path/toggletouchpad.sh # toggle touchpad
-
 # Media player controls
 bindsym XF86AudioPlay exec playerctl play
 bindsym XF86AudioPause exec playerctl pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
+
 #Keyboard Layout
 exec setxkbmap -layout us,ir
 exec setxkbmap -option 'grp:alt_shift_toggle'
 
 #compton for transparency
 exec --no-startup-id compton -b
-#exec_always --no-startup-id display-visor -f -l
+
 #Wallpaper
-exec_always feh --bg-center ~/Pictures/14767.jpg
+exec_always feh --bg-center ~/Pictures/rick.png
+# class        border  backgr. text indicator child_border
+client.focused #A6E22E #A6E22E #272822 #A074C4
+client.unfocused #1f2326 #1f2326 #AAAAAA #A074C4
+client.urgent #F92672 #F92672 #FFFFFF #DCCD69
+
