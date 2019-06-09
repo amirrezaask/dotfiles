@@ -98,8 +98,5 @@ export PATH=/usr/local/go/bin:$GOPATH/bin:$PYTHONPATH:/usr/local/Postman:$PATH
 alias agp="cd $GOPATH/src/github.com/amirrezaask"
 alias pgp="cd $GOPATH/src/git.raad.cloud/cloud"
 alias ppp="cd ~/src/paygear"
-alias kube.paygear="kubectl config use-context raad"
-alias kt="kubetail" 
-alias code="code-insiders"
 alias lock="i3lock -i /home/amirreza/Pictures/black.png"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
