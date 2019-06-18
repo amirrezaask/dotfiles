@@ -13,23 +13,23 @@ interval=30
 
 # kubernetes context
 [kubernetes]
-command=/home/amirreza/.config/i3blocks/blocklets/kubernetes/kubernetes
+command=/home/amirreza/src/dotfiles/i3blocks/blocklets/kubernetes/kubernetes
 interval=10
 
 
 [docker]
-command=/home/amirreza/.config/i3blocks/blocklets/docker/docker
+command=/home/amirreza/src/dotfiles/i3blocks/blocklets/docker/docker
 color=#0db7ed
 interval=10
 label=🐳
 
 #[key_layout]
-#command=/home/amirreza/.config/i3blocks/blocklets/key_layout/key_layout
+#command=/home/amirreza/src/dotfiles/i3blocks/blocklets/key_layout/key_layout
 #label=Layout
 #interval=30
 
 #[usb]
-#command=/home/amirreza/.config/i3blocks/blocklets/usb/usb
+#command=/home/amirreza/src/dotfiles/i3blocks/blocklets/usb/usb
 #markup=pango
 #signal=1
 #interval=10
@@ -44,7 +44,7 @@ separator=false
 interval=5
 
 [volume]
-command=/home/amirreza/.config/i3blocks/blocklets/volume-pulseaudio/volume-pulseaudio
+command=/home/amirreza/src/dotfiles/i3blocks/blocklets/volume-pulseaudio/volume-pulseaudio
 label=♪
 instance=Master
 interval=once
@@ -52,7 +52,7 @@ signal=10
 
 
 [memory]
-command=/home/amirreza/.config/i3blocks/blocklets/memory/memory
+command=/home/amirreza/src/dotfiles/i3blocks/blocklets/memory/memory
 label=MEM
 interval=30
 
@@ -61,7 +61,7 @@ command=date
 interval=5
 
 [battery2]
-command=/home/amirreza/.config/i3blocks/blocklets/battery2/battery2
+command=/home/amirreza/src/dotfiles/i3blocks/blocklets/battery2/battery2
 markup=pango
 interval=30
 
