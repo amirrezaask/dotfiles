@@ -1,0 +1,4 @@
+[submodule "blocklets"]
+	path = i3blocks/blocklets
+	url = git@github.com:vivien/i3blocks-contrib.git
+	branch = master
