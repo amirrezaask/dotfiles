@@ -68,7 +68,7 @@ source $ZSH/oh-my-zsh.sh
 
 export GOPATH=/home/amirreza/go
 export PYTHONPATH=/home/amirreza/.local/bin
-export PATH=/usr/local/go/bin:$GOPATH/bin:$PYTHONPATH:/usr/local/Postman:$PATH
+export PATH=$HOME/.config/composer/vendor/bin:/usr/local/go/bin:$GOPATH/bin:$PYTHONPATH:/usr/local/Postman:$PATH
 # export GO111MODULE=on
 # User configuration
 
@@ -98,5 +98,4 @@ export PATH=/usr/local/go/bin:$GOPATH/bin:$PYTHONPATH:/usr/local/Postman:$PATH
 alias agp="cd $GOPATH/src/github.com/amirrezaask"
 alias pgp="cd $GOPATH/src/git.raad.cloud/cloud"
 alias ppp="cd ~/src/paygear"
-alias lock="i3lock -i /home/amirreza/Pictures/black.png"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
