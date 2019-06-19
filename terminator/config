@@ -1,0 +1,19 @@
+[global_config]
+[keybindings]
+  cycle_next = <Primary><Shift>Left
+  split_horiz = <Primary><Shift>Down
+  split_vert = <Primary><Shift>Right
+[profiles]
+  [[default]]
+    background_darkness = 1.0
+    background_type = transparent
+    cursor_color = "#aaaaaa"
+[layouts]
+  [[default]]
+    [[[window0]]]
+      type = Window
+      parent = ""
+    [[[child1]]]
+      type = Terminal
+      parent = window0
+[plugins]
