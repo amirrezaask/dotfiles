@@ -1,13 +1,18 @@
 [global_config]
+  tab_position = bottom
 [keybindings]
-  cycle_next = <Primary><Shift>Left
-  split_horiz = <Primary><Shift>Down
-  split_vert = <Primary><Shift>Right
+  cycle_next = <Primary>Left
+  cycle_prev = <Primary>Up
+  split_horiz = <Primary>Down
+  split_vert = <Primary>Right
 [profiles]
   [[default]]
     background_darkness = 1.0
     background_type = transparent
+    cursor_shape = ibeam
     cursor_color = "#aaaaaa"
+    font = Fira Code Medium 13
+    use_system_font = False
 [layouts]
   [[default]]
     [[[window0]]]
