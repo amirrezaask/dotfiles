@@ -1,43 +1,26 @@
 (package-initialize)
 
+;; get user init file path
+(setq user-init-file (or load-file-name (buffer-file-name)))
+;; get user emacs directory
+(setq user-emacs-directory (file-name-directory user-init-file))
+;;add extentions to emacs load path
+(add-to-list 'load-path (concat user-emacs-directory "/ext"))
 
-(require 'package)
-(require 'cl)
-
-;; install packages if not installed
-(defun install (required-pkgs)
-  (setq pkgs-to-install
-      (let ((uninstalled-pkgs (remove-if 'package-installed-p required-pkgs)))
-        (remove-if-not '(lambda (pkg) (y-or-n-p (format "Package %s is missing. Install it? " pkg))) uninstalled-pkgs)))
-
-  (when (> (length pkgs-to-install) 0)
-    (package-refresh-contents)
-   (dolist (pkg pkgs-to-install)
-(package-install pkg))))
-
-
+(require 'core)
 
 ;; list of needed packages
 (setq pkgs '(
+	     dracula-theme
 	     spacemacs-theme
 	     php-mode
+	     web-mode
+	     go-mode
+	     elpy
+	     flycheck
+	     jedi
 	     ))
 
-
-;; main function to initialize emacs
-(defun initialize ()
-  (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
-  ;; enables the line numbers globally
-  (global-linum-mode t) 
- 
-  ;; Setting default font to Consolas
-  (set-face-attribute 'default nil
-		      :family "Fira Code"
-		      :height 110
-		      :weight 'normal
-		      :width 'normal)
-  (load-theme 'spacemacs-dark t) 
-  (cua-mode t)
-  (install pkgs))
-
 (initialize)
+
+(require 'ext-python)
