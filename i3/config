@@ -201,7 +201,7 @@ assign [class="Org.gnome.Nautilus"] $ws7
 assign [class="Spotify"] $ws4
 assign [class="Code"] $ws3
 assign [class="Terminator"] $ws1
-
+assign [class="Emacs"] $ws3
 # volume
 bindsym XF86AudioRaiseVolume exec amixer -q -D pulse sset Master 5%+; exec pkill -RTMIN+10 i3blocks 
 bindsym XF86AudioLowerVolume exec amixer -q -D pulse sset Master 5%-; exec pkill -RTMIN+10 i3blocks
