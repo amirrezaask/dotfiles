@@ -18,15 +18,20 @@
 
 
 
-
 ;; main function to initialize emacs
 (defun initialize ()
-  (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+  (add-to-list 'package-archives
+	       '("melpa" . "http://melpa.org/packages/"))
+ (add-to-list 'package-archives
+	       '("melpa" . "http://melpa.milkbox.net/packages/"))
+ 
   ;; store all backup and autosave files in the tmp dir
+
   (setq backup-directory-alist
 	`((".*" . ,temporary-file-directory)))
   (setq auto-save-file-name-transforms
 	`((".*" ,temporary-file-directory t)))
+ 
   ;; enables the line numbers globally
   (global-linum-mode t)
   ;;highlight parens in emacs
