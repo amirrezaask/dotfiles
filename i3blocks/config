@@ -23,10 +23,11 @@ color=#0db7ed
 interval=10
 label=🐳
 
-#[key_layout]
-#command=/home/amirreza/src/dotfiles/i3blocks/blocklets/key_layout/key_layout
-#label=Layout
-#interval=30
+[nm-vpn]
+command=/home/amirreza/src/dotfiles/i3blocks/blocklets/nm-vpn/nm-vpn
+label=VPN:
+interval=5
+
 
 #[usb]
 #command=/home/amirreza/src/dotfiles/i3blocks/blocklets/usb/usb
@@ -34,14 +35,11 @@ label=🐳
 #signal=1
 #interval=10
 
-[iface]
-color=#00FF00
-interval=10
-separator=false
+[essid]
+command=/home/amirreza/src/dotfiles/i3blocks/blocklets/essid/essid
+interval=60
+#INTERFACE=wlan0
 
-[wifi]
-separator=false
-interval=5
 
 [volume]
 command=/home/amirreza/src/dotfiles/i3blocks/blocklets/volume-pulseaudio/volume-pulseaudio
