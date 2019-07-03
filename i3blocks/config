@@ -21,7 +21,7 @@ interval=10
 command=/home/amirreza/src/dotfiles/i3blocks/blocklets/docker/docker
 color=#0db7ed
 interval=10
-label=🐳
+label=
 
 [nm-vpn]
 command=/home/amirreza/src/dotfiles/i3blocks/blocklets/nm-vpn/nm-vpn
@@ -35,10 +35,15 @@ interval=5
 #signal=1
 #interval=10
 
-[essid]
-command=/home/amirreza/src/dotfiles/i3blocks/blocklets/essid/essid
-interval=60
-#INTERFACE=wlan0
+[key_layout]
+command=/home/amirreza/src/dotfiles/i3blocks/blocklets/key_layout/key_layout
+#label=
+interval=30
+
+[bandwidth3]
+command=/home/amirreza/src/dotfiles/i3blocks/blocklets/bandwidth3/bandwidth3
+interval=persist
+markup=pango
 
 
 [volume]
@@ -51,16 +56,16 @@ signal=10
 
 [memory]
 command=/home/amirreza/src/dotfiles/i3blocks/blocklets/memory/memory
-label=MEM
+#label=MEM
 interval=30
-
-[time]
-command=date
-interval=5
 
 [battery2]
 command=/home/amirreza/src/dotfiles/i3blocks/blocklets/battery2/battery2
 markup=pango
 interval=30
 
+
+[time]
+command=date
+interval=5
 
