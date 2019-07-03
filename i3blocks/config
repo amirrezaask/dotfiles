@@ -17,11 +17,11 @@ command=/home/amirreza/src/dotfiles/i3blocks/blocklets/kubernetes/kubernetes
 interval=10
 
 
-[docker]
-command=/home/amirreza/src/dotfiles/i3blocks/blocklets/docker/docker
-color=#0db7ed
-interval=10
-label=
+#[docker]
+#command=/home/amirreza/src/dotfiles/i3blocks/blocklets/docker/docker
+#color=#0db7ed
+#interval=10
+#label=
 
 [nm-vpn]
 command=/home/amirreza/src/dotfiles/i3blocks/blocklets/nm-vpn/nm-vpn
@@ -35,10 +35,10 @@ interval=5
 #signal=1
 #interval=10
 
-[key_layout]
-command=/home/amirreza/src/dotfiles/i3blocks/blocklets/key_layout/key_layout
+#[key_layout]
+#command=/home/amirreza/src/dotfiles/i3blocks/blocklets/key_layout/key_layout
 #label=
-interval=30
+#interval=30
 
 [bandwidth3]
 command=/home/amirreza/src/dotfiles/i3blocks/blocklets/bandwidth3/bandwidth3
