@@ -88,8 +88,8 @@ bindsym $mod+f fullscreen toggle
 
 # change container layout (stacked, tabbed, toggle split)
 bindsym $mod+s layout stacking
-bindsym $mod+w layout tabbed
-bindsym $mod+e layout toggle split
+bindsym $mod+x layout tabbed
+bindsym $mod+c layout toggle split
 
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
@@ -107,13 +107,13 @@ bindsym $mod+a focus parent
 exec_always --no-startup-id setxkbmap -option caps:escape
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
-set $ws1 "1: term"
-set $ws2 "2: browse"
-set $ws3 "3: editor"
+set $ws1 "1: "
+set $ws2 "2: "
+set $ws3 "3: "
 set $ws4 "4: media"
-set $ws5 "5: db"
-set $ws6 "6: social"
-set $ws7 "7: files"
+set $ws5 "5: social"
+set $ws6 "6: file manager"
+set $ws7 "7"
 set $ws8 "8"
 set $ws9 "9"
 set $ws10 "10"
@@ -122,9 +122,9 @@ set $ws10 "10"
 bindsym $mod+1 workspace $ws1
 bindsym $mod+2 workspace $ws2
 bindsym $mod+3 workspace $ws3
-bindsym $mod+4 workspace $ws4
-bindsym $mod+5 workspace $ws5
-bindsym $mod+6 workspace $ws6
+bindsym $mod+q workspace $ws4
+bindsym $mod+w workspace $ws5
+bindsym $mod+e workspace $ws6
 bindsym $mod+7 workspace $ws7
 bindsym $mod+8 workspace $ws8
 bindsym $mod+9 workspace $ws9
@@ -180,12 +180,12 @@ bindsym $mod+r mode "resize"
 bar {
         # status_command i3status
 	status_command i3blocks -c /home/amirreza/src/dotfiles/i3blocks/config 
-	position top
+	position bottom
 }
 
 
 #Workspace management
-assign [class="Studio 3T"] $ws5
+assign [class="Studio 3T"] $ws3
 assign [class="Rhythmbox"] $ws4
 assign [class="Spotify"] $sw4
 assign [class="vlc"] $ws4
@@ -193,15 +193,19 @@ assign [class="X-terminal-emulator"] $ws1
 assign [class="Firefox"] $ws2
 assign [class="Google-chrome"] $ws2
 assign [class="Code - Insiders"] $ws3
-assign [class="jetbrains-datagrip"] $ws5
+assign [class="jetbrains-datagrip"] $ws3
 assign [class="jetbrains-pycharm"] $ws3
 assign [class="jetbrains-goland"] $ws3
-assign [class="discord"] $ws6
-assign [class="Org.gnome.Nautilus"] $ws7
+assign [class="jetbrains-phpstorm"] $ws3
+assign [class="discord"] $ws5
+assign [class="Org.gnome.Nautilus"] $ws6
 assign [class="Spotify"] $ws4
 assign [class="Code"] $ws3
+assign [class="Code-oss"] $ws3
 assign [class="Terminator"] $ws1
 assign [class="Emacs"] $ws3
+assign [class="Chromium"] $ws2
+assign [class="Thunar"] $ws6
 # volume
 bindsym XF86AudioRaiseVolume exec amixer -q -D pulse sset Master 5%+; exec pkill -RTMIN+10 i3blocks 
 bindsym XF86AudioLowerVolume exec amixer -q -D pulse sset Master 5%-; exec pkill -RTMIN+10 i3blocks
@@ -217,14 +221,14 @@ bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 
 #Keyboard Layout
-exec setxkbmap -layout us,ir
-exec setxkbmap -option 'grp:alt_shift_toggle'
+exec_always setxkbmap -layout us,ir
+exec_always setxkbmap -option 'grp:alt_shift_toggle'
 
 #compton for transparency
 exec --no-startup-id compton -b
 
 #Wallpaper
-exec_always feh --bg-scale center ~/src/dotfiles/mountain.jpg
+exec_always feh --bg-scale center ~/src/dotfiles/yosemite.jpg
 # class        border  backgr. text indicator child_border
 client.focused #A6E22E #A6E22E #272822 #A074C4
 client.unfocused #1f2326 #1f2326 #AAAAAA #A074C4
