@@ -29,13 +29,13 @@ font pango:Fira Code 10
 
 
 #i3-gaps settings
-for_window [class=".*"] border pixel 3 
-#smart_gaps on
-#gaps inner 10 
-#gaps outer 10
-#smart_borders on
+for_window [class=".*"] border pixel 2 
+smart_gaps on
+gaps inner 10 
+gaps outer 10
+smart_borders on
 # multi monitor support
-bindsym $mod+u move workspace to output up
+bindsym $mod+u exec i3-msg move workspace to output left 
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -64,7 +64,6 @@ bindsym $mod+Left focus left
 bindsym $mod+Down focus down
 bindsym $mod+Up focus up
 bindsym $mod+Right focus right
-
 # move focused window
 bindsym $mod+Shift+j move left
 bindsym $mod+Shift+k move down
@@ -118,8 +117,7 @@ set $ws8 "8"
 set $ws9 "9"
 set $ws10 "10"
 # i3lock
-bindsym $mod+l exec i3lock --colour=ff66cc
-
+bindsym $mod+l exec i3lock 
 
 # switch to workspace
 bindsym $mod+1 workspace $ws1
@@ -209,6 +207,8 @@ assign [class="Terminator"] $ws1
 assign [class="Emacs"] $ws3
 assign [class="Chromium"] $ws2
 assign [class="Thunar"] $ws6
+assign [class="Rocket.Chat"] $ws5
+# assign [class=""] $ws2
 # volume
 bindsym XF86AudioRaiseVolume exec amixer -q -D pulse sset Master 5%+; exec pkill -RTMIN+10 i3blocks 
 bindsym XF86AudioLowerVolume exec amixer -q -D pulse sset Master 5%-; exec pkill -RTMIN+10 i3blocks
@@ -226,7 +226,7 @@ bindsym XF86AudioPrev exec playerctl previous
 #Keyboard Layout
 exec_always setxkbmap -layout us,ir
 exec_always setxkbmap -option 'grp:alt_shift_toggle'
-
+exec_always xrandr --output HDMI-1 --left-of eDP-1
 #compton for transparency
 exec --no-startup-id compton -b
 
