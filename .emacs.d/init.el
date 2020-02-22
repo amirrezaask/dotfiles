@@ -42,15 +42,16 @@
 (use-package dracula-theme :ensure t :defer t)
 
 (use-package spacemacs-theme :ensure t :defer t)
+(use-package doom-themes :ensure t :defer t)
 
-
-(load-theme 'spacemacs-dark t)
+(load-theme 'doom-one t)
 
 (use-package dashboard
   :ensure t
   :config
   (dashboard-setup-startup-hook)
-  (setq dashboard-startup-banner 2))
+  (setq dashboard-startup-banner 2)
+  (setq dashboard-center-content t))
 
 (use-package doom-modeline :ensure t :config (doom-modeline-mode 1))
 
@@ -64,15 +65,15 @@
 
 (use-package docker :ensure t)
 
-(use-package docker-compose-mode :ensure t :hook yaml-mode)
+;; (use-package docker-compose-mode :ensure t :defer t :init (add-hook 'yaml-mode-hook 'docker-compose-mode))
 
-(use-package ansible :ensure t :hook yaml-mode :config #'ansible)
+(use-package ansible :ensure t :defer t :init (add-hook 'yaml-mode-hook (lambda () (ansible))))
 
 (use-package kubernetes :ensure t)
 
-(use-package gitlab-ci-mode :ensure t :hook yaml-mode)
+;; (use-package gitlab-ci-mode :ensure t :defer t :init (add-hook 'yaml-mode-hook 'gitlab-ci-mode))
 
-(use-package yaml-mode :ensure t :config :mode "\\.ya?ml\\'")
+(use-package yaml-mode :ensure t :mode "\\.ya?ml\\'")
 
 
 
@@ -83,7 +84,9 @@
   (setq company-idle-delay .1)
   (setq company-echo-delay 0)
   (global-company-mode))
+
 (use-package flycheck :ensure t :hook ((python-mode go-mode php-mode) . flycheck-mode))
+
 (use-package yasnippet  :ensure t)
 (use-package yasnippet-snippets :ensure t)
 
