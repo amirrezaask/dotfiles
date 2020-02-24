@@ -1,15 +1,11 @@
-;; (setq debug-on-error 1)
-
+(setq debug-on-error 1)
+;; initial setup
 (require 'package)
 (setq custom-file "~/.__custom.el")
-(cua-mode t)
+(setq inhibit-splash-screen 0)
 (setq make-backup-files 0)
 (setq create-lockfiles nil)
-(setq cua-auto-tabify-rectangles nil)
-(transient-mark-mode 1) 
-(setq cua-keep-region-after-copy t)
-(setq warning-minimum-level :emergency)
-
+(setq ring-bell-function 'ignore)
 
 (package-initialize)
 (setq package-archives '(("org"       . "http://orgmode.org/elpa/")
@@ -25,35 +21,39 @@
 (require 'use-package) 
 (setq use-package-verbose t)
 (setq use-package-minimum-reported-time 0.000001)
-
+;; initial setup done ;)
 
 (defun go-path () (concat (getenv "HOME") "/go"))
 (tool-bar-mode 0)
 (scroll-bar-mode 0)
 (menu-bar-mode 0)
 (global-linum-mode t)
+
+(setq font "Jetbrains Mono")
+(setq font-size 11)
+(add-to-list 'default-frame-alist (cons 'font (format "%s-%d" font font-size)))
 (set-face-attribute 'default nil
-		    :family "Source Code Pro"
-		    :height 120
-		    :weight 'normal
-		    :width 'normal)
+		    :family font
+		    :height (* 10 font-size))
 
 
 (use-package dracula-theme :ensure t :defer t)
-
 (use-package spacemacs-theme :ensure t :defer t)
 (use-package doom-themes :ensure t :defer t)
 
 (load-theme 'doom-one t)
 
-(use-package dashboard
-  :ensure t
-  :config
-  (dashboard-setup-startup-hook)
-  (setq dashboard-startup-banner 2)
-  (setq dashboard-center-content t))
+;;; efficiency is more important than fancy 
+;; (use-package dashboard
+;;   :ensure t
+;;   :config
+;;   (dashboard-setup-startup-hook)
+;;   (setq dashboard-startup-banner 'logo)
+;;   (setq dashboard-center-content t))
 
-(use-package doom-modeline :ensure t :config (doom-modeline-mode 1))
+(use-package projectile :ensure t)
+;;; 
+;; (use-package doom-modeline :ensure t :config (doom-modeline-mode 1))
 
 (use-package ido-vertical-mode :ensure t :config
   (setq ido-enable-flex-matching t)
@@ -62,20 +62,16 @@
   (ido-vertical-mode t))
 
 
-
-(use-package docker :ensure t)
-
-;; (use-package docker-compose-mode :ensure t :defer t :init (add-hook 'yaml-mode-hook 'docker-compose-mode))
-
+(use-package docker :ensure t :defer t)
+(use-package dockerfile-mode :ensure t :defer t)
 (use-package ansible :ensure t :defer t :init (add-hook 'yaml-mode-hook (lambda () (ansible))))
 
-(use-package kubernetes :ensure t)
+(use-package kubernetes :ensure t :defer t)
 
-;; (use-package gitlab-ci-mode :ensure t :defer t :init (add-hook 'yaml-mode-hook 'gitlab-ci-mode))
 
 (use-package yaml-mode :ensure t :mode "\\.ya?ml\\'")
 
-
+(use-package org :ensure t :defer t)
 
 (use-package company
   :ensure t
@@ -87,38 +83,30 @@
 
 (use-package flycheck :ensure t :hook ((python-mode go-mode php-mode) . flycheck-mode))
 
-(use-package yasnippet  :ensure t)
-(use-package yasnippet-snippets :ensure t)
+(use-package yasnippet  :ensure t :defer t)
 
-(use-package lsp-mode :ensure t)
+(use-package yasnippet-snippets :ensure t :defer t)
+
+(use-package lsp-mode :ensure t :defer t)
   
-(use-package lsp-ui :ensure t )
-(use-package company-lsp :ensure t)
+(use-package lsp-ui :ensure t)
 
-(use-package magit :ensure t)
+(use-package company-lsp :ensure t :defer t)
+
+(use-package magit :ensure t :defer t)
 
 (use-package evil :ensure t :config (evil-mode t))
 
 (use-package which-key :ensure t :config (which-key-mode 1))
 
-(use-package general :ensure t
-  :config
-  (general-define-key
-   :states '(normal visual insert emacs)
-   :prefix "SPC"
-   :non-normal-prefix "C-SPC"
-   "bl" 'switch-to-buffer
-   "ff" 'find-file
-   "sv" 'split-window-vertically
-   "sh" 'split-window-horizontally))   
 (use-package paredit :ensure t :hook (emacs-lisp-mode . paredit-mode))
 
 (use-package parinfer :ensure t :hook (emacs-lisp-mode . parinfer-mode))
+
 (use-package rainbow-delimiters :ensure :hook (emacs-lisp-mode . rainbow-delimiters-mode))
 
 (defun my-go-hook ()
-   (lsp)
-  (flymake-mode-on)
+  (lsp)
   (yas-minor-mode-on)
   (add-hook 'before-save-hook #'lsp-format-buffer t t)
   (add-hook 'before-save-hook #'lsp-organize-imports t t)
@@ -152,12 +140,46 @@
   (add-to-list 'exec-path (concat (getenv "HOME") "/.local/bin"))
   (lsp))
 
+;; (use-package macrostep :ensure t :hook emacs-lisp-mode) ;
 (use-package elpy :ensure t :init (elpy-enable))
 (use-package py-autopep8 :ensure t :hook python-mode)
 
 (use-package markdown-mode :ensure t :mode "\\.md\\'")
-(use-package js2-mode :ensure t)
-(use-package php-mode :ensure t :config (add-hook 'php-mode-hook #'lsp))
+(use-package js2-mode :ensure t :hook js-mode)
+(use-package php-mode :ensure t :defer :init (add-hook 'php-mode-hook #'lsp))
+
+(use-package restclient :ensure t :defer t) 
+(use-package org-bullets :ensure t :hook org-mode :config (lambda () (org-bullets-mode 1)))
+(use-package swiper :ensure t :commands swiper)
+(use-package counsel :ensure t :commands counsel-M-x)
+
+;; keybindings
+(use-package general :ensure t
+  :config
+  (general-define-key
+   :states '(normal visual insert emacs)
+   :prefix "SPC"
+   :non-normal-prefix "C-SPC"
+   ".." 'xref-find-definitions
+   "/" 'undo-tree-undo
+   "xx" 'counsel-M-x
+   "bl" 'switch-to-buffer
+   "SPC" 'find-file
+   "ff" 'find-file
+   "ls" #'move-beginning-of-line
+   "le" #'move-end-of-line
+   "bs" 'save-buffer
+   "wo" 'other-window
+   "wc" 'delete-window
+   "sv" 'split-window-vertically
+   "sh" 'split-window-horizontally
+   "bk" 'kill-buffer
+   "ss" 'swiper
+   "ee" 'eval-last-sexp
+   "eb" 'eval-buffer
+   "cl" 'comment-line
+   "dk" 'describe-key
+   "df" 'describe-function))
 
 
 
