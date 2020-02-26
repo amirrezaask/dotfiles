@@ -1,0 +1,47 @@
+"Basic setup"
+set nocompatible
+set number
+set encoding=utf-8
+let mapleader = " "
+set showcmd
+set background=dark
+filetype indent on
+filetype plugin on
+set wildmenu
+set showmatch
+set ignorecase
+set relativenumber
+set incsearch
+set hlsearch
+set foldenable
+set foldlevelstart=10
+set foldmethod=indent
+" set path+=**"
+set ruler
+set laststatus=2
+set autowrite
+set clipboard=unnamedplus
+"Basic setup ends here"
+
+call plug#begin('~/.vim/plugged')
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-commentary'
+Plug 'fatih/vim-go' 
+Plug 'ekalinin/dockerfile.vim'
+Plug 'kevinhui/vim-docker-tools'
+Plug 'tpope/vim-fugitive'
+Plug 'michaeljsmith/vim-indent-object'
+Plug 'prabirshrestha/async.vim'
+Plug 'prabirshrestha/vim-lsp'
+Plug 'ryanolsonx/vim-lsp-python'
+Plug 'pearofducks/ansible-vim'
+call plug#end()
+au User lsp_setup call lsp#register_server({
+    \ 'name': 'intelephense',
+    \ 'cmd': {server_info->['node', expand('/usr/lib/node_modules/intelephense/lib/intelephense.js'), '--stdio']},
+    \ 'initialization_options': {"storagePath": "/usr/lib/node_modules/intelephense"},
+    \ 'whitelist': ['php'],
+    \ 'workspace_config': { 'intelephense': {
+    \   'files.associations': ['*.php'],
+    \ }},
+    \ })
