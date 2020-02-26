@@ -12,6 +12,8 @@ Plug 'prabirshrestha/vim-lsp'
 Plug 'ryanolsonx/vim-lsp-python'
 Plug 'pearofducks/ansible-vim'
 Plug 'dracula/vim', { 'as': 'dracula' }
+Plug 'dense-analysis/ale'
+Plug 'airblade/vim-gitgutter'
 call plug#end()
 
 
@@ -47,7 +49,7 @@ set laststatus=2
 set autowrite
 set clipboard=unnamedplus
 "Basic setup ends here"
-
+let g:gitgutter_enabled=0
 "PHP lsp setup"
 au User lsp_setup call lsp#register_server({
     \ 'name': 'intelephense',
@@ -59,5 +61,13 @@ au User lsp_setup call lsp#register_server({
     \ }},
     \ })
 
-
+"Keybidings"
+let mapleader="\<SPACE>"
+nnoremap <Leader>sc <C-W>o
+nnoremap <Leader>ff :find 
+nnoremap <Leader>sl <C-W><C-H>
+nnoremap <Leader>sd <C-W><C-j>
+nnoremap <Leader>su <C-W><C-k>
+nnoremap <Leader>sr <C-W><C-l>
+nnoremap <Leader>bs :w<CR>
 
