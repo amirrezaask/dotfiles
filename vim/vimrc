@@ -13,6 +13,8 @@ Plug 'pearofducks/ansible-vim'
 Plug 'dense-analysis/ale'
 Plug 'airblade/vim-gitgutter'
 Plug 'terryma/vim-multiple-cursors'
+Plug 'junegunn/fzf', { 'do': './install --bin' }
+Plug 'junegunn/fzf.vim'
 call plug#end()
 
 
@@ -50,22 +52,27 @@ au User lsp_setup call lsp#register_server({
 \   'files.associations': ['*.php'],
 \ }},
 \ })
+"Helpers Functions"
+function! RecursiveGrep()
+	let pattern = input("enter pattern: ")
+	!grep -rnw './' -e pattern 
 
+endfunction
 
 "Keybidings"
 let mapleader="\<SPACE>"
 nnoremap <Leader>sc <C-W>o
-nnoremap <Leader>ff :find 
+nnoremap <Leader>ff :FZF<CR> 
 nnoremap <Leader>sl <C-W><C-H>
 nnoremap <Leader>sd <C-W><C-j>
 nnoremap <Leader>su <C-W><C-k>
 nnoremap <Leader>sr <C-W><C-l>
 nnoremap <Leader>bs :w<CR>
 nnoremap <Leader>ss :%s/
-noremap <Up> <NOP>
-noremap <Down> <NOP>
-noremap <Right> <NOP>
-noremap <Left> <NOP>
+map <Up> <NOP>
+map <Down> <NOP>
+map <Right> <NOP>
+map <Left> <NOP>
 
 "Go setup"
 nnoremap <Leader>gb :GoBuild<CR>
