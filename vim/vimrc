@@ -68,7 +68,7 @@ nnoremap <Leader>sd <C-W><C-j>
 nnoremap <Leader>su <C-W><C-k>
 nnoremap <Leader>sr <C-W><C-l>
 nnoremap <Leader>bs :w<CR>
-nnoremap <Leader>ss :%s/
+nnoremap <Leader>ss :Rg<CR> 
 map <Up> <NOP>
 map <Down> <NOP>
 map <Right> <NOP>
