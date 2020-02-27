@@ -85,8 +85,8 @@ map <Left> <NOP>
 nnoremap <Leader>gb :GoBuild<CR>
 nnoremap <Leader>gt :GoTest<CR>
 nnoremap <Leader>gr :GoRun<CR>
-iabbrev pkgm package main<CR>func main(){<CR>}
-iabbrev iferr if err != nil {<CR>    panic(err)<CR>}
-iabbrev print fmt.Println()
-iabbrev fprint fmt.Fprintf()
-iabbrev printf fmt.Printf()
+autocmd Filetype go iabbrev pkgm package main<CR>func main(){<CR>}
+autocmd Filetype go iabbrev iferr if err != nil {<CR>    panic(err)<CR>}
+autocmd Filetype go iabbrev print fmt.Println()
+autocmd Filetype go iabbrev abbrev fprint fmt.Fprintf()
+autocmd Filetype go iabbrev printf fmt.Printf()
