@@ -1,5 +1,8 @@
 "Effient Over Fancy"
 call plug#begin('~/.vim/plugged')
+Plug 'tpope/vim-vinegar'
+Plug 'tpope/vim-jdaddy'
+Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'fatih/vim-go' 
@@ -19,6 +22,8 @@ call plug#end()
 
 
 "Basic setup"
+set guifont=Jetbrains\ Mono\ 13
+colorscheme dracula
 set nocompatible
 set number
 set belloff=all
@@ -63,12 +68,14 @@ endfunction
 let mapleader="\<SPACE>"
 nnoremap <Leader>sc <C-W>o
 nnoremap <Leader>ff :FZF<CR> 
-nnoremap <Leader>sl <C-W><C-H>
-nnoremap <Leader>sd <C-W><C-j>
-nnoremap <Leader>su <C-W><C-k>
-nnoremap <Leader>sr <C-W><C-l>
+nnoremap <Leader>sh <C-W><C-H>
+nnoremap <Leader>sj <C-W><C-j>
+nnoremap <Leader>sk <C-W><C-k>
+nnoremap <Leader>sl <C-W><C-l>
 nnoremap <Leader>bs :w<CR>
-nnoremap <Leader>ss :Rg<CR> 
+nnoremap <Leader>ss :/
+nnoremap <Leader>fr :%s/
+nnoremap <Leader>sg :Rg<CR> 
 map <Up> <NOP>
 map <Down> <NOP>
 map <Right> <NOP>
