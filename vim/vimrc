@@ -21,12 +21,7 @@ set nocompatible
 set number
 set belloff=all
 set encoding=utf-8
-set guioptions-=m  "remove menu bar
-set guioptions-=T  "remove toolbar
-set guioptions-=r  "remove right-hand scroll bar
-set guioptions-=L  "remove left-hand scroll bar
 set showcmd
-set guifont=JetbrainsMono\ 13
 filetype indent on
 filetype plugin on
 set wildmenu
@@ -37,6 +32,7 @@ set incsearch
 set hlsearch
 set foldenable
 set foldlevelstart=10
+set tabstop=8
 set foldmethod=indent
 set path=./
 set path+=**
@@ -46,14 +42,15 @@ set autowrite
 set clipboard=unnamedplus
 "Basic setup ends here"
 au User lsp_setup call lsp#register_server({
-    \ 'name': 'intelephense',
-    \ 'cmd': {server_info->['node', expand('/usr/lib/node_modules/intelephense/lib/intelephense.js'), '--stdio']},
-    \ 'initialization_options': {"storagePath": "/usr/lib/node_modules/intelephense"},
-    \ 'whitelist': ['php'],
-    \ 'workspace_config': { 'intelephense': {
-    \   'files.associations': ['*.php'],
-    \ }},
-    \ })
+\ 'name': 'intelephense',
+\ 'cmd': {server_info->['node', expand('/usr/lib/node_modules/intelephense/lib/intelephense.js'), '--stdio']},
+\ 'initialization_options': {"storagePath": "/usr/lib/node_modules/intelephense"},
+\ 'whitelist': ['php'],
+\ 'workspace_config': { 'intelephense': {
+\   'files.associations': ['*.php'],
+\ }},
+\ })
+
 
 "Keybidings"
 let mapleader="\<SPACE>"
@@ -65,3 +62,17 @@ nnoremap <Leader>su <C-W><C-k>
 nnoremap <Leader>sr <C-W><C-l>
 nnoremap <Leader>bs :w<CR>
 nnoremap <Leader>ss :%s/
+noremap <Up> <NOP>
+noremap <Down> <NOP>
+noremap <Right> <NOP>
+noremap <Left> <NOP>
+
+"Go setup"
+nnoremap <Leader>gb :GoBuild<CR>
+nnoremap <Leader>gt :GoTest<CR>
+nnoremap <Leader>gr :GoRun<CR>
+iabbrev pkgm package main<CR>func main(){<CR>}
+iabbrev iferr if err != nil {<CR>    panic(err)<CR>}
+iabbrev print fmt.Println()
+iabbrev fprint fmt.Fprintf()
+iabbrev printf fmt.Printf()
