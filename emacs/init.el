@@ -56,7 +56,7 @@
   (interactive)
   (load-theme 'solarized-light t))
 
-(load-theme 'solarized-dark t)
+(load-theme 'spacemacs-dark t)
 ;; (use-package dashboard
 ;;   :ensure t
 ;;   :config
