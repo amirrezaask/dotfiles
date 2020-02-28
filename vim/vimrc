@@ -7,17 +7,17 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 " Plug 'fatih/vim-go' 
 Plug 'ekalinin/dockerfile.vim'
-Plug 'tpope/vim-fugitive'
+" Plug 'tpope/vim-fugitive'
 Plug 'michaeljsmith/vim-indent-object'
 " Plug 'prabirshrestha/async.vim'
 " Plug 'prabirshrestha/vim-lsp'
 " Plug 'ryanolsonx/vim-lsp-python'
 Plug 'pearofducks/ansible-vim'
-Plug 'dense-analysis/ale'
-Plug 'airblade/vim-gitgutter'
+" Plug 'dense-analysis/ale'
+" Plug 'airblade/vim-gitgutter'
 Plug 'terryma/vim-multiple-cursors'
-Plug 'junegunn/fzf', { 'do': './install --bin' }
-Plug 'junegunn/fzf.vim'
+" Plug 'junegunn/fzf', { 'do': './install --bin' }
+" Plug 'junegunn/fzf.vim'
 call plug#end()
 
 
