@@ -57,7 +57,7 @@
   (interactive)
   (load-theme 'solarized-light t))
 
-(load-theme 'spacemacs-dark t)
+(load-theme 'spacemacs-light t)
 ;; (use-package dashboard
 ;;   :ensure t
 ;;   :config
@@ -240,7 +240,7 @@
 
 
 ;; Twitter setup
-(use-package twittering-mode :ensure t :defer t :config (setq twittering-icon-mode t) :commands twittering-mode)
+;; (use-package twittering-mode :ensure t :defer t :config (setq twittering-icon-mode t) :commands twittering-mode)
 ;; Twitter ends here
 
 
