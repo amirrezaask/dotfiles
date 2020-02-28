@@ -13,6 +13,7 @@
 (tool-bar-mode 0)
 (scroll-bar-mode 0)
 (menu-bar-mode 0)
+(defalias 'yes-or-no-p 'y-or-n-p)
 (global-linum-mode t)
 (package-initialize)
 (setq package-archives '(("org"       . "http://orgmode.org/elpa/")
