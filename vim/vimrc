@@ -67,19 +67,7 @@ endfunction
 
 "Keybidings"
 let mapleader="\<SPACE>"
-nnoremap <Leader>sc <C-W>o
 nnoremap <Leader>ff :FZF<CR> 
-nnoremap <Leader>sh <C-W><C-H>
-nnoremap <Leader>sj <C-W><C-j>
-nnoremap <Leader>sk <C-W><C-k>
-nnoremap <Leader>sl <C-W><C-l>
-nnoremap <Leader>bs :w<CR>
-nnoremap <Leader>ss :/
-nnoremap <Leader>fr :%s/
-nnoremap <Leader>sg :Rg<CR> 
-nnoremap <Leader>bn :bn<CR>
-nnoremap <Leader>bp :bp<CR>
-nnoremap <Leader>bl :ls<CR>
 map <Up> <NOP>
 map <Down> <NOP>
 map <Right> <NOP>

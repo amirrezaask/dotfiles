@@ -57,7 +57,7 @@
   (interactive)
   (load-theme 'solarized-light t))
 
-(load-theme 'doom-one t)
+(load-theme 'solarized-dark t)
 ;; (use-package dashboard
 ;;   :ensure t
 ;;   :config
