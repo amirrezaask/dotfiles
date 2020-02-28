@@ -5,23 +5,24 @@ Plug 'tpope/vim-jdaddy'
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
-" Plug 'fatih/vim-go' 
+Plug 'fatih/vim-go' 
 Plug 'ekalinin/dockerfile.vim'
-" Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-fugitive'
 Plug 'michaeljsmith/vim-indent-object'
-" Plug 'prabirshrestha/async.vim'
-" Plug 'prabirshrestha/vim-lsp'
-" Plug 'ryanolsonx/vim-lsp-python'
+Plug 'prabirshrestha/async.vim'
+Plug 'prabirshrestha/vim-lsp'
+Plug 'ryanolsonx/vim-lsp-python'
 Plug 'pearofducks/ansible-vim'
 " Plug 'dense-analysis/ale'
-" Plug 'airblade/vim-gitgutter'
+Plug 'airblade/vim-gitgutter'
 Plug 'terryma/vim-multiple-cursors'
-" Plug 'junegunn/fzf', { 'do': './install --bin' }
-" Plug 'junegunn/fzf.vim'
+Plug 'junegunn/fzf', { 'do': './install --bin' }
+Plug 'junegunn/fzf.vim'
 call plug#end()
 
 
 "Basic setup"
+nnoremap Q <NOP>
 set guifont=Jetbrains\ Mono\ 13
 colorscheme dracula
 set nocompatible
@@ -76,6 +77,9 @@ nnoremap <Leader>bs :w<CR>
 nnoremap <Leader>ss :/
 nnoremap <Leader>fr :%s/
 nnoremap <Leader>sg :Rg<CR> 
+nnoremap <Leader>bn :bn<CR>
+nnoremap <Leader>bp :bp<CR>
+nnoremap <Leader>bl :ls<CR>
 map <Up> <NOP>
 map <Down> <NOP>
 map <Right> <NOP>
@@ -85,11 +89,23 @@ map <Left> <NOP>
 nnoremap <Leader>gb :GoBuild<CR>
 nnoremap <Leader>gt :GoTest<CR>
 nnoremap <Leader>gr :GoRun<CR>
+nnoremap ,go i"" . new_go_file
 autocmd Filetype go iabbrev pkgm package main<CR>func main(){<CR>}
 autocmd Filetype go iabbrev iferr if err != nil {<CR>    panic(err)<CR>}
 autocmd Filetype go iabbrev print fmt.Println()
 autocmd Filetype go iabbrev abbrev fprint fmt.Fprintf()
 autocmd Filetype go iabbrev printf fmt.Printf()
+"netrw tweaks"
+let g:netrw_banner=0        " disable annoying banner
+let g:netrw_browse_split=0  " open in prior window
+let g:netrw_altv=1          " open splits to the right
+let g:netrw_liststyle=3     " tree view
+let g:netrw_list_hide=netrw_gitignore#Hide()
+let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
 
 
 
+
+
+"--Snippets--"
+let new_go_file="package main<CR>import \"fmt\"<CR>func main(){<CR>fmt.Println(\"vim rocks\")"
