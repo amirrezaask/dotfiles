@@ -8,7 +8,7 @@ export ZSH="/home/amirreza/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="robbyrussell"
+ZSH_THEME="cloud"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -66,10 +66,6 @@ plugins=(git kubectl docker docker-compose zsh-autosuggestions)
 
 source $ZSH/oh-my-zsh.sh
 
-export GOPATH=/home/amirreza/go
-export PYTHONPATH=/home/amirreza/.local/bin
-export PATH=$HOME/.config/composer/vendor/bin:/usr/local/go/bin:$GOPATH/bin:$PYTHONPATH:/usr/local/Postman:$PATH
-# export GO111MODULE=on
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -95,7 +91,6 @@ export PATH=$HOME/.config/composer/vendor/bin:/usr/local/go/bin:$GOPATH/bin:$PYT
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-alias agp="cd $GOPATH/src/github.com/amirrezaask"
-alias pgp="cd $GOPATH/src/git.raad.cloud/cloud"
-alias ppp="cd ~/src/paygear"
+source ~/.ashell
+
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

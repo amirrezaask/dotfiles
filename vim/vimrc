@@ -90,3 +90,6 @@ autocmd Filetype go iabbrev iferr if err != nil {<CR>    panic(err)<CR>}
 autocmd Filetype go iabbrev print fmt.Println()
 autocmd Filetype go iabbrev abbrev fprint fmt.Fprintf()
 autocmd Filetype go iabbrev printf fmt.Printf()
+
+
+
