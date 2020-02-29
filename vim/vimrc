@@ -1,5 +1,6 @@
 "Effient Over Fancy"
 call plug#begin('~/.vim/plugged')
+Plug 'noah/vim256-color'
 Plug 'chriskempson/base16-vim'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'tpope/vim-vinegar'
@@ -25,7 +26,8 @@ let g:airline#extensions#tabline#enabled = 1
 
 "Basic setup"
 set termguicolors
-colorscheme dracula 
+colorscheme dracula
+" colorscheme base16-default
 set guioptions-=m  "menu bar
 set guioptions-=T  "toolbar
 set guioptions-=r  "scrollbar
