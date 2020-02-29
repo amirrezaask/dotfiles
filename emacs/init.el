@@ -57,7 +57,7 @@
   (interactive)
   (load-theme 'solarized-light t))
 
-(load-theme 'solarized-dark t)
+(load-theme 'dracula t)
 ;; (use-package dashboard
 ;;   :ensure t
 ;;   :config
