@@ -1,0 +1,3 @@
+ms-python.python
+ms-vscode.Go
+vscodevim.vim
