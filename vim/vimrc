@@ -26,7 +26,6 @@ let g:airline#extensions#tabline#enabled = 1
 
 "Basic setup"
 nnoremap Q <NOP>
-colorscheme dracula
 set guifont=Jetbrains\ Mono\ 13
 set nocompatible
 set number
