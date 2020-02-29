@@ -1,5 +1,6 @@
 "Effient Over Fancy"
 call plug#begin('~/.vim/plugged')
+Plug 'altercation/vim-colors-solarized'
 Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-jdaddy'
 Plug 'dracula/vim', { 'as': 'dracula' }
@@ -7,24 +8,24 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'fatih/vim-go' 
 Plug 'ekalinin/dockerfile.vim'
-Plug 'tpope/vim-fugitive'
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'ryanolsonx/vim-lsp-python'
 Plug 'pearofducks/ansible-vim'
-" Plug 'dense-analysis/ale'
 Plug 'airblade/vim-gitgutter'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'junegunn/fzf', { 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 call plug#end()
-
+let g:airline#extensions#tabline#enabled = 1
 
 "Basic setup"
 nnoremap Q <NOP>
-set guifont=Jetbrains\ Mono\ 13
 colorscheme dracula
+set guifont=Jetbrains\ Mono\ 13
 set nocompatible
 set number
 set belloff=all
@@ -49,15 +50,15 @@ set laststatus=2
 set autowrite
 set clipboard=unnamedplus
 "Basic setup ends here"
-" au User lsp_setup call lsp#register_server({
-" \ 'name': 'intelephense',
-" \ 'cmd': {server_info->['node', expand('/usr/lib/node_modules/intelephense/lib/intelephense.js'), '--stdio']},
-" \ 'initialization_options': {"storagePath": "/usr/lib/node_modules/intelephense"},
-" \ 'whitelist': ['php'],
-" \ 'workspace_config': { 'intelephense': {
-" \   'files.associations': ['*.php'],
-" \ }},
-" \ })
+au User lsp_setup call lsp#register_server({
+\ 'name': 'intelephense',
+\ 'cmd': {server_info->['node', expand('/usr/lib/node_modules/intelephense/lib/intelephense.js'), '--stdio']},
+\ 'initialization_options': {"storagePath": "/usr/lib/node_modules/intelephense"},
+\ 'whitelist': ['php'],
+\ 'workspace_config': { 'intelephense': {
+\   'files.associations': ['*.php'],
+\ }},
+\ })
 "Helpers Functions"
 function! RecursiveGrep()
 	let pattern = input("enter pattern: ")
@@ -74,9 +75,9 @@ map <Right> <NOP>
 map <Left> <NOP>
 
 "Go setup"
-nnoremap <Leader>gb :GoBuild<CR>
-nnoremap <Leader>gt :GoTest<CR>
-nnoremap <Leader>gr :GoRun<CR>
+nnoremap <Leader>gob :GoBuild<CR>
+nnoremap <Leader>got :GoTest<CR>
+nnoremap <Leader>gor :GoRun<CR>
 nnoremap ,go ipackage main<CR><CR>import "fmt"<CR><CR>func main(){<CR><tab>fmt.Println("vim rocks")<CR>}
 
 autocmd Filetype go iabbrev pkgm package main<CR>func main(){<CR>}
@@ -91,8 +92,4 @@ let g:netrw_altv=1          " open splits to the right
 let g:netrw_liststyle=3     " tree view
 let g:netrw_list_hide=netrw_gitignore#Hide()
 let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
-
-
-
-
-
+set completeopt+=menuone,noselect,noinsert
