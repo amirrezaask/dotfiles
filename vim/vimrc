@@ -25,8 +25,12 @@ call plug#end()
 let g:airline#extensions#tabline#enabled = 1
 
 "Basic setup"
+colorscheme dracula
+set guioptions-=m  "menu bar
+set guioptions-=T  "toolbar
+set guioptions-=r  "scrollbar
 nnoremap Q <NOP>
-set guifont=Jetbrains\ Mono\ 13
+set guifont=Jetbrains\ Mono\ 12
 set nocompatible
 set number
 set belloff=all
