@@ -1,8 +1,7 @@
 "Effient Over Fancy"
 call plug#begin('~/.vim/plugged')
+Plug 'chriskempson/base16-vim'
 Plug 'ctrlpvim/ctrlp.vim'
-Plug 'flazz/vim-colorschemes'
-Plug 'altercation/vim-colors-solarized'
 Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-jdaddy'
 Plug 'dracula/vim', { 'as': 'dracula' }
@@ -25,7 +24,8 @@ call plug#end()
 let g:airline#extensions#tabline#enabled = 1
 
 "Basic setup"
-colorscheme dracula
+set termguicolors
+colorscheme dracula 
 set guioptions-=m  "menu bar
 set guioptions-=T  "toolbar
 set guioptions-=r  "scrollbar
