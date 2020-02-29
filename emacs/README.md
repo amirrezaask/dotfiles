@@ -1,5 +1,11 @@
 # Emacs Config
 My emacs config mainly consists of golang/python/php/js config and all keybindings are based on evil mode and with inspiration from spacemacs ( SPC as the leader key )
+# Installation
+```bash 
+git clone github.com/amirrezaask/dotfiles
+rm -rf .emacs
+ln -s dotfiles/emacs/init.el ~/.emacs.d/init.el
+```
 # Packages
 For package management I use [use-package](https://github.com/jwiegley/use-package)
 ## Themes And UI Enhancements
