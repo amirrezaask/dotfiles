@@ -1,4 +1,4 @@
-# Personal Dotfiles
+# All configs I use daily 
 * [Vim](https://github.com/amirrezaask/dotfiles/tree/master/vim)
 * [Emacs](https://github.com/amirrezaask/dotfiles/tree/master/emacs)
 * [vscode](https://github.com/amirrezaask/dotfiles/tree/master/vscode)
