@@ -1,8 +1,8 @@
 # Personal Dotfiles
-## [Vim](https://github.com/amirrezaask/dotfiles/tree/master/vim)
-## [Emacs](https://github.com/amirrezaask/dotfiles/tree/master/emacs)
+## * [Vim](https://github.com/amirrezaask/dotfiles/tree/master/vim)
+## * [Emacs](https://github.com/amirrezaask/dotfiles/tree/master/emacs)
 
-## Tmux
+## * Tmux
 tmux oh yeah
-## I3Wm
+## * I3Wm
 
