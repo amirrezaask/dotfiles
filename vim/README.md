@@ -2,11 +2,12 @@
 I use neovim so maybe some things are not fully compatible with vim itself, I didn't notice anything myself but jut FYI.
 # Installation
 ```bash
-git clone github.com/amirrezaask/dotfiles
+git clone https://github.com/amirrezaask/dotfiles
+mkdir -p .config/nvim
 # for neovim
-ln -s ./dofiles/vimrc ~/.config/nvim/init.vim
+ln -s ./dofiles/vim/vimrc ~/.config/nvim/init.vim
 # for vim
-ln -s ./dotfiles/vimrc ~/.vimrc
+ln -s ./dotfiles/vim/vimrc ~/.vimrc
 ```
 # Plugins
 * [tpope/vim-vinegar](https://github.com/tpope/vim-vinegar)
