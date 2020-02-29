@@ -108,12 +108,12 @@
 ;; editor ends here
 
 ;; IDE
-;; (use-package dap-mode :ensure t :hook ((go-mode python-mode php-mode) . dap-mode))
+(use-package dap-mode :ensure t :hook ((go-mode python-mode php-mode) . dap-mode))
 (use-package flycheck :ensure t :hook ((python-mode go-mode php-mode emacs-lisp-mode) . flycheck-mode))
 ;; (use-package neotree :ensure t)
 (use-package magit :ensure t :defer t)
 (use-package forge :ensure t :defer t :after magit)
-;; (use-package projectile :ensure t)
+(use-package projectile :ensure t)
 (use-package lsp-mode :ensure t :defer t)
 (use-package lsp-ui :ensure t :defer t)
 (use-package company-lsp :ensure t :defer t)
@@ -134,7 +134,6 @@
   :config
   (add-to-list 'exec-path (concat (getenv "HOME") "/.local/bin"))
   (lsp))
-;; (use-package elpy :ensure t :init (elpy-enable)) ;; a little too much i think
 
 (use-package py-autopep8 :ensure t :defer t :hook python-mode)
 ;; python setup ends here
@@ -149,8 +148,12 @@
 
 ;; not important :) languages 
 (use-package php-mode :ensure t :defer :init (add-hook 'php-mode-hook #'lsp))
-(use-package js2-mode :ensure t :hook js-mode)
-;; not important languages :) ends here
+;; not important :) languages
+
+;; Javascript/Typescript
+(use-package js2-mode :ensure t :defer t :hook js-mode)
+(use-package tide :ensure t :defer t :mode "\\.ts\\'")
+;; Javscript/Typescript ends here
 
 
 
@@ -185,7 +188,6 @@
 (use-package go-eldoc :ensure t)
 (use-package gotest :ensure t) 
 ;; Golang Setup ends here
-
 
 ;; keybindings
 (use-package general :ensure t

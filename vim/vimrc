@@ -20,7 +20,6 @@ Plug 'junegunn/fzf.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 call plug#end()
-let g:airline#extensions#tabline#enabled = 1
 
 "Basic setup"
 set termguicolors
