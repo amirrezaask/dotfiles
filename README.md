@@ -1,8 +1,6 @@
 # Personal Dotfiles
-## VIM
-I use vim as minimal as possible.
-## Emacs
-emacs minimal but functional
+## [Vim](https://github.com/amirrezaask/dotfiles/tree/master/vim)
+## [Emacs](https://github.com/amirrezaask/dotfiles/tree/master/emacs)
 
 ## Tmux
 tmux oh yeah
