@@ -3,5 +3,5 @@
 * [Emacs](https://github.com/amirrezaask/dotfiles/tree/master/emacs)
 * [vscode](https://github.com/amirrezaask/dotfiles/tree/master/vscode)
 * [tmux](https://github.com/amirrezaask/dotfiles/tree/master/tmux)
-* [ZSH](https://github.com/amirrezaask/dotfiles/tree/master/zsh)
-* I3Wm
+* [zsh](https://github.com/amirrezaask/dotfiles/tree/master/zsh)
+* [i3](https://github.com/amirrezaask/dotfiles/tree/master/i3)
