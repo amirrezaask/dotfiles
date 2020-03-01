@@ -3,7 +3,7 @@
 ;; Author Amirrezaask <raskarpour@gmail.com>
 ;; Always remember effient over fancy
 ;;; Code:
-
+(add-to-list 'load-path (concat (getenv "HOME") "/.emacs.d/elisp"))
 ;; (setq debug-on-error 1)
 (setq start (float-time)) ;; to measure emacs startup time
 (require 'package)
@@ -53,13 +53,7 @@
 
 (load-theme 'dracula t)
 (use-package emojify :ensure t :config (emojify-mode 1))
-;; (use-package spaceline :ensure t :config (spaceline-spacemacs-theme))
 (use-package doom-modeline :ensure t :config (doom-modeline-mode 1))
-
-(global-set-key (kbd "C-c /") 'comment-line)
-(global-set-key (kbd "C-x -") 'split-window-vertically)
-(global-set-key (kbd "C-x '") 'split-window-horizontally)
-
 (use-package ido-vertical-mode :ensure t :config
   (setq ido-enable-flex-matching t)
   (setq ido-everywhere t)
@@ -139,8 +133,12 @@
   :config
   (add-to-list 'exec-path (concat (go-path) "/bin")))
 
-(use-package go-add-tags :ensure t :hook go-mode :defer t :config (global-set-key "C-c s" 'go-add-tags))
-(use-package gotest :ensure t :defer t :hook go-mode :config (global-set-key "C-c t" 'go-test-current-test) (global-set-key "C-c C-t" 'go-test-current-file))
+(use-package go-add-tags :ensure t :hook go-mode :defer t :config (global-set-key "C-c C-s" 'go-add-tags))
+(use-package gotest :ensure t :defer t :hook go-mode :config (global-set-key (kbd "C-c C-t C-t") 'go-test-current-test) (global-set-key (kbd "C-c C-t C-f") 'go-test-current-file))
+
+(global-set-key (kbd "C-c /") 'comment-line)
+(global-set-key (kbd "C-x -") 'split-window-vertically)
+(global-set-key (kbd "C-x '") 'split-window-horizontally)
 
 (message "Startup Time %f" (- (float-time) start))
 
