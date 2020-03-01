@@ -1,5 +1,5 @@
 # Emacs Config
-My emacs config mainly consists of golang/python/php/js config and all keybindings are based on evil mode and with inspiration from spacemacs ( SPC as the leader key )
+Minimal Emacs config for almighty emacsians.
 # Installation
 ```bash 
 git clone https://github.com/amirrezaask/dotfiles
@@ -24,12 +24,9 @@ For package management I use [use-package](https://github.com/jwiegley/use-packa
 * [org](https://orgmode.org/)
 * [org-bullets](https://github.com/sabof/org-bullets)
 ## Keybindings
-* [evil](https://github.com/emacs-evil/evil)
 * [which-key](https://github.com/justbur/emacs-which-key)
-* [general](https://github.com/noctuid/general.el)
 ## VCS Support
 * [magit](https://github.com/magit/magit)
-* [forge](https://github.com/magit/forge)
 ## Development Support
 * [flycheck](https://github.com/flycheck/flycheck)
 * [lsp-mode](https://github.com/emacs-lsp/lsp-mode)
@@ -52,6 +49,7 @@ For package management I use [use-package](https://github.com/jwiegley/use-packa
 * [php-mode](https://github.com/emacs-php/php-mode)
 ### Javascript
 * [js2-mode](https://github.com/mooz/js2-mode)
+* [tide](https://github.com/ananthakumaran/tide)
 ## Devops Support
 * [docker](https://github.com/Silex/docker.el)
 * [dockerfile-mode](https://github.com/spotify/dockerfile-mode)
