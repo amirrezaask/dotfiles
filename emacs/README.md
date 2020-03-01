@@ -40,8 +40,6 @@ For package management I use [use-package](https://github.com/jwiegley/use-packa
 ### Golang
 * [go-mode](https://github.com/dominikh/go-mode.el)
 * [go-add-tags](https://github.com/syohex/emacs-go-add-tags)
-* [go-stacktracer](https://github.com/samertm/go-stacktracer.el)
-* [go-eldoc](https://github.com/syohex/emacs-go-eldoc)
 * [gotest](https://github.com/nlamirault/gotest.el)
 ### Python
 * [python-mode](Built-in)

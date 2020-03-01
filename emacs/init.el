@@ -178,72 +178,53 @@
 			    (add-hook 'before-save-hook #'lsp-format-buffer t t)
 			    (add-hook 'before-save-hook #'lsp-organize-imports t t)
 			    (add-hook 'go-mode-hook 'go-eldoc-setup)
-			    (local-set-key (kbd "M-.") #'godef-jump)
-			    (local-set-key (kbd "M-*") 'pop-tag-mark)
 			    ))
   :config
   (add-to-list 'exec-path (concat (go-path) "/bin")))
 (use-package go-add-tags :ensure t)
-(use-package go-stacktracer :ensure t)
-(use-package go-eldoc :ensure t)
 (use-package gotest :ensure t) 
 ;; Golang Setup ends here
+(setq is-evil 1)
 
 ;; keybindings
 (use-package general :ensure t
   :config
-  (general-define-key
-   :states '(normal visual insert emacs)
-   :prefix "SPC"
-   :non-normal-prefix "C-SPC"
-   ".." 'xref-find-definitions
-   "/" 'undo-tree-undo
-   "xx" 'counsel-M-x
-   "SPC" 'find-file
-   "ff" 'find-file
-   ;; line actions 
-   "ls" #'move-beginning-of-line
-   "le" #'move-end-of-line
-   "lc" 'comment-line
-   ;; line actions ends here
-   ;; buffer actions
-   "bl" 'switch-to-buffer
-   "bs" 'save-buffer
-   "bk" 'kill-buffer
-   "bn" #'buffer-next
-   "bp" #'buffer-previous
-   "be" 'eval-buffer
-   ;; buffer actions ends here
-   ;; window actions
-   "wk" 'evil-window-top
-   "wj" 'evil-window-down
-   "wh" 'evil-window-left
-   "wl" 'evil-window-right
-   "wo" 'other-window
-   "wc" 'delete-window
-   "sh" 'split-window-horizontally
-   "sv" 'split-window-vertically
-   ;; windows actions ends here
-   ;; Project actions
-   "pf" 'counsel-git
-   ;; Project ends here
-   "ss" 'swiper
-   "ee" 'eval-last-sexp
-   "dk" 'describe-key
-   "df" 'describe-function))
+  (if is-evil
+      (general-define-key
+       :states '(normal visual insert emacs)
+       :prefix "SPC"
+       :non-normal-prefix "C-SPC"
+       ".." 'xref-find-definitions
+       "/" 'undo-tree-undo
+       "xx" 'counsel-M-x
+       "SPC" 'find-file
+       "ff" 'find-file
+       "ls" #'move-beginning-of-line
+       "le" #'move-end-of-line
+       "lc" 'comment-line
+       "bl" 'switch-to-buffer
+       "bs" 'save-buffer
+       "bk" 'kill-buffer
+       "bn" #'buffer-next
+       "bp" #'buffer-previous
+       "be" 'eval-buffer
+       "wk" 'evil-window-top
+       "wj" 'evil-window-down
+       "wh" 'evil-window-left
+       "wl" 'evil-window-right
+       "wo" 'other-window
+       "wc" 'delete-window
+       "sh" 'split-window-horizontally
+       "sv" 'split-window-vertically
+       "pf" 'counsel-git
+       "ss" 'swiper
+       "ee" 'eval-last-sexp
+       "dk" 'describe-key
+       "df" 'describe-function)
+    (general-define-key
+     :prefix "C-c"
+     )))
 ;; keybindings ends here
-
-;; IRC setup
-;; (erc-autojoin-mode)
-;; (defun irc ()
-;;   (interactive)
-;;   (erc :server "irc.freenode.net" :nick "amirrezaask" :password nil))
-;; IRC ends here
-
-
-;; Twitter setup
-;; (use-package twittering-mode :ensure t :defer t :config (setq twittering-icon-mode t) :commands twittering-mode)
-;; Twitter ends here
 
 
 ;; init.el ends here
