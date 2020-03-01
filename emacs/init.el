@@ -31,7 +31,8 @@
 ;; (setq use-package-minimum-reported-time 0.000001)
 ;; initial setup done ;)
 
-
+;; (setq is-evil 1)
+(setq is-evil nil)
 ;; UI stuff
 
 (defconst lisp--prettify-symbols-alist
@@ -96,12 +97,13 @@
 (use-package json-mode :ensure t :mode "\\.json\\'"
   :config
   (add-hook 'before-save-hook 'json-mode-beautify))
-(use-package evil
-  :ensure t
-  :init
-  (setq evil-search-module 'swiper)
-  :config
-  (evil-mode t))
+
+(when is-evil (use-package evil
+		:ensure t
+		:init
+		(setq evil-search-module 'swiper)
+		:config
+		(evil-mode t)))
 
 (use-package which-key :ensure t :config (which-key-mode 1))
 (use-package markdown-mode :ensure t :mode "\\.md\\'")
@@ -184,7 +186,6 @@
 (use-package go-add-tags :ensure t)
 (use-package gotest :ensure t) 
 ;; Golang Setup ends here
-(setq is-evil 1)
 
 ;; keybindings
 (use-package general :ensure t
