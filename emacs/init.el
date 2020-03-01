@@ -54,7 +54,7 @@
 (load-theme 'dracula t)
 (use-package emojify :ensure t :config (emojify-mode 1))
 ;; (use-package spaceline :ensure t :config (spaceline-spacemacs-theme))
-;; (use-package doom-modeline :ensure t :config (doom-modeline-mode 1))
+(use-package doom-modeline :ensure t :config (doom-modeline-mode 1))
 
 (global-set-key (kbd "C-c /") 'comment-line)
 (global-set-key (kbd "C-x -") 'split-window-vertically)
@@ -66,7 +66,7 @@
   (ido-mode t)
   (ido-vertical-mode t))
 
-(use-package swiper :ensure t :defer t :commands swiper)
+(use-package swiper :ensure t :defer t :init (global-set-key (kbd "C-s") 'swiper) :commands swiper)
 (use-package counsel :ensure t :defer t :init (global-set-key (kbd "M-x") 'counsel-M-x) :commands counsel-M-x)
 
 (use-package org :ensure t :defer t)
