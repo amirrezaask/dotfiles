@@ -76,8 +76,6 @@
 ;; (use-package dap-mode :ensure t :hook ((go-mode python-mode php-mode) . dap-mode))
 (use-package flycheck :ensure t :hook ((python-mode go-mode php-mode emacs-lisp-mode) . flycheck-mode))
 (use-package magit :ensure t :defer t)
-(use-package forge :ensure t :defer t :after magit)
-(use-package projectile :ensure t)
 (use-package lsp-mode :ensure t :defer t)
 (use-package lsp-ui :ensure t :defer t)
 (use-package company-lsp :ensure t :defer t)
