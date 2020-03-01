@@ -1,9 +1,11 @@
+;;; init --- initialize my emacs bundle
+;;; Commentary:
 ;; Author Amirrezaask <raskarpour@gmail.com>
 ;; Always remember effient over fancy
+;;; Code:
 
 ;; (setq debug-on-error 1)
 (setq start (float-time)) ;; to measure emacs startup time
-;; initial setup
 (require 'package)
 (setq custom-file "~/.__custom.el")
 (setq inhibit-splash-screen 0)
@@ -26,63 +28,49 @@
   (package-refresh-contents)
   (package-install 'use-package))
 
-(require 'use-package) 
-;; (setq use-package-verbose t)
-;; (setq use-package-minimum-reported-time 0.000001)
-;; initial setup done ;)
-
-;; UI stuff
+(require 'use-package)
 
 (defconst lisp--prettify-symbols-alist
   '(("lambda"  . ?λ)))
 (global-prettify-symbols-mode 1)
 
 
-;; Font Setup
-(setq font "Jetbrains Mono")
-(setq font-size 11)
-(add-to-list 'default-frame-alist (cons 'font (format "%s-%d" font font-size)))
+(defvar font-family "Jetbrains Mono" "Font to use for Emacs.")
+(defvar font-size 11 "Font size for Emacs.")
+(add-to-list 'default-frame-alist (cons 'font (format "%s-%d" font-family font-size)))
 (set-face-attribute 'default nil
-		    :family font
+		    :family font-family
 		    :height (* 10 font-size))
-;; Font ends here
-;; Themes
 (use-package dracula-theme :ensure t :defer t)
 (use-package solarized-theme :ensure t :defer t)
 (use-package spacemacs-theme :ensure t :defer t)
 (use-package doom-themes :ensure t :defer t)
 ;; Themes end here
 (defun light-it-up ()
+  "Light the IDE up."
   (interactive)
-  (load-theme 'solarized-light t))
+  (load-theme 'spacemacs-light t))
 
 (load-theme 'dracula t)
 (use-package emojify :ensure t :config (emojify-mode 1))
-;; (require 'powerline)
-;; (powerline-evil-vim-color-theme)
 ;; (use-package spaceline :ensure t :config (spaceline-spacemacs-theme))
 ;; (use-package doom-modeline :ensure t :config (doom-modeline-mode 1))
-;; UI stuff ends here
 
 (global-set-key (kbd "C-c /") 'comment-line)
+(global-set-key (kbd "C-x -") 'split-window-vertically)
+(global-set-key (kbd "C-x '") 'split-window-horizontally)
 
-;; Completion framework
-(use-package helm :ensure t
-  :config
-  (global-set-key (kbd "M-x") 'helm-M-x)
-  (global-set-key (kbd "C-x C-f") 'helm-find-files)
-  (global-set-key (kbd "C-x b") 'helm-buffers-list)
-  (global-set-key (kbd "C-x -") 'split-window-vertically)
-  (global-set-key (kbd "C-x '") 'split-window-horizontally)
-  )
-;; ;; Completion framework ends here
+(use-package ido-vertical-mode :ensure t :config
+  (setq ido-enable-flex-matching t)
+  (setq ido-everywhere t)
+  (ido-mode t)
+  (ido-vertical-mode t))
 
-;; Org setup
+(use-package swiper :ensure t :defer t :commands swiper)
+(use-package counsel :ensure t :defer t :init (global-set-key (kbd "M-x") 'counsel-M-x) :commands counsel-M-x)
+
 (use-package org :ensure t :defer t)
 (use-package org-bullets :ensure t :hook org-mode :config (lambda () (org-bullets-mode 1)))
-;; Org ends here
-
-;; editor
 (use-package yaml-mode :ensure t :mode "\\.ya?ml\\'")
 (use-package json-mode :ensure t :mode "\\.json\\'"
   :config
@@ -91,9 +79,6 @@
 
 (use-package which-key :ensure t :config (which-key-mode 1))
 (use-package markdown-mode :ensure t :mode "\\.md\\'")
-;; editor ends here
-
-;; IDE
 ;; (use-package dap-mode :ensure t :hook ((go-mode python-mode php-mode) . dap-mode))
 (use-package flycheck :ensure t :hook ((python-mode go-mode php-mode emacs-lisp-mode) . flycheck-mode))
 (use-package magit :ensure t :defer t)
@@ -110,8 +95,6 @@
   (setq company-echo-delay 0)
   (global-company-mode))
 
-;; IDE end
-;; python setup
 (use-package python-mode
   :ensure t
   :defer t
@@ -121,37 +104,27 @@
   (lsp))
 
 (use-package py-autopep8 :ensure t :defer t :hook python-mode)
-;; python setup ends here
 
 
-;; Lisp setup
 (use-package paredit :ensure t :hook (emacs-lisp-mode . paredit-mode))
 (use-package parinfer :ensure t :hook (emacs-lisp-mode . parinfer-mode))
 (use-package rainbow-delimiters :ensure :hook ((emacs-lisp-mode python-mode go-mode php-mode) . rainbow-delimiters-mode))
-;; Lisp ends here
 
 
-;; not important :) languages 
 (use-package php-mode :ensure t :defer :init (add-hook 'php-mode-hook #'lsp))
-;; not important :) languages
 
-;; Javascript/Typescript
 (use-package js2-mode :ensure t :defer t :hook js-mode)
 (use-package tide :ensure t :defer t :mode "\\.ts\\'")
-;; Javscript/Typescript ends here
 
 
 
 
-;; Devops
 (use-package docker :ensure t :defer t)
 (use-package dockerfile-mode :ensure t :defer t)
 (use-package ansible :ensure t :defer t :init (add-hook 'yaml-mode-hook (lambda () (ansible))))
 (use-package kubernetes :ensure t :defer t)
-;; Devops ends here
 
 
-;; Golang Setup
 (defun go-path () (concat (getenv "HOME") "/go"))
 
 (use-package go-mode
@@ -166,10 +139,10 @@
   :config
   (add-to-list 'exec-path (concat (go-path) "/bin")))
 
-(use-package go-add-tags :ensure t :hook go-mode :defer t :config (global-define-key "C-c s" 'go-add-tags))
-(use-package gotest :ensure t :defer t :hook go-mode :config (global-define-key "C-c t" 'go-test-current-test) ("C-c C-t" 'go-test-current-file)) 
-;; Golang Setup ends here
+(use-package go-add-tags :ensure t :hook go-mode :defer t :config (global-set-key "C-c s" 'go-add-tags))
+(use-package gotest :ensure t :defer t :hook go-mode :config (global-set-key "C-c t" 'go-test-current-test) (global-set-key "C-c C-t" 'go-test-current-file))
 
-;; init.el ends here
 (message "Startup Time %f" (- (float-time) start))
-(find-file "~/.TODO.org")
+
+(provide 'init)
+;;; init ends here.
