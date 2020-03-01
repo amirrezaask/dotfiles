@@ -31,8 +31,6 @@
 ;; (setq use-package-minimum-reported-time 0.000001)
 ;; initial setup done ;)
 
-;; (setq is-evil 1)
-(setq is-evil nil)
 ;; UI stuff
 
 (defconst lisp--prettify-symbols-alist
@@ -59,33 +57,25 @@
   (load-theme 'solarized-light t))
 
 (load-theme 'dracula t)
-;; (use-package dashboard
-;;   :ensure t
-;;   :config
-;;   (dashboard-setup-startup-hook)
-;;   (setq dashboard-startup-banner 'logo)
-;;   (setq dashboard-center-content t)
-;;   (setq dashboard-banner-logo-title "Welcome To GNU Emacs")
-;;   (setq dashboard-items '(
-;; 			  (projects . 5)
-;; 			  (bookmarks . 5)
-;; 			  (agenda . 5)
-;; 			  (registers . 5))))
 (use-package emojify :ensure t :config (emojify-mode 1))
+;; (require 'powerline)
+;; (powerline-evil-vim-color-theme)
 ;; (use-package spaceline :ensure t :config (spaceline-spacemacs-theme))
 ;; (use-package doom-modeline :ensure t :config (doom-modeline-mode 1))
 ;; UI stuff ends here
 
+(global-set-key (kbd "C-c /") 'comment-line)
 
 ;; Completion framework
-(use-package ido-vertical-mode :ensure t :config
-  (setq ido-enable-flex-matching t)
-  (setq ido-everywhere t)
-  (ido-mode t)
-  (ido-vertical-mode t))
-(use-package swiper :ensure t :defer t :commands swiper)
-(use-package counsel :ensure t :commands counsel-M-x)
-;; Completion framework ends here
+(use-package helm :ensure t
+  :config
+  (global-set-key (kbd "M-x") 'helm-M-x)
+  (global-set-key (kbd "C-x C-f") 'helm-find-files)
+  (global-set-key (kbd "C-x b") 'helm-buffers-list)
+  (global-set-key (kbd "C-x -") 'split-window-vertically)
+  (global-set-key (kbd "C-x '") 'split-window-horizontally)
+  )
+;; ;; Completion framework ends here
 
 ;; Org setup
 (use-package org :ensure t :defer t)
@@ -98,21 +88,14 @@
   :config
   (add-hook 'before-save-hook 'json-mode-beautify))
 
-(when is-evil (use-package evil
-		:ensure t
-		:init
-		(setq evil-search-module 'swiper)
-		:config
-		(evil-mode t)))
 
 (use-package which-key :ensure t :config (which-key-mode 1))
 (use-package markdown-mode :ensure t :mode "\\.md\\'")
 ;; editor ends here
 
 ;; IDE
-(use-package dap-mode :ensure t :hook ((go-mode python-mode php-mode) . dap-mode))
+;; (use-package dap-mode :ensure t :hook ((go-mode python-mode php-mode) . dap-mode))
 (use-package flycheck :ensure t :hook ((python-mode go-mode php-mode emacs-lisp-mode) . flycheck-mode))
-;; (use-package neotree :ensure t)
 (use-package magit :ensure t :defer t)
 (use-package forge :ensure t :defer t :after magit)
 (use-package projectile :ensure t)
@@ -179,54 +162,13 @@
 			    (lsp)
 			    (add-hook 'before-save-hook #'lsp-format-buffer t t)
 			    (add-hook 'before-save-hook #'lsp-organize-imports t t)
-			    (add-hook 'go-mode-hook 'go-eldoc-setup)
-			    ))
+			    (add-hook 'go-mode-hook 'go-eldoc-setup)))
   :config
   (add-to-list 'exec-path (concat (go-path) "/bin")))
-(use-package go-add-tags :ensure t)
-(use-package gotest :ensure t) 
+
+(use-package go-add-tags :ensure t :hook go-mode :defer t :config (global-define-key "C-c s" 'go-add-tags))
+(use-package gotest :ensure t :defer t :hook go-mode :config (global-define-key "C-c t" 'go-test-current-test) ("C-c C-t" 'go-test-current-file)) 
 ;; Golang Setup ends here
-
-;; keybindings
-(use-package general :ensure t
-  :config
-  (if is-evil
-      (general-define-key
-       :states '(normal visual insert emacs)
-       :prefix "SPC"
-       :non-normal-prefix "C-SPC"
-       ".." 'xref-find-definitions
-       "/" 'undo-tree-undo
-       "xx" 'counsel-M-x
-       "SPC" 'find-file
-       "ff" 'find-file
-       "ls" #'move-beginning-of-line
-       "le" #'move-end-of-line
-       "lc" 'comment-line
-       "bl" 'switch-to-buffer
-       "bs" 'save-buffer
-       "bk" 'kill-buffer
-       "bn" #'buffer-next
-       "bp" #'buffer-previous
-       "be" 'eval-buffer
-       "wk" 'evil-window-top
-       "wj" 'evil-window-down
-       "wh" 'evil-window-left
-       "wl" 'evil-window-right
-       "wo" 'other-window
-       "wc" 'delete-window
-       "sh" 'split-window-horizontally
-       "sv" 'split-window-vertically
-       "pf" 'counsel-git
-       "ss" 'swiper
-       "ee" 'eval-last-sexp
-       "dk" 'describe-key
-       "df" 'describe-function)
-    (general-define-key
-     :prefix "C-c"
-     )))
-;; keybindings ends here
-
 
 ;; init.el ends here
 (message "Startup Time %f" (- (float-time) start))
