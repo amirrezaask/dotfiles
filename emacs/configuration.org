@@ -88,11 +88,11 @@
 (load-theme 'solarized-dark t)
 #+END_SRC
 *** Show emojis
-#+BEGIN_SRC 
+#+BEGIN_SRC emacs-lisp
 (use-package emojify :ensure t :config (emojify-mode 1))
 #+END_SRC
 *** doom-modeline is really nice
-#+BEGIN_SRC 
+#+BEGIN_SRC emacs-lisp 
 (use-package doom-modeline :ensure t :config (doom-modeline-mode 1))
 #+END_SRC
 ** Enhance Searching and Emacs internals
@@ -105,11 +105,11 @@
   (ido-vertical-mode t))
 #+END_SRC
 *** Swiper is a better search tool than Emacs default one
-#+BEGIN_SRC 
+#+BEGIN_SRC emacs-lisp 
 (use-package swiper :ensure t :defer t :init (global-set-key (kbd "C-s") 'swiper) :commands swiper)
 #+END_SRC
 *** Counsel is also nice instead of Emacs default M-x
-#+BEGIN_SRC 
+#+BEGIN_SRC emacs-lisp
 (use-package counsel :ensure t :defer t :init (global-set-key (kbd "M-x") 'counsel-M-x) :commands counsel-M-x)
 #+END_SRC
 ** Add support for various Markup languages
