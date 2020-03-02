@@ -103,6 +103,7 @@ I use use-package to declaretively define my packages and their hooks and lazy l
 #+END_SRC
 
 ** IDE stuff
+Adding some IDE like features to emacs
 #+BEGIN_SRC emacs-lisp
 
 ;; IDE stuff (syntax checker, git wrapper, language server protocol, autocomplete framework)
@@ -121,9 +122,8 @@ I use use-package to declaretively define my packages and their hooks and lazy l
   (global-company-mode))
 ;; IDE stuff ends here
 #+END_SRC
-
+** Python Setup
 #+BEGIN_SRC emacs-lisp
-;; Python
 (use-package python-mode
   :ensure t
   :defer t
@@ -133,9 +133,8 @@ I use use-package to declaretively define my packages and their hooks and lazy l
   (lsp))
 
 (use-package py-autopep8 :ensure t :defer t :hook python-mode)
-;; Python ends here
 #+END_SRC
-
+** Lisp Setup
 #+BEGIN_SRC emacs-lisp
 ;; Lisp
 (use-package paredit :ensure t :hook (emacs-lisp-mode . paredit-mode))
@@ -144,6 +143,7 @@ I use use-package to declaretively define my packages and their hooks and lazy l
 ;; Lisp ends here
 #+END_SRC
 
+** PHP Setup
 #+BEGIN_SRC emacs-lisp
 ;; PHP
 (use-package php-mode :ensure t :defer :init (add-hook 'php-mode-hook #'lsp))
@@ -156,6 +156,7 @@ I use use-package to declaretively define my packages and their hooks and lazy l
 ;; Javascript/Typescript ends here
 #+END_SRC
 
+** Devops Setup
 #+BEGIN_SRC emacs-lisp
 ;; Devops
 (use-package multi-term :ensure t :defer t)
@@ -166,7 +167,7 @@ I use use-package to declaretively define my packages and their hooks and lazy l
 ;; Devops ends here
 #+END_SRC
 
-
+** Go setup
 #+BEGIN_SRC emacs-lisp
 (use-package go-mode
   :mode "\\.go\\'"
