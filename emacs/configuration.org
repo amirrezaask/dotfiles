@@ -280,7 +280,10 @@ Provides fuzzy file search and so much more in a project (git repo)
 #+END_SRC
 ** Elixir Setup ...
 #+BEGIN_SRC emacs-lisp
-(use-package elixir-mode :ensure t :defer t :mode "\\.ex\\'")
+(use-package elixir-mode :ensure t :defer t :mode "\\.exs?\\'" 
+     :config 
+     (message "Need to launch elixir language server manualy what a shame "))
+(use-package alchemist :ensure t :defer t :mode "\\.exs?\\'")
 #+END_SRC
 ** Lisp Setup
 *** Help us with parens
