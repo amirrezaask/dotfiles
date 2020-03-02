@@ -52,7 +52,8 @@
   (interactive)
   (load-theme 'spacemacs-light t))
 
-(load-theme 'spacemacs-dark t)
+(load-theme 'solarized-dark t)
+
 (use-package emojify :ensure t :config (emojify-mode 1))
 (use-package doom-modeline :ensure t :config (doom-modeline-mode 1))
 ;; UI Enhancements ends here
