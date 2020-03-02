@@ -1,4 +1,10 @@
 * Ultimate Emacs Configuration
+** My Personal Info
+#+BEGIN_SRC emacs-lisp
+(setq user-full-name    "Amirreza Askarpour"
+      user-mail-address "raskarpour@gmail.com")
+
+#+END_SRC
 ** Basic package manager and use-package setup
 *** Store current time for further benchmark
 #+BEGIN_SRC emacs-lisp
@@ -8,10 +14,10 @@
 #+BEGIN_SRC emacs-lisp
 (require 'package)
 (package-initialize) ;; initialize emacs built-in package manager
-(setq package-archives '(("org"       . "http://orgmode.org/elpa/")
-                         ("gnu"       . "http://elpa.gnu.org/packages/")
-                         ("melpa"     . "https://melpa.org/packages/")
-                         ("marmalade" . "http://marmalade-repo.org/packages/")))
+(setq package-archives '(;; ("org"       . "http://orgmode.org/elpa/")
+			 ("gnu"       . "http://elpa.gnu.org/packages/")
+			 ("melpa"     . "https://melpa.org/packages/")
+			 ("marmalade" . "http://marmalade-repo.org/packages/")))
 #+END_SRC
 
 *** Install use-package
@@ -22,8 +28,16 @@
 #+END_SRC
 
 ** Some Basic Emacs setup
+# *** Sync PATH with OS
+# #+BEGIN_SRC emacs-lisp
+# ;; (use-package exec-path-from-shell
+# ;;  :init
+# ;;    (when (memq window-system '(mac ns x))
+# ;;     (exec-path-from-shell-initialize))
+# )
+# #+END_SRC
 *** setup custom file so emacs won't mess with init.el
-#+BEGIN_SRC emacs-lisp 
+#+BEGIN_SRC emacs-lisp
 (setq custom-file "~/.__custom.el")
 #+END_SRC
 *** Turn off emacs annoying and ugly startup page
@@ -83,7 +97,7 @@
 		    :height (* 10 font-size))
 #+END_SRC
 *** Themes Setup
-#+BEGIN_SRC emacs-lisp 
+#+BEGIN_SRC emacs-lisp
 (use-package dracula-theme :ensure t :defer t)
 (use-package solarized-theme :ensure t :defer t)
 (use-package spacemacs-theme :ensure t :defer t)
@@ -106,14 +120,14 @@
 #+BEGIN_SRC emacs-lisp
 (use-package helm :ensure t 
     :bind (("M-x" . helm-M-x)
-         ("M-y" . helm-show-kill-ring)
-         ("C-x b" . helm-mini)
-         ("C-x C-f" . helm-find-files)
-         ("C-x r l" . helm-bookmarks)
-         ("C-c s" . helm-occur)
-         :map helm-find-files-map ;; I like these from Ido
-         ("C-<tab>"         . helm-execute-persistent-action)
-         ("C-<backspace>" . helm-find-files-up-one-level))
+	 ("M-y" . helm-show-kill-ring)
+	 ("C-x b" . helm-mini)
+	 ("C-x C-f" . helm-find-files)
+	 ("C-x r l" . helm-bookmarks)
+	 ("C-c s" . helm-occur)
+	 :map helm-find-files-map ;; I like these from Ido
+	 ("C-<tab>"         . helm-execute-persistent-action)
+	 ("C-<backspace>" . helm-find-files-up-one-level))
 
     :config
     (helm-mode 1)
@@ -127,7 +141,7 @@
 (use-package helm-flx :ensure t)
 (use-package helm-projectile :ensure t
   :bind (("C-c v" . helm-projectile)
-         ("C-c p" . helm-projectile-switch-project)))
+	 ("C-c p" . helm-projectile-switch-project)))
 (use-package helm-rg
     :bind
     (("C-c C-h C-s" . 'helm-rg)))
@@ -137,10 +151,10 @@
 #+BEGIN_SRC emacs-lisp
 (use-package helpful
   :bind (("C-h f" . helpful-callable)
-         ("C-h v" . helpful-variable)
-         ("C-h k" . helpful-key)
-         ("C-h F" . helpful-function)
-         ("C-h C" . helpful-command)))
+	 ("C-h v" . helpful-variable)
+	 ("C-h k" . helpful-key)
+	 ("C-h F" . helpful-function)
+	 ("C-h C" . helpful-command)))
 #+END_SRC
 ** Add support for various Markup languages
 *** Org related stuff
@@ -163,13 +177,13 @@
 (global-set-key (kbd "C-r") 'isearch-backward-regexp)
 (global-set-key (kbd "C-x -") 'split-window-vertically)
 (global-set-key (kbd "C-x '") 'split-window-horizontally)
-#+END_SRC 
+#+END_SRC
 # *** Vi is great editor so let's have that as well ...
 # #+BEGIN_SRC emacs-lisp
 # (use-package evil :ensure t :config (evil-mode t)) ;; Only for editing.
 # #+END_SRC
 *** Which key helps us when we only remember part of a keybinding
-#+BEGIN_SRC emacs-lisp 
+#+BEGIN_SRC emacs-lisp
 (use-package which-key :ensure t :config (which-key-mode 1))
 #+END_SRC
 # *** Help us a lot when using Vi Text Objects and motions
@@ -187,7 +201,7 @@
 (use-package dap-mode :ensure t :defer t :hook ((go-mode python-mode php-mode) . dap-mode))
 #+END_SRC
 *** Git wrapper
-#+BEGIN_SRC emacs-lisp 
+#+BEGIN_SRC emacs-lisp
 (use-package magit :ensure t :defer t)
 #+END_SRC
 *** Language Server protocol Support
@@ -204,9 +218,8 @@ Provides fuzzy file search and so much more in a project (git repo)
   (setq-default projectile-mode-line
    '(:eval
      (if (file-remote-p default-directory)
-         " Proj"
+	 " Proj"
        (format " Proj[%s]" (projectile-project-name))))))
-
 #+END_SRC
 *** Completion Framework
 #+BEGIN_SRC emacs-lisp
@@ -263,6 +276,10 @@ Provides fuzzy file search and so much more in a project (git repo)
 *** Autopep8 formatting
 #+BEGIN_SRC emacs-lisp
 (use-package py-autopep8 :ensure t :defer t :hook python-mode)
+#+END_SRC
+** Elixir Setup ...
+#+BEGIN_SRC emacs-lisp
+(use-package elixir-mode :ensure t :defer t :mode "\\.ex\\'")
 #+END_SRC
 ** Lisp Setup
 *** Help us with parens
