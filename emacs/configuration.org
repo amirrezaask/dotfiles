@@ -149,6 +149,7 @@ Adding some IDE like features to emacs
 (use-package php-mode :ensure t :defer :init (add-hook 'php-mode-hook #'lsp))
 ;; PHP ends here
 #+END_SRC
+** Javascript/Typescript Setup
 #+BEGIN_SRC emacs-lisp
 ;; Javascript/Typescript
 (use-package js2-mode :ensure t :defer t :hook js-mode)
