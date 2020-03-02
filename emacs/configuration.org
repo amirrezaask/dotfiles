@@ -1,7 +1,7 @@
 * Amirreza Emacs Configuration
 ** Basic package manager and use-package setup
 I use use-package to declaretively define my packages and their hooks and lazy load them.
-#+BEGIN_SRC elisp
+#+BEGIN_SRC emacs-lisp
 
 ;; (setq debug-on-error 1)
 (setq start (float-time)) ;; to measure emacs startup time
@@ -19,7 +19,7 @@ I use use-package to declaretively define my packages and their hooks and lazy l
 #+END_SRC
 
 ** Some Basic Emacs setup
-#+BEGIN_SRC elisp 
+#+BEGIN_SRC emacs-lisp 
 
 (setq custom-file "~/.__custom.el")
 (setq inhibit-splash-screen 0) ;; turn off emacs annoying startup page.
@@ -35,7 +35,7 @@ I use use-package to declaretively define my packages and their hooks and lazy l
 #+END_SRC
 
 ** Some UI Enhancements and Theme setup
-#+BEGIN_SRC elisp
+#+BEGIN_SRC emacs-lisp
 ;; UI Enhancements
 (defconst lisp--prettify-symbols-alist
   '(("lambda"  . ?λ))) ;; shows lambda word as the symbol
@@ -65,7 +65,7 @@ I use use-package to declaretively define my packages and their hooks and lazy l
 ;; UI Enhancements ends here
 #+END_SRC
 ** Enhance Searching and Emacs internals
-#+BEGIN_SRC elisp
+#+BEGIN_SRC emacs-lisp
 ;; Enhance Search, find-file, M-x
 (use-package ido-vertical-mode :ensure t :config
   (setq ido-enable-flex-matching t)
@@ -78,7 +78,7 @@ I use use-package to declaretively define my packages and their hooks and lazy l
 ;; Enhance Search, find-file, M-x ends here
 #+END_SRC
 ** Add support for various Markup languages
-#+BEGIN_SRC elisp
+#+BEGIN_SRC emacs-lisp
 ;; markup
 (use-package org :ensure t :defer t)
 (use-package org-bullets :ensure t :hook org-mode :config (lambda () (org-bullets-mode 1)))
@@ -91,7 +91,7 @@ I use use-package to declaretively define my packages and their hooks and lazy l
 #+END_SRC
 
 ** Keybindings
-#+BEGIN_SRC elisp
+#+BEGIN_SRC emacs-lisp
 ;; keybindings
 (global-set-key (kbd "C-c /") 'comment-line)
 (global-set-key (kbd "C-x -") 'split-window-vertically)
@@ -103,7 +103,7 @@ I use use-package to declaretively define my packages and their hooks and lazy l
 #+END_SRC
 
 ** IDE stuff
-#+BEGIN_SRC elisp
+#+BEGIN_SRC emacs-lisp
 
 ;; IDE stuff (syntax checker, git wrapper, language server protocol, autocomplete framework)
 ;; (use-package dap-mode :ensure t :hook ((go-mode python-mode php-mode) . dap-mode))
@@ -122,7 +122,7 @@ I use use-package to declaretively define my packages and their hooks and lazy l
 ;; IDE stuff ends here
 #+END_SRC
 
-#+BEGIN_SRC elisp
+#+BEGIN_SRC emacs-lisp
 ;; Python
 (use-package python-mode
   :ensure t
@@ -136,7 +136,7 @@ I use use-package to declaretively define my packages and their hooks and lazy l
 ;; Python ends here
 #+END_SRC
 
-#+BEGIN_SRC elisp
+#+BEGIN_SRC emacs-lisp
 ;; Lisp
 (use-package paredit :ensure t :hook (emacs-lisp-mode . paredit-mode))
 (use-package parinfer :ensure t :hook (emacs-lisp-mode . parinfer-mode))
@@ -144,19 +144,19 @@ I use use-package to declaretively define my packages and their hooks and lazy l
 ;; Lisp ends here
 #+END_SRC
 
-#+BEGIN_SRC elisp
+#+BEGIN_SRC emacs-lisp
 ;; PHP
 (use-package php-mode :ensure t :defer :init (add-hook 'php-mode-hook #'lsp))
 ;; PHP ends here
 #+END_SRC
-#+BEGIN_SRC elisp
+#+BEGIN_SRC emacs-lisp
 ;; Javascript/Typescript
 (use-package js2-mode :ensure t :defer t :hook js-mode)
 (use-package tide :ensure t :defer t :mode "\\.ts\\'")
 ;; Javascript/Typescript ends here
 #+END_SRC
 
-#+BEGIN_SRC elisp
+#+BEGIN_SRC emacs-lisp
 ;; Devops
 (use-package multi-term :ensure t :defer t)
 (use-package docker :ensure t :defer t)
@@ -167,7 +167,7 @@ I use use-package to declaretively define my packages and their hooks and lazy l
 #+END_SRC
 
 
-#+BEGIN_SRC elisp
+#+BEGIN_SRC emacs-lisp
 (use-package go-mode
   :mode "\\.go\\'"
   :ensure t
@@ -186,6 +186,6 @@ I use use-package to declaretively define my packages and their hooks and lazy l
 #+END_SRC
 
 
-#+BEGIN_SRC elisp
+#+BEGIN_SRC emacs-lisp
 (message "Startup Time %f" (- (float-time) start))
 #+END_SRC
