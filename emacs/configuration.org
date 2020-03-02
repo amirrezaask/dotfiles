@@ -98,8 +98,7 @@ I use use-package to declaretively define my packages and their hooks and lazy l
 (global-set-key (kbd "C-x '") 'split-window-horizontally)
 (use-package evil :ensure t :config (evil-mode t)) ;; Only for editing.
 (use-package which-key :ensure t :config (which-key-mode 1))
-;; keybindings ends here
-
+(use-package linum-relative :ensure t :config (linum-relative-mode))
 #+END_SRC
 
 ** IDE stuff
@@ -187,7 +186,7 @@ Adding some IDE like features to emacs
 ;; Go ends here
 #+END_SRC
 
-
+** Benchmark startup time
 #+BEGIN_SRC emacs-lisp
 (message "Startup Time %f" (- (float-time) start))
 #+END_SRC
