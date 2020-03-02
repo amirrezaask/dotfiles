@@ -3,7 +3,7 @@
 ;; Author Amirrezaask <raskarpour@gmail.com>
 ;; Always remember effient over fancy
 ;;; Code:
-(add-to-list 'load-path (concat (getenv "HOME") "/.emacs.d/elisp"))
+;; (add-to-list 'load-path (concat (getenv "HOME") "/.emacs.d/elisp"))
 ;; (setq debug-on-error 1)
 (setq start (float-time)) ;; to measure emacs startup time
 
@@ -26,10 +26,7 @@
                          ("marmalade" . "http://marmalade-repo.org/packages/")))
 
 
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
-
+(package-install 'use-package)
 (require 'use-package) ;; use-package helps us declaretively define our packages and lazy load them only when we need them.
 ;; Basic Setup ends here
 
@@ -55,7 +52,7 @@
   (interactive)
   (load-theme 'spacemacs-light t))
 
-(load-theme 'dracula t)
+(load-theme 'spacemacs-dark t)
 (use-package emojify :ensure t :config (emojify-mode 1))
 (use-package doom-modeline :ensure t :config (doom-modeline-mode 1))
 ;; UI Enhancements ends here
@@ -86,7 +83,7 @@
 (global-set-key (kbd "C-c /") 'comment-line)
 (global-set-key (kbd "C-x -") 'split-window-vertically)
 (global-set-key (kbd "C-x '") 'split-window-horizontally)
-
+(use-package evil :ensure t :config (evil-mode t)) ;; Only for editing.
 (use-package which-key :ensure t :config (which-key-mode 1))
 ;; keybindings ends here
 
@@ -139,6 +136,7 @@
 
 
 ;; Devops
+(use-package multi-term :ensure t :defer t)
 (use-package docker :ensure t :defer t)
 (use-package dockerfile-mode :ensure t :defer t)
 (use-package ansible :ensure t :defer t :init (add-hook 'yaml-mode-hook (lambda () (ansible))))
