@@ -18,6 +18,7 @@
 #+BEGIN_SRC emacs-lisp
 (package-install 'use-package)
 (require 'use-package) ;; use-package helps us declaretively define our packages and lazy load them only when we need them.
+(setq use-package-always-ensure t)
 #+END_SRC
 
 ** Some Basic Emacs setup
@@ -85,7 +86,7 @@
   (interactive)
   (load-theme 'spacemacs-light t))
 
-(load-theme 'doom-one t)
+(load-theme 'dracula t)
 #+END_SRC
 *** Show emojis
 #+BEGIN_SRC emacs-lisp
@@ -93,30 +94,45 @@
 #+END_SRC
 *** doom-modeline is really nice
 #+BEGIN_SRC emacs-lisp 
-(use-package doom-modeline :ensure t :config (doom-modeline-mode 1))
+;; (use-package doom-modeline :ensure t :config (doom-modeline-mode 1))
 #+END_SRC
-** Enhance Searching and Emacs internals
-*** Show IDO options vertically
+** Enhance emacs with Helm
+*** Helm
+
 #+BEGIN_SRC emacs-lisp
-(use-package ido-vertical-mode :ensure t :config
-  (setq ido-enable-flex-matching t)
-  (setq ido-everywhere t)
-  (ido-mode t)
-  (ido-vertical-mode t))
-#+END_SRC
-*** Swiper is a better search tool than Emacs default one
-#+BEGIN_SRC emacs-lisp 
-(use-package swiper :ensure t :defer t :init (global-set-key (kbd "C-s") 'swiper) :commands swiper)
-#+END_SRC
-*** Counsel is also nice instead of Emacs default M-x
-#+BEGIN_SRC emacs-lisp
-(use-package counsel :ensure t :defer t :init (global-set-key (kbd "M-x") 'counsel-M-x) :commands counsel-M-x)
+(use-package helm :ensure t 
+    :bind (("M-x" . helm-M-x)
+         ("M-y" . helm-show-kill-ring)
+         ("C-x b" . helm-mini)
+         ("C-x C-f" . helm-find-files)
+         ("C-x r l" . helm-bookmarks)
+         ("C-s" . helm-occur)
+         :map helm-find-files-map ;; I like these from Ido
+         ("C-<tab>"         . helm-execute-persistent-action)
+         ("C-<backspace>" . helm-find-files-up-one-level))
+
+    :config
+    (helm-mode 1)
+    (helm-flx-mode +1)
+    (setq helm-M-x-fuzzy-match t)
+    (setq helm-locate-fuzzy-match t)
+    (setq helm-lisp-fuzzy-completion t)
+    (setq helm-bookmark-show-location t)
+    (setq helm-buffer-max-length 30))
+(use-package flx :ensure t)
+(use-package helm-flx :ensure t)
+(use-package helm-projectile :ensure t
+  :bind (("C-c v" . helm-projectile)
+         ("C-c p" . helm-projectile-switch-project)))
+(use-package helm-rg
+    :bind
+    (("C-c C-h C-s" . 'helm-rg)))
 #+END_SRC
 ** Add support for various Markup languages
 *** Make sure Org mode is installed :) and some Org related packages
 #+BEGIN_SRC emacs-lisp
 (use-package org :ensure t :defer t)
-(use-package org-bullets :ensure t :hook org-mode :config (lambda () (org-bullets-mode 1)))
+(use-package org-bullets :ensure t :defer t :init (lambda () (org-bullets-mode 1)))
 #+END_SRC
 *** Add Support for json, yaml and markdown
 #+BEGIN_SRC emacs-lisp
@@ -129,13 +145,12 @@
 ** Keybindings
 *** Some better keybindings for emacs internal actions
 #+BEGIN_SRC emacs-lisp
-(global-set-key (kbd "C-c /") 'comment-line)
 (global-set-key (kbd "C-x -") 'split-window-vertically)
 (global-set-key (kbd "C-x '") 'split-window-horizontally)
 #+END_SRC
 *** Vi is great editor so let's have that as well ...
 #+BEGIN_SRC emacs-lisp
-(use-package evil :ensure t :config (evil-mode t)) ;; Only for editing.
+;; (use-package evil :ensure t :config (evil-mode t)) ;; Only for editing.
 #+END_SRC
 *** Which key helps us when we only remember part of a keybinding
 #+BEGIN_SRC emacs-lisp 
@@ -143,7 +158,7 @@
 #+END_SRC
 *** Help us a lot when using Vi Text Objects and motions
 #+BEGIN_SRC emacs-lisp
-(use-package linum-relative :ensure t :config (linum-relative-mode))
+;; (use-package linum-relative :ensure t :config (linum-relative-mode))
 #+END_SRC
 
 ** IDE stuff
@@ -163,6 +178,19 @@
 #+BEGIN_SRC emacs-lisp
 (use-package lsp-mode :ensure t :defer t)
 (use-package lsp-ui :ensure t :defer t)
+#+END_SRC
+*** Projectile 
+Provides fuzzy file search and so much more in a project (git repo)
+#+BEGIN_SRC emacs-lisp
+(use-package projectile
+  :config
+  (projectile-mode)
+  (setq-default projectile-mode-line
+   '(:eval
+     (if (file-remote-p default-directory)
+         " Proj"
+       (format " Proj[%s]" (projectile-project-name))))))
+
 #+END_SRC
 *** Completion Framework
 #+BEGIN_SRC emacs-lisp
@@ -188,6 +216,23 @@
 (defengine github
  "https://github.com/search?ref=simplesearch&q=%s")
 #+END_SRC
+** Go setup
+#+BEGIN_SRC emacs-lisp
+(use-package go-mode
+  :mode "\\.go\\'"
+  :ensure t
+  :init
+  (add-hook 'go-mode-hook (lambda ()
+			    (lsp)
+			    (add-hook 'before-save-hook #'lsp-format-buffer t t)
+			    (add-hook 'before-save-hook #'lsp-organize-imports t t)
+			    (add-hook 'go-mode-hook 'go-eldoc-setup)))
+  :config
+  (add-to-list 'exec-path (concat (concat (getenv "HOME") "/go") "/bin")))
+
+(use-package go-add-tags :ensure t :defer t :config (global-set-key "C-c C-s" 'go-add-tags))
+(use-package gotest :ensure t :defer t :config (global-set-key (kbd "C-c C-t C-t") 'go-test-current-test) (global-set-key (kbd "C-c C-t C-f") 'go-test-current-file))
+#+END_SRC
 ** Python Setup
 *** Python Mode 
 #+BEGIN_SRC emacs-lisp
@@ -210,42 +255,24 @@
 (use-package parinfer :ensure t :hook (emacs-lisp-mode . parinfer-mode))
 (use-package rainbow-delimiters :ensure :hook ((emacs-lisp-mode python-mode go-mode php-mode) . rainbow-delimiters-mode))
 #+END_SRC
-
-** PHP Setup
-#+BEGIN_SRC emacs-lisp
-(use-package php-mode :ensure t :defer :init (add-hook 'php-mode-hook #'lsp))
-#+END_SRC
-** Javascript/Typescript Setup
-#+BEGIN_SRC emacs-lisp
-(use-package js2-mode :ensure t :defer t :hook js-mode)
-(use-package tide :ensure t :defer t :mode "\\.ts\\'")
-#+END_SRC
-
+** Some webish stuff
+*** PHP Setup
+ #+BEGIN_SRC emacs-lisp
+ (use-package php-mode :ensure t :defer :init (add-hook 'php-mode-hook #'lsp))
+ #+END_SRC
+*** Javascript/Typescript Setup
+ #+BEGIN_SRC emacs-lisp
+ (use-package js2-mode :ensure t :defer t :hook js-mode)
+ (use-package tide :ensure t :defer t :mode "\\.ts\\'")
+ #+END_SRC
 ** Devops Setup
 #+BEGIN_SRC emacs-lisp
+(use-package kubel :ensure t)
 (use-package multi-term :ensure t :defer t)
 (use-package docker :ensure t :defer t)
 (use-package dockerfile-mode :ensure t :defer t)
 (use-package ansible :ensure t :defer t :init (add-hook 'yaml-mode-hook (lambda () (ansible))))
-(use-package kubernetes :ensure t :defer t)
-#+END_SRC
-
-** Go setup
-#+BEGIN_SRC emacs-lisp
-(use-package go-mode
-  :mode "\\.go\\'"
-  :ensure t
-  :init
-  (add-hook 'go-mode-hook (lambda ()
-			    (lsp)
-			    (add-hook 'before-save-hook #'lsp-format-buffer t t)
-			    (add-hook 'before-save-hook #'lsp-organize-imports t t)
-			    (add-hook 'go-mode-hook 'go-eldoc-setup)))
-  :config
-  (add-to-list 'exec-path (concat (concat (getenv "HOME") "/go") "/bin")))
-
-(use-package go-add-tags :ensure t :defer t :config (global-set-key "C-c C-s" 'go-add-tags))
-(use-package gotest :ensure t :defer t :config (global-set-key (kbd "C-c C-t C-t") 'go-test-current-test) (global-set-key (kbd "C-c C-t C-f") 'go-test-current-file))
+;; (use-package kubernetes :ensure t :defer t)
 #+END_SRC
 
 ** Benchmark startup time
