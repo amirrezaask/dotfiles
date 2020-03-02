@@ -147,19 +147,19 @@
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "C-x -") 'split-window-vertically)
 (global-set-key (kbd "C-x '") 'split-window-horizontally)
-#+END_SRC
-#+comment *** Vi is great editor so let's have that as well ...
-#+BEGIN_SRC emacs-lisp
-;; (use-package evil :ensure t :config (evil-mode t)) ;; Only for editing.
-#+END_SRC
+#+END_SRC 
+# *** Vi is great editor so let's have that as well ...
+# #+BEGIN_SRC emacs-lisp
+# (use-package evil :ensure t :config (evil-mode t)) ;; Only for editing.
+# #+END_SRC
 *** Which key helps us when we only remember part of a keybinding
 #+BEGIN_SRC emacs-lisp 
 (use-package which-key :ensure t :config (which-key-mode 1))
 #+END_SRC
-#+comment *** Help us a lot when using Vi Text Objects and motions
-#+BEGIN_SRC emacs-lisp
-;; (use-package linum-relative :ensure t :config (linum-relative-mode))
-#+END_SRC
+# *** Help us a lot when using Vi Text Objects and motions
+# #+BEGIN_SRC emacs-lisp
+# ;; (use-package linum-relative :ensure t :config (linum-relative-mode))
+# #+END_SRC
 
 ** IDE stuff
 *** Syntax Checker
