@@ -85,7 +85,7 @@
   (interactive)
   (load-theme 'spacemacs-light t))
 
-(load-theme 'solarized-dark t)
+(load-theme 'doom-one t)
 #+END_SRC
 *** Show emojis
 #+BEGIN_SRC emacs-lisp
@@ -175,6 +175,19 @@
   (setq company-echo-delay 0)
   (global-company-mode))
 #+END_SRC
+*** Engine Mode
+
+**** A must have mode for every developer on the planet
+#+BEGIN_SRC emacs-lisp
+(use-package engine-mode :ensure t :config (engine-mode t))
+#+END_SRC
+**** defining engines
+#+BEGIN_SRC emacs-lisp
+(defengine stackoverflow
+ "https://stackoverflow.com/search?q=%s")
+(defengine github
+ "https://github.com/search?ref=simplesearch&q=%s")
+#+END_SRC
 ** Python Setup
 *** Python Mode 
 #+BEGIN_SRC emacs-lisp
@@ -231,8 +244,8 @@
   :config
   (add-to-list 'exec-path (concat (concat (getenv "HOME") "/go") "/bin")))
 
-(use-package go-add-tags :ensure t :hook go-mode :defer t :config (global-set-key "C-c C-s" 'go-add-tags))
-(use-package gotest :ensure t :defer t :hook go-mode :config (global-set-key (kbd "C-c C-t C-t") 'go-test-current-test) (global-set-key (kbd "C-c C-t C-f") 'go-test-current-file))
+(use-package go-add-tags :ensure t :defer t :config (global-set-key "C-c C-s" 'go-add-tags))
+(use-package gotest :ensure t :defer t :config (global-set-key (kbd "C-c C-t C-t") 'go-test-current-test) (global-set-key (kbd "C-c C-t C-f") 'go-test-current-file))
 #+END_SRC
 
 ** Benchmark startup time
