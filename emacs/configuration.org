@@ -100,10 +100,6 @@
 #+BEGIN_SRC emacs-lisp
 (use-package emojify :ensure t :config (emojify-mode 1))
 #+END_SRC
-*** doom-modeline is really nice
-#+BEGIN_SRC emacs-lisp 
-;; (use-package doom-modeline :ensure t :config (doom-modeline-mode 1))
-#+END_SRC
 ** Enhance emacs with Helm and Helpful 
 *** Helm
 
@@ -292,7 +288,6 @@ Provides fuzzy file search and so much more in a project (git repo)
 (use-package docker :ensure t :defer t)
 (use-package dockerfile-mode :ensure t :defer t)
 (use-package ansible :ensure t :defer t :init (add-hook 'yaml-mode-hook (lambda () (ansible))))
-;; (use-package kubernetes :ensure t :defer t)
 #+END_SRC
 
 ** Benchmark startup time
