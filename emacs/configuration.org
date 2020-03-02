@@ -1,4 +1,4 @@
-* Amirreza Emacs Configuration
+* Ultimate Emacs Configuration
 ** Basic package manager and use-package setup
 *** Store current time for further benchmark
 #+BEGIN_SRC emacs-lisp
@@ -58,6 +58,14 @@
 (global-linum-mode t) ;; enable line numbers
 #+END_SRC
 
+*** Ask for confirmation before emacs quiting
+#+BEGIN_SRC emacs-lisp
+(setq confirm-kill-emacs 'y-or-n-p)
+#+END_SRC
+*** Winner mode for better undo/redo
+#+BEGIN_SRC emacs-lisp
+(winner-mode 1)
+#+END_SRC
 ** Some UI Enhancements and Theme setup
 *** Prettify Lisp codes
 #+BEGIN_SRC emacs-lisp
@@ -96,7 +104,7 @@
 #+BEGIN_SRC emacs-lisp 
 ;; (use-package doom-modeline :ensure t :config (doom-modeline-mode 1))
 #+END_SRC
-** Enhance emacs with Helm
+** Enhance emacs with Helm and Helpful 
 *** Helm
 
 #+BEGIN_SRC emacs-lisp
@@ -106,7 +114,7 @@
          ("C-x b" . helm-mini)
          ("C-x C-f" . helm-find-files)
          ("C-x r l" . helm-bookmarks)
-         ("C-s" . helm-occur)
+         ("C-c s" . helm-occur)
          :map helm-find-files-map ;; I like these from Ido
          ("C-<tab>"         . helm-execute-persistent-action)
          ("C-<backspace>" . helm-find-files-up-one-level))
@@ -128,8 +136,18 @@
     :bind
     (("C-c C-h C-s" . 'helm-rg)))
 #+END_SRC
+
+*** Helpful for better helps
+#+BEGIN_SRC emacs-lisp
+(use-package helpful
+  :bind (("C-h f" . helpful-callable)
+         ("C-h v" . helpful-variable)
+         ("C-h k" . helpful-key)
+         ("C-h F" . helpful-function)
+         ("C-h C" . helpful-command)))
+#+END_SRC
 ** Add support for various Markup languages
-*** Make sure Org mode is installed :) and some Org related packages
+*** Org related stuff
 #+BEGIN_SRC emacs-lisp
 (use-package org :ensure t :defer t)
 (use-package org-bullets :ensure t :defer t :init (lambda () (org-bullets-mode 1)))
@@ -145,6 +163,8 @@
 ** Keybindings
 *** Some better keybindings for emacs internal actions
 #+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-s") 'isearch-forward-regexp)
+(global-set-key (kbd "C-r") 'isearch-backward-regexp)
 (global-set-key (kbd "C-x -") 'split-window-vertically)
 (global-set-key (kbd "C-x '") 'split-window-horizontally)
 #+END_SRC 
