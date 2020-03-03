@@ -1,8 +1,9 @@
 {
     "go.useLanguageServer": true,
     "editor.fontFamily": "'Jetbrains Mono','Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'",
-    "window.zoomLevel": 0,
+    "window.zoomLevel": 1,
     "editor.fontSize": 15,
-    "workbench.colorTheme": "Material Theme",
-    "diffEditor.ignoreTrimWhitespace": false
+    "workbench.colorTheme": "Community Material Theme Darker High Contrast",
+    "diffEditor.ignoreTrimWhitespace": false,
+    "window.menuBarVisibility": "hidden"
 }

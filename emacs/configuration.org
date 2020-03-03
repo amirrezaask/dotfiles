@@ -124,7 +124,6 @@
 	 ("C-x b" . helm-mini)
 	 ("C-x C-f" . helm-find-files)
 	 ("C-x r l" . helm-bookmarks)
-	 ("C-c s" . helm-occur)
 	 :map helm-find-files-map ;; I like these from Ido
 	 ("C-<tab>"         . helm-execute-persistent-action)
 	 ("C-<backspace>" . helm-find-files-up-one-level))
@@ -147,6 +146,11 @@
     (("C-c C-h C-s" . 'helm-rg)))
 #+END_SRC
 
+*** Swiper for search
+#+BEGIN_SRC emacs-lisp
+(use-package swiper :defer t :ensure t :commands (swiper) :bind (("C-s" . swiper))) 
+
+#+END_SRC
 *** Helpful for better helps
 #+BEGIN_SRC emacs-lisp
 (use-package helpful
@@ -170,6 +174,15 @@
   (add-hook 'before-save-hook 'json-mode-beautify))
 (use-package markdown-mode :ensure t :mode "\\.md\\'")
 (use-package yaml-mode :ensure t :mode "\\.ya?ml\\'")
+#+END_SRC
+** Make Emacs best editor possible
+#+BEGIN_SRC emacs-lisp
+(use-package highlight-indent-guides 
+    :hook
+    ((prog-mode yaml-mode json-mode) . highlight-indent-guides-mode) 
+    :init
+    (setq highlight-indent-guides-method 'character)
+    (setq highlight-indent-guides-character ?\|))
 #+END_SRC
 ** Keybindings
 *** Some better keybindings for emacs internal actions
@@ -200,6 +213,12 @@
 *** Debugger Support
 #+BEGIN_SRC emacs-lisp
 (use-package dap-mode :ensure t :defer t :hook ((go-mode python-mode php-mode) . dap-mode))
+#+END_SRC
+*** Code Folding
+#+BEGIN_SRC emacs-lisp
+(use-package dash :ensure t :defer t)
+(use-package s :ensure t :defer t)
+(use-package origami :ensure t :defer t)
 #+END_SRC
 *** Git wrapper
 #+BEGIN_SRC emacs-lisp

@@ -108,8 +108,8 @@ exec_always --no-startup-id setxkbmap -option caps:escape
 # We use variables to avoid repeating the names in multiple places.
 set $ws1 "1: Terminal"
 set $ws2 "2: Browser"
-set $ws3 "3: Code"
-set $ws4 "4: media"
+set $ws3 "3: Editor"
+set $ws4 "4: Music"
 set $ws5 "5: social"
 set $ws6 "6: file manager"
 set $ws7 "7: Games"
