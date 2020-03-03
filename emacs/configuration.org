@@ -28,14 +28,14 @@
 #+END_SRC
 
 ** Some Basic Emacs setup
-# *** Sync PATH with OS
-# #+BEGIN_SRC emacs-lisp
-# ;; (use-package exec-path-from-shell
-# ;;  :init
-# ;;    (when (memq window-system '(mac ns x))
-# ;;     (exec-path-from-shell-initialize))
-# )
-# #+END_SRC
+*** Sync PATH with OS
+#+BEGIN_SRC emacs-lisp
+(use-package exec-path-from-shell
+  :init
+    (when (memq window-system '(mac ns x))
+     (exec-path-from-shell-initialize))
+)
+#+END_SRC
 *** setup custom file so emacs won't mess with init.el
 #+BEGIN_SRC emacs-lisp
 (setq custom-file "~/.__custom.el")
@@ -285,6 +285,10 @@ Provides fuzzy file search and so much more in a project (git repo)
      (message "Need to launch elixir language server manualy what a shame "))
 (use-package alchemist :ensure t :defer t :mode "\\.exs?\\'")
 #+END_SRC
+** Rust Setup
+#+BEGIN_SRC emacs-lisp
+(use-package rust-mode :ensure t :defer t :mode "\\.rs\\'" :init (add-hook 'rust-mode-hook #'lsp))
+#+END_SRC
 ** Lisp Setup
 *** Help us with parens
 #+BEGIN_SRC emacs-lisp
@@ -294,9 +298,9 @@ Provides fuzzy file search and so much more in a project (git repo)
 #+END_SRC
 ** Some webish stuff
 *** PHP Setup
- #+BEGIN_SRC emacs-lisp
- (use-package php-mode :ensure t :defer :init (add-hook 'php-mode-hook #'lsp))
- #+END_SRC
+#+BEGIN_SRC emacs-lisp
+(use-package php-mode :ensure t :defer :init (add-hook 'php-mode-hook #'lsp))
+#+END_SRC
 *** Javascript/Typescript Setup
  #+BEGIN_SRC emacs-lisp
  (use-package js2-mode :ensure t :defer t :hook js-mode)
