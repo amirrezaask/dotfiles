@@ -263,6 +263,11 @@ Provides fuzzy file search and so much more in a project (git repo)
 (use-package go-add-tags :ensure t :defer t :config (global-set-key "C-c C-s" 'go-add-tags))
 (use-package gotest :ensure t :defer t :config (global-set-key (kbd "C-c C-t C-t") 'go-test-current-test) (global-set-key (kbd "C-c C-t C-f") 'go-test-current-file))
 #+END_SRC
+** Clojure setup
+#+BEGIN_SRC emacs-lisp
+(use-package clojure-mode :ensure t :defer t :mode "\\.cljs?\\'")
+(use-package cider :ensure t :defer t :hook clojure-mode :config (cider-jack-in))
+#+END_SRC
 ** Python Setup
 *** Python Mode 
 #+BEGIN_SRC emacs-lisp
@@ -278,7 +283,7 @@ Provides fuzzy file search and so much more in a project (git repo)
 #+BEGIN_SRC emacs-lisp
 (use-package py-autopep8 :ensure t :defer t :hook python-mode)
 #+END_SRC
-** Elixir Setup ...
+** Elixir Setup
 #+BEGIN_SRC emacs-lisp
 (use-package elixir-mode :ensure t :defer t :mode "\\.exs?\\'" 
      :config 

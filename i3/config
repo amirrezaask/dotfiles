@@ -112,7 +112,7 @@ set $ws3 "3: Code"
 set $ws4 "4: media"
 set $ws5 "5: social"
 set $ws6 "6: file manager"
-set $ws7 "7"
+set $ws7 "7: Games"
 set $ws8 "8"
 set $ws9 "9"
 set $ws10 "10"
@@ -208,6 +208,7 @@ assign [class="Emacs"] $ws3
 assign [class="Chromium"] $ws2
 assign [class="Thunar"] $ws6
 assign [class="Rocket.Chat"] $ws5
+assign [class="csgo_linux64"] $ws7
 # assign [class=""] $ws2
 # volume
 bindsym XF86AudioRaiseVolume exec amixer -q -D pulse sset Master 5%+; exec pkill -RTMIN+10 i3blocks 
