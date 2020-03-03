@@ -270,14 +270,14 @@ Provides fuzzy file search and so much more in a project (git repo)
 (use-package go-mode
   :mode "\\.go\\'"
   :ensure t
-  :init
-  (add-hook 'go-mode-hook (lambda ()
-			    (lsp)
-			    (add-hook 'before-save-hook #'lsp-format-buffer t t)
-			    (add-hook 'before-save-hook #'lsp-organize-imports t t)
-			    (add-hook 'go-mode-hook 'go-eldoc-setup)))
   :config
-  (add-to-list 'exec-path (concat (concat (getenv "HOME") "/go") "/bin")))
+      (lsp)
+      (add-hook 'before-save-hook #'lsp-format-buffer t t)
+      (add-hook 'before-save-hook #'lsp-organize-imports t t)
+      (add-hook 'go-mode-hook 'go-eldoc-setup)
+      (local-set-key (kbd "M-.") 'godef-jump)
+      (local-set-key (kbd "M-*") 'pop-tag-mark)
+      (add-to-list 'exec-path (concat (concat (getenv "HOME") "/go") "/bin")))
 
 (use-package go-add-tags :ensure t :defer t :config (global-set-key "C-c C-s" 'go-add-tags))
 (use-package gotest :ensure t :defer t :config (global-set-key (kbd "C-c C-t C-t") 'go-test-current-test) (global-set-key (kbd "C-c C-t C-f") 'go-test-current-file))
