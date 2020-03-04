@@ -1,8 +1,12 @@
-* Ultimate Emacs Configuration
+* Amirreza Emacs Configuration
+** Debug On error
+#+BEGIN_SRC emacs-lisp
+(setq debug-on-error -1)
+#+END_SRC
 ** My Personal Info
 #+BEGIN_SRC emacs-lisp
 (setq user-full-name    "Amirreza Askarpour"
-      user-mail-address "raskarpour@gmail.com")
+      user-mail-address "amirrezaask@protonmail.com")
 
 #+END_SRC
 ** Basic package manager and use-package setup
@@ -15,26 +19,39 @@
 (require 'package)
 (package-initialize) ;; initialize emacs built-in package manager
 (setq package-archives '(;; ("org"       . "http://orgmode.org/elpa/")
-			 ;; ("gnu"       . "http://elpa.gnu.org/packages/")
-			 ("melpa"     . "https://melpa.org/packages/")))
-			 ;;("marmalade" . "http://marmalade-repo.org/packages/")))
+			 ("gnu"       . "http://elpa.gnu.org/packages/")
+			 ("melpa"     . "https://melpa.org/packages/")
+			 ("marmalade" . "http://marmalade-repo.org/packages/")))
 #+END_SRC
 
+*** Bootstrap Straight.el
+#+BEGIN_SRC emacs-lisp
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 5))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+#+END_SRC
 *** Install use-package
 #+BEGIN_SRC emacs-lisp
-(package-install 'use-package)
-(require 'use-package) ;; use-package helps us declaretively define our packages and lazy load them only when we need them.
-(setq use-package-always-ensure t)
+  (straight-use-package 'use-package)
+  (setq use-package-always-ensure t)
 #+END_SRC
-
 ** Some Basic Emacs setup
 *** Sync PATH with OS
 #+BEGIN_SRC emacs-lisp
 (use-package exec-path-from-shell
+  :straight t
   :init
     (when (memq window-system '(mac ns x))
-     (exec-path-from-shell-initialize))
-)
+     (exec-path-from-shell-initialize)))
 #+END_SRC
 *** setup custom file so emacs won't mess with init.el
 #+BEGIN_SRC emacs-lisp
@@ -102,105 +119,71 @@
 #+END_SRC
 *** Themes Setup
 #+BEGIN_SRC emacs-lisp
-(use-package dracula-theme :ensure t :defer t)
-(use-package solarized-theme :ensure t :defer t)
-(use-package spacemacs-theme :ensure t :defer t)
-(use-package doom-themes :ensure t :defer t)
+  (use-package dracula-theme :straight t :defer t)
+  (use-package solarized-theme :straight t :defer t)
+  (use-package spacemacs-theme :straight t :defer t)
+  (use-package doom-themes :straight t :defer t)
 
-(defun light-it-up ()
-  "Light the IDE up."
-  (interactive)
-  (load-theme 'spacemacs-light t))
+  (defun light-it-up ()
+    "Light the IDE up."
+    (interactive)
+    (load-theme 'spacemacs-light t))
 
-(load-theme 'dracula t)
+  (load-theme 'doom-one t)
 #+END_SRC
 *** Show emojis
 #+BEGIN_SRC emacs-lisp
-(use-package emojify :ensure t :config (emojify-mode 1))
+(use-package emojify :straight t :config (emojify-mode 1))
 #+END_SRC
 *** Doom modeline
 #+BEGIN_SRC emacs-lisp
-(use-package doom-modeline :init (doom-modeline-mode 1))
+(use-package doom-modeline :straight t :init (doom-modeline-mode 1))
 
 #+END_SRC
-** Enhance Emacs internals  
-#+BEGIN_COMMENT
-# *** Helm
-
-#+BEGIN_SRC emacs-lisp
-(use-package helm :ensure t 
-    :bind (("M-x" . helm-M-x)
-	 ("M-y" . helm-show-kill-ring)
-	 ("C-x b" . helm-mini)
-	 ("C-x C-f" . helm-find-files)
-	 ("C-x r l" . helm-bookmarks)
-	 :map helm-find-files-map ;; I like these from Ido
-	 ("C-<tab>"         . helm-execute-persistent-action)
-	 ("C-<backspace>" . helm-find-files-up-one-level))
-
-    :config
-    (helm-mode 1)
-    (helm-flx-mode +1)
-    (setq helm-M-x-fuzzy-match t)
-    (setq helm-locate-fuzzy-match t)
-    (setq helm-lisp-fuzzy-completion t)
-    (setq helm-bookmark-show-location t)
-    (setq helm-buffer-max-length 30))
-(use-package flx :ensure t)
-(use-package helm-flx :ensure t)
-(use-package helm-projectile :ensure t
-  :bind (("C-c v" . helm-projectile)
-	 ("C-c p" . helm-projectile-switch-project)))
-(use-package helm-rg
-    :bind
-    (("C-c C-h C-s" . 'helm-rg)))
-#+END_SRC
-#+END_COMMENT
+** Enhance Emacs internals
 *** IDO
 #+BEGIN_SRC emacs-lisp
-(use-package ido-vertical-mode :config (ido-mode 1) (ido-vertical-mode 1) (setq ido-vertical-define-keys 'C-n-and-C-p-only))
-
+(use-package ido-vertical-mode :straight t :config (ido-mode 1) (ido-vertical-mode 1) (setq ido-vertical-define-keys 'C-n-and-C-p-only))
 #+END_SRC
 *** Smex (Better M-x)
 #+BEGIN_SRC emacs-lisp
-(use-package smex :bind (("M-x" . smex)))
+(use-package smex :straight t :bind (("M-x" . smex)))
 #+END_SRC
 *** Swiper
 #+BEGIN_SRC emacs-lisp
-(use-package swiper :defer t :ensure t :commands (swiper) :bind (("C-s" . swiper)))
+(use-package swiper :straight t :commands (swiper) :bind (("C-s" . swiper)))
 #+END_SRC
 *** Helpful for better helps
 #+BEGIN_SRC emacs-lisp
-(use-package helpful
-  :bind (("C-h f" . helpful-callable)
-	 ("C-h v" . helpful-variable)
-	 ("C-h k" . helpful-key)
-	 ("C-h F" . helpful-function)
-	 ("C-h C" . helpful-command)))
+  (use-package helpful  :straight t
+    :bind (("C-h f" . helpful-callable)
+	   ("C-h v" . helpful-variable)
+	   ("C-h k" . helpful-key)
+	   ("C-h F" . helpful-function)
+	   ("C-h C" . helpful-command)))
 #+END_SRC
 ** Add support for various Markup languages
 *** Add Support for json, yaml and markdown
 #+BEGIN_SRC emacs-lisp
-(use-package json-mode :ensure t :mode "\\.json\\'"
+(use-package json-mode :straight t :mode "\\.json\\'"
   :config
   (add-hook 'before-save-hook 'json-mode-beautify))
-(use-package markdown-mode :ensure t :mode "\\.md\\'")
-(use-package yaml-mode :ensure t :mode "\\.ya?ml\\'")
+(use-package markdown-mode :straight t :mode "\\.md\\'")
+(use-package yaml-mode :straight t :mode "\\.ya?ml\\'")
 #+END_SRC
-** Org mode  
+** Org mode
 #+BEGIN_SRC emacs-lisp
-(use-package org :ensure t :defer t)
-(use-package org-bullets :ensure t :defer t :commands (org-bullets-mode) :init (add-hook 'org-mode-hook #'org-bullets-mode))
-(use-package htmlize :ensure t :defer t)
+  (use-package org-bullets :straight t :defer t :commands (org-bullets-mode) :init (add-hook 'org-mode-hook #'org-bullets-mode))
+  (use-package htmlize :straight t :defer t)
 #+END_SRC
 ** Make Emacs best editor possible
 #+BEGIN_SRC emacs-lisp
-(use-package highlight-indent-guides 
-    :hook
-    ((prog-mode yaml-mode json-mode) . highlight-indent-guides-mode) 
-    :init
-    (setq highlight-indent-guides-method 'character)
-    (setq highlight-indent-guides-character ?\|))
+  (use-package highlight-indent-guides :straight t 
+      :hook
+      ((prog-mode yaml-mode json-mode) . highlight-indent-guides-mode) 
+      :init
+      (setq highlight-indent-guides-method 'character)
+      (setq highlight-indent-guides-character ?\|))
 #+END_SRC
 ** Keybindings
 *** Some better keybindings for emacs internal actions
@@ -216,7 +199,7 @@
 # #+END_SRC
 *** Which key helps us when we only remember part of a keybinding
 #+BEGIN_SRC emacs-lisp
-(use-package which-key :ensure t :config (which-key-mode 1))
+(use-package which-key :straight t :config (which-key-mode 1))
 #+END_SRC
 # *** Help us a lot when using Vi Text Objects and motions
 # #+BEGIN_SRC emacs-lisp
@@ -224,33 +207,41 @@
 # #+END_SRC
 
 ** IDE stuff
+*** Auto Insert File Header
+#+BEGIN_SRC emacs-lisp
+  (use-package autoinsert :ensure t :straight t
+  :init 
+  (setq auto-insert-query nil)
+  (auto-insert-mode 1))
+#+END_SRC
 *** Syntax Checker
 #+BEGIN_SRC emacs-lisp
-(use-package flycheck :ensure t :hook ((python-mode go-mode php-mode emacs-lisp-mode) . flycheck-mode))
+(use-package flycheck :straight t :hook ((python-mode go-mode php-mode emacs-lisp-mode) . flycheck-mode))
 #+END_SRC
 *** Debugger Support
 #+BEGIN_SRC emacs-lisp
-(use-package dap-mode :ensure t :defer t :hook ((go-mode python-mode php-mode) . dap-mode))
+(use-package dap-mode :straight t :defer t :hook ((go-mode python-mode php-mode) . dap-mode))
 #+END_SRC
 *** Code Folding
 #+BEGIN_SRC emacs-lisp
-(use-package dash :ensure t :defer t)
-(use-package s :ensure t :defer t)
-(use-package origami :ensure t :defer t)
+  (use-package dash :straight t :defer t)
+  (use-package s :straight t :defer t)
+  (use-package origami :straight t :defer t)
 #+END_SRC
 *** Git wrapper
 #+BEGIN_SRC emacs-lisp
-(use-package magit :ensure t :defer t)
+(use-package magit :straight t :defer t)
 #+END_SRC
 *** Language Server protocol Support
 #+BEGIN_SRC emacs-lisp
-(use-package lsp-mode :ensure t :defer t)
-(use-package lsp-ui :ensure t :defer t)
+(use-package lsp-mode :straight t :defer t)
+(use-package lsp-ui :straight t :defer t)
 #+END_SRC
 *** Projectile 
 Provides fuzzy file search and so much more in a project (git repo)
 #+BEGIN_SRC emacs-lisp
 (use-package projectile
+  :straight t
   :config
   (projectile-mode)
   (setq-default projectile-mode-line
@@ -261,9 +252,8 @@ Provides fuzzy file search and so much more in a project (git repo)
 #+END_SRC
 *** Completion Framework
 #+BEGIN_SRC emacs-lisp
-(use-package company-lsp :ensure t :defer t)
-(use-package company
-  :ensure t
+(use-package company-lsp :straight t :defer t)
+(use-package company :straight t
   :config
   (setq company-tooltip-limit 30)
   (setq company-idle-delay .1)
@@ -274,7 +264,7 @@ Provides fuzzy file search and so much more in a project (git repo)
 
 **** A must have mode for every developer on the planet
 #+BEGIN_SRC emacs-lisp
-(use-package engine-mode :ensure t :config (engine-mode t))
+(use-package engine-mode :straight t :config (engine-mode t))
 #+END_SRC
 **** defining engines
 #+BEGIN_SRC emacs-lisp
@@ -285,31 +275,31 @@ Provides fuzzy file search and so much more in a project (git repo)
 #+END_SRC
 ** Go setup
 #+BEGIN_SRC emacs-lisp
-(use-package go-mode
-  :mode "\\.go\\'"
-  :ensure t
-  :config
-      (lsp)
-      (add-hook 'before-save-hook #'lsp-format-buffer t t)
-      (add-hook 'before-save-hook #'lsp-organize-imports t t)
-      (add-hook 'go-mode-hook 'go-eldoc-setup)
-      (local-set-key (kbd "M-.") 'godef-jump)
-      (local-set-key (kbd "M-*") 'pop-tag-mark)
-      (add-to-list 'exec-path (concat (concat (getenv "HOME") "/go") "/bin")))
+  (use-package go-mode
+    :mode "\\.go\\'"
+    :straight t
+    :config
+	(lsp)
+	(add-hook 'before-save-hook #'lsp-format-buffer t t)
+	(add-hook 'before-save-hook #'lsp-organize-imports t t)
+	(add-hook 'go-mode-hook 'go-eldoc-setup)
+	(local-set-key (kbd "M-.") 'godef-jump)
+	(local-set-key (kbd "M-*") 'pop-tag-mark)
+	(add-to-list 'exec-path (concat (concat (getenv "HOME") "/go") "/bin")))
 
-(use-package go-add-tags :ensure t :defer t :config (global-set-key "C-c C-s" 'go-add-tags))
-(use-package gotest :ensure t :defer t :config (global-set-key (kbd "C-c C-t C-t") 'go-test-current-test) (global-set-key (kbd "C-c C-t C-f") 'go-test-current-file))
+  (use-package go-add-tags :straight t :defer t :config (global-set-key "C-c C-s" 'go-add-tags))
+  (use-package gotest :straight t :defer t :config (global-set-key (kbd "C-c C-t C-t") 'go-test-current-test) (global-set-key (kbd "C-c C-t C-f") 'go-test-current-file))
 #+END_SRC
 ** Clojure setup
 #+BEGIN_SRC emacs-lisp
-(use-package clojure-mode :ensure t :defer t :mode "\\.cljs?\\'")
-(use-package cider :ensure t :defer t :hook clojure-mode :config (cider-jack-in))
+(use-package clojure-mode :straight t :defer t :mode "\\.cljs?\\'")
+(use-package cider :straight t :defer t :hook clojure-mode :config (cider-jack-in))
 #+END_SRC
 ** Python Setup
 *** Python Mode 
 #+BEGIN_SRC emacs-lisp
 (use-package python-mode
-  :ensure t
+  :straight t
   :defer t
   :mode "\\.py\\'"
   :config
@@ -318,43 +308,45 @@ Provides fuzzy file search and so much more in a project (git repo)
 #+END_SRC
 *** Autopep8 formatting
 #+BEGIN_SRC emacs-lisp
-(use-package py-autopep8 :ensure t :defer t :hook python-mode)
+(use-package py-autopep8 :straight t :defer t :hook python-mode)
 #+END_SRC
 ** Elixir Setup
 #+BEGIN_SRC emacs-lisp
-(use-package elixir-mode :ensure t :defer t :mode "\\.exs?\\'" 
+(use-package elixir-mode :straight t :defer t :mode "\\.exs?\\'" 
      :config 
      (message "Need to launch elixir language server manualy what a shame "))
-(use-package alchemist :ensure t :defer t :mode "\\.exs?\\'")
+(use-package alchemist :straight t :defer t :mode "\\.exs?\\'")
 #+END_SRC
 ** Rust Setup
 #+BEGIN_SRC emacs-lisp
-(use-package rust-mode :ensure t :defer t :mode "\\.rs\\'" :init (add-hook 'rust-mode-hook #'lsp))
+(use-package rust-mode :straight t :defer t :mode "\\.rs\\'" :init (add-hook 'rust-mode-hook #'lsp))
 #+END_SRC
 ** Lisp Setup
 *** Help us with parens
 #+BEGIN_SRC emacs-lisp
-(use-package paredit :ensure t :hook (emacs-lisp-mode . paredit-mode))
-(use-package parinfer :ensure t :hook (emacs-lisp-mode . parinfer-mode))
-(use-package rainbow-delimiters :ensure :hook ((emacs-lisp-mode python-mode go-mode php-mode) . rainbow-delimiters-mode))
+(use-package paredit :straight t :hook (emacs-lisp-mode . paredit-mode))
+(use-package parinfer :straight t :hook (emacs-lisp-mode . parinfer-mode))
+(use-package rainbow-delimiters :straight t :hook ((emacs-lisp-mode python-mode go-mode php-mode) . rainbow-delimiters-mode))
 #+END_SRC
 ** Some webish stuff
+*** Web Mode
+   #+BEGIN_SRC emacs-lisp
+   (use-package web-mode :straight t :defer t :mode ("\\.html\\'" "\\.css\\'"))
+   #+END_SRC
 *** PHP Setup
 #+BEGIN_SRC emacs-lisp
-(use-package php-mode :ensure t :defer :init (add-hook 'php-mode-hook #'lsp))
+(use-package php-mode :straight t :defer :init (add-hook 'php-mode-hook #'lsp))
 #+END_SRC
 *** Javascript/Typescript Setup
  #+BEGIN_SRC emacs-lisp
- (use-package js2-mode :ensure t :defer t :hook js-mode)
- (use-package tide :ensure t :defer t :mode "\\.ts\\'")
+ (use-package js2-mode :straight t :defer t :hook js-mode)
+ (use-package tide :straight t :defer t :mode "\\.ts\\'")
  #+END_SRC
 ** Devops Setup
 #+BEGIN_SRC emacs-lisp
-(use-package kubel :ensure t)
-(use-package multi-term :ensure t :defer t)
-(use-package docker :ensure t :defer t)
-(use-package dockerfile-mode :ensure t :defer t)
-(use-package ansible :ensure t :defer t :init (add-hook 'yaml-mode-hook (lambda () (ansible))))
+  (use-package kubel :straight t)
+  (use-package dockerfile-mode :straight t :defer t)
+  (use-package ansible :straight t :defer t :init (add-hook 'yaml-mode-hook (lambda () (ansible))))
 #+END_SRC
 
 ** Benchmark startup time
