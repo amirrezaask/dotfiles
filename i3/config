@@ -106,15 +106,15 @@ bindsym $mod+a focus parent
 exec_always --no-startup-id setxkbmap -option caps:escape
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
-set $ws1 "1: Terminal"
-set $ws2 "2: Browser"
+set $ws1 "1: Browser"
+set $ws2 "2: Terminal"
 set $ws3 "3: Editor"
 set $ws4 "4: Music"
-set $ws5 "5: social"
+set $ws5 "5: Discord"
 set $ws6 "6: file manager"
 set $ws7 "7: Games"
-set $ws8 "8"
-set $ws9 "9"
+set $ws8 "8: RocketChat"
+set $ws9 "9: Movie"
 set $ws10 "10"
 # i3lock
 bindsym $mod+l exec i3lock 
@@ -123,9 +123,9 @@ bindsym $mod+l exec i3lock
 bindsym $mod+1 workspace $ws1
 bindsym $mod+2 workspace $ws2
 bindsym $mod+3 workspace $ws3
-bindsym $mod+q workspace $ws4
-bindsym $mod+w workspace $ws5
-bindsym $mod+e workspace $ws6
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
 bindsym $mod+7 workspace $ws7
 bindsym $mod+8 workspace $ws8
 bindsym $mod+9 workspace $ws9
@@ -189,7 +189,7 @@ bar {
 assign [class="Studio 3T"] $ws3
 assign [class="Rhythmbox"] $ws4
 assign [class="Spotify"] $sw4
-assign [class="vlc"] $ws4
+assign [class="vlc"] $ws9
 assign [class="X-terminal-emulator"] $ws1
 assign [class="Firefox"] $ws2
 assign [class="Google-chrome"] $ws2
@@ -207,7 +207,7 @@ assign [class="Terminator"] $ws1
 assign [class="Emacs"] $ws3
 assign [class="Chromium"] $ws2
 assign [class="Thunar"] $ws6
-assign [class="Rocket.Chat"] $ws5
+assign [class="Rocket.Chat"] $ws8
 assign [class="csgo_linux64"] $ws7
 # assign [class=""] $ws2
 # volume
@@ -229,12 +229,4 @@ exec_always setxkbmap -layout us,ir
 exec_always setxkbmap -layout us -option ctrl:nocaps
 exec_always setxkbmap -option 'grp:alt_shift_toggle'
 exec_always xrandr --output HDMI-1 --right-of eDP-1
-#compton for transparency
-exec --no-startup-id compton -b
-
-#Wallpaper
-# class        border  backgr. text indicator child_border
-client.focused #A6E22E #A6E22E #272822 #A074C4
-client.unfocused #1f2326 #1f2326 #AAAAAA #A074C4
-client.urgent #F92672 #F92672 #FFFFFF #DCCD69
 
