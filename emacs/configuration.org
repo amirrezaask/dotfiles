@@ -151,7 +151,7 @@
 #+END_SRC
 *** Swiper
 #+BEGIN_SRC emacs-lisp
-(use-package swiper :straight t :commands (swiper) :bind (("C-s" . swiper)))
+(use-package swiper :straight t :bind (("C-s" . swiper)))
 #+END_SRC
 *** Helpful for better helps
 #+BEGIN_SRC emacs-lisp
@@ -335,7 +335,9 @@ Provides fuzzy file search and so much more in a project (git repo)
    #+END_SRC
 *** PHP Setup
 #+BEGIN_SRC emacs-lisp
-(use-package php-mode :straight t :defer :init (add-hook 'php-mode-hook #'lsp))
+  (use-package php-mode :straight t :defer :init (add-hook 'php-mode-hook #'lsp))
+  (use-package phpunit :straight t :defer t
+    :bind (("C-c C-t t" . phpunit-current-test) ("C-c C-t c" . phpunit-current-class) ("C-c C-t p" . phpunit-current-project)))
 #+END_SRC
 *** Javascript/Typescript Setup
  #+BEGIN_SRC emacs-lisp
