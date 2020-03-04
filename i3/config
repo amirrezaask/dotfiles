@@ -108,13 +108,13 @@ exec_always --no-startup-id setxkbmap -option caps:escape
 # We use variables to avoid repeating the names in multiple places.
 set $ws1 "1: Firefox"
 set $ws2 "2: Terminal"
-set $ws3 "3: Emacs"
+set $ws3 "3: Editor"
 set $ws4 "4: Music"
-set $ws5 "5: Discord"
+set $ws5 "5: Chat"
 set $ws6 "6: file manager"
 set $ws7 "7: Games"
-set $ws8 "8: RocketChat"
-set $ws9 "9: Movie"
+set $ws8 "8: Movie"
+set $ws9 "9"
 set $ws10 "10"
 # i3lock
 bindsym $mod+l exec i3lock 
@@ -189,7 +189,7 @@ bar {
 assign [class="Studio 3T"] $ws3
 assign [class="Rhythmbox"] $ws4
 assign [class="Spotify"] $sw4
-assign [class="vlc"] $ws9
+assign [class="vlc"] $ws8
 assign [class="X-terminal-emulator"] $ws1
 assign [class="Firefox"] $ws1
 assign [class="Google-chrome"] $ws2
@@ -207,7 +207,7 @@ assign [class="Terminator"] $ws2
 assign [class="Emacs"] $ws3
 assign [class="Chromium"] $ws1
 assign [class="Thunar"] $ws6
-assign [class="Rocket.Chat"] $ws8
+assign [class="Rocket.Chat"] $ws5
 assign [class="csgo_linux64"] $ws7
 # assign [class=""] $ws2
 # volume

@@ -1,7 +1,7 @@
 * Amirreza Emacs Configuration
 ** Debug On error
 #+BEGIN_SRC emacs-lisp
-(setq debug-on-error -1)
+(setq debug-on-error 1)
 #+END_SRC
 ** My Personal Info
 #+BEGIN_SRC emacs-lisp
@@ -312,10 +312,10 @@ Provides fuzzy file search and so much more in a project (git repo)
 #+END_SRC
 ** Elixir Setup
 #+BEGIN_SRC emacs-lisp
-(use-package elixir-mode :straight t :defer t :mode "\\.exs?\\'" 
+(use-package elixir-mode :straight t :defer t :mode "\\.ex\\'" 
      :config 
      (message "Need to launch elixir language server manualy what a shame "))
-(use-package alchemist :straight t :defer t :mode "\\.exs?\\'")
+(use-package alchemist :straight t :defer t)
 #+END_SRC
 ** Rust Setup
 #+BEGIN_SRC emacs-lisp
@@ -328,22 +328,22 @@ Provides fuzzy file search and so much more in a project (git repo)
 (use-package parinfer :straight t :hook (emacs-lisp-mode . parinfer-mode))
 (use-package rainbow-delimiters :straight t :hook ((emacs-lisp-mode python-mode go-mode php-mode) . rainbow-delimiters-mode))
 #+END_SRC
-** Some webish stuff
-*** Web Mode
-   #+BEGIN_SRC emacs-lisp
-   (use-package web-mode :straight t :defer t :mode ("\\.html\\'" "\\.css\\'"))
-   #+END_SRC
-*** PHP Setup
+** PHP Setup
 #+BEGIN_SRC emacs-lisp
   (use-package php-mode :straight t :defer :init (add-hook 'php-mode-hook #'lsp))
   (use-package phpunit :straight t :defer t
     :bind (("C-c C-t t" . phpunit-current-test) ("C-c C-t c" . phpunit-current-class) ("C-c C-t p" . phpunit-current-project)))
 #+END_SRC
-*** Javascript/Typescript Setup
- #+BEGIN_SRC emacs-lisp
- (use-package js2-mode :straight t :defer t :hook js-mode)
- (use-package tide :straight t :defer t :mode "\\.ts\\'")
- #+END_SRC
+** Javascript/Typescript Setup
+#+BEGIN_SRC emacs-lisp
+(use-package js2-mode :straight t :defer t :hook js-mode)
+(use-package tide :straight t :defer t :mode "\\.ts\\'")
+#+END_SRC
+** Some webish stuff
+*** Web Mode
+   #+BEGIN_SRC emacs-lisp
+   (use-package web-mode :straight t :defer t :mode ("\\.html\\'" "\\.css\\'"))
+   #+END_SRC
 ** Devops Setup
 #+BEGIN_SRC emacs-lisp
   (use-package kubel :straight t)
