@@ -81,6 +81,10 @@
 (winner-mode 1)
 #+END_SRC
 ** Some UI Enhancements and Theme setup
+*** Disable GUI Pop Up
+#+BEGIN_SRC emacs-lisp
+(setq use-dialog-box nil)
+#+END_SRC
 *** Prettify Lisp codes
 #+BEGIN_SRC emacs-lisp
 (defconst lisp--prettify-symbols-alist
@@ -175,12 +179,6 @@
 	 ("C-h C" . helpful-command)))
 #+END_SRC
 ** Add support for various Markup languages
-*** Org related stuff
-#+BEGIN_SRC emacs-lisp
-(use-package org :ensure t :defer t)
-(use-package org-bullets :ensure t :defer t :init (lambda () (org-bullets-mode 1)))
-(use-package htmlize :ensure t :defer t)
-#+END_SRC
 *** Add Support for json, yaml and markdown
 #+BEGIN_SRC emacs-lisp
 (use-package json-mode :ensure t :mode "\\.json\\'"
@@ -188,6 +186,12 @@
   (add-hook 'before-save-hook 'json-mode-beautify))
 (use-package markdown-mode :ensure t :mode "\\.md\\'")
 (use-package yaml-mode :ensure t :mode "\\.ya?ml\\'")
+#+END_SRC
+** Org mode  
+#+BEGIN_SRC emacs-lisp
+(use-package org :ensure t :defer t)
+(use-package org-bullets :ensure t :defer t :commands (org-bullets-mode) :init (add-hook 'org-mode-hook #'org-bullets-mode))
+(use-package htmlize :ensure t :defer t)
 #+END_SRC
 ** Make Emacs best editor possible
 #+BEGIN_SRC emacs-lisp
@@ -356,4 +360,8 @@ Provides fuzzy file search and so much more in a project (git repo)
 ** Benchmark startup time
 #+BEGIN_SRC emacs-lisp
 (message "Startup Time %f" (- (float-time) start))
+#+END_SRC
+** Open my TODO file
+#+BEGIN_SRC emacs-lisp
+(find-file "~/.TODO.org")
 #+END_SRC
