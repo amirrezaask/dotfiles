@@ -106,9 +106,9 @@ bindsym $mod+a focus parent
 exec_always --no-startup-id setxkbmap -option caps:escape
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
-set $ws1 "1: Browser"
+set $ws1 "1: Firefox"
 set $ws2 "2: Terminal"
-set $ws3 "3: Editor"
+set $ws3 "3: Emacs"
 set $ws4 "4: Music"
 set $ws5 "5: Discord"
 set $ws6 "6: file manager"
