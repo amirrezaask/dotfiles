@@ -151,7 +151,7 @@
 #+END_SRC
 *** Swiper
 #+BEGIN_SRC emacs-lisp
-(use-package swiper :straight t :bind (("C-s" . swiper)))
+  (use-package swiper :straight t :init (global-set-key (kbd "C-s") 'swiper)
 #+END_SRC
 *** Helpful for better helps
 #+BEGIN_SRC emacs-lisp
