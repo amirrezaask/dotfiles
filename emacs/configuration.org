@@ -109,6 +109,7 @@
 (global-prettify-symbols-mode 1)
 #+END_SRC
 *** Font setup
+
 #+BEGIN_SRC emacs-lisp
 (defvar font-family "Jetbrains Mono" "Font to use for Emacs.")
 (defvar font-size 11 "Font size for Emacs.")
@@ -135,7 +136,13 @@
 #+BEGIN_SRC emacs-lisp
 (use-package emojify :straight t :config (emojify-mode 1))
 #+END_SRC
+*** All the icons  
+    #+BEGIN_SRC emacs-lisp
+    (use-package all-the-icons :straight t)
+    (use-package all-the-icons-dired :straight t :hook dired-mode)
+    #+END_SRC
 *** Doom modeline
+
 #+BEGIN_SRC emacs-lisp
 (use-package doom-modeline :straight t :init (doom-modeline-mode 1))
 
@@ -151,7 +158,7 @@
 #+END_SRC
 *** Swiper
 #+BEGIN_SRC emacs-lisp
-  (use-package swiper :straight t :init (global-set-key (kbd "C-s") 'swiper)
+  (use-package swiper :straight t :init (global-set-key (kbd "C-s") 'swiper))
 #+END_SRC
 *** Helpful for better helps
 #+BEGIN_SRC emacs-lisp
@@ -261,7 +268,6 @@ Provides fuzzy file search and so much more in a project (git repo)
   (global-company-mode))
 #+END_SRC
 *** Engine Mode
-
 **** A must have mode for every developer on the planet
 #+BEGIN_SRC emacs-lisp
 (use-package engine-mode :straight t :config (engine-mode t))
@@ -312,9 +318,7 @@ Provides fuzzy file search and so much more in a project (git repo)
 #+END_SRC
 ** Elixir Setup
 #+BEGIN_SRC emacs-lisp
-(use-package elixir-mode :straight t :defer t :mode "\\.ex\\'" 
-     :config 
-     (message "Need to launch elixir language server manualy what a shame "))
+(use-package elixir-mode :straight t :defer t :mode "\\.ex\\'")
 (use-package alchemist :straight t :defer t)
 #+END_SRC
 ** Rust Setup
