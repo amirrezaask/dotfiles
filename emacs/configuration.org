@@ -151,7 +151,7 @@
 *** All the icons  
     #+BEGIN_SRC emacs-lisp
     (use-package all-the-icons :straight t)
-    (use-package all-the-icons-dired :straight t :hook dired-mode)
+    (use-package all-the-icons-dired :straight t :hook (dired-mode . all-the-icons-dired-mode))
     #+END_SRC
 *** Doom modeline
 
@@ -160,16 +160,10 @@
 
 #+END_SRC
 ** Enhance Emacs internals
-*** IDO
+*** Ivy
 #+BEGIN_SRC emacs-lisp
-(use-package ido-vertical-mode :straight t :config (ido-mode 1) (ido-vertical-mode 1) (setq ido-vertical-define-keys 'C-n-and-C-p-only))
-#+END_SRC
-*** Smex (Better M-x)
-#+BEGIN_SRC emacs-lisp
-(use-package smex :straight t :bind (("M-x" . smex)))
-#+END_SRC
-*** Swiper
-#+BEGIN_SRC emacs-lisp
+  (use-package ivy :straight t :bind (("C-x b" . ivy-switch-buffer)))
+  (use-package counsel :straight t :bind (("M-x" . counsel-M-x) ("C-x C-f" . counsel-find-file)))
   (use-package swiper :straight t :init (global-set-key (kbd "C-s") 'swiper))
 #+END_SRC
 *** Helpful for better helps
@@ -220,10 +214,16 @@
 #+BEGIN_SRC emacs-lisp
 (use-package which-key :straight t :init (setq echo-keystrokes 0.3) :config (which-key-mode 1))
 #+END_SRC
-# *** Help us a lot when using Vi Text Objects and motions
-# #+BEGIN_SRC emacs-lisp
-# ;; (use-package linum-relative :ensure t :config (linum-relative-mode))
-# #+END_SRC
+*** Let's have Vi as well
+#+BEGIN_SRC emacs-lisp
+  (use-package evil :straight t :hook (after-init . evil-mode))
+
+#+END_SRC
+*** Help us a lot when using Vi Text Objects and motions
+
+#+BEGIN_SRC emacs-lisp
+(use-package linum-relative :straight t :config (linum-relative-mode))
+#+END_SRC
 
 ** IDE stuff
 *** Auto Insert File Header
@@ -351,9 +351,12 @@ Provides fuzzy file search and so much more in a project (git repo)
   (use-package phpunit :straight t :defer t
     :bind (("C-c C-t t" . phpunit-current-test) ("C-c C-t c" . phpunit-current-class) ("C-c C-t p" . phpunit-current-project)))
 #+END_SRC
-** Javascript/Typescript Setup
+** Javascript Setup
 #+BEGIN_SRC emacs-lisp
 (use-package js2-mode :straight t :defer t :hook js-mode)
+#+END_SRC
+** Typescript Setup
+#+BEGIN_SRC emacs-lisp
 (use-package tide :straight t :defer t :mode "\\.ts\\'")
 #+END_SRC
 ** Some webish stuff
