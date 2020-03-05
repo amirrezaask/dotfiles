@@ -120,17 +120,27 @@
 #+END_SRC
 *** Themes Setup
 #+BEGIN_SRC emacs-lisp
+  (setq custom-safe-themes t)
   (use-package dracula-theme :straight t :defer t)
   (use-package solarized-theme :straight t :defer t)
   (use-package spacemacs-theme :straight t :defer t)
   (use-package doom-themes :straight t :defer t)
+  (defvar dark-theme 'doom-one "Default dark theme to use")
+  (defvar light-theme 'doom-one-light "Default light theme to use")
 
-  (defun light-it-up ()
-    "Light the IDE up."
+  (defun light-mode ()
+    "Light it up."
     (interactive)
-    (load-theme 'spacemacs-light t))
+    (load-theme light-theme t))
+  (defun dark-mode ()
+    "Ascend to darkness"
+    (interactive)
+    (load-theme dark-theme t))
 
-  (load-theme 'doom-one t)
+  (global-set-key (kbd "C-x l") 'light-mode)
+  (global-set-key (kbd "C-x d") 'dark-mode)
+  ;; (light-mode)
+  (dark-mode)
 #+END_SRC
 *** Show emojis
 #+BEGIN_SRC emacs-lisp
