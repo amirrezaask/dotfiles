@@ -292,7 +292,6 @@ Provides fuzzy file search and so much more in a project (git repo)
 (defengine github
  "https://github.com/search?ref=simplesearch&q=%s")
 #+END_SRC
-
 ** Go setup
 #+BEGIN_SRC emacs-lisp
   (use-package go-mode
