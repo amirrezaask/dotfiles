@@ -201,10 +201,11 @@
 ** Keybindings
 *** Some better keybindings for emacs internal actions
 #+BEGIN_SRC emacs-lisp
-(global-set-key (kbd "C-s") 'isearch-forward-regexp)
-(global-set-key (kbd "C-r") 'isearch-backward-regexp)
-(global-set-key (kbd "C-x -") 'split-window-vertically)
-(global-set-key (kbd "C-x '") 'split-window-horizontally)
+  (global-set-key (kbd "C-r") 'isearch-backward-regexp)
+  (global-set-key (kbd "A-<down>") 'enlarge-window)
+  (global-set-key (kbd "A-<up>") 'shrink-window)
+  (global-set-key (kbd "A-<left>") 'enlarge-window-horizontally)
+  (global-set-key (kbd "A-<right>") 'shrink-window-horizontally)
 #+END_SRC
 # *** Vi is great editor so let's have that as well ...
 # #+BEGIN_SRC emacs-lisp
@@ -216,7 +217,7 @@
 #+END_SRC
 *** Let's have Vi as well
 #+BEGIN_SRC emacs-lisp
-  (use-package evil :straight t :hook (after-init . evil-mode))
+  (use-package evil :straight t :config (evil-set-initial-state 'dired-mode 'emacs)  :hook (after-init . evil-mode))
 
 #+END_SRC
 *** Help us a lot when using Vi Text Objects and motions
@@ -240,12 +241,6 @@
 *** Debugger Support
 #+BEGIN_SRC emacs-lisp
 (use-package dap-mode :straight t :defer t :hook ((go-mode python-mode php-mode) . dap-mode))
-#+END_SRC
-*** Code Folding
-#+BEGIN_SRC emacs-lisp
-  (use-package dash :straight t :defer t)
-  (use-package s :straight t :defer t)
-  (use-package origami :straight t :defer t)
 #+END_SRC
 *** Version Controll
 #+BEGIN_SRC emacs-lisp
