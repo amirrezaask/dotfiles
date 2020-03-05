@@ -109,7 +109,7 @@
 (global-prettify-symbols-mode 1)
 #+END_SRC
 *** Font setup
-
+    
 #+BEGIN_SRC emacs-lisp
 (defvar font-family "Jetbrains Mono" "Font to use for Emacs.")
 (defvar font-size 11 "Font size for Emacs.")
@@ -216,7 +216,7 @@
 # #+END_SRC
 *** Which key helps us when we only remember part of a keybinding
 #+BEGIN_SRC emacs-lisp
-(use-package which-key :straight t :config (which-key-mode 1))
+(use-package which-key :straight t :init (setq echo-keystrokes 0.3) :config (which-key-mode 1))
 #+END_SRC
 # *** Help us a lot when using Vi Text Objects and motions
 # #+BEGIN_SRC emacs-lisp
@@ -247,7 +247,7 @@
 #+END_SRC
 *** Git wrapper
 #+BEGIN_SRC emacs-lisp
-(use-package magit :straight t :defer t)
+  (use-package magit :straight t :commands (magit-status) :bind (("C-x g" . magit-status)))
 #+END_SRC
 *** Language Server protocol Support
 #+BEGIN_SRC emacs-lisp
