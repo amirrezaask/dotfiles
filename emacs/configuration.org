@@ -160,11 +160,13 @@
 
 #+END_SRC
 ** Enhance Emacs internals
-*** Ivy
+*** Helm
 #+BEGIN_SRC emacs-lisp
-  (use-package ivy :straight t :bind (("C-x b" . ivy-switch-buffer)))
-  (use-package counsel :straight t :bind (("M-x" . counsel-M-x) ("C-x C-f" . counsel-find-file)))
-  (use-package swiper :straight t :init (global-set-key (kbd "C-s") 'swiper))
+(use-package helm :straight t
+ :init (setq helm-buffers-fuzzy-matching t
+      helm-recentf-fuzzy-match t)
+ :config (helm-mode 1)
+ :bind (("M-x" . helm-M-x) ("C-x C-f" . helm-find-files) ("C-x b" . helm-mini)))
 #+END_SRC
 *** Helpful for better helps
 #+BEGIN_SRC emacs-lisp
@@ -175,28 +177,10 @@
 	   ("C-h F" . helpful-function)
 	   ("C-h C" . helpful-command)))
 #+END_SRC
-** Add support for various Markup languages
-*** Add Support for json, yaml and markdown
-#+BEGIN_SRC emacs-lisp
-(use-package json-mode :straight t :mode "\\.json\\'"
-  :config
-  (add-hook 'before-save-hook 'json-mode-beautify))
-(use-package markdown-mode :straight t :mode "\\.md\\'")
-(use-package yaml-mode :straight t :mode "\\.ya?ml\\'")
-#+END_SRC
 ** Org mode
 #+BEGIN_SRC emacs-lisp
   (use-package org-bullets :straight t :defer t :commands (org-bullets-mode) :init (add-hook 'org-mode-hook #'org-bullets-mode))
   (use-package htmlize :straight t :defer t)
-#+END_SRC
-** Make Emacs best editor possible
-#+BEGIN_SRC emacs-lisp
-  (use-package highlight-indent-guides :straight t 
-      :hook
-      ((prog-mode yaml-mode json-mode) . highlight-indent-guides-mode) 
-      :init
-      (setq highlight-indent-guides-method 'character)
-      (setq highlight-indent-guides-character ?\|))
 #+END_SRC
 ** Keybindings
 *** Some better keybindings for emacs internal actions
@@ -215,16 +199,24 @@
 #+BEGIN_SRC emacs-lisp
 (use-package which-key :straight t :init (setq echo-keystrokes 0.3) :config (which-key-mode 1))
 #+END_SRC
-*** Let's have Vi as well
+** Editor setup
+*** Add Support for json, yaml and markdown
 #+BEGIN_SRC emacs-lisp
-  (use-package evil :straight t :config (evil-set-initial-state 'dired-mode 'emacs)  :hook (after-init . evil-mode))
-
+(use-package json-mode :straight t :mode "\\.json\\'"
+  :config
+  (add-hook 'before-save-hook 'json-mode-beautify))
+(use-package markdown-mode :straight t :mode "\\.md\\'")
+(use-package yaml-mode :straight t :mode "\\.ya?ml\\'")
 #+END_SRC
-*** Help us a lot when using Vi Text Objects and motions
-
-#+BEGIN_SRC emacs-lisp
-(use-package linum-relative :straight t :config (linum-relative-mode))
-#+END_SRC
+*** Highlight indentations
+ #+BEGIN_SRC emacs-lisp
+   (use-package highlight-indent-guides :straight t 
+       :hook
+       ((prog-mode yaml-mode json-mode) . highlight-indent-guides-mode) 
+       :init
+       (setq highlight-indent-guides-method 'character)
+       (setq highlight-indent-guides-character ?\|))
+ #+END_SRC
 
 ** IDE stuff
 *** Auto Insert File Header
@@ -365,6 +357,13 @@ Provides fuzzy file search and so much more in a project (git repo)
   (use-package ansible :straight t :defer t :init (add-hook 'yaml-mode-hook (lambda () (ansible))))
 #+END_SRC
 
+** Database Client
+*** truncate lines in SQL mode
+#+BEGIN_SRC emacs-lisp
+(add-hook 'sql-interactive-mode-hook
+          (lambda ()
+            (toggle-truncate-lines t)))
+#+END_SRC
 ** Benchmark startup time
 #+BEGIN_SRC emacs-lisp
 (message "Startup Time %f" (- (float-time) start))

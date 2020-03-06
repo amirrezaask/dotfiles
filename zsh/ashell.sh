@@ -1,3 +1,4 @@
+#!/bin/bash
 # Contains all my general shell vars and configs
 reload_ashell() {
 	source ~/.ashell
