@@ -1,5 +1,6 @@
 # Emacs Config
 Minimal Emacs config for almighty emacsians.
+[Configuration](https://github.com/amirrezaask/dotfiles/blob/master/emacs/configuration.org)
 # Installation
 ```bash 
 git clone https://github.com/amirrezaask/dotfiles

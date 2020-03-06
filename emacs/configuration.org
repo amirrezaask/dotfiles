@@ -1,4 +1,4 @@
-* Amirreza Emacs Configuration
+* Amirreza Emacs Ditribution
 ** Debug On error
 #+BEGIN_SRC emacs-lisp
 (setq debug-on-error 1)
@@ -162,11 +162,17 @@
 ** Enhance Emacs internals
 *** Helm
 #+BEGIN_SRC emacs-lisp
-(use-package helm :straight t
- :init (setq helm-buffers-fuzzy-matching t
-      helm-recentf-fuzzy-match t)
- :config (helm-mode 1)
- :bind (("M-x" . helm-M-x) ("C-x C-f" . helm-find-files) ("C-x b" . helm-mini)))
+  (use-package helm :straight t
+   :init (setq helm-buffers-fuzzy-matching t
+	helm-recentf-fuzzy-match t)
+   :config (helm-mode 1)
+   :bind* (:map helm-map
+	  ("M-x" . helm-M-x)
+	  ("C-x C-f" . helm-find-files)
+	  ("C-x b" . helm-mini)
+	  ("TAB" . #'helm-execute-persistent-action)
+	  ("<tab>" . #'helm-execute-persistent-action)
+	  ("C-z". #'helm-select-action)))
 #+END_SRC
 *** Helpful for better helps
 #+BEGIN_SRC emacs-lisp
