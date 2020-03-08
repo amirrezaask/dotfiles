@@ -72,7 +72,7 @@
 (scroll-bar-mode 0) ;; turn off emacs GUI scrollbar
 (menu-bar-mode 0) ;; turn emacs GUI menubar
 #+END_SRC
-*** Define alias for emacs question 
+*** Define alias for emacs question
 #+BEGIN_SRC emacs-lisp
 (defalias 'yes-or-no-p 'y-or-n-p) ;; instead of yes-or-no ask y-or-no, only for convinience
 #+END_SRC
@@ -152,10 +152,14 @@
 
 #+END_SRC
 ** Enhance Emacs internals
+*** IDO
+#+BEGIN_SRC emacs-lisp
+(use-package ido-vertical-mode :straight t :config (ido-mode 1) (ido-vertical-mode 1) (setq ido-vertical-define-keys 'C-n-and-C-p-only))
+#+END_SRC
 *** Ivy
 #+BEGIN_SRC emacs-lisp
 (use-package ivy :straight t :bind (("C-x b" . ivy-switch-buffer)))
-(use-package counsel :straight t :bind (("M-x" . counsel-M-x) ("C-x C-f" . counsel-find-file)))
+(use-package counsel :straight t :bind (("M-x" . counsel-M-x)))
 (use-package swiper :straight t :bind (("C-s" . swiper)))
 #+END_SRC
 *** Helpful for better helps
@@ -173,9 +177,9 @@
   (use-package htmlize :straight t :defer t)
 #+END_SRC
 ** Keybindings
-*** Askeys (Personal keybinding mode for Emacs) 
+*** Askeys (Personal keybinding mode for Emacs)
 #+BEGIN_SRC emacs-lisp
-(use-package askeys.el :straight (askeys.el :type git :host github :repo "amirrezaask/askeys.el"))
+(use-package askeys.el :straight (askeys.el :type git :host github :repo "amirrezaask/askeys.el") :config (global-askeys-mode 1))
 #+END_SRC
 *** Some better keybindings for emacs internal actions
 #+BEGIN_SRC emacs-lisp
@@ -202,16 +206,19 @@
 (use-package markdown-mode :straight t :mode "\\.md\\'")
 (use-package yaml-mode :straight t :mode "\\.ya?ml\\'")
 #+END_SRC
-*** Highlight indentations
- #+BEGIN_SRC emacs-lisp
-   (use-package highlight-indent-guides :straight t 
-       :hook
-       ((prog-mode yaml-mode json-mode) . highlight-indent-guides-mode) 
-       :init
-       (setq highlight-indent-guides-method 'character)
-       (setq highlight-indent-guides-character ?\|))
- #+END_SRC
-
+*** Whitespace mode
+#+BEGIN_SRC emacs-lisp
+  (use-package whitespace :hook ((prog-mode text-mode) . whitespace-mode)
+    :init
+	   (setq whitespace-style (quote (face spaces tabs newline space-mark tab-mark newline-mark )))
+	   (setq whitespace-display-mappings
+	  '(
+	    (space-mark 32 [183] [46])
+	    (newline-mark 10 [182 10])
+	    (tab-mark 9 [9655 9] [92 9])
+	    ))
+	   )
+#+END_SRC
 ** IDE stuff
 *** Auto Insert File Header
 #+BEGIN_SRC emacs-lisp
