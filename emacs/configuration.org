@@ -136,30 +136,10 @@
 #+BEGIN_SRC emacs-lisp
 (use-package emojify :straight t :config (emojify-mode 1))
 #+END_SRC
-** Enhance Emacs internals
-*** Helm 
+** Ivy
 #+BEGIN_SRC emacs-lisp
-  (use-package helm :straight t
-    :init (setq helm-buffers-fuzzy-matching t
-	 helm-recentf-fuzzy-match t)
-    :config (helm-mode 1)
-    :bind (("M-x" . helm-M-x)
-	   ("C-x C-f" . helm-find-files)
-	   ("C-x b" . helm-mini)
-	   ("C-s" . helm-occur))
-    :bind* (:map helm-map
-	   ("TAB" . #'helm-execute-persistent-action)
-	   ("<tab>" . #'helm-execute-persistent-action)
-	   ("C-z". #'helm-select-action)))
-#+END_SRC
-*** Helpful for better helps
-#+BEGIN_SRC emacs-lisp
-  (use-package helpful  :straight t
-    :bind (("C-h f" . helpful-callable)
-	   ("C-h v" . helpful-variable)
-	   ("C-h k" . helpful-key)
-	   ("C-h F" . helpful-function)
-	   ("C-h C" . helpful-command)))
+  (use-package swiper :straight t :bind (("C-s" . swiper)))
+  (use-package counsel :straight t :bind (("M-x" . counsel-M-x) ("C-x C-f" . counsel-find-file)))
 #+END_SRC
 ** Org mode
 #+BEGIN_SRC emacs-lisp
@@ -167,35 +147,25 @@
   (use-package htmlize :straight t :defer t)
 #+END_SRC
 ** Keybindings
-*** Evil mode And SPC leader keys
+*** Some shorter keychords for most used functions
 #+BEGIN_SRC emacs-lisp
-  (use-package evil :straight t :config (evil-mode 1))
-
-  (use-package general :straight t 
-    :config
-    (general-define-key
-     :states '(normal visual insert emacs)
-     :prefix "SPC"
-     :non-normal-prefix "C-SPC"
-      "f f" 'helm-find-files
-      "SPC" 'helm-M-x
-      "b l" 'helm-mini
-      "b k" 'kill-buffer
-      "b s" 'save-buffer
-      "w o" 'other-window
-      "w c" 'delete-window
-      "s v" 'split-window-vertically
-      "s h" 'split-window-horizontally
-      "b k" 'kill-buffer
-      "s s" 'swiper
-      "e e" 'eval-last-sexp
-      "e b" 'eval-buffer
-      "l c" 'comment-line
-      "d k" 'describe-key
-      "d f" 'describe-function
-      "d v" 'describe-variable
-      "g s" 'magit-status
-  ))
+  (global-set-key (kbd "C-o") 'other-window)
+  (global-set-key (kbd "C-1") 'delete-other-windows)
+  (global-set-key (kbd "C-2") 'split-window-below)
+  (global-set-key (kbd "C-3") 'split-window-right)
+  ;; (define-key input-decode-map (kbd "C-i") (kbd "H-i"))
+  ;; (global-set-key (kbd "H-i") 'previous-line)
+  ;; (global-set-key (kbd "C-k") 'next-line)
+  ;; (global-set-key (kbd "C-l") 'right-char)
+  ;; (global-set-key (kbd "C-j") 'left-char)
+  ;; (global-set-key (kbd "M-i") 'backward-sexp)
+  ;; (global-set-key (kbd "M-k") 'forward-sexp)
+  ;; (global-set-key (kbd "M-l") 'forward-word)
+  ;;  (global-set-key (kbd "M-j") 'backward-word) 
+#+END_SRC
+*** Guru Mode ( Only emacs shall remain )
+#+BEGIN_SRC emacs-lisp
+(use-package guru-mode :straight t :config (guru-global-mode 1))
 #+END_SRC
 *** Which key helps us when we only remember part of a keybinding
 #+BEGIN_SRC emacs-lisp
@@ -285,7 +255,6 @@
 *** Python Mode 
 #+BEGIN_SRC emacs-lisp
 (use-package python-mode
-  :straight t
   :defer t
   :mode "\\.py\\'"
   :config
@@ -342,7 +311,7 @@
 #+BEGIN_SRC emacs-lisp
   (use-package kubel :straight t :commands (kubel))
   (use-package dockerfile-mode :straight t :defer t :mode "Dockerfile")
-  (use-package ansible :straight t :defer t :init (add-hook 'yaml-mode-hook (lambda () (ansible))))
+  (use-package ansible :defer t :init (add-hook 'yaml-mode-hook (lambda () (ansible))))
 #+END_SRC
 
 ** Database Client
