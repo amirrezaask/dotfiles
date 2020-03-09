@@ -136,27 +136,21 @@
 #+BEGIN_SRC emacs-lisp
 (use-package emojify :straight t :config (emojify-mode 1))
 #+END_SRC
-*** Doom modeline
-
-#+BEGIN_SRC emacs-lisp
-(use-package doom-modeline :straight t :init (doom-modeline-mode 1))
-
-#+END_SRC
 ** Enhance Emacs internals
 *** Helm 
 #+BEGIN_SRC emacs-lisp
- (use-package helm :straight t
-   :init (setq helm-buffers-fuzzy-matching t
-	helm-recentf-fuzzy-match t)
-   :config (helm-mode 1)
-   :bind* (:map helm-map
-	  ("M-x" . helm-M-x)
-	  ("C-x C-f" . helm-find-files)
-	  ("C-x b" . helm-mini)
-	  ("TAB" . #'helm-execute-persistent-action)
-	  ("<tab>" . #'helm-execute-persistent-action)
-	  ("C-z". #'helm-select-action)))
-
+  (use-package helm :straight t
+    :init (setq helm-buffers-fuzzy-matching t
+	 helm-recentf-fuzzy-match t)
+    :config (helm-mode 1)
+    :bind (("M-x" . helm-M-x)
+	   ("C-x C-f" . helm-find-files)
+	   ("C-x b" . helm-mini)
+	   ("C-s" . helm-occur))
+    :bind* (:map helm-map
+	   ("TAB" . #'helm-execute-persistent-action)
+	   ("<tab>" . #'helm-execute-persistent-action)
+	   ("C-z". #'helm-select-action)))
 #+END_SRC
 *** Helpful for better helps
 #+BEGIN_SRC emacs-lisp
@@ -173,22 +167,6 @@
   (use-package htmlize :straight t :defer t)
 #+END_SRC
 ** Keybindings
-*** Askeys (Personal keybinding mode for Emacs)
-#+BEGIN_SRC emacs-lisp
-(use-package askeys.el :straight (askeys.el :type git :host github :repo "amirrezaask/askeys.el") :config (global-askeys-mode 1))
-#+END_SRC
-*** Some better keybindings for emacs internal actions
-#+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "C-r") 'isearch-backward-regexp)
-  (global-set-key (kbd "A-<down>") 'enlarge-window)
-  (global-set-key (kbd "A-<up>") 'shrink-window)
-  (global-set-key (kbd "A-<left>") 'enlarge-window-horizontally)
-  (global-set-key (kbd "A-<right>") 'shrink-window-horizontally)
-#+END_SRC
-# *** Vi is great editor so let's have that as well ...
-# #+BEGIN_SRC emacs-lisp
-# (use-package evil :ensure t :config (evil-mode t)) ;; Only for editing.
-# #+END_SRC
 *** Which key helps us when we only remember part of a keybinding
 #+BEGIN_SRC emacs-lisp
 (use-package which-key :straight t :init (setq echo-keystrokes 0.3) :config (which-key-mode 1))
@@ -283,6 +261,14 @@
   :config
   (add-to-list 'exec-path (concat (getenv "HOME") "/.local/bin"))
   (lsp))
+#+END_SRC
+*** Pyhon Language Server
+#+BEGIN_SRC emacs-lisp
+(use-package lsp-python-ms
+  :straight t
+  :hook (python-mode . (lambda ()
+                          (require 'lsp-python-ms)
+                          (lsp)))) 
 #+END_SRC
 *** Autopep8 formatting
 #+BEGIN_SRC emacs-lisp
