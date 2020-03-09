@@ -85,10 +85,6 @@
 #+BEGIN_SRC emacs-lisp
 (setq confirm-kill-emacs 'y-or-n-p)
 #+END_SRC
-*** Winner mode for better undo/redo
-#+BEGIN_SRC emacs-lisp
-(winner-mode 1)
-#+END_SRC
 ** Some UI Enhancements and Theme setup
 *** Disable GUI Pop Up
 #+BEGIN_SRC emacs-lisp
@@ -140,11 +136,6 @@
 #+BEGIN_SRC emacs-lisp
 (use-package emojify :straight t :config (emojify-mode 1))
 #+END_SRC
-*** All the icons  
-    #+BEGIN_SRC emacs-lisp
-    (use-package all-the-icons :straight t)
-    (use-package all-the-icons-dired :straight t :hook (dired-mode . all-the-icons-dired-mode))
-    #+END_SRC
 *** Doom modeline
 
 #+BEGIN_SRC emacs-lisp
@@ -250,19 +241,6 @@
 (use-package lsp-mode :straight t :defer t)
 (use-package lsp-ui :straight t :defer t)
 #+END_SRC
-*** Projectile 
-Provides fuzzy file search and so much more in a project (git repo)
-#+BEGIN_SRC emacs-lisp
-(use-package projectile
-  :straight t
-  :config
-  (projectile-mode)
-  (setq-default projectile-mode-line
-   '(:eval
-     (if (file-remote-p default-directory)
-	 " Proj"
-       (format " Proj[%s]" (projectile-project-name))))))
-#+END_SRC
 *** Completion Framework
 #+BEGIN_SRC emacs-lisp
 (use-package company-lsp :straight t :defer t)
@@ -272,18 +250,6 @@ Provides fuzzy file search and so much more in a project (git repo)
   (setq company-idle-delay .1)
   (setq company-echo-delay 0)
   (global-company-mode))
-#+END_SRC
-*** Engine Mode
-**** A must have mode for every developer on the planet
-#+BEGIN_SRC emacs-lisp
-(use-package engine-mode :straight t :config (engine-mode t))
-#+END_SRC
-**** defining engines
-#+BEGIN_SRC emacs-lisp
-(defengine stackoverflow
- "https://stackoverflow.com/search?q=%s")
-(defengine github
- "https://github.com/search?ref=simplesearch&q=%s")
 #+END_SRC
 ** Go setup
 #+BEGIN_SRC emacs-lisp
