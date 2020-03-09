@@ -152,15 +152,20 @@
 
 #+END_SRC
 ** Enhance Emacs internals
-*** IDO
+*** Helm 
 #+BEGIN_SRC emacs-lisp
-(use-package ido-vertical-mode :straight t :config (ido-mode 1) (ido-vertical-mode 1) (setq ido-vertical-define-keys 'C-n-and-C-p-only))
-#+END_SRC
-*** Ivy
-#+BEGIN_SRC emacs-lisp
-(use-package ivy :straight t :bind (("C-x b" . ivy-switch-buffer)))
-(use-package counsel :straight t :bind (("M-x" . counsel-M-x)))
-(use-package swiper :straight t :bind (("C-s" . swiper)))
+ (use-package helm :straight t
+   :init (setq helm-buffers-fuzzy-matching t
+	helm-recentf-fuzzy-match t)
+   :config (helm-mode 1)
+   :bind* (:map helm-map
+	  ("M-x" . helm-M-x)
+	  ("C-x C-f" . helm-find-files)
+	  ("C-x b" . helm-mini)
+	  ("TAB" . #'helm-execute-persistent-action)
+	  ("<tab>" . #'helm-execute-persistent-action)
+	  ("C-z". #'helm-select-action)))
+
 #+END_SRC
 *** Helpful for better helps
 #+BEGIN_SRC emacs-lisp
