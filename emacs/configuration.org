@@ -17,31 +17,16 @@
 *** Setup Emacs Package manager and add repos
 #+BEGIN_SRC emacs-lisp
 (require 'package)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (package-initialize) ;; initialize emacs built-in package manager
-(setq package-archives '(;; ("org"       . "http://orgmode.org/elpa/")
-			 ("gnu"       . "http://elpa.gnu.org/packages/")
-			 ("melpa"     . "https://melpa.org/packages/")
-			 ("marmalade" . "http://marmalade-repo.org/packages/")))
+(when (not package-archive-contents)
+    (package-refresh-contents))
+
 #+END_SRC
 
-*** Bootstrap Straight.el
-#+BEGIN_SRC emacs-lisp
-(defvar bootstrap-version)
-(let ((bootstrap-file
-       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-      (bootstrap-version 5))
-  (unless (file-exists-p bootstrap-file)
-    (with-current-buffer
-        (url-retrieve-synchronously
-         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
-         'silent 'inhibit-cookies)
-      (goto-char (point-max))
-      (eval-print-last-sexp)))
-  (load bootstrap-file nil 'nomessage))
-#+END_SRC
 *** Install use-package
 #+BEGIN_SRC emacs-lisp
-  (straight-use-package 'use-package)
+  (package-install 'use-package)
   (setq use-package-always-ensure t)
 #+END_SRC
 ** Some Basic Emacs setup
@@ -109,10 +94,10 @@
 *** Themes Setup
 #+BEGIN_SRC emacs-lisp
   (setq custom-safe-themes t)
-  (use-package dracula-theme :straight t :defer t)
-  (use-package solarized-theme :straight t :defer t)
-  (use-package spacemacs-theme :straight t :defer t)
-  (use-package doom-themes :straight t :defer t)
+  (use-package dracula-theme  :defer t)
+  (use-package solarized-theme  :defer t)
+  (use-package spacemacs-theme  :defer t)
+  (use-package doom-themes  :defer t)
   (defvar dark-theme 'doom-one "Default dark theme to use")
   (defvar light-theme 'doom-one-light "Default light theme to use")
   (defvar current-mode 0 "Current mode 0=> dark 1=>light")
@@ -134,17 +119,17 @@
 #+END_SRC
 *** Show emojis
 #+BEGIN_SRC emacs-lisp
-(use-package emojify :straight t :config (emojify-mode 1))
+(use-package emojify  :config (emojify-mode 1))
 #+END_SRC
 ** Ivy
 #+BEGIN_SRC emacs-lisp
-  (use-package swiper :straight t :bind (("C-s" . swiper)))
-  (use-package counsel :straight t :bind (("M-x" . counsel-M-x) ("C-x C-f" . counsel-find-file) ("C-x b" . ivy-switch-buffer)))
+  (use-package swiper  :bind (("C-s" . swiper)))
+  (use-package counsel  :bind (("M-x" . counsel-M-x) ("C-x C-f" . counsel-find-file) ("C-x b" . ivy-switch-buffer)))
 #+END_SRC
 ** Org mode
 #+BEGIN_SRC emacs-lisp
-  (use-package org-bullets :straight t :defer t :commands (org-bullets-mode) :init (add-hook 'org-mode-hook #'org-bullets-mode))
-  (use-package htmlize :straight t :defer t)
+  (use-package org-bullets  :defer t :commands (org-bullets-mode) :init (add-hook 'org-mode-hook #'org-bullets-mode))
+  (use-package htmlize  :defer t)
 #+END_SRC
 ** Keybindings
 *** Some shorter keychords for most used functions
@@ -166,20 +151,20 @@
 #+END_SRC
 *** Guru Mode ( Only emacs shall remain )
 #+BEGIN_SRC emacs-lisp
-(use-package guru-mode :straight t :config (guru-global-mode 1))
+(use-package guru-mode  :config (guru-global-mode 1))
 #+END_SRC
 *** Which key helps us when we only remember part of a keybinding
 #+BEGIN_SRC emacs-lisp
-(use-package which-key :straight t :init (setq echo-keystrokes 0.3) :config (which-key-mode 1))
+(use-package which-key  :init (setq echo-keystrokes 0.3) :config (which-key-mode 1))
 #+END_SRC
 ** Editor setup
 *** Add Support for json, yaml and markdown
 #+BEGIN_SRC emacs-lisp
-(use-package json-mode :straight t :mode "\\.json\\'"
+(use-package json-mode  :mode "\\.json\\'"
   :config
   (add-hook 'before-save-hook 'json-mode-beautify))
-(use-package markdown-mode :straight t :mode "\\.md\\'")
-(use-package yaml-mode :straight t :mode "\\.ya?ml\\'")
+(use-package markdown-mode  :mode "\\.md\\'")
+(use-package yaml-mode  :mode "\\.ya?ml\\'")
 #+END_SRC
 *** Whitespace mode
 #+BEGIN_SRC emacs-lisp
@@ -197,33 +182,33 @@
 ** IDE stuff
 *** Auto Insert File Header
 #+BEGIN_SRC emacs-lisp
- (use-package autoinsert :ensure t :straight t
+ (use-package autoinsert :ensure t 
   :init 
   (setq auto-insert-query nil)
   (auto-insert-mode 1))
 #+END_SRC
 *** Syntax Checker
 #+BEGIN_SRC emacs-lisp
-(use-package flycheck :straight t :hook ((python-mode go-mode php-mode emacs-lisp-mode) . flycheck-mode))
+(use-package flycheck  :hook ((python-mode go-mode php-mode emacs-lisp-mode) . flycheck-mode))
 #+END_SRC
 *** Debugger Support
 #+BEGIN_SRC emacs-lisp
-(use-package dap-mode :straight t :defer t :hook ((go-mode python-mode php-mode) . dap-mode))
+(use-package dap-mode  :defer t :hook ((go-mode python-mode php-mode) . dap-mode))
 #+END_SRC
 *** Version Controll
 #+BEGIN_SRC emacs-lisp
-  (use-package magit :straight t :commands (magit-status) :bind (("C-x g" . magit-status)))
-  (use-package diff-hl :straight t :config (global-diff-hl-mode))
+  (use-package magit  :commands (magit-status) :bind (("C-x g" . magit-status)))
+  (use-package diff-hl  :config (global-diff-hl-mode))
 #+END_SRC
 *** Language Server protocol Support
 #+BEGIN_SRC emacs-lisp
-(use-package lsp-mode :straight t :defer t)
-(use-package lsp-ui :straight t :defer t)
+(use-package lsp-mode  :defer t)
+(use-package lsp-ui  :defer t)
 #+END_SRC
 *** Completion Framework
 #+BEGIN_SRC emacs-lisp
-(use-package company-lsp :straight t :defer t)
-(use-package company :straight t
+(use-package company-lsp  :defer t)
+(use-package company 
   :config
   (setq company-tooltip-limit 30)
   (setq company-idle-delay .1)
@@ -234,7 +219,7 @@
 #+BEGIN_SRC emacs-lisp
   (use-package go-mode
     :mode "\\.go\\'"
-    :straight t
+    
     :config
 	(lsp)
 	(add-hook 'before-save-hook #'lsp-format-buffer t t)
@@ -244,13 +229,13 @@
 	(local-set-key (kbd "M-*") 'pop-tag-mark)
 	(add-to-list 'exec-path (concat (concat (getenv "HOME") "/go") "/bin")))
 
-  (use-package go-add-tags :straight t :defer t :config (global-set-key "C-c C-s" 'go-add-tags))
-  (use-package gotest :straight t :defer t :config (global-set-key (kbd "C-c C-t C-t") 'go-test-current-test) (global-set-key (kbd "C-c C-t C-f") 'go-test-current-file))
+  (use-package go-add-tags  :defer t :config (global-set-key "C-c C-s" 'go-add-tags))
+  (use-package gotest  :defer t :config (global-set-key (kbd "C-c C-t C-t") 'go-test-current-test) (global-set-key (kbd "C-c C-t C-f") 'go-test-current-file))
 #+END_SRC
 ** Clojure setup
 #+BEGIN_SRC emacs-lisp
-(use-package clojure-mode :straight t :defer t :mode "\\.cljs?\\'")
-(use-package cider :straight t :defer t :hook clojure-mode :config (cider-jack-in))
+(use-package clojure-mode  :defer t :mode "\\.cljs?\\'")
+(use-package cider  :defer t :hook clojure-mode :config (cider-jack-in))
 #+END_SRC
 ** Python Setup
 *** Python Mode 
@@ -265,53 +250,53 @@
 *** Pyhon Language Server
 #+BEGIN_SRC emacs-lisp
 (use-package lsp-python-ms
-  :straight t
+  
   :hook (python-mode . (lambda ()
                           (require 'lsp-python-ms)
                           (lsp)))) 
 #+END_SRC
 *** Autopep8 formatting
 #+BEGIN_SRC emacs-lisp
-(use-package py-autopep8 :straight t :defer t :hook python-mode)
+(use-package py-autopep8  :defer t :hook python-mode)
 #+END_SRC
 ** Elixir Setup
 #+BEGIN_SRC emacs-lisp
-(use-package elixir-mode :straight t :mode "\\.ex\\'" :config (lsp))
-(use-package alchemist :straight t :defer t)
+(use-package elixir-mode  :mode "\\.ex\\'" :config (lsp))
+(use-package alchemist  :defer t)
 #+END_SRC
 ** Rust Setup
 #+BEGIN_SRC emacs-lisp
-(use-package rust-mode :straight t :mode "\\.rs\\'" :init (add-hook 'rust-mode-hook #'lsp))
+(use-package rust-mode  :mode "\\.rs\\'" :init (add-hook 'rust-mode-hook #'lsp))
 #+END_SRC
 ** Lisp Setup
 *** Help us with parens
 #+BEGIN_SRC emacs-lisp
-  (use-package smartparens :straight t :hook ((emacs-lisp-mode python-mode go-mode php-mode) . smartparens-mode))
-  (use-package rainbow-delimiters :straight t :hook ((emacs-lisp-mode python-mode go-mode php-mode) . rainbow-delimiters-mode))
+  (use-package smartparens  :hook ((emacs-lisp-mode python-mode go-mode php-mode) . smartparens-mode))
+  (use-package rainbow-delimiters  :hook ((emacs-lisp-mode python-mode go-mode php-mode) . rainbow-delimiters-mode))
 #+END_SRC
 ** PHP Setup
 #+BEGIN_SRC emacs-lisp
-  (use-package php-mode :straight t :defer :init (add-hook 'php-mode-hook #'lsp))
-  (use-package phpunit :straight t :defer t
+  (use-package php-mode  :defer :init (add-hook 'php-mode-hook #'lsp))
+  (use-package phpunit  :defer t
     :bind (("C-c C-t t" . phpunit-current-test) ("C-c C-t c" . phpunit-current-class) ("C-c C-t p" . phpunit-current-project)))
 #+END_SRC
 ** Javascript Setup
 #+BEGIN_SRC emacs-lisp
-(use-package js2-mode :straight t :defer t :hook js-mode)
+(use-package js2-mode  :defer t :hook js-mode)
 #+END_SRC
 ** Typescript Setup
 #+BEGIN_SRC emacs-lisp
-(use-package tide :straight t :defer t :mode "\\.ts\\'")
+(use-package tide  :defer t :mode "\\.ts\\'")
 #+END_SRC
 ** Some webish stuff
 *** Web Mode
    #+BEGIN_SRC emacs-lisp
-   (use-package web-mode :straight t :defer t :mode ("\\.html\\'" "\\.css\\'"))
+   (use-package web-mode  :defer t :mode ("\\.html\\'" "\\.css\\'"))
    #+END_SRC
 ** Devops Setup
 #+BEGIN_SRC emacs-lisp
-  (use-package kubel :straight t :commands (kubel))
-  (use-package dockerfile-mode :straight t :defer t :mode "Dockerfile")
+  (use-package kubel  :commands (kubel))
+  (use-package dockerfile-mode :defer t :mode "Dockerfile")
   (use-package ansible :defer t :init (add-hook 'yaml-mode-hook (lambda () (ansible))))
 #+END_SRC
 
