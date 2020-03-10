@@ -17,6 +17,4 @@ alias ocdp="oc delete pod"
 # replace caps with escape
 # setxkbmap -option "caps:swapescape"
 # replace caps with ctrl
-setxkbmap -layout us -option ctrl:nocaps
-setxkbmap -option 'grp:alt_shift_toggle'
-setxkbmap -layout us,ir
+setxkbmap -layout us,ir -option ctrl:nocaps 

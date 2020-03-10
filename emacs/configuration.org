@@ -139,15 +139,7 @@
   (global-set-key (kbd "C-1") 'delete-other-windows)
   (global-set-key (kbd "C-2") 'split-window-below)
   (global-set-key (kbd "C-3") 'split-window-right)
-  ;; (define-key input-decode-map (kbd "C-i") (kbd "H-i"))
-  ;; (global-set-key (kbd "H-i") 'previous-line)
-  ;; (global-set-key (kbd "C-k") 'next-line)
-  ;; (global-set-key (kbd "C-l") 'right-char)
-  ;; (global-set-key (kbd "C-j") 'left-char)
-  ;; (global-set-key (kbd "M-i") 'backward-sexp)
-  ;; (global-set-key (kbd "M-k") 'forward-sexp)
-  ;; (global-set-key (kbd "M-l") 'forward-word)
-  ;;  (global-set-key (kbd "M-j") 'backward-word) 
+  (global-set-key (kbd "C-r") 'replace-string)
 #+END_SRC
 *** Guru Mode ( Only emacs shall remain )
 #+BEGIN_SRC emacs-lisp
