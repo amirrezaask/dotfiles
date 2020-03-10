@@ -139,7 +139,7 @@
 ** Ivy
 #+BEGIN_SRC emacs-lisp
   (use-package swiper :straight t :bind (("C-s" . swiper)))
-  (use-package counsel :straight t :bind (("M-x" . counsel-M-x) ("C-x C-f" . counsel-find-file)))
+  (use-package counsel :straight t :bind (("M-x" . counsel-M-x) ("C-x C-f" . counsel-find-file) ("C-x b" . ivy-switch-buffer)))
 #+END_SRC
 ** Org mode
 #+BEGIN_SRC emacs-lisp
