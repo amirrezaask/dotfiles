@@ -167,18 +167,31 @@ All the variables that will be used in below code blocks.
 	(use-package evil-collection :config (evil-collection-init))
 	(use-package linum-relative :config (linum-relative-mode))
 	(use-package evil-magit)))
-	    
+
     (when (eq side 'holy) 
       (progn
-	(use-package guru-mode  :config (guru-global-mode 1))
-	(global-set-key (kbd "C-o") 'other-window)
+	(use-package guru-mode  
+	  :config (guru-global-mode 1)
+
 	(global-set-key (kbd "C-0") 'delete-window)
 	(global-set-key (kbd "C-1") 'delete-other-windows)
 	(global-set-key (kbd "C-2") 'split-window-below)
 	(global-set-key (kbd "C-3") 'split-window-right)
 	(global-set-key (kbd "C-r") 'replace-string)
 	(global-set-key (kbd "C-,") 'previous-buffer)
-	(global-set-key (kbd "C-.") 'next-buffer)))
+	(global-set-key (kbd "C-.") 'next-buffer)
+	:general
+	(
+	 ("C-o" 'other-window)
+	 ("C-1" 'delete-other-windows)
+	 ("C-2" 'split-window-below)
+	 ("C-3" 'split-window-right)
+	 ("C-r" 'replace-string)
+	 ("C-," 'previous-buffer)
+	 ("C-." 'next-buffer)
+	)
+
+	)))
 
 #+END_SRC
 *** Which key helps us when we only remember part of a keybinding
@@ -217,8 +230,39 @@ All the variables that will be used in below code blocks.
 
   (when (eq incremental-completion 'ivy)
     (progn    
-      (use-package swiper :bind (("C-s" . swiper)))
-      (use-package counsel :bind (("M-x" . counsel-M-x) ("C-x C-f" . counsel-find-file) ("C-x b" . ivy-switch-buffer)))))
+      (use-package swiper
+	:commands (swiper)
+	:init (if (eq side 'evil)
+		  (progn
+		    (general-define-key
+		     :states '(normal visual insert emacs)
+		     :prefix "SPC"
+		     "s s" 'siwper)
+		  )
+		(progn
+		  (general-define-key
+		   "C-s" 'swiper)
+		  )
+	  ))
+      (use-package counsel
+	:commands (counsel-M-x counsel-find-file ivy-switch-buffer)
+	:init (if (eq side 'evil)
+		  (progn
+		    (general-define-key
+		     :prefix "SPC"
+		     :states '(normal visual insert emacs)
+		     "SPC" 'counsel-M-x
+		     "f f" 'counsel-find-file
+		     "b l" 'ivy-switch-buffer
+		     )
+		    )
+		(progn
+		  (general-define-key
+		   "M-x" 'counsel-M-x
+		   "C-x C-f" 'counsel-find-file
+		   "C-x b" 'ivy-switch-buffer
+		   ))
+	       ))))
 
   (when (eq incremental-completion 'ido)
     (progn
