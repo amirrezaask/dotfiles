@@ -132,17 +132,17 @@ All the variables that will be used in below code blocks.
   :init (doom-modeline-mode 1))
 #+END_SRC
 ** Keybindings
+*** General or best keybinding library ever
+#+BEGIN_SRC emacs-lisp
+(use-package general)
+#+END_SRC
 *** Choose your side
 #+BEGIN_SRC emacs-lisp
   (when (eq side 'evil)
       (progn
-	(use-package evil :init (setq evil-want-keybinding nil) :config (evil-mode 1))
-	(use-package evil-collection :config (evil-collection-init))
-	(use-package linum-relative :config (linum-relative-mode))
-	(use-package evil-magit)
-	(use-package general 
-	  :config
-	  (general-define-key
+	(use-package evil :init (setq evil-want-keybinding nil) :config (evil-mode 1) 
+	  :general
+	   (
 	   :states '(normal visual insert emacs)
 	   :prefix "SPC"
 	   :non-normal-prefix "C-SPC"
@@ -163,8 +163,11 @@ All the variables that will be used in below code blocks.
 	   "d f" 'describe-function
 	   "d v" 'describe-variable
 	   "g s" 'magit-status
-	   "t t" 'toggle-color-mode
-	   )))) 
+	   "t t" 'toggle-color-mode))
+	(use-package evil-collection :config (evil-collection-init))
+	(use-package linum-relative :config (linum-relative-mode))
+	(use-package evil-magit)))
+	    
     (when (eq side 'holy) 
       (progn
 	(use-package guru-mode  :config (guru-global-mode 1))
@@ -193,23 +196,24 @@ All the variables that will be used in below code blocks.
 		     ("TAB" . #'helm-execute-persistent-action)
 		     ("<tab>" . #'helm-execute-persistent-action)
 		     ("C-z". #'helm-select-action))
-	:if (eq side 'evil)
-	   :general
-	   (
+	:config
+	(helm-mode 1)
+	(when (eq side 'evil)
+	  (general-define-key
 	    :states '(normal visual insert emacs)
 	    :prefix "SPC"
 	    :non-normal-prefix "C-SPC"
 	    "f f" 'helm-find-files
 	    "SPC" 'helm-M-x
 	    "b l" 'helm-mini
-	    )))
-
-	:if (eq side 'holy)
-	:bind (
-	       ("M-x" . helm-M-x)
-	       ("C-x C-f" . helm-find-files)
-	       ("C-x b" . helm-mini)
-	       ))
+	    )
+	  )
+	  (general-define-key
+	   "M-x" 'helm-M-x
+	   "C-x C-f" 'helm-find-files
+	   "C-x b" 'helm-mini
+	   ))
+	)
 
   (when (eq incremental-completion 'ivy)
     (progn    
