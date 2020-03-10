@@ -138,7 +138,9 @@
     (if (string= side "evil")
 	(progn
 	  (use-package evil :config (evil-mode 1))
-	  (use-package general :straight t 
+	  (use-package evil-collection :config (evil-collection-init))
+	  (use-package evil-magit)
+	  (use-package general 
 	    :config
 	    (general-define-key
 	     :states '(normal visual insert emacs)
@@ -149,8 +151,11 @@
 	     "b l" 'ivy-switch-buffer
 	     "b k" 'kill-buffer
 	     "b s" 'save-buffer
+	     "b n" 'next-buffer
+	     "b p" 'previous-buffer
 	     "w o" 'other-window
 	     "w c" 'delete-window
+	     "w m" 'delete-other-windows
 	     "s v" 'split-window-vertically
 	     "s h" 'split-window-horizontally
 	     "b k" 'kill-buffer
