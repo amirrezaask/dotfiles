@@ -1,7 +1,7 @@
 * Amirreza Emacs Ditribution
 ** Debug On error
 #+BEGIN_SRC emacs-lisp
-(setq debug-on-error 1)
+(setq debug-on-error nil)
 #+END_SRC
 ** My Personal Info
 #+BEGIN_SRC emacs-lisp
@@ -120,6 +120,12 @@
 #+BEGIN_SRC emacs-lisp
 (use-package emojify  :config (emojify-mode 1))
 #+END_SRC
+*** Doom modeline...
+#+BEGIN_SRC emacs-lisp
+(use-package doom-modeline
+  :ensure t
+  :init (doom-modeline-mode 1))
+#+END_SRC
 ** Ivy
 #+BEGIN_SRC emacs-lisp
   (use-package swiper  :bind (("C-s" . swiper)))
@@ -136,8 +142,9 @@
     (defvar side "evil" "Dark side or the Light side")
     (if (string= side "evil")
 	(progn
-	  (use-package evil :config (setq evil-want-keybinding nil) (evil-mode 1))
+	  (use-package evil :init (setq evil-want-keybinding nil) :config (evil-mode 1))
 	  (use-package evil-collection :config (evil-collection-init))
+	  (use-package linum-relative :config (linum-relative-mode))
 	  (use-package evil-magit)
 	  (use-package general 
 	    :config
