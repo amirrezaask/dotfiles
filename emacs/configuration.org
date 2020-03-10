@@ -9,6 +9,16 @@
       user-mail-address "amirrezaask@protonmail.com")
 
 #+END_SRC
+** Variables
+All the variables that will be used in below code blocks.
+#+BEGIN_SRC emacs-lisp
+(defvar font-family "Jetbrains Mono" "Font to use for Emacs.")
+(defvar font-size 11 "Font size for Emacs.")
+(defvar dark-theme 'spacemacs-dark "Default dark theme to use")
+(defvar light-theme 'spacemacs-light "Default light theme to use")
+(defvar incremental-completion 'helm "What incremental completion framework to use ['helm, 'ivy, 'ido]")
+(defvar side 'evil "Dark side or the Light side ['holy, 'evil]")
+#+END_SRC
 ** Basic package manager and use-package setup
 *** Store current time for further benchmark
 #+BEGIN_SRC emacs-lisp
@@ -82,10 +92,7 @@
 (global-prettify-symbols-mode 1)
 #+END_SRC
 *** Font setup
-    
 #+BEGIN_SRC emacs-lisp
-(defvar font-family "Jetbrains Mono" "Font to use for Emacs.")
-(defvar font-size 11 "Font size for Emacs.")
 (add-to-list 'default-frame-alist (cons 'font (format "%s-%d" font-family font-size)))
 (set-face-attribute 'default nil
 		    :family font-family
@@ -98,8 +105,6 @@
   (use-package solarized-theme  :defer t)
   (use-package spacemacs-theme  :defer t)
   (use-package doom-themes  :defer t)
-  (defvar dark-theme 'doom-one "Default dark theme to use")
-  (defvar light-theme 'doom-one-light "Default light theme to use")
   (defvar current-mode 0 "Current mode 0=> dark 1=>light")
   (defun light-mode ()
     "Light it up."
@@ -126,57 +131,43 @@
   :ensure t
   :init (doom-modeline-mode 1))
 #+END_SRC
-** Ivy
-#+BEGIN_SRC emacs-lisp
-  (use-package swiper  :bind (("C-s" . swiper)))
-  (use-package counsel  :bind (("M-x" . counsel-M-x) ("C-x C-f" . counsel-find-file) ("C-x b" . ivy-switch-buffer)))
-#+END_SRC
-** Org mode
-#+BEGIN_SRC emacs-lisp
-  (use-package org-bullets  :defer t :commands (org-bullets-mode) :init (add-hook 'org-mode-hook #'org-bullets-mode))
-  (use-package htmlize  :defer t)
-#+END_SRC
 ** Keybindings
 *** Choose your side
 #+BEGIN_SRC emacs-lisp
-    (defvar side "evil" "Dark side or the Light side")
-    (if (string= side "evil")
-	(progn
-	  (use-package evil :init (setq evil-want-keybinding nil) :config (evil-mode 1))
-	  (use-package evil-collection :config (evil-collection-init))
-	  (use-package linum-relative :config (linum-relative-mode))
-	  (use-package evil-magit)
-	  (use-package general 
-	    :config
-	    (general-define-key
-	     :states '(normal visual insert emacs)
-	     :prefix "SPC"
-	     :non-normal-prefix "C-SPC"
-	     "f f" 'counsel-find-file
-	     "SPC" 'counsel-M-x
-	     "b l" 'ivy-switch-buffer
-	     "b k" 'kill-buffer
-	     "b s" 'save-buffer
-	     "b n" 'next-buffer
-	     "b p" 'previous-buffer
-	     "w o" 'other-window
-	     "w c" 'delete-window
-	     "w m" 'delete-other-windows
-	     "s v" 'split-window-vertically
-	     "s h" 'split-window-horizontally
-	     "b k" 'kill-buffer
-	     "s s" 'swiper
-	     "e e" 'eval-last-sexp
-	     "e b" 'eval-buffer
-	     "l c" 'comment-line
-	     "d k" 'describe-key
-	     "d f" 'describe-function
-	     "d v" 'describe-variable
-	     "g s" 'magit-status
-	     "t t" 'toggle-color-mode
-	     ))) 
+  (when (eq side 'evil)
       (progn
-	(use-package guru-mode  :config (guru-global-mode 1)))
+	(use-package evil :init (setq evil-want-keybinding nil) :config (evil-mode 1))
+	(use-package evil-collection :config (evil-collection-init))
+	(use-package linum-relative :config (linum-relative-mode))
+	(use-package evil-magit)
+	(use-package general 
+	  :config
+	  (general-define-key
+	   :states '(normal visual insert emacs)
+	   :prefix "SPC"
+	   :non-normal-prefix "C-SPC"
+	   "b k" 'kill-buffer
+	   "b s" 'save-buffer
+	   "b n" 'next-buffer
+	   "b p" 'previous-buffer
+	   "w o" 'other-window
+	   "w c" 'delete-window
+	   "w m" 'delete-other-windows
+	   "s v" 'split-window-vertically
+	   "s h" 'split-window-horizontally
+	   "b k" 'kill-buffer
+	   "e e" 'eval-last-sexp
+	   "e b" 'eval-buffer
+	   "l c" 'comment-line
+	   "d k" 'describe-key
+	   "d f" 'describe-function
+	   "d v" 'describe-variable
+	   "g s" 'magit-status
+	   "t t" 'toggle-color-mode
+	   )))) 
+    (when (eq side 'holy) 
+      (progn
+	(use-package guru-mode  :config (guru-global-mode 1))
 	(global-set-key (kbd "C-o") 'other-window)
 	(global-set-key (kbd "C-0") 'delete-window)
 	(global-set-key (kbd "C-1") 'delete-other-windows)
@@ -184,14 +175,59 @@
 	(global-set-key (kbd "C-3") 'split-window-right)
 	(global-set-key (kbd "C-r") 'replace-string)
 	(global-set-key (kbd "C-,") 'previous-buffer)
-	(global-set-key (kbd "C-.") 'next-buffer)
-
-  )
+	(global-set-key (kbd "C-.") 'next-buffer)))
 
 #+END_SRC
 *** Which key helps us when we only remember part of a keybinding
 #+BEGIN_SRC emacs-lisp
 (use-package which-key  :init (setq echo-keystrokes 0.3) :config (which-key-mode 1))
+#+END_SRC
+** Incremental Completion
+#+BEGIN_SRC emacs-lisp
+  (when (eq incremental-completion 'helm)
+      (use-package helm
+	:init (setq helm-buffers-fuzzy-matching t
+		    helm-recentf-fuzzy-match t)
+	:config (helm-mode 1)
+	:bind* (:map helm-map
+		     ("TAB" . #'helm-execute-persistent-action)
+		     ("<tab>" . #'helm-execute-persistent-action)
+		     ("C-z". #'helm-select-action))
+	:if (eq side 'evil)
+	   :general
+	   (
+	    :states '(normal visual insert emacs)
+	    :prefix "SPC"
+	    :non-normal-prefix "C-SPC"
+	    "f f" 'helm-find-files
+	    "SPC" 'helm-M-x
+	    "b l" 'helm-mini
+	    )))
+
+	:if (eq side 'holy)
+	:bind (
+	       ("M-x" . helm-M-x)
+	       ("C-x C-f" . helm-find-files)
+	       ("C-x b" . helm-mini)
+	       ))
+
+  (when (eq incremental-completion 'ivy)
+    (progn    
+      (use-package swiper :bind (("C-s" . swiper)))
+      (use-package counsel :bind (("M-x" . counsel-M-x) ("C-x C-f" . counsel-find-file) ("C-x b" . ivy-switch-buffer)))))
+
+  (when (eq incremental-completion 'ido)
+    (progn
+      (use-package ido-vertical-mode :config (ido-mode 1) (ido-vertical-mode 1) (setq ido-vertical-define-keys 'C-n-and-C-p-only))
+      (use-package smex :bind (("M-x" . smex)))
+      ))
+
+
+#+END_SRC
+** Org mode
+#+BEGIN_SRC emacs-lisp
+  (use-package org-bullets  :defer t :commands (org-bullets-mode) :init (add-hook 'org-mode-hook #'org-bullets-mode))
+  (use-package htmlize  :defer t)
 #+END_SRC
 ** Editor setup
 *** Add Support for json, yaml and markdown
