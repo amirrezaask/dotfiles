@@ -132,20 +132,50 @@
   (use-package htmlize  :defer t)
 #+END_SRC
 ** Keybindings
-*** Some shorter keychords for most used functions
+*** Choose your side
 #+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "C-o") 'other-window)
-  (global-set-key (kbd "C-0") 'delete-window)
-  (global-set-key (kbd "C-1") 'delete-other-windows)
-  (global-set-key (kbd "C-2") 'split-window-below)
-  (global-set-key (kbd "C-3") 'split-window-right)
-  (global-set-key (kbd "C-r") 'replace-string)
-  (global-set-key (kbd "C-,") 'previous-buffer)
-  (global-set-key (kbd "C-.") 'next-buffer)
-#+END_SRC
-*** Guru Mode ( Only emacs shall remain )
-#+BEGIN_SRC emacs-lisp
-(use-package guru-mode  :config (guru-global-mode 1))
+    (defvar side "evil" "Dark side or the Light side")
+    (if (string= side "evil")
+	(progn
+	  (use-package evil :config (evil-mode 1))
+	  (use-package general :straight t 
+	    :config
+	    (general-define-key
+	     :states '(normal visual insert emacs)
+	     :prefix "SPC"
+	     :non-normal-prefix "C-SPC"
+	     "f f" 'counsel-find-file
+	     "SPC" 'counsel-M-x
+	     "b l" 'ivy-switch-buffer
+	     "b k" 'kill-buffer
+	     "b s" 'save-buffer
+	     "w o" 'other-window
+	     "w c" 'delete-window
+	     "s v" 'split-window-vertically
+	     "s h" 'split-window-horizontally
+	     "b k" 'kill-buffer
+	     "s s" 'swiper
+	     "e e" 'eval-last-sexp
+	     "e b" 'eval-buffer
+	     "l c" 'comment-line
+	     "d k" 'describe-key
+	     "d f" 'describe-function
+	     "d v" 'describe-variable
+	     "g s" 'magit-status
+	     ))) 
+      (progn
+	(use-package guru-mode  :config (guru-global-mode 1)))
+	(global-set-key (kbd "C-o") 'other-window)
+	(global-set-key (kbd "C-0") 'delete-window)
+	(global-set-key (kbd "C-1") 'delete-other-windows)
+	(global-set-key (kbd "C-2") 'split-window-below)
+	(global-set-key (kbd "C-3") 'split-window-right)
+	(global-set-key (kbd "C-r") 'replace-string)
+	(global-set-key (kbd "C-,") 'previous-buffer)
+	(global-set-key (kbd "C-.") 'next-buffer)
+
+  )
+
 #+END_SRC
 *** Which key helps us when we only remember part of a keybinding
 #+BEGIN_SRC emacs-lisp
