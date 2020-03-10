@@ -113,7 +113,6 @@
     (interactive)
     (if (= current-mode 0) (progn (dark-mode) (setq current-mode 1)) (progn (light-mode) (setq current-mode 0)))
   )
-  (global-set-key (kbd "C-x t") 'toggle-color-mode)
   ;; (light-mode)
   (dark-mode)
 #+END_SRC
@@ -137,7 +136,7 @@
     (defvar side "evil" "Dark side or the Light side")
     (if (string= side "evil")
 	(progn
-	  (use-package evil :config (evil-mode 1))
+	  (use-package evil :config (setq evil-want-keybinding nil) (evil-mode 1))
 	  (use-package evil-collection :config (evil-collection-init))
 	  (use-package evil-magit)
 	  (use-package general 
@@ -167,6 +166,7 @@
 	     "d f" 'describe-function
 	     "d v" 'describe-variable
 	     "g s" 'magit-status
+	     "t t" 'toggle-color-mode
 	     ))) 
       (progn
 	(use-package guru-mode  :config (guru-global-mode 1)))
