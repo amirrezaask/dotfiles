@@ -25,11 +25,11 @@
 #+END_SRC
 *** Unset file-name-handler-alist temporarily
 #+BEGIN_SRC emacs-lisp
-(defvar doom--file-name-handler-alist file-name-handler-alist)
+(defvar --file-name-handler-alist file-name-handler-alist)
 (setq file-name-handler-alist nil)
 (add-hook 'emacs-startup-hook
   (lambda ()
-    (setq file-name-handler-alist doom--file-name-handler-alist)))
+    (setq file-name-handler-alist --file-name-handler-alist)))
 #+END_SRC
 *** Start Emacs in fundamental mode 
 #+BEGIN_SRC emacs-lisp
