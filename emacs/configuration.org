@@ -1,4 +1,8 @@
 * Amirreza Emacs Ditribution
+** Store current time for further benchmark
+#+BEGIN_SRC emacs-lisp
+(setq start (float-time)) ;; to measure emacs startup time
+#+END_SRC
 ** Startup optimizations
 *** Suppress garbage collector at startup and defer it until after startup
 #+BEGIN_SRC emacs-lisp
@@ -39,10 +43,6 @@
 #+BEGIN_SRC emacs-lisp
 (setq frame-inhibit-implied-resize t)
 #+END_SRC
-** Debug On error
-#+BEGIN_SRC emacs-lisp
-(setq debug-on-error nil)
-#+END_SRC
 ** My Personal Info
 #+BEGIN_SRC emacs-lisp
 (setq user-full-name    "Amirreza Askarpour"
@@ -58,13 +58,9 @@ All the variables that will be used in below code blocks.
 (defvar light-theme 'spacemacs-light "Default light theme to use")
 (defvar incremental-completion 'ivy "What incremental completion framework to use ['helm, 'ivy, 'ido]")
 (defvar side 'evil "Dark side or the Light side ['holy, 'evil]")
-(defvar languages '() "List of enabled programming languages")
+(setq debug-on-error nil) ;; basically emacs debug mode.
 #+END_SRC
 ** Basic package manager and use-package setup
-*** Store current time for further benchmark
-#+BEGIN_SRC emacs-lisp
-(setq start (float-time)) ;; to measure emacs startup time
-#+END_SRC
 *** Setup Emacs Package manager and add repos
 #+BEGIN_SRC emacs-lisp
 (require 'package)
