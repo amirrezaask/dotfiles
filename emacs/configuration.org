@@ -1,29 +1,43 @@
 * Amirreza Emacs Ditribution
 ** Startup optimizations
+*** Suppress garbage collector at startup and defer it until after startup
 #+BEGIN_SRC emacs-lisp
-
 (setq gc-cons-threshold most-positive-fixnum ; 2^61 bytes
       gc-cons-percentage 0.6)
 (add-hook 'emacs-startup-hook
   (lambda ()
     (setq gc-cons-threshold 16777216 ; 16mb
           gc-cons-percentage 0.1)))
+
+#+END_SRC
+*** Suppress garbage collector in minibuffer
+#+BEGIN_SRC emacs-lisp
 (defun defer-garbage-collection-h ()
-  (setq gc-cons-threshold most-positive-fixnum))
+  (setq gc-cons-threshold 16777216))
 
 (defun restore-garbage-collection-h ()
-  ;; Defer it so that commands launched immediately after will enjoy the
-  ;; benefits.
   (run-at-time
    1 nil (lambda () (setq gc-cons-threshold most-positive-fixnum))))
 (setq package-enable-at-startup nil)
 (add-hook 'minibuffer-setup-hook #'defer-garbage-collection-h)
 (add-hook 'minibuffer-exit-hook #'restore-garbage-collection-h)
+
+#+END_SRC
+*** Unset file-name-handler-alist temporarily
+#+BEGIN_SRC emacs-lisp
 (defvar doom--file-name-handler-alist file-name-handler-alist)
 (setq file-name-handler-alist nil)
 (add-hook 'emacs-startup-hook
   (lambda ()
     (setq file-name-handler-alist doom--file-name-handler-alist)))
+#+END_SRC
+*** Start Emacs in fundamental mode 
+#+BEGIN_SRC emacs-lisp
+(setq initial-major-mode 'fundamental-mode)
+#+END_SRC
+*** Stop Emacs from resizing frames 
+#+BEGIN_SRC emacs-lisp
+(setq frame-inhibit-implied-resize t)
 #+END_SRC
 ** Debug On error
 #+BEGIN_SRC emacs-lisp
@@ -121,9 +135,6 @@ All the variables that will be used in below code blocks.
 *** Font setup
 #+BEGIN_SRC emacs-lisp
 (add-to-list 'default-frame-alist (cons 'font (format "%s-%d" font-family font-size)))
-(set-face-attribute 'default nil
-		    :family font-family
-		    :height (* 10 font-size))
 #+END_SRC
 *** Themes Setup
 #+BEGIN_SRC emacs-lisp
