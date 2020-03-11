@@ -236,7 +236,7 @@ All the variables that will be used in below code blocks.
 		    (general-define-key
 		     :states 'normal
 		     :prefix "SPC"
-		     "s s" 'siwper)
+		     "s s" 'swiper)
 		  )
 		(progn
 		  (general-define-key
