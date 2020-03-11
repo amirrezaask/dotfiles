@@ -14,9 +14,9 @@ All the variables that will be used in below code blocks.
 #+BEGIN_SRC emacs-lisp
 (defvar font-family "Jetbrains Mono" "Font to use for Emacs.")
 (defvar font-size 11 "Font size for Emacs.")
-(defvar dark-theme 'spacemacs-dark "Default dark theme to use")
+(defvar dark-theme 'doom-dracula "Default dark theme to use")
 (defvar light-theme 'spacemacs-light "Default light theme to use")
-(defvar incremental-completion 'helm "What incremental completion framework to use ['helm, 'ivy, 'ido]")
+(defvar incremental-completion 'ivy "What incremental completion framework to use ['helm, 'ivy, 'ido]")
 (defvar side 'evil "Dark side or the Light side ['holy, 'evil]")
 #+END_SRC
 ** Basic package manager and use-package setup
@@ -101,7 +101,6 @@ All the variables that will be used in below code blocks.
 *** Themes Setup
 #+BEGIN_SRC emacs-lisp
   (setq custom-safe-themes t)
-  (use-package dracula-theme  :defer t)
   (use-package solarized-theme  :defer t)
   (use-package spacemacs-theme  :defer t)
   (use-package doom-themes  :defer t)
@@ -143,7 +142,7 @@ All the variables that will be used in below code blocks.
 	(use-package evil :init (setq evil-want-keybinding nil) :config (evil-mode 1) 
 	  :general
 	   (
-	   :states '(normal visual insert emacs)
+	   :states 'normal
 	   :prefix "SPC"
 	   :non-normal-prefix "C-SPC"
 	   "b k" 'kill-buffer
@@ -235,7 +234,7 @@ All the variables that will be used in below code blocks.
 	:init (if (eq side 'evil)
 		  (progn
 		    (general-define-key
-		     :states '(normal visual insert emacs)
+		     :states 'normal
 		     :prefix "SPC"
 		     "s s" 'siwper)
 		  )
@@ -250,7 +249,7 @@ All the variables that will be used in below code blocks.
 		  (progn
 		    (general-define-key
 		     :prefix "SPC"
-		     :states '(normal visual insert emacs)
+		     :states 'normal
 		     "SPC" 'counsel-M-x
 		     "f f" 'counsel-find-file
 		     "b l" 'ivy-switch-buffer
