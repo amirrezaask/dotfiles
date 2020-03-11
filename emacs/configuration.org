@@ -18,6 +18,7 @@ All the variables that will be used in below code blocks.
 (defvar light-theme 'spacemacs-light "Default light theme to use")
 (defvar incremental-completion 'ivy "What incremental completion framework to use ['helm, 'ivy, 'ido]")
 (defvar side 'evil "Dark side or the Light side ['holy, 'evil]")
+(defvar languages '() "List of enabled programming languages")
 #+END_SRC
 ** Basic package manager and use-package setup
 *** Store current time for further benchmark
@@ -201,6 +202,7 @@ All the variables that will be used in below code blocks.
 (use-package which-key  :init (setq echo-keystrokes 0.3) :config (which-key-mode 1))
 #+END_SRC
 ** Incremental Completion
+*** Helm 
 #+BEGIN_SRC emacs-lisp
   (when (eq incremental-completion 'helm)
       (use-package helm
@@ -229,7 +231,9 @@ All the variables that will be used in below code blocks.
 	   "C-x b" 'helm-mini
 	   ))
 	)
-
+#+END_SRC
+*** Ivy
+#+BEGIN_SRC emacs-lisp
   (when (eq incremental-completion 'ivy)
     (progn    
       (use-package swiper
@@ -265,14 +269,14 @@ All the variables that will be used in below code blocks.
 		   "C-x b" 'ivy-switch-buffer
 		   ))
 	       ))))
-
+#+END_SRC
+*** IDO
+#+BEGIN_SRC emacs-lisp
   (when (eq incremental-completion 'ido)
     (progn
       (use-package ido-vertical-mode :config (ido-mode 1) (ido-vertical-mode 1) (setq ido-vertical-define-keys 'C-n-and-C-p-only))
       (use-package smex :bind (("M-x" . smex)))
       ))
-
-
 #+END_SRC
 ** Org mode
 #+BEGIN_SRC emacs-lisp
@@ -315,7 +319,7 @@ All the variables that will be used in below code blocks.
 #+END_SRC
 *** Debugger Support
 #+BEGIN_SRC emacs-lisp
-(use-package dap-mode  :defer t :hook ((go-mode python-mode php-mode) . dap-mode))
+;; (use-package dap-mode  :defer t :hook ((go-mode python-mode php-mode) . dap-mode))
 #+END_SRC
 *** Version Controll
 #+BEGIN_SRC emacs-lisp
@@ -356,8 +360,8 @@ All the variables that will be used in below code blocks.
 #+END_SRC
 ** Clojure setup
 #+BEGIN_SRC emacs-lisp
-(use-package clojure-mode  :defer t :mode "\\.cljs?\\'")
-(use-package cider  :defer t :hook clojure-mode :config (cider-jack-in))
+(use-package clojure-mode :defer t :mode "\\.cljs?\\'")
+(use-package cider :defer t :hook clojure-mode :config (cider-jack-in))
 #+END_SRC
 ** Python Setup
 *** Python Mode 
