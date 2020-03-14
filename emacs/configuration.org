@@ -39,10 +39,6 @@
 #+BEGIN_SRC emacs-lisp
 (setq initial-major-mode 'fundamental-mode)
 #+END_SRC
-*** Stop Emacs from resizing frames 
-#+BEGIN_SRC emacs-lisp
-(setq frame-inhibit-implied-resize t)
-#+END_SRC
 ** My Personal Info
 #+BEGIN_SRC emacs-lisp
 (setq user-full-name    "Amirreza Askarpour"
@@ -50,31 +46,37 @@
 
 #+END_SRC
 ** Variables
-All the variables that will be used in below code blocks.
 #+BEGIN_SRC emacs-lisp
-(defvar font-family "Jetbrains Mono" "Font to use for Emacs.")
+(defvar vars-file-path "~/.emacs_vars" "Path to vars file to load for configs")
+(defvar font-family "mononoki" "Font to use for Emacs.")
 (defvar font-size 11 "Font size for Emacs.")
 (defvar dark-theme 'doom-dracula "Default dark theme to use")
 (defvar light-theme 'spacemacs-light "Default light theme to use")
-(defvar incremental-completion 'ivy "What incremental completion framework to use ['helm, 'ivy, 'ido]")
-(defvar side 'evil "Dark side or the Light side ['holy, 'evil]")
+(defvar incremental-completion 'ido "What incremental completion framework to use ['helm, 'ivy, 'ido]")
+(defvar side 'evil "Dark side or the Light side ['holy, 'evil 'god]")
+(defvar modeline 'default "What modeline to use ['default 'doom 'spacemacs 'powerline]")
 (setq debug-on-error nil) ;; basically emacs debug mode.
 #+END_SRC
 ** Basic package manager and use-package setup
-*** Setup Emacs Package manager and add repos
+*** Straight package manager
 #+BEGIN_SRC emacs-lisp
-(require 'package)
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
-(package-initialize) ;; initialize emacs built-in package manager
-(when (not package-archive-contents)
-    (package-refresh-contents))
-
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 5))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+(setq straight-use-package-by-default t)
 #+END_SRC
-
-*** Install use-package
+*** Install use-package macro
 #+BEGIN_SRC emacs-lisp
-  (package-install 'use-package)
-  (setq use-package-always-ensure t)
+(straight-use-package 'use-package)
 #+END_SRC
 ** Some Basic Emacs setup
 *** setup custom file so emacs won't mess with init.el
@@ -113,10 +115,6 @@ All the variables that will be used in below code blocks.
 (global-linum-mode t) ;; enable line numbers
 #+END_SRC
 
-*** Ask for confirmation before emacs quiting
-#+BEGIN_SRC emacs-lisp
-(setq confirm-kill-emacs 'y-or-n-p)
-#+END_SRC
 ** Some UI Enhancements and Theme setup
 *** Disable GUI Pop Up
 #+BEGIN_SRC emacs-lisp
@@ -158,11 +156,12 @@ All the variables that will be used in below code blocks.
 #+BEGIN_SRC emacs-lisp
 (use-package emojify  :config (emojify-mode 1))
 #+END_SRC
-*** Doom modeline...
+*** Modeline...
 #+BEGIN_SRC emacs-lisp
-(use-package doom-modeline
-  :ensure t
-  :init (doom-modeline-mode 1))
+  (when (eq modeline 'doom)
+    (use-package doom-modeline
+      :ensure t
+      :init (doom-modeline-mode 1)))
 #+END_SRC
 ** Keybindings
 *** General or best keybinding library ever
@@ -171,63 +170,60 @@ All the variables that will be used in below code blocks.
 #+END_SRC
 *** Choose your side
 #+BEGIN_SRC emacs-lisp
-(global-set-key (kbd "C--") 'text-scale-decrease)
-(global-set-key (kbd "C-=") 'text-scale-increase)
 
-    (when (eq side 'evil)
-	(progn
-	  (use-package evil :init (setq evil-want-keybinding nil) :config (evil-mode 1) 
-	    :general
-	     (
-	     :states 'normal
-	     :prefix "SPC"
-	     :non-normal-prefix "C-SPC"
-	     "b k" 'kill-buffer
-	     "b s" 'save-buffer
-	     "b n" 'next-buffer
-	     "b p" 'previous-buffer
-	     "w o" 'other-window
-	     "w c" 'delete-window
-	     "w m" 'delete-other-windows
-	     "s v" 'split-window-vertically
-	     "s h" 'split-window-horizontally
-	     "b k" 'kill-buffer
-	     "e e" 'eval-last-sexp
-	     "e b" 'eval-buffer
-	     "l c" 'comment-line
-	     "d k" 'describe-key
-	     "d f" 'describe-function
-	     "d v" 'describe-variable
-	     "g s" 'magit-status
-	     "t t" 'toggle-color-mode))
-	  (use-package evil-collection :config (evil-collection-init))
-	  (use-package linum-relative :config (linum-relative-mode))
-	  (use-package evil-magit)))
-
-      (when (eq side 'holy) 
-	(progn
-	  (use-package guru-mode  
-	    :config (guru-global-mode 1)
-
-	  (global-set-key (kbd "C-0") 'delete-window)
-	  (global-set-key (kbd "C-1") 'delete-other-windows)
-	  (global-set-key (kbd "C-2") 'split-window-below)
-	  (global-set-key (kbd "C-3") 'split-window-right)
-	  (global-set-key (kbd "C-r") 'replace-string)
-	  (global-set-key (kbd "C-,") 'previous-buffer)
-	  (global-set-key (kbd "C-.") 'next-buffer)
+  (when (eq side 'evil)
+      (progn
+	(use-package evil :init (setq evil-want-keybinding nil) :config (evil-mode 1) 
 	  :general
-	  (
-	   ("C-o" 'other-window)
-	   ("C-1" 'delete-other-windows)
-	   ("C-2" 'split-window-below)
-	   ("C-3" 'split-window-right)
-	   ("C-r" 'replace-string)
-	   ("C-," 'previous-buffer)
-	   ("C-." 'next-buffer)
-	  )
+	   (
+	   :states 'normal
+	   :prefix "SPC"
+	   :non-normal-prefix "C-SPC"
+	   "b k" 'kill-buffer
+	   "b s" 'save-buffer
+	   "b n" 'next-buffer
+	   "b p" 'previous-buffer
+	   "b l" 'switch-to-buffer
+	   "w o" 'other-window
+	   "w c" 'delete-window
+	   "w m" 'delete-other-windows
+	   "s v" 'split-window-vertically
+	   "s h" 'split-window-horizontally
+	   "b k" 'kill-buffer
+	   "e e" 'eval-last-sexp
+	   "e b" 'eval-buffer
+	   "l c" 'comment-line
+	   "d k" 'describe-key
+	   "d f" 'describe-function
+	   "d v" 'describe-variable
+	   "g s" 'magit-status
+	   "t t" 'toggle-color-mode
+	   "f f" 'find-file))
+	(use-package evil-collection :config (evil-collection-init))
+	(use-package linum-relative :config (linum-relative-mode))
+	(use-package evil-magit)))
+    (when (eq side 'god)
+	(use-package guru-mode  
+	  :config (guru-global-mode 1)))
 
-	  )))
+    (when (not (eq side 'evil)) 
+      (progn
+	(global-set-key (kbd "C--") 'text-scale-decrease)
+	(global-set-key (kbd "C-=") 'text-scale-increase)
+	(global-set-key (kbd "C-o") 'other-window)
+	(global-set-key (kbd "C-1") 'delete-other-windows)
+	(global-set-key (kbd "C-2") 'split-window-below) 
+	(global-set-key (kbd "C-3") 'split-window-right)
+	(global-set-key (kbd "C-r") 'replace-string)
+	(global-set-key (kbd "C-,") 'previous-buffer)
+	(global-set-key (kbd "C-.") 'next-buffer)
+	(global-set-key (kbd "C-0") 'delete-window)
+	(global-set-key (kbd "C-1") 'delete-other-windows)
+	(global-set-key (kbd "C-2") 'split-window-below)
+	(global-set-key (kbd "C-3") 'split-window-right)
+	(global-set-key (kbd "C-r") 'replace-string)
+	(global-set-key (kbd "C-,") 'previous-buffer)
+	))
 
 #+END_SRC
 *** Which key helps us when we only remember part of a keybinding
@@ -307,14 +303,17 @@ All the variables that will be used in below code blocks.
 #+BEGIN_SRC emacs-lisp
   (when (eq incremental-completion 'ido)
     (progn
+      (if (boundp 'ido-vertically)
       (use-package ido-vertical-mode :config (ido-mode 1) (ido-vertical-mode 1) (setq ido-vertical-define-keys 'C-n-and-C-p-only))
+      (ido-mode 1)
+      )
       (use-package smex :bind (("M-x" . smex)))
       ))
 #+END_SRC
 ** Org mode
 #+BEGIN_SRC emacs-lisp
-  (use-package org-bullets  :defer t :commands (org-bullets-mode) :init (add-hook 'org-mode-hook #'org-bullets-mode))
-  (use-package htmlize  :defer t)
+  (use-package org-bullets :defer t :commands (org-bullets-mode) :init (add-hook 'org-mode-hook #'org-bullets-mode))
+  (use-package htmlize :defer t)
 #+END_SRC
 ** Editor setup
 *** Add Support for json, yaml and markdown
@@ -396,6 +395,10 @@ All the variables that will be used in below code blocks.
 (use-package clojure-mode :defer t :mode "\\.cljs?\\'")
 (use-package cider :defer t :hook clojure-mode :config (cider-jack-in))
 #+END_SRC
+** Haskell setup
+#+BEGIN_SRC emacs-lisp
+(use-package haskell-mode :mode "\\.hs\\'")
+#+END_SRC
 ** Python Setup
 *** Python Mode 
 #+BEGIN_SRC emacs-lisp
@@ -469,8 +472,4 @@ All the variables that will be used in below code blocks.
 ** Benchmark startup time
 #+BEGIN_SRC emacs-lisp
 (message "Startup Time %f" (- (float-time) start))
-#+END_SRC
-** Open my TODO file
-#+BEGIN_SRC emacs-lisp
-(find-file "~/.TODO.org")
 #+END_SRC

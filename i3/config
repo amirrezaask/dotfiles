@@ -26,28 +26,28 @@ font pango:Jetbrains Mono 10
 # clear in small sizes. However, its unicode glyph coverage is limited, the old
 # X core fonts rendering does not support right-to-left and this being a bitmap
 # font, it doesn’t scale on retina/hidpi displays.
-for_window [class="^.*"] border pixel 2 
+for_window [class="^.*"] border pixel 2
 
 #i3-gaps settings
-#for_window [class=".*"] border pixel 2 
+#for_window [class=".*"] border pixel 2
 #smart_gaps on
-#gaps inner 10 
+#gaps inner 10
 #gaps outer 10
 #smart_borders on
 # multi monitor support
-bindsym $mod+u exec i3-msg move workspace to output left 
+bindsym $mod+u exec i3-msg move workspace to output left
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec terminator 
+bindsym $mod+Return exec terminator
 
 # kill focused window
 bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
-# bindsym $mod+d exec --no-startup-id rofi -lines 12 -padding 18 -width 60 -location 0 -show drun -sidebar-mode -columns 3 -font 'Operator Mono Medium 14' 
+# bindsym $mod+d exec --no-startup-id rofi -lines 12 -padding 18 -width 60 -location 0 -show drun -sidebar-mode -columns 3 -font 'Operator Mono Medium 14'
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
@@ -108,7 +108,7 @@ exec_always --no-startup-id setxkbmap -option caps:escape
 # We use variables to avoid repeating the names in multiple places.
 set $ws1 "1: Firefox"
 set $ws2 "2: Terminal"
-set $ws3 "3: Editor"
+set $ws3 "3: Emacs"
 set $ws4 "4: Music"
 set $ws5 "5: Chat"
 set $ws6 "6: file manager"
@@ -117,7 +117,7 @@ set $ws8 "8: Movie"
 set $ws9 "9"
 set $ws10 "10"
 # i3lock
-bindsym $mod+l exec i3lock 
+bindsym $mod+l exec i3lock
 
 # switch to workspace
 bindsym $mod+1 workspace $ws1
@@ -180,7 +180,7 @@ bindsym $mod+r mode "resize"
 # finds out, if available)
 bar {
         # status_command i3status
-	status_command i3status	 
+	status_command i3status
 	position bottom
 }
 
@@ -211,7 +211,7 @@ assign [class="Rocket.Chat"] $ws5
 assign [class="csgo_linux64"] $ws7
 # assign [class=""] $ws2
 # volume
-bindsym XF86AudioRaiseVolume exec amixer -q -D pulse sset Master 5%+; exec pkill -RTMIN+10 i3blocks 
+bindsym XF86AudioRaiseVolume exec amixer -q -D pulse sset Master 5%+; exec pkill -RTMIN+10 i3blocks
 bindsym XF86AudioLowerVolume exec amixer -q -D pulse sset Master 5%-; exec pkill -RTMIN+10 i3blocks
 bindsym XF86AudioMute exec amixer -q -D pulse sset Master toggle; exec pkill -RTMIN+10
 # Sreen brightness controls
@@ -229,5 +229,4 @@ exec_always setxkbmap -layout us,ir
 exec_always setxkbmap -option "caps:swapescape"
 # exec_always setxkbmap -layout us -option ctrl:nocaps
 exec_always setxkbmap -option 'grp:alt_shift_toggle'
-exec_always xrandr --output HDMI-1 --right-of eDP-1
-
+#exec_always xrandr --output HDMI-1 --right-of eDP-1
