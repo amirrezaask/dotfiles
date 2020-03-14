@@ -197,7 +197,14 @@ All variables should be written in the vars file and be loaded during Emacs star
 	))
 #+END_SRC
 *** Choose your side
+**** Right(askeys) Side
+The only true side of all battles
+#+BEGIN_SRC emacs-lisp
+  (when (or (eq side 'right) (eq side 'askeys))
+    (use-package askeys.el :straight (:host github :repo "amirrezaask/askeys.el") :config (global-askeys-mode 1)))
+#+END_SRC
 **** Holy Side
+You're good god fearing man
 #+BEGIN_SRC emacs-lisp
 (when (eq side 'god)
       (use-package guru-mode  
@@ -223,6 +230,7 @@ All variables should be written in the vars file and be loaded during Emacs star
 
 #+END_SRC
 **** Evil Side
+You are devil's advocate by choice
 #+BEGIN_SRC emacs-lisp
   (when (eq side 'evil)
       (progn
