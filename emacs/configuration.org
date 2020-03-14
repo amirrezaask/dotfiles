@@ -171,8 +171,6 @@ All variables should be written in the vars file and be loaded during Emacs star
 ** Keybindings
 *** Keybinding Macro 
 #+BEGIN_SRC emacs-lisp
-    (use-package general)
-
     (defun -bindkey-evil (map fn keys)
       "Bind given FN to given KEYS on given MAP."
       (let ((normal-key (plist-get keys :normal))
@@ -200,12 +198,12 @@ All variables should be written in the vars file and be loaded during Emacs star
 #+END_SRC
 *** Choose your side
 #+BEGIN_SRC emacs-lisp
-
     (when (eq side 'evil)
 	(progn
 	  (use-package evil :init (setq evil-want-keybinding nil) 
 	    :config
-	    (evil-mode 1) 
+	    (evil-mode 1)
+	    (bindkey global-map 'find-file :evil (:normal "SPC f f"))
 	    (bindkey global-map 'kill-buffer :evil (:normal "SPC b k"))
 	    (bindkey global-map 'save-buferr :evil (:normal "SPC b s"))
 	    (bindkey global-map 'next-buffer :evil (:normal "SPC b n"))
@@ -271,70 +269,38 @@ All variables should be written in the vars file and be loaded during Emacs star
 	:config
 	(helm-mode 1)
 	(when (eq side 'evil)
-	  (general-define-key
-	    :states '(normal visual insert emacs)
-	    :prefix "SPC"
-	    :non-normal-prefix "C-SPC"
-	    "f f" 'helm-find-files
-	    "SPC" 'helm-M-x
-	    "b l" 'helm-mini
-	    )
-	  )
-	  (general-define-key
-	   "M-x" 'helm-M-x
-	   "C-x C-f" 'helm-find-files
-	   "C-x b" 'helm-mini
-	   ))
+	  (bindkey global-map 'helm-find-files :evil (:normal "SPC f f") :holy "C-x C-f")
+	  (bindkey global-map 'helm-M-x :evil (:normal "SPC SPC") :holy "M-x")
+	  (bindkey global-map 'helm-mini :evil (:normal "SPC b l") :holy "C-x b")))
 	)
 #+END_SRC
 *** Ivy
 #+BEGIN_SRC emacs-lisp
   (when (eq incremental-completion 'ivy)
-    (progn    
+    (progn
       (use-package swiper
 	:commands (swiper)
-	:init (if (eq side 'evil)
-		  (progn
-		    (general-define-key
-		     :states 'normal
-		     :prefix "SPC"
-		     "s s" 'swiper)
-		  )
-		(progn
-		  (general-define-key
-		   "C-s" 'swiper)
-		  )
-	  ))
+	:config
+	(bindkey global-map 'swiper :evil (:normal "SPC s s") :holy "C-s"))
+    
       (use-package counsel
 	:commands (counsel-M-x counsel-find-file ivy-switch-buffer)
-	:init (if (eq side 'evil)
-		  (progn
-		    (general-define-key
-		     :prefix "SPC"
-		     :states 'normal
-		     "SPC" 'counsel-M-x
-		     "f f" 'counsel-find-file
-		     "b l" 'ivy-switch-buffer
-		     )
-		    )
-		(progn
-		  (general-define-key
-		   "M-x" 'counsel-M-x
-		   "C-x C-f" 'counsel-find-file
-		   "C-x b" 'ivy-switch-buffer
-		   ))
-	       ))))
+	:config
+	(bindkey global-map 'counsel-M-x :evil (:normal "SPC SPC") :holy "M-x")
+	(bindkey global-map 'counsel-find-file :evil (:normal "SPC f f") :holy "C-x C-f")
+	(bindkey global-map 'ivy-switch-buffer :evil (:normal "SPC b l") :holy "C-x b"))))
 #+END_SRC
 *** IDO
 #+BEGIN_SRC emacs-lisp
   (when (eq incremental-completion 'ido)
     (progn
       (if (boundp 'ido-vertically)
-      (use-package ido-vertical-mode :config (ido-mode 1) (ido-vertical-mode 1) (setq ido-vertical-define-keys 'C-n-and-C-p-only))
-      (ido-mode 1)
-      )
-      (use-package smex :bind (("M-x" . smex)))
-      ))
+	  (use-package ido-vertical-mode :config (ido-mode 1) (ido-vertical-mode 1) (setq ido-vertical-define-keys 'C-n-and-C-p-only))
+	(ido-mode 1)
+	)
+      (use-package smex
+	:commands (smex)
+	:config (bindkey global-map 'smex :evil (:normal "SPC SPC") :holy "M-x"))))
 #+END_SRC
 ** Org mode
 #+BEGIN_SRC emacs-lisp
