@@ -201,59 +201,55 @@ All variables should be written in the vars file and be loaded during Emacs star
 *** Choose your side
 #+BEGIN_SRC emacs-lisp
 
-  (when (eq side 'evil)
-      (progn
-	(use-package evil :init (setq evil-want-keybinding nil) :config (evil-mode 1) 
-	  :general
-	   (
-	   :states 'normal
-	   :prefix "SPC"
-	   :non-normal-prefix "C-SPC"
-	   "b k" 'kill-buffer
-	   "b s" 'save-buffer
-	   "b n" 'next-buffer
-	   "b p" 'previous-buffer
-	   "b l" 'switch-to-buffer
-	   "w o" 'other-window
-	   "w c" 'delete-window
-	   "w m" 'delete-other-windows
-	   "s v" 'split-window-vertically
-	   "s h" 'split-window-horizontally
-	   "b k" 'kill-buffer
-	   "e e" 'eval-last-sexp
-	   "e b" 'eval-buffer
-	   "l c" 'comment-line
-	   "d k" 'describe-key
-	   "d f" 'describe-function
-	   "d v" 'describe-variable
-	   "g s" 'magit-status
-	   "t t" 'toggle-color-mode
-	   "f f" 'find-file))
-	(use-package evil-collection :config (evil-collection-init))
-	(use-package linum-relative :config (linum-relative-mode))
-	(use-package evil-magit)))
-    (when (eq side 'god)
-	(use-package guru-mode  
-	  :config (guru-global-mode 1)))
+    (when (eq side 'evil)
+	(progn
+	  (use-package evil :init (setq evil-want-keybinding nil) 
+	    :config
+	    (evil-mode 1) 
+	    (bindkey global-map 'kill-buffer :evil (:normal "SPC b k"))
+	    (bindkey global-map 'save-buferr :evil (:normal "SPC b s"))
+	    (bindkey global-map 'next-buffer :evil (:normal "SPC b n"))
+	    (bindkey global-map 'previous-buffer :evil (:normal "SPC b p"))
+	    (bindkey global-map 'swich-to-buffer :evil (:normal "SPC b l"))
+	    (bindkey global-map 'other-window :evil (:normal "SPC w o"))
+	    (bindkey global-map 'delete-window :evil (:normal "SPC w d"))
+	    (bindkey global-map 'delete-other-windows :evil (:normal "SPC w d o"))
+	    (bindkey global-map 'split-window-vertically :evil (:normal "SPC w s v"))
+	    (bindkey global-map 'kill-buffer :evil (:normal "SPC b k"))
+	    (bindkey global-map 'eval-last-sexp :evil (:normal "SPC e e"))
+	    (bindkey global-map 'eval-buffer :evil (:normal "SPC e b"))
+	    (bindkey global-map 'comment-line :evil (:normal "SPC l c"))
+	    (bindkey global-map 'describe-key :evil (:normal "SPC d k"))
+	    (bindkey global-map 'describe-function :evil (:normal "SPC d f"))
+	    (bindkey global-map 'describe-variable :evil (:normal "SPC d v"))
+	    (bindkey global-map 'magit-status :evil (:normal "SPC g s"))
+	    (bindkey global-map 'toggle-color-mode :evil (:normal "SPC t t")))
+	
+	  (use-package evil-collection :config (evil-collection-init))
+	  (use-package linum-relative :config (linum-relative-mode))
+	  (use-package evil-magit)))
+      (when (eq side 'god)
+	  (use-package guru-mode  
+	    :config (guru-global-mode 1)))
 
-    (when (not (eq side 'evil)) 
-      (progn
-	(global-set-key (kbd "C--") 'text-scale-decrease)
-	(global-set-key (kbd "C-=") 'text-scale-increase)
-	(global-set-key (kbd "C-o") 'other-window)
-	(global-set-key (kbd "C-1") 'delete-other-windows)
-	(global-set-key (kbd "C-2") 'split-window-below) 
-	(global-set-key (kbd "C-3") 'split-window-right)
-	(global-set-key (kbd "C-r") 'replace-string)
-	(global-set-key (kbd "C-,") 'previous-buffer)
-	(global-set-key (kbd "C-.") 'next-buffer)
-	(global-set-key (kbd "C-0") 'delete-window)
-	(global-set-key (kbd "C-1") 'delete-other-windows)
-	(global-set-key (kbd "C-2") 'split-window-below)
-	(global-set-key (kbd "C-3") 'split-window-right)
-	(global-set-key (kbd "C-r") 'replace-string)
-	(global-set-key (kbd "C-,") 'previous-buffer)
-	))
+      (when (not (eq side 'evil)) 
+	(progn
+	  (global-set-key (kbd "C--") 'text-scale-decrease)
+	  (global-set-key (kbd "C-=") 'text-scale-increase)
+	  (global-set-key (kbd "C-o") 'other-window)
+	  (global-set-key (kbd "C-1") 'delete-other-windows)
+	  (global-set-key (kbd "C-2") 'split-window-below) 
+	  (global-set-key (kbd "C-3") 'split-window-right)
+	  (global-set-key (kbd "C-r") 'replace-string)
+	  (global-set-key (kbd "C-,") 'previous-buffer)
+	  (global-set-key (kbd "C-.") 'next-buffer)
+	  (global-set-key (kbd "C-0") 'delete-window)
+	  (global-set-key (kbd "C-1") 'delete-other-windows)
+	  (global-set-key (kbd "C-2") 'split-window-below)
+	  (global-set-key (kbd "C-3") 'split-window-right)
+	  (global-set-key (kbd "C-r") 'replace-string)
+	  (global-set-key (kbd "C-,") 'previous-buffer)
+	  ))
 
 #+END_SRC
 *** Which key helps us when we only remember part of a keybinding
