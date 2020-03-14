@@ -211,7 +211,7 @@ All variables should be written in the vars file and be loaded during Emacs star
 	    (bindkey global-map 'swich-to-buffer :evil (:normal "SPC b l"))
 	    (bindkey global-map 'other-window :evil (:normal "SPC w o"))
 	    (bindkey global-map 'delete-window :evil (:normal "SPC w d"))
-	    (bindkey global-map 'delete-other-windows :evil (:normal "SPC w d o"))
+	    (bindkey global-map 'delete-other-windows :evil (:normal "SPC w m"))
 	    (bindkey global-map 'split-window-vertically :evil (:normal "SPC w s v"))
 	    (bindkey global-map 'kill-buffer :evil (:normal "SPC b k"))
 	    (bindkey global-map 'eval-last-sexp :evil (:normal "SPC e e"))
