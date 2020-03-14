@@ -53,9 +53,14 @@
 (defvar dark-theme 'doom-dracula "Default dark theme to use")
 (defvar light-theme 'spacemacs-light "Default light theme to use")
 (defvar incremental-completion 'ido "What incremental completion framework to use ['helm, 'ivy, 'ido]")
-(defvar side 'evil "Dark side or the Light side ['holy, 'evil 'god]")
+(defvar side 'holy "Dark side or the Light side ['holy, 'evil 'god]")
 (defvar modeline 'default "What modeline to use ['default 'doom 'spacemacs 'powerline]")
 (setq debug-on-error nil) ;; basically emacs debug mode.
+#+END_SRC
+** Load vars file
+All variables should be written in the vars file and be loaded during Emacs startup
+#+BEGIN_SRC emacs-lisp
+(load-file vars-file-path)
 #+END_SRC
 ** Basic package manager and use-package setup
 *** Straight package manager
