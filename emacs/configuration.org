@@ -1,4 +1,4 @@
-* Amirreza Emacs Ditribution
+* Amirreza Emacs Distribution
 ** Store current time for further benchmark
 #+BEGIN_SRC emacs-lisp
 (setq start (float-time)) ;; to measure emacs startup time
@@ -197,11 +197,11 @@ All variables should be written in the vars file and be loaded during Emacs star
 	))
 #+END_SRC
 *** Choose your side
-**** Right(askeys) Side
-The only true side of all battles
+**** Gamer Side
+If you have experience in games which use left hand for movement 
 #+BEGIN_SRC emacs-lisp
-  (when (or (eq side 'right) (eq side 'askeys))
-    (use-package askeys.el :straight (:host github :repo "amirrezaask/askeys.el") :config (global-askeys-mode 1)))
+  (when (or (eq side 'gamer))
+    (use-package gamer.el :straight (:host github :repo "amirrezaask/gamer.el") :config (global-gamer-mode 1)))
 #+END_SRC
 **** Holy Side
 You're good god fearing man
@@ -242,7 +242,7 @@ You are devil's advocate by choice
 	  (bindkey global-map 'save-buferr :evil (:normal "SPC b s"))
 	  (bindkey global-map 'next-buffer :evil (:normal "SPC b n"))
 	  (bindkey global-map 'previous-buffer :evil (:normal "SPC b p"))
-	  (bindkey global-map 'swich-to-buffer :evil (:normal "SPC b l"))
+	  (bindkey global-map 'switch-to-buffer :evil (:normal "SPC b l"))
 	  (bindkey global-map 'other-window :evil (:normal "SPC w o"))
 	  (bindkey global-map 'delete-window :evil (:normal "SPC w d"))
 	  (bindkey global-map 'delete-other-windows :evil (:normal "SPC w m"))
