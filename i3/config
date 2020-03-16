@@ -16,16 +16,6 @@ set $mod Mod4
 # is used in the bar {} block below.
 font pango:mononoki 10
 
-# This font is widely installed, provides lots of unicode glyphs, right-to-left
-# text rendering and scalability on retina/hidpi displays (thanks to pango).
-#font pango:DejaVu Sans Mono 8
-
-# Before i3 v4.8, we used to recommend this one as the default:
-# font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
-# The font above is very space-efficient, that is, it looks good, sharp and
-# clear in small sizes. However, its unicode glyph coverage is limited, the old
-# X core fonts rendering does not support right-to-left and this being a bitmap
-# font, it doesn’t scale on retina/hidpi displays.
 for_window [class="^.*"] border pixel 2
 
 # multi monitor support
@@ -148,24 +138,14 @@ bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcu
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
-        # These bindings trigger as soon as you enter the resize mode
-
-        # Pressing left will shrink the window’s width.
-        # Pressing right will grow the window’s width.
-        # Pressing up will shrink the window’s height.
-        # Pressing down will grow the window’s height.
         bindsym j resize shrink width 10 px or 10 ppt
         bindsym k resize grow height 10 px or 10 ppt
         bindsym l resize shrink height 10 px or 10 ppt
         bindsym semicolon resize grow width 10 px or 10 ppt
-
-        # same bindings, but for the arrow keys
         bindsym Left resize shrink width 10 px or 10 ppt
         bindsym Down resize grow height 10 px or 10 ppt
         bindsym Up resize shrink height 10 px or 10 ppt
         bindsym Right resize grow width 10 px or 10 ppt
-
-        # back to normal: Enter or Escape or $mod+r
         bindsym Return mode "default"
         bindsym Escape mode "default"
         bindsym $mod+r mode "default"
@@ -176,37 +156,11 @@ bindsym $mod+r mode "resize"
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-        # status_command i3status
 	status_command i3status
 	position top
 }
 
 
-#Workspace management
-assign [class="Studio 3T"] $ws3
-assign [class="Rhythmbox"] $ws4
-assign [class="Spotify"] $sw4
-assign [class="vlc"] $ws8
-assign [class="X-terminal-emulator"] $ws1
-assign [class="Firefox"] $ws1
-assign [class="Google-chrome"] $ws2
-assign [class="Code - Insiders"] $ws3
-assign [class="jetbrains-datagrip"] $ws3
-assign [class="jetbrains-pycharm"] $ws3
-assign [class="jetbrains-goland"] $ws3
-assign [class="jetbrains-phpstorm"] $ws3
-assign [class="discord"] $ws5
-assign [class="Org.gnome.Nautilus"] $ws6
-assign [class="Spotify"] $ws4
-assign [class="Code"] $ws3
-assign [class="Code-oss"] $ws3
-assign [class="Terminator"] $ws2
-assign [class="Emacs"] $ws3
-assign [class="Chromium"] $ws1
-assign [class="Thunar"] $ws6
-assign [class="Rocket.Chat"] $ws5
-assign [class="csgo_linux64"] $ws7
-# assign [class=""] $ws2
 # volume
 bindsym XF86AudioRaiseVolume exec amixer -q -D pulse sset Master 5%+; exec pkill -RTMIN+10 i3blocks
 bindsym XF86AudioLowerVolume exec amixer -q -D pulse sset Master 5%-; exec pkill -RTMIN+10 i3blocks
