@@ -25,7 +25,7 @@ bindsym $mod+u exec i3-msg move workspace to output left
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec xterm
+bindsym $mod+Return exec x-terminal-emulator
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -177,5 +177,6 @@ bindsym XF86AudioPrev exec playerctl previous
 
 #Keyboard Layout
 exec xrandr --output HDMI-1 --right-of eDP-1
+exec nitrogen --restore
 exec firefox
 exec fg42
