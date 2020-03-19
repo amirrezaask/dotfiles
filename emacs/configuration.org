@@ -232,7 +232,7 @@ You are devil's advocate by choice
 #+BEGIN_SRC emacs-lisp
   (when (eq side 'evil)
       (progn
-	(use-package evil :init (setq evil-want-keybinding nil) 
+        (use-package evil :init (setq evil-want-keybinding nil) 
 	  :config
 	  (evil-mode 1)
 	  (bindkey global-map 'find-file :evil (:normal "SPC f f"))
@@ -252,7 +252,6 @@ You are devil's advocate by choice
 	  (bindkey global-map 'describe-key :evil (:normal "SPC d k"))
 	  (bindkey global-map 'describe-function :evil (:normal "SPC d f"))
 	  (bindkey global-map 'describe-variable :evil (:normal "SPC d v"))
-	  (bindkey global-map 'magit-status :evil (:normal "SPC g s"))
 	  (bindkey global-map 'toggle-color-mode :evil (:normal "SPC t t")))
 	(use-package linum-relative :config (linum-relative-mode))))
   
@@ -351,7 +350,11 @@ You are devil's advocate by choice
 #+END_SRC
 *** Version Controll
 #+BEGIN_SRC emacs-lisp
-  (use-package magit  :commands (magit-status) :bind (("C-x g" . magit-status)))
+  (use-package magit
+    :defer t
+    :commands (magit-status)
+    :config 
+    (bindkey global-map 'magit-status :holy "C-x g" :evil (:normal "SPC g s")))
   (use-package diff-hl  :config (global-diff-hl-mode))
 #+END_SRC
 *** Language Server protocol Support
