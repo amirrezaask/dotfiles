@@ -348,14 +348,17 @@ You are devil's advocate by choice
 #+BEGIN_SRC emacs-lisp
 ;; (use-package dap-mode  :defer t :hook ((go-mode python-mode php-mode) . dap-mode))
 #+END_SRC
-*** Version Controll
+*** Version Control
 #+BEGIN_SRC emacs-lisp
-  (use-package magit
-    :defer t
-    :commands (magit-status)
-    :config 
-    (bindkey global-map 'magit-status :holy "C-x g" :evil (:normal "SPC g s")))
-  (use-package diff-hl  :config (global-diff-hl-mode))
+    (use-package magit
+      :commands (magit-status)
+      :init
+      (bindkey global-map 'magit-status :holy "C-x g" :evil (:normal "SPC g s")))
+    (use-package diff-hl  :config (global-diff-hl-mode))
+  (when
+  (eq side 'evil)
+      (use-package evil-magit :defer t :init (add-hook 'magit-mode-hook (lambda () (require 'evil-magit)) 
+    )))
 #+END_SRC
 *** Language Server protocol Support
 #+BEGIN_SRC emacs-lisp
