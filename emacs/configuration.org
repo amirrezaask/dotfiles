@@ -122,6 +122,10 @@ All variables should be written in the vars file and be loaded during Emacs star
 #+END_SRC
 
 ** Some UI Enhancements and Theme setup
+*** Change Emacs cursor shape
+#+BEGIN_SRC emacs-lisp
+(setq cursor-type 'hbar)
+#+END_SRC
 *** Disable GUI Pop Up
 #+BEGIN_SRC emacs-lisp
 (setq use-dialog-box nil)
@@ -271,7 +275,7 @@ You are devil's advocate by choice
 	:config
 	(helm-mode 1)
 	(bindkey global-map 'helm-find-files :evil (:normal "SPC f f") :holy "C-x C-f")
-	(bindkey global-map 'helm-M-x :evil (:normal "SPC SPC") :holy "M-e")
+	(bindkey global-map 'helm-M-x :evil (:normal "SPC SPC") :holy "M-x")
 	(bindkey global-map 'helm-mini :evil (:normal "SPC b l") :holy "C-x b")))
 #+END_SRC
 *** Ivy
@@ -385,11 +389,6 @@ You are devil's advocate by choice
   (use-package go-add-tags  :defer t :config (global-set-key "C-c C-s" 'go-add-tags))
   (use-package gotest  :defer t :config (global-set-key (kbd "C-c C-t C-t") 'go-test-current-test) (global-set-key (kbd "C-c C-t C-f") 'go-test-current-file))
 #+END_SRC
-** Clojure setup
-#+BEGIN_SRC emacs-lisp
-(use-package clojure-mode :defer t :mode "\\.cljs?\\'")
-(use-package cider :defer t :hook clojure-mode :config (cider-jack-in))
-#+END_SRC
 ** Haskell setup
 #+BEGIN_SRC emacs-lisp
 (use-package haskell-mode :mode "\\.hs\\'")
@@ -427,12 +426,27 @@ You are devil's advocate by choice
 (use-package flycheck-rust :mode "\\.rs\\'" :init (add-hook 'flycheck-mode-hook #'flycheck-rust-setup) :hook rust-mode)
 (use-package cargo :mode "\\.rs\\'" :init (add-hook 'rust-mode-hook #'cargo-minor-mode))
 #+END_SRC
-** Lisp Setup
-*** Help us with parens
+** Lisps Setup
+*** General Paren helpers
 #+BEGIN_SRC emacs-lisp
-  (use-package smartparens  :hook ((emacs-lisp-mode python-mode go-mode php-mode) . smartparens-mode))
+  (use-package parinfer
+    :init
+    (setq parinfer-extensions
+	  '(defaults       ; should be included.
+	     pretty-parens  ; different paren styles for different modes.
+	     evil           ; If you use Evil.
+	     lispy          ; If you use Lispy. With this extension, you should install Lispy and do not enable lispy-mode directly.
+	     paredit        ; Introduce some paredit commands.
+	     smart-tab      ; C-b & C-f jump positions and smart shift with tab & S-tab.
+	     smart-yank))   ; Yank behavior depend on mode.
+    :hook ((emacs-lisp-mode clojure-mode) . parinfer-mode))
   (use-package rainbow-delimiters  :hook ((emacs-lisp-mode python-mode go-mode php-mode) . rainbow-delimiters-mode))
 #+END_SRC
+*** Clojure setup
+ #+BEGIN_SRC emacs-lisp
+ (use-package clojure-mode :defer t :mode "\\.cljs?\\'")
+ (use-package cider :hook clojure-mode :config (bindkey global-map 'cider-jack-in-clj :holy "C-c C-r"))
+ #+END_SRC
 ** Lua Setup...
 #+BEGIN_SRC emacs-lisp
 (use-package lua-mode :mode "\\.lua\\'")
