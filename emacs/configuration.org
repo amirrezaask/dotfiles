@@ -303,13 +303,17 @@ You are devil's advocate by choice
 #+BEGIN_SRC emacs-lisp
   (when (eq incremental-completion 'ido)
     (progn
-      (if (boundp 'ido-vertically)
-	  (use-package ido-vertical-mode :config (ido-mode 1) (ido-vertical-mode 1) (setq ido-vertical-define-keys 'C-n-and-C-p-only))
+      (use-package ido-vertical-mode
+	:config
 	(ido-mode 1)
-	)
+	(ido-everywhere 1)
+	(ido-vertical-mode 1)
+	(setq ido-vertical-define-keys 'C-n-and-C-p-only))
       (use-package smex
-	:commands (smex)
-	:config (bindkey global-map 'smex :evil (:normal "SPC SPC") :holy "M-x"))))
+	:commands
+	(smex)
+	:init
+	(bindkey global-map 'smex :evil (:normal "SPC SPC") :holy "M-x"))))
 #+END_SRC
 ** Org mode
 #+BEGIN_SRC emacs-lisp
