@@ -238,28 +238,31 @@ You're good god fearing man
 You are devil's advocate by choice
 #+BEGIN_SRC emacs-lisp
   (when-evil
-        (use-package evil :init (setq evil-want-keybinding nil) 
-	  :config
-	  (evil-mode 1)
-	  (bindkey global-map 'find-file :evil (:normal "SPC f f"))
-	  (bindkey global-map 'kill-buffer :evil (:normal "SPC b k"))
-	  (bindkey global-map 'save-buferr :evil (:normal "SPC b s"))
-	  (bindkey global-map 'next-buffer :evil (:normal "SPC b n"))
-	  (bindkey global-map 'previous-buffer :evil (:normal "SPC b p"))
-	  (bindkey global-map 'switch-to-buffer :evil (:normal "SPC b l"))
-	  (bindkey global-map 'other-window :evil (:normal "SPC w o"))
-	  (bindkey global-map 'delete-window :evil (:normal "SPC w d"))
-	  (bindkey global-map 'delete-other-windows :evil (:normal "SPC w m"))
-	  (bindkey global-map 'split-window-vertically :evil (:normal "SPC w s v"))
-	  (bindkey global-map 'kill-buffer :evil (:normal "SPC b k"))
-	  (bindkey global-map 'eval-last-sexp :evil (:normal "SPC e e"))
-	  (bindkey global-map 'eval-buffer :evil (:normal "SPC e b"))
-	  (bindkey global-map 'comment-line :evil (:normal "SPC l c"))
-	  (bindkey global-map 'describe-key :evil (:normal "SPC d k"))
-	  (bindkey global-map 'describe-function :evil (:normal "SPC d f"))
-	  (bindkey global-map 'describe-variable :evil (:normal "SPC d v"))
-	  (bindkey global-map 'toggle-color-mode :evil (:normal "SPC t t")))
-	(use-package linum-relative :config (linum-relative-mode))) 
+   (use-package evil 
+     :init
+     (setq evil-want-keybinding nil)
+     (add-hook 'simple-mode-hook 'evil-mode)
+     :config
+     (evil-mode 1)
+     (bindkey global-map 'find-file :evil (:normal "SPC f f"))
+     (bindkey global-map 'kill-buffer :evil (:normal "SPC b k"))
+     (bindkey global-map 'save-buferr :evil (:normal "SPC b s"))
+     (bindkey global-map 'next-buffer :evil (:normal "SPC b n"))
+     (bindkey global-map 'previous-buffer :evil (:normal "SPC b p"))
+     (bindkey global-map 'switch-to-buffer :evil (:normal "SPC b l"))
+     (bindkey global-map 'other-window :evil (:normal "SPC w o"))
+     (bindkey global-map 'delete-window :evil (:normal "SPC w d"))
+     (bindkey global-map 'delete-other-windows :evil (:normal "SPC w m"))
+     (bindkey global-map 'split-window-vertically :evil (:normal "SPC w s v"))
+     (bindkey global-map 'kill-buffer :evil (:normal "SPC b k"))
+     (bindkey global-map 'eval-last-sexp :evil (:normal "SPC e e"))
+     (bindkey global-map 'eval-buffer :evil (:normal "SPC e b"))
+     (bindkey global-map 'comment-line :evil (:normal "SPC l c"))
+     (bindkey global-map 'describe-key :evil (:normal "SPC d k"))
+     (bindkey global-map 'describe-function :evil (:normal "SPC d f"))
+     (bindkey global-map 'describe-variable :evil (:normal "SPC d v"))
+     (bindkey global-map 'toggle-color-mode :evil (:normal "SPC t t")))
+   (use-package linum-relative :config (linum-relative-mode))) 
 #+END_SRC
 *** Which key helps us when we only remember part of a keybinding
 #+BEGIN_SRC emacs-lisp
@@ -447,21 +450,17 @@ You are devil's advocate by choice
 #+BEGIN_SRC emacs-lisp
   (use-package paredit :hook ((emacs-lisp-mode clojure-mode) . paredit-mode))
   (use-package parinfer
-    :init
-    (setq parinfer-extensions
-	  '(defaults       ; should be included.
-	     pretty-parens  ; different paren styles for different modes.
-	     evil           ; If you use Evil.
-	     paredit        ; Introduce some paredit commands.
-	     smart-tab      ; C-b & C-f jump positions and smart shift with tab & S-tab.
-	     smart-yank))   ; Yank behavior depend on mode.
     :hook ((emacs-lisp-mode clojure-mode) . parinfer-mode))
   (use-package rainbow-delimiters  :hook ((emacs-lisp-mode python-mode go-mode php-mode) . rainbow-delimiters-mode))
 #+END_SRC
 *** Clojure setup
  #+BEGIN_SRC emacs-lisp
- (use-package clojure-mode :mode "\\.cljs?\\'" :config (lsp))
- (use-package cider :hook clojure-mode :config (bindkey global-map 'cider-jack-in-clj :holy "C-c C-r"))
+   (use-package clojure-mode :mode "\\.cljs?\\'" :config (lsp))
+   (use-package cider 
+     :init
+     (add-hook 'cider-mode-hook (lambda () (call-interactively 'cider-jack-in)))
+     :config
+     (bindkey cider-mode-map 'cider-eval-last-sexp :evil (:normal "SPC e e") :holy "C-x C-e"))
  #+END_SRC
 ** Lua Setup...
 #+BEGIN_SRC emacs-lisp
