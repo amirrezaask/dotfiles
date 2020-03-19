@@ -167,9 +167,15 @@ All variables should be written in the vars file and be loaded during Emacs star
       :ensure t
       :init (doom-modeline-mode 1)))
 #+END_SRC
-*** Change Emacs cursor shape
+*** Dashboard
 #+BEGIN_SRC emacs-lisp
-(setq cursor-type 'hbar)
+(use-package dashboard
+  :ensure t
+  :config
+  (setq dashboard-banner-logo-title "Welcome to dark side of Emacs")
+  (setq dashboard-startup-banner 'logo) 
+  (setq dashboard-center-content t)
+  (dashboard-setup-startup-hook))
 #+END_SRC
 ** Keybindings
 *** Keybinding Macro
