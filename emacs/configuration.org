@@ -122,10 +122,6 @@ All variables should be written in the vars file and be loaded during Emacs star
 #+END_SRC
 
 ** Some UI Enhancements and Theme setup
-*** Change Emacs cursor shape
-#+BEGIN_SRC emacs-lisp
-(setq cursor-type 'hbar)
-#+END_SRC
 *** Disable GUI Pop Up
 #+BEGIN_SRC emacs-lisp
 (setq use-dialog-box nil)
@@ -170,6 +166,10 @@ All variables should be written in the vars file and be loaded during Emacs star
     (use-package doom-modeline
       :ensure t
       :init (doom-modeline-mode 1)))
+#+END_SRC
+*** Change Emacs cursor shape
+#+BEGIN_SRC emacs-lisp
+(setq cursor-type 'hbar)
 #+END_SRC
 ** Keybindings
 *** Keybinding Macro
@@ -426,9 +426,10 @@ You are devil's advocate by choice
 (use-package flycheck-rust :mode "\\.rs\\'" :init (add-hook 'flycheck-mode-hook #'flycheck-rust-setup) :hook rust-mode)
 (use-package cargo :mode "\\.rs\\'" :init (add-hook 'rust-mode-hook #'cargo-minor-mode))
 #+END_SRC
-** Lisps Setup
+** Lisp Setup
 *** General Paren helpers
 #+BEGIN_SRC emacs-lisp
+  (use-package paredit :hook ((emacs-lisp-mode clojure-mode) . paredit-mode))
   (use-package parinfer
     :init
     (setq parinfer-extensions
