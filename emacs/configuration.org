@@ -202,6 +202,13 @@ All variables should be written in the vars file and be loaded during Emacs star
   (macroexpand '(bindkey global-map 'helm-mini :holy "M-e"))
 #+END_SRC
 *** Choose your side
+**** Some macro to identify evil from holy
+#+BEGIN_SRC emacs-lisp
+  (defmacro when-evil (&rest body)
+    `(when (eq side 'evil)
+       ,@body))
+  (defmacro when-holy (&rest body) `(when (eq side 'holy) ,@body))
+#+END_SRC
 **** Gamer Side
 If you have experience in games which use left hand for movement
 #+BEGIN_SRC emacs-lisp
@@ -211,7 +218,7 @@ If you have experience in games which use left hand for movement
 **** Holy Side
 You're good god fearing man
 #+BEGIN_SRC emacs-lisp
-(when (eq side 'god)
+(when-holy
       (use-package guru-mode  
 	:config (guru-global-mode 1)))
   (when (not (eq side 'evil)) 
@@ -230,8 +237,7 @@ You're good god fearing man
 **** Evil Side
 You are devil's advocate by choice
 #+BEGIN_SRC emacs-lisp
-  (when (eq side 'evil)
-      (progn
+  (when-evil
         (use-package evil :init (setq evil-want-keybinding nil) 
 	  :config
 	  (evil-mode 1)
@@ -253,8 +259,7 @@ You are devil's advocate by choice
 	  (bindkey global-map 'describe-function :evil (:normal "SPC d f"))
 	  (bindkey global-map 'describe-variable :evil (:normal "SPC d v"))
 	  (bindkey global-map 'toggle-color-mode :evil (:normal "SPC t t")))
-	(use-package linum-relative :config (linum-relative-mode))))
-  
+	(use-package linum-relative :config (linum-relative-mode))) 
 #+END_SRC
 *** Which key helps us when we only remember part of a keybinding
 #+BEGIN_SRC emacs-lisp
@@ -275,6 +280,7 @@ You are devil's advocate by choice
 	(helm-mode 1)
 	(bindkey global-map 'helm-find-files :evil (:normal "SPC f f") :holy "C-x C-f")
 	(bindkey global-map 'helm-M-x :evil (:normal "SPC SPC") :holy "M-x")
+	(bindkey global-map 'helm-recentf :evil (:normal "SPC f r") :holy "C-x C-r")
 	(bindkey global-map 'helm-mini :evil (:normal "SPC b l") :holy "C-x b")))
 #+END_SRC
 *** Ivy
@@ -450,7 +456,7 @@ You are devil's advocate by choice
 #+END_SRC
 *** Clojure setup
  #+BEGIN_SRC emacs-lisp
- (use-package clojure-mode :defer t :mode "\\.cljs?\\'")
+ (use-package clojure-mode :mode "\\.cljs?\\'" :config (lsp))
  (use-package cider :hook clojure-mode :config (bindkey global-map 'cider-jack-in-clj :holy "C-c C-r"))
  #+END_SRC
 ** Lua Setup...
