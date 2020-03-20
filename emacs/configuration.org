@@ -140,6 +140,7 @@ All variables should be written in the vars file and be loaded during Emacs star
 #+BEGIN_SRC emacs-lisp
   (setq custom-safe-themes t)
   (use-package doom-themes  :defer t)
+  (use-package badwolf-theme :defer t)
   (defvar current-mode 0 "Current mode 0=> dark 1=>light")
   (defun light-mode ()
     "Light it up."
