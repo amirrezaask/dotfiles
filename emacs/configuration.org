@@ -209,25 +209,16 @@ All variables should be written in the vars file and be loaded during Emacs star
   (macroexpand '(bindkey global-map 'helm-mini :holy "M-e"))
 #+END_SRC
 *** Choose your side
-**** Some macro to identify evil from holy
+**** Some macro to identify good from bad
 #+BEGIN_SRC emacs-lisp
   (defmacro when-evil (&rest body)
     `(when (eq side 'evil)
        ,@body))
   (defmacro when-holy (&rest body) `(when (eq side 'holy) ,@body))
 #+END_SRC
-**** Gamer Side
-If you have experience in games which use left hand for movement
-#+BEGIN_SRC emacs-lisp
-  (when (or (eq side 'gamer))
-    (use-package gamer.el :straight (:host github :repo "amirrezaask/gamer.el") :config (global-gamer-mode 1)))
-#+END_SRC
 **** Holy Side
 You're good god fearing man
 #+BEGIN_SRC emacs-lisp
-(when-holy
-      (use-package guru-mode  
-	:config (guru-global-mode 1)))
   (when (not (eq side 'evil)) 
     (progn
       (global-set-key (kbd "C--") 'text-scale-decrease)
