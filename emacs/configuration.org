@@ -282,7 +282,7 @@ You are devil's advocate by choice
 	(bindkey global-map 'helm-find-files :evil (:normal "SPC f f") :holy "C-x C-f")
 	(bindkey global-map 'helm-M-x :evil (:normal "SPC SPC") :holy "M-x")
 	(bindkey global-map 'helm-recentf :evil (:normal "SPC f r") :holy "C-x C-r")
-	(bindkey global-map 'helm-mini :evil (:normal "SPC b l") :holy "C-x b")))
+	(bindkey global-map 'helm-mini :evil (:normal "SPC b l") :holy "C-x b")
 	(bindkey global-map 'helm-mini :holy "C-x C-b")))
 
 #+END_SRC
