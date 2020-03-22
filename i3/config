@@ -177,5 +177,3 @@ bindsym XF86AudioPrev exec playerctl previous
 #Keyboard Layout
 exec xrandr --output HDMI-1 --right-of eDP-1
 exec nitrogen --restore
-exec firefox
-exec fg42
