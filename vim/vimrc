@@ -10,9 +10,6 @@ Plug 'tpope/vim-commentary'
 Plug 'fatih/vim-go' 
 Plug 'ekalinin/dockerfile.vim'
 Plug 'michaeljsmith/vim-indent-object'
-Plug 'prabirshrestha/async.vim'
-Plug 'prabirshrestha/vim-lsp'
-Plug 'ryanolsonx/vim-lsp-python'
 Plug 'pearofducks/ansible-vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'junegunn/fzf', { 'do': './install --bin' }
@@ -20,9 +17,30 @@ Plug 'junegunn/fzf.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'tpope/vim-fugitive'
+Plug 'prabirshrestha/async.vim'
+Plug 'prabirshrestha/vim-lsp'
+Plug 'mattn/vim-lsp-settings'
+Plug 'preservim/nerdtree'
 call plug#end()
+autocmd CompleteDone * pclose
+function! s:on_lsp_buffer_enabled() abort
+    setlocal omnifunc=lsp#complete
+    setlocal signcolumn=yes
+    nmap <buffer> gd <plug>(lsp-definition)
+    nmap <buffer> <f2> <plug>(lsp-rename)
+    " refer to doc to add more commands
+endfunction
 
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+inoremap <expr> <C-n> pumvisible() ? '<C-n>' :
+  \ '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
 
+inoremap <expr> <M-,> pumvisible() ? '<C-n>' :
+  \ '<C-x><C-o><C-n><C-p><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
+augroup lsp_install
+    au!
+    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+augroup END
 "Basic setup"
 set termguicolors
 colorscheme badwolf 
@@ -46,22 +64,10 @@ set foldlevelstart=10
 set tabstop=8
 set foldmethod=indent
 set path=./
-set path+=**
 set ruler
 set laststatus=2
 set autowrite
 set clipboard=unnamedplus
-
-"Basic setup ends here"
-au User lsp_setup call lsp#register_server({
-\ 'name': 'intelephense',
-\ 'cmd': {server_info->['node', expand('/usr/lib/node_modules/intelephense/lib/intelephense.js'), '--stdio']},
-\ 'initialization_options': {"storagePath": "/usr/lib/node_modules/intelephense"},
-\ 'whitelist': ['php'],
-\ 'workspace_config': { 'intelephense': {
-\   'files.associations': ['*.php'],
-\ }},
-\ })
 
 "Keybidings"
 let mapleader="\<SPACE>"
@@ -84,4 +90,5 @@ let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
 set completeopt+=menuone,noselect,noinsert
 
 au! BufNewFile,BufReadPost *.{yaml,yml} set filetype=yaml foldmethod=indent
+
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
