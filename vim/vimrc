@@ -20,7 +20,16 @@ Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
 Plug 'preservim/nerdtree'
+Plug 'altercation/vim-colors-solarized'
+Plug 'yggdroot/indentline'
+Plug 'junegunn/vim-emoji'
 call plug#end()
+
+"GitGutter setup"
+let g:gitgutter_sign_added = emoji#for('small_blue_diamond')
+let g:gitgutter_sign_modified = emoji#for('small_orange_diamond')
+let g:gitgutter_sign_removed = emoji#for('small_red_triangle')
+let g:gitgutter_sign_modified_removed = emoji#for('collision')
 
 "LSP setup"
 function! s:on_lsp_buffer_enabled() abort
@@ -33,17 +42,18 @@ augroup lsp_install
     au!
     autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
 augroup END
-
+ 
+set foldmethod=expr
+  \ foldexpr=lsp#ui#vim#folding#foldexpr()
+  \ foldtext=lsp#ui#vim#folding#foldtext()
 "Auto complete setup"
-
 autocmd CompleteDone * pclose
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-
 inoremap <expr> <C-n> pumvisible() ? '<C-n>' :
   \ '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
-
 inoremap <expr> <M-,> pumvisible() ? '<C-n>' :
   \ '<C-x><C-o><C-n><C-p><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
+
 
 "Basic setup"
 set termguicolors
@@ -65,7 +75,7 @@ set incsearch
 set hlsearch
 set foldenable
 set foldlevelstart=10
-set tabstop=8
+set tabstop=4
 set foldmethod=indent
 set path=./
 set ruler
@@ -74,7 +84,7 @@ set autowrite
 set clipboard=unnamedplus
 
 "Keybidings"
-let mapleader="\<SPACE>"
+let mapleader=","
 nnoremap <Leader>ff :FZF<CR> 
 
 "netrw tweaks"
