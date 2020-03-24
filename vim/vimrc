@@ -24,7 +24,6 @@ Plug 'altercation/vim-colors-solarized'
 Plug 'yggdroot/indentline'
 Plug 'junegunn/vim-emoji'
 call plug#end()
-
 "GitGutter setup"
 let g:gitgutter_sign_added = emoji#for('small_blue_diamond')
 let g:gitgutter_sign_modified = emoji#for('small_orange_diamond')
@@ -54,6 +53,7 @@ inoremap <expr> <C-n> pumvisible() ? '<C-n>' :
 inoremap <expr> <M-,> pumvisible() ? '<C-n>' :
   \ '<C-x><C-o><C-n><C-p><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
 
+autocmd FileType go,python,php,javascript,html inoremap . .<C-x><C-o><C-n>
 
 "Basic setup"
 set termguicolors
