@@ -1,4 +1,3 @@
-"Effient Over Fancy"
 call plug#begin('~/.vim/plugged')
 Plug 'sjl/badwolf' 
 Plug 'ctrlpvim/ctrlp.vim'
@@ -72,13 +71,6 @@ set clipboard=unnamedplus
 "Keybidings"
 let mapleader="\<SPACE>"
 nnoremap <Leader>ff :FZF<CR> 
-
-"Go setup"
-autocmd Filetype go iabbrev pkgm package main<CR>func main(){<CR>}
-autocmd Filetype go iabbrev iferr if err != nil {<CR>    panic(err)<CR>}
-autocmd Filetype go iabbrev print fmt.Println()
-autocmd Filetype go iabbrev abbrev fprint fmt.Fprintf()
-autocmd Filetype go iabbrev printf fmt.Printf()
 
 "netrw tweaks"
 let g:netrw_banner=0        " disable annoying banner
