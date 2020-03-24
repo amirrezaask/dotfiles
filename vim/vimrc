@@ -67,6 +67,7 @@ set encoding=utf-8
 set showcmd
 filetype indent on
 filetype plugin on
+set cursorline
 set wildmenu
 set showmatch
 set ignorecase
