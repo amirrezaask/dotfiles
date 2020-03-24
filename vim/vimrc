@@ -1,6 +1,6 @@
 "Effient Over Fancy"
 call plug#begin('~/.vim/plugged')
-Plug 'chriskempson/base16-vim'
+Plug 'sjl/badwolf' 
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-jdaddy'
@@ -19,17 +19,15 @@ Plug 'junegunn/fzf', { 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'tpope/vim-fugitive'
 call plug#end()
+
 
 "Basic setup"
 set termguicolors
-colorscheme dracula
-" colorscheme base16-default
-set guioptions-=m  "menu bar
-set guioptions-=T  "toolbar
-set guioptions-=r  "scrollbar
+colorscheme badwolf 
 nnoremap Q <NOP>
-set guifont=Jetbrains\ Mono\ 12
+set guifont=mononoki\ 9
 set nocompatible
 set number
 set belloff=all
@@ -53,6 +51,7 @@ set ruler
 set laststatus=2
 set autowrite
 set clipboard=unnamedplus
+
 "Basic setup ends here"
 au User lsp_setup call lsp#register_server({
 \ 'name': 'intelephense',
@@ -63,32 +62,18 @@ au User lsp_setup call lsp#register_server({
 \   'files.associations': ['*.php'],
 \ }},
 \ })
-"Helpers Functions"
-function! RecursiveGrep()
-	let pattern = input("enter pattern: ")
-	!grep -rnw './' -e pattern 
-
-endfunction
 
 "Keybidings"
 let mapleader="\<SPACE>"
 nnoremap <Leader>ff :FZF<CR> 
-map <Up> <NOP>
-map <Down> <NOP>
-map <Right> <NOP>
-map <Left> <NOP>
 
 "Go setup"
-nnoremap <Leader>gob :GoBuild<CR>
-nnoremap <Leader>got :GoTest<CR>
-nnoremap <Leader>gor :GoRun<CR>
-nnoremap ,go ipackage main<CR><CR>import "fmt"<CR><CR>func main(){<CR><tab>fmt.Println("vim rocks")<CR>}
-
 autocmd Filetype go iabbrev pkgm package main<CR>func main(){<CR>}
 autocmd Filetype go iabbrev iferr if err != nil {<CR>    panic(err)<CR>}
 autocmd Filetype go iabbrev print fmt.Println()
 autocmd Filetype go iabbrev abbrev fprint fmt.Fprintf()
 autocmd Filetype go iabbrev printf fmt.Printf()
+
 "netrw tweaks"
 let g:netrw_banner=0        " disable annoying banner
 let g:netrw_browse_split=0  " open in prior window
