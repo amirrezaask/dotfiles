@@ -1,29 +1,55 @@
 call plug#begin('~/.vim/plugged')
+"Theme I use
 Plug 'sjl/badwolf' 
+"project fuzzy search
 Plug 'ctrlpvim/ctrlp.vim'
+"Extension to netrw
 Plug 'tpope/vim-vinegar'
+"JSON manipulation and pretty printing
 Plug 'tpope/vim-jdaddy'
+"Another beautiful theme
 Plug 'dracula/vim', { 'as': 'dracula' }
+"Change surrounding items like brackets or parens
 Plug 'tpope/vim-surround'
+"Comment operations
 Plug 'tpope/vim-commentary'
+"Golang development integration for vim
 Plug 'fatih/vim-go' 
+"Dockerfile syntax highlight
 Plug 'ekalinin/dockerfile.vim'
+"Define indents as Text Objects
 Plug 'michaeljsmith/vim-indent-object'
+"Ansible syntax highlighting
 Plug 'pearofducks/ansible-vim'
+"Show new/modified/deleted lines beside the line number
 Plug 'airblade/vim-gitgutter'
+"Install fzf
 Plug 'junegunn/fzf', { 'do': './install --bin' }
+"FZF vim support
 Plug 'junegunn/fzf.vim'
+"Beautiful fast status bar
 Plug 'vim-airline/vim-airline'
+"Some themes for status bar
 Plug 'vim-airline/vim-airline-themes'
+"Git wrapper
 Plug 'tpope/vim-fugitive'
+"Async jobs for vim
 Plug 'prabirshrestha/async.vim'
+"LSP client for vim
 Plug 'prabirshrestha/vim-lsp'
+"LSP client settings like registering popular langauges servers
 Plug 'mattn/vim-lsp-settings'
+"Vim side file manager
 Plug 'preservim/nerdtree'
+
 Plug 'yggdroot/indentline'
+"Support for emojis
 Plug 'junegunn/vim-emoji'
+"Rust support
 Plug 'rust-lang/rust.vim'
+"Automatically insert pairs
 Plug 'jiangmiao/auto-pairs'
+
 call plug#end()
 
 "Basic setup"
