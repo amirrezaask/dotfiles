@@ -20,40 +20,9 @@ Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
 Plug 'preservim/nerdtree'
-Plug 'altercation/vim-colors-solarized'
 Plug 'yggdroot/indentline'
 Plug 'junegunn/vim-emoji'
 call plug#end()
-"GitGutter setup"
-let g:gitgutter_sign_added = emoji#for('small_blue_diamond')
-let g:gitgutter_sign_modified = emoji#for('small_orange_diamond')
-let g:gitgutter_sign_removed = emoji#for('small_red_triangle')
-let g:gitgutter_sign_modified_removed = emoji#for('collision')
-
-"LSP setup"
-function! s:on_lsp_buffer_enabled() abort
-    setlocal omnifunc=lsp#complete
-    setlocal signcolumn=yes
-    nmap <buffer> gd <plug>(lsp-definition)
-    nmap <buffer> <f2> <plug>(lsp-rename)
-endfunction
-augroup lsp_install
-    au!
-    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
-augroup END
- 
-set foldmethod=expr
-  \ foldexpr=lsp#ui#vim#folding#foldexpr()
-  \ foldtext=lsp#ui#vim#folding#foldtext()
-"Auto complete setup"
-autocmd CompleteDone * pclose
-inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-inoremap <expr> <C-n> pumvisible() ? '<C-n>' :
-  \ '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
-inoremap <expr> <M-,> pumvisible() ? '<C-n>' :
-  \ '<C-x><C-o><C-n><C-p><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
-
-autocmd FileType go,python,php,javascript,html inoremap . .<C-x><C-o><C-n>
 
 "Basic setup"
 set termguicolors
@@ -100,3 +69,39 @@ set completeopt+=menuone,noselect,noinsert
 au! BufNewFile,BufReadPost *.{yaml,yml} set filetype=yaml foldmethod=indent
 
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+
+"NerdTree Setup"
+map <F8> :NERDTreeToggle<CR>
+
+"GitGutter setup"
+let g:gitgutter_sign_added = emoji#for('small_blue_diamond')
+let g:gitgutter_sign_modified = emoji#for('small_orange_diamond')
+let g:gitgutter_sign_removed = emoji#for('small_red_triangle')
+let g:gitgutter_sign_modified_removed = emoji#for('collision')
+
+"LSP setup"
+function! s:on_lsp_buffer_enabled() abort
+    setlocal omnifunc=lsp#complete
+    setlocal signcolumn=yes
+    nmap <buffer> gd <plug>(lsp-definition)
+    nmap <buffer> <f2> <plug>(lsp-rename)
+endfunction
+augroup lsp_install
+    au!
+    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+augroup END
+ 
+set foldmethod=expr
+  \ foldexpr=lsp#ui#vim#folding#foldexpr()
+  \ foldtext=lsp#ui#vim#folding#foldtext()
+
+"Auto complete setup"
+autocmd CompleteDone * pclose
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+inoremap <expr> <C-n> pumvisible() ? '<C-n>' :
+  \ '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
+inoremap <expr> <M-,> pumvisible() ? '<C-n>' :
+  \ '<C-x><C-o><C-n><C-p><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
+
+autocmd FileType go,python,php,javascript,html inoremap . .<C-x><C-o><C-n>
+
