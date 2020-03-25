@@ -34,6 +34,7 @@ set number
 set belloff=all
 set encoding=utf-8
 set showcmd
+set mouse=a
 filetype indent on
 filetype plugin on
 set cursorline
