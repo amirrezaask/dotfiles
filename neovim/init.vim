@@ -22,6 +22,8 @@ Plug 'mattn/vim-lsp-settings'
 Plug 'preservim/nerdtree'
 Plug 'yggdroot/indentline'
 Plug 'junegunn/vim-emoji'
+Plug 'rust-lang/rust.vim'
+Plug 'jiangmiao/auto-pairs'
 call plug#end()
 
 "Basic setup"
@@ -47,6 +49,10 @@ set hlsearch
 set foldenable
 set foldlevelstart=10
 set tabstop=4
+set softtabstop=4
+set smarttab
+set shiftwidth=4
+set expandtab
 set foldmethod=indent
 set path=./
 set ruler
