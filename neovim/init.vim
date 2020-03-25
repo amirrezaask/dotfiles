@@ -39,6 +39,11 @@ Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/vim-lsp'
 "LSP client settings like registering popular langauges servers
 Plug 'mattn/vim-lsp-settings'
+"NCM completion manager for auto complete suggestions
+Plug 'ncm2/ncm2'
+Plug 'roxma/nvim-yarp'
+Plug 'ncm2/ncm2-vim-lsp'
+
 "Vim side file manager
 Plug 'preservim/nerdtree'
 
@@ -117,19 +122,23 @@ let g:gitgutter_sign_added = emoji#for('small_blue_diamond')
 let g:gitgutter_sign_modified = emoji#for('small_orange_diamond')
 let g:gitgutter_sign_removed = emoji#for('small_red_triangle')
 let g:gitgutter_sign_modified_removed = emoji#for('collision')
+"NCM setup
+autocmd BufEnter * call ncm2#enable_for_buffer()
+set completeopt=noinsert,menuone,noselect
 
 "LSP setup"
-function! s:on_lsp_buffer_enabled() abort
-    setlocal omnifunc=lsp#complete
-    setlocal signcolumn=yes
-    nmap <buffer> gd <plug>(lsp-definition)
-    nmap <buffer> <f2> <plug>(lsp-rename)
-endfunction
-augroup lsp_install
-    au!
-    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
-augroup END
- 
+" function! s:on_lsp_buffer_enabled() abort
+"     setlocal omnifunc=lsp#complete
+"     setlocal signcolumn=yes
+"     nmap <buffer> gd <plug>(lsp-definition)
+"     nmap <buffer> <f2> <plug>(lsp-rename)
+" endfunction
+" augroup lsp_install
+"     au!
+"     autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+" augroup END
+
+"folding setup 
 set foldmethod=expr
   \ foldexpr=lsp#ui#vim#folding#foldexpr()
   \ foldtext=lsp#ui#vim#folding#foldtext()
@@ -142,5 +151,5 @@ inoremap <expr> <C-n> pumvisible() ? '<C-n>' :
 inoremap <expr> <M-,> pumvisible() ? '<C-n>' :
   \ '<C-x><C-o><C-n><C-p><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
 
-autocmd FileType go,python,php,javascript,html inoremap . .<C-x><C-o><C-n>
+" autocmd FileType go,python,php,javascript,html inoremap . .<C-x><C-o><C-n>
 
