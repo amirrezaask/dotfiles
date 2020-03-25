@@ -59,6 +59,9 @@ set ruler
 set laststatus=2
 set autowrite
 set clipboard=unnamedplus
+"Better vertical movement for wrapped (long) lines"
+nnoremap j gj
+nnoremap k gk
 
 "Keybidings"
 let mapleader=","
