@@ -31,8 +31,6 @@ Plug 'junegunn/fzf.vim'
 Plug 'vim-airline/vim-airline'
 "Some themes for status bar
 Plug 'vim-airline/vim-airline-themes'
-"Git wrapper
-Plug 'tpope/vim-fugitive'
 "Async jobs for vim
 Plug 'prabirshrestha/async.vim'
 "LSP client for vim
