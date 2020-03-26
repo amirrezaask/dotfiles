@@ -25,7 +25,7 @@ bindsym $mod+u exec i3-msg move workspace to output left
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec x-terminal-emulator
+bindsym $mod+Return exec sakura 
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -154,7 +154,7 @@ bindsym $mod+r mode "resize"
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-        status_command i3blocks
+        status_command i3status 
         position top
 }
 
