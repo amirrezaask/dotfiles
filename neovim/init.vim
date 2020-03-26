@@ -43,7 +43,8 @@ Plug 'mattn/vim-lsp-settings'
 Plug 'ncm2/ncm2'
 Plug 'roxma/nvim-yarp'
 Plug 'ncm2/ncm2-vim-lsp'
-
+" Dracula Theme
+Plug 'dracula/vim', { 'as': 'dracula' }
 "Vim side file manager
 Plug 'preservim/nerdtree'
 
@@ -57,23 +58,33 @@ Plug 'jiangmiao/auto-pairs'
 
 call plug#end()
 
-"Basic setup"
-set termguicolors
+"Set theme"
 colorscheme badwolf 
+" Remap Q to nothing
 nnoremap Q <NOP>
-set guifont=mononoki\ 9
+" We are using Vim not Vi
 set nocompatible
+" Show line number
 set number
+" Turn of bell sound for everything
 set belloff=all
+" Set default file encoding
 set encoding=utf-8
+" Show last command on the status line
 set showcmd
+" Support mouse
 set mouse=a
+" Filetype indents
 filetype indent on
+" Filetype plugins
 filetype plugin on
+" highlight current line
 set cursorline
+" Suggestions for commands on <TAB>
 set wildmenu
 set showmatch
 set ignorecase
+" relative line numbers useful vim commands
 set relativenumber
 set incsearch
 set hlsearch
