@@ -58,7 +58,7 @@ bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
 # split in horizontal orientation
-bindsym $mod+- split h
+bindsym $mod+Shift+h split h
 
 # split in vertical orientation
 bindsym $mod+v split v
@@ -85,9 +85,9 @@ bindsym $mod+a focus parent
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
-set $ws1 ""
-set $ws2 ""
-set $ws3 """
+set $ws1 "WWW"
+set $ws2 "TERM"
+set $ws3 "MUSIC"
 set $ws4 "4"
 set $ws5 "5"
 set $ws6 "6"
@@ -149,8 +149,8 @@ bar {
         status_command i3status 
         position top
 }
-
-
+# Assignment of windows
+assign [class="Firefox"] 1
 # volume
 bindsym XF86AudioRaiseVolume exec amixer -q -D pulse sset Master 5%+; exec pkill -RTMIN+10 i3blocks
 bindsym XF86AudioLowerVolume exec amixer -q -D pulse sset Master 5%-; exec pkill -RTMIN+10 i3blocks
