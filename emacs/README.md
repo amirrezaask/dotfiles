@@ -1,3 +1,4 @@
+# Deprecated use [ERROR](https://github.com/amirrezaask/ERROR)
 # Emacs Config
 Minimal Emacs config for almighty emacsians.
 [Configuration](https://github.com/amirrezaask/dotfiles/blob/master/emacs/configuration.org)
