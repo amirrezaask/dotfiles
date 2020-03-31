@@ -28,9 +28,7 @@ Plug 'junegunn/fzf', { 'do': './install --bin' }
 "FZF vim support
 Plug 'junegunn/fzf.vim'
 "Beautiful fast status bar
-Plug 'vim-airline/vim-airline'
-"Some themes for status bar
-Plug 'vim-airline/vim-airline-themes'
+Plug 'itchyny/lightline.vim'
 "Async jobs for vim
 Plug 'prabirshrestha/async.vim'
 "LSP client for vim
@@ -45,7 +43,8 @@ Plug 'ncm2/ncm2-vim-lsp'
 Plug 'dracula/vim', { 'as': 'dracula' }
 "Vim side file manager
 Plug 'preservim/nerdtree'
-
+" Centralize Text
+Plug 'junegunn/goyo.vim'
 Plug 'yggdroot/indentline'
 "Support for emojis
 Plug 'junegunn/vim-emoji'
@@ -53,7 +52,7 @@ Plug 'junegunn/vim-emoji'
 Plug 'rust-lang/rust.vim'
 "Automatically insert pairs
 Plug 'jiangmiao/auto-pairs'
-
+Plug 'jreybert/vimagit'
 call plug#end()
 
 "Set theme"
@@ -94,7 +93,7 @@ set smarttab
 set shiftwidth=4
 set expandtab
 set foldmethod=indent
-set path=./
+set path+=**
 set ruler
 set laststatus=2
 set autowrite
@@ -104,7 +103,7 @@ nnoremap j gj
 nnoremap k gk
 
 "Keybidings"
-let mapleader=","
+let mapleader=" "
 nnoremap <Leader>ff :FZF<CR> 
 nnoremap <Leader>wl :vsplit<CR>
 nnoremap <Leader>wj :split<CR>
@@ -127,11 +126,10 @@ autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 map <F8> :NERDTreeToggle<CR>
 
 "GitGutter setup"
-let g:gitgutter_sign_added = emoji#for('small_blue_diamond')
-let g:gitgutter_sign_modified = emoji#for('small_orange_diamond')
-let g:gitgutter_sign_removed = emoji#for('small_red_triangle')
-let g:gitgutter_sign_modified_removed = emoji#for('collision')
-
+let g:gitgutter_sign_added = '+' 
+let g:gitgutter_sign_modified = '~' 
+let g:gitgutter_sign_removed = '-' 
+let g:gitgutter_sign_modified_removed = '~-'
 "NCM setup
 autocmd BufEnter * call ncm2#enable_for_buffer()
 set completeopt=noinsert,menuone,noselect
