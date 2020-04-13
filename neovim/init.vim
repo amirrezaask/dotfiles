@@ -1,14 +1,10 @@
 call plug#begin('~/.vim/plugged')
 "Theme I use
 Plug 'sjl/badwolf' 
-"project fuzzy search
-Plug 'ctrlpvim/ctrlp.vim'
 "Extension to netrw
 Plug 'tpope/vim-vinegar'
 "JSON manipulation and pretty printing
 Plug 'tpope/vim-jdaddy'
-"Another beautiful theme
-Plug 'dracula/vim', { 'as': 'dracula' }
 "Change surrounding items like brackets or parens
 Plug 'tpope/vim-surround'
 "Comment operations
@@ -29,22 +25,30 @@ Plug 'junegunn/fzf', { 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
 "Beautiful fast status bar
 Plug 'itchyny/lightline.vim'
-"Async jobs for vim
+"NCM completion manager for auto complete suggestions
+Plug 'ncm2/ncm2'
+Plug 'roxma/nvim-yarp'
+autocmd BufEnter * call ncm2#enable_for_buffer()
+set completeopt=noinsert,menuone,noselect
+Plug 'ncm2/ncm2-bufword'
+Plug 'ncm2/ncm2-path'
+set shortmess+=c
+
+" CTRL-C doesn't trigger the InsertLeave autocmd . map to <ESC> instead.
+inoremap <c-c> <ESC>
+
+" Use <TAB> to select the popup menu:
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+" ncm2 source for vim-lsp
+Plug 'ncm2/ncm2-vim-lsp'
+" Async jobs for vim
 Plug 'prabirshrestha/async.vim'
 "LSP client for vim
 Plug 'prabirshrestha/vim-lsp'
 "LSP client settings like registering popular langauges servers
 Plug 'mattn/vim-lsp-settings'
-"NCM completion manager for auto complete suggestions
-Plug 'ncm2/ncm2'
-Plug 'roxma/nvim-yarp'
-Plug 'ncm2/ncm2-vim-lsp'
-" Dracula Theme
-Plug 'dracula/vim', { 'as': 'dracula' }
-"Vim side file manager
-Plug 'preservim/nerdtree'
-" Centralize Text
-Plug 'junegunn/goyo.vim'
+" Display indentation level
 Plug 'yggdroot/indentline'
 "Support for emojis
 Plug 'junegunn/vim-emoji'
@@ -52,8 +56,8 @@ Plug 'junegunn/vim-emoji'
 Plug 'rust-lang/rust.vim'
 "Automatically insert pairs
 Plug 'jiangmiao/auto-pairs'
-Plug 'jreybert/vimagit'
 call plug#end()
+
 "Set theme"
 colorscheme badwolf 
 " Remap Q to nothing
@@ -78,7 +82,6 @@ filetype plugin on
 set cursorline
 " to vim let us put the cursor after the last char of the line
 set ve+=onemore
-
 " Suggestions for commands on <TAB>
 set wildmenu
 " show matching bracket
@@ -105,6 +108,7 @@ set ruler
 set laststatus=2
 set autowrite
 set clipboard=unnamedplus
+
 "Better vertical movement for wrapped (long) lines"
 nnoremap j gj
 nnoremap k gk
@@ -112,10 +116,8 @@ nnoremap k gk
 "Keybidings"
 let mapleader=" "
 nnoremap <Leader>ff :FZF<CR> 
-nnoremap <Leader>wl :vsplit<CR>
-nnoremap <Leader>wj :split<CR>
-nnoremap <Leader>wm <C-w>o
-
+" unhighlight search results
+nnoremap <leader>h :noh<cr>
 "netrw tweaks"
 let g:netrw_banner=0        " disable annoying banner
 let g:netrw_browse_split=0  " open in prior window
@@ -123,42 +125,23 @@ let g:netrw_altv=1          " open splits to the right
 let g:netrw_liststyle=3     " tree view
 let g:netrw_list_hide=netrw_gitignore#Hide()
 let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
-set completeopt+=menuone,noselect,noinsert
 
 au! BufNewFile,BufReadPost *.{yaml,yml} set filetype=yaml foldmethod=indent
 
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 
-"NerdTree Setup"
-map <F8> :NERDTreeToggle<CR>
-
 "GitGutter setup"
 let g:gitgutter_sign_added = '+' 
 let g:gitgutter_sign_modified = '~' 
-let g:gitgutter_sign_removed = '-' 
+let g:gitgutter_sign_removed = '-'
 let g:gitgutter_sign_modified_removed = '~-'
+
 "NCM setup
-autocmd BufEnter * call ncm2#enable_for_buffer()
-set completeopt=noinsert,menuone,noselect
-set shortmess+=c
-"With <Enter> close the pop up and create new line
-inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
+" autocmd BufEnter * call ncm2#enable_for_buffer()
+" set completeopt=noinsert,menuone,noselect
+" set shortmess+=c
+
 " Use <TAB> to select the popup menu:
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-
-"folding setup 
-set foldmethod=expr
-  \ foldexpr=lsp#ui#vim#folding#foldexpr()
-  \ foldtext=lsp#ui#vim#folding#foldtext()
-
-"Auto complete setup"
-autocmd CompleteDone * pclose
-inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-inoremap <expr> <C-n> pumvisible() ? '<C-n>' :
-  \ '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
-inoremap <expr> <M-,> pumvisible() ? '<C-n>' :
-  \ '<C-x><C-o><C-n><C-p><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
-
-" autocmd FileType go,python,php,javascript,html inoremap . .<C-x><C-o><C-n>
 

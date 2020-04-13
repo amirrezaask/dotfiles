@@ -200,9 +200,12 @@ a customizable yet robust software that would last for 40 years and yet new gene
 Emacs editor actually doesn't follow Emacs extensibility and composibility philosophy a lot, Emacs editor is based
 on specific targeted functions, you have =delete-word=, it just deletes a word you can not tell it to delete two
 words (yes you can do C-2 M-d) but it's not that user-friendly actually, so without further ado let's decend into
-darkness.
+darkness. 
+=Note=: I still believe that VIM is better editor but since old habits die hard, I'm gonna continue with Emacs
+keybindings
 #+begin_src emacs-lisp
   (use-package evil 
+    :disabled t
     :straight t
     :init
     (setq evil-want-keybinding nil)
@@ -211,20 +214,28 @@ darkness.
 
 
   (use-package evil-collection 
+    :disabled t
     :straight t 
     :config 
     (evil-collection-init))
 
   (use-package evil-magit 
+
+    :disabled t
     :straight t)
 
   (use-package evil-surround 
+
+    :disabled t
     :straight t)
 
   (use-package evil-commentary 
+
+    :disabled t
     :straight t)
 
   (use-package general
+
     :straight t
     :config
     (general-create-definer space-leader-lord :prefix "SPC" :states 'normal :keymaps 'override)
@@ -310,8 +321,9 @@ ways of lazy-loading in use-package we will see others later on.
 ** Font
  To use specific font in Emacs you just need to call a function, that's easy ha ??
  #+BEGIN_SRC emacs-lisp
- (set-face-attribute 'default t :font "Jetbrains Mono-10")
- (set-frame-font "Jetbrains Mono-11" nil t)
+ (defvar amirreza/font "mononoki-12")
+ (set-face-attribute 'default t :font amirreza/font)
+ (set-frame-font amirreza/font nil t)
  #+END_SRC
  If you evaluate code above you see the font changes.
  Now let's write some elisp, let's say that we want to have a function that we can call and change 
@@ -426,7 +438,11 @@ So many times when I am using Emacs I find a problem or a possible feature to ad
     (space-leader "e c" 'amirreza/edit-configuration)
 #+END_SRC
 *** TRAMP
-TBA
+#+begin_src emacs-lisp
+  (use-package tramp
+    :custom
+    (tramp-default-method "ssh"))
+#+end_src
 *** Large files handling
 Since Emacs by default is not that good in handling large files,
 but again Emacs community is here to help
