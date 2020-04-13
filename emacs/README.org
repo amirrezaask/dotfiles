@@ -239,6 +239,7 @@ darkness.
       "s r" 'split-window-right
       "s b" 'split-window-below
       "e s" 'eval-last-sexp
+      "f f" 'find-file
       )
   )
 
@@ -417,7 +418,12 @@ of the is too much so we can decrease it.
 *** Edit configuration
 So many times when I am using Emacs I find a problem or a possible feature to add it's nice to have a keybinding that just opens this file.
 #+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "C-c c e") (lambda () (interactive) (find-file (expand-file-name "README.org" user-emacs-directory))))
+    (defun amirreza/edit-configuration ()
+        (interactive)
+        (find-file (expand-file-name "README.org" user-emacs-directory)))
+
+    (global-set-key (kbd "C-c c e") 'amirreza/edit-configuration)
+    (space-leader "e c" 'amirreza/edit-configuration)
 #+END_SRC
 *** TRAMP
 TBA
@@ -592,7 +598,7 @@ prompt of available options and their respective functionality.
   (use-package which-key
     :straight t
     :custom
-    (which-key-idle-delay 0.5)
+    (which-key-idle-delay 0.3)
     :config
     (which-key-mode 1))
 #+END_SRC
