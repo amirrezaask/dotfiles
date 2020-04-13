@@ -14,5 +14,5 @@ export EDITOR=nvim
 # reset setxkbmap
 setxkbmap -option
 # Caps remapping
-# setxkbmap -layout us,ir -option "caps:swapescape" -option "grp:alt_shift_toggle"
-setxkbmap -layout us,ir -option "ctrl:nocaps" -option "grp:alt_shift_toggle"
+setxkbmap -layout us,ir -option "caps:swapescape" -option "grp:alt_shift_toggle"
+# setxkbmap -layout us,ir -option "ctrl:nocaps" -option "grp:alt_shift_toggle"
