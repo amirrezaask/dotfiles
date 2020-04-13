@@ -192,6 +192,24 @@ but no longer used are not included in loading/scanning procedure.
     (load bootstrap-file nil 'nomessage))
   (straight-use-package 'use-package)
 #+end_src
+* exwm (Emacs X window manager)
+#+begin_src emacs-lisp
+  (use-package exwm 
+    :disabled t
+    :straight t
+    :config 
+    (require 'exwm-config)
+    (require 'exwm-randr)
+
+    (exwm-config-default))
+    ;; (setq exwm-randr-workspace-output-plist '(1 "HDMI-2" 0 "eDP-1"))
+    ;; (add-hook 'exwm-randr-screen-change-hook
+    ;;           (lambda ()
+    ;;             (start-process-shell-command
+    ;;              "xrandr" nil "xrandr --output HDMI-2 --right-of eDP-1 --auto")))
+    ;; (exwm-xrandr-enable))
+
+#+end_src
 * UI
 ** Themes
  Now that we have use-package we can start installing thems, packages, etc. Let's start by installing some thems.
@@ -201,6 +219,7 @@ but no longer used are not included in loading/scanning procedure.
  #+BEGIN_SRC emacs-lisp
    (use-package modus-operandi-theme :straight t :defer t)
    (use-package modus-vivendi-theme :straight t :defer t)
+   (use-package spacemacs-theme :straight t :defer t)
    (use-package doom-themes :straight t :defer t)
  #+END_SRC
  You probably notice the =:defer= part in use-package, with =:defer= keyword (:something is called a keyword in elisp)
@@ -214,8 +233,8 @@ but no longer used are not included in loading/scanning procedure.
      :bind (("<f12>" . amirreza/toggle-color-mode))
      :config
      (defvar amirreza/current-mode 'dark "Current color of Emacs.")
-     (defvar amirreza/dark-theme 'modus-vivendi)
-     (defvar amirreza/light-theme 'modus-operandi)
+     (defvar amirreza/dark-theme 'spacemacs-dark)
+     (defvar amirreza/light-theme 'spacemacs-light)
      (defun amirreza/apply-color (mode)
        "Apply current color mode to Emacs."
        (if (eq amirreza/current-mode 'dark)
@@ -351,6 +370,12 @@ So many times when I am using Emacs I find a problem or a possible feature to ad
 #+END_SRC
 *** TRAMP
 TBA
+*** Large files handling
+Since Emacs by default is not that good in handling large files,
+but again Emacs community is here to help
+#+begin_src emacs-lisp
+(use-package vlf :straight t)
+#+end_src
 *** Beacon
 #+BEGIN_SRC emacs-lisp
 (use-package beacon
@@ -608,6 +633,7 @@ well actually there are multiple package for this purpose but since we are going
 ***** Icomplete
  #+BEGIN_SRC emacs-lisp
    (use-package icomplete
+     :disabled t
      :demand ; loading of icomplete is not deferred since we are using `:bind'.
      :custom
      (icomplete-max-delay-chars 0)
@@ -663,7 +689,7 @@ well actually there are multiple package for this purpose but since we are going
 Ivy is an amazing package that enhances several aspects of Emacs using counsel functions.
  #+BEGIN_SRC emacs-lisp
    (use-package ivy
-     :disabled t
+
      :straight t
      :custom
      (ivy-height 17)
@@ -689,12 +715,12 @@ Ivy is an amazing package that enhances several aspects of Emacs using counsel f
 
    (use-package swiper
      :straight t
-     :disabled t
+
      :commands (swiper)
      :init (global-set-key (kbd "C-s") 'swiper))
 
    (use-package counsel
-     :disabled t
+
      :straight t
      :commands (counsel-M-x counsel-find-file ivy-switch-buffer)
      :bind
@@ -893,6 +919,10 @@ that inserts a docstring in python syntax.
     (:map python-mode-map 
       ("C-c l p d" . amirreza/python-insert-docstring)))
 #+END_SRC
+*** Microsoft Language Server
+#+begin_src emacs-lisp
+(use-package lsp-python-ms :straight t)
+#+end_src
 *** Pipenv
 =Pipenv= is now the de facto tool for python programmers to manage their project deps, so it's nice
 to have a wrapper for it in Emacs.
