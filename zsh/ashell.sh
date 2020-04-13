@@ -3,6 +3,7 @@
 reload_ashell() {
 	source ~/.ashell
 }
+export GO111MODULE=on
 export GOPATH=/home/amirreza/go
 export GOROOT=/usr/local/go
 export PYTHONPATH=/home/amirreza/.local/bin
