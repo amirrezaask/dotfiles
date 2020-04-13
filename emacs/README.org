@@ -630,7 +630,10 @@ well actually there are multiple package for this purpose but since we are going
      (if (> emacs-major-version 26) ;; Emacs 27 and up
          (fido-mode +1) ;; Fido (fake ido) emulates a IDO like interface for icomplete.
        (icomplete-mode +1)))
-
+  (use-package icomplete-vertical
+    :straight (:host github :repo "oantolin/icomplete-vertical")
+    :config
+    (icomplete-vertical-mode 1))
  #+END_SRC
 ***** IDO
 =SideNote=: I moved to =icomplete= since it's simpler and easier for me to customize.
