@@ -227,9 +227,10 @@ darkness.
   (use-package general
     :straight t
     :config
-    (general-create-definer space-leader :prefix "SPC" :keymaps 'normal)
-    (space-leader
-      ;; Emacs basics
+    (general-create-definer space-leader-lord :prefix "SPC" :states 'normal :keymaps 'override)
+    (general-create-definer space-leader :prefix "SPC" :states 'normal)
+    (space-leader-lord
+    ;; Emacs basics
       "b l" 'switch-to-buffer
       "k b" 'kill-buffer
       "SPC" 'execute-extended-command
