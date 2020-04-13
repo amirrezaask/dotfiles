@@ -54,7 +54,6 @@ Plug 'rust-lang/rust.vim'
 Plug 'jiangmiao/auto-pairs'
 Plug 'jreybert/vimagit'
 call plug#end()
-
 "Set theme"
 colorscheme badwolf 
 " Remap Q to nothing
@@ -77,14 +76,22 @@ filetype indent on
 filetype plugin on
 " highlight current line
 set cursorline
+" to vim let us put the cursor after the last char of the line
+set ve+=onemore
+
 " Suggestions for commands on <TAB>
 set wildmenu
+" show matching bracket
 set showmatch
+" ignore case (case insensitive ) when searching
 set ignorecase
 " relative line numbers useful vim commands
 set relativenumber
+" when searching show the matching words as you type 
 set incsearch
+" highlight search results
 set hlsearch
+" TODO: Need research
 set foldenable
 set foldlevelstart=10
 set tabstop=4
