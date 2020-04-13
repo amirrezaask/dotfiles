@@ -8,6 +8,6 @@
 (tool-bar-mode 0) ;; disable tool-bar
 (scroll-bar-mode 0) ;; disable scroll-bar
 (menu-bar-mode 0) ;; disable menu-bar
-
+(setq vc-follow-symlinks nil)
 
 
