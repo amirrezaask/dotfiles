@@ -192,7 +192,58 @@ but no longer used are not included in loading/scanning procedure.
     (load bootstrap-file nil 'nomessage))
   (straight-use-package 'use-package)
 #+end_src
-* exwm (Emacs X window manager)
+* Evil always wins
+"Emacs is a great operating system lacking only a decent editor", I always find this quote to be
+true Emacs as software package/framework is amazing I mean I think people that are working on various 
+types of frameworks out there should really start studying Emacs as an inspiration of how you can write 
+a customizable yet robust software that would last for 40 years and yet new generations start using it yet
+Emacs editor actually doesn't follow Emacs extensibility and composibility philosophy a lot, Emacs editor is based
+on specific targeted functions, you have =delete-word=, it just deletes a word you can not tell it to delete two
+words (yes you can do C-2 M-d) but it's not that user-friendly actually, so without further ado let's decend into
+darkness.
+#+begin_src emacs-lisp
+  (use-package evil 
+    :straight t
+    :init
+    (setq evil-want-keybinding nil)
+    :config
+    (evil-mode +1))
+
+
+  (use-package evil-collection 
+    :straight t 
+    :config 
+    (evil-collection-init))
+
+  (use-package evil-magit 
+    :straight t)
+
+  (use-package evil-surround 
+    :straight t)
+
+  (use-package evil-commentary 
+    :straight t)
+
+  (use-package general
+    :straight t
+    :config
+    (general-create-definer space-leader :prefix "SPC" :keymaps 'normal)
+    (space-leader
+      ;; Emacs basics
+      "b l" 'switch-to-buffer
+      "k b" 'kill-buffer
+      "SPC" 'execute-extended-command
+      "m w" 'delete-other-windows
+      "o w" 'other-window
+      "d w" 'delete-window
+      "s r" 'split-window-right
+      "s b" 'split-window-below
+      "e s" 'eval-last-sexp
+      )
+  )
+
+#+end_src
+* Exwm (Emacs X window manager)
 #+begin_src emacs-lisp
   (use-package exwm 
     :disabled t
@@ -849,6 +900,8 @@ help ease developer experience when using LSP.
   (use-package magit
     :straight t
     :commands (magit-status)
+    :general 
+    (space-leader "g s" 'magit-status)
     :bind
     (("C-x g" . 'magit-status)))
 
