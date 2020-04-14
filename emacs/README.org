@@ -243,7 +243,7 @@ darkness.
         (space-leader-lord
           "s b" 'switch-to-buffer
           "k b" 'kill-buffer
-          "SPC" 'execute-extended-command
+          ";" 'execute-extended-command
           "m w" 'delete-other-windows
           "d w" 'delete-window
           "s r" 'split-window-right
@@ -295,7 +295,7 @@ darkness.
  #+END_SRC
  You probably notice the =:defer= part in use-package, with =:defer= keyword (:something is called a keyword in elisp)
  use-package knows that we don't need this package to be loaded in startup, since we actually don't need all of our themes
- to be loaded at startup. Another keyword that you see is =:ensure= that is telling use-package to make certain
+ to be loaded at startup. Another keyword that you see is =:straight= that is telling use-package to make certain
  that this package is installed, and if it's not install it from elpa repo.
  Now let's set a theme
  #+BEGIN_SRC emacs-lisp
@@ -304,7 +304,7 @@ darkness.
      :bind (("<f12>" . amirreza/toggle-color-mode))
      :config
      (defvar amirreza/current-mode 'dark "Current color of Emacs.")
-     (defvar amirreza/dark-theme 'spacemacs-dark)
+     (defvar amirreza/dark-theme 'doom-dracula)
      (defvar amirreza/light-theme 'spacemacs-light)
      (defun amirreza/apply-color (mode)
        "Apply current color mode to Emacs."
@@ -633,28 +633,22 @@ prompt of available options and their respective functionality.
     :config
     (which-key-mode 1))
 #+END_SRC
-*** Crux (useful elisp functions)
-#+BEGIN_SRC emacs-lisp
-(use-package crux
-  :straight t
-  :config
-  (require 'crux)
-  :bind (("C-S-k" . 'crux-kill-whole-line))
-  ("C-x K" . 'crux-kill-other-buffers))
-
-#+END_SRC
 *** Dumb Jump
 Sometimes when you are dealing with really big projects LSP can feel a little slow so that's
 when dumb jump can help you jump to defenitions using Rg or ag or grep (we use Rg)
 #+BEGIN_SRC emacs-lisp
-(use-package dumb-jump
-
-  :straight t
-  :bind
-  (("C-M-j" . 'dumb-jump-go)
-   ("C-M-p" . 'dumb-jump-back))
-  :config
-  (dumb-jump-mode 1))
+    (use-package dumb-jump
+      :straight t
+      :general
+      (space-leader "." 'dumb-jump-go "/" 'dumb-jump-back)
+      :bind
+      (("C-M-j" . 'dumb-jump-go)
+       ("C-M-p" . 'dumb-jump-back))
+      :custom
+      (dumb-jump-selector 'helm)
+      (dumb-jump-force-searcher 'rg)
+      :config
+      (dumb-jump-mode 1))
 #+END_SRC
 *** Org Mode
 ***** Org
@@ -861,8 +855,10 @@ Ivy is an amazing package that enhances several aspects of Emacs using counsel f
              "C-b" 'helm-mini
              )
     (space-leader-lord
-      "ff" 'helm-find-files
-      "h m" 'helm-mini))
+      "h a" 'helm-apropos
+      "f f" 'helm-find-files
+      ";" 'helm-M-x
+      "b l" 'helm-mini))
 
   (use-package helm-rg :straight t :commands helm-rg)
 #+end_src
