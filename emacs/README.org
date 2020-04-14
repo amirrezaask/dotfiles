@@ -256,6 +256,8 @@ keybindings
       "d f" 'describe-function
       "d v" 'describe-variable
       "d k" 'describe-key
+      "b n" 'next-buffer
+      "b p" 'previous-buffer
       )
   )
 
@@ -289,6 +291,7 @@ keybindings
    (use-package modus-vivendi-theme :straight t :defer t)
    (use-package spacemacs-theme :straight t :defer t)
    (use-package doom-themes :straight t :defer t)
+   (use-package badwolf-theme :straight t :defer t)
  #+END_SRC
  You probably notice the =:defer= part in use-package, with =:defer= keyword (:something is called a keyword in elisp)
  use-package knows that we don't need this package to be loaded in startup, since we actually don't need all of our themes
@@ -301,7 +304,7 @@ keybindings
      :bind (("<f12>" . amirreza/toggle-color-mode))
      :config
      (defvar amirreza/current-mode 'dark "Current color of Emacs.")
-     (defvar amirreza/dark-theme 'doom-one)
+     (defvar amirreza/dark-theme 'spacemacs-dark)
      (defvar amirreza/light-theme 'spacemacs-light)
      (defun amirreza/apply-color (mode)
        "Apply current color mode to Emacs."
@@ -370,14 +373,6 @@ is a gourges icon package for emacs.
 =:commands= in use-package defers the loading of the package until on of listed commands (interactive functions)
 is called, basically first buffer that wants to use that it will get loaded. =:init= means when emacs started 
 no matter what are the other options evaluate the forms after =:init=.
-** Modeline
-let's customize our modeline, =lighters= are representation of modes in Emacs modeline, for example =Org-mode= lighter is =Org=, we can customize lighters using delight package, to edit them or
-remove them completely, delight package also adds a use-package keyword =:delight= so we can customize packages more declaratively.  
-#+BEGIN_SRC emacs-lisp
-(use-package delight
-  :straight t
-  :after use-package)
-#+END_SRC
 * Emacs Modes Introduction
 First let's talk about modes, Modes are the conventional way to add functionality to Emacs.
 There are two groups of modes, Major modes and minor modes, Major modes are single modes that 
@@ -711,7 +706,6 @@ well actually there are multiple package for this purpose but since we are going
 ***** Icomplete
  #+BEGIN_SRC emacs-lisp
    (use-package icomplete
-     :disabled t
      :demand ; loading of icomplete is not deferred since we are using `:bind'.
      :custom
      (icomplete-max-delay-chars 0)
@@ -767,7 +761,7 @@ well actually there are multiple package for this purpose but since we are going
 Ivy is an amazing package that enhances several aspects of Emacs using counsel functions.
  #+BEGIN_SRC emacs-lisp
    (use-package ivy
-
+     :disabled t
      :straight t
      :custom
      (ivy-height 17)
@@ -792,15 +786,18 @@ Ivy is an amazing package that enhances several aspects of Emacs using counsel f
      (("C-x b" . 'ivy-switch-buffer)))
 
    (use-package swiper
-     :straight t
 
+     :disabled t
+     :straight t
      :commands (swiper)
      :init (global-set-key (kbd "C-s") 'swiper))
 
    (use-package counsel
 
+     :disabled t
      :straight t
      :commands (counsel-M-x counsel-find-file ivy-switch-buffer)
+
      :bind
      (("M-x" . 'counsel-M-x)
       ("C-x C-f" . 'counsel-find-file)
