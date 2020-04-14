@@ -127,6 +127,10 @@ to set this file's value to a nil value during startup and restore it's original
   (setq file-name-handler-alist nil)
   (add-hook 'after-init-hook (lambda () (setq file-name-handler-alist file-name-handler-alist-bak)))
 #+end_src
+* Debug When necessary
+#+begin_src emacs-lisp
+  ;; (setq debug-on-error t)
+#+end_src
 * Setup package manager
 Now that we know how to move around, open files, and do some elisp magic in emacs it's time to start configuring 
 emacs for our own needs. Before we start, we need the final ingredient for our configuration and that's how 
@@ -207,59 +211,60 @@ on specific targeted functions, you have =delete-word=, it just deletes a word y
 words (yes you can do C-2 M-d) but it's not that user-friendly actually, so without further ado let's decend into
 darkness. 
 #+begin_src emacs-lisp
-      (use-package evil 
-        :straight t
-        :init
-        (setq evil-want-keybinding nil)
-        :custom
-        (evil-move-beyond-eol t)
-        :config
-        (define-key evil-motion-state-map (kbd "TAB") nil)
-        (evil-ex-define-cmd "q" 'kill-this-buffer)
-        (evil-mode +1))
+  (use-package evil 
+    :straight t
+    :init
+    (setq evil-want-keybinding nil)
+    :custom
+    (evil-move-beyond-eol t)
+    :config
+    (define-key evil-motion-state-map (kbd "TAB") nil)
+    (evil-ex-define-cmd "q" 'kill-this-buffer)
+    (evil-mode +1))
 
 
-      (use-package evil-collection 
-        :straight t 
-        :config 
-        (evil-collection-init))
+  (use-package evil-collection 
+    :straight t 
+    :config 
+    (evil-collection-init))
 
-      (use-package evil-magit 
-        :straight t)
+  (use-package evil-magit 
+    :straight t)
 
-      (use-package evil-surround 
+  (use-package evil-surround 
 
-        :straight t)
+    :straight t)
 
-      (use-package evil-commentary 
+  (use-package evil-commentary 
+    :config
+    (evil-commentary-mode 1)
+    :straight t)
 
-        :straight t)
-
-      (use-package general
-        :straight t
-        :config
-        (general-create-definer space-leader-lord :prefix ";" :states 'normal :keymaps 'override)
-        (general-create-definer space-leader :prefix ";" :states 'normal)
-        (space-leader-lord
-          "s b" 'switch-to-buffer
-          "k b" 'kill-buffer
-          ";" 'execute-extended-command
-          "m w" 'delete-other-windows
-          "d w" 'delete-window
-          "s r" 'split-window-right
-          "s b" 'split-window-below
-          "e s" 'eval-last-sexp
-          "f f" 'find-file
-          "d f" 'describe-function
-          "d v" 'describe-variable
-          "d k" 'describe-key
-          "b n" 'next-buffer
-          "b p" 'previous-buffer
-          )
-        (space-leader 
-          "C-k" (lambda () (interactive) (previous-line 5))
-          "C-j"(lambda () (interactive) (next-line 5))) 
+  (use-package general
+    :straight t
+    :config
+    (general-create-definer space-leader-lord :prefix ";" :states 'normal :keymaps 'override)
+    (general-create-definer space-leader :prefix ";" :states 'normal)
+    (space-leader-lord
+      "s b" 'switch-to-buffer
+      "k b" 'kill-buffer
+      ";" 'execute-extended-command
+      "m w" 'delete-other-windows
+      "d w" 'delete-window
+      "s r" 'split-window-right
+      "s b" 'split-window-below
+      "e s" 'eval-last-sexp
+      "f f" 'find-file
+      "d f" 'describe-function
+      "d v" 'describe-variable
+      "d k" 'describe-key
+      "b n" 'next-buffer
+      "b p" 'previous-buffer
       )
+    (space-leader 
+      "C-k" (lambda () (interactive) (previous-line 5))
+      "C-j"(lambda () (interactive) (next-line 5))) 
+  )
 
 #+end_src
 * Exwm (Emacs X window manager)
