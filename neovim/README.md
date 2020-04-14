@@ -8,6 +8,6 @@ ln -s ./dofiles/vim/vimrc ~/.config/nvim/init.vim
 ```
 # Features
 - IDE features (using LSP)
-
+*********************** vim-lsp(using vim-lsp-settings) -> lsp server -> results are fed into ncm2 engine
 # License 
 This configuration uses GPLV3 ( GNU General Public License V3 ).

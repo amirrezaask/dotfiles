@@ -205,33 +205,35 @@ darkness.
 keybindings
 #+begin_src emacs-lisp
   (use-package evil 
-    :disabled t
+
     :straight t
     :init
     (setq evil-want-keybinding nil)
+    :custom
+    (evil-move-beyond-eol t)
     :config
     (evil-mode +1))
 
 
   (use-package evil-collection 
-    :disabled t
+
     :straight t 
     :config 
     (evil-collection-init))
 
   (use-package evil-magit 
 
-    :disabled t
+
     :straight t)
 
   (use-package evil-surround 
 
-    :disabled t
+
     :straight t)
 
   (use-package evil-commentary 
 
-    :disabled t
+
     :straight t)
 
   (use-package general
@@ -251,6 +253,9 @@ keybindings
       "s b" 'split-window-below
       "e s" 'eval-last-sexp
       "f f" 'find-file
+      "d f" 'describe-function
+      "d v" 'describe-variable
+      "d k" 'describe-key
       )
   )
 
@@ -296,7 +301,7 @@ keybindings
      :bind (("<f12>" . amirreza/toggle-color-mode))
      :config
      (defvar amirreza/current-mode 'dark "Current color of Emacs.")
-     (defvar amirreza/dark-theme 'spacemacs-dark)
+     (defvar amirreza/dark-theme 'doom-one)
      (defvar amirreza/light-theme 'spacemacs-light)
      (defun amirreza/apply-color (mode)
        "Apply current color mode to Emacs."
@@ -947,7 +952,7 @@ help ease developer experience when using LSP.
   (use-package git-messenger
     :straight t
     :bind
-    (("<f1> g" . 'git-messenger:popup-message))
+    (("<f1> g" . git-messenger:popup-message))
     :config
     (setq git-messenger:show-detail t)
     (setq git-messenger:use-magit-popup t))
