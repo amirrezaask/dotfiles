@@ -915,11 +915,14 @@ the fastest and easiest one out there, and for files is =FZF=, let's integrate t
     (isearch-lax-whitespace t)
     (isearch-regexp-lax-whitespace nil)
     (isearch-lazy-highlight t))
+
   (use-package fzf
     :straight t
     :bind
     (("<f6> f" . fzf)))
+
   (use-package rg
+    :disabled t
     :straight t
     :bind (("<f6> s" . rg)))
 #+END_SRC
