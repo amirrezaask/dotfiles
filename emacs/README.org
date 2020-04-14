@@ -204,52 +204,54 @@ darkness.
 =Note=: I still believe that VIM is better editor but since old habits die hard, I'm gonna continue with Emacs
 keybindings
 #+begin_src emacs-lisp
-  (use-package evil 
-    :straight t
-    :init
-    (setq evil-want-keybinding nil)
-    :custom
-    (evil-move-beyond-eol t)
-    :config
-    (evil-mode +1))
+    (use-package evil 
+      :straight t
+      :init
+      (setq evil-want-keybinding nil)
+      :custom
+      (evil-move-beyond-eol t)
+      :config
+      (define-key evil-motion-state-map (kbd "TAB") nil)
+      (evil-ex-define-cmd "q" 'kill-this-buffer)
+      (evil-mode +1))
 
 
-  (use-package evil-collection 
-    :straight t 
-    :config 
-    (evil-collection-init))
+    (use-package evil-collection 
+      :straight t 
+      :config 
+      (evil-collection-init))
 
-  (use-package evil-magit 
-    :straight t)
+    (use-package evil-magit 
+      :straight t)
 
-  (use-package evil-surround 
-    :straight t)
+    (use-package evil-surround 
+      :straight t)
 
-  (use-package evil-commentary 
-    :straight t)
+    (use-package evil-commentary 
+      :straight t)
 
-  (use-package general
-    :straight t
-    :config
-    (general-create-definer space-leader-lord :prefix "SPC" :states 'normal :keymaps 'override)
-    (general-create-definer space-leader :prefix "SPC" :states 'normal)
-    (space-leader-lord
-      "s b" 'switch-to-buffer
-      "k b" 'kill-buffer
-      "SPC" 'execute-extended-command
-      "m w" 'delete-other-windows
-      "d w" 'delete-window
-      "s r" 'split-window-right
-      "s b" 'split-window-below
-      "e s" 'eval-last-sexp
-      "f f" 'find-file
-      "d f" 'describe-function
-      "d v" 'describe-variable
-      "d k" 'describe-key
-      "b n" 'next-buffer
-      "b p" 'previous-buffer
-      )
-  )
+    (use-package general
+      :straight t
+      :config
+      (general-create-definer space-leader-lord :prefix "SPC" :states 'normal :keymaps 'override)
+      (general-create-definer space-leader :prefix "SPC" :states 'normal)
+      (space-leader-lord
+        "s b" 'switch-to-buffer
+        "k b" 'kill-buffer
+        "SPC" 'execute-extended-command
+        "m w" 'delete-other-windows
+        "d w" 'delete-window
+        "s r" 'split-window-right
+        "s b" 'split-window-below
+        "e s" 'eval-last-sexp
+        "f f" 'find-file
+        "d f" 'describe-function
+        "d v" 'describe-variable
+        "d k" 'describe-key
+        "b n" 'next-buffer
+        "b p" 'previous-buffer
+        )
+    )
 
 #+end_src
 * Exwm (Emacs X window manager)
