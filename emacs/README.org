@@ -93,6 +93,11 @@ You can evaluate eLisp expressions like you now know but you also can load a who
 Emacs 27 has a lot to offer, a new json parser that is implemented natively (C code) so it should speed
 up the JSON based operations like LSP a lot, another thing about Emacs 27 is =early-init.el= file that gets
 loaded before init.el and before GUI and package manager starts so it can help us configure Emacs even further.
+* Personal information
+#+begin_src emacs-lisp
+    (setq user-full-name "AmirrezaAskarpour"
+          user-mail-address "raskarpour@gmail.com")
+#+end_src
 * Emacs internals optimizations
 :PROPERTIES:
   :header-args: :tangle no
