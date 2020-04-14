@@ -345,6 +345,7 @@ you need to install a package for that. For icons we are going to use =all-the-i
 is a gourges icon package for emacs.
 #+BEGIN_SRC emacs-lisp :eval no
   (use-package all-the-icons
+    :disabled t
     :straight t
     :commands (all-the-icons-octicon
 	       all-the-icons-faicon
@@ -355,6 +356,8 @@ is a gourges icon package for emacs.
 
   (use-package all-the-icons-dired
     :straight t
+
+    :disabled t
     :init
     (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
 #+END_SRC
@@ -508,7 +511,9 @@ Ibuffer is a built in Emacs package that helps you manage your open buffers a in
 designed interface.
 #+BEGIN_SRC emacs-lisp
 (use-package ibuffer
-  :bind (("C-x C-b" . 'ibuffer)))
+  :bind (("C-x C-b" . 'ibuffer))
+  :general
+  (space-leader-lord "i b" 'ibuffer))
 #+END_SRC
 =Ibuffer-projectile= provides ibuffer integration with projectile to seperate buffers that belong
 to different git repos in the Ibuffer view.
@@ -793,7 +798,8 @@ Ivy is an amazing package that enhances several aspects of Emacs using counsel f
    (use-package counsel
      :straight t
      :commands (counsel-M-x counsel-find-file ivy-switch-buffer)
-
+     :general 
+     (space-leader "s s" 'counsel-rg "s f" 'counsel-fzf)
      :bind
      (("M-x" . 'counsel-M-x)
       ("C-x C-f" . 'counsel-find-file)
@@ -1143,6 +1149,16 @@ we can even go further.x
 (use-package rust-mode :straight t :mode "\\.rs\\'")
 #+END_SRC
 * Devops
+*** Some syntax highlights
+#+begin_src emacs-lisp
+  (use-package crontab-mode :defer t :straight t)
+  (use-package apache-mode :straight t
+    :mode ("\\.htaccess\\'" "httpd\\.conf\\'" "srm\\.conf\\'" "access\\.conf\\'"))
+  (use-package systemd :straight t
+    :mode ("\\.service\\'" "\\.timer\\'"))
+  (use-package nginx-mode :straight 
+    :mode ("/etc/nginx/conf.d/.*" "/etc/nginx/.*\\.conf\\'"))
+#+end_src
 *** TRAMP
 #+begin_src emacs-lisp
   (use-package tramp
