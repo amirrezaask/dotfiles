@@ -858,6 +858,7 @@ Ivy is an amazing package that enhances several aspects of Emacs using counsel f
       "h a" 'helm-apropos
       "f f" 'helm-find-files
       ";" 'helm-M-x
+      "l l" 'helm-mini
       "b l" 'helm-mini))
 
   (use-package helm-rg :straight t :commands helm-rg)
@@ -1126,24 +1127,26 @@ we can even go further.x
     (defun --amirreza/emacs-lisp-repeat (str count)
       "Create dashes with given COUNT."
       (let ((dashes ""))
-	(dotimes (iterator count dashes)
-	  (setq dashes (concat dashes str)))))
+    (dotimes (iterator count dashes)
+      (setq dashes (concat dashes str)))))
 
     (defun --amirreza/emacs-lisp-wrap-text-in-spaces (text)
       (let* ((len (length text))
-	     (spaces-length-side (/ (- 80 len) 2))
-	     (spaces-side (--amirreza/emacs-lisp-repeat " " spaces-length-side)))
-	(format "%s%s%s" spaces-side text spaces-side)))
+         (spaces-length-side (/ (- 80 len) 2))
+         (spaces-side (--amirreza/emacs-lisp-repeat " " spaces-length-side)))
+    (format "%s%s%s" spaces-side text spaces-side)))
 
     (defun amirreza/emacs-lisp-insert-comment-line (text)
       "Insert a comment line with given TEXT."
       (interactive "sComment: ")
       (let* ((text-wrapped (--amirreza/emacs-lisp-wrap-text-in-spaces text))
-	     (dashes (--amirreza/emacs-lisp-repeat "=" 80)))
-	(insert (format "\n;;%s\n;;%s\n;;%s" dashes text-wrapped dashes))))
+         (dashes (--amirreza/emacs-lisp-repeat "=" 80)))
+    (insert (format "\n;;%s\n;;%s\n;;%s" dashes text-wrapped dashes))))
+    :general
+    (:keymaps 'emacs-lisp-mode-map :states 'normal "; d b" 'amirreza/emacs-lisp-insert-comment-line)
     :bind
     (:map emacs-lisp-mode-map
-	  ("C-c C-c C-d" . 'amirreza/emacs-lisp-insert-comment-line)))
+      ("C-c C-c C-d" . 'amirreza/emacs-lisp-insert-comment-line)))
 
 #+END_SRC
 ** Clojure
