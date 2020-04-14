@@ -764,52 +764,57 @@ well actually there are multiple package for this purpose but since we are going
 =SideNote=: I moved to =icomplete= since it's simpler and easier for me to customize.
 Ivy is an amazing package that enhances several aspects of Emacs using counsel functions.
  #+BEGIN_SRC emacs-lisp
-   (use-package ivy
-     :straight t
+      (use-package flx :straight t)
 
-     :custom
-     (ivy-height 17)
-     (ivy-wrap t)
-     (ivy-fixed-height-minibuffer t)
-     (projectile-completion-system 'ivy)
-     ;; disable magic slash on non-match
-     (ivy-magic-slash-non-match-action nil)
-     ;; don't show recent files in switch-buffer
-     (ivy-use-virtual-buffers nil)
-     ;; ...but if that ever changes, show their full path
-     (ivy-virtual-abbreviate 'full)
-     ;; don't quit minibuffer on delete-error
-     (ivy-on-del-error-function #'ignore)
-     ;; enable ability to select prompt (alternative to `ivy-immediate-done')
-     (ivy-use-selectable-prompt t)
-     :config
-     (setf (alist-get 't ivy-format-functions-alist)
-           #'ivy-format-function-line)
-     (ivy-mode +1)
-     :bind
-     (("C-x b" . 'ivy-switch-buffer)))
+         (use-package ivy
+           :straight t
 
-   (use-package swiper
-     :straight t
+           :custom
+           (ivy-height 17)
+           (ivy-wrap t)
+           (ivy-fixed-height-minibuffer t)
+           (projectile-completion-system 'ivy)
+           ;; disable magic slash on non-match
+           (ivy-magic-slash-non-match-action nil)
+           ;; don't show recent files in switch-buffer
+           (ivy-use-virtual-buffers nil)
+           ;; ...but if that ever changes, show their full path
+           (ivy-virtual-abbreviate 'full)
+           ;; don't quit minibuffer on delete-error
+           (ivy-on-del-error-function #'ignore)
+           ;; enable ability to select prompt (alternative to `ivy-immediate-done')
+           (ivy-use-selectable-prompt t)
+           :config
+           (setf (alist-get 't ivy-format-functions-alist)
+                 #'ivy-format-function-line)
+           (ivy-mode +1)
+           :bind
+           (("C-x b" . 'ivy-switch-buffer)))
 
-     :commands (swiper)
-     :init (global-set-key (kbd "C-s") 'swiper))
+         (use-package swiper
+           :straight t
 
-   (use-package counsel
-     :straight t
-     :commands (counsel-M-x counsel-find-file ivy-switch-buffer)
-     :general 
-     (space-leader "s s" 'counsel-rg "s f" 'counsel-fzf)
-     :bind
-     (("M-x" . 'counsel-M-x)
-      ("C-x C-f" . 'counsel-find-file)
-      ("C-h b" . 'counsel-descbinds)
-      ("C-h f" . 'counsel-describe-function)
-      ("C-h v" . 'counsel-describe-variable)
-      ("C-h a" . 'counsel-apropos)
-      ("<f6> s" . 'counsel-rg)
-      ("<f6> f" . 'counsel-fzf)
-      ( "M-y" . 'counsel-yank-pop)))
+           :commands (swiper)
+           :init (global-set-key (kbd "C-s") 'swiper))
+
+         (use-package counsel
+           :straight t
+           :commands (counsel-M-x counsel-find-file ivy-switch-buffer)
+           :custom
+           (ivy-re-builders-alist
+            '((t . ivy--regex-fuzzy)))
+           :general 
+           (space-leader "s s" 'counsel-rg "s f" 'counsel-fzf)
+           :bind
+           (("M-x" . 'counsel-M-x)
+            ("C-x C-f" . 'counsel-find-file)
+            ("C-h b" . 'counsel-descbinds)
+            ("C-h f" . 'counsel-describe-function)
+            ("C-h v" . 'counsel-describe-variable)
+            ("C-h a" . 'counsel-apropos)
+            ("<f6> s" . 'counsel-rg)
+            ("<f6> f" . 'counsel-fzf)
+            ( "M-y" . 'counsel-yank-pop)))
  #+END_SRC
 **** In Buffer Completion
 Code completion consists of two parts, A source/server that provides the completions and 
