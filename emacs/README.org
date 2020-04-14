@@ -205,7 +205,6 @@ darkness.
 keybindings
 #+begin_src emacs-lisp
   (use-package evil 
-
     :straight t
     :init
     (setq evil-want-keybinding nil)
@@ -216,38 +215,29 @@ keybindings
 
 
   (use-package evil-collection 
-
     :straight t 
     :config 
     (evil-collection-init))
 
   (use-package evil-magit 
-
-
     :straight t)
 
   (use-package evil-surround 
-
-
     :straight t)
 
   (use-package evil-commentary 
-
-
     :straight t)
 
   (use-package general
-
     :straight t
     :config
     (general-create-definer space-leader-lord :prefix "SPC" :states 'normal :keymaps 'override)
     (general-create-definer space-leader :prefix "SPC" :states 'normal)
     (space-leader-lord
-      "b l" 'switch-to-buffer
+      "s b" 'switch-to-buffer
       "k b" 'kill-buffer
       "SPC" 'execute-extended-command
       "m w" 'delete-other-windows
-      "o w" 'other-window
       "d w" 'delete-window
       "s r" 'split-window-right
       "s b" 'split-window-below
@@ -304,7 +294,7 @@ keybindings
      :bind (("<f12>" . amirreza/toggle-color-mode))
      :config
      (defvar amirreza/current-mode 'dark "Current color of Emacs.")
-     (defvar amirreza/dark-theme 'spacemacs-dark)
+     (defvar amirreza/dark-theme 'doom-one)
      (defvar amirreza/light-theme 'spacemacs-light)
      (defun amirreza/apply-color (mode)
        "Apply current color mode to Emacs."
@@ -373,6 +363,20 @@ is a gourges icon package for emacs.
 =:commands= in use-package defers the loading of the package until on of listed commands (interactive functions)
 is called, basically first buffer that wants to use that it will get loaded. =:init= means when emacs started 
 no matter what are the other options evaluate the forms after =:init=.
+** Modeline
+#+begin_src emacs-lisp
+  (use-package spaceline :straight t
+:disabled t
+   :config
+
+
+  (require 'spaceline-config)
+  (spaceline-spacemacs-theme))
+(use-package doom-modeline :straight t
+:config
+(doom-modeline-mode 1))
+
+#+end_src
 * Emacs Modes Introduction
 First let's talk about modes, Modes are the conventional way to add functionality to Emacs.
 There are two groups of modes, Major modes and minor modes, Major modes are single modes that 
@@ -437,12 +441,6 @@ So many times when I am using Emacs I find a problem or a possible feature to ad
     (global-set-key (kbd "C-c c e") 'amirreza/edit-configuration)
     (space-leader "e c" 'amirreza/edit-configuration)
 #+END_SRC
-*** TRAMP
-#+begin_src emacs-lisp
-  (use-package tramp
-    :custom
-    (tramp-default-method "ssh"))
-#+end_src
 *** Large files handling
 Since Emacs by default is not that good in handling large files,
 but again Emacs community is here to help
@@ -464,7 +462,6 @@ but again Emacs community is here to help
 ;; custom motions
 (global-set-key (kbd "M-n") (lambda () (interactive) (next-line 5)))
 (global-set-key (kbd "M-p") (lambda () (interactive) (previous-line 5)))
-
 #+END_SRC
 *** Reduce clutter in emacs frame
  #+BEGIN_SRC emacs-lisp
@@ -694,6 +691,8 @@ Emacs windows can be configured in the matter of where their gonna open.
  #+BEGIN_SRC emacs-lisp
  (use-package ace-window
    :straight t
+   :general
+   (general-define-key :states 'normal "C-w" 'ace-window)
    :bind (("C-x o" . 'ace-window) 
 	  ("C-x C-o" . 'ace-window)))
  #+END_SRC
@@ -705,33 +704,36 @@ since Emacs already knows the available options ? well there is and that's calle
 well actually there are multiple package for this purpose but since we are going as minimal as possible 
 ***** Icomplete
  #+BEGIN_SRC emacs-lisp
-   (use-package icomplete
-     :demand ; loading of icomplete is not deferred since we are using `:bind'.
-     :custom
-     (icomplete-max-delay-chars 0)
-     (icomplete-compute-delay 0)
-     (icomplete-show-matches-on-no-input t) ;; show completions from start of entering the minibuffer
-     (icomplete-separator " . ") ;; seperator of candidates
-     (icomplete-hide-common-prefix nil) ;;
-     (icomplete-with-completion-tables t) ;; do completion on anything that has a completion table
-     (icomplete-in-buffer nil) ; we dont want icomplete to work in buffers, we have company for that
-     :bind (:map icomplete-minibuffer-map
-                 ("C-f" . icomplete-forward-completions)
-                 ("C-b" . icomplete-backward-completions)
-                 ("C-n" . icomplete-forward-completions)
-                 ("C-p" . icomplete-backward-completions)
-                 ("<right>" . icomplete-forward-completions)
-                 ("<left>" . icomplete-backward-completions)
-                 ("<up>" . icomplete-backward-completions)
-                 ("<down>" . icomplete-forward-completions))
+    (use-package icomplete
+      :disabled t
+      :demand ; loading of icomplete is not deferred since we are using `:bind'.
+      :custom
+      (icomplete-max-delay-chars 0)
+      (icomplete-compute-delay 0)
+      (icomplete-show-matches-on-no-input t) ;; show completions from start of entering the minibuffer
+      (icomplete-separator " . ") ;; seperator of candidates
+      (icomplete-hide-common-prefix nil) ;;
+      (icomplete-with-completion-tables t) ;; do completion on anything that has a completion table
+      (icomplete-in-buffer nil) ; we dont want icomplete to work in buffers, we have company for that
+      :bind (:map icomplete-minibuffer-map
+                  ("C-f" . icomplete-forward-completions)
+                  ("C-b" . icomplete-backward-completions)
+                  ("C-n" . icomplete-forward-completions)
+                  ("C-p" . icomplete-backward-completions)
+                  ("<right>" . icomplete-forward-completions)
+                  ("<left>" . icomplete-backward-completions)
+                  ("<up>" . icomplete-backward-completions)
+                  ("<down>" . icomplete-forward-completions))
+      :config
+      (if (> emacs-major-version 26) ;; Emacs 27 and up
+          (fido-mode +1) ;; Fido (fake ido) emulates a IDO like interface for icomplete.
+        (icomplete-mode +1)))
+   (use-package icomplete-vertical
+
+     :disabled t
+     :straight (:host github :repo "oantolin/icomplete-vertical")
      :config
-     (if (> emacs-major-version 26) ;; Emacs 27 and up
-         (fido-mode +1) ;; Fido (fake ido) emulates a IDO like interface for icomplete.
-       (icomplete-mode +1)))
-  (use-package icomplete-vertical
-    :straight (:host github :repo "oantolin/icomplete-vertical")
-    :config
-    (icomplete-vertical-mode 1))
+     (icomplete-vertical-mode 1))
  #+END_SRC
 ***** IDO
 =SideNote=: I moved to =icomplete= since it's simpler and easier for me to customize.
@@ -761,7 +763,6 @@ well actually there are multiple package for this purpose but since we are going
 Ivy is an amazing package that enhances several aspects of Emacs using counsel functions.
  #+BEGIN_SRC emacs-lisp
    (use-package ivy
-     :disabled t
      :straight t
      :custom
      (ivy-height 17)
@@ -786,15 +787,11 @@ Ivy is an amazing package that enhances several aspects of Emacs using counsel f
      (("C-x b" . 'ivy-switch-buffer)))
 
    (use-package swiper
-
-     :disabled t
      :straight t
      :commands (swiper)
      :init (global-set-key (kbd "C-s") 'swiper))
 
    (use-package counsel
-
-     :disabled t
      :straight t
      :commands (counsel-M-x counsel-find-file ivy-switch-buffer)
 
@@ -1140,6 +1137,12 @@ we can even go further.x
 (use-package rust-mode :straight t :mode "\\.rs\\'")
 #+END_SRC
 * Devops
+*** TRAMP
+#+begin_src emacs-lisp
+  (use-package tramp
+    :custom
+    (tramp-default-method "ssh"))
+#+end_src
 *** Docker
 #+BEGIN_SRC emacs-lisp
 (use-package docker-compose-mode
