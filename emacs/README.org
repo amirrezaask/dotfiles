@@ -201,55 +201,64 @@ Emacs editor actually doesn't follow Emacs extensibility and composibility philo
 on specific targeted functions, you have =delete-word=, it just deletes a word you can not tell it to delete two
 words (yes you can do C-2 M-d) but it's not that user-friendly actually, so without further ado let's decend into
 darkness. 
+=SideNote=: I really think Vi way editing is superior but since I'm from Emacs land, to keep my sanity I'm going to continue
+with Emacs way.
 #+begin_src emacs-lisp
-    (use-package evil 
-      :straight t
-      :init
-      (setq evil-want-keybinding nil)
-      :custom
-      (evil-move-beyond-eol t)
-      :config
-      (define-key evil-motion-state-map (kbd "TAB") nil)
-      (evil-ex-define-cmd "q" 'kill-this-buffer)
-      (evil-mode +1))
+  (use-package evil 
+    :disabled t
+    :straight t
+    :init
+    (setq evil-want-keybinding nil)
+    :custom
+    (evil-move-beyond-eol t)
+    :config
+    (define-key evil-motion-state-map (kbd "TAB") nil)
+    (evil-ex-define-cmd "q" 'kill-this-buffer)
+    (evil-mode +1))
 
 
-    (use-package evil-collection 
-      :straight t 
-      :config 
-      (evil-collection-init))
+  (use-package evil-collection 
 
-    (use-package evil-magit 
-      :straight t)
+    :disabled t
+    :straight t 
+    :config 
+    (evil-collection-init))
 
-    (use-package evil-surround 
-      :straight t)
+  (use-package evil-magit 
 
-    (use-package evil-commentary 
-      :straight t)
+    :disabled t
+    :straight t)
 
-    (use-package general
-      :straight t
-      :config
-      (general-create-definer space-leader-lord :prefix ";" :states 'normal :keymaps 'override)
-      (general-create-definer space-leader :prefix ";" :states 'normal)
-      (space-leader-lord
-        "s b" 'switch-to-buffer
-        "k b" 'kill-buffer
-        "SPC" 'execute-extended-command
-        "m w" 'delete-other-windows
-        "d w" 'delete-window
-        "s r" 'split-window-right
-        "s b" 'split-window-below
-        "e s" 'eval-last-sexp
-        "f f" 'find-file
-        "d f" 'describe-function
-        "d v" 'describe-variable
-        "d k" 'describe-key
-        "b n" 'next-buffer
-        "b p" 'previous-buffer
-        )
-    )
+  (use-package evil-surround 
+    :disabled t
+    :straight t)
+
+  (use-package evil-commentary 
+    :disabled t
+    :straight t)
+
+  (use-package general
+    :straight t
+    :config
+    (general-create-definer space-leader-lord :prefix ";" :states 'normal :keymaps 'override)
+    (general-create-definer space-leader :prefix ";" :states 'normal)
+    (space-leader-lord
+      "s b" 'switch-to-buffer
+      "k b" 'kill-buffer
+      "SPC" 'execute-extended-command
+      "m w" 'delete-other-windows
+      "d w" 'delete-window
+      "s r" 'split-window-right
+      "s b" 'split-window-below
+      "e s" 'eval-last-sexp
+      "f f" 'find-file
+      "d f" 'describe-function
+      "d v" 'describe-variable
+      "d k" 'describe-key
+      "b n" 'next-buffer
+      "b p" 'previous-buffer
+      )
+  )
 
 #+end_src
 * Exwm (Emacs X window manager)
@@ -372,6 +381,7 @@ no matter what are the other options evaluate the forms after =:init=.
       (require 'spaceline-config)
       (spaceline-spacemacs-theme))
   (use-package doom-modeline :straight t
+  :disabled t
   :config
   (doom-modeline-mode 1))
 
@@ -440,6 +450,11 @@ So many times when I am using Emacs I find a problem or a possible feature to ad
     (global-set-key (kbd "C-c c e") 'amirreza/edit-configuration)
     (space-leader "e c" 'amirreza/edit-configuration)
 #+END_SRC
+*** Hydra
+again by abo-abo
+#+begin_src emacs-lisp
+(use-package hydra :straight t :defer t)
+#+end_src
 *** Large files handling
 Since Emacs by default is not that good in handling large files,
 but again Emacs community is here to help
@@ -764,58 +779,86 @@ well actually there are multiple package for this purpose but since we are going
 =SideNote=: I moved to =icomplete= since it's simpler and easier for me to customize.
 Ivy is an amazing package that enhances several aspects of Emacs using counsel functions.
  #+BEGIN_SRC emacs-lisp
-      (use-package flx :straight t)
+   (use-package flx :straight t)
 
-         (use-package ivy
-           :straight t
+      (use-package ivy
+        :straight t
+        :disabled t
+        :custom
+        (ivy-height 17)
+        (ivy-wrap t)
+        (ivy-fixed-height-minibuffer t)
+        (projectile-completion-system 'ivy)
+        ;; disable magic slash on non-match
+        (ivy-magic-slash-non-match-action nil)
+        ;; don't show recent files in switch-buffer
+        (ivy-use-virtual-buffers nil)
+        ;; ...but if that ever changes, show their full path
+        (ivy-virtual-abbreviate 'full)
+        ;; don't quit minibuffer on delete-error
+        (ivy-on-del-error-function #'ignore)
+        ;; enable ability to select prompt (alternative to `ivy-immediate-done')
+        (ivy-use-selectable-prompt t)
+        :config
+        (setf (alist-get 't ivy-format-functions-alist)
+              #'ivy-format-function-line)
+        (ivy-mode +1)
+        :bind
+        (("C-x b" . 'ivy-switch-buffer)))
 
-           :custom
-           (ivy-height 17)
-           (ivy-wrap t)
-           (ivy-fixed-height-minibuffer t)
-           (projectile-completion-system 'ivy)
-           ;; disable magic slash on non-match
-           (ivy-magic-slash-non-match-action nil)
-           ;; don't show recent files in switch-buffer
-           (ivy-use-virtual-buffers nil)
-           ;; ...but if that ever changes, show their full path
-           (ivy-virtual-abbreviate 'full)
-           ;; don't quit minibuffer on delete-error
-           (ivy-on-del-error-function #'ignore)
-           ;; enable ability to select prompt (alternative to `ivy-immediate-done')
-           (ivy-use-selectable-prompt t)
-           :config
-           (setf (alist-get 't ivy-format-functions-alist)
-                 #'ivy-format-function-line)
-           (ivy-mode +1)
-           :bind
-           (("C-x b" . 'ivy-switch-buffer)))
+      (use-package swiper
+        :straight t
+        :disabled t
 
-         (use-package swiper
-           :straight t
+        :commands (swiper)
+        :init (global-set-key (kbd "C-s") 'swiper))
 
-           :commands (swiper)
-           :init (global-set-key (kbd "C-s") 'swiper))
+      (use-package counsel
+        :disabled t
 
-         (use-package counsel
-           :straight t
-           :commands (counsel-M-x counsel-find-file ivy-switch-buffer)
-           :custom
-           (ivy-re-builders-alist
-            '((t . ivy--regex-fuzzy)))
-           :general 
-           (space-leader "s s" 'counsel-rg "s f" 'counsel-fzf)
-           :bind
-           (("M-x" . 'counsel-M-x)
-            ("C-x C-f" . 'counsel-find-file)
-            ("C-h b" . 'counsel-descbinds)
-            ("C-h f" . 'counsel-describe-function)
-            ("C-h v" . 'counsel-describe-variable)
-            ("C-h a" . 'counsel-apropos)
-            ("<f6> s" . 'counsel-rg)
-            ("<f6> f" . 'counsel-fzf)
-            ( "M-y" . 'counsel-yank-pop)))
+        :straight t
+        :commands (counsel-M-x counsel-find-file ivy-switch-buffer)
+        :custom
+        (ivy-re-builders-alist
+         '((t . ivy--regex-fuzzy)))
+        :general 
+        (space-leader "s s" 'counsel-rg "s f" 'counsel-fzf)
+        :bind
+        (("M-x" . 'counsel-M-x)
+         ("C-x C-f" . 'counsel-find-file)
+         ("C-h b" . 'counsel-descbinds)
+         ("C-h f" . 'counsel-describe-function)
+         ("C-h v" . 'counsel-describe-variable)
+         ("C-h a" . 'counsel-apropos)
+         ("<f6> s" . 'counsel-rg)
+         ("<f6> f" . 'counsel-fzf)
+         ( "M-y" . 'counsel-yank-pop)))
  #+END_SRC
+***** Helm
+#+begin_src emacs-lisp
+      (use-package helm :straight t
+       :config
+       ;; (add-to-list 'helm-sources-using-default-as-input 'helm-source-man-pages)
+       :custom
+       (helm-mode-fuzzy-match t) ;; enable fuzzy matching in all helm
+       :general
+       (:keymaps 'helm-map
+                 "<tab>"  'helm-execute-persistent-action   ;; make tab work normal
+                 "C-z"  'helm-select-action) ;; C-z instead of tab to show helm actions
+
+       (:keymaps 'override
+                 "M-y" 'helm-show-kill-ring
+                 "M-x" 'helm-M-x
+                 "C-s" 'helm-occur)
+
+       (:prefix "C-x" :keymaps 'override
+                "C-f" 'helm-find-files
+                "b" 'helm-mini
+                "C-b" 'helm-mini
+                ))
+
+    (use-package helm-rg :straight t :commands helm-rg)
+#+end_src
 **** In Buffer Completion
 Code completion consists of two parts, A source/server that provides the completions and 
 an engine that knows when to open prompt and show the completions. We will configure servers later
@@ -1179,4 +1222,8 @@ we can even go further.x
 *** Kubernetes
 #+begin_src emacs-lisp
 (use-package kubel :straight t :commands (kubel) :bind (("<f9>" . kubel)))
+#+end_src
+*** Redis
+#+begin_src emacs-lisp
+(use-package redis :straight t)
 #+end_src
