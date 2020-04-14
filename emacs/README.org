@@ -202,56 +202,59 @@ on specific targeted functions, you have =delete-word=, it just deletes a word y
 words (yes you can do C-2 M-d) but it's not that user-friendly actually, so without further ado let's decend into
 darkness. 
 #+begin_src emacs-lisp
-  (use-package evil 
-    :straight t
-    :init
-    (setq evil-want-keybinding nil)
-    :custom
-    (evil-move-beyond-eol t)
-    :config
-    (define-key evil-motion-state-map (kbd "TAB") nil)
-    (evil-ex-define-cmd "q" 'kill-this-buffer)
-    (evil-mode +1))
+      (use-package evil 
+        :straight t
+        :init
+        (setq evil-want-keybinding nil)
+        :custom
+        (evil-move-beyond-eol t)
+        :config
+        (define-key evil-motion-state-map (kbd "TAB") nil)
+        (evil-ex-define-cmd "q" 'kill-this-buffer)
+        (evil-mode +1))
 
 
-  (use-package evil-collection 
-    :straight t 
-    :config 
-    (evil-collection-init))
+      (use-package evil-collection 
+        :straight t 
+        :config 
+        (evil-collection-init))
 
-  (use-package evil-magit 
-    :straight t)
+      (use-package evil-magit 
+        :straight t)
 
-  (use-package evil-surround 
+      (use-package evil-surround 
 
-    :straight t)
+        :straight t)
 
-  (use-package evil-commentary 
+      (use-package evil-commentary 
 
-    :straight t)
+        :straight t)
 
-  (use-package general
-    :straight t
-    :config
-    (general-create-definer space-leader-lord :prefix ";" :states 'normal :keymaps 'override)
-    (general-create-definer space-leader :prefix ";" :states 'normal)
-    (space-leader-lord
-      "s b" 'switch-to-buffer
-      "k b" 'kill-buffer
-      "SPC" 'execute-extended-command
-      "m w" 'delete-other-windows
-      "d w" 'delete-window
-      "s r" 'split-window-right
-      "s b" 'split-window-below
-      "e s" 'eval-last-sexp
-      "f f" 'find-file
-      "d f" 'describe-function
-      "d v" 'describe-variable
-      "d k" 'describe-key
-      "b n" 'next-buffer
-      "b p" 'previous-buffer
+      (use-package general
+        :straight t
+        :config
+        (general-create-definer space-leader-lord :prefix ";" :states 'normal :keymaps 'override)
+        (general-create-definer space-leader :prefix ";" :states 'normal)
+        (space-leader-lord
+          "s b" 'switch-to-buffer
+          "k b" 'kill-buffer
+          "SPC" 'execute-extended-command
+          "m w" 'delete-other-windows
+          "d w" 'delete-window
+          "s r" 'split-window-right
+          "s b" 'split-window-below
+          "e s" 'eval-last-sexp
+          "f f" 'find-file
+          "d f" 'describe-function
+          "d v" 'describe-variable
+          "d k" 'describe-key
+          "b n" 'next-buffer
+          "b p" 'previous-buffer
+          )
+        (space-leader 
+          "C-k" (lambda () (interactive) (previous-line 5))
+          "C-j"(lambda () (interactive) (next-line 5))) 
       )
-  )
 
 #+end_src
 * Exwm (Emacs X window manager)
@@ -829,31 +832,34 @@ Ivy is an amazing package that enhances several aspects of Emacs using counsel f
  #+END_SRC
 ***** Helm
 #+begin_src emacs-lisp
-           (use-package helm :straight t
-            :config
-            ;; (add-to-list 'helm-sources-using-default-as-input 'helm-source-man-pages)
-            :custom
-            (helm-mode-fuzzy-match t) ;; enable fuzzy matching in all helm
-            :general
-            (:keymaps 'helm-map
-                      "<tab>"  'helm-execute-persistent-action   ;; make tab work normal
-                      "C-z"  'helm-select-action) ;; C-z instead of tab to show helm actions
+  (use-package helm :straight t
+    :config
+    ;; (add-to-list 'helm-sources-using-default-as-input 'helm-source-man-pages)
+    :custom
+    (helm-mode-fuzzy-match t) ;; enable fuzzy matching in all helm
+    :general
+    (:keymaps 'helm-map
+              "C-j" 'helm-next-line
+              "C-k" 'helm-previous-line
+              "<tab>"  'helm-execute-persistent-action   ;; make tab work normal
+              "C-z"  'helm-select-action) ;; C-z instead of tab to show helm actions
 
-            (:keymaps 'override
-                      "M-y" 'helm-show-kill-ring
-                      "M-x" 'helm-M-x
-                      "C-s" 'helm-occur)
+    (:keymaps 'override
+              "M-y" 'helm-show-kill-ring
+              "M-x" 'helm-M-x
+              "C-s" 'helm-occur)
 
-            (:prefix "C-x" :keymaps 'override
-                     "C-f" 'helm-find-files
-                     "b" 'helm-mini
-                     "C-b" 'helm-mini
-                     )
-            (space-leader-lord
-              "ff" 'helm-find-files
-              "h m" 'helm-mini))
 
-         (use-package helm-rg :straight t :commands helm-rg)
+    (:prefix "C-x" :keymaps 'override
+             "C-f" 'helm-find-files
+             "b" 'helm-mini
+             "C-b" 'helm-mini
+             )
+    (space-leader-lord
+      "ff" 'helm-find-files
+      "h m" 'helm-mini))
+
+  (use-package helm-rg :straight t :commands helm-rg)
 #+end_src
 **** In Buffer Completion
 Code completion consists of two parts, A source/server that provides the completions and 
