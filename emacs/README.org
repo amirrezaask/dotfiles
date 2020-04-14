@@ -201,11 +201,8 @@ Emacs editor actually doesn't follow Emacs extensibility and composibility philo
 on specific targeted functions, you have =delete-word=, it just deletes a word you can not tell it to delete two
 words (yes you can do C-2 M-d) but it's not that user-friendly actually, so without further ado let's decend into
 darkness. 
-=SideNote=: I really think Vi way editing is superior but since I'm from Emacs land, to keep my sanity I'm going to continue
-with Emacs way.
 #+begin_src emacs-lisp
   (use-package evil 
-    :disabled t
     :straight t
     :init
     (setq evil-want-keybinding nil)
@@ -218,23 +215,19 @@ with Emacs way.
 
 
   (use-package evil-collection 
-
-    :disabled t
     :straight t 
     :config 
     (evil-collection-init))
 
   (use-package evil-magit 
-
-    :disabled t
     :straight t)
 
   (use-package evil-surround 
-    :disabled t
+
     :straight t)
 
   (use-package evil-commentary 
-    :disabled t
+
     :straight t)
 
   (use-package general
@@ -836,28 +829,31 @@ Ivy is an amazing package that enhances several aspects of Emacs using counsel f
  #+END_SRC
 ***** Helm
 #+begin_src emacs-lisp
-      (use-package helm :straight t
-       :config
-       ;; (add-to-list 'helm-sources-using-default-as-input 'helm-source-man-pages)
-       :custom
-       (helm-mode-fuzzy-match t) ;; enable fuzzy matching in all helm
-       :general
-       (:keymaps 'helm-map
-                 "<tab>"  'helm-execute-persistent-action   ;; make tab work normal
-                 "C-z"  'helm-select-action) ;; C-z instead of tab to show helm actions
+           (use-package helm :straight t
+            :config
+            ;; (add-to-list 'helm-sources-using-default-as-input 'helm-source-man-pages)
+            :custom
+            (helm-mode-fuzzy-match t) ;; enable fuzzy matching in all helm
+            :general
+            (:keymaps 'helm-map
+                      "<tab>"  'helm-execute-persistent-action   ;; make tab work normal
+                      "C-z"  'helm-select-action) ;; C-z instead of tab to show helm actions
 
-       (:keymaps 'override
-                 "M-y" 'helm-show-kill-ring
-                 "M-x" 'helm-M-x
-                 "C-s" 'helm-occur)
+            (:keymaps 'override
+                      "M-y" 'helm-show-kill-ring
+                      "M-x" 'helm-M-x
+                      "C-s" 'helm-occur)
 
-       (:prefix "C-x" :keymaps 'override
-                "C-f" 'helm-find-files
-                "b" 'helm-mini
-                "C-b" 'helm-mini
-                ))
+            (:prefix "C-x" :keymaps 'override
+                     "C-f" 'helm-find-files
+                     "b" 'helm-mini
+                     "C-b" 'helm-mini
+                     )
+            (space-leader-lord
+              "ff" 'helm-find-files
+              "h m" 'helm-mini))
 
-    (use-package helm-rg :straight t :commands helm-rg)
+         (use-package helm-rg :straight t :commands helm-rg)
 #+end_src
 **** In Buffer Completion
 Code completion consists of two parts, A source/server that provides the completions and 
