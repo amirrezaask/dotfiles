@@ -201,8 +201,6 @@ Emacs editor actually doesn't follow Emacs extensibility and composibility philo
 on specific targeted functions, you have =delete-word=, it just deletes a word you can not tell it to delete two
 words (yes you can do C-2 M-d) but it's not that user-friendly actually, so without further ado let's decend into
 darkness. 
-=Note=: I still believe that VIM is better editor but since old habits die hard, I'm gonna continue with Emacs
-keybindings
 #+begin_src emacs-lisp
     (use-package evil 
       :straight t
@@ -233,8 +231,8 @@ keybindings
     (use-package general
       :straight t
       :config
-      (general-create-definer space-leader-lord :prefix "SPC" :states 'normal :keymaps 'override)
-      (general-create-definer space-leader :prefix "SPC" :states 'normal)
+      (general-create-definer space-leader-lord :prefix ";" :states 'normal :keymaps 'override)
+      (general-create-definer space-leader :prefix ";" :states 'normal)
       (space-leader-lord
         "s b" 'switch-to-buffer
         "k b" 'kill-buffer
@@ -296,7 +294,7 @@ keybindings
      :bind (("<f12>" . amirreza/toggle-color-mode))
      :config
      (defvar amirreza/current-mode 'dark "Current color of Emacs.")
-     (defvar amirreza/dark-theme 'doom-one)
+     (defvar amirreza/dark-theme 'spacemacs-dark)
      (defvar amirreza/light-theme 'spacemacs-light)
      (defun amirreza/apply-color (mode)
        "Apply current color mode to Emacs."
@@ -321,7 +319,7 @@ ways of lazy-loading in use-package we will see others later on.
 ** Font
  To use specific font in Emacs you just need to call a function, that's easy ha ??
  #+BEGIN_SRC emacs-lisp
- (defvar amirreza/font "mononoki-12")
+ (defvar amirreza/font "Jetbrains Mono-10")
  (set-face-attribute 'default t :font amirreza/font)
  (set-frame-font amirreza/font nil t)
  #+END_SRC
@@ -348,7 +346,6 @@ is a gourges icon package for emacs.
 #+BEGIN_SRC emacs-lisp :eval no
   (use-package all-the-icons
     :straight t
-    :disabled t
     :commands (all-the-icons-octicon
 	       all-the-icons-faicon
 	       all-the-icons-fileicon
@@ -358,7 +355,6 @@ is a gourges icon package for emacs.
 
   (use-package all-the-icons-dired
     :straight t
-    :disabled t
     :init
     (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
 #+END_SRC
@@ -367,16 +363,14 @@ is called, basically first buffer that wants to use that it will get loaded. =:i
 no matter what are the other options evaluate the forms after =:init=.
 ** Modeline
 #+begin_src emacs-lisp
-  (use-package spaceline :straight t
-:disabled t
-   :config
-
-
-  (require 'spaceline-config)
-  (spaceline-spacemacs-theme))
-(use-package doom-modeline :straight t
-:config
-(doom-modeline-mode 1))
+    (use-package spaceline :straight t
+      :disabled t
+      :config
+      (require 'spaceline-config)
+      (spaceline-spacemacs-theme))
+  (use-package doom-modeline :straight t
+  :config
+  (doom-modeline-mode 1))
 
 #+end_src
 * Emacs Modes Introduction
@@ -581,6 +575,7 @@ to different git repos in the Ibuffer view.
 *** Highlight Indents
  #+BEGIN_SRC emacs-lisp
  (use-package highlight-indent-guides
+   :straight t
    :hook ((yaml-mode) . highlight-indent-guides-mode)
    :init
    (setq highlight-indent-guides-method 'character)
@@ -766,6 +761,7 @@ Ivy is an amazing package that enhances several aspects of Emacs using counsel f
  #+BEGIN_SRC emacs-lisp
    (use-package ivy
      :straight t
+
      :custom
      (ivy-height 17)
      (ivy-wrap t)
@@ -790,6 +786,7 @@ Ivy is an amazing package that enhances several aspects of Emacs using counsel f
 
    (use-package swiper
      :straight t
+
      :commands (swiper)
      :init (global-set-key (kbd "C-s") 'swiper))
 
@@ -883,11 +880,14 @@ although =Rainbow-delimiters= shows us the start and end of an list, but it's ni
 IDE means =Integrated Development Environment= basically a software provides you with every thing you need when you are developing software, and since Emacs is such a extensible platform
 turning Emacs into an IDE is not that hard.
 *** Terminal Emulator
-Terminal emulator (don't mistake it with a shell like zsh or bash) is one of the core parts of my development environment and I have tried
-multiple Emacs solutions and none of them actually fit my needs until I found =vterm=. You are going to need =CMake=, =libtool= for this to
-be able to work since it's actually using C for it's core.
-#+BEGIN_SRC emacs-lisp
-  (use-package vterm 
+**** Eshell
+#+begin_src emacs-lisp
+(use-package eshell)
+#+end_src
+**** VTerm
+     #+BEGIN_SRC emacs-lisp
+  (use-package vterm
+    :disabled t 
     :straight t
     :commands vterm
     :bind (("<f10>" . vterm))
@@ -896,6 +896,10 @@ be able to work since it's actually using C for it's core.
       (display-line-numbers-mode -1))
     (add-hook 'vterm-mode-hook 'amirreza/vterm-hooks))
 #+END_SRC
+**** Ansi-term
+#+begin_src emacs-lisp
+(use-package term)
+#+end_src 
 *** Language Server Protocol
 
 Language Server protocol is a open source protocol developed by microsoft but now it's being
