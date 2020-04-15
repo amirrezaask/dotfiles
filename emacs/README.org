@@ -334,8 +334,6 @@ darkness.
          (setq amirreza/current-mode 'dark))
        (amirreza/apply-color amirreza/current-mode))
      (amirreza/apply-color amirreza/current-mode))
-
-
  #+END_SRC
 **** Performance Tip 
 About 95% of packages we use don't need to be loaded at startup and =:defer= is only one of the multiple
@@ -390,15 +388,16 @@ is called, basically first buffer that wants to use that it will get loaded. =:i
 no matter what are the other options evaluate the forms after =:init=.
 ** Modeline
 #+begin_src emacs-lisp
-    (use-package spaceline :straight t
-      :disabled t
-      :config
-      (require 'spaceline-config)
-      (spaceline-spacemacs-theme))
-  (use-package doom-modeline :straight t
-  :config
-  (doom-modeline-mode 1))
+      (use-package spaceline :straight t
+        :disabled t
+        :config
+        (require 'spaceline-config)
+        (spaceline-spacemacs-theme))
 
+    (use-package doom-modeline :straight t
+      :config
+      (doom-modeline-mode 1))
+  (use-package nyan-mode :straight t :config (nyan-mode 1))
 #+end_src
 * Emacs Modes Introduction
 First let's talk about modes, Modes are the conventional way to add functionality to Emacs.
@@ -852,55 +851,51 @@ well actually there are multiple package for this purpose but since we are going
  #+END_SRC
 ***** Helm
 #+begin_src emacs-lisp
-        (use-package helm-rg :straight t :commands helm-rg)
-        (use-package helm :straight t
-          :custom
-          (helm-mode-fuzzy-match t) ;; enable fuzzy matching in all helm
-          :general
-          (:keymaps 'helm-map
-                    "C-j" 'helm-next-line
-                    "C-k" 'helm-previous-line
-                    "<tab>"  'helm-execute-persistent-action   ;; make tab work normal
-                    "C-z"  'helm-select-action) ;; C-z instead of tab to show helm actions
 
-          (:keymaps 'override
-                    "M-y" 'helm-show-kill-ring
-                    "M-x" 'helm-M-x
-                    "C-s" 'helm-occur)
+       (use-package helm :straight t
+         :custom
+         (helm-mode-fuzzy-match t) ;; enable fuzzy matching in all helm
+         :general
+         (:keymaps 'helm-map
+                   "C-j" 'helm-next-line
+                   "C-k" 'helm-previous-line
+                   "<tab>"  'helm-execute-persistent-action   ;; make tab work normal
+                   "C-z"  'helm-select-action) ;; C-z instead of tab to show helm actions
 
-          (:keymaps 'override
-                    "<f6> g" 'helm-rg)
+         (:keymaps 'override
+                   "M-y" 'helm-show-kill-ring
+                   "M-x" 'helm-M-x
+                   "C-s" 'helm-occur)
 
-          (:prefix "C-h"
-                   "a" 'helm-apropos
-                   "f" 'helm-apropos
-                   "k" 'helm-apropos
-                   "v" 'helm-apropos
-                   )
-          (:prefix "C-x" :keymaps 'override
-                   "C-f" 'helm-find-files
-                   "b" 'helm-mini
-                   "C-b" 'helm-mini
-                   )
-          (space-leader-lord
-            "h a" 'helm-apropos
-            "f f" 'helm-find-files
-            ";" 'helm-M-x
-            "l l" 'helm-mini
-            "b l" 'helm-mini))
+         (:keymaps 'override
+                   "<f6> g" 'helm-rg)
 
-      (use-package helm-descbinds :straight t
-        :bind (("C-h b" . helm-descbinds)))
+         (:prefix "C-h"
+                  "a" 'helm-apropos
+                  "f" 'helm-apropos
+                  "k" 'helm-apropos
+                  "v" 'helm-apropos
+                  )
+         (:prefix "C-x" :keymaps 'override
+                  "C-f" 'helm-find-files
+                  "b" 'helm-mini
+                  "C-b" 'helm-mini
+                  )
+         (space-leader-lord
+           "h a" 'helm-apropos
+           "f f" 'helm-find-files
+           ";" 'helm-M-x
+           "l l" 'helm-mini
+           "b l" 'helm-mini))
 
-      (use-package helm-describe-modes :straight t
-        :bind (("C-h m" . helm-describe-modes)))
+     (use-package helm-descbinds :straight t
+       :bind (("C-h b" . helm-descbinds)))
 
-     (use-package helm-make :straight t
-       :bind (("<f5> m" . helm-make)))
+     (use-package helm-describe-modes :straight t
+       :bind (("C-h m" . helm-describe-modes)))
 
-   (use-package helm-rhythmbox :straight t
-     :bind (("<f7>" . helm-rhythmbox)))
-
+    (use-package helm-make :straight t
+      :bind (("<f5> m" . helm-make)))
 #+end_src
 **** In Buffer Completion
 Code completion consists of two parts, A source/server that provides the completions and 
@@ -957,15 +952,13 @@ the fastest and easiest one out there, and for files is =FZF=, let's integrate t
     (isearch-regexp-lax-whitespace nil)
     (isearch-lazy-highlight t))
 
+  (use-package helm-rg :straight t :commands helm-rg :general ("<f6> g" '(helm-rg :which-key "Helm Ripgrep")))
+
   (use-package fzf
     :straight t
     :bind
     (("<f6> f" . fzf-directory)))
 
-  (use-package rg
-    :disabled t
-    :straight t
-    :bind (("<f6> s" . rg)))
 #+END_SRC
 *** Rainbow delimiters
 Highlight matching brackets in matching colors
@@ -1016,6 +1009,11 @@ as auto-complete or syntax linting.
     :general
     (space-leader-lord "." 'xref-find-definitions)
     :commands (lsp))
+
+
+(use-package dap-mode :straight t)
+(use-package helm-lsp :straight t :commands helm-lsp-workspace-symbol)
+
 #+END_SRC
 LSP-ui is a mode from the same author with the goal of configuring several Emacs packages to 
 help ease developer experience when using LSP.
@@ -1080,27 +1078,12 @@ provide several feature to other packages or to the user directly.
 
 #+END_SRC
 *** Music
-I need music when I am working, so for me music is just a part of development environment.
+I need music when I am working, so for me music is just a part of development environment, and let helm help us.
 #+begin_src emacs-lisp
-  (use-package bongo :straight t
-    :config
-    (setq bongo-default-directory "~/Music")
-    (setq bongo-prefer-library-buffers nil)
-    (setq bongo-insert-whole-directory-trees t)
-    (setq bongo-logo nil)
-    (setq bongo-action-track-icon nil)
-    (setq bongo-display-track-icons nil)
-    (setq bongo-display-track-lengths nil)
-    (setq bongo-display-header-icons nil)
-    (setq bongo-display-playback-mode-indicator t)
-    (setq bongo-display-inline-playback-progress nil)
-    (setq bongo-mark-played-tracks nil)
-    (setq bongo-header-line-mode nil)
-    (setq bongo-header-line-function nil)
-    (setq bongo-mode-line-indicator-mode nil)
-    (setq bongo-vlc-program-name "cvlc")
-    :bind
-    ("<XF86-AudioPlay>" . bongo-pause/resume))
+  (use-package helm-rhythmbox :straight t
+    :general (:prefix "C-c m"
+                      "l" '(helm-rhythmbox :which-key "Library")
+                      "p" '(helm-rhythmbox-playpause-song :which-key "Play/Pause")))
 #+end_src
 * Programming Languages
 ** Python
@@ -1280,9 +1263,10 @@ we can even go further.x
 #+end_src
 *** TRAMP
 #+begin_src emacs-lisp
-  (use-package tramp
-    :custom
-    (tramp-default-method "ssh"))
+
+    (use-package tramp
+      :custom
+      (tramp-default-method "ssh"))
 #+end_src
 *** Docker
 #+BEGIN_SRC emacs-lisp
