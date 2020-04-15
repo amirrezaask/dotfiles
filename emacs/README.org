@@ -1065,6 +1065,29 @@ provide several feature to other packages or to the user directly.
        (projectile-mode 1))
 
 #+END_SRC
+*** Music
+I need music when I am working, so for me music is just a part of development environment.
+#+begin_src emacs-lisp
+  (use-package bongo :straight t
+    :config
+    (setq bongo-default-directory "~/Music")
+    (setq bongo-prefer-library-buffers nil)
+    (setq bongo-insert-whole-directory-trees t)
+    (setq bongo-logo nil)
+    (setq bongo-action-track-icon nil)
+    (setq bongo-display-track-icons nil)
+    (setq bongo-display-track-lengths nil)
+    (setq bongo-display-header-icons nil)
+    (setq bongo-display-playback-mode-indicator t)
+    (setq bongo-display-inline-playback-progress nil)
+    (setq bongo-mark-played-tracks nil)
+    (setq bongo-header-line-mode nil)
+    (setq bongo-header-line-function nil)
+    (setq bongo-mode-line-indicator-mode nil)
+    (setq bongo-vlc-program-name "cvlc")
+    :bind
+    ("<XF86-AudioPlay>" . bongo-pause/resume))
+#+end_src
 * Programming Languages
 ** Python
 *** Python Mode
@@ -1261,3 +1284,4 @@ we can even go further.x
 #+begin_src emacs-lisp
 (use-package redis :straight t)
 #+end_src
+
