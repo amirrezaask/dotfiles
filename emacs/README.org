@@ -232,7 +232,6 @@ darkness.
     :straight t)
 
   (use-package evil-surround 
-
     :straight t)
 
   (use-package evil-commentary 
@@ -388,7 +387,6 @@ no matter what are the other options evaluate the forms after =:init=.
       (require 'spaceline-config)
       (spaceline-spacemacs-theme))
   (use-package doom-modeline :straight t
-  :disabled t
   :config
   (doom-modeline-mode 1))
 
@@ -781,10 +779,8 @@ well actually there are multiple package for this purpose but since we are going
 Ivy is an amazing package that enhances several aspects of Emacs using counsel functions.
  #+BEGIN_SRC emacs-lisp
    (use-package flx :straight t)
-
       (use-package ivy
         :straight t
-        :disabled t
         :custom
         (ivy-height 17)
         (ivy-wrap t)
@@ -805,17 +801,18 @@ Ivy is an amazing package that enhances several aspects of Emacs using counsel f
               #'ivy-format-function-line)
         (ivy-mode +1)
         :bind
-        (("C-x b" . 'ivy-switch-buffer)))
+        (("C-x b" . 'ivy-switch-buffer)
+         :map ivy-minibuffer-map 
+         ("C-j" . 'ivy-next-line)
+         ("C-k" . 'ivy-previous-line)))
 
       (use-package swiper
         :straight t
-        :disabled t
 
         :commands (swiper)
         :init (global-set-key (kbd "C-s") 'swiper))
 
       (use-package counsel
-        :disabled t
 
         :straight t
         :commands (counsel-M-x counsel-find-file ivy-switch-buffer)
@@ -838,6 +835,7 @@ Ivy is an amazing package that enhances several aspects of Emacs using counsel f
 ***** Helm
 #+begin_src emacs-lisp
   (use-package helm :straight t
+    :disabled t
     :config
     ;; (add-to-list 'helm-sources-using-default-as-input 'helm-source-man-pages)
     :custom
@@ -867,7 +865,7 @@ Ivy is an amazing package that enhances several aspects of Emacs using counsel f
       "l l" 'helm-mini
       "b l" 'helm-mini))
 
-  (use-package helm-rg :straight t :commands helm-rg)
+  (use-package helm-rg :disabled t :straight t :commands helm-rg)
 #+end_src
 **** In Buffer Completion
 Code completion consists of two parts, A source/server that provides the completions and 
@@ -950,14 +948,16 @@ turning Emacs into an IDE is not that hard.
 *** Terminal Emulator
 **** VTerm
      #+BEGIN_SRC emacs-lisp
-  (use-package vterm
-    :straight t
-    :commands vterm
-    :bind (("<f10>" . vterm))
-    :config
-    (defun amirreza/vterm-hooks () 
-      (display-line-numbers-mode -1))
-    (add-hook 'vterm-mode-hook 'amirreza/vterm-hooks))
+       (use-package vterm
+         :straight t
+         :commands vterm
+         :bind (("<f10>" . vterm))
+         :config
+         (defun amirreza/vterm-hooks () 
+           (display-line-numbers-mode -1)
+           (setq confirm-kill-processes nil)
+           (setq hscroll-margin 0))
+         (add-hook 'vterm-mode-hook 'amirreza/vterm-hooks))
 #+END_SRC
 *** Language Server Protocol
 
