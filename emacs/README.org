@@ -871,7 +871,12 @@ well actually there are multiple package for this purpose but since we are going
     (:keymaps 'override
               "<f6> g" 'helm-rg)
 
-
+    (:prefix "C-h"
+             "a" 'helm-apropos
+             "f" 'helm-apropos
+             "k" 'helm-apropos
+             "v" 'helm-apropos
+             )
     (:prefix "C-x" :keymaps 'override
              "C-f" 'helm-find-files
              "b" 'helm-mini
