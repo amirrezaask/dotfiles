@@ -879,29 +879,30 @@ configuration of company.
 For company backends we are going to use =company-capf= which is abbrv for =company complete at point function= which is a function in Emacs that major modes
 can call an get completions based on that.
 #+BEGIN_SRC emacs-lisp
-    (use-package company
-      :demand
-      :straight t
-      :custom
-      (company-tooltip-limit 30)
-      (company-idle-delay .1)
-      (company-echo-delay 0.1)
-      (company-backends '(company-capf company-dabbrev company-files company-dabbrev-code))
-      :bind (:map company-active-map
-                  ("C-n" . company-select-next)
-                  ("C-p" . company-select-previous)
-                  ("C-o" . company-other-backend)
-                  ("<tab>" . company-complete-common-or-cycle))
-      :config
-      (defmacro amirreza/with-backends (mode backends) 
-        "Register a buffer local variable with given BACKENDS for given MODE. For registering backends for various modes use this"
-        (let ((mode-hook (intern (concat (symbol-name mode) "-hook"))))
-          (message "amirreza/with-backends called with %s %s %s" mode backends mode-hook)
-          `(add-hook (quote ,mode-hook) (lambda ()
-                                          (setq-local company-backends (quote ,backends))
-                                          ))))
-      (global-company-mode t)
-      )
+      (use-package company
+        :demand
+        :straight t
+        :custom
+        (company-minimum-prefix-lenght 1)
+        (company-tooltip-limit 30)
+        (company-idle-delay 0.0)
+        (company-echo-delay 0.1)
+        (company-backends '(company-capf company-dabbrev company-files company-dabbrev-code))
+        :bind (:map company-active-map
+                    ("C-n" . company-select-next)
+                    ("C-p" . company-select-previous)
+                    ("C-o" . company-other-backend)
+                    ("<tab>" . company-complete-common-or-cycle))
+        :config
+        (defmacro amirreza/with-backends (mode backends) 
+          "Register a buffer local variable with given BACKENDS for given MODE. For registering backends for various modes use this"
+          (let ((mode-hook (intern (concat (symbol-name mode) "-hook"))))
+            (message "amirreza/with-backends called with %s %s %s" mode backends mode-hook)
+            `(add-hook (quote ,mode-hook) (lambda ()
+                                            (setq-local company-backends (quote ,backends))
+                                            ))))
+        (global-company-mode t)
+        )
 
 
 #+END_SRC
@@ -946,14 +947,9 @@ although =Rainbow-delimiters= shows us the start and end of an list, but it's ni
 IDE means =Integrated Development Environment= basically a software provides you with every thing you need when you are developing software, and since Emacs is such a extensible platform
 turning Emacs into an IDE is not that hard.
 *** Terminal Emulator
-**** Eshell
-#+begin_src emacs-lisp
-(use-package eshell)
-#+end_src
 **** VTerm
      #+BEGIN_SRC emacs-lisp
   (use-package vterm
-    :disabled t 
     :straight t
     :commands vterm
     :bind (("<f10>" . vterm))
@@ -962,10 +958,6 @@ turning Emacs into an IDE is not that hard.
       (display-line-numbers-mode -1))
     (add-hook 'vterm-mode-hook 'amirreza/vterm-hooks))
 #+END_SRC
-**** Ansi-term
-#+begin_src emacs-lisp
-(use-package term)
-#+end_src 
 *** Language Server Protocol
 
 Language Server protocol is a open source protocol developed by microsoft but now it's being
@@ -986,7 +978,7 @@ as auto-complete or syntax linting.
 LSP-ui is a mode from the same author with the goal of configuring several Emacs packages to 
 help ease developer experience when using LSP.
 #+BEGIN_SRC emacs-lisp
-(use-package lsp-ui :straight t :commands lsp-ui-mode :hook (lsp-mode . lsp-ui-mode))
+  ;; (use-package lsp-ui :straight t :commands lsp-ui-mode :hook (lsp-mode . lsp-ui-mode))
 #+END_SRC
 *** Git integration
 #+BEGIN_SRC emacs-lisp
