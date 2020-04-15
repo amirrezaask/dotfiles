@@ -212,6 +212,7 @@ words (yes you can do C-2 M-d) but it's not that user-friendly actually, so with
 darkness. 
 #+begin_src emacs-lisp
   (use-package evil 
+  :disabled t
     :straight t
     :init
     (setq evil-want-keybinding nil)
@@ -224,17 +225,23 @@ darkness.
 
 
   (use-package evil-collection 
+
+  :disabled t
     :straight t 
     :config 
     (evil-collection-init))
 
   (use-package evil-magit 
+
+  :disabled t
     :straight t)
 
   (use-package evil-surround 
+  :disabled t
     :straight t)
 
   (use-package evil-commentary 
+  :disabled t
     :config
     (evil-commentary-mode 1)
     :straight t)
