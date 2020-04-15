@@ -247,8 +247,10 @@ darkness.
     (general-create-definer space-leader :prefix "SPC" :states 'normal)
     (space-leader-lord
       "s b" 'switch-to-buffer
+      "b l" 'switch-to-buffer
       "k b" 'kill-buffer
-      amirreza/leader-key 'execute-extended-command
+      amirreza/leader-key 'find-file
+      "e e" 'execute-extended-command
       "m w" 'delete-other-windows
       "d w" 'delete-window
       "s r" 'split-window-right
@@ -472,6 +474,14 @@ but again Emacs community is here to help
   :straight t
   :config (beacon-mode 1))
 #+END_SRC
+*** Dired
+#+begin_src emacs-lisp
+  (use-package dired
+  :bind
+  (:map dired-mode-map
+        ("C-j" . next-line)
+        ("C-k" . previous-line)))
+#+end_src
 *** Some general keybindings
 #+BEGIN_SRC emacs-lisp
 ;; sane zoom-in and zoom-out 
@@ -802,7 +812,11 @@ Ivy is an amazing package that enhances several aspects of Emacs using counsel f
         (ivy-mode +1)
         :bind
         (("C-x b" . 'ivy-switch-buffer)
-         :map ivy-minibuffer-map 
+         :map ivy-minibuffer-map
+         ("C-j" . 'ivy-next-line)
+         ("C-k" . 'ivy-previous-line)
+
+         :map ivy-switch-buffer-map
          ("C-j" . 'ivy-next-line)
          ("C-k" . 'ivy-previous-line)))
 
@@ -951,8 +965,13 @@ turning Emacs into an IDE is not that hard.
        (use-package vterm
          :straight t
          :commands vterm
-         :bind (("<f10>" . vterm))
+         :bind (("<f10>" . amirreza/open-vterm-vertical))
          :config
+         (defun amirreza/open-vterm-vertical ()
+           (interactive)
+           (split-window-right)
+           (switch-to-buffer-other-window (buffer-name))
+           (vterm))
          (defun amirreza/vterm-hooks () 
            (display-line-numbers-mode -1)
            (setq confirm-kill-processes nil)
@@ -960,7 +979,6 @@ turning Emacs into an IDE is not that hard.
          (add-hook 'vterm-mode-hook 'amirreza/vterm-hooks))
 #+END_SRC
 *** Language Server Protocol
-
 Language Server protocol is a open source protocol developed by microsoft but now it's being
 developed by community, it defines a communication protocol that a lanaguge server (let's say gopls)
 can talk to various clients (let's say Emacs, Vi, VSCode) and provide several features such
@@ -974,6 +992,8 @@ as auto-complete or syntax linting.
       go-mode) . lsp)
     :custom
     (lsp-auto-guess-root t)
+    :general
+    (space-leader-lord "." 'xref-find-definitions)
     :commands (lsp))
 #+END_SRC
 LSP-ui is a mode from the same author with the goal of configuring several Emacs packages to 
