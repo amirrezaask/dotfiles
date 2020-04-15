@@ -243,12 +243,13 @@ darkness.
   (use-package general
     :straight t
     :config
-    (general-create-definer space-leader-lord :prefix ";" :states 'normal :keymaps 'override)
-    (general-create-definer space-leader :prefix ";" :states 'normal)
+    (defvar amirreza/leader-key "SPC")
+    (general-create-definer space-leader-lord :prefix "SPC" :states 'normal :keymaps 'override)
+    (general-create-definer space-leader :prefix "SPC" :states 'normal)
     (space-leader-lord
       "s b" 'switch-to-buffer
       "k b" 'kill-buffer
-      ";" 'execute-extended-command
+      amirreza/leader-key 'execute-extended-command
       "m w" 'delete-other-windows
       "d w" 'delete-window
       "s r" 'split-window-right
