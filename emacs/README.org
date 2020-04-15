@@ -212,7 +212,7 @@ words (yes you can do C-2 M-d) but it's not that user-friendly actually, so with
 darkness. 
 #+begin_src emacs-lisp
   (use-package evil 
-  :disabled t
+    :disabled t
     :straight t
     :init
     (setq evil-want-keybinding nil)
@@ -343,7 +343,7 @@ ways of lazy-loading in use-package we will see others later on.
 ** Font
  To use specific font in Emacs you just need to call a function, that's easy ha ??
  #+BEGIN_SRC emacs-lisp
- (defvar amirreza/font "Jetbrains Mono-10")
+ (defvar amirreza/font "Jetbrains Mono-11")
  (set-face-attribute 'default t :font amirreza/font)
  (set-frame-font amirreza/font nil t)
  #+END_SRC
@@ -769,8 +769,6 @@ well actually there are multiple package for this purpose but since we are going
      (icomplete-vertical-mode 1))
  #+END_SRC
 ***** IDO
-=SideNote=: I moved to =icomplete= since it's simpler and easier for me to customize.
- IDO is another Emacs built in way of doing completion in mini buffer.
  #+BEGIN_SRC emacs-lisp
    (use-package ido
      :disabled t
@@ -792,73 +790,70 @@ well actually there are multiple package for this purpose but since we are going
 
  #+END_SRC
 ***** Ivy
-=SideNote=: I moved to =icomplete= since it's simpler and easier for me to customize.
-Ivy is an amazing package that enhances several aspects of Emacs using counsel functions.
  #+BEGIN_SRC emacs-lisp
    (use-package flx :straight t)
-      (use-package ivy
-        :straight t
-        :custom
-        (ivy-height 17)
-        (ivy-wrap t)
-        (ivy-fixed-height-minibuffer t)
-        (projectile-completion-system 'ivy)
-        ;; disable magic slash on non-match
-        (ivy-magic-slash-non-match-action nil)
-        ;; don't show recent files in switch-buffer
-        (ivy-use-virtual-buffers nil)
-        ;; ...but if that ever changes, show their full path
-        (ivy-virtual-abbreviate 'full)
-        ;; don't quit minibuffer on delete-error
-        (ivy-on-del-error-function #'ignore)
-        ;; enable ability to select prompt (alternative to `ivy-immediate-done')
-        (ivy-use-selectable-prompt t)
-        :config
-        (setf (alist-get 't ivy-format-functions-alist)
-              #'ivy-format-function-line)
-        (ivy-mode +1)
-        :bind
-        (("C-x b" . 'ivy-switch-buffer)
-         :map ivy-minibuffer-map
-         ("C-j" . 'ivy-next-line)
-         ("C-k" . 'ivy-previous-line)
+   (use-package ivy
+     :disabled t
+     :straight t
+     :custom
+     (ivy-height 17)
+     (ivy-wrap t)
+     (ivy-fixed-height-minibuffer t)
+     (projectile-completion-system 'ivy)
+     ;; disable magic slash on non-match
+     (ivy-magic-slash-non-match-action nil)
+     ;; don't show recent files in switch-buffer
+     (ivy-use-virtual-buffers nil)
+     ;; ...but if that ever changes, show their full path
+     (ivy-virtual-abbreviate 'full)
+     ;; don't quit minibuffer on delete-error
+     (ivy-on-del-error-function #'ignore)
+     ;; enable ability to select prompt (alternative to `ivy-immediate-done')
+     (ivy-use-selectable-prompt t)
+     :config
+     (setf (alist-get 't ivy-format-functions-alist)
+           #'ivy-format-function-line)
+     (ivy-mode +1)
+     :bind
+     (("C-x b" . 'ivy-switch-buffer)
+      :map ivy-minibuffer-map
+      ("C-j" . 'ivy-next-line)
+      ("C-k" . 'ivy-previous-line)
 
-         :map ivy-switch-buffer-map
-         ("C-j" . 'ivy-next-line)
-         ("C-k" . 'ivy-previous-line)))
+      :map ivy-switch-buffer-map
+      ("C-j" . 'ivy-next-line)
+      ("C-k" . 'ivy-previous-line)))
 
-      (use-package swiper
-        :straight t
+   (use-package swiper
+     :straight t
+     :disabled t
+     :commands (swiper)
+     :init (global-set-key (kbd "C-s") 'swiper))
 
-        :commands (swiper)
-        :init (global-set-key (kbd "C-s") 'swiper))
-
-      (use-package counsel
-
-        :straight t
-        :commands (counsel-M-x counsel-find-file ivy-switch-buffer)
-        :custom
-        (ivy-re-builders-alist
-         '((t . ivy--regex-fuzzy)))
-        :general 
-        (space-leader "s s" 'counsel-rg "s f" 'counsel-fzf)
-        :bind
-        (("M-x" . 'counsel-M-x)
-         ("C-x C-f" . 'counsel-find-file)
-         ("C-h b" . 'counsel-descbinds)
-         ("C-h f" . 'counsel-describe-function)
-         ("C-h v" . 'counsel-describe-variable)
-         ("C-h a" . 'counsel-apropos)
-         ("<f6> s" . 'counsel-rg)
-         ("<f6> f" . 'counsel-fzf)
-         ( "M-y" . 'counsel-yank-pop)))
+   (use-package counsel
+     :disabled t
+     :straight t
+     :commands (counsel-M-x counsel-find-file ivy-switch-buffer)
+     :custom
+     (ivy-re-builders-alist
+      '((t . ivy--regex-fuzzy)))
+     :general 
+     (space-leader "s s" 'counsel-rg "s f" 'counsel-fzf)
+     :bind
+     (("M-x" . 'counsel-M-x)
+      ("C-x C-f" . 'counsel-find-file)
+      ("C-h b" . 'counsel-descbinds)
+      ("C-h f" . 'counsel-describe-function)
+      ("C-h v" . 'counsel-describe-variable)
+      ("C-h a" . 'counsel-apropos)
+      ("<f6> s" . 'counsel-rg)
+      ("<f6> f" . 'counsel-fzf)
+      ( "M-y" . 'counsel-yank-pop)))
  #+END_SRC
 ***** Helm
 #+begin_src emacs-lisp
+  (use-package helm-rg :straight t :commands helm-rg)
   (use-package helm :straight t
-    :disabled t
-    :config
-    ;; (add-to-list 'helm-sources-using-default-as-input 'helm-source-man-pages)
     :custom
     (helm-mode-fuzzy-match t) ;; enable fuzzy matching in all helm
     :general
@@ -873,6 +868,9 @@ Ivy is an amazing package that enhances several aspects of Emacs using counsel f
               "M-x" 'helm-M-x
               "C-s" 'helm-occur)
 
+    (:keymaps 'override
+              "<f6> g" 'helm-rg)
+
 
     (:prefix "C-x" :keymaps 'override
              "C-f" 'helm-find-files
@@ -886,7 +884,7 @@ Ivy is an amazing package that enhances several aspects of Emacs using counsel f
       "l l" 'helm-mini
       "b l" 'helm-mini))
 
-  (use-package helm-rg :disabled t :straight t :commands helm-rg)
+
 #+end_src
 **** In Buffer Completion
 Code completion consists of two parts, A source/server that provides the completions and 
@@ -946,7 +944,7 @@ the fastest and easiest one out there, and for files is =FZF=, let's integrate t
   (use-package fzf
     :straight t
     :bind
-    (("<f6> f" . fzf)))
+    (("<f6> f" . fzf-directory)))
 
   (use-package rg
     :disabled t
