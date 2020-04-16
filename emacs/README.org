@@ -129,7 +129,7 @@ to set this file's value to a nil value during startup and restore it's original
 #+end_src
 * Debug When necessary
 #+begin_src emacs-lisp
-  ;; (setq debug-on-error t)
+;; (setq debug-on-error)
 #+end_src
 * Setup package manager
 Now that we know how to move around, open files, and do some elisp magic in emacs it's time to start configuring 
@@ -318,7 +318,7 @@ darkness.
      :bind (("<f12>" . amirreza/toggle-color-mode))
      :config
      (defvar amirreza/current-mode 'dark "Current color of Emacs.")
-     (defvar amirreza/dark-theme 'doom-dracula)
+     (defvar amirreza/dark-theme 'doom-one)
      (defvar amirreza/light-theme 'spacemacs-light)
      (defun amirreza/apply-color (mode)
        "Apply current color mode to Emacs."
@@ -409,6 +409,41 @@ major mode, and multiple minor modes that added different abilities to emacs for
 Forexample line numbers is a minor mode that is enabled globally for all buffers so all buffers
 show line numbers.
 Now that we have cool looks, 
+* Windows
+Emacs by default has no notion of tabs (like the other IDEs) but it has the more powerful
+notion of windows and buffers, you already know about buffers, but windows are a way of displaying 
+buffers side by side in the screen, look at windows like tmux panes (if I'm correct) or vim splits.
+**** Window rules
+Emacs windows can be configured in the matter of where their gonna open.
+#+BEGIN_SRC emacs-lisp
+  (setq display-buffer-alist
+        '(("\\*\\(Backtrace\\|Warnings\\|Compile-Log\\|Messages\\)\\*"
+             (display-buffer-in-side-window)
+             (window-width . 0.20)
+             (side . right)
+             (slot . 0)
+             (window-parameters . ((no-other-window . t)))))
+        )
+#+END_SRC
+**** Winner (Restore Window layout)
+ When we are working with multiple windows open but we might maximize one window to focus
+ on it, but when we are done with focus mode ;) we need that layout back that's were winner mode
+ comes handy you can restore last window layout with just a function called =winner-undo= that
+ by default is bound to =C-c <left>=.
+ #+BEGIN_SRC emacs-lisp
+   (use-package winner 
+     :commands (winner-redo winner-undo))
+ #+END_SRC
+**** Ace Window (Better Window Management)
+ #+BEGIN_SRC emacs-lisp
+ (use-package ace-window
+   :straight t
+   :general
+   (general-define-key :states 'normal "C-w" 'ace-window)
+   :bind (("C-x o" . 'ace-window) 
+	  ("C-x C-o" . 'ace-window)))
+ #+END_SRC
+
 * Editor
 *** Defaults
 ***** Line width
@@ -493,6 +528,11 @@ but again Emacs community is here to help
 ;; custom motions
 (global-set-key (kbd "M-n") (lambda () (interactive) (next-line 5)))
 (global-set-key (kbd "M-p") (lambda () (interactive) (previous-line 5)))
+#+END_SRC
+*** Highlight matching parens
+#+BEGIN_SRC emacs-lisp
+  (show-paren-mode 1)
+  (setq show-paren-delay 0)
 #+END_SRC
 *** Reduce clutter in emacs frame
  #+BEGIN_SRC emacs-lisp
@@ -693,33 +733,6 @@ when dumb jump can help you jump to defenitions using Rg or ag or grep (we use R
   :straight t
   :hook (org-mode . org-bullets-mode))
 #+END_SRC
-*** Windows
- Emacs by default has no notion of tabs (like the other IDEs) but it has the more powerful
- notion of windows and buffers, you already know about buffers, but windows are a way of displaying 
- buffers side by side in the screen, look at windows like tmux panes (if I'm correct) or vim splits.
-**** Window rules
-Emacs windows can be configured in the matter of where their gonna open.
-#+BEGIN_SRC emacs-lisp
-
-#+END_SRC
-**** Winner (Restore Window layout)
- When we are working with multiple windows open but we might maximize one window to focus
- on it, but when we are done with focus mode ;) we need that layout back that's were winner mode
- comes handy you can restore last window layout with just a function called =winner-undo= that
- by default is bound to =C-c <left>=.
- #+BEGIN_SRC emacs-lisp
-   (use-package winner 
-     :commands (winner-redo winner-undo))
- #+END_SRC
-**** Ace Window (Better Window Management)
- #+BEGIN_SRC emacs-lisp
- (use-package ace-window
-   :straight t
-   :general
-   (general-define-key :states 'normal "C-w" 'ace-window)
-   :bind (("C-x o" . 'ace-window) 
-	  ("C-x C-o" . 'ace-window)))
- #+END_SRC
 
 *** Searching
 There are two tools that I think are amazing when it comes to searching, for text =ripgrep= is
@@ -1269,10 +1282,10 @@ we can even go further.x
 #+end_src
 *** TRAMP
 #+begin_src emacs-lisp
-
-    (use-package tramp
-      :custom
-      (tramp-default-method "ssh"))
+  (use-package persp-mode :straight t)
+  (use-package tramp
+        :custom
+        (tramp-default-method "ssh"))
 #+end_src
 *** Docker
 #+BEGIN_SRC emacs-lisp
