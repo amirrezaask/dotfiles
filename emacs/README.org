@@ -396,9 +396,9 @@ no matter what are the other options evaluate the forms after =:init=.
 
   (use-package doom-modeline :straight t
     :config
-    (display-battery-mode 1)
     (doom-modeline-mode 1))
 
+  (display-battery-mode 1)
   (use-package nyan-mode :straight t :config (nyan-mode 1))
 #+end_src
 ** Dashboard
@@ -464,6 +464,18 @@ Emacs windows can be configured in the matter of where their gonna open.
 	  ("C-x C-o" . 'ace-window)))
  #+END_SRC
 
+* File Manager
+#+begin_src emacs-lisp
+    (use-package dired
+    :config
+    (add-hook 'dired-mode-hook (lambda () 
+                                     (dired-hide-details-mode 1)))
+    :bind
+    (:map dired-mode-map
+          ("C-c d" . dired-hide-details-mode)
+          ("C-j" . next-line)
+          ("C-k" . previous-line)))
+#+end_src
 * Editor
 *** Defaults
 ***** Line width
@@ -531,14 +543,7 @@ but again Emacs community is here to help
   :straight t
   :config (beacon-mode 1))
 #+END_SRC
-*** Dired
-#+begin_src emacs-lisp
-  (use-package dired
-  :bind
-  (:map dired-mode-map
-        ("C-j" . next-line)
-        ("C-k" . previous-line)))
-#+end_src
+
 *** Some general keybindings
 #+BEGIN_SRC emacs-lisp
 ;; sane zoom-in and zoom-out 
@@ -995,18 +1000,8 @@ turning Emacs into an IDE is not that hard.
        (use-package vterm
          :straight t
          :commands vterm
-         :bind (("<f10>" . amirreza/open-vterm-vertical))
-         :config
-         (defun amirreza/open-vterm-vertical ()
-           (interactive)
-           (split-window-right)
-           (switch-to-buffer-other-window (buffer-name))
-           (vterm))
-         (defun amirreza/vterm-hooks () 
-           (display-line-numbers-mode -1)
-           (setq confirm-kill-processes nil)
-           (setq hscroll-margin 0))
-         (add-hook 'vterm-mode-hook 'amirreza/vterm-hooks))
+         :bind (("<f10>" . vterm)))
+
 #+END_SRC
 *** Language Server Protocol
 Language Server protocol is a open source protocol developed by microsoft but now it's being
