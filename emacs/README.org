@@ -341,7 +341,7 @@ ways of lazy-loading in use-package we will see others later on.
 ** Font
  To use specific font in Emacs you just need to call a function, that's easy ha ??
  #+BEGIN_SRC emacs-lisp
- (defvar amirreza/font "Jetbrains Mono-11")
+ (defvar amirreza/font "Jetbrains Mono-9")
  (set-face-attribute 'default t :font amirreza/font)
  (set-frame-font amirreza/font nil t)
  #+END_SRC
@@ -388,15 +388,16 @@ is called, basically first buffer that wants to use that it will get loaded. =:i
 no matter what are the other options evaluate the forms after =:init=.
 ** Modeline
 #+begin_src emacs-lisp
-      (use-package spaceline :straight t
-        :disabled t
-        :config
-        (require 'spaceline-config)
-        (spaceline-spacemacs-theme))
+  (use-package spaceline :straight t
+    :disabled t
+    :config
+    (require 'spaceline-config)
+    (spaceline-spacemacs-theme))
 
-    (use-package doom-modeline :straight t
-      :config
-      (doom-modeline-mode 1))
+  (use-package doom-modeline :straight t
+    :config
+    (doom-modeline-mode 1))
+
   (use-package nyan-mode :straight t :config (nyan-mode 1))
 #+end_src
 * Emacs Modes Introduction
@@ -463,11 +464,6 @@ So many times when I am using Emacs I find a problem or a possible feature to ad
     (global-set-key (kbd "C-c c e") 'amirreza/edit-configuration)
     (space-leader "e c" 'amirreza/edit-configuration)
 #+END_SRC
-*** Hydra
-again by abo-abo
-#+begin_src emacs-lisp
-(use-package hydra :straight t :defer t)
-#+end_src
 *** Large files handling
 Since Emacs by default is not that good in handling large files,
 but again Emacs community is here to help
@@ -697,10 +693,6 @@ when dumb jump can help you jump to defenitions using Rg or ag or grep (we use R
   :straight t
   :hook (org-mode . org-bullets-mode))
 #+END_SRC
-*** Engine Mode
-#+BEGIN_SRC emacs-lisp
-(use-package engine-mode :straight t :defer t)
-#+END_SRC
 *** Windows
  Emacs by default has no notion of tabs (like the other IDEs) but it has the more powerful
  notion of windows and buffers, you already know about buffers, but windows are a way of displaying 
@@ -792,7 +784,7 @@ well actually there are multiple package for this purpose but since we are going
  #+BEGIN_SRC emacs-lisp
    (use-package flx :straight t)
    (use-package ivy
-     :disabled t
+
      :straight t
      :custom
      (ivy-height 17)
@@ -825,12 +817,12 @@ well actually there are multiple package for this purpose but since we are going
 
    (use-package swiper
      :straight t
-     :disabled t
+
      :commands (swiper)
      :init (global-set-key (kbd "C-s") 'swiper))
 
    (use-package counsel
-     :disabled t
+
      :straight t
      :commands (counsel-M-x counsel-find-file ivy-switch-buffer)
      :custom
@@ -852,50 +844,51 @@ well actually there are multiple package for this purpose but since we are going
 ***** Helm
 #+begin_src emacs-lisp
 
-       (use-package helm :straight t
-         :custom
-         (helm-mode-fuzzy-match t) ;; enable fuzzy matching in all helm
-         :general
-         (:keymaps 'helm-map
-                   "C-j" 'helm-next-line
-                   "C-k" 'helm-previous-line
-                   "<tab>"  'helm-execute-persistent-action   ;; make tab work normal
-                   "C-z"  'helm-select-action) ;; C-z instead of tab to show helm actions
+     (use-package helm :straight t
+       :disabled t
+       :custom
+       (helm-mode-fuzzy-match t) ;; enable fuzzy matching in all helm
+       :general
+       (:keymaps 'helm-map
+                 "C-j" 'helm-next-line
+                 "C-k" 'helm-previous-line
+                 "<tab>"  'helm-execute-persistent-action   ;; make tab work normal
+                 "C-z"  'helm-select-action) ;; C-z instead of tab to show helm actions
 
-         (:keymaps 'override
-                   "M-y" 'helm-show-kill-ring
-                   "M-x" 'helm-M-x
-                   "C-s" 'helm-occur)
+       (:keymaps 'override
+                 "M-y" 'helm-show-kill-ring
+                 "M-x" 'helm-M-x
+                 "C-s" 'helm-occur)
 
-         (:keymaps 'override
-                   "<f6> g" 'helm-rg)
+       (:keymaps 'override
+                 "<f6> g" 'helm-rg)
 
-         (:prefix "C-h"
-                  "a" 'helm-apropos
-                  "f" 'helm-apropos
-                  "k" 'helm-apropos
-                  "v" 'helm-apropos
-                  )
-         (:prefix "C-x" :keymaps 'override
-                  "C-f" 'helm-find-files
-                  "b" 'helm-mini
-                  "C-b" 'helm-mini
-                  )
-         (space-leader-lord
-           "h a" 'helm-apropos
-           "f f" 'helm-find-files
-           ";" 'helm-M-x
-           "l l" 'helm-mini
-           "b l" 'helm-mini))
+       (:prefix "C-h"
+                "a" 'helm-apropos
+                "f" 'helm-apropos
+                "k" 'helm-apropos
+                "v" 'helm-apropos
+                )
+       (:prefix "C-x" :keymaps 'override
+                "C-f" 'helm-find-files
+                "b" 'helm-mini
+                "C-b" 'helm-mini
+                )
+       (space-leader-lord
+         "h a" 'helm-apropos
+         "f f" 'helm-find-files
+         ";" 'helm-M-x
+         "l l" 'helm-mini
+         "b l" 'helm-mini))
 
-     (use-package helm-descbinds :straight t
-       :bind (("C-h b" . helm-descbinds)))
+   (use-package helm-descbinds :straight t
+     :bind (("C-h b" . helm-descbinds)))
 
-     (use-package helm-describe-modes :straight t
-       :bind (("C-h m" . helm-describe-modes)))
+   (use-package helm-describe-modes :straight t
+     :bind (("C-h m" . helm-describe-modes)))
 
-    (use-package helm-make :straight t
-      :bind (("<f5> m" . helm-make)))
+  (use-package helm-make :straight t
+    :bind (("<f5> m" . helm-make)))
 #+end_src
 **** In Buffer Completion
 Code completion consists of two parts, A source/server that provides the completions and 
@@ -1080,10 +1073,28 @@ provide several feature to other packages or to the user directly.
 *** Music
 I need music when I am working, so for me music is just a part of development environment, and let helm help us.
 #+begin_src emacs-lisp
-  (use-package helm-rhythmbox :straight t
-    :general (:prefix "C-c m"
-                      "l" '(helm-rhythmbox :which-key "Library")
-                      "p" '(helm-rhythmbox-playpause-song :which-key "Play/Pause")))
+  (use-package counsel
+    :straight t
+    :demand
+    :config
+    (defun counsel-rhythmbox-playpause ()
+    "Play/pause the current song."
+    (interactive)
+    (let ((service "org.gnome.Rhythmbox3")
+          (path "/org/mpris/MediaPlayer2")
+          (interface "org.mpris.MediaPlayer2.Player"))
+      (dbus-call-method :session service path interface
+                        "PlayPause")))
+
+    :bind (("C-c m l" . counsel-rhythmbox)
+           ("C-c m c" . (lambda ()
+                          (interactive)
+                          (message (counsel-rhythmbox-current-song))))
+
+           ("C-c m p" . (lambda ()
+                          (interactive)
+                          (counsel-rhythmbox-playpause)
+                          ))))
 #+end_src
 * Programming Languages
 ** Python
