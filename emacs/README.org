@@ -318,7 +318,7 @@ darkness.
      :bind (("<f12>" . amirreza/toggle-color-mode))
      :config
      (defvar amirreza/current-mode 'dark "Current color of Emacs.")
-     (defvar amirreza/dark-theme 'doom-one)
+     (defvar amirreza/dark-theme 'spacemacs-dark)
      (defvar amirreza/light-theme 'spacemacs-light)
      (defun amirreza/apply-color (mode)
        "Apply current color mode to Emacs."
@@ -388,17 +388,19 @@ is called, basically first buffer that wants to use that it will get loaded. =:i
 no matter what are the other options evaluate the forms after =:init=.
 ** Modeline
 #+begin_src emacs-lisp
-  (use-package spaceline :straight t
-    :disabled t
-    :config
-    (require 'spaceline-config)
-    (spaceline-spacemacs-theme))
+    (use-package spaceline :straight t
+      :config
+      (require 'spaceline-config)
+      (spaceline-spacemacs-theme)
+  )
 
-  (use-package doom-modeline :straight t
-    :config
-    (doom-modeline-mode 1))
 
-  (use-package nyan-mode :straight t :config (nyan-mode 1))
+    (use-package doom-modeline :straight t
+      :disabled t
+      :config
+      (doom-modeline-mode 1))
+
+    (use-package nyan-mode :straight t :config (nyan-mode 1))
 #+end_src
 * Emacs Modes Introduction
 First let's talk about modes, Modes are the conventional way to add functionality to Emacs.
@@ -421,9 +423,13 @@ Emacs windows can be configured in the matter of where their gonna open.
              (display-buffer-in-side-window)
              (window-width . 0.20)
              (side . right)
-             (slot . 0)
-             (window-parameters . ((no-other-window . t)))))
-        )
+             (slot . 0))
+          ("^vterm"
+            (display-buffer-in-side-window)
+            (window-height . 0.25)
+            (side . bottom)
+            (slot . 1)
+            )))
 #+END_SRC
 **** Winner (Restore Window layout)
  When we are working with multiple windows open but we might maximize one window to focus
@@ -959,10 +965,8 @@ can call an get completions based on that.
           (let ((mode-hook (intern (concat (symbol-name mode) "-hook"))))
             (message "amirreza/with-backends called with %s %s %s" mode backends mode-hook)
             `(add-hook (quote ,mode-hook) (lambda ()
-                                            (setq-local company-backends (quote ,backends))
-                                            ))))
-        (global-company-mode t)
-        )
+                                            (setq-local company-backends (quote ,backends))))))
+        (global-company-mode t))
 
 
 #+END_SRC
