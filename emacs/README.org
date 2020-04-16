@@ -5,7 +5,6 @@
 that ? Why when there battries included, easy to use, full-featured solutions like =VSCode=, =Jetbrains IDEA= (I mean whole Jetbrains family),
  =Atom=, =Sublime=, etc... people still use =Emacs=, What is the reason that keeps these programs alive? Is it just some people want to look
 cool ? Or is there really something ? We are going to take a journey into the deepest parts of EMACS and find the answer.
-
 * What is Emacs ?
 ** Editor ? IDE ? Mail client ? Window manager ? Terminal emulator ? Lisp interpreter ? all of them ? none ?
 At the 70s at =MIT= AI lab computers were running an editor called =TECO= which was modal editor, as the time passed
@@ -318,7 +317,7 @@ darkness.
      :bind (("<f12>" . amirreza/toggle-color-mode))
      :config
      (defvar amirreza/current-mode 'dark "Current color of Emacs.")
-     (defvar amirreza/dark-theme 'spacemacs-dark)
+     (defvar amirreza/dark-theme 'doom-one)
      (defvar amirreza/light-theme 'spacemacs-light)
      (defun amirreza/apply-color (mode)
        "Apply current color mode to Emacs."
@@ -341,7 +340,7 @@ ways of lazy-loading in use-package we will see others later on.
 ** Font
  To use specific font in Emacs you just need to call a function, that's easy ha ??
  #+BEGIN_SRC emacs-lisp
- (defvar amirreza/font "Jetbrains Mono-9")
+ (defvar amirreza/font "Fira Code-11")
  (set-face-attribute 'default t :font amirreza/font)
  (set-frame-font amirreza/font nil t)
  #+END_SRC
@@ -388,19 +387,29 @@ is called, basically first buffer that wants to use that it will get loaded. =:i
 no matter what are the other options evaluate the forms after =:init=.
 ** Modeline
 #+begin_src emacs-lisp
-    (use-package spaceline :straight t
-      :config
-      (require 'spaceline-config)
-      (spaceline-spacemacs-theme)
-  )
+  (use-package spaceline :straight t
+    :disabled t
+    :config
+    (require 'spaceline-config)
+    (spaceline-spacemacs-theme))
 
 
-    (use-package doom-modeline :straight t
-      :disabled t
-      :config
-      (doom-modeline-mode 1))
+  (use-package doom-modeline :straight t
+    :config
+    (doom-modeline-mode 1))
 
-    (use-package nyan-mode :straight t :config (nyan-mode 1))
+  (use-package nyan-mode :straight t :config (nyan-mode 1))
+#+end_src
+** Dashboard
+#+begin_src emacs-lisp
+  (use-package dashboard
+    :straight t
+    :custom
+    (dashboard-banner-logo-title "Free as in freedom")
+    (dashboard-startup-banner 'logo)
+    (dashboard-center-content t)
+    :config
+    (dashboard-setup-startup-hook))
 #+end_src
 * Emacs Modes Introduction
 First let's talk about modes, Modes are the conventional way to add functionality to Emacs.
@@ -430,6 +439,10 @@ Emacs windows can be configured in the matter of where their gonna open.
             (side . bottom)
             (slot . 1)
             )))
+#+END_SRC
+**** Eyebrowse
+#+BEGIN_SRC emacs-lisp
+
 #+END_SRC
 **** Winner (Restore Window layout)
  When we are working with multiple windows open but we might maximize one window to focus
@@ -855,6 +868,7 @@ although =Rainbow-delimiters= shows us the start and end of an list, but it's ni
      :map ivy-minibuffer-map
      ("C-j" . 'ivy-next-line)
      ("C-k" . 'ivy-previous-line)
+     ("RET" . 'ivy-alt-done)
 
      :map ivy-switch-buffer-map
      ("C-j" . 'ivy-next-line)
@@ -945,36 +959,32 @@ configuration of company.
 For company backends we are going to use =company-capf= which is abbrv for =company complete at point function= which is a function in Emacs that major modes
 can call an get completions based on that.
 #+BEGIN_SRC emacs-lisp
-      (use-package company
-        :demand
-        :straight t
-        :custom
-        (company-minimum-prefix-lenght 1)
-        (company-tooltip-limit 30)
-        (company-idle-delay 0.0)
-        (company-echo-delay 0.1)
-        (company-backends '(company-capf company-dabbrev company-files company-dabbrev-code))
-        :bind (:map company-active-map
-                    ("C-n" . company-select-next)
-                    ("C-p" . company-select-previous)
-                    ("C-o" . company-other-backend)
-                    ("<tab>" . company-complete-common-or-cycle))
-        :config
-        (defmacro amirreza/with-backends (mode backends) 
-          "Register a buffer local variable with given BACKENDS for given MODE. For registering backends for various modes use this"
-          (let ((mode-hook (intern (concat (symbol-name mode) "-hook"))))
-            (message "amirreza/with-backends called with %s %s %s" mode backends mode-hook)
-            `(add-hook (quote ,mode-hook) (lambda ()
-                                            (setq-local company-backends (quote ,backends))))))
-        (global-company-mode t))
+  (use-package company
+    :demand
+    :straight t
+    :custom
+    (company-minimum-prefix-lenght 1)
+    (company-tooltip-limit 30)
+    (company-idle-delay 0.0)
+    (company-echo-delay 0.1)
+    (company-backends '(company-capf company-dabbrev company-files company-dabbrev-code))
+    :bind (:map company-active-map
+                ("C-n" . company-select-next)
+                ("C-p" . company-select-previous)
+                ("C-o" . company-other-backend)
+                ("<tab>" . company-complete-common-or-cycle)
+                ("RET" . company-complete-selection))
+    :config
+    (defmacro amirreza/with-backends (mode backends) 
+      "Register a buffer local variable with given BACKENDS for given MODE. For registering backends for various modes use this"
+      (let ((mode-hook (intern (concat (symbol-name mode) "-hook"))))
+        (message "amirreza/with-backends called with %s %s %s" mode backends mode-hook)
+        `(add-hook (quote ,mode-hook) (lambda ()
+                                        (setq-local company-backends (quote ,backends))))))
+    (global-company-mode t))
 
 
 #+END_SRC
-**** Company Tabnine
-Tabnine is a completion engine that uses machine learning on source code to find the candidates for the auto completion.
-#+begin_src emacs-lisp
-  (use-package company-tabnine :straight t :after company :hook company)
-#+end_src
 * Integrated Development Environment
 IDE means =Integrated Development Environment= basically a software provides you with every thing you need when you are developing software, and since Emacs is such a extensible platform
 turning Emacs into an IDE is not that hard.
@@ -1091,6 +1101,7 @@ I need music when I am working, so for me music is just a part of development en
     :config
     (defun counsel-rhythmbox-playpause ()
     "Play/pause the current song."
+    (require 'dbus)
     (interactive)
     (let ((service "org.gnome.Rhythmbox3")
           (path "/org/mpris/MediaPlayer2")
@@ -1286,7 +1297,6 @@ we can even go further.x
 #+end_src
 *** TRAMP
 #+begin_src emacs-lisp
-  (use-package persp-mode :straight t)
   (use-package tramp
         :custom
         (tramp-default-method "ssh"))
