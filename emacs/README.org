@@ -396,6 +396,7 @@ no matter what are the other options evaluate the forms after =:init=.
 
   (use-package doom-modeline :straight t
     :config
+    (display-battery-mode 1)
     (doom-modeline-mode 1))
 
   (use-package nyan-mode :straight t :config (nyan-mode 1))
@@ -1316,3 +1317,8 @@ we can even go further.x
 (use-package redis :straight t)
 #+end_src
 
+* Games
+** Pacman
+#+begin_src emacs-lisp
+(use-package pacmacs :straight t :defer t)
+#+end_src
