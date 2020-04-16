@@ -751,12 +751,7 @@ although =Rainbow-delimiters= shows us the start and end of an list, but it's ni
 #+BEGIN_SRC emacs-lisp
 (use-package rainbow-blocks :straight t)
 #+END_SRC
-* Completion
-** Narrowing Framework
-When you are typing in minibuffer forexample after hitting M-x when user hits tab Emacs shows 
-available options to them in a another window opened but wans't it nice if we had better interface for that
-since Emacs already knows the available options ? well there is and that's called wait for it
-well actually there are multiple package for this purpose but since we are going as minimal as possible 
+* Narrowing Framework
 *** Icomplete
 #+BEGIN_SRC emacs-lisp
    (use-package icomplete
@@ -853,7 +848,6 @@ well actually there are multiple package for this purpose but since we are going
     :init (global-set-key (kbd "C-s") 'swiper))
 
   (use-package counsel
-
     :straight t
     :commands (counsel-M-x counsel-find-file ivy-switch-buffer)
     :custom
@@ -921,7 +915,7 @@ well actually there are multiple package for this purpose but since we are going
    (use-package helm-make :straight t
      :bind (("<f5> m" . helm-make)))
  #+end_src
-** In Buffer Completion
+* Completion
 Code completion consists of two parts, A source/server that provides the completions and 
 an engine that knows when to open prompt and show the completions. We will configure servers later
 but now we need to install the engine that shows us the completion.
