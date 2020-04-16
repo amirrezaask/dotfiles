@@ -720,177 +720,208 @@ Emacs windows can be configured in the matter of where their gonna open.
    :bind (("C-x o" . 'ace-window) 
 	  ("C-x C-o" . 'ace-window)))
  #+END_SRC
-*** Completion
-**** General Completion
+
+*** Searching
+There are two tools that I think are amazing when it comes to searching, for text =ripgrep= is
+the fastest and easiest one out there, and for files is =FZF=, let's integrate those two in Emacs.
+#+BEGIN_SRC emacs-lisp
+  (use-package isearch
+    :custom
+    (isearch-highlight t)
+    (isearch-whitespace-regexp ".*?")
+    (isearch-lax-whitespace t)
+    (isearch-regexp-lax-whitespace nil)
+    (isearch-lazy-highlight t))
+
+  (use-package helm-rg :straight t :commands helm-rg :general ("<f6> g" '(helm-rg :which-key "Helm Ripgrep")))
+
+  (use-package fzf
+    :straight t
+    :bind
+    (("<f6> f" . fzf-directory)))
+
+#+END_SRC
+*** Rainbow delimiters
+Highlight matching brackets in matching colors
+#+BEGIN_SRC emacs-lisp
+(use-package rainbow-delimiters :straight t :hook (prog-mode . rainbow-delimiters-mode))
+#+END_SRC
+*** Rainbow Blocks
+although =Rainbow-delimiters= shows us the start and end of an list, but it's nice to be able to see more.
+#+BEGIN_SRC emacs-lisp
+(use-package rainbow-blocks :straight t)
+#+END_SRC
+* Completion
+** Narrowing Framework
 When you are typing in minibuffer forexample after hitting M-x when user hits tab Emacs shows 
 available options to them in a another window opened but wans't it nice if we had better interface for that
 since Emacs already knows the available options ? well there is and that's called wait for it
 well actually there are multiple package for this purpose but since we are going as minimal as possible 
-***** Icomplete
- #+BEGIN_SRC emacs-lisp
-    (use-package icomplete
-      :disabled t
-      :demand ; loading of icomplete is not deferred since we are using `:bind'.
-      :custom
-      (icomplete-max-delay-chars 0)
-      (icomplete-compute-delay 0)
-      (icomplete-show-matches-on-no-input t) ;; show completions from start of entering the minibuffer
-      (icomplete-separator " . ") ;; seperator of candidates
-      (icomplete-hide-common-prefix nil) ;;
-      (icomplete-with-completion-tables t) ;; do completion on anything that has a completion table
-      (icomplete-in-buffer nil) ; we dont want icomplete to work in buffers, we have company for that
-      :bind (:map icomplete-minibuffer-map
-                  ("C-f" . icomplete-forward-completions)
-                  ("C-b" . icomplete-backward-completions)
-                  ("C-n" . icomplete-forward-completions)
-                  ("C-p" . icomplete-backward-completions)
-                  ("<right>" . icomplete-forward-completions)
-                  ("<left>" . icomplete-backward-completions)
-                  ("<up>" . icomplete-backward-completions)
-                  ("<down>" . icomplete-forward-completions))
-      :config
-      (if (> emacs-major-version 26) ;; Emacs 27 and up
-          (fido-mode +1) ;; Fido (fake ido) emulates a IDO like interface for icomplete.
-        (icomplete-mode +1)))
-   (use-package icomplete-vertical
-
+*** Icomplete
+#+BEGIN_SRC emacs-lisp
+   (use-package icomplete
      :disabled t
-     :straight (:host github :repo "oantolin/icomplete-vertical")
-     :config
-     (icomplete-vertical-mode 1))
- #+END_SRC
-***** IDO
- #+BEGIN_SRC emacs-lisp
-   (use-package ido
-     :disabled t
-     :config
-     (ido-mode 1)
-     (ido-everywhere 1)
-     (setq ido-enable-flex-matching t))
-
-   (use-package ido-vertical-mode
-     :disabled t
-     :config
-     (ido-vertical-mode 1)
-     (setq ido-vertical-define-keys 'C-n-and-C-p-only))
-
-   (use-package ido-completing-read+
-     :disabled t
-     :config
-     (ido-ubiquitous-mode 1))
-
- #+END_SRC
-***** Ivy
- #+BEGIN_SRC emacs-lisp
-   (use-package flx :straight t)
-   (use-package ivy
-
-     :straight t
+     :demand ; loading of icomplete is not deferred since we are using `:bind'.
      :custom
-     (ivy-height 17)
-     (ivy-wrap t)
-     (ivy-fixed-height-minibuffer t)
-     (projectile-completion-system 'ivy)
-     ;; disable magic slash on non-match
-     (ivy-magic-slash-non-match-action nil)
-     ;; don't show recent files in switch-buffer
-     (ivy-use-virtual-buffers nil)
-     ;; ...but if that ever changes, show their full path
-     (ivy-virtual-abbreviate 'full)
-     ;; don't quit minibuffer on delete-error
-     (ivy-on-del-error-function #'ignore)
-     ;; enable ability to select prompt (alternative to `ivy-immediate-done')
-     (ivy-use-selectable-prompt t)
+     (icomplete-max-delay-chars 0)
+     (icomplete-compute-delay 0)
+     (icomplete-show-matches-on-no-input t) ;; show completions from start of entering the minibuffer
+     (icomplete-separator " . ") ;; seperator of candidates
+     (icomplete-hide-common-prefix nil) ;;
+     (icomplete-with-completion-tables t) ;; do completion on anything that has a completion table
+     (icomplete-in-buffer nil) ; we dont want icomplete to work in buffers, we have company for that
+     :bind (:map icomplete-minibuffer-map
+                 ("C-f" . icomplete-forward-completions)
+                 ("C-b" . icomplete-backward-completions)
+                 ("C-n" . icomplete-forward-completions)
+                 ("C-p" . icomplete-backward-completions)
+                 ("<right>" . icomplete-forward-completions)
+                 ("<left>" . icomplete-backward-completions)
+                 ("<up>" . icomplete-backward-completions)
+                 ("<down>" . icomplete-forward-completions))
      :config
-     (setf (alist-get 't ivy-format-functions-alist)
-           #'ivy-format-function-line)
-     (ivy-mode +1)
-     :bind
-     (("C-x b" . 'ivy-switch-buffer)
-      :map ivy-minibuffer-map
-      ("C-j" . 'ivy-next-line)
-      ("C-k" . 'ivy-previous-line)
+     (if (> emacs-major-version 26) ;; Emacs 27 and up
+         (fido-mode +1) ;; Fido (fake ido) emulates a IDO like interface for icomplete.
+       (icomplete-mode +1)))
+  (use-package icomplete-vertical
 
-      :map ivy-switch-buffer-map
-      ("C-j" . 'ivy-next-line)
-      ("C-k" . 'ivy-previous-line)))
+    :disabled t
+    :straight (:host github :repo "oantolin/icomplete-vertical")
+    :config
+    (icomplete-vertical-mode 1))
+#+END_SRC
+*** IDO
+#+BEGIN_SRC emacs-lisp
+  (use-package ido
+    :disabled t
+    :config
+    (ido-mode 1)
+    (ido-everywhere 1)
+    (setq ido-enable-flex-matching t))
 
-   (use-package swiper
-     :straight t
+  (use-package ido-vertical-mode
+    :disabled t
+    :config
+    (ido-vertical-mode 1)
+    (setq ido-vertical-define-keys 'C-n-and-C-p-only))
 
-     :commands (swiper)
-     :init (global-set-key (kbd "C-s") 'swiper))
+  (use-package ido-completing-read+
+    :disabled t
+    :config
+    (ido-ubiquitous-mode 1))
 
-   (use-package counsel
+#+END_SRC
+*** Ivy
+#+BEGIN_SRC emacs-lisp
+  (use-package flx :straight t)
+  (use-package ivy
 
-     :straight t
-     :commands (counsel-M-x counsel-find-file ivy-switch-buffer)
-     :custom
-     (ivy-re-builders-alist
-      '((t . ivy--regex-fuzzy)))
-     :general 
-     (space-leader "s s" 'counsel-rg "s f" 'counsel-fzf)
-     :bind
-     (("M-x" . 'counsel-M-x)
-      ("C-x C-f" . 'counsel-find-file)
-      ("C-h b" . 'counsel-descbinds)
-      ("C-h f" . 'counsel-describe-function)
-      ("C-h v" . 'counsel-describe-variable)
-      ("C-h a" . 'counsel-apropos)
-      ("<f6> s" . 'counsel-rg)
-      ("<f6> f" . 'counsel-fzf)
-      ( "M-y" . 'counsel-yank-pop)))
- #+END_SRC
-***** Helm
-#+begin_src emacs-lisp
+    :straight t
+    :custom
+    (ivy-height 17)
+    (ivy-wrap t)
+    (ivy-fixed-height-minibuffer t)
+    (projectile-completion-system 'ivy)
+    ;; disable magic slash on non-match
+    (ivy-magic-slash-non-match-action nil)
+    ;; don't show recent files in switch-buffer
+    (ivy-use-virtual-buffers nil)
+    ;; ...but if that ever changes, show their full path
+    (ivy-virtual-abbreviate 'full)
+    ;; don't quit minibuffer on delete-error
+    (ivy-on-del-error-function #'ignore)
+    ;; enable ability to select prompt (alternative to `ivy-immediate-done')
+    (ivy-use-selectable-prompt t)
+    :config
+    (setf (alist-get 't ivy-format-functions-alist)
+          #'ivy-format-function-line)
+    (ivy-mode +1)
+    :bind
+    (("C-x b" . 'ivy-switch-buffer)
+     :map ivy-minibuffer-map
+     ("C-j" . 'ivy-next-line)
+     ("C-k" . 'ivy-previous-line)
 
-     (use-package helm :straight t
-       :disabled t
-       :custom
-       (helm-mode-fuzzy-match t) ;; enable fuzzy matching in all helm
-       :general
-       (:keymaps 'helm-map
-                 "C-j" 'helm-next-line
-                 "C-k" 'helm-previous-line
-                 "<tab>"  'helm-execute-persistent-action   ;; make tab work normal
-                 "C-z"  'helm-select-action) ;; C-z instead of tab to show helm actions
+     :map ivy-switch-buffer-map
+     ("C-j" . 'ivy-next-line)
+     ("C-k" . 'ivy-previous-line)))
 
-       (:keymaps 'override
-                 "M-y" 'helm-show-kill-ring
-                 "M-x" 'helm-M-x
-                 "C-s" 'helm-occur)
+  (use-package swiper
+    :straight t
 
-       (:keymaps 'override
-                 "<f6> g" 'helm-rg)
+    :commands (swiper)
+    :init (global-set-key (kbd "C-s") 'swiper))
 
-       (:prefix "C-h"
-                "a" 'helm-apropos
-                "f" 'helm-apropos
-                "k" 'helm-apropos
-                "v" 'helm-apropos
-                )
-       (:prefix "C-x" :keymaps 'override
-                "C-f" 'helm-find-files
-                "b" 'helm-mini
-                "C-b" 'helm-mini
-                )
-       (space-leader-lord
-         "h a" 'helm-apropos
-         "f f" 'helm-find-files
-         ";" 'helm-M-x
-         "l l" 'helm-mini
-         "b l" 'helm-mini))
+  (use-package counsel
 
-   (use-package helm-descbinds :straight t
-     :bind (("C-h b" . helm-descbinds)))
+    :straight t
+    :commands (counsel-M-x counsel-find-file ivy-switch-buffer)
+    :custom
+    (ivy-re-builders-alist
+     '((t . ivy--regex-fuzzy)))
+    :general 
+    (space-leader "s s" 'counsel-rg "s f" 'counsel-fzf)
+    :bind
+    (("M-x" . 'counsel-M-x)
+     ("C-x C-f" . 'counsel-find-file)
+     ("C-h b" . 'counsel-descbinds)
+     ("C-h f" . 'counsel-describe-function)
+     ("C-h v" . 'counsel-describe-variable)
+     ("C-h a" . 'counsel-apropos)
+     ("<f6> s" . 'counsel-rg)
+     ("<f6> f" . 'counsel-fzf)
+     ( "M-y" . 'counsel-yank-pop)))
+#+END_SRC
+*** Helm
+ #+begin_src emacs-lisp
 
-   (use-package helm-describe-modes :straight t
-     :bind (("C-h m" . helm-describe-modes)))
+      (use-package helm :straight t
+        :disabled t
+        :custom
+        (helm-mode-fuzzy-match t) ;; enable fuzzy matching in all helm
+        :general
+        (:keymaps 'helm-map
+                  "C-j" 'helm-next-line
+                  "C-k" 'helm-previous-line
+                  "<tab>"  'helm-execute-persistent-action   ;; make tab work normal
+                  "C-z"  'helm-select-action) ;; C-z instead of tab to show helm actions
 
-  (use-package helm-make :straight t
-    :bind (("<f5> m" . helm-make)))
-#+end_src
-**** In Buffer Completion
+        (:keymaps 'override
+                  "M-y" 'helm-show-kill-ring
+                  "M-x" 'helm-M-x
+                  "C-s" 'helm-occur)
+
+        (:keymaps 'override
+                  "<f6> g" 'helm-rg)
+
+        (:prefix "C-h"
+                 "a" 'helm-apropos
+                 "f" 'helm-apropos
+                 "k" 'helm-apropos
+                 "v" 'helm-apropos
+                 )
+        (:prefix "C-x" :keymaps 'override
+                 "C-f" 'helm-find-files
+                 "b" 'helm-mini
+                 "C-b" 'helm-mini
+                 )
+        (space-leader-lord
+          "h a" 'helm-apropos
+          "f f" 'helm-find-files
+          ";" 'helm-M-x
+          "l l" 'helm-mini
+          "b l" 'helm-mini))
+
+    (use-package helm-descbinds :straight t
+      :bind (("C-h b" . helm-descbinds)))
+
+    (use-package helm-describe-modes :straight t
+      :bind (("C-h m" . helm-describe-modes)))
+
+   (use-package helm-make :straight t
+     :bind (("<f5> m" . helm-make)))
+ #+end_src
+** In Buffer Completion
 Code completion consists of two parts, A source/server that provides the completions and 
 an engine that knows when to open prompt and show the completions. We will configure servers later
 but now we need to install the engine that shows us the completion.
@@ -928,41 +959,11 @@ can call an get completions based on that.
 
 
 #+END_SRC
-***** Company Tabnine
+**** Company Tabnine
 Tabnine is a completion engine that uses machine learning on source code to find the candidates for the auto completion.
 #+begin_src emacs-lisp
   (use-package company-tabnine :straight t :after company :hook company)
 #+end_src
-*** Searching
-There are two tools that I think are amazing when it comes to searching, for text =ripgrep= is
-the fastest and easiest one out there, and for files is =FZF=, let's integrate those two in Emacs.
-#+BEGIN_SRC emacs-lisp
-  (use-package isearch
-    :custom
-    (isearch-highlight t)
-    (isearch-whitespace-regexp ".*?")
-    (isearch-lax-whitespace t)
-    (isearch-regexp-lax-whitespace nil)
-    (isearch-lazy-highlight t))
-
-  (use-package helm-rg :straight t :commands helm-rg :general ("<f6> g" '(helm-rg :which-key "Helm Ripgrep")))
-
-  (use-package fzf
-    :straight t
-    :bind
-    (("<f6> f" . fzf-directory)))
-
-#+END_SRC
-*** Rainbow delimiters
-Highlight matching brackets in matching colors
-#+BEGIN_SRC emacs-lisp
-(use-package rainbow-delimiters :straight t :hook (prog-mode . rainbow-delimiters-mode))
-#+END_SRC
-*** Rainbow Blocks
-although =Rainbow-delimiters= shows us the start and end of an list, but it's nice to be able to see more.
-#+BEGIN_SRC emacs-lisp
-(use-package rainbow-blocks :straight t)
-#+END_SRC
 * Integrated Development Environment
 IDE means =Integrated Development Environment= basically a software provides you with every thing you need when you are developing software, and since Emacs is such a extensible platform
 turning Emacs into an IDE is not that hard.
