@@ -29,10 +29,13 @@
 - [[#sync-emacs-exec-path-with-os][Sync Emacs exec path with OS]]
 - [[#windows][Windows]]
 - [[#file-manager][File Manager]]
+- [[#mail][Mail]]
 - [[#editor][Editor]]
 - [[#narrowing-framework][Narrowing Framework]]
 - [[#completion][Completion]]
 - [[#integrated-development-environment][Integrated Development Environment]]
+  - [[#using-rhythmboxel][Using Rhythmbox.el]]
+  - [[#using-counsel][Using counsel]]
 - [[#programming-languages][Programming Languages]]
   - [[#python][Python]]
   - [[#go][Go]]
@@ -366,7 +369,7 @@ darkness.
      :bind (("<f12>" . amirreza/toggle-color-mode))
      :config
      (defvar amirreza/current-mode 'dark "Current color of Emacs.")
-     (defvar amirreza/dark-theme 'doom-one)
+     (defvar amirreza/dark-theme 'doom-vibrant)
      (defvar amirreza/light-theme 'spacemacs-light)
      (defun amirreza/apply-color (mode)
        "Apply current color mode to Emacs."
@@ -444,7 +447,7 @@ no matter what are the other options evaluate the forms after =:init=.
 
 
   (use-package doom-modeline :straight t
-
+    :disabled t
     :config
     (doom-modeline-mode 1))
 
@@ -533,6 +536,8 @@ Emacs windows can be configured in the matter of where their gonna open.
           ("C-j" . next-line)
           ("C-k" . previous-line)))
 #+end_src
+* Mail
+Mail setup in Emacs using Gnus.
 * Editor
 *** Defaults
 ***** Line width
@@ -853,36 +858,35 @@ although =Rainbow-delimiters= shows us the start and end of an list, but it's ni
 * Narrowing Framework
 *** Icomplete
 #+BEGIN_SRC emacs-lisp
-   (use-package icomplete
-     :disabled t
-     :demand ; loading of icomplete is not deferred since we are using `:bind'.
-     :custom
-     (icomplete-max-delay-chars 0)
-     (icomplete-compute-delay 0)
-     (icomplete-show-matches-on-no-input t) ;; show completions from start of entering the minibuffer
-     (icomplete-separator " . ") ;; seperator of candidates
-     (icomplete-hide-common-prefix nil) ;;
-     (icomplete-with-completion-tables t) ;; do completion on anything that has a completion table
-     (icomplete-in-buffer nil) ; we dont want icomplete to work in buffers, we have company for that
-     :bind (:map icomplete-minibuffer-map
-                 ("C-f" . icomplete-forward-completions)
-                 ("C-b" . icomplete-backward-completions)
-                 ("C-n" . icomplete-forward-completions)
-                 ("C-p" . icomplete-backward-completions)
-                 ("<right>" . icomplete-forward-completions)
-                 ("<left>" . icomplete-backward-completions)
-                 ("<up>" . icomplete-backward-completions)
-                 ("<down>" . icomplete-forward-completions))
-     :config
-     (if (> emacs-major-version 26) ;; Emacs 27 and up
-         (fido-mode +1) ;; Fido (fake ido) emulates a IDO like interface for icomplete.
-       (icomplete-mode +1)))
-  (use-package icomplete-vertical
+     (use-package icomplete
+       :demand ; loading of icomplete is not deferred since we are using `:bind'.
+       :custom
+       (icomplete-max-delay-chars 0)
+       (icomplete-compute-delay 0)
+       (icomplete-show-matches-on-no-input t) ;; show completions from start of entering the minibuffer
+       (icomplete-separator " | ") ;; seperator of candidates
+       (icomplete-hide-common-prefix nil) ;;
+       (icomplete-with-completion-tables t) ;; do completion on anything that has a completion table
+       (icomplete-in-buffer nil) ; we dont want icomplete to work in buffers, we have company for that
+       :bind (:map icomplete-minibuffer-map
+                   ("C-f" . icomplete-forward-completions)
+                   ("C-b" . icomplete-backward-completions)
+                   ("C-n" . icomplete-forward-completions)
+                   ("C-p" . icomplete-backward-completions)
+                   ("<right>" . icomplete-forward-completions)
+                   ("<left>" . icomplete-backward-completions)
+                   ("<up>" . icomplete-backward-completions)
+                   ("<down>" . icomplete-forward-completions))
+       :config
+       (if (> emacs-major-version 26) ;; Emacs 27 and up
+           (fido-mode +1) ;; Fido (fake ido) emulates a IDO like interface for icomplete.
+         (icomplete-mode +1)))
 
-    :disabled t
-    :straight (:host github :repo "oantolin/icomplete-vertical")
-    :config
-    (icomplete-vertical-mode 1))
+    (use-package icomplete-vertical
+      :disabled t
+      :straight t
+      :config
+      (icomplete-vertical-mode 1))
 #+END_SRC
 *** IDO
 #+BEGIN_SRC emacs-lisp
@@ -909,7 +913,7 @@ although =Rainbow-delimiters= shows us the start and end of an list, but it's ni
 #+BEGIN_SRC emacs-lisp
   (use-package flx :straight t)
   (use-package ivy
-
+    :disabled t
     :straight t
     :custom
     (ivy-height 17)
@@ -943,12 +947,14 @@ although =Rainbow-delimiters= shows us the start and end of an list, but it's ni
 
   (use-package swiper
     :straight t
+    :disabled t
 
     :commands (swiper)
     :init (global-set-key (kbd "C-s") 'swiper))
 
   (use-package counsel
     :straight t
+    :disabled t
     :commands (counsel-M-x counsel-find-file ivy-switch-buffer)
     :custom
     (ivy-re-builders-alist
@@ -1151,8 +1157,17 @@ provide several feature to other packages or to the user directly.
 #+END_SRC
 *** Music
 I need music when I am working, so for me music is just a part of development environment, and let helm help us.
+** Using Rhythmbox.el
 #+begin_src emacs-lisp
-  (use-package counsel
+      (use-package Rhythmbox.el :straight (:host github :repo "amirrezaask/Rhytmbox.el")
+        :bind
+        ("C-c m p" . Rhythmbox/playpause-current-song)
+        ("C-c m l" . Rhythmbox))
+#+end_src
+** Using counsel
+#+begin_src emacs-lisp
+    (use-package counsel
+    :disabled t
     :straight t
     :demand
     :config
