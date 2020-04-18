@@ -1,6 +1,7 @@
 #+TITLE: AmirrezaAsk Emacs configuration
 #+AUTHOR: amirrezaask
-#+OPTIONS: toc:4
+#+OPTIONS: toc:2
+#+OPTIONS:   p:t
 * Introduction
 =Emacs= is one of the oldest softwares that has active development and community after 40 years passed from the initial release, but why is
 that ? Why when there battries included, easy to use, full-featured solutions like =VSCode=, =Jetbrains IDEA= (I mean whole Jetbrains family),
