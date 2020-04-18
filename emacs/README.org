@@ -862,35 +862,35 @@ Narrowing frameworks in Emacs are tools that help us when we want to choose an o
 happens a lot in Emacs.
 *** Icomplete
 #+BEGIN_SRC emacs-lisp
-     (use-package icomplete
-       :demand ; loading of icomplete is not deferred since we are using `:bind'.
-       :custom
-       (icomplete-max-delay-chars 0)
-       (icomplete-compute-delay 0)
-       (icomplete-show-matches-on-no-input t) ;; show completions from start of entering the minibuffer
-       (icomplete-separator " | ") ;; seperator of candidates
-       (icomplete-hide-common-prefix nil) ;;
-       (icomplete-with-completion-tables t) ;; do completion on anything that has a completion table
-       (icomplete-in-buffer nil) ; we dont want icomplete to work in buffers, we have company for that
-       :bind (:map icomplete-minibuffer-map
-                   ("C-f" . icomplete-forward-completions)
-                   ("C-b" . icomplete-backward-completions)
-                   ("C-n" . icomplete-forward-completions)
-                   ("C-p" . icomplete-backward-completions)
-                   ("<right>" . icomplete-forward-completions)
-                   ("<left>" . icomplete-backward-completions)
-                   ("<up>" . icomplete-backward-completions)
-                   ("<down>" . icomplete-forward-completions))
-       :config
-       (if (> emacs-major-version 26) ;; Emacs 27 and up
-           (fido-mode +1) ;; Fido (fake ido) emulates a IDO like interface for icomplete.
-         (icomplete-mode +1)))
+   (use-package icomplete
+     :demand ; loading of icomplete is not deferred since we are using `:bind'.
+     :custom
+     (icomplete-max-delay-chars 0)
+     (icomplete-compute-delay 0)
+     (icomplete-show-matches-on-no-input t) ;; show completions from start of entering the minibuffer
+     (icomplete-separator " | ") ;; seperator of candidates
+     (icomplete-hide-common-prefix nil) ;;
+     (icomplete-with-completion-tables t) ;; do completion on anything that has a completion table
+     (icomplete-in-buffer nil) ; we dont want icomplete to work in buffers, we have company for that
+     :bind (:map icomplete-minibuffer-map
+                 ("C-f" . icomplete-forward-completions)
+                 ("C-b" . icomplete-backward-completions)
+                 ("C-n" . icomplete-forward-completions)
+                 ("C-p" . icomplete-backward-completions)
+                 ("<right>" . icomplete-forward-completions)
+                 ("<left>" . icomplete-backward-completions)
+                 ("<up>" . icomplete-backward-completions)
+                 ("<down>" . icomplete-forward-completions))
+     :config
+     (if (> emacs-major-version 26) ;; Emacs 27 and up
+         (fido-mode +1) ;; Fido (fake ido) emulates a IDO like interface for icomplete.
+       (icomplete-mode +1)))
 
-    (use-package icomplete-vertical
-      :disabled t
-      :straight t
-      :config
-      (icomplete-vertical-mode 1))
+  (use-package icomplete-vertical
+    :straight t
+    :config
+    (icomplete-vertical-mode 1))
+
 #+END_SRC
 *** IDO
 #+BEGIN_SRC emacs-lisp
