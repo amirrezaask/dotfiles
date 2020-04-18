@@ -1,5 +1,8 @@
 #+TITLE: AmirrezaAsk Emacs configuration
 #+AUTHOR: amirrezaask
+#+TOC: listings
+#+TOC: tables
+
 * Introduction
 =Emacs= is one of the oldest softwares that has active development and community after 40 years passed from the initial release, but why is
 that ? Why when there battries included, easy to use, full-featured solutions like =VSCode=, =Jetbrains IDEA= (I mean whole Jetbrains family),
@@ -449,8 +452,9 @@ Emacs windows can be configured in the matter of where their gonna open.
 **** Eyebrowse
 =Eyebrowse= gives you =i3= like experience in Emacs, let's you have multiple workspaces and switch between them.
 #+BEGIN_SRC emacs-lisp
-  (use-package eyebrowse :straight t 
-    :config (eyebrowse-mode +1))
+    (use-package eyebrowse :straight t 
+      :config (eyebrowse-mode +1)
+      )
 #+END_SRC
 **** Winner (Restore Window layout)
  When we are working with multiple windows open but we might maximize one window to focus
