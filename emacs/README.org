@@ -395,7 +395,7 @@ no matter what are the other options evaluate the forms after =:init=.
 
 
   (use-package doom-modeline :straight t
-    :disabled t
+
     :config
     (doom-modeline-mode 1))
 
@@ -422,6 +422,10 @@ major mode, and multiple minor modes that added different abilities to emacs for
 Forexample line numbers is a minor mode that is enabled globally for all buffers so all buffers
 show line numbers.
 Now that we have cool looks, 
+* Sync Emacs exec path with OS
+#+begin_src emacs-lisp
+(use-package exec-path-from-shell :straight t :config (exec-path-from-shell-initialize))
+#+end_src
 * Windows
 Emacs by default has no notion of tabs (like the other IDEs) but it has the more powerful
 notion of windows and buffers, you already know about buffers, but windows are a way of displaying 
@@ -443,8 +447,10 @@ Emacs windows can be configured in the matter of where their gonna open.
             )))
 #+END_SRC
 **** Eyebrowse
+=Eyebrowse= gives you =i3= like experience in Emacs, let's you have multiple workspaces and switch between them.
 #+BEGIN_SRC emacs-lisp
-
+  (use-package eyebrowse :straight t 
+    :config (eyebrowse-mode +1))
 #+END_SRC
 **** Winner (Restore Window layout)
  When we are working with multiple windows open but we might maximize one window to focus
@@ -1192,7 +1198,7 @@ to ease that task for us.
 =VSCode= has a great support when it comes to running go tests, it gives you the ability to 
 run a test when you are editing or viewing it but it does'nt mean that Emacs can't do that.
 #+BEGIN_SRC emacs-lisp
-  (use-package gotest :defer t :straight t :bind (:map go-mode-map ("C-c C-g t f" . go-test-current-file) ("C-c C-g t t" . go-test-current-test)))
+  (use-package gotest :defer t :straight t :bind (:map go-mode-map ("C-c t f" . go-test-current-file) ("C-c t t" . go-test-current-test)))
 #+END_SRC
 ** Scheme
 I use guile as my scheme compiler.
