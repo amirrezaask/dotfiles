@@ -340,7 +340,7 @@ ways of lazy-loading in use-package we will see others later on.
 ** Font
  To use specific font in Emacs you just need to call a function, that's easy ha ??
  #+BEGIN_SRC emacs-lisp
- (defvar amirreza/font "Fira Code-11")
+ (defvar amirreza/font "Jetbrains Mono-11")
  (set-face-attribute 'default t :font amirreza/font)
  (set-frame-font amirreza/font nil t)
  #+END_SRC
@@ -395,6 +395,7 @@ no matter what are the other options evaluate the forms after =:init=.
 
 
   (use-package doom-modeline :straight t
+    :disabled t
     :config
     (doom-modeline-mode 1))
 
@@ -1193,6 +1194,17 @@ run a test when you are editing or viewing it but it does'nt mean that Emacs can
 #+BEGIN_SRC emacs-lisp
   (use-package gotest :defer t :straight t :bind (:map go-mode-map ("C-c C-g t f" . go-test-current-file) ("C-c C-g t t" . go-test-current-test)))
 #+END_SRC
+** Scheme
+I use guile as my scheme compiler.
+#+begin_src emacs-lisp
+  (use-package scheme
+  :custom
+  (scheme-program-name "guile"))
+#+end_src
+** GS (Go Scheme)
+#+begin_src emacs-lisp
+(add-to-list 'auto-mode-alist '("\\.gs\\'" . scheme-mode))
+#+end_src
 ** Elisp
 Emacs lisp should be supported by default ha ? actually it has almost all support you need but 
 we can even go further.x
@@ -1234,6 +1246,7 @@ we can even go further.x
   (use-package cider 
     :straight t
     :commands (cider cider-jack-in)
+    :bind (:map cider-mode-map ("C-x C-e" . cider-eval-last-sexp))
     )
 #+END_SRC
 ** Common Lisp
