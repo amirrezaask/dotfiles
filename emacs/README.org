@@ -369,7 +369,7 @@ darkness.
      :bind (("<f12>" . amirreza/toggle-color-mode))
      :config
      (defvar amirreza/current-mode 'dark "Current color of Emacs.")
-     (defvar amirreza/dark-theme 'doom-vibrant)
+     (defvar amirreza/dark-theme 'modus-vivendi)
      (defvar amirreza/light-theme 'spacemacs-light)
      (defun amirreza/apply-color (mode)
        "Apply current color mode to Emacs."
@@ -418,19 +418,16 @@ you need to install a package for that. For icons we are going to use =all-the-i
 is a gourges icon package for emacs.
 #+BEGIN_SRC emacs-lisp :eval no
   (use-package all-the-icons
-    :disabled t
     :straight t
     :commands (all-the-icons-octicon
-	       all-the-icons-faicon
-	       all-the-icons-fileicon
-	       all-the-icons-wicon
-	       all-the-icons-material
-	       all-the-icons-alltheicon))
+           all-the-icons-faicon
+           all-the-icons-fileicon
+           all-the-icons-wicon
+           all-the-icons-material
+           all-the-icons-alltheicon))
 
   (use-package all-the-icons-dired
     :straight t
-
-    :disabled t
     :init
     (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
 #+END_SRC
@@ -526,15 +523,20 @@ Emacs windows can be configured in the matter of where their gonna open.
 
 * File Manager
 #+begin_src emacs-lisp
-    (use-package dired
-    :config
-    (add-hook 'dired-mode-hook (lambda () 
-                                     (dired-hide-details-mode 1)))
+      (use-package dired
+      :config
+      (add-hook 'dired-mode-hook (lambda () 
+                                       (dired-hide-details-mode 1)))
+      :bind
+      (:map dired-mode-map
+            ("C-c d" . dired-hide-details-mode)
+            ("C-j" . next-line)
+            ("C-k" . previous-line)))
+
+  (use-package dired-sidebar :straight t
     :bind
-    (:map dired-mode-map
-          ("C-c d" . dired-hide-details-mode)
-          ("C-j" . next-line)
-          ("C-k" . previous-line)))
+    (("<f8>" . dired-sidebar-toggle-sidebar)))
+
 #+end_src
 * Mail
 Mail setup in Emacs using Gnus.
@@ -856,6 +858,8 @@ although =Rainbow-delimiters= shows us the start and end of an list, but it's ni
 (use-package rainbow-blocks :straight t)
 #+END_SRC
 * Narrowing Framework
+Narrowing frameworks in Emacs are tools that help us when we want to choose an option from list of options, and this scenario
+happens a lot in Emacs.
 *** Icomplete
 #+BEGIN_SRC emacs-lisp
      (use-package icomplete
