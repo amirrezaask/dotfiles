@@ -1,7 +1,54 @@
 #+TITLE: AmirrezaAsk Emacs configuration
 #+AUTHOR: amirrezaask
-#+OPTIONS: toc:2
-#+OPTIONS:   p:t
+* Table Of contents                                                     :TOC:
+- [[#introduction][Introduction]]
+- [[#what-is-emacs-][What is Emacs ?]]
+  - [[#editor--ide--mail-client--window-manager--terminal-emulator--lisp-interpreter--all-of-them--none-][Editor ? IDE ? Mail client ? Window manager ? Terminal emulator ? Lisp interpreter ? all of them ? none ?]]
+- [[#ascend-from-darkness][Ascend from darkness]]
+  - [[#installing-emacs][Installing Emacs]]
+  - [[#let-your-feet-get-wet][Let your feet get wet]]
+  - [[#start-your-configuration][Start Your configuration]]
+  - [[#introducing-emacs-27][Introducing Emacs 27]]
+- [[#personal-information][Personal information]]
+- [[#emacs-internals-optimizations][Emacs internals optimizations]]
+  - [[#gc][GC]]
+  - [[#file-name-handler-alist][file-name-handler-alist]]
+- [[#debug-when-necessary][Debug When necessary]]
+- [[#setup-package-manager][Setup package manager]]
+  - [[#packageel-setup][Package.el setup]]
+  - [[#straightel][Straight.el]]
+- [[#evil-always-wins][Evil always wins]]
+- [[#exwm-emacs-x-window-manager][Exwm (Emacs X window manager)]]
+- [[#ui][UI]]
+  - [[#themes][Themes]]
+  - [[#font][Font]]
+  - [[#icons][Icons]]
+  - [[#modeline][Modeline]]
+  - [[#dashboard][Dashboard]]
+- [[#emacs-modes-introduction][Emacs Modes Introduction]]
+- [[#sync-emacs-exec-path-with-os][Sync Emacs exec path with OS]]
+- [[#windows][Windows]]
+- [[#file-manager][File Manager]]
+- [[#editor][Editor]]
+- [[#narrowing-framework][Narrowing Framework]]
+- [[#completion][Completion]]
+- [[#integrated-development-environment][Integrated Development Environment]]
+- [[#programming-languages][Programming Languages]]
+  - [[#python][Python]]
+  - [[#go][Go]]
+  - [[#scheme][Scheme]]
+  - [[#gs-go-scheme][GS (Go Scheme)]]
+  - [[#elisp][Elisp]]
+  - [[#clojure][Clojure]]
+  - [[#common-lisp][Common Lisp]]
+  - [[#haskell][Haskell]]
+  - [[#htmlcss][HTML/CSS]]
+  - [[#php][PHP]]
+  - [[#rust][Rust]]
+- [[#devops][Devops]]
+- [[#games][Games]]
+  - [[#pacman][Pacman]]
+
 * Introduction
 =Emacs= is one of the oldest softwares that has active development and community after 40 years passed from the initial release, but why is
 that ? Why when there battries included, easy to use, full-featured solutions like =VSCode=, =Jetbrains IDEA= (I mean whole Jetbrains family),
@@ -769,6 +816,10 @@ when dumb jump can help you jump to defenitions using Rg or ag or grep (we use R
   :hook (org-mode . org-bullets-mode))
 #+END_SRC
 
+***** Org TOC
+#+begin_src emacs-lisp
+(use-package toc-org :straight t :hook (org-mode . toc-org-mode))
+#+end_src
 *** Searching
 There are two tools that I think are amazing when it comes to searching, for text =ripgrep= is
 the fastest and easiest one out there, and for files is =FZF=, let's integrate those two in Emacs.
