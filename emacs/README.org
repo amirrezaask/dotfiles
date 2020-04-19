@@ -924,6 +924,7 @@ happens a lot in Emacs.
      (icomplete-hide-common-prefix nil) ;;
      (icomplete-with-completion-tables t) ;; do completion on anything that has a completion table
      (icomplete-in-buffer nil) ; we dont want icomplete to work in buffers, we have company for that
+     (completion-styles '(flex))
      :bind (:map icomplete-minibuffer-map
                  ("C-f" . icomplete-forward-completions)
                  ("C-b" . icomplete-backward-completions)
@@ -932,13 +933,15 @@ happens a lot in Emacs.
                  ("<right>" . icomplete-forward-completions)
                  ("<left>" . icomplete-backward-completions)
                  ("<up>" . icomplete-backward-completions)
+                 ("<RET>" . icomplete-force-complete-and-exit)
                  ("<down>" . icomplete-forward-completions))
      :config
-     (if (> emacs-major-version 26) ;; Emacs 27 and up
-         (fido-mode +1) ;; Fido (fake ido) emulates a IDO like interface for icomplete.
-       (icomplete-mode +1)))
+     (when (> emacs-major-version 27)
+       (fido-mode -1))
+     (icomplete-mode +1))
 
   (use-package icomplete-vertical
+    :disabled t
     :straight t
     :config
     (icomplete-vertical-mode 1))
