@@ -29,7 +29,7 @@
 - [[#sync-emacs-exec-path-with-os][Sync Emacs exec path with OS]]
 - [[#windows][Windows]]
 - [[#file-manager][File Manager]]
-- [[#mail][Mail]]
+- [[#mail--news-reader][Mail & News reader]]
 - [[#irc][IRC]]
 - [[#editor][Editor]]
 - [[#narrowing-framework][Narrowing Framework]]
@@ -390,7 +390,7 @@ darkness.
      :bind (("<f12>" . amirreza/toggle-color-mode))
      :config
      (defvar amirreza/current-mode 'dark "Current color of Emacs.")
-     (defvar amirreza/dark-theme 'doom-Iosvkem)
+     (defvar amirreza/dark-theme 'modus-vivendi)
      (defvar amirreza/light-theme 'modus-operandi)
      (defun amirreza/apply-color (mode)
        "Apply current color mode to Emacs."
@@ -469,6 +469,7 @@ no matter what are the other options evaluate the forms after =:init=.
         (doom-modeline-mode 1))
 
       (use-package telephone-line :straight t
+        :disabled t
         :config
         (telephone-line-mode +1))
 
@@ -579,8 +580,29 @@ Emacs windows can be configured in the matter of where their gonna open.
     :bind (:map dired-mode-map
                 ("P" . peep-dired)))
 #+end_src
-* Mail
+* Mail & News reader
 Mail setup in Emacs using Gnus.
+#+begin_src emacs-lisp
+  (use-package auth-source
+    :custom
+    (auth-sources '("~/.authinfo.gpg" "~/.authinfo")))
+
+  (use-package gnus
+    :config
+    (setq gnus-thread-sort-functions
+          '(gnus-thread-sort-by-number
+            gnus-thread-sort-by-date))
+    :custom
+    (gnus-select-method '(nnnil))
+    (gnus-secondary-select-methods
+     '((nnimap "Gmail"
+               (nnimap-address "imap.gmail.com")
+               (nnimap-server-port "imaps")
+               (nnimap-stream ssl))
+       )))
+
+
+#+end_src
 * IRC
 #+begin_src emacs-lisp
   (use-package erc :defer t)
