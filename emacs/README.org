@@ -30,6 +30,7 @@
 - [[#windows][Windows]]
 - [[#file-manager][File Manager]]
 - [[#mail][Mail]]
+- [[#irc][IRC]]
 - [[#editor][Editor]]
 - [[#narrowing-framework][Narrowing Framework]]
 - [[#completion][Completion]]
@@ -370,7 +371,7 @@ darkness.
      :config
      (defvar amirreza/current-mode 'dark "Current color of Emacs.")
      (defvar amirreza/dark-theme 'modus-vivendi)
-     (defvar amirreza/light-theme 'spacemacs-light)
+     (defvar amirreza/light-theme 'modus-operandi)
      (defun amirreza/apply-color (mode)
        "Apply current color mode to Emacs."
        (if (eq amirreza/current-mode 'dark)
@@ -523,23 +524,32 @@ Emacs windows can be configured in the matter of where their gonna open.
 
 * File Manager
 #+begin_src emacs-lisp
-      (use-package dired
+    (use-package dired
       :config
       (add-hook 'dired-mode-hook (lambda () 
-                                       (dired-hide-details-mode 1)))
+                                   (dired-hide-details-mode 1)))
       :bind
       (:map dired-mode-map
             ("C-c d" . dired-hide-details-mode)
             ("C-j" . next-line)
             ("C-k" . previous-line)))
 
-  (use-package dired-sidebar :straight t
-    :bind
-    (("<f8>" . dired-sidebar-toggle-sidebar)))
+    (use-package dired-sidebar :straight t
+      :bind
+      (("<f8>" . dired-sidebar-toggle-sidebar)))
+    (use-package dired-subtree
+      :straight t
+      :bind (:map dired-mode-map
+                  ("<tab>" . dired-subtree-toggle)))
+
 
 #+end_src
 * Mail
 Mail setup in Emacs using Gnus.
+* IRC
+#+begin_src emacs-lisp
+  (use-package erc)
+#+end_src
 * Editor
 *** Defaults
 ***** Line width
@@ -1163,10 +1173,11 @@ provide several feature to other packages or to the user directly.
 I need music when I am working, so for me music is just a part of development environment, and let helm help us.
 ** Using Rhythmbox.el
 #+begin_src emacs-lisp
-      (use-package Rhythmbox.el :straight (:host github :repo "amirrezaask/Rhytmbox.el")
-        :bind
-        ("C-c m p" . Rhythmbox/playpause-current-song)
-        ("C-c m l" . Rhythmbox))
+  (use-package Rhythmbox.el :straight (:host github :repo "amirrezaask/Rhytmbox.el")
+    :bind
+    ("C-c m n" . Rhythmbox/current-song-name)
+    ("C-c m p" . Rhythmbox/playpause-current-song)
+    ("C-c m l" . Rhythmbox))
 #+end_src
 ** Using counsel
 #+begin_src emacs-lisp
