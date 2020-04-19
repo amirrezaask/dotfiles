@@ -18,13 +18,13 @@ font pango:Jetbrains Mono 10
 for_window [class="^.*"] border pixel 2
 
 # multi monitor support
-bindsym $mod+u exec i3-msg move workspace to output left
+bindsym $mod+u exec i3-msg move workspace to output above 
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec sakura 
+bindsym $mod+Return exec i3-sensible-terminal 
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -171,5 +171,5 @@ bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 
 #Keyboard Layout
-exec xrandr --output HDMI-1 --right-of eDP-1
+exec xrandr --output HDMI-2 --above eDP-1
 exec nitrogen --restore
