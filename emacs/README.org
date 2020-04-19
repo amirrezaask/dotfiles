@@ -31,6 +31,7 @@
 - [[#file-manager][File Manager]]
 - [[#mail--news-reader][Mail & News reader]]
 - [[#irc][IRC]]
+- [[#process-management][Process management]]
 - [[#editor][Editor]]
 - [[#narrowing-framework][Narrowing Framework]]
 - [[#completion][Completion]]
@@ -607,6 +608,12 @@ Mail setup in Emacs using Gnus.
 #+begin_src emacs-lisp
   (use-package erc :defer t)
 #+end_src
+* Process management
+#+begin_src emacs-lisp
+      (use-package proced
+        :commands proced
+        )
+#+end_src
 * Editor
 *** Defaults
 ***** Line width
@@ -648,6 +655,19 @@ of the is too much so we can decrease it.
 (echo-keystrokes 0.1))
 #+END_SRC
 
+*** Backup files
+#+begin_src emacs-lisp
+  (use-package emacs
+    :config
+    (setq backup-directory-alist
+          '(("." . "~/.emacs.d/backup/")))
+    (setq backup-by-copying t)
+    (setq version-control t)
+    (setq delete-old-versions t)
+    (setq kept-new-versions 6)
+    (setq kept-old-versions 2)
+    (setq create-lockfiles nil))
+#+end_src
 *** don't type yes every time
 #+BEGIN_SRC emacs-lisp
 (defalias 'yes-or-no-p 'y-or-n-p)
