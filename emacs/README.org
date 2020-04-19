@@ -457,20 +457,24 @@ is called, basically first buffer that wants to use that it will get loaded. =:i
 no matter what are the other options evaluate the forms after =:init=.
 ** Modeline
 #+begin_src emacs-lisp
-  (use-package spaceline :straight t
-    :disabled t
-    :config
-    (require 'spaceline-config)
-    (spaceline-spacemacs-theme))
+      (use-package spaceline :straight t
+        :disabled t
+        :config
+        (require 'spaceline-config)
+        (spaceline-spacemacs-theme))
 
+      (use-package doom-modeline :straight t
+        :disabled t
+        :config
+        (doom-modeline-mode 1))
 
-  (use-package doom-modeline :straight t
-    :disabled t
-    :config
-    (doom-modeline-mode 1))
+      (use-package telephone-line :straight t
+        :config
+        (telephone-line-mode +1))
 
-  (display-battery-mode 1)
-  (use-package nyan-mode :straight t :config (nyan-mode 1))
+      (display-battery-mode 1)
+      (use-package nyan-mode :straight t :config (nyan-mode 1))
+
 #+end_src
 ** Dashboard
 #+begin_src emacs-lisp
