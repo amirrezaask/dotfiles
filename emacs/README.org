@@ -537,6 +537,7 @@ Emacs windows can be configured in the matter of where their gonna open.
     (use-package dired-sidebar :straight t
       :bind
       (("<f8>" . dired-sidebar-toggle-sidebar)))
+
     (use-package dired-subtree
       :straight t
       :bind (:map dired-mode-map
@@ -1027,12 +1028,16 @@ happens a lot in Emacs.
           "b l" 'helm-mini))
 
     (use-package helm-descbinds :straight t
+      :disabled t
       :bind (("C-h b" . helm-descbinds)))
 
     (use-package helm-describe-modes :straight t
+      :disabled t
       :bind (("C-h m" . helm-describe-modes)))
 
    (use-package helm-make :straight t
+
+     :disabled t
      :bind (("<f5> m" . helm-make)))
  #+end_src
 * Completion
