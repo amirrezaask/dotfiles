@@ -331,19 +331,39 @@ darkness.
 * Exwm (Emacs X window manager)
 #+begin_src emacs-lisp
   (use-package exwm 
-    :disabled t
     :straight t
     :config 
+    :disabled t
     (require 'exwm-config)
-    (require 'exwm-randr)
 
-    (exwm-config-default))
-    ;; (setq exwm-randr-workspace-output-plist '(1 "HDMI-2" 0 "eDP-1"))
-    ;; (add-hook 'exwm-randr-screen-change-hook
-    ;;           (lambda ()
-    ;;             (start-process-shell-command
-    ;;              "xrandr" nil "xrandr --output HDMI-2 --right-of eDP-1 --auto")))
-    ;; (exwm-xrandr-enable))
+    (exwm-config-default) ;; some basic default keybindings
+
+    (setq exwm-workspace-number 4) ;; initial workspaces
+
+    (setq exwm-input-simulation-keys
+          '(([?\C-b] . [left])
+            ([?\C-f] . [right])
+            ([?\C-p] . [up])
+            ([?\C-n] . [down])
+            ([?\C-a] . [home])
+            ([?\C-e] . [end])
+            ([?\M-v] . [prior])
+            ([?\C-v] . [next])
+            ([?\C-d] . [delete])
+            ([?\C-k] . [S-end delete])))
+
+    ;;multiple screen support
+    (require 'exwm-randr)
+    (defvar amirreza/laptop-screen-name "e-DP1")
+    (defvar amirreza/second-screen-name "HDMI-2")
+    (setq exwm-randr-workspace-output-plist '(0 "e-DP1" 1 "HDMI-2"))
+    (defun amirreza/exwm-multi-screen ()
+      (start-process-shell-command
+       "xrandr" nil "xrandr --output " amirreza/laptop-screen-name " --below " amirreza/second-screen-name " --auto"))
+    (add-hook 'exwm-randr-screen-change-hook 'exwm-change-screen-hook)
+    (exwm-randr-enable)
+
+    )
 
 #+end_src
 * UI
@@ -454,14 +474,15 @@ no matter what are the other options evaluate the forms after =:init=.
 #+end_src
 ** Dashboard
 #+begin_src emacs-lisp
-  (use-package dashboard
-    :straight t
-    :custom
-    (dashboard-banner-logo-title "Free as in freedom")
-    (dashboard-startup-banner 'logo)
-    (dashboard-center-content t)
-    :config
-    (dashboard-setup-startup-hook))
+    (use-package dashboard
+      :straight t
+      :custom
+      (dashboard-banner-logo-title "Free as in freedom")
+      (dashboard-startup-banner 'logo)
+      (dashboard-center-content t)
+      :config
+      (setq dashboard-set-navigator t)
+      (dashboard-setup-startup-hook))
 #+end_src
 * Emacs Modes Introduction
 First let's talk about modes, Modes are the conventional way to add functionality to Emacs.
