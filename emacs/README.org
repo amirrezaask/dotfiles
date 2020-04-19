@@ -545,26 +545,35 @@ Emacs windows can be configured in the matter of where their gonna open.
 
 * File Manager
 #+begin_src emacs-lisp
-    (use-package dired
-      :config
-      (add-hook 'dired-mode-hook (lambda () 
-                                   (dired-hide-details-mode 1)))
-      :bind
-      (:map dired-mode-map
-            ("C-c d" . dired-hide-details-mode)
-            ("C-j" . next-line)
-            ("C-k" . previous-line)))
+  (use-package dired
+    :config
+    (add-hook 'dired-mode-hook (lambda () 
+                                 (dired-hide-details-mode 1)))
+    :bind
+    (:map dired-mode-map
+          ("C-c d" . dired-hide-details-mode)
+          ("C-j" . next-line)
+          ("C-k" . previous-line)))
 
-    (use-package dired-sidebar :straight t
-      :bind
-      (("<f8>" . dired-sidebar-toggle-sidebar)))
+  (use-package dired-sidebar :straight t
+    :bind
+    (("<f8>" . dired-sidebar-toggle-sidebar)))
 
-    (use-package dired-subtree
-      :straight t
-      :bind (:map dired-mode-map
-                  ("<tab>" . dired-subtree-toggle)))
+  (use-package dired-subtree
+    :straight t
+    :bind (:map dired-mode-map
+                ("<tab>" . dired-subtree-toggle)))
 
-
+  (use-package peep-dired
+    :straight t
+    :after dired
+    :config
+    (setq peep-dired-cleanup-on-disable t)
+    (setq peep-dired-enable-on-directories nil)
+    (setq peep-dired-ignored-extensions
+          '("mkv" "webm" "mp4" "mp3" "ogg" "iso"))
+    :bind (:map dired-mode-map
+                ("P" . peep-dired)))
 #+end_src
 * Mail
 Mail setup in Emacs using Gnus.
@@ -864,12 +873,19 @@ There are two tools that I think are amazing when it comes to searching, for tex
 the fastest and easiest one out there, and for files is =FZF=, let's integrate those two in Emacs.
 #+BEGIN_SRC emacs-lisp
   (use-package isearch
+    :demand
     :custom
     (isearch-highlight t)
     (isearch-whitespace-regexp ".*?")
     (isearch-lax-whitespace t)
     (isearch-regexp-lax-whitespace nil)
-    (isearch-lazy-highlight t))
+    (isearch-lazy-highlight t)
+    :bind 
+    (("C-s" . isearch-forward-regexp) ;; map default C-s to regex search
+     ("C-r" . isearch-backward-regexp)
+     ("C-M-s" . isearch-forward)
+     ("C-M-r" . isearch-backward)
+     ))
 
   (use-package helm-rg :straight t :commands helm-rg :general ("<f6> g" '(helm-rg :which-key "Helm Ripgrep")))
 
