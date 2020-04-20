@@ -32,6 +32,7 @@
 - [[#mail--news-reader][Mail & News reader]]
 - [[#irc][IRC]]
 - [[#process-management][Process management]]
+- [[#org-mode][Org Mode]]
 - [[#editor][Editor]]
 - [[#narrowing-framework][Narrowing Framework]]
 - [[#completion][Completion]]
@@ -391,8 +392,8 @@ darkness.
      :bind (("<f12>" . amirreza/toggle-color-mode))
      :config
      (defvar amirreza/current-mode 'dark "Current color of Emacs.")
-     (defvar amirreza/dark-theme 'modus-vivendi)
-     (defvar amirreza/light-theme 'modus-operandi)
+     (defvar amirreza/dark-theme 'doom-one)
+     (defvar amirreza/light-theme 'spacemacs-light)
      (defun amirreza/apply-color (mode)
        "Apply current color mode to Emacs."
        (if (eq amirreza/current-mode 'dark)
@@ -458,24 +459,25 @@ is called, basically first buffer that wants to use that it will get loaded. =:i
 no matter what are the other options evaluate the forms after =:init=.
 ** Modeline
 #+begin_src emacs-lisp
-      (use-package spaceline :straight t
-        :disabled t
-        :config
-        (require 'spaceline-config)
-        (spaceline-spacemacs-theme))
+  (use-package spaceline :straight t
+    :disabled t
+    :config
+    (require 'spaceline-config)
+    (spaceline-spacemacs-theme))
 
-      (use-package doom-modeline :straight t
-        :disabled t
-        :config
-        (doom-modeline-mode 1))
+  (use-package doom-modeline :straight t
+    :custom
+    (doom-modeline-height 35)
+    :config
+    (doom-modeline-mode 1))
 
-      (use-package telephone-line :straight t
-        :disabled t
-        :config
-        (telephone-line-mode +1))
+  (use-package telephone-line :straight t
+    :disabled t
+    :config
+    (telephone-line-mode +1))
 
-      (display-battery-mode 1)
-      (use-package nyan-mode :straight t :config (nyan-mode 1))
+  (display-battery-mode 1)
+  (use-package nyan-mode :straight t :config (nyan-mode 1))
 
 #+end_src
 ** Dashboard
@@ -613,6 +615,38 @@ Mail setup in Emacs using Gnus.
       (use-package proced
         :commands proced
         )
+#+end_src
+* Org Mode
+***** Org
+#+BEGIN_SRC emacs-lisp
+  (use-package org
+  :straight t
+  :demand
+  :init
+  (defun amirreza/--org-insert-elisp-code-block ()
+    (interactive)
+    (insert (format "#+begin_src emacs-lisp\n\n#+end_src"))
+    (previous-line)
+    (beginning-of-line))
+  :bind (:map org-mode-map
+              ("C-c c b" . amirreza/--org-insert-elisp-code-block))
+  :custom
+  (org-ellipsis "⤵")
+  (org-src-fontify-natively t)
+  (org-src-tab-acts-natively t)
+  (org-support-shift-select t)
+  (org-src-window-setup 'current-window))
+#+END_SRC
+***** Org bullets
+#+BEGIN_SRC emacs-lisp
+(use-package org-bullets
+  :straight t
+  :hook (org-mode . org-bullets-mode))
+#+END_SRC
+
+***** Org TOC
+#+begin_src emacs-lisp
+(use-package toc-org :straight t :hook (org-mode . toc-org-mode))
 #+end_src
 * Editor
 *** Defaults
@@ -882,38 +916,7 @@ when dumb jump can help you jump to defenitions using Rg or ag or grep (we use R
       :config
       (dumb-jump-mode 1))
 #+END_SRC
-*** Org Mode
-***** Org
-#+BEGIN_SRC emacs-lisp
-  (use-package org
-  :straight t
-  :demand
-  :init
-  (defun amirreza/--org-insert-elisp-code-block () 
-    (interactive)
-    (insert (format "#+begin_src emacs-lisp\n\n#+end_src"))
-    (previous-line)
-    (beginning-of-line))
-  :bind (:map org-mode-map
-              ("C-c c b" . amirreza/--org-insert-elisp-code-block))
-  :custom
-  (org-ellipsis "⤵")
-  (org-src-fontify-natively t)
-  (org-src-tab-acts-natively t)
-  (org-support-shift-select t)
-  (org-src-window-setup 'current-window))
-#+END_SRC
-***** Org bullets
-#+BEGIN_SRC emacs-lisp
-(use-package org-bullets
-  :straight t
-  :hook (org-mode . org-bullets-mode))
-#+END_SRC
 
-***** Org TOC
-#+begin_src emacs-lisp
-(use-package toc-org :straight t :hook (org-mode . toc-org-mode))
-#+end_src
 *** Searching
 There are two tools that I think are amazing when it comes to searching, for text =ripgrep= is
 the fastest and easiest one out there, and for files is =FZF=, let's integrate those two in Emacs.
@@ -957,7 +960,8 @@ happens a lot in Emacs.
 *** Icomplete
 #+BEGIN_SRC emacs-lisp
    (use-package icomplete
-     :demand ; loading of icomplete is not deferred since we are using `:bind'.
+     :disabled t
+     :demand ;loading of icomplete is not deferred since we are using `:bind'.
      :custom
      (icomplete-max-delay-chars 0)
      (icomplete-compute-delay 0)
@@ -1014,7 +1018,7 @@ happens a lot in Emacs.
 #+BEGIN_SRC emacs-lisp
   (use-package flx :straight t)
   (use-package ivy
-    :disabled t
+  
     :straight t
     :custom
     (ivy-height 17)
@@ -1048,14 +1052,11 @@ happens a lot in Emacs.
 
   (use-package swiper
     :straight t
-    :disabled t
-
     :commands (swiper)
     :init (global-set-key (kbd "C-s") 'swiper))
 
   (use-package counsel
     :straight t
-    :disabled t
     :commands (counsel-M-x counsel-find-file ivy-switch-buffer)
     :custom
     (ivy-re-builders-alist
@@ -1248,6 +1249,11 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
 #+END_SRC
 *** Debugger Support
 TBA
+*** Docs
+#+begin_src emacs-lisp
+  (use-package eldoc
+    :hook (prog-mode . eldoc-mode))
+#+end_src
 *** Project Detection
 =projectile= is a package that notifies when you open something in a git repository and can
 provide several feature to other packages or to the user directly.
