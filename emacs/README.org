@@ -415,7 +415,7 @@ ways of lazy-loading in use-package we will see others later on.
 ** Font
  To use specific font in Emacs you just need to call a function, that's easy ha ??
  #+BEGIN_SRC emacs-lisp
-   (defvar amirreza/font "Jetbrains Mono-11")
+   (defvar amirreza/font "Jetbrains Mono-9")
    (set-face-attribute 'default t :font amirreza/font)
    (set-frame-font amirreza/font nil t)
    (global-prettify-symbols-mode 1)
@@ -946,6 +946,17 @@ the fastest and easiest one out there, and for files is =FZF=, let's integrate t
     (("<f6> f" . fzf-directory)))
 
 #+END_SRC
+*** Abbrevation expansion
+There is a bultin Emacs package called abbrev that we can use to define abbrv
+that we can use in multiple modes.
+#+begin_src emacs-lisp
+      (use-package abbrev
+        :demand 
+        :hook ((prog-mode text-mode) . abbrev-mode)
+        :bind (("C-'" . expand-abbrev))
+        :config
+        (define-abbrev global-abbrev-table "mygit" "https://github.com/amirrezaask"))
+#+end_src
 *** Rainbow delimiters
 Highlight matching brackets in matching colors
 #+BEGIN_SRC emacs-lisp
@@ -961,40 +972,40 @@ Narrowing frameworks in Emacs are tools that help us when we want to choose an o
 happens a lot in Emacs.
 *** Icomplete
 #+BEGIN_SRC emacs-lisp
-       (use-package icomplete
-         :demand ;loading of icomplete is not deferred since we are using `:bind'.
-         :custom
-         (icomplete-max-delay-chars 0)
-         (icomplete-compute-delay 0)
-         (icomplete-show-matches-on-no-input t) ;; show completions from start of entering the minibuffer
-         (icomplete-separator " | ") ;; seperator of candidates
-         (icomplete-hide-common-prefix nil) ;;
-         (icomplete-with-completion-tables t) ;; do completion on anything that has a completion table
-         (icomplete-in-buffer nil) ; we dont want icomplete to work in buffers, we have company for that
-         (completion-styles '(flex))
-         :bind (:map icomplete-minibuffer-map
-                     ("C-f" . icomplete-forward-completions)
-                     ("C-b" . icomplete-backward-completions)
-                     ("C-n" . icomplete-forward-completions)
-                     ("C-p" . icomplete-backward-completions)
-                     ("<right>" . icomplete-forward-completions)
-                     ("<left>" . icomplete-backward-completions)
-                     ("<up>" . icomplete-backward-completions)
-                     ("<RET>" . icomplete-force-complete-and-exit)
-                     ("<down>" . icomplete-forward-completions))
-         :config
-         (when (> emacs-major-version 27)
-           (fido-mode -1))
-         (icomplete-mode +1))
+   (use-package icomplete
+     :demand ;loading of icomplete is not deferred since we are using `:bind'.
+     :custom
+     (icomplete-max-delay-chars 0)
+     (icomplete-compute-delay 0)
+     (icomplete-show-matches-on-no-input t) ;; show completions from start of entering the minibuffer
+     (icomplete-separator " | ") ;; seperator of candidates
+     (icomplete-hide-common-prefix nil) ;;
+     (icomplete-with-completion-tables t) ;; do completion on anything that has a completion table
+     (icomplete-in-buffer nil) ; we dont want icomplete to work in buffers, we have company for that
+     (completion-styles '(flex))
+     :bind (:map icomplete-minibuffer-map
+                 ("C-f" . icomplete-forward-completions)
+                 ("C-b" . icomplete-backward-completions)
+                 ("C-n" . icomplete-forward-completions)
+                 ("C-p" . icomplete-backward-completions)
+                 ("<right>" . icomplete-forward-completions)
+                 ("<left>" . icomplete-backward-completions)
+                 ("<up>" . icomplete-backward-completions)
+                 ("<RET>" . icomplete-force-complete-and-exit)
+                 ("<down>" . icomplete-forward-completions))
+     :config
+     (when (> emacs-major-version 27)
+       (fido-mode -1))
+     (icomplete-mode +1))
 
-      (use-package icomplete-vertical
-        :straight t
-        :demand
-        :config
-        (icomplete-vertical-mode 1)
-        :bind
-        (:map icomplete-minibuffer-map
-              ("C-t" . icomplete-vertical-toggle)))
+  (use-package icomplete-vertical
+    :straight t
+    :demand
+    :config
+    (icomplete-vertical-mode 1)
+    :bind
+    (:map icomplete-minibuffer-map
+          ("C-t" . icomplete-vertical-toggle)))
 
 #+END_SRC
 *** IDO
