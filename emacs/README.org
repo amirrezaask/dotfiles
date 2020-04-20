@@ -809,13 +809,13 @@ but again Emacs community is here to help
 
 *** Some general keybindings
 #+BEGIN_SRC emacs-lisp
-;; sane zoom-in and zoom-out 
-(global-set-key (kbd "C-+") 'text-scale-increase)
-(global-set-key (kbd "C-_") 'text-scale-decrease)
+  ;; sane zoom-in and zoom-out 
+  ;; (global-set-key (kbd "C-+") 'text-scale-increase)
+  ;; (global-set-key (kbd "C-_") 'text-scale-decrease)
 
-;; custom motions
-(global-set-key (kbd "M-n") (lambda () (interactive) (next-line 5)))
-(global-set-key (kbd "M-p") (lambda () (interactive) (previous-line 5)))
+  ;; custom motions
+  (global-set-key (kbd "M-n") (lambda () (interactive) (next-line 5)))
+  (global-set-key (kbd "M-p") (lambda () (interactive) (previous-line 5)))
 #+END_SRC
 *** Highlight matching parens
 #+BEGIN_SRC emacs-lisp
@@ -1031,19 +1031,19 @@ going to define our skeletons in their respective languages. Snippet macro defin
 Snippets are basically combination of abbrevs and skeletons, abbrevs are used for triggering
 skeleton and skeleton does it's job of inserting text.
 #+begin_src emacs-lisp
-    (use-package abbrev
-      :demand 
-      :bind (("C-x '" . expand-abbrev)))
+      (use-package abbrev
+        :demand 
+        :bind (("C-x '" . expand-abbrev)))
 
-    (use-package skeleton :demand
-      :config
-      (defmacro amirreza/defsnippet (abbrv &rest skeleton-expansions)
-        "Snippets are wrapper around skeleton and abbrevs."
-        (let ((command-name (intern (format "amirreza/snippet-%s" abbrv))))
-          `(progn
-             (define-skeleton ,command-name ""
-               ,@skeleton-expansions)
-             (define-abbrev local-abbrev-table ,abbrv "" (quote ,command-name))))))
+      (use-package skeleton :demand
+        :config
+        (defmacro amirreza/defsnippet (abbrv &rest skeleton-expansions)
+          "Snippets are wrapper around skeleton and abbrevs."
+          (let ((command-name (intern (format "amirreza/snippet-%s" abbrv))))
+            `(progn
+               (define-skeleton ,command-name ""
+                 ,@skeleton-expansions)
+               (define-abbrev local-abbrev-table ,abbrv "" (quote ,command-name))))))
 #+end_src
 *** Rainbow delimiters
 Highlight matching brackets in matching colors
@@ -1468,7 +1468,9 @@ that it needs.
     :init
     (defun amirreza/go-snippets ()
       (amirreza/defsnippet "fmain" "" "func main() {" \n "}")
-      (amirreza/defsnippet "pkgm" "Package: " "package " str \n))
+      (amirreza/defsnippet "pkgm" "Package: " "package " str \n)
+      (amirreza/defsnippet "pl" "" "fmt.Println(\"" _ "\")") ;; _ is the cursor position after the expansion
+      (amirreza/defsnippet "pf" "" "fmt.Printf(\"" _ "\")"))
     (add-hook 'go-mode-hook (lambda () (add-to-list 'exec-path (concat (getenv "HOME") "/go/bin"))))
     (add-hook 'go-mode-hook 'amirreza/go-snippets)
     :config
