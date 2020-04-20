@@ -1031,20 +1031,19 @@ going to define our skeletons in their respective languages. Snippet macro defin
 Snippets are basically combination of abbrevs and skeletons, abbrevs are used for triggering
 skeleton and skeleton does it's job of inserting text.
 #+begin_src emacs-lisp
-  (use-package abbrev
-    :demand 
-    :hook ((prog-mode) . abbrev-mode)
-    :bind (:map abbrev-map ("C-x '" . expand-abbrev) ("<tab>" . expand-abbrev)))
+    (use-package abbrev
+      :demand 
+      :bind (("C-x '" . expand-abbrev)))
 
-  (use-package skeleton :demand
-    :config
-    (defmacro amirreza/defsnippet (abbrv &rest skeleton-expansions)
-      "Snippets are wrapper around skeleton and abbrevs."
-      (let ((command-name (intern (format "amirreza/snippet-%s" abbrv))))
-        `(progn
-           (define-skeleton ,command-name ""
-             ,@skeleton-expansions)
-           (define-abbrev local-abbrev-table ,abbrv "" (quote ,command-name))))))
+    (use-package skeleton :demand
+      :config
+      (defmacro amirreza/defsnippet (abbrv &rest skeleton-expansions)
+        "Snippets are wrapper around skeleton and abbrevs."
+        (let ((command-name (intern (format "amirreza/snippet-%s" abbrv))))
+          `(progn
+             (define-skeleton ,command-name ""
+               ,@skeleton-expansions)
+             (define-abbrev local-abbrev-table ,abbrv "" (quote ,command-name))))))
 #+end_src
 *** Rainbow delimiters
 Highlight matching brackets in matching colors
@@ -1467,11 +1466,13 @@ that it needs.
     :straight t
     :mode ("\\.go\\'" . go-mode)
     :init
-    (add-hook 'go-mode-hook (lambda () (add-to-list 'exec-path (concat (getenv "HOME") "/go/bin"))
-                              (amirreza/defsnippet "fmain" "" "func main() {" \n "}")))
+    (defun amirreza/go-snippets ()
+      (amirreza/defsnippet "fmain" "" "func main() {" \n "}")
+      (amirreza/defsnippet "pkgm" "Package: " "package " str \n))
+    (add-hook 'go-mode-hook (lambda () (add-to-list 'exec-path (concat (getenv "HOME") "/go/bin"))))
+    (add-hook 'go-mode-hook 'amirreza/go-snippets)
     :config
     (amirreza/with-backends go-mode ((company-capf company-tabnine)))
-
     (add-hook 'go-mode-hook (lambda () 
                               (interactive)
                               (setq-local prettify-symbols-alist '(("func" . 955) ; λ
