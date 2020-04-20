@@ -415,9 +415,10 @@ ways of lazy-loading in use-package we will see others later on.
 ** Font
  To use specific font in Emacs you just need to call a function, that's easy ha ??
  #+BEGIN_SRC emacs-lisp
- (defvar amirreza/font "Jetbrains Mono-11")
- (set-face-attribute 'default t :font amirreza/font)
- (set-frame-font amirreza/font nil t)
+   (defvar amirreza/font "Jetbrains Mono-11")
+   (set-face-attribute 'default t :font amirreza/font)
+   (set-frame-font amirreza/font nil t)
+   (global-prettify-symbols-mode 1)
  #+END_SRC
  If you evaluate code above you see the font changes.
  Now let's write some elisp, let's say that we want to have a function that we can call and change 
@@ -613,8 +614,7 @@ Mail setup in Emacs using Gnus.
 * Process management
 #+begin_src emacs-lisp
       (use-package proced
-        :commands proced
-        )
+        :commands proced)
 #+end_src
 * Org Mode
 ***** Org
@@ -1018,7 +1018,6 @@ happens a lot in Emacs.
 #+BEGIN_SRC emacs-lisp
   (use-package flx :straight t)
   (use-package ivy
-  
     :straight t
     :custom
     (ivy-height 17)
@@ -1035,10 +1034,12 @@ happens a lot in Emacs.
     (ivy-on-del-error-function #'ignore)
     ;; enable ability to select prompt (alternative to `ivy-immediate-done')
     (ivy-use-selectable-prompt t)
+
     :config
     (setf (alist-get 't ivy-format-functions-alist)
           #'ivy-format-function-line)
     (ivy-mode +1)
+
     :bind
     (("C-x b" . 'ivy-switch-buffer)
      :map ivy-minibuffer-map
@@ -1357,16 +1358,20 @@ need to configure this package to enable some LSP features that are necessary li
 go to work perfectly you need to add the =GOPATH= to your =exec-path= to let emacs find go binaries
 that it needs.
 #+BEGIN_SRC emacs-lisp
-  (use-package go-mode
-    :straight t
-    :mode ("\\.go\\'" . go-mode)
-    :init
-    (add-hook 'go-mode-hook (lambda () (add-to-list 'exec-path (concat (getenv "HOME") "/go/bin"))))
-    :config
-    (amirreza/with-backends go-mode ((company-capf company-tabnine)))
-    (add-hook 'go-mode-hook (lambda () (interactive)
-                              (add-hook 'before-save-hook 'lsp-format-buffer t t)
-                              (add-hook 'before-save-hook 'lsp-organize-imports t t))))
+    (use-package go-mode
+      :straight t
+      :mode ("\\.go\\'" . go-mode)
+      :init
+      (add-hook 'go-mode-hook (lambda () (add-to-list 'exec-path (concat (getenv "HOME") "/go/bin"))))
+      :config
+      (amirreza/with-backends go-mode ((company-capf company-tabnine)))
+      (add-hook 'go-mode-hook (lambda () 
+                                (interactive)
+                                (setq-local prettify-symbols-alist '(("func" . 955) ; λ
+                                                                     ))))
+      (add-hook 'go-mode-hook (lambda () (interactive)
+                                (add-hook 'before-save-hook 'lsp-format-buffer t t)
+                                (add-hook 'before-save-hook 'lsp-organize-imports t t))))
 #+END_SRC
 *** Go-add-tags
 it's always a pain to manually add struct tags for a struct specially when
@@ -1398,6 +1403,7 @@ we can even go further.x
 #+BEGIN_SRC emacs-lisp
   (use-package elisp-mode
     :config
+    (setq-local prettify-symbols-alist '(("fn" . 955)))
     (defun --amirreza/emacs-lisp-repeat (str count)
       "Create dashes with given COUNT."
       (let ((dashes ""))
@@ -1426,7 +1432,10 @@ we can even go further.x
 ** Clojure
 *** Clojure Mode
     #+BEGIN_SRC emacs-lisp
-      (use-package clojure-mode :straight t)
+              (use-package clojure-mode :straight t
+                :config
+                (setq-local prettify-symbols-alist '(("fn" . 955) ; λ
+                                                      ("->" . 8594))))
     #+END_SRC
 *** Cider
 #+BEGIN_SRC emacs-lisp
