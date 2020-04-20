@@ -392,8 +392,8 @@ darkness.
      :bind (("<f12>" . amirreza/toggle-color-mode))
      :config
      (defvar amirreza/current-mode 'dark "Current color of Emacs.")
-     (defvar amirreza/dark-theme 'doom-one)
-     (defvar amirreza/light-theme 'spacemacs-light)
+     (defvar amirreza/dark-theme 'modus-vivendi)
+     (defvar amirreza/light-theme 'modus-operandi)
      (defun amirreza/apply-color (mode)
        "Apply current color mode to Emacs."
        (if (eq amirreza/current-mode 'dark)
@@ -961,38 +961,40 @@ Narrowing frameworks in Emacs are tools that help us when we want to choose an o
 happens a lot in Emacs.
 *** Icomplete
 #+BEGIN_SRC emacs-lisp
-   (use-package icomplete
-     :disabled t
-     :demand ;loading of icomplete is not deferred since we are using `:bind'.
-     :custom
-     (icomplete-max-delay-chars 0)
-     (icomplete-compute-delay 0)
-     (icomplete-show-matches-on-no-input t) ;; show completions from start of entering the minibuffer
-     (icomplete-separator " | ") ;; seperator of candidates
-     (icomplete-hide-common-prefix nil) ;;
-     (icomplete-with-completion-tables t) ;; do completion on anything that has a completion table
-     (icomplete-in-buffer nil) ; we dont want icomplete to work in buffers, we have company for that
-     (completion-styles '(flex))
-     :bind (:map icomplete-minibuffer-map
-                 ("C-f" . icomplete-forward-completions)
-                 ("C-b" . icomplete-backward-completions)
-                 ("C-n" . icomplete-forward-completions)
-                 ("C-p" . icomplete-backward-completions)
-                 ("<right>" . icomplete-forward-completions)
-                 ("<left>" . icomplete-backward-completions)
-                 ("<up>" . icomplete-backward-completions)
-                 ("<RET>" . icomplete-force-complete-and-exit)
-                 ("<down>" . icomplete-forward-completions))
-     :config
-     (when (> emacs-major-version 27)
-       (fido-mode -1))
-     (icomplete-mode +1))
+       (use-package icomplete
+         :demand ;loading of icomplete is not deferred since we are using `:bind'.
+         :custom
+         (icomplete-max-delay-chars 0)
+         (icomplete-compute-delay 0)
+         (icomplete-show-matches-on-no-input t) ;; show completions from start of entering the minibuffer
+         (icomplete-separator " | ") ;; seperator of candidates
+         (icomplete-hide-common-prefix nil) ;;
+         (icomplete-with-completion-tables t) ;; do completion on anything that has a completion table
+         (icomplete-in-buffer nil) ; we dont want icomplete to work in buffers, we have company for that
+         (completion-styles '(flex))
+         :bind (:map icomplete-minibuffer-map
+                     ("C-f" . icomplete-forward-completions)
+                     ("C-b" . icomplete-backward-completions)
+                     ("C-n" . icomplete-forward-completions)
+                     ("C-p" . icomplete-backward-completions)
+                     ("<right>" . icomplete-forward-completions)
+                     ("<left>" . icomplete-backward-completions)
+                     ("<up>" . icomplete-backward-completions)
+                     ("<RET>" . icomplete-force-complete-and-exit)
+                     ("<down>" . icomplete-forward-completions))
+         :config
+         (when (> emacs-major-version 27)
+           (fido-mode -1))
+         (icomplete-mode +1))
 
-  (use-package icomplete-vertical
-    :disabled t
-    :straight t
-    :config
-    (icomplete-vertical-mode 1))
+      (use-package icomplete-vertical
+        :straight t
+        :demand
+        :config
+        (icomplete-vertical-mode 1)
+        :bind
+        (:map icomplete-minibuffer-map
+              ("C-t" . icomplete-vertical-toggle)))
 
 #+END_SRC
 *** IDO
@@ -1020,6 +1022,7 @@ happens a lot in Emacs.
 #+BEGIN_SRC emacs-lisp
   (use-package flx :straight t)
   (use-package ivy
+    :disabled t
     :straight t
     :custom
     (ivy-height 17)
@@ -1054,11 +1057,13 @@ happens a lot in Emacs.
      ("C-k" . 'ivy-previous-line)))
 
   (use-package swiper
+    :disabled t
     :straight t
     :commands (swiper)
     :init (global-set-key (kbd "C-s") 'swiper))
 
   (use-package counsel
+    :disabled t
     :straight t
     :commands (counsel-M-x counsel-find-file ivy-switch-buffer)
     :custom
