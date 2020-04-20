@@ -90,8 +90,8 @@
     - [[#docs][Docs]]
     - [[#project-detection][Project Detection]]
     - [[#music][Music]]
-  - [[#using-rhythmboxel][Using Rhythmbox.el]]
-  - [[#using-counsel][Using counsel]]
+      - [[#using-rhythmboxel][Using Rhythmbox.el]]
+      - [[#using-counsel][Using counsel]]
 - [[#programming-languages][Programming Languages]]
   - [[#python][Python]]
     - [[#python-mode][Python Mode]]
@@ -1374,41 +1374,41 @@ provide several feature to other packages or to the user directly.
 #+END_SRC
 *** Music
 I need music when I am working, so for me music is just a part of development environment, and let helm help us.
-** Using Rhythmbox.el
-#+begin_src emacs-lisp
-  (use-package Rhythmbox.el :straight (:host github :repo "amirrezaask/Rhytmbox.el")
-    :bind
-    ("C-c m n" . Rhythmbox/current-song-name)
-    ("C-c m p" . Rhythmbox/playpause-current-song)
-    ("C-c m l" . Rhythmbox))
-#+end_src
-** Using counsel
-#+begin_src emacs-lisp
-    (use-package counsel
-    :disabled t
-    :straight t
-    :demand
-    :config
-    (defun counsel-rhythmbox-playpause ()
-    "Play/pause the current song."
-    (require 'dbus)
-    (interactive)
-    (let ((service "org.gnome.Rhythmbox3")
-          (path "/org/mpris/MediaPlayer2")
-          (interface "org.mpris.MediaPlayer2.Player"))
-      (dbus-call-method :session service path interface
-                        "PlayPause")))
+**** Using Rhythmbox.el
+  #+begin_src emacs-lisp
+    (use-package Rhythmbox.el :straight (:host github :repo "amirrezaask/Rhytmbox.el")
+      :bind
+      ("C-c m n" . Rhythmbox/current-song-name)
+      ("C-c m p" . Rhythmbox/playpause-current-song)
+      ("C-c m l" . Rhythmbox))
+  #+end_src
+**** Using counsel
+  #+begin_src emacs-lisp
+      (use-package counsel
+      :disabled t
+      :straight t
+      :demand
+      :config
+      (defun counsel-rhythmbox-playpause ()
+      "Play/pause the current song."
+      (require 'dbus)
+      (interactive)
+      (let ((service "org.gnome.Rhythmbox3")
+            (path "/org/mpris/MediaPlayer2")
+            (interface "org.mpris.MediaPlayer2.Player"))
+        (dbus-call-method :session service path interface
+                          "PlayPause")))
 
-    :bind (("C-c m l" . counsel-rhythmbox)
-           ("C-c m c" . (lambda ()
-                          (interactive)
-                          (message (counsel-rhythmbox-current-song))))
+      :bind (("C-c m l" . counsel-rhythmbox)
+             ("C-c m c" . (lambda ()
+                            (interactive)
+                            (message (counsel-rhythmbox-current-song))))
 
-           ("C-c m p" . (lambda ()
-                          (interactive)
-                          (counsel-rhythmbox-playpause)
-                          ))))
-#+end_src
+             ("C-c m p" . (lambda ()
+                            (interactive)
+                            (counsel-rhythmbox-playpause)
+                            ))))
+  #+end_src
 * Programming Languages
 ** Python
 *** Python Mode
