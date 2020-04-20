@@ -333,9 +333,9 @@ darkness.
 * Exwm (Emacs X window manager)
 #+begin_src emacs-lisp
   (use-package exwm 
+    :disabled t
     :straight t
     :config 
-    :disabled t
     (require 'exwm-config)
 
     (exwm-config-default) ;; some basic default keybindings
@@ -362,7 +362,7 @@ darkness.
     (defun amirreza/exwm-multi-screen ()
       (start-process-shell-command
        "xrandr" nil "xrandr --output " amirreza/laptop-screen-name " --below " amirreza/second-screen-name " --auto"))
-    (add-hook 'exwm-randr-screen-change-hook 'exwm-change-screen-hook)
+    ;; (add-hook 'exwm-randr-screen-change-hook 'exwm-change-screen-hook)
     (exwm-randr-enable)
 
     )
@@ -483,15 +483,18 @@ no matter what are the other options evaluate the forms after =:init=.
 #+end_src
 ** Dashboard
 #+begin_src emacs-lisp
-    (use-package dashboard
-      :straight t
-      :custom
-      (dashboard-banner-logo-title "Free as in freedom")
-      (dashboard-startup-banner 'logo)
-      (dashboard-center-content t)
-      :config
-      (setq dashboard-set-navigator t)
-      (dashboard-setup-startup-hook))
+  (use-package dashboard
+    :straight t
+    :custom
+    (dashboard-banner-logo-title "Free as in freedom")
+    (dashboard-startup-banner 'logo)
+    (dashboard-center-content t)
+    (dashboard-items '((projects . 5)
+                       (recents  . 5)
+                       (bookmarks . 5)))
+    :config
+    (setq dashboard-set-navigator t)
+    (dashboard-setup-startup-hook))
 #+end_src
 * Emacs Modes Introduction
 First let's talk about modes, Modes are the conventional way to add functionality to Emacs.
@@ -516,7 +519,7 @@ Emacs windows can be configured in the matter of where their gonna open.
   (setq display-buffer-alist
         '(("\\*\\(Backtrace\\|Warnings\\|Compile-Log\\|Messages\\)\\*"
              (display-buffer-in-side-window)
-             (window-width . 0.20)
+             (window-width . 0.40)
              (side . right)
              (slot . 0))
           ("^vterm"
@@ -643,7 +646,6 @@ Mail setup in Emacs using Gnus.
   :straight t
   :hook (org-mode . org-bullets-mode))
 #+END_SRC
-
 ***** Org TOC
 #+begin_src emacs-lisp
 (use-package toc-org :straight t :hook (org-mode . toc-org-mode))
@@ -952,7 +954,7 @@ Highlight matching brackets in matching colors
 *** Rainbow Blocks
 although =Rainbow-delimiters= shows us the start and end of an list, but it's nice to be able to see more.
 #+BEGIN_SRC emacs-lisp
-(use-package rainbow-blocks :straight t)
+(use-package rainbow-blocks :straight t :defer t)
 #+END_SRC
 * Narrowing Framework
 Narrowing frameworks in Emacs are tools that help us when we want to choose an option from list of options, and this scenario
@@ -1077,7 +1079,6 @@ happens a lot in Emacs.
 #+END_SRC
 *** Helm
  #+begin_src emacs-lisp
-
       (use-package helm :straight t
         :disabled t
         :custom
