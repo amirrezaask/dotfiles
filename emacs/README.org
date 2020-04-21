@@ -473,12 +473,16 @@ darkness.
      (defvar amirreza/current-mode 'dark "Current color of Emacs.")
      (defvar amirreza/dark-theme 'modus-vivendi)
      (defvar amirreza/light-theme 'modus-operandi)
+  
+     (defmacro amirreza/load-theme (&rest theme-opts)
+       `(progn (mapc #'disable-theme custom-enabled-themes)
+               (load-theme ,@theme-opts)))
+
      (defun amirreza/apply-color (mode)
        "Apply current color mode to Emacs."
        (if (eq amirreza/current-mode 'dark)
-           (load-theme amirreza/dark-theme t)
-         (load-theme  amirreza/light-theme t)))
-
+           (amirreza/load-theme amirreza/dark-theme t)
+         (amirreza/load-theme  amirreza/light-theme t)))
 
      (defun amirreza/toggle-color-mode ()
        "Toggle current mode to the opposite"
@@ -487,6 +491,7 @@ darkness.
            (setq amirreza/current-mode 'light)
          (setq amirreza/current-mode 'dark))
        (amirreza/apply-color amirreza/current-mode))
+
      (amirreza/apply-color amirreza/current-mode))
  #+END_SRC
 **** Performance Tip 
@@ -990,15 +995,17 @@ prompt of available options and their respective functionality.
 Sometimes when you are dealing with really big projects LSP can feel a little slow so that's
 when dumb jump can help you jump to defenitions using Rg or ag or grep (we use Rg)
 #+BEGIN_SRC emacs-lisp
-    (use-package dumb-jump
-      :straight t
-      :general
-      (space-leader "." 'dumb-jump-go "/" 'dumb-jump-back)
-      :bind
-      (("C-M-j" . 'dumb-jump-go)
-       ("C-M-p" . 'dumb-jump-back))
-      :config
-      (dumb-jump-mode 1))
+  (use-package dumb-jump
+    :straight t
+    :general
+    (space-leader "." 'dumb-jump-go "/" 'dumb-jump-back)
+    :custom
+    (dumb-jump-selector 'ivy)
+    :bind
+    (("C-M-j" . 'dumb-jump-go)
+     ("C-M-p" . 'dumb-jump-back))
+    :config
+    (dumb-jump-mode 1))
 #+END_SRC
 
 *** Searching
