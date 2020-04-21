@@ -945,6 +945,13 @@ to different git repos in the Ibuffer view.
 	   ("NOTE"       success bold)
 	   ("DEPRECATED" font-lock-doc-face bold))))
  #+END_SRC
+*** Kill ring
+Emacs kill ring is Emacs way of doing clipboard
+#+begin_src emacs-lisp
+    (use-package simple
+      :custom
+      (kill-ring-max 15))
+#+end_src
 *** Expand Region
  A selected text is called region in Emacs, expand region helps you expand this region based
  semantics.
@@ -1118,6 +1125,8 @@ happens a lot in Emacs.
   (use-package icomplete-vertical
     :straight t
     :demand
+    :custom
+    (icomplete-vertical-separator "\n----------\n")
     :config
     (icomplete-vertical-mode 1)
     :bind
