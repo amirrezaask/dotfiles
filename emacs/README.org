@@ -547,27 +547,52 @@ is a gourges icon package for emacs.
 is called, basically first buffer that wants to use that it will get loaded. =:init= means when emacs started 
 no matter what are the other options evaluate the forms after =:init=.
 ** Modeline
+*** Spaceline
+Modeline from Spacemacs, it's basically boosted powerline
 #+begin_src emacs-lisp
   (use-package spaceline :straight t
     :disabled t
     :config
     (require 'spaceline-config)
     (spaceline-spacemacs-theme))
-
+#+end_src
+*** Doom-modeline
+#+begin_src emacs-lisp
   (use-package doom-modeline :straight t
+    :disabled t
     :custom
     (doom-modeline-height 35)
     :config
     (doom-modeline-mode 1))
-
+#+end_src
+*** Telephone line
+#+begin_src emacs-lisp
   (use-package telephone-line :straight t
     :disabled t
     :config
     (telephone-line-mode +1))
+#+end_src
+*** My Custom modeline
+#+begin_src emacs-lisp
+  (use-package emacs 
+   :custom
+   (mode-line-format (list
+                      mode-line-front-space
+                      mode-line-misc-info ;; eyebrowse workspace number
+                      "   "
+                      mode-line-modified
+                      "   " 
+                      "%m"
+                      "   " 
+                      "%b"
+                      "   "
+                      mode-line-position
+                      "   "
+                      vc-mode
+                      mode-line-end-spaces
+                       )))
 
-  (display-battery-mode 1)
   (use-package nyan-mode :straight t :config (nyan-mode 1))
-
 #+end_src
 ** Dashboard
 #+begin_src emacs-lisp
@@ -873,10 +898,10 @@ but again Emacs community is here to help
 #+BEGIN_SRC emacs-lisp
    (use-package emacs
      :config
-     (setq-default cursor-type 'bar))
+     (setq-default cursor-type 'box))
    (use-package frame
      :config
-     (blink-cursor-mode -1))
+     (blink-cursor-mode +1))
    (use-package hl-line
      :config
      (global-hl-line-mode +1))
@@ -1091,47 +1116,46 @@ Narrowing frameworks in Emacs are tools that help us when we want to choose an o
 happens a lot in Emacs.
 *** Icomplete
 #+BEGIN_SRC emacs-lisp
-  (use-package icomplete
-    :demand ;loading of icomplete is not deferred since we are using `:bind'.
-    :custom
-    (icomplete-max-delay-chars 0)
-    (icomplete-compute-delay 0.2)
-    (icomplete-show-matches-on-no-input t) ;; show completions from start of entering the minibuffer
-    (icomplete-separator " | ") ;; seperator of candidates
-    (icomplete-hide-common-prefix nil) ;;
-    (icomplete-with-completion-tables t) ;; do completion on anything that has a completion table
-    (icomplete-in-buffer nil) ; we dont want icomplete to work in buffers, we have company for that
-    (completion-styles '(flex))
-    :config
-    (defun amirreza/show-kill-ring ()
-      (interactive)
-      (insert (completing-read "Choose: " kill-ring )))
+    (use-package icomplete
+      :demand ;loading of icomplete is not deferred since we are using `:bind'.
+      :custom
+      (icomplete-max-delay-chars 0)
+      (icomplete-compute-delay 0.2)
+      (icomplete-show-matches-on-no-input t) ;; show completions from start of entering the minibuffer
+      (icomplete-separator " | ") ;; seperator of candidates
+      (icomplete-hide-common-prefix nil) ;;
+      (icomplete-with-completion-tables t) ;; do completion on anything that has a completion table
+      (icomplete-in-buffer nil) ; we dont want icomplete to work in buffers, we have company for that
+      (completion-styles '(flex))
+      :config
+      (defun amirreza/show-kill-ring ()
+        (interactive)
+        (insert (completing-read "Choose: " kill-ring )))
 
-    (when (> emacs-major-version 27)
-      (fido-mode -1))
-    (icomplete-mode +1)
-    :bind (("M-y" . amirreza/show-kill-ring)
-           :map icomplete-minibuffer-map
-                ("C-f" . icomplete-forward-completions)
-                ("C-b" . icomplete-backward-completions)
-                ("C-n" . icomplete-forward-completions)
-                ("C-p" . icomplete-backward-completions)
-                ("<right>" . icomplete-forward-completions)
-                ("<left>" . icomplete-backward-completions)
-                ("<up>" . icomplete-backward-completions)
-                ("<RET>" . icomplete-force-complete-and-exit)
-                ("<down>" . icomplete-forward-completions)))
+      (when (> emacs-major-version 27)
+        (fido-mode -1))
+      (icomplete-mode +1)
+      :bind (("M-y" . amirreza/show-kill-ring)
+             :map icomplete-minibuffer-map
+                  ("C-f" . icomplete-forward-completions)
+                  ("C-b" . icomplete-backward-completions)
+                  ("C-n" . icomplete-forward-completions)
+                  ("C-p" . icomplete-backward-completions)
+                  ("<right>" . icomplete-forward-completions)
+                  ("<left>" . icomplete-backward-completions)
+                  ("<up>" . icomplete-backward-completions)
+                  ("<RET>" . icomplete-force-complete-and-exit)
+                  ("<down>" . icomplete-forward-completions)))
 
-  (use-package icomplete-vertical
-    :straight t
-    :demand
-    :custom
-    (icomplete-vertical-separator "\n----------\n")
-    :config
-    (icomplete-vertical-mode 1)
-    :bind
-    (:map icomplete-minibuffer-map
-          ("C-t" . icomplete-vertical-toggle)))
+    (use-package icomplete-vertical
+      :straight t
+      :demand
+      :config
+      (icomplete-vertical-set-separator "\n----------\n")
+      (icomplete-vertical-mode 1)
+      :bind
+      (:map icomplete-minibuffer-map
+            ("C-t" . icomplete-vertical-toggle)))
 
 #+END_SRC
 *** IDO
