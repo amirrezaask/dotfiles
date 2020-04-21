@@ -461,18 +461,24 @@ darkness.
  that this package is installed, and if it's not install it from elpa repo.
  Now let's set a theme
  #+BEGIN_SRC emacs-lisp
+   (use-package emacs 
+     :custom 
+     (ring-bell-function t)
+     (visible-bell t))
+
    (use-package custom
      :demand
      :bind (("<f12>" . amirreza/toggle-color-mode))
      :config
      (defvar amirreza/current-mode 'dark "Current color of Emacs.")
-     (defvar amirreza/dark-theme 'doom-dracula)
-     (defvar amirreza/light-theme 'spacemacs-light)
+     (defvar amirreza/dark-theme 'modus-vivendi)
+     (defvar amirreza/light-theme 'modus-operandi)
      (defun amirreza/apply-color (mode)
        "Apply current color mode to Emacs."
        (if (eq amirreza/current-mode 'dark)
            (load-theme amirreza/dark-theme t)
          (load-theme  amirreza/light-theme t)))
+
 
      (defun amirreza/toggle-color-mode ()
        "Toggle current mode to the opposite"
