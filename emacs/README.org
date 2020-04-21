@@ -48,6 +48,7 @@
 - [[#editor][Editor]]
     - [[#defaults][Defaults]]
     - [[#set-a-new-custom-file][Set a new custom file]]
+    - [[#delete-selection-when-inserting-into-it][Delete selection when inserting into it]]
     - [[#show-keychords-more-fast][Show keychords more fast]]
     - [[#backup-files][Backup files]]
     - [[#dont-type-yes-every-time][don't type yes every time]]
@@ -341,7 +342,7 @@ on specific targeted functions, you have =delete-word=, it just deletes a word y
 words (yes you can do C-2 M-d) but it's not that user-friendly actually, so without further ado let's decend into
 darkness. 
 #+begin_src emacs-lisp
-  (use-package evil 
+  (use-package evil
     :disabled t
     :straight t
     :init
@@ -355,8 +356,7 @@ darkness.
 
 
   (use-package evil-collection 
-
-  :disabled t
+    :disabled t
     :straight t 
     :config 
     (evil-collection-init))
@@ -398,12 +398,10 @@ darkness.
       "d v" 'describe-variable
       "d k" 'describe-key
       "b n" 'next-buffer
-      "b p" 'previous-buffer
-      )
+      "b p" 'previous-buffer)
     (space-leader 
       "C-k" (lambda () (interactive) (previous-line 5))
-      "C-j"(lambda () (interactive) (next-line 5))) 
-  )
+      "C-j"(lambda () (interactive) (next-line 5))))
 
 #+end_src
 * Exwm (Emacs X window manager)
@@ -468,7 +466,7 @@ darkness.
      :bind (("<f12>" . amirreza/toggle-color-mode))
      :config
      (defvar amirreza/current-mode 'dark "Current color of Emacs.")
-     (defvar amirreza/dark-theme 'doom-one)
+     (defvar amirreza/dark-theme 'doom-dracula)
      (defvar amirreza/light-theme 'spacemacs-light)
      (defun amirreza/apply-color (mode)
        "Apply current color mode to Emacs."
@@ -758,6 +756,11 @@ Use UTF-8 everywhere.
     :custom
     (custom-file "~/.emacs.d/custom.el"))
 #+END_SRC
+*** Delete selection when inserting into it
+#+begin_src emacs-lisp
+(use-package delsel
+  :hook (after-init . delete-selection-mode))
+#+end_src
 *** Show keychords more fast
 when we start using modifier keys emacs shows them in minibuffer but the initial value
 of the is too much so we can decrease it.
@@ -988,9 +991,6 @@ when dumb jump can help you jump to defenitions using Rg or ag or grep (we use R
       :bind
       (("C-M-j" . 'dumb-jump-go)
        ("C-M-p" . 'dumb-jump-back))
-      :custom
-      (dumb-jump-selector 'helm)
-      (dumb-jump-force-searcher 'rg)
       :config
       (dumb-jump-mode 1))
 #+END_SRC
@@ -1011,15 +1011,18 @@ the fastest and easiest one out there, and for files is =FZF=, let's integrate t
     (("C-s" . isearch-forward-regexp) ;; map default C-s to regex search
      ("C-r" . isearch-backward-regexp)
      ("C-M-s" . isearch-forward)
-     ("C-M-r" . isearch-backward)
-     ))
+     ("C-M-r" . isearch-backward)))
 
-  (use-package helm-rg :straight t :commands helm-rg :general ("<f6> g" '(helm-rg :which-key "Helm Ripgrep")))
+  (use-package helm-rg :disabled t :straight t :commands helm-rg :general ("<f6> g" '(helm-rg :which-key "Helm Ripgrep")))
 
   (use-package fzf
     :straight t
     :bind
     (("<f6> f" . fzf-directory)))
+
+  (use-package rg
+   :straight t
+   :bind (("<f6> g" . rg)))
 
 #+END_SRC
 *** Atomic Typing
@@ -1065,7 +1068,7 @@ happens a lot in Emacs.
      :demand ;loading of icomplete is not deferred since we are using `:bind'.
      :custom
      (icomplete-max-delay-chars 0)
-     (icomplete-compute-delay 0)
+     (icomplete-compute-delay 0.2)
      (icomplete-show-matches-on-no-input t) ;; show completions from start of entering the minibuffer
      (icomplete-separator " | ") ;; seperator of candidates
      (icomplete-hide-common-prefix nil) ;;
@@ -1224,13 +1227,12 @@ happens a lot in Emacs.
       :bind (("C-h b" . helm-descbinds)))
 
     (use-package helm-describe-modes :straight t
-      :disabled t
-      :bind (("C-h m" . helm-describe-modes)))
+    :disabled t
+    :bind (("C-h m" . helm-describe-modes)))
 
    (use-package helm-make :straight t
-
-     :disabled t
-     :bind (("<f5> m" . helm-make)))
+    :disabled t
+    :bind (("<f5> m" . helm-make)))
  #+end_src
 * Completion
 Code completion consists of two parts, A source/server that provides the completions and 
