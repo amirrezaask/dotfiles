@@ -574,25 +574,32 @@ Modeline from Spacemacs, it's basically boosted powerline
 #+end_src
 *** My Custom modeline
 #+begin_src emacs-lisp
+  (use-package time
+    :config
+    (setq display-time-format "%H:%M  %Y-%m-%d")
+    (setq display-time-interval 60)
+    (setq display-time-mail-directory nil)
+    (setq display-time-default-load-average nil)
+    (display-time-mode))
   (use-package emacs 
-   :custom
-   (mode-line-format (list
-                      mode-line-front-space
-                      mode-line-misc-info ;; eyebrowse workspace number
-                      "   "
-                      mode-line-modified
-                      "   " 
-                      "%m"
-                      "   " 
-                      "%b"
-                      "   "
-                      mode-line-position
-                      "   "
-                      vc-mode
-                      mode-line-end-spaces
-                       )))
+    :config
+    (setq-default mode-line-format (list
+                                    mode-line-front-space
+                                    mode-line-misc-info ;; eyebrowse workspace number
+                                    "   "
+                                    mode-line-modified
+                                    "   " 
+                                    "%m"
+                                    "   " 
+                                    "%b"
+                                    "   "
+                                    mode-line-position
+                                    "   "
+                                    '(:eval vc-mode)
+                                    mode-line-end-spaces
+                                    )))
 
-  (use-package nyan-mode :straight t :config (nyan-mode 1))
+  (use-package nyan-mode :straight t :disabled t :config (nyan-mode 1))
 #+end_src
 ** Dashboard
 #+begin_src emacs-lisp
