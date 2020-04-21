@@ -148,11 +148,8 @@ bindsym $mod+r mode "resize"
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
-bar {
-        status_command i3status 
-        position top
-
-        strip_workspace_numbers yes
+ bar {
+         position top
 }
 # Assignment of windows
 assign [class="Firefox"] $ws1 
