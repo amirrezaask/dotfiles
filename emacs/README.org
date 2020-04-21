@@ -626,11 +626,11 @@ Modeline from Spacemacs, it's basically boosted powerline
     :straight t
     :custom
     (dashboard-banner-logo-title "Free as in freedom")
-    (dashboard-startup-banner 'logo)
+    (dashboard-startup-banner 2)
     (dashboard-center-content t)
     (dashboard-items '((projects . 5)
-                       (recents  . 5)
-                       (bookmarks . 5)))
+                       (recents  . 5)))
+
     :config
     (setq dashboard-set-navigator t)
     (dashboard-setup-startup-hook))
@@ -767,23 +767,24 @@ Mail setup in Emacs using Gnus.
 * Org Mode
 ***** Org
 #+BEGIN_SRC emacs-lisp
-  (use-package org
-  :straight t
-  :demand
-  :init
-  (defun amirreza/--org-insert-elisp-code-block ()
-    (interactive)
-    (insert (format "#+begin_src emacs-lisp\n\n#+end_src"))
-    (previous-line)
-    (beginning-of-line))
-  :bind (:map org-mode-map
-              ("C-c c b" . amirreza/--org-insert-elisp-code-block))
-  :custom
-  (org-ellipsis "⤵")
-  (org-src-fontify-natively t)
-  (org-src-tab-acts-natively t)
-  (org-support-shift-select t)
-  (org-src-window-setup 'current-window))
+    (use-package org
+    :straight t
+    :demand
+    :init
+    (defun amirreza/--org-insert-elisp-code-block ()
+      (interactive)
+      (insert (format "#+begin_src emacs-lisp\n\n#+end_src"))
+      (previous-line)
+      (beginning-of-line))
+    :bind (:map org-mode-map
+                ("C-c c b" . amirreza/--org-insert-elisp-code-block))
+    :custom
+    (org-ellipsis "⤵")
+    (org-src-fontify-natively t)
+    (org-src-tab-acts-natively t)
+    (org-support-shift-select t)
+    (org-src-window-setup 'current-window)
+    (org-agenda-files '("~/org/work.org" "~/org/personal.org")))
 #+END_SRC
 ***** Org bullets
 #+BEGIN_SRC emacs-lisp
@@ -1389,7 +1390,7 @@ as auto-complete or syntax linting.
 
 
 (use-package dap-mode :straight t)
-(use-package helm-lsp :straight t :commands helm-lsp-workspace-symbol)
+(use-package helm-lsp :disabled t :straight t :commands helm-lsp-workspace-symbol)
 
 #+END_SRC
 LSP-ui is a mode from the same author with the goal of configuring several Emacs packages to 
