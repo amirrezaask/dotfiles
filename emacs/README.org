@@ -796,7 +796,29 @@ I need music when I am working, so for me music is just a part of development en
 #+begin_src emacs-lisp
   (use-package bongo :straight t
     :config
-    (setq bongo-default-directory "~/Music"))
+    (setq bongo-prefer-library-buffers nil)
+    (setq bongo-insert-whole-directory-trees t)
+    (setq bongo-logo nil)
+    (setq bongo-action-track-icon nil)
+    (setq bongo-display-track-icons nil)
+    (setq bongo-display-track-lengths nil)
+    (setq bongo-display-header-icons nil)
+    (setq bongo-display-playback-mode-indicator t)
+    (setq bongo-display-inline-playback-progress nil)
+    (setq bongo-mark-played-tracks nil)
+    (setq bongo-header-line-mode nil)
+    (setq bongo-header-line-function nil)
+    (setq bongo-mode-line-indicator-mode nil)
+    (setq bongo-default-directory "~/Music")
+    (defun amirreza/dired-music-library-hook ()
+      (when (string-match-p "Music" default-directory)
+        (set (make-local-variable 'bongo-dired-library-mode) 't)))
+  
+    :hook
+    (dired-mode . amirreza/dired-music-library-hook)
+    :bind
+    (:map bongo-dired-library-mode-map
+          ("<C-return>" . bongo-insert-file)))
 #+end_src
 * IRC
 #+begin_src emacs-lisp
