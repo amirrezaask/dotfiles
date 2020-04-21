@@ -503,7 +503,7 @@ ways of lazy-loading in use-package we will see others later on.
 ** Font
  To use specific font in Emacs you just need to call a function, that's easy ha ??
  #+BEGIN_SRC emacs-lisp
-   (defvar amirreza/font "Jetbrains Mono-9")
+   (defvar amirreza/font "Fira Code-10")
    (set-face-attribute 'default t :font amirreza/font)
    (set-frame-font amirreza/font nil t)
    (global-prettify-symbols-mode 1)
@@ -530,6 +530,7 @@ you need to install a package for that. For icons we are going to use =all-the-i
 is a gourges icon package for emacs.
 #+BEGIN_SRC emacs-lisp :eval no
   (use-package all-the-icons
+    :disabled t
     :straight t
     :commands (all-the-icons-octicon
            all-the-icons-faicon
@@ -539,6 +540,7 @@ is a gourges icon package for emacs.
            all-the-icons-alltheicon))
 
   (use-package all-the-icons-dired
+    :disabled t
     :straight t
     :init
     (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
@@ -573,6 +575,7 @@ Modeline from Spacemacs, it's basically boosted powerline
     (telephone-line-mode +1))
 #+end_src
 *** My Custom modeline
+**** Time/Date
 #+begin_src emacs-lisp
   (use-package time
     :config
@@ -581,6 +584,20 @@ Modeline from Spacemacs, it's basically boosted powerline
     (setq display-time-mail-directory nil)
     (setq display-time-default-load-average nil)
     (display-time-mode))
+#+end_src
+**** Battery
+#+begin_src emacs-lisp
+  (use-package battery
+    :config
+    (setq battery-mode-line-format " [%b%p%%]")
+    (setq battery-mode-line-limit 99)
+    (setq battery-update-interval 180)
+    (setq battery-load-low 20)
+    (setq battery-load-critical 10)
+    (display-battery-mode +1))
+#+end_src
+**** Actual mode line format
+#+begin_src emacs-lisp
   (use-package emacs 
     :config
     (setq-default mode-line-format (list
@@ -598,7 +615,9 @@ Modeline from Spacemacs, it's basically boosted powerline
                                     '(:eval vc-mode)
                                     mode-line-end-spaces
                                     )))
-
+#+end_src
+*** Nyan Cat
+#+begin_src emacs-lisp
   (use-package nyan-mode :straight t :disabled t :config (nyan-mode 1))
 #+end_src
 ** Dashboard
