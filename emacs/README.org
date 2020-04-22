@@ -500,6 +500,20 @@ darkness.
 **** Performance Tip 
 About 95% of packages we use don't need to be loaded at startup and =:defer= is only one of the multiple
 ways of lazy-loading in use-package we will see others later on.
+** Some cursor tweaks
+#+BEGIN_SRC emacs-lisp
+   (use-package emacs
+     :config
+     (setq-default cursor-type 'bar))
+
+   (use-package frame
+     :config
+     (blink-cursor-mode -1))
+   (use-package hl-line
+     :config
+     (global-hl-line-mode +1))
+
+ #+END_SRC
 ** Font
  To use specific font in Emacs you just need to call a function, that's easy ha ??
  #+BEGIN_SRC emacs-lisp
@@ -750,10 +764,7 @@ Mail setup in Emacs using Gnus.
      '((nnimap "Gmail"
                (nnimap-address "imap.gmail.com")
                (nnimap-server-port "imaps")
-               (nnimap-stream ssl))
-       )))
-
-
+               (nnimap-stream ssl)))))
 #+end_src
 * Music
 I need music when I am working, so for me music is just a part of development environment, and let helm help us.
@@ -986,19 +997,6 @@ but again Emacs community is here to help
      :config
      (column-number-mode +1))
 #+END_SRC
-*** Some cursor tweaks
-#+BEGIN_SRC emacs-lisp
-   (use-package emacs
-     :config
-     (setq-default cursor-type 'box))
-   (use-package frame
-     :config
-     (blink-cursor-mode +1))
-   (use-package hl-line
-     :config
-     (global-hl-line-mode +1))
-
- #+END_SRC
 *** Interactive Edit(IEdit)
  Edit multiple occurrences of a text.
  #+BEGIN_SRC emacs-lisp
@@ -1208,46 +1206,48 @@ Narrowing frameworks in Emacs are tools that help us when we want to choose an o
 happens a lot in Emacs.
 *** Icomplete
 #+BEGIN_SRC emacs-lisp
-    (use-package icomplete
-      :demand ;loading of icomplete is not deferred since we are using `:bind'.
-      :custom
-      (icomplete-max-delay-chars 0)
-      (icomplete-compute-delay 0.2)
-      (icomplete-show-matches-on-no-input t) ;; show completions from start of entering the minibuffer
-      (icomplete-separator " | ") ;; seperator of candidates
-      (icomplete-hide-common-prefix nil) ;;
-      (icomplete-with-completion-tables t) ;; do completion on anything that has a completion table
-      (icomplete-in-buffer nil) ; we dont want icomplete to work in buffers, we have company for that
-      (completion-styles '(flex))
-      :config
-      (defun amirreza/show-kill-ring ()
-        (interactive)
-        (insert (completing-read "Choose: " kill-ring )))
+        (use-package icomplete
+          :disabled t
+          :demand ;loading of icomplete is not deferred since we are using `:bind'.
+          :custom
+          (icomplete-max-delay-chars 0)
+          (icomplete-compute-delay 0.2)
+          (icomplete-show-matches-on-no-input t) ;; show completions from start of entering the minibuffer
+          (icomplete-separator " | ") ;; seperator of candidates
+          (icomplete-hide-common-prefix nil) ;;
+          (icomplete-with-completion-tables t) ;; do completion on anything that has a completion table
+          (icomplete-in-buffer nil) ; we dont want icomplete to work in buffers, we have company for that
+          (completion-styles '(flex))
+          :config
+          (defun amirreza/show-kill-ring ()
+            (interactive)
+            (insert (completing-read "Choose: " kill-ring )))
 
-      (when (> emacs-major-version 27)
-        (fido-mode -1))
-      (icomplete-mode +1)
-      :bind (("M-y" . amirreza/show-kill-ring)
-             :map icomplete-minibuffer-map
-                  ("C-f" . icomplete-forward-completions)
-                  ("C-b" . icomplete-backward-completions)
-                  ("C-n" . icomplete-forward-completions)
-                  ("C-p" . icomplete-backward-completions)
-                  ("<right>" . icomplete-forward-completions)
-                  ("<left>" . icomplete-backward-completions)
-                  ("<up>" . icomplete-backward-completions)
-                  ("<RET>" . icomplete-force-complete-and-exit)
-                  ("<down>" . icomplete-forward-completions)))
+          (when (> emacs-major-version 27)
+            (fido-mode -1))
+          (icomplete-mode +1)
+          :bind (("M-y" . amirreza/show-kill-ring)
+                 :map icomplete-minibuffer-map
+                      ("C-f" . icomplete-forward-completions)
+                      ("C-b" . icomplete-backward-completions)
+                      ("C-n" . icomplete-forward-completions)
+                      ("C-p" . icomplete-backward-completions)
+                      ("<right>" . icomplete-forward-completions)
+                      ("<left>" . icomplete-backward-completions)
+                      ("<up>" . icomplete-backward-completions)
+                      ("<RET>" . icomplete-force-complete-and-exit)
+                      ("<down>" . icomplete-forward-completions)))
 
-    (use-package icomplete-vertical
-      :straight t
-      :demand
-      :config
-      (icomplete-vertical-set-separator "\n----------\n")
-      (icomplete-vertical-mode 1)
-      :bind
-      (:map icomplete-minibuffer-map
-            ("C-t" . icomplete-vertical-toggle)))
+        (use-package icomplete-vertical
+          :disabled t
+          :straight t
+          :demand
+          :config
+          (icomplete-vertical-set-separator "\n----------\n")
+          (icomplete-vertical-mode 1)
+          :bind
+          (:map icomplete-minibuffer-map
+                ("C-t" . icomplete-vertical-toggle)))
 
 #+END_SRC
 *** IDO
@@ -1273,9 +1273,8 @@ happens a lot in Emacs.
 #+END_SRC
 *** Ivy
 #+BEGIN_SRC emacs-lisp
-  (use-package flx  :disabled t :straight t)
+  (use-package flx  :straight t)
   (use-package ivy
-    :disabled t
     :straight t
     :custom
     (ivy-height 9)
@@ -1310,13 +1309,11 @@ happens a lot in Emacs.
      ("C-k" . 'ivy-previous-line)))
 
   (use-package swiper
-    :disabled t
     :straight t
     :commands (swiper)
     :init (global-set-key (kbd "C-s") 'swiper))
 
   (use-package counsel
-    :disabled t
     :straight t
     :commands (counsel-M-x counsel-find-file ivy-switch-buffer)
     :custom
