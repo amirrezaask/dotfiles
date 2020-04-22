@@ -3,15 +3,19 @@
 reload_ashell() {
 	source ~/.ashell
 }
+export EMACSCONFIG=~/.emacs.d
 export GO111MODULE=on
 export GOPATH=/home/amirreza/go
 export GOROOT=/usr/local/go
 export PYTHONPATH=/home/amirreza/.local/bin
 export PATH=$HOME/.config/composer/vendor/bin:$GOROOT/bin:$GOPATH/bin:$HOME/.cargo/bin:$PYTHONPATH:/usr/local/Postman:$HOME/.local/elixir-ls/:$PATH
-alias vim=nvim
-alias e=nvim
-# reset default editor for git and etc
-export EDITOR=nvim
+
+export EMACSTERMINAL="emacs -nw -Q -l ${EMACSCONFIG}/terminal.el"
+
+alias vim=$EMACSTERMINAL
+alias e=$EMACSTERMINAL
+export EDITOR=$EMACSTERMINAL
+
 # reset setxkbmap
 setxkbmap -option
 # Caps remapping
