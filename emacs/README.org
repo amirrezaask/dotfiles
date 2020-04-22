@@ -841,7 +841,9 @@ I need music when I am working, so for me music is just a part of development en
   (use-package erc 
     :commands erc
     :config
-    (setq erc-nick "amirrezaask"))
+    (setq erc-nick "amirrezaask")
+    (setq erc-autojoin-channels-alist
+          '(("freenode.net" "#emacs" "#5hit"))))
 #+end_src
 * Process management
 #+begin_src emacs-lisp
