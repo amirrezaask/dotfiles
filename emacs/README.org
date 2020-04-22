@@ -471,8 +471,8 @@ darkness.
            :bind (("<f12>" . amirreza/toggle-color-mode))
            :config
            (defvar amirreza/current-mode 'dark "Current color of Emacs.")
-           (defvar amirreza/dark-theme 'modus-vivendi)
-           (defvar amirreza/light-theme 'modus-operandi)
+           (defvar amirreza/dark-theme 'doom-dracula)
+           (defvar amirreza/light-theme 'doom-one-light)
   
            (defmacro amirreza/--load-theme (&rest theme-opts)
              `(progn (mapc #'disable-theme custom-enabled-themes)
@@ -517,7 +517,7 @@ ways of lazy-loading in use-package we will see others later on.
 ** Font
  To use specific font in Emacs you just need to call a function, that's easy ha ??
  #+BEGIN_SRC emacs-lisp
-   (defvar amirreza/font "Fira Code-10")
+   (defvar amirreza/font "Jetbrains Mono-10")
    (set-face-attribute 'default t :font amirreza/font)
    (set-frame-font amirreza/font nil t)
    (global-prettify-symbols-mode 1)
@@ -603,7 +603,7 @@ Modeline from Spacemacs, it's basically boosted powerline
 #+begin_src emacs-lisp
   (use-package battery
     :config
-    (setq battery-mode-line-format " [%b%p%%]")
+    (setq battery-mode-line-format " Battery: %b%p%%")
     (setq battery-mode-line-limit 99)
     (setq battery-update-interval 180)
     (setq battery-load-low 20)
@@ -833,7 +833,10 @@ I need music when I am working, so for me music is just a part of development en
 #+end_src
 * IRC
 #+begin_src emacs-lisp
-  (use-package erc :defer t)
+  (use-package erc 
+    :commands erc
+    :config
+    (setq erc-nick "amirrezaask"))
 #+end_src
 * Process management
 #+begin_src emacs-lisp
@@ -865,6 +868,7 @@ I need music when I am working, so for me music is just a part of development en
 ***** Org bullets
 #+BEGIN_SRC emacs-lisp
 (use-package org-bullets
+  :disabled t
   :straight t
   :hook (org-mode . org-bullets-mode))
 #+END_SRC
@@ -872,6 +876,10 @@ I need music when I am working, so for me music is just a part of development en
 #+begin_src emacs-lisp
 (use-package toc-org :straight t :hook (org-mode . toc-org-mode))
 #+end_
+***** htmlize
+#+begin_src emacs-lisp
+(use-package htmlize :straight t)
+#+end_src
 * Editor
 *** Defaults
 ***** Line width
@@ -1276,23 +1284,17 @@ happens a lot in Emacs.
   (use-package flx  :straight t)
   (use-package ivy
     :straight t
-    :custom
-    (ivy-height 9)
-    (ivy-wrap t)
-    (ivy-fixed-height-minibuffer t)
-    (projectile-completion-system 'ivy)
-    ;; disable magic slash on non-match
-    (ivy-magic-slash-non-match-action nil)
-    ;; don't show recent files in switch-buffer
-    (ivy-use-virtual-buffers nil)
-    ;; ...but if that ever changes, show their full path
-    (ivy-virtual-abbreviate 'full)
-    ;; don't quit minibuffer on delete-error
-    (ivy-on-del-error-function #'ignore)
-    ;; enable ability to select prompt (alternative to `ivy-immediate-done')
-    (ivy-use-selectable-prompt t)
-
     :config
+    (setq ivy-height 15)
+    ;; loopish cycling through list
+    (setq ivy-wrap t)
+    ;; don't show recents in minibuffer
+    (setq ivy-use-virtual-buffers nil)
+    ;; ...but if that ever changes, show their full path
+    (setq ivy-virtual-abbreviate 'full)
+    ;; don't quit minibuffer on delete-error
+    (setq ivy-on-del-error-function #'ignore)
+
     (setf (alist-get 't ivy-format-functions-alist)
           #'ivy-format-function-line)
     (ivy-mode +1)
@@ -1514,12 +1516,13 @@ TBA
 =projectile= is a package that notifies when you open something in a git repository and can
 provide several feature to other packages or to the user directly.
 #+BEGIN_SRC emacs-lisp
-(use-package projectile
-       :bind
-       (("C-x p" . 'projectile-command-map)
-        ("C-c p" . 'projectile-add-known-project))
-       :config
-       (projectile-mode 1))
+  (use-package projectile
+         :bind
+         (("C-x p" . 'projectile-command-map)
+          ("C-c p" . 'projectile-add-known-project))
+         :config
+         (setq projectile-completion-system 'ivy)
+         (projectile-mode 1))
 
 #+END_SRC
 * Programming Languages
