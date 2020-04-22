@@ -10,7 +10,7 @@ export GOROOT=/usr/local/go
 export PYTHONPATH=/home/amirreza/.local/bin
 export PATH=$HOME/.config/composer/vendor/bin:$GOROOT/bin:$GOPATH/bin:$HOME/.cargo/bin:$PYTHONPATH:/usr/local/Postman:$HOME/.local/elixir-ls/:$PATH
 
-export EMACSTERMINAL="emacs -nw -Q -l ${EMACSCONFIG}/terminal.el"
+export EMACSTERMINAL="emacsclient -t"
 
 alias vim=$EMACSTERMINAL
 alias e=$EMACSTERMINAL

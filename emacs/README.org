@@ -615,18 +615,21 @@ Modeline from Spacemacs, it's basically boosted powerline
 #+begin_src emacs-lisp
   (use-package emacs 
     :config
+    (setq amirreza/modeline-seperator "   ")
     (setq-default mode-line-format (list
                                     mode-line-front-space
                                     mode-line-misc-info ;; eyebrowse workspace number
-                                    "   "
+                                    amirreza/modeline-seperator
                                     mode-line-modified
-                                    "   " 
+                                    amirreza/modeline-seperator
                                     "%m"
-                                    "   " 
+                                    amirreza/modeline-seperator
                                     "%b"
-                                    "   "
+                                    amirreza/modeline-seperator
+                                    mode-line-modes
+                                    amirreza/modeline-seperator
                                     mode-line-position
-                                    "   "
+                                    amirreza/modeline-seperator
                                     '(:eval vc-mode)
                                     mode-line-end-spaces
                                     )))
