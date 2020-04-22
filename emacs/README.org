@@ -267,9 +267,7 @@ Now that we know how to move around, open files, and do some elisp magic in emac
 emacs for our own needs. Before we start, we need the final ingredient for our configuration and that's how 
 to install 3rd party packages for emacs, basically elisp codes written by other people.
 ** Package.el setup
-:PROPERTIES:
-  :header-args: :tangle no
-  :END:
+
 Emacs is bundled with package.el, we can use that out of the box, we only need to =require= it, require is similar
 to =load-file= with some diferences like it don't need full path when code is in you =load-path= (load-path
 is a variable you can describe-variable it) and it loads each file only once so if you require a file multiple 
@@ -310,6 +308,9 @@ macro of elisp (like always you can describe-function it).
   #+END_SRC
   Feel free to read the [[https://github.com/jwiegley/use-package][use-package docs]], it's amazingly useful.
 ** Straight.el
+:PROPERTIES:
+  :header-args: :tangle no
+  :END:
 =straight.el= is the next generation of Emacs package managers that just use git repos as the way
 of installing packages, upsides of using =straight.el= instead of =package.el= are
 + You can install packages that are not available on MELPA (icomplete-vertical forexample)
@@ -344,7 +345,7 @@ darkness.
 #+begin_src emacs-lisp
   (use-package evil
     :disabled t
-    :straight t
+    :ensure t
     :init
     (setq evil-want-keybinding nil)
     :custom
@@ -357,27 +358,27 @@ darkness.
 
   (use-package evil-collection 
     :disabled t
-    :straight t 
+    :ensure t 
     :config 
     (evil-collection-init))
 
   (use-package evil-magit 
 
   :disabled t
-    :straight t)
+    :ensure t)
 
   (use-package evil-surround 
   :disabled t
-    :straight t)
+    :ensure t)
 
   (use-package evil-commentary 
   :disabled t
     :config
     (evil-commentary-mode 1)
-    :straight t)
+    :ensure t)
 
   (use-package general
-    :straight t
+    :ensure t
     :config
     (defvar amirreza/leader-key "SPC")
     (general-create-definer space-leader-lord :prefix "SPC" :states 'normal :keymaps 'override)
@@ -408,7 +409,7 @@ darkness.
 #+begin_src emacs-lisp
   (use-package exwm 
     :disabled t
-    :straight t
+    :ensure t
     :config 
     (require 'exwm-config)
 
@@ -449,15 +450,15 @@ darkness.
  but if you want a more modern look like =VSCode= or =Atom= you can use =doom-themes= as well.
  ([[https://github.com/hlissner/emacs-doom-themes/tree/screenshots][Doom Themes Screenshots]])
  #+BEGIN_SRC emacs-lisp
-   (use-package modus-operandi-theme :straight t :defer t)
-   (use-package modus-vivendi-theme :straight t :defer t)
-   (use-package spacemacs-theme :straight t :defer t)
-   (use-package doom-themes :straight t :defer t)
-   (use-package badwolf-theme :straight t :defer t)
+   (use-package modus-operandi-theme :ensure t :defer t)
+   (use-package modus-vivendi-theme :ensure t :defer t)
+   (use-package spacemacs-theme :ensure t :defer t)
+   (use-package doom-themes :ensure t :defer t)
+   (use-package badwolf-theme :ensure t :defer t)
  #+END_SRC
  You probably notice the =:defer= part in use-package, with =:defer= keyword (:something is called a keyword in elisp)
  use-package knows that we don't need this package to be loaded in startup, since we actually don't need all of our themes
- to be loaded at startup. Another keyword that you see is =:straight= that is telling use-package to make certain
+ to be loaded at startup. Another keyword that you see is =:ensure= that is telling use-package to make certain
  that this package is installed, and if it's not install it from elpa repo.
  Now let's set a theme
  #+BEGIN_SRC emacs-lisp
@@ -545,7 +546,7 @@ is a gourges icon package for emacs.
 #+BEGIN_SRC emacs-lisp :eval no
   (use-package all-the-icons
     :disabled t
-    :straight t
+    :ensure t
     :commands (all-the-icons-octicon
            all-the-icons-faicon
            all-the-icons-fileicon
@@ -555,7 +556,7 @@ is a gourges icon package for emacs.
 
   (use-package all-the-icons-dired
     :disabled t
-    :straight t
+    :ensure t
     :init
     (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
 #+END_SRC
@@ -566,7 +567,7 @@ no matter what are the other options evaluate the forms after =:init=.
 *** Spaceline
 Modeline from Spacemacs, it's basically boosted powerline
 #+begin_src emacs-lisp
-  (use-package spaceline :straight t
+  (use-package spaceline :ensure t
     :disabled t
     :config
     (require 'spaceline-config)
@@ -574,7 +575,7 @@ Modeline from Spacemacs, it's basically boosted powerline
 #+end_src
 *** Doom-modeline
 #+begin_src emacs-lisp
-  (use-package doom-modeline :straight t
+  (use-package doom-modeline :ensure t
     :disabled t
     :custom
     (doom-modeline-height 35)
@@ -583,7 +584,7 @@ Modeline from Spacemacs, it's basically boosted powerline
 #+end_src
 *** Telephone line
 #+begin_src emacs-lisp
-  (use-package telephone-line :straight t
+  (use-package telephone-line :ensure t
     :disabled t
     :config
     (telephone-line-mode +1))
@@ -632,12 +633,12 @@ Modeline from Spacemacs, it's basically boosted powerline
 #+end_src
 *** Nyan Cat
 #+begin_src emacs-lisp
-  (use-package nyan-mode :straight t :disabled t :config (nyan-mode 1))
+  (use-package nyan-mode :ensure t :disabled t :config (nyan-mode 1))
 #+end_src
 ** Dashboard
 #+begin_src emacs-lisp
   (use-package dashboard
-    :straight t
+    :ensure t
     :custom
     (dashboard-banner-logo-title "Free as in freedom")
     (dashboard-startup-banner 2)
@@ -660,7 +661,7 @@ show line numbers.
 Now that we have cool looks, 
 * Sync Emacs exec path with OS
 #+begin_src emacs-lisp
-(use-package exec-path-from-shell :straight t :config (exec-path-from-shell-initialize))
+(use-package exec-path-from-shell :ensure t :config (exec-path-from-shell-initialize))
 #+end_src
 * Windows
 Emacs by default has no notion of tabs (like the other IDEs) but it has the more powerful
@@ -691,7 +692,7 @@ Emacs windows can be configured in the matter of where their gonna open.
 **** Eyebrowse
 =Eyebrowse= gives you =i3= like experience in Emacs, let's you have multiple workspaces and switch between them.
 #+BEGIN_SRC emacs-lisp
-    (use-package eyebrowse :straight t 
+    (use-package eyebrowse :ensure t 
       :config (eyebrowse-mode +1)
       )
 #+END_SRC
@@ -707,7 +708,7 @@ Emacs windows can be configured in the matter of where their gonna open.
 **** Ace Window (Better Window Management)
  #+BEGIN_SRC emacs-lisp
  (use-package ace-window
-   :straight t
+   :ensure t
    :general
    (general-define-key :states 'normal "C-w" 'ace-window)
    :bind (("C-x o" . 'ace-window) 
@@ -726,17 +727,17 @@ Emacs windows can be configured in the matter of where their gonna open.
           ("C-j" . next-line)
           ("C-k" . previous-line)))
 
-  (use-package dired-sidebar :straight t
+  (use-package dired-sidebar :ensure t
     :bind
     (("<f8>" . dired-sidebar-toggle-sidebar)))
 
   (use-package dired-subtree
-    :straight t
+    :ensure t
     :bind (:map dired-mode-map
                 ("<tab>" . dired-subtree-toggle)))
 
   (use-package peep-dired
-    :straight t
+    :ensure t
     :after dired
     :config
     (setq peep-dired-cleanup-on-disable t)
@@ -770,17 +771,19 @@ Mail setup in Emacs using Gnus.
 I need music when I am working, so for me music is just a part of development environment, and let helm help us.
 ** Using Rhythmbox.el
 #+begin_src emacs-lisp
-  (use-package Rhythmbox.el :straight (:host github :repo "amirrezaask/Rhytmbox.el")
-    :bind
-    ("C-c m n" . Rhythmbox/current-song-name)
-    ("C-c m p" . Rhythmbox/playpause-current-song)
-    ("C-c m l" . Rhythmbox))
+    (use-package Rhythmbox.el 
+      :disabled t
+      :ensure (:host github :repo "amirrezaask/Rhytmbox.el")
+      :bind
+      ("C-c m n" . Rhythmbox/current-song-name)
+      ("C-c m p" . Rhythmbox/playpause-current-song)
+      ("C-c m l" . Rhythmbox))
 #+end_src
 ** Using counsel
 #+begin_src emacs-lisp
     (use-package counsel
     :disabled t
-    :straight t
+    :ensure t
     :demand
     :config
     (defun counsel-rhythmbox-playpause ()
@@ -805,31 +808,33 @@ I need music when I am working, so for me music is just a part of development en
 #+end_src
 ** Bongo
 #+begin_src emacs-lisp
-  (use-package bongo :straight t
-    :config
-    (setq bongo-prefer-library-buffers nil)
-    (setq bongo-insert-whole-directory-trees t)
-    (setq bongo-logo nil)
-    (setq bongo-action-track-icon nil)
-    (setq bongo-display-track-icons nil)
-    (setq bongo-display-track-lengths nil)
-    (setq bongo-display-header-icons nil)
-    (setq bongo-display-playback-mode-indicator t)
-    (setq bongo-display-inline-playback-progress nil)
-    (setq bongo-mark-played-tracks nil)
-    (setq bongo-header-line-mode nil)
-    (setq bongo-header-line-function nil)
-    (setq bongo-mode-line-indicator-mode nil)
-    (setq bongo-default-directory "~/Music")
-    (defun amirreza/dired-music-library-hook ()
-      (when (string-match-p "Music" default-directory)
-        (set (make-local-variable 'bongo-dired-library-mode) 't)))
-  
-    :hook
-    (dired-mode . amirreza/dired-music-library-hook)
-    :bind
-    (:map bongo-dired-library-mode-map
-          ("<C-return>" . bongo-insert-file)))
+    (use-package bongo 
+      :disabled t
+      :ensure t
+      :config
+      (setq bongo-prefer-library-buffers nil)
+      (setq bongo-insert-whole-directory-trees t)
+      (setq bongo-logo nil)
+      (setq bongo-action-track-icon nil)
+      (setq bongo-display-track-icons nil)
+      (setq bongo-display-track-lengths nil)
+      (setq bongo-display-header-icons nil)
+      (setq bongo-display-playback-mode-indicator t)
+      (setq bongo-display-inline-playback-progress nil)
+      (setq bongo-mark-played-tracks nil)
+      (setq bongo-header-line-mode nil)
+      (setq bongo-header-line-function nil)
+      (setq bongo-mode-line-indicator-mode nil)
+      (setq bongo-default-directory "~/Music")
+      (defun amirreza/dired-music-library-hook ()
+        (when (string-match-p "Music" default-directory)
+          (set (make-local-variable 'bongo-dired-library-mode) 't)))
+
+      :hook
+      (dired-mode . amirreza/dired-music-library-hook)
+      :bind
+      (:map bongo-dired-library-mode-map
+            ("<C-return>" . bongo-insert-file)))
 #+end_src
 * IRC
 #+begin_src emacs-lisp
@@ -847,7 +852,7 @@ I need music when I am working, so for me music is just a part of development en
 ***** Org
 #+BEGIN_SRC emacs-lisp
     (use-package org
-    :straight t
+    :ensure t
     :demand
     :init
     (defun amirreza/--org-insert-elisp-code-block ()
@@ -869,16 +874,16 @@ I need music when I am working, so for me music is just a part of development en
 #+BEGIN_SRC emacs-lisp
 (use-package org-bullets
   :disabled t
-  :straight t
+  :ensure t
   :hook (org-mode . org-bullets-mode))
 #+END_SRC
 ***** Org TOC
 #+begin_src emacs-lisp
-(use-package toc-org :straight t :hook (org-mode . toc-org-mode))
+(use-package toc-org :ensure t :hook (org-mode . toc-org-mode))
 #+end_
 ***** htmlize
 #+begin_src emacs-lisp
-(use-package htmlize :straight t)
+(use-package htmlize :ensure t)
 #+end_src
 * Editor
 *** Defaults
@@ -957,12 +962,12 @@ So many times when I am using Emacs I find a problem or a possible feature to ad
 Since Emacs by default is not that good in handling large files,
 but again Emacs community is here to help
 #+begin_src emacs-lisp
-(use-package vlf :straight t)
+(use-package vlf :ensure t)
 #+end_src
 *** Beacon
 #+BEGIN_SRC emacs-lisp
 (use-package beacon
-  :straight t
+  :ensure t
   :config (beacon-mode 1))
 #+END_SRC
 
@@ -1009,7 +1014,7 @@ but again Emacs community is here to help
  Edit multiple occurrences of a text.
  #+BEGIN_SRC emacs-lisp
    (use-package iedit
-		:straight t
+		:ensure t
 		:bind (("C-;" . 'iedit-mode)))
  #+END_SRC
 *** Interactive Buffer Management
@@ -1025,7 +1030,7 @@ designed interface.
 to different git repos in the Ibuffer view.
 #+BEGIN_SRC emacs-lisp
   (use-package ibuffer-projectile 
-    :straight t
+    :ensure t
     :hook (ibuffer . ibuffer-projectile-set-filter-groups))
 
 #+END_SRC
@@ -1033,7 +1038,7 @@ to different git repos in the Ibuffer view.
  For scenarios that IEdit does not work we are going to use Multiple cursors.
  #+BEGIN_SRC emacs-lisp
  (use-package multiple-cursors
-   :straight t
+   :ensure t
    :bind (("C->" . 'mc/mark-next-like-this)
 	  ("C-<" . 'mc/mark-previous-like-this)
 	  ("C-c C-<" . 'mc/mark-all-like-this)
@@ -1045,7 +1050,7 @@ to different git repos in the Ibuffer view.
  defenition feature using rg/ag.
  #+BEGIN_SRC emacs-lisp
    (use-package dumb-jump
-     :straight t
+     :ensure t
      :bind
      (("C-M-j" . 'dumb-jump-go)
       ("C-M-p" . 'dumb-jump-back))
@@ -1056,7 +1061,7 @@ to different git repos in the Ibuffer view.
  Highlight TODO/FIXME/... in text.
  #+BEGIN_SRC emacs-lisp
  (use-package hl-todo
-   :straight t
+   :ensure t
    :hook ((prog-mode) . hl-todo-mode)
    :config
    (setq hl-todo-highlight-punctuation ":"
@@ -1080,7 +1085,7 @@ Emacs kill ring is Emacs way of doing clipboard
  semantics.
  #+BEGIN_SRC emacs-lisp
    (use-package expand-region
-     :straight t
+     :ensure t
      :bind (("C-=" . 'er/expand-region)
 	    ("C--" . 'er/contract-region)))
  #+END_SRC
@@ -1093,7 +1098,7 @@ Emacs kill ring is Emacs way of doing clipboard
 *** Highlight Indents
  #+BEGIN_SRC emacs-lisp
  (use-package highlight-indent-guides
-   :straight t
+   :ensure t
    :hook ((yaml-mode) . highlight-indent-guides-mode)
    :init
    (setq highlight-indent-guides-method 'character)
@@ -1124,7 +1129,7 @@ lost, that's when which key comes in, when you just remember part of keybinding 
 prompt of available options and their respective functionality.
 #+BEGIN_SRC emacs-lisp
   (use-package which-key
-    :straight t
+    :ensure t
     :custom
     (which-key-idle-delay 0.3)
     :config
@@ -1135,7 +1140,7 @@ Sometimes when you are dealing with really big projects LSP can feel a little sl
 when dumb jump can help you jump to defenitions using Rg or ag or grep (we use Rg)
 #+BEGIN_SRC emacs-lisp
   (use-package dumb-jump
-    :straight t
+    :ensure t
     :general
     (space-leader "." 'dumb-jump-go "/" 'dumb-jump-back)
     :custom
@@ -1167,12 +1172,12 @@ the fastest and easiest one out there, and for files is =FZF=, let's integrate t
 
 
   (use-package fzf
-    :straight t
+    :ensure t
     :bind
     (("<f6> f" . fzf-directory)))
 
   (use-package rg
-   :straight t
+   :ensure t
    :bind (("<f6> g" . rg)))
 
 #+END_SRC
@@ -1202,12 +1207,12 @@ skeleton and skeleton does it's job of inserting text.
 *** Rainbow delimiters
 Highlight matching brackets in matching colors
 #+BEGIN_SRC emacs-lisp
-(use-package rainbow-delimiters :straight t :hook (prog-mode . rainbow-delimiters-mode))
+(use-package rainbow-delimiters :ensure t :hook (prog-mode . rainbow-delimiters-mode))
 #+END_SRC
 *** Rainbow Blocks
 although =Rainbow-delimiters= shows us the start and end of an list, but it's nice to be able to see more.
 #+BEGIN_SRC emacs-lisp
-(use-package rainbow-blocks :straight t :defer t)
+(use-package rainbow-blocks :ensure t :defer t)
 #+END_SRC
 * Selection Candidates
 Narrowing frameworks in Emacs are tools that help us when we want to choose an option from list of options, and this scenario
@@ -1248,7 +1253,7 @@ happens a lot in Emacs.
 
         (use-package icomplete-vertical
           :disabled t
-          :straight t
+          :ensure t
           :demand
           :config
           (icomplete-vertical-set-separator "\n----------\n")
@@ -1281,9 +1286,9 @@ happens a lot in Emacs.
 #+END_SRC
 *** Ivy
 #+BEGIN_SRC emacs-lisp
-  (use-package flx  :straight t)
+  (use-package flx  :ensure t)
   (use-package ivy
-    :straight t
+    :ensure t
     :config
     (setq ivy-height 15)
     ;; loopish cycling through list
@@ -1311,12 +1316,12 @@ happens a lot in Emacs.
      ("C-k" . 'ivy-previous-line)))
 
   (use-package swiper
-    :straight t
+    :ensure t
     :commands (swiper)
     :init (global-set-key (kbd "C-s") 'swiper))
 
   (use-package counsel
-    :straight t
+    :ensure t
     :commands (counsel-M-x counsel-find-file ivy-switch-buffer)
     :custom
     (ivy-re-builders-alist
@@ -1336,7 +1341,7 @@ happens a lot in Emacs.
 #+END_SRC
 *** Helm
  #+begin_src emacs-lisp
-      (use-package helm :straight t
+      (use-package helm :ensure t
         :disabled t
         :custom
         (helm-mode-fuzzy-match t) ;; enable fuzzy matching in all helm
@@ -1373,15 +1378,15 @@ happens a lot in Emacs.
           "l l" 'helm-mini
           "b l" 'helm-mini))
 
-    (use-package helm-descbinds :straight t
+    (use-package helm-descbinds :ensure t
       :disabled t
       :bind (("C-h b" . helm-descbinds)))
 
-    (use-package helm-describe-modes :straight t
+    (use-package helm-describe-modes :ensure t
     :disabled t
     :bind (("C-h m" . helm-describe-modes)))
 
-   (use-package helm-make :straight t
+   (use-package helm-make :ensure t
     :disabled t
     :bind (("<f5> m" . helm-make)))
  #+end_src
@@ -1398,7 +1403,7 @@ can call an get completions based on that.
 #+BEGIN_SRC emacs-lisp
   (use-package company
     :demand
-    :straight t
+    :ensure t
     :custom
     (company-minimum-prefix-lenght 1)
     (company-tooltip-limit 30)
@@ -1429,7 +1434,7 @@ turning Emacs into an IDE is not that hard.
 **** VTerm
      #+BEGIN_SRC emacs-lisp
        (use-package vterm
-         :straight t
+         :ensure t
          :commands vterm
          :bind (("<f10>" . vterm)))
 
@@ -1441,7 +1446,7 @@ can talk to various clients (let's say Emacs, Vi, VSCode) and provide several fe
 as auto-complete or syntax linting.
 #+BEGIN_SRC emacs-lisp
   (use-package lsp-mode 
-    :straight t
+    :ensure t
     :commands (lsp lsp-deferred)
     :hook 
     ((python-mode
@@ -1453,19 +1458,19 @@ as auto-complete or syntax linting.
     :commands (lsp))
 
 
-(use-package dap-mode :straight t)
-(use-package helm-lsp :disabled t :straight t :commands helm-lsp-workspace-symbol)
+(use-package dap-mode :ensure t)
+(use-package helm-lsp :disabled t :ensure t :commands helm-lsp-workspace-symbol)
 
 #+END_SRC
 LSP-ui is a mode from the same author with the goal of configuring several Emacs packages to 
 help ease developer experience when using LSP.
 #+BEGIN_SRC emacs-lisp
-  ;; (use-package lsp-ui :straight t :commands lsp-ui-mode :hook (lsp-mode . lsp-ui-mode))
+  ;; (use-package lsp-ui :ensure t :commands lsp-ui-mode :hook (lsp-mode . lsp-ui-mode))
 #+END_SRC
 *** Git integration
 #+BEGIN_SRC emacs-lisp
   (use-package magit
-    :straight t
+    :ensure t
     :commands (magit-status)
     :general 
     (space-leader "g s" 'magit-status)
@@ -1473,24 +1478,24 @@ help ease developer experience when using LSP.
     (("C-x g" . 'magit-status)))
 
   (use-package diff-hl
-    :straight t
+    :ensure t
     :config (global-diff-hl-mode 1))
 
   (use-package
     gitconfig-mode
-    :straight t
+    :ensure t
     :mode "/\\.gitconfig\\'")
 
   (use-package gitignore-mode
-    :straight t
+    :ensure t
     :mode "/\\.gitignore\\'")
 
   (use-package gitattributes-mode
-    :straight t
+    :ensure t
     :mode "/\\.gitattributes\\'")
 
   (use-package git-messenger
-    :straight t
+    :ensure t
     :bind
     (("<f1> g" . git-messenger:popup-message))
     :config
@@ -1502,7 +1507,7 @@ help ease developer experience when using LSP.
 Emacs comes with a built in syntax checker called =flymake=, but since emacs community favors =flycheck= over =flymake= we are going to setup flycheck.
 #+BEGIN_SRC emacs-lisp
   (use-package flycheck
-    :straight t
+    :ensure t
     :hook (prog-mode . flycheck-mode))
 #+END_SRC
 *** Debugger Support
@@ -1547,14 +1552,14 @@ that inserts a docstring in python syntax.
 #+END_SRC
 *** Microsoft Language Server
 #+begin_src emacs-lisp
-(use-package lsp-python-ms :straight t)
+(use-package lsp-python-ms :ensure t)
 #+end_src
 *** Pipenv
 =Pipenv= is now the de facto tool for python programmers to manage their project deps, so it's nice
 to have a wrapper for it in Emacs.
 #+BEGIN_SRC emacs-lisp
   (use-package pipenv
-	       :straight t
+	       :ensure t
 	       :defer t)
 #+END_SRC
 *** Py-autopep8
@@ -1565,7 +1570,7 @@ no suprises =py-autopep8=. We install this package and we need this package to h
 function to =before-save-hook= of emacs, luckily this package provides a helper function to do that.
 #+BEGIN_SRC emacs-lisp
 (use-package py-autopep8
-  :straight t
+  :ensure t
   :hook python-mode
   :config
   (py-autopep8-enable-on-save))
@@ -1580,7 +1585,7 @@ go to work perfectly you need to add the =GOPATH= to your =exec-path= to let ema
 that it needs.
 #+BEGIN_SRC emacs-lisp
   (use-package go-mode
-    :straight t
+    :ensure t
     :mode ("\\.go\\'" . go-mode)
     :init
     (defun amirreza/go-snippets ()
@@ -1605,13 +1610,13 @@ it's always a pain to manually add struct tags for a struct specially when
 the struct has so many fields, again thanks to the emacs community we have package for that 
 to ease that task for us.
 #+BEGIN_SRC emacs-lisp
-  (use-package go-add-tags :straight t :defer t :bind (:map go-mode-map ("C-c C-g s t" . go-add-tags)))
+  (use-package go-add-tags :ensure t :defer t :bind (:map go-mode-map ("C-c C-g s t" . go-add-tags)))
 #+END_SRC
 *** Go-test
 =VSCode= has a great support when it comes to running go tests, it gives you the ability to 
 run a test when you are editing or viewing it but it does'nt mean that Emacs can't do that.
 #+BEGIN_SRC emacs-lisp
-  (use-package gotest :defer t :straight t :bind (:map go-mode-map ("C-c t f" . go-test-current-file) ("C-c t t" . go-test-current-test)))
+  (use-package gotest :defer t :ensure t :bind (:map go-mode-map ("C-c t f" . go-test-current-file) ("C-c t t" . go-test-current-test)))
 #+END_SRC
 ** Scheme
 I use guile as my scheme compiler.
@@ -1659,7 +1664,7 @@ we can even go further.x
 ** Clojure
 *** Clojure Mode
     #+BEGIN_SRC emacs-lisp
-              (use-package clojure-mode :straight t
+              (use-package clojure-mode :ensure t
                 :config
                 (setq-local prettify-symbols-alist '(("fn" . 955) ; λ
                                                       ("->" . 8594))))
@@ -1667,7 +1672,7 @@ we can even go further.x
 *** Cider
 #+BEGIN_SRC emacs-lisp
   (use-package cider 
-    :straight t
+    :ensure t
     :commands (cider cider-jack-in)
     :bind (:map cider-mode-map ("C-x C-e" . cider-eval-last-sexp))
     )
@@ -1679,52 +1684,52 @@ we can even go further.x
 #+END_SRC
 *** Common Lisp Integrated Environment
 #+BEGIN_SRC emacs-lisp
-(use-package sly :straight t)
+(use-package sly :ensure t)
 #+END_SRC
 ** Haskell
 *** Haskell mode
 #+BEGIN_SRC emacs-lisp
-(use-package haskell-mode :straight t :mode "\\.hs\\'")
+(use-package haskell-mode :ensure t :mode "\\.hs\\'")
 #+END_SRC
 *** Haskell IDE engine
 #+BEGIN_SRC emacs-lisp
-(use-package lsp-haskell :straight t :hook haskell-mode)
+(use-package lsp-haskell :ensure t :hook haskell-mode)
 #+END_SRC
 ** HTML/CSS
 #+BEGIN_SRC emacs-lisp
-  (use-package web-mode :straight t :mode ("\\.html\\'" "\\.css\\'"))
+  (use-package web-mode :ensure t :mode ("\\.html\\'" "\\.css\\'"))
 #+END_SRC
 ** PHP
 *** PHP mode
 #+BEGIN_SRC emacs-lisp
-(use-package php-mode :straight t :mode "\\.php\\'")
+(use-package php-mode :ensure t :mode "\\.php\\'")
 #+END_SRC
 *** PHP Runtime Integration
 #+BEGIN_SRC emacs-lisp
-(use-package php-runtime :straight t :defer t)
+(use-package php-runtime :ensure t :defer t)
 #+END_SRC
 *** Composer Integration
 #+BEGIN_SRC emacs-lisp
-(use-package composer :straight t :hook php-mode)
+(use-package composer :ensure t :hook php-mode)
 #+END_SRC
 *** PHPUnit
 #+BEGIN_SRC emacs-lisp
-(use-package phpunit :straight t :commands (php-current-test php-current-class php-current-project))
+(use-package phpunit :ensure t :commands (php-current-test php-current-class php-current-project))
 #+END_SRC
 ** Rust
 *** Rust mode
 #+BEGIN_SRC emacs-lisp
-(use-package rust-mode :straight t :mode "\\.rs\\'")
+(use-package rust-mode :ensure t :mode "\\.rs\\'")
 #+END_SRC
 * Devops
 *** Some syntax highlights
 #+begin_src emacs-lisp
-  (use-package crontab-mode :defer t :straight t)
-  (use-package apache-mode :straight t
+  (use-package crontab-mode :defer t :ensure t)
+  (use-package apache-mode :ensure t
     :mode ("\\.htaccess\\'" "httpd\\.conf\\'" "srm\\.conf\\'" "access\\.conf\\'"))
-  (use-package systemd :straight t
+  (use-package systemd :ensure t
     :mode ("\\.service\\'" "\\.timer\\'"))
-  (use-package nginx-mode :straight 
+  (use-package nginx-mode :ensure 
     :mode ("/etc/nginx/conf.d/.*" "/etc/nginx/.*\\.conf\\'"))
 #+end_src
 *** TRAMP
@@ -1736,20 +1741,20 @@ we can even go further.x
 *** Docker
 #+BEGIN_SRC emacs-lisp
 (use-package docker-compose-mode
-  :straight t
+  :ensure t
   :defer t)
 #+END_SRC
 *** Kubernetes
 #+begin_src emacs-lisp
-(use-package kubel :straight t :commands (kubel) :bind (("<f9>" . kubel)))
+(use-package kubel :ensure t :commands (kubel) :bind (("<f9>" . kubel)))
 #+end_src
 *** Redis
 #+begin_src emacs-lisp
-(use-package redis :straight t)
+(use-package redis :ensure t)
 #+end_src
 
 * Games
 ** Pacman
 #+begin_src emacs-lisp
-(use-package pacmacs :straight t :defer t)
+(use-package pacmacs :ensure t :defer t)
 #+end_src
