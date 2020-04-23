@@ -23,7 +23,6 @@
 - [[#setup-package-manager][Setup package manager]]
   - [[#packageel-setup][Package.el setup]]
     - [[#use-package][Use-package]]
-  - [[#straightel][Straight.el]]
 - [[#evil-always-wins][Evil always wins]]
 - [[#exwm-emacs-x-window-manager][Exwm (Emacs X window manager)]]
 - [[#ui][UI]]
@@ -88,11 +87,8 @@
     - [[#atomic-typing][Atomic Typing]]
     - [[#rainbow-delimiters][Rainbow delimiters]]
     - [[#rainbow-blocks][Rainbow Blocks]]
-- [[#selection-candidates][Selection Candidates]]
-    - [[#icomplete][Icomplete]]
-    - [[#ido][IDO]]
+- [[#narrowing-framework][Narrowing framework]]
     - [[#ivy][Ivy]]
-    - [[#helm][Helm]]
 - [[#completion][Completion]]
 - [[#integrated-development-environment][Integrated Development Environment]]
     - [[#terminal-emulator][Terminal Emulator]]
@@ -141,6 +137,11 @@
     - [[#redis][Redis]]
 - [[#games][Games]]
   - [[#pacman][Pacman]]
+- [[#deprecated][Deprecated]]
+    - [[#icomplete][Icomplete]]
+    - [[#ido][IDO]]
+    - [[#helm][Helm]]
+    - [[#straightel][Straight.el]]
 
 * Introduction
 =Emacs= is one of the oldest softwares that has active development and community after 40 years passed from the initial release, but why is
@@ -320,32 +321,7 @@ macro of elisp (like always you can describe-function it).
     (require 'use-package)
   #+END_SRC
   Feel free to read the [[https://github.com/jwiegley/use-package][use-package docs]], it's amazingly useful.
-** Straight.el
-:PROPERTIES:
-  :header-args: :tangle no
-  :END:
-=straight.el= is the next generation of Emacs package managers that just use git repos as the way
-of installing packages, upsides of using =straight.el= instead of =package.el= are
-+ You can install packages that are not available on MELPA (icomplete-vertical forexample)
-+ If you are willing to contribute to a package it's as simple as just =git checkout=
-+ straight loads just the packages you installed and mention in your init file so packages that are installed 
-but no longer used are not included in loading/scanning procedure.
-#+begin_src emacs-lisp
-  (setq package-enable-at-startup nil)
-  (defvar bootstrap-version)
-  (let ((bootstrap-file
-         (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-        (bootstrap-version 5))
-    (unless (file-exists-p bootstrap-file)
-      (with-current-buffer
-          (url-retrieve-synchronously
-           "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
-           'silent 'inhibit-cookies)
-        (goto-char (point-max))
-        (eval-print-last-sexp)))
-    (load bootstrap-file nil 'nomessage))
-  (straight-use-package 'use-package)
-#+end_src
+
 * Evil always wins
 "Emacs is a great operating system lacking only a decent editor", I always find this quote to be
 true Emacs as software package/framework is amazing I mean I think people that are working on various 
@@ -1212,75 +1188,9 @@ although =Rainbow-delimiters= shows us the start and end of an list, but it's ni
 #+BEGIN_SRC emacs-lisp
 (use-package rainbow-blocks :ensure t :defer t)
 #+END_SRC
-* Selection Candidates
+* Narrowing framework
 Narrowing frameworks in Emacs are tools that help us when we want to choose an option from list of options, and this scenario
 happens a lot in Emacs.
-*** Icomplete
-#+BEGIN_SRC emacs-lisp
-  (use-package icomplete
-    :disabled t
-    :demand ;loading of icomplete is not deferred since we are using `:bind'.
-    :config
-    (setq icomplete-max-delay-chars 0)
-    (setq icomplete-compute-delay 0.2)
-    (setq icomplete-show-matches-on-no-input t) ;; show completions from start of entering the minibuffer
-    (setq icomplete-separator " | ") ;; seperator of candidates
-    (setq icomplete-hide-common-prefix nil) ;;
-    (setq icomplete-with-completion-tables t) ;; do completion on anything that has a completion table
-    (setq icomplete-in-buffer nil) ; we dont want icomplete to work in buffers, we have company for that
-    (defun amirreza/show-kill-ring ()
-      (interactive)
-      (insert (completing-read "Choose: " kill-ring )))
-
-    (if (> emacs-major-version 27)
-        (fido-mode +1)
-      (icomplete-mode +1))
-
-    :bind (("M-y" . amirreza/show-kill-ring)
-           :map icomplete-minibuffer-map
-           ("C-f" . icomplete-forward-completions)
-           ("C-b" . icomplete-backward-completions)
-           ("C-n" . icomplete-forward-completions)
-           ("C-p" . icomplete-backward-completions)
-           ("<right>" . icomplete-forward-completions)
-           ("<left>" . icomplete-backward-completions)
-           ("<up>" . icomplete-backward-completions)
-           ("<RET>" . icomplete-force-complete-and-exit)
-           ("<down>" . icomplete-forward-completions)))
-
-  (use-package icomplete-vertical
-    :disabled t
-    :ensure t
-    :demand
-    :config
-    (icomplete-vertical-set-separator "\n----------\n")
-    (icomplete-vertical-mode 1)
-    :bind
-    (:map icomplete-minibuffer-map
-          ("C-t" . icomplete-vertical-toggle)))
-
-#+END_SRC
-*** IDO
-#+BEGIN_SRC emacs-lisp
-  (use-package ido
-    :disabled t
-    :config
-    (ido-mode 1)
-    (ido-everywhere 1)
-    (setq ido-enable-flex-matching t))
-
-  (use-package ido-vertical-mode
-    :disabled t
-    :config
-    (ido-vertical-mode 1)
-    (setq ido-vertical-define-keys 'C-n-and-C-p-only))
-
-  (use-package ido-completing-read+
-    :disabled t
-    :config
-    (ido-ubiquitous-mode 1))
-
-#+END_SRC
 *** Ivy
 #+BEGIN_SRC emacs-lisp
   (use-package flx :ensure t :disabled t)
@@ -1331,57 +1241,6 @@ happens a lot in Emacs.
      ("C-h a" . 'counsel-apropos)
      ( "M-y" . 'counsel-yank-pop)))
 #+END_SRC
-*** Helm
- #+begin_src emacs-lisp
-      (use-package helm :ensure t
-        :disabled t
-        :config
-        (setq helm-mode-fuzzy-match t) ;; enable fuzzy matching in all helm
-        :general
-        (:keymaps 'helm-map
-                  "C-j" 'helm-next-line
-                  "C-k" 'helm-previous-line
-                  "<tab>"  'helm-execute-persistent-action   ;; make tab work normal
-                  "C-z"  'helm-select-action) ;; C-z instead of tab to show helm actions
-
-        (:keymaps 'override
-                  "M-y" 'helm-show-kill-ring
-                  "M-x" 'helm-M-x
-                  "C-s" 'helm-occur)
-
-        (:keymaps 'override
-                  "<f6> g" 'helm-rg)
-
-        (:prefix "C-h"
-                 "a" 'helm-apropos
-                 "f" 'helm-apropos
-                 "k" 'helm-apropos
-                 "v" 'helm-apropos
-                 )
-        (:prefix "C-x" :keymaps 'override
-                 "C-f" 'helm-find-files
-                 "b" 'helm-mini
-                 "C-b" 'helm-mini
-                 )
-        (space-leader-lord
-          "h a" 'helm-apropos
-          "f f" 'helm-find-files
-          ";" 'helm-M-x
-          "l l" 'helm-mini
-          "b l" 'helm-mini))
-
-    (use-package helm-descbinds :ensure t
-      :disabled t
-      :bind (("C-h b" . helm-descbinds)))
-
-    (use-package helm-describe-modes :ensure t
-    :disabled t
-    :bind (("C-h m" . helm-describe-modes)))
-
-   (use-package helm-make :ensure t
-    :disabled t
-    :bind (("<f5> m" . helm-make)))
- #+end_src
 * Completion
 Code completion consists of two parts, A source/server that provides the completions and 
 an engine that knows when to open prompt and show the completions. We will configure servers later
@@ -1747,3 +1606,150 @@ we can even go further.x
 #+begin_src emacs-lisp
 (use-package pacmacs :ensure t :defer t)
 #+end_src
+* Deprecated
+:PROPERTIES:
+  :header-args: :tangle no
+  :END:
+*** Icomplete
+#+BEGIN_SRC emacs-lisp
+  (use-package icomplete
+    :disabled t
+    :demand ;loading of icomplete is not deferred since we are using `:bind'.
+    :config
+    (setq icomplete-max-delay-chars 0)
+    (setq icomplete-compute-delay 0.2)
+    (setq icomplete-show-matches-on-no-input t) ;; show completions from start of entering the minibuffer
+    (setq icomplete-separator " | ") ;; seperator of candidates
+    (setq icomplete-hide-common-prefix nil) ;;
+    (setq icomplete-with-completion-tables t) ;; do completion on anything that has a completion table
+    (setq icomplete-in-buffer nil) ; we dont want icomplete to work in buffers, we have company for that
+    (defun amirreza/show-kill-ring ()
+      (interactive)
+      (insert (completing-read "Choose: " kill-ring )))
+
+    (if (> emacs-major-version 27)
+        (fido-mode +1)
+      (icomplete-mode +1))
+
+    :bind (("M-y" . amirreza/show-kill-ring)
+           :map icomplete-minibuffer-map
+           ("C-f" . icomplete-forward-completions)
+           ("C-b" . icomplete-backward-completions)
+           ("C-n" . icomplete-forward-completions)
+           ("C-p" . icomplete-backward-completions)
+           ("<right>" . icomplete-forward-completions)
+           ("<left>" . icomplete-backward-completions)
+           ("<up>" . icomplete-backward-completions)
+           ("<RET>" . icomplete-force-complete-and-exit)
+           ("<down>" . icomplete-forward-completions)))
+
+  (use-package icomplete-vertical
+    :disabled t
+    :ensure t
+    :demand
+    :config
+    (icomplete-vertical-set-separator "\n----------\n")
+    (icomplete-vertical-mode 1)
+    :bind
+    (:map icomplete-minibuffer-map
+          ("C-t" . icomplete-vertical-toggle)))
+
+#+END_SRC
+*** IDO
+#+BEGIN_SRC emacs-lisp
+  (use-package ido
+    :disabled t
+    :config
+    (ido-mode 1)
+    (ido-everywhere 1)
+    (setq ido-enable-flex-matching t))
+
+  (use-package ido-vertical-mode
+    :disabled t
+    :config
+    (ido-vertical-mode 1)
+    (setq ido-vertical-define-keys 'C-n-and-C-p-only))
+
+  (use-package ido-completing-read+
+    :disabled t
+    :config
+    (ido-ubiquitous-mode 1))
+
+#+END_SRC
+*** Helm
+ #+begin_src emacs-lisp
+      (use-package helm :ensure t
+        :disabled t
+        :config
+        (setq helm-mode-fuzzy-match t) ;; enable fuzzy matching in all helm
+        :general
+        (:keymaps 'helm-map
+                  "C-j" 'helm-next-line
+                  "C-k" 'helm-previous-line
+                  "<tab>"  'helm-execute-persistent-action   ;; make tab work normal
+                  "C-z"  'helm-select-action) ;; C-z instead of tab to show helm actions
+
+        (:keymaps 'override
+                  "M-y" 'helm-show-kill-ring
+                  "M-x" 'helm-M-x
+                  "C-s" 'helm-occur)
+
+        (:keymaps 'override
+                  "<f6> g" 'helm-rg)
+
+        (:prefix "C-h"
+                 "a" 'helm-apropos
+                 "f" 'helm-apropos
+                 "k" 'helm-apropos
+                 "v" 'helm-apropos
+                 )
+        (:prefix "C-x" :keymaps 'override
+                 "C-f" 'helm-find-files
+                 "b" 'helm-mini
+                 "C-b" 'helm-mini
+                 )
+        (space-leader-lord
+          "h a" 'helm-apropos
+          "f f" 'helm-find-files
+          ";" 'helm-M-x
+          "l l" 'helm-mini
+          "b l" 'helm-mini))
+
+    (use-package helm-descbinds :ensure t
+      :disabled t
+      :bind (("C-h b" . helm-descbinds)))
+
+    (use-package helm-describe-modes :ensure t
+    :disabled t
+    :bind (("C-h m" . helm-describe-modes)))
+
+   (use-package helm-make :ensure t
+    :disabled t
+    :bind (("<f5> m" . helm-make)))
+ #+end_src
+*** Straight.el
+    :PROPERTIES:
+    :header-args: :tangle no
+    :END:
+ =straight.el= is the next generation of Emacs package managers that just use git repos as the way
+ of installing packages, upsides of using =straight.el= instead of =package.el= are
+ + You can install packages that are not available on MELPA (icomplete-vertical forexample)
+ + If you are willing to contribute to a package it's as simple as just =git checkout=
+ + straight loads just the packages you installed and mention in your init file so packages that are installed 
+ but no longer used are not included in loading/scanning procedure.
+ #+begin_src emacs-lisp
+   (setq package-enable-at-startup nil)
+   (defvar bootstrap-version)
+   (let ((bootstrap-file
+          (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+         (bootstrap-version 5))
+     (unless (file-exists-p bootstrap-file)
+       (with-current-buffer
+           (url-retrieve-synchronously
+            "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+            'silent 'inhibit-cookies)
+         (goto-char (point-max))
+         (eval-print-last-sexp)))
+     (load bootstrap-file nil 'nomessage))
+   (straight-use-package 'use-package)
+ #+end_src
