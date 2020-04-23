@@ -689,16 +689,15 @@ Emacs windows can be configured in the matter of where their gonna open.
                (slot . 0))
             ("^vterm"
               (display-buffer-in-side-window)
-              (window-height . 0.25)
-              (side . bottom)
-              (slot . 1)
+              (window-width . 0.40)
+              (side . right)
+              (slot . 0)
               )
             ("\\*rg"
               (display-buffer-in-side-window)
-              (window-height . 0.20)
-              (window-width . 0.20)
-              (side . top)
-              (slot . 1))))
+              (window-width . 0.40)
+              (side . right)
+              (slot . 0))))
 #+END_SRC
 **** Eyebrowse
 =Eyebrowse= gives you =i3= like experience in Emacs, let's you have multiple workspaces and switch between them.
@@ -1221,6 +1220,7 @@ happens a lot in Emacs.
   (use-package icomplete
     :demand ;loading of icomplete is not deferred since we are using `:bind'.
     :config
+
     (setq icomplete-max-delay-chars 0)
     (setq icomplete-compute-delay 0.2)
     (setq icomplete-show-matches-on-no-input t) ;; show completions from start of entering the minibuffer
@@ -1233,11 +1233,11 @@ happens a lot in Emacs.
     (defun amirreza/show-kill-ring ()
       (interactive)
       (insert (completing-read "Choose: " kill-ring )))
-  
-    (when (> emacs-major-version 27)
-      (fido-mode -1))
-    (icomplete-mode +1)
-  
+
+    (if (> emacs-major-version 27)
+      (fido-mode +1)
+      (icomplete-mode +1))
+
     :bind (("M-y" . amirreza/show-kill-ring)
            :map icomplete-minibuffer-map
                 ("C-f" . icomplete-forward-completions)
@@ -1251,7 +1251,6 @@ happens a lot in Emacs.
                 ("<down>" . icomplete-forward-completions)))
 
   (use-package icomplete-vertical
-    :disabled t
     :ensure t
     :demand
     :config
