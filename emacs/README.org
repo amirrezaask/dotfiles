@@ -1282,6 +1282,11 @@ happens a lot in Emacs.
   (use-package flx  :ensure t)
   (use-package ivy
     :ensure t
+    :bind
+    (("C-x b" . 'ivy-switch-buffer)
+     ("C-x k" . 'ivy-switch-buffer)
+     :map ivy-minibuffer-map
+     ("RET" . 'ivy-alt-done))
     :config
     (setq ivy-height 15)
     ;; loopish cycling through list
@@ -1295,18 +1300,8 @@ happens a lot in Emacs.
 
     (setf (alist-get 't ivy-format-functions-alist)
           #'ivy-format-function-line)
-    (ivy-mode +1)
+    (ivy-mode +1))
 
-    :bind
-    (("C-x b" . 'ivy-switch-buffer)
-     :map ivy-minibuffer-map
-     ("C-j" . 'ivy-next-line)
-     ("C-k" . 'ivy-previous-line)
-     ("RET" . 'ivy-alt-done)
-
-     :map ivy-switch-buffer-map
-     ("C-j" . 'ivy-next-line)
-     ("C-k" . 'ivy-previous-line)))
 
   (use-package swiper
     :ensure t
