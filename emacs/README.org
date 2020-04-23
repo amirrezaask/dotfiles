@@ -19,6 +19,7 @@
   - [[#gc][GC]]
   - [[#file-name-handler-alist][file-name-handler-alist]]
 - [[#debug-when-necessary][Debug When necessary]]
+- [[#about-this-configuration][About this configuration]]
 - [[#setup-package-manager][Setup package manager]]
   - [[#packageel-setup][Package.el setup]]
     - [[#use-package][Use-package]]
@@ -271,6 +272,9 @@ to set this file's value to a nil value during startup and restore it's original
 #+begin_src emacs-lisp
 ;; (setq debug-on-error)
 #+end_src
+* About this configuration
+I actually don't use a lot of setup that I have in this configuration,
+all the unused parts are disabled using =:disabled= in use-package declaration.
 * Setup package manager
 Now that we know how to move around, open files, and do some elisp magic in emacs it's time to start configuring 
 emacs for our own needs. Before we start, we need the final ingredient for our configuration and that's how 
@@ -357,9 +361,8 @@ darkness.
     :ensure t
     :init
     (setq evil-want-keybinding nil)
-    :custom
-    (evil-move-beyond-eol t)
     :config
+    (setq evil-move-beyond-eol t)
     (define-key evil-motion-state-map (kbd "TAB") nil)
     (evil-ex-define-cmd "q" 'kill-this-buffer)
     (evil-mode +1))
@@ -372,16 +375,15 @@ darkness.
     (evil-collection-init))
 
   (use-package evil-magit 
-
-  :disabled t
+    :disabled t
     :ensure t)
 
   (use-package evil-surround 
-  :disabled t
+    :disabled t
     :ensure t)
 
   (use-package evil-commentary 
-  :disabled t
+    :disabled t
     :config
     (evil-commentary-mode 1)
     :ensure t)
@@ -471,9 +473,9 @@ darkness.
  Now let's set a theme
  #+BEGIN_SRC emacs-lisp
          (use-package emacs 
-           :custom 
-           (ring-bell-function t)
-           (visible-bell t))
+           :config 
+           (setq ring-bell-function t)
+           (setq visible-bell t))
 
          (use-package custom
            :demand
@@ -583,12 +585,11 @@ Modeline from Spacemacs, it's basically boosted powerline
 #+end_src
 *** Doom-modeline
 #+begin_src emacs-lisp
-  (use-package doom-modeline :ensure t
-    :disabled t
-    :custom
-    (doom-modeline-height 35)
-    :config
-    (doom-modeline-mode 1))
+    (use-package doom-modeline :ensure t
+      :disabled t
+      :config
+      (setq doom-modeline-height 35)
+      (doom-modeline-mode 1))
 #+end_src
 *** Telephone line
 #+begin_src emacs-lisp
@@ -650,14 +651,13 @@ Modeline from Spacemacs, it's basically boosted powerline
 #+begin_src emacs-lisp
   (use-package dashboard
     :ensure t
-    :custom
-    (dashboard-banner-logo-title "Free as in freedom")
-    (dashboard-startup-banner 2)
-    (dashboard-center-content t)
-    (dashboard-items '((projects . 5)
+    :config    
+    (setq dashboard-banner-logo-title "Free as in freedom")
+    (setq dashboard-startup-banner 2)
+    (setq dashboard-center-content t)
+    (setq dashboard-items '((projects . 5)
                        (recents  . 5)))
 
-    :config
     (setq dashboard-set-navigator t)
     (dashboard-setup-startup-hook))
 #+end_src
@@ -762,17 +762,17 @@ Emacs windows can be configured in the matter of where their gonna open.
 Mail setup in Emacs using Gnus.
 #+begin_src emacs-lisp
   (use-package auth-source
-    :custom
-    (auth-sources '("~/.authinfo.gpg" "~/.authinfo")))
+    :config
+    (setq auth-sources '("~/.authinfo.gpg" "~/.authinfo")))
 
   (use-package gnus
     :config
     (setq gnus-thread-sort-functions
           '(gnus-thread-sort-by-number
             gnus-thread-sort-by-date))
-    :custom
-    (gnus-select-method '(nnnil))
-    (gnus-secondary-select-methods
+    
+    (setq gnus-select-method '(nnnil))
+    (setq gnus-secondary-select-methods
      '((nnimap "Gmail"
                (nnimap-address "imap.gmail.com")
                (nnimap-server-port "imaps")
@@ -864,13 +864,13 @@ I need music when I am working, so for me music is just a part of development en
       (beginning-of-line))
     :bind (:map org-mode-map
                 ("C-c c b" . amirreza/--org-insert-elisp-code-block))
-    :custom
-    (org-ellipsis "⤵")
-    (org-src-fontify-natively t)
-    (org-src-tab-acts-natively t)
-    (org-support-shift-select t)
-    (org-src-window-setup 'current-window)
-    (org-agenda-files '("~/org/work.org" "~/org/personal.org")))
+    :config
+    (setq org-ellipsis "⤵")
+    (setq org-src-fontify-natively t)
+    (setq org-src-tab-acts-natively t)
+    (setq org-support-shift-select t)
+    (setq org-src-window-setup 'current-window)
+    (setq org-agenda-files '("~/org/work.org" "~/org/personal.org")))
 #+END_SRC
 ***** Org bullets
 #+BEGIN_SRC emacs-lisp
@@ -915,8 +915,8 @@ Use UTF-8 everywhere.
 *** Set a new custom file
 #+BEGIN_SRC emacs-lisp
   (use-package cus-edit
-    :custom
-    (custom-file "~/.emacs.d/custom.el"))
+    :config
+    (setq custom-file "~/.emacs.d/custom.el"))
 #+END_SRC
 *** Delete selection when inserting into it
 #+begin_src emacs-lisp
@@ -927,9 +927,9 @@ Use UTF-8 everywhere.
 when we start using modifier keys emacs shows them in minibuffer but the initial value
 of the is too much so we can decrease it.
 #+BEGIN_SRC emacs-lisp
-(use-package emacs 
-:custom
-(echo-keystrokes 0.1))
+  (use-package emacs 
+    :config
+    (setq echo-keystrokes 0.1))
 #+END_SRC
 
 *** Backup files
@@ -1078,8 +1078,8 @@ to different git repos in the Ibuffer view.
 Emacs kill ring is Emacs way of doing clipboard
 #+begin_src emacs-lisp
     (use-package simple
-      :custom
-      (kill-ring-max 15))
+      :config
+      (setq kill-ring-max 15))
 #+end_src
 *** Expand Region
  A selected text is called region in Emacs, expand region helps you expand this region based
@@ -1109,20 +1109,20 @@ Emacs kill ring is Emacs way of doing clipboard
 *** Improve Scrolling
  #+BEGIN_SRC emacs-lisp
    (use-package emacs
-     :custom
+     :config
      ; vertical scrolling
-     (scroll-step 1)
-     (scroll-margin 1)
-     (scroll-conservatively 101)
-     (scroll-up-aggressively 0.01)
-     (scroll-down-aggressively 0.01)
-     (auto-window-vscroll nil)
-     (fast-but-imprecise-scrolling nil)
-     (mouse-wheel-scroll-amount '(1 ((shift) . 1)))
-     (mouse-wheel-progressive-speed nil)
+     (setq scroll-step 1)
+     (setq scroll-margin 1)
+     (setq scroll-conservatively 101)
+     (setq scroll-up-aggressively 0.01)
+     (setq scroll-down-aggressively 0.01)
+     (setq auto-window-vscroll nil)
+     (setq fast-but-imprecise-scrolling nil)
+     (setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))
+     (setq mouse-wheel-progressive-speed nil)
      ;; Horizontal Scroll
-     (hscroll-step 1)
-     (hscroll-margin 1))
+     (setq hscroll-step 1)
+     (setq hscroll-margin 1))
  #+END_SRC
 *** Which key
 Now you probably agree with me that Emacs has a lot of keybindings and sometimes you just feel
@@ -1131,9 +1131,8 @@ prompt of available options and their respective functionality.
 #+BEGIN_SRC emacs-lisp
   (use-package which-key
     :ensure t
-    :custom
-    (which-key-idle-delay 0.3)
     :config
+    (setq which-key-idle-delay 0.3)
     (which-key-mode 1))
 #+END_SRC
 *** Dumb Jump
@@ -1144,12 +1143,11 @@ when dumb jump can help you jump to defenitions using Rg or ag or grep (we use R
     :ensure t
     :general
     (space-leader "." 'dumb-jump-go "/" 'dumb-jump-back)
-    :custom
-    (dumb-jump-selector 'ivy)
     :bind
     (("C-M-j" . 'dumb-jump-go)
      ("C-M-p" . 'dumb-jump-back))
     :config
+    (setq dumb-jump-selector 'ivy)
     (dumb-jump-mode 1))
 #+END_SRC
 
@@ -1159,12 +1157,12 @@ the fastest and easiest one out there, and for files is =FZF=, let's integrate t
 #+BEGIN_SRC emacs-lisp
   (use-package isearch
     :demand
-    :custom
-    (isearch-highlight t)
-    (isearch-whitespace-regexp ".*?")
-    (isearch-lax-whitespace t)
-    (isearch-regexp-lax-whitespace nil)
-    (isearch-lazy-highlight t)
+    :config
+    (setq isearch-highlight t)
+    (setq isearch-whitespace-regexp ".*?")
+    (setq isearch-lax-whitespace t)
+    (setq isearch-regexp-lax-whitespace nil)
+    (setq isearch-lazy-highlight t)
     :bind 
     (("C-s" . isearch-forward-regexp) ;; map default C-s to regex search
      ("C-r" . isearch-backward-regexp)
@@ -1220,48 +1218,48 @@ Narrowing frameworks in Emacs are tools that help us when we want to choose an o
 happens a lot in Emacs.
 *** Icomplete
 #+BEGIN_SRC emacs-lisp
-        (use-package icomplete
-          :disabled t
-          :demand ;loading of icomplete is not deferred since we are using `:bind'.
-          :custom
-          (icomplete-max-delay-chars 0)
-          (icomplete-compute-delay 0.2)
-          (icomplete-show-matches-on-no-input t) ;; show completions from start of entering the minibuffer
-          (icomplete-separator " | ") ;; seperator of candidates
-          (icomplete-hide-common-prefix nil) ;;
-          (icomplete-with-completion-tables t) ;; do completion on anything that has a completion table
-          (icomplete-in-buffer nil) ; we dont want icomplete to work in buffers, we have company for that
-          (completion-styles '(flex))
-          :config
-          (defun amirreza/show-kill-ring ()
-            (interactive)
-            (insert (completing-read "Choose: " kill-ring )))
+  (use-package icomplete
+    :demand ;loading of icomplete is not deferred since we are using `:bind'.
+    :config
+    (setq icomplete-max-delay-chars 0)
+    (setq icomplete-compute-delay 0.2)
+    (setq icomplete-show-matches-on-no-input t) ;; show completions from start of entering the minibuffer
+    (setq icomplete-separator " | ") ;; seperator of candidates
+    (setq icomplete-hide-common-prefix nil) ;;
+    (setq icomplete-with-completion-tables t) ;; do completion on anything that has a completion table
+    (setq icomplete-in-buffer nil) ; we dont want icomplete to work in buffers, we have company for that
+    (setq completion-styles '(flex))
 
-          (when (> emacs-major-version 27)
-            (fido-mode -1))
-          (icomplete-mode +1)
-          :bind (("M-y" . amirreza/show-kill-ring)
-                 :map icomplete-minibuffer-map
-                      ("C-f" . icomplete-forward-completions)
-                      ("C-b" . icomplete-backward-completions)
-                      ("C-n" . icomplete-forward-completions)
-                      ("C-p" . icomplete-backward-completions)
-                      ("<right>" . icomplete-forward-completions)
-                      ("<left>" . icomplete-backward-completions)
-                      ("<up>" . icomplete-backward-completions)
-                      ("<RET>" . icomplete-force-complete-and-exit)
-                      ("<down>" . icomplete-forward-completions)))
+    (defun amirreza/show-kill-ring ()
+      (interactive)
+      (insert (completing-read "Choose: " kill-ring )))
+  
+    (when (> emacs-major-version 27)
+      (fido-mode -1))
+    (icomplete-mode +1)
+  
+    :bind (("M-y" . amirreza/show-kill-ring)
+           :map icomplete-minibuffer-map
+                ("C-f" . icomplete-forward-completions)
+                ("C-b" . icomplete-backward-completions)
+                ("C-n" . icomplete-forward-completions)
+                ("C-p" . icomplete-backward-completions)
+                ("<right>" . icomplete-forward-completions)
+                ("<left>" . icomplete-backward-completions)
+                ("<up>" . icomplete-backward-completions)
+                ("<RET>" . icomplete-force-complete-and-exit)
+                ("<down>" . icomplete-forward-completions)))
 
-        (use-package icomplete-vertical
-          :disabled t
-          :ensure t
-          :demand
-          :config
-          (icomplete-vertical-set-separator "\n----------\n")
-          (icomplete-vertical-mode 1)
-          :bind
-          (:map icomplete-minibuffer-map
-                ("C-t" . icomplete-vertical-toggle)))
+  (use-package icomplete-vertical
+    :disabled t
+    :ensure t
+    :demand
+    :config
+    (icomplete-vertical-set-separator "\n----------\n")
+    (icomplete-vertical-mode 1)
+    :bind
+    (:map icomplete-minibuffer-map
+          ("C-t" . icomplete-vertical-toggle)))
 
 #+END_SRC
 *** IDO
@@ -1287,8 +1285,9 @@ happens a lot in Emacs.
 #+END_SRC
 *** Ivy
 #+BEGIN_SRC emacs-lisp
-  (use-package flx  :ensure t)
+  (use-package flx :ensure t :disabled t)
   (use-package ivy
+    :disabled t
     :ensure t
     :bind
     (("C-x b" . 'ivy-switch-buffer)
@@ -1312,15 +1311,17 @@ happens a lot in Emacs.
 
 
   (use-package swiper
+    :disabled t
     :ensure t
     :commands (swiper)
     :init (global-set-key (kbd "C-s") 'swiper))
 
   (use-package counsel
+    :disabled t
     :ensure t
     :commands (counsel-M-x counsel-find-file ivy-switch-buffer)
-    :custom
-    (ivy-re-builders-alist
+    :config
+    (setq ivy-re-builders-alist
      '((t . ivy--regex-fuzzy)))
     :general 
     (space-leader "s s" 'counsel-rg "s f" 'counsel-fzf)
@@ -1331,16 +1332,14 @@ happens a lot in Emacs.
      ("C-h f" . 'counsel-describe-function)
      ("C-h v" . 'counsel-describe-variable)
      ("C-h a" . 'counsel-apropos)
-     ("<f6> s" . 'counsel-rg)
-     ("<f6> f" . 'counsel-fzf)
      ( "M-y" . 'counsel-yank-pop)))
 #+END_SRC
 *** Helm
  #+begin_src emacs-lisp
       (use-package helm :ensure t
         :disabled t
-        :custom
-        (helm-mode-fuzzy-match t) ;; enable fuzzy matching in all helm
+        :config
+        (setq helm-mode-fuzzy-match t) ;; enable fuzzy matching in all helm
         :general
         (:keymaps 'helm-map
                   "C-j" 'helm-next-line
@@ -1400,12 +1399,6 @@ can call an get completions based on that.
   (use-package company
     :demand
     :ensure t
-    :custom
-    (company-minimum-prefix-lenght 1)
-    (company-tooltip-limit 30)
-    (company-idle-delay 0.0)
-    (company-echo-delay 0.1)
-    (company-backends '(company-capf company-dabbrev company-files company-dabbrev-code))
     :bind (:map company-active-map
                 ("C-n" . company-select-next)
                 ("C-p" . company-select-previous)
@@ -1413,6 +1406,11 @@ can call an get completions based on that.
                 ("<tab>" . company-complete-common-or-cycle)
                 ("RET" . company-complete-selection))
     :config
+    (setq company-minimum-prefix-lenght 1)
+    (setq company-tooltip-limit 30)
+    (setq company-idle-delay 0.0)
+    (setq company-echo-delay 0.1)
+    (setq company-backends '(company-capf company-dabbrev company-files company-dabbrev-code))
     (defmacro amirreza/with-backends (mode backends) 
       "Register a buffer local variable with given BACKENDS for given MODE. For registering backends for various modes use this"
       (let ((mode-hook (intern (concat (symbol-name mode) "-hook"))))
@@ -1447,8 +1445,8 @@ as auto-complete or syntax linting.
     :hook 
     ((python-mode
       go-mode) . lsp)
-    :custom
-    (lsp-auto-guess-root t)
+    :config
+    (setq lsp-auto-guess-root t)
     :general
     (space-leader-lord "." 'xref-find-definitions)
     :commands (lsp))
@@ -1618,8 +1616,8 @@ run a test when you are editing or viewing it but it does'nt mean that Emacs can
 I use guile as my scheme compiler.
 #+begin_src emacs-lisp
   (use-package scheme
-  :custom
-  (scheme-program-name "guile"))
+  :config
+  (setq scheme-program-name "guile"))
 #+end_src
 ** GS (Go Scheme)
 #+begin_src emacs-lisp
@@ -1731,8 +1729,8 @@ we can even go further.x
 *** TRAMP
 #+begin_src emacs-lisp
   (use-package tramp
-        :custom
-        (tramp-default-method "ssh"))
+        :config
+        (setq tramp-default-method "ssh"))
 #+end_src
 *** Docker
 #+BEGIN_SRC emacs-lisp
