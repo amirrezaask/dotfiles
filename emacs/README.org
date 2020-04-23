@@ -16,7 +16,6 @@
   - [[#start-your-configuration][Start Your configuration]]
   - [[#introducing-emacs-27][Introducing Emacs 27]]
 - [[#personal-information][Personal information]]
-- [[#emacs-internals-optimizations][Emacs internals optimizations]]
   - [[#gc][GC]]
   - [[#file-name-handler-alist][file-name-handler-alist]]
 - [[#debug-when-necessary][Debug When necessary]]
@@ -29,9 +28,18 @@
 - [[#ui][UI]]
   - [[#themes][Themes]]
       - [[#performance-tip][Performance Tip]]
+  - [[#some-cursor-tweaks][Some cursor tweaks]]
   - [[#font][Font]]
   - [[#icons][Icons]]
   - [[#modeline][Modeline]]
+    - [[#spaceline][Spaceline]]
+    - [[#doom-modeline][Doom-modeline]]
+    - [[#telephone-line][Telephone line]]
+    - [[#my-custom-modeline][My Custom modeline]]
+      - [[#timedate][Time/Date]]
+      - [[#battery][Battery]]
+      - [[#actual-mode-line-format][Actual mode line format]]
+    - [[#nyan-cat][Nyan Cat]]
   - [[#dashboard][Dashboard]]
 - [[#emacs-modes-introduction][Emacs Modes Introduction]]
 - [[#sync-emacs-exec-path-with-os][Sync Emacs exec path with OS]]
@@ -42,6 +50,10 @@
       - [[#ace-window-better-window-management][Ace Window (Better Window Management)]]
 - [[#file-manager][File Manager]]
 - [[#mail--news-reader][Mail & News reader]]
+- [[#music][Music]]
+  - [[#using-rhythmboxel][Using Rhythmbox.el]]
+  - [[#using-counsel][Using counsel]]
+  - [[#bongo][Bongo]]
 - [[#irc][IRC]]
 - [[#process-management][Process management]]
 - [[#org-mode][Org Mode]]
@@ -59,12 +71,12 @@
     - [[#highlight-matching-parens][Highlight matching parens]]
     - [[#reduce-clutter-in-emacs-frame][Reduce clutter in emacs frame]]
     - [[#some-informative-numbers][Some informative numbers]]
-    - [[#some-cursor-tweaks][Some cursor tweaks]]
     - [[#interactive-editiedit][Interactive Edit(IEdit)]]
     - [[#interactive-buffer-management][Interactive Buffer Management]]
     - [[#multiple-cursors][Multiple Cursors]]
     - [[#jump-to-defenition][Jump to defenition]]
     - [[#highlight-todos][Highlight TODOs]]
+    - [[#kill-ring][Kill ring]]
     - [[#expand-region][Expand Region]]
     - [[#sudo-edit][Sudo Edit]]
     - [[#highlight-indents][Highlight Indents]]
@@ -90,9 +102,6 @@
     - [[#debugger-support][Debugger Support]]
     - [[#docs][Docs]]
     - [[#project-detection][Project Detection]]
-    - [[#music][Music]]
-      - [[#using-rhythmboxel][Using Rhythmbox.el]]
-      - [[#using-counsel][Using counsel]]
 - [[#programming-languages][Programming Languages]]
   - [[#python][Python]]
     - [[#python-mode][Python Mode]]
@@ -471,7 +480,7 @@ darkness.
            :bind (("<f12>" . amirreza/toggle-color-mode))
            :config
            (defvar amirreza/current-mode 'dark "Current color of Emacs.")
-           (defvar amirreza/dark-theme 'modus-vivendi)
+           (defvar amirreza/dark-theme 'doom-dracula)
            (defvar amirreza/light-theme 'doom-one-light)
   
            (defmacro amirreza/--load-theme (&rest theme-opts)
@@ -866,14 +875,13 @@ I need music when I am working, so for me music is just a part of development en
 ***** Org bullets
 #+BEGIN_SRC emacs-lisp
 (use-package org-bullets
-  :disabled t
   :ensure t
   :hook (org-mode . org-bullets-mode))
 #+END_SRC
 ***** Org TOC
 #+begin_src emacs-lisp
 (use-package toc-org :ensure t :hook (org-mode . toc-org-mode))
-#+end_
+#+end_src
 ***** htmlize
 #+begin_src emacs-lisp
 (use-package htmlize :ensure t)
