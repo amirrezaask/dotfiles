@@ -229,7 +229,7 @@ loaded before init.el and before GUI and package manager starts so it can help u
     (setq user-full-name "AmirrezaAskarpour"
           user-mail-address "raskarpour@gmail.com")
 #+end_src
-* Emacs internals optimizations
+n* Emacs internals optimizations
 :PROPERTIES:
   :header-args: :tangle no
   :END:
@@ -407,6 +407,12 @@ darkness.
 #+end_src
 * Exwm (Emacs X window manager)
 #+begin_src emacs-lisp
+  (use-package desktop-environment
+    :disabled t
+    :ensure t
+    :config
+    (desktop-environment-mode))
+
   (use-package exwm 
     :disabled t
     :ensure t
@@ -428,18 +434,11 @@ darkness.
             ([?\C-v] . [next])
             ([?\C-d] . [delete])
             ([?\C-k] . [S-end delete])))
-
-    ;;multiple screen support
-    (require 'exwm-randr)
-    (defvar amirreza/laptop-screen-name "e-DP1")
-    (defvar amirreza/second-screen-name "HDMI-2")
-    (setq exwm-randr-workspace-output-plist '(0 "e-DP1" 1 "HDMI-2"))
-    (defun amirreza/exwm-multi-screen ()
-      (start-process-shell-command
-       "xrandr" nil "xrandr --output " amirreza/laptop-screen-name " --below " amirreza/second-screen-name " --auto"))
-    ;; (add-hook 'exwm-randr-screen-change-hook 'exwm-change-screen-hook)
-    (exwm-randr-enable)
-
+  
+    (setq exwm-manage-configurations
+          '((string= exwm-instance-name "firefox") workspace 1
+          (string= exwm-instance-name "rhythmbox") workspace 8)
+          )
     )
 
 #+end_src
