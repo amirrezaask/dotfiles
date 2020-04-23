@@ -482,7 +482,7 @@ darkness.
            :bind (("<f12>" . amirreza/toggle-color-mode))
            :config
            (defvar amirreza/current-mode 'dark "Current color of Emacs.")
-           (defvar amirreza/dark-theme 'doom-dracula)
+           (defvar amirreza/dark-theme 'doom-outrun-electric)
            (defvar amirreza/light-theme 'doom-one-light)
   
            (defmacro amirreza/--load-theme (&rest theme-opts)
@@ -500,7 +500,7 @@ darkness.
 
            (defun amirreza/toggle-color-mode ()
              "Toggle current mode to the opposite"
-             (interactive)
+         p    (interactive)
              (if (eq amirreza/current-mode 'dark)
                  (setq amirreza/current-mode 'light)
                (setq amirreza/current-mode 'dark))
@@ -528,7 +528,7 @@ ways of lazy-loading in use-package we will see others later on.
 ** Font
  To use specific font in Emacs you just need to call a function, that's easy ha ??
  #+BEGIN_SRC emacs-lisp
-   (defvar amirreza/font "Jetbrains Mono-10")
+   (defvar amirreza/font "Jetbrains Mono-9")
    (set-face-attribute 'default t :font amirreza/font)
    (set-frame-font amirreza/font nil t)
    (global-prettify-symbols-mode 1)
@@ -650,6 +650,7 @@ Modeline from Spacemacs, it's basically boosted powerline
 ** Dashboard
 #+begin_src emacs-lisp
   (use-package dashboard
+    :disabled t
     :ensure t
     :config    
     (setq dashboard-banner-logo-title "Free as in freedom")
@@ -703,8 +704,7 @@ Emacs windows can be configured in the matter of where their gonna open.
 =Eyebrowse= gives you =i3= like experience in Emacs, let's you have multiple workspaces and switch between them.
 #+BEGIN_SRC emacs-lisp
     (use-package eyebrowse :ensure t 
-      :config (eyebrowse-mode +1)
-      )
+      :config (eyebrowse-mode +1))
 #+END_SRC
 **** Winner (Restore Window layout)
  When we are working with multiple windows open but we might maximize one window to focus
@@ -1218,6 +1218,7 @@ happens a lot in Emacs.
 *** Icomplete
 #+BEGIN_SRC emacs-lisp
   (use-package icomplete
+    :disabled t
     :demand ;loading of icomplete is not deferred since we are using `:bind'.
     :config
     (setq icomplete-max-delay-chars 0)
@@ -1248,6 +1249,7 @@ happens a lot in Emacs.
            ("<down>" . icomplete-forward-completions)))
 
   (use-package icomplete-vertical
+    :disabled t
     :ensure t
     :demand
     :config
@@ -1283,7 +1285,6 @@ happens a lot in Emacs.
 #+BEGIN_SRC emacs-lisp
   (use-package flx :ensure t :disabled t)
   (use-package ivy
-    :disabled t
     :ensure t
     :bind
     (("C-x b" . 'ivy-switch-buffer)
@@ -1307,13 +1308,13 @@ happens a lot in Emacs.
 
 
   (use-package swiper
-    :disabled t
+
     :ensure t
     :commands (swiper)
     :init (global-set-key (kbd "C-s") 'swiper))
 
   (use-package counsel
-    :disabled t
+
     :ensure t
     :commands (counsel-M-x counsel-find-file ivy-switch-buffer)
     :config
@@ -1414,8 +1415,6 @@ can call an get completions based on that.
         `(add-hook (quote ,mode-hook) (lambda ()
                                         (setq-local company-backends (quote ,backends))))))
     (global-company-mode t))
-
-
 #+END_SRC
 * Integrated Development Environment
 IDE means =Integrated Development Environment= basically a software provides you with every thing you need when you are developing software, and since Emacs is such a extensible platform
@@ -1574,26 +1573,26 @@ need to configure this package to enable some LSP features that are necessary li
 go to work perfectly you need to add the =GOPATH= to your =exec-path= to let emacs find go binaries
 that it needs.
 #+BEGIN_SRC emacs-lisp
-  (use-package go-mode
-    :ensure t
-    :mode ("\\.go\\'" . go-mode)
-    :init
-    (defun amirreza/go-snippets ()
-      (amirreza/defsnippet "fmain" "" "func main() {" \n "}")
-      (amirreza/defsnippet "pkgm" "Package: " "package " str \n)
-      (amirreza/defsnippet "pl" "" "fmt.Println(\"" _ "\")") ;; _ is the cursor position after the expansion
-      (amirreza/defsnippet "pf" "" "fmt.Printf(\"" _ "\")"))
-    (add-hook 'go-mode-hook (lambda () (add-to-list 'exec-path (concat (getenv "HOME") "/go/bin"))))
-    (add-hook 'go-mode-hook 'amirreza/go-snippets)
-    :config
-    (amirreza/with-backends go-mode ((company-capf company-tabnine)))
-    (add-hook 'go-mode-hook (lambda () 
-                              (interactive)
-                              (setq-local prettify-symbols-alist '(("func" . 955) ; λ
-                                                                   ))))
-    (add-hook 'go-mode-hook (lambda () (interactive)
-                              (add-hook 'before-save-hook 'lsp-format-buffer t t)
-                              (add-hook 'before-save-hook 'lsp-organize-imports t t))))
+    (use-package go-mode
+      :ensure t
+      :mode ("\\.go\\'" . go-mode)
+      :init
+      (defun amirreza/go-snippets ()
+        (amirreza/defsnippet "fmain" "" "func main() {" \n "}")
+        (amirreza/defsnippet "pkgm" "Package: " "package " str \n)
+        (amirreza/defsnippet "pl" "" "fmt.Println(\"" _ "\")") ;; _ is the cursor position after the expansion
+        (amirreza/defsnippet "pf" "" "fmt.Printf(\"" _ "\")")
+        (amirreza/defsnippet "iferr" "" "if err != nil {" \n _ \n "}"))
+      
+      (add-hook 'go-mode-hook (lambda () (add-to-list 'exec-path (concat (getenv "HOME") "/go/bin"))))
+      (add-hook 'go-mode-hook 'amirreza/go-snippets)
+      :config
+      (add-hook 'go-mode-hook (lambda () 
+                                (interactive)
+                                (setq-local prettify-symbols-alist '(("func" . 955)))))
+      (add-hook 'go-mode-hook (lambda () (interactive)
+                                (add-hook 'before-save-hook 'lsp-format-buffer t t)
+                                (add-hook 'before-save-hook 'lsp-organize-imports t t))))
 #+END_SRC
 *** Go-add-tags
 it's always a pain to manually add struct tags for a struct specially when
