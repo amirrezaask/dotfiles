@@ -25,7 +25,6 @@
   - [[#packageel-setup][Package.el setup]]
       - [[#use-package][Use-package]]
 - [[#keybindings][Keybindings]]
-  - [[#keybinding-rules][Keybinding rules]]
 - [[#exwm-emacs-x-window-manager][Exwm (Emacs X window manager)]]
 - [[#ui][UI]]
   - [[#themes][Themes]]
@@ -351,7 +350,6 @@ but no longer used are not included in loading/scanning procedure.
 
 * Keybindings
 I respect Emacs keybinding conventions in my configuration with a few ideas borrowed from spacemacs.
-** Keybinding rules
 + All keybindings should be prefixed with =C-c= and then a single letter to avoid conflict with major modes keybindings.
 + Window related functionality like eyebrowse workspaces prefix with =w=
 + Major mode / language specific functions bind with prefix =m=
@@ -359,17 +357,17 @@ I respect Emacs keybinding conventions in my configuration with a few ideas borr
 + Devops related stuff prefixed with =d=.
 so let's make which key to help us.
 #+begin_src emacs-lisp
-  (use-package which-key
-    :straight t
-    :config
-    (setq which-key-idle-delay 0.2)
-    (which-key-add-key-based-replacements "C-c m" "Major mode functions")
-    (which-key-add-key-based-replacements "C-c w" "workspace functionality")
-    (which-key-add-key-based-replacements "C-c o" "external tools integration")
-    (which-key-add-key-based-replacements "C-c e" "Editor functions")
-    (which-key-add-key-based-replacements "C-c d" "Devops related functions")
-    (which-key-mode 1)
-    (which-key-setup-minibuffer))
+    (use-package which-key
+      :straight t
+      :config
+      (setq which-key-idle-delay 0.2)
+      (which-key-add-key-based-replacements "C-c m" "Major mode functions")
+      (which-key-add-key-based-replacements "C-c w" "workspace functionality")
+      (which-key-add-key-based-replacements "C-c o" "external tools integration")
+      (which-key-add-key-based-replacements "C-c e" "Editor functions")
+      (which-key-add-key-based-replacements "C-c d" "Devops related functions")
+      (which-key-mode 1)
+      (which-key-setup-minibuffer))
 #+end_src
 * Exwm (Emacs X window manager)
   #+begin_src emacs-lisp
@@ -1525,10 +1523,9 @@ provide several feature to other packages or to the user directly.
 #+END_SRC
 *** Snippets
 #+begin_src emacs-lisp
-      (use-package yasnippet :straight t 
-      :config
-      :hook ((prog-mode text-mode) . yas-global-mode))
-      (use-package yasnippet-snippets :straight t)
+  (use-package yasnippet :straight t 
+    :config (yas-global-mode 1))
+  (use-package yasnippet-snippets :straight t)
 #+end_src
 * Programming Languages
 ** Python
