@@ -54,8 +54,8 @@
 - [[#file-manager][File Manager]]
 - [[#mail--news-reader][Mail & News reader]]
 - [[#music][Music]]
-  - [[#using-rhythmboxel][Using rhythmbox.el]]
   - [[#using-counsel][Using counsel]]
+  - [[#using-rhythmboxel][Using rhythmbox.el]]
   - [[#bongo][Bongo]]
 - [[#irc][IRC]]
 - [[#process-management][Process management]]
@@ -84,7 +84,6 @@
     - [[#sudo-edit][Sudo Edit]]
     - [[#highlight-indents][Highlight Indents]]
     - [[#improve-scrolling][Improve Scrolling]]
-    - [[#which-key][Which key]]
     - [[#dumb-jump][Dumb Jump]]
     - [[#searching][Searching]]
     - [[#atomic-typing][Atomic Typing]]
@@ -354,9 +353,24 @@ but no longer used are not included in loading/scanning procedure.
 I respect Emacs keybinding conventions in my configuration with a few ideas borrowed from spacemacs.
 ** Keybinding rules
 + All keybindings should be prefixed with =C-c= and then a single letter to avoid conflict with major modes keybindings.
++ Window related functionality like eyebrowse workspaces prefix with =w=
 + Major mode / language specific functions bind with prefix =m=
 + Operating System integration keys should be prefixed with =o=
 + Devops related stuff prefixed with =d=.
+so let's make which key to help us.
+#+begin_src emacs-lisp
+  (use-package which-key
+    :straight t
+    :config
+    (setq which-key-idle-delay 0.2)
+    (which-key-add-key-based-replacements "C-c m" "Major mode functions")
+    (which-key-add-key-based-replacements "C-c w" "workspace functionality")
+    (which-key-add-key-based-replacements "C-c o" "external tools integration")
+    (which-key-add-key-based-replacements "C-c e" "Editor functions")
+    (which-key-add-key-based-replacements "C-c d" "Devops related functions")
+    (which-key-mode 1)
+    (which-key-setup-minibuffer))
+#+end_src
 * Exwm (Emacs X window manager)
   #+begin_src emacs-lisp
     (use-package desktop-environment
@@ -613,6 +627,14 @@ Modeline from Spacemacs, it's basically boosted powerline
   words (yes you can do C-2 M-d) but it's not that user-friendly actually, so without further ado let's decend into
   darkness. 
   #+begin_src emacs-lisp
+      (use-package general
+        :disabled t
+        :straight t
+        :config
+        (defvar amirreza/leader-key "SPC")
+        (general-create-definer space-leader-lord :prefix "SPC" :states 'normal :keymaps 'override) ;; useful with evil mode
+        (general-create-definer space-leader :prefix "SPC" :states 'normal))
+
     (use-package evil
       :disabled t
       :straight t
@@ -622,7 +644,29 @@ Modeline from Spacemacs, it's basically boosted powerline
       (setq evil-move-beyond-eol t)
       (define-key evil-motion-state-map (kbd "TAB") nil)
       (evil-ex-define-cmd "q" 'kill-this-buffer)
-      (evil-mode +1))
+      (evil-mode +1)
+      :general
+      (space-leader-lord
+        "s b" 'switch-to-buffer
+        "b l" 'switch-to-buffer
+        "k b" 'kill-buffer
+        amirreza/leader-key 'find-file
+        "e e" 'execute-extended-command
+        "m w" 'delete-other-windows
+        "d w" 'delete-window
+        "s r" 'split-window-right
+        "s b" 'split-window-below
+        "e s" 'eval-last-sexp
+        "f f" 'find-file
+        "d f" 'describe-function
+        "d v" 'describe-variable
+        "d k" 'describe-key
+        "b n" 'next-buffer
+        "b p" 'previous-buffer)
+      (space-leader 
+        "C-k" (lambda () (interactive) (previous-line 5))
+        "C-j"(lambda () (interactive) (next-line 5)))
+      )
 
 
     (use-package evil-collection 
@@ -645,32 +689,6 @@ Modeline from Spacemacs, it's basically boosted powerline
       (evil-commentary-mode 1)
       :straight t)
 
-    (use-package general
-      :straight t
-      :config
-      (defvar amirreza/leader-key "SPC")
-      (general-create-definer space-leader-lord :prefix "SPC" :states 'normal :keymaps 'override)
-      (general-create-definer space-leader :prefix "SPC" :states 'normal)
-      (space-leader-lord
-        "s b" 'switch-to-buffer
-        "b l" 'switch-to-buffer
-        "k b" 'kill-buffer
-        amirreza/leader-key 'find-file
-        "e e" 'execute-extended-command
-        "m w" 'delete-other-windows
-        "d w" 'delete-window
-        "s r" 'split-window-right
-        "s b" 'split-window-below
-        "e s" 'eval-last-sexp
-        "f f" 'find-file
-        "d f" 'describe-function
-        "d v" 'describe-variable
-        "d k" 'describe-key
-        "b n" 'next-buffer
-        "b p" 'previous-buffer)
-      (space-leader 
-        "C-k" (lambda () (interactive) (previous-line 5))
-        "C-j"(lambda () (interactive) (next-line 5))))
 
   #+end_src
 * Emacs Modes Introduction
@@ -714,8 +732,20 @@ Emacs windows can be configured in the matter of where their gonna open.
 **** Eyebrowse
 =Eyebrowse= gives you =i3= like experience in Emacs, let's you have multiple workspaces and switch between them.
 #+BEGIN_SRC emacs-lisp
-    (use-package eyebrowse :straight t 
-      :config (eyebrowse-mode +1))
+  (use-package eyebrowse :straight t 
+               :config (eyebrowse-mode +1)
+               :bind (("C-c w d" . eyebrowse-close-window-config)
+                      ("C-c w c" . eyebrowse-create-window-config)
+                      ("C-c w 0" . eyebrowse-switch-to-window-config-0)
+                      ("C-c w 1" . eyebrowse-switch-to-window-config-1)
+                      ("C-c w 2" . eyebrowse-switch-to-window-config-2)
+                      ("C-c w 3" . eyebrowse-switch-to-window-config-3)
+                      ("C-c w 4" . eyebrowse-switch-to-window-config-4)
+                      ("C-c w 5" . eyebrowse-switch-to-window-config-5)
+                      ("C-c w 6" . eyebrowse-switch-to-window-config-6)
+                      ("C-c w 7" . eyebrowse-switch-to-window-config-7)
+                      ("C-c w 8" . eyebrowse-switch-to-window-config-8)
+                      ("C-c w 9" . eyebrowse-switch-to-window-config-9)))
 
 #+END_SRC
 **** Winner (Restore Window layout)
@@ -743,7 +773,7 @@ Emacs windows can be configured in the matter of where their gonna open.
                                  (dired-hide-details-mode 1)))
     :bind
     (:map dired-mode-map
-          ("C-c d" . dired-hide-details-mode)
+          ("C-c m d" . dired-hide-details-mode)
           ("C-j" . next-line)
           ("C-k" . previous-line)))
 
@@ -789,7 +819,32 @@ Mail setup in Emacs using Gnus.
 #+end_src
 * Music
 I need music when I am working, so for me music is just a part of development environment, and let helm help us.
+** Using counsel
+#+begin_src emacs-lisp
+  (use-package counsel
+    :straight t
+    :demand
+    :config
+    (defun amirreza/rhythmbox-current-song-name () 
+      (interactive)
+      (message (counsel-rhythmbox-current-song)))
+
+    (defun amirreza/rhythmbox-play/pause () 
+      (interactive)
+      (counsel-rhythmbox-playpause-current-song))
+
+    :bind (:prefix "C-c o m"
+                   :prefix-map music-player
+                   :prefix-docstring "music player lanati"
+                   ("l" . counsel-rhythmbox)
+                   ("c" . amirreza/rhythmbox-current-song-name)
+                   ("p" . amirreza/rhythmbox-play/pause)))
+
+
+
+#+end_src
 ** Using rhythmbox.el
+I contributed the missing function to =ivy= itself so i use that.
 #+begin_src emacs-lisp
   (use-package rhythmbox.el 
     :disabled t
@@ -798,22 +853,6 @@ I need music when I am working, so for me music is just a part of development en
     ("C-c m n" . Rhythmbox/current-song-name)
     ("C-c m p" . Rhythmbox/playpause-current-song)
     ("C-c m l" . Rhythmbox))
-#+end_src
-** Using counsel
-#+begin_src emacs-lisp
-  (use-package counsel
-    :straight t
-    :demand
-    :config
-    :bind (("C-c o m l" . counsel-rhythmbox)
-           ("C-c o m c" . (lambda ()
-                          (interactive)
-                          (message (counsel-rhythmbox-current-song))))
-
-           ("C-c o m p" . (lambda ()
-                          (interactive)
-                          (counsel-rhythmbox-playpause-current-song)
-                          ))))
 #+end_src
 ** Bongo
 #+begin_src emacs-lisp
@@ -1131,17 +1170,7 @@ Emacs kill ring is Emacs way of doing clipboard
      (setq hscroll-step 1)
      (setq hscroll-margin 1))
  #+END_SRC
-*** Which key
-Now you probably agree with me that Emacs has a lot of keybindings and sometimes you just feel
-lost, that's when which key comes in, when you just remember part of keybinding which shows you a
-prompt of available options and their respective functionality.
-#+BEGIN_SRC emacs-lisp
-  (use-package which-key
-    :straight t
-    :config
-    (setq which-key-idle-delay 0.3)
-    (which-key-mode 1))
-#+END_SRC
+
 *** Dumb Jump
 Sometimes when you are dealing with really big projects LSP can feel a little slow so that's
 when dumb jump can help you jump to defenitions using Rg or ag or grep (we use Rg)
@@ -1461,7 +1490,7 @@ help ease developer experience when using LSP.
   (use-package git-messenger
     :straight t
     :bind
-    (("C-c g b" . git-messenger:popup-message))
+    (("C-c e g b" . git-messenger:popup-message))
     :config
     (setq git-messenger:show-detail t)
     (setq git-messenger:use-magit-popup t))
@@ -1499,7 +1528,6 @@ provide several feature to other packages or to the user directly.
       (use-package yasnippet :straight t 
       :config
       :hook ((prog-mode text-mode) . yas-global-mode))
-
       (use-package yasnippet-snippets :straight t)
 #+end_src
 * Programming Languages
@@ -1589,7 +1617,11 @@ to ease that task for us.
 =VSCode= has a great support when it comes to running go tests, it gives you the ability to 
 run a test when you are editing or viewing it but it does'nt mean that Emacs can't do that.
 #+BEGIN_SRC emacs-lisp
-  (use-package gotest :defer t :straight t :bind (:map go-mode-map ("C-c m t f" . go-test-current-file) ("C-c m t t" . go-test-current-test)))
+  (use-package gotest :defer t :straight t 
+    :bind 
+    (:map go-mode-map 
+          ("C-c m t f" . go-test-current-file)
+          ("C-c m t t" . go-test-current-test)))
 #+END_SRC
 ** Scheme
 I use guile as my scheme compiler.
