@@ -24,6 +24,8 @@
   - [[#straightel][Straight.el]]
   - [[#packageel-setup][Package.el setup]]
       - [[#use-package][Use-package]]
+- [[#keybindings][Keybindings]]
+  - [[#keybinding-rules][Keybinding rules]]
 - [[#exwm-emacs-x-window-manager][Exwm (Emacs X window manager)]]
 - [[#ui][UI]]
   - [[#themes][Themes]]
@@ -348,6 +350,13 @@ but no longer used are not included in loading/scanning procedure.
    #+END_SRC
    Feel free to read the [[https://github.com/jwiegley/use-package][use-package docs]], it's amazingly useful.
 
+* Keybindings
+I respect Emacs keybinding conventions in my configuration with a few ideas borrowed from spacemacs.
+** Keybinding rules
++ All keybindings should be prefixed with =C-c= and then a single letter to avoid conflict with major modes keybindings.
++ Major mode / language specific functions bind with prefix ='m'=
++ Operating System integration keys should be prefixed with ='o'=
++ Devops related stuff prefixed with ='d'=.
 * Exwm (Emacs X window manager)
   #+begin_src emacs-lisp
     (use-package desktop-environment
@@ -1486,9 +1495,7 @@ provide several feature to other packages or to the user directly.
 #+begin_src emacs-lisp
       (use-package yasnippet :straight t 
       :config
-      (defun amirreza/yasnippet-hook ()
-        (yas-minor-mode-on))
-      :hook ((prog-mode text-mode) . amirreza/yasnippet-hook))
+      :hook ((prog-mode text-mode) . yas-global-mode))
 
       (use-package yasnippet-snippets :straight t)
 #+end_src
@@ -1510,7 +1517,7 @@ that inserts a docstring in python syntax.
     (amirreza/with-backends python-mode (company-capf))
     :bind
     (:map python-mode-map 
-      ("C-c l p d" . amirreza/python-insert-docstring)))
+      ("C-c m p d" . amirreza/python-insert-docstring)))
 #+END_SRC
 *** Microsoft Language Server
 #+begin_src emacs-lisp
@@ -1573,13 +1580,13 @@ it's always a pain to manually add struct tags for a struct specially when
 the struct has so many fields, again thanks to the emacs community we have package for that 
 to ease that task for us.
 #+BEGIN_SRC emacs-lisp
-  (use-package go-add-tags :straight t :defer t :bind (:map go-mode-map ("C-c C-g s t" . go-add-tags)))
+  (use-package go-add-tags :straight t :defer t :bind (:map go-mode-map ("C-c m s t" . go-add-tags)))
 #+END_SRC
 *** Go-test
 =VSCode= has a great support when it comes to running go tests, it gives you the ability to 
 run a test when you are editing or viewing it but it does'nt mean that Emacs can't do that.
 #+BEGIN_SRC emacs-lisp
-  (use-package gotest :defer t :straight t :bind (:map go-mode-map ("C-c t f" . go-test-current-file) ("C-c t t" . go-test-current-test)))
+  (use-package gotest :defer t :straight t :bind (:map go-mode-map ("C-c m t f" . go-test-current-file) ("C-c m t t" . go-test-current-test)))
 #+END_SRC
 ** Scheme
 I use guile as my scheme compiler.
@@ -1619,7 +1626,7 @@ we can even go further.x
     (insert (format "\n;;%s\n;;%s\n;;%s" dashes text-wrapped dashes))))
     :bind
     (:map emacs-lisp-mode-map
-      ("C-c C-c C-d" . 'amirreza/emacs-lisp-insert-comment-line)))
+      ("C-c m d" . 'amirreza/emacs-lisp-insert-comment-line)))
 
 #+END_SRC
 ** Clojure
@@ -1635,7 +1642,6 @@ we can even go further.x
   (use-package cider 
     :straight t
     :commands (cider cider-jack-in)
-    :bind (:map cider-mode-map ("C-x C-e" . cider-eval-last-sexp))
     )
 #+END_SRC
 ** Common Lisp
@@ -1675,7 +1681,12 @@ we can even go further.x
 #+END_SRC
 *** PHPUnit
 #+BEGIN_SRC emacs-lisp
-(use-package phpunit :straight t :commands (php-current-test php-current-class php-current-project))
+  (use-package phpunit :straight t
+    :commands (php-current-test php-current-class php-current-project)
+    :bind (:map php-mode-map 
+                ("C-c m t t" . php-current-test)
+                ("C-c m t c" . php-current-class)
+                ("C-c m t p" . php-current-project)))
 #+END_SRC
 ** Rust
 *** Rust mode
@@ -1696,18 +1707,26 @@ we can even go further.x
 *** TRAMP
 #+begin_src emacs-lisp
   (use-package tramp
+        :commands (tramp)
+        :bind
+        (("C-c d t" . tramp))
         :config
         (setq tramp-default-method "ssh"))
 #+end_src
 *** Docker
 #+BEGIN_SRC emacs-lisp
-(use-package docker-compose-mode
-  :straight t
-  :defer t)
+      (use-package docker-compose-mode
+        :straight t
+        :mode "docker-compose\\.yml")
+
+      (use-package docker :straight t 
+        :bind
+        ("C-c d d" . docker))
+
 #+END_SRC
 *** Kubernetes
 #+begin_src emacs-lisp
-(use-package kubel :straight t :commands (kubel) :bind (("<f9>" . kubel)))
+(use-package kubel :straight t :commands (kubel) :bind (("C-c d k" . kubel)))
 #+end_src
 *** Redis
 #+begin_src emacs-lisp
