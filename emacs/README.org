@@ -22,8 +22,6 @@
 - [[#about-this-configuration][About this configuration]]
 - [[#setup-package-manager][Setup package manager]]
   - [[#straightel][Straight.el]]
-- [[#evil-always-wins][Evil always wins]]
-- [[#exwm-emacs-x-window-manager][Exwm (Emacs X window manager)]]
 - [[#ui][UI]]
   - [[#themes][Themes]]
       - [[#performance-tip][Performance Tip]]
@@ -142,6 +140,8 @@
     - [[#spaceline][Spaceline]]
     - [[#doom-modeline][Doom-modeline]]
     - [[#telephone-line][Telephone line]]
+    - [[#exwm-emacs-x-window-manager][Exwm (Emacs X window manager)]]
+    - [[#evil-always-wins][Evil always wins]]
 
 * Introduction
 =Emacs= is one of the oldest softwares that has active development and community after 40 years passed from the initial release, but why is
@@ -303,113 +303,6 @@ but no longer used are not included in loading/scanning procedure.
     (load bootstrap-file nil 'nomessage))
   (straight-use-package 'use-package)
 #+end_src
-* Evil always wins
-"Emacs is a great operating system lacking only a decent editor", I always find this quote to be
-true Emacs as software package/framework is amazing I mean I think people that are working on various 
-types of frameworks out there should really start studying Emacs as an inspiration of how you can write 
-a customizable yet robust software that would last for 40 years and yet new generations start using it yet
-Emacs editor actually doesn't follow Emacs extensibility and composibility philosophy a lot, Emacs editor is based
-on specific targeted functions, you have =delete-word=, it just deletes a word you can not tell it to delete two
-words (yes you can do C-2 M-d) but it's not that user-friendly actually, so without further ado let's decend into
-darkness. 
-#+begin_src emacs-lisp
-  (use-package evil
-    :disabled t
-    :straight t
-    :init
-    (setq evil-want-keybinding nil)
-    :config
-    (setq evil-move-beyond-eol t)
-    (define-key evil-motion-state-map (kbd "TAB") nil)
-    (evil-ex-define-cmd "q" 'kill-this-buffer)
-    (evil-mode +1))
-
-
-  (use-package evil-collection 
-    :disabled t
-    :straight t 
-    :config 
-    (evil-collection-init))
-
-  (use-package evil-magit 
-    :disabled t
-    :straight t)
-
-  (use-package evil-surround 
-    :disabled t
-    :straight t)
-
-  (use-package evil-commentary 
-    :disabled t
-    :config
-    (evil-commentary-mode 1)
-    :straight t)
-
-  (use-package general
-    :straight t
-    :config
-    (defvar amirreza/leader-key "SPC")
-    (general-create-definer space-leader-lord :prefix "SPC" :states 'normal :keymaps 'override)
-    (general-create-definer space-leader :prefix "SPC" :states 'normal)
-    (space-leader-lord
-      "s b" 'switch-to-buffer
-      "b l" 'switch-to-buffer
-      "k b" 'kill-buffer
-      amirreza/leader-key 'find-file
-      "e e" 'execute-extended-command
-      "m w" 'delete-other-windows
-      "d w" 'delete-window
-      "s r" 'split-window-right
-      "s b" 'split-window-below
-      "e s" 'eval-last-sexp
-      "f f" 'find-file
-      "d f" 'describe-function
-      "d v" 'describe-variable
-      "d k" 'describe-key
-      "b n" 'next-buffer
-      "b p" 'previous-buffer)
-    (space-leader 
-      "C-k" (lambda () (interactive) (previous-line 5))
-      "C-j"(lambda () (interactive) (next-line 5))))
-
-#+end_src
-* Exwm (Emacs X window manager)
-#+begin_src emacs-lisp
-  (use-package desktop-environment
-    :disabled t
-    :straight t
-    :config
-    (desktop-environment-mode))
-
-  (use-package exwm 
-    :disabled t
-    :straight t
-    :config 
-    (require 'exwm-config)
-
-    (exwm-config-default) ;; some basic default keybindings
-
-    (setq exwm-workspace-number 4) ;; initial workspaces
-
-    (setq exwm-input-simulation-keys
-          '(([?\C-b] . [left])
-            ([?\C-f] . [right])
-            ([?\C-p] . [up])
-            ([?\C-n] . [down])
-            ([?\C-a] . [home])
-            ([?\C-e] . [end])
-            ([?\M-v] . [prior])
-            ([?\C-v] . [next])
-            ([?\C-d] . [delete])
-            ([?\C-k] . [S-end delete])))
-  
-    (setq exwm-manage-configurations
-          '((string= exwm-instance-name "firefox") workspace 1
-          (string= exwm-instance-name "rhythmbox") workspace 8)
-          )
-    )
-
-#+end_src
 * UI
 ** Themes
  Now that we have use-package we can start installing thems, packages, etc. Let's start by installing some thems.
@@ -512,7 +405,7 @@ you need to install a package for that. For icons we are going to use =all-the-i
 is a gourges icon package for emacs.
 #+BEGIN_SRC emacs-lisp :eval no
   (use-package all-the-icons
-    :disabled t
+
     :straight t
     :commands (all-the-icons-octicon
            all-the-icons-faicon
@@ -522,7 +415,7 @@ is a gourges icon package for emacs.
            all-the-icons-alltheicon))
 
   (use-package all-the-icons-dired
-    :disabled t
+
     :straight t
     :init
     (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
@@ -583,7 +476,6 @@ no matter what are the other options evaluate the forms after =:init=.
 ** Dashboard
 #+begin_src emacs-lisp
   (use-package dashboard
-    :disabled t
     :straight t
     :config    
     (setq dashboard-banner-logo-title "Free as in freedom")
@@ -1154,7 +1046,6 @@ happens a lot in Emacs.
     :straight t
     :bind
     (("C-x b" . 'ivy-switch-buffer)
-     ("C-x k" . 'ivy-switch-buffer)
      :map ivy-minibuffer-map
      ("RET" . 'ivy-alt-done))
     :config
@@ -1567,6 +1458,8 @@ we can even go further.x
   :header-args: :tangle no
   :END:
 *** Icomplete
+Icomplete is a great solution that is built-in to Emacs, but over the time at least for me it's weakneses started to come to surface, 
+and again at least for me it has problems with updating the list as I type and the performance with big lists was not that good so I moved back to =ivy=.
 #+BEGIN_SRC emacs-lisp
   (use-package icomplete
     :disabled t
@@ -1612,6 +1505,8 @@ we can even go further.x
 
 #+END_SRC
 *** IDO
+IDO's main problem is that by default it's not compatible with Emacs =completing-read-function=, you can solve it by using ido-completing-read+ but yet some parts,
+are uncovered and the UI wasn't good in my opinion.
 #+BEGIN_SRC emacs-lisp
   (use-package ido
     :disabled t
@@ -1633,6 +1528,8 @@ we can even go further.x
 
 #+END_SRC
 *** Helm
+Helm is amazing but it's just to big and it splits it's way with Emacs standards too much, it opens in another buffer which gives it some great potentials but yet
+disrespects the idea of minibuffer.
  #+begin_src emacs-lisp
       (use-package helm :straight t
         :disabled t
@@ -1749,3 +1646,110 @@ Modeline from Spacemacs, it's basically boosted powerline
     :config
     (telephone-line-mode +1))
 #+end_src
+*** Exwm (Emacs X window manager)
+  #+begin_src emacs-lisp
+    (use-package desktop-environment
+      :disabled t
+      :straight t
+      :config
+      (desktop-environment-mode))
+
+    (use-package exwm 
+      :disabled t
+      :straight t
+      :config 
+      (require 'exwm-config)
+
+      (exwm-config-default) ;; some basic default keybindings
+
+      (setq exwm-workspace-number 4) ;; initial workspaces
+
+      (setq exwm-input-simulation-keys
+            '(([?\C-b] . [left])
+              ([?\C-f] . [right])
+              ([?\C-p] . [up])
+              ([?\C-n] . [down])
+              ([?\C-a] . [home])
+              ([?\C-e] . [end])
+              ([?\M-v] . [prior])
+              ([?\C-v] . [next])
+              ([?\C-d] . [delete])
+              ([?\C-k] . [S-end delete])))
+  
+      (setq exwm-manage-configurations
+            '((string= exwm-instance-name "firefox") workspace 1
+            (string= exwm-instance-name "rhythmbox") workspace 8)
+            )
+      )
+
+  #+end_src
+*** Evil always wins
+  "Emacs is a great operating system lacking only a decent editor", I always find this quote to be
+  true Emacs as software package/framework is amazing I mean I think people that are working on various 
+  types of frameworks out there should really start studying Emacs as an inspiration of how you can write 
+  a customizable yet robust software that would last for 40 years and yet new generations start using it yet
+  Emacs editor actually doesn't follow Emacs extensibility and composibility philosophy a lot, Emacs editor is based
+  on specific targeted functions, you have =delete-word=, it just deletes a word you can not tell it to delete two
+  words (yes you can do C-2 M-d) but it's not that user-friendly actually, so without further ado let's decend into
+  darkness. 
+  #+begin_src emacs-lisp
+    (use-package evil
+      :disabled t
+      :straight t
+      :init
+      (setq evil-want-keybinding nil)
+      :config
+      (setq evil-move-beyond-eol t)
+      (define-key evil-motion-state-map (kbd "TAB") nil)
+      (evil-ex-define-cmd "q" 'kill-this-buffer)
+      (evil-mode +1))
+
+
+    (use-package evil-collection 
+      :disabled t
+      :straight t 
+      :config 
+      (evil-collection-init))
+
+    (use-package evil-magit 
+      :disabled t
+      :straight t)
+
+    (use-package evil-surround 
+      :disabled t
+      :straight t)
+
+    (use-package evil-commentary 
+      :disabled t
+      :config
+      (evil-commentary-mode 1)
+      :straight t)
+
+    (use-package general
+      :straight t
+      :config
+      (defvar amirreza/leader-key "SPC")
+      (general-create-definer space-leader-lord :prefix "SPC" :states 'normal :keymaps 'override)
+      (general-create-definer space-leader :prefix "SPC" :states 'normal)
+      (space-leader-lord
+        "s b" 'switch-to-buffer
+        "b l" 'switch-to-buffer
+        "k b" 'kill-buffer
+        amirreza/leader-key 'find-file
+        "e e" 'execute-extended-command
+        "m w" 'delete-other-windows
+        "d w" 'delete-window
+        "s r" 'split-window-right
+        "s b" 'split-window-below
+        "e s" 'eval-last-sexp
+        "f f" 'find-file
+        "d f" 'describe-function
+        "d v" 'describe-variable
+        "d k" 'describe-key
+        "b n" 'next-buffer
+        "b p" 'previous-buffer)
+      (space-leader 
+        "C-k" (lambda () (interactive) (previous-line 5))
+        "C-j"(lambda () (interactive) (next-line 5))))
+
+  #+end_src

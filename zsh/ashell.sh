@@ -12,7 +12,6 @@ export PATH=$HOME/.config/composer/vendor/bin:$GOROOT/bin:$GOPATH/bin:$HOME/.car
 
 export EMACSTERMINAL="emacsclient -t"
 
-alias vim=$EMACSTERMINAL
 alias e=$EMACSTERMINAL
 export EDITOR=$EMACSTERMINAL
 
