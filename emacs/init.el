@@ -29,9 +29,6 @@
 (setq user-full-name "AmirrezaAskarpour"
       user-mail-address "raskarpour@gmail.com")
 
-;;================================================================================
-;;                      Boostrap straight.el package manager                      
-;;================================================================================
 (defvar bootstrap-version)
 (let ((bootstrap-file
        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
@@ -46,9 +43,6 @@
   (load bootstrap-file nil 'nomessage))
 (straight-use-package 'use-package)
 
-;;================================================================================
-;;                                      EXWM                                      
-;;================================================================================
 (use-package desktop-environment
   :disabled t
   :straight t
@@ -82,9 +76,7 @@
         (string= exwm-instance-name "rhythmbox") workspace 8)
         )
   )
-;;================================================================================
-;;                                   Which-key                                   
-;;================================================================================
+
 (use-package which-key
   :straight t
   :config
@@ -98,10 +90,6 @@
   (which-key-mode 1)
   (which-key-setup-minibuffer))
 
-
-;;================================================================================
-;;                                     Themes                                     
-;;================================================================================
 (use-package modus-operandi-theme :straight t :defer t)
 (use-package modus-vivendi-theme :straight t :defer t)
 (use-package spacemacs-theme :straight t :defer t)
@@ -144,9 +132,6 @@
 
   (amirreza/apply-color amirreza/current-mode))
 
-;;================================================================================
-;;                               General UI tweaks                               
-;;================================================================================
 (use-package emacs
   :config
   (setq-default cursor-type 'bar))
@@ -158,9 +143,6 @@
   :config
   (global-hl-line-mode +1))
 
-;;================================================================================
-;;                                      Font                                      
-;;================================================================================
 (defvar amirreza/font "Jetbrains Mono-9")
 (set-face-attribute 'default t :font amirreza/font)
 (set-frame-font amirreza/font nil t)
@@ -171,9 +153,6 @@
   (set-face-attribute 'default t :font (format "%s-%d" font size))
   (set-frame-font (format "%s-%d" font size) nil t))
 
-;;================================================================================
-;;                                     Icons                                     
-;;================================================================================
 (use-package all-the-icons
   :straight t
   :commands (all-the-icons-octicon
@@ -189,9 +168,6 @@
   :init
   (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
 
-;;================================================================================
-;;                                    Modeline                                    
-;;================================================================================
 (use-package spaceline :straight t
   :disabled t
   :config
@@ -249,9 +225,6 @@
                                   mode-line-end-spaces
                                   )))
 
-;;================================================================================
-;;                                   Dashboard                                   
-;;================================================================================
 (use-package dashboard
   :straight t
   :config    
@@ -264,9 +237,6 @@
   (setq dashboard-set-navigator t)
   (dashboard-setup-startup-hook))
 
-;;================================================================================
-;;                                   Evil mode                                   
-;;================================================================================
 (use-package general
     :disabled t
     :straight t
@@ -329,14 +299,8 @@
   (evil-commentary-mode 1)
   :straight t)
 
-;;================================================================================
-;;                               Sync PATH with OS                               
-;;================================================================================
 (use-package exec-path-from-shell :straight t :config (exec-path-from-shell-initialize))
 
-;;================================================================================
-;;                                  Window Rules                                  
-;;================================================================================
 (setq display-buffer-alist
       '(("\\*\\(Backtrace\\|Warnings\\|Compile-Log\\|Messages\\)\\*"
            (display-buffer-in-side-window)
@@ -355,9 +319,6 @@
           (side . right)
           (slot . 0))))
 
-;;================================================================================
-;;                         Eyebrowse workspace management                         
-;;================================================================================
 (use-package eyebrowse :straight t 
              :config (eyebrowse-mode +1)
              :bind (("C-c w d" . eyebrowse-close-window-config)
@@ -373,22 +334,13 @@
                     ("C-c w 8" . eyebrowse-switch-to-window-config-8)
                     ("C-c w 9" . eyebrowse-switch-to-window-config-9)))
 
-;;================================================================================
-;;                                  winner-mode                                  
-;;================================================================================
 (use-package winner 
   :commands (winner-redo winner-undo))
 
-;;================================================================================
-;;                                   AceWindow                                   
-;;================================================================================
 (use-package ace-window
   :straight t
   :bind (("C-x o" . 'ace-window)))
 
-;;================================================================================
-;;                                  Dired tweaks                                  
-;;================================================================================
 (use-package dired
   :config
   (add-hook 'dired-mode-hook (lambda () 
@@ -419,9 +371,6 @@
   :bind (:map dired-mode-map
               ("P" . peep-dired)))
 
-;;================================================================================
-;;                                   Mail setup                                   
-;;================================================================================
 (use-package auth-source
   :config
   (setq auth-sources '("~/.authinfo.gpg" "~/.authinfo")))
@@ -458,11 +407,6 @@
                  ("c" . amirreza/rhythmbox-current-song-name)
                  ("p" . amirreza/rhythmbox-play/pause)))
 
-
-
-;;================================================================================
-;;                               Bongo music player                               
-;;================================================================================
 (use-package bongo 
   :disabled t
   :straight t
@@ -491,9 +435,6 @@
   (:map bongo-dired-library-mode-map
         ("<C-return>" . bongo-insert-file)))
 
-;;================================================================================
-;;                                ERC - IRC client                                
-;;================================================================================
 (use-package erc 
   :commands erc
   :config
@@ -501,16 +442,10 @@
   (setq erc-autojoin-channels-alist
         '(("freenode.net" "#emacs" "#5hit"))))
 
-;;================================================================================
-;;                         Proced - Os process management                         
-;;================================================================================
 (use-package proced
   :commands proced
   :bind (("C-c o p" . proced)))
 
-;;================================================================================
-;;                                 Org mode setup                                 
-;;================================================================================
 (use-package org
 :demand
 :init
@@ -538,9 +473,6 @@
 (use-package htmlize :straight t)
 
 
-;;================================================================================
-;;                              Some editor defaults                              
-;;================================================================================
 (use-package emacs
   :config
   (setq-default fill-column 80))
@@ -583,7 +515,7 @@
 
 (defun amirreza/edit-configuration ()
     (interactive)
-    (find-file (expand-file-name "README.org" user-emacs-directory)))
+    (find-file (expand-file-name "init.el" user-emacs-directory)))
 
 (global-set-key (kbd "C-c e e") 'amirreza/edit-configuration)
 
