@@ -103,7 +103,7 @@
     - [[#debugger-support][Debugger Support]]
     - [[#docs][Docs]]
     - [[#project-detection][Project Detection]]
-    - [[#snippet][Snippet]]
+    - [[#snippets][Snippets]]
 - [[#programming-languages][Programming Languages]]
   - [[#python][Python]]
     - [[#python-mode][Python Mode]]
@@ -1174,6 +1174,9 @@ the fastest and easiest one out there, and for files is =FZF=, let's integrate t
 
 #+END_SRC
 *** Atomic Typing
+:PROPERTIES:
+  :header-args: :tangle no
+  :END:
 Every human being has limited number of keystrokes left, so let's make every one of them count.
 Abbrev mode is Emacs internal that expands on defined abbrevations,
 Abbrev mode is really helpful but in more complicated scenarios we need more smart tool,
@@ -1181,6 +1184,7 @@ so we use skeleton mode and we combine that with abbrev mode to get maximum powe
 going to define our skeletons in their respective languages. Snippet macro defines a new snippet,
 Snippets are basically combination of abbrevs and skeletons, abbrevs are used for triggering
 skeleton and skeleton does it's job of inserting text.
+=Note= I moved to yasnippet for better community and ready snippets
 #+begin_src emacs-lisp
           (use-package abbrev :demand)
           (use-package skeleton :demand
@@ -1478,14 +1482,12 @@ provide several feature to other packages or to the user directly.
          (projectile-mode 1))
 
 #+END_SRC
-*** Snippet
+*** Snippets
 #+begin_src emacs-lisp
       (use-package yasnippet :straight t 
       :config
       (defun amirreza/yasnippet-hook ()
-        ;;      (yas-reload-all)
-        (yas-minor-mode-on)
-        )
+        (yas-minor-mode-on))
       :hook ((prog-mode text-mode) . amirreza/yasnippet-hook))
 
       (use-package yasnippet-snippets :straight t)
@@ -1557,7 +1559,7 @@ that it needs.
       (amirreza/defsnippet "if" "" "if " _ "{" \n "}"))
 
     (add-hook 'go-mode-hook (lambda () (add-to-list 'exec-path (concat (getenv "HOME") "/go/bin"))))
-    (add-hook 'go-mode-hook 'amirreza/go-snippets)
+    ;; (add-hook 'go-mode-hook 'amirreza/go-snippets) disabled due to switch to yasnippet
     :config
     (add-hook 'go-mode-hook (lambda () 
                               (interactive)
