@@ -1181,19 +1181,16 @@ going to define our skeletons in their respective languages. Snippet macro defin
 Snippets are basically combination of abbrevs and skeletons, abbrevs are used for triggering
 skeleton and skeleton does it's job of inserting text.
 #+begin_src emacs-lisp
-      (use-package abbrev
-        :demand 
-        :bind (("C-c e" . expand-abbrev)))
-
-      (use-package skeleton :demand
-        :config
-        (defmacro amirreza/defsnippet (abbrv &rest skeleton-expansions)
-          "Snippets are wrapper around skeleton and abbrevs."
-          (let ((command-name (intern (format "amirreza/snippet-%s" abbrv))))
-            `(progn
-               (define-skeleton ,command-name ""
-                 ,@skeleton-expansions)
-               (define-abbrev local-abbrev-table ,abbrv "" (quote ,command-name))))))
+          (use-package abbrev :demand)
+          (use-package skeleton :demand
+            :config
+            (defmacro amirreza/defsnippet (abbrv &rest skeleton-expansions)
+              "Snippets are wrapper around skeleton and abbrevs."
+              (let ((command-name (intern (format "amirreza/snippet-%s" abbrv))))
+                `(progn
+                   (define-skeleton ,command-name ""
+                     ,@skeleton-expansions)
+                   (define-abbrev local-abbrev-table ,abbrv "" (quote ,command-name))))))
 #+end_src
 *** Rainbow delimiters
 Highlight matching brackets in matching colors
@@ -1210,7 +1207,7 @@ Narrowing frameworks in Emacs are tools that help us when we want to choose an o
 happens a lot in Emacs.
 *** Ivy
 #+BEGIN_SRC emacs-lisp
-  (use-package flx :straight t :disabled t)
+  (use-package flx :straight t)
   (use-package ivy
     :straight t
     :bind
@@ -1232,6 +1229,7 @@ happens a lot in Emacs.
           #'ivy-format-function-line)
     (ivy-mode +1))
 
+  (use-package all-the-icons-ivy :straight t :init (add-hook 'after-init-hook 'all-the-icons-ivy-setup))
 
   (use-package swiper
 
@@ -1533,26 +1531,27 @@ need to configure this package to enable some LSP features that are necessary li
 go to work perfectly you need to add the =GOPATH= to your =exec-path= to let emacs find go binaries
 that it needs.
 #+BEGIN_SRC emacs-lisp
-    (use-package go-mode
-      :straight t
-      :mode ("\\.go\\'" . go-mode)
-      :init
-      (defun amirreza/go-snippets ()
-        (amirreza/defsnippet "fmain" "" "func main() {" \n "}")
-        (amirreza/defsnippet "pkgm" "Package: " "package " str \n)
-        (amirreza/defsnippet "pl" "" "fmt.Println(\"" _ "\")") ;; _ is the cursor position after the expansion
-        (amirreza/defsnippet "pf" "" "fmt.Printf(\"" _ "\")")
-        (amirreza/defsnippet "ifer" "" "if err != nil {" \n _ \n "}"))
+  (use-package go-mode
+    :straight t
+    :mode ("\\.go\\'" . go-mode)
+    :init
+    (defun amirreza/go-snippets ()
+      (amirreza/defsnippet "fmain" "" "func main() {" \n "}")
+      (amirreza/defsnippet "pkgm" "Package: " "package " str \n)
+      (amirreza/defsnippet "pl" "" "fmt.Println(\"" _ "\")") ;; _ is the cursor position after the expansion
+      (amirreza/defsnippet "pf" "" "fmt.Printf(\"" _ "\")")
+      (amirreza/defsnippet "ifer" "" "if err != nil {" \n _ \n "}")
+      (amirreza/defsnippet "if" "" "if " _ "{" \n "}"))
 
-      (add-hook 'go-mode-hook (lambda () (add-to-list 'exec-path (concat (getenv "HOME") "/go/bin"))))
-      (add-hook 'go-mode-hook 'amirreza/go-snippets)
-      :config
-      (add-hook 'go-mode-hook (lambda () 
-                                (interactive)
-                                (setq-local prettify-symbols-alist '(("func" . 955)))))
-      (add-hook 'go-mode-hook (lambda () (interactive)
-                                (add-hook 'before-save-hook 'lsp-format-buffer t t)
-                                (add-hook 'before-save-hook 'lsp-organize-imports t t))))
+    (add-hook 'go-mode-hook (lambda () (add-to-list 'exec-path (concat (getenv "HOME") "/go/bin"))))
+    (add-hook 'go-mode-hook 'amirreza/go-snippets)
+    :config
+    (add-hook 'go-mode-hook (lambda () 
+                              (interactive)
+                              (setq-local prettify-symbols-alist '(("func" . 955)))))
+    (add-hook 'go-mode-hook (lambda () (interactive)
+                              (add-hook 'before-save-hook 'lsp-format-buffer t t)
+                              (add-hook 'before-save-hook 'lsp-organize-imports t t))))
 #+END_SRC
 *** Go-add-tags
 it's always a pain to manually add struct tags for a struct specially when
