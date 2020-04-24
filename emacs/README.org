@@ -716,6 +716,7 @@ Emacs windows can be configured in the matter of where their gonna open.
 #+BEGIN_SRC emacs-lisp
     (use-package eyebrowse :straight t 
       :config (eyebrowse-mode +1))
+
 #+END_SRC
 **** Winner (Restore Window layout)
  When we are working with multiple windows open but we might maximize one window to focus
@@ -790,26 +791,26 @@ Mail setup in Emacs using Gnus.
 I need music when I am working, so for me music is just a part of development environment, and let helm help us.
 ** Using rhythmbox.el
 #+begin_src emacs-lisp
-    (use-package rhythmbox.el 
-      :load-path "~/w/dotfiles/emacs/site-lisp"
-      :bind
-      ("C-c m n" . Rhythmbox/current-song-name)
-      ("C-c m p" . Rhythmbox/playpause-current-song)
-      ("C-c m l" . Rhythmbox))
+  (use-package rhythmbox.el 
+    :disabled t
+    :load-path "~/w/dotfiles/emacs/site-lisp"
+    :bind
+    ("C-c m n" . Rhythmbox/current-song-name)
+    ("C-c m p" . Rhythmbox/playpause-current-song)
+    ("C-c m l" . Rhythmbox))
 #+end_src
 ** Using counsel
 #+begin_src emacs-lisp
   (use-package counsel
-    :disabled t
     :straight t
     :demand
     :config
-    :bind (("C-c m l" . counsel-rhythmbox)
-           ("C-c m c" . (lambda ()
+    :bind (("C-c o m l" . counsel-rhythmbox)
+           ("C-c o m c" . (lambda ()
                           (interactive)
                           (message (counsel-rhythmbox-current-song))))
 
-           ("C-c m p" . (lambda ()
+           ("C-c o m p" . (lambda ()
                           (interactive)
                           (counsel-rhythmbox-playpause-current-song)
                           ))))
@@ -855,8 +856,9 @@ I need music when I am working, so for me music is just a part of development en
 #+end_src
 * Process management
 #+begin_src emacs-lisp
-      (use-package proced
-        :commands proced)
+        (use-package proced
+          :commands proced
+          :bind (("C-c o p" . proced)))
 #+end_src
 * Org Mode
 ***** Org
@@ -963,7 +965,7 @@ So many times when I am using Emacs I find a problem or a possible feature to ad
         (interactive)
         (find-file (expand-file-name "README.org" user-emacs-directory)))
 
-    (global-set-key (kbd "C-c c e") 'amirreza/edit-configuration)
+    (global-set-key (kbd "C-c e e") 'amirreza/edit-configuration)
 #+END_SRC
 *** Large files handling
 Since Emacs by default is not that good in handling large files,
@@ -1005,7 +1007,6 @@ but again Emacs community is here to help
      (setq use-dialog-box nil) ;; ask quesions in minibuffer
      (setq inhibit-splash-screen 0) ;; disable startup screen
      (setq ring-bell-function 'ignore) ;; don't make a sound
-     (defalias 'yes-or-no-p 'y-or-n-p) ;; instead of yes/no ask y/n
      )
  #+END_SRC
 *** Some informative numbers
@@ -1022,7 +1023,7 @@ but again Emacs community is here to help
  #+BEGIN_SRC emacs-lisp
    (use-package iedit
 		:straight t
-		:bind (("C-;" . 'iedit-mode)))
+		:bind (("C-c e i" . 'iedit-mode)))
  #+END_SRC
 *** Interactive Buffer Management
 Ibuffer is a built in Emacs package that helps you manage your open buffers a in a interactively
@@ -1098,7 +1099,9 @@ Emacs kill ring is Emacs way of doing clipboard
  Edit root owned files in emacs without restarting Emacs.
  #+BEGIN_SRC emacs-lisp
    (use-package sudo-edit
-		:commands (sudo-edit))
+        :straight t
+        :bind ("C-c e s e" . sudo-edit)
+        :commands (sudo-edit))
  #+END_SRC
 *** Highlight Indents
  #+BEGIN_SRC emacs-lisp
@@ -1175,11 +1178,11 @@ the fastest and easiest one out there, and for files is =FZF=, let's integrate t
   (use-package fzf
     :straight t
     :bind
-    (("<f6> f" . fzf-directory)))
+    (("C-c e f f" . fzf-directory)))
 
   (use-package rg
    :straight t
-   :bind (("<f6> g" . rg)))
+   :bind (("C-c e r g" . rg)))
 
 #+END_SRC
 *** Atomic Typing
@@ -1401,7 +1404,7 @@ turning Emacs into an IDE is not that hard.
        (use-package vterm
          :straight t
          :commands vterm
-         :bind (("<f10>" . vterm)))
+         :bind (("C-c o t" . vterm)))
 
 #+END_SRC
 *** Language Server Protocol
@@ -1458,7 +1461,7 @@ help ease developer experience when using LSP.
   (use-package git-messenger
     :straight t
     :bind
-    (("<f1> g" . git-messenger:popup-message))
+    (("C-c g b" . git-messenger:popup-message))
     :config
     (setq git-messenger:show-detail t)
     (setq git-messenger:use-magit-popup t))
