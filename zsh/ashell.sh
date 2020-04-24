@@ -17,7 +17,7 @@ export EDITOR=$EMACSTERMINAL
 
 # remap <TAB> to escape
 # xmodmap -e "keycode 23 = Escape"
-
+alias open=xdg-open
 # reset setxkbmap
 setxkbmap -option
 # Caps remapping

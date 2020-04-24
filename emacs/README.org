@@ -22,6 +22,9 @@
 - [[#about-this-configuration][About this configuration]]
 - [[#setup-package-manager][Setup package manager]]
   - [[#straightel][Straight.el]]
+  - [[#packageel-setup][Package.el setup]]
+      - [[#use-package][Use-package]]
+- [[#exwm-emacs-x-window-manager][Exwm (Emacs X window manager)]]
 - [[#ui][UI]]
   - [[#themes][Themes]]
       - [[#performance-tip][Performance Tip]]
@@ -29,12 +32,16 @@
   - [[#font][Font]]
   - [[#icons][Icons]]
   - [[#modeline][Modeline]]
-    - [[#my-custom-modeline][My Custom modeline]]
+    - [[#spaceline][Spaceline]]
+    - [[#telephone-line][Telephone line]]
+    - [[#doom-modeline][Doom-modeline]]
       - [[#timedate][Time/Date]]
       - [[#battery][Battery]]
-      - [[#actual-mode-line-format][Actual mode line format]]
     - [[#nyan-cat][Nyan Cat]]
+    - [[#my-custom-modeline][My Custom modeline]]
+      - [[#actual-mode-line-format][Actual mode line format]]
   - [[#dashboard][Dashboard]]
+- [[#evil-always-wins][Evil always wins]]
 - [[#emacs-modes-introduction][Emacs Modes Introduction]]
 - [[#sync-emacs-exec-path-with-os][Sync Emacs exec path with OS]]
 - [[#windows][Windows]]
@@ -83,6 +90,9 @@
     - [[#rainbow-blocks][Rainbow Blocks]]
 - [[#narrowing-framework][Narrowing framework]]
     - [[#ivy][Ivy]]
+    - [[#icomplete][Icomplete]]
+    - [[#ido][IDO]]
+    - [[#helm][Helm]]
 - [[#completion][Completion]]
 - [[#integrated-development-environment][Integrated Development Environment]]
     - [[#terminal-emulator][Terminal Emulator]]
@@ -131,17 +141,6 @@
     - [[#redis][Redis]]
 - [[#games][Games]]
   - [[#pacman][Pacman]]
-- [[#deprecated][Deprecated]]
-    - [[#icomplete][Icomplete]]
-    - [[#ido][IDO]]
-    - [[#helm][Helm]]
-    - [[#packageel-setup][Package.el setup]]
-      - [[#use-package][Use-package]]
-    - [[#spaceline][Spaceline]]
-    - [[#doom-modeline][Doom-modeline]]
-    - [[#telephone-line][Telephone line]]
-    - [[#exwm-emacs-x-window-manager][Exwm (Emacs X window manager)]]
-    - [[#evil-always-wins][Evil always wins]]
 
 * Introduction
 =Emacs= is one of the oldest softwares that has active development and community after 40 years passed from the initial release, but why is
@@ -303,6 +302,88 @@ but no longer used are not included in loading/scanning procedure.
     (load bootstrap-file nil 'nomessage))
   (straight-use-package 'use-package)
 #+end_src
+** Package.el setup
+:PROPERTIES:
+  :header-args: :tangle no
+  :END:
+
+ Emacs is bundled with package.el, we can use that out of the box, we only need to =require= it, require is similar
+ to =load-file= with some diferences like it don't need full path when code is in you =load-path= (load-path
+ is a variable you can describe-variable it) and it loads each file only once so if you require a file multiple 
+ times it only loads once.
+ #+BEGIN_SRC emacs-lisp
+ (require 'package)
+ #+END_SRC
+ package.el reads all installed packages even if they are not referenced by your init we need to stop it 
+ from doing so.
+ #+BEGIN_SRC emacs-lisp
+ (setq package-enable-at-startup nil)
+ #+END_SRC
+ As I told you elpa is a lot like linux repos, and like them you can add external repos to it as well, =Melpa=
+ is the biggest and most complete package repo in the planet of Emacs and we are adding it to our repos.
+ #+BEGIN_SRC emacs-lisp
+   (add-to-list 'package-archives
+                '("melpa" . "https://melpa.org/packages/"))
+   (package-initialize)
+  #+END_SRC
+ Like all linux repos we need to refresh the index of the package manager but we don't need Emacs does that 
+ every time that we start emacs, we need to that only when package-archive-contents is nil so we use =when=
+ macro of elisp (like always you can describe-function it).
+ #+BEGIN_SRC emacs-lisp
+    (when (null package-archive-contents)
+      (package-refresh-contents))
+ #+END_SRC
+**** Use-package
+   Now the world is our oyster, you can actually browse the [[https://github.com/emacs-tw/awesome-emacs]] and install
+   any package you seem fit using 
+   But as the number of installed packages gets bigger emacs starts slow when starting up and managing and organizing
+   your init.el file getting harder and harder to the point that they call it =Emacs bankrupty=.
+   So to avoid this problems Emacs maintainer =John wiegly= created a tool called =use-package= that helps you oraganize
+   your init.el file and even lazy-load packages, It's an awesome tool so let's install it.
+   #+BEGIN_SRC emacs-lisp
+     (unless (package-installed-p 'use-package)
+       (package-install 'use-package))
+     (require 'use-package)
+   #+END_SRC
+   Feel free to read the [[https://github.com/jwiegley/use-package][use-package docs]], it's amazingly useful.
+
+* Exwm (Emacs X window manager)
+  #+begin_src emacs-lisp
+    (use-package desktop-environment
+      :disabled t
+      :straight t
+      :config
+      (desktop-environment-mode))
+
+    (use-package exwm 
+      :disabled t
+      :straight t
+      :config 
+      (require 'exwm-config)
+
+      (exwm-config-default) ;; some basic default keybindings
+
+      (setq exwm-workspace-number 4) ;; initial workspaces
+
+      (setq exwm-input-simulation-keys
+            '(([?\C-b] . [left])
+              ([?\C-f] . [right])
+              ([?\C-p] . [up])
+              ([?\C-n] . [down])
+              ([?\C-a] . [home])
+              ([?\C-e] . [end])
+              ([?\M-v] . [prior])
+              ([?\C-v] . [next])
+              ([?\C-d] . [delete])
+              ([?\C-k] . [S-end delete])))
+  
+      (setq exwm-manage-configurations
+            '((string= exwm-instance-name "firefox") workspace 1
+            (string= exwm-instance-name "rhythmbox") workspace 8)
+            )
+      )
+
+  #+end_src
 * UI
 ** Themes
  Now that we have use-package we can start installing thems, packages, etc. Let's start by installing some thems.
@@ -424,7 +505,29 @@ is a gourges icon package for emacs.
 is called, basically first buffer that wants to use that it will get loaded. =:init= means when emacs started 
 no matter what are the other options evaluate the forms after =:init=.
 ** Modeline
-*** My Custom modeline
+*** Spaceline
+Modeline from Spacemacs, it's basically boosted powerline
+#+begin_src emacs-lisp
+  (use-package spaceline :straight t
+    :disabled t
+    :config
+    (require 'spaceline-config)
+    (spaceline-spacemacs-theme))
+#+end_src
+*** Telephone line
+#+begin_src emacs-lisp
+  (use-package telephone-line :straight t
+    :disabled t
+    :config
+    (telephone-line-mode +1))
+#+end_src
+*** Doom-modeline
+#+begin_src emacs-lisp
+    (use-package doom-modeline :straight t
+      :config
+      (setq doom-modeline-height 35)
+      (doom-modeline-mode 1))
+#+end_src
 **** Time/Date
 #+begin_src emacs-lisp
   (use-package time
@@ -446,9 +549,16 @@ no matter what are the other options evaluate the forms after =:init=.
     (setq battery-load-critical 10)
     (display-battery-mode +1))
 #+end_src
+
+*** Nyan Cat
+#+begin_src emacs-lisp
+  (use-package nyan-mode :straight t :config (nyan-mode 1))
+#+end_src
+*** My Custom modeline
 **** Actual mode line format
 #+begin_src emacs-lisp
   (use-package emacs 
+    :disabled t
     :config
     (setq amirreza/modeline-seperator "   ")
     (setq-default mode-line-format (list
@@ -469,10 +579,6 @@ no matter what are the other options evaluate the forms after =:init=.
                                     mode-line-end-spaces
                                     )))
 #+end_src
-*** Nyan Cat
-#+begin_src emacs-lisp
-  (use-package nyan-mode :straight t :config (nyan-mode 1))
-#+end_src
 ** Dashboard
 #+begin_src emacs-lisp
   (use-package dashboard
@@ -487,6 +593,76 @@ no matter what are the other options evaluate the forms after =:init=.
     (setq dashboard-set-navigator t)
     (dashboard-setup-startup-hook))
 #+end_src
+* Evil always wins
+  "Emacs is a great operating system lacking only a decent editor", I always find this quote to be
+  true Emacs as software package/framework is amazing I mean I think people that are working on various 
+  types of frameworks out there should really start studying Emacs as an inspiration of how you can write 
+  a customizable yet robust software that would last for 40 years and yet new generations start using it yet
+  Emacs editor actually doesn't follow Emacs extensibility and composibility philosophy a lot, Emacs editor is based
+  on specific targeted functions, you have =delete-word=, it just deletes a word you can not tell it to delete two
+  words (yes you can do C-2 M-d) but it's not that user-friendly actually, so without further ado let's decend into
+  darkness. 
+  #+begin_src emacs-lisp
+    (use-package evil
+      :disabled t
+      :straight t
+      :init
+      (setq evil-want-keybinding nil)
+      :config
+      (setq evil-move-beyond-eol t)
+      (define-key evil-motion-state-map (kbd "TAB") nil)
+      (evil-ex-define-cmd "q" 'kill-this-buffer)
+      (evil-mode +1))
+
+
+    (use-package evil-collection 
+      :disabled t
+      :straight t 
+      :config 
+      (evil-collection-init))
+
+    (use-package evil-magit 
+      :disabled t
+      :straight t)
+
+    (use-package evil-surround 
+      :disabled t
+      :straight t)
+
+    (use-package evil-commentary 
+      :disabled t
+      :config
+      (evil-commentary-mode 1)
+      :straight t)
+
+    (use-package general
+      :straight t
+      :config
+      (defvar amirreza/leader-key "SPC")
+      (general-create-definer space-leader-lord :prefix "SPC" :states 'normal :keymaps 'override)
+      (general-create-definer space-leader :prefix "SPC" :states 'normal)
+      (space-leader-lord
+        "s b" 'switch-to-buffer
+        "b l" 'switch-to-buffer
+        "k b" 'kill-buffer
+        amirreza/leader-key 'find-file
+        "e e" 'execute-extended-command
+        "m w" 'delete-other-windows
+        "d w" 'delete-window
+        "s r" 'split-window-right
+        "s b" 'split-window-below
+        "e s" 'eval-last-sexp
+        "f f" 'find-file
+        "d f" 'describe-function
+        "d v" 'describe-variable
+        "d k" 'describe-key
+        "b n" 'next-buffer
+        "b p" 'previous-buffer)
+      (space-leader 
+        "C-k" (lambda () (interactive) (previous-line 5))
+        "C-j"(lambda () (interactive) (next-line 5))))
+
+  #+end_src
 * Emacs Modes Introduction
 First let's talk about modes, Modes are the conventional way to add functionality to Emacs.
 There are two groups of modes, Major modes and minor modes, Major modes are single modes that 
@@ -1007,7 +1183,7 @@ skeleton and skeleton does it's job of inserting text.
 #+begin_src emacs-lisp
       (use-package abbrev
         :demand 
-        :bind (("C-x '" . expand-abbrev)))
+        :bind (("C-c e" . expand-abbrev)))
 
       (use-package skeleton :demand
         :config
@@ -1079,6 +1255,97 @@ happens a lot in Emacs.
      ("C-h a" . 'counsel-apropos)
      ( "M-y" . 'counsel-yank-pop)))
 #+END_SRC
+*** Icomplete
+Icomplete is a great solution that is built-in to Emacs, but over the time at least for me it's weakneses started to come to surface, 
+and again at least for me it has problems with updating the list as I type and the performance with big lists was not that good so I moved back to =ivy=.
+#+BEGIN_SRC emacs-lisp
+  (use-package icomplete
+    :disabled t
+    :demand ;loading of icomplete is not deferred since we are using `:bind'.
+    :config
+    (setq icomplete-max-delay-chars 0)
+    (setq icomplete-compute-delay 0.2)
+    (setq icomplete-show-matches-on-no-input t) ;; show completions from start of entering the minibuffer
+    (setq icomplete-separator " | ") ;; seperator of candidates
+    (setq icomplete-hide-common-prefix nil) ;;
+    (setq icomplete-with-completion-tables t) ;; do completion on anything that has a completion table
+    (setq icomplete-in-buffer nil) ; we dont want icomplete to work in buffers, we have company for that
+    (defun amirreza/show-kill-ring ()
+      (interactive)
+      (insert (completing-read "Choose: " kill-ring )))
+
+    (if (> emacs-major-version 27)
+        (fido-mode +1)
+      (icomplete-mode +1))
+
+    :bind (("M-y" . amirreza/show-kill-ring)
+           :map icomplete-minibuffer-map
+           ("C-f" . icomplete-forward-completions)
+           ("C-b" . icomplete-backward-completions)
+           ("C-n" . icomplete-forward-completions)
+           ("C-p" . icomplete-backward-completions)
+           ("<right>" . icomplete-forward-completions)
+           ("<left>" . icomplete-backward-completions)
+           ("<up>" . icomplete-backward-completions)
+           ("<RET>" . icomplete-force-complete-and-exit)
+           ("<down>" . icomplete-forward-completions)))
+
+  (use-package icomplete-vertical
+    :disabled t
+    :straight t
+    :demand
+    :config
+    (icomplete-vertical-set-separator "\n----------\n")
+    (icomplete-vertical-mode 1)
+    :bind
+    (:map icomplete-minibuffer-map
+          ("C-t" . icomplete-vertical-toggle)))
+
+#+END_SRC
+*** IDO
+IDO's main problem is that by default it's not compatible with Emacs =completing-read-function=, you can solve it by using ido-completing-read+ but yet some parts,
+are uncovered and the UI wasn't good in my opinion.
+#+BEGIN_SRC emacs-lisp
+  (use-package ido
+    :disabled t
+    :config
+    (ido-mode 1)
+    (ido-everywhere 1)
+    (setq ido-enable-flex-matching t))
+
+  (use-package ido-vertical-mode
+    :disabled t
+    :config
+    (ido-vertical-mode 1)
+    (setq ido-vertical-define-keys 'C-n-and-C-p-only))
+
+  (use-package ido-completing-read+
+    :disabled t
+    :config
+    (ido-ubiquitous-mode 1))
+
+#+END_SRC
+*** Helm
+Helm is amazing but it's just to big and it splits it's way with Emacs standards too much, it opens in another buffer which gives it some great potentials but yet
+disrespects the idea of minibuffer.
+ #+begin_src emacs-lisp
+      (use-package helm :straight t
+        :disabled t
+        :config
+        (setq helm-mode-fuzzy-match t) ;; enable fuzzy matching in all helm
+)
+    (use-package helm-descbinds :straight t
+      :disabled t
+      :bind (("C-h b" . helm-descbinds)))
+
+    (use-package helm-describe-modes :straight t
+    :disabled t
+    :bind (("C-h m" . helm-describe-modes)))
+
+   (use-package helm-make :straight t
+    :disabled t
+    :bind (("<f5> m" . helm-make)))
+ #+end_src
 * Completion
 Code completion consists of two parts, A source/server that provides the completions and 
 an engine that knows when to open prompt and show the completions. We will configure servers later
@@ -1275,8 +1542,8 @@ that it needs.
         (amirreza/defsnippet "pkgm" "Package: " "package " str \n)
         (amirreza/defsnippet "pl" "" "fmt.Println(\"" _ "\")") ;; _ is the cursor position after the expansion
         (amirreza/defsnippet "pf" "" "fmt.Printf(\"" _ "\")")
-        (amirreza/defsnippet "iferr" "" "if err != nil {" \n _ \n "}"))
-      
+        (amirreza/defsnippet "ifer" "" "if err != nil {" \n _ \n "}"))
+
       (add-hook 'go-mode-hook (lambda () (add-to-list 'exec-path (concat (getenv "HOME") "/go/bin"))))
       (add-hook 'go-mode-hook 'amirreza/go-snippets)
       :config
@@ -1336,7 +1603,6 @@ we can even go further.x
       (let* ((text-wrapped (--amirreza/emacs-lisp-wrap-text-in-spaces text))
          (dashes (--amirreza/emacs-lisp-repeat "=" 80)))
     (insert (format "\n;;%s\n;;%s\n;;%s" dashes text-wrapped dashes))))
-    (:keymaps 'emacs-lisp-mode-map :states 'normal "; d b" 'amirreza/emacs-lisp-insert-comment-line)
     :bind
     (:map emacs-lisp-mode-map
       ("C-c C-c C-d" . 'amirreza/emacs-lisp-insert-comment-line)))
@@ -1439,271 +1705,6 @@ we can even go further.x
 #+begin_src emacs-lisp
 (use-package pacmacs :straight t :defer t)
 #+end_src
-* Deprecated
-:PROPERTIES:
-  :header-args: :tangle no
-  :END:
-*** Icomplete
-Icomplete is a great solution that is built-in to Emacs, but over the time at least for me it's weakneses started to come to surface, 
-and again at least for me it has problems with updating the list as I type and the performance with big lists was not that good so I moved back to =ivy=.
-#+BEGIN_SRC emacs-lisp
-  (use-package icomplete
-    :disabled t
-    :demand ;loading of icomplete is not deferred since we are using `:bind'.
-    :config
-    (setq icomplete-max-delay-chars 0)
-    (setq icomplete-compute-delay 0.2)
-    (setq icomplete-show-matches-on-no-input t) ;; show completions from start of entering the minibuffer
-    (setq icomplete-separator " | ") ;; seperator of candidates
-    (setq icomplete-hide-common-prefix nil) ;;
-    (setq icomplete-with-completion-tables t) ;; do completion on anything that has a completion table
-    (setq icomplete-in-buffer nil) ; we dont want icomplete to work in buffers, we have company for that
-    (defun amirreza/show-kill-ring ()
-      (interactive)
-      (insert (completing-read "Choose: " kill-ring )))
-
-    (if (> emacs-major-version 27)
-        (fido-mode +1)
-      (icomplete-mode +1))
-
-    :bind (("M-y" . amirreza/show-kill-ring)
-           :map icomplete-minibuffer-map
-           ("C-f" . icomplete-forward-completions)
-           ("C-b" . icomplete-backward-completions)
-           ("C-n" . icomplete-forward-completions)
-           ("C-p" . icomplete-backward-completions)
-           ("<right>" . icomplete-forward-completions)
-           ("<left>" . icomplete-backward-completions)
-           ("<up>" . icomplete-backward-completions)
-           ("<RET>" . icomplete-force-complete-and-exit)
-           ("<down>" . icomplete-forward-completions)))
-
-  (use-package icomplete-vertical
-    :disabled t
-    :straight t
-    :demand
-    :config
-    (icomplete-vertical-set-separator "\n----------\n")
-    (icomplete-vertical-mode 1)
-    :bind
-    (:map icomplete-minibuffer-map
-          ("C-t" . icomplete-vertical-toggle)))
-
-#+END_SRC
-*** IDO
-IDO's main problem is that by default it's not compatible with Emacs =completing-read-function=, you can solve it by using ido-completing-read+ but yet some parts,
-are uncovered and the UI wasn't good in my opinion.
-#+BEGIN_SRC emacs-lisp
-  (use-package ido
-    :disabled t
-    :config
-    (ido-mode 1)
-    (ido-everywhere 1)
-    (setq ido-enable-flex-matching t))
-
-  (use-package ido-vertical-mode
-    :disabled t
-    :config
-    (ido-vertical-mode 1)
-    (setq ido-vertical-define-keys 'C-n-and-C-p-only))
-
-  (use-package ido-completing-read+
-    :disabled t
-    :config
-    (ido-ubiquitous-mode 1))
-
-#+END_SRC
-*** Helm
-Helm is amazing but it's just to big and it splits it's way with Emacs standards too much, it opens in another buffer which gives it some great potentials but yet
-disrespects the idea of minibuffer.
- #+begin_src emacs-lisp
-      (use-package helm :straight t
-        :disabled t
-        :config
-        (setq helm-mode-fuzzy-match t) ;; enable fuzzy matching in all helm
-)
-    (use-package helm-descbinds :straight t
-      :disabled t
-      :bind (("C-h b" . helm-descbinds)))
-
-    (use-package helm-describe-modes :straight t
-    :disabled t
-    :bind (("C-h m" . helm-describe-modes)))
-
-   (use-package helm-make :straight t
-    :disabled t
-    :bind (("<f5> m" . helm-make)))
- #+end_src
-*** Package.el setup
-
- Emacs is bundled with package.el, we can use that out of the box, we only need to =require= it, require is similar
- to =load-file= with some diferences like it don't need full path when code is in you =load-path= (load-path
- is a variable you can describe-variable it) and it loads each file only once so if you require a file multiple 
- times it only loads once.
- #+BEGIN_SRC emacs-lisp
- (require 'package)
- #+END_SRC
- package.el reads all installed packages even if they are not referenced by your init we need to stop it 
- from doing so.
- #+BEGIN_SRC emacs-lisp
- (setq package-enable-at-startup nil)
- #+END_SRC
- As I told you elpa is a lot like linux repos, and like them you can add external repos to it as well, =Melpa=
- is the biggest and most complete package repo in the planet of Emacs and we are adding it to our repos.
- #+BEGIN_SRC emacs-lisp
-   (add-to-list 'package-archives
-                '("melpa" . "https://melpa.org/packages/"))
-   (package-initialize)
-  #+END_SRC
- Like all linux repos we need to refresh the index of the package manager but we don't need Emacs does that 
- every time that we start emacs, we need to that only when package-archive-contents is nil so we use =when=
- macro of elisp (like always you can describe-function it).
- #+BEGIN_SRC emacs-lisp
-    (when (null package-archive-contents)
-      (package-refresh-contents))
- #+END_SRC
-**** Use-package
-   Now the world is our oyster, you can actually browse the [[https://github.com/emacs-tw/awesome-emacs]] and install
-   any package you seem fit using 
-   But as the number of installed packages gets bigger emacs starts slow when starting up and managing and organizing
-   your init.el file getting harder and harder to the point that they call it =Emacs bankrupty=.
-   So to avoid this problems Emacs maintainer =John wiegly= created a tool called =use-package= that helps you oraganize
-   your init.el file and even lazy-load packages, It's an awesome tool so let's install it.
-   #+BEGIN_SRC emacs-lisp
-     (unless (package-installed-p 'use-package)
-       (package-install 'use-package))
-     (require 'use-package)
-   #+END_SRC
-   Feel free to read the [[https://github.com/jwiegley/use-package][use-package docs]], it's amazingly useful.
-
-*** Spaceline
-Modeline from Spacemacs, it's basically boosted powerline
-#+begin_src emacs-lisp
-  (use-package spaceline :straight t
-    :disabled t
-    :config
-    (require 'spaceline-config)
-    (spaceline-spacemacs-theme))
-#+end_src
-*** Doom-modeline
-#+begin_src emacs-lisp
-    (use-package doom-modeline :straight t
-      :disabled t
-      :config
-      (setq doom-modeline-height 35)
-      (doom-modeline-mode 1))
-#+end_src
-*** Telephone line
-#+begin_src emacs-lisp
-  (use-package telephone-line :straight t
-    :disabled t
-    :config
-    (telephone-line-mode +1))
-#+end_src
-*** Exwm (Emacs X window manager)
-  #+begin_src emacs-lisp
-    (use-package desktop-environment
-      :disabled t
-      :straight t
-      :config
-      (desktop-environment-mode))
-
-    (use-package exwm 
-      :disabled t
-      :straight t
-      :config 
-      (require 'exwm-config)
-
-      (exwm-config-default) ;; some basic default keybindings
-
-      (setq exwm-workspace-number 4) ;; initial workspaces
-
-      (setq exwm-input-simulation-keys
-            '(([?\C-b] . [left])
-              ([?\C-f] . [right])
-              ([?\C-p] . [up])
-              ([?\C-n] . [down])
-              ([?\C-a] . [home])
-              ([?\C-e] . [end])
-              ([?\M-v] . [prior])
-              ([?\C-v] . [next])
-              ([?\C-d] . [delete])
-              ([?\C-k] . [S-end delete])))
-  
-      (setq exwm-manage-configurations
-            '((string= exwm-instance-name "firefox") workspace 1
-            (string= exwm-instance-name "rhythmbox") workspace 8)
-            )
-      )
-
-  #+end_src
-*** Evil always wins
-  "Emacs is a great operating system lacking only a decent editor", I always find this quote to be
-  true Emacs as software package/framework is amazing I mean I think people that are working on various 
-  types of frameworks out there should really start studying Emacs as an inspiration of how you can write 
-  a customizable yet robust software that would last for 40 years and yet new generations start using it yet
-  Emacs editor actually doesn't follow Emacs extensibility and composibility philosophy a lot, Emacs editor is based
-  on specific targeted functions, you have =delete-word=, it just deletes a word you can not tell it to delete two
-  words (yes you can do C-2 M-d) but it's not that user-friendly actually, so without further ado let's decend into
-  darkness. 
-  #+begin_src emacs-lisp
-    (use-package evil
-      :disabled t
-      :straight t
-      :init
-      (setq evil-want-keybinding nil)
-      :config
-      (setq evil-move-beyond-eol t)
-      (define-key evil-motion-state-map (kbd "TAB") nil)
-      (evil-ex-define-cmd "q" 'kill-this-buffer)
-      (evil-mode +1))
 
 
-    (use-package evil-collection 
-      :disabled t
-      :straight t 
-      :config 
-      (evil-collection-init))
 
-    (use-package evil-magit 
-      :disabled t
-      :straight t)
-
-    (use-package evil-surround 
-      :disabled t
-      :straight t)
-
-    (use-package evil-commentary 
-      :disabled t
-      :config
-      (evil-commentary-mode 1)
-      :straight t)
-
-    (use-package general
-      :straight t
-      :config
-      (defvar amirreza/leader-key "SPC")
-      (general-create-definer space-leader-lord :prefix "SPC" :states 'normal :keymaps 'override)
-      (general-create-definer space-leader :prefix "SPC" :states 'normal)
-      (space-leader-lord
-        "s b" 'switch-to-buffer
-        "b l" 'switch-to-buffer
-        "k b" 'kill-buffer
-        amirreza/leader-key 'find-file
-        "e e" 'execute-extended-command
-        "m w" 'delete-other-windows
-        "d w" 'delete-window
-        "s r" 'split-window-right
-        "s b" 'split-window-below
-        "e s" 'eval-last-sexp
-        "f f" 'find-file
-        "d f" 'describe-function
-        "d v" 'describe-variable
-        "d k" 'describe-key
-        "b n" 'next-buffer
-        "b p" 'previous-buffer)
-      (space-leader 
-        "C-k" (lambda () (interactive) (previous-line 5))
-        "C-j"(lambda () (interactive) (next-line 5))))
-
-  #+end_src
