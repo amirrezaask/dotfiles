@@ -103,6 +103,7 @@
     - [[#debugger-support][Debugger Support]]
     - [[#docs][Docs]]
     - [[#project-detection][Project Detection]]
+    - [[#snippet][Snippet]]
 - [[#programming-languages][Programming Languages]]
   - [[#python][Python]]
     - [[#python-mode][Python Mode]]
@@ -1229,7 +1230,7 @@ happens a lot in Emacs.
           #'ivy-format-function-line)
     (ivy-mode +1))
 
-  (use-package all-the-icons-ivy :straight t :init (add-hook 'after-init-hook 'all-the-icons-ivy-setup))
+  (use-package all-the-icons-ivy :straight t :config (all-the-icons-ivy-setup))
 
   (use-package swiper
 
@@ -1477,6 +1478,18 @@ provide several feature to other packages or to the user directly.
          (projectile-mode 1))
 
 #+END_SRC
+*** Snippet
+#+begin_src emacs-lisp
+      (use-package yasnippet :straight t 
+      :config
+      (defun amirreza/yasnippet-hook ()
+        ;;      (yas-reload-all)
+        (yas-minor-mode-on)
+        )
+      :hook ((prog-mode text-mode) . amirreza/yasnippet-hook))
+
+      (use-package yasnippet-snippets :straight t)
+#+end_src
 * Programming Languages
 ** Python
 *** Python Mode
