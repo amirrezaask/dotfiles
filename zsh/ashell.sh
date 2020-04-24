@@ -15,6 +15,9 @@ export EMACSTERMINAL="emacsclient -t"
 alias e=$EMACSTERMINAL
 export EDITOR=$EMACSTERMINAL
 
+# remap <TAB> to escape
+# xmodmap -e "keycode 23 = Escape"
+
 # reset setxkbmap
 setxkbmap -option
 # Caps remapping
