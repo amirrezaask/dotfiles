@@ -354,9 +354,9 @@ but no longer used are not included in loading/scanning procedure.
 I respect Emacs keybinding conventions in my configuration with a few ideas borrowed from spacemacs.
 ** Keybinding rules
 + All keybindings should be prefixed with =C-c= and then a single letter to avoid conflict with major modes keybindings.
-+ Major mode / language specific functions bind with prefix ='m'=
-+ Operating System integration keys should be prefixed with ='o'=
-+ Devops related stuff prefixed with ='d'=.
++ Major mode / language specific functions bind with prefix =m=
++ Operating System integration keys should be prefixed with =o=
++ Devops related stuff prefixed with =d=.
 * Exwm (Emacs X window manager)
   #+begin_src emacs-lisp
     (use-package desktop-environment
