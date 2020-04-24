@@ -350,7 +350,7 @@ but no longer used are not included in loading/scanning procedure.
 
            (defun amirreza/toggle-color-mode ()
              "Toggle current mode to the opposite"
-         p    (interactive)
+             (interactive)
              (if (eq amirreza/current-mode 'dark)
                  (setq amirreza/current-mode 'light)
                (setq amirreza/current-mode 'dark))
@@ -544,8 +544,6 @@ Emacs windows can be configured in the matter of where their gonna open.
  #+BEGIN_SRC emacs-lisp
  (use-package ace-window
    :straight t
-   :general
-   (general-define-key :states 'normal "C-w" 'ace-window)
    :bind (("C-x o" . 'ace-window)))
 
  #+END_SRC
@@ -780,7 +778,6 @@ So many times when I am using Emacs I find a problem or a possible feature to ad
         (find-file (expand-file-name "README.org" user-emacs-directory)))
 
     (global-set-key (kbd "C-c c e") 'amirreza/edit-configuration)
-    (space-leader "e c" 'amirreza/edit-configuration)
 #+END_SRC
 *** Large files handling
 Since Emacs by default is not that good in handling large files,
@@ -846,9 +843,7 @@ Ibuffer is a built in Emacs package that helps you manage your open buffers a in
 designed interface.
 #+BEGIN_SRC emacs-lisp
 (use-package ibuffer
-  :bind (("C-x C-b" . 'ibuffer))
-  :general
-  (space-leader-lord "i b" 'ibuffer))
+  :bind (("C-x C-b" . 'ibuffer)))
 #+END_SRC
 =Ibuffer-projectile= provides ibuffer integration with projectile to seperate buffers that belong
 to different git repos in the Ibuffer view.
@@ -964,8 +959,6 @@ when dumb jump can help you jump to defenitions using Rg or ag or grep (we use R
 #+BEGIN_SRC emacs-lisp
   (use-package dumb-jump
     :straight t
-    :general
-    (space-leader "." 'dumb-jump-go "/" 'dumb-jump-back)
     :bind
     (("C-M-j" . 'dumb-jump-go)
      ("C-M-p" . 'dumb-jump-back))
@@ -1077,8 +1070,6 @@ happens a lot in Emacs.
     :config
     (setq ivy-re-builders-alist
      '((t . ivy--regex-fuzzy)))
-    :general 
-    (space-leader "s s" 'counsel-rg "s f" 'counsel-fzf)
     :bind
     (("M-x" . 'counsel-M-x)
      ("C-x C-f" . 'counsel-find-file)
@@ -1148,8 +1139,6 @@ as auto-complete or syntax linting.
       go-mode) . lsp)
     :config
     (setq lsp-auto-guess-root t)
-    :general
-    (space-leader-lord "." 'xref-find-definitions)
     :commands (lsp))
 
 
@@ -1167,8 +1156,6 @@ help ease developer experience when using LSP.
   (use-package magit
     :straight t
     :commands (magit-status)
-    :general 
-    (space-leader "g s" 'magit-status)
     :bind
     (("C-x g" . 'magit-status)))
 
@@ -1349,7 +1336,6 @@ we can even go further.x
       (let* ((text-wrapped (--amirreza/emacs-lisp-wrap-text-in-spaces text))
          (dashes (--amirreza/emacs-lisp-repeat "=" 80)))
     (insert (format "\n;;%s\n;;%s\n;;%s" dashes text-wrapped dashes))))
-    :general
     (:keymaps 'emacs-lisp-mode-map :states 'normal "; d b" 'amirreza/emacs-lisp-insert-comment-line)
     :bind
     (:map emacs-lisp-mode-map
@@ -1535,39 +1521,7 @@ disrespects the idea of minibuffer.
         :disabled t
         :config
         (setq helm-mode-fuzzy-match t) ;; enable fuzzy matching in all helm
-        :general
-        (:keymaps 'helm-map
-                  "C-j" 'helm-next-line
-                  "C-k" 'helm-previous-line
-                  "<tab>"  'helm-execute-persistent-action   ;; make tab work normal
-                  "C-z"  'helm-select-action) ;; C-z instead of tab to show helm actions
-
-        (:keymaps 'override
-                  "M-y" 'helm-show-kill-ring
-                  "M-x" 'helm-M-x
-                  "C-s" 'helm-occur)
-
-        (:keymaps 'override
-                  "<f6> g" 'helm-rg)
-
-        (:prefix "C-h"
-                 "a" 'helm-apropos
-                 "f" 'helm-apropos
-                 "k" 'helm-apropos
-                 "v" 'helm-apropos
-                 )
-        (:prefix "C-x" :keymaps 'override
-                 "C-f" 'helm-find-files
-                 "b" 'helm-mini
-                 "C-b" 'helm-mini
-                 )
-        (space-leader-lord
-          "h a" 'helm-apropos
-          "f f" 'helm-find-files
-          ";" 'helm-M-x
-          "l l" 'helm-mini
-          "b l" 'helm-mini))
-
+)
     (use-package helm-descbinds :straight t
       :disabled t
       :bind (("C-h b" . helm-descbinds)))
