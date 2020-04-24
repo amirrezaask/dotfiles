@@ -9,5 +9,3 @@
 (scroll-bar-mode 0) ;; disable scroll-bar
 (menu-bar-mode 0) ;; disable menu-bar
 (setq vc-follow-symlinks t)
-(delete-file (expand-file-name "README.el" user-emacs-directory))
-
