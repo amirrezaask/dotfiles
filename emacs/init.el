@@ -262,6 +262,7 @@
                                   )))
 
 (use-package dashboard
+  :disabled t
   :straight t
   :config    
   (setq dashboard-banner-logo-title "Free as in freedom")
