@@ -114,7 +114,6 @@
   (setq echo-keystrokes 0.1)
   (setq-default fill-column 80)
   (setq-default cursor-type 'bar)
-  (setq ring-bell-function t)
   (setq visible-bell t)
   (global-set-key (kbd "M-n") (lambda () (interactive) (next-line 5)))
   (global-set-key (kbd "M-p") (lambda () (interactive) (previous-line 5))))
