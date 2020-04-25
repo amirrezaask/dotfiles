@@ -74,8 +74,7 @@
   (setq exwm-manage-configurations
         '((string= exwm-instance-name "firefox") workspace 1
         (string= exwm-instance-name "rhythmbox") workspace 8)
-        )
-  )
+        ))
 
 
 (use-package paren
@@ -562,10 +561,6 @@
    ("C-M-s" . isearch-forward)
    ("C-M-r" . isearch-backward)))
 
-(use-package replace
-  :demand t)
-
-
 (use-package fzf
   :straight t
   :bind
@@ -579,7 +574,8 @@
 
 (use-package rainbow-blocks :straight t :defer t)
 
-(use-package flx :straight t)
+(use-package flx :straight t :defer 2)
+
 (use-package ivy
   :straight t
   :bind
@@ -741,7 +737,7 @@
     :commands (lsp))
 
 
-(use-package dap-mode :straight t)
+(use-package dap-mode :straight t :defer t)
 
 (use-package helm-lsp :disabled t :straight t :commands helm-lsp-workspace-symbol)
 
@@ -793,10 +789,11 @@
        (setq projectile-completion-system 'ivy)
        (projectile-mode 1))
 
-(use-package yasnippet :straight t 
+(use-package yasnippet :straight t
+  :defer 2
   :config (yas-global-mode 1))
 
-(use-package yasnippet-snippets :straight t)
+(use-package yasnippet-snippets :straight t :defer 2)
 
 (use-package python-mode
   :mode "\\.py\\'"
@@ -810,7 +807,7 @@
   (:map python-mode-map 
     ("C-c m p d" . amirreza/python-insert-docstring)))
 
-(use-package lsp-python-ms :straight t)
+(use-package lsp-python-ms :straight t :hook python-mode)
 
 (use-package pipenv
 	     :straight t
@@ -825,7 +822,7 @@
 (use-package go-mode
   :straight t
   :mode ("\\.go\\'" . go-mode)
-  :init
+  :config
   (defun amirreza/go-snippets ()
     (amirreza/defsnippet "fmain" "" "func main() {" \n "}")
     (amirreza/defsnippet "pkgm" "Package: " "package " str \n)
@@ -833,13 +830,13 @@
     (amirreza/defsnippet "pf" "" "fmt.Printf(\"" _ "\")")
     (amirreza/defsnippet "ifer" "" "if err != nil {" \n _ \n "}")
     (amirreza/defsnippet "if" "" "if " _ "{" \n "}"))
-
   (add-hook 'go-mode-hook (lambda () (add-to-list 'exec-path (concat (getenv "HOME") "/go/bin"))))
   ;; (add-hook 'go-mode-hook 'amirreza/go-snippets) disabled due to switch to yasnippet
-  :config
+  
   (add-hook 'go-mode-hook (lambda () 
                             (interactive)
                             (setq-local prettify-symbols-alist '(("func" . 955)))))
+
   (add-hook 'go-mode-hook (lambda () (interactive)
                             (add-hook 'before-save-hook 'lsp-format-buffer t t)
                             (add-hook 'before-save-hook 'lsp-organize-imports t t))))
@@ -853,10 +850,12 @@
         ("C-c m t t" . go-test-current-test)))
 
 (use-package scheme
+  :mode ("\\.scm\\'")
   :config
   (setq scheme-program-name "guile"))
 
 (use-package elisp-mode
+  :mode ("\\.el\\'" . emacs-lisp-mode)
   :config
   (setq-local prettify-symbols-alist '(("fn" . 955)))
   (defun --amirreza/emacs-lisp-repeat (str count)
@@ -881,18 +880,20 @@
   (:map emacs-lisp-mode-map
     ("C-c m d" . 'amirreza/emacs-lisp-insert-comment-line)))
 
-(use-package clojure-mode :straight t
+(use-package clojure-mode
+  :mode "\\.cljs?\\'"
+  :straight t
   :config
   (setq-local prettify-symbols-alist '(("fn" . 955) ; λ
                                         ("->" . 8594))))
 
-(use-package cider 
+(use-package cider
   :straight t
   :commands (cider cider-jack-in cider-jack-in-cljs))
 
 (use-package lisp-mode :mode "\\.cl\\'")
 
-(use-package sly :straight t)
+(use-package sly :straight t :mode "\\.cl\\'")
 
 (use-package haskell-mode :straight t :mode "\\.hs\\'")
 
@@ -943,9 +944,8 @@
 
 (use-package kubel :straight t :commands (kubel) :bind (("C-c d k" . kubel)))
 
-(use-package redis :straight t)
+(use-package redis :straight t :defer t)
 
 (use-package pacmacs :straight t :defer t)
-
 
 (defvar amirreza/emacs-init-time-elapsed (- (float-time) amirreza/emacs-init-timestamp))
