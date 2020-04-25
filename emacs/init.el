@@ -424,7 +424,7 @@
   :bind (("C-c o p" . proced)))
 
 (use-package org
-  :mode "\\.org\\'"
+  :mode ("\\.org\\'" . org-mode)
   :bind (:map org-mode-map
               ("C-c c b" . amirreza/--org-insert-elisp-code-block))
   :config
