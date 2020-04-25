@@ -349,10 +349,12 @@
               ("P" . peep-dired)))
 
 (use-package auth-source
+  :defer 3
   :config
   (setq auth-sources '("~/.authinfo.gpg" "~/.authinfo")))
 
 (use-package gnus
+  :commands gnus
   :config
   (setq gnus-thread-sort-functions
         '(gnus-thread-sort-by-number
@@ -365,24 +367,6 @@
              (nnimap-server-port "imaps")
              (nnimap-stream ssl)))))
 
-(use-package counsel
-  :straight t
-  :demand
-  :config
-  (defun amirreza/rhythmbox-current-song-name () 
-    (interactive)
-    (message (counsel-rhythmbox-current-song)))
-
-  (defun amirreza/rhythmbox-play/pause () 
-    (interactive)
-    (counsel-rhythmbox-playpause-current-song))
-
-  :bind (:prefix "C-c o m"
-                 :prefix-map music-player
-                 :prefix-docstring "music player lanati"
-                 ("l" . counsel-rhythmbox)
-                 ("c" . amirreza/rhythmbox-current-song-name)
-                 ("p" . amirreza/rhythmbox-play/pause)))
 
 (use-package bongo 
   :disabled t
@@ -600,18 +584,25 @@
 (use-package all-the-icons-ivy :straight t :config (all-the-icons-ivy-setup))
 
 (use-package swiper
-
   :straight t
   :commands (swiper)
-  :init (global-set-key (kbd "C-s") 'swiper))
+  :bind ("C-s" . swiper))
 
 (use-package counsel
-
   :straight t
   :commands (counsel-M-x counsel-find-file ivy-switch-buffer)
   :config
   (setq ivy-re-builders-alist
-   '((t . ivy--regex-fuzzy)))
+        '((t . ivy--regex-fuzzy)))
+  
+  (defun amirreza/rhythmbox-current-song-name () 
+    (interactive)
+    (message (counsel-rhythmbox-current-song)))
+
+  (defun amirreza/rhythmbox-play/pause () 
+    (interactive)
+    (counsel-rhythmbox-playpause-current-song))
+
   :bind
   (("M-x" . 'counsel-M-x)
    ("C-x C-f" . 'counsel-find-file)
@@ -619,7 +610,13 @@
    ("C-h f" . 'counsel-describe-function)
    ("C-h v" . 'counsel-describe-variable)
    ("C-h a" . 'counsel-apropos)
-   ( "M-y" . 'counsel-yank-pop)))
+   ( "M-y" . 'counsel-yank-pop)
+   :prefix "C-c o m"
+                 :prefix-map music-player
+                 :prefix-docstring "music player lanati"
+                 ("l" . counsel-rhythmbox)
+                 ("c" . amirreza/rhythmbox-current-song-name)
+                 ("p" . amirreza/rhythmbox-play/pause)))
 
 (use-package icomplete
   :disabled t
