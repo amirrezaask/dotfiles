@@ -77,6 +77,55 @@
         )
   )
 
+
+(use-package paren
+  :config
+  (setq show-paren-delay 0)
+  (show-paren-mode 1))
+
+(use-package emacs 
+  :config
+  (setq use-dialog-box nil) ;; ask quesions in minibuffer
+  (setq inhibit-splash-screen 0) ;; disable startup screen
+  (setq ring-bell-function 'ignore) ;; don't make a sound
+  ;; vertical scrolling
+  (setq scroll-step 1)
+  (setq scroll-margin 1)
+  (setq scroll-conservatively 101)
+  (setq scroll-up-aggressively 0.01)
+  (setq scroll-down-aggressively 0.01)
+  (setq auto-window-vscroll nil)
+  (setq fast-but-imprecise-scrolling nil)
+  (setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))
+  (setq mouse-wheel-progressive-speed nil)
+  ;; Horizontal Scroll
+  (setq hscroll-step 1)
+  (setq hscroll-margin 1)
+  (setq backup-directory-alist
+        '(("." . "~/.emacs.d/backup/")))
+  (setq backup-by-copying t)
+  (setq version-control t)
+  (setq delete-old-versions t)
+  (setq kept-new-versions 6)
+  (setq kept-old-versions 2)
+  (setq create-lockfiles nil)
+  (setq-default
+   indent-tabs-mode nil
+   tab-width 4)
+  (setq echo-keystrokes 0.1)
+  (setq-default fill-column 80)
+  (setq-default cursor-type 'bar)
+  (setq ring-bell-function t)
+  (setq visible-bell t)
+  (global-set-key (kbd "M-n") (lambda () (interactive) (next-line 5)))
+  (global-set-key (kbd "M-p") (lambda () (interactive) (previous-line 5))))
+
+(use-package mule
+  :config 
+  (set-terminal-coding-system 'utf-8)
+  (set-keyboard-coding-system 'utf-8)
+  (prefer-coding-system 'utf-8))
+
 (use-package which-key
   :straight t
   :config
@@ -94,12 +143,6 @@
 (use-package modus-vivendi-theme :straight t :defer t)
 (use-package spacemacs-theme :straight t :defer t)
 (use-package doom-themes :straight t :defer t)
-(use-package badwolf-theme :straight t :defer t)
-
-(use-package emacs 
-  :config 
-  (setq ring-bell-function t)
-  (setq visible-bell t))
 
 (use-package custom
   :demand
@@ -132,23 +175,23 @@
 
   (amirreza/apply-color amirreza/current-mode))
 
-(use-package emacs
-  :config
-  (setq-default cursor-type 'bar))
-
 (use-package frame
   :config
   (blink-cursor-mode -1))
+
 (use-package hl-line
   :config
   (global-hl-line-mode +1))
 
 (defvar amirreza/font "Jetbrains Mono-9")
+
 (set-face-attribute 'default t :font amirreza/font)
+
 (set-frame-font amirreza/font nil t)
+
 (global-prettify-symbols-mode 1)
 
-(defun hitchhiker/change-font (font size)
+(defun amirreza/change-font (font size)
   (interactive "sFont: \nnSize: ")
   (set-face-attribute 'default t :font (format "%s-%d" font size))
   (set-frame-font (format "%s-%d" font size) nil t))
@@ -163,27 +206,17 @@
          all-the-icons-alltheicon))
 
 (use-package all-the-icons-dired
-
   :straight t
   :init
   (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
-
-(use-package spaceline :straight t
-  :disabled t
-  :config
-  (require 'spaceline-config)
-  (spaceline-spacemacs-theme))
-
-(use-package telephone-line :straight t
-  :disabled t
-  :config
-  (telephone-line-mode +1))
 
 (use-package doom-modeline :straight t
   :config
   (setq doom-modeline-height 35)
   (doom-modeline-mode 1))
 
+
+;; show time and date in modeline
 (use-package time
   :config
   (setq display-time-format "%H:%M  %Y-%m-%d")
@@ -192,6 +225,7 @@
   (setq display-time-default-load-average nil)
   (display-time-mode))
 
+;; show battery percentage in modeline
 (use-package battery
   :config
   (setq battery-mode-line-format " Battery: %b%p%%")
@@ -201,8 +235,10 @@
   (setq battery-load-critical 10)
   (display-battery-mode +1))
 
+;; show position in file using a nyan-cat
 (use-package nyan-mode :straight t :config (nyan-mode 1))
 
+;; My custom modeline
 (use-package emacs 
   :disabled t
   :config
@@ -237,69 +273,10 @@
   (setq dashboard-set-navigator t)
   (dashboard-setup-startup-hook))
 
-(use-package general
-    :disabled t
-    :straight t
-    :config
-    (defvar amirreza/leader-key "SPC")
-    (general-create-definer space-leader-lord :prefix "SPC" :states 'normal :keymaps 'override) ;; useful with evil mode
-    (general-create-definer space-leader :prefix "SPC" :states 'normal))
-
-(use-package evil
-  :disabled t
+(use-package exec-path-from-shell
+  :defer 2
   :straight t
-  :init
-  (setq evil-want-keybinding nil)
-  :config
-  (setq evil-move-beyond-eol t)
-  (define-key evil-motion-state-map (kbd "TAB") nil)
-  (evil-ex-define-cmd "q" 'kill-this-buffer)
-  (evil-mode +1)
-  :general
-  (space-leader-lord
-    "s b" 'switch-to-buffer
-    "b l" 'switch-to-buffer
-    "k b" 'kill-buffer
-    amirreza/leader-key 'find-file
-    "e e" 'execute-extended-command
-    "m w" 'delete-other-windows
-    "d w" 'delete-window
-    "s r" 'split-window-right
-    "s b" 'split-window-below
-    "e s" 'eval-last-sexp
-    "f f" 'find-file
-    "d f" 'describe-function
-    "d v" 'describe-variable
-    "d k" 'describe-key
-    "b n" 'next-buffer
-    "b p" 'previous-buffer)
-  (space-leader 
-    "C-k" (lambda () (interactive) (previous-line 5))
-    "C-j"(lambda () (interactive) (next-line 5)))
-  )
-
-
-(use-package evil-collection 
-  :disabled t
-  :straight t 
-  :config 
-  (evil-collection-init))
-
-(use-package evil-magit 
-  :disabled t
-  :straight t)
-
-(use-package evil-surround 
-  :disabled t
-  :straight t)
-
-(use-package evil-commentary 
-  :disabled t
-  :config
-  (evil-commentary-mode 1)
-  :straight t)
-
-(use-package exec-path-from-shell :straight t :config (exec-path-from-shell-initialize))
+  :config (exec-path-from-shell-initialize))
 
 (setq display-buffer-alist
       '(("\\*\\(Backtrace\\|Warnings\\|Compile-Log\\|Messages\\)\\*"
@@ -334,12 +311,12 @@
                     ("C-c w 8" . eyebrowse-switch-to-window-config-8)
                     ("C-c w 9" . eyebrowse-switch-to-window-config-9)))
 
-(use-package winner 
+(use-package winner
   :commands (winner-redo winner-undo))
 
 (use-package ace-window
   :straight t
-  :bind (("C-x o" . 'ace-window)))
+  :bind (("C-x o" . 'ace-window) ("C-x C-o" . 'ace-window)))
 
 (use-package dired
   :config
@@ -437,7 +414,7 @@
 
 (use-package erc 
   :commands erc
-  :config
+  :init
   (setq erc-nick "amirrezaask")
   (setq erc-autojoin-channels-alist
         '(("freenode.net" "#emacs" "#5hit"))))
@@ -447,22 +424,21 @@
   :bind (("C-c o p" . proced)))
 
 (use-package org
-:demand
-:init
-(defun amirreza/--org-insert-elisp-code-block ()
-  (interactive)
-  (insert (format "#+begin_src emacs-lisp\n\n#+end_src"))
-  (previous-line)
-  (beginning-of-line))
-:bind (:map org-mode-map
-            ("C-c c b" . amirreza/--org-insert-elisp-code-block))
-:config
-(setq org-ellipsis "⤵")
-(setq org-src-fontify-natively t)
-(setq org-src-tab-acts-natively t)
-(setq org-support-shift-select t)
-(setq org-src-window-setup 'current-window)
-(setq org-agenda-files '("~/org/work.org" "~/org/personal.org")))
+  :mode "\\.org\\'"
+  :bind (:map org-mode-map
+              ("C-c c b" . amirreza/--org-insert-elisp-code-block))
+  :config
+  (defun amirreza/--org-insert-elisp-code-block ()
+    (interactive)
+    (insert (format "#+begin_src emacs-lisp\n\n#+end_src"))
+    (previous-line)
+    (beginning-of-line))
+  (setq org-ellipsis "⤵")
+  (setq org-src-fontify-natively t)
+  (setq org-src-tab-acts-natively t)
+  (setq org-support-shift-select t)
+  (setq org-src-window-setup 'current-window)
+  (setq org-agenda-files '("~/org/work.org" "~/org/personal.org")))
 
 (use-package org-bullets
   :straight t
@@ -470,24 +446,8 @@
 
 (use-package toc-org :straight t :hook (org-mode . toc-org-mode))
 
-(use-package htmlize :straight t)
+(use-package htmlize :straight t :defer t)
 
-
-(use-package emacs
-  :config
-  (setq-default fill-column 80))
-
-(use-package emacs
-    :config
-    (setq-default
-    indent-tabs-mode nil
-    tab-width 4))
-
-(use-package mule
-:config 
-(set-terminal-coding-system 'utf-8)
-(set-keyboard-coding-system 'utf-8)
-(prefer-coding-system 'utf-8))
 
 (use-package cus-edit
   :config
@@ -495,21 +455,6 @@
 
 (use-package delsel
   :hook (after-init . delete-selection-mode))
-
-(use-package emacs 
-  :config
-  (setq echo-keystrokes 0.1))
-
-(use-package emacs
-  :config
-  (setq backup-directory-alist
-        '(("." . "~/.emacs.d/backup/")))
-  (setq backup-by-copying t)
-  (setq version-control t)
-  (setq delete-old-versions t)
-  (setq kept-new-versions 6)
-  (setq kept-old-versions 2)
-  (setq create-lockfiles nil))
 
 (defalias 'yes-or-no-p 'y-or-n-p)
 
@@ -524,25 +469,6 @@
 (use-package beacon
   :straight t
   :config (beacon-mode 1))
-
-;; custom motions
-(global-set-key (kbd "M-n") (lambda () (interactive) (next-line 5)))
-(global-set-key (kbd "M-p") (lambda () (interactive) (previous-line 5)))
-
-(show-paren-mode 1)
-(setq show-paren-delay 0)
-
-(use-package emacs
-  :config
-  (if (< emacs-major-version 27) ;; from Emacs 27 this settings are moved to `early-init.el'
-      (tool-bar-mode 0) ;; disable tool-bar 
-    (scroll-bar-mode 0) ;; disable scroll-bar
-    (menu-bar-mode 0) ;; disable menu-bar
-  )
-  (setq use-dialog-box nil) ;; ask quesions in minibuffer
-  (setq inhibit-splash-screen 0) ;; disable startup screen
-  (setq ring-bell-function 'ignore) ;; don't make a sound
-  )
 
 (use-package display-line-numbers
   :config
@@ -612,22 +538,6 @@
   :config
   (add-hook 'focus-in-hook #'highlight-indent-guides-auto-set-faces))
 
-(use-package emacs
-  :config
-  ; vertical scrolling
-  (setq scroll-step 1)
-  (setq scroll-margin 1)
-  (setq scroll-conservatively 101)
-  (setq scroll-up-aggressively 0.01)
-  (setq scroll-down-aggressively 0.01)
-  (setq auto-window-vscroll nil)
-  (setq fast-but-imprecise-scrolling nil)
-  (setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))
-  (setq mouse-wheel-progressive-speed nil)
-  ;; Horizontal Scroll
-  (setq hscroll-step 1)
-  (setq hscroll-margin 1))
-
 (use-package dumb-jump
   :straight t
   :bind
@@ -651,7 +561,10 @@
    ("C-M-s" . isearch-forward)
    ("C-M-r" . isearch-backward)))
 
-(use-package replace :demand t :bind ("C-x C-o" . occur))
+(use-package replace
+  :demand t)
+
+
 (use-package fzf
   :straight t
   :bind
@@ -772,21 +685,21 @@
   (ido-ubiquitous-mode 1))
 
 (use-package helm :straight t
-        :disabled t
-        :config
-        (setq helm-mode-fuzzy-match t) ;; enable fuzzy matching in all helm
-)
-    (use-package helm-descbinds :straight t
-      :disabled t
-      :bind (("C-h b" . helm-descbinds)))
+  :disabled t
+  :config
+  (setq helm-mode-fuzzy-match t))
 
-    (use-package helm-describe-modes :straight t
-    :disabled t
-    :bind (("C-h m" . helm-describe-modes)))
+(use-package helm-descbinds :straight t
+  :disabled t
+  :bind (("C-h b" . helm-descbinds)))
 
-   (use-package helm-make :straight t
-    :disabled t
-    :bind (("<f5> m" . helm-make)))
+(use-package helm-describe-modes :straight t
+  :disabled t
+  :bind (("C-h m" . helm-describe-modes)))
+
+(use-package helm-make :straight t
+  :disabled t
+  :bind (("<f5> m" . helm-make)))
 
 (use-package company
   :demand
@@ -828,9 +741,10 @@
 
 
 (use-package dap-mode :straight t)
+
 (use-package helm-lsp :disabled t :straight t :commands helm-lsp-workspace-symbol)
 
-;; (use-package lsp-ui :straight t :commands lsp-ui-mode :hook (lsp-mode . lsp-ui-mode))
+(use-package lsp-ui :straight t :disabled t :commands lsp-ui-mode :hook (lsp-mode . lsp-ui-mode))
 
 (use-package magit
   :straight t
@@ -880,6 +794,7 @@
 
 (use-package yasnippet :straight t 
   :config (yas-global-mode 1))
+
 (use-package yasnippet-snippets :straight t)
 
 (use-package python-mode
@@ -937,10 +852,8 @@
         ("C-c m t t" . go-test-current-test)))
 
 (use-package scheme
-:config
-(setq scheme-program-name "guile"))
-
-(add-to-list 'auto-mode-alist '("\\.gs\\'" . scheme-mode))
+  :config
+  (setq scheme-program-name "guile"))
 
 (use-package elisp-mode
   :config
@@ -974,8 +887,7 @@
 
 (use-package cider 
   :straight t
-  :commands (cider cider-jack-in)
-  )
+  :commands (cider cider-jack-in cider-jack-in-cljs))
 
 (use-package lisp-mode :mode "\\.cl\\'")
 
@@ -1003,10 +915,13 @@
 (use-package rust-mode :straight t :mode "\\.rs\\'")
 
 (use-package crontab-mode :defer t :straight t)
+
 (use-package apache-mode :straight t
   :mode ("\\.htaccess\\'" "httpd\\.conf\\'" "srm\\.conf\\'" "access\\.conf\\'"))
+
 (use-package systemd :straight t
   :mode ("\\.service\\'" "\\.timer\\'"))
+
 (use-package nginx-mode :straight 
   :mode ("/etc/nginx/conf.d/.*" "/etc/nginx/.*\\.conf\\'"))
 
@@ -1030,3 +945,6 @@
 (use-package redis :straight t)
 
 (use-package pacmacs :straight t :defer t)
+
+
+(defvar amirreza/emacs-init-time-elapsed (- (float-time) amirreza/emacs-init-timestamp))

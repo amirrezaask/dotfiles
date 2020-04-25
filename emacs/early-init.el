@@ -1,3 +1,4 @@
+(defvar amirreza/emacs-init-timestamp (float-time))
 (setq gc-cons-threshold (* 1024 1024 100)) ;; 100MB for Emacs initialization process
 (add-hook 'after-init-hook (lambda ()
                              (setq gc-cons-threshold (* 1024 1024 20)))) ;; reseting the gc cons to 20MB
