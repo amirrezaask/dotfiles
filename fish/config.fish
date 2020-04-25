@@ -1,1 +1,0 @@
-# Amirreza Fish configuration
