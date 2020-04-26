@@ -1758,7 +1758,7 @@ we can even go further.x
 #+END_SRC
 *** Composer Integration
 #+BEGIN_SRC emacs-lisp
-(use-package composer :straight t :hook php-mode)
+  (use-package composer :straight t :after php-mode)
 #+END_SRC
 *** PHPUnit
 #+BEGIN_SRC emacs-lisp
