@@ -1186,29 +1186,31 @@ when dumb jump can help you jump to defenitions using Rg or ag or grep (we use R
 There are two tools that I think are amazing when it comes to searching, for text =ripgrep= is
 the fastest and easiest one out there, and for files is =FZF=, let's integrate those two in Emacs.
 #+BEGIN_SRC emacs-lisp
-  (use-package isearch
-    :demand
-    :config
-    (setq isearch-highlight t)
-    (setq isearch-whitespace-regexp ".*?")
-    (setq isearch-lax-whitespace t)
-    (setq isearch-regexp-lax-whitespace nil)
-    (setq isearch-lazy-highlight t)
-    :bind 
-    (("C-s" . isearch-forward-regexp) ;; map default C-s to regex search
-     ("C-r" . isearch-backward-regexp)
-     ("C-M-s" . isearch-forward)
-     ("C-M-r" . isearch-backward)))
+    (use-package isearch
+      :demand
+      :config
+      (setq isearch-highlight t)
+      (setq isearch-whitespace-regexp ".*?")
+      (setq isearch-lax-whitespace t)
+      (setq isearch-regexp-lax-whitespace nil)
+      (setq isearch-lazy-highlight t)
+      :bind 
+      (("C-s" . isearch-forward-regexp) ;; map default C-s to regex search
+       ("C-r" . isearch-backward-regexp)
+       ("C-M-s" . isearch-forward)
+       ("C-M-r" . isearch-backward)))
 
-  (use-package replace :demand t :bind ("C-x C-o" . occur))
-  (use-package fzf
-    :straight t
-    :bind
-    (("C-c e f f" . fzf-directory)))
+    (use-package replace :demand t :bind ("C-x C-o" . occur))
 
-  (use-package rg
-   :straight t
-   :bind (("C-c e r g" . rg)))
+    (use-package fzf
+      :straight t
+      :bind
+      (("C-c e f f" . fzf-directory)))
+
+    (use-package rg
+     :straight t
+     :commands (rg))
+
 
 #+END_SRC
 *** Atomic Typing
@@ -1384,6 +1386,8 @@ Helm is amazing but it's just to big and it splits it's way with Emacs standards
     (use-package helm-descbinds 
       :straight t
       :bind (("C-h b" . helm-descbinds)))
+
+    (use-package helm-rg :straight t :bind ("C-c e r g" . helm-rg))
 
     (use-package helm-fzf
       :straight (:host github :repo "ibmandura/helm-fzf")
