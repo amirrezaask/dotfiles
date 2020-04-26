@@ -1367,44 +1367,42 @@ are uncovered and the UI wasn't good in my opinion.
 *** Helm
 Helm is amazing but it's just to big and it splits it's way with Emacs standards too much.
  #+begin_src emacs-lisp
-   (use-package helm 
-     :straight t
-     :bind (("C-x C-f" . helm-find-files)
-            ("C-x b" . helm-mini)
-            ("C-h f" . helm-apropos)
-            ("C-h a" . helm-apropos)
-            ("C-h v" . helm-apropos)
-            ("M-x" . helm-M-x)
-            ("C-s" . helm-occur)
-            ("M-y" . helm-show-kill-ring)
-            ("M-i" . helm-semantic-or-imenu)))
+    (use-package helm 
+      :straight t
+      :bind (("C-x C-f" . helm-find-files)
+             ("C-x b" . helm-mini)
+             ("C-h f" . helm-apropos)
+             ("C-h a" . helm-apropos)
+             ("C-h v" . helm-apropos)
+             ("M-x" . helm-M-x)
+             ("C-s" . helm-occur)
+             ("M-y" . helm-show-kill-ring)
+             ("M-i" . helm-semantic-or-imenu))
+      :config
+      (setq helm-mode-fuzzy-match t))
 
+    (use-package helm-descbinds 
+      :straight t
+      :bind (("C-h b" . helm-descbinds)))
 
+    (use-package helm-fzf
+      :straight (:host github :repo "ibmandura/helm-fzf")
+      :config
+      (defun amirreza/helm-smart-project-fzf ()
+        (interactive)
+        (if (helm-fzf--project-root)
+            (let ((default-directory (helm-fzf--project-root)))
+              (helm :sources '(helm-fzf-source)
+                    :buffer "*helm-fzf*"))
+          (helm :sources '(helm-fzf-source)
+                :buffer "*helm-fzf*")))
+      :bind (("C-c e f" . amirreza/helm-smart-project-fzf)))
 
-   (setq helm-mode-fuzzy-match t))
+    (use-package helm-describe-modes :straight t
+      :bind (("C-h m" . helm-describe-modes)))
 
-   (use-package helm-descbinds 
-     :straight t
-     :bind (("C-h b" . helm-descbinds)))
-
-   (use-package helm-fzf
-     :straight (:host github :repo "ibmandura/helm-fzf")
-     :config
-     (defun amirreza/helm-smart-project-fzf ()
-       (interactive)
-       (if (helm-fzf--project-root)
-           (let ((default-directory (helm-fzf--project-root)))
-             (helm :sources '(helm-fzf-source)
-                   :buffer "*helm-fzf*"))
-         (helm :sources '(helm-fzf-source)
-               :buffer "*helm-fzf*")))
-     :bind (("C-c e f" . amirreza/helm-smart-project-fzf)))
-
-   (use-package helm-describe-modes :straight t
-     :bind (("C-h m" . helm-describe-modes)))
-
-   (use-package helm-make :straight t
-     :bind (("<f5> m" . helm-make)))
+    (use-package helm-make :straight t
+      :bind (("C-c m b" . helm-make)))
 
  #+end_src
 * Completion
