@@ -1608,39 +1608,39 @@ need to configure this package to enable some LSP features that are necessary li
 go to work perfectly you need to add the =GOPATH= to your =exec-path= to let emacs find go binaries
 that it needs.
 #+BEGIN_SRC emacs-lisp
-              (use-package go-mode
-                :straight t
-                :mode ("\\.go\\'" . go-mode)
-                :hook
-                (go-mode-hook . amirreza/go-hook)
-                :bind (:map go-mode-map
-                            ("C-c m g t" . 'amirreza/snippet-go-tf)
-                            ("C-c m g h" . 'amirreza/snippet-go-hh)
-                            ("C-c m g f" . 'amirreza/snippet-go-for)
-                            ("C-c m g i" . 'amirreza/snippet-go-if)
-                            ("C-c m g p l" . 'amirreza/snippet-go-pl)
-                            ("C-c m g p f" . 'amirreza/snippet-go-pf))
-                :config
-                (defun amirreza/go-hook ()
-                  (interactive)
-                  ;; custom snippets
-                  (amirreza/defsnippet "go" "fmain" "" "func main() {" \n "}")
-                  (amirreza/defsnippet "go" "pkgm" "Package: " "package " str \n)
-                  (amirreza/defsnippet "go" "pl" "" "fmt.Println(\"" _ "\")") ;; _ is the cursor position after the expansion
-                  (amirreza/defsnippet "go" "pf" "" "fmt.Printf(\"" _ "\")")
-                  (amirreza/defsnippet "go" "ifer" "" "if err != nil {" \n _ \n "}")
-                  (amirreza/defsnippet "go" "if" "" "if " _ "{" \n "}")
-                  (amirreza/defsnippet "go" "for" "" "for " _ " := range {" \n \n "}")
-                  (amirreza/defsnippet "go" "tf" "" "func " _ "(t *testing.T) {" \n \n "}")
-                  (amirreza/defsnippet "go" "hh" "" "func " _ "(w http.ResponseWriter, r *http.Request) {" \n \n "}")
+  (use-package go-mode
+    :straight t
+    :mode ("\\.go\\'" . go-mode)
+    :init
+    (add-hook 'go-mode-hook 'amirreza/go-hook)
+    :config
+    (defun amirreza/go-hook ()
+      (interactive)
+      ;; custom snippets
+      (amirreza/defsnippet "go" "fmain" "" "func main() {" \n "}")
+      (amirreza/defsnippet "go" "pkgm" "Package: " "package " str \n)
+      (amirreza/defsnippet "go" "pl" "" "fmt.Println(\"" _ "\")") ;; _ is the cursor position after the expansion
+      (amirreza/defsnippet "go" "pf" "" "fmt.Printf(\"" _ "\")")
+      (amirreza/defsnippet "go" "ifer" "" "if err != nil {" \n _ \n "}")
+      (amirreza/defsnippet "go" "if" "" "if " _ "{" \n "}")
+      (amirreza/defsnippet "go" "for" "" "for " _ " := range {" \n \n "}")
+      (amirreza/defsnippet "go" "tf" "" "func " _ "(t *testing.T) {" \n \n "}")
+      (amirreza/defsnippet "go" "hh" "" "func " _ "(w http.ResponseWriter, r *http.Request) {" \n \n "}")
 
-                  ;; add go binaries to exec-path
-                  (add-to-list 'exec-path (concat (getenv "HOME") "/go/bin"))
+      (define-key go-mode-map (kbd "C-c m g t") 'amirreza/snippet-go-tf)
+      (define-key go-mode-map (kbd "C-c m g h") 'amirreza/snippet-go-hh)
+      (define-key go-mode-map (kbd "C-c m g f") 'amirreza/snippet-go-for)
+      (define-key go-mode-map (kbd "C-c m g i") 'amirreza/snippet-go-if)
+      (define-key go-mode-map (kbd "C-c m g p l")  'amirreza/snippet-go-pl)
+      (define-key go-mode-map (kbd "C-c m g p f")  'amirreza/snippet-go-pf)
 
-                  ;; show lambdas instead of funcs
-                  (setq-local prettify-symbols-alist '(("func" . 955)))
-                  (add-hook 'before-save-hook 'lsp-format-buffer t t)
-                  (add-hook 'before-save-hook 'lsp-organize-imports t t)))
+      ;; add go binaries to exec-path
+      (add-to-list 'exec-path (concat (getenv "HOME") "/go/bin"))
+
+      ;; show lambdas instead of funcs
+      (setq-local prettify-symbols-alist '(("func" . 955)))
+      (add-hook 'before-save-hook 'lsp-format-buffer t t)
+      (add-hook 'before-save-hook 'lsp-organize-imports t t)))
 
 #+END_SRC
 *** Go-add-tags
