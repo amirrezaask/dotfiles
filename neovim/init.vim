@@ -1,62 +1,4 @@
-call plug#begin('~/.vim/plugged')
-"Extension to netrw
-Plug 'tpope/vim-vinegar'
-"JSON manipulation and pretty printing
-Plug 'tpope/vim-jdaddy'
-"Change surrounding items like brackets or parens
-Plug 'tpope/vim-surround'
-"Comment operations
-Plug 'tpope/vim-commentary'
-"Golang development integration for vim
-Plug 'fatih/vim-go' 
-"Dockerfile syntax highlight
-Plug 'ekalinin/dockerfile.vim'
-"Define indents as Text Objects
-Plug 'michaeljsmith/vim-indent-object'
-"Ansible syntax highlighting
-Plug 'pearofducks/ansible-vim'
-"Show new/modified/deleted lines beside the line number
-Plug 'airblade/vim-gitgutter'
-"Install fzf
-Plug 'junegunn/fzf', { 'do': './install --bin' }
-"FZF vim support
-Plug 'junegunn/fzf.vim'
-"Beautiful fast status bar
-Plug 'itchyny/lightline.vim'
-"NCM completion manager for auto complete suggestions
-Plug 'ncm2/ncm2'
-Plug 'roxma/nvim-yarp'
-autocmd BufEnter * call ncm2#enable_for_buffer()
-
-set completeopt=noinsert,menuone,noselect
-Plug 'ncm2/ncm2-bufword'
-Plug 'ncm2/ncm2-path'
-set shortmess+=c
-
-" CTRL-C doesn't trigger the InsertLeave autocmd . map to <ESC> instead.
-inoremap <c-c> <ESC>
-
-" Use <TAB> to select the popup menu:
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-
-" ncm2 source for vim-lsp
-Plug 'ncm2/ncm2-vim-lsp'
-" Async jobs for vim
-Plug 'prabirshrestha/async.vim'
-"LSP client for vim
-Plug 'prabirshrestha/vim-lsp'
-"LSP client settings like registering popular langauges servers
-Plug 'mattn/vim-lsp-settings'
-" Display indentation level
-Plug 'yggdroot/indentline'
-"Support for emojis
-Plug 'junegunn/vim-emoji'
-"Rust support
-Plug 'rust-lang/rust.vim'
-"Automatically insert pairs
-Plug 'jiangmiao/auto-pairs'
-call plug#end()
+" General Settings {{{
 
 " Remap Q to nothing
 nnoremap Q <NOP>
@@ -106,19 +48,20 @@ set ruler
 set laststatus=2
 set autowrite
 set clipboard=unnamedplus
-
+let mapleader=" "
 "Better vertical movement for wrapped (long) lines"
 nnoremap j gj
 nnoremap k gk
 nnoremap ; :
-
-"Keybidings"
-let mapleader=" "
-
-" unhighlight search results
 nnoremap <leader>h :noh<cr>
+" }}}
 
-"netrw tweaks"
+
+" Plugins {{{ 
+call plug#begin('~/.vim/plugged')
+
+"Extension to netrw
+Plug 'tpope/vim-vinegar'
 let g:netrw_banner=0        " disable annoying banner
 let g:netrw_browse_split=0  " open in prior window
 let g:netrw_altv=1          " open splits to the right
@@ -126,20 +69,85 @@ let g:netrw_liststyle=3     " tree view
 let g:netrw_list_hide=netrw_gitignore#Hide()
 let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
 
-au! BufNewFile,BufReadPost *.{yaml,yml} set filetype=yaml foldmethod=indent
+"Beautiful fast status bar
+Plug 'itchyny/lightline.vim'
 
-autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+"JSON manipulation and pretty printing
+Plug 'tpope/vim-jdaddy'
 
-"GitGutter setup"
+"Change surrounding items like brackets or parens
+Plug 'tpope/vim-surround'
+
+"Comment operations
+Plug 'tpope/vim-commentary'
+
+"Golang development integration for vim
+Plug 'fatih/vim-go' 
+
+"Dockerfile syntax highlight
+Plug 'ekalinin/dockerfile.vim'
+
+"Define indents as Text Objects
+Plug 'michaeljsmith/vim-indent-object'
+
+"Ansible syntax highlighting
+Plug 'pearofducks/ansible-vim'
+
+"Show new/modified/deleted lines beside the line number
+Plug 'airblade/vim-gitgutter'
 let g:gitgutter_sign_added = '+' 
 let g:gitgutter_sign_modified = '~' 
 let g:gitgutter_sign_removed = '-'
 let g:gitgutter_sign_modified_removed = '~-'
 
+
+"Install fzf
+Plug 'junegunn/fzf', { 'do': './install --bin' }
+Plug 'junegunn/fzf.vim'
+nnoremap :fzf :FZF<CR>
+nnoremap <Leader>ff :FZF<CR> 
+
+"NCM completion manager for auto complete suggestions
+Plug 'ncm2/ncm2'
+Plug 'roxma/nvim-yarp'
+
+autocmd BufEnter * call ncm2#enable_for_buffer()
+
+set completeopt=noinsert,menuone,noselect
+
+Plug 'ncm2/ncm2-bufword'
+Plug 'ncm2/ncm2-path'
+set shortmess+=c
+
+" CTRL-C doesn't trigger the InsertLeave autocmd . map to <ESC> instead.
+inoremap <c-c> <ESC>
+
 " Use <TAB> to select the popup menu:
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
-" FZF
-nnoremap :fzf :FZF<CR>
-nnoremap <Leader>ff :FZF<CR> 
+" ncm2 source for vim-lsp
+Plug 'ncm2/ncm2-vim-lsp'
+" Async jobs for vim
+Plug 'prabirshrestha/async.vim'
+"LSP client for vim
+Plug 'prabirshrestha/vim-lsp'
+"LSP client settings like registering popular langauges servers
+Plug 'mattn/vim-lsp-settings'
+" Display indentation level
+Plug 'yggdroot/indentline'
+"Support for emojis
+Plug 'junegunn/vim-emoji'
+"Rust support
+Plug 'rust-lang/rust.vim'
+"Automatically insert pairs
+Plug 'jiangmiao/auto-pairs'
+call plug#end()
+" }}}
+
+" Filetype specific settings {{{
+" YAML {{{
+au! BufNewFile,BufReadPost *.{yaml,yml} set filetype=yaml foldmethod=indent
+autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+" }}}
+
