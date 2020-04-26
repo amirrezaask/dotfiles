@@ -19,11 +19,10 @@
 (menu-bar-mode 0) ;; disable menu-bar
 
 (setq vc-follow-symlinks t)
+(delete-file "~/.emacs.d/README.el")
 
 (setq inhibit-startup-message t
       inhibit-startup-echo-area-message user-login-name
       inhibit-default-init t
-      ;; Avoid pulling in many packages by starting the scratch buffer in
-      ;; `fundamental-mode', rather than, say, `org-mode' or `text-mode'.
       initial-major-mode 'fundamental-mode
       initial-scratch-message nil)
