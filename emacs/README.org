@@ -40,7 +40,6 @@
       - [[#battery][Battery]]
     - [[#nyan-cat][Nyan Cat]]
     - [[#my-custom-modeline][My Custom modeline]]
-      - [[#actual-mode-line-format][Actual mode line format]]
   - [[#dashboard][Dashboard]]
 - [[#evil-mode-vi-emulation][Evil Mode (Vi emulation)]]
 - [[#emacs-modes-introduction][Emacs Modes Introduction]]
@@ -419,6 +418,9 @@ so let's make which key to help us.
    (use-package spacemacs-theme :straight t :defer t)
    (use-package doom-themes :straight t :defer t)
    (use-package badwolf-theme :straight t :defer t)
+   (use-package monochrome-theme :straight t :defer t)
+   (use-package purple-haze-theme :straight t :defer t)
+   (use-package darkburn-theme :straight t :defer t)
  #+END_SRC
  You probably notice the =:defer= part in use-package, with =:defer= keyword (:something is called a keyword in elisp)
  use-package knows that we don't need this package to be loaded in startup, since we actually don't need all of our themes
@@ -426,40 +428,39 @@ so let's make which key to help us.
  that this package is installed, and if it's not install it from elpa repo.
  Now let's set a theme
  #+BEGIN_SRC emacs-lisp
-         (use-package emacs 
-           :config 
-           (setq ring-bell-function t)
-           (setq visible-bell t))
+          (use-package emacs 
+            :config 
+            (setq ring-bell-function t)
+            (setq visible-bell t))
 
-         (use-package custom
-           :demand
-           :bind (("<f12>" . amirreza/toggle-color-mode))
-           :config
-           (defvar amirreza/current-mode 'dark "Current color of Emacs.")
-           (defvar amirreza/dark-theme 'doom-outrun-electric)
-           (defvar amirreza/light-theme 'doom-one-light)
-  
-           (defmacro amirreza/--load-theme (&rest theme-opts)
-             `(progn (mapc #'disable-theme custom-enabled-themes)
-                     (load-theme ,@theme-opts)))
+          (use-package custom
+            :demand
+            :bind (("<f12>" . amirreza/toggle-color-mode))
+            :config
+            (defvar amirreza/current-mode 'dark "Current color of Emacs.")
+            (defvar amirreza/dark-theme 'darkburn)
+            (defvar amirreza/light-theme 'doom-one-light)
 
-           (defun amirreza/load-theme (theme)
-             (interactive "sEnter Theme: ")
-             (amirreza/--load-theme (intern theme) t))
-           (defun amirreza/apply-color (mode)
-             "Apply current color mode to Emacs."
-             (if (eq amirreza/current-mode 'dark)
-                 (amirreza/--load-theme amirreza/dark-theme t)
-               (amirreza/--load-theme  amirreza/light-theme t)))
+            (defmacro amirreza/--load-theme (&rest theme-opts)
+              `(progn (mapc #'disable-theme custom-enabled-themes)
+                      (load-theme ,@theme-opts)))
 
-           (defun amirreza/toggle-color-mode ()
-             "Toggle current mode to the opposite"
-             (interactive)
-             (if (eq amirreza/current-mode 'dark)
-                 (setq amirreza/current-mode 'light)
-               (setq amirreza/current-mode 'dark))
-             (amirreza/apply-color amirreza/current-mode))
+            (defun amirreza/load-theme (theme)
+              (interactive "sEnter Theme: ")
+              (amirreza/--load-theme (intern theme) t))
+            (defun amirreza/apply-color (mode)
+              "Apply current color mode to Emacs."
+              (if (eq amirreza/current-mode 'dark)
+                  (amirreza/--load-theme amirreza/dark-theme t)
+                (amirreza/--load-theme  amirreza/light-theme t)))
 
+            (defun amirreza/toggle-color-mode ()
+              "Toggle current mode to the opposite"
+              (interactive)
+              (if (eq amirreza/current-mode 'dark)
+                  (setq amirreza/current-mode 'light)
+                (setq amirreza/current-mode 'dark))
+              (amirreza/apply-color amirreza/current-mode))
            (amirreza/apply-color amirreza/current-mode))
  #+END_SRC
 **** Performance Tip 
@@ -469,7 +470,7 @@ ways of lazy-loading in use-package we will see others later on.
 #+BEGIN_SRC emacs-lisp
    (use-package emacs
      :config
-     (setq-default cursor-type 'bar))
+     (setq-default cursor-type 'box))
 
    (use-package frame
      :config
@@ -482,7 +483,7 @@ ways of lazy-loading in use-package we will see others later on.
 ** Font
  To use specific font in Emacs you just need to call a function, that's easy ha ??
  #+BEGIN_SRC emacs-lisp
-   (defvar amirreza/font "Jetbrains Mono-9")
+   (defvar amirreza/font "Hack-10")
    (set-face-attribute 'default t :font amirreza/font)
    (set-frame-font amirreza/font nil t)
    (global-prettify-symbols-mode 1)
@@ -546,10 +547,11 @@ Modeline from Spacemacs, it's basically boosted powerline
 #+end_src
 *** Doom-modeline
 #+begin_src emacs-lisp
-    (use-package doom-modeline :straight t
-      :config
-      (setq doom-modeline-height 35)
-      (doom-modeline-mode 1))
+  (use-package doom-modeline :straight t
+    :disabled t
+    :config
+    (setq doom-modeline-height 35)
+    (doom-modeline-mode 1))
 #+end_src
 **** Time/Date
 #+begin_src emacs-lisp
@@ -575,13 +577,11 @@ Modeline from Spacemacs, it's basically boosted powerline
 
 *** Nyan Cat
 #+begin_src emacs-lisp
-  (use-package nyan-mode :straight t :config (nyan-mode 1))
+  (use-package nyan-mode :straight t :disabled t :config (nyan-mode 1))
 #+end_src
 *** My Custom modeline
-**** Actual mode line format
 #+begin_src emacs-lisp
   (use-package emacs 
-    :disabled t
     :config
     (setq amirreza/modeline-seperator "   ")
     (setq-default mode-line-format (list
@@ -605,6 +605,7 @@ Modeline from Spacemacs, it's basically boosted powerline
 ** Dashboard
 #+begin_src emacs-lisp
   (use-package dashboard
+    :disabled t
     :straight t
     :config    
     (setq dashboard-banner-logo-title "Free as in freedom")
@@ -630,7 +631,7 @@ Modeline from Spacemacs, it's basically boosted powerline
         :disabled t
         :straight t
         :config
-        (defvar amirreza/leader-key "SPC")
+        (defvar amirreza/leader-key ";")
         (general-create-definer space-leader-lord :prefix "SPC" :states 'normal :keymaps 'override) ;; useful with evil mode
         (general-create-definer space-leader :prefix "SPC" :states 'normal))
 
@@ -662,10 +663,10 @@ Modeline from Spacemacs, it's basically boosted powerline
         "d k" 'describe-key
         "b n" 'next-buffer
         "b p" 'previous-buffer)
+
       (space-leader 
         "C-k" (lambda () (interactive) (previous-line 5))
-        "C-j"(lambda () (interactive) (next-line 5)))
-      )
+        "C-j"(lambda () (interactive) (next-line 5))))
 
 
     (use-package evil-collection 
@@ -687,7 +688,6 @@ Modeline from Spacemacs, it's basically boosted powerline
       :config
       (evil-commentary-mode 1)
       :straight t)
-
 
   #+end_src
 * Emacs Modes Introduction
@@ -760,7 +760,7 @@ Emacs windows can be configured in the matter of where their gonna open.
  #+BEGIN_SRC emacs-lisp
  (use-package ace-window
    :straight t
-   :bind (("C-x o" . 'ace-window)))
+   :bind (("C-x o" . 'ace-window) ("C-x C-o" . 'ace-window)))
  #+END_SRC
 * File Manager
 #+begin_src emacs-lisp
@@ -1212,9 +1212,6 @@ the fastest and easiest one out there, and for files is =FZF=, let's integrate t
 
 #+END_SRC
 *** Atomic Typing
-:PROPERTIES:
-  :header-args: :tangle no
-  :END:
 Every human being has limited number of keystrokes left, so let's make every one of them count.
 Abbrev mode is Emacs internal that expands on defined abbrevations,
 Abbrev mode is really helpful but in more complicated scenarios we need more smart tool,
@@ -1367,8 +1364,7 @@ are uncovered and the UI wasn't good in my opinion.
 
 #+END_SRC
 *** Helm
-Helm is amazing but it's just to big and it splits it's way with Emacs standards too much, it opens in another buffer which gives it some great potentials but yet
-disrespects the idea of minibuffer.
+Helm is amazing but it's just to big and it splits it's way with Emacs standards too much.
  #+begin_src emacs-lisp
       (use-package helm :straight t
         :disabled t
@@ -1522,11 +1518,15 @@ provide several feature to other packages or to the user directly.
 
 #+END_SRC
 *** Snippets
+Yasnippet is a great library for snippets and using snippets but I didn't like the Idea of saving and loading snippets from other files,
+which is slow and I like to store all my configuration in one file (this file exactly). For snippets reach to my custom snippet solution based on
+=abbrev= and =skeleton= mode which are built-in to emacs.
 #+begin_src emacs-lisp
   (use-package yasnippet :straight t 
+    :disabled t
     :hook ((yas-global-mode) . 'yas-global-mode))
 
-  (use-package yasnippet-snippets :straight t :after yasnippet)
+  (use-package yasnippet-snippets :disabled t :straight t :after yasnippet)
 #+end_src
 * Programming Languages
 ** Python
@@ -1543,10 +1543,9 @@ that inserts a docstring in python syntax.
       (interactive)
       (insert "'''\n'''")
       (previous-line))
-    (amirreza/with-backends python-mode (company-capf))
     :bind
     (:map python-mode-map 
-      ("C-c m p d" . amirreza/python-insert-docstring)))
+      ("C-c m d" . amirreza/python-insert-docstring)))
 #+END_SRC
 *** Microsoft Language Server
 #+begin_src emacs-lisp
@@ -1586,23 +1585,28 @@ that it needs.
     :straight t
     :mode ("\\.go\\'" . go-mode)
     :init
-    (defun amirreza/go-snippets ()
+    (add-hook 'go-mode-hook 'amirreza/go-hook)
+    :config
+    (defun amirreza/go-hook ()
+      (interactive)
+      ;; custom snippets
       (amirreza/defsnippet "fmain" "" "func main() {" \n "}")
       (amirreza/defsnippet "pkgm" "Package: " "package " str \n)
       (amirreza/defsnippet "pl" "" "fmt.Println(\"" _ "\")") ;; _ is the cursor position after the expansion
       (amirreza/defsnippet "pf" "" "fmt.Printf(\"" _ "\")")
       (amirreza/defsnippet "ifer" "" "if err != nil {" \n _ \n "}")
-      (amirreza/defsnippet "if" "" "if " _ "{" \n "}"))
+      (amirreza/defsnippet "if" "" "if " _ "{" \n "}")
+      (amirreza/defsnippet "for" "" "for " _ " := range {" \n \n "}")
+      (amirreza/defsnippet "test" "" "func " _ "(t *testing.T) {" \n \n "}")
+      (amirreza/defsnippet "hh" "" "func " _ "(w http.ResponseWriter, r *http.Request) {" \n \n "}")
 
-    (add-hook 'go-mode-hook (lambda () (add-to-list 'exec-path (concat (getenv "HOME") "/go/bin"))))
-    ;; (add-hook 'go-mode-hook 'amirreza/go-snippets) disabled due to switch to yasnippet
-    :config
-    (add-hook 'go-mode-hook (lambda () 
-                              (interactive)
-                              (setq-local prettify-symbols-alist '(("func" . 955)))))
-    (add-hook 'go-mode-hook (lambda () (interactive)
-                              (add-hook 'before-save-hook 'lsp-format-buffer t t)
-                              (add-hook 'before-save-hook 'lsp-organize-imports t t))))
+      ;; add go binaries to exec-path
+      (add-to-list 'exec-path (concat (getenv "HOME") "/go/bin"))
+      ;; show lambdas instead of funcs
+      (setq-local prettify-symbols-alist '(("func" . 955)))
+      (add-hook 'before-save-hook 'lsp-format-buffer t t)
+      (add-hook 'before-save-hook 'lsp-organize-imports t t)))
+
 #+END_SRC
 *** Go-add-tags
 it's always a pain to manually add struct tags for a struct specially when
@@ -1639,30 +1643,32 @@ Emacs lisp should be supported by default ha ? actually it has almost all suppor
 we can even go further.x
 #+BEGIN_SRC emacs-lisp
   (use-package elisp-mode
+    :init
+    (add-hook 'emacs-lisp-mode-hook 'amirreza/elisp-hook)
     :config
-    (setq-local prettify-symbols-alist '(("fn" . 955)))
-    (defun --amirreza/emacs-lisp-repeat (str count)
-      "Create dashes with given COUNT."
-      (let ((dashes ""))
-    (dotimes (iterator count dashes)
-      (setq dashes (concat dashes str)))))
+    (defun amirreza/elisp-hook ()
+      (setq-local prettify-symbols-alist '(("fn" . 955)))
+      (defun --amirreza/emacs-lisp-repeat (str count)
+        "Create dashes with given COUNT."
+        (let ((dashes ""))
+          (dotimes (iterator count dashes)
+            (setq dashes (concat dashes str)))))
 
-    (defun --amirreza/emacs-lisp-wrap-text-in-spaces (text)
-      (let* ((len (length text))
-         (spaces-length-side (/ (- 80 len) 2))
-         (spaces-side (--amirreza/emacs-lisp-repeat " " spaces-length-side)))
-    (format "%s%s%s" spaces-side text spaces-side)))
+      (defun --amirreza/emacs-lisp-wrap-text-in-spaces (text)
+        (let* ((len (length text))
+               (spaces-length-side (/ (- 80 len) 2))
+               (spaces-side (--amirreza/emacs-lisp-repeat " " spaces-length-side)))
+          (format "%s%s%s" spaces-side text spaces-side)))
 
-    (defun amirreza/emacs-lisp-insert-comment-line (text)
-      "Insert a comment line with given TEXT."
-      (interactive "sComment: ")
-      (let* ((text-wrapped (--amirreza/emacs-lisp-wrap-text-in-spaces text))
-         (dashes (--amirreza/emacs-lisp-repeat "=" 80)))
-    (insert (format "\n;;%s\n;;%s\n;;%s" dashes text-wrapped dashes))))
+      (defun amirreza/emacs-lisp-insert-comment-line (text)
+        "Insert a comment line with given TEXT."
+        (interactive "sComment: ")
+        (let* ((text-wrapped (--amirreza/emacs-lisp-wrap-text-in-spaces text))
+               (dashes (--amirreza/emacs-lisp-repeat "=" 80))))
+        (insert (format "\n;;%s\n;;%s\n;;%s" dashes text-wrapped dashes))))
     :bind
     (:map emacs-lisp-mode-map
-      ("C-c m d" . 'amirreza/emacs-lisp-insert-comment-line)))
-
+          ("C-c m d" . 'amirreza/emacs-lisp-insert-comment-line)))
 #+END_SRC
 ** Clojure
 *** Clojure Mode
