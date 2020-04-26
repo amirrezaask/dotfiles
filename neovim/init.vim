@@ -43,12 +43,13 @@ set smarttab
 set shiftwidth=4
 set expandtab
 set foldmethod=indent
-set path+=**
+"set path+=**
 set ruler
 set laststatus=2
 set autowrite
 set clipboard=unnamedplus
 let mapleader=" "
+
 "Better vertical movement for wrapped (long) lines"
 nnoremap j gj
 nnoremap k gk
@@ -149,5 +150,5 @@ call plug#end()
 " YAML {{{
 au! BufNewFile,BufReadPost *.{yaml,yml} set filetype=yaml foldmethod=indent
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
-" }}}
+"}}}
 

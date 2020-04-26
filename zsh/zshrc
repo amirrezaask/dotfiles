@@ -21,12 +21,15 @@ antigen bundle command-not-found
 
 # Syntax highlighting bundle.
 antigen bundle zsh-users/zsh-syntax-highlighting
+# Zsh suggesions based on history
 antigen bundle zsh-users/zsh-autosuggestions
+
 # Load the theme.
 antigen theme gnzh 
 
 # Tell Antigen that you're done.
 antigen apply
+
 
 
 # better support for vterm
@@ -42,3 +45,28 @@ function vterm_printf(){
         printf "\e]%s\e\\" "$1"
     fi
 }
+
+
+# Personal variables
+export EMACSCONFIG=~/.emacs.d
+export GO111MODULE=on
+export GOPATH=/home/amirreza/go
+export GOROOT=/usr/local/go
+export PYTHONPATH=/home/amirreza/.local/bin
+export PATH=$HOME/.config/composer/vendor/bin:$GOROOT/bin:$GOPATH/bin:$HOME/.cargo/bin:$PYTHONPATH:/usr/local/Postman:$HOME/.local/elixir-ls/:$PATH
+export EMACSTERMINAL="emacsclient -t"
+alias e=$EMACSTERMINAL
+export EDITOR=$EMACSTERMINAL
+export SHELL=/bin/zsh
+
+# remap <TAB> to escape
+# xmodmap -e "keycode 23 = Escape"
+alias open=xdg-open
+
+# reset setxkbmap
+setxkbmap -option
+
+# Caps remapping
+
+# setxkbmap -layout us,ir -option "caps:swapescape" -option "grp:alt_shift_toggle"
+setxkbmap -layout us,ir -option "ctrl:nocaps" -option "grp:alt_shift_toggle"
