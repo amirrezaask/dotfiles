@@ -1224,9 +1224,9 @@ skeleton and skeleton does it's job of inserting text.
           (use-package abbrev :demand)
           (use-package skeleton :demand
             :config
-            (defmacro amirreza/defsnippet (abbrv &rest skeleton-expansions)
+            (defmacro amirreza/defsnippet (mode abbrv &rest skeleton-expansions)
               "Snippets are wrapper around skeleton and abbrevs."
-              (let ((command-name (intern (format "amirreza/snippet-%s" abbrv))))
+              (let ((command-name (intern (format "amirreza/snippet-%s-%s" mode abbrv))))
                 `(progn
                    (define-skeleton ,command-name ""
                      ,@skeleton-expansions)
@@ -1589,19 +1589,21 @@ that it needs.
     :config
     (defun amirreza/go-hook ()
       (interactive)
-      ;; custom snippets
-      (amirreza/defsnippet "fmain" "" "func main() {" \n "}")
-      (amirreza/defsnippet "pkgm" "Package: " "package " str \n)
-      (amirreza/defsnippet "pl" "" "fmt.Println(\"" _ "\")") ;; _ is the cursor position after the expansion
-      (amirreza/defsnippet "pf" "" "fmt.Printf(\"" _ "\")")
-      (amirreza/defsnippet "ifer" "" "if err != nil {" \n _ \n "}")
-      (amirreza/defsnippet "if" "" "if " _ "{" \n "}")
-      (amirreza/defsnippet "for" "" "for " _ " := range {" \n \n "}")
-      (amirreza/defsnippet "test" "" "func " _ "(t *testing.T) {" \n \n "}")
-      (amirreza/defsnippet "hh" "" "func " _ "(w http.ResponseWriter, r *http.Request) {" \n \n "}")
 
+      ;; custom snippets
+      (amirreza/defsnippet "go" "fmain" "" "func main() {" \n "}")
+      (amirreza/defsnippet "go" "pkgm" "Package: " "package " str \n)
+      (amirreza/defsnippet "go" "pl" "" "fmt.Println(\"" _ "\")") ;; _ is the cursor position after the expansion
+      (amirreza/defsnippet "go" "pf" "" "fmt.Printf(\"" _ "\")")
+      (amirreza/defsnippet "go" "ifer" "" "if err != nil {" \n _ \n "}")
+      (amirreza/defsnippet "go" "if" "" "if " _ "{" \n "}")
+      (amirreza/defsnippet "go" "for" "" "for " _ " := range {" \n \n "}")
+      (amirreza/defsnippet "go" "tf" "" "func " _ "(t *testing.T) {" \n \n "}")
+      (amirreza/defsnippet "go" "hh" "" "func " _ "(w http.ResponseWriter, r *http.Request) {" \n \n "}")
+      
       ;; add go binaries to exec-path
       (add-to-list 'exec-path (concat (getenv "HOME") "/go/bin"))
+
       ;; show lambdas instead of funcs
       (setq-local prettify-symbols-alist '(("func" . 955)))
       (add-hook 'before-save-hook 'lsp-format-buffer t t)
