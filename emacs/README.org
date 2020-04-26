@@ -1609,14 +1609,14 @@ it's always a pain to manually add struct tags for a struct specially when
 the struct has so many fields, again thanks to the emacs community we have package for that 
 to ease that task for us.
 #+BEGIN_SRC emacs-lisp
-  (use-package go-add-tags :straight t :defer t :bind (:map go-mode-map ("C-c m s t" . go-add-tags)))
+  (use-package go-add-tags :straight t :bind (:map go-mode-map ("C-c m s t" . go-add-tags)))
 #+END_SRC
 *** Go-test
 =VSCode= has a great support when it comes to running go tests, it gives you the ability to 
 run a test when you are editing or viewing it but it does'nt mean that Emacs can't do that.
 #+BEGIN_SRC emacs-lisp
-  (use-package gotest :defer t :straight t 
-    :bind 
+  (use-package gotest :straight t 
+    :bind
     (:map go-mode-map 
           ("C-c m t f" . go-test-current-file)
           ("C-c m t t" . go-test-current-test)))
@@ -1773,9 +1773,6 @@ we can even go further.x
 #+begin_src emacs-lisp
 (use-package pacmacs :straight t :defer t)
 #+end_src
-
-
-
 * Load time
 #+begin_src emacs-lisp
 (defvar amirreza/init-time-elapsed (- (float-time) amirreza/emacs-init-timestamp))
