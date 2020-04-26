@@ -1247,51 +1247,52 @@ Narrowing frameworks in Emacs are tools that help us when we want to choose an o
 happens a lot in Emacs.
 *** Ivy
 #+BEGIN_SRC emacs-lisp
-  (use-package flx :straight t)
-  (use-package ivy
-    :straight t
-    :bind
-    (("C-x b" . 'ivy-switch-buffer)
-     :map ivy-minibuffer-map
-     ("RET" . 'ivy-alt-done))
-    :config
-    (setq ivy-height 15)
-    ;; loopish cycling through list
-    (setq ivy-wrap t)
-    ;; don't show recents in minibuffer
-    (setq ivy-use-virtual-buffers nil)
-    ;; ...but if that ever changes, show their full path
-    (setq ivy-virtual-abbreviate 'full)
-    ;; don't quit minibuffer on delete-error
-    (setq ivy-on-del-error-function #'ignore)
+        (use-package flx :straight t :disabled t)
+        (use-package ivy
+          :disabled t
+          :straight t
+          :bind
+          (("C-x b" . 'ivy-switch-buffer)
+           :map ivy-minibuffer-map
+           ("RET" . 'ivy-alt-done))
+          :config
+          (setq ivy-height 15)
+          ;; loopish cycling through list
+          (setq ivy-wrap t)
+          ;; don't show recents in minibuffer
+          (setq ivy-use-virtual-buffers nil)
+          ;; ...but if that ever changes, show their full path
+          (setq ivy-virtual-abbreviate 'full)
+          ;; don't quit minibuffer on delete-error
+          (setq ivy-on-del-error-function #'ignore)
 
-    (setf (alist-get 't ivy-format-functions-alist)
-          #'ivy-format-function-line)
-    (ivy-mode +1))
+          (setf (alist-get 't ivy-format-functions-alist)
+                #'ivy-format-function-line)
+          (ivy-mode +1))
 
-  (use-package all-the-icons-ivy :straight t :config (all-the-icons-ivy-setup))
+        (use-package all-the-icons-ivy :straight t :config (all-the-icons-ivy-setup) :disabled t)
 
-  (use-package swiper
+        (use-package swiper
+          :disabled t
+          :straight t
+          :commands (swiper)
+          :init (global-set-key (kbd "C-s") 'swiper))
 
-    :straight t
-    :commands (swiper)
-    :init (global-set-key (kbd "C-s") 'swiper))
-
-  (use-package counsel
-
-    :straight t
-    :commands (counsel-M-x counsel-find-file ivy-switch-buffer)
-    :config
-    (setq ivy-re-builders-alist
-     '((t . ivy--regex-fuzzy)))
-    :bind
-    (("M-x" . 'counsel-M-x)
-     ("C-x C-f" . 'counsel-find-file)
-     ("C-h b" . 'counsel-descbinds)
-     ("C-h f" . 'counsel-describe-function)
-     ("C-h v" . 'counsel-describe-variable)
-     ("C-h a" . 'counsel-apropos)
-     ( "M-y" . 'counsel-yank-pop)))
+        (use-package counsel
+          :disabled t
+          :straight t
+          :commands (counsel-M-x counsel-find-file ivy-switch-buffer)
+          :config
+          (setq ivy-re-builders-alist
+           '((t . ivy--regex-fuzzy)))
+          :bind
+          (("M-x" . 'counsel-M-x)
+           ("C-x C-f" . 'counsel-find-file)
+           ("C-h b" . 'counsel-descbinds)
+           ("C-h f" . 'counsel-describe-function)
+           ("C-h v" . 'counsel-describe-variable)
+           ("C-h a" . 'counsel-apropos)
+           ( "M-y" . 'counsel-yank-pop)))
 #+END_SRC
 *** Icomplete
 Icomplete is a great solution that is built-in to Emacs, but over the time at least for me it's weakneses started to come to surface, 
@@ -1366,22 +1367,45 @@ are uncovered and the UI wasn't good in my opinion.
 *** Helm
 Helm is amazing but it's just to big and it splits it's way with Emacs standards too much.
  #+begin_src emacs-lisp
-      (use-package helm :straight t
-        :disabled t
-        :config
-        (setq helm-mode-fuzzy-match t) ;; enable fuzzy matching in all helm
-)
-    (use-package helm-descbinds :straight t
-      :disabled t
-      :bind (("C-h b" . helm-descbinds)))
+   (use-package helm 
+     :straight t
+     :bind (("C-x C-f" . helm-find-files)
+            ("C-x b" . helm-mini)
+            ("C-h f" . helm-apropos)
+            ("C-h a" . helm-apropos)
+            ("C-h v" . helm-apropos)
+            ("M-x" . helm-M-x)
+            ("C-s" . helm-occur)
+            ("M-y" . helm-show-kill-ring)
+            ("M-i" . helm-semantic-or-imenu)))
 
-    (use-package helm-describe-modes :straight t
-    :disabled t
-    :bind (("C-h m" . helm-describe-modes)))
+
+
+   (setq helm-mode-fuzzy-match t))
+
+   (use-package helm-descbinds 
+     :straight t
+     :bind (("C-h b" . helm-descbinds)))
+
+   (use-package helm-fzf
+     :straight (:host github :repo "ibmandura/helm-fzf")
+     :config
+     (defun amirreza/helm-smart-project-fzf ()
+       (interactive)
+       (if (helm-fzf--project-root)
+           (let ((default-directory (helm-fzf--project-root)))
+             (helm :sources '(helm-fzf-source)
+                   :buffer "*helm-fzf*"))
+         (helm :sources '(helm-fzf-source)
+               :buffer "*helm-fzf*")))
+     :bind (("C-c e f" . amirreza/helm-smart-project-fzf)))
+
+   (use-package helm-describe-modes :straight t
+     :bind (("C-h m" . helm-describe-modes)))
 
    (use-package helm-make :straight t
-    :disabled t
-    :bind (("<f5> m" . helm-make)))
+     :bind (("<f5> m" . helm-make)))
+
  #+end_src
 * Completion
 Code completion consists of two parts, A source/server that provides the completions and 
