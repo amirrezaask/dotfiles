@@ -1,6 +1,4 @@
 call plug#begin('~/.vim/plugged')
-"Theme I use
-Plug 'sjl/badwolf' 
 "Extension to netrw
 Plug 'tpope/vim-vinegar'
 "JSON manipulation and pretty printing
@@ -29,6 +27,7 @@ Plug 'itchyny/lightline.vim'
 Plug 'ncm2/ncm2'
 Plug 'roxma/nvim-yarp'
 autocmd BufEnter * call ncm2#enable_for_buffer()
+
 set completeopt=noinsert,menuone,noselect
 Plug 'ncm2/ncm2-bufword'
 Plug 'ncm2/ncm2-path'
@@ -40,6 +39,7 @@ inoremap <c-c> <ESC>
 " Use <TAB> to select the popup menu:
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
 " ncm2 source for vim-lsp
 Plug 'ncm2/ncm2-vim-lsp'
 " Async jobs for vim
@@ -58,8 +58,6 @@ Plug 'rust-lang/rust.vim'
 Plug 'jiangmiao/auto-pairs'
 call plug#end()
 
-"Set theme"
-colorscheme badwolf 
 " Remap Q to nothing
 nnoremap Q <NOP>
 " We are using Vim not Vi
@@ -79,7 +77,7 @@ filetype indent on
 " Filetype plugins
 filetype plugin on
 " highlight current line
-set cursorline
+" set cursorline
 " to vim let us put the cursor after the last char of the line
 set ve+=onemore
 " Suggestions for commands on <TAB>
@@ -112,12 +110,14 @@ set clipboard=unnamedplus
 "Better vertical movement for wrapped (long) lines"
 nnoremap j gj
 nnoremap k gk
+nnoremap ; :
 
 "Keybidings"
 let mapleader=" "
-nnoremap <Leader>ff :FZF<CR> 
+
 " unhighlight search results
 nnoremap <leader>h :noh<cr>
+
 "netrw tweaks"
 let g:netrw_banner=0        " disable annoying banner
 let g:netrw_browse_split=0  " open in prior window
@@ -136,12 +136,10 @@ let g:gitgutter_sign_modified = '~'
 let g:gitgutter_sign_removed = '-'
 let g:gitgutter_sign_modified_removed = '~-'
 
-"NCM setup
-" autocmd BufEnter * call ncm2#enable_for_buffer()
-" set completeopt=noinsert,menuone,noselect
-" set shortmess+=c
-
 " Use <TAB> to select the popup menu:
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
+" FZF
+nnoremap :fzf :FZF<CR>
+nnoremap <Leader>ff :FZF<CR> 
