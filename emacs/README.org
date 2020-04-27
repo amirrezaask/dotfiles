@@ -34,12 +34,6 @@
     - [[#font][Font]]
     - [[#icons][Icons]]
     - [[#modeline][Modeline]]
-      - [[#spaceline][Spaceline]]
-      - [[#telephone-line][Telephone line]]
-      - [[#doom-modeline][Doom-modeline]]
-      - [[#nyan-cat][Nyan Cat]]
-      - [[#my-custom-modeline][My Custom modeline]]
-    - [[#dashboard][Dashboard]]
   - [[#windowsworkspaces][Windows/Workspaces]]
     - [[#window-rules][Window rules]]
     - [[#eyebrowse][Eyebrowse]]
@@ -68,6 +62,7 @@
     - [[#vlf-very-large-file][Vlf (very large file)]]
     - [[#abbrevsskeleton][Abbrevs/Skeleton]]
     - [[#rainbow-delimiters][Rainbow delimiters]]
+    - [[#avy][Avy]]
     - [[#edit-configuration][Edit configuration]]
     - [[#hydra][Hydra]]
   - [[#ide-setup][IDE setup]]
@@ -98,9 +93,6 @@
     - [[#irc][IRC]]
     - [[#process-management][Process management]]
     - [[#music][Music]]
-      - [[#using-counsel][Using counsel]]
-      - [[#using-rhythmboxel][Using rhythmbox.el]]
-      - [[#bongo][Bongo]]
   - [[#devops-tools][Devops Tools]]
     - [[#some-syntax-highlights][Some syntax highlights]]
     - [[#tramp][TRAMP]]
@@ -459,57 +451,6 @@ keybindings like the ones in magit forexample but with more features.
  is called, basically first buffer that wants to use that it will get loaded. =:init= means when emacs started 
  no matter what are the other options evaluate the forms after =:init=.
 *** Modeline
-**** Spaceline
- Modeline from Spacemacs, it's basically boosted powerline
- #+begin_src emacs-lisp
-   (use-package spaceline :ensure t
-     :disabled t
-     :config
-     (require 'spaceline-config)
-     (spaceline-spacemacs-theme))
- #+end_src
-**** Telephone line
- #+begin_src emacs-lisp
-   (use-package telephone-line :ensure t
-     :disabled t
-     :config
-     (telephone-line-mode +1))
- #+end_src
-**** Doom-modeline
- #+begin_src emacs-lisp
-   (use-package doom-modeline :ensure t
-     :disabled t
-     :config
-     (setq doom-modeline-height 35)
-     (doom-modeline-mode 1))
- #+end_src
-***** Time/Date
- #+begin_src emacs-lisp
-   (use-package time
-     :config
-     (setq display-time-format "%H:%M  %Y-%m-%d")
-     (setq display-time-interval 60)
-     (setq display-time-mail-directory nil)
-     (setq display-time-default-load-average nil)
-     (display-time-mode))
- #+end_src
-***** Battery
- #+begin_src emacs-lisp
-   (use-package battery
-     :config
-     (setq battery-mode-line-format " Battery: %b%p%%")
-     (setq battery-mode-line-limit 99)
-     (setq battery-update-interval 180)
-     (setq battery-load-low 20)
-     (setq battery-load-critical 10)
-     (display-battery-mode +1))
- #+end_src
-
-**** Nyan Cat
- #+begin_src emacs-lisp
-   (use-package nyan-mode :ensure t :disabled t :config (nyan-mode 1))
- #+end_src
-**** My Custom modeline
  #+begin_src emacs-lisp
    (use-package emacs 
      :config
@@ -531,21 +472,6 @@ keybindings like the ones in magit forexample but with more features.
                                      '(:eval vc-mode)
                                      mode-line-end-spaces
                                      )))
- #+end_src
-*** Dashboard
- #+begin_src emacs-lisp
-   (use-package dashboard
-     :disabled t
-     :ensure t
-     :config    
-     (setq dashboard-banner-logo-title "Free as in freedom")
-     (setq dashboard-startup-banner 2)
-     (setq dashboard-center-content t)
-     (setq dashboard-items '((projects . 5)
-			(recents  . 5)))
-
-     (setq dashboard-set-navigator t)
-     (dashboard-setup-startup-hook))
  #+end_src
 ** Windows/Workspaces
 *** Window rules
@@ -642,7 +568,6 @@ by default is bound to =C-c <left>=.
 #+BEGIN_SRC emacs-lisp
         (use-package flx :ensure t)
         (use-package ivy
-
           :ensure t
           :bind
           (("C-x b" . 'ivy-switch-buffer)
@@ -959,6 +884,11 @@ skeleton and skeleton does it's job of inserting text.
 (use-package rainbow-delimiters :ensure t :hook (prog-mode . rainbow-delimiters-mode))
 #+end_src
 
+*** Avy
+#+begin_src emacs-lisp
+  (use-package avy :ensure t
+    :commands (avy-goto-char))
+#+end_src
 *** Edit configuration
 #+begin_src emacs-lisp
     (defun amirreza/edit-configuration ()
@@ -1461,8 +1391,7 @@ provide several feature to other packages or to the user directly.
   #+end_src
 
 *** Music
-  I need music when I am working, so for me music is just a part of development environment, and let helm help us.
-**** Using counsel
+  I need music when I am working, so for me music is just a part of development environment.
   #+begin_src emacs-lisp
     (use-package counsel
       :ensure t
@@ -1476,48 +1405,6 @@ provide several feature to other packages or to the user directly.
         (interactive)
         (counsel-rhythmbox-playpause-current-song)))
   #+end_src
-**** Using rhythmbox.el
-  I contributed the missing function to =ivy= itself so i use that.
-  #+begin_src emacs-lisp
-    (use-package rhythmbox.el 
-      :disabled t
-      :load-path "~/w/dotfiles/emacs/site-lisp"
-      :bind
-      ("C-c m n" . Rhythmbox/current-song-name)
-      ("C-c m p" . Rhythmbox/playpause-current-song)
-      ("C-c m l" . Rhythmbox))
-  #+end_src
-**** Bongo
-  #+begin_src emacs-lisp
-      (use-package bongo 
-        :disabled t
-        :ensure t
-        :config
-        (setq bongo-prefer-library-buffers nil)
-        (setq bongo-insert-whole-directory-trees t)
-        (setq bongo-logo nil)
-        (setq bongo-action-track-icon nil)
-        (setq bongo-display-track-icons nil)
-        (setq bongo-display-track-lengths nil)
-        (setq bongo-display-header-icons nil)
-        (setq bongo-display-playback-mode-indicator t)
-        (setq bongo-display-inline-playback-progress nil)
-        (setq bongo-mark-played-tracks nil)
-        (setq bongo-header-line-mode nil)
-        (setq bongo-header-line-function nil)
-        (setq bongo-mode-line-indicator-mode nil)
-        (setq bongo-default-directory "~/Music")
-        (defun amirreza/dired-music-library-hook ()
-          (when (string-match-p "Music" default-directory)
-            (set (make-local-variable 'bongo-dired-library-mode) 't)))
-
-        :hook
-        (dired-mode . amirreza/dired-music-library-hook)
-        :bind
-        (:map bongo-dired-library-mode-map
-              ("<C-return>" . bongo-insert-file)))
-  #+end_src
-
 ** Devops Tools
 *** Some syntax highlights
 #+begin_src emacs-lisp
