@@ -933,9 +933,9 @@ I contributed the missing function to =ivy= itself so i use that.
 #+end_src
 * Process management
 #+begin_src emacs-lisp
-        (use-package proced
-          :commands proced
-          :bind (("C-c o p" . proced)))
+  (use-package proced
+    :commands proced
+    :bind (("C-c o p" . proced)))
 #+end_src
 * Org Mode
 ***** Org
@@ -1735,13 +1735,25 @@ that it needs.
       (amirreza/defsnippet "go" "tf" "" "func " _ "(t *testing.T) {" \n \n "}")
       (amirreza/defsnippet "go" "hh" "" "func " _ "(w http.ResponseWriter, r *http.Request) {" \n \n "}")
 
-      (define-key go-mode-map (kbd "C-c m g t") 'amirreza/snippet-go-tf)
-      (define-key go-mode-map (kbd "C-c m g h") 'amirreza/snippet-go-hh)
-      (define-key go-mode-map (kbd "C-c m g f") 'amirreza/snippet-go-for)
-      (define-key go-mode-map (kbd "C-c m g i") 'amirreza/snippet-go-if)
-      (define-key go-mode-map (kbd "C-c m g p l")  'amirreza/snippet-go-pl)
-      (define-key go-mode-map (kbd "C-c m g p f")  'amirreza/snippet-go-pf)
-
+      (defhydra amirreza-go-generator-hydra (:hint nil
+                                                   :exit t)
+        "
+               Blocks
+         ------------------
+              [_t_]  Test function
+              [_hh_] Http Handler
+              [_f_]  For loop
+              [_i_]  If
+              [_pl_] fmt.Println
+              [_pf_] fmt.Printf
+  "
+        ("t" amirreza/snippet-go-tf)
+        ("hh" amirreza/snippet-go-hh)
+        ("f" amirreza/snippet-go-f)
+        ("i" amirreza/snippet-go-i)
+        ("pl" amirreza/snippet-go-pl)
+        ("pf" amirreza/snippet-go-pf))
+      (define-key go-mode-map (kbd "C-c m g") 'amirreza-go-generator-hydra/body)
       ;; add go binaries to exec-path
       (add-to-list 'exec-path (concat (getenv "HOME") "/go/bin"))
 
