@@ -741,34 +741,48 @@ Emacs windows can be configured in the matter of where their gonna open.
 **** Eyebrowse
 =Eyebrowse= gives you =i3= like experience in Emacs, let's you have multiple workspaces and switch between them.
 #+BEGIN_SRC emacs-lisp
-  (use-package eyebrowse :straight t
-    :commands (eyebrowse-close-window-config
-               eyebrowse-create-window-config
-               eyebrowse-switch-to-window-config-0
-               eyebrowse-switch-to-window-config-1
-               eyebrowse-switch-to-window-config-2
-               eyebrowse-switch-to-window-config-3
-               eyebrowse-switch-to-window-config-4
-               eyebrowse-switch-to-window-config-5
-               eyebrowse-switch-to-window-config-6
-               eyebrowse-switch-to-window-config-7
-               eyebrowse-switch-to-window-config-8
-               eyebrowse-switch-to-window-config-9)
-    :config (eyebrowse-mode +1)
-    (defhydra eyebrowse-hydra (global-map "C-c w")
-      "Eyebrowse workspaces"
-      ("0" eyebrowse-switch-to-window-config-0 "Switch to workspace 0")
-      ("1" eyebrowse-switch-to-window-config-1 "Switch to workspace 1")
-      ("2" eyebrowse-switch-to-window-config-2 "Switch to workspace 2")
-      ("3" eyebrowse-switch-to-window-config-3 "Switch to workspace 3")
-      ("4" eyebrowse-switch-to-window-config-4 "Switch to workspace 4")
-      ("5" eyebrowse-switch-to-window-config-5 "Switch to workspace 5")
-      ("6" eyebrowse-switch-to-window-config-6 "Switch to workspace 6")
-      ("7" eyebrowse-switch-to-window-config-7 "Switch to workspace 7")
-      ("8" eyebrowse-switch-to-window-config-8 "Switch to workspace 8")
-      ("9" eyebrowse-switch-to-window-config-9 "Switch To Workspace 9")
-      ("d" eyebrowse-close-window-config "Delete this workspace")
-      ("c" eyebrowse-create-window-config "Create New Workspace")))
+    (use-package eyebrowse :straight t
+      :commands (eyebrowse-close-window-config
+                 eyebrowse-create-window-config
+                 eyebrowse-switch-to-window-config-0
+                 eyebrowse-switch-to-window-config-1
+                 eyebrowse-switch-to-window-config-2
+                 eyebrowse-switch-to-window-config-3
+                 eyebrowse-switch-to-window-config-4
+                 eyebrowse-switch-to-window-config-5
+                 eyebrowse-switch-to-window-config-6
+                 eyebrowse-switch-to-window-config-7
+                 eyebrowse-switch-to-window-config-8
+                 eyebrowse-switch-to-window-config-9)
+
+      :config (eyebrowse-mode +1)
+      (defhydra eyebrowse-hydra (:hint nil)
+        "
+        Workspaces^^         Actions^^
+        ------------------------------------------
+            [_1_]               [_d_] Delete This Workspace
+            [_2_]               [_c_] Create New Workspace
+            [_3_]
+            [_4_]
+            [_5_]
+            [_6_]
+            [_7_]
+            [_8_]
+            [_9_]
+  "
+        ("0" eyebrowse-switch-to-window-config-0 )
+        ("1" eyebrowse-switch-to-window-config-1)
+        ("2" eyebrowse-switch-to-window-config-2)
+        ("3" eyebrowse-switch-to-window-config-3)
+        ("4" eyebrowse-switch-to-window-config-4)
+        ("5" eyebrowse-switch-to-window-config-5)
+        ("6" eyebrowse-switch-to-window-config-6)
+        ("7" eyebrowse-switch-to-window-config-7)
+        ("8" eyebrowse-switch-to-window-config-8)
+        ("9" eyebrowse-switch-to-window-config-9)
+        ("d" eyebrowse-close-window-config)
+        ("c" eyebrowse-create-window-config))
+      :bind ("C-c w" . eyebrowse-hydra/body))
 
 #+END_SRC
 **** Winner (Restore Window layout)
@@ -1303,9 +1317,9 @@ Narrowing frameworks in Emacs are tools that help us when we want to choose an o
 happens a lot in Emacs.
 *** Ivy
 #+BEGIN_SRC emacs-lisp
-        (use-package flx :straight t :disabled t)
+        (use-package flx :straight t)
         (use-package ivy
-          :disabled t
+
           :straight t
           :bind
           (("C-x b" . 'ivy-switch-buffer)
@@ -1329,13 +1343,11 @@ happens a lot in Emacs.
         (use-package all-the-icons-ivy :disabled t :straight t :config (all-the-icons-ivy-setup))
 
         (use-package swiper
-          :disabled t
           :straight t
           :commands (swiper)
           :init (global-set-key (kbd "C-s") 'swiper))
 
         (use-package counsel
-          :disabled t
           :straight t
           :config
           (setq ivy-re-builders-alist
@@ -1425,45 +1437,51 @@ are uncovered and the UI wasn't good in my opinion.
 *** Helm
 Helm is amazing but it's just to big and it splits it's way with Emacs standards too much.
  #+begin_src emacs-lisp
-    (use-package helm 
-      :straight t
-      :bind (("C-x C-f" . helm-find-files)
-             ("C-x b" . helm-mini)
-             ("C-h f" . helm-apropos)
-             ("C-h a" . helm-apropos)
-             ("C-h v" . helm-apropos)
-             ("M-x" . helm-M-x)
-             ("C-s" . helm-occur)
-             ("M-y" . helm-show-kill-ring)
-             ("M-i" . helm-semantic-or-imenu))
-      :config
-      (setq helm-mode-fuzzy-match t))
+   (use-package helm 
+     :disabled t
+     :straight t
+     :bind (("C-x C-f" . helm-find-files)
+            ("C-x b" . helm-mini)
+            ("C-h f" . helm-apropos)
+            ("C-h a" . helm-apropos)
+            ("C-h v" . helm-apropos)
+            ("M-x" . helm-M-x)
+            ("C-s" . helm-occur)
+            ("M-y" . helm-show-kill-ring)
+            ("M-i" . helm-semantic-or-imenu))
+     :config
+     (setq helm-mode-fuzzy-match t))
 
-    (use-package helm-descbinds 
-      :straight t
-      :bind (("C-h b" . helm-descbinds)))
+   (use-package helm-descbinds 
+     :disabled t
+     :straight t
+     :bind (("C-h b" . helm-descbinds)))
 
-    (use-package helm-rg
-      :straight t :bind ("C-c e r g" . helm-rg))
+   (use-package helm-rg
+     :disabled t
+     :straight t :bind ("C-c e r g" . helm-rg))
 
-    (use-package helm-fzf
-      :straight (:host github :repo "ibmandura/helm-fzf")
-      :config
-      (defun amirreza/helm-smart-project-fzf ()
-        (interactive)
-        (if (helm-fzf--project-root)
-            (let ((default-directory (helm-fzf--project-root)))
-              (helm :sources '(helm-fzf-source)
-                    :buffer "*helm-fzf*"))
-          (helm :sources '(helm-fzf-source)
-                :buffer "*helm-fzf*")))
-      :bind (("C-c e f" . amirreza/helm-smart-project-fzf)))
+   (use-package helm-fzf
+     :disabled t
+     :straight (:host github :repo "ibmandura/helm-fzf")
+     :config
+     (defun amirreza/helm-smart-project-fzf ()
+       (interactive)
+       (if (helm-fzf--project-root)
+           (let ((default-directory (helm-fzf--project-root)))
+             (helm :sources '(helm-fzf-source)
+                   :buffer "*helm-fzf*"))
+         (helm :sources '(helm-fzf-source)
+               :buffer "*helm-fzf*")))
+     :bind (("C-c e f" . amirreza/helm-smart-project-fzf)))
 
-    (use-package helm-describe-modes :straight t
-      :bind (("C-h m" . helm-describe-modes)))
+   (use-package helm-describe-modes :straight t
+     :disabled t
+     :bind (("C-h m" . helm-describe-modes)))
 
-    (use-package helm-make :straight t
-      :bind (("C-c m b" . helm-make)))
+   (use-package helm-make :straight t
+     :disabled t
+     :bind (("C-c m b" . helm-make)))
 
  #+end_src
 * Completion
