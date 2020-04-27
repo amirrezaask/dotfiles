@@ -88,6 +88,7 @@
     - [[#atomic-typing][Atomic Typing]]
     - [[#rainbow-delimiters][Rainbow delimiters]]
     - [[#rainbow-blocks][Rainbow Blocks]]
+    - [[#editor-functionality-hydra][Editor Functionality Hydra]]
 - [[#narrowing-framework][Narrowing framework]]
     - [[#ivy][Ivy]]
     - [[#icomplete][Icomplete]]
@@ -1312,6 +1313,39 @@ although =Rainbow-delimiters= shows us the start and end of an list, but it's ni
 #+BEGIN_SRC emacs-lisp
 (use-package rainbow-blocks :straight t :defer t)
 #+END_SRC
+*** Editor Functionality Hydra
+#+begin_src emacs-lisp
+      (defhydra amirreza-editor-git-hydra
+        (:hint nil :exit t)
+                                           "
+              [_g_] Magit
+              [_m_] Git Messenger
+                                           "
+                                           ("g" magit-status)
+                                           ("m" git-messenger:popup-message))
+
+      (defhydra amirreza-editor-hydra (:hint nil :exit t)
+          "
+              [_e_] Edit configuration
+              [_f_] Fzf
+              [_g_] Git
+              [_i_] Iedit
+              [_r_] ripgrep
+              [_s_] sudo edit
+              [_j_] Jump to defenition
+              [_b_] Jump back
+      "
+          ("f" fzf)
+          ("e" amirreza/edit-configuration)
+          ("g" amirreza-editor-git-hydra/body)
+          ("i" iedit)
+          ("r" counsel-rg)
+          ("s" sudo-edit)
+          ("j" dumb-jump-go)
+          ("b" dumb-jump-back))
+
+      (global-set-key (kbd "C-c e") 'amirreza-editor-hydra/body)
+#+end_src
 * Narrowing framework
 Narrowing frameworks in Emacs are tools that help us when we want to choose an option from list of options, and this scenario
 happens a lot in Emacs.
