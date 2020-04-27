@@ -25,6 +25,7 @@
   - [[#packageel-setup][Package.el setup]]
       - [[#use-package][Use-package]]
 - [[#keybindings][Keybindings]]
+  - [[#hydra][Hydra]]
 - [[#exwm-emacs-x-window-manager][Exwm (Emacs X window manager)]]
 - [[#ui][UI]]
   - [[#themes][Themes]]
@@ -357,17 +358,23 @@ I respect Emacs keybinding conventions in my configuration with a few ideas borr
 + Devops related stuff prefixed with =d=.
 so let's make which key to help us.
 #+begin_src emacs-lisp
-    (use-package which-key
-      :straight t
-      :config
-      (setq which-key-idle-delay 0.2)
-      (which-key-add-key-based-replacements "C-c m" "Major mode functions")
-      (which-key-add-key-based-replacements "C-c w" "workspace functionality")
-      (which-key-add-key-based-replacements "C-c o" "external tools integration")
-      (which-key-add-key-based-replacements "C-c e" "Editor functions")
-      (which-key-add-key-based-replacements "C-c d" "Devops related functions")
-      (which-key-mode 1)
-      (which-key-setup-minibuffer))
+  (use-package which-key
+    :straight t
+    :config
+    (setq which-key-idle-delay 0.2)
+    (which-key-add-key-based-replacements "C-c m" "Major mode functions")
+    (which-key-add-key-based-replacements "C-c w" "workspace functionality")
+    (which-key-add-key-based-replacements "C-c o" "external tools integration")
+    (which-key-add-key-based-replacements "C-c e" "Editor functions")
+    (which-key-add-key-based-replacements "C-c d" "Devops related functions")
+    (which-key-mode 1)
+    (which-key-setup-minibuffer))
+#+end_src
+** Hydra
+Hydra is another amazing package by abo-abo, which help us
+define keybindings that stick around :) (that's the actual slogan of the package)
+#+begin_src emacs-lisp
+  (use-package hydra :straight t)
 #+end_src
 * Exwm (Emacs X window manager)
   #+begin_src emacs-lisp
@@ -421,6 +428,7 @@ so let's make which key to help us.
    (use-package monochrome-theme :straight t :defer t)
    (use-package purple-haze-theme :straight t :defer t)
    (use-package darkburn-theme :straight t :defer t)
+   (use-package zenburn-theme :straight t :defer t)
  #+END_SRC
  You probably notice the =:defer= part in use-package, with =:defer= keyword (:something is called a keyword in elisp)
  use-package knows that we don't need this package to be loaded in startup, since we actually don't need all of our themes
@@ -438,7 +446,7 @@ so let's make which key to help us.
             :bind (("<f12>" . amirreza/toggle-color-mode))
             :config
             (defvar amirreza/current-mode 'dark "Current color of Emacs.")
-            (defvar amirreza/dark-theme 'modus-vivendi)
+            (defvar amirreza/dark-theme 'darkburn)
             (defvar amirreza/light-theme 'doom-one-light)
 
             (defmacro amirreza/--load-theme (&rest theme-opts)
@@ -594,8 +602,8 @@ Modeline from Spacemacs, it's basically boosted powerline
                                     amirreza/modeline-seperator
                                     "%b"
                                     amirreza/modeline-seperator
-                                    mode-line-modes
-                                    amirreza/modeline-seperator
+;;                                    mode-line-modes
+  ;;                                  amirreza/modeline-seperator
                                     mode-line-position
                                     amirreza/modeline-seperator
                                     '(:eval vc-mode)
@@ -636,7 +644,8 @@ Modeline from Spacemacs, it's basically boosted powerline
         (general-create-definer space-leader :prefix "SPC" :states 'normal))
 
     (use-package evil
-      :disabled t
+
+        :disabled t
       :straight t
       :init
       (setq evil-want-keybinding nil)
@@ -649,18 +658,18 @@ Modeline from Spacemacs, it's basically boosted powerline
       (space-leader-lord
         "s b" 'switch-to-buffer
         "b l" 'switch-to-buffer
-        "k b" 'kill-buffer
+        "b k" 'kill-buffer
         amirreza/leader-key 'find-file
-        "e e" 'execute-extended-command
-        "m w" 'delete-other-windows
+        "x e" 'execute-extended-command
+        "d o" 'delete-other-windows
         "d w" 'delete-window
         "s r" 'split-window-right
         "s b" 'split-window-below
         "e s" 'eval-last-sexp
         "f f" 'find-file
-        "d f" 'describe-function
-        "d v" 'describe-variable
-        "d k" 'describe-key
+        "h d f" 'describe-function
+        "h d v" 'describe-variable
+        "h d k" 'describe-key
         "b n" 'next-buffer
         "b p" 'previous-buffer)
 
@@ -670,21 +679,22 @@ Modeline from Spacemacs, it's basically boosted powerline
 
 
     (use-package evil-collection 
-      :disabled t
+  
+        :disabled t
       :straight t 
       :config 
       (evil-collection-init))
 
     (use-package evil-magit 
-      :disabled t
+        :disabled t
       :straight t)
 
     (use-package evil-surround 
-      :disabled t
+        :disabled t
       :straight t)
 
     (use-package evil-commentary 
-      :disabled t
+        :disabled t
       :config
       (evil-commentary-mode 1)
       :straight t)
@@ -731,20 +741,34 @@ Emacs windows can be configured in the matter of where their gonna open.
 **** Eyebrowse
 =Eyebrowse= gives you =i3= like experience in Emacs, let's you have multiple workspaces and switch between them.
 #+BEGIN_SRC emacs-lisp
-  (use-package eyebrowse :straight t 
-               :config (eyebrowse-mode +1)
-               :bind (("C-c w d" . eyebrowse-close-window-config)
-                      ("C-c w c" . eyebrowse-create-window-config)
-                      ("C-c w 0" . eyebrowse-switch-to-window-config-0)
-                      ("C-c w 1" . eyebrowse-switch-to-window-config-1)
-                      ("C-c w 2" . eyebrowse-switch-to-window-config-2)
-                      ("C-c w 3" . eyebrowse-switch-to-window-config-3)
-                      ("C-c w 4" . eyebrowse-switch-to-window-config-4)
-                      ("C-c w 5" . eyebrowse-switch-to-window-config-5)
-                      ("C-c w 6" . eyebrowse-switch-to-window-config-6)
-                      ("C-c w 7" . eyebrowse-switch-to-window-config-7)
-                      ("C-c w 8" . eyebrowse-switch-to-window-config-8)
-                      ("C-c w 9" . eyebrowse-switch-to-window-config-9)))
+  (use-package eyebrowse :straight t
+    :commands (eyebrowse-close-window-config
+               eyebrowse-create-window-config
+               eyebrowse-switch-to-window-config-0
+               eyebrowse-switch-to-window-config-1
+               eyebrowse-switch-to-window-config-2
+               eyebrowse-switch-to-window-config-3
+               eyebrowse-switch-to-window-config-4
+               eyebrowse-switch-to-window-config-5
+               eyebrowse-switch-to-window-config-6
+               eyebrowse-switch-to-window-config-7
+               eyebrowse-switch-to-window-config-8
+               eyebrowse-switch-to-window-config-9)
+    :config (eyebrowse-mode +1)
+    (defhydra eyebrowse-hydra (global-map "C-c w")
+      "Eyebrowse workspaces"
+      ("0" eyebrowse-switch-to-window-config-0 "Switch to workspace 0")
+      ("1" eyebrowse-switch-to-window-config-1 "Switch to workspace 1")
+      ("2" eyebrowse-switch-to-window-config-2 "Switch to workspace 2")
+      ("3" eyebrowse-switch-to-window-config-3 "Switch to workspace 3")
+      ("4" eyebrowse-switch-to-window-config-4 "Switch to workspace 4")
+      ("5" eyebrowse-switch-to-window-config-5 "Switch to workspace 5")
+      ("6" eyebrowse-switch-to-window-config-6 "Switch to workspace 6")
+      ("7" eyebrowse-switch-to-window-config-7 "Switch to workspace 7")
+      ("8" eyebrowse-switch-to-window-config-8 "Switch to workspace 8")
+      ("9" eyebrowse-switch-to-window-config-9 "Switch To Workspace 9")
+      ("d" eyebrowse-close-window-config "Delete this workspace")
+      ("c" eyebrowse-create-window-config "Create New Workspace")))
 
 #+END_SRC
 **** Winner (Restore Window layout)
@@ -1249,50 +1273,53 @@ Narrowing frameworks in Emacs are tools that help us when we want to choose an o
 happens a lot in Emacs.
 *** Ivy
 #+BEGIN_SRC emacs-lisp
-  (use-package flx :straight t)
-  (use-package ivy
-    :straight t
-    :bind
-    (("C-x b" . 'ivy-switch-buffer)
-     :map ivy-minibuffer-map
-     ("RET" . 'ivy-alt-done))
-    :config
-    (setq ivy-height 15)
-    ;; loopish cycling through list
-    (setq ivy-wrap t)
-    ;; don't show recents in minibuffer
-    (setq ivy-use-virtual-buffers nil)
-    ;; ...but if that ever changes, show their full path
-    (setq ivy-virtual-abbreviate 'full)
-    ;; don't quit minibuffer on delete-error
-    (setq ivy-on-del-error-function #'ignore)
-    (setf (alist-get 't ivy-format-functions-alist)
-          #'ivy-format-function-line)
+        (use-package flx :straight t :disabled t)
+        (use-package ivy
+          :disabled t
+          :straight t
+          :bind
+          (("C-x b" . 'ivy-switch-buffer)
+           :map ivy-minibuffer-map
+           ("RET" . 'ivy-alt-done))
+          :config
+          (setq ivy-height 15)
+          ;; loopish cycling through list
+          (setq ivy-wrap t)
+          ;; don't show recents in minibuffer
+          (setq ivy-use-virtual-buffers nil)
+          ;; ...but if that ever changes, show their full path
+          (setq ivy-virtual-abbreviate 'full)
+          ;; don't quit minibuffer on delete-error
+          (setq ivy-on-del-error-function #'ignore)
+          (setf (alist-get 't ivy-format-functions-alist)
+                #'ivy-format-function-line)
   
-    (ivy-mode +1))
+          (ivy-mode +1))
 
-  (use-package all-the-icons-ivy :straight t :config (all-the-icons-ivy-setup))
+        (use-package all-the-icons-ivy :disabled t :straight t :config (all-the-icons-ivy-setup))
 
-  (use-package swiper
-    :straight t
-    :commands (swiper)
-    :init (global-set-key (kbd "C-s") 'swiper))
+        (use-package swiper
+          :disabled t
+          :straight t
+          :commands (swiper)
+          :init (global-set-key (kbd "C-s") 'swiper))
 
-  (use-package counsel
-    :straight t
-    :config
-    (setq ivy-re-builders-alist
-     '((t . ivy--regex-fuzzy)))
-    :bind
-    (("M-x" . 'counsel-M-x)
-     ("C-x C-f" . 'counsel-find-file)
-     ("C-h b" . 'counsel-descbinds)
-     ("C-h f" . 'counsel-describe-function)
-     ("C-h v" . 'counsel-describe-variable)
-     ("C-h a" . 'counsel-apropos)
-     ("M-i" . 'counsel-imenu)
-     ("C-c e r g" . 'counsel-rg)
-     ("M-y" . 'counsel-yank-pop)))
+        (use-package counsel
+          :disabled t
+          :straight t
+          :config
+          (setq ivy-re-builders-alist
+           '((t . ivy--regex-fuzzy)))
+          :bind
+          (("M-x" . 'counsel-M-x)
+           ("C-x C-f" . 'counsel-find-file)
+           ("C-h b" . 'counsel-descbinds)
+           ("C-h f" . 'counsel-describe-function)
+           ("C-h v" . 'counsel-describe-variable)
+           ("C-h a" . 'counsel-apropos)
+           ("M-i" . 'counsel-imenu)
+           ("C-c e r g" . 'counsel-rg)
+           ("M-y" . 'counsel-yank-pop)))
 #+END_SRC
 *** Icomplete
 Icomplete is a great solution that is built-in to Emacs, but over the time at least for me it's weakneses started to come to surface, 
@@ -1369,7 +1396,6 @@ are uncovered and the UI wasn't good in my opinion.
 Helm is amazing but it's just to big and it splits it's way with Emacs standards too much.
  #+begin_src emacs-lisp
     (use-package helm 
-      :disabled t
       :straight t
       :bind (("C-x C-f" . helm-find-files)
              ("C-x b" . helm-mini)
@@ -1384,16 +1410,13 @@ Helm is amazing but it's just to big and it splits it's way with Emacs standards
       (setq helm-mode-fuzzy-match t))
 
     (use-package helm-descbinds 
-      :disabled t
-
       :straight t
       :bind (("C-h b" . helm-descbinds)))
 
-    (use-package helm-rg :disabled t
+    (use-package helm-rg
       :straight t :bind ("C-c e r g" . helm-rg))
 
     (use-package helm-fzf
-      :disabled t
       :straight (:host github :repo "ibmandura/helm-fzf")
       :config
       (defun amirreza/helm-smart-project-fzf ()
@@ -1407,11 +1430,9 @@ Helm is amazing but it's just to big and it splits it's way with Emacs standards
       :bind (("C-c e f" . amirreza/helm-smart-project-fzf)))
 
     (use-package helm-describe-modes :straight t
-      :disabled t
       :bind (("C-h m" . helm-describe-modes)))
 
     (use-package helm-make :straight t
-      :disabled t
       :bind (("C-c m b" . helm-make)))
 
  #+end_src
