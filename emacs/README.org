@@ -376,6 +376,7 @@ Hydra is another amazing package by abo-abo, which help us
 define keybindings that stick around :) (that's the actual slogan of the package)
 #+begin_src emacs-lisp
   (use-package hydra :straight t)
+  (use-package pretty-hydra :straight t)
 #+end_src
 * Exwm (Emacs X window manager)
   #+begin_src emacs-lisp
@@ -1367,36 +1368,22 @@ although =Rainbow-delimiters= shows us the start and end of an list, but it's ni
 #+END_SRC
 *** Editor Functionality Hydra
 #+begin_src emacs-lisp
-      (defhydra amirreza-editor-git-hydra
-        (:hint nil :exit t)
-                                           "
-              [_g_] Magit
-              [_m_] Git Messenger
-                                           "
-                                           ("g" magit-status)
-                                           ("m" git-messenger:popup-message))
+  (pretty-hydra-define amirreza-editor-git-hydra (:hint nil :exit t)
+    ("Actions"
+     (("g" magit "Magit")
+      ("m" git-messenger:show-detail "Git messanger"))))
 
-      (defhydra amirreza-editor-hydra (:hint nil :exit t)
-          "
-              [_e_] Edit configuration
-              [_f_] Fzf
-              [_g_] Git
-              [_i_] Iedit
-              [_r_] ripgrep
-              [_s_] sudo edit
-              [_j_] Jump to defenition
-              [_b_] Jump back
-      "
-          ("f" fzf)
-          ("e" amirreza/edit-configuration)
-          ("g" amirreza-editor-git-hydra/body)
-          ("i" iedit)
-          ("r" counsel-rg)
-          ("s" sudo-edit)
-          ("j" dumb-jump-go)
-          ("b" dumb-jump-back))
 
-      (global-set-key (kbd "C-c e") 'amirreza-editor-hydra/body)
+  (pretty-hydra-define amirreza-editor-hydra (:hint nil :exit t)
+    ("Actions"
+     (("f" fzf "Fuzzy file search")
+      ("e" amirreza/edit-configuration "Edit Emacs configuration file")
+      ("g" amirreza-editor-git-hydra/body)
+      ("i" iedit "IEdit")
+      ("r" counsel-rg "Ripgrep")
+      ("s" sudo-edit "Sudo edit"))))
+
+   (global-set-key (kbd "C-c e") 'amirreza-editor-hydra/body)
 #+end_src
 * Narrowing framework
 Narrowing frameworks in Emacs are tools that help us when we want to choose an option from list of options, and this scenario
@@ -1786,25 +1773,15 @@ that it needs.
       (amirreza/defsnippet "go" "for" "" "for " _ " := range {" \n \n "}")
       (amirreza/defsnippet "go" "tf" "" "func " _ "(t *testing.T) {" \n \n "}")
       (amirreza/defsnippet "go" "hh" "" "func " _ "(w http.ResponseWriter, r *http.Request) {" \n \n "}")
-
-      (defhydra amirreza-go-generator-hydra (:hint nil
-                                                   :exit t)
-        "
-               Blocks
-         ------------------
-              [_t_]  Test function
-              [_hh_] Http Handler
-              [_f_]  For loop
-              [_i_]  If
-              [_pl_] fmt.Println
-              [_pf_] fmt.Printf
-  "
-        ("t" amirreza/snippet-go-tf)
-        ("hh" amirreza/snippet-go-hh)
-        ("f" amirreza/snippet-go-f)
-        ("i" amirreza/snippet-go-i)
-        ("pl" amirreza/snippet-go-pl)
-        ("pf" amirreza/snippet-go-pf))
+      (pretty-hydra-define amirreza-go-generator-hydra (:hint nil :exit t)
+        ("Code blocks"
+         (("t" amirreza/snippet-go-tf "test function")
+          ("hh" amirreza/snippet-go-hh "http handler")
+          ("f" amirreza/snippet-go-for "For loop")
+          ("i" amirreza/snippet-go-if "If")
+          ("pl" amirreza/snippet-go-pl "fmt.println")
+          ("pf" amirreza/snippet-go-pf "fmt.printf"))))
+    
       (define-key go-mode-map (kbd "C-c m g") 'amirreza-go-generator-hydra/body)
       ;; add go binaries to exec-path
       (add-to-list 'exec-path (concat (getenv "HOME") "/go/bin"))
