@@ -59,6 +59,11 @@ alias e=$EMACSTERMINAL
 export EDITOR=$EMACSTERMINAL
 export SHELL=/bin/zsh
 
+
+# TAB => Keycode 23
+# ESC => Keycode 9
+# Ctrl => 
+# 
 # remap <TAB> to escape
 # xmodmap -e "keycode 23 = Escape"
 alias open=xdg-open

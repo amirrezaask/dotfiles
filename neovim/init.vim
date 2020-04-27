@@ -118,7 +118,7 @@ set completeopt=noinsert,menuone,noselect
 
 Plug 'ncm2/ncm2-bufword'
 Plug 'ncm2/ncm2-path'
-set shortmess+=c
+"set shortmess+=c
 
 " CTRL-C doesn't trigger the InsertLeave autocmd . map to <ESC> instead.
 inoremap <c-c> <ESC>
@@ -151,4 +151,12 @@ call plug#end()
 au! BufNewFile,BufReadPost *.{yaml,yml} set filetype=yaml foldmethod=indent
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 "}}}
+"
+" Go {{{
+augroup go_settings go 
+    " Some snippets
+    autocmd FileType go nnoremap <leader>ie iif err != nil {<CR>}
+    autocmd FileType go nnoremap <leader>if iif {<CR><CR>}<ESC>kk
+augroup END
+" }}}
 
