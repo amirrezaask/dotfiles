@@ -513,32 +513,23 @@ Emacs windows can be configured in the matter of where their gonna open.
                  eyebrowse-switch-to-window-config-9)
 
       :config (eyebrowse-mode +1)
-      (defhydra eyebrowse-hydra (:hint nil)
-        "
-        Workspaces^^         Actions^^
-        ------------------------------------------
-            [_1_]               [_d_] Delete This Workspace
-            [_2_]               [_c_] Create New Workspace
-            [_3_]
-            [_4_]
-            [_5_]
-            [_6_]
-            [_7_]
-            [_8_]
-            [_9_]
-  "
-        ("0" eyebrowse-switch-to-window-config-0 )
-        ("1" eyebrowse-switch-to-window-config-1)
-        ("2" eyebrowse-switch-to-window-config-2)
-        ("3" eyebrowse-switch-to-window-config-3)
-        ("4" eyebrowse-switch-to-window-config-4)
-        ("5" eyebrowse-switch-to-window-config-5)
-        ("6" eyebrowse-switch-to-window-config-6)
-        ("7" eyebrowse-switch-to-window-config-7)
-        ("8" eyebrowse-switch-to-window-config-8)
-        ("9" eyebrowse-switch-to-window-config-9)
-        ("d" eyebrowse-close-window-config)
-        ("c" eyebrowse-create-window-config))
+      (pretty-hydra-define eyebrowse-hydra (:hint nil)
+        ("Workspaces"
+          (("0" eyebrowse-switch-to-window-config-0)
+          ("1" eyebrowse-switch-to-window-config-0)
+          ("2" eyebrowse-switch-to-window-config-0)
+          ("3" eyebrowse-switch-to-window-config-0)
+          ("4" eyebrowse-switch-to-window-config-0)
+          ("5" eyebrowse-switch-to-window-config-0)
+          ("6" eyebrowse-switch-to-window-config-0)
+          ("7" eyebrowse-switch-to-window-config-0)
+          ("8" eyebrowse-switch-to-window-config-0)
+          ("9" eyebrowse-switch-to-window-config-0))
+        
+         "Actions"
+          (("d" eyebrowse-close-window-config)
+          ("c" eyebrowse-create-window-config))))
+    
       :bind ("C-c w" . eyebrowse-hydra/body))
 
 #+END_SRC
@@ -585,7 +576,6 @@ by default is bound to =C-c <left>=.
           (setq ivy-on-del-error-function #'ignore)
           (setf (alist-get 't ivy-format-functions-alist)
                 #'ivy-format-function-line)
-  
           (ivy-mode +1))
 
         (use-package all-the-icons-ivy :disabled t :ensure t :config (all-the-icons-ivy-setup))
