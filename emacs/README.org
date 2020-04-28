@@ -40,6 +40,7 @@
     - [[#winner-restore-window-layout][Winner (Restore Window layout)]]
     - [[#ace-window-better-window-management][Ace Window (Better Window Management)]]
     - [[#beacon][Beacon]]
+    - [[#window-manager-hydra][Window Manager Hydra]]
   - [[#selection-candidates-and-searching][Selection Candidates and searching]]
   - [[#editor][Editor]]
     - [[#defaults][Defaults]]
@@ -545,10 +546,11 @@ by default is bound to =C-c <left>=.
 #+END_SRC
 *** Ace Window (Better Window Management)
 #+BEGIN_SRC emacs-lisp
-(use-package ace-window
-  :ensure t
-  :bind (("C-x o" . 'ace-window) ("C-x C-o" . 'ace-window)))
-;; TODO write hydra for window management
+  (use-package ace-window
+    :ensure t
+    :commands (ace-window))
+
+
 #+END_SRC
 *** Beacon
 #+begin_src emacs-lisp
@@ -556,6 +558,24 @@ by default is bound to =C-c <left>=.
     :ensure t
     :defer 1
     :config (beacon-mode 1))
+#+end_src
+*** Window Manager Hydra
+#+begin_src emacs-lisp
+    (pretty-hydra-define amirreza-window-manager-hydra (:hint nil)
+      ("Movements"
+       (("u" windmove-up "Up")
+        ("d" windmove-down "Down")
+        ("r" windmove-right "Right")
+        ("l" windmove-left "Left"))
+       "Actions"
+       (("a" ace-window "Ace window")
+        ("d" delete-window "Delete current window")
+        ("z" delete-other-windows "Zoom in current window")
+        ("u" winner-undo "Back to previous window configuration"))))
+
+  (global-set-key (kbd "C-x o") 'amirreza-window-manager-hydra/body)
+  (global-set-key (kbd "C-x C-o") 'amirreza-window-manager-hydra/body)
+
 #+end_src
 ** Selection Candidates and searching
 #+BEGIN_SRC emacs-lisp
