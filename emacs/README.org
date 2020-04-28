@@ -99,6 +99,7 @@
     - [[#docker][Docker]]
     - [[#kubernetes][Kubernetes]]
     - [[#redis][Redis]]
+- [[#benchmark-startup-time][Benchmark startup time]]
 
 * Introduction
 =Emacs= is one of the oldest softwares that has active development and community after 40 years passed from the initial release, but why is
@@ -547,6 +548,7 @@ by default is bound to =C-c <left>=.
 (use-package ace-window
   :ensure t
   :bind (("C-x o" . 'ace-window) ("C-x C-o" . 'ace-window)))
+;; TODO write hydra for window management
 #+END_SRC
 *** Beacon
 #+begin_src emacs-lisp
@@ -557,49 +559,51 @@ by default is bound to =C-c <left>=.
 #+end_src
 ** Selection Candidates and searching
 #+BEGIN_SRC emacs-lisp
-        (use-package flx :ensure t)
-        (use-package ivy
-          :ensure t
-          :bind
-          (("C-x b" . 'ivy-switch-buffer)
-           :map ivy-minibuffer-map
-           ("RET" . 'ivy-alt-done))
-          :config
-          (setq ivy-height 15)
-          ;; loopish cycling through list
-          (setq ivy-wrap t)
-          ;; don't show recents in minibuffer
-          (setq ivy-use-virtual-buffers nil)
-          ;; ...but if that ever changes, show their full path
-          (setq ivy-virtual-abbreviate 'full)
-          ;; don't quit minibuffer on delete-error
-          (setq ivy-on-del-error-function #'ignore)
-          (setf (alist-get 't ivy-format-functions-alist)
-                #'ivy-format-function-line)
-          (ivy-mode +1))
+  (use-package flx :ensure t)
+  (use-package ivy
+    :ensure t
+    :bind
+    (("C-x b" . 'ivy-switch-buffer)
+     :map ivy-minibuffer-map
+     ("RET" . 'ivy-alt-done))
+    :config
+    (setq ivy-height 15)
+    ;; loopish cycling through list
+    (setq ivy-wrap t)
+    ;; don't show recents in minibuffer
+    (setq ivy-use-virtual-buffers nil)
+    ;; ...but if that ever changes, show their full path
+    (setq ivy-virtual-abbreviate 'full)
+    ;; don't quit minibuffer on delete-error
+    (setq ivy-on-del-error-function #'ignore)
+    (setf (alist-get 't ivy-format-functions-alist)
+          #'ivy-format-function-line)
+    (ivy-mode +1))
 
-        (use-package all-the-icons-ivy :disabled t :ensure t :config (all-the-icons-ivy-setup))
+  (use-package all-the-icons-ivy :disabled t :ensure t :config (all-the-icons-ivy-setup))
 
-        (use-package swiper
-          :ensure t
-          :commands (swiper)
-          :init (global-set-key (kbd "C-s") 'swiper))
+  (use-package ivy-rich :ensure t :config (ivy-rich-mode 1))
 
-        (use-package counsel
-          :ensure t
-          :config
-          (setq ivy-re-builders-alist
-           '((t . ivy--regex-fuzzy)))
-          :bind
-          (("M-x" . 'counsel-M-x)
-           ("C-x C-f" . 'counsel-find-file)
-           ("C-h b" . 'counsel-descbinds)
-           ("C-h f" . 'counsel-describe-function)
-           ("C-h v" . 'counsel-describe-variable)
-           ("C-h a" . 'counsel-apropos)
-           ("M-i" . 'counsel-imenu)
-           ("C-c e r g" . 'counsel-rg)
-           ("M-y" . 'counsel-yank-pop)))
+  (use-package swiper
+    :ensure t
+    :commands (swiper)
+    :init (global-set-key (kbd "C-s") 'swiper))
+
+  (use-package counsel
+    :ensure t
+    :config
+    (setq ivy-re-builders-alist
+     '((t . ivy--regex-fuzzy)))
+    :bind
+    (("M-x" . 'counsel-M-x)
+     ("C-x C-f" . 'counsel-find-file)
+     ("C-h b" . 'counsel-descbinds)
+     ("C-h f" . 'counsel-describe-function)
+     ("C-h v" . 'counsel-describe-variable)
+     ("C-h a" . 'counsel-apropos)
+     ("M-i" . 'counsel-imenu)
+     ("C-c e r g" . 'counsel-rg)
+     ("M-y" . 'counsel-yank-pop)))
 #+END_SRC
 ** Editor
 *** Defaults
@@ -1436,3 +1440,7 @@ provide several feature to other packages or to the user directly.
 (use-package redis :ensure t :defer t)
 #+end_src
 
+* Benchmark startup time
+#+begin_src emacs-lisp
+(defvar amirreza/startup-elapsed (- (float-time) amirreza/emacs-init-timestamp))
+#+end_src
