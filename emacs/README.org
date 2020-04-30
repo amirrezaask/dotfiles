@@ -27,7 +27,6 @@
   - [[#keybinding-conventions][Keybinding conventions]]
 - [[#chapters][Chapters]]
   - [[#keybinding-helper-packages][Keybinding helper packages]]
-  - [[#exwm-setup][Exwm setup]]
   - [[#ui][UI]]
     - [[#themes][Themes]]
     - [[#some-cursor-tweaks][Some cursor tweaks]]
@@ -40,10 +39,10 @@
     - [[#winner-restore-window-layout][Winner (Restore Window layout)]]
     - [[#ace-window-better-window-management][Ace Window (Better Window Management)]]
     - [[#beacon][Beacon]]
-    - [[#window-manager-hydra][Window Manager Hydra]]
   - [[#selection-candidates-and-searching][Selection Candidates and searching]]
   - [[#editor][Editor]]
     - [[#defaults][Defaults]]
+    - [[#custom-motions][Custom motions]]
     - [[#isearch][Isearch]]
     - [[#fuzzy-file-finder][Fuzzy file finder]]
     - [[#ripgrep][Ripgrep]]
@@ -67,9 +66,8 @@
     - [[#edit-configuration][Edit configuration]]
     - [[#hydra][Hydra]]
   - [[#ide-setup][IDE setup]]
+    - [[#add-executable-paths][Add executable paths]]
     - [[#code-completion][Code completion]]
-    - [[#terminal-emulator][Terminal Emulator]]
-      - [[#vterm][VTerm]]
     - [[#language-server-protocol][Language Server Protocol]]
     - [[#git-integration][Git integration]]
     - [[#syntax-checking][Syntax checking]]
@@ -290,45 +288,6 @@ For keybinding helpers I use two packages
 keybindings like the ones in magit forexample but with more features.
 [["https://www.youtube.com/watch?v=ONHEDj3kWrE&t=1258s"][Hydra Demo]]
 
-** Exwm setup
- using x window system bindings we can make Emacs act as a X window manager
- still does'nt work as I wanted it to but I work on this part whenever I have time.
-   #+begin_src emacs-lisp
-     (use-package desktop-environment
-       :disabled t
-       :ensure t
-       :config
-       (desktop-environment-mode))
-
-     (use-package exwm 
-       :disabled t
-       :ensure t
-       :config 
-       (require 'exwm-config)
-
-       (exwm-config-default) ;; some basic default keybindings
-
-       (setq exwm-workspace-number 4) ;; initial workspaces
-
-       (setq exwm-input-simulation-keys
-             '(([?\C-b] . [left])
-               ([?\C-f] . [right])
-               ([?\C-p] . [up])
-               ([?\C-n] . [down])
-               ([?\C-a] . [home])
-               ([?\C-e] . [end])
-               ([?\M-v] . [prior])
-               ([?\C-v] . [next])
-               ([?\C-d] . [delete])
-               ([?\C-k] . [S-end delete])))
-  
-       (setq exwm-manage-configurations
-             '((string= exwm-instance-name "firefox") workspace 1
-             (string= exwm-instance-name "rhythmbox") workspace 8)
-             )
-       )
-
-   #+end_src
 ** UI
 *** Themes
   Now that we have use-package we can start installing thems, packages, etc. Let's start by installing some thems.
@@ -362,7 +321,7 @@ keybindings like the ones in magit forexample but with more features.
              :bind (("<f12>" . amirreza/toggle-color-mode))
              :config
              (defvar amirreza/current-mode 'dark "Current color of Emacs.")
-             (defvar amirreza/dark-theme 'darkburn)
+             (defvar amirreza/dark-theme 'doom-one)
              (defvar amirreza/light-theme 'doom-one-light)
 
              (defmacro amirreza/--load-theme (&rest theme-opts)
@@ -500,39 +459,40 @@ Emacs windows can be configured in the matter of where their gonna open.
 *** Eyebrowse
 =Eyebrowse= gives you =i3= like experience in Emacs, let's you have multiple workspaces and switch between them.
 #+BEGIN_SRC emacs-lisp
-    (use-package eyebrowse :ensure t
-      :commands (eyebrowse-close-window-config
-                 eyebrowse-create-window-config
-                 eyebrowse-switch-to-window-config-0
-                 eyebrowse-switch-to-window-config-1
-                 eyebrowse-switch-to-window-config-2
-                 eyebrowse-switch-to-window-config-3
-                 eyebrowse-switch-to-window-config-4
-                 eyebrowse-switch-to-window-config-5
-                 eyebrowse-switch-to-window-config-6
-                 eyebrowse-switch-to-window-config-7
-                 eyebrowse-switch-to-window-config-8
-                 eyebrowse-switch-to-window-config-9)
+      (use-package eyebrowse :ensure t
+        :commands (eyebrowse-close-window-config
+                   eyebrowse-create-window-config
+                   eyebrowse-switch-to-window-config-0
+                   eyebrowse-switch-to-window-config-1
+                   eyebrowse-switch-to-window-config-2
+                   eyebrowse-switch-to-window-config-3
+                   eyebrowse-switch-to-window-config-4
+                   eyebrowse-switch-to-window-config-5
+                   eyebrowse-switch-to-window-config-6
+                   eyebrowse-switch-to-window-config-7
+                   eyebrowse-switch-to-window-config-8
+                   eyebrowse-switch-to-window-config-9)
 
-      :config (eyebrowse-mode +1)
-      (pretty-hydra-define eyebrowse-hydra (:hint nil)
-        ("Workspaces"
-          (("0" eyebrowse-switch-to-window-config-0)
-          ("1" eyebrowse-switch-to-window-config-0)
-          ("2" eyebrowse-switch-to-window-config-0)
-          ("3" eyebrowse-switch-to-window-config-0)
-          ("4" eyebrowse-switch-to-window-config-0)
-          ("5" eyebrowse-switch-to-window-config-0)
-          ("6" eyebrowse-switch-to-window-config-0)
-          ("7" eyebrowse-switch-to-window-config-0)
-          ("8" eyebrowse-switch-to-window-config-0)
-          ("9" eyebrowse-switch-to-window-config-0))
+        :config (eyebrowse-mode +1)
+        (pretty-hydra-define eyebrowse-hydra (:hint nil :exit t)
+          ("Workspaces"
+            (("0" eyebrowse-switch-to-window-config-0)
+            ("1" eyebrowse-switch-to-window-config-1)
+            ("2" eyebrowse-switch-to-window-config-2)
+            ("3" eyebrowse-switch-to-window-config-3)
+            ("4" eyebrowse-switch-to-window-config-4)
+            ("5" eyebrowse-switch-to-window-config-5)
+            ("6" eyebrowse-switch-to-window-config-6)
+            ("7" eyebrowse-switch-to-window-config-7)
+            ("8" eyebrowse-switch-to-window-config-8)
+            ("9" eyebrowse-switch-to-window-config-9))
         
-         "Actions"
-          (("d" eyebrowse-close-window-config)
-          ("c" eyebrowse-create-window-config))))
+           "Actions"
+            (("d" eyebrowse-close-window-config)
+            ("c" eyebrowse-create-window-config)
+            ("e" keyboard-quit))))
     
-      :bind ("C-c w" . eyebrowse-hydra/body))
+        :bind ("C-c w" . eyebrowse-hydra/body))
 
 #+END_SRC
 *** Winner (Restore Window layout)
@@ -546,11 +506,11 @@ by default is bound to =C-c <left>=.
 #+END_SRC
 *** Ace Window (Better Window Management)
 #+BEGIN_SRC emacs-lisp
-  (use-package ace-window
-    :ensure t
-    :commands (ace-window))
-
-
+      (use-package ace-window
+        :ensure t
+        :commands (ace-window)
+        :bind (("C-x o" . 'ace-window)
+               ("C-x C-o" . 'ace-window)))
 #+END_SRC
 *** Beacon
 #+begin_src emacs-lisp
@@ -559,71 +519,53 @@ by default is bound to =C-c <left>=.
     :defer 1
     :config (beacon-mode 1))
 #+end_src
-*** Window Manager Hydra
-#+begin_src emacs-lisp
-    (pretty-hydra-define amirreza-window-manager-hydra (:hint nil)
-      ("Movements"
-       (("u" windmove-up "Up")
-        ("d" windmove-down "Down")
-        ("r" windmove-right "Right")
-        ("l" windmove-left "Left"))
-       "Actions"
-       (("a" ace-window "Ace window")
-        ("d" delete-window "Delete current window")
-        ("z" delete-other-windows "Zoom in current window")
-        ("u" winner-undo "Back to previous window configuration"))))
-
-  (global-set-key (kbd "C-x o") 'amirreza-window-manager-hydra/body)
-  (global-set-key (kbd "C-x C-o") 'amirreza-window-manager-hydra/body)
-
-#+end_src
 ** Selection Candidates and searching
 #+BEGIN_SRC emacs-lisp
-  (use-package flx :ensure t)
-  (use-package ivy
-    :ensure t
-    :bind
-    (("C-x b" . 'ivy-switch-buffer)
-     :map ivy-minibuffer-map
-     ("RET" . 'ivy-alt-done))
-    :config
-    (setq ivy-height 15)
-    ;; loopish cycling through list
-    (setq ivy-wrap t)
-    ;; don't show recents in minibuffer
-    (setq ivy-use-virtual-buffers nil)
-    ;; ...but if that ever changes, show their full path
-    (setq ivy-virtual-abbreviate 'full)
-    ;; don't quit minibuffer on delete-error
-    (setq ivy-on-del-error-function #'ignore)
-    (setf (alist-get 't ivy-format-functions-alist)
-          #'ivy-format-function-line)
-    (ivy-mode +1))
+    (use-package flx :ensure t)
+    (use-package ivy
+      :ensure t
+      :bind
+      (("C-x b" . 'ivy-switch-buffer)
+       :map ivy-minibuffer-map
+       ("RET" . 'ivy-alt-done))
+      :config
+      (setq ivy-height 15)
+      ;; loopish cycling through list
+      (setq ivy-wrap t)
+      ;; don't show recents in minibuffer
+      (setq ivy-use-virtual-buffers nil)
+      ;; ...but if that ever changes, show their full path
+      (setq ivy-virtual-abbreviate 'full)
+      ;; don't quit minibuffer on delete-error
+      (setq ivy-on-del-error-function #'ignore)
+      (setf (alist-get 't ivy-format-functions-alist)
+            #'ivy-format-function-line)
+      (ivy-mode +1))
 
-  (use-package all-the-icons-ivy :disabled t :ensure t :config (all-the-icons-ivy-setup))
+    (use-package all-the-icons-ivy :disabled t :ensure t :config (all-the-icons-ivy-setup))
 
-  (use-package ivy-rich :ensure t :config (ivy-rich-mode 1))
+    (use-package ivy-rich :ensure t :config (ivy-rich-mode 1))
 
-  (use-package swiper
-    :ensure t
-    :commands (swiper)
-    :init (global-set-key (kbd "C-s") 'swiper))
+    (use-package swiper
+      :ensure t
+      :commands (swiper)
+      :init (global-set-key (kbd "C-s") 'swiper))
 
-  (use-package counsel
-    :ensure t
-    :config
-    (setq ivy-re-builders-alist
-     '((t . ivy--regex-fuzzy)))
-    :bind
-    (("M-x" . 'counsel-M-x)
-     ("C-x C-f" . 'counsel-find-file)
-     ("C-h b" . 'counsel-descbinds)
-     ("C-h f" . 'counsel-describe-function)
-     ("C-h v" . 'counsel-describe-variable)
-     ("C-h a" . 'counsel-apropos)
-     ("M-i" . 'counsel-imenu)
-     ("C-c e r g" . 'counsel-rg)
-     ("M-y" . 'counsel-yank-pop)))
+    (use-package counsel
+      :ensure t
+      :config
+      (setq ivy-re-builders-alist
+       '((t . ivy--regex-fuzzy)))
+      :bind
+      (("M-x" . 'counsel-M-x)
+       ("C-x C-f" . 'counsel-find-file)
+       ("C-h b" . 'counsel-descbinds)
+       ("C-h f" . 'counsel-describe-function)
+       ("C-h v" . 'counsel-describe-variable)
+       ("C-h a" . 'counsel-apropos)
+       ("M-i" . 'counsel-imenu)
+       ("M-y" . 'counsel-yank-pop)
+       ("C-c f" . 'counsel-fzf)))
 #+END_SRC
 ** Editor
 *** Defaults
@@ -692,6 +634,11 @@ by default is bound to =C-c <left>=.
     (setq show-paren-delay 0))
 
 #+end_src
+*** Custom motions
+#+begin_src emacs-lisp
+  (global-set-key (kbd "M-n") (lambda () (interactive) (next-line 10)))
+  (global-set-key (kbd "M-p") (lambda () (interactive) (previous-line 10)))
+#+end_src
 *** Isearch
 Isearch is emacs internal package for searching in buffers, I actually don't use it 
 very often since I'm using swiper but I configured it so let it be here any way.
@@ -714,10 +661,9 @@ very often since I'm using swiper but I configured it so let it be here any way.
 Fuzzy file search is amazing tool that doesn't choke up even in my home folder 
 it's just magic.
 #+begin_src emacs-lisp
-    (use-package fzf
-      :ensure t
-      :commands (fzf fzf-directory))
-
+  (use-package fzf
+    :ensure t
+    :commands (fzf fzf-directory))
 #+end_src
 *** Ripgrep
 Ripgrep is another magical tool that replaces the old =grep= command and actually
@@ -914,13 +860,13 @@ skeleton and skeleton does it's job of inserting text.
   (pretty-hydra-define amirreza-editor-git-hydra (:hint nil :exit t)
     ("Actions"
      (("g" magit "Magit")
-      ("m" git-messenger:show-detail "Git messanger"))))
+      ("m" git-messenger:popup-message "Git messanger"))))
 
   (pretty-hydra-define amirreza-editor-hydra (:hint nil :exit t)
     ("Actions"
-     (("f" fzf "Fuzzy file search")
+     (("f" counsel-fzf "Fuzzy file search")
       ("e" amirreza/edit-configuration "Edit Emacs configuration file")
-      ("g" amirreza-editor-git-hydra/body)
+      ("g" amirreza-editor-git-hydra/body "Git actions")
       ("i" iedit "IEdit")
       ("r" counsel-rg "Ripgrep")
       ("s" sudo-edit "Sudo edit"))))
@@ -928,6 +874,10 @@ skeleton and skeleton does it's job of inserting text.
    (global-set-key (kbd "C-c e") 'amirreza-editor-hydra/body)
 #+end_src
 ** IDE setup
+*** Add executable paths
+#+begin_src emacs-lisp
+(use-package exec-path-from-shell :ensure t :defer 1 :config (exec-path-from-shell-initialize))
+#+end_src
 *** Code completion
 Code completion consists of two parts, A source/server that provides the completions and 
 an engine that knows when to open prompt and show the completions. We will configure servers later
@@ -963,13 +913,6 @@ can call an get completions based on that.
     (global-company-mode t))
 
 #+end_src
-*** Terminal Emulator
-**** VTerm
-     #+BEGIN_SRC emacs-lisp
-       (use-package vterm
-         :ensure t
-         :commands vterm)
-#+END_SRC
 *** Language Server Protocol
 Language Server protocol is a open source protocol developed by microsoft but now it's being
 developed by community, it defines a communication protocol that a lanaguge server (let's say gopls)
@@ -1128,6 +1071,7 @@ provide several feature to other packages or to the user directly.
         (amirreza/defsnippet "go" "fn" "" "func " _ "() {" \n \n "}")
         (amirreza/defsnippet "go" "tf" "" "func " _ "(t *testing.T) {" \n \n "}")
         (amirreza/defsnippet "go" "hh" "" "func " _ "(w http.ResponseWriter, r *http.Request) {" \n \n "}")
+
         (pretty-hydra-define amirreza-go-generator-hydra (:hint nil :exit t)
           ("Code blocks"
            (("t" amirreza/snippet-go-tf "test function")
@@ -1136,7 +1080,7 @@ provide several feature to other packages or to the user directly.
             ("i" amirreza/snippet-go-if "If")
             ("pl" amirreza/snippet-go-pl "fmt.println")
             ("pf" amirreza/snippet-go-pf "fmt.printf"))))
-    
+
         (define-key go-mode-map (kbd "<f5> r")
           (lambda () (interactive)
             (start-process "GoRun" "*GoRun*" "go" "run" (format "%s" buffer-file-name))))
@@ -1436,9 +1380,6 @@ provide several feature to other packages or to the user directly.
           :commands (tramp)
           :config
           (setq tramp-default-method "ssh"))
-
-  (use-package helm-tramp :ensure t
-    :bind ("C-c d s" . helm-tramp))
 #+end_src
 *** Docker
 #+BEGIN_SRC emacs-lisp
@@ -1459,7 +1400,6 @@ provide several feature to other packages or to the user directly.
 #+begin_src emacs-lisp
 (use-package redis :ensure t :defer t)
 #+end_src
-
 * Benchmark startup time
 #+begin_src emacs-lisp
 (defvar amirreza/startup-elapsed (- (float-time) amirreza/emacs-init-timestamp))
