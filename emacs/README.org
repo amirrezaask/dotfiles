@@ -21,7 +21,6 @@
   - [[#file-name-handler-alist][file-name-handler-alist]]
 - [[#debug-when-necessary][Debug When necessary]]
 - [[#package-manager-setup][Package manager setup]]
-  - [[#packageel][package.el]]
 - [[#about-this-configuration][About this configuration]]
   - [[#disabled-packages][Disabled packages]]
   - [[#keybinding-conventions][Keybinding conventions]]
@@ -39,7 +38,7 @@
     - [[#winner-restore-window-layout][Winner (Restore Window layout)]]
     - [[#ace-window-better-window-management][Ace Window (Better Window Management)]]
     - [[#beacon][Beacon]]
-  - [[#selection-candidates-and-searching][Selection Candidates and searching]]
+  - [[#minibuffer-completion][Minibuffer completion]]
   - [[#editor][Editor]]
     - [[#defaults][Defaults]]
     - [[#custom-motions][Custom motions]]
@@ -73,7 +72,6 @@
     - [[#syntax-checking][Syntax checking]]
     - [[#debugger-support][Debugger Support]]
     - [[#docs][Docs]]
-    - [[#project-detection][Project Detection]]
     - [[#programming-languages][Programming languages]]
       - [[#python][Python]]
       - [[#go][Go]]
@@ -92,6 +90,7 @@
     - [[#irc][IRC]]
     - [[#process-management][Process management]]
     - [[#music][Music]]
+    - [[#hydra-1][Hydra]]
   - [[#devops-tools][Devops Tools]]
     - [[#some-syntax-highlights][Some syntax highlights]]
     - [[#tramp][TRAMP]]
@@ -243,16 +242,20 @@ to set this file's value to a nil value during startup and restore it's original
 ;; (setq debug-on-error)
 #+end_src
 * Package manager setup
-** package.el
 #+begin_src emacs-lisp
-(package-initialize)
-(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-                         ("melpa" . "http://melpa.org/packages/")))
-
-(when (not package-archive-contents) ;; when package index cache is empty
-     (package-refresh-contents))
-
-(package-install 'use-package) ;; install use-package
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 5))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+(straight-use-package 'use-package)
 #+end_src
 * About this configuration
 ** Disabled packages
@@ -269,7 +272,7 @@ I respect Emacs keybinding conventions in my configuration with a few ideas borr
 ** Keybinding helper packages
 #+begin_src emacs-lisp
   (use-package which-key
-    :ensure t
+    :straight t
     :config
     (setq which-key-idle-delay 0.2)
     (which-key-add-key-based-replacements "C-c m" "Major mode functions")
@@ -279,8 +282,8 @@ I respect Emacs keybinding conventions in my configuration with a few ideas borr
     (which-key-add-key-based-replacements "C-c d" "Devops related functions")
     (which-key-mode 1)
     (which-key-setup-minibuffer))
-  (use-package hydra :ensure t)
-  (use-package pretty-hydra :ensure t)
+  (use-package hydra :straight t)
+  (use-package pretty-hydra :straight t)
 #+end_src
 For keybinding helpers I use two packages
 + =Which-key= when ever a key is pressed tell us what other options we have.
@@ -295,15 +298,15 @@ keybindings like the ones in magit forexample but with more features.
   but if you want a more modern look like =VSCode= or =Atom= you can use =doom-themes= as well.
   ([[https://github.com/hlissner/emacs-doom-themes/tree/screenshots][Doom Themes Screenshots]])
   #+BEGIN_SRC emacs-lisp
-    (use-package modus-operandi-theme :ensure t :defer t)
-    (use-package modus-vivendi-theme :ensure t :defer t)
-    (use-package spacemacs-theme :ensure t :defer t)
-    (use-package doom-themes :ensure t :defer t)
-    (use-package badwolf-theme :ensure t :defer t)
-    (use-package monochrome-theme :ensure t :defer t)
-    (use-package purple-haze-theme :ensure t :defer t)
-    (use-package darkburn-theme :ensure t :defer t)
-    (use-package zenburn-theme :ensure t :defer t)
+    (use-package modus-operandi-theme :straight t :defer t)
+    (use-package modus-vivendi-theme :straight t :defer t)
+    (use-package spacemacs-theme :straight t :defer t)
+    (use-package doom-themes :straight t :defer t)
+    (use-package badwolf-theme :straight t :defer t)
+    (use-package monochrome-theme :straight t :defer t)
+    (use-package purple-haze-theme :straight t :defer t)
+    (use-package darkburn-theme :straight t :defer t)
+    (use-package zenburn-theme :straight t :defer t)
   #+END_SRC
   You probably notice the =:defer= part in use-package, with =:defer= keyword (:something is called a keyword in elisp)
   use-package knows that we don't need this package to be loaded in startup, since we actually don't need all of our themes
@@ -321,7 +324,7 @@ keybindings like the ones in magit forexample but with more features.
              :bind (("<f12>" . amirreza/toggle-color-mode))
              :config
              (defvar amirreza/current-mode 'dark "Current color of Emacs.")
-             (defvar amirreza/dark-theme 'doom-one)
+             (defvar amirreza/dark-theme 'modus-vivendi)
              (defvar amirreza/light-theme 'doom-one-light)
 
              (defmacro amirreza/--load-theme (&rest theme-opts)
@@ -394,7 +397,7 @@ keybindings like the ones in magit forexample but with more features.
  #+BEGIN_SRC emacs-lisp :eval no
    (use-package all-the-icons
 
-     :ensure t
+     :straight t
      :commands (all-the-icons-octicon
             all-the-icons-faicon
             all-the-icons-fileicon
@@ -404,7 +407,7 @@ keybindings like the ones in magit forexample but with more features.
 
    (use-package all-the-icons-dired
 
-     :ensure t
+     :straight t
      :init
      (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
  #+END_SRC
@@ -459,7 +462,7 @@ Emacs windows can be configured in the matter of where their gonna open.
 *** Eyebrowse
 =Eyebrowse= gives you =i3= like experience in Emacs, let's you have multiple workspaces and switch between them.
 #+BEGIN_SRC emacs-lisp
-      (use-package eyebrowse :ensure t
+      (use-package eyebrowse :straight t
         :commands (eyebrowse-close-window-config
                    eyebrowse-create-window-config
                    eyebrowse-switch-to-window-config-0
@@ -507,7 +510,7 @@ by default is bound to =C-c <left>=.
 *** Ace Window (Better Window Management)
 #+BEGIN_SRC emacs-lisp
       (use-package ace-window
-        :ensure t
+        :straight t
         :commands (ace-window)
         :bind (("C-x o" . 'ace-window)
                ("C-x C-o" . 'ace-window)))
@@ -515,58 +518,50 @@ by default is bound to =C-c <left>=.
 *** Beacon
 #+begin_src emacs-lisp
   (use-package beacon
-    :ensure t
+    :straight t
     :defer 1
     :config (beacon-mode 1))
 #+end_src
-** Selection Candidates and searching
-#+BEGIN_SRC emacs-lisp
-    (use-package flx :ensure t)
-    (use-package ivy
-      :ensure t
-      :bind
-      (("C-x b" . 'ivy-switch-buffer)
-       :map ivy-minibuffer-map
-       ("RET" . 'ivy-alt-done))
-      :config
-      (setq ivy-height 15)
-      ;; loopish cycling through list
-      (setq ivy-wrap t)
-      ;; don't show recents in minibuffer
-      (setq ivy-use-virtual-buffers nil)
-      ;; ...but if that ever changes, show their full path
-      (setq ivy-virtual-abbreviate 'full)
-      ;; don't quit minibuffer on delete-error
-      (setq ivy-on-del-error-function #'ignore)
-      (setf (alist-get 't ivy-format-functions-alist)
-            #'ivy-format-function-line)
-      (ivy-mode +1))
+** Minibuffer completion
+#+begin_src emacs-lisp
+            ;; orderless completion style, we can divide our search string into space seperated parts
+            (use-package orderless
+              :straight t
+              :config
+              (setq completion-styles '(orderless)))
 
-    (use-package all-the-icons-ivy :disabled t :ensure t :config (all-the-icons-ivy-setup))
+            (use-package icomplete
+              :demand
+              :bind
+              (:map icomplete-minibuffer-map
+                    ("C-n" . icomplete-forward-completions)
+                    ("C-p" . icomplete-backward-completions)
+                    ("C-f" . icomplete-forward-completions)
+                    ("C-b" . icomplete-backward-completions)
+                    ("<right>" . icomplete-forward-completions)
+                    ("<left>" . icomplete-backward-completions)
+                    ("<down>" . icomplete-forward-completions)
+                    ("<up>" . icomplete-backward-completions)
+                    ("<RET>" . icomplete-force-complete-and-exit)
+                    ("<tab>" . icomplete-force-complete))
 
-    (use-package ivy-rich :ensure t :config (ivy-rich-mode 1))
+              :config
+              (setq icomplete-max-delay-chars 2
+                    icomplete-show-matches-on-no-input t
+                    icomplete-hide-common-prefix nil)
+              (when (> emacs-major-version 26)
+                (fido-mode -1))
+              (icomplete-mode 1))
 
-    (use-package swiper
-      :ensure t
-      :commands (swiper)
-      :init (global-set-key (kbd "C-s") 'swiper))
-
-    (use-package counsel
-      :ensure t
-      :config
-      (setq ivy-re-builders-alist
-       '((t . ivy--regex-fuzzy)))
-      :bind
-      (("M-x" . 'counsel-M-x)
-       ("C-x C-f" . 'counsel-find-file)
-       ("C-h b" . 'counsel-descbinds)
-       ("C-h f" . 'counsel-describe-function)
-       ("C-h v" . 'counsel-describe-variable)
-       ("C-h a" . 'counsel-apropos)
-       ("M-i" . 'counsel-imenu)
-       ("M-y" . 'counsel-yank-pop)
-       ("C-c f" . 'counsel-fzf)))
-#+END_SRC
+            (use-package icomplete-vertical
+              :straight t
+              :demand
+              :bind
+              (:map icomplete-minibuffer-map
+                     ("C-v" . icomplete-vertical-toggle))
+              :config
+              (icomplete-vertical-mode -1))
+#+end_src
 ** Editor
 *** Defaults
 #+begin_src emacs-lisp
@@ -662,7 +657,7 @@ Fuzzy file search is amazing tool that doesn't choke up even in my home folder
 it's just magic.
 #+begin_src emacs-lisp
   (use-package fzf
-    :ensure t
+    :straight (:repo "amirrezaask/fzf.el")
     :commands (fzf fzf-directory))
 #+end_src
 *** Ripgrep
@@ -670,7 +665,7 @@ Ripgrep is another magical tool that replaces the old =grep= command and actuall
 it's just amazing tool
 #+begin_src emacs-lisp
     (use-package rg
-     :ensure t
+     :straight t
      :commands (rg))
 #+end_src
 *** Dumb Jump
@@ -678,7 +673,7 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
 =ag= or =rg=.
 #+begin_src emacs-lisp
   (use-package dumb-jump
-    :ensure t
+    :straight t
     :commands
     (dumb-jump-go
      dumb-jump-back)
@@ -710,21 +705,21 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
 **** Org bullets
 #+BEGIN_SRC emacs-lisp
 (use-package org-bullets
-  :ensure t
+  :straight t
   :hook (org-mode . org-bullets-mode))
 #+END_SRC
 **** Org TOC
 #+begin_src emacs-lisp
-(use-package toc-org :ensure t :hook (org-mode . toc-org-mode))
+(use-package toc-org :straight t :hook (org-mode . toc-org-mode))
 #+end_src
 **** htmlize
 #+begin_src emacs-lisp
-(use-package htmlize :ensure t :defer t)
+(use-package htmlize :straight t :defer t)
 #+end_src
 *** Highlight indentation
 #+begin_src emacs-lisp
  (use-package highlight-indent-guides
-   :ensure t
+   :straight t
    :hook ((yaml-mode) . highlight-indent-guides-mode)
    :init
    (setq highlight-indent-guides-method 'character)
@@ -734,20 +729,20 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
 *** Sudo edit
 #+begin_src emacs-lisp
    (use-package sudo-edit
-        :ensure t
+        :straight t
         :commands (sudo-edit))
 #+end_src
 *** Expand region
 #+begin_src emacs-lisp
    (use-package expand-region
-     :ensure t
+     :straight t
      :bind (("C-=" . 'er/expand-region)
 	    ("C--" . 'er/contract-region)))
 #+end_src
 *** Highlight TODO/FIXME/...
 #+begin_src emacs-lisp
  (use-package hl-todo
-   :ensure t
+   :straight t
    :hook ((prog-mode) . hl-todo-mode)
    :config
    (setq hl-todo-highlight-punctuation ":"
@@ -762,7 +757,7 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
 *** Multiple cursors
 #+begin_src emacs-lisp
    (use-package multiple-cursors
-     :ensure t
+     :straight t
      :commands (mc/edit-lines
        mc/mark-all-like-this
        mc/mark-next-like-this
@@ -804,19 +799,19 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
   (use-package ibuffer
     :bind (("C-x C-b" . 'ibuffer)))
   (use-package ibuffer-projectile 
-    :ensure t
+    :straight t
     :hook (ibuffer . ibuffer-projectile-set-filter-groups))
 
 #+end_src
 *** Iedit
 #+begin_src emacs-lisp
   (use-package iedit
-       :ensure t
+       :straight t
        :commands iedit-mode)
 #+end_src
 *** Vlf (very large file)
 #+begin_src emacs-lisp
-(use-package vlf :ensure t :defer t)
+(use-package vlf :straight t :defer t)
 #+end_src
 *** Abbrevs/Skeleton
 Every human being has limited number of keystrokes left, so let's make every one of them count.
@@ -841,12 +836,12 @@ skeleton and skeleton does it's job of inserting text.
 
 *** Rainbow delimiters
 #+begin_src emacs-lisp
-(use-package rainbow-delimiters :ensure t :hook (prog-mode . rainbow-delimiters-mode))
+(use-package rainbow-delimiters :straight t :hook (prog-mode . rainbow-delimiters-mode))
 #+end_src
 
 *** Avy
 #+begin_src emacs-lisp
-  (use-package avy :ensure t
+  (use-package avy :straight t
     :commands (avy-goto-char))
 #+end_src
 *** Edit configuration
@@ -864,11 +859,11 @@ skeleton and skeleton does it's job of inserting text.
 
   (pretty-hydra-define amirreza-editor-hydra (:hint nil :exit t)
     ("Actions"
-     (("f" counsel-fzf "Fuzzy file search")
+     (("f" fzf "Fuzzy file search")
       ("e" amirreza/edit-configuration "Edit Emacs configuration file")
       ("g" amirreza-editor-git-hydra/body "Git actions")
       ("i" iedit "IEdit")
-      ("r" counsel-rg "Ripgrep")
+      ("r" rg "Ripgrep")
       ("s" sudo-edit "Sudo edit"))))
 
    (global-set-key (kbd "C-c e") 'amirreza-editor-hydra/body)
@@ -876,7 +871,7 @@ skeleton and skeleton does it's job of inserting text.
 ** IDE setup
 *** Add executable paths
 #+begin_src emacs-lisp
-(use-package exec-path-from-shell :ensure t :defer 1 :config (exec-path-from-shell-initialize))
+(use-package exec-path-from-shell :straight t :defer 1 :config (exec-path-from-shell-initialize))
 #+end_src
 *** Code completion
 Code completion consists of two parts, A source/server that provides the completions and 
@@ -891,7 +886,7 @@ can call an get completions based on that.
 #+BEGIN_SRC emacs-lisp
   (use-package company
     :demand
-    :ensure t
+    :straight t
     :bind (:map company-active-map
                 ("C-n" . company-select-next)
                 ("C-p" . company-select-previous)
@@ -920,7 +915,7 @@ can talk to various clients (let's say Emacs, Vi, VSCode) and provide several fe
 as auto-complete or syntax linting.
 #+BEGIN_SRC emacs-lisp
     (use-package lsp-mode 
-      :ensure t
+      :straight t
       :commands (lsp lsp-deferred)
       :hook 
       ((python-mode
@@ -929,43 +924,43 @@ as auto-complete or syntax linting.
       (setq lsp-auto-guess-root t)
       :commands (lsp))
 
-  (use-package dap-mode :ensure t :defer t)
-  (use-package lsp-ivy :ensure t :commands (lsp-ivy-workspace-symbol))
-  (use-package helm-lsp :disabled t :ensure t :commands helm-lsp-workspace-symbol)
+  (use-package dap-mode :straight t :defer t)
+  (use-package lsp-ivy :straight t :commands (lsp-ivy-workspace-symbol))
+  (use-package helm-lsp :disabled t :straight t :commands helm-lsp-workspace-symbol)
 
 #+END_SRC
 LSP-ui is a mode from the same author with the goal of configuring several Emacs packages to 
 help ease developer experience when using LSP.
 #+BEGIN_SRC emacs-lisp
-  ;; (use-package lsp-ui :ensure t :commands lsp-ui-mode :hook (lsp-mode . lsp-ui-mode))
+  ;; (use-package lsp-ui :straight t :commands lsp-ui-mode :hook (lsp-mode . lsp-ui-mode))
 #+END_SRC
 *** Git integration
 #+BEGIN_SRC emacs-lisp
   (use-package magit
-    :ensure t
+    :straight t
     :commands (magit-status)
     :bind
     (("C-x g" . 'magit-status)))
 
   (use-package diff-hl
-    :ensure t
+    :straight t
     :config (global-diff-hl-mode 1))
 
   (use-package
     gitconfig-mode
-    :ensure t
+    :straight t
     :mode "/\\.gitconfig\\'")
 
   (use-package gitignore-mode
-    :ensure t
+    :straight t
     :mode "/\\.gitignore\\'")
 
   (use-package gitattributes-mode
-    :ensure t
+    :straight t
     :mode "/\\.gitattributes\\'")
 
   (use-package git-messenger
-    :ensure t
+    :straight t
     :commands
     (git-messenger:popup-message)
     :config
@@ -976,7 +971,7 @@ help ease developer experience when using LSP.
 Emacs comes with a built in syntax checker called =flymake=, but since emacs community favors =flycheck= over =flymake= we are going to setup flycheck.
 #+BEGIN_SRC emacs-lisp
   (use-package flycheck
-    :ensure t
+    :straight t
     :hook (prog-mode . flycheck-mode))
 #+END_SRC
 *** Debugger Support
@@ -986,19 +981,6 @@ TBA
   (use-package eldoc
     :hook (prog-mode . eldoc-mode))
 #+end_src
-*** Project Detection
-=projectile= is a package that notifies when you open something in a git repository and can
-provide several feature to other packages or to the user directly.
-#+BEGIN_SRC emacs-lisp
-  (use-package projectile
-         :commands
-         (projectile-command-map
-          projectile-add-known-project)
-         :config
-         (setq projectile-completion-system 'ivy)
-         (projectile-mode 1))
-
-#+END_SRC
 *** Programming languages
 **** Python
 ***** Python Mode
@@ -1020,14 +1002,14 @@ provide several feature to other packages or to the user directly.
   #+END_SRC
 ***** Microsoft Language Server
   #+begin_src emacs-lisp
-  (use-package lsp-python-ms :ensure t :after python-mode)
+  (use-package lsp-python-ms :straight t :after python-mode)
   #+end_src
 ***** Pipenv
   =Pipenv= is now the de facto tool for python programmers to manage their project deps, so it's nice
   to have a wrapper for it in Emacs.
   #+BEGIN_SRC emacs-lisp
     (use-package pipenv
-	         :ensure t
+	         :straight t
 	         :after python-mode)
   #+END_SRC
 ***** Py-autopep8
@@ -1038,7 +1020,7 @@ provide several feature to other packages or to the user directly.
   function to =before-save-hook= of emacs, luckily this package provides a helper function to do that.
   #+BEGIN_SRC emacs-lisp
   (use-package py-autopep8
-    :ensure t
+    :straight t
     :hook python-mode
     :config
     (py-autopep8-enable-on-save))
@@ -1053,7 +1035,7 @@ provide several feature to other packages or to the user directly.
   that it needs.
   #+BEGIN_SRC emacs-lisp
     (use-package go-mode
-      :ensure t
+      :straight t
       :mode ("\\.go\\'" . go-mode)
       :init
       (add-hook 'go-mode-hook 'amirreza/go-hook)
@@ -1100,13 +1082,13 @@ provide several feature to other packages or to the user directly.
   the struct has so many fields, again thanks to the emacs community we have package for that 
   to ease that task for us.
   #+BEGIN_SRC emacs-lisp
-    (use-package go-add-tags :ensure t :bind (:map go-mode-map ("C-c m s t" . go-add-tags)))
+    (use-package go-add-tags :straight t :bind (:map go-mode-map ("C-c m s t" . go-add-tags)))
   #+END_SRC
 ***** Go-test
   =VSCode= has a great support when it comes to running go tests, it gives you the ability to 
   run a test when you are editing or viewing it but it does'nt mean that Emacs can't do that.
   #+BEGIN_SRC emacs-lisp
-    (use-package gotest :ensure t 
+    (use-package gotest :straight t 
       :bind
       (:map go-mode-map 
             ("C-c m t f" . go-test-current-file)
@@ -1122,7 +1104,7 @@ provide several feature to other packages or to the user directly.
 **** Zig
   #+begin_src emacs-lisp
     (use-package zig-mode 
-      :ensure t
+      :straight t
       :mode "\\.zig\\'")
   #+end_src
 **** Emacs lisp
@@ -1160,7 +1142,7 @@ provide several feature to other packages or to the user directly.
 **** Clojure
 ***** Clojure Mode
       #+BEGIN_SRC emacs-lisp
-        (use-package clojure-mode :ensure t
+        (use-package clojure-mode :straight t
           :mode "\\.cljs?\\'"
           :config
           (setq-local prettify-symbols-alist '(("fn" . 955) ; λ
@@ -1169,7 +1151,7 @@ provide several feature to other packages or to the user directly.
 ***** Cider
   #+BEGIN_SRC emacs-lisp
     (use-package cider 
-      :ensure t
+      :straight t
       :commands (cider cider-jack-in))
   #+END_SRC
 **** Common Lisp
@@ -1179,37 +1161,37 @@ provide several feature to other packages or to the user directly.
   #+END_SRC
 ***** Common Lisp Integrated Environment
   #+BEGIN_SRC emacs-lisp
-  (use-package sly :ensure t :mode "\\.cl\\'")
+  (use-package sly :straight t :mode "\\.cl\\'")
   #+END_SRC
 **** Haskell
 ***** Haskell mode
   #+BEGIN_SRC emacs-lisp
-  (use-package haskell-mode :ensure t :mode "\\.hs\\'")
+  (use-package haskell-mode :straight t :mode "\\.hs\\'")
   #+END_SRC
 ***** Haskell IDE engine
   #+BEGIN_SRC emacs-lisp
-  (use-package lsp-haskell :ensure t :hook haskell-mode)
+  (use-package lsp-haskell :straight t :hook haskell-mode)
   #+END_SRC
 **** HTML/CSS
   #+BEGIN_SRC emacs-lisp
-    (use-package web-mode :ensure t :mode ("\\.html\\'" "\\.css\\'"))
+    (use-package web-mode :straight t :mode ("\\.html\\'" "\\.css\\'"))
   #+END_SRC
 **** PHP
 ***** PHP mode
   #+BEGIN_SRC emacs-lisp
-  (use-package php-mode :ensure t :mode "\\.php\\'")
+  (use-package php-mode :straight t :mode "\\.php\\'")
   #+END_SRC
 ***** PHP Runtime Integration
   #+BEGIN_SRC emacs-lisp
-  (use-package php-runtime :ensure t :after php-mode)
+  (use-package php-runtime :straight t :after php-mode)
   #+END_SRC
 ***** Composer Integration
   #+BEGIN_SRC emacs-lisp
-    (use-package composer :ensure t :after php-mode)
+    (use-package composer :straight t :after php-mode)
   #+END_SRC
 ***** PHPUnit
   #+BEGIN_SRC emacs-lisp
-    (use-package phpunit :ensure t
+    (use-package phpunit :straight t
       :commands (php-current-test php-current-class php-current-project)
       :bind (:map php-mode-map 
                   ("C-c m t t" . php-current-test)
@@ -1219,7 +1201,7 @@ provide several feature to other packages or to the user directly.
 **** Rust
 ***** Rust mode
   #+BEGIN_SRC emacs-lisp
-  (use-package rust-mode :ensure t :mode "\\.rs\\'")
+  (use-package rust-mode :straight t :mode "\\.rs\\'")
   #+END_SRC
 
 ** Integrated tools/functionality
@@ -1228,76 +1210,19 @@ provide several feature to other packages or to the user directly.
       (use-package dired
         :config
         (add-hook 'dired-mode-hook (lambda () 
-                                     (dired-hide-details-mode 1)))
-    (defhydra hydra-dired (:hint nil :color pink)
-      "
-    _+_ mkdir          _v_iew           _m_ark             _(_ details        _i_nsert-subdir    wdired
-    _C_opy             _O_ view other   _U_nmark all       _)_ omit-mode      _$_ hide-subdir    C-x C-q : edit
-    _D_elete           _o_pen other     _u_nmark           _l_ redisplay      _w_ kill-subdir    C-c C-c : commit
-    _R_ename           _M_ chmod        _t_oggle           _g_ revert buf     _e_ ediff          C-c ESC : abort
-    _Y_ rel symlink    _G_ chgrp        _E_xtension mark   _s_ort             _=_ pdiff
-    _S_ymlink          ^ ^              _F_ind marked      _._ toggle hydra   \\ flyspell
-    _r_sync            ^ ^              ^ ^                ^ ^                _?_ summary
-    _z_ compress-file  _A_ find regexp
-    _Z_ compress       _Q_ repl regexp
+                                     (dired-hide-details-mode 1))))
 
-    T - tag prefix
-    "
-      ("\\" dired-do-ispell)
-      ("(" dired-hide-details-mode)
-      (")" dired-omit-mode)
-      ("+" dired-create-directory)
-      ("=" diredp-ediff)         ;; smart diff
-      ("?" dired-summary)
-      ("$" diredp-hide-subdir-nomove)
-      ("A" dired-do-find-regexp)
-      ("C" dired-do-copy)        ;; Copy all marked files
-      ("D" dired-do-delete)
-      ("E" dired-mark-extension)
-      ("e" dired-ediff-files)
-      ("F" dired-do-find-marked-files)
-      ("G" dired-do-chgrp)
-      ("g" revert-buffer)        ;; read all directories again (refresh)
-      ("i" dired-maybe-insert-subdir)
-      ("l" dired-do-redisplay)   ;; relist the marked or singel directory
-      ("M" dired-do-chmod)
-      ("m" dired-mark)
-      ("O" dired-display-file)
-      ("o" dired-find-file-other-window)
-      ("Q" dired-do-find-regexp-and-replace)
-      ("R" dired-do-rename)
-      ("r" dired-do-rsynch)
-      ("S" dired-do-symlink)
-      ("s" dired-sort-toggle-or-edit)
-      ("t" dired-toggle-marks)
-      ("U" dired-unmark-all-marks)
-      ("u" dired-unmark)
-      ("v" dired-view-file)      ;; q to exit, s to search, = gets line #
-      ("w" dired-kill-subdir)
-      ("Y" dired-do-relsymlink)
-      ("z" diredp-compress-this-file)
-      ("Z" dired-do-compress)
-      ("q" nil)
-      ("." nil :color blue))
-
-    (define-key dired-mode-map "." 'hydra-dired/body)
-        :bind
-        (:map dired-mode-map
-              ("C-c m d" . dired-hide-details-mode)
-              ("C-j" . next-line)
-              ("C-k" . previous-line)))
-
-      (use-package dired-sidebar :ensure t
+      (use-package dired-sidebar :straight t
         :bind
         (("<f8>" . dired-sidebar-toggle-sidebar)))
 
       (use-package dired-subtree
-        :ensure t
+        :straight t
         :bind (:map dired-mode-map
                     ("<tab>" . dired-subtree-toggle)))
 
       (use-package peep-dired
-        :ensure t
+        :straight t
         :after dired
         :config
         (setq peep-dired-cleanup-on-disable t)
@@ -1344,34 +1269,31 @@ provide several feature to other packages or to the user directly.
 *** Process management
   #+begin_src emacs-lisp
     (use-package proced
-      :commands proced
-      :bind (("C-c o p" . proced)))
+      :commands proced)
   #+end_src
 
 *** Music
-  I need music when I am working, so for me music is just a part of development environment.
-  #+begin_src emacs-lisp
-    (use-package counsel
-      :ensure t
-      :demand
-      :config
-      (defun amirreza/rhythmbox-current-song-name () 
-        (interactive)
-        (message (counsel-rhythmbox-current-song)))
-
-      (defun amirreza/rhythmbox-play/pause () 
-        (interactive)
-        (counsel-rhythmbox-playpause-current-song)))
-  #+end_src
+#+begin_src emacs-lisp
+  (use-package rhythmbox
+    :straight (:host github :repo "amirrezaask/Rhythmbox.el"))
+#+end_src
+*** Hydra
+#+begin_src emacs-lisp
+  (pretty-hydra-define amirreza-os-hydra (:hint nil :exit t)
+    ("Programs"
+     (("r" Rhythmbox "Rhythmbox")
+     ("p" proced "Process Manager"))))
+  (global-set-key (kbd "C-c o") 'amirreza-os-hydra/body)
+#+end_src
 ** Devops Tools
 *** Some syntax highlights
 #+begin_src emacs-lisp
-  (use-package crontab-mode :defer t :ensure t)
-  (use-package apache-mode :ensure t
+  (use-package crontab-mode :defer t :straight t)
+  (use-package apache-mode :straight t
     :mode ("\\.htaccess\\'" "httpd\\.conf\\'" "srm\\.conf\\'" "access\\.conf\\'"))
-  (use-package systemd :ensure t
+  (use-package systemd :straight t
     :mode ("\\.service\\'" "\\.timer\\'"))
-  (use-package nginx-mode :ensure 
+  (use-package nginx-mode :straight 
     :mode ("/etc/nginx/conf.d/.*" "/etc/nginx/.*\\.conf\\'"))
 #+end_src
 *** TRAMP
@@ -1384,21 +1306,21 @@ provide several feature to other packages or to the user directly.
 *** Docker
 #+BEGIN_SRC emacs-lisp
       (use-package docker-compose-mode
-        :ensure t
+        :straight t
         :mode "docker-compose\\.yml")
 
-      (use-package docker :ensure t 
+      (use-package docker :straight t 
         :bind
         ("C-c d d" . docker))
 
 #+END_SRC
 *** Kubernetes
 #+begin_src emacs-lisp
-(use-package kubel :ensure t :commands (kubel) :bind (("C-c d k" . kubel)))
+(use-package kubel :straight t :commands (kubel) :bind (("C-c d k" . kubel)))
 #+end_src
 *** Redis
 #+begin_src emacs-lisp
-(use-package redis :ensure t :defer t)
+(use-package redis :straight t :defer t)
 #+end_src
 * Benchmark startup time
 #+begin_src emacs-lisp
