@@ -525,44 +525,48 @@ by default is bound to =C-c <left>=.
 #+end_src
 ** Minibuffer completion
 #+begin_src emacs-lisp
-    ;; orderless completion style, we can divide our search string into space seperated parts
-    (use-package orderless
-      :straight t
-      :config
-      (setq completion-styles '(orderless)))
+  ;; orderless completion style, we can divide our search string into space seperated parts
+  (use-package orderless
+    :straight t
+    :config
+    (setq completion-styles '(orderless)))
 
-    (use-package icomplete
-      :demand
-      :bind
-      (:map icomplete-minibuffer-map
-            ("C-n" . icomplete-forward-completions)
-            ("C-p" . icomplete-backward-completions)
-            ("C-f" . icomplete-forward-completions)
-            ("C-b" . icomplete-backward-completions)
-            ("<right>" . icomplete-forward-completions)
-            ("<left>" . icomplete-backward-completions)
-            ("<down>" . icomplete-forward-completions)
-            ("<up>" . icomplete-backward-completions)
-            ("<RET>" . icomplete-force-complete-and-exit)
-            ("<tab>" . icomplete-force-complete))
+  (use-package icomplete
+    :demand
+    :bind
+    (:map global-map
+                  ("M-y" . amirreza/show-kill-ring)
+     :map icomplete-minibuffer-map
+          ("C-n" . icomplete-forward-completions)
+          ("C-p" . icomplete-backward-completions)
+          ("C-f" . icomplete-forward-completions)
+          ("C-b" . icomplete-backward-completions)
+          ("<right>" . icomplete-forward-completions)
+          ("<left>" . icomplete-backward-completions)
+          ("<down>" . icomplete-forward-completions)
+          ("<up>" . icomplete-backward-completions)
+          ("<RET>" . icomplete-force-complete-and-exit)
+          ("<tab>" . icomplete-force-complete))
+    :config
+    (defun amirreza/show-kill-ring ()
+      (interactive)
+      (insert (completing-read "Insert: " kill-ring)))
+    (setq icomplete-max-delay-chars 2
+          icomplete-show-matches-on-no-input t
+          icomplete-hide-common-prefix nil
+          completion-ignore-case t)
+    (when (> emacs-major-version 26)
+      (fido-mode -1))
+    (icomplete-mode 1))
 
-      :config
-      (setq icomplete-max-delay-chars 2
-            icomplete-show-matches-on-no-input t
-            icomplete-hide-common-prefix nil
-            completion-ignore-case t)
-      (when (> emacs-major-version 26)
-        (fido-mode -1))
-      (icomplete-mode 1))
-
-    (use-package icomplete-vertical
-      :straight t
-      :demand
-      :bind
-      (:map icomplete-minibuffer-map
-             ("C-v" . icomplete-vertical-toggle))
-      :config
-      (icomplete-vertical-mode -1))
+  (use-package icomplete-vertical
+    :straight t
+    :demand
+    :bind
+    (:map icomplete-minibuffer-map
+           ("C-v" . icomplete-vertical-toggle))
+    :config
+    (icomplete-vertical-mode -1))
 #+end_src
 ** Editor
 *** Defaults
