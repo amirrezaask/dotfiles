@@ -324,8 +324,8 @@ keybindings like the ones in magit forexample but with more features.
              :bind (("<f12>" . amirreza/toggle-color-mode))
              :config
              (defvar amirreza/current-mode 'dark "Current color of Emacs.")
-             (defvar amirreza/dark-theme 'modus-vivendi)
-             (defvar amirreza/light-theme 'doom-one-light)
+             (defvar amirreza/dark-theme 'doom-solarized-dark)
+             (defvar amirreza/light-theme 'doom-solarized-light)
 
              (defmacro amirreza/--load-theme (&rest theme-opts)
                `(progn (mapc #'disable-theme custom-enabled-themes)
@@ -455,8 +455,8 @@ Emacs windows can be configured in the matter of where their gonna open.
               )
             ("\\*rg"
               (display-buffer-in-side-window)
-              (window-width . 0.40)
-              (side . right)
+              (window-height . 0.30)
+              (side . bottom)
               (slot . 0))))
 #+END_SRC
 *** Eyebrowse
@@ -666,9 +666,7 @@ it's just magic.
 Ripgrep is another magical tool that replaces the old =grep= command and actually
 it's just amazing tool
 #+begin_src emacs-lisp
-    (use-package rg
-     :straight t
-     :commands (rg))
+(use-package deadgrep :straight t :commands (deadgrep))
 #+end_src
 *** Dumb Jump
 Dumb jump is actually a smart way of jumping to defenitions using grep tools like
@@ -856,7 +854,7 @@ skeleton and skeleton does it's job of inserting text.
       ("e" amirreza/edit-configuration "Edit Emacs configuration file")
       ("g" amirreza-editor-git-hydra/body "Git actions")
       ("i" iedit "IEdit")
-      ("r" rg "Ripgrep")
+      ("r" deadgrep "Ripgrep")
       ("m" amirreza-editor-mc-hydra/body "Multi cursors")
       ("a" amirreza-editor-avy/body "Avy")
       ("s" sudo-edit "Sudo edit"))))
