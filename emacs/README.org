@@ -63,7 +63,7 @@
     - [[#rainbow-delimiters][Rainbow delimiters]]
     - [[#avy][Avy]]
     - [[#edit-configuration][Edit configuration]]
-    - [[#hydra][Hydra]]
+    - [[#chapter-hydra][Chapter Hydra]]
   - [[#ide-setup][IDE setup]]
     - [[#add-executable-paths][Add executable paths]]
     - [[#code-completion][Code completion]]
@@ -90,7 +90,7 @@
     - [[#irc][IRC]]
     - [[#process-management][Process management]]
     - [[#music][Music]]
-    - [[#hydra-1][Hydra]]
+    - [[#chapter-hydra-1][Chapter Hydra]]
   - [[#devops-tools][Devops Tools]]
     - [[#some-syntax-highlights][Some syntax highlights]]
     - [[#tramp][TRAMP]]
@@ -841,8 +841,8 @@ skeleton and skeleton does it's job of inserting text.
 
 *** Avy
 #+begin_src emacs-lisp
-  (use-package avy :straight t
-    :commands (avy-goto-char))
+    (use-package avy :straight t
+      :commands (avy-goto-char avy-goto-char-2 avy-goto-lineavy-goto-word-1))
 #+end_src
 *** Edit configuration
 #+begin_src emacs-lisp
@@ -850,12 +850,19 @@ skeleton and skeleton does it's job of inserting text.
        (interactive)
        (find-file "~/.emacs.d/README.org"))
 #+end_src
-*** Hydra
+*** Chapter Hydra
 #+begin_src emacs-lisp
   (pretty-hydra-define amirreza-editor-git-hydra (:hint nil :exit t)
     ("Actions"
      (("g" magit "Magit")
       ("m" git-messenger:popup-message "Git messanger"))))
+
+  (pretty-hydra-define amirreza-editor-avy (:hint nil :exit t)
+    ("Jump to"
+     (("l" avy-goto-line "Avy jump to line")
+      ("w" avy-goto-word-1 "Avy jump to word")
+      ("cc" avy-goto-char-2 "Avy jump to characters")
+      ("c" avy-goto-char "Avy jump to character"))))
 
   (pretty-hydra-define amirreza-editor-hydra (:hint nil :exit t)
     ("Actions"
@@ -864,6 +871,7 @@ skeleton and skeleton does it's job of inserting text.
       ("g" amirreza-editor-git-hydra/body "Git actions")
       ("i" iedit "IEdit")
       ("r" rg "Ripgrep")
+      ("a" amirreza-editor-avy/body "Avy")
       ("s" sudo-edit "Sudo edit"))))
 
    (global-set-key (kbd "C-c e") 'amirreza-editor-hydra/body)
@@ -1277,7 +1285,7 @@ TBA
   (use-package rhythmbox
     :straight (:host github :repo "amirrezaask/Rhythmbox.el"))
 #+end_src
-*** Hydra
+*** Chapter Hydra
 #+begin_src emacs-lisp
   (pretty-hydra-define amirreza-os-hydra (:hint nil :exit t)
     ("Programs"
