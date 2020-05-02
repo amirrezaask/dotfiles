@@ -655,9 +655,11 @@ very often since I'm using swiper but I configured it so let it be here any way.
 Fuzzy file search is amazing tool that doesn't choke up even in my home folder 
 it's just magic.
 #+begin_src emacs-lisp
-  (use-package fzf
-    :straight (:repo "amirrezaask/fzf.el")
-    :commands (fzf fzf-directory))
+    (use-package fzf
+      :straight (:repo "amirrezaask/fzf.el")
+      :bind (("C-c f f" . fzf)
+             ("C-c f d" . fzf-directory))
+      :commands (fzf fzf-directory))
 #+end_src
 *** Ripgrep
 Ripgrep is another magical tool that replaces the old =grep= command and actually
@@ -755,44 +757,28 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
 #+end_src
 *** Multiple cursors
 #+begin_src emacs-lisp
-   (use-package multiple-cursors
-     :straight t
-     :commands (mc/edit-lines
-       mc/mark-all-like-this
-       mc/mark-next-like-this
-       mc/skip-to-next-like-this
-       mc/unmark-next-like-this
-       mc/mark-previous-like-this
-       mc/skip-to-previous-like-this
-       mc/unmark-previous-like-this
-       mc/mark-all-in-region-regexp
-       mc/insert-numbers
-       mc/insert-letters)
-     :bind ("C->" .  hydra-multiple-cursors/body)
-     :config
-     (defhydra hydra-multiple-cursors (:hint nil)
-       "
-    Up^^             Down^^           Miscellaneous           % 2(mc/num-cursors) cursor%s(if (> (mc/num-cursors) 1) \"s\" \"\")
-   ------------------------------------------------------------------
-    [_p_]   Next     [_n_]   Next     [_l_] Edit lines  [_0_] Insert numbers
-    [_P_]   Skip     [_N_]   Skip     [_a_] Mark all    [_A_] Insert letters
-    [_M-p_] Unmark   [_M-n_] Unmark   [_s_] Search
-    [Click] Cursor at point       [_q_] Quit"
-       ("l" mc/edit-lines :exit t)
-       ("a" mc/mark-all-like-this :exit t)
-       ("n" mc/mark-next-like-this)
-       ("N" mc/skip-to-next-like-this)
-       ("M-n" mc/unmark-next-like-this)
-       ("p" mc/mark-previous-like-this)
-       ("P" mc/skip-to-previous-like-this)
-       ("M-p" mc/unmark-previous-like-this)
-       ("s" mc/mark-all-in-region-regexp :exit t)
-       ("0" mc/insert-numbers :exit t)
-       ("A" mc/insert-letters :exit t)
-       ("q" nil)))
+  (use-package multiple-cursors
+    :straight t
+    :commands (mc/edit-lines
+      mc/mark-all-like-this
+      mc/mark-next-like-this
+      mc/skip-to-next-like-this
+      mc/unmark-next-like-this
+      mc/mark-previous-like-this
+      mc/skip-to-previous-like-this
+      mc/unmark-previous-like-this
+      mc/mark-all-in-region-regexp
+      mc/insert-numbers
+      mc/insert-letters)
+    :bind ("C->" .  amirreza-editor-mc-hydra/body)
+    :config
+    (pretty-hydra-define amirreza-editor-mc-hydra (:hint nil)
+      ("Put cursor on"
+       (("n" mc/mark-next-like-this "Mark next like this")
+        ("p" mc/mark-previous-like-this "Mark next like this")
+        ("a" mc/mark-all-like-this "Mark next like this")))))
 
 #+end_src
-
 *** IBuffer
 #+begin_src emacs-lisp
   (use-package ibuffer
@@ -870,6 +856,7 @@ skeleton and skeleton does it's job of inserting text.
       ("g" amirreza-editor-git-hydra/body "Git actions")
       ("i" iedit "IEdit")
       ("r" rg "Ripgrep")
+      ("m" amirreza-editor-mc-hydra/body "Multi cursors")
       ("a" amirreza-editor-avy/body "Avy")
       ("s" sudo-edit "Sudo edit"))))
 
@@ -878,7 +865,12 @@ skeleton and skeleton does it's job of inserting text.
 ** IDE setup
 *** Add executable paths
 #+begin_src emacs-lisp
-(use-package exec-path-from-shell :straight t :defer 1 :config (exec-path-from-shell-initialize))
+  (use-package exec-path-from-shell 
+    :straight t 
+    :defer 1
+    :config 
+    (setq exec-path-from-shell-shell-name "sh")
+    (exec-path-from-shell-initialize))
 #+end_src
 *** Code completion
 Code completion consists of two parts, A source/server that provides the completions and 
