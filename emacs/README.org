@@ -66,6 +66,7 @@
     - [[#editor-hydra][Editor Hydra]]
   - [[#ide-setup][IDE setup]]
     - [[#add-executable-paths][Add executable paths]]
+    - [[#code-semantic-jumping][Code Semantic Jumping]]
     - [[#code-completion][Code completion]]
     - [[#language-server-protocol][Language Server Protocol]]
     - [[#git-integration][Git integration]]
@@ -871,6 +872,13 @@ skeleton and skeleton does it's job of inserting text.
     :config 
     (setq exec-path-from-shell-shell-name "sh")
     (exec-path-from-shell-initialize))
+#+end_src
+*** Code Semantic Jumping
+Emacs has a builtin tool called Imenu which major modes hook to and feed it data about semantic blocks in the current buffer,
+we can use it to jump around our code based on semantics of that language (forexample structs or functions).
+#+begin_src emacs-lisp
+    (use-package imenu
+      :bind ("M-i" . imenu))
 #+end_src
 *** Code completion
 Code completion consists of two parts, A source/server that provides the completions and 
