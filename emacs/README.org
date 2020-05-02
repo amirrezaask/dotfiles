@@ -264,6 +264,7 @@ all the unused parts are disabled using =:disabled= in use-package declaration.
 ** Keybinding conventions
 I respect Emacs keybinding conventions in my configuration with a few ideas borrowed from spacemacs.
 + All keybindings should be prefixed with =C-c= and then a single letter to avoid conflict with major modes keybindings.
++ Editor related functionalities start with prefix =e=. (some editor functions like rg or fzf are so common that I bind specific keys for them)
 + Window related functionality like eyebrowse workspaces prefix with =w=
 + Major mode / language specific functions bind with prefix =m=
 + Operating System integration keys should be prefixed with =o=
@@ -324,8 +325,8 @@ keybindings like the ones in magit forexample but with more features.
              :bind (("<f12>" . amirreza/toggle-color-mode))
              :config
              (defvar amirreza/current-mode 'dark "Current color of Emacs.")
-             (defvar amirreza/dark-theme 'doom-solarized-dark)
-             (defvar amirreza/light-theme 'doom-solarized-light)
+             (defvar amirreza/dark-theme 'modus-vivendi)
+             (defvar amirreza/light-theme 'modus-operandi)
 
              (defmacro amirreza/--load-theme (&rest theme-opts)
                `(progn (mapc #'disable-theme custom-enabled-themes)
@@ -369,7 +370,7 @@ keybindings like the ones in magit forexample but with more features.
 *** Font
   To use specific font in Emacs you just need to call a function, that's easy ha ??
   #+BEGIN_SRC emacs-lisp
-    (defvar amirreza/font "Hack-10")
+    (defvar amirreza/font "Jetbrains Mono-10")
     (set-face-attribute 'default t :font amirreza/font)
     (set-frame-font amirreza/font nil t)
     (global-prettify-symbols-mode 1)
@@ -455,8 +456,8 @@ Emacs windows can be configured in the matter of where their gonna open.
               )
             ("\\*rg"
               (display-buffer-in-side-window)
-              (window-height . 0.30)
-              (side . bottom)
+              (window-height . 0.50)
+              (side . right)
               (slot . 0))))
 #+END_SRC
 *** Eyebrowse
@@ -524,43 +525,44 @@ by default is bound to =C-c <left>=.
 #+end_src
 ** Minibuffer completion
 #+begin_src emacs-lisp
-            ;; orderless completion style, we can divide our search string into space seperated parts
-            (use-package orderless
-              :straight t
-              :config
-              (setq completion-styles '(orderless)))
+    ;; orderless completion style, we can divide our search string into space seperated parts
+    (use-package orderless
+      :straight t
+      :config
+      (setq completion-styles '(orderless)))
 
-            (use-package icomplete
-              :demand
-              :bind
-              (:map icomplete-minibuffer-map
-                    ("C-n" . icomplete-forward-completions)
-                    ("C-p" . icomplete-backward-completions)
-                    ("C-f" . icomplete-forward-completions)
-                    ("C-b" . icomplete-backward-completions)
-                    ("<right>" . icomplete-forward-completions)
-                    ("<left>" . icomplete-backward-completions)
-                    ("<down>" . icomplete-forward-completions)
-                    ("<up>" . icomplete-backward-completions)
-                    ("<RET>" . icomplete-force-complete-and-exit)
-                    ("<tab>" . icomplete-force-complete))
+    (use-package icomplete
+      :demand
+      :bind
+      (:map icomplete-minibuffer-map
+            ("C-n" . icomplete-forward-completions)
+            ("C-p" . icomplete-backward-completions)
+            ("C-f" . icomplete-forward-completions)
+            ("C-b" . icomplete-backward-completions)
+            ("<right>" . icomplete-forward-completions)
+            ("<left>" . icomplete-backward-completions)
+            ("<down>" . icomplete-forward-completions)
+            ("<up>" . icomplete-backward-completions)
+            ("<RET>" . icomplete-force-complete-and-exit)
+            ("<tab>" . icomplete-force-complete))
 
-              :config
-              (setq icomplete-max-delay-chars 2
-                    icomplete-show-matches-on-no-input t
-                    icomplete-hide-common-prefix nil)
-              (when (> emacs-major-version 26)
-                (fido-mode -1))
-              (icomplete-mode 1))
+      :config
+      (setq icomplete-max-delay-chars 2
+            icomplete-show-matches-on-no-input t
+            icomplete-hide-common-prefix nil
+            completion-ignore-case t)
+      (when (> emacs-major-version 26)
+        (fido-mode -1))
+      (icomplete-mode 1))
 
-            (use-package icomplete-vertical
-              :straight t
-              :demand
-              :bind
-              (:map icomplete-minibuffer-map
-                     ("C-v" . icomplete-vertical-toggle))
-              :config
-              (icomplete-vertical-mode -1))
+    (use-package icomplete-vertical
+      :straight t
+      :demand
+      :bind
+      (:map icomplete-minibuffer-map
+             ("C-v" . icomplete-vertical-toggle))
+      :config
+      (icomplete-vertical-mode -1))
 #+end_src
 ** Editor
 *** Defaults
@@ -620,6 +622,7 @@ by default is bound to =C-c <left>=.
     (setq kill-ring-max 15))
 
   (use-package display-line-numbers
+    :disabled t
     :config
     (global-display-line-numbers-mode +1))
 
@@ -666,7 +669,7 @@ it's just magic.
 Ripgrep is another magical tool that replaces the old =grep= command and actually
 it's just amazing tool
 #+begin_src emacs-lisp
-(use-package deadgrep :straight t :commands (deadgrep))
+(use-package rg :straight t :commands (rg))
 #+end_src
 *** Dumb Jump
 Dumb jump is actually a smart way of jumping to defenitions using grep tools like
@@ -678,7 +681,6 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
     (dumb-jump-go
      dumb-jump-back)
     :config
-    (setq dumb-jump-selector 'ivy)
     (dumb-jump-mode 1))
 #+end_src
 *** Org mode
@@ -836,30 +838,32 @@ skeleton and skeleton does it's job of inserting text.
 #+end_src
 *** Editor Hydra
 #+begin_src emacs-lisp
-  (pretty-hydra-define amirreza-editor-git-hydra (:hint nil :exit t)
-    ("Actions"
-     (("g" magit "Magit")
-      ("m" git-messenger:popup-message "Git messanger"))))
+      (pretty-hydra-define amirreza-editor-git-hydra (:hint nil :exit t)
+        ("Actions"
+         (("g" magit "Magit")
+          ("m" git-messenger:popup-message "Git messanger"))))
 
-  (pretty-hydra-define amirreza-editor-avy (:hint nil :exit t)
-    ("Jump to"
-     (("l" avy-goto-line "Avy jump to line")
-      ("w" avy-goto-word-1 "Avy jump to word")
-      ("cc" avy-goto-char-2 "Avy jump to characters")
-      ("c" avy-goto-char "Avy jump to character"))))
+      (pretty-hydra-define amirreza-editor-jump (:hint nil :exit t)
+        ("Jump to"
+         (("l" avy-goto-line "Avy jump to line")
+          ("w" avy-goto-word-1 "Avy jump to word")
+          ("cc" avy-goto-char-2 "Avy jump to characters")
+          ("c" avy-goto-char "Avy jump to character")
+          ("d" dumb-jump-go "dumb jump jump to defenition")
+          ("b" dumb-jump-back "dumb jump jump to defenition"))))
 
-  (pretty-hydra-define amirreza-editor-hydra (:hint nil :exit t)
-    ("Actions"
-     (("f" fzf "Fuzzy file search")
-      ("e" amirreza/edit-configuration "Edit Emacs configuration file")
-      ("g" amirreza-editor-git-hydra/body "Git actions")
-      ("i" iedit "IEdit")
-      ("r" deadgrep "Ripgrep")
-      ("m" amirreza-editor-mc-hydra/body "Multi cursors")
-      ("a" amirreza-editor-avy/body "Avy")
-      ("s" sudo-edit "Sudo edit"))))
+      (pretty-hydra-define amirreza-editor-hydra (:hint nil :exit t)
+        ("Actions"
+         (("f" fzf "Fuzzy file search")
+          ("e" amirreza/edit-configuration "Edit Emacs configuration file")
+          ("g" amirreza-editor-git-hydra/body "Git actions")
+          ("i" iedit "IEdit")
+          ("r" rg "Ripgrep")
+          ("m" amirreza-editor-mc-hydra/body "Multi cursors")
+          ("j" amirreza-editor-jump/body "Jump to")
+          ("s" sudo-edit "Sudo edit"))))
 
-   (global-set-key (kbd "C-c e") 'amirreza-editor-hydra/body)
+       (global-set-key (kbd "C-c e") 'amirreza-editor-hydra/body)
 #+end_src
 ** IDE setup
 *** Add executable paths
