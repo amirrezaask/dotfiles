@@ -63,7 +63,7 @@
     - [[#rainbow-delimiters][Rainbow delimiters]]
     - [[#avy][Avy]]
     - [[#edit-configuration][Edit configuration]]
-    - [[#chapter-hydra][Chapter Hydra]]
+    - [[#editor-hydra][Editor Hydra]]
   - [[#ide-setup][IDE setup]]
     - [[#add-executable-paths][Add executable paths]]
     - [[#code-completion][Code completion]]
@@ -90,13 +90,12 @@
     - [[#irc][IRC]]
     - [[#process-management][Process management]]
     - [[#music][Music]]
-    - [[#chapter-hydra-1][Chapter Hydra]]
+    - [[#ide-hydra][IDE Hydra]]
   - [[#devops-tools][Devops Tools]]
     - [[#some-syntax-highlights][Some syntax highlights]]
     - [[#tramp][TRAMP]]
     - [[#docker][Docker]]
     - [[#kubernetes][Kubernetes]]
-    - [[#redis][Redis]]
 - [[#benchmark-startup-time][Benchmark startup time]]
 
 * Introduction
@@ -850,7 +849,7 @@ skeleton and skeleton does it's job of inserting text.
        (interactive)
        (find-file "~/.emacs.d/README.org"))
 #+end_src
-*** Chapter Hydra
+*** Editor Hydra
 #+begin_src emacs-lisp
   (pretty-hydra-define amirreza-editor-git-hydra (:hint nil :exit t)
     ("Actions"
@@ -1285,7 +1284,7 @@ TBA
   (use-package rhythmbox
     :straight (:host github :repo "amirrezaask/Rhythmbox.el"))
 #+end_src
-*** Chapter Hydra
+*** IDE Hydra
 #+begin_src emacs-lisp
   (pretty-hydra-define amirreza-os-hydra (:hint nil :exit t)
     ("Programs"
@@ -1326,10 +1325,7 @@ TBA
 #+begin_src emacs-lisp
 (use-package kubel :straight t :commands (kubel) :bind (("C-c d k" . kubel)))
 #+end_src
-*** Redis
-#+begin_src emacs-lisp
-(use-package redis :straight t :defer t)
-#+end_src
+
 * Benchmark startup time
 #+begin_src emacs-lisp
 (defvar amirreza/startup-elapsed (- (float-time) amirreza/emacs-init-timestamp))
