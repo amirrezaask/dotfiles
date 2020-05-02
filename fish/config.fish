@@ -8,7 +8,6 @@ set -x EMACSTERMINAL "emacsclient -t"
 set -x EDITOR "$EMACSTERMINAL"
 set -x SHELL "/bin/zsh"
 
-alias vim "nvim"
 alias e "$EMACSTERMINAL"
 alias open "xdg-open"
 
