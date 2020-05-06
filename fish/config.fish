@@ -10,6 +10,7 @@ set -x SHELL "/bin/zsh"
 
 alias e "$EMACSTERMINAL"
 alias open "xdg-open"
+alias vim "nvim"
 
 # reset setxkbmap
 setxkbmap -option
