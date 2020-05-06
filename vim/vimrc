@@ -1,0 +1,32 @@
+"General Settings"
+syntax on
+filetype on
+set expandtab
+set bs=2
+set tabstop=2
+set autoindent
+set smartindent
+set ignorecase
+set modeline
+set nocompatible
+set encoding=utf-8
+set hlsearch
+set history=700
+set t_Co=256
+set tabpagemax=100
+set ruler
+set nojoinspaces
+set shiftround
+
+
+"Leader Settings"
+let mapleader = " "
+
+map <C-j> <C-w>j
+map <C-k> <C-w>k
+map <C-l> <C-w>l
+map <C-h> <C-w>h
+
+map Q <nop>
+
+map ; :
