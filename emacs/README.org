@@ -29,8 +29,6 @@
     - [[#themes][Themes]]
     - [[#some-cursor-tweaks][Some cursor tweaks]]
     - [[#font][Font]]
-    - [[#icons][Icons]]
-    - [[#modeline][Modeline]]
   - [[#windowsworkspaces][Windows/Workspaces]]
     - [[#window-rules][Window rules]]
     - [[#eyebrowse][Eyebrowse]]
@@ -297,6 +295,7 @@ keybindings like the ones in magit forexample but with more features.
     (use-package modus-vivendi-theme :straight t :defer t)
     (use-package doom-themes :straight t :defer t)
     (use-package darkburn-theme :straight t :defer t)
+    
   #+END_SRC
   You probably notice the =:defer= part in use-package, with =:defer= keyword (:something is called a keyword in elisp)
   use-package knows that we don't need this package to be loaded in startup, since we actually don't need all of our themes
@@ -351,6 +350,7 @@ keybindings like the ones in magit forexample but with more features.
     (use-package frame
       :config
       (blink-cursor-mode -1))
+
     (use-package hl-line
       :config
       (global-hl-line-mode +1))
@@ -359,7 +359,7 @@ keybindings like the ones in magit forexample but with more features.
 *** Font
   To use specific font in Emacs you just need to call a function, that's easy ha ??
   #+BEGIN_SRC emacs-lisp
-    (defvar amirreza/font "Jetbrains Mono-10")
+    (defvar amirreza/font "Hack-9")
     (set-face-attribute 'default t :font amirreza/font)
     (set-frame-font amirreza/font nil t)
     (global-prettify-symbols-mode 1)
@@ -368,7 +368,7 @@ keybindings like the ones in magit forexample but with more features.
   Now let's write some elisp, let's say that we want to have a function that we can call and change 
   our font interactively, let's write it.
   #+BEGIN_SRC emacs-lisp
-    (defun hitchhiker/change-font (font size)
+    (defun amirreza/change-font (font size)
       (interactive "sFont: \nnSize: ")
       (set-face-attribute 'default t :font (format "%s-%d" font size))
       (set-frame-font (format "%s-%d" font size) nil t))
@@ -380,53 +380,6 @@ keybindings like the ones in magit forexample but with more features.
   before is interactive as well, if we call it we will prompted to enter the font first and then the size
   and volla :).
 
-*** Icons
- Emacs by default has no icons anywhere, but if you like icons forexample in the file browser
- you need to install a package for that. For icons we are going to use =all-the-icons= package which
- is a gourges icon package for emacs.
- #+BEGIN_SRC emacs-lisp :eval no
-   (use-package all-the-icons
-
-     :straight t
-     :commands (all-the-icons-octicon
-            all-the-icons-faicon
-            all-the-icons-fileicon
-            all-the-icons-wicon
-            all-the-icons-material
-            all-the-icons-alltheicon))
-
-   (use-package all-the-icons-dired
-
-     :straight t
-     :init
-     (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
- #+END_SRC
- =:commands= in use-package defers the loading of the package until on of listed commands (interactive functions)
- is called, basically first buffer that wants to use that it will get loaded. =:init= means when emacs started 
- no matter what are the other options evaluate the forms after =:init=.
-*** Modeline
- #+begin_src emacs-lisp
-   (use-package emacs 
-     :config
-     (setq amirreza/modeline-seperator "   ")
-     (setq-default mode-line-format (list
-                                     mode-line-front-space
-                                     mode-line-misc-info ;; eyebrowse workspace number
-                                     amirreza/modeline-seperator
-                                     mode-line-modified
-                                     amirreza/modeline-seperator
-                                     "%m"
-                                     amirreza/modeline-seperator
-                                     "%b"
-                                     amirreza/modeline-seperator
- ;;                                    mode-line-modes
- ;;                                  amirreza/modeline-seperator
-                                     mode-line-position
-                                     amirreza/modeline-seperator
-                                     '(:eval vc-mode)
-                                     mode-line-end-spaces
-                                     )))
- #+end_src
 ** Windows/Workspaces
 *** Window rules
 Emacs windows can be configured in the matter of where their gonna open.
