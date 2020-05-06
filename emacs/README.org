@@ -739,6 +739,7 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
 #+begin_src emacs-lisp
   (use-package ibuffer
     :bind (("C-x C-b" . 'ibuffer)))
+
   (use-package ibuffer-projectile 
     :straight t
     :hook (ibuffer . ibuffer-projectile-set-filter-groups))
@@ -794,7 +795,7 @@ skeleton and skeleton does it's job of inserting text.
           ("d" dumb-jump-go "dumb jump jump to defenition")
           ("b" dumb-jump-back "dumb jump jump to defenition"))))
       :bind (:map global-map
-                ("C-;" . amirreza-editor-jump)))
+                ("C-;" . amirreza-editor-jump/body)))
 
 #+end_src
 *** Edit configuration
