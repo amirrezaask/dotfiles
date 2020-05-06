@@ -614,19 +614,29 @@ it's just magic.
 Ripgrep is another magical tool that replaces the old =grep= command and actually
 it's just amazing tool
 #+begin_src emacs-lisp
-(use-package rg :straight t :commands (rg))
+      (use-package rg 
+        :straight t 
+        :commands (rg)
+        :bind 
+        (:map global-map
+              ("C-c g" . rg)
+              ("C-c e r" . rg)))
 #+end_src
 *** Dumb Jump
 Dumb jump is actually a smart way of jumping to defenitions using grep tools like
 =ag= or =rg=.
 #+begin_src emacs-lisp
-  (use-package dumb-jump
-    :straight t
-    :commands
-    (dumb-jump-go
-     dumb-jump-back)
-    :config
-    (dumb-jump-mode 1))
+        (use-package dumb-jump
+          :straight t
+          :commands
+          (dumb-jump-go
+           dumb-jump-back)
+          :bind
+          (:map prog-mode-map
+                ("M->" . dumb-jump-go)
+                ("M-<" . dumb-jump-back))
+          :config
+          (dumb-jump-mode 1))
 #+end_src
 *** Org mode
 **** Org
@@ -772,8 +782,20 @@ skeleton and skeleton does it's job of inserting text.
 
 *** Avy
 #+begin_src emacs-lisp
-    (use-package avy :straight t
-      :commands (avy-goto-char avy-goto-char-2 avy-goto-lineavy-goto-word-1))
+  (use-package avy :straight t
+    :commands (avy-goto-char avy-goto-char-2 avy-goto-lineavy-goto-word-1)
+    :init
+    (pretty-hydra-define amirreza-editor-jump (:hint nil :exit t)
+        ("Jump to"
+         (("l" avy-goto-line "Avy jump to line")
+          ("w" avy-goto-word-1 "Avy jump to word")
+          ("cc" avy-goto-char-2 "Avy jump to characters")
+          ("c" avy-goto-char "Avy jump to character")
+          ("d" dumb-jump-go "dumb jump jump to defenition")
+          ("b" dumb-jump-back "dumb jump jump to defenition"))))
+      :bind (:map global-map
+                ("C-;" . amirreza-editor-jump)))
+
 #+end_src
 *** Edit configuration
 #+begin_src emacs-lisp
@@ -788,14 +810,6 @@ skeleton and skeleton does it's job of inserting text.
          (("g" magit "Magit")
           ("m" git-messenger:popup-message "Git messanger"))))
 
-      (pretty-hydra-define amirreza-editor-jump (:hint nil :exit t)
-        ("Jump to"
-         (("l" avy-goto-line "Avy jump to line")
-          ("w" avy-goto-word-1 "Avy jump to word")
-          ("cc" avy-goto-char-2 "Avy jump to characters")
-          ("c" avy-goto-char "Avy jump to character")
-          ("d" dumb-jump-go "dumb jump jump to defenition")
-          ("b" dumb-jump-back "dumb jump jump to defenition"))))
 
       (pretty-hydra-define amirreza-editor-hydra (:hint nil :exit t)
         ("Actions"
