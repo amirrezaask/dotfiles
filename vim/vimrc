@@ -17,16 +17,27 @@ set tabpagemax=100
 set ruler
 set nojoinspaces
 set shiftround
-
-
+set guifont=Jetbrains\ Mono\ 11
 "Leader Settings"
 let mapleader = " "
-
+"Easier window navigation
 map <C-j> <C-w>j
 map <C-k> <C-w>k
 map <C-l> <C-w>l
 map <C-h> <C-w>h
-
 map Q <nop>
-
 map ; :
+" Make copy/pase normal
+set clipboard=unnamedplus
+call plug#begin('~/.vim/plugged')
+" FZF integration {{{
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+nnoremap <leader>ff :FZF<CR>
+" }}} 
+" Dracula theme
+Plug 'dracula/vim', { 'as': 'dracula' }
+colorscheme dracula
+" Git Gutter 
+Plug 'airblade/vim-gitgutter'
+call plug#end()
