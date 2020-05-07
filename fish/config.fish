@@ -15,4 +15,4 @@ alias vim "nvim"
 # reset setxkbmap
 setxkbmap -option
 
-setxkbmap -layout us,ir -option "ctrl:nocaps" -option "grp:alt_shift_toggle"
+# setxkbmap -layout us,ir -option "ctrl:nocaps" -option "grp:alt_shift_toggle"
