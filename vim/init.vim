@@ -20,9 +20,11 @@ set shiftround
 set guifont=Hack\ 10
 set relativenumber
 set colorcolumn=80
+
 "Leader Settings"
 let mapleader = " "
 " }}}
+
 "Easier window navigation {{{
 map <C-j> <C-w>j
 map <C-k> <C-w>k
@@ -50,8 +52,8 @@ set clipboard=unnamedplus
 call plug#begin('~/.vim/plugged')
 
 " Colorschemes {{{ 
-Plug 'altercation/vim-colors-solarized'
 Plug 'vim-scripts/xoria256.vim'
+Plug 'iCyMind/NeoSolarized'
 " }}}
 " Edit neovim configuration instantly
 nnoremap <leader>ec :tabnew ~/.config/nvim/init.vim<CR>   
@@ -76,30 +78,31 @@ Plug 'preservim/nerdtree'
 " }}}
 
 " Autocomplete {{{ 
-Plug 'ncm2/ncm2'
-Plug 'roxma/nvim-yarp'
+" Plug 'ncm2/ncm2'
+" Plug 'roxma/nvim-yarp'
 
-autocmd BufEnter * call ncm2#enable_for_buffer()
-set completeopt=noinsert,menuone,noselect
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-set shortmess+=c
-inoremap <c-c> <ESC>
+" autocmd BufEnter * call ncm2#enable_for_buffer()
+" set completeopt=noinsert,menuone,noselect
+" inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+" inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+" set shortmess+=c
+" inoremap <c-c> <ESC>
 " }}}
 
 " Language server protocol {{{
-Plug 'prabirshrestha/async.vim'
-Plug 'prabirshrestha/vim-lsp'
-Plug 'mattn/vim-lsp-settings'
-Plug 'ncm2/ncm2-vim-lsp'
-nnoremap <leader>ld :LspDefinition<CR> 
-nnoremap <leader>lp :bp<CR>
-nnoremap <leader>lf :LspDocumentFormat<CR>
+" Plug 'prabirshrestha/async.vim'
+" Plug 'prabirshrestha/vim-lsp'
+" Plug 'mattn/vim-lsp-settings'
+" Plug 'ncm2/ncm2-vim-lsp'
+" nnoremap <leader>ld :LspDefinition<CR> 
+" nnoremap <leader>lp :bp<CR>
+" nnoremap <leader>lf :LspDocumentFormat<CR>
 " }}}
 
 " Syntax linting{{{
-Plug 'dense-analysis/ale'
+" Plug 'dense-analysis/ale'
 " }}}
+
 " Zig {{{
 Plug 'ziglang/zig.vim'
 " }}}
@@ -115,8 +118,13 @@ Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-commentary' 
 " }}}
 
-" Airline
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+" Status Line {{{ 
+Plug 'itchyny/lightline.vim'
+" }}}
+
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+source /home/amirreza/.config/nvim/coc.vim
+
+Plug 'StanAngeloff/php.vim'
 call plug#end()
 " }}}
