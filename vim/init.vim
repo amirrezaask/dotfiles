@@ -1,3 +1,30 @@
+call plug#begin('~/.vim/plugged')
+Plug 'vim-scripts/xoria256.vim'
+Plug 'iCyMind/NeoSolarized'
+Plug 'prabirshrestha/async.vim'
+Plug 'prabirshrestha/vim-lsp'
+Plug 'mattn/vim-lsp-settings'
+Plug 'ncm2/ncm2-vim-lsp'
+Plug 'jiangmiao/auto-pairs'
+Plug 'preservim/nerdtree'
+Plug 'ziglang/zig.vim'
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-jdaddy'
+Plug 'tpope/vim-vinegar'
+Plug 'tpope/vim-commentary' 
+Plug 'itchyny/lightline.vim'
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+Plug 'ncm2/ncm2'
+Plug 'roxma/nvim-yarp'
+Plug 'ncm2/ncm2-bufword'
+Plug 'ncm2/ncm2-path'
+Plug 'StanAngeloff/php.vim'
+call plug#end()
+
 " General Settings{{{
 syntax on
 filetype on
@@ -18,12 +45,8 @@ set ruler
 set nojoinspaces
 set shiftround
 set guifont=Hack\ 10
-set relativenumber
-set colorcolumn=80
-
-"Leader Settings"
-let mapleader = " "
-" }}}
+colorscheme NeoSolarized 
+let mapleader = ","
 
 "Easier window navigation {{{
 map <C-j> <C-w>j
@@ -32,6 +55,12 @@ map <C-l> <C-w>l
 map <C-h> <C-w>h
 map Q <nop>
 map ; :
+" }}}
+
+
+" Easier buffer switch {{{
+noremap <leader>p  :bp<cr>
+noremap <leader>n :bn<cr>
 " }}}
 
 " Easier tab{{{ 
@@ -48,83 +77,22 @@ inoremap kj <esc>
 " Make copy/pase normal
 set clipboard=unnamedplus
 
-" Packages {{{
-call plug#begin('~/.vim/plugged')
-
-" Colorschemes {{{ 
-Plug 'vim-scripts/xoria256.vim'
-Plug 'iCyMind/NeoSolarized'
-" }}}
 " Edit neovim configuration instantly
 nnoremap <leader>ec :tabnew ~/.config/nvim/init.vim<CR>   
 
-" FZF integration {{{
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
+" Fzf keybindings
 nnoremap <leader><leader> :Files<CR>
-nnoremap <leader>bb :Buffers<CR>
-nnoremap <leader>ww :Windows<CR>
-nnoremap <leader>cc :Commands<CR>
-nnoremap <leader>gg :Rg<CR>
-" }}} 
+nnoremap <leader>b :Buffers<CR>
+nnoremap <leader>w :Windows<CR>
+nnoremap <leader>c :Commands<CR>
+nnoremap <leader>g :Rg<CR>
 
-" Git interface {{
-Plug 'tpope/vim-fugitive'
-Plug 'airblade/vim-gitgutter'
-" }}}
-
-" Side file tree browser {{{
-Plug 'preservim/nerdtree'
-" }}}
-
-" Autocomplete {{{ 
-" Plug 'ncm2/ncm2'
-" Plug 'roxma/nvim-yarp'
-
-" autocmd BufEnter * call ncm2#enable_for_buffer()
-" set completeopt=noinsert,menuone,noselect
-" inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-" inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-" set shortmess+=c
-" inoremap <c-c> <ESC>
-" }}}
-
-" Language server protocol {{{
-" Plug 'prabirshrestha/async.vim'
-" Plug 'prabirshrestha/vim-lsp'
-" Plug 'mattn/vim-lsp-settings'
-" Plug 'ncm2/ncm2-vim-lsp'
-" nnoremap <leader>ld :LspDefinition<CR> 
-" nnoremap <leader>lp :bp<CR>
-" nnoremap <leader>lf :LspDocumentFormat<CR>
-" }}}
-
-" Syntax linting{{{
-" Plug 'dense-analysis/ale'
-" }}}
-
-" Zig {{{
-Plug 'ziglang/zig.vim'
-" }}}
-
-" Golang settings {{{
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-" }}}
-
-" Some tpope plugins {{{
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-jdaddy'
-Plug 'tpope/vim-vinegar'
-Plug 'tpope/vim-commentary' 
-" }}}
-
-" Status Line {{{ 
-Plug 'itchyny/lightline.vim'
-" }}}
-
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-source /home/amirreza/.config/nvim/coc.vim
-
-Plug 'StanAngeloff/php.vim'
-call plug#end()
-" }}}
+" NCM2 settings
+set shortmess+=c
+inoremap <c-c> <ESC>
+autocmd BufEnter * call ncm2#enable_for_buffer()
+set completeopt=noinsert,menuone,noselect
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <expr> <CR> (pumvisible() ? "\<c-y>" : "\<CR>")
+nnoremap <leader>. :LspDefinition<CR>
