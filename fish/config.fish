@@ -5,7 +5,7 @@ set -x GOROOT '/usr/local/go'
 set -x PYTHONPATH '/home/amirreza/.local/bin'
 set -x PATH "$HOME/.config/composer/vendor/bin:$GOROOT/bin:$GOPATH/bin:$HOME/.cargo/bin:$PYTHONPATH:/usr/local/Postman:$HOME/.local/elixir-ls/:$PATH"
 set -x EMACSTERMINAL "emacsclient -t"
-set -x EDITOR "$EMACSTERMINAL"
+set -x EDITOR nvim 
 set -x SHELL "/bin/zsh"
 
 alias e "$EMACSTERMINAL"
