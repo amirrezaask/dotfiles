@@ -23,6 +23,7 @@ Plug 'roxma/nvim-yarp'
 Plug 'ncm2/ncm2-bufword'
 Plug 'ncm2/ncm2-path'
 Plug 'StanAngeloff/php.vim'
+Plug 'arcticicestudio/nord-vim'
 call plug#end()
 
 " General Settings{{{
@@ -45,7 +46,8 @@ set ruler
 set nojoinspaces
 set shiftround
 set guifont=Hack\ 10
-colorscheme NeoSolarized 
+colorscheme nord 
+set termguicolors
 let mapleader = ","
 
 "Easier window navigation {{{
