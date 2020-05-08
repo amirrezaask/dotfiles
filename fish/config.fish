@@ -11,8 +11,5 @@ set -x SHELL "/bin/zsh"
 alias e "$EMACSTERMINAL"
 alias open "xdg-open"
 alias vim "nvim"
+setxkbmap -layout us,ir -option "caps:swapescape" -option "grp:alt_shift_toggle"
 
-# reset setxkbmap
-setxkbmap -option
-
-# setxkbmap -layout us,ir -option "ctrl:nocaps" -option "grp:alt_shift_toggle"
