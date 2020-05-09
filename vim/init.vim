@@ -21,14 +21,11 @@ Plug 'morhetz/gruvbox'
 call plug#end()
 
 " General Settings{{{
-syntax on
 filetype off
 syntax on
 filetype on
 filetype indent on
 filetype plugin on
-set autoindent
-set smartindent
 set ignorecase
 set modeline
 set nocompatible
@@ -47,6 +44,30 @@ set relativenumber
 set termguicolors
 let mapleader = " "
 
+
+augroup format
+        " PHP
+        autocmd Filetype php setlocal ts=4 sts=4 sw=4
+
+	" Go
+        autocmd Filetype go setlocal ts=4 sts=4 sw=4
+       
+	" Python 
+        autocmd Filetype python setlocal ts=4 sts=4 sw=4
+
+        " C
+        autocmd Filetype c setlocal ts=2 sts=2 sw=2
+
+	" JSON 
+        autocmd Filetype json setlocal ts=2 sts=2 sw=2
+	
+	" YAML 
+        autocmd Filetype yaml setlocal ts=2 sts=2 sw=2
+
+
+augroup end
+
+" }}}
 "Easier window navigation {{{
 map <C-j> <C-w>j
 map <C-k> <C-w>k
@@ -60,7 +81,7 @@ map ; :
 nmap <leader>/ :nohl<CR>
 
 " Easier buffer switch {{{
-noremap <leader>p  :bp<cr>
+noremap <leader>p :bp<cr>
 noremap <leader>n :bn<cr>
 " }}}
 
