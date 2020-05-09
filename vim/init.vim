@@ -18,6 +18,8 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'StanAngeloff/php.vim'
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'morhetz/gruvbox'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 call plug#end()
 
 " General Settings{{{
@@ -43,8 +45,8 @@ colorscheme gruvbox
 set relativenumber
 set termguicolors
 let mapleader = " "
-
-
+" }}}
+" FileType specific settings {{{
 augroup format
         " PHP
         autocmd Filetype php setlocal ts=4 sts=4 sw=4
@@ -63,8 +65,6 @@ augroup format
 	
 	" YAML 
         autocmd Filetype yaml setlocal ts=2 sts=2 sw=2
-
-
 augroup end
 
 " }}}
@@ -113,6 +113,8 @@ nnoremap <leader>fb :Buffers<CR>
 nnoremap <leader>fw :Windows<CR>
 nnoremap <leader>fc :Commands<CR>
 nnoremap <leader>fs :Rg<CR>
-
+let g:airline_theme='base16_gruvbox_dark_hard'
+" Coc settings {{{
 source ~/.config/nvim/coc.vim
-let g:coc_global_extensions = ['coc-go', 'coc-phpls', 'coc-python']
+let g:coc_global_extensions = ['coc-go', 'coc-phpls', 'coc-python', "coc-vimlsp", "coc-json", "coc-yaml"]
+" }}}
