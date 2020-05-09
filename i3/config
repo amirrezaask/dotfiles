@@ -17,15 +17,14 @@ font pango:Hack 10
 
 for_window [class="^.*"] border pixel 2
 
-# multi monitor support
-# for stacked setup
 bindsym $mod+m move workspace to output down
-# for side by side setp
-# bindsym $mod+m move workspace to output left
+
+bindsym $mod+e exec i3lock -c 000000
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
+bindsym $mod+Shift+v exec pavucontrol
 # start a terminal
 bindsym $mod+Return exec alacritty 
 
