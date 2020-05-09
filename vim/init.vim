@@ -4,7 +4,6 @@ Plug 'iCyMind/NeoSolarized'
 Plug 'jiangmiao/auto-pairs'
 Plug 'preservim/nerdtree'
 Plug 'ziglang/zig.vim'
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-surround'
@@ -14,12 +13,13 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'junegunn/gv.vim'
 Plug 'airblade/vim-gitgutter'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'StanAngeloff/php.vim'
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'morhetz/gruvbox'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 call plug#end()
 
 " General Settings{{{
@@ -114,7 +114,10 @@ nnoremap <leader>fw :Windows<CR>
 nnoremap <leader>fc :Commands<CR>
 nnoremap <leader>fs :Rg<CR>
 let g:airline_theme='base16_gruvbox_dark_hard'
+"}}}
+
 " Coc settings {{{
 source ~/.config/nvim/coc.vim
 let g:coc_global_extensions = ['coc-go', 'coc-phpls', 'coc-python', "coc-vimlsp", "coc-json", "coc-yaml"]
 " }}}
+
