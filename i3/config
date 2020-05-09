@@ -13,7 +13,7 @@ set $mod Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font pango:Jetbrains Mono 10
+font pango:Hack 10
 
 for_window [class="^.*"] border pixel 2
 
@@ -27,14 +27,14 @@ bindsym $mod+m move workspace to output down
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec xfce4-terminal 
+bindsym $mod+Return exec alacritty 
 
 # kill focused window
 bindsym $mod+Shift+q kill
 
 
 # bindsym $mod+d exec dmenu_run
-bindsym $mod+d exec dmenu_run
+bindsym $mod+d exec i3-dmenu-desktop
 # bindsym $mod+d exec "rofi -combi-modi window,drun,ssh -theme solarized  -show combi"
 # change focus
 bindsym $mod+j focus down 
@@ -149,11 +149,11 @@ bindsym $mod+r mode "resize"
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
  bar {
+	 status_command i3status
          position top
 }
 # Assignment of windows
 assign [class="Firefox"] $ws1 
-assign [class="Sakura"] $ws2 
 assign [class="Clementine"] $ws4
 assign [class="Emacs"] $ws3 
 # volume
