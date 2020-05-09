@@ -12,21 +12,21 @@ Plug 'tpope/vim-jdaddy'
 Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-commentary' 
 Plug 'tpope/vim-fugitive'
+Plug 'junegunn/gv.vim'
 Plug 'airblade/vim-gitgutter'
-Plug 'neovim/nvim-lsp'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'StanAngeloff/php.vim'
-Plug 'arcticicestudio/nord-vim'
 Plug 'dracula/vim', { 'as': 'dracula' }
+Plug 'morhetz/gruvbox'
 call plug#end()
 
 " General Settings{{{
 syntax on
-filetype off          " necessary to make ftdetect work on Linux
+filetype off
 syntax on
-filetype on           " Enable filetype detection
-filetype indent on    " Enable filetype-specific indenting
-filetype plugin on    " Enable filetype-specific plugins
+filetype on
+filetype indent on
+filetype plugin on
 set autoindent
 set smartindent
 set ignorecase
@@ -40,8 +40,9 @@ set tabpagemax=100
 set ruler
 set nojoinspaces
 set shiftround
-set guifont=Hack\ 10
-colorscheme dracula 
+set mouse=a
+set guifont=Hack\ 9 
+colorscheme gruvbox 
 set relativenumber
 set termguicolors
 let mapleader = " "
@@ -54,6 +55,7 @@ map <C-h> <C-w>h
 map Q <nop>
 map ; :
 " }}}
+
 " Disable highlight after search
 nmap <leader>/ :nohl<CR>
 
@@ -91,6 +93,5 @@ nnoremap <leader>fw :Windows<CR>
 nnoremap <leader>fc :Commands<CR>
 nnoremap <leader>fs :Rg<CR>
 
-" LSP settings
 source ~/.config/nvim/coc.vim
 let g:coc_global_extensions = ['coc-go', 'coc-phpls', 'coc-python']
