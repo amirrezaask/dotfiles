@@ -33,9 +33,9 @@ bindsym $mod+Return exec alacritty
 bindsym $mod+Shift+q kill
 
 
-# bindsym $mod+d exec dmenu_run
 bindsym $mod+d exec i3-dmenu-desktop
-# bindsym $mod+d exec "rofi -combi-modi window,drun,ssh -theme solarized  -show combi"
+bindsym $mod+Shift+d exec dmenu_run 
+
 # change focus
 bindsym $mod+j focus down 
 bindsym $mod+h focus left 
