@@ -27,8 +27,8 @@ endif
 
 
 " Use `[g` and `]g` to navigate diagnostics
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
+nmap <leader>en <Plug>(coc-diagnostic-prev)
+nmap <leader>ep <Plug>(coc-diagnostic-next)
 
 " GoTo code navigation.
 nmap <leader>.d <Plug>(coc-definition)
