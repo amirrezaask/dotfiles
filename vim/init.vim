@@ -1,10 +1,6 @@
 call plug#begin('~/.vim/plugged')
 Plug 'vim-scripts/xoria256.vim'
 Plug 'iCyMind/NeoSolarized'
-Plug 'prabirshrestha/async.vim'
-Plug 'prabirshrestha/vim-lsp'
-Plug 'mattn/vim-lsp-settings'
-Plug 'ncm2/ncm2-vim-lsp'
 Plug 'jiangmiao/auto-pairs'
 Plug 'preservim/nerdtree'
 Plug 'ziglang/zig.vim'
@@ -17,14 +13,11 @@ Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-commentary' 
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
-" Plug 'ncm2/ncm2'
-" Plug 'roxma/nvim-yarp'
-" Plug 'ncm2/ncm2-bufword'
-" Plug 'ncm2/ncm2-path'
+Plug 'neovim/nvim-lsp'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
 Plug 'StanAngeloff/php.vim'
 Plug 'arcticicestudio/nord-vim'
+Plug 'dracula/vim', { 'as': 'dracula' }
 call plug#end()
 
 " General Settings{{{
@@ -48,7 +41,7 @@ set ruler
 set nojoinspaces
 set shiftround
 set guifont=Hack\ 10
-colorscheme xoria256 
+colorscheme dracula 
 set relativenumber
 set termguicolors
 let mapleader = " "
@@ -61,6 +54,7 @@ map <C-h> <C-w>h
 map Q <nop>
 map ; :
 " }}}
+" Disable highlight after search
 nmap <leader>/ :nohl<CR>
 
 " Easier buffer switch {{{
@@ -78,8 +72,10 @@ noremap <leader>tc :tabclose<CR>
 inoremap jk <esc>
 inoremap kj <esc> 
 " }}}
+
 " Source init.vim
 nnoremap <leader>sv :so $MYVIMRC<CR>
+
 " Make copy/pase normal
 set clipboard=unnamedplus
 
@@ -95,15 +91,6 @@ nnoremap <leader>fw :Windows<CR>
 nnoremap <leader>fc :Commands<CR>
 nnoremap <leader>fs :Rg<CR>
 
-" NCM2 settings
-" set shortmess+=c
-" inoremap <c-c> <ESC>
-" autocmd BufEnter * call ncm2#enable_for_buffer()
-" set completeopt=noinsert,menuone,noselect
-" inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-" inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-" inoremap <expr> <CR> (pumvisible() ? "\<c-y>" : "\<CR>")
-" nnoremap <leader>. :LspDefinition<CR>
 " LSP settings
 source ~/.config/nvim/coc.vim
 let g:coc_global_extensions = ['coc-go', 'coc-phpls', 'coc-python']
