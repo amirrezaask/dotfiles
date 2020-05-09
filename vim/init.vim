@@ -20,8 +20,15 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'nathanaelkane/vim-indent-guides'
+Plug 'michaeljsmith/vim-indent-object'
+Plug 'junegunn/goyo.vim'
+Plug 'honza/dockerfile.vim'
+Plug 'dag/vim-fish'
+Plug 'rust-lang/rust.vim'
 call plug#end()
 
+let g:indent_guides_enable_on_vim_startup = 1
 " General Settings{{{
 filetype off
 syntax on
@@ -45,6 +52,11 @@ colorscheme gruvbox
 set relativenumber
 set termguicolors
 let mapleader = " "
+set cursorline
+set nowrap
+set autoindent
+noremap j gj
+noremap k gk
 " }}}
 " FileType specific settings {{{
 augroup format
