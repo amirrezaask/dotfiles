@@ -12,5 +12,7 @@ alias e "$EMACSTERMINAL"
 alias open "xdg-open"
 alias vim "nvim"
 alias vi "nvim"
+alias g "git"
+alias gs "git status"
 setxkbmap -layout us,ir -option "caps:swapescape" -option "grp:alt_shift_toggle"
 
