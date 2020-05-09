@@ -19,15 +19,24 @@ Plug 'morhetz/gruvbox'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'junegunn/goyo.vim'
 Plug 'honza/dockerfile.vim'
 Plug 'dag/vim-fish'
 Plug 'rust-lang/rust.vim'
+
+
+Plug 'neovim/nvim-lsp'
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 call plug#end()
 
+let g:deoplete#enable_at_startup = 1
+
+lua require'nvim_lsp'.gopls.setup{}
+lua require'nvim_lsp'.vimls.setup{}
+lua require'nvim_lsp'.pyls_ms.setup{}
 let g:indent_guides_enable_on_vim_startup = 1
 " General Settings{{{
 filetype off
@@ -129,7 +138,7 @@ let g:airline_theme='base16_gruvbox_dark_hard'
 "}}}
 
 " Coc settings {{{
-source ~/.config/nvim/coc.vim
-let g:coc_global_extensions = ['coc-go', 'coc-phpls', 'coc-python', "coc-vimlsp", "coc-json", "coc-yaml"]
+" source ~/.config/nvim/coc.vim
+" let g:coc_global_extensions = ['coc-go', 'coc-phpls', 'coc-python', "coc-vimlsp", "coc-json", "coc-yaml"]
 " }}}
 
