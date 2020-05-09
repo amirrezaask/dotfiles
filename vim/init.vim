@@ -106,3 +106,4 @@ nnoremap <leader>fs :Rg<CR>
 " nnoremap <leader>. :LspDefinition<CR>
 " LSP settings
 source ~/.config/nvim/coc.vim
+let g:coc_global_extensions = ['coc-go', 'coc-phpls', 'coc-python']
