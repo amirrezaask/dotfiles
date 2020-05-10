@@ -888,6 +888,7 @@ as auto-complete or syntax linting.
     :commands (lsp lsp-deferred)
     :hook 
     ((python-mode
+      php-mode
       go-mode) . lsp)
     :config
     (setq lsp-auto-guess-root t)
