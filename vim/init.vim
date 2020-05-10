@@ -19,7 +19,7 @@ Plug 'morhetz/gruvbox'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-" Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'junegunn/goyo.vim'
@@ -28,16 +28,19 @@ Plug 'dag/vim-fish'
 Plug 'rust-lang/rust.vim'
 
 
-Plug 'neovim/nvim-lsp'
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" Plug 'neovim/nvim-lsp'
+" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 call plug#end()
 
-let g:deoplete#enable_at_startup = 1
+" let g:deoplete#enable_at_startup = 1
 
-lua require'nvim_lsp'.gopls.setup{}
-lua require'nvim_lsp'.vimls.setup{}
-lua require'nvim_lsp'.pyls_ms.setup{}
+" lua require'nvim_lsp'.gopls.setup{}
+" lua require'nvim_lsp'.vimls.setup{}
+" lua require'nvim_lsp'.pyls_ms.setup{}
+" lua require'nvim_lsp'.intelephense.setup{}
+
 let g:indent_guides_enable_on_vim_startup = 1
+
 " General Settings{{{
 filetype off
 syntax on
@@ -118,7 +121,7 @@ inoremap kj <esc>
 " }}}
 
 " Source init.vim
-nnoremap <leader>sv :so $MYVIMRC<CR>
+nnoremap <leader>sc :so $MYVIMRC<CR>
 
 " Make copy/pase normal
 set clipboard=unnamedplus
@@ -138,21 +141,21 @@ let g:airline_theme='base16_gruvbox_dark_hard'
 "}}}
 
 "Neovim LSP settings {{{
-nnoremap <silent> '[    <cmd>lua vim.lsp.buf.declaration()<CR>
-nnoremap <silent> ''  <cmd>lua vim.lsp.buf.definition()<CR>
-nnoremap <silent> ';      <cmd>lua vim.lsp.buf.hover()<CR>
-nnoremap <silent> ']    <cmd>lua vim.lsp.buf.implementation()<CR>
-nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
-nnoremap <silent> '/   <cmd>lua vim.lsp.buf.type_definition()<CR>
-nnoremap <silent> '.    <cmd>lua vim.lsp.buf.references()<CR>
-nnoremap <silent> '=    <cmd>lua vim.lsp.buf.document_symbol()<CR>
-nnoremap <silent> '-    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
+" nnoremap <silent> '[    <cmd>lua vim.lsp.buf.declaration()<CR>
+" nnoremap <silent> ''  <cmd>lua vim.lsp.buf.definition()<CR>
+" nnoremap <silent> ';      <cmd>lua vim.lsp.buf.hover()<CR>
+" nnoremap <silent> ']    <cmd>lua vim.lsp.buf.implementation()<CR>
+" nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
+" nnoremap <silent> '/   <cmd>lua vim.lsp.buf.type_definition()<CR>
+" nnoremap <silent> '.    <cmd>lua vim.lsp.buf.references()<CR>
+" nnoremap <silent> '=    <cmd>lua vim.lsp.buf.document_symbol()<CR>
+" nnoremap <silent> '-    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
 "}}}
 
 
 
 " Coc settings {{{
-" source ~/.config/nvim/coc.vim
-" let g:coc_global_extensions = ['coc-go', 'coc-phpls', 'coc-python', "coc-vimlsp", "coc-json", "coc-yaml"]
+source ~/.config/nvim/coc.vim
+let g:coc_global_extensions = ['coc-go', 'coc-phpls', 'coc-python', 'coc-vimlsp', 'coc-json', 'coc-yaml']
 " }}}
 
