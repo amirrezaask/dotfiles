@@ -24,9 +24,6 @@ Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'Shougo/deoplete-lsp'
 call plug#end()
 
-" Nvim LSP settings {{{
-" }}}
-
 " General Settings{{{
 filetype off
 syntax on
@@ -79,6 +76,7 @@ augroup format
         autocmd Filetype yaml :IndentGuidesEnable 
 augroup end
 " }}}
+
 "Easier window navigation {{{
 map <C-j> <C-w>j
 map <C-k> <C-w>k
@@ -109,6 +107,7 @@ inoremap kj <esc>
 
 " Source init.vim
 nnoremap <leader>sc :so $MYVIMRC<CR>
+
 " Make copy/pase normal
 set clipboard=unnamedplus
 
@@ -125,26 +124,21 @@ nnoremap <leader>fb :Buffers<CR>
 nnoremap <leader>fw :Windows<CR>
 nnoremap <leader>fc :Commands<CR>
 nnoremap <leader>fs :Rg<CR>
-let g:airline_theme='base16_gruvbox_dark_hard'
 "}}}
-
-" NERDTree Settings {{{
-map <silent> <F8> :NERDTreeToggle<CR>
-" }}}
 
 "Neovim LSP settings {{{
 lua require'nvim_lsp'.gopls.setup{}
 lua require'nvim_lsp'.vimls.setup{}
 lua require'nvim_lsp'.pyls_ms.setup{}
 lua require'nvim_lsp'.intelephense.setup{}
-nnoremap <silent> ''  <cmd>lua vim.lsp.buf.definition()<CR>
-nnoremap <silent> ';      <cmd>lua vim.lsp.buf.hover()<CR>
-nnoremap <silent> '"    <cmd>lua vim.lsp.buf.implementation()<CR>
-nnoremap <silent> '\ <cmd>lua vim.lsp.buf.signature_help()<CR>
-nnoremap <silent> '/   <cmd>lua vim.lsp.buf.type_definition()<CR>
-nnoremap <silent> '.    <cmd>lua vim.lsp.buf.references()<CR>
-nnoremap <silent> '=    <cmd>lua vim.lsp.buf.document_symbol()<CR>
-nnoremap <silent> '-    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
+nnoremap <silent>''  <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <silent>';  <cmd>lua vim.lsp.buf.hover()<CR>
+nnoremap <silent>'"  <cmd>lua vim.lsp.buf.implementation()<CR>
+nnoremap <silent>'\  <cmd>lua vim.lsp.buf.signature_help()<CR>
+nnoremap <silent>'/  <cmd>lua vim.lsp.buf.type_definition()<CR>
+nnoremap <silent>'.  <cmd>lua vim.lsp.buf.references()<CR>
+nnoremap <silent>'=  <cmd>lua vim.lsp.buf.document_symbol()<CR>
+nnoremap <silent>'-  <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
 "}}}
 
 
@@ -152,7 +146,7 @@ nnoremap <silent> '-    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
 let g:deoplete#enable_at_startup = 1
 autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif  " Close Doc window after exiting the completion menu
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-" }}}
+"}}}
 
 " NetRW settings {{{
 let g:netrw_banner = 0
