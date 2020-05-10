@@ -22,6 +22,8 @@ Plug 'rust-lang/rust.vim'
 Plug 'neovim/nvim-lsp'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'Shougo/deoplete-lsp'
+Plug 'icymind/NeoSolarized'
+ Plug 'itchyny/lightline.vim'
 call plug#end()
 
 " General Settings{{{
@@ -42,8 +44,8 @@ set ruler
 set nojoinspaces
 set shiftround
 set mouse=a
-set guifont=Hack\ 9 
-colorscheme gruvbox 
+set guifont=Jetbrains\ Mono\ 9 
+colorscheme NeoSolarized 
 set relativenumber
 set termguicolors
 let mapleader = " "
@@ -53,7 +55,9 @@ set autoindent
 noremap j gj
 noremap k gk
 " }}}
-
+let g:lightline = {
+      \ 'colorscheme': 'solarized dark',
+      \ }
 " FileType specific settings {{{
 augroup format
         " PHP
@@ -105,8 +109,8 @@ inoremap jk <esc>
 inoremap kj <esc> 
 " }}}
 
-" Source init.vim
-nnoremap <leader>sc :so $MYVIMRC<CR>
+" Source this 
+nnoremap <leader>so :so %<CR>
 
 " Make copy/pase normal
 set clipboard=unnamedplus
