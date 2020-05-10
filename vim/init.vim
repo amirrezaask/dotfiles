@@ -28,7 +28,7 @@ call plug#end()
 filetype off
 syntax on
 filetype on
-"filetype indent on
+filetype indent on
 filetype plugin on
 set ignorecase
 set modeline
@@ -153,4 +153,11 @@ let g:netrw_banner = 0
 let g:netrw_winsize = 20
 let g:netrw_liststyle = 3
 " }}}
-
+function! ToggleColorMode()
+	if &g:background == 'dark'
+		let &g:background="light"
+	elseif &g:background == 'light'
+		let &g:background= "dark"
+	endif
+endfunction
+nnoremap <f12> :call ToggleColorMode()<CR>
