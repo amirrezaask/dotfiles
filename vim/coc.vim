@@ -27,14 +27,14 @@ endif
 
 
 " Use `[g` and `]g` to navigate diagnostics
-nmap <leader>en <Plug>(coc-diagnostic-prev)
-nmap <leader>ep <Plug>(coc-diagnostic-next)
+nmap <silent>en <Plug>(coc-diagnostic-prev)
+nmap <silent>ep <Plug>(coc-diagnostic-next)
 
 " GoTo code navigation.
-nmap <leader>.d <Plug>(coc-definition)
-nmap <leader>.t <Plug>(coc-type-definition)
-nmap <leader>.i <Plug>(coc-implementation)
-nmap <leader>.r <Plug>(coc-references)
+nmap <silent>'' <Plug>(coc-definition)
+nmap <silent>'/ <Plug>(coc-type-definition)
+nmap <silent>'] <Plug>(coc-implementation)
+nmap <silent>'. <Plug>(coc-references)
 
 " Use K to show documentation in preview window.
 nnoremap <silent> K :call <SID>show_documentation()<CR>
@@ -51,11 +51,11 @@ endfunction
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " Symbol renaming.
-nmap <leader>rs <Plug>(coc-rename)
+nmap <silent>'r <Plug>(coc-rename)
 
 " Formatting selected code.
-xmap <leader>lf  <Plug>(coc-format-selected)
-nmap <leader>lf  <Plug>(coc-format-selected)
+xmap <silent>'f  <Plug>(coc-format-selected)
+nmap <silent>'f  <Plug>(coc-format-selected)
 
 augroup mygroup
   autocmd!
