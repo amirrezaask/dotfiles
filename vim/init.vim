@@ -27,7 +27,6 @@ Plug 'honza/dockerfile.vim'
 Plug 'dag/vim-fish'
 Plug 'rust-lang/rust.vim'
 
-
 " Plug 'neovim/nvim-lsp'
 " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 call plug#end()
@@ -40,7 +39,6 @@ call plug#end()
 " lua require'nvim_lsp'.intelephense.setup{}
 
 let g:indent_guides_enable_on_vim_startup = 1
-
 " General Settings{{{
 filetype off
 syntax on
@@ -139,7 +137,10 @@ nnoremap <leader>fc :Commands<CR>
 nnoremap <leader>fs :Rg<CR>
 let g:airline_theme='base16_gruvbox_dark_hard'
 "}}}
-
+let g:airline_powerline_fonts = 1
+" NERDTree Settings {{{
+map <silent> <F8> :NERDTreeToggle<CR>
+" }}}
 "Neovim LSP settings {{{
 " nnoremap <silent> '[    <cmd>lua vim.lsp.buf.declaration()<CR>
 " nnoremap <silent> ''  <cmd>lua vim.lsp.buf.definition()<CR>
