@@ -1,8 +1,7 @@
 call plug#begin('~/.vim/plugged')
-Plug 'vim-scripts/xoria256.vim'
 Plug 'iCyMind/NeoSolarized'
 Plug 'jiangmiao/auto-pairs'
-Plug 'preservim/nerdtree'
+Plug 'tpope/vim-vinegar'
 Plug 'ziglang/zig.vim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
@@ -13,7 +12,6 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'junegunn/gv.vim'
 Plug 'airblade/vim-gitgutter'
-Plug 'StanAngeloff/php.vim'
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'morhetz/gruvbox'
 Plug 'vim-airline/vim-airline'
@@ -120,12 +118,13 @@ inoremap kj <esc>
 
 " Source init.vim
 nnoremap <leader>sc :so $MYVIMRC<CR>
-
 " Make copy/pase normal
 set clipboard=unnamedplus
 
-" Edit neovim configuration instantly
+" Edit neovim configuration instantly {{{
 nnoremap <leader>ec :tabnew ~/.config/nvim/init.vim<CR>   
+nnoremap <leader>es :tabnew ~/.config/fish/config.fish<CR>
+" }}}
 
 " Fzf keybinding
 nnoremap <leader><leader> :Files<CR>
@@ -137,7 +136,7 @@ nnoremap <leader>fc :Commands<CR>
 nnoremap <leader>fs :Rg<CR>
 let g:airline_theme='base16_gruvbox_dark_hard'
 "}}}
-let g:airline_powerline_fonts = 1
+" let g:airline_powerline_fonts = 1
 " NERDTree Settings {{{
 map <silent> <F8> :NERDTreeToggle<CR>
 " }}}
@@ -152,6 +151,14 @@ map <silent> <F8> :NERDTreeToggle<CR>
 " nnoremap <silent> '=    <cmd>lua vim.lsp.buf.document_symbol()<CR>
 " nnoremap <silent> '-    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
 "}}}
+
+" NetRW settings {{{
+let g:netrw_banner = 0
+let g:netrw_winsize = 20
+let g:netrw_liststyle = 3
+
+let g:netrw_is_open = 0
+" }}}
 
 
 
