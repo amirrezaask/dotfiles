@@ -56,7 +56,7 @@ noremap j gj
 noremap k gk
 " }}}
 let g:lightline = {
-      \ 'colorscheme': 'solarized dark',
+      \ 'colorscheme': 'solarized',
       \ }
 " FileType specific settings {{{
 augroup format
