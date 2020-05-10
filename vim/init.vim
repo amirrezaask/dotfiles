@@ -137,6 +137,20 @@ nnoremap <leader>fs :Rg<CR>
 let g:airline_theme='base16_gruvbox_dark_hard'
 "}}}
 
+"Neovim LSP settings {{{
+nnoremap <silent> '[    <cmd>lua vim.lsp.buf.declaration()<CR>
+nnoremap <silent> ''  <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> ';      <cmd>lua vim.lsp.buf.hover()<CR>
+nnoremap <silent> ']    <cmd>lua vim.lsp.buf.implementation()<CR>
+nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
+nnoremap <silent> '/   <cmd>lua vim.lsp.buf.type_definition()<CR>
+nnoremap <silent> '.    <cmd>lua vim.lsp.buf.references()<CR>
+nnoremap <silent> '=    <cmd>lua vim.lsp.buf.document_symbol()<CR>
+nnoremap <silent> '-    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
+"}}}
+
+
+
 " Coc settings {{{
 " source ~/.config/nvim/coc.vim
 " let g:coc_global_extensions = ['coc-go', 'coc-phpls', 'coc-python', "coc-vimlsp", "coc-json", "coc-yaml"]
