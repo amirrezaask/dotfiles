@@ -1,5 +1,4 @@
 call plug#begin('~/.vim/plugged')
-Plug 'iCyMind/NeoSolarized'
 Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-vinegar'
 Plug 'ziglang/zig.vim'
@@ -12,36 +11,30 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'junegunn/gv.vim'
 Plug 'airblade/vim-gitgutter'
-Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'morhetz/gruvbox'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'junegunn/goyo.vim'
 Plug 'honza/dockerfile.vim'
 Plug 'dag/vim-fish'
 Plug 'rust-lang/rust.vim'
-
-" Plug 'neovim/nvim-lsp'
-" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'neovim/nvim-lsp'
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'Shougo/deoplete-lsp'
 call plug#end()
 
-" let g:deoplete#enable_at_startup = 1
 
-" lua require'nvim_lsp'.gopls.setup{}
-" lua require'nvim_lsp'.vimls.setup{}
-" lua require'nvim_lsp'.pyls_ms.setup{}
-" lua require'nvim_lsp'.intelephense.setup{}
+lua require'nvim_lsp'.gopls.setup{}
+lua require'nvim_lsp'.vimls.setup{}
+lua require'nvim_lsp'.pyls_ms.setup{}
+lua require'nvim_lsp'.intelephense.setup{}
 
-let g:indent_guides_enable_on_vim_startup = 1
 " General Settings{{{
 filetype off
 syntax on
 filetype on
-filetype indent on
+"filetype indent on
 filetype plugin on
 set ignorecase
 set modeline
@@ -66,6 +59,7 @@ set autoindent
 noremap j gj
 noremap k gk
 " }}}
+
 " FileType specific settings {{{
 augroup format
         " PHP
