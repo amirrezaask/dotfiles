@@ -79,8 +79,8 @@ augroup format
 	
 	" YAML 
         autocmd Filetype yaml setlocal ts=2 sts=2 sw=2
+        autocmd Filetype yaml :IndentGuidesEnable 
 augroup end
-
 " }}}
 "Easier window navigation {{{
 map <C-j> <C-w>j
@@ -130,34 +130,34 @@ nnoremap <leader>fc :Commands<CR>
 nnoremap <leader>fs :Rg<CR>
 let g:airline_theme='base16_gruvbox_dark_hard'
 "}}}
-" let g:airline_powerline_fonts = 1
+
 " NERDTree Settings {{{
 map <silent> <F8> :NERDTreeToggle<CR>
 " }}}
+
 "Neovim LSP settings {{{
-" nnoremap <silent> '[    <cmd>lua vim.lsp.buf.declaration()<CR>
-" nnoremap <silent> ''  <cmd>lua vim.lsp.buf.definition()<CR>
-" nnoremap <silent> ';      <cmd>lua vim.lsp.buf.hover()<CR>
-" nnoremap <silent> ']    <cmd>lua vim.lsp.buf.implementation()<CR>
-" nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
-" nnoremap <silent> '/   <cmd>lua vim.lsp.buf.type_definition()<CR>
-" nnoremap <silent> '.    <cmd>lua vim.lsp.buf.references()<CR>
-" nnoremap <silent> '=    <cmd>lua vim.lsp.buf.document_symbol()<CR>
-" nnoremap <silent> '-    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
+nnoremap <silent> ''  <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> ';      <cmd>lua vim.lsp.buf.hover()<CR>
+nnoremap <silent> '"    <cmd>lua vim.lsp.buf.implementation()<CR>
+nnoremap <silent> '\ <cmd>lua vim.lsp.buf.signature_help()<CR>
+nnoremap <silent> '/   <cmd>lua vim.lsp.buf.type_definition()<CR>
+nnoremap <silent> '.    <cmd>lua vim.lsp.buf.references()<CR>
+nnoremap <silent> '=    <cmd>lua vim.lsp.buf.document_symbol()<CR>
+nnoremap <silent> '-    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
 "}}}
+
+
+" deoplete settings {{{
+
+let g:deoplete#enable_at_startup = 1
+autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif  " Close Doc window after exiting the completion menu
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+" }}}
 
 " NetRW settings {{{
 let g:netrw_banner = 0
 let g:netrw_winsize = 20
 let g:netrw_liststyle = 3
-
-let g:netrw_is_open = 0
-" }}}
-
-
-
-" Coc settings {{{
-source ~/.config/nvim/coc.vim
-let g:coc_global_extensions = ['coc-go', 'coc-phpls', 'coc-python', 'coc-vimlsp', 'coc-json', 'coc-yaml']
 " }}}
 
