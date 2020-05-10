@@ -24,11 +24,8 @@ Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'Shougo/deoplete-lsp'
 call plug#end()
 
-
-lua require'nvim_lsp'.gopls.setup{}
-lua require'nvim_lsp'.vimls.setup{}
-lua require'nvim_lsp'.pyls_ms.setup{}
-lua require'nvim_lsp'.intelephense.setup{}
+" Nvim LSP settings {{{
+" }}}
 
 " General Settings{{{
 filetype off
@@ -136,6 +133,10 @@ map <silent> <F8> :NERDTreeToggle<CR>
 " }}}
 
 "Neovim LSP settings {{{
+lua require'nvim_lsp'.gopls.setup{}
+lua require'nvim_lsp'.vimls.setup{}
+lua require'nvim_lsp'.pyls_ms.setup{}
+lua require'nvim_lsp'.intelephense.setup{}
 nnoremap <silent> ''  <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> ';      <cmd>lua vim.lsp.buf.hover()<CR>
 nnoremap <silent> '"    <cmd>lua vim.lsp.buf.implementation()<CR>
@@ -148,11 +149,9 @@ nnoremap <silent> '-    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
 
 
 " deoplete settings {{{
-
 let g:deoplete#enable_at_startup = 1
 autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif  " Close Doc window after exiting the completion menu
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-
 " }}}
 
 " NetRW settings {{{
