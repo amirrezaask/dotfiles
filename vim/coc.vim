@@ -27,13 +27,13 @@ endif
 
 
 " Use `[g` and `]g` to navigate diagnostics
-nmap <silent>en <Plug>(coc-diagnostic-prev)
-nmap <silent>ep <Plug>(coc-diagnostic-next)
+nmap <silent>]e <Plug>(coc-diagnostic-prev)
+nmap <silent>[e <Plug>(coc-diagnostic-next)
 
 " GoTo code navigation.
 nmap <silent>'' <Plug>(coc-definition)
 nmap <silent>'/ <Plug>(coc-type-definition)
-nmap <silent>'] <Plug>(coc-implementation)
+nmap <silent>'" <Plug>(coc-implementation)
 nmap <silent>'. <Plug>(coc-references)
 
 " Use K to show documentation in preview window.
