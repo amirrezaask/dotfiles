@@ -889,14 +889,21 @@ as auto-complete or syntax linting.
     :straight t
     :commands (lsp lsp-deferred)
     :init
-    (defun lsp? ()
+    (defun amirreza/lsp? ()
       (interactive)
       --lsp-enabled)
 
-    (defun lsp! ()
+    (defun amirreza/lsp! ()
+      "Enable LSP for current buffer."
       (interactive)
       (lsp)
       (setq-local --lsp-enabled t))
+
+    (defun amirreza/disable-lsp () 
+      "Disable LSP for current buffer."
+      (interactive)
+      (setq-local --lsp-enabled nil))
+
     :config
     (setq lsp-auto-guess-root t)
     :commands (lsp))
@@ -1042,7 +1049,7 @@ TBA
           (lambda () (interactive)
             (start-process "GoRun" "*GoRun*" "go" "run" (format "%s" buffer-file-name))))
         ;; enable LSP
-        (lsp!)
+        (amirreza/lsp!)
         (define-key go-mode-map (kbd "C-c m g") 'amirreza-go-generator-hydra/body)
         ;; add go binaries to exec-path
         (add-to-list 'exec-path (concat (getenv "HOME") "/go/bin"))
