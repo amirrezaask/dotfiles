@@ -45,7 +45,7 @@ set nojoinspaces
 set shiftround
 set mouse=a
 set guifont=Jetbrains\ Mono\ 9 
-colorscheme NeoSolarized 
+colorscheme gruvbox 
 set relativenumber
 set termguicolors
 let mapleader = " "
@@ -56,7 +56,7 @@ noremap j gj
 noremap k gk
 " }}}
 let g:lightline = {
-      \ 'colorscheme': 'solarized',
+      \ 'colorscheme': 'gruvbox',
       \ }
 " FileType specific settings {{{
 augroup format
