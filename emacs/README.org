@@ -1057,7 +1057,7 @@ TBA
         ;; show lambdas instead of funcs
         (setq-local prettify-symbols-alist '(("func" . 955)))
         (add-hook 'before-save-hook (lambda ()
-                                      (when (lsp?)
+                                      (when (amirreza/lsp?)
                                         (lsp-format-buffer)
                                         (lsp-organize-imports))) t t)))
 
