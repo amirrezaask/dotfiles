@@ -294,6 +294,7 @@ keybindings like the ones in magit forexample but with more features.
     (use-package modus-operandi-theme :straight t :defer t)
     (use-package modus-vivendi-theme :straight t :defer t)
     (use-package doom-themes :straight t :defer t)
+    (use-package gruvbox-theme :straight t :defer t)
     (use-package darkburn-theme :straight t :defer t)
     
   #+END_SRC
@@ -889,8 +890,8 @@ as auto-complete or syntax linting.
     :commands (lsp lsp-deferred)
     :init
     (defun lsp? ()
-    (interactive)
-     --lsp-enabled)
+      (interactive)
+      --lsp-enabled)
 
     (defun lsp! ()
       (interactive)
