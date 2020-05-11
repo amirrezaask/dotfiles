@@ -472,43 +472,87 @@ by default is bound to =C-c <left>=.
     :straight t
     :config
     (setq completion-styles '(orderless)))
+    (use-package flx :straight t)
+    (use-package ivy
+      :straight t
+      :bind
+      (("C-x b" . 'ivy-switch-buffer)
+       :map ivy-minibuffer-map
+       ("RET" . 'ivy-alt-done))
+      :config
+      (setq ivy-height 15)
+      ;; loopish cycling through list
+      (setq ivy-wrap t)
+      ;; don't show recents in minibuffer
+      (setq ivy-use-virtual-buffers nil)
+      ;; ...but if that ever changes, show their full path
+      (setq ivy-virtual-abbreviate 'full)
+      ;; don't quit minibuffer on delete-error
+      (setq ivy-on-del-error-function #'ignore)
+      (setf (alist-get 't ivy-format-functions-alist)
+            #'ivy-format-function-line)
+      (ivy-mode +1))
 
-  (use-package icomplete
-    :demand
-    :bind
-    (:map global-map
-                  ("M-y" . amirreza/show-kill-ring)
-     :map icomplete-minibuffer-map
-          ("C-n" . icomplete-forward-completions)
-          ("C-p" . icomplete-backward-completions)
-          ("C-f" . icomplete-forward-completions)
-          ("C-b" . icomplete-backward-completions)
-          ("<right>" . icomplete-forward-completions)
-          ("<left>" . icomplete-backward-completions)
-          ("<down>" . icomplete-forward-completions)
-          ("<up>" . icomplete-backward-completions)
-          ("<RET>" . icomplete-force-complete-and-exit)
-          ("<tab>" . icomplete-force-complete))
-    :config
-    (defun amirreza/show-kill-ring ()
-      (interactive)
-      (insert (completing-read "Insert: " kill-ring)))
-    (setq icomplete-max-delay-chars 2
-          icomplete-show-matches-on-no-input t
-          icomplete-hide-common-prefix nil
-          completion-ignore-case t)
-    (when (> emacs-major-version 26)
-      (fido-mode -1))
-    (icomplete-mode 1))
+    (use-package all-the-icons-ivy :straight t :config (all-the-icons-ivy-setup))
 
-  (use-package icomplete-vertical
-    :straight t
-    :demand
-    :bind
-    (:map icomplete-minibuffer-map
-           ("C-v" . icomplete-vertical-toggle))
-    :config
-    (icomplete-vertical-mode -1))
+    (use-package swiper
+      :straight t
+      :commands (swiper)
+      :init (global-set-key (kbd "C-s") 'swiper))
+
+    (use-package counsel
+      :straight t
+      :config
+      (setq ivy-re-builders-alist
+       '((t . ivy--regex-fuzzy)))
+      :bind
+      (("M-x" . 'counsel-M-x)
+       ("C-x C-f" . 'counsel-find-file)
+       ("C-h b" . 'counsel-descbinds)
+       ("C-h f" . 'counsel-describe-function)
+       ("C-h v" . 'counsel-describe-variable)
+       ("C-h a" . 'counsel-apropos)
+       ("M-i" . 'counsel-imenu)
+       ("M-y" . 'counsel-yank-pop)
+       ("C-c f f" . 'counsel-fzf)))
+
+  (use-package ivy-rich :straight t :config (ivy-rich-mode 1))
+  ;; (use-package icomplete
+  ;;   :demand
+  ;;   :bind
+  ;;   (:map global-map
+  ;;                 ("M-y" . amirreza/show-kill-ring)
+  ;;    :map icomplete-minibuffer-map
+  ;;         ("C-n" . icomplete-forward-completions)
+  ;;         ("C-p" . icomplete-backward-completions)
+  ;;         ("C-f" . icomplete-forward-completions)
+  ;;         ("C-b" . icomplete-backward-completions)
+  ;;         ("<right>" . icomplete-forward-completions)
+  ;;         ("<left>" . icomplete-backward-completions)
+  ;;         ("<down>" . icomplete-forward-completions)
+  ;;         ("<up>" . icomplete-backward-completions)
+  ;;         ("<RET>" . icomplete-force-complete-and-exit)
+  ;;         ("<tab>" . icomplete-force-complete))
+  ;;   :config
+  ;;   (defun amirreza/show-kill-ring ()
+  ;;     (interactive)
+  ;;     (insert (completing-read "Insert: " kill-ring)))
+  ;;   (setq icomplete-max-delay-chars 2
+  ;;         icomplete-show-matches-on-no-input t
+  ;;         icomplete-hide-common-prefix nil
+  ;;         completion-ignore-case t)
+  ;;   (when (> emacs-major-version 26)
+  ;;     (fido-mode -1))
+  ;;   (icomplete-mode 1))
+
+  ;; (use-package icomplete-vertical
+  ;;   :straight t
+  ;;   :demand
+  ;;   :bind
+  ;;   (:map icomplete-minibuffer-map
+  ;;          ("C-v" . icomplete-vertical-toggle))
+  ;;   :config
+  ;;   (icomplete-vertical-mode -1))
 #+end_src
 ** Editor
 *** Defaults
@@ -599,7 +643,6 @@ very often since I'm using swiper but I configured it so let it be here any way.
        isearch-backward-regexp
        isearch-forward
        isearch-backward))
-
 #+end_src
 *** Fuzzy file finder 
 Fuzzy file search is amazing tool that doesn't choke up even in my home folder 
@@ -815,7 +858,7 @@ skeleton and skeleton does it's job of inserting text.
 
       (pretty-hydra-define amirreza-editor-hydra (:hint nil :exit t)
         ("Actions"
-         (("f" fzf "Fuzzy file search")
+         (("f" counsel-fzf "Fuzzy file search")
           ("e" amirreza/edit-configuration "Edit Emacs configuration file")
           ("g" amirreza-editor-git-hydra/body "Git actions")
           ("i" iedit "IEdit")
@@ -1263,7 +1306,7 @@ TBA
   (use-package rhythmbox
     :straight (:host github :repo "amirrezaask/Rhythmbox.el"))
 #+end_src
-*** IDE Hydra
+*** OS Hydra
 #+begin_src emacs-lisp
   (pretty-hydra-define amirreza-os-hydra (:hint nil :exit t)
     ("Programs"
