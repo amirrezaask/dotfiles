@@ -88,7 +88,7 @@
     - [[#irc][IRC]]
     - [[#process-management][Process management]]
     - [[#music][Music]]
-    - [[#ide-hydra][IDE Hydra]]
+    - [[#os-hydra][OS Hydra]]
   - [[#devops-tools][Devops Tools]]
     - [[#some-syntax-highlights][Some syntax highlights]]
     - [[#tramp][TRAMP]]
