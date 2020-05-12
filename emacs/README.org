@@ -63,6 +63,8 @@
     - [[#edit-configuration][Edit configuration]]
   - [[#ide-setup][IDE setup]]
     - [[#add-executable-paths][Add executable paths]]
+    - [[#shell-and-terminal-emulator][Shell And Terminal Emulator]]
+      - [[#eshell][Eshell]]
     - [[#code-semantic-jumping][Code Semantic Jumping]]
     - [[#code-completion][Code completion]]
     - [[#language-server-protocol][Language Server Protocol]]
@@ -266,7 +268,6 @@ I respect Emacs keybinding conventions in my configuration with a few ideas borr
 #+begin_src emacs-lisp
   (use-package which-key
     :straight t
-    :defer 2
     :config
     (setq which-key-idle-delay 0.3)
     (which-key-add-key-based-replacements "C-c m" "Major mode functions")
@@ -314,8 +315,8 @@ keybindings like the ones in magit forexample but with more features.
              :bind (("<f12>" . amirreza/toggle-color-mode))
              :config
              (defvar amirreza/current-mode 'dark "Current color mode of Emacs.")
-             (defvar amirreza/dark-theme 'gruvbox-dark-hard)
-             (defvar amirreza/light-theme 'gruvbox-light-soft)
+             (defvar amirreza/dark-theme 'modus-vivendi)
+             (defvar amirreza/light-theme 'modus-operandi)
 
              (defmacro amirreza/--load-theme (&rest theme-opts)
                `(progn (mapc #'disable-theme custom-enabled-themes)
@@ -438,7 +439,7 @@ Emacs windows can be configured in the matter of where their gonna open.
         (("d" eyebrowse-close-window-config)
         ("c" eyebrowse-create-window-config)
         ("e" keyboard-quit))))
-    :bind ("C-c w" . eyebrowse-hydra/body))
+    :bind ("C-c w w" . eyebrowse-hydra/body))
 
 #+END_SRC
 *** Zoom window
@@ -876,6 +877,49 @@ skeleton and skeleton does it's job of inserting text.
     :config 
     (setq exec-path-from-shell-shell-name "sh")
     (exec-path-from-shell-initialize))
+#+end_src
+*** Shell And Terminal Emulator
+Emacs has a bultin shell called =eshell= which uses elisp
+as it's scripting engine, I use that as my main shell over the day
+but for some rare situations I have VTerm that emulates a normal terminal
+and use fish in that.
+**** Eshell
+#+begin_src emacs-lisp
+    (use-package eshell
+      :bind ("<s-return>" . eshell))
+    (use-package esh-mode
+      :config
+      (defun amirreza/eshell-show-content-file-at-point ()
+        "Insert the content of file at point to the end of buffer"
+        (interactive)
+        (let ((file (ffap-file-at-point)))
+          (if file
+              (progn
+                (end-of-buffer)
+                (insert (concat "cat " file))
+                (eshell-send-input))
+            (user-error "No file at point"))))
+
+      (defun amirreza/eshell-kill-save-file-at-point ()
+        "Add to kill-ring the absolute path of file at point."
+        (interactive)
+        (let ((file (ffap-file-at-point)))
+          (if file
+              (kill-new (concat (eshell/pwd) "/" file))
+            (user-error "No file at point"))))
+    (defun amirreza/eshell-find-file-at-point ()
+      "Run `find-file' for file at point (ordinary file or dir).
+    Recall that this will produce a `dired' buffer if the file is a
+    directory."
+      (interactive)
+      (let ((file (ffap-file-at-point)))
+        (if file
+            (find-file file)
+          (user-error "No file at point"))))
+    :bind (:map eshell-mode-map
+                ("C-c f c" . amirreza/eshell-show-content-file-at-point)
+                ("C-c f f" . amirreza/eshell-find-file-at-point)
+                ("C-c f k" . amirreza/eshell-kill-save-file-at-point)))
 #+end_src
 *** Code Semantic Jumping
 Emacs has a builtin tool called Imenu which major modes hook to and feed it data about semantic blocks in the current buffer,
