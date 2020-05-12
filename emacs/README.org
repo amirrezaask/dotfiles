@@ -476,92 +476,92 @@ by default is bound to =C-c <left>=.
 ** Minibuffer completion
 #+begin_src emacs-lisp
    ;; orderless completion style, we can divide our search string into space seperated parts
-  (use-package orderless
+  ;; (use-package orderless
+  ;;   :straight t
+  ;;   :config
+  ;;  (setq completion-styles '(orderless)))
+   (use-package flx :straight t)
+   (use-package ivy
      :straight t
+     :bind
+     (("C-x b" . 'ivy-switch-buffer)
+      :map ivy-minibuffer-map
+      ("RET" . 'ivy-alt-done))
      :config
-    (setq completion-styles '(orderless)))
-   ;; (use-package flx :straight t)
-   ;; (use-package ivy
-   ;;   :straight t
+     (setq ivy-height 15)
+     ;; loopish cycling through list
+     (setq ivy-wrap t)
+     ;; don't show recents in minibuffer
+     (setq ivy-use-virtual-buffers nil)
+     ;; ...but if that ever changes, show their full path
+     (setq ivy-virtual-abbreviate 'full)
+     ;; don't quit minibuffer on delete-error
+     (setq ivy-on-del-error-function #'ignore)
+     (setf (alist-get 't ivy-format-functions-alist)
+           #'ivy-format-function-line)
+     (setq ivy-initial-inputs-alist nil)
+     (setq ivy-re-builders-alist
+           '((ivy-switch-buffer . ivy--regex-plus)
+             (t . ivy--regex-ignore-order)))
+     (ivy-mode +1))
+
+   (use-package all-the-icons-ivy :straight t :config (all-the-icons-ivy-setup))
+
+   (use-package swiper
+     :straight t
+     :commands (swiper)
+     :init (global-set-key (kbd "C-s") 'swiper))
+
+   (use-package counsel
+     :straight t
+     :bind
+     (("M-x" . 'counsel-M-x)
+      ("C-x C-f" . 'counsel-find-file)
+      ("C-h b" . 'counsel-descbinds)
+      ("C-h f" . 'counsel-describe-function)
+      ("C-h v" . 'counsel-describe-variable)
+      ("C-h a" . 'counsel-apropos)
+      ("M-i" . 'counsel-imenu) ;; code semantics
+      ("M-y" . 'counsel-yank-pop) ;; show kill ring
+      ("C-c f f" . 'counsel-fzf)))
+
+   (use-package ivy-rich :straight t :config (ivy-rich-mode 1))
+   ;; (use-package icomplete
+   ;;   :demand
    ;;   :bind
-   ;;   (("C-x b" . 'ivy-switch-buffer)
-   ;;    :map ivy-minibuffer-map
-   ;;    ("RET" . 'ivy-alt-done))
+   ;;   (:map global-map
+   ;;         ("M-y" . amirreza/show-kill-ring)
+   ;;         :map icomplete-minibuffer-map
+   ;;         ("C-n" . icomplete-forward-completions)
+   ;;         ("C-p" . icomplete-backward-completions)
+   ;;         ("C-f" . icomplete-forward-completions)
+   ;;         ("C-b" . icomplete-backward-completions)
+   ;;         ("<right>" . icomplete-forward-completions)
+   ;;         ("<left>" . icomplete-backward-completions)
+   ;;         ("<down>" . icomplete-forward-completions)
+   ;;         ("<up>" . icomplete-backward-completions)
+   ;;         ("<RET>" . icomplete-force-complete-and-exit)
+   ;;         ("<tab>" . icomplete-force-complete))
    ;;   :config
-   ;;   (setq ivy-height 15)
-   ;;   ;; loopish cycling through list
-   ;;   (setq ivy-wrap t)
-   ;;   ;; don't show recents in minibuffer
-   ;;   (setq ivy-use-virtual-buffers nil)
-   ;;   ;; ...but if that ever changes, show their full path
-   ;;   (setq ivy-virtual-abbreviate 'full)
-   ;;   ;; don't quit minibuffer on delete-error
-   ;;   (setq ivy-on-del-error-function #'ignore)
-   ;;   (setf (alist-get 't ivy-format-functions-alist)
-   ;;         #'ivy-format-function-line)
-   ;;   (setq ivy-initial-inputs-alist nil)
-   ;;   (setq ivy-re-builders-alist
-   ;;         '((ivy-switch-buffer . ivy--regex-plus)
-   ;;           (t . ivy--regex-fuzzy)))
-   ;;   (ivy-mode +1))
+   ;;   (defun amirreza/show-kill-ring ()
+   ;;     (interactive)
+   ;;     (insert (completing-read "Insert: " kill-ring)))
+   ;;   (setq icomplete-max-delay-chars 2
+   ;;         icomplete-show-matches-on-no-input t
+   ;;         icomplete-hide-common-prefix nil
+   ;;         completion-ignore-case t)
+   ;;   (when (> emacs-major-version 26)
+   ;;     (fido-mode -1))
+   ;;   (icomplete-mode 1))
 
-   ;; (use-package all-the-icons-ivy :straight t :config (all-the-icons-ivy-setup))
-
-   ;; (use-package swiper
+   ;; (use-package icomplete-vertical
    ;;   :straight t
-   ;;   :commands (swiper)
-   ;;   :init (global-set-key (kbd "C-s") 'swiper))
-
-   ;; (use-package counsel
-   ;;   :straight t
+   ;;   :demand
    ;;   :bind
-   ;;   (("M-x" . 'counsel-M-x)
-   ;;    ("C-x C-f" . 'counsel-find-file)
-   ;;    ("C-h b" . 'counsel-descbinds)
-   ;;    ("C-h f" . 'counsel-describe-function)
-   ;;    ("C-h v" . 'counsel-describe-variable)
-   ;;    ("C-h a" . 'counsel-apropos)
-   ;;    ("M-i" . 'counsel-imenu) ;; code semantics
-   ;;    ("M-y" . 'counsel-yank-pop) ;; show kill ring
-   ;;    ("C-c f f" . 'counsel-fzf)))
-
-   ;; (use-package ivy-rich :straight t :config (ivy-rich-mode 1))
-   (use-package icomplete
-     :demand
-     :bind
-     (:map global-map
-           ("M-y" . amirreza/show-kill-ring)
-           :map icomplete-minibuffer-map
-           ("C-n" . icomplete-forward-completions)
-           ("C-p" . icomplete-backward-completions)
-           ("C-f" . icomplete-forward-completions)
-           ("C-b" . icomplete-backward-completions)
-           ("<right>" . icomplete-forward-completions)
-           ("<left>" . icomplete-backward-completions)
-           ("<down>" . icomplete-forward-completions)
-           ("<up>" . icomplete-backward-completions)
-           ("<RET>" . icomplete-force-complete-and-exit)
-           ("<tab>" . icomplete-force-complete))
-     :config
-     (defun amirreza/show-kill-ring ()
-       (interactive)
-       (insert (completing-read "Insert: " kill-ring)))
-     (setq icomplete-max-delay-chars 2
-           icomplete-show-matches-on-no-input t
-           icomplete-hide-common-prefix nil
-           completion-ignore-case t)
-     (when (> emacs-major-version 26)
-       (fido-mode -1))
-     (icomplete-mode 1))
-
-   (use-package icomplete-vertical
-     :straight t
-     :demand
-     :bind
-     (:map icomplete-minibuffer-map
-            ("C-v" . icomplete-vertical-toggle))
-     :config
-     (icomplete-vertical-mode -1))
+   ;;   (:map icomplete-minibuffer-map
+   ;;          ("C-v" . icomplete-vertical-toggle))
+   ;;   :config
+   ;;   (icomplete-vertical-mode -1))
 #+end_src
 ** Editor
 *** Defaults
@@ -993,6 +993,7 @@ as auto-complete or syntax linting.
     :straight t
     :commands (lsp lsp-deferred)
     :init
+    (setq lsp-keymap-prefix "s-d")
     (defun amirreza/lsp? ()
       (interactive)
       --lsp-enabled)
@@ -1013,6 +1014,12 @@ as auto-complete or syntax linting.
     :commands (lsp))
 
   (use-package lsp-ui :straight t :commands lsp-ui-mode)
+
+  (use-package lsp-ivy :straight t 
+    :commands (lsp-ivy-workspace-symbol lsp-ivy-global-workspace-symbol) 
+    :bind (:map lsp-mode-map
+                ("C-c m w s" . lsp-ivy-workspace-symbol)))
+
   (use-package dap-mode :straight t :defer t)
 #+END_SRC
 LSP-ui is a mode from the same author with the goal of configuring several Emacs packages to 
