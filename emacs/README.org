@@ -49,6 +49,7 @@
       - [[#org-bullets][Org bullets]]
       - [[#org-toc][Org TOC]]
       - [[#htmlize][htmlize]]
+    - [[#markdown-mode][Markdown mode]]
     - [[#highlight-indentation][Highlight indentation]]
     - [[#sudo-edit][Sudo edit]]
     - [[#expand-region][Expand region]]
@@ -65,6 +66,7 @@
     - [[#add-executable-paths][Add executable paths]]
     - [[#shell-and-terminal-emulator][Shell And Terminal Emulator]]
       - [[#eshell][Eshell]]
+      - [[#vterm][VTerm]]
     - [[#code-semantic-jumping][Code Semantic Jumping]]
     - [[#code-completion][Code completion]]
     - [[#language-server-protocol][Language Server Protocol]]
@@ -735,6 +737,12 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
 #+begin_src emacs-lisp
 (use-package htmlize :straight t :defer t)
 #+end_src
+*** Markdown mode
+#+begin_src emacs-lisp
+(use-package markdown-mode
+  :straight t
+  :mode ("\\.md$" . markdown-mode))
+#+end_src
 *** Highlight indentation
 #+begin_src emacs-lisp
  (use-package highlight-indent-guides
@@ -885,41 +893,46 @@ but for some rare situations I have VTerm that emulates a normal terminal
 and use fish in that.
 **** Eshell
 #+begin_src emacs-lisp
-    (use-package eshell
-      :bind ("<s-return>" . eshell))
-    (use-package esh-mode
-      :config
-      (defun amirreza/eshell-show-content-file-at-point ()
-        "Insert the content of file at point to the end of buffer"
-        (interactive)
-        (let ((file (ffap-file-at-point)))
-          (if file
-              (progn
-                (end-of-buffer)
-                (insert (concat "cat " file))
-                (eshell-send-input))
-            (user-error "No file at point"))))
+      (use-package eshell
+        :bind (("<s-return>" . eshell)
+               ("<f11>" . eshell)))
+      (use-package esh-mode
+        :config
+        (defun amirreza/eshell-show-content-file-at-point ()
+          "Insert the content of file at point to the end of buffer"
+          (interactive)
+          (let ((file (ffap-file-at-point)))
+            (if file
+                (progn
+                  (end-of-buffer)
+                  (insert (concat "cat " file))
+                  (eshell-send-input))
+              (user-error "No file at point"))))
 
-      (defun amirreza/eshell-kill-save-file-at-point ()
-        "Add to kill-ring the absolute path of file at point."
+        (defun amirreza/eshell-kill-save-file-at-point ()
+          "Add to kill-ring the absolute path of file at point."
+          (interactive)
+          (let ((file (ffap-file-at-point)))
+            (if file
+                (kill-new (concat (eshell/pwd) "/" file))
+              (user-error "No file at point"))))
+      (defun amirreza/eshell-find-file-at-point ()
+        "Run `find-file' for file at point (ordinary file or dir).
+      Recall that this will produce a `dired' buffer if the file is a
+      directory."
         (interactive)
         (let ((file (ffap-file-at-point)))
           (if file
-              (kill-new (concat (eshell/pwd) "/" file))
+              (find-file file)
             (user-error "No file at point"))))
-    (defun amirreza/eshell-find-file-at-point ()
-      "Run `find-file' for file at point (ordinary file or dir).
-    Recall that this will produce a `dired' buffer if the file is a
-    directory."
-      (interactive)
-      (let ((file (ffap-file-at-point)))
-        (if file
-            (find-file file)
-          (user-error "No file at point"))))
-    :bind (:map eshell-mode-map
-                ("C-c f c" . amirreza/eshell-show-content-file-at-point)
-                ("C-c f f" . amirreza/eshell-find-file-at-point)
-                ("C-c f k" . amirreza/eshell-kill-save-file-at-point)))
+      :bind (:map eshell-mode-map
+                  ("C-c f c" . amirreza/eshell-show-content-file-at-point)
+                  ("C-c f f" . amirreza/eshell-find-file-at-point)
+                  ("C-c f k" . amirreza/eshell-kill-save-file-at-point)))
+#+end_src
+**** VTerm
+#+begin_src emacs-lisp
+  (use-package vterm :straight t :bind ("<f10>" . vterm))
 #+end_src
 *** Code Semantic Jumping
 Emacs has a builtin tool called Imenu which major modes hook to and feed it data about semantic blocks in the current buffer,
@@ -1047,7 +1060,7 @@ TBA
 *** Docs
 #+begin_src emacs-lisp
   (use-package eldoc
-    :hook (prog-mode . eldoc-mode))
+    :config (global-eldoc-mode 1))
 #+end_src
 *** Programming languages
 **** Python
