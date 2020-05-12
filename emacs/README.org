@@ -563,70 +563,75 @@ by default is bound to =C-c <left>=.
 ** Editor
 *** Defaults
 #+begin_src emacs-lisp
-  (use-package emacs
-    :config
-    (setq-default
-     indent-tabs-mode nil
-     tab-width 4) ;; emacs tabs settings
+          (use-package emacs
+            :config
+            (setq-default
+             indent-tabs-mode nil
+             tab-width 4) ;; emacs tabs settings
 
-    (setq backup-directory-alist
-          '(("." . "~/.emacs.d/backup/"))) ;; put all emacs backup files in oneplace
-    (setq backup-by-copying t)
-    (setq version-control t)
-    (setq delete-old-versions t)
-    (setq kept-new-versions 6)
-    (setq kept-old-versions 2)
-    (setq create-lockfiles nil)
+            (setq backup-directory-alist
+                  '(("." . "~/.emacs.d/backup/"))) ;; put all emacs backup files in oneplace
+            (setq backup-by-copying t)
+            (setq version-control t)
+            (setq delete-old-versions t)
+            (setq kept-new-versions 6)
+            (setq kept-old-versions 2)
+            (setq create-lockfiles nil)
 
-    (defalias 'yes-or-no-p 'y-or-n-p) ;; answer with y-n instead of yes-no
+            (defalias 'yes-or-no-p 'y-or-n-p) ;; answer with y-n instead of yes-no
 
-    (setq echo-keystrokes 0.1) ;; echo keystrokes in minibuffer faster
+            (setq echo-keystrokes 0.1) ;; echo keystrokes in minibuffer faster
 
-    (setq use-dialog-box nil) ;; ask quesions in minibuffer
-    (setq inhibit-splash-screen 0) ;; disable startup screen
-    (setq ring-bell-function 'ignore) ;; don't make a sound
+            (setq use-dialog-box nil) ;; ask quesions in minibuffer
+            (setq inhibit-splash-screen 0) ;; disable startup screen
+            (setq ring-bell-function 'ignore) ;; don't make a sound
 
-    (set-terminal-coding-system 'utf-8) ;; default emacs encodings
-    (set-keyboard-coding-system 'utf-8)
-    (prefer-coding-system 'utf-8)
-    (setq-default fill-column 80) ;; column number which emacs start to line wrap.
+            (set-terminal-coding-system 'utf-8) ;; default emacs encodings
+            (set-keyboard-coding-system 'utf-8)
+            (prefer-coding-system 'utf-8)
+            (setq-default fill-column 80) ;; column number which emacs start to line wrap.
 
-                                          ; vertical scrolling
-    (setq scroll-step 5)
-    (setq scroll-margin 5)
-    (setq scroll-conservatively 101)
-    (setq scroll-up-aggressively 0.11)
-    (setq scroll-down-aggressively 0.01)
-    (setq auto-window-vscroll nil)
-    (setq fast-but-imprecise-scrolling nil)
-    (setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))
-    (setq mouse-wheel-progressive-speed nil)
-    ;; Horizontal Scroll
-    (setq hscroll-step 1)
-    (setq hscroll-margin 1))
+                                                  ; vertical scrolling
+            (setq scroll-step 5)
+            (setq scroll-margin 5)
+            (setq scroll-conservatively 101)
+            (setq scroll-up-aggressively 0.11)
+            (setq scroll-down-aggressively 0.01)
+            (setq auto-window-vscroll nil)
+            (setq fast-but-imprecise-scrolling nil)
+            (setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))
+            (setq mouse-wheel-progressive-speed nil)
+            ;; Horizontal Scroll
+            (setq hscroll-step 1)
+            (setq hscroll-margin 1))
 
-  (use-package cus-edit
-    :config
-    (setq custom-file "~/.emacs.d/custom.el"))
+          (use-package cus-edit
+            :config
+            (setq custom-file "~/.emacs.d/custom.el"))
 
-  (use-package delsel ;; delete region when start typing
-    :hook (after-init . delete-selection-mode))
+          (use-package delsel ;; delete region when start typing
+            :hook (after-init . delete-selection-mode))
 
-  (use-package simple
-    :config
-    (column-number-mode +1)
-    (setq kill-ring-max 15))
+          (use-package simple
+            :config
+            (column-number-mode +1)
+            (setq kill-ring-max 15))
 
-  (use-package display-line-numbers
-    :disabled t
-    :config
-    (global-display-line-numbers-mode +1))
+          (use-package display-line-numbers
+            :disabled t
+            :config
+            (global-display-line-numbers-mode +1))
 
-  (use-package paren 
-    :config
-    (show-paren-mode 1)
-    (setq show-paren-delay 0))
+          (use-package paren 
+            :config
+            (show-paren-mode 1)
+            (setq show-paren-delay 0))
 
+          (use-package help-mode 
+            :demand
+            :bind (:map help-mode-map 
+                        ("n" . next-line)
+                        ("p" . previous-line)))
 #+end_src
 *** Custom motions
 #+begin_src emacs-lisp
