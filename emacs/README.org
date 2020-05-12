@@ -1017,8 +1017,7 @@ as auto-complete or syntax linting.
 
   (use-package lsp-ivy :straight t 
     :commands (lsp-ivy-workspace-symbol lsp-ivy-global-workspace-symbol) 
-    :bind (:map lsp-mode-map
-                ("C-c m w s" . lsp-ivy-workspace-symbol)))
+    :bind (("C-c m l s" . lsp-ivy-workspace-symbol)))
 
   (use-package dap-mode :straight t :defer t)
 #+END_SRC
@@ -1278,7 +1277,11 @@ TBA
 **** PHP
 ***** PHP mode
   #+BEGIN_SRC emacs-lisp
-  (use-package php-mode :straight t :mode "\\.php\\'")
+    (use-package php-mode :straight t 
+      :mode "\\.php\\'"
+      :hook (php-mode . amirreza/php-mode-hook)
+      :config (defun amirreza/php-mode-hook ()
+                (amirreza/lsp!)))
   #+END_SRC
 ***** PHP Runtime Integration
   #+BEGIN_SRC emacs-lisp
@@ -1291,11 +1294,11 @@ TBA
 ***** PHPUnit
   #+BEGIN_SRC emacs-lisp
     (use-package phpunit :straight t
-      :commands (php-current-test php-current-class php-current-project)
-      :bind (:map php-mode-map 
-                  ("C-c m t t" . php-current-test)
-                  ("C-c m t c" . php-current-class)
-                  ("C-c m t p" . php-current-project)))
+      :after php-mode
+      :config 
+      (define-key php-mode-map (kbd "C-c m t t") 'php-current-test)
+      (define-key php-mode-map (kbd "C-c m t c")  'php-current-class)
+      (define-key php-mode-map (kbd "C-c m t p")  'php-current-project))
   #+END_SRC
 **** Rust
 ***** Rust mode
