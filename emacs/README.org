@@ -32,6 +32,7 @@
   - [[#windowsworkspaces][Windows/Workspaces]]
     - [[#window-rules][Window rules]]
     - [[#eyebrowse][Eyebrowse]]
+    - [[#zoom-window][Zoom window]]
     - [[#winner-restore-window-layout][Winner (Restore Window layout)]]
     - [[#ace-window-better-window-management][Ace Window (Better Window Management)]]
     - [[#beacon][Beacon]]
@@ -440,6 +441,11 @@ Emacs windows can be configured in the matter of where their gonna open.
     :bind ("C-c w" . eyebrowse-hydra/body))
 
 #+END_SRC
+*** Zoom window
+#+begin_src emacs-lisp
+  (use-package zoom-window :straight t
+    :bind ("C-c w z" . zoom-window-zoom))
+#+end_src
 *** Winner (Restore Window layout)
 When we are working with multiple windows open but we might maximize one window to focus
 on it, but when we are done with focus mode ;) we need that layout back that's were winner mode
