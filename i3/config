@@ -17,7 +17,7 @@ font pango:Hack 10
 
 for_window [class="^.*"] border pixel 2
 
-bindsym $mod+m move workspace to output down
+bindsym $mod+m move workspace to output left
 
 bindsym $mod+e exec i3lock -c 000000
 
@@ -155,9 +155,9 @@ bindsym $mod+r mode "resize"
 assign [class="Firefox"] $ws1 
 assign [class="Emacs"] $ws3
 assign [class="Alacritty"] $ws2
-assign [class="rhythmbox"] $ws4
-assign [class="discord"] $ws5
-assign [class="riot"] $ws5
+assign [class="Rhythmbox"] $ws4
+assign [class="Riscord"] $ws5
+assign [class="Riot"] $ws5
 # volume
 bindsym XF86AudioRaiseVolume exec amixer -q -D pulse sset Master 5%+; exec pkill -RTMIN+10 i3blocks
 bindsym XF86AudioLowerVolume exec amixer -q -D pulse sset Master 5%-; exec pkill -RTMIN+10 i3blocks
