@@ -265,6 +265,11 @@ I respect Emacs keybinding conventions in my configuration with a few ideas borr
 + Operating System integration keys should be prefixed with =o=
 + Devops related stuff prefixed with =d=.
 * ICE ( Integrated Computing Environment )
+Since Emacs is becoming the only tool I do all my computing in,
+I call this part Integrated Computing Environment. Idea of Emacs is not 
+to re invent every wheel that has been invented, it's the opposite actually,
+find the best tools that perfectly suits your needs and integrate them in an interactive
+and easy to use (for your needs).
 ** Keybinding
 #+begin_src emacs-lisp
   (use-package which-key
@@ -909,7 +914,7 @@ and use fish in that.
                                      ""
                                    (string (car (string-to-list dir-name))))) path-to-minify)))
         (concat (string-join minified "/") "/" last-part)))
-  
+
     (defun amirreza/eshell-vc-info ()
       "returns a string containing information about VCS in default-directory, if vcs-backend is Git shows the current branch name"
       (let* ((vcs-backend (or (ignore-errors (vc-responsible-backend default-directory)) ""))
@@ -917,11 +922,11 @@ and use fish in that.
         (cond
          ((string= vcs-backend "Git") (format "%s:%s" vcs-backend git-branch))
          (t (format "%s" vcs-backend)))))
-  
+
     (defun amirreza/eshell-prompt ()
       (concat (amirreza/eshell-minify-path (eshell/pwd)) " " (amirreza/eshell-vc-info) " > "))
 
-  
+
     (setq eshell-prompt-function 'amirreza/eshell-prompt)
     (defun amirreza/eshell-show-content-file-at-point ()
       "Insert the content of file at point to the end of buffer"
@@ -941,6 +946,7 @@ and use fish in that.
         (if file
             (kill-new (concat (eshell/pwd) "/" file))
           (user-error "No file at point"))))
+
     (defun amirreza/eshell-find-file-at-point ()
       "Run `find-file' for file at point (ordinary file or dir).
           Recall that this will produce a `dired' buffer if the file is a
@@ -950,8 +956,7 @@ and use fish in that.
         (if file
             (find-file file)
           (user-error "No file at point"))))
-    ;;(setq eshell-prompt-function 'amirreza/eshell-prompt)
-    ;; (setq eshell-highlight-prompt nil)
+
     :bind (:map eshell-mode-map
                 ("C-c f c" . amirreza/eshell-show-content-file-at-point)
                 ("C-c f f" . amirreza/eshell-find-file-at-point)
