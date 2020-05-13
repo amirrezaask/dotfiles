@@ -19,9 +19,10 @@ Plug 'junegunn/goyo.vim'
 Plug 'honza/dockerfile.vim'
 Plug 'dag/vim-fish'
 Plug 'rust-lang/rust.vim'
-Plug 'neovim/nvim-lsp'
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'Shougo/deoplete-lsp'
+" Plug 'neovim/nvim-lsp'
+" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" Plug 'Shougo/deoplete-lsp'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'icymind/NeoSolarized'
  Plug 'itchyny/lightline.vim'
 call plug#end()
@@ -55,9 +56,9 @@ set autoindent
 noremap j gj
 noremap k gk
 " }}}
-let g:lightline = {
-      \ 'colorscheme': 'gruvbox',
-      \ }
+" let g:lightline = {
+"       \ 'colorscheme': 'gruvbox',
+"       \ }
 " FileType specific settings {{{
 augroup format
         " PHP
@@ -131,25 +132,25 @@ nnoremap <leader>fs :Rg<CR>
 "}}}
 
 "Neovim LSP settings {{{
-lua require'nvim_lsp'.gopls.setup{}
-lua require'nvim_lsp'.vimls.setup{}
-lua require'nvim_lsp'.pyls_ms.setup{}
-lua require'nvim_lsp'.intelephense.setup{}
-nnoremap <silent>''  <cmd>lua vim.lsp.buf.definition()<CR>
-nnoremap <silent>';  <cmd>lua vim.lsp.buf.hover()<CR>
-nnoremap <silent>'"  <cmd>lua vim.lsp.buf.implementation()<CR>
-nnoremap <silent>'\  <cmd>lua vim.lsp.buf.signature_help()<CR>
-nnoremap <silent>'/  <cmd>lua vim.lsp.buf.type_definition()<CR>
-nnoremap <silent>'.  <cmd>lua vim.lsp.buf.references()<CR>
-nnoremap <silent>'=  <cmd>lua vim.lsp.buf.document_symbol()<CR>
-nnoremap <silent>'-  <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
+" lua require'nvim_lsp'.gopls.setup{}
+" lua require'nvim_lsp'.vimls.setup{}
+" lua require'nvim_lsp'.pyls_ms.setup{}
+" lua require'nvim_lsp'.intelephense.setup{}
+" nnoremap <silent>''  <cmd>lua vim.lsp.buf.definition()<CR>
+" nnoremap <silent>';  <cmd>lua vim.lsp.buf.hover()<CR>
+" nnoremap <silent>'"  <cmd>lua vim.lsp.buf.implementation()<CR>
+" nnoremap <silent>'\  <cmd>lua vim.lsp.buf.signature_help()<CR>
+" nnoremap <silent>'/  <cmd>lua vim.lsp.buf.type_definition()<CR>
+" nnoremap <silent>'.  <cmd>lua vim.lsp.buf.references()<CR>
+" nnoremap <silent>'=  <cmd>lua vim.lsp.buf.document_symbol()<CR>
+" nnoremap <silent>'-  <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
 "}}}
 
 
 " deoplete settings {{{
-let g:deoplete#enable_at_startup = 1
-autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif  " Close Doc window after exiting the completion menu
-inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" let g:deoplete#enable_at_startup = 1
+" autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif  " Close Doc window after exiting the completion menu
+" inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 "}}}
 
 " NetRW settings {{{
@@ -165,3 +166,5 @@ function! ToggleColorMode()
 	endif
 endfunction
 nnoremap <f12> :call ToggleColorMode()<CR>
+
+source ~/.config/nvim/coc.vim
