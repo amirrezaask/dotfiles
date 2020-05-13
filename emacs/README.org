@@ -23,7 +23,7 @@
 - [[#about-this-configuration][About this configuration]]
   - [[#disabled-packages][Disabled packages]]
   - [[#keybinding-conventions][Keybinding conventions]]
-- [[#chapters][Chapters]]
+- [[#ice--integrated-computing-environment-][ICE ( Integrated Computing Environment )]]
   - [[#keybinding][Keybinding]]
   - [[#ui][UI]]
     - [[#themes][Themes]]
@@ -62,11 +62,11 @@
     - [[#rainbow-delimiters][Rainbow delimiters]]
     - [[#avy][Avy]]
     - [[#edit-configuration][Edit configuration]]
-  - [[#ide-setup][IDE setup]]
-    - [[#add-executable-paths][Add executable paths]]
-    - [[#shell-and-terminal-emulator][Shell And Terminal Emulator]]
+  - [[#shell-and-terminal-emulator][Shell And Terminal Emulator]]
       - [[#eshell][Eshell]]
       - [[#vterm][VTerm]]
+  - [[#ide-setup][IDE setup]]
+    - [[#add-executable-paths][Add executable paths]]
     - [[#code-semantic-jumping][Code Semantic Jumping]]
     - [[#code-completion][Code completion]]
     - [[#language-server-protocol][Language Server Protocol]]
@@ -86,12 +86,11 @@
       - [[#htmlcss][HTML/CSS]]
       - [[#php][PHP]]
       - [[#rust][Rust]]
-  - [[#integrated-toolsfunctionality][Integrated tools/functionality]]
-    - [[#file-manager][File Manager]]
-    - [[#mail--news-reader][Mail & News reader]]
-    - [[#irc][IRC]]
-    - [[#process-management][Process management]]
-    - [[#music][Music]]
+  - [[#file-manager][File Manager]]
+  - [[#mail--news-reader][Mail & News reader]]
+  - [[#irc][IRC]]
+  - [[#process-management][Process management]]
+  - [[#music][Music]]
   - [[#devops-tools][Devops Tools]]
     - [[#some-syntax-highlights][Some syntax highlights]]
     - [[#tramp][TRAMP]]
@@ -265,7 +264,7 @@ I respect Emacs keybinding conventions in my configuration with a few ideas borr
 + Major mode / language specific functions bind with prefix =m=
 + Operating System integration keys should be prefixed with =o=
 + Devops related stuff prefixed with =d=.
-* Chapters
+* ICE ( Integrated Computing Environment )
 ** Keybinding
 #+begin_src emacs-lisp
   (use-package which-key
@@ -398,11 +397,15 @@ Emacs windows can be configured in the matter of where their gonna open.
               (display-buffer-in-side-window)
               (window-width . 0.40)
               (side . right)
-              (slot . 0)
-              )
+              (slot . 0))
+            ("\*eshell.*"
+              (display-buffer-in-side-window)
+              (window-width . 0.40)
+              (side . right)
+              (slot . 0))
             ("\\*rg"
               (display-buffer-in-side-window)
-              (window-height . 0.50)
+              (window-width . 0.50)
               (side . right)
               (slot . 0))))
 #+END_SRC
@@ -880,6 +883,83 @@ skeleton and skeleton does it's job of inserting text.
      (find-file "~/.emacs.d/README.org"))
   (global-set-key (kbd "<f9>") 'amirreza/edit-configuration)
 #+end_src
+** Shell And Terminal Emulator
+Emacs has a bultin shell called =eshell= which uses elisp
+as it's scripting engine, I use that as my main shell over the day
+but for some rare situations I have VTerm that emulates a normal terminal
+and use fish in that.
+**** Eshell
+#+begin_src emacs-lisp
+  (use-package esh-mode
+    :bind (("s-<enter>" . amirreza/eshell-new)
+           ("<f11>" . amirreza/eshell-new))
+    :config
+    (defun amirreza/eshell-new()
+      "Open a new instance of eshell."
+      (interactive)
+      (eshell 'N))
+    (defun fish-path (path max-len)
+      "Return a potentially trimmed-down version of the directory PATH, replacing
+  parent directories with their initial characters to try to get the character
+  length of PATH (sans directory slashes) down to MAX-LEN."
+      (let* ((components (split-string (abbreviate-file-name path) "/"))
+             (len (+ (1- (length components))
+                     (reduce '+ components :key 'length)))
+             (str ""))
+        (while (and (> len max-len)
+                    (cdr components))
+          (setq str (concat str
+                            (cond ((= 0 (length (car components))) "/")
+                                  ((= 1 (length (car components)))
+                                   (concat (car components) "/"))
+                                  (t
+                                   (if (string= "."
+                                                (string (elt (car components) 0)))
+                                       (concat (substring (car components) 0 2)
+                                               "/")
+                                     (string (elt (car components) 0) ?/)))))
+                len (- len (1- (length (car components))))
+                components (cdr components)))
+        (concat str (reduce (lambda (a b) (concat a "/" b)) components))))
+  
+    (defun amirreza/eshell-show-content-file-at-point ()
+      "Insert the content of file at point to the end of buffer"
+      (interactive)
+      (let ((file (ffap-file-at-point)))
+        (if file
+            (progn
+              (end-of-buffer)
+              (insert (concat "cat " file))
+              (eshell-send-input))
+          (user-error "No file at point"))))
+
+    (defun amirreza/eshell-kill-save-file-at-point ()
+      "Add to kill-ring the absolute path of file at point."
+      (interactive)
+      (let ((file (ffap-file-at-point)))
+        (if file
+            (kill-new (concat (eshell/pwd) "/" file))
+          (user-error "No file at point"))))
+    (defun amirreza/eshell-find-file-at-point ()
+      "Run `find-file' for file at point (ordinary file or dir).
+          Recall that this will produce a `dired' buffer if the file is a
+          directory."
+      (interactive)
+      (let ((file (ffap-file-at-point)))
+        (if file
+            (find-file file)
+          (user-error "No file at point"))))
+    ;;(setq eshell-prompt-function 'amirreza/eshell-prompt)
+    ;; (setq eshell-highlight-prompt nil)
+    :bind (:map eshell-mode-map
+                ("C-c f c" . amirreza/eshell-show-content-file-at-point)
+                ("C-c f f" . amirreza/eshell-find-file-at-point)
+                ("C-c f k" . amirreza/eshell-kill-save-file-at-point)))
+#+end_src
+**** VTerm
+#+begin_src emacs-lisp
+  (use-package vterm :straight t :bind ("<f10>" . vterm))
+#+end_src
 ** IDE setup
 *** Add executable paths
 #+begin_src emacs-lisp
@@ -890,57 +970,7 @@ skeleton and skeleton does it's job of inserting text.
     (setq exec-path-from-shell-shell-name "sh")
     (exec-path-from-shell-initialize))
 #+end_src
-*** Shell And Terminal Emulator
-Emacs has a bultin shell called =eshell= which uses elisp
-as it's scripting engine, I use that as my main shell over the day
-but for some rare situations I have VTerm that emulates a normal terminal
-and use fish in that.
-**** Eshell
-#+begin_src emacs-lisp
-    (use-package esh-mode
-      :bind (("s-<enter>" . amirreza/eshell-new)
-             ("<f11>" . amirreza/eshell-new))
-      :config
-      (defun amirreza/eshell-new()
-        "Open a new instance of eshell."
-        (interactive)
-        (eshell 'N))
-      (defun amirreza/eshell-show-content-file-at-point ()
-        "Insert the content of file at point to the end of buffer"
-        (interactive)
-        (let ((file (ffap-file-at-point)))
-          (if file
-              (progn
-                (end-of-buffer)
-                (insert (concat "cat " file))
-                (eshell-send-input))
-            (user-error "No file at point"))))
 
-      (defun amirreza/eshell-kill-save-file-at-point ()
-        "Add to kill-ring the absolute path of file at point."
-        (interactive)
-        (let ((file (ffap-file-at-point)))
-          (if file
-              (kill-new (concat (eshell/pwd) "/" file))
-            (user-error "No file at point"))))
-      (defun amirreza/eshell-find-file-at-point ()
-        "Run `find-file' for file at point (ordinary file or dir).
-          Recall that this will produce a `dired' buffer if the file is a
-          directory."
-        (interactive)
-        (let ((file (ffap-file-at-point)))
-          (if file
-              (find-file file)
-            (user-error "No file at point"))))
-      :bind (:map eshell-mode-map
-                  ("C-c f c" . amirreza/eshell-show-content-file-at-point)
-                  ("C-c f f" . amirreza/eshell-find-file-at-point)
-                  ("C-c f k" . amirreza/eshell-kill-save-file-at-point)))
-#+end_src
-**** VTerm
-#+begin_src emacs-lisp
-  (use-package vterm :straight t :bind ("<f10>" . vterm))
-#+end_src
 *** Code Semantic Jumping
 Emacs has a builtin tool called Imenu which major modes hook to and feed it data about semantic blocks in the current buffer,
 we can use it to jump around our code based on semantics of that language (forexample structs or functions).
@@ -1085,11 +1115,14 @@ TBA
   #+BEGIN_SRC emacs-lisp
     (use-package python-mode
       :mode "\\.py\\'"
+      :hook (python-mode . amirreza/python-mode-hook)
       :config
       (defun amirreza/python-insert-docstring ()
         (interactive)
         (insert "'''\n'''")
         (previous-line))
+      (defun amirreza/python-mode-hook () 
+        (amirreza/lsp!))
       :bind
       (:map python-mode-map 
         ("C-c m d" . amirreza/python-insert-docstring)))
@@ -1306,76 +1339,73 @@ TBA
   (use-package rust-mode :straight t :mode "\\.rs\\'")
   #+END_SRC
 
-** Integrated tools/functionality
-*** File Manager
-  #+begin_src emacs-lisp
-    (use-package dired
-      :commands (dired)
-      :config
-      (add-hook 'dired-mode-hook (lambda () 
-                                   (dired-hide-details-mode 1))))
+** File Manager
+ #+begin_src emacs-lisp
+   (use-package dired
+     :commands (dired dired-jump)
+     :bind (("C-x C-j" . dired-jump))
+     :config
+     (add-hook 'dired-mode-hook (lambda () 
+                                  (dired-hide-details-mode 1))))
 
-    (use-package dired-sidebar :straight t
-      :bind
-      (("<f8>" . dired-sidebar-toggle-sidebar)))
+   (use-package dired-sidebar :straight t
+     :bind
+     (("<f8>" . dired-sidebar-toggle-sidebar)))
 
-    (use-package dired-subtree
-      :straight t
-      :bind (:map dired-mode-map
-                  ("<tab>" . dired-subtree-toggle)))
+   (use-package dired-subtree
+     :straight t
+     :bind (:map dired-mode-map
+                 ("<tab>" . dired-subtree-toggle)))
 
-    (use-package peep-dired
-      :straight t
-      :after dired
-      :config
-      (setq peep-dired-cleanup-on-disable t)
-      (setq peep-dired-enable-on-directories nil)
-      (setq peep-dired-ignored-extensions
-            '("mkv" "webm" "mp4" "mp3" "ogg" "iso"))
-      :bind (:map dired-mode-map
-                  ("P" . peep-dired)))
-  #+end_src
+   (use-package peep-dired
+     :straight t
+     :after dired
+     :config
+     (setq peep-dired-cleanup-on-disable t)
+     (setq peep-dired-enable-on-directories nil)
+     (setq peep-dired-ignored-extensions
+           '("mkv" "webm" "mp4" "mp3" "ogg" "iso"))
+     :bind (:map dired-mode-map
+                 ("P" . peep-dired)))
+ #+end_src
+** Mail & News reader
+ Mail setup in Emacs using Gnus.
+ #+begin_src emacs-lisp
+   (use-package auth-source
+     :after gnus
+     :config
+     (setq auth-sources '("~/.authinfo.gpg" "~/.authinfo")))
 
-*** Mail & News reader
-  Mail setup in Emacs using Gnus.
-  #+begin_src emacs-lisp
-    (use-package auth-source
-      :after gnus
-      :config
-      (setq auth-sources '("~/.authinfo.gpg" "~/.authinfo")))
+   (use-package gnus
+     :commands (gnus)
+     :config
+     (setq gnus-thread-sort-functions
+           '(gnus-thread-sort-by-number
+             gnus-thread-sort-by-date))
 
-    (use-package gnus
-      :commands (gnus)
-      :config
-      (setq gnus-thread-sort-functions
-            '(gnus-thread-sort-by-number
-              gnus-thread-sort-by-date))
-
-      (setq gnus-select-method '(nnnil))
-      (setq gnus-secondary-select-methods
-       '((nnimap "Gmail"
-                 (nnimap-address "imap.gmail.com")
-                 (nnimap-server-port "imaps")
-                 (nnimap-stream ssl)))))
-  #+end_src
-
-*** IRC
-  #+begin_src emacs-lisp
-    (use-package erc 
-      :commands erc
-      :config
-      (setq erc-nick "amirrezaask")
-      (setq erc-autojoin-channels-alist
-            '(("freenode.net" "#emacs" "#5hit"))))
-  #+end_src
-
-*** Process management
-  #+begin_src emacs-lisp
-    (use-package proced
-      :bind ("C-c o p" . proced)
-      :commands proced)
-  #+end_src
-*** Music
+     (setq gnus-select-method '(nnnil))
+     (setq gnus-secondary-select-methods
+      '((nnimap "Gmail"
+                (nnimap-address "imap.gmail.com")
+                (nnimap-server-port "imaps")
+                (nnimap-stream ssl)))))
+ #+end_src
+** IRC
+ #+begin_src emacs-lisp
+   (use-package erc 
+     :commands erc
+     :config
+     (setq erc-nick "amirrezaask")
+     (setq erc-autojoin-channels-alist
+           '(("freenode.net" "#emacs" "#5hit"))))
+ #+end_src
+** Process management
+ #+begin_src emacs-lisp
+   (use-package proced
+     :bind ("C-c o p" . proced)
+     :commands proced)
+ #+end_src
+** Music
 #+begin_src emacs-lisp
   (use-package rhythmbox
     :bind ("C-c o m" . Rhythmbox)
