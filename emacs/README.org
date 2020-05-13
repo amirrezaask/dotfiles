@@ -900,6 +900,7 @@ and use fish in that.
       (eshell 'N))
 
     (defun amirreza/eshell-minify-path (path)
+      "Minify path like what fish do for paths."
       (let* ((path-sep (split-string path "/"))
              (last-part (car (last path-sep)))
              (path-to-minify (butlast path-sep))
@@ -908,10 +909,19 @@ and use fish in that.
                                      ""
                                    (string (car (string-to-list dir-name))))) path-to-minify)))
         (concat (string-join minified "/") "/" last-part)))
-
+  
+    (defun amirreza/eshell-vc-info ()
+      "returns a string containing information about VCS in default-directory, if vcs-backend is Git shows the current branch name"
+      (let* ((vcs-backend (or (ignore-errors (vc-responsible-backend default-directory)) ""))
+             (git-branch (magit-get-current-branch)))
+        (cond
+         ((string= vcs-backend "Git") (format "%s:%s" vcs-backend git-branch))
+         (t (format "%s" vcs-backend)))))
+  
     (defun amirreza/eshell-prompt ()
-      (concat (amirreza/eshell-minify-path (eshell/pwd)) " > "))
+      (concat (amirreza/eshell-minify-path (eshell/pwd)) " " (amirreza/eshell-vc-info) " > "))
 
+  
     (setq eshell-prompt-function 'amirreza/eshell-prompt)
     (defun amirreza/eshell-show-content-file-at-point ()
       "Insert the content of file at point to the end of buffer"
