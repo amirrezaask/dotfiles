@@ -895,6 +895,7 @@ but for some rare situations I have VTerm that emulates a normal terminal
 and use fish in that.
 **** Eshell
 #+begin_src emacs-lisp
+  (require 'cl-lib)
   (use-package esh-mode
     :bind (("s-<enter>" . amirreza/eshell-new)
            ("<f11>" . amirreza/eshell-new))
@@ -903,16 +904,18 @@ and use fish in that.
       "Open a new instance of eshell."
       (interactive)
       (eshell 'N))
+    (defun amirreza/--minify-dir (dir-name)
+      (cond
+       ((string= dir-name "") "")
+       ((string= "." (string (car (string-to-list dir-name)))) (cl-subseq ".emacs" 0 2))
+       (t (string (car (string-to-list dir-name))))))
 
     (defun amirreza/eshell-minify-path (path)
       "Minify path like what fish do for paths."
       (let* ((path-sep (split-string path "/"))
              (last-part (car (last path-sep)))
              (path-to-minify (butlast path-sep))
-             (minified (mapcar (lambda (dir-name)
-                                 (if (string= dir-name "")
-                                     ""
-                                   (string (car (string-to-list dir-name))))) path-to-minify)))
+             (minified (mapcar 'amirreza/--minify-dir path-to-minify)))
         (concat (string-join minified "/") "/" last-part)))
 
     (defun amirreza/eshell-vc-info ()
@@ -956,7 +959,21 @@ and use fish in that.
         (if file
             (find-file file)
           (user-error "No file at point"))))
-
+    (defmacro amirreza/eshell-defalias-sys (alias command)
+      ""
+      `(defalias
+         ,alias
+         (lambda ()
+           (progn 
+             (end-of-buffer)
+             (insert ,command)
+             (eshell-send-input)))))
+  
+    ;; Some aliasing
+    (defalias 'o 'find-file)
+    (defalias 'e 'find-file)
+    (defalias 'd (lambda () (dired default-directory)))
+    (amirreza/eshell-defalias-sys 'ocgp "oc get pods")
     :bind (:map eshell-mode-map
                 ("C-c f c" . amirreza/eshell-show-content-file-at-point)
                 ("C-c f f" . amirreza/eshell-find-file-at-point)
