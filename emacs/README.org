@@ -909,7 +909,11 @@ and use fish in that.
        ((string= dir-name "") "")
        ((string= "." (string (car (string-to-list dir-name)))) (cl-subseq ".emacs" 0 2))
        (t (string (car (string-to-list dir-name))))))
-
+    (defun amirreza/eshell-history-search ()
+      (interactive)
+      (insert (completing-read "History: " (ring-elements eshell-history-ring)))
+      (eshell-send-input))
+  
     (defun amirreza/eshell-minify-path (path)
       "Minify path like what fish do for paths."
       (let* ((path-sep (split-string path "/"))
