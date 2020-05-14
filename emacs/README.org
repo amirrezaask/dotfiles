@@ -863,7 +863,6 @@ skeleton and skeleton does it's job of inserting text.
 #+begin_src emacs-lisp
 (use-package rainbow-delimiters :straight t :hook (prog-mode . rainbow-delimiters-mode))
 #+end_src
-
 *** Avy
 #+begin_src emacs-lisp
   (use-package avy :straight t
@@ -904,11 +903,13 @@ and use fish in that.
       "Open a new instance of eshell."
       (interactive)
       (eshell 'N))
+
     (defun amirreza/--minify-dir (dir-name)
       (cond
        ((string= dir-name "") "")
        ((string= "." (string (car (string-to-list dir-name)))) (cl-subseq ".emacs" 0 2))
        (t (string (car (string-to-list dir-name))))))
+
     (defun amirreza/eshell-history-search ()
       (interactive)
       (insert (completing-read "History: " (ring-elements eshell-history-ring)))
@@ -963,29 +964,22 @@ and use fish in that.
         (if file
             (find-file file)
           (user-error "No file at point"))))
-    (defmacro amirreza/eshell-defalias-sys (alias command)
-      ""
-      `(defalias
-         ,alias
-         (lambda ()
-           (progn 
-             (end-of-buffer)
-             (insert ,command)
-             (eshell-send-input)))))
-  
+
     ;; Some aliasing
-    (defalias 'o 'find-file)
-    (defalias 'e 'find-file)
-    (defalias 'd (lambda () (dired default-directory)))
-    (amirreza/eshell-defalias-sys 'ocgp "oc get pods")
+    (eshell/alias 'o 'find-file)
+    (eshell/alias 'e 'find-file)
+    (eshell/alias 'd (lambda () (dired default-directory)))
+    (eshell/alias "ocgp" "oc get pods")
+  
     :bind (:map eshell-mode-map
                 ("C-c f c" . amirreza/eshell-show-content-file-at-point)
+                ("C-r" . amirreza/eshell-history-search)
                 ("C-c f f" . amirreza/eshell-find-file-at-point)
                 ("C-c f k" . amirreza/eshell-kill-save-file-at-point)))
 #+end_src
 **** VTerm
 #+begin_src emacs-lisp
-  (use-package vterm :straight t :bind ("<f10>" . vterm))
+  (use-package vterm :straight t :commands (vterm))
 #+end_src
 ** IDE setup
 *** Add executable paths
@@ -1087,7 +1081,7 @@ help ease developer experience when using LSP.
 #+BEGIN_SRC emacs-lisp
   (use-package magit
     :straight t
-    :commands (magit-status)
+    :commands (magit-status magit-get-current-branch)
     :bind
     (("C-x g" . 'magit-status)))
 
@@ -1428,9 +1422,10 @@ TBA
  #+end_src
 ** Process management
  #+begin_src emacs-lisp
-   (use-package proced
-     :bind ("C-c o p" . proced)
-     :commands proced)
+      (use-package proced
+        :bind (("C-c o p" . proced)
+               ("<f10>" . proced))
+        :commands proced)
  #+end_src
 ** Music
 #+begin_src emacs-lisp
