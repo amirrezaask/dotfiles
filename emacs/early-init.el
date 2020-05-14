@@ -1,3 +1,5 @@
+(setq comp-deferred-compilation t)
+(setq comp-async-jobs-number 6)
 (defvar amirreza/emacs-init-timestamp (float-time))
 
 (setq gc-cons-threshold (* 1024 1024 100)) ;; 100MB for Emacs initialization process
@@ -20,7 +22,6 @@
 
 (setq vc-follow-symlinks t)
 (delete-file "~/.emacs.d/README.el")
-
 (setq inhibit-startup-message t
       inhibit-startup-echo-area-message user-login-name
       inhibit-default-init t
