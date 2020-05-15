@@ -322,7 +322,7 @@ keybindings like the ones in magit forexample but with more features.
              :bind (("<f12>" . amirreza/toggle-color-mode))
              :config
              (defvar amirreza/current-mode 'dark "Current color mode of Emacs.")
-             (defvar amirreza/dark-theme 'modus-vivendi)
+             (defvar amirreza/dark-theme 'doom-dracula)
              (defvar amirreza/light-theme 'modus-operandi)
 
              (defmacro amirreza/--load-theme (&rest theme-opts)
@@ -903,10 +903,22 @@ and use fish in that.
   (require 'cl-lib)
   (use-package eshell 
     :config
-    (defun amirreza/eshell-new()
-      "Open a new instance of eshell."
+    (defvar amirreza/--eshells-state (make-hash-table))
+    (setq amirreza/--eshells-state (make-hash-table))
+
+    (defun amirreza/eshell-new ()
       (interactive)
-      (eshell 'N))
+      (let* ((buff-ref (gethash default-directory amirreza/--eshells-state nil))
+            (buff-live? (buffer-live-p buff-ref)))
+        (if (and buff-ref buff-live?)
+            (switch-to-buffer-other-window buff-ref)
+          (progn
+            (let ((new-buff (eshell 'N)))
+              (puthash default-directory new-buff amirreza/--eshells-state)
+
+              (switch-to-buffer-other-window new-buff)
+              (rename-buffer (format "*eshell:%s*" default-directory)))))))
+ 
     :bind (("s-<enter>" . amirreza/eshell-new)
            ("<f11>" . amirreza/eshell-new)))
 
@@ -958,7 +970,7 @@ and use fish in that.
       (switch-to-buffer (get-buffer-create "*eshell-last-output*"))
       (erase-buffer)
       (yank))
-  
+
     (setq eshell-prompt-function 'amirreza/eshell-prompt)
     (setq eshell-prompt-regexp "⤷ ")
     (defun amirreza/eshell-show-content-file-at-point ()
