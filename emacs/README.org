@@ -17,6 +17,7 @@
   - [[#start-your-configuration][Start Your configuration]]
   - [[#introducing-emacs-27][Introducing Emacs 27]]
 - [[#personal-information][Personal information]]
+- [[#emacs-internals-optimizations][Emacs internals optimizations]]
   - [[#gc][GC]]
   - [[#file-name-handler-alist][file-name-handler-alist]]
 - [[#package-manager-setup][Package manager setup]]
@@ -64,8 +65,8 @@
     - [[#grep][Grep]]
   - [[#file-search][File search]]
     - [[#fzf][Fzf]]
-    - [[#find-sub-directory][Find sub directory]]
     - [[#recents][Recents]]
+    - [[#projects-integration][Projects Integration]]
   - [[#shell-and-terminal-emulator][Shell And Terminal Emulator]]
       - [[#eshell][Eshell]]
       - [[#vterm][VTerm]]
@@ -209,7 +210,7 @@ loaded before init.el and before GUI and package manager starts so it can help u
     (setq user-full-name "AmirrezaAskarpour"
           user-mail-address "raskarpour@gmail.com")
 #+end_src
-n* Emacs internals optimizations
+* Emacs internals optimizations
 :PROPERTIES:
   :header-args: :tangle no
   :END:
@@ -872,33 +873,25 @@ skeleton and skeleton does it's job of inserting text.
         :commands (rg)
         :bind 
         (:map global-map
-              ("C-c e g" . rg)))
+              ("C-c g" . rg)))
 #+end_src
 ** File search
+For file searching in Emacs, I used to use =fzf=, =projectile=.
+But I moved to a more simpler custom but powerful and hackable solution based on
+emacs =project= package and =icomplete= for fuzzy matching.
 *** Fzf
+:PROPERTIES:
+  :header-args: :tangle no
+  :END:
 Fuzzy file search is amazing tool that doesn't choke up even in my home folder 
 it's just magic.
 #+begin_src emacs-lisp
   (use-package fzf
+    :disabled t
     :straight (:repo "amirrezaask/fzf.el")
     :bind (("C-c f f" . fzf)
            ("C-c f d" . fzf-directory))
     :commands (fzf fzf-directory))
-#+end_src
-*** Find sub directory
-#+begin_src emacs-lisp
-  (defun amirreza/--find-sub-directories-recur ()
-        (interactive)
-        (let* ((sub-dirs (directory-files-recursively default-directory ".*" t nil nil))
-               (sub-dirs-cleaned (seq-filter (lambda (dir-name)
-                             (if (string-match-p "\\.git" dir-name) nil t)) sub-dirs)))
-          (completing-read "Find Sub directory: " sub-dirs-cleaned)))
-
-  (defun amirreza/find-sub-directories-recur ()
-    (interactive)
-    (find-file (amirreza/--find-sub-directories-recur)))
-
-(global-set-key (kbd "C-c f d") 'amirreza/find-sub-directories-recur)
 #+end_src
 *** Recents
 #+begin_src emacs-lisp
@@ -914,6 +907,35 @@ it's just magic.
       (let ((files recentf-list))
         (find-file (completing-read "Recent: " files)))))
 #+end_src
+*** Projects Integration
+ #+begin_src emacs-lisp
+   (require 'cl-lib)
+   (use-package project
+     :bind (("C-c f f" . amirreza/project-or-dir-find-file-recur)
+            ("C-c f d" . amirreza/project-or-dir-find-dir-recur))
+     :config
+     (defun amirreza/--find-sub-directories-recur (prompt dir)
+           (interactive)
+           (let* ((sub-dirs (directory-files-recursively dir ".*" t nil nil))
+                  (sub-dirs-cleaned (seq-filter (lambda (dir-name)
+                                (if (string-match-p "\\.git" dir-name) nil t)) sub-dirs)))
+             (completing-read prompt sub-dirs-cleaned)))
+
+     (defun amirreza/project-or-dir-find-file-recur ()
+       (interactive)
+       (let* ((project (vc-root-dir))
+              (dir (if project project default-directory)))
+         (find-file (amirreza/--find-sub-directories-recur "Find: " dir))))
+
+     (defun amirreza/project-or-dir-find-dir-recur ()
+       (interactive)
+       (let* ((project (vc-root-dir))
+              (dir (if project project default-directory))
+              (dirs (-filter 'file-directory-p (directory-files-recursively dir ".*" t nil nil)))
+              (dirs-cleaned (seq-filter (lambda (dir-name)
+                                              (if (string-match-p "\\.git" dir-name) nil t)) dirs)))
+         (find-file (completing-read "Find Directory: " dirs-cleaned))))
+ #+end_src
 ** Shell And Terminal Emulator
 Emacs has a bultin shell called =eshell= which uses elisp
 as it's scripting engine, I use that as my main shell over the day
@@ -930,13 +952,11 @@ all executables.
 #+end_src
 **** Eshell
 #+begin_src emacs-lisp
-  (use-package ffap :commands (find-file-at-point))
+  (use-package ffap)
   (require 'cl-lib)
-
   (use-package eshell 
     :config
     (defvar amirreza/--eshells-state (make-hash-table))
-    (setq amirreza/--eshells-state (make-hash-table))
   
     (defun amirreza/eshell-new ()
       "Looks in the eshell state map if there is an open eshell in the current directory just switch to it,
@@ -1040,7 +1060,7 @@ all executables.
 
     (defun amirreza/eshell-find-sub-dirs-recur ()
       (interactive)
-        (insert (amirreza/--find-sub-directories-recur))
+        (insert (amirreza/--find-sub-directories-recur default-directory))
         (eshell-send-input))
 
     :bind (:map eshell-mode-map
