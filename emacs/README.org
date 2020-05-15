@@ -62,10 +62,13 @@
   - [[#searching][Searching]]
     - [[#in-buffer-searching][In Buffer searching]]
     - [[#grep][Grep]]
+  - [[#file-search][File search]]
+    - [[#fzf][Fzf]]
+    - [[#find-sub-directory][Find sub directory]]
+    - [[#recents][Recents]]
   - [[#shell-and-terminal-emulator][Shell And Terminal Emulator]]
       - [[#eshell][Eshell]]
       - [[#vterm][VTerm]]
-  - [[#fuzzy-file-finder][Fuzzy file finder]]
   - [[#programming][Programming]]
     - [[#completion-1][Completion]]
     - [[#code-semantic-movement][Code Semantic Movement]]
@@ -276,6 +279,7 @@ and easy to use (for your needs).
     :config
     (setq which-key-idle-delay 0.3)
     (which-key-add-key-based-replacements "C-c m" "Major mode functions")
+    (which-key-add-key-based-replacements "C-c f" "File functions")
     (which-key-add-key-based-replacements "C-c w" "workspace functionality")
     (which-key-add-key-based-replacements "C-c o" "external tools integration")
     (which-key-add-key-based-replacements "C-c e" "Editor functions")
@@ -752,8 +756,7 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
 #+begin_src emacs-lisp
   (use-package iedit
        :straight t
-       :bind ("C-c e i" . iedit)
-       :commands iedit-mode)
+       :defer t)
 #+end_src
 *** Vlf (very large file)
 #+begin_src emacs-lisp
@@ -869,8 +872,47 @@ skeleton and skeleton does it's job of inserting text.
         :commands (rg)
         :bind 
         (:map global-map
-              ("C-c g" . rg)
-              ("C-c e r" . rg)))
+              ("C-c e g" . rg)))
+#+end_src
+** File search
+*** Fzf
+Fuzzy file search is amazing tool that doesn't choke up even in my home folder 
+it's just magic.
+#+begin_src emacs-lisp
+  (use-package fzf
+    :straight (:repo "amirrezaask/fzf.el")
+    :bind (("C-c f f" . fzf)
+           ("C-c f d" . fzf-directory))
+    :commands (fzf fzf-directory))
+#+end_src
+*** Find sub directory
+#+begin_src emacs-lisp
+  (defun amirreza/--find-sub-directories-recur ()
+        (interactive)
+        (let* ((sub-dirs (directory-files-recursively default-directory ".*" t nil nil))
+               (sub-dirs-cleaned (seq-filter (lambda (dir-name)
+                             (if (string-match-p "\\.git" dir-name) nil t)) sub-dirs)))
+          (completing-read "Find Sub directory: " sub-dirs-cleaned)))
+
+  (defun amirreza/find-sub-directories-recur ()
+    (interactive)
+    (find-file (amirreza/--find-sub-directories-recur)))
+
+(global-set-key (kbd "C-c f d") 'amirreza/find-sub-directories-recur)
+#+end_src
+*** Recents
+#+begin_src emacs-lisp
+  (use-package recentf
+    :bind (("C-c f r" . 'amirreza/recent-files))
+    :demand
+    :config
+    (recentf-mode 1)
+    (setq recentf-max-menu-items 25)
+    (setq recentf-max-saved-items 50)
+    (defun amirreza/recent-files ()
+      (interactive)
+      (let ((files recentf-list))
+        (find-file (completing-read "Recent: " files)))))
 #+end_src
 ** Shell And Terminal Emulator
 Emacs has a bultin shell called =eshell= which uses elisp
@@ -965,6 +1007,7 @@ all executables.
 
     (setq eshell-prompt-function 'amirreza/eshell-prompt)
     (setq eshell-prompt-regexp "⤷ ")
+
     (defun amirreza/eshell-show-content-file-at-point ()
       "Insert the content of file at point to the end of buffer"
       (interactive)
@@ -997,12 +1040,8 @@ all executables.
 
     (defun amirreza/eshell-find-sub-dirs-recur ()
       (interactive)
-      (let* ((path (eshell/pwd))
-             (sub-dirs (directory-files-recursively path ".*" t nil nil))
-             (sub-dirs-cleaned (seq-filter (lambda (dir-name)
-                           (if (string-match-p "\\.git" dir-name) nil t)) sub-dirs)))
-        (insert (completing-read "Find Sub directory: " sub-dirs-cleaned))
-        (eshell-send-input)))
+        (insert (amirreza/--find-sub-directories-recur))
+        (eshell-send-input))
 
     :bind (:map eshell-mode-map
                 ("C-c m f c" . amirreza/eshell-show-content-file-at-point)
@@ -1016,19 +1055,7 @@ all executables.
 #+begin_src emacs-lisp
   (use-package vterm :straight t :commands (vterm))
 #+end_src
-** Fuzzy file finder 
-Fuzzy file search is amazing tool that doesn't choke up even in my home folder 
-it's just magic.
-#+begin_src emacs-lisp
-         (use-package fzf
-           :straight (:repo "amirrezaask/fzf.el")
-           :bind (:map global-map
-                       ("C-c e f f" . fzf)
-                       ("C-c e f d" . fzf-directory)
-                       ("C-c f" . fzf))
 
-           :commands (fzf fzf-directory))
-#+end_src
 ** Programming
 *** Completion
 Code completion consists of two parts, A source/server that provides the completions and 
@@ -1390,7 +1417,7 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
      :commands
      (git-messenger:popup-message)
      :bind
-     ("C-c e g m" . git-messenger:popup-message)
+     ("C-c e v b" . git-messenger:popup-message)
      :config
      (setq git-messenger:show-detail t)
      (setq git-messenger:use-magit-popup t))
@@ -1473,6 +1500,11 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
       (interactive)
       (when (string-match-p "\\.*Music\\.*" default-directory)
         (bongo-dired-library-mode 1)))
+
+    (defun amirreza/add-marked-files-to-bongo ()
+      (interactive)
+      (mapc 'bongo-insert-file (dired-get-marked-files))
+      )
 
     (setq bongo-default-directory "~/Music")
     (setq bongo-action-track-icon nil)
