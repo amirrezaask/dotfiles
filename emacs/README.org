@@ -29,6 +29,7 @@
     - [[#themes][Themes]]
     - [[#some-cursor-tweaks][Some cursor tweaks]]
     - [[#font][Font]]
+  - [[#completion][Completion]]
   - [[#windowsworkspaces][Windows/Workspaces]]
     - [[#window-rules][Window rules]]
     - [[#eyebrowse][Eyebrowse]]
@@ -36,13 +37,10 @@
     - [[#winner-restore-window-layout][Winner (Restore Window layout)]]
     - [[#ace-window-better-window-management][Ace Window (Better Window Management)]]
     - [[#beacon][Beacon]]
-  - [[#minibuffer-completion][Minibuffer completion]]
-  - [[#editor][Editor]]
+  - [[#editing][Editing]]
     - [[#defaults][Defaults]]
     - [[#custom-motions][Custom motions]]
     - [[#isearch][Isearch]]
-    - [[#fuzzy-file-finder][Fuzzy file finder]]
-    - [[#ripgrep][Ripgrep]]
     - [[#dumb-jump][Dumb Jump]]
     - [[#markdown-mode][Markdown mode]]
     - [[#highlight-indentation][Highlight indentation]]
@@ -61,21 +59,19 @@
       - [[#org][Org]]
       - [[#org-bullets][Org bullets]]
       - [[#org-toc][Org TOC]]
-      - [[#org-confluence][Org confluence]]
       - [[#htmlize][htmlize]]
   - [[#shell-and-terminal-emulator][Shell And Terminal Emulator]]
       - [[#eshell][Eshell]]
       - [[#vterm][VTerm]]
-  - [[#ide-setup][IDE setup]]
-    - [[#add-executable-paths][Add executable paths]]
-    - [[#code-semantic-jumping][Code Semantic Jumping]]
-    - [[#code-completion][Code completion]]
+  - [[#fuzzy-file-finder][Fuzzy file finder]]
+  - [[#ripgrep][Ripgrep]]
+  - [[#programming][Programming]]
+    - [[#completion-1][Completion]]
+    - [[#code-semantic-movement][Code Semantic Movement]]
     - [[#language-server-protocol][Language Server Protocol]]
-    - [[#git-integration][Git integration]]
     - [[#syntax-checking][Syntax checking]]
-    - [[#debugger-support][Debugger Support]]
     - [[#docs][Docs]]
-    - [[#programming-languages][Programming languages]]
+    - [[#languages][Languages]]
       - [[#python][Python]]
       - [[#go][Go]]
       - [[#scheme][Scheme]]
@@ -87,6 +83,7 @@
       - [[#htmlcss][HTML/CSS]]
       - [[#php][PHP]]
       - [[#rust][Rust]]
+    - [[#git-integration][Git integration]]
   - [[#file-manager][File Manager]]
   - [[#mail--news-reader][Mail & News reader]]
   - [[#irc][IRC]]
@@ -831,23 +828,24 @@ skeleton and skeleton does it's job of inserting text.
 ** Writing
 **** Org
 #+BEGIN_SRC emacs-lisp
-    (use-package org
-    :demand
-    :init
-    (defun amirreza/--org-insert-elisp-code-block ()
-      (interactive)
-      (insert (format "#+begin_src emacs-lisp\n\n#+end_src"))
-      (previous-line)
-      (beginning-of-line))
-    :bind (:map org-mode-map
-                ("C-c c b" . amirreza/--org-insert-elisp-code-block))
-    :config
-    (setq org-ellipsis "⤵")
-    (setq org-src-fontify-natively t)
-    (setq org-src-tab-acts-natively t)
-    (setq org-support-shift-select t)
-    (setq org-src-window-setup 'current-window)
-    (setq org-agenda-files '("~/org/work.org" "~/org/personal.org")))
+  (use-package org
+  :demand
+  :init
+  (defun amirreza/--org-insert-elisp-code-block ()
+    (interactive)
+    (insert (format "#+begin_src emacs-lisp\n\n#+end_src"))
+    (previous-line)
+    (beginning-of-line))
+  :bind (:map org-mode-map
+              ("C-c c b" . amirreza/--org-insert-elisp-code-block))
+  :config
+  (setq org-ellipsis "⤵")
+  (require 'ox-confluence)
+  (setq org-src-fontify-natively t)
+  (setq org-src-tab-acts-natively t)
+  (setq org-support-shift-select t)
+  (setq org-src-window-setup 'current-window)
+  (setq org-agenda-files '("~/org/work.org" "~/org/personal.org")))
 #+END_SRC
 **** Org bullets
 #+BEGIN_SRC emacs-lisp
@@ -859,10 +857,7 @@ skeleton and skeleton does it's job of inserting text.
 #+begin_src emacs-lisp
 (use-package toc-org :straight t :hook (org-mode . toc-org-mode))
 #+end_src
-**** Org confluence
-#+begin_src emacs-lisp
-(use-package ox-confluence :hook (org-mode))
-#+end_src
+
 **** htmlize
 #+begin_src emacs-lisp
 (use-package htmlize :straight t :defer t)
