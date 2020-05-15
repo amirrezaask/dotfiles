@@ -389,6 +389,96 @@ keybindings like the ones in magit forexample but with more features.
   before is interactive as well, if we call it we will prompted to enter the font first and then the size
   and volla :).
 
+** Completion
+#+begin_src emacs-lisp
+   ;; orderless completion style, we can divide our search string into space seperated parts
+  (use-package orderless
+    :straight t
+    :config
+   (setq completion-styles '(orderless)))
+   ;; (use-package flx :straight t)
+   ;; (use-package ivy
+   ;;   :straight t
+   ;;   :bind
+   ;;   (("C-x b" . 'ivy-switch-buffer)
+   ;;    :map ivy-minibuffer-map
+   ;;    ("RET" . 'ivy-alt-done))
+   ;;   :config
+   ;;   (setq ivy-height 15)
+   ;;   ;; loopish cycling through list
+   ;;   (setq ivy-wrap t)
+   ;;   ;; don't show recents in minibuffer
+   ;;   (setq ivy-use-virtual-buffers nil)
+   ;;   ;; ...but if that ever changes, show their full path
+   ;;   (setq ivy-virtual-abbreviate 'full)
+   ;;   ;; don't quit minibuffer on delete-error
+   ;;   (setq ivy-on-del-error-function #'ignore)
+   ;;   (setf (alist-get 't ivy-format-functions-alist)
+   ;;         #'ivy-format-function-line)
+   ;;   (setq ivy-initial-inputs-alist nil)
+   ;;   (setq ivy-re-builders-alist
+   ;;         '((ivy-switch-buffer . ivy--regex-plus)
+   ;;           (t . ivy--regex-ignore-order)))
+   ;;   (ivy-mode +1))
+
+   ;; (use-package all-the-icons-ivy :straight t :config (all-the-icons-ivy-setup))
+
+   ;; (use-package swiper
+   ;;   :straight t
+   ;;   :commands (swiper)
+   ;;   :init (global-set-key (kbd "C-s") 'swiper))
+
+   ;; (use-package counsel
+   ;;   :straight t
+   ;;   :bind
+   ;;   (("M-x" . 'counsel-M-x)
+   ;;    ("C-x C-f" . 'counsel-find-file)
+   ;;    ("C-h b" . 'counsel-descbinds)
+   ;;    ("C-h f" . 'counsel-describe-function)
+   ;;    ("C-h v" . 'counsel-describe-variable)
+   ;;    ("C-h a" . 'counsel-apropos)
+   ;;    ("M-i" . 'counsel-imenu) ;; code semantics
+   ;;    ("M-y" . 'counsel-yank-pop) ;; show kill ring
+   ;;    ("C-c f f" . 'counsel-fzf)))
+
+   ;; (use-package ivy-rich :straight t :config (ivy-rich-mode 1))
+   (use-package icomplete
+     :demand
+     :bind
+     (:map global-map
+           ("M-y" . amirreza/show-kill-ring)
+           :map icomplete-minibuffer-map
+           ("C-n" . icomplete-forward-completions)
+           ("C-p" . icomplete-backward-completions)
+           ("C-f" . icomplete-forward-completions)
+           ("C-b" . icomplete-backward-completions)
+           ("<right>" . icomplete-forward-completions)
+           ("<left>" . icomplete-backward-completions)
+           ("<down>" . icomplete-forward-completions)
+           ("<up>" . icomplete-backward-completions)
+           ("<RET>" . icomplete-force-complete-and-exit)
+           ("<tab>" . icomplete-force-complete))
+     :config
+     (defun amirreza/show-kill-ring ()
+       (interactive)
+       (insert (completing-read "Insert: " kill-ring)))
+     (setq icomplete-max-delay-chars 2
+           icomplete-show-matches-on-no-input t
+           icomplete-hide-common-prefix nil
+           completion-ignore-case t)
+     (when (> emacs-major-version 26)
+       (fido-mode -1))
+     (icomplete-mode 1))
+
+   (use-package icomplete-vertical
+     :straight t
+     :demand
+     :bind
+     (:map icomplete-minibuffer-map
+            ("C-v" . icomplete-vertical-toggle))
+     :config
+     (icomplete-vertical-mode -1))
+#+end_src
 ** Windows/Workspaces
 *** Window rules
 Emacs windows can be configured in the matter of where their gonna open.
@@ -481,96 +571,6 @@ by default is bound to =C-c <left>=.
     :straight t
     :defer 1
     :config (beacon-mode 1))
-#+end_src
-** Minibuffer completion
-#+begin_src emacs-lisp
-   ;; orderless completion style, we can divide our search string into space seperated parts
-  (use-package orderless
-    :straight t
-    :config
-   (setq completion-styles '(orderless)))
-   ;; (use-package flx :straight t)
-   ;; (use-package ivy
-   ;;   :straight t
-   ;;   :bind
-   ;;   (("C-x b" . 'ivy-switch-buffer)
-   ;;    :map ivy-minibuffer-map
-   ;;    ("RET" . 'ivy-alt-done))
-   ;;   :config
-   ;;   (setq ivy-height 15)
-   ;;   ;; loopish cycling through list
-   ;;   (setq ivy-wrap t)
-   ;;   ;; don't show recents in minibuffer
-   ;;   (setq ivy-use-virtual-buffers nil)
-   ;;   ;; ...but if that ever changes, show their full path
-   ;;   (setq ivy-virtual-abbreviate 'full)
-   ;;   ;; don't quit minibuffer on delete-error
-   ;;   (setq ivy-on-del-error-function #'ignore)
-   ;;   (setf (alist-get 't ivy-format-functions-alist)
-   ;;         #'ivy-format-function-line)
-   ;;   (setq ivy-initial-inputs-alist nil)
-   ;;   (setq ivy-re-builders-alist
-   ;;         '((ivy-switch-buffer . ivy--regex-plus)
-   ;;           (t . ivy--regex-ignore-order)))
-   ;;   (ivy-mode +1))
-
-   ;; (use-package all-the-icons-ivy :straight t :config (all-the-icons-ivy-setup))
-
-   ;; (use-package swiper
-   ;;   :straight t
-   ;;   :commands (swiper)
-   ;;   :init (global-set-key (kbd "C-s") 'swiper))
-
-   ;; (use-package counsel
-   ;;   :straight t
-   ;;   :bind
-   ;;   (("M-x" . 'counsel-M-x)
-   ;;    ("C-x C-f" . 'counsel-find-file)
-   ;;    ("C-h b" . 'counsel-descbinds)
-   ;;    ("C-h f" . 'counsel-describe-function)
-   ;;    ("C-h v" . 'counsel-describe-variable)
-   ;;    ("C-h a" . 'counsel-apropos)
-   ;;    ("M-i" . 'counsel-imenu) ;; code semantics
-   ;;    ("M-y" . 'counsel-yank-pop) ;; show kill ring
-   ;;    ("C-c f f" . 'counsel-fzf)))
-
-   ;; (use-package ivy-rich :straight t :config (ivy-rich-mode 1))
-   (use-package icomplete
-     :demand
-     :bind
-     (:map global-map
-           ("M-y" . amirreza/show-kill-ring)
-           :map icomplete-minibuffer-map
-           ("C-n" . icomplete-forward-completions)
-           ("C-p" . icomplete-backward-completions)
-           ("C-f" . icomplete-forward-completions)
-           ("C-b" . icomplete-backward-completions)
-           ("<right>" . icomplete-forward-completions)
-           ("<left>" . icomplete-backward-completions)
-           ("<down>" . icomplete-forward-completions)
-           ("<up>" . icomplete-backward-completions)
-           ("<RET>" . icomplete-force-complete-and-exit)
-           ("<tab>" . icomplete-force-complete))
-     :config
-     (defun amirreza/show-kill-ring ()
-       (interactive)
-       (insert (completing-read "Insert: " kill-ring)))
-     (setq icomplete-max-delay-chars 2
-           icomplete-show-matches-on-no-input t
-           icomplete-hide-common-prefix nil
-           completion-ignore-case t)
-     (when (> emacs-major-version 26)
-       (fido-mode -1))
-     (icomplete-mode 1))
-
-   (use-package icomplete-vertical
-     :straight t
-     :demand
-     :bind
-     (:map icomplete-minibuffer-map
-            ("C-v" . icomplete-vertical-toggle))
-     :config
-     (icomplete-vertical-mode -1))
 #+end_src
 ** Editing
 *** Defaults
@@ -673,31 +673,6 @@ very often since I'm using swiper but I configured it so let it be here any way.
        isearch-backward-regexp
        isearch-forward
        isearch-backward))
-#+end_src
-*** Fuzzy file finder 
-Fuzzy file search is amazing tool that doesn't choke up even in my home folder 
-it's just magic.
-#+begin_src emacs-lisp
-         (use-package fzf
-           :straight (:repo "amirrezaask/fzf.el")
-           :bind (:map global-map
-                       ("C-c e f f" . fzf)
-                       ("C-c e f d" . fzf-directory)
-                       ("C-c f" . fzf))
-
-           :commands (fzf fzf-directory))
-#+end_src
-*** Ripgrep
-Ripgrep is another magical tool that replaces the old =grep= command and actually
-it's just amazing tool
-#+begin_src emacs-lisp
-      (use-package rg 
-        :straight t 
-        :commands (rg)
-        :bind 
-        (:map global-map
-              ("C-c g" . rg)
-              ("C-c e r" . rg)))
 #+end_src
 *** Dumb Jump
 Dumb jump is actually a smart way of jumping to defenitions using grep tools like
@@ -1039,6 +1014,31 @@ all executables.
 #+begin_src emacs-lisp
   (use-package vterm :straight t :commands (vterm))
 #+end_src
+** Fuzzy file finder 
+Fuzzy file search is amazing tool that doesn't choke up even in my home folder 
+it's just magic.
+#+begin_src emacs-lisp
+         (use-package fzf
+           :straight (:repo "amirrezaask/fzf.el")
+           :bind (:map global-map
+                       ("C-c e f f" . fzf)
+                       ("C-c e f d" . fzf-directory)
+                       ("C-c f" . fzf))
+
+           :commands (fzf fzf-directory))
+#+end_src
+** Ripgrep
+Ripgrep is another magical tool that replaces the old =grep= command and actually
+it's just amazing tool
+#+begin_src emacs-lisp
+      (use-package rg 
+        :straight t 
+        :commands (rg)
+        :bind 
+        (:map global-map
+              ("C-c g" . rg)
+              ("C-c e r" . rg)))
+#+end_src
 ** Programming
 *** Completion
 Code completion consists of two parts, A source/server that provides the completions and 
@@ -1370,41 +1370,41 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
   (use-package rust-mode :straight t :mode "\\.rs\\'")
   #+END_SRC
 
-** Git integration
-#+BEGIN_SRC emacs-lisp
-  (use-package magit
-    :straight t
-    :commands (magit-status magit-get-current-branch)
-    :bind
-    (("C-x g" . 'magit-status)))
+*** Git integration
+ #+BEGIN_SRC emacs-lisp
+   (use-package magit
+     :straight t
+     :commands (magit-status magit-get-current-branch)
+     :bind
+     (("C-x g" . 'magit-status)))
 
-  (use-package diff-hl
-    :straight t
-    :config (global-diff-hl-mode 1))
+   (use-package diff-hl
+     :straight t
+     :config (global-diff-hl-mode 1))
 
-  (use-package
-    gitconfig-mode
-    :straight t
-    :mode "/\\.gitconfig\\'")
+   (use-package
+     gitconfig-mode
+     :straight t
+     :mode "/\\.gitconfig\\'")
 
-  (use-package gitignore-mode
-    :straight t
-    :mode "/\\.gitignore\\'")
+   (use-package gitignore-mode
+     :straight t
+     :mode "/\\.gitignore\\'")
 
-  (use-package gitattributes-mode
-    :straight t
-    :mode "/\\.gitattributes\\'")
+   (use-package gitattributes-mode
+     :straight t
+     :mode "/\\.gitattributes\\'")
 
-  (use-package git-messenger
-    :straight t
-    :commands
-    (git-messenger:popup-message)
-    :bind
-    ("C-c e g m" . git-messenger:popup-message)
-    :config
-    (setq git-messenger:show-detail t)
-    (setq git-messenger:use-magit-popup t))
-#+END_SRC
+   (use-package git-messenger
+     :straight t
+     :commands
+     (git-messenger:popup-message)
+     :bind
+     ("C-c e g m" . git-messenger:popup-message)
+     :config
+     (setq git-messenger:show-detail t)
+     (setq git-messenger:use-magit-popup t))
+ #+END_SRC
 ** File Manager
  #+begin_src emacs-lisp
    (use-package dired
