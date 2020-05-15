@@ -301,7 +301,6 @@ keybindings like the ones in magit forexample but with more features.
     (use-package doom-themes :straight t :defer t)
     (use-package gruvbox-theme :straight t :defer t)
     (use-package darkburn-theme :straight t :defer t)
-    
   #+END_SRC
   You probably notice the =:defer= part in use-package, with =:defer= keyword (:something is called a keyword in elisp)
   use-package knows that we don't need this package to be loaded in startup, since we actually don't need all of our themes
@@ -319,7 +318,7 @@ keybindings like the ones in magit forexample but with more features.
              :bind (("<f12>" . amirreza/toggle-color-mode))
              :config
              (defvar amirreza/current-mode 'dark "Current color mode of Emacs.")
-             (defvar amirreza/dark-theme 'doom-solarized-dark)
+             (defvar amirreza/dark-theme 'modus-vivendi)
              (defvar amirreza/light-theme 'modus-operandi)
 
              (defmacro amirreza/--load-theme (&rest theme-opts)
@@ -840,7 +839,6 @@ skeleton and skeleton does it's job of inserting text.
               ("C-c c b" . amirreza/--org-insert-elisp-code-block))
   :config
   (setq org-ellipsis "⤵")
-  (require 'ox-confluence)
   (setq org-src-fontify-natively t)
   (setq org-src-tab-acts-natively t)
   (setq org-support-shift-select t)
@@ -876,11 +874,11 @@ all executables.
       (setq exec-path-from-shell-shell-name "sh")
       (exec-path-from-shell-initialize))
 #+end_src
-
 **** Eshell
 #+begin_src emacs-lisp
   (use-package ffap :commands (find-file-at-point))
   (require 'cl-lib)
+
   (use-package eshell 
     :config
     (defvar amirreza/--eshells-state (make-hash-table))
@@ -993,9 +991,6 @@ all executables.
                            (if (string-match-p "\\.git" dir-name) nil t)) sub-dirs)))
         (insert (completing-read "Find Sub directory: " sub-dirs-cleaned))
         (eshell-send-input)))
-
-    ;; Some aliasing
-    (eshell/alias "ocgp" "oc get pods")
 
     :bind (:map eshell-mode-map
                 ("C-c m f c" . amirreza/eshell-show-content-file-at-point)
@@ -1469,8 +1464,27 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
  #+end_src
 ** Music
 #+begin_src emacs-lisp
-  (use-package bongo :straight t :defer t) ;; WIP
+  (use-package bongo 
+    :straight t
+    :commands (bongo bongo-dired-library-mode)
+    :hook (dired-mode-hook . amirreza/dired-music-library-hook)
+    :config
+    (defun amirreza/dired-music-library-hook ()
+      (interactive)
+      (when (string-match-p "\\.*Music\\.*" default-directory)
+        (bongo-dired-library-mode 1)))
+
+    (setq bongo-default-directory "~/Music")
+    (setq bongo-action-track-icon nil)
+    (setq bongo-display-track-icons nil)
+    (setq bongo-display-track-lengths nil)
+    (setq bongo-display-header-icons nil)
+    :bind
+    (("C-c o m l" . (lambda () (interactive) (dired "~/Music")))
+     ("C-c o m p" . bongo-pause/resume)))
+
   (use-package rhythmbox
+    :disabled t
     :bind ("C-c o m" . Rhythmbox)
     :straight (:host github :repo "amirrezaask/Rhythmbox.el"))
 #+end_src
