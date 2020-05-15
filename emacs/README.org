@@ -44,11 +44,6 @@
     - [[#fuzzy-file-finder][Fuzzy file finder]]
     - [[#ripgrep][Ripgrep]]
     - [[#dumb-jump][Dumb Jump]]
-    - [[#org-mode][Org mode]]
-      - [[#org][Org]]
-      - [[#org-bullets][Org bullets]]
-      - [[#org-toc][Org TOC]]
-      - [[#htmlize][htmlize]]
     - [[#markdown-mode][Markdown mode]]
     - [[#highlight-indentation][Highlight indentation]]
     - [[#sudo-edit][Sudo edit]]
@@ -62,6 +57,12 @@
     - [[#rainbow-delimiters][Rainbow delimiters]]
     - [[#avy][Avy]]
     - [[#edit-configuration][Edit configuration]]
+  - [[#writing][Writing]]
+      - [[#org][Org]]
+      - [[#org-bullets][Org bullets]]
+      - [[#org-toc][Org TOC]]
+      - [[#org-confluence][Org confluence]]
+      - [[#htmlize][htmlize]]
   - [[#shell-and-terminal-emulator][Shell And Terminal Emulator]]
       - [[#eshell][Eshell]]
       - [[#vterm][VTerm]]
@@ -714,41 +715,6 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
           :config
           (dumb-jump-mode 1))
 #+end_src
-*** Org mode
-**** Org
-#+BEGIN_SRC emacs-lisp
-    (use-package org
-    :demand
-    :init
-    (defun amirreza/--org-insert-elisp-code-block ()
-      (interactive)
-      (insert (format "#+begin_src emacs-lisp\n\n#+end_src"))
-      (previous-line)
-      (beginning-of-line))
-    :bind (:map org-mode-map
-                ("C-c c b" . amirreza/--org-insert-elisp-code-block))
-    :config
-    (setq org-ellipsis "⤵")
-    (setq org-src-fontify-natively t)
-    (setq org-src-tab-acts-natively t)
-    (setq org-support-shift-select t)
-    (setq org-src-window-setup 'current-window)
-    (setq org-agenda-files '("~/org/work.org" "~/org/personal.org")))
-#+END_SRC
-**** Org bullets
-#+BEGIN_SRC emacs-lisp
-(use-package org-bullets
-  :straight t
-  :hook (org-mode . org-bullets-mode))
-#+END_SRC
-**** Org TOC
-#+begin_src emacs-lisp
-(use-package toc-org :straight t :hook (org-mode . toc-org-mode))
-#+end_src
-**** htmlize
-#+begin_src emacs-lisp
-(use-package htmlize :straight t :defer t)
-#+end_src
 *** Markdown mode
 #+begin_src emacs-lisp
 (use-package markdown-mode
@@ -886,6 +852,45 @@ skeleton and skeleton does it's job of inserting text.
      (interactive)
      (find-file "~/.emacs.d/README.org"))
   (global-set-key (kbd "<f9>") 'amirreza/edit-configuration)
+#+end_src
+** Writing
+**** Org
+#+BEGIN_SRC emacs-lisp
+    (use-package org
+    :demand
+    :init
+    (defun amirreza/--org-insert-elisp-code-block ()
+      (interactive)
+      (insert (format "#+begin_src emacs-lisp\n\n#+end_src"))
+      (previous-line)
+      (beginning-of-line))
+    :bind (:map org-mode-map
+                ("C-c c b" . amirreza/--org-insert-elisp-code-block))
+    :config
+    (setq org-ellipsis "⤵")
+    (setq org-src-fontify-natively t)
+    (setq org-src-tab-acts-natively t)
+    (setq org-support-shift-select t)
+    (setq org-src-window-setup 'current-window)
+    (setq org-agenda-files '("~/org/work.org" "~/org/personal.org")))
+#+END_SRC
+**** Org bullets
+#+BEGIN_SRC emacs-lisp
+(use-package org-bullets
+  :straight t
+  :hook (org-mode . org-bullets-mode))
+#+END_SRC
+**** Org TOC
+#+begin_src emacs-lisp
+(use-package toc-org :straight t :hook (org-mode . toc-org-mode))
+#+end_src
+**** Org confluence
+#+begin_src emacs-lisp
+(use-package ox-confluence :hook (org-mode))
+#+end_src
+**** htmlize
+#+begin_src emacs-lisp
+(use-package htmlize :straight t :defer t)
 #+end_src
 ** Shell And Terminal Emulator
 Emacs has a bultin shell called =eshell= which uses elisp
@@ -1458,6 +1463,7 @@ TBA
  #+end_src
 ** Music
 #+begin_src emacs-lisp
+  (use-package bongo :straight t :defer t) ;; WIP
   (use-package rhythmbox
     :bind ("C-c o m" . Rhythmbox)
     :straight (:host github :repo "amirrezaask/Rhythmbox.el"))
