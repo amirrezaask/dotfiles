@@ -266,7 +266,7 @@ I respect Emacs keybinding conventions in my configuration with a few ideas borr
 + Operating System integration keys should be prefixed with =o=
 + Devops related stuff prefixed with =d=.
 * ICE ( Integrated Computing Environment )
-Since Emacs is becoming the only tool I do all my computing in,
+Since Emacs is becoming the tool I do all my computing in,
 I call this part Integrated Computing Environment. Idea of Emacs is not 
 to re invent every wheel that has been invented, it's the opposite actually,
 find the best tools that perfectly suits your needs and integrate them in an interactive
@@ -322,7 +322,7 @@ keybindings like the ones in magit forexample but with more features.
              :bind (("<f12>" . amirreza/toggle-color-mode))
              :config
              (defvar amirreza/current-mode 'dark "Current color mode of Emacs.")
-             (defvar amirreza/dark-theme 'doom-dracula)
+             (defvar amirreza/dark-theme 'doom-solarized-dark)
              (defvar amirreza/light-theme 'modus-operandi)
 
              (defmacro amirreza/--load-theme (&rest theme-opts)
@@ -572,7 +572,7 @@ by default is bound to =C-c <left>=.
      :config
      (icomplete-vertical-mode -1))
 #+end_src
-** Editor
+** Editing
 *** Defaults
 #+begin_src emacs-lisp
   (use-package emacs
@@ -896,7 +896,17 @@ skeleton and skeleton does it's job of inserting text.
 Emacs has a bultin shell called =eshell= which uses elisp
 as it's scripting engine, I use that as my main shell over the day
 but for some rare situations I have VTerm that emulates a normal terminal
-and use fish in that.
+and use fish in that. but before anything let's update emacs exec-path to be able to find 
+all executables.
+#+begin_src emacs-lisp
+    (use-package exec-path-from-shell 
+      :straight t 
+      :defer 1
+      :config 
+      (setq exec-path-from-shell-shell-name "sh")
+      (exec-path-from-shell-initialize))
+#+end_src
+
 **** Eshell
 #+begin_src emacs-lisp
   (use-package ffap :commands (find-file-at-point))
@@ -1029,25 +1039,8 @@ and use fish in that.
 #+begin_src emacs-lisp
   (use-package vterm :straight t :commands (vterm))
 #+end_src
-** IDE setup
-*** Add executable paths
-#+begin_src emacs-lisp
-  (use-package exec-path-from-shell 
-    :straight t 
-    :defer 1
-    :config 
-    (setq exec-path-from-shell-shell-name "sh")
-    (exec-path-from-shell-initialize))
-#+end_src
-
-*** Code Semantic Jumping
-Emacs has a builtin tool called Imenu which major modes hook to and feed it data about semantic blocks in the current buffer,
-we can use it to jump around our code based on semantics of that language (forexample structs or functions).
-#+begin_src emacs-lisp
-    (use-package imenu
-      :bind ("M-i" . imenu))
-#+end_src
-*** Code completion
+** Programming
+*** Completion
 Code completion consists of two parts, A source/server that provides the completions and 
 an engine that knows when to open prompt and show the completions. We will configure servers later
 but now we need to install the engine that shows us the completion.
@@ -1058,29 +1051,35 @@ configuration of company.
 For company backends we are going to use =company-capf= which is abbrv for =company complete at point function= which is a function in Emacs that major modes
 can call an get completions based on that.
 #+BEGIN_SRC emacs-lisp
-  (use-package company
-    :straight t
-    :bind (:map company-active-map
-                ("C-n" . company-select-next)
-                ("C-p" . company-select-previous)
-                ("C-o" . company-other-backend)
-                ("<tab>" . company-complete-common-or-cycle)
-                ("RET" . company-complete-selection))
-    :defer 2
-    :config
-    (setq company-minimum-prefix-lenght 1)
-    (setq company-tooltip-limit 30)
-    (setq company-idle-delay 0.0)
-    (setq company-echo-delay 0.1)
-    (setq company-backends '(company-capf company-dabbrev company-files company-dabbrev-code))
-    (defmacro amirreza/with-backends (mode backends) 
-      "Register a buffer local variable with given BACKENDS for given MODE. For registering backends for various modes use this"
-      (let ((mode-hook (intern (concat (symbol-name mode) "-hook"))))
-        (message "amirreza/with-backends called with %s %s %s" mode backends mode-hook)
-        `(add-hook (quote ,mode-hook) (lambda ()
-                                        (setq-local company-backends (quote ,backends))))))
-    (global-company-mode t))
-
+    (use-package company
+      :straight t
+      :bind (:map company-active-map
+                  ("C-n" . company-select-next)
+                  ("C-p" . company-select-previous)
+                  ("C-o" . company-other-backend)
+                  ("<tab>" . company-complete-common-or-cycle)
+                  ("RET" . company-complete-selection))
+      :defer 2
+      :config
+      (setq company-minimum-prefix-lenght 1)
+      (setq company-tooltip-limit 30)
+      (setq company-idle-delay 0.0)
+      (setq company-echo-delay 0.1)
+      (setq company-backends '(company-capf company-dabbrev company-files company-dabbrev-code))
+      (defmacro amirreza/with-backends (mode backends) 
+        "Register a buffer local variable with given BACKENDS for given MODE. For registering backends for various modes use this"
+        (let ((mode-hook (intern (concat (symbol-name mode) "-hook"))))
+          (message "amirreza/with-backends called with %s %s %s" mode backends mode-hook)
+          `(add-hook (quote ,mode-hook) (lambda ()
+                                          (setq-local company-backends (quote ,backends))))))
+      (global-company-mode t))
+#+end_src
+*** Code Semantic Movement
+Emacs has a builtin tool called Imenu which major modes hook to and feed it data about semantic blocks in the current buffer,
+we can use it to jump around our code based on semantics of that language (forexample structs or functions).
+#+begin_src emacs-lisp
+    (use-package imenu
+      :bind ("M-i" . imenu))
 #+end_src
 *** Language Server Protocol
 Language Server protocol is a open source protocol developed by microsoft but now it's being
@@ -1125,41 +1124,6 @@ help ease developer experience when using LSP.
 #+BEGIN_SRC emacs-lisp
   ;; (use-package lsp-ui :straight t :commands lsp-ui-mode :hook (lsp-mode . lsp-ui-mode))
 #+END_SRC
-*** Git integration
-#+BEGIN_SRC emacs-lisp
-  (use-package magit
-    :straight t
-    :commands (magit-status magit-get-current-branch)
-    :bind
-    (("C-x g" . 'magit-status)))
-
-  (use-package diff-hl
-    :straight t
-    :config (global-diff-hl-mode 1))
-
-  (use-package
-    gitconfig-mode
-    :straight t
-    :mode "/\\.gitconfig\\'")
-
-  (use-package gitignore-mode
-    :straight t
-    :mode "/\\.gitignore\\'")
-
-  (use-package gitattributes-mode
-    :straight t
-    :mode "/\\.gitattributes\\'")
-
-  (use-package git-messenger
-    :straight t
-    :commands
-    (git-messenger:popup-message)
-    :bind
-    ("C-c e g m" . git-messenger:popup-message)
-    :config
-    (setq git-messenger:show-detail t)
-    (setq git-messenger:use-magit-popup t))
-#+END_SRC
 *** Syntax checking
 Emacs comes with a built in syntax checker called =flymake=, but since emacs community favors =flycheck= over =flymake= we are going to setup flycheck.
 #+BEGIN_SRC emacs-lisp
@@ -1167,14 +1131,12 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
     :straight t
     :hook (prog-mode . flycheck-mode))
 #+END_SRC
-*** Debugger Support
-TBA
 *** Docs
 #+begin_src emacs-lisp
   (use-package eldoc
     :config (global-eldoc-mode 1))
 #+end_src
-*** Programming languages
+*** Languages
 **** Python
 ***** Python Mode
   Emacs itself comes with =python-mode= which is python major mode that provides emacs with 
@@ -1408,6 +1370,41 @@ TBA
   (use-package rust-mode :straight t :mode "\\.rs\\'")
   #+END_SRC
 
+** Git integration
+#+BEGIN_SRC emacs-lisp
+  (use-package magit
+    :straight t
+    :commands (magit-status magit-get-current-branch)
+    :bind
+    (("C-x g" . 'magit-status)))
+
+  (use-package diff-hl
+    :straight t
+    :config (global-diff-hl-mode 1))
+
+  (use-package
+    gitconfig-mode
+    :straight t
+    :mode "/\\.gitconfig\\'")
+
+  (use-package gitignore-mode
+    :straight t
+    :mode "/\\.gitignore\\'")
+
+  (use-package gitattributes-mode
+    :straight t
+    :mode "/\\.gitattributes\\'")
+
+  (use-package git-messenger
+    :straight t
+    :commands
+    (git-messenger:popup-message)
+    :bind
+    ("C-c e g m" . git-messenger:popup-message)
+    :config
+    (setq git-messenger:show-detail t)
+    (setq git-messenger:use-magit-popup t))
+#+END_SRC
 ** File Manager
  #+begin_src emacs-lisp
    (use-package dired
