@@ -40,7 +40,6 @@
   - [[#editing][Editing]]
     - [[#defaults][Defaults]]
     - [[#custom-motions][Custom motions]]
-    - [[#isearch][Isearch]]
     - [[#dumb-jump][Dumb Jump]]
     - [[#markdown-mode][Markdown mode]]
     - [[#highlight-indentation][Highlight indentation]]
@@ -60,11 +59,13 @@
       - [[#org-bullets][Org bullets]]
       - [[#org-toc][Org TOC]]
       - [[#htmlize][htmlize]]
+  - [[#searching][Searching]]
+    - [[#in-buffer-searching][In Buffer searching]]
+    - [[#grep][Grep]]
   - [[#shell-and-terminal-emulator][Shell And Terminal Emulator]]
       - [[#eshell][Eshell]]
       - [[#vterm][VTerm]]
   - [[#fuzzy-file-finder][Fuzzy file finder]]
-  - [[#ripgrep][Ripgrep]]
   - [[#programming][Programming]]
     - [[#completion-1][Completion]]
     - [[#code-semantic-movement][Code Semantic Movement]]
@@ -653,23 +654,6 @@ by default is bound to =C-c <left>=.
                     (next-line 10)))
   (global-set-key (kbd "M-p") (lambda () (interactive) (previous-line 10)))
 #+end_src
-*** Isearch
-Isearch is emacs internal package for searching in buffers, I actually don't use it 
-very often since I'm using swiper but I configured it so let it be here any way.
-#+begin_src emacs-lisp
-    (use-package isearch
-      :config
-      (setq isearch-highlight t)
-      (setq isearch-whitespace-regexp ".*?")
-      (setq isearch-lax-whitespace t)
-      (setq isearch-regexp-lax-whitespace nil)
-      (setq isearch-lazy-highlight t)
-      :commands 
-      (isearch-forward-regexp
-       isearch-backward-regexp
-       isearch-forward
-       isearch-backward))
-#+end_src
 *** Dumb Jump
 Dumb jump is actually a smart way of jumping to defenitions using grep tools like
 =ag= or =rg=.
@@ -860,6 +844,34 @@ skeleton and skeleton does it's job of inserting text.
 #+begin_src emacs-lisp
 (use-package htmlize :straight t :defer t)
 #+end_src
+** Searching
+*** In Buffer searching
+#+begin_src emacs-lisp
+  (use-package isearch
+    :bind (("C-s" . isearch-forward-regexp)
+           ("C-r" . isearch-backward-regexp))
+    :config
+    (setq isearch-highlight t)
+    (setq isearch-whitespace-regexp ".*?")
+    (setq isearch-lax-whitespace t)
+    (setq isearch-regexp-lax-whitespace nil)
+    (setq isearch-lazy-highlight t)
+    :commands 
+    (isearch-forward-regexp
+     isearch-backward-regexp
+     isearch-forward
+     isearch-backward))
+#+end_src
+*** Grep
+#+begin_src emacs-lisp
+      (use-package rg 
+        :straight t 
+        :commands (rg)
+        :bind 
+        (:map global-map
+              ("C-c g" . rg)
+              ("C-c e r" . rg)))
+#+end_src
 ** Shell And Terminal Emulator
 Emacs has a bultin shell called =eshell= which uses elisp
 as it's scripting engine, I use that as my main shell over the day
@@ -1016,18 +1028,6 @@ it's just magic.
                        ("C-c f" . fzf))
 
            :commands (fzf fzf-directory))
-#+end_src
-** Ripgrep
-Ripgrep is another magical tool that replaces the old =grep= command and actually
-it's just amazing tool
-#+begin_src emacs-lisp
-      (use-package rg 
-        :straight t 
-        :commands (rg)
-        :bind 
-        (:map global-map
-              ("C-c g" . rg)
-              ("C-c e r" . rg)))
 #+end_src
 ** Programming
 *** Completion
@@ -1457,10 +1457,10 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
  #+end_src
 ** Process management
  #+begin_src emacs-lisp
-      (use-package proced
-        :bind (("C-c o p" . proced)
-               ("<f10>" . proced))
-        :commands proced)
+   (use-package proced
+     :bind (("C-c o p" . proced)
+            ("<f10>" . proced))
+     :commands proced)
  #+end_src
 ** Music
 #+begin_src emacs-lisp
@@ -1479,6 +1479,7 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
     (setq bongo-display-track-icons nil)
     (setq bongo-display-track-lengths nil)
     (setq bongo-display-header-icons nil)
+    (setq bongo-display-playback-mode-indicator nil)
     :bind
     (("C-c o m l" . (lambda () (interactive) (dired "~/Music")))
      ("C-c o m p" . bongo-pause/resume)))
