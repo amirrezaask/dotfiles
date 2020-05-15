@@ -999,12 +999,12 @@ and use fish in that.
     (eshell/alias "ocgp" "oc get pods")
 
     :bind (:map eshell-mode-map
-                ("C-c f c" . amirreza/eshell-show-content-file-at-point)
-                ("C-r" . amirreza/eshell-history-search)
-                ("C-c f f" . amirreza/eshell-find-file-at-point)
-                ("C-c f k" . amirreza/eshell-kill-save-file-at-point)
-                ("C-c =" . amirreza/eshell-recent-dir-search)
-                ("C-c d" . amirreza/eshell-find-sub-dirs-recur)))
+                ("C-c m f c" . amirreza/eshell-show-content-file-at-point)
+                ("C-c m h" . amirreza/eshell-history-search)
+                ("C-c m f a" . amirreza/eshell-find-file-at-point)
+                ("C-c m k f" . amirreza/eshell-kill-save-file-at-point)
+                ("C-c m r" . amirreza/eshell-recent-dir-search)
+                ("C-c m d" . amirreza/eshell-find-sub-dirs-recur)))
 #+end_src
 **** VTerm
 #+begin_src emacs-lisp
