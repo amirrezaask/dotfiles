@@ -21,9 +21,6 @@
   - [[#gc][GC]]
   - [[#file-name-handler-alist][file-name-handler-alist]]
 - [[#package-manager-setup][Package manager setup]]
-- [[#about-this-configuration][About this configuration]]
-  - [[#disabled-packages][Disabled packages]]
-  - [[#keybinding-conventions][Keybinding conventions]]
 - [[#ice--integrated-computing-environment-][ICE ( Integrated Computing Environment )]]
   - [[#keybinding][Keybinding]]
   - [[#ui][UI]]
@@ -255,18 +252,6 @@ to set this file's value to a nil value during startup and restore it's original
   (load bootstrap-file nil 'nomessage))
 (straight-use-package 'use-package)
 #+end_src
-* About this configuration
-** Disabled packages
-I actually don't use a lot of setup that I have in this configuration,
-all the unused parts are disabled using =:disabled= in use-package declaration.
-** Keybinding conventions
-I respect Emacs keybinding conventions in my configuration with a few ideas borrowed from spacemacs.
-+ All keybindings should be prefixed with =C-c= and then a single letter to avoid conflict with major modes keybindings.
-+ Editor related functionalities start with prefix =e=. (some editor functions like rg or fzf are so common that I bind specific keys for them)
-+ Window related functionality like eyebrowse workspaces prefix with =w=
-+ Major mode / language specific functions bind with prefix =m=
-+ Operating System integration keys should be prefixed with =o=
-+ Devops related stuff prefixed with =d=.
 * ICE ( Integrated Computing Environment )
 Since Emacs is becoming the tool I do all my computing in,
 I call this part Integrated Computing Environment. Idea of Emacs is not 
@@ -274,17 +259,25 @@ to re invent every wheel that has been invented, it's the opposite actually,
 find the best tools that perfectly suits your needs and integrate them in an interactive
 and easy to use (for your needs).
 ** Keybinding
+I respect Emacs keybinding conventions in my configuration with a few ideas borrowed from spacemacs.
++ All keybindings should be prefixed with =C-c= and then a single letter to avoid conflict with major modes keybindings.
++ Editor related functionalities start with prefix =e=. (some editor functions like rg or fzf are so common that I bind specific keys for them)
++ Window related functionality like eyebrowse workspaces prefix with =w=
++ Major mode / language specific functions bind with prefix =m=
++ Operating System integration keys should be prefixed with =o=
++ Devops related stuff prefixed with =d=.
 #+begin_src emacs-lisp
   (use-package which-key
     :straight t
     :config
     (setq which-key-idle-delay 0.3)
-    (which-key-add-key-based-replacements "C-c m" "Major mode functions")
-    (which-key-add-key-based-replacements "C-c f" "File functions")
-    (which-key-add-key-based-replacements "C-c w" "workspace functionality")
-    (which-key-add-key-based-replacements "C-c o" "external tools integration")
-    (which-key-add-key-based-replacements "C-c e" "Editor functions")
-    (which-key-add-key-based-replacements "C-c d" "Devops related functions")
+    (defalias 'which-key! 'which-key-add-key-based-replacements)
+    (which-key! "C-c m" "Major mode functions")
+    (which-key! "C-c f" "File functions")
+    (which-key! "C-c w" "workspace functionality")
+    (which-key! "C-c o" "external tools integration")
+    (which-key! "C-c e" "Editor functions")
+    (which-key! "C-c d" "Devops related functions")
     (which-key-mode 1)
     (which-key-setup-minibuffer))
   (use-package hydra :straight t :commands (defhydra))
@@ -868,12 +861,14 @@ skeleton and skeleton does it's job of inserting text.
 #+end_src
 *** Grep
 #+begin_src emacs-lisp
-      (use-package rg 
-        :straight t 
-        :commands (rg)
-        :bind 
-        (:map global-map
-              ("C-c g" . rg)))
+  (use-package rg 
+    :straight t 
+    :commands (rg)
+    :bind
+    (:map global-map
+          ("C-c g" . rg))
+    :config
+    (which-key! "C-c g" "Grep"))
 #+end_src
 ** File search
 For file searching in Emacs, I used to use =fzf=, =projectile=.
@@ -899,6 +894,7 @@ it's just magic.
     :bind (("C-c f r" . 'amirreza/recent-files))
     :demand
     :config
+    (which-key! "C-c f r" "Fuzzy Recentf")
     (recentf-mode 1)
     (setq recentf-max-menu-items 25)
     (setq recentf-max-saved-items 100)
@@ -914,12 +910,14 @@ it's just magic.
      :bind (("C-c f f" . amirreza/project-or-dir-find-file-recur)
             ("C-c f d" . amirreza/project-or-dir-find-dir-recur))
      :config
+     (which-key! "C-c f f" "Fuzzy Find File")
+     (which-key! "C-c f d" "Fuzzy Find Directory")
      (defun amirreza/--find-sub-directories-recur (prompt dir)
-           (interactive)
-           (let* ((sub-dirs (directory-files-recursively dir ".*" t nil nil))
-                  (sub-dirs-cleaned (seq-filter (lambda (dir-name)
-                                (if (string-match-p "\\.git" dir-name) nil t)) sub-dirs)))
-             (completing-read prompt sub-dirs-cleaned)))
+       (interactive)
+       (let* ((sub-dirs (directory-files-recursively dir ".*" t nil nil))
+              (sub-dirs-cleaned (seq-filter (lambda (dir-name)
+                                              (if (string-match-p "\\.git" dir-name) nil t)) sub-dirs)))
+         (completing-read prompt sub-dirs-cleaned)))
 
      (defun amirreza/project-or-dir-find-file-recur ()
        (interactive)
@@ -934,7 +932,7 @@ it's just magic.
               (dirs (-filter 'file-directory-p (directory-files-recursively dir ".*" t nil nil)))
               (dirs-cleaned (seq-filter (lambda (dir-name)
                                               (if (string-match-p "\\.git" dir-name) nil t)) dirs)))
-         (find-file (completing-read "Find Directory: " dirs-cleaned))))
+         (find-file (completing-read "Find Directory: " dirs-cleaned)))))
  #+end_src
 ** Shell And Terminal Emulator
 Emacs has a bultin shell called =eshell= which uses elisp
