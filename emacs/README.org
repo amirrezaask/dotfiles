@@ -894,18 +894,19 @@ but for some rare situations I have VTerm that emulates a normal terminal
 and use fish in that.
 **** Eshell
 #+begin_src emacs-lisp
+  (use-package ffap :commands (find-file-at-point))
   (require 'cl-lib)
   (use-package eshell 
-    :bind (("s-<enter>" . amirreza/eshell-new)
-           ("<f11>" . amirreza/eshell-new)))
-
-  (use-package esh-mode
     :config
     (defun amirreza/eshell-new()
       "Open a new instance of eshell."
       (interactive)
       (eshell 'N))
+    :bind (("s-<enter>" . amirreza/eshell-new)
+           ("<f11>" . amirreza/eshell-new)))
 
+  (use-package esh-mode
+    :config
     (defun amirreza/--minify-dir (dir-name)
       (cond
        ((string= dir-name "") "")
@@ -932,6 +933,7 @@ and use fish in that.
              (last-part (car (last path-sep)))
              (path-to-minify (butlast path-sep))
              (minified (mapcar 'amirreza/--minify-dir path-to-minify)))
+
         (concat (string-join minified "/") "/" last-part)))
 
     (defun amirreza/eshell-vc-info ()
@@ -943,10 +945,17 @@ and use fish in that.
          (t (format "%s" vcs-backend)))))
 
     (defun amirreza/eshell-prompt ()
-      (concat (amirreza/eshell-minify-path (eshell/pwd)) " " (amirreza/eshell-vc-info) " > "))
+      (concat (amirreza/eshell-minify-path (eshell/pwd)) " " (amirreza/eshell-vc-info) "\n⤷ "))
 
-
+    (defun amirreza/eshell-last-output ()
+      (interactive)
+      (copy-region-as-kill (eshell-beginning-of-output) (eshell-end-of-output)) ;; get output from eshell buffer
+      (switch-to-buffer (get-buffer-create "*eshell-last-output*"))
+      (erase-buffer)
+      (yank))
+  
     (setq eshell-prompt-function 'amirreza/eshell-prompt)
+    (setq eshell-prompt-regexp "⤷ ")
     (defun amirreza/eshell-show-content-file-at-point ()
       "Insert the content of file at point to the end of buffer"
       (interactive)
@@ -985,11 +994,8 @@ and use fish in that.
                            (if (string-match-p "\\.git" dir-name) nil t)) sub-dirs)))
         (insert (completing-read "Find Sub directory: " sub-dirs-cleaned))
         (eshell-send-input)))
-  
+
     ;; Some aliasing
-    (eshell/alias 'o 'find-file)
-    (eshell/alias 'e 'find-file)
-    (eshell/alias 'd (lambda () (dired default-directory)))
     (eshell/alias "ocgp" "oc get pods")
 
     :bind (:map eshell-mode-map
@@ -1159,7 +1165,7 @@ TBA
   #+BEGIN_SRC emacs-lisp
     (use-package python-mode
       :mode "\\.py\\'"
-      :hook (python-mode . amirreza/python-mode-hook)
+      :hook (python-mode-hook . amirreza/python-mode-hook)
       :config
       (defun amirreza/python-insert-docstring ()
         (interactive)
@@ -1349,7 +1355,7 @@ TBA
   #+END_SRC
 **** HTML/CSS
   #+BEGIN_SRC emacs-lisp
-    (use-package web-mode :straight t :mode ("\\.html\\'" "\\.css\\'"))
+    (use-package web-mode :straight t :mode ("\\.html\\'" "\\.css\\'") :config (web-mode-toggle-current-element-highlight))
   #+END_SRC
 **** PHP
 ***** PHP mode
