@@ -905,8 +905,10 @@ and use fish in that.
     :config
     (defvar amirreza/--eshells-state (make-hash-table))
     (setq amirreza/--eshells-state (make-hash-table))
-
+  
     (defun amirreza/eshell-new ()
+      "Looks in the eshell state map if there is an open eshell in the current directory just switch to it,
+  otherwise create a new eshell process and update the state."
       (interactive)
       (let* ((buff-ref (gethash default-directory amirreza/--eshells-state nil))
             (buff-live? (buffer-live-p buff-ref)))
