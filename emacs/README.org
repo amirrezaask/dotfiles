@@ -110,7 +110,7 @@
 
 * Intro
 Since Emacs is becoming the tool I do all my computing in,
-I call this part Integrated Computing Environment. Idea of Emacs is not 
+I call it Integrated Computing Environment. Idea of Emacs is not
 to re invent every wheel that has been invented, it's the opposite actually,
 find the best tools that perfectly suits your needs and integrate them in an interactive
 and easy to use (for your needs).
@@ -657,11 +657,12 @@ skeleton and skeleton does it's job of inserting text.
     (setq isearch-lax-whitespace t)
     (setq isearch-regexp-lax-whitespace nil)
     (setq isearch-lazy-highlight t)
-    :commands 
+    :commands
     (isearch-forward-regexp
      isearch-backward-regexp
      isearch-forward
      isearch-backward))
+  
 #+end_src
 ** Grep
 #+begin_src emacs-lisp
@@ -1313,13 +1314,13 @@ Mail setup in Emacs using Gnus.
     :straight t
     :commands (bongo bongo-dired-library-mode)
     :init
-    (add-hook 'dired-mode-hook 'amirreza/dired-music-library-hook)
-    :config
     (defun amirreza/dired-music-library-hook ()
       (define-key dired-mode-map (kbd "C-c b a") 'amirreza/add-marked-files-to-bongo)
       (when (string-match-p "\\~/Music.*" default-directory)
         (bongo-dired-library-mode 1)))
 
+    (add-hook 'dired-mode-hook 'amirreza/dired-music-library-hook)
+    :config
     (defun amirreza/add-marked-files-to-bongo ()
       (interactive)
       (let ((prev-buff (current-buffer))
