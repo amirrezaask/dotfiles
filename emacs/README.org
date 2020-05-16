@@ -85,6 +85,8 @@
   - [[#fzf][Fzf]]
   - [[#ivycounselswiper][Ivy/Counsel/Swiper]]
   - [[#rhythmbox][Rhythmbox]]
+  - [[#eyebrowse-hydra][Eyebrowse hydra]]
+  - [[#hydra][Hydra]]
 
 * Personal information
 #+begin_src emacs-lisp
@@ -167,14 +169,9 @@ I respect Emacs keybinding conventions in my configuration with a few ideas borr
     (which-key! "C-c d" "Devops related functions")
     (which-key-mode 1)
     (which-key-setup-minibuffer))
-  (use-package hydra :straight t :commands (defhydra))
-  (use-package pretty-hydra :straight t :commands (pretty-hydra-define))
 #+end_src
 For keybinding helpers I use two packages
 + =Which-key= when ever a key is pressed tell us what other options we have.
-+ =Hydra= It's hard to explain exactly what hydra does, It creates interactive
-keybindings like the ones in magit forexample but with more features.
-[["https://www.youtube.com/watch?v=ONHEDj3kWrE&t=1258s"][Hydra Demo]]
 ** UI
 *** Themes
   Now that we have use-package we can start installing thems, packages, etc. Let's start by installing some thems.
@@ -358,24 +355,18 @@ Emacs windows can be configured in the matter of where their gonna open.
                eyebrowse-switch-to-window-config-9)
 
     :config (eyebrowse-mode +1)
-    (pretty-hydra-define eyebrowse-hydra (:hint nil :exit t)
-      ("Workspaces"
-        (("0" eyebrowse-switch-to-window-config-0)
-        ("1" eyebrowse-switch-to-window-config-1)
-        ("2" eyebrowse-switch-to-window-config-2)
-        ("3" eyebrowse-switch-to-window-config-3)
-        ("4" eyebrowse-switch-to-window-config-4)
-        ("5" eyebrowse-switch-to-window-config-5)
-        ("6" eyebrowse-switch-to-window-config-6)
-        ("7" eyebrowse-switch-to-window-config-7)
-        ("8" eyebrowse-switch-to-window-config-8)
-        ("9" eyebrowse-switch-to-window-config-9))
-
-       "Actions"
-        (("d" eyebrowse-close-window-config)
-        ("c" eyebrowse-create-window-config)
-        ("e" keyboard-quit))))
-    :bind ("C-c w w" . eyebrowse-hydra/body))
+    :bind (("C-c w w 0" . eyebrowse-switch-to-window-config-0)
+           ("C-c w w 1" . eyebrowse-switch-to-window-config-1)
+           ("C-c w w 2" . eyebrowse-switch-to-window-config-2)
+           ("C-c w w 3" . eyebrowse-switch-to-window-config-3)
+           ("C-c w w 4" . eyebrowse-switch-to-window-config-4)
+           ("C-c w w 5" . eyebrowse-switch-to-window-config-5)
+           ("C-c w w 6" . eyebrowse-switch-to-window-config-6)
+           ("C-c w w 7" . eyebrowse-switch-to-window-config-7)
+           ("C-c w w 8" . eyebrowse-switch-to-window-config-8)
+           ("C-c w w 9" . eyebrowse-switch-to-window-config-9)
+           ("C-c w w n" . eyebrowse-create-window-config)
+           ("C-c w w c" . eyebrowse-close-window-config)))
 
 #+END_SRC
 *** Zoom window
@@ -539,27 +530,22 @@ by default is bound to =C-c <left>=.
 #+end_src
 *** Multiple cursors
 #+begin_src emacs-lisp
-  (use-package multiple-cursors
-    :straight t
-    :commands (mc/edit-lines
-      mc/mark-all-like-this
-      mc/mark-next-like-this
-      mc/skip-to-next-like-this
-      mc/unmark-next-like-this
-      mc/mark-previous-like-this
-      mc/skip-to-previous-like-this
-      mc/unmark-previous-like-this
-      mc/mark-all-in-region-regexp
-      mc/insert-numbers
-      mc/insert-letters)
-    :bind ("C->" .  amirreza-editor-mc-hydra/body)
-    :config
-    (pretty-hydra-define amirreza-editor-mc-hydra (:hint nil)
-      ("Put cursor on"
-       (("n" mc/mark-next-like-this "Mark next like this")
-        ("p" mc/mark-previous-like-this "Mark next like this")
-        ("a" mc/mark-all-like-this "Mark next like this")))))
-
+      (use-package multiple-cursors
+        :straight t
+        :commands (mc/edit-lines
+          mc/mark-all-like-this
+          mc/mark-next-like-this
+          mc/skip-to-next-like-this
+          mc/unmark-next-like-this
+          mc/mark-previous-like-this
+          mc/skip-to-previous-like-this
+          mc/unmark-previous-like-this
+          mc/mark-all-in-region-regexp
+          mc/insert-numbers
+          mc/insert-letters)
+        :bind (("C-. n" .  mc/mark-next-like-this)
+               ("C-. p" . mc/mark-previous-like-this)
+               ("C-. a" . mc/mark-all-like-this)))
 #+end_src
 *** IBuffer
 #+begin_src emacs-lisp
@@ -609,19 +595,11 @@ skeleton and skeleton does it's job of inserting text.
 *** Avy
 #+begin_src emacs-lisp
   (use-package avy :straight t
-    :commands (avy-goto-char avy-goto-char-2 avy-goto-lineavy-goto-word-1)
-    :init
-    (pretty-hydra-define amirreza-editor-jump (:hint nil :exit t)
-        ("Jump to"
-         (("l" avy-goto-line "Avy jump to line")
-          ("w" avy-goto-word-1 "Avy jump to word")
-          ("cc" avy-goto-char-2 "Avy jump to characters")
-          ("c" avy-goto-char "Avy jump to character")
-          ("d" dumb-jump-go "dumb jump jump to defenition")
-          ("b" dumb-jump-back "dumb jump jump to defenition"))))
-      :bind (:map global-map
-                ("C-;" . amirreza-editor-jump/body)))
-
+    :commands (avy-goto-char avy-goto-char-2 avy-goto-line avy-goto-word-1)
+    :bind (("C-; l" . avy-goto-line)
+           ("C-; w" . avy-goto-word-1)
+           ("C-; c 2" . avy-goto-char-2)
+           ("C-; c 1" . avy-goto-char)))
 #+end_src
 *** Edit configuration
 #+begin_src emacs-lisp
@@ -1061,6 +1039,14 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
       :mode ("\\.go\\'" . go-mode)
       :init
       (add-hook 'go-mode-hook 'amirreza/go-hook)
+      :bind
+      (:map go-mode-map
+            ("C-c m g t" . amirreza/snippet-go-tf)
+            ("C-c m g h" . amirreza/snippet-go-hh)
+            ("C-c m g f" . amirreza/snippet-go-for)
+            ("C-c m g i" . amirreza/snippet-go-if)
+            ("C-c m g p l" . amirreza/snippet-go-pl)
+            ("C-c m g p f" . amirreza/snippet-go-pf))
       :config
       (defun amirreza/go-hook ()
         (interactive)
@@ -1076,21 +1062,11 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
         (amirreza/defsnippet "go" "tf" "" "func " _ "(t *testing.T) {" \n \n "}")
         (amirreza/defsnippet "go" "hh" "" "func " _ "(w http.ResponseWriter, r *http.Request) {" \n \n "}")
 
-        (pretty-hydra-define amirreza-go-generator-hydra (:hint nil :exit t)
-          ("Code blocks"
-           (("t" amirreza/snippet-go-tf "test function")
-            ("hh" amirreza/snippet-go-hh "http handler")
-            ("f" amirreza/snippet-go-for "For loop")
-            ("i" amirreza/snippet-go-if "If")
-            ("pl" amirreza/snippet-go-pl "fmt.println")
-            ("pf" amirreza/snippet-go-pf "fmt.printf"))))
-
         (define-key go-mode-map (kbd "<f5> r")
           (lambda () (interactive)
             (start-process "GoRun" "*GoRun*" "go" "run" (format "%s" buffer-file-name))))
         ;; enable LSP
         (amirreza/lsp!)
-        (define-key go-mode-map (kbd "C-c m g") 'amirreza-go-generator-hydra/body)
         ;; add go binaries to exec-path
         (add-to-list 'exec-path (concat (getenv "HOME") "/go/bin"))
 
@@ -1483,4 +1459,52 @@ Stuff I used in the past but now replaced with other tools mostly emacs builtin.
     :disabled t
     :bind ("C-c o m" . Rhythmbox)
     :straight (:host github :repo "amirrezaask/Rhythmbox.el"))
+#+end_src
+** Eyebrowse hydra
+#+begin_src emacs-lisp
+  (pretty-hydra-define eyebrowse-hydra (:hint nil :exit t)
+    ("Workspaces"
+      (("0" eyebrowse-switch-to-window-config-0)
+      ("1" eyebrowse-switch-to-window-config-1)
+      ("2" eyebrowse-switch-to-window-config-2)
+      ("3" eyebrowse-switch-to-window-config-3)
+      ("4" eyebrowse-switch-to-window-config-4)
+      ("5" eyebrowse-switch-to-window-config-5)
+      ("6" eyebrowse-switch-to-window-config-6)
+      ("7" eyebrowse-switch-to-window-config-7)
+      ("8" eyebrowse-switch-to-window-config-8)
+      ("9" eyebrowse-switch-to-window-config-9))
+
+     "Actions"
+      (("d" eyebrowse-close-window-config)
+      ("c" eyebrowse-create-window-config)
+      ("e" keyboard-quit))))
+
+#+end_src
+** Hydra
+#+begin_src emacs-lisp
+  (use-package hydra :straight t :commands (defhydra))
+  (use-package pretty-hydra :straight t :commands (pretty-hydra-define))
+  (pretty-hydra-define amirreza-go-generator-hydra (:hint nil :exit t)
+    ("Code blocks"
+     (("t" amirreza/snippet-go-tf "test function")
+      ("hh" amirreza/snippet-go-hh "http handler")
+      ("f" amirreza/snippet-go-for "For loop")
+      ("i" amirreza/snippet-go-if "If")
+      ("pl" amirreza/snippet-go-pl "fmt.println")
+      ("pf" amirreza/snippet-go-pf "fmt.printf"))))
+  (pretty-hydra-define amirreza-editor-mc-hydra (:hint nil)
+    ("Put cursor on"
+     (("n" mc/mark-next-like-this "Mark next like this")
+      ("p" mc/mark-previous-like-this "Mark next like this")
+      ("a" mc/mark-all-like-this "Mark next like this")))))
+  (pretty-hydra-define amirreza-editor-jump (:hint nil :exit t)
+    ("Jump to"
+     (("l" avy-goto-line "Avy jump to line")
+      ("w" avy-goto-word-1 "Avy jump to word")
+      ("cc" avy-goto-char-2 "Avy jump to characters")
+      ("c" avy-goto-char "Avy jump to character")
+      ("d" dumb-jump-go "dumb jump jump to defenition")
+      ("b" dumb-jump-back "dumb jump jump to defenition"))))
+
 #+end_src
