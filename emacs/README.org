@@ -203,7 +203,7 @@ I used to use which-key as my helper on keybindings but now I just use
             :bind (("<f12>" . amirreza/toggle-color-mode))
             :config
             (defvar amirreza/current-mode 'dark "Current color mode of Emacs.")
-            (defvar amirreza/dark-theme 'modus-vivendi)
+            (defvar amirreza/dark-theme 'doom-gruvbox)
             (defvar amirreza/light-theme 'modus-operandi)
 
             (defmacro amirreza/--load-theme (&rest theme-opts)
@@ -249,7 +249,7 @@ I used to use which-key as my helper on keybindings but now I just use
 * Font
 To use specific font in Emacs you just need to call a function, that's easy ha ??
 #+BEGIN_SRC emacs-lisp
-  (defvar amirreza/font "Fira Code-11")
+  (defvar amirreza/font "Fira Mono-10")
   (set-face-attribute 'default t :font amirreza/font)
   (set-frame-font amirreza/font nil t)
   (global-prettify-symbols-mode 1)
@@ -269,7 +269,6 @@ but how ? Emacs has a default keychord called M-x (execute-extended-command) tha
 function interactively, many packages has these kind of functions for example load-theme that we used
 before is interactive as well, if we call it we will prompted to enter the font first and then the size
 and volla :).
-
 * Completion
 #+begin_src emacs-lisp
   (use-package orderless
