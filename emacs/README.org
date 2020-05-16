@@ -20,16 +20,16 @@
     - [[#winner-restore-window-layout][Winner (Restore Window layout)]]
     - [[#ace-window-better-window-management][Ace Window (Better Window Management)]]
     - [[#beacon][Beacon]]
+  - [[#buffer-management][Buffer management]]
+    - [[#ibuffer][IBuffer]]
   - [[#editing][Editing]]
     - [[#defaults][Defaults]]
     - [[#custom-motions][Custom motions]]
-    - [[#markdown-mode][Markdown mode]]
     - [[#highlight-indentation][Highlight indentation]]
     - [[#sudo-edit][Sudo edit]]
     - [[#expand-region][Expand region]]
     - [[#highlight-todofixme][Highlight TODO/FIXME/...]]
     - [[#multiple-cursors][Multiple cursors]]
-    - [[#ibuffer][IBuffer]]
     - [[#iedit][Iedit]]
     - [[#vlf-very-large-file][Vlf (very large file)]]
     - [[#abbrevsskeleton][Abbrevs/Skeleton]]
@@ -37,10 +37,11 @@
     - [[#avy][Avy]]
     - [[#edit-configuration][Edit configuration]]
   - [[#writing][Writing]]
-      - [[#org][Org]]
-      - [[#org-bullets][Org bullets]]
-      - [[#org-toc][Org TOC]]
-      - [[#htmlize][htmlize]]
+    - [[#org][Org]]
+    - [[#org-bullets][Org bullets]]
+    - [[#org-toc][Org TOC]]
+    - [[#htmlize][htmlize]]
+    - [[#markdown-mode][Markdown mode]]
   - [[#searching][Searching]]
     - [[#in-buffer-searching][In Buffer searching]]
     - [[#grep][Grep]]
@@ -87,6 +88,7 @@
   - [[#rhythmbox][Rhythmbox]]
   - [[#eyebrowse-hydra][Eyebrowse hydra]]
   - [[#hydra][Hydra]]
+  - [[#which-key][Which-key]]
 
 * Personal information
 #+begin_src emacs-lisp
@@ -154,24 +156,8 @@ I respect Emacs keybinding conventions in my configuration with a few ideas borr
 + File related functionality prefixed =f=.
 + Operating System integration keys should be prefixed with =o=
 + Devops related stuff prefixed with =d=.
-#+begin_src emacs-lisp
-  (use-package which-key
-    :straight t
-    :config
-    (setq which-key-idle-delay 0.3)
-    (defalias 'which-key! 'which-key-add-key-based-replacements)
-    (which-key! "C-c m" "Major mode functions")
-    (which-key! "C-c f" "File functions")
-    (which-key! "C-c w" "workspace functionality")
-    (which-key! "C-c o" "external tools integration")
-    (which-key! "C-c b" "Bongo (Music) functionality")
-    (which-key! "C-c e" "Editor functions")
-    (which-key! "C-c d" "Devops related functions")
-    (which-key-mode 1)
-    (which-key-setup-minibuffer))
-#+end_src
-For keybinding helpers I use two packages
-+ =Which-key= when ever a key is pressed tell us what other options we have.
+I used to use which-key as my helper on keybindings but now I just use
+? when i'm in the middle of a key chord.
 ** UI
 *** Themes
   Now that we have use-package we can start installing thems, packages, etc. Let's start by installing some thems.
@@ -398,6 +384,16 @@ by default is bound to =C-c <left>=.
     :defer 1
     :config (beacon-mode 1))
 #+end_src
+** Buffer management
+*** IBuffer
+ #+begin_src emacs-lisp
+   (use-package ibuffer
+     :bind (("C-x C-b" . 'ibuffer)))
+
+   (use-package ibuffer-projectile 
+     :straight t
+     :hook (ibuffer . ibuffer-projectile-set-filter-groups))
+ #+end_src
 ** Editing
 *** Defaults
 #+begin_src emacs-lisp
@@ -484,12 +480,6 @@ by default is bound to =C-c <left>=.
   (global-set-key (kbd "M-p") (lambda () (interactive) (previous-line 10)))
 #+end_src
 
-*** Markdown mode
-#+begin_src emacs-lisp
-(use-package markdown-mode
-  :straight t
-  :mode ("\\.md$" . markdown-mode))
-#+end_src
 *** Highlight indentation
 #+begin_src emacs-lisp
  (use-package highlight-indent-guides
@@ -547,16 +537,6 @@ by default is bound to =C-c <left>=.
                ("C-. p" . mc/mark-previous-like-this)
                ("C-. a" . mc/mark-all-like-this)))
 #+end_src
-*** IBuffer
-#+begin_src emacs-lisp
-  (use-package ibuffer
-    :bind (("C-x C-b" . 'ibuffer)))
-
-  (use-package ibuffer-projectile 
-    :straight t
-    :hook (ibuffer . ibuffer-projectile-set-filter-groups))
-
-#+end_src
 *** Iedit
 #+begin_src emacs-lisp
   (use-package iedit
@@ -609,7 +589,7 @@ skeleton and skeleton does it's job of inserting text.
   (global-set-key (kbd "<f9>") 'amirreza/edit-configuration)
 #+end_src
 ** Writing
-**** Org
+*** Org
 #+BEGIN_SRC emacs-lisp
   (use-package org
   :demand
@@ -629,20 +609,26 @@ skeleton and skeleton does it's job of inserting text.
   (setq org-src-window-setup 'current-window)
   (setq org-agenda-files '("~/org/work.org" "~/org/personal.org")))
 #+END_SRC
-**** Org bullets
+*** Org bullets
 #+BEGIN_SRC emacs-lisp
 (use-package org-bullets
   :straight t
   :hook (org-mode . org-bullets-mode))
 #+END_SRC
-**** Org TOC
+*** Org TOC
 #+begin_src emacs-lisp
 (use-package toc-org :straight t :hook (org-mode . toc-org-mode))
 #+end_src
 
-**** htmlize
+*** htmlize
 #+begin_src emacs-lisp
 (use-package htmlize :straight t :defer t)
+#+end_src
+*** Markdown mode
+#+begin_src emacs-lisp
+(use-package markdown-mode
+  :straight t
+  :mode ("\\.md$" . markdown-mode))
 #+end_src
 ** Searching
 *** In Buffer searching
@@ -669,9 +655,7 @@ skeleton and skeleton does it's job of inserting text.
     :commands (rg)
     :bind
     (:map global-map
-          ("C-c g" . rg))
-    :config
-    (which-key! "C-c g" "Grep"))
+          ("C-c g" . rg)))
 #+end_src
 ** File search
 For file searching in Emacs, I used to use =fzf=, =projectile=.
@@ -682,8 +666,6 @@ emacs =project= package and =icomplete= for fuzzy matching.
   (use-package recentf
     :bind (("C-c f r" . 'amirreza/recent-files))
     :demand
-    :init
-    (which-key! "C-c f r" "Fuzzy Recentf")
     :config
     (recentf-mode 1)
     (setq recentf-max-menu-items 25)
@@ -699,9 +681,6 @@ emacs =project= package and =icomplete= for fuzzy matching.
    (use-package project
      :bind (("C-c f f" . amirreza/project-or-dir-find-file-recur)
             ("C-c f d" . amirreza/project-or-dir-find-dir-recur))
-     :init
-     (which-key! "C-c f f" "Fuzzy Find File")
-     (which-key! "C-c f d" "Fuzzy Find Directory")
      :config
      (defun amirreza/--find-sub-directories-recur (prompt dir)
        (interactive)
@@ -1507,4 +1486,21 @@ Stuff I used in the past but now replaced with other tools mostly emacs builtin.
       ("d" dumb-jump-go "dumb jump jump to defenition")
       ("b" dumb-jump-back "dumb jump jump to defenition"))))
 
+#+end_src
+** Which-key
+#+begin_src emacs-lisp
+  (use-package which-key
+    :straight t
+    :config
+    (setq which-key-idle-delay 0.3)
+    (defalias 'which-key! 'which-key-add-key-based-replacements)
+    (which-key! "C-c m" "Major mode functions")
+    (which-key! "C-c f" "File functions")
+    (which-key! "C-c w" "workspace functionality")
+    (which-key! "C-c o" "external tools integration")
+    (which-key! "C-c b" "Bongo (Music) functionality")
+    (which-key! "C-c e" "Editor functions")
+    (which-key! "C-c d" "Devops related functions")
+    (which-key-mode 1)
+    (which-key-setup-minibuffer))
 #+end_src
