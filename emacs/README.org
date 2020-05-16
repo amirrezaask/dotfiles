@@ -89,6 +89,7 @@
     - [[#rust][Rust]]
       - [[#rust-mode][Rust mode]]
 - [[#version-control][Version Control]]
+  - [[#smerge][Smerge]]
 - [[#file-manager][File Manager]]
 - [[#mail--news-reader][Mail & News reader]]
 - [[#irc][IRC]]
@@ -175,6 +176,12 @@ I respect Emacs keybinding conventions in my configuration with a few ideas borr
 + Devops related stuff prefixed with =d=.
 I used to use which-key as my helper on keybindings but now I just use
 ? when i'm in the middle of a key chord.
+I use hydra when keybindings are just crazy like in smerge that you will see in it's own section. I used to use hydra more
+extensively but now i use it only when keybindings are just crazy.
+#+begin_src emacs-lisp
+  (use-package hydra :straight t :commands (defhydra))
+  (use-package pretty-hydra :straight t :commands (pretty-hydra-define))
+#+end_src
 * UI
 ** Themes
  Now that we have use-package we can start installing thems, packages, etc. Let's start by installing some thems.
@@ -1241,6 +1248,22 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
     (setq git-messenger:show-detail t)
     (setq git-messenger:use-magit-popup t))
 #+END_SRC
+** Smerge
+#+begin_src emacs-lisp
+  (use-package smerge-mode
+    :bind (:map smerge-mode-map
+                ("C-c m h" . amirreza-smerge-hydra/pretty-body))
+    :config
+    (pretty-hydra-define amirreza-smerge-hydra (:hint nil :exit t)
+                         ("Merge Action: "
+                          (("n" smerge-next)
+                          ("p" smerge-prev)
+                          ("u" smerge-keep-upper)
+                          ("b" smerge-keep-base)
+                          ("l" smerge-keep-lower)
+                          ("a" smerge-keep-all)
+                          ("q" nil "Cancel")))))
+#+end_src
 * File Manager
 #+begin_src emacs-lisp
   (use-package dired
@@ -1478,8 +1501,6 @@ Stuff I used in the past but now replaced with other tools mostly emacs builtin.
 #+end_src
 ** Hydra
 #+begin_src emacs-lisp
-  (use-package hydra :straight t :commands (defhydra))
-  (use-package pretty-hydra :straight t :commands (pretty-hydra-define))
   (pretty-hydra-define amirreza-go-generator-hydra (:hint nil :exit t)
     ("Code blocks"
      (("t" amirreza/snippet-go-tf "test function")
