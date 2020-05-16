@@ -38,7 +38,6 @@
   - [[#editing][Editing]]
     - [[#defaults][Defaults]]
     - [[#custom-motions][Custom motions]]
-    - [[#dumb-jump][Dumb Jump]]
     - [[#markdown-mode][Markdown mode]]
     - [[#highlight-indentation][Highlight indentation]]
     - [[#sudo-edit][Sudo edit]]
@@ -70,6 +69,7 @@
   - [[#programming][Programming]]
     - [[#completion-1][Completion]]
     - [[#code-semantic-movement][Code Semantic Movement]]
+    - [[#dumb-jump][Dumb Jump]]
     - [[#language-server-protocol][Language Server Protocol]]
     - [[#syntax-checking][Syntax checking]]
     - [[#docs][Docs]]
@@ -262,8 +262,10 @@ and easy to use (for your needs).
 I respect Emacs keybinding conventions in my configuration with a few ideas borrowed from spacemacs.
 + All keybindings should be prefixed with =C-c= and then a single letter to avoid conflict with major modes keybindings.
 + Editor related functionalities start with prefix =e=. (some editor functions like rg or fzf are so common that I bind specific keys for them)
-+ Window related functionality like eyebrowse workspaces prefix with =w=
-+ Major mode / language specific functions bind with prefix =m=
++ Window related functionality like eyebrowse workspaces prefix with =w=.
++ Major mode / language specific functions bind with prefix =m=.
++ Music related functionality (using Bongo) prefixed =b=.
++ File related functionality prefixed =f=.
 + Operating System integration keys should be prefixed with =o=
 + Devops related stuff prefixed with =d=.
 #+begin_src emacs-lisp
@@ -652,22 +654,7 @@ by default is bound to =C-c <left>=.
                     (next-line 10)))
   (global-set-key (kbd "M-p") (lambda () (interactive) (previous-line 10)))
 #+end_src
-*** Dumb Jump
-Dumb jump is actually a smart way of jumping to defenitions using grep tools like
-=ag= or =rg=.
-#+begin_src emacs-lisp
-        (use-package dumb-jump
-          :straight t
-          :commands
-          (dumb-jump-go
-           dumb-jump-back)
-          :bind
-          (:map prog-mode-map
-                ("M->" . dumb-jump-go)
-                ("M-<" . dumb-jump-back))
-          :config
-          (dumb-jump-mode 1))
-#+end_src
+
 *** Markdown mode
 #+begin_src emacs-lisp
 (use-package markdown-mode
@@ -893,8 +880,9 @@ it's just magic.
   (use-package recentf
     :bind (("C-c f r" . 'amirreza/recent-files))
     :demand
-    :config
+    :init
     (which-key! "C-c f r" "Fuzzy Recentf")
+    :config
     (recentf-mode 1)
     (setq recentf-max-menu-items 25)
     (setq recentf-max-saved-items 100)
@@ -909,9 +897,10 @@ it's just magic.
    (use-package project
      :bind (("C-c f f" . amirreza/project-or-dir-find-file-recur)
             ("C-c f d" . amirreza/project-or-dir-find-dir-recur))
-     :config
+     :init
      (which-key! "C-c f f" "Fuzzy Find File")
      (which-key! "C-c f d" "Fuzzy Find Directory")
+     :config
      (defun amirreza/--find-sub-directories-recur (prompt dir)
        (interactive)
        (let* ((sub-dirs (directory-files-recursively dir ".*" t nil nil))
@@ -1116,6 +1105,22 @@ we can use it to jump around our code based on semantics of that language (forex
     (use-package imenu
       :bind ("M-i" . imenu))
 #+end_src
+*** Dumb Jump
+Dumb jump is actually a smart way of jumping to defenitions using grep tools like
+=ag= or =rg=.
+#+begin_src emacs-lisp
+        (use-package dumb-jump
+          :straight t
+          :commands
+          (dumb-jump-go
+           dumb-jump-back)
+          :bind
+          (:map prog-mode-map
+                ("M->" . dumb-jump-go)
+                ("M-<" . dumb-jump-back))
+          :config
+          (dumb-jump-mode 1))
+#+end_src
 *** Language Server Protocol
 Language Server protocol is a open source protocol developed by microsoft but now it's being
 developed by community, it defines a communication protocol that a lanaguge server (let's say gopls)
@@ -1295,6 +1300,7 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
   I use guile as my scheme compiler.
   #+begin_src emacs-lisp
     (use-package scheme
+    :mode "\\.scm"
     :config
     (setq scheme-program-name "guile"))
   #+end_src
