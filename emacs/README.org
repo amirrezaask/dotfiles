@@ -1512,17 +1512,18 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
   (use-package bongo 
     :straight t
     :commands (bongo bongo-dired-library-mode)
-    :hook (dired-mode-hook . amirreza/dired-music-library-hook)
+    :init
+    (add-hook 'dired-mode-hook 'amirreza/dired-music-library-hook)
     :config
     (defun amirreza/dired-music-library-hook ()
-      (interactive)
-      (when (string-match-p "\\.*Music\\.*" default-directory)
+      (when (string-match-p "\\~/Music.*" default-directory)
         (bongo-dired-library-mode 1)))
 
     (defun amirreza/add-marked-files-to-bongo ()
       (interactive)
-      (mapc 'bongo-insert-file (dired-get-marked-files))
-      )
+      (let ((tracks (dired-get-marked-files)))
+        (bongo-playlist)
+        (mapc 'bongo-insert-file tracks)))
 
     (setq bongo-default-directory "~/Music")
     (setq bongo-action-track-icon nil)
