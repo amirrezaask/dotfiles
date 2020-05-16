@@ -677,9 +677,16 @@ skeleton and skeleton does it's job of inserting text.
   (use-package rg 
     :straight t 
     :commands (rg)
+    :config
+    (defun amirreza/rg (pattern)
+      (interactive "sPattern: ")
+      (let* ((project (vc-root-dir))
+             (dir (if project project default-directory))
+             (ext (concat "*." (car (last (split-string (buffer-file-name) "\\."))))))
+        (rg-run pattern ext dir)))
     :bind
     (:map global-map
-          ("C-c g" . rg)))
+          ("C-c g" . amirreza/rg)))
 #+end_src
 * File search
 For file searching in Emacs, I used to use =fzf=, =projectile=.
