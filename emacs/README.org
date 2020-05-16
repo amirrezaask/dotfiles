@@ -9,7 +9,7 @@
 - [[#package-manager-setup][Package manager setup]]
 - [[#keybinding][Keybinding]]
 - [[#ui][UI]]
-- [[#themes][Themes]]
+  - [[#themes][Themes]]
   - [[#some-cursor-tweaks][Some cursor tweaks]]
 - [[#font][Font]]
 - [[#completion][Completion]]
@@ -133,7 +133,6 @@ and if you set it very high GC sweeps take forever to finish. Default Emacs =gc-
 which is not really enough specially for Emacs startup since it needs to scan through all your installed packages
 so we are going to increase it during startup time and then after Emacs initialization we can decrease it again.
 #+begin_src emacs-lisp
-  (message "$$$$$$$$$$$$$$$$ should be disabled")
   (setq gc-cons-threshold (* 1024 1024 100)) ;; 100MB for Emacs initialization process
   (add-hook 'after-init-hook (lambda ()
                                (setq gc-cons-threshold (* 1024 1024 20)))) ;; reseting the gc cons to 20MB
@@ -177,58 +176,58 @@ I respect Emacs keybinding conventions in my configuration with a few ideas borr
 I used to use which-key as my helper on keybindings but now I just use
 ? when i'm in the middle of a key chord.
 * UI
-* Themes
-Now that we have use-package we can start installing thems, packages, etc. Let's start by installing some thems.
-for some time now I am using modus themes by the amazing =Protesilaos Stavrou= (btw check his youtube channel) which are simple but elegant themes
-but if you want a more modern look like =VSCode= or =Atom= you can use =doom-themes= as well.
-([[https://github.com/hlissner/emacs-doom-themes/tree/screenshots][Doom Themes Screenshots]])
-#+BEGIN_SRC emacs-lisp
-  (use-package modus-operandi-theme :straight t :defer t)
-  (use-package modus-vivendi-theme :straight t :defer t)
-  (use-package doom-themes :straight t :defer t)
-  (use-package darkburn-theme :straight t :defer t)
-#+END_SRC
-You probably notice the =:defer= part in use-package, with =:defer= keyword (:something is called a keyword in elisp)
-use-package knows that we don't need this package to be loaded in startup, since we actually don't need all of our themes
-to be loaded at startup. Another keyword that you see is =:straight= that is telling use-package to make certain
-that this package is installed, and if it's not install it from elpa repo.
-Now let's set a theme
-#+BEGIN_SRC emacs-lisp
-         (use-package emacs 
-           :config 
-           (setq ring-bell-function t)
-           (setq visible-bell t))
+** Themes
+ Now that we have use-package we can start installing thems, packages, etc. Let's start by installing some thems.
+ for some time now I am using modus themes by the amazing =Protesilaos Stavrou= (btw check his youtube channel) which are simple but elegant themes
+ but if you want a more modern look like =VSCode= or =Atom= you can use =doom-themes= as well.
+ ([[https://github.com/hlissner/emacs-doom-themes/tree/screenshots][Doom Themes Screenshots]])
+ #+BEGIN_SRC emacs-lisp
+   (use-package modus-operandi-theme :straight t :defer t)
+   (use-package modus-vivendi-theme :straight t :defer t)
+   (use-package doom-themes :straight t :defer t)
+   (use-package darkburn-theme :straight t :defer t)
+ #+END_SRC
+ You probably notice the =:defer= part in use-package, with =:defer= keyword (:something is called a keyword in elisp)
+ use-package knows that we don't need this package to be loaded in startup, since we actually don't need all of our themes
+ to be loaded at startup. Another keyword that you see is =:straight= that is telling use-package to make certain
+ that this package is installed, and if it's not install it from elpa repo.
+ Now let's set a theme
+ #+BEGIN_SRC emacs-lisp
+          (use-package emacs 
+            :config 
+            (setq ring-bell-function t)
+            (setq visible-bell t))
 
-         (use-package custom
-           :demand
-           :bind (("<f12>" . amirreza/toggle-color-mode))
-           :config
-           (defvar amirreza/current-mode 'dark "Current color mode of Emacs.")
-           (defvar amirreza/dark-theme 'modus-vivendi)
-           (defvar amirreza/light-theme 'modus-operandi)
+          (use-package custom
+            :demand
+            :bind (("<f12>" . amirreza/toggle-color-mode))
+            :config
+            (defvar amirreza/current-mode 'dark "Current color mode of Emacs.")
+            (defvar amirreza/dark-theme 'modus-vivendi)
+            (defvar amirreza/light-theme 'modus-operandi)
 
-           (defmacro amirreza/--load-theme (&rest theme-opts)
-             `(progn (mapc #'disable-theme custom-enabled-themes)
-                     (load-theme ,@theme-opts)))
+            (defmacro amirreza/--load-theme (&rest theme-opts)
+              `(progn (mapc #'disable-theme custom-enabled-themes)
+                      (load-theme ,@theme-opts)))
 
-           (defun amirreza/load-theme (theme)
-             (interactive "sEnter Theme: ")
-             (amirreza/--load-theme (intern theme) t))
-           (defun amirreza/apply-color (mode)
-             "Apply current color mode to Emacs."
-             (if (eq amirreza/current-mode 'dark)
-                 (amirreza/--load-theme amirreza/dark-theme t)
-               (amirreza/--load-theme  amirreza/light-theme t)))
+            (defun amirreza/load-theme (theme)
+              (interactive "sEnter Theme: ")
+              (amirreza/--load-theme (intern theme) t))
+            (defun amirreza/apply-color (mode)
+              "Apply current color mode to Emacs."
+              (if (eq amirreza/current-mode 'dark)
+                  (amirreza/--load-theme amirreza/dark-theme t)
+                (amirreza/--load-theme  amirreza/light-theme t)))
 
-           (defun amirreza/toggle-color-mode ()
-             "Toggle current mode to the opposite"
-             (interactive)
-             (if (eq amirreza/current-mode 'dark)
-                 (setq amirreza/current-mode 'light)
-               (setq amirreza/current-mode 'dark))
-             (amirreza/apply-color amirreza/current-mode))
-          (amirreza/apply-color amirreza/current-mode))
-#+END_SRC
+            (defun amirreza/toggle-color-mode ()
+              "Toggle current mode to the opposite"
+              (interactive)
+              (if (eq amirreza/current-mode 'dark)
+                  (setq amirreza/current-mode 'light)
+                (setq amirreza/current-mode 'dark))
+              (amirreza/apply-color amirreza/current-mode))
+           (amirreza/apply-color amirreza/current-mode))
+ #+END_SRC
 ***** Performance Tip 
  About 95% of packages we use don't need to be loaded at startup and =:defer= is only one of the multiple
  ways of lazy-loading in use-package we will see others later on.
