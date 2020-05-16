@@ -211,7 +211,7 @@ extensively but now i use it only when keybindings are just crazy.
             :bind (("<f12>" . amirreza/toggle-color-mode))
             :config
             (defvar amirreza/current-mode 'dark "Current color mode of Emacs.")
-            (defvar amirreza/dark-theme 'doom-gruvbox)
+            (defvar amirreza/dark-theme 'modus-vivendi)
             (defvar amirreza/light-theme 'modus-operandi)
 
             (defmacro amirreza/--load-theme (&rest theme-opts)
@@ -733,7 +733,24 @@ emacs =project= package and =icomplete= for fuzzy matching.
              (dirs (-filter 'file-directory-p (directory-files-recursively dir ".*" t nil nil)))
              (dirs-cleaned (seq-filter (lambda (dir-name)
                                              (if (string-match-p "\\.git" dir-name) nil t)) dirs)))
-        (find-file (completing-read "Find Directory: " dirs-cleaned)))))
+        (find-file (completing-read "Find Directory: " dirs-cleaned))))
+  
+    (defvar amirreza/project-locations '("~/w" "~/w/snapp"))
+
+    (defun amirreza/projects-list ()
+      "List of projects in pre defined project locations."
+      (interactive)
+      (let ((proj-dirs '()))
+        (mapc (lambda (dir)
+                (mapc (lambda (file)
+
+                        (add-to-list 'proj-dirs (abbreviate-file-name file )))
+
+                      (directory-files dir t directory-files-no-dot-files-regexp)))
+              amirreza/project-locations)
+        (dired (completing-read "Project: " proj-dirs)))))
+
+
 #+end_src
 * Shell And Terminal Emulator
 Emacs has a bultin shell called =eshell= which uses elisp
