@@ -45,7 +45,6 @@
     - [[#in-buffer-searching][In Buffer searching]]
     - [[#grep][Grep]]
   - [[#file-search][File search]]
-    - [[#fzf][Fzf]]
     - [[#recents][Recents]]
     - [[#projects-integration][Projects Integration]]
   - [[#shell-and-terminal-emulator][Shell And Terminal Emulator]]
@@ -82,6 +81,10 @@
     - [[#docker][Docker]]
     - [[#kubernetes][Kubernetes]]
 - [[#benchmark-startup-time][Benchmark startup time]]
+- [[#deprecated][Deprecated]]
+  - [[#fzf][Fzf]]
+  - [[#ivycounselswiper][Ivy/Counsel/Swiper]]
+  - [[#rhythmbox][Rhythmbox]]
 
 * Personal information
 #+begin_src emacs-lisp
@@ -159,6 +162,7 @@ I respect Emacs keybinding conventions in my configuration with a few ideas borr
     (which-key! "C-c f" "File functions")
     (which-key! "C-c w" "workspace functionality")
     (which-key! "C-c o" "external tools integration")
+    (which-key! "C-c b" "Bongo (Music) functionality")
     (which-key! "C-c e" "Editor functions")
     (which-key! "C-c d" "Devops related functions")
     (which-key-mode 1)
@@ -269,93 +273,46 @@ keybindings like the ones in magit forexample but with more features.
 
 ** Completion
 #+begin_src emacs-lisp
-   ;; orderless completion style, we can divide our search string into space seperated parts
   (use-package orderless
-    :straight t
+   :straight t
+   :config
+  (setq completion-styles '(orderless)))
+  (use-package icomplete
+    :demand
+    :bind
+    (:map global-map
+          ("M-y" . amirreza/show-kill-ring)
+          :map icomplete-minibuffer-map
+          ("C-n" . icomplete-forward-completions)
+          ("C-p" . icomplete-backward-completions)
+          ("C-f" . icomplete-forward-completions)
+          ("C-b" . icomplete-backward-completions)
+          ("<right>" . icomplete-forward-completions)
+          ("<left>" . icomplete-backward-completions)
+          ("<down>" . icomplete-forward-completions)
+          ("<up>" . icomplete-backward-completions)
+          ("<RET>" . icomplete-force-complete-and-exit)
+          ("<tab>" . icomplete-force-complete))
     :config
-   (setq completion-styles '(orderless)))
-   ;; (use-package flx :straight t)
-   ;; (use-package ivy
-   ;;   :straight t
-   ;;   :bind
-   ;;   (("C-x b" . 'ivy-switch-buffer)
-   ;;    :map ivy-minibuffer-map
-   ;;    ("RET" . 'ivy-alt-done))
-   ;;   :config
-   ;;   (setq ivy-height 15)
-   ;;   ;; loopish cycling through list
-   ;;   (setq ivy-wrap t)
-   ;;   ;; don't show recents in minibuffer
-   ;;   (setq ivy-use-virtual-buffers nil)
-   ;;   ;; ...but if that ever changes, show their full path
-   ;;   (setq ivy-virtual-abbreviate 'full)
-   ;;   ;; don't quit minibuffer on delete-error
-   ;;   (setq ivy-on-del-error-function #'ignore)
-   ;;   (setf (alist-get 't ivy-format-functions-alist)
-   ;;         #'ivy-format-function-line)
-   ;;   (setq ivy-initial-inputs-alist nil)
-   ;;   (setq ivy-re-builders-alist
-   ;;         '((ivy-switch-buffer . ivy--regex-plus)
-   ;;           (t . ivy--regex-ignore-order)))
-   ;;   (ivy-mode +1))
+    (defun amirreza/show-kill-ring ()
+      (interactive)
+      (insert (completing-read "Insert: " kill-ring)))
+    (setq icomplete-max-delay-chars 2
+          icomplete-show-matches-on-no-input t
+          icomplete-hide-common-prefix nil
+          completion-ignore-case t)
+    (when (> emacs-major-version 26)
+      (fido-mode -1))
+    (icomplete-mode 1))
 
-   ;; (use-package all-the-icons-ivy :straight t :config (all-the-icons-ivy-setup))
-
-   ;; (use-package swiper
-   ;;   :straight t
-   ;;   :commands (swiper)
-   ;;   :init (global-set-key (kbd "C-s") 'swiper))
-
-   ;; (use-package counsel
-   ;;   :straight t
-   ;;   :bind
-   ;;   (("M-x" . 'counsel-M-x)
-   ;;    ("C-x C-f" . 'counsel-find-file)
-   ;;    ("C-h b" . 'counsel-descbinds)
-   ;;    ("C-h f" . 'counsel-describe-function)
-   ;;    ("C-h v" . 'counsel-describe-variable)
-   ;;    ("C-h a" . 'counsel-apropos)
-   ;;    ("M-i" . 'counsel-imenu) ;; code semantics
-   ;;    ("M-y" . 'counsel-yank-pop) ;; show kill ring
-   ;;    ("C-c f f" . 'counsel-fzf)))
-
-   ;; (use-package ivy-rich :straight t :config (ivy-rich-mode 1))
-   (use-package icomplete
-     :demand
-     :bind
-     (:map global-map
-           ("M-y" . amirreza/show-kill-ring)
-           :map icomplete-minibuffer-map
-           ("C-n" . icomplete-forward-completions)
-           ("C-p" . icomplete-backward-completions)
-           ("C-f" . icomplete-forward-completions)
-           ("C-b" . icomplete-backward-completions)
-           ("<right>" . icomplete-forward-completions)
-           ("<left>" . icomplete-backward-completions)
-           ("<down>" . icomplete-forward-completions)
-           ("<up>" . icomplete-backward-completions)
-           ("<RET>" . icomplete-force-complete-and-exit)
-           ("<tab>" . icomplete-force-complete))
-     :config
-     (defun amirreza/show-kill-ring ()
-       (interactive)
-       (insert (completing-read "Insert: " kill-ring)))
-     (setq icomplete-max-delay-chars 2
-           icomplete-show-matches-on-no-input t
-           icomplete-hide-common-prefix nil
-           completion-ignore-case t)
-     (when (> emacs-major-version 26)
-       (fido-mode -1))
-     (icomplete-mode 1))
-
-   (use-package icomplete-vertical
-     :straight t
-     :demand
-     :bind
-     (:map icomplete-minibuffer-map
-            ("C-v" . icomplete-vertical-toggle))
-     :config
-     (icomplete-vertical-mode -1))
+  (use-package icomplete-vertical
+    :straight t
+    :demand
+    :bind
+    (:map icomplete-minibuffer-map
+           ("C-v" . icomplete-vertical-toggle))
+    :config
+    (icomplete-vertical-mode -1))
 #+end_src
 ** Windows/Workspaces
 *** Window rules
@@ -742,20 +699,6 @@ skeleton and skeleton does it's job of inserting text.
 For file searching in Emacs, I used to use =fzf=, =projectile=.
 But I moved to a more simpler custom but powerful and hackable solution based on
 emacs =project= package and =icomplete= for fuzzy matching.
-*** Fzf
-:PROPERTIES:
-  :header-args: :tangle no
-  :END:
-Fuzzy file search is amazing tool that doesn't choke up even in my home folder 
-it's just magic.
-#+begin_src emacs-lisp
-  (use-package fzf
-    :disabled t
-    :straight (:repo "amirrezaask/fzf.el")
-    :bind (("C-c f f" . fzf)
-           ("C-c f d" . fzf-directory))
-    :commands (fzf fzf-directory))
-#+end_src
 *** Recents
 #+begin_src emacs-lisp
   (use-package recentf
@@ -1426,10 +1369,6 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
      ("C-c b p" . bongo-pause/resume)
      ("C-c b s" . bongo-start)))
 
-  (use-package rhythmbox
-    :disabled t
-    :bind ("C-c o m" . Rhythmbox)
-    :straight (:host github :repo "amirrezaask/Rhythmbox.el"))
 #+end_src
 ** Devops Tools
 *** Some syntax highlights
@@ -1468,4 +1407,80 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
 * Benchmark startup time
 #+begin_src emacs-lisp
 (defvar amirreza/startup-elapsed (- (float-time) amirreza/emacs-init-timestamp))
+#+end_src
+* Deprecated
+   :PROPERTIES:
+   :header-args: :tangle no
+   :END:
+Stuff I used in the past but now replaced with other tools mostly emacs builtin.
+** Fzf
+   :PROPERTIES:
+   :header-args: :tangle no
+   :END:
+ Fuzzy file search is amazing tool that doesn't choke up even in my home folder 
+ it's just magic.
+ #+begin_src emacs-lisp
+   (use-package fzf
+     :disabled t
+     :straight (:repo "amirrezaask/fzf.el")
+     :bind (("C-c f f" . fzf)
+            ("C-c f d" . fzf-directory))
+     :commands (fzf fzf-directory))
+ #+end_src
+** Ivy/Counsel/Swiper
+#+begin_src emacs-lisp
+  (use-package flx :straight t)
+  (use-package ivy
+    :straight t
+    :bind
+    (("C-x b" . 'ivy-switch-buffer)
+     :map ivy-minibuffer-map
+     ("RET" . 'ivy-alt-done))
+    :config
+    (setq ivy-height 15)
+    ;; loopish cycling through list
+    (setq ivy-wrap t)
+    ;; don't show recents in minibuffer
+    (setq ivy-use-virtual-buffers nil)
+    ;; ...but if that ever changes, show their full path
+    (setq ivy-virtual-abbreviate 'full)
+    ;; don't quit minibuffer on delete-error
+    (setq ivy-on-del-error-function #'ignore)
+    (setf (alist-get 't ivy-format-functions-alist)
+          #'ivy-format-function-line)
+    (setq ivy-initial-inputs-alist nil)
+    (setq ivy-re-builders-alist
+          '((ivy-switch-buffer . ivy--regex-plus)
+            (t . ivy--regex-ignore-order)))
+    (ivy-mode +1))
+
+  (use-package all-the-icons-ivy :straight t :config (all-the-icons-ivy-setup))
+
+  (use-package swiper
+    :straight t
+    :commands (swiper)
+    :init (global-set-key (kbd "C-s") 'swiper))
+
+  (use-package counsel
+    :straight t
+    :bind
+    (("M-x" . 'counsel-M-x)
+     ("C-x C-f" . 'counsel-find-file)
+     ("C-h b" . 'counsel-descbinds)
+     ("C-h f" . 'counsel-describe-function)
+     ("C-h v" . 'counsel-describe-variable)
+     ("C-h a" . 'counsel-apropos)
+     ("M-i" . 'counsel-imenu) ;; code semantics
+     ("M-y" . 'counsel-yank-pop) ;; show kill ring
+     ("C-c f f" . 'counsel-fzf)))
+
+  (use-package ivy-rich :straight t :config (ivy-rich-mode 1))
+
+#+end_src
+** Rhythmbox
+#+begin_src emacs-lisp
+  (use-package rhythmbox
+    :disabled t
+    :bind ("C-c o m" . Rhythmbox)
+    :straight (:host github :repo "amirrezaask/Rhythmbox.el"))
 #+end_src
