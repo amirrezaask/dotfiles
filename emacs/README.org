@@ -175,8 +175,7 @@ I respect Emacs keybinding conventions in my configuration with a few ideas borr
 + Operating System integration keys should be prefixed with =o=
 + Devops related stuff prefixed with =d=.
 + Git/version control related stuff prefixed with =v=.
-I used to use which-key as my helper on keybindings but now I just use
-? when i'm in the middle of a key chord.
+I used to use which-key as my helper on keybindings but now I just use ? when i'm in the middle of a key chord.
 I use hydra when keybindings are just crazy like in smerge that you will see in it's own section. I used to use hydra more
 extensively but now i use it only when keybindings are just crazy.
 #+begin_src emacs-lisp
@@ -708,48 +707,49 @@ emacs =project= package and =icomplete= for fuzzy matching.
  #+end_src
 ** Projects Integration
 #+begin_src emacs-lisp
-    (require 'cl-lib)
-    (use-package project
-      :bind (("C-c f f" . amirreza/project-or-dir-find-file-recur)
-             ("C-c f d" . amirreza/project-or-dir-find-dir-recur)
-             ("C-c p" . amirreza/projects-list))
-      :config
-      (defun amirreza/--find-sub-directories-recur (prompt dir)
-        (interactive)
-        (let* ((sub-dirs (directory-files-recursively dir ".*" t nil nil))
-               (sub-dirs-cleaned (seq-filter (lambda (dir-name)
-                                               (if (string-match-p "\\.git" dir-name) nil t)) sub-dirs)))
-          (completing-read prompt sub-dirs-cleaned)))
+  (require 'cl-lib)
+  (use-package project
+    :bind (("C-c f f" . amirreza/project-or-dir-find-file-recur)
+           ("C-c f d" . amirreza/project-or-dir-find-dir-recur)
+           ("C-c p" . amirreza/projects-list)
+           ("M-o f" . amirreza/project-or-dir-find-file-recur)
+           ("M-o d" . amirreza/project-or-dir-find-dir-recur)
+           ("M-o p" . amirreza/projects-list))
+    :config
+    (defun amirreza/--find-sub-directories-recur (prompt dir)
+      (interactive)
+      (let* ((sub-dirs (directory-files-recursively dir ".*" t nil nil))
+             (sub-dirs-cleaned (seq-filter (lambda (dir-name)
+                                             (if (string-match-p "\\.git" dir-name) nil t)) sub-dirs)))
+        (completing-read prompt sub-dirs-cleaned)))
 
-      (defun amirreza/project-or-dir-find-file-recur ()
-        (interactive)
-        (let* ((project (vc-root-dir))
-               (dir (if project project default-directory)))
-          (find-file (amirreza/--find-sub-directories-recur "Find: " dir))))
+    (defun amirreza/project-or-dir-find-file-recur ()
+      (interactive)
+      (let* ((project (vc-root-dir))
+             (dir (if project project default-directory)))
+        (find-file (amirreza/--find-sub-directories-recur "Find: " dir))))
 
-      (defun amirreza/project-or-dir-find-dir-recur ()
-        (interactive)
-        (let* ((project (vc-root-dir))
-               (dir (if project project default-directory))
-               (dirs (-filter 'file-directory-p (directory-files-recursively dir ".*" t nil nil)))
-               (dirs-cleaned (seq-filter (lambda (dir-name)
-                                               (if (string-match-p "\\.git" dir-name) nil t)) dirs)))
-          (find-file (completing-read "Find Directory: " dirs-cleaned))))
-  
-      (defvar amirreza/project-locations '("~/w" "~/w/snapp"))
+    (defun amirreza/project-or-dir-find-dir-recur ()
+      (interactive)
+      (let* ((project (vc-root-dir))
+             (dir (if project project default-directory))
+             (dirs (-filter 'file-directory-p (directory-files-recursively dir ".*" t nil nil)))
+             (dirs-cleaned (seq-filter (lambda (dir-name)
+                                         (if (string-match-p "\\.git" dir-name) nil t)) dirs)))
+        (find-file (completing-read "Find Directory: " dirs-cleaned))))
 
-      (defun amirreza/projects-list ()
-        "List of projects in pre defined project locations."
-        (interactive)
-        (let ((proj-dirs '()))
-          (mapc (lambda (dir)
-                  (mapc (lambda (file)
+    (defvar amirreza/project-locations '("~/w" "~/w/snapp"))
 
-                          (add-to-list 'proj-dirs (abbreviate-file-name file )))
-
-                        (directory-files dir t directory-files-no-dot-files-regexp)))
-                amirreza/project-locations)
-          (dired (completing-read "Project: " proj-dirs)))))
+    (defun amirreza/projects-list ()
+      "List of projects in pre defined project locations."
+      (interactive)
+      (let ((proj-dirs '()))
+        (mapc (lambda (dir)
+                (mapc (lambda (file)
+                        (add-to-list 'proj-dirs (abbreviate-file-name file )))
+                      (directory-files dir t directory-files-no-dot-files-regexp)))
+              amirreza/project-locations)
+        (dired (completing-read "Project: " proj-dirs)))))
 
 
 #+end_src
