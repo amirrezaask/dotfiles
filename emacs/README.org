@@ -11,6 +11,7 @@
 - [[#ui][UI]]
   - [[#themes][Themes]]
   - [[#some-cursor-tweaks][Some cursor tweaks]]
+  - [[#modeline][Modeline]]
 - [[#font][Font]]
 - [[#completion][Completion]]
 - [[#windowsworkspaces][Windows/Workspaces]]
@@ -212,7 +213,7 @@ extensively but now i use it only when keybindings are just crazy.
             :bind (("<f12>" . amirreza/toggle-color-mode))
             :config
             (defvar amirreza/current-mode 'dark "Current color mode of Emacs.")
-            (defvar amirreza/dark-theme 'modus-vivendi)
+            (defvar amirreza/dark-theme 'doom-one)
             (defvar amirreza/light-theme 'modus-operandi)
 
             (defmacro amirreza/--load-theme (&rest theme-opts)
@@ -255,6 +256,10 @@ extensively but now i use it only when keybindings are just crazy.
       (global-hl-line-mode +1))
 
   #+END_SRC
+** Modeline
+#+begin_src emacs-lisp
+(use-package doom-modeline :straight t :config (doom-modeline-mode 1))
+#+end_src
 * Font
 To use specific font in Emacs you just need to call a function, that's easy ha ??
 #+BEGIN_SRC emacs-lisp
@@ -684,7 +689,7 @@ skeleton and skeleton does it's job of inserting text.
       (let* ((project (vc-root-dir))
              (dir (if project project default-directory))
              (ext (concat "*." (car (last (split-string (buffer-file-name) "\\."))))))
-        (rg-run pattern ext dir)))
+          (rg-run pattern ext dir)))
     :bind
     (:map global-map
           ("C-c g" . amirreza/rg)))
