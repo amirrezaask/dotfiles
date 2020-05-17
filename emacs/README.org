@@ -878,7 +878,7 @@ all executables.
 
     (defun amirreza/eshell-find-sub-dirs-recur ()
       (interactive)
-        (insert (amirreza/--find-sub-directories-recur default-directory))
+        (insert (amirreza/--find-sub-directories-recur "Directory: " default-directory))
         (eshell-send-input))
 
     :bind (:map eshell-mode-map
