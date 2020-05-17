@@ -95,6 +95,7 @@
 - [[#irc][IRC]]
 - [[#process-management][Process management]]
 - [[#music][Music]]
+- [[#video][Video]]
 - [[#devops-tools][Devops Tools]]
   - [[#some-syntax-highlights][Some syntax highlights]]
   - [[#tramp][TRAMP]]
@@ -775,7 +776,7 @@ all executables.
   (use-package eshell 
     :config
     (defvar amirreza/--eshells-state (make-hash-table))
-  
+
     (defun amirreza/eshell-new ()
       "Looks in the eshell state map if there is an open eshell in the current directory just switch to it,
   otherwise create a new eshell process and update the state."
@@ -790,7 +791,7 @@ all executables.
 
               (switch-to-buffer-other-window new-buff)
               (rename-buffer (format "*eshell:%s*" default-directory)))))))
- 
+
     :bind (("s-<enter>" . amirreza/eshell-new)
            ("<f11>" . amirreza/eshell-new)))
 
@@ -1400,6 +1401,17 @@ Mail setup in Emacs using Gnus.
      ("C-c b l p" . amirreza/load-playlist)
      ("C-c b l s" . amirreza/save-marked-in-playlist)))
 
+#+end_src
+* Video
+#+begin_src emacs-lisp
+  (defun amirreza/open-video (filename)
+    (let ((filename (expand-file-name filename)))
+      (start-process (format "*VLC: %s*" filename) "*VLC*" "vlc" filename)))
+
+  (defvar amirreza/video-location "~/Videos")
+  (defun amirreza/play-movie ()
+    (interactive)
+    (amirreza/open-video (completing-read "Video: " (directory-files-recursively amirreza/video-location ".*"))))
 #+end_src
 * Devops Tools
 ** Some syntax highlights
