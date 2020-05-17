@@ -108,6 +108,7 @@
   - [[#eyebrowse-hydra][Eyebrowse hydra]]
   - [[#hydra][Hydra]]
   - [[#which-key][Which-key]]
+  - [[#lsp-ivy][Lsp Ivy]]
 
 * Intro
 Since Emacs is becoming the tool I do all my computing in,
@@ -983,10 +984,6 @@ as auto-complete or syntax linting.
 
   (use-package lsp-ui :straight t :commands lsp-ui-mode)
 
-  (use-package lsp-ivy :straight t 
-    :commands (lsp-ivy-workspace-symbol lsp-ivy-global-workspace-symbol) 
-    :bind (("C-c m l s" . lsp-ivy-workspace-symbol)))
-
   (use-package dap-mode :straight t :defer t)
 #+END_SRC
 LSP-ui is a mode from the same author with the goal of configuring several Emacs packages to 
@@ -1376,7 +1373,18 @@ Mail setup in Emacs using Gnus.
         (bongo-playlist)
         (mapc 'bongo-insert-file tracks)
         (switch-to-buffer prev-buff)))
+    (defvar amirreza/playlists-location "~/Music/Playlists/")
 
+    (defun amirreza/save-marked-in-playlist ()
+       (interactive)
+       (let ((tracks (dired-get-marked-files)))
+         (append-to-file (concat "\n" (string-join tracks "\n")) nil (concat amirreza/playlists-location (completing-read "Playlist Name: " (directory-files amirreza/playlists-location nil directory-files-no-dot-files-regexp))))))
+  
+    (defun amirreza/load-playlist ()
+      (interactive)
+      (bongo-playlist)
+      (bongo-insert-playlist-contents  (concat amirreza/playlists-location (completing-read "Playlist: " (directory-files amirreza/playlists-location nil directory-files-no-dot-files-regexp)))))
+  
     (setq bongo-default-directory "~/Music")
     (setq bongo-action-track-icon nil)
     (setq bongo-display-track-icons nil)
@@ -1384,9 +1392,11 @@ Mail setup in Emacs using Gnus.
     (setq bongo-display-header-icons nil)
     (setq bongo-display-playback-mode-indicator nil)
     :bind
-    (("C-c b l" . (lambda () (interactive) (find-file "~/Music")))
+    (("C-c b l l" . (lambda () (interactive) (find-file "~/Music")))
      ("C-c b p" . bongo-pause/resume)
-     ("C-c b s" . bongo-start)))
+     ("C-c b s" . bongo-start)
+     ("C-c b l p" . amirreza/load-playlist)
+     ("C-c b l s" . amirreza/save-marked-in-playlist)))
 
 #+end_src
 * Devops Tools
@@ -1565,4 +1575,10 @@ Stuff I used in the past but now replaced with other tools mostly emacs builtin.
     (which-key! "C-c d" "Devops related functions")
     (which-key-mode 1)
     (which-key-setup-minibuffer))
+#+end_src
+** Lsp Ivy
+#+begin_src emacs-lisp
+  (use-package lsp-ivy :straight t 
+    :commands (lsp-ivy-workspace-symbol lsp-ivy-global-workspace-symbol) 
+    :bind (("C-c m l s" . lsp-ivy-workspace-symbol)))
 #+end_src
