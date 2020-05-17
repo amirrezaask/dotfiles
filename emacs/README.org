@@ -1404,14 +1404,14 @@ Mail setup in Emacs using Gnus.
 #+end_src
 * Video
 #+begin_src emacs-lisp
-  (defun amirreza/open-video (filename)
-    (let ((filename (expand-file-name filename)))
-      (start-process (format "*VLC: %s*" filename) "*VLC*" "vlc" filename)))
+  (defun amirreza/start-vlc (filename)
+    (start-process (format "*VLC: %s*" filename) "*VLC*" "vlc" filename))
 
   (defvar amirreza/video-location "~/Videos")
-  (defun amirreza/play-movie ()
+
+  (defun amirreza/video-list ()
     (interactive)
-    (amirreza/open-video (completing-read "Video: " (directory-files-recursively amirreza/video-location ".*"))))
+    (amirreza/start-vlc (expand-file-name (completing-read "Video: " (directory-files-recursively amirreza/video-location ".*")))))
 #+end_src
 * Devops Tools
 ** Some syntax highlights
