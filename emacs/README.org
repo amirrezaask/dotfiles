@@ -1379,12 +1379,14 @@ Mail setup in Emacs using Gnus.
        (interactive)
        (let ((tracks (dired-get-marked-files)))
          (append-to-file (concat "\n" (string-join tracks "\n")) nil (concat amirreza/playlists-location (completing-read "Playlist Name: " (directory-files amirreza/playlists-location nil directory-files-no-dot-files-regexp))))))
-  
+
     (defun amirreza/load-playlist ()
       (interactive)
+      (let ((prev-buff (current-buffer)))
       (bongo-playlist)
-      (bongo-insert-playlist-contents  (concat amirreza/playlists-location (completing-read "Playlist: " (directory-files amirreza/playlists-location nil directory-files-no-dot-files-regexp)))))
-  
+      (bongo-insert-playlist-contents  (concat amirreza/playlists-location (completing-read "Playlist: " (directory-files amirreza/playlists-location nil directory-files-no-dot-files-regexp))))
+      (switch-to-buffer prev-buff)))
+
     (setq bongo-default-directory "~/Music")
     (setq bongo-action-track-icon nil)
     (setq bongo-display-track-icons nil)
