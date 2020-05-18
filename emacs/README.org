@@ -191,10 +191,11 @@ extensively but now i use it only when keybindings are just crazy.
 #+begin_src emacs-lisp
   (use-package exwm
     :straight t
+    :demand
     :config
     (require 'exwm-config)
-    (exwm-config-default))
-
+    (exwm-config-default) ;; EXwm default configuration
+    (setq exwm-workspace-number 10)) ;; Number of workspaces
 #+end_src
 * UI
 ** Themes
