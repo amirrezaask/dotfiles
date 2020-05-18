@@ -332,6 +332,7 @@ and volla :).
     (icomplete-mode 1))
 
   (use-package icomplete-vertical
+    :disabled t
     :straight t
     :demand
     :bind
@@ -339,6 +340,7 @@ and volla :).
            ("C-v" . icomplete-vertical-toggle))
     :config
     (icomplete-vertical-mode -1))
+  (use-package live-completions :straight (:host github :repo "oantolin/live-completions") :config (live-completions-mode 1))
 #+end_src
 * Windows/Workspaces
 ** Window rules
