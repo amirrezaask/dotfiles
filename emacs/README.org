@@ -274,18 +274,18 @@ WIP
 #+begin_src emacs-lisp
   (setq-default mode-line-format
                 '(
-                 " "
-                 mode-line-modified
-                 " "
-                 mode-line-mule-info
-                 " "
-                 mode-line-buffer-identification
-                 " "
-                 mode-line-position
-                 " "
-                 global-mode-string
-                 " "
-                 (vc-mode vc-mode)))
+                  " "
+                  mode-line-modified
+                  " "
+                  mode-line-mule-info
+                  " "
+                  mode-line-buffer-identification
+                  " <"
+                  mode-name
+                  "> "
+                  mode-line-position
+                  " "
+                  (vc-mode vc-mode)))
 #+end_src
 * Font
 To use specific font in Emacs you just need to call a function, that's easy ha ??
