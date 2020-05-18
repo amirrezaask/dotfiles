@@ -188,8 +188,10 @@ extensively but now i use it only when keybindings are just crazy.
   (use-package pretty-hydra :straight t :commands (pretty-hydra-define))
 #+end_src
 * Window manager
+WIP
 #+begin_src emacs-lisp
   (use-package exwm
+    :disabled t
     :straight t
     :demand
     :config
