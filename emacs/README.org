@@ -227,7 +227,7 @@ WIP
             :bind (("<f12>" . amirreza/toggle-color-mode))
             :config
             (defvar amirreza/current-mode 'dark "Current color mode of Emacs.")
-            (defvar amirreza/dark-theme 'doom-one)
+            (defvar amirreza/dark-theme 'modus-vivendi)
             (defvar amirreza/light-theme 'modus-operandi)
 
             (defmacro amirreza/--load-theme (&rest theme-opts)
@@ -272,7 +272,20 @@ WIP
   #+END_SRC
 ** Modeline
 #+begin_src emacs-lisp
-(use-package doom-modeline :straight t :config (doom-modeline-mode 1))
+  (setq-default mode-line-format
+                '(
+                 " "
+                 mode-line-modified
+                 " "
+                 mode-line-mule-info
+                 " "
+                 mode-line-buffer-identification
+                 " "
+                 mode-line-position
+                 " "
+                 global-mode-string
+                 " "
+                 (vc-mode vc-mode)))
 #+end_src
 * Font
 To use specific font in Emacs you just need to call a function, that's easy ha ??
@@ -323,7 +336,9 @@ and volla :).
     (defun amirreza/show-kill-ring ()
       (interactive)
       (insert (completing-read "Insert: " kill-ring)))
+
     (setq icomplete-max-delay-chars 2
+          icomplete-separator " | "
           icomplete-show-matches-on-no-input t
           icomplete-hide-common-prefix nil
           completion-ignore-case t)
@@ -332,15 +347,18 @@ and volla :).
     (icomplete-mode 1))
 
   (use-package icomplete-vertical
-    :disabled t
     :straight t
     :demand
     :bind
     (:map icomplete-minibuffer-map
-           ("C-v" . icomplete-vertical-toggle))
+          ("C-v" . icomplete-vertical-toggle))
     :config
     (icomplete-vertical-mode -1))
-  (use-package live-completions :straight (:host github :repo "oantolin/live-completions") :config (live-completions-mode 1))
+
+  (use-package live-completions 
+    :straight (:host github :repo "oantolin/live-completions") 
+    :config (live-completions-mode 1))
+
 #+end_src
 * Windows/Workspaces
 ** Window rules
