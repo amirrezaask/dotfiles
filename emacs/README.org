@@ -8,6 +8,7 @@
   - [[#file-name-handler-alist][file-name-handler-alist]]
 - [[#package-manager-setup][Package manager setup]]
 - [[#keybinding][Keybinding]]
+- [[#window-manager][Window manager]]
 - [[#ui][UI]]
   - [[#themes][Themes]]
   - [[#some-cursor-tweaks][Some cursor tweaks]]
@@ -71,6 +72,7 @@
       - [[#go-test][Go-test]]
     - [[#scheme][Scheme]]
     - [[#zig][Zig]]
+    - [[#lisp-configuration][Lisp configuration]]
     - [[#emacs-lisp][Emacs lisp]]
     - [[#clojure][Clojure]]
       - [[#clojure-mode][Clojure Mode]]
@@ -184,6 +186,15 @@ extensively but now i use it only when keybindings are just crazy.
 #+begin_src emacs-lisp
   (use-package hydra :straight t :commands (defhydra))
   (use-package pretty-hydra :straight t :commands (pretty-hydra-define))
+#+end_src
+* Window manager
+#+begin_src emacs-lisp
+  (use-package exwm
+    :straight t
+    :config
+    (require 'exwm-config)
+    (exwm-config-default))
+
 #+end_src
 * UI
 ** Themes
@@ -1141,6 +1152,12 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
      :straight t
      :mode "\\.zig\\'")
  #+end_src
+*** Lisp configuration
+#+begin_src emacs-lisp
+  (use-package paredit :straight t
+    :hook ((clojure-mode emacs-lisp-mode) . paredit-mode))
+  (use-package parinfer :straight t  :hook ((clojure-mode emacs-lisp-mode) . parinfer-mode))
+#+end_src
 *** Emacs lisp
  Emacs lisp should be supported by default ha ? actually it has almost all support you need but 
  we can even go further.x
