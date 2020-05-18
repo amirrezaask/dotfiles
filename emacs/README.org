@@ -8,7 +8,6 @@
   - [[#file-name-handler-alist][file-name-handler-alist]]
 - [[#package-manager-setup][Package manager setup]]
 - [[#keybinding][Keybinding]]
-- [[#window-manager][Window manager]]
 - [[#ui][UI]]
   - [[#themes][Themes]]
   - [[#some-cursor-tweaks][Some cursor tweaks]]
@@ -186,18 +185,6 @@ extensively but now i use it only when keybindings are just crazy.
 #+begin_src emacs-lisp
   (use-package hydra :straight t :commands (defhydra))
   (use-package pretty-hydra :straight t :commands (pretty-hydra-define))
-#+end_src
-* Window manager
-WIP
-#+begin_src emacs-lisp
-  (use-package exwm
-    :disabled t
-    :straight t
-    :demand
-    :config
-    (require 'exwm-config)
-    (exwm-config-default) ;; EXwm default configuration
-    (setq exwm-workspace-number 10)) ;; Number of workspaces
 #+end_src
 * UI
 ** Themes
