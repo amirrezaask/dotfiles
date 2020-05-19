@@ -175,7 +175,7 @@ I respect Emacs keybinding conventions in my configuration with a few ideas borr
 + Window related functionality like eyebrowse workspaces prefix with =w=.
 + Major mode / language specific functions bind with prefix =m=.
 + Music related functionality (using Bongo) prefixed =b=.
-+ File related functionality prefixed =f=.
++ File related functionality prefixed =f= or =M-s=.
 + Operating System integration keys should be prefixed with =o=
 + Devops related stuff prefixed with =d=.
 + Git/version control related stuff prefixed with =v=.
