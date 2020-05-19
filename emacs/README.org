@@ -259,20 +259,23 @@ extensively but now i use it only when keybindings are just crazy.
   #+END_SRC
 ** Modeline
 #+begin_src emacs-lisp
-  (setq-default mode-line-format
-                '(
-                  " "
-                  mode-line-modified
-                  " "
-                  mode-line-mule-info
-                  " "
-                  mode-line-buffer-identification
-                  " <"
-                  mode-name
-                  "> "
-                  mode-line-position
-                  " "
-                  (vc-mode vc-mode)))
+  (use-package emacs
+    :config
+    (setq mode-line-percent-position '(-3 "%p"))
+    (setq-default mode-line-format
+                  '(
+                    " "
+                    mode-line-modified
+                    " "
+                    mode-line-mule-info
+                    " "
+                    mode-line-buffer-identification
+                    " <"
+                    mode-name
+                    "> "
+                    mode-line-position
+                    " "
+                    (vc-mode vc-mode))))
 #+end_src
 * Font
 To use specific font in Emacs you just need to call a function, that's easy ha ??
@@ -721,17 +724,18 @@ But I moved to a more simpler custom but powerful and hackable solution based on
 emacs =project= package and =icomplete= for fuzzy matching.
 ** Recents
  #+begin_src emacs-lisp
-   (use-package recentf
-     :bind (("C-c f r" . 'amirreza/recent-files))
-     :demand
-     :config
-     (recentf-mode 1)
-     (setq recentf-max-menu-items 25)
-     (setq recentf-max-saved-items 100)
-     (defun amirreza/recent-files ()
-       (interactive)
-       (let ((files recentf-list))
-         (find-file (completing-read "Recent: " files)))))
+      (use-package recentf
+        :bind (("C-c f r" . 'amirreza/recent-files)
+               ("M-s r" . 'amirreza/recent-files))
+        :demand
+        :config
+        (recentf-mode 1)
+        (setq recentf-max-menu-items 25)
+        (setq recentf-max-saved-items 100)
+        (defun amirreza/recent-files ()
+          (interactive)
+          (let ((files recentf-list))
+            (find-file (completing-read "Recent: " files)))))
  #+end_src
 ** Projects Integration
 #+begin_src emacs-lisp
@@ -740,9 +744,9 @@ emacs =project= package and =icomplete= for fuzzy matching.
     :bind (("C-c f f" . amirreza/project-or-dir-find-file-recur)
            ("C-c f d" . amirreza/project-or-dir-find-dir-recur)
            ("C-c p" . amirreza/projects-list)
-           ("M-o f" . amirreza/project-or-dir-find-file-recur)
-           ("M-o d" . amirreza/project-or-dir-find-dir-recur)
-           ("M-o p" . amirreza/projects-list))
+           ("M-s f" . amirreza/project-or-dir-find-file-recur)
+           ("M-s d" . amirreza/project-or-dir-find-dir-recur)
+           ("M-s p" . amirreza/projects-list))
     :config
     (defun amirreza/--find-sub-directories-recur (prompt dir)
       (interactive)
