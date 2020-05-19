@@ -188,6 +188,7 @@ extensively but now i use it only when keybindings are just crazy.
   (use-package keycast
     :straight t
     :config
+    (keycast-mode 1)
     (setq keycast-separator-width 0))
 #+end_src
 * UI
@@ -353,7 +354,8 @@ and volla :).
 
   (use-package live-completions 
     :straight (:host github :repo "oantolin/live-completions") 
-    :config (live-completions-mode 1))
+    :config
+    (live-completions-mode 1))
 
 #+end_src
 * Windows/Workspaces
@@ -1359,26 +1361,28 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
                 ("P" . peep-dired)))
 #+end_src
 * Mail & News reader
-Mail setup in Emacs using Gnus.
+Mail setup in Emacs using Gnus. WIP
 #+begin_src emacs-lisp
   (use-package auth-source
     :after gnus
     :config
-    (setq auth-sources '("~/.authinfo.gpg" "~/.authinfo")))
+    (setq auth-sources '("~/.authinfo")))
 
   (use-package gnus
     :commands (gnus)
     :config
     (setq gnus-thread-sort-functions
-          '(gnus-thread-sort-by-number
-            gnus-thread-sort-by-date))
+          '(gnus-thread-sort-by-date))
 
     (setq gnus-select-method '(nnnil))
     (setq gnus-secondary-select-methods
-     '((nnimap "Gmail"
-               (nnimap-address "imap.gmail.com")
-               (nnimap-server-port "imaps")
-               (nnimap-stream ssl)))))
+          '((nnimap "Primary - Gmail"
+                    (nnimap-address "imap.gmail.com")
+                    (nnimap-stream ssl))
+
+            (nnimap "Snapp - Mail"
+                    (nnimap-address "mail.snapp.cab")
+                    (nnimap-stream ssl)))))
 #+end_src
 * IRC
 #+begin_src emacs-lisp
