@@ -8,6 +8,8 @@
   - [[#file-name-handler-alist][file-name-handler-alist]]
 - [[#package-manager-setup][Package manager setup]]
 - [[#keybinding][Keybinding]]
+- [[#basic-setups][Basic setups]]
+  - [[#edit-configuration-shortcut][Edit configuration shortcut]]
 - [[#ui][UI]]
   - [[#themes][Themes]]
   - [[#some-cursor-tweaks][Some cursor tweaks]]
@@ -24,8 +26,9 @@
 - [[#buffer-management][Buffer management]]
   - [[#ibuffer][IBuffer]]
 - [[#editing][Editing]]
-  - [[#defaults][Defaults]]
-  - [[#custom-motions][Custom motions]]
+  - [[#motions][Motions]]
+    - [[#custom-motions][Custom motions]]
+    - [[#avy][Avy]]
   - [[#highlight-indentation][Highlight indentation]]
   - [[#sudo-edit][Sudo edit]]
   - [[#expand-region][Expand region]]
@@ -33,10 +36,6 @@
   - [[#multiple-cursors][Multiple cursors]]
   - [[#iedit][Iedit]]
   - [[#vlf-very-large-file][Vlf (very large file)]]
-  - [[#abbrevsskeleton][Abbrevs/Skeleton]]
-  - [[#rainbow-delimiters][Rainbow delimiters]]
-  - [[#avy][Avy]]
-  - [[#edit-configuration][Edit configuration]]
 - [[#writing][Writing]]
   - [[#org][Org]]
   - [[#org-bullets][Org bullets]]
@@ -55,8 +54,10 @@
 - [[#programming][Programming]]
   - [[#completion-1][Completion]]
   - [[#code-semantic-movement][Code Semantic Movement]]
+  - [[#snippets][Snippets]]
   - [[#dumb-jump][Dumb Jump]]
   - [[#language-server-protocol][Language Server Protocol]]
+  - [[#rainbow-delimiters][Rainbow delimiters]]
   - [[#syntax-checking][Syntax checking]]
   - [[#docs][Docs]]
   - [[#languages][Languages]]
@@ -191,6 +192,89 @@ extensively but now i use it only when keybindings are just crazy.
     (keycast-mode 1)
     (setq keycast-separator-width 0))
 #+end_src
+* Basic setups
+#+begin_src emacs-lisp
+  (use-package emacs
+    :config
+    (setq-default
+     indent-tabs-mode nil
+     tab-width 4) ;; emacs tabs settings
+
+    (setq backup-directory-alist
+          '(("." . "~/.emacs.d/backup/"))) ;; put all emacs backup files in oneplace
+    (setq backup-by-copying t)
+    (setq version-control t)
+    (setq delete-old-versions t)
+    (setq kept-new-versions 6)
+    (setq kept-old-versions 2)
+    (setq create-lockfiles nil)
+
+    (defalias 'yes-or-no-p 'y-or-n-p) ;; answer with y-n instead of yes-no
+
+    (setq echo-keystrokes 0.1) ;; echo keystrokes in minibuffer faster
+
+    (setq use-dialog-box nil) ;; ask quesions in minibuffer
+    (setq inhibit-splash-screen 0) ;; disable startup screen
+    (setq ring-bell-function 'ignore) ;; don't make a sound
+
+    (set-terminal-coding-system 'utf-8) ;; default emacs encodings
+    (set-keyboard-coding-system 'utf-8)
+    (prefer-coding-system 'utf-8)
+    (setq-default fill-column 80) ;; column number which emacs start to line wrap.
+
+                                          ; vertical scrolling
+    (setq scroll-step 5)
+    (setq scroll-margin 5)
+    (setq scroll-conservatively 101)
+    (setq scroll-up-aggressively 0.11)
+    (setq scroll-down-aggressively 0.01)
+    (setq auto-window-vscroll nil)
+    (setq fast-but-imprecise-scrolling nil)
+    (setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))
+    (setq mouse-wheel-progressive-speed nil)
+    ;; Horizontal Scroll
+    (setq hscroll-step 1)
+    (setq hscroll-margin 1))
+
+  (use-package cus-edit
+    :config
+    (setq custom-file "~/.emacs.d/custom.el"))
+
+  (use-package delsel ;; delete region when start typing
+    :hook (after-init . delete-selection-mode))
+
+  (use-package simple
+    :config
+    (column-number-mode +1)
+    (setq kill-ring-max 15))
+
+  (use-package battery :config (display-battery-mode 1))
+
+  (use-package time :config (display-time-mode 1))
+
+  (use-package display-line-numbers
+    :disabled t
+    :config
+    (global-display-line-numbers-mode +1))
+
+  (use-package paren 
+    :config
+    (show-paren-mode 1)
+    (setq show-paren-delay 0))
+
+  (use-package help-mode 
+    :demand
+    :bind (:map help-mode-map 
+                ("n" . next-line)
+                ("p" . previous-line)))
+#+end_src
+** Edit configuration shortcut
+#+begin_src emacs-lisp
+  (defun amirreza/edit-configuration ()
+     (interactive)
+     (find-file "~/.emacs.d/README.org"))
+  (global-set-key (kbd "<f9>") 'amirreza/edit-configuration)
+#+end_src
 * UI
 ** Themes
  Now that we have use-package we can start installing thems, packages, etc. Let's start by installing some thems.
@@ -287,7 +371,7 @@ extensively but now i use it only when keybindings are just crazy.
 * Font
 To use specific font in Emacs you just need to call a function, that's easy ha ??
 #+BEGIN_SRC emacs-lisp
-  (defvar amirreza/font "Fira Mono-10")
+  (defvar amirreza/font "Terminus-10")
   (set-face-attribute 'default t :font amirreza/font)
   (set-frame-font amirreza/font nil t)
   (global-prettify-symbols-mode 1)
@@ -456,83 +540,8 @@ by default is bound to =C-c <left>=.
     :hook (ibuffer . ibuffer-projectile-set-filter-groups))
 #+end_src
 * Editing
-** Defaults
-#+begin_src emacs-lisp
-  (use-package emacs
-    :config
-    (setq-default
-     indent-tabs-mode nil
-     tab-width 4) ;; emacs tabs settings
-
-    (setq backup-directory-alist
-          '(("." . "~/.emacs.d/backup/"))) ;; put all emacs backup files in oneplace
-    (setq backup-by-copying t)
-    (setq version-control t)
-    (setq delete-old-versions t)
-    (setq kept-new-versions 6)
-    (setq kept-old-versions 2)
-    (setq create-lockfiles nil)
-
-    (defalias 'yes-or-no-p 'y-or-n-p) ;; answer with y-n instead of yes-no
-
-    (setq echo-keystrokes 0.1) ;; echo keystrokes in minibuffer faster
-
-    (setq use-dialog-box nil) ;; ask quesions in minibuffer
-    (setq inhibit-splash-screen 0) ;; disable startup screen
-    (setq ring-bell-function 'ignore) ;; don't make a sound
-
-    (set-terminal-coding-system 'utf-8) ;; default emacs encodings
-    (set-keyboard-coding-system 'utf-8)
-    (prefer-coding-system 'utf-8)
-    (setq-default fill-column 80) ;; column number which emacs start to line wrap.
-
-                                          ; vertical scrolling
-    (setq scroll-step 5)
-    (setq scroll-margin 5)
-    (setq scroll-conservatively 101)
-    (setq scroll-up-aggressively 0.11)
-    (setq scroll-down-aggressively 0.01)
-    (setq auto-window-vscroll nil)
-    (setq fast-but-imprecise-scrolling nil)
-    (setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))
-    (setq mouse-wheel-progressive-speed nil)
-    ;; Horizontal Scroll
-    (setq hscroll-step 1)
-    (setq hscroll-margin 1))
-
-  (use-package cus-edit
-    :config
-    (setq custom-file "~/.emacs.d/custom.el"))
-
-  (use-package delsel ;; delete region when start typing
-    :hook (after-init . delete-selection-mode))
-
-  (use-package simple
-    :config
-    (column-number-mode +1)
-    (setq kill-ring-max 15))
-
-  (use-package battery :config (display-battery-mode 1))
-
-  (use-package time :config (display-time-mode 1))
-
-  (use-package display-line-numbers
-    :disabled t
-    :config
-    (global-display-line-numbers-mode +1))
-
-  (use-package paren 
-    :config
-    (show-paren-mode 1)
-    (setq show-paren-delay 0))
-
-  (use-package help-mode 
-    :demand
-    :bind (:map help-mode-map 
-                ("n" . next-line)
-                ("p" . previous-line)))
-#+end_src
-** Custom motions
+** Motions
+*** Custom motions
 #+begin_src emacs-lisp
   (global-set-key (kbd "M-n") 
                   (lambda ()
@@ -540,7 +549,15 @@ by default is bound to =C-c <left>=.
                     (next-line 10)))
   (global-set-key (kbd "M-p") (lambda () (interactive) (previous-line 10)))
 #+end_src
-
+*** Avy
+ #+begin_src emacs-lisp
+   (use-package avy :straight t
+     :commands (avy-goto-char avy-goto-char-2 avy-goto-line avy-goto-word-1)
+     :bind (("C-; l" . avy-goto-line)
+            ("C-; w" . avy-goto-word-1)
+            ("C-; c 2" . avy-goto-char-2)
+            ("C-; c 1" . avy-goto-char)))
+ #+end_src
 ** Highlight indentation
 #+begin_src emacs-lisp
  (use-package highlight-indent-guides
@@ -606,48 +623,7 @@ by default is bound to =C-c <left>=.
 #+end_src
 ** Vlf (very large file)
 #+begin_src emacs-lisp
-(use-package vlf :straight t :defer t)
-#+end_src
-** Abbrevs/Skeleton
-Every human being has limited number of keystrokes left, so let's make every one of them count.
-Abbrev mode is Emacs internal that expands on defined abbrevations,
-Abbrev mode is really helpful but in more complicated scenarios we need more smart tool,
-so we use skeleton mode and we combine that with abbrev mode to get maximum power, we are 
-going to define our skeletons in their respective languages. Snippet macro defines a new snippet,
-Snippets are basically combination of abbrevs and skeletons, abbrevs are used for triggering
-skeleton and skeleton does it's job of inserting text.
-#+begin_src emacs-lisp
-          (use-package abbrev :commands (expand-abbrev))
-          (use-package skeleton :demand
-            :config
-            (defmacro amirreza/defsnippet (mode abbrv &rest skeleton-expansions)
-              "Snippets are wrapper around skeleton and abbrevs."
-              (let ((command-name (intern (format "amirreza/snippet-%s-%s" mode abbrv))))
-                `(progn
-                   (define-skeleton ,command-name ""
-                     ,@skeleton-expansions)
-                   (define-abbrev local-abbrev-table ,abbrv "" (quote ,command-name))))))
-#+end_src
-
-** Rainbow delimiters
-#+begin_src emacs-lisp
-(use-package rainbow-delimiters :straight t :hook (prog-mode . rainbow-delimiters-mode))
-#+end_src
-** Avy
-#+begin_src emacs-lisp
-  (use-package avy :straight t
-    :commands (avy-goto-char avy-goto-char-2 avy-goto-line avy-goto-word-1)
-    :bind (("C-; l" . avy-goto-line)
-           ("C-; w" . avy-goto-word-1)
-           ("C-; c 2" . avy-goto-char-2)
-           ("C-; c 1" . avy-goto-char)))
-#+end_src
-** Edit configuration
-#+begin_src emacs-lisp
-  (defun amirreza/edit-configuration ()
-     (interactive)
-     (find-file "~/.emacs.d/README.org"))
-  (global-set-key (kbd "<f9>") 'amirreza/edit-configuration)
+(use-package vlf :straight t :commands (vlf))
 #+end_src
 * Writing
 ** Org
@@ -975,6 +951,26 @@ we can use it to jump around our code based on semantics of that language (forex
     (use-package imenu
       :bind ("M-i" . imenu))
 #+end_src
+** Snippets
+Every human being has limited number of keystrokes left, so let's make every one of them count.
+Abbrev mode is Emacs internal that expands on defined abbrevations,
+Abbrev mode is really helpful but in more complicated scenarios we need more smart tool,
+so we use skeleton mode and we combine that with abbrev mode to get maximum power, we are 
+going to define our skeletons in their respective languages. Snippet macro defines a new snippet,
+Snippets are basically combination of abbrevs and skeletons, abbrevs are used for triggering
+skeleton and skeleton does it's job of inserting text.
+#+begin_src emacs-lisp
+          (use-package abbrev :commands (expand-abbrev))
+          (use-package skeleton :demand
+            :config
+            (defmacro amirreza/defsnippet (mode abbrv &rest skeleton-expansions)
+              "Snippets are wrapper around skeleton and abbrevs."
+              (let ((command-name (intern (format "amirreza/snippet-%s-%s" mode abbrv))))
+                `(progn
+                   (define-skeleton ,command-name ""
+                     ,@skeleton-expansions)
+                   (define-abbrev local-abbrev-table ,abbrv "" (quote ,command-name))))))
+#+end_src
 ** Dumb Jump
 Dumb jump is actually a smart way of jumping to defenitions using grep tools like
 =ag= or =rg=.
@@ -1030,6 +1026,10 @@ help ease developer experience when using LSP.
 #+BEGIN_SRC emacs-lisp
   ;; (use-package lsp-ui :straight t :commands lsp-ui-mode :hook (lsp-mode . lsp-ui-mode))
 #+END_SRC
+** Rainbow delimiters
+#+begin_src emacs-lisp
+(use-package rainbow-delimiters :straight t :hook (prog-mode . rainbow-delimiters-mode))
+#+end_src
 ** Syntax checking
 Emacs comes with a built in syntax checker called =flymake=, but since emacs community favors =flycheck= over =flymake= we are going to setup flycheck.
 #+BEGIN_SRC emacs-lisp
@@ -1415,11 +1415,10 @@ Mail setup in Emacs using Gnus. WIP
     :config
     (defun amirreza/add-marked-files-to-bongo ()
       (interactive)
-      (let ((prev-buff (current-buffer))
-            (tracks (dired-get-marked-files)))
+      (let ((tracks (dired-get-marked-files)))
         (bongo-playlist)
-        (mapc 'bongo-insert-file tracks)
-        (switch-to-buffer prev-buff)))
+        (mapc 'bongo-insert-file tracks)))
+
     (defvar amirreza/playlists-location "~/Music/Playlists/")
 
     (defun amirreza/save-marked-in-playlist ()
