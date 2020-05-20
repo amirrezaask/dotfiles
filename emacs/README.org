@@ -15,7 +15,7 @@
   - [[#some-cursor-tweaks][Some cursor tweaks]]
   - [[#modeline][Modeline]]
 - [[#font][Font]]
-- [[#completion][Completion]]
+- [[#selection-candidates][Selection Candidates]]
 - [[#windowsworkspaces][Windows/Workspaces]]
   - [[#window-rules][Window rules]]
   - [[#eyebrowse][Eyebrowse]]
@@ -52,7 +52,7 @@
       - [[#eshell][Eshell]]
       - [[#vterm][VTerm]]
 - [[#programming][Programming]]
-  - [[#completion-1][Completion]]
+  - [[#completion][Completion]]
   - [[#code-semantic-movement][Code Semantic Movement]]
   - [[#snippets][Snippets]]
   - [[#dumb-jump][Dumb Jump]]
@@ -99,11 +99,10 @@
 - [[#process-management][Process management]]
 - [[#music][Music]]
 - [[#video][Video]]
-- [[#devops-tools][Devops Tools]]
-  - [[#some-syntax-highlights][Some syntax highlights]]
-  - [[#tramp][TRAMP]]
-  - [[#docker][Docker]]
-  - [[#kubernetes][Kubernetes]]
+- [[#configuration-files][Configuration files]]
+- [[#tramp][TRAMP]]
+- [[#docker][Docker]]
+- [[#kubernetes][Kubernetes]]
 - [[#benchmark-startup-time][Benchmark startup time]]
 - [[#deprecated][Deprecated]]
   - [[#fzf][Fzf]]
@@ -391,7 +390,7 @@ but how ? Emacs has a default keychord called M-x (execute-extended-command) tha
 function interactively, many packages has these kind of functions for example load-theme that we used
 before is interactive as well, if we call it we will prompted to enter the font first and then the size
 and volla :).
-* Completion
+* Selection Candidates
 #+begin_src emacs-lisp
   (use-package orderless
    :straight t
@@ -539,9 +538,9 @@ by default is bound to =C-c <left>=.
   (use-package ibuffer
     :bind (("C-x C-b" . 'ibuffer)))
 
-  (use-package ibuffer-projectile 
-    :straight t
-    :hook (ibuffer . ibuffer-projectile-set-filter-groups))
+  (use-package ibuffer-vc :straight t
+    :hook (ibuffer-mode . (lambda () (interactive) (ibuffer-vc-set-filter-groups-by-vc-root))))
+
 #+end_src
 * Editing
 ** Motions
@@ -688,7 +687,7 @@ by default is bound to =C-c <left>=.
      isearch-backward-regexp
      isearch-forward
      isearch-backward))
-  
+
 #+end_src
 ** Grep
 #+begin_src emacs-lisp
@@ -1463,8 +1462,7 @@ Mail setup in Emacs using Gnus. WIP
     (interactive)
     (amirreza/start-vlc (expand-file-name (completing-read "Video: " (directory-files-recursively amirreza/video-location ".*")))))
 #+end_src
-* Devops Tools
-** Some syntax highlights
+* Configuration files
  #+begin_src emacs-lisp
    (use-package crontab-mode :defer t :straight t)
    (use-package apache-mode :straight t
@@ -1474,28 +1472,28 @@ Mail setup in Emacs using Gnus. WIP
    (use-package nginx-mode :straight 
      :mode ("/etc/nginx/conf.d/.*" "/etc/nginx/.*\\.conf\\'"))
  #+end_src
-** TRAMP
- #+begin_src emacs-lisp
-     (use-package tramp
-           :commands (tramp)
-           :config
-           (setq tramp-default-method "ssh"))
- #+end_src
-** Docker
- #+BEGIN_SRC emacs-lisp
-   (use-package docker-compose-mode
-     :straight t
-     :mode "docker-compose\\.yml")
+* TRAMP
+#+begin_src emacs-lisp
+    (use-package tramp
+          :commands (tramp)
+          :config
+          (setq tramp-default-method "ssh"))
+#+end_src
+* Docker
+#+BEGIN_SRC emacs-lisp
+  (use-package docker-compose-mode
+    :straight t
+    :mode "docker-compose\\.yml")
 
-   (use-package docker :straight t 
-     :bind
-     ("C-c d d" . docker))
-   (use-package dockerfile-mode :straight t :mode "\\Dockerfile\\'")
- #+END_SRC
-** Kubernetes
- #+begin_src emacs-lisp
- (use-package kubel :straight t :commands (kubel) :bind (("C-c d k" . kubel)))
- #+end_src
+  (use-package docker :straight t 
+    :bind
+    ("C-c d d" . docker))
+  (use-package dockerfile-mode :straight t :mode "\\Dockerfile\\'")
+#+END_SRC
+* Kubernetes
+#+begin_src emacs-lisp
+(use-package kubel :straight t :commands (kubel) :bind (("C-c d k" . kubel)))
+#+end_src
 
 * Benchmark startup time
 #+begin_src emacs-lisp
