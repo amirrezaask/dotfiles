@@ -38,9 +38,9 @@
   - [[#vlf-very-large-file][Vlf (very large file)]]
 - [[#writing][Writing]]
   - [[#org][Org]]
-  - [[#org-bullets][Org bullets]]
-  - [[#org-toc][Org TOC]]
-  - [[#htmlize][htmlize]]
+    - [[#org-bullets][Org bullets]]
+    - [[#org-toc][Org TOC]]
+    - [[#htmlize][htmlize]]
   - [[#markdown-mode][Markdown mode]]
 - [[#searching][Searching]]
   - [[#in-buffer-searching][In Buffer searching]]
@@ -436,11 +436,11 @@ and volla :).
     :config
     (icomplete-vertical-mode -1))
 
-  (use-package live-completions 
-    :straight (:host github :repo "oantolin/live-completions") 
+  (use-package live-completions
+    :defer t
+    :straight (:host github :repo "oantolin/live-completions")
     :config
     (live-completions-mode 1))
-
 #+end_src
 * Windows/Workspaces
 ** Window rules
@@ -511,16 +511,20 @@ on it, but when we are done with focus mode ;) we need that layout back that's w
 comes handy you can restore last window layout with just a function called =winner-undo= that
 by default is bound to =C-c <left>=.
 #+BEGIN_SRC emacs-lisp
-  (use-package winner 
-    :commands (winner-redo winner-undo))
+  (use-package winner
+    :demand
+    :config
+    (winner-mode 1)
+    :commands (winner-redo winner-undo)
+    :bind (("C->" . winner-redo)
+           ("C-<" . winner-undo)))
 #+END_SRC
 ** Ace Window (Better Window Management)
 #+BEGIN_SRC emacs-lisp
       (use-package ace-window
         :straight t
         :commands (ace-window)
-        :bind (("C-x o" . 'ace-window)
-               ("C-x C-o" . 'ace-window)))
+        :bind (("C-x C-o" . 'ace-window)))
 #+END_SRC
 ** Beacon
 #+begin_src emacs-lisp
@@ -646,21 +650,21 @@ by default is bound to =C-c <left>=.
   (setq org-src-window-setup 'current-window)
   (setq org-agenda-files '("~/org/work.org" "~/org/personal.org")))
 #+END_SRC
-** Org bullets
-#+BEGIN_SRC emacs-lisp
-(use-package org-bullets
-  :straight t
-  :hook (org-mode . org-bullets-mode))
-#+END_SRC
-** Org TOC
-#+begin_src emacs-lisp
-(use-package toc-org :straight t :hook (org-mode . toc-org-mode))
-#+end_src
+*** Org bullets
+ #+BEGIN_SRC emacs-lisp
+ (use-package org-bullets
+   :straight t
+   :hook (org-mode . org-bullets-mode))
+ #+END_SRC
+*** Org TOC
+ #+begin_src emacs-lisp
+ (use-package toc-org :straight t :hook (org-mode . toc-org-mode))
+ #+end_src
 
-** htmlize
-#+begin_src emacs-lisp
-(use-package htmlize :straight t :defer t)
-#+end_src
+*** htmlize
+ #+begin_src emacs-lisp
+ (use-package htmlize :straight t :defer t)
+ #+end_src
 ** Markdown mode
 #+begin_src emacs-lisp
 (use-package markdown-mode
@@ -1402,49 +1406,50 @@ Mail setup in Emacs using Gnus. WIP
 #+end_src
 * Music
 #+begin_src emacs-lisp
-  (use-package bongo 
-    :straight t
-    :commands (bongo bongo-dired-library-mode)
-    :init
-    (defun amirreza/dired-music-library-hook ()
-      (define-key dired-mode-map (kbd "C-c b a") 'amirreza/add-marked-files-to-bongo)
-      (when (string-match-p "\\~/Music.*" default-directory)
-        (bongo-dired-library-mode 1)))
+      (use-package bongo 
+        :straight t
+        :commands (bongo bongo-dired-library-mode)
+        :init
+        (defun amirreza/dired-music-library-hook ()
+          (define-key dired-mode-map (kbd "C-c b a") 'amirreza/add-marked-files-to-bongo)
+          (when (string-match-p "\\~/Music.*" default-directory)
+            (bongo-dired-library-mode 1)))
 
-    (add-hook 'dired-mode-hook 'amirreza/dired-music-library-hook)
-    :config
-    (defun amirreza/add-marked-files-to-bongo ()
-      (interactive)
-      (let ((tracks (dired-get-marked-files)))
-        (bongo-playlist)
-        (mapc 'bongo-insert-file tracks)))
+        (add-hook 'dired-mode-hook 'amirreza/dired-music-library-hook)
+        :config
+        (defun amirreza/add-marked-files-to-bongo ()
+          (interactive)
+          (let ((tracks (dired-get-marked-files)))
+            (bongo-playlist)
+            (mapc 'bongo-insert-file tracks)))
 
-    (defvar amirreza/playlists-location "~/Music/Playlists/")
+        (defvar amirreza/playlists-location "~/Music/Playlists/")
 
-    (defun amirreza/save-marked-in-playlist ()
-       (interactive)
-       (let ((tracks (dired-get-marked-files)))
-         (append-to-file (concat "\n" (string-join tracks "\n")) nil (concat amirreza/playlists-location (completing-read "Playlist Name: " (directory-files amirreza/playlists-location nil directory-files-no-dot-files-regexp))))))
+        (defun amirreza/save-marked-in-playlist ()
+           (interactive)
+           (let ((tracks (dired-get-marked-files)))
+             (append-to-file (concat "\n" (string-join tracks "\n")) nil (concat amirreza/playlists-location (completing-read "Playlist Name: " (directory-files amirreza/playlists-location nil directory-files-no-dot-files-regexp))))))
 
-    (defun amirreza/load-playlist ()
-      (interactive)
-      (let ((prev-buff (current-buffer)))
-      (bongo-playlist)
-      (bongo-insert-playlist-contents  (concat amirreza/playlists-location (completing-read "Playlist: " (directory-files amirreza/playlists-location nil directory-files-no-dot-files-regexp))))
-      (switch-to-buffer prev-buff)))
+        (defun amirreza/load-playlist ()
+          (interactive)
+          (bongo-playlist)
+          (bongo-insert-playlist-contents  (concat amirreza/playlists-location 
+                                                   (completing-read "Playlist: " 
+                                                                    (directory-files amirreza/playlists-location nil directory-files-no-dot-files-regexp)))))
 
-    (setq bongo-default-directory "~/Music")
-    (setq bongo-action-track-icon nil)
-    (setq bongo-display-track-icons nil)
-    (setq bongo-display-track-lengths nil)
-    (setq bongo-display-header-icons nil)
-    (setq bongo-display-playback-mode-indicator nil)
-    :bind
-    (("C-c b l l" . (lambda () (interactive) (find-file "~/Music")))
-     ("C-c b p" . bongo-pause/resume)
-     ("C-c b s" . bongo-start)
-     ("C-c b l p" . amirreza/load-playlist)
-     ("C-c b l s" . amirreza/save-marked-in-playlist)))
+
+        (setq bongo-default-directory "~/Music")
+        (setq bongo-action-track-icon nil)
+        (setq bongo-display-track-icons nil)
+        (setq bongo-display-track-lengths nil)
+        (setq bongo-display-header-icons nil)
+        (setq bongo-display-playback-mode-indicator nil)
+        :bind
+        (("C-c b l l" . (lambda () (interactive) (find-file "~/Music")))
+         ("C-c b p" . bongo-pause/resume)
+         ("C-c b s" . bongo-start)
+         ("C-c b l p" . amirreza/load-playlist)
+         ("C-c b l s" . amirreza/save-marked-in-playlist)))
 
 #+end_src
 * Video
