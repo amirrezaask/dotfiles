@@ -3,7 +3,7 @@ key_bindings:
 
 font:
   normal:
-    family: Fira Code 
+    family: Fira mono 
     style: Regular
 # colors:
 #   # Default colors
