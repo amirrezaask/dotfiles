@@ -222,7 +222,7 @@ extensively but now i use it only when keybindings are just crazy.
     (prefer-coding-system 'utf-8)
     (setq-default fill-column 80) ;; column number which emacs start to line wrap.
 
-                                          ; vertical scrolling
+    ; vertical scrolling
     (setq scroll-step 5)
     (setq scroll-margin 5)
     (setq scroll-conservatively 101)
@@ -230,8 +230,9 @@ extensively but now i use it only when keybindings are just crazy.
     (setq scroll-down-aggressively 0.01)
     (setq auto-window-vscroll nil)
     (setq fast-but-imprecise-scrolling nil)
-    (setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))
-    (setq mouse-wheel-progressive-speed nil)
+    (setq mouse-wheel-scroll-amount '(5
+                                      ((shift) . 10)))
+    (setq mouse-wheel-progressive-speed t)
     ;; Horizontal Scroll
     (setq hscroll-step 1)
     (setq hscroll-margin 1))
@@ -435,10 +436,10 @@ and volla :).
     (:map icomplete-minibuffer-map
           ("C-v" . icomplete-vertical-toggle))
     :config
-    (icomplete-vertical-mode -1))
+    (icomplete-vertical-mode 1))
 
   (use-package live-completions
-    :defer t
+    :disabled t
     :straight (:host github :repo "oantolin/live-completions")
     :config
     (live-completions-mode 1))
