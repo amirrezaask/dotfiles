@@ -91,6 +91,7 @@
       - [[#phpunit][PHPUnit]]
     - [[#rust][Rust]]
       - [[#rust-mode][Rust mode]]
+    - [[#protobuf][Protobuf]]
 - [[#version-control][Version Control]]
   - [[#smerge][Smerge]]
 - [[#file-manager][File Manager]]
@@ -370,7 +371,7 @@ extensively but now i use it only when keybindings are just crazy.
 * Font
 To use specific font in Emacs you just need to call a function, that's easy ha ??
 #+BEGIN_SRC emacs-lisp
-  (defvar amirreza/font "Terminus-10")
+  (defvar amirreza/font "Hack-10")
   (set-face-attribute 'default t :font amirreza/font)
   (set-frame-font amirreza/font nil t)
   (global-prettify-symbols-mode 1)
@@ -396,6 +397,7 @@ and volla :).
    :straight t
    :config
   (setq completion-styles '(orderless)))
+
   (use-package icomplete
     :demand
     :bind
@@ -440,6 +442,7 @@ and volla :).
     :straight (:host github :repo "oantolin/live-completions")
     :config
     (live-completions-mode 1))
+
 #+end_src
 * Windows/Workspaces
 ** Window rules
@@ -1284,6 +1287,10 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
  (use-package rust-mode :straight t :mode "\\.rs\\'")
  #+END_SRC
 
+*** Protobuf
+#+begin_src emacs-lisp
+(use-package protobuf-mode :load-path "/home/amirreza/.emacs.d/site-lisp" :mode "\\.proto\\'")
+#+end_src
 * Version Control
 #+BEGIN_SRC emacs-lisp
   (use-package magit
