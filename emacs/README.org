@@ -187,9 +187,10 @@ extensively but now i use it only when keybindings are just crazy.
   (use-package hydra :straight t :commands (defhydra))
   (use-package pretty-hydra :straight t :commands (pretty-hydra-define))
   (use-package keycast
+    :disabled t
     :straight t
     :config
-    (keycast-mode 1)
+    (keycast-mode -1)
     (setq keycast-separator-width 0))
 #+end_src
 * Basic setups
@@ -367,8 +368,6 @@ extensively but now i use it only when keybindings are just crazy.
                     " <"
                     mode-name
                     "> "
-                    mode-line-keycast
-                    " "
                     mode-line-position
                     " "
                     (vc-mode vc-mode))))
