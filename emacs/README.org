@@ -294,40 +294,44 @@ extensively but now i use it only when keybindings are just crazy.
  that this package is installed, and if it's not install it from elpa repo.
  Now let's set a theme
  #+BEGIN_SRC emacs-lisp
-          (use-package emacs 
-            :config 
-            (setq ring-bell-function t)
-            (setq visible-bell t))
+   (use-package emacs 
+     :config 
+     (setq ring-bell-function t)
+     (setq visible-bell t))
 
-          (use-package custom
-            :demand
-            :bind (("<f12>" . amirreza/toggle-color-mode))
-            :config
-            (defvar amirreza/current-mode 'dark "Current color mode of Emacs.")
-            (defvar amirreza/dark-theme 'modus-vivendi)
-            (defvar amirreza/light-theme 'modus-operandi)
+   (use-package custom
+     :demand
+     :bind (("<f12>" . amirreza/toggle-color-mode))
+     :config
+     (defvar amirreza/current-mode 'dark "Current color mode of Emacs.")
+     (defvar amirreza/dark-theme 'doom-dark+)
+     (defvar amirreza/light-theme 'modus-operandi)
 
-            (defmacro amirreza/--load-theme (&rest theme-opts)
-              `(progn (mapc #'disable-theme custom-enabled-themes)
-                      (load-theme ,@theme-opts)))
+     (defmacro amirreza/--load-theme (&rest theme-opts)
+       `(progn (mapc #'disable-theme custom-enabled-themes)
+               (load-theme ,@theme-opts)))
 
-            (defun amirreza/load-theme (theme)
-              (interactive "sEnter Theme: ")
-              (amirreza/--load-theme (intern theme) t))
-            (defun amirreza/apply-color (mode)
-              "Apply current color mode to Emacs."
-              (if (eq amirreza/current-mode 'dark)
-                  (amirreza/--load-theme amirreza/dark-theme t)
-                (amirreza/--load-theme  amirreza/light-theme t)))
+     (defun amirreza/load-theme ()
+       (interactive)
+       (let ((theme (intern  (completing-read "Theme: " (mapcar #'symbol-name
+                                                                (custom-available-themes))))))
+                 
+         (amirreza/--load-theme theme t)))
+  
+     (defun amirreza/apply-color (mode)
+       "Apply current color mode to Emacs."
+       (if (eq amirreza/current-mode 'dark)
+           (amirreza/--load-theme amirreza/dark-theme t)
+         (amirreza/--load-theme  amirreza/light-theme t)))
 
-            (defun amirreza/toggle-color-mode ()
-              "Toggle current mode to the opposite"
-              (interactive)
-              (if (eq amirreza/current-mode 'dark)
-                  (setq amirreza/current-mode 'light)
-                (setq amirreza/current-mode 'dark))
-              (amirreza/apply-color amirreza/current-mode))
-           (amirreza/apply-color amirreza/current-mode))
+     (defun amirreza/toggle-color-mode ()
+       "Toggle current mode to the opposite"
+       (interactive)
+       (if (eq amirreza/current-mode 'dark)
+           (setq amirreza/current-mode 'light)
+         (setq amirreza/current-mode 'dark))
+       (amirreza/apply-color amirreza/current-mode))
+    (amirreza/apply-color amirreza/current-mode))
  #+END_SRC
 ***** Performance Tip 
  About 95% of packages we use don't need to be loaded at startup and =:defer= is only one of the multiple
