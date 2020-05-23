@@ -16,6 +16,7 @@
   - [[#modeline][Modeline]]
 - [[#font][Font]]
 - [[#selection-candidates][Selection Candidates]]
+  - [[#ivy][Ivy]]
 - [[#windowsworkspaces][Windows/Workspaces]]
   - [[#window-rules][Window rules]]
   - [[#eyebrowse][Eyebrowse]]
@@ -106,7 +107,7 @@
 - [[#benchmark-startup-time][Benchmark startup time]]
 - [[#deprecated][Deprecated]]
   - [[#fzf][Fzf]]
-  - [[#ivycounselswiper][Ivy/Counsel/Swiper]]
+  - [[#icomplete][Icomplete]]
   - [[#rhythmbox][Rhythmbox]]
   - [[#eyebrowse-hydra][Eyebrowse hydra]]
   - [[#hydra][Hydra]]
@@ -402,57 +403,53 @@ function interactively, many packages has these kind of functions for example lo
 before is interactive as well, if we call it we will prompted to enter the font first and then the size
 and volla :).
 * Selection Candidates
+** Ivy
 #+begin_src emacs-lisp
-  (use-package orderless
-   :straight t
-   :config
-  (setq completion-styles '(orderless)))
-
-  (use-package icomplete
-    :demand
-    :bind
-    (:map global-map
-          ("M-y" . amirreza/show-kill-ring)
-          :map icomplete-minibuffer-map
-          ("C-n" . icomplete-forward-completions)
-          ("C-p" . icomplete-backward-completions)
-          ("C-f" . icomplete-forward-completions)
-          ("C-b" . icomplete-backward-completions)
-          ("<right>" . icomplete-forward-completions)
-          ("<left>" . icomplete-backward-completions)
-          ("<down>" . icomplete-forward-completions)
-          ("<up>" . icomplete-backward-completions)
-          ("<RET>" . icomplete-force-complete-and-exit)
-          ("<tab>" . icomplete-force-complete))
-    :config
-    (defun amirreza/show-kill-ring ()
-      (interactive)
-      (insert (completing-read "Insert: " kill-ring)))
-
-    (setq icomplete-max-delay-chars 2
-          icomplete-separator " | "
-          icomplete-show-matches-on-no-input t
-          icomplete-hide-common-prefix nil
-          completion-ignore-case t)
-    (when (> emacs-major-version 26)
-      (fido-mode -1))
-    (icomplete-mode 1))
-
-  (use-package icomplete-vertical
+  (use-package flx :straight t)
+  (use-package ivy
     :straight t
-    :demand
     :bind
-    (:map icomplete-minibuffer-map
-          ("C-v" . icomplete-vertical-toggle))
+    (("C-x b" . 'ivy-switch-buffer)
+     :map ivy-minibuffer-map
+     ("RET" . 'ivy-alt-done))
     :config
-    (icomplete-vertical-mode 1))
+    (setq ivy-height 15)
+    ;; loopish cycling through list
+    (setq ivy-wrap t)
+    ;; don't show recents in minibuffer
+    (setq ivy-use-virtual-buffers nil)
+    ;; ...but if that ever changes, show their full path
+    (setq ivy-virtual-abbreviate 'full)
+    ;; don't quit minibuffer on delete-error
+    (setq ivy-on-del-error-function #'ignore)
+    (setf (alist-get 't ivy-format-functions-alist)
+          #'ivy-format-function-line)
+    (setq ivy-initial-inputs-alist nil)
+    (setq ivy-re-builders-alist
+          '((t . ivy--regex-ignore-order)))
+    (ivy-mode +1))
 
-  (use-package live-completions
-    :disabled t
-    :straight (:host github :repo "oantolin/live-completions")
-    :config
-    (live-completions-mode 1))
+  (use-package all-the-icons-ivy :straight t :config (all-the-icons-ivy-setup))
 
+  (use-package swiper
+    :straight t
+    :commands (swiper)
+    :init (global-set-key (kbd "C-s") 'swiper))
+
+  (use-package counsel
+    :straight t
+    :bind
+    (("M-x" . 'counsel-M-x)
+     ("C-x C-f" . 'counsel-find-file)
+     ("C-h b" . 'counsel-descbinds)
+     ("C-h f" . 'counsel-describe-function)
+     ("C-h v" . 'counsel-describe-variable)
+     ("C-h a" . 'counsel-apropos)
+     ("M-i" . 'counsel-imenu) ;; code semantics
+     ("M-y" . 'counsel-yank-pop) ;; show kill ring
+     ("C-c f f" . 'counsel-fzf)))
+
+  (use-package ivy-rich :straight t :config (ivy-rich-mode 1))
 #+end_src
 * Windows/Workspaces
 ** Window rules
@@ -498,18 +495,18 @@ Emacs windows can be configured in the matter of where their gonna open.
                eyebrowse-switch-to-window-config-9)
 
     :config (eyebrowse-mode +1)
-    :bind (("C-c w w 0" . eyebrowse-switch-to-window-config-0)
-           ("C-c w w 1" . eyebrowse-switch-to-window-config-1)
-           ("C-c w w 2" . eyebrowse-switch-to-window-config-2)
-           ("C-c w w 3" . eyebrowse-switch-to-window-config-3)
-           ("C-c w w 4" . eyebrowse-switch-to-window-config-4)
-           ("C-c w w 5" . eyebrowse-switch-to-window-config-5)
-           ("C-c w w 6" . eyebrowse-switch-to-window-config-6)
-           ("C-c w w 7" . eyebrowse-switch-to-window-config-7)
-           ("C-c w w 8" . eyebrowse-switch-to-window-config-8)
-           ("C-c w w 9" . eyebrowse-switch-to-window-config-9)
-           ("C-c w w n" . eyebrowse-create-window-config)
-           ("C-c w w c" . eyebrowse-close-window-config)))
+    :bind (("C-c w 0" . eyebrowse-switch-to-window-config-0)
+           ("C-c w 1" . eyebrowse-switch-to-window-config-1)
+           ("C-c w 2" . eyebrowse-switch-to-window-config-2)
+           ("C-c w 3" . eyebrowse-switch-to-window-config-3)
+           ("C-c w 4" . eyebrowse-switch-to-window-config-4)
+           ("C-c w 5" . eyebrowse-switch-to-window-config-5)
+           ("C-c w 6" . eyebrowse-switch-to-window-config-6)
+           ("C-c w 7" . eyebrowse-switch-to-window-config-7)
+           ("C-c w 8" . eyebrowse-switch-to-window-config-8)
+           ("C-c w 9" . eyebrowse-switch-to-window-config-9)
+           ("C-c w n" . eyebrowse-create-window-config)
+           ("C-c w c" . eyebrowse-close-window-config)))
 
 #+END_SRC
 ** Winner (Restore Window layout)
@@ -1530,54 +1527,60 @@ Stuff I used in the past but now replaced with other tools mostly emacs builtin.
             ("C-c f d" . fzf-directory))
      :commands (fzf fzf-directory))
  #+end_src
-** Ivy/Counsel/Swiper
+** Icomplete
 #+begin_src emacs-lisp
-  (use-package flx :straight t)
-  (use-package ivy
+  (use-package orderless
+    :disabled t
     :straight t
-    :bind
-    (("C-x b" . 'ivy-switch-buffer)
-     :map ivy-minibuffer-map
-     ("RET" . 'ivy-alt-done))
     :config
-    (setq ivy-height 15)
-    ;; loopish cycling through list
-    (setq ivy-wrap t)
-    ;; don't show recents in minibuffer
-    (setq ivy-use-virtual-buffers nil)
-    ;; ...but if that ever changes, show their full path
-    (setq ivy-virtual-abbreviate 'full)
-    ;; don't quit minibuffer on delete-error
-    (setq ivy-on-del-error-function #'ignore)
-    (setf (alist-get 't ivy-format-functions-alist)
-          #'ivy-format-function-line)
-    (setq ivy-initial-inputs-alist nil)
-    (setq ivy-re-builders-alist
-          '((ivy-switch-buffer . ivy--regex-plus)
-            (t . ivy--regex-ignore-order)))
-    (ivy-mode +1))
+    (setq completion-styles '(orderless)))
 
-  (use-package all-the-icons-ivy :straight t :config (all-the-icons-ivy-setup))
-
-  (use-package swiper
-    :straight t
-    :commands (swiper)
-    :init (global-set-key (kbd "C-s") 'swiper))
-
-  (use-package counsel
-    :straight t
+  (use-package icomplete
+    :disabled t
+    :demand
     :bind
-    (("M-x" . 'counsel-M-x)
-     ("C-x C-f" . 'counsel-find-file)
-     ("C-h b" . 'counsel-descbinds)
-     ("C-h f" . 'counsel-describe-function)
-     ("C-h v" . 'counsel-describe-variable)
-     ("C-h a" . 'counsel-apropos)
-     ("M-i" . 'counsel-imenu) ;; code semantics
-     ("M-y" . 'counsel-yank-pop) ;; show kill ring
-     ("C-c f f" . 'counsel-fzf)))
+    (:map global-map
+          ("M-y" . amirreza/show-kill-ring)
+          :map icomplete-minibuffer-map
+          ("C-n" . icomplete-forward-completions)
+          ("C-p" . icomplete-backward-completions)
+          ("C-f" . icomplete-forward-completions)
+          ("C-b" . icomplete-backward-completions)
+          ("<right>" . icomplete-forward-completions)
+          ("<left>" . icomplete-backward-completions)
+          ("<down>" . icomplete-forward-completions)
+          ("<up>" . icomplete-backward-completions)
+          ("<RET>" . icomplete-force-complete-and-exit)
+          ("<tab>" . icomplete-force-complete))
+    :config
+    (defun amirreza/show-kill-ring ()
+      (interactive)
+      (insert (completing-read "Insert: " kill-ring)))
 
-  (use-package ivy-rich :straight t :config (ivy-rich-mode 1))
+    (setq icomplete-max-delay-chars 2
+          icomplete-separator " | "
+          icomplete-show-matches-on-no-input t
+          icomplete-hide-common-prefix nil
+          completion-ignore-case t)
+    (when (> emacs-major-version 26)
+      (fido-mode -1))
+    (icomplete-mode 1))
+
+  (use-package icomplete-vertical
+    :disabled t
+    :straight t
+    :demand
+    :bind
+    (:map icomplete-minibuffer-map
+          ("C-v" . icomplete-vertical-toggle))
+    :config
+    (icomplete-vertical-mode 1))
+
+  (use-package live-completions
+    :disabled t
+    :straight (:host github :repo "oantolin/live-completions")
+    :config
+    (live-completions-mode 1))
 
 #+end_src
 ** Rhythmbox
