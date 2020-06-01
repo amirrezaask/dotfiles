@@ -1,0 +1,10 @@
+{
+    "window.zoomLevel": 0,
+    "editor.fontFamily": "Cascadia Code,Consolas, 'Courier New', monospace",
+    "terminal.integrated.fontFamily": "Cascadia Mono PL",
+    "terminal.integrated.shell.windows": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+    "workbench.startupEditor": "newUntitledFile",
+    "go.useLanguageServer": true,
+    "editor.suggestSelection": "first",
+    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue"
+}
