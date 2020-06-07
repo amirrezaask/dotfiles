@@ -108,5 +108,5 @@ export EMACSTERMINAL="emacsclient -t"
 export EDITOR=nvim 
 export GOPRIVATE="gitlab.snapp.ir"
 export GOPROXY="goproxy.io"
-
+export DISPLAY=:0
 

@@ -12,19 +12,22 @@ Plug 'tpope/vim-fugitive'
 Plug 'junegunn/gv.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'morhetz/gruvbox'
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+" Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'junegunn/goyo.vim'
 Plug 'honza/dockerfile.vim'
 Plug 'dag/vim-fish'
 Plug 'rust-lang/rust.vim'
-" Plug 'neovim/nvim-lsp'
-" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-" Plug 'Shougo/deoplete-lsp'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'icymind/NeoSolarized'
- Plug 'itchyny/lightline.vim'
+Plug 'itchyny/lightline.vim'
+
+Plug 'ncm2/ncm2'
+Plug 'roxma/nvim-yarp'
+Plug 'prabirshrestha/async.vim'
+Plug 'prabirshrestha/vim-lsp'
+Plug 'ncm2/ncm2-vim-lsp'
+Plug 'mattn/vim-lsp-settings'
 call plug#end()
 
 " General Settings{{{
@@ -45,7 +48,7 @@ set ruler
 set nojoinspaces
 set shiftround
 set mouse=a
-set guifont=Jetbrains\ Mono\ 9 
+set guifont=Cascadia\ Code\ 9 
 colorscheme gruvbox 
 set relativenumber
 set termguicolors
@@ -56,9 +59,6 @@ set autoindent
 noremap j gj
 noremap k gk
 " }}}
-" let g:lightline = {
-"       \ 'colorscheme': 'gruvbox',
-"       \ }
 " FileType specific settings {{{
 augroup format
         " PHP
@@ -131,33 +131,12 @@ nnoremap <leader>fc :Commands<CR>
 nnoremap <leader>fs :Rg<CR>
 "}}}
 
-"Neovim LSP settings {{{
-" lua require'nvim_lsp'.gopls.setup{}
-" lua require'nvim_lsp'.vimls.setup{}
-" lua require'nvim_lsp'.pyls_ms.setup{}
-" lua require'nvim_lsp'.intelephense.setup{}
-" nnoremap <silent>''  <cmd>lua vim.lsp.buf.definition()<CR>
-" nnoremap <silent>';  <cmd>lua vim.lsp.buf.hover()<CR>
-" nnoremap <silent>'"  <cmd>lua vim.lsp.buf.implementation()<CR>
-" nnoremap <silent>'\  <cmd>lua vim.lsp.buf.signature_help()<CR>
-" nnoremap <silent>'/  <cmd>lua vim.lsp.buf.type_definition()<CR>
-" nnoremap <silent>'.  <cmd>lua vim.lsp.buf.references()<CR>
-" nnoremap <silent>'=  <cmd>lua vim.lsp.buf.document_symbol()<CR>
-" nnoremap <silent>'-  <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
-"}}}
-
-
-" deoplete settings {{{
-" let g:deoplete#enable_at_startup = 1
-" autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif  " Close Doc window after exiting the completion menu
-" inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-"}}}
-
 " NetRW settings {{{
 let g:netrw_banner = 0
 let g:netrw_winsize = 20
 let g:netrw_liststyle = 3
 " }}}
+
 function! ToggleColorMode()
 	if &g:background == 'dark'
 		let &g:background="light"
@@ -167,4 +146,13 @@ function! ToggleColorMode()
 endfunction
 nnoremap <f12> :call ToggleColorMode()<CR>
 
-source ~/.config/nvim/coc.vim
+
+" NCM2 {{{
+autocmd BufEnter * call ncm2#enable_for_buffer()
+set completeopt=noinsert,menuone,noselect
+set shortmess+=c
+inoremap <c-c> <ESC>
+inoremap <expr> <CR> (pumvisible() ? "\<c-y>" : "\<CR>")
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+" }}}

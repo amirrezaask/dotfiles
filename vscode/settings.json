@@ -1,10 +1,17 @@
 {
-    "window.zoomLevel": 0,
-    "editor.fontFamily": "Cascadia Code,Consolas, 'Courier New', monospace",
+    "window.zoomLevel": 1,
+    "editor.fontFamily": "Cascadia Code",
     "terminal.integrated.fontFamily": "Cascadia Mono PL",
     "terminal.integrated.shell.windows": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
     "workbench.startupEditor": "newUntitledFile",
     "go.useLanguageServer": true,
     "editor.suggestSelection": "first",
-    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue"
+    "editor.fontLigatures": true,
+    "workbench.iconTheme": "material-icon-theme",
+    "workbench.settings.editor": "json",
+    "editor.cursorSmoothCaretAnimation": true,
+    "editor.renderIndentGuides": true,
+    "editor.renderWhitespace": "boundary",
+    "editor.minimap.enabled": false,
+    "editor.copyWithSyntaxHighlighting": true,
 }
