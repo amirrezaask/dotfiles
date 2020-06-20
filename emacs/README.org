@@ -945,7 +945,6 @@ configuration of company.
 For company backends we are going to use =company-capf= which is abbrv for =company complete at point function= which is a function in Emacs that major modes
 can call an get completions based on that.
 #+BEGIN_SRC emacs-lisp
-  (use-package company-tabnine :straight t)
   (use-package company
     :straight t
     :bind (:map company-active-map
@@ -961,7 +960,7 @@ can call an get completions based on that.
     (setq company-idle-delay 0.0)
     (setq company-echo-delay 0.1)
     (setq company-show-numbers t)
-    (setq company-backends '((company-tabnine company-capf) company-dabbrev company-files company-dabbrev-code))
+    (setq company-backends '(company-capf company-dabbrev company-files company-dabbrev-code))
     (global-company-mode t))
 #+end_src
 ** Code Semantic Movement
@@ -1182,10 +1181,11 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
  run a test when you are editing or viewing it but it does'nt mean that Emacs can't do that.
  #+BEGIN_SRC emacs-lisp
    (use-package gotest :straight t 
-     :bind
-     (:map go-mode-map 
-           ("C-c m t f" . go-test-current-file)
-           ("C-c m t t" . go-test-current-test)))
+     :after go-mode
+     :config
+     (define-key go-mode-map (kbd "C-c m t t") 'go-test-current-file) 
+     (define-key go-mode-map (kbd "C-c m t t") 'go-test-current-test))
+ 
  #+END_SRC
 *** Scheme
  I use guile as my scheme compiler.
@@ -1298,9 +1298,9 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
    (use-package phpunit :straight t
      :after php-mode
      :config 
-     (define-key php-mode-map (kbd "C-c m t t") 'php-current-test)
-     (define-key php-mode-map (kbd "C-c m t c")  'php-current-class)
-     (define-key php-mode-map (kbd "C-c m t p")  'php-current-project))
+     (define-key php-mode-map (kbd "C-c m t t") 'phpunit-current-test)
+     (define-key php-mode-map (kbd "C-c m t c")  'phpunit-current-class)
+     (define-key php-mode-map (kbd "C-c m t p")  'phpunit-current-project))
  #+END_SRC
 *** Rust
 **** Rust mode
