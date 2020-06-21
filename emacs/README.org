@@ -717,12 +717,8 @@ by default is bound to =C-c <left>=.
 #+begin_src emacs-lisp
   (require 'cl-lib)
   (use-package project
-    :bind (("C-c f f" . amirreza/project-or-dir-find-file-recur)
-           ("C-c f d" . amirreza/project-or-dir-find-dir-recur)
-           ("C-c p" . amirreza/projects-list)
-           ("M-s f" . amirreza/project-or-dir-find-file-recur)
-           ("M-s d" . amirreza/project-or-dir-find-dir-recur)
-           ("M-s p" . amirreza/projects-list))
+    :bind (("C-c f" . amirreza/project-or-dir-find-file-recur)
+           ("C-c p" . amirreza/projects-list))
     :config
     (defun amirreza/--find-sub-directories-recur (prompt dir)
       (interactive)
@@ -735,16 +731,7 @@ by default is bound to =C-c <left>=.
       (interactive)
       (let* ((project (vc-root-dir))
              (dir (if project project default-directory)))
-        (find-file (amirreza/--find-sub-directories-recur "Find: " dir))))
-
-    (defun amirreza/project-or-dir-find-dir-recur ()
-      (interactive)
-      (let* ((project (vc-root-dir))
-             (dir (if project project default-directory))
-             (dirs (-filter 'file-directory-p (directory-files-recursively dir ".*" t nil nil)))
-             (dirs-cleaned (seq-filter (lambda (dir-name)
-                                         (if (string-match-p "\\.git" dir-name) nil t)) dirs)))
-        (find-file (completing-read "Find Directory: " dirs-cleaned))))
+        (counsel-fzf "" dir "Find: ")))
 
     (defvar amirreza/project-locations '("~/w" "~/w/snapp" "~/w/foss"))
 
