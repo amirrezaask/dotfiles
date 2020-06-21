@@ -318,8 +318,8 @@ extensively but now i use it only when keybindings are just crazy.
      :bind (("<f12>" . amirreza/toggle-color-mode))
      :config
      (defvar amirreza/current-mode 'dark "Current color mode of Emacs.")
-     (defvar amirreza/dark-theme 'doom-dracula)
-     (defvar amirreza/light-theme 'modus-operandi)
+     (defvar amirreza/dark-theme 'doom-outrun-electric)
+     (defvar amirreza/light-theme 'doom-one-light)
 
      (defmacro amirreza/--load-theme (&rest theme-opts)
        `(progn (mapc #'disable-theme custom-enabled-themes)
@@ -443,12 +443,6 @@ and volla :).
     (ivy-mode +1))
 
   (use-package all-the-icons-ivy :straight t :config (all-the-icons-ivy-setup))
-
-  (use-package swiper
-    :straight t
-    :commands (swiper)
-    :init (global-set-key (kbd "C-s") 'swiper))
-
   (use-package counsel
     :straight t
     :bind
@@ -690,24 +684,11 @@ by default is bound to =C-c <left>=.
 #+end_src
 * Searching
 ** In Buffer searching
-   :PROPERTIES:
-   :header-args: :tangle no
-   :END:
 #+begin_src emacs-lisp
-  (use-package isearch
-    :bind (("C-s" . isearch-forward-regexp)
-           ("C-r" . isearch-backward-regexp))
-    :config
-    (setq isearch-highlight t)
-    (setq isearch-whitespace-regexp ".*?")
-    (setq isearch-lax-whitespace t)
-    (setq isearch-regexp-lax-whitespace nil)
-    (setq isearch-lazy-highlight t)
-    :commands
-    (isearch-forward-regexp
-     isearch-backward-regexp
-     isearch-forward
-     isearch-backward))
+  (use-package swiper
+    :straight t
+    :commands (swiper)
+    :init (global-set-key (kbd "C-s") 'swiper))
 
 #+end_src
 ** Grep
@@ -727,23 +708,10 @@ by default is bound to =C-c <left>=.
           ("C-c g" . amirreza/rg)))
 #+end_src
 * File search
-For file searching in Emacs, I used to use =fzf=, =projectile=.
-But I moved to a more simpler custom but powerful and hackable solution based on
-emacs =project= package and =icomplete= for fuzzy matching.
 ** Recents
  #+begin_src emacs-lisp
-      (use-package recentf
-        :bind (("C-c r" . 'amirreza/recent-files)
-               ("M-s r" . 'amirreza/recent-files))
-        :demand
-        :config
-        (recentf-mode 1)
-        (setq recentf-max-menu-items 25)
-        (setq recentf-max-saved-items 100)
-        (defun amirreza/recent-files ()
-          (interactive)
-          (let ((files recentf-list))
-            (find-file (completing-read "Recent: " files)))))
+   (use-package counsel 
+     :bind (("C-c r" . counsel-recentf)))
  #+end_src
 ** Projects Integration
 #+begin_src emacs-lisp
@@ -778,7 +746,7 @@ emacs =project= package and =icomplete= for fuzzy matching.
                                          (if (string-match-p "\\.git" dir-name) nil t)) dirs)))
         (find-file (completing-read "Find Directory: " dirs-cleaned))))
 
-    (defvar amirreza/project-locations '("~/w" "~/w/snapp"))
+    (defvar amirreza/project-locations '("~/w" "~/w/snapp" "~/w/foss"))
 
     (defun amirreza/projects-list ()
       "List of projects in pre defined project locations."
@@ -1038,7 +1006,7 @@ as auto-complete or syntax linting.
     (setq lsp-auto-guess-root t)
     :commands (lsp))
 
-  (use-package lsp-ui :straight t :commands lsp-ui-mode)
+;;  (use-package lsp-ui :straight t :commands lsp-ui-mode)
 
   (use-package lsp-ivy :straight t 
     :commands (lsp-ivy-workspace-symbol lsp-ivy-global-workspace-symbol) 
