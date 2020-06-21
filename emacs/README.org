@@ -36,6 +36,7 @@
   - [[#multiple-cursors][Multiple cursors]]
   - [[#iedit][Iedit]]
   - [[#vlf-very-large-file][Vlf (very large file)]]
+  - [[#so-long-lines][So Long lines]]
 - [[#writing][Writing]]
   - [[#org][Org]]
     - [[#org-bullets][Org bullets]]
@@ -96,12 +97,14 @@
   - [[#smerge][Smerge]]
 - [[#file-manager][File Manager]]
 - [[#mail--news-reader][Mail & News reader]]
+  - [[#gnus][Gnus]]
+  - [[#elfeed][Elfeed]]
 - [[#irc][IRC]]
 - [[#process-management][Process management]]
 - [[#music][Music]]
 - [[#video][Video]]
 - [[#configuration-files][Configuration files]]
-- [[#tramp][TRAMP]]
+- [[#tramp][Tramp]]
 - [[#docker][Docker]]
 - [[#kubernetes][Kubernetes]]
 - [[#benchmark-startup-time][Benchmark startup time]]
@@ -318,7 +321,7 @@ extensively but now i use it only when keybindings are just crazy.
      :bind (("<f12>" . amirreza/toggle-color-mode))
      :config
      (defvar amirreza/current-mode 'dark "Current color mode of Emacs.")
-     (defvar amirreza/dark-theme 'doom-outrun-electric)
+     (defvar amirreza/dark-theme 'doom-dracula)
      (defvar amirreza/light-theme 'doom-one-light)
 
      (defmacro amirreza/--load-theme (&rest theme-opts)
@@ -640,6 +643,11 @@ by default is bound to =C-c <left>=.
 #+begin_src emacs-lisp
 (use-package vlf :straight t :commands (vlf))
 #+end_src
+** So Long lines
+#+begin_src emacs-lisp
+  (use-package so-long 
+    :config (global-so-long-mode 1))
+#+end_src
 * Writing
 ** Org
 #+BEGIN_SRC emacs-lisp
@@ -720,13 +728,6 @@ by default is bound to =C-c <left>=.
     :bind (("C-c f" . amirreza/project-or-dir-find-file-recur)
            ("C-c p" . amirreza/projects-list))
     :config
-    (defun amirreza/--find-sub-directories-recur (prompt dir)
-      (interactive)
-      (let* ((sub-dirs (directory-files-recursively dir ".*" t nil nil))
-             (sub-dirs-cleaned (seq-filter (lambda (dir-name)
-                                             (if (string-match-p "\\.git" dir-name) nil t)) sub-dirs)))
-        (completing-read prompt sub-dirs-cleaned)))
-
     (defun amirreza/project-or-dir-find-file-recur ()
       (interactive)
       (let* ((project (vc-root-dir))
@@ -1347,6 +1348,7 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
                 ("P" . peep-dired)))
 #+end_src
 * Mail & News reader
+** Gnus
 Mail setup in Emacs using Gnus. WIP
 #+begin_src emacs-lisp
   (use-package auth-source
@@ -1371,6 +1373,13 @@ Mail setup in Emacs using Gnus. WIP
             (nnimap "Snapp - Mail"
                     (nnimap-address "mail.snapp.cab")
                     (nnimap-stream ssl)))))
+#+end_src
+** Elfeed
+#+begin_src emacs-lisp
+  (use-package elfeed :straight t
+    :commands (elfeed)
+    :config
+    (setq elfeed-feeds '("https://hckrnews.com/")))
 #+end_src
 * IRC
 #+begin_src emacs-lisp
@@ -1457,7 +1466,7 @@ Mail setup in Emacs using Gnus. WIP
    (use-package nginx-mode :straight 
      :mode ("/etc/nginx/conf.d/.*" "/etc/nginx/.*\\.conf\\'"))
  #+end_src
-* TRAMP
+* Tramp
 #+begin_src emacs-lisp
     (use-package tramp
           :commands (tramp)
@@ -1479,7 +1488,6 @@ Mail setup in Emacs using Gnus. WIP
 #+begin_src emacs-lisp
 (use-package kubel :straight t :commands (kubel) :bind (("C-c d k" . kubel)))
 #+end_src
-
 * Benchmark startup time
 #+begin_src emacs-lisp
 (defvar amirreza/startup-elapsed (- (float-time) amirreza/emacs-init-timestamp))
