@@ -50,8 +50,8 @@ set shiftround
 set mouse=a
 set guifont=Fira\ Code\ 9
 colorscheme dracula 
-set relativenumber
 set termguicolors
+set nu 
 let mapleader = " "
 set cursorline
 set nowrap
@@ -102,6 +102,8 @@ noremap <leader>n :bn<cr>
 " Easier tab{{{ 
 noremap <leader>tt :tabnext<CR>
 noremap <leader>ta :tabnew
+nnoremap <leader>tp :tabprevious<CR>
+nnoremap <leader>tn :tabprevious<CR>
 noremap <leader>tc :tabclose<CR>
 " }}}
 
