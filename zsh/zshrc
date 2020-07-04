@@ -105,8 +105,8 @@ export GOROOT='/usr/local/go'
 export PYTHONPATH='/home/amirreza/.local/bin'
 export PATH="$HOME/.config/composer/vendor/bin:$GOROOT/bin:$GOPATH/bin:$HOME/.cargo/bin:$PYTHONPATH:/usr/local/Postman:$HOME/.local/elixir-ls/:$PATH"
 export EMACSTERMINAL="emacsclient -t"
-export EDITOR=nvim 
+export EDITOR=$EMACSTERMINAL
 export GOPRIVATE="gitlab.snapp.ir"
 export GOPROXY="goproxy.io"
-export DISPLAY=:0
-
+alias vim=nvim
+alias vi=nvim

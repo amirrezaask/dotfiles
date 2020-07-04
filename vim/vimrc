@@ -21,15 +21,13 @@ Plug 'dag/vim-fish'
 Plug 'rust-lang/rust.vim'
 Plug 'icymind/NeoSolarized'
 Plug 'itchyny/lightline.vim'
-Plug 'dracula/vim', { 'as': 'dracula' }
-
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'prabirshrestha/async.vim'
-Plug 'prabirshrestha/vim-lsp'
-Plug 'lighttiger2505/deoplete-vim-lsp'
-Plug 'mattn/vim-lsp-settings'
+Plug 'roxma/nvim-yarp'
+Plug 'roxma/vim-hug-neovim-rpc'
+
 call plug#end()
 
+let g:deoplete#enable_at_startup = 1
 " General Settings{{{
 filetype off
 syntax on
@@ -48,8 +46,8 @@ set ruler
 set nojoinspaces
 set shiftround
 set mouse=a
-set guifont=Fira\ Code\ 9
-colorscheme dracula 
+set guifont=Cascadia\ Code\ 9 
+colorscheme gruvbox 
 set relativenumber
 set termguicolors
 let mapleader = " "
@@ -145,9 +143,3 @@ function! ToggleColorMode()
 	endif
 endfunction
 nnoremap <f12> :call ToggleColorMode()<CR>
-" Deoplete {{{
-let g:deoplete#enable_at_startup = 1
-autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
-inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-" }}}
-

@@ -372,7 +372,6 @@ extensively but now i use it only when keybindings are just crazy.
 ** Modeline
 #+begin_src emacs-lisp
       (use-package emacs
-        :disabled t
         :config
         (setq mode-line-percent-position '(-3 "%p"))
         (setq-default mode-line-format
@@ -390,6 +389,7 @@ extensively but now i use it only when keybindings are just crazy.
                         " "
                         (vc-mode vc-mode))))
       (use-package doom-modeline 
+        :disabled t
         :straight t 
         :config 
         (setq doom-modeline-height 35)
@@ -398,7 +398,7 @@ extensively but now i use it only when keybindings are just crazy.
 * Font
 To use specific font in Emacs you just need to call a function, that's easy ha ??
 #+BEGIN_SRC emacs-lisp
-  (defvar amirreza/font "Fira Mono-9")
+  (defvar amirreza/font "Fira Code-10")
   (set-face-attribute 'default t :font amirreza/font)
   (set-frame-font amirreza/font nil t)
   (global-prettify-symbols-mode 1)
@@ -421,45 +421,47 @@ and volla :).
 * Selection Candidates
 ** Ivy
 #+begin_src emacs-lisp
-  (use-package flx :straight t)
-  (use-package ivy
-    :straight t
-    :bind
-    (("C-x b" . 'ivy-switch-buffer)
-     :map ivy-minibuffer-map
-     ("RET" . 'ivy-alt-done))
-    :config
-    (setq ivy-height 15)
-    ;; loopish cycling through list
-    (setq ivy-wrap t)
-    ;; don't show recents in minibuffer
-    (setq ivy-use-virtual-buffers nil)
-    ;; ...but if that ever changes, show their full path
-    (setq ivy-virtual-abbreviate 'full)
-    ;; don't quit minibuffer on delete-error
-    (setq ivy-on-del-error-function #'ignore)
-    (setf (alist-get 't ivy-format-functions-alist)
-          #'ivy-format-function-line)
-    (setq ivy-initial-inputs-alist nil)
-    (setq ivy-re-builders-alist
-          '((t . ivy--regex-ignore-order)))
-    (ivy-mode +1))
+    (use-package flx :straight t)
+    (use-package ivy
+      :straight t
+      :bind
+      (("C-x b" . 'ivy-switch-buffer)
+       :map ivy-minibuffer-map
+       ("RET" . 'ivy-alt-done))
+      :config
+      (setq ivy-height 15)
+      ;; loopish cycling through list
+      (setq ivy-wrap t)
+      ;; don't show recents in minibuffer
+      (setq ivy-use-virtual-buffers nil)
+      ;; ...but if that ever changes, show their full path
+      (setq ivy-virtual-abbreviate 'full)
+      ;; don't quit minibuffer on delete-error
+      (setq ivy-on-del-error-function #'ignore)
+      (setf (alist-get 't ivy-format-functions-alist)
+            #'ivy-format-function-line)
+      (setq ivy-initial-inputs-alist nil)
+      (setq ivy-re-builders-alist
+            '((t . ivy--regex-ignore-order)))
+      (ivy-mode +1))
 
-  (use-package all-the-icons-ivy :straight t :config (all-the-icons-ivy-setup))
-  (use-package counsel
-    :straight t
-    :bind
-    (("M-x" . 'counsel-M-x)
-     ("C-x C-f" . 'counsel-find-file)
-     ("C-h b" . 'counsel-descbinds)
-     ("C-h f" . 'counsel-describe-function)
-     ("C-h v" . 'counsel-describe-variable)
-     ("C-h a" . 'counsel-apropos)
-     ("M-i" . 'counsel-imenu) ;; code semantics
-     ("M-y" . 'counsel-yank-pop) ;; show kill ring
-     ("C-c f f" . 'counsel-fzf)))
+    (use-package all-the-icons-ivy :straight t :config 
+      (all-the-icons-ivy-setup))
 
-  (use-package ivy-rich :straight t :config (ivy-rich-mode 1))
+    (use-package counsel
+      :straight t
+      :bind
+      (("M-x" . 'counsel-M-x)
+       ("C-x C-f" . 'counsel-find-file)
+       ("C-h b" . 'counsel-descbinds)
+       ("C-h f" . 'counsel-describe-function)
+       ("C-h v" . 'counsel-describe-variable)
+       ("C-h a" . 'counsel-apropos)
+       ("M-i" . 'counsel-imenu) ;; code semantics
+       ("M-y" . 'counsel-yank-pop) ;; show kill ring
+       ("C-c f f" . 'counsel-fzf)))
+
+    (use-package ivy-rich :straight t :config (ivy-rich-mode 1))
 #+end_src
 * Windows/Workspaces
 ** Window rules
@@ -1481,12 +1483,12 @@ Mail setup in Emacs using Gnus. WIP
 
   (use-package docker :straight t 
     :bind
-    ("C-c d d" . docker))
+    ("C-c d" . docker))
   (use-package dockerfile-mode :straight t :mode "\\Dockerfile\\'")
 #+END_SRC
 * Kubernetes
 #+begin_src emacs-lisp
-(use-package kubel :straight t :commands (kubel) :bind (("C-c d k" . kubel)))
+(use-package kubel :straight t :commands (kubel) :bind (("C-c k" . kubel)))
 #+end_src
 * Benchmark startup time
 #+begin_src emacs-lisp
