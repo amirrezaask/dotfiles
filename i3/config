@@ -17,7 +17,7 @@ font pango:Fira Code 10
 
 for_window [class="^.*"] border pixel 2
 
-bindsym $mod+m move workspace to output left
+bindsym $mod+m move container to output up 
 
 bindsym $mod+l exec i3lock -c 000000
 
@@ -147,7 +147,7 @@ bindsym $mod+r mode "resize"
          position top
 }
 # Assignment of windows
-assign [class="Firefox"] $ws1 
+assign [class="Firefox"] $ws2 
 assign [class="Emacs"] $ws1
 assign [class="Alacritty"] $ws2
 assign [class="Rhythmbox"] $ws4
@@ -170,6 +170,6 @@ bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 
 #Keyboard Layout
-exec xrandr --output HDMI-2 --right-of eDP-1
+# exec_always xrandr --output HDMI-1-2 --above eDP-1-1
 exec nitrogen --restore
 exec_always setxkbmap -layout us,ir -option "ctrl:nocaps" -option "grp:alt_shift_toggle"
