@@ -1,7 +1,6 @@
 call plug#begin('~/.vim/plugged')
 Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-vinegar'
-Plug 'ziglang/zig.vim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-surround'
@@ -11,18 +10,17 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'junegunn/gv.vim'
 Plug 'airblade/vim-gitgutter'
-Plug 'morhetz/gruvbox'
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'michaeljsmith/vim-indent-object'
-Plug 'junegunn/goyo.vim'
+" Languages {{{
 Plug 'honza/dockerfile.vim'
+Plug 'ziglang/zig.vim'
 Plug 'dag/vim-fish'
 Plug 'rust-lang/rust.vim'
-Plug 'icymind/NeoSolarized'
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+" }}}
 Plug 'itchyny/lightline.vim'
-Plug 'dracula/vim', { 'as': 'dracula' }
-
+Plug 'chriskempson/base16-vim'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/vim-lsp'
@@ -49,7 +47,7 @@ set nojoinspaces
 set shiftround
 set mouse=a
 set guifont=Fira\ Code\ 9
-colorscheme dracula 
+colorscheme base16-pop 
 set termguicolors
 set nu 
 let mapleader = " "
