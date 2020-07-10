@@ -45,8 +45,8 @@ set ruler
 set nojoinspaces
 set shiftround
 set mouse=a
-set guifont=Fira\ Code\ 9
-colorscheme base16-pop 
+set guifont=Jetbrains\ Mono\ 10
+colorscheme base16-monokai 
 set termguicolors
 set nu 
 let mapleader = " "
@@ -59,7 +59,7 @@ noremap k gk
 " FileType specific settings {{{
 augroup format
         " PHP
-        autocmd Filetype php setlocal ts=4 sts=4 sw=4
+        autocmd Filetype php setlocal expandtab tabstop=4 shiftwidth=4 sts=4
 
 	" Go
         autocmd Filetype go setlocal ts=4 sts=4 sw=4
