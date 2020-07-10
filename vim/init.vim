@@ -1,13 +1,15 @@
 call plug#begin('~/.vim/plugged')
-Plug 'jiangmiao/auto-pairs'
-Plug 'tpope/vim-vinegar'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
+" tpope {{{
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-jdaddy'
 Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-commentary' 
 Plug 'tpope/vim-fugitive'
+" }}}
+Plug 'jiangmiao/auto-pairs'
+Plug 'tpope/vim-vinegar'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 Plug 'junegunn/gv.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'nathanaelkane/vim-indent-guides'
@@ -19,12 +21,14 @@ Plug 'dag/vim-fish'
 Plug 'rust-lang/rust.vim'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 " }}}
-Plug 'chriskempson/base16-vim'
+" Autocomplete {{{
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'lighttiger2505/deoplete-vim-lsp'
 Plug 'mattn/vim-lsp-settings'
+" }}}
+Plug 'chriskempson/base16-vim'
 call plug#end()
 
 " General Settings{{{
