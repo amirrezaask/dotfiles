@@ -19,7 +19,6 @@ Plug 'dag/vim-fish'
 Plug 'rust-lang/rust.vim'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 " }}}
-Plug 'itchyny/lightline.vim'
 Plug 'chriskempson/base16-vim'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'prabirshrestha/async.vim'

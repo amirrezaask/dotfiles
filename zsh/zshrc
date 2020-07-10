@@ -8,7 +8,7 @@ export ZSH="/home/amirreza/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="michelebologna"
+ZSH_THEME="ys"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -101,12 +101,12 @@ source $ZSH/oh-my-zsh.sh
 
 
 export GOPATH='/home/amirreza/go'
-export GOROOT='/usr/local/go'
+export GOROOT='/usr/lib/go'
 export PYTHONPATH='/home/amirreza/.local/bin'
 export PATH="$HOME/.config/composer/vendor/bin:$GOROOT/bin:$GOPATH/bin:$HOME/.cargo/bin:$PYTHONPATH:/usr/local/Postman:$HOME/.local/elixir-ls/:$PATH"
 export EMACSTERMINAL="emacsclient -t"
 export EDITOR=$EMACSTERMINAL
 export GOPRIVATE="gitlab.snapp.ir"
 export GOPROXY="goproxy.io"
-alias vim=nvim
 alias vi=nvim
+alias vim=nvim

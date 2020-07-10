@@ -1,11 +1,6 @@
 key_bindings:
   - { key: Return,   mods: Control|Shift, action: SpawnNewInstance }
 
-font:
-  normal:
-    family: Fira mono 
-    style: Regular
-# colors:
 #   # Default colors
 #   primary:
 #     background: '#002b36' # base03

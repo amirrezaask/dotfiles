@@ -372,6 +372,7 @@ extensively but now i use it only when keybindings are just crazy.
 ** Modeline
 #+begin_src emacs-lisp
       (use-package emacs
+        :disabled t
         :config
         (setq mode-line-percent-position '(-3 "%p"))
         (setq-default mode-line-format
@@ -389,7 +390,6 @@ extensively but now i use it only when keybindings are just crazy.
                         " "
                         (vc-mode vc-mode))))
       (use-package doom-modeline 
-        :disabled t
         :straight t 
         :config 
         (setq doom-modeline-height 35)
@@ -398,7 +398,7 @@ extensively but now i use it only when keybindings are just crazy.
 * Font
 To use specific font in Emacs you just need to call a function, that's easy ha ??
 #+BEGIN_SRC emacs-lisp
-  (defvar amirreza/font "Fira Code-10")
+  (defvar amirreza/font "Fira Code-12")
   (set-face-attribute 'default t :font amirreza/font)
   (set-frame-font amirreza/font nil t)
   (global-prettify-symbols-mode 1)
@@ -703,7 +703,13 @@ by default is bound to =C-c <left>=.
 #+end_src
 ** Grep
 #+begin_src emacs-lisp
+  (use-package counsel 
+     :straight t
+     :commands (counsel-rg)
+     :bind ("C-c g" . counsel-rg))
+
   (use-package rg 
+    :disabled t
     :straight t 
     :commands (rg)
     :config
@@ -970,40 +976,40 @@ developed by community, it defines a communication protocol that a lanaguge serv
 can talk to various clients (let's say Emacs, Vi, VSCode) and provide several features such
 as auto-complete or syntax linting.
 #+BEGIN_SRC emacs-lisp
-  (use-package lsp-mode 
-    :straight t
-    :commands (lsp lsp-deferred)
-    :init
-    (setq lsp-keymap-prefix "s-d")
-    (setq lsp-file-watch-threshold 10000)
-    (defun amirreza/lsp? ()
-      (interactive)
-      --lsp-enabled)
+    (use-package lsp-mode 
+      :straight t
+      :commands (lsp lsp-deferred)
+      :init
+      (setq lsp-keymap-prefix "s-d")
+      (setq lsp-file-watch-threshold 1000000)
+      (defun amirreza/lsp? ()
+        (interactive)
+        --lsp-enabled)
 
-    (defun amirreza/lsp! ()
-      "Enable LSP for current buffer."
-      (interactive)
-      (lsp)
-      (setq-local --lsp-enabled t)
-      (setq-local company-backends '(company-tabnine company-capf)))
+      (defun amirreza/lsp! ()
+        "Enable LSP for current buffer."
+        (interactive)
+        (lsp)
+        (setq-local --lsp-enabled t)
+        (setq-local company-backends '(company-tabnine company-capf)))
 
-    (defun amirreza/disable-lsp () 
-      "Disable LSP for current buffer."
-      (interactive)
-      (setq-local --lsp-enabled nil))
+      (defun amirreza/disable-lsp () 
+        "Disable LSP for current buffer."
+        (interactive)
+        (setq-local --lsp-enabled nil))
 
-    :config
-    (setq lsp-auto-guess-root t)
-    :commands (lsp))
+      :config
+      (setq lsp-auto-guess-root t)
+      :commands (lsp))
 
-;;  (use-package lsp-ui :straight t :commands lsp-ui-mode)
+  ;;  (use-package lsp-ui :straight t :commands lsp-ui-mode)
 
-  (use-package lsp-ivy :straight t 
-    :commands (lsp-ivy-workspace-symbol lsp-ivy-global-workspace-symbol) 
-    :bind (("C-c m l s" . lsp-ivy-workspace-symbol)))
+    (use-package lsp-ivy :straight t 
+      :commands (lsp-ivy-workspace-symbol lsp-ivy-global-workspace-symbol) 
+      :bind (("C-c m l s" . lsp-ivy-workspace-symbol)))
 
 
-  (use-package dap-mode :straight t :defer t)
+    (use-package dap-mode :straight t :defer t)
 #+END_SRC
 LSP-ui is a mode from the same author with the goal of configuring several Emacs packages to 
 help ease developer experience when using LSP.
