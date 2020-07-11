@@ -30,6 +30,7 @@ Plug 'mattn/vim-lsp-settings'
 " }}}
 Plug 'chriskempson/base16-vim'
 Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
+Plug 'sickill/vim-monokai'
 call plug#end()
 
 " General Settings{{{

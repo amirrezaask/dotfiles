@@ -107,5 +107,6 @@ export PATH="$HOME/.config/composer/vendor/bin:$GOROOT/bin:$GOPATH/bin:$HOME/.ca
 export EDITOR=nvim
 export GOPRIVATE="gitlab.snapp.ir"
 export GOPROXY="goproxy.io"
+alias download="wget -c --no-check-certificate"
 alias vi=nvim
 alias vim=nvim
