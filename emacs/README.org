@@ -1006,8 +1006,9 @@ as auto-complete or syntax linting.
 
     (use-package lsp-ivy :straight t 
       :commands (lsp-ivy-workspace-symbol lsp-ivy-global-workspace-symbol) 
-      :bind (("C-c m l s" . lsp-ivy-workspace-symbol)))
-
+      :bind (
+             ("C-S" . lsp-ivy-workspace-symbol)
+             ("C-R" . lsp-rename)))
 
     (use-package dap-mode :straight t :defer t)
 #+END_SRC
