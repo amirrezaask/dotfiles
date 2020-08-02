@@ -10,8 +10,8 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-vinegar'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug 'junegunn/gv.vim'
-Plug 'airblade/vim-gitgutter'
+" Plug 'junegunn/gv.vim'
+" Plug 'airblade/vim-gitgutter'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'michaeljsmith/vim-indent-object'
 " Languages {{{
@@ -29,8 +29,6 @@ Plug 'lighttiger2505/deoplete-vim-lsp'
 Plug 'mattn/vim-lsp-settings'
 " }}}
 Plug 'chriskempson/base16-vim'
-Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
-Plug 'sickill/vim-monokai'
 call plug#end()
 
 " General Settings{{{
@@ -52,15 +50,16 @@ set nojoinspaces
 set shiftround
 set mouse=a
 set guifont=Jetbrains\ Mono\ 10
-colorscheme base16-monokai 
 set termguicolors
 set nu 
 let mapleader = " "
 set cursorline
+colorscheme base16-black-metal
 set nowrap
 set autoindent
 noremap j gj
 noremap k gk
+
 " }}}
 " FileType specific settings {{{
 augroup format
@@ -149,6 +148,7 @@ function! ToggleColorMode()
 		let &g:background= "dark"
 	endif
 endfunction
+
 nnoremap <f12> :call ToggleColorMode()<CR>
 " Deoplete {{{
 let g:deoplete#enable_at_startup = 1
@@ -179,4 +179,14 @@ function! ToggleNetrw()
     endif
 endfunction
 map <f8> :call ToggleNetrw()<cr>
+augroup Git
+	nnoremap <f1> :! git diff %<cr>
+	nnoremap <f2> :! git add %<cr>
+augroup end
+augroup Go
+	nnoremap <f5> :GoBuild<cr> 
+	nnoremap <f6> :GoTest<cr>
+augroup end
+
+
 
