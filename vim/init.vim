@@ -179,10 +179,12 @@ function! ToggleNetrw()
     endif
 endfunction
 map <f8> :call ToggleNetrw()<cr>
+
 augroup Git
 	nnoremap <f1> :! git diff %<cr>
 	nnoremap <f2> :! git add %<cr>
 augroup end
+
 augroup Go
 	nnoremap <f5> :GoBuild<cr> 
 	nnoremap <f6> :GoTest<cr>
