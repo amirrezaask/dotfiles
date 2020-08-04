@@ -172,15 +172,6 @@ to set this file's value to a nil value during startup and restore it's original
 #+end_src
 * Keybinding
 I respect Emacs keybinding conventions in my configuration with a few ideas borrowed from spacemacs.
-+ All keybindings should be prefixed with =C-c= and then a single letter to avoid conflict with major modes keybindings.
-+ Editor related functionalities start with prefix =e=. (some editor functions like rg or fzf are so common that I bind specific keys for them)
-+ Window related functionality like eyebrowse workspaces prefix with =w=.
-+ Major mode / language specific functions bind with prefix =m=.
-+ Music related functionality (using Bongo) prefixed =b=.
-+ File related functionality prefixed =f= or =M-s=.
-+ Operating System integration keys should be prefixed with =o=
-+ Devops related stuff prefixed with =d=.
-+ Git/version control related stuff prefixed with =v=.
 I used to use which-key as my helper on keybindings but now I just use ? when i'm in the middle of a key chord.
 I use hydra when keybindings are just crazy like in smerge that you will see in it's own section. I used to use hydra more
 extensively but now i use it only when keybindings are just crazy.
@@ -199,12 +190,13 @@ extensively but now i use it only when keybindings are just crazy.
     (setq which-key-idle-delay 0.3)
     (defalias 'which-key! 'which-key-add-key-based-replacements)
     (which-key! "C-c m" "Major mode functions")
+    (which-key! "C-." "Multiple Cursors")
+    (which-key! "C-c v" "Version control actions")
     (which-key! "C-c f" "File functions")
-    (which-key! "C-c w" "workspace functionality")
+    (which-key! "C-c w" "Workspaces")
     (which-key! "C-c o" "external tools integration")
-    (which-key! "C-c b" "Bongo (Music) functionality")
-    (which-key! "C-c e" "Editor functions")
-    (which-key! "C-c d" "Devops related functions")
+    (which-key! "C-c b" "Bongo (music)")
+    (which-key! "C-c d" "Docker")
     (which-key-mode 1)
     (which-key-setup-minibuffer))
 
@@ -321,7 +313,7 @@ extensively but now i use it only when keybindings are just crazy.
      :bind (("<f12>" . amirreza/toggle-color-mode))
      :config
      (defvar amirreza/current-mode 'dark "Current color mode of Emacs.")
-     (defvar amirreza/dark-theme 'doom-dracula)
+     (defvar amirreza/dark-theme 'doom-one)
      (defvar amirreza/light-theme 'doom-one-light)
 
      (defmacro amirreza/--load-theme (&rest theme-opts)
@@ -742,7 +734,7 @@ by default is bound to =C-c <left>=.
              (dir (if project project default-directory)))
         (counsel-fzf "" dir "Find: ")))
 
-    (defvar amirreza/project-locations '("~/w" "~/w/snapp" "~/w/foss"))
+    (defvar amirreza/project-locations '("~/w" "~/w/snapp" "~/w"))
 
     (defun amirreza/projects-list ()
       "List of projects in pre defined project locations."
@@ -991,7 +983,7 @@ as auto-complete or syntax linting.
         (interactive)
         (lsp)
         (setq-local --lsp-enabled t)
-        (setq-local company-backends '(company-tabnine company-capf)))
+        (setq-local company-backends '(company-capf)))
 
       (defun amirreza/disable-lsp () 
         "Disable LSP for current buffer."
@@ -1279,37 +1271,38 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
 #+end_src
 * Version Control
 #+BEGIN_SRC emacs-lisp
-  (use-package magit
-    :straight t
-    :commands (magit-status magit-get-current-branch)
-    :bind
-    (("C-x g" . 'magit-status)))
+    (use-package magit
+      :straight t
+      :commands (magit-status magit-get-current-branch)
+      :bind
+      (("C-x g" . 'magit-status)
+       ("C-c v s" . 'magit-status)))
 
-  (use-package diff-hl
-    :straight t
-    :config (global-diff-hl-mode 1))
+    (use-package diff-hl
+      :straight t
+      :config (global-diff-hl-mode 1))
 
-  (use-package gitconfig-mode
-    :straight t
-    :mode "/\\.gitconfig\\'")
+    (use-package gitconfig-mode
+      :straight t
+      :mode "/\\.gitconfig\\'")
 
-  (use-package gitignore-mode
-    :straight t
-    :mode "/\\.gitignore\\'")
+    (use-package gitignore-mode
+      :straight t
+      :mode "/\\.gitignore\\'")
 
-  (use-package gitattributes-mode
-    :straight t
-    :mode "/\\.gitattributes\\'")
+    (use-package gitattributes-mode
+      :straight t
+      :mode "/\\.gitattributes\\'")
 
-  (use-package git-messenger
-    :straight t
-    :commands
-    (git-messenger:popup-message)
-    :bind
-    ("C-c v b" . git-messenger:popup-message)
-    :config
-    (setq git-messenger:show-detail t)
-    (setq git-messenger:use-magit-popup t))
+    (use-package git-messenger
+      :straight t
+      :commands
+      (git-messenger:popup-message)
+      :bind
+      ("C-c v b" . git-messenger:popup-message)
+      :config
+      (setq git-messenger:show-detail t)
+      (setq git-messenger:use-magit-popup t))
 #+END_SRC
 ** Smerge
 #+begin_src emacs-lisp
