@@ -1,4 +1,4 @@
-#+TITLE: AmirrezaAsk Computing Evironment Based On Emacs
+#+TITLE: AmirrezaAsk Integrated Computing Environment
 #+AUTHOR: amirrezaask
 * Table Of contents                                                     :TOC@4:
 - [[#intro][Intro]]
@@ -178,12 +178,6 @@ extensively but now i use it only when keybindings are just crazy.
 #+begin_src emacs-lisp
   (use-package hydra :straight t :commands (defhydra))
   (use-package pretty-hydra :straight t :commands (pretty-hydra-define))
-  (use-package keycast
-    :disabled t
-    :straight t
-    :config
-    (keycast-mode -1)
-    (setq keycast-separator-width 0))
   (use-package which-key
     :straight t
     :config
@@ -197,6 +191,7 @@ extensively but now i use it only when keybindings are just crazy.
     (which-key! "C-c o" "external tools integration")
     (which-key! "C-c b" "Bongo (music)")
     (which-key! "C-c d" "Docker")
+    (which-key! "C-c k" "Kubernetes")
     (which-key-mode 1)
     (which-key-setup-minibuffer))
 
@@ -390,7 +385,7 @@ extensively but now i use it only when keybindings are just crazy.
 * Font
 To use specific font in Emacs you just need to call a function, that's easy ha ??
 #+BEGIN_SRC emacs-lisp
-  (defvar amirreza/font "Fira Code-12")
+  (defvar amirreza/font "Fira Mono-11")
   (set-face-attribute 'default t :font amirreza/font)
   (set-frame-font amirreza/font nil t)
   (global-prettify-symbols-mode 1)
