@@ -350,11 +350,11 @@ extensively but now i use it only when keybindings are just crazy.
    (use-package emacs
      :config
      (setq-default ring-bell-function 'ignore)
-     (setq-default cursor-type 'box))
+     (setq-default cursor-type 'bar))
 
    (use-package frame
      :config
-     (blink-cursor-mode -1))
+     (blink-cursor-mode 1))
 
    (use-package hl-line
      :config
@@ -995,7 +995,6 @@ as auto-complete or syntax linting.
     (setq lsp-auto-guess-root t)
     :commands (lsp)
     :bind (("s-r" . lsp-rename)
-           ("s-f" .
             ("s-u" . lsp-find-references)))
 
     ;;  (use-package lsp-ui :straight t :commands lsp-ui-mode)
