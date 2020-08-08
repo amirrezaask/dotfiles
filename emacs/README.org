@@ -176,8 +176,28 @@ I used to use which-key as my helper on keybindings but now I just use ? when i'
 I use hydra when keybindings are just crazy like in smerge that you will see in it's own section. I used to use hydra more
 extensively but now i use it only when keybindings are just crazy.
 #+begin_src emacs-lisp
-  (use-package hydra :straight t :commands (defhydra))
-  (use-package pretty-hydra :straight t :commands (pretty-hydra-define))
+  (use-package hydra
+    :straight t
+    :commands (defhydra))
+
+  (use-package pretty-hydra
+    :straight t
+    :commands (pretty-hydra-define))
+
+  (use-package cheatsheet
+    :straight t
+    :bind (("C-?" . cheatsheet-show))
+    :config
+    (cheatsheet-add-group 'Common
+                          '(:key "C-." :description "Multiple cursors")
+                          '(:key "C-s-w" :description "Workspaces")
+                          '(:key "C-s-m" :description "Music")
+                          '(:key "C-s-d" :description "Docker")
+                          '(:key "C-s-k" :description "Kubernetes")
+                          '(:key "C-s-f" :description "FZF")
+                          '(:key "C-s-g" :description "ripgrep")
+                          '(:key "C-s-v" :description "Version control")))
+
   (use-package which-key
     :straight t
     :config
@@ -399,12 +419,6 @@ our font interactively, let's write it.
     (set-face-attribute 'default t :font (format "%s-%d" font size))
     (set-frame-font (format "%s-%d" font size) nil t))
 #+END_SRC
-I'm not gonna discuss this function line by line, I'm only going to discuss calling it for now,
-for calling this function we have two ways, calling it from the code, or calling it interactively
-but how ? Emacs has a default keychord called M-x (execute-extended-command) that calls a interactive
-function interactively, many packages has these kind of functions for example load-theme that we used
-before is interactive as well, if we call it we will prompted to enter the font first and then the size
-and volla :).
 * Selection Candidates
 ** Ivy
 #+begin_src emacs-lisp
