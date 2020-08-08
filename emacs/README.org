@@ -53,7 +53,7 @@
 - [[#shell-and-terminal-emulator][Shell And Terminal Emulator]]
       - [[#eshell][Eshell]]
       - [[#vterm][VTerm]]
-- [[#programming][Programming]]
+- [[#development][Development]]
   - [[#completion][Completion]]
   - [[#code-semantic-movement][Code Semantic Movement]]
   - [[#snippets][Snippets]]
@@ -94,9 +94,9 @@
     - [[#rust][Rust]]
       - [[#rust-mode][Rust mode]]
     - [[#protobuf][Protobuf]]
-- [[#version-control][Version Control]]
+- [[#vcs][VCS]]
   - [[#smerge][Smerge]]
-- [[#file-manager][File Manager]]
+- [[#dired][Dired]]
 - [[#mail--news-reader][Mail & News reader]]
   - [[#gnus][Gnus]]
   - [[#elfeed][Elfeed]]
@@ -934,7 +934,7 @@ all executables.
   (use-package vterm :straight t :commands (vterm))
 #+end_src
 
-* Programming
+* Development
 ** Completion
 Code completion consists of two parts, A source/server that provides the completions and 
 an engine that knows when to open prompt and show the completions. We will configure servers later
@@ -1312,7 +1312,7 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
 #+begin_src emacs-lisp
 (use-package protobuf-mode :load-path "/home/amirreza/.emacs.d/site-lisp" :mode "\\.proto\\'")
 #+end_src
-* Version Control
+* VCS
 #+BEGIN_SRC emacs-lisp
   (use-package magit
     :straight t
@@ -1365,7 +1365,7 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
                           ("a" smerge-keep-all)
                           ("q" nil "Cancel")))))
 #+end_src
-* File Manager
+* Dired
 #+begin_src emacs-lisp
   (use-package dired
     :commands (dired dired-jump)
