@@ -727,26 +727,20 @@ by default is bound to =C-c <left>=.
 #+end_src
 ** Grep
 #+begin_src emacs-lisp
-  (use-package counsel 
-     :straight t
-     :commands (counsel-rg)
-     :bind (("C-c g" . counsel-rg)
-            ("s-g" . counsel-rg)))
 
   (use-package rg 
-    :disabled t
     :straight t 
     :commands (rg)
     :config
-    (defun amirreza/rg (pattern)
-      (interactive "sPattern: ")
+    (defun amirreza/rg (pattern filetype)
+      (interactive "sPattern: \nsFiletype:")
       (let* ((project (vc-root-dir))
-             (dir (if project project default-directory))
-             (ext (concat "*." (car (last (split-string (buffer-file-name) "\\."))))))
-          (rg-run pattern ext dir)))
+             (dir (if project project default-directory)))
+          (rg-run pattern filetype dir)))
     :bind
     (:map global-map
-          ("C-c g" . amirreza/rg)))
+          ("C-c g" . amirreza/rg)
+          ("C-s-g" . amirreza/rg)))
 #+end_src
 * File search
 ** FZF
