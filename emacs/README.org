@@ -1457,7 +1457,7 @@ Mail setup in Emacs using Gnus. WIP
 #+begin_src emacs-lisp
   (use-package rhythmbox
     :bind (("C-s-m l" . Rhythmbox)
-           ("C-s-m p" . Rhythmbox/play-pause-current-song)
+           ("C-s-m p" . Rhythmbox/playpause-current-song)
            ("C-s-m n" . Rhythmbox/current-song-name))
     :straight (:host github :repo "amirrezaask/Rhythmbox.el"))
 #+end_src
