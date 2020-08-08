@@ -191,7 +191,7 @@ extensively but now i use it only when keybindings are just crazy.
     :config
     (cheatsheet-add-group 'Common
                           '(:key "C-." :description "Multiple cursors")
-                          '(:key "C-s-w" :description "Workspaces")
+                          '(:key "C-s-Number" :description "Switch Workspace")
                           '(:key "C-s-m" :description "Music")
                           '(:key "C-s-d" :description "Docker")
                           '(:key "C-s-k" :description "Kubernetes")
@@ -532,16 +532,16 @@ Emacs windows can be configured in the matter of where their gonna open.
            ("C-c w n" . eyebrowse-create-window-config)
            ("C-c w c" . eyebrowse-close-window-config)
 
-           ("C-s-w 0" . eyebrowse-switch-to-window-config-0)
-           ("C-s-w 1" . eyebrowse-switch-to-window-config-1)
-           ("C-s-w 2" . eyebrowse-switch-to-window-config-2)
-           ("C-s-w 3" . eyebrowse-switch-to-window-config-3)
-           ("C-s-w 4" . eyebrowse-switch-to-window-config-4)
-           ("C-s-w 5" . eyebrowse-switch-to-window-config-5)
-           ("C-s-w 6" . eyebrowse-switch-to-window-config-6)
-           ("C-s-w 7" . eyebrowse-switch-to-window-config-7)
-           ("C-s-w 8" . eyebrowse-switch-to-window-config-8)
-           ("C-s-w 9" . eyebrowse-switch-to-window-config-9)
+           ("C-s-0" . eyebrowse-switch-to-window-config-0)
+           ("C-s-1" . eyebrowse-switch-to-window-config-1)
+           ("C-s-2" . eyebrowse-switch-to-window-config-2)
+           ("C-s-3" . eyebrowse-switch-to-window-config-3)
+           ("C-s-4" . eyebrowse-switch-to-window-config-4)
+           ("C-s-5" . eyebrowse-switch-to-window-config-5)
+           ("C-s-6" . eyebrowse-switch-to-window-config-6)
+           ("C-s-7" . eyebrowse-switch-to-window-config-7)
+           ("C-s-8" . eyebrowse-switch-to-window-config-8)
+           ("C-s-9" . eyebrowse-switch-to-window-config-9)
            ("C-s-w n" . eyebrowse-create-window-config)
            ("C-s-w c" . eyebrowse-close-window-config)))
 
@@ -1038,10 +1038,8 @@ as auto-complete or syntax linting.
     :config
     (setq lsp-auto-guess-root t)
     :commands (lsp)
-    :bind (("s-r" . lsp-rename)
-            ("s-u" . lsp-find-references)))
-
-    ;;  (use-package lsp-ui :straight t :commands lsp-ui-mode)
+    :bind (("<f6>" . lsp-rename)
+            ("C-s-." . lsp-find-references)))
 
     (use-package lsp-ivy :straight t 
       :commands (lsp-ivy-workspace-symbol lsp-ivy-global-workspace-symbol) 
