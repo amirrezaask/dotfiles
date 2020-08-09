@@ -15,7 +15,7 @@
   - [[#some-cursor-tweaks][Some cursor tweaks]]
   - [[#modeline][Modeline]]
 - [[#font][Font]]
-- [[#selection-candidates][Selection Candidates]]
+- [[#minibuffer][Minibuffer]]
   - [[#icomplete][Icomplete]]
 - [[#windowsworkspaces][Windows/Workspaces]]
   - [[#window-rules][Window rules]]
@@ -421,7 +421,7 @@ our font interactively, let's write it.
     (set-face-attribute 'default t :font (format "%s-%d" font size))
     (set-frame-font (format "%s-%d" font size) nil t))
 #+END_SRC
-* Selection Candidates
+* Minibuffer
 ** Icomplete
 #+begin_src emacs-lisp
   (use-package orderless
