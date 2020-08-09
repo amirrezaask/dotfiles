@@ -791,16 +791,17 @@ by default is bound to =C-c <left>=.
 #+begin_src emacs-lisp
   (require 'cl-lib)
   (use-package project
-    :bind (("C-c f" . amirreza/project-or-dir-find-file-recur)
-           ("C-s-f" . amirreza/project-or-dir-find-file-recur)
-           ("C-s-p" . amirreza/projects-list)
-           ("C-c p" . amirreza/projects-list))
+    :bind (("C-s-f" . amirreza/project-or-dir-find-file-recur)
+           ("C-s-p" . amirreza/projects-list))
+
     :config
     (defun amirreza/project-or-dir-find-file-recur ()
       (interactive)
       (let* ((project (vc-root-dir))
              (dir (if project project default-directory))
-             (files (directory-files dir)))
+             (files (directory-files-recursively dir ".*" nil (lambda (name)
+                                                            (not (string-match "\\.git" name))
+                                                            ) t)))
         (find-file (completing-read "Find: " files))))
 
     (defvar amirreza/project-locations '("~/w" "~/w/snapp" "~/w"))
@@ -1523,147 +1524,3 @@ Mail setup in Emacs using Gnus. WIP
 #+begin_src emacs-lisp
 (defvar amirreza/startup-elapsed (- (float-time) amirreza/emacs-init-timestamp))
 #+end_src
-* Deprecated
-   :PROPERTIES:
-   :header-args: :tangle no
-   :END:
-Stuff I used in the past but now replaced with other tools mostly emacs builtin.
-** Bongo
-#+begin_src emacs-lisp
-      (use-package bongo 
-        :straight t
-        :commands (bongo bongo-dired-library-mode)
-        :init
-        (defun amirreza/dired-music-library-hook ()
-          (define-key dired-mode-map (kbd "C-c b a") 'amirreza/add-marked-files-to-bongo)
-          (when (string-match-p "\\~/Music.*" default-directory)
-            (bongo-dired-library-mode 1)))
-
-        (add-hook 'dired-mode-hook 'amirreza/dired-music-library-hook)
-        :config
-        (defun amirreza/add-marked-files-to-bongo ()
-          (interactive)
-          (let ((tracks (dired-get-marked-files)))
-            (bongo-playlist)
-            (mapc 'bongo-insert-file tracks)))
-
-        (defvar amirreza/playlists-location "~/Music/Playlists/")
-
-        (defun amirreza/save-marked-in-playlist ()
-           (interactive)
-           (let ((tracks (dired-get-marked-files)))
-             (append-to-file (concat "\n" (string-join tracks "\n")) nil (concat amirreza/playlists-location (completing-read "Playlist Name: " (directory-files amirreza/playlists-location nil directory-files-no-dot-files-regexp))))))
-
-        (defun amirreza/load-playlist ()
-          (interactive)
-          (bongo-playlist)
-          (bongo-insert-playlist-contents  (concat amirreza/playlists-location 
-                                                   (completing-read "Playlist: " 
-                                                                    (directory-files amirreza/playlists-location nil directory-files-no-dot-files-regexp)))))
-
-
-        (setq bongo-default-directory "~/Music")
-        (setq bongo-action-track-icon nil)
-        (setq bongo-display-track-icons nil)
-        (setq bongo-display-track-lengths nil)
-        (setq bongo-display-header-icons nil)
-        (setq bongo-display-playback-mode-indicator nil))
-
-#+end_src
-** Ivy
-   :PROPERTIES:
-   :header-args: :tangle no
-   :END:
-#+begin_src emacs-lisp
-  (use-package flx :straight t)
-  (use-package ivy
-    :straight t
-    :bind
-    (("C-x b" . 'ivy-switch-buffer)
-     :map ivy-minibuffer-map
-     ("RET" . 'ivy-alt-done))
-    :config
-    (setq ivy-height 15)
-    ;; loopish cycling through list
-    (setq ivy-wrap t)
-    ;; don't show recents in minibuffer
-    (setq ivy-use-virtual-buffers nil)
-    ;; ...but if that ever changes, show their full path
-    (setq ivy-virtual-abbreviate 'full)
-    ;; don't quit minibuffer on delete-error
-    (setq ivy-on-del-error-function #'ignore)
-    (setf (alist-get 't ivy-format-functions-alist)
-          #'ivy-format-function-line)
-    (setq ivy-initial-inputs-alist nil)
-    (setq ivy-re-builders-alist
-          '((t . ivy--regex-ignore-order)))
-    (ivy-mode +1))
-
-  (use-package all-the-icons-ivy :straight t :config 
-    (all-the-icons-ivy-setup))
-
-  (use-package counsel
-    :straight t
-    :bind
-    (("M-x" . 'counsel-M-x)
-     ("C-x C-f" . 'counsel-find-file)
-     ("C-h b" . 'counsel-descbinds)
-     ("C-h f" . 'counsel-describe-function)
-     ("C-h v" . 'counsel-describe-variable)
-     ("C-h a" . 'counsel-apropos)
-     ("M-i" . 'counsel-imenu) ;; code semantics
-     ("M-y" . 'counsel-yank-pop) ;; show kill ring
-     ("C-c f" . 'counsel-fzf)
-     ("C-s-f" . 'counsel-fzf)))
-    
-
-  (use-package ivy-rich :straight t :config (ivy-rich-mode 1))
-#+end_src
-** Eyebrowse hydra
-#+begin_src emacs-lisp
-  (pretty-hydra-define eyebrowse-hydra (:hint nil :exit t)
-    ("Workspaces"
-      (("0" eyebrowse-switch-to-window-config-0)
-      ("1" eyebrowse-switch-to-window-config-1)
-      ("2" eyebrowse-switch-to-window-config-2)
-      ("3" eyebrowse-switch-to-window-config-3)
-      ("4" eyebrowse-switch-to-window-config-4)
-      ("5" eyebrowse-switch-to-window-config-5)
-      ("6" eyebrowse-switch-to-window-config-6)
-      ("7" eyebrowse-switch-to-window-config-7)
-      ("8" eyebrowse-switch-to-window-config-8)
-      ("9" eyebrowse-switch-to-window-config-9))
-
-     "Actions"
-      (("d" eyebrowse-close-window-config)
-      ("c" eyebrowse-create-window-config)
-      ("e" keyboard-quit))))
-
-#+end_src
-** Hydra
-#+begin_src emacs-lisp
-  (pretty-hydra-define amirreza-go-generator-hydra (:hint nil :exit t)
-    ("Code blocks"
-     (("t" amirreza/snippet-go-tf "test function")
-      ("hh" amirreza/snippet-go-hh "http handler")
-      ("f" amirreza/snippet-go-for "For loop")
-      ("i" amirreza/snippet-go-if "If")
-      ("pl" amirreza/snippet-go-pl "fmt.println")
-      ("pf" amirreza/snippet-go-pf "fmt.printf"))))
-  (pretty-hydra-define amirreza-editor-mc-hydra (:hint nil)
-    ("Put cursor on"
-     (("n" mc/mark-next-like-this "Mark next like this")
-      ("p" mc/mark-previous-like-this "Mark next like this")
-      ("a" mc/mark-all-like-this "Mark next like this")))))
-  (pretty-hydra-define amirreza-editor-jump (:hint nil :exit t)
-    ("Jump to"
-     (("l" avy-goto-line "Avy jump to line")
-      ("w" avy-goto-word-1 "Avy jump to word")
-      ("cc" avy-goto-char-2 "Avy jump to characters")
-      ("c" avy-goto-char "Avy jump to character")
-      ("d" dumb-jump-go "dumb jump jump to defenition")
-      ("b" dumb-jump-back "dumb jump jump to defenition"))))
-
-#+end_src
-
-
