@@ -1343,7 +1343,7 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
     :commands (magit-status magit-get-current-branch)
     :bind
     (("C-x g" . 'magit-status)
-     ("C-c v s" . 'magit-status)))
+     ("C-s-v s" . 'magit-status)))
 
   (use-package diff-hl
     :straight t
