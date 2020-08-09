@@ -49,7 +49,7 @@
 - [[#file-search][File search]]
   - [[#recents][Recents]]
   - [[#projects-integration][Projects Integration]]
-- [[#shell-and-terminal-emulator][Shell And Terminal Emulator]]
+- [[#shells][Shells]]
       - [[#eshell][Eshell]]
       - [[#vterm][VTerm]]
 - [[#development][Development]]
@@ -818,7 +818,7 @@ by default is bound to =C-c <left>=.
         (dired (completing-read "Project: " proj-dirs)))))
 
 #+end_src
-* Shell And Terminal Emulator
+* Shells
 Emacs has a bultin shell called =eshell= which uses elisp
 as it's scripting engine, I use that as my main shell over the day
 but for some rare situations I have VTerm that emulates a normal terminal
