@@ -469,6 +469,52 @@ our font interactively, let's write it.
     (live-completions-mode 1))
 
 #+end_src
+** Ivy
+   :PROPERTIES:
+   :header-args: :tangle no
+   :END:
+#+begin_src emacs-lisp
+  (use-package flx :straight t)
+  (use-package ivy
+    :straight t
+    :bind
+    (("C-x b" . 'ivy-switch-buffer)
+     :map ivy-minibuffer-map
+     ("RET" . 'ivy-alt-done))
+    :config
+    (setq ivy-height 15)
+    ;; loopish cycling through list
+    (setq ivy-wrap t)
+    ;; don't show recents in minibuffer
+    (setq ivy-use-virtual-buffers nil)
+    ;; ...but if that ever changes, show their full path
+    (setq ivy-virtual-abbreviate 'full)
+    ;; don't quit minibuffer on delete-error
+    (setq ivy-on-del-error-function #'ignore)
+    (setf (alist-get 't ivy-format-functions-alist)
+          #'ivy-format-function-line)
+    (setq ivy-initial-inputs-alist nil)
+    (setq ivy-re-builders-alist
+          '((t . ivy--regex-ignore-order)))
+    (ivy-mode +1))
+
+  (use-package all-the-icons-ivy :straight t :config 
+    (all-the-icons-ivy-setup))
+
+  (use-package counsel
+    :straight t
+    :bind
+    (("M-x" . 'counsel-M-x)
+     ("C-x C-f" . 'counsel-find-file)
+     ("C-h b" . 'counsel-descbinds)
+     ("C-h f" . 'counsel-describe-function)
+     ("C-h v" . 'counsel-describe-variable)
+     ("C-h a" . 'counsel-apropos)
+     ("M-i" . 'counsel-imenu) ;; code semantics
+     ("M-y" . 'counsel-yank-pop))) ;; show kill ring
+
+    (use-package ivy-rich :straight t :config (ivy-rich-mode 1))
+#+end_src
 * Windows/Workspaces
 ** Window rules
 Emacs windows can be configured in the matter of where their gonna open.
@@ -561,13 +607,6 @@ by default is bound to =C-c <left>=.
         :commands (ace-window)
         :bind (("C-x C-o" . 'ace-window)))
 #+END_SRC
-** Beacon
-#+begin_src emacs-lisp
-  (use-package beacon
-    :straight t
-    :defer 1
-    :config (beacon-mode 1))
-#+end_src
 * Buffer management
 ** IBuffer
 #+begin_src emacs-lisp
@@ -737,16 +776,6 @@ by default is bound to =C-c <left>=.
           ("C-s-g" . amirreza/rg)))
 #+end_src
 * File search
-** FZF
- Fuzzy file search is amazing tool that doesn't choke up even in my home folder 
- it's just magic.
- #+begin_src emacs-lisp
-   (use-package fzf
-     :straight (:repo "amirrezaask/fzf.el")
-     :bind (("C-c f f" . fzf)
-            ("C-c f d" . fzf-directory))
-     :commands (fzf fzf-directory))
- #+end_src
 ** Recents
  #+begin_src emacs-lisp
    (use-package counsel
