@@ -1459,12 +1459,12 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
 
   (use-package docker :straight t 
     :bind
-    ("C-c d" . docker))
+    ("C-s-d" . docker))
   (use-package dockerfile-mode :straight t :mode "\\Dockerfile\\'")
 #+END_SRC
 * Kubernetes
 #+begin_src emacs-lisp
-(use-package kubel :straight t :commands (kubel) :bind (("C-c k" . kubel)))
+(use-package kubel :straight t :commands (kubel) :bind (("C-s-k" . kubel)))
 #+end_src
 * Benchmark startup time
 #+begin_src emacs-lisp
