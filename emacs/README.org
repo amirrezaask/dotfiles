@@ -1094,7 +1094,7 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
        (amirreza/lsp!))
      :bind
      (:map python-mode-map 
-       ("C-c m d" . amirreza/python-insert-docstring)))
+       ("C-s-l d" . amirreza/python-insert-docstring)))
  #+END_SRC
 **** Microsoft Language Server
  #+begin_src emacs-lisp
@@ -1137,12 +1137,12 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
      (add-hook 'go-mode-hook 'amirreza/go-hook)
      :bind
      (:map go-mode-map
-           ("C-c m g t" . amirreza/snippet-go-tf)
-           ("C-c m g h" . amirreza/snippet-go-hh)
-           ("C-c m g f" . amirreza/snippet-go-for)
-           ("C-c m g i" . amirreza/snippet-go-if)
-           ("C-c m g p l" . amirreza/snippet-go-pl)
-           ("C-c m g p f" . amirreza/snippet-go-pf))
+           ("C-s-l g t" . amirreza/snippet-go-tf)
+           ("C-s-l g h" . amirreza/snippet-go-hh)
+           ("C-s-l g f" . amirreza/snippet-go-for)
+           ("C-s-l g i" . amirreza/snippet-go-if)
+           ("C-s-l g p l" . amirreza/snippet-go-pl)
+           ("C-s-l g p f" . amirreza/snippet-go-pf))
      :config
      (defun amirreza/go-hook ()
        (interactive)
@@ -1161,6 +1161,7 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
        (define-key go-mode-map (kbd "<f5> r")
          (lambda () (interactive)
            (start-process "GoRun" "*GoRun*" "go" "run" (format "%s" buffer-file-name))))
+
        ;; enable LSP
        (amirreza/lsp!)
        ;; add go binaries to exec-path
@@ -1173,14 +1174,13 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
                                        (lsp-format-buffer)
                                        (lsp-organize-imports))) t t)))
 
-
  #+END_SRC
 **** Go-add-tags
  it's always a pain to manually add struct tags for a struct specially when
  the struct has so many fields, again thanks to the emacs community we have package for that 
  to ease that task for us.
  #+BEGIN_SRC emacs-lisp
-   (use-package go-add-tags :straight t :bind (:map go-mode-map ("C-c m s t" . go-add-tags)))
+   (use-package go-add-tags :straight t :bind (:map go-mode-map ("C-s-l s" . go-add-tags)))
  #+END_SRC
 **** Go-test
  =VSCode= has a great support when it comes to running go tests, it gives you the ability to 
@@ -1189,10 +1189,9 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
    (use-package gotest :straight t 
      :after go-mode
      :config
-     (define-key go-mode-map (kbd "C-c m t t") 'go-test-current-file) 
-     (define-key go-mode-map (kbd "C-c m t t") 'go-test-current-test))
- 
- #+END_SRC
+     (define-key go-mode-map (kbd "C-s-l t f") 'go-test-current-file) 
+     (define-key go-mode-map (kbd "C-s-l t t") 'go-test-current-test))
+  #+END_SRC
 *** Scheme
  I use guile as my scheme compiler.
  #+begin_src emacs-lisp
@@ -1243,7 +1242,7 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
          (insert (format "\n;;%s\n;;%s\n;;%s" dashes text-wrapped dashes))))
      :bind
      (:map emacs-lisp-mode-map
-           ("C-c m d" . 'amirreza/emacs-lisp-insert-comment-line)))
+           ("C-s-l d" . 'amirreza/emacs-lisp-insert-comment-line)))
  #+END_SRC
 *** Clojure
 **** Clojure Mode
@@ -1304,16 +1303,15 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
    (use-package phpunit :straight t
      :after php-mode
      :config 
-     (define-key php-mode-map (kbd "C-c m t t") 'phpunit-current-test)
-     (define-key php-mode-map (kbd "C-c m t c")  'phpunit-current-class)
-     (define-key php-mode-map (kbd "C-c m t p")  'phpunit-current-project))
+     (define-key php-mode-map (kbd "C-s-l t t") 'phpunit-current-test)
+     (define-key php-mode-map (kbd "C-s-l t c")  'phpunit-current-class)
+     (define-key php-mode-map (kbd "C-s-l t p")  'phpunit-current-project))
  #+END_SRC
 *** Rust
 **** Rust mode
  #+BEGIN_SRC emacs-lisp
  (use-package rust-mode :straight t :mode "\\.rs\\'")
  #+END_SRC
-
 *** Protobuf
 #+begin_src emacs-lisp
 (use-package protobuf-mode :load-path "/home/amirreza/.emacs.d/site-lisp" :mode "\\.proto\\'")
