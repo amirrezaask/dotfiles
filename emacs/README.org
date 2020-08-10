@@ -1001,17 +1001,10 @@ skeleton and skeleton does it's job of inserting text.
 Dumb jump is actually a smart way of jumping to defenitions using grep tools like
 =ag= or =rg=.
 #+begin_src emacs-lisp
-        (use-package dumb-jump
-          :straight t
-          :commands
-          (dumb-jump-go
-           dumb-jump-back)
-          :bind
-          (:map prog-mode-map
-                ("M->" . dumb-jump-go)
-                ("M-<" . dumb-jump-back))
-          :config
-          (dumb-jump-mode 1))
+  (use-package dumb-jump
+    :straight t
+    :hook
+    (xref-backend-functions . #'dumb-jump-xref-activate))
 #+end_src
 ** Language Server Protocol
 Language Server protocol is a open source protocol developed by microsoft but now it's being
