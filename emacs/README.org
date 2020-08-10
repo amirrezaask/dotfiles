@@ -399,6 +399,9 @@ our font interactively, let's write it.
 #+END_SRC
 * Minibuffer
 ** Icomplete
+   :PROPERTIES:
+   :header-args: :tangle no
+   :END:
 #+begin_src emacs-lisp
   (use-package orderless
     :straight t
@@ -452,9 +455,6 @@ our font interactively, let's write it.
 
 #+end_src
 ** Ivy
-   :PROPERTIES:
-   :header-args: :tangle no
-   :END:
 #+begin_src emacs-lisp
   (use-package flx :straight t)
   (use-package ivy
@@ -773,17 +773,24 @@ by default is bound to =C-c <left>=.
 #+begin_src emacs-lisp
   (require 'cl-lib)
   (use-package project
-    :bind (("C-s-f" . amirreza/project-or-dir-find-file-recur)
+    :bind (("C-s-f" . (lambda ()
+                        (interactive)
+                        (counsel-fzf "" (amirreza/get-root) "Fuzzy File Search: ")))
+           ;;("C-s-f" . amirreza/project-or-dir-find-file-recur)
            ("C-s-p" . amirreza/projects-list))
-
     :config
+    (defun amirreza/get-root ()
+      "Gets project root."
+      (let* ((project (vc-root-dir))
+             (dir (if project project default-directory)))
+        dir))
+
     (defun amirreza/project-or-dir-find-file-recur ()
       (interactive)
-      (let* ((project (vc-root-dir))
-             (dir (if project project default-directory))
+      (let* ((dir (amirreza/get-root))
              (files (directory-files-recursively dir ".*" nil (lambda (name)
-                                                            (not (string-match "\\.git" name))
-                                                            ) t)))
+                                                                (not (string-match "\\.git" name))
+                                                                ) t)))
         (find-file (completing-read "Find: " files))))
 
     (defvar amirreza/project-locations '("~/w" "~/w/snapp" "~/w"))
@@ -798,7 +805,6 @@ by default is bound to =C-c <left>=.
                       (directory-files dir t directory-files-no-dot-files-regexp)))
               amirreza/project-locations)
         (dired (completing-read "Project: " proj-dirs)))))
-
 #+end_src
 * Shells
 Emacs has a bultin shell called =eshell= which uses elisp
@@ -1038,11 +1044,11 @@ as auto-complete or syntax linting.
     (setq lsp-auto-guess-root t)
     :commands (lsp)
     :bind (("<f6>" . lsp-rename)
-            ("C-s-." . lsp-find-references)))
+            ("C-s-l ." . lsp-find-references)))
 
     (use-package lsp-ivy :straight t 
       :commands (lsp-ivy-workspace-symbol lsp-ivy-global-workspace-symbol) 
-      :bind (("s-f" . lsp-ivy-workspace-symbol)))
+      :bind (("C-s-l f" . lsp-ivy-workspace-symbol)))
 
     (use-package dap-mode :straight t :defer t)
 #+END_SRC
