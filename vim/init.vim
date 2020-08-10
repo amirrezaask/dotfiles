@@ -49,7 +49,7 @@ set ruler
 set nojoinspaces
 set shiftround
 set mouse=a
-set guifont=Jetbrains\ Mono\ 10
+set guifont=Fira\ Mono\ 11
 set termguicolors
 set nu 
 let mapleader = " "
