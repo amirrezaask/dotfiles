@@ -1307,7 +1307,7 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
  #+END_SRC
 *** Protobuf
 #+begin_src emacs-lisp
-(use-package protobuf-mode :load-path "/home/amirreza/.emacs.d/site-lisp" :mode "\\.proto\\'")
+(use-package protobuf-mode :straight t :mode "\\.proto\\'")
 #+end_src
 * VCS
 #+BEGIN_SRC emacs-lisp
