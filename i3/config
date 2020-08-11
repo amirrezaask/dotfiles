@@ -1,9 +1,7 @@
 # Amirreza Desktop environment
 #
 # Dependencies
-# i3 i3lock i3blocks nitrogen xfce4-power-manager
-
-
+# i3 i3lock i3blocks feh xfce4-power-manager|mate-power-manager xss-lock alacritty emacs
 
 set $mod Mod4
 
@@ -20,7 +18,7 @@ font pango:Hack 9
 
 # xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
 # screen before suspend. Use loginctl lock-session to lock your screen.
-exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock -c 000000 --nofork
 
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
@@ -185,4 +183,5 @@ client.placeholder      #282A36 #282A36 #F8F8F2 #282A36   #282A36
 
 client.background       #F8F8F2
 
-
+# Set wallpaper
+exec --no-startup-id feh --bg-fill ~/w/dotfiles/i3/black.png
