@@ -127,52 +127,72 @@ to set this file's value to a nil value during startup and restore it's original
 #+end_src
 * Window Manager
 #+begin_src emacs-lisp
-  (use-package exwm
-    :straight t
-    :config
-    (require 'exwm)
-    (require 'exwm-config)
-    (require 'exwm-systemtray)
-    (exwm-config-default)
+    (use-package exwm
+      :straight t
+      :config
+      (require 'exwm)
+      (require 'exwm-config)
+      (require 'exwm-systemtray)
+      (exwm-config-default)
 
-    (setq exwm-workspace-number 10)
-    (add-hook 'exwm-update-class-hook
-                  (lambda ()
-                    (unless (or (string-prefix-p "sun-awt-X11-" exwm-instance-name)
+      (setq exwm-workspace-number 10)
+      (add-hook 'exwm-update-class-hook
+                    (lambda ()
+                      (unless (or (string-prefix-p "sun-awt-X11-" exwm-instance-name)
+                                  (string= "gimp" exwm-instance-name))
+                        (exwm-workspace-rename-buffer exwm-class-name))))
+
+      (add-hook 'exwm-update-title-hook
+                    (lambda ()
+                      (when (or (not exwm-instance-name)
+                                (string-prefix-p "sun-awt-X11-" exwm-instance-name)
                                 (string= "gimp" exwm-instance-name))
-                      (exwm-workspace-rename-buffer exwm-class-name))))
+                        (exwm-workspace-rename-buffer exwm-title))))
 
-    (add-hook 'exwm-update-title-hook
-                  (lambda ()
-                    (when (or (not exwm-instance-name)
-                              (string-prefix-p "sun-awt-X11-" exwm-instance-name)
-                              (string= "gimp" exwm-instance-name))
-                      (exwm-workspace-rename-buffer exwm-title))))
+      (setq exwm-input-simulation-keys
+            '(
+              ;; movement
+              ([?\C-b] . [left])
+              ([?\M-b] . [C-left])
+              ([?\C-f] . [right])
+              ([?\M-f] . [C-right])
+              ([?\C-p] . [up])
+              ([?\C-n] . [down])
+              ([?\C-a] . [home])
+              ([?\C-e] . [end])
+              ([?\M-v] . [prior])
+              ([?\C-v] . [next])
+              ([?\C-d] . [delete])
+              ([?\C-k] . [S-end delete])
+              ;; cut/paste.
+              ([?\C-w] . [?\C-x])
+              ([?\M-w] . [?\C-c])
+              ([?\C-y] . [?\C-v])
+              ;; search
+              ([?\C-s] . [?\C-f])))
 
-    (require 'exwm-randr)
 
-    (setq exwm-randr-workspace-output-plist '(0 "HDMI-1"
-                                                 1 "HDMI-1"
-                                                 2 "HDMI-1"
-                                                 3 "HDMI-1"
-                                                 4 "HDMI-1"
-                                                 5 "HDMI-1"
-                                                 6 "eDP-1"
-                                                 7 "HDMI-1"
-                                                 8 "HDMI-1"
-                                                 9 "HDMI-1"))
-     (add-hook 'exwm-randr-screen-change-hook
-               (lambda ()
-                 (start-process-shell-command
-                  "xrandr" nil "xrandr --output HDMI-1 --above eDP-1 --mode 1920x1080")))
+      (require 'exwm-randr)
+
+      (setq exwm-randr-workspace-output-plist '(0 "HDMI-1"
+                                                  1 "HDMI-1"
+                                                  2 "HDMI-1"
+                                                  3 "HDMI-1"
+                                                  4 "HDMI-1"
+                                                  5 "HDMI-1"
+                                                  6 "eDP-1"
+                                                  7 "HDMI-1"
+                                                  8 "HDMI-1"
+                                                  9 "HDMI-1"))
+       (add-hook 'exwm-randr-screen-change-hook
+                 (lambda ()
+                   (start-process-shell-command
+                    "xrandr" nil "xrandr --output HDMI-1 --above eDP-1 --mode 1920x1080")))
    
-    (exwm-randr-enable)
+      (exwm-randr-enable)
 
-    (exwm-systemtray-enable)
-    (exwm-enable))
-
-
-  
+      (exwm-systemtray-enable)
+      (exwm-enable))
 #+end_src
 * Keybinding
 I respect Emacs keybinding conventions in my configuration with a few ideas borrowed from spacemacs.
