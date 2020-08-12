@@ -104,11 +104,17 @@ export GOPATH='/home/amirreza/go'
 export GOROOT='/usr/local/go'
 export PYTHONPATH='/home/amirreza/.local/bin'
 export PATH="$HOME/.config/composer/vendor/bin:$GOROOT/bin:$GOPATH/bin:$HOME/.cargo/bin:$PYTHONPATH:/usr/local/Postman:$HOME/.local/elixir-ls/:$PATH"
-export EDITOR=nvim
+
+alias e="emacs -Q -nw"
+export EDITOR=e
+
 export GOPRIVATE="gitlab.snapp.ir"
 export GOPROXY="goproxy.io"
+
 alias download="wget -c --no-check-certificate"
 alias prettyjson="python -m json.tool"
-alias vi=nvim
-alias vim=nvim
+
+alias vi=e
+alias vim=e
 alias snappVPN='sudo openfortivpn -c ~/snappDC.conf'
+setxkbmap -layout "us,ir" -option "grp:shifts_toggle" -option "ctrl:nocaps"
