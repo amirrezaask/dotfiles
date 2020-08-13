@@ -40,8 +40,9 @@ bindsym $mod+Return exec alacritty
 # kill focused window
 bindsym $mod+Shift+q kill
 
-# Rofi 
-bindsym $mod+d exec "rofi -show combi -combi-modi drun,window,ssh -theme solarized"
+# Dmenu
+bindsym $mod+Shift+d exec dmenu_run
+bindsym $mod+d exec i3-dmenu-desktop
 
 # change focus
 bindsym $mod+h focus left
@@ -171,9 +172,7 @@ bar {
 }
 exec_always setxkbmap -layout us -option ctrl:nocaps
 
-
-# colorscheme
-#
+# Dracula Colorscheme
 # class                 border  bground text    indicator child_border
 client.focused          #6272A4 #6272A4 #F8F8F2 #6272A4   #6272A4
 client.focused_inactive #44475A #44475A #F8F8F2 #44475A   #44475A
@@ -182,6 +181,20 @@ client.urgent           #44475A #FF5555 #F8F8F2 #FF5555   #FF5555
 client.placeholder      #282A36 #282A36 #F8F8F2 #282A36   #282A36
 
 client.background       #F8F8F2
+
+bar {
+  colors {
+      background #282A36
+      statusline #F8F8F2
+      separator  #44475A
+
+      focused_workspace  #44475A #44475A #F8F8F2
+      active_workspace   #282A36 #44475A #F8F8F2
+      inactive_workspace #282A36 #282A36 #BFBFBF
+      urgent_workspace   #FF5555 #FF5555 #F8F8F2
+      binding_mode       #FF5555 #FF5555 #F8F8F2
+      }
+}
 
 # Set wallpaper
 exec --no-startup-id feh --bg-fill ~/w/dotfiles/i3/black.png
