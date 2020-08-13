@@ -41,9 +41,8 @@ bindsym $mod+Return exec alacritty
 bindsym $mod+Shift+q kill
 
 # Dmenu
-bindsym $mod+Shift+d exec dmenu_run
-bindsym $mod+d exec i3-dmenu-desktop
-
+bindsym $mod+d exec "dmenu_run -nf '#F8F8F2' -nb '#282A36' -sb '#6272A4' -sf '#F8F8F2' -fn 'Fira Mono-10' -p 'dmenu%'"
+bindsym $mod+Shift+d exec i3-dmenu-desktop
 # change focus
 bindsym $mod+h focus left
 bindsym $mod+j focus down
