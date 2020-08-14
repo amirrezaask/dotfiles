@@ -118,4 +118,6 @@ alias kbdbloff="sudo light -v 3 -s sysfs/leds/asus::kbd_backlight -S 100"
 alias vi=nvim
 alias vim=nvim
 alias snappVPN='sudo openfortivpn -c ~/snappDC.conf'
+alias tsl='tmux list-sessions'
+alias tkas='tmux kill-session -a'
 setxkbmap -layout "us,ir" -option "grp:shifts_toggle" -option "ctrl:nocaps"
