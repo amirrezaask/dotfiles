@@ -1,8 +1,13 @@
 font:
   normal:
     family: "Fira Mono"
+  size: 12
+cursor:
+  style: Beam 
 
 
+shell:
+  program: /bin/tmux
 # Colors (Dracula)
 colors:
   # Default colors
