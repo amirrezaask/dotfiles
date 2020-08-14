@@ -115,7 +115,7 @@ alias download="wget -c --no-check-certificate"
 alias prettyjson="python -m json.tool"
 alias kbdblon="sudo light -v 3 -s sysfs/leds/asus::kbd_backlight -S 0"
 alias kbdbloff="sudo light -v 3 -s sysfs/leds/asus::kbd_backlight -S 100"
-alias vi=e
-alias vim=e
+alias vi=nvim
+alias vim=nvim
 alias snappVPN='sudo openfortivpn -c ~/snappDC.conf'
 setxkbmap -layout "us,ir" -option "grp:shifts_toggle" -option "ctrl:nocaps"
