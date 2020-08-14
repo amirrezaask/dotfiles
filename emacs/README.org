@@ -19,7 +19,6 @@
 - [[#minibuffer][Minibuffer]]
   - [[#icomplete][Icomplete]]
   - [[#ivy][Ivy]]
-  - [[#helm][Helm]]
 - [[#windowsworkspaces][Windows/Workspaces]]
   - [[#window-rules][Window rules]]
   - [[#eyebrowse][Eyebrowse]]
@@ -364,7 +363,7 @@ extensively but now i use it only when keybindings are just crazy.
      :bind (("<f12>" . amirreza/toggle-color-mode))
      :config
      (defvar amirreza/current-mode 'dark "Current color mode of Emacs.")
-     (defvar amirreza/dark-theme 'modus-vivendi)
+     (defvar amirreza/dark-theme 'doom-one)
      (defvar amirreza/light-theme 'doom-one-light)
 
      (defmacro amirreza/--load-theme (&rest theme-opts)
@@ -513,9 +512,6 @@ our font interactively, let's write it.
 
 #+end_src
 ** Ivy
-   :PROPERTIES:
-   :header-args: :tangle no
-   :END:
 #+begin_src emacs-lisp
   (use-package flx :straight t)
   (use-package ivy
@@ -558,35 +554,6 @@ our font interactively, let's write it.
 
     (use-package ivy-rich :straight t :config (ivy-rich-mode 1))
 #+end_src
-** Helm
-#+begin_src emacs-lisp
-  (use-package helm
-    :straight t
-    :bind (
-           ;; :map helm-map
-           ;; ("<tab>" . helm-execute-persistent-action)
-           ;; ("C-i" . helm-execute-persistent-action)
-           :map global-map
-           ("M-y" . helm-show-kill-ring)
-           ("M-x" . helm-M-x)
-           ("C-x b" . helm-mini)
-           ("C-x C-f" . helm-find-files)
-           ("M-i" . helm-semantic-or-imenu)
-           ("C-h a" . helm-apropos)
-           ("<f10>" . helm-top))
-
-    :config
-    (setq helm-split-window-in-side-p t
-          helm-move-to-line-or-cycle t
-          helm-ff-file-name-history-use-recentf t
-          helm-mode-fuzzy-match t
-          helm-completion-in-region-fuzzy-match t)
-    (helm-autoresize-mode t)
-    (helm-mode 1))
-
-
-#+end_src
-
 * Windows/Workspaces
 ** Window rules
 Emacs windows can be configured in the matter of where their gonna open.
@@ -1134,13 +1101,13 @@ as auto-complete or syntax linting.
     (setq lsp-auto-guess-root t)
     :commands (lsp)
     :bind (("<f6>" . lsp-rename)
-            ("C-s-l ." . lsp-find-references)))
+           ("C-s-l ." . lsp-find-references)))
 
-    (use-package lsp-ivy :straight t 
-      :commands (lsp-ivy-workspace-symbol lsp-ivy-global-workspace-symbol) 
-      :bind (("C-s-l f" . lsp-ivy-workspace-symbol)))
+   (use-package lsp-ivy :straight t 
+     :commands (lsp-ivy-workspace-symbol lsp-ivy-global-workspace-symbol) 
+     :bind (("C-s-l f" . lsp-ivy-workspace-symbol)))
 
-    (use-package dap-mode :straight t :defer t)
+  (use-package dap-mode :straight t :defer t)
 #+END_SRC
 LSP-ui is a mode from the same author with the goal of configuring several Emacs packages to 
 help ease developer experience when using LSP.
