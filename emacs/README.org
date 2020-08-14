@@ -126,6 +126,9 @@ to set this file's value to a nil value during startup and restore it's original
 (straight-use-package 'use-package)
 #+end_src
 * Window Manager
+   :PROPERTIES:
+   :header-args: :tangle no
+   :END:
 #+begin_src emacs-lisp
   (use-package exwm
     :straight t
