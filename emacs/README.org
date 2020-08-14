@@ -19,6 +19,7 @@
 - [[#minibuffer][Minibuffer]]
   - [[#icomplete][Icomplete]]
   - [[#ivy][Ivy]]
+  - [[#helm][Helm]]
 - [[#windowsworkspaces][Windows/Workspaces]]
   - [[#window-rules][Window rules]]
   - [[#eyebrowse][Eyebrowse]]
@@ -363,7 +364,7 @@ extensively but now i use it only when keybindings are just crazy.
      :bind (("<f12>" . amirreza/toggle-color-mode))
      :config
      (defvar amirreza/current-mode 'dark "Current color mode of Emacs.")
-     (defvar amirreza/dark-theme 'doom-dracula)
+     (defvar amirreza/dark-theme 'modus-vivendi)
      (defvar amirreza/light-theme 'doom-one-light)
 
      (defmacro amirreza/--load-theme (&rest theme-opts)
@@ -512,6 +513,9 @@ our font interactively, let's write it.
 
 #+end_src
 ** Ivy
+   :PROPERTIES:
+   :header-args: :tangle no
+   :END:
 #+begin_src emacs-lisp
   (use-package flx :straight t)
   (use-package ivy
@@ -554,6 +558,35 @@ our font interactively, let's write it.
 
     (use-package ivy-rich :straight t :config (ivy-rich-mode 1))
 #+end_src
+** Helm
+#+begin_src emacs-lisp
+  (use-package helm
+    :straight t
+    :bind (
+           ;; :map helm-map
+           ;; ("<tab>" . helm-execute-persistent-action)
+           ;; ("C-i" . helm-execute-persistent-action)
+           :map global-map
+           ("M-y" . helm-show-kill-ring)
+           ("M-x" . helm-M-x)
+           ("C-x b" . helm-mini)
+           ("C-x C-f" . helm-find-files)
+           ("M-i" . helm-semantic-or-imenu)
+           ("C-h a" . helm-apropos)
+           ("<f10>" . helm-top))
+
+    :config
+    (setq helm-split-window-in-side-p t
+          helm-move-to-line-or-cycle t
+          helm-ff-file-name-history-use-recentf t
+          helm-mode-fuzzy-match t
+          helm-completion-in-region-fuzzy-match t)
+    (helm-autoresize-mode t)
+    (helm-mode 1))
+
+
+#+end_src
+
 * Windows/Workspaces
 ** Window rules
 Emacs windows can be configured in the matter of where their gonna open.
@@ -1461,6 +1494,9 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
           '(("freenode.net" "#emacs" "#5hit"))))
 #+end_src
 * Process management
+   :PROPERTIES:
+   :header-args: :tangle no
+   :END:
 #+begin_src emacs-lisp
   (use-package proced
     :bind (("C-c o p" . proced)
