@@ -1,4 +1,6 @@
 call plug#begin('~/.vim/plugged')
+Plug 'dracula/vim', { 'as': 'dracula' }
+Plug 'chriskempson/base16-vim'
 " tpope {{{
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-jdaddy'
@@ -28,7 +30,6 @@ Plug 'prabirshrestha/vim-lsp'
 Plug 'lighttiger2505/deoplete-vim-lsp'
 Plug 'mattn/vim-lsp-settings'
 " }}}
-Plug 'chriskempson/base16-vim'
 call plug#end()
 
 " General Settings{{{
