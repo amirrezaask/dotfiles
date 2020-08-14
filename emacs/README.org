@@ -1103,9 +1103,19 @@ as auto-complete or syntax linting.
     :bind (("<f6>" . lsp-rename)
            ("C-s-l ." . lsp-find-references)))
 
-   (use-package lsp-ivy :straight t 
-     :commands (lsp-ivy-workspace-symbol lsp-ivy-global-workspace-symbol) 
-     :bind (("C-s-l f" . lsp-ivy-workspace-symbol)))
+  (use-package lsp-ivy :straight t
+    :config
+    (defun amirreza/lsp-ivy-code-actions ()
+      (interactive)
+      (let* ((actions (lsp-code-actions-at-point)))
+        (cond
+         ((seq-empty-p actions) (signal 'lsp-no-code-actions nil))
+         ((and (eq (seq-length actions) 1) lsp-auto-execute-action)
+          (lsp-execute-code-action (lsp-seq-first actions)))
+         (t (completing-read "Code Action: " actions)))))
+    :commands (lsp-ivy-workspace-symbol lsp-ivy-global-workspace-symbol) 
+    :bind (("C-s-l f" . lsp-ivy-workspace-symbol)
+           ("C-s-l a" . amirreza/lsp-ivy-code-actions)))
 
   (use-package dap-mode :straight t :defer t)
 #+END_SRC
