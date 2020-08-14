@@ -239,7 +239,6 @@ extensively but now i use it only when keybindings are just crazy.
     (defalias 'which-key! 'which-key-add-key-based-replacements)
     (which-key! "C-s-m" "Music functions")
     (which-key! "C-s-l" "Language/LSP related functionality")
-    (which-key! "C-." "Multiple Cursors")
     (which-key! "C-s-v" "Version control actions")
     (which-key! "C-s-f" "File functions")
     (which-key! "C-s-w" "Workspaces")
