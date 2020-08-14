@@ -33,9 +33,8 @@
   - [[#expand-region][Expand region]]
   - [[#highlight-todofixme][Highlight TODO/FIXME/...]]
   - [[#multiple-cursors][Multiple cursors]]
-  - [[#iedit][Iedit]]
-  - [[#vlf-very-large-file][Vlf (very large file)]]
-  - [[#so-long-lines][So Long lines]]
+  - [[#iedit][IEdit]]
+  - [[#dont-choke-on-large-data][Don't choke on large data]]
 - [[#writing][Writing]]
   - [[#org][Org]]
   - [[#markdown-mode][Markdown mode]]
@@ -670,10 +669,10 @@ by default is bound to =C-c <left>=.
  #+begin_src emacs-lisp
    (use-package avy :straight t
      :commands (avy-goto-char avy-goto-char-2 avy-goto-line avy-goto-word-1)
-     :bind (("C-; l" . avy-goto-line)
-            ("C-; w" . avy-goto-word-1)
-            ("C-; c 2" . avy-goto-char-2)
-            ("C-; c 1" . avy-goto-char)))
+     :bind (("C-M-l" . avy-goto-line)
+            ("C-M-w" . avy-goto-word-1)
+            ("C-M-C" . avy-goto-char-2)
+            ("C-M-c" . avy-goto-char)))
  #+end_src
 ** Highlight indentation
 #+begin_src emacs-lisp
@@ -728,24 +727,21 @@ by default is bound to =C-c <left>=.
           mc/mark-all-in-region-regexp
           mc/insert-numbers
           mc/insert-letters)
-        :bind (("C-. n" .  mc/mark-next-like-this)
-               ("C-. p" . mc/mark-previous-like-this)
-               ("C-. a" . mc/mark-all-like-this)))
+        :bind (("C-M-n" .  mc/mark-next-like-this)
+               ("C-M-p" . mc/mark-previous-like-this)
+               ("C-M-a" . mc/mark-all-like-this)))
 #+end_src
-** Iedit
+** IEdit
 #+begin_src emacs-lisp
   (use-package iedit
        :straight t
        :defer t)
 #+end_src
-** Vlf (very large file)
-#+begin_src emacs-lisp
-(use-package vlf :straight t :commands (vlf))
-#+end_src
-** So Long lines
+** Don't choke on large data
 #+begin_src emacs-lisp
   (use-package so-long 
-    :config (global-so-long-mode 1))
+      :config (global-so-long-mode 1))
+  (use-package vlf :straight t :commands (vlf))
 #+end_src
 * Writing
 ** Org
