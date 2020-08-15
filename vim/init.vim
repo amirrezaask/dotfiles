@@ -55,7 +55,7 @@ set termguicolors
 set nu 
 let mapleader = " "
 set cursorline
-colorscheme base16-black-metal
+colorscheme base16-google-dark
 set nowrap
 set autoindent
 noremap j gj
