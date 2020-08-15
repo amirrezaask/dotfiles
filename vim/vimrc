@@ -25,6 +25,8 @@ Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 " }}}
 " Autocomplete {{{
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'roxma/nvim-yarp'
+Plug 'roxma/vim-hug-neovim-rpc'
 Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'lighttiger2505/deoplete-vim-lsp'
@@ -51,16 +53,15 @@ set nojoinspaces
 set shiftround
 set mouse=a
 set guifont=Fira\ Mono\ 11
-set termguicolors
+" set termguicolors
 set nu 
 let mapleader = " "
 set cursorline
-colorscheme base16-google-dark
+" colorscheme base16-google-dark
 set nowrap
 set autoindent
 noremap j gj
 noremap k gk
-
 " }}}
 " FileType specific settings {{{
 augroup format
