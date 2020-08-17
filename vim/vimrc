@@ -56,7 +56,7 @@ set guifont=Fira\ Mono\ 11
 " set termguicolors
 set nu 
 let mapleader = " "
-set cursorline
+" set cursorline
 " colorscheme base16-google-dark
 set nowrap
 set autoindent
@@ -116,6 +116,9 @@ inoremap jk <esc>
 inoremap kj <esc> 
 " }}}
 
+" Go {{{
+let g:go_fmt_command = "goimports"
+" }}}
 " Source this 
 nnoremap <leader>so :so %<CR>
 

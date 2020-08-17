@@ -1136,53 +1136,6 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
     :config (global-eldoc-mode 1))
 #+end_src
 ** Languages
-*** Python
-**** Python Mode
- Emacs itself comes with =python-mode= which is python major mode that provides emacs with 
- syntax highlighting and some other features on python, so we just need to configure it the way 
- we want. I added some custom python functions to suit my python needs like the docstring function
- that inserts a docstring in python syntax.
- #+BEGIN_SRC emacs-lisp
-   (use-package python-mode
-     :mode "\\.py\\'"
-     :hook (python-mode-hook . amirreza/python-mode-hook)
-     :config
-     (defun amirreza/python-insert-docstring ()
-       (interactive)
-       (insert "'''\n'''")
-       (previous-line))
-     (defun amirreza/python-mode-hook () 
-       (amirreza/lsp!))
-     :bind
-     (:map python-mode-map 
-       ("C-s-l d" . amirreza/python-insert-docstring)))
- #+END_SRC
-**** Microsoft Language Server
- #+begin_src emacs-lisp
- (use-package lsp-python-ms :straight t :after python-mode)
- #+end_src
-**** Pipenv
- =Pipenv= is now the de facto tool for python programmers to manage their project deps, so it's nice
- to have a wrapper for it in Emacs.
- #+BEGIN_SRC emacs-lisp
-   (use-package pipenv
-	        :straight t
-	        :after python-mode)
- #+END_SRC
-**** Py-autopep8
- We are using LSP for all our IDE like features but right now python lanugage server does not
- provide formmatting feature for python so we need to use another package called =py-autopep8= which
- actually is just a wrapper around python package that you need to install from =pypi= called 
- no suprises =py-autopep8=. We install this package and we need this package to hook it's format 
- function to =before-save-hook= of emacs, luckily this package provides a helper function to do that.
- #+BEGIN_SRC emacs-lisp
- (use-package py-autopep8
-   :straight t
-   :hook python-mode
-   :config
-   (py-autopep8-enable-on-save))
-
- #+END_SRC
 *** Go
 **** Go-mode
  Golang by default is not supported in Emacs, but don't fear, we can fix that by simply installing
@@ -1253,6 +1206,66 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
      (define-key go-mode-map (kbd "C-s-l t f") 'go-test-current-file) 
      (define-key go-mode-map (kbd "C-s-l t t") 'go-test-current-test))
   #+END_SRC
+*** C/C++
+#+begin_src emacs-lisp
+  (use-package ccls :defer t)
+  (use-package cmake-mode :defer t)
+  (use-package disaster :defer t)
+#+end_src
+*** Java
+#+begin_src emacs-lisp
+  (use-package gradle-mode :defer t)
+  (use-package flycheck-gradle :defer t)
+  (use-package groovy-mode :defer t)
+  (use-package lsp-java :defer t)
+#+end_src
+*** Python
+**** Python Mode
+ Emacs itself comes with =python-mode= which is python major mode that provides emacs with 
+ syntax highlighting and some other features on python, so we just need to configure it the way 
+ we want. I added some custom python functions to suit my python needs like the docstring function
+ that inserts a docstring in python syntax.
+ #+BEGIN_SRC emacs-lisp
+   (use-package python-mode
+     :mode "\\.py\\'"
+     :hook (python-mode-hook . amirreza/python-mode-hook)
+     :config
+     (defun amirreza/python-insert-docstring ()
+       (interactive)
+       (insert "'''\n'''")
+       (previous-line))
+     (defun amirreza/python-mode-hook () 
+       (amirreza/lsp!))
+     :bind
+     (:map python-mode-map 
+       ("C-s-l d" . amirreza/python-insert-docstring)))
+ #+END_SRC
+**** Microsoft Language Server
+ #+begin_src emacs-lisp
+ (use-package lsp-python-ms :straight t :after python-mode)
+ #+end_src
+**** Pipenv
+ =Pipenv= is now the de facto tool for python programmers to manage their project deps, so it's nice
+ to have a wrapper for it in Emacs.
+ #+BEGIN_SRC emacs-lisp
+   (use-package pipenv
+	        :straight t
+	        :after python-mode)
+ #+END_SRC
+**** Py-autopep8
+ We are using LSP for all our IDE like features but right now python lanugage server does not
+ provide formmatting feature for python so we need to use another package called =py-autopep8= which
+ actually is just a wrapper around python package that you need to install from =pypi= called 
+ no suprises =py-autopep8=. We install this package and we need this package to hook it's format 
+ function to =before-save-hook= of emacs, luckily this package provides a helper function to do that.
+ #+BEGIN_SRC emacs-lisp
+ (use-package py-autopep8
+   :straight t
+   :hook python-mode
+   :config
+   (py-autopep8-enable-on-save))
+
+ #+END_SRC
 *** Scheme
  I use guile as my scheme compiler.
  #+begin_src emacs-lisp
