@@ -1208,9 +1208,9 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
   #+END_SRC
 *** C/C++
 #+begin_src emacs-lisp
-  (use-package ccls :defer t)
-  (use-package cmake-mode :defer t)
-  (use-package disaster :defer t)
+  (use-package ccls :straight t)
+  ;; (use-package cmake-mode :defer t :straight t)
+;;   (use-package disaster :defer t :straight t)
 #+end_src
 *** Java
 #+begin_src emacs-lisp
