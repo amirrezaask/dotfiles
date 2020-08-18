@@ -11,12 +11,8 @@ set -x GOPROXY "goproxy.io"
 
 alias e "$EMACSTERMINAL"
 alias open "xdg-open"
-alias vim "nvim"
-alias vi "nvim"
 alias g "git"
 alias gs "git status"
-# setxkbmap -layout us,ir -option "caps:swapescape" -option "grp:alt_shift_toggle"
-# setxkbmap -layout us,ir -option "ctrl:nocaps" -option "grp:alt_shift_toggle"
 
+setxkbmap -layout "us,ir" -option "grp:shifts_toggle" -option "ctrl:nocaps"
 
-omf theme batman
