@@ -12,8 +12,6 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-vinegar'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-" Plug 'junegunn/gv.vim'
-" Plug 'airblade/vim-gitgutter'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'michaeljsmith/vim-indent-object'
 " Languages {{{
@@ -82,7 +80,6 @@ augroup format
 	
 	" YAML 
         autocmd Filetype yaml setlocal ts=2 sts=2 sw=2
-        autocmd Filetype yaml :IndentGuidesEnable 
 augroup end
 " }}}
 
