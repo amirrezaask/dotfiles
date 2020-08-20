@@ -13,6 +13,8 @@ alias e "$EMACSTERMINAL"
 alias open "xdg-open"
 alias g "git"
 alias gs "git status"
-
+alias vim "nvim"
+alias vi "nvim"
+alias snappvpn "sudo openfortivpn -c ~/snappDC.conf"
 setxkbmap -layout "us,ir" -option "grp:shifts_toggle" -option "ctrl:nocaps"
 
