@@ -1,6 +1,6 @@
 call plug#begin('~/.vim/plugged')
 Plug 'dracula/vim', { 'as': 'dracula' }
-Plug 'chriskempson/base16-vim'
+Plug 'overcache/NeoSolarized'
 " tpope {{{
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-jdaddy'
@@ -45,41 +45,41 @@ set encoding=utf-8
 set hlsearch
 set history=700
 set t_Co=256
+set termguicolors
 set tabpagemax=100
 set ruler
 set nojoinspaces
 set shiftround
 set mouse=a
 set guifont=Fira\ Mono\ 11
-" set termguicolors
 set nu 
+colorscheme NeoSolarized
 let mapleader = " "
-" set cursorline
-" colorscheme base16-google-dark
 set nowrap
 set autoindent
 noremap j gj
 noremap k gk
 " }}}
+
 " FileType specific settings {{{
 augroup format
         " PHP
         autocmd Filetype php setlocal expandtab tabstop=4 shiftwidth=4 sts=4
 
 	" Go
-        autocmd Filetype go setlocal ts=4 sts=4 sw=4
+        autocmd Filetype go setlocal expandtab tabstop=4 softtabstop=4 shiftwidth=4
        
 	" Python 
-        autocmd Filetype python setlocal ts=4 sts=4 sw=4
+        autocmd Filetype python setlocal expandtab tabstop=4 softtabstop=4 shiftwidth=4
 
-        " C
-        autocmd Filetype c setlocal ts=2 sts=2 sw=2
+        " C/C++
+        autocmd Filetype c,cpp setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
 
 	" JSON 
-        autocmd Filetype json setlocal ts=2 sts=2 sw=2
+        autocmd Filetype json setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
 	
 	" YAML 
-        autocmd Filetype yaml setlocal ts=2 sts=2 sw=2
+        autocmd Filetype yaml setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
 augroup end
 " }}}
 
@@ -135,6 +135,7 @@ nnoremap <leader>fb :Buffers<CR>
 nnoremap <leader>fw :Windows<CR>
 nnoremap <leader>fc :Commands<CR>
 nnoremap <leader>fs :Rg<CR>
+map <C-s> :Rg<CR>
 "}}}
 
 " NetRW settings {{{
@@ -152,6 +153,7 @@ function! ToggleColorMode()
 endfunction
 
 nnoremap <f12> :call ToggleColorMode()<CR>
+
 " Deoplete {{{
 let g:deoplete#enable_at_startup = 1
 autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
@@ -180,6 +182,7 @@ function! ToggleNetrw()
         silent Lexplore
     endif
 endfunction
+
 map <f8> :call ToggleNetrw()<cr>
 
 augroup Git
