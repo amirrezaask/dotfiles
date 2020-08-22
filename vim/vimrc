@@ -59,6 +59,11 @@ set nowrap
 set autoindent
 noremap j gj
 noremap k gk
+" General Tab settings
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
+set expandtab
 " }}}
 
 " FileType specific settings {{{
@@ -123,18 +128,18 @@ nnoremap <leader>so :so %<CR>
 set clipboard=unnamedplus
 
 " Edit neovim configuration instantly {{{
-nnoremap <leader>ec :tabnew ~/.config/nvim/init.vim<CR>   
-nnoremap <leader>es :tabnew ~/.config/fish/config.fish<CR>
+nnoremap <f9> :tabnew ~/.config/nvim/init.vim<CR>   
+nnoremap <f10> :tabnew ~/.config/fish/config.fish<CR>
 " }}}
 
 " Fzf keybinding
 nnoremap <leader><leader> :Files<CR>
-nnoremap <leader>ff :Files<CR>
-nnoremap <leader>fgf :GitFiles<CR>
-nnoremap <leader>fb :Buffers<CR>
-nnoremap <leader>fw :Windows<CR>
-nnoremap <leader>fc :Commands<CR>
-nnoremap <leader>fs :Rg<CR>
+nnoremap <leader>f :Files<CR>
+nnoremap <leader>v :GitFiles<CR>
+nnoremap <leader>b :Buffers<CR>
+nnoremap <leader>w :Windows<CR>
+nnoremap <leader>c :Commands<CR>
+nnoremap <leader>s :Rg<CR>
 map <C-s> :Rg<CR>
 "}}}
 
