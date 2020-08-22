@@ -1,0 +1,4 @@
+#! /bin/bash
+
+
+acme -f /mnt/font/'FiraMono-Regular'/14a/font

@@ -1,0 +1,9 @@
+#! /bin/bash
+BASE=$(pwd)
+for script in $(ls); do
+    if [[ $script != 'INSTALL' ]]; then
+        rm -rf "${HOME}/.local/bin/${script}"
+        ln -s "$BASE/${script}" "${HOME}/.local/bin/${script}"
+    fi
+done
+
