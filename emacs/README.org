@@ -228,6 +228,8 @@ extensively but now i use it only when keybindings are just crazy.
     :straight t
     :commands (defhydra))
 
+  (use-package acme :load-path "/home/amirreza/w/acme-mode/" :config (acme-mode 1))
+
   (use-package pretty-hydra
     :straight t
     :commands (pretty-hydra-define))
