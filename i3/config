@@ -205,6 +205,7 @@ bar {
 		inactive_workspace #073642 #002b36 #839496
 		urgent_workspace   #dc322f #dc322f #fdf6e3
 	}
+        position top
         status_command i3blocks
 }
 exec_always setxkbmap -layout us -option ctrl:nocaps
