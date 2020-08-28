@@ -400,7 +400,7 @@ extensively but now i use it only when keybindings are just crazy.
    (use-package emacs
      :config
      (setq-default ring-bell-function 'ignore)
-     (setq-default cursor-type 'bar))
+     (setq-default cursor-type 'box))
 
    (use-package frame
      :config
