@@ -38,6 +38,7 @@
 - [[#writing][Writing]]
   - [[#org][Org]]
   - [[#markdown-mode][Markdown mode]]
+- [[#acme-like-functionality][Acme like functionality]]
 - [[#searching][Searching]]
   - [[#in-buffer-searching][In Buffer searching]]
   - [[#grep][Grep]]
@@ -228,7 +229,7 @@ extensively but now i use it only when keybindings are just crazy.
     :straight t
     :commands (defhydra))
 
-  (use-package acme :load-path "/home/amirreza/w/acme-mode/" :config (acme-mode 1))
+
 
   (use-package pretty-hydra
     :straight t
@@ -345,7 +346,6 @@ extensively but now i use it only when keybindings are just crazy.
    (use-package modus-operandi-theme :straight t :defer t)
    (use-package modus-vivendi-theme :straight t :defer t)
    (use-package doom-themes :straight t :defer t)
-   (use-package darkburn-theme :straight t :defer t)
  #+END_SRC
  You probably notice the =:defer= part in use-package, with =:defer= keyword (:something is called a keyword in elisp)
  use-package knows that we don't need this package to be loaded in startup, since we actually don't need all of our themes
@@ -363,7 +363,7 @@ extensively but now i use it only when keybindings are just crazy.
      :bind (("<f12>" . amirreza/toggle-color-mode))
      :config
      (defvar amirreza/current-mode 'dark "Current color mode of Emacs.")
-     (defvar amirreza/dark-theme 'doom-one)
+     (defvar amirreza/dark-theme 'doom-horizon)
      (defvar amirreza/light-theme 'doom-one-light)
 
      (defmacro amirreza/--load-theme (&rest theme-opts)
@@ -374,9 +374,9 @@ extensively but now i use it only when keybindings are just crazy.
        (interactive)
        (let ((theme (intern  (completing-read "Theme: " (mapcar #'symbol-name
                                                                 (custom-available-themes))))))
-                 
+
          (amirreza/--load-theme theme t)))
-  
+
      (defun amirreza/apply-color (mode)
        "Apply current color mode to Emacs."
        (if (eq amirreza/current-mode 'dark)
@@ -443,7 +443,6 @@ To use specific font in Emacs you just need to call a function, that's easy ha ?
   (defvar amirreza/font "Fira Mono-11")
   (set-face-attribute 'default t :font amirreza/font)
   (set-frame-font amirreza/font nil t)
-  (global-prettify-symbols-mode 1)
 #+END_SRC
 If you evaluate code above you see the font changes.
 Now let's write some elisp, let's say that we want to have a function that we can call and change 
@@ -786,6 +785,12 @@ by default is bound to =C-c <left>=.
   :straight t
   :mode ("\\.md$" . markdown-mode))
 #+end_src
+* Acme like functionality
+I'm really fond of Acme (Plan9 editor) way of looking into integration of tools so I have implemented
+some kind of clone functionality of Acme in Emacs in the form of a simple minor mode.
+#+begin_src emacs-lisp
+  (use-package acme :load-path "/home/amirreza/w/acme-mode/" :config (acme-mode 1))
+#+end_src
 * Searching
 ** In Buffer searching
 #+begin_src emacs-lisp
@@ -796,7 +801,6 @@ by default is bound to =C-c <left>=.
 #+end_src
 ** Grep
 #+begin_src emacs-lisp
-
   (use-package rg 
     :straight t 
     :commands (rg)
@@ -871,7 +875,7 @@ all executables.
     :straight t 
     :defer 1
     :config
-    (setq exec-path-from-shell-shell-name "bash")
+    (setq exec-path-from-shell-shell-name "zsh")
     (exec-path-from-shell-initialize))
 #+end_src
 **** Eshell
