@@ -30,6 +30,12 @@ Plug 'prabirshrestha/vim-lsp'
 Plug 'lighttiger2505/deoplete-vim-lsp'
 Plug 'mattn/vim-lsp-settings'
 " }}}
+" Status bar {{{
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+"
+"
+" }}}
 call plug#end()
 
 " General Settings{{{
@@ -53,7 +59,7 @@ set shiftround
 set mouse=a
 set guifont=Fira\ Mono\ 11
 set nu 
-colorscheme NeoSolarized
+" colorscheme  
 let mapleader = " "
 set nowrap
 set autoindent
