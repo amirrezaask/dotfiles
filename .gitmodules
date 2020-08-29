@@ -1,0 +1,3 @@
+[submodule "i3/blocklets"]
+	path = i3/blocklets
+	url = git@github.com:vivien/i3blocks-contrib.git
