@@ -1,4 +1,6 @@
 #! /bin/sh
+# kill already running polybar
+pkill polybar
 
 # Autostart applications
 sxhkd &
@@ -11,6 +13,6 @@ bspc monitor e-DP1 -d 1 2 3 4 5 6 7 8 9
 setxkbmap -layout us,ir -option "ctrl:nocaps" -option "grp:shifts_toggle"
 
 # move polybar down in fullscreen mode
-xdo below -t $(xdo id -n root) $(xdo id -a polybar-main_eDP1)
+xdo above -t $(xdo id -n root) $(xdo id -a polybar)
 
 
