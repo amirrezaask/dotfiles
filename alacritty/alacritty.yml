@@ -1,10 +1,69 @@
 font:
   normal:
     family: "Fira Mono"
-  size: 9
-cursor:
-  style: Beam 
+  size: 7 
+# colors:
+#   # Default colors
+#   primary:
+#     background: '0x1e282d'
+#     foreground: '0xc4c7d1'
+
+#   # Normal colors
+#   normal:
+#     black:   '0x666666'
+#     red:     '0xeb606b'
+#     green:   '0xc3e88d'
+#     yellow:  '0xf7eb95'
+#     blue:    '0x80cbc4'
+#     magenta: '0xff2f90'
+#     cyan:    '0xaeddff'
+#     white:   '0xffffff'
+
+#   # Bright colors
+#   bright:
+#     black:   '0xff262b'
+#     red:     '0xeb606b'
+#     green:   '0xc3e88d'
+#     yellow:  '0xf7eb95'
+#     blue:    '0x7dc6bf'
+#     magenta: '0x6c71c4'
+#     cyan:    '0x35434d'
+#     white:   '0xffffff'
+# # # Colors (Base16 Default Dark)
+# # colors:
+# #   # Default colors
+# #   primary:
+# #     background: '0x181818'
+# #     foreground: '0xd8d8d8'
+
+# #   # Colors the cursor will use if `custom_cursor_colors` is true
+# #   cursor:
+# #     text: '0xd8d8d8'
+# #     cursor: '0xd8d8d8'
+# #     style: Beam 
 
 
-shell:
-  program: /bin/tmux
+# #   # Normal colors
+# #   normal:
+# #     black:   '0x181818'
+# #     red:     '0xab4642'
+# #     green:   '0xa1b56c'
+# #     yellow:  '0xf7ca88'
+# #     blue:    '0x7cafc2'
+# #     magenta: '0xba8baf'
+# #     cyan:    '0x86c1b9'
+# #     white:   '0xd8d8d8'
+
+# #   # Bright colors
+# #   bright:
+# #     black:   '0x585858'
+# #     red:     '0xab4642'
+# #     green:   '0xa1b56c'
+# #     yellow:  '0xf7ca88'
+# #     blue:    '0x7cafc2'
+# #     magenta: '0xba8baf'
+# #     cyan:    '0x86c1b9'
+# #     white:   '0xf8f8f8'
+
+# # shell:
+# #   program: /bin/tmux
