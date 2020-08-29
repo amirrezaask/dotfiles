@@ -3,10 +3,24 @@ super + Return
 
 super + d
     dmenu_run
+
 super + q
     bspc node -c
+
+super + shift + {1-9}
+    bspc node -d '^{1-9}'
+
 super + shift + {q, r}
     bspc {quit, wm -r}
+
+super + ctrl + {h,j,k,l}
+    bspc node -p {west,south,north,east}
+
+super + {f, t}
+    bspc node -t {floating, tiled}
+
+super + shift + f
+    bspc node -t {fullscreen}
 
 super + e
     emacs
