@@ -1,26 +1,49 @@
+# Application Launchers
 super + Return
    alacritty
 
 super + d
     dmenu_run
 
-super + q
-    bspc node -c
-
-super + shift + {1-9}
-    bspc node -d '^{1-9}'
-
-super + shift + {q, r}
-    bspc {quit, wm -r}
-
-super + ctrl + {h,j,k,l}
-    bspc node -p {west,south,north,east}
-
-super + {f, t}
-    bspc node -t {floating, tiled}
-
-super + shift + f
-    bspc node -t {fullscreen}
 
 super + e
     emacs
+
+# bspc hotkeys
+super + q
+    bspc node -c
+
+# reload config/ exit
+super + shift + {e, r}
+    bspc {quit, wm -r}
+
+# using vim keys pre select an area for a new node
+super + ctrl + {h,j,k,l}
+    bspc node -p {west,south,north,east}
+
+# change node state
+super + {s, f, t}
+    bspc node -t {psuedo_tiled,floating, tiled}
+
+# make anode fullscreen
+super + shift + f
+    bspc node -t {fullscreen}
+
+# swap biggest node with current node
+super + g
+    bspc node -s biggest
+
+# node focus
+super + {_,shift + }{h,j,k,l}
+	bspc node -{f,s} {west,south,north,east}
+
+# focus on last node/desktop
+super + {grave,Tab}
+	bspc {node,desktop} -f last
+
+# focus or send to the given desktop
+super + {_,shift + }{1-9,0}
+	bspc {desktop -f,node -d} focused:'^{1-9,10}'
+
+
+
