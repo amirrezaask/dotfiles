@@ -363,7 +363,7 @@ extensively but now i use it only when keybindings are just crazy.
      :bind (("<f12>" . amirreza/toggle-color-mode))
      :config
      (defvar amirreza/current-mode 'dark "Current color mode of Emacs.")
-     (defvar amirreza/dark-theme 'doom-horizon)
+     (defvar amirreza/dark-theme 'doom-outrun-electric)
      (defvar amirreza/light-theme 'doom-one-light)
 
      (defmacro amirreza/--load-theme (&rest theme-opts)
@@ -806,7 +806,7 @@ some kind of clone functionality of Acme in Emacs in the form of a simple minor 
     :commands (rg)
     :config
     (defun amirreza/rg (pattern filetype)
-      (interactive "sPattern: \nsFiletype:")
+      (interactive "sPattern: \nsFiletype: ")
       (let* ((project (vc-root-dir))
              (dir (if project project default-directory)))
           (rg-run pattern filetype dir)))
