@@ -5,7 +5,7 @@ set -x GOROOT '/usr/local/go'
 set -x PLAN9 "$HOME/.local/plan9"
 set -x PYTHONPATH '/home/amirreza/.local/bin'
 set -x PATH "$PLAN9/bin:$HOME/.config/composer/vendor/bin:$GOROOT/bin:$GOPATH/bin:$HOME/.cargo/bin:$PYTHONPATH:/usr/local/Postman:$HOME/.local/elixir-ls/:$PATH"
-set -x EMACSTERMINAL "emacsclient -t"
+set -x EMACSTERMINAL "emacs -nw" 
 set -x EDITOR nvim 
 set -x GOPRIVATE "gitlab.snapp.ir"
 set -x GOPROXY "goproxy.io"
