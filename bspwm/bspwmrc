@@ -1,0 +1,10 @@
+#! /bin/sh
+
+# Autostart applications
+sxhkd &
+comption &
+~/.config/polybar/launch.sh
+
+# Keyboard layout
+setxkbmap -layout us,ir -option "ctrl:nocaps" -option "grp:shifts_toggle"
+
