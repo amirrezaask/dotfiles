@@ -5,15 +5,11 @@ pkill polybar
 # Autostart applications
 sxhkd &
 picom &
-polybar example &
+polybar default &
 xfce4-power-manager
 
 # Desktops and monitors
 bspc monitor eDP-1 -d 1 2 3 4 5 6 7 8 9
-
-# Some values
-bspc config top_padding 25
-bspc config border_width 3 
 
 # Keyboard layout
 setxkbmap -layout us,ir -option "ctrl:nocaps" -option "grp:shifts_toggle"
@@ -23,3 +19,9 @@ xdo above -t $(xdo id -n root) $(xdo id -a polybar)
 
 # set wallpaper
 feh --bg-fill ~/w/dotfiles/wallpapers/darksideofthemoon.png
+
+# Some values
+bspc config top_padding 30
+bspc config border_width 3 
+bspc config bottom_padding 0
+
