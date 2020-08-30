@@ -1,0 +1,6 @@
+#! /bin/bash
+
+cp -r "./.themes/polybar-${1}"/* .
+cp -r ./fonts/* ~/.local/share/fonts/
+fc-cache -v
+

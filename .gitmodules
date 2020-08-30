@@ -1,3 +1,9 @@
 [submodule "i3/blocklets"]
 	path = i3/blocklets
 	url = git@github.com:vivien/i3blocks-contrib.git
+[submodule "polybar/themes"]
+	path = polybar/themes
+	url = git@github.com:adi1090x/polybar-themes.git
+[submodule "polybar/.themes"]
+	path = polybar/.themes
+	url = git@github.com:adi1090x/polybar-themes.git
