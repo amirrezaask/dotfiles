@@ -4,102 +4,133 @@
 ## Github : adi1090x
 
 PDIR="$HOME/.config/polybar"
+LAUNCH="polybar-msg cmd restart"
 
-PID1="$(pgrep -u $UID -x polybar | head -n 1)"
-PID2="$(pgrep -u $UID -x polybar | tail -n 1)"
-
-LAUNCH1="polybar-msg -p $PID1 cmd restart"
-LAUNCH2="polybar-msg -p $PID2 cmd restart"
-
-## Alt..
-#LAUNCH="pkill -USR1 polybar"
-
-if  [[ $1 = "-mode1" ]]; then
+if  [[ $1 = "-default" ]]; then
 # Replacing colors
-sed -i -e 's/bg = .*/bg = #8c0a0a0a/g' $PDIR/colors.ini
-sed -i -e 's/fg = .*/fg = #f5f5f5/g' $PDIR/colors.ini
-sed -i -e 's/ac = .*/ac = #d26273/g' $PDIR/colors.ini
-sed -i -e 's/bi = .*/bi = #dc404040/g' $PDIR/colors.ini
-sed -i -e 's/be = .*/be = #dc404040/g' $PDIR/colors.ini
-sed -i -e 's/mb = .*/mb = #0a0a0a/g' $PDIR/colors.ini
-sed -i -e 's/mgf = .*/mgf = #0a0a0a/g' $PDIR/colors.ini
-sed -i -e 's/mf = .*/mf = #fdd835/g' $PDIR/colors.ini
+sed -i -e 's/ac = .*/ac = #BE302F/g' $PDIR/colors.ini
 # Restarting polybar
-$LAUNCH1 &
-$LAUNCH2 &
-
-elif  [[ $1 = "-mode2" ]]; then
+$LAUNCH &
+ 
+elif  [[ $1 = "-amber" ]]; then
 # Replacing colors
-sed -i -e 's/bg = .*/bg = #8c263238/g' $PDIR/colors.ini
-sed -i -e 's/fg = .*/fg = #DFDFDF/g' $PDIR/colors.ini
-sed -i -e 's/ac = .*/ac = #d26273/g' $PDIR/colors.ini
-sed -i -e 's/bi = .*/bi = #dc344148/g' $PDIR/colors.ini
-sed -i -e 's/be = .*/be = #dc344148/g' $PDIR/colors.ini
-sed -i -e 's/mb = .*/mb = #263238/g' $PDIR/colors.ini
-sed -i -e 's/mgf = .*/mgf = #263238/g' $PDIR/colors.ini
-sed -i -e 's/mf = .*/mf = #00BCD4/g' $PDIR/colors.ini
+sed -i -e 's/ac = .*/ac = #ffb300/g' $PDIR/colors.ini
 # Restarting polybar
-$LAUNCH1 &
-$LAUNCH2 &
+$LAUNCH &
 
-elif  [[ $1 = "-mode3" ]]; then
+elif  [[ $1 = "-blue" ]]; then
 # Replacing colors
-sed -i -e 's/bg = .*/bg = #8c112526/g' $PDIR/colors.ini
-sed -i -e 's/fg = .*/fg = #C4AAA5/g' $PDIR/colors.ini
-sed -i -e 's/ac = .*/ac = #d26273/g' $PDIR/colors.ini
-sed -i -e 's/bi = .*/bi = #dc223637/g' $PDIR/colors.ini
-sed -i -e 's/be = .*/be = #dc223637/g' $PDIR/colors.ini
-sed -i -e 's/mb = .*/mb = #112526/g' $PDIR/colors.ini
-sed -i -e 's/mgf = .*/mgf = #112526/g' $PDIR/colors.ini
-sed -i -e 's/mf = .*/mf = #EE7313/g' $PDIR/colors.ini
+sed -i -e 's/ac = .*/ac = #1e88e5/g' $PDIR/colors.ini
 # Restarting polybar
-$LAUNCH1 &
-$LAUNCH2 &
+$LAUNCH &
 
-elif  [[ $1 = "-mode4" ]]; then
+elif  [[ $1 = "-blue-grey" ]]; then
 # Replacing colors
-sed -i -e 's/bg = .*/bg = #8c461320/g' $PDIR/colors.ini
-sed -i -e 's/fg = .*/fg = #f5f5f5/g' $PDIR/colors.ini
-sed -i -e 's/ac = .*/ac = #d26273/g' $PDIR/colors.ini
-sed -i -e 's/bi = .*/bi = #dc6A2939/g' $PDIR/colors.ini
-sed -i -e 's/be = .*/be = #dc6A2939/g' $PDIR/colors.ini
-sed -i -e 's/mb = .*/mb = #461320/g' $PDIR/colors.ini
-sed -i -e 's/mgf = .*/mgf = #461320/g' $PDIR/colors.ini
-sed -i -e 's/mf = .*/mf = #fdd835/g' $PDIR/colors.ini
+sed -i -e 's/ac = .*/ac = #546e7a/g' $PDIR/colors.ini
 # Restarting polybar
-$LAUNCH1 &
-$LAUNCH2 &
+$LAUNCH &
 
-elif  [[ $1 = "-mode5" ]]; then
+elif  [[ $1 = "-brown" ]]; then
 # Replacing colors
-sed -i -e 's/bg = .*/bg = #8c092F1C/g' $PDIR/colors.ini
-sed -i -e 's/fg = .*/fg = #f5f5f5/g' $PDIR/colors.ini
-sed -i -e 's/ac = .*/ac = #d26273/g' $PDIR/colors.ini
-sed -i -e 's/bi = .*/bi = #dc206341/g' $PDIR/colors.ini
-sed -i -e 's/be = .*/be = #dc206341/g' $PDIR/colors.ini
-sed -i -e 's/mb = .*/mb = #092F1C/g' $PDIR/colors.ini
-sed -i -e 's/mgf = .*/mgf = #092F1C/g' $PDIR/colors.ini
-sed -i -e 's/mf = .*/mf = #fdd835/g' $PDIR/colors.ini
+sed -i -e 's/ac = .*/ac = #6d4c41/g' $PDIR/colors.ini
 # Restarting polybar
-$LAUNCH1 &
-$LAUNCH2 &
+$LAUNCH &
 
-elif  [[ $1 = "-mode6" ]]; then
+elif  [[ $1 = "-cyan" ]]; then
 # Replacing colors
-sed -i -e 's/bg = .*/bg = #8c003C3C/g' $PDIR/colors.ini
-sed -i -e 's/fg = .*/fg = #CFCFCF/g' $PDIR/colors.ini
-sed -i -e 's/ac = .*/ac = #d26273/g' $PDIR/colors.ini
-sed -i -e 's/bi = .*/bi = #dc085F5F/g' $PDIR/colors.ini
-sed -i -e 's/be = .*/be = #dc085F5F/g' $PDIR/colors.ini
-sed -i -e 's/mb = .*/mb = #003C3C/g' $PDIR/colors.ini
-sed -i -e 's/mgf = .*/mgf = #003C3C/g' $PDIR/colors.ini
-sed -i -e 's/mf = .*/mf = #00acc1/g' $PDIR/colors.ini
+sed -i -e 's/ac = .*/ac = #00acc1/g' $PDIR/colors.ini
 # Restarting polybar
-$LAUNCH1 &
-$LAUNCH2 &
+$LAUNCH &
+
+elif  [[ $1 = "-deep-orange" ]]; then
+# Replacing colors
+sed -i -e 's/ac = .*/ac = #f4511e/g' $PDIR/colors.ini
+# Restarting polybar
+$LAUNCH &
+
+elif  [[ $1 = "-deep-purple" ]]; then
+# Replacing colors
+sed -i -e 's/ac = .*/ac = #5e35b1/g' $PDIR/colors.ini
+# Restarting polybar
+$LAUNCH &
+
+elif  [[ $1 = "-green" ]]; then
+# Replacing colors
+sed -i -e 's/ac = .*/ac = #43a047/g' $PDIR/colors.ini
+# Restarting polybar
+$LAUNCH &
+
+elif  [[ $1 = "-grey" ]]; then
+# Replacing colors
+sed -i -e 's/ac = .*/ac = #757575/g' $PDIR/colors.ini
+# Restarting polybar
+$LAUNCH &
+
+elif  [[ $1 = "-indigo" ]]; then
+# Replacing colors
+sed -i -e 's/ac = .*/ac = #3949ab/g' $PDIR/colors.ini
+# Restarting polybar
+$LAUNCH &
+
+elif  [[ $1 = "-light-blue" ]]; then
+# Replacing colors
+sed -i -e 's/ac = .*/ac = #039be5/g' $PDIR/colors.ini
+# Restarting polybar
+$LAUNCH &
+
+elif  [[ $1 = "-light-green" ]]; then
+# Replacing colors
+sed -i -e 's/ac = .*/ac = #7cb342/g' $PDIR/colors.ini
+# Restarting polybar
+$LAUNCH &
+
+elif  [[ $1 = "-lime" ]]; then
+# Replacing colors
+sed -i -e 's/ac = .*/ac = #c0ca33/g' $PDIR/colors.ini
+# Restarting polybar
+$LAUNCH &
+
+elif  [[ $1 = "-orange" ]]; then
+# Replacing colors
+sed -i -e 's/ac = .*/ac = #fb8c00/g' $PDIR/colors.ini
+# Restarting polybar
+$LAUNCH &
+
+elif  [[ $1 = "-pink" ]]; then
+# Replacing colors
+sed -i -e 's/ac = .*/ac = #d81b60/g' $PDIR/colors.ini
+# Restarting polybar
+$LAUNCH &
+
+elif  [[ $1 = "-purple" ]]; then
+# Replacing colors
+sed -i -e 's/ac = .*/ac = #8e24aa/g' $PDIR/colors.ini
+# Restarting polybar
+$LAUNCH &
+
+elif  [[ $1 = "-red" ]]; then
+# Replacing colors
+sed -i -e 's/ac = .*/ac = #e53935/g' $PDIR/colors.ini
+# Restarting polybar
+$LAUNCH &
+
+elif  [[ $1 = "-teal" ]]; then
+# Replacing colors
+sed -i -e 's/ac = .*/ac = #00897b/g' $PDIR/colors.ini
+# Restarting polybar
+$LAUNCH &
+
+elif  [[ $1 = "-yellow" ]]; then
+# Replacing colors
+sed -i -e 's/ac = .*/ac = #fdd835/g' $PDIR/colors.ini
+# Restarting polybar
+$LAUNCH &
 
 else
 echo "Available options:
--mode1		-mode2			-mode3
--mode4		-mode5			-mode6"
+-amber		-blue			-blue-grey		-brown
+-cyan		-deep-orange		-deep-purple		-green
+-grey		-indigo			-light-blue		-light-green
+-lime		-orange			-pink			-purple
+-red		-teal			-yellow			-default"
 fi
