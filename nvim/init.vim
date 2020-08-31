@@ -33,9 +33,6 @@ Plug 'mattn/vim-lsp-settings'
 " Status bar {{{
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-
-Plug 'easymotion/vim-easymotion'
-"
 " }}}
 call plug#end()
 
@@ -120,8 +117,6 @@ nnoremap <leader>tp :tabprevious<CR>
 nnoremap <leader>tn :tabprevious<CR>
 noremap <leader>tc :tabclose<CR>
 " }}}
-"Easy motion {{{
-"}}}
 " Exit Insert mode more easily {{{
 inoremap jk <esc>
 inoremap kj <esc> 
@@ -142,7 +137,7 @@ nnoremap <f10> :tabnew ~/.config/fish/config.fish<CR>
 " }}}
 
 " Fzf keybinding
-" nnoremap <leader><leader> :Files<CR>
+nnoremap <leader><leader> :Files<CR>
 nnoremap <leader>f :Files<CR>
 nnoremap <leader>v :GitFiles<CR>
 nnoremap <leader>b :Buffers<CR>
