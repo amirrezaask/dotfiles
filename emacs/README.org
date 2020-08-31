@@ -10,7 +10,6 @@
 - [[#window-manager][Window Manager]]
 - [[#keybinding][Keybinding]]
 - [[#basic-setups][Basic setups]]
-  - [[#edit-configuration-shortcut][Edit configuration shortcut]]
 - [[#ui][UI]]
   - [[#themes][Themes]]
   - [[#some-cursor-tweaks][Some cursor tweaks]]
@@ -68,6 +67,7 @@
 - [[#tramp][Tramp]]
 - [[#docker][Docker]]
 - [[#kubernetes][Kubernetes]]
+- [[#dotfiles][Dotfiles]]
 - [[#benchmark-startup-time][Benchmark startup time]]
 
 * Intro
@@ -327,13 +327,6 @@ extensively but now i use it only when keybindings are just crazy.
     :bind (:map help-mode-map 
                 ("n" . next-line)
                 ("p" . previous-line)))
-#+end_src
-** Edit configuration shortcut
-#+begin_src emacs-lisp
-  (defun amirreza/edit-configuration ()
-     (interactive)
-     (find-file "~/.emacs.d/README.org"))
-  (global-set-key (kbd "<f9>") 'amirreza/edit-configuration)
 #+end_src
 * UI
 ** Themes
@@ -1544,6 +1537,19 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
 * Kubernetes
 #+begin_src emacs-lisp
 (use-package kubel :straight t :commands (kubel) :bind (("C-s-k" . kubel)))
+#+end_src
+* Dotfiles
+I use multiple programs that holds their configuration in files, this section are some helpers for editing the configs
+of Emacs and other programs.
+#+begin_src emacs-lisp
+    (defvar amirreza/dotfiles-location "/home/amirreza/w/dotfiles" "Location of my dotfiles.")
+
+    (defun amirreza/edit-dot-config ()
+      (interactive)
+      (find-file (completing-read "Edit: " (directory-files-recursively amirreza/dotfiles-location ".*" nil (lambda (name)
+                                                                                                              (not (string-match "\\.git" name)))
+                                                                                                                   t))))
+  (global-set-key (kbd "<f9>") 'amirreza/edit-dot-config)
 #+end_src
 * Benchmark startup time
 #+begin_src emacs-lisp
