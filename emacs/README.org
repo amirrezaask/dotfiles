@@ -61,7 +61,7 @@
 - [[#music][Music]]
   - [[#rhythmbox][Rhythmbox]]
 - [[#video][Video]]
-- [[#configuration-files][Configuration files]]
+- [[#misc-file-modes][Misc file modes]]
 - [[#tramp][Tramp]]
 - [[#docker][Docker]]
 - [[#kubernetes][Kubernetes]]
@@ -1460,9 +1460,6 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
                 ("P" . peep-dired)))
 #+end_src
 * Process management
-   :PROPERTIES:
-   :header-args: :tangle no
-   :END:
 #+begin_src emacs-lisp
   (use-package proced
     :bind (("C-c o p" . proced)
@@ -1489,7 +1486,7 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
     (interactive)
     (amirreza/start-vlc (expand-file-name (completing-read "Video: " (directory-files-recursively amirreza/video-location ".*")))))
 #+end_src
-* Configuration files
+* Misc file modes
  #+begin_src emacs-lisp
    (use-package crontab-mode :defer t :straight t)
    (use-package apache-mode :straight t
