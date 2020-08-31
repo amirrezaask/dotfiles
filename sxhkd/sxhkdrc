@@ -2,12 +2,14 @@
 super + Return
    alacritty
 
+# dmenu
 super + d
     dmenu_run
-
+# Emacs
 super + e
     emacs
 
+# ranger file manager
 super + r
     alacritty -e ranger &
     
