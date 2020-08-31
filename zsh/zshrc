@@ -14,8 +14,13 @@ antigen use oh-my-zsh
 
 antigen bundle git
 antigen bundle pip
+antigen bundle golang
+antigen bundle oc
+antigen bundle jsontools
+antigen bundle tmux
+antigen bundle golang
 antigen bundle zsh-users/zsh-autosuggestions
 
-antigen theme fishy 
+antigen theme agnoster 
 antigen apply
 source ~/.env
