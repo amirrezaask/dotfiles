@@ -37,7 +37,6 @@
 - [[#writing][Writing]]
   - [[#org][Org]]
   - [[#markdown-mode][Markdown mode]]
-- [[#acme-like-functionality][Acme like functionality]]
 - [[#searching][Searching]]
   - [[#in-buffer-searching][In Buffer searching]]
   - [[#grep][Grep]]
@@ -776,12 +775,6 @@ by default is bound to =C-c <left>=.
 (use-package markdown-mode
   :straight t
   :mode ("\\.md$" . markdown-mode))
-#+end_src
-* Acme like functionality
-I'm really fond of Acme (Plan9 editor) way of looking into integration of tools so I have implemented
-some kind of clone functionality of Acme in Emacs in the form of a simple minor mode.
-#+begin_src emacs-lisp
-  (use-package acme :load-path "/home/amirreza/w/acme-mode/" :config (acme-mode 1))
 #+end_src
 * Searching
 ** In Buffer searching
