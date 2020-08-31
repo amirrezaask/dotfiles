@@ -33,3 +33,6 @@ bspc config window_gap 3
 bspc config border_width 1 
 bspc config bottom_padding 0
 bspc config borderless_monocle true
+
+# Rules for different applications
+bspc rule -a "Emacs" state=fullscreen desktop=^1
