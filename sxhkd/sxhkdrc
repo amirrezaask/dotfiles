@@ -5,10 +5,12 @@ super + Return
 super + d
     dmenu_run
 
-
 super + e
     emacs
 
+super + r
+    alacritty -e ranger &
+    
 # bspc hotkeys
 super + q
     bspc node -c
