@@ -7,7 +7,7 @@ bspc rule -r "*"
 pkill polybar
 pkill comton
 pkill dunst
-
+pkill sxhkd
 # Autostart applications
 sxhkd &
 compton &
