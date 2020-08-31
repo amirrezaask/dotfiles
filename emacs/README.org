@@ -55,7 +55,7 @@
   - [[#rainbow-delimiters][Rainbow delimiters]]
   - [[#syntax-checking][Syntax checking]]
   - [[#docs][Docs]]
-  - [[#languages][Languages]]
+- [[#languages][Languages]]
 - [[#vcs][VCS]]
   - [[#smerge][Smerge]]
 - [[#dired][Dired]]
@@ -225,16 +225,6 @@ I used to use which-key as my helper on keybindings but now I just use ? when i'
 I use hydra when keybindings are just crazy like in smerge that you will see in it's own section. I used to use hydra more
 extensively but now i use it only when keybindings are just crazy.
 #+begin_src emacs-lisp
-  (use-package hydra
-    :straight t
-    :commands (defhydra))
-
-
-
-  (use-package pretty-hydra
-    :straight t
-    :commands (pretty-hydra-define))
-
   (use-package which-key
     :straight t
     :config
@@ -250,7 +240,6 @@ extensively but now i use it only when keybindings are just crazy.
     (which-key! "C-c k" "Kubernetes")
     (which-key-mode 1))
   (which-key-setup-minibuffer)
-
 #+end_src
 * Basic setups
 #+begin_src emacs-lisp
@@ -363,7 +352,7 @@ extensively but now i use it only when keybindings are just crazy.
      :bind (("<f12>" . amirreza/toggle-color-mode))
      :config
      (defvar amirreza/current-mode 'dark "Current color mode of Emacs.")
-     (defvar amirreza/dark-theme 'doom-dracula)
+     (defvar amirreza/dark-theme 'doom-one)
      (defvar amirreza/light-theme 'doom-one-light)
 
      (defmacro amirreza/--load-theme (&rest theme-opts)
@@ -1141,7 +1130,7 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
   (use-package eldoc
     :config (global-eldoc-mode 1))
 #+end_src
-** Languages
+* Languages
 *** Go
 **** Go-mode
  Golang by default is not supported in Emacs, but don't fear, we can fix that by simply installing
