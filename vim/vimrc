@@ -59,7 +59,7 @@ set shiftround
 set mouse=a
 set guifont=Fira\ Mono\ 11
 set nu 
-" colorscheme  
+colorscheme dracula 
 let mapleader = " "
 set nowrap
 set autoindent
