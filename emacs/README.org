@@ -57,7 +57,6 @@
 - [[#vcs][VCS]]
   - [[#smerge][Smerge]]
 - [[#dired][Dired]]
-- [[#irc][IRC]]
 - [[#process-management][Process management]]
 - [[#music][Music]]
   - [[#rhythmbox][Rhythmbox]]
@@ -1459,15 +1458,6 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
           '("mkv" "webm" "mp4" "mp3" "ogg" "iso"))
     :bind (:map dired-mode-map
                 ("P" . peep-dired)))
-#+end_src
-* IRC
-#+begin_src emacs-lisp
-  (use-package erc 
-    :commands erc
-    :config
-    (setq erc-nick "amirrezaask")
-    (setq erc-autojoin-channels-alist
-          '(("freenode.net" "#emacs" "#5hit"))))
 #+end_src
 * Process management
    :PROPERTIES:
