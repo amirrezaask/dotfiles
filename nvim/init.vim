@@ -66,6 +66,7 @@ set nowrap
 set autoindent
 noremap j gj
 noremap k gk
+set cursorline
 " General Tab settings
 set tabstop=4
 set shiftwidth=4
