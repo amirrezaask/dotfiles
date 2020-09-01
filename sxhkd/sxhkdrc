@@ -22,7 +22,7 @@ super + shift + {e, r}
     bspc {quit, wm -r}
 
 # using vim keys pre select an area for a new node
-super + ctrl + {h,j,k,l}
+super + shift + {h,j,k,l}
     bspc node -p {west,south,north,east}
 
 # change node state
