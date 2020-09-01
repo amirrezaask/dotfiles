@@ -26,6 +26,7 @@
 - [[#buffer-management][Buffer management]]
   - [[#ibuffer][IBuffer]]
 - [[#editing][Editing]]
+  - [[#save-emacs-state-of-buffers][Save Emacs state of buffers]]
   - [[#motions][Motions]]
   - [[#highlight-indentation][Highlight indentation]]
   - [[#sudo-edit][Sudo edit]]
@@ -353,7 +354,7 @@ extensively but now i use it only when keybindings are just crazy.
      :bind (("<f12>" . amirreza/toggle-color-mode))
      :config
      (defvar amirreza/current-mode 'dark "Current color mode of Emacs.")
-     (defvar amirreza/dark-theme 'modus-vivendi)
+     (defvar amirreza/dark-theme 'doom-outrun-electric)
      (defvar amirreza/light-theme 'doom-one-light)
 
      (defmacro amirreza/--load-theme (&rest theme-opts)
@@ -398,13 +399,13 @@ extensively but now i use it only when keybindings are just crazy.
 
    (use-package hl-line
      :config
-     (global-hl-line-mode +1))
+     (global-hl-line-mode -1))
 
   #+END_SRC
 ** Modeline
 #+begin_src emacs-lisp
       (use-package emacs
-        :disabled t
+
         :config
         (setq mode-line-percent-position '(-3 "%p"))
         (setq-default mode-line-format
@@ -422,6 +423,7 @@ extensively but now i use it only when keybindings are just crazy.
                         " "
                         (vc-mode vc-mode))))
       (use-package doom-modeline 
+        :disabled t
         :straight t 
         :config 
         (setq doom-modeline-height 25)
@@ -646,6 +648,12 @@ by default is bound to =C-c <left>=.
 
 #+end_src
 * Editing
+** Save Emacs state of buffers
+#+begin_src emacs-lisp
+  (use-package desktop
+    :config
+    (desktop-save-mode 1))
+#+end_src
 ** Motions
 *** Custom motions
 #+begin_src emacs-lisp
@@ -1199,8 +1207,9 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
 *** C/C++
 #+begin_src emacs-lisp
   (use-package ccls :straight t)
-  ;; (use-package cmake-mode :defer t :straight t)
-;;   (use-package disaster :defer t :straight t)
+  ;;(use-package cmake-mode :defer t :straight t)
+  ;;(use-package disaster :defer t :straight t)
+
 #+end_src
 *** Java
 #+begin_src emacs-lisp
