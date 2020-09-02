@@ -12,7 +12,7 @@
 - [[#basic-setups][Basic setups]]
 - [[#ui][UI]]
   - [[#themes][Themes]]
-  - [[#some-cursor-tweaks][Some cursor tweaks]]
+  - [[#cursor][Cursor]]
   - [[#modeline][Modeline]]
 - [[#font][Font]]
 - [[#minibuffer][Minibuffer]]
@@ -386,12 +386,12 @@ extensively but now i use it only when keybindings are just crazy.
 ***** Performance Tip 
  About 95% of packages we use don't need to be loaded at startup and =:defer= is only one of the multiple
  ways of lazy-loading in use-package we will see others later on.
-** Some cursor tweaks
+** Cursor
  #+BEGIN_SRC emacs-lisp
    (use-package emacs
      :config
      (setq-default ring-bell-function 'ignore)
-     (setq-default cursor-type 'box))
+     (setq-default cursor-type 'bar))
 
    (use-package frame
      :config
@@ -399,7 +399,7 @@ extensively but now i use it only when keybindings are just crazy.
 
    (use-package hl-line
      :config
-     (global-hl-line-mode -1))
+     (global-hl-line-mode +1))
 
   #+END_SRC
 ** Modeline
@@ -432,7 +432,7 @@ extensively but now i use it only when keybindings are just crazy.
 * Font
 To use specific font in Emacs you just need to call a function, that's easy ha ??
 #+BEGIN_SRC emacs-lisp
-  (defvar amirreza/font "Fira Mono-11")
+  (defvar amirreza/font "Hack-10")
   (set-face-attribute 'default t :font amirreza/font)
   (set-frame-font amirreza/font nil t)
 #+END_SRC
@@ -1219,10 +1219,7 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
   (use-package meghanada :straight t :hook (java-mode . (lambda ()
                                                           (meghanada-mode t)
                                                           (flycheck-mode +1)
-                                                          (setq c-basic-offset 2)
-                                                          ;; use code format
-                                                          (add-hook 'before-save-hook 'meghanada-code-beautify-before-save))))
-
+                                                          (setq c-basic-offset 2))))
 #+end_src
 *** Python
 **** Python Mode
