@@ -225,8 +225,6 @@ extensively but now i use it only when keybindings are just crazy.
     :straight t
     :commands (defhydra))
 
-
-
   (use-package pretty-hydra
     :straight t
     :commands (pretty-hydra-define))
@@ -506,7 +504,7 @@ our font interactively, let's write it.
           '((t . ivy--regex-ignore-order)))
     (ivy-mode +1))
 
-  (use-package all-the-icons-ivy :straight t :config 
+  (use-package all-the-icons-ivy :straight t :init
     (all-the-icons-ivy-setup))
 
   (use-package counsel
@@ -745,7 +743,7 @@ by default is bound to =C-c <left>=.
     (previous-line)
     (beginning-of-line))
   :bind (:map org-mode-map
-              ("C-c c b" . amirreza/--org-insert-elisp-code-block))
+              ("C-c m b" . amirreza/--org-insert-elisp-code-block))
   :config
   (setq org-ellipsis "⤵")
   (setq org-src-fontify-natively t)
@@ -782,8 +780,9 @@ by default is bound to =C-c <left>=.
      (defun amirreza/recents ()
        (interactive)
        (completing-read "Recent: " recentf-list))
-  
-     :bind (("C-s-r" . amirreza/recents)))
+
+     :bind (("C-s-r" . amirreza/recents)
+            ("C-c r" . amirreza/recents)))
  #+end_src
 * Projectile
 #+begin_src emacs-lisp
@@ -937,7 +936,6 @@ all executables.
 #+begin_src emacs-lisp
   (use-package vterm :straight t :commands (vterm))
 #+end_src
-
 * Development
 ** Completion
 Code completion consists of two parts, A source/server that provides the completions and 
@@ -1151,7 +1149,6 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
   (use-package ccls :straight t)
   ;;(use-package cmake-mode :defer t :straight t)
   ;;(use-package disaster :defer t :straight t)
-
 #+end_src
 *** Java
 #+begin_src emacs-lisp
@@ -1264,7 +1261,7 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
          (insert (format "\n;;%s\n;;%s\n;;%s" dashes text-wrapped dashes))))
      :bind
      (:map emacs-lisp-mode-map
-           ("C-s-l d" . 'amirreza/emacs-lisp-insert-comment-line)))
+           ("C-c m c" . 'amirreza/emacs-lisp-insert-comment-line)))
  #+END_SRC
 *** Clojure
 **** Clojure Mode
@@ -1325,9 +1322,9 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
    (use-package phpunit :straight t
      :after php-mode
      :config 
-     (define-key php-mode-map (kbd "C-s-l t t") 'phpunit-current-test)
-     (define-key php-mode-map (kbd "C-s-l t c")  'phpunit-current-class)
-     (define-key php-mode-map (kbd "C-s-l t p")  'phpunit-current-project))
+     (define-key php-mode-map (kbd "C-c m t t") 'phpunit-current-test)
+     (define-key php-mode-map (kbd "C-c m t c")  'phpunit-current-class)
+     (define-key php-mode-map (kbd "C-c m t p")  'phpunit-current-project))
  #+END_SRC
 *** Rust
 **** Rust mode
@@ -1462,12 +1459,12 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
 
   (use-package docker :straight t 
     :bind
-    ("C-s-d" . docker))
+    ("C-c d" . docker))
   (use-package dockerfile-mode :straight t :mode "\\Dockerfile\\'")
 #+END_SRC
 * Kubernetes
 #+begin_src emacs-lisp
-(use-package kubel :straight t :commands (kubel) :bind (("C-s-k" . kubel)))
+(use-package kubel :straight t :commands (kubel) :bind (("C-c k" . kubel)))
 #+end_src
 * Dotfiles
 I use multiple programs that holds their configuration in files, this section are some helpers for editing the configs
