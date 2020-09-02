@@ -14,7 +14,7 @@
   - [[#themes][Themes]]
   - [[#cursor][Cursor]]
   - [[#modeline][Modeline]]
-- [[#font][Font]]
+  - [[#font][Font]]
 - [[#minibuffer][Minibuffer]]
   - [[#icomplete][Icomplete]]
   - [[#ivy][Ivy]]
@@ -354,7 +354,7 @@ extensively but now i use it only when keybindings are just crazy.
      :bind (("<f12>" . amirreza/toggle-color-mode))
      :config
      (defvar amirreza/current-mode 'dark "Current color mode of Emacs.")
-     (defvar amirreza/dark-theme 'doom-horizon)
+     (defvar amirreza/dark-theme 'doom-one)
      (defvar amirreza/light-theme 'doom-one-light)
 
      (defmacro amirreza/--load-theme (&rest theme-opts)
@@ -429,10 +429,10 @@ extensively but now i use it only when keybindings are just crazy.
         (setq doom-modeline-height 25)
         (doom-modeline-mode 1))
 #+end_src
-* Font
+** Font
 To use specific font in Emacs you just need to call a function, that's easy ha ??
 #+BEGIN_SRC emacs-lisp
-  (defvar amirreza/font "Hack-10")
+  (defvar amirreza/font "Hack-11")
   (set-face-attribute 'default t :font amirreza/font)
   (set-frame-font amirreza/font nil t)
 #+END_SRC
