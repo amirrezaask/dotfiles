@@ -1213,10 +1213,16 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
 #+end_src
 *** Java
 #+begin_src emacs-lisp
-  (use-package gradle-mode :defer t)
-  (use-package flycheck-gradle :defer t)
-  (use-package groovy-mode :defer t)
-  (use-package lsp-java :defer t)
+  (use-package gradle-mode :straight t :mode "\\Gradle")
+  (use-package flycheck-gradle :straight t :mode "Gradle")
+  (use-package groovy-mode :straight t :mode "\\.groovy")
+  (use-package meghanada :straight t :hook (java-mode . (lambda ()
+                                                          (meghanada-mode t)
+                                                          (flycheck-mode +1)
+                                                          (setq c-basic-offset 2)
+                                                          ;; use code format
+                                                          (add-hook 'before-save-hook 'meghanada-code-beautify-before-save))))
+
 #+end_src
 *** Python
 **** Python Mode
