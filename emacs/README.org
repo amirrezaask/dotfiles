@@ -504,9 +504,6 @@ our font interactively, let's write it.
           '((t . ivy--regex-ignore-order)))
     (ivy-mode +1))
 
-  (use-package all-the-icons-ivy :straight t :init
-    (all-the-icons-ivy-setup))
-
   (use-package counsel
     :straight t
     :bind
@@ -1425,9 +1422,9 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
 ** Rhythmbox
 #+begin_src emacs-lisp
   (use-package rhythmbox
-    :bind (("C-s-m l" . Rhythmbox)
-           ("C-s-m p" . Rhythmbox/playpause-current-song)
-           ("C-s-m n" . Rhythmbox/current-song-name))
+    :bind (("C-c M l" . Rhythmbox)
+           ("C-c M p" . Rhythmbox/playpause-current-song)
+           ("C-c M n" . Rhythmbox/current-song-name))
     :straight (:host github :repo "amirrezaask/Rhythmbox.el"))
 #+end_src
 * Video
