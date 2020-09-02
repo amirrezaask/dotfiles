@@ -785,7 +785,9 @@ by default is bound to =C-c <left>=.
 
   (use-package counsel-projectile
     :straight t
-    :bind* (:map global-map
+    :bind* (:map projectile-mode-map
+                 ("C-c p" . projectile-command-map)
+                 :map global-map
                  ("C-s-f" . counsel-projectile-find-file)
                  ("C-s-g" . counsel-projectile-rg)))
   #+end_src
