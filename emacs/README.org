@@ -401,26 +401,7 @@ extensively but now i use it only when keybindings are just crazy.
   #+END_SRC
 ** Modeline
 #+begin_src emacs-lisp
-      (use-package emacs
-
-        :config
-        (setq mode-line-percent-position '(-3 "%p"))
-        (setq-default mode-line-format
-                      '(
-                        " "
-                        mode-line-modified
-                        " "
-                        mode-line-mule-info
-                        " "
-                        mode-line-buffer-identification
-                        " <"
-                        mode-name
-                        "> "
-                        mode-line-position
-                        " "
-                        (vc-mode vc-mode))))
       (use-package doom-modeline 
-        :disabled t
         :straight t 
         :config 
         (setq doom-modeline-height 25)
