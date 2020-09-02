@@ -36,6 +36,7 @@
   - [[#iedit][IEdit]]
   - [[#dont-choke-on-large-data][Don't choke on large data]]
   - [[#searching][Searching]]
+  - [[#tramp][Tramp]]
 - [[#writing][Writing]]
   - [[#org][Org]]
   - [[#markdown-mode][Markdown mode]]
@@ -60,7 +61,6 @@
   - [[#rhythmbox][Rhythmbox]]
 - [[#video][Video]]
 - [[#misc-file-modes][Misc file modes]]
-- [[#tramp][Tramp]]
 - [[#docker][Docker]]
 - [[#kubernetes][Kubernetes]]
 - [[#dotfiles][Dotfiles]]
@@ -725,6 +725,13 @@ by default is bound to =C-c <left>=.
     :straight t
     :commands (swiper)
     :bind ("C-s" . swiper))
+#+end_src
+** Tramp
+#+begin_src emacs-lisp
+    (use-package tramp
+          :commands (tramp)
+          :config
+          (setq tramp-default-method "ssh"))
 #+end_src
 * Writing
 ** Org
@@ -1447,13 +1454,6 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
    (use-package nginx-mode :straight 
      :mode ("/etc/nginx/conf.d/.*" "/etc/nginx/.*\\.conf\\'"))
  #+end_src
-* Tramp
-#+begin_src emacs-lisp
-    (use-package tramp
-          :commands (tramp)
-          :config
-          (setq tramp-default-method "ssh"))
-#+end_src
 * Docker
 #+BEGIN_SRC emacs-lisp
   (use-package docker-compose-mode
