@@ -24,6 +24,6 @@
 
 ;;; Code:
 
-(load-file "~/.emacs.d/README.el")
+(load-file "~/.emacs.d/README.elc")
 (provide 'init)
 ;;; init.el ends here
