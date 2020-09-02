@@ -43,6 +43,7 @@
   - [[#grep][Grep]]
 - [[#file-search][File search]]
   - [[#recents][Recents]]
+  - [[#projectile][Projectile]]
   - [[#projects-integration][Projects Integration]]
 - [[#shells][Shells]]
 - [[#development][Development]]
@@ -819,7 +820,17 @@ by default is bound to =C-c <left>=.
      :bind (("C-c r" . amirreza/recents)
             ("C-s-r" . amirreza/recents)))
  #+end_src
+** Projectile
+#+begin_src emacs-lisp
+  (use-package projectile
+    :straight t)
+
+  (use-package counsel-projectile :straight t)
+  #+end_src
 ** Projects Integration
+:PROPERTIES:
+  :header-args: :tangle no
+  :END:
 #+begin_src emacs-lisp
   (require 'cl-lib)
   (use-package project
