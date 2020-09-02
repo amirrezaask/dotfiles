@@ -35,16 +35,12 @@
   - [[#multiple-cursors][Multiple cursors]]
   - [[#iedit][IEdit]]
   - [[#dont-choke-on-large-data][Don't choke on large data]]
+  - [[#searching][Searching]]
 - [[#writing][Writing]]
   - [[#org][Org]]
   - [[#markdown-mode][Markdown mode]]
-- [[#searching][Searching]]
-  - [[#in-buffer-searching][In Buffer searching]]
-  - [[#grep][Grep]]
-- [[#file-search][File search]]
-  - [[#recents][Recents]]
-  - [[#projectile][Projectile]]
-  - [[#projects-integration][Projects Integration]]
+- [[#recent-files][Recent files]]
+- [[#projectile][Projectile]]
 - [[#shells][Shells]]
 - [[#development][Development]]
   - [[#completion][Completion]]
@@ -742,6 +738,13 @@ by default is bound to =C-c <left>=.
       :config (global-so-long-mode 1))
   (use-package vlf :straight t :commands (vlf))
 #+end_src
+** Searching
+#+begin_src emacs-lisp
+  (use-package swiper
+    :straight t
+    :commands (swiper)
+    :bind ("C-s" . swiper))
+#+end_src
 * Writing
 ** Org
 #+BEGIN_SRC emacs-lisp
@@ -784,32 +787,7 @@ by default is bound to =C-c <left>=.
   :straight t
   :mode ("\\.md$" . markdown-mode))
 #+end_src
-* Searching
-** In Buffer searching
-#+begin_src emacs-lisp
-  (use-package swiper
-    :straight t
-    :commands (swiper)
-    :init (global-set-key (kbd "C-s") 'swiper))
-#+end_src
-** Grep
-#+begin_src emacs-lisp
-  (use-package rg 
-    :straight t 
-    :commands (rg)
-    :config
-    (defun amirreza/rg (pattern filetype)
-      (interactive "sPattern: \nsFiletype: ")
-      (let* ((project (vc-root-dir))
-             (dir (if project project default-directory)))
-          (rg-run pattern filetype dir)))
-    :bind
-    (:map global-map
-          ("C-c g" . amirreza/rg)
-          ("C-s-g" . amirreza/rg)))
-#+end_src
-* File search
-** Recents
+* Recent files
  #+begin_src emacs-lisp
    (use-package counsel
      :init
@@ -817,56 +795,19 @@ by default is bound to =C-c <left>=.
        (interactive)
        (completing-read "Recent: " recentf-list))
   
-     :bind (("C-c r" . amirreza/recents)
-            ("C-s-r" . amirreza/recents)))
+     :bind (("C-s-r" . amirreza/recents)))
  #+end_src
-** Projectile
+* Projectile
 #+begin_src emacs-lisp
   (use-package projectile
     :straight t)
 
-  (use-package counsel-projectile :straight t)
+  (use-package counsel-projectile
+    :straight t
+    :bind* (:map global-map
+                 ("C-s-f" . counsel-projectile-find-file)
+                 ("C-s-g" . counsel-projectile-rg)))
   #+end_src
-** Projects Integration
-:PROPERTIES:
-  :header-args: :tangle no
-  :END:
-#+begin_src emacs-lisp
-  (require 'cl-lib)
-  (use-package project
-    :bind (("C-s-f" . (lambda ()
-                        (interactive)
-                        (counsel-fzf "" (amirreza/get-root) "Fuzzy File Search: ")))
-           ;;("C-s-f" . amirreza/project-or-dir-find-file-recur)
-           ("C-s-p" . amirreza/projects-list))
-    :config
-    (defun amirreza/get-root ()
-      "Gets project root."
-      (let* ((project (vc-root-dir))
-             (dir (if project project default-directory)))
-        dir))
-
-    (defun amirreza/project-or-dir-find-file-recur ()
-      (interactive)
-      (let* ((dir (amirreza/get-root))
-             (files (directory-files-recursively dir ".*" nil (lambda (name)
-                                                                (not (string-match "\\.git" name))
-                                                                ) t)))
-        (find-file (completing-read "Find: " files))))
-
-    (defvar amirreza/project-locations '("~/w" "~/w/snapp" "~/w"))
-
-    (defun amirreza/projects-list ()
-      "List of projects in pre defined project locations."
-      (interactive)
-      (let ((proj-dirs '()))
-        (mapc (lambda (dir)
-                (mapc (lambda (file)
-                        (add-to-list 'proj-dirs (abbreviate-file-name file )))
-                      (directory-files dir t directory-files-no-dot-files-regexp)))
-              amirreza/project-locations)
-        (dired (completing-read "Project: " proj-dirs)))))
-#+end_src
 * Shells
 Emacs has a bultin shell called =eshell= which uses elisp
 as it's scripting engine, I use that as my main shell over the day
