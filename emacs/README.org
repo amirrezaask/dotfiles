@@ -234,7 +234,7 @@ extensively but now i use it only when keybindings are just crazy.
     (setq which-key-idle-delay 0.3)
     (defalias 'which-key! 'which-key-add-key-based-replacements)
     (which-key! "C-c M" "Music functions")
-    (which-key! "C-c m" "Language/LSP related functionality")
+    (which-key! "C-c m" "MajorMode/LSP related functionality")
     (which-key! "C-c g" "Version control actions")
     (which-key! "C-c f" "File functions")
     (which-key! "C-c w" "Workspaces")
@@ -429,6 +429,7 @@ our font interactively, let's write it.
     (setq dashboard-center-content t)
     (setq dashboard-startup-banner 'logo)
     (setq dashboard-set-heading-icons t)
+    (setq dashboard-footer-messages '("Free as in free bear"))
     (setq dashboard-set-file-icons t)
     (setq dashboard-items '((recents  . 5)
                             (bookmarks . 5)
@@ -750,16 +751,18 @@ by default is bound to =C-c <left>=.
 * Projectile
 #+begin_src emacs-lisp
   (use-package projectile
-    :straight t)
+    :straight t
+    :config (projectile-mode 1))
 
   (use-package counsel-projectile
     :straight t
     :bind* (:map projectile-mode-map
                  ("C-c p" . projectile-command-map)
+                 ("C-c p g" . counsel-projectile-rg)
                  :map global-map
                  ("C-s-f" . counsel-projectile-find-file)
                  ("C-s-g" . counsel-projectile-rg)))
-  #+end_src
+#+end_src
 * Shells
 Emacs has a bultin shell called =eshell= which uses elisp
 as it's scripting engine, I use that as my main shell over the day
