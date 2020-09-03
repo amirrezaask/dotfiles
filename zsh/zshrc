@@ -21,6 +21,6 @@ antigen bundle tmux
 antigen bundle golang
 antigen bundle zsh-users/zsh-autosuggestions
 
-antigen theme agnoster 
+antigen theme ys 
 antigen apply
 source ~/.env
