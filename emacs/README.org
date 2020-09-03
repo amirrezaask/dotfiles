@@ -15,6 +15,7 @@
   - [[#cursor][Cursor]]
   - [[#modeline][Modeline]]
   - [[#font][Font]]
+  - [[#dashboard][Dashboard]]
 - [[#minibuffer][Minibuffer]]
   - [[#icomplete][Icomplete]]
   - [[#ivy][Ivy]]
@@ -421,6 +422,21 @@ our font interactively, let's write it.
     (set-face-attribute 'default t :font (format "%s-%d" font size))
     (set-frame-font (format "%s-%d" font size) nil t))
 #+END_SRC
+** Dashboard
+#+begin_src emacs-lisp
+  (use-package page-break-lines :straight t :config (global-page-break-lines-mode))
+  (use-package dashboard
+    :straight t
+    :config
+    (setq dashboard-center-content t)
+    (setq dashboard-items '((recents  . 5)
+                        (bookmarks . 5)
+                        (projects . 5)
+                        ;;(agenda . 5)
+                        (registers . 5)))
+    (dashboard-setup-startup-hook))
+
+#+end_src
 * Minibuffer
 ** Icomplete
    :PROPERTIES:
@@ -739,7 +755,14 @@ by default is bound to =C-c <left>=.
     (insert (format "#+begin_src emacs-lisp\n\n#+end_src"))
     (previous-line)
     (beginning-of-line))
+  (defun amirreza/--org-insert-no-tangle ()
+    ""
+    (interactive)
+    (insert (format ":PROPERTIES:\n:header-args: :tangle no\n:END:\n"))
+    (previous-line)
+    (beginning-of-line))
   :bind (:map org-mode-map
+              ("C-c m n" . amirreza/--org-insert-no-tangle)
               ("C-c m b" . amirreza/--org-insert-elisp-code-block))
   :config
   (setq org-ellipsis "⤵")
