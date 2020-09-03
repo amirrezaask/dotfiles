@@ -239,8 +239,8 @@ extensively but now i use it only when keybindings are just crazy.
     (which-key! "C-c f" "File functions")
     (which-key! "C-c w" "Workspaces")
     (which-key! "C-c e" "external tools integration")
-    (which-key! "C-c d" "Docker")
-    (which-key! "C-c k" "Kubernetes")
+    (which-key! "C-c D" "Docker")
+    (which-key! "C-c K" "Kubernetes")
     (which-key-mode 1))
   (which-key-setup-minibuffer)
 #+end_src
@@ -1055,12 +1055,12 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
      (add-hook 'go-mode-hook 'amirreza/go-hook)
      :bind
      (:map go-mode-map
-           ("C-s-l g t" . amirreza/snippet-go-tf)
-           ("C-s-l g h" . amirreza/snippet-go-hh)
-           ("C-s-l g f" . amirreza/snippet-go-for)
-           ("C-s-l g i" . amirreza/snippet-go-if)
-           ("C-s-l g p l" . amirreza/snippet-go-pl)
-           ("C-s-l g p f" . amirreza/snippet-go-pf))
+           ("C-c m g t" . amirreza/snippet-go-tf)
+           ("C-c m g h" . amirreza/snippet-go-hh)
+           ("C-c m g f" . amirreza/snippet-go-for)
+           ("C-c m g i" . amirreza/snippet-go-if)
+           ("C-c m g p l" . amirreza/snippet-go-pl)
+           ("C-c m g p f" . amirreza/snippet-go-pf))
      :config
      (defun amirreza/go-hook ()
        (interactive)
@@ -1098,7 +1098,7 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
  the struct has so many fields, again thanks to the emacs community we have package for that 
  to ease that task for us.
  #+BEGIN_SRC emacs-lisp
-   (use-package go-add-tags :straight t :bind (:map go-mode-map ("C-s-l s" . go-add-tags)))
+   (use-package go-add-tags :straight t :bind (:map go-mode-map ("C-c m s" . go-add-tags)))
  #+END_SRC
 **** Go-test
  =VSCode= has a great support when it comes to running go tests, it gives you the ability to 
@@ -1107,8 +1107,8 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
    (use-package gotest :straight t 
      :after go-mode
      :config
-     (define-key go-mode-map (kbd "C-s-l t f") 'go-test-current-file) 
-     (define-key go-mode-map (kbd "C-s-l t t") 'go-test-current-test))
+     (define-key go-mode-map (kbd "C-c m t f") 'go-test-current-file) 
+     (define-key go-mode-map (kbd "C-c m t t") 'go-test-current-test))
   #+END_SRC
 *** C/C++
 #+begin_src emacs-lisp
@@ -1145,7 +1145,7 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
        (amirreza/lsp!))
      :bind
      (:map python-mode-map 
-       ("C-s-l d" . amirreza/python-insert-docstring)))
+       ("C-c m d" . amirreza/python-insert-docstring)))
  #+END_SRC
 **** Microsoft Language Server
  #+begin_src emacs-lisp
@@ -1308,7 +1308,7 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
     :commands (magit-status magit-get-current-branch)
     :bind
     (("C-x g" . 'magit-status)
-     ("C-s-v s" . 'magit-status)))
+     ("C-c v" . 'magit-status)))
 
   (use-package diff-hl
     :straight t
@@ -1331,8 +1331,7 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
     :commands
     (git-messenger:popup-message)
     :bind
-    (("C-c v b" . git-messenger:popup-message)
-     ("C-s-v b" . git-messenger:popup-message))
+    (("C-c v b" . git-messenger:popup-message))
   
     :config
     (setq git-messenger:show-detail t)
