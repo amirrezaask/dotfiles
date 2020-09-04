@@ -15,6 +15,7 @@
 - [[#modeline][Modeline]]
 - [[#font][Font]]
 - [[#startup-page][Startup page]]
+- [[#icomplete][Icomplete]]
 - [[#ivy][Ivy]]
 - [[#window-rules][Window rules]]
 - [[#eyebrowse][Eyebrowse]]
@@ -33,7 +34,8 @@
 - [[#org][Org]]
 - [[#markdown-mode][Markdown mode]]
 - [[#recent-files][Recent files]]
-- [[#project-integration][Project Integration]]
+- [[#projectile][Projectile]]
+- [[#project-integration][Project integration]]
 - [[#sync-path][Sync Path]]
 - [[#eshell][Eshell]]
 - [[#auto-header][Auto Header]]
@@ -433,7 +435,63 @@ I want my Emacs to open my TODO file on every startup and have a that buffer ope
   (global-set-key (kbd "C-c t") 'amirreza/open-todo)
   (add-hook 'after-init 'amirreza/open-todo)
 #+end_src
+* Icomplete
+#+begin_src emacs-lisp
+(use-package orderless
+  :straight t
+  :config
+  (setq completion-styles '(orderless)))
+
+(use-package icomplete
+  :demand
+  :bind
+  (:map global-map
+        ("M-y" . amirreza/show-kill-ring)
+        :map icomplete-minibuffer-map
+        ("C-n" . icomplete-forward-completions)
+        ("C-p" . icomplete-backward-completions)
+        ("C-f" . icomplete-forward-completions)
+        ("C-b" . icomplete-backward-completions)
+        ("<right>" . icomplete-forward-completions)
+        ("<left>" . icomplete-backward-completions)
+        ("<down>" . icomplete-forward-completions)
+        ("<up>" . icomplete-backward-completions)
+        ("<RET>" . icomplete-force-complete-and-exit)
+        ("<tab>" . icomplete-force-complete))
+  :config
+  (defun amirreza/show-kill-ring ()
+    (interactive)
+    (insert (completing-read "Insert: " kill-ring)))
+
+  (setq icomplete-max-delay-chars 2
+        icomplete-separator " | "
+        icomplete-show-matches-on-no-input t
+        icomplete-hide-common-prefix nil
+        completion-ignore-case t)
+  (when (> emacs-major-version 26)
+    (fido-mode -1))
+  (icomplete-mode 1))
+
+(use-package icomplete-vertical
+  :straight t
+  :demand
+  :bind
+  (:map icomplete-minibuffer-map
+        ("C-v" . icomplete-vertical-toggle))
+  :config
+  (icomplete-vertical-mode 1))
+
+(use-package live-completions
+  :disabled t
+  :straight (:host github :repo "oantolin/live-completions")
+  :config
+  (live-completions-mode 1))
+#+end_src
 * Ivy
+:PROPERTIES:
+:header-args: :tangle no
+:END:
+I use icomplete for simpler and more hackable solution.
 #+begin_src emacs-lisp
 (use-package flx :straight t)
 (use-package ivy
@@ -710,16 +768,59 @@ by default is bound to =C-c <left>=.
 
    (global-set-key (kbd "C-c r") 'amirreza/recents)
  #+end_src
-* Project Integration
+* Projectile
+:PROPERTIES:
+:header-args: :tangle no
+:END:
+Deprecated, I use my hand rolled project integration block below.
 #+begin_src emacs-lisp
 (use-package projectile
   :straight t)
 
 (use-package counsel-projectile
   :straight t
+  :demand
+  :config (counsel-projectile-mode 1)
   :bind* (:map projectile-mode-map
                ("C-c p" . projectile-command-map)
                ("C-c p g" . counsel-projectile-rg)))
+#+end_src
+* Project integration
+#+begin_src emacs-lisp
+(require 'cl-lib)
+(use-package project
+  :bind (("C-s-f" . (lambda ()
+                      (interactive)
+                      (counsel-fzf "" (amirreza/get-root) "Fuzzy File Search: ")))
+         ;;("C-s-f" . amirreza/project-or-dir-find-file-recur)
+         ("C-s-p" . amirreza/projects-list))
+  :config
+  (defun amirreza/get-root ()
+    "Gets project root."
+    (let* ((project (vc-root-dir))
+           (dir (if project project default-directory)))
+      dir))
+
+  (defun amirreza/project-or-dir-find-file-recur ()
+    (interactive)
+    (let* ((dir (amirreza/get-root))
+           (files (directory-files-recursively dir ".*" nil (lambda (name)
+                                                              (not (string-match "\\.git" name))
+                                                              ) t)))
+      (find-file (completing-read "Find: " files))))
+
+  (defvar amirreza/project-locations '("~/w" "~/w/snapp" "~/w"))
+
+  (defun amirreza/projects-list ()
+    "List of projects in pre defined project locations."
+    (interactive)
+    (let ((proj-dirs '()))
+      (mapc (lambda (dir)
+              (mapc (lambda (file)
+                      (add-to-list 'proj-dirs (abbreviate-file-name file )))
+                    (directory-files dir t directory-files-no-dot-files-regexp)))
+            amirreza/project-locations)
+      (dired (completing-read "Project: " proj-dirs)))))
 #+end_src
 * Sync Path
 Emacs has a bultin shell called =eshell= which uses elisp
