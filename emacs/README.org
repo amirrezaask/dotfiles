@@ -37,7 +37,6 @@
 - [[#project-integration][Project Integration]]
 - [[#sync-path][Sync Path]]
 - [[#eshell][Eshell]]
-- [[#vterm][VTerm]]
 - [[#auto-header][Auto Header]]
 - [[#code-completion][Code Completion]]
 - [[#movement-based-on-language-semantics][Movement based on language semantics]]
@@ -114,6 +113,7 @@ to set this file's value to a nil value during startup and restore it's original
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 (straight-use-package 'use-package)
+(require 'bind-key)
 #+end_src
 * Window Manager
    :PROPERTIES:
@@ -891,10 +891,6 @@ all executables.
                 ("C-c m k f" . amirreza/eshell-kill-save-file-at-point)
                 ("C-c m r" . amirreza/eshell-recent-dir-search)
                 ("C-c m d" . amirreza/eshell-find-sub-dirs-recur)))
-#+end_src
-* VTerm
-#+begin_src emacs-lisp
-  (use-package vterm :straight t :commands (vterm))
 #+end_src
 * Auto Header
 #+begin_src emacs-lisp

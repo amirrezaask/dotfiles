@@ -28,8 +28,10 @@
       initial-scratch-message nil)
 
 (require 'org)
+
 (defun amirreza/compile-literate-config ()
   (org-babel-tangle-file "~/.emacs.d/README.org" "~/.emacs.d/init.el" "emacs-lisp"))
+
 
 (unless (file-exists-p "~/.emacs.d/init.el")
   (amirreza/compile-literate-config))
