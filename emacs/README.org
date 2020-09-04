@@ -15,34 +15,32 @@
   - [[#cursor][Cursor]]
   - [[#modeline][Modeline]]
   - [[#font][Font]]
-  - [[#dashboard][Dashboard]]
+  - [[#startup-page][Startup page]]
 - [[#icomplete][Icomplete]]
 - [[#ivy][Ivy]]
-- [[#windowsworkspaces][Windows/Workspaces]]
-  - [[#window-rules][Window rules]]
-  - [[#eyebrowse][Eyebrowse]]
-  - [[#winner-restore-window-layout][Winner (Restore Window layout)]]
-  - [[#ace-window-better-window-management][Ace Window (Better Window Management)]]
-- [[#buffer-management][Buffer management]]
-  - [[#ibuffer][IBuffer]]
-- [[#editing][Editing]]
-  - [[#save-emacs-state-of-buffers][Save Emacs state of buffers]]
-  - [[#motions][Motions]]
-  - [[#highlight-indentation][Highlight indentation]]
-  - [[#sudo-edit][Sudo edit]]
-  - [[#expand-region][Expand region]]
-  - [[#highlight-todofixme][Highlight TODO/FIXME/...]]
-  - [[#multiple-cursors][Multiple cursors]]
-  - [[#iedit][IEdit]]
-  - [[#dont-choke-on-large-data][Don't choke on large data]]
-  - [[#searching][Searching]]
-  - [[#tramp][Tramp]]
-- [[#writing][Writing]]
-  - [[#org][Org]]
-  - [[#markdown-mode][Markdown mode]]
+- [[#window-rules][Window rules]]
+- [[#eyebrowse][Eyebrowse]]
+- [[#winner-restore-window-layout][Winner (Restore Window layout)]]
+- [[#ace-window-better-window-management][Ace Window (Better Window Management)]]
+- [[#ibuffer][IBuffer]]
+- [[#save-emacs-state-of-buffers][Save Emacs state of buffers]]
+- [[#motions][Motions]]
+- [[#highlight-indentation][Highlight indentation]]
+- [[#sudo-edit][Sudo edit]]
+- [[#expand-region][Expand region]]
+- [[#highlight-todofixme][Highlight TODO/FIXME/...]]
+- [[#multiple-cursors][Multiple cursors]]
+- [[#iedit][IEdit]]
+- [[#dont-choke-on-large-data][Don't choke on large data]]
+- [[#searching][Searching]]
+- [[#tramp][Tramp]]
+- [[#org][Org]]
+- [[#markdown-mode][Markdown mode]]
 - [[#recent-files][Recent files]]
-- [[#projectile][Projectile]]
-- [[#shells][Shells]]
+- [[#project-integration][Project Integration]]
+- [[#sync-path][Sync Path]]
+- [[#eshell][Eshell]]
+- [[#vterm][VTerm]]
 - [[#development][Development]]
   - [[#header][Header]]
   - [[#completion][Completion]]
@@ -107,6 +105,9 @@ to set this file's value to a nil value during startup and restore it's original
   (add-hook 'after-init-hook (lambda () (setq file-name-handler-alist file-name-handler-alist-bak)))
 #+end_src
 * Package manager setup
+:PROPERTIES:
+:header-args: :tangle no
+:END:
 #+begin_src emacs-lisp
 (defvar bootstrap-version)
 (let ((bootstrap-file
@@ -422,23 +423,15 @@ our font interactively, let's write it.
     (set-face-attribute 'default t :font (format "%s-%d" font size))
     (set-frame-font (format "%s-%d" font size) nil t))
 #+END_SRC
-** Dashboard
+** Startup page
+I want my Emacs to open my TODO file on every startup and have a that buffer open and accessible with a short key.
 #+begin_src emacs-lisp
-  (use-package page-break-lines :straight t :config (global-page-break-lines-mode))
-  (use-package dashboard
-    :straight t
-    :config
-    (setq dashboard-center-content t)
-    (setq dashboard-startup-banner 'logo)
-    (setq dashboard-set-heading-icons t)
-    (setq dashboard-footer-messages '("Free as in free bear"))
-    (setq dashboard-set-file-icons t)
-    (setq dashboard-items '((recents  . 5)
-                            (bookmarks . 5)
-                            (projects . 5)
-                            (registers . 5)))
-    (dashboard-setup-startup-hook))
-
+  (defvar amirreza/todo-file "~/TODO.org" "Personal Todo file")
+  (defun amirreza/open-todo
+      (interactive)
+      (find-file amirreza/todo-file))
+  (global-set-key (kbd "C-c t") 'amirreza/open-todo)
+  (add-hook 'after-init 'amirreza/open-todo)
 #+end_src
 * Icomplete
 #+begin_src emacs-lisp
@@ -535,8 +528,7 @@ our font interactively, let's write it.
 
     (use-package ivy-rich :straight t :config (ivy-rich-mode 1))
 #+end_src
-* Windows/Workspaces
-** Window rules
+* Window rules
 Emacs windows can be configured in the matter of where their gonna open.
 #+BEGIN_SRC emacs-lisp
     (setq display-buffer-alist
@@ -561,7 +553,7 @@ Emacs windows can be configured in the matter of where their gonna open.
               (side . right)
               (slot . 0))))
 #+END_SRC
-** Eyebrowse
+* Eyebrowse
 =Eyebrowse= gives you =i3= like experience in Emacs, let's you have multiple workspaces and switch between them.
 #+BEGIN_SRC emacs-lisp
   (use-package eyebrowse :straight t
@@ -590,23 +582,10 @@ Emacs windows can be configured in the matter of where their gonna open.
            ("C-c w 8" . eyebrowse-switch-to-window-config-8)
            ("C-c w 9" . eyebrowse-switch-to-window-config-9)
            ("C-c w n" . eyebrowse-create-window-config)
-           ("C-c w c" . eyebrowse-close-window-config)
-
-           ("C-s-0" . eyebrowse-switch-to-window-config-0)
-           ("C-s-1" . eyebrowse-switch-to-window-config-1)
-           ("C-s-2" . eyebrowse-switch-to-window-config-2)
-           ("C-s-3" . eyebrowse-switch-to-window-config-3)
-           ("C-s-4" . eyebrowse-switch-to-window-config-4)
-           ("C-s-5" . eyebrowse-switch-to-window-config-5)
-           ("C-s-6" . eyebrowse-switch-to-window-config-6)
-           ("C-s-7" . eyebrowse-switch-to-window-config-7)
-           ("C-s-8" . eyebrowse-switch-to-window-config-8)
-           ("C-s-9" . eyebrowse-switch-to-window-config-9)
-           ("C-s-w n" . eyebrowse-create-window-config)
-           ("C-s-w c" . eyebrowse-close-window-config)))
+           ("C-c w c" . eyebrowse-close-window-config)))
 
 #+END_SRC
-** Winner (Restore Window layout)
+* Winner (Restore Window layout)
 When we are working with multiple windows open but we might maximize one window to focus
 on it, but when we are done with focus mode ;) we need that layout back that's were winner mode
 comes handy you can restore last window layout with just a function called =winner-undo= that
@@ -620,15 +599,14 @@ by default is bound to =C-c <left>=.
     :bind (("C->" . winner-redo)
            ("C-<" . winner-undo)))
 #+END_SRC
-** Ace Window (Better Window Management)
+* Ace Window (Better Window Management)
 #+BEGIN_SRC emacs-lisp
       (use-package ace-window
         :straight t
         :commands (ace-window)
         :bind (("C-x C-o" . 'ace-window)))
 #+END_SRC
-* Buffer management
-** IBuffer
+* IBuffer
 #+begin_src emacs-lisp
   (use-package ibuffer
     :bind (("C-x C-b" . 'ibuffer)))
@@ -637,14 +615,13 @@ by default is bound to =C-c <left>=.
     :hook (ibuffer-mode . (lambda () (interactive) (ibuffer-vc-set-filter-groups-by-vc-root))))
 
 #+end_src
-* Editing
-** Save Emacs state of buffers
+* Save Emacs state of buffers
 #+begin_src emacs-lisp
   (use-package desktop
     :config
     (desktop-save-mode 1))
 #+end_src
-** Motions
+* Motions
 *** Custom motions
 #+begin_src emacs-lisp
   (global-set-key (kbd "M-n") 
@@ -662,7 +639,7 @@ by default is bound to =C-c <left>=.
             ("C-M-C" . avy-goto-char-2)
             ("C-M-c" . avy-goto-char)))
  #+end_src
-** Highlight indentation
+* Highlight indentation
 #+begin_src emacs-lisp
  (use-package highlight-indent-guides
    :straight t
@@ -672,20 +649,20 @@ by default is bound to =C-c <left>=.
    :config
    (add-hook 'focus-in-hook #'highlight-indent-guides-auto-set-faces))
 #+end_src
-** Sudo edit
+* Sudo edit
 #+begin_src emacs-lisp
    (use-package sudo-edit
         :straight t
         :commands (sudo-edit))
 #+end_src
-** Expand region
+* Expand region
 #+begin_src emacs-lisp
    (use-package expand-region
      :straight t
      :bind (("C-=" . 'er/expand-region)
 	    ("C--" . 'er/contract-region)))
 #+end_src
-** Highlight TODO/FIXME/...
+* Highlight TODO/FIXME/...
 #+begin_src emacs-lisp
  (use-package hl-todo
    :straight t
@@ -700,7 +677,7 @@ by default is bound to =C-c <left>=.
 	   ("NOTE"       success bold)
 	   ("DEPRECATED" font-lock-doc-face bold))))
 #+end_src
-** Multiple cursors
+* Multiple cursors
 #+begin_src emacs-lisp
       (use-package multiple-cursors
         :straight t
@@ -719,19 +696,19 @@ by default is bound to =C-c <left>=.
                ("C-M-p" . mc/mark-previous-like-this)
                ("C-M-a" . mc/mark-all-like-this)))
 #+end_src
-** IEdit
+* IEdit
 #+begin_src emacs-lisp
   (use-package iedit
        :straight t
        :defer t)
 #+end_src
-** Don't choke on large data
+* Don't choke on large data
 #+begin_src emacs-lisp
   (use-package so-long 
       :config (global-so-long-mode 1))
   (use-package vlf :straight t :commands (vlf))
 #+end_src
-** Searching
+* Searching
 :PROPERTIES:
 :header-args: :tangle no
 :END:
@@ -741,15 +718,14 @@ by default is bound to =C-c <left>=.
     :commands (swiper)
     :bind ("C-s" . swiper))
 #+end_src
-** Tramp
+* Tramp
 #+begin_src emacs-lisp
     (use-package tramp
           :commands (tramp)
           :config
           (setq tramp-default-method "ssh"))
 #+end_src
-* Writing
-** Org
+* Org
 #+BEGIN_SRC emacs-lisp
   (use-package org
   :demand
@@ -791,7 +767,7 @@ by default is bound to =C-c <left>=.
  #+begin_src emacs-lisp
  (use-package htmlize :straight t :defer t)
  #+end_src
-** Markdown mode
+* Markdown mode
 #+begin_src emacs-lisp
 (use-package markdown-mode
   :straight t
@@ -799,31 +775,46 @@ by default is bound to =C-c <left>=.
 #+end_src
 * Recent files
  #+begin_src emacs-lisp
-   (use-package counsel
-     :init
-     (defun amirreza/recents ()
-       (interactive)
-       (completing-read "Recent: " recentf-list))
+   (defun amirreza/recents ()
+     (interactive)
+     (completing-read "Recent: " recentf-list))
 
-     :bind (("C-s-r" . amirreza/recents)
-            ("C-c r" . amirreza/recents)))
+   (global-set-key (kbd "C-c r") 'amirreza/recents)
  #+end_src
-* Projectile
+* Project Integration
 #+begin_src emacs-lisp
-  (use-package projectile
-    :straight t
-    :config (projectile-mode 1))
+(use-package project
+  :bind (("C-c p f" . amirreza/project-or-dir-find-file-recur)
+         ("C-c p l" . amirreza/projects-list))
+  :config
+  (defun amirreza/get-root ()
+    "Gets project root."
+    (let* ((project (vc-root-dir))
+           (dir (if project project default-directory)))
+      dir))
 
-  (use-package counsel-projectile
-    :straight t
-    :bind* (:map projectile-mode-map
-                 ("C-c p" . projectile-command-map)
-                 ("C-c p g" . counsel-projectile-rg)
-                 :map global-map
-                 ("C-s-f" . counsel-projectile-find-file)
-                 ("C-s-g" . counsel-projectile-rg)))
+  (defun amirreza/project-or-dir-find-file-recur ()
+    (interactive)
+    (let* ((dir (amirreza/get-root))
+           (files (directory-files-recursively dir ".*" nil (lambda (name)
+                                                              (not (string-match "\\.git" name))
+                                                              ) t)))
+      (find-file (completing-read "Find: " files))))
+
+  (defvar amirreza/project-locations '("~/w" "~/w/snapp" "~/w"))
+
+  (defun amirreza/projects-list ()
+    "List of projects in pre defined project locations."
+    (interactive)
+    (let ((proj-dirs '()))
+      (mapc (lambda (dir)
+              (mapc (lambda (file)
+                      (add-to-list 'proj-dirs (abbreviate-file-name file )))
+                    (directory-files dir t directory-files-no-dot-files-regexp)))
+            amirreza/project-locations)
+      (dired (completing-read "Project: " proj-dirs)))))
 #+end_src
-* Shells
+* Sync Path
 Emacs has a bultin shell called =eshell= which uses elisp
 as it's scripting engine, I use that as my main shell over the day
 but for some rare situations I have VTerm that emulates a normal terminal
@@ -837,7 +828,7 @@ all executables.
     (setq exec-path-from-shell-shell-name "zsh")
     (exec-path-from-shell-initialize))
 #+end_src
-**** Eshell
+* Eshell
 #+begin_src emacs-lisp
   (use-package ffap)
   (require 'cl-lib)
@@ -958,7 +949,7 @@ all executables.
                 ("C-c m r" . amirreza/eshell-recent-dir-search)
                 ("C-c m d" . amirreza/eshell-find-sub-dirs-recur)))
 #+end_src
-**** VTerm
+* VTerm
 #+begin_src emacs-lisp
   (use-package vterm :straight t :commands (vterm))
 #+end_src
