@@ -32,6 +32,7 @@
 - [[#dont-choke-on-large-data][Don't choke on large data]]
 - [[#tramp][Tramp]]
 - [[#org][Org]]
+- [[#outline-mode][Outline Mode]]
 - [[#markdown-mode][Markdown mode]]
 - [[#recent-files][Recent files]]
 - [[#projectile][Projectile]]
@@ -413,7 +414,7 @@ extensively but now i use it only when keybindings are just crazy.
 * Font
 To use specific font in Emacs you just need to call a function, that's easy ha ??
 #+BEGIN_SRC emacs-lisp
-  (defvar amirreza/font "Iosevka-10")
+  (defvar amirreza/font "Iosevka-11")
   (set-face-attribute 'default t :font amirreza/font)
   (set-frame-font amirreza/font nil t)
 #+END_SRC
@@ -755,6 +756,30 @@ by default is bound to =C-c <left>=.
  #+begin_src emacs-lisp
  (use-package htmlize :straight t :defer t)
  #+end_src
+* Outline Mode
+#+begin_src emacs-lisp
+  (use-package bicycle :straight t)
+  (use-package outline
+    :bind (:map outline-minor-mode-map
+                ("C-c C-c" . amirreza/outline-collapse-all)
+                ("C-c C-a" . outline-show-all)
+                ("C-M-n" . outline-forward-same-level)
+                ("C-M-p" . outline-backward-same-level)
+                ("M-n" . outline-next-visible-heading)
+                ("<tab>" . amirreza/outline-expand-or-collapse-header)
+                ("M-p" . outline-previous-visible-heading))
+    :config
+    (defun amirreza/outline-expand-or-collapse-header ()
+      "Expand if we are on a outline heading."
+      (interactive)
+      (when (outline-on-heading-p)
+        (bicycle-cycle)))
+  
+    (defun amirreza/outline-collapse-all ()
+      "Hide all `outline-mode' subtrees."
+      (interactive)
+      (outline-map-region 'outline-hide-subtree (point-min) (point-max))))
+#+end_src
 * Markdown mode
 #+begin_src emacs-lisp
 (use-package markdown-mode
