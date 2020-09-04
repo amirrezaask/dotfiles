@@ -392,7 +392,7 @@ extensively but now i use it only when keybindings are just crazy.
   #+END_SRC
 ** Modeline
 #+begin_src emacs-lisp
-(setq mode-line-percent-position '(-3 "%p"))
+  (setq mode-line-percent-position '(-3 "%p"))
   (setq-default mode-line-format
                 '(
                   " "
@@ -401,9 +401,9 @@ extensively but now i use it only when keybindings are just crazy.
                   mode-line-mule-info
                   " "
                   mode-line-buffer-identification
-                  " <"
+                  " ["
                   mode-name
-                  "> "
+                  "] "
                   mode-line-position
                   " "
                   (vc-mode vc-mode)))
