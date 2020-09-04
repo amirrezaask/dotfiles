@@ -325,7 +325,6 @@ extensively but now i use it only when keybindings are just crazy.
  #+BEGIN_SRC emacs-lisp
    (use-package modus-operandi-theme :straight t :defer t)
    (use-package modus-vivendi-theme :straight t :defer t)
-   (use-package doom-themes :straight t :defer t)
  #+END_SRC
  You probably notice the =:defer= part in use-package, with =:defer= keyword (:something is called a keyword in elisp)
  use-package knows that we don't need this package to be loaded in startup, since we actually don't need all of our themes
@@ -344,7 +343,7 @@ extensively but now i use it only when keybindings are just crazy.
      :config
      (defvar amirreza/current-mode 'dark "Current color mode of Emacs.")
      (defvar amirreza/dark-theme 'modus-vivendi)
-     (defvar amirreza/light-theme 'doom-one-light)
+     (defvar amirreza/light-theme 'modus-operandi)
 
      (defmacro amirreza/--load-theme (&rest theme-opts)
        `(progn (mapc #'disable-theme custom-enabled-themes)
@@ -794,7 +793,7 @@ all executables.
               (switch-to-buffer-other-window new-buff)
               (rename-buffer (format "*eshell:%s*" default-directory)))))))
 
-    :bind (("s-<enter>" . amirreza/eshell-new)
+    :bind (("C-c s" . amirreza/eshell-new)
            ("<f11>" . amirreza/eshell-new)))
 
   (use-package esh-mode
