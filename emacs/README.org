@@ -10,13 +10,12 @@
 - [[#window-manager][Window Manager]]
 - [[#keybinding][Keybinding]]
 - [[#basic-setups][Basic setups]]
-- [[#ui][UI]]
-  - [[#themes][Themes]]
-  - [[#cursor][Cursor]]
-  - [[#modeline][Modeline]]
-  - [[#font][Font]]
-  - [[#startup-page][Startup page]]
-- [[#icomplete][Icomplete]]
+- [[#themes][Themes]]
+- [[#cursor][Cursor]]
+- [[#modeline][Modeline]]
+- [[#font][Font]]
+- [[#startup-page][Startup page]]
+- [[#ivy][Ivy]]
 - [[#window-rules][Window rules]]
 - [[#eyebrowse][Eyebrowse]]
 - [[#winner-restore-window-layout][Winner (Restore Window layout)]]
@@ -316,8 +315,7 @@ extensively but now i use it only when keybindings are just crazy.
                 ("n" . next-line)
                 ("p" . previous-line)))
 #+end_src
-* UI
-** Themes
+* Themes
  Now that we have use-package we can start installing thems, packages, etc. Let's start by installing some thems.
  for some time now I am using modus themes by the amazing =Protesilaos Stavrou= (btw check his youtube channel) which are simple but elegant themes
  but if you want a more modern look like =VSCode= or =Atom= you can use =doom-themes= as well.
@@ -325,6 +323,7 @@ extensively but now i use it only when keybindings are just crazy.
  #+BEGIN_SRC emacs-lisp
    (use-package modus-operandi-theme :straight t :defer t)
    (use-package modus-vivendi-theme :straight t :defer t)
+   (use-package doom-themes :straight t :defer t)
  #+END_SRC
  You probably notice the =:defer= part in use-package, with =:defer= keyword (:something is called a keyword in elisp)
  use-package knows that we don't need this package to be loaded in startup, since we actually don't need all of our themes
@@ -342,8 +341,8 @@ extensively but now i use it only when keybindings are just crazy.
      :bind (("<f12>" . amirreza/toggle-color-mode))
      :config
      (defvar amirreza/current-mode 'dark "Current color mode of Emacs.")
-     (defvar amirreza/dark-theme 'modus-vivendi)
-     (defvar amirreza/light-theme 'modus-operandi)
+     (defvar amirreza/dark-theme 'doom-one)
+     (defvar amirreza/light-theme 'doom-one-light)
 
      (defmacro amirreza/--load-theme (&rest theme-opts)
        `(progn (mapc #'disable-theme custom-enabled-themes)
@@ -374,7 +373,7 @@ extensively but now i use it only when keybindings are just crazy.
 ***** Performance Tip 
  About 95% of packages we use don't need to be loaded at startup and =:defer= is only one of the multiple
  ways of lazy-loading in use-package we will see others later on.
-** Cursor
+* Cursor
  #+BEGIN_SRC emacs-lisp
    (use-package emacs
      :config
@@ -390,7 +389,7 @@ extensively but now i use it only when keybindings are just crazy.
      (global-hl-line-mode +1))
 
   #+END_SRC
-** Modeline
+* Modeline
 #+begin_src emacs-lisp
   (setq mode-line-percent-position '(-3 "%p"))
   (setq-default mode-line-format
@@ -408,10 +407,10 @@ extensively but now i use it only when keybindings are just crazy.
                   " "
                   (vc-mode vc-mode)))
 #+end_src
-** Font
+* Font
 To use specific font in Emacs you just need to call a function, that's easy ha ??
 #+BEGIN_SRC emacs-lisp
-  (defvar amirreza/font "Hack-11")
+  (defvar amirreza/font "Hack-10")
   (set-face-attribute 'default t :font amirreza/font)
   (set-frame-font amirreza/font nil t)
 #+END_SRC
@@ -424,67 +423,55 @@ our font interactively, let's write it.
     (set-face-attribute 'default t :font (format "%s-%d" font size))
     (set-frame-font (format "%s-%d" font size) nil t))
 #+END_SRC
-** Startup page
+* Startup page
 I want my Emacs to open my TODO file on every startup and have a that buffer open and accessible with a short key.
 #+begin_src emacs-lisp
   (defvar amirreza/todo-file "~/TODO.org" "Personal Todo file")
-  (defun amirreza/open-todo
+  (defun amirreza/open-todo ()
       (interactive)
       (find-file amirreza/todo-file))
   (global-set-key (kbd "C-c t") 'amirreza/open-todo)
   (add-hook 'after-init 'amirreza/open-todo)
 #+end_src
-* Icomplete
+* Ivy
 #+begin_src emacs-lisp
-(use-package orderless
+(use-package flx :straight t)
+(use-package ivy
   :straight t
-  :config
-  (setq completion-styles '(orderless)))
-
-(use-package icomplete
-  :demand
   :bind
-  (:map global-map
-        ("M-y" . amirreza/show-kill-ring)
-        :map icomplete-minibuffer-map
-        ("C-n" . icomplete-forward-completions)
-        ("C-p" . icomplete-backward-completions)
-        ("C-f" . icomplete-forward-completions)
-        ("C-b" . icomplete-backward-completions)
-        ("<right>" . icomplete-forward-completions)
-        ("<left>" . icomplete-backward-completions)
-        ("<down>" . icomplete-forward-completions)
-        ("<up>" . icomplete-backward-completions)
-        ("<RET>" . icomplete-force-complete-and-exit)
-        ("<tab>" . icomplete-force-complete))
+  (("C-x b" . 'ivy-switch-buffer)
+   :map ivy-minibuffer-map
+   ("RET" . 'ivy-alt-done))
   :config
-  (defun amirreza/show-kill-ring ()
-    (interactive)
-    (insert (completing-read "Insert: " kill-ring)))
+  (setq ivy-height 15)
+  ;; loopish cycling through list
+  (setq ivy-wrap t)
+  ;; don't show recents in minibuffer
+  (setq ivy-use-virtual-buffers nil)
+  ;; ...but if that ever changes, show their full path
+  (setq ivy-virtual-abbreviate 'full)
+  ;; don't quit minibuffer on delete-error
+  (setq ivy-on-del-error-function #'ignore)
+  (setf (alist-get 't ivy-format-functions-alist)
+        #'ivy-format-function-line)
+  (setq ivy-initial-inputs-alist nil)
+  (setq ivy-re-builders-alist
+        '((t . ivy--regex-ignore-order)))
+  (ivy-mode +1))
 
-  (setq icomplete-max-delay-chars 2
-        icomplete-separator " | "
-        icomplete-show-matches-on-no-input t
-        icomplete-hide-common-prefix nil
-        completion-ignore-case t)
-  (when (> emacs-major-version 26)
-    (fido-mode -1))
-  (icomplete-mode 1))
-
-(use-package icomplete-vertical
+(use-package counsel
   :straight t
-  :demand
   :bind
-  (:map icomplete-minibuffer-map
-        ("C-v" . icomplete-vertical-toggle))
-  :config
-  (icomplete-vertical-mode 1))
+  (("M-x" . 'counsel-M-x)
+   ("C-x C-f" . 'counsel-find-file)
+   ("C-h b" . 'counsel-descbinds)
+   ("C-h f" . 'counsel-describe-function)
+   ("C-h v" . 'counsel-describe-variable)
+   ("C-h a" . 'counsel-apropos)
+   ("M-i" . 'counsel-imenu) ;; code semantics
+   ("M-y" . 'counsel-yank-pop))) ;; show kill ring
 
-(use-package live-completions
-  :disabled t
-  :straight (:host github :repo "oantolin/live-completions")
-  :config
-  (live-completions-mode 1))
+  (use-package ivy-rich :straight t :config (ivy-rich-mode 1))
 #+end_src
 * Window rules
 Emacs windows can be configured in the matter of where their gonna open.
@@ -725,36 +712,14 @@ by default is bound to =C-c <left>=.
  #+end_src
 * Project Integration
 #+begin_src emacs-lisp
-(use-package project
-  :bind (("C-c p f" . amirreza/project-or-dir-find-file-recur)
-         ("C-c p s" . amirreza/projects-list))
-  :config
-  (defun amirreza/get-root ()
-    "Gets project root."
-    (let* ((project (vc-root-dir))
-           (dir (if project project default-directory)))
-      dir))
+(use-package projectile
+  :straight t)
 
-  (defun amirreza/project-or-dir-find-file-recur ()
-    (interactive)
-    (let* ((dir (amirreza/get-root))
-           (files (directory-files-recursively dir ".*" nil (lambda (name)
-                                                              (not (string-match "\\.git" name))
-                                                              ) t)))
-      (find-file (completing-read "Find: " files))))
-
-  (defvar amirreza/project-locations '("~/w" "~/w/snapp"))
-
-  (defun amirreza/projects-list ()
-    "List of projects in pre defined project locations."
-    (interactive)
-    (let ((proj-dirs '()))
-      (mapc (lambda (dir)
-              (mapc (lambda (file)
-                      (add-to-list 'proj-dirs (abbreviate-file-name file )))
-                    (directory-files dir t directory-files-no-dot-files-regexp)))
-            amirreza/project-locations)
-      (dired (completing-read "Project: " proj-dirs)))))
+(use-package counsel-projectile
+  :straight t
+  :bind* (:map projectile-mode-map
+               ("C-c p" . projectile-command-map)
+               ("C-c p g" . counsel-projectile-rg)))
 #+end_src
 * Sync Path
 Emacs has a bultin shell called =eshell= which uses elisp
