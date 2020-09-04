@@ -43,6 +43,7 @@
 - [[#projectile][Projectile]]
 - [[#shells][Shells]]
 - [[#development][Development]]
+  - [[#header][Header]]
   - [[#completion][Completion]]
   - [[#code-semantic-movement][Code Semantic Movement]]
   - [[#snippets][Snippets]]
@@ -233,7 +234,7 @@ extensively but now i use it only when keybindings are just crazy.
     :config
     (setq which-key-idle-delay 0.3)
     (defalias 'which-key! 'which-key-add-key-based-replacements)
-    (which-key! "C-c M" "Music functions")
+    (which-key! "C-c i m" "Music functions")
     (which-key! "C-c m" "MajorMode/LSP related functionality")
     (which-key! "C-c g" "Version control actions")
     (which-key! "C-c f" "File functions")
@@ -903,6 +904,11 @@ all executables.
   (use-package vterm :straight t :commands (vterm))
 #+end_src
 * Development
+** Header
+#+begin_src emacs-lisp
+  (use-package autoinsert
+    :hook (after-init . auto-insert-mode))
+#+end_src
 ** Completion
 Code completion consists of two parts, A source/server that provides the completions and 
 an engine that knows when to open prompt and show the completions. We will configure servers later
@@ -1064,10 +1070,9 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
      :config
      (defun amirreza/go-hook ()
        (interactive)
-       ;; custom snippets
-       (amirreza/defsnippet "go" "fmain" "" "func main() {" \n "}")
+       (amirreza/defsnippet "go" "fmain" "" "func main() {" _ \n "}")
        (amirreza/defsnippet "go" "pkgm" "Package: " "package " str \n)
-       (amirreza/defsnippet "go" "pl" "" "fmt.Println(\"" _ "\")") ;; _ is the cursor position after the expansion
+       (amirreza/defsnippet "go" "pl" "" "fmt.Println(\"" _ "\")")
        (amirreza/defsnippet "go" "pf" "" "fmt.Printf(\"" _ "\")")
        (amirreza/defsnippet "go" "ifer" "" "if err != nil {" \n _ \n "}")
        (amirreza/defsnippet "go" "if" "" "if " _ "{" \n "}")
@@ -1308,7 +1313,7 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
     :commands (magit-status magit-get-current-branch)
     :bind
     (("C-x g" . 'magit-status)
-     ("C-c v" . 'magit-status)))
+     ("C-c v s" . 'magit-status)))
 
   (use-package diff-hl
     :straight t
@@ -1332,7 +1337,7 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
     (git-messenger:popup-message)
     :bind
     (("C-c v b" . git-messenger:popup-message))
-  
+
     :config
     (setq git-messenger:show-detail t)
     (setq git-messenger:use-magit-popup t))
@@ -1390,9 +1395,9 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
 ** Rhythmbox
 #+begin_src emacs-lisp
   (use-package rhythmbox
-    :bind (("C-c M l" . Rhythmbox)
-           ("C-c M p" . Rhythmbox/playpause-current-song)
-           ("C-c M n" . Rhythmbox/current-song-name))
+    :bind (("C-c i m l" . Rhythmbox)
+           ("C-c i m p" . Rhythmbox/playpause-current-song)
+           ("C-c i m n" . Rhythmbox/current-song-name))
     :straight (:host github :repo "amirrezaask/Rhythmbox.el"))
 #+end_src
 * Video
@@ -1424,12 +1429,12 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
 
   (use-package docker :straight t 
     :bind
-    ("C-c d" . docker))
+    ("C-c i d" . docker))
   (use-package dockerfile-mode :straight t :mode "\\Dockerfile\\'")
 #+END_SRC
 * Kubernetes
 #+begin_src emacs-lisp
-(use-package kubel :straight t :commands (kubel) :bind (("C-c k" . kubel)))
+(use-package kubel :straight t :commands (kubel) :bind (("C-c i k" . kubel)))
 #+end_src
 * Dotfiles
 I use multiple programs that holds their configuration in files, this section are some helpers for editing the configs
