@@ -36,6 +36,7 @@
 - [[#recent-files][Recent files]]
 - [[#projectile][Projectile]]
 - [[#project-integration][Project integration]]
+- [[#ripgrep][Ripgrep]]
 - [[#sync-path][Sync Path]]
 - [[#eshell][Eshell]]
 - [[#auto-header][Auto Header]]
@@ -343,8 +344,8 @@ extensively but now i use it only when keybindings are just crazy.
      :bind (("<f12>" . amirreza/toggle-color-mode))
      :config
      (defvar amirreza/current-mode 'dark "Current color mode of Emacs.")
-     (defvar amirreza/dark-theme 'doom-one)
-     (defvar amirreza/light-theme 'doom-one-light)
+     (defvar amirreza/dark-theme 'modus-vivendi)
+     (defvar amirreza/light-theme 'modus-operandi)
 
      (defmacro amirreza/--load-theme (&rest theme-opts)
        `(progn (mapc #'disable-theme custom-enabled-themes)
@@ -412,7 +413,7 @@ extensively but now i use it only when keybindings are just crazy.
 * Font
 To use specific font in Emacs you just need to call a function, that's easy ha ??
 #+BEGIN_SRC emacs-lisp
-  (defvar amirreza/font "Hack-10")
+  (defvar amirreza/font "Iosevka-10")
   (set-face-attribute 'default t :font amirreza/font)
   (set-frame-font amirreza/font nil t)
 #+END_SRC
@@ -787,40 +788,44 @@ Deprecated, I use my hand rolled project integration block below.
 #+end_src
 * Project integration
 #+begin_src emacs-lisp
-(require 'cl-lib)
-(use-package project
-  :bind (("C-s-f" . (lambda ()
-                      (interactive)
-                      (counsel-fzf "" (amirreza/get-root) "Fuzzy File Search: ")))
-         ;;("C-s-f" . amirreza/project-or-dir-find-file-recur)
-         ("C-s-p" . amirreza/projects-list))
-  :config
-  (defun amirreza/get-root ()
-    "Gets project root."
-    (let* ((project (vc-root-dir))
-           (dir (if project project default-directory)))
-      dir))
+  (require 'cl-lib)
+  (use-package project
+    :bind (("C-c p f" . amirreza/project-or-dir-find-file-recur)
+           ("C-c p s" . amirreza/projects-list)
+           ("C-c p l" . amirreza/project-list))
+    :config
+    (defun amirreza/get-root ()
+      "Gets project root."
+      (let* ((project (vc-root-dir))
+             (dir (if project project default-directory)))
+        dir))
 
-  (defun amirreza/project-or-dir-find-file-recur ()
-    (interactive)
-    (let* ((dir (amirreza/get-root))
-           (files (directory-files-recursively dir ".*" nil (lambda (name)
-                                                              (not (string-match "\\.git" name))
-                                                              ) t)))
-      (find-file (completing-read "Find: " files))))
+    (defun amirreza/project-or-dir-find-file-recur ()
+      (interactive)
+      (let* ((dir (amirreza/get-root))
+             (files (directory-files-recursively dir ".*" nil (lambda (name)
+                                                                (not (string-match "\\.git" name))
+                                                                ) t)))
+        (find-file (completing-read "Find: " files))))
 
-  (defvar amirreza/project-locations '("~/w" "~/w/snapp" "~/w"))
+    (defvar amirreza/project-locations '("~/w" "~/w/snapp" "~/w"))
 
-  (defun amirreza/projects-list ()
-    "List of projects in pre defined project locations."
-    (interactive)
-    (let ((proj-dirs '()))
-      (mapc (lambda (dir)
-              (mapc (lambda (file)
-                      (add-to-list 'proj-dirs (abbreviate-file-name file )))
-                    (directory-files dir t directory-files-no-dot-files-regexp)))
-            amirreza/project-locations)
-      (dired (completing-read "Project: " proj-dirs)))))
+    (defun amirreza/projects-list ()
+      "List of projects in pre defined project locations."
+      (interactive)
+      (let ((proj-dirs '()))
+        (mapc (lambda (dir)
+                (mapc (lambda (file)
+                        (add-to-list 'proj-dirs (abbreviate-file-name file )))
+                      (directory-files dir t directory-files-no-dot-files-regexp)))
+              amirreza/project-locations)
+        (dired (completing-read "Project: " proj-dirs)))))
+#+end_src
+* Ripgrep
+#+begin_src emacs-lisp
+  (use-package rg
+    :straight t
+    :bind ("C-c p g" . rg))
 #+end_src
 * Sync Path
 Emacs has a bultin shell called =eshell= which uses elisp
