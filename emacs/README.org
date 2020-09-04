@@ -17,7 +17,6 @@
   - [[#font][Font]]
   - [[#startup-page][Startup page]]
 - [[#icomplete][Icomplete]]
-- [[#ivy][Ivy]]
 - [[#window-rules][Window rules]]
 - [[#eyebrowse][Eyebrowse]]
 - [[#winner-restore-window-layout][Winner (Restore Window layout)]]
@@ -30,9 +29,7 @@
 - [[#expand-region][Expand region]]
 - [[#highlight-todofixme][Highlight TODO/FIXME/...]]
 - [[#multiple-cursors][Multiple cursors]]
-- [[#iedit][IEdit]]
 - [[#dont-choke-on-large-data][Don't choke on large data]]
-- [[#searching][Searching]]
 - [[#tramp][Tramp]]
 - [[#org][Org]]
 - [[#markdown-mode][Markdown mode]]
@@ -41,23 +38,21 @@
 - [[#sync-path][Sync Path]]
 - [[#eshell][Eshell]]
 - [[#vterm][VTerm]]
-- [[#development][Development]]
-  - [[#header][Header]]
-  - [[#completion][Completion]]
-  - [[#code-semantic-movement][Code Semantic Movement]]
-  - [[#snippets][Snippets]]
-  - [[#dumb-jump][Dumb Jump]]
-  - [[#language-server-protocol][Language Server Protocol]]
-  - [[#rainbow-delimiters][Rainbow delimiters]]
-  - [[#syntax-checking][Syntax checking]]
-  - [[#docs][Docs]]
+- [[#auto-header][Auto Header]]
+- [[#code-completion][Code Completion]]
+- [[#movement-based-on-language-semantics][Movement based on language semantics]]
+- [[#snippets][Snippets]]
+- [[#dumb-jump][Dumb Jump]]
+- [[#language-server-protocol][Language Server Protocol]]
+- [[#rainbow-delimiters][Rainbow delimiters]]
+- [[#syntax-checking][Syntax checking]]
+- [[#docs][Docs]]
 - [[#languages][Languages]]
 - [[#vcs][VCS]]
   - [[#smerge][Smerge]]
 - [[#dired][Dired]]
 - [[#process-management][Process management]]
-- [[#music][Music]]
-  - [[#rhythmbox][Rhythmbox]]
+- [[#rhythmbox][Rhythmbox]]
 - [[#video][Video]]
 - [[#misc-file-modes][Misc file modes]]
 - [[#docker][Docker]]
@@ -105,9 +100,6 @@ to set this file's value to a nil value during startup and restore it's original
   (add-hook 'after-init-hook (lambda () (setq file-name-handler-alist file-name-handler-alist-bak)))
 #+end_src
 * Package manager setup
-:PROPERTIES:
-:header-args: :tangle no
-:END:
 #+begin_src emacs-lisp
 (defvar bootstrap-version)
 (let ((bootstrap-file
@@ -401,11 +393,21 @@ extensively but now i use it only when keybindings are just crazy.
   #+END_SRC
 ** Modeline
 #+begin_src emacs-lisp
-      (use-package doom-modeline 
-        :straight t 
-        :config 
-        (setq doom-modeline-height 25)
-        (doom-modeline-mode 1))
+(setq mode-line-percent-position '(-3 "%p"))
+  (setq-default mode-line-format
+                '(
+                  " "
+                  mode-line-modified
+                  " "
+                  mode-line-mule-info
+                  " "
+                  mode-line-buffer-identification
+                  " <"
+                  mode-name
+                  "> "
+                  mode-line-position
+                  " "
+                  (vc-mode vc-mode)))
 #+end_src
 ** Font
 To use specific font in Emacs you just need to call a function, that's easy ha ??
@@ -484,49 +486,6 @@ I want my Emacs to open my TODO file on every startup and have a that buffer ope
   :straight (:host github :repo "oantolin/live-completions")
   :config
   (live-completions-mode 1))
-#+end_src
-* Ivy
-:PROPERTIES:
-:header-args: :tangle no
-:END:
-#+begin_src emacs-lisp
-  (use-package flx :straight t)
-  (use-package ivy
-    :straight t
-    :bind
-    (("C-x b" . 'ivy-switch-buffer)
-     :map ivy-minibuffer-map
-     ("RET" . 'ivy-alt-done))
-    :config
-    (setq ivy-height 15)
-    ;; loopish cycling through list
-    (setq ivy-wrap t)
-    ;; don't show recents in minibuffer
-    (setq ivy-use-virtual-buffers nil)
-    ;; ...but if that ever changes, show their full path
-    (setq ivy-virtual-abbreviate 'full)
-    ;; don't quit minibuffer on delete-error
-    (setq ivy-on-del-error-function #'ignore)
-    (setf (alist-get 't ivy-format-functions-alist)
-          #'ivy-format-function-line)
-    (setq ivy-initial-inputs-alist nil)
-    (setq ivy-re-builders-alist
-          '((t . ivy--regex-ignore-order)))
-    (ivy-mode +1))
-
-  (use-package counsel
-    :straight t
-    :bind
-    (("M-x" . 'counsel-M-x)
-     ("C-x C-f" . 'counsel-find-file)
-     ("C-h b" . 'counsel-descbinds)
-     ("C-h f" . 'counsel-describe-function)
-     ("C-h v" . 'counsel-describe-variable)
-     ("C-h a" . 'counsel-apropos)
-     ("M-i" . 'counsel-imenu) ;; code semantics
-     ("M-y" . 'counsel-yank-pop))) ;; show kill ring
-
-    (use-package ivy-rich :straight t :config (ivy-rich-mode 1))
 #+end_src
 * Window rules
 Emacs windows can be configured in the matter of where their gonna open.
@@ -696,27 +655,11 @@ by default is bound to =C-c <left>=.
                ("C-M-p" . mc/mark-previous-like-this)
                ("C-M-a" . mc/mark-all-like-this)))
 #+end_src
-* IEdit
-#+begin_src emacs-lisp
-  (use-package iedit
-       :straight t
-       :defer t)
-#+end_src
 * Don't choke on large data
 #+begin_src emacs-lisp
   (use-package so-long 
       :config (global-so-long-mode 1))
   (use-package vlf :straight t :commands (vlf))
-#+end_src
-* Searching
-:PROPERTIES:
-:header-args: :tangle no
-:END:
-#+begin_src emacs-lisp
-  (use-package swiper
-    :straight t
-    :commands (swiper)
-    :bind ("C-s" . swiper))
 #+end_src
 * Tramp
 #+begin_src emacs-lisp
@@ -785,7 +728,7 @@ by default is bound to =C-c <left>=.
 #+begin_src emacs-lisp
 (use-package project
   :bind (("C-c p f" . amirreza/project-or-dir-find-file-recur)
-         ("C-c p l" . amirreza/projects-list))
+         ("C-c p s" . amirreza/projects-list))
   :config
   (defun amirreza/get-root ()
     "Gets project root."
@@ -801,7 +744,7 @@ by default is bound to =C-c <left>=.
                                                               ) t)))
       (find-file (completing-read "Find: " files))))
 
-  (defvar amirreza/project-locations '("~/w" "~/w/snapp" "~/w"))
+  (defvar amirreza/project-locations '("~/w" "~/w/snapp"))
 
   (defun amirreza/projects-list ()
     "List of projects in pre defined project locations."
@@ -953,13 +896,12 @@ all executables.
 #+begin_src emacs-lisp
   (use-package vterm :straight t :commands (vterm))
 #+end_src
-* Development
-** Header
+* Auto Header
 #+begin_src emacs-lisp
   (use-package autoinsert
     :hook (after-init . auto-insert-mode))
 #+end_src
-** Completion
+* Code Completion
 Code completion consists of two parts, A source/server that provides the completions and 
 an engine that knows when to open prompt and show the completions. We will configure servers later
 but now we need to install the engine that shows us the completion.
@@ -988,14 +930,14 @@ can call an get completions based on that.
     (setq company-backends '(company-capf company-dabbrev company-files company-dabbrev-code))
     (global-company-mode t))
 #+end_src
-** Code Semantic Movement
+* Movement based on language semantics 
 Emacs has a builtin tool called Imenu which major modes hook to and feed it data about semantic blocks in the current buffer,
 we can use it to jump around our code based on semantics of that language (forexample structs or functions).
 #+begin_src emacs-lisp
     (use-package imenu
       :bind ("M-i" . imenu))
 #+end_src
-** Snippets
+* Snippets
 Every human being has limited number of keystrokes left, so let's make every one of them count.
 Abbrev mode is Emacs internal that expands on defined abbrevations,
 Abbrev mode is really helpful but in more complicated scenarios we need more smart tool,
@@ -1015,7 +957,7 @@ skeleton and skeleton does it's job of inserting text.
                      ,@skeleton-expansions)
                    (define-abbrev local-abbrev-table ,abbrv "" (quote ,command-name))))))
 #+end_src
-** Dumb Jump
+* Dumb Jump
 Dumb jump is actually a smart way of jumping to defenitions using grep tools like
 =ag= or =rg=.
 #+begin_src emacs-lisp
@@ -1024,7 +966,7 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
     :hook
     (xref-backend-functions . #'dumb-jump-xref-activate))
 #+end_src
-** Language Server Protocol
+* Language Server Protocol
 Language Server protocol is a open source protocol developed by microsoft but now it's being
 developed by community, it defines a communication protocol that a lanaguge server (let's say gopls)
 can talk to various clients (let's say Emacs, Vi, VSCode) and provide several features such
@@ -1079,18 +1021,21 @@ help ease developer experience when using LSP.
 #+BEGIN_SRC emacs-lisp
   ;; (use-package lsp-ui :straight t :commands lsp-ui-mode :hook (lsp-mode . lsp-ui-mode))
 #+END_SRC
-** Rainbow delimiters
+* Rainbow delimiters
 #+begin_src emacs-lisp
 (use-package rainbow-delimiters :straight t :hook (prog-mode . rainbow-delimiters-mode))
 #+end_src
-** Syntax checking
+* Syntax checking
+:PROPERTIES:
+:header-args: :tangle no
+:END:
 Emacs comes with a built in syntax checker called =flymake=, but since emacs community favors =flycheck= over =flymake= we are going to setup flycheck.
 #+BEGIN_SRC emacs-lisp
   (use-package flycheck
     :straight t
     :hook (prog-mode . flycheck-mode))
 #+END_SRC
-** Docs
+* Docs
 #+begin_src emacs-lisp
   (use-package eldoc
     :config (global-eldoc-mode 1))
@@ -1441,8 +1386,7 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
            ("<f10>" . proced))
     :commands proced)
 #+end_src
-* Music
-** Rhythmbox
+* Rhythmbox
 #+begin_src emacs-lisp
   (use-package rhythmbox
     :bind (("C-c i m l" . Rhythmbox)
