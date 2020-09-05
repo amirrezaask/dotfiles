@@ -25,11 +25,11 @@ setxkbmap -layout us,ir -option "ctrl:nocaps" -option "grp:shifts_toggle"
 xdo above -t $(xdo id -n root) $(xdo id -a polybar)
 
 # set wallpaper
-nitrogen --set-zoom-fill --random ~/w/dotfiles/wallpapers/
+nitrogen --set-zoom-fill ~/w/dotfiles/wallpapers/razer.jpg
 
 # Some values
 bspc config top_padding 30
-bspc config window_gap 3 
+bspc config window_gap 0
 bspc config border_width 1 
 bspc config bottom_padding 0
 bspc config borderless_monocle true
