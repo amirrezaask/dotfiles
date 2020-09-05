@@ -1,6 +1,8 @@
 call plug#begin('~/.vim/plugged')
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'overcache/NeoSolarized'
+Plug 'whatyouhide/vim-gotham'
+
 " tpope {{{
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-jdaddy'
@@ -8,12 +10,14 @@ Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-commentary' 
 Plug 'tpope/vim-fugitive'
 " }}}
+
 Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-vinegar'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'michaeljsmith/vim-indent-object'
+
 " Languages {{{
 Plug 'honza/dockerfile.vim'
 Plug 'ziglang/zig.vim'
@@ -21,10 +25,10 @@ Plug 'dag/vim-fish'
 Plug 'rust-lang/rust.vim'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 " }}}
+
 " Autocomplete {{{
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'roxma/nvim-yarp'
-Plug 'roxma/vim-hug-neovim-rpc'
 Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'lighttiger2505/deoplete-vim-lsp'
@@ -57,7 +61,7 @@ set shiftround
 set mouse=a
 set guifont=Fira\ Mono\ 11
 set nu 
-colorscheme dracula 
+colorscheme gotham 
 let mapleader = " "
 set nowrap
 set autoindent
