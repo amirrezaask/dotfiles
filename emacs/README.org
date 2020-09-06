@@ -1,8 +1,8 @@
 #+TITLE: AmirrezaAsk Integrated Computing Environment
 #+AUTHOR: amirrezaask
 * Table Of contents                                                   :TOC@2:
+- [[#personal-information][Personal information]]
 - [[#basic-setup][Basic Setup]]
-  - [[#personal-information][Personal information]]
   - [[#emacs-internal-optimizations][Emacs Internal Optimizations]]
   - [[#package-manager-setup][Package manager setup]]
 - [[#window-manager][Window Manager]]
@@ -60,12 +60,12 @@
 - [[#dotfiles][Dotfiles]]
 - [[#benchmark-startup-time][Benchmark startup time]]
 
-* Basic Setup
-** Personal information
+* Personal information
 #+begin_src emacs-lisp
     (setq user-full-name "AmirrezaAskarpour"
           user-mail-address "raskarpour@gmail.com")
 #+end_src
+* Basic Setup
 ** Emacs Internal Optimizations
 :PROPERTIES:
   :header-args: :tangle no
@@ -104,20 +104,24 @@ value.
 #+end_src
 ** Package manager setup
 *** Package.el
+I use Emacs builtin package manager for my elpa package installations, and I put my personal simple elisp code in =site-lisp= directory.
 #+begin_src emacs-lisp
   (require 'package)
   (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
                            ("melpa" . "https://melpa.org/packages/")))
-
   (package-initialize)
-
   (when (null package-archives)
     (package-refresh-contents))
-
+#+end_src
+**** Use-package
+#+begin_src emacs-lisp
   (unless (package-installed-p 'use-package)
     (package-install use-package))
 #+end_src
+=use-package= is an awesome utility in form of a elisp macro created by =John Wiegly= former Emacs maintainer which let's us to declaratively
+define our packages, their bindings and hooks and defer loading of packages until appropriate time.
 *** Straight.el
+I am back to using =package.el= so I am deprecating this block.
 :PROPERTIES:
 :header-args: :tangle no
 :END:
