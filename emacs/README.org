@@ -4,7 +4,7 @@
 - [[#basic-setup][Basic Setup]]
   - [[#personal-information][Personal information]]
   - [[#emacs-internal-optimizations][Emacs Internal Optimizations]]
-- [[#package-manager-setup][Package manager setup]]
+  - [[#package-manager-setup][Package manager setup]]
 - [[#window-manager][Window Manager]]
 - [[#keybinding][Keybinding]]
 - [[#basic-setups][Basic setups]]
@@ -102,7 +102,25 @@ value.
 #+begin_src emacs-lisp
 (add-hook 'after-init-hook (lambda () (setq file-name-handler-alist file-name-handler-alist-bak)))
 #+end_src
-* Package manager setup
+** Package manager setup
+*** Package.el
+#+begin_src emacs-lisp
+  (require 'package)
+  (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+                           ("melpa" . "https://melpa.org/packages/")))
+
+  (package-initialize)
+
+  (when (null package-archives)
+    (package-refresh-contents))
+
+  (unless (package-installed-p 'use-package)
+    (package-install use-package))
+#+end_src
+*** Straight.el
+:PROPERTIES:
+:header-args: :tangle no
+:END:
 #+begin_src emacs-lisp
 (defvar bootstrap-version)
 (let ((bootstrap-file
@@ -125,7 +143,7 @@ value.
    :END:
 #+begin_src emacs-lisp
   (use-package exwm
-    :straight t
+    :ensure t
     :config
     (require 'exwm)
     (require 'exwm-config)
@@ -220,15 +238,15 @@ I use hydra when keybindings are just crazy like in smerge that you will see in 
 extensively but now i use it only when keybindings are just crazy.
 #+begin_src emacs-lisp
   (use-package hydra
-    :straight t
+    :ensure t
     :commands (defhydra))
 
   (use-package pretty-hydra
-    :straight t
+    :ensure t
     :commands (pretty-hydra-define))
 
   (use-package which-key
-    :straight t
+    :ensure t
     :config
     (setq which-key-idle-delay 0.3)
     (defalias 'which-key! 'which-key-add-key-based-replacements)
@@ -326,14 +344,14 @@ extensively but now i use it only when keybindings are just crazy.
  but if you want a more modern look like =VSCode= or =Atom= you can use =doom-themes= as well.
  ([[https://github.com/hlissner/emacs-doom-themes/tree/screenshots][Doom Themes Screenshots]])
  #+BEGIN_SRC emacs-lisp
-   (use-package modus-operandi-theme :straight t :defer t)
-   (use-package modus-vivendi-theme :straight t :defer t)
-   (use-package doom-themes :straight t :defer t)
-   (use-package gotham-theme :straight t :defer t)
+   (use-package modus-operandi-theme :ensure t :defer t)
+   (use-package modus-vivendi-theme :ensure t :defer t)
+   (use-package doom-themes :ensure t :defer t)
+   (use-package gotham-theme :ensure t :defer t)
  #+END_SRC
  You probably notice the =:defer= part in use-package, with =:defer= keyword (:something is called a keyword in elisp)
  use-package knows that we don't need this package to be loaded in startup, since we actually don't need all of our themes
- to be loaded at startup. Another keyword that you see is =:straight= that is telling use-package to make certain
+ to be loaded at startup. Another keyword that you see is =:ensure= that is telling use-package to make certain
  that this package is installed, and if it's not install it from elpa repo.
  Now let's set a theme
  #+BEGIN_SRC emacs-lisp
@@ -419,7 +437,7 @@ extensively but now i use it only when keybindings are just crazy.
 * Font
 To use specific font in Emacs you just need to call a function, that's easy ha ??
 #+BEGIN_SRC emacs-lisp
-  (defvar amirreza/font "Iosevka-11")
+  (defvar amirreza/font "Iosevka-12")
   (set-face-attribute 'default t :font amirreza/font)
   (set-frame-font amirreza/font nil t)
 #+END_SRC
@@ -446,7 +464,7 @@ I want my Emacs to open my TODO file on every startup and have a that buffer ope
 * Icomplete
 #+begin_src emacs-lisp
   (use-package orderless
-    :straight t
+    :ensure t
     :config
     (setq completion-styles '(orderless)))
 
@@ -481,7 +499,7 @@ I want my Emacs to open my TODO file on every startup and have a that buffer ope
     (icomplete-mode 1))
 
   (use-package icomplete-vertical
-    :straight t
+    :ensure t
     :demand
     :bind
     (:map icomplete-minibuffer-map
@@ -491,7 +509,7 @@ I want my Emacs to open my TODO file on every startup and have a that buffer ope
 
   (use-package live-completions
     :disabled t
-    :straight (:host github :repo "oantolin/live-completions")
+    :ensure t
     :config
     (live-completions-mode 1))
 #+end_src
@@ -501,9 +519,9 @@ I want my Emacs to open my TODO file on every startup and have a that buffer ope
 :END:
 I use icomplete for simpler and more hackable solution.
 #+begin_src emacs-lisp
-(use-package flx :straight t)
+(use-package flx :ensure t)
 (use-package ivy
-  :straight t
+  :ensure t
   :bind
   (("C-x b" . 'ivy-switch-buffer)
    :map ivy-minibuffer-map
@@ -526,7 +544,7 @@ I use icomplete for simpler and more hackable solution.
   (ivy-mode +1))
 
 (use-package counsel
-  :straight t
+  :ensure t
   :bind
   (("M-x" . 'counsel-M-x)
    ("C-x C-f" . 'counsel-find-file)
@@ -537,7 +555,7 @@ I use icomplete for simpler and more hackable solution.
    ("M-i" . 'counsel-imenu) ;; code semantics
    ("M-y" . 'counsel-yank-pop))) ;; show kill ring
 
-  (use-package ivy-rich :straight t :config (ivy-rich-mode 1))
+  (use-package ivy-rich :ensure t :config (ivy-rich-mode 1))
 #+end_src
 * Window rules
 Emacs windows can be configured in the matter of where their gonna open.
@@ -567,7 +585,7 @@ Emacs windows can be configured in the matter of where their gonna open.
 * Eyebrowse
 =Eyebrowse= gives you =i3= like experience in Emacs, let's you have multiple workspaces and switch between them.
 #+BEGIN_SRC emacs-lisp
-  (use-package eyebrowse :straight t
+  (use-package eyebrowse :ensure t
     :commands (eyebrowse-close-window-config
                eyebrowse-create-window-config
                eyebrowse-switch-to-window-config-0
@@ -613,7 +631,7 @@ by default is bound to =C-c <left>=.
 * Ace Window (Better Window Management)
 #+BEGIN_SRC emacs-lisp
       (use-package ace-window
-        :straight t
+        :ensure t
         :commands (ace-window)
         :bind (("C-x C-o" . 'ace-window)))
 #+END_SRC
@@ -622,7 +640,7 @@ by default is bound to =C-c <left>=.
   (use-package ibuffer
     :bind (("C-x C-b" . 'ibuffer)))
 
-  (use-package ibuffer-vc :straight t
+  (use-package ibuffer-vc :ensure t
     :hook (ibuffer-mode . (lambda () (interactive) (ibuffer-vc-set-filter-groups-by-vc-root))))
 
 #+end_src
@@ -643,7 +661,7 @@ by default is bound to =C-c <left>=.
 #+end_src
 *** Avy
  #+begin_src emacs-lisp
-   (use-package avy :straight t
+   (use-package avy :ensure t
      :commands (avy-goto-char avy-goto-char-2 avy-goto-line avy-goto-word-1)
      :bind (("C-M-l" . avy-goto-line)
             ("C-M-w" . avy-goto-word-1)
@@ -653,7 +671,7 @@ by default is bound to =C-c <left>=.
 * Highlight indentation
 #+begin_src emacs-lisp
  (use-package highlight-indent-guides
-   :straight t
+   :ensure t
    :hook ((yaml-mode) . highlight-indent-guides-mode)
    :init
    (setq highlight-indent-guides-method 'character)
@@ -663,20 +681,20 @@ by default is bound to =C-c <left>=.
 * Sudo edit
 #+begin_src emacs-lisp
    (use-package sudo-edit
-        :straight t
+        :ensure t
         :commands (sudo-edit))
 #+end_src
 * Expand region
 #+begin_src emacs-lisp
    (use-package expand-region
-     :straight t
+     :ensure t
      :bind (("C-=" . 'er/expand-region)
 	    ("C--" . 'er/contract-region)))
 #+end_src
 * Highlight TODO/FIXME/...
 #+begin_src emacs-lisp
  (use-package hl-todo
-   :straight t
+   :ensure t
    :hook ((prog-mode) . hl-todo-mode)
    :config
    (setq hl-todo-highlight-punctuation ":"
@@ -691,7 +709,7 @@ by default is bound to =C-c <left>=.
 * Multiple cursors
 #+begin_src emacs-lisp
       (use-package multiple-cursors
-        :straight t
+        :ensure t
         :commands (mc/edit-lines
           mc/mark-all-like-this
           mc/mark-next-like-this
@@ -711,7 +729,7 @@ by default is bound to =C-c <left>=.
 #+begin_src emacs-lisp
   (use-package so-long 
       :config (global-so-long-mode 1))
-  (use-package vlf :straight t :commands (vlf))
+  (use-package vlf :ensure t :commands (vlf))
 #+end_src
 * Tramp
 #+begin_src emacs-lisp
@@ -750,21 +768,21 @@ by default is bound to =C-c <left>=.
 *** Org bullets
  #+BEGIN_SRC emacs-lisp
  (use-package org-bullets
-   :straight t
+   :ensure t
    :hook (org-mode . org-bullets-mode))
  #+END_SRC
 *** Org TOC
  #+begin_src emacs-lisp
- (use-package toc-org :straight t :hook (org-mode . toc-org-mode))
+ (use-package toc-org :ensure t :hook (org-mode . toc-org-mode))
  #+end_src
 
 *** htmlize
  #+begin_src emacs-lisp
- (use-package htmlize :straight t :defer t)
+ (use-package htmlize :ensure t :defer t)
  #+end_src
 * Outline Mode
 #+begin_src emacs-lisp
-  (use-package bicycle :straight t)
+  (use-package bicycle :ensure t)
   (use-package outline
     :bind (:map outline-minor-mode-map
                 ("C-c C-c" . amirreza/outline-collapse-all)
@@ -789,7 +807,7 @@ by default is bound to =C-c <left>=.
 * Markdown mode
 #+begin_src emacs-lisp
 (use-package markdown-mode
-  :straight t
+  :ensure t
   :mode ("\\.md$" . markdown-mode))
 #+end_src
 * Recent files
@@ -807,10 +825,10 @@ by default is bound to =C-c <left>=.
 Deprecated, I use my hand rolled project integration below.
 #+begin_src emacs-lisp
 (use-package projectile
-  :straight t)
+  :ensure t)
 
 (use-package counsel-projectile
-  :straight t
+  :ensure t
   :demand
   :config (counsel-projectile-mode 1)
   :bind* (:map projectile-mode-map
@@ -855,7 +873,7 @@ Deprecated, I use my hand rolled project integration below.
 * Ripgrep
 #+begin_src emacs-lisp
   (use-package rg
-    :straight t
+    :ensure t
     :bind ("C-c p g" . rg))
 #+end_src
 * Sync Path
@@ -866,7 +884,7 @@ and use fish in that. but before anything let's update emacs exec-path to be abl
 all executables.
 #+begin_src emacs-lisp
   (use-package exec-path-from-shell 
-    :straight t 
+    :ensure t 
     :defer 1
     :config
     (setq exec-path-from-shell-shell-name "zsh")
@@ -1010,7 +1028,7 @@ For company backends we are going to use =company-capf= which is abbrv for =comp
 can call an get completions based on that.
 #+BEGIN_SRC emacs-lisp
   (use-package company
-    :straight t
+    :ensure t
     :bind (:map company-active-map
                 ("C-n" . company-select-next)
                 ("C-p" . company-select-previous)
@@ -1059,7 +1077,7 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
 =ag= or =rg=.
 #+begin_src emacs-lisp
   (use-package dumb-jump
-    :straight t
+    :ensure t
     :hook
     (xref-backend-functions . #'dumb-jump-xref-activate))
 #+end_src
@@ -1070,7 +1088,7 @@ can talk to various clients (let's say Emacs, Vi, VSCode) and provide several fe
 as auto-complete or syntax linting.
 #+BEGIN_SRC emacs-lisp
   (use-package lsp-mode 
-    :straight t
+    :ensure t
     :commands (lsp lsp-deferred)
     :init
     (setq lsp-keymap-prefix "s-d")
@@ -1097,7 +1115,7 @@ as auto-complete or syntax linting.
     :bind (("<f6>" . lsp-rename)
            ("C-s-l ." . lsp-find-references)))
 
-  (use-package lsp-ivy :straight t
+  (use-package lsp-ivy :ensure t
     :config
     (defun amirreza/lsp-ivy-code-actions ()
       (interactive)
@@ -1111,16 +1129,16 @@ as auto-complete or syntax linting.
     :bind (("C-s-l f" . lsp-ivy-workspace-symbol)
            ("C-s-l a" . amirreza/lsp-ivy-code-actions)))
 
-  (use-package dap-mode :straight t :defer t)
+  (use-package dap-mode :ensure t :defer t)
 #+END_SRC
 LSP-ui is a mode from the same author with the goal of configuring several Emacs packages to 
 help ease developer experience when using LSP.
 #+BEGIN_SRC emacs-lisp
-  ;; (use-package lsp-ui :straight t :commands lsp-ui-mode :hook (lsp-mode . lsp-ui-mode))
+  ;; (use-package lsp-ui :ensure t :commands lsp-ui-mode :hook (lsp-mode . lsp-ui-mode))
 #+END_SRC
 * Rainbow delimiters
 #+begin_src emacs-lisp
-(use-package rainbow-delimiters :straight t :hook (prog-mode . rainbow-delimiters-mode))
+(use-package rainbow-delimiters :ensure t :hook (prog-mode . rainbow-delimiters-mode))
 #+end_src
 * Syntax checking
 :PROPERTIES:
@@ -1129,7 +1147,7 @@ help ease developer experience when using LSP.
 Emacs comes with a built in syntax checker called =flymake=, but since emacs community favors =flycheck= over =flymake= we are going to setup flycheck.
 #+BEGIN_SRC emacs-lisp
   (use-package flycheck
-    :straight t
+    :ensure t
     :hook (prog-mode . flycheck-mode))
 #+END_SRC
 * Docs
@@ -1147,7 +1165,7 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
  that it needs.
  #+BEGIN_SRC emacs-lisp
    (use-package go-mode
-     :straight t
+     :ensure t
      :mode ("\\.go\\'" . go-mode)
      :init
      (add-hook 'go-mode-hook 'amirreza/go-hook)
@@ -1195,13 +1213,13 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
  the struct has so many fields, again thanks to the emacs community we have package for that 
  to ease that task for us.
  #+BEGIN_SRC emacs-lisp
-   (use-package go-add-tags :straight t :bind (:map go-mode-map ("C-c m s" . go-add-tags)))
+   (use-package go-add-tags :ensure t :bind (:map go-mode-map ("C-c m s" . go-add-tags)))
  #+END_SRC
 **** Go-test
  =VSCode= has a great support when it comes to running go tests, it gives you the ability to 
  run a test when you are editing or viewing it but it does'nt mean that Emacs can't do that.
  #+BEGIN_SRC emacs-lisp
-   (use-package gotest :straight t 
+   (use-package gotest :ensure t 
      :after go-mode
      :config
      (define-key go-mode-map (kbd "C-c m t f") 'go-test-current-file) 
@@ -1209,16 +1227,16 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
   #+END_SRC
 *** C/C++
 #+begin_src emacs-lisp
-  (use-package ccls :straight t)
-  ;;(use-package cmake-mode :defer t :straight t)
-  ;;(use-package disaster :defer t :straight t)
+  (use-package ccls :ensure t)
+  ;;(use-package cmake-mode :defer t :ensure t)
+  ;;(use-package disaster :defer t :ensure t)
 #+end_src
 *** Java
 #+begin_src emacs-lisp
-  (use-package gradle-mode :straight t :mode "\\Gradle")
-  (use-package flycheck-gradle :straight t :mode "Gradle")
-  (use-package groovy-mode :straight t :mode "\\.groovy")
-  (use-package meghanada :straight t :hook (java-mode . (lambda ()
+  (use-package gradle-mode :ensure t :mode "\\Gradle")
+  (use-package flycheck-gradle :ensure t :mode "Gradle")
+  (use-package groovy-mode :ensure t :mode "\\.groovy")
+  (use-package meghanada :ensure t :hook (java-mode . (lambda ()
                                                           (meghanada-mode t)
                                                           (flycheck-mode +1)
                                                           (setq c-basic-offset 2))))
@@ -1246,14 +1264,14 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
  #+END_SRC
 **** Microsoft Language Server
  #+begin_src emacs-lisp
- (use-package lsp-python-ms :straight t :after python-mode)
+ (use-package lsp-python-ms :ensure t :after python-mode)
  #+end_src
 **** Pipenv
  =Pipenv= is now the de facto tool for python programmers to manage their project deps, so it's nice
  to have a wrapper for it in Emacs.
  #+BEGIN_SRC emacs-lisp
    (use-package pipenv
-	        :straight t
+	        :ensure t
 	        :after python-mode)
  #+END_SRC
 **** Py-autopep8
@@ -1264,7 +1282,7 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
  function to =before-save-hook= of emacs, luckily this package provides a helper function to do that.
  #+BEGIN_SRC emacs-lisp
  (use-package py-autopep8
-   :straight t
+   :ensure t
    :hook python-mode
    :config
    (py-autopep8-enable-on-save))
@@ -1280,19 +1298,19 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
  #+end_src
 *** Lua
 #+begin_src emacs-lisp
-(use-package lua-mode :straight t :mode "\\.lua")
+(use-package lua-mode :ensure t :mode "\\.lua")
 #+end_src
 *** Zig
  #+begin_src emacs-lisp
    (use-package zig-mode 
-     :straight t
+     :ensure t
      :mode "\\.zig\\'")
  #+end_src
 *** Lisp configuration
 #+begin_src emacs-lisp
-  (use-package paredit :straight t
+  (use-package paredit :ensure t
     :hook ((clojure-mode emacs-lisp-mode) . paredit-mode))
-  (use-package parinfer :straight t  :hook ((clojure-mode emacs-lisp-mode) . parinfer-mode))
+  (use-package parinfer :ensure t  :hook ((clojure-mode emacs-lisp-mode) . parinfer-mode))
 #+end_src
 *** Emacs lisp
  Emacs lisp should be supported by default ha ? actually it has almost all support you need but 
@@ -1329,7 +1347,7 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
 *** Clojure
 **** Clojure Mode
      #+BEGIN_SRC emacs-lisp
-       (use-package clojure-mode :straight t
+       (use-package clojure-mode :ensure t
          :mode "\\.cljs?\\'"
          :config
          (setq-local prettify-symbols-alist '(("fn" . 955) ; λ
@@ -1338,7 +1356,7 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
 **** Cider
  #+BEGIN_SRC emacs-lisp
    (use-package cider 
-     :straight t
+     :ensure t
      :commands (cider cider-jack-in))
  #+END_SRC
 *** Common Lisp
@@ -1348,25 +1366,25 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
  #+END_SRC
 **** Common Lisp Integrated Environment
  #+BEGIN_SRC emacs-lisp
- (use-package sly :straight t :mode "\\.cl\\'")
+ (use-package sly :ensure t :mode "\\.cl\\'")
  #+END_SRC
 *** Haskell
 **** Haskell mode
  #+BEGIN_SRC emacs-lisp
- (use-package haskell-mode :straight t :mode "\\.hs\\'")
+ (use-package haskell-mode :ensure t :mode "\\.hs\\'")
  #+END_SRC
 **** Haskell IDE engine
  #+BEGIN_SRC emacs-lisp
- (use-package lsp-haskell :straight t :hook haskell-mode)
+ (use-package lsp-haskell :ensure t :hook haskell-mode)
  #+END_SRC
 *** HTML/CSS
  #+BEGIN_SRC emacs-lisp
-   (use-package web-mode :straight t :mode ("\\.html\\'" "\\.css\\'") :config (web-mode-toggle-current-element-highlight))
+   (use-package web-mode :ensure t :mode ("\\.html\\'" "\\.css\\'") :config (web-mode-toggle-current-element-highlight))
  #+END_SRC
 *** PHP
 **** PHP mode
  #+BEGIN_SRC emacs-lisp
-   (use-package php-mode :straight t 
+   (use-package php-mode :ensure t 
      :mode "\\.php\\'"
      :hook (php-mode . amirreza/php-mode-hook)
      :config (defun amirreza/php-mode-hook ()
@@ -1374,15 +1392,15 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
  #+END_SRC
 **** PHP Runtime Integration
  #+BEGIN_SRC emacs-lisp
- (use-package php-runtime :straight t :after php-mode)
+ (use-package php-runtime :ensure t :after php-mode)
  #+END_SRC
 **** Composer Integration
  #+BEGIN_SRC emacs-lisp
-   (use-package composer :straight t :after php-mode)
+   (use-package composer :ensure t :after php-mode)
  #+END_SRC
 **** PHPUnit
  #+BEGIN_SRC emacs-lisp
-   (use-package phpunit :straight t
+   (use-package phpunit :ensure t
      :after php-mode
      :config 
      (define-key php-mode-map (kbd "C-c m t t") 'phpunit-current-test)
@@ -1392,39 +1410,39 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
 *** Rust
 **** Rust mode
  #+BEGIN_SRC emacs-lisp
- (use-package rust-mode :straight t :mode "\\.rs\\'")
+ (use-package rust-mode :ensure t :mode "\\.rs\\'")
  #+END_SRC
 *** Protobuf
 #+begin_src emacs-lisp
-(use-package protobuf-mode :straight t :mode "\\.proto\\'")
+(use-package protobuf-mode :ensure t :mode "\\.proto\\'")
 #+end_src
 * VCS
 #+BEGIN_SRC emacs-lisp
   (use-package magit
-    :straight t
+    :ensure t
     :commands (magit-status magit-get-current-branch)
     :bind
     (("C-x g" . 'magit-status)
      ("C-c v s" . 'magit-status)))
 
   (use-package diff-hl
-    :straight t
+    :ensure t
     :config (global-diff-hl-mode 1))
 
   (use-package gitconfig-mode
-    :straight t
+    :ensure t
     :mode "/\\.gitconfig\\'")
 
   (use-package gitignore-mode
-    :straight t
+    :ensure t
     :mode "/\\.gitignore\\'")
 
   (use-package gitattributes-mode
-    :straight t
+    :ensure t
     :mode "/\\.gitattributes\\'")
 
   (use-package git-messenger
-    :straight t
+    :ensure t
     :commands
     (git-messenger:popup-message)
     :bind
@@ -1456,17 +1474,17 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
     :commands (dired dired-jump)
     :bind (("C-x C-j" . dired-jump)))
 
-  (use-package dired-sidebar :straight t
+  (use-package dired-sidebar :ensure t
     :bind
     (("<f8>" . dired-sidebar-toggle-sidebar)))
 
   (use-package dired-subtree
-    :straight t
+    :ensure t
     :bind (:map dired-mode-map
                 ("<tab>" . dired-subtree-toggle)))
 
   (use-package peep-dired
-    :straight t
+    :ensure t
     :after dired
     :config
     (setq peep-dired-cleanup-on-disable t)
@@ -1489,7 +1507,7 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
     :bind (("C-c i m l" . Rhythmbox)
            ("C-c i m p" . Rhythmbox/playpause-current-song)
            ("C-c i m n" . Rhythmbox/current-song-name))
-    :straight (:host github :repo "amirrezaask/Rhythmbox.el"))
+    :load-path "~/.emacs.d/site-lisp/")
 #+end_src
 * Video
 #+begin_src emacs-lisp
@@ -1504,28 +1522,28 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
 #+end_src
 * Misc file modes
  #+begin_src emacs-lisp
-   (use-package crontab-mode :defer t :straight t)
-   (use-package apache-mode :straight t
+   (use-package crontab-mode :defer t :ensure t)
+   (use-package apache-mode :ensure t
      :mode ("\\.htaccess\\'" "httpd\\.conf\\'" "srm\\.conf\\'" "access\\.conf\\'"))
-   (use-package systemd :straight t
+   (use-package systemd :ensure t
      :mode ("\\.service\\'" "\\.timer\\'"))
-   (use-package nginx-mode :straight 
+   (use-package nginx-mode :ensure 
      :mode ("/etc/nginx/conf.d/.*" "/etc/nginx/.*\\.conf\\'"))
  #+end_src
 * Docker
 #+BEGIN_SRC emacs-lisp
   (use-package docker-compose-mode
-    :straight t
+    :ensure t
     :mode "docker-compose\\.yml")
 
-  (use-package docker :straight t 
+  (use-package docker :ensure t 
     :bind
     ("C-c i d" . docker))
-  (use-package dockerfile-mode :straight t :mode "\\Dockerfile\\'")
+  (use-package dockerfile-mode :ensure t :mode "\\Dockerfile\\'")
 #+END_SRC
 * Kubernetes
 #+begin_src emacs-lisp
-(use-package kubel :straight t :commands (kubel) :bind (("C-c i k" . kubel)))
+(use-package kubel :ensure t :commands (kubel) :bind (("C-c i k" . kubel)))
 #+end_src
 * Dotfiles
 I use multiple programs that holds their configuration in files, this section are some helpers for editing the configs
