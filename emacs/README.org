@@ -515,18 +515,21 @@ extensively but now i use it only when keybindings are just crazy.
                 (list
                  " W:"
                  '(:eval (format "%d" (amirreza/exwm-current-workspace)))
-                  " "
+                  "  "
                   mode-line-modified
                   " "
                   mode-line-mule-info
                   " "
                   mode-line-buffer-identification
-                  " <"
-                  mode-name
-                  "> "
-                  mode-line-position
                   " "
-                  '(vc-mode vc-mode)))
+                  mode-name
+                  " "
+                  mode-line-position
+                  '(vc-mode vc-mode)
+                  "  "
+                  '(:eval (current-time-string))))
+
+
 #+end_src
 ** Diminish
 Dminish is a simple tool that adds =:diminish= keyword to =use-package= which help us remove
@@ -937,6 +940,7 @@ by default is bound to =C-c <left>=.
 ** Projectile
 #+begin_src emacs-lisp
   (use-package project
+    :bind ("s-p" . amirreza/projects-list)
     :config
     (defun amirreza/get-root ()
       "Gets project root."
