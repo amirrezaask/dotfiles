@@ -24,15 +24,17 @@
   - [[#show-line-numbers][Show line numbers]]
   - [[#highlight-matching-parens][Highlight matching parens]]
   - [[#help-mode][Help-mode]]
-- [[#window-manager][Window Manager]]
+  - [[#emacs-x-window-manager][Emacs X Window Manager]]
+  - [[#startup-page][Startup page]]
 - [[#keybinding][Keybinding]]
+  - [[#hydra][Hydra]]
+  - [[#which-key][Which Key]]
 - [[#appereance][Appereance]]
   - [[#themes][Themes]]
   - [[#cursor][Cursor]]
   - [[#modeline][Modeline]]
   - [[#diminish][Diminish]]
   - [[#font][Font]]
-- [[#startup-page][Startup page]]
 - [[#icomplete][Icomplete]]
 - [[#ivy][Ivy]]
 - [[#window-rules][Window rules]]
@@ -271,10 +273,11 @@ I am back to using =package.el= so I am deprecating this block.
                 ("n" . next-line)
                 ("p" . previous-line)))
 #+end_src
-* Window Manager
+** Emacs X Window Manager
    :PROPERTIES:
    :header-args: :tangle no
    :END:
+Emacs is so extensible that it can actually be a X window manager. You can literally login into Emacs, using exwm package you can run your whole computing environment inside Emacs.
 #+begin_src emacs-lisp
   (use-package exwm
     :ensure t
@@ -365,20 +368,38 @@ I am back to using =package.el= so I am deprecating this block.
     (exwm-systemtray-enable)
     (exwm-enable))
 #+end_src
+** Startup page
+I want my Emacs to open my TODO file on every startup and have a that buffer open and accessible with a short key.
+#+begin_src emacs-lisp
+  (defvar amirreza/todo-file "~/TODO.org" "Personal Todo file")
+  (defun amirreza/open-todo ()
+      (interactive)
+      (find-file amirreza/todo-file))
+  (global-set-key (kbd "<f2>") 'amirreza/open-todo)
+  (add-hook 'after-init 'amirreza/open-todo)
+  (setq initial-buffer-choice "TODO.org")
+#+end_src
 * Keybinding
 I respect Emacs keybinding conventions in my configuration with a few ideas borrowed from spacemacs.
 I used to use which-key as my helper on keybindings but now I just use ? when i'm in the middle of a key chord.
 I use hydra when keybindings are just crazy like in smerge that you will see in it's own section. I used to use hydra more
 extensively but now i use it only when keybindings are just crazy.
+** Hydra
 #+begin_src emacs-lisp
   (use-package hydra
     :ensure t
     :commands (defhydra))
+#+end_src
+*** Pretty Hydra
+#+begin_src emacs-lisp
 
   (use-package pretty-hydra
     :ensure t
     :commands (pretty-hydra-define))
 
+#+end_src
+** Which Key
+#+begin_src emacs-lisp
   (use-package which-key
     :ensure t
     :diminish
@@ -393,8 +414,8 @@ extensively but now i use it only when keybindings are just crazy.
     (which-key! "C-c e" "external tools integration")
     (which-key! "C-c D" "Docker")
     (which-key! "C-c K" "Kubernetes")
-    (which-key-mode 1))
-  (which-key-setup-minibuffer)
+    (which-key-mode 1)
+    (which-key-setup-minibuffer))
 #+end_src
 * Appereance
 ** Themes
@@ -502,17 +523,6 @@ our font interactively, let's write it.
     (set-face-attribute 'default t :font (format "%s-%d" font size))
     (set-frame-font (format "%s-%d" font size) nil t))
 #+END_SRC
-* Startup page
-I want my Emacs to open my TODO file on every startup and have a that buffer open and accessible with a short key.
-#+begin_src emacs-lisp
-  (defvar amirreza/todo-file "~/TODO.org" "Personal Todo file")
-  (defun amirreza/open-todo ()
-      (interactive)
-      (find-file amirreza/todo-file))
-  (global-set-key (kbd "<f2>") 'amirreza/open-todo)
-  (add-hook 'after-init 'amirreza/open-todo)
-  (setq initial-buffer-choice "TODO.org")
-#+end_src
 * Icomplete
 #+begin_src emacs-lisp
   (use-package orderless
