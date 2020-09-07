@@ -11,6 +11,8 @@
 - [[#themes][Themes]]
 - [[#cursor][Cursor]]
 - [[#modeline][Modeline]]
+  - [[#dminish][Dminish]]
+  - [[#custom-modeline][Custom modeline]]
 - [[#font][Font]]
 - [[#startup-page][Startup page]]
 - [[#icomplete][Icomplete]]
@@ -251,6 +253,7 @@ extensively but now i use it only when keybindings are just crazy.
 
   (use-package which-key
     :ensure t
+    :diminish
     :config
     (setq which-key-idle-delay 0.3)
     (defalias 'which-key! 'which-key-add-key-based-replacements)
@@ -418,6 +421,15 @@ extensively but now i use it only when keybindings are just crazy.
 
   #+END_SRC
 * Modeline
+** Dminish
+Dminish is a simple tool that adds =:diminish= keyword to =use-package= which help us remove
+ modeline =lighters= that modes register in modeline.
+#+begin_src emacs-lisp
+(use-package diminish
+  :ensure
+  :after use-package)
+#+end_src
+** Custom modeline
 :PROPERTIES:
 :header-args: :tangle no
 :END:
@@ -1033,6 +1045,7 @@ can call an get completions based on that.
 #+BEGIN_SRC emacs-lisp
   (use-package company
     :ensure t
+    :diminish
     :bind (:map company-active-map
                 ("C-n" . company-select-next)
                 ("C-p" . company-select-previous)
@@ -1065,7 +1078,7 @@ going to define our skeletons in their respective languages. Snippet macro defin
 Snippets are basically combination of abbrevs and skeletons, abbrevs are used for triggering
 skeleton and skeleton does it's job of inserting text.
 #+begin_src emacs-lisp
-  (use-package abbrev :commands (expand-abbrev))
+  (use-package abbrev :diminish :commands (expand-abbrev))
   (use-package skeleton :demand
     :config
     (defmacro amirreza/defsnippet (mode abbrv &rest skeleton-expansions)
