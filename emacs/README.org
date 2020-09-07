@@ -35,14 +35,16 @@
   - [[#modeline][Modeline]]
   - [[#diminish][Diminish]]
   - [[#font][Font]]
-- [[#icomplete][Icomplete]]
-- [[#ivy][Ivy]]
-- [[#window-rules][Window rules]]
-- [[#eyebrowse][Eyebrowse]]
-- [[#winner-restore-window-layout][Winner (Restore Window layout)]]
-- [[#ace-window-better-window-management][Ace Window (Better Window Management)]]
-- [[#ibuffer][IBuffer]]
-- [[#save-emacs-state-of-buffers][Save Emacs state of buffers]]
+- [[#minibuffer-completion][Minibuffer completion]]
+  - [[#icomplete][Icomplete]]
+  - [[#ivy][Ivy]]
+- [[#emacs-buffers-and-windows][Emacs Buffers and Windows]]
+  - [[#window-rules][Window rules]]
+  - [[#eyebrowse][Eyebrowse]]
+  - [[#winner-restore-window-layout][Winner (Restore Window layout)]]
+  - [[#ace-window-better-window-management][Ace Window (Better Window Management)]]
+  - [[#ibuffer][IBuffer]]
+  - [[#save-emacs-state-of-buffers][Save Emacs state of buffers]]
 - [[#motions][Motions]]
 - [[#highlight-indentation][Highlight indentation]]
 - [[#sudo-edit][Sudo edit]]
@@ -274,9 +276,6 @@ I am back to using =package.el= so I am deprecating this block.
                 ("p" . previous-line)))
 #+end_src
 ** Emacs X Window Manager
-   :PROPERTIES:
-   :header-args: :tangle no
-   :END:
 Emacs is so extensible that it can actually be a X window manager. You can literally login into Emacs, using exwm package you can run your whole computing environment inside Emacs.
 #+begin_src emacs-lisp
   (use-package exwm
@@ -285,7 +284,11 @@ Emacs is so extensible that it can actually be a X window manager. You can liter
     (require 'exwm)
     (require 'exwm-config)
     (require 'exwm-systemtray)
-  
+
+    (defun amirreza/exwm-lock ()
+      (interactive)
+      (start-process "" nil "/usr/bin/slock"))
+
     (setq exwm-workspace-number 10)
     (add-hook 'exwm-update-class-hook
               (lambda ()
@@ -306,6 +309,7 @@ Emacs is so extensible that it can actually be a X window manager. You can liter
          ([?\s-g] . keyboard-quit)
          ;; Bind "s-w" to switch workspace interactively.
          ([?\s-w] . exwm-workspace-switch)
+
          ;; Bind "s-0" to "s-9" to switch to a workspace by its index.
          ,@(mapcar (lambda (i)
                      `(,(kbd (format "s-%d" i)) .
@@ -318,10 +322,8 @@ Emacs is so extensible that it can actually be a X window manager. You can liter
          ([?\s-d] . (lambda (command)
                       (interactive (list (read-shell-command "$ ")))
                       (start-process-shell-command command nil command)))
-         ;; Bind "s-<f2>" to "slock", a simple X display locker.
-         ([s-f2] . (lambda ()
-                     (interactive)
-                     (start-process "" nil "/usr/bin/slock")))))
+         ;; Bind "s-l" to "slock", a simple X display locker.
+         ([?\s-l] . amirreza/exwm-lock)))
 
     (setq exwm-input-simulation-keys
           '(
@@ -523,7 +525,11 @@ our font interactively, let's write it.
     (set-face-attribute 'default t :font (format "%s-%d" font size))
     (set-frame-font (format "%s-%d" font size) nil t))
 #+END_SRC
-* Icomplete
+* Minibuffer completion
+** Icomplete
+:PROPERTIES:
+:header-args: :tangle no
+:END:
 #+begin_src emacs-lisp
   (use-package orderless
     :ensure t
@@ -575,10 +581,7 @@ our font interactively, let's write it.
     :config
     (live-completions-mode 1))
 #+end_src
-* Ivy
-:PROPERTIES:
-:header-args: :tangle no
-:END:
+** Ivy
 I use icomplete for simpler and more hackable solution.
 #+begin_src emacs-lisp
 (use-package flx :ensure t)
@@ -619,7 +622,8 @@ I use icomplete for simpler and more hackable solution.
 
   (use-package ivy-rich :ensure t :config (ivy-rich-mode 1))
 #+end_src
-* Window rules
+* Emacs Buffers and Windows
+** Window rules
 Emacs windows can be configured in the matter of where their gonna open.
 #+BEGIN_SRC emacs-lisp
     (setq display-buffer-alist
@@ -644,7 +648,7 @@ Emacs windows can be configured in the matter of where their gonna open.
               (side . right)
               (slot . 0))))
 #+END_SRC
-* Eyebrowse
+** Eyebrowse
 =Eyebrowse= gives you =i3= like experience in Emacs, let's you have multiple workspaces and switch between them.
 #+BEGIN_SRC emacs-lisp
   (use-package eyebrowse :ensure t
@@ -676,7 +680,7 @@ Emacs windows can be configured in the matter of where their gonna open.
            ("C-c w c" . eyebrowse-close-window-config)))
 
 #+END_SRC
-* Winner (Restore Window layout)
+** Winner (Restore Window layout)
 When we are working with multiple windows open but we might maximize one window to focus
 on it, but when we are done with focus mode ;) we need that layout back that's were winner mode
 comes handy you can restore last window layout with just a function called =winner-undo= that
@@ -690,14 +694,14 @@ by default is bound to =C-c <left>=.
     :bind (("C->" . winner-redo)
            ("C-<" . winner-undo)))
 #+END_SRC
-* Ace Window (Better Window Management)
+** Ace Window (Better Window Management)
 #+BEGIN_SRC emacs-lisp
       (use-package ace-window
         :ensure t
         :commands (ace-window)
         :bind (("C-x C-o" . 'ace-window)))
 #+END_SRC
-* IBuffer
+** IBuffer
 #+begin_src emacs-lisp
   (use-package ibuffer
     :bind (("C-x C-b" . 'ibuffer)))
@@ -706,7 +710,7 @@ by default is bound to =C-c <left>=.
     :hook (ibuffer-mode . (lambda () (interactive) (ibuffer-vc-set-filter-groups-by-vc-root))))
 
 #+end_src
-* Save Emacs state of buffers
+** Save Emacs state of buffers
 #+begin_src emacs-lisp
   (use-package desktop
     :config
