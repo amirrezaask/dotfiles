@@ -424,9 +424,14 @@ extensively but now i use it only when keybindings are just crazy.
 Dminish is a simple tool that adds =:diminish= keyword to =use-package= which help us remove
  modeline =lighters= that modes register in modeline.
 #+begin_src emacs-lisp
-(use-package diminish
-  :ensure
-  :after use-package)
+  (use-package diminish
+    :ensure
+    :after use-package
+    :config
+    (diminish 'auto-revert-mode)
+    (diminish 'parinfer-mode)
+    (diminish 'paredit-mode)
+    (diminish 'eldoc-mode))
 #+end_src
 * Font
 To use specific font in Emacs you just need to call a function, that's easy ha ??
