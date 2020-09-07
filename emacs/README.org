@@ -26,11 +26,12 @@
   - [[#help-mode][Help-mode]]
 - [[#window-manager][Window Manager]]
 - [[#keybinding][Keybinding]]
-- [[#themes][Themes]]
-- [[#cursor][Cursor]]
-- [[#modeline][Modeline]]
+- [[#appereance][Appereance]]
+  - [[#themes][Themes]]
+  - [[#cursor][Cursor]]
+  - [[#modeline][Modeline]]
   - [[#diminish][Diminish]]
-- [[#font][Font]]
+  - [[#font][Font]]
 - [[#startup-page][Startup page]]
 - [[#icomplete][Icomplete]]
 - [[#ivy][Ivy]]
@@ -344,7 +345,7 @@ I am back to using =package.el= so I am deprecating this block.
 
     (require 'exwm-randr)
 
-    (setq exwm-randr-workspace-output-plist '(0 "HDMI-1"
+    (setq exwm-randr-workspace-output-plist '(0 "eDP-1"
                                                 1 "HDMI-1"
                                                 2 "HDMI-1"
                                                 3 "HDMI-1"
@@ -395,7 +396,8 @@ extensively but now i use it only when keybindings are just crazy.
     (which-key-mode 1))
   (which-key-setup-minibuffer)
 #+end_src
-* Themes
+* Appereance
+** Themes
  Now that we have use-package we can start installing thems, packages, etc. Let's start by installing some thems.
  for some time now I am using modus themes by the amazing =Protesilaos Stavrou= (btw check his youtube channel) which are simple but elegant themes
  but if you want a more modern look like =VSCode= or =Atom= you can use =doom-themes= as well.
@@ -454,7 +456,7 @@ extensively but now i use it only when keybindings are just crazy.
 ***** Performance Tip 
  About 95% of packages we use don't need to be loaded at startup and =:defer= is only one of the multiple
  ways of lazy-loading in use-package we will see others later on.
-* Cursor
+** Cursor
  #+BEGIN_SRC emacs-lisp
    (use-package emacs
      :config
@@ -470,7 +472,7 @@ extensively but now i use it only when keybindings are just crazy.
      (global-hl-line-mode +1))
 
   #+END_SRC
-* Modeline
+** Modeline
 ** Diminish
 Dminish is a simple tool that adds =:diminish= keyword to =use-package= which help us remove
  modeline =lighters= that modes register in modeline.
@@ -484,7 +486,7 @@ Dminish is a simple tool that adds =:diminish= keyword to =use-package= which he
     (diminish 'paredit-mode)
     (diminish 'eldoc-mode))
 #+end_src
-* Font
+** Font
 To use specific font in Emacs you just need to call a function, that's easy ha ??
 #+BEGIN_SRC emacs-lisp
   (defvar amirreza/font "Iosevka-12")
@@ -1287,10 +1289,11 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
   (use-package gradle-mode :ensure t :mode "\\Gradle")
   (use-package flycheck-gradle :ensure t :mode "Gradle")
   (use-package groovy-mode :ensure t :mode "\\.groovy")
-  (use-package meghanada :ensure t :hook (java-mode . (lambda ()
-                                                          (meghanada-mode t)
-                                                          (flycheck-mode +1)
-                                                          (setq c-basic-offset 2))))
+  ;; (use-package meghanada :ensure t :hook (java-mode . (lambda ()
+  ;;                                                         (meghanada-mode t)
+  ;;                                                         (flycheck-mode +1)
+  ;;                                                         (setq c-basic-offset 2))))
+  (use-package lsp-java :ensure t)
 #+end_src
 *** Python
 **** Python Mode
