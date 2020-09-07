@@ -60,27 +60,30 @@
 - [[#files--projects][Files & Projects]]
   - [[#recent-files][Recent files]]
   - [[#projectile][Projectile]]
-- [[#sync-path][Sync Path]]
-- [[#eshell][Eshell]]
-- [[#auto-header][Auto Header]]
-- [[#code-completion][Code Completion]]
-- [[#movement-based-on-language-semantics][Movement based on language semantics]]
-- [[#snippets][Snippets]]
-- [[#dumb-jump][Dumb Jump]]
-- [[#language-server-protocol][Language Server Protocol]]
-- [[#rainbow-delimiters][Rainbow delimiters]]
-- [[#syntax-checking][Syntax checking]]
-- [[#docs][Docs]]
-- [[#languages][Languages]]
-- [[#vcs][VCS]]
+- [[#shell][Shell]]
+  - [[#sync-path-with-default-shell][Sync PATH with default shell]]
+  - [[#eshell][Eshell]]
+- [[#development][Development]]
+  - [[#auto-header][Auto Header]]
+  - [[#code-completion][Code Completion]]
+  - [[#movement-based-on-language-semantics][Movement based on language semantics]]
+  - [[#snippets][Snippets]]
+  - [[#dumb-jump][Dumb Jump]]
+  - [[#language-server-protocol][Language Server Protocol]]
+  - [[#rainbow-delimiters][Rainbow delimiters]]
+  - [[#syntax-checking][Syntax checking]]
+  - [[#docs][Docs]]
+  - [[#languages][Languages]]
+  - [[#vcs][VCS]]
   - [[#smerge][Smerge]]
-- [[#dired][Dired]]
-- [[#process-management][Process management]]
-- [[#rhythmbox][Rhythmbox]]
-- [[#video][Video]]
+- [[#file-manager-dired][File Manager (Dired)]]
 - [[#misc-file-modes][Misc file modes]]
-- [[#docker][Docker]]
-- [[#kubernetes][Kubernetes]]
+- [[#integrated-tools][Integrated Tools]]
+  - [[#process-management][Process management]]
+  - [[#rhythmbox][Rhythmbox]]
+  - [[#video][Video]]
+  - [[#docker][Docker]]
+  - [[#kubernetes][Kubernetes]]
 - [[#dotfiles][Dotfiles]]
 - [[#benchmark-startup-time][Benchmark startup time]]
 
@@ -853,7 +856,8 @@ by default is bound to =C-c <left>=.
                ("C-c p" . projectile-command-map)
                ("C-c p g" . counsel-projectile-rg)))
 #+end_src
-* Sync Path
+* Shell
+** Sync PATH with default shell
 Emacs has a bultin shell called =eshell= which uses elisp
 as it's scripting engine, I use that as my main shell over the day
 but for some rare situations I have VTerm that emulates a normal terminal
@@ -867,7 +871,7 @@ all executables.
     (setq exec-path-from-shell-shell-name "zsh")
     (exec-path-from-shell-initialize))
 #+end_src
-* Eshell
+** Eshell
 #+begin_src emacs-lisp
   (use-package ffap)
   (require 'cl-lib)
@@ -988,12 +992,13 @@ all executables.
                 ("C-c m r" . amirreza/eshell-recent-dir-search)
                 ("C-c m d" . amirreza/eshell-find-sub-dirs-recur)))
 #+end_src
-* Auto Header
+* Development
+** Auto Header
 #+begin_src emacs-lisp
   (use-package autoinsert
     :hook (after-init . auto-insert-mode))
 #+end_src
-* Code Completion
+** Code Completion
 Code completion consists of two parts, A source/server that provides the completions and 
 an engine that knows when to open prompt and show the completions. We will configure servers later
 but now we need to install the engine that shows us the completion.
@@ -1023,14 +1028,14 @@ can call an get completions based on that.
     (setq company-backends '(company-capf company-dabbrev company-files company-dabbrev-code))
     (global-company-mode t))
 #+end_src
-* Movement based on language semantics 
+** Movement based on language semantics 
 Emacs has a builtin tool called Imenu which major modes hook to and feed it data about semantic blocks in the current buffer,
 we can use it to jump around our code based on semantics of that language (forexample structs or functions).
 #+begin_src emacs-lisp
     (use-package imenu
       :bind ("M-i" . imenu))
 #+end_src
-* Snippets
+** Snippets
 Every human being has limited number of keystrokes left, so let's make every one of them count.
 Abbrev mode is Emacs internal that expands on defined abbrevations,
 Abbrev mode is really helpful but in more complicated scenarios we need more smart tool,
@@ -1050,7 +1055,7 @@ skeleton and skeleton does it's job of inserting text.
              ,@skeleton-expansions)
            (define-abbrev local-abbrev-table ,abbrv "" (quote ,command-name))))))
 #+end_src
-* Dumb Jump
+** Dumb Jump
 Dumb jump is actually a smart way of jumping to defenitions using grep tools like
 =ag= or =rg=.
 #+begin_src emacs-lisp
@@ -1059,7 +1064,7 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
     :hook
     (xref-backend-functions . #'dumb-jump-xref-activate))
 #+end_src
-* Language Server Protocol
+** Language Server Protocol
 Language Server protocol is a open source protocol developed by microsoft but now it's being
 developed by community, it defines a communication protocol that a lanaguge server (let's say gopls)
 can talk to various clients (let's say Emacs, Vi, VSCode) and provide several features such
@@ -1114,11 +1119,11 @@ help ease developer experience when using LSP.
 #+BEGIN_SRC emacs-lisp
   ;; (use-package lsp-ui :ensure t :commands lsp-ui-mode :hook (lsp-mode . lsp-ui-mode))
 #+END_SRC
-* Rainbow delimiters
+** Rainbow delimiters
 #+begin_src emacs-lisp
 (use-package rainbow-delimiters :ensure t :hook (prog-mode . rainbow-delimiters-mode))
 #+end_src
-* Syntax checking
+** Syntax checking
 :PROPERTIES:
 :header-args: :tangle no
 :END:
@@ -1128,12 +1133,12 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
     :ensure t
     :hook (prog-mode . flycheck-mode))
 #+END_SRC
-* Docs
+** Docs
 #+begin_src emacs-lisp
   (use-package eldoc
     :config (global-eldoc-mode 1))
 #+end_src
-* Languages
+** Languages
 *** Go
 **** Go-mode
  Golang by default is not supported in Emacs, but don't fear, we can fix that by simply installing
@@ -1395,7 +1400,7 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
 #+begin_src emacs-lisp
 (use-package protobuf-mode :ensure t :mode "\\.proto\\'")
 #+end_src
-* VCS
+** VCS
 #+BEGIN_SRC emacs-lisp
   (use-package magit
     :ensure t
@@ -1447,7 +1452,7 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
                           ("a" smerge-keep-all)
                           ("q" nil "Cancel")))))
 #+end_src
-* Dired
+* File Manager (Dired)
 #+begin_src emacs-lisp
   (use-package dired
     :commands (dired dired-jump)
@@ -1473,32 +1478,6 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
     :bind (:map dired-mode-map
                 ("P" . peep-dired)))
 #+end_src
-* Process management
-#+begin_src emacs-lisp
-  (use-package proced
-    :bind (("C-c o p" . proced)
-           ("<f10>" . proced))
-    :commands proced)
-#+end_src
-* Rhythmbox
-#+begin_src emacs-lisp
-  (use-package rhythmbox
-    :bind (("C-c i m l" . Rhythmbox)
-           ("C-c i m p" . Rhythmbox/playpause-current-song)
-           ("C-c i m n" . Rhythmbox/current-song-name))
-    :load-path "~/.emacs.d/site-lisp/")
-#+end_src
-* Video
-#+begin_src emacs-lisp
-  (defun amirreza/start-vlc (filename)
-    (start-process (format "*VLC: %s*" filename) "*VLC*" "vlc" filename))
-
-  (defvar amirreza/video-location "~/Videos")
-
-  (defun amirreza/video-list ()
-    (interactive)
-    (amirreza/start-vlc (expand-file-name (completing-read "Video: " (directory-files-recursively amirreza/video-location ".*")))))
-#+end_src
 * Misc file modes
  #+begin_src emacs-lisp
    (use-package crontab-mode :defer t :ensure t)
@@ -1509,7 +1488,34 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
    (use-package nginx-mode :ensure 
      :mode ("/etc/nginx/conf.d/.*" "/etc/nginx/.*\\.conf\\'"))
  #+end_src
-* Docker
+* Integrated Tools
+** Process management
+#+begin_src emacs-lisp
+  (use-package proced
+    :bind (("C-c o p" . proced)
+           ("<f10>" . proced))
+    :commands proced)
+#+end_src
+** Rhythmbox
+#+begin_src emacs-lisp
+  (use-package rhythmbox
+    :bind (("C-c i m l" . Rhythmbox)
+           ("C-c i m p" . Rhythmbox/playpause-current-song)
+           ("C-c i m n" . Rhythmbox/current-song-name))
+    :load-path "~/.emacs.d/site-lisp/")
+#+end_src
+** Video
+#+begin_src emacs-lisp
+  (defun amirreza/start-vlc (filename)
+    (start-process (format "*VLC: %s*" filename) "*VLC*" "vlc" filename))
+
+  (defvar amirreza/video-location "~/Videos")
+
+  (defun amirreza/video-list ()
+    (interactive)
+    (amirreza/start-vlc (expand-file-name (completing-read "Video: " (directory-files-recursively amirreza/video-location ".*")))))
+#+end_src
+** Docker
 #+BEGIN_SRC emacs-lisp
   (use-package docker-compose-mode
     :ensure t
@@ -1520,7 +1526,7 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
     ("C-c i d" . docker))
   (use-package dockerfile-mode :ensure t :mode "\\Dockerfile\\'")
 #+END_SRC
-* Kubernetes
+** Kubernetes
 #+begin_src emacs-lisp
 (use-package kubel :ensure t :commands (kubel) :bind (("C-c i k" . kubel)))
 #+end_src
