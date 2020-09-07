@@ -36,6 +36,7 @@
   - [[#diminish][Diminish]]
   - [[#font][Font]]
 - [[#minibuffer-completion][Minibuffer completion]]
+  - [[#icomplete][Icomplete]]
   - [[#ivy][Ivy]]
 - [[#emacs-buffers-and-windows][Emacs Buffers and Windows]]
   - [[#window-rules][Window rules]]
@@ -557,8 +558,62 @@ our font interactively, let's write it.
     (set-frame-font (format "%s-%d" font size) nil t))
 #+END_SRC
 * Minibuffer completion
+** Icomplete
+:PROPERTIES:
+:header-args: :tangle no
+:END:
+#+begin_src emacs-lisp
+(use-package orderless
+  :ensure t
+  :config
+  (setq completion-styles '(orderless)))
+
+(use-package icomplete
+  :demand
+  :bind
+  (:map global-map
+        ("M-y" . amirreza/show-kill-ring)
+        :map icomplete-minibuffer-map
+        ("C-n" . icomplete-forward-completions)
+        ("C-p" . icomplete-backward-completions)
+        ("C-f" . icomplete-forward-completions)
+        ("C-b" . icomplete-backward-completions)
+        ("<right>" . icomplete-forward-completions)
+        ("<left>" . icomplete-backward-completions)
+        ("<down>" . icomplete-forward-completions)
+        ("<up>" . icomplete-backward-completions)
+        ("<RET>" . icomplete-force-complete-and-exit)
+        ("<tab>" . icomplete-force-complete))
+  :config
+  (defun amirreza/show-kill-ring ()
+    (interactive)
+    (insert (completing-read "Insert: " kill-ring)))
+
+  (setq icomplete-max-delay-chars 2
+        icomplete-separator " | "
+        icomplete-show-matches-on-no-input t
+        icomplete-hide-common-prefix nil
+        completion-ignore-case t)
+  (when (> emacs-major-version 26)
+    (fido-mode -1))
+  (icomplete-mode 1))
+
+(use-package icomplete-vertical
+  :ensure t
+  :demand
+  :bind
+  (:map icomplete-minibuffer-map
+        ("C-v" . icomplete-vertical-toggle))
+  :config
+  (icomplete-vertical-mode 1))
+
+(use-package live-completions
+  :disabled t
+  :ensure t
+  :config
+  (live-completions-mode 1))
+#+end_src
 ** Ivy
-I use icomplete for simpler and more hackable solution.
 #+begin_src emacs-lisp
   (use-package flx :ensure t)
   (use-package ivy
