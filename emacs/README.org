@@ -36,7 +36,6 @@
   - [[#diminish][Diminish]]
   - [[#font][Font]]
 - [[#minibuffer-completion][Minibuffer completion]]
-  - [[#icomplete][Icomplete]]
   - [[#ivy][Ivy]]
 - [[#emacs-buffers-and-windows][Emacs Buffers and Windows]]
   - [[#window-rules][Window rules]]
@@ -45,21 +44,22 @@
   - [[#ace-window-better-window-management][Ace Window (Better Window Management)]]
   - [[#ibuffer][IBuffer]]
   - [[#save-emacs-state-of-buffers][Save Emacs state of buffers]]
-- [[#motions][Motions]]
-- [[#highlight-indentation][Highlight indentation]]
-- [[#sudo-edit][Sudo edit]]
-- [[#expand-region][Expand region]]
-- [[#highlight-todofixme][Highlight TODO/FIXME/...]]
-- [[#multiple-cursors][Multiple cursors]]
-- [[#dont-choke-on-large-data][Don't choke on large data]]
-- [[#tramp][Tramp]]
-- [[#org][Org]]
-- [[#outline-mode][Outline Mode]]
-- [[#markdown-mode][Markdown mode]]
-- [[#recent-files][Recent files]]
-- [[#projectile][Projectile]]
-- [[#project-integration][Project integration]]
-- [[#ripgrep][Ripgrep]]
+- [[#editing--writing][Editing & Writing]]
+  - [[#searching][Searching]]
+  - [[#motions][Motions]]
+  - [[#highlight-indentation][Highlight indentation]]
+  - [[#sudo-edit][Sudo edit]]
+  - [[#expand-region][Expand region]]
+  - [[#highlight-todofixme][Highlight TODO/FIXME/...]]
+  - [[#multiple-cursors][Multiple cursors]]
+  - [[#dont-choke-on-large-data][Don't choke on large data]]
+  - [[#tramp-edit-remote-files][Tramp: Edit remote files]]
+  - [[#org][Org]]
+  - [[#outline-mode][Outline Mode]]
+  - [[#markdown-mode][Markdown mode]]
+- [[#files--projects][Files & Projects]]
+  - [[#recent-files][Recent files]]
+  - [[#projectile][Projectile]]
 - [[#sync-path][Sync Path]]
 - [[#eshell][Eshell]]
 - [[#auto-header][Auto Header]]
@@ -278,97 +278,99 @@ I am back to using =package.el= so I am deprecating this block.
 ** Emacs X Window Manager
 Emacs is so extensible that it can actually be a X window manager. You can literally login into Emacs, using exwm package you can run your whole computing environment inside Emacs.
 #+begin_src emacs-lisp
-  (use-package exwm
-    :ensure t
-    :config
-    (require 'exwm)
-    (require 'exwm-config)
-    (require 'exwm-systemtray)
+    (use-package exwm
+      :ensure t
+      :config
+      (require 'exwm)
+      (require 'exwm-config)
+      (require 'exwm-systemtray)
 
-    (defun amirreza/exwm-lock ()
-      (interactive)
-      (start-process "" nil "/usr/bin/slock"))
+      (defun amirreza/exwm-lock ()
+        (interactive)
+        (start-process "" nil "/usr/bin/slock"))
+    
+      (defun amirreza/application-launcher ()
+        (interactive (list (read-shell-command "$ ")))
+        (start-process-shell-command command nil command))
 
-    (setq exwm-workspace-number 10)
-    (add-hook 'exwm-update-class-hook
-              (lambda ()
-                (unless (or (string-prefix-p "sun-awt-X11-" exwm-instance-name)
+      (setq exwm-workspace-number 10)
+      (add-hook 'exwm-update-class-hook
+                (lambda ()
+                  (unless (or (string-prefix-p "sun-awt-X11-" exwm-instance-name)
+                              (string= "gimp" exwm-instance-name))
+                    (exwm-workspace-rename-buffer exwm-class-name))))
+
+      (add-hook 'exwm-update-title-hook
+                (lambda ()
+                  (when (or (not exwm-instance-name)
+                            (string-prefix-p "sun-awt-X11-" exwm-instance-name)
                             (string= "gimp" exwm-instance-name))
-                  (exwm-workspace-rename-buffer exwm-class-name))))
+                    (exwm-workspace-rename-buffer exwm-title))))
+      (setq exwm-input-global-keys
+         `(
+           ;; Bind "s-r" to exit char-mode and fullscreen mode.
+           ([?\s-r] . exwm-reset)
+           ([?\s-g] . keyboard-quit)
+           ;; Bind "s-w" to switch workspace interactively.
+           ([?\s-w] . exwm-workspace-switch)
 
-    (add-hook 'exwm-update-title-hook
-              (lambda ()
-                (when (or (not exwm-instance-name)
-                          (string-prefix-p "sun-awt-X11-" exwm-instance-name)
-                          (string= "gimp" exwm-instance-name))
-                  (exwm-workspace-rename-buffer exwm-title))))
-    (setq exwm-input-global-keys
-       `(
-         ;; Bind "s-r" to exit char-mode and fullscreen mode.
-         ([?\s-r] . exwm-reset)
-         ([?\s-g] . keyboard-quit)
-         ;; Bind "s-w" to switch workspace interactively.
-         ([?\s-w] . exwm-workspace-switch)
+           ;; Bind "s-0" to "s-9" to switch to a workspace by its index.
+           ,@(mapcar (lambda (i)
+                       `(,(kbd (format "s-%d" i)) .
+                         (lambda ()
+                           (interactive)
+                           (exwm-workspace-switch-create ,i))))
+                     (number-sequence 0 9))
+           ;; Bind "s-&" to launch applications ('M-&' also works if the output
+           ;; buffer does not bother you).
+           ([?\s-d] . amirreza/application-launcher)
+           ;; Bind "s-l" to "slock", a simple X display locker.
+           ([?\s-l] . amirreza/exwm-lock)))
 
-         ;; Bind "s-0" to "s-9" to switch to a workspace by its index.
-         ,@(mapcar (lambda (i)
-                     `(,(kbd (format "s-%d" i)) .
-                       (lambda ()
-                         (interactive)
-                         (exwm-workspace-switch-create ,i))))
-                   (number-sequence 0 9))
-         ;; Bind "s-&" to launch applications ('M-&' also works if the output
-         ;; buffer does not bother you).
-         ([?\s-d] . (lambda (command)
-                      (interactive (list (read-shell-command "$ ")))
-                      (start-process-shell-command command nil command)))
-         ;; Bind "s-l" to "slock", a simple X display locker.
-         ([?\s-l] . amirreza/exwm-lock)))
-
-    (setq exwm-input-simulation-keys
-          '(
-            ;; movement
-            ([?\C-b] . [left])
-            ([?\M-b] . [C-left])
-            ([?\C-f] . [right])
-            ([?\M-f] . [C-right])
-            ([?\C-p] . [up])
-            ([?\C-n] . [down])
-            ([?\C-a] . [home])
-            ([?\C-e] . [end])
-            ([?\M-v] . [prior])
-            ([?\C-v] . [next])
-            ([?\C-d] . [delete])
-            ([?\C-k] . [S-end delete])
-            ;; cut/paste.
-            ([?\C-w] . [?\C-x])
-            ([?\M-w] . [?\C-c])
-            ([?\C-y] . [?\C-v])
-            ;; search
-            ([?\C-s] . [?\C-f])))
+      (setq exwm-input-simulation-keys
+            '(
+              ;; movement
+              ([?\C-b] . [left])
+              ([?\M-b] . [C-left])
+              ([?\C-f] . [right])
+              ([?\M-f] . [C-right])
+              ([?\C-p] . [up])
+              ([?\C-n] . [down])
+              ([?\C-a] . [home])
+              ([?\C-e] . [end])
+              ([?\M-v] . [prior])
+              ([?\C-v] . [next])
+              ([?\C-d] . [delete])
+              ([?\C-k] . [S-end delete])
+              ;; cut/paste.
+              ([?\C-w] . [?\C-x])
+              ([?\M-w] . [?\C-c])
+              ([?\C-y] . [?\C-v])
+              ;; search
+              ([?\C-s] . [?\C-f])))
 
 
-    (require 'exwm-randr)
+      (require 'exwm-randr)
 
-    (setq exwm-randr-workspace-output-plist '(0 "eDP-1"
-                                                1 "HDMI-1"
-                                                2 "HDMI-1"
-                                                3 "HDMI-1"
-                                                4 "HDMI-1"
-                                                5 "HDMI-1"
-                                                6 "eDP-1"
-                                                7 "HDMI-1"
-                                                8 "HDMI-1"
-                                                9 "HDMI-1"))
-    (add-hook 'exwm-randr-screen-change-hook
-              (lambda ()
-                (start-process-shell-command
-                 "xrandr" nil "xrandr --output HDMI-1 --above eDP-1 --mode 1920x1080")))
+      (setq exwm-randr-workspace-output-plist '(0 "eDP-1"
+                                                  1 "HDMI-1"
+                                                  2 "HDMI-1"
+                                                  3 "HDMI-1"
+                                                  4 "HDMI-1"
+                                                  5 "HDMI-1"
+                                                  6 "eDP-1"
+                                                  7 "HDMI-1"
+                                                  8 "HDMI-1"
+                                                  9 "HDMI-1"))
+      (add-hook 'exwm-randr-screen-change-hook
+                (lambda ()
+                  (start-process-shell-command
+                   "xrandr" nil "xrandr --output HDMI-1 --above eDP-1 --mode 1920x1080")))
 
-    (exwm-randr-enable)
+      (exwm-randr-enable)
 
-    (exwm-systemtray-enable)
-    (exwm-enable))
+      (exwm-systemtray-enable)
+      (exwm-enable))
 #+end_src
 ** Startup page
 I want my Emacs to open my TODO file on every startup and have a that buffer open and accessible with a short key.
@@ -526,101 +528,48 @@ our font interactively, let's write it.
     (set-frame-font (format "%s-%d" font size) nil t))
 #+END_SRC
 * Minibuffer completion
-** Icomplete
-:PROPERTIES:
-:header-args: :tangle no
-:END:
-#+begin_src emacs-lisp
-  (use-package orderless
-    :ensure t
-    :config
-    (setq completion-styles '(orderless)))
-
-  (use-package icomplete
-    :demand
-    :bind
-    (:map global-map
-          ("M-y" . amirreza/show-kill-ring)
-          :map icomplete-minibuffer-map
-          ("C-n" . icomplete-forward-completions)
-          ("C-p" . icomplete-backward-completions)
-          ("C-f" . icomplete-forward-completions)
-          ("C-b" . icomplete-backward-completions)
-          ("<right>" . icomplete-forward-completions)
-          ("<left>" . icomplete-backward-completions)
-          ("<down>" . icomplete-forward-completions)
-          ("<up>" . icomplete-backward-completions)
-          ("<RET>" . icomplete-force-complete-and-exit)
-          ("<tab>" . icomplete-force-complete))
-    :config
-    (defun amirreza/show-kill-ring ()
-      (interactive)
-      (insert (completing-read "Insert: " kill-ring)))
-
-    (setq icomplete-max-delay-chars 2
-          icomplete-separator " | "
-          icomplete-show-matches-on-no-input t
-          icomplete-hide-common-prefix nil
-          completion-ignore-case t)
-    (when (> emacs-major-version 26)
-      (fido-mode -1))
-    (icomplete-mode 1))
-
-  (use-package icomplete-vertical
-    :ensure t
-    :demand
-    :bind
-    (:map icomplete-minibuffer-map
-          ("C-v" . icomplete-vertical-toggle))
-    :config
-    (icomplete-vertical-mode 1))
-
-  (use-package live-completions
-    :disabled t
-    :ensure t
-    :config
-    (live-completions-mode 1))
-#+end_src
 ** Ivy
 I use icomplete for simpler and more hackable solution.
 #+begin_src emacs-lisp
-(use-package flx :ensure t)
-(use-package ivy
-  :ensure t
-  :bind
-  (("C-x b" . 'ivy-switch-buffer)
-   :map ivy-minibuffer-map
-   ("RET" . 'ivy-alt-done))
-  :config
-  (setq ivy-height 15)
-  ;; loopish cycling through list
-  (setq ivy-wrap t)
-  ;; don't show recents in minibuffer
-  (setq ivy-use-virtual-buffers nil)
-  ;; ...but if that ever changes, show their full path
-  (setq ivy-virtual-abbreviate 'full)
-  ;; don't quit minibuffer on delete-error
-  (setq ivy-on-del-error-function #'ignore)
-  (setf (alist-get 't ivy-format-functions-alist)
-        #'ivy-format-function-line)
-  (setq ivy-initial-inputs-alist nil)
-  (setq ivy-re-builders-alist
-        '((t . ivy--regex-ignore-order)))
-  (ivy-mode +1))
+  (use-package flx :ensure t)
+  (use-package ivy
+    :ensure t
+    :bind
+    (("C-x b" . 'ivy-switch-buffer)
+     :map ivy-minibuffer-map
+     ("RET" . 'ivy-alt-done))
+    :config
+    (setq ivy-height 15)
+    ;; loopish cycling through list
+    (setq ivy-wrap t)
+    ;; don't show recents in minibuffer
+    (setq ivy-use-virtual-buffers nil)
+    ;; ...but if that ever changes, show their full path
+    (setq ivy-virtual-abbreviate 'full)
+    ;; don't quit minibuffer on delete-error
+    (setq ivy-on-del-error-function #'ignore)
+    (setf (alist-get 't ivy-format-functions-alist)
+          #'ivy-format-function-line)
+    (setq ivy-initial-inputs-alist nil)
+    (setq ivy-re-builders-alist
+          '((t . ivy--regex-ignore-order)))
+    (ivy-mode +1))
 
-(use-package counsel
-  :ensure t
-  :bind
-  (("M-x" . 'counsel-M-x)
-   ("C-x C-f" . 'counsel-find-file)
-   ("C-h b" . 'counsel-descbinds)
-   ("C-h f" . 'counsel-describe-function)
-   ("C-h v" . 'counsel-describe-variable)
-   ("C-h a" . 'counsel-apropos)
-   ("M-i" . 'counsel-imenu) ;; code semantics
-   ("M-y" . 'counsel-yank-pop))) ;; show kill ring
+  (use-package counsel
+    :ensure t
+    :bind
+    (("M-x" . 'counsel-M-x)
+     ("C-x C-f" . 'counsel-find-file)
+     ("C-h b" . 'counsel-descbinds)
+     ("C-h f" . 'counsel-describe-function)
+     ("C-h v" . 'counsel-describe-variable)
+     ("C-h a" . 'counsel-apropos)
+     ("M-i" . 'counsel-imenu) ;; code semantics
+     ("M-y" . 'counsel-yank-pop)
+     ("C-c g" . 'counsel-rg)))
 
-  (use-package ivy-rich :ensure t :config (ivy-rich-mode 1))
+
+    (use-package ivy-rich :ensure t :config (ivy-rich-mode 1))
 #+end_src
 * Emacs Buffers and Windows
 ** Window rules
@@ -716,7 +665,13 @@ by default is bound to =C-c <left>=.
     :config
     (desktop-save-mode 1))
 #+end_src
-* Motions
+* Editing & Writing
+** Searching
+#+begin_src emacs-lisp
+  (use-package swiper
+    :bind ("C-s" . swiper))
+#+end_src
+** Motions
 *** Custom motions
 #+begin_src emacs-lisp
   (global-set-key (kbd "M-n") 
@@ -734,7 +689,7 @@ by default is bound to =C-c <left>=.
             ("C-M-C" . avy-goto-char-2)
             ("C-M-c" . avy-goto-char)))
  #+end_src
-* Highlight indentation
+** Highlight indentation
 #+begin_src emacs-lisp
  (use-package highlight-indent-guides
    :ensure t
@@ -744,20 +699,20 @@ by default is bound to =C-c <left>=.
    :config
    (add-hook 'focus-in-hook #'highlight-indent-guides-auto-set-faces))
 #+end_src
-* Sudo edit
+** Sudo edit
 #+begin_src emacs-lisp
    (use-package sudo-edit
         :ensure t
         :commands (sudo-edit))
 #+end_src
-* Expand region
+** Expand region
 #+begin_src emacs-lisp
    (use-package expand-region
      :ensure t
      :bind (("C-=" . 'er/expand-region)
 	    ("C--" . 'er/contract-region)))
 #+end_src
-* Highlight TODO/FIXME/...
+** Highlight TODO/FIXME/...
 #+begin_src emacs-lisp
  (use-package hl-todo
    :ensure t
@@ -772,7 +727,7 @@ by default is bound to =C-c <left>=.
 	   ("NOTE"       success bold)
 	   ("DEPRECATED" font-lock-doc-face bold))))
 #+end_src
-* Multiple cursors
+** Multiple cursors
 #+begin_src emacs-lisp
       (use-package multiple-cursors
         :ensure t
@@ -791,20 +746,20 @@ by default is bound to =C-c <left>=.
                ("C-M-p" . mc/mark-previous-like-this)
                ("C-M-a" . mc/mark-all-like-this)))
 #+end_src
-* Don't choke on large data
+** Don't choke on large data
 #+begin_src emacs-lisp
   (use-package so-long 
       :config (global-so-long-mode 1))
   (use-package vlf :ensure t :commands (vlf))
 #+end_src
-* Tramp
+** Tramp: Edit remote files 
 #+begin_src emacs-lisp
     (use-package tramp
           :commands (tramp)
           :config
           (setq tramp-default-method "ssh"))
 #+end_src
-* Org
+** Org
 #+BEGIN_SRC emacs-lisp
   (use-package org
   :demand
@@ -846,7 +801,7 @@ by default is bound to =C-c <left>=.
  #+begin_src emacs-lisp
  (use-package htmlize :ensure t :defer t)
  #+end_src
-* Outline Mode
+** Outline Mode
 #+begin_src emacs-lisp
   (use-package bicycle :ensure t)
   (use-package outline
@@ -870,13 +825,14 @@ by default is bound to =C-c <left>=.
       (interactive)
       (outline-map-region 'outline-hide-subtree (point-min) (point-max))))
 #+end_src
-* Markdown mode
+** Markdown mode
 #+begin_src emacs-lisp
 (use-package markdown-mode
   :ensure t
   :mode ("\\.md$" . markdown-mode))
 #+end_src
-* Recent files
+* Files & Projects
+** Recent files
  #+begin_src emacs-lisp
    (defun amirreza/recents ()
      (interactive)
@@ -884,11 +840,7 @@ by default is bound to =C-c <left>=.
 
    (global-set-key (kbd "C-c r") 'amirreza/recents)
  #+end_src
-* Projectile
-:PROPERTIES:
-:header-args: :tangle no
-:END:
-Deprecated, I use my hand rolled project integration below.
+** Projectile
 #+begin_src emacs-lisp
 (use-package projectile
   :ensure t)
@@ -900,47 +852,6 @@ Deprecated, I use my hand rolled project integration below.
   :bind* (:map projectile-mode-map
                ("C-c p" . projectile-command-map)
                ("C-c p g" . counsel-projectile-rg)))
-#+end_src
-* Project integration
-#+begin_src emacs-lisp
-  (require 'cl-lib)
-  (use-package project
-    :bind (("C-c p f" . amirreza/project-or-dir-find-file-recur)
-           ("C-c p s" . amirreza/projects-list)
-           ("C-c p l" . amirreza/project-list))
-    :config
-    (defun amirreza/get-root ()
-      "Gets project root."
-      (let* ((project (vc-root-dir))
-             (dir (if project project default-directory)))
-        dir))
-
-    (defun amirreza/project-or-dir-find-file-recur ()
-      (interactive)
-      (let* ((dir (amirreza/get-root))
-             (files (directory-files-recursively dir ".*" nil (lambda (name)
-                                                                (not (string-match "\\.git" name))
-                                                                ) t)))
-        (find-file (completing-read "Find: " files))))
-
-    (defvar amirreza/project-locations '("~/w" "~/w/snapp" "~/w"))
-
-    (defun amirreza/projects-list ()
-      "List of projects in pre defined project locations."
-      (interactive)
-      (let ((proj-dirs '()))
-        (mapc (lambda (dir)
-                (mapc (lambda (file)
-                        (add-to-list 'proj-dirs (abbreviate-file-name file )))
-                      (directory-files dir t directory-files-no-dot-files-regexp)))
-              amirreza/project-locations)
-        (dired (completing-read "Project: " proj-dirs)))))
-#+end_src
-* Ripgrep
-#+begin_src emacs-lisp
-  (use-package rg
-    :ensure t
-    :bind ("C-c p g" . rg))
 #+end_src
 * Sync Path
 Emacs has a bultin shell called =eshell= which uses elisp
