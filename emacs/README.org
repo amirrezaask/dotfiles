@@ -57,6 +57,7 @@
   - [[#org][Org]]
   - [[#outline-mode][Outline Mode]]
   - [[#markdown-mode][Markdown mode]]
+  - [[#misc-file-modes][Misc file modes]]
 - [[#files--projects][Files & Projects]]
   - [[#recent-files][Recent files]]
   - [[#projectile][Projectile]]
@@ -77,7 +78,6 @@
   - [[#vcs][VCS]]
   - [[#smerge][Smerge]]
 - [[#file-manager-dired][File Manager (Dired)]]
-- [[#misc-file-modes][Misc file modes]]
 - [[#integrated-tools][Integrated Tools]]
   - [[#process-management][Process management]]
   - [[#rhythmbox][Rhythmbox]]
@@ -834,6 +834,16 @@ by default is bound to =C-c <left>=.
   :ensure t
   :mode ("\\.md$" . markdown-mode))
 #+end_src
+** Misc file modes
+ #+begin_src emacs-lisp
+   (use-package crontab-mode :defer t :ensure t)
+   (use-package apache-mode :ensure t
+     :mode ("\\.htaccess\\'" "httpd\\.conf\\'" "srm\\.conf\\'" "access\\.conf\\'"))
+   (use-package systemd :ensure t
+     :mode ("\\.service\\'" "\\.timer\\'"))
+   (use-package nginx-mode :ensure 
+     :mode ("/etc/nginx/conf.d/.*" "/etc/nginx/.*\\.conf\\'"))
+ #+end_src
 * Files & Projects
 ** Recent files
  #+begin_src emacs-lisp
@@ -1508,16 +1518,6 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
     :bind (:map dired-mode-map
                 ("P" . peep-dired)))
 #+end_src
-* Misc file modes
- #+begin_src emacs-lisp
-   (use-package crontab-mode :defer t :ensure t)
-   (use-package apache-mode :ensure t
-     :mode ("\\.htaccess\\'" "httpd\\.conf\\'" "srm\\.conf\\'" "access\\.conf\\'"))
-   (use-package systemd :ensure t
-     :mode ("\\.service\\'" "\\.timer\\'"))
-   (use-package nginx-mode :ensure 
-     :mode ("/etc/nginx/conf.d/.*" "/etc/nginx/.*\\.conf\\'"))
- #+end_src
 * Integrated Tools
 ** Process management
 #+begin_src emacs-lisp
