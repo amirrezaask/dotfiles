@@ -5,9 +5,27 @@
 - [[#basic-setup][Basic Setup]]
   - [[#emacs-internal-optimizations][Emacs Internal Optimizations]]
   - [[#package-manager-setup][Package manager setup]]
+  - [[#tab-setting][Tab Setting]]
+  - [[#backup-files-configuration][Backup files configuration]]
+  - [[#y-or-n-instead-of-yes-or-no][y-or-n instead of yes-or-no]]
+  - [[#show-keystrokes-in-minibuffer][Show keystrokes in minibuffer]]
+  - [[#ask-questions-in-minibuffer][Ask questions in minibuffer]]
+  - [[#disable-emacs-start-screen][Disable Emacs start screen]]
+  - [[#always-remain-silent][Always remain silent]]
+  - [[#default-encoding][Default encoding]]
+  - [[#default-column-width][Default column width]]
+  - [[#scrolling][Scrolling]]
+  - [[#custom-file-reloaction][Custom file reloaction]]
+  - [[#delete-selectionregion-when-start-typing][Delete selection/region when start typing]]
+  - [[#show-column-number-in-modeline][Show column number in modeline]]
+  - [[#capacity-of-kill-ring][Capacity of kill-ring]]
+  - [[#show-laptop-battery-status-in-modeline][Show laptop battery status in modeline]]
+  - [[#show-time-in-modeline][Show time in modeline]]
+  - [[#show-line-numbers][Show line numbers]]
+  - [[#highlight-matching-parens][Highlight matching parens]]
+  - [[#help-mode][Help-mode]]
 - [[#window-manager][Window Manager]]
 - [[#keybinding][Keybinding]]
-- [[#basic-setups][Basic setups]]
 - [[#themes][Themes]]
 - [[#cursor][Cursor]]
 - [[#modeline][Modeline]]
@@ -142,6 +160,116 @@ I am back to using =package.el= so I am deprecating this block.
 (straight-use-package 'use-package)
 (require 'bind-key)
 #+end_src
+** Tab Setting
+#+begin_src emacs-lisp
+  (use-package emacs
+    :config
+    (setq-default indent-tabs-mode nil
+                  tab-width 4))
+#+end_src
+** Backup files configuration
+#+begin_src emacs-lisp
+    (use-package emacs 
+      :config 
+      (setq backup-by-copying t)
+      (setq version-control t)
+      (setq delete-old-versions t)
+      (setq kept-new-versions 6)
+      (setq kept-old-versions 2)
+      (setq create-lockfiles nil)
+      (setq backup-directory-alist
+            '(("." . "~/.emacs.d/backup/"))))
+#+end_src
+** y-or-n instead of yes-or-no
+#+begin_src emacs-lisp
+(defalias 'yes-or-no-p 'y-or-n-p)
+#+end_src
+** Show keystrokes in minibuffer
+#+begin_src emacs-lisp
+(setq echo-keystrokes 0.1)
+#+end_src
+** Ask questions in minibuffer
+#+begin_src emacs-lisp
+(setq use-dialog-box nil)
+#+end_src
+** Disable Emacs start screen
+#+begin_src emacs-lisp
+(setq inhibit-splash-screen 0)
+#+end_src
+** Always remain silent
+#+begin_src emacs-lisp
+(setq ring-bell-function 'ignore)
+#+end_src
+** Default encoding
+#+begin_src emacs-lisp
+(set-terminal-coding-system 'utf-8) ;; default emacs encodings
+(set-keyboard-coding-system 'utf-8)
+(prefer-coding-system 'utf-8)
+#+end_src
+** Default column width
+#+begin_src emacs-lisp
+(setq-default fill-column 80) ;; column number which emacs start to line wrap.
+#+end_src
+** Scrolling
+#+begin_src emacs-lisp
+  (setq scroll-step 5)
+  (setq scroll-margin 5)
+  (setq scroll-conservatively 101)
+  (setq scroll-up-aggressively 0.11)
+  (setq scroll-down-aggressively 0.01)
+  (setq auto-window-vscroll nil)
+  (setq fast-but-imprecise-scrolling nil)
+  (setq mouse-wheel-scroll-amount '(5
+                                    ((shift) . 10)))
+  (setq mouse-wheel-progressive-speed t)
+  ;; Horizontal Scroll
+  (setq hscroll-step 1)
+  (setq hscroll-margin 1)
+#+end_src
+** Custom file reloaction
+#+begin_src emacs-lisp
+(setq custom-file "~/.emacs.d/custom.el")
+#+end_src
+** Delete selection/region when start typing
+#+begin_src emacs-lisp
+  (use-package delsel ;; delete region when start typing
+    :hook (after-init . delete-selection-mode))
+#+end_src
+** Show column number in modeline
+#+begin_src emacs-lisp
+(column-number-mode +1)
+#+end_src
+** Capacity of kill-ring
+#+begin_src emacs-lisp
+(setq kill-ring-max 15)
+#+end_src
+** Show laptop battery status in modeline
+#+begin_src emacs-lisp
+(use-package battery :config (display-battery-mode 1))
+#+end_src
+** Show time in modeline
+#+begin_src emacs-lisp
+(use-package time :config (display-time-mode 1))
+#+end_src
+** Show line numbers
+#+begin_src emacs-lisp
+(global-display-line-numbers-mode -1)
+#+end_src
+** Highlight matching parens
+#+begin_src emacs-lisp
+  (use-package paren 
+    :config
+    (show-paren-mode 1)
+    (setq show-paren-delay 0))
+#+end_src
+** Help-mode
+#+begin_src emacs-lisp
+  (use-package help-mode 
+    :demand
+    :bind (:map help-mode-map 
+                ("n" . next-line)
+                ("p" . previous-line)))
+#+end_src
 * Window Manager
    :PROPERTIES:
    :header-args: :tangle no
@@ -266,83 +394,6 @@ extensively but now i use it only when keybindings are just crazy.
     (which-key! "C-c K" "Kubernetes")
     (which-key-mode 1))
   (which-key-setup-minibuffer)
-#+end_src
-* Basic setups
-#+begin_src emacs-lisp
-  (use-package emacs
-    :config
-    (setq-default
-     indent-tabs-mode nil
-     tab-width 4) ;; emacs tabs settings
-
-    (setq backup-directory-alist
-          '(("." . "~/.emacs.d/backup/"))) ;; put all emacs backup files in oneplace
-    (setq backup-by-copying t)
-    (setq version-control t)
-    (setq delete-old-versions t)
-    (setq kept-new-versions 6)
-    (setq kept-old-versions 2)
-    (setq create-lockfiles nil)
-
-    (defalias 'yes-or-no-p 'y-or-n-p) ;; answer with y-n instead of yes-no
-
-    (setq echo-keystrokes 0.1) ;; echo keystrokes in minibuffer faster
-
-    (setq use-dialog-box nil) ;; ask quesions in minibuffer
-    (setq inhibit-splash-screen 0) ;; disable startup screen
-    (setq ring-bell-function 'ignore) ;; don't make a sound
-
-    (set-terminal-coding-system 'utf-8) ;; default emacs encodings
-    (set-keyboard-coding-system 'utf-8)
-    (prefer-coding-system 'utf-8)
-    (setq-default fill-column 80) ;; column number which emacs start to line wrap.
-
-    ; vertical scrolling
-    (setq scroll-step 5)
-    (setq scroll-margin 5)
-    (setq scroll-conservatively 101)
-    (setq scroll-up-aggressively 0.11)
-    (setq scroll-down-aggressively 0.01)
-    (setq auto-window-vscroll nil)
-    (setq fast-but-imprecise-scrolling nil)
-    (setq mouse-wheel-scroll-amount '(5
-                                      ((shift) . 10)))
-    (setq mouse-wheel-progressive-speed t)
-    ;; Horizontal Scroll
-    (setq hscroll-step 1)
-    (setq hscroll-margin 1))
-
-  (use-package cus-edit
-    :config
-    (setq custom-file "~/.emacs.d/custom.el"))
-
-  (use-package delsel ;; delete region when start typing
-    :hook (after-init . delete-selection-mode))
-
-  (use-package simple
-    :config
-    (column-number-mode +1)
-    (setq kill-ring-max 15))
-
-  (use-package battery :config (display-battery-mode 1))
-
-  (use-package time :config (display-time-mode 1))
-
-  (use-package display-line-numbers
-    :disabled t
-    :config
-    (global-display-line-numbers-mode +1))
-
-  (use-package paren 
-    :config
-    (show-paren-mode 1)
-    (setq show-paren-delay 0))
-
-  (use-package help-mode 
-    :demand
-    :bind (:map help-mode-map 
-                ("n" . next-line)
-                ("p" . previous-line)))
 #+end_src
 * Themes
  Now that we have use-package we can start installing thems, packages, etc. Let's start by installing some thems.
