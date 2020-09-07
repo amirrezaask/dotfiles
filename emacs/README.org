@@ -845,16 +845,45 @@ by default is bound to =C-c <left>=.
  #+end_src
 ** Projectile
 #+begin_src emacs-lisp
-(use-package projectile
-  :ensure t)
+  (use-package project
+    :config
+    (defun amirreza/get-root ()
+      "Gets project root."
+      (let* ((project (vc-root-dir))
+             (dir (if project project default-directory)))
+        dir))
 
-(use-package counsel-projectile
-  :ensure t
-  :demand
-  :config (counsel-projectile-mode 1)
-  :bind* (:map projectile-mode-map
-               ("C-c p" . projectile-command-map)
-               ("C-c p g" . counsel-projectile-rg)))
+    (defun amirreza/project-or-dir-find-file-recur ()
+      (interactive)
+      (let* ((dir (amirreza/get-root))
+             (files (directory-files-recursively dir ".*" nil (lambda (name)
+                                                                (not (string-match "\\.git" name)
+                                                                 t)))))
+        (find-file (completing-read "Find: " files))))
+
+    (defvar amirreza/project-locations '("~/w" "~/w/snapp" "~/w"))
+
+    (defun amirreza/projects-list ()
+      "List of projects in pre defined project locations."
+      (interactive)
+      (let ((proj-dirs '()))
+        (mapc (lambda (dir)
+                (mapc (lambda (file)
+                        (add-to-list 'proj-dirs (abbreviate-file-name file)))
+                      (directory-files dir t directory-files-no-dot-files-regexp)))
+              amirreza/project-locations)
+        (dired (completing-read "Project: " proj-dirs)))))
+
+  (use-package projectile
+    :ensure t)
+
+  (use-package counsel-projectile
+    :ensure t
+    :demand
+    :config (counsel-projectile-mode 1)
+    :bind* (:map projectile-mode-map
+                 ("C-c p" . projectile-command-map)
+                 ("C-c p g" . counsel-projectile-rg)))
 #+end_src
 * Shell
 ** Sync PATH with default shell
@@ -881,10 +910,10 @@ all executables.
 
     (defun amirreza/eshell-new ()
       "Looks in the eshell state map if there is an open eshell in the current directory just switch to it,
-  otherwise create a new eshell process and update the state."
+      otherwise create a new eshell process and update the state."
       (interactive)
       (let* ((buff-ref (gethash default-directory amirreza/--eshells-state nil))
-            (buff-live? (buffer-live-p buff-ref)))
+             (buff-live? (buffer-live-p buff-ref)))
         (if (and buff-ref buff-live?)
             (switch-to-buffer-other-window buff-ref)
           (progn
@@ -895,7 +924,8 @@ all executables.
               (rename-buffer (format "*eshell:%s*" default-directory)))))))
 
     :bind (("C-c s" . amirreza/eshell-new)
-           ("<f11>" . amirreza/eshell-new)))
+           ("<f11>" . amirreza/eshell-new)
+           ("s-<return>" . amirreza/eshell-new)))
 
   (use-package esh-mode
     :config
@@ -910,14 +940,14 @@ all executables.
       (insert (completing-read (format "%s History: " name) (ring-elements ring)))
       (eshell-send-input))
 
-   (defun amirreza/eshell-history-search ()
-     (interactive)
-     (amirreza/--eshell-ring-search "Command" eshell-history-ring))
+    (defun amirreza/eshell-history-search ()
+      (interactive)
+      (amirreza/--eshell-ring-search "Command" eshell-history-ring))
 
 
-   (defun amirreza/eshell-recent-dir-search ()
-     (interactive)
-     (amirreza/--eshell-ring-search "Recent Dir" eshell-last-dir-ring))
+    (defun amirreza/eshell-recent-dir-search ()
+      (interactive)
+      (amirreza/--eshell-ring-search "Recent Dir" eshell-last-dir-ring))
 
     (defun amirreza/eshell-minify-path (path)
       "Minify path like what fish do for paths."
@@ -970,19 +1000,13 @@ all executables.
 
     (defun amirreza/eshell-find-file-at-point ()
       "Run `find-file' for file at point (ordinary file or dir).
-          Recall that this will produce a `dired' buffer if the file is a
-          directory."
+              Recall that this will produce a `dired' buffer if the file is a
+              directory."
       (interactive)
       (let ((file (ffap-file-at-point)))
         (if file
             (find-file file)
           (user-error "No file at point"))))
-
-
-    (defun amirreza/eshell-find-sub-dirs-recur ()
-      (interactive)
-        (insert (amirreza/--find-sub-directories-recur "Directory: " default-directory))
-        (eshell-send-input))
 
     :bind (:map eshell-mode-map
                 ("C-c m f c" . amirreza/eshell-show-content-file-at-point)
@@ -990,7 +1014,13 @@ all executables.
                 ("C-c m f a" . amirreza/eshell-find-file-at-point)
                 ("C-c m k f" . amirreza/eshell-kill-save-file-at-point)
                 ("C-c m r" . amirreza/eshell-recent-dir-search)
-                ("C-c m d" . amirreza/eshell-find-sub-dirs-recur)))
+                ("C-c m d" . amirreza/eshell-find-sub-dirs-recur)
+                ("s-f c" . amirreza/eshell-show-content-file-at-point)
+                ("s-h" . amirreza/eshell-history-search)
+                ("s-o" . amirreza/eshell-find-file-at-point)
+                ("s-k" . amirreza/eshell-kill-save-file-at-point)
+                ("s-f f" . amirreza/eshell-find-file-at-point)))
+
 #+end_src
 * Development
 ** Auto Header
