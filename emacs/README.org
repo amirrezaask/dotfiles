@@ -497,7 +497,7 @@ extensively but now i use it only when keybindings are just crazy.
    (use-package emacs
      :config
      (setq-default ring-bell-function 'ignore)
-     (setq-default cursor-type 'bar))
+     (setq-default cursor-type 'box))
 
    (use-package frame
      :config
@@ -653,6 +653,7 @@ our font interactively, let's write it.
      ("C-h a" . 'counsel-apropos)
      ("M-i" . 'counsel-imenu) ;; code semantics
      ("M-y" . 'counsel-yank-pop)
+     ("C-c f" . 'counsel-fzf)
      ("C-c g" . 'counsel-rg)))
 
 
@@ -760,9 +761,16 @@ by default is bound to =C-c <left>=.
 #+end_src
 * Editing & Writing
 ** Searching
+*** In buffer searching
 #+begin_src emacs-lisp
   (use-package swiper
     :bind ("C-s" . swiper))
+#+end_src
+*** Ripgrep
+#+begin_src emacs-lisp
+  (use-package rg
+    :ensure t
+    :commands (rg))
 #+end_src
 ** Motions
 *** Custom motions
@@ -959,7 +967,7 @@ by default is bound to =C-c <left>=.
       (let* ((dir (amirreza/get-root))
              (files (directory-files-recursively dir ".*" nil (lambda (name)
                                                                 (not (string-match "\\.git" name)
-                                                                 t)))))
+                                                                     t)))))
         (find-file (completing-read "Find: " files))))
 
     (defvar amirreza/project-locations '("~/w" "~/w/snapp" "~/w"))
@@ -976,7 +984,9 @@ by default is bound to =C-c <left>=.
         (dired (completing-read "Project: " proj-dirs)))))
 
   (use-package projectile
-    :ensure t)
+    :ensure t
+    :config
+    (setq projectile-completion-system 'ivy))
 
   (use-package counsel-projectile
     :ensure t
