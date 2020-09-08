@@ -36,7 +36,7 @@
   - [[#diminish][Diminish]]
   - [[#font][Font]]
 - [[#minibuffer-completion][Minibuffer completion]]
-  - [[#icomplete][Icomplete]]
+  - [[#icomplete-deprecated][Icomplete [Deprecated]]]
   - [[#ivy][Ivy]]
 - [[#emacs-buffers-and-windows][Emacs Buffers and Windows]]
   - [[#window-rules][Window rules]]
@@ -561,7 +561,7 @@ our font interactively, let's write it.
     (set-frame-font (format "%s-%d" font size) nil t))
 #+END_SRC
 * Minibuffer completion
-** Icomplete
+** Icomplete [Deprecated]
 :PROPERTIES:
 :header-args: :tangle no
 :END:
