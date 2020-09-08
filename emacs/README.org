@@ -58,6 +58,7 @@
   - [[#org][Org]]
   - [[#outline-mode][Outline Mode]]
   - [[#markdown-mode][Markdown mode]]
+  - [[#pdf-tools][Pdf tools]]
   - [[#misc-file-modes][Misc file modes]]
 - [[#files--projects][Files & Projects]]
   - [[#recent-files][Recent files]]
@@ -931,6 +932,12 @@ by default is bound to =C-c <left>=.
 (use-package markdown-mode
   :ensure t
   :mode ("\\.md$" . markdown-mode))
+#+end_src
+** Pdf tools
+#+begin_src emacs-lisp
+  (use-package pdf-tools
+    :ensure t
+    :hook (pdf-tools-enabled-hook . menu-bar-mode))
 #+end_src
 ** Misc file modes
  #+begin_src emacs-lisp
