@@ -363,7 +363,25 @@ Emacs is so extensible that it can actually be a X window manager. You can liter
             ;; buffer does not bother you).
             ([?\s-d] . amirreza/application-launcher)
             ;; Bind "s-l" to "slock", a simple X display locker.
-            ([?\s-l] . amirreza/exwm-lock)))
+            ([?\s-l] . amirreza/exwm-lock)
+            (,(kbd "<XF86AudioRaiseVolume>") . (lambda ()
+                                                             (interactive)
+                                                             (start-process-shell-command "RaiseVolume" nil "pactl set-sink-volume @DEFAULT_SINK@ +10%")))
+
+            (,(kbd "<XF86AudioLowerVolume>") . (lambda ()
+                                                             (interactive)
+                                                             (start-process-shell-command "DownVolume" nil "pactl set-sink-volume @DEFAULT_SINK@ -10%")))
+          
+            (,(kbd "<XF86AudioMute>") . (lambda ()
+                                                      (interactive)
+                                                      (start-process-shell-command "MuteVolume" nil "pactl set-sink-mute @DEFAULT_SINK@ toggle")))
+
+            (,(kbd "<XF86AudioMicMute>") . (lambda ()
+                                                         (interactive)
+                                                         (start-process-shell-command "MuteMicVolume" nil "pactl set-source-mute @DEFAULT_SOURCE@ toggle")))
+
+
+            ))
 
 
     (setq exwm-input-simulation-keys
@@ -406,6 +424,21 @@ Emacs is so extensible that it can actually be a X window manager. You can liter
                 (start-process-shell-command
                  "xrandr" nil "xrandr --output HDMI-1 --above eDP-1 --mode 1920x1080")))
 
+    (global-set-key (kbd "<XF86AudioRaiseVolume>") (lambda ()
+                                                   (interactive)
+                                                   (start-process-shell-command "RaiseVolume" nil "pactl set-sink-volume @DEFAULT_SINK@ +10%")))
+
+    (global-set-key (kbd "<XF86AudioLowerVolume>") (lambda ()
+                                                   (interactive)
+                                                   (start-process-shell-command "DownVolume" nil "pactl set-sink-volume @DEFAULT_SINK@ -10%")))
+  
+    (global-set-key (kbd "<XF86AudioMute>") (lambda ()
+                                                   (interactive)
+                                                   (start-process-shell-command "MuteVolume" nil "pactl set-sink-mute @DEFAULT_SINK@ toggle")))
+
+    (global-set-key (kbd "<XF86AudioMicMute>") (lambda ()
+                                                   (interactive)
+                                                   (start-process-shell-command "MuteMicVolume" nil "pactl set-source-mute @DEFAULT_SOURCE@ toggle")))
     (exwm-randr-enable)
     (start-process-shell-command "Set keyboard layout" nil "setxkbmap -layout 'us,ir' -option 'grp:shifts_toggle' -option 'ctrl:nocaps'")
     (exwm-systemtray-enable)
