@@ -12,7 +12,5 @@ export _JAVA_AWT_WM_NONREPARENTING=1
 export PATH="$PLAN9/bin:$HOME/.config/composer/vendor/bin:$GOROOT/bin:$GOPATH/bin:$HOME/.cargo/bin:$PYTHONBINS:/usr/local/Postman:$HOME/.local/elixir-ls/:$PATH"
 
 alias open='xdg-open'
-alias vim='nvim'
-alias vi='nvim'
 alias snappvpn="sudo openfortivpn -c $HOME/snappDC.conf"
 setxkbmap -layout "us,ir" -option "grp:shifts_toggle" -option "ctrl:nocaps"
