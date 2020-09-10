@@ -1,26 +1,7 @@
-#!/bin/zsh
+#!/usr/bin/env zsh
 
-#initial setup if necessary
-if [ ! -d "$HOME/.zsh" ]; then
-    mkdir -p $HOME/.zsh
-fi
-if [ ! -f $HOME/.zsh/antigen.zsh ]; then
-    curl -L git.io/antigen > $HOME/.zsh/antigen.zsh
-fi
-source $HOME/.zsh/antigen.zsh
+LOAD_PATH="$HOME/w/dotfiles/zsh"
 
-# use oh my zsh repository
-antigen use oh-my-zsh
-
-antigen bundle git
-antigen bundle pip
-antigen bundle golang
-antigen bundle oc
-antigen bundle jsontools
-antigen bundle tmux
-antigen bundle golang
-antigen bundle zsh-users/zsh-autosuggestions
-
-antigen theme ys 
-antigen apply
-source ~/.env
+source "$LOAD_PATH/completion.zsh"
+source "$LOAD_PATH/plugins.zsh"
+source "$LOAD_PATH/aliases.zsh"
