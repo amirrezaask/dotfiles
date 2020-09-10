@@ -5,29 +5,38 @@ syntax on
 " enable filetype plugin loading
 filetype indent plugin on
 
+" Case insensitive
 set ignorecase
+" ??
 set modeline
+" vi Incompatible defaults 
 set nocompatible
+" Default encoding to UTF-8
 set encoding=utf-8
+" Highlight search result in pattern search
 set hlsearch
+" Command history capacity
 set history=700
-set t_Co=256
-set termguicolors
+" Maximum number of tabs to be opened
 set tabpagemax=100
+" Show column and line number in status bar
 set ruler
-set nojoinspaces
-set shiftround
+" Enable mouse support
 set mouse=a
-set guifont=Fira\ Mono\ 11
+" Enable line numbers
 set nu 
+" Set <leader> to SPC
 let mapleader = " "
+" Disable line wrapping in long lines
 set nowrap
+" Start new line with same indent level as current line
 set autoindent
 noremap j gj
 noremap k gk
+" Highlight current line
 set cursorline
 
-" General Tab settings
+" General Tab settings {{{
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
@@ -36,9 +45,12 @@ set expandtab
 
 
 call plug#begin('~/.vim/plugged')
+" Themes {{{
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'overcache/NeoSolarized'
 Plug 'whatyouhide/vim-gotham'
+" }}}
+
 " tpope {{{
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-jdaddy'
@@ -76,7 +88,9 @@ Plug 'vim-airline/vim-airline-themes'
 " }}}
 
 call plug#end()
+
 colorscheme gotham
+
 " FileType specific settings {{{
 augroup format
         " PHP
