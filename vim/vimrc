@@ -1,21 +1,3 @@
-filetype plugin indent on
-syntax on
+let $VIMSCRIPTS="~/w/dotfiles/vim/scripts"
 
-let $VIMRC="~/.vimrc"
-
-" Load vim without VI compatible settings
-set nocompatible
-
-" let a buffer be open and open a new one
-set hidden
-
-" Let backspace delete indentation, end of line and start.
-set backspace=indent,eol,start
-
-" Default path for finding files
-set path=.,**
-
-" default character encoding in vim
-set encoding=utf-8
-
-
+source $VIMSCRIPTS/general.vim
