@@ -3,6 +3,7 @@
 LOAD_PATH="$HOME/w/dotfiles/zsh"
 
 source "$LOAD_PATH/completion.zsh"
-source "$LOAD_PATH/git.zsh"
+# source "$LOAD_PATH/git.zsh"
 source "$LOAD_PATH/plugins.zsh"
 source "$LOAD_PATH/aliases.zsh"
+# PROMPT='%B%m%~%b$(git_super_status) %# '
