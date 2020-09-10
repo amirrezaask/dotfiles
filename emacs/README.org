@@ -810,10 +810,11 @@ by default is bound to =C-c <left>=.
 #+END_SRC
 ** Ace Window (Better Window Management)
 #+BEGIN_SRC emacs-lisp
-      (use-package ace-window
-        :ensure t
-        :commands (ace-window)
-        :bind (("C-x C-o" . 'ace-window)))
+  (use-package ace-window
+    :ensure t
+    :disabled t
+    :commands (ace-window)
+    :bind (("C-x C-o" . 'ace-window)))
 #+END_SRC
 ** IBuffer
 #+begin_src emacs-lisp
