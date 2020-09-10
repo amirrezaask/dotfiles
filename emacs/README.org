@@ -108,6 +108,7 @@
   - [[#smerge][Smerge]]
 - [[#file-manager-dired][File Manager (Dired)]]
 - [[#integrated-tools][Integrated Tools]]
+  - [[#acme-functionality][Acme functionality]]
   - [[#process-management][Process management]]
   - [[#rhythmbox][Rhythmbox]]
   - [[#video][Video]]
@@ -1213,7 +1214,7 @@ all executables.
 ** Auto Header
 #+begin_src emacs-lisp
   (use-package autoinsert
-    :hook (after-init . auto-insert-mode))
+    :hook (prog-mode . auto-insert-mode))
 #+end_src
 ** Code Completion
 Code completion consists of two parts, A source/server that provides the completions and 
@@ -1696,6 +1697,13 @@ Emacs comes with a built in syntax checker called =flymake=, but since emacs com
                 ("P" . peep-dired)))
 #+end_src
 * Integrated Tools
+** Acme functionality
+#+begin_src emacs-lisp
+  (use-package acme 
+    :load-path "~/w/acme-mode"
+    :bind (([mouse-3] . 'acme/open-path-in-region)
+           ([mouse-2] . 'acme/exec-command-in-region)))
+#+end_src
 ** Process management
 #+begin_src emacs-lisp
   (use-package proced
