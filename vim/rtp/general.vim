@@ -46,4 +46,34 @@ set softtabstop=4
 set expandtab
 " }}}
 
+"Easier window navigation {{{
+map <C-j> <C-w>j
+map <C-k> <C-w>k
+map <C-l> <C-w>l
+map <C-h> <C-w>h
+" }}}
+map Q <nop>
+" Map ; to : for simpler command execuation
+map ; :
+" }}}
+
+" Disable highlight after search
+nmap <leader>/ :nohl<CR>
+nmap , :nohl<CR>
+
+" Exit Insert mode more easily {{{
+inoremap jk <esc>
+inoremap kj <esc> 
+" }}}
+
+" NetRW settings {{{
+let g:netrw_banner = 0
+let g:netrw_winsize = 20
+let g:netrw_liststyle = 3
+" }}}
+
+" Make copy/pase normal
+set clipboard=unnamedplus
+
+
 
