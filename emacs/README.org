@@ -73,7 +73,7 @@
   - [[#misc-file-modes][Misc file modes]]
 - [[#files--projects][Files & Projects]]
   - [[#recent-files][Recent files]]
-  - [[#projectile][Projectile]]
+  - [[#projects][Projects]]
 - [[#shell][Shell]]
   - [[#sync-path-with-default-shell][Sync PATH with default shell]]
   - [[#eshell][Eshell]]
@@ -527,8 +527,8 @@ extensively but now i use it only when keybindings are just crazy.
      :bind (("<f12>" . amirreza/toggle-color-mode))
      :config
      (defvar amirreza/current-mode 'light "Current color mode of Emacs.")
-     (defvar amirreza/dark-theme 'modus-vivendi)
-     (defvar amirreza/light-theme 'modus-operandi)
+     (defvar amirreza/dark-theme 'doom-one)
+     (defvar amirreza/light-theme 'doom-one-light)
 
      (defmacro amirreza/--load-theme (&rest theme-opts)
        `(progn (mapc #'disable-theme custom-enabled-themes)
@@ -1027,7 +1027,7 @@ by default is bound to =C-c <left>=.
 
    (global-set-key (kbd "C-c r") 'amirreza/recents)
  #+end_src
-** Projectile
+** Projects
 #+begin_src emacs-lisp
   (use-package project
     :bind ("s-p" . amirreza/projects-list)
