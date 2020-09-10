@@ -1,8 +1,8 @@
-let $VIMSCRIPTS="~/w/dotfiles/vim/scripts"
-set runtimepath+=$VIMSCRIPTS
+let $MYRTP="~/w/dotfiles/vim/rtp"
+set runtimepath+=$MYRTP
 
-source $VIMSCRIPTS/general.vim
-source $VIMSCRIPTS/plugins.vim
+source $MYRTP/general.vim
+source $MYRTP/plugins.vim
 
 colorscheme gotham
 
