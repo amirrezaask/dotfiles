@@ -17,4 +17,5 @@ alias snappvpn="sudo openfortivpn -c $HOME/snappDC.conf"
 alias v=nvim
 alias vim=nvim
 alias vi=nvim
+alias g=git status
 setxkbmap -layout "us,ir" -option "grp:shifts_toggle" -option "ctrl:nocaps"
