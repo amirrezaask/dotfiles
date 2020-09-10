@@ -1,9 +1,10 @@
 " General Settings{{{
 filetype off
+" Syntax highlight
 syntax on
-filetype on
-filetype indent on
-filetype plugin on
+" enable filetype plugin loading
+filetype indent plugin on
+
 set ignorecase
 set modeline
 set nocompatible
@@ -25,6 +26,7 @@ set autoindent
 noremap j gj
 noremap k gk
 set cursorline
+
 " General Tab settings
 set tabstop=4
 set shiftwidth=4
@@ -74,7 +76,7 @@ Plug 'vim-airline/vim-airline-themes'
 " }}}
 
 call plug#end()
-
+colorscheme gotham
 " FileType specific settings {{{
 augroup format
         " PHP
