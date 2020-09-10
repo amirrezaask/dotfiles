@@ -3,6 +3,7 @@ compinit
 
 # Completion style
 zstyle ':completion:*' completer _expand _complete _correct _approximate
+zstyle ':completion:*' menu select
 
 # Color completion
 # http://linuxshellaccount.blogspot.com/2008/12/color-completion-using-zsh-modules-on.html
