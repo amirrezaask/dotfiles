@@ -36,6 +36,9 @@ noremap k gk
 " Highlight current line
 set cursorline
 
+" Terminal Colors
+set termguicolors
+
 " General Tab settings {{{
 set tabstop=4
 set shiftwidth=4
@@ -48,8 +51,7 @@ call plug#begin('~/.vim/plugged')
 " Themes {{{
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'overcache/NeoSolarized'
-Plug 'whatyouhide/vim-gotham'
-" }}}
+Plug 'whatyouhide/vim-gotham' " }}}
 
 " tpope {{{
 Plug 'tpope/vim-surround'
