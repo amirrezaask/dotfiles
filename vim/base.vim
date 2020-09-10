@@ -75,5 +75,5 @@ let g:netrw_liststyle = 3
 " Make copy/pase normal
 set clipboard=unnamedplus
 
-
-
+" initialize Plugin Manager
+call plug#begin('~/.vim/plugged')
