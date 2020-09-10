@@ -65,5 +65,5 @@ font:
 # #     cyan:    '0x86c1b9'
 # #     white:   '0xf8f8f8'
 
-# # shell:
-# #   program: /bin/tmux
+shell:
+  program: /bin/tmux
