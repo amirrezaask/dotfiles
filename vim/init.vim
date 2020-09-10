@@ -27,16 +27,6 @@ augroup format
         autocmd Filetype yaml setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
 augroup end
 " }}}
-
-"Easier window navigation {{{
-map <C-j> <C-w>j
-map <C-k> <C-w>k
-map <C-l> <C-w>l
-map <C-h> <C-w>h
-map Q <nop>
-map ; :
-" }}}
-
 " Disable highlight after search
 nmap <leader>/ :nohl<CR>
 nmap , :nohl<CR>
