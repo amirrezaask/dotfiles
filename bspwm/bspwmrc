@@ -11,7 +11,7 @@ pkill sxhkd
 # Autostart applications
 sxhkd &
 compton &
-#polybar default &
+polybar default &
 xfce4-power-manager &
 dunst &
 
@@ -28,7 +28,7 @@ xdo above -t $(xdo id -n root) $(xdo id -a polybar)
 nitrogen --set-zoom-fill ~/w/dotfiles/wallpapers/razer.jpg
 
 # Some values
-bspc config top_padding 0
+bspc config top_padding 35
 bspc config window_gap 0
 bspc config border_width 1 
 bspc config bottom_padding 0
