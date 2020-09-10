@@ -26,6 +26,7 @@
   - [[#show-line-numbers][Show line numbers]]
   - [[#highlight-matching-parens][Highlight matching parens]]
   - [[#help-mode][Help-mode]]
+  - [[#track-laptop-battery][Track laptop battery]]
   - [[#emacs-x-window-manager][Emacs X Window Manager]]
   - [[#startup-page][Startup page]]
 - [[#keybinding][Keybinding]]
@@ -306,12 +307,16 @@ I am back to using =package.el= so I am deprecating this block.
                 ("n" . next-line)
                 ("p" . previous-line)))
 #+end_src
+** Track laptop battery
+#+begin_src emacs-lisp
+  (use-package battery
+    :config (display-battery-mode 1))
+#+end_src
 ** Emacs X Window Manager
 Emacs is so extensible that it can actually be a X window manager. You can literally login into Emacs, using exwm package you can run your whole computing environment inside Emacs.
 #+begin_src emacs-lisp
   (use-package exwm
     :ensure t
-    :disabled t
     :config
     (require 'exwm)
     (require 'exwm-config)
@@ -575,7 +580,7 @@ extensively but now i use it only when keybindings are just crazy.
   (setq mode-line-percent-position '(-3 "%p"))
   (setq-default mode-line-format
                 (list
-                 " W:"
+                 " Workspace:"
                  '(:eval (format "%d" (amirreza/exwm-current-workspace)))
                   "  "
                   mode-line-modified
@@ -588,12 +593,15 @@ extensively but now i use it only when keybindings are just crazy.
                   " "
                   mode-line-position
                   '(vc-mode vc-mode)
-                  "  "
-                  '(:eval (current-time-string))))
-
-
+                  " Time: "
+                  '(:eval (current-time-string))
+                  " Battery: "
+                  '(:eval (propertize battery-mode-line-string))))
 #+end_src
 ** Diminish
+:PROPERTIES:
+:header-args: :tangle no
+:END:
 Dminish is a simple tool that adds =:diminish= keyword to =use-package= which help us remove
  modeline =lighters= that modes register in modeline.
 #+begin_src emacs-lisp
