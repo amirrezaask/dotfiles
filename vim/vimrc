@@ -1,3 +1,4 @@
 let $VIMSCRIPTS="~/w/dotfiles/vim/scripts"
 
 source $VIMSCRIPTS/general.vim
+source $VIMSCRIPTS/plugins.vim

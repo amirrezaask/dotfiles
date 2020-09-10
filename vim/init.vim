@@ -1,4 +1,5 @@
 let $VIMSCRIPTS="~/w/dotfiles/vim/scripts"
+set runtimepath+=$VIMSCRIPTS
 
 source $VIMSCRIPTS/general.vim
 source $VIMSCRIPTS/plugins.vim
