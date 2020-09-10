@@ -1,11 +1,9 @@
+let $VIMSCRIPTS="$HOME/w/dotfiles/vim"
+
 " Basic setup
-source base.vim
-source themes.vim
-source plugins.vim
-source autocomplete.vim
+source $VIMSCRIPTS/base.vim
+source $VIMSCRIPTS/themes.vim
+source $VIMSCRIPTS/plugins.vim
+source $VIMSCRIPTS/autocomplete.vim
 call plug#end()
 
-colorscheme gotham
-
-" Fzf keybinding
-"}}}
