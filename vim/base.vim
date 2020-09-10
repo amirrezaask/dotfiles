@@ -76,4 +76,3 @@ let g:netrw_liststyle = 3
 set clipboard=unnamedplus
 
 " initialize Plugin Manager
-call plug#begin('~/.vim/plugged')
