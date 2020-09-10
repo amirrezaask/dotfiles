@@ -40,7 +40,7 @@
   - [[#diminish][Diminish]]
   - [[#font][Font]]
 - [[#minibuffer-completion][Minibuffer completion]]
-  - [[#icomplete-deprecated][Icomplete [Deprecated]]]
+  - [[#icompletedeprecated][Icomplete(Deprecated)]]
   - [[#ivy][Ivy]]
 - [[#emacs-buffers-and-windows][Emacs Buffers and Windows]]
   - [[#window-rules][Window rules]]
@@ -632,7 +632,7 @@ our font interactively, let's write it.
     (set-frame-font (format "%s-%d" font size) nil t))
 #+END_SRC
 * Minibuffer completion
-** Icomplete [Deprecated]
+** Icomplete(Deprecated)
 :PROPERTIES:
 :header-args: :tangle no
 :END:
