@@ -1,4 +1,4 @@
-let $VIMSCRIPTS="~/w/dotfiles/vim/scripts"
+let $VIMSCRIPTS="~/w/dotfiles/vim/rtp"
 
 source $VIMSCRIPTS/general.vim
 source $VIMSCRIPTS/plugins.vim
