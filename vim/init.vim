@@ -24,7 +24,7 @@ augroup format
         autocmd Filetype json setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
 	
         " YAML 
-        autocmd Filetype yaml setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
+        autocmd Filetype yaml,yml setlocal expandtab tabstop=2 softtabstop=2 shiftwidth=2
 augroup end
 " }}}
 
