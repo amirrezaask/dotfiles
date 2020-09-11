@@ -13,7 +13,7 @@ export PATH="$PLAN9/bin:$HOME/.config/composer/vendor/bin:$GOROOT/bin:$GOPATH/bi
 
 alias open='xdg-open'
 alias snappvpn="sudo openfortivpn -c $HOME/snappDC.conf"
-alias v=nvim
-alias vim=nvim
-alias vi=nvim
+# alias v=nvim
+# alias vim=nvim
+# alias vi=nvim
 setxkbmap -layout "us,ir" -option "grp:shifts_toggle" -option "ctrl:nocaps"
