@@ -14,6 +14,7 @@ nnoremap \\ :Rg<CR>
 colorscheme gotham
 " NCM2
 source $VIMSCRIPTS/ncm2.vim
+
 " LSP configuration
 source $VIMSCRIPTS/lsp.vim
 
