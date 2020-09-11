@@ -10,20 +10,15 @@ Plug 'tpope/vim-jdaddy'
 Plug 'tpope/vim-commentary' 
 " }}}
 
-" NCM2 {{{ 
-Plug 'ncm2/ncm2'
-Plug 'roxma/nvim-yarp'
-" }}}
-" NVIM LSP {{{
-
-
+" Deoplete {{{
+Plug 'Shougo/deoplete.nvim'
 " }}}
 
 " Language Server Protocol {{{
-" Plug 'autozimu/LanguageClient-neovim', {
-"     \ 'branch': 'next',
-"     \ 'do': 'bash install.sh',
-"     \ }
+Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': 'bash install.sh',
+    \ }
 " }}}
 
 " FZF {{{
