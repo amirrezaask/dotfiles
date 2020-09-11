@@ -317,6 +317,7 @@ I am back to using =package.el= so I am deprecating this block.
 Emacs is so extensible that it can actually be a X window manager. You can literally login into Emacs, using exwm package you can run your whole computing environment inside Emacs.
 #+begin_src emacs-lisp
   (use-package exwm
+    :disabled t
     :ensure t
     :config
     (require 'exwm)
