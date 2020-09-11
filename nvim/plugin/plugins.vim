@@ -1,3 +1,4 @@
+call plug#begin('~/.vim/plugged')
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'overcache/NeoSolarized'
 Plug 'whatyouhide/vim-gotham'
@@ -12,12 +13,16 @@ Plug 'tpope/vim-commentary'
 Plug 'ncm2/ncm2'
 Plug 'roxma/nvim-yarp'
 " }}}
+" NVIM LSP {{{
+
+
+" }}}
 
 " Language Server Protocol {{{
-Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
-    \ }
+" Plug 'autozimu/LanguageClient-neovim', {
+"     \ 'branch': 'next',
+"     \ 'do': 'bash install.sh',
+"     \ }
 " }}}
 
 " FZF {{{
@@ -40,6 +45,6 @@ Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 " }}}
-
+call plug#end()
 
 
