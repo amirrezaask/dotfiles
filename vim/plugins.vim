@@ -7,14 +7,18 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-jdaddy'
 Plug 'tpope/vim-commentary' 
 " }}}
-"
-"
-" Language Server Protocol
-"
+
+" NCM2 {{{ 
+Plug 'ncm2/ncm2'
+Plug 'roxma/nvim-yarp'
+" }}}
+
+" Language Server Protocol {{{
 Plug 'autozimu/LanguageClient-neovim', {
     \ 'branch': 'next',
     \ 'do': 'bash install.sh',
     \ }
+" }}}
 
 " FZF {{{
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }

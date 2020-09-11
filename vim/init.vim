@@ -12,6 +12,10 @@ nnoremap <leader><leader> :Files<CR>
 nnoremap \\ :Rg<CR> 
 " Colorscheme
 colorscheme gotham
+" NCM2
+source $VIMSCRIPTS/ncm2.vim
+" LSP configuration
+source $VIMSCRIPTS/lsp.vim
 
 " Gvim configuration
 set go=
