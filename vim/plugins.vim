@@ -7,14 +7,7 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-jdaddy'
 Plug 'tpope/vim-commentary' 
 " }}}
-"AutoComplete {{{
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'roxma/nvim-yarp'
-Plug 'prabirshrestha/async.vim'
-Plug 'prabirshrestha/vim-lsp'
-Plug 'lighttiger2505/deoplete-vim-lsp'
-Plug 'mattn/vim-lsp-settings'
-"}}}
+
 " FZF {{{
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
