@@ -19,4 +19,5 @@ alias vim=nvim
 alias vi=nvim
 alias g='git status'
 alias vd="cd $DOTFILES && vim"
+alias dots="cd $DOTFILES"
 setxkbmap -layout "us,ir" -option "grp:shifts_toggle" -option "ctrl:nocaps"
