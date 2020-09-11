@@ -59,7 +59,6 @@ map ; :
 
 " Disable highlight after search
 nmap <leader>/ :nohl<CR>
-nmap , :nohl<CR>
 
 " Exit Insert mode more easily {{{
 inoremap jk <esc>

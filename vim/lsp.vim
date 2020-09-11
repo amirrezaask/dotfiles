@@ -6,7 +6,8 @@ let g:LanguageClient_serverCommands = {
     \ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
     \ 'python': ['/usr/local/bin/pyls'],
     \ 'ruby': ['~/.rbenv/shims/solargraph', 'stdio'],
-    \ 'go': ["$GOPATH/bin/gopls"]
+    \ 'go': ["$GOPATH/bin/gopls"],
+    \ 'php': ['intelephense', '--stdio']
     \ }
 
 nmap <F1> <Plug>(lcn-menu)

@@ -10,8 +10,10 @@ source $VIMSCRIPTS/base.vim
 " FZF to SPC SPC
 nnoremap <leader><leader> :Files<CR>
 nnoremap \\ :Rg<CR> 
+nnoremap ,, :Commands<CR>
 " Colorscheme
-colorscheme gotham
+colorscheme atom-dark 
+
 " NCM2
 source $VIMSCRIPTS/ncm2.vim
 
@@ -19,7 +21,7 @@ source $VIMSCRIPTS/ncm2.vim
 source $VIMSCRIPTS/lsp.vim
 
 " Gvim configuration
-set go=
+set guioptions=
 
 " Font configuration
 set guifont=Iosevka\ 12
