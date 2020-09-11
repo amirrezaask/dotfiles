@@ -25,7 +25,7 @@ setxkbmap -layout us,ir -option "ctrl:nocaps" -option "grp:shifts_toggle"
 xdo above -t $(xdo id -n root) $(xdo id -a polybar)
 
 # set wallpaper
-nitrogen --set-zoom-fill ~/w/dotfiles/wallpapers/razer.jpg
+nitrogen --set-auto ~/w/dotfiles/wallpapers/gophers.png
 
 # Some values
 bspc config top_padding 35
