@@ -42,6 +42,10 @@
 - [[#minibuffer-completion][Minibuffer completion]]
   - [[#icompletedeprecated][Icomplete(Deprecated)]]
   - [[#ivy][Ivy]]
+    - [[#ivy-1][Ivy]]
+    - [[#counsel][Counsel]]
+    - [[#ivy-rich][Ivy-Rich]]
+    - [[#ivy-posframe][Ivy-Posframe]]
 - [[#emacs-buffers-and-windows][Emacs Buffers and Windows]]
   - [[#window-rules][Window rules]]
   - [[#eyebrowse][Eyebrowse]]
@@ -689,6 +693,7 @@ our font interactively, let's write it.
   (live-completions-mode 1))
 #+end_src
 ** Ivy
+*** Ivy
 #+begin_src emacs-lisp
   (use-package flx :ensure t)
   (use-package ivy
@@ -714,6 +719,9 @@ our font interactively, let's write it.
           '((t . ivy--regex-ignore-order)))
     (ivy-mode +1))
 
+#+end_src
+*** Counsel
+#+begin_src emacs-lisp
   (use-package counsel
     :ensure t
     :bind
@@ -727,15 +735,19 @@ our font interactively, let's write it.
      ("M-y" . 'counsel-yank-pop)
      ("C-c f" . 'counsel-fzf)
      ("C-c g" . 'counsel-rg)))
-
-
-  (use-package ivy-rich :ensure t :config (ivy-rich-mode 1))
-
-  ;; (use-package ivy-posframe :ensure t
-  ;;   :config
-  ;;   (setq ivy-posframe-parameters '((parent-frame nil)))
-  ;;   (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-center)))
-  ;;   (ivy-posframe-mode 1))
+#+end_src
+*** Ivy-Rich
+#+begin_src emacs-lisp
+(use-package ivy-rich :ensure t :config (ivy-rich-mode 1))
+#+end_src
+*** Ivy-Posframe
+#+begin_src emacs-lisp
+  (use-package ivy-posframe :ensure t
+    :disabled t
+    :config
+    (setq ivy-posframe-parameters '((parent-frame nil)))
+    (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-center)))
+    (ivy-posframe-mode 1))
 #+end_src
 * Emacs Buffers and Windows
 ** Window rules
