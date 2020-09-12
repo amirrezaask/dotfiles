@@ -11,14 +11,17 @@ Plug 'tpope/vim-commentary'
 " }}}
 
 " Deoplete {{{
-Plug 'Shougo/deoplete.nvim'
+" Plug 'Shougo/deoplete.nvim'
+" Plug 'Shougo/deoplete-lsp'
 " }}}
 
+Plug 'neovim/nvim-lspconfig'
+
 " Language Server Protocol {{{
-Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
-    \ }
+" Plug 'autozimu/LanguageClient-neovim', {
+"     \ 'branch': 'next',
+"     \ 'do': 'bash install.sh',
+"     \ }
 " }}}
 
 " FZF {{{
