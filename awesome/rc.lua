@@ -179,7 +179,9 @@ awful.screen.connect_for_each_screen(function(s)
 
     -- Create the wibox
     s.mywibox = awful.wibar({ position = "top", screen = s })
-
+    
+    -- Rythmbox
+    require('awesome-wm-widgets.rhythmbox-widget.rhythmbox')
     -- Add widgets to the wibox
     s.mywibox:setup {
         layout = wibox.layout.align.horizontal,
@@ -187,6 +189,8 @@ awful.screen.connect_for_each_screen(function(s)
             layout = wibox.layout.fixed.horizontal,
             s.mytaglist,
             s.mypromptbox,
+            rhythmbox_widget,
+
         },
         {
             layout = wibox.layout.flex.horizontal
