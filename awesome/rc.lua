@@ -179,12 +179,6 @@ awful.screen.connect_for_each_screen(function(s)
 
     -- Create the wibox
     s.mywibox = awful.wibar({ position = "top", screen = s })
-    -- Battery indicator
-    local batteryarc_widget = require("awesome-wm-widgets.batteryarc-widget.batteryarc")
-    -- Volume indicator
-    local volumearc_widget = require("awesome-wm-widgets.volumearc-widget.volumearc")
-    -- Brightness indicator
-    local brightness_widget = require("awesome-wm-widgets.brightness-widget.brightness")
 
     -- Add widgets to the wibox
     s.mywibox:setup {
@@ -202,9 +196,6 @@ awful.screen.connect_for_each_screen(function(s)
             mykeyboardlayout,
             wibox.widget.systray(),
             mytextclock,
-            volumearc_widget(),
-            batteryarc_widget(),
-            brightness_widget(),
             s.mylayoutbox,
         },
     }
@@ -546,11 +537,9 @@ client.connect_signal("request::titlebars", function(c)
     }
 end)
 
--- Enable sloppy focus, so that focus follows mouse.
-client.connect_signal("mouse::enter", function(c)
-    c:emit_signal("request::activate", "mouse_enter", {raise = false})
-end)
-
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
+--
+--
+awful.key({} ,"#123", function(c) awful.spawn("pactl set-sink-volume @DEFAULT_SINK@ +10%") end)
