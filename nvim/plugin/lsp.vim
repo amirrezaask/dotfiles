@@ -22,6 +22,6 @@ nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
 lua << END
     require'nvim_lsp'.gopls.setup{}
     require'nvim_lsp'.pyls.setup{}
-    require'nvim_lsp'.vimls.setup{}
+    #require'nvim_lsp'.vimls.setup{}
     require'nvim_lsp'.intelephense.setup{}
 END
