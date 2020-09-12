@@ -56,7 +56,7 @@ nnoremap \\ :Rg<CR>
 nnoremap ,, :Commands<CR>
 
 " Colorscheme
-colorscheme atom-dark 
+colorscheme gotham 
 
 " Gvim configuration
 set guioptions=

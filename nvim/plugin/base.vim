@@ -36,6 +36,8 @@ noremap k gk
 " Highlight current line
 set cursorline
 
+" Relative line numbers
+set relativenumber
 " Terminal Colors
 set termguicolors
 
