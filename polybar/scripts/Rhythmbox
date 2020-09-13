@@ -2,4 +2,10 @@
 
 if [ "$1" == "name" ]; then
     rhythmbox-client --no-start --print-playing-format %tt
+elif [ "$1" == "next" ]; then
+    rhythmbox-client --no-start --next 
+elif [ "$1" == "prev" ]; then
+    rhythmbox-client --no-start --previous 
+elif [ "$1" == "toggle" ]; then
+    rhythmbox-client --no-start --play-pause
 fi
