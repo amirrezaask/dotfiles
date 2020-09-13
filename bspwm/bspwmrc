@@ -1,5 +1,5 @@
 #! /bin/sh
-
+DOTFILES="$HOME/w/dotfiles"
 bc () {
     bspc "$@"
 }
@@ -15,7 +15,7 @@ pkill sxhkd
 # Autostart applications
 sxhkd &
 compton &
-polybar default &
+sh "$DOTFILES/polybar/launch.sh"
 xfce4-power-manager &
 dunst &
 

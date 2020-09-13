@@ -22,3 +22,6 @@
 [submodule "awesome/awesome-wm-widgets"]
 	path = awesome/awesome-wm-widgets
 	url = https://github.com/streetturtle/awesome-wm-widgets
+[submodule "polybar/polybar-themes"]
+	path = polybar/polybar-themes
+	url = https://github.com/adi1090x/polybar-themes
