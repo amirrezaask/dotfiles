@@ -1,2 +1,7 @@
 .DS_Store
 *~
+xmonad/xmonad.o
+xmonad/xmonad.hi
+xmonad/xmonad.errors
+xmonad/xmonad-x86_64-linux
+nvim/.netrwhist
