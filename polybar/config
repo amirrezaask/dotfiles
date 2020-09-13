@@ -114,7 +114,10 @@ label-empty-padding = 2
 [module/Rhythmbox]
 type = custom/script
 exec = "${SCRIPTS_PATH}/Rhythmbox name"
-
+format= "Current Music: <label>"
+; click-left = "${SCRIPTS_PATH}/Rhythmbox prev" 
+; click-middle = "${SCRIPTS_PATH}/Rhythmbox toggle"
+; click-right = "${SCRIPTS_PATH}/Rhythmbox next"
 
 [module/xbacklight]
 type = internal/xbacklight
