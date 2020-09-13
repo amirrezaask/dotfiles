@@ -1,9 +1,11 @@
 " Plugins
 call plug#begin('~/.vim/plugged')
+" Colorschemes
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'overcache/NeoSolarized'
 Plug 'whatyouhide/vim-gotham'
 Plug 'gosukiwi/vim-atom-dark'
+
 " tpope {{{
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-jdaddy'
@@ -15,6 +17,7 @@ Plug 'tpope/vim-commentary'
 " Plug 'Shougo/deoplete-lsp'
 " }}}
 
+" NeoVim LSP
 Plug 'neovim/nvim-lspconfig'
 
 " Language Server Protocol {{{
@@ -29,6 +32,7 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 " }}}
 
+" Indent Objects
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'michaeljsmith/vim-indent-object'
 
@@ -44,7 +48,9 @@ Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 " }}}
+
 call plug#end()
+
 " End Plugins
 
 " define SPC as <leader> 
@@ -53,7 +59,6 @@ let mapleader=" "
 " FZF to SPC SPC
 nnoremap <leader><leader> :Files<CR>
 nnoremap \\ :Rg<CR> 
-nnoremap ,, :Commands<CR>
 
 " Colorscheme
 colorscheme atom-dark 
