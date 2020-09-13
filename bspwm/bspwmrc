@@ -1,7 +1,11 @@
 #! /bin/sh
 
+bc () {
+    bspc "$@"
+}
+
 # Remove old rules
-bspc rule -r "*"
+bc rule -r "*"
 
 # kill already running polybar
 pkill polybar
@@ -16,7 +20,7 @@ xfce4-power-manager &
 dunst &
 
 # Desktops and monitors
-bspc monitor eDP-1 -d code terms www music movie chat steam 8 9
+bc monitor eDP-1 -d code terms www music movie chat steam 8 9
 
 # Keyboard layout
 setxkbmap -layout us,ir -option "ctrl:nocaps" -option "grp:shifts_toggle"
@@ -28,12 +32,12 @@ xdo above -t $(xdo id -n root) $(xdo id -a polybar)
 nitrogen --set-auto ~/w/dotfiles/wallpapers/gophers.png
 
 # Some values
-bspc config top_padding 35
-bspc config window_gap 0
-bspc config border_width 1 
-bspc config bottom_padding 0
-bspc config borderless_monocle true
+bc config top_padding 35
+bc config window_gap 0
+bc config border_width 1 
+bc config bottom_padding 0
+bc config borderless_monocle true
 
 # Rules for different applications
-bspc rule -a "Emacs" state=tiled desktop=^1
-bspc rule -a "Google-chrome-beta" state=tiled desktop=^3
+bc rule -a "Emacs" state=tiled desktop=^1
+bc rule -a "Google-chrome-beta" state=tiled desktop=^3
