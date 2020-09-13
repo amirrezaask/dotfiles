@@ -113,7 +113,7 @@ label-empty-padding = 2
 ; label-separator = /\ 
 [module/Rhythmbox]
 type = custom/script
-exec = "${SCRIPTS_PATH}/echo.sh"
+exec = "${SCRIPTS_PATH}/Rhythmbox name"
 
 
 [module/xbacklight]

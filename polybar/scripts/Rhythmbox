@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+if [ "$1" == "name" ]; then
+    rhythmbox-client --no-start --print-playing-format %tt
+fi
