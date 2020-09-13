@@ -1,2 +1,2 @@
 #!/bin/sh
-SCRIPTS_PATH="$HOME/w/dotfiles/polybar" polybar default &
+SCRIPTS_PATH="$HOME/w/dotfiles/polybar/scripts" polybar default &
