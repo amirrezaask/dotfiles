@@ -42,6 +42,11 @@
         (interface "org.mpris.MediaPlayer2.Player"))
     (dbus-call-method :session service path interface
                       "PlayPause")))
+;;;###autoload
+(defun Rhythmbox/current-song-name ()
+  "Name of current song."
+  (interactive)
+  (string-trim  (shell-command-to-string "rhythmbox-client --no-start --print-playing-format %tt")))
 
 (defvar Rhythmbox/songs nil "List of songs in library.")
 

@@ -587,21 +587,21 @@ extensively but now i use it only when keybindings are just crazy.
                 (list
                  " Workspace:"
                  '(:eval (format "%d" (amirreza/exwm-current-workspace)))
-                  "  "
-                  mode-line-modified
-                  " "
-                  mode-line-mule-info
-                  " "
-                  mode-line-buffer-identification
-                  " "
-                  mode-name
-                  " "
-                  mode-line-position
-                  '(vc-mode vc-mode)
-                  " Time: "
-                  '(:eval (current-time-string))
-                  " Battery: "
-                  '(:eval (propertize battery-mode-line-string))))
+                 "  "
+                 mode-line-modified
+                 " "
+                 mode-line-mule-info
+                 " "
+                 mode-line-buffer-identification
+                 " "
+                 mode-name
+                 " "
+                 mode-line-position
+                 '(vc-mode vc-mode)
+                 " Time: "
+                 '(:eval (current-time-string))
+                 " Battery: "
+                 '(:eval (propertize battery-mode-line-string))))
 #+end_src
 ** Diminish
 :PROPERTIES:
