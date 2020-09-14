@@ -181,6 +181,8 @@ awful.screen.connect_for_each_screen(function(s)
     local volumebar_widget = require("awesome-wm-widgets.volumebar-widget.volumebar")
     -- Battery
     local battery_widget = require("awesome-wm-widgets.battery-widget.battery")
+    -- Logout widget
+    local logout_widget = require('awesome-wm-widgets.logout-widget.logout')
     -- Add widgets to the wibox
     s.mywibox:setup {
         layout = wibox.layout.align.horizontal,

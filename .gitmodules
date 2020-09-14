@@ -25,3 +25,6 @@
 [submodule "polybar/polybar-themes"]
 	path = polybar/polybar-themes
 	url = https://github.com/adi1090x/polybar-themes
+[submodule "awesome/awesome-buttons"]
+	path = awesome/awesome-buttons
+	url = https://github.com/streetturtle/awesome-buttons
