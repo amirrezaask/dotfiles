@@ -20,7 +20,7 @@ xfce4-power-manager &
 dunst &
 
 # Desktops and monitors
-bc monitor eDP-1 -d code terms www music movie chat steam 8 9
+bc monitor eDP-1 -d dev terms www music movie chat steam 8 9
 
 # Keyboard layout
 setxkbmap -layout us,ir -option "ctrl:nocaps" -option "grp:shifts_toggle"
