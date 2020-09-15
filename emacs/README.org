@@ -3,6 +3,7 @@
 * Table Of contents                                                   :TOC@3:
 - [[#personal-information][Personal information]]
 - [[#basic-setup][Basic Setup]]
+  - [[#defer-loading-of-some-internal-packages][Defer loading of some internal packages]]
   - [[#tab-setting][Tab Setting]]
   - [[#backup-files-configuration][Backup files configuration]]
   - [[#y-or-n-instead-of-yes-or-no][y-or-n instead of yes-or-no]]
@@ -21,7 +22,6 @@
   - [[#show-time-in-modeline][Show time in modeline]]
   - [[#show-line-numbers][Show line numbers]]
   - [[#highlight-matching-parens][Highlight matching parens]]
-  - [[#help-mode][Help-mode]]
   - [[#track-laptop-battery][Track laptop battery]]
   - [[#emacs-x-window-manager][Emacs X Window Manager]]
   - [[#startup-page][Startup page]]
@@ -124,6 +124,12 @@
           user-mail-address "raskarpour@gmail.com")
 #+end_src
 * Basic Setup
+** Defer loading of some internal packages
+#+begin_src emacs-lisp
+  (corelib/defer-packages '(help-mode
+                            recentf
+                            ))
+#+end_src
 ** Tab Setting
 #+begin_src emacs-lisp
   (use-package emacs
@@ -225,14 +231,6 @@
     :config
     (show-paren-mode 1)
     (setq show-paren-delay 0))
-#+end_src
-** Help-mode
-#+begin_src emacs-lisp
-  (use-package help-mode 
-    :demand
-    :bind (:map help-mode-map 
-                ("n" . next-line)
-                ("p" . previous-line)))
 #+end_src
 ** Track laptop battery
 #+begin_src emacs-lisp
@@ -388,8 +386,6 @@ I want my Emacs to open my TODO file on every startup and have a that buffer ope
       (interactive)
       (find-file amirreza/todo-file))
   (global-set-key (kbd "<f2>") 'amirreza/open-todo)
-  (add-hook 'after-init 'amirreza/open-todo)
-  (setq initial-buffer-choice "TODO.org")
 #+end_src
 * Keybinding
 I respect Emacs keybinding conventions in my configuration with a few ideas borrowed from spacemacs.
@@ -414,7 +410,7 @@ extensively but now i use it only when keybindings are just crazy.
 #+begin_src emacs-lisp
   (use-package which-key
     :straight t
-    :diminish
+    :defer 1
     :config
     (setq which-key-idle-delay 0.3)
     (defalias 'which-key! 'which-key-add-key-based-replacements)
@@ -453,7 +449,7 @@ extensively but now i use it only when keybindings are just crazy.
      (setq visible-bell t))
 
    (use-package custom
-     :demand
+     :defer 1
      :bind (("<f12>" . amirreza/toggle-color-mode))
      :config
      (defvar amirreza/current-mode 'dark "Current color mode of Emacs.")
@@ -501,6 +497,7 @@ extensively but now i use it only when keybindings are just crazy.
      (blink-cursor-mode 1))
 
    (use-package hl-line
+     :defer 1
      :config
      (global-hl-line-mode +1))
 
@@ -531,9 +528,11 @@ extensively but now i use it only when keybindings are just crazy.
 #+end_src
 *** Doom-modeline
 #+begin_src emacs-lisp
-(use-package doom-modeline
-  :straight t
-  :init (doom-modeline-mode 1))
+  (use-package doom-modeline
+    :straight t
+    :init (doom-modeline-mode 1)
+    :config
+    (setq doom-modeline-height 40))
 #+end_src
 ** Diminish
 :PROPERTIES:
@@ -669,9 +668,12 @@ our font interactively, let's write it.
 #+end_src
 *** Ivy-Rich
 #+begin_src emacs-lisp
-(use-package ivy-rich :straight t :config (ivy-rich-mode 1))
+(use-package ivy-rich :straight t :after ivy :config (ivy-rich-mode 1))
 #+end_src
 *** Ivy-Posframe
+:PROPERTIES:
+:header-args: :tangle no
+:END:
 #+begin_src emacs-lisp
   (use-package ivy-posframe :straight t
     :disabled t
@@ -709,7 +711,8 @@ Emacs windows can be configured in the matter of where their gonna open.
 ** Eyebrowse
 =Eyebrowse= gives you =i3= like experience in Emacs, let's you have multiple workspaces and switch between them.
 #+BEGIN_SRC emacs-lisp
-  (use-package eyebrowse :straight t
+  (use-package eyebrowse 
+    :straight t
     :commands (eyebrowse-close-window-config
                eyebrowse-create-window-config
                eyebrowse-switch-to-window-config-0
@@ -745,7 +748,6 @@ comes handy you can restore last window layout with just a function called =winn
 by default is bound to =C-c <left>=.
 #+BEGIN_SRC emacs-lisp
   (use-package winner
-    :demand
     :config
     (winner-mode 1)
     :commands (winner-redo winner-undo)
@@ -772,6 +774,7 @@ by default is bound to =C-c <left>=.
 ** Save Emacs state of buffers
 #+begin_src emacs-lisp
   (use-package desktop
+    :defer 1
     :config
     (desktop-save-mode 1))
 #+end_src
@@ -878,30 +881,30 @@ by default is bound to =C-c <left>=.
 #+end_src
 ** Org
 #+BEGIN_SRC emacs-lisp
-  (use-package org
-  :demand
-  :init
-  (defun amirreza/--org-insert-elisp-code-block ()
-    (interactive)
-    (insert (format "#+begin_src emacs-lisp\n\n#+end_src"))
-    (previous-line)
-    (beginning-of-line))
-  (defun amirreza/--org-insert-no-tangle ()
-    ""
-    (interactive)
-    (insert (format ":PROPERTIES:\n:header-args: :tangle no\n:END:\n"))
-    (previous-line)
-    (beginning-of-line))
-  :bind (:map org-mode-map
-              ("C-c m n" . amirreza/--org-insert-no-tangle)
-              ("C-c m b" . amirreza/--org-insert-elisp-code-block))
-  :config
-  (setq org-ellipsis "⤵")
-  (setq org-src-fontify-natively t)
-  (setq org-src-tab-acts-natively t)
-  (setq org-support-shift-select t)
-  (setq org-src-window-setup 'current-window)
-  (setq org-agenda-files '("~/org/work.org" "~/org/personal.org")))
+    (use-package org
+    :config
+    (defun amirreza/--org-insert-elisp-code-block ()
+      (interactive)
+      (insert (format "#+begin_src emacs-lisp\n\n#+end_src"))
+      (previous-line)
+      (beginning-of-line))
+
+    (defun amirreza/--org-insert-no-tangle ()
+      ""
+      (interactive)
+      (insert (format ":PROPERTIES:\n:header-args: :tangle no\n:END:\n"))
+      (previous-line)
+      (beginning-of-line))
+
+    (setq org-ellipsis "⤵")
+    (setq org-src-fontify-natively t)
+    (setq org-src-tab-acts-natively t)
+    (setq org-support-shift-select t)
+    (setq org-src-window-setup 'current-window)
+    (setq org-agenda-files '("~/org/work.org" "~/org/personal.org"))
+    :bind (:map org-mode-map
+                ("C-c m n" . amirreza/--org-insert-no-tangle)
+                ("C-c m b" . amirreza/--org-insert-elisp-code-block)))
 #+END_SRC
 *** Org bullets
  #+BEGIN_SRC emacs-lisp
@@ -976,6 +979,7 @@ by default is bound to =C-c <left>=.
 ** Projects
 #+begin_src emacs-lisp
   (use-package project
+    :defer 1
     :bind ("s-p" . amirreza/projects-list)
     :config
     (defun amirreza/get-root ()
@@ -1007,12 +1011,13 @@ by default is bound to =C-c <left>=.
 
   (use-package projectile
     :straight t
+    :defer 1
     :config
     (setq projectile-completion-system 'ivy))
 
   (use-package counsel-projectile
     :straight t
-    :demand
+    :after projectile
     :config (counsel-projectile-mode 1)
     :bind* (:map projectile-mode-map
                  ("C-c p" . projectile-command-map)
@@ -1207,8 +1212,9 @@ going to define our skeletons in their respective languages. Snippet macro defin
 Snippets are basically combination of abbrevs and skeletons, abbrevs are used for triggering
 skeleton and skeleton does it's job of inserting text.
 #+begin_src emacs-lisp
-  (use-package abbrev :diminish :commands (expand-abbrev))
-  (use-package skeleton :demand
+  (use-package abbrev :commands (expand-abbrev))
+  (use-package skeleton
+    :commands (amirreza/defsnippet)
     :config
     (defmacro amirreza/defsnippet (mode abbrv &rest skeleton-expansions)
       "Snippets are wrapper around skeleton and abbrevs."

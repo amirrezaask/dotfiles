@@ -27,6 +27,12 @@
 
 (defvar corelib/emacs-init-timestamp (float-time) "Holds Emacs initialization time.")
 
+(defun corelib/defer-packages (pkgs)
+  "Defer loading of given packages."
+  (mapc (lambda (pkg)
+          (use-package pkg :defer 2)
+          ) pkgs))
+
 (defun corelib/init-package-manager ()
   "Initialize Straight.el package manager."
   ;; Initialize Package manager
@@ -42,13 +48,15 @@
         (goto-char (point-max))
         (eval-print-last-sexp)))
     (load bootstrap-file nil 'nomessage))
-  (straight-use-package 'use-package)
-  (require 'bind-key))
+  (straight-use-package 'use-package))
+
 
 (defun corelib/use-literate-config (path)
   "Tangle given literate config."
-  (org-babel-tangle-file path "~/.emacs.d/init.el" "emacs-lisp")
-  (add-hook 'kill-emacs-hook 'corelib/use-literate-config))
+  (require 'org)
+  (delete-file "~/.emacs.d/init.el")
+  (org-babel-tangle-file path "~/.emacs.d/init.el" "emacs-lisp"))
+
 
 (defun corelib/faster-start ()
   ;; Defer Garbage collection
@@ -87,8 +95,8 @@
         initial-scratch-message nil)
   
   (unless (file-exists-p "~/.emacs.d/init.el")
-    (corelib/use-literate-config)))
-
+    (corelib/use-literate-config "~/.emacs.d/README.org"))
+  (add-hook 'kill-emacs-hook (lambda () (corelib/use-literate-config "~/.emacs.d/README.org"))))
 
 (provide 'corelib)
 ;;; corelib.el ends here
