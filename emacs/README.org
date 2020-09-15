@@ -1279,7 +1279,8 @@ as auto-complete or syntax linting.
          (t (completing-read "Code Action: " actions)))))
     :commands (lsp-ivy-workspace-symbol lsp-ivy-global-workspace-symbol) 
     :bind (("C-s-l f" . lsp-ivy-workspace-symbol)
-           ("C-s-l a" . amirreza/lsp-ivy-code-actions)))
+           ("C-s-l a" . amirreza/lsp-ivy-code-actions)
+           ("C-c m s" . lsp-ivy-workspace-symbol)))
 
   (use-package dap-mode :straight t :defer t)
 #+END_SRC
