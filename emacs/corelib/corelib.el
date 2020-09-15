@@ -23,7 +23,7 @@
 ;; 
 
 ;;; Code:
-(require 'corelib-gcmh)
+
 
 (defvar corelib/emacs-init-timestamp (float-time) "Holds Emacs initialization time.")
 
@@ -45,11 +45,6 @@
   (straight-use-package 'use-package)
   (require 'bind-key))
 
-(defun corelib/startup-time ()
-  "Show emacs startup time."
-  (interactive)
-  (message "%d" (- (float-time) corelib/emacs-init-timestamp)))
-
 (defun corelib/use-literate-config (path)
   "Tangle given literate config."
   (org-babel-tangle-file path "~/.emacs.d/init.el" "emacs-lisp")
@@ -61,7 +56,7 @@
 
   ;; Restore garbage collection after initialization
   (add-hook 'after-init-hook (lambda ()
-                               (require 'gcmh)
+                               (require 'corelib-gcmh)
                                (gcmh-mode 1)))
   ;; Prevent the glimpse of un-styled Emacs by disabling these UI elements early.
   (push '(menu-bar-lines . 0) default-frame-alist)
