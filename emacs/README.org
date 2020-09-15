@@ -970,16 +970,16 @@ by default is bound to =C-c <left>=.
 * Files & Projects
 ** Recent files
  #+begin_src emacs-lisp
-   (defun amirreza/recents ()
-     (interactive)
-     (completing-read "Recent: " recentf-list))
-
-   (global-set-key (kbd "C-c r") 'amirreza/recents)
+   (use-package recentf 
+     :bind (("C-c r" . amirreza/recents))
+     :config
+     (defun amirreza/recents ()
+       (interactive)
+       (completing-read "Recent: " recentf-list)))
  #+end_src
 ** Projects
 #+begin_src emacs-lisp
   (use-package project
-    :defer 1
     :bind ("s-p" . amirreza/projects-list)
     :config
     (defun amirreza/get-root ()
