@@ -124,12 +124,6 @@
           user-mail-address "raskarpour@gmail.com")
 #+end_src
 * Basic Setup
-** Defer loading of some internal packages
-#+begin_src emacs-lisp
-  (corelib/defer-packages '(help-mode
-                            recentf
-                            ))
-#+end_src
 ** Tab Setting
 #+begin_src emacs-lisp
   (use-package emacs

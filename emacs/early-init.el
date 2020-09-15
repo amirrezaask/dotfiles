@@ -8,4 +8,7 @@
 ;; Initialize Package manager
 (corelib/init-package-manager)
 
+;; Use literate configuration mode
+(corelib/use-literate-config "~/.emacs.d/README.org" "~/.emacs.d/init.el")
+
 ;; Init file is generated gets loaded.
