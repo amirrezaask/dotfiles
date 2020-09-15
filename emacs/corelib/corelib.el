@@ -23,6 +23,7 @@
 ;; 
 
 ;;; Code:
+(require 'corelib-gcmh)
 
 (defvar corelib/emacs-init-timestamp (float-time) "Holds Emacs initialization time.")
 
@@ -60,8 +61,8 @@
 
   ;; Restore garbage collection after initialization
   (add-hook 'after-init-hook (lambda ()
-                               (setq gc-cons-threshold (* 1024 1024 20))))
-
+                               (require 'gcmh)
+                               (gcmh-mode 1)))
   ;; Prevent the glimpse of un-styled Emacs by disabling these UI elements early.
   (push '(menu-bar-lines . 0) default-frame-alist)
   (push '(tool-bar-lines . 0) default-frame-alist)

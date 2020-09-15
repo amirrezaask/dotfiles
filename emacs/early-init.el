@@ -1,5 +1,6 @@
 ;; load corelib library
-(load-file "~/.emacs.d/corelib/corelib.el")
+(add-to-list 'load-path "~/.emacs.d/corelib")
+(require 'corelib)
 
 ;; Optimize Emacs internals, tangle literate configuration if needed.
 (corelib/faster-start)
