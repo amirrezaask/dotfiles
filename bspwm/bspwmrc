@@ -32,7 +32,7 @@ xdo above -t $(xdo id -n root) $(xdo id -a polybar)
 nitrogen --set-auto ~/w/dotfiles/wallpapers/gophers.png
 
 # Some values
-bc config top_padding 35
+bc config top_padding 33
 bc config window_gap 0
 bc config border_width 1 
 bc config bottom_padding 0
