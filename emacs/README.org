@@ -85,7 +85,6 @@
   - [[#dumb-jump][Dumb Jump]]
   - [[#language-server-protocol][Language Server Protocol]]
   - [[#rainbow-delimiters][Rainbow delimiters]]
-  - [[#syntax-checking][Syntax checking]]
   - [[#docs][Docs]]
   - [[#languages][Languages]]
     - [[#go][Go]]
@@ -1269,16 +1268,6 @@ help ease developer experience when using LSP.
 #+begin_src emacs-lisp
 (use-package rainbow-delimiters :straight t :hook (prog-mode . rainbow-delimiters-mode))
 #+end_src
-** Syntax checking
-:PROPERTIES:
-:header-args: :tangle no
-:END:
-Emacs comes with a built in syntax checker called =flymake=, but since emacs community favors =flycheck= over =flymake= we are going to setup flycheck.
-#+BEGIN_SRC emacs-lisp
-  (use-package flycheck
-    :straight t
-    :hook (prog-mode . flycheck-mode))
-#+END_SRC
 ** Docs
 #+begin_src emacs-lisp
   (use-package eldoc
