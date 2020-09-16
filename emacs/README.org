@@ -3,7 +3,6 @@
 * Table Of contents                                                   :TOC@3:
 - [[#personal-information][Personal information]]
 - [[#basic-setup][Basic Setup]]
-  - [[#defer-loading-of-some-internal-packages][Defer loading of some internal packages]]
   - [[#tab-setting][Tab Setting]]
   - [[#backup-files-configuration][Backup files configuration]]
   - [[#y-or-n-instead-of-yes-or-no][y-or-n instead of yes-or-no]]
@@ -66,7 +65,6 @@
   - [[#dont-choke-on-large-data][Don't choke on large data]]
   - [[#tramp-edit-remote-files][Tramp: Edit remote files]]
   - [[#org][Org]]
-    - [[#org-bullets][Org bullets]]
     - [[#org-toc][Org TOC]]
     - [[#htmlize][htmlize]]
   - [[#outline-mode][Outline Mode]]
@@ -484,7 +482,7 @@ extensively but now i use it only when keybindings are just crazy.
    (use-package emacs
      :config
      (setq-default ring-bell-function 'ignore)
-     (setq-default cursor-type 'box))
+     (setq-default cursor-type 'bar))
 
    (use-package frame
      :config
@@ -900,12 +898,6 @@ by default is bound to =C-c <left>=.
                 ("C-c m n" . amirreza/--org-insert-no-tangle)
                 ("C-c m b" . amirreza/--org-insert-elisp-code-block)))
 #+END_SRC
-*** Org bullets
- #+BEGIN_SRC emacs-lisp
- (use-package org-bullets
-   :straight t
-   :hook (org-mode . org-bullets-mode))
- #+END_SRC
 *** Org TOC
  #+begin_src emacs-lisp
  (use-package toc-org :straight t :hook (org-mode . toc-org-mode))
