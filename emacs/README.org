@@ -1047,8 +1047,7 @@ all executables.
               (switch-to-buffer-other-window new-buff)
               (rename-buffer (format "*eshell:%s*" default-directory)))))))
 
-    :bind (("C-c s" . amirreza/eshell-new)
-           ("<f11>" . amirreza/eshell-new)
+    :bind (("<f11>" . amirreza/eshell-new)
            ("s-<return>" . amirreza/eshell-new)))
 
   (use-package esh-mode
