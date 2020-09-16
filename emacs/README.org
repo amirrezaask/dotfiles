@@ -48,7 +48,7 @@
   - [[#eyebrowse][Eyebrowse]]
   - [[#winner-restore-window-layout][Winner (Restore Window layout)]]
   - [[#ace-window-better-window-management][Ace Window (Better Window Management)]]
-  - [[#ibuffer][IBuffer]]
+  - [[#ibuffer][Ibuffer]]
   - [[#save-emacs-state-of-buffers][Save Emacs state of buffers]]
 - [[#editing--writing][Editing & Writing]]
   - [[#searching][Searching]]
@@ -754,7 +754,7 @@ by default is bound to =C-c <left>=.
     :commands (ace-window)
     :bind (("C-x C-o" . 'ace-window)))
 #+END_SRC
-** IBuffer
+** Ibuffer
 #+begin_src emacs-lisp
   (use-package ibuffer
     :bind (("C-x C-b" . 'ibuffer)))
@@ -965,6 +965,7 @@ by default is bound to =C-c <left>=.
  #+end_src
 ** Projects
 #+begin_src emacs-lisp
+  (defvar amirreza/project-locations '("~/w" "~/w/snapp" "~/w"))
   (use-package project
     :bind ("s-p" . amirreza/projects-list)
     :config
@@ -973,16 +974,6 @@ by default is bound to =C-c <left>=.
       (let* ((project (vc-root-dir))
              (dir (if project project default-directory)))
         dir))
-
-    (defun amirreza/project-or-dir-find-file-recur ()
-      (interactive)
-      (let* ((dir (amirreza/get-root))
-             (files (directory-files-recursively dir ".*" nil (lambda (name)
-                                                                (not (string-match "\\.git" name)
-                                                                     t)))))
-        (find-file (completing-read "Find: " files))))
-
-    (defvar amirreza/project-locations '("~/w" "~/w/snapp" "~/w"))
 
     (defun amirreza/projects-list ()
       "List of projects in pre defined project locations."
