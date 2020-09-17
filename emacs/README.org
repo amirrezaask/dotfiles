@@ -608,10 +608,15 @@ our font interactively, let's write it.
   (use-package flx :straight t)
   (use-package ivy
     :straight t
+    :general
+    (space-leader "b l" 'ivy-switch-buffer)
     :bind
-    (("C-x b" . 'ivy-switch-buffer)
+    (:map ivy-switch-buffer-map
+          ("C-k" . 'ivy-previous-line)
      :map ivy-minibuffer-map
-     ("RET" . 'ivy-alt-done))
+          ("C-j" . 'ivy-next-line)
+          ("C-k" . 'ivy-previous-line)
+          ("RET" . 'ivy-alt-done))
     :config
     (setq ivy-height 15)
     ;; loopish cycling through list
