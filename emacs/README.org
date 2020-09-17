@@ -83,7 +83,7 @@
   - [[#movement-based-on-language-semantics][Movement based on language semantics]]
   - [[#snippets][Snippets]]
   - [[#dumb-jump][Dumb Jump]]
-  - [[#language-server-protocol][Language Server Protocol]]
+  - [[#eglot][Eglot]]
   - [[#rainbow-delimiters][Rainbow delimiters]]
   - [[#docs][Docs]]
   - [[#languages][Languages]]
@@ -1208,62 +1208,15 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
     :hook
     (xref-backend-functions . #'dumb-jump-xref-activate))
 #+end_src
-** Language Server Protocol
-Language Server protocol is a open source protocol developed by microsoft but now it's being
-developed by community, it defines a communication protocol that a lanaguge server (let's say gopls)
-can talk to various clients (let's say Emacs, Vi, VSCode) and provide several features such
-as auto-complete or syntax linting.
-#+BEGIN_SRC emacs-lisp
-  (use-package lsp-mode 
+** Eglot
+#+begin_src emacs-lisp
+  (use-package eglot
     :straight t
-    :commands (lsp lsp-deferred)
     :init
-    (setq lsp-keymap-prefix "s-d")
-    (setq lsp-file-watch-threshold 1000000)
-    (defun amirreza/lsp? ()
-      (interactive)
-      --lsp-enabled)
-
-    (defun amirreza/lsp! ()
-      "Enable LSP for current buffer."
-      (interactive)
-      (lsp)
-      (setq-local --lsp-enabled t)
-      (setq-local company-backends '(company-capf)))
-
-    (defun amirreza/disable-lsp () 
-      "Disable LSP for current buffer."
-      (interactive)
-      (setq-local --lsp-enabled nil))
-
-    :config
-    (setq lsp-auto-guess-root t)
-    :commands (lsp)
-    :bind (("<f6>" . lsp-rename)
-           ("C-s-l ." . lsp-find-references)))
-
-  (use-package lsp-ivy :straight t
-    :config
-    (defun amirreza/lsp-ivy-code-actions ()
-      (interactive)
-      (let* ((actions (lsp-code-actions-at-point)))
-        (cond
-         ((seq-empty-p actions) (signal 'lsp-no-code-actions nil))
-         ((and (eq (seq-length actions) 1) lsp-auto-execute-action)
-          (lsp-execute-code-action (lsp-seq-first actions)))
-         (t (completing-read "Code Action: " actions)))))
-    :commands (lsp-ivy-workspace-symbol lsp-ivy-global-workspace-symbol) 
-    :bind (("C-s-l f" . lsp-ivy-workspace-symbol)
-           ("C-s-l a" . amirreza/lsp-ivy-code-actions)
-           ("C-c m s" . lsp-ivy-workspace-symbol)))
-
-  (use-package dap-mode :straight t :defer t)
-#+END_SRC
-LSP-ui is a mode from the same author with the goal of configuring several Emacs packages to 
-help ease developer experience when using LSP.
-#+BEGIN_SRC emacs-lisp
-  ;; (use-package lsp-ui :straight t :commands lsp-ui-mode :hook (lsp-mode . lsp-ui-mode))
-#+END_SRC
+    (defun project-root (project)
+      (car (project-roots project)))
+    :hook (prog-mode . #'eglot-ensure))
+#+end_src
 ** Rainbow delimiters
 #+begin_src emacs-lisp
 (use-package rainbow-delimiters :straight t :hook (prog-mode . rainbow-delimiters-mode))
