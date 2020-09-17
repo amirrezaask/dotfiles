@@ -1,6 +1,7 @@
 #+TITLE: AmirrezaAsk Integrated Computing Environment
 #+AUTHOR: amirrezaask
 * Table Of contents                                                   :TOC@3:
+- [[#early-init-contents][early-init contents]]
 - [[#personal-information][Personal information]]
 - [[#basic-setup][Basic Setup]]
   - [[#tab-setting][Tab Setting]]
@@ -111,6 +112,28 @@
   - [[#kubernetes][Kubernetes]]
 - [[#dotfiles][Dotfiles]]
 
+* early-init contents
+Since Emacs27 Emacs evaluates a new =early-init= file which is executed in early emacs boot process.
+In this file I load a simple library I wrote called =corelib= which has some basic functionalities that I need to 
+have before my actual configuration is loaded such as =fast-start= for faster boot process, =use-literate-config= which 
+checks if my literate configuration has been tangled and adds tangle function to emacs exit hook so every time I exit Emacs
+my configuration gets tangled for faster startup and is always up to date.
+#+begin_src emacs-lisp
+;; load corelib library
+(add-to-list 'load-path "~/.emacs.d/corelib")
+(require 'corelib)
+
+;; Optimize Emacs internals, tangle literate configuration if needed.
+(corelib/faster-start)
+
+;; Initialize Package manager
+(corelib/init-package-manager)
+
+;; Use literate configuration mode
+(corelib/use-literate-config "~/.emacs.d/README.org" "~/.emacs.d/init.el")
+
+;; Init file is generated gets loaded.
+#+end_src
 * Personal information
 #+begin_src emacs-lisp
     (setq user-full-name "AmirrezaAskarpour"
@@ -904,29 +927,31 @@ by default is bound to =C-c <left>=.
 #+end_src
 ** Smart symbol and file finding
 #+begin_src emacs-lisp
-   (use-package counsel
-     :bind(("C-c f" . 'amirreza/find-file)
-           ("C-c g" . 'amirreza/rg)
-           ("C-M-f" . 'amirreza/find-file-at-point)
-           ("C-M-g" . 'amirreza/find-symbol-at-point))
-     :config
-     (defun amirreza/find-symbol-at-point ()
-       (interactive)
-       (let* ((symbol (thing-at-point 'word)))
-         (counsel-rg symbol (amirreza/find-root))))
+  (use-package counsel
+    :bind(("C-c f" . 'amirreza/find-file)
+          ("C-c g" . 'amirreza/rg)
+          ("<f1>" . 'amirreza/find-file-at-point)
+          ("<f2>" . 'amirreza/find-symbol-at-point)
+          ("C-M-f" . 'amirreza/find-file-at-point)
+          ("C-M-g" . 'amirreza/find-symbol-at-point))
+    :config
+    (defun amirreza/find-symbol-at-point ()
+      (interactive)
+      (let* ((symbol (thing-at-point 'word)))
+        (counsel-rg symbol (amirreza/find-root))))
 
-     (defun amirreza/find-file-at-point ()
-       (interactive)
-       (let* ((symbol (thing-at-point 'word)))
-         (counsel-fzf symbol (amirreza/find-root))))
+    (defun amirreza/find-file-at-point ()
+      (interactive)
+      (let* ((symbol (thing-at-point 'word)))
+        (counsel-fzf symbol (amirreza/find-root))))
 
-     (defun amirreza/find-file ()
-       (interactive)
-       (counsel-fzf "" (amirreza/find-root)))
+    (defun amirreza/find-file ()
+      (interactive)
+      (counsel-fzf "" (amirreza/find-root)))
 
-     (defun amirreza/rg ()
-       (interactive)
-       (counsel-rg "" (amirreza/find-root))))
+    (defun amirreza/rg ()
+      (interactive)
+      (counsel-rg "" (amirreza/find-root))))
 #+end_src
 * Shell
 ** Sync PATH with default shell
