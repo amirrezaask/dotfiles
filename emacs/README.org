@@ -38,9 +38,8 @@
     - [[#doom-modeline][Doom-modeline]]
   - [[#diminish][Diminish]]
   - [[#font][Font]]
-- [[#minibuffer-completion][Minibuffer completion]]
-  - [[#ivy][Ivy]]
-    - [[#ivy-1][Ivy]]
+- [[#minibuffer][Minibuffer]]
+    - [[#ivy][Ivy]]
     - [[#counsel][Counsel]]
     - [[#ivy-rich][Ivy-Rich]]
     - [[#ivy-posframe][Ivy-Posframe]]
@@ -583,8 +582,7 @@ our font interactively, let's write it.
     (set-face-attribute 'default t :font (format "%s-%d" font size))
     (set-frame-font (format "%s-%d" font size) nil t))
 #+END_SRC
-* Minibuffer completion
-** Ivy
+* Minibuffer
 *** Ivy
 #+begin_src emacs-lisp
   (use-package flx :straight t)
