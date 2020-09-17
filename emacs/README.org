@@ -51,9 +51,6 @@
   - [[#ibuffer][Ibuffer]]
   - [[#save-emacs-state-of-buffers][Save Emacs state of buffers]]
 - [[#editing--writing][Editing & Writing]]
-  - [[#motions][Motions]]
-    - [[#custom-motions][Custom motions]]
-    - [[#avy][Avy]]
   - [[#highlight-indentation][Highlight indentation]]
   - [[#sudo-edit][Sudo edit]]
   - [[#expand-region][Expand region]]
@@ -717,24 +714,6 @@ by default is bound to =C-c <left>=.
     (desktop-save-mode 1))
 #+end_src
 * Editing & Writing
-** Motions
-*** Custom motions
-#+begin_src emacs-lisp
-  (global-set-key (kbd "M-n") 
-                  (lambda ()
-                    (interactive)
-                    (next-line 10)))
-  (global-set-key (kbd "M-p") (lambda () (interactive) (previous-line 10)))
-#+end_src
-*** Avy
- #+begin_src emacs-lisp
-   (use-package avy :straight t
-     :commands (avy-goto-char avy-goto-char-2 avy-goto-line avy-goto-word-1)
-     :bind (("C-M-l" . avy-goto-line)
-            ("C-M-w" . avy-goto-word-1)
-            ("C-M-C" . avy-goto-char-2)
-            ("C-M-c" . avy-goto-char)))
- #+end_src
 ** Highlight indentation
 #+begin_src emacs-lisp
  (use-package highlight-indent-guides
@@ -944,6 +923,7 @@ by default is bound to =C-c <left>=.
      (defun amirreza/find-file ()
        (interactive)
        (counsel-fzf "" (amirreza/find-root)))
+
      (defun amirreza/rg ()
        (interactive)
        (counsel-rg "" (amirreza/find-root))))
