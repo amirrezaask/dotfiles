@@ -569,18 +569,17 @@ Dminish is a simple tool that adds =:diminish= keyword to =use-package= which he
 ** Font
 To use specific font in Emacs you just need to call a function, that's easy ha ??
 #+BEGIN_SRC emacs-lisp
-  (defvar amirreza/font "Iosevka-12")
-  (set-face-attribute 'default t :font amirreza/font)
-  (set-frame-font amirreza/font nil t)
+
 #+END_SRC
 If you evaluate code above you see the font changes.
 Now let's write some elisp, let's say that we want to have a function that we can call and change 
 our font interactively, let's write it.
 #+BEGIN_SRC emacs-lisp
-  (defun amirreza/change-font (font size)
-    (interactive "sFont: \nnSize: ")
-    (set-face-attribute 'default t :font (format "%s-%d" font size))
-    (set-frame-font (format "%s-%d" font size) nil t))
+  (defun amirreza/change-font (font)
+    (setq default-frame-alist `((font . ,font))))
+
+  (defvar amirreza/font "Iosevka-12")
+  (amirreza/change-font amirreza/font)
 #+END_SRC
 * Minibuffer
 *** Ivy
