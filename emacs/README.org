@@ -113,6 +113,9 @@
 - [[#dotfiles][Dotfiles]]
 
 * early-init contents
+:PROPERTIES:
+:header-args: :tangle no
+:END:
 Since Emacs27 Emacs evaluates a new =early-init= file which is executed in early emacs boot process.
 In this file I load a simple library I wrote called =corelib= which has some basic functionalities that I need to 
 have before my actual configuration is loaded such as =fast-start= for faster boot process, =use-literate-config= which 
