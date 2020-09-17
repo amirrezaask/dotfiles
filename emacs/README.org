@@ -639,6 +639,15 @@ our font interactively, let's write it.
 #+begin_src emacs-lisp
   (use-package counsel
     :straight t
+    :general
+    (space-leader
+      "." 'counsel-M-x
+      "f f" 'counsel-find-file
+      "f b" 'counsel-switch-buffer
+      "h f" 'counsel-describe-function
+      "h v" 'counsel-describe-variable
+      "h a" 'counsel-apropos
+      )
     :bind
     (("M-x" . 'counsel-M-x)
      ("C-x C-f" . 'counsel-find-file)
