@@ -67,12 +67,15 @@ inoremap jk <esc>
 inoremap kj <esc> 
 " }}}
 
-" NetRW settings {{{
-let g:netrw_banner = 0
-let g:netrw_winsize = 20
-let g:netrw_liststyle = 3
-" }}}
+" " NetRW settings {{{
+" let g:netrw_banner = 0
+" let g:netrw_winsize = 20
+" let g:netrw_liststyle = 3
+" " }}}
+" Fern
+map <f8> :Fern . -drawer -toggle<CR>
 
+map <f3> :Rg<CR>
 " Make copy/pase normal
 set clipboard=unnamedplus
 

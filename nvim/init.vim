@@ -16,7 +16,8 @@ Plug 'tpope/vim-commentary'
 " Plug 'Shougo/deoplete.nvim'
 " Plug 'Shougo/deoplete-lsp'
 " }}}
-
+" File Manager
+Plug 'lambdalisue/fern.vim'
 " NeoVim LSP
 Plug 'neovim/nvim-lspconfig'
 
