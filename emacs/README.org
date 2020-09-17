@@ -719,6 +719,9 @@ Emacs windows can be configured in the matter of where their gonna open.
                eyebrowse-switch-to-window-config-9)
 
     :config (eyebrowse-mode +1)
+    :general
+    (space-leader "w 0" 'eyebrowse-switch-to-window-config-0)
+            
     :bind (("C-c w 0" . eyebrowse-switch-to-window-config-0)
            ("C-c w 1" . eyebrowse-switch-to-window-config-1)
            ("C-c w 2" . eyebrowse-switch-to-window-config-2)
@@ -757,6 +760,7 @@ by default is bound to =C-c <left>=.
 ** Ibuffer
 #+begin_src emacs-lisp
   (use-package ibuffer
+    :general (space-leader "b l" 'ibuffer)
     :bind (("C-x C-b" . 'ibuffer)))
 
   (use-package ibuffer-vc :straight t
@@ -919,10 +923,11 @@ by default is bound to =C-c <left>=.
 * Project
 #+begin_src emacs-lisp
   (use-package project
+    :general (space-leader "f p" 'amirreza/find-project)
     :bind ("s-p" . amirreza/find-project)
     :config
     (defvar amirreza/project-locations '("~/w" "~/w/snapp"))
-    
+
     (defun amirreza/find-root ()
       "Find project root."
       (let* ((project (vc-root-dir))
