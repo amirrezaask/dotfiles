@@ -447,7 +447,11 @@ extensively but now i use it only when keybindings are just crazy.
   (use-package evil :straight t
     :config (evil-mode 1))
   (use-package evil-collection :straight t :config (evil-collection-init))
-  (use-package evil-magit :straight t )
+  (use-package evil-magit :straight t)
+  (use-package evil-escape :straight t :config
+    (evil-escape-mode 1)
+    (setq-default evil-escape-key-sequence "jk")
+    (setq evil-escape-unordered-key-sequence t))
 #+end_src
 * Appereance
 ** Themes
