@@ -38,7 +38,6 @@
   - [[#diminish][Diminish]]
   - [[#font][Font]]
 - [[#minibuffer-completion][Minibuffer completion]]
-  - [[#icompletedeprecated][Icomplete(Deprecated)]]
   - [[#ivy][Ivy]]
     - [[#ivy-1][Ivy]]
     - [[#counsel][Counsel]]
@@ -52,9 +51,6 @@
   - [[#ibuffer][Ibuffer]]
   - [[#save-emacs-state-of-buffers][Save Emacs state of buffers]]
 - [[#editing--writing][Editing & Writing]]
-  - [[#searching][Searching]]
-    - [[#in-buffer-searching][In buffer searching]]
-    - [[#ripgrep][Ripgrep]]
   - [[#motions][Motions]]
     - [[#custom-motions][Custom motions]]
     - [[#avy][Avy]]
@@ -73,7 +69,10 @@
   - [[#pdf-tools][Pdf tools]]
   - [[#misc-file-modes][Misc file modes]]
 - [[#project][Project]]
-- [[#searching-1][Searching]]
+- [[#searching][Searching]]
+  - [[#in-buffer-searching][In buffer searching]]
+  - [[#ripgrep-with-persitent-result][Ripgrep with persitent result]]
+  - [[#smart-symbol-and-file-finding][Smart symbol and file finding]]
 - [[#shell][Shell]]
   - [[#sync-path-with-default-shell][Sync PATH with default shell]]
   - [[#eshell][Eshell]]
@@ -563,61 +562,6 @@ our font interactively, let's write it.
     (set-frame-font (format "%s-%d" font size) nil t))
 #+END_SRC
 * Minibuffer completion
-** Icomplete(Deprecated)
-:PROPERTIES:
-:header-args: :tangle no
-:END:
-#+begin_src emacs-lisp
-(use-package orderless
-  :straight t
-  :config
-  (setq completion-styles '(orderless)))
-
-(use-package icomplete
-  :demand
-  :bind
-  (:map global-map
-        ("M-y" . amirreza/show-kill-ring)
-        :map icomplete-minibuffer-map
-        ("C-n" . icomplete-forward-completions)
-        ("C-p" . icomplete-backward-completions)
-        ("C-f" . icomplete-forward-completions)
-        ("C-b" . icomplete-backward-completions)
-        ("<right>" . icomplete-forward-completions)
-        ("<left>" . icomplete-backward-completions)
-        ("<down>" . icomplete-forward-completions)
-        ("<up>" . icomplete-backward-completions)
-        ("<RET>" . icomplete-force-complete-and-exit)
-        ("<tab>" . icomplete-force-complete))
-  :config
-  (defun amirreza/show-kill-ring ()
-    (interactive)
-    (insert (completing-read "Insert: " kill-ring)))
-
-  (setq icomplete-max-delay-chars 2
-        icomplete-separator " | "
-        icomplete-show-matches-on-no-input t
-        icomplete-hide-common-prefix nil
-        completion-ignore-case t)
-  (when (> emacs-major-version 26)
-    (fido-mode -1))
-  (icomplete-mode 1))
-
-(use-package icomplete-vertical
-  :straight t
-  :demand
-  :bind
-  (:map icomplete-minibuffer-map
-        ("C-v" . icomplete-vertical-toggle))
-  :config
-  (icomplete-vertical-mode 1))
-
-(use-package live-completions
-  :disabled t
-  :straight t
-  :config
-  (live-completions-mode 1))
-#+end_src
 ** Ivy
 *** Ivy
 #+begin_src emacs-lisp
@@ -658,9 +602,7 @@ our font interactively, let's write it.
      ("C-h v" . 'counsel-describe-variable)
      ("C-h a" . 'counsel-apropos)
      ("M-i" . 'counsel-imenu) ;; code semantics
-     ("M-y" . 'counsel-yank-pop)
-     ("C-c f" . 'counsel-fzf)
-     ("C-c g" . 'counsel-rg)))
+     ("M-y" . 'counsel-yank-pop)))
 #+end_src
 *** Ivy-Rich
 #+begin_src emacs-lisp
@@ -775,18 +717,6 @@ by default is bound to =C-c <left>=.
     (desktop-save-mode 1))
 #+end_src
 * Editing & Writing
-** Searching
-*** In buffer searching
-#+begin_src emacs-lisp
-  (use-package swiper
-    :bind ("C-s" . swiper))
-#+end_src
-*** Ripgrep
-#+begin_src emacs-lisp
-  (use-package rg
-    :straight t
-    :commands (rg))
-#+end_src
 ** Motions
 *** Custom motions
 #+begin_src emacs-lisp
@@ -982,13 +912,24 @@ by default is bound to =C-c <left>=.
         (dired (completing-read "Project: " proj-dirs)))))
 #+end_src
 * Searching
-Set of helper functions to find things.
+** In buffer searching
+#+begin_src emacs-lisp
+  (use-package swiper
+    :bind ("C-s" . swiper))
+#+end_src
+** Ripgrep with persitent result
+#+begin_src emacs-lisp
+  (use-package rg
+    :straight t
+    :commands (rg))
+#+end_src
+** Smart symbol and file finding
 #+begin_src emacs-lisp
    (use-package counsel
      :bind(("C-c f" . 'amirreza/find-file)
-           ("C-c s" . 'amirreza/rg)
+           ("C-c g" . 'amirreza/rg)
            ("C-M-f" . 'amirreza/find-file-at-point)
-           ("C-M-s" . 'amirreza/find-symbol-at-point))
+           ("C-M-g" . 'amirreza/find-symbol-at-point))
      :config
      (defun amirreza/find-symbol-at-point ()
        (interactive)
