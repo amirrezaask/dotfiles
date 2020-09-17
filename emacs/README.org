@@ -30,6 +30,7 @@
   - [[#hydra][Hydra]]
     - [[#pretty-hydra][Pretty Hydra]]
   - [[#which-key][Which Key]]
+- [[#evil][Evil]]
 - [[#appereance][Appereance]]
   - [[#themes][Themes]]
   - [[#cursor][Cursor]]
@@ -440,6 +441,13 @@ extensively but now i use it only when keybindings are just crazy.
     (which-key! "C-c K" "Kubernetes")
     (which-key-mode 1)
     (which-key-setup-minibuffer))
+#+end_src
+* Evil 
+#+begin_src emacs-lisp
+  (use-package evil :straight t
+    :config (evil-mode 1))
+  (use-package evil-collection :straight t :config (evil-collection-init))
+  (use-package evil-magit :straight t )
 #+end_src
 * Appereance
 ** Themes
