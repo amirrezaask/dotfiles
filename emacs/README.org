@@ -1428,7 +1428,9 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
  #+BEGIN_SRC emacs-lisp
    (use-package rustic
      :straight t
-     :mode ("\\.rs\\'" . rustic-mode))
+     :mode ("\\.rs\\'" . rustic-mode)
+     :config
+     (setq rustic-format-on-save t))
  #+END_SRC
 *** Protobuf
 #+begin_src emacs-lisp
