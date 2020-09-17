@@ -960,6 +960,11 @@ by default is bound to =C-c <left>=.
 ** Smart symbol and file finding
 #+begin_src emacs-lisp
   (use-package counsel
+    :general
+    (space-leader
+      "SPC" 'amirreza/find-file
+      "a g" 'amirreza/find-symbol-at-point
+      "a f" 'amirreza/find-file-at-point)
     :bind(("C-c f" . 'amirreza/find-file)
           ("C-c g" . 'amirreza/rg)
           ("C-M-s" . 'amirreza/find-symbol-at-point)
