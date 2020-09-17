@@ -78,7 +78,7 @@
   - [[#movement-based-on-language-semantics][Movement based on language semantics]]
   - [[#snippets][Snippets]]
   - [[#dumb-jump][Dumb Jump]]
-  - [[#eglot][Eglot]]
+  - [[#lsp][LSP]]
   - [[#rainbow-delimiters][Rainbow delimiters]]
   - [[#docs][Docs]]
   - [[#languages][Languages]]
@@ -923,6 +923,7 @@ by default is bound to =C-c <left>=.
   (use-package counsel
     :bind(("C-c f" . 'amirreza/find-file)
           ("C-c g" . 'amirreza/rg)
+          ("C-M-s" . 'amirreza/find-symbol-at-point)
           ("<f1>" . 'amirreza/find-file-at-point)
           ("<f2>" . 'amirreza/find-symbol-at-point)
           ("C-M-f" . 'amirreza/find-file-at-point)
@@ -1155,14 +1156,11 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
     :hook
     (xref-backend-functions . #'dumb-jump-xref-activate))
 #+end_src
-** Eglot
+** LSP
 #+begin_src emacs-lisp
-  (use-package eglot
-    :straight t
-    :init
-    (defun project-root (project)
-      (car (project-roots project)))
-    :hook (prog-mode . #'eglot-ensure))
+  (use-package lsp-mode :straight t
+    :hook ((prog-mode . lsp)
+           (lsp-mode . lsp-enable-which-key-integration)))
 #+end_src
 ** Rainbow delimiters
 #+begin_src emacs-lisp
@@ -1427,9 +1425,10 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
      (define-key php-mode-map (kbd "C-c m t p")  'phpunit-current-project))
  #+END_SRC
 *** Rust
-**** Rust mode
  #+BEGIN_SRC emacs-lisp
- (use-package rust-mode :straight t :mode "\\.rs\\'")
+   (use-package rustic
+     :straight t
+     :mode ("\\.rs\\'" . rustic-mode))
  #+END_SRC
 *** Protobuf
 #+begin_src emacs-lisp
