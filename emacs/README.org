@@ -24,6 +24,7 @@
   - [[#track-laptop-battery][Track laptop battery]]
   - [[#emacs-x-window-manager][Emacs X Window Manager]]
   - [[#startup-page][Startup page]]
+  - [[#helper-macros][Helper Macros]]
 - [[#keybinding][Keybinding]]
   - [[#hydra][Hydra]]
     - [[#pretty-hydra][Pretty Hydra]]
@@ -71,9 +72,8 @@
   - [[#markdown-mode][Markdown mode]]
   - [[#pdf-tools][Pdf tools]]
   - [[#misc-file-modes][Misc file modes]]
-- [[#files--projects][Files & Projects]]
-  - [[#recent-files][Recent files]]
-  - [[#projects][Projects]]
+- [[#project][Project]]
+- [[#searching-1][Searching]]
 - [[#shell][Shell]]
   - [[#sync-path-with-default-shell][Sync PATH with default shell]]
   - [[#eshell][Eshell]]
@@ -377,6 +377,11 @@ I want my Emacs to open my TODO file on every startup and have a that buffer ope
       (interactive)
       (find-file amirreza/todo-file))
   (global-set-key (kbd "<f2>") 'amirreza/open-todo)
+#+end_src
+** Helper Macros
+#+begin_src emacs-lisp
+  (defmacro amirreza/cmd! (&rest body)
+    `(lambda (&rest _) (interactive) ,@body))
 #+end_src
 * Keybinding
 I respect Emacs keybinding conventions in my configuration with a few ideas borrowed from spacemacs.
@@ -952,29 +957,20 @@ by default is bound to =C-c <left>=.
    (use-package nginx-mode :straight 
      :mode ("/etc/nginx/conf.d/.*" "/etc/nginx/.*\\.conf\\'"))
  #+end_src
-* Files & Projects
-** Recent files
- #+begin_src emacs-lisp
-   (use-package recentf 
-     :bind (("C-c r" . amirreza/recents))
-     :config
-     (defun amirreza/recents ()
-       (interactive)
-       (completing-read "Recent: " recentf-list)))
- #+end_src
-** Projects
+* Project
 #+begin_src emacs-lisp
-  (defvar amirreza/project-locations '("~/w" "~/w/snapp" "~/w"))
   (use-package project
-    :bind ("s-p" . amirreza/projects-list)
+    :bind ("s-p" . amirreza/find-project)
     :config
-    (defun amirreza/get-root ()
-      "Gets project root."
+    (defvar amirreza/project-locations '("~/w" "~/w/snapp"))
+    
+    (defun amirreza/find-root ()
+      "Find project root."
       (let* ((project (vc-root-dir))
              (dir (if project project default-directory)))
         dir))
 
-    (defun amirreza/projects-list ()
+    (defun amirreza/find-project ()
       "List of projects in pre defined project locations."
       (interactive)
       (let ((proj-dirs '()))
@@ -984,20 +980,32 @@ by default is bound to =C-c <left>=.
                       (directory-files dir t directory-files-no-dot-files-regexp)))
               amirreza/project-locations)
         (dired (completing-read "Project: " proj-dirs)))))
+#+end_src
+* Searching
+Set of helper functions to find things.
+#+begin_src emacs-lisp
+   (use-package counsel
+     :bind(("C-c f" . 'amirreza/find-file)
+           ("C-c s" . 'amirreza/rg)
+           ("C-M-f" . 'amirreza/find-file-at-point)
+           ("C-M-s" . 'amirreza/find-symbol-at-point))
+     :config
+     (defun amirreza/find-symbol-at-point ()
+       (interactive)
+       (let* ((symbol (thing-at-point 'word)))
+         (counsel-rg symbol (amirreza/find-root))))
 
-  (use-package projectile
-    :straight t
-    :defer 1
-    :config
-    (setq projectile-completion-system 'ivy))
+     (defun amirreza/find-file-at-point ()
+       (interactive)
+       (let* ((symbol (thing-at-point 'word)))
+         (counsel-fzf symbol (amirreza/find-root))))
 
-  (use-package counsel-projectile
-    :straight t
-    :after projectile
-    :config (counsel-projectile-mode 1)
-    :bind* (:map projectile-mode-map
-                 ("C-c p" . projectile-command-map)
-                 ("C-c p g" . counsel-projectile-rg)))
+     (defun amirreza/find-file ()
+       (interactive)
+       (counsel-fzf "" (amirreza/find-root)))
+     (defun amirreza/rg ()
+       (interactive)
+       (counsel-rg "" (amirreza/find-root))))
 #+end_src
 * Shell
 ** Sync PATH with default shell
