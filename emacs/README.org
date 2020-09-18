@@ -458,31 +458,42 @@ extensively but now i use it only when keybindings are just crazy.
       :prefix "SPC"))
 #+end_src
 * Evil
-:PROPERTIES:
-:header-args: :tangle no
-:END:
 #+begin_src emacs-lisp
-  (use-package evil :straight t
-    :demand
-    :general
-    (space-leader
-      "w h" 'split-window-below
-      "w v" 'split-window-right)
-    :bind
-    (:map evil-normal-state-map 
-          (";" . evil-ex))
-    :config
-    (evil-mode 1)
-    (evil-ex-define-cmd "q" 'kill-buffer-and-window))
+  (setq evil-want-keybindings nil)
+    (use-package evil :straight t
+      :demand
+      :general
+      (space-leader
+        "w h" 'split-window-below
+        "w v" 'split-window-right)
+      :bind
+      (:map evil-normal-state-map 
+            (";" . evil-ex))
+      :config
+      (evil-mode 1)
+      (evil-ex-define-cmd "q" 'kill-buffer-and-window))
 
-    (use-package evil-collection :straight t :config (evil-collection-init))
-    (use-package evil-magit :straight t)
-    (use-package evil-escape :straight t :config
-      (evil-escape-mode 1)
-      (setq-default evil-escape-key-sequence "jk")
-      (setq evil-escape-unordered-key-sequence t))
-    (use-package evil-surround :straight t :config (global-evil-surround-mode 1))
-    (use-package evil-nerd-commenter :straight t)
+  (use-package evil-collection :straight t :config
+    (evil-collection-init (list
+                           'dired
+                           'magit
+                          'ivy
+                          'ibuffer
+                          'help
+                          'eshell
+                          'smerge
+                          'ediff
+                          'proced
+                          'vlf
+                          'xref
+                          )))
+      (use-package evil-magit :straight t)
+      (use-package evil-escape :straight t :config
+        (evil-escape-mode 1)
+        (setq-default evil-escape-key-sequence "jk")
+        (setq evil-escape-unordered-key-sequence t))
+      (use-package evil-surround :straight t :config (global-evil-surround-mode 1))
+      (use-package evil-nerd-commenter :straight t)
 #+end_src
 * Appereance
 ** Themes
@@ -1173,6 +1184,7 @@ can call an get completions based on that.
 #+BEGIN_SRC emacs-lisp
   (use-package company
     :straight t
+    :hook (prog-mode . company-mode)
     :bind (:map company-active-map
                 ("C-n" . company-select-next)
                 ("C-p" . company-select-previous)
@@ -1185,8 +1197,7 @@ can call an get completions based on that.
     (setq company-idle-delay 0.0)
     (setq company-echo-delay 0.1)
     (setq company-show-numbers t)
-    (setq company-backends '(company-capf company-dabbrev company-files company-dabbrev-code))
-    (global-company-mode t))
+    (setq company-backends '(company-capf company-dabbrev company-files company-dabbrev-code)))
 #+end_src
 ** Movement based on language semantics 
 Emacs has a builtin tool called Imenu which major modes hook to and feed it data about semantic blocks in the current buffer,
