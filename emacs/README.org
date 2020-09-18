@@ -453,6 +453,10 @@ extensively but now i use it only when keybindings are just crazy.
 #+begin_src emacs-lisp
   (use-package evil :straight t
     :demand
+    :general
+    (space-leader
+      "w h" 'split-window-below
+      "w v" 'split-window-right)
     :bind
     (:map evil-normal-state-map 
           (";" . evil-ex))
@@ -497,8 +501,8 @@ extensively but now i use it only when keybindings are just crazy.
      :bind (("<f12>" . amirreza/toggle-color-mode))
      :config
      (defvar amirreza/current-mode 'dark "Current color mode of Emacs.")
-     (defvar amirreza/dark-theme 'doom-solarized-dark)
-     (defvar amirreza/light-theme 'doom-solarized-light)
+     (defvar amirreza/dark-theme 'doom-one)
+     (defvar amirreza/light-theme 'doom-one-light)
 
      (defmacro amirreza/--load-theme (&rest theme-opts)
        `(progn (mapc #'disable-theme custom-enabled-themes)
@@ -1207,9 +1211,12 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
 #+end_src
 ** LSP
 #+begin_src emacs-lisp
-  (use-package lsp-mode :straight t
-    :hook ((prog-mode . lsp)
-           (lsp-mode . lsp-enable-which-key-integration)))
+      (use-package lsp-mode :straight t
+        :hook ((prog-mode . lsp)
+               (lsp-mode . lsp-enable-which-key-integration)))
+
+  (use-package lsp-ivy :commands lsp-ivy-workspace-symbol
+     :general (space-leader "f s" 'lsp-ivy-workspace-symbol))
 #+end_src
 ** Rainbow delimiters
 #+begin_src emacs-lisp
@@ -1451,10 +1458,7 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
 **** PHP mode
  #+BEGIN_SRC emacs-lisp
    (use-package php-mode :straight t 
-     :mode "\\.php\\'"
-     :hook (php-mode . amirreza/php-mode-hook)
-     :config (defun amirreza/php-mode-hook ()
-               (amirreza/lsp!)))
+     :mode "\\.php\\'")
  #+END_SRC
 **** PHP Runtime Integration
  #+BEGIN_SRC emacs-lisp
@@ -1544,7 +1548,9 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
 #+begin_src emacs-lisp
   (use-package dired
     :commands (dired dired-jump)
-    :bind (("C-x C-j" . dired-jump)))
+    :bind (("C-x C-j" . dired-jump)
+           :map dired-mode-map
+           ("q" . kill-this-buffer)))
 
   (use-package dired-sidebar :straight t
     :bind
