@@ -1,4 +1,4 @@
-#+TITLE: AmirrezaAsk Integrated Computing Environment
+#+TITLE: AmirrezaAsk Emacs
 #+AUTHOR: amirrezaask
 * Table Of contents                                                   :TOC@3:
 - [[#early-init-contents][early-init contents]]
@@ -486,10 +486,6 @@ extensively but now i use it only when keybindings are just crazy.
 #+end_src
 * Appereance
 ** Themes
- Now that we have use-package we can start installing thems, packages, etc. Let's start by installing some thems.
- for some time now I am using modus themes by the amazing =Protesilaos Stavrou= (btw check his youtube channel) which are simple but elegant themes
- but if you want a more modern look like =VSCode= or =Atom= you can use =doom-themes= as well.
- ([[https://github.com/hlissner/emacs-doom-themes/tree/screenshots][Doom Themes Screenshots]])
  #+BEGIN_SRC emacs-lisp
    (use-package modus-operandi-theme :straight t :defer t)
    (use-package modus-vivendi-theme :straight t :defer t)
