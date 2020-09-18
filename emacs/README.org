@@ -459,7 +459,7 @@ extensively but now i use it only when keybindings are just crazy.
 #+end_src
 * Evil
 #+begin_src emacs-lisp
-  (setq evil-want-keybindings nil)
+  (setq evil-want-keybinding nil)
     (use-package evil :straight t
       :demand
       :general
@@ -1591,7 +1591,20 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
     :bind (("C-x C-j" . dired-jump)
            :map dired-mode-map
            ("q" . kill-this-buffer)))
-
+  (use-package dired-x
+      :config
+      (setq cmd "xdg-open")
+      (setq dired-guess-shell-alist-user
+            `(("\\.\\(?:docx\\|pdf\\|djvu\\|eps\\)\\'" ,cmd)
+              ("\\.\\(?:jpe?g\\|png\\|gif\\|xpm\\)\\'" ,cmd)
+              ("\\.\\(?:xcf\\)\\'" ,cmd)
+              ("\\.csv\\'" ,cmd)
+              ("\\.tex\\'" ,cmd)
+              ("\\.\\(?:mp4\\|mkv\\|avi\\|flv\\|rm\\|rmvb\\|ogv\\)\\(?:\\.part\\)?\\'" ,cmd)
+              ("\\.\\(?:mp3\\|flac\\)\\'" ,cmd)
+              ("\\.html?\\'" ,cmd)
+              ("\\.md\\'" ,cmd))))
+  
   (use-package dired-sidebar :straight t
     :bind
     (("<f8>" . dired-sidebar-toggle-sidebar)))
@@ -1611,6 +1624,7 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
           '("mkv" "webm" "mp4" "mp3" "ogg" "iso"))
     :bind (:map dired-mode-map
                 ("P" . peep-dired)))
+  (use-package ranger :straight t :after dired :init (setq ranger-override-dired t))
 #+end_src
 * Integrated Tools
 ** Acme functionality
