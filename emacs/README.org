@@ -1149,14 +1149,12 @@ can call an get completions based on that.
 #+BEGIN_SRC emacs-lisp
   (use-package company
     :straight t
-    :diminish
     :bind (:map company-active-map
                 ("C-n" . company-select-next)
                 ("C-p" . company-select-previous)
                 ("C-o" . company-other-backend)
                 ("<tab>" . company-complete-common-or-cycle)
                 ("RET" . company-complete-selection))
-    :defer 2
     :config
     (setq company-minimum-prefix-lenght 1)
     (setq company-tooltip-limit 30)
