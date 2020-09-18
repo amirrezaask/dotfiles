@@ -452,7 +452,10 @@ extensively but now i use it only when keybindings are just crazy.
 * Evil
 #+begin_src emacs-lisp
   (use-package evil :straight t
-    :config (evil-mode 1))
+    :config
+    (evil-mode 1)
+    (evil-ex-define-cmd "q" 'kill-buffer-and-window))
+
   (use-package evil-collection :straight t :config (evil-collection-init))
   (use-package evil-magit :straight t)
   (use-package evil-escape :straight t :config
@@ -490,8 +493,8 @@ extensively but now i use it only when keybindings are just crazy.
      :bind (("<f12>" . amirreza/toggle-color-mode))
      :config
      (defvar amirreza/current-mode 'dark "Current color mode of Emacs.")
-     (defvar amirreza/dark-theme 'doom-one)
-     (defvar amirreza/light-theme 'doom-one-light)
+     (defvar amirreza/dark-theme 'doom-solarized-dark)
+     (defvar amirreza/light-theme 'doom-solarized-light)
 
      (defmacro amirreza/--load-theme (&rest theme-opts)
        `(progn (mapc #'disable-theme custom-enabled-themes)
