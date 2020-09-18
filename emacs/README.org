@@ -52,6 +52,7 @@
   - [[#ace-window-better-window-management][Ace Window (Better Window Management)]]
   - [[#ibuffer][Ibuffer]]
 - [[#editing--writing][Editing & Writing]]
+  - [[#10-line-jump][10 Line Jump]]
   - [[#highlight-indentation][Highlight indentation]]
   - [[#sudo-edit][Sudo edit]]
   - [[#expand-region][Expand region]]
@@ -789,6 +790,15 @@ by default is bound to =C-c <left>=.
 
 #+end_src
 * Editing & Writing
+** 10 Line Jump
+#+begin_src emacs-lisp
+  (global-set-key (kbd "M-n") (lambda ()
+                                (interactive)
+                                (forward-line 10)))
+  (global-set-key (kbd "M-p") (lambda ()
+                                (interactive)
+                                (forward-line -10)))
+#+end_src
 ** Highlight indentation
 #+begin_src emacs-lisp
  (use-package highlight-indent-guides
@@ -1226,7 +1236,8 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
                (lsp-mode . lsp-enable-which-key-integration)))
 
   (use-package lsp-ivy :commands lsp-ivy-workspace-symbol
-     :general (space-leader "f s" 'lsp-ivy-workspace-symbol))
+    :bind ("C-c m s" . lsp-ivy-workspace-symbol)
+    :general (space-leader "f s" 'lsp-ivy-workspace-symbol))
 #+end_src
 ** Rainbow delimiters
 #+begin_src emacs-lisp
