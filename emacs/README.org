@@ -1488,6 +1488,9 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
   (use-package magit
     :straight t
     :commands (magit-status magit-get-current-branch)
+    :general
+    (space-leader
+      "g" 'magit-status)
     :bind
     (("C-x g" . 'magit-status)
      ("C-c v s" . 'magit-status)))
