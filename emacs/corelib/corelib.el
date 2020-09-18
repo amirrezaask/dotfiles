@@ -89,9 +89,21 @@
         inhibit-startup-echo-area-message user-login-name
         inhibit-default-init t
         initial-major-mode 'fundamental-mode
-        initial-scratch-message nil)
-  
-)
+        initial-scratch-message nil))
+
+(defvar disabled-features '())
+
+(defun disable (feature)
+  (add-to-list 'disabled-features feature))
+
+(defun is-enabled? (feature)
+  "Is given feature enabled."
+  (member feature disabled-features))
+
+(defmacro if-enabled? (feature &rest body)
+  "If given feature is not disabled evaluate body."
+  (unless (is-enabled? feature)
+    `(progn ,@body)))
 
 (provide 'corelib)
 ;;; corelib.el ends here
