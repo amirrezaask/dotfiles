@@ -72,6 +72,7 @@
   - [[#in-buffer-searching][In buffer searching]]
   - [[#ripgrep-with-persitent-result][Ripgrep with persitent result]]
   - [[#smart-symbol-and-file-finding][Smart symbol and file finding]]
+  - [[#file-type-search][File Type Search]]
 - [[#shell][Shell]]
   - [[#sync-path-with-default-shell][Sync PATH with default shell]]
   - [[#eshell][Eshell]]
@@ -458,6 +459,9 @@ extensively but now i use it only when keybindings are just crazy.
       :prefix "SPC"))
 #+end_src
 * Evil
+:PROPERTIES:
+:header-args: :tangle no
+:END:
 #+begin_src emacs-lisp
   (setq evil-want-keybinding nil)
     (use-package evil :straight t
@@ -574,7 +578,6 @@ extensively but now i use it only when keybindings are just crazy.
   (setq mode-line-percent-position '(-3 "%p"))
   (setq-default mode-line-format
                 (list
-                 evil-mode-line-tag
                  " Workspace:"
                  '(:eval (format "%d" (amirreza/exwm-current-workspace)))
                  "  "
@@ -1040,6 +1043,15 @@ by default is bound to =C-c <left>=.
     (defun amirreza/rg ()
       (interactive)
       (counsel-rg "" (amirreza/find-root))))
+#+end_src
+** File Type Search
+#+begin_src emacs-lisp
+  (defvar amirreza/file-type-loc '(:videos '("~/Videos" "~/Downloads") :musics '("~/Music" "~/Downloads")))
+
+  (defun amirreza/where-to-look-for (entity)
+    ""
+    (let* ((loc (plist-get amirreza/file-type-loc entity))
+           (directory-files))))
 #+end_src
 * Shell
 ** Sync PATH with default shell
@@ -1600,7 +1612,7 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
               ("\\.\\(?:xcf\\)\\'" ,cmd)
               ("\\.csv\\'" ,cmd)
               ("\\.tex\\'" ,cmd)
-              ("\\.\\(?:mp4\\|mkv\\|avi\\|flv\\|rm\\|rmvb\\|ogv\\)\\(?:\\.part\\)?\\'" ,cmd)
+              ("\\.\\(?:mp4\\|mkv\\|avi\\|flv\\|rm\\|rmvb\\|ogv\\)\\(?:\\.part\\)?\\'" "vlc")
               ("\\.\\(?:mp3\\|flac\\)\\'" ,cmd)
               ("\\.html?\\'" ,cmd)
               ("\\.md\\'" ,cmd))))
@@ -1624,7 +1636,7 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
           '("mkv" "webm" "mp4" "mp3" "ogg" "iso"))
     :bind (:map dired-mode-map
                 ("P" . peep-dired)))
-  (use-package ranger :straight t :after dired :init (setq ranger-override-dired t))
+  (use-package ranger :after evil :straight t :after dired :init (setq ranger-override-dired t))
 #+end_src
 * Integrated Tools
 ** Acme functionality
