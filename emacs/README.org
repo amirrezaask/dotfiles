@@ -574,6 +574,7 @@ extensively but now i use it only when keybindings are just crazy.
   (setq mode-line-percent-position '(-3 "%p"))
   (setq-default mode-line-format
                 (list
+                 evil-mode-line-tag
                  " Workspace:"
                  '(:eval (format "%d" (amirreza/exwm-current-workspace)))
                  "  "
@@ -750,7 +751,18 @@ Emacs windows can be configured in the matter of where their gonna open.
     :config (eyebrowse-mode +1)
     :general
     (space-leader "w 0" 'eyebrowse-switch-to-window-config-0)
-            
+    (space-leader "w 1" 'eyebrowse-switch-to-window-config-1)
+    (space-leader "w 2" 'eyebrowse-switch-to-window-config-2)
+    (space-leader "w 3" 'eyebrowse-switch-to-window-config-3)
+    (space-leader "w 4" 'eyebrowse-switch-to-window-config-4)
+    (space-leader "w 5" 'eyebrowse-switch-to-window-config-5)
+    (space-leader "w 6" 'eyebrowse-switch-to-window-config-6)
+    (space-leader "w 7" 'eyebrowse-switch-to-window-config-7)
+    (space-leader "w 8" 'eyebrowse-switch-to-window-config-8)
+    (space-leader "w 9" 'eyebrowse-switch-to-window-config-9)
+    (space-leader "w d" 'eyebrowse-close-window-config)
+    (space-leader "w c" 'eyebrowse-create-window-config)
+
     :bind (("C-c w 0" . eyebrowse-switch-to-window-config-0)
            ("C-c w 1" . eyebrowse-switch-to-window-config-1)
            ("C-c w 2" . eyebrowse-switch-to-window-config-2)
