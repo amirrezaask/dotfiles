@@ -452,18 +452,22 @@ extensively but now i use it only when keybindings are just crazy.
 * Evil
 #+begin_src emacs-lisp
   (use-package evil :straight t
+    :demand
+    :bind
+    (:map evil-normal-state-map 
+          (";" . evil-ex))
     :config
     (evil-mode 1)
     (evil-ex-define-cmd "q" 'kill-buffer-and-window))
 
-  (use-package evil-collection :straight t :config (evil-collection-init))
-  (use-package evil-magit :straight t)
-  (use-package evil-escape :straight t :config
-    (evil-escape-mode 1)
-    (setq-default evil-escape-key-sequence "jk")
-    (setq evil-escape-unordered-key-sequence t))
-  (use-package evil-surround :straight t :config (global-evil-surround-mode 1))
-  (use-package evil-nerd-commenter :straight t)
+    (use-package evil-collection :straight t :config (evil-collection-init))
+    (use-package evil-magit :straight t)
+    (use-package evil-escape :straight t :config
+      (evil-escape-mode 1)
+      (setq-default evil-escape-key-sequence "jk")
+      (setq evil-escape-unordered-key-sequence t))
+    (use-package evil-surround :straight t :config (global-evil-surround-mode 1))
+    (use-package evil-nerd-commenter :straight t)
 #+end_src
 * Appereance
 ** Themes
