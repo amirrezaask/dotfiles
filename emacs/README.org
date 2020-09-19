@@ -113,6 +113,7 @@
   - [[#docker][Docker]]
   - [[#kubernetes][Kubernetes]]
   - [[#application-laucnherdmenu][Application Laucnher(dmenu)]]
+  - [[#terminal][Terminal]]
 - [[#dotfiles][Dotfiles]]
 
 * early-init contents
@@ -1699,6 +1700,16 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
 Dmenu replacement in Emacs.
 #+begin_src emacs-lisp
 (use-package counsel :bind ("s-d" . counsel-linux-app))
+#+end_src
+** Terminal
+#+begin_src emacs-lisp
+  (defvar amirreza/terminal "alacritty")
+  (use-package counsel :bind ("s-t" . amirreza/terminal)
+    :config
+    (defun amirreza/terminal ()
+      (interactive)
+      (start-process (format "%s: %s" amirreza/terminal default-directory)
+                     (format "%s: %s" amirreza/terminal default-directory) "alacritty")))
 #+end_src
 * Dotfiles
 I use multiple programs that holds their configuration in files, this section are some helpers for editing the configs
