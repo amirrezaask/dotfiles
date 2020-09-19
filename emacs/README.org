@@ -1721,20 +1721,21 @@ Dmenu replacement in Emacs.
   (defun amirreza/search-for ()
     (interactive)
     (let* ((filetype (completing-read "FileType: " amirreza/file-types))
-           (paths (plist-get amirreza/file-type-loc filetype))
-           (program (plist-get amirreza/file-assoc-program filetype))
-           (files (mapcar (lambda (path)
-                            (directory-files-recursively path directory-files-no-dot-files-regexp))
-                          paths))
+           (paths (plist-get amirreza/file-type-loc (intern filetype)))
+           (program (plist-get amirreza/file-assoc-program (intern filetype)))
+           (files '())
+           (_ (mapc (lambda (path)
+                      (setq files (append files (directory-files-recursively path ""))))
+                    paths))
            (file (completing-read "Open: " files))
            (process-name (format "%s: %s" filetype file)))
-      (message "::::::::::: %s" paths)
+      (message "%s" program)
       (start-process-shell-command process-name process-name (format "%s %s" filetype file))))
 
 
 
 
-  
+
 #+end_src
 * Dotfiles
 I use multiple programs that holds their configuration in files, this section are some helpers for editing the configs
