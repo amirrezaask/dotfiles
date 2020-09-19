@@ -114,6 +114,7 @@
   - [[#kubernetes][Kubernetes]]
   - [[#application-laucnherdmenu][Application Laucnher(dmenu)]]
   - [[#terminal][Terminal]]
+  - [[#file-type-search-todo][File Type Search (TODO)]]
 - [[#dotfiles][Dotfiles]]
 
 * early-init contents
@@ -1710,6 +1711,30 @@ Dmenu replacement in Emacs.
       (interactive)
       (start-process (format "%s: %s" amirreza/terminal default-directory)
                      (format "%s: %s" amirreza/terminal default-directory) "alacritty")))
+#+end_src
+** File Type Search (TODO)
+#+begin_src emacs-lisp
+  (defvar amirreza/file-types '(:music :video :doc))
+  (setq amirreza/file-type-loc '(:music ("~/Music" "~/Downloads") :video ("~/Videos" "~/Downloads")))
+  (setq amirreza/file-type-assoc-program '(:music "vlc" :video "vlc" :doc "xdg-open"))
+
+  (defun amirreza/search-for ()
+    (interactive)
+    (let* ((filetype (completing-read "FileType: " amirreza/file-types))
+           (paths (plist-get amirreza/file-type-loc filetype))
+           (program (plist-get amirreza/file-assoc-program filetype))
+           (files (mapcar (lambda (path)
+                            (directory-files-recursively path directory-files-no-dot-files-regexp))
+                          paths))
+           (file (completing-read "Open: " files))
+           (process-name (format "%s: %s" filetype file)))
+      (message "::::::::::: %s" paths)
+      (start-process-shell-command process-name process-name (format "%s %s" filetype file))))
+
+
+
+
+  
 #+end_src
 * Dotfiles
 I use multiple programs that holds their configuration in files, this section are some helpers for editing the configs
