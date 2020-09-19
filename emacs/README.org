@@ -1653,9 +1653,13 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
 ** Process management
 #+begin_src emacs-lisp
   (use-package proced
-    :bind (("C-c o p" . proced)
-           ("<f10>" . proced))
-    :commands proced)
+    :bind (("<f10>" . amirreza/kill-process))
+    :commands (proced amirreza/kill-process)
+    :config
+
+    (defun amirreza/kill-process (name)
+      (interactive "sProcess: ")
+      (shell-command-to-string (format "pkill %s" name))))
 #+end_src
 ** Rhythmbox
 #+begin_src emacs-lisp
@@ -1692,16 +1696,21 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
 (use-package kubel :straight t :commands (kubel) :bind (("C-c i k" . kubel)))
 #+end_src
 ** Application Laucnher
-I need my Emacs to act as dmenu replacement. 
-Improvement: 
-auto-complete
+Dmenu replacement in Emacs.
 #+begin_src emacs-lisp
-  (defun amirreza/run-command (cmd)
-    (interactive "sRun: ")
-    (let* ((name (format "Emacs Shell Launched: %s" cmd)))
-      (start-process-shell-command name name cmd)))
+  (defun amirreza/list-of-executables ()
+    "List of all executables in `exec-path`."
+    (mapcar (lambda (path)
+              (ignore-errors (directory-files path t directory-files-no-dot-files-regexp nil))) exec-path))
 
-(global-set-key (kbd "s-d") 'amirreza/run-command)
+  (defun amirreza/run-command ()
+    "Runs given executable."
+    (interactive)
+    (let* ((cmd (completing-read "Execute: " (amirreza/list-of-executables)))
+           (name (format "External Program: %s" cmd)))
+        (start-process-shell-command name name cmd)))
+
+  (global-set-key (kbd "s-d") 'amirreza/run-command)
 #+end_src
 * Dotfiles
 I use multiple programs that holds their configuration in files, this section are some helpers for editing the configs
