@@ -114,7 +114,7 @@
   - [[#kubernetes][Kubernetes]]
   - [[#application-laucnherdmenu][Application Laucnher(dmenu)]]
   - [[#terminal][Terminal]]
-  - [[#file-type-search-todo][File Type Search (TODO)]]
+  - [[#file-type-search-1][File Type Search]]
 - [[#dotfiles][Dotfiles]]
 
 * early-init contents
@@ -1730,27 +1730,29 @@ Dmenu replacement in Emacs.
       (start-process (format "%s: %s" amirreza/terminal default-directory)
                      (format "%s: %s" amirreza/terminal default-directory) "alacritty")))
 #+end_src
-** File Type Search (TODO)
+** File Type Search
 #+begin_src emacs-lisp
-  (defvar amirreza/file-types '(:music :video :doc))
-  (setq amirreza/file-type-loc '(:music ("~/Music" "~/Downloads") :video ("~/Videos" "~/Downloads")))
-  (setq amirreza/file-type-assoc-program '(:music "vlc" :video "vlc" :doc "xdg-open"))
+    (defvar amirreza/file-types '(:music :video :doc))
+    (setq amirreza/file-type-loc '(:music ("~/Music" "~/Downloads") :video ("~/Videos" "~/Downloads")))
+    (setq amirreza/file-type-assoc-program '(:music "vlc" :video "vlc" :doc "xdg-open"))
 
-  (defun amirreza/search-for ()
-    (interactive)
-    (let* ((filetype (completing-read "FileType: " amirreza/file-types))
-           (paths (plist-get amirreza/file-type-loc (intern filetype)))
-           (program (plist-get amirreza/file-type-assoc-program (intern filetype)))
-           (files '())
-           (_ (mapc (lambda (path)
-                      (setq files (append files (directory-files-recursively path ""))))
-                    paths))
-           (file (completing-read "Open: " files))
-           (process-name (format "%s: %s" filetype file)))
-      (message "%s" process-name)
-      (start-process-shell-command process-name process-name (format "%s %s" program file))))
+    (defun amirreza/search-for ()
+      (interactive)
+      (let* ((filetype (completing-read "FileType: " amirreza/file-types))
+             (paths (plist-get amirreza/file-type-loc (intern filetype)))
+             (program (plist-get amirreza/file-type-assoc-program (intern filetype)))
+             (files '())
+             (_ (mapc (lambda (path)
+                        (setq files (append files (directory-files-recursively path ""))))
+                      paths))
+             (file (completing-read "Open: " files))
+             (process-name (format "%s: %s" filetype file)))
+        (message "%s" file)
 
-(global-set-key (kbd "s-o") 'amirreza/search-for)
+        
+          (start-process process-name process-name program (expand-file-name file))))
+
+  (global-set-key (kbd "s-o") 'amirreza/search-for)
 #+end_src
 * Dotfiles
 I use multiple programs that holds their configuration in files, this section are some helpers for editing the configs
