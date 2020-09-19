@@ -112,7 +112,7 @@
   - [[#video][Video]]
   - [[#docker][Docker]]
   - [[#kubernetes][Kubernetes]]
-  - [[#application-laucnher][Application Laucnher]]
+  - [[#application-laucnherdmenu][Application Laucnher(dmenu)]]
 - [[#dotfiles][Dotfiles]]
 
 * early-init contents
@@ -1695,22 +1695,10 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
 #+begin_src emacs-lisp
 (use-package kubel :straight t :commands (kubel) :bind (("C-c i k" . kubel)))
 #+end_src
-** Application Laucnher
+** Application Laucnher(dmenu)
 Dmenu replacement in Emacs.
 #+begin_src emacs-lisp
-  (defun amirreza/list-of-executables ()
-    "List of all executables in `exec-path`."
-    (mapcar (lambda (path)
-              (ignore-errors (directory-files path t directory-files-no-dot-files-regexp nil))) exec-path))
-
-  (defun amirreza/run-command ()
-    "Runs given executable."
-    (interactive)
-    (let* ((cmd (completing-read "Execute: " (amirreza/list-of-executables)))
-           (name (format "External Program: %s" cmd)))
-        (start-process-shell-command name name cmd)))
-
-  (global-set-key (kbd "s-d") 'amirreza/run-command)
+(use-package counsel :bind ("s-d" . counsel-linux-app))
 #+end_src
 * Dotfiles
 I use multiple programs that holds their configuration in files, this section are some helpers for editing the configs
