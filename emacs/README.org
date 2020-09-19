@@ -112,6 +112,7 @@
   - [[#video][Video]]
   - [[#docker][Docker]]
   - [[#kubernetes][Kubernetes]]
+  - [[#application-laucnher][Application Laucnher]]
 - [[#dotfiles][Dotfiles]]
 
 * early-init contents
@@ -597,6 +598,9 @@ extensively but now i use it only when keybindings are just crazy.
                  '(:eval (propertize battery-mode-line-string))))
 #+end_src
 *** Doom-modeline
+:PROPERTIES:
+:header-args: :tangle no
+:END:
 #+begin_src emacs-lisp
   (use-package doom-modeline
     :straight t
@@ -1686,6 +1690,18 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
 ** Kubernetes
 #+begin_src emacs-lisp
 (use-package kubel :straight t :commands (kubel) :bind (("C-c i k" . kubel)))
+#+end_src
+** Application Laucnher
+I need my Emacs to act as dmenu replacement. 
+Improvement: 
+auto-complete
+#+begin_src emacs-lisp
+  (defun amirreza/run-command (cmd)
+    (interactive "sRun: ")
+    (let* ((name (format "Emacs Shell Launched: %s" cmd)))
+      (start-process-shell-command name name cmd)))
+
+(global-set-key (kbd "s-d") 'amirreza/run-command)
 #+end_src
 * Dotfiles
 I use multiple programs that holds their configuration in files, this section are some helpers for editing the configs
