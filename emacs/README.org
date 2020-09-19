@@ -1700,7 +1700,25 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
 ** Application Laucnher(dmenu)
 Dmenu replacement in Emacs.
 #+begin_src emacs-lisp
-(use-package counsel :bind ("s-d" . counsel-linux-app))
+  (defun amirreza/run-command (cmd)
+    (let* ((process-name (format "External: %s" cmd))
+           (args ""))
+      (when (string-match-p "\\.desktop" cmd)
+        (setq args cmd)
+        (setq cmd "gtk-launch"))
+
+      (start-process process-name process-name cmd (car (last (split-string args "/"))))))
+
+  (defun amirreza/launch ()
+    (interactive)
+    (let* ((bins '())
+           (_ (mapc (lambda (path)
+                      (ignore-errors (setq bins (append bins (directory-files-recursively path directory-files-no-dot-files-regexp))))
+                      ) exec-path))
+           (cmd (completing-read "Run: " bins)))
+      (amirreza/run-command cmd)))
+
+(global-set-key (kbd "s-d") 'amirreza/launch)
 #+end_src
 ** Terminal
 #+begin_src emacs-lisp
