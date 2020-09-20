@@ -577,11 +577,12 @@ extensively but now i use it only when keybindings are just crazy.
 ** Modeline
 *** Custom Modeline
 #+begin_src emacs-lisp
+
   (setq mode-line-percent-position '(-3 "%p"))
   (setq-default mode-line-format
                 (list
                  " Workspace:"
-                 '(:eval (format "%d" (amirreza/exwm-current-workspace)))
+                 '(:eval (format "%d" (eyebrowse--get 'current-slot)))
                  "  "
                  mode-line-modified
                  " "
