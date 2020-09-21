@@ -15,5 +15,8 @@ alias open='xdg-open'
 alias snappvpn="sudo openfortivpn -c $HOME/snappDC.conf"
 alias g='git status'
 alias vd="cd $DOTFILES && vim"
+alias vim=nvim
+alias v=nvim
+alias vi=nvim
 alias dots="cd $DOTFILES"
 setxkbmap -layout "us,ir" -option "grp:shifts_toggle" -option "ctrl:nocaps"
