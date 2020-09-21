@@ -5,11 +5,8 @@
             paths = [
                 fzf
                 ripgrep
-                go
-                vlc
-                neovim
-                emacs                
+                # neovim
             ];
         };
-    };
+     };
 }
