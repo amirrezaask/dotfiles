@@ -5,6 +5,7 @@ Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'overcache/NeoSolarized'
 Plug 'whatyouhide/vim-gotham'
 Plug 'gosukiwi/vim-atom-dark'
+Plug 'LnL7/vim-nix'
 
 " tpope {{{
 Plug 'tpope/vim-surround'
