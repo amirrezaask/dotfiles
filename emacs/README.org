@@ -102,6 +102,7 @@
     - [[#php][PHP]]
     - [[#rust][Rust]]
     - [[#protobuf][Protobuf]]
+    - [[#nix][Nix]]
   - [[#vcs][VCS]]
   - [[#smerge][Smerge]]
 - [[#file-manager-dired][File Manager (Dired)]]
@@ -1552,6 +1553,10 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
 *** Protobuf
 #+begin_src emacs-lisp
 (use-package protobuf-mode :straight t :mode "\\.proto\\'")
+#+end_src
+*** Nix
+#+begin_src emacs-lisp
+(use-package nix-mode :straight t :mode "\\.nix'")
 #+end_src
 ** VCS
 #+BEGIN_SRC emacs-lisp
