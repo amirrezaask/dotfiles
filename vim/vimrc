@@ -52,7 +52,9 @@ map <C-k> <C-w>k
 map <C-l> <C-w>l
 map <C-h> <C-w>h
 " }}}
+
 map Q <nop>
+
 " Map ; to : for simpler command execuation
 map ; :
 " }}}
@@ -68,9 +70,20 @@ inoremap kj <esc>
 " Make copy/pase normal
 set clipboard=unnamedplus
 
+" Plugins
 call plug#begin('~/.vim/plugged')
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'honza/dockerfile.vim'
+Plug 'ziglang/zig.vim'
+Plug 'dag/vim-fish'
+Plug 'rust-lang/rust.vim'
+Plug 'nathanaelkane/vim-indent-guides'
+Plug 'michaeljsmith/vim-indent-object'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-jdaddy'
+Plug 'tpope/vim-commentary' 
+Plug 'LnL7/vim-nix'
 call plug#end()
 
 map <leader><leader> :FZF<CR>
