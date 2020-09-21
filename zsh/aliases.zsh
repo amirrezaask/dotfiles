@@ -3,7 +3,6 @@
 export DOTFILES="$HOME/w/dotfiles"
 export GO111MODULE='on'
 export GOPATH="$HOME/go"
-export GOROOT="/usr/local/go" 
 export PYTHONBINS="$HOME/.local/bin"
 export EDITOR='nvim'
 export GOPRIVATE='gitlab.snapp.ir'
