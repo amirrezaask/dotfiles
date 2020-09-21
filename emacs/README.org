@@ -1336,8 +1336,6 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
          (lambda () (interactive)
            (start-process "GoRun" "*GoRun*" "go" "run" (format "%s" buffer-file-name))))
 
-       ;; enable LSP
-       (amirreza/lsp!)
        ;; add go binaries to exec-path
        (add-to-list 'exec-path (concat (getenv "HOME") "/go/bin"))
 
@@ -1392,14 +1390,11 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
  #+BEGIN_SRC emacs-lisp
    (use-package python-mode
      :mode "\\.py\\'"
-     :hook (python-mode-hook . amirreza/python-mode-hook)
      :config
      (defun amirreza/python-insert-docstring ()
        (interactive)
        (insert "'''\n'''")
        (previous-line))
-     (defun amirreza/python-mode-hook () 
-       (amirreza/lsp!))
      :bind
      (:map python-mode-map 
        ("C-c m d" . amirreza/python-insert-docstring)))

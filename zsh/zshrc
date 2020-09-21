@@ -6,3 +6,4 @@ source "$LOAD_PATH/completion.zsh"
 source "$LOAD_PATH/readline.zsh"
 source "$LOAD_PATH/plugins.zsh"
 source "$LOAD_PATH/aliases.zsh"
+if [ -e /home/amirreza/.nix-profile/etc/profile.d/nix.sh ]; then . /home/amirreza/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
