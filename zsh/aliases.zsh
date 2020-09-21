@@ -13,9 +13,6 @@ export PATH="$PLAN9/bin:$HOME/.config/composer/vendor/bin:$GOROOT/bin:$GOPATH/bi
 
 alias open='xdg-open'
 alias snappvpn="sudo openfortivpn -c $HOME/snappDC.conf"
-alias v=nvim
-alias vim=nvim
-alias vi=nvim
 alias g='git status'
 alias vd="cd $DOTFILES && vim"
 alias dots="cd $DOTFILES"
