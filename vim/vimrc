@@ -84,7 +84,14 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-jdaddy'
 Plug 'tpope/vim-commentary' 
 Plug 'LnL7/vim-nix'
+Plug 'dyng/ctrlsf.vim'
+Plug 'tpope/vim-fugitive'
 call plug#end()
 
-map <leader><leader> :FZF<CR>
 
+map <leader><leader> :FZF<CR>
+nnoremap // :BLines<CR>
+nnoremap ?? :Rg<CR>
+let g:fzf_layout = { 'window': { 'width': 0.95, 'height': 0.95 } }
+
+command! Config :e "$HOME/.vimrc"

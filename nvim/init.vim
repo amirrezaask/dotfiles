@@ -11,6 +11,7 @@ Plug 'LnL7/vim-nix'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-jdaddy'
 Plug 'tpope/vim-commentary' 
+Plug 'tpope/vim-fugitive'
 " }}}
 
 " Deoplete {{{
@@ -58,15 +59,14 @@ call plug#end()
 " define SPC as <leader> 
 let mapleader=" "
 
-" FZF to SPC SPC
+" FZF
 nnoremap <leader><leader> :Files<CR>
 nnoremap \\ :Rg<CR> 
+nnoremap // :BLines<CR>
+nnoremap ?? :Rg<CR>
+let g:fzf_layout = { 'window': { 'width': 0.95, 'height': 0.95 } }
 
 " Colorscheme
 colorscheme atom-dark 
 
-" Gvim configuration
-set guioptions=
 
-" Font configuration
-set guifont=Iosevka\ 12
