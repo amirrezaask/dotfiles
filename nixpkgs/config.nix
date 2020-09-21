@@ -3,7 +3,9 @@
         amirrezaUserSpace = pkgs.buildEnv {
             name = "amirreza-user-space";
             paths = [
+                fzf
                 ripgrep
+                go
             ];
         };
     };
