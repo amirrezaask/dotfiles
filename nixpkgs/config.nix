@@ -6,6 +6,7 @@
                 fzf
                 ripgrep
                 # neovim
+                # alacritty
             ];
         };
      };
