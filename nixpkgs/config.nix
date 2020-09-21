@@ -1,4 +1,3 @@
-with import <nixpkgs> {};
 {
     packageOverrides = pkgs: with pkgs; {
         amirrezaUserSpace = pkgs.buildEnv {
