@@ -6,6 +6,9 @@
                 fzf
                 ripgrep
                 go
+                vlc
+                neovim
+                emacs                
             ];
         };
     };
