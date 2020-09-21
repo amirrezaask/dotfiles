@@ -630,13 +630,6 @@ Dminish is a simple tool that adds =:diminish= keyword to =use-package= which he
     (diminish 'eldoc-mode))
 #+end_src
 ** Font
-To use specific font in Emacs you just need to call a function, that's easy ha ??
-#+BEGIN_SRC emacs-lisp
-
-#+END_SRC
-If you evaluate code above you see the font changes.
-Now let's write some elisp, let's say that we want to have a function that we can call and change 
-our font interactively, let's write it.
 #+BEGIN_SRC emacs-lisp
   (defun amirreza/change-font (font)
     (setq default-frame-alist `((font . ,font))))
@@ -1036,7 +1029,7 @@ by default is bound to =C-c <left>=.
 #+begin_src emacs-lisp
   (use-package project
     :general (space-leader "f p" 'amirreza/find-project)
-    :bind ("s-p" . amirreza/find-project)
+    :bind ("C-c p" . amirreza/find-project)
     :config
     (defvar amirreza/project-locations '("~/w" "~/w/snapp"))
 
@@ -1332,11 +1325,12 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
 #+end_src
 ** LSP
 #+begin_src emacs-lisp
-      (use-package lsp-mode :straight t
-        :hook ((prog-mode . lsp)
-               (lsp-mode . lsp-enable-which-key-integration)))
+  (use-package lsp-mode :straight t
+    :init (setq lsp-file-watch-threshold 10000)
+    :hook ((prog-mode . lsp)
+           (lsp-mode . lsp-enable-which-key-integration)))
 
-  (use-package lsp-ivy :commands lsp-ivy-workspace-symbol
+  (use-package lsp-ivy :after ivy :commands lsp-ivy-workspace-symbol
     :bind ("C-c m s" . lsp-ivy-workspace-symbol)
     :general (space-leader "f s" 'lsp-ivy-workspace-symbol))
 #+end_src
@@ -1696,6 +1690,7 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
                 ("<tab>" . dired-subtree-toggle)))
 
   (use-package peep-dired
+    :disabled t
     :straight t
     :after dired
     :config
