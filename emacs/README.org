@@ -41,10 +41,12 @@
   - [[#diminish][Diminish]]
   - [[#font][Font]]
 - [[#minibuffer][Minibuffer]]
-    - [[#ivy][Ivy]]
+  - [[#ivy][Ivy]]
+    - [[#ivy-1][Ivy]]
     - [[#counsel][Counsel]]
     - [[#ivy-rich][Ivy-Rich]]
     - [[#ivy-posframe][Ivy-Posframe]]
+  - [[#icomplete][Icomplete]]
 - [[#emacs-buffers-and-windows][Emacs Buffers and Windows]]
   - [[#window-rules][Window rules]]
   - [[#eyebrowse][Eyebrowse]]
@@ -643,6 +645,10 @@ our font interactively, let's write it.
   (amirreza/change-font amirreza/font)
 #+END_SRC
 * Minibuffer
+** Ivy
+:PROPERTIES:
+:header-args: :tangle no
+:END:
 *** Ivy
 #+begin_src emacs-lisp
   (use-package flx :straight t)
@@ -713,6 +719,52 @@ our font interactively, let's write it.
     (setq ivy-posframe-parameters '((parent-frame nil)))
     (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-center)))
     (ivy-posframe-mode 1))
+#+end_src
+** Icomplete
+#+begin_src emacs-lisp
+(use-package orderless
+  :straight t
+  :config
+  (setq completion-styles '(orderless)))
+
+(use-package icomplete
+  :demand
+  :bind
+  (:map global-map
+        ("M-y" . amirreza/show-kill-ring)
+        :map icomplete-minibuffer-map
+        ("C-n" . icomplete-forward-completions)
+        ("C-p" . icomplete-backward-completions)
+        ("C-f" . icomplete-forward-completions)
+        ("C-b" . icomplete-backward-completions)
+        ("<right>" . icomplete-forward-completions)
+        ("<left>" . icomplete-backward-completions)
+        ("<down>" . icomplete-forward-completions)
+        ("<up>" . icomplete-backward-completions)
+        ("<RET>" . icomplete-force-complete-and-exit)
+        ("<tab>" . icomplete-force-complete))
+  :config
+  (defun amirreza/show-kill-ring ()
+    (interactive)
+    (insert (completing-read "Insert: " kill-ring)))
+
+  (setq icomplete-max-delay-chars 2
+        icomplete-separator " | "
+        icomplete-show-matches-on-no-input t
+        icomplete-hide-common-prefix nil
+        completion-ignore-case t)
+  (when (> emacs-major-version 26)
+    (fido-mode -1))
+  (icomplete-mode 1))
+
+(use-package icomplete-vertical
+  :straight t
+  :demand
+  :bind
+  (:map icomplete-minibuffer-map
+        ("C-v" . icomplete-vertical-toggle))
+  :config
+  (icomplete-vertical-mode 1))
 #+end_src
 * Emacs Buffers and Windows
 ** Window rules
@@ -993,7 +1045,6 @@ by default is bound to =C-c <left>=.
       (let* ((project (vc-root-dir))
              (dir (if project project default-directory)))
         dir))
-
     (defun amirreza/find-project ()
       "List of projects in pre defined project locations."
       (interactive)
@@ -1008,7 +1059,9 @@ by default is bound to =C-c <left>=.
 * Searching
 ** In buffer searching
 #+begin_src emacs-lisp
+  (use-package isearch :bind ("C-s" . isearch-forward))
   (use-package swiper
+    :after ivy
     :bind ("C-s" . swiper))
 #+end_src
 ** Ripgrep with persitent result
@@ -1019,12 +1072,11 @@ by default is bound to =C-c <left>=.
 #+end_src
 ** Smart symbol and file finding
 #+begin_src emacs-lisp
-  (use-package counsel
-    :general
-    (space-leader
-      "SPC" 'amirreza/find-file
-      "a g" 'amirreza/find-symbol-at-point
-      "a f" 'amirreza/find-file-at-point)
+  (defun amirreza/recursive-search-path (initial path)
+    (completing-read "Find File: " (directory-files-recursively path directory-files-no-dot-files-regexp nil (lambda (name)
+                                                                                                               (not (string-match "\\.git" name)))
+                                                                t) nil nil initial))
+  (use-package project
     :bind(("C-c f" . 'amirreza/find-file)
           ("C-c g" . 'amirreza/rg)
           ("C-M-s" . 'amirreza/find-symbol-at-point)
@@ -1036,20 +1088,20 @@ by default is bound to =C-c <left>=.
     (defun amirreza/find-symbol-at-point ()
       (interactive)
       (let* ((symbol (thing-at-point 'word)))
-        (counsel-rg symbol (amirreza/find-root))))
+        (rg symbol "*" (amirreza/find-root))))
 
     (defun amirreza/find-file-at-point ()
       (interactive)
       (let* ((symbol (thing-at-point 'word)))
-        (counsel-fzf symbol (amirreza/find-root))))
+        (find-file (amirreza/recursive-search-path symbol (amirreza/find-root)))))
 
     (defun amirreza/find-file ()
       (interactive)
-      (counsel-fzf "" (amirreza/find-root)))
+      (find-file (amirreza/recursive-search-path "" (amirreza/find-root))))
 
-    (defun amirreza/rg ()
-      (interactive)
-      (counsel-rg "" (amirreza/find-root))))
+    (defun amirreza/rg (query)
+      (interactive "sQuery: ")
+      (rg query ".*" (amirreza/find-root))))
 #+end_src
 ** File Type Search
 #+begin_src emacs-lisp
@@ -1734,14 +1786,11 @@ Dmenu replacement in Emacs.
 ** Terminal
 #+begin_src emacs-lisp
   (defvar amirreza/terminal "alacritty")
-  (use-package counsel :bind ("s-t" . amirreza/terminal)
-    :config
     (defun amirreza/terminal ()
       (interactive)
       (start-process (format "%s: %s" amirreza/terminal default-directory)
-                     (format "%s: %s" amirreza/terminal default-directory) "alacritty")))
+                     (format "%s: %s" amirreza/terminal default-directory) "alacritty"))
 #+end_src
-
 * Dotfiles
 I use multiple programs that holds their configuration in files, this section are some helpers for editing the configs
 of Emacs and other programs.
