@@ -67,7 +67,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'overcache/NeoSolarized'
     Plug 'whatyouhide/vim-gotham'
     Plug 'gosukiwi/vim-atom-dark'
-
+    Plug 'morhetz/gruvbox'
     " tpope {{{
     Plug 'tpope/vim-surround'
     Plug 'tpope/vim-jdaddy'
@@ -124,7 +124,8 @@ call plug#end()
 " nnoremap // <cmd>lua require('telescope.builtin').live_grep{}<CR>
 
 " }}} 
-colorscheme dracula
+
+colorscheme gruvbox 
 
 " FZF {{{
 nnoremap <leader><leader> :Files<CR>
