@@ -5,7 +5,6 @@ filetype indent plugin on
 
 " Case insensitive
 set ignorecase
-
 " ??
 set modeline
 
@@ -68,18 +67,12 @@ call plug#begin('~/.vim/plugged')
     Plug 'overcache/NeoSolarized'
     Plug 'whatyouhide/vim-gotham'
     Plug 'gosukiwi/vim-atom-dark'
-    Plug 'LnL7/vim-nix'
 
     " tpope {{{
     Plug 'tpope/vim-surround'
     Plug 'tpope/vim-jdaddy'
     Plug 'tpope/vim-commentary' 
     Plug 'tpope/vim-fugitive'
-    " }}}
-
-    " Deoplete {{{
-    " Plug 'Shougo/deoplete.nvim'
-    " Plug 'Shougo/deoplete-lsp'
     " }}}
 
     " File Manager
@@ -92,12 +85,6 @@ call plug#begin('~/.vim/plugged')
     if has('nvim')
         Plug 'vimlab/split-term.vim'
     endif
-    " Language Server Protocol {{{
-    " Plug 'autozimu/LanguageClient-neovim', {
-    "     \ 'branch': 'next',
-    "     \ 'do': 'bash install.sh',
-    "     \ }
-    " }}}
 
     " FZF {{{
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -110,19 +97,19 @@ call plug#begin('~/.vim/plugged')
 
     " Languages {{{
     Plug 'honza/dockerfile.vim'
+    Plug 'LnL7/vim-nix'
     Plug 'ziglang/zig.vim'
     Plug 'dag/vim-fish'
     Plug 'rust-lang/rust.vim'
     Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
     " }}}
-
+    " Neovim completion {{{
+    if has('nvim-0.5.0')
+        Plug 'nvim-lua/completion-nvim'
+    endif
+    " }}}
     " Status bar {{{
     Plug 'itchyny/lightline.vim'
-    " }}}
-    " Telescope {{{
-    " Plug 'nvim-lua/popup.nvim'
-    " Plug 'nvim-lua/plenary.nvim'
-    " Plug 'nvim-lua/telescope.nvim'
     " }}}
 call plug#end()
 " End Plugins
@@ -199,6 +186,18 @@ lua << END
     nvim_lsp.pyls.setup{}
     nvim_lsp.intelephense.setup{}
 END
+
+autocmd BufEnter * lua require'completion'.on_attach()
+
+" Use <Tab> and <S-Tab> to navigate through popup menu
+inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+" Set completeopt to have a better completion experience
+set completeopt=menuone,noinsert,noselect
+
+" Avoid showing message extra message when using completion
+set shortmess+=c
 
 endif
 " }}}
