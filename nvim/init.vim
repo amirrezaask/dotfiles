@@ -8,6 +8,9 @@ set ignorecase
 " ??
 set modeline
 
+" Highlight current line 
+set cursorline
+
 " vi Incompatible defaults 
 set nocompatible
 
