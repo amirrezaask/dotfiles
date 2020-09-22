@@ -107,12 +107,15 @@ call plug#begin('~/.vim/plugged')
     if has('nvim-0.5.0')
         Plug 'nvim-lua/completion-nvim'
     endif
-    " }}}
-    " Status bar {{{
-    Plug 'itchyny/lightline.vim'
+    
+    if has('nvim')
+        Plug 'nvim-lua/plenary.nvim'
+        Plug 'tjdevries/express_line.nvim'
+    endif
     " }}}
 call plug#end()
 " End Plugins
+
 " Telescope {{{
 
 " nnoremap <leader><leader> <cmd>lua require('telescope.builtin').find_files{}<CR>
@@ -122,7 +125,9 @@ call plug#end()
 " }}} 
 colorscheme dracula
 
-
+" Statusline {{{
+lua require('el').setup{}
+" }}}
 
 " FZF {{{
 nnoremap <leader><leader> :Files<CR>
@@ -167,6 +172,11 @@ if has('nvim')
     set splitbelow
     set splitright
 endif
+
+" edit configuration
+let g:config_location = "~/w/dotfiles"
+command! Config FZF ~/w/dotfiles 
+map <f9> :Config<CR>
 
 " Neovim LSP Client Settings {{{
 if has('nvim-0.5.0')
