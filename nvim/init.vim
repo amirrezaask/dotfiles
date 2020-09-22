@@ -89,7 +89,9 @@ call plug#begin('~/.vim/plugged')
     if has('nvim-0.5.0') 
         Plug 'neovim/nvim-lspconfig'
     endif
-
+    if has('nvim')
+        Plug 'vimlab/split-term.vim'
+    endif
     " Language Server Protocol {{{
     " Plug 'autozimu/LanguageClient-neovim', {
     "     \ 'branch': 'next',
@@ -173,6 +175,11 @@ nmap <leader>/ :nohl<CR>
 
 " Make copy/paste from system clipboard normal
 set clipboard=unnamedplus
+
+if has('nvim')
+    set splitbelow
+    set splitright
+endif
 
 " Neovim LSP Client Settings {{{
 if has('nvim-0.5.0')
