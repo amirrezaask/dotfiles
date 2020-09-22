@@ -18,5 +18,6 @@ alias dots="cd $DOTFILES"
 # alias nvim with vim if exists
 if type nvim > /dev/null 2>&1; then
       alias vim='nvim'
+      alias vi='nvim'
 fi
 setxkbmap -layout "us,ir" -option "grp:shifts_toggle" -option "ctrl:nocaps"

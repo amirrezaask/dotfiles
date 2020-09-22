@@ -117,7 +117,6 @@ call plug#begin('~/.vim/plugged')
     " Status bar {{{
     Plug 'itchyny/lightline.vim'
     " }}}
-
 call plug#end()
 " End Plugins
 
@@ -159,8 +158,9 @@ nmap <leader>/ :nohl<CR>
 
 " Make copy/paste from system clipboard normal
 set clipboard=unnamedplus
+
+" Neovim LSP Client Settings {{{
 if has('nvim') && v:version >= 800 
-    " Neovim LSP Client Settings {{{
         nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
         nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
         nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
