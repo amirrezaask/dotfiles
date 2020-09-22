@@ -1,5 +1,3 @@
-" General Settings{{{
-filetype off
 " Syntax highlight
 syntax on
 " enable filetype plugin loading
@@ -7,30 +5,43 @@ filetype indent plugin on
 
 " Case insensitive
 set ignorecase
+
 " ??
 set modeline
+
 " vi Incompatible defaults 
 set nocompatible
+
 " Default encoding to UTF-8
 set encoding=utf-8
+
 " Highlight search result in pattern search
 set hlsearch
+
 " Command history capacity
 set history=700
+
 " Maximum number of tabs to be opened
 set tabpagemax=100
+
 " Show column and line number in status bar
 set ruler
+
 " Enable mouse support
 set mouse=a
+
 " Enable line numbers
 set nu 
+
 " Set <leader> to SPC
 let mapleader = " "
+
 " Disable line wrapping in long lines
 set nowrap
+
 " Start new line with same indent level as current line
 set autoindent
+
 noremap j gj
 noremap k gk
 " Highlight current line
@@ -75,7 +86,9 @@ call plug#begin('~/.vim/plugged')
     Plug 'lambdalisue/fern.vim'
    
     " NeoVim LSP
-    Plug 'neovim/nvim-lspconfig'
+    if has('nvim') && v:version >= 800 
+        Plug 'neovim/nvim-lspconfig'
+    endif
 
     " Language Server Protocol {{{
     " Plug 'autozimu/LanguageClient-neovim', {
@@ -107,9 +120,6 @@ call plug#begin('~/.vim/plugged')
 
 call plug#end()
 " End Plugins
-
-" define SPC as <leader> 
-let mapleader=" "
 
 " FZF {{{
 nnoremap <leader><leader> :Files<CR>
@@ -147,32 +157,19 @@ nmap <leader>/ :nohl<CR>
     inoremap jj <esc>
 " }}}
 
-" Make copy/pase normal
+" Make copy/paste from system clipboard normal
 set clipboard=unnamedplus
-
-" LSP Client Settings {{{
-
-let g:LanguageClient_autoStart = 1
-
-" let g:LanguageClient_serverCommands = {
-"     \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
-"     \ 'javascript': ['/usr/local/bin/javascript-typescript-stdio'],
-"     \ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
-"     \ 'python': ['/usr/local/bin/pyls'],
-"     \ 'ruby': ['~/.rbenv/shims/solargraph', 'stdio'],
-"     \ 'go': ["$GOPATH/bin/gopls"],
-"     \ 'php': ['intelephense', '--stdio']
-"     \ }
-
-nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
-nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
-nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
-nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
-nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
-nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
-nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
-nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
-nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
+if has('nvim') && v:version >= 800 
+    " Neovim LSP Client Settings {{{
+        nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
+        nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
+        nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
+        nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
+        nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
+        nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
+        nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
+        nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
+        nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
 
 lua << END
     local nvim_lsp = require('nvim_lsp')
@@ -180,4 +177,6 @@ lua << END
     nvim_lsp.pyls.setup{}
     nvim_lsp.intelephense.setup{}
 END
+
+endif
 " }}}
