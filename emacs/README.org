@@ -528,8 +528,8 @@ extensively but now i use it only when keybindings are just crazy.
      :bind (("<f12>" . amirreza/toggle-color-mode))
      :config
      (defvar amirreza/current-mode 'dark "Current color mode of Emacs.")
-     (defvar amirreza/dark-theme 'doom-one)
-     (defvar amirreza/light-theme 'doom-one-light)
+     (defvar amirreza/dark-theme 'modus-vivendi)
+     (defvar amirreza/light-theme 'modus-operandi)
 
      (defmacro amirreza/--load-theme (&rest theme-opts)
        `(progn (mapc #'disable-theme custom-enabled-themes)
@@ -742,7 +742,7 @@ Dminish is a simple tool that adds =:diminish= keyword to =use-package= which he
     (insert (completing-read "Insert: " kill-ring)))
 
   (setq icomplete-max-delay-chars 2
-        icomplete-separator " | "
+        icomplete-separator " * "
         icomplete-show-matches-on-no-input t
         icomplete-hide-common-prefix nil
         completion-ignore-case t)

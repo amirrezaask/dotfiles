@@ -69,14 +69,15 @@ let g:fzf_layout = { 'window': { 'width': 0.95, 'height': 0.95 } }
 set nobackup
 set nowritebackup
 set noswapfile
+
 " Project Explorer
 map <f8> :Fern . -drawer -toggle<CR>
 
 " Colorscheme
-colorscheme dracula 
-let g:lightline = {
-            \ "colorscheme": "dracula"
-            \}
+" colorscheme dracula 
+" let g:lightline = {
+"             \ "colorscheme": "dracula"
+"             \}
 
 " General Settings{{{
 filetype off
@@ -114,7 +115,7 @@ set autoindent
 noremap j gj
 noremap k gk
 " Highlight current line
-set cursorline
+" set cursorline
 
 " Relative line numbers
 set relativenumber
