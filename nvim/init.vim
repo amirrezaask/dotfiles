@@ -46,8 +46,6 @@ set autoindent
 
 noremap j gj
 noremap k gk
-" Highlight current line
-" set cursorline
 
 " Relative line numbers
 set relativenumber
@@ -61,70 +59,8 @@ set softtabstop=4
 set expandtab
 " }}}
 
-
-" Plugins
-call plug#begin('~/.vim/plugged')
-    "Telescope
-    if has('nvim')
-        " Plug 'nvim-lua/popup.nvim'
-        " Plug 'nvim-lua/plenary.nvim'
-        " Plug 'nvim-lua/telescope.nvim'
-    endif 
-    " Colorschemes
-    Plug 'dracula/vim', { 'as': 'dracula' }
-    Plug 'overcache/NeoSolarized'
-    Plug 'whatyouhide/vim-gotham'
-    Plug 'arcticicestudio/nord-vim'
-    Plug 'gosukiwi/vim-atom-dark'
-    Plug 'morhetz/gruvbox'
-    " tpope {{{
-    Plug 'tpope/vim-surround'
-    Plug 'tpope/vim-jdaddy'
-    Plug 'tpope/vim-commentary' 
-    Plug 'tpope/vim-fugitive'
-    " }}}
-
-    " File Manager
-    Plug 'lambdalisue/fern.vim'
-   
-    " NeoVim LSP
-    if has('nvim-0.5.0') 
-        Plug 'neovim/nvim-lspconfig'
-    endif
-    if has('nvim')
-        Plug 'vimlab/split-term.vim'
-    endif
-
-    " FZF {{{
-    Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-    Plug 'junegunn/fzf.vim'
-    " }}}
-
-    " Indent Objects
-    Plug 'nathanaelkane/vim-indent-guides'
-    Plug 'michaeljsmith/vim-indent-object'
-
-    " Languages {{{
-    Plug 'honza/dockerfile.vim'
-    Plug 'LnL7/vim-nix'
-    Plug 'ziglang/zig.vim'
-    Plug 'dag/vim-fish'
-    Plug 'rust-lang/rust.vim'
-    Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-    " }}}
-    " Neovim completion {{{
-    if has('nvim-0.5.0')
-        Plug 'nvim-lua/completion-nvim'
-        Plug 'tjdevries/nlua.nvim'
-    endif
-    
-    if has('nvim')
-        Plug 'nvim-lua/plenary.nvim'
-        Plug 'tjdevries/express_line.nvim'
-    endif
-    " }}}
-call plug#end()
-" End Plugins
+" Install/Load plugins
+lua require'plugins'
 
 " Telescope {{{
 
@@ -138,11 +74,11 @@ colorscheme nord
 
 " FZF {{{
 
-nnoremap <leader><leader> :Files<CR>
-nnoremap \\ :BLines<CR>
-nnoremap ?? :Rg<CR>
-let g:fzf_layout = { 'window': { 'width': 0.90, 'height': 0.90 } }
-let g:fzf_preview_window = 'right:40%'
+    nnoremap <leader><leader> :Files<CR>
+    nnoremap \\ :BLines<CR>
+    nnoremap ?? :Rg<CR>
+    let g:fzf_layout = { 'window': { 'width': 0.90, 'height': 0.90 } }
+    let g:fzf_preview_window = 'right:40%'
 
 " }}}
 
