@@ -117,14 +117,29 @@ call plug#begin('~/.vim/plugged')
     " Status bar {{{
     Plug 'itchyny/lightline.vim'
     " }}}
+    " Telescope {{{
+    " Plug 'nvim-lua/popup.nvim'
+    " Plug 'nvim-lua/plenary.nvim'
+    " Plug 'nvim-lua/telescope.nvim'
+    " }}}
 call plug#end()
 " End Plugins
+" Telescope {{{
+
+" nnoremap <leader><leader> <cmd>lua require('telescope.builtin').find_files{}<CR>
+" nnoremap <leader>p <cmd>lua require('telescope.builtin').git_files{}<CR>
+" nnoremap // <cmd>lua require('telescope.builtin').live_grep{}<CR>
+
+" }}} 
+colorscheme dracula
+
+
 
 " FZF {{{
 nnoremap <leader><leader> :Files<CR>
 nnoremap // :BLines<CR>
 nnoremap ?? :Rg<CR>
-let g:fzf_layout = { 'window': { 'width': 0.95, 'height': 0.95 } }
+let g:fzf_layout = { 'window': { 'width': 0.90, 'height': 0.90 } }
 " }}}
 
 " no backup files
