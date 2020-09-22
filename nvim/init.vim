@@ -86,7 +86,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'lambdalisue/fern.vim'
    
     " NeoVim LSP
-    if has('nvim') && v:version >= 800 
+    if has('nvim-0.5.0') 
         Plug 'neovim/nvim-lspconfig'
     endif
 
@@ -175,7 +175,7 @@ nmap <leader>/ :nohl<CR>
 set clipboard=unnamedplus
 
 " Neovim LSP Client Settings {{{
-if has('nvim') && v:version >= 800 
+if has('nvim-0.5.0')
         nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
         nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
         nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
