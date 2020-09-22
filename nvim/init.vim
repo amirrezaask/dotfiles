@@ -125,15 +125,12 @@ call plug#end()
 " }}} 
 colorscheme dracula
 
-" Statusline {{{
-lua require('el').setup{}
-" }}}
-
 " FZF {{{
 nnoremap <leader><leader> :Files<CR>
 nnoremap // :BLines<CR>
 nnoremap ?? :Rg<CR>
 let g:fzf_layout = { 'window': { 'width': 0.90, 'height': 0.90 } }
+let g:fzf_preview_window = 'right:40%'
 " }}}
 
 " no backup files
