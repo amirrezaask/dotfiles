@@ -106,6 +106,7 @@ call plug#begin('~/.vim/plugged')
     " Neovim completion {{{
     if has('nvim-0.5.0')
         Plug 'nvim-lua/completion-nvim'
+        Plug 'tjdevries/nlua.nvim'
     endif
     
     if has('nvim')
