@@ -124,3 +124,11 @@ let g:config_location = "~/w/dotfiles"
 command! Config FZF ~/w/dotfiles 
 map <f9> :Config<CR>
 
+" Tabs {{{
+    nnoremap tn :tabnext<CR>
+    nnoremap tp :tabprevious<CR>
+    nnoremap tc :tabclose<CR>
+    nnoremap tt :tabnew<CR>
+" }}}
+
+
