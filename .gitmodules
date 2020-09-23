@@ -28,3 +28,6 @@
 [submodule "awesome/awesome-buttons"]
 	path = awesome/awesome-buttons
 	url = https://github.com/streetturtle/awesome-buttons
+[submodule "awesome/battery-widget"]
+	path = awesome/battery-widget
+	url = https://github.com/deficient/battery-widget.git

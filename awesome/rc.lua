@@ -180,7 +180,6 @@ awful.screen.connect_for_each_screen(function(s)
     -- VolumeBar
     local volumebar_widget = require("awesome-wm-widgets.volumebar-widget.volumebar")
     -- Battery
-    local battery_widget = require("awesome-wm-widgets.battery-widget.battery")
     -- Logout widget
     local logout_widget = require('awesome-wm-widgets.logout-widget.logout')
     -- Add widgets to the wibox
@@ -207,7 +206,7 @@ awful.screen.connect_for_each_screen(function(s)
                 shape = 'rounded_bar',
                 margins = 8
                }),
-            battery_widget(),
+            require("battery-widget"){},
             s.mylayoutbox,
         },
     }
