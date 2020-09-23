@@ -28,5 +28,6 @@ return require'packer'.startup(function()
     use { 'tjdevries/nlua.nvim'}
     use { 'nvim-lua/plenary.nvim'}
     use { 'tjdevries/express_line.nvim'}
+    use { 'mhinz/vim-startify' }
 end)
 
