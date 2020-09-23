@@ -1,7 +1,7 @@
 font:
   normal:
     family: "monospace"
-  size: 11 
+  size: 8 
 
 key_bindings:
   - { key: N, mods: Control|Shift, action: SpawnNewInstance }

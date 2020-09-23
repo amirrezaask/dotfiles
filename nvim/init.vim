@@ -70,7 +70,7 @@ lua require'plugins'
 
 " }}} 
 
-colorscheme nord 
+colorscheme gruvbox 
 
 " FZF {{{
 
