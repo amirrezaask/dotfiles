@@ -177,11 +177,13 @@ awful.screen.connect_for_each_screen(function(s)
     
     -- Rythmbox
     require('awesome-wm-widgets.rhythmbox-widget.rhythmbox')
+    -- Battery
+    local battery_widget = require('battery')
     -- VolumeBar
     local volumebar_widget = require("awesome-wm-widgets.volumebar-widget.volumebar")
-    -- Battery
-    -- Logout widget
-    local logout_widget = require('awesome-wm-widgets.logout-widget.logout')
+    -- Splitter
+    local splitter = wibox.widget.textbox()
+    splitter:set_text(" | ")
     -- Add widgets to the wibox
     s.mywibox:setup {
         layout = wibox.layout.align.horizontal,
@@ -197,8 +199,10 @@ awful.screen.connect_for_each_screen(function(s)
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
             mykeyboardlayout,
+            splitter,
             wibox.widget.systray(),
             mytextclock,
+            splitter,
             volumebar_widget({
                 main_color = '#af13f7',
                 mute_color = '#ff0000',
@@ -206,7 +210,9 @@ awful.screen.connect_for_each_screen(function(s)
                 shape = 'rounded_bar',
                 margins = 8
                }),
-            require("battery-widget"){},
+            splitter,
+            battery_widget.widget,
+            splitter,
             s.mylayoutbox,
         },
     }
