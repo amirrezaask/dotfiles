@@ -69,9 +69,7 @@ lua require'plugins'
 " nnoremap // <cmd>lua require('telescope.builtin').live_grep{}<CR>
 
 " }}} 
-
-colorscheme gruvbox 
-
+colorscheme atom-dark
 " FZF {{{
 
     nnoremap <leader><leader> :Files<CR>

@@ -1,6 +1,8 @@
 vim.cmd [[packadd packer.nvim]]
 
 return require'packer'.startup(function()
+    use { 'airblade/vim-gitgutter'}
+    use { 'rafi/awesome-vim-colorschemes'}
     use { 'dracula/vim', as = 'dracula' }
     use { 'overcache/NeoSolarized'}
     use { 'whatyouhide/vim-gotham'}
@@ -15,7 +17,7 @@ return require'packer'.startup(function()
     use { 'neovim/nvim-lspconfig'}
     use { 'vimlab/split-term.vim'}
     use { 'junegunn/fzf.vim'}
-    use {'junegunn/fzf'}
+    use { 'junegunn/fzf'}
     use { 'nathanaelkane/vim-indent-guides'}
     use { 'michaeljsmith/vim-indent-object'}
     use { 'honza/dockerfile.vim'}

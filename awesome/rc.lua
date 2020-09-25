@@ -125,7 +125,6 @@ local tasklist_buttons = gears.table.join(
                      awful.button({ }, 5, function ()
                                               awful.client.focus.byidx(-1)
                                           end))
-
 local function set_wallpaper(s)
     -- Wallpaper
     if beautiful.wallpaper then
@@ -549,4 +548,5 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 -- }}}
 --
 --
-awful.key({} ,"#123", function(c) awful.spawn("pactl set-sink-volume @DEFAULT_SINK@ +10%") end)
+-- Set wallpaper
+awful.spawn("feh --bg-scale /home/amirreza/w/dotfiles/wallpapers/darksideofthemoon.png")
