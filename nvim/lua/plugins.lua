@@ -29,7 +29,8 @@ return require'packer'.startup(function()
     use { 'nvim-lua/completion-nvim'}
     use { 'tjdevries/nlua.nvim'}
     use { 'nvim-lua/plenary.nvim'}
-    use { 'tjdevries/express_line.nvim'}
+    -- use { 'tjdevries/express_line.nvim'}
     use { 'mhinz/vim-startify' }
+    use { 'itchyny/lightline.vim' }
 end)
 
