@@ -14,7 +14,7 @@ local beautiful = require("beautiful")
 local naughty = require("naughty")
 local hotkeys_popup = require("awful.hotkeys_popup")
 -- Xrandr for multiple monitor support
-local xrandr = require('xrandr')
+--local xrandr = require('xrandr')
 
 -- Enable hotkeys help widget for VIM and other apps
 -- when client with a matching name is opened:
@@ -547,6 +547,7 @@ client.connect_signal("focus", function(c) c.border_color = beautiful.border_foc
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
 --
---
+-- Setup xrandr
+awful.spawn('xrandr --output eDP-1 --right-of DP-1 --output eDP-1 --left-of HDMI-2 --output DP-1 --left-of eDP-1')
 -- Set wallpaper
 awful.spawn("feh --bg-scale /home/amirreza/w/dotfiles/wallpapers/darksideofthemoon.png")
