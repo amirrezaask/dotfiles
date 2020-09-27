@@ -1,6 +1,9 @@
 vim.cmd [[packadd packer.nvim]]
 
+
 return require'packer'.startup(function()
+    use ('~/w/go.nvim')
+    use { 'wbthomason/packer.nvim' }
     use { 'airblade/vim-gitgutter'}
     use { 'rafi/awesome-vim-colorschemes'}
     use { 'dracula/vim', as = 'dracula' }
@@ -25,7 +28,7 @@ return require'packer'.startup(function()
     use { 'ziglang/zig.vim'}
     use { 'dag/vim-fish'}
     use { 'rust-lang/rust.vim'}
-    use { 'fatih/vim-go' }
+    -- use { 'fatih/vim-go' }
     use { 'nvim-lua/completion-nvim'}
     use { 'tjdevries/nlua.nvim'}
     use { 'nvim-lua/plenary.nvim'}
@@ -33,4 +36,7 @@ return require'packer'.startup(function()
     use { 'mhinz/vim-startify' }
     use { 'itchyny/lightline.vim' }
 end)
+
+
+
 

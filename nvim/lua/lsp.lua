@@ -5,6 +5,7 @@ nvim_lsp.gopls.setup{}
 nvim_lsp.pyls.setup{}
 nvim_lsp.intelephense.setup{}
 nvim_lsp.vimls.setup{}
+
 -- Lua setup
 require('nlua.lsp.nvim').setup(require('nvim_lsp'), {
   on_attach = custom_nvim_lspconfig_attach,

@@ -7,7 +7,7 @@ filetype indent plugin on
 set ignorecase
 " ??
 set modeline
-
+set autoread
 " Highlight current line 
 set cursorline
 
@@ -80,6 +80,7 @@ colorscheme atom-dark
 
 " }}}
 
+
 " no backup files
 set nobackup
 set nowritebackup
@@ -128,5 +129,8 @@ map <f9> :Config<CR>
     nnoremap tc :tabclose<CR>
     nnoremap tt :tabnew<CR>
 " }}}
+
+" Enable go.nvim save hooks
+let g:go_on_save_hooks = 1
 
 
