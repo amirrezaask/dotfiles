@@ -27,14 +27,14 @@ return require'packer'.startup(function()
     use { 'LnL7/vim-nix'}
     use { 'ziglang/zig.vim'}
     use { 'dag/vim-fish'}
+    use { 'tjdevries/colorbuddy.vim' }
+    use { 'tjdevries/gruvbuddy.nvim' }
     use { 'rust-lang/rust.vim'}
-    -- use { 'fatih/vim-go' }
     use { 'nvim-lua/completion-nvim'}
     use { 'tjdevries/nlua.nvim'}
-    use { 'nvim-lua/plenary.nvim'}
-    -- use { 'tjdevries/express_line.nvim'}
+    use { 'nvim-lua/plenary.nvim' }
+    use { 'tjdevries/express_line.nvim'}
     use { 'mhinz/vim-startify' }
-    use { 'itchyny/lightline.vim' }
 end)
 
 

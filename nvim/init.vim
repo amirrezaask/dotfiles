@@ -1,4 +1,3 @@
-" Syntax highlight
 syntax on
 " enable filetype plugin loading
 filetype indent plugin on
@@ -62,14 +61,7 @@ set expandtab
 " Install/Load plugins
 lua require'plugins'
 
-" Telescope {{{
 
-" nnoremap <leader><leader> <cmd>lua require('telescope.builtin').find_files{}<CR>
-" nnoremap <leader>ff <cmd>lua require('telescope.builtin').git_files{}<CR>
-" nnoremap // <cmd>lua require('telescope.builtin').live_grep{}<CR>
-
-" }}} 
-colorscheme atom-dark
 " FZF {{{
 
     nnoremap <leader><leader> :Files<CR>
@@ -110,6 +102,10 @@ nmap <leader>/ :nohl<CR>
     inoremap jj <esc>
 " }}}
 
+" statusline {{{
+let g:enable_express_line = 1
+" }}}
+
 " Make copy/paste from system clipboard normal
 set clipboard=unnamedplus
 
@@ -118,10 +114,11 @@ if has('nvim')
     set splitright
 endif
 
-" edit configuration
-let g:config_location = "~/w/dotfiles"
-command! Config FZF ~/w/dotfiles 
-map <f9> :Config<CR>
+" edit configuration {{{
+    let g:config_location = "~/w/dotfiles"
+    command! Config FZF ~/w/dotfiles 
+    map <f9> :Config<CR>
+" }}}
 
 " Tabs {{{
     nnoremap tn :tabnext<CR>
@@ -132,5 +129,3 @@ map <f9> :Config<CR>
 
 " Enable go.nvim save hooks
 let g:go_on_save_hooks = 1
-
-
