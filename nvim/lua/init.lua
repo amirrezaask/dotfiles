@@ -17,3 +17,6 @@ setup_colorscheme()
 
 
 if vim.api.nvim_get_var('enable_express_line') then setup_express_line() end
+
+-- Enable Go plugin
+require'go'
