@@ -36,7 +36,3 @@ return require'packer'.startup(function()
     use { 'tjdevries/express_line.nvim'}
     use { 'mhinz/vim-startify' }
 end)
-
-
-
-
