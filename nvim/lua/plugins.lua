@@ -31,6 +31,8 @@ return require'packer'.startup(function()
     use { 'tjdevries/gruvbuddy.nvim' }
     use { 'rust-lang/rust.vim'}
     use { 'nvim-lua/completion-nvim'}
+    use { 'nvim-lua/popup.nvim'}
+    use { 'nvim-lua/telescope.nvim'}
     use { 'tjdevries/nlua.nvim'}
     use { 'nvim-lua/plenary.nvim' }
     use { 'tjdevries/express_line.nvim'}
