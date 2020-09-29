@@ -65,7 +65,7 @@ lua require'plugins'
 " Telescope {{{
     nnoremap <leader><leader> <cmd>lua require('telescope.builtin').find_files{}<CR>
     nnoremap <leader>ff <cmd>lua require('telescope.builtin').git_files{}<CR>
-    nnoremap // <cmd>lua require('telescope.builtin').live_grep{}<CR>
+    nnoremap ?? <cmd>lua require('telescope.builtin').live_grep{}<CR>
 " }}} 
 
 
@@ -74,8 +74,14 @@ set nobackup
 set nowritebackup
 set noswapfile
 
-" Project Explorer
-map <f8> :Fern . -drawer -toggle<CR>
+" Netrw configuration {{{
+    map <f8> :Vex<CR>
+    let g:netrw_liststyle = 3
+    let g:netrw_banner = 0
+    let g:netrw_browse_split = 1
+    let g:netrw_winsize = 15 
+" }}}
+
 "Easier window navigation {{{
     map <C-j> <C-w>j
     map <C-k> <C-w>k
@@ -112,7 +118,7 @@ endif
 
 " edit configuration {{{
     let g:config_location = "~/w/dotfiles"
-    command! Config FZF ~/w/dotfiles 
+    command! Config lua require'telescope.builtin'.find_files{cwd=vim.api.nvim_get_var('config_location')}
     map <f9> :Config<CR>
 " }}}
 

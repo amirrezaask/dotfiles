@@ -16,11 +16,8 @@ return require'packer'.startup(function()
     use { 'tpope/vim-jdaddy'}
     use { 'tpope/vim-commentary' }
     use { 'tpope/vim-fugitive' }
-    use { 'lambdalisue/fern.vim'}
     use { 'neovim/nvim-lspconfig'}
     use { 'vimlab/split-term.vim'}
-    use { 'junegunn/fzf.vim'}
-    use { 'junegunn/fzf'}
     use { 'nathanaelkane/vim-indent-guides'}
     use { 'michaeljsmith/vim-indent-object'}
     use { 'honza/dockerfile.vim'}
