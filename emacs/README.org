@@ -528,8 +528,8 @@ extensively but now i use it only when keybindings are just crazy.
      :bind (("<f12>" . amirreza/toggle-color-mode))
      :config
      (defvar amirreza/current-mode 'dark "Current color mode of Emacs.")
-     (defvar amirreza/dark-theme 'modus-vivendi)
-     (defvar amirreza/light-theme 'modus-operandi)
+     (defvar amirreza/dark-theme 'doom-one)
+     (defvar amirreza/light-theme 'doom-one-light)
 
      (defmacro amirreza/--load-theme (&rest theme-opts)
        `(progn (mapc #'disable-theme custom-enabled-themes)
@@ -634,14 +634,11 @@ Dminish is a simple tool that adds =:diminish= keyword to =use-package= which he
   (defun amirreza/change-font (font)
     (setq default-frame-alist `((font . ,font))))
 
-  (defvar amirreza/font "Iosevka-12")
+  (defvar amirreza/font "Iosevka-10")
   (amirreza/change-font amirreza/font)
 #+END_SRC
 * Minibuffer
 ** Ivy
-:PROPERTIES:
-:header-args: :tangle no
-:END:
 *** Ivy
 #+begin_src emacs-lisp
   (use-package flx :straight t)
@@ -714,6 +711,9 @@ Dminish is a simple tool that adds =:diminish= keyword to =use-package= which he
     (ivy-posframe-mode 1))
 #+end_src
 ** Icomplete
+:PROPERTIES:
+:header-args: :tangle no
+:END:
 #+begin_src emacs-lisp
 (use-package orderless
   :straight t
