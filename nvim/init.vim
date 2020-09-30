@@ -63,11 +63,20 @@ lua require'plugins'
 
 
 " Telescope {{{
-    nnoremap <leader><leader> <cmd>lua require('telescope.builtin').find_files{}<CR>
-    nnoremap <leader>ff <cmd>lua require('telescope.builtin').git_files{}<CR>
-    nnoremap ?? <cmd>lua require('telescope.builtin').live_grep{}<CR>
+    " nnoremap <leader><leader> <cmd>lua require('telescope.builtin').find_files{}<CR>
+    " nnoremap <leader>ff <cmd>lua require('telescope.builtin').git_files{}<CR>
+    " nnoremap ?? <cmd>lua require('telescope.builtin').live_grep{}<CR>
 " }}} 
 
+" FZF {{{
+
+    nnoremap <leader><leader> :Files<CR>
+    nnoremap \\ :BLines<CR>
+    nnoremap ?? :Rg<CR>
+    let g:fzf_layout = { 'window': { 'width': 0.90, 'height': 0.90 } }
+    let g:fzf_preview_window = 'right:40%'
+
+" }}}
 
 " no backup files
 set nobackup

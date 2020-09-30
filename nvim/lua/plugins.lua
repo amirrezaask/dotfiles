@@ -4,6 +4,8 @@ vim.cmd [[packadd packer.nvim]]
 return require'packer'.startup(function()
     use ('~/w/go.nvim')
     use { 'wbthomason/packer.nvim' }
+    use { 'junegunn/fzf.vim'}
+    use { 'junegunn/fzf'}
     use { 'airblade/vim-gitgutter'}
     use { 'rafi/awesome-vim-colorschemes'}
     use { 'dracula/vim', as = 'dracula' }
