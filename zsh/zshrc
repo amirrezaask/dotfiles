@@ -1,9 +1,11 @@
-#!/usr/bin/env zsh
+source ~/w/dotfiles/zsh/antigen.zsh
 
-LOAD_PATH="$HOME/w/dotfiles/zsh"
 
-source "$LOAD_PATH/completion.zsh"
-source "$LOAD_PATH/readline.zsh"
-source "$LOAD_PATH/plugins.zsh"
-source "$LOAD_PATH/aliases.zsh"
-if [ -e /home/amirreza/.nix-profile/etc/profile.d/nix.sh ]; then . /home/amirreza/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
+antigen use oh-my-zsh
+
+
+antigen bundle git
+antigen bundle zsh-users/zsh-syntax-highlighting
+antigen bundle zsh-users/zsh-atuosuggestions
+
+antigen apply
