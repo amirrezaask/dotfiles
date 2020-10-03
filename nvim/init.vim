@@ -85,12 +85,8 @@ set nobackup
 set nowritebackup
 set noswapfile
 
-" Netrw configuration {{{
-    map <f8> :Vex<CR>
-    let g:netrw_liststyle = 3
-    let g:netrw_banner = 0
-    let g:netrw_browse_split = 1
-    let g:netrw_winsize = 15 
+" Fern {{{
+map <f8> <cmd>Fern -toggle -drawer .<CR>
 " }}}
 
 "Easier window navigation {{{
@@ -129,8 +125,9 @@ endif
 
 " edit configuration {{{
     let g:config_location = "~/w/dotfiles"
-    command! Config lua require'telescope.builtin'.find_files{cwd=vim.api.nvim_get_var('config_location')}
-    map <f9> :Config<CR>
+    map <leader>ea <cmd>lua require'telescope.builtin'.find_files{cwd="~/.config/awesome", prompt="Awesome configuration"}<CR>
+    map <leader>ez <cmd>lua require'telescope.builtin'.find_files{cwd=vim.api.nvim_get_var('config_location') .. "/zsh", prompt="ZSH configuration"}<CR>
+    map <leader>en <cmd>lua require'telescope.builtin'.find_files{cwd="~/.config/nvim", prompt="Neovim configuration"}<CR>
 " }}}
 
 " Tabs {{{

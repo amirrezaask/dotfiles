@@ -2,7 +2,8 @@ vim.cmd [[packadd packer.nvim]]
 
 
 return require'packer'.startup(function()
-    use ('~/w/go.nvim')
+    use { 'lambdalisue/fern.vim' }
+    use { '~/w/go.nvim' }
     use { 'wbthomason/packer.nvim' }
     use { 'junegunn/fzf.vim'}
     use { 'junegunn/fzf'}
@@ -36,4 +37,5 @@ return require'packer'.startup(function()
     use { 'nvim-lua/plenary.nvim' }
     use { 'tjdevries/express_line.nvim'}
     use { 'mhinz/vim-startify' }
+    use { 'junegunn/goyo.vim' }
 end)
