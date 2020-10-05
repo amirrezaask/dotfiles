@@ -1,7 +1,7 @@
 local nvim_lsp = require('nvim_lsp')
 local completion = require('completion')
 
-nvim_lsp.gopls.setup{}
+-- nvim_lsp.gopls.setup{}
 nvim_lsp.pyls.setup{}
 nvim_lsp.intelephense.setup{}
 nvim_lsp.vimls.setup{}

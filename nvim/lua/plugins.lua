@@ -3,7 +3,7 @@ vim.cmd [[packadd packer.nvim]]
 
 return require'packer'.startup(function()
     use { 'lambdalisue/fern.vim' }
-    use { '~/w/go.nvim' }
+    use { '~/w/ngo.nvim' }
     use { 'wbthomason/packer.nvim' }
     use { 'junegunn/fzf.vim'}
     use { 'junegunn/fzf'}

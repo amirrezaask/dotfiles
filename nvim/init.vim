@@ -138,4 +138,5 @@ endif
 " }}}
 
 " Enable go.nvim save hooks
-let g:go_on_save_hooks = 1
+" let g:go_disable_save_hooks = 1
+" let g:go_formatter = "gofmt"
