@@ -61,25 +61,6 @@ set expandtab
 " Install/Load plugins
 lua require'plugins'
 
-
-" Telescope {{{
-    nnoremap <leader><leader> <cmd>lua require('telescope.builtin').find_files{}<CR>
-    nnoremap <leader>ff <cmd>lua require('telescope.builtin').git_files{}<CR>
-    nnoremap <leader>fb <cmd>lua require'telescope.builtin'.buffers()<CR>
-    nnoremap <leader>fs <cmd>lua require'telescope.builtin'.lsp_workspace_symbols()<CR>
-    nnoremap ?? <cmd>lua require('telescope.builtin').live_grep{}<CR>
-" }}} 
-
-" FZF {{{
-
-    " nnoremap <leader><leader> :Files<CR>
-    " nnoremap \\ :BLines<CR>
-    " nnoremap ?? :Rg<CR>
-    " let g:fzf_layout = { 'window': { 'width': 0.90, 'height': 0.90 } }
-    " let g:fzf_preview_window = 'right:40%'
-
-" }}}
-
 " no backup files
 set nobackup
 set nowritebackup
@@ -125,17 +106,29 @@ endif
 
 " edit configuration {{{
     let g:config_location = "~/w/dotfiles"
-    map <leader>ea <cmd>lua require'telescope.builtin'.find_files{cwd="~/.config/awesome", prompt="Awesome configuration"}<CR>
-    map <leader>ez <cmd>lua require'telescope.builtin'.find_files{cwd=vim.api.nvim_get_var('config_location') .. "/zsh", prompt="ZSH configuration"}<CR>
-    map <leader>en <cmd>lua require'telescope.builtin'.find_files{cwd="~/.config/nvim", prompt="Neovim configuration"}<CR>
+    map <leader>ec <cmd>lua require('fuzzy.builtin')(require'fuzzy.fzy').files{cwd=vim.g.config_location}<CR>
+    map <leader>ea <cmd>lua require('fuzzy.builtin')(require'fuzzy.fzy').files{cwd='~/.config/awesome'}<CR>
+    map <leader>en <cmd>lua require('fuzzy.builtin')(require'fuzzy.fzy').files{cwd='~/.config/nvim/'}<CR>
 " }}}
 
+" Find plugins {{{
+    let g:plugins_location = "~/.local/share/nvim/site/pack/packer/start/"
+    map <leader>fp <cmd>lua require'telescope.builtin'.find_files{cwd=vim.g.plugins_location, prompt="Neovim Plugins"}<CR>
+" }}}
 " Tabs {{{
     nnoremap tn :tabnext<CR>
     nnoremap tp :tabprevious<CR>
     nnoremap tc :tabclose<CR>
     nnoremap tt :tabnew<CR>
 " }}}
+
+" fuzzy.nvim {{
+    nnoremap <leader><leader> <cmd>lua require('fuzzy.builtin')(require'fuzzy.fzy').files{}<CR>
+    nnoremap <leader>fg <cmd>lua require('fuzzy.builtin')(require'fuzzy.fzy').git_files{}<CR>
+    nnoremap ?? <cmd>lua require('fuzzy.builtin')(require'fuzzy.fzy').rg{}<CR>
+    nnoremap ?g <cmd>lua require('fuzzy.builtin')(require'fuzzy.fzy').git_grep{}<CR>
+" }}
+
 
 " Enable go.nvim save hooks
 " let g:go_disable_save_hooks = 1

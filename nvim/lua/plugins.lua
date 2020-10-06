@@ -4,9 +4,8 @@ vim.cmd [[packadd packer.nvim]]
 return require'packer'.startup(function()
     use { 'lambdalisue/fern.vim' }
     use { '~/w/ngo.nvim' }
+    use { '~/w/fuzzy.nvim' }
     use { 'wbthomason/packer.nvim' }
-    use { 'junegunn/fzf.vim'}
-    use { 'junegunn/fzf'}
     use { 'airblade/vim-gitgutter'}
     use { 'rafi/awesome-vim-colorschemes'}
     use { 'dracula/vim', as = 'dracula' }
@@ -32,8 +31,9 @@ return require'packer'.startup(function()
     use { 'rust-lang/rust.vim'}
     use { 'nvim-lua/completion-nvim'}
     use { 'nvim-lua/popup.nvim'}
-    use { 'nvim-lua/telescope.nvim'}
+    -- use { 'nvim-lua/telescope.nvim'}
     use { 'tjdevries/nlua.nvim'}
+    use { 'euclidianAce/BetterLua.vim' }
     use { 'nvim-lua/plenary.nvim' }
     use { 'tjdevries/express_line.nvim'}
     use { 'mhinz/vim-startify' }
