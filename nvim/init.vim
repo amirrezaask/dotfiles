@@ -99,36 +99,35 @@ let g:enable_express_line = 1
 " Make copy/paste from system clipboard normal
 set clipboard=unnamedplus
 
-if has('nvim')
-    set splitbelow
-    set splitright
-endif
+set splitbelow
+set splitright
 
-" edit configuration {{{
+" fuzzy.nvim {{
+    nnoremap <leader>c <cmd>lua require('fuzzy.builtin')(require'fuzzy.fzf').cd{}<CR>
+    nnoremap <leader><leader> <cmd>lua require('fuzzy.builtin')(require'fuzzy.fzf').files{}<CR>
+    nnoremap <leader>fg <cmd>lua require('fuzzy.builtin')(require'fuzzy.fzf').git_files{}<CR>
+    nnoremap ?? <cmd>lua require('fuzzy.builtin')(require'fuzzy.fzf').rg{}<CR>
+    nnoremap ?g <cmd>lua require('fuzzy.builtin')(require'fuzzy.fzf').git_grep{}<CR>
+" }}
+
+" Find things {{{
     let g:config_location = "~/w/dotfiles"
-    map <leader>ec <cmd>lua require('fuzzy.builtin')(require'fuzzy.fzy').files{cwd=vim.g.config_location}<CR>
-    map <leader>ea <cmd>lua require('fuzzy.builtin')(require'fuzzy.fzy').files{cwd='~/.config/awesome'}<CR>
-    map <leader>en <cmd>lua require('fuzzy.builtin')(require'fuzzy.fzy').files{cwd='~/.config/nvim/'}<CR>
+    map <leader>ec <cmd>lua require('fuzzy.builtin')(require'fuzzy.fzf').files{cwd=vim.g.config_location}<CR>
+    map <leader>ea <cmd>lua require('fuzzy.builtin')(require'fuzzy.fzf').files{cwd='~/.config/awesome'}<CR>
+    map <leader>en <cmd>lua require('fuzzy.builtin')(require'fuzzy.fzf').files{cwd='~/.config/nvim/'}<CR>
+
+    let g:plugins_location = "~/.local/share/nvim/site/pack/packer/start/"
+    let g:projects_location = "~/w"
+    map <leader>fnp <cmd>lua require('fuzzy.builtin')(require'fuzzy.fzf').cd{cwd=vim.g.plugins_location}<CR>
+    map <leader>fp <cmd>lua require('fuzzy.builtin')(require'fuzzy.fzf').cd{cwd=vim.g.projects_location}<CR>
 " }}}
 
-" Find plugins {{{
-    let g:plugins_location = "~/.local/share/nvim/site/pack/packer/start/"
-    map <leader>fp <cmd>lua require'telescope.builtin'.find_files{cwd=vim.g.plugins_location, prompt="Neovim Plugins"}<CR>
-" }}}
 " Tabs {{{
     nnoremap tn :tabnext<CR>
     nnoremap tp :tabprevious<CR>
     nnoremap tc :tabclose<CR>
     nnoremap tt :tabnew<CR>
 " }}}
-
-" fuzzy.nvim {{
-    nnoremap <leader><leader> <cmd>lua require('fuzzy.builtin')(require'fuzzy.fzy').files{}<CR>
-    nnoremap <leader>fg <cmd>lua require('fuzzy.builtin')(require'fuzzy.fzy').git_files{}<CR>
-    nnoremap ?? <cmd>lua require('fuzzy.builtin')(require'fuzzy.fzy').rg{}<CR>
-    nnoremap ?g <cmd>lua require('fuzzy.builtin')(require'fuzzy.fzy').git_grep{}<CR>
-" }}
-
 
 " Enable go.nvim save hooks
 " let g:go_disable_save_hooks = 1
