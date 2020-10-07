@@ -106,6 +106,7 @@ set splitright
     nnoremap <leader>c <cmd>lua require('fuzzy.builtin')(require'fuzzy.fzf').cd{}<CR>
     nnoremap <leader><leader> <cmd>lua require('fuzzy.builtin')(require'fuzzy.fzf').files{}<CR>
     nnoremap <leader>fg <cmd>lua require('fuzzy.builtin')(require'fuzzy.fzf').git_files{}<CR>
+    nnoremap <leader>b <cmd>lua require('fuzzy.builtin')(require'fuzzy.fzf').buffers{}<CR>
     nnoremap ?? <cmd>lua require('fuzzy.builtin')(require'fuzzy.fzf').rg{}<CR>
     nnoremap ?g <cmd>lua require('fuzzy.builtin')(require'fuzzy.fzf').git_grep{}<CR>
 " }}
@@ -113,8 +114,8 @@ set splitright
 " Find things {{{
     let g:config_location = "~/w/dotfiles"
     map <leader>ec <cmd>lua require('fuzzy.builtin')(require'fuzzy.fzf').files{cwd=vim.g.config_location}<CR>
-    map <leader>ea <cmd>lua require('fuzzy.builtin')(require'fuzzy.fzf').files{cwd='~/.config/awesome'}<CR>
-    map <leader>en <cmd>lua require('fuzzy.builtin')(require'fuzzy.fzf').files{cwd='~/.config/nvim/'}<CR>
+    map <leader>ea <cmd>lua require('fuzzy.builtin')(require'fuzzy.fzf').files{cwd='~/.config/awesome', hidden = true}<CR>
+    map <leader>en <cmd>lua require('fuzzy.builtin')(require'fuzzy.fzf').files{cwd='~/.config/nvim/', hidden = true}<CR>
 
     let g:plugins_location = "~/.local/share/nvim/site/pack/packer/start/"
     let g:projects_location = "~/w"

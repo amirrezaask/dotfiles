@@ -3,8 +3,8 @@ vim.cmd [[packadd packer.nvim]]
 
 return require'packer'.startup(function()
     use { 'lambdalisue/fern.vim' }
-    use { '~/w/ngo.nvim' }
-    use { '~/w/fuzzy.nvim' }
+    use { '~/w/dotnvim/ngo.nvim' }
+    use { '~/w/dotnvim/fuzzy.nvim' }
     use { 'wbthomason/packer.nvim' }
     use { 'airblade/vim-gitgutter'}
     use { 'rafi/awesome-vim-colorschemes'}
