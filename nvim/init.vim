@@ -130,6 +130,6 @@ set splitright
     nnoremap tt :tabnew<CR>
 " }}}
 
-" Enable go.nvim save hooks
-" let g:go_disable_save_hooks = 1
-" let g:go_formatter = "gofmt"
+" Lua {{{
+    autocmd BufEnter *.lua set ts=3 sw=3 sts=3 expandtab
+" }}}
