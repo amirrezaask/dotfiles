@@ -103,24 +103,25 @@ set splitbelow
 set splitright
 
 " fuzzy.nvim {{
-    nnoremap <leader>c <cmd>lua require('fuzzy.builtin')(require'fuzzy.fzy').cd{}<CR>
-    nnoremap <leader><leader> <cmd>lua require('fuzzy.builtin')(require'fuzzy.fzy').files{}<CR>
-    nnoremap <leader>fg <cmd>lua require('fuzzy.builtin')(require'fuzzy.fzy').git_files{}<CR>
-    nnoremap <leader>b <cmd>lua require('fuzzy.builtin')(require'fuzzy.fzy').buffers{}<CR>
-    nnoremap ?? <cmd>lua require('fuzzy.builtin')(require'fuzzy.fzy').rg{}<CR>
-    nnoremap ?g <cmd>lua require('fuzzy.builtin')(require'fuzzy.fzy').git_grep{}<CR>
+    let g:fuzzy_backend='fuzzy.fzf'
+    nnoremap <leader>c <cmd>lua require('fuzzy.builtin')(require(vim.api.nvim_get_var('fuzzy_backend'))).cd{}<CR>
+    nnoremap <leader><leader> <cmd>lua require('fuzzy.builtin')(require(vim.api.nvim_get_var('fuzzy_backend'))).files{}<CR>
+    nnoremap <leader>fg <cmd>lua require('fuzzy.builtin')(require(vim.api.nvim_get_var('fuzzy_backend'))).git_files{}<CR>
+    nnoremap <leader>b <cmd>lua require('fuzzy.builtin')(require(vim.api.nvim_get_var('fuzzy_backend'))).buffers{}<CR>
+    nnoremap ?? <cmd>lua require('fuzzy.builtin')(require(vim.api.nvim_get_var('fuzzy_backend'))).rg{}<CR>
+    nnoremap ?g <cmd>lua require('fuzzy.builtin')(require(vim.api.nvim_get_var('fuzzy_backend'))).git_grep{}<CR>
 " }}
 
 " Find things {{{
     let g:config_location = "~/w/dotfiles"
-    map <leader>ec <cmd>lua require('fuzzy.builtin')(require'fuzzy.fzy').files{cwd=vim.g.config_location}<CR>
-    map <leader>ea <cmd>lua require('fuzzy.builtin')(require'fuzzy.fzy').files{cwd='~/.config/awesome', hidden = true}<CR>
-    map <leader>en <cmd>lua require('fuzzy.builtin')(require'fuzzy.fzy').files{cwd='~/.config/nvim/', hidden = true}<CR>
+    map <leader>ec <cmd>lua require('fuzzy.builtin')(require(vim.api.nvim_get_var('fuzzy_backend'))).files{cwd=vim.g.config_location}<CR>
+    map <leader>ea <cmd>lua require('fuzzy.builtin')(require(vim.api.nvim_get_var('fuzzy_backend'))).files{cwd='~/.config/awesome', hidden = true}<CR>
+    map <leader>en <cmd>lua require('fuzzy.builtin')(require(vim.api.nvim_get_var('fuzzy_backend'))).files{cwd='~/.config/nvim/', hidden = true}<CR>
 
     let g:plugins_location = "~/.local/share/nvim/site/pack/packer/start/"
     let g:projects_location = "~/w"
-    map <leader>fnp <cmd>lua require('fuzzy.builtin')(require'fuzzy.fzy').cd{cwd=vim.g.plugins_location}<CR>
-    map <leader>fp <cmd>lua require('fuzzy.builtin')(require'fuzzy.fzy').cd{cwd=vim.g.projects_location}<CR>
+    map <leader>fnp <cmd>lua require('fuzzy.builtin')(require(vim.api.nvim_get_var('fuzzy_backend'))).cd{cwd=vim.g.plugins_location}<CR>
+    map <leader>fp <cmd>lua require('fuzzy.builtin')(require(vim.api.nvim_get_var('fuzzy_backend'))).cd{cwd=vim.g.projects_location}<CR>
 " }}}
 
 " Tabs {{{

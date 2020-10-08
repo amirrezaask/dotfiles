@@ -30,7 +30,6 @@ return require'packer'.startup(function()
     use { 'rust-lang/rust.vim'}
     use { 'nvim-lua/completion-nvim'}
     use { 'nvim-lua/popup.nvim'}
-    -- use { 'nvim-lua/telescope.nvim'}
     use { 'tjdevries/nlua.nvim'}
     use { 'euclidianAce/BetterLua.vim' }
     use { 'nvim-lua/plenary.nvim' }
