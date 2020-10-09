@@ -2,9 +2,12 @@ vim.cmd [[packadd packer.nvim]]
 
 
 return require'packer'.startup(function()
-    use { 'lambdalisue/fern.vim' }
+    -- Local plugins 
     use { '~/w/dotnvim/ngo.nvim' }
+    use { '~/w/dotnvim/start.nvim' }
     use { '~/w/dotnvim/fuzzy.nvim' }
+    
+    use { 'lambdalisue/fern.vim' }
     use { 'wbthomason/packer.nvim' }
     use { 'airblade/vim-gitgutter'}
     use { 'rafi/awesome-vim-colorschemes'}
@@ -34,6 +37,5 @@ return require'packer'.startup(function()
     use { 'euclidianAce/BetterLua.vim' }
     use { 'nvim-lua/plenary.nvim' }
     use { 'tjdevries/express_line.nvim'}
-    use { 'mhinz/vim-startify' }
     use { 'junegunn/goyo.vim' }
 end)

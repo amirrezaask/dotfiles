@@ -136,6 +136,7 @@ let g:netrw_banner = 0
 
 " }}}
 
+colorscheme ayu 
 " Lua {{{
     autocmd BufEnter *.lua set ts=3 sw=3 sts=3 expandtab
 " }}}
