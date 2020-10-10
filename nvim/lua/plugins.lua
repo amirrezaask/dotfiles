@@ -8,6 +8,7 @@ return require'packer'.startup(function()
     use { '~/w/dotnvim/fuzzy.nvim' }
     
     use { 'lambdalisue/fern.vim' }
+    use { 'liuchengxu/vim-which-key' }
     use { 'wbthomason/packer.nvim' }
     use { 'airblade/vim-gitgutter'}
     use { 'rafi/awesome-vim-colorschemes'}

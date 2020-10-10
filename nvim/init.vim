@@ -124,6 +124,7 @@ set splitright
     map <leader>fp <cmd>lua require('fuzzy.builtin')(require(vim.api.nvim_get_var('fuzzy_backend'))).cd{cwd=vim.g.projects_location}<CR>
 " }}}
 
+
 " Tabs {{{
     nnoremap tn :tabnext<CR>
     nnoremap tp :tabprevious<CR>
@@ -134,6 +135,10 @@ set splitright
 " Netrw {{{
 let g:netrw_banner = 0
 
+" }}}
+
+" Which Key {{{
+    nnoremap <silent> <leader> :WhichKey '<Space>'<CR>
 " }}}
 
 colorscheme ayu 
