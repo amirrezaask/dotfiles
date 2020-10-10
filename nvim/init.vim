@@ -110,18 +110,18 @@ set splitright
     nnoremap <leader>b <cmd>lua require('fuzzy.builtin')(require(vim.api.nvim_get_var('fuzzy_backend'))).buffers{}<CR>
     nnoremap ?? <cmd>lua require('fuzzy.builtin')(require(vim.api.nvim_get_var('fuzzy_backend'))).rg{}<CR>
     nnoremap ?g <cmd>lua require('fuzzy.builtin')(require(vim.api.nvim_get_var('fuzzy_backend'))).git_grep{}<CR>
+    nnoremap <leader>gc <cmd>lua require('fuzzy.builtin')(require(vim.api.nvim_get_var('fuzzy_backend'))).git_checkout{}<CR>
+    nnoremap <leader>gl <cmd>lua require('fuzzy.builtin')(require(vim.api.nvim_get_var('fuzzy_backend'))).git_log{}<CR>
+    nnoremap <leader>gf <cmd>lua require('fuzzy.builtin')(require(vim.api.nvim_get_var('fuzzy_backend'))).git_fuzzy{}<CR>
 " }}
 
 " Find things {{{
-    let g:config_location = "~/w/dotfiles"
-    map <leader>ec <cmd>lua require('fuzzy.builtin')(require(vim.api.nvim_get_var('fuzzy_backend'))).files{cwd=vim.g.config_location}<CR>
+    map <leader>ec <cmd>lua require('fuzzy.builtin')(require(vim.api.nvim_get_var('fuzzy_backend'))).files{cwd='~/w/dotfiles'}<CR>
     map <leader>ea <cmd>lua require('fuzzy.builtin')(require(vim.api.nvim_get_var('fuzzy_backend'))).files{cwd='~/.config/awesome', hidden = true}<CR>
     map <leader>en <cmd>lua require('fuzzy.builtin')(require(vim.api.nvim_get_var('fuzzy_backend'))).files{cwd='~/.config/nvim/', hidden = true}<CR>
 
-    let g:plugins_location = "~/.local/share/nvim/site/pack/packer/start/"
-    let g:projects_location = "~/w"
-    map <leader>fnp <cmd>lua require('fuzzy.builtin')(require(vim.api.nvim_get_var('fuzzy_backend'))).cd{cwd=vim.g.plugins_location}<CR>
-    map <leader>fp <cmd>lua require('fuzzy.builtin')(require(vim.api.nvim_get_var('fuzzy_backend'))).cd{cwd=vim.g.projects_location}<CR>
+    map <leader>fnp <cmd>lua require('fuzzy.builtin')(require(vim.api.nvim_get_var('fuzzy_backend'))).cd{cwd="~/.local/share/nvim/site/pack/packer/start/"}<CR>
+    map <leader>fp <cmd>lua require('fuzzy.builtin')(require(vim.api.nvim_get_var('fuzzy_backend'))).cd{cwd="~/w"}<CR>
 " }}}
 
 
@@ -133,8 +133,7 @@ set splitright
 " }}}
 
 " Netrw {{{
-let g:netrw_banner = 0
-
+    let g:netrw_banner = 0
 " }}}
 
 " Which Key {{{

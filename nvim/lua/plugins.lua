@@ -21,6 +21,7 @@ return require'packer'.startup(function()
     use { 'tpope/vim-surround'}
     use { 'tpope/vim-jdaddy'}
     use { 'tpope/vim-commentary' }
+    -- use { 'tpope/vim-fugitive' }
     use { 'neovim/nvim-lspconfig'}
     use { 'vimlab/split-term.vim'}
     use { 'nathanaelkane/vim-indent-guides'}
