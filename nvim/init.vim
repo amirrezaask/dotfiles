@@ -38,7 +38,7 @@ set nu
 let mapleader = " "
 
 " Disable line wrapping in long lines
-set nowrap
+set wrap 
 
 " Start new line with same indent level as current line
 set autoindent
@@ -105,7 +105,7 @@ set splitright
 " fuzzy.nvim {{
     let g:fuzzy_backend='fuzzy.fzf'
     nnoremap <leader>c <cmd>lua require('fuzzy.builtin')(require(vim.api.nvim_get_var('fuzzy_backend'))).cd{}<CR>
-    nnoremap <leader><leader> <cmd>lua require('fuzzy.builtin')(require(vim.api.nvim_get_var('fuzzy_backend'))).files{}<CR>
+    nnoremap <leader><leader> <cmd>lua require('fuzzy.builtin')(require(vim.api.nvim_get_var('fuzzy_backend'))).fd_files{}<CR>
     nnoremap <leader>fg <cmd>lua require('fuzzy.builtin')(require(vim.api.nvim_get_var('fuzzy_backend'))).git_files{}<CR>
     nnoremap <leader>b <cmd>lua require('fuzzy.builtin')(require(vim.api.nvim_get_var('fuzzy_backend'))).buffers{}<CR>
     nnoremap ?? <cmd>lua require('fuzzy.builtin')(require(vim.api.nvim_get_var('fuzzy_backend'))).rg{}<CR>
@@ -116,7 +116,7 @@ set splitright
 " }}
 
 " Find things {{{
-    map <leader>ec <cmd>lua require('fuzzy.builtin')(require(vim.api.nvim_get_var('fuzzy_backend'))).files{cwd='~/w/dotfiles'}<CR>
+    map <leader>ec <cmd>lua require('fuzzy.builtin')(require(vim.api.nvim_get_var('fuzzy_backend'))).fd_files{cwd='~/w/dotfiles'}<CR>
     map <leader>ea <cmd>lua require('fuzzy.builtin')(require(vim.api.nvim_get_var('fuzzy_backend'))).files{cwd='~/.config/awesome', hidden = true}<CR>
     map <leader>en <cmd>lua require('fuzzy.builtin')(require(vim.api.nvim_get_var('fuzzy_backend'))).files{cwd='~/.config/nvim/', hidden = true}<CR>
 
