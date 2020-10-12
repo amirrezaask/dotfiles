@@ -579,6 +579,9 @@ extensively but now i use it only when keybindings are just crazy.
   #+END_SRC
 ** Modeline
 *** Custom Modeline
+:PROPERTIES:
+:header-args: :tangle no
+:END:
 #+begin_src emacs-lisp
 
   (setq mode-line-percent-position '(-3 "%p"))
@@ -603,9 +606,6 @@ extensively but now i use it only when keybindings are just crazy.
                  '(:eval (propertize battery-mode-line-string))))
 #+end_src
 *** Doom-modeline
-:PROPERTIES:
-:header-args: :tangle no
-:END:
 #+begin_src emacs-lisp
   (use-package doom-modeline
     :straight t
@@ -663,8 +663,8 @@ Dminish is a simple tool that adds =:diminish= keyword to =use-package= which he
     (setq ivy-virtual-abbreviate 'full)
     ;; don't quit minibuffer on delete-error
     (setq ivy-on-del-error-function #'ignore)
-    (setf (alist-get 't ivy-format-functions-alist)
-          #'ivy-format-function-line)
+    ;; (setf (alist-get 't ivy-format-functions-alist)
+    ;;       #'ivy-format-function-line)
     (setq ivy-initial-inputs-alist nil)
     (setq ivy-re-builders-alist
           '((t . ivy--regex-ignore-order)))
@@ -1663,6 +1663,7 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
 #+begin_src emacs-lisp
   (use-package dired
     :commands (dired dired-jump)
+    :hook (dired-hook . (lambda () (interactive) (dired-hide-details-mode 1)))
     :bind (("C-x C-j" . dired-jump)
            :map dired-mode-map
            ("q" . kill-this-buffer)))
@@ -1688,19 +1689,6 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
     :straight t
     :bind (:map dired-mode-map
                 ("<tab>" . dired-subtree-toggle)))
-
-  (use-package peep-dired
-    :disabled t
-    :straight t
-    :after dired
-    :config
-    (setq peep-dired-cleanup-on-disable t)
-    (setq peep-dired-enable-on-directories nil)
-    (setq peep-dired-ignored-extensions
-          '("mkv" "webm" "mp4" "mp3" "ogg" "iso"))
-    :bind (:map dired-mode-map
-                ("P" . peep-dired)))
-  (use-package ranger :after evil :straight t :after dired :init (setq ranger-override-dired t))
 #+end_src
 * Integrated Tools
 ** Acme functionality
