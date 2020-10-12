@@ -45,9 +45,10 @@ return require'packer'.startup{
       use { 'tjdevries/express_line.nvim'}
       use { 'junegunn/goyo.vim' }
       use { 'Yggdroot/indentLine' }
+      use { 'voldikss/vim-floaterm' }
       
       -- Git Integrations
-      use { 'kdheepak/lazygit.nvim' }
       use { 'rhysd/git-messenger.vim' }
+      use { 'kdheepak/lazygit.nvim' }
    end
 }

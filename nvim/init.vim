@@ -110,6 +110,7 @@ set splitright
     nnoremap <leader>b <cmd>lua require('fuzzy.builtin')(require(vim.api.nvim_get_var('fuzzy_backend'))).buffers{}<CR>
     nnoremap ?? <cmd>lua require('fuzzy.builtin')(require(vim.api.nvim_get_var('fuzzy_backend'))).rg{}<CR>
     nnoremap ?g <cmd>lua require('fuzzy.builtin')(require(vim.api.nvim_get_var('fuzzy_backend'))).git_grep{}<CR>
+    map <f12> <cmd>lua require('fuzzy.floating').floating_terminal()<CR>
 " }}
 
 " Find things {{{
@@ -145,8 +146,11 @@ map <f5> :Run<CR>
     autocmd BufEnter *.lua set ts=2 sw=2 sts=2 expandtab
 " }}}
 " LazyGit {{{
-    nnoremap <leader>gg :LazyGit<CR>
+nnoremap <leader>gg :LazyGit<CR>
+let g:lazygit_floating_window_scaling_factor = 0.7
 " }}}
+
+
 " GitMessager {{{
     nnoremap <leader>gm :GitMessenger<CR>
 " }}}
