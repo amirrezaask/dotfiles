@@ -28,7 +28,6 @@ return require'packer'.startup{
       use { 'neovim/nvim-lspconfig'}
       use { 'vimlab/split-term.vim'}
       use { 'norcalli/nvim-colorizer.lua' }
-      use { 'nathanaelkane/vim-indent-guides'}
       use { 'michaeljsmith/vim-indent-object'}
       use { 'honza/dockerfile.vim'}
       use { 'LnL7/vim-nix'}
@@ -45,6 +44,7 @@ return require'packer'.startup{
       use { 'nvim-lua/plenary.nvim' }
       use { 'tjdevries/express_line.nvim'}
       use { 'junegunn/goyo.vim' }
+      use { 'Yggdroot/indentLine' }
       
       -- Git Integrations
       use { 'kdheepak/lazygit.nvim' }
