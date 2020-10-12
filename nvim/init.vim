@@ -124,6 +124,9 @@ set splitright
     map <leader>fp <cmd>lua require('fuzzy.builtin')(require(vim.api.nvim_get_var('fuzzy_backend'))).cd{cwd="~/w"}<CR>
 " }}}
 
+" Runner {{{
+map <f5> :Run<CR>
+" }}}
 
 " Tabs {{{
     nnoremap tn :tabnext<CR>

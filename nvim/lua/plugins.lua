@@ -35,6 +35,7 @@ return require'packer'.startup{
       -- use { 'tpope/vim-fugitive' }
       use { 'neovim/nvim-lspconfig'}
       use { 'vimlab/split-term.vim'}
+      use { 'norcalli/nvim-colorizer.lua' }
       use { 'nathanaelkane/vim-indent-guides'}
       use { 'michaeljsmith/vim-indent-object'}
       use { 'honza/dockerfile.vim'}
