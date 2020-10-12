@@ -137,19 +137,15 @@ map <f5> :Run<CR>
     let g:netrw_banner = 0
 " }}}
 
-" Which Key {{{
-    nnoremap <silent> <leader> :WhichKey '<Space>'<CR>
-" }}}
-
 " colorscheme vim-monokai-tasty 
 " Lua {{{
     autocmd BufEnter *.lua set ts=2 sw=2 sts=2 expandtab
 " }}}
+
 " LazyGit {{{
 nnoremap <leader>gg :LazyGit<CR>
 let g:lazygit_floating_window_scaling_factor = 0.7
 " }}}
-
 
 " GitMessager {{{
     nnoremap <leader>gm :GitMessenger<CR>

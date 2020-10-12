@@ -5,6 +5,7 @@ super + Return
 # dmenu
 super + d
     dmenu_run
+
 # Emacs
 super + e
     emacs
