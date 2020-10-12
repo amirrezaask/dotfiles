@@ -140,7 +140,7 @@ set splitright
     nnoremap <silent> <leader> :WhichKey '<Space>'<CR>
 " }}}
 
-colorscheme ayu 
+" colorscheme ayu 
 " Lua {{{
     autocmd BufEnter *.lua set ts=3 sw=3 sts=3 expandtab
 " }}}
