@@ -17,6 +17,7 @@ return require'packer'.startup{
       local_use 'start.nvim'
       local_use 'fuzzy.nvim'
     
+      use 'patstockwell/vim-monokai-tasty'
       use { 'lambdalisue/fern.vim' }
       use { 'liuchengxu/vim-which-key' }
       use { 'wbthomason/packer.nvim' }

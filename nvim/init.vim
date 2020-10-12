@@ -140,7 +140,7 @@ set splitright
     nnoremap <silent> <leader> :WhichKey '<Space>'<CR>
 " }}}
 
-" colorscheme ayu 
+" colorscheme vim-monokai-tasty 
 " Lua {{{
-    autocmd BufEnter *.lua set ts=3 sw=3 sts=3 expandtab
+    autocmd BufEnter *.lua set ts=2 sw=2 sts=2 expandtab
 " }}}
