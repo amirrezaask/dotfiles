@@ -110,9 +110,6 @@ set splitright
     nnoremap <leader>b <cmd>lua require('fuzzy.builtin')(require(vim.api.nvim_get_var('fuzzy_backend'))).buffers{}<CR>
     nnoremap ?? <cmd>lua require('fuzzy.builtin')(require(vim.api.nvim_get_var('fuzzy_backend'))).rg{}<CR>
     nnoremap ?g <cmd>lua require('fuzzy.builtin')(require(vim.api.nvim_get_var('fuzzy_backend'))).git_grep{}<CR>
-    nnoremap <leader>gc <cmd>lua require('fuzzy.builtin')(require(vim.api.nvim_get_var('fuzzy_backend'))).git_checkout{}<CR>
-    nnoremap <leader>gl <cmd>lua require('fuzzy.builtin')(require(vim.api.nvim_get_var('fuzzy_backend'))).git_log{}<CR>
-    nnoremap <leader>gf <cmd>lua require('fuzzy.builtin')(require(vim.api.nvim_get_var('fuzzy_backend'))).git_fuzzy{}<CR>
 " }}
 
 " Find things {{{
@@ -146,4 +143,10 @@ map <f5> :Run<CR>
 " colorscheme vim-monokai-tasty 
 " Lua {{{
     autocmd BufEnter *.lua set ts=2 sw=2 sts=2 expandtab
+" }}}
+" LazyGit {{{
+    nnoremap <leader>gg :LazyGit<CR>
+" }}}
+" GitMessager {{{
+    nnoremap <leader>gm :GitMessenger<CR>
 " }}}

@@ -1,5 +1,4 @@
 vim.cmd [[packadd packer.nvim]]
-
 local local_plugins_path = '~/w/dotnvim'
 
 
@@ -17,22 +16,15 @@ return require'packer'.startup{
       local_use 'start.nvim'
       local_use 'fuzzy.nvim'
     
-      use 'patstockwell/vim-monokai-tasty'
+      use { 'patstockwell/vim-monokai-tasty' }
       use { 'lambdalisue/fern.vim' }
       use { 'liuchengxu/vim-which-key' }
       use { 'wbthomason/packer.nvim' }
       use { 'airblade/vim-gitgutter'}
-      use { 'rafi/awesome-vim-colorschemes'}
-      use { 'dracula/vim', as = 'dracula' }
-      use { 'overcache/NeoSolarized'}
-      use { 'whatyouhide/vim-gotham'}
-      use { 'arcticicestudio/nord-vim'}
-      use { 'gosukiwi/vim-atom-dark'}
       use { 'morhetz/gruvbox'}
       use { 'tpope/vim-surround'}
       use { 'tpope/vim-jdaddy'}
       use { 'tpope/vim-commentary' }
-      -- use { 'tpope/vim-fugitive' }
       use { 'neovim/nvim-lspconfig'}
       use { 'vimlab/split-term.vim'}
       use { 'norcalli/nvim-colorizer.lua' }
@@ -53,5 +45,9 @@ return require'packer'.startup{
       use { 'nvim-lua/plenary.nvim' }
       use { 'tjdevries/express_line.nvim'}
       use { 'junegunn/goyo.vim' }
+      
+      -- Git Integrations
+      use { 'kdheepak/lazygit.nvim' }
+      use { 'rhysd/git-messenger.vim' }
    end
 }
