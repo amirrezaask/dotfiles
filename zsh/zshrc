@@ -32,11 +32,11 @@ alias open='xdg-open'
 alias snappvpn="sudo openfortivpn -c $HOME/snappDC.conf"
 alias g='git status'
 alias dots="cd $DOTFILES"
-alias nvim with vim if exists
+#alias nvim with vim if exists
 alias gd='git diff | batcat'
-if type nvim > /dev/null 2>&1; then
-    alias vim='nvim'
-    alias vi='nvim'
-fi
+# if type nvim > /dev/null 2>&1; then
+#     alias vim='nvim'
+#     alias vi='nvim'
+# fi
 setxkbmap -layout "us,ir" -option "grp:shifts_toggle" -option "ctrl:nocaps"
 export PATH="/home/amirreza/w/git-fuzzy/bin:$PATH"

@@ -1,5 +1,5 @@
 vim.cmd [[packadd packer.nvim]]
-local local_plugins_path = '~/w/dotnvim'
+local local_plugins_path = '~/w/dotnvim/'
 
 
 return require'packer'.startup{
@@ -18,7 +18,6 @@ return require'packer'.startup{
     
       use { 'patstockwell/vim-monokai-tasty' }
       use { 'lambdalisue/fern.vim' }
-      use { 'liuchengxu/vim-which-key' }
       use { 'wbthomason/packer.nvim' }
       use { 'airblade/vim-gitgutter'}
       use { 'morhetz/gruvbox'}
@@ -37,7 +36,7 @@ return require'packer'.startup{
       use { 'tjdevries/gruvbuddy.nvim' }
       use { 'rust-lang/rust.vim'}
       use { 'nvim-lua/completion-nvim'}
-      use { 'nvim-treesitter/nvim-treesitter' }
+      -- use { 'nvim-treesitter/nvim-treesitter' }
       use { 'nvim-lua/popup.nvim'}
       use { 'tjdevries/nlua.nvim'}
       use { 'euclidianAce/BetterLua.vim' }
@@ -46,6 +45,8 @@ return require'packer'.startup{
       use { 'junegunn/goyo.vim' }
       use { 'Yggdroot/indentLine' }
       use { 'voldikss/vim-floaterm' }
+
+      use 'nvim-lua/telescope.nvim'
       
       -- Git Integrations
       use { 'rhysd/git-messenger.vim' }
