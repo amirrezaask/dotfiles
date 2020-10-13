@@ -24,7 +24,11 @@ local runner_config = {
 local run_this_file = function()
   local filename = vim.api.nvim_buf_get_name(vim.api.nvim_get_current_buf)
   local ext = split(filename, '.')[2]
-  runner_config[ext](filename)
+  local callback = runner_config[ext]
+  if callback == nil then
+    print('No callback found for filetype :%s', ext) 
+  end
+  callback(filename)
 end
 
 return run_this_file

@@ -5,7 +5,6 @@ antigen use oh-my-zsh
 
 
 antigen bundle git
-antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle zsh-users/zsh-autosuggestions 
 antigen theme robbyrussell
 antigen apply
@@ -32,7 +31,7 @@ alias open='xdg-open'
 alias snappvpn="sudo openfortivpn -c $HOME/snappDC.conf"
 alias g='git status'
 alias dots="cd $DOTFILES"
-#alias nvim with vim if exists
+alias lock='i3lock -c000000'
 alias gd='git diff | batcat'
 # if type nvim > /dev/null 2>&1; then
 #     alias vim='nvim'

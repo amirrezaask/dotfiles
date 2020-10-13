@@ -7,8 +7,7 @@
 
 ;; Initialize Package manager
 (corelib/init-package-manager)
-
-;; Use literate configuration mode
-(corelib/use-literate-config "~/.emacs.d/README.org" "~/.emacs.d/init.el")
+(delete-file "~/.emacs.d/README.el")
+(org-babel-load-file "~/.emacs.d/README.org")
 
 ;; Init file is generated gets loaded.

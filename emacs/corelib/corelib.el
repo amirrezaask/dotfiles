@@ -45,16 +45,6 @@
   (straight-use-package 'use-package))
 
 
-(defun corelib/tangle-literate-config (path output)
-  "Tangle given literate config."
-  (require 'org)
-  (org-babel-tangle-file path output "emacs-lisp"))
-
-(defun corelib/use-literate-config (input output)
-  (unless (file-exists-p output)
-    (corelib/tangle-literate-config input output))
-  (add-hook 'kill-emacs-hook (lambda () (corelib/tangle-literate-config input output))))
-
 (defun corelib/faster-start ()
   ;; Defer Garbage collection
   (setq gc-cons-threshold most-positive-fixnum)

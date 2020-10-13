@@ -528,7 +528,7 @@ extensively but now i use it only when keybindings are just crazy.
      :bind (("<f12>" . amirreza/toggle-color-mode))
      :config
      (defvar amirreza/current-mode 'dark "Current color mode of Emacs.")
-     (defvar amirreza/dark-theme 'doom-one)
+     (defvar amirreza/dark-theme 'doom-palenight)
      (defvar amirreza/light-theme 'doom-one-light)
 
      (defmacro amirreza/--load-theme (&rest theme-opts)
@@ -611,7 +611,7 @@ extensively but now i use it only when keybindings are just crazy.
     :straight t
     :init (doom-modeline-mode 1)
     :config
-    (setq doom-modeline-height 40))
+    (setq doom-modeline-height 20))
 #+end_src
 ** Diminish
 :PROPERTIES:
@@ -634,7 +634,7 @@ Dminish is a simple tool that adds =:diminish= keyword to =use-package= which he
   (defun amirreza/change-font (font)
     (setq default-frame-alist `((font . ,font))))
 
-  (defvar amirreza/font "Iosevka-10")
+  (defvar amirreza/font "Fira Code-9")
   (amirreza/change-font amirreza/font)
 #+END_SRC
 * Minibuffer
@@ -644,8 +644,7 @@ Dminish is a simple tool that adds =:diminish= keyword to =use-package= which he
   (use-package flx :straight t)
   (use-package ivy
     :straight t
-    :general
-    (space-leader "b l" 'ivy-switch-buffer)
+    :demand
     :bind
     (:map ivy-switch-buffer-map
           ("C-k" . 'ivy-previous-line)
@@ -699,12 +698,8 @@ Dminish is a simple tool that adds =:diminish= keyword to =use-package= which he
 (use-package ivy-rich :straight t :after ivy :config (ivy-rich-mode 1))
 #+end_src
 *** Ivy-Posframe
-:PROPERTIES:
-:header-args: :tangle no
-:END:
 #+begin_src emacs-lisp
   (use-package ivy-posframe :straight t
-    :disabled t
     :config
     (setq ivy-posframe-parameters '((parent-frame nil)))
     (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-center)))
@@ -1028,10 +1023,9 @@ by default is bound to =C-c <left>=.
 * Project
 #+begin_src emacs-lisp
   (use-package project
-    :general (space-leader "f p" 'amirreza/find-project)
     :bind ("C-c p" . amirreza/find-project)
     :config
-    (defvar amirreza/project-locations '("~/w" "~/w/snapp"))
+    (defvar amirreza/project-locations '("~/w" "~/w/snapp" "~/w/orderhq" "~/w/oneroof" "~/w/socialeng"))
 
     (defun amirreza/find-root ()
       "Find project root."

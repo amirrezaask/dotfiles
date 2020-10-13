@@ -15,12 +15,10 @@ return require'packer'.startup{
       local_use 'ngo.nvim'
       local_use 'start.nvim'
       local_use 'fuzzy.nvim'
-    
-      use { 'patstockwell/vim-monokai-tasty' }
+
       use { 'lambdalisue/fern.vim' }
       use { 'wbthomason/packer.nvim' }
       use { 'airblade/vim-gitgutter'}
-      use { 'morhetz/gruvbox'}
       use { 'tpope/vim-surround'}
       use { 'tpope/vim-jdaddy'}
       use { 'tpope/vim-commentary' }
@@ -32,21 +30,17 @@ return require'packer'.startup{
       use { 'LnL7/vim-nix'}
       use { 'ziglang/zig.vim'}
       use { 'dag/vim-fish'}
-      use { 'tjdevries/colorbuddy.vim' }
-      use { 'tjdevries/gruvbuddy.nvim' }
       use { 'rust-lang/rust.vim'}
       use { 'nvim-lua/completion-nvim'}
-      -- use { 'nvim-treesitter/nvim-treesitter' }
+      use { 'itchyny/lightline.vim' }
+      use { 'joshdick/onedark.vim' }
       use { 'nvim-lua/popup.nvim'}
       use { 'tjdevries/nlua.nvim'}
       use { 'euclidianAce/BetterLua.vim' }
       use { 'nvim-lua/plenary.nvim' }
-      use { 'tjdevries/express_line.nvim'}
       use { 'junegunn/goyo.vim' }
       use { 'Yggdroot/indentLine' }
-      use { 'voldikss/vim-floaterm' }
-
-      use 'nvim-lua/telescope.nvim'
+      use { 'nvim-lua/telescope.nvim' }
       
       -- Git Integrations
       use { 'rhysd/git-messenger.vim' }

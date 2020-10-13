@@ -7,15 +7,15 @@ bc () {
 # Remove old rules
 bc rule -r "*"
 
-# kill already running polybar
-pkill polybar
+pkill lemonbar 
 pkill comton
 pkill dunst
 pkill sxhkd
+pkill dunst
 # Autostart applications
 sxhkd &
 compton &
-sh "$DOTFILES/polybar/launch.sh"
+~/w/dotfiles/lemonbar/launch.sh &
 xfce4-power-manager &
 dunst &
 
@@ -28,23 +28,20 @@ bc monitor HDMI-2 -d 1 2 3 4 5 6 7 8 9
 # Keyboard layout
 setxkbmap -layout us,ir -option "ctrl:nocaps" -option "grp:shifts_toggle"
 
-# move polybar down in fullscreen mode
-xdo above -t $(xdo id -n root) $(xdo id -a polybar)
-
 # set wallpaper
 nitrogen --set-auto ~/w/dotfiles/wallpapers/gophers.png
 
 # Setup Displays
 xrandr --output eDP-1 --right-of DP-1 --output eDP-1 --left-of HDMI-2 --output DP-1 --left-of eDP-1
 
+# Notification 
+dunst&
 
 # Some values
-bc config top_padding 0 
+bc config top_padding 20 
 bc config window_gap 0
 bc config border_width 1 
 bc config bottom_padding 0
 bc config borderless_monocle true
 
-# Rules for different applications
-bc rule -a "Emacs" state=tiled desktop=^1
-bc rule -a "Google-chrome-beta" state=tiled desktop=^3
+# Rules

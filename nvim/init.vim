@@ -114,7 +114,7 @@ set splitright
 " }}
 
 " Find things {{{
-    map <leader>ec <cmd>lua require('fuzzy.builtin')(require(vim.api.nvim_get_var('fuzzy_backend'))).fd_files{cwd='~/w/dotfiles'}<CR>
+    map <leader>ec <cmd>lua require('fuzzy.builtin')(require(vim.api.nvim_get_var('fuzzy_backend'))).files{cwd='~/w/dotfiles', hidden=true}<CR>
     map <leader>ea <cmd>lua require('fuzzy.builtin')(require(vim.api.nvim_get_var('fuzzy_backend'))).files{cwd='~/.config/awesome', hidden = true}<CR>
     map <leader>en <cmd>lua require('fuzzy.builtin')(require(vim.api.nvim_get_var('fuzzy_backend'))).files{cwd='~/.config/nvim/', hidden = true}<CR>
 
@@ -137,15 +137,21 @@ map <f5> :Run<CR>
     let g:netrw_banner = 0
 " }}}
 
-" colorscheme vim-monokai-tasty 
 " Lua {{{
     autocmd BufEnter *.lua set ts=2 sw=2 sts=2 expandtab
 " }}}
+let g:lightline = {
+  \ 'colorscheme': 'onedark',
+  \ }
 
 " LazyGit {{{
-nnoremap <leader>gg :LazyGit<CR>
-let g:lazygit_floating_window_scaling_factor = 0.7
+    nnoremap <leader>gg :LazyGit<CR>
+    let g:lazygit_floating_window_scaling_factor = 0.7
 " }}}
+
+set guifont=Ubuntu\ Mono\ 10
+
+colorscheme onedark 
 
 " GitMessager {{{
     nnoremap <leader>gm :GitMessenger<CR>
