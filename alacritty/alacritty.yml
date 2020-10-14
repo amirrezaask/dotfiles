@@ -1,7 +1,14 @@
 font:
   normal:
     family: "Ubuntu Mono"
+    style: Medium
   size: 10
+
+env:
+    TERM: 'alacritty'
+
+window:
+    dynamic_title: true
 
 key_bindings:
   - { key: N, mods: Control|Shift, action: SpawnNewInstance }

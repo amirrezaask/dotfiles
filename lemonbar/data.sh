@@ -19,8 +19,11 @@ rhythmbox_song_name() {
     echo "$(rhythmbox-client --no-start --print-playing-format %tt)"
 }
 
-# left() {
+get_desktops_for() {
+    echo "$(bspc query --monitor ${1} -D --names)"
+}
 
+# left() {
 # }
 
 center() {
@@ -34,10 +37,20 @@ right() {
     output="${output} %{r}$(clock) $(battery)"
     echo $output
 }
+for_all_monitors(){
+    Monitors=$(xrandr | grep -o "^.* connected" | sed "s/ connected//")
+    final_output=""
+    tmp=0
+    for m in $(echo "$Monitors"); do
+        output="%{l} $(get_desktops_for ${m}) $(center) $(right)"
+        final_output="%{S${tmp}} ${output} ${final_output}" 
+        let tmp=$tmp+1
+    done
+    echo $final_output
+}
 
 while true; do
-        output=""
-        output="${output} $(right) $(center)"
-        echo $output
-        sleep 1
+    output=$(for_all_monitors);
+    echo $output
+    sleep 5 
 done
