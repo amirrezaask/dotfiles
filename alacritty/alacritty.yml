@@ -4,9 +4,6 @@ font:
     style: Medium
   size: 10
 
-env:
-    TERM: 'alacritty'
-
 window:
     dynamic_title: true
 

@@ -1,2 +1,2 @@
 #! /bin/sh
-~/w/dotfiles/lemonbar/data.sh | lemonbar 
+bash ~/w/dotfiles/lemonbar/data.sh | lemonbar 

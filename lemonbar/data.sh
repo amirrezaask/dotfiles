@@ -1,5 +1,6 @@
 #!/usr/bin/bash
 
+Monitors=$(xrandr | grep -o "^.* connected" | sed "s/ connected//")
 clock() {
         DATETIME=$(date "+%a %b %d, %T")
 
@@ -38,7 +39,6 @@ right() {
     echo $output
 }
 for_all_monitors(){
-    Monitors=$(xrandr | grep -o "^.* connected" | sed "s/ connected//")
     final_output=""
     tmp=0
     for m in $(echo "$Monitors"); do
