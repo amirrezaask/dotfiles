@@ -21,6 +21,19 @@ local function completion_on_all_buffers()
     completion.on_attach()
 end
 
+-- LSP commands
+vim.cmd [[ command! LspDecl      lua vim.lsp.buf.declaration()]]
+vim.cmd [[ command! LspDef       lua vim.lsp.buf.definition()]]
+vim.cmd [[ command! LspHover     lua vim.lsp.buf.hover()]]
+vim.cmd [[ command! LspImpl      lua vim.lsp.buf.implementation()]]
+vim.cmd [[ command! LspSignHelp  lua vim.lsp.buf.signature_help()]]
+vim.cmd [[ command! LspTypeDef   lua vim.lsp.buf.type_definition()]]
+vim.cmd [[ command! LspRef       lua vim.lsp.buf.references()]]
+vim.cmd [[ command! LspDocSym    lua vim.lsp.buf.document_symbol()]]
+vim.cmd [[ command! LspWorkspaceSym lua vim.lsp.buf.workspace_symbol()]]
+
+
+-- 
 vim.cmd [[nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>]]
 vim.cmd [[nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>]]
 vim.cmd [[nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>]]
