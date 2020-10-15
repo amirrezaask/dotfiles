@@ -1,7 +1,6 @@
 vim.cmd [[packadd packer.nvim]]
 local local_plugins_path = '~/w/dotnvim/'
 
-
 return require'packer'.startup{
    function(use)
       local local_use = function (plug_path)
@@ -32,7 +31,6 @@ return require'packer'.startup{
       use { 'dag/vim-fish'}
       use { 'rust-lang/rust.vim'}
       use { 'nvim-lua/completion-nvim'}
-      use { 'itchyny/lightline.vim' }
       use { 'joshdick/onedark.vim' }
       use { 'nvim-lua/popup.nvim'}
       use { 'tjdevries/nlua.nvim'}
@@ -41,7 +39,9 @@ return require'packer'.startup{
       use { 'junegunn/goyo.vim' }
       use { 'Yggdroot/indentLine' }
       use { 'nvim-lua/telescope.nvim' }
-      
+      use { 'tjdevries/gruvbuddy.nvim' }
+      use { 'tjdevries/colorbuddy.vim' }
+      use { 'tjdevries/express_line.nvim' }
       -- Git Integrations
       use { 'rhysd/git-messenger.vim' }
       use { 'kdheepak/lazygit.nvim' }

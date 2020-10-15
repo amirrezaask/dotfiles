@@ -1,7 +1,6 @@
 local nvim_lsp = require('nvim_lsp')
 local completion = require('completion')
 
--- nvim_lsp.gopls.setup{}
 nvim_lsp.pyls.setup{}
 nvim_lsp.intelephense.setup{}
 nvim_lsp.vimls.setup{}
@@ -9,29 +8,14 @@ nvim_lsp.vimls.setup{}
 -- Lua setup
 require('nlua.lsp.nvim').setup(require('nvim_lsp'), {
   on_attach = custom_nvim_lspconfig_attach,
-
-  -- Include globals you want to tell the LSP are real :)
   globals = {
-    -- Colorbuddy
     "Color", "c", "Group", "g", "s",
   }
 })
 
-local function completion_on_all_buffers()
-    completion.on_attach()
+local function on_attach()
+  completion.on_attach()
 end
-
--- LSP commands
-vim.cmd [[ command! LspDecl      lua vim.lsp.buf.declaration()]]
-vim.cmd [[ command! LspDef       lua vim.lsp.buf.definition()]]
-vim.cmd [[ command! LspHover     lua vim.lsp.buf.hover()]]
-vim.cmd [[ command! LspImpl      lua vim.lsp.buf.implementation()]]
-vim.cmd [[ command! LspSignHelp  lua vim.lsp.buf.signature_help()]]
-vim.cmd [[ command! LspTypeDef   lua vim.lsp.buf.type_definition()]]
-vim.cmd [[ command! LspRef       lua vim.lsp.buf.references()]]
-vim.cmd [[ command! LspDocSym    lua vim.lsp.buf.document_symbol()]]
-vim.cmd [[ command! LspWorkspaceSym lua vim.lsp.buf.workspace_symbol()]]
-
 
 -- 
 vim.cmd [[nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>]]
@@ -44,7 +28,7 @@ vim.cmd [[nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>]]
 vim.cmd [[nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>]]
 vim.cmd [[nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>]]
 
-vim.cmd [[autocmd BufEnter * lua require'completion'.on_attach()]]
+vim.cmd [[autocmd BufEnter * lua require'lsp'.on_attach()]]
 
 -- Use <Tab> and <S-Tab> to navigate through popup menu
 vim.cmd [[inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"]]
@@ -55,4 +39,6 @@ vim.cmd [[set completeopt=menuone,noinsert,noselect]]
 
 -- Avoid showing message extra message when using completion
 vim.cmd [[set shortmess+=c]]
+
+return { on_attach = on_attach }
 
