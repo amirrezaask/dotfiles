@@ -8,6 +8,8 @@ bc () {
 bc rule -r "*"
 
 pkill lemonbar 
+pkill data.sh
+pkill launch.sh
 pkill comton
 pkill dunst
 pkill sxhkd

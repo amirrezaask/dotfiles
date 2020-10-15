@@ -11,10 +11,22 @@ battery() {
         BATPERC=$(acpi --battery | cut -d, -f2)
         echo "$BATPERC"
 }
-
-volume() {
-    amixer get Master | sed -n 'N;s/^.*\[\([0-9]\+%\).*$/\1/p'
+Sound(){
+	NOTMUTED=$( amixer sget Master | grep "\[on\]" )
+	if [[ ! -z $NOTMUTED ]] ; then
+		VOL=$(awk -F"[][]" '/dB/ { print $2 }' <(amixer sget Master) | sed 's/%//g')
+		if [ $VOL -ge 85 ] ; then
+			echo -e "\uf028 ${VOL}%"
+		elif [ $VOL -ge 50 ] ; then
+			echo -e "\uf027 ${VOL}%"
+		else
+			echo -e "\uf026 ${VOL}%"
+		fi
+	else
+		echo -e "\uf026 M"
+	fi
 }
+
 
 rhythmbox_song_name() {
     echo "$(rhythmbox-client --no-start --print-playing-format %tt)"
@@ -29,13 +41,13 @@ get_desktops_for() {
 
 center() {
     output=""
-    output="${output} %{c}$(rhythmbox_song_name)"
+    output="${output} %{c} $(rhythmbox_song_name)"
     echo $output
 }
 
 right() {
     output=""
-    output="${output} %{r}$(clock) $(battery)"
+    output="${output} %{r} $(Sound) | $(clock) | $(battery)"
     echo $output
 }
 for_all_monitors(){
