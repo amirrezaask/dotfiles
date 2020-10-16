@@ -1,4 +1,3 @@
-local wibox = require("wibox")
 local watch = require("awful.widget.watch")
 local awful = require('awful')
 
@@ -15,7 +14,7 @@ end
 
 local widget = watch(
     "rhythmbox-client --no-start --print-playing-format %tt", 1,
-    function(widget, stdout, stderr, exitreason, exitcode)
+    function(widget, stdout, _, _, _)
         widget:set_text(stdout)
     end
 )

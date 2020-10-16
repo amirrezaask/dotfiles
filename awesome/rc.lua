@@ -1,10 +1,11 @@
 -- If LuaRocks is installed, make sure that packages installed through it are
 -- found (e.g. lgi). If LuaRocks is not installed, do nothing.
 pcall(require, "luarocks.loader")
-
 -- Standard awesome library
 local gears = require("gears")
+
 local awful = require("awful")
+local watch = awful.widget.watch
 require("awful.autofocus")
 -- Widget and layout library
 local wibox = require("wibox")
@@ -173,11 +174,10 @@ awful.screen.connect_for_each_screen(function(s)
 
     -- Create the wibox
     s.mywibox = awful.wibar({ position = "top", screen = s })
-    
+    -- Battery
+    local battery = require('battery')
     -- Rythmbox
     local rhythmbox_widget = require('rhythmbox')
-    -- Battery
-    local battery_widget = require('battery')
     -- VolumeBar
     local volume_widget = require("volume")
     -- Splitter
@@ -191,25 +191,34 @@ awful.screen.connect_for_each_screen(function(s)
             s.mytaglist,
             s.mypromptbox,
         },
+        -- s.mytasklist,
         {
             layout = wibox.layout.fixed.horizontal,
-            rhythmbox_widget.widget,
+            rhythmbox_widget,
         },
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
             mykeyboardlayout,
             wibox.widget.systray(),
             splitter,
-            volume_widget,
+            volume_widget.widget,
             splitter,
             mytextclock,
             splitter,
-            battery_widget,
+            battery.widget,
             s.mylayoutbox,
         },
     }
 end)
 -- }}}
+
+-- Run GC
+gears.timer.start_new(10, function()
+    collectgarbage("step", 20000)
+    return true
+end)
+
+
 
 -- {{{ Mouse bindings
 root.buttons(gears.table.join(
@@ -554,4 +563,4 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 -- Setup xrandr
 awful.spawn('xrandr --output eDP-1 --right-of DP-1 --output eDP-1 --left-of HDMI-2 --output DP-1 --left-of eDP-1')
 -- Set wallpaper
-awful.spawn("feh --bg-scale /home/amirreza/w/dotfiles/wallpapers/astronut.jpg")
+awful.spawn("feh --bg-scale /home/amirreza/w/dotfiles/wallpapers/darksideofthemoon.png")
