@@ -7,10 +7,6 @@ local INC_VOLUME_CMD = 'amixer -D pulse sset Master 5%+'
 local DEC_VOLUME_CMD = 'amixer -D pulse sset Master 5%-'
 local TOG_VOLUME_CMD = 'amixer -D pulse sset Master toggle'
 
-
-volume_widget = wibox.widget.textbox()
-volume_widget:set_font('monospace 9')
-
 local volume_callback = function(widget, stdout, _, _, _)
     local mute = string.match(stdout, "%[(o%D%D?)%]")
     local volume = string.match(stdout, "(%d?%d?%d)%%")
@@ -28,10 +24,10 @@ local press_handler = function(_, _, _, button)
     end
 end
 
-volume_widget:connect_signal("button::press", press_handler)
+local widget = watch(GET_VOLUME_CMD, 0.5, volume_callback)
+widget:connect_signal("button::press", press_handler)
 
-watch(GET_VOLUME_CMD, 0.5, volume_callback, volume_widget)
 
 return {
-    widget = volume_widget 
+    widget = widget 
 }

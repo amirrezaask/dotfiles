@@ -2,9 +2,6 @@ local wibox = require("wibox")
 local watch = require("awful.widget.watch")
 local awful = require('awful')
 
-rhythmbox_widget = wibox.widget.textbox()
-rhythmbox_widget:set_font('monospace 9')
-
 local press_handler = function(_, _, _,button)
     if button == 1 then
         awful.spawn("rhythmbox-client --no-start --play-pause")
@@ -15,15 +12,16 @@ local press_handler = function(_, _, _,button)
     end
 end
 
-rhythmbox_widget:connect_signal("button::press", press_handler)
 
-watch(
+local widget = watch(
     "rhythmbox-client --no-start --print-playing-format %tt", 1,
     function(widget, stdout, stderr, exitreason, exitcode)
-        rhythmbox_widget:set_text(stdout)
+        widget:set_text(stdout)
     end
 )
 
+widget:connect_signal("button::press", press_handler)
+
 return {
-    widget = rhythmbox_widget
+    widget = widget 
 }

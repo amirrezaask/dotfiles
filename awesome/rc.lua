@@ -198,14 +198,13 @@ awful.screen.connect_for_each_screen(function(s)
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
             mykeyboardlayout,
-            splitter,
             wibox.widget.systray(),
+            splitter,
+            volume_widget,
+            splitter,
             mytextclock,
             splitter,
-            volume_widget.widget,
-            splitter,
-            battery_widget.widget,
-            splitter,
+            battery_widget,
             s.mylayoutbox,
         },
     }
