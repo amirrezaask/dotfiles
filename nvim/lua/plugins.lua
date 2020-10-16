@@ -14,6 +14,7 @@ return require'packer'.startup{
       local_use 'ngo.nvim'
       local_use 'start.nvim'
       local_use 'fuzzy.nvim'
+      local_use 'music_player.nvim'
 
       use { 'lambdalisue/fern.vim' }
       use { 'wbthomason/packer.nvim' }
