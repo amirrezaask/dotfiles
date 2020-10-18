@@ -102,26 +102,21 @@ set clipboard=unnamedplus
 set splitbelow
 set splitright
 
-" fuzzy.nvim {{
-    let g:fuzzy_backend='fuzzy.fzf'
-    nnoremap <leader>c <cmd>lua require('fuzzy.builtin')(require(vim.api.nvim_get_var('fuzzy_backend'))).cd{}<CR>
-    nnoremap <leader><leader> <cmd>lua require('fuzzy.builtin')(require(vim.api.nvim_get_var('fuzzy_backend'))).fd_files{}<CR>
-    nnoremap <leader>fg <cmd>lua require('fuzzy.builtin')(require(vim.api.nvim_get_var('fuzzy_backend'))).git_files{}<CR>
-    nnoremap <leader>b <cmd>lua require('fuzzy.builtin')(require(vim.api.nvim_get_var('fuzzy_backend'))).buffers{}<CR>
-    nnoremap ?? <cmd>lua require('fuzzy.builtin')(require(vim.api.nvim_get_var('fuzzy_backend'))).rg{}<CR>
-    nnoremap ?g <cmd>lua require('fuzzy.builtin')(require(vim.api.nvim_get_var('fuzzy_backend'))).git_grep{}<CR>
-    nnoremap <leader>lr <cmd>lua require('fuzzy.builtin')(require(vim.api.nvim_get_var('fuzzy_backend'))).lsp_references{}<CR>
-    map <f12> <cmd>lua require('fuzzy.floating').floating_terminal()<CR>
-" }}
+" Luzzy.nvim {{{
+    nnoremap <leader><leader> <cmd>lua require'luzzy.internal'.find_files{}<CR>
+    nnoremap <leader>fg <cmd>lua require('luzzy.internal').git_files{}<CR>
+    nnoremap ?? <cmd>lua require('luzzy.internal').rg{}<CR>
+    nnoremap <leader>b <cmd>lua require('luzzy.internal').buffers{}<CR>
+    nnoremap ?g <cmd>lua require('luzzy.internal').git_grep{}<CR>
+" }}}
 
 " Find things {{{
-    map <leader>ec <cmd>lua require('fuzzy.builtin')(require(vim.api.nvim_get_var('fuzzy_backend'))).files{cwd='~/w/dotfiles', hidden=true}<CR>
-    map <leader>ea <cmd>lua require('fuzzy.builtin')(require(vim.api.nvim_get_var('fuzzy_backend'))).files{cwd='~/.config/awesome', hidden = true}<CR>
-    map <leader>en <cmd>lua require('fuzzy.builtin')(require(vim.api.nvim_get_var('fuzzy_backend'))).files{cwd='~/.config/nvim/', hidden = true}<CR>
-
-    map <leader>fnp <cmd>lua require('fuzzy.builtin')(require(vim.api.nvim_get_var('fuzzy_backend'))).cd{cwd="~/.local/share/nvim/site/pack/packer/start/"}<CR>
-    map <leader>fp <cmd>lua require('fuzzy.builtin')(require(vim.api.nvim_get_var('fuzzy_backend'))).cd{cwd="~/w"}<CR>
+    map <leader>ec <cmd>lua require'luzzy.internal'.find_files{cwd='/home/amirreza/w/dotfiles'}<CR>
+    map <leader>en <cmd>lua require'luzzy.internal'.find_files{cwd='/home/amirreza/w/dotfiles/nvim'}<CR>
+    map <leader>fnp <cmd>lua require'luzzy.internal'.cd{cwd="~/.local/share/nvim/site/pack/packer/start/"}<CR>
+    map <leader>fp <cmd>lua requre'luzzy.internal'.cd{cwd="~/w"}<CR>
 " }}}
+
 " Runner {{{
 map <f5> :Run<CR>
 " }}}

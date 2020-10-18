@@ -15,10 +15,11 @@ return require'packer'.startup{
       local_use 'start.nvim'
       local_use 'fuzzy.nvim'
       local_use 'music_player.nvim'
+      local_use 'Luzzy.nvim'
 
       use { 'lambdalisue/fern.vim' }
       use { 'wbthomason/packer.nvim' }
-      use { 'airblade/vim-gitgutter'}
+      -- use { 'airblade/vim-gitgutter'}
       use { 'tpope/vim-surround'}
       use { 'tpope/vim-jdaddy'}
       use { 'tpope/vim-commentary' }
@@ -41,6 +42,8 @@ return require'packer'.startup{
       use { 'Yggdroot/indentLine' }
       use { 'nvim-lua/telescope.nvim' }
       use { 'tjdevries/gruvbuddy.nvim' }
+      use { 'kyazdani42/nvim-web-devicons' }
+      use { 'ryanoasis/vim-devicons' }
       use { 'tjdevries/colorbuddy.vim' }
       use { 'tjdevries/express_line.nvim' }
       -- Git Integrations

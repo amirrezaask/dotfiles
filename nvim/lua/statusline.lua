@@ -11,6 +11,13 @@ el.setup{
     return {
       extensions.mode,
       sections.split,
+      subscribe.buf_autocmd("el_file_icon", "BufRead", function(_, bufnr)
+        local icon = extensions.file_icon(_, bufnr)
+        if icon then
+          return icon .. ' '
+        end
+        return ''
+      end),
       builtin.file,
       sections.collapse_builtin {
         ' ',
