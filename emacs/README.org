@@ -700,6 +700,7 @@ Dminish is a simple tool that adds =:diminish= keyword to =use-package= which he
 *** Ivy-Posframe
 #+begin_src emacs-lisp
   (use-package ivy-posframe :straight t
+    :disabled t
     :config
     (setq ivy-posframe-parameters '((parent-frame nil)))
     (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-center)))

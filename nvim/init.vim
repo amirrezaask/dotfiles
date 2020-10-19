@@ -102,12 +102,20 @@ set clipboard=unnamedplus
 set splitbelow
 set splitright
 
+" Fuzzy.nvim {{{
+    nnoremap <leader><leader> <cmd>lua require'fuzzy.builtin'(require'fuzzy.fzf').files{}<CR>
+    nnoremap ?? <cmd>lua require'fuzzy.builtin'(require'fuzzy.fzf').rg{}<CR>
+    nnoremap ?g <cmd>lua require'fuzzy.builtin'(require'fuzzy.fzf').git_grep{}<CR>
+    nnoremap <leader>b <cmd>lua require'fuzzy.builtin'(require'fuzzy.fzf').buffers{}<CR>
+    nnoremap <leader>fg <cmd>lua require'fuzzy.builtin'(require'fuzzy.fzf').git_files{}<CR>
+" }}}
+
 " Luzzy.nvim {{{
-    nnoremap <leader><leader> <cmd>lua require'luzzy.internal'.find_files{}<CR>
-    nnoremap <leader>fg <cmd>lua require('luzzy.internal').git_files{}<CR>
-    nnoremap ?? <cmd>lua require('luzzy.internal').rg{}<CR>
-    nnoremap <leader>b <cmd>lua require('luzzy.internal').buffers{}<CR>
-    nnoremap ?g <cmd>lua require('luzzy.internal').git_grep{}<CR>
+    " nnoremap <leader><leader> <cmd>lua require'luzzy.internal'.find_files{}<CR>
+    " nnoremap <leader>fg <cmd>lua require('luzzy.internal').git_files{}<CR>
+    " nnoremap ?? <cmd>lua require('luzzy.internal').rg{}<CR>
+    " nnoremap <leader>b <cmd>lua require('luzzy.internal').buffers{}<CR>
+    " nnoremap ?g <cmd>lua require('luzzy.internal').git_grep{}<CR>
 " }}}
 
 " Find things {{{
@@ -139,9 +147,10 @@ map <f5> :Run<CR>
     nnoremap <leader>gg :LazyGit<CR>
     let g:lazygit_floating_window_scaling_factor = 0.7
 " }}}
-
+" Snippets {{{
+inoremap <c-k> <cmd>lua return require'snippets'.expand_or_advance(1)<CR>
+" }}}
 set guifont=Ubuntu\ Mono\ 10
-
 
 " GitMessager {{{
     nnoremap <leader>gm :GitMessenger<CR>
