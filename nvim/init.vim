@@ -101,28 +101,19 @@ set clipboard=unnamedplus
 
 set splitbelow
 set splitright
-
-" Fuzzy.nvim {{{
-    nnoremap <leader><leader> <cmd>lua require'fuzzy.builtin'(require'fuzzy.fzf').files{}<CR>
-    nnoremap ?? <cmd>lua require'fuzzy.builtin'(require'fuzzy.fzf').rg{}<CR>
-    nnoremap ?g <cmd>lua require'fuzzy.builtin'(require'fuzzy.fzf').git_grep{}<CR>
-    nnoremap <leader>b <cmd>lua require'fuzzy.builtin'(require'fuzzy.fzf').buffers{}<CR>
-    nnoremap <leader>fg <cmd>lua require'fuzzy.builtin'(require'fuzzy.fzf').git_files{}<CR>
-" }}}
-
 " Luzzy.nvim {{{
-    " nnoremap <leader><leader> <cmd>lua require'luzzy.internal'.find_files{}<CR>
-    " nnoremap <leader>fg <cmd>lua require('luzzy.internal').git_files{}<CR>
-    " nnoremap ?? <cmd>lua require('luzzy.internal').rg{}<CR>
-    " nnoremap <leader>b <cmd>lua require('luzzy.internal').buffers{}<CR>
-    " nnoremap ?g <cmd>lua require('luzzy.internal').git_grep{}<CR>
+    nnoremap <leader><leader> <cmd>lua require'fuzzy.internal'.find_files{}<CR>
+    nnoremap <leader>fg <cmd>lua require('fuzzy.internal').git_files{}<CR>
+    nnoremap ?? <cmd>lua require('fuzzy.internal').rg{}<CR>
+    nnoremap <leader>b <cmd>lua require('fuzzy.internal').buffers{}<CR>
+    nnoremap ?g <cmd>lua require('fuzzy.internal').git_grep{}<CR>
 " }}}
 
 " Find things {{{
-    map <leader>ec <cmd>lua require'luzzy.internal'.find_files{cwd='/home/amirreza/w/dotfiles'}<CR>
-    map <leader>en <cmd>lua require'luzzy.internal'.find_files{cwd='/home/amirreza/w/dotfiles/nvim'}<CR>
-    map <leader>fnp <cmd>lua require'luzzy.internal'.cd{cwd="~/.local/share/nvim/site/pack/packer/start/"}<CR>
-    map <leader>fp <cmd>lua requre'luzzy.internal'.cd{cwd="~/w"}<CR>
+    map <leader>ec <cmd>lua require'fuzzy.internal'.find_files{cwd='/home/amirreza/w/dotfiles'}<CR>
+    map <leader>en <cmd>lua require'fuzzy.internal'.find_files{cwd='/home/amirreza/w/dotfiles/nvim'}<CR>
+    map <leader>fnp <cmd>lua require'fuzzy.internal'.cd{cwd="~/.local/share/nvim/site/pack/packer/start/"}<CR>
+    map <leader>fp <cmd>lua requre'fuzzy.internal'.cd{cwd="~/w"}<CR>
 " }}}
 
 " Runner {{{

@@ -12,9 +12,8 @@ return require'packer'.startup{
       -- My plugins 
       local_use 'ngo.nvim'
       local_use 'start.nvim'
-      local_use 'fuzzy.nvim'
       local_use 'music_player.nvim'
-      local_use 'Luzzy.nvim'
+      local_use 'Fuzzy.nvim'
 
       use { 'lambdalisue/fern.vim' }
       use { 'wbthomason/packer.nvim' }
