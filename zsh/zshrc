@@ -29,6 +29,7 @@ export PATH="/usr/local/go/bin:$HOME/.config/composer/vendor/bin:$GOROOT/bin:$GO
 
 alias open='xdg-open'
 alias snappvpn="sudo openfortivpn -c $HOME/snappDC.conf"
+alias lg='lazygit'
 alias g='git status'
 alias dots="cd $DOTFILES"
 alias lock='i3lock -c000000'

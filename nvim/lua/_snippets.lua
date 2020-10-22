@@ -1,7 +1,6 @@
-local s = require'snippets'
-s.snippets = {
+require'snippets'.snippets = {
   _global = {
-    date = os.date;
+    date = os.date,
+    todo = "TODO", 
   }
 }
-

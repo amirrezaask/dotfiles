@@ -101,23 +101,24 @@ set clipboard=unnamedplus
 
 set splitbelow
 set splitright
+
 " Luzzy.nvim {{{
-    nnoremap <leader><leader> <cmd>lua require'fuzzy.internal'.find_files{}<CR>
+    nnoremap <leader><leader> <cmd>lua require'fuzzy.internal'.file_finder{depth=5}<CR>
     nnoremap <leader>fg <cmd>lua require('fuzzy.internal').git_files{}<CR>
-    nnoremap ?? <cmd>lua require('fuzzy.internal').rg{}<CR>
+    nnoremap ?? <cmd>lua require('fuzzy.internal').grep{depth=5}<CR>
     nnoremap <leader>b <cmd>lua require('fuzzy.internal').buffers{}<CR>
     nnoremap ?g <cmd>lua require('fuzzy.internal').git_grep{}<CR>
 " }}}
 
 " Find things {{{
-    map <leader>ec <cmd>lua require'fuzzy.internal'.find_files{cwd='/home/amirreza/w/dotfiles'}<CR>
-    map <leader>en <cmd>lua require'fuzzy.internal'.find_files{cwd='/home/amirreza/w/dotfiles/nvim'}<CR>
+    map <leader>ec <cmd>lua require'fuzzy.internal'.file_finder{path='/home/amirreza/w/dotfiles'}<CR>
+    map <leader>en <cmd>lua require'fuzzy.internal'.file_finder{path='/home/amirreza/w/dotfiles/nvim'}<CR>
     map <leader>fnp <cmd>lua require'fuzzy.internal'.cd{cwd="~/.local/share/nvim/site/pack/packer/start/"}<CR>
     map <leader>fp <cmd>lua requre'fuzzy.internal'.cd{cwd="~/w"}<CR>
 " }}}
 
 " Runner {{{
-map <f5> :Run<CR>
+    map <f5> :Run<CR>
 " }}}
 
 " Tabs {{{
@@ -140,6 +141,7 @@ map <f5> :Run<CR>
 " }}}
 " Snippets {{{
 inoremap <c-k> <cmd>lua return require'snippets'.expand_or_advance(1)<CR>
+inoremap <c-j> <cmd>lua return require'snippets'.advance_snippet(-1)<CR>
 " }}}
 set guifont=Ubuntu\ Mono\ 10
 

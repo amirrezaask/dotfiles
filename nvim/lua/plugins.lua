@@ -17,7 +17,7 @@ return require'packer'.startup{
 
       use { 'lambdalisue/fern.vim' }
       use { 'wbthomason/packer.nvim' }
-      -- use { 'airblade/vim-gitgutter'}
+      use { "norcalli/nvim-base16.lua" }
       use { 'tpope/vim-surround'}
       use { 'tpope/vim-jdaddy'}
       use { 'tpope/vim-commentary' }
@@ -45,7 +45,6 @@ return require'packer'.startup{
       use { 'tjdevries/colorbuddy.vim' }
       use { 'tjdevries/express_line.nvim' }
       use { 'norcalli/snippets.nvim' }
-      use { 'drewtempelmeyer/palenight.vim' }
       -- Git Integrations
       use { 'rhysd/git-messenger.vim' }
       use { 'kdheepak/lazygit.nvim' }
