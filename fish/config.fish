@@ -1,3 +1,4 @@
+source ~/.config/fish/fish_prompt.fish
 set -x EMACSCONFIG '~/.emacs.d'
 set -x GO111MODULE 'on'
 set -x GOPATH '/home/amirreza/go'

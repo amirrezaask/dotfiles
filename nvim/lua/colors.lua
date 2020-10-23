@@ -6,6 +6,5 @@ function CYCLE_THEME()
   print("Current theme => ", theme_names[base16_position])
   base16(base16.themes[theme_names[base16_position]], true)
 end
-base16(base16.themes["horizon-dark"], true)
 vim.cmd [[ map <f3> <cmd> lua CYCLE_THEME()<CR> ]]
 
