@@ -140,10 +140,9 @@ set splitright
     let g:lazygit_floating_window_scaling_factor = 0.7
 " }}}
 " Snippets {{{
-inoremap <c-k> <cmd>lua return require'snippets'.expand_or_advance(1)<CR>
-inoremap <c-j> <cmd>lua return require'snippets'.advance_snippet(-1)<CR>
+    inoremap <c-k> <cmd>lua return require'snippets'.expand_or_advance(1)<CR>
+    inoremap <c-j> <cmd>lua return require'snippets'.advance_snippet(-1)<CR>
 " }}}
-set guifont=Ubuntu\ Mono\ 10
 
 " GitMessager {{{
     nnoremap <leader>gm :GitMessenger<CR>

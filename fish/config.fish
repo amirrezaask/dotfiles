@@ -1,4 +1,3 @@
-source ~/.config/fish/fish_prompt.fish
 set -x EMACSCONFIG '~/.emacs.d'
 set -x GO111MODULE 'on'
 set -x GOPATH '/home/amirreza/go'
@@ -17,5 +16,6 @@ alias g "git"
 alias gs "git status"
 alias snappvpn "sudo openfortivpn -c ~/snappDC.conf"
 alias lock "i3lock -c 000000"
+alias lg "lazygit"
 setxkbmap -layout "us,ir" -option "grp:shifts_toggle" -option "ctrl:nocaps"
 
