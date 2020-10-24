@@ -595,11 +595,11 @@ extensively but now i use it only when keybindings are just crazy.
                  mode-name
                  " "
                  mode-line-position
-                 '(vc-mode vc-mode)
-                 " Time: "
-                 '(:eval (current-time-string))
-                 " Battery: "
-                 '(:eval (propertize battery-mode-line-string))))
+                 '(vc-mode vc-mode)))
+                 ;; " Time: "
+                 ;; '(:eval (current-time-string))
+                 ;; " Battery: "
+                 ;; '(:eval (propertize battery-mode-line-string))))
 #+end_src
 *** Doom-modeline
 :PROPERTIES:
@@ -1321,13 +1321,16 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
 ** LSP
 #+begin_src emacs-lisp
   (use-package lsp-mode :straight t
-    :init (setq lsp-file-watch-threshold 10000)
+    :init 
+    (setq lsp-file-watch-threshold 10000)
+    (setq lsp-auto-guess-root t)
+    (setq lsp-before-save-edit t)
     :hook ((prog-mode . lsp)
            (lsp-mode . lsp-enable-which-key-integration)))
 
-  (use-package lsp-ivy :after ivy :commands lsp-ivy-workspace-symbol
-    :bind ("C-c m s" . lsp-ivy-workspace-symbol)
-    :general (space-leader "f s" 'lsp-ivy-workspace-symbol))
+    (use-package lsp-ivy :after ivy :commands lsp-ivy-workspace-symbol
+      :bind ("C-c m s" . lsp-ivy-workspace-symbol)
+      :general (space-leader "f s" 'lsp-ivy-workspace-symbol))
 #+end_src
 ** Rainbow delimiters
 #+begin_src emacs-lisp
