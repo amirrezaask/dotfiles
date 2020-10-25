@@ -103,18 +103,18 @@ set splitbelow
 set splitright
 
 " Luzzy.nvim {{{
-    nnoremap <leader><leader> <cmd>lua require'fuzzy.internal'.file_finder{depth=5}<CR>
-    nnoremap <leader>fg <cmd>lua require('fuzzy.internal').git_files{}<CR>
-    nnoremap ?? <cmd>lua require('fuzzy.internal').grep{depth=5}<CR>
-    nnoremap <leader>b <cmd>lua require('fuzzy.internal').buffers{}<CR>
-    nnoremap ?g <cmd>lua require('fuzzy.internal').git_grep{}<CR>
+    nnoremap <leader><leader> <cmd>lua require'fuzzy'.file_finder{depth=5}<CR>
+    nnoremap <leader>fg <cmd>lua require('fuzzy').git_files{}<CR>
+    nnoremap ?? <cmd>lua require('fuzzy').grep{depth=5}<CR>
+    nnoremap <leader>b <cmd>lua require('fuzzy').buffers{}<CR>
+    nnoremap ?g <cmd>lua require('fuzzy').git_grep{}<CR>
 " }}}
 
 " Find things {{{
-    map <leader>ec <cmd>lua require'fuzzy.internal'.file_finder{path='/home/amirreza/w/dotfiles'}<CR>
-    map <leader>en <cmd>lua require'fuzzy.internal'.file_finder{path='/home/amirreza/w/dotfiles/nvim'}<CR>
-    map <leader>fnp <cmd>lua require'fuzzy.internal'.cd{cwd="~/.local/share/nvim/site/pack/packer/start/"}<CR>
-    map <leader>fp <cmd>lua requre'fuzzy.internal'.cd{cwd="~/w"}<CR>
+    map <leader>ec <cmd>lua require'fuzzy'.file_finder{path='/home/amirreza/w/dotfiles'}<CR>
+    map <leader>en <cmd>lua require'fuzzy'.file_finder{path='/home/amirreza/w/dotfiles/nvim'}<CR>
+    map <leader>fnp <cmd>lua require'fuzzy'.cd{cwd="~/.local/share/nvim/site/pack/packer/start/"}<CR>
+    map <leader>fp <cmd>lua requre'fuzzy'.cd{cwd="~/w"}<CR>
 " }}}
 
 " Runner {{{
@@ -131,7 +131,7 @@ set splitright
 " Netrw {{{
     let g:netrw_banner = 0
 " }}}
-
+set guifont=Ubuntu\ Mono\ 10
 " Lua {{{
     autocmd BufEnter *.lua set ts=2 sw=2 sts=2 expandtab
 " }}}
