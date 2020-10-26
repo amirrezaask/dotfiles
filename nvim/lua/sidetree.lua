@@ -65,6 +65,35 @@ function __SIDE_FILE_BROWSER_BACK()
   M.open_side_file_browser(last_dir) 
 end
 
+function __SIDE_FILE_BROWSER_DELETE()
+  local line = vim.api.nvim_get_current_line()
+  local segments = vim.split(line, ' ')
+  local filename = table.concat(table.slice(segments, 3, #segments), ' ')
+  local actual_filename = M.SIDE_FILE_CURRENT_PATH .. '/' .. filename
+  vim.cmd(string.format([[ ! rm -rf %s ]], actual_filename))
+  M.open_side_file_browser(M.SIDE_FILE_CURRENT_PATH)
+end
+
+function __SIDE_FILE_BROWSER_VS()
+  local line = vim.api.nvim_get_current_line()
+  local segments = vim.split(line, ' ')
+  local filename = table.concat(table.slice(segments, 3, #segments), ' ')
+  vim.api.nvim_set_current_win(M.SIDE_FILE_CURRENT_WINDOW)
+  local actual_filename = M.SIDE_FILE_CURRENT_PATH .. '/' .. filename
+  vim.cmd(string.format([[ vs %s ]], actual_filename))
+  vim.api.nvim_set_current_win(M.SIDE_FILE_WIN)
+end
+
+function __SIDE_FILE_BROWSER_SP()
+  local line = vim.api.nvim_get_current_line()
+  local segments = vim.split(line, ' ')
+  local filename = table.concat(table.slice(segments, 3, #segments), ' ')
+  vim.api.nvim_set_current_win(M.SIDE_FILE_CURRENT_WINDOW)
+  local actual_filename = M.SIDE_FILE_CURRENT_PATH .. '/' .. filename
+  vim.cmd(string.format([[ sp %s ]], actual_filename))
+  vim.api.nvim_set_current_win(M.SIDE_FILE_WIN)
+end
+
 local function split_size()
   return math.ceil((size * vim.api.nvim_get_option('columns') ) / 100) 
 end
@@ -97,6 +126,9 @@ function M.open_side_file_browser(path)
   vim.api.nvim_buf_set_keymap(M.SIDE_FILE_BUF, 'n', '<CR>', '<cmd>lua __SIDE_FILE_BROWSER_OPEN()<CR>', {})
   vim.api.nvim_buf_set_keymap(M.SIDE_FILE_BUF, 'n', '<BS>', '<cmd>lua __SIDE_FILE_BROWSER_BACK()<CR>', {})
   vim.api.nvim_buf_set_keymap(M.SIDE_FILE_BUF, 'n', 'q', '<cmd>lua __SIDE_FILE_BROWSER_CLOSE()<CR>', {})
+  vim.api.nvim_buf_set_keymap(M.SIDE_FILE_BUF, 'n', 's', '<cmd>lua __SIDE_FILE_BROWSER_SP()<CR>', {})
+  vim.api.nvim_buf_set_keymap(M.SIDE_FILE_BUF, 'n', 'v', '<cmd>lua __SIDE_FILE_BROWSER_VS()<CR>', {})
+  vim.api.nvim_buf_set_keymap(M.SIDE_FILE_BUF, 'n', 'd', '<cmd>lua __SIDE_FILE_BROWSER_DELETE()<CR>', {})
 
   local files = scandir(path, true)
   vim.api.nvim_buf_set_lines(M.SIDE_FILE_BUF, 0, -1, false, files)
