@@ -1,7 +1,52 @@
 " Automatically generated packer.nvim plugin loader code
 
 lua << END
-local plugins = {}
+local plugins = {
+  ["nvim-colorizer.lua"] = {
+    commands = { "ColorizerAttachToBuffer", "ColorizerDetachFromBuffer", "ColorizerToggle", "ColorizerReloadAllBuffers" },
+    loaded = false,
+    only_sequence = false,
+    only_setup = false,
+    path = "/home/amirreza/.local/share/nvim/site/pack/packer/opt/nvim-colorizer.lua"
+  },
+  ["rust.vim"] = {
+    loaded = false,
+    only_sequence = false,
+    only_setup = false,
+    path = "/home/amirreza/.local/share/nvim/site/pack/packer/opt/rust.vim"
+  },
+  ["split-term.vim"] = {
+    commands = { "VTerm", "Term" },
+    loaded = false,
+    only_sequence = false,
+    only_setup = false,
+    path = "/home/amirreza/.local/share/nvim/site/pack/packer/opt/split-term.vim"
+  },
+  ["vim-fish"] = {
+    loaded = false,
+    only_sequence = false,
+    only_setup = false,
+    path = "/home/amirreza/.local/share/nvim/site/pack/packer/opt/vim-fish"
+  },
+  ["vim-jdaddy"] = {
+    loaded = false,
+    only_sequence = false,
+    only_setup = false,
+    path = "/home/amirreza/.local/share/nvim/site/pack/packer/opt/vim-jdaddy"
+  },
+  ["vim-nix"] = {
+    loaded = false,
+    only_sequence = false,
+    only_setup = false,
+    path = "/home/amirreza/.local/share/nvim/site/pack/packer/opt/vim-nix"
+  },
+  ["zig.vim"] = {
+    loaded = false,
+    only_sequence = false,
+    only_setup = false,
+    path = "/home/amirreza/.local/share/nvim/site/pack/packer/opt/zig.vim"
+  }
+}
 
 local function handle_bufread(names)
   for _, name in ipairs(names) do
@@ -136,11 +181,22 @@ endfunction
 
 
 " Command lazy-loads
+command! -nargs=* -range -bang -complete=file ColorizerDetachFromBuffer call s:load(['nvim-colorizer.lua'], { "cmd": "ColorizerDetachFromBuffer", "l1": <line1>, "l2": <line2>, "bang": <q-bang>, "args": <q-args> })
+command! -nargs=* -range -bang -complete=file VTerm call s:load(['split-term.vim'], { "cmd": "VTerm", "l1": <line1>, "l2": <line2>, "bang": <q-bang>, "args": <q-args> })
+command! -nargs=* -range -bang -complete=file Term call s:load(['split-term.vim'], { "cmd": "Term", "l1": <line1>, "l2": <line2>, "bang": <q-bang>, "args": <q-args> })
+command! -nargs=* -range -bang -complete=file ColorizerToggle call s:load(['nvim-colorizer.lua'], { "cmd": "ColorizerToggle", "l1": <line1>, "l2": <line2>, "bang": <q-bang>, "args": <q-args> })
+command! -nargs=* -range -bang -complete=file ColorizerReloadAllBuffers call s:load(['nvim-colorizer.lua'], { "cmd": "ColorizerReloadAllBuffers", "l1": <line1>, "l2": <line2>, "bang": <q-bang>, "args": <q-args> })
+command! -nargs=* -range -bang -complete=file ColorizerAttachToBuffer call s:load(['nvim-colorizer.lua'], { "cmd": "ColorizerAttachToBuffer", "l1": <line1>, "l2": <line2>, "bang": <q-bang>, "args": <q-args> })
 
 " Keymap lazy-loads
 
 augroup packer_load_aucmds
   au!
   " Filetype lazy-loads
+  au FileType fish ++once call s:load(['vim-fish'], { "ft": "fish" })
+  au FileType zig ++once call s:load(['zig.vim'], { "ft": "zig" })
+  au FileType nix ++once call s:load(['vim-nix'], { "ft": "nix" })
+  au FileType rust ++once call s:load(['rust.vim'], { "ft": "rust" })
+  au FileType json ++once call s:load(['vim-jdaddy'], { "ft": "json" })
   " Event lazy-loads
 augroup END
