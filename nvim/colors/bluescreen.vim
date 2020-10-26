@@ -13,8 +13,8 @@ require'base16' {
   base0A = "e5c07b";
   base0B = "98c379";
   base0C = "56b6c2";
-  base0D = "01bfef";
-  base0E = "c678dd";
+  base0D = "0c9deb";
+  base0E = "bf68d9";
   base0F = "be5046"
 }
 EOF
