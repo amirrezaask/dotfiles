@@ -1,10 +1,10 @@
 -- init.lua
-local utils = require'utils'
+local nvim = require'nvim'
 
 -- Install Plugins
 require'plugins'
 
-utils.with_options {
+nvim.with_options {
   ignorecase = true,
   modeline = true,
   autoread = true,
@@ -28,6 +28,9 @@ utils.with_options {
   swapfile = false,
   clipboard = 'unnamedplus',
 }
+
+-- TODO: fix this
+vim.cmd [[ set cursorline ]]
 
 local global_maps = {
   -- Easier window navigation 
@@ -91,19 +94,16 @@ normal_maps['<Space>gg'] = '<cmd>LazyGit<CR>'
 -- Netrw settings
 vim.g.netrw_banner = 0
 
--- Statusline
-vim.g.enable_express_line = 1
-
-utils.augroup{
+nvim.augroup{
   lua = {
     "BufEnter", '*.lua', 'set ts=2 sw=2 sts=2 expandtab'
   }
 }
 
 -- Register keymaps
-utils.map(global_maps)
+nvim.map(global_maps)
 
-utils.mode_map({
+nvim.mode_map({
   n = normal_maps,
   i = insert_maps
 })
