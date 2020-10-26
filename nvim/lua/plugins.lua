@@ -56,9 +56,6 @@ return require'packer'.startup{
       use { 'junegunn/goyo.vim' }
       -- Show indents
       use { 'Yggdroot/indentLine' }
-      -- Icons
-      use { 'kyazdani42/nvim-web-devicons' }
-      use { 'ryanoasis/vim-devicons' }
       -- Colorschemes
       use { 'tjdevries/colorbuddy.vim' }
       use { 'tjdevries/gruvbuddy.nvim' }

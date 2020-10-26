@@ -95,7 +95,6 @@ let g:enable_express_line = 1
 set clipboard=unnamedplus
 
 set splitbelow
-set splitright
 
 " Luzzy.nvim {{{
     nnoremap <leader><leader> <cmd>lua require'fuzzy'.file_finder{depth=5}<CR>
@@ -103,6 +102,13 @@ set splitright
     nnoremap ?? <cmd>lua require('fuzzy').grep{depth=5}<CR>
     nnoremap <leader>b <cmd>lua require('fuzzy').buffers{}<CR>
     nnoremap ?g <cmd>lua require('fuzzy').git_grep{}<CR>
+    lua << EOF
+        vim.g.fuzzy_options = {
+            location = "center",
+            width = 60,
+            height = 80
+        }
+EOF
 " }}}
 
 " Find things {{{
