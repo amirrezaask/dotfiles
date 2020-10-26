@@ -24,7 +24,7 @@ return require'packer'.startup{
       use { 'tpope/vim-jdaddy', ft = 'json' }
       
       -- Base16 Colorscheme library
-      use { 'norcalli/nvim-base16.lua' }
+      use { 'norcalli/nvim-base16.lua', branch = 'theme-editor' }
       
       -- Comment codes at ease
       use { 'tpope/vim-commentary' }
@@ -36,7 +36,7 @@ return require'packer'.startup{
       use { 'vimlab/split-term.vim', cmd = {'VTerm', 'Term'} }
       
       -- Highlight color codes in buffer with their respective colors
-      use { 'norcalli/nvim-colorizer.lua', cmd = {'ColorizerAttachToBuffer', 'ColorizerDetachFromBuffer', 'ColorizerToggle', 'ColorizerReloadAllBuffers'}}
+      use { 'norcalli/nvim-colorizer.lua', branch = 'color-editor', cmd = {'ColorizerAttachToBuffer', 'ColorizerDetachFromBuffer', 'ColorizerToggle', 'ColorizerReloadAllBuffers'}}
      
       -- Vim indent objects
       use { 'michaeljsmith/vim-indent-object'}
@@ -70,8 +70,13 @@ return require'packer'.startup{
 
       -- Show indents
       use { 'Yggdroot/indentLine' }
+
+      -- Icons
+      use { 'kyazdani42/nvim-web-devicons' }
       -- Statusline
       use { 'tjdevries/express_line.nvim' }
+
+      -- Snippets
       use { 'norcalli/snippets.nvim' }
 
       -- Treesitter
