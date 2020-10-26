@@ -14,12 +14,10 @@ return require'packer'.startup{
 
       -- My plugins 
       local_use 'ngo.nvim'
-      -- local_use 'start.nvim'
+      local_use 'start.nvim'
       local_use 'music_player.nvim'
       local_use 'Fuzzy.nvim'
       
-      -- Side file browser
-      use { 'lambdalisue/fern.vim' }
       -- Vim surrounding text objects
       use { 'tpope/vim-surround'}
       -- Vim JSON tools
