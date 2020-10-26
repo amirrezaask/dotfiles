@@ -24,6 +24,7 @@ return require'packer'.startup{
       use { 'tpope/vim-surround'}
       -- Vim JSON tools
       use { 'tpope/vim-jdaddy'}
+      use { 'norcalli/nvim-base16.lua' }
       -- Comment codes at ease
       use { 'tpope/vim-commentary' }
       -- Neovim builtin LSP configuration

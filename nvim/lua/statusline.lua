@@ -10,6 +10,8 @@ el.setup{
   generator = function(win_id)
     return {
       extensions.mode,
+     '[', builtin.line, ' : ',  builtin.column, ']',
+     '[', extensions.git_branch ,']',
       sections.split,
       subscribe.buf_autocmd("el_file_icon", "BufRead", function(_, bufnr)
         local icon = extensions.file_icon(_, bufnr)
@@ -33,7 +35,6 @@ el.setup{
           return extensions.git_changes(window, buffer)
         end
       ),
-     '[', extensions.git_branch ,']',
      '[', builtin.line, ' : ',  builtin.column, ']',
       sections.collapse_builtin{
         '[',

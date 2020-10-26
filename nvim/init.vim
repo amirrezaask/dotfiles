@@ -31,9 +31,6 @@ set ruler
 " Enable mouse support
 set mouse=a
 
-" Enable line numbers
-set nu 
-
 " Set <leader> to SPC
 let mapleader = " "
 
@@ -46,8 +43,6 @@ set autoindent
 noremap j gj
 noremap k gk
 
-" Relative line numbers
-set relativenumber
 " Terminal Colors
 set termguicolors
 
@@ -139,6 +134,7 @@ set guifont=Ubuntu\ Mono\ 10
     nnoremap <leader>gg :LazyGit<CR>
     let g:lazygit_floating_window_scaling_factor = 0.7
 " }}}
+
 " Snippets {{{
     inoremap <c-k> <cmd>lua return require'snippets'.expand_or_advance(1)<CR>
     inoremap <c-j> <cmd>lua return require'snippets'.advance_snippet(-1)<CR>
