@@ -9,6 +9,7 @@ return require'packer'.startup{
             use('amirrezaask/' .. plug_path)
          end
       end
+
       -- Plugin Manager
       use { 'wbthomason/packer.nvim' }
 
@@ -32,9 +33,6 @@ return require'packer'.startup{
       -- Neovim builtin LSP configuration
       use { 'neovim/nvim-lspconfig' }
      
-      -- Split Terminal
-      use { 'vimlab/split-term.vim', cmd = {'VTerm', 'Term'} }
-      
       -- Highlight color codes in buffer with their respective colors
       use { 'norcalli/nvim-colorizer.lua', branch = 'color-editor', cmd = {'ColorizerAttachToBuffer', 'ColorizerDetachFromBuffer', 'ColorizerToggle', 'ColorizerReloadAllBuffers'}}
      
@@ -73,8 +71,6 @@ return require'packer'.startup{
 
       -- Icons
       use { 'kyazdani42/nvim-web-devicons' }
-      -- Statusline
-      use { 'tjdevries/express_line.nvim' }
 
       -- Snippets
       use { 'norcalli/snippets.nvim' }

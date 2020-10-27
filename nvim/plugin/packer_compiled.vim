@@ -15,13 +15,6 @@ local plugins = {
     only_setup = false,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/opt/rust.vim"
   },
-  ["split-term.vim"] = {
-    commands = { "VTerm", "Term" },
-    loaded = false,
-    only_sequence = false,
-    only_setup = false,
-    path = "/home/amirreza/.local/share/nvim/site/pack/packer/opt/split-term.vim"
-  },
   ["vim-fish"] = {
     loaded = false,
     only_sequence = false,
@@ -181,12 +174,10 @@ endfunction
 
 
 " Command lazy-loads
-command! -nargs=* -range -bang -complete=file ColorizerDetachFromBuffer call s:load(['nvim-colorizer.lua'], { "cmd": "ColorizerDetachFromBuffer", "l1": <line1>, "l2": <line2>, "bang": <q-bang>, "args": <q-args> })
-command! -nargs=* -range -bang -complete=file VTerm call s:load(['split-term.vim'], { "cmd": "VTerm", "l1": <line1>, "l2": <line2>, "bang": <q-bang>, "args": <q-args> })
-command! -nargs=* -range -bang -complete=file Term call s:load(['split-term.vim'], { "cmd": "Term", "l1": <line1>, "l2": <line2>, "bang": <q-bang>, "args": <q-args> })
-command! -nargs=* -range -bang -complete=file ColorizerToggle call s:load(['nvim-colorizer.lua'], { "cmd": "ColorizerToggle", "l1": <line1>, "l2": <line2>, "bang": <q-bang>, "args": <q-args> })
-command! -nargs=* -range -bang -complete=file ColorizerReloadAllBuffers call s:load(['nvim-colorizer.lua'], { "cmd": "ColorizerReloadAllBuffers", "l1": <line1>, "l2": <line2>, "bang": <q-bang>, "args": <q-args> })
 command! -nargs=* -range -bang -complete=file ColorizerAttachToBuffer call s:load(['nvim-colorizer.lua'], { "cmd": "ColorizerAttachToBuffer", "l1": <line1>, "l2": <line2>, "bang": <q-bang>, "args": <q-args> })
+command! -nargs=* -range -bang -complete=file ColorizerToggle call s:load(['nvim-colorizer.lua'], { "cmd": "ColorizerToggle", "l1": <line1>, "l2": <line2>, "bang": <q-bang>, "args": <q-args> })
+command! -nargs=* -range -bang -complete=file ColorizerDetachFromBuffer call s:load(['nvim-colorizer.lua'], { "cmd": "ColorizerDetachFromBuffer", "l1": <line1>, "l2": <line2>, "bang": <q-bang>, "args": <q-args> })
+command! -nargs=* -range -bang -complete=file ColorizerReloadAllBuffers call s:load(['nvim-colorizer.lua'], { "cmd": "ColorizerReloadAllBuffers", "l1": <line1>, "l2": <line2>, "bang": <q-bang>, "args": <q-args> })
 
 " Keymap lazy-loads
 
