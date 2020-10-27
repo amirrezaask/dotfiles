@@ -31,14 +31,12 @@
     - [[#pretty-hydra][Pretty Hydra]]
   - [[#which-key][Which Key]]
   - [[#general][General]]
-- [[#evil][Evil]]
 - [[#appereance][Appereance]]
   - [[#themes][Themes]]
   - [[#cursor][Cursor]]
   - [[#modeline][Modeline]]
     - [[#custom-modeline][Custom Modeline]]
     - [[#doom-modeline][Doom-modeline]]
-  - [[#diminish][Diminish]]
   - [[#font][Font]]
 - [[#minibuffer][Minibuffer]]
   - [[#ivy][Ivy]]
@@ -46,7 +44,6 @@
     - [[#counsel][Counsel]]
     - [[#ivy-rich][Ivy-Rich]]
     - [[#ivy-posframe][Ivy-Posframe]]
-  - [[#icomplete][Icomplete]]
 - [[#emacs-buffers-and-windows][Emacs Buffers and Windows]]
   - [[#window-rules][Window rules]]
   - [[#eyebrowse][Eyebrowse]]
@@ -118,6 +115,9 @@
   - [[#application-laucnherdmenu][Application Laucnher(dmenu)]]
   - [[#terminal][Terminal]]
 - [[#dotfiles][Dotfiles]]
+- [[#depreacated][Depreacated]]
+  - [[#evil][Evil]]
+  - [[#icomplete][Icomplete]]
 
 * early-init contents
 :PROPERTIES:
@@ -463,47 +463,6 @@ extensively but now i use it only when keybindings are just crazy.
     (general-create-definer space-leader :states '(normal)
       :prefix "SPC"))
 #+end_src
-* Evil
-:PROPERTIES:
-:header-args: :tangle no
-:END:
-#+begin_src emacs-lisp
-  (setq evil-want-keybinding nil)
-    (use-package evil :straight t
-      :demand
-      :general
-      (space-leader
-        "w h" 'split-window-below
-        "w v" 'split-window-right)
-      :bind
-      (:map evil-normal-state-map 
-            (";" . evil-ex))
-      :config
-      (evil-mode 1)
-      (evil-ex-define-cmd "q" 'kill-buffer-and-window))
-
-  (use-package evil-collection :straight t :config
-    (evil-collection-init (list
-                           'dired
-                           'magit
-                          'ivy
-                          'ibuffer
-                          'help
-                          'eshell
-                          'smerge
-                          'ediff
-                          'proced
-                          'vlf
-                          'xref
-                          )))
-      (use-package evil-magit :straight t)
-      (use-package evil-escape :straight t :config
-        (evil-escape-mode 1)
-        (setq-default evil-escape-key-sequence "jk")
-        (setq evil-escape-unordered-key-sequence t))
-      (use-package evil-surround :straight t :config (global-evil-surround-mode 1))
-      (use-package evil-nerd-commenter :straight t)
-#+end_src
 * Appereance
 ** Themes
  #+BEGIN_SRC emacs-lisp
@@ -527,8 +486,8 @@ extensively but now i use it only when keybindings are just crazy.
      :bind (("<f12>" . amirreza/toggle-color-mode))
      :config
      (defvar amirreza/current-mode 'dark "Current color mode of Emacs.")
-     (defvar amirreza/dark-theme 'modus-vivendi)
-     (defvar amirreza/light-theme 'modus-operandi)
+     (defvar amirreza/dark-theme 'doom-one)
+     (defvar amirreza/light-theme 'doom-one-light)
 
      (defmacro amirreza/--load-theme (&rest theme-opts)
        `(progn (mapc #'disable-theme custom-enabled-themes)
@@ -578,6 +537,9 @@ extensively but now i use it only when keybindings are just crazy.
   #+END_SRC
 ** Modeline
 *** Custom Modeline
+:PROPERTIES:
+:header-args: :tangle no
+:END:
 #+begin_src emacs-lisp
   (setq mode-line-percent-position '(-3 "%p"))
   (setq-default mode-line-format
@@ -601,46 +563,23 @@ extensively but now i use it only when keybindings are just crazy.
                  ;; '(:eval (propertize battery-mode-line-string))))
 #+end_src
 *** Doom-modeline
-:PROPERTIES:
-:header-args: :tangle no
-:END:
 #+begin_src emacs-lisp
   (use-package doom-modeline
-    :disabled t
     :straight t
     :init (doom-modeline-mode 1)
     :config
-    (setq doom-modeline-height 20))
-#+end_src
-** Diminish
-:PROPERTIES:
-:header-args: :tangle no
-:END:
-Dminish is a simple tool that adds =:diminish= keyword to =use-package= which help us remove
- modeline =lighters= that modes register in modeline.
-#+begin_src emacs-lisp
-  (use-package diminish
-    :straight
-    :after use-package
-    :config
-    (diminish 'auto-revert-mode)
-    (diminish 'parinfer-mode)
-    (diminish 'paredit-mode)
-    (diminish 'eldoc-mode))
+    (setq doom-modeline-height 30))
 #+end_src
 ** Font
 #+BEGIN_SRC emacs-lisp
   (defun amirreza/change-font (font)
     (setq default-frame-alist `((font . ,font))))
 
-  (defvar amirreza/font "Ubuntu Mono-11")
+  (defvar amirreza/font "Fira Mono-11")
   (amirreza/change-font amirreza/font)
 #+END_SRC
 * Minibuffer
 ** Ivy
-:PROPERTIES:
-:header-args: :tangle no
-:END:
 *** Ivy
 #+begin_src emacs-lisp
   (use-package flx :straight t)
@@ -707,52 +646,6 @@ Dminish is a simple tool that adds =:diminish= keyword to =use-package= which he
     (setq ivy-posframe-parameters '((parent-frame nil)))
     (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-center)))
     (ivy-posframe-mode 1))
-#+end_src
-** Icomplete
-#+begin_src emacs-lisp
-(use-package orderless
-  :straight t
-  :config
-  (setq completion-styles '(orderless)))
-
-(use-package icomplete
-  :demand
-  :bind
-  (:map global-map
-        ("M-y" . amirreza/show-kill-ring)
-        :map icomplete-minibuffer-map
-        ("C-n" . icomplete-forward-completions)
-        ("C-p" . icomplete-backward-completions)
-        ("C-f" . icomplete-forward-completions)
-        ("C-b" . icomplete-backward-completions)
-        ("<right>" . icomplete-forward-completions)
-        ("<left>" . icomplete-backward-completions)
-        ("<down>" . icomplete-forward-completions)
-        ("<up>" . icomplete-backward-completions)
-        ("<RET>" . icomplete-force-complete-and-exit)
-        ("<tab>" . icomplete-force-complete))
-  :config
-  (defun amirreza/show-kill-ring ()
-    (interactive)
-    (insert (completing-read "Insert: " kill-ring)))
-
-  (setq icomplete-max-delay-chars 2
-        icomplete-separator " * "
-        icomplete-show-matches-on-no-input t
-        icomplete-hide-common-prefix nil
-        completion-ignore-case t)
-  (when (> emacs-major-version 26)
-    (fido-mode -1))
-  (icomplete-mode 1))
-
-(use-package icomplete-vertical
-  :straight t
-  :demand
-  :bind
-  (:map icomplete-minibuffer-map
-        ("C-v" . icomplete-vertical-toggle))
-  :config
-  (icomplete-vertical-mode 1))
 #+end_src
 * Emacs Buffers and Windows
 ** Window rules
@@ -1064,8 +957,8 @@ by default is bound to =C-c <left>=.
                                                                                                                (not (string-match "\\.git" name)))
                                                                 t) nil nil initial))
   (use-package project
-    :bind(("C-c f" . 'amirreza/find-file)
-          ("C-c g" . 'amirreza/rg)
+    :bind(("C-c f" . 'amirreza/file-finder)
+          ("C-c g" . 'amirreza/grep)
           ("C-M-s" . 'amirreza/find-symbol-at-point)
           ("<f1>" . 'amirreza/find-file-at-point)
           ("<f2>" . 'amirreza/find-symbol-at-point)
@@ -1075,7 +968,7 @@ by default is bound to =C-c <left>=.
     (defun amirreza/find-symbol-at-point ()
       (interactive)
       (let* ((symbol (thing-at-point 'word)))
-        (rg symbol "*" (amirreza/find-root))))
+        (amirreza/grep symbol)))
 
     (defun amirreza/find-file-at-point ()
       (interactive)
@@ -1086,9 +979,20 @@ by default is bound to =C-c <left>=.
       (interactive)
       (find-file (amirreza/recursive-search-path "" (amirreza/find-root))))
 
-    (defun amirreza/rg (query)
-      (interactive "sQuery: ")
-      (rg query ".*" (amirreza/find-root))))
+    (defun amirreza/grep (&optional initial-input)
+      "Grep."
+      (interactive)
+      (cond
+       ((not (null (executable-find "rg"))) (counsel-rg initial-input))
+       ((not (null (executable-find "ag"))) (counsel-ag initial-input))
+       ((not (null (executable-find "grep"))) (counsel-grep initial-input))))
+
+    (defun amirreza/file-finder ()
+      "Find"
+      (interactive)
+      (cond
+       ((not (null (executable-find "fzf"))) (counsel-fzf))
+       (t (amirreza/find-file)))))
 #+end_src
 ** File Type Search
 #+begin_src emacs-lisp
@@ -1783,4 +1687,95 @@ of Emacs and other programs.
                                                                                                               (not (string-match "\\.git" name)))
                                                                                                                    t))))
   (global-set-key (kbd "<f9>") 'amirreza/edit-dot-config)
+#+end_src
+* Depreacated
+** Evil
+:PROPERTIES:
+:header-args: :tangle no
+:END:
+#+begin_src emacs-lisp
+  (setq evil-want-keybinding nil)
+    (use-package evil :straight t
+      :demand
+      :general
+      (space-leader
+        "w h" 'split-window-below
+        "w v" 'split-window-right)
+      :bind
+      (:map evil-normal-state-map 
+            (";" . evil-ex))
+      :config
+      (evil-mode 1)
+      (evil-ex-define-cmd "q" 'kill-buffer-and-window))
+
+  (use-package evil-collection :straight t :config
+    (evil-collection-init (list
+                           'dired
+                           'magit
+                          'ivy
+                          'ibuffer
+                          'help
+                          'eshell
+                          'smerge
+                          'ediff
+                          'proced
+                          'vlf
+                          'xref
+                          )))
+      (use-package evil-magit :straight t)
+      (use-package evil-escape :straight t :config
+        (evil-escape-mode 1)
+        (setq-default evil-escape-key-sequence "jk")
+        (setq evil-escape-unordered-key-sequence t))
+      (use-package evil-surround :straight t :config (global-evil-surround-mode 1))
+      (use-package evil-nerd-commenter :straight t)
+#+end_src
+** Icomplete
+:PROPERTIES:
+:header-args: :tangle no
+:END:
+#+begin_src emacs-lisp
+(use-package orderless
+  :straight t
+  :config
+  (setq completion-styles '(orderless)))
+
+(use-package icomplete
+  :demand
+  :bind
+  (:map global-map
+        ("M-y" . amirreza/show-kill-ring)
+        :map icomplete-minibuffer-map
+        ("C-n" . icomplete-forward-completions)
+        ("C-p" . icomplete-backward-completions)
+        ("C-f" . icomplete-forward-completions)
+        ("C-b" . icomplete-backward-completions)
+        ("<right>" . icomplete-forward-completions)
+        ("<left>" . icomplete-backward-completions)
+        ("<down>" . icomplete-forward-completions)
+        ("<up>" . icomplete-backward-completions)
+        ("<RET>" . icomplete-force-complete-and-exit)
+        ("<tab>" . icomplete-force-complete))
+  :config
+  (defun amirreza/show-kill-ring ()
+    (interactive)
+    (insert (completing-read "Insert: " kill-ring)))
+
+  (setq icomplete-max-delay-chars 2
+        icomplete-separator " * "
+        icomplete-show-matches-on-no-input t
+        icomplete-hide-common-prefix nil
+        completion-ignore-case t)
+  (when (> emacs-major-version 26)
+    (fido-mode -1))
+  (icomplete-mode 1))
+
+(use-package icomplete-vertical
+  :straight t
+  :demand
+  :bind
+  (:map icomplete-minibuffer-map
+        ("C-v" . icomplete-vertical-toggle))
+  :config
+  (icomplete-vertical-mode 1))
 #+end_src
