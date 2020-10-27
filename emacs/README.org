@@ -833,30 +833,34 @@ by default is bound to =C-c <left>=.
 #+end_src
 ** Org
 #+BEGIN_SRC emacs-lisp
-    (use-package org
-    :config
-    (defun amirreza/--org-insert-elisp-code-block ()
-      (interactive)
-      (insert (format "#+begin_src emacs-lisp\n\n#+end_src"))
-      (previous-line)
-      (beginning-of-line))
+  (use-package org
+  :config
+  (defun amirreza/--org-insert-elisp-code-block ()
+    (interactive)
+    (insert (format "#+begin_src emacs-lisp\n\n#+end_src"))
+    (previous-line)
+    (beginning-of-line))
 
-    (defun amirreza/--org-insert-no-tangle ()
-      ""
-      (interactive)
-      (insert (format ":PROPERTIES:\n:header-args: :tangle no\n:END:\n"))
-      (previous-line)
-      (beginning-of-line))
+  (defun amirreza/--org-insert-no-tangle ()
+    ""
+    (interactive)
+    (insert (format ":PROPERTIES:\n:header-args: :tangle no\n:END:\n"))
+    (previous-line)
+    (beginning-of-line))
 
-    (setq org-ellipsis "⤵")
-    (setq org-src-fontify-natively t)
-    (setq org-src-tab-acts-natively t)
-    (setq org-support-shift-select t)
-    (setq org-src-window-setup 'current-window)
-    (setq org-agenda-files '("~/org/work.org" "~/org/personal.org"))
-    :bind (:map org-mode-map
-                ("C-c m n" . amirreza/--org-insert-no-tangle)
-                ("C-c m b" . amirreza/--org-insert-elisp-code-block)))
+  (setq org-ellipsis "⤵")
+  (setq org-src-fontify-natively t)
+  (setq org-src-tab-acts-natively t)
+  (setq org-support-shift-select t)
+  (setq org-src-window-setup 'current-window)
+  (setq org-agenda-files '("~/org/work.org" "~/org/personal.org"))
+  :bind (:map org-mode-map
+              ("C-c m n" . amirreza/--org-insert-no-tangle)
+              ("C-c m b" . amirreza/--org-insert-elisp-code-block)))
+
+  (use-package org-bullets
+    :straight t
+    :hook (org-mode . (lambda () (org-bullets-mode 1))))
 #+END_SRC
 *** Org TOC
  #+begin_src emacs-lisp
@@ -1229,11 +1233,12 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
     (setq lsp-auto-guess-root t)
     (setq lsp-before-save-edit t)
     :hook ((prog-mode . lsp)
-           (lsp-mode . lsp-enable-which-key-integration)))
+           (lsp-mode . lsp-enable-which-key-integration)
+           (before-save . lsp-format-buffer)))
 
-    (use-package lsp-ivy :after ivy :commands lsp-ivy-workspace-symbol
-      :bind ("C-c m s" . lsp-ivy-workspace-symbol)
-      :general (space-leader "f s" 'lsp-ivy-workspace-symbol))
+      (use-package lsp-ivy :after ivy :commands lsp-ivy-workspace-symbol
+        :bind ("C-c m s" . lsp-ivy-workspace-symbol)
+        :general (space-leader "f s" 'lsp-ivy-workspace-symbol))
 #+end_src
 ** Rainbow delimiters
 #+begin_src emacs-lisp
