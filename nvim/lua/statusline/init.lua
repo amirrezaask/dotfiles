@@ -1,6 +1,8 @@
 local M = {}
 M.vim = {}
 
+local uv = vim.loop
+
 M.vim.filename = '%f'
 M.vim.modified = '%m'
 M.vim.buffer_lines = '%L'
@@ -16,7 +18,20 @@ end
 
 function M.segments(segs)
   return table.concat(segs, '')
+end
 
+function M.git_branch()
+  local stdout = io.popen("git branch -l | grep '*'")
+  local output = stdout:read('*all') 
+  stdout:close()
+  if output:find('fatal') then
+    return 'Not a Git repo'
+  end
+  output = vim.split(output, ' ')[2]
+  output = vim.split(output, '\n')[1]
+  return M.block {
+    'Git: ' .. output,
+  }
 end
 
 local line = M.segments {
@@ -30,8 +45,9 @@ local line = M.segments {
   M.block {
     M.vim.filename
   },
+  [[%{luaeval ("require('statusline').git_branch()")}]],
   M.block {
-    M.vim.filetype
+    'Filetype: ' .. M.vim.filetype
   }
 }
 

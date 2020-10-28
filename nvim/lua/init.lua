@@ -67,9 +67,9 @@ local normal_maps = {
 
 -- Fuzzy Searching
 vim.g.fuzzy_options = {
-  location = 'center',
-  width = 60,
-  height = 80
+  location = 'bottom|center',
+  width = 45,
+  height = 90
 }
 
 normal_maps['<Space><Space>'] = '<cmd>lua require("fuzzy").file_finder{depth=5}<CR>'
