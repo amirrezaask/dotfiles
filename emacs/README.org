@@ -31,6 +31,7 @@
     - [[#pretty-hydra][Pretty Hydra]]
   - [[#which-key][Which Key]]
   - [[#general][General]]
+- [[#evil][Evil]]
 - [[#appereance][Appereance]]
   - [[#themes][Themes]]
   - [[#cursor][Cursor]]
@@ -38,12 +39,11 @@
     - [[#custom-modeline][Custom Modeline]]
     - [[#doom-modeline][Doom-modeline]]
   - [[#font][Font]]
-- [[#minibuffer][Minibuffer]]
-  - [[#ivy][Ivy]]
-    - [[#ivy-1][Ivy]]
-    - [[#counsel][Counsel]]
-    - [[#ivy-rich][Ivy-Rich]]
-    - [[#ivy-posframe][Ivy-Posframe]]
+- [[#ivy][Ivy]]
+  - [[#ivy-1][Ivy]]
+  - [[#counsel][Counsel]]
+  - [[#ivy-rich][Ivy-Rich]]
+  - [[#ivy-posframe][Ivy-Posframe]]
 - [[#emacs-buffers-and-windows][Emacs Buffers and Windows]]
   - [[#window-rules][Window rules]]
   - [[#eyebrowse][Eyebrowse]]
@@ -116,7 +116,6 @@
   - [[#terminal][Terminal]]
 - [[#dotfiles][Dotfiles]]
 - [[#depreacated][Depreacated]]
-  - [[#evil][Evil]]
   - [[#icomplete][Icomplete]]
 
 * early-init contents
@@ -446,14 +445,16 @@ extensively but now i use it only when keybindings are just crazy.
     :config
     (setq which-key-idle-delay 0.3)
     (defalias 'which-key! 'which-key-add-key-based-replacements)
+    (which-key! "C-c i" "Integrated functionalities")
     (which-key! "C-c i m" "Music functions")
-    (which-key! "C-c m" "MajorMode/LSP related functionality")
+    (which-key! "C-c m" "MajorMode related functionality")
+    (which-key! "C-c l" "LSP related functionality")
     (which-key! "C-c g" "Version control actions")
-    (which-key! "C-c f" "File functions")
+    (which-key! "C-c f" "File finder")
     (which-key! "C-c w" "Workspaces")
-    (which-key! "C-c e" "external tools integration")
-    (which-key! "C-c D" "Docker")
-    (which-key! "C-c K" "Kubernetes")
+    (which-key! "C-c e" "External tools integration")
+    (which-key! "C-c i d" "Docker")
+    (which-key! "C-c i k" "Kubernetes")
     (which-key-mode 1)
     (which-key-setup-minibuffer))
 #+end_src
@@ -462,6 +463,44 @@ extensively but now i use it only when keybindings are just crazy.
   (use-package general :straight t :config
     (general-create-definer space-leader :states '(normal)
       :prefix "SPC"))
+#+end_src
+* Evil
+#+begin_src emacs-lisp
+  (setq evil-want-keybinding nil)
+    (use-package evil :straight t
+      :demand
+      :general
+      (space-leader
+        "w h" 'split-window-below
+        "w v" 'split-window-right)
+      :bind
+      (:map evil-normal-state-map 
+            (";" . evil-ex))
+      :config
+      (evil-mode 1)
+      (evil-ex-define-cmd "q" 'kill-buffer-and-window))
+
+  (use-package evil-collection :straight t :config
+    (evil-collection-init (list
+                           'dired
+                           'magit
+                          'ivy
+                          'ibuffer
+                          'help
+                          'eshell
+                          'smerge
+                          'ediff
+                          'proced
+                          'vlf
+                          'xref
+                          )))
+      (use-package evil-magit :straight t)
+      (use-package evil-escape :straight t :config
+        (evil-escape-mode 1)
+        (setq-default evil-escape-key-sequence "jk")
+        (setq evil-escape-unordered-key-sequence t))
+      (use-package evil-surround :straight t :config (global-evil-surround-mode 1))
+      (use-package evil-nerd-commenter :straight t)
 #+end_src
 * Appereance
 ** Themes
@@ -578,9 +617,8 @@ extensively but now i use it only when keybindings are just crazy.
   (defvar amirreza/font "Fira Mono-11")
   (amirreza/change-font amirreza/font)
 #+END_SRC
-* Minibuffer
+* Ivy
 ** Ivy
-*** Ivy
 #+begin_src emacs-lisp
   (use-package flx :straight t)
   (use-package ivy
@@ -611,7 +649,7 @@ extensively but now i use it only when keybindings are just crazy.
     (ivy-mode +1))
 
 #+end_src
-*** Counsel
+** Counsel
 #+begin_src emacs-lisp
   (use-package counsel
     :straight t
@@ -634,11 +672,11 @@ extensively but now i use it only when keybindings are just crazy.
      ("M-i" . 'counsel-imenu) ;; code semantics
      ("M-y" . 'counsel-yank-pop)))
 #+end_src
-*** Ivy-Rich
+** Ivy-Rich
 #+begin_src emacs-lisp
 (use-package ivy-rich :straight t :after ivy :config (ivy-rich-mode 1))
 #+end_src
-*** Ivy-Posframe
+** Ivy-Posframe
 #+begin_src emacs-lisp
   (use-package ivy-posframe :straight t
     :disabled t
@@ -737,9 +775,9 @@ by default is bound to =C-c <left>=.
 #+BEGIN_SRC emacs-lisp
   (use-package ace-window
     :straight t
-    :disabled t
     :commands (ace-window)
-    :bind (("C-x C-o" . 'ace-window)))
+    :bind (("C-x o" . 'ace-window)
+           ("C-x C-o" . 'ace-window)))
 #+END_SRC
 ** Ibuffer
 #+begin_src emacs-lisp
@@ -920,9 +958,11 @@ by default is bound to =C-c <left>=.
 * Project
 #+begin_src emacs-lisp
   (use-package project
+    :general
+    (space-leader "f p" 'amirreza/find-project)
     :bind ("C-c p" . amirreza/find-project)
     :config
-    (defvar amirreza/project-locations '("~/w" "~/w/snapp" "~/w/orderhq" "~/w/oneroof" "~/w/socialeng"))
+    (defvar amirreza/project-locations '("~/w" "~/w/snapp" "~/w/orderhq" "~/w/socialeng"))
 
     (defun amirreza/find-root ()
       "Find project root."
@@ -961,6 +1001,12 @@ by default is bound to =C-c <left>=.
                                                                                                                (not (string-match "\\.git" name)))
                                                                 t) nil nil initial))
   (use-package project
+    :general
+    (space-leader
+      "SPC" 'amirreza/file-finder
+      "f t" 'amirreza/grep
+      "f a s" 'amirreza/find-symbol-at-point
+      "f a f" 'amirreza/find-file-at-point)
     :bind(("C-c f" . 'amirreza/file-finder)
           ("C-c g" . 'amirreza/grep)
           ("C-M-s" . 'amirreza/find-symbol-at-point)
@@ -1004,7 +1050,8 @@ by default is bound to =C-c <left>=.
   (setq amirreza/file-type-loc '(music ("~/Music" "~/Downloads") video ("~/Videos" "~/Downloads")))
   (setq amirreza/file-type-assoc-program '(music "vlc" video "vlc" doc "xdg-open"))
 
-  (defmacro amirreza/searcher ()
+  (defun amirreza/searcher ()
+    (interactive)
     (let* ((filetype (completing-read "FileType: " amirreza/file-types))
            (paths (plist-get amirreza/file-type-loc (intern filetype)))
            (program (plist-get amirreza/file-type-assoc-program (intern filetype)))
@@ -1016,7 +1063,6 @@ by default is bound to =C-c <left>=.
            (process-name (format "%s: %s" filetype file)))
       (start-process process-name process-name program (expand-file-name file))))
 
-  (global-set-key (kbd "s-o") 'amirreza/search-for)
 #+end_src
 * Shell
 ** Sync PATH with default shell
@@ -1231,6 +1277,7 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
     :init 
     (setq lsp-file-watch-threshold 10000)
     (setq lsp-auto-guess-root t)
+    (setq lsp-keymap-prefix "C-c l")
     (setq lsp-before-save-edit t)
     :hook ((prog-mode . lsp)
            (lsp-mode . lsp-enable-which-key-integration)
@@ -1238,7 +1285,7 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
 
       (use-package lsp-ivy :after ivy :commands lsp-ivy-workspace-symbol
         :bind ("C-c m s" . lsp-ivy-workspace-symbol)
-        :general (space-leader "f s" 'lsp-ivy-workspace-symbol))
+        :general (space-leader "l f s" 'lsp-ivy-workspace-symbol))
 #+end_src
 ** Rainbow delimiters
 #+begin_src emacs-lisp
@@ -1517,7 +1564,7 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
     :commands (magit-status magit-get-current-branch)
     :general
     (space-leader
-      "g" 'magit-status)
+      "g s" 'magit-status)
     :bind
     (("C-x g" . 'magit-status)
      ("C-c v s" . 'magit-status)))
@@ -1542,6 +1589,8 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
     :straight t
     :commands
     (git-messenger:popup-message)
+    :general
+    (space-leader "g m" 'git-messenger:popup-message)
     :bind
     (("C-c v b" . git-messenger:popup-message))
 
@@ -1692,49 +1741,9 @@ of Emacs and other programs.
                                                                                                               (not (string-match "\\.git" name)))
                                                                                                                    t))))
   (global-set-key (kbd "<f9>") 'amirreza/edit-dot-config)
+  (space-leader "f c" 'amirreza/edit-dot-config)
 #+end_src
 * Depreacated
-** Evil
-:PROPERTIES:
-:header-args: :tangle no
-:END:
-#+begin_src emacs-lisp
-  (setq evil-want-keybinding nil)
-    (use-package evil :straight t
-      :demand
-      :general
-      (space-leader
-        "w h" 'split-window-below
-        "w v" 'split-window-right)
-      :bind
-      (:map evil-normal-state-map 
-            (";" . evil-ex))
-      :config
-      (evil-mode 1)
-      (evil-ex-define-cmd "q" 'kill-buffer-and-window))
-
-  (use-package evil-collection :straight t :config
-    (evil-collection-init (list
-                           'dired
-                           'magit
-                          'ivy
-                          'ibuffer
-                          'help
-                          'eshell
-                          'smerge
-                          'ediff
-                          'proced
-                          'vlf
-                          'xref
-                          )))
-      (use-package evil-magit :straight t)
-      (use-package evil-escape :straight t :config
-        (evil-escape-mode 1)
-        (setq-default evil-escape-key-sequence "jk")
-        (setq evil-escape-unordered-key-sequence t))
-      (use-package evil-surround :straight t :config (global-evil-surround-mode 1))
-      (use-package evil-nerd-commenter :straight t)
-#+end_src
 ** Icomplete
 :PROPERTIES:
 :header-args: :tangle no
@@ -1784,3 +1793,5 @@ of Emacs and other programs.
   :config
   (icomplete-vertical-mode 1))
 #+end_src
+
+
