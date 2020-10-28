@@ -16,10 +16,26 @@ function M.block(inner)
   return string.format('[ %s ]', table.concat(inner, ' '))
 end
 
-function M.segments(segs)
-  return table.concat(segs, '')
+function table.slice(tbl, first, last, step)
+  local sliced = {}
+
+  for i = first or 1, last or #tbl, step or 1 do
+    sliced[#sliced+1] = tbl[i]
+  end
+
+  return sliced
 end
 
+
+function M.create_statusline(opts)
+  return table.concat(opts, ' ')
+end
+
+function M.space(n)
+  return string.rep(' ', n)
+end
+
+-- TODO: make a way for user to register a custom function
 function M.git_branch()
   local stdout = io.popen("git branch -l | grep '*'")
   local output = stdout:read('*all') 
@@ -29,12 +45,13 @@ function M.git_branch()
   end
   output = vim.split(output, ' ')[2]
   output = vim.split(output, '\n')[1]
-  return M.block {
-    'Git: ' .. output,
-  }
+  return 'Git: ' .. output
 end
 
-local line = M.segments {
+local line = M.create_statusline {
+  M.block {
+    M.vim.filename,
+  },
   M.block {
     M.vim.column,
     ':',
@@ -43,14 +60,9 @@ local line = M.segments {
     M.vim.buffer_lines,
   },
   M.block {
-    M.vim.filename
+    [[%{luaeval ("require('statusline').git_branch()")}]],
   },
-  [[%{luaeval ("require('statusline').git_branch()")}]],
-  M.block {
-    'Filetype: ' .. M.vim.filetype
-  }
 }
-
 vim.api.nvim_set_option('statusline', line)
 return M
 
