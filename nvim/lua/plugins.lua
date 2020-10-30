@@ -69,9 +69,6 @@ return require'packer'.startup{
       -- Show indents
       use { 'Yggdroot/indentLine' }
 
-      -- Icons
-      use { 'kyazdani42/nvim-web-devicons' }
-
       -- Snippets
       use { 'norcalli/snippets.nvim' }
 

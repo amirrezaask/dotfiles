@@ -37,17 +37,12 @@ end
 
 -- TODO: make a way for user to register a custom function
 function M.git_branch()
-  local stdout = io.popen("git branch -l | grep '*'")
-  local output = stdout:read('*all') 
-  stdout:close()
-  if output:find('fatal') then
-    return 'Not a Git repo'
-  end
-  output = vim.split(output, ' ')[2]
-  output = vim.split(output, '\n')[1]
-  return 'Git: ' .. output
+  os.execute('(git branch -l | grep "*") 2>/dev/null 1> /tmp/statusline_grep') 
+  local output = io.open('/tmp/statusline_grep')
+  if not output then return 'Not a Git repo' end
+  output = output:read('*all')
+  return vim.split(vim.split(output, '\n')[1], ' ')[2]
 end
-
 local line = M.create_statusline {
   M.block {
     M.vim.filename,
