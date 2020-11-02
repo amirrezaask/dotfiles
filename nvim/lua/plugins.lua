@@ -75,6 +75,10 @@ return require'packer'.startup{
       -- Treesitter
       use { 'nvim-treesitter/nvim-treesitter' }
 
+      -- Tj color buddy
+      use {'tjdevries/colorbuddy.vim'}
+      use {'tjdevries/gruvbuddy.nvim'}
+
       -- Git Integrations
       use { 'rhysd/git-messenger.vim' }
       use { 'kdheepak/lazygit.nvim' }
