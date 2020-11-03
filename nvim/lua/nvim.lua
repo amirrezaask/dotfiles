@@ -40,5 +40,13 @@ function M.map(tbl)
   end
 end
 
+function M.command(name, expr, args)
+  if not args then
+    vim.cmd(string.format('command! %s %s', name, expr))
+  end
+  if args then
+    vim.cmd(string.format('command! -nargs=%s %s %s', args, name, expr))
+  end
+end
 return M
 

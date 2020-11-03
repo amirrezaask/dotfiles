@@ -27,6 +27,8 @@ nvim.with_options {
   writebackup = false,
   swapfile = false,
   clipboard = 'unnamedplus',
+  splitright = true,
+  splitbelow = true,
 }
 
 -- TODO: fix this
@@ -62,6 +64,10 @@ local normal_maps = {
   ['<Space>v'] = '<cmd>vnew<CR>',
   j = 'gj',
   k = 'gk',
+}
+
+local term_maps = {
+  ['<Esc>'] =  '<C-\\><C-n>',
 }
 
 
@@ -105,5 +111,11 @@ nvim.map(global_maps)
 
 nvim.mode_map({
   n = normal_maps,
-  i = insert_maps
+  i = insert_maps,
+  t = term_maps
 })
+
+-- Register commands
+nvim.command('Base16Editor', [[lua require'base16.editor'.open("<args>")]], 1)
+nvim.command('VTerm', [[ vnew | term ]])
+nvim.command('Term', [[ new | term ]])
