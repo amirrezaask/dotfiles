@@ -11,11 +11,10 @@ key_bindings:
   - { key: N, mods: Control|Shift, action: SpawnNewInstance }
 
 # Colors (One Dark)
-# colors:
-#   # Default colors
-#   primary:
-#     foreground: '0xabb2bf'
-#     background: '0x282c34'
+colors:
+  # Default colors
+  primary:
+    background: '0x000000'
 
 #   # Cursor colors
 #   cursor:
