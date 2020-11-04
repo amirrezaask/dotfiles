@@ -4,7 +4,8 @@ antigen use oh-my-zsh
 
 antigen bundle git
 antigen bundle zsh-users/zsh-autosuggestions 
-antigen theme sonicradish 
+antigen theme half-life
+
 antigen apply
 
 # Register Nix pkg paths

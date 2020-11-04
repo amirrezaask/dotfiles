@@ -84,7 +84,7 @@ normal_maps['??'] = '<cmd>lua require("fuzzy").grep{}<CR>'
 normal_maps['<Space>b'] = '<cmd>lua require("fuzzy").buffers{}<CR>'
 normal_maps['?g'] = '<cmd>lua require("fuzzy").git_grep{}<CR>'
 normal_maps['<Space>ec'] = '<cmd>lua require("fuzzy").file_finder{path="/home/amirreza/w/dotfiles"}<CR>'
-normal_maps['<Space>en'] = '<cmd>lua require("fuzzy").file_finder{path="/home/.config/nvim"}<CR>'
+normal_maps['<Space>en'] = '<cmd>lua require("fuzzy").file_finder{path="/home/amirreza/.config/nvim"}<CR>'
 
 -- Snippets
 insert_maps['<c-k>'] = '<cmd> lua return require"snippets".expand_or_advance(1)<CR>'
