@@ -14,11 +14,9 @@ require('nlua.lsp.nvim').setup(require('nvim_lsp'), {
   }
 })
 
-local function on_attach()
-  completion.on_attach()
-end
+vim.cmd [[ autocmd BufEnter * lua require'completion'.on_attach() ]]
 
--- 
+-- Keybindings 
 vim.cmd [[ nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR> ]]
 vim.cmd [[ nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR> ]]
 vim.cmd [[ nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR> ]]
@@ -28,8 +26,6 @@ vim.cmd [[ nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR> ]]
 vim.cmd [[ nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR> ]]
 vim.cmd [[ nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR> ]]
 vim.cmd [[ nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR> ]]
-
-vim.cmd [[autocmd BufEnter * lua require'lsp'.on_attach()]]
 
 -- Use <Tab> and <S-Tab> to navigate through popup menu
 vim.cmd [[inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"]]
@@ -41,5 +37,4 @@ vim.cmd [[set completeopt=menuone,noinsert,noselect]]
 -- Avoid showing message extra message when using completion
 vim.cmd [[set shortmess+=c]]
 
-return { on_attach = on_attach }
 
