@@ -103,6 +103,9 @@ vim.g.netrw_banner = 0
 nvim.augroup{
   lua = {
     "BufEnter", '*.lua', 'set ts=2 sw=2 sts=2 expandtab'
+  },
+  colorizer = {
+    "BufEnter", '*', 'ColorizerAttachToBuffer'
   }
 }
 
@@ -116,6 +119,6 @@ nvim.mode_map({
 })
 
 -- Register commands
-nvim.command('Base16Editor', [[lua require'base16.editor'.open("<args>")]], 1)
+nvim.command('Base16Editor', [[lua require'base16.editor'.open(require'base16'.themes["<args>"])]], 1)
 nvim.command('VTerm', [[ vnew | term ]])
 nvim.command('Term', [[ new | term ]])
