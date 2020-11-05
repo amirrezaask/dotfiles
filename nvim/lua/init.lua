@@ -109,6 +109,10 @@ nvim.augroup{
   }
 }
 
+
+-- Set statusline
+vim.api.nvim_set_option("statusline", "%l:%L %m%f")
+
 -- Register keymaps
 nvim.map(global_maps)
 
