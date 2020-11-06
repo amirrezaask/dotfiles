@@ -85,6 +85,8 @@ normal_maps['<Space>b'] = '<cmd>lua require("fuzzy").buffers{}<CR>'
 normal_maps['?g'] = '<cmd>lua require("fuzzy").git_grep{}<CR>'
 normal_maps['<Space>ec'] = '<cmd>lua require("fuzzy").file_finder{path="/home/amirreza/w/dotfiles"}<CR>'
 normal_maps['<Space>en'] = '<cmd>lua require("fuzzy").file_finder{path="/home/amirreza/.config/nvim"}<CR>'
+normal_maps['<Space>c'] = '<cmd>lua require("fuzzy").commands{}<CR>'
+normal_maps['<Space>h'] = '<cmd>lua require("fuzzy").history{}<CR>'
 
 -- Snippets
 insert_maps['<c-k>'] = '<cmd> lua return require"snippets".expand_or_advance(1)<CR>'
@@ -111,7 +113,7 @@ nvim.augroup{
 
 
 -- Set statusline
-vim.api.nvim_set_option("statusline", "%l:%L %m%f")
+vim.api.nvim_set_option("statusline", "[%l:%L] %m%f")
 
 -- Register keymaps
 nvim.map(global_maps)
