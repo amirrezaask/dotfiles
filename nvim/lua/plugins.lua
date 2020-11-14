@@ -57,6 +57,7 @@ return require'packer'.startup{
       -- Autocomplete popup
       use { 'nvim-lua/completion-nvim'}
       use { 'nvim-lua/popup.nvim'}
+      use { 'aca/completion-tabnine' }
       
       -- Lua Neovim development environment
       use { 'tjdevries/nlua.nvim'}

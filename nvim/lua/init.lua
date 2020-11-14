@@ -9,6 +9,7 @@ nvim.with_options {
   modeline = true,
   autoread = true,
   cursorline = true,
+  guicursor = '',
   compatible = false,
   encoding = 'utf-8',
   hlsearch = true,
@@ -73,12 +74,15 @@ local term_maps = {
 
 -- Fuzzy Searching
 vim.g.fuzzy_options = {
-  location = 'bottom|center',
-  width = 45,
-  height = 90
+  width = 50,
+  height = 90,
+  blacklist = {
+    "vendor"
+  }
 }
 
-normal_maps['<Space><Space>'] = '<cmd>lua require("fuzzy").file_finder{depth=5}<CR>'
+normal_maps['<Space><Space>'] = '<cmd>lua require("fuzzy").file_finder{}<CR>'
+normal_maps['<Space>ff'] = '<cmd>lua require("fuzzy").interactive_finder{}<CR>'
 normal_maps['<Space>fg'] = '<cmd>lua require("fuzzy").git_files{}<CR>'
 normal_maps['??'] = '<cmd>lua require("fuzzy").grep{}<CR>'
 normal_maps['<Space>b'] = '<cmd>lua require("fuzzy").buffers{}<CR>'
@@ -87,6 +91,8 @@ normal_maps['<Space>ec'] = '<cmd>lua require("fuzzy").file_finder{path="/home/am
 normal_maps['<Space>en'] = '<cmd>lua require("fuzzy").file_finder{path="/home/amirreza/.config/nvim"}<CR>'
 normal_maps['<Space>c'] = '<cmd>lua require("fuzzy").commands{}<CR>'
 normal_maps['<Space>h'] = '<cmd>lua require("fuzzy").history{}<CR>'
+normal_maps['<Space>fr'] = '<cmd>MRU<CR>'
+normal_maps['<Space>s'] = '<cmd>lua require("sidetree").open_side_file_browser()<CR>'
 
 -- Snippets
 insert_maps['<c-k>'] = '<cmd> lua return require"snippets".expand_or_advance(1)<CR>'
@@ -111,9 +117,17 @@ nvim.augroup{
   }
 }
 
+-- Completion
+vim.g.completion_chain_complete_list = {
+  default = {
+    {complete_items= {'lsp', 'snippet', 'tabnine' }},
+    {mode= '<c-p>'},
+    {mode= '<c-n>'}
+  }
+}
 
 -- Set statusline
-vim.api.nvim_set_option("statusline", "[%l:%L] %m%f")
+vim.api.nvim_set_option("statusline", "%l:%L %m%f")
 
 -- Register keymaps
 nvim.map(global_maps)
