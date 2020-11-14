@@ -118,9 +118,14 @@ nvim.augroup{
 }
 
 -- Completion
+insert_maps['<c-k>'] = '<Plug>(completion_prev_source)'
+insert_maps['<c-j>'] = '<Plug>(completion_next_source)'
+vim.g.completion_auto_change_source = true
 vim.g.completion_chain_complete_list = {
   default = {
-    {complete_items= {'lsp', 'snippet', 'tabnine', 'buffers'}},
+    {complete_items= {'lsp', 'snippet'}},
+    {complete_items = {'tabnine'}},
+    {complete_items = {'buffers'}},
     {mode= '<c-p>'},
     {mode= '<c-n>'}
   }
