@@ -57,7 +57,8 @@ return require'packer'.startup{
       -- Autocomplete popup
       use { 'nvim-lua/completion-nvim'}
       use { 'nvim-lua/popup.nvim'}
-      use { 'aca/completion-tabnine' }
+      use { 'aca/completion-tabnine', run = './install.sh' }
+      use { 'steelsojka/completion-buffers' }
       
       -- Lua Neovim development environment
       use { 'tjdevries/nlua.nvim'}
@@ -79,6 +80,9 @@ return require'packer'.startup{
       -- Tj color buddy
       use {'tjdevries/colorbuddy.vim'}
       use {'tjdevries/gruvbuddy.nvim'}
+
+      -- Database support
+      use { 'tpope/vim-dadbod' }
 
       -- Git Integrations
       use { 'rhysd/git-messenger.vim' }
