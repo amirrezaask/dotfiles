@@ -1,4 +1,4 @@
-local nvim_lsp = require('nvim_lsp')
+local nvim_lsp = require('lspconfig')
 local completion = require('completion')
 
 nvim_lsp.pyls.setup{}
@@ -7,7 +7,7 @@ nvim_lsp.vimls.setup{}
 nvim_lsp.jdtls.setup{}
 
 -- Lua setup
-require('nlua.lsp.nvim').setup(require('nvim_lsp'), {
+require('nlua.lsp.nvim').setup(nvim_lsp, {
   on_attach = custom_nvim_lspconfig_attach,
   globals = {
     "Color", "c", "Group", "g", "s",
