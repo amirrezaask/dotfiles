@@ -5,7 +5,7 @@ require'base16' {
   base02 = "1d3872";
   base03 = "80b2d6";
   base04 = "3aa3e9";
-  base05 = "abb2bf";
+  base05 = "ebebeb";
   base06 = "b6bdca";
   base07 = "c8ccd4";
   base08 = "f04c75";
