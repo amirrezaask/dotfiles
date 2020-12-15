@@ -467,6 +467,10 @@ extensively but now i use it only when keybindings are just crazy.
       :prefix "SPC"))
 #+end_src
 * Evil
+:PROPERTIES:
+:header-args: :tangle no
+:END:
+
 #+begin_src emacs-lisp
   (setq evil-want-keybinding nil)
     (use-package evil :straight t
@@ -616,7 +620,7 @@ extensively but now i use it only when keybindings are just crazy.
   (defun amirreza/change-font (font)
     (setq default-frame-alist `((font . ,font))))
 
-  (defvar amirreza/font "Fira Mono-11")
+  (defvar amirreza/font "Fira Code-11")
   (amirreza/change-font amirreza/font)
 #+END_SRC
 * Ivy
@@ -1649,6 +1653,10 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
 #+end_src
 * Integrated Tools
 ** Acme functionality
+:PROPERTIES:
+:header-args: :tangle no
+:END:
+
 #+begin_src emacs-lisp
   (use-package acme 
     :load-path "~/w/acme-mode"
