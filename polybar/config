@@ -1,30 +1,30 @@
 [colors]
 ;background = ${xrdb:color0:#222}
-background = #222
-background-alt = #444
+background = #BB0f0f0f
+background-alt = #BB0f0f0f
 ;foreground = ${xrdb:color7:#222}
-foreground = #dfdfdf
-foreground-alt = #555
+foreground = #fff
+foreground-alt = #fff
 primary = #ffb52a
 secondary = #e60053
 alert = #bd2c40
 
-[bar/default]
+[bar/example]
 ;monitor = ${env:MONITOR:HDMI-1}
 width = 100%
 height = 27
 ;offset-x = 1%
 ;offset-y = 1%
-radius = 6.0
-fixed-center = false
+radius = 0
+fixed-center = true
 
 background = ${colors.background}
 foreground = ${colors.foreground}
 
-line-size = 3
+line-size = 1
 line-color = #f00
 
-border-size = 4
+border-size = 0
 border-color = #00000000
 
 padding-left = 0
@@ -33,19 +33,18 @@ padding-right = 2
 module-margin-left = 1
 module-margin-right = 2
 
-font-0 = fixed:pixelsize=10;1
-font-1 = unifont:fontformat=truetype:size=8:antialias=false;0
-font-2 = siji:pixelsize=10;1
+font-0 = Fira Code:size=10;0
+font-1 = Font Awesome 5 Free:size=10;0
 
-modules-left = bspwm Rhythmbox 
-modules-center = xwindow mpd
-modules-right = xbacklight alsa pulseaudio filesystem xkeyboard memory cpu wlan eth battery date powermenu
+modules-left = bspwm i3
+modules-center = date
+modules-right =
 
 tray-position = right
-tray-padding = 2
-;tray-background = #0063ff
+tray-padding = 5
+tray-background = ${colors.background}
 
-wm-restack = bspwm
+;wm-restack = bspwm
 ;wm-restack = i3
 
 ;override-redirect = true
@@ -71,7 +70,7 @@ format-prefix = " "
 format-prefix-foreground = ${colors.foreground-alt}
 format-prefix-underline = ${colors.secondary}
 
-label-layout = Keyboard: %layout%
+label-layout = %layout%
 label-layout-underline = ${colors.secondary}
 
 label-indicator-padding = 2
@@ -92,29 +91,75 @@ label-unmounted-foreground = ${colors.foreground-alt}
 [module/bspwm]
 type = internal/bspwm
 
-label-focused = %name%
+label-focused = %index%
 label-focused-background = ${colors.background-alt}
 label-focused-underline= ${colors.primary}
 label-focused-padding = 2
 
-label-occupied = %name%
+label-occupied = %index%
 label-occupied-padding = 2
 
-label-urgent = %name%!
+label-urgent = %index%!
 label-urgent-background = ${colors.alert}
 label-urgent-padding = 2
 
-label-empty = %name%
+label-empty = %index%
 label-empty-foreground = ${colors.foreground-alt}
 label-empty-padding = 2
 
+; Separator in between workspaces
+; label-separator = |
 
-[module/Rhythmbox]
-type = custom/script
-exec = rhythmbox-client --no-start --print-playing-format %tt 
-click-left = rhythmbox-client --no-start --play-pause
-click-middle= rhythmbox-client --no-start --prev
-click-right = rhythmbox-client --no-start --next
+[module/i3]
+type = internal/i3
+format = <label-state> <label-mode>
+index-sort = true
+wrapping-scroll = false
+
+; Only show workspaces on the same output as the bar
+;pin-workspaces = true
+
+label-mode-padding = 2
+label-mode-foreground = #000
+label-mode-background = ${colors.primary}
+
+; focused = Active workspace on focused monitor
+label-focused = %index%
+label-focused-background = ${colors.background-alt}
+label-focused-underline= ${colors.primary}
+label-focused-padding = 2
+
+; unfocused = Inactive workspace on any monitor
+label-unfocused = %index%
+label-unfocused-padding = 2
+
+; visible = Active workspace on unfocused monitor
+label-visible = %index%
+label-visible-background = ${self.label-focused-background}
+label-visible-underline = ${self.label-focused-underline}
+label-visible-padding = ${self.label-focused-padding}
+
+; urgent = Workspace with urgency hint set
+label-urgent = %index%
+label-urgent-background = ${colors.alert}
+label-urgent-padding = 2
+
+; Separator in between workspaces
+; label-separator = |
+
+
+[module/mpd]
+type = internal/mpd
+format-online = <label-song>  <icon-prev> <icon-stop> <toggle> <icon-next>
+
+icon-prev = 
+icon-stop = 
+icon-play = 
+icon-pause = 
+icon-next = 
+
+label-song-maxlen = 25
+label-song-ellipsis = true
 
 [module/xbacklight]
 type = internal/xbacklight
@@ -144,7 +189,7 @@ interval = 2
 format-prefix = " "
 format-prefix-foreground = ${colors.foreground-alt}
 format-underline = #f90000
-label = Cpu: %percentage:2%%
+label = %percentage:2%%
 
 [module/memory]
 type = internal/memory
@@ -152,16 +197,16 @@ interval = 2
 format-prefix = " "
 format-prefix-foreground = ${colors.foreground-alt}
 format-underline = #4bffdc
-label = RAM: %percentage_used%%
+label = %percentage_used%%
 
 [module/wlan]
 type = internal/network
-interface = wlp2s0 
+interface = wlp59s0
 interval = 3.0
 
 format-connected = <ramp-signal> <label-connected>
 format-connected-underline = #9f78e1
-label-connected = Wifi: %essid%
+label-connected = %essid%
 
 format-disconnected =
 ;format-disconnected = <label-disconnected>
@@ -196,44 +241,39 @@ format-disconnected =
 type = internal/date
 interval = 5
 
-date =
-date-alt = " %Y-%m-%d"
+date = %a, %b %d
+time = %l:%M %p
 
-time = %H:%M
-time-alt = %H:%M:%S
-
-format-prefix = 
 format-prefix-foreground = ${colors.foreground-alt}
-format-underline = #0a6cf5
 
-label = %date% %time%
+label = %date%  %time%
 
-; [module/pulseaudio]
-; type = internal/pulseaudio
+[module/pulseaudio]
+type = internal/pulseaudio
 
-; format-volume = <label-volume> <bar-volume>
-; label-volume = VOL %percentage%%
-; label-volume-foreground = ${root.foreground}
+format-volume = <label-volume> <bar-volume>
+label-volume = VOL %percentage%%
+label-volume-foreground = ${root.foreground}
 
-; label-muted = 🔇 muted
-; label-muted-foreground = #666
+label-muted = 🔇 muted
+label-muted-foreground = #666
 
-; bar-volume-width = 10
-; bar-volume-foreground-0 = #55aa55
-; bar-volume-foreground-1 = #55aa55
-; bar-volume-foreground-2 = #55aa55
-; bar-volume-foreground-3 = #55aa55
-; bar-volume-foreground-4 = #55aa55
-; bar-volume-foreground-5 = #f5a70a
-; bar-volume-foreground-6 = #ff5555
-; bar-volume-gradient = false
-; bar-volume-indicator = |
-; bar-volume-indicator-font = 2
-; bar-volume-fill = ─
-; bar-volume-fill-font = 2
-; bar-volume-empty = ─
-; bar-volume-empty-font = 2
-; bar-volume-empty-foreground = ${colors.foreground-alt}
+bar-volume-width = 10
+bar-volume-foreground-0 = #55aa55
+bar-volume-foreground-1 = #55aa55
+bar-volume-foreground-2 = #55aa55
+bar-volume-foreground-3 = #55aa55
+bar-volume-foreground-4 = #55aa55
+bar-volume-foreground-5 = #f5a70a
+bar-volume-foreground-6 = #ff5555
+bar-volume-gradient = false
+bar-volume-indicator = |
+bar-volume-indicator-font = 2
+bar-volume-fill = ─
+bar-volume-fill-font = 2
+bar-volume-empty = ─
+bar-volume-empty-font = 2
+bar-volume-empty-foreground = ${colors.foreground-alt}
 
 [module/alsa]
 type = internal/alsa
@@ -306,7 +346,7 @@ format-underline = #f50a4d
 format-warn = <ramp> <label-warn>
 format-warn-underline = ${self.format-underline}
 
-label = temperature: %temperature-c%
+label = %temperature-c%
 label-warn = %temperature-c%
 label-warn-foreground = ${colors.secondary}
 
@@ -322,27 +362,16 @@ expand-right = true
 
 format-spacing = 1
 
-label-open = 
-label-open-foreground = ${colors.secondary}
-label-close =  cancel
-label-close-foreground = ${colors.secondary}
-label-separator = |
-label-separator-foreground = ${colors.foreground-alt}
+label-open = 
+label-close =  Cancel
+;label-separator = 
+;label-separator-foreground = ${colors.foreground-alt}
 
-menu-0-0 = reboot
-menu-0-0-exec = menu-open-1
-menu-0-1 = power off
-menu-0-1-exec = menu-open-2
+menu-0-0 = Restart
+menu-0-0-exec = sudo reboot
 
-menu-1-0 = cancel
-menu-1-0-exec = menu-open-0
-menu-1-1 = reboot
-menu-1-1-exec = sudo reboot
-
-menu-2-0 = power off
-menu-2-0-exec = sudo poweroff
-menu-2-1 = cancel
-menu-2-1-exec = menu-open-0
+menu-0-1 = " Shutdown"
+menu-0-1-exec = sudo poweroff
 
 [settings]
 screenchange-reload = true
@@ -357,3 +386,4 @@ margin-top = 5
 margin-bottom = 5
 
 ; vim:ft=dosini
+
