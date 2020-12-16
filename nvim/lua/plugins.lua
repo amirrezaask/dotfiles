@@ -23,6 +23,8 @@ return require'packer'.startup{
       use { 'junegunn/fzf' }
       use { 'junegunn/fzf.vim' }
 
+      -- Startify
+      use { 'mhinz/vim-startify' }
       -- Hashicorp tools
       use { 'hashivim/vim-terraform' }
 
