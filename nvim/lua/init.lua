@@ -67,32 +67,21 @@ local normal_maps = {
   k = 'gk',
 }
 
-local term_maps = {
-  ['<Esc>'] =  '<C-\\><C-n>',
-}
+-- FZF bindings
+normal_maps['<Space><Space>'] = '<cmd>Files<CR>'
+normal_maps['<Space>ff'] = '<cmd>Files<CR>'
+normal_maps['<Space>fg'] = '<cmd>GitFiles<CR>'
+normal_maps['??'] = '<cmd>Rg<CR>'
+normal_maps['<Space>w'] = '<cmd>Windows<CR>'
+normal_maps['<Space>/'] = '<cmd>BLines<CR>'
+normal_maps['<Space>b'] = '<cmd>Buffers<CR>'
+normal_maps['<Space>ec'] = '<cmd>Files ~/w/dotfiles<CR>'
+normal_maps['<Space>en'] = '<cmd>Files ~/w/dotfiles/nvim<CR>'
+normal_maps['<Space>c'] = '<cmd>Commands<CR>'
+normal_maps['<Space>h'] = '<cmd>History:<CR>'
+normal_maps['<Space>fr'] = '<cmd>History<CR>'
+normal_maps['<Space>gs'] = '<cmd>GitFiles?<CR>'
 
-
--- Fuzzy Searching
-vim.g.fuzzy_options = {
-  width = 50,
-  height = 90,
-  blacklist = {
-    "vendor"
-  }
-}
-
-normal_maps['<Space><Space>'] = '<cmd>lua require("fuzzy").file_finder{}<CR>'
-normal_maps['<Space>ff'] = '<cmd>lua require("fuzzy").interactive_finder{}<CR>'
-normal_maps['<Space>fg'] = '<cmd>lua require("fuzzy").git_files{}<CR>'
-normal_maps['??'] = '<cmd>lua require("fuzzy").grep{}<CR>'
-normal_maps['<Space>b'] = '<cmd>lua require("fuzzy").buffers{}<CR>'
-normal_maps['?g'] = '<cmd>lua require("fuzzy").git_grep{}<CR>'
-normal_maps['<Space>ec'] = '<cmd>lua require("fuzzy").file_finder{path="/home/amirreza/w/dotfiles"}<CR>'
-normal_maps['<Space>en'] = '<cmd>lua require("fuzzy").file_finder{path="/home/amirreza/.config/nvim"}<CR>'
-normal_maps['<Space>c'] = '<cmd>lua require("fuzzy").commands{}<CR>'
-normal_maps['<Space>h'] = '<cmd>lua require("fuzzy").history{}<CR>'
-normal_maps['<Space>fr'] = '<cmd>MRU<CR>'
-normal_maps['<Space>s'] = '<cmd>lua require("sidetree").open_side_file_browser()<CR>'
 
 -- Snippets
 insert_maps['<c-k>'] = '<cmd> lua return require"snippets".expand_or_advance(1)<CR>'
