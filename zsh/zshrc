@@ -4,16 +4,11 @@ antigen use oh-my-zsh
 
 antigen bundle git
 antigen bundle zsh-users/zsh-autosuggestions 
+antigen bundle terraform
 antigen theme cloud 
-
 antigen apply
 
-# Register Nix pkg paths
- 
-if [ -e /home/amirreza/.nix-profile/etc/profile.d/nix.sh ]; then . /home/amirreza/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
-
 # aliases
-
 export DOTFILES="$HOME/w/dotfiles"
 export GO111MODULE='on'
 export GOPATH="$HOME/go"
