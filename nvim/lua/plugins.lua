@@ -23,6 +23,9 @@ return require'packer'.startup{
       use { 'junegunn/fzf' }
       use { 'junegunn/fzf.vim' }
 
+      -- Hashicorp tools
+      use { 'hashivim/vim-terraform' }
+
       -- fugitive 
       use { 'tpope/vim-fugitive' }
       -- Vim surrounding text objects
