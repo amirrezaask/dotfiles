@@ -3,7 +3,7 @@ local completion = require('completion')
 
 nvim_lsp.pyls.setup{}
 nvim_lsp.intelephense.setup{}
-nvim_lsp.vimls.setup{}
+-- nvim_lsp.vimls.setup{}
 nvim_lsp.jdtls.setup{}
 
 -- Lua setup

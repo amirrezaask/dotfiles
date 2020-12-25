@@ -86,9 +86,6 @@ return require'packer'.startup{
       -- Snippets
       use { 'norcalli/snippets.nvim' }
 
-      -- Treesitter
-      use { 'nvim-treesitter/nvim-treesitter' }
-
       -- Tj color buddy
       use {'tjdevries/colorbuddy.vim'}
       use {'tjdevries/gruvbuddy.nvim'}
