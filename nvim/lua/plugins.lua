@@ -16,12 +16,14 @@ return require'packer'.startup{
       -- My plugins 
       local_use 'ngo.nvim'
       local_use 'music_player.nvim'
+      local_use 'Fuzzy.nvim'
       
       -- Colors
       use { 'morhetz/gruvbox' }
+
       -- FZF
-      use { 'junegunn/fzf' }
-      use { 'junegunn/fzf.vim' }
+      -- use { 'junegunn/fzf' }
+      -- use { 'junegunn/fzf.vim' }
 
       -- Startify
       use { 'mhinz/vim-startify' }
