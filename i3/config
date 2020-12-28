@@ -35,13 +35,13 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Shift+Return exec i3-sensible-terminal
-bindsym $mod+Return exec alacritty
+bindsym $mod+Shift+Return exec terminator
+bindsym $mod+Return exec terminator 
 # kill focused window
 bindsym $mod+Shift+q kill
 
 # Dmenu
-bindsym $mod+d exec "dmenu_run  -fn 'JetBrains Mono-10' -p 'dmenu%'"
+bindsym $mod+d exec "dmenu_run  -fn 'JetBrains Mono-10' -p 'run> '"
 bindsym $mod+Shift+d exec i3-dmenu-desktop
 # change focus
 bindsym $mod+h focus left
