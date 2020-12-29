@@ -57,14 +57,12 @@ fi
 git_prompt() {
   BRANCH=$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/*\(.*\)/\1/')
   if [ ! -z $BRANCH ]; then
-    echo -n "%F{yellow}$BRANCH%f"
+    echo -n "%F{green}$BRANCH%f"
     if [ ! -z "$(git status --short)" ]; then
-      echo " %F{red}✗%f"
-    else
-      echo " %F{green}✓%f"
+      echo " ±"
     fi
   fi
 }
 
-PROMPT='%F{208}%n%f %F{226}%~%f$(git_prompt) '
+PROMPT='%~ $(git_prompt) '
 # setxkbmap -layout "us,ir" -option "grp:shifts_toggle" -option "ctrl:nocaps"
