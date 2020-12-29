@@ -61,7 +61,7 @@ git_prompt() {
     if [ ! -z "$(git status --short)" ]; then
       echo " %F{red}✗%f"
     else
-      echo " %F{green}%f✓"
+      echo " %F{green}✓%f"
     fi
   fi
 }
