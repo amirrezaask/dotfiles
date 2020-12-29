@@ -33,7 +33,6 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
-
 # start a terminal
 bindsym $mod+Shift+Return exec terminator
 bindsym $mod+Return exec terminator 
@@ -41,7 +40,8 @@ bindsym $mod+Return exec terminator
 bindsym $mod+Shift+q kill
 
 # Dmenu
-bindsym $mod+d exec "dmenu_run  -fn 'JetBrains Mono-10' -p 'run> '"
+bindsym $mod+d exec "rofi -combi-modi drun -theme solarized -font 'JetBrains Mono 9' -show combi"
+# bindsym $mod+d exec "dmenu_run  -fn 'JetBrains Mono-10' -p 'run> '"
 bindsym $mod+Shift+d exec i3-dmenu-desktop
 # change focus
 bindsym $mod+h focus left
@@ -167,8 +167,8 @@ bindsym $mod+r mode "resize"
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-         position top
-         status_command i3status
+	position bottom 
+	status_command i3status
 }
 exec_always setxkbmap -layout us -option ctrl:nocaps
 exec_always setxkbmap -layout "us,ir" -option "grp:shifts_toggle" -option "ctrl:nocaps"
@@ -176,3 +176,6 @@ exec_always feh --bg-scale /home/amirreza/w/dotfiles/wallpapers/road.jpg
 
 # Set wallpaper
 exec --no-startup-id feh --bg-fill ~/w/dotfiles/i3/black.png
+
+# VMWare tools integration
+exec --no-startup-id vmware-user
