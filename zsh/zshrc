@@ -9,25 +9,27 @@ export GO111MODULE='on'
 export GOPATH="$HOME"
 export PYTHONBINS="$HOME/.local/bin"
 export EDITOR='nvim'
-export GOPRIVATE='gitlab.snapp.ir,gitlab.com,git.espadev.ir'
+export GOPRIVATE='devheroes.codes,gitlab.com,git.espadev.ir'
 export GOPROXY='goproxy.io'
 export PLAN9="$HOME/.local/plan9"
 export PATH="/usr/local/go/bin:$HOME/.config/composer/vendor/bin:$GOROOT/bin:$GOPATH/bin:$HOME/.cargo/bin:$PYTHONBINS:/usr/local/Postman:$HOME/.local/elixir-ls/:$PATH"
 
 alias open='xdg-open'
+
 # Git aliases
 alias g='git status'
 alias ga='git add'
 alias gcl='git clone'
 alias gpl='git pull'
-alias gd='git diff | batcat'
+alias gd='git diff'
+alias gc='git commit'
+alias gp='git push'
 
 alias lock='i3lock -c000000'
 alias tf='terraform'
 alias tg='terragrunt'
 alias octl='kubectl --kubeconfig ~/.order/kubeconfig'
-alias gd='goland 1>/dev/null 2>/dev/null &'
-alias dg='datagrip 1>/dev/null 2>/dev/null &'
+
 if type nvim > /dev/null 2>&1; then
     alias vim='nvim'
     alias vi='nvim'
