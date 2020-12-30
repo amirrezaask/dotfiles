@@ -1,3 +1,6 @@
+export DOTFILES="$HOME/src/github.com/amirrezaask/dotfiles"
+
+# /zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 zstyle ':completion:*' menu select
 zstyle ':completion:*' completer _complete
 zstyle ':completion:*' matcher-list '' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' '+l:|=* r:|=*'
@@ -22,6 +25,8 @@ setopt inc_append_history
 setopt interactivecomments
 setopt share_history
 
+# Fish like suggestions
+source $DOTFILES/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # Variables
 export GO111MODULE='on'
@@ -64,5 +69,5 @@ git_prompt() {
   fi
 }
 
-PROMPT='%~ $(git_prompt) '
+PROMPT='[%~]$(git_prompt) '
 # setxkbmap -layout "us,ir" -option "grp:shifts_toggle" -option "ctrl:nocaps"
