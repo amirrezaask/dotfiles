@@ -25,8 +25,9 @@ setopt inc_append_history
 setopt interactivecomments
 setopt share_history
 
-# Fish like suggestions
+# Plugins
 source $DOTFILES/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $DOTFILES/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # Variables
 export GO111MODULE='on'
