@@ -1,4 +1,5 @@
 export DOTFILES="$HOME/src/github.com/amirrezaask/dotfiles"
+source $HOME/env
 
 # /zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 zstyle ':completion:*' menu select
@@ -51,6 +52,7 @@ alias gp='git push'
 alias gcm='git commit -m'
 alias gf='git fetch'
 
+alias freenet="echo ${VPN_PASSWORD} | sudo openconnect --passwd-on-stdin -u ${VPN_USERNAME} ${VPN_SERVER}"
 alias lock='i3lock -c000000'
 alias tf='terraform'
 alias tg='terragrunt'
