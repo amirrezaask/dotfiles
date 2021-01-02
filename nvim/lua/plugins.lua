@@ -1,34 +1,17 @@
 vim.cmd [[packadd packer.nvim]]
-local local_plugins_path = '~/w/dotnvim/'
 return require'packer'.startup{
    function(use)
-      local local_use = function (plug_path)
-         if vim.fn.isdirectory(vim.fn.expand(local_plugins_path .. plug_path)) == 1 then
-            use(local_plugins_path .. plug_path)
-         else
-            use('amirrezaask/' .. plug_path)
-         end
-      end
-
       -- Plugin Manager
       use { 'wbthomason/packer.nvim' }
-
-      -- Colors
-      use { 'morhetz/gruvbox' }
 
       -- FZF
       use { 'junegunn/fzf' }
       use { 'junegunn/fzf.vim' }
 
-      -- Startify
-      use { 'mhinz/vim-startify' }
-
       -- Hashicorp tools
       use { 'hashivim/vim-terraform' }
-
-      -- fugitive 
-      use { 'tpope/vim-fugitive' }
-      -- Vim surrounding text objects
+      
+      -- Vim Surround text objects
       use { 'tpope/vim-surround'}
       
       -- Vim JSON tools
@@ -70,24 +53,12 @@ return require'packer'.startup{
       -- Autocomplete popup
       use { 'nvim-lua/completion-nvim'}
       use { 'nvim-lua/popup.nvim'}
-      use { 'aca/completion-tabnine', run = './install.sh' }
-      use { 'steelsojka/completion-buffers' }
       
-      -- Centralize the content of the buffer.
-      use { 'junegunn/goyo.vim' }
-
       -- Show indents
       use { 'Yggdroot/indentLine' }
 
       -- Snippets
-      use { 'norcalli/snippets.nvim' }
-
-      -- Tj color buddy
-      use {'tjdevries/colorbuddy.vim'}
-      use {'tjdevries/gruvbuddy.nvim'}
-
-      -- Database support
-      use { 'tpope/vim-dadbod' }
+      use { 'norcalli/snippets.nvim' } -- TODO: please configure this.
 
       -- Git Integrations
       use { 'rhysd/git-messenger.vim' }
