@@ -180,19 +180,19 @@ endfunction
 
 " Command lazy-loads
 command! -nargs=* -range -bang -complete=file ColorizerReloadAllBuffers call s:load(['nvim-colorizer.lua'], { "cmd": "ColorizerReloadAllBuffers", "l1": <line1>, "l2": <line2>, "bang": <q-bang>, "args": <q-args> })
+command! -nargs=* -range -bang -complete=file ColorizerAttachToBuffer call s:load(['nvim-colorizer.lua'], { "cmd": "ColorizerAttachToBuffer", "l1": <line1>, "l2": <line2>, "bang": <q-bang>, "args": <q-args> })
 command! -nargs=* -range -bang -complete=file ColorizerDetachFromBuffer call s:load(['nvim-colorizer.lua'], { "cmd": "ColorizerDetachFromBuffer", "l1": <line1>, "l2": <line2>, "bang": <q-bang>, "args": <q-args> })
 command! -nargs=* -range -bang -complete=file ColorizerToggle call s:load(['nvim-colorizer.lua'], { "cmd": "ColorizerToggle", "l1": <line1>, "l2": <line2>, "bang": <q-bang>, "args": <q-args> })
-command! -nargs=* -range -bang -complete=file ColorizerAttachToBuffer call s:load(['nvim-colorizer.lua'], { "cmd": "ColorizerAttachToBuffer", "l1": <line1>, "l2": <line2>, "bang": <q-bang>, "args": <q-args> })
 
 " Keymap lazy-loads
 
 augroup packer_load_aucmds
   au!
   " Filetype lazy-loads
+  au FileType fish ++once call s:load(['vim-fish'], { "ft": "fish" })
   au FileType rust ++once call s:load(['rust.vim'], { "ft": "rust" })
   au FileType nix ++once call s:load(['vim-nix'], { "ft": "nix" })
   au FileType json ++once call s:load(['vim-jdaddy'], { "ft": "json" })
   au FileType zig ++once call s:load(['zig.vim'], { "ft": "zig" })
-  au FileType fish ++once call s:load(['vim-fish'], { "ft": "fish" })
   " Event lazy-loads
 augroup END

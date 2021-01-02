@@ -13,20 +13,16 @@ return require'packer'.startup{
       -- Plugin Manager
       use { 'wbthomason/packer.nvim' }
 
-      -- My plugins 
-      local_use 'ngo.nvim'
-      local_use 'music_player.nvim'
-      local_use 'Fuzzy.nvim'
-      
       -- Colors
       use { 'morhetz/gruvbox' }
 
       -- FZF
-      -- use { 'junegunn/fzf' }
-      -- use { 'junegunn/fzf.vim' }
+      use { 'junegunn/fzf' }
+      use { 'junegunn/fzf.vim' }
 
       -- Startify
       use { 'mhinz/vim-startify' }
+
       -- Hashicorp tools
       use { 'hashivim/vim-terraform' }
 
@@ -46,7 +42,10 @@ return require'packer'.startup{
       
       -- Neovim builtin LSP configuration
       use { 'neovim/nvim-lspconfig' }
-     
+
+      -- Go
+      use { 'fatih/vim-go' }
+
       -- Highlight color codes in buffer with their respective colors
       use { 'norcalli/nvim-colorizer.lua', branch = 'color-editor', cmd = {'ColorizerAttachToBuffer', 'ColorizerDetachFromBuffer', 'ColorizerToggle', 'ColorizerReloadAllBuffers'}}
      
@@ -73,11 +72,6 @@ return require'packer'.startup{
       use { 'nvim-lua/popup.nvim'}
       use { 'aca/completion-tabnine', run = './install.sh' }
       use { 'steelsojka/completion-buffers' }
-      
-      -- Lua Neovim development environment
-      use { 'tjdevries/nlua.nvim'}
-      use { 'euclidianAce/BetterLua.vim' }
-      use { 'nvim-lua/plenary.nvim' }
       
       -- Centralize the content of the buffer.
       use { 'junegunn/goyo.vim' }
