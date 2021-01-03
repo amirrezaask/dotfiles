@@ -1,7 +1,8 @@
 vim.cmd [[packadd packer.nvim]]
 return require'packer'.startup{
    function(use)
-      -- Plugin Manager
+
+     -- Plugin Manager
       use { 'wbthomason/packer.nvim' }
 
       -- FZF

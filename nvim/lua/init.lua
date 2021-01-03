@@ -103,6 +103,10 @@ normal_maps['<Space>h'] = '<cmd>History:<CR>'
 normal_maps['<Space>fr'] = '<cmd>History<CR>'
 normal_maps['<Space>gs'] = '<cmd>GitFiles?<CR>'
 
+-- Vim-Go
+vim.g.go_fmt_command = "goimports"
+vim.g.go_fmt_autosave = true
+
 
 -- Snippets
 insert_maps['<c-k>'] = '<cmd> lua return require"snippets".expand_or_advance(1)<CR>'
