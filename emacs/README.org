@@ -633,7 +633,7 @@ extensively but now i use it only when keybindings are just crazy.
     :bind
     (:map ivy-switch-buffer-map
           ("C-k" . 'ivy-previous-line)
-     :map ivy-minibuffer-map
+          :map ivy-minibuffer-map
           ("C-j" . 'ivy-next-line)
           ("C-k" . 'ivy-previous-line)
           ("RET" . 'ivy-alt-done))
@@ -645,10 +645,10 @@ extensively but now i use it only when keybindings are just crazy.
     (setq ivy-use-virtual-buffers nil)
     ;; ...but if that ever changes, show their full path
     (setq ivy-virtual-abbreviate 'full)
-    ;; don't quit minibuffer on delete-error
+    ;; ;; don't quit minibuffer on delete-error
     (setq ivy-on-del-error-function #'ignore)
-    ;; (setf (alist-get 't ivy-format-functions-alist)
-    ;;       #'ivy-format-function-line)
+    (setf (alist-get 't ivy-format-functions-alist)
+          #'ivy-format-function-line)
     (setq ivy-initial-inputs-alist nil)
     (setq ivy-re-builders-alist
           '((t . ivy--regex-ignore-order)))
@@ -897,6 +897,7 @@ by default is bound to =C-c <left>=.
   (setq org-src-tab-acts-natively t)
   (setq org-support-shift-select t)
   (setq org-src-window-setup 'current-window)
+  (setq org-startup-folded t)
   (setq org-agenda-files '("~/org/work.org" "~/org/personal.org"))
   :bind (:map org-mode-map
               ("C-c m n" . amirreza/--org-insert-no-tangle)
@@ -1256,7 +1257,7 @@ going to define our skeletons in their respective languages. Snippet macro defin
 Snippets are basically combination of abbrevs and skeletons, abbrevs are used for triggering
 skeleton and skeleton does it's job of inserting text.
 #+begin_src emacs-lisp
-  (use-package abbrev :commands (expand-abbrev))
+  (use-package abbrev :init (setq save-abbrevs 'silent) :commands (expand-abbrev))
   (use-package skeleton
     :commands (amirreza/defsnippet)
     :config
@@ -1743,7 +1744,7 @@ Dmenu replacement in Emacs.
 I use multiple programs that holds their configuration in files, this section are some helpers for editing the configs
 of Emacs and other programs.
 #+begin_src emacs-lisp
-    (defvar amirreza/dotfiles-location "/home/amirreza/w/dotfiles" "Location of my dotfiles.")
+  (defvar amirreza/dotfiles-location (concat (getenv "HOME") "/src/" "dotfiles") "Location of my dotfiles.")
 
     (defun amirreza/edit-dot-config ()
       (interactive)
