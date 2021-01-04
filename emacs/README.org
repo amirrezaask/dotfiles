@@ -26,11 +26,6 @@
   - [[#emacs-x-window-manager][Emacs X Window Manager]]
   - [[#startup-page][Startup page]]
   - [[#helper-macros][Helper Macros]]
-- [[#keybinding][Keybinding]]
-  - [[#hydra][Hydra]]
-    - [[#pretty-hydra][Pretty Hydra]]
-  - [[#which-key][Which Key]]
-  - [[#general][General]]
 - [[#appereance][Appereance]]
   - [[#themes][Themes]]
   - [[#cursor][Cursor]]
@@ -101,7 +96,6 @@
     - [[#protobuf][Protobuf]]
     - [[#nix][Nix]]
   - [[#vcs][VCS]]
-  - [[#smerge][Smerge]]
 - [[#file-manager-dired][File Manager (Dired)]]
 - [[#integrated-tools][Integrated Tools]]
   - [[#acme-functionality][Acme functionality]]
@@ -411,61 +405,6 @@ I want my Emacs to open my TODO file on every startup and have a that buffer ope
   (defmacro amirreza/cmd! (&rest body)
     `(lambda (&rest _) (interactive) ,@body))
 #+end_src
-* Keybinding
-I respect Emacs keybinding conventions in my configuration with a few ideas borrowed from spacemacs.
-I used to use which-key as my helper on keybindings but now I just use ? when i'm in the middle of a key chord.
-I use hydra when keybindings are just crazy like in smerge that you will see in it's own section. I used to use hydra more
-extensively but now i use it only when keybindings are just crazy.
-** Hydra
-#+begin_src emacs-lisp
-  (use-package hydra
-    :straight t
-    :commands (defhydra))
-#+end_src
-*** Pretty Hydra
-#+begin_src emacs-lisp
-
-  (use-package pretty-hydra
-    :straight t
-    :commands (pretty-hydra-define))
-
-#+end_src
-** Which Key
-#+begin_src emacs-lisp
-  (use-package which-key
-    :straight t
-    :defer 1
-    :init
-    (setq which-key-sort-order #'which-key-prefix-then-key-order
-            which-key-sort-uppercase-first nil
-            which-key-add-column-padding 1
-            which-key-max-display-columns nil
-            which-key-min-display-lines 6
-            which-key-side-window-slot -10)
-    :config
-    (setq which-key-idle-delay 0.3)
-    (defalias 'which-key! 'which-key-add-key-based-replacements)
-    (which-key! "SPC f" "find things")
-    (which-key! "SPC i" "Integrated Tools")
-    (which-key! "SPC l" "LSP related things")
-    (which-key! "SPC g" "Git related function")
-    (which-key! "SPC w" "Workspaces")
-    (which-key! "C-c i" "Integrated functionalities")
-    (which-key! "C-c i m" "Music functions")
-    (which-key! "C-c m" "MajorMode related functionality")
-    (which-key! "C-c l" "LSP related functionality")
-    (which-key! "C-c g" "Git related functionality")
-    (which-key! "C-c f" "File finder")
-    (which-key! "C-c w" "Workspaces")
-    (which-key-mode 1)
-    (which-key-setup-minibuffer))
-#+end_src
-** General
-#+begin_src emacs-lisp
-  (use-package general :straight t :config
-    (general-create-definer space-leader :states '(normal)
-      :prefix "SPC"))
-#+end_src
 * Appereance
 ** Themes
  #+BEGIN_SRC emacs-lisp
@@ -657,15 +596,6 @@ extensively but now i use it only when keybindings are just crazy.
 #+begin_src emacs-lisp
   (use-package counsel
     :straight t
-    :general
-    (space-leader
-      "." 'counsel-M-x
-      "f f" 'counsel-find-file
-      "f b" 'counsel-switch-buffer
-      "h f" 'counsel-describe-function
-      "h v" 'counsel-describe-variable
-      "h a" 'counsel-apropos
-      )
     :bind
     (("M-x" . 'counsel-M-x)
      ("C-x C-f" . 'counsel-find-file)
@@ -734,20 +664,6 @@ Emacs windows can be configured in the matter of where their gonna open.
                eyebrowse-switch-to-window-config-9)
 
     :config (eyebrowse-mode +1)
-    :general
-    (space-leader "w 0" 'eyebrowse-switch-to-window-config-0)
-    (space-leader "w 1" 'eyebrowse-switch-to-window-config-1)
-    (space-leader "w 2" 'eyebrowse-switch-to-window-config-2)
-    (space-leader "w 3" 'eyebrowse-switch-to-window-config-3)
-    (space-leader "w 4" 'eyebrowse-switch-to-window-config-4)
-    (space-leader "w 5" 'eyebrowse-switch-to-window-config-5)
-    (space-leader "w 6" 'eyebrowse-switch-to-window-config-6)
-    (space-leader "w 7" 'eyebrowse-switch-to-window-config-7)
-    (space-leader "w 8" 'eyebrowse-switch-to-window-config-8)
-    (space-leader "w 9" 'eyebrowse-switch-to-window-config-9)
-    (space-leader "w d" 'eyebrowse-close-window-config)
-    (space-leader "w c" 'eyebrowse-create-window-config)
-
     :bind (("C-c w 0" . eyebrowse-switch-to-window-config-0)
            ("C-c w 1" . eyebrowse-switch-to-window-config-1)
            ("C-c w 2" . eyebrowse-switch-to-window-config-2)
@@ -786,7 +702,6 @@ by default is bound to =C-c <left>=.
 ** Ibuffer
 #+begin_src emacs-lisp
   (use-package ibuffer
-    :general (space-leader "b l" 'ibuffer)
     :bind (("C-x C-b" . 'ibuffer)))
 
   (use-package ibuffer-vc :straight t
@@ -963,8 +878,6 @@ by default is bound to =C-c <left>=.
 * Project
 #+begin_src emacs-lisp
   (use-package project
-    :general
-    (space-leader "f p" 'amirreza/find-project)
     :bind ("C-c p" . amirreza/find-project)
     :config
     (defvar amirreza/project-locations '("~/w" "~/w/snapp" "~/w/orderhq" "~/w/socialeng"))
@@ -1006,12 +919,6 @@ by default is bound to =C-c <left>=.
                                                                                                                (not (string-match "\\.git" name)))
                                                                 t) nil nil initial))
   (use-package project
-    :general
-    (space-leader
-      "SPC" 'amirreza/file-finder
-      "f t" 'amirreza/grep
-      "f a s" 'amirreza/find-symbol-at-point
-      "f a f" 'amirreza/find-file-at-point)
     :bind(("C-c f" . 'amirreza/file-finder)
           ("C-c g" . 'amirreza/grep)
           ("C-M-s" . 'amirreza/find-symbol-at-point)
@@ -1289,8 +1196,7 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
            (before-save . lsp-format-buffer)))
 
       (use-package lsp-ivy :after ivy :commands lsp-ivy-workspace-symbol
-        :bind ("C-c m s" . lsp-ivy-workspace-symbol)
-        :general (space-leader "l f s" 'lsp-ivy-workspace-symbol))
+        :bind ("C-c m s" . lsp-ivy-workspace-symbol))
 #+end_src
 ** Rainbow delimiters
 #+begin_src emacs-lisp
@@ -1567,9 +1473,6 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
   (use-package magit
     :straight t
     :commands (magit-status magit-get-current-branch)
-    :general
-    (space-leader
-      "g s" 'magit-status)
     :bind
     (("C-x g" . 'magit-status)
      ("C-c v s" . 'magit-status)))
@@ -1594,8 +1497,6 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
     :straight t
     :commands
     (git-messenger:popup-message)
-    :general
-    (space-leader "g m" 'git-messenger:popup-message)
     :bind
     (("C-c v b" . git-messenger:popup-message))
 
@@ -1603,22 +1504,6 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
     (setq git-messenger:show-detail t)
     (setq git-messenger:use-magit-popup t))
 #+END_SRC
-** Smerge
-#+begin_src emacs-lisp
-  (use-package smerge-mode
-    :bind (:map smerge-mode-map
-                ("C-c m h" . amirreza-smerge-hydra/pretty-body))
-    :config
-    (pretty-hydra-define amirreza-smerge-hydra (:hint nil :exit t)
-                         ("Merge Action: "
-                          (("n" smerge-next)
-                          ("p" smerge-prev)
-                          ("u" smerge-keep-upper)
-                          ("b" smerge-keep-base)
-                          ("l" smerge-keep-lower)
-                          ("a" smerge-keep-all)
-                          ("q" nil "Cancel")))))
-#+end_src
 * File Manager (Dired)
 #+begin_src emacs-lisp
   (use-package dired
@@ -1750,7 +1635,6 @@ of Emacs and other programs.
                                                                                                               (not (string-match "\\.git" name)))
                                                                                                                    t))))
   (global-set-key (kbd "<f9>") 'amirreza/edit-dot-config)
-  (space-leader "f c" 'amirreza/edit-dot-config)
 #+end_src
 * Depreacated
 ** Icomplete
