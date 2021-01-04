@@ -643,6 +643,7 @@ Emacs windows can be configured in the matter of where their gonna open.
 #+BEGIN_SRC emacs-lisp
   (use-package eyebrowse 
     :straight t
+    :demand
     :commands (eyebrowse-close-window-config
                eyebrowse-create-window-config
                eyebrowse-switch-to-window-config-0
@@ -655,8 +656,7 @@ Emacs windows can be configured in the matter of where their gonna open.
                eyebrowse-switch-to-window-config-7
                eyebrowse-switch-to-window-config-8
                eyebrowse-switch-to-window-config-9)
-
-    :config (eyebrowse-mode +1)
+    :config (eyebrowse-mode +1) 
     :bind (("C-c w 0" . eyebrowse-switch-to-window-config-0)
            ("C-c w 1" . eyebrowse-switch-to-window-config-1)
            ("C-c w 2" . eyebrowse-switch-to-window-config-2)
