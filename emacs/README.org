@@ -31,7 +31,6 @@
     - [[#pretty-hydra][Pretty Hydra]]
   - [[#which-key][Which Key]]
   - [[#general][General]]
-- [[#evil][Evil]]
 - [[#appereance][Appereance]]
   - [[#themes][Themes]]
   - [[#cursor][Cursor]]
@@ -116,6 +115,7 @@
 - [[#dotfiles][Dotfiles]]
 - [[#depreacated][Depreacated]]
   - [[#icomplete][Icomplete]]
+  - [[#evil][Evil]]
   - [[#doom-modeline][Doom-modeline]]
 
 * early-init contents
@@ -466,48 +466,6 @@ extensively but now i use it only when keybindings are just crazy.
     (general-create-definer space-leader :states '(normal)
       :prefix "SPC"))
 #+end_src
-* Evil
-:PROPERTIES:
-:header-args: :tangle no
-:END:
-
-#+begin_src emacs-lisp
-  (setq evil-want-keybinding nil)
-    (use-package evil :straight t
-      :demand
-      :general
-      (space-leader
-        "w h" 'split-window-below
-        "w v" 'split-window-right)
-      :bind
-      (:map evil-normal-state-map 
-            (";" . evil-ex))
-      :config
-      (evil-mode 1)
-      (evil-ex-define-cmd "q" 'kill-buffer-and-window))
-
-  (use-package evil-collection :straight t :config
-    (evil-collection-init (list
-                           'dired
-                           'magit
-                          'ivy
-                          'ibuffer
-                          'help
-                          'eshell
-                          'smerge
-                          'ediff
-                          'proced
-                          'vlf
-                          'xref
-                          )))
-      (use-package evil-magit :straight t)
-      (use-package evil-escape :straight t :config
-        (evil-escape-mode 1)
-        (setq-default evil-escape-key-sequence "jk")
-        (setq evil-escape-unordered-key-sequence t))
-      (use-package evil-surround :straight t :config (global-evil-surround-mode 1))
-      (use-package evil-nerd-commenter :straight t)
-#+end_src
 * Appereance
 ** Themes
  #+BEGIN_SRC emacs-lisp
@@ -582,21 +540,72 @@ extensively but now i use it only when keybindings are just crazy.
 ** Modeline
 #+begin_src emacs-lisp
   (setq mode-line-percent-position '(-3 "%p"))
+
+
+  (defface amirreza/buffer-face
+    '((t :foreground "IndianRed1"
+         :weight bold))
+    "Face for buffer name.")
+
+  (defface amirreza/date-face
+    '((t :foreground "yellow"
+         :weight bold))
+    "Face for global variables.")
+
+
+  (defface amirreza/vcs-face
+    '((t :foreground "cyan"
+         :weight bold))
+    "Face for global variables.")
+
+  (defface amirreza/mode-face
+    '((t :foreground "spring green"
+         :weight bold))
+    "Face for global variables.")
+
+  (defface amirreza/pos-face
+    '((t :foreground "light slate blue"
+         :weight bold))
+    "Face for global variables.")
+
+  (defface amirreza/workspace-face
+    '((t :foreground "orange"
+         :weight bold))
+    "Face for global variables.")
+
+
+  (setq display-time-string-forms
+        '((propertize
+           (concat 24-hours ":" minutes " " day "/" month "/" year)
+           'face 'marco-date)))
+
   (setq-default mode-line-format
                 (list
-                 " Workspace:"
-                 '(:eval (format "%d" (eyebrowse--get 'current-slot)))
+                 "["
+                 '(:eval
+                   (let ((workspace-number (format "%d" (eyebrowse--get 'current-slot))))
+                     (if (= (length workspace-number) 0)
+                         ""
+                       (propertize workspace-number 'face 'amirreza/workspace-face))))
+
+                 "]"
                  "  "
-                 mode-line-modified
+                 "[" '(:eval (propertize "%b" 'face 'amirreza/buffer-face)) "]"
                  " "
-                 mode-line-mule-info
+                 "[" '(:eval (propertize "%m" 'face 'amirreza/mode-face)) "]"
                  " "
-                 mode-line-buffer-identification
+                 "[" '(:eval (propertize "%l,%c" 'face 'amirreza/pos-face)) "]"
                  " "
-                 mode-name
+
+                 "[" '(:eval (when-let (vc vc-mode)
+                               (list " "
+                                     (propertize (substring vc 5)
+                                                 'face 'amirreza/vcs-face)
+                                     " "))) "]"
                  " "
-                 mode-line-position
-                 '(vc-mode vc-mode)))
+                 "[" '(:eval (propertize display-time-string 'face 'amirreza/date-face)) "] "))
+
+
 #+end_src
 ** Font
 #+BEGIN_SRC emacs-lisp
@@ -1794,7 +1803,47 @@ of Emacs and other programs.
   (icomplete-vertical-mode 1))
 #+end_src
 
+** Evil
+:PROPERTIES:
+:header-args: :tangle no
+:END:
+#+begin_src emacs-lisp
+  (setq evil-want-keybinding nil)
+    (use-package evil :straight t
+      :demand
+      :general
+      (space-leader
+        "w h" 'split-window-below
+        "w v" 'split-window-right)
+      :bind
+      (:map evil-normal-state-map 
+            (";" . evil-ex))
+      :config
+      (evil-mode 1)
+      (evil-ex-define-cmd "q" 'kill-buffer-and-window))
 
+  (use-package evil-collection :straight t :config
+    (evil-collection-init (list
+                           'dired
+                           'magit
+                          'ivy
+                          'ibuffer
+                          'help
+                          'eshell
+                          'smerge
+                          'ediff
+                          'proced
+                          'vlf
+                          'xref
+                          )))
+      (use-package evil-magit :straight t)
+      (use-package evil-escape :straight t :config
+        (evil-escape-mode 1)
+        (setq-default evil-escape-key-sequence "jk")
+        (setq evil-escape-unordered-key-sequence t))
+      (use-package evil-surround :straight t :config (global-evil-surround-mode 1))
+      (use-package evil-nerd-commenter :straight t)
+#+end_src
 ** Doom-modeline
 :PROPERTIES:
 :header-args: :tangle no
