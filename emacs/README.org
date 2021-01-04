@@ -65,9 +65,7 @@
   - [[#ripgrep-with-persitent-result][Ripgrep with persitent result]]
   - [[#smart-symbol-and-file-finding][Smart symbol and file finding]]
   - [[#file-type-search][File Type Search]]
-- [[#shell][Shell]]
-  - [[#sync-path-with-default-shell][Sync PATH with default shell]]
-  - [[#eshell][Eshell]]
+- [[#sync-env-from-default-shell][Sync ENV from default shell]]
 - [[#development][Development]]
   - [[#auto-header][Auto Header]]
   - [[#code-completion][Code Completion]]
@@ -98,7 +96,6 @@
   - [[#vcs][VCS]]
 - [[#file-manager-dired][File Manager (Dired)]]
 - [[#integrated-tools][Integrated Tools]]
-  - [[#acme-functionality][Acme functionality]]
   - [[#process-management][Process management]]
   - [[#rhythmbox][Rhythmbox]]
   - [[#video][Video]]
@@ -107,10 +104,6 @@
   - [[#application-laucnherdmenu][Application Laucnher(dmenu)]]
   - [[#terminal][Terminal]]
 - [[#dotfiles][Dotfiles]]
-- [[#depreacated][Depreacated]]
-  - [[#icomplete][Icomplete]]
-  - [[#evil][Evil]]
-  - [[#doom-modeline][Doom-modeline]]
 
 * early-init contents
 :PROPERTIES:
@@ -976,8 +969,7 @@ by default is bound to =C-c <left>=.
       (start-process process-name process-name program (expand-file-name file))))
 
 #+end_src
-* Shell
-** Sync PATH with default shell
+* Sync ENV from default shell
 Emacs has a bultin shell called =eshell= which uses elisp
 as it's scripting engine, I use that as my main shell over the day
 but for some rare situations I have VTerm that emulates a normal terminal
@@ -990,127 +982,6 @@ all executables.
     :config
     (setq exec-path-from-shell-shell-name "zsh")
     (exec-path-from-shell-initialize))
-#+end_src
-** Eshell
-#+begin_src emacs-lisp
-  (use-package ffap)
-  (require 'cl-lib)
-  (use-package eshell 
-    :config
-    (defvar amirreza/--eshells-state (make-hash-table))
-
-    (defun amirreza/eshell-new ()
-      "Looks in the eshell state map if there is an open eshell in the current directory just switch to it,
-      otherwise create a new eshell process and update the state."
-      (interactive)
-      (let* ((buff-ref (gethash default-directory amirreza/--eshells-state nil))
-             (buff-live? (buffer-live-p buff-ref)))
-        (if (and buff-ref buff-live?)
-            (switch-to-buffer-other-window buff-ref)
-          (progn
-            (let ((new-buff (eshell 'N)))
-              (puthash default-directory new-buff amirreza/--eshells-state)
-
-              (switch-to-buffer-other-window new-buff)
-              (rename-buffer (format "*eshell:%s*" default-directory)))))))
-
-    :bind (("<f11>" . amirreza/eshell-new)
-           ("s-<return>" . amirreza/eshell-new)))
-
-  (use-package esh-mode
-    :config
-    (defun amirreza/--minify-dir (dir-name)
-      (cond
-       ((string= dir-name "") "")
-       ((string= "." (string (car (string-to-list dir-name)))) (cl-subseq ".emacs" 0 2))
-       (t (string (car (string-to-list dir-name))))))
-
-    (defun amirreza/--eshell-ring-search (name ring)
-      (interactive)
-      (insert (completing-read (format "%s History: " name) (ring-elements ring)))
-      (eshell-send-input))
-
-    (defun amirreza/eshell-history-search ()
-      (interactive)
-      (amirreza/--eshell-ring-search "Command" eshell-history-ring))
-
-
-    (defun amirreza/eshell-recent-dir-search ()
-      (interactive)
-      (amirreza/--eshell-ring-search "Recent Dir" eshell-last-dir-ring))
-
-    (defun amirreza/eshell-minify-path (path)
-      "Minify path like what fish do for paths."
-      (let* ((path-sep (split-string path "/"))
-             (last-part (car (last path-sep)))
-             (path-to-minify (butlast path-sep))
-             (minified (mapcar 'amirreza/--minify-dir path-to-minify)))
-
-        (concat (string-join minified "/") "/" last-part)))
-
-    (defun amirreza/eshell-vc-info ()
-      "returns a string containing information about VCS in default-directory, if vcs-backend is Git shows the current branch name"
-      (let* ((vcs-backend (or (ignore-errors (vc-responsible-backend default-directory)) ""))
-             (git-branch (magit-get-current-branch)))
-        (cond
-         ((string= vcs-backend "Git") (format "%s:%s" vcs-backend git-branch))
-         (t (format "%s" vcs-backend)))))
-
-    (defun amirreza/eshell-prompt ()
-      (concat (amirreza/eshell-minify-path (eshell/pwd)) " " (amirreza/eshell-vc-info) "\n⤷ "))
-
-    (defun amirreza/eshell-last-output ()
-      (interactive)
-      (copy-region-as-kill (eshell-beginning-of-output) (eshell-end-of-output)) ;; get output from eshell buffer
-      (switch-to-buffer (get-buffer-create "*eshell-last-output*"))
-      (erase-buffer)
-      (yank))
-
-    (setq eshell-prompt-function 'amirreza/eshell-prompt)
-    (setq eshell-prompt-regexp "⤷ ")
-
-    (defun amirreza/eshell-show-content-file-at-point ()
-      "Insert the content of file at point to the end of buffer"
-      (interactive)
-      (let ((file (ffap-file-at-point)))
-        (if file
-            (progn
-              (end-of-buffer)
-              (insert (concat "cat " file))
-              (eshell-send-input))
-          (user-error "No file at point"))))
-
-    (defun amirreza/eshell-kill-save-file-at-point ()
-      "Add to kill-ring the absolute path of file at point."
-      (interactive)
-      (let ((file (ffap-file-at-point)))
-        (if file
-            (kill-new (concat (eshell/pwd) "/" file))
-          (user-error "No file at point"))))
-
-    (defun amirreza/eshell-find-file-at-point ()
-      "Run `find-file' for file at point (ordinary file or dir).
-              Recall that this will produce a `dired' buffer if the file is a
-              directory."
-      (interactive)
-      (let ((file (ffap-file-at-point)))
-        (if file
-            (find-file file)
-          (user-error "No file at point"))))
-
-    :bind (:map eshell-mode-map
-                ("C-c m f c" . amirreza/eshell-show-content-file-at-point)
-                ("C-c m h" . amirreza/eshell-history-search)
-                ("C-c m f a" . amirreza/eshell-find-file-at-point)
-                ("C-c m k f" . amirreza/eshell-kill-save-file-at-point)
-                ("C-c m r" . amirreza/eshell-recent-dir-search)
-                ("C-c m d" . amirreza/eshell-find-sub-dirs-recur)
-                ("s-f c" . amirreza/eshell-show-content-file-at-point)
-                ("s-h" . amirreza/eshell-history-search)
-                ("s-o" . amirreza/eshell-find-file-at-point)
-                ("s-k" . amirreza/eshell-kill-save-file-at-point)
-                ("s-f f" . amirreza/eshell-find-file-at-point)))
-
 #+end_src
 * Development
 ** Auto Header
@@ -1536,17 +1407,6 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
                 ("<tab>" . dired-subtree-toggle)))
 #+end_src
 * Integrated Tools
-** Acme functionality
-:PROPERTIES:
-:header-args: :tangle no
-:END:
-
-#+begin_src emacs-lisp
-  (use-package acme 
-    :load-path "~/w/acme-mode"
-    :bind (([mouse-3] . 'acme/open-path-in-region)
-           ([mouse-2] . 'acme/exec-command-in-region)))
-#+end_src
 ** Process management
 #+begin_src emacs-lisp
   (use-package proced
@@ -1635,107 +1495,7 @@ of Emacs and other programs.
                                                                                                               (not (string-match "\\.git" name)))
                                                                                                                    t))))
   (global-set-key (kbd "<f9>") 'amirreza/edit-dot-config)
-#+end_src
-* Depreacated
-** Icomplete
-:PROPERTIES:
-:header-args: :tangle no
-:END:
-#+begin_src emacs-lisp
-(use-package orderless
-  :straight t
-  :config
-  (setq completion-styles '(orderless)))
 
-(use-package icomplete
-  :demand
-  :bind
-  (:map global-map
-        ("M-y" . amirreza/show-kill-ring)
-        :map icomplete-minibuffer-map
-        ("C-n" . icomplete-forward-completions)
-        ("C-p" . icomplete-backward-completions)
-        ("C-f" . icomplete-forward-completions)
-        ("C-b" . icomplete-backward-completions)
-        ("<right>" . icomplete-forward-completions)
-        ("<left>" . icomplete-backward-completions)
-        ("<down>" . icomplete-forward-completions)
-        ("<up>" . icomplete-backward-completions)
-        ("<RET>" . icomplete-force-complete-and-exit)
-        ("<tab>" . icomplete-force-complete))
-  :config
-  (defun amirreza/show-kill-ring ()
-    (interactive)
-    (insert (completing-read "Insert: " kill-ring)))
+  (global-set-key (kbd "C-c e c") 'amirreza/edit-dot-config)
 
-  (setq icomplete-max-delay-chars 2
-        icomplete-separator " * "
-        icomplete-show-matches-on-no-input t
-        icomplete-hide-common-prefix nil
-        completion-ignore-case t)
-  (when (> emacs-major-version 26)
-    (fido-mode -1))
-  (icomplete-mode 1))
-
-(use-package icomplete-vertical
-  :straight t
-  :demand
-  :bind
-  (:map icomplete-minibuffer-map
-        ("C-v" . icomplete-vertical-toggle))
-  :config
-  (icomplete-vertical-mode 1))
-#+end_src
-
-** Evil
-:PROPERTIES:
-:header-args: :tangle no
-:END:
-#+begin_src emacs-lisp
-  (setq evil-want-keybinding nil)
-    (use-package evil :straight t
-      :demand
-      :general
-      (space-leader
-        "w h" 'split-window-below
-        "w v" 'split-window-right)
-      :bind
-      (:map evil-normal-state-map 
-            (";" . evil-ex))
-      :config
-      (evil-mode 1)
-      (evil-ex-define-cmd "q" 'kill-buffer-and-window))
-
-  (use-package evil-collection :straight t :config
-    (evil-collection-init (list
-                           'dired
-                           'magit
-                          'ivy
-                          'ibuffer
-                          'help
-                          'eshell
-                          'smerge
-                          'ediff
-                          'proced
-                          'vlf
-                          'xref
-                          )))
-      (use-package evil-magit :straight t)
-      (use-package evil-escape :straight t :config
-        (evil-escape-mode 1)
-        (setq-default evil-escape-key-sequence "jk")
-        (setq evil-escape-unordered-key-sequence t))
-      (use-package evil-surround :straight t :config (global-evil-surround-mode 1))
-      (use-package evil-nerd-commenter :straight t)
-#+end_src
-** Doom-modeline
-:PROPERTIES:
-:header-args: :tangle no
-:END:
-#+begin_src emacs-lisp
-  (use-package doom-modeline
-    :straight t
-    :init (doom-modeline-mode 1)
-    :config
-    (setq doom-modeline-height 30))
 #+end_src
