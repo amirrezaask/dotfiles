@@ -36,9 +36,8 @@
   - [[#themes][Themes]]
   - [[#cursor][Cursor]]
   - [[#modeline][Modeline]]
-    - [[#custom-modeline][Custom Modeline]]
-    - [[#doom-modeline][Doom-modeline]]
   - [[#font][Font]]
+  - [[#tabline][Tabline]]
 - [[#ivy][Ivy]]
   - [[#ivy-1][Ivy]]
   - [[#counsel][Counsel]]
@@ -117,6 +116,7 @@
 - [[#dotfiles][Dotfiles]]
 - [[#depreacated][Depreacated]]
   - [[#icomplete][Icomplete]]
+  - [[#doom-modeline][Doom-modeline]]
 
 * early-init contents
 :PROPERTIES:
@@ -513,7 +513,6 @@ extensively but now i use it only when keybindings are just crazy.
  #+BEGIN_SRC emacs-lisp
    (use-package modus-operandi-theme :straight t :defer t)
    (use-package modus-vivendi-theme :straight t :defer t)
-   (use-package doom-themes :straight t :defer t)
  #+END_SRC
  You probably notice the =:defer= part in use-package, with =:defer= keyword (:something is called a keyword in elisp)
  use-package knows that we don't need this package to be loaded in startup, since we actually don't need all of our themes
@@ -531,8 +530,8 @@ extensively but now i use it only when keybindings are just crazy.
      :bind (("<f12>" . amirreza/toggle-color-mode))
      :config
      (defvar amirreza/current-mode 'dark "Current color mode of Emacs.")
-     (defvar amirreza/dark-theme 'doom-one)
-     (defvar amirreza/light-theme 'doom-one-light)
+     (defvar amirreza/dark-theme 'modus-vivendi)
+     (defvar amirreza/light-theme 'modus-operandi)
 
      (defmacro amirreza/--load-theme (&rest theme-opts)
        `(progn (mapc #'disable-theme custom-enabled-themes)
@@ -581,10 +580,6 @@ extensively but now i use it only when keybindings are just crazy.
 
   #+END_SRC
 ** Modeline
-*** Custom Modeline
-:PROPERTIES:
-:header-args: :tangle no
-:END:
 #+begin_src emacs-lisp
   (setq mode-line-percent-position '(-3 "%p"))
   (setq-default mode-line-format
@@ -602,27 +597,21 @@ extensively but now i use it only when keybindings are just crazy.
                  " "
                  mode-line-position
                  '(vc-mode vc-mode)))
-                 ;; " Time: "
-                 ;; '(:eval (current-time-string))
-                 ;; " Battery: "
-                 ;; '(:eval (propertize battery-mode-line-string))))
-#+end_src
-*** Doom-modeline
-#+begin_src emacs-lisp
-  (use-package doom-modeline
-    :straight t
-    :init (doom-modeline-mode 1)
-    :config
-    (setq doom-modeline-height 30))
 #+end_src
 ** Font
 #+BEGIN_SRC emacs-lisp
   (defun amirreza/change-font (font)
     (setq default-frame-alist `((font . ,font))))
 
-  (defvar amirreza/font "Fira Code-11")
+  (defvar amirreza/font "Hack-11")
   (amirreza/change-font amirreza/font)
 #+END_SRC
+** Tabline
+#+begin_src emacs-lisp
+(use-package emacs
+  :config
+  (when (> emacs-major-version 26) (global-tab-line-mode -1)))
+#+end_src
 * Ivy
 ** Ivy
 #+begin_src emacs-lisp
@@ -1048,7 +1037,7 @@ by default is bound to =C-c <left>=.
       "Find"
       (interactive)
       (cond
-       ((not (null (executable-find "fzf"))) (counsel-fzf))
+       ((not (null (executable-find "fzf"))) (counsel-fzf "" (amirreza/find-root)))
        (t (amirreza/find-file)))))
 #+end_src
 ** File Type Search
@@ -1257,7 +1246,7 @@ going to define our skeletons in their respective languages. Snippet macro defin
 Snippets are basically combination of abbrevs and skeletons, abbrevs are used for triggering
 skeleton and skeleton does it's job of inserting text.
 #+begin_src emacs-lisp
-  (use-package abbrev :init (setq save-abbrevs 'silent) :commands (expand-abbrev))
+  (use-package abbrev :init (setq save-abbrevs 'silently) :commands (expand-abbrev))
   (use-package skeleton
     :commands (amirreza/defsnippet)
     :config
@@ -1806,3 +1795,14 @@ of Emacs and other programs.
 #+end_src
 
 
+** Doom-modeline
+:PROPERTIES:
+:header-args: :tangle no
+:END:
+#+begin_src emacs-lisp
+  (use-package doom-modeline
+    :straight t
+    :init (doom-modeline-mode 1)
+    :config
+    (setq doom-modeline-height 30))
+#+end_src
