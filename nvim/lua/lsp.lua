@@ -2,10 +2,11 @@ local nvim_lsp = require('lspconfig')
 local completion = require('completion')
 
 -- nvim_lsp.pyls.setup{}
--- nvim_lsp.intelephense.setup{}
--- nvim_lsp.jdtls.setup{}
 nvim_lsp.gopls.setup{}
 
+nvim_lsp.elixirls.setup{
+  cmd = { "/home/amirreza/bin/elixirls/language_server.sh" } 
+}
 vim.cmd [[ autocmd BufEnter * lua require'completion'.on_attach() ]]
 
 -- Keybindings 

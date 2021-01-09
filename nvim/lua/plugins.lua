@@ -11,13 +11,19 @@ return require'packer'.startup{
 
       -- Hashicorp tools
       use { 'hashivim/vim-terraform' }
-      
+      -- One 
+      use { 'rakr/vim-one' }
+      -- Ayu theme
+      use { 'ayu-theme/ayu-vim' }
       -- Vim Surround text objects
       use { 'tpope/vim-surround'}
       
       -- Vim JSON tools
       use { 'tpope/vim-jdaddy', ft = 'json' }
-      
+     
+      -- Elixir
+      use { 'elixir-editors/vim-elixir' }
+
       -- Base16 Colorscheme library
       use { 'norcalli/nvim-base16.lua', branch = 'theme-editor' }
       
