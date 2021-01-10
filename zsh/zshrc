@@ -89,9 +89,9 @@ git_prompt() {
   if [ ! -z $BRANCH ]; then
     echo -n "%F{green}$BRANCH%f"
     if [ ! -z "$(git status --short)" ]; then
-      echo " ±"
+      echo " 🧐"
     else
-      echo " :)"
+      echo " 👍"
     fi
   fi
 }
@@ -110,6 +110,6 @@ setopt hist_verify            # show command with history expansion to user befo
 setopt share_history          # share command history data
 
 PROMPT='[%F{202}%/%f]$(git_prompt)
-👉 '
+👉  '
 export DISPLAY="`grep nameserver /etc/resolv.conf | sed 's/nameserver //'`:0"
 # setxkbmap -layout "us,ir" -option "grp:shifts_toggle" -option "ctrl:nocaps"
