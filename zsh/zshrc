@@ -90,7 +90,7 @@ function git_current_branch() {
 git_prompt() {
   BRANCH=$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/*\(.*\)/\1/')
   if [ ! -z $BRANCH ]; then
-    echo -n "%F{green}$BRANCH%f"
+    echo -n " %F{green}$BRANCH%f"
     if [ ! -z "$(git status --short)" ]; then
       echo " 🧐"
     else
