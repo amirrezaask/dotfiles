@@ -5,16 +5,13 @@ return require'packer'.startup{
      -- Plugin Manager
       use { 'wbthomason/packer.nvim' }
 
-      -- FZF
-      use { 'junegunn/fzf' }
-      use { 'junegunn/fzf.vim' }
+      use { 'amirrezaask/start.nvim' }
+
+      use { 'amirrezaask/fuzzy.nvim' }
 
       -- Hashicorp tools
       use { 'hashivim/vim-terraform' }
-      -- One 
-      use { 'rakr/vim-one' }
-      -- Ayu theme
-      use { 'ayu-theme/ayu-vim' }
+
       -- Vim Surround text objects
       use { 'tpope/vim-surround'}
       

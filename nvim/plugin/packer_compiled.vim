@@ -189,10 +189,10 @@ command! -nargs=* -range -bang -complete=file ColorizerDetachFromBuffer call s:l
 augroup packer_load_aucmds
   au!
   " Filetype lazy-loads
+  au FileType json ++once call s:load(['vim-jdaddy'], { "ft": "json" })
   au FileType fish ++once call s:load(['vim-fish'], { "ft": "fish" })
   au FileType rust ++once call s:load(['rust.vim'], { "ft": "rust" })
   au FileType nix ++once call s:load(['vim-nix'], { "ft": "nix" })
-  au FileType json ++once call s:load(['vim-jdaddy'], { "ft": "json" })
   au FileType zig ++once call s:load(['zig.vim'], { "ft": "zig" })
   " Event lazy-loads
 augroup END
