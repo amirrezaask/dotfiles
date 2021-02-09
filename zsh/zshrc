@@ -53,6 +53,7 @@ alias gp='git push'
 alias gcm='git commit -m'
 alias gf='git fetch'
 alias gco='git checkout'
+alias gcb='git checkout -b'
 alias gpsup='gp --set-upstream origin $(git_current_branch)'
 alias kcl='kubectl'
 alias dots="cd ${DOTFILES}"
@@ -61,7 +62,6 @@ alias freenet="echo ${VPN_PASSWORD} | sudo openconnect --no-dtls --passwd-on-std
 alias lock='i3lock -c000000'
 alias tf='terraform'
 alias tg='terragrunt'
-alias octl='kubectl --kubeconfig ~/.order/kubeconfig'
 alias reload='source ~/.zshrc'
 alias sik='pkill'
 alias gg='git push'
@@ -70,7 +70,6 @@ if type nvim > /dev/null 2>&1; then
     alias vim='nvim'
     alias vi='nvim'
 fi
-
 if type bat > /dev/null 2>&1; then
     alias cat='bat'
 fi
@@ -112,7 +111,7 @@ setopt hist_ignore_space      # ignore commands that start with space
 setopt hist_verify            # show command with history expansion to user before running it
 setopt share_history          # share command history data
 
-PROMPT='[%F{202}%/%f]$(git_prompt)
-👉  '
+PROMPT='%F{202}%/%f$(git_prompt)
+👉 '
 export DISPLAY="`grep nameserver /etc/resolv.conf | sed 's/nameserver //'`:0"
 # setxkbmap -layout "us,ir" -option "grp:shifts_toggle" -option "ctrl:nocaps"
