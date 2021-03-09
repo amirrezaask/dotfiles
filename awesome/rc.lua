@@ -281,8 +281,9 @@ globalkeys = gears.table.join(
 
     awful.key({ modkey },            "r",     function () awful.screen.focused().mypromptbox:run() end,
               {description = "run prompt", group = "launcher"}),
-
-
+    awful.key({ modkey },            "d",     function () awful.spawn('rofi -combi-modi window,drun,ssh -theme solarized -font "hack 10" -show combi') end,
+              {description = "Run rofi", group = "Rofi"}),
+    
     awful.key({ modkey, "Shift"   }, "q", awesome.quit,
               {description = "quit awesome", group = "awesome"}),
 
@@ -314,10 +315,6 @@ globalkeys = gears.table.join(
                   end
               end,
               {description = "restore minimized", group = "client"}),
-
-    -- Prompt
-    awful.key({ modkey },            "d",     function () awful.spawn('dmenu_run') end,
-              {description = "run dmenu", group = "launcher"}),
 
     awful.key({ modkey }, "x",
               function ()
