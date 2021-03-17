@@ -4,7 +4,7 @@ return require'packer'.startup{
       local function use(opts)
        base = "/home/amirreza/src/github.com/"
        path = opts[1]
-       if vim.fn.isdirectory(base .. path) then
+       if vim.fn.isdirectory(base .. path) ~= 0 then
          opts[1] = base .. path
          _use(opts)
        else
@@ -14,12 +14,12 @@ return require'packer'.startup{
       -- Plugin Manager
       use { 'wbthomason/packer.nvim' }
 
-      use { 'amirrezaask/start.nvim' }
-
       use { 'amirrezaask/fuzzy.nvim' }
 
       -- Hashicorp tools
       use { 'hashivim/vim-terraform' }
+
+      use { 'mhinz/vim-startify' } 
 
       -- Vim Surround text objects
       use { 'tpope/vim-surround'}
