@@ -3,7 +3,7 @@ local completion = require('completion')
 
 -- nvim_lsp.pyls.setup{}
 nvim_lsp.gopls.setup{}
-
+nvim_lsp.sumneko_lua.setup{}
 nvim_lsp.elixirls.setup{
   cmd = { "/home/amirreza/bin/elixirls/language_server.sh" } 
 }

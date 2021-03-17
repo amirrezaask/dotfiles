@@ -1,8 +1,17 @@
 vim.cmd [[packadd packer.nvim]]
 return require'packer'.startup{
-   function(use)
-
-     -- Plugin Manager
+   function(_use)
+      local function use(opts)
+       base = "/home/amirreza/src/github.com/"
+       path = opts[1]
+       if vim.fn.isdirectory(base .. path) then
+         opts[1] = base .. path
+         _use(opts)
+       else
+         _use(opts)
+       end
+      end
+      -- Plugin Manager
       use { 'wbthomason/packer.nvim' }
 
       use { 'amirrezaask/start.nvim' }
