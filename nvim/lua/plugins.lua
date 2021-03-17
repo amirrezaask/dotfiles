@@ -41,7 +41,7 @@ return require'packer'.startup{
       
       -- Support for Dockerfile syntax
       use { 'honza/dockerfile.vim'}
-      
+
       -- Support for Nix programming language
       use { 'LnL7/vim-nix', ft = 'nix'}
      
@@ -67,5 +67,9 @@ return require'packer'.startup{
       -- Git Integrations
       use { 'rhysd/git-messenger.vim' }
       use { 'kdheepak/lazygit.nvim' }
+
+      -- Colorbuddy
+      use { 'tjdevries/colorbuddy.vim' }
+      use { 'tjdevries/gruvbuddy.nvim' }
    end
 }
