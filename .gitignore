@@ -4,4 +4,11 @@ xmonad/xmonad.o
 xmonad/xmonad.hi
 xmonad/xmonad.errors
 xmonad/xmonad-x86_64-linux
+emacs/.cache/
+emacs/.dap-breakpoints
+emacs/.lsp-session-v1
+emacs/README.el
+emacs/abbrev_defs
+emacs/transient
+emacs/straight/
 nvim/.netrwhist

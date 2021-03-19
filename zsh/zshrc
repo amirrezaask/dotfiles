@@ -5,4 +5,5 @@ ZSH_THEME="ys"
 
 plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
 
+setxkbmap -layout "us" -option "ctrl:nocaps"
 source $ZSH/oh-my-zsh.sh
