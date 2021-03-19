@@ -73,6 +73,7 @@
   - [[#snippets][Snippets]]
   - [[#dumb-jump][Dumb Jump]]
   - [[#lsp][LSP]]
+  - [[#debugger][Debugger]]
   - [[#rainbow-delimiters][Rainbow delimiters]]
   - [[#docs][Docs]]
   - [[#languages][Languages]]
@@ -1075,6 +1076,21 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
 
       (use-package lsp-ivy :after ivy :commands lsp-ivy-workspace-symbol
         :bind ("C-c m s" . lsp-ivy-workspace-symbol))
+#+end_src
+** Debugger
+#+begin_src emacs-lisp
+  (use-package dap-mode :straight t
+    :config
+    (dap-ui-mode 1)
+    ;; enables mouse hover support
+    (dap-tooltip-mode 1)
+    ;; use tooltips for mouse hover
+    ;; if it is not enabled `dap-mode' will use the minibuffer.
+    (tooltip-mode 1)
+    ;; displays floating panel with debug buttons
+    ;; requies emacs 26+
+    (dap-ui-controls-mode 1)
+    (require 'dap-go))
 #+end_src
 ** Rainbow delimiters
 #+begin_src emacs-lisp
