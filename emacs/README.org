@@ -579,7 +579,7 @@ I want my Emacs to open my TODO file on every startup and have a that buffer ope
   (defun amirreza/change-font (font)
     (setq default-frame-alist `((font . ,font))))
 
-  (defvar amirreza/font "Fira Code-9")
+  (defvar amirreza/font "Fira Code-11")
   (amirreza/change-font amirreza/font)
 #+END_SRC
 ** Tabline
@@ -908,23 +908,27 @@ by default is bound to =C-c <left>=.
   (use-package project
     :bind ("C-c p" . amirreza/find-project)
     :config
-    (defvar amirreza/project-locations '("~/w" "~/w/snapp" "~/w/orderhq" "~/w/socialeng"))
-
     (defun amirreza/find-root ()
       "Find project root."
       (let* ((project (vc-root-dir))
              (dir (if project project default-directory)))
         dir))
+  
+    (defun amirreza/is-repo (path)
+      "Wether a directory is a repo or not"
+      (not (file-exists-p (expand-file-name ".git" path))))
+
     (defun amirreza/find-project ()
       "List of projects in pre defined project locations."
       (interactive)
-      (let ((proj-dirs '()))
-        (mapc (lambda (dir)
-                (mapc (lambda (file)
-                        (add-to-list 'proj-dirs (abbreviate-file-name file)))
-                      (directory-files dir t directory-files-no-dot-files-regexp)))
-              amirreza/project-locations)
-        (dired (completing-read "Project: " proj-dirs)))))
+      (dired (completing-read "Project: "
+                              (directory-files-recursively "~/src"
+                                                           ".*"
+                                                           t
+                                                           (lambda (path) (amirreza/is-repo path))
+                                                           t)))))
+                                                         
+  
 #+end_src
 * Searching
 ** In buffer searching
