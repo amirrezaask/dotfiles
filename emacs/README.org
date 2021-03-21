@@ -26,6 +26,8 @@
   - [[#emacs-x-window-manager][Emacs X Window Manager]]
   - [[#startup-page][Startup page]]
   - [[#helper-macros][Helper Macros]]
+- [[#keybindings][Keybindings]]
+  - [[#which-key][Which-key]]
 - [[#appereance][Appereance]]
   - [[#themes][Themes]]
   - [[#cursor][Cursor]]
@@ -400,6 +402,25 @@ I want my Emacs to open my TODO file on every startup and have a that buffer ope
   (defmacro amirreza/cmd! (&rest body)
     `(lambda (&rest _) (interactive) ,@body))
 #+end_src
+* Keybindings
+** Which-key
+#+begin_src emacs-lisp
+(use-package which-key
+  :straight t
+  :defer 1
+  :init
+  (setq which-key-sort-order #'which-key-prefix-then-key-order
+          which-key-sort-uppercase-first nil
+          which-key-add-column-padding 1
+          which-key-max-display-columns nil
+          which-key-min-display-lines 6
+          which-key-side-window-slot -10)
+  :config
+  (setq which-key-idle-delay 0.3)
+  (defalias 'which-key! 'which-key-add-key-based-replacements)
+  (which-key-mode 1)
+  (which-key-setup-minibuffer))
+#+end_src
 * Appereance
 ** Themes
  #+BEGIN_SRC emacs-lisp
@@ -423,7 +444,7 @@ I want my Emacs to open my TODO file on every startup and have a that buffer ope
      :bind (("<f12>" . amirreza/toggle-color-mode))
      :config
      (defvar amirreza/current-mode 'dark "Current color mode of Emacs.")
-     (defvar amirreza/dark-theme 'doom-one)
+     (defvar amirreza/dark-theme 'modus-vivendi)
      (defvar amirreza/light-theme 'modus-operandi)
 
      (defmacro amirreza/--load-theme (&rest theme-opts)
@@ -476,36 +497,47 @@ I want my Emacs to open my TODO file on every startup and have a that buffer ope
 #+begin_src emacs-lisp
   (setq mode-line-percent-position '(-3 "%p"))
 
-
   (defface amirreza/buffer-face
-    '((t :foreground "IndianRed1"
-         :weight bold))
+    '(
+      (((background dark))  :foreground "IndianRed1" :weight bold)
+      (((background light)) :foreground "blue violet" :weight bold)
+      )
     "Face for buffer name.")
 
   (defface amirreza/date-face
-    '((t :foreground "yellow"
-         :weight bold))
+    '(
+      (((background dark)) :foreground "yellow" :weight bold)
+      (((background light)) :foreground "tomato" :weight bold)
+      )
     "Face for global variables.")
 
 
   (defface amirreza/vcs-face
-    '((t :foreground "cyan"
-         :weight bold))
+    '(
+      (((background dark)) :foreground "cyan" :weight bold)
+      (((background light)) :foreground "olive drab" :weight bold)
+      )
     "Face for global variables.")
 
   (defface amirreza/mode-face
-    '((t :foreground "spring green"
-         :weight bold))
+    '(
+      (((background dark)) :foreground "spring green" :weight bold)
+      (((background light)) :foreground "royal blue" :weight bold)
+      )
     "Face for global variables.")
 
   (defface amirreza/pos-face
-    '((t :foreground "light slate blue"
-         :weight bold))
+    '(
+      (((background dark)) :foreground "light slate blue" :weight bold)
+      (((background light)) :foreground "firebrick" :weight bold)
+      )
     "Face for global variables.")
 
   (defface amirreza/workspace-face
-    '((t :foreground "orange"
-         :weight bold))
+    '(
+      (((background dark)) :foreground "orange" :weight bold)
+      (((background light)) :foreground "violet red" :weight bold)
+      )
     "Face for global variables.")
 
 
@@ -547,7 +579,7 @@ I want my Emacs to open my TODO file on every startup and have a that buffer ope
   (defun amirreza/change-font (font)
     (setq default-frame-alist `((font . ,font))))
 
-  (defvar amirreza/font "Fira Code-11")
+  (defvar amirreza/font "Fira Code-9")
   (amirreza/change-font amirreza/font)
 #+END_SRC
 ** Tabline
