@@ -75,9 +75,6 @@
   - [[#snippets][Snippets]]
   - [[#dumb-jump][Dumb Jump]]
   - [[#lsp][LSP]]
-  - [[#debugger][Debugger]]
-  - [[#rainbow-delimiters][Rainbow delimiters]]
-  - [[#docs][Docs]]
   - [[#languages][Languages]]
     - [[#go][Go]]
     - [[#cc][C/C++]]
@@ -97,6 +94,9 @@
     - [[#protobuf][Protobuf]]
     - [[#nix][Nix]]
     - [[#terraform][Terraform]]
+  - [[#debugger][Debugger]]
+  - [[#rainbow-delimiters][Rainbow delimiters]]
+  - [[#docs][Docs]]
   - [[#vcs][VCS]]
 - [[#file-manager-dired][File Manager (Dired)]]
 - [[#integrated-tools][Integrated Tools]]
@@ -419,7 +419,7 @@ I want my Emacs to open my TODO file on every startup and have a that buffer ope
      :bind (("<f12>" . amirreza/toggle-color-mode))
      :config
      (defvar amirreza/current-mode 'dark "Current color mode of Emacs.")
-     (defvar amirreza/dark-theme 'modus-vivendi)
+     (defvar amirreza/dark-theme 'doom-one)
      (defvar amirreza/light-theme 'modus-operandi)
 
      (defmacro amirreza/--load-theme (&rest theme-opts)
@@ -1087,41 +1087,17 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
 ** LSP
 #+begin_src emacs-lisp
   (use-package lsp-mode :straight t
-    :init 
+    :init
     (setq lsp-file-watch-threshold 10000)
     (setq lsp-auto-guess-root t)
     (setq lsp-keymap-prefix "C-c l")
     (setq lsp-before-save-edit t)
-    :hook ((prog-mode . lsp)
+    :hook (
            (lsp-mode . lsp-enable-which-key-integration)
            (before-save . lsp-format-buffer)))
 
       (use-package lsp-ivy :after ivy :commands lsp-ivy-workspace-symbol
         :bind ("C-c m s" . lsp-ivy-workspace-symbol))
-#+end_src
-** Debugger
-#+begin_src emacs-lisp
-  (use-package dap-mode :straight t
-    :config
-    (dap-ui-mode 1)
-    ;; enables mouse hover support
-    (dap-tooltip-mode 1)
-    ;; use tooltips for mouse hover
-    ;; if it is not enabled `dap-mode' will use the minibuffer.
-    (tooltip-mode 1)
-    ;; displays floating panel with debug buttons
-    ;; requies emacs 26+
-    (dap-ui-controls-mode 1)
-    (require 'dap-go))
-#+end_src
-** Rainbow delimiters
-#+begin_src emacs-lisp
-(use-package rainbow-delimiters :straight t :hook (prog-mode . rainbow-delimiters-mode))
-#+end_src
-** Docs
-#+begin_src emacs-lisp
-  (use-package eldoc
-    :config (global-eldoc-mode 1))
 #+end_src
 ** Languages
 *** Go
@@ -1135,8 +1111,9 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
    (use-package go-mode
      :straight t
      :mode ("\\.go\\'" . go-mode)
-     :init
-     (add-hook 'go-mode-hook 'amirreza/go-hook)
+     :hook
+     (go-mode . amirreza/go-hook)
+     (go-mode . lsp)
      :bind
      (:map go-mode-map
            ("C-c m g t" . amirreza/snippet-go-tf)
@@ -1221,6 +1198,8 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
  #+BEGIN_SRC emacs-lisp
    (use-package python-mode
      :mode "\\.py\\'"
+     :hook
+     (python-mode . lsp)
      :config
      (defun amirreza/python-insert-docstring ()
        (interactive)
@@ -1266,7 +1245,7 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
  #+end_src
 *** Lua
 #+begin_src emacs-lisp
-(use-package lua-mode :straight t :mode "\\.lua")
+(use-package lua-mode :straight t :mode "\\.lua" :hook (lua-mode . lsp))
 #+end_src
 *** Zig
  #+begin_src emacs-lisp
@@ -1317,6 +1296,8 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
      #+BEGIN_SRC emacs-lisp
        (use-package clojure-mode :straight t
          :mode "\\.cljs?\\'"
+         :hook
+         (clojure-mode . lsp)
          :config
          (setq-local prettify-symbols-alist '(("fn" . 955) ; λ
                                                ("->" . 8594))))
@@ -1377,6 +1358,8 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
    (use-package rustic
      :straight t
      :mode ("\\.rs\\'" . rustic-mode)
+     :hook
+     (rust-mode . lsp)
      :config
      (setq rustic-format-on-save t))
  #+END_SRC
@@ -1391,6 +1374,30 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
 *** Terraform
 #+begin_src emacs-lisp
 (use-package terraform-mode :straight t :mode "\\.tf")
+#+end_src
+** Debugger
+#+begin_src emacs-lisp
+  (use-package dap-mode :straight t
+    :config
+    (dap-ui-mode 1)
+    ;; enables mouse hover support
+    (dap-tooltip-mode 1)
+    ;; use tooltips for mouse hover
+    ;; if it is not enabled `dap-mode' will use the minibuffer.
+    (tooltip-mode 1)
+    ;; displays floating panel with debug buttons
+    ;; requies emacs 26+
+    (dap-ui-controls-mode 1)
+    (require 'dap-go))
+#+end_src
+** Rainbow delimiters
+#+begin_src emacs-lisp
+(use-package rainbow-delimiters :straight t :hook (prog-mode . rainbow-delimiters-mode))
+#+end_src
+** Docs
+#+begin_src emacs-lisp
+  (use-package eldoc
+    :config (global-eldoc-mode 1))
 #+end_src
 ** VCS
 #+BEGIN_SRC emacs-lisp
