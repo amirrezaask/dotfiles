@@ -26,6 +26,7 @@
   - [[#startup-page][Startup page]]
   - [[#helper-macros][Helper Macros]]
 - [[#keybindings][Keybindings]]
+  - [[#evil][Evil]]
   - [[#which-key][Which-key]]
 - [[#appereance][Appereance]]
   - [[#themes][Themes]]
@@ -46,6 +47,7 @@
   - [[#ace-window-better-window-management][Ace Window (Better Window Management)]]
   - [[#ibuffer][Ibuffer]]
 - [[#editing--writing][Editing & Writing]]
+  - [[#editor-zoom-inout][Editor zoom in/out]]
   - [[#10-line-jump][10 Line Jump]]
   - [[#highlight-indentation][Highlight indentation]]
   - [[#sudo-edit][Sudo edit]]
@@ -378,14 +380,45 @@ I want my Emacs to open my TODO file on every startup and have a that buffer ope
     `(lambda (&rest _) (interactive) ,@body))
 #+end_src
 * Keybindings
+** Evil
+#+begin_src emacs-lisp
+  (use-package evil
+    :straight t
+    :init
+    (setq evil-want-keybinding nil)
+    :bind
+    (:map evil-normal-state-map
+          ("g c" . comment-line)
+          ("SPC SPC" . amirreza/file-finder)
+          ("SPC f f" . find-file)
+          ("SPC ." . counsel-M-x)
+          ("SPC h d f" . counsel-describe-function)
+          ("SPC h d v" . counsel-describe-variable)
+          ("SPC h d k" . describe-key))
+    :config
+    (defmacro when-evil (&rest body)
+      `(when (not (null amirreza/evil?))
+         ,@body
+         )
+      )
+    (evil-mode 1))
+
+  (use-package evil-escape :straight t :config (setq-default evil-escape-key-sequence "jk") (setq evil-escape-unordered-key-sequence t) (evil-escape-mode 1))
+  (use-package evil-collection :straight t :config (evil-collection-init))
+
+  (use-package evil-surround
+    :straight t
+    :config
+    (global-evil-surround-mode 1))
+#+end_src
 ** Which-key
 #+begin_src emacs-lisp
-(use-package which-key
-  :straight t
-  :defer 1
-  :init
-  (setq which-key-sort-order #'which-key-prefix-then-key-order
-          which-key-sort-uppercase-first nil
+;; (use-package which-key
+;;   :straight t
+;;   :defer 1
+;;   :init
+;;   (setq which-key-sort-order #'which-key-prefix-then-key-order
+;;           which-key-sort-uppercase-first nil
           which-key-add-column-padding 1
           which-key-max-display-columns nil
           which-key-min-display-lines 6
@@ -419,7 +452,7 @@ I want my Emacs to open my TODO file on every startup and have a that buffer ope
      :bind (("<f12>" . amirreza/toggle-color-mode))
      :config
      (defvar amirreza/current-mode 'dark "Current color mode of Emacs.")
-     (defvar amirreza/dark-theme 'doom-one)
+     (defvar amirreza/dark-theme 'doom-outrun-electric)
      (defvar amirreza/light-theme 'modus-operandi)
 
      (defmacro amirreza/--load-theme (&rest theme-opts)
@@ -722,6 +755,11 @@ by default is bound to =C-c <left>=.
 
 #+end_src
 * Editing & Writing
+** Editor zoom in/out
+#+begin_src emacs-lisp
+(define-key global-map (kbd "C--") (lambda () (interactive) (text-scale-adjust -1)))
+(define-key global-map (kbd "C-=") (lambda () (interactive) (text-scale-adjust +1)))
+#+end_src
 ** 10 Line Jump
 #+begin_src emacs-lisp
   (global-set-key (kbd "M-n") (lambda ()
@@ -804,6 +842,11 @@ by default is bound to =C-c <left>=.
 ** Org
 #+BEGIN_SRC emacs-lisp
   (use-package org
+  :init
+  (when-evil
+   (evil-define-key 'normal org-mode-map "SPC m n" 'amirreza/--org-insert-no-tangle)
+   (evil-define-key 'normal org-mode-map "SPC m b" 'amirreza/--org-insert-elisp-code-block)
+   )
   :config
   (defun amirreza/--org-insert-elisp-code-block ()
     (interactive)
@@ -890,14 +933,19 @@ by default is bound to =C-c <left>=.
 * Project
 #+begin_src emacs-lisp
   (use-package project
-    :bind ("C-c p" . amirreza/find-project)
+    :bind 
+    (
+    :map global-map ("C-c p" . amirreza/find-project)
+    :map evil-normal-state-map ("SPC p f" . amirreza/find-project)
+    )
+
     :config
     (defun amirreza/find-root ()
       "Find project root."
       (let* ((project (vc-root-dir))
              (dir (if project project default-directory)))
         dir))
-  
+
     (defun amirreza/is-repo (path)
       "Wether a directory is a repo or not"
       (not (file-exists-p (expand-file-name ".git" path))))
@@ -911,8 +959,7 @@ by default is bound to =C-c <left>=.
                                                            t
                                                            (lambda (path) (amirreza/is-repo path))
                                                            t)))))
-                                                         
-  
+
 #+end_src
 * Searching
 ** In buffer searching
@@ -941,7 +988,11 @@ by default is bound to =C-c <left>=.
           ("<f1>" . 'amirreza/find-file-at-point)
           ("<f2>" . 'amirreza/find-symbol-at-point)
           ("C-M-f" . 'amirreza/find-file-at-point)
-          ("C-M-g" . 'amirreza/find-symbol-at-point))
+          ("C-M-g" . 'amirreza/find-symbol-at-point)
+          :map evil-normal-state-map
+          ("SPC a s" . 'amirreza/find-symbol-at-point)
+          ("SPC a f" . 'amirreza/find-file-at-point)
+          ("SPC g" . 'amirreza/grep))
     :config
     (defun amirreza/find-symbol-at-point ()
       (interactive)
@@ -970,7 +1021,7 @@ by default is bound to =C-c <left>=.
       "Find files smartly."
       (interactive)
       (cond
-       ((amirreza/is-repo default-directory) (counsel-git))
+       ((amirreza/is-repo (amirreza/find-root)) (counsel-git))
        ((not (null (executable-find "fzf"))) (counsel-fzf "" (amirreza/find-root)))
        (t (amirreza/find-file)))))
 #+end_src
@@ -1378,6 +1429,7 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
 ** Debugger
 #+begin_src emacs-lisp
   (use-package dap-mode :straight t
+    :defer t
     :config
     (dap-ui-mode 1)
     ;; enables mouse hover support
@@ -1406,7 +1458,11 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
     :commands (magit-status magit-get-current-branch)
     :bind
     (("C-x g" . 'magit-status)
-     ("C-c v s" . 'magit-status)))
+     ("C-c v s" . 'magit-status)
+     :map evil-normal-state-map
+     ("SPC v g" . magit-status)
+     )
+    )
 
   (use-package diff-hl
     :straight t
