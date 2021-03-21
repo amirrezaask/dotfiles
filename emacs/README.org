@@ -382,52 +382,56 @@ I want my Emacs to open my TODO file on every startup and have a that buffer ope
 * Keybindings
 ** Evil
 #+begin_src emacs-lisp
-  (use-package evil
-    :straight t
-    :init
-    (setq evil-want-keybinding nil)
-    :bind
-    (:map evil-normal-state-map
-          ("g c" . comment-line)
-          ("SPC SPC" . amirreza/file-finder)
-          ("SPC f f" . find-file)
-          ("SPC ." . counsel-M-x)
-          ("SPC h d f" . counsel-describe-function)
-          ("SPC h d v" . counsel-describe-variable)
-          ("SPC h d k" . describe-key))
-    :config
-    (defmacro when-evil (&rest body)
-      `(when (not (null amirreza/evil?))
-         ,@body
-         )
-      )
-    (evil-mode 1))
+  (defvar amirreza/evil-enabled nil)
+  (defmacro when-evil (&rest body)
+    `(when (not (null amirreza/evil-enabled))
+       ,@body
+       )
+    )
 
-  (use-package evil-escape :straight t :config (setq-default evil-escape-key-sequence "jk") (setq evil-escape-unordered-key-sequence t) (evil-escape-mode 1))
-  (use-package evil-collection :straight t :config (evil-collection-init))
+  (when-evil
+      (use-package evil
+      :straight t
+      :init
+      (setq evil-want-keybinding nil)
+      :bind
+      (:map evil-normal-state-map
+              ("g c" . comment-line)
+              ("SPC SPC" . amirreza/file-finder)
+              ("SPC f f" . find-file)
+              ("SPC ." . counsel-M-x)
+              ("SPC h d f" . counsel-describe-function)
+              ("SPC h d v" . counsel-describe-variable)
+              ("SPC h d k" . describe-key))
+      :config
+      (evil-mode 1))
 
-  (use-package evil-surround
-    :straight t
-    :config
-    (global-evil-surround-mode 1))
+      (use-package evil-escape :straight t :config (setq-default evil-escape-key-sequence "jk") (setq evil-escape-unordered-key-sequence t) (evil-escape-mode 1))
+      (use-package evil-collection :straight t :config (evil-collection-init))
+
+      (use-package evil-surround
+      :straight t
+      :config
+      (global-evil-surround-mode 1))
+   )
 #+end_src
 ** Which-key
 #+begin_src emacs-lisp
-;; (use-package which-key
-;;   :straight t
-;;   :defer 1
-;;   :init
-;;   (setq which-key-sort-order #'which-key-prefix-then-key-order
-;;           which-key-sort-uppercase-first nil
-          which-key-add-column-padding 1
-          which-key-max-display-columns nil
-          which-key-min-display-lines 6
-          which-key-side-window-slot -10)
-  :config
-  (setq which-key-idle-delay 0.3)
-  (defalias 'which-key! 'which-key-add-key-based-replacements)
-  (which-key-mode 1)
-  (which-key-setup-minibuffer))
+  (use-package which-key
+    :straight t
+    :defer 1
+    :init
+    (setq which-key-sort-order #'which-key-prefix-then-key-order
+            which-key-sort-uppercase-first nil
+            which-key-add-column-padding 1
+            which-key-max-display-columns nil
+            which-key-min-display-lines 6
+            which-key-side-window-slot -10)
+    :config
+    (setq which-key-idle-delay 0.3)
+    (defalias 'which-key! 'which-key-add-key-based-replacements)
+    (which-key-mode 1)
+    (which-key-setup-minibuffer))
 #+end_src
 * Appereance
 ** Themes
@@ -933,11 +937,14 @@ by default is bound to =C-c <left>=.
 * Project
 #+begin_src emacs-lisp
   (use-package project
+    :init
+    (when-evil
+     (evil-global-set-key 'normal (kbd "SPC p f") 'amirreza/find-project)
+     )
     :bind 
     (
-    :map global-map ("C-c p" . amirreza/find-project)
-    :map evil-normal-state-map ("SPC p f" . amirreza/find-project)
-    )
+     :map global-map ("C-c p" . amirreza/find-project)
+     )
 
     :config
     (defun amirreza/find-root ()
@@ -982,17 +989,23 @@ by default is bound to =C-c <left>=.
                                                                                                                (not (string-match "\\.git" name)))
                                                                 t) nil nil initial))
   (use-package project
-    :bind(("C-c f" . 'amirreza/file-finder)
+    :init
+    (when-evil
+     (evil-global-set-key 'normal (kbd "SPC a s") 'amirreza/find-symbol-at-point)
+     (evil-global-set-key 'normal (kbd "SPC a f") 'amirreza/find-file-at-point)
+     (evil-global-set-key 'normal (kbd "SPC g") 'amirreza/grep))
+
+
+     :bind
+     (("C-c f" . 'amirreza/file-finder)
           ("C-c g" . 'amirreza/grep)
           ("C-M-s" . 'amirreza/find-symbol-at-point)
           ("<f1>" . 'amirreza/find-file-at-point)
           ("<f2>" . 'amirreza/find-symbol-at-point)
           ("C-M-f" . 'amirreza/find-file-at-point)
-          ("C-M-g" . 'amirreza/find-symbol-at-point)
-          :map evil-normal-state-map
-          ("SPC a s" . 'amirreza/find-symbol-at-point)
-          ("SPC a f" . 'amirreza/find-file-at-point)
-          ("SPC g" . 'amirreza/grep))
+          ("C-M-g" . 'amirreza/find-symbol-at-point))
+        
+
     :config
     (defun amirreza/find-symbol-at-point ()
       (interactive)
@@ -1456,11 +1469,11 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
   (use-package magit
     :straight t
     :commands (magit-status magit-get-current-branch)
+    :init
+    (when-evil (evil-global-set-key 'normal (kbd "SPC v g") 'magit-status))
     :bind
     (("C-x g" . 'magit-status)
      ("C-c v s" . 'magit-status)
-     :map evil-normal-state-map
-     ("SPC v g" . magit-status)
      )
     )
 
