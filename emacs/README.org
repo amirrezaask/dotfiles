@@ -33,6 +33,7 @@
   - [[#modeline][Modeline]]
   - [[#font][Font]]
   - [[#tabline][Tabline]]
+  - [[#dashboard][Dashboard]]
 - [[#ivy][Ivy]]
   - [[#ivy-1][Ivy]]
   - [[#counsel][Counsel]]
@@ -562,6 +563,16 @@ I want my Emacs to open my TODO file on every startup and have a that buffer ope
   :config
   (when (> emacs-major-version 26) (global-tab-line-mode -1)))
 #+end_src
+** Dashboard
+#+begin_src emacs-lisp
+  (use-package dashboard
+    :straight t
+    :config
+    (setq dashboard-startup-banner 'logo)
+    (setq dashboard-center-content t)
+    (setq dashboard-items '())
+    (dashboard-setup-startup-hook))
+#+end_src
 * Ivy
 ** Ivy
 #+begin_src emacs-lisp
@@ -813,7 +824,6 @@ by default is bound to =C-c <left>=.
   (setq org-support-shift-select t)
   (setq org-src-window-setup 'current-window)
   (setq org-startup-folded t)
-  (setq org-agenda-files '("~/org/work.org" "~/org/personal.org"))
   :bind (:map org-mode-map
               ("C-c m n" . amirreza/--org-insert-no-tangle)
               ("C-c m b" . amirreza/--org-insert-elisp-code-block)))
