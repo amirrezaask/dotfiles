@@ -46,6 +46,7 @@
   - [[#winner-restore-window-layout][Winner (Restore Window layout)]]
   - [[#ace-window-better-window-management][Ace Window (Better Window Management)]]
   - [[#ibuffer][Ibuffer]]
+- [[#vterm][VTerm]]
 - [[#editing--writing][Editing & Writing]]
   - [[#editor-zoom-inout][Editor zoom in/out]]
   - [[#10-line-jump][10 Line Jump]]
@@ -591,7 +592,7 @@ I want my Emacs to open my TODO file on every startup and have a that buffer ope
   (defun amirreza/change-font (font)
     (setq default-frame-alist `((font . ,font))))
 
-  (defvar amirreza/font "Fira Code-11")
+  (defvar amirreza/font "JetBrains Mono-11")
   (amirreza/change-font amirreza/font)
 #+END_SRC
 ** Tabline
@@ -757,6 +758,11 @@ by default is bound to =C-c <left>=.
   (use-package ibuffer-vc :straight t
     :hook (ibuffer-mode . (lambda () (interactive) (ibuffer-vc-set-filter-groups-by-vc-root))))
 
+#+end_src
+* VTerm
+VTerm is the best terminal emulator package for Emacs.
+#+begin_src emacs-lisp
+(use-package vterm :straight t :bind ("C-c t" . vterm-other-window))
 #+end_src
 * Editing & Writing
 ** Editor zoom in/out
@@ -1443,6 +1449,7 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
 #+begin_src emacs-lisp
   (use-package dap-mode :straight t
     :defer t
+    :disabled t
     :config
     (dap-ui-mode 1)
     ;; enables mouse hover support
