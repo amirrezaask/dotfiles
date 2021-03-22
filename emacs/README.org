@@ -2,6 +2,7 @@
 #+AUTHOR: amirrezaask
 * Table Of contents                                                   :TOC@3:
 - [[#personal-information][Personal information]]
+- [[#modules][Modules]]
 - [[#basic-setup][Basic Setup]]
   - [[#tab-setting][Tab Setting]]
   - [[#backup-files-configuration][Backup files configuration]]
@@ -116,6 +117,17 @@
 #+begin_src emacs-lisp
     (setq user-full-name "AmirrezaAskarpour"
           user-mail-address "raskarpour@gmail.com")
+#+end_src
+* Modules
+#+begin_src emacs-lisp
+  (defmacro enabled? (mod &rest body)
+    (let ((varname (intern (format "%s-enabled?" mod))))
+      `(when (boundp ',varname)
+         ,@body)
+      )
+    )
+
+  (load "~/.modules.el")
 #+end_src
 * Basic Setup
 ** Tab Setting
@@ -383,38 +395,31 @@ I want my Emacs to open my TODO file on every startup and have a that buffer ope
 * Keybindings
 ** Evil
 #+begin_src emacs-lisp
-  (defvar amirreza/evil-enabled nil)
-  (defmacro when-evil (&rest body)
-    `(when (not (null amirreza/evil-enabled))
-       ,@body
-       )
-    )
+  (enabled? evil
+            (use-package evil
+              :straight t
+              :init
+              (setq evil-want-keybinding nil)
+              :bind
+              (:map evil-normal-state-map
+                    ("g c" . comment-line)
+                    ("SPC SPC" . amirreza/file-finder)
+                    ("SPC f f" . find-file)
+                    ("SPC ." . counsel-M-x)
+                    ("SPC h d f" . counsel-describe-function)
+                    ("SPC h d v" . counsel-describe-variable)
+                    ("SPC h d k" . describe-key))
+              :config
+              (evil-mode 1))
 
-  (when-evil
-      (use-package evil
-      :straight t
-      :init
-      (setq evil-want-keybinding nil)
-      :bind
-      (:map evil-normal-state-map
-              ("g c" . comment-line)
-              ("SPC SPC" . amirreza/file-finder)
-              ("SPC f f" . find-file)
-              ("SPC ." . counsel-M-x)
-              ("SPC h d f" . counsel-describe-function)
-              ("SPC h d v" . counsel-describe-variable)
-              ("SPC h d k" . describe-key))
-      :config
-      (evil-mode 1))
+            (use-package evil-escape :straight t :config (setq-default evil-escape-key-sequence "jk") (setq evil-escape-unordered-key-sequence t) (evil-escape-mode 1))
+            (use-package evil-collection :straight t :config (evil-collection-init))
 
-      (use-package evil-escape :straight t :config (setq-default evil-escape-key-sequence "jk") (setq evil-escape-unordered-key-sequence t) (evil-escape-mode 1))
-      (use-package evil-collection :straight t :config (evil-collection-init))
-
-      (use-package evil-surround
-      :straight t
-      :config
-      (global-evil-surround-mode 1))
-   )
+            (use-package evil-surround
+              :straight t
+              :config
+              (global-evil-surround-mode 1))
+            )
 #+end_src
 ** Which-key
 #+begin_src emacs-lisp
@@ -592,7 +597,7 @@ I want my Emacs to open my TODO file on every startup and have a that buffer ope
   (defun amirreza/change-font (font)
     (setq default-frame-alist `((font . ,font))))
 
-  (defvar amirreza/font "JetBrains Mono-11")
+  (defvar amirreza/font "JetBrains Mono-10")
   (amirreza/change-font amirreza/font)
 #+END_SRC
 ** Tabline
@@ -853,7 +858,7 @@ VTerm is the best terminal emulator package for Emacs.
 #+BEGIN_SRC emacs-lisp
   (use-package org
   :init
-  (when-evil
+  (enabled? evil
    (evil-define-key 'normal org-mode-map "SPC m n" 'amirreza/--org-insert-no-tangle)
    (evil-define-key 'normal org-mode-map "SPC m b" 'amirreza/--org-insert-elisp-code-block)
    )
@@ -944,7 +949,7 @@ VTerm is the best terminal emulator package for Emacs.
 #+begin_src emacs-lisp
   (use-package project
     :init
-    (when-evil
+    (enabled? evil
      (evil-global-set-key 'normal (kbd "SPC p f") 'amirreza/find-project)
      )
     :bind 
@@ -996,7 +1001,7 @@ VTerm is the best terminal emulator package for Emacs.
                                                                 t) nil nil initial))
   (use-package project
     :init
-    (when-evil
+    (enabled? evil
      (evil-global-set-key 'normal (kbd "SPC a s") 'amirreza/find-symbol-at-point)
      (evil-global-set-key 'normal (kbd "SPC a f") 'amirreza/find-file-at-point)
      (evil-global-set-key 'normal (kbd "SPC g") 'amirreza/grep))
@@ -1477,7 +1482,7 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
     :straight t
     :commands (magit-status magit-get-current-branch)
     :init
-    (when-evil (evil-global-set-key 'normal (kbd "SPC v g") 'magit-status))
+    (enabled? evil (evil-global-set-key 'normal (kbd "SPC v g") 'magit-status))
     :bind
     (("C-x g" . 'magit-status)
      ("C-c v s" . 'magit-status)
