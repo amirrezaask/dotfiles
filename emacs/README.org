@@ -36,11 +36,8 @@
   - [[#font][Font]]
   - [[#tabline][Tabline]]
   - [[#dashboard][Dashboard]]
-- [[#ivy][Ivy]]
-  - [[#ivy-1][Ivy]]
-  - [[#counsel][Counsel]]
-  - [[#ivy-rich][Ivy-Rich]]
-  - [[#ivy-posframe][Ivy-Posframe]]
+- [[#completion-framework][Completion Framework]]
+  - [[#selectrum][Selectrum]]
 - [[#emacs-buffers-and-windows][Emacs Buffers and Windows]]
   - [[#window-rules][Window rules]]
   - [[#eyebrowse][Eyebrowse]]
@@ -616,64 +613,19 @@ I want my Emacs to open my TODO file on every startup and have a that buffer ope
     (setq dashboard-items '())
     (dashboard-setup-startup-hook))
 #+end_src
-* Ivy
-** Ivy
+* Completion Framework
+** Selectrum
 #+begin_src emacs-lisp
-  (use-package flx :straight t)
-  (use-package ivy
+  (use-package selectrum-prescient :straight t)
+  (use-package selectrum
     :straight t
-    :demand
-    :bind
-    (:map ivy-switch-buffer-map
-          ("C-k" . 'ivy-previous-line)
-          :map ivy-minibuffer-map
-          ("C-j" . 'ivy-next-line)
-          ("C-k" . 'ivy-previous-line)
-          ("RET" . 'ivy-alt-done))
     :config
-    (setq ivy-height 15)
-    ;; loopish cycling through list
-    (setq ivy-wrap t)
-    ;; don't show recents in minibuffer
-    (setq ivy-use-virtual-buffers nil)
-    ;; ...but if that ever changes, show their full path
-    (setq ivy-virtual-abbreviate 'full)
-    ;; ;; don't quit minibuffer on delete-error
-    (setq ivy-on-del-error-function #'ignore)
-    (setf (alist-get 't ivy-format-functions-alist)
-          #'ivy-format-function-line)
-    (setq ivy-initial-inputs-alist nil)
-    (setq ivy-re-builders-alist
-          '((t . ivy--regex-ignore-order)))
-    (ivy-mode +1))
+    (selectrum-mode 1)
+    (selectrum-prescient-mode +1)
+    (prescient-persist-mode +1))
 
-#+end_src
-** Counsel
-#+begin_src emacs-lisp
-  (use-package counsel
-    :straight t
-    :bind
-    (("M-x" . 'counsel-M-x)
-     ("C-x C-f" . 'counsel-find-file)
-     ("C-h b" . 'counsel-descbinds)
-     ("C-h f" . 'counsel-describe-function)
-     ("C-h v" . 'counsel-describe-variable)
-     ("C-h a" . 'counsel-apropos)
-     ("M-i" . 'counsel-imenu) ;; code semantics
-     ("M-y" . 'counsel-yank-pop)))
-#+end_src
-** Ivy-Rich
-#+begin_src emacs-lisp
-(use-package ivy-rich :straight t :after ivy :config (ivy-rich-mode 1))
-#+end_src
-** Ivy-Posframe
-#+begin_src emacs-lisp
-  (use-package ivy-posframe :straight t
-    :disabled t
-    :config
-    (setq ivy-posframe-parameters '((parent-frame nil)))
-    (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-center)))
-    (ivy-posframe-mode 1))
+  (use-package consult :straight t)
+
 #+end_src
 * Emacs Buffers and Windows
 ** Window rules
@@ -983,9 +935,6 @@ VTerm is the best terminal emulator package for Emacs.
 ** In buffer searching
 #+begin_src emacs-lisp
   (use-package isearch :bind ("C-s" . isearch-forward))
-  (use-package swiper
-    :after ivy
-    :bind ("C-s" . swiper))
 #+end_src
 ** Ripgrep with persitent result
 #+begin_src emacs-lisp
@@ -1002,20 +951,20 @@ VTerm is the best terminal emulator package for Emacs.
   (use-package project
     :init
     (enabled? evil
-     (evil-global-set-key 'normal (kbd "SPC a s") 'amirreza/find-symbol-at-point)
-     (evil-global-set-key 'normal (kbd "SPC a f") 'amirreza/find-file-at-point)
-     (evil-global-set-key 'normal (kbd "SPC g") 'amirreza/grep))
+              (evil-global-set-key 'normal (kbd "SPC a s") 'amirreza/find-symbol-at-point)
+              (evil-global-set-key 'normal (kbd "SPC a f") 'amirreza/find-file-at-point)
+              (evil-global-set-key 'normal (kbd "SPC g") 'amirreza/grep))
 
 
-     :bind
-     (("C-c f" . 'amirreza/file-finder)
-          ("C-c g" . 'amirreza/grep)
-          ("C-M-s" . 'amirreza/find-symbol-at-point)
-          ("<f1>" . 'amirreza/find-file-at-point)
-          ("<f2>" . 'amirreza/find-symbol-at-point)
-          ("C-M-f" . 'amirreza/find-file-at-point)
-          ("C-M-g" . 'amirreza/find-symbol-at-point))
-        
+    :bind
+    (("C-c f" . 'amirreza/file-finder)
+     ("C-c g" . 'amirreza/grep)
+     ("C-M-s" . 'amirreza/find-symbol-at-point)
+     ("<f1>" . 'amirreza/find-file-at-point)
+     ("<f2>" . 'amirreza/find-symbol-at-point)
+     ("C-M-f" . 'amirreza/find-file-at-point)
+     ("C-M-g" . 'amirreza/find-symbol-at-point))
+
 
     :config
     (defun amirreza/find-symbol-at-point ()
@@ -1036,18 +985,15 @@ VTerm is the best terminal emulator package for Emacs.
       "Grep."
       (interactive)
       (cond
-       ((not (null (executable-find "rg"))) (counsel-rg initial-input))
-       ((not (null (executable-find "ag"))) (counsel-ag initial-input))
-       ((amirreza/is-repo default-directory) (counsel-git-grep))
-       ((not (null (executable-find "grep"))) (counsel-grep initial-input))))
+       ((not (null (executable-find "rg"))) (consult-ripgrep))
+       ((amirreza/is-repo default-directory) (consult-git-grep))
+       ((not (null (executable-find "grep"))) (consult-grep))))
 
     (defun amirreza/file-finder ()
       "Find files smartly."
       (interactive)
       (cond
-       ((amirreza/is-repo (amirreza/find-root)) (counsel-git))
-       ((not (null (executable-find "fzf"))) (counsel-fzf "" (amirreza/find-root)))
-       (t (amirreza/find-file)))))
+       (t (consult-find (amirreza/find-root))))))
 #+end_src
 ** File Type Search
 #+begin_src emacs-lisp
