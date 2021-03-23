@@ -27,7 +27,6 @@
   - [[#emacs-x-window-manager][Emacs X Window Manager]]
   - [[#startup-page][Startup page]]
   - [[#helper-macros][Helper Macros]]
-- [[#keybindings][Keybindings]]
   - [[#evil][Evil]]
   - [[#which-key][Which-key]]
 - [[#appereance][Appereance]]
@@ -39,6 +38,13 @@
   - [[#dashboard][Dashboard]]
 - [[#completion-framework][Completion Framework]]
   - [[#selectrum][Selectrum]]
+- [[#project-integration][Project Integration]]
+- [[#searching][Searching]]
+  - [[#smarter-file-search-and-greping][Smarter file search and greping]]
+  - [[#in-buffer-searching][In buffer searching]]
+  - [[#ripgrep-with-persitent-result][Ripgrep with persitent result]]
+  - [[#smart-symbol-and-file-finding][Smart symbol and file finding]]
+  - [[#file-type-search][File Type Search]]
 - [[#emacs-buffers-and-windows][Emacs Buffers and Windows]]
   - [[#window-rules][Window rules]]
   - [[#eyebrowse][Eyebrowse]]
@@ -63,12 +69,6 @@
   - [[#markdown-mode][Markdown mode]]
   - [[#pdf-tools][Pdf tools]]
   - [[#misc-file-modes][Misc file modes]]
-- [[#project][Project]]
-- [[#searching][Searching]]
-  - [[#in-buffer-searching][In buffer searching]]
-  - [[#ripgrep-with-persitent-result][Ripgrep with persitent result]]
-  - [[#smart-symbol-and-file-finding][Smart symbol and file finding]]
-  - [[#file-type-search][File Type Search]]
 - [[#sync-env-from-default-shell][Sync ENV from default shell]]
 - [[#development][Development]]
   - [[#auto-header][Auto Header]]
@@ -395,8 +395,7 @@ I want my Emacs to open my TODO file on every startup and have a that buffer ope
 #+begin_src emacs-lisp
   (defmacro amirreza/cmd! (&rest body)
     `(lambda (&rest _) (interactive) ,@body))
-#+end_src
-* Keybindings
+#+end_* Keybindings
 ** Evil
 #+begin_src emacs-lisp
   (enabled? evil
@@ -632,6 +631,130 @@ I want my Emacs to open my TODO file on every startup and have a that buffer ope
     (prescient-persist-mode +1))
 
   (use-package consult :straight t)
+
+#+end_src
+* Project Integration
+#+begin_src emacs-lisp
+  (use-package project
+    :init
+    (enabled? evil
+     (evil-global-set-key 'normal (kbd "SPC p f") 'amirreza/find-project)
+     )
+    :bind 
+    (
+     :map global-map ("C-c p" . amirreza/find-project)
+     )
+
+    :config
+    (defun amirreza/find-root ()
+      "Find project root."
+      (let* ((project (vc-root-dir))
+             (dir (if project project default-directory)))
+        dir))
+
+    (defun amirreza/is-repo (path)
+      "Wether a directory is a repo or not"
+      (file-exists-p (expand-file-name ".git" path)))
+
+    (defun amirreza/find-project ()
+      "List of projects in pre defined project locations."
+      (interactive)
+      (dired (completing-read "Project: "
+                              (directory-files-recursively "~/src"
+                                                           ".*"
+                                                           t
+                                                           (lambda (path) (amirreza/is-repo path))
+                                                           t)))))
+
+#+end_src
+* Searching
+** Smarter file search and greping
+#+begin_src emacs-lisp
+    (defun amirreza/find-file ()
+      (interactive)
+      (find-file (amirreza/recursive-search-path "" (amirreza/find-root))))
+
+    (defun amirreza/grep (&optional initial-input)
+      "Grep."
+      (interactive)
+      (cond
+       ((not (null (executable-find "rg"))) (consult-ripgrep))
+       ((amirreza/is-repo default-directory) (consult-git-grep))
+       ((not (null (executable-find "grep"))) (consult-grep))))
+
+    (defun amirreza/file-finder ()
+      "Find files smartly."
+      (interactive)
+      (cond
+       ((amirreza/is-repo (amirreza/find-root)) (consult-find (amirreza/find-root)))
+       (t (consult-find))))
+#+end_src
+** In buffer searching
+#+begin_src emacs-lisp
+  (use-package isearch :defer t)
+  (use-package ctrlf :straight t :bind (("C-s" . ctrlf-forward-literal) ("C-r" . ctrlf-backward-literal)))
+#+end_src
+** Ripgrep with persitent result
+#+begin_src emacs-lisp
+  (use-package rg
+    :straight t
+    :commands (rg))
+#+end_src
+** Smart symbol and file finding
+#+begin_src emacs-lisp
+  (defun amirreza/recursive-search-path (initial path)
+    (completing-read "Find File: " (directory-files-recursively path directory-files-no-dot-files-regexp nil (lambda (name)
+                                                                                                               (not (string-match "\\.git" name)))
+                                                                t) nil nil initial))
+  (use-package project
+    :init
+    (enabled? evil
+              (evil-global-set-key 'normal (kbd "SPC a s") 'amirreza/find-symbol-at-point)
+              (evil-global-set-key 'normal (kbd "SPC a f") 'amirreza/find-file-at-point)
+              (evil-global-set-key 'normal (kbd "SPC g") 'amirreza/grep))
+
+
+    :bind
+    (("C-c f" . 'amirreza/file-finder)
+     ("C-c g" . 'amirreza/grep)
+     ("C-M-s" . 'amirreza/find-symbol-at-point)
+     ("<f1>" . 'amirreza/find-file-at-point)
+     ("<f2>" . 'amirreza/find-symbol-at-point)
+     ("C-M-f" . 'amirreza/find-file-at-point)
+     ("C-M-g" . 'amirreza/find-symbol-at-point))
+
+
+    :config
+    (defun amirreza/find-symbol-at-point ()
+      (interactive)
+      (let* ((symbol (thing-at-point 'word)))
+        (amirreza/grep symbol)))
+
+    (defun amirreza/find-file-at-point ()
+      (interactive)
+      (let* ((symbol (thing-at-point 'word)))
+        (find-file (amirreza/recursive-search-path symbol (amirreza/find-root))))))
+
+
+#+end_src
+** File Type Search
+#+begin_src emacs-lisp
+  (setq amirreza/file-types '(music video document))
+  (setq amirreza/file-type-loc '(music ("~/Music" "~/Downloads") video ("~/Videos" "~/Downloads")))
+  (setq amirreza/file-type-assoc-program '(music "vlc" video "vlc" doc "xdg-open"))
+
+  (defun amirreza/searcher ()
+    (interactive)
+    (let* ((filetype (completing-read "FileType: " amirreza/file-types))
+           (paths (plist-get amirreza/file-type-loc (intern filetype)))
+           (program (plist-get amirreza/file-type-assoc-program (intern filetype)))
+           (files '())
+           (_ (mapc (lambda (path)
+                      (setq files (append files (directory-files-recursively path ""))))
+                    paths))
+           (file (completing-read "Open: " files))
+           (process-name (format "%s: %s" filetype file)))
+      (start-process process-name process-name program (expand-file-name file))))
 
 #+end_src
 * Emacs Buffers and Windows
@@ -904,125 +1027,6 @@ VTerm is the best terminal emulator package for Emacs.
    (use-package nginx-mode :straight 
      :mode ("/etc/nginx/conf.d/.*" "/etc/nginx/.*\\.conf\\'"))
  #+end_src
-* Project
-#+begin_src emacs-lisp
-  (use-package project
-    :init
-    (enabled? evil
-     (evil-global-set-key 'normal (kbd "SPC p f") 'amirreza/find-project)
-     )
-    :bind 
-    (
-     :map global-map ("C-c p" . amirreza/find-project)
-     )
-
-    :config
-    (defun amirreza/find-root ()
-      "Find project root."
-      (let* ((project (vc-root-dir))
-             (dir (if project project default-directory)))
-        dir))
-
-    (defun amirreza/is-repo (path)
-      "Wether a directory is a repo or not"
-      (not (file-exists-p (expand-file-name ".git" path))))
-
-    (defun amirreza/find-project ()
-      "List of projects in pre defined project locations."
-      (interactive)
-      (dired (completing-read "Project: "
-                              (directory-files-recursively "~/src"
-                                                           ".*"
-                                                           t
-                                                           (lambda (path) (amirreza/is-repo path))
-                                                           t)))))
-
-#+end_src
-* Searching
-** In buffer searching
-#+begin_src emacs-lisp
-  (use-package isearch :defer t)
-  (use-package ctrlf :straight t :bind (("C-s" . ctrlf-forward-literal) ("C-r" . ctrlf-backward-literal)))
-#+end_src
-** Ripgrep with persitent result
-#+begin_src emacs-lisp
-  (use-package rg
-    :straight t
-    :commands (rg))
-#+end_src
-** Smart symbol and file finding
-#+begin_src emacs-lisp
-  (defun amirreza/recursive-search-path (initial path)
-    (completing-read "Find File: " (directory-files-recursively path directory-files-no-dot-files-regexp nil (lambda (name)
-                                                                                                               (not (string-match "\\.git" name)))
-                                                                t) nil nil initial))
-  (use-package project
-    :init
-    (enabled? evil
-              (evil-global-set-key 'normal (kbd "SPC a s") 'amirreza/find-symbol-at-point)
-              (evil-global-set-key 'normal (kbd "SPC a f") 'amirreza/find-file-at-point)
-              (evil-global-set-key 'normal (kbd "SPC g") 'amirreza/grep))
-
-
-    :bind
-    (("C-c f" . 'amirreza/file-finder)
-     ("C-c g" . 'amirreza/grep)
-     ("C-M-s" . 'amirreza/find-symbol-at-point)
-     ("<f1>" . 'amirreza/find-file-at-point)
-     ("<f2>" . 'amirreza/find-symbol-at-point)
-     ("C-M-f" . 'amirreza/find-file-at-point)
-     ("C-M-g" . 'amirreza/find-symbol-at-point))
-
-
-    :config
-    (defun amirreza/find-symbol-at-point ()
-      (interactive)
-      (let* ((symbol (thing-at-point 'word)))
-        (amirreza/grep symbol)))
-
-    (defun amirreza/find-file-at-point ()
-      (interactive)
-      (let* ((symbol (thing-at-point 'word)))
-        (find-file (amirreza/recursive-search-path symbol (amirreza/find-root)))))
-
-    (defun amirreza/find-file ()
-      (interactive)
-      (find-file (amirreza/recursive-search-path "" (amirreza/find-root))))
-
-    (defun amirreza/grep (&optional initial-input)
-      "Grep."
-      (interactive)
-      (cond
-       ((not (null (executable-find "rg"))) (consult-ripgrep))
-       ((amirreza/is-repo default-directory) (consult-git-grep))
-       ((not (null (executable-find "grep"))) (consult-grep))))
-
-    (defun amirreza/file-finder ()
-      "Find files smartly."
-      (interactive)
-      (cond
-       (t (consult-find (amirreza/find-root))))))
-#+end_src
-** File Type Search
-#+begin_src emacs-lisp
-  (setq amirreza/file-types '(music video document))
-  (setq amirreza/file-type-loc '(music ("~/Music" "~/Downloads") video ("~/Videos" "~/Downloads")))
-  (setq amirreza/file-type-assoc-program '(music "vlc" video "vlc" doc "xdg-open"))
-
-  (defun amirreza/searcher ()
-    (interactive)
-    (let* ((filetype (completing-read "FileType: " amirreza/file-types))
-           (paths (plist-get amirreza/file-type-loc (intern filetype)))
-           (program (plist-get amirreza/file-type-assoc-program (intern filetype)))
-           (files '())
-           (_ (mapc (lambda (path)
-                      (setq files (append files (directory-files-recursively path ""))))
-                    paths))
-           (file (completing-read "Open: " files))
-           (process-name (format "%s: %s" filetype file)))
-      (start-process process-name process-name program (expand-file-name file))))
-
-#+end_src
 * Sync ENV from default shell
 Emacs has a bultin shell called =eshell= which uses elisp
 as it's scripting engine, I use that as my main shell over the day
