@@ -466,7 +466,7 @@ I want my Emacs to open my TODO file on every startup and have a that buffer ope
      :bind (("<f12>" . amirreza/toggle-color-mode))
      :config
      (defvar amirreza/current-mode 'dark "Current color mode of Emacs.")
-     (defvar amirreza/dark-theme 'doom-outrun-electric)
+     (defvar amirreza/dark-theme 'doom-one)
      (defvar amirreza/light-theme 'modus-operandi)
 
      (defmacro amirreza/--load-theme (&rest theme-opts)
@@ -690,8 +690,8 @@ I want my Emacs to open my TODO file on every startup and have a that buffer ope
   (use-package project
     :init
     (enabled? evil
-     (evil-global-set-key 'normal (kbd "SPC p f") 'amirreza/find-project)
-     )
+              (evil-global-set-key 'normal (kbd "SPC p f") 'amirreza/find-project)
+              )
     :bind 
     (
      :map global-map ("C-c p" . amirreza/find-project)
@@ -715,7 +715,7 @@ I want my Emacs to open my TODO file on every startup and have a that buffer ope
                               (directory-files-recursively "~/src"
                                                            ".*"
                                                            t
-                                                           (lambda (path) (amirreza/is-repo path))
+                                                           (lambda (path) (not (amirreza/is-repo path)))
                                                            t)))))
 
 #+end_src
