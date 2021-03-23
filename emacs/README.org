@@ -37,6 +37,7 @@
   - [[#tabline][Tabline]]
   - [[#dashboard][Dashboard]]
 - [[#completion-framework][Completion Framework]]
+  - [[#ivy][Ivy]]
   - [[#selectrum][Selectrum]]
 - [[#project-integration][Project Integration]]
 - [[#searching][Searching]]
@@ -620,6 +621,57 @@ I want my Emacs to open my TODO file on every startup and have a that buffer ope
     (dashboard-setup-startup-hook))
 #+end_src
 * Completion Framework
+** Ivy
+#+begin_src emacs-lisp
+  (enabled? ivy-enabled?
+            (use-package flx :straight t)
+            (use-package ivy
+              :straight t
+              :demand
+              :bind
+              (:map ivy-switch-buffer-map
+                    ("C-k" . 'ivy-previous-line)
+                    :map ivy-minibuffer-map
+                    ("C-j" . 'ivy-next-line)
+                    ("C-k" . 'ivy-previous-line)
+                    ("RET" . 'ivy-alt-done))
+              :config
+              (setq ivy-height 15)
+              ;; loopish cycling through list
+              (setq ivy-wrap t)
+              ;; don't show recents in minibuffer
+              (setq ivy-use-virtual-buffers nil)
+              ;; ...but if that ever changes, show their full path
+              (setq ivy-virtual-abbreviate 'full)
+              ;; ;; don't quit minibuffer on delete-error
+              (setq ivy-on-del-error-function #'ignore)
+              (setf (alist-get 't ivy-format-functions-alist)
+                    #'ivy-format-function-line)
+              (setq ivy-initial-inputs-alist nil)
+              (setq ivy-re-builders-alist
+                    '((t . ivy--regex-ignore-order)))
+              (ivy-mode +1))
+
+            (use-package counsel
+              :straight t
+              :bind
+              (("M-x" . 'counsel-M-x)
+               ("C-x C-f" . 'counsel-find-file)
+               ("C-h b" . 'counsel-descbinds)
+               ("C-h f" . 'counsel-describe-function)
+               ("C-h v" . 'counsel-describe-variable)
+               ("C-h a" . 'counsel-apropos)
+               ("M-i" . 'counsel-imenu) ;; code semantics
+               ("M-y" . 'counsel-yank-pop)))
+            (use-package ivy-rich :straight t :after ivy :config (ivy-rich-mode 1))
+            (use-package ivy-posframe :straight t
+              :disabled t
+              :config
+              (setq ivy-posframe-parameters '((parent-frame nil)))
+              (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-center)))
+              (ivy-posframe-mode 1))
+            )
+#+end_src
 ** Selectrum
 #+begin_src emacs-lisp
   (use-package selectrum-prescient :straight t)
@@ -692,6 +744,7 @@ I want my Emacs to open my TODO file on every startup and have a that buffer ope
 ** In buffer searching
 #+begin_src emacs-lisp
   (use-package isearch :defer t)
+  (enabled? swiper (use-package swiper :straight t :bind ("C-s" . swiper)))
   (use-package ctrlf :straight t :bind (("C-s" . ctrlf-forward-literal) ("C-r" . ctrlf-backward-literal)))
 #+end_src
 ** Ripgrep with persitent result
@@ -1129,8 +1182,8 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
            (lsp-mode . lsp-enable-which-key-integration)
            (before-save . lsp-format-buffer)))
 
-      (use-package lsp-ivy :after ivy :commands lsp-ivy-workspace-symbol
-        :bind ("C-c m s" . lsp-ivy-workspace-symbol))
+  (use-package lsp-ivy :after ivy :commands lsp-ivy-workspace-symbol
+    :bind ("C-c m s" . lsp-ivy-workspace-symbol))
 #+end_src
 ** Languages
 *** Go
