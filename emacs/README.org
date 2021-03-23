@@ -2,6 +2,7 @@
 #+AUTHOR: amirrezaask
 * Table Of contents                                                   :TOC@3:
 - [[#personal-information][Personal information]]
+- [[#startup-time][Startup Time]]
 - [[#modules][Modules]]
 - [[#basic-setup][Basic Setup]]
   - [[#tab-setting][Tab Setting]]
@@ -114,6 +115,12 @@
 #+begin_src emacs-lisp
     (setq user-full-name "AmirrezaAskarpour"
           user-mail-address "raskarpour@gmail.com")
+#+end_src
+* Startup Time
+#+begin_src emacs-lisp
+  (defun amirreza/startup-time ()
+    (interactive)
+    (message "Emacs start time: %.2f" (float-time (time-subtract after-init-time before-init-time))))
 #+end_src
 * Modules
 #+begin_src emacs-lisp
@@ -934,7 +941,8 @@ VTerm is the best terminal emulator package for Emacs.
 * Searching
 ** In buffer searching
 #+begin_src emacs-lisp
-  (use-package isearch :bind ("C-s" . isearch-forward))
+  (use-package isearch :defer t)
+  (use-package ctrlf :straight t :bind (("C-s" . ctrlf-forward-literal) ("C-r" . ctrlf-backward-literal)))
 #+end_src
 ** Ripgrep with persitent result
 #+begin_src emacs-lisp
