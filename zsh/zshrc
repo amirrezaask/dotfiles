@@ -1,5 +1,5 @@
 export ZSH="/home/$(whoami)/.oh-my-zsh"
-source $GOPATH/src/github.com/amirrezaask/dotfiles/zsh/vars.zsh
+source ~/src/github.com/amirrezaask/dotfiles/zsh/vars.zsh
 
 ZSH_THEME="ys"
 
