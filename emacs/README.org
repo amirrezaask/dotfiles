@@ -594,7 +594,8 @@ I want my Emacs to open my TODO file on every startup and have a that buffer ope
                  " "
                  "[" '(:eval (propertize display-time-string 'face 'amirreza/date-face)) "] "))
 
-
+  (use-package doom-modeline :straight t :config (setq doom-modeline-height 35) (doom-modeline-mode 1))
+  (use-package nyan-mode :straight t :config (nyan-mode 1))
 #+end_src
 ** Font
 #+BEGIN_SRC emacs-lisp
