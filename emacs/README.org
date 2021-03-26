@@ -396,7 +396,8 @@ I want my Emacs to open my TODO file on every startup and have a that buffer ope
 #+begin_src emacs-lisp
   (defmacro amirreza/cmd! (&rest body)
     `(lambda (&rest _) (interactive) ,@body))
-#+end_* Keybindings
+#+end_src
+* Keybindings
 ** Evil
 #+begin_src emacs-lisp
   (enabled? evil

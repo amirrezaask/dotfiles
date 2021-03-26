@@ -6,7 +6,7 @@ export EDITOR='nvim'
 export GOPRIVATE='devheroes.codes,gitlab.com,gitlab.espadev.ir'
 export PLAN9="$HOME/.local/plan9"
 export PATH="/usr/local/go/bin:$HOME/.config/composer/vendor/bin:$GOROOT/bin:$GOPATH/bin:$HOME/.cargo/bin:$PYTHONBINS:/usr/local/Postman:$HOME/.local/elixir-ls/:$PATH"
-
+export DOTFILES="~/src/github.com/amirrezaask/dotfiles/"
 # Aliases
 alias open='xdg-open'
 alias g='git status'
