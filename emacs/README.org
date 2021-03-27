@@ -27,6 +27,7 @@
   - [[#emacs-x-window-manager][Emacs X Window Manager]]
   - [[#startup-page][Startup page]]
   - [[#helper-macros][Helper Macros]]
+- [[#keybindings][Keybindings]]
   - [[#evil][Evil]]
   - [[#which-key][Which-key]]
 - [[#appereance][Appereance]]
@@ -78,6 +79,8 @@
   - [[#snippets][Snippets]]
   - [[#dumb-jump][Dumb Jump]]
   - [[#lsp][LSP]]
+    - [[#lsp-mode][LSP mode]]
+    - [[#eglot][Eglot]]
   - [[#languages][Languages]]
     - [[#go][Go]]
     - [[#cc][C/C++]]
@@ -128,9 +131,7 @@
   (defmacro enabled? (mod &rest body)
     (let ((varname (intern (format "%s-enabled?" mod))))
       `(when (boundp ',varname)
-         ,@body)
-      )
-    )
+         ,@body)))
 
   (load "~/.modules.el")
 #+end_src
@@ -595,15 +596,15 @@ I want my Emacs to open my TODO file on every startup and have a that buffer ope
                  " "
                  "[" '(:eval (propertize display-time-string 'face 'amirreza/date-face)) "] "))
 
-  (use-package doom-modeline :straight t :config (setq doom-modeline-height 35) (doom-modeline-mode 1))
-  (use-package nyan-mode :straight t :config (nyan-mode 1))
+ ;; (use-package doom-modeline :straight t :config (setq doom-modeline-height 35) (doom-modeline-mode 1))
+ ;; (use-package nyan-mode :straight t :config (nyan-mode 1))
 #+end_src
 ** Font
 #+BEGIN_SRC emacs-lisp
   (defun amirreza/change-font (font)
     (setq default-frame-alist `((font . ,font))))
 
-  (defvar amirreza/font "JetBrains Mono-10")
+  (defvar amirreza/font "Fira Code-10")
   (amirreza/change-font amirreza/font)
 #+END_SRC
 ** Tabline
@@ -690,6 +691,7 @@ I want my Emacs to open my TODO file on every startup and have a that buffer ope
 * Project Integration
 #+begin_src emacs-lisp
   (use-package project
+    :straight t
     :init
     (enabled? evil
               (evil-global-set-key 'normal (kbd "SPC p f") 'amirreza/find-project)
@@ -1173,19 +1175,27 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
         (xref-backend-functions . #'dumb-jump-xref-activate))
 #+end_src
 ** LSP
+*** LSP mode
+    :PROPERTIES:
+:header-args: :tangle no
+:END:
+   #+begin_src emacs-lisp
+     (use-package lsp-mode :straight t
+       :init
+       (setq lsp-file-watch-threshold 10000)
+       (setq lsp-auto-guess-root t)
+       (setq lsp-keymap-prefix "C-c l")
+       (setq lsp-before-save-edit t)
+       (defun amirreza/lsp ()
+          (lsp))
+  
+       :hook (
+              (lsp-mode . lsp-enable-which-key-integration)
+              (before-save . lsp-format-buffer)))
+#+end_src
+*** Eglot
 #+begin_src emacs-lisp
-  (use-package lsp-mode :straight t
-    :init
-    (setq lsp-file-watch-threshold 10000)
-    (setq lsp-auto-guess-root t)
-    (setq lsp-keymap-prefix "C-c l")
-    (setq lsp-before-save-edit t)
-    :hook (
-           (lsp-mode . lsp-enable-which-key-integration)
-           (before-save . lsp-format-buffer)))
-
-  (use-package lsp-ivy :after ivy :commands lsp-ivy-workspace-symbol
-    :bind ("C-c m s" . lsp-ivy-workspace-symbol))
+  (use-package eglot :straight t :init (defun amirreza/lsp () (eglot-ensure)))
 #+end_src
 ** Languages
 *** Go
@@ -1201,7 +1211,7 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
      :mode ("\\.go\\'" . go-mode)
      :hook
      (go-mode . amirreza/go-hook)
-     (go-mode . lsp)
+     (go-mode . amirreza/lsp)
      :bind
      (:map go-mode-map
            ("C-c m g t" . amirreza/snippet-go-tf)
@@ -1287,7 +1297,7 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
    (use-package python-mode
      :mode "\\.py\\'"
      :hook
-     (python-mode . lsp)
+     (python-mode . amirreza/lsp)
      :config
      (defun amirreza/python-insert-docstring ()
        (interactive)
@@ -1333,7 +1343,7 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
  #+end_src
 *** Lua
 #+begin_src emacs-lisp
-(use-package lua-mode :straight t :mode "\\.lua" :hook (lua-mode . lsp))
+(use-package lua-mode :straight t :mode "\\.lua" :hook (lua-mode . amirreza/lsp))
 #+end_src
 *** Zig
  #+begin_src emacs-lisp
@@ -1385,7 +1395,7 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
        (use-package clojure-mode :straight t
          :mode "\\.cljs?\\'"
          :hook
-         (clojure-mode . lsp)
+         (clojure-mode . amirreza/lsp)
          :config
          (setq-local prettify-symbols-alist '(("fn" . 955) ; λ
                                                ("->" . 8594))))
@@ -1447,7 +1457,7 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
      :straight t
      :mode ("\\.rs\\'" . rustic-mode)
      :hook
-     (rust-mode . lsp)
+     (rust-mode . amirreza/lsp)
      :config
      (setq rustic-format-on-save t))
  #+END_SRC
