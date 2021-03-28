@@ -128,10 +128,16 @@
 #+end_src
 * Modules
 #+begin_src emacs-lisp
-  (defmacro enabled? (mod &rest body)
-    (let ((varname (intern (format "%s-enabled?" mod))))
-      `(when (boundp ',varname)
-         ,@body)))
+  (defvar amirreza/modules '() "List of modules enabled")
+  (defun enabled? (mod)
+    (not (null (member mod amirreza/modules))))
+
+  (defmacro if-enabled? (mod &rest body)
+    `(when (enabled? (quote ,mod))
+       ,@body))
+
+  (defun enable! (&rest modules)
+    (setq amirreza/modules (append modules amirreza/modules)))
 
   (load "~/.modules.el")
 #+end_src
@@ -401,7 +407,7 @@ I want my Emacs to open my TODO file on every startup and have a that buffer ope
 * Keybindings
 ** Evil
 #+begin_src emacs-lisp
-  (enabled? evil
+  (if-enabled? evil
             (use-package evil
               :straight t
               :init
@@ -626,7 +632,7 @@ I want my Emacs to open my TODO file on every startup and have a that buffer ope
 * Completion Framework
 ** Ivy
 #+begin_src emacs-lisp
-  (enabled? ivy-enabled?
+  (if-enabled? ivy-if-enabled?
             (use-package flx :straight t)
             (use-package ivy
               :straight t
@@ -693,7 +699,7 @@ I want my Emacs to open my TODO file on every startup and have a that buffer ope
   (use-package project
     :straight t
     :init
-    (enabled? evil
+    (if-enabled? evil
               (evil-global-set-key 'normal (kbd "SPC p f") 'amirreza/find-project)
               )
     :bind 
@@ -748,7 +754,7 @@ I want my Emacs to open my TODO file on every startup and have a that buffer ope
 ** In buffer searching
 #+begin_src emacs-lisp
   (use-package isearch :defer t)
-  (enabled? swiper (use-package swiper :straight t :bind ("C-s" . swiper)))
+  (if-enabled? swiper (use-package swiper :straight t :bind ("C-s" . swiper)))
   (use-package ctrlf :straight t :bind (("C-s" . ctrlf-forward-literal) ("C-r" . ctrlf-backward-literal)))
 #+end_src
 ** Ripgrep with persitent result
@@ -765,7 +771,7 @@ I want my Emacs to open my TODO file on every startup and have a that buffer ope
                                                                 t) nil nil initial))
   (use-package project
     :init
-    (enabled? evil
+    (if-enabled? evil
               (evil-global-set-key 'normal (kbd "SPC a s") 'amirreza/find-symbol-at-point)
               (evil-global-set-key 'normal (kbd "SPC a f") 'amirreza/find-file-at-point)
               (evil-global-set-key 'normal (kbd "SPC g") 'amirreza/grep))
@@ -997,7 +1003,7 @@ VTerm is the best terminal emulator package for Emacs.
 #+BEGIN_SRC emacs-lisp
   (use-package org
   :init
-  (enabled? evil
+  (if-enabled? evil
    (evil-define-key 'normal org-mode-map "SPC m n" 'amirreza/--org-insert-no-tangle)
    (evil-define-key 'normal org-mode-map "SPC m b" 'amirreza/--org-insert-elisp-code-block)
    )
@@ -1505,7 +1511,7 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
     :straight t
     :commands (magit-status magit-get-current-branch)
     :init
-    (enabled? evil (evil-global-set-key 'normal (kbd "SPC v g") 'magit-status))
+    (if-enabled? evil (evil-global-set-key 'normal (kbd "SPC v g") 'magit-status))
     :bind
     (("C-x g" . 'magit-status)
      ("C-c v s" . 'magit-status)
