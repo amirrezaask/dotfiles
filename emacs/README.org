@@ -128,7 +128,7 @@
 #+end_src
 * Modules
 #+begin_src emacs-lisp
-  (defvar amirreza/modules '() "List of modules enabled")
+  (defvar amirreza/modules '(ivy amirreza/modeline dashboard) "List of modules enabled")
   (defun enabled? (mod)
     (not (null (member mod amirreza/modules))))
 
@@ -525,85 +525,87 @@ I want my Emacs to open my TODO file on every startup and have a that buffer ope
   #+END_SRC
 ** Modeline
 #+begin_src emacs-lisp
-  (setq mode-line-percent-position '(-3 "%p"))
+  (if-enabled? amirreza/modeline 
+     (setq mode-line-percent-position '(-3 "%p"))
 
-  (defface amirreza/buffer-face
-    '(
-      (((background dark))  :foreground "IndianRed1" :weight bold)
-      (((background light)) :foreground "blue violet" :weight bold)
-      )
-    "Face for buffer name.")
+     (defface amirreza/buffer-face
+       '(
+         (((background dark))  :foreground "IndianRed1" :weight bold)
+         (((background light)) :foreground "blue violet" :weight bold)
+         )
+       "Face for buffer name.")
 
-  (defface amirreza/date-face
-    '(
-      (((background dark)) :foreground "yellow" :weight bold)
-      (((background light)) :foreground "tomato" :weight bold)
-      )
-    "Face for global variables.")
-
-
-  (defface amirreza/vcs-face
-    '(
-      (((background dark)) :foreground "cyan" :weight bold)
-      (((background light)) :foreground "olive drab" :weight bold)
-      )
-    "Face for global variables.")
-
-  (defface amirreza/mode-face
-    '(
-      (((background dark)) :foreground "spring green" :weight bold)
-      (((background light)) :foreground "royal blue" :weight bold)
-      )
-    "Face for global variables.")
-
-  (defface amirreza/pos-face
-    '(
-      (((background dark)) :foreground "light slate blue" :weight bold)
-      (((background light)) :foreground "firebrick" :weight bold)
-      )
-    "Face for global variables.")
-
-  (defface amirreza/workspace-face
-    '(
-      (((background dark)) :foreground "orange" :weight bold)
-      (((background light)) :foreground "violet red" :weight bold)
-      )
-    "Face for global variables.")
+     (defface amirreza/date-face
+       '(
+         (((background dark)) :foreground "yellow" :weight bold)
+         (((background light)) :foreground "tomato" :weight bold)
+         )
+       "Face for global variables.")
 
 
-  (setq display-time-string-forms
-        '((propertize
-           (concat 24-hours ":" minutes " " day "/" month "/" year)
-           'face 'marco-date)))
+     (defface amirreza/vcs-face
+       '(
+         (((background dark)) :foreground "cyan" :weight bold)
+         (((background light)) :foreground "olive drab" :weight bold)
+         )
+       "Face for global variables.")
 
-  (setq-default mode-line-format
-                (list
-                 "["
-                 '(:eval
-                   (let ((workspace-number (format "%d" (eyebrowse--get 'current-slot))))
-                     (if (= (length workspace-number) 0)
-                         ""
-                       (propertize workspace-number 'face 'amirreza/workspace-face))))
+     (defface amirreza/mode-face
+       '(
+         (((background dark)) :foreground "spring green" :weight bold)
+         (((background light)) :foreground "royal blue" :weight bold)
+         )
+       "Face for global variables.")
 
-                 "]"
-                 "  "
-                 "[" '(:eval (propertize "%b" 'face 'amirreza/buffer-face)) "]"
-                 " "
-                 "[" '(:eval (propertize "%m" 'face 'amirreza/mode-face)) "]"
-                 " "
-                 "[" '(:eval (propertize "%l,%c" 'face 'amirreza/pos-face)) "]"
-                 " "
+     (defface amirreza/pos-face
+       '(
+         (((background dark)) :foreground "light slate blue" :weight bold)
+         (((background light)) :foreground "firebrick" :weight bold)
+         )
+       "Face for global variables.")
 
-                 "[" '(:eval (when-let (vc vc-mode)
-                               (list " "
-                                     (propertize (substring vc 5)
-                                                 'face 'amirreza/vcs-face)
-                                     " "))) "]"
-                 " "
-                 "[" '(:eval (propertize display-time-string 'face 'amirreza/date-face)) "] "))
+     (defface amirreza/workspace-face
+       '(
+         (((background dark)) :foreground "orange" :weight bold)
+         (((background light)) :foreground "violet red" :weight bold)
+         )
+       "Face for global variables.")
 
- ;; (use-package doom-modeline :straight t :config (setq doom-modeline-height 35) (doom-modeline-mode 1))
- ;; (use-package nyan-mode :straight t :config (nyan-mode 1))
+
+     (setq display-time-string-forms
+           '((propertize
+              (concat 24-hours ":" minutes " " day "/" month "/" year)
+              'face 'marco-date)))
+
+     (setq-default mode-line-format
+                   (list
+                    "["
+                    '(:eval
+                      (let ((workspace-number (format "%d" (eyebrowse--get 'current-slot))))
+                        (if (= (length workspace-number) 0)
+                            ""
+                          (propertize workspace-number 'face 'amirreza/workspace-face))))
+
+                    "]"
+                    "  "
+                    "[" '(:eval (propertize "%b" 'face 'amirreza/buffer-face)) "]"
+                    " "
+                    "[" '(:eval (propertize "%m" 'face 'amirreza/mode-face)) "]"
+                    " "
+                    "[" '(:eval (propertize "%l,%c" 'face 'amirreza/pos-face)) "]"
+                    " "
+
+                    "[" '(:eval (when-let (vc vc-mode)
+                                  (list " "
+                                        (propertize (substring vc 5)
+                                                    'face 'amirreza/vcs-face)
+                                        " "))) "]"
+                    " "
+                    "[" '(:eval (propertize display-time-string 'face 'amirreza/date-face)) "] ")))
+
+  (if-enabled? doom/modeline 
+    (use-package doom-modeline :straight t :config (setq doom-modeline-height 35) (doom-modeline-mode 1))
+    (use-package nyan-mode :straight t :config (nyan-mode 1)))
 #+end_src
 ** Font
 #+BEGIN_SRC emacs-lisp
@@ -621,18 +623,19 @@ I want my Emacs to open my TODO file on every startup and have a that buffer ope
 #+end_src
 ** Dashboard
 #+begin_src emacs-lisp
-  (use-package dashboard
-    :straight t
-    :config
-    (setq dashboard-startup-banner 'logo)
-    (setq dashboard-center-content t)
-    (setq dashboard-items '())
-    (dashboard-setup-startup-hook))
+  (if-enabled? dashboard 
+               (use-package dashboard
+                 :straight t
+                 :config
+                 (setq dashboard-startup-banner 'logo)
+                 (setq dashboard-center-content t)
+                 (setq dashboard-items '())
+                 (dashboard-setup-startup-hook)))
 #+end_src
 * Completion Framework
 ** Ivy
 #+begin_src emacs-lisp
-  (if-enabled? ivy-if-enabled?
+  (if-enabled? ivy
             (use-package flx :straight t)
             (use-package ivy
               :straight t
@@ -683,15 +686,16 @@ I want my Emacs to open my TODO file on every startup and have a that buffer ope
 #+end_src
 ** Selectrum
 #+begin_src emacs-lisp
-  (use-package selectrum-prescient :straight t)
-  (use-package selectrum
-    :straight t
-    :config
-    (selectrum-mode 1)
-    (selectrum-prescient-mode +1)
-    (prescient-persist-mode +1))
+  (if-enabled? selectrum 
+               (use-package selectrum-prescient :straight t)
+               (use-package selectrum
+                 :straight t
+                 :config
+                 (selectrum-mode 1)
+                 (selectrum-prescient-mode +1)
+                 (prescient-persist-mode +1))
 
-  (use-package consult :straight t)
+               (use-package consult :straight t))
 
 #+end_src
 * Project Integration
