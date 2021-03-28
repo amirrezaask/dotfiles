@@ -25,9 +25,16 @@
 ;;; Code:
 
 ;; Initialize Package manager
-(core/init-package-manager)
+(require 'core-pkg)
+(core/pkg-init)
+
+;; Delete old tangled README file
 (delete-file "~/.emacs.d/README.el")
 
+;; Initiate module system
+(require 'core-modules)
+
+;; Load configuration
 (org-babel-load-file "~/.emacs.d/README.org")
 
 

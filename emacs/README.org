@@ -3,7 +3,11 @@
 * Table Of contents                                                   :TOC@3:
 - [[#personal-information][Personal information]]
 - [[#startup-time][Startup Time]]
-- [[#modules][Modules]]
+- [[#core][Core]]
+  - [[#package-manager][Package manager]]
+  - [[#module-system][Module System]]
+  - [[#gcmh][GCMH]]
+- [[#enabled-modules][Enabled Modules]]
 - [[#basic-setup][Basic Setup]]
   - [[#tab-setting][Tab Setting]]
   - [[#backup-files-configuration][Backup files configuration]]
@@ -126,20 +130,14 @@
     (interactive)
     (message "Emacs start time: %.2f" (float-time (time-subtract after-init-time before-init-time))))
 #+end_src
-* Modules
+* Core
+Core is a set of basic functionalities i need to build my emacs upon them.
+** Package manager
+** Module System
+** GCMH
+* Enabled Modules
 #+begin_src emacs-lisp
-  (defvar amirreza/modules '(selectrum amirreza/modeline dashboard) "List of modules enabled")
-  (defun enabled? (mod)
-    (not (null (member mod amirreza/modules))))
-
-  (defmacro if-enabled? (mod &rest body)
-    `(when (enabled? (quote ,mod))
-       ,@body))
-
-  (defun enable! (&rest modules)
-    (setq amirreza/modules (append modules amirreza/modules)))
-
-  (load "~/.modules.el")
+(defvar amirreza/modules '(selectrum amirreza/modeline dashboard))
 #+end_src
 * Basic Setup
 ** Tab Setting
