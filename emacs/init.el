@@ -25,7 +25,7 @@
 ;;; Code:
 
 ;; Initialize Package manager
-(corelib/init-package-manager)
+(core/init-package-manager)
 (delete-file "~/.emacs.d/README.el")
 
 (org-babel-load-file "~/.emacs.d/README.org")

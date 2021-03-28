@@ -1,4 +1,4 @@
-;;; corelib.el --- CoreLib main script               -*- lexical-binding: t; -*-
+;;; core.el --- Core main script               -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2020  AmirrezaAskarpour
 
@@ -25,9 +25,9 @@
 ;;; Code:
 
 
-(defvar corelib/emacs-init-timestamp (float-time) "Holds Emacs initialization time.")
+(defvar core/emacs-init-timestamp (float-time) "Holds Emacs initialization time.")
 
-(defun corelib/init-package-manager ()
+(defun core/init-package-manager ()
   "Initialize Straight.el package manager."
   ;; Initialize Package manager
   (defvar bootstrap-version)
@@ -44,14 +44,17 @@
     (load bootstrap-file nil 'nomessage))
   (straight-use-package 'use-package))
 
+(defmacro pkg! (&rest args)
+    `(use-package ,@args))
 
-(defun corelib/faster-start ()
+
+(defun core/faster-start ()
   ;; Defer Garbage collection
   (setq gc-cons-threshold most-positive-fixnum)
 
   ;; Restore garbage collection after initialization
   (add-hook 'after-init-hook (lambda ()
-                               (require 'corelib-gcmh)
+                               (require 'core-gcmh)
                                (gcmh-mode 1)))
   ;; Prevent the glimpse of un-styled Emacs by disabling these UI elements early.
   (push '(menu-bar-lines . 0) default-frame-alist)
@@ -81,5 +84,5 @@
         initial-major-mode 'fundamental-mode
         initial-scratch-message nil))
 
-(provide 'corelib)
-;;; corelib.el ends here
+(provide 'core)
+;;; core.el ends here
