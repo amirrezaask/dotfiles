@@ -713,7 +713,7 @@ Emacs is so extensible that it can actually be a X window manager. You can liter
         (defun amirreza/find-symbol-at-point ()
           (interactive)
           (let* ((symbol (thing-at-point 'word)))
-            (counsel-rg symbol (projectile-project-root))))
+            (counsel-rg symbol (projectile-project-root)))))
 
 
   (pkg! project :defer t)
