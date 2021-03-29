@@ -46,7 +46,6 @@
 - [[#searching][Searching]]
   - [[#in-buffer-searching][In buffer searching]]
   - [[#ripgrep-with-persitent-result][Ripgrep with persitent result]]
-  - [[#smart-symbol-and-file-finding][Smart symbol and file finding]]
   - [[#file-type-search][File Type Search]]
 - [[#emacs-buffers-and-windows][Emacs Buffers and Windows]]
   - [[#window-rules][Window rules]]
@@ -682,41 +681,42 @@ Emacs is so extensible that it can actually be a X window manager. You can liter
 #+end_src
 * Project Integration
 #+begin_src emacs-lisp
-  (pkg! projectile
-        :straight t
-        :commands (projectile-find-file projectile-project-root)
-        :bind
-        (("C-c f" . projectile-find-file)
-         ("C-c g" . projectile-grep)
-         ("C-M-s" . 'amirreza/find-symbol-at-point)
-         ("<f1>" . 'amirreza/find-file-at-point)
-         ("<f2>" . 'amirreza/find-symbol-at-point)
-         ("C-M-f" . 'amirreza/find-file-at-point)
-         ("C-M-g" . 'amirreza/find-symbol-at-point))
+    (pkg! projectile
+          :straight t
+          :commands (projectile-find-file projectile-project-root)
+          :bind
+          (("C-c p" . amirreza/find-project)
+           ("C-c f" . projectile-find-file)
+           ("C-c g" . projectile-grep)
+           ("C-M-s" . 'amirreza/find-symbol-at-point)
+           ("<f1>" . 'amirreza/find-file-at-point)
+           ("<f2>" . 'amirreza/find-symbol-at-point)
+           ("C-M-f" . 'amirreza/find-file-at-point)
+           ("C-M-g" . 'amirreza/find-symbol-at-point))
 
-        :config
-        (defun amirreza/find-project ()
-          "List of projects in pre defined project locations."
-          (interactive)
-          (dired (completing-read "Project: "
-                                  (directory-files-recursively "~/src"
-                                                               ".*"
-                                                               t
-                                                               (lambda (path) (not (projectile-project-p path)))
-                                                               t))))
+          :config
+          (defun amirreza/find-project ()
+            "List of projects in pre defined project locations."
+            (interactive)
+            (dired (completing-read "Project: "
+                                    (directory-files-recursively "~/src"
+                                                                 ".*"
+                                                                 t
+                                                                 (lambda (path) (not (projectile-project-p path)))
+                                                                 t))))
       
-        (defun amirreza/recursive-search-path (initial path)
-          (completing-read "Find File: " (directory-files-recursively path directory-files-no-dot-files-regexp nil (lambda (name)
-                                                                                                                     (not (string-match "\\.git" name)))
-                                                                      t) nil nil initial))
+          (defun amirreza/recursive-search-path (initial path)
+            (completing-read "Find File: " (directory-files-recursively path directory-files-no-dot-files-regexp nil (lambda (name)
+                                                                                                                       (not (string-match "\\.git" name)))
+                                                                        t) nil nil initial))
 
-        (defun amirreza/find-symbol-at-point ()
-          (interactive)
-          (let* ((symbol (thing-at-point 'word)))
-            (counsel-rg symbol (projectile-project-root)))))
+          (defun amirreza/find-symbol-at-point ()
+            (interactive)
+            (let* ((symbol (thing-at-point 'word)))
+              (counsel-rg symbol (projectile-project-root)))))
 
 
-  (pkg! project :defer t)
+    (pkg! project :defer t)
 
 #+end_src
 * Searching
@@ -731,11 +731,6 @@ Emacs is so extensible that it can actually be a X window manager. You can liter
   (pkg! rg
     :straight t
     :commands (rg))
-#+end_src
-** Smart symbol and file finding
-#+begin_src emacs-lisp
-
-
 #+end_src
 ** File Type Search
 #+begin_src emacs-lisp
@@ -1505,7 +1500,7 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
               ("\\.\\(?:mp3\\|flac\\)\\'" ,cmd)
               ("\\.html?\\'" ,cmd)
               ("\\.md\\'" ,cmd))))
-  
+
   (pkg! dired-sidebar :straight t
     :bind
     (("<f8>" . dired-sidebar-toggle-sidebar)))
