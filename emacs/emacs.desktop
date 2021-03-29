@@ -7,4 +7,4 @@ Type=Application
 Terminal=false
 Categories=Development;TextEditor;
 StartupWMClass=Emacs
-Exec=/usr/local/bin/emacs
+Exec=/usr/bin/emacs %F

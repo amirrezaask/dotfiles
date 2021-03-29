@@ -28,9 +28,9 @@
   - [[#show-line-numbers][Show line numbers]]
   - [[#highlight-matching-parens][Highlight matching parens]]
   - [[#track-laptop-battery][Track laptop battery]]
-  - [[#emacs-x-window-manager][Emacs X Window Manager]]
   - [[#startup-page][Startup page]]
   - [[#helper-macros][Helper Macros]]
+- [[#emacs-x-window-manager][Emacs X Window Manager]]
 - [[#keybindings][Keybindings]]
   - [[#evil][Evil]]
   - [[#which-key][Which-key]]
@@ -133,11 +133,14 @@
 * Core
 Core is a set of basic functionalities i need to build my emacs upon them.
 ** Package manager
+My package manager is based on combining `Straight.el` and `use-package` together with some extra sugar on top.
 ** Module System
+My module system is a way to enable/disable an elisp block using a central list of enabled modules.
 ** GCMH
+Tune garbage collector to act smarter. ( credits to Andre for creating this library )
 * Enabled Modules
 #+begin_src emacs-lisp
-(defvar amirreza/modules '(selectrum amirreza/modeline dashboard))
+(defvar amirreza/modules '(ivy doom/modeline dashboard))
 #+end_src
 * Basic Setup
 ** Tab Setting
@@ -247,12 +250,25 @@ Core is a set of basic functionalities i need to build my emacs upon them.
   (pkg! battery
     :config (display-battery-mode 1))
 #+end_src
-** Emacs X Window Manager
-:PROPERTIES:
-:header-args: :tangle no
-:END:
+
+** Startup page
+I want my Emacs to open my TODO file on every startup and have a that buffer open and accessible with a short key.
+#+begin_src emacs-lisp
+  (defvar amirreza/todo-file "~/TODO.org" "Personal Todo file")
+  (defun amirreza/open-todo ()
+      (interactive)
+      (find-file amirreza/todo-file))
+  (global-set-key (kbd "<f2>") 'amirreza/open-todo)
+#+end_src
+** Helper Macros
+#+begin_src emacs-lisp
+  (defmacro amirreza/cmd! (&rest body)
+    `(lambda (&rest _) (interactive) ,@body))
+#+end_src
+* Emacs X Window Manager
 Emacs is so extensible that it can actually be a X window manager. You can literally login into Emacs, using exwm package you can run your whole computing environment inside Emacs.
 #+begin_src emacs-lisp
+(if-enabled? exwm
   (pkg! exwm
     :straight t
     :config
@@ -386,21 +402,7 @@ Emacs is so extensible that it can actually be a X window manager. You can liter
     (exwm-randr-enable)
     (start-process-shell-command "Set keyboard layout" nil "setxkbmap -layout 'us,ir' -option 'grp:shifts_toggle' -option 'ctrl:nocaps'")
     (exwm-systemtray-enable)
-    (exwm-enable))
-#+end_src
-** Startup page
-I want my Emacs to open my TODO file on every startup and have a that buffer open and accessible with a short key.
-#+begin_src emacs-lisp
-  (defvar amirreza/todo-file "~/TODO.org" "Personal Todo file")
-  (defun amirreza/open-todo ()
-      (interactive)
-      (find-file amirreza/todo-file))
-  (global-set-key (kbd "<f2>") 'amirreza/open-todo)
-#+end_src
-** Helper Macros
-#+begin_src emacs-lisp
-  (defmacro amirreza/cmd! (&rest body)
-    `(lambda (&rest _) (interactive) ,@body))
+    (exwm-enable)))
 #+end_src
 * Keybindings
 ** Evil
@@ -472,7 +474,7 @@ I want my Emacs to open my TODO file on every startup and have a that buffer ope
      :bind (("<f12>" . amirreza/toggle-color-mode))
      :config
      (defvar amirreza/current-mode 'dark "Current color mode of Emacs.")
-     (defvar amirreza/dark-theme 'doom-gruvbox)
+     (defvar amirreza/dark-theme 'doom-one)
      (defvar amirreza/light-theme 'modus-operandi)
 
      (defmacro amirreza/--load-theme (&rest theme-opts)
@@ -602,8 +604,8 @@ I want my Emacs to open my TODO file on every startup and have a that buffer ope
                     "[" '(:eval (propertize display-time-string 'face 'amirreza/date-face)) "] ")))
 
   (if-enabled? doom/modeline 
-    (pkg! doom-modeline :straight t :config (setq doom-modeline-height 35) (doom-modeline-mode 1))
-    (pkg! nyan-mode :straight t :config (nyan-mode 1)))
+    (pkg! doom-modeline :straight t :config (setq doom-modeline-height 35) (doom-modeline-mode 1)))
+    
 #+end_src
 ** Font
 #+BEGIN_SRC emacs-lisp
@@ -734,30 +736,45 @@ I want my Emacs to open my TODO file on every startup and have a that buffer ope
 * Searching
 ** Smarter file search and greping
 #+begin_src emacs-lisp
-    (defun amirreza/find-file ()
-      (interactive)
-      (find-file (amirreza/recursive-search-path "" (amirreza/find-root))))
+  (defun amirreza/find-file ()
+    (interactive)
+    (find-file (amirreza/recursive-search-path "" (amirreza/find-root))))
 
-    (defun amirreza/grep (&optional initial-input)
-      "Grep."
-      (interactive)
-      (cond
-       ((not (null (executable-find "rg"))) (consult-ripgrep))
-       ((amirreza/is-repo default-directory) (consult-git-grep))
-       ((not (null (executable-find "grep"))) (consult-grep))))
+  (defun amirreza/grep (&optional initial-input)
+    "Grep."
+    (interactive)
+    (if-enabled? selectrum
 
-    (defun amirreza/file-finder ()
-      "Find files smartly."
-      (interactive)
-      (cond
-       ((amirreza/is-repo (amirreza/find-root)) (consult-find (amirreza/find-root)))
-       (t (consult-find))))
+                 (cond
+                  ((not (null (executable-find "rg"))) (consult-ripgrep))
+                  ((amirreza/is-repo default-directory) (consult-git-grep))
+                  ((not (null (executable-find "grep"))) (consult-grep))))
+    (if-enabled? ivy
+                 (cond
+                  ((not (null (executable-find "rg"))) (counsel-rg))
+                  ((amirreza/is-repo default-directory) (counsel-git-grep))
+                  ((not (null (executable-find "grep"))) (counsel-grep)))
+                 )
+    )
+
+  (defun amirreza/file-finder ()
+    "Find files smartly."
+    (interactive)
+    (if-enabled? ivy
+                 (cond
+                  ((not (null (executable-find "fzf"))) (counsel-fzf))
+                  (t (amirreza/find-file))
+                  ))
+    (if-enabled?
+     (cond
+      ((amirreza/is-repo (amirreza/find-root)) (consult-find (amirreza/find-root)))
+      (t (consult-find)))))
 #+end_src
 ** In buffer searching
 #+begin_src emacs-lisp
   (pkg! isearch :defer t)
-  (if-enabled? swiper (pkg! swiper :straight t :bind ("C-s" . swiper)))
-  (pkg! ctrlf :straight t :bind (("C-s" . ctrlf-forward-literal) ("C-r" . ctrlf-backward-literal)))
+  (if-enabled? ivy (pkg! swiper :straight t :bind ("C-s" . swiper)))
+  (if-enabled? selectrum (pkg! ctrlf :straight t :bind (("C-s" . ctrlf-forward-literal) ("C-r" . ctrlf-backward-literal))))
 #+end_src
 ** Ripgrep with persitent result
 #+begin_src emacs-lisp
@@ -1034,6 +1051,7 @@ VTerm is the best terminal emulator package for Emacs.
               ("C-c m b" . amirreza/--org-insert-elisp-code-block)))
 
   (pkg! org-bullets
+    :disabled t
     :straight t
     :hook (org-mode . (lambda () (org-bullets-mode 1))))
 #+END_SRC
@@ -1184,9 +1202,6 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
 #+end_src
 ** LSP
 *** LSP mode
-    :PROPERTIES:
-:header-args: :tangle no
-:END:
    #+begin_src emacs-lisp
      (pkg! lsp-mode :straight t
        :init
@@ -1202,7 +1217,11 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
               (before-save . lsp-format-buffer)))
 #+end_src
 *** Eglot
-#+begin_src emacs-lisp
+    :PROPERTIES:
+:header-args: :tangle no
+:END:
+    #+begin_src emacs-lisp
+
   (pkg! eglot :straight t :init (defun amirreza/lsp () (eglot-ensure)))
 #+end_src
 ** Languages
