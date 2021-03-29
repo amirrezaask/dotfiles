@@ -42,11 +42,8 @@
   - [[#tabline][Tabline]]
   - [[#dashboard][Dashboard]]
 - [[#completion-framework][Completion Framework]]
-  - [[#ivy][Ivy]]
-  - [[#selectrum][Selectrum]]
 - [[#project-integration][Project Integration]]
 - [[#searching][Searching]]
-  - [[#smarter-file-search-and-greping][Smarter file search and greping]]
   - [[#in-buffer-searching][In buffer searching]]
   - [[#ripgrep-with-persitent-result][Ripgrep with persitent result]]
   - [[#smart-symbol-and-file-finding][Smart symbol and file finding]]
@@ -633,7 +630,6 @@ Emacs is so extensible that it can actually be a X window manager. You can liter
                  (dashboard-setup-startup-hook)))
 #+end_src
 * Completion Framework
-** Ivy
 #+begin_src emacs-lisp
   (if-enabled? ivy
             (pkg! flx :straight t)
@@ -684,92 +680,46 @@ Emacs is so extensible that it can actually be a X window manager. You can liter
               (ivy-posframe-mode 1))
             )
 #+end_src
-** Selectrum
-#+begin_src emacs-lisp
-  (if-enabled? selectrum 
-               (pkg! selectrum-prescient :straight t)
-               (pkg! selectrum
-                 :straight t
-                 :config
-                 (selectrum-mode 1)
-                 (selectrum-prescient-mode +1)
-                 (prescient-persist-mode +1))
-
-               (pkg! consult :straight t))
-
-#+end_src
 * Project Integration
 #+begin_src emacs-lisp
-  (pkg! project
-    :straight t
-    :init
-    (if-enabled? evil
-              (evil-global-set-key 'normal (kbd "SPC p f") 'amirreza/find-project)
-              )
-    :bind 
-    (
-     :map global-map ("C-c p" . amirreza/find-project)
-     )
+  (pkg! projectile
+        :straight t
+        :commands (projectile-find-file projectile-project-root)
+        :bind
+        (("C-c f" . projectile-find-file)
+         ("C-c g" . projectile-grep)
+         ("C-M-s" . 'amirreza/find-symbol-at-point)
+         ("<f1>" . 'amirreza/find-file-at-point)
+         ("<f2>" . 'amirreza/find-symbol-at-point)
+         ("C-M-f" . 'amirreza/find-file-at-point)
+         ("C-M-g" . 'amirreza/find-symbol-at-point))
 
-    :config
-    (defun amirreza/find-root ()
-      "Find project root."
-      (let* ((project (vc-root-dir))
-             (dir (if project project default-directory)))
-        dir))
+        :config
+        (defun amirreza/find-project ()
+          "List of projects in pre defined project locations."
+          (interactive)
+          (dired (completing-read "Project: "
+                                  (directory-files-recursively "~/src"
+                                                               ".*"
+                                                               t
+                                                               (lambda (path) (not (projectile-project-p path)))
+                                                               t))))
+      
+        (defun amirreza/recursive-search-path (initial path)
+          (completing-read "Find File: " (directory-files-recursively path directory-files-no-dot-files-regexp nil (lambda (name)
+                                                                                                                     (not (string-match "\\.git" name)))
+                                                                      t) nil nil initial))
 
-    (defun amirreza/is-repo (path)
-      "Wether a directory is a repo or not"
-      (file-exists-p (expand-file-name ".git" path)))
+        (defun amirreza/find-symbol-at-point ()
+          (interactive)
+          (let* ((symbol (thing-at-point 'word)))
+            (counsel-rg symbol (projectile-project-root))))
 
-    (defun amirreza/find-project ()
-      "List of projects in pre defined project locations."
-      (interactive)
-      (dired (completing-read "Project: "
-                              (directory-files-recursively "~/src"
-                                                           ".*"
-                                                           t
-                                                           (lambda (path) (not (amirreza/is-repo path)))
-                                                           t)))))
+
+  (pkg! project :defer t)
 
 #+end_src
 * Searching
-** Smarter file search and greping
-#+begin_src emacs-lisp
-  (defun amirreza/find-file ()
-    (interactive)
-    (find-file (amirreza/recursive-search-path "" (amirreza/find-root))))
-
-  (defun amirreza/grep (&optional initial-input)
-    "Grep."
-    (interactive)
-    (if-enabled? selectrum
-
-                 (cond
-                  ((not (null (executable-find "rg"))) (consult-ripgrep))
-                  ((amirreza/is-repo default-directory) (consult-git-grep))
-                  ((not (null (executable-find "grep"))) (consult-grep))))
-    (if-enabled? ivy
-                 (cond
-                  ((not (null (executable-find "rg"))) (counsel-rg))
-                  ((amirreza/is-repo default-directory) (counsel-git-grep))
-                  ((not (null (executable-find "grep"))) (counsel-grep)))
-                 )
-    )
-
-  (defun amirreza/file-finder ()
-    "Find files smartly."
-    (interactive)
-    (if-enabled? ivy
-                 (cond
-                  ((not (null (executable-find "fzf"))) (counsel-fzf))
-                  (t (amirreza/find-file))
-                  ))
-    (if-enabled?
-     (cond
-      ((amirreza/is-repo (amirreza/find-root)) (consult-find (amirreza/find-root)))
-      (t (consult-find)))))
-#+end_src
 ** In buffer searching
 #+begin_src emacs-lisp
   (pkg! isearch :defer t)
@@ -784,38 +734,6 @@ Emacs is so extensible that it can actually be a X window manager. You can liter
 #+end_src
 ** Smart symbol and file finding
 #+begin_src emacs-lisp
-  (defun amirreza/recursive-search-path (initial path)
-    (completing-read "Find File: " (directory-files-recursively path directory-files-no-dot-files-regexp nil (lambda (name)
-                                                                                                               (not (string-match "\\.git" name)))
-                                                                t) nil nil initial))
-  (pkg! project
-    :init
-    (if-enabled? evil
-              (evil-global-set-key 'normal (kbd "SPC a s") 'amirreza/find-symbol-at-point)
-              (evil-global-set-key 'normal (kbd "SPC a f") 'amirreza/find-file-at-point)
-              (evil-global-set-key 'normal (kbd "SPC g") 'amirreza/grep))
-
-
-    :bind
-    (("C-c f" . 'amirreza/file-finder)
-     ("C-c g" . 'amirreza/grep)
-     ("C-M-s" . 'amirreza/find-symbol-at-point)
-     ("<f1>" . 'amirreza/find-file-at-point)
-     ("<f2>" . 'amirreza/find-symbol-at-point)
-     ("C-M-f" . 'amirreza/find-file-at-point)
-     ("C-M-g" . 'amirreza/find-symbol-at-point))
-
-
-    :config
-    (defun amirreza/find-symbol-at-point ()
-      (interactive)
-      (let* ((symbol (thing-at-point 'word)))
-        (amirreza/grep symbol)))
-
-    (defun amirreza/find-file-at-point ()
-      (interactive)
-      (let* ((symbol (thing-at-point 'word)))
-        (find-file (amirreza/recursive-search-path symbol (amirreza/find-root))))))
 
 
 #+end_src
