@@ -23,8 +23,9 @@
 ;; 
 
 ;;; Code:
-(setq debug-on-error t)
 
+;; (setq debug-on-error t)
+;;(byte-recompile-directory "~/.emacs.d/lisp/modules" 0)
 (setq modules! '(
                  ivy
 		         buffers
@@ -42,7 +43,12 @@
 		         search
 		         term
 		         windows
-                 (langs go clojure)
+                 (langs
+                  go
+                  clojure
+                  configs
+                  md
+                  )
                  ))
 
 (boot!)

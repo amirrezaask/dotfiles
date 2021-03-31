@@ -144,8 +144,7 @@
                             " "
                             "[" '(:eval (propertize display-time-string 'face 'amirreza/date-face)) "] ")))
 
-(if-enabled? doom/modeline 
-             (pkg! doom-modeline :straight t :config (setq doom-modeline-height 35) (doom-modeline-mode 1)))
+(pkg! doom-modeline :straight t :config (setq doom-modeline-height 35) (doom-modeline-mode 1))
 
 (defun amirreza/change-font (font)
   (setq default-frame-alist `((font . ,font))))
