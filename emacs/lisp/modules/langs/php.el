@@ -1,8 +1,8 @@
-;;; init.el --- init file                            -*- lexical-binding: t; -*-
+;;; php.el --- PHP module                            -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2020  AmirrezaAskarpour
+;; Copyright (C) 2021  AmirrezaAskarpour
 
-;; Author: AmirrezaAskarpour <amirreza@soviet>
+;; Author: AmirrezaAskarpour <raskarpour@gmail.com>
 ;; Keywords: 
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -23,29 +23,20 @@
 ;; 
 
 ;;; Code:
-(setq debug-on-error t)
 
-(setq modules! '(
-                 ivy
-		         buffers
-                 ui
-		         env
-                 dashboard
-		         dev
-		         dired
-		         dotfiles
-		         editor
-		         git
-		         org
-		         pdf
-		         projectile
-		         search
-		         term
-		         windows
-                 (langs go clojure)
-                 ))
+(pkg! php-mode :straight t 
+      :mode "\\.php\\'")
 
-(boot!)
+(pkg! php-runtime :straight t :after php-mode)
 
-(provide 'init)
-;;; init.el ends here
+(pkg! composer :straight t :after php-mode)
+
+(pkg! phpunit :straight t
+      :after php-mode
+      :config 
+      (define-key php-mode-map (kbd "C-c m t t") 'phpunit-current-test)
+      (define-key php-mode-map (kbd "C-c m t c")  'phpunit-current-class)
+      (define-key php-mode-map (kbd "C-c m t p")  'phpunit-current-project))
+
+(provide 'modules/langs/php)
+;;; php.el ends here

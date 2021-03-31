@@ -1,8 +1,8 @@
-;;; init.el --- init file                            -*- lexical-binding: t; -*-
+;;; configs.el --- configs lang module               -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2020  AmirrezaAskarpour
+;; Copyright (C) 2021  AmirrezaAskarpour
 
-;; Author: AmirrezaAskarpour <amirreza@soviet>
+;; Author: AmirrezaAskarpour <raskarpour@gmail.com>
 ;; Keywords: 
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -23,29 +23,14 @@
 ;; 
 
 ;;; Code:
-(setq debug-on-error t)
 
-(setq modules! '(
-                 ivy
-		         buffers
-                 ui
-		         env
-                 dashboard
-		         dev
-		         dired
-		         dotfiles
-		         editor
-		         git
-		         org
-		         pdf
-		         projectile
-		         search
-		         term
-		         windows
-                 (langs go clojure)
-                 ))
+(pkg! crontab-mode :defer t :straight t)
+(pkg! apache-mode :straight t
+         :mode ("\\.htaccess\\'" "httpd\\.conf\\'" "srm\\.conf\\'" "access\\.conf\\'"))
+(pkg! systemd :straight t
+         :mode ("\\.service\\'" "\\.timer\\'"))
+(pkg! nginx-mode :straight 
+     :mode ("/etc/nginx/conf.d/.*" "/etc/nginx/.*\\.conf\\'"))
 
-(boot!)
-
-(provide 'init)
-;;; init.el ends here
+(provide 'modules/langs/configs)
+;;; configs.el ends here

@@ -1,8 +1,8 @@
-;;; init.el --- init file                            -*- lexical-binding: t; -*-
+;;; buffers.el --- buffers module                    -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2020  AmirrezaAskarpour
+;; Copyright (C) 2021  AmirrezaAskarpour
 
-;; Author: AmirrezaAskarpour <amirreza@soviet>
+;; Author: AmirrezaAskarpour <raskarpour@gmail.com>
 ;; Keywords: 
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -23,29 +23,12 @@
 ;; 
 
 ;;; Code:
-(setq debug-on-error t)
+(pkg! ibuffer
+      :bind (("C-x C-b" . 'ibuffer)))
 
-(setq modules! '(
-                 ivy
-		         buffers
-                 ui
-		         env
-                 dashboard
-		         dev
-		         dired
-		         dotfiles
-		         editor
-		         git
-		         org
-		         pdf
-		         projectile
-		         search
-		         term
-		         windows
-                 (langs go clojure)
-                 ))
+(pkg! ibuffer-vc :straight t
+      :hook (ibuffer-mode . (lambda () (interactive) (ibuffer-vc-set-filter-groups-by-vc-root))))
 
-(boot!)
 
-(provide 'init)
-;;; init.el ends here
+(provide 'modules/buffers)
+;;; buffers.el ends here

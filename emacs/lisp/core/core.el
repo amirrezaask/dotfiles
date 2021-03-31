@@ -27,7 +27,13 @@
 
 (defvar core/emacs-init-timestamp (float-time) "Holds Emacs initialization time.")
 
-
+(defun boot! ()
+  (require 'core/core-pkg)
+  (core/pkg-init)
+  (require 'core/core-modules)
+  (load-modules))
+  
+  
 
 (defun core/faster-start ()
   ;; Defer Garbage collection
@@ -35,7 +41,7 @@
 
   ;; Restore garbage collection after initialization
   (add-hook 'after-init-hook (lambda ()
-                               (require 'core-gcmh)
+                               (require 'core/core-gcmh)
                                (gcmh-mode 1)))
   ;; Prevent the glimpse of un-styled Emacs by disabling these UI elements early.
   (push '(menu-bar-lines . 0) default-frame-alist)
@@ -65,5 +71,5 @@
         initial-major-mode 'fundamental-mode
         initial-scratch-message nil))
 
-(provide 'core)
+(provide 'core/core)
 ;;; core.el ends here

@@ -1,8 +1,8 @@
-;;; init.el --- init file                            -*- lexical-binding: t; -*-
+;;; dashboard.el --- Dashboard module                -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2020  AmirrezaAskarpour
+;; Copyright (C) 2021  AmirrezaAskarpour
 
-;; Author: AmirrezaAskarpour <amirreza@soviet>
+;; Author: AmirrezaAskarpour <raskarpour@gmail.com>
 ;; Keywords: 
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -23,29 +23,14 @@
 ;; 
 
 ;;; Code:
-(setq debug-on-error t)
+(pkg! dashboard
+      :straight t
+      :config
+      (setq dashboard-startup-banner 'logo)
+      (setq dashboard-center-content t)
+      (setq dashboard-items '())
+      (dashboard-setup-startup-hook))
 
-(setq modules! '(
-                 ivy
-		         buffers
-                 ui
-		         env
-                 dashboard
-		         dev
-		         dired
-		         dotfiles
-		         editor
-		         git
-		         org
-		         pdf
-		         projectile
-		         search
-		         term
-		         windows
-                 (langs go clojure)
-                 ))
 
-(boot!)
-
-(provide 'init)
-;;; init.el ends here
+(provide 'modules/dashboard)
+;;; dashboard.el ends here

@@ -1,8 +1,8 @@
-;;; init.el --- init file                            -*- lexical-binding: t; -*-
+;;; rust.el --- Rust module                          -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2020  AmirrezaAskarpour
+;; Copyright (C) 2021  AmirrezaAskarpour
 
-;; Author: AmirrezaAskarpour <amirreza@soviet>
+;; Author: AmirrezaAskarpour <raskarpour@gmail.com>
 ;; Keywords: 
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -23,29 +23,14 @@
 ;; 
 
 ;;; Code:
-(setq debug-on-error t)
 
-(setq modules! '(
-                 ivy
-		         buffers
-                 ui
-		         env
-                 dashboard
-		         dev
-		         dired
-		         dotfiles
-		         editor
-		         git
-		         org
-		         pdf
-		         projectile
-		         search
-		         term
-		         windows
-                 (langs go clojure)
-                 ))
+(pkg! rustic
+      :straight t
+      :mode ("\\.rs\\'" . rustic-mode)
+      :hook
+      (rust-mode . amirreza/lsp)
+      :config
+      (setq rustic-format-on-save t))
 
-(boot!)
-
-(provide 'init)
-;;; init.el ends here
+(provide 'modules/langs/rust)
+;;; rust.el ends here

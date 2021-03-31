@@ -1,8 +1,8 @@
-;;; init.el --- init file                            -*- lexical-binding: t; -*-
+;;; search.el --- Search module                      -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2020  AmirrezaAskarpour
+;; Copyright (C) 2021  AmirrezaAskarpour
 
-;; Author: AmirrezaAskarpour <amirreza@soviet>
+;; Author: AmirrezaAskarpour <raskarpour@gmail.com>
 ;; Keywords: 
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -23,29 +23,14 @@
 ;; 
 
 ;;; Code:
-(setq debug-on-error t)
+(pkg! isearch :defer t)
+(if-enabled? ivy
+             (pkg! swiper :straight t :bind ("C-s" . swiper)))
+(if-enabled? selectrum
+             (pkg! ctrlf :straight t :bind (("C-s" . ctrlf-forward-literal) ("C-r" . ctrlf-backward-literal))))
+(pkg! rg
+      :straight t
+      :commands (rg))
 
-(setq modules! '(
-                 ivy
-		         buffers
-                 ui
-		         env
-                 dashboard
-		         dev
-		         dired
-		         dotfiles
-		         editor
-		         git
-		         org
-		         pdf
-		         projectile
-		         search
-		         term
-		         windows
-                 (langs go clojure)
-                 ))
-
-(boot!)
-
-(provide 'init)
-;;; init.el ends here
+(provide 'search)
+;;; search.el ends here
