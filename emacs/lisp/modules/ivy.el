@@ -70,6 +70,8 @@
       (setq ivy-posframe-parameters '((parent-frame nil)))
       (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-center)))
       (ivy-posframe-mode 1))
+
+(pkg! all-the-icons-ivy :straight t :config (all-the-icons-ivy-setup))
             
 
 
