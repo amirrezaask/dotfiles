@@ -63,7 +63,10 @@
        ("C-h a" . 'counsel-apropos)
        ("M-i" . 'counsel-imenu) ;; code semantics
        ("M-y" . 'counsel-yank-pop)))
+
+(pkg! counsel-projectile :straight t)
 (pkg! ivy-rich :straight t :after ivy :config (ivy-rich-mode 1))
+
 (pkg! ivy-posframe :straight t
       :disabled t
       :config

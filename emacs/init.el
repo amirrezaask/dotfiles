@@ -25,7 +25,7 @@
 ;;; Code:
 
 ;; (setq debug-on-error t)
-;;(byte-recompile-directory "~/.emacs.d/lisp/modules" 0)
+
 (setq modules! '(
                  ivy
 		         buffers
@@ -36,6 +36,7 @@
 		         dired
 		         dotfiles
 		         editor
+                 evil
 		         git
 		         org
 		         pdf
@@ -43,9 +44,12 @@
 		         search
 		         term
 		         windows
+                 ;; Languages to configure
                  (langs
                   go
-                  clojure
+                  rust
+                  python
+                  ;; clojure
                   configs
                   md
                   )

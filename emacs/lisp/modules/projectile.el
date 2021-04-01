@@ -28,6 +28,12 @@
 (pkg! projectile
       :straight t
       :commands (projectile-find-file projectile-project-root)
+      :init
+      (if-enabled? evil
+        (define-key evil-normal-state-map (kbd "SPC f p") 'amirreza/find-project)
+        (define-key evil-normal-state-map (kbd "SPC SPC") 'projectile-find-file)
+        (define-key evil-normal-state-map (kbd "SPC f s") 'amirreza/find-symbol-at-point)
+        )
       :bind
       (("C-c p" . amirreza/find-project)
        ("C-c f" . projectile-find-file)

@@ -30,11 +30,10 @@
       :bind
       (:map evil-normal-state-map
             ("g c" . comment-line)
-            ("SPC SPC" . projectile-find-file)
             ("SPC f f" . find-file)
-            ("SPC ." . counsel-M-x)
-            ("SPC h d f" . counsel-describe-function)
-            ("SPC h d v" . counsel-describe-variable)
+            ("SPC ." . M-x)
+            ("SPC h d f" . describe-function)
+            ("SPC h d v" . describe-variable)
             ("SPC h d k" . describe-key))
       :config
       (evil-mode 1))
@@ -44,7 +43,7 @@
 
 (pkg! evil-surround
       :straight t
-      :connfig
+      :config
       (global-evil-surround-mode 1))
             
 

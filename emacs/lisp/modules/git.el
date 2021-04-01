@@ -28,7 +28,9 @@
       :straight t
       :commands (magit-status magit-get-current-branch)
       :init
-      (if-enabled? evil (evil-global-set-key 'normal (kbd "SPC v g") 'magit-status))
+      (if-enabled? evil
+                   (define-key evil-normal-state-map (kbd "SPC g s") 'magit-status)
+                   )
       :bind
       (("C-x g" . 'magit-status)
        ("C-c v s" . 'magit-status)))
