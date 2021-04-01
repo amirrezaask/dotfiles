@@ -31,7 +31,7 @@
       :init
       (if-enabled? evil
         (define-key evil-normal-state-map (kbd "SPC f p") 'amirreza/find-project)
-        (define-key evil-normal-state-map (kbd "SPC SPC") 'projectile-find-file)
+        (define-key evil-normal-state-map (kbd "SPC SPC") 'amirreza/context-find-file)
         (define-key evil-normal-state-map (kbd "SPC f s") 'amirreza/find-symbol-at-point)
         )
       :bind
@@ -63,7 +63,15 @@
       (defun amirreza/find-symbol-at-point ()
         (interactive)
         (let* ((symbol (thing-at-point 'word)))
-          (counsel-rg symbol (projectile-project-root)))))
+          (counsel-rg symbol (projectile-project-root))))
+
+      (defun amirreza/context-find-file ()
+        (interactive)
+        (cond
+         ((not (null (projectile-project-p))) (projectile-find-file))
+         (t (counsel-find-file))
+         )
+        ))
 
 
 (pkg! project :defer t)

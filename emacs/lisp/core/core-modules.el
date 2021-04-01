@@ -20,8 +20,6 @@
                    (cdr name)))
    ))
 
-(load-module '(langs go))
-
 (defun load-modules ()
   (mapcar (lambda (mod) (load-module mod)) modules!))
 

@@ -30,8 +30,8 @@
       :bind
       (:map evil-normal-state-map
             ("g c" . comment-line)
-            ("SPC f f" . find-file)
-            ("SPC ." . M-x)
+            ("SPC f f" . counsel-find-file)
+            ("SPC ." . counsel-M-x)
             ("SPC h d f" . describe-function)
             ("SPC h d v" . describe-variable)
             ("SPC h d k" . describe-key))

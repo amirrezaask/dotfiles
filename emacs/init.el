@@ -47,6 +47,7 @@
                  ;; Languages to configure
                  (langs
                   go
+                  elisp
                   rust
                   python
                   ;; clojure
