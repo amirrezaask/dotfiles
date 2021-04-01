@@ -36,7 +36,7 @@
         )
       :bind
       (("C-c p" . amirreza/find-project)
-       ("C-c f" . projectile-find-file)
+       ("C-c f" . amirreza/context-find-file)
        ("C-c g" . projectile-grep)
        ("C-M-s" . amirreza/find-symbol-at-point)
        ("<f1>" . amirreza/find-file-at-point)

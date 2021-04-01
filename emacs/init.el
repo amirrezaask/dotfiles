@@ -26,6 +26,9 @@
 
 ;; (setq debug-on-error t)
 
+(setq user-full-name "AmirrezaAskarpour"
+      user-mail-address "raskarpour@gmail.com")
+
 (setq modules! '(
                  ivy
 		         buffers
@@ -36,7 +39,7 @@
 		         dired
 		         dotfiles
 		         editor
-                 evil
+                 ;; evil
 		         git
 		         org
 		         pdf
@@ -47,9 +50,11 @@
                  ;; Languages to configure
                  (langs
                   go
+                  lisp
                   elisp
                   rust
                   python
+                  json
                   ;; clojure
                   configs
                   md

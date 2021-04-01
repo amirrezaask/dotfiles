@@ -99,5 +99,8 @@
 (pkg! eldoc
       :config (global-eldoc-mode 1))
 
+(pkg! autoinsert
+      :hook (prog-mode . auto-insert-mode))
+
 (provide 'modules/dev)
 ;;; dev.el ends here

@@ -26,6 +26,9 @@
 
 
 (defvar core/emacs-init-timestamp (float-time) "Holds Emacs initialization time.")
+(defun amirreza/startup-time ()
+  (interactive)
+  (message "Emacs start time: %.2f" (float-time (time-subtract after-init-time before-init-time))))
 
 (defun boot! ()
   (require 'core/core-pkg)
