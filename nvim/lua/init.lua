@@ -30,10 +30,8 @@ nvim.with_options {
   clipboard = 'unnamedplus',
   splitright = true,
   splitbelow = true,
+  cursorline = true,
 }
-
--- TODO: fix this
-vim.cmd [[ set cursorline ]]
 
 local global_maps = {
   -- Easier window navigation 
@@ -44,7 +42,6 @@ local global_maps = {
   Q = '<nop>',
   [';'] = ':',
   ['<f5>'] = '<cmd> Run<CR>',
-
 }
 
 local insert_maps = {
@@ -76,32 +73,21 @@ vim.g.fuzzy_options = {
 }
 
 normal_maps['<Space><Space>'] = '<cmd>lua require("fuzzy").file_finder{}<CR>'
-normal_maps['<Space>ff'] = '<cmd>lua require("fuzzy").interactive_finder{}<CR>'
-normal_maps['<Space>fg'] = '<cmd>lua require("fuzzy").git_files{}<CR>'
+normal_maps['<Space>fb'] = '<cmd>lua require("fuzzy").interactive_finder{}<CR>'
+normal_maps['<Space>gf'] = '<cmd>lua require("fuzzy").git_files{}<CR>'
 normal_maps['??'] = '<cmd>lua require("fuzzy").grep{}<CR>'
 normal_maps['<Space>b'] = '<cmd>lua require("fuzzy").buffers{}<CR>'
-normal_maps['?g'] = '<cmd>lua require("fuzzy").git_grep{}<CR>'
-normal_maps['<Space>ec'] = '<cmd>lua require("fuzzy").file_finder{path="/home/amirreza/w/dotfiles"}<CR>'
+normal_maps['<Space>gg'] = '<cmd>lua require("fuzzy").git_grep{}<CR>'
+normal_maps['<Space>ec'] = '<cmd>lua require("fuzzy").file_finder{path="/home/amirreza/src/github.com/amirrezaask/dotfiles"}<CR>'
 normal_maps['<Space>en'] = '<cmd>lua require("fuzzy").file_finder{path="/home/amirreza/.config/nvim"}<CR>'
 normal_maps['<Space>c'] = '<cmd>lua require("fuzzy").commands{}<CR>'
 normal_maps['<Space>h'] = '<cmd>lua require("fuzzy").history{}<CR>'
 normal_maps['<Space>fr'] = '<cmd>MRU<CR>'
 normal_maps['<Space>s'] = '<cmd>lua require("sidetree").open_side_file_browser()<CR>'
-
--- -- FZF bindings
--- normal_maps['<Space><Space>'] = '<cmd>Files<CR>'
--- normal_maps['<Space>ff'] = '<cmd>Files<CR>'
--- normal_maps['<Space>fg'] = '<cmd>GitFiles<CR>'
--- normal_maps['??'] = '<cmd>Rg<CR>'
--- normal_maps['<Space>w'] = '<cmd>Windows<CR>'
--- normal_maps['/'] = '<cmd>BLines<CR>'
--- normal_maps['<Space>b'] = '<cmd>Buffers<CR>'
--- normal_maps['<Space>ec'] = '<cmd>Files ~/src/github.com/amirrezaask/dotfiles<CR>'
--- normal_maps['<Space>en'] = '<cmd>Files ~/src/github.com/amirrezaask/dotfiles/nvim<CR>'
--- normal_maps['<Space>c'] = '<cmd>Commands<CR>'
--- normal_maps['<Space>h'] = '<cmd>History:<CR>'
--- normal_maps['<Space>fr'] = '<cmd>History<CR>'
--- normal_maps['<Space>gs'] = '<cmd>GitFiles?<CR>'
+normal_maps['<Space>h'] = '<cmd>lua require("fuzzy").help{}<CR>'
+normal_maps['<Space>gc'] = '<cmd>lua require("fuzzy").git_commits{}<CR>'
+normal_maps['<Space>gb'] = '<cmd>lua require("fuzzy").git_bcommits{}<CR>'
+normal_maps['<Space>gco'] = '<cmd>lua require("fuzzy").git_checkout{}<CR>'
 
 -- Vim-Go
 vim.g.go_fmt_command = "goimports"
@@ -114,10 +100,6 @@ insert_maps['<c-k>'] = '<cmd> lua return require"snippets".advance_snippet(-1)<C
 
 -- Git Blame
 normal_maps['<Space>gm'] = '<cmd>GitMessenger<CR>'
-
--- LazyGit
-vim.g.lazygit_floating_window_scaling_factor = 0.7
-normal_maps['<Space>gg'] = '<cmd>LazyGit<CR>'
 
 -- Netrw settings
 vim.g.netrw_banner = 0
