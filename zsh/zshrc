@@ -1,7 +1,7 @@
 export ZSH="/home/$(whoami)/.oh-my-zsh"
 source ~/src/github.com/amirrezaask/dotfiles/zsh/vars.zsh
 
-ZSH_THEME="ys"
+ZSH_THEME="spaceship"
 
 plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
 
