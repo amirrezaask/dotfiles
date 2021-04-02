@@ -26,8 +26,10 @@
 (pkg! isearch :defer t)
 (if-enabled? ivy
              (pkg! swiper :straight t :bind ("C-s" . swiper)))
+
 (if-enabled? selectrum
              (pkg! ctrlf :straight t :bind (("C-s" . ctrlf-forward-literal) ("C-r" . ctrlf-backward-literal))))
+
 (pkg! rg
       :straight t
       :commands (rg))

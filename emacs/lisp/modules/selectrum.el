@@ -1,4 +1,4 @@
-;;; dotfiles.el --- dotfiles module                  -*- lexical-binding: t; -*-
+;;; selectrum.el --- selectrum module                -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2021  AmirrezaAskarpour
 
@@ -24,17 +24,16 @@
 
 ;;; Code:
 
-(defvar amirreza/dotfiles-location (exec-path-from-shell-copy-env "DOTFILES") "Location of my dotfiles.")
+(use-package selectrum-prescient :straight t)
+(use-package selectrum
+  :straight t
+  :config
+  (selectrum-mode 1)
+  (selectrum-prescient-mode +1)
+  (prescient-persist-mode +1))
 
-(defun amirreza/edit-dot-config ()
-  (interactive)
-  (find-file (completing-read "Edit: " (directory-files-recursively amirreza/dotfiles-location ".*" nil (lambda (name)
-                                                                                                          (not (string-match "\\.git" name)))
-                                                                    t))))
+(use-package consult :straight t)
 
-(global-set-key (kbd "<f9>") 'amirreza/edit-dot-config)
 
-(global-set-key (kbd "C-c e c") 'amirreza/edit-dot-config)
-
-(provide 'modules/dotfiles)
-;;; dotfiles.el ends here
+(provide 'modules/selectrum)
+;;; selectrum.el ends here

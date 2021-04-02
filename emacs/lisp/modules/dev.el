@@ -42,7 +42,9 @@
 
 (pkg! imenu
       :bind ("M-i" . imenu))
+
 (pkg! abbrev :init (setq save-abbrevs 'silently) :commands (expand-abbrev))
+
 (pkg! skeleton
       :commands (amirreza/defsnippet)
       :config
@@ -79,8 +81,6 @@
              (lsp-mode . lsp-enable-which-key-integration)
              (before-save . lsp-format-buffer)))
 
-(pkg! eglot :disabled t :straight t :init (defun amirreza/lsp () (eglot-ensure)))
-
 (pkg! dap-mode :straight t
       :defer t
       :disabled t
@@ -95,6 +95,7 @@
       ;; requies emacs 26+
       (dap-ui-controls-mode 1))
 
+(pkg! flycheck :straight t :hook (prog-mode . flycheck-mode))
 
 (pkg! eldoc
       :config (global-eldoc-mode 1))

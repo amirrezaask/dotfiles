@@ -31,6 +31,7 @@
 
 (setq modules! '(
                  ivy
+                 ;; selectrum
 		         buffers
                  ui
 		         env
