@@ -14,6 +14,7 @@ return require'packer'.startup{
       -- Plugin Manager
       use { 'wbthomason/packer.nvim' }
 
+      use { 'kyazdani42/nvim-web-devicons' }
       use { 'amirrezaask/fuzzy.nvim' }
 
       use { 'nvim-lua/plenary.nvim' }

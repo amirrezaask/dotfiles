@@ -148,19 +148,7 @@ function EVAL()
 end
 
 normal_maps['<Space>x'] = '<cmd>lua EVAL()<CR>'
-
--- Source file
-function SOURCE()
-  local filetype = vim.api.nvim_buf_get_option(0, 'filetype') 
-  vim.cmd [[ silent! write ]]
-  if filetype == 'lua' then
-    vim.cmd([[ luafile % ]]) 
-  elseif filetype == 'vim' then
-    vim.cmd([[ source % ]]) 
-  end
-end
-
-normal_maps['<Space>S'] = '<cmd>lua SOURCE()<CR>'
+normal_maps['<Space>X'] = '<cmd>luafile %<CR>'
 
 -- Register keymaps
 nvim.map(global_maps)
