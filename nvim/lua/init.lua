@@ -127,6 +127,17 @@ vim.g.completion_chain_complete_list = {
   }
 }
 
+-- Reloader
+function RELOAD(pkg)
+  package.loaded[pkg] = nil
+  require(pkg)
+end
+
+-- Printer
+function P(obj)
+  vim.inspect(obj)
+end
+
 -- Set statusline
 -- vim.api.nvim_set_option("statusline", "%l:%L %m%f")
 
