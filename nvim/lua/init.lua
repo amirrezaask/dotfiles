@@ -128,7 +128,7 @@ vim.g.completion_chain_complete_list = {
 }
 
 -- Set statusline
-vim.api.nvim_set_option("statusline", "%l:%L %m%f")
+-- vim.api.nvim_set_option("statusline", "%l:%L %m%f")
 
 -- Register keymaps
 nvim.map(global_maps)

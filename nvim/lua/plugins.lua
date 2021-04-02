@@ -16,6 +16,8 @@ return require'packer'.startup{
 
       use { 'amirrezaask/fuzzy.nvim' }
 
+      use { 'nvim-lua/plenary.nvim' }
+      use { 'tjdevries/express_line.nvim' }
       -- Hashicorp tools
       use { 'hashivim/vim-terraform' }
 
