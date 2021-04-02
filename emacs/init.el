@@ -34,11 +34,12 @@
 		         buffers
                  ui
 		         env
-                 dashboard
+                 ;; dashboard
 		         dev
 		         dired
 		         dotfiles
 		         editor
+                 ;; rhythmbox
                  ;; evil
 		         git
 		         org
@@ -52,11 +53,20 @@
                   go
                   lisp
                   elisp
-                  rust
+                  configs
+                  haskell
+                  lua
+                  ;; nix
+                  ;; php
+                  ;; proto
+                  ;; scheme
+                  ;; terraform
+                  ;; web
+                  ;; zig
+                  ;; rust
                   python
                   json
                   ;; clojure
-                  configs
                   md
                   )
                  ))
