@@ -138,8 +138,29 @@ function P(obj)
   vim.inspect(obj)
 end
 
--- Set statusline
--- vim.api.nvim_set_option("statusline", "%l:%L %m%f")
+-- Eval line
+function EVAL()
+ local filetype = vim.api.nvim_buf_get_option(0, 'filetype') 
+ local line = vim.fn.getline('.')
+ if filetype == 'lua' then
+  vim.cmd(string.format([[ lua %s ]], line)) 
+ end
+end
+
+normal_maps['<Space>x'] = '<cmd>lua EVAL()<CR>'
+
+-- Source file
+function SOURCE()
+  local filetype = vim.api.nvim_buf_get_option(0, 'filetype') 
+  vim.cmd [[ silent! write ]]
+  if filetype == 'lua' then
+    vim.cmd([[ luafile % ]]) 
+  elseif filetype == 'vim' then
+    vim.cmd([[ source % ]]) 
+  end
+end
+
+normal_maps['<Space>S'] = '<cmd>lua SOURCE()<CR>'
 
 -- Register keymaps
 nvim.map(global_maps)
