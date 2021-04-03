@@ -1,48 +1,12 @@
 local lspconfig = require('lspconfig')
 local completion = require('completion')
--- nvim_lsp.pyls.setup{}
 
-lspconfig.yamlls.setup {
-  on_init = custom_init,
-  on_attach = custom_attach
-}
+require'lspinstall'.setup() -- important
 
-lspconfig.pyls.setup {
-  plugins = {
-    pyls_mypy = {
-      enabled = true,
-      live_mode = false
-    }
-  },
-  on_init = custom_init,
-  on_attach = custom_attach
-}
-
-lspconfig.vimls.setup {
-  on_init = custom_init,
-  on_attach = custom_attach,
-}
-
-lspconfig.gopls.setup {
-  on_init = custom_init,
-  on_attach = custom_attach,
-
-  capabilities = updated_capabilities,
-
-  settings = {
-    gopls = {
-      codelenses = { test = true },
-    }
-  },
-}
-
-lspconfig.rust_analyzer.setup({
-  cmd = {"rust-analyzer"},
-  filetypes = {"rust"},
-  on_init = custom_init,
-  on_attach = custom_attach,
-})
-
+local servers = require'lspinstall'.installed_servers()
+for _, server in pairs(servers) do
+  require'lspconfig'[server].setup{}
+end
 
 vim.cmd [[ autocmd BufEnter * lua require'completion'.on_attach() ]]
 -- Keybindings 

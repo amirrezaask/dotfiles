@@ -1,12 +1,12 @@
 -- init.lua
 local nvim = require'nvim'
+
 -- Install Plugins
 require'plugins'
 nvim.with_options {
   ignorecase = true,
   modeline = true,
   autoread = true,
-  cursorline = true,
   guicursor = '',
   compatible = false,
   encoding = 'utf-8',

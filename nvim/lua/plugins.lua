@@ -38,6 +38,7 @@ return require'packer'.startup{
       
       -- Neovim builtin LSP configuration
       use { 'neovim/nvim-lspconfig' }
+      use { 'kabouzeid/nvim-lspinstall' }
 
       -- Go
       use { 'fatih/vim-go' }
