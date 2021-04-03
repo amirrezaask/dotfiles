@@ -16,6 +16,10 @@ return require'packer'.startup{
       -- Fuzzy.nvim
       use { 'amirrezaask/fuzzy.nvim' }
 
+      -- Telescope.nvim
+      use { 'nvim-lua/plenary.nvim' }
+      use { 'nvim-lua/popup.nvim' }
+      use { 'nvim-telescope/telescope.nvim' }
       -- Hashicorp tools
       use { 'hashivim/vim-terraform' }
 
@@ -41,29 +45,21 @@ return require'packer'.startup{
 
       -- Highlight color codes in buffer with their respective colors
       use { 'norcalli/nvim-colorizer.lua', branch = 'color-editor', cmd = {'ColorizerAttachToBuffer', 'ColorizerDetachFromBuffer', 'ColorizerToggle', 'ColorizerReloadAllBuffers'}}
-     
       -- Vim indent objects
       use { 'michaeljsmith/vim-indent-object'}
-      
       -- Support for Dockerfile syntax
       use { 'honza/dockerfile.vim'}
 
       -- Support for Nix programming language
       use { 'LnL7/vim-nix', ft = 'nix'}
-     
       -- Support for Zig programming language 
       use { 'ziglang/zig.vim', ft = 'zig'}
-     
       -- Support for fish syntax
       use { 'dag/vim-fish', ft = 'fish'}
-      
       -- Support for Rustlang syntax
       use { 'rust-lang/rust.vim', ft='rust'}
-     
       -- Autocomplete popup
       use { 'nvim-lua/completion-nvim'}
-      use { 'nvim-lua/popup.nvim'}
-      
       -- Show indents
       use { 'Yggdroot/indentLine' }
 
@@ -85,7 +81,6 @@ return require'packer'.startup{
 
       -- Statusline
       use { 'kyazdani42/nvim-web-devicons' }
-      use { 'nvim-lua/plenary.nvim' }
       use { 'tjdevries/express_line.nvim' }
 
    end
