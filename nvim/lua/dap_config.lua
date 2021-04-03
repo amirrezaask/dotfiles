@@ -1,5 +1,6 @@
 local dap = require'dap'
 
+vim.g.dap_virtual_text = true
 dap.adapters.go = function(callback, config)
   local port = 38697
   local handle
@@ -32,6 +33,7 @@ dap.configurations.go = {
     program = "${file}"
   }
 }
+
 -- Commands
 vim.cmd [[command! DapToggleBreakpoint lua require'dap'.toggle_breakpoint()]]
 vim.cmd [[command! DapReplOpen lua require'dap'.repl.open()]]

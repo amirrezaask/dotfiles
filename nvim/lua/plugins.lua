@@ -80,5 +80,8 @@ return require'packer'.startup{
 
       -- Debugger Adapter Protocol
       use { 'mfussenegger/nvim-dap' }
+      use { 'nvim-treesitter/nvim-treesitter' }
+      use { 'theHamsta/nvim-dap-virtual-text' }
+
    end
 }
