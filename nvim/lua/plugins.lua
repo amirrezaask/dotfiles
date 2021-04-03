@@ -13,12 +13,9 @@ return require'packer'.startup{
       end
       -- Plugin Manager
       use { 'wbthomason/packer.nvim' }
-
-      use { 'kyazdani42/nvim-web-devicons' }
+      -- Fuzzy.nvim
       use { 'amirrezaask/fuzzy.nvim' }
 
-      use { 'nvim-lua/plenary.nvim' }
-      use { 'tjdevries/express_line.nvim' }
       -- Hashicorp tools
       use { 'hashivim/vim-terraform' }
 
@@ -35,7 +32,7 @@ return require'packer'.startup{
 
       -- Base16 Colorscheme library
       use { 'norcalli/nvim-base16.lua', branch = 'theme-editor' }
-      
+
       -- Comment codes at ease
       use { 'tpope/vim-commentary' }
       

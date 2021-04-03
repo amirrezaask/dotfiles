@@ -1,9 +1,7 @@
 -- init.lua
 local nvim = require'nvim'
-
 -- Install Plugins
 require'plugins'
-
 nvim.with_options {
   ignorecase = true,
   modeline = true,
@@ -153,11 +151,15 @@ normal_maps['<Space>X'] = '<cmd>luafile %<CR>'
 -- Register keymaps
 nvim.map(global_maps)
 
+
 nvim.mode_map({
   n = normal_maps,
   i = insert_maps,
   t = term_maps
 })
+
+-- Statusline
+vim.api.nvim_set_option("statusline", "%l:%L %m%f")
 
 -- Register commands
 nvim.command('Base16Editor', [[lua require'base16.editor'.open(require'base16'.themes["<args>"])]], 1)
