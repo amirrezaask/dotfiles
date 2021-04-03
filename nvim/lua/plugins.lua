@@ -23,7 +23,6 @@ return require'packer'.startup{
 
       -- Vim Surround text objects
       use { 'tpope/vim-surround'}
-      
       -- Vim JSON tools
       use { 'tpope/vim-jdaddy', ft = 'json' }
      
@@ -39,9 +38,6 @@ return require'packer'.startup{
       -- Neovim builtin LSP configuration
       use { 'neovim/nvim-lspconfig' }
       use { 'kabouzeid/nvim-lspinstall' }
-
-      -- Go
-      use { 'fatih/vim-go' }
 
       -- Highlight color codes in buffer with their respective colors
       use { 'norcalli/nvim-colorizer.lua', branch = 'color-editor', cmd = {'ColorizerAttachToBuffer', 'ColorizerDetachFromBuffer', 'ColorizerToggle', 'ColorizerReloadAllBuffers'}}
@@ -81,5 +77,8 @@ return require'packer'.startup{
       -- Colorbuddy
       use { 'tjdevries/colorbuddy.vim' }
       use { 'tjdevries/gruvbuddy.nvim' }
+
+      -- Debugger Adapter Protocol
+      use { 'mfussenegger/nvim-dap' }
    end
 }

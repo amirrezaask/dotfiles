@@ -29,6 +29,7 @@ nvim.with_options {
   splitright = true,
   splitbelow = true,
   cursorline = true,
+  relativenumber = true,
 }
 
 local global_maps = {
@@ -49,7 +50,6 @@ local insert_maps = {
   ['kk'] = '<esc>',
   ['kj'] = '<esc>'
 }
-
 
 local normal_maps = {
   ['<Space>/'] = ':nohl<CR>',
