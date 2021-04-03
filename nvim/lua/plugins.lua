@@ -83,5 +83,10 @@ return require'packer'.startup{
       use { 'nvim-treesitter/nvim-treesitter' }
       use { 'theHamsta/nvim-dap-virtual-text' }
 
+      -- Statusline
+      use { 'kyazdani42/nvim-web-devicons' }
+      use { 'nvim-lua/plenary.nvim' }
+      use { 'tjdevries/express_line.nvim' }
+
    end
 }

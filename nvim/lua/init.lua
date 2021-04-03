@@ -33,7 +33,7 @@ nvim.with_options {
 }
 
 local global_maps = {
-  -- Easier window navigation 
+  -- Easier window navigation
   ['<C-j>'] = '<C-w>j',
   ['<C-k>'] = '<C-w>k',
   ['<C-l>'] = '<C-w>l',
