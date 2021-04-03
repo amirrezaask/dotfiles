@@ -3,12 +3,52 @@ local completion = require('completion')
 
 require'lspinstall'.setup() -- important
 
-local servers = require'lspinstall'.installed_servers()
-for _, server in pairs(servers) do
-  require'lspconfig'[server].setup{}
+local function get_lua_runtime()
+    local result = {};
+    for _, path in pairs(vim.api.nvim_list_runtime_paths()) do
+        local lua_path = path .. "/lua/";
+        if vim.fn.isdirectory(lua_path) then
+            result[lua_path] = true
+        end
+    end
+
+    result[vim.fn.expand("$VIMRUNTIME/lua")] = true
+
+    result[vim.fn.expand("~/build/neovim/src/nvim/lua")] = true
+
+    return result;
 end
 
+lspconfig.go.setup{}
+
+lspconfig.lua.setup{
+  settings = {
+    Lua = {
+      runtime = {
+        version = "LuaJIT"
+      },
+      diagnostics = {
+        enable = true,
+        disable = {
+          "trailing-space",
+        },
+        globals = {"vim"}
+      },
+      workspace = {
+        library = vim.list_extend(get_lua_runtime(), {}),
+        maxPreload = 1000,
+        preloadFileSize = 1000,
+      },
+    }
+  }
+}
+
+lspconfig.python.setup{}
+
 vim.cmd [[ autocmd BufEnter * lua require'completion'.on_attach() ]]
+
+local lspsaga = require'lspsaga'
+lspsaga.init_lsp_saga()
 
 -- Commands
 vim.cmd [[ command! LspDef lua vim.lsp.buf.definition() ]]
@@ -20,7 +60,7 @@ vim.cmd [[ command! LspRefs lua vim.lsp.buf.references() ]]
 vim.cmd [[ command! LspDocSyms lua vim.lsp.buf.document_symbol() ]]
 vim.cmd [[ command! LspWorkSyms lua vim.lsp.buf.workspace_symbol() ]]
 vim.cmd [[ command! LspDecl lua vim.lsp.buf.declaration() ]]
-vim.cmd [[ command! LspRename lua vim.lsp.buf.rename() ]]
+vim.cmd [[ command! LspRename lua require('lspsaga.rename').rename() ]]
 
 -- Keybindings
 vim.cmd [[ nnoremap <silent> gd    <cmd>LspDef<CR> ]]
@@ -43,5 +83,6 @@ vim.cmd [[set completeopt=menuone,noinsert,noselect]]
 
 -- Avoid showing message extra message when using completion
 vim.cmd [[set shortmess+=c]]
+
 
 

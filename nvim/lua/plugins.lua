@@ -23,13 +23,12 @@ return require'packer'.startup{
       -- Hashicorp tools
       use { 'hashivim/vim-terraform' }
 
-      use { 'mhinz/vim-startify' } 
+      use { 'mhinz/vim-startify' }
 
       -- Vim Surround text objects
       use { 'tpope/vim-surround'}
       -- Vim JSON tools
       use { 'tpope/vim-jdaddy', ft = 'json' }
-     
       -- Elixir
       use { 'elixir-editors/vim-elixir' }
 
@@ -38,10 +37,10 @@ return require'packer'.startup{
 
       -- Comment codes at ease
       use { 'tpope/vim-commentary' }
-      
       -- Neovim builtin LSP configuration
       use { 'neovim/nvim-lspconfig' }
       use { 'kabouzeid/nvim-lspinstall' }
+      use { 'glepnir/lspsaga.nvim' }
 
       -- Highlight color codes in buffer with their respective colors
       use { 'norcalli/nvim-colorizer.lua', branch = 'color-editor', cmd = {'ColorizerAttachToBuffer', 'ColorizerDetachFromBuffer', 'ColorizerToggle', 'ColorizerReloadAllBuffers'}}
@@ -52,7 +51,7 @@ return require'packer'.startup{
 
       -- Support for Nix programming language
       use { 'LnL7/vim-nix', ft = 'nix'}
-      -- Support for Zig programming language 
+      -- Support for Zig programming language
       use { 'ziglang/zig.vim', ft = 'zig'}
       -- Support for fish syntax
       use { 'dag/vim-fish', ft = 'fish'}
@@ -82,6 +81,9 @@ return require'packer'.startup{
       -- Statusline
       use { 'kyazdani42/nvim-web-devicons' }
       use { 'tjdevries/express_line.nvim' }
+
+      -- Lua
+      use { 'tjdevries/nlua.nvim' }
 
    end
 }
