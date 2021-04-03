@@ -72,7 +72,7 @@ vim.cmd [[ nnoremap <silent> gR    <cmd>LspRefs<CR> ]]
 vim.cmd [[ nnoremap <silent> g0    <cmd>LspDocSyms<CR> ]]
 vim.cmd [[ nnoremap <silent> gW    <cmd>LspWorkSyms<CR> ]]
 vim.cmd [[ nnoremap <silent> gD    <cmd>LspDecl<CR> ]]
-vim.cmd [[ nnoremap <silent> r     <cmd>LspRename<CR> ]]
+vim.cmd [[ nnoremap <silent> <Space>R     <cmd>LspRename<CR> ]]
 
 -- Use <Tab> and <S-Tab> to navigate through popup menu
 vim.cmd [[inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"]]
