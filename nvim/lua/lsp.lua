@@ -1,7 +1,4 @@
 local lspconfig = require('lspconfig')
-local completion = require('completion')
-
--- require'lspinstall'.setup() -- important
 
 local function get_lua_runtime()
     local result = {};
@@ -18,9 +15,12 @@ local function get_lua_runtime()
 
     return result;
 end
-
 lspconfig.gopls.setup{}
-lspconfig.rust_analyzer.setup{}
+lspconfig.rust_analyzer.setup{
+  on_attach = function()
+    require'lsp_extensions'.inlay_hints{}
+  end
+}
 
 lspconfig.sumneko_lua.setup{
   cmd = {"/home/amirreza/.local/lua-language-server/bin/Linux/lua-language-server", "-E", "/home/amirreza/.local/lua-language-server" .. "/main.lua"};
@@ -50,7 +50,7 @@ lspconfig.pyls_ms.setup{}
 vim.cmd [[ autocmd BufEnter * lua require'completion'.on_attach() ]]
 
 local lspsaga = require'lspsaga'
-lspsaga.init_lsp_saga()
+-- lspsaga.init_lsp_saga()
 
 -- Commands
 vim.cmd [[ command! LspDef lua vim.lsp.buf.definition() ]]
@@ -70,10 +70,11 @@ vim.cmd [[ nnoremap <silent> K     <cmd>LspHover<CR> ]]
 vim.cmd [[ nnoremap <silent> gI    <cmd>LspImpl<CR> ]]
 vim.cmd [[ nnoremap <silent> <c-k> <cmd>LspSignatureHelp<CR> ]]
 vim.cmd [[ nnoremap <silent> 1gD   <cmd>LspTypeDef<CR> ]]
-vim.cmd [[ nnoremap <silent> gR    <cmd>LspRefs<CR> ]]
-vim.cmd [[ nnoremap <silent> g0    <cmd>LspDocSyms<CR> ]]
-vim.cmd [[ nnoremap <silent> gW    <cmd>LspWorkSyms<CR> ]]
+vim.cmd [[ nnoremap <silent> gR    <cmd>LspReferences<CR> ]]
+vim.cmd [[ nnoremap <silent> g0    <cmd>LspDocumentSymbols<CR> ]]
+vim.cmd [[ nnoremap <silent> gW    <cmd>LspWorkspaceSymbols<CR> ]]
 vim.cmd [[ nnoremap <silent> gD    <cmd>LspDecl<CR> ]]
+vim.cmd [[ nnoremap <silent> <Space>A    <cmd>LspCodeActions<CR> ]]
 vim.cmd [[ nnoremap <silent> <Space>R     <cmd>LspRename<CR> ]]
 
 -- Use <Tab> and <S-Tab> to navigate through popup menu

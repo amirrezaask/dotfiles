@@ -41,6 +41,7 @@ return require'packer'.startup{
       -- Neovim builtin LSP configuration
       use { 'neovim/nvim-lspconfig' }
       use { 'glepnir/lspsaga.nvim' }
+      use { 'nvim-lua/lsp_extensions.nvim' }
 
       -- Highlight color codes in buffer with their respective colors
       use { 'norcalli/nvim-colorizer.lua', branch = 'color-editor', cmd = {'ColorizerAttachToBuffer', 'ColorizerDetachFromBuffer', 'ColorizerToggle', 'ColorizerReloadAllBuffers'}}

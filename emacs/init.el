@@ -41,7 +41,7 @@
 		         dotfiles
 		         editor
                  ;; rhythmbox
-                 ;; evil
+                 evil
 		         git
 		         org
 		         pdf
