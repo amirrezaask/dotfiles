@@ -1,7 +1,7 @@
 local lspconfig = require('lspconfig')
 local completion = require('completion')
 
-require'lspinstall'.setup() -- important
+-- require'lspinstall'.setup() -- important
 
 local function get_lua_runtime()
     local result = {};
@@ -19,9 +19,11 @@ local function get_lua_runtime()
     return result;
 end
 
-lspconfig.go.setup{}
+lspconfig.gopls.setup{}
+lspconfig.rust_analyzer.setup{}
 
-lspconfig.lua.setup{
+lspconfig.sumneko_lua.setup{
+  cmd = {"/home/amirreza/.local/lua-language-server/bin/Linux/lua-language-server", "-E", "/home/amirreza/.local/lua-language-server" .. "/main.lua"};
   settings = {
     Lua = {
       runtime = {
@@ -43,7 +45,7 @@ lspconfig.lua.setup{
   }
 }
 
-lspconfig.python.setup{}
+lspconfig.pyls_ms.setup{}
 
 vim.cmd [[ autocmd BufEnter * lua require'completion'.on_attach() ]]
 

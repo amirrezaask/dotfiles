@@ -1,4 +1,4 @@
-" colorscheme bluescreen 
+" colorscheme bluescreen
 lua require('colorbuddy').colorscheme('gruvbuddy')
 lua require'dap_config'
 lua require'statusline'

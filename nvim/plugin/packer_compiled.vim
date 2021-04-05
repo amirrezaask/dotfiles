@@ -44,6 +44,10 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/dockerfile.vim"
   },
+  ["express_line.nvim"] = {
+    loaded = true,
+    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/express_line.nvim"
+  },
   ["fuzzy.nvim"] = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/fuzzy.nvim"
@@ -64,6 +68,14 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/lazygit.nvim"
   },
+  ["lspsaga.nvim"] = {
+    loaded = true,
+    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/lspsaga.nvim"
+  },
+  ["nlua.nvim"] = {
+    loaded = true,
+    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/nlua.nvim"
+  },
   ["nvim-base16.lua"] = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/nvim-base16.lua"
@@ -78,17 +90,33 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/nvim-dap"
   },
+  ["nvim-dap-virtual-text"] = {
+    loaded = true,
+    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/nvim-dap-virtual-text"
+  },
   ["nvim-lspconfig"] = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/nvim-lspconfig"
   },
-  ["nvim-lspinstall"] = {
+  ["nvim-treesitter"] = {
     loaded = true,
-    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/nvim-lspinstall"
+    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/nvim-treesitter"
+  },
+  ["nvim-web-devicons"] = {
+    loaded = true,
+    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/nvim-web-devicons"
+  },
+  onebuddy = {
+    loaded = true,
+    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/onebuddy"
   },
   ["packer.nvim"] = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/packer.nvim"
+  },
+  ["plenary.nvim"] = {
+    loaded = true,
+    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/plenary.nvim"
   },
   ["popup.nvim"] = {
     loaded = true,
@@ -102,6 +130,14 @@ _G.packer_plugins = {
   ["snippets.nvim"] = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/snippets.nvim"
+  },
+  ["space-nvim"] = {
+    loaded = true,
+    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/space-nvim"
+  },
+  ["telescope.nvim"] = {
+    loaded = true,
+    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/telescope.nvim"
   },
   ["vim-commentary"] = {
     loaded = true,
@@ -151,25 +187,25 @@ _G.packer_plugins = {
 
 
 -- Command lazy-loads
+vim.cmd [[command! -nargs=* -range -bang -complete=file ColorizerReloadAllBuffers lua require("packer.load")({'nvim-colorizer.lua'}, { cmd = "ColorizerReloadAllBuffers", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]]
 vim.cmd [[command! -nargs=* -range -bang -complete=file ColorizerAttachToBuffer lua require("packer.load")({'nvim-colorizer.lua'}, { cmd = "ColorizerAttachToBuffer", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]]
 vim.cmd [[command! -nargs=* -range -bang -complete=file ColorizerDetachFromBuffer lua require("packer.load")({'nvim-colorizer.lua'}, { cmd = "ColorizerDetachFromBuffer", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]]
 vim.cmd [[command! -nargs=* -range -bang -complete=file ColorizerToggle lua require("packer.load")({'nvim-colorizer.lua'}, { cmd = "ColorizerToggle", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]]
-vim.cmd [[command! -nargs=* -range -bang -complete=file ColorizerReloadAllBuffers lua require("packer.load")({'nvim-colorizer.lua'}, { cmd = "ColorizerReloadAllBuffers", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]]
 
 vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]
   -- Filetype lazy-loads
+vim.cmd [[au FileType fish ++once lua require("packer.load")({'vim-fish'}, { ft = "fish" }, _G.packer_plugins)]]
 vim.cmd [[au FileType rust ++once lua require("packer.load")({'rust.vim'}, { ft = "rust" }, _G.packer_plugins)]]
 vim.cmd [[au FileType json ++once lua require("packer.load")({'vim-jdaddy'}, { ft = "json" }, _G.packer_plugins)]]
 vim.cmd [[au FileType nix ++once lua require("packer.load")({'vim-nix'}, { ft = "nix" }, _G.packer_plugins)]]
 vim.cmd [[au FileType zig ++once lua require("packer.load")({'zig.vim'}, { ft = "zig" }, _G.packer_plugins)]]
-vim.cmd [[au FileType fish ++once lua require("packer.load")({'vim-fish'}, { ft = "fish" }, _G.packer_plugins)]]
 vim.cmd("augroup END")
 vim.cmd [[augroup filetypedetect]]
-vim.cmd [[source /home/amirreza/.local/share/nvim/site/pack/packer/opt/vim-fish/ftdetect/fish.vim]]
-vim.cmd [[source /home/amirreza/.local/share/nvim/site/pack/packer/opt/vim-nix/ftdetect/nix.vim]]
 vim.cmd [[source /home/amirreza/.local/share/nvim/site/pack/packer/opt/zig.vim/ftdetect/zig.vim]]
+vim.cmd [[source /home/amirreza/.local/share/nvim/site/pack/packer/opt/vim-fish/ftdetect/fish.vim]]
 vim.cmd [[source /home/amirreza/.local/share/nvim/site/pack/packer/opt/rust.vim/ftdetect/rust.vim]]
+vim.cmd [[source /home/amirreza/.local/share/nvim/site/pack/packer/opt/vim-nix/ftdetect/nix.vim]]
 vim.cmd("augroup END")
 END
 

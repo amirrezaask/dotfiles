@@ -2,8 +2,8 @@ vim.cmd [[packadd packer.nvim]]
 return require'packer'.startup{
    function(_use)
       local function use(opts)
-       base = "/home/amirreza/src/github.com/"
-       path = opts[1]
+       local base = "/home/amirreza/src/github.com/"
+       local path = opts[1]
        if vim.fn.isdirectory(base .. path) ~= 0 then
          opts[1] = base .. path
          _use(opts)
@@ -37,9 +37,9 @@ return require'packer'.startup{
 
       -- Comment codes at ease
       use { 'tpope/vim-commentary' }
+
       -- Neovim builtin LSP configuration
       use { 'neovim/nvim-lspconfig' }
-      use { 'kabouzeid/nvim-lspinstall' }
       use { 'glepnir/lspsaga.nvim' }
 
       -- Highlight color codes in buffer with their respective colors
@@ -72,6 +72,8 @@ return require'packer'.startup{
       -- Colorbuddy
       use { 'tjdevries/colorbuddy.vim' }
       use { 'tjdevries/gruvbuddy.nvim' }
+      use { 'Th3Whit3Wolf/onebuddy' }
+      use { 'Th3Whit3Wolf/space-nvim' }
 
       -- Debugger Adapter Protocol
       use { 'mfussenegger/nvim-dap' }

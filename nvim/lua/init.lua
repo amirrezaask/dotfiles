@@ -61,25 +61,28 @@ local normal_maps = {
 }
 -- Fuzzy Searching
 vim.g.fuzzy_options = {
-  width = 70,
-  height = 90,
+  width = 65,
+  height = 45,
   blacklist = {
     "vendor"
-  }
+  },
 }
 
--- -- Fuzzy.nvim
+-- Fuzzy.nvim
+-- File based searches
 normal_maps['<Space><Space>'] = '<cmd>lua require("fuzzy").file_finder{}<CR>'
 normal_maps['<Space>fb'] = '<cmd>lua require("fuzzy").interactive_finder{}<CR>'
+normal_maps['<Space>ec'] = '<cmd>lua require("fuzzy").file_finder{path="/home/amirreza/src/github.com/amirrezaask/dotfiles"}<CR>'
+normal_maps['<Space>en'] = '<cmd>lua require("fuzzy").file_finder{path="/home/amirreza/.config/nvim"}<CR>'
+normal_maps['<Space>fp'] = '<cmd>lua require("fuzzy").projects{locations={"/home/amirreza/.local/share/nvim/site/pack/packer/start"}}<CR>'
 normal_maps['<Space>gf'] = '<cmd>lua require("fuzzy").git_files{}<CR>'
+normal_maps['<Space>fr'] = '<cmd>MRU<CR>'
+normal_maps['<Space>pf'] = '<cmd>lua require("fuzzy").projects{locations={"/home/amirreza/src"}}<CR>'
 normal_maps['??'] = '<cmd>lua require("fuzzy").grep{}<CR>'
 normal_maps['<Space>b'] = '<cmd>lua require("fuzzy").buffers{}<CR>'
 normal_maps['<Space>gg'] = '<cmd>lua require("fuzzy").git_grep{}<CR>'
-normal_maps['<Space>ec'] = '<cmd>lua require("fuzzy").file_finder{path="/home/amirreza/src/github.com/amirrezaask/dotfiles"}<CR>'
-normal_maps['<Space>en'] = '<cmd>lua require("fuzzy").file_finder{path="/home/amirreza/.config/nvim"}<CR>'
 normal_maps['<Space>c'] = '<cmd>lua require("fuzzy").commands{}<CR>'
 normal_maps['<Space>h'] = '<cmd>lua require("fuzzy").history{}<CR>'
-normal_maps['<Space>fr'] = '<cmd>MRU<CR>'
 normal_maps['<Space>s'] = '<cmd>lua require("sidetree").open_side_file_browser()<CR>'
 normal_maps['<Space>h'] = '<cmd>lua require("fuzzy").help{}<CR>'
 normal_maps['<Space>gc'] = '<cmd>lua require("fuzzy").git_commits{}<CR>'
