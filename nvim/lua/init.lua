@@ -30,6 +30,7 @@ nvim.with_options {
   cursorline = true,
   number = true,
 }
+vim.cmd [[ set cursorline ]]
 local global_maps = {
   -- Easier window navigation
   ['<C-j>'] = '<C-w>j',
@@ -66,6 +67,7 @@ vim.g.fuzzy_options = {
   blacklist = {
     "vendor"
   },
+  prompt = '🔎 '
 }
 
 -- Fuzzy.nvim
@@ -139,32 +141,8 @@ vim.g.completion_chain_complete_list = {
   }
 }
 
--- Reloader
-function RELOAD(pkg)
-  package.loaded[pkg] = nil
-  require(pkg)
-end
-
--- Printer
-function P(obj)
-  print(vim.inspect(obj))
-end
-
--- Eval line
-function EVAL()
- local filetype = vim.api.nvim_buf_get_option(0, 'filetype') 
- local line = vim.fn.getline('.')
- if filetype == 'lua' then
-  vim.cmd(string.format([[ lua %s ]], line)) 
- end
-end
-
-normal_maps['<Space>x'] = '<cmd>lua EVAL()<CR>'
-normal_maps['<Space>X'] = '<cmd>luafile %<CR>'
-
 -- Register keymaps
 nvim.map(global_maps)
-
 
 nvim.mode_map({
   n = normal_maps,
@@ -173,6 +151,7 @@ nvim.mode_map({
 
 -- Statusline
 vim.api.nvim_set_option("statusline", "%l:%L %m%f")
+
 -- Register commands
 nvim.command('Base16Editor', [[lua require'base16.editor'.open(require'base16'.themes["<args>"])]], 1)
 nvim.command('VTerm', [[ vnew | term ]])

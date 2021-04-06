@@ -50,9 +50,6 @@ lspconfig.pyls_ms.setup{}
 
 vim.cmd [[ autocmd BufEnter * lua require'completion'.on_attach() ]]
 
-local lspsaga = require'lspsaga'
--- lspsaga.init_lsp_saga()
-
 -- Commands
 vim.cmd [[ command! LspDef lua vim.lsp.buf.definition() ]]
 vim.cmd [[ command! LspHover lua vim.lsp.buf.hover() ]]
