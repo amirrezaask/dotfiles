@@ -13,17 +13,12 @@ return require'packer'.startup{
       end
       -- Plugin Manager
       use { 'wbthomason/packer.nvim' }
+
       -- Fuzzy.nvim
       use { 'amirrezaask/fuzzy.nvim' }
-
-      -- Telescope.nvim
-      use { 'nvim-lua/plenary.nvim' }
-      use { 'nvim-lua/popup.nvim' }
-      use { 'nvim-telescope/telescope.nvim' }
+      
       -- Hashicorp tools
       use { 'hashivim/vim-terraform' }
-
-      use { 'mhinz/vim-startify' }
 
       -- Vim Surround text objects
       use { 'tpope/vim-surround'}
@@ -70,23 +65,10 @@ return require'packer'.startup{
       use { 'rhysd/git-messenger.vim' }
       use { 'kdheepak/lazygit.nvim' }
 
-      -- Colorbuddy
-      use { 'tjdevries/colorbuddy.vim' }
-      use { 'tjdevries/gruvbuddy.nvim' }
-      use { 'Th3Whit3Wolf/onebuddy' }
-      use { 'Th3Whit3Wolf/space-nvim' }
-
       -- Debugger Adapter Protocol
       use { 'mfussenegger/nvim-dap' }
       use { 'nvim-treesitter/nvim-treesitter' }
       use { 'theHamsta/nvim-dap-virtual-text' }
 
-      -- Statusline
-      use { 'kyazdani42/nvim-web-devicons' }
-      use { 'tjdevries/express_line.nvim' }
-
-      -- Lua
-      use { 'tjdevries/nlua.nvim' }
-
-   end
+  end
 }

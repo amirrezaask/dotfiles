@@ -21,9 +21,10 @@ lspconfig.rust_analyzer.setup{
     require'lsp_extensions'.inlay_hints{}
   end
 }
-
+local sumneko_root = "/home/amirreza/.local/lua-language-server"
+local sumneko_binary = sumneko_root .. "/bin/Linux/lua-language-server" 
 lspconfig.sumneko_lua.setup{
-  cmd = {"/home/amirreza/.local/lua-language-server/bin/Linux/lua-language-server", "-E", "/home/amirreza/.local/lua-language-server" .. "/main.lua"};
+  cmd = {sumneko_binary, "-E", sumneko_root .. "/main.lua"};
   settings = {
     Lua = {
       runtime = {

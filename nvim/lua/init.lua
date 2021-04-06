@@ -61,8 +61,8 @@ local normal_maps = {
 }
 -- Fuzzy Searching
 vim.g.fuzzy_options = {
-  width = 45,
-  height = 70,
+  width = 40,
+  height = 100,
   blacklist = {
     "vendor"
   },
@@ -169,12 +169,10 @@ nvim.map(global_maps)
 nvim.mode_map({
   n = normal_maps,
   i = insert_maps,
-  t = term_maps
 })
 
 -- Statusline
 vim.api.nvim_set_option("statusline", "%l:%L %m%f")
-
 -- Register commands
 nvim.command('Base16Editor', [[lua require'base16.editor'.open(require'base16'.themes["<args>"])]], 1)
 nvim.command('VTerm', [[ vnew | term ]])
