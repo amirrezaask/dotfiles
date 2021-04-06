@@ -65,7 +65,7 @@ vim.cmd [[ command! LspDecl lua vim.lsp.buf.declaration() ]]
 vim.cmd [[ command! LspRename lua require('lspsaga.rename').rename() ]]
 
 -- Keybindings
-vim.cmd [[ nnoremap <silent> gd    <cmd>LspDef<CR> ]]
+vim.cmd [[ nnoremap <silent> gd    <cmd>LspDefinitions<CR> ]]
 vim.cmd [[ nnoremap <silent> K     <cmd>LspHover<CR> ]]
 vim.cmd [[ nnoremap <silent> gI    <cmd>LspImpl<CR> ]]
 vim.cmd [[ nnoremap <silent> <c-k> <cmd>LspSignatureHelp<CR> ]]
