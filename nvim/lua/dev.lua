@@ -20,7 +20,7 @@ end
 
 require'nvim'.mode_map({
   n = { 
-    [ '<Space>x' ] = '<cmd>lua EVAL()<CR>',
+    ['<Space>x' ] = '<cmd>lua EVAL()<CR>',
     ['<Space>X'] = '<cmd>luafile %<CR>'
   }
 })

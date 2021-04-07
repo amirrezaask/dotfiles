@@ -6,7 +6,6 @@ nvim.with_options {
   ignorecase = true,
   modeline = true,
   autoread = true,
-  guicursor = '',
   compatible = false,
   encoding = 'utf-8',
   hlsearch = true,
@@ -28,7 +27,7 @@ nvim.with_options {
   splitright = true,
   splitbelow = true,
   cursorline = true,
-  number = true,
+  number = false,
 }
 vim.cmd [[ set cursorline ]]
 
