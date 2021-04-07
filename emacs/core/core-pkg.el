@@ -19,4 +19,4 @@
     `(use-package ,@args))
 
 
-(provide 'core/core-pkg)
+(provide 'core-pkg)

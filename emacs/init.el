@@ -24,55 +24,19 @@
 
 ;;; Code:
 
-;; (setq debug-on-error t)
+;; Initialize Package manager
+(require 'core-pkg)
+(core/pkg-init)
 
-(setq user-full-name "AmirrezaAskarpour"
-      user-mail-address "raskarpour@gmail.com")
+;; Delete old tangled README file
+(delete-file "~/.emacs.d/README.el")
 
-(setq modules! '(
-                 ivy
-                 ;; selectrum
-		         buffers
-                 ui
-		         env
-                 ;; dashboard
-		         dev
-		         dired
-		         dotfiles
-		         editor
-                 ;; rhythmbox
-                 evil
-		         git
-		         org
-		         pdf
-		         projectile
-		         search
-		         term
-		         windows
-                 ;; Languages to configure
-                 (langs
-                  go
-                  lisp
-                  elisp
-                  configs
-                  haskell
-                  lua
-                  ;; nix
-                  ;; php
-                  ;; proto
-                  ;; scheme
-                  ;; terraform
-                  ;; web
-                  ;; zig
-                  ;; rust
-                  python
-                  json
-                  ;; clojure
-                  md
-                  )
-                 ))
+;; Initiate module system
+(require 'core-modules)
 
-(boot!)
+;; Load configuration
+(org-babel-load-file "~/.emacs.d/README.org")
+
 
 (provide 'init)
 ;;; init.el ends here

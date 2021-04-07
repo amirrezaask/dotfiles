@@ -1,6 +1,6 @@
-;;; rythmbox.el --- Rhythmbox                        -*- lexical-binding: t; -*-
+;;; rhythmbox.el --- Rhytmbox controller via DBus    -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2021  AmirrezaAskarpour
+;; Copyright (C) 2020  AmirrezaAskarpour
 
 ;; Author: AmirrezaAskarpour <raskarpour@gmail.com>
 ;; Keywords: 
@@ -96,5 +96,5 @@
   (let ((song-name (assoc (completing-read "Song: " Rhythmbox/songs) Rhythmbox/songs)))
     (Rhythmbox/play-song song-name)))
 
-(provide 'modules/rythmbox)
-;;; rythmbox.el ends here
+(provide 'rhythmbox)
+;;; rhythmbox.el ends here
