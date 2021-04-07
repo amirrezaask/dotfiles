@@ -141,6 +141,7 @@ vim.g.completion_chain_complete_list = {
   }
 }
 
+require'dev'
 -- Register keymaps
 nvim.map(global_maps)
 
