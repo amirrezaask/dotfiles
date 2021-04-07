@@ -7,7 +7,6 @@
   - [[#package-manager][Package manager]]
   - [[#module-system][Module System]]
   - [[#gcmh][GCMH]]
-- [[#enabled-modules][Enabled Modules]]
 - [[#basic-setup][Basic Setup]]
   - [[#tab-setting][Tab Setting]]
   - [[#backup-files-configuration][Backup files configuration]]
@@ -134,21 +133,17 @@ My package manager is based on combining `Straight.el` and `use-package` togethe
 My module system is a way to enable/disable an elisp block using a central list of enabled modules.
 ** GCMH
 Tune garbage collector to act smarter. ( credits to Andre for creating this library )
-* Enabled Modules
-#+begin_src emacs-lisp
-(defvar amirreza/modules '(ivy doom/modeline dashboard))
-#+end_src
 * Basic Setup
 ** Tab Setting
 #+begin_src emacs-lisp
-  (pkg! emacs
+  (use-package emacs
     :config
     (setq-default indent-tabs-mode nil
                   tab-width 4))
 #+end_src
 ** Backup files configuration
 #+begin_src emacs-lisp
-    (pkg! emacs 
+    (use-package emacs 
       :config 
       (setq backup-by-copying t)
       (setq version-control t)
@@ -211,7 +206,7 @@ Tune garbage collector to act smarter. ( credits to Andre for creating this libr
 #+end_src
 ** Delete selection/region when start typing
 #+begin_src emacs-lisp
-  (pkg! delsel ;; delete region when start typing
+  (use-package delsel ;; delete region when start typing
     :hook (after-init . delete-selection-mode))
 #+end_src
 ** Show column number in modeline
@@ -224,11 +219,11 @@ Tune garbage collector to act smarter. ( credits to Andre for creating this libr
 #+end_src
 ** Show laptop battery status in modeline
 #+begin_src emacs-lisp
-(pkg! battery :config (display-battery-mode 1))
+(use-package battery :config (display-battery-mode 1))
 #+end_src
 ** Show time in modeline
 #+begin_src emacs-lisp
-(pkg! time :config (display-time-mode 1))
+(use-package time :config (display-time-mode 1))
 #+end_src
 ** Show line numbers
 #+begin_src emacs-lisp
@@ -236,14 +231,14 @@ Tune garbage collector to act smarter. ( credits to Andre for creating this libr
 #+end_src
 ** Highlight matching parens
 #+begin_src emacs-lisp
-  (pkg! paren 
+  (use-package paren 
     :config
     (show-paren-mode 1)
     (setq show-paren-delay 0))
 #+end_src
 ** Track laptop battery
 #+begin_src emacs-lisp
-  (pkg! battery
+  (use-package battery
     :config (display-battery-mode 1))
 #+end_src
 
@@ -262,10 +257,13 @@ I want my Emacs to open my TODO file on every startup and have a that buffer ope
     `(lambda (&rest _) (interactive) ,@body))
 #+end_src
 * Emacs X Window Manager
+  :PROPERTIES:
+:header-args: :tangle no
+:END:
+
 Emacs is so extensible that it can actually be a X window manager. You can literally login into Emacs, using exwm package you can run your whole computing environment inside Emacs.
 #+begin_src emacs-lisp
-(if-enabled? exwm
-  (pkg! exwm
+  (use-package exwm
     :straight t
     :config
     (require 'exwm)
@@ -398,40 +396,42 @@ Emacs is so extensible that it can actually be a X window manager. You can liter
     (exwm-randr-enable)
     (start-process-shell-command "Set keyboard layout" nil "setxkbmap -layout 'us,ir' -option 'grp:shifts_toggle' -option 'ctrl:nocaps'")
     (exwm-systemtray-enable)
-    (exwm-enable)))
+    (exwm-enable))
 #+end_src
 * Keybindings
 ** Evil
+   :PROPERTIES:
+:header-args: :tangle no
+:END:
 #+begin_src emacs-lisp
-  (if-enabled? evil
-            (pkg! evil
-              :straight t
-              :init
-              (setq evil-want-keybinding nil)
-              :bind
-              (:map evil-normal-state-map
-                    ("g c" . comment-line)
-                    ("SPC SPC" . amirreza/file-finder)
-                    ("SPC f f" . find-file)
-                    ("SPC ." . counsel-M-x)
-                    ("SPC h d f" . counsel-describe-function)
-                    ("SPC h d v" . counsel-describe-variable)
-                    ("SPC h d k" . describe-key))
-              :config
-              (evil-mode 1))
+  (use-package evil
+    :straight t
+    :init
+    (setq evil-want-keybinding nil)
+    :bind
+    (:map evil-normal-state-map
+          ("g c" . comment-line)
+          ("SPC SPC" . amirreza/file-finder)
+          ("SPC f f" . find-file)
+          ("SPC ." . counsel-M-x)
+          ("SPC h d f" . counsel-describe-function)
+          ("SPC h d v" . counsel-describe-variable)
+          ("SPC h d k" . describe-key))
+    :config
+    (evil-mode 1))
 
-            (pkg! evil-escape :straight t :config (setq-default evil-escape-key-sequence "jk") (setq evil-escape-unordered-key-sequence t) (evil-escape-mode 1))
-            (pkg! evil-collection :straight t :config (evil-collection-init))
+  (use-package evil-escape :straight t :config (setq-default evil-escape-key-sequence "jk") (setq evil-escape-unordered-key-sequence t) (evil-escape-mode 1))
+  (use-package evil-collection :straight t :config (evil-collection-init))
 
-            (pkg! evil-surround
-              :straight t
-              :config
-              (global-evil-surround-mode 1))
-            )
+  (use-package evil-surround
+    :straight t
+    :config
+    (global-evil-surround-mode 1))
+
 #+end_src
 ** Which-key
 #+begin_src emacs-lisp
-  (pkg! which-key
+  (use-package which-key
     :straight t
     :defer 1
     :init
@@ -450,22 +450,22 @@ Emacs is so extensible that it can actually be a X window manager. You can liter
 * Appereance
 ** Themes
  #+BEGIN_SRC emacs-lisp
-   (pkg! modus-operandi-theme :straight t :defer t)
-   (pkg! modus-vivendi-theme :straight t :defer t)
-   (pkg! doom-themes :straight t :defer t)
+   (use-package modus-operandi-theme :straight t :defer t)
+   (use-package modus-vivendi-theme :straight t :defer t)
+   (use-package doom-themes :straight t :defer t)
  #+END_SRC
- You probably notice the =:defer= part in pkg!, with =:defer= keyword (:something is called a keyword in elisp)
- pkg! knows that we don't need this package to be loaded in startup, since we actually don't need all of our themes
- to be loaded at startup. Another keyword that you see is =:straight= that is telling pkg! to make certain
+ You probably notice the =:defer= part in use-package, with =:defer= keyword (:something is called a keyword in elisp)
+ use-package knows that we don't need this package to be loaded in startup, since we actually don't need all of our themes
+ to be loaded at startup. Another keyword that you see is =:straight= that is telling use-package to make certain
  that this package is installed, and if it's not install it from elpa repo.
  Now let's set a theme
  #+BEGIN_SRC emacs-lisp
-   (pkg! emacs 
+   (use-package emacs 
      :config 
      (setq ring-bell-function t)
      (setq visible-bell t))
 
-   (pkg! custom
+   (use-package custom
      :defer 1
      :bind (("<f12>" . amirreza/toggle-color-mode))
      :config
@@ -501,19 +501,19 @@ Emacs is so extensible that it can actually be a X window manager. You can liter
  #+END_SRC
 ***** Performance Tip 
  About 95% of packages we use don't need to be loaded at startup and =:defer= is only one of the multiple
- ways of lazy-loading in pkg! we will see others later on.
+ ways of lazy-loading in use-package we will see others later on.
 ** Cursor
  #+BEGIN_SRC emacs-lisp
-   (pkg! emacs
+   (use-package emacs
      :config
      (setq-default ring-bell-function 'ignore)
      (setq-default cursor-type 'bar))
 
-   (pkg! frame
+   (use-package frame
      :config
      (blink-cursor-mode 1))
 
-   (pkg! hl-line
+   (use-package hl-line
      :defer 1
      :config
      (global-hl-line-mode +1))
@@ -521,7 +521,6 @@ Emacs is so extensible that it can actually be a X window manager. You can liter
   #+END_SRC
 ** Modeline
 #+begin_src emacs-lisp
-  (if-enabled? amirreza/modeline 
      (setq mode-line-percent-position '(-3 "%p"))
 
      (defface amirreza/buffer-face
@@ -597,138 +596,88 @@ Emacs is so extensible that it can actually be a X window manager. You can liter
                                                     'face 'amirreza/vcs-face)
                                         " "))) "]"
                     " "
-                    "[" '(:eval (propertize display-time-string 'face 'amirreza/date-face)) "] ")))
+                    "[" '(:eval (propertize display-time-string 'face 'amirreza/date-face)) "] "))
 
-  (if-enabled? doom/modeline 
-    (pkg! doom-modeline :straight t :config (setq doom-modeline-height 35) (doom-modeline-mode 1)))
-    
 #+end_src
 ** Font
 #+BEGIN_SRC emacs-lisp
   (defun amirreza/change-font (font)
     (setq default-frame-alist `((font . ,font))))
 
-  (defvar amirreza/font "Hermit-10")
+  (defvar amirreza/font "JetBrainsMono-10")
   (amirreza/change-font amirreza/font)
 #+END_SRC
 ** Tabline
 #+begin_src emacs-lisp
-(pkg! emacs
+(use-package emacs
   :config
   (when (> emacs-major-version 26) (global-tab-line-mode -1)))
 #+end_src
 ** Dashboard
 #+begin_src emacs-lisp
-  (if-enabled? dashboard 
-               (pkg! dashboard
-                 :straight t
-                 :config
-                 (setq dashboard-startup-banner 'logo)
-                 (setq dashboard-center-content t)
-                 (setq dashboard-items '())
-                 (dashboard-setup-startup-hook)))
+  (use-package dashboard
+    :straight t
+    :config
+    (setq dashboard-startup-banner 'logo)
+    (setq dashboard-center-content t)
+    (setq dashboard-items '())
+    (dashboard-setup-startup-hook))
 #+end_src
 * Completion Framework
 #+begin_src emacs-lisp
-  (if-enabled? ivy
-            (pkg! flx :straight t)
-            (pkg! ivy
-              :straight t
-              :demand
-              :bind
-              (:map ivy-switch-buffer-map
-                    ("C-k" . 'ivy-previous-line)
-                    :map ivy-minibuffer-map
-                    ("C-j" . 'ivy-next-line)
-                    ("C-k" . 'ivy-previous-line)
-                    ("RET" . 'ivy-alt-done))
-              :config
-              (setq ivy-height 15)
-              ;; loopish cycling through list
-              (setq ivy-wrap t)
-              ;; don't show recents in minibuffer
-              (setq ivy-use-virtual-buffers nil)
-              ;; ...but if that ever changes, show their full path
-              (setq ivy-virtual-abbreviate 'full)
-              ;; ;; don't quit minibuffer on delete-error
-              (setq ivy-on-del-error-function #'ignore)
-              (setf (alist-get 't ivy-format-functions-alist)
-                    #'ivy-format-function-line)
-              (setq ivy-initial-inputs-alist nil)
-              (setq ivy-re-builders-alist
-                    '((t . ivy--regex-ignore-order)))
-              (ivy-mode +1))
-
-            (pkg! counsel
-              :straight t
-              :bind
-              (("M-x" . 'counsel-M-x)
-               ("C-x C-f" . 'counsel-find-file)
-               ("C-h b" . 'counsel-descbinds)
-               ("C-h f" . 'counsel-describe-function)
-               ("C-h v" . 'counsel-describe-variable)
-               ("C-h a" . 'counsel-apropos)
-               ("M-i" . 'counsel-imenu) ;; code semantics
-               ("M-y" . 'counsel-yank-pop)))
-            (pkg! ivy-rich :straight t :after ivy :config (ivy-rich-mode 1))
-            (pkg! ivy-posframe :straight t
-              :disabled t
-              :config
-              (setq ivy-posframe-parameters '((parent-frame nil)))
-              (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-center)))
-              (ivy-posframe-mode 1))
-            )
+  (use-package selectrum :straight t :config (selectrum-mode +1))
+  (use-package selectrum-prescient :straight t :config (selectrum-prescient-mode 1) (prescient-persist-mode +1))
+  (use-package consult :straight t)
 #+end_src
 * Project Integration
 #+begin_src emacs-lisp
-    (pkg! projectile
-          :straight t
-          :commands (projectile-find-file projectile-project-root)
-          :bind
-          (("C-c p" . amirreza/find-project)
-           ("C-c f" . projectile-find-file)
-           ("C-c g" . projectile-grep)
-           ("C-M-s" . 'amirreza/find-symbol-at-point)
-           ("<f1>" . 'amirreza/find-file-at-point)
-           ("<f2>" . 'amirreza/find-symbol-at-point)
-           ("C-M-f" . 'amirreza/find-file-at-point)
-           ("C-M-g" . 'amirreza/find-symbol-at-point))
+  (use-package projectile
+        :straight t
+        :commands (projectile-find-file projectile-project-root)
+        :bind
+        (("C-c p" . amirreza/find-project)
+         ("C-c f" . projectile-find-file)
+         ("C-c g" . projectile-grep)
+         ("C-M-s" . 'amirreza/find-symbol-at-point)
+         ("<f1>" . 'amirreza/find-file-at-point)
+         ("<f2>" . 'amirreza/find-symbol-at-point)
+         ("C-M-f" . 'amirreza/find-file-at-point)
+         ("C-M-g" . 'amirreza/find-symbol-at-point))
 
-          :config
-          (defun amirreza/find-project ()
-            "List of projects in pre defined project locations."
-            (interactive)
-            (dired (completing-read "Project: "
-                                    (directory-files-recursively "~/src"
-                                                                 ".*"
-                                                                 t
-                                                                 (lambda (path) (not (projectile-project-p path)))
-                                                                 t))))
-      
-          (defun amirreza/recursive-search-path (initial path)
-            (completing-read "Find File: " (directory-files-recursively path directory-files-no-dot-files-regexp nil (lambda (name)
-                                                                                                                       (not (string-match "\\.git" name)))
-                                                                        t) nil nil initial))
+        :config
+        (defun amirreza/find-project ()
+          "List of projects in pre defined project locations."
+          (interactive)
+          (dired (completing-read "Project: "
+                                  (directory-files-recursively "~/src"
+                                                               ".*"
+                                                               t
+                                                               (lambda (path) (not (projectile-project-p path)))
+                                                               t))))
 
-          (defun amirreza/find-symbol-at-point ()
-            (interactive)
-            (let* ((symbol (thing-at-point 'word)))
-              (counsel-rg symbol (projectile-project-root)))))
+        (defun amirreza/recursive-search-path (initial path)
+          (completing-read "Find File: " (directory-files-recursively path directory-files-no-dot-files-regexp nil (lambda (name)
+                                                                                                                     (not (string-match "\\.git" name)))
+                                                                      t) nil nil initial))
+
+        (defun amirreza/find-symbol-at-point ()
+          (interactive)
+          (let* ((symbol (thing-at-point 'word)))
+            (consult-ripgrep (projectile-project-root) symbol))))
 
 
-    (pkg! project :defer t)
+  (use-package project :defer t)
 
 #+end_src
 * Searching
 ** In buffer searching
 #+begin_src emacs-lisp
-  (pkg! isearch :defer t)
-  (if-enabled? ivy (pkg! swiper :straight t :bind ("C-s" . swiper)))
-  (if-enabled? selectrum (pkg! ctrlf :straight t :bind (("C-s" . ctrlf-forward-literal) ("C-r" . ctrlf-backward-literal))))
+  (use-package isearch :defer t)
+  (use-package ctrlf :straight t :bind (("C-s" . ctrlf-forward-literal) ("C-r" . ctrlf-backward-literal)))
 #+end_src
 ** Ripgrep with persitent result
 #+begin_src emacs-lisp
-  (pkg! rg
+  (use-package rg
     :straight t
     :commands (rg))
 #+end_src
@@ -781,7 +730,7 @@ Emacs windows can be configured in the matter of where their gonna open.
 ** Eyebrowse
 =Eyebrowse= gives you =i3= like experience in Emacs, let's you have multiple workspaces and switch between them.
 #+BEGIN_SRC emacs-lisp
-  (pkg! eyebrowse 
+  (use-package eyebrowse 
     :straight t
     :demand
     :commands (eyebrowse-close-window-config
@@ -817,7 +766,7 @@ on it, but when we are done with focus mode ;) we need that layout back that's w
 comes handy you can restore last window layout with just a function called =winner-undo= that
 by default is bound to =C-c <left>=.
 #+BEGIN_SRC emacs-lisp
-  (pkg! winner
+  (use-package winner
     :config
     (winner-mode 1)
     :commands (winner-redo winner-undo)
@@ -826,7 +775,7 @@ by default is bound to =C-c <left>=.
 #+END_SRC
 ** Ace Window (Better Window Management)
 #+BEGIN_SRC emacs-lisp
-  (pkg! ace-window
+  (use-package ace-window
     :straight t
     :commands (ace-window)
     :bind (("C-x o" . 'ace-window)
@@ -834,17 +783,17 @@ by default is bound to =C-c <left>=.
 #+END_SRC
 ** Ibuffer
 #+begin_src emacs-lisp
-  (pkg! ibuffer
+  (use-package ibuffer
     :bind (("C-x C-b" . 'ibuffer)))
 
-  (pkg! ibuffer-vc :straight t
+  (use-package ibuffer-vc :straight t
     :hook (ibuffer-mode . (lambda () (interactive) (ibuffer-vc-set-filter-groups-by-vc-root))))
 
 #+end_src
 * VTerm
 VTerm is the best terminal emulator package for Emacs.
 #+begin_src emacs-lisp
-(pkg! vterm :straight t :bind ("C-c t" . vterm-other-window))
+(use-package vterm :straight t :bind ("C-c t" . vterm-other-window))
 #+end_src
 * Editing & Writing
 ** Editor zoom in/out
@@ -863,7 +812,7 @@ VTerm is the best terminal emulator package for Emacs.
 #+end_src
 ** Highlight indentation
 #+begin_src emacs-lisp
- (pkg! highlight-indent-guides
+ (use-package highlight-indent-guides
    :straight t
    :hook ((yaml-mode) . highlight-indent-guides-mode)
    :init
@@ -873,20 +822,20 @@ VTerm is the best terminal emulator package for Emacs.
 #+end_src
 ** Sudo edit
 #+begin_src emacs-lisp
-   (pkg! sudo-edit
+   (use-package sudo-edit
         :straight t
         :commands (sudo-edit))
 #+end_src
 ** Expand region
 #+begin_src emacs-lisp
-   (pkg! expand-region
+   (use-package expand-region
      :straight t
      :bind (("C-=" . 'er/expand-region)
 	    ("C--" . 'er/contract-region)))
 #+end_src
 ** Highlight TODO/FIXME/...
 #+begin_src emacs-lisp
- (pkg! hl-todo
+ (use-package hl-todo
    :straight t
    :hook ((prog-mode) . hl-todo-mode)
    :config
@@ -901,7 +850,7 @@ VTerm is the best terminal emulator package for Emacs.
 #+end_src
 ** Multiple cursors
 #+begin_src emacs-lisp
-      (pkg! multiple-cursors
+      (use-package multiple-cursors
         :straight t
         :commands (mc/edit-lines
           mc/mark-all-like-this
@@ -920,26 +869,26 @@ VTerm is the best terminal emulator package for Emacs.
 #+end_src
 ** Don't choke on large data
 #+begin_src emacs-lisp
-  (pkg! so-long 
+  (use-package so-long 
       :config (global-so-long-mode 1))
-  (pkg! vlf :straight t :commands (vlf))
+  (use-package vlf :straight t :commands (vlf))
 #+end_src
 ** Tramp: Edit remote files 
 #+begin_src emacs-lisp
-    (pkg! tramp
+    (use-package tramp
           :commands (tramp)
           :config
           (setq tramp-default-method "ssh"))
 #+end_src
 ** Org
 #+BEGIN_SRC emacs-lisp
-  (pkg! org
-  :init
-  (if-enabled? evil
-   (evil-define-key 'normal org-mode-map "SPC m n" 'amirreza/--org-insert-no-tangle)
-   (evil-define-key 'normal org-mode-map "SPC m b" 'amirreza/--org-insert-elisp-code-block)
-   )
-  :config
+  (use-package org
+        :init
+        (with-eval-after-load 'evil
+          (evil-define-key 'normal org-mode-map "SPC m n" 'amirreza/--org-insert-no-tangle)
+          (evil-define-key 'normal org-mode-map "SPC m b" 'amirreza/--org-insert-elisp-code-block)
+          )
+        :config
   (defun amirreza/--org-insert-elisp-code-block ()
     (interactive)
     (insert (format "#+begin_src emacs-lisp\n\n#+end_src"))
@@ -963,24 +912,24 @@ VTerm is the best terminal emulator package for Emacs.
               ("C-c m n" . amirreza/--org-insert-no-tangle)
               ("C-c m b" . amirreza/--org-insert-elisp-code-block)))
 
-  (pkg! org-bullets
+  (use-package org-bullets
     :disabled t
     :straight t
     :hook (org-mode . (lambda () (org-bullets-mode 1))))
 #+END_SRC
 *** Org TOC
  #+begin_src emacs-lisp
- (pkg! toc-org :straight t :hook (org-mode . toc-org-mode))
+ (use-package toc-org :straight t :hook (org-mode . toc-org-mode))
  #+end_src
 
 *** htmlize
  #+begin_src emacs-lisp
- (pkg! htmlize :straight t :defer t)
+ (use-package htmlize :straight t :defer t)
  #+end_src
 ** Outline Mode
 #+begin_src emacs-lisp
-  (pkg! bicycle :straight t)
-  (pkg! outline
+  (use-package bicycle :straight t)
+  (use-package outline
     :bind (:map outline-minor-mode-map
                 ("C-c C-c" . amirreza/outline-collapse-all)
                 ("C-c C-a" . outline-show-all)
@@ -1003,24 +952,24 @@ VTerm is the best terminal emulator package for Emacs.
 #+end_src
 ** Markdown mode
 #+begin_src emacs-lisp
-(pkg! markdown-mode
+(use-package markdown-mode
   :straight t
   :mode ("\\.md$" . markdown-mode))
 #+end_src
 ** Pdf tools
 #+begin_src emacs-lisp
-  (pkg! pdf-tools
+  (use-package pdf-tools
     :straight t
     :hook (pdf-tools-enabled-hook . menu-bar-mode))
 #+end_src
 ** Misc file modes
  #+begin_src emacs-lisp
-   (pkg! crontab-mode :defer t :straight t)
-   (pkg! apache-mode :straight t
+   (use-package crontab-mode :defer t :straight t)
+   (use-package apache-mode :straight t
      :mode ("\\.htaccess\\'" "httpd\\.conf\\'" "srm\\.conf\\'" "access\\.conf\\'"))
-   (pkg! systemd :straight t
+   (use-package systemd :straight t
      :mode ("\\.service\\'" "\\.timer\\'"))
-   (pkg! nginx-mode :straight 
+   (use-package nginx-mode :straight 
      :mode ("/etc/nginx/conf.d/.*" "/etc/nginx/.*\\.conf\\'"))
  #+end_src
 * Sync ENV from default shell
@@ -1030,7 +979,7 @@ but for some rare situations I have VTerm that emulates a normal terminal
 and use fish in that. but before anything let's update emacs exec-path to be able to find 
 all executables.
 #+begin_src emacs-lisp
-  (pkg! exec-path-from-shell 
+  (use-package exec-path-from-shell 
     :straight t 
     :defer 1
     :config
@@ -1040,7 +989,7 @@ all executables.
 * Development
 ** Auto Header
 #+begin_src emacs-lisp
-  (pkg! autoinsert
+  (use-package autoinsert
     :hook (prog-mode . auto-insert-mode))
 #+end_src
 ** Code Completion
@@ -1054,7 +1003,7 @@ configuration of company.
 For company backends we are going to use =company-capf= which is abbrv for =company complete at point function= which is a function in Emacs that major modes
 can call an get completions based on that.
 #+BEGIN_SRC emacs-lisp
-  (pkg! company
+  (use-package company
     :straight t
     :hook (prog-mode . company-mode)
     :bind (:map company-active-map
@@ -1075,7 +1024,7 @@ can call an get completions based on that.
 Emacs has a builtin tool called Imenu which major modes hook to and feed it data about semantic blocks in the current buffer,
 we can use it to jump around our code based on semantics of that language (forexample structs or functions).
 #+begin_src emacs-lisp
-    (pkg! imenu
+    (use-package imenu
       :bind ("M-i" . imenu))
 #+end_src
 ** Snippets
@@ -1087,8 +1036,8 @@ going to define our skeletons in their respective languages. Snippet macro defin
 Snippets are basically combination of abbrevs and skeletons, abbrevs are used for triggering
 skeleton and skeleton does it's job of inserting text.
 #+begin_src emacs-lisp
-  (pkg! abbrev :init (setq save-abbrevs 'silently) :commands (expand-abbrev))
-  (pkg! skeleton
+  (use-package abbrev :init (setq save-abbrevs 'silently) :commands (expand-abbrev))
+  (use-package skeleton
     :commands (amirreza/defsnippet)
     :config
     (defmacro amirreza/defsnippet (mode abbrv &rest skeleton-expansions)
@@ -1103,11 +1052,8 @@ skeleton and skeleton does it's job of inserting text.
 Dumb jump is actually a smart way of jumping to defenitions using grep tools like
 =ag= or =rg=.
 #+begin_src emacs-lisp
-  (pkg! ggtags :straight t)
-  (pkg! counsel-gtags :straight t
-    :bind (("s-." . 'counsel-gtags-dwim)))
-
-  (pkg! dumb-jump
+  (use-package ggtags :straight t)
+  (use-package dumb-jump
         :disabled t
         :straight t
         :hook
@@ -1116,7 +1062,7 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
 ** LSP
 *** LSP mode
    #+begin_src emacs-lisp
-     (pkg! lsp-mode :straight t
+     (use-package lsp-mode :straight t
        :init
        (setq lsp-file-watch-threshold 10000)
        (setq lsp-auto-guess-root t)
@@ -1135,7 +1081,7 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
 :END:
     #+begin_src emacs-lisp
 
-  (pkg! eglot :straight t :init (defun amirreza/lsp () (eglot-ensure)))
+  (use-package eglot :straight t :init (defun amirreza/lsp () (eglot-ensure)))
 #+end_src
 ** Languages
 *** Go
@@ -1146,7 +1092,7 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
  go to work perfectly you need to add the =GOPATH= to your =exec-path= to let emacs find go binaries
  that it needs.
  #+BEGIN_SRC emacs-lisp
-   (pkg! go-mode
+   (use-package go-mode
      :straight t
      :mode ("\\.go\\'" . go-mode)
      :hook
@@ -1198,13 +1144,13 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
  the struct has so many fields, again thanks to the emacs community we have package for that 
  to ease that task for us.
  #+BEGIN_SRC emacs-lisp
-   (pkg! go-add-tags :straight t :bind (:map go-mode-map ("C-c m s" . go-add-tags)))
+   (use-package go-add-tags :straight t :bind (:map go-mode-map ("C-c m s" . go-add-tags)))
  #+END_SRC
 **** Go-test
  =VSCode= has a great support when it comes to running go tests, it gives you the ability to 
  run a test when you are editing or viewing it but it does'nt mean that Emacs can't do that.
  #+BEGIN_SRC emacs-lisp
-   (pkg! gotest :straight t 
+   (use-package gotest :straight t 
      :after go-mode
      :config
      (define-key go-mode-map (kbd "C-c m t f") 'go-test-current-file) 
@@ -1212,20 +1158,20 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
   #+END_SRC
 *** C/C++
 #+begin_src emacs-lisp
-  (pkg! ccls :straight t)
-  ;;(pkg! cmake-mode :defer t :straight t)
-  ;;(pkg! disaster :defer t :straight t)
+  (use-package ccls :straight t)
+  ;;(use-package cmake-mode :defer t :straight t)
+  ;;(use-package disaster :defer t :straight t)
 #+end_src
 *** Java
 #+begin_src emacs-lisp
-  (pkg! gradle-mode :straight t :mode "\\Gradle")
-  (pkg! flycheck-gradle :straight t :mode "Gradle")
-  (pkg! groovy-mode :straight t :mode "\\.groovy")
-  ;; (pkg! meghanada :straight t :hook (java-mode . (lambda ()
+  (use-package gradle-mode :straight t :mode "\\Gradle")
+  (use-package flycheck-gradle :straight t :mode "Gradle")
+  (use-package groovy-mode :straight t :mode "\\.groovy")
+  ;; (use-package meghanada :straight t :hook (java-mode . (lambda ()
   ;;                                                         (meghanada-mode t)
   ;;                                                         (flycheck-mode +1)
   ;;                                                         (setq c-basic-offset 2))))
-  (pkg! lsp-java :straight t)
+  (use-package lsp-java :straight t)
 #+end_src
 *** Python
 **** Python Mode
@@ -1234,7 +1180,7 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
  we want. I added some custom python functions to suit my python needs like the docstring function
  that inserts a docstring in python syntax.
  #+BEGIN_SRC emacs-lisp
-   (pkg! python-mode
+   (use-package python-mode
      :mode "\\.py\\'"
      :hook
      (python-mode . amirreza/lsp)
@@ -1249,13 +1195,13 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
  #+END_SRC
 **** Microsoft Language Server
  #+begin_src emacs-lisp
- (pkg! lsp-python-ms :straight t :after python-mode)
+ (use-package lsp-python-ms :straight t :after python-mode)
  #+end_src
 **** Pipenv
  =Pipenv= is now the de facto tool for python programmers to manage their project deps, so it's nice
  to have a wrapper for it in Emacs.
  #+BEGIN_SRC emacs-lisp
-   (pkg! pipenv
+   (use-package pipenv
 	        :straight t
 	        :after python-mode)
  #+END_SRC
@@ -1266,7 +1212,7 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
  no suprises =py-autopep8=. We install this package and we need this package to hook it's format 
  function to =before-save-hook= of emacs, luckily this package provides a helper function to do that.
  #+BEGIN_SRC emacs-lisp
- (pkg! py-autopep8
+ (use-package py-autopep8
    :straight t
    :hook python-mode
    :config
@@ -1276,32 +1222,32 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
 *** Scheme
  I use guile as my scheme compiler.
  #+begin_src emacs-lisp
-   (pkg! scheme
+   (use-package scheme
    :mode "\\.scm"
    :config
    (setq scheme-program-name "guile"))
  #+end_src
 *** Lua
 #+begin_src emacs-lisp
-(pkg! lua-mode :straight t :mode "\\.lua" :hook (lua-mode . amirreza/lsp))
+(use-package lua-mode :straight t :mode "\\.lua" :hook (lua-mode . amirreza/lsp))
 #+end_src
 *** Zig
  #+begin_src emacs-lisp
-   (pkg! zig-mode 
+   (use-package zig-mode 
      :straight t
      :mode "\\.zig\\'")
  #+end_src
 *** Lisp configuration
 #+begin_src emacs-lisp
-  (pkg! paredit :straight t
+  (use-package paredit :straight t
     :hook ((clojure-mode emacs-lisp-mode) . paredit-mode))
-  (pkg! parinfer :straight t  :hook ((clojure-mode emacs-lisp-mode) . parinfer-mode))
+  (use-package parinfer :straight t  :hook ((clojure-mode emacs-lisp-mode) . parinfer-mode))
 #+end_src
 *** Emacs lisp
  Emacs lisp should be supported by default ha ? actually it has almost all support you need but 
  we can even go further.x
  #+BEGIN_SRC emacs-lisp
-   (pkg! elisp-mode
+   (use-package elisp-mode
      :hook
      (emacs-lisp-mode-hook . amirreza/elisp-hook)
      :config
@@ -1332,7 +1278,7 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
 *** Clojure
 **** Clojure Mode
      #+BEGIN_SRC emacs-lisp
-       (pkg! clojure-mode :straight t
+       (use-package clojure-mode :straight t
          :mode "\\.cljs?\\'"
          :hook
          (clojure-mode . amirreza/lsp)
@@ -1342,49 +1288,49 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
      #+END_SRC
 **** Cider
  #+BEGIN_SRC emacs-lisp
-   (pkg! cider 
+   (use-package cider 
      :straight t
      :commands (cider cider-jack-in))
  #+END_SRC
 *** Common Lisp
 **** Common-lisp mode
  #+BEGIN_SRC emacs-lisp
- (pkg! lisp-mode :mode "\\.cl\\'")
+ (use-package lisp-mode :mode "\\.cl\\'")
  #+END_SRC
 **** Common Lisp Integrated Environment
  #+BEGIN_SRC emacs-lisp
- (pkg! sly :straight t :mode "\\.cl\\'")
+ (use-package sly :straight t :mode "\\.cl\\'")
  #+END_SRC
 *** Haskell
 **** Haskell mode
  #+BEGIN_SRC emacs-lisp
- (pkg! haskell-mode :straight t :mode "\\.hs\\'")
+ (use-package haskell-mode :straight t :mode "\\.hs\\'")
  #+END_SRC
 **** Haskell IDE engine
  #+BEGIN_SRC emacs-lisp
- (pkg! lsp-haskell :straight t :hook haskell-mode)
+ (use-package lsp-haskell :straight t :hook haskell-mode)
  #+END_SRC
 *** HTML/CSS
  #+BEGIN_SRC emacs-lisp
-   (pkg! web-mode :straight t :mode ("\\.html\\'" "\\.css\\'") :config (web-mode-toggle-current-element-highlight))
+   (use-package web-mode :straight t :mode ("\\.html\\'" "\\.css\\'") :config (web-mode-toggle-current-element-highlight))
  #+END_SRC
 *** PHP
 **** PHP mode
  #+BEGIN_SRC emacs-lisp
-   (pkg! php-mode :straight t 
+   (use-package php-mode :straight t 
      :mode "\\.php\\'")
  #+END_SRC
 **** PHP Runtime Integration
  #+BEGIN_SRC emacs-lisp
- (pkg! php-runtime :straight t :after php-mode)
+ (use-package php-runtime :straight t :after php-mode)
  #+END_SRC
 **** Composer Integration
  #+BEGIN_SRC emacs-lisp
-   (pkg! composer :straight t :after php-mode)
+   (use-package composer :straight t :after php-mode)
  #+END_SRC
 **** PHPUnit
  #+BEGIN_SRC emacs-lisp
-   (pkg! phpunit :straight t
+   (use-package phpunit :straight t
      :after php-mode
      :config 
      (define-key php-mode-map (kbd "C-c m t t") 'phpunit-current-test)
@@ -1393,7 +1339,7 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
  #+END_SRC
 *** Rust
  #+BEGIN_SRC emacs-lisp
-   (pkg! rustic
+   (use-package rustic
      :straight t
      :mode ("\\.rs\\'" . rustic-mode)
      :hook
@@ -1403,19 +1349,19 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
  #+END_SRC
 *** Protobuf
 #+begin_src emacs-lisp
-(pkg! protobuf-mode :straight t :mode "\\.proto\\'")
+(use-package protobuf-mode :straight t :mode "\\.proto\\'")
 #+end_src
 *** Nix
 #+begin_src emacs-lisp
-(pkg! nix-mode :straight t :mode "\\.nix'")
+(use-package nix-mode :straight t :mode "\\.nix'")
 #+end_src
 *** Terraform
 #+begin_src emacs-lisp
-(pkg! terraform-mode :straight t :mode "\\.tf")
+(use-package terraform-mode :straight t :mode "\\.tf")
 #+end_src
 ** Debugger
 #+begin_src emacs-lisp
-  (pkg! dap-mode :straight t
+  (use-package dap-mode :straight t
     :defer t
     :disabled t
     :config
@@ -1432,43 +1378,43 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
 #+end_src
 ** Rainbow delimiters
 #+begin_src emacs-lisp
-(pkg! rainbow-delimiters :straight t :hook (prog-mode . rainbow-delimiters-mode))
+(use-package rainbow-delimiters :straight t :hook (prog-mode . rainbow-delimiters-mode))
 #+end_src
 ** Docs
 #+begin_src emacs-lisp
-  (pkg! eldoc
+  (use-package eldoc
     :config (global-eldoc-mode 1))
 #+end_src
 ** VCS
 #+BEGIN_SRC emacs-lisp
-  (pkg! magit
+  (use-package magit
     :straight t
     :commands (magit-status magit-get-current-branch)
     :init
-    (if-enabled? evil (evil-global-set-key 'normal (kbd "SPC v g") 'magit-status))
+    (with-eval-after-load 'evil (evil-global-set-key 'normal (kbd "SPC v g") 'magit-status))
     :bind
     (("C-x g" . 'magit-status)
      ("C-c v s" . 'magit-status)
      )
     )
 
-  (pkg! diff-hl
+  (use-package diff-hl
     :straight t
     :config (global-diff-hl-mode 1))
 
-  (pkg! gitconfig-mode
+  (use-package gitconfig-mode
     :straight t
     :mode "/\\.gitconfig\\'")
 
-  (pkg! gitignore-mode
+  (use-package gitignore-mode
     :straight t
     :mode "/\\.gitignore\\'")
 
-  (pkg! gitattributes-mode
+  (use-package gitattributes-mode
     :straight t
     :mode "/\\.gitattributes\\'")
 
-  (pkg! git-messenger
+  (use-package git-messenger
     :straight t
     :commands
     (git-messenger:popup-message)
@@ -1481,13 +1427,13 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
 #+END_SRC
 * File Manager (Dired)
 #+begin_src emacs-lisp
-  (pkg! dired
+  (use-package dired
     :commands (dired dired-jump)
     :hook (dired-hook . (lambda () (interactive) (dired-hide-details-mode 1)))
     :bind (("C-x C-j" . dired-jump)
            :map dired-mode-map
            ("q" . kill-this-buffer)))
-  (pkg! dired-x
+  (use-package dired-x
       :config
       (setq cmd "xdg-open")
       (setq dired-guess-shell-alist-user
@@ -1501,11 +1447,11 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
               ("\\.html?\\'" ,cmd)
               ("\\.md\\'" ,cmd))))
 
-  (pkg! dired-sidebar :straight t
+  (use-package dired-sidebar :straight t
     :bind
     (("<f8>" . dired-sidebar-toggle-sidebar)))
 
-  (pkg! dired-subtree
+  (use-package dired-subtree
     :straight t
     :bind (:map dired-mode-map
                 ("<tab>" . dired-subtree-toggle)))
@@ -1513,7 +1459,7 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
 * Integrated Tools
 ** Process management
 #+begin_src emacs-lisp
-  (pkg! proced
+  (use-package proced
     :bind (("<f10>" . amirreza/kill-process))
     :commands (proced amirreza/kill-process)
     :config
@@ -1523,9 +1469,12 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
       (shell-command-to-string (format "pkill %s" name))))
 #+end_src
 ** Rhythmbox
+   :PROPERTIES:
+:header-args: :tangle no
+:END:
+
 #+begin_src emacs-lisp
-  (if-enabled? rhythmbox
-               (pkg! rhythmbox
+               (use-package rhythmbox
                  :bind (("C-c i m l" . Rhythmbox)
                         ("C-c i m p" . Rhythmbox/playpause-current-song)
                         ("C-c i m n" . Rhythmbox/current-song-name))
@@ -1544,18 +1493,18 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
 #+end_src
 ** Docker
 #+BEGIN_SRC emacs-lisp
-  (pkg! docker-compose-mode
+  (use-package docker-compose-mode
     :straight t
     :mode "docker-compose\\.yml")
 
-  (pkg! docker :straight t 
+  (use-package docker :straight t 
     :bind
     ("C-c i d" . docker))
-  (pkg! dockerfile-mode :straight t :mode "\\Dockerfile\\'")
+  (use-package dockerfile-mode :straight t :mode "\\Dockerfile\\'")
 #+END_SRC
 ** Kubernetes
 #+begin_src emacs-lisp
-(pkg! kubel :straight t :commands (kubel) :bind (("C-c i k" . kubel)))
+(use-package kubel :straight t :commands (kubel) :bind (("C-c i k" . kubel)))
 #+end_src
 ** Application Laucnher(dmenu)
 Dmenu replacement in Emacs.
