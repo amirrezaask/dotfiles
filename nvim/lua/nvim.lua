@@ -1,14 +1,5 @@
 local M = {}
 
---[[
-  {
-    group = {
-      {"event", "filter", "command"}, 
-    }
-  }
---]]
---
---
 function M.autocmd(tbl)
   vim.cmd(string.format('autocmd! %s %s %s', tbl[1], tbl[2], tbl[3]))
 end

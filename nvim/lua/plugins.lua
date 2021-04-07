@@ -3,7 +3,11 @@ return require'packer'.startup{
    function(_use)
       local function use(opts)
        local base = "/home/amirreza/src/github.com/"
-       local path = opts[1]
+       local path
+       if type(opts) == "string" then
+	       path = opts
+	else path = opts[1]
+	end
        if vim.fn.isdirectory(base .. path) ~= 0 then
          opts[1] = base .. path
          _use(opts)
@@ -16,12 +20,19 @@ return require'packer'.startup{
 
       -- Fuzzy.nvim
       use { 'amirrezaask/fuzzy.nvim' }
-      
+
+      -- Telescope.nvim
+      use {
+        'nvim-telescope/telescope.nvim',
+        requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}
+      }
+
       -- Hashicorp tools
       use { 'hashivim/vim-terraform' }
 
       -- Vim Surround text objects
       use { 'tpope/vim-surround'}
+
       -- Vim JSON tools
       use { 'tpope/vim-jdaddy', ft = 'json' }
       -- Elixir
@@ -32,7 +43,6 @@ return require'packer'.startup{
 
       -- Comment codes at ease
       use { 'tpope/vim-commentary' }
-
       -- Neovim builtin LSP configuration
       use { 'neovim/nvim-lspconfig' }
       use { 'glepnir/lspsaga.nvim' }
@@ -65,9 +75,16 @@ return require'packer'.startup{
       use { 'rhysd/git-messenger.vim' }
       use { 'kdheepak/lazygit.nvim' }
 
+      use 'tjdevries/colorbuddy.vim'
+      use 'tjdevries/gruvbuddy.nvim'
+      use 'morhetz/gruvbox'
+
+      -- Treesitter
+      use { 'nvim-treesitter/nvim-treesitter' }
+      use { 'nvim-treesitter/playground' }
+
       -- Debugger Adapter Protocol
       use { 'mfussenegger/nvim-dap' }
-      use { 'nvim-treesitter/nvim-treesitter' }
       use { 'theHamsta/nvim-dap-virtual-text' }
 
   end

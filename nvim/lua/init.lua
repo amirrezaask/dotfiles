@@ -31,6 +31,7 @@ nvim.with_options {
   number = true,
 }
 vim.cmd [[ set cursorline ]]
+
 local global_maps = {
   -- Easier window navigation
   ['<C-j>'] = '<C-w>j',
@@ -60,53 +61,12 @@ local normal_maps = {
   j = 'gj',
   k = 'gk',
 }
--- Fuzzy Searching
-vim.g.fuzzy_options = {
-  width = 40,
-  height = 100,
-  blacklist = {
-    "vendor"
-  },
-  prompt = '🔎 '
-}
 
--- Fuzzy.nvim
-normal_maps['<Space><Space>'] = '<cmd>lua require("fuzzy").find_files{}<CR>'
-normal_maps['<Space>fb'] = '<cmd>lua require("fuzzy").interactive_finder{}<CR>'
-normal_maps['<Space>ec'] = '<cmd>lua require("fuzzy").find_files{path="/home/amirreza/src/github.com/amirrezaask/dotfiles"}<CR>'
-normal_maps['<Space>en'] = '<cmd>lua require("fuzzy").find_files{path="/home/amirreza/.config/nvim"}<CR>'
-normal_maps['<Space>fp'] = '<cmd>lua require("fuzzy").find_files{path="/home/amirreza/.local/share/nvim/site/pack/packer/start"}<CR>'
-normal_maps['<Space>gf'] = '<cmd>lua require("fuzzy.git").git_files{}<CR>'
-normal_maps['<Space>fr'] = '<cmd>MRU<CR>'
-normal_maps['<Space>pf'] = '<cmd>lua require("fuzzy").projects{locations={"/home/amirreza/src"}}<CR>'
-normal_maps['??'] = '<cmd>lua require("fuzzy").grep{}<CR>'
-normal_maps['<Space>b'] = '<cmd>lua require("fuzzy").buffers{}<CR>'
-normal_maps['<Space>gg'] = '<cmd>lua require("fuzzy.git").git_grep{}<CR>'
-normal_maps['<Space>c'] = '<cmd>lua require("fuzzy").commands{}<CR>'
-normal_maps['<Space>h'] = '<cmd>lua require("fuzzy").history{}<CR>'
-normal_maps['<Space>s'] = '<cmd>lua require("sidetree").open_side_file_browser()<CR>'
-normal_maps['<Space>h'] = '<cmd>lua require("fuzzy").help{}<CR>'
-normal_maps['<Space>gc'] = '<cmd>lua require("fuzzy.git").git_commits{}<CR>'
-normal_maps['<Space>gb'] = '<cmd>lua require("fuzzy.git").git_bcommits{}<CR>'
-normal_maps['<Space>gco'] = '<cmd>lua require("fuzzy.git").git_checkout{}<CR>'
+-- Fuzzy.nvim configs
+-- require'fuzzy_config'
 
--- Telescope.nvim
--- normal_maps['<Space><Space>'] = '<cmd>lua require("telescope.builtin").find_files{}<CR>'
--- normal_maps['<Space>fb'] = '<cmd>lua require("telescope.builtin").file_browser{}<CR>'
--- normal_maps['<Space>gf'] = '<cmd>lua require("telescope.builtin").git_files{}<CR>'
--- normal_maps['??'] = '<cmd>lua require("telescope.builtin").live_grep{}<CR>'
--- normal_maps['<Space>b'] = '<cmd>lua require("telescope.builtin").buffers{}<CR>'
--- normal_maps['<Space>ec'] = '<cmd>lua require("telescope.builtin").find_files{cwd="/home/amirreza/src/github.com/amirrezaask/dotfiles"}<CR>'
--- normal_maps['<Space>en'] = '<cmd>lua require("telescope.builtin").find_files{cwd="/home/amirreza/.config/nvim"}<CR>'
--- normal_maps['<Space>c'] = '<cmd>lua require("telescope.builtin").commands{}<CR>'
--- normal_maps['<Space>h'] = '<cmd>lua require("telescope.builtin").history{}<CR>'
--- normal_maps['<Space>fr'] = '<cmd>lua require("telescope.builtin").oldfiles{}<CR>'
--- normal_maps['<Space>h'] = '<cmd>lua require("telescope.builtin").help_tags{}<CR>'
--- normal_maps['<Space>gc'] = '<cmd>lua require("telescope.builtin").git_commits{}<CR>'
--- normal_maps['<Space>gb'] = '<cmd>lua require("telescope.builtin").git_bcommits{}<CR>'
--- normal_maps['<Space>gco'] = '<cmd>lua require("telescope.builtin").git_checkout{}<CR>'
--- normal_maps['<Space>tf'] = '<cmd>lua require("telescope.builtin").treesitter{}<CR>'
--- normal_maps['<Space>lr'] = '<cmd>lua require("telescope.builtin").lsp_references{}<CR>'
+-- Telescope.nvim configs
+require 'telescope_config'
 
 -- Snippets
 insert_maps['<c-k>'] = '<cmd> lua return require"snippets".expand_or_advance(1)<CR>'

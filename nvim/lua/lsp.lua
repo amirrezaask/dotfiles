@@ -15,14 +15,17 @@ local function get_lua_runtime()
 
     return result;
 end
+
 lspconfig.gopls.setup{}
 lspconfig.rust_analyzer.setup{
   on_attach = function()
     require'lsp_extensions'.inlay_hints{}
   end
 }
+
 local sumneko_root = "/home/amirreza/.local/lua-language-server"
 local sumneko_binary = sumneko_root .. "/bin/Linux/lua-language-server" 
+
 lspconfig.sumneko_lua.setup{
   cmd = {sumneko_binary, "-E", sumneko_root .. "/main.lua"};
   settings = {
