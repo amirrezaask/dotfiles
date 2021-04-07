@@ -627,7 +627,11 @@ Emacs is so extensible that it can actually be a X window manager. You can liter
 #+begin_src emacs-lisp
   (use-package selectrum :straight t :config (selectrum-mode +1))
   (use-package selectrum-prescient :straight t :config (selectrum-prescient-mode 1) (prescient-persist-mode +1))
-  (use-package consult :straight t)
+  (use-package consult :straight t
+    :bind (
+           ("C-x b" . consult-buffer)
+           )
+    )
 #+end_src
 * Project Integration
 #+begin_src emacs-lisp
@@ -1229,7 +1233,10 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
  #+end_src
 *** Lua
 #+begin_src emacs-lisp
-(use-package lua-mode :straight t :mode "\\.lua" :hook (lua-mode . amirreza/lsp))
+  (use-package lua-mode :straight t :mode "\\.lua" :hook (lua-mode . amirreza/lsp))
+  (setq lsp-clients-lua-language-server-install-dir "/home/amirreza/.local/lua-language-server")
+  (setq lsp-clients-lua-language-server-bin (concat lsp-clients-lua-language-server-install-dir "/bin/Linux/lua-language-server"))
+  (setq lsp-clients-lua-language-server-main-location (concat lsp-clients-lua-language-server-install-dir "/main.lua"))
 #+end_src
 *** Zig
  #+begin_src emacs-lisp
