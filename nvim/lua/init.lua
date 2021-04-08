@@ -62,10 +62,10 @@ local normal_maps = {
 }
 
 -- Fuzzy.nvim configs
--- require'fuzzy_config'
+require'fuzzy_config'
 
 -- Telescope.nvim configs
-require 'telescope_config'
+-- require 'telescope_config'
 
 -- Snippets
 insert_maps['<c-k>'] = '<cmd> lua return require"snippets".expand_or_advance(1)<CR>'
