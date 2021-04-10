@@ -50,7 +50,7 @@ end
 beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
-terminal = "kitty"
+terminal = "terminator"
 editor = os.getenv("EDITOR") or "editor"
 editor_cmd = terminal .. " -e " .. editor
 
@@ -439,6 +439,7 @@ clientbuttons = gears.table.join(
     end)
 )
 
+awful.spawn("feh --bg-scale /home/amirreza/w/dotfiles/wallpapers/road.jpg")
 -- Set keys
 root.keys(globalkeys)
 -- }}}
@@ -563,4 +564,3 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 -- Setup xrandr
 awful.spawn('xrandr --output eDP-1 --right-of DP-1 --output eDP-1 --left-of HDMI-2 --output DP-1 --left-of eDP-1')
 -- Set wallpaper
-awful.spawn("feh --bg-scale /home/amirreza/w/dotfiles/wallpapers/road.jpg")

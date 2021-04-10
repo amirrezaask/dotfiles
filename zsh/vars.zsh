@@ -1,3 +1,5 @@
+source ~/env
+
 # Variables
 export GO111MODULE='on'
 export GOPATH="$HOME"
@@ -25,7 +27,7 @@ alias gpsup='gp --set-upstream origin $(git_current_branch)'
 alias kcl='kubectl'
 alias dots="cd ${DOTFILES}"
 alias prj="cd ${GOPATH}/src/github.com/amirrezaask"
-alias freenet="echo ${VPN_PASSWORD} | sudo openconnect --no-dtls --passwd-on-stdin -u ${VPN_USERNAME} ${VPN_SERVER}"
+alias freenet="echo ${VPN_PASSWORD} | sudo openconnect --no-dtls --passwd-on-stdin --user ${VPN_USERNAME} ${VPN_SERVER}"
 alias lock='i3lock -c000000'
 alias tf='terraform'
 alias tg='terragrunt'
@@ -37,9 +39,9 @@ alias goland='~/jetbrains/GoLand-2020.3/bin/goland.sh 2>/dev/null  &'
 if type nvim > /dev/null 2>&1; then
     alias vim='nvim'
     alias vi='nvim'
+    alias v='nvim'
 fi
 if type bat > /dev/null 2>&1; then
     alias cat='bat'
 fi
-
 
