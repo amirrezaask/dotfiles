@@ -62,8 +62,8 @@ local normal_maps = {
 }
 
 -- Fuzzy.nvim configs
--- require'fuzzy_config'
-require'fzf'
+require'fuzzy_config'
+-- require'fzf'
 -- Telescope.nvim configs
 -- require 'telescope_config'
 

@@ -4,13 +4,14 @@ local loc = require'fuzzy.lib.location'
 
 require'fuzzy.lib.options'.setup {
   width = 70,
-  height = 40,
+  height = 60,
   blacklist = {
     "vendor"
   },
   location = loc.center, 
   prompt = '❯ '
 }
+-- Commands
 
 -- Fuzzy.nvim
 normal_maps['<Space><Space>'] = '<cmd>lua require("fuzzy").find_files{}<CR>'
