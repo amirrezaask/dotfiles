@@ -88,5 +88,7 @@ return require'packer'.startup{
   use { 'mfussenegger/nvim-dap' }
   use { 'theHamsta/nvim-dap-virtual-text' }
 
+  use 'junegunn/fzf'
+  use 'junegunn/fzf.vim'
   end
 }

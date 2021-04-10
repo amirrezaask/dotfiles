@@ -62,8 +62,8 @@ local normal_maps = {
 }
 
 -- Fuzzy.nvim configs
-require'fuzzy_config'
-
+-- require'fuzzy_config'
+require'fzf'
 -- Telescope.nvim configs
 -- require 'telescope_config'
 
@@ -73,6 +73,18 @@ insert_maps['<c-k>'] = '<cmd> lua return require"snippets".advance_snippet(-1)<C
 
 -- Git Blame
 normal_maps['<Space>gm'] = '<cmd>GitMessenger<CR>'
+
+local base16 = require'base16'
+local theme_names = base16.theme_names()
+local base16_position = 1
+
+function cycle_theme()
+  base16_position = (base16_position % #theme_names) + 1
+  print("Theme: " .. theme_names[base16_position])
+  base16(base16.themes[theme_names[base16_position]], true)
+end
+vim.cmd [[ nnoremap <Space>nt <cmd>lua cycle_theme()<CR> ]]
+
 
 -- Netrw settings
 vim.g.netrw_banner = 0
