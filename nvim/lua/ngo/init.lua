@@ -44,5 +44,5 @@ if callback == nil then
 end
 local cmd = string.format("lua require'ngo.go_tools'.%s()", callback)
 vim.api.nvim_command(string.format(
-   [[autocmd BufWritePost *.go %s]],
-   cmd))
+  [[autocmd BufWritePost *.go %s]],
+  cmd))

@@ -75,16 +75,25 @@ insert_maps['<c-k>'] = '<cmd> lua return require"snippets".advance_snippet(-1)<C
 normal_maps['<Space>gm'] = '<cmd>GitMessenger<CR>'
 
 local base16 = require'base16'
-local theme_names = base16.theme_names()
-local base16_position = 1
+local fuzzy = require'fuzzy.lib' 
 
-function cycle_theme()
-  base16_position = (base16_position % #theme_names) + 1
-  print("Theme: " .. theme_names[base16_position])
-  base16(base16.themes[theme_names[base16_position]], true)
+function Base16ThemeSelector()
+  local theme_names = {}
+  for k,_ in pairs(base16.themes) do
+    table.insert(theme_names, k)
+  end
+  fuzzy.new {
+    source = theme_names,
+    handler = function(theme)
+      for k, v in pairs(base16.themes) do
+        if k == theme then
+          base16(v)
+        end
+      end
+    end
+  }
 end
-vim.cmd [[ nnoremap <Space>nt <cmd>lua cycle_theme()<CR> ]]
-
+vim.cmd [[ nnoremap <Space>ct <cmd>lua Base16ThemeSelector()<CR> ]]
 
 -- Netrw settings
 vim.g.netrw_banner = 0
@@ -104,7 +113,7 @@ insert_maps['<c-j>'] = '<Plug>(completion_next_source)'
 vim.g.completion_auto_change_source = true
 vim.g.completion_chain_complete_list = {
   default = {
-    {complete_items= {'lsp', 'snippet'}},
+    {complete_items = {'lsp', 'snippet'}},
     {complete_items = {'tabnine'}},
     {complete_items = {'buffers'}},
     {mode= '<c-p>'},
@@ -122,7 +131,7 @@ nvim.mode_map({
 })
 
 -- Statusline
-vim.api.nvim_set_option("statusline", "%l:%L %m%f")
+-- vim.api.nvim_set_option("statusline", "%l:%L %m%f")
 
 -- Register commands
 nvim.command('Base16Editor', [[lua require'base16.editor'.open(require'base16'.themes["<args>"])]], 1)

@@ -76,8 +76,6 @@ return require'packer'.startup{
   use { 'rhysd/git-messenger.vim' }
   use { 'kdheepak/lazygit.nvim' }
 
-  use 'tjdevries/colorbuddy.vim'
-  use 'tjdevries/gruvbuddy.nvim'
   use 'morhetz/gruvbox'
 
   -- Treesitter
@@ -90,5 +88,6 @@ return require'packer'.startup{
 
   use 'junegunn/fzf'
   use 'junegunn/fzf.vim'
+  use 'itchyny/lightline.vim'
   end
 }
