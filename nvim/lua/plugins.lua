@@ -20,8 +20,8 @@ return require'packer'.startup{
   use { 'wbthomason/packer.nvim' }
 
   -- FZF -- also look into `fzf.lua`
-  use 'junegunn/fzf'
-  use 'junegunn/fzf.vim'
+  use { 'junegunn/fzf' }
+  use { 'junegunn/fzf.vim' }
  
   -- Hashicorp tools
   use { 'hashivim/vim-terraform' }
@@ -39,6 +39,7 @@ return require'packer'.startup{
 
   -- Comment codes at ease
   use { 'tpope/vim-commentary' }
+
   -- Neovim builtin LSP configuration
   use { 'neovim/nvim-lspconfig' }
   use { 'glepnir/lspsaga.nvim' }
@@ -81,6 +82,6 @@ return require'packer'.startup{
   use { 'mfussenegger/nvim-dap' }
   use { 'theHamsta/nvim-dap-virtual-text' }
 
- use 'itchyny/lightline.vim'
+  use 'itchyny/lightline.vim'
   end
 }
