@@ -31,10 +31,10 @@ nvim.with_options {
   splitright = true,
   splitbelow = true,
   cursorline = true,
-  number = false,
+  relativenumber = true,
 }
 vim.cmd [[ set cursorline ]]
-
+vim.cmd [[ set relativenumber ]]
 local global_maps = {
   -- Easier window navigation
   ['<C-j>'] = '<C-w>j',

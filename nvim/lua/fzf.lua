@@ -21,6 +21,7 @@ normal_maps['<Space>h']  = '<cmd>History<CR>'
 normal_maps['<Space>h']  = '<cmd>Helptags<CR>'
 normal_maps['<Space>gc'] = '<cmd>Commits<CR>'
 normal_maps['<Space>gb'] = '<cmd>BCommits<CR>'
+normal_maps['<Space>gs'] = '<cmd>GitFiles?<CR>'
 
 function FZF(opts)
   opts = opts or {}
