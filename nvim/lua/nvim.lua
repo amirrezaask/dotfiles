@@ -1,5 +1,4 @@
 local M = {}
-
 function M.autocmd(tbl)
   vim.cmd(string.format('autocmd! %s %s %s', tbl[1], tbl[2], tbl[3]))
 end
@@ -32,7 +31,16 @@ function M.map(tbl)
   end
 end
 
+__FUNCTION_REGISTRY = {}
+
 function M.command(name, expr, args)
+  if type(expr) == 'function' then
+    local fn = expr
+    __FUNCTION_REGISTRY[name] = function()
+      fn()
+    end
+    expr = string.format('lua __FUNCTION_REGISTRY["%s"]()<CR>', name)
+  end
   if not args then
     vim.cmd(string.format('command! %s %s', name, expr))
   end

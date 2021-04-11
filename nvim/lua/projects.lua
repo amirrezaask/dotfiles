@@ -38,5 +38,18 @@ function M.list_projects(locations)
   end
   return list
 end
+
+function Projects(locations)
+  local projects_list = M.list_projects(locations)
+  FZF {
+    source = projects_list,
+    sink = function (path)
+      vim.cmd(string.format([[ cd %s ]], path))
+    end
+  }
+end
+
+require'nvim'.command('Projects', Projects)
+
 return M
 
