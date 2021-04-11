@@ -18,7 +18,7 @@ end
 local function scandir(path, hidden)
   path = path or '.'
   hidden = hidden or false
-  local files = {}
+  local _files = {}
   local dir_t = uv.fs_scandir(path)
   assert(dir_t)
   while true do
@@ -27,9 +27,20 @@ local function scandir(path, hidden)
       break
     end
     local stat = uv.fs_stat(path .. '/' .. filename)
-    table.insert(files, stat.size .. ' ' .. abbr_type(type) .. ' ' .. filename)
+    table.insert(_files, { stat.size,abbr_type(type),filename})
   end
-  return files
+  local biggest_size = 0
+  for i, file in pairs(_files) do
+    if file[1] > biggest_size then
+      biggest_size = file[1]
+    end
+  end
+  local files_out = {}
+  for i, file in pairs(_files) do
+    file[1] = string.format('%d', file[1]) .. string.rep(' ', #string.format("%d", biggest_size) - #string.format("%d", file[1])) 
+    table.insert(files_out, file[1] .. ' ' .. file[2] .. ' ' .. file[3])
+  end
+  return files_out
 end
 
 M.SIDE_FILE_CURRENT_WINDOW = nil
