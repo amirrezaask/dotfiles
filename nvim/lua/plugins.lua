@@ -19,15 +19,10 @@ return require'packer'.startup{
   -- Plugin Manager
   use { 'wbthomason/packer.nvim' }
 
-  -- Fuzzy.nvim
-  use { 'amirrezaask/fuzzy.nvim' }
-
-  -- Telescope.nvim
-  use {
-    'nvim-telescope/telescope.nvim',
-    requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}
-  }
-
+  -- FZF -- also look into `fzf.lua`
+  use 'junegunn/fzf'
+  use 'junegunn/fzf.vim'
+ 
   -- Hashicorp tools
   use { 'hashivim/vim-terraform' }
 
@@ -86,8 +81,6 @@ return require'packer'.startup{
   use { 'mfussenegger/nvim-dap' }
   use { 'theHamsta/nvim-dap-virtual-text' }
 
-  use 'junegunn/fzf'
-  use 'junegunn/fzf.vim'
-  use 'itchyny/lightline.vim'
+ use 'itchyny/lightline.vim'
   end
 }
