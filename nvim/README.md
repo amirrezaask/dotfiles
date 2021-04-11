@@ -1,2 +1,13 @@
 # Amirreza Neovim configuration
-My configuration is all in lua, `init.vim` just runs `init.lua` file and all mappings and autocommands are set up in `init.lua`.
+
+## Features
+- LSP configured for [ lua, Python, Go, Rust ]
+- Fuzzy finding based on FZF with lua wrapper for custom functions ( look into projects.lua )
+- Base16 colorschemes
+
+
+## Dependencies
+- Neovim 0.5 (nightly, master branch)
+- FZF
+- Rg
+
