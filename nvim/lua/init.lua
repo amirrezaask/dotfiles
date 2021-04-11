@@ -106,8 +106,10 @@ nvim.augroup{
  --   "BufEnter", '*', 'ColorizerAttachToBuffer'
   -- }
 }
+-- Side tree
+normal_maps['<Space>s'] = '<cmd>lua require("sidetree").open_side_file_browser()<CR>'
 
-require'base16'(require'base16'.themes["material-darker"])
+
 -- Completion
 insert_maps['<c-k>'] = '<Plug>(completion_prev_source)'
 insert_maps['<c-j>'] = '<Plug>(completion_next_source)'

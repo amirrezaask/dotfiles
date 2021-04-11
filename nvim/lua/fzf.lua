@@ -16,7 +16,9 @@ normal_maps['<Space>h'] = '<cmd>History<CR>'
 normal_maps['<Space>h'] = '<cmd>Helptags<CR>'
 normal_maps['<Space>gc'] = '<cmd>Commits<CR>'
 normal_maps['<Space>gb'] = '<cmd>BCommits<CR>'
+vim.g.fzf_layout = { window = { width = 0.9, height = 0.6 } }
 
+vim.g.fzf_layout = { down = '40%' }
 require'nvim'.mode_map({
   n = normal_maps
 })
