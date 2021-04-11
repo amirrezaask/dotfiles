@@ -1,7 +1,11 @@
 -- init.lua
 local nvim = require'nvim'
+
 -- Install Plugins
 require'plugins'
+-- Fuzzy finder
+require'fzf'
+
 nvim.with_options {
   ignorecase = true,
   modeline = true,
@@ -61,11 +65,6 @@ local normal_maps = {
   k = 'gk',
 }
 
--- Fuzzy.nvim configs
--- require'fuzzy_config'
-require'fzf'
--- Telescope.nvim configs
--- require 'telescope_config'
 
 -- Snippets
 insert_maps['<c-k>'] = '<cmd> lua return require"snippets".expand_or_advance(1)<CR>'
@@ -75,16 +74,15 @@ insert_maps['<c-k>'] = '<cmd> lua return require"snippets".advance_snippet(-1)<C
 normal_maps['<Space>gm'] = '<cmd>GitMessenger<CR>'
 
 local base16 = require'base16'
-local fuzzy = require'fuzzy.lib' 
 
 function Base16ThemeSelector()
   local theme_names = {}
   for k,_ in pairs(base16.themes) do
     table.insert(theme_names, k)
   end
-  fuzzy.new {
+  FZF {
     source = theme_names,
-    handler = function(theme)
+    sink = function(theme)
       for k, v in pairs(base16.themes) do
         if k == theme then
           base16(v)
@@ -106,6 +104,7 @@ nvim.augroup{
  --   "BufEnter", '*', 'ColorizerAttachToBuffer'
   -- }
 }
+
 -- Side tree
 normal_maps['<Space>s'] = '<cmd>lua require("sidetree").open_side_file_browser()<CR>'
 
@@ -124,7 +123,9 @@ vim.g.completion_chain_complete_list = {
   }
 }
 
+-- Nvim dev helpers
 require'dev'
+
 -- Register keymaps
 nvim.map(global_maps)
 
@@ -132,9 +133,6 @@ nvim.mode_map({
   n = normal_maps,
   i = insert_maps,
 })
-
--- Statusline
--- vim.api.nvim_set_option("statusline", "%l:%L %m%f")
 
 -- Register commands
 nvim.command('Base16Editor', [[lua require'base16.editor'.open(require'base16'.themes["<args>"])]], 1)
