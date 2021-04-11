@@ -62,8 +62,8 @@ local normal_maps = {
 }
 
 -- Fuzzy.nvim configs
-require'fuzzy_config'
--- require'fzf'
+-- require'fuzzy_config'
+require'fzf'
 -- Telescope.nvim configs
 -- require 'telescope_config'
 
@@ -107,6 +107,7 @@ nvim.augroup{
   -- }
 }
 
+require'base16'(require'base16'.themes["material-darker"])
 -- Completion
 insert_maps['<c-k>'] = '<Plug>(completion_prev_source)'
 insert_maps['<c-j>'] = '<Plug>(completion_next_source)'
