@@ -1,8 +1,5 @@
 local normal_maps = {}
 local nvim = require'nvim'
-local function open_file_at(filename, line)
-  vim.api.nvim_command(string.format('e +%s %s', line, filename))
-end
 
 vim.g.fzf_layout = { down = '40%' }
 normal_maps['<Space><Space>'] = '<cmd>Files<CR>'
@@ -17,7 +14,7 @@ normal_maps['<Space>pf'] = '<cmd>lua Projects({"/home/amirreza/src"})<CR>'
 normal_maps['??']        = '<cmd>Rg<CR>'
 normal_maps['<Space>b']  = '<cmd>Buffers<CR>'
 normal_maps['<Space>c']  = '<cmd>Commands<CR>'
-normal_maps['<Space>h']  = '<cmd>History<CR>'
+normal_maps['<Space>fh']  = '<cmd>History<CR>'
 normal_maps['<Space>h']  = '<cmd>Helptags<CR>'
 normal_maps['<Space>gc'] = '<cmd>Commits<CR>'
 normal_maps['<Space>gb'] = '<cmd>BCommits<CR>'

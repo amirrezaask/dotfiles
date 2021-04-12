@@ -62,6 +62,8 @@ return require'packer'.startup{
   use { 'rust-lang/rust.vim', ft='rust'}
   -- Autocomplete popup
   use { 'nvim-lua/completion-nvim'}
+
+  use { 'cespare/vim-toml' }
   -- Show indents
   use { 'Yggdroot/indentLine' }
 
@@ -83,7 +85,9 @@ return require'packer'.startup{
   -- File browser
   use 'kyazdani42/nvim-web-devicons'
   use 'kyazdani42/nvim-tree.lua'
-  
+ 
+  -- Lightline
   use 'itchyny/lightline.vim'
+
   end
 }
