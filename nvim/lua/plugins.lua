@@ -72,8 +72,6 @@ return require'packer'.startup{
   use { 'rhysd/git-messenger.vim' }
   use { 'kdheepak/lazygit.nvim' }
 
-  use 'morhetz/gruvbox'
-
   -- Treesitter
   use { 'nvim-treesitter/nvim-treesitter' }
   use { 'nvim-treesitter/playground' }
@@ -82,6 +80,10 @@ return require'packer'.startup{
   use { 'mfussenegger/nvim-dap' }
   use { 'theHamsta/nvim-dap-virtual-text' }
 
+  -- File browser
+  use 'kyazdani42/nvim-web-devicons'
+  use 'kyazdani42/nvim-tree.lua'
+  
   use 'itchyny/lightline.vim'
   end
 }

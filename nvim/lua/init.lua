@@ -106,7 +106,7 @@ nvim.augroup{
 }
 
 -- Side tree
-normal_maps['<Space>s'] = '<cmd>lua require("sidetree").open_side_file_browser()<CR>'
+normal_maps['<Space>s'] = '<cmd>NvimTreeToggle<CR>'
 
 
 -- Completion
