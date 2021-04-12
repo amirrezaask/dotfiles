@@ -19,6 +19,8 @@ return require'packer'.startup{
   -- Plugin Manager
   use { 'wbthomason/packer.nvim' }
 
+  use { 'amirrezaask/fuzzy.nvim' }
+
   -- FZF -- also look into `fzf.lua`
   use { 'junegunn/fzf' }
   use { 'junegunn/fzf.vim' }
@@ -92,8 +94,5 @@ return require'packer'.startup{
   use 'kyazdani42/nvim-web-devicons'
   use 'kyazdani42/nvim-tree.lua'
  
-  -- Lightline
-  use 'itchyny/lightline.vim'
-
   end
 }

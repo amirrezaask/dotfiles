@@ -4,12 +4,12 @@ local loc = require'fuzzy.lib.location'
 
 require'fuzzy.lib.options'.setup {
   width = 70,
-  height = 60,
+  height = 100,
   blacklist = {
     "vendor"
   },
-  location = loc.center, 
-  prompt = '❯ '
+  location = loc.bottom_center, 
+  prompt = '> '
 }
 -- Commands
 vim.cmd [[ command! IFiles lua require('fuzzy').interactive_finder{}  ]]

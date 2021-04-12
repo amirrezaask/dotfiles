@@ -4,8 +4,8 @@ local nvim = require'nvim'
 -- Install Plugins
 require'plugins'
 -- Fuzzy finder
-require'fzf'
-
+-- require'fzf'
+require'fuzzy_config'
 nvim.with_options {
   ignorecase = true,
   modeline = true,
@@ -135,6 +135,8 @@ nvim.mode_map({
   n = normal_maps,
   i = insert_maps,
 })
+
+vim.api.nvim_set_option("statusline", "%l:%L %m%f")
 
 -- Register commands
 nvim.command('Base16Editor', [[lua require'base16.editor'.open(require'base16'.themes["<args>"])]], 1)
