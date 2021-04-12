@@ -1,1 +1,1 @@
-nvim/init.vim
+./nvim/init.vim
