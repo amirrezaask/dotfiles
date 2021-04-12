@@ -122,6 +122,8 @@ vim.g.completion_chain_complete_list = {
     {mode= '<c-n>'}
   }
 }
+-- Git signs
+require('gitsigns').setup()
 
 -- Nvim dev helpers
 require'dev'

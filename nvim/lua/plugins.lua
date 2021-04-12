@@ -73,6 +73,12 @@ return require'packer'.startup{
   -- Git Integrations
   use { 'rhysd/git-messenger.vim' }
   use { 'kdheepak/lazygit.nvim' }
+  use {
+    'lewis6991/gitsigns.nvim',
+    requires = {
+      'nvim-lua/plenary.nvim'
+    }
+  }
 
   -- Treesitter
   use { 'nvim-treesitter/nvim-treesitter' }
