@@ -139,7 +139,7 @@ nvim.mode_map({
 })
 
 require'lsp'
-
+vim.g.rustfmt_autosave = 1
 vim.api.nvim_set_option("statusline", "[%l:%L] %m%f")
 -- statusline
 

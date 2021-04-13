@@ -7,7 +7,8 @@ require'fuzzy.lib.options'.setup {
   height = 100,
   blacklist = {
     "vendor",
-    '.git'
+    '.git',
+    'target'
   },
   location = loc.bottom_center, 
   -- sorter = require'fuzzy.lib.sorter'.fzy,

@@ -5,7 +5,7 @@ set -x EDITOR 'nvim'
 set -x GOPRIVATE 'devheroes.codes,gitlab.com,gitlab.espadev.ir'
 set -x PLAN9 "$HOME/.local/plan9"
 set -x ZIGPATH "/usr/local/zig"
-set -x CARGO_TARGET_DIR "~/.local/cargo/"
+# set -x CARGO_TARGET_DIR "~/.local/cargo/"
 set -x PATH "$ZIGPATH:/usr/local/go/bin:$HOME/.config/composer/vendor/bin:$GOROOT/bin:$GOPATH/bin:$HOME/.cargo/bin:$PYTHONBINS:/usr/local/Postman:$HOME/.local/elixir-ls/:$PATH"
 set -x DOTFILES "~/src/github.com/amirrezaask/dotfiles/"
 alias open='xdg-open'
@@ -42,4 +42,3 @@ alias v='nvim'
 # if type bat > /dev/null 2>&1; then
 alias cat='bat'
 # fi
-
