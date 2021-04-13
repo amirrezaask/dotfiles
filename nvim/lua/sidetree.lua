@@ -5,15 +5,22 @@ local uv = vim.loop
 local size = vim.g.side_tree_size or 15
 
 local M = {}
-
+function table.slice(tbl, first, last, step)
+  local sliced = {}
+  for i = first or 1, last or #tbl, step or 1 do
+    sliced[#sliced+1] = tbl[i]
+  end
+  return sliced
+end
 local function abbr_type(t)
   if t == 'file' then
     return 'f'
   elseif t == 'directory' then
     return 'd'
+  elseif t == 'link' then
+    return 'l'
   end
 end
-
 
 local function scandir(path, hidden)
   path = path or '.'
@@ -38,7 +45,9 @@ local function scandir(path, hidden)
   local files_out = {}
   for i, file in pairs(_files) do
     file[1] = string.format('%d', file[1]) .. string.rep(' ', #string.format("%d", biggest_size) - #string.format("%d", file[1])) 
-    table.insert(files_out, file[1] .. ' ' .. file[2] .. ' ' .. file[3])
+    if file[1] and file[2] and file[3] then
+      table.insert(files_out, file[1] .. ' ' .. file[2] .. ' ' .. file[3])
+    end
   end
   return files_out
 end
