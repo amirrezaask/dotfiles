@@ -369,14 +369,14 @@ nvim.command('LSPDeclaration', fuzzy_lsp.declaration)
 vim.cmd [[ nnoremap <silent> gd    <cmd>LSPDefinitions<CR> ]]
 vim.cmd [[ nnoremap <silent> K     <cmd>LSPHover<CR> ]]
 vim.cmd [[ nnoremap <silent> gI    <cmd>LSPImplementations<CR> ]]
-vim.cmd [[ nnoremap <silent> <c-k> <cmd>LspSignatureHelp<CR> ]]
+vim.cmd [[ nnoremap <silent> <c-k> <cmd>LSpSignatureHelp<CR> ]]
 vim.cmd [[ nnoremap <silent> 1gD   <cmd>LSPTypeDefinition<CR> ]]
 vim.cmd [[ nnoremap <silent> gR    <cmd>LSPReferences<CR> ]]
 vim.cmd [[ nnoremap <silent> g0    <cmd>LSPDocumentSymbols<CR> ]]
 vim.cmd [[ nnoremap <silent> gW    <cmd>LSPWorkspaceSymbols<CR> ]]
 vim.cmd [[ nnoremap <silent> gD    <cmd>LSPDeclaration<CR> ]]
 vim.cmd [[ nnoremap <silent> <Space>A    <cmd>LSPCodeActions<CR> ]]
-vim.cmd [[ nnoremap <silent> <Space>R     <cmd>LspRename<CR> ]]
+vim.cmd [[ nnoremap <silent> <Space>R     <cmd>LSpRename<CR> ]]
 
 
 

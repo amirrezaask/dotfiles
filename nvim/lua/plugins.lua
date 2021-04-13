@@ -22,8 +22,8 @@ return require'packer'.startup{
   use { 'amirrezaask/fuzzy.nvim' }
 
   -- FZF -- also look into `fzf.lua`
-  use { 'junegunn/fzf' }
-  use { 'junegunn/fzf.vim' }
+  -- use { 'junegunn/fzf' }
+  -- use { 'junegunn/fzf.vim' }
  
   -- Hashicorp tools
   use { 'hashivim/vim-terraform' }
