@@ -63,8 +63,9 @@ return require'packer'.startup{
   -- Support for Rustlang syntax
   use { 'rust-lang/rust.vim', ft='rust'}
   -- Autocomplete popup
-  use { 'nvim-lua/completion-nvim'}
+  use 'hrsh7th/nvim-compe'
 
+  -- Toml support
   use { 'cespare/vim-toml' }
   -- Show indents
   use { 'Yggdroot/indentLine' }
@@ -81,7 +82,9 @@ return require'packer'.startup{
       'nvim-lua/plenary.nvim'
     }
   }
-
+  use {
+    'hoob3rt/lualine.nvim',
+  }
   -- Treesitter
   use { 'nvim-treesitter/nvim-treesitter' }
   use { 'nvim-treesitter/playground' }
@@ -93,6 +96,7 @@ return require'packer'.startup{
   -- File browser
   use 'kyazdani42/nvim-web-devicons'
   use 'kyazdani42/nvim-tree.lua'
+  use { 'amirrezaask/darham.nvim' }
  
   end
 }

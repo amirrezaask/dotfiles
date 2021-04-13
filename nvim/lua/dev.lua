@@ -4,6 +4,10 @@ function RELOAD(pkg)
   require(pkg)
 end
 
+function LOADED(pkg)
+  return package.loaded[pkg] ~= nil
+end
+
 -- Printer
 function P(obj)
   print(vim.inspect(obj))

@@ -311,39 +311,60 @@ lspconfig.sumneko_lua.setup{
 
 lspconfig.pyls_ms.setup{}
 
-vim.cmd [[ autocmd BufEnter * lua require'completion'.on_attach() ]]
+-- vim.cmd [[ autocmd BufEnter * lua require'completion'.on_attach() ]]
 
+require'compe'.setup {
+  enabled = true;
+  autocomplete = true;
+  debug = false;
+  min_length = 1;
+  preselect = 'enable';
+  throttle_time = 80;
+  source_timeout = 200;
+  incomplete_delay = 400;
+  max_abbr_width = 100;
+  max_kind_width = 100;
+  max_menu_width = 100;
+  documentation = true;
+
+  source = {
+    path = true;
+    buffer = true;
+    calc = true;
+    nvim_lsp = true;
+    nvim_lua = true;
+    vsnip = true;
+  };
+}
 -- Commands
 
-if package.loaded['fzf'] then
-  nvim.command('LSPDefinitions', LSPDefinitions)
-  nvim.command('LSPHover', vim.lsp.buf.hover)
-  nvim.command('LSPSignatureHelp', vim.lsp.buf.signature_help)
-  nvim.command('LSPTypeDefinition', vim.lsp.buf.type_definition)
-  nvim.command('LSPRename', require'lspsaga.rename'.rename)
-  nvim.command('LSPWorkspaceSymbols', LSPWorkspace_Symbols)
-  nvim.command('LSPDocumentSymbols', LSP_Document_Symbols)
-  nvim.command('LSPReferences', LSPReferences)
-  nvim.command('LSPImplementations', LSPImplementations)
-  nvim.command('LSPCodeActions', LSPCodeActions)
-  nvim.command('LSPDeclaration', LSPDeclaration)
-end
-if package.loaded['fuzzy'] then
-  local fuzzy_lsp = require'fuzzy.lsp'
-  nvim.command('LSPDefinitions', fuzzy_lsp.definitions)
-  nvim.command('LSPHover', vim.lsp.buf.hover)
-  nvim.command('LSPSignatureHelp', vim.lsp.buf.signature_help)
-  nvim.command('LSPTypeDefinition', vim.lsp.buf.type_definition)
-  nvim.command('LSPRename', require'lspsaga.rename'.rename)
-  nvim.command('LSPWorkspaceSymbols', fuzzy_lsp.workspace_symbols)
-  nvim.command('LSPDocumentSymbols', fuzzy_lsp.document_symbols)
-  nvim.command('LSPReferences', fuzzy_lsp.references)
-  nvim.command('LSPImplementations', fuzzy_lsp.implementation)
-  nvim.command('LSPCodeActions', fuzzy_lsp.code_actions)
-  nvim.command('LSPDeclaration', fuzzy_lsp.declaration)
+-- if package.loaded['fzf'] then
+--   nvim.command('LSPDefinitions', LSPDefinitions)
+--   nvim.command('LSPHover', vim.lsp.buf.hover)
+--   nvim.command('LSPSignatureHelp', vim.lsp.buf.signature_help)
+--   nvim.command('LSPTypeDefinition', vim.lsp.buf.type_definition)
+--   nvim.command('LSPRename', require'lspsaga.rename'.rename)
+--   nvim.command('LSPWorkspaceSymbols', LSPWorkspace_Symbols)
+--   nvim.command('LSPDocumentSymbols', LSP_Document_Symbols)
+--   nvim.command('LSPReferences', LSPReferences)
+--   nvim.command('LSPImplementations', LSPImplementations)
+--   nvim.command('LSPCodeActions', LSPCodeActions)
+--   nvim.command('LSPDeclaration', LSPDeclaration)
+-- end
 
+local fuzzy_lsp = require'fuzzy.lsp'
+nvim.command('LSPDefinitions', fuzzy_lsp.definitions)
+nvim.command('LSPHover', vim.lsp.buf.hover)
+nvim.command('LSPSignatureHelp', vim.lsp.buf.signature_help)
+nvim.command('LSPTypeDefinition', vim.lsp.buf.type_definition)
+nvim.command('LSPRename', require'lspsaga.rename'.rename)
+nvim.command('LSPWorkspaceSymbols', fuzzy_lsp.workspace_symbols)
+nvim.command('LSPDocumentSymbols', fuzzy_lsp.document_symbols)
+nvim.command('LSPReferences', fuzzy_lsp.references)
+nvim.command('LSPImplementations', fuzzy_lsp.implementation)
+nvim.command('LSPCodeActions', fuzzy_lsp.code_actions)
+nvim.command('LSPDeclaration', fuzzy_lsp.declaration)
 
-end
 -- Keybindings
 vim.cmd [[ nnoremap <silent> gd    <cmd>LSPDefinitions<CR> ]]
 vim.cmd [[ nnoremap <silent> K     <cmd>LSPHover<CR> ]]
@@ -357,12 +378,22 @@ vim.cmd [[ nnoremap <silent> gD    <cmd>LSPDeclaration<CR> ]]
 vim.cmd [[ nnoremap <silent> <Space>A    <cmd>LSPCodeActions<CR> ]]
 vim.cmd [[ nnoremap <silent> <Space>R     <cmd>LspRename<CR> ]]
 
+
+
+
+vim.cmd [[ inoremap <silent><expr> <C-Space> compe#complete() ]]
+vim.cmd [[ inoremap <silent><expr> <CR>      compe#confirm('<CR>') ]]
+vim.cmd [[ inoremap <silent><expr> <C-e>     compe#close('<C-e>') ]]
+vim.cmd [[ inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 }) ]]
+vim.cmd [[ inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 }) ]]
+
+
 -- Use <Tab> and <S-Tab> to navigate through popup menu
 vim.cmd [[inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"]]
 vim.cmd [[inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"]]
 
 -- Set completeopt to have a better completion experience
-vim.cmd [[set completeopt=menuone,noinsert,noselect]]
+vim.cmd [[set completeopt=menuone,noselect]]
 
 -- Avoid showing message extra message when using completion
 vim.cmd [[set shortmess+=c]]

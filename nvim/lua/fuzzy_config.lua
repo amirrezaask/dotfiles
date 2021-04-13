@@ -3,7 +3,7 @@ local normal_maps = {}
 local loc = require'fuzzy.lib.location'
 
 require'fuzzy.lib.options'.setup {
-  width = 70,
+  width = 30,
   height = 100,
   blacklist = {
     "vendor"

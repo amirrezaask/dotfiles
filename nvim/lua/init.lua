@@ -4,8 +4,9 @@ local nvim = require'nvim'
 -- Install Plugins
 require'plugins'
 -- Fuzzy finder
--- require'fzf'
-require'fuzzy_config'
+require'fzf'
+-- require'fuzzy_config'
+-- require'darham_config'
 nvim.with_options {
   ignorecase = true,
   modeline = true,
@@ -136,8 +137,11 @@ nvim.mode_map({
   i = insert_maps,
 })
 
-vim.api.nvim_set_option("statusline", "%l:%L %m%f")
+require'lsp'
 
+vim.api.nvim_set_option("statusline", "%l:%L %m%f")
+-- statusline
+require('lualine').setup{options = {theme='material'}}
 -- Register commands
 nvim.command('Base16Editor', [[lua require'base16.editor'.open(require'base16'.themes["<args>"])]], 1)
 nvim.command('VTerm', [[ vnew | term ]])
