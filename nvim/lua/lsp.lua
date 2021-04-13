@@ -311,8 +311,6 @@ lspconfig.sumneko_lua.setup{
 
 lspconfig.pyls_ms.setup{}
 
--- vim.cmd [[ autocmd BufEnter * lua require'completion'.on_attach() ]]
-
 require'compe'.setup {
   enabled = true;
   autocomplete = true;
@@ -377,9 +375,6 @@ vim.cmd [[ nnoremap <silent> gW    <cmd>LSPWorkspaceSymbols<CR> ]]
 vim.cmd [[ nnoremap <silent> gD    <cmd>LSPDeclaration<CR> ]]
 vim.cmd [[ nnoremap <silent> <Space>A    <cmd>LSPCodeActions<CR> ]]
 vim.cmd [[ nnoremap <silent> <Space>R     <cmd>LSpRename<CR> ]]
-
-
-
 
 vim.cmd [[ inoremap <silent><expr> <C-Space> compe#complete() ]]
 vim.cmd [[ inoremap <silent><expr> <CR>      compe#confirm('<CR>') ]]

@@ -10,6 +10,7 @@ require'fuzzy.lib.options'.setup {
     '.git'
   },
   location = loc.bottom_center, 
+  -- sorter = require'fuzzy.lib.sorter'.fzy,
   prompt = '> '
 }
 -- Commands
