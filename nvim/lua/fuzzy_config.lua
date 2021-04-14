@@ -3,14 +3,14 @@ local normal_maps = {}
 local loc = require'fuzzy.lib.location'
 
 require'fuzzy.lib.options'.setup {
-  width = 30,
-  height = 100,
+  width = 95,
+  height = 45,
   blacklist = {
     "vendor",
     '.git',
     'target'
   },
-  location = loc.bottom_center, 
+  location = loc.center, 
   -- sorter = require'fuzzy.lib.sorter'.fzy,
   prompt = '> '
 }

@@ -3,10 +3,10 @@ local nvim = require'nvim'
 
 -- Install Plugins
 require'plugins'
--- Fuzzy finder
+
 -- require'fzf'
-require'fuzzy_config'
--- require'darham_config'
+-- require'fuzzy_config'
+require'telescope_config'
 nvim.with_options {
   ignorecase = true,
   modeline = true,

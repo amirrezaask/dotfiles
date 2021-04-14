@@ -21,10 +21,6 @@ return require'packer'.startup{
 
   use { 'amirrezaask/fuzzy.nvim' }
 
-  -- FZF -- also look into `fzf.lua`
-  -- use { 'junegunn/fzf' }
-  -- use { 'junegunn/fzf.vim' }
- 
   -- Hashicorp tools
   use { 'hashivim/vim-terraform' }
 
@@ -96,7 +92,13 @@ return require'packer'.startup{
   -- File browser
   use 'kyazdani42/nvim-web-devicons'
   use 'kyazdani42/nvim-tree.lua'
-  use { 'amirrezaask/darham.nvim' }
+
+  use 'tjdevries/colorbuddy.vim'
+  use 'tjdevries/gruvbuddy.nvim'
  
+  -- Telescope.nvim
+  use 'nvim-lua/popup.nvim'
+  use 'nvim-telescope/telescope.nvim'
+  use 'nvim-telescope/telescope-fzy-native.nvim'
   end
 }

@@ -10,7 +10,7 @@ require('telescope').setup {
   }
 }
 local M = {}
-
+require('telescope').load_extension('fzy_native')
 function M.edit_configs()
   require'telescope.builtin'.find_files {
     prompt_title = "> Edit Configs <",
