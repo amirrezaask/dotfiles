@@ -11,6 +11,7 @@ require('telescope').setup {
 }
 local M = {}
 require('telescope').load_extension('fzy_native')
+require('telescope').load_extension('dap')
 function M.edit_configs()
   require'telescope.builtin'.find_files {
     prompt_title = "> Edit Configs <",
@@ -25,6 +26,14 @@ function M.edit_neovim()
   }
 end
 
+function M.edit_zsh()
+  require'telescope.builtin'.find_files {
+    prompt_title = "> Edit ZSH Config <",
+    cwd = "~/src/github.com/amirrezaask/dotfiles/zsh"
+  }
+end
+
+
 normal_maps['<Space><Space>'] = '<cmd>lua require("telescope.builtin").find_files{}<CR>'
 normal_maps['<Space>fb'] = '<cmd>lua require("telescope.builtin").file_browser{}<CR>'
 normal_maps['<Space>gf'] = '<cmd>lua require("telescope.builtin").git_files{}<CR>'
@@ -33,6 +42,7 @@ normal_maps['??'] = '<cmd>lua require("telescope.builtin").live_grep{}<CR>'
 normal_maps['<Space>b'] = '<cmd>lua require("telescope.builtin").buffers{}<CR>'
 normal_maps['<Space>ec'] = '<cmd>lua require("telescope_config").edit_configs()<CR>'
 normal_maps['<Space>en'] = '<cmd>lua require("telescope_config").edit_neovim()<CR>'
+normal_maps['<Space>ez'] = '<cmd>lua require("telescope_config").edit_zsh()<CR>'
 normal_maps['<Space>c'] = '<cmd>lua require("telescope.builtin").commands{}<CR>'
 normal_maps['<Space>h'] = '<cmd>lua require("telescope.builtin").history{}<CR>'
 normal_maps['<Space>fr'] = '<cmd>lua require("telescope.builtin").oldfiles{}<CR>'
