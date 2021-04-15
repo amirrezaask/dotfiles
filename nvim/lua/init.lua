@@ -4,7 +4,7 @@ local nvim = require'nvim'
 -- Install Plugins
 require'plugins'
 require'fuzzy_config'
-
+-- require'telescope_config'
 nvim.with_options {
   ignorecase = true,
   modeline = true,
@@ -32,6 +32,10 @@ nvim.with_options {
   cursorline = true,
   relativenumber = true,
 }
+
+local listchars = require'listchars'
+listchars:update()
+
 vim.cmd [[ set cursorline ]]
 vim.cmd [[ set relativenumber ]]
 local global_maps = {
@@ -147,3 +151,4 @@ vim.api.nvim_set_option("statusline", "[%l:%L] %m%f")
 nvim.command('Base16Editor', [[lua require'base16.editor'.open(require'base16'.themes["<args>"])]], 1)
 nvim.command('VTerm', [[ vnew | term ]])
 nvim.command('Term', [[ new | term ]])
+

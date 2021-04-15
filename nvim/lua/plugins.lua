@@ -19,7 +19,7 @@ return require'packer'.startup{
   -- Plugin Manager
   use { 'wbthomason/packer.nvim' }
 
-  use { 'amirrezaask/fuzzy.nvim' }
+  use { 'amirrezaask/fuzzy.nvim', requires={'nvim-lua/plenary.nvim'}}
 
   -- Hashicorp tools
   use { 'hashivim/vim-terraform' }

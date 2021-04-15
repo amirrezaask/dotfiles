@@ -4,16 +4,17 @@ local loc = require'fuzzy.lib.location'
 
 require'fuzzy.lib.options'.setup {
   width = 55,
-  height = 45,
+  height = 55,
   blacklist = {
     "vendor",
     '.git',
     'target'
   },
   location = loc.center, 
-  sorter = require'fuzzy.lib.sorter'.fzy_native,
+  sorter = require'fuzzy.lib.sorter'.fzf_native,
   prompt = '> '
 }
+
 -- Commands
 vim.cmd [[ command! IFiles lua require('fuzzy').interactive_finder{}  ]]
 vim.cmd [[ command! Files lua require('fuzzy').find_files{} ]]
@@ -37,6 +38,7 @@ vim.cmd [[ command! LspDefinitions lua require('fuzzy.lsp').definitions{} ]]
 vim.cmd [[ command! LspCodeActions lua require('fuzzy.lsp').code_actions{} ]]
 vim.cmd [[ command! LspDocumentSymbols lua require('fuzzy.lsp').lsp_document_symbols{} ]]
 vim.cmd [[ command! LspWorkspaceSymbols lua require('fuzzy.lsp').lsp_workspace_symbols{} ]]
+
 -- Fuzzy.nvim
 normal_maps['<Space><Space>'] = '<cmd>lua require("fuzzy").find_files{}<CR>'
 normal_maps['<Space>fb'] = '<cmd>lua require("fuzzy").interactive_finder{}<CR>'
