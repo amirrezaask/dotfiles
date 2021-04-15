@@ -3,7 +3,7 @@ local normal_maps = {}
 local loc = require'fuzzy.lib.location'
 
 require'fuzzy.lib.options'.setup {
-  width = 95,
+  width = 55,
   height = 45,
   blacklist = {
     "vendor",
@@ -11,7 +11,7 @@ require'fuzzy.lib.options'.setup {
     'target'
   },
   location = loc.center, 
-  -- sorter = require'fuzzy.lib.sorter'.fzy,
+  sorter = require'fuzzy.lib.sorter'.fzy_native,
   prompt = '> '
 }
 -- Commands
@@ -22,7 +22,7 @@ vim.cmd [[ command! Commands lua require('fuzzy.vim').commands{} ]]
 vim.cmd [[ command! MRU lua require('fuzzy.vim').mru{} ]]
 vim.cmd [[ command! BLines lua require('fuzzy').buffer_lines{} ]]
 vim.cmd [[ command! Cd lua require('fuzzy').cd{} ]]
-vim.cmd [[ command! Help lua require('fuzzy').help{} ]]
+vim.cmd [[ command! Help lua require('fuzzy.vim').help{} ]]
 vim.cmd [[ command! Maps lua require('fuzzy.vim').mappings{} ]]
 vim.cmd [[ command! GitFiles lua require('fuzzy.git').git_files{} ]]
 vim.cmd [[ command! GitGrep lua require('fuzzy.git').git_grep{} ]]

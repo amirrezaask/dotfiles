@@ -3,10 +3,8 @@ local nvim = require'nvim'
 
 -- Install Plugins
 require'plugins'
+require'fuzzy_config'
 
--- require'fzf'
--- require'fuzzy_config'
-require'telescope_config'
 nvim.with_options {
   ignorecase = true,
   modeline = true,
@@ -81,9 +79,9 @@ function Base16ThemeSelector()
   for k,_ in pairs(base16.themes) do
     table.insert(theme_names, k)
   end
-  FZF {
+  require'fuzzy.lib'.new {
     source = theme_names,
-    sink = function(theme)
+    handler = function(theme)
       for k, v in pairs(base16.themes) do
         if k == theme then
           base16(v)
@@ -92,6 +90,7 @@ function Base16ThemeSelector()
     end
   }
 end
+nvim.command("Base16ThemeSelector", Base16ThemeSelector)
 vim.cmd [[ nnoremap <Space>ct <cmd>lua Base16ThemeSelector()<CR> ]]
 
 -- Netrw settings
