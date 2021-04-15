@@ -11,7 +11,7 @@ vim.cmd [[command! GoTDD lua require'ngo.go_tools'.utils.test_tdd()]]
 local function default_formatter()
   if vim.fn.executable("goimports") then
     return "goimports"
-  else 
+  else
     return "gofmt"
   end
 end

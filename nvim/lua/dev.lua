@@ -1,11 +1,12 @@
--- Reloader
-function RELOAD(pkg)
-  package.loaded[pkg] = nil
-  return require(pkg)
+-- Force reload the module 
+function R(mod)
+  package.loaded[mod] = nil
+  return require(mod)
 end
 
-function LOADED(pkg)
-  return package.loaded[pkg] ~= nil
+-- is the package loaded ?
+function L(mod)
+  return package.loaded[mod] ~= nil
 end
 
 -- Printer
@@ -14,7 +15,7 @@ function P(obj)
 end
 
 -- Eval line
-function EVAL()
+function E()
  local filetype = vim.api.nvim_buf_get_option(0, 'filetype') 
  local line = vim.fn.getline('.')
  if filetype == 'lua' then

@@ -3,18 +3,19 @@ local normal_maps = {}
 local loc = require'fuzzy.lib.location'
 
 require'fuzzy.lib.options'.setup {
-  width = 55,
-  height = 55,
+  width = 60,
+  height = 50,
   blacklist = {
     "vendor",
     '.git',
     'target'
   },
   location = loc.center, 
-  sorter = require'fuzzy.lib.sorter'.fzf_native,
-  prompt = '> '
+  sorter = require'fuzzy.lib.sorter'.fzy_native,
+  prompt = '❯ ',
 }
 
+local nvim = require'nvim'
 if package.loaded['base16'] then
   local base16 = require'base16'
 
@@ -34,47 +35,39 @@ if package.loaded['base16'] then
       end
     }
   end
+  nvim.command("Base16ThemeSelector", Base16ThemeSelector)
+  vim.cmd [[ nnoremap <Space>ct <cmd>lua Base16ThemeSelector()<CR> ]]
 end
 
-local nvim = require'nvim'
-nvim.command("Base16ThemeSelector", Base16ThemeSelector)
-vim.cmd [[ nnoremap <Space>ct <cmd>lua Base16ThemeSelector()<CR> ]]
 
--- Commands
-vim.cmd [[ command! IFiles lua require('fuzzy').interactive_finder{}  ]]
-vim.cmd [[ command! Files lua require('fuzzy').find_files{} ]]
-vim.cmd [[ command! Grep lua require('fuzzy').grep{} ]]
-vim.cmd [[ command! Commands lua require('fuzzy.vim').commands{} ]]
-vim.cmd [[ command! MRU lua require('fuzzy.vim').mru{} ]]
-vim.cmd [[ command! BLines lua require('fuzzy').buffer_lines{} ]]
-vim.cmd [[ command! Cd lua require('fuzzy').cd{} ]]
-vim.cmd [[ command! Help lua require('fuzzy.vim').help{} ]]
-vim.cmd [[ command! Maps lua require('fuzzy.vim').mappings{} ]]
-vim.cmd [[ command! GitFiles lua require('fuzzy.git').git_files{} ]]
-vim.cmd [[ command! GitGrep lua require('fuzzy.git').git_grep{} ]]
-vim.cmd [[ command! GitCommits lua require('fuzzy.git').git_commits{} ]]
-vim.cmd [[ command! GitBCommits lua require('fuzzy.git').git_bcommits{} ]]
-vim.cmd [[ command! GitCheckout lua require('fuzzy.git').git_checkout{} ]]
-vim.cmd [[ command! Buffers lua require('fuzzy.vim').buffers{} ]]
-vim.cmd [[ command! Rg lua require('fuzzy').rg{} ]]
-vim.cmd [[ command! Colors lua require('fuzzy.vim').colors{} ]]
-vim.cmd [[ command! LspReferences lua require('fuzzy.lsp').lsp_references{} ]]
-vim.cmd [[ command! LspDefinitions lua require('fuzzy.lsp').definitions{} ]]
-vim.cmd [[ command! LspCodeActions lua require('fuzzy.lsp').code_actions{} ]]
-vim.cmd [[ command! LspDocumentSymbols lua require('fuzzy.lsp').lsp_document_symbols{} ]]
-vim.cmd [[ command! LspWorkspaceSymbols lua require('fuzzy.lsp').lsp_workspace_symbols{} ]]
+nvim.command('FileBrowser', require'fuzzy'.interactive_finder)
+nvim.command('Files', require'fuzzy'.find_files)
+nvim.command('Grep', require'fuzzy'.grep)
+nvim.command('MRU', require'fuzzy.vim'.mru)
+nvim.command('BLines', require'fuzzy'.buffer_lines)
+nvim.command('Cd', require'fuzzy'.cd)
+nvim.command('Help', require'fuzzy.vim'.help)
+nvim.command('Maps', require'fuzzy.vim'.mappings)
+nvim.command('GitFiles', require'fuzzy.git'.git_files)
+nvim.command('GitGrep', require'fuzzy.git'.git_grep)
+nvim.command('GitCommits', require'fuzzy.git'.git_commits)
+nvim.command('GitBCommits', require'fuzzy.git'.git_bcommits)
+nvim.command('GitCheckout', require'fuzzy.git'.git_checkout)
+nvim.command('Buffers', require'fuzzy.vim'.buffers)
+nvim.command('Rg', require'fuzzy'.rg)
+nvim.command('Colors', require'fuzzy.vim'.colors)
 
 -- Fuzzy.nvim
 normal_maps['<Space><Space>'] = '<cmd>lua require("fuzzy").find_files{}<CR>'
 normal_maps['<Space>fb'] = '<cmd>lua require("fuzzy").interactive_finder{}<CR>'
-normal_maps['<Space>ec'] = '<cmd>lua require("fuzzy").find_files{path="/home/amirreza/src/github.com/amirrezaask/dotfiles"}<CR>'
-normal_maps['<Space>en'] = '<cmd>lua require("fuzzy").find_files{path="/home/amirreza/.config/nvim"}<CR>'
-normal_maps['<Space>ez'] = '<cmd>lua require("fuzzy").find_files{path="/home/amirreza/src/github.com/amirrezaask/dotfiles/zsh"}<CR>'
-normal_maps['<Space>fp'] = '<cmd>lua require("fuzzy").find_files{path="/home/amirreza/.local/share/nvim/site/pack/packer/start"}<CR>'
+normal_maps['<Space>ec'] = '<cmd>lua require("fuzzy").find_files{path="~/src/github.com/amirrezaask/dotfiles", prompt="Edit dotfiles> "}<CR>'
+normal_maps['<Space>en'] = '<cmd>lua require("fuzzy").find_files{path="~/.config/nvim", prompt="Edit Neovim> "}<CR>'
+normal_maps['<Space>ez'] = '<cmd>lua require("fuzzy").find_files{path="~/src/github.com/amirrezaask/dotfiles/zsh", prompt="Edit ZSH> "}<CR>'
+normal_maps['<Space>fp'] = '<cmd>lua require("fuzzy").find_files{path="~/.local/share/nvim/site/pack/packer/start", prompt="Find plugins> "}<CR>'
 normal_maps['<Space>gf'] = '<cmd>lua require("fuzzy.git").git_files{}<CR>'
 normal_maps['<C-p>'] = '<cmd>lua require("fuzzy.git").git_files{}<CR>'
 normal_maps['<Space>fr'] = '<cmd>lua require"fuzzy".mru{}<CR>'
-normal_maps['<Space>pf'] = '<cmd>lua require("fuzzy.vim").projects{locations={"/home/amirreza/src"}}<CR>'
+normal_maps['<Space>pf'] = '<cmd>lua require("fuzzy.vim").projects{locations={"~/src"}}<CR>'
 normal_maps['??'] = '<cmd>lua require("fuzzy").grep{}<CR>'
 normal_maps['<Space>b'] = '<cmd>lua require("fuzzy.vim").buffers{}<CR>'
 normal_maps['<Space>gg'] = '<cmd>lua require("fuzzy.git").git_grep{}<CR>'

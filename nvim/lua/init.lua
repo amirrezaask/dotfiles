@@ -4,7 +4,7 @@ local nvim = require'nvim'
 -- Install Plugins
 require'plugins'
 require'fuzzy_config'
-
+-- require'telescope_config'
 nvim.with_options {
   ignorecase = true,
   modeline = true,
@@ -123,7 +123,7 @@ require'lsp'
 vim.g.rustfmt_autosave = 1
 vim.api.nvim_set_option("statusline", "[%l:%L] %m%f")
 -- statusline
-
+require'el'.setup{}
 -- Register commands
 nvim.command('Base16Editor', [[lua require'base16.editor'.open(require'base16'.themes["<args>"])]], 1)
 nvim.command('VTerm', [[ vnew | term ]])

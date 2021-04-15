@@ -1,10 +1,6 @@
 local uv = vim.loop
 local M = {}
 
-local function is_repo(path)
-  return vim.fn.isdirectory(path .. '/.git')
-end
-
 local function list_projects(output, path)
   output = output or {}
   local fs_t = uv.fs_scandir(path)

@@ -6,7 +6,7 @@ return require'packer'.startup{
       local path
       if type(opts) == "string" then
         path = opts
-      else 
+      else
         path = opts[1]
       end
       if vim.fn.isdirectory(base .. path) ~= 0 then
@@ -97,5 +97,9 @@ return require'packer'.startup{
   use 'nvim-telescope/telescope.nvim'
   use 'nvim-telescope/telescope-fzy-native.nvim'
   use 'nvim-telescope/telescope-dap.nvim'
+
+  -- Expressline
+  use 'tjdevries/express_line.nvim'
   end
+
 }
