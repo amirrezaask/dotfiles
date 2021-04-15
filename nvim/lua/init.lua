@@ -4,7 +4,7 @@ local nvim = require'nvim'
 -- Install Plugins
 require'plugins'
 require'fuzzy_config'
--- require'telescope_config'
+
 nvim.with_options {
   ignorecase = true,
   modeline = true,
@@ -75,28 +75,6 @@ insert_maps['<c-k>'] = '<cmd> lua return require"snippets".advance_snippet(-1)<C
 
 -- Git Blame
 normal_maps['<Space>gm'] = '<cmd>GitMessenger<CR>'
-
-local base16 = require'base16'
-
-function Base16ThemeSelector()
-  local theme_names = {}
-  for k,_ in pairs(base16.themes) do
-    table.insert(theme_names, k)
-  end
-  require'fuzzy.lib'.new {
-    source = theme_names,
-    handler = function(theme)
-      for k, v in pairs(base16.themes) do
-        if k == theme then
-          base16(v)
-        end
-      end
-    end
-  }
-end
-nvim.command("Base16ThemeSelector", Base16ThemeSelector)
-vim.cmd [[ nnoremap <Space>ct <cmd>lua Base16ThemeSelector()<CR> ]]
-
 -- Netrw settings
 vim.g.netrw_banner = 0
 
@@ -146,7 +124,6 @@ vim.g.rustfmt_autosave = 1
 vim.api.nvim_set_option("statusline", "[%l:%L] %m%f")
 -- statusline
 
--- require('lualine').setup{options = {theme='material'}}
 -- Register commands
 nvim.command('Base16Editor', [[lua require'base16.editor'.open(require'base16'.themes["<args>"])]], 1)
 nvim.command('VTerm', [[ vnew | term ]])

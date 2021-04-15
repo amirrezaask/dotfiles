@@ -89,10 +89,6 @@ return require'packer'.startup{
   use { 'mfussenegger/nvim-dap' }
   use { 'theHamsta/nvim-dap-virtual-text' }
 
-  -- File browser
-  use 'kyazdani42/nvim-web-devicons'
-  use 'kyazdani42/nvim-tree.lua'
-
   use 'tjdevries/colorbuddy.vim'
   use 'tjdevries/gruvbuddy.nvim'
  

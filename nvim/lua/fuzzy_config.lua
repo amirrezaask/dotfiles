@@ -15,6 +15,31 @@ require'fuzzy.lib.options'.setup {
   prompt = '> '
 }
 
+if package.loaded['base16'] then
+  local base16 = require'base16'
+
+  function Base16ThemeSelector()
+    local theme_names = {}
+    for k,_ in pairs(base16.themes) do
+      table.insert(theme_names, k)
+    end
+    require'fuzzy.lib'.new {
+      source = theme_names,
+      handler = function(theme)
+        for k, v in pairs(base16.themes) do
+          if k == theme then
+            base16(v)
+          end
+        end
+      end
+    }
+  end
+end
+
+local nvim = require'nvim'
+nvim.command("Base16ThemeSelector", Base16ThemeSelector)
+vim.cmd [[ nnoremap <Space>ct <cmd>lua Base16ThemeSelector()<CR> ]]
+
 -- Commands
 vim.cmd [[ command! IFiles lua require('fuzzy').interactive_finder{}  ]]
 vim.cmd [[ command! Files lua require('fuzzy').find_files{} ]]

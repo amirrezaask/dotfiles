@@ -1,7 +1,7 @@
 -- Reloader
 function RELOAD(pkg)
   package.loaded[pkg] = nil
-  require(pkg)
+  return require(pkg)
 end
 
 function LOADED(pkg)
