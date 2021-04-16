@@ -105,27 +105,31 @@ nvim.command('LSPImplementations', fuzzy_lsp.implementation)
 nvim.command('LSPCodeActions', fuzzy_lsp.code_actions)
 nvim.command('LSPDeclaration', fuzzy_lsp.declaration)
 
--- Keybindings
-vim.cmd [[ nnoremap <silent> gd    <cmd>LSPDefinitions<CR> ]]
-vim.cmd [[ nnoremap <silent> K     <cmd>LSPHover<CR> ]]
-vim.cmd [[ nnoremap <silent> gI    <cmd>LSPImplementations<CR> ]]
-vim.cmd [[ nnoremap <silent> <c-k> <cmd>LSpSignatureHelp<CR> ]]
-vim.cmd [[ nnoremap <silent> 1gD   <cmd>LSPTypeDefinition<CR> ]]
-vim.cmd [[ nnoremap <silent> gR    <cmd>LSPReferences<CR> ]]
-vim.cmd [[ nnoremap <silent> g0    <cmd>LSPDocumentSymbols<CR> ]]
-vim.cmd [[ nnoremap <silent> gW    <cmd>LSPWorkspaceSymbols<CR> ]]
-vim.cmd [[ nnoremap <silent> gD    <cmd>LSPDeclaration<CR> ]]
-vim.cmd [[ nnoremap <silent> <Space>A    <cmd>LSPCodeActions<CR> ]]
-vim.cmd [[ nnoremap <silent> <Space>R     <cmd>LSpRename<CR> ]]
 
-vim.cmd [[ inoremap <silent><expr> <C-Space> compe#complete() ]]
-vim.cmd [[ inoremap <silent><expr> <CR>      compe#confirm('<CR>') ]]
-vim.cmd [[ inoremap <silent><expr> <C-e>     compe#close('<C-e>') ]]
-vim.cmd [[ inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 }) ]]
-vim.cmd [[ inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 }) ]]
-
-
--- Use <Tab> and <S-Tab> to navigate through popup menu
+nvim.mode_map {
+  n = {
+    ['<silent> gd'] = '<cmd>LSPDefinitions<CR>',
+    ['<silent> K'] = '<cmd>LSPHover<CR>',
+    ['<silent> gI'] = '<cmd>LSPImplementations<CR>',
+    ['<silent> <c-k>'] = '<cmd>LSPSignatureHelp<CR>',
+    ['<silent> 1gD'] = '<cmd>LSPTypeDefinition<CR>',
+    ['<silent> gR'] = '<cmd>LSPReferences<CR>',
+    ['<silent> g0'] = '<cmd>LSPDocumentSymbols<CR>',
+    ['<silent> gW'] = '<cmd>LSPWorkspaceSymbols<CR>',
+    ['<silent> gD'] = '<cmd>LSPDeclaration<CR>',
+    ['<silent> <Space>A'] = '<cmd>LSPCodeActions<CR>',
+    ['<silent> <Space>R'] = '<cmd>LSPRename<CR>',
+  },
+  i = {
+    ['<silent><expr> <C-Space>'] = 'compe#complete()',
+    ['<silent><expr> <CR>'] = "compe#confirm('<CR>')",
+    ['<silent><expr> <C-e>'] = "compe#close('<C-e>')",
+    ['<silent><expr> <C-f>'] = "compe#scroll( {'delta': +4} )",
+    ['<silent><expr> <C-d>'] = "compe#scroll( {'delta': -4} )",
+    -- ['<silent><expr> <Tab>'] = 'pumvisible() ? "\<C-n>" : "\<Tab>"',
+    -- ['<silent><expr> <S-Tab>'] = 'pumvisible() ? "\<C-p>" : "\<S-Tab>"',
+  }
+}
 vim.cmd [[inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"]]
 vim.cmd [[inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"]]
 
