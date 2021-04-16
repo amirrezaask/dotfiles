@@ -3,8 +3,8 @@ local normal_maps = {}
 local loc = require'fuzzy.lib.location'
 
 require'fuzzy.lib.options'.setup {
-  width = 60,
-  height = 50,
+  width = 90,
+  height = 70,
   blacklist = {
     "vendor",
     '.git',
@@ -16,28 +16,26 @@ require'fuzzy.lib.options'.setup {
 }
 
 local nvim = require'nvim'
-if package.loaded['base16'] then
-  local base16 = require'base16'
+local base16 = require'base16'
 
-  function Base16ThemeSelector()
-    local theme_names = {}
-    for k,_ in pairs(base16.themes) do
-      table.insert(theme_names, k)
-    end
-    require'fuzzy.lib'.new {
-      source = theme_names,
-      handler = function(theme)
-        for k, v in pairs(base16.themes) do
-          if k == theme then
-            base16(v)
-          end
+function Base16ThemeSelector()
+  local theme_names = {}
+  for k,_ in pairs(base16.themes) do
+    table.insert(theme_names, k)
+  end
+  require'fuzzy.lib'.new {
+    source = theme_names,
+    handler = function(theme)
+      for k, v in pairs(base16.themes) do
+        if k == theme then
+          base16(v)
         end
       end
-    }
-  end
-  nvim.command("Base16ThemeSelector", Base16ThemeSelector)
-  vim.cmd [[ nnoremap <Space>ct <cmd>lua Base16ThemeSelector()<CR> ]]
+    end
+  }
 end
+nvim.command("Base16ThemeSelector", Base16ThemeSelector)
+vim.cmd [[ nnoremap <Space>ct <cmd>lua Base16ThemeSelector()<CR> ]]
 
 
 nvim.command('FileBrowser', require'fuzzy'.interactive_finder)
@@ -66,7 +64,7 @@ normal_maps['<Space>ez'] = '<cmd>lua require("fuzzy").find_files{path="~/src/git
 normal_maps['<Space>fp'] = '<cmd>lua require("fuzzy").find_files{path="~/.local/share/nvim/site/pack/packer/start", prompt="Find plugins> "}<CR>'
 normal_maps['<Space>gf'] = '<cmd>lua require("fuzzy.git").git_files{}<CR>'
 normal_maps['<C-p>'] = '<cmd>lua require("fuzzy.git").git_files{}<CR>'
-normal_maps['<Space>fr'] = '<cmd>lua require"fuzzy".mru{}<CR>'
+normal_maps['<Space>fr'] = '<cmd>lua require"fuzzy.vim".mru{}<CR>'
 normal_maps['<Space>pf'] = '<cmd>lua require("fuzzy.vim").projects{locations={"~/src"}}<CR>'
 normal_maps['??'] = '<cmd>lua require("fuzzy").grep{}<CR>'
 normal_maps['<Space>b'] = '<cmd>lua require("fuzzy.vim").buffers{}<CR>'
