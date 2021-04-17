@@ -38,6 +38,7 @@ function lua.format(opts)
   vim.cmd(string.format([[ silent ! stylua --config-path %s %s ]], opts.config, filename))
   vim.cmd([[ e ]])
 end
+
 nvim.augroup({
   lua = {
     'BufEnter',

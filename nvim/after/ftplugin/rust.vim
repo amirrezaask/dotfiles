@@ -1,1 +1,1 @@
-let g:rustfmt_autosave = 1
+lua require'ftplugin.rust'
