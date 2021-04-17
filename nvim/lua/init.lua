@@ -109,6 +109,11 @@ require('plugin.expressline')
 require('lsp')
 vim.api.nvim_set_option('statusline', '[%l:%L] %m%f')
 
+require('colorbuddy').colorscheme('gruvbuddy')
+require('plugin.dap')
+require('plugin.snippets')
+require('tsitter')
+
 -- Register commands
 nvim.command('Base16Editor', [[lua require'base16.editor'.open(require'base16'.themes["<args>"])]], 1)
 nvim.command('VTerm', [[ vnew | term ]])
