@@ -39,10 +39,10 @@ function lua.format(opts)
 end
 
 vim.cmd([[
-  autocmd BufWritePre *.lua lua require'lua'.format()
+  autocmd BufWritePre *.lua lua require'ftplugin.lua'.format()
 ]])
 
-require('nvim').mode_map({
+require('amirrezaask.nvim').mode_map({
   n = {
     ['<Space>x'] = '<cmd>lua EVAL()<CR>',
     ['<Space>X'] = '<cmd>luafile %<CR>',

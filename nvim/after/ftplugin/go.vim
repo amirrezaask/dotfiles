@@ -1,1 +1,1 @@
-lua require'ngo'
+lua require'ftplugin.go'

@@ -1,8 +1,8 @@
 -- init.lua
-local nvim = require('nvim')
+local nvim = require('amirrezaask.nvim')
 
 -- Install Plugins
-require('plugins')
+require('plugin.plugins')
 
 require('plugin.fuzzy')
 -- require('plugin.telescope')
@@ -34,7 +34,7 @@ nvim.with_options({
   cursorline = true,
 })
 
-vim.cmd([[ set cursorline ]])
+-- vim.cmd([[ set cursorline ]])
 local global_maps = {
   -- Easier window navigation
   ['<C-j>'] = '<C-w>j',
@@ -86,14 +86,8 @@ nvim.augroup({
 -- compe.nvim
 require('plugin.compe')
 
--- Side tree
-normal_maps['<Space>s'] = '<cmd>lua require"sidetree".open_side_file_browser()<CR>'
-
 -- Git signs
 require('gitsigns').setup()
-
--- Nvim dev helpers
-require('lua')
 
 -- Register keymaps
 nvim.map(global_maps)

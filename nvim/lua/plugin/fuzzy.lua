@@ -15,7 +15,7 @@ require('fuzzy.lib.options').setup({
   prompt = '❯ ',
 })
 
-local nvim = require('nvim')
+local nvim = require('amirrezaask.nvim')
 local base16 = require('base16')
 
 function Base16ThemeSelector()
@@ -84,7 +84,7 @@ normal_maps['<Space>gc'] = '<cmd>lua require("fuzzy.git").git_commits{}<CR>'
 normal_maps['<Space>gb'] = '<cmd>lua require("fuzzy.git").git_bcommits{}<CR>'
 normal_maps['<Space>gco'] = '<cmd>lua require("fuzzy.git").git_checkout{}<CR>'
 
-require('nvim').mode_map({
+nvim.mode_map({
   n = normal_maps,
 })
 

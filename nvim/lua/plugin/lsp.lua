@@ -1,6 +1,6 @@
 local lspconfig = require('lspconfig')
 
-local nvim = require('nvim')
+local nvim = require('amirrezaask.nvim')
 
 local function get_lua_runtime()
   local result = {}
