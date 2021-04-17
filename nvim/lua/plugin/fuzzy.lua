@@ -3,8 +3,8 @@ local normal_maps = {}
 local loc = require('fuzzy.lib.location')
 
 require('fuzzy.lib.options').setup({
-  width = 90,
-  height = 70,
+  width = 60,
+  height = 40,
   blacklist = {
     'vendor',
     '.git',
@@ -54,6 +54,12 @@ nvim.command('Buffers', require('fuzzy.vim').buffers)
 nvim.command('Rg', require('fuzzy').rg)
 nvim.command('Colors', require('fuzzy.vim').colors)
 
+local fuzzy = {}
+
+function fuzzy.grep()
+  require('fuzzy').grep({ height = 90, width = 70 })
+end
+
 -- Fuzzy.nvim
 normal_maps['<Space><Space>'] = '<cmd>lua require("fuzzy").find_files{}<CR>'
 normal_maps['<Space>fb'] = '<cmd>lua require("fuzzy").interactive_finder{}<CR>'
@@ -68,7 +74,7 @@ normal_maps['<Space>gf'] = '<cmd>lua require("fuzzy.git").git_files{}<CR>'
 normal_maps['<C-p>'] = '<cmd>lua require("fuzzy.git").git_files{}<CR>'
 normal_maps['<Space>fr'] = '<cmd>lua require"fuzzy.vim".mru{}<CR>'
 normal_maps['<Space>pf'] = '<cmd>lua require("fuzzy.vim").projects{locations={"~/src"}}<CR>'
-normal_maps['??'] = '<cmd>lua require("fuzzy").grep{}<CR>'
+normal_maps['??'] = '<cmd>lua require("plugin.fuzzy").grep{}<CR>'
 normal_maps['<Space>b'] = '<cmd>lua require("fuzzy.vim").buffers{}<CR>'
 normal_maps['<Space>gg'] = '<cmd>lua require("fuzzy.git").git_grep{}<CR>'
 normal_maps['<Space>c'] = '<cmd>lua require("fuzzy.vim").commands{}<CR>'
@@ -81,3 +87,5 @@ normal_maps['<Space>gco'] = '<cmd>lua require("fuzzy.git").git_checkout{}<CR>'
 require('nvim').mode_map({
   n = normal_maps,
 })
+
+return fuzzy
