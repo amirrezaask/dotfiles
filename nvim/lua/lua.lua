@@ -26,6 +26,10 @@ function E()
 end
 
 function lua.format(opts)
+  if vim.fn.executable('stylua') ~= 1 then
+    print('Error: stylua not found')
+    return
+  end
   opts = opts or {}
   opts.config = opts.config or os.getenv('HOME') .. '/.stylua.toml'
   local filename = vim.api.nvim_buf_get_name(0)
