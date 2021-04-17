@@ -2,12 +2,9 @@
 
 ## Features
 - LSP configured for [ lua, Python, Go, Rust ]
-- Fuzzy finding based on FZF with lua wrapper for custom functions ( look into projects.lua )
-- Base16 colorschemes
-
+- Multiple fuzzy finder configuration [ [https://github.com/amirrezaask/fuzzy.nvim](fuzzy.nvim), [https://github.com/nvim-telescope/telescope.nvim](telescope.nvim), [https://github.com/junegunn/fzf.vim](fzf) ]
+- All in lua configuration, almost 0 vimscript
 
 ## Dependencies
 - Neovim 0.5 (nightly, master branch)
-- FZF
-- Rg
-
+- Rg ( for better grep functionality when using fuzzy finders)
