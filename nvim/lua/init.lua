@@ -44,15 +44,6 @@ nvim.map{
 }
 
 nvim.mode_map {
-  i = {
-    ['jk'] = '<esc>',
-    ['jj'] = '<esc>',
-    ['kk'] = '<esc>',
-    ['kj'] = '<esc>',
-  }
-}
-
-nvim.mode_map {
   n = {
     ['<Space>/'] = ':nohl<CR>',
     ['tn'] = ':tabnext<CR>',
@@ -62,6 +53,12 @@ nvim.mode_map {
     ['<Space>v'] = '<cmd>vnew<CR>',
     j = 'gj',
     k = 'gk',
+  },
+  i = {
+    ['jk'] = '<esc>',
+    ['jj'] = '<esc>',
+    ['kk'] = '<esc>',
+    ['kj'] = '<esc>',
   }
 }
 
@@ -77,8 +74,7 @@ require('gitsigns').setup()
 require('amirrezaask.listchars'):update()
 require('plugin.lsp')
 require('plugin.expressline')
-nvim.colorscheme 'norcalli'
--- require('colorbuddy').colorscheme('gruvbuddy')
+require('colorbuddy').colorscheme('gruvbuddy')
 require('plugin.dap')
 require('plugin.snippets')
 require('plugin.treesitter')
