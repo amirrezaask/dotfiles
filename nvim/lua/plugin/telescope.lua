@@ -6,7 +6,7 @@ require('telescope').setup {
     selection_caret = '❯ ',
     layout_strategy = 'flex',
     prompt_position = 'top',
-    sorting_strategy = 'ascending'
+    sorting_strategy = 'descending'
   }
 }
 

@@ -4,8 +4,7 @@ vim.g.dap_virtual_text = true
 dap.adapters.go = function(callback, config)
   local port = 38697
   local handle
-  local pid_or_err
-  handle, pid_or_err =
+  handle, _ =
       vim.loop.spawn(
       "dlv",
       {
