@@ -90,7 +90,8 @@ return require'packer'.startup{
   use { 'theHamsta/nvim-dap-virtual-text' }
 
   use 'tjdevries/colorbuddy.vim'
-  use 'tjdevries/gruvbuddy.nvim'
+  -- use 'tjdevries/gruvbuddy.nvim'
+  use { 'amirrezaask/gruvbuddy.nvim' }
 
   -- Telescope.nvim
   use 'nvim-lua/popup.nvim'

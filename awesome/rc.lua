@@ -500,11 +500,7 @@ awful.rules.rules = {
     --   properties = { screen = 1, tag = "2" } },
 }
 
--- Signal function to execute when a new client appears.
 client.connect_signal("manage", function (c)
-    -- Set the windows at the slave,
-    -- i.e. put it at the end of others instead of setting it master.
-    -- if not awesome.startup then awful.client.setslave(c) end
 
     if awesome.startup
       and not c.size_hints.user_position
@@ -556,8 +552,8 @@ end)
 
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
--- }}}
---
+
 -- Setup xrandr
 awful.spawn('xrandr --output eDP-1 --right-of DP-1 --output eDP-1 --left-of HDMI-2 --output DP-1 --left-of eDP-1')
 -- Set wallpaper
+awful.spawn('feh --bg-scale ~/src/github.com/amirrezaask/dotfiles/wallpapers/darksideofthemoon.png')

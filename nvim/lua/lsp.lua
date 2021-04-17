@@ -108,26 +108,24 @@ nvim.command('LSPDeclaration', fuzzy_lsp.declaration)
 
 nvim.mode_map {
   n = {
-    ['<silent> gd'] = '<cmd>LSPDefinitions<CR>',
-    ['<silent> K'] = '<cmd>LSPHover<CR>',
-    ['<silent> gI'] = '<cmd>LSPImplementations<CR>',
-    ['<silent> <c-k>'] = '<cmd>LSPSignatureHelp<CR>',
-    ['<silent> 1gD'] = '<cmd>LSPTypeDefinition<CR>',
-    ['<silent> gR'] = '<cmd>LSPReferences<CR>',
-    ['<silent> g0'] = '<cmd>LSPDocumentSymbols<CR>',
-    ['<silent> gW'] = '<cmd>LSPWorkspaceSymbols<CR>',
-    ['<silent> gD'] = '<cmd>LSPDeclaration<CR>',
-    ['<silent> <Space>A'] = '<cmd>LSPCodeActions<CR>',
-    ['<silent> <Space>R'] = '<cmd>LSPRename<CR>',
+    ['gd'] = '<cmd>LSPDefinitions<CR>',
+    ['K'] = '<cmd>LSPHover<CR>',
+    ['gI'] = '<cmd>LSPImplementations<CR>',
+    ['<c-k>'] = '<cmd>LSPSignatureHelp<CR>',
+    ['1gD'] = '<cmd>LSPTypeDefinition<CR>',
+    ['gR'] = '<cmd>LSPReferences<CR>',
+    ['g0'] = '<cmd>LSPDocumentSymbols<CR>',
+    ['gW'] = '<cmd>LSPWorkspaceSymbols<CR>',
+    ['gD'] = '<cmd>LSPDeclaration<CR>',
+    ['<Space>A'] = '<cmd>LSPCodeActions<CR>',
+    ['<Space>R'] = '<cmd>LSPRename<CR>',
   },
   i = {
-    ['<silent><expr> <C-Space>'] = 'compe#complete()',
-    ['<silent><expr> <CR>'] = "compe#confirm('<CR>')",
-    ['<silent><expr> <C-e>'] = "compe#close('<C-e>')",
-    ['<silent><expr> <C-f>'] = "compe#scroll( {'delta': +4} )",
-    ['<silent><expr> <C-d>'] = "compe#scroll( {'delta': -4} )",
-    -- ['<silent><expr> <Tab>'] = 'pumvisible() ? "\<C-n>" : "\<Tab>"',
-    -- ['<silent><expr> <S-Tab>'] = 'pumvisible() ? "\<C-p>" : "\<S-Tab>"',
+    ['<expr> <C-Space>'] = 'compe#complete()',
+    ['<expr> <CR>'] = "compe#confirm('<CR>')",
+    ['<expr> <C-e>'] = "compe#close('<C-e>')",
+    ['<expr> <C-f>'] = "compe#scroll( {'delta': +4} )",
+    ['<expr> <C-d>'] = "compe#scroll( {'delta': -4} )",
   }
 }
 vim.cmd [[inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"]]
