@@ -29,8 +29,9 @@ function lua.format(opts)
   opts = opts or {}
   opts.config = opts.config or os.getenv('HOME') .. '/.stylua.toml'
   local filename = vim.api.nvim_buf_get_name(0)
+  vim.cmd([[ w ]])
   vim.cmd(string.format([[ silent ! stylua --config-path %s %s ]], opts.config, filename))
-  vim.cmd([[ e! ]])
+  vim.cmd([[ e ]])
 end
 
 vim.cmd([[
