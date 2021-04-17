@@ -15,6 +15,9 @@ require('fuzzy.lib.options').setup({
   prompt = '❯ ',
 })
 
+vim.cmd [[ highlight FuzzyMatching guifg=#f2904b guibg=none guisp=none ]]
+
+
 local nvim = require('amirrezaask.nvim')
 local base16 = require('base16')
 

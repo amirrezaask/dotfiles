@@ -14,7 +14,15 @@ end
 
 function M.with_options(tbl)
   for n, v in pairs(tbl) do
-    vim.api.nvim_set_option(n, v)
+    if type(v) == 'boolean' then
+      if v == true then
+        vim.cmd(string.format([[set %s]], n))
+      else
+        vim.cmd(string.format([[set no%s]], n))
+      end
+    else
+      vim.api.nvim_set_option(n, v)
+    end
   end
 end
 

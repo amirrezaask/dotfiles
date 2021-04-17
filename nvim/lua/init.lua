@@ -5,7 +5,6 @@ local nvim = require('amirrezaask.nvim')
 require('plugin.plugins')
 
 require('plugin.fuzzy')
--- require('plugin.telescope')
 
 nvim.with_options({
   ignorecase = true,
@@ -101,7 +100,8 @@ nvim.mode_map({
 require('amirrezaask.listchars'):update()
 require('plugin.lsp')
 require('plugin.expressline')
-require('colorbuddy').colorscheme('gruvbuddy')
+vim.cmd [[ colorscheme norcalli ]]
+-- require('colorbuddy').colorscheme('gruvbuddy')
 require('plugin.dap')
 require('plugin.snippets')
 require('plugin.treesitter')
