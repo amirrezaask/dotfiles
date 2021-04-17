@@ -34,9 +34,6 @@ nvim.with_options({
   cursorline = true,
 })
 
-local listchars = require('listchars')
-listchars:update()
-
 vim.cmd([[ set cursorline ]])
 local global_maps = {
   -- Easier window navigation
@@ -101,18 +98,19 @@ require('lua')
 -- Register keymaps
 nvim.map(global_maps)
 
+-- Bind keys
 nvim.mode_map({
   n = normal_maps,
   i = insert_maps,
 })
-require('plugin.expressline')
-require('lsp')
-vim.api.nvim_set_option('statusline', '[%l:%L] %m%f')
 
+require('amirrezaask.listchars'):update()
+require('plugin.lsp')
+require('plugin.expressline')
 require('colorbuddy').colorscheme('gruvbuddy')
 require('plugin.dap')
 require('plugin.snippets')
-require('tsitter')
+require('plugin.treesitter')
 
 -- Register commands
 nvim.command('Base16Editor', [[lua require'base16.editor'.open(require'base16'.themes["<args>"])]], 1)
