@@ -4,13 +4,8 @@ require('telescope').setup {
   defaults = {
     prompt_prefix = '❯ ',
     selection_caret = '❯ ',
+    layout_strategy = 'flex',
     prompt_position = 'top',
-    preview_cutoff = 120,
-    preview_width  = 100,
-    width = 0.1,
-		height = 0.7,
-		results_width = 80,
-    layout_strategy = "horizontal",
     sorting_strategy = 'ascending'
   }
 }

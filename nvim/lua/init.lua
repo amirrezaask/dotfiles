@@ -6,6 +6,7 @@ require'plugins'
 
 -- require'plugin.fuzzy'
 require'plugin.telescope'
+
 nvim.with_options {
   ignorecase = true,
   modeline = true,
@@ -123,6 +124,7 @@ nvim.mode_map({
 require'lsp'
 vim.g.rustfmt_autosave = 1
 vim.api.nvim_set_option("statusline", "[%l:%L] %m%f")
+-- require('hardline').setup {}
 -- statusline
 require'el'.setup{}
 -- Register commands
