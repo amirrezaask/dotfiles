@@ -85,7 +85,7 @@ nvim.augroup{
   },
 }
 
--- compe.nvim 
+-- compe.nvim
 require'plugin.compe'
 
 -- Side tree
@@ -104,12 +104,9 @@ nvim.mode_map({
   n = normal_maps,
   i = insert_maps,
 })
-
+require'plugin.expressline'
 require'lsp'
 vim.api.nvim_set_option("statusline", "[%l:%L] %m%f")
-
--- statusline
--- require'el'.setup{}
 
 -- Register commands
 nvim.command('Base16Editor', [[lua require'base16.editor'.open(require'base16'.themes["<args>"])]], 1)

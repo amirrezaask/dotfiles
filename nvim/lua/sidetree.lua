@@ -141,7 +141,7 @@ function M.open_side_file_browser(path)
   if not M.SIDE_FILE_WIN then
     M.SIDE_FILE_WIN = vim.api.nvim_get_current_win()
   end
-  
+
   vim.api.nvim_set_current_win(M.SIDE_FILE_WIN)
   vim.api.nvim_buf_set_keymap(M.SIDE_FILE_BUF, 'n', '<CR>', '<cmd>lua __SIDE_FILE_BROWSER_OPEN()<CR>', {})
   vim.api.nvim_buf_set_keymap(M.SIDE_FILE_BUF, 'n', '<BS>', '<cmd>lua __SIDE_FILE_BROWSER_BACK()<CR>', {})

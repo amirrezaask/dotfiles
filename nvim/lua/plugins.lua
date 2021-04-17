@@ -46,7 +46,6 @@ return require'packer'.startup{
   -- Highlight color codes in buffer with their respective colors
   use { 'norcalli/nvim-colorizer.lua', branch = 'color-editor', cmd = {'ColorizerAttachToBuffer', 'ColorizerDetachFromBuffer', 'ColorizerToggle', 'ColorizerReloadAllBuffers'}}
   -- Vim indent objects
-  use { 'michaeljsmith/vim-indent-object'}
   -- Support for Dockerfile syntax
   use { 'honza/dockerfile.vim'}
 
@@ -99,6 +98,13 @@ return require'packer'.startup{
   use 'nvim-telescope/telescope.nvim'
   use 'nvim-telescope/telescope-fzy-native.nvim'
   use 'nvim-telescope/telescope-dap.nvim'
+
+  -- Icons
+  use 'kyazdani42/nvim-web-devicons'
+  use 'yamatsum/nvim-web-nonicons'
+
+  -- Indent Guides
+  use { 'lukas-reineke/indent-blankline.nvim' }
 
   -- Expressline
   use 'tjdevries/express_line.nvim'
