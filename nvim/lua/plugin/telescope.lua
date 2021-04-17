@@ -6,13 +6,28 @@ require('telescope').setup {
     selection_caret = '❯ ',
     prompt_position = 'top',
     preview_cutoff = 120,
+    preview_width  = 100,
+    width = 0.1,
+		height = 0.7,
+		results_width = 80,
     layout_strategy = "horizontal",
     sorting_strategy = 'ascending'
   }
 }
+
 local M = {}
+
 require('telescope').load_extension('fzy_native')
 require('telescope').load_extension('dap')
+
+function M.find_plugin()
+  require'telescope.builtin'.find_files {
+    prompt_title = '> Edit Plugins <',
+    cwd = '~/.local/share/nvim/site/pack/packer/start'
+  }
+
+end
+
 function M.edit_configs()
   require'telescope.builtin'.find_files {
     prompt_title = "> Edit Configs <",
@@ -37,17 +52,18 @@ end
 
 normal_maps['<Space><Space>'] = '<cmd>lua require("telescope.builtin").find_files{}<CR>'
 normal_maps['<Space>fb'] = '<cmd>lua require("telescope.builtin").file_browser{}<CR>'
+normal_maps['<Space>fp'] = '<cmd>lua require("plugin.telescope").find_plugin{}<CR>'
 normal_maps['<Space>gf'] = '<cmd>lua require("telescope.builtin").git_files{}<CR>'
-normal_maps['<C-p>'] = '<cmd>lua require("telescope.builtin").git_files{}<CR>'
-normal_maps['??'] = '<cmd>lua require("telescope.builtin").live_grep{}<CR>'
-normal_maps['<Space>b'] = '<cmd>lua require("telescope.builtin").buffers{}<CR>'
-normal_maps['<Space>ec'] = '<cmd>lua require("telescope_config").edit_configs()<CR>'
-normal_maps['<Space>en'] = '<cmd>lua require("telescope_config").edit_neovim()<CR>'
-normal_maps['<Space>ez'] = '<cmd>lua require("telescope_config").edit_zsh()<CR>'
-normal_maps['<Space>c'] = '<cmd>lua require("telescope.builtin").commands{}<CR>'
-normal_maps['<Space>h'] = '<cmd>lua require("telescope.builtin").history{}<CR>'
+normal_maps['<C-p>'] =     '<cmd>lua require("telescope.builtin").git_files{}<CR>'
+normal_maps['??'] =        '<cmd>lua require("telescope.builtin").live_grep{}<CR>'
+normal_maps['<Space>b'] =  '<cmd>lua require("telescope.builtin").buffers{}<CR>'
+normal_maps['<Space>ec'] = '<cmd>lua require("plugin.telescope").edit_configs()<CR>'
+normal_maps['<Space>en'] = '<cmd>lua require("plugin.telescope").edit_neovim()<CR>'
+normal_maps['<Space>ez'] = '<cmd>lua require("plugin.telescope").edit_zsh()<CR>'
+normal_maps['<Space>c'] =  '<cmd>lua require("telescope.builtin").commands{}<CR>'
+normal_maps['<Space>h'] =  '<cmd>lua require("telescope.builtin").history{}<CR>'
 normal_maps['<Space>fr'] = '<cmd>lua require("telescope.builtin").oldfiles{}<CR>'
-normal_maps['<Space>h'] = '<cmd>lua require("telescope.builtin").help_tags{}<CR>'
+normal_maps['<Space>h'] =  '<cmd>lua require("telescope.builtin").help_tags{}<CR>'
 normal_maps['<Space>gc'] = '<cmd>lua require("telescope.builtin").git_commits{}<CR>'
 normal_maps['<Space>gb'] = '<cmd>lua require("telescope.builtin").git_bcommits{}<CR>'
 normal_maps['<Space>go'] = '<cmd>lua require("telescope.builtin").git_checkout{}<CR>'
