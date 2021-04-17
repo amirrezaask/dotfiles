@@ -5,7 +5,7 @@ local nvim = require('nvim')
 require('plugins')
 
 require('plugin.fuzzy')
-require'plugin.telescope'
+-- require('plugin.telescope')
 
 nvim.with_options({
   ignorecase = true,
