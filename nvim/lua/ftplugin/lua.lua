@@ -1,4 +1,5 @@
 local lua = {}
+local nvim = require'amirrezaask.nvim'
 
 -- Force reload the module
 function R(mod)
@@ -37,6 +38,14 @@ function lua.format(opts)
   vim.cmd(string.format([[ silent ! stylua --config-path %s %s ]], opts.config, filename))
   vim.cmd([[ e ]])
 end
+nvim.augroup({
+  lua = {
+    'BufEnter',
+    '*.lua',
+    'set ts=2 sw=2 sts=2 expandtab',
+  },
+})
+
 
 vim.cmd([[
   autocmd BufWritePre *.lua lua require'ftplugin.lua'.format()

@@ -40,6 +40,10 @@ function M.map(tbl)
   end
 end
 
+function M.colorscheme(name)
+  vim.cmd([[ colorscheme ]] .. name)
+end
+
 __FUNCTION_REGISTRY = {}
 
 function M.command(name, expr, args)
