@@ -32,14 +32,12 @@ nvim.with_options {
   splitright = true,
   splitbelow = true,
   cursorline = true,
-  relativenumber = true,
 }
 
 local listchars = require'listchars'
 listchars:update()
 
 vim.cmd [[ set cursorline ]]
-vim.cmd [[ set relativenumber ]]
 local global_maps = {
   -- Easier window navigation
   ['<C-j>'] = '<C-w>j',
@@ -77,6 +75,7 @@ insert_maps['<c-k>'] = '<cmd> lua return require"snippets".advance_snippet(-1)<C
 
 -- Git Blame
 normal_maps['<Space>gm'] = '<cmd>GitMessenger<CR>'
+
 -- Netrw settings
 vim.g.netrw_banner = 0
 
@@ -84,29 +83,14 @@ nvim.augroup{
   lua = {
     "BufEnter", '*.lua', 'set ts=2 sw=2 sts=2 expandtab'
   },
---  colorizer = {
- --   "BufEnter", '*', 'ColorizerAttachToBuffer'
-  -- }
 }
+
+-- compe.nvim 
+require'plugin.compe'
 
 -- Side tree
--- normal_maps['<Space>s'] = '<cmd>NvimTreeToggle<CR>'
 normal_maps['<Space>s'] = '<cmd>lua require"sidetree".open_side_file_browser()<CR>'
 
-
--- Completion
-insert_maps['<c-k>'] = '<Plug>(completion_prev_source)'
-insert_maps['<c-j>'] = '<Plug>(completion_next_source)'
-vim.g.completion_auto_change_source = true
-vim.g.completion_chain_complete_list = {
-  default = {
-    {complete_items = {'lsp', 'snippet'}},
-    {complete_items = {'tabnine'}},
-    {complete_items = {'buffers'}},
-    {mode= '<c-p>'},
-    {mode= '<c-n>'}
-  }
-}
 -- Git signs
 require('gitsigns').setup()
 
@@ -122,11 +106,11 @@ nvim.mode_map({
 })
 
 require'lsp'
-vim.g.rustfmt_autosave = 1
 vim.api.nvim_set_option("statusline", "[%l:%L] %m%f")
--- require('hardline').setup {}
+
 -- statusline
-require'el'.setup{}
+-- require'el'.setup{}
+
 -- Register commands
 nvim.command('Base16Editor', [[lua require'base16.editor'.open(require'base16'.themes["<args>"])]], 1)
 nvim.command('VTerm', [[ vnew | term ]])

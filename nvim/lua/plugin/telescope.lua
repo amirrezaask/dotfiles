@@ -44,7 +44,6 @@ function M.edit_zsh()
   }
 end
 
-
 normal_maps['<Space><Space>'] = '<cmd>lua require("telescope.builtin").find_files{}<CR>'
 normal_maps['<Space>fb'] = '<cmd>lua require("telescope.builtin").file_browser{}<CR>'
 normal_maps['<Space>fp'] = '<cmd>lua require("plugin.telescope").find_plugin{}<CR>'
