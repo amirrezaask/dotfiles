@@ -4,9 +4,10 @@ require('telescope').setup {
   defaults = {
     prompt_prefix = '❯ ',
     selection_caret = '❯ ',
-    winblend = 0,
+    prompt_position = 'top',
     preview_cutoff = 120,
-    layout_strategy = "horizontal"
+    layout_strategy = "horizontal",
+    sorting_strategy = 'ascending'
   }
 }
 local M = {}

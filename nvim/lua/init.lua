@@ -3,6 +3,7 @@ local nvim = require'nvim'
 
 -- Install Plugins
 require'plugins'
+
 require'fuzzy_config'
 -- require'telescope_config'
 nvim.with_options {

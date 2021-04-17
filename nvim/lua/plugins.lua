@@ -92,6 +92,7 @@ return require'packer'.startup{
   use 'tjdevries/colorbuddy.vim'
   -- use 'tjdevries/gruvbuddy.nvim'
   use { 'amirrezaask/gruvbuddy.nvim' }
+  use { 'Th3Whit3Wolf/spacebuddy' }
 
   -- Telescope.nvim
   use 'nvim-lua/popup.nvim'
