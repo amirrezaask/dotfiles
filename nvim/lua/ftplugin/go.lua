@@ -2,7 +2,10 @@ local go = {}
 
 function go.imports(filename)
   filename = filename or vim.api.nvim_buf_get_name(vim.api.nvim_get_current_buf())
-  vim.cmd(string.format([[ silent goimports -w %s ]], filename))
+  print(filename)
+  vim.cmd [[ w ]]
+  vim.cmd(string.format([[ silent ! goimports -w %s ]], filename))
+  vim.cmd [[ e ]]
 end
 function go.fmt(pkg)
   pkg = pkg or '.'
