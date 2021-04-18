@@ -1,6 +1,9 @@
 -- init.lua
 local nvim = require('amirrezaask.nvim')
 
+-- Load Lua helpers
+require('ftplugin.lua')
+
 -- Install Plugins
 require('plugin.plugins')
 

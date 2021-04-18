@@ -69,41 +69,60 @@ lspconfig.pyls_ms.setup({})
 --   nvim.command('LSPDeclaration', LSPDeclaration)
 -- end
 
-local fuzzy_lsp = require('fuzzy.lsp')
-nvim.command('LSPDefinitions', fuzzy_lsp.definitions)
-nvim.command('LSPHover', vim.lsp.buf.hover)
-nvim.command('LSPSignatureHelp', vim.lsp.buf.signature_help)
-nvim.command('LSPTypeDefinition', vim.lsp.buf.type_definition)
-nvim.command('LSPRename', require('lspsaga.rename').rename)
-nvim.command('LSPWorkspaceSymbols', fuzzy_lsp.workspace_symbols)
-nvim.command('LSPDocumentSymbols', fuzzy_lsp.document_symbols)
-nvim.command('LSPReferences', fuzzy_lsp.references)
-nvim.command('LSPImplementations', fuzzy_lsp.implementation)
-nvim.command('LSPCodeActions', fuzzy_lsp.code_actions)
-nvim.command('LSPDeclaration', fuzzy_lsp.declaration)
 
-nvim.mode_map({
-  n = {
-    ['gd'] = '<cmd>LSPDefinitions<CR>',
-    ['K'] = '<cmd>LSPHover<CR>',
-    ['gI'] = '<cmd>LSPImplementations<CR>',
-    ['<c-k>'] = '<cmd>LSPSignatureHelp<CR>',
-    ['1gD'] = '<cmd>LSPTypeDefinition<CR>',
-    ['gR'] = '<cmd>LSPReferences<CR>',
-    ['g0'] = '<cmd>LSPDocumentSymbols<CR>',
-    ['gW'] = '<cmd>LSPWorkspaceSymbols<CR>',
-    ['gD'] = '<cmd>LSPDeclaration<CR>',
-    ['<Space>A'] = '<cmd>LSPCodeActions<CR>',
-    ['<Space>R'] = '<cmd>LSPRename<CR>',
-  },
-  i = {
-    ['<expr> <C-Space>'] = 'compe#complete()',
-    ['<expr> <CR>'] = "compe#confirm('<CR>')",
-    ['<expr> <C-e>'] = "compe#close('<C-e>')",
-    ['<expr> <C-f>'] = "compe#scroll( {'delta': +4} )",
-    ['<expr> <C-d>'] = "compe#scroll( {'delta': -4} )",
-  },
-})
+if L('fuzzy') then
+  local fuzzy_lsp = require'fuzzy.lsp' 
+  nvim.command('LSPDefinitions', fuzzy_lsp.definitions)
+  nvim.command('LSPHover', vim.lsp.buf.hover)
+  nvim.command('LSPSignatureHelp', vim.lsp.buf.signature_help)
+  nvim.command('LSPTypeDefinition', vim.lsp.buf.type_definition)
+  nvim.command('LSPRename', require('lspsaga.rename').rename)
+  nvim.command('LSPWorkspaceSymbols', fuzzy_lsp.workspace_symbols)
+  nvim.command('LSPDocumentSymbols', fuzzy_lsp.document_symbols)
+  nvim.command('LSPReferences', fuzzy_lsp.references)
+  nvim.command('LSPImplementations', fuzzy_lsp.implementation)
+  nvim.command('LSPCodeActions', fuzzy_lsp.code_actions)
+  nvim.command('LSPDeclaration', fuzzy_lsp.declaration)
+  nvim.mode_map({
+    n = {
+      ['gd'] = '<cmd>LSPDefinitions<CR>',
+      ['K'] = '<cmd>LSPHover<CR>',
+      ['gI'] = '<cmd>LSPImplementations<CR>',
+      ['<c-k>'] = '<cmd>LSPSignatureHelp<CR>',
+      ['1gD'] = '<cmd>LSPTypeDefinition<CR>',
+      ['gR'] = '<cmd>LSPReferences<CR>',
+      ['g0'] = '<cmd>LSPDocumentSymbols<CR>',
+      ['gW'] = '<cmd>LSPWorkspaceSymbols<CR>',
+      ['gD'] = '<cmd>LSPDeclaration<CR>',
+      ['<Space>A'] = '<cmd>LSPCodeActions<CR>',
+      ['<Space>R'] = '<cmd>LSPRename<CR>',
+    },
+    i = {
+      ['<expr> <C-Space>'] = 'compe#complete()',
+      ['<expr> <CR>'] = "compe#confirm('<CR>')",
+      ['<expr> <C-e>'] = "compe#close('<C-e>')",
+      ['<expr> <C-f>'] = "compe#scroll( {'delta': +4} )",
+      ['<expr> <C-d>'] = "compe#scroll( {'delta': -4} )",
+    },
+  })
+end
+
+if L('telescope.builtin') then
+  local telescope = require'telescope.builtin'
+  nvim.command('LSPReferences', telescope.lsp_references)
+  nvim.command('LSPDocumentSymbols', telescope.lsp_document_symbols)
+  nvim.command('LSPWorkspaceSymbols', telescope.lsp_workspace_symbols)
+  nvim.command('LSPCodeActions', telescope.lsp_code_actions)
+  nvim.mode_map {
+    n = {
+      ['<Space>lr'] = '<cmd>lua require("telescope.builtin").lsp_references{}<CR>',
+      ['<Space>ld'] = '<cmd>lua require("telescope.builtin").lsp_document_symbols{}<CR>',
+      ['<Space>lw'] = '<cmd>lua require("telescope.builtin").lsp_workspace_symbols{}<CR>',
+      ['<Space>lc'] = '<cmd>lua require("telescope.builtin").lsp_code_actions{}<CR>'
+    }
+  }
+end
+
 vim.cmd([[inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"]])
 vim.cmd([[inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"]])
 

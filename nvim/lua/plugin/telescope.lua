@@ -62,11 +62,6 @@ normal_maps['<Space>gb'] = '<cmd>lua require("telescope.builtin").git_bcommits{}
 normal_maps['<Space>go'] = '<cmd>lua require("telescope.builtin").git_checkout{}<CR>'
 normal_maps['<Space>gs'] = '<cmd>lua require("telescope.builtin").git_status{}<CR>'
 normal_maps['<Space>tf'] = '<cmd>lua require("telescope.builtin").treesitter{}<CR>'
-normal_maps['<Space>lr'] = '<cmd>lua require("telescope.builtin").lsp_references{}<CR>'
-normal_maps['<Space>ld'] = '<cmd>lua require("telescope.builtin").lsp_document_symbols{}<CR>'
-normal_maps['<Space>lw'] = '<cmd>lua require("telescope.builtin").lsp_workspace_symbols{}<CR>'
-normal_maps['<Space>lc'] = '<cmd>lua require("telescope.builtin").lsp_code_actions{}<CR>'
-
 require('amirrezaask.nvim').mode_map({
   n = normal_maps,
 })
