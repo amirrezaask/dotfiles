@@ -85,6 +85,8 @@ require('plugin.dap')
 require('plugin.snippets')
 require('plugin.treesitter')
 
+nvim.command('Base16Editor', [[lua require'base16.editor'.open(require'base16'.themes["<args>"])]], 1)
+
 -- Register commands
 nvim.command('VTerm', [[ vnew | term ]])
 nvim.command('Term', [[ new | term ]])
