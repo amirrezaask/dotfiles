@@ -67,7 +67,7 @@ normal_maps['<Space>ld'] = '<cmd>lua require("telescope.builtin").lsp_document_s
 normal_maps['<Space>lw'] = '<cmd>lua require("telescope.builtin").lsp_workspace_symbols{}<CR>'
 normal_maps['<Space>lc'] = '<cmd>lua require("telescope.builtin").lsp_code_actions{}<CR>'
 
-require('nvim').mode_map({
+require('amirrezaask.nvim').mode_map({
   n = normal_maps,
 })
 
