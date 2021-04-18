@@ -4,7 +4,7 @@ local loc = require('fuzzy.lib.location')
 
 require('fuzzy.lib.options').setup({
   width = 60,
-  height = 40,
+  height = 60,
   blacklist = {
     'vendor',
     '.git',
@@ -15,8 +15,7 @@ require('fuzzy.lib.options').setup({
   prompt = '❯ ',
 })
 
-vim.cmd [[ highlight FuzzyMatching guifg=#f2904b guibg=none guisp=none ]]
-
+vim.cmd([[ highlight FuzzyMatching guifg=#f2904b guibg=none guisp=none ]])
 
 local nvim = require('amirrezaask.nvim')
 local base16 = require('base16')

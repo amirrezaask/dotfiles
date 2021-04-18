@@ -1,5 +1,5 @@
 local normal_maps = {}
-local nvim = require('nvim')
+local nvim = require('amirrezaask.nvim')
 
 vim.g.fzf_layout = { down = '40%' }
 normal_maps['<Space><Space>'] = '<cmd>Files<CR>'
@@ -37,6 +37,6 @@ end
 
 nvim.command('MRU', MRU)
 
-require('nvim').mode_map({
+require('amirrezaask.nvim').mode_map({
   n = normal_maps,
 })

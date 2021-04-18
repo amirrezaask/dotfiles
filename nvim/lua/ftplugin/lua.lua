@@ -1,5 +1,5 @@
 local lua = {}
-local nvim = require'amirrezaask.nvim'
+local nvim = require('amirrezaask.nvim')
 
 -- Force reload the module
 function R(mod)
@@ -46,7 +46,6 @@ nvim.augroup({
     'set ts=2 sw=2 sts=2 expandtab',
   },
 })
-
 
 vim.cmd([[
   autocmd BufWritePre *.lua lua require'ftplugin.lua'.format()

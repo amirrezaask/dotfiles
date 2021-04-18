@@ -7,8 +7,9 @@ require('ftplugin.lua')
 -- Install Plugins
 require('plugin.plugins')
 
--- require('plugin.fuzzy')
-require'plugin.telescope'
+require('plugin.fuzzy')
+-- require'plugin.telescope'
+-- require'plugin.fzf'
 
 nvim.with_options({
   ignorecase = true,
@@ -37,7 +38,7 @@ nvim.with_options({
   cursorline = true,
 })
 
-nvim.map{
+nvim.map({
   ['<C-j>'] = '<C-w>j',
   ['<C-k>'] = '<C-w>k',
   ['<C-l>'] = '<C-w>l',
@@ -45,9 +46,9 @@ nvim.map{
   Q = '<nop>',
   [';'] = ':',
   ['<f5>'] = '<cmd> Run<CR>',
-}
+})
 
-nvim.mode_map {
+nvim.mode_map({
   n = {
     ['<Space>/'] = ':nohl<CR>',
     ['tn'] = ':tabnext<CR>',
@@ -63,8 +64,8 @@ nvim.mode_map {
     ['jj'] = '<esc>',
     ['kk'] = '<esc>',
     ['kj'] = '<esc>',
-  }
-}
+  },
+})
 
 -- Netrw settings
 vim.g.netrw_banner = 0
@@ -78,7 +79,8 @@ require('gitsigns').setup()
 require('amirrezaask.listchars'):update()
 require('plugin.lsp')
 require('plugin.expressline')
-require('colorbuddy').colorscheme('gruvbuddy')
+nvim.colorscheme('norcalli')
+-- require('colorbuddy').colorscheme('gruvbuddy')
 require('plugin.dap')
 require('plugin.snippets')
 require('plugin.treesitter')

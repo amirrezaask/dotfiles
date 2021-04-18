@@ -69,9 +69,8 @@ lspconfig.pyls_ms.setup({})
 --   nvim.command('LSPDeclaration', LSPDeclaration)
 -- end
 
-
 if L('fuzzy') then
-  local fuzzy_lsp = require'fuzzy.lsp' 
+  local fuzzy_lsp = require('fuzzy.lsp')
   nvim.command('LSPDefinitions', fuzzy_lsp.definitions)
   nvim.command('LSPHover', vim.lsp.buf.hover)
   nvim.command('LSPSignatureHelp', vim.lsp.buf.signature_help)
@@ -101,7 +100,7 @@ if L('fuzzy') then
 end
 
 if L('telescope.builtin') then
-  local telescope = require'telescope.builtin'
+  local telescope = require('telescope.builtin')
   nvim.command('LSPDefinitions', telescope.lsp_definitions)
   nvim.command('LSPHover', vim.lsp.buf.hover)
   nvim.command('LSPSignatureHelp', vim.lsp.buf.signature_help)
@@ -111,8 +110,8 @@ if L('telescope.builtin') then
   nvim.command('LSPDocumentSymbols', telescope.lsp_document_symbols)
   nvim.command('LSPWorkspaceSymbols', telescope.lsp_workspace_symbols)
   nvim.command('LSPCodeActions', telescope.lsp_code_actions)
-  nvim.command('LSPImplementations', require'plugin.telescope'.lsp_implementations)
-  nvim.mode_map {
+  nvim.command('LSPImplementations', require('plugin.telescope').lsp_implementations)
+  nvim.mode_map({
     n = {
       ['gd'] = '<cmd>LSPDefinitions<CR>',
       ['K'] = '<cmd>LSPHover<CR>',
@@ -124,19 +123,19 @@ if L('telescope.builtin') then
       ['<Space>li'] = '<cmd>LSPImplementations<CR>',
       ['<Space>ld'] = '<cmd>LSPDocumentSymbols<CR>',
       ['<Space>lw'] = '<cmd>LSPWorkspaceSymbols<CR>',
-      ['<Space>lc'] = '<cmd>LSPCodeActions<CR>'
-    }
-  }
+      ['<Space>lc'] = '<cmd>LSPCodeActions<CR>',
+    },
+  })
 end
-nvim.mode_map {
+nvim.mode_map({
   i = {
     ['<expr> <C-Space>'] = 'compe#complete()',
     ['<expr> <CR>'] = "compe#confirm('<CR>')",
     ['<expr> <C-e>'] = "compe#close('<C-e>')",
     ['<expr> <C-f>'] = "compe#scroll( {'delta': +4} )",
     ['<expr> <C-d>'] = "compe#scroll( {'delta': -4} )",
-  }
-}
+  },
+})
 
 vim.cmd([[inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"]])
 vim.cmd([[inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"]])

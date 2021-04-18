@@ -42,16 +42,16 @@ function M.edit_zsh()
     cwd = '~/src/github.com/amirrezaask/dotfiles/zsh',
   })
 end
-local pickers = require'telescope.pickers'
-local finders = require'telescope.finders'
-local conf = require'telescope.config'
-local make_entry = require'telescope.make_entry'
+local pickers = require('telescope.pickers')
+local finders = require('telescope.finders')
+local conf = require('telescope.config')
+local make_entry = require('telescope.make_entry')
 
 function M.lsp_implementations(opts)
   opts = opts or {}
 
   local params = vim.lsp.util.make_position_params()
-  local result = vim.lsp.buf_request_sync(0, "textDocument/implementation", params, opts.timeout or 10000)
+  local result = vim.lsp.buf_request_sync(0, 'textDocument/implementation', params, opts.timeout or 10000)
   local flattened_results = {}
   for _, server_results in pairs(result) do
     if server_results.result then
@@ -67,10 +67,10 @@ function M.lsp_implementations(opts)
     local locations = vim.lsp.util.locations_to_items(flattened_results)
     pickers.new(opts, {
       prompt_title = 'LSP Implementations',
-      finder = finders.new_table {
+      finder = finders.new_table({
         results = locations,
         entry_maker = opts.entry_maker or make_entry.gen_from_quickfix(opts),
-      },
+      }),
       previewer = conf.qflist_previewer(opts),
       sorter = conf.generic_sorter(opts),
     }):find()

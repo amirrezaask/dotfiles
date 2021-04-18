@@ -86,9 +86,7 @@ return require('packer').startup({
         'nvim-lua/plenary.nvim',
       },
     })
-    use({
-      'hoob3rt/lualine.nvim',
-    })
+
     -- Treesitter
     use({ 'nvim-treesitter/nvim-treesitter' })
     use({ 'nvim-treesitter/playground' })
