@@ -42,6 +42,7 @@ if type nvim > /dev/null 2>&1; then
     alias vim='nvim'
     alias vi='nvim'
     alias v='nvim'
+    alias n='nvim'
 fi
 if type bat > /dev/null 2>&1; then
     alias cat='bat'
