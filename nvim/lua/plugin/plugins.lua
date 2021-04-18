@@ -32,8 +32,8 @@ return require('packer').startup({
     -- Elixir
     use({ 'elixir-editors/vim-elixir' })
 
-    -- Base16 Colorscheme library
-    use({ 'norcalli/nvim-base16.lua', branch = 'theme-editor' })
+    -- Base16 Themes
+    use({ 'amirrezaask/nvim-base16.lua' })
 
     -- Comment codes at ease
     use({ 'tpope/vim-commentary' })
@@ -107,7 +107,7 @@ return require('packer').startup({
 
     -- Icons
     use('kyazdani42/nvim-web-devicons')
-    use('yamatsum/nvim-web-nonicons')
+    -- use('yamatsum/nvim-web-nonicons')
 
     -- Indent Guides
     use({ 'lukas-reineke/indent-blankline.nvim' })

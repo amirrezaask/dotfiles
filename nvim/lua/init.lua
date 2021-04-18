@@ -79,11 +79,10 @@ require('gitsigns').setup()
 require('amirrezaask.listchars'):update()
 require('plugin.lsp')
 require('plugin.expressline')
-nvim.colorscheme('norcalli')
--- require('colorbuddy').colorscheme('gruvbuddy')
 require('plugin.dap')
 require('plugin.snippets')
 require('plugin.treesitter')
+require('base16')(require('base16').themes.norcalli, true)
 
 nvim.command('Base16Editor', [[lua require'base16.editor'.open(require'base16'.themes["<args>"])]], 1)
 
