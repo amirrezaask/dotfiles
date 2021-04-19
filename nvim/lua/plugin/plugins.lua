@@ -19,8 +19,11 @@ return require('packer').startup({
     -- Plugin Manager
     use({ 'wbthomason/packer.nvim' })
 
-    use({ 'amirrezaask/fuzzy.nvim', requires = { 'nvim-lua/plenary.nvim' } })
+    use({ 'amirrezaask/spawn.nvim' })
+    use({ 'amirrezaask/fuzzy.nvim' })
 
+    -- Start screen
+    use('mhinz/vim-startify')
     -- Hashicorp tools
     use({ 'hashivim/vim-terraform' })
 
@@ -97,7 +100,6 @@ return require('packer').startup({
 
     use('tjdevries/colorbuddy.vim')
     use({ 'amirrezaask/gruvbuddy.nvim' })
-    use({ 'Th3Whit3Wolf/spacebuddy' })
 
     -- Telescope.nvim
     use('nvim-lua/popup.nvim')
@@ -107,7 +109,6 @@ return require('packer').startup({
 
     -- Icons
     use('kyazdani42/nvim-web-devicons')
-    -- use('yamatsum/nvim-web-nonicons')
 
     -- Indent Guides
     use({ 'lukas-reineke/indent-blankline.nvim' })
