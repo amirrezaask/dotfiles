@@ -84,6 +84,7 @@ require('plugin.compe')
 require('gitsigns').setup()
 
 require('amirrezaask.listchars'):update()
+require('plugin.mappings')
 require('plugin.lsp')
 require('plugin.expressline')
 require('plugin.dap')
