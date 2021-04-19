@@ -98,7 +98,7 @@ require('plugin.expressline')
 require('plugin.dap')
 require('plugin.snippets')
 require('plugin.treesitter')
-require('base16')(require('base16').themes.norcalli, true)
+-- require('base16')(require('base16').themes.norcalli, true)
 -- [[
 -- phd
 -- monokai
@@ -119,7 +119,7 @@ require('base16')(require('base16').themes.norcalli, true)
 -- synth-midnight-dark
 -- material-palenight
 -- ]]
--- require('colorbuddy').colorscheme('gruvbuddy')
+require('colorbuddy').colorscheme('gruvbuddy')
 nvim.command('Base16Editor', [[lua require'base16.editor'.open(require'base16'.themes["<args>"])]], 1)
 
 -- Register commands
