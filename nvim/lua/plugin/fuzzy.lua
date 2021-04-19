@@ -65,7 +65,7 @@ require('fuzzy').setup({
   location = loc.center,
   sorter = require('fuzzy.lib.sorter').fzy_native,
   prompt = '❯ ',
-  custom_functions = {
+  register = {
     base16_theme_selector = base16_theme_selector,
   },
 })
