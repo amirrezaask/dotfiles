@@ -114,6 +114,6 @@ return require('packer').startup({
     use({ 'lukas-reineke/indent-blankline.nvim' })
 
     -- Expressline
-    use('tjdevries/express_line.nvim')
+    -- use('tjdevries/express_line.nvim')
   end,
 })
