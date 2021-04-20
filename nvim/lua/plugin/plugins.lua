@@ -99,9 +99,6 @@ return require('packer').startup({
     use({ 'mfussenegger/nvim-dap' })
     use({ 'theHamsta/nvim-dap-virtual-text' })
 
-    use('tjdevries/colorbuddy.vim')
-    use({ 'amirrezaask/gruvbuddy.nvim' })
-
     -- Telescope.nvim
     use('nvim-lua/popup.nvim')
     use('nvim-telescope/telescope.nvim')
@@ -110,7 +107,6 @@ return require('packer').startup({
 
     -- Icons
     use('kyazdani42/nvim-web-devicons')
-
     -- Indent Guides
     use({ 'lukas-reineke/indent-blankline.nvim' })
   end,
