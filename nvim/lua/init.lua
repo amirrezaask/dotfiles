@@ -7,9 +7,8 @@ require('ftplugin.lua')
 -- Install Plugins
 require('plugin.plugins')
 
--- require('plugin.fuzzy')
-require('plugin.telescope')
--- require'plugin.fzf'
+require('plugin.fuzzy')
+-- require('plugin.telescope')
 
 nvim.with_options({
   ignorecase = true,
@@ -91,8 +90,11 @@ require('plugin.snippets')
 require('plugin.treesitter')
 require('amirrezaask.quickfix')
 require('plugin.base16')
+
 -- SetBas16Colorscheme('gruvbox-dark-hard')
-require('colorbuddy').colorscheme('gruvbuddy')
+SetBas16Colorscheme('norcalli')
+-- require('colorbuddy').colorscheme('gruvbuddy')
+
 -- Register commands
 nvim.command('ColorizerColorPicker', function()
   require('colorizer').color_picker_on_cursor()

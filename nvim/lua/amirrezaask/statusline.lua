@@ -49,7 +49,7 @@ local function get_icon(file)
 end
 
 local function git_branch()
-  local handler = io.popen('git branch --show-current')
+  local handler = io.popen('git branch --show-current 2>/dev/null')
   local branch = handler:read('*all')
   return '[' .. vim.split(branch, '\n')[1] .. ']'
 end
