@@ -32,6 +32,7 @@ return require('packer').startup({
 
     -- Vim JSON tools
     use({ 'tpope/vim-jdaddy', ft = 'json' })
+
     -- Elixir
     use({ 'elixir-editors/vim-elixir' })
 
@@ -112,9 +113,5 @@ return require('packer').startup({
 
     -- Indent Guides
     use({ 'lukas-reineke/indent-blankline.nvim' })
-    use('folke/tokyonight.nvim')
-
-    -- Expressline
-    use('tjdevries/express_line.nvim')
   end,
 })
