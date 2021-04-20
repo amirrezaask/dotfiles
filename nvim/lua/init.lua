@@ -7,8 +7,8 @@ require('ftplugin.lua')
 -- Install Plugins
 require('plugin.plugins')
 
--- require('plugin.fuzzy')
-require('plugin.telescope')
+require('plugin.fuzzy')
+-- require('plugin.telescope')
 -- require'plugin.fzf'
 
 nvim.with_options({
@@ -82,48 +82,17 @@ require('plugin.compe')
 
 -- Git signs
 require('gitsigns').setup()
--- local base16 = require('base16')
--- local theme_names = base16.theme_names()
--- base16_position = 1
--- function cycle_theme()
---   base16_position = (base16_position % #theme_names) + 1
---   print(theme_names[base16_position])
---   base16(base16.themes[theme_names[base16_position]], true)
--- end
--- nvim.command('Base16Cycle', cycle_theme)
 require('amirrezaask.listchars'):update()
 require('plugin.mappings')
 require('plugin.lsp')
--- require('plugin.expressline')
+require('plugin.expressline')
 require('plugin.dap')
 require('plugin.snippets')
 require('plugin.treesitter')
 require('amirrezaask.quickfix')
--- require('base16')(require('base16').themes.norcalli, true)
--- [[
--- phd
--- monokai
--- chalk
--- black-metal-bathory
--- circus
--- harmonic-dark
--- classic-dark
--- material-darker
--- helios
--- material
--- outrun-dark
--- snazzy
--- ia-dark
--- solarized-dark
--- spacemacs
--- default-dark
--- synth-midnight-dark
--- material-palenight
--- ]]
-require('colorbuddy').colorscheme('gruvbuddy')
-nvim.command('Base16Editor', [[lua require'base16.editor'.open(require'base16'.themes["<args>"])]], 1)
+require('plugin.base16')
+SetBas16Colorscheme('gruvbox-dark-hard')
 
-vim.api.nvim_set_option('statusline', '%l:%L %m%f')
 -- Register commands
 nvim.command('ColorizerColorPicker', function()
   require('colorizer').color_picker_on_cursor()

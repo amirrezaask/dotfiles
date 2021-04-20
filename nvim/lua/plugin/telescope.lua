@@ -3,13 +3,14 @@ local normal_maps = {}
 local finders = require('telescope.finders')
 local make_entry = require('telescope.make_entry')
 local pickers = require('telescope.pickers')
-local conf = require('telescope.config')
+local conf = require('telescope.config').values
 
 require('telescope').setup({
   defaults = {
     prompt_prefix = '❯ ',
     selection_caret = '❯ ',
     layout_strategy = 'flex',
+    previewer = false,
     prompt_position = 'top',
     sorting_strategy = 'descending',
     layout_defaults = {
@@ -32,6 +33,28 @@ local M = {}
 
 require('telescope').load_extension('fzy_native')
 require('telescope').load_extension('dap')
+
+function M.base16_theme_selector()
+  local base16 = require('base16')
+  local theme_names = {}
+  for k, _ in pairs(base16.themes) do
+    table.insert(theme_names, k)
+  end
+  pickers.new({}, {
+    finder = finders.new_table({
+      results = theme_names,
+    }),
+    sorter = conf.generic_sorter(),
+    -- source = theme_names,
+    -- handler = function(theme)
+    --   for k, v in pairs(base16.themes) do
+    --     if k == theme then
+    --       base16(v)
+    --     end
+    --   end
+    -- end,
+  }):find()
+end
 
 function M.buffer_git_files()
   require('telescope.builtin').git_files({

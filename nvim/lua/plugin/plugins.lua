@@ -112,8 +112,9 @@ return require('packer').startup({
 
     -- Indent Guides
     use({ 'lukas-reineke/indent-blankline.nvim' })
+    use('folke/tokyonight.nvim')
 
     -- Expressline
-    -- use('tjdevries/express_line.nvim')
+    use('tjdevries/express_line.nvim')
   end,
 })
