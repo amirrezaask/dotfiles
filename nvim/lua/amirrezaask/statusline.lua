@@ -51,7 +51,12 @@ end
 local function git_branch()
   local handler = io.popen('git branch --show-current 2>/dev/null')
   local branch = handler:read('*all')
-  return '[' .. vim.split(branch, '\n')[1] .. ']'
+  branch = vim.split(branch, '\n')[1]
+  if branch ~= '' then
+    return '[' .. branch .. ']'
+  else
+    return ''
+  end
 end
 function Statusline()
   local statusline = ''
