@@ -21,6 +21,7 @@ local function lsp_info()
   local warnings = vim.lsp.diagnostic.get_count(0, 'Warning')
   local errors = vim.lsp.diagnostic.get_count(0, 'Error')
   local hints = vim.lsp.diagnostic.get_count(0, 'Hint')
+  local infos = vim.lsp.diagnostic.get_count(0, 'Information')
   local output = ''
   if hints ~= 0 then
     output = output .. ' Hint: ' .. hints
@@ -31,8 +32,14 @@ local function lsp_info()
   if warnings ~= 0 then
     output = output .. ' Warnings: ' .. warnings
   end
+  if infos ~= 0 then
+    output = output .. ' Informations: ' .. infos
+  end
+  if output == '' then
+    return ''
+  end
   output = output .. ' '
-  return output
+  return '[' .. output .. ']'
 end
 
 local function line_col()
@@ -79,5 +86,4 @@ function Statusline()
   statusline = statusline .. ' ' .. lsp_info()
   return statusline
 end
-
-vim.api.nvim_set_option('statusline', '%!v:lua.Statusline()')
+vim.o.statusline = '%!v:lua.Statusline()'

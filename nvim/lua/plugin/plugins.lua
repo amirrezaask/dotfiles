@@ -27,6 +27,7 @@ return require('packer').startup({
     use('nvim-telescope/telescope.nvim')
     use('nvim-telescope/telescope-fzy-native.nvim')
     use('nvim-telescope/telescope-dap.nvim')
+    use('nvim-telescope/telescope-media-files.nvim')
     use({ 'junegunn/fzf' })
     use({ 'junegunn/fzf.vim' })
 

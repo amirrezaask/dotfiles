@@ -32,7 +32,7 @@ local M = {}
 
 require('telescope').load_extension('fzy_native')
 require('telescope').load_extension('dap')
-
+require('telescope').load_extension('media_files')
 function M.base16_theme_selector()
   local base16 = require('base16')
   local theme_names = {}
@@ -44,10 +44,10 @@ function M.base16_theme_selector()
       results = theme_names,
     }),
     sorter = conf.generic_sorter(),
-    attach_mappings = function(prompt_bufnr)
+    attach_mappings = function(_)
       actions.select_default:replace(function()
         local theme = action_state.get_selected_entry()[1]
-        actions.close(prompt_bufnr)
+        -- actions.close(prompt_bufnr)
         for k, v in pairs(base16.themes) do
           if k == theme then
             base16(v)
