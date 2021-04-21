@@ -22,6 +22,11 @@ return require('packer').startup({
     use({ 'amirrezaask/spawn.nvim' })
     use({ 'amirrezaask/fuzzy.nvim' })
 
+    -- Fuzzy finders
+    use('nvim-lua/popup.nvim')
+    use('nvim-telescope/telescope.nvim')
+    use('nvim-telescope/telescope-fzy-native.nvim')
+    use('nvim-telescope/telescope-dap.nvim')
     use({ 'junegunn/fzf' })
     use({ 'junegunn/fzf.vim' })
 
@@ -101,11 +106,6 @@ return require('packer').startup({
     use({ 'theHamsta/nvim-dap-virtual-text' })
 
     -- Telescope.nvim
-    use('nvim-lua/popup.nvim')
-    use('nvim-telescope/telescope.nvim')
-    use('nvim-telescope/telescope-fzy-native.nvim')
-    use('nvim-telescope/telescope-dap.nvim')
-
     -- Icons
     use('kyazdani42/nvim-web-devicons')
     -- Indent Guides

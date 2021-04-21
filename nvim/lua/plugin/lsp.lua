@@ -110,7 +110,7 @@ if L('telescope.builtin') then
   nvim.command('LSPDocumentSymbols', telescope.lsp_document_symbols)
   nvim.command('LSPWorkspaceSymbols', telescope.lsp_workspace_symbols)
   nvim.command('LSPCodeActions', telescope.lsp_code_actions)
-  nvim.command('LSPImplementations', require('plugin.telescope').lsp_implementations)
+  nvim.command('LSPImplementations', telescope.lsp_implementations)
   nvim.mode_map({
     n = {
       ['gd'] = '<cmd>LSPDefinitions<CR>',

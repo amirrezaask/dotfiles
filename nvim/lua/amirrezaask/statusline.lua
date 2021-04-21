@@ -3,13 +3,13 @@
 local function mode()
   local m = vim.fn.mode()
   if m == 'n' then
-    return '[NORMAL]'
+    return '[Normal]'
   elseif m == 'v' or m == 'V' then
-    return '[VISUAL]'
+    return '[Visual]'
   elseif m == 'i' or m == 'ic' then
-    return '[INSERT]'
+    return '[Insert]'
   elseif m == 'c' then
-    return '[COMMAND]'
+    return '[Command]'
   else
     return m
   end

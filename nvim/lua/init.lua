@@ -8,8 +8,8 @@ require('ftplugin.lua')
 require('plugin.plugins')
 
 -- require('plugin.fuzzy')
--- require('plugin.telescope')
-require('plugin.fzf')
+require('plugin.telescope')
+-- require('plugin.fzf')
 nvim.with_options({
   ignorecase = true,
   modeline = true,
