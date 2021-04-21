@@ -167,7 +167,7 @@ bindsym $mod+r mode "resize"
 # finds out, if available)
 bar {
 	position bottom 
-	status_command i3status
+	status_command i3status -c ~/src/github.com/amirrezaask/dotfiles/i3/i3status
 }
 exec_always setxkbmap -layout us -option ctrl:nocaps
 exec_always setxkbmap -layout "us,ir" -option "grp:shifts_toggle" -option "ctrl:nocaps"
