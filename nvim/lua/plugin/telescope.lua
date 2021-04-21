@@ -1,7 +1,6 @@
 local actions = require('telescope.actions')
 local action_state = require('telescope.actions.state')
 local finders = require('telescope.finders')
-local make_entry = require('telescope.make_entry')
 local pickers = require('telescope.pickers')
 local conf = require('telescope.config').values
 
@@ -14,7 +13,7 @@ require('telescope').setup({
       horizontal = {
         width_padding = 0.1,
         height_padding = 0.1,
-        preview_width = 0.5,
+        preview_width = 0.6,
       },
     },
     mappings = {
@@ -22,6 +21,8 @@ require('telescope').setup({
         ['<C-c>'] = actions.close,
         ['<ESC>'] = actions.close,
         ['<C-q>'] = actions.send_to_qflist,
+        ['<C-j>'] = actions.move_selection_next,
+        ['<C-k>'] = actions.move_selection_previous,
       },
     },
   },

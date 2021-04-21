@@ -23,14 +23,15 @@ local function lsp_info()
   local hints = vim.lsp.diagnostic.get_count(0, 'Hint')
   local output = ''
   if hints ~= 0 then
-    output = output .. 'Hint: ' .. hints
+    output = output .. ' Hint: ' .. hints
   end
   if errors ~= 0 then
-    output = output .. 'Errors: ' .. errors
+    output = output .. ' Errors: ' .. errors
   end
   if warnings ~= 0 then
-    output = output .. 'Warnings: ' .. warnings
+    output = output .. ' Warnings: ' .. warnings
   end
+  output = output .. ' '
   return output
 end
 
@@ -45,7 +46,7 @@ local function sep()
   return '%='
 end
 local function get_icon(file)
-  local has_icons, icons = pcall(require, 'nvim-web-devicons')
+  local has_icons, _ = pcall(require, 'nvim-web-devicons')
   if not has_icons then
     print('for having icon in drawer install `nvim-web-devicons`')
     return false

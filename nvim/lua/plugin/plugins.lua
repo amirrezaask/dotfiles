@@ -84,19 +84,16 @@ return require('packer').startup({
     -- Show indents
     use({ 'Yggdroot/indentLine' })
 
-    -- Snippets
-    use({ 'norcalli/snippets.nvim' }) -- TODO: please configure this.
-
     -- Git Integrations
     use({ 'rhysd/git-messenger.vim' })
-    use({ 'kdheepak/lazygit.nvim' })
     use({
       'lewis6991/gitsigns.nvim',
       requires = {
         'nvim-lua/plenary.nvim',
       },
     })
-
+    use({ 'tjdevries/colorbuddy.nvim' })
+    use({ 'amirrezaask/gruvbuddy.nvim' })
     -- Treesitter
     use({ 'nvim-treesitter/nvim-treesitter' })
     use({ 'nvim-treesitter/playground' })
