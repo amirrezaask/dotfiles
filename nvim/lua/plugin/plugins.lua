@@ -22,8 +22,9 @@ return require('packer').startup({
     use({ 'amirrezaask/spawn.nvim' })
     use({ 'amirrezaask/fuzzy.nvim' })
 
-    -- Start screen
-    use('mhinz/vim-startify')
+    use({ 'junegunn/fzf' })
+    use({ 'junegunn/fzf.vim' })
+
     -- Hashicorp tools
     use({ 'hashivim/vim-terraform' })
 

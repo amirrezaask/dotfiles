@@ -7,8 +7,6 @@ local conf = require('telescope.config').values
 
 require('telescope').setup({
   defaults = {
-    prompt_prefix = '❯ ',
-    selection_caret = '❯ ',
     layout_strategy = 'flex',
     previewer = false,
     prompt_position = 'top',
@@ -138,6 +136,7 @@ normal_maps['<Space>go'] = '<cmd>lua require("telescope.builtin").git_checkout{}
 normal_maps['<Space>gf'] = '<cmd>lua require("plugin.telescope").buffer_git_files{}<CR>'
 normal_maps['<Space>gs'] = '<cmd>lua require("telescope.builtin").git_status{}<CR>'
 normal_maps['<Space>tf'] = '<cmd>lua require("telescope.builtin").treesitter{}<CR>'
+normal_maps['<C-q>'] = '<cmd>lua require("telescope.builtin").quickfix{}<CR>'
 require('amirrezaask.nvim').mode_map({
   n = normal_maps,
 })

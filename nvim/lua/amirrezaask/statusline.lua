@@ -21,8 +21,17 @@ local function lsp_info()
   local warnings = vim.lsp.diagnostic.get_count(0, 'Warning')
   local errors = vim.lsp.diagnostic.get_count(0, 'Error')
   local hints = vim.lsp.diagnostic.get_count(0, 'Hint')
-
-  return string.format('Hint:%d Warnings:%d Errors:%d ', hints, warnings, errors)
+  local output = ''
+  if hints ~= 0 then
+    output = output .. 'Hint: ' .. hints
+  end
+  if errors ~= 0 then
+    output = output .. 'Errors: ' .. errors
+  end
+  if warnings ~= 0 then
+    output = output .. 'Warnings: ' .. warnings
+  end
+  return output
 end
 
 local function line_col()
