@@ -89,8 +89,8 @@ require('plugin.dap')
 require('plugin.treesitter')
 require('amirrezaask.quickfix')
 require('plugin.base16')
-require('colorbuddy').colorscheme('gruvbuddy')
--- SetBas16Colorscheme('norcalli')
+-- require('colorbuddy').colorscheme('gruvbuddy')
+SetBas16Colorscheme('gruvbox-dark-hard')
 
 -- Register commands
 nvim.command('ColorizerColorPicker', function()

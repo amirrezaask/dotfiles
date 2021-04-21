@@ -1,5 +1,3 @@
-local normal_maps = {}
-
 local loc = require('fuzzy.lib.location')
 
 local nvim = require('amirrezaask.nvim')
@@ -31,29 +29,6 @@ function fuzzy.grep()
 end
 
 -- Fuzzy.nvim
-normal_maps['<Space><Space>'] = '<cmd>lua require("fuzzy").find_files{}<CR>'
-normal_maps['<Space>fb'] = '<cmd>lua require("fuzzy").interactive_finder{}<CR>'
-normal_maps['<Space>ec'] =
-  '<cmd>lua require("fuzzy").find_files{path="~/src/github.com/amirrezaask/dotfiles", prompt="Edit dotfiles> "}<CR>'
-normal_maps['<Space>en'] = '<cmd>lua require("fuzzy").find_files{path="~/.config/nvim", prompt="Edit Neovim> "}<CR>'
-normal_maps['<Space>ez'] =
-  '<cmd>lua require("fuzzy").find_files{path="~/src/github.com/amirrezaask/dotfiles/zsh", prompt="Edit ZSH> "}<CR>'
-normal_maps['<Space>fp'] =
-  '<cmd>lua require("fuzzy").find_repo{locations={"~/.local/share/nvim/site/pack/packer"}, prompt="Find plugins> "}<CR>'
-normal_maps['<Space>gf'] = '<cmd>lua require("fuzzy").git_files{}<CR>'
-normal_maps['<C-p>'] = '<cmd>lua require("fuzzy").git_files{}<CR>'
-normal_maps['<Space>fr'] = '<cmd>lua require"fuzzy".recent_files{}<CR>'
-normal_maps['<Space>pf'] = '<cmd>lua require("fuzzy").find_repo{locations={"~/src"}}<CR>'
-normal_maps['??'] = '<cmd>lua require("fuzzy").grep{ height = 90, width = 70 }<CR>'
-normal_maps['<Space>b'] = '<cmd>lua require("fuzzy").buffers{}<CR>'
-normal_maps['<Space>gg'] = '<cmd>lua require("fuzzy").git_grep{}<CR>'
-normal_maps['<Space>c'] = '<cmd>lua require("fuzzy").commands{}<CR>'
-normal_maps['<Space>h'] = '<cmd>lua require("fuzzy").history{}<CR>'
-normal_maps['<Space>h'] = '<cmd>lua require("fuzzy").help{}<CR>'
-normal_maps['<Space>gc'] = '<cmd>lua require("fuzzy").git_commits{}<CR>'
-normal_maps['<Space>gb'] = '<cmd>lua require("fuzzy").git_bcommits{}<CR>'
-normal_maps['<Space>gco'] = '<cmd>lua require("fuzzy").git_checkout{}<CR>'
-
 require('fuzzy').setup({
   width = 60,
   height = 60,
@@ -71,7 +46,26 @@ require('fuzzy').setup({
 })
 
 nvim.mode_map({
-  n = normal_maps,
+  n = {
+    ['<Space><Space>'] = '<cmd>lua require("fuzzy").find_files{}<CR>',
+    ['<Space>fb'] = '<cmd>lua require("fuzzy").interactive_finder{}<CR>',
+    ['<Space>ec'] = '<cmd>lua require("fuzzy").find_files{path="~/src/github.com/amirrezaask/dotfiles", prompt="Edit dotfiles> "}<CR>',
+    ['<Space>en'] = '<cmd>lua require("fuzzy").find_files{path="~/.config/nvim", prompt="Edit Neovim> "}<CR>',
+    ['<Space>ez'] = '<cmd>lua require("fuzzy").find_files{path="~/src/github.com/amirrezaask/dotfiles/zsh", prompt="Edit ZSH> "}<CR>',
+    ['<Space>fp'] = '<cmd>lua require("fuzzy").find_repo{locations={"~/.local/share/nvim/site/pack/packer"}, prompt="Find plugins> "}<CR>',
+    ['<Space>gf'] = '<cmd>lua require("fuzzy").git_files{}<CR>',
+    ['<C-p>'] = '<cmd>lua require("fuzzy").git_files{}<CR>',
+    ['<Space>fr'] = '<cmd>lua require"fuzzy".recent_files{}<CR>',
+    ['<Space>pf'] = '<cmd>lua require("fuzzy").find_repo{locations={"~/src"}}<CR>',
+    ['??'] = '<cmd>lua require("fuzzy").grep{ height = 90, width = 70 }<CR>',
+    ['<Space>b'] = '<cmd>lua require("fuzzy").buffers{}<CR>',
+    ['<Space>gg'] = '<cmd>lua require("fuzzy").git_grep{}<CR>',
+    ['<Space>c'] = '<cmd>lua require("fuzzy").commands{}<CR>',
+    ['<Space>h'] = '<cmd>lua require("fuzzy").help{}<CR>',
+    ['<Space>gc'] = '<cmd>lua require("fuzzy").git_commits{}<CR>',
+    ['<Space>gb'] = '<cmd>lua require("fuzzy").git_bcommits{}<CR>',
+    ['<Space>gco'] = '<cmd>lua require("fuzzy").git_checkout{}<CR>',
+  },
 })
 
 return fuzzy

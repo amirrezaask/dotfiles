@@ -1,5 +1,3 @@
--- Goals: Line:Col | FileName | Branch | LSP Diagnostic
-
 local function mode()
   local m = vim.fn.mode()
   if m == 'n' then
@@ -24,16 +22,16 @@ local function lsp_info()
   local infos = vim.lsp.diagnostic.get_count(0, 'Information')
   local output = ''
   if hints ~= 0 then
-    output = output .. ' Hint: ' .. hints
+    output = output .. ' H: ' .. hints
   end
   if errors ~= 0 then
-    output = output .. ' Errors: ' .. errors
+    output = output .. ' E: ' .. errors
   end
   if warnings ~= 0 then
-    output = output .. ' Warnings: ' .. warnings
+    output = output .. ' W: ' .. warnings
   end
   if infos ~= 0 then
-    output = output .. ' Informations: ' .. infos
+    output = output .. ' I: ' .. infos
   end
   if output == '' then
     return ''
@@ -78,11 +76,12 @@ end
 function Statusline()
   local statusline = ''
   statusline = statusline .. mode()
-  statusline = statusline .. ' ' .. line_col() .. ' ' .. git_branch()
+  statusline = statusline .. ' ' .. line_col()
   statusline = statusline .. sep()
   statusline = statusline .. ' ' .. get_icon(vim.api.nvim_buf_get_name(0)) .. ' ' .. filename()
-  statusline = statusline .. ' ' .. filetype()
   statusline = statusline .. sep()
+  statusline = statusline .. ' ' .. git_branch()
+  statusline = statusline .. ' ' .. filetype()
   statusline = statusline .. ' ' .. lsp_info()
   return statusline
 end

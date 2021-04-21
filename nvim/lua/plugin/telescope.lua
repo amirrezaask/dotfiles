@@ -6,6 +6,8 @@ local conf = require('telescope.config').values
 
 require('telescope').setup({
   defaults = {
+    prompt_prefix = ' ',
+    selection_caret = ' ',
     layout_strategy = 'flex',
     prompt_position = 'bottom',
     sorting_strategy = 'descending',
@@ -33,6 +35,7 @@ local M = {}
 require('telescope').load_extension('fzy_native')
 require('telescope').load_extension('dap')
 require('telescope').load_extension('media_files')
+
 function M.base16_theme_selector()
   local base16 = require('base16')
   local theme_names = {}
@@ -101,6 +104,7 @@ require('amirrezaask.nvim').mode_map({
     ['??'] = '<cmd>lua require("telescope.builtin").live_grep{}<CR>',
     ['<Space>b'] = '<cmd>lua require("telescope.builtin").buffers{}<CR>',
     ['<Space>ec'] = '<cmd>lua require("plugin.telescope").edit_configs()<CR>',
+    ['<Space>tc'] = '<cmd>lua require("plugin.telescope").base16_theme_selector()<CR>',
     ['<Space>en'] = '<cmd>lua require("plugin.telescope").edit_neovim()<CR>',
     ['<Space>ez'] = '<cmd>lua require("plugin.telescope").edit_zsh()<CR>',
     ['<Space>c'] = '<cmd>lua require("telescope.builtin").commands{}<CR>',
