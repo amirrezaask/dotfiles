@@ -3,7 +3,6 @@ local action_state = require('telescope.actions.state')
 local finders = require('telescope.finders')
 local pickers = require('telescope.pickers')
 local conf = require('telescope.config').values
-
 require('telescope').setup({
   defaults = {
     prompt_prefix = ' ',

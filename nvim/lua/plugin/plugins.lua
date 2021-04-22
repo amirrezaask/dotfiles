@@ -19,17 +19,16 @@ return require('packer').startup({
     -- Plugin Manager
     use({ 'wbthomason/packer.nvim' })
 
-    use({ 'amirrezaask/spawn.nvim' })
-    use({ 'amirrezaask/fuzzy.nvim' })
+    -- Ultimate Colorscheme of all time
+    use({ 'gruvbox-community/gruvbox' })
 
-    -- Fuzzy finders
+    -- Telescope.nvim
+    use({ 'nvim-lua/plenary.nvim' })
     use('nvim-lua/popup.nvim')
     use('nvim-telescope/telescope.nvim')
     use('nvim-telescope/telescope-fzy-native.nvim')
     use('nvim-telescope/telescope-dap.nvim')
     use('nvim-telescope/telescope-media-files.nvim')
-    use({ 'junegunn/fzf' })
-    use({ 'junegunn/fzf.vim' })
 
     -- Hashicorp tools
     use({ 'hashivim/vim-terraform' })
@@ -43,8 +42,11 @@ return require('packer').startup({
     -- Elixir
     use({ 'elixir-editors/vim-elixir' })
 
-    -- Base16 Themes
-    use({ 'amirrezaask/nvim-base16.lua' })
+    -- Git Integration [[
+    use({ 'tpope/vim-fugitive' })
+    use({ 'rhysd/git-messenger.vim' })
+    use({ 'lewis6991/gitsigns.nvim' })
+    -- ]]
 
     -- Comment codes at ease
     use({ 'tpope/vim-commentary' })
@@ -65,7 +67,6 @@ return require('packer').startup({
         'ColorizerReloadAllBuffers',
       },
     })
-    -- Vim indent objects
     -- Support for Dockerfile syntax
     use({ 'honza/dockerfile.vim' })
 
@@ -85,16 +86,6 @@ return require('packer').startup({
     -- Show indents
     use({ 'Yggdroot/indentLine' })
 
-    -- Git Integrations
-    use({ 'rhysd/git-messenger.vim' })
-    use({
-      'lewis6991/gitsigns.nvim',
-      requires = {
-        'nvim-lua/plenary.nvim',
-      },
-    })
-    use({ 'tjdevries/colorbuddy.nvim' })
-    use({ 'amirrezaask/gruvbuddy.nvim' })
     -- Treesitter
     use({ 'nvim-treesitter/nvim-treesitter' })
     use({ 'nvim-treesitter/playground' })
@@ -103,9 +94,9 @@ return require('packer').startup({
     use({ 'mfussenegger/nvim-dap' })
     use({ 'theHamsta/nvim-dap-virtual-text' })
 
-    -- Telescope.nvim
     -- Icons
     use('kyazdani42/nvim-web-devicons')
+
     -- Indent Guides
     use({ 'lukas-reineke/indent-blankline.nvim' })
   end,

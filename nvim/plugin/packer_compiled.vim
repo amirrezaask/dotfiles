@@ -95,6 +95,10 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/gitsigns.nvim"
   },
+  gruvbox = {
+    loaded = true,
+    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/gruvbox"
+  },
   ["indent-blankline.nvim"] = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/indent-blankline.nvim"
@@ -103,10 +107,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/indentLine"
   },
-  ["lazygit.nvim"] = {
-    loaded = true,
-    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/lazygit.nvim"
-  },
   ["lsp_extensions.nvim"] = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/lsp_extensions.nvim"
@@ -114,10 +114,6 @@ _G.packer_plugins = {
   ["lspsaga.nvim"] = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/lspsaga.nvim"
-  },
-  ["nvim-base16.lua"] = {
-    loaded = true,
-    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/nvim-base16.lua"
   },
   ["nvim-colorizer.lua"] = {
     commands = { "ColorizerAttachToBuffer", "ColorizerDetachFromBuffer", "ColorizerToggle", "ColorizerReloadAllBuffers" },
@@ -170,10 +166,6 @@ _G.packer_plugins = {
     needs_bufread = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/opt/rust.vim"
   },
-  ["snippets.nvim"] = {
-    loaded = true,
-    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/snippets.nvim"
-  },
   ["spawn.nvim"] = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/spawn.nvim"
@@ -185,6 +177,10 @@ _G.packer_plugins = {
   ["telescope-fzy-native.nvim"] = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/telescope-fzy-native.nvim"
+  },
+  ["telescope-media-files.nvim"] = {
+    loaded = true,
+    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/telescope-media-files.nvim"
   },
   ["telescope.nvim"] = {
     loaded = true,
@@ -202,6 +198,10 @@ _G.packer_plugins = {
     loaded = false,
     needs_bufread = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/opt/vim-fish"
+  },
+  ["vim-fugitive"] = {
+    loaded = true,
+    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/vim-fugitive"
   },
   ["vim-jdaddy"] = {
     loaded = false,
@@ -236,36 +236,36 @@ time("Defining packer_plugins", false)
 
 -- Command lazy-loads
 time("Defining lazy-load commands", true)
+vim.cmd [[command! -nargs=* -range -bang -complete=file ColorizerToggle lua require("packer.load")({'nvim-colorizer.lua'}, { cmd = "ColorizerToggle", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]]
 vim.cmd [[command! -nargs=* -range -bang -complete=file ColorizerReloadAllBuffers lua require("packer.load")({'nvim-colorizer.lua'}, { cmd = "ColorizerReloadAllBuffers", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]]
 vim.cmd [[command! -nargs=* -range -bang -complete=file ColorizerAttachToBuffer lua require("packer.load")({'nvim-colorizer.lua'}, { cmd = "ColorizerAttachToBuffer", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]]
 vim.cmd [[command! -nargs=* -range -bang -complete=file ColorizerDetachFromBuffer lua require("packer.load")({'nvim-colorizer.lua'}, { cmd = "ColorizerDetachFromBuffer", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]]
-vim.cmd [[command! -nargs=* -range -bang -complete=file ColorizerToggle lua require("packer.load")({'nvim-colorizer.lua'}, { cmd = "ColorizerToggle", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args> }, _G.packer_plugins)]]
 time("Defining lazy-load commands", false)
 
 vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]
   -- Filetype lazy-loads
 time("Defining lazy-load filetype autocommands", true)
-vim.cmd [[au FileType zig ++once lua require("packer.load")({'zig.vim'}, { ft = "zig" }, _G.packer_plugins)]]
 vim.cmd [[au FileType fish ++once lua require("packer.load")({'vim-fish'}, { ft = "fish" }, _G.packer_plugins)]]
 vim.cmd [[au FileType rust ++once lua require("packer.load")({'rust.vim'}, { ft = "rust" }, _G.packer_plugins)]]
 vim.cmd [[au FileType json ++once lua require("packer.load")({'vim-jdaddy'}, { ft = "json" }, _G.packer_plugins)]]
 vim.cmd [[au FileType nix ++once lua require("packer.load")({'vim-nix'}, { ft = "nix" }, _G.packer_plugins)]]
+vim.cmd [[au FileType zig ++once lua require("packer.load")({'zig.vim'}, { ft = "zig" }, _G.packer_plugins)]]
 time("Defining lazy-load filetype autocommands", false)
 vim.cmd("augroup END")
 vim.cmd [[augroup filetypedetect]]
 time("Sourcing ftdetect script at: /home/amirreza/.local/share/nvim/site/pack/packer/opt/zig.vim/ftdetect/zig.vim", true)
 vim.cmd [[source /home/amirreza/.local/share/nvim/site/pack/packer/opt/zig.vim/ftdetect/zig.vim]]
 time("Sourcing ftdetect script at: /home/amirreza/.local/share/nvim/site/pack/packer/opt/zig.vim/ftdetect/zig.vim", false)
-time("Sourcing ftdetect script at: /home/amirreza/.local/share/nvim/site/pack/packer/opt/vim-nix/ftdetect/nix.vim", true)
-vim.cmd [[source /home/amirreza/.local/share/nvim/site/pack/packer/opt/vim-nix/ftdetect/nix.vim]]
-time("Sourcing ftdetect script at: /home/amirreza/.local/share/nvim/site/pack/packer/opt/vim-nix/ftdetect/nix.vim", false)
 time("Sourcing ftdetect script at: /home/amirreza/.local/share/nvim/site/pack/packer/opt/vim-fish/ftdetect/fish.vim", true)
 vim.cmd [[source /home/amirreza/.local/share/nvim/site/pack/packer/opt/vim-fish/ftdetect/fish.vim]]
 time("Sourcing ftdetect script at: /home/amirreza/.local/share/nvim/site/pack/packer/opt/vim-fish/ftdetect/fish.vim", false)
 time("Sourcing ftdetect script at: /home/amirreza/.local/share/nvim/site/pack/packer/opt/rust.vim/ftdetect/rust.vim", true)
 vim.cmd [[source /home/amirreza/.local/share/nvim/site/pack/packer/opt/rust.vim/ftdetect/rust.vim]]
 time("Sourcing ftdetect script at: /home/amirreza/.local/share/nvim/site/pack/packer/opt/rust.vim/ftdetect/rust.vim", false)
+time("Sourcing ftdetect script at: /home/amirreza/.local/share/nvim/site/pack/packer/opt/vim-nix/ftdetect/nix.vim", true)
+vim.cmd [[source /home/amirreza/.local/share/nvim/site/pack/packer/opt/vim-nix/ftdetect/nix.vim]]
+time("Sourcing ftdetect script at: /home/amirreza/.local/share/nvim/site/pack/packer/opt/vim-nix/ftdetect/nix.vim", false)
 vim.cmd("augroup END")
 if should_profile then save_profiles() end
 
