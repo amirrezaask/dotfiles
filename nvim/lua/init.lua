@@ -25,21 +25,22 @@ nvim.with_options({
   splitbelow = true,
   cursorline = true,
 })
-
+require('mappings')
 vim.g.netrw_banner = 0
 require('ftplugin.lua')
-require('plugin.plugins')
-
 nvim.colorscheme('gruvbox')
+
 require('amirrezaask.terminal')
+require('amirrezaask.quickfix')
+require('amirrezaask.listchars'):update()
+require('amirrezaask.statusline')
+
+-- Plugins and configurations
+require('plugin.plugins')
 require('plugin.telescope')
-require('mappings')
 require('plugin.compe')
 require('gitsigns').setup()
-require('amirrezaask.listchars'):update()
 require('plugin.mappings')
 require('plugin.lsp')
-require('amirrezaask.statusline')
 require('plugin.dap')
 require('plugin.treesitter')
-require('amirrezaask.quickfix')

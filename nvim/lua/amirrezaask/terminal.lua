@@ -10,6 +10,10 @@ function M.open(opts)
     vim.cmd([[ new | term ]])
   end
 end
-nvim.command('VTerm', [[ lua require('amirrezaask.terminal').open({ orientation = 'v' })]])
-nvim.command('Term', [[ lua require('amirrezaask.terminal').open({ orientation = 'h' })]])
+nvim.command('VTerm', function()
+  require('amirrezaask.terminal').open({ orientation = 'v' })
+end)
+nvim.command('Term', function()
+  require('amirrezaask.terminal').open({ orientation = 'h' })
+end)
 return M
