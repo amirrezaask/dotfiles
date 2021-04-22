@@ -3,6 +3,8 @@ local action_state = require('telescope.actions.state')
 local finders = require('telescope.finders')
 local pickers = require('telescope.pickers')
 local conf = require('telescope.config').values
+local repos = require('amirrezaask.repos')
+
 require('telescope').setup({
   defaults = {
     prompt_prefix = ' ',
@@ -67,6 +69,21 @@ function M.buffer_git_files()
   })
 end
 
+function M.projects()
+  pickers.new({}, {
+    finder = finders.new_table({
+      results = repos.list_projects({ '~/src/github.com/amirrezaask' }),
+    }),
+    sorter = conf.generic_sorter(),
+    attach_mappings = function(_)
+      actions.select_default:replace(function()
+        local dir = action_state.get_selected_entry()[1]
+        vim.cmd([[ cd ]] .. dir)
+      end)
+      return true
+    end,
+  }):find()
+end
 function M.installed_plugins()
   require('telescope.builtin').find_files({
     cwd = vim.fn.stdpath('data') .. '/site/pack/packer/start/',
@@ -99,6 +116,7 @@ require('amirrezaask.nvim').mode_map({
     ['<Space><Space>'] = '<cmd>lua require("telescope.builtin").find_files{}<CR>',
     ['<Space>fb'] = '<cmd>lua require("telescope.builtin").file_browser{}<CR>',
     ['<Space>fp'] = '<cmd>lua require("plugin.telescope").installed_plugins{}<CR>',
+    ['<Space>pf'] = '<cmd>lua require("plugin.telescope").projects{}<CR>',
     ['<C-p>'] = '<cmd>lua require("telescope.builtin").git_files{}<CR>',
     ['??'] = '<cmd>lua require("telescope.builtin").live_grep{}<CR>',
     ['<Space>b'] = '<cmd>lua require("telescope.builtin").buffers{}<CR>',
