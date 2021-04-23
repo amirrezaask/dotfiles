@@ -25,10 +25,6 @@ return require('packer').startup({
     use({ 'tjdevries/colorbuddy.nvim' })
     use({ 'amirrezaask/gruvbuddy.nvim' })
 
-    -- FZF
-    use({ 'junegunn/fzf' })
-    use({ 'junegunn/fzf.vim' })
-
     -- Telescope.nvim
     use({ 'nvim-lua/plenary.nvim' })
     use('nvim-lua/popup.nvim')
@@ -36,10 +32,7 @@ return require('packer').startup({
     use('nvim-telescope/telescope-fzy-native.nvim')
     use('nvim-telescope/telescope-dap.nvim')
     use('nvim-telescope/telescope-media-files.nvim')
-
-    -- Fuzzy.nvim
-    use({ 'amirrezaask/spawn.nvim' })
-    use({ 'amirrezaask/fuzzy.nvim' })
+    use({ 'ThePrimeagen/git-worktree.nvim' })
 
     -- Hashicorp tools
     use({ 'hashivim/vim-terraform' })

@@ -46,7 +46,7 @@ local M = {}
 telescope.load_extension('fzy_native')
 telescope.load_extension('dap')
 telescope.load_extension('media_files')
-
+telescope.load_extension('git_worktree')
 function M.base16_theme_selector()
   local base16 = require('base16')
   local theme_names = {}
