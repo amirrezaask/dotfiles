@@ -109,8 +109,10 @@ end
 
 function M.edit_neovim()
   require('telescope.builtin').find_files({
+    layout_strategy = 'vertical',
     prompt_title = '> Edit Neovim Config <',
     cwd = '~/src/github.com/amirrezaask/dotfiles/nvim',
+    previewer = false,
   })
 end
 
@@ -159,7 +161,7 @@ require('amirrezaask.nvim').mode_map({
     ['<Space>tf'] = '<cmd>lua require("telescope.builtin").treesitter{}<CR>',
     ['<C-q>'] = '<cmd>lua require("telescope.builtin").quickfix{}<CR>',
     -- LSP
-    ['gd'] = '<cmd>lua require"telescope.builtin".lsp_defenitions(require"plugin.telescope".vertical_opts)<CR>',
+    ['gd'] = '<cmd>lua require"telescope.builtin".lsp_definitions(require"plugin.telescope".vertical_opts)<CR>',
     ['K'] = '<cmd>lua vim.lsp.buf.hover()<CR>',
     ['gI'] = '<cmd>lua require"telescope.builtin".lsp_implementations(require"plugin.telescope".vertical_opts)<CR>',
     ['gR'] = '<cmd>lua require"telescope.builtin".lsp_references(require"plugin.telescope".vertical_opts)<CR>',
