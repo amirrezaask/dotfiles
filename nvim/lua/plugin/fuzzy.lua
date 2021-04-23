@@ -31,20 +31,48 @@ end
 -- Fuzzy.nvim
 require('fuzzy').setup({
   width = 60,
-  height = 60,
+  height = 70,
   blacklist = {
     'vendor',
     '.git',
     'target',
   },
   location = loc.center,
-  sorter = require('fuzzy.lib.sorter').fzy_native,
+  sorter = require('fuzzy.lib.sorter').fzf_native,
   prompt = '❯ ',
   register = {
     base16_theme_selector = base16_theme_selector,
   },
+  border = nil,
 })
 
+local fuzzy_lsp = require('fuzzy.lsp')
+nvim.command('LSPDefinitions', fuzzy_lsp.definitions)
+nvim.command('LSPHover', vim.lsp.buf.hover)
+nvim.command('LSPSignatureHelp', vim.lsp.buf.signature_help)
+nvim.command('LSPTypeDefinition', vim.lsp.buf.type_definition)
+nvim.command('LSPRename', require('lspsaga.rename').rename)
+nvim.command('LSPWorkspaceSymbols', fuzzy_lsp.workspace_symbols)
+nvim.command('LSPDocumentSymbols', fuzzy_lsp.document_symbols)
+nvim.command('LSPReferences', fuzzy_lsp.references)
+nvim.command('LSPImplementations', fuzzy_lsp.implementation)
+nvim.command('LSPCodeActions', fuzzy_lsp.code_actions)
+nvim.command('LSPDeclaration', fuzzy_lsp.declaration)
+nvim.mode_map({
+  n = {
+    ['gd'] = '<cmd>LSPDefinitions<CR>',
+    ['K'] = '<cmd>LSPHover<CR>',
+    ['gI'] = '<cmd>LSPImplementations<CR>',
+    ['<c-k>'] = '<cmd>LSPSignatureHelp<CR>',
+    ['1gD'] = '<cmd>LSPTypeDefinition<CR>',
+    ['gR'] = '<cmd>LSPReferences<CR>',
+    ['g0'] = '<cmd>LSPDocumentSymbols<CR>',
+    ['gW'] = '<cmd>LSPWorkspaceSymbols<CR>',
+    ['gD'] = '<cmd>LSPDeclaration<CR>',
+    ['<Space>A'] = '<cmd>LSPCodeActions<CR>',
+    ['<Space>R'] = '<cmd>LSPRename<CR>',
+  },
+})
 nvim.mode_map({
   n = {
     ['<Space><Space>'] = '<cmd>lua require("fuzzy").find_files{}<CR>',

@@ -21,3 +21,21 @@ require('compe').setup({
     vsnip = true,
   },
 })
+vim.cmd([[inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"]])
+vim.cmd([[inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"]])
+
+-- Set completeopt to have a better completion experience
+vim.cmd([[set completeopt=menuone,noselect]])
+
+-- Avoid showing message extra message when using completion
+vim.cmd([[set shortmess+=c]])
+
+require('amirrezaask.nvim').mode_map({
+  i = {
+    ['<expr> <C-Space>'] = 'compe#complete()',
+    ['<expr> <CR>'] = "compe#confirm('<CR>')",
+    ['<expr> <C-e>'] = "compe#close('<C-e>')",
+    ['<expr> <C-f>'] = "compe#scroll( {'delta': +4} )",
+    ['<expr> <C-d>'] = "compe#scroll( {'delta': -4} )",
+  },
+})

@@ -4,8 +4,10 @@ local finders = require('telescope.finders')
 local pickers = require('telescope.pickers')
 local conf = require('telescope.config').values
 local repos = require('amirrezaask.repos')
+local telescope = require('telescope')
+local builtin = require('telescope.builtin')
 
-require('telescope').setup({
+telescope.setup({
   defaults = {
     prompt_prefix = ' ',
     selection_caret = ' ',
@@ -19,12 +21,20 @@ require('telescope').setup({
         height_padding = 0.1,
         preview_width = 0.6,
       },
+      vertical = {
+        width_padding = 0.1,
+        height_padding = 0.1,
+        preview_height = 0.3,
+      },
     },
+    file_previewer = require('telescope.previewers').vim_buffer_cat.new,
+    grep_previewer = require('telescope.previewers').vim_buffer_vimgrep.new,
+    qflist_previewer = require('telescope.previewers').vim_buffer_qflist.new,
     mappings = {
       i = {
         ['<C-c>'] = actions.close,
         ['<ESC>'] = actions.close,
-        -- ['<C-q>'] = actions.send_to_qflist,
+        ['<C-q>'] = actions.send_to_qflist,
         ['<C-j>'] = actions.move_selection_next,
         ['<C-k>'] = actions.move_selection_previous,
       },
@@ -34,10 +44,52 @@ require('telescope').setup({
 
 local M = {}
 
-require('telescope').load_extension('fzy_native')
-require('telescope').load_extension('dap')
-require('telescope').load_extension('media_files')
+telescope.load_extension('fzy_native')
+telescope.load_extension('dap')
+telescope.load_extension('media_files')
 
+local nvim = require('amirrezaask.nvim')
+
+nvim.command('LSPDefinitions', builtin.lsp_definitions)
+nvim.command('LSPHover', vim.lsp.buf.hover)
+nvim.command('LSPSignatureHelp', vim.lsp.buf.signature_help)
+nvim.command('LSPTypeDefinition', vim.lsp.buf.type_definition)
+nvim.command('LSPRename', require('lspsaga.rename').rename)
+nvim.command('LSPReferences', function()
+  builtin.lsp_references({ layout_strategy = 'vertical' })
+end)
+nvim.command('LSPDocumentSymbols', function()
+  builtin.lsp_document_symbols({ layout_strategy = 'vertical' })
+end)
+nvim.command('LSPWorkspaceSymbols', function()
+  builtin.lsp_workspace_symbols({ layout_strategy = 'vertical' })
+end)
+nvim.command('LSPCodeActions', telescope.lsp_code_actions)
+nvim.command('LSPImplementations', function()
+  builtin.lsp_implementations({ layout_strategy = 'vertical' })
+end)
+nvim.command('LSPDocumentDiagnostics', function()
+  builtin.lsp_document_diagnostics({ layout_strategy = 'vertical' })
+end)
+nvim.command('LSPWorkspaceDiagnostics', function()
+  builtin.lsp_workspace_diagnostics({ layout_strategy = 'vertical' })
+end)
+nvim.mode_map({
+  n = {
+    ['gd'] = '<cmd>LSPDefinitions<CR>',
+    ['K'] = '<cmd>LSPHover<CR>',
+    ['gI'] = '<cmd>LSPImplementations<CR>',
+    ['1gD'] = '<cmd>LSPTypeDefinition<CR>',
+    ['gR'] = '<cmd>LSPReferences<CR>',
+    ['<Space>lr'] = '<cmd>LSPReferences<CR>',
+    ['<Space>li'] = '<cmd>LSPImplementations<CR>',
+    ['<Space>ld'] = '<cmd>LSPDocumentSymbols<CR>',
+    ['<Space>lw'] = '<cmd>LSPWorkspaceSymbols<CR>',
+    ['<Space>lc'] = '<cmd>LSPCodeActions<CR>',
+    ['<Space>d?'] = '<cmd>LSPDocumentDiagnostics<CR>',
+    ['<Space>w?'] = '<cmd>LSPWorkspaceDiagnostics<CR>',
+  },
+})
 function M.base16_theme_selector()
   local base16 = require('base16')
   local theme_names = {}
@@ -119,7 +171,7 @@ require('amirrezaask.nvim').mode_map({
     ['<Space>fp'] = '<cmd>lua require("plugin.telescope").installed_plugins{}<CR>',
     ['<Space>pf'] = '<cmd>lua require("plugin.telescope").projects{}<CR>',
     ['<C-p>'] = '<cmd>lua require("telescope.builtin").git_files{}<CR>',
-    ['??'] = '<cmd>lua require("telescope.builtin").live_grep{}<CR>',
+    ['??'] = '<cmd>lua require("telescope.builtin").live_grep{layout_strategy="vertical"}<CR>',
     ['<Space>b'] = '<cmd>lua require("telescope.builtin").buffers{}<CR>',
     ['<Space>ec'] = '<cmd>lua require("plugin.telescope").edit_configs()<CR>',
     ['<Space>tc'] = '<cmd>lua require("plugin.telescope").base16_theme_selector()<CR>',
