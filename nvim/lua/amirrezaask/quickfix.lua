@@ -21,7 +21,7 @@ nvim.mode_map({
   n = {
     ['<C-k>'] = ':cprev<CR>',
     ['<C-j>'] = ':cnext<CR>',
-    -- ['<C-q>'] = ':QuickFixToggle<CR>',
+    ['<C-q>'] = ':QuickFixToggle<CR>',
   },
 })
 return M

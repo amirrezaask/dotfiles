@@ -116,7 +116,6 @@ if L('telescope.builtin') then
       ['gd'] = '<cmd>LSPDefinitions<CR>',
       ['K'] = '<cmd>LSPHover<CR>',
       ['gI'] = '<cmd>LSPImplementations<CR>',
-      ['<c-k>'] = '<cmd>LSPSignatureHelp<CR>',
       ['1gD'] = '<cmd>LSPTypeDefinition<CR>',
       ['gR'] = '<cmd>LSPReferences<CR>',
       ['<Space>lr'] = '<cmd>LSPReferences<CR>',

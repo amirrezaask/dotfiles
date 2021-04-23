@@ -21,6 +21,13 @@ return require('packer').startup({
 
     -- Ultimate Colorscheme of all time
     use({ 'gruvbox-community/gruvbox' })
+    use({ 'amirrezaask/nvim-base16.lua' })
+    use({ 'tjdevries/colorbuddy.nvim' })
+    use({ 'amirrezaask/gruvbuddy.nvim' })
+
+    -- FZF
+    use({ 'junegunn/fzf' })
+    use({ 'junegunn/fzf.vim' })
 
     -- Telescope.nvim
     use({ 'nvim-lua/plenary.nvim' })
@@ -29,6 +36,10 @@ return require('packer').startup({
     use('nvim-telescope/telescope-fzy-native.nvim')
     use('nvim-telescope/telescope-dap.nvim')
     use('nvim-telescope/telescope-media-files.nvim')
+
+    -- Fuzzy.nvim
+    use({ 'amirrezaask/spawn.nvim' })
+    use({ 'amirrezaask/fuzzy.nvim' })
 
     -- Hashicorp tools
     use({ 'hashivim/vim-terraform' })

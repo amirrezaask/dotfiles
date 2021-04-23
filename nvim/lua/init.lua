@@ -28,16 +28,19 @@ nvim.with_options({
 require('mappings')
 vim.g.netrw_banner = 0
 require('ftplugin.lua')
-nvim.colorscheme('gruvbox')
-
 require('amirrezaask.terminal')
 require('amirrezaask.quickfix')
 require('amirrezaask.listchars'):update()
 require('amirrezaask.statusline')
 
 -- Plugins and configurations
+require('colorbuddy').colorscheme('gruvbuddy')
+-- require('plugin.base16')
+-- SetBas16Colorscheme('norcalli')
 require('plugin.plugins')
 require('plugin.telescope')
+-- require('plugin.fuzzy')
+-- require('plugin.fzf')
 require('plugin.compe')
 require('gitsigns').setup()
 require('plugin.mappings')

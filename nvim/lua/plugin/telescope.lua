@@ -12,6 +12,7 @@ require('telescope').setup({
     layout_strategy = 'flex',
     prompt_position = 'bottom',
     sorting_strategy = 'descending',
+    borderchars = { '─', '│', '─', '│', '┌', '┐', '┘', '└' },
     layout_defaults = {
       horizontal = {
         width_padding = 0.1,
@@ -23,7 +24,7 @@ require('telescope').setup({
       i = {
         ['<C-c>'] = actions.close,
         ['<ESC>'] = actions.close,
-        ['<C-q>'] = actions.send_to_qflist,
+        -- ['<C-q>'] = actions.send_to_qflist,
         ['<C-j>'] = actions.move_selection_next,
         ['<C-k>'] = actions.move_selection_previous,
       },
