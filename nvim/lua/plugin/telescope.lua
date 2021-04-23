@@ -62,7 +62,7 @@ nvim.command('LSPDocumentSymbols', function()
   builtin.lsp_document_symbols({ layout_strategy = 'vertical' })
 end)
 nvim.command('LSPWorkspaceSymbols', function()
-  builtin.lsp_workspace_symbols({ layout_strategy = 'vertical' })
+  require('plugin.telescope').lsp_workspace_symbols()
 end)
 nvim.command('LSPCodeActions', telescope.lsp_code_actions)
 nvim.command('LSPImplementations', function()
@@ -72,24 +72,9 @@ nvim.command('LSPDocumentDiagnostics', function()
   builtin.lsp_document_diagnostics({ layout_strategy = 'vertical' })
 end)
 nvim.command('LSPWorkspaceDiagnostics', function()
-  builtin.lsp_workspace_diagnostics({ layout_strategy = 'vertical' })
+  builtin.lsp_workspace_diagonostics({ layout_strategy = 'vertical' })
 end)
-nvim.mode_map({
-  n = {
-    ['gd'] = '<cmd>LSPDefinitions<CR>',
-    ['K'] = '<cmd>LSPHover<CR>',
-    ['gI'] = '<cmd>LSPImplementations<CR>',
-    ['1gD'] = '<cmd>LSPTypeDefinition<CR>',
-    ['gR'] = '<cmd>LSPReferences<CR>',
-    ['<Space>lr'] = '<cmd>LSPReferences<CR>',
-    ['<Space>li'] = '<cmd>LSPImplementations<CR>',
-    ['<Space>ld'] = '<cmd>LSPDocumentSymbols<CR>',
-    ['<Space>lw'] = '<cmd>LSPWorkspaceSymbols<CR>',
-    ['<Space>lc'] = '<cmd>LSPCodeActions<CR>',
-    ['<Space>d?'] = '<cmd>LSPDocumentDiagnostics<CR>',
-    ['<Space>w?'] = '<cmd>LSPWorkspaceDiagnostics<CR>',
-  },
-})
+
 function M.base16_theme_selector()
   local base16 = require('base16')
   local theme_names = {}
@@ -163,6 +148,13 @@ function M.edit_zsh()
     cwd = '~/src/github.com/amirrezaask/dotfiles/zsh',
   })
 end
+function M.lsp_workspace_symbols()
+  local q = vim.fn.input('Symbol: ')
+  require('telescope.builtin').lsp_workspace_symbols({
+    layout_strategy = 'vertical',
+    query = q,
+  })
+end
 
 require('amirrezaask.nvim').mode_map({
   n = {
@@ -187,6 +179,17 @@ require('amirrezaask.nvim').mode_map({
     ['<Space>gs'] = '<cmd>lua require("telescope.builtin").git_status{}<CR>',
     ['<Space>tf'] = '<cmd>lua require("telescope.builtin").treesitter{}<CR>',
     ['<C-q>'] = '<cmd>lua require("telescope.builtin").quickfix{}<CR>',
+    ['gd'] = '<cmd>LSPDefinitions<CR>',
+    ['K'] = '<cmd>LSPHover<CR>',
+    ['gI'] = '<cmd>LSPImplementations<CR>',
+    ['gR'] = '<cmd>LSPReferences<CR>',
+    ['<Space>lr'] = '<cmd>LSPReferences<CR>',
+    ['<Space>li'] = '<cmd>LSPImplementations<CR>',
+    ['<Space>ld'] = '<cmd>LSPDocumentSymbols<CR>',
+    ['<Space>lw'] = '<cmd>LSPWorkspaceSymbols<CR>',
+    ['<Space>lc'] = '<cmd>LSPCodeActions<CR>',
+    ['<Space>d?'] = '<cmd>LSPDocumentDiagnostics<CR>',
+    ['<Space>w?'] = '<cmd>LSPWorkspaceDiagnostics<CR>',
   },
 })
 

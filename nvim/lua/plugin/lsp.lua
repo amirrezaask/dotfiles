@@ -50,3 +50,4 @@ lspconfig.sumneko_lua.setup({
 })
 
 lspconfig.pyls_ms.setup({})
+lspconfig.clangd.setup({})
