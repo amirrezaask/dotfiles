@@ -24,6 +24,7 @@ nvim.with_options({
   splitright = true,
   splitbelow = true,
   cursorline = true,
+  relativenumber = true,
 })
 require('mappings')
 vim.g.netrw_banner = 0
@@ -34,6 +35,7 @@ require('amirrezaask.listchars'):update()
 require('amirrezaask.statusline')
 
 -- Plugins and configurations
+-- nvim.colorscheme('gruvbox')
 require('colorbuddy').colorscheme('gruvbuddy')
 -- require('plugin.base16')
 -- SetBas16Colorscheme('norcalli')

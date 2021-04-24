@@ -25,27 +25,10 @@ lspconfig.rust_analyzer.setup({
 
 local sumneko_root = '/home/amirreza/.local/lua-language-server'
 local sumneko_binary = sumneko_root .. '/bin/Linux/lua-language-server'
-
-lspconfig.sumneko_lua.setup({
+require('nlua.lsp.nvim').setup(require('lspconfig'), {
   cmd = { sumneko_binary, '-E', sumneko_root .. '/main.lua' },
-  settings = {
-    Lua = {
-      runtime = {
-        version = 'LuaJIT',
-      },
-      diagnostics = {
-        enable = true,
-        disable = {
-          'trailing-space',
-        },
-        globals = { 'vim' },
-      },
-      workspace = {
-        library = vim.list_extend(get_lua_runtime(), {}),
-        maxPreload = 1000,
-        preloadFileSize = 1000,
-      },
-    },
+  globals = {
+    'vim',
   },
 })
 

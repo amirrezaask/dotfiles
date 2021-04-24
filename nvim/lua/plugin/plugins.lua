@@ -34,6 +34,9 @@ return require('packer').startup({
     use('nvim-telescope/telescope-media-files.nvim')
     use({ 'ThePrimeagen/git-worktree.nvim' })
 
+    -- nlua for dev
+    use({ 'tjdevries/nlua.nvim' })
+
     -- Hashicorp tools
     use({ 'hashivim/vim-terraform' })
 
