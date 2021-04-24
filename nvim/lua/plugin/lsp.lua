@@ -29,6 +29,7 @@ require('nlua.lsp.nvim').setup(require('lspconfig'), {
   cmd = { sumneko_binary, '-E', sumneko_root .. '/main.lua' },
   globals = {
     'vim',
+    'awesome',
   },
 })
 

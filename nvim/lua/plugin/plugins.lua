@@ -33,6 +33,7 @@ return require('packer').startup({
     use('nvim-telescope/telescope-dap.nvim')
     use('nvim-telescope/telescope-media-files.nvim')
     use({ 'ThePrimeagen/git-worktree.nvim' })
+    use({ 'norcalli/snippets.nvim' })
 
     -- nlua for dev
     use({ 'tjdevries/nlua.nvim' })

@@ -18,7 +18,7 @@ require('compe').setup({
     calc = true,
     nvim_lsp = true,
     nvim_lua = true,
-    vsnip = true,
+    snippets_nvim = true,
   },
 })
 vim.cmd([[inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"]])
