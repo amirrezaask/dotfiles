@@ -66,18 +66,14 @@ local function get_icon(file)
 end
 
 local function git_branch()
-  local branch = spawn({
-    command = 'git',
-    args = { 'branch', '--show-current' },
-    sync = { timeout = 100, interval = 10 },
-  })
-  if branch ~= nil and #branch > 0 then
+  local branch = vim.fn['fugitive#head']()
+  if branch ~= nil then
     local has_icons, _ = pcall(require, 'nvim-web-devicons')
     if not has_icons then
-      return branch[1]
+      return branch
     end
     local icon, _ = require('nvim-web-devicons').get_icon('', 'git')
-    return icon .. ' ' .. branch[1]
+    return icon .. ' ' .. branch
   end
   return '[NOT REPO]'
 end
@@ -94,4 +90,5 @@ function Statusline()
   statusline = statusline .. ' ' .. lsp_info()
   return statusline
 end
+
 vim.o.statusline = '%!v:lua.Statusline()'
