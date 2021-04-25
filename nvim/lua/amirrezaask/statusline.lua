@@ -1,5 +1,3 @@
-local spawn = require('spawn')
-
 local function mode()
   local m = vim.fn.mode()
   if m == 'n' then

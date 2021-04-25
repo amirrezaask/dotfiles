@@ -46,7 +46,7 @@ return require('packer').startup({
     use({ 'tpope/vim-surround' })
 
     -- Vim JSON tools
-    use({ 'tpope/vim-jdaddy', ft = 'json' })
+    -- use({ 'tpope/vim-jdaddy', ft = 'json' })
 
     -- Elixir
     use({ 'elixir-editors/vim-elixir' })
@@ -90,6 +90,7 @@ return require('packer').startup({
     -- Autocomplete popup
     use('hrsh7th/nvim-compe')
 
+    use({ 'chr4/nginx.vim' })
     -- Toml support
     use({ 'cespare/vim-toml' })
     -- Show indents

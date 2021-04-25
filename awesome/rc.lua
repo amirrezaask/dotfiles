@@ -28,7 +28,7 @@ if awesome.startup_errors then
   naughty.notify({
     preset = naughty.config.presets.critical,
     title = 'Oops, there were errors during startup!',
-    text = awesome.startup_errors, 
+    text = awesome.startup_errors,
   })
 end
 
@@ -45,7 +45,7 @@ do
     naughty.notify({
       preset = naughty.config.presets.critical,
       title = 'Oops, an error happened!',
-      text = tostring(err), 
+      text = tostring(err),
     })
     in_error = false
   end)
@@ -209,7 +209,7 @@ awful.screen.connect_for_each_screen(function(s)
       s.mytaglist,
       s.mypromptbox,
     },
-    -- s.mytasklist,
+    s.mytasklist,
     {
       layout = wibox.layout.fixed.horizontal,
       rhythmbox_widget,
