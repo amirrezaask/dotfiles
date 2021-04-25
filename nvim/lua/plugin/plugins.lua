@@ -24,6 +24,7 @@ return require('packer').startup({
     use({ 'amirrezaask/nvim-base16.lua' })
     use({ 'tjdevries/colorbuddy.nvim' })
     use({ 'amirrezaask/gruvbuddy.nvim' })
+    use({ 'amirrezaask/spawn.nvim' })
 
     -- Telescope.nvim
     use({ 'nvim-lua/plenary.nvim' })

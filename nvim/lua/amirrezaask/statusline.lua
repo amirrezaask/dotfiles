@@ -1,3 +1,5 @@
+local spawn = require('spawn')
+
 local function mode()
   local m = vim.fn.mode()
   if m == 'n' then
@@ -64,8 +66,22 @@ local function get_icon(file)
 end
 
 local function git_branch()
-  return vim.fn['fugitive#head']()
+  local branch = spawn({
+    command = 'git',
+    args = { 'branch', '--show-current' },
+    sync = { timeout = 100, interval = 10 },
+  })
+  if branch ~= nil and #branch > 0 then
+    local has_icons, _ = pcall(require, 'nvim-web-devicons')
+    if not has_icons then
+      return branch[1]
+    end
+    local icon, _ = require('nvim-web-devicons').get_icon('', 'git')
+    return icon .. ' ' .. branch[1]
+  end
+  return '[NOT REPO]'
 end
+
 function Statusline()
   local statusline = ''
   statusline = statusline .. mode()
