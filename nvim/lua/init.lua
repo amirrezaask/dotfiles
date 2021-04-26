@@ -27,6 +27,7 @@ nvim.with_options({
   cursorline = true,
   relativenumber = true,
 })
+
 require('mappings')
 vim.g.netrw_banner = 0
 require('ftplugin.lua')
@@ -36,10 +37,7 @@ require('amirrezaask.listchars'):update()
 require('amirrezaask.statusline')
 
 -- Plugins and configurations
--- nvim.colorscheme('gruvbox')
-require('colorbuddy').colorscheme('gruvbuddy')
--- require('plugin.base16')
--- SetBas16Colorscheme('norcalli')
+nvim.colorscheme('comrade')
 require('plugin.plugins')
 require('plugin.telescope')
 require('plugin.compe')

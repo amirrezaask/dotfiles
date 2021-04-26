@@ -87,6 +87,7 @@ return require('packer').startup({
     use({ 'dag/vim-fish', ft = 'fish' })
     -- Support for Rustlang syntax
     use({ 'rust-lang/rust.vim', ft = 'rust' })
+    use({ 'simrat39/rust-tools.nvim' })
     -- Autocomplete popup
     use('hrsh7th/nvim-compe')
 

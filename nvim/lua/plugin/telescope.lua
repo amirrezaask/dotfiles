@@ -6,6 +6,11 @@ local conf = require('telescope.config').values
 local repos = require('amirrezaask.repos')
 local telescope = require('telescope')
 
+vim.cmd([[ 
+  hi TelescopeSelection guifg=#f04c75
+  hi TelescopeMatching guifg=#ffff1e
+]])
+
 telescope.setup({
   defaults = {
     prompt_prefix = ' ',
