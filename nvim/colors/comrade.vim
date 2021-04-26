@@ -1,8 +1,8 @@
 lua <<EOF
 require'base16' {
-  base00 = "060813";
-  base01 = "2b303d";
-  base02 = "6eb6ff";
+  base00 = "282c34";
+  base01 = "333842";
+  base02 = "81a2be";
   base03 = "aaaaaa";
   base04 = "373b41";
   base05 = "aaaaaa";
