@@ -8,7 +8,7 @@ local telescope = require('telescope')
 
 vim.cmd([[ 
   hi TelescopeSelection guifg=#f04c75
-  hi TelescopePreviewLine guifg=#ffff1e
+  hi TelescopePreviewLine guifg=#01ff3c
   hi TelescopePreviewMatch guifg=#f04c75
   hi TelescopeMatching guifg=#ffff1e
 ]])

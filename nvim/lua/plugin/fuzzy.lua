@@ -31,19 +31,19 @@ end
 -- Fuzzy.nvim
 require('fuzzy').setup({
   width = 60,
-  height = 70,
+  height = 100,
   blacklist = {
     'vendor',
     '.git',
     'target',
   },
-  location = loc.center,
+  location = loc.bottom_center,
   sorter = require('fuzzy.lib.sorter').fzf_native,
-  prompt = '❯ ',
+  prompt = '> ',
   register = {
     base16_theme_selector = base16_theme_selector,
   },
-  border = nil,
+  border = 'no',
 })
 
 local fuzzy_lsp = require('fuzzy.lsp')
@@ -71,6 +71,11 @@ nvim.mode_map({
     ['gD'] = '<cmd>LSPDeclaration<CR>',
     ['<Space>A'] = '<cmd>LSPCodeActions<CR>',
     ['<Space>R'] = '<cmd>LSPRename<CR>',
+    ['<Space>lr'] = '<cmd>LSPReferences<CR>',
+    ['<Space>li'] = '<cmd>LSPImplementations<CR>',
+    ['<Space>ld'] = '<cmd>LSPDocumentSymbols<CR>',
+    ['<Space>lw'] = '<cmd>LSPWorkspaceSymbols<CR>',
+    ['<Space>lc'] = '<cmd>LSPCodeActions<CR>',
   },
 })
 nvim.mode_map({

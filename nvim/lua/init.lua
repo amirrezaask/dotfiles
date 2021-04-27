@@ -1,5 +1,4 @@
 local nvim = require('amirrezaask.nvim')
-
 nvim.with_options({
   ignorecase = true,
   modeline = true,
@@ -40,7 +39,8 @@ require('plugin.base16')
 -- Plugins and configurations
 nvim.colorscheme('comrade')
 require('plugin.plugins')
-require('plugin.telescope')
+-- require('plugin.telescope')
+require('plugin.fuzzy')
 require('plugin.compe')
 require('gitsigns').setup()
 require('plugin.mappings')

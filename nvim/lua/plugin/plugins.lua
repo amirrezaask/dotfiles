@@ -24,7 +24,10 @@ return require('packer').startup({
     use({ 'amirrezaask/nvim-base16.lua' })
     use({ 'tjdevries/colorbuddy.nvim' })
     use({ 'amirrezaask/gruvbuddy.nvim' })
+
+    -- Fuzzy.nvim
     use({ 'amirrezaask/spawn.nvim' })
+    use({ 'amirrezaask/fuzzy.nvim' })
 
     -- Telescope.nvim
     use({ 'nvim-lua/plenary.nvim' })
@@ -36,6 +39,7 @@ return require('packer').startup({
     use({ 'ThePrimeagen/git-worktree.nvim' })
     use({ 'norcalli/snippets.nvim' })
 
+    use({ 'mhinz/vim-startify' })
     -- nlua for dev
     use({ 'tjdevries/nlua.nvim' })
 
