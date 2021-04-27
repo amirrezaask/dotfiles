@@ -37,9 +37,8 @@ require('amirrezaask.statusline')
 require('plugin.base16')
 
 -- Plugins and configurations
-nvim.colorscheme('norcalli')
+nvim.colorscheme('gruvbox')
 require('plugin.plugins')
--- require('plugin.fuzzy')
 require('plugin.telescope')
 require('plugin.compe')
 require('gitsigns').setup()

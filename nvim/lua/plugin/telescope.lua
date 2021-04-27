@@ -169,38 +169,6 @@ require('amirrezaask.nvim').mode_map({
     ['<Space>gwl'] = require('telescope').extensions.git_worktree.git_worktrees,
     ['<Space>tf'] = require('telescope.builtin').treesitter,
     ['<C-q>'] = require('telescope.builtin').quickfix,
-    -- LSP
-    ['gd'] = function()
-      require('telescope.builtin').lsp_definitions(require('plugin.telescope').vertical_opts)
-    end,
-    ['K'] = vim.lsp.buf.hover,
-    ['gI'] = function()
-      require('telescope.builtin').lsp_implementations(require('plugin.telescope').vertical_opts)
-    end,
-    ['gR'] = function()
-      require('telescope.builtin').lsp_references(require('plugin.telescope').vertical_opts)
-    end,
-    ['<Space>lr'] = function()
-      require('telescope.builtin').lsp_references(require('plugin.telescope').vertical_opts)
-    end,
-    ['<Space>li'] = function()
-      require('telescope.builtin').lsp_implementations(require('plugin.telescope').vertical_opts)
-    end,
-    ['<Space>ld'] = function()
-      require('telescope.builtin').lsp_document_symbols(require('plugin.telescope').vertical_opts)
-    end,
-    ['<Space>lw'] = function()
-      require('plugin.telescope').lsp_workspace_symbols()
-    end,
-    ['<Space>lc'] = function()
-      require('telescope.builtin').lsp_code_actions()
-    end,
-    ['<Space>d?'] = function()
-      require('telescope.builtin').lsp_document_diagnostics()
-    end,
-    ['<Space>w?'] = function()
-      require('telescope.builtin').lsp_workspace_diagnostics()
-    end,
   },
 })
 
