@@ -25,10 +25,18 @@ function M.with_options(tbl)
     end
   end
 end
-
+__MAP_FUNCTION_REGISTRY = {}
 function M.mode_map(tbl)
   for m, _ in pairs(tbl) do
     for k, expr in pairs(tbl[m]) do
+      k = vim.api.nvim_replace_termcodes(k, true, true, true)
+      if type(expr) == 'function' then
+        local fn = expr
+        __MAP_FUNCTION_REGISTRY[k] = function()
+          fn()
+        end
+        expr = string.format('<cmd>lua __MAP_FUNCTION_REGISTRY["%s"]()<CR>', k)
+      end
       vim.api.nvim_set_keymap(m, k, expr, {})
     end
   end

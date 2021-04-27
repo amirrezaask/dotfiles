@@ -37,10 +37,10 @@ require('amirrezaask.statusline')
 require('plugin.base16')
 
 -- Plugins and configurations
-nvim.colorscheme('comrade')
+nvim.colorscheme('norcalli')
 require('plugin.plugins')
--- require('plugin.telescope')
-require('plugin.fuzzy')
+-- require('plugin.fuzzy')
+require('plugin.telescope')
 require('plugin.compe')
 require('gitsigns').setup()
 require('plugin.mappings')

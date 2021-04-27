@@ -143,42 +143,64 @@ M.vertical_opts = {
 
 require('amirrezaask.nvim').mode_map({
   n = {
-    ['<Space><Space>'] = '<cmd>lua require("telescope.builtin").find_files{}<CR>',
-    ['<Space>fb'] = '<cmd>lua require("telescope.builtin").file_browser{}<CR>',
-    ['<Space>fp'] = '<cmd>lua require("plugin.telescope").installed_plugins{}<CR>',
-    ['<Space>pf'] = '<cmd>lua require("plugin.telescope").projects{}<CR>',
-    ['<C-p>'] = '<cmd>lua require("telescope.builtin").git_files{}<CR>',
-    ['??'] = '<cmd>lua require("telescope.builtin").live_grep{layout_strategy="vertical"}<CR>',
-    ['<Space>b'] = '<cmd>lua require("telescope.builtin").buffers{}<CR>',
-    ['<Space>ec'] = '<cmd>lua require("plugin.telescope").edit_configs()<CR>',
-    ['<Space>tc'] = '<cmd>lua require("plugin.telescope").base16_theme_selector()<CR>',
-    ['<Space>en'] = '<cmd>lua require("plugin.telescope").edit_neovim()<CR>',
-    ['<Space>ez'] = '<cmd>lua require("plugin.telescope").edit_zsh()<CR>',
-    ['<Space>c'] = '<cmd>lua require("telescope.builtin").commands{}<CR>',
-    ['<Space>fr'] = '<cmd>lua require("telescope.builtin").oldfiles{}<CR>',
-    ['<Space>h'] = '<cmd>lua require("telescope.builtin").help_tags{}<CR>',
+    ['<Space><Space>'] = require('telescope.builtin').find_files,
+    ['<Space>fb'] = require('telescope.builtin').file_browser,
+    ['<Space>fp'] = M.installed_plugins,
+    ['<Space>pf'] = M.projects,
+    ['<C-p>'] = require('telescope.builtin').git_files,
+    ['??'] = function()
+      require('telescope.builtin').live_grep({ layout_strategy = 'vertical' })
+    end,
+    ['<Space>b'] = require('telescope.builtin').buffers,
+    ['<Space>ec'] = M.edit_configs,
+    ['<Space>tc'] = M.base16_theme_selector,
+    ['<Space>en'] = M.edit_neovim,
+    ['<Space>ez'] = M.edit_zsh,
+    ['<Space>c'] = require('telescope.builtin').commands,
+    ['<Space>fr'] = require('telescope.builtin').oldfiles,
+    ['<Space>h'] = require('telescope.builtin').help_tags,
     -- Git
-    ['<Space>gc'] = '<cmd>lua require("telescope.builtin").git_commits{}<CR>',
-    ['<Space>gb'] = '<cmd>lua require("telescope.builtin").git_bcommits{}<CR>',
-    ['<Space>go'] = '<cmd>lua require("telescope.builtin").git_checkout{}<CR>',
-    ['<Space>gf'] = '<cmd>lua require("plugin.telescope").buffer_git_files{}<CR>',
-    ['<Space>gs'] = '<cmd>lua require("telescope.builtin").git_status{}<CR>',
-    ['<Space>gwc'] = '<cmd>lua require("telescope").extensions.git_worktree.create_git_worktree()<CR>',
-    ['<Space>gwl'] = '<cmd>lua require("telescope").extensions.git_worktree.git_worktrees()<CR>',
-    ['<Space>tf'] = '<cmd>lua require("telescope.builtin").treesitter{}<CR>',
-    ['<C-q>'] = '<cmd>lua require("telescope.builtin").quickfix{}<CR>',
+    ['<Space>gc'] = require('telescope.builtin').git_commits,
+    ['<Space>gb'] = require('telescope.builtin').git_bcommits,
+    ['<Space>go'] = require('telescope.builtin').git_checkout,
+    ['<Space>gf'] = M.buffer_git_files,
+    ['<Space>gs'] = require('telescope.builtin').git_status,
+    ['<Space>gwc'] = require('telescope').extensions.git_worktree.create_git_worktree,
+    ['<Space>gwl'] = require('telescope').extensions.git_worktree.git_worktrees,
+    ['<Space>tf'] = require('telescope.builtin').treesitter,
+    ['<C-q>'] = require('telescope.builtin').quickfix,
     -- LSP
-    ['gd'] = '<cmd>lua require"telescope.builtin".lsp_definitions(require"plugin.telescope".vertical_opts)<CR>',
-    ['K'] = '<cmd>lua vim.lsp.buf.hover()<CR>',
-    ['gI'] = '<cmd>lua require"telescope.builtin".lsp_implementations(require"plugin.telescope".vertical_opts)<CR>',
-    ['gR'] = '<cmd>lua require"telescope.builtin".lsp_references(require"plugin.telescope".vertical_opts)<CR>',
-    ['<Space>lr'] = '<cmd>lua require"telescope.builtin".lsp_references(require"plugin.telescope".vertical_opts)<CR>',
-    ['<Space>li'] = '<cmd>lua require"telescope.builtin".lsp_implementations(require"plugin.telescope".vertical_opts)<CR>',
-    ['<Space>ld'] = '<cmd>lua require"telescope.builtin".lsp_document_symbols(require"plugin.telescope".vertical_opts)<CR>',
-    ['<Space>lw'] = '<cmd>lua require"plugin.telescope".lsp_workspace_symbols()<CR>',
-    ['<Space>lc'] = '<cmd>lua require"telescope.builtin".lsp_code_actions()<CR>',
-    ['<Space>d?'] = '<cmd>lua require"telescope.builtin".lsp_document_diagnostics()<CR>',
-    ['<Space>w?'] = '<cmd>lua require"telescope.builtin".lsp_workspace_diagnostics()<CR>',
+    ['gd'] = function()
+      require('telescope.builtin').lsp_definitions(require('plugin.telescope').vertical_opts)
+    end,
+    ['K'] = vim.lsp.buf.hover,
+    ['gI'] = function()
+      require('telescope.builtin').lsp_implementations(require('plugin.telescope').vertical_opts)
+    end,
+    ['gR'] = function()
+      require('telescope.builtin').lsp_references(require('plugin.telescope').vertical_opts)
+    end,
+    ['<Space>lr'] = function()
+      require('telescope.builtin').lsp_references(require('plugin.telescope').vertical_opts)
+    end,
+    ['<Space>li'] = function()
+      require('telescope.builtin').lsp_implementations(require('plugin.telescope').vertical_opts)
+    end,
+    ['<Space>ld'] = function()
+      require('telescope.builtin').lsp_document_symbols(require('plugin.telescope').vertical_opts)
+    end,
+    ['<Space>lw'] = function()
+      require('plugin.telescope').lsp_workspace_symbols()
+    end,
+    ['<Space>lc'] = function()
+      require('telescope.builtin').lsp_code_actions()
+    end,
+    ['<Space>d?'] = function()
+      require('telescope.builtin').lsp_document_diagnostics()
+    end,
+    ['<Space>w?'] = function()
+      require('telescope.builtin').lsp_workspace_diagnostics()
+    end,
   },
 })
 
