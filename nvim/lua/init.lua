@@ -35,6 +35,7 @@ require('amirrezaask.terminal')
 require('amirrezaask.quickfix')
 require('amirrezaask.listchars'):update()
 require('amirrezaask.statusline')
+require('plugin.base16')
 
 -- Plugins and configurations
 nvim.colorscheme('comrade')
