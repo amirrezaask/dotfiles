@@ -23,7 +23,7 @@ return require('packer').startup({
     use({ 'gruvbox-community/gruvbox' })
     use({ 'amirrezaask/nvim-base16.lua' })
     use({ 'tjdevries/colorbuddy.nvim' })
-    use({ 'tjdevries/gruvbuddy.nvim' })
+    use({ 'amirrezaask/gruvbuddy.nvim' })
 
     -- Fuzzy.nvim
     use({ 'amirrezaask/spawn.nvim' })
@@ -32,6 +32,7 @@ return require('packer').startup({
     -- Telescope.nvim
     use({ 'nvim-lua/plenary.nvim' })
     use('nvim-lua/popup.nvim')
+
     -- use('nvim-telescope/telescope.nvim')
     use({ 'amirrezaask/telescope.nvim' })
     use('nvim-telescope/telescope-fzy-native.nvim')
@@ -40,7 +41,6 @@ return require('packer').startup({
     use({ 'ThePrimeagen/git-worktree.nvim' })
     use({ 'norcalli/snippets.nvim' })
 
-    -- use({ 'mhinz/vim-startify' })
     -- nlua for dev
     use({ 'tjdevries/nlua.nvim' })
 
@@ -51,7 +51,7 @@ return require('packer').startup({
     use({ 'tpope/vim-surround' })
 
     -- Vim JSON tools
-    -- use({ 'tpope/vim-jdaddy', ft = 'json' })
+    use({ 'tpope/vim-jdaddy', ft = 'json' })
 
     -- Elixir
     use({ 'elixir-editors/vim-elixir' })
@@ -74,12 +74,6 @@ return require('packer').startup({
     use({
       'norcalli/nvim-colorizer.lua',
       branch = 'color-editor',
-      cmd = {
-        'ColorizerAttachToBuffer',
-        'ColorizerDetachFromBuffer',
-        'ColorizerToggle',
-        'ColorizerReloadAllBuffers',
-      },
     })
     -- Support for Dockerfile syntax
     use({ 'honza/dockerfile.vim' })
@@ -112,7 +106,7 @@ return require('packer').startup({
 
     -- Icons
     use('kyazdani42/nvim-web-devicons')
-
+    use({ 'kyamatsum/nvim-nonicons' }) -- need to have nonicons font installed look into https://github.com/yamatsum/nonicons
     -- Indent Guides
     use({ 'lukas-reineke/indent-blankline.nvim' })
   end,
