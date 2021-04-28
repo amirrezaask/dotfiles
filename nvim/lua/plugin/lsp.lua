@@ -13,25 +13,25 @@ local function on_attach(_client)
       ['gR'] = function()
         require('telescope.builtin').lsp_references(require('plugin.telescope').vertical_opts)
       end,
-      ['<Space>lr'] = function()
+      ['<leader>lr'] = function()
         require('telescope.builtin').lsp_references(require('plugin.telescope').vertical_opts)
       end,
-      ['<Space>li'] = function()
+      ['<leader>li'] = function()
         require('telescope.builtin').lsp_implementations(require('plugin.telescope').vertical_opts)
       end,
-      ['<Space>ld'] = function()
+      ['<leader>ld'] = function()
         require('telescope.builtin').lsp_document_symbols(require('plugin.telescope').vertical_opts)
       end,
-      ['<Space>lw'] = function()
+      ['<leader>lw'] = function()
         require('plugin.telescope').lsp_workspace_symbols()
       end,
-      ['<Space>lc'] = function()
+      ['<leader>lc'] = function()
         require('telescope.builtin').lsp_code_actions()
       end,
-      ['<Space>d?'] = function()
+      ['<leader>d?'] = function()
         require('telescope.builtin').lsp_document_diagnostics()
       end,
-      ['<Space>w?'] = function()
+      ['<leader>w?'] = function()
         require('telescope.builtin').lsp_workspace_diagnostics()
       end,
     },

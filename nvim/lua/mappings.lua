@@ -1,5 +1,5 @@
 local nvim = require('amirrezaask.nvim')
-
+vim.g.mapleader = ' '
 nvim.map({
   ['<C-j>'] = '<C-w>j',
   ['<C-k>'] = '<C-w>k',
@@ -17,7 +17,7 @@ nvim.mode_map({
     ['tp'] = ':tabprevious<CR>',
     ['tc'] = ':tabclose<CR>',
     ['tt'] = ':tabnew<CR>',
-    ['<Space>v'] = '<cmd>vnew<CR>',
+    ['<leader>v'] = '<cmd>vnew<CR>',
     j = 'gj',
     k = 'gk',
   },

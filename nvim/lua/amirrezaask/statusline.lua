@@ -41,7 +41,7 @@ local function lsp_info()
 end
 
 local function line_col()
-  return '%l:%c'
+  return '[ %l:%c ]'
 end
 
 local function filetype()
@@ -68,10 +68,10 @@ local function git_branch()
   if branch ~= nil then
     local has_icons, _ = pcall(require, 'nvim-web-devicons')
     if not has_icons then
-      return branch
+      return '[ ' .. branch .. ' ]'
     end
     local icon, _ = require('nvim-web-devicons').get_icon('', 'git')
-    return icon .. ' ' .. branch
+    return '[ ' .. icon .. ' ' .. branch .. ' ]'
   end
   return '[NOT REPO]'
 end
@@ -79,10 +79,10 @@ end
 function Statusline()
   local statusline = ''
   statusline = statusline .. mode()
-  statusline = statusline .. ' ' .. line_col()
   statusline = statusline .. sep()
   statusline = statusline .. ' ' .. get_icon(vim.api.nvim_buf_get_name(0)) .. ' ' .. filename()
   statusline = statusline .. sep()
+  statusline = statusline .. ' ' .. line_col()
   statusline = statusline .. ' ' .. git_branch()
   statusline = statusline .. ' ' .. filetype()
   statusline = statusline .. ' ' .. lsp_info()

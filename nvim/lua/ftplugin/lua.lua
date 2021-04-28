@@ -53,8 +53,8 @@ vim.cmd([[
 
 require('amirrezaask.nvim').mode_map({
   n = {
-    ['<Space>x'] = '<cmd>lua EVAL()<CR>',
-    ['<Space>X'] = '<cmd>luafile %<CR>',
+    ['<leader>x'] = '<cmd>lua EVAL()<CR>',
+    ['<leader>X'] = '<cmd>luafile %<CR>',
   },
 })
 

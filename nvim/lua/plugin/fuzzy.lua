@@ -72,49 +72,49 @@ nvim.mode_map({
     ['g0'] = '<cmd>LSPDocumentSymbols<CR>',
     ['gW'] = '<cmd>LSPWorkspaceSymbols<CR>',
     ['gD'] = '<cmd>LSPDeclaration<CR>',
-    ['<Space>A'] = '<cmd>LSPCodeActions<CR>',
-    ['<Space>R'] = '<cmd>LSPRename<CR>',
-    ['<Space>lr'] = '<cmd>LSPReferences<CR>',
-    ['<Space>li'] = '<cmd>LSPImplementations<CR>',
-    ['<Space>ld'] = '<cmd>LSPDocumentSymbols<CR>',
-    ['<Space>lw'] = '<cmd>LSPWorkspaceSymbols<CR>',
-    ['<Space>lc'] = '<cmd>LSPCodeActions<CR>',
+    ['<leader>A'] = '<cmd>LSPCodeActions<CR>',
+    ['<leader>R'] = '<cmd>LSPRename<CR>',
+    ['<leader>lr'] = '<cmd>LSPReferences<CR>',
+    ['<leader>li'] = '<cmd>LSPImplementations<CR>',
+    ['<leader>ld'] = '<cmd>LSPDocumentSymbols<CR>',
+    ['<leader>lw'] = '<cmd>LSPWorkspaceSymbols<CR>',
+    ['<leader>lc'] = '<cmd>LSPCodeActions<CR>',
   },
 })
 nvim.mode_map({
   n = {
-    ['<Space><Space>'] = require('fuzzy').find_files,
-    ['<Space>fb'] = require('fuzzy').interactive_finder,
-    ['<Space>ec'] = function()
+    ['<leader><leader>'] = require('fuzzy').find_files,
+    ['<leader>fb'] = require('fuzzy').interactive_finder,
+    ['<leader>ec'] = function()
       require('fuzzy').find_files({ path = '~/src/github.com/amirrezaask/dotfiles', prompt = 'Edit dotfiles> ' })
     end,
-    ['<Space>en'] = function()
+    ['<leader>en'] = function()
       require('fuzzy').find_files({ path = '~/.config/nvim', prompt = 'Edit Neovim> ' })
     end,
-    ['<Space>ez'] = function()
+    ['<leader>ez'] = function()
       require('fuzzy').find_files({ path = '~/src/github.com/amirrezaask/dotfiles/zsh', prompt = 'Edit ZSH> ' })
     end,
-    ['<Space>fp'] = function()
+    ['<leader>fp'] = function()
       require('fuzzy').find_repo({ locations = { '~/.local/share/nvim/site/pack/packer' }, prompt = 'Find plugins> ' })
     end,
-    ['<Space>gf'] = function()
+    ['<leader>gf'] = function()
       require('fuzzy').git_files({})
     end,
     ['<C-p>'] = require('fuzzy').git_files,
-    ['<Space>fr'] = require('fuzzy').recent_files,
-    ['<Space>pf'] = function()
+    ['<leader>fr'] = require('fuzzy').recent_files,
+    ['<leader>pf'] = function()
       require('fuzzy').find_repo({ locations = { '~/src' } })
     end,
     ['??'] = function()
       require('fuzzy').grep({ height = 90, width = 70 })
     end,
-    ['<Space>b'] = require('fuzzy').buffers,
-    ['<Space>gg'] = require('fuzzy').git_grep,
-    ['<Space>c'] = require('fuzzy').commands,
-    ['<Space>h'] = require('fuzzy').help,
-    ['<Space>gc'] = require('fuzzy').git_commits,
-    ['<Space>gb'] = require('fuzzy').git_bcommits,
-    ['<Space>gco'] = require('fuzzy').git_checkout,
+    ['<leader>b'] = require('fuzzy').buffers,
+    ['<leader>gg'] = require('fuzzy').git_grep,
+    ['<leader>c'] = require('fuzzy').commands,
+    ['<leader>h'] = require('fuzzy').help,
+    ['<leader>gc'] = require('fuzzy').git_commits,
+    ['<leader>gb'] = require('fuzzy').git_bcommits,
+    ['<leader>gco'] = require('fuzzy').git_checkout,
   },
 })
 
