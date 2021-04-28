@@ -65,7 +65,7 @@ end
 
 local function git_branch()
   local branch = vim.fn['fugitive#head']()
-  if branch ~= nil then
+  if branch ~= nil and branch ~= '' then
     local has_icons, _ = pcall(require, 'nvim-web-devicons')
     if not has_icons then
       return branch
@@ -73,7 +73,7 @@ local function git_branch()
     local icon, _ = require('nvim-web-devicons').get_icon('', 'git')
     return icon .. ' ' .. branch
   end
-  return '[NOT REPO]'
+  return ''
 end
 
 function Statusline()
