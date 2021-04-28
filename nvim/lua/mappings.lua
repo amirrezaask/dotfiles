@@ -10,9 +10,9 @@ nvim.map({
   ['<f5>'] = '<cmd> Run<CR>',
 })
 
+vim.cmd([[ nnoremap <expr><CR> {-> v:hlsearch ? ":nohl<CR>" : "<CR>"}() ]])
 nvim.mode_map({
   n = {
-    ['<Space>/'] = ':nohl<CR>',
     ['tn'] = ':tabnext<CR>',
     ['tp'] = ':tabprevious<CR>',
     ['tc'] = ':tabclose<CR>',
