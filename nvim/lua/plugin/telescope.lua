@@ -6,7 +6,7 @@ local conf = require('telescope.config').values
 local repos = require('amirrezaask.repos')
 local telescope = require('telescope')
 
-vim.cmd([[ 
+vim.cmd([[
   hi TelescopeSelection guifg=#f04c75
   hi TelescopePreviewLine guifg=#01ff3c
   hi TelescopePreviewMatch guifg=#f04c75

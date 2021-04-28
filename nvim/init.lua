@@ -1,4 +1,5 @@
 local nvim = require('amirrezaask.nvim')
+
 nvim.with_options({
   ignorecase = true,
   modeline = true,
@@ -37,7 +38,7 @@ require('amirrezaask.statusline')
 require('plugin.base16')
 
 -- Plugins and configurations
-nvim.colorscheme('gruvbox')
+nvim.colorscheme('comrade')
 require('plugin.plugins')
 require('plugin.telescope')
 require('plugin.compe')

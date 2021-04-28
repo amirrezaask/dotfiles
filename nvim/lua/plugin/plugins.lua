@@ -41,7 +41,7 @@ return require('packer').startup({
     use({ 'ThePrimeagen/git-worktree.nvim' })
     use({ 'norcalli/snippets.nvim' })
 
-    use({ 'mhinz/vim-startify' })
+    -- use({ 'mhinz/vim-startify' })
     -- nlua for dev
     use({ 'tjdevries/nlua.nvim' })
 
