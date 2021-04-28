@@ -38,7 +38,8 @@ require('amirrezaask.statusline')
 require('plugin.base16')
 
 -- Plugins and configurations
-nvim.colorscheme('gruvbox')
+-- nvim.colorscheme('gruvbox')
+require('colorbuddy').colorscheme('gruvbuddy')
 require('plugin.plugins')
 require('plugin.telescope')
 require('plugin.compe')

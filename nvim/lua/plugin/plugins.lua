@@ -23,7 +23,7 @@ return require('packer').startup({
     use({ 'gruvbox-community/gruvbox' })
     use({ 'amirrezaask/nvim-base16.lua' })
     use({ 'tjdevries/colorbuddy.nvim' })
-    use({ 'amirrezaask/gruvbuddy.nvim' })
+    use({ 'tjdevries/gruvbuddy.nvim' })
 
     -- Fuzzy.nvim
     use({ 'amirrezaask/spawn.nvim' })
@@ -32,7 +32,6 @@ return require('packer').startup({
     -- Telescope.nvim
     use({ 'nvim-lua/plenary.nvim' })
     use('nvim-lua/popup.nvim')
-    use({ 'nvim-lua/completion.nvim' })
     -- use('nvim-telescope/telescope.nvim')
     use({ 'amirrezaask/telescope.nvim' })
     use('nvim-telescope/telescope-fzy-native.nvim')
