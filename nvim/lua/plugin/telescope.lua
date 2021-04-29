@@ -18,12 +18,12 @@ telescope.setup({
       horizontal = {
         width_padding = 0.1,
         height_padding = 0.1,
-        preview_width = 0.6,
+        preview_width = 0.65,
       },
       vertical = {
         width_padding = 0.1,
         height_padding = 0.1,
-        preview_height = 0.3,
+        preview_height = 0.6,
       },
     },
     file_previewer = require('telescope.previewers').vim_buffer_cat.new,
@@ -169,7 +169,6 @@ require('amirrezaask.nvim').mode_map({
     ['<leader>gwc'] = require('telescope').extensions.git_worktree.create_git_worktree,
     ['<leader>gwl'] = require('telescope').extensions.git_worktree.git_worktrees,
     ['<leader>tf'] = require('telescope.builtin').treesitter,
-    ['<C-q>'] = require('telescope.builtin').quickfix,
   },
 })
 
