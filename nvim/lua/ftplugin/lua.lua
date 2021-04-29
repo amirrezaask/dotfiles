@@ -39,6 +39,8 @@ function lua.format(opts)
   vim.cmd([[ e ]])
 end
 
+nvim.command('LuaFormat', lua.format)
+
 nvim.augroup({
   lua = {
     'BufEnter',
@@ -47,9 +49,9 @@ nvim.augroup({
   },
 })
 
-vim.cmd([[
-  autocmd BufWritePre *.lua lua require'ftplugin.lua'.format()
-]])
+-- vim.cmd([[
+--   autocmd BufWritePre *.lua lua require'ftplugin.lua'.format()
+-- ]])
 
 require('amirrezaask.nvim').mode_map({
   n = {

@@ -1,6 +1,6 @@
 local lspconfig = require('lspconfig')
 
-local function on_attach(_client)
+local function on_attach(_)
   require('amirrezaask.nvim').mode_map({
     n = {
       ['gd'] = function()

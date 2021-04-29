@@ -6,13 +6,6 @@ local conf = require('telescope.config').values
 local repos = require('amirrezaask.repos')
 local telescope = require('telescope')
 
--- vim.cmd([[
---   hi TelescopeSelection guifg=#f04c75
---   hi TelescopePreviewLine guifg=#01ff3c
---   hi TelescopePreviewMatch guifg=#f04c75
---   hi TelescopeMatching guifg=#ffff1e
--- ]])
-
 telescope.setup({
   defaults = {
     prompt_prefix = ' ',
@@ -37,9 +30,17 @@ telescope.setup({
     grep_previewer = require('telescope.previewers').vim_buffer_vimgrep.new,
     qflist_previewer = require('telescope.previewers').vim_buffer_qflist.new,
     mappings = {
+      n = {
+        ['<ESC>'] = actions.close,
+        ['<C-c>'] = actions.close,
+        ['jk'] = actions.close,
+        ['jj'] = actions.close,
+        ['kk'] = actions.close,
+        ['kj'] = actions.close,
+      },
       i = {
         ['<C-c>'] = actions.close,
-        ['<ESC>'] = actions.close,
+        -- ['<ESC>'] = actions.close,
         ['<C-q>'] = actions.send_to_qflist,
         ['<C-j>'] = actions.move_selection_next,
         ['<C-k>'] = actions.move_selection_previous,
