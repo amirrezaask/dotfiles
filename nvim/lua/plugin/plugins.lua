@@ -16,6 +16,7 @@ return require('packer').startup({
         _use(opts)
       end
     end
+   
     -- Plugin Manager
     use({ 'wbthomason/packer.nvim' })
 
@@ -31,7 +32,8 @@ return require('packer').startup({
 
     -- Telescope.nvim
     use({ 'nvim-lua/plenary.nvim' })
-    use('nvim-lua/popup.nvim')
+    use({'nvim-lua/popup.nvim'})
+    use({'nvim-lua/completion.nvim'})
 
     -- use('nvim-telescope/telescope.nvim')
     use({ 'amirrezaask/telescope.nvim' })
@@ -75,24 +77,31 @@ return require('packer').startup({
       'norcalli/nvim-colorizer.lua',
       branch = 'color-editor',
     })
+   
     -- Support for Dockerfile syntax
     use({ 'honza/dockerfile.vim' })
 
     -- Support for Nix programming language
     use({ 'LnL7/vim-nix', ft = 'nix' })
+   
     -- Support for Zig programming language
     use({ 'ziglang/zig.vim', ft = 'zig' })
+   
     -- Support for fish syntax
     use({ 'dag/vim-fish', ft = 'fish' })
+   
     -- Support for Rustlang syntax
     use({ 'rust-lang/rust.vim', ft = 'rust' })
     use({ 'simrat39/rust-tools.nvim' })
+    
     -- Autocomplete popup
-    use('hrsh7th/nvim-compe')
+    -- use('hrsh7th/nvim-compe')
 
     use({ 'chr4/nginx.vim' })
+   
     -- Toml support
     use({ 'cespare/vim-toml' })
+   
     -- Show indents
     use({ 'Yggdroot/indentLine' })
 
@@ -107,6 +116,7 @@ return require('packer').startup({
     -- Icons
     use('kyazdani42/nvim-web-devicons')
     use({ 'kyamatsum/nvim-nonicons' }) -- need to have nonicons font installed look into https://github.com/yamatsum/nonicons
+   
     -- Indent Guides
     use({ 'lukas-reineke/indent-blankline.nvim' })
   end,
