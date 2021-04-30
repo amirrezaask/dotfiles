@@ -2,9 +2,9 @@ local M = {}
 
 M.list_chars = {
   eol = '↲',
-  tab = '» ',
-  space = '',
-  trail = '·',
+  tab = '-> ',
+  lead = '·',
+  trail = '*',
   extends = '<',
   precedes = '>',
   conceal = '┊',
@@ -26,5 +26,7 @@ end
 return setmetatable(M, {
   __newindex = function(t, k, v)
     t.list_chars[k] = v
+    t:update()
   end,
+  __call = function(t, _) t:update() end
 })

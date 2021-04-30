@@ -150,9 +150,7 @@ require('amirrezaask.nvim').mode_map({
     ['<leader>pf'] = M.projects,
     ['<C-p>'] = require('telescope.builtin').git_files,
     ['<C-q>'] = require('telescope.builtin').quickfix,
-    ['??'] = function()
-      require('telescope.builtin').live_grep({ layout_strategy = 'vertical' })
-    end,
+    ['??'] = require('telescope.builtin').live_grep,
     ['<leader>b'] = require('telescope.builtin').buffers,
     ['<leader>ec'] = M.edit_configs,
     ['<leader>tc'] = M.base16_theme_selector,

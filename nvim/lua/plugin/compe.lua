@@ -33,7 +33,7 @@ vim.cmd([[set shortmess+=c]])
 require('amirrezaask.nvim').mode_map({
   i = {
     ['<expr> <C-Space>'] = 'compe#complete()',
-    ['<expr> <CR>'] = "compe#confirm('<CR>')",
+    ['<expr> <CR>'] = "compe#confirm()",
     ['<expr> <C-e>'] = "compe#close('<C-e>')",
     ['<expr> <C-f>'] = "compe#scroll( {'delta': +4} )",
     ['<expr> <C-d>'] = "compe#scroll( {'delta': -4} )",

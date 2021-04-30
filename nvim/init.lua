@@ -1,19 +1,21 @@
+-- Basic NeoVIM stuff
 require('options')
 require('mappings')
+
+-- Personal Modules
 require('ftplugin.lua')
 require('amirrezaask.terminal')
 require('amirrezaask.quickfix')
-require('amirrezaask.listchars'):update()
+require('amirrezaask.listchars')()
 require('amirrezaask.statusline')
-require('plugin.base16')
 
 -- Plugins and configurations
+require('plugin.plugins')
 require('colorbuddy').colorscheme('gruvbuddy')
 require('plugin.compe')
-require('plugin.plugins')
 require('plugin.telescope')
 require('plugin.colorizer')
-require('gitsigns').setup()
+require('plugin.gitsigns')
 require('plugin.mappings')
 require('plugin.snippets')
 require('plugin.lsp')
