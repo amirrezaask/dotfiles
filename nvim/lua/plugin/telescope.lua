@@ -149,6 +149,7 @@ require('amirrezaask.nvim').mode_map({
     ['<leader>fp'] = M.installed_plugins,
     ['<leader>pf'] = M.projects,
     ['<C-p>'] = require('telescope.builtin').git_files,
+    ['<C-q>'] = require('telescope.builtin').quickfix,
     ['??'] = function()
       require('telescope.builtin').live_grep({ layout_strategy = 'vertical' })
     end,
