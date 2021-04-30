@@ -1,17 +1,20 @@
 local function mode()
   local m = vim.fn.mode()
   if m == 'n' then
-    return '[Normal]'
+    return '%#Function#[Normal]%*'
   elseif m == 'v' or m == 'V' then
-    return '[Visual]'
-  elseif m == 'i' or m == 'ic' then
-    return '[Insert]'
+    return '%#StatusLine#[Visual]%*'
+  elseif m == 'i'  then
+    return '%#StatusLine#[Insert]%*'
+  elseif m == 'ic' or m == 'ix' then
+    return '[IComplete]'
   elseif m == 'c' then
-    return '[Command]'
+    return '%#Constant#[Command]%*'
   else
     return m
   end
 end
+
 local function filename()
   return '%f%<'
 end
