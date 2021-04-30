@@ -7,8 +7,14 @@ nvim.mode_map({
   },
 })
 
-snippets.snippets['_global'] = {
+local go = require('plugin.snippets.go')
+local lua = require('plugin.snippets.lua')
+
+local snips = {}
+snips.go = go
+snips.lua = lua
+snips._global = {
   date = os.date,
 }
-require('plugin.snippets.go')
-require('plugin.snippets.lua')
+
+snippets.snippets = snips

@@ -1,4 +1,4 @@
-require('snippets').snippets['go'] = {
+return {
   iferr = [[if err != nil { 
       $1
     }
