@@ -1,8 +1,10 @@
 vim.cmd([[packadd packer.nvim]])
+local personal_plugins_path = os.getenv('GOPATH') .. '/github.com/amirrezaask'
+
 return require('packer').startup({
   function(_use)
     local function use(opts)
-      local base = '/home/amirreza/src/github.com/'
+      local base = personal_plugins_path 
       local path
       if type(opts) == 'string' then
         path = opts
@@ -10,13 +12,18 @@ return require('packer').startup({
         path = opts[1]
       end
       if vim.fn.isdirectory(base .. path) ~= 0 then
-        opts[1] = base .. path
+        if type(opts) == 'table' then
+          opts[1] = base .. path
+        elseif type(opts) == 'string' then
+          opts = {base..path}
+        end
         _use(opts)
       else
         _use(opts)
       end
     end
-   
+    -- TODO(amirreza): simple function? in to put selected lines in a block
+    -- TODO(amirreza): Some treesitter R&D
     -- Plugin Manager
     use({ 'wbthomason/packer.nvim' })
 
@@ -25,10 +32,6 @@ return require('packer').startup({
     use({ 'amirrezaask/nvim-base16.lua' })
     use({ 'tjdevries/colorbuddy.nvim' })
     use({ 'amirrezaask/gruvbuddy.nvim' })
-
-    -- Fuzzy.nvim
-    use({ 'amirrezaask/spawn.nvim' })
-    use({ 'amirrezaask/fuzzy.nvim' })
 
     -- Telescope.nvim
     use({ 'nvim-lua/plenary.nvim' })
@@ -108,6 +111,7 @@ return require('packer').startup({
     -- Treesitter
     use({ 'nvim-treesitter/nvim-treesitter' })
     use({ 'nvim-treesitter/playground' })
+    use({ 'JoosepAlviste/nvim-ts-context-commentstring' })
 
     -- Debugger Adapter Protocol
     use({ 'mfussenegger/nvim-dap' })

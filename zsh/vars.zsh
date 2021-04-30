@@ -39,6 +39,7 @@ alias goland='~/jetbrains/GoLand-2020.3/bin/goland.sh 2>/dev/null  &'
 alias gdoc='godoc -http=:6060'
 alias flua='stylua --config-path ~/.stylua.toml'
 if type nvim > /dev/null 2>&1; then
+    export MANPAGER='nvim +Man!'
     alias vim='nvim'
     alias vi='nvim'
     alias v='nvim'
