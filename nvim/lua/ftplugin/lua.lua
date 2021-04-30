@@ -48,13 +48,17 @@ nvim.augroup({
     'set ts=2 sw=2 sts=2 expandtab',
   },
 })
+LuaAutoFormat = true
+
 function lua.enable_autoformat()
-  vim.cmd([[
-    autocmd BufWritePre <buffer> lua require'ftplugin.lua'.format()
-  ]])
+  if LuaAutoFormat then 
+    vim.cmd([[
+      autocmd BufWritePre <buffer> lua require'ftplugin.lua'.format()
+    ]])
+  end
 end
 
-vim.cmd([[ nnoremap ,af <cmd>lua require'ftplugin.lua'.enable_autoformat()<CR> ]])
+vim.cmd([[ nnoremap ,af <cmd>lua LuaAutoFormat=false<CR> ]])
 
 vim.api.nvim_buf_set_keymap(0, 'n', ',f', '<cmd>LuaFormat<CR>', { noremap = true })
 
