@@ -37,9 +37,9 @@ return require('packer').startup({
 
     -- use('nvim-telescope/telescope.nvim')
     use({ 'amirrezaask/telescope.nvim' })
-    use('nvim-telescope/telescope-fzy-native.nvim')
-    use('nvim-telescope/telescope-dap.nvim')
-    use('nvim-telescope/telescope-media-files.nvim')
+    use({'nvim-telescope/telescope-fzy-native.nvim'})
+    use({'nvim-telescope/telescope-dap.nvim'})
+    use({'nvim-telescope/telescope-media-files.nvim'})
     use({ 'ThePrimeagen/git-worktree.nvim' })
     use({ 'norcalli/snippets.nvim' })
 
@@ -95,7 +95,7 @@ return require('packer').startup({
     use({ 'simrat39/rust-tools.nvim' })
     
     -- Autocomplete popup
-    -- use('hrsh7th/nvim-compe')
+    use('hrsh7th/nvim-compe')
 
     use({ 'chr4/nginx.vim' })
    
@@ -114,9 +114,9 @@ return require('packer').startup({
     use({ 'theHamsta/nvim-dap-virtual-text' })
 
     -- Icons
-    use('kyazdani42/nvim-web-devicons')
+    use({'kyazdani42/nvim-web-devicons'})
     use({ 'kyamatsum/nvim-nonicons' }) -- need to have nonicons font installed look into https://github.com/yamatsum/nonicons
-   
+
     -- Indent Guides
     use({ 'lukas-reineke/indent-blankline.nvim' })
   end,

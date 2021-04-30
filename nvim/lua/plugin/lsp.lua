@@ -36,7 +36,6 @@ local function on_attach(_)
       end,
     },
   })
-  require'plugin.completion'.on_attach()
 end
 
 lspconfig.gopls.setup({ on_attach = on_attach })
