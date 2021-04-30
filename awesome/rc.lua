@@ -210,12 +210,9 @@ awful.screen.connect_for_each_screen(function(s)
       s.mypromptbox,
     },
     s.mytasklist,
-    {
-      layout = wibox.layout.fixed.horizontal,
-      rhythmbox_widget,
-    },
     { -- Right widgets
       layout = wibox.layout.fixed.horizontal,
+      rhythmbox_widget,
       mykeyboardlayout,
       wibox.widget.systray(),
       splitter,

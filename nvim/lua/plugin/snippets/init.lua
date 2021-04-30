@@ -7,17 +7,8 @@ nvim.mode_map({
   },
 })
 
-snippets.snippets = {
-  _global = {
-    date = os.date,
-  },
-  lua = {
-    todo = '-- TODO(amirreza): $1',
-  },
-  go = {
-    iferr = [[ if err != nil { 
-      $1
-    }
-    ]]
-  }
+snippets.snippets['_global'] = {
+  date = os.date,
 }
+require('plugin.snippets.go')
+require('plugin.snippets.lua')
