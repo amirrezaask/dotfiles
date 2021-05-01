@@ -50,8 +50,6 @@ return require('packer').startup({
     use({ 'tjdevries/nlua.nvim' })
     -- }}}
 
-    -- Hashicorp tools
-
     -- Vim Surround text objects
     use({ 'tpope/vim-surround' })
 
