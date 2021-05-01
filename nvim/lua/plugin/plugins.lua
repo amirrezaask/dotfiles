@@ -32,6 +32,8 @@ return require('packer').startup({
     use({ 'amirrezaask/gruvbuddy.nvim' })
     -- }}}
 
+    -- Spawn.nvim for async/sync jobs
+    use({'amirrezaask/spawn.nvim'})
     -- Telescope.nvim {{{
     use({ 'nvim-lua/plenary.nvim' })
     use({ 'nvim-lua/popup.nvim' })

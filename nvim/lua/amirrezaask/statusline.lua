@@ -1,4 +1,4 @@
-local Job = require('plenary.job')
+local spawn = require('spawn')
 
 local function mode()
   local m = vim.fn.mode()
@@ -71,7 +71,11 @@ end
 local __BRANCH = ''
 
 function StatusLineUpdateGitBranch()
-  local branch = Job:new({ command = 'git', args={'branch', '--show-current'} }):sync(1000)
+  local branch = spawn{
+    command = 'git',
+    args = {'branch', '--show-current'},
+    sync = {timeout=1000}
+  }
   if branch ~= nil and branch ~= '' and #branch > 0 then
     local has_icons, _ = pcall(require, 'nvim-web-devicons')
     if not has_icons then
