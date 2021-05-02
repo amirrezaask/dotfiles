@@ -27,6 +27,7 @@ nvim.with_options({
   splitbelow = true,
   cursorline = true,
   relativenumber = true,
+  number = true,
   pumblend = 17,
 })
 

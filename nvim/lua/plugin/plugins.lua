@@ -30,6 +30,7 @@ return require('packer').startup({
     -- Ultimate Colorscheme of all time {{{
     use({ 'tjdevries/colorbuddy.nvim' })
     use({ 'amirrezaask/gruvbuddy.nvim' })
+    use({ 'amirrezaask/gruvbox'})
     -- }}}
 
     -- Spawn.nvim for async/sync jobs
