@@ -26,7 +26,7 @@ function floating:new(opts)
   vim.api.nvim_buf_set_option(buf, 'buftype', 'nofile')
   vim.api.nvim_buf_set_keymap(buf, 'n', 'q', '<cmd>bd!<cr>', {})
 
-  vim.api.nvim_open_win(buf, true, {
+  local win = vim.api.nvim_open_win(buf, true, {
     relative = 'editor',
     width = win_width,
     height = win_height,
@@ -34,7 +34,7 @@ function floating:new(opts)
     col = col,
     border = 'single'
   })
-
+  vim.api.nvim_win_set_option(win, 'winhl', 'Normal:Normal')
   if type(opts.source) == 'string' then
     vim.fn.jobstart(opts.source, {
       on_exit = function(_, code, _)
@@ -59,5 +59,7 @@ function floating:new(opts)
     vim.api.nvim_buf_set_lines(buf, 0, -1, false, opts.source)
   end
 end 
+
+vim.cmd [[command! -nargs=1 Floating lua require'amirrezaask.floating':new({source=<f-args>})]]
 
 return floating
