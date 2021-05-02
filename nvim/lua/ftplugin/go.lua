@@ -1,4 +1,5 @@
 local go = {}
+local floating = require('amirrezaask.floating')
 
 function go.imports(filename)
   filename = filename or vim.api.nvim_buf_get_name(vim.api.nvim_get_current_buf())
@@ -11,6 +12,24 @@ function go.fmt(pkg)
   pkg = pkg or '.'
   vim.cmd(string.format('silent ! go fmt %s', pkg))
 end
+
+
+-- this should open a floating window with output of go test 
+function go.test()
+  floating:new {
+    source = 'go test -v ./...'
+  }
+end
+vim.cmd [[ command! GoTest lua require'ftplugin.go'.test() ]]
+
+function go.build()
+  floating:new {
+    source = 'go build ./...'
+  }
+end
+
+vim.cmd([[ command! GoBuild lua require'ftplugin.go'.build() ]])
+
 local function default_formatter()
   if vim.fn.executable('goimports') then
     return 'goimports'
@@ -19,9 +38,9 @@ local function default_formatter()
   end
 end
 if default_formatter() == 'goimports' then
-  vim.cmd([[autocmd BufWritePre *.go lua require('ftplugin.go').imports()]])
+  vim.cmd([[autocmd BufWritePre <buffer> lua require('ftplugin.go').imports()]])
 else
-  vim.cmd([[autocmd BufWritePre *.go lua require('ftplugin.go').fmt()]])
+  vim.cmd([[autocmd BufWritePre <buffer> lua require('ftplugin.go').fmt()]])
 end
 
 return go
