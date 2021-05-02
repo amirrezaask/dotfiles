@@ -14,7 +14,7 @@ end
 function floating:new(opts)
   opts = opts or {}
   assert(opts.source, 'need to specify source for the floating window')
-  opts.width_pct = opts.width_pct or 80
+  opts.width_pct = opts.width_pct or 90
   opts.height_pct = opts.height_pct or 60
 
   local win_width = math.ceil(vim.api.nvim_get_option('columns') * opts.width_pct / 100)
@@ -59,7 +59,5 @@ function floating:new(opts)
     vim.api.nvim_buf_set_lines(buf, 0, -1, false, opts.source)
   end
 end 
-
-vim.cmd [[command! -nargs=1 Floating lua require'amirrezaask.floating':new({source=<f-args>})]]
 
 return floating
