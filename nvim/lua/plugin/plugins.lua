@@ -109,6 +109,7 @@ return require('packer').startup({
     -- Debugger Adapter Protocol {{{
     use({ 'mfussenegger/nvim-dap' })
     use({ 'theHamsta/nvim-dap-virtual-text' })
+    -- }}}
 
     -- Icons {{{
     use({ 'kyazdani42/nvim-web-devicons' })

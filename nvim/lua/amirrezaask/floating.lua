@@ -38,9 +38,7 @@ function floating:new(opts)
   if type(opts.source) == 'string' then
     vim.fn.jobstart(opts.source, {
       on_exit = function(_, code, _)
-        if code ~= 0 then
-          print('process exited with code ' .. code)
-        end
+        print('process exited with code ' .. code)
       end,
       on_stdout = function(_, data, _)
         vim.schedule(function() 
@@ -60,4 +58,8 @@ function floating:new(opts)
   end
 end 
 
+function floating:command()
+  local cmd = vim.fn.input('command: ')
+  floating:new({source=cmd})
+end
 return floating

@@ -11,8 +11,8 @@ telescope.setup({
     prompt_prefix = ' ',
     selection_caret = ' ',
     layout_strategy = 'flex',
-    prompt_position = 'bottom',
-    sorting_strategy = 'descending',
+    prompt_position = 'top',
+    sorting_strategy = 'ascending',
     borderchars = { '─', '│', '─', '│', '┌', '┐', '┘', '└' },
     layout_defaults = {
       horizontal = {
@@ -23,7 +23,7 @@ telescope.setup({
       vertical = {
         width_padding = 0.1,
         height_padding = 0.1,
-        preview_height = 0.6,
+        preview_height = 0.68,
       },
     },
     file_previewer = require('telescope.previewers').vim_buffer_cat.new,
