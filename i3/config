@@ -174,7 +174,7 @@ exec_always setxkbmap -layout "us,ir" -option "grp:shifts_toggle" -option "ctrl:
 exec_always feh --bg-scale /home/amirreza/w/dotfiles/wallpapers/road.jpg
 
 # Set wallpaper
-exec --no-startup-id feh --bg-fill ~/w/dotfiles/i3/black.png
-
+exec_always --no-startup-id feh --bg-fill ~/Downloads/AywMq6D.jpg
+exec_always --no-startup-id picom &
 # VMWare tools integration
 exec --no-startup-id vmware-user

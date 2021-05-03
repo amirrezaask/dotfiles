@@ -23,7 +23,7 @@ local function base16_theme_selector()
   })
 end
 
-vim.cmd([[ highlight FuzzyMatching guifg=#f2904b guibg=none guisp=none ]])
+-- vim.cmd([[ highlight FuzzyMatching guifg=#f2904b guibg=none guisp=none ]])
 
 local fuzzy = {}
 

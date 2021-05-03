@@ -11,7 +11,8 @@ require('amirrezaask.statusline')
 
 -- Plugins and configurations
 require('plugin.plugins')
-require('colorbuddy').colorscheme('gruvbuddy')
+require'amirrezaask.nvim'.colorscheme('gruvbox')
+-- require('colorbuddy').colorscheme('gruvbuddy')
 require('plugin.compe')
 require('plugin.telescope')
 require('plugin.colorizer')

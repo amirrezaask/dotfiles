@@ -29,6 +29,7 @@ nvim.with_options({
   relativenumber = true,
   number = true,
   pumblend = 17,
+  shortmess = "aI",
 })
 
 vim.g.netrw_banner = 0
