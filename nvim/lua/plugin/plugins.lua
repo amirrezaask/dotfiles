@@ -1,5 +1,5 @@
 vim.cmd([[packadd packer.nvim]])
-local personal_plugins_path = os.getenv('GOPATH') .. '/github.com/amirrezaask'
+local personal_plugins_path = os.getenv('HOME') .. '/src/github.com/'
 
 return require('packer').startup({
   function(_use)
@@ -114,7 +114,7 @@ return require('packer').startup({
 
     -- Icons {{{
     use({ 'kyazdani42/nvim-web-devicons' })
-    use({ 'kyamatsum/nvim-nonicons' }) -- need to have nonicons font installed look into https://github.com/yamatsum/nonicons
+    use({ 'yamatsum/nvim-nonicons' }) -- need to have nonicons font installed look into https://github.com/yamatsum/nonicons
     -- }}}
   end,
 })
