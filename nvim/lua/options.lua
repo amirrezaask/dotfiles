@@ -28,7 +28,7 @@ nvim.with_options({
   cursorline = true,
   relativenumber = true,
   number = true,
-  pumblend = 17,
+  pumblend = 13,
   shortmess = "aI",
 })
 

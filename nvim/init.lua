@@ -11,7 +11,7 @@ require('amirrezaask.statusline')
 
 -- Plugins and configurations
 require('plugin.plugins')
-require('colorbuddy').colorscheme('gruvbuddy')
+require('colorbuddy').colorscheme('comrade')
 require('plugin.compe')
 require('plugin.telescope')
 require('plugin.colorizer')
