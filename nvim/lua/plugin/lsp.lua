@@ -13,6 +13,9 @@ local function on_attach(_)
       ['gR'] = function()
         require('telescope.builtin').lsp_references(require('plugin.telescope').vertical_opts)
       end,
+      ['<leader>lR'] = function()
+        vim.lsp.buf.rename()
+      end,
       ['<leader>lr'] = function()
         require('telescope.builtin').lsp_references(require('plugin.telescope').vertical_opts)
       end,

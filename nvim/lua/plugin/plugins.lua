@@ -33,6 +33,11 @@ return require('packer').startup({
     use({ 'amirrezaask/gruvbox'})
     -- }}}
 
+    -- FZF {{{
+    use({ 'junegunn/fzf'})
+    use({ 'junegunn/fzf.vim'})
+    --
+    -- }}}
     -- Spawn.nvim for async/sync jobs
     use({'amirrezaask/spawn.nvim'})
 
