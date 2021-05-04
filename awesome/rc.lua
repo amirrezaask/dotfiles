@@ -558,5 +558,6 @@ end)
 
 -- Setup xrandr
 awful.spawn('xrandr --output eDP-1 --right-of DP-1 --output eDP-1 --left-of HDMI-2 --output DP-1 --left-of eDP-1')
+
 -- Set wallpaper
-awful.spawn('feh --bg-scale ~/src/github.com/amirrezaask/dotfiles/wallpapers/darksideofthemoon.png')
+awful.spawn('feh --bg-scale /home/amirreza/src/github.com/amirrezaask/dotfiles/wallpapers/lua.png')
