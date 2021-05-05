@@ -27,11 +27,13 @@ return require('packer').startup({
     -- Plugin Manager
     use({ 'wbthomason/packer.nvim' })
 
-    -- Ultimate Colorscheme of all time {{{
+    -- Ultimate Colorschemes of all time {{{
     use({ 'tjdevries/colorbuddy.nvim' })
     use({ 'amirrezaask/gruvbuddy.nvim' })
     use({ 'amirrezaask/comrade.nvim' })
     use({ 'amirrezaask/gruvbox'})
+    use({ 'bluz71/vim-nightfly-guicolors' })
+    use({ 'dracula/vim' })
     -- }}}
 
     -- FZF {{{
@@ -121,8 +123,8 @@ return require('packer').startup({
     -- }}}
 
     -- Icons {{{
-    use({ 'kyazdani42/nvim-web-devicons' })
-    use({ 'yamatsum/nvim-nonicons' }) -- need to have nonicons font installed look into https://github.com/yamatsum/nonicons
+    -- use({ 'kyazdani42/nvim-web-devicons' })
+    -- use({ 'yamatsum/nvim-nonicons' }) -- need to have nonicons font installed look into https://github.com/yamatsum/nonicons
     -- }}}
   end,
 })

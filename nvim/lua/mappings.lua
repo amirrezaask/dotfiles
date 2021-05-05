@@ -8,6 +8,10 @@ nvim.map({
   Q = '<nop>',
   [';'] = ':',
   ['<f5>'] = '<cmd> Run<CR>',
+  ['<Left>'] = '<cmd>vertical resize -5<CR>',
+  ['<Right>'] = '<cmd>vertical resize +5<CR>',
+  ['<Up>'] = '<cmd>resize +5<CR>',
+  ['<Down>'] = '<cmd>resize -5<CR>',
 })
 
 vim.cmd([[ nnoremap <expr><CR> {-> v:hlsearch ? ":nohl<CR>" : "<CR>"}() ]])

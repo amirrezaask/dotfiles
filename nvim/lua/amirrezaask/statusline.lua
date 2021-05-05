@@ -1,5 +1,3 @@
-local Job = require('plenary.job')
-
 local function mode()
   local m = vim.fn.mode()
   if m == 'n' then
@@ -17,9 +15,8 @@ local function mode()
   end
 end
 
-local function filename()
-  return '%f%<'
-end
+local filename = '%f%<'
+
 local function lsp_info()
   local warnings = vim.lsp.diagnostic.get_count(0, 'Warning')
   local errors = vim.lsp.diagnostic.get_count(0, 'Error')
@@ -45,16 +42,12 @@ local function lsp_info()
   return '[' .. output .. ']'
 end
 
-local function line_col()
-  return '[ %l:%c ]'
-end
+local line_col = '[ %l:%c ]'
 
-local function filetype()
-  return '%y'
-end
-local function sep()
-  return '%='
-end
+local filetype = '%y'
+
+local sep = '%='
+
 local function get_icon(file)
   local has_icons, _ = pcall(require, 'nvim-web-devicons')
   if not has_icons then
@@ -71,19 +64,7 @@ end
 local __BRANCH = ''
 
 function StatusLineUpdateGitBranch()
-  local branch = Job:new({
-    command = 'git',
-    args = { 'branch', '--show-current' },
-  }):sync(1000)
-  if branch ~= nil and branch ~= '' and #branch > 0 then
-    local has_icons, _ = pcall(require, 'nvim-web-devicons')
-    if not has_icons then
-      __BRANCH = branch[1]
-    end
-    local icon, _ = require('nvim-web-devicons').get_icon('', 'git')
-    __BRANCH = icon .. ' ' .. branch[1]
-  end
-  return ''
+  __BRANCH = vim.fn['fugitive#head']()
 end
 
 -- Only update statusline on BufEnter
@@ -93,11 +74,11 @@ function Statusline()
   local statusline = ''
   statusline = statusline .. mode()
   statusline = statusline .. ' ' .. __BRANCH
-  statusline = statusline .. sep()
-  statusline = statusline .. ' ' .. get_icon(vim.api.nvim_buf_get_name(0)) .. ' ' .. filename()
-  statusline = statusline .. sep()
-  statusline = statusline .. ' ' .. line_col()
-  statusline = statusline .. ' ' .. filetype()
+  statusline = statusline .. sep
+  statusline = statusline .. ' ' .. filename .. '%m'
+  statusline = statusline .. sep
+  statusline = statusline .. ' ' .. line_col
+  statusline = statusline .. ' ' .. filetype
   statusline = statusline .. ' ' .. lsp_info()
   return statusline
 end

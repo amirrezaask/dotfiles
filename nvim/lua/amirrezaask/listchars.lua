@@ -22,6 +22,7 @@ function M.update(self, chars)
   vim.cmd(string.format('let &listchars="%s"', table.concat(list_chars_tuple, ',')))
 end
 
+M:update()
 return setmetatable(M, {
   __newindex = function(t, k, v)
     t.list_chars[k] = v

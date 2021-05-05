@@ -3,11 +3,10 @@ local floating = require('amirrezaask.floating')
 
 function go.imports(filename)
   filename = filename or vim.api.nvim_buf_get_name(vim.api.nvim_get_current_buf())
-  print(filename)
-  vim.cmd([[ w ]])
   vim.cmd(string.format([[ silent ! goimports -w %s ]], filename))
-  vim.cmd([[ e ]])
+  vim.cmd([[ silent ! e ]])
 end
+
 function go.fmt(pkg)
   pkg = pkg or '.'
   vim.cmd(string.format('silent ! go fmt %s', pkg))
@@ -38,9 +37,9 @@ local function default_formatter()
   end
 end
 if default_formatter() == 'goimports' then
-  vim.cmd([[autocmd BufWritePre <buffer> lua require('ftplugin.go').imports()]])
+  vim.cmd([[autocmd BufWritePost <buffer> lua require('ftplugin.go').imports()]])
 else
-  vim.cmd([[autocmd BufWritePre <buffer> lua require('ftplugin.go').fmt()]])
+  vim.cmd([[autocmd BufWritePost <buffer> lua require('ftplugin.go').fmt()]])
 end
 
 return go
