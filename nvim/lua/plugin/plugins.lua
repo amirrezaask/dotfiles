@@ -39,11 +39,8 @@ return require('packer').startup({
     -- FZF {{{
     use({ 'junegunn/fzf'})
     use({ 'junegunn/fzf.vim'})
-    --
     -- }}}
-    -- Spawn.nvim for async/sync jobs
-    use({'amirrezaask/spawn.nvim'})
-
+    
     -- Telescope.nvim {{{
     use({ 'nvim-lua/plenary.nvim' })
     use({ 'nvim-lua/popup.nvim' })
