@@ -75,7 +75,7 @@ function Statusline()
   statusline = statusline .. mode()
   statusline = statusline .. ' ' .. __BRANCH
   statusline = statusline .. sep
-  statusline = statusline .. ' ' .. get_icon(vim.api.nvim_buf_get_name(0)) .. filename .. '%m'
+  statusline = statusline .. ' ' .. get_icon(vim.api.nvim_buf_get_name(0)) .. ' ' .. filename .. '%m'
   statusline = statusline .. sep
   statusline = statusline .. ' ' .. line_col
   statusline = statusline .. ' ' .. filetype
