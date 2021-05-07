@@ -4,7 +4,13 @@ local nvim = require('amirrezaask.nvim')
 local repos = require('amirrezaask.repos')
 local fzf = {}
 
-vim.g.fzf_layout = { down = '40%' }
+-- vim.g.fzf_layout = { down = '40%' }
+vim.g.fzf_layout = { window = { width = 0.8, height = 0.8 }}
+
+vim.g.fzf_action = {
+  ['ctrl-v'] = 'vsplit',
+  ['ctrl-s'] = 'split'
+}
 normal_maps['<leader><leader>'] = '<cmd>Files<CR>'
 normal_maps['<leader>ec'] = '<cmd>Files /home/amirreza/src/github.com/amirrezaask/dotfiles<CR>'
 normal_maps['<leader>en'] = '<cmd>Files /home/amirreza/.config/nvim<CR>'
@@ -12,7 +18,6 @@ normal_maps['<leader>ez'] = '<cmd>Files /home/amirreza/src/github.com/amirrezaas
 normal_maps['<leader>fp'] = '<cmd>Files /home/amirreza/.local/share/nvim/site/pack/packer/start<CR>'
 normal_maps['<leader>gf'] = '<cmd>GFiles<CR>'
 normal_maps['<C-p>'] = '<cmd>GFiles<CR>'
-normal_maps['<C-q>'] = '<cmd>Quickfix<CR>'
 normal_maps['<leader>fr'] = '<cmd>MRU<CR>'
 normal_maps['<leader>pf'] = '<cmd>lua Projects({"/home/amirreza/src"})<CR>'
 normal_maps['??'] = '<cmd>Rg<CR>'
@@ -85,8 +90,10 @@ end
 
 function FZF(opts)
   opts = opts or {}
-  opts.down = opts.down or '40%'
-  vim.fn.call('fzf#run', { opts })
+  local fzf_args = vim.g.fzf_layout
+  fzf_args.source = opts.source
+  fzf_args.sink = opts.sink
+  vim.fn.call('fzf#run', { fzf_args })
 end
 
 function WrapQuickfix(callback)
