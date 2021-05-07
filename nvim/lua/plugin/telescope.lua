@@ -5,13 +5,14 @@ local pickers = require('telescope.pickers')
 local conf = require('telescope.config').values
 local repos = require('amirrezaask.repos')
 local telescope = require('telescope')
+local themes = require('telescope.themes')
 
 telescope.setup({
   defaults = {
     prompt_prefix = ' ',
     selection_caret = ' ',
     layout_strategy = 'flex',
-    prompt_position = 'top',
+    prompt_position = 'bottom',
     sorting_strategy = 'descending',
     borderchars = { '─', '│', '─', '│', '┌', '┐', '┘', '└' },
     layout_defaults = {
@@ -91,6 +92,13 @@ function M.buffer_git_files()
   })
 end
 
+function M.find_files()
+  if vim.fn.isdirectory('.git') ~= 0 then
+    return M.git_files()
+  end
+  return require('telescope.builtin').find_files()
+end
+
 function M.projects()
   pickers.new({}, {
     finder = finders.new_table({
@@ -142,6 +150,10 @@ function M.lsp_workspace_symbols()
   })
 end
 
+function M.git_files()
+  require('telescope.builtin').git_files(themes.get_dropdown()) 
+end
+
 M.vertical_opts = {
   layout_strategy = 'vertical',
 }
@@ -152,7 +164,7 @@ require('amirrezaask.nvim').mode_map({
     ['<leader>fb'] = require('telescope.builtin').file_browser,
     ['<leader>fp'] = M.installed_plugins,
     ['<leader>pf'] = M.projects,
-    ['<C-p>'] = require('telescope.builtin').git_files,
+    ['<C-p>'] = M.find_files,
     ['<C-q>'] = require('telescope.builtin').quickfix,
     ['??'] = require('telescope.builtin').live_grep,
     ['<leader>b'] = require('telescope.builtin').buffers,

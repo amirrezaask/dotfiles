@@ -5,6 +5,7 @@ nvim.mode_map({
   n = {
     ['{'] = ':cprev<CR>',
     ['}'] = ':cnext<CR>',
+
   },
 })
 return M
