@@ -51,6 +51,7 @@ return require('packer').startup({
     use({ 'nvim-telescope/telescope-media-files.nvim' })
     use({ 'nvim-telescope/telescope-github.nvim' })
     use({ 'nvim-telescope/telescope-snippets.nvim' })
+    use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
     -- }}}
 
     -- Snippets {{{

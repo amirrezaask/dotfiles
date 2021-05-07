@@ -16,6 +16,7 @@ local function mode()
 end
 
 local filename = '%f%<'
+local percent_of_file = '%p'
 
 local function lsp_info()
   local warnings = vim.lsp.diagnostic.get_count(0, 'Warning')
@@ -42,7 +43,7 @@ local function lsp_info()
   return '[' .. output .. ']'
 end
 
-local line_col = '[ %l:%c ]'
+local line_col = '[ %l:%c %P ]'
 
 local filetype = '%y'
 
