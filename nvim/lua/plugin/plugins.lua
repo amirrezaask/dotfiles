@@ -120,7 +120,6 @@ return require('packer').startup({
     use({ 'theHamsta/nvim-dap-virtual-text' })
     -- }}}
 
-    use ({ 'fatih/vim-go' })
     -- Icons {{{
     use({ 'kyazdani42/nvim-web-devicons' })
     use({ 'yamatsum/nvim-nonicons' }) -- need to have nonicons font installed look into https://github.com/yamatsum/nonicons
