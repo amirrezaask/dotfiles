@@ -58,36 +58,6 @@ normal_maps['<leader>gs'] = '<cmd>GitFiles?<CR>'
 --   })
 -- end
 
--- function M.edit_configs()
---   require('telescope.builtin').find_files({
---     prompt_title = '> Edit Configs <',
---     cwd = '~/src/github.com/amirrezaask/dotfiles',
---   })
--- end
-
--- function M.edit_neovim()
---   require('telescope.builtin').find_files({
---     layout_strategy = 'vertical',
---     prompt_title = '> Edit Neovim Config <',
---     cwd = '~/src/github.com/amirrezaask/dotfiles/nvim',
---     previewer = false,
---   })
--- end
-
--- function M.edit_zsh()
---   require('telescope.builtin').find_files({
---     prompt_title = '> Edit ZSH Config <',
---     cwd = '~/src/github.com/amirrezaask/dotfiles/zsh',
---   })
--- end
--- function M.lsp_workspace_symbols()
---   local q = vim.fn.input('Symbol: ')
---   require('telescope.builtin').lsp_workspace_symbols({
---     layout_strategy = 'vertical',
---     query = q,
---   })
--- end
-
 -- function M.git_files()
 --   require('telescope.builtin').git_files(themes.get_dropdown()) 
 -- end
@@ -106,7 +76,10 @@ function fzf.lsp_on_attach()
       ['<leader>lr'] = Quickfix(buf.references),
       ['<leader>li'] = Quickfix(buf.implementation),
       ['<leader>ld'] = Quickfix(buf.document_symbol),
-      ['<leader>lw'] = Quickfix(buf.workspace_symbol),
+      ['<leader>lw'] = function()
+        local query = vim.fn.input('Query: ')
+        Quickfix(function() buf.workspace_symbol(query) end)()
+      end,
       ['<leader>lc'] = buf.code_action,
       -- TODO(amirreza): fix these :)
       -- ['<leader>d?'] = ,
