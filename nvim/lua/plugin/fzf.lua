@@ -23,44 +23,36 @@ normal_maps['<leader>h'] = '<cmd>Helptags<CR>'
 normal_maps['<leader>gc'] = '<cmd>Commits<CR>'
 normal_maps['<leader>gb'] = '<cmd>BCommits<CR>'
 normal_maps['<leader>gs'] = '<cmd>GitFiles?<CR>'
+normal_maps['<leader>fb'] = function()
+  vim.cmd(string.format('Files %s', vim.fn.expand('%:p:h')))
+end
+normal_maps['<leader>sf'] = function()
+  FZF {
+    source = repos.list_projects({ '~/src/' }),
+    sink = function(line)
+      vim.cmd([[ cd ]] .. line)
+    end
+  }
+end
 
--- function M.buffer_git_files()
---   require('telescope.builtin').git_files({
---     cwd = vim.fn.expand('%:p:h'),
---   })
--- end
+normal_maps['<leader>ef'] = function()
+  FZF {
+    source = repos.list_projects({ '~/src/gitlab.espadev.ir' }),
+    sink = function(line)
+      vim.cmd([[ cd ]] .. line)
+    end
+  }
+end
 
--- function M.find_files()
---   if vim.fn.isdirectory('.git') ~= 0 then
---     return M.git_files()
---   end
---   return require('telescope.builtin').find_files()
--- end
+normal_maps['<leader>ep'] = function()
+  FZF {
+    source = repos.list_projects({ '~/src/github.com/amirrezaask' }),
+    sink = function(line)
+      vim.cmd([[ cd ]] .. line)
+    end
+  }
+end
 
--- function M.projects()
---   pickers.new({}, {
---     finder = finders.new_table({
---       results = repos.list_projects({ '~/src/github.com/amirrezaask' }),
---     }),
---     sorter = conf.generic_sorter(),
---     attach_mappings = function(_)
---       actions.select_default:replace(function()
---         local dir = action_state.get_selected_entry()[1]
---         vim.cmd([[ cd ]] .. dir)
---       end)
---       return true
---     end,
---   }):find()
--- end
--- function M.installed_plugins()
---   require('telescope.builtin').find_files({
---     cwd = vim.fn.stdpath('data') .. '/site/pack/packer/start/',
---   })
--- end
-
--- function M.git_files()
---   require('telescope.builtin').git_files(themes.get_dropdown()) 
--- end
 
 function fzf.lsp_on_attach()
   local buf = vim.lsp.buf
@@ -70,15 +62,15 @@ function fzf.lsp_on_attach()
         buf.definition()
       end,
       ['K'] = buf.hover,
-      ['gI'] = Quickfix(buf.implementation),
-      ['gR'] = Quickfix(buf.references),
+      ['gI'] = WrapQuickfix(buf.implementation),
+      ['gR'] = WrapQuickfix(buf.references),
       ['<leader>lR'] = buf.rename,
-      ['<leader>lr'] = Quickfix(buf.references),
-      ['<leader>li'] = Quickfix(buf.implementation),
-      ['<leader>ld'] = Quickfix(buf.document_symbol),
+      ['<leader>lr'] = WrapQuickfix(buf.references),
+      ['<leader>li'] = WrapQuickfix(buf.implementation),
+      ['<leader>ld'] = WrapQuickfix(buf.document_symbol),
       ['<leader>lw'] = function()
         local query = vim.fn.input('Query: ')
-        Quickfix(function() buf.workspace_symbol(query) end)()
+        WrapQuickfix(function() buf.workspace_symbol(query) end)()
       end,
       ['<leader>lc'] = buf.code_action,
       -- TODO(amirreza): fix these :)
@@ -97,7 +89,7 @@ function FZF(opts)
   vim.fn.call('fzf#run', { opts })
 end
 
-function Quickfix(callback)
+function WrapQuickfix(callback)
   return function()
     vim.fn.setqflist({})
     if callback then callback() end
@@ -122,7 +114,7 @@ function Quickfix(callback)
     vim.cmd [[ cclose ]]
   end
 end
-nvim.command('Quickfix', Quickfix)
+
 nvim.command('MRU', function()
   FZF({
     source = vim.split(vim.fn.execute('oldfiles'), '\n'),
