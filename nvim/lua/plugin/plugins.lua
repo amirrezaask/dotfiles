@@ -67,6 +67,7 @@ return require('packer').startup({
 
     -- Vim JSON tools
     use({ 'tpope/vim-jdaddy', ft = 'json' })
+    use { 'elzr/vim-json' }
 
     -- Git Integration {{{
     use({ 'tpope/vim-fugitive' })
