@@ -11,11 +11,15 @@ elseif package.loaded['plugin.telescope'] then
 end
 
 local function global_on_attach(inner)
-  inner()
-  vim.cmd[[ nnoremap <silent><leader>lc <cmd>lua require('lspsaga.codeaction').code_action()<CR> ]]
-  vim.cmd [[ vnoremap <silent><leader>lc :<C-U>lua require('lspsaga.codeaction').range_code_action()<CR> ]]
-
-  vim.cmd [[ nnoremap <silent><leader>lR <cmd>lua require('lspsaga.rename').rename()<CR> ]]
+  return function()
+    inner()
+    vim.cmd[[ nnoremap <silent><leader>lc <cmd>lua require('lspsaga.codeaction').code_action()<CR> ]]
+    vim.cmd [[ vnoremap <silent><leader>lc :<C-U>lua require('lspsaga.codeaction').range_code_action()<CR> ]]
+    vim.cmd [[ nnoremap <silent><leader>lR <cmd>lua require('lspsaga.rename').rename()<CR> ]]
+    vim.cmd [[ nnoremap <silent><leader>d? <cmd>lua require'lspsaga.diagnostic'.show_line_diagnostics()<CR> ]]
+    vim.cmd [[ nnoremap <silent> [e <cmd>lua require'lspsaga.diagnostic'.lsp_jump_diagnostic_prev()<CR> ]]
+    vim.cmd [[ nnoremap <silent> ]e <cmd>lua require'lspsaga.diagnostic'.lsp_jump_diagnostic_next()<CR> ]]
+  end
 end
 
 on_attach = global_on_attach(on_attach)
