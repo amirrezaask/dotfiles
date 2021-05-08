@@ -1,11 +1,24 @@
 local lspconfig = require('lspconfig')
+local lspsaga = require('lspsaga')
+lspsaga.init_lsp_saga()
 local on_attach
+
 
 if package.loaded['plugin.fzf'] then
   on_attach = require('plugin.fzf').lsp_on_attach
 elseif package.loaded['plugin.telescope'] then
   on_attach = require('plugin.telescope').on_attach
 end
+
+local function global_on_attach(inner)
+  inner()
+  vim.cmd[[ nnoremap <silent><leader>lc <cmd>lua require('lspsaga.codeaction').code_action()<CR> ]]
+  vim.cmd [[ vnoremap <silent><leader>lc :<C-U>lua require('lspsaga.codeaction').range_code_action()<CR> ]]
+
+  vim.cmd [[ nnoremap <silent><leader>lR <cmd>lua require('lspsaga.rename').rename()<CR> ]]
+end
+
+on_attach = global_on_attach(on_attach)
 
 lspconfig.gopls.setup({ on_attach = on_attach })
 lspconfig.rust_analyzer.setup({
