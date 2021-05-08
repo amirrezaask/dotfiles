@@ -24,7 +24,7 @@ telescope.setup({
       vertical = {
         width_padding = 0.1,
         height_padding = 0.1,
-        preview_height = 0.68,
+        preview_height = 0.63,
       },
     },
     file_ignore_patterns = { 'node_modules/.*', '.git/.*', '_site/.*' },
@@ -156,7 +156,7 @@ function M.git_files()
 end
 
 M.vertical_opts = {
-  layout_strategy = 'vertical',
+  layout_strategy = 'flex',
 }
 
 function M.on_attach(_)

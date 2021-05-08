@@ -14,6 +14,7 @@ nvim.map({
   ['<Down>'] = '<cmd>resize -5<CR>',
 })
 
+-- Took from TJDevries config :)
 vim.cmd([[ nnoremap <expr><CR> {-> v:hlsearch ? ":nohl<CR>" : "<CR>"}() ]])
 nvim.mode_map({
   n = {

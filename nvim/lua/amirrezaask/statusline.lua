@@ -64,7 +64,10 @@ end
 local __BRANCH = ''
 
 function StatusLineUpdateGitBranch()
- __BRANCH = vim.fn['fugitive#head']()
+  __BRANCH = vim.fn['fugitive#head']()
+  if __BRANCH ~= '' then
+   __BRANCH = require('nvim-web-devicons').get_icon('git', 'git', {default=true}) .. ' ' .. __BRANCH
+  end
 end
 
 -- Only update statusline on BufEnter
