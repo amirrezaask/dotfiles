@@ -27,21 +27,11 @@ return require('packer').startup({
     -- Plugin Manager
     use({ 'wbthomason/packer.nvim' })
 
-    -- Ultimate Colorschemes of all time {{{
-    -- use({ 'tjdevries/colorbuddy.nvim' })
-    -- use({ 'amirrezaask/gruvbuddy.nvim' })
-    use({ 'amirrezaask/nvim-base16.lua' })
-    use({ 'amirrezaask/comrade.nvim' })
-    use({ 'amirrezaask/gruvbox'})
-    use({ 'bluz71/vim-nightfly-guicolors' })
-    use({ 'dracula/vim' })
-    -- }}}
-
     -- FZF {{{
     use({ 'junegunn/fzf'})
     use({ 'junegunn/fzf.vim'})
     -- }}}
-    
+
     -- Telescope.nvim {{{
     use({ 'nvim-lua/plenary.nvim' })
     use({ 'nvim-lua/popup.nvim' })

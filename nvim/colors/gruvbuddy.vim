@@ -20,7 +20,7 @@ hi NonText guifg=#4e545c
 hi WhiteSpace guifg=#8e6fbd
 hi Conceal guibg=#4e545c guifg=#282c34
 hi StatusLine cterm=none gui=none guibg=#81a2be guifg=#373b41
-hi StatusLineNC guibg=#3f4349 guifg=#969896
+hi StatusLineNC cterm=none gui=none guibg=#3f4349 guifg=#969896
 hi User1 guibg=#f8fe7a guifg=#ffffff
 hi User2 guibg=#cc6666 guifg=#ffffff
 hi User3 guibg=#99cc99 guifg=#ffffff
