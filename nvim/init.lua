@@ -8,16 +8,7 @@ require('amirrezaask.terminal')
 require('amirrezaask.quickfix')
 require('amirrezaask.listchars')
 require('amirrezaask.statusline')
-
--- Plugins and configurations
-require('plugin.plugins')
 require('amirrezaask.nvim').colorscheme('gruvbuddy')
-require('plugin.compe')
-require('plugin.telescope')
-require('plugin.colorizer')
-require('plugin.gitsigns')
-require('plugin.mappings')
-require('plugin.snippets')
-require('plugin.lsp')
-require('plugin.dap')
-require('plugin.treesitter')
+
+-- Load plugins
+require('plugin')
