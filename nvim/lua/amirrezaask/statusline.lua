@@ -10,6 +10,8 @@ local function mode()
     return '[ IComplete ]'
   elseif m == 'c' then
     return '%#Constant#[ Command ]%*'
+  elseif m == 't' then
+    return '%#Constant#[ Terminal ]%*'
   else
     return m
   end
