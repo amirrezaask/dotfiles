@@ -28,9 +28,10 @@ return require('packer').startup({
     use({ 'wbthomason/packer.nvim' })
 
     -- Ultimate Colorschemes of all time {{{
-    use({ 'tjdevries/colorbuddy.nvim' })
-    use({ 'amirrezaask/gruvbuddy.nvim' })
-    -- use({ 'amirrezaask/comrade.nvim' })
+    -- use({ 'tjdevries/colorbuddy.nvim' })
+    -- use({ 'amirrezaask/gruvbuddy.nvim' })
+    use({ 'amirrezaask/nvim-base16.lua' })
+    use({ 'amirrezaask/comrade.nvim' })
     use({ 'amirrezaask/gruvbox'})
     use({ 'bluz71/vim-nightfly-guicolors' })
     use({ 'dracula/vim' })
@@ -125,5 +126,7 @@ return require('packer').startup({
     use({ 'kyazdani42/nvim-web-devicons' })
     use({ 'yamatsum/nvim-nonicons' }) -- need to have nonicons font installed look into https://github.com/yamatsum/nonicons
     -- }}}
+    use {'ThePrimeagen/vim-be-good'}
+    use {'ThePrimeagen/harpoon'}
   end,
 })
