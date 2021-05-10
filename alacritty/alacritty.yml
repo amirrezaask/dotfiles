@@ -11,13 +11,11 @@ key_bindings:
   - { key: N, mods: Control|Shift, action: SpawnNewInstance }
 
 colors:
-  # Default colors
   primary:
     hard contrast: background = '#1d2021'
     background: '#282828'
-    # soft contrast: background = '#32302f'
+    soft contrast: background = '#32302f'
     foreground: '#ebdbb2'
-  # Normal colors
   normal:
     black:   '#282828'
     red:     '#cc241d'
@@ -27,7 +25,6 @@ colors:
     magenta: '#b16286'
     cyan:    '#689d6a'
     white:   '#a89984'
-  # Bright colors
   bright:
     black:   '#928374'
     red:     '#fb4934'

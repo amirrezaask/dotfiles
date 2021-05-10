@@ -1,6 +1,6 @@
 local nvim = require('amirrezaask.nvim')
 
--- Basic NeoVIM stuff
+-- Basic Neovim stuff
 require('options')
 require('mappings')
 
@@ -10,7 +10,8 @@ require('amirrezaask.terminal')
 require('amirrezaask.quickfix')
 require('amirrezaask.listchars')
 require('amirrezaask.statusline')
-nvim.colorscheme('onedark')
+nvim.colorscheme('gruvbuddy')
 
 -- Load plugins
 require('plugin')
+

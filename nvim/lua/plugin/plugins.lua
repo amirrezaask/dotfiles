@@ -41,6 +41,7 @@ return require('packer').startup({
     use { 'jaredgorski/SpaceCamp' }
     use { 'jacoborus/tender.vim' }
     use { 'rakr/vim-two-firewatch' }
+    use { 'gruvbox-community/gruvbox' }
     -- }}}
 
     -- FZF {{{
