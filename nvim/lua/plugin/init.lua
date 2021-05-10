@@ -3,7 +3,6 @@ require('plugin.plugins')
 
 -- Load plugin configurations
 require('plugin.compe')
--- require('plugin.fzf')
 require('plugin.telescope')
 require('plugin.colorizer')
 require('plugin.gitsigns')

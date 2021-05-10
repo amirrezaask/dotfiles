@@ -27,6 +27,22 @@ return require('packer').startup({
     -- Plugin Manager
     use({ 'wbthomason/packer.nvim' })
 
+    -- Colorschemes {{{
+    use { 'joshdick/onedark.vim' }
+    use { 'mhartington/oceanic-next' }
+    use { 'cocopon/iceberg.vim' }
+    use { 'AlessandroYorba/Alduin' }
+    use { 'tyrannicaltoucan/vim-deep-space' }
+    use { 'wadackel/vim-dogrun' }
+    use { 'sonph/onehalf' }
+    use { 'fcpg/vim-orbital' }
+    use { 'lifepillar/vim-solarized8' }
+    use { 'liuchengxu/space-vim-dark' }
+    use { 'jaredgorski/SpaceCamp' }
+    use { 'jacoborus/tender.vim' }
+    use { 'rakr/vim-two-firewatch' }
+    -- }}}
+
     -- FZF {{{
     use({ 'junegunn/fzf'})
     use({ 'junegunn/fzf.vim'})

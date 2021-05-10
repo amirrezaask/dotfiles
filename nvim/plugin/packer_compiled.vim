@@ -71,9 +71,13 @@ end
 time("try_loadstring definition", false)
 time("Defining packer_plugins", true)
 _G.packer_plugins = {
-  ["colorbuddy.nvim"] = {
+  Alduin = {
     loaded = true,
-    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/colorbuddy.nvim"
+    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/Alduin"
+  },
+  SpaceCamp = {
+    loaded = true,
+    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/SpaceCamp"
   },
   ["dockerfile.vim"] = {
     loaded = true,
@@ -95,13 +99,13 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/gitsigns.nvim"
   },
-  gruvbox = {
+  harpoon = {
     loaded = true,
-    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/gruvbox"
+    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/harpoon"
   },
-  ["gruvbuddy.nvim"] = {
+  ["iceberg.vim"] = {
     loaded = true,
-    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/gruvbuddy.nvim"
+    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/iceberg.vim"
   },
   ["lsp_extensions.nvim"] = {
     loaded = true,
@@ -159,6 +163,18 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/nvim-web-devicons"
   },
+  ["oceanic-next"] = {
+    loaded = true,
+    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/oceanic-next"
+  },
+  ["onedark.vim"] = {
+    loaded = true,
+    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/onedark.vim"
+  },
+  onehalf = {
+    loaded = true,
+    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/onehalf"
+  },
   ["packer.nvim"] = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/packer.nvim"
@@ -188,6 +204,10 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/snippets.nvim"
   },
+  ["space-vim-dark"] = {
+    loaded = true,
+    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/space-vim-dark"
+  },
   ["telescope-dap.nvim"] = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/telescope-dap.nvim"
@@ -216,13 +236,25 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/telescope.nvim"
   },
-  vim = {
+  ["tender.vim"] = {
     loaded = true,
-    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/vim"
+    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/tender.vim"
+  },
+  ["vim-be-good"] = {
+    loaded = true,
+    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/vim-be-good"
   },
   ["vim-commentary"] = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/vim-commentary"
+  },
+  ["vim-deep-space"] = {
+    loaded = true,
+    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/vim-deep-space"
+  },
+  ["vim-dogrun"] = {
+    loaded = true,
+    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/vim-dogrun"
   },
   ["vim-elixir"] = {
     loaded = true,
@@ -242,14 +274,22 @@ _G.packer_plugins = {
     needs_bufread = false,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/opt/vim-jdaddy"
   },
-  ["vim-nightfly-guicolors"] = {
+  ["vim-json"] = {
     loaded = true,
-    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/vim-nightfly-guicolors"
+    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/vim-json"
   },
   ["vim-nix"] = {
     loaded = false,
     needs_bufread = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/opt/vim-nix"
+  },
+  ["vim-orbital"] = {
+    loaded = true,
+    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/vim-orbital"
+  },
+  ["vim-solarized8"] = {
+    loaded = true,
+    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/vim-solarized8"
   },
   ["vim-surround"] = {
     loaded = true,
@@ -263,6 +303,10 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/vim-toml"
   },
+  ["vim-two-firewatch"] = {
+    loaded = true,
+    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/vim-two-firewatch"
+  },
   ["zig.vim"] = {
     loaded = false,
     needs_bufread = true,
@@ -275,11 +319,11 @@ vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]
   -- Filetype lazy-loads
 time("Defining lazy-load filetype autocommands", true)
-vim.cmd [[au FileType zig ++once lua require("packer.load")({'zig.vim'}, { ft = "zig" }, _G.packer_plugins)]]
 vim.cmd [[au FileType fish ++once lua require("packer.load")({'vim-fish'}, { ft = "fish" }, _G.packer_plugins)]]
-vim.cmd [[au FileType rust ++once lua require("packer.load")({'rust.vim'}, { ft = "rust" }, _G.packer_plugins)]]
-vim.cmd [[au FileType json ++once lua require("packer.load")({'vim-jdaddy'}, { ft = "json" }, _G.packer_plugins)]]
+vim.cmd [[au FileType zig ++once lua require("packer.load")({'zig.vim'}, { ft = "zig" }, _G.packer_plugins)]]
 vim.cmd [[au FileType nix ++once lua require("packer.load")({'vim-nix'}, { ft = "nix" }, _G.packer_plugins)]]
+vim.cmd [[au FileType json ++once lua require("packer.load")({'vim-jdaddy'}, { ft = "json" }, _G.packer_plugins)]]
+vim.cmd [[au FileType rust ++once lua require("packer.load")({'rust.vim'}, { ft = "rust" }, _G.packer_plugins)]]
 time("Defining lazy-load filetype autocommands", false)
 vim.cmd("augroup END")
 vim.cmd [[augroup filetypedetect]]
@@ -289,12 +333,12 @@ time("Sourcing ftdetect script at: /home/amirreza/.local/share/nvim/site/pack/pa
 time("Sourcing ftdetect script at: /home/amirreza/.local/share/nvim/site/pack/packer/opt/vim-fish/ftdetect/fish.vim", true)
 vim.cmd [[source /home/amirreza/.local/share/nvim/site/pack/packer/opt/vim-fish/ftdetect/fish.vim]]
 time("Sourcing ftdetect script at: /home/amirreza/.local/share/nvim/site/pack/packer/opt/vim-fish/ftdetect/fish.vim", false)
-time("Sourcing ftdetect script at: /home/amirreza/.local/share/nvim/site/pack/packer/opt/zig.vim/ftdetect/zig.vim", true)
-vim.cmd [[source /home/amirreza/.local/share/nvim/site/pack/packer/opt/zig.vim/ftdetect/zig.vim]]
-time("Sourcing ftdetect script at: /home/amirreza/.local/share/nvim/site/pack/packer/opt/zig.vim/ftdetect/zig.vim", false)
 time("Sourcing ftdetect script at: /home/amirreza/.local/share/nvim/site/pack/packer/opt/rust.vim/ftdetect/rust.vim", true)
 vim.cmd [[source /home/amirreza/.local/share/nvim/site/pack/packer/opt/rust.vim/ftdetect/rust.vim]]
 time("Sourcing ftdetect script at: /home/amirreza/.local/share/nvim/site/pack/packer/opt/rust.vim/ftdetect/rust.vim", false)
+time("Sourcing ftdetect script at: /home/amirreza/.local/share/nvim/site/pack/packer/opt/zig.vim/ftdetect/zig.vim", true)
+vim.cmd [[source /home/amirreza/.local/share/nvim/site/pack/packer/opt/zig.vim/ftdetect/zig.vim]]
+time("Sourcing ftdetect script at: /home/amirreza/.local/share/nvim/site/pack/packer/opt/zig.vim/ftdetect/zig.vim", false)
 vim.cmd("augroup END")
 if should_profile then save_profiles() end
 
