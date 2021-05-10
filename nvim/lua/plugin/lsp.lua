@@ -1,8 +1,25 @@
 local lspconfig = require('lspconfig')
-local lspsaga = require('lspsaga')
-lspsaga.init_lsp_saga()
-local on_attach
 
+require('lspsaga').init_lsp_saga {
+  use_saga_diagnostic_sign = false,
+  code_action_prompt = {
+    enable = false,
+    sign = true,
+    virtual_text = true,
+  },
+  finder_action_keys = {
+    open = 'o', vsplit = 's',split = 'i',quit = 'q',scroll_down = '<C-f>', scroll_up = '<C-b>'
+  },
+  code_action_keys = {
+    quit = 'q',exec = '<CR>'
+  },
+  rename_action_keys = {
+    quit = '<C-c>',exec = '<CR>'
+  },
+  server_filetype_map = {}
+}
+
+local on_attach
 
 if package.loaded['plugin.fzf'] then
   on_attach = require('plugin.fzf').lsp_on_attach
