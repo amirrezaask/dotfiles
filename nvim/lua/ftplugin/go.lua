@@ -1,5 +1,6 @@
 local go = {}
 local floating = require('amirrezaask.floating')
+local quickfix = require('amirrezaask.quickfix')
 local nvim = require('amirrezaask.nvim')
 
 -- deps:
@@ -29,9 +30,7 @@ function go.test()
   }
 end
 function go.build()
-  floating:new {
-    source = 'go build ./...'
-  }
+  quickfix.quickfix_from_cmd('go build ./...')
 end
 
 local function default_formatter()

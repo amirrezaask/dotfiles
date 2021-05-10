@@ -96,6 +96,24 @@ function FZF(opts)
   vim.fn.call('fzf#run', { fzf_args })
 end
 
+
+function fzf.qflist()
+  local list = vim.fn.getqflist()
+  local source = {}
+  for _, l in ipairs(list) do
+    table.insert(source, string.format('%s:%s:%s:%s', vim.fn.bufname(l.bufnr), l.lnum, l.col, l.text))
+  end
+  FZF {
+    source = source,
+    sink = function(entry)
+      entry = vim.split(entry, ':')
+      -- local filename = vim.fn.bufname(tonumber(entry[1]))
+      local filename = entry[1]
+      vim.api.nvim_command(string.format('e +%s %s', entry[2], filename))
+    end
+  }
+end
+
 function WrapQuickfix(callback)
   return function()
     vim.fn.setqflist({})
@@ -105,19 +123,7 @@ function WrapQuickfix(callback)
       list = vim.fn.getqflist()
       return #list ~= 0
     end, 20, false)
-    local source = {}
-    for _, l in ipairs(list) do
-      table.insert(source, string.format('%s:%s:%s:%s', vim.fn.bufname(l.bufnr), l.lnum, l.col, l.text))
-    end
-    FZF {
-      source = source,
-      sink = function(entry)
-        entry = vim.split(entry, ':')
-        -- local filename = vim.fn.bufname(tonumber(entry[1]))
-        local filename = entry[1]
-        vim.api.nvim_command(string.format('e +%s %s', entry[2], filename))
-      end
-    }
+    fzf.qflist()
     vim.cmd [[ cclose ]]
   end
 end

@@ -1,8 +1,21 @@
 local M = {}
 local nvim = require('amirrezaask.nvim')
 
+local quickfix_state = 'close'
+
+function M.toggle()
+  if quickfix_state == 'open' then 
+    quickfix_state = 'close'
+    vim.cmd [[ cclose ]]
+  else
+    quickfix_state = 'open'
+    vim.cmd [[ copen ]]
+  end
+end
+
 nvim.mode_map({
   n = {
+    ['<C-q>'] = '<cmd>lua require"amirrezaask.quickfix".toggle()<CR>',
     ['{'] = ':cprev<CR>',
     ['}'] = ':cnext<CR>',
   },
@@ -12,9 +25,11 @@ local function gen_from_cmd_output(qflist, data)
   for _, l in ipairs(data) do
     if l ~= '' then
       local splitted = vim.split(l, ':')
-      local entry = {filename=splitted[1], lnum=tonumber(splitted[2]), col=tonumber(splitted[3]), text=splitted[4]}
-      if entry.filename ~= '' and entry.lnum ~= '' then
-        table.insert(qflist, entry)
+      if #splitted > 2 then 
+        local entry = {filename=splitted[1], lnum=tonumber(splitted[2]), col=tonumber(splitted[3]), text=splitted[4]}
+        if entry.filename ~= '' and entry.lnum ~= '' then
+          table.insert(qflist, entry)
+        end
       end
     end
   end
@@ -39,7 +54,6 @@ function M.quickfix_from_cmd(cmd)
   })
 end
 
--- TODO(amirreza): make a function to get a command ( compile command probably ), run it, check for any line of output it can match file:line:col:text pattern and feed qflist with it
 function M.quickfix_entry(filename, lnum, col, text)
   return {filename=filename, lnum=lnum, col=col, text=text}
 end
