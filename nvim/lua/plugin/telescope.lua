@@ -156,7 +156,7 @@ function M.git_files()
 end
 
 M.vertical_opts = {
-  layout_strategy = 'vertical',
+  layout_strategy = 'flex',
 }
 
 function M.on_attach(_)
@@ -209,7 +209,7 @@ require('amirrezaask.nvim').mode_map({
     ['<leader>pf'] = M.projects,
     ['<C-p>'] = M.find_files,
     ['<C-q>'] = require('telescope.builtin').quickfix,
-    ['??'] = function() require('telescope.builtin').grep_string{shorten_path=true, layout_strategy='vertical', search=vim.fn.input('Grep: ')} end,
+    ['??'] = function() require('telescope.builtin').grep_string{shorten_path=true, search=vim.fn.input('Grep: ')} end,
     ['<leader>b'] = require('telescope.builtin').buffers,
     ['<leader>ec'] = M.edit_configs,
     ['<leader>tc'] = M.base16_theme_selector,
