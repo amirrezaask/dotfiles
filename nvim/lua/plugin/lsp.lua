@@ -29,7 +29,7 @@ end
 
 local function global_on_attach(inner)
   return function()
-    inner()
+    if inner then inner() end
     vim.cmd[[ nnoremap <silent><leader>lc <cmd>lua require('lspsaga.codeaction').code_action()<CR> ]]
     vim.cmd [[ vnoremap <silent><leader>lc :<C-U>lua require('lspsaga.codeaction').range_code_action()<CR> ]]
     vim.cmd [[ nnoremap <silent><leader>lR <cmd>lua require('lspsaga.rename').rename()<CR> ]]

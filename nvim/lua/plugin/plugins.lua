@@ -42,11 +42,17 @@ return require('packer').startup({
     use { 'jacoborus/tender.vim' }
     use { 'rakr/vim-two-firewatch' }
     use { 'gruvbox-community/gruvbox' }
+    use { 'amirrezaask/nvim-base16.lua' }
     -- }}}
 
     -- FZF {{{
     use({ 'junegunn/fzf'})
     use({ 'junegunn/fzf.vim'})
+    -- }}}
+
+    -- Fuzzy.nvim {{{
+    use { 'amirrezaask/spawn.nvim' }
+    use { 'amirrezaask/fuzzy.nvim' }
     -- }}}
 
     -- Telescope.nvim {{{

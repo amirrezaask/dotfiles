@@ -12,7 +12,7 @@ local function base16_theme_selector()
     source = theme_names,
     mappings = {
       ['<CR>'] = function()
-        local theme = FuzzyInstance():get_output()
+        local theme = CurrentFuzzy():get_output()
         for k, v in pairs(base16.themes) do
           if k == theme then
             base16(v)
@@ -41,7 +41,7 @@ require('fuzzy').setup({
     'target',
   },
   location = loc.center,
-  sorter = require('fuzzy.lib.sorter').fzf_native,
+  sorter = require('fuzzy.lib.sorter').fzy_native,
   prompt = '> ',
   register = {
     base16_theme_selector = base16_theme_selector,
