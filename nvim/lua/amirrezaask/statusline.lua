@@ -17,7 +17,40 @@ local function mode()
   end
 end
 
-local filename = '%f%<'
+-- local filename = '%f%<'
+
+local shorten_path = (function()
+  if jit then
+    local ffi = require('ffi')
+    ffi.cdef [[
+    typedef unsigned char char_u;
+    char_u *shorten_dir(char_u *str);
+    ]]
+
+    return function(filepath)
+      if not filepath then
+        return filepath
+      end
+
+      local c_str = ffi.new("char[?]", #filepath + 1)
+      ffi.copy(c_str, filepath)
+      return ffi.string(ffi.C.shorten_dir(c_str))
+    end
+  else
+    return function(filepath)
+      return filepath
+    end
+  end
+end)()
+
+local function filename(shorten)
+  local name = vim.api.nvim_buf_get_name(0)
+  if shorten then
+    return shorten_path(name)
+  else
+    return name
+  end
+end
 
 local function lsp_info()
   local warnings = vim.lsp.diagnostic.get_count(0, 'Warning')
@@ -80,7 +113,7 @@ function Statusline()
   statusline = statusline .. mode()
   statusline = statusline .. ' ' .. __BRANCH
   statusline = statusline .. sep
-  statusline = statusline .. ' ' .. get_icon(vim.api.nvim_buf_get_name(0)) .. ' ' .. filename .. '%m'
+  statusline = statusline .. ' ' .. get_icon(vim.api.nvim_buf_get_name(0)) .. ' ' .. filename(true) .. '%m'
   statusline = statusline .. sep
   statusline = statusline .. ' ' .. line_col
   statusline = statusline .. ' ' .. filetype
