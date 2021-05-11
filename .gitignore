@@ -12,3 +12,4 @@ emacs/abbrev_defs
 emacs/transient
 emacs/straight/
 nvim/.netrwhist
+fonts/.uuid
