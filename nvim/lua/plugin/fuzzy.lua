@@ -40,11 +40,11 @@ local fuzzy = {}
 
 local remove_icon = require('fuzzy.lib.helpers').remove_icon
 
-local function preview()
-  local parser = function(line)
+local parser = function(line)
       local parts = vim.split(line, ':')
       return remove_icon(parts[1]), parts[2]
     end
+local function preview()
   local preview_window = function (line)
     local floating_buffer = require('fuzzy.lib.floating').floating_buffer
     local buf, win, _ = floating_buffer {
@@ -72,8 +72,26 @@ require('fuzzy').setup({
     'target',
   },
   location = loc.bottom_center,
+  highlight_matches = 'no',
   mappings = {
-    ['P'] = preview
+    i = {
+      ['P'] = preview
+    },
+    n = {
+      ['p'] = preview,
+      v = function()
+        local line = require('fuzzy').CurrentFuzzy():get_output()
+        vim.cmd([[vnew]])
+        local filename, lnum = parser(line)
+        require('fuzzy.lib.helpers').open_file_at(filename, lnum)
+      end,
+      s = function()
+        local line = require('fuzzy').CurrentFuzzy():get_output()
+        vim.cmd([[new]])
+        local filename, lnum = parser(line)
+        require('fuzzy.lib.helpers').open_file_at(filename, lnum)
+      end
+    },
   },
   sorter = require('fuzzy.lib.sorter').fzf_native,
   prompt = '> ',

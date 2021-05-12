@@ -10,7 +10,7 @@ M.list_chars = {
   nbsp = '␣',
 }
 
-function M.update(self, chars)
+function M:update(chars)
   chars = chars or self.list_chars
   vim.cmd([[ set list ]])
   local list_chars_tuple = {}
