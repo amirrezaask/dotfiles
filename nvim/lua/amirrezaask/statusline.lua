@@ -77,7 +77,7 @@ local function lsp_info()
   return '[' .. output .. ']'
 end
 
-local line_col = '[ %l:%c %P ]'
+local line_col = '[ %l:%c %%%p ]'
 
 local filetype = '%y'
 

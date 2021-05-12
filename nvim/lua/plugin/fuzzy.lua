@@ -38,13 +38,33 @@ end
 
 local fuzzy = {}
 
-function fuzzy.grep()
-  require('fuzzy').grep()
+local remove_icon = require('fuzzy.lib.helpers').remove_icon
+
+local function preview()
+  local parser = function(line)
+      local parts = vim.split(line, ':')
+      return remove_icon(parts[1]), parts[2]
+    end
+  local preview_window = function (line)
+    local floating_buffer = require('fuzzy.lib.floating').floating_buffer
+    local buf, win, _ = floating_buffer {
+      height = 50,
+      width = 50,
+      location = loc.center,
+      border = 'no',
+    }
+    local file, lnum = parser(line)
+    require('fuzzy.lib.helpers').open_file_at(file, lnum)
+    vim.cmd([[ call feedkeys("\<C-c>") ]])
+    vim.api.nvim_buf_set_option(0, 'modifiable', false)
+  end
+  local line = require('fuzzy').CurrentFuzzy():get_output()
+  preview_window(line)
 end
 
 -- Fuzzy.nvim
 require('fuzzy').setup({
-  width = 60,
+  width = 40,
   height = 100,
   blacklist = {
     'vendor',
@@ -52,6 +72,9 @@ require('fuzzy').setup({
     'target',
   },
   location = loc.bottom_center,
+  mappings = {
+    ['P'] = preview
+  },
   sorter = require('fuzzy.lib.sorter').fzf_native,
   prompt = '> ',
   register = {
