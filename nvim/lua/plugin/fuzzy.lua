@@ -41,13 +41,17 @@ local fuzzy = {}
 local remove_icon = require('fuzzy.lib.helpers').remove_icon
 
 local parser = function(line)
-      local parts = vim.split(line, ':')
-      return remove_icon(parts[1]), parts[2]
-    end
+  local parts = vim.split(line, ':')
+  return remove_icon(parts[1]), parts[2]
+end
+
+__AMIRREZAASK_FUZZY_PREVIEW_CLOSER = nil
+
 local function preview()
   local preview_window = function (line)
     local floating_buffer = require('fuzzy.lib.floating').floating_buffer
-    local buf, win, _ = floating_buffer {
+    local buf
+    buf, _, __AMIRREZAASK_FUZZY_PREVIEW_CLOSER = floating_buffer {
       height = 50,
       width = 50,
       location = loc.center,
@@ -56,7 +60,8 @@ local function preview()
     local file, lnum = parser(line)
     require('fuzzy.lib.helpers').open_file_at(file, lnum)
     vim.cmd([[ call feedkeys("\<C-c>") ]])
-    vim.api.nvim_buf_set_option(0, 'modifiable', false)
+    vim.api.nvim_buf_set_option(buf, 'modifiable', false)
+    vim.api.nvim_buf_set_keymap(buf, 'n', 'q', '<cmd>lua __AMIRREZAASK_FUZZY_PREVIEW_CLOSER()<CR>', {noremap=true})
   end
   local line = require('fuzzy').CurrentFuzzy():get_output()
   preview_window(line)

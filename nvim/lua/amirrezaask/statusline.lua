@@ -17,8 +17,6 @@ local function mode()
   end
 end
 
--- local filename = '%f%<'
-
 local shorten_path = (function()
   if jit then
     local ffi = require('ffi')
@@ -43,9 +41,17 @@ local shorten_path = (function()
   end
 end)()
 
-local function filename(shorten)
-  local name = vim.api.nvim_buf_get_name(0)
-  if shorten then
+local function filename(opts)
+  opts = opts or {}
+  opts.shorten = true
+  opts.from_root = false
+  local name
+  if opts.from_root then
+    name = vim.api.nvim_buf_get_name(0)
+  else
+    name = vim.fn.expand('%%') 
+  end
+  if opts.shorten then
     return shorten_path(name)
   else
     return name
@@ -99,8 +105,9 @@ end
 local __BRANCH = ''
 
 function StatusLineUpdateGitBranch()
-  __BRANCH = vim.fn['fugitive#head']()
-  if __BRANCH ~= '' then
+  local success
+  success, __BRANCH = pcall(vim.fn['fugitive#head'])
+  if success and __BRANCH ~= '' then
    __BRANCH = require('nvim-web-devicons').get_icon('git', 'git', {default=true}) .. ' ' .. __BRANCH
   end
 end
@@ -113,7 +120,7 @@ function Statusline()
   statusline = statusline .. mode()
   statusline = statusline .. ' ' .. __BRANCH
   statusline = statusline .. sep
-  statusline = statusline .. ' ' .. get_icon(vim.api.nvim_buf_get_name(0)) .. ' ' .. filename(true) .. '%m'
+  statusline = statusline .. ' ' .. get_icon(vim.api.nvim_buf_get_name(0)) .. ' ' .. filename({shorten=true}) .. '%m'
   statusline = statusline .. sep
   statusline = statusline .. ' ' .. line_col
   statusline = statusline .. ' ' .. filetype
