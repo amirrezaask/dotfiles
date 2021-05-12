@@ -1,5 +1,5 @@
 local loc = require('fuzzy.lib.location')
-
+local repos = require('amirrezaask.repos')
 local nvim = require('amirrezaask.nvim')
 
 local function base16_theme_selector()
@@ -23,6 +23,19 @@ local function base16_theme_selector()
   })
 end
 
+local function find_src()
+  require('fuzzy.lib').new {
+    source = repos.list_projects({ '~/src/github.com' }),
+    mappings = {
+      ['<CR>'] = function ()
+        local dir = CurrentFuzzy():get_output()
+        CurrentFuzzy():close()
+        vim.cmd(string.format([[ cd %s]], dir))
+      end
+    }
+  }
+end
+
 local fuzzy = {}
 
 function fuzzy.grep()
@@ -31,7 +44,7 @@ end
 
 -- Fuzzy.nvim
 require('fuzzy').setup({
-  width = 40,
+  width = 60,
   height = 100,
   blacklist = {
     'vendor',
@@ -39,46 +52,38 @@ require('fuzzy').setup({
     'target',
   },
   location = loc.bottom_center,
-  sorter = require('fuzzy.lib.sorter').fzy_native,
+  sorter = require('fuzzy.lib.sorter').fzf_native,
   prompt = '> ',
   register = {
     base16_theme_selector = base16_theme_selector,
+    find_src = find_src,
   },
   border = 'no',
 })
 
-local fuzzy_lsp = require('fuzzy.lsp')
-nvim.command('LSPDefinitions', fuzzy_lsp.definitions)
-nvim.command('LSPHover', vim.lsp.buf.hover)
-nvim.command('LSPSignatureHelp', vim.lsp.buf.signature_help)
-nvim.command('LSPTypeDefinition', vim.lsp.buf.type_definition)
-nvim.command('LSPRename', require('lspsaga.rename').rename)
-nvim.command('LSPWorkspaceSymbols', fuzzy_lsp.workspace_symbols)
-nvim.command('LSPDocumentSymbols', fuzzy_lsp.document_symbols)
-nvim.command('LSPReferences', fuzzy_lsp.references)
-nvim.command('LSPImplementations', fuzzy_lsp.implementation)
-nvim.command('LSPCodeActions', fuzzy_lsp.code_actions)
-nvim.command('LSPDeclaration', fuzzy_lsp.declaration)
-nvim.mode_map({
-  n = {
-    ['gd'] = '<cmd>LSPDefinitions<CR>',
-    ['K'] = '<cmd>LSPHover<CR>',
-    ['gI'] = '<cmd>LSPImplementations<CR>',
-    ['<c-k>'] = '<cmd>LSPSignatureHelp<CR>',
-    ['1gD'] = '<cmd>LSPTypeDefinition<CR>',
-    ['gR'] = '<cmd>LSPReferences<CR>',
-    ['g0'] = '<cmd>LSPDocumentSymbols<CR>',
-    ['gW'] = '<cmd>LSPWorkspaceSymbols<CR>',
-    ['gD'] = '<cmd>LSPDeclaration<CR>',
-    ['<leader>A'] = '<cmd>LSPCodeActions<CR>',
-    ['<leader>R'] = '<cmd>LSPRename<CR>',
-    ['<leader>lr'] = '<cmd>LSPReferences<CR>',
-    ['<leader>li'] = '<cmd>LSPImplementations<CR>',
-    ['<leader>ld'] = '<cmd>LSPDocumentSymbols<CR>',
-    ['<leader>lw'] = '<cmd>LSPWorkspaceSymbols<CR>',
-    ['<leader>lc'] = '<cmd>LSPCodeActions<CR>',
-  },
-})
+vim.cmd [[ hi default link FuzzyNormal CursorLine ]]
+
+function fuzzy.on_attach()
+  local fuzzy_lsp = require('fuzzy.lsp')
+  nvim.mode_map({
+    n = {
+      ['gd'] = fuzzy_lsp.definitions,
+      ['K'] = vim.lsp.buf.hover,
+      ['gI'] = fuzzy_lsp.implementation,
+      ['gR'] = fuzzy_lsp.references,
+      ['g0'] = fuzzy_lsp.document_symbols,
+      ['gW'] = fuzzy_lsp.workspace_symbols,
+      ['<leader>A'] = fuzzy_lsp.code_actions,
+      ['<leader>lR'] = vim.lsp.buf.rename,
+      ['<leader>lr'] = fuzzy_lsp.references,
+      ['<leader>li'] = fuzzy_lsp.implementation,
+      ['<leader>ld'] = fuzzy_lsp.document_symbols,
+      ['<leader>lw'] = fuzzy_lsp.workspace_symbols,
+      ['<leader>lc'] = fuzzy_lsp.code_actions,
+    },
+  })
+end 
+
 nvim.mode_map({
   n = {
     ['<leader><leader>'] = require('fuzzy').find_files,

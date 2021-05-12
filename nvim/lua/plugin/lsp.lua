@@ -25,6 +25,8 @@ if package.loaded['plugin.fzf'] then
   on_attach = require('plugin.fzf').lsp_on_attach
 elseif package.loaded['plugin.telescope'] then
   on_attach = require('plugin.telescope').on_attach
+elseif package.loaded['plugin.fuzzy'] then
+  on_attach = require('plugin.fuzzy').on_attach
 end
 
 local function global_on_attach(inner)
