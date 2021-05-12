@@ -8,11 +8,11 @@ local function base16_theme_selector()
   for k, _ in pairs(base16.themes) do
     table.insert(theme_names, k)
   end
-  require('fuzzy.lib').new({
+  require('fuzzy').new({
     source = theme_names,
     mappings = {
       ['<CR>'] = function()
-        local theme = CurrentFuzzy():get_output()
+        local theme = require('fuzzy').CurrentFuzzy():get_output()
         for k, v in pairs(base16.themes) do
           if k == theme then
             base16(v)
@@ -24,12 +24,12 @@ local function base16_theme_selector()
 end
 
 local function find_src()
-  require('fuzzy.lib').new {
+  require('fuzzy').new {
     source = repos.list_projects({ '~/src/github.com' }),
     mappings = {
       ['<CR>'] = function ()
-        local dir = CurrentFuzzy():get_output()
-        CurrentFuzzy():close()
+        local dir =  require('fuzzy').CurrentFuzzy():get_output()
+        require('fuzzy').CurrentFuzzy():close()
         vim.cmd(string.format([[ cd %s]], dir))
       end
     }
