@@ -23,8 +23,6 @@ local function base16_theme_selector()
   })
 end
 
--- vim.cmd([[ highlight FuzzyMatching guifg=#f2904b guibg=none guisp=none ]])
-
 local fuzzy = {}
 
 function fuzzy.grep()
@@ -33,20 +31,20 @@ end
 
 -- Fuzzy.nvim
 require('fuzzy').setup({
-  width = 60,
-  height = 60,
+  width = 40,
+  height = 100,
   blacklist = {
     'vendor',
     '.git',
     'target',
   },
-  location = loc.center,
+  location = loc.bottom_center,
   sorter = require('fuzzy.lib.sorter').fzy_native,
   prompt = '> ',
   register = {
     base16_theme_selector = base16_theme_selector,
   },
-  border = 'yes',
+  border = 'no',
 })
 
 local fuzzy_lsp = require('fuzzy.lsp')
