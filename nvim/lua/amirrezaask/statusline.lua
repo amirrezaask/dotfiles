@@ -16,6 +16,10 @@ local function mode()
     return m
   end
 end
+local modified = '%m'
+local readonly = '%r'
+local space = ' '
+local simple_filename = '%f'
 
 local shorten_path = (function()
   if jit then
@@ -84,6 +88,9 @@ local function lsp_info()
 end
 
 local line_col = '[ %l:%c %%%p ]'
+local line = '%l'
+local col = '%c'
+local percentage_of_file = '%P'
 
 local filetype = '%y'
 
@@ -102,23 +109,21 @@ local function get_icon(file)
   return '' 
 end
 
-local __BRANCH = ''
-
-function StatusLineUpdateGitBranch()
+local function git_branch()
+  local __BRANCH
   local success
   success, __BRANCH = pcall(vim.fn['fugitive#head'])
   if success and __BRANCH ~= '' then
-   __BRANCH = require('nvim-web-devicons').get_icon('git', 'git', {default=true}) .. ' ' .. __BRANCH
+    return __BRANCH
+   -- __BRANCH = require('nvim-web-devicons').get_icon('git', 'git', {default=true}) .. ' ' .. __BRANCH
   end
+  return __BRANCH
 end
 
--- Only update statusline on BufEnter
-vim.cmd [[ autocmd BufEnter * lua StatusLineUpdateGitBranch() ]]
-
-function Statusline()
+function ExpresslineLike()
   local statusline = ''
   statusline = statusline .. mode()
-  statusline = statusline .. ' ' .. __BRANCH
+  statusline = statusline .. ' ' .. git_branch() 
   statusline = statusline .. sep
   statusline = statusline .. ' ' .. get_icon(vim.api.nvim_buf_get_name(0)) .. ' ' .. filename({shorten=true}) .. '%m'
   statusline = statusline .. sep
@@ -128,4 +133,9 @@ function Statusline()
   return statusline
 end
 
-vim.o.statusline = '%!v:lua.Statusline()'
+function Compact()
+  return modified .. readonly .. simple_filename .. space .. git_branch() .. sep .. space .. line .. ':' .. col .. space .. percentage_of_file .. space .. filetype
+end
+
+vim.o.statusline = '%!v:lua.ExpresslineLike()'
+vim.o.statusline = '%!v:lua.Compact()'
