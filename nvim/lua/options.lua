@@ -22,7 +22,7 @@ nvim.with_options({
   backup = false,
   writebackup = false,
   swapfile = false,
-  clipboard = 'unnamedplus',
+  -- clipboard = 'unnamedplus',
   splitright = true,
   splitbelow = true,
   cursorline = true,
@@ -31,6 +31,8 @@ nvim.with_options({
   pumblend = 13,
   -- shortmess = "aI",
 })
+
+vim.cmd [[ set clipboard=unnamedplus ]]
 
 vim.g.netrw_banner = 0
 vim.g.go_fmt_command = 'goimports'

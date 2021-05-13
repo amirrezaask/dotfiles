@@ -2,7 +2,7 @@ local M = {}
 
 M.list_chars = {
   eol = '↲',
-  tab = '-> ',
+  tab = '» ',
   trail = '·',
   extends = '<',
   precedes = '>',

@@ -9,7 +9,7 @@ local themes = require('telescope.themes')
 
 telescope.setup({
   defaults = {
-    prompt_prefix = ' ',
+    prompt_prefix = '> ',
     selection_caret = ' ',
     layout_strategy = 'flex',
     prompt_position = 'bottom',
@@ -62,11 +62,7 @@ telescope.load_extension('snippets')
 telescope.load_extension('fzf')
 
 function M.base16_theme_selector()
-  local base16 = require('base16')
-  local theme_names = {}
-  for k, _ in pairs(base16.themes) do
-    table.insert(theme_names, k)
-  end
+  local theme_names = require('base16.themes'):names() 
   pickers.new({}, {
     finder = finders.new_table({
       results = theme_names,
@@ -75,10 +71,9 @@ function M.base16_theme_selector()
     attach_mappings = function(_)
       actions.select_default:replace(function()
         local theme = action_state.get_selected_entry()[1]
-        -- actions.close(prompt_bufnr)
-        for k, v in pairs(base16.themes) do
+        for k, v in pairs(require('base16.themes')) do
           if k == theme then
-            base16(v)
+            v:apply()
           end
         end
       end)

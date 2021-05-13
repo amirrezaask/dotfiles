@@ -69,8 +69,9 @@ end
 
 -- Fuzzy.nvim
 require('fuzzy').setup({
-  width = 40,
+  width = 30,
   height = 100,
+  icons = 'no',
   blacklist = {
     'vendor',
     '.git',
