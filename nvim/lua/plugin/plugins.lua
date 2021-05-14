@@ -45,6 +45,8 @@ return require('packer').startup({
     use { 'amirrezaask/base16.nvim' }
     -- }}}
 
+    use { 'norcalli/ui.nvim' }
+
     -- FZF {{{
     use({ 'junegunn/fzf'})
     use({ 'junegunn/fzf.vim'})

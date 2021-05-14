@@ -120,6 +120,10 @@ local function git_branch()
   return __BRANCH
 end
 
+local function wrap(item)
+  return '[' .. item .. ']'
+end
+
 function ExpresslineLike()
   local statusline = ''
   statusline = statusline .. mode()
@@ -134,7 +138,7 @@ function ExpresslineLike()
 end
 
 function Compact()
-  return modified .. readonly .. simple_filename .. space .. git_branch() .. sep .. space .. line .. ':' .. col .. space .. percentage_of_file .. space .. filetype
+  return modified .. readonly .. ' ' .. line .. ':' .. col .. ' ' ..simple_filename .. sep .. space .. percentage_of_file .. space .. filetype .. space .. wrap(git_branch())
 end
 
 vim.o.statusline = '%!v:lua.ExpresslineLike()'

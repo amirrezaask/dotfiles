@@ -1,30 +1,23 @@
-local loc = require('fuzzy.lib.location')
 local repos = require('amirrezaask.repos')
 local nvim = require('amirrezaask.nvim')
+local fuzzy = {}
 
-local function base16_theme_selector()
-  local base16 = require('base16')
-  local theme_names = {}
-  for k, _ in pairs(base16.themes) do
-    table.insert(theme_names, k)
-  end
-  require('fuzzy').new({
+function fuzzy.base16_theme_selector()
+  local theme_names = require('base16.themes'):names() 
+  require('fuzzy'){
     source = theme_names,
-    mappings = {
-      ['<CR>'] = function()
-        local theme = require('fuzzy').CurrentFuzzy():get_output()
-        for k, v in pairs(base16.themes) do
+    handler = function(theme)
+        for k, v in pairs(require('base16.themes')) do
           if k == theme then
-            base16(v)
+            v:apply()
           end
         end
-      end,
-    },
-  })
+      end
+  }
 end
 
-local function find_src()
-  require('fuzzy').new {
+function fuzzy.find_src()
+  require('fuzzy') {
     source = repos.list_projects({ '~/src/github.com' }),
     mappings = {
       ['<CR>'] = function ()
@@ -36,40 +29,39 @@ local function find_src()
   }
 end
 
-local fuzzy = {}
 
-local remove_icon = require('fuzzy.lib.helpers').remove_icon
+-- local remove_icon = require('fuzzy.lib.helpers').remove_icon
 
-local parser = function(line)
-  local parts = vim.split(line, ':')
-  return remove_icon(parts[1]), parts[2]
-end
+-- local parser = function(line)
+--   local parts = vim.split(line, ':')
+--   return remove_icon(parts[1]), parts[2]
+-- end
 
-__AMIRREZAASK_FUZZY_PREVIEW_CLOSER = nil
+-- __AMIRREZAASK_FUZZY_PREVIEW_CLOSER = nil
 
-local function preview()
-  local preview_window = function (line)
-    local floating_buffer = require('fuzzy.lib.floating').floating_buffer
-    local buf
-    buf, _, __AMIRREZAASK_FUZZY_PREVIEW_CLOSER = floating_buffer {
-      height = 50,
-      width = 50,
-      location = loc.center,
-      border = 'no',
-    }
-    local file, lnum = parser(line)
-    require('fuzzy.lib.helpers').open_file_at(file, lnum)
-    vim.cmd([[ call feedkeys("\<C-c>") ]])
-    vim.api.nvim_buf_set_option(buf, 'modifiable', false)
-    vim.api.nvim_buf_set_keymap(buf, 'n', 'q', '<cmd>lua __AMIRREZAASK_FUZZY_PREVIEW_CLOSER()<CR>', {noremap=true})
-  end
-  local line = require('fuzzy').CurrentFuzzy():get_output()
-  preview_window(line)
-end
+-- local function preview()
+--   local preview_window = function (line)
+--     local floating_buffer = require('fuzzy.lib.floating').floating_buffer
+--     local buf
+--     buf, _, __AMIRREZAASK_FUZZY_PREVIEW_CLOSER = floating_buffer {
+--       height = 50,
+--       width = 50,
+--       location = loc.center,
+--       border = 'no',
+--     }
+--     local file, lnum = parser(line)
+--     require('fuzzy.lib.helpers').open_file_at(file, lnum)
+--     vim.cmd([[ call feedkeys("\<C-c>") ]])
+--     vim.api.nvim_buf_set_option(buf, 'modifiable', false)
+--     vim.api.nvim_buf_set_keymap(buf, 'n', 'q', '<cmd>lua __AMIRREZAASK_FUZZY_PREVIEW_CLOSER()<CR>', {noremap=true})
+--   end
+--   local line = require('fuzzy').CurrentFuzzy():get_output()
+--   preview_window(line)
+-- end
 
 -- Fuzzy.nvim
 require('fuzzy').setup({
-  width = 30,
+  width = 50,
   height = 100,
   icons = 'no',
   blacklist = {
@@ -77,38 +69,37 @@ require('fuzzy').setup({
     '.git',
     'target',
   },
-  location = loc.bottom_center,
   highlight_matches = 'no',
-  mappings = {
-    i = {
-      ['P'] = preview
-    },
-    n = {
-      ['p'] = preview,
-      v = function()
-        local line = require('fuzzy').CurrentFuzzy():get_output()
-        vim.cmd([[vnew]])
-        local filename, lnum = parser(line)
-        require('fuzzy.lib.helpers').open_file_at(filename, lnum)
-      end,
-      s = function()
-        local line = require('fuzzy').CurrentFuzzy():get_output()
-        vim.cmd([[new]])
-        local filename, lnum = parser(line)
-        require('fuzzy.lib.helpers').open_file_at(filename, lnum)
-      end
-    },
-  },
+  -- mappings = {
+  --   i = {
+  --     ['P'] = preview
+  --   },
+  --   n = {
+  --     ['p'] = preview,
+  --     v = function()
+  --       local line = require('fuzzy').CurrentFuzzy():get_output()
+  --       vim.cmd([[vnew]])
+  --       local filename, lnum = parser(line)
+  --       require('fuzzy.lib.helpers').open_file_at(filename, lnum)
+  --     end,
+  --     s = function()
+  --       local line = require('fuzzy').CurrentFuzzy():get_output()
+  --       vim.cmd([[new]])
+  --       local filename, lnum = parser(line)
+  --       require('fuzzy.lib.helpers').open_file_at(filename, lnum)
+  --     end
+  --   },
+  -- },
   sorter = require('fuzzy.lib.sorter').fzf_native,
   prompt = '> ',
   register = {
-    base16_theme_selector = base16_theme_selector,
-    find_src = find_src,
+    base16_theme_selector = fuzzy.base16_theme_selector,
+    find_src = fuzzy.find_src,
   },
   border = 'no',
 })
 
-vim.cmd [[ hi default link FuzzyNormal CursorLine ]]
+-- vim.cmd [[ hi default link FuzzyNormal CursorLine ]]
 
 function fuzzy.on_attach()
   local fuzzy_lsp = require('fuzzy.lsp')
@@ -134,7 +125,7 @@ end
 nvim.mode_map({
   n = {
     ['<leader><leader>'] = require('fuzzy').find_files,
-    ['<leader>fb'] = require('fuzzy').interactive_finder,
+    -- ['<leader>fb'] = require('fuzzy').interactive_finder,
     ['<leader>ec'] = function()
       require('fuzzy').find_files({ path = '~/src/github.com/amirrezaask/dotfiles', prompt = 'Edit dotfiles> ' })
     end,
