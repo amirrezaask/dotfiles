@@ -82,6 +82,12 @@ function M.base16_theme_selector()
   }):find()
 end
 
+function M.find_src()
+  require('telescope.builtin').find_files {
+    cwd = '~/src'
+  }
+end
+
 function M.buffer_git_files()
   require('telescope.builtin').git_files({
     cwd = vim.fn.expand('%:p:h'),
@@ -110,6 +116,7 @@ function M.projects()
     end,
   }):find()
 end
+
 function M.installed_plugins()
   require('telescope.builtin').find_files({
     cwd = vim.fn.stdpath('data') .. '/site/pack/packer/start/',
@@ -210,6 +217,7 @@ require('amirrezaask.nvim').mode_map({
     ['<leader>tc'] = M.base16_theme_selector,
     ['<leader>en'] = M.edit_neovim,
     ['<leader>ez'] = M.edit_zsh,
+    ['<leader>fs'] = M.find_src,
     ['<leader>c'] = require('telescope.builtin').commands,
     ['<leader>fr'] = require('telescope.builtin').oldfiles,
     ['<leader>h'] = require('telescope.builtin').help_tags,
