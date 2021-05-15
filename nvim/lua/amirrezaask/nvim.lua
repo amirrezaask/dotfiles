@@ -4,6 +4,17 @@ function M.autocmd(tbl)
   vim.cmd(string.format('autocmd! %s %s %s', tbl[1], tbl[2], tbl[3]))
 end
 
+function M.highlight(name, guifg, guibg)
+  local t = { 'hi', name }
+  if guifg then
+    table.insert(t, string.format('guifg=%s', guifg))
+  end
+  if guibg then
+    table.insert(t, string.format('guibg=%s', guibg))
+  end
+  vim.cmd(table.concat(t, ' '))
+end
+
 function M.augroup(tbl)
   for g, _ in pairs(tbl) do
     vim.cmd('augroup ' .. g)
