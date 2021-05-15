@@ -73,7 +73,11 @@ function M.map(keys)
   for k, f in pairs(keys) do
     local mode, keyseq = parse_key(k)
     local cmd = get_key_cmd(k, f)
-    vim.api.nvim_set_keymap(mode, keyseq, cmd, {})
+    if cmd == nil then
+      print(k)
+      print(cmd)
+    end
+    vim.api.nvim_set_keymap(mode, keyseq, cmd, {noremap = true})
   end
 end
 

@@ -19,9 +19,6 @@ end
 function fuzzy.find_src()
   require('fuzzy') {
     source = repos.list_projects({ '~/src/github.com' }),
-    handler = function(line)
-      vim.cmd(string.format([[ cd %s]], line))
-    end
     -- mappings = {
     --   ['<CR>'] = function ()
     --     local dir =  require('fuzzy').CurrentFuzzy():get_output()
@@ -49,7 +46,7 @@ end
 --     buf, _, __AMIRREZAASK_FUZZY_PREVIEW_CLOSER = floating_buffer {
 --       height = 50,
 --       width = 50,
---       location = loc.center,
+--       location = locations.center,
 --       border = 'no',
 --     }
 --     local file, lnum = parser(line)
@@ -75,6 +72,7 @@ require('fuzzy').setup({
     'target',
   },
   highlight_matches = 'no',
+  -- location = locations.bottom_center,
   -- mappings = {
   --   i = {
   --     ['P'] = preview
@@ -104,12 +102,11 @@ require('fuzzy').setup({
   border = 'no',
 })
 
--- vim.cmd [[ hi default link FuzzyNormal CursorLine ]]
+vim.cmd [[ hi default link FuzzyNormal CursorLine ]]
 
 function fuzzy.on_attach()
   local fuzzy_lsp = require('fuzzy.lsp')
   nvim.map {
-    n = {
       ['n gd'] = fuzzy_lsp.definitions,
       ['n K'] = vim.lsp.buf.hover,
       ['n gI'] = fuzzy_lsp.implementation,
@@ -123,7 +120,6 @@ function fuzzy.on_attach()
       ['n <leader>ld'] = fuzzy_lsp.document_symbols,
       ['n <leader>lw'] = fuzzy_lsp.workspace_symbols,
       ['n <leader>lc'] = fuzzy_lsp.code_actions,
-    },
   }
 end 
 

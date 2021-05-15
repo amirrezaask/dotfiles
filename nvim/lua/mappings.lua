@@ -1,5 +1,7 @@
 local nvim = require('amirrezaask.nvim')
 vim.g.mapleader = ' '
+
+
 nvim.map {
   ['<C-j>'] = '<C-w>j',
   ['<C-k>'] = '<C-w>k',
@@ -14,8 +16,14 @@ nvim.map {
   ['<Down>'] = '<cmd>resize -5<CR>',
 }
 
+
 nvim.map {
-  ['n <expr><CR>'] = '{-> v:hlsearch ? ":nohl<CR>" : "<CR>"}()',
+  ['n <CR>'] = function()
+    if vim.v.hlsearch == 1 then
+      vim.cmd [[ :nohl ]]
+    end
+    vim.fn.feedkeys("<CR>")
+  end,
   ['n tn'] = ':tabnext<CR>',
   ['n tp'] = ':tabprevious<CR>',
   ['n tc'] = ':tabclose<CR>',

@@ -47,7 +47,7 @@ end)()
 
 local function filename(opts)
   opts = opts or {}
-  opts.shorten = true
+  if opts.shorten == nil then opts.shorten = true end
   opts.from_root = false
   local name
   if opts.from_root then
@@ -127,7 +127,7 @@ end
 
 function ExpresslineLike()
   return mode() .. ' ' .. wrap(git_branch()) .. sep .. ' ' .. get_icon() .. ' ' ..
-    filename() .. '%m' .. sep .. ' ' .. line_col .. filetype .. lsp_info()
+    filename({shorten=false}) .. '%m' .. sep .. ' ' .. line_col .. filetype .. lsp_info()
 end
 
 function Compact()
