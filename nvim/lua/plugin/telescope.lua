@@ -207,7 +207,7 @@ require('amirrezaask.nvim').map {
     ['n <leader>fp'] = M.installed_plugins,
     ['n <leader>pf'] = M.projects,
     ['n <C-p>'] = M.find_files,
-    ['n <C-q>'] = require('telescope.builtin').quickfix,
+    ['n <M-q>'] = require('telescope.builtin').quickfix,
     ['n ??'] = function() require('telescope.builtin').grep_string{shorten_path=true, search=vim.fn.input('Grep: ')} end,
     ['n <leader>b'] = require('telescope.builtin').buffers,
     ['n <leader>ec'] = M.edit_configs,

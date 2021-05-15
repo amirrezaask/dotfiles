@@ -4,6 +4,7 @@ local nvim = require('amirrezaask.nvim')
 local quickfix_state = 'close'
 
 function M.toggle()
+  local current_win = vim.api.nvim_get_current_win()
   if quickfix_state == 'open' then 
     quickfix_state = 'close'
     vim.cmd [[ cclose ]]
@@ -11,6 +12,7 @@ function M.toggle()
     quickfix_state = 'open'
     vim.cmd [[ copen ]]
   end
+  vim.api.nvim_set_current_win(current_win)
 end
 
 nvim.map {
