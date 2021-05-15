@@ -13,13 +13,11 @@ function M.toggle()
   end
 end
 
-nvim.mode_map({
-  n = {
-    ['<C-q>'] = '<cmd>lua require"amirrezaask.quickfix".toggle()<CR>',
-    ['{'] = ':cprev<CR>',
-    ['}'] = ':cnext<CR>',
-  },
-})
+nvim.map {
+  ['n <C-q>'] = '<cmd>lua require"amirrezaask.quickfix".toggle()<CR>',
+  ['n {'] = ':cprev<CR>',
+  ['n }'] = ':cnext<CR>',
+}
 
 local function gen_from_cmd_output(qflist, data)
   for _, l in ipairs(data) do

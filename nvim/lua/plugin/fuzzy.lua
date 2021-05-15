@@ -108,60 +108,58 @@ require('fuzzy').setup({
 
 function fuzzy.on_attach()
   local fuzzy_lsp = require('fuzzy.lsp')
-  nvim.mode_map({
+  nvim.map {
     n = {
-      ['gd'] = fuzzy_lsp.definitions,
-      ['K'] = vim.lsp.buf.hover,
-      ['gI'] = fuzzy_lsp.implementation,
-      ['gR'] = fuzzy_lsp.references,
-      ['g0'] = fuzzy_lsp.document_symbols,
-      ['gW'] = fuzzy_lsp.workspace_symbols,
-      ['<leader>A'] = fuzzy_lsp.code_actions,
-      ['<leader>lR'] = vim.lsp.buf.rename,
-      ['<leader>lr'] = fuzzy_lsp.references,
-      ['<leader>li'] = fuzzy_lsp.implementation,
-      ['<leader>ld'] = fuzzy_lsp.document_symbols,
-      ['<leader>lw'] = fuzzy_lsp.workspace_symbols,
-      ['<leader>lc'] = fuzzy_lsp.code_actions,
+      ['n gd'] = fuzzy_lsp.definitions,
+      ['n K'] = vim.lsp.buf.hover,
+      ['n gI'] = fuzzy_lsp.implementation,
+      ['n gR'] = fuzzy_lsp.references,
+      ['n g0'] = fuzzy_lsp.document_symbols,
+      ['n gW'] = fuzzy_lsp.workspace_symbols,
+      ['n <leader>A'] = fuzzy_lsp.code_actions,
+      ['n <leader>lR'] = vim.lsp.buf.rename,
+      ['n <leader>lr'] = fuzzy_lsp.references,
+      ['n <leader>li'] = fuzzy_lsp.implementation,
+      ['n <leader>ld'] = fuzzy_lsp.document_symbols,
+      ['n <leader>lw'] = fuzzy_lsp.workspace_symbols,
+      ['n <leader>lc'] = fuzzy_lsp.code_actions,
     },
-  })
+  }
 end 
 
-nvim.mode_map({
-  n = {
-    ['<leader><leader>'] = require('fuzzy').find_files,
+nvim.map {
+    ['n <leader><leader>'] = require('fuzzy').find_files,
     -- ['<leader>fb'] = require('fuzzy').interactive_finder,
-    ['<leader>ec'] = function()
+    ['n <leader>ec'] = function()
       require('fuzzy').find_files({ path = '~/src/github.com/amirrezaask/dotfiles', prompt = 'Edit dotfiles> ' })
     end,
-    ['<leader>en'] = function()
+    ['n <leader>en'] = function()
       require('fuzzy').find_files({ path = '~/.config/nvim', prompt = 'Edit Neovim> ' })
     end,
-    ['<leader>ez'] = function()
+    ['n <leader>ez'] = function()
       require('fuzzy').find_files({ path = '~/src/github.com/amirrezaask/dotfiles/zsh', prompt = 'Edit ZSH> ' })
     end,
-    ['<leader>fp'] = function()
+    ['n <leader>fp'] = function()
       require('fuzzy').find_repo({ locations = { '~/.local/share/nvim/site/pack/packer' }, prompt = 'Find plugins> ' })
     end,
-    ['<leader>gf'] = function()
+    ['n <leader>gf'] = function()
       require('fuzzy').git_files({})
     end,
-    ['<C-p>'] = require('fuzzy').git_files,
-    ['<leader>fr'] = require('fuzzy').recent_files,
-    ['<leader>pf'] = function()
+    ['n <C-p>'] = require('fuzzy').git_files,
+    ['n <leader>fr'] = require('fuzzy').recent_files,
+    ['n <leader>pf'] = function()
       require('fuzzy').find_repo({ locations = { '~/src' } })
     end,
-    ['??'] = function()
+    ['n ??'] = function()
       require('fuzzy').grep({ height = 90, width = 70 })
     end,
-    ['<leader>b'] = require('fuzzy').buffers,
-    ['<leader>gg'] = require('fuzzy').git_grep,
-    ['<leader>c'] = require('fuzzy').commands,
-    ['<leader>h'] = require('fuzzy').help,
-    ['<leader>gc'] = require('fuzzy').git_commits,
-    ['<leader>gb'] = require('fuzzy').git_bcommits,
-    ['<leader>gco'] = require('fuzzy').git_checkout,
-  },
-})
+    ['n <leader>b'] = require('fuzzy').buffers,
+    ['n <leader>gg'] = require('fuzzy').git_grep,
+    ['n <leader>c'] = require('fuzzy').commands,
+    ['n <leader>h'] = require('fuzzy').help,
+    ['n <leader>gc'] = require('fuzzy').git_commits,
+    ['n <leader>gb'] = require('fuzzy').git_bcommits,
+    ['n <leader>gco'] = require('fuzzy').git_checkout,
+}
 
 return fuzzy

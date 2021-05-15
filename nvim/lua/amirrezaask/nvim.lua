@@ -36,26 +36,44 @@ function M.with_options(tbl)
     end
   end
 end
-__MAP_FUNCTION_REGISTRY = {}
-function M.mode_map(tbl)
-  for m, _ in pairs(tbl) do
-    for k, expr in pairs(tbl[m]) do
-      k = vim.api.nvim_replace_termcodes(k, true, true, true)
-      if type(expr) == 'function' then
-        local fn = expr
-        __MAP_FUNCTION_REGISTRY[k] = function()
-          fn()
-        end
-        expr = string.format('<cmd>lua __MAP_FUNCTION_REGISTRY["%s"]()<CR>', k)
+
+__MAP_REGISTRY = {}
+function M.map(keys)
+  local function get_char(s, n)
+    return s:sub(n, n)
+  end
+  local function keymap(s)
+    return s:sub(3, -1)
+  end
+  local function parse_key(key)
+    if #vim.split(key, ' ') > 1 then
+      local mode = get_char(key, 1)
+      local keyseq = vim.api.nvim_replace_termcodes(keymap(key), true, true, true)
+      return mode, keyseq
+    end
+
+    return '', key
+  end
+  local function tohex(s)
+    local R = {}
+    for i = 1, #s do
+      R[#R+1] = string.format("%02X", s:byte(i))
+    end
+    return table.concat(R)
+  end
+  local function get_key_cmd(k, f)
+    if type(f) == 'string' then return f end
+    if type(f) == 'function' then
+      __MAP_REGISTRY[tohex(k)] = function()
+        f()
       end
-      vim.api.nvim_set_keymap(m, k, expr, {})
+      return string.format('<cmd>lua __MAP_REGISTRY["%s"]()<cr>', tohex(k))
     end
   end
-end
-
-function M.map(tbl)
-  for k, expr in pairs(tbl) do
-    vim.api.nvim_set_keymap('', k, expr, {})
+  for k, f in pairs(keys) do
+    local mode, keyseq = parse_key(k)
+    local cmd = get_key_cmd(k, f)
+    vim.api.nvim_set_keymap(mode, keyseq, cmd, {})
   end
 end
 
@@ -63,15 +81,14 @@ function M.colorscheme(name)
   vim.cmd([[ colorscheme ]] .. name)
 end
 
-__FUNCTION_REGISTRY = {}
-
+__COMMAND_REGISTRY = {}
 function M.command(name, expr, args)
   if type(expr) == 'function' then
     local fn = expr
-    __FUNCTION_REGISTRY[name] = function()
+    __COMMAND_REGISTRY[name] = function()
       fn()
     end
-    expr = string.format('lua __FUNCTION_REGISTRY["%s"]()<CR>', name)
+    expr = string.format('lua __COMMAND_REGISTRY["%s"]()<CR>', name)
   end
   if not args then
     vim.cmd(string.format('command! %s %s', name, expr))

@@ -1,6 +1,6 @@
 local nvim = require('amirrezaask.nvim')
 vim.g.mapleader = ' '
-nvim.map({
+nvim.map {
   ['<C-j>'] = '<C-w>j',
   ['<C-k>'] = '<C-w>k',
   ['<C-l>'] = '<C-w>l',
@@ -12,31 +12,24 @@ nvim.map({
   ['<Right>'] = '<cmd>vertical resize +5<CR>',
   ['<Up>'] = '<cmd>resize +5<CR>',
   ['<Down>'] = '<cmd>resize -5<CR>',
-})
+}
 
--- Took from TJDevries config :)
-vim.cmd([[ nnoremap <expr><CR> {-> v:hlsearch ? ":nohl<CR>" : "<CR>"}() ]])
-nvim.mode_map({
-  n = {
-    ['tn'] = ':tabnext<CR>',
-    ['tp'] = ':tabprevious<CR>',
-    ['tc'] = ':tabclose<CR>',
-    ['tt'] = ':tabnew<CR>',
-    ['<leader>v'] = '<cmd>vnew<CR>',
-    j = 'gj',
-    k = 'gk',
-  },
-  t = {
-    ['<Esc>'] = '<C-\\><C-n>',
-    ['jk'] = '<C-\\><C-n>',
-    ['jj'] = '<C-\\><C-n>',
-    ['kk'] = '<C-\\><C-n>',
-    ['kj'] = '<C-\\><C-n>',
-  },
-  i = {
-    ['jk'] = '<esc>',
-    ['jj'] = '<esc>',
-    ['kk'] = '<esc>',
-    ['kj'] = '<esc>',
-  },
-})
+nvim.map {
+  ['n <expr><CR>'] = '{-> v:hlsearch ? ":nohl<CR>" : "<CR>"}()',
+  ['n tn'] = ':tabnext<CR>',
+  ['n tp'] = ':tabprevious<CR>',
+  ['n tc'] = ':tabclose<CR>',
+  ['n tt'] = ':tabnew<CR>',
+  ['n <leader>v'] = '<cmd>vnew<CR>',
+  ['n j'] = 'gj',
+  ['n k'] = 'gk',
+  ['t <Esc>'] = '<C-\\><C-n>',
+  ['t jk'] = '<C-\\><C-n>',
+  ['t jj'] = '<C-\\><C-n>',
+  ['t kk'] = '<C-\\><C-n>',
+  ['t kj'] = '<C-\\><C-n>',
+  ['i jk'] = '<esc>',
+  ['i jj'] = '<esc>',
+  ['i kk'] = '<esc>',
+  ['i kj'] = '<esc>',
+}

@@ -30,12 +30,10 @@ vim.cmd([[set completeopt=menuone,noselect]])
 -- Avoid showing message extra message when using completion
 vim.cmd([[set shortmess+=c]])
 
-require('amirrezaask.nvim').mode_map({
-  i = {
-    ['<expr> <C-Space>'] = 'compe#complete()',
-    ['<expr> <CR>'] = "compe#confirm()",
-    ['<expr> <C-e>'] = "compe#close('<C-e>')",
-    ['<expr> <C-f>'] = "compe#scroll( {'delta': +4} )",
-    ['<expr> <C-d>'] = "compe#scroll( {'delta': -4} )",
-  },
-})
+require('amirrezaask.nvim').map {
+    ['i <expr> <C-Space>'] = 'compe#complete()',
+    ['i <expr> <CR>'] = "compe#confirm()",
+    ['i <expr> <C-e>'] = "compe#close('<C-e>')",
+    ['i <expr> <C-f>'] = "compe#scroll( {'delta': +4} )",
+    ['i <expr> <C-d>'] = "compe#scroll( {'delta': -4} )",
+}

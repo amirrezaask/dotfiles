@@ -162,75 +162,71 @@ M.vertical_opts = {
 }
 
 function M.on_attach(_)
-  require('amirrezaask.nvim').mode_map({
-    n = {
-      ['gd'] = function()
+  require('amirrezaask.nvim').map {
+      ['n gd'] = function()
         require('telescope.builtin').lsp_definitions(require('plugin.telescope').vertical_opts)
       end,
-      ['K'] = vim.lsp.buf.hover,
-      ['gI'] = function()
+      ['n K'] = vim.lsp.buf.hover,
+      ['n gI'] = function()
         require('telescope.builtin').lsp_implementations(require('plugin.telescope').vertical_opts)
       end,
-      ['gR'] = function()
+      ['n gR'] = function()
         require('telescope.builtin').lsp_references(require('plugin.telescope').vertical_opts)
       end,
-      ['<leader>lR'] = function()
+      ['n <leader>lR'] = function()
         vim.lsp.buf.rename()
       end,
-      ['<leader>lr'] = function()
+      ['n <leader>lr'] = function()
         require('telescope.builtin').lsp_references(require('plugin.telescope').vertical_opts)
       end,
-      ['<leader>li'] = function()
+      ['n <leader>li'] = function()
         require('telescope.builtin').lsp_implementations(require('plugin.telescope').vertical_opts)
       end,
-      ['<leader>ld'] = function()
+      ['n <leader>ld'] = function()
         require('telescope.builtin').lsp_document_symbols(require('plugin.telescope').vertical_opts)
       end,
-      ['<leader>lw'] = function()
+      ['n <leader>lw'] = function()
         require('plugin.telescope').lsp_workspace_symbols()
       end,
-      ['<leader>lc'] = function()
+      ['n <leader>lc'] = function()
         require('telescope.builtin').lsp_code_actions()
       end,
-      ['<leader>d?'] = function()
+      ['n <leader>d?'] = function()
         require('telescope.builtin').lsp_document_diagnostics()
       end,
-      ['<leader>w?'] = function()
+      ['n <leader>w?'] = function()
         require('telescope.builtin').lsp_workspace_diagnostics()
       end,
-    },
-  })
+  }
 end
 
 
-require('amirrezaask.nvim').mode_map({
-  n = {
-    ['<leader><leader>'] = require('telescope.builtin').find_files,
-    ['<leader>fb'] = require('telescope.builtin').file_browser,
-    ['<leader>fp'] = M.installed_plugins,
-    ['<leader>pf'] = M.projects,
-    ['<C-p>'] = M.find_files,
-    ['<C-q>'] = require('telescope.builtin').quickfix,
-    ['??'] = function() require('telescope.builtin').grep_string{shorten_path=true, search=vim.fn.input('Grep: ')} end,
-    ['<leader>b'] = require('telescope.builtin').buffers,
-    ['<leader>ec'] = M.edit_configs,
-    ['<leader>tc'] = M.base16_theme_selector,
-    ['<leader>en'] = M.edit_neovim,
-    ['<leader>ez'] = M.edit_zsh,
-    ['<leader>fs'] = M.find_src,
-    ['<leader>c'] = require('telescope.builtin').commands,
-    ['<leader>fr'] = require('telescope.builtin').oldfiles,
-    ['<leader>h'] = require('telescope.builtin').help_tags,
+require('amirrezaask.nvim').map {
+    ['n <leader><leader>'] = require('telescope.builtin').find_files,
+    ['n <leader>fb'] = require('telescope.builtin').file_browser,
+    ['n <leader>fp'] = M.installed_plugins,
+    ['n <leader>pf'] = M.projects,
+    ['n <C-p>'] = M.find_files,
+    ['n <C-q>'] = require('telescope.builtin').quickfix,
+    ['n ??'] = function() require('telescope.builtin').grep_string{shorten_path=true, search=vim.fn.input('Grep: ')} end,
+    ['n <leader>b'] = require('telescope.builtin').buffers,
+    ['n <leader>ec'] = M.edit_configs,
+    ['n <leader>tc'] = M.base16_theme_selector,
+    ['n <leader>en'] = M.edit_neovim,
+    ['n <leader>ez'] = M.edit_zsh,
+    ['n <leader>fs'] = M.find_src,
+    ['n <leader>c'] = require('telescope.builtin').commands,
+    ['n <leader>fr'] = require('telescope.builtin').oldfiles,
+    ['n <leader>h'] = require('telescope.builtin').help_tags,
     -- Git
-    ['<leader>gc'] = require('telescope.builtin').git_commits,
-    ['<leader>gb'] = require('telescope.builtin').git_bcommits,
-    ['<leader>go'] = require('telescope.builtin').git_checkout,
-    ['<leader>gf'] = M.buffer_git_files,
-    ['<leader>gs'] = require('telescope.builtin').git_status,
-    ['<leader>gwc'] = require('telescope').extensions.git_worktree.create_git_worktree,
-    ['<leader>gwl'] = require('telescope').extensions.git_worktree.git_worktrees,
-    ['<leader>tf'] = require('telescope.builtin').treesitter,
-  },
-})
+    ['n <leader>gc'] = require('telescope.builtin').git_commits,
+    ['n <leader>gb'] = require('telescope.builtin').git_bcommits,
+    ['n <leader>go'] = require('telescope.builtin').git_checkout,
+    ['n <leader>gf'] = M.buffer_git_files,
+    ['n <leader>gs'] = require('telescope.builtin').git_status,
+    ['n <leader>gwc'] = require('telescope').extensions.git_worktree.create_git_worktree,
+    ['n <leader>gwl'] = require('telescope').extensions.git_worktree.git_worktrees,
+    ['n <leader>tf'] = require('telescope.builtin').treesitter,
+}
 
 return M

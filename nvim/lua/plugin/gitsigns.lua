@@ -10,8 +10,6 @@ require('gitsigns').setup({
   },
 })
 
-nvim.mode_map({
-  n = {
-    ['<leader>gm'] = '<cmd>lua require"gitsigns".blame_line()<CR>',
-  },
-})
+nvim.map{
+  ['n <leader>gm'] = '<cmd>lua require"gitsigns".blame_line()<CR>',
+}

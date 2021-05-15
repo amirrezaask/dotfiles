@@ -58,11 +58,9 @@ vim.cmd([[ nnoremap ,nf <cmd>lua LuaAutoFormat=false<CR> ]])
 
 vim.api.nvim_buf_set_keymap(0, 'n', ',f', '<cmd>LuaFormat<CR>', { noremap = true })
 
-require('amirrezaask.nvim').mode_map({
-  n = {
-    ['<leader>x'] = '<cmd>lua EVAL()<CR>',
-    ['<leader>X'] = '<cmd>luafile %<CR>',
-  },
-})
+require('amirrezaask.nvim').map{
+    ['n <leader>x'] = '<cmd>lua EVAL()<CR>',
+    ['n <leader>X'] = '<cmd>luafile %<CR>',
+}
 
 return lua

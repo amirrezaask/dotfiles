@@ -11,27 +11,27 @@ vim.g.fzf_action = {
   ['ctrl-v'] = 'vsplit',
   ['ctrl-s'] = 'split'
 }
-normal_maps['<leader><leader>'] = '<cmd>Files<CR>'
-normal_maps['<leader>ec'] = '<cmd>Files /home/amirreza/src/github.com/amirrezaask/dotfiles<CR>'
-normal_maps['<leader>en'] = '<cmd>Files /home/amirreza/.config/nvim<CR>'
-normal_maps['<leader>ez'] = '<cmd>Files /home/amirreza/src/github.com/amirrezaask/dotfiles/zsh<CR>'
-normal_maps['<leader>fp'] = '<cmd>Files /home/amirreza/.local/share/nvim/site/pack/packer/start<CR>'
-normal_maps['<leader>gf'] = '<cmd>GFiles<CR>'
-normal_maps['<C-p>'] = '<cmd>GFiles<CR>'
-normal_maps['<leader>fr'] = '<cmd>MRU<CR>'
-normal_maps['<leader>pf'] = '<cmd>lua Projects({"/home/amirreza/src"})<CR>'
-normal_maps['??'] = '<cmd>Rg<CR>'
-normal_maps['<leader>b'] = '<cmd>Buffers<CR>'
-normal_maps['<leader>c'] = '<cmd>Commands<CR>'
-normal_maps['<leader>fh'] = '<cmd>History<CR>'
-normal_maps['<leader>h'] = '<cmd>Helptags<CR>'
-normal_maps['<leader>gc'] = '<cmd>Commits<CR>'
-normal_maps['<leader>gb'] = '<cmd>BCommits<CR>'
-normal_maps['<leader>gs'] = '<cmd>GitFiles?<CR>'
-normal_maps['<leader>fb'] = function()
+normal_maps['i <leader><leader>'] = '<cmd>Files<CR>'
+normal_maps['i <leader>ec'] = '<cmd>Files /home/amirreza/src/github.com/amirrezaask/dotfiles<CR>'
+normal_maps['i <leader>en'] = '<cmd>Files /home/amirreza/.config/nvim<CR>'
+normal_maps['i <leader>ez'] = '<cmd>Files /home/amirreza/src/github.com/amirrezaask/dotfiles/zsh<CR>'
+normal_maps['i <leader>fp'] = '<cmd>Files /home/amirreza/.local/share/nvim/site/pack/packer/start<CR>'
+normal_maps['i <leader>gf'] = '<cmd>GFiles<CR>'
+normal_maps['i <C-p>'] = '<cmd>GFiles<CR>'
+normal_maps['i <leader>fr'] = '<cmd>MRU<CR>'
+normal_maps['i <leader>pf'] = '<cmd>lua Projects({"/home/amirreza/src"})<CR>'
+normal_maps['i ??'] = '<cmd>Rg<CR>'
+normal_maps['i <leader>b'] = '<cmd>Buffers<CR>'
+normal_maps['i <leader>c'] = '<cmd>Commands<CR>'
+normal_maps['i <leader>fh'] = '<cmd>History<CR>'
+normal_maps['i <leader>h'] = '<cmd>Helptags<CR>'
+normal_maps['i <leader>gc'] = '<cmd>Commits<CR>'
+normal_maps['i <leader>gb'] = '<cmd>BCommits<CR>'
+normal_maps['i <leader>gs'] = '<cmd>GitFiles?<CR>'
+normal_maps['i <leader>fb'] = function()
   vim.cmd(string.format('Files %s', vim.fn.expand('%:p:h')))
 end
-normal_maps['<leader>sf'] = function()
+normal_maps['i <leader>sf'] = function()
   FZF {
     source = repos.list_projects({ '~/src/' }),
     sink = function(line)
@@ -40,7 +40,7 @@ normal_maps['<leader>sf'] = function()
   }
 end
 
-normal_maps['<leader>ef'] = function()
+normal_maps['i <leader>ef'] = function()
   FZF {
     source = repos.list_projects({ '~/src/gitlab.espadev.ir' }),
     sink = function(line)
@@ -49,7 +49,7 @@ normal_maps['<leader>ef'] = function()
   }
 end
 
-normal_maps['<leader>ep'] = function()
+normal_maps['i <leader>ep'] = function()
   FZF {
     source = repos.list_projects({ '~/src/github.com/amirrezaask' }),
     sink = function(line)
@@ -61,30 +61,27 @@ end
 
 function fzf.lsp_on_attach()
   local buf = vim.lsp.buf
-  require('amirrezaask.nvim').mode_map {
-    n = {
-      ['gd'] = function()
+  require('amirrezaask.nvim').map {
+      ['n gd'] = function()
         buf.definition()
       end,
-      ['K'] = buf.hover,
-      ['gI'] = WrapQuickfix(buf.implementation),
-      ['gR'] = WrapQuickfix(buf.references),
-      ['<leader>lR'] = buf.rename,
-      ['<leader>lr'] = WrapQuickfix(buf.references),
-      ['<leader>li'] = WrapQuickfix(buf.implementation),
-      ['<leader>ld'] = WrapQuickfix(buf.document_symbol),
-      ['<leader>lw'] = function()
+      ['n K'] = buf.hover,
+      ['n gI'] = WrapQuickfix(buf.implementation),
+      ['n gR'] = WrapQuickfix(buf.references),
+      ['n <leader>lR'] = buf.rename,
+      ['n <leader>lr'] = WrapQuickfix(buf.references),
+      ['n <leader>li'] = WrapQuickfix(buf.implementation),
+      ['n <leader>ld'] = WrapQuickfix(buf.document_symbol),
+      ['n <leader>lw'] = function()
         local query = vim.fn.input('Query: ')
         WrapQuickfix(function() buf.workspace_symbol(query) end)()
       end,
-      ['<leader>lc'] = buf.code_action,
+      ['n <leader>lc'] = buf.code_action,
       -- TODO(amirreza): fix these :)
       -- ['<leader>d?'] = ,
       -- ['<leader>w?'] = function()
       --   require('telescope.builtin').lsp_workspace_diagnostics()
       -- end,
-    },
-
   }
 end
 
@@ -137,7 +134,5 @@ nvim.command('MRU', function()
   })
 end)
 
-require('amirrezaask.nvim').mode_map({
-  n = normal_maps,
-})
+require('amirrezaask.nvim').map(normal_maps)
 return fzf
