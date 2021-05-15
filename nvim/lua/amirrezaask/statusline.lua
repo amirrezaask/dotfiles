@@ -94,7 +94,7 @@ local percentage_of_file = '%P'
 
 local filetype = '%y'
 
-local sep = '%='
+local seperator = '%='
 
 local function get_icon()
   local file = vim.api.nvim_buf_get_name(0)
@@ -110,6 +110,19 @@ local function get_icon()
   return '' 
 end
 
+local function git_branch_icon()
+  local has_icons, _ = pcall(require, 'nvim-web-devicons')
+  if not has_icons then
+    print('for having icon in drawer install `nvim-web-devicons`')
+    return false
+  end
+  local icon, _ = require('nvim-web-devicons').get_icon('git', 'git', { default = true })
+  if icon ~= '' then
+    return icon
+  end
+  return ''
+end
+
 local function git_branch()
   local __BRANCH
   local success
@@ -121,18 +134,60 @@ local function git_branch()
   return __BRANCH
 end
 
-local function wrap(item)
+local function with_brackets(item)
   return '[' .. item .. ']'
 end
 
-function ExpresslineLike()
-  return mode() .. ' ' .. wrap(git_branch()) .. sep .. ' ' .. get_icon() .. ' ' ..
-    filename({shorten=false}) .. '%m' .. sep .. ' ' .. line_col .. filetype .. lsp_info()
+local colon = ':'
+
+__STATUSLINE = nil
+
+local function make_statusline(opts)
+  __STATUSLINE = function()
+    local parts = {}
+    for _, e in ipairs(opts) do
+      if type(e) == 'function' then
+        table.insert(parts, e())
+      else
+        table.insert(parts, e)
+      end
+    end
+    return table.concat(parts, '')
+  end
 end
 
-function Compact()
-  return modified .. readonly .. ' ' .. line .. ':' .. col .. ' ' ..simple_filename .. sep .. space .. percentage_of_file .. space .. filetype .. space .. wrap(git_branch())
-end
+make_statusline {
+  mode,
+  space,
+  git_branch_icon, git_branch,
+  seperator, space,
+  get_icon,
+  space,
+  function() return filename({shorten = false}) end,
+  modified,
+  seperator,
+  space,
+  line_col,
+  filetype,
+  lsp_info,
+}
 
-vim.o.statusline = '%!v:lua.ExpresslineLike()'
--- vim.o.statusline = '%!v:lua.Compact()'
+-- make_statusline {
+--   modified,
+--   readonly,
+--   space,
+--   line,
+--   colon,
+--   col,
+--   space,
+--   simple_filename,
+--   sep,
+--   space,
+--   percentage_of_file,
+--   space,
+--   filetype,
+--   space,
+--   function() wrap(git_branch()) end
+-- }
+
+vim.o.statusline = '%!v:lua.__STATUSLINE()'
