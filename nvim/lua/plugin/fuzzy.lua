@@ -4,7 +4,7 @@ local fuzzy = {}
 
 function fuzzy.base16_theme_selector()
   local theme_names = require('base16.themes'):names() 
-  require('fuzzy'){
+  require('fuzzy') {
     source = theme_names,
     handler = function(theme)
         for k, v in pairs(require('base16.themes')) do
@@ -13,19 +13,22 @@ function fuzzy.base16_theme_selector()
           end
         end
       end
-  }
+    }
 end
 
 function fuzzy.find_src()
   require('fuzzy') {
     source = repos.list_projects({ '~/src/github.com' }),
-    mappings = {
-      ['<CR>'] = function ()
-        local dir =  require('fuzzy').CurrentFuzzy():get_output()
-        require('fuzzy').CurrentFuzzy():close()
-        vim.cmd(string.format([[ cd %s]], dir))
-      end
-    }
+    handler = function(line)
+      vim.cmd(string.format([[ cd %s]], line))
+    end
+    -- mappings = {
+    --   ['<CR>'] = function ()
+    --     local dir =  require('fuzzy').CurrentFuzzy():get_output()
+    --     require('fuzzy').CurrentFuzzy():close()
+    --     vim.cmd(string.format([[ cd %s]], dir))
+    --   end
+    -- }
   }
 end
 
@@ -61,8 +64,10 @@ end
 
 -- Fuzzy.nvim
 require('fuzzy').setup({
-  width = 50,
-  height = 100,
+  window = {
+    width = 70,
+    height = 100,
+  },
   icons = 'no',
   blacklist = {
     'vendor',

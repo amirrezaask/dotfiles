@@ -96,7 +96,8 @@ local filetype = '%y'
 
 local sep = '%='
 
-local function get_icon(file)
+local function get_icon()
+  local file = vim.api.nvim_buf_get_name(0)
   local has_icons, _ = pcall(require, 'nvim-web-devicons')
   if not has_icons then
     print('for having icon in drawer install `nvim-web-devicons`')
@@ -125,16 +126,8 @@ local function wrap(item)
 end
 
 function ExpresslineLike()
-  local statusline = ''
-  statusline = statusline .. mode()
-  statusline = statusline .. ' ' .. git_branch() 
-  statusline = statusline .. sep
-  statusline = statusline .. ' ' .. get_icon(vim.api.nvim_buf_get_name(0)) .. ' ' .. filename({shorten=true}) .. '%m'
-  statusline = statusline .. sep
-  statusline = statusline .. ' ' .. line_col
-  statusline = statusline .. ' ' .. filetype
-  statusline = statusline .. ' ' .. lsp_info()
-  return statusline
+  return mode() .. ' ' .. wrap(git_branch()) .. sep .. ' ' .. get_icon() .. ' ' ..
+    filename() .. '%m' .. sep .. ' ' .. line_col .. filetype .. lsp_info()
 end
 
 function Compact()
@@ -142,4 +135,4 @@ function Compact()
 end
 
 vim.o.statusline = '%!v:lua.ExpresslineLike()'
-vim.o.statusline = '%!v:lua.Compact()'
+-- vim.o.statusline = '%!v:lua.Compact()'
