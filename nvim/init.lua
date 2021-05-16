@@ -10,7 +10,7 @@ require('amirrezaask.terminal')
 require('amirrezaask.quickfix')
 require('amirrezaask.listchars')
 require('amirrezaask.statusline')
-require('base16').set('gruvbox-dark-hard')
+require('base16').set('norcalli')
 
 -- Load plugins
 require('plugin')

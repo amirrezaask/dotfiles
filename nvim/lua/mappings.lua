@@ -1,7 +1,6 @@
 local nvim = require('amirrezaask.nvim')
 vim.g.mapleader = ' '
 
-
 nvim.map {
   ['<C-j>'] = '<C-w>j',
   ['<C-k>'] = '<C-w>k',
