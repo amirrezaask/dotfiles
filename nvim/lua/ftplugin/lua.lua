@@ -17,12 +17,25 @@ function P(obj)
   print(vim.inspect(obj))
 end
 
+function sum(a, b)
+  return a+b
+end
+
 -- Eval line
-function E()
-  local filetype = vim.api.nvim_buf_get_option(0, 'filetype')
-  local line = vim.fn.getline('.')
-  if filetype == 'lua' then
-    vim.cmd(string.format([[ lua %s ]], line))
+function EvalLine()
+  local lnum = vim.api.nvim_win_get_cursor(0)[1]
+  local line = vim.api.nvim_buf_get_lines(0, lnum - 1, lnum, false)[1]
+  local function wrap(l)
+    return string.format('return(%s)', l)
+  end
+  local result = load(wrap(line))()
+  if result ~= nil then
+    local inlay = require('amirrezaask.inlayhints').for_buf(vim.api.nvim_get_current_buf())
+    inlay:set({
+      lnum = lnum - 1,
+      line = result
+    })
+    vim.cmd [[ redraw! ]]
   end
 end
 
@@ -58,8 +71,8 @@ vim.cmd([[ nnoremap ,nf <cmd>lua LuaAutoFormat=false<CR> ]])
 
 vim.api.nvim_buf_set_keymap(0, 'n', ',f', '<cmd>LuaFormat<CR>', { noremap = true })
 
-require('amirrezaask.nvim').map{
-    ['n <leader>x'] = '<cmd>lua EVAL()<CR>',
+nvim.map{
+    ['n <leader>x'] = '<cmd>lua EvalLine()<CR>',
     ['n <leader>X'] = '<cmd>luafile %<CR>',
 }
 

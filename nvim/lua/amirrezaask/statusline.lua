@@ -159,7 +159,7 @@ end
 make_statusline {
   mode,
   space,
-  git_branch_icon, git_branch,
+  git_branch_icon, space, git_branch,
   seperator, space,
   get_icon,
   space,

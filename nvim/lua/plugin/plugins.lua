@@ -43,6 +43,8 @@ return require('packer').startup({
     use { 'rakr/vim-two-firewatch' }
     use { 'gruvbox-community/gruvbox' }
     use { 'amirrezaask/base16.nvim' }
+    use { 'tjdevries/colorbuddy.nvim' }
+    use { 'amirrezaask/gruvbuddy.nvim' }
     -- }}}
 
     use { 'norcalli/ui.nvim' }

@@ -29,6 +29,7 @@ nvim.with_options({
   relativenumber = true,
   number = true,
   pumblend = 13,
+  colorcolumn = '80',
   -- shortmess = "aI",
 })
 

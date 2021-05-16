@@ -10,9 +10,7 @@ require('amirrezaask.terminal')
 require('amirrezaask.quickfix')
 require('amirrezaask.listchars')
 require('amirrezaask.statusline')
-nvim.colorscheme('gruvbuddy')
+require('colorbuddy').colorscheme('gruvbuddy')
 
 -- Load plugins
 require('plugin')
-
--- SetBas16Colorscheme('norcalli')
