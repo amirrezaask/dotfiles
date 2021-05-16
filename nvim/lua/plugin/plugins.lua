@@ -41,11 +41,11 @@ return require('packer').startup({
     use { 'jaredgorski/SpaceCamp' }
     use { 'jacoborus/tender.vim' }
     use { 'rakr/vim-two-firewatch' }
-    -- use { 'gruvbox-community/gruvbox' }
+    use { 'gruvbox-community/gruvbox' }
     use { 'amirrezaask/base16.nvim' }
     use { 'tjdevries/colorbuddy.nvim' }
     use { 'amirrezaask/gruvbuddy.nvim' }
-    use { "npxbr/gruvbox.nvim", requires = {"rktjmp/lush.nvim" }}
+    -- use { "npxbr/gruvbox.nvim", requires = {"rktjmp/lush.nvim" }}
     -- }}}
 
     use { 'norcalli/ui.nvim' }

@@ -20,6 +20,7 @@ local modified = '%m'
 local readonly = '%r'
 local space = ' '
 local simple_filename = '%f'
+local pipe = ' | '
 
 local shorten_path = (function()
   if jit then
@@ -69,22 +70,22 @@ local function lsp_info()
   local infos = vim.lsp.diagnostic.get_count(0, 'Information')
   local output = ''
   if hints ~= 0 then
-    output = output .. ' H: ' .. hints
+    output = output .. ' Hints: ' .. hints
   end
   if errors ~= 0 then
-    output = output .. ' E: ' .. errors
+    output = output .. ' Errors: ' .. errors
   end
   if warnings ~= 0 then
-    output = output .. ' W: ' .. warnings
+    output = output .. ' Warnings: ' .. warnings
   end
   if infos ~= 0 then
-    output = output .. ' I: ' .. infos
+    output = output .. ' Information: ' .. infos
   end
   if output == '' then
     return ''
   end
   output = output .. ' '
-  return '[' .. output .. ']'
+  return output
 end
 
 local line_col = '[ %l:%c %%%p ]'
@@ -92,7 +93,7 @@ local line = '%l'
 local col = '%c'
 local percentage_of_file = '%P'
 
-local filetype = '%y'
+local filetype = '%Y'
 
 local seperator = '%='
 
@@ -142,52 +143,44 @@ local colon = ':'
 
 __STATUSLINE = nil
 
-local function make_statusline(opts)
+local function make_statusline(elements, opts)
+  opts = opts or {}
   __STATUSLINE = function()
     local parts = {}
-    for _, e in ipairs(opts) do
+    for _, e in ipairs(elements) do
       if type(e) == 'function' then
         table.insert(parts, e())
       else
         table.insert(parts, e)
       end
     end
-    return table.concat(parts, '')
+    return table.concat(parts, opts.delimiter or '')
   end
 end
 
-make_statusline {
-  mode,
-  space,
-  git_branch_icon, space, git_branch,
-  seperator, space,
-  get_icon,
-  space,
-  function() return filename({shorten = false}) end,
-  modified,
-  seperator,
-  space,
-  line_col,
-  filetype,
-  lsp_info,
-}
-
 -- make_statusline {
+--   mode,
+--   space,
+--   git_branch_icon, space, git_branch,
+--   seperator, space,
+--   get_icon,
+--   space,
+--   function() return filename({shorten = false}) end,
 --   modified,
---   readonly,
+--   seperator,
 --   space,
---   line,
---   colon,
---   col,
---   space,
---   simple_filename,
---   sep,
---   space,
---   percentage_of_file,
---   space,
+--   line_col,
 --   filetype,
---   space,
---   function() wrap(git_branch()) end
+--   lsp_info,
 -- }
+
+make_statusline ({
+  table.concat({line, colon, col}, ''),
+  table.concat({readonly, modified, simple_filename }, ''),
+  percentage_of_file,
+  filetype,
+  git_branch,
+  lsp_info
+}, {delimiter = ' | '})
 
 vim.o.statusline = '%!v:lua.__STATUSLINE()'
