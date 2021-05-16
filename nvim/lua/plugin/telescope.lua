@@ -12,8 +12,8 @@ telescope.setup {
     prompt_prefix = '> ',
     selection_caret = ' ',
     layout_strategy = 'flex',
-    prompt_position = 'top',
-    sorting_strategy = 'ascending',
+    prompt_position = 'bottom',
+    sorting_strategy = 'descending',
     borderchars = { '─', '│', '─', '│', '┌', '┐', '┘', '└' },
     layout_defaults = {
       horizontal = {
@@ -53,13 +53,13 @@ telescope.setup {
 require('amirrezaask.nvim').highlight('TelescopeMatching', '#f2904b')
 local M = {}
 
-telescope.load_extension('fzy_native')
+-- telescope.load_extension('fzy_native')
 telescope.load_extension('dap')
 telescope.load_extension('media_files')
 telescope.load_extension('git_worktree')
 telescope.load_extension('gh')
 telescope.load_extension('snippets')
--- telescope.load_extension('fzf')
+telescope.load_extension('fzf')
 
 function M.base16_theme_selector()
   local theme_names = require('base16.themes'):names() 
@@ -68,15 +68,17 @@ function M.base16_theme_selector()
       results = theme_names,
     }),
     sorter = conf.generic_sorter(),
-    attach_mappings = function(_)
-      actions.select_default:replace(function()
-        local theme = action_state.get_selected_entry()[1]
+    attach_mappings = function(prompt_bufnr, map)
+      local apply = function()
+        local theme = action_state.get_selected_entry(prompt_bufnr)[1]
         for k, v in pairs(require('base16.themes')) do
           if k == theme then
             v:apply()
           end
         end
-      end)
+      end
+      map('i', '<CR>', apply)
+      map('n', '<CR>', apply)
       return true
     end,
   }):find()
@@ -100,11 +102,13 @@ function M.projects()
       results = repos.list_projects({ '~/src/github.com/amirrezaask' }),
     }),
     sorter = conf.generic_sorter(),
-    attach_mappings = function(_)
-      actions.select_default:replace(function()
-        local dir = action_state.get_selected_entry()[1]
+    attach_mappings = function(prompt_bufnr, map)
+      local cd_into = function()
+        local dir = action_state.get_selected_entry(prompt_bufnr)[1]
         vim.cmd([[ cd ]] .. dir)
-      end)
+      end
+      map('i', '<CR>', cd_into)
+      map('n', '<CR>', cd_into)
       return true
     end,
   }):find()
@@ -147,7 +151,7 @@ function M.lsp_workspace_symbols()
 end
 
 function M.git_files()
-  require('telescope.builtin').git_files(themes.get_ivy()) 
+  require('telescope.builtin').git_files() 
 end
 
 M.vertical_opts = {

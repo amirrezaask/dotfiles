@@ -7,9 +7,10 @@ function M.open(opts)
   if opts.orientation == 'v' then
     vim.cmd([[ vnew | term ]])
   else
-    vim.cmd([[ new | term ]])
+    vim.cmd([[ 15new | term ]])
   end
 end
+
 nvim.command('VTerm', function()
   require('amirrezaask.terminal').open({ orientation = 'v' })
 end)

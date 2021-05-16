@@ -1,7 +1,7 @@
 -- Packer.nvim load plugins
 require('plugin.plugins')
-
 -- Load plugin configurations
+require('blame').setup()
 require('plugin.compe')
 require('plugin.telescope')
 require('plugin.colorizer')

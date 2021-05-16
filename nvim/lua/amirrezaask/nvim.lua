@@ -1,7 +1,27 @@
 local M = {}
+local function tohex(s)
+  local R = {}
+  for i = 1, #s do
+    R[#R+1] = string.format("%02X", s:byte(i))
+  end
+  return table.concat(R)
+end
 
-function M.autocmd(tbl)
-  vim.cmd(string.format('autocmd! %s %s %s', tbl[1], tbl[2], tbl[3]))
+__AUTOCMD_REGISTRY = {}
+--@param opts[1] event
+--@param opts[2] filter
+--@param opts[3] function or expression
+function M.autocmd(opts)
+ local function get_expression(f)
+    if type(f) == 'string' then return f end
+    if type(f) == 'function' then
+      __AUTOCMD_REGISTRY[tohex(opts[1] .. opts[2])] = function()
+        f()
+      end
+      return string.format('lua __AUTOCMD_REGISTRY["%s"]()', tohex(opts[1]..opts[2]))
+    end
+  end
+  vim.cmd(string.format('autocmd %s %s %s', opts[1], opts[2], get_expression(opts[3])))
 end
 
 function M.highlight(name, guifg, guibg)
@@ -25,14 +45,14 @@ end
 
 function M.with_options(tbl)
   for n, v in pairs(tbl) do
-    if type(v) == 'boolean' then
-      if v == true then
-        vim.cmd(string.format([[set %s]], n))
+    if type(v) == "boolean" then
+      if v then
+        vim.cmd(string.format([[ set %s]], n))
       else
-        vim.cmd(string.format([[set no%s]], n))
+        vim.cmd(string.format([[ set no%s]], n))
       end
     else
-      vim.api.nvim_set_option(n, v)
+      vim.cmd(string.format([[ set %s=%s ]], n, v))
     end
   end
 end
@@ -51,16 +71,9 @@ function M.map(keys)
       local keyseq = vim.api.nvim_replace_termcodes(keymap(key), true, true, true)
       return mode, keyseq
     end
-
     return '', key
   end
-  local function tohex(s)
-    local R = {}
-    for i = 1, #s do
-      R[#R+1] = string.format("%02X", s:byte(i))
-    end
-    return table.concat(R)
-  end
+ 
   local function get_key_cmd(k, f)
     if type(f) == 'string' then return f end
     if type(f) == 'function' then

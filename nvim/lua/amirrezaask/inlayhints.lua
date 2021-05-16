@@ -18,9 +18,9 @@ end
 --@param opts.line: line to set in virtual_text
 function _mt:set(opts)
   assert(opts, 'pass opts')
-  opts.lnum = opts.lnum or vim.api.nvim_win_get_cursor(0)[1]
+  opts.lnum = opts.lnum or vim.api.nvim_win_get_cursor(0)[1] - 1
   local lines = {}
-  table.insert(lines, {opts.prefix or self.prefix or '> ' .. tostring(opts.line), 'Comment'})
+  table.insert(lines, {(opts.prefix or self.prefix or '> ') .. tostring(opts.line), opts.hl or 'Comment'})
   vim.api.nvim_buf_set_virtual_text(self.buf, self.ns, opts.lnum, lines, {})
   vim.cmd [[ redraw! ]]
 end
@@ -40,7 +40,9 @@ end
 
 function inlayhints.clear()
   local buf = vim.api.nvim_get_current_buf()
-  __INLAY_HINTS_STATE[buf]:clear(buf)
+  if __INLAY_HINTS_STATE[buf] then
+    __INLAY_HINTS_STATE[buf]:clear(buf)
+  end
 end
 
 return inlayhints

@@ -28,10 +28,10 @@ nvim.with_options({
   relativenumber = true,
   number = true,
   pumblend = 13,
+  colorcolumn = '120',
 })
 
 vim.cmd [[ set clipboard=unnamedplus ]]
-vim.cmd [[ set colorcolumn=120 ]]
 
 vim.g.netrw_banner = 0
 vim.g.go_fmt_command = 'goimports'
