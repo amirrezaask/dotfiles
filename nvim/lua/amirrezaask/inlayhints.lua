@@ -18,12 +18,11 @@ end
 --@param opts.line: line to set in virtual_text
 function _mt:set(opts)
   assert(opts, 'pass opts')
-  P(opts)
-  assert(opts.line, 'pass some line')
   opts.lnum = opts.lnum or vim.api.nvim_win_get_cursor(0)[1]
   local lines = {}
-  table.insert(lines, {opts.prefix or self.prefix or '> ' .. opts.line, 'Comment'})
+  table.insert(lines, {opts.prefix or self.prefix or '> ' .. tostring(opts.line), 'Comment'})
   vim.api.nvim_buf_set_virtual_text(self.buf, self.ns, opts.lnum, lines, {})
+  vim.cmd [[ redraw! ]]
 end
 
 function _mt:clear(buf)

@@ -17,12 +17,9 @@ function P(obj)
   print(vim.inspect(obj))
 end
 
-function sum(a, b)
-  return a+b
-end
-
 -- Eval line
 function EvalLine()
+  vim.cmd [[ w ]]
   local lnum = vim.api.nvim_win_get_cursor(0)[1]
   local line = vim.api.nvim_buf_get_lines(0, lnum - 1, lnum, false)[1]
   local function wrap(l)
@@ -30,12 +27,14 @@ function EvalLine()
   end
   local result = load(wrap(line))()
   if result ~= nil then
+    P(result)
     local inlay = require('amirrezaask.inlayhints').for_buf(vim.api.nvim_get_current_buf())
     inlay:set({
       lnum = lnum - 1,
       line = result
     })
-    vim.cmd [[ redraw! ]]
+    vim.cmd [[ w ]]
+    vim.cmd [[ e ]]
   end
 end
 
@@ -72,8 +71,8 @@ vim.cmd([[ nnoremap ,nf <cmd>lua LuaAutoFormat=false<CR> ]])
 vim.api.nvim_buf_set_keymap(0, 'n', ',f', '<cmd>LuaFormat<CR>', { noremap = true })
 
 nvim.map{
-    ['n <leader>x'] = '<cmd>lua EvalLine()<CR>',
-    ['n <leader>X'] = '<cmd>luafile %<CR>',
+    ['n ,x'] = '<cmd>lua EvalLine()<CR>',
+    ['n <leader>x'] = '<cmd>luafile %<CR>',
 }
 
 return lua
