@@ -45,7 +45,6 @@ return require('packer').startup({
     use { 'amirrezaask/base16.nvim' }
     use { 'tjdevries/colorbuddy.nvim' }
     use { 'amirrezaask/gruvbuddy.nvim' }
-    -- use { "npxbr/gruvbox.nvim", requires = {"rktjmp/lush.nvim" }}
     -- }}}
 
     use { 'norcalli/ui.nvim' }
