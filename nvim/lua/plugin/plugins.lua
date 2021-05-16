@@ -90,7 +90,7 @@ return require('packer').startup({
     use({ 'tpope/vim-fugitive' })
     use({ 'lewis6991/gitsigns.nvim' })
     use({ 'ThePrimeagen/git-worktree.nvim' })
-    use { 'amirrezaask/blame.nvim' }
+    use { 'amirrezaask/blame.nvim', requires = {{"nvim-lua/plenary.nvim"}}}
     -- }}}
 
     -- Comment codes at ease
