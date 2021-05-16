@@ -91,7 +91,7 @@ end
 local line_col = '[ %l:%c %%%p ]'
 local line = '%l'
 local col = '%c'
-local percentage_of_file = '%P'
+local percentage_of_file = '%%%p'
 
 local filetype = '%Y'
 
@@ -177,7 +177,6 @@ end
 make_statusline ({
   table.concat({line, colon, col}, ''),
   table.concat({readonly, modified, simple_filename }, ''),
-  percentage_of_file,
   filetype,
   git_branch,
   lsp_info
