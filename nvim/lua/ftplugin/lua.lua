@@ -23,11 +23,10 @@ function EvalLine()
   local lnum = vim.api.nvim_win_get_cursor(0)[1]
   local line = vim.api.nvim_buf_get_lines(0, lnum - 1, lnum, false)[1]
   local function wrap(l)
-    return string.format('return(%s)', l)
+    return string.format('return(vim.inspect(%s))', l)
   end
   local result = load(wrap(line))()
   if result ~= nil then
-    P(result)
     local inlay = require('amirrezaask.inlayhints').for_buf(vim.api.nvim_get_current_buf())
     inlay:set({
       lnum = lnum - 1,
