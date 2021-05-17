@@ -170,7 +170,7 @@ bar {
 exec_always setxkbmap -layout us -option ctrl:nocaps
 exec_always setxkbmap -layout "us,ir" -option "grp:shifts_toggle" -option "ctrl:nocaps"
 exec_always feh --bg-scale /home/amirreza/src/github.com/amirrezaask/dotfiles/wallpapers/1.jpg
-exec_always compton --opacity-rule 97:'class_g ="kitty"' &
+exec_always compton &
 
 # VMWare tools integration
 exec --no-startup-id vmware-user

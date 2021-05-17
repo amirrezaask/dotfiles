@@ -1,7 +1,6 @@
 -- Basic Neovim stuff
 require('options')
 require('mappings')
-
 -- Personal Modules
 require('ftplugin.lua')
 require('amirrezaask.terminal')
@@ -12,3 +11,4 @@ require'amirrezaask.nvim'.colorscheme('gruvbox')
 
 -- Load plugins
 require('plugin')
+
