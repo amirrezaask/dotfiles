@@ -71,6 +71,23 @@ telescope.load_extension('gh')
 telescope.load_extension('snippets')
 telescope.load_extension('fzf')
 
+function M.set_wallpaper()
+   require('telescope.builtin').find_files({
+    cwd = '~/src/github.com/amirrezaask/dotfiles/wallpapers/',
+    prompt_title = 'Set Wallpaper',
+    attach_mappings = function(prompt_bufnr, map)
+      local apply = function()
+        local selected = action_state.get_selected_entry(prompt_bufnr)
+        P(selected.cwd .. selected.value)
+        vim.fn.system(string.format('feh --bg-scale %s', selected.cwd .. selected.value))
+      end
+      map('i', '<CR>', apply)
+      map('n', '<CR>', apply)
+      return true
+    end,
+  })
+end
+
 function M.base16_theme_selector()
   local theme_names = require('base16.themes'):names() 
   pickers.new(current_theme(), {
