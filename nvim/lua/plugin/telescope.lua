@@ -214,6 +214,7 @@ require('amirrezaask.nvim').map {
     ['n <leader>en'] = M.edit_neovim,
     ['n <leader>ez'] = M.edit_zsh,
     ['n <leader>fs'] = M.find_src,
+    ['n ,w'] = M.set_wallpaper,
     ['n <leader>c'] = wrap(require('telescope.builtin').commands),
     ['n <leader>fr'] = wrap(require('telescope.builtin').oldfiles),
     ['n <leader>h'] = wrap(require('telescope.builtin').help_tags),
