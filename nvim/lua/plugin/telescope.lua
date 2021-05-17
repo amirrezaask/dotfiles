@@ -6,13 +6,23 @@ local conf = require('telescope.config').values
 local repos = require('amirrezaask.repos')
 local telescope = require('telescope')
 local themes = require('telescope.themes')
+local dropdown = themes.get_dropdown
+local ivy = themes.get_ivy
+
+local function with_theme(theme, opts)
+  local t = theme()
+  for k,v in pairs(opts) do
+    t[k] = v
+  end
+  return t
+end
 
 telescope.setup {
   defaults = {
     prompt_prefix = '> ',
     selection_caret = ' ',
     layout_strategy = 'flex',
-    prompt_position = 'bottom',
+    prompt_position = 'top',
     sorting_strategy = 'descending',
     borderchars = { '─', '│', '─', '│', '┌', '┐', '┘', '└' },
     layout_defaults = {
@@ -63,7 +73,7 @@ telescope.load_extension('fzf')
 
 function M.base16_theme_selector()
   local theme_names = require('base16.themes'):names() 
-  pickers.new({}, {
+  pickers.new(dropdown(), {
     finder = finders.new_table({
       results = theme_names,
     }),
@@ -85,19 +95,19 @@ function M.base16_theme_selector()
 end
 
 function M.find_src()
-  require('telescope.builtin').find_files {
+  require('telescope.builtin').find_files(with_theme(dropdown,{
     cwd = '~/src'
-  }
+  }))
 end
 
 function M.buffer_git_files()
-  require('telescope.builtin').git_files({
+  require('telescope.builtin').git_files(dropdown, {
     cwd = vim.fn.expand('%:p:h'),
   })
 end
 
 function M.projects()
-  pickers.new({}, {
+  pickers.new(dropdown, {
     finder = finders.new_table({
       results = repos.list_projects({ '~/src/github.com/amirrezaask' }),
     }),
@@ -115,33 +125,34 @@ function M.projects()
 end
 
 function M.installed_plugins()
-  require('telescope.builtin').find_files({
+  require('telescope.builtin').find_files(with_theme(dropdown, {
     cwd = vim.fn.stdpath('data') .. '/site/pack/packer/start/',
-  })
+  }))
 end
 
 function M.edit_configs()
-  require('telescope.builtin').find_files({
+  require('telescope.builtin').find_files(with_theme(dropdown, {
     prompt_title = '> Edit Configs <',
     cwd = '~/src/github.com/amirrezaask/dotfiles',
-  })
+  }))
 end
 
 function M.edit_neovim()
-  require('telescope.builtin').find_files({
+  require('telescope.builtin').find_files(with_theme(dropdown, {
     layout_strategy = 'vertical',
     prompt_title = '> Edit Neovim Config <',
     cwd = '~/src/github.com/amirrezaask/dotfiles/nvim',
     previewer = false,
-  })
+  }))
 end
 
 function M.edit_zsh()
-  require('telescope.builtin').find_files({
+  require('telescope.builtin').find_files(with_theme(dropdown, {
     prompt_title = '> Edit ZSH Config <',
     cwd = '~/src/github.com/amirrezaask/dotfiles/zsh',
-  })
+  }))
 end
+
 function M.lsp_workspace_symbols()
   local q = vim.fn.input('Symbol: ')
   require('telescope.builtin').lsp_workspace_symbols({
@@ -151,7 +162,7 @@ function M.lsp_workspace_symbols()
 end
 
 function M.git_files()
-  require('telescope.builtin').git_files() 
+  require('telescope.builtin').git_files(dropdown()) 
 end
 
 M.vertical_opts = {
