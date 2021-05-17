@@ -75,10 +75,6 @@ return require('packer').startup({
     use({ 'norcalli/snippets.nvim' })
     -- }}}
 
-    -- Lua {{{
-    use({ 'tjdevries/nlua.nvim' })
-    -- }}}
-
     -- Vim Surround text objects
     use({ 'tpope/vim-surround' })
 

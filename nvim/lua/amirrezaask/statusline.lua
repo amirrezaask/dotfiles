@@ -175,7 +175,7 @@ end
 -- }
 
 make_statusline ({
-  table.concat({line, colon, col}, ''),
+  table.concat({space, line, colon, col}, ''),
   table.concat({readonly, modified, simple_filename }, ''),
   filetype,
   git_branch,

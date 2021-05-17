@@ -23,7 +23,6 @@ nvim.map {
     end
     vim.fn.feedkeys("<CR>")
   end,
-  ['n ,c'] = ':lua require("amirrezaask.inlayhints").clear()<CR>',
   ['n tn'] = ':tabnext<CR>',
   ['n tp'] = ':tabprevious<CR>',
   ['n tc'] = ':tabclose<CR>',

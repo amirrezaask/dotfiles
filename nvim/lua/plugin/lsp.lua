@@ -1,5 +1,24 @@
 local lspconfig = require('lspconfig')
 
+local function get_lua_runtime()
+    local result = {};
+    for _, path in pairs(vim.api.nvim_list_runtime_paths()) do
+        local lua_path = path .. "/lua/";
+        if vim.fn.isdirectory(lua_path) then
+            result[lua_path] = true
+        end
+    end
+
+    -- This loads the `lua` files from nvim into the runtime.
+    result[vim.fn.expand("$VIMRUNTIME/lua")] = true
+
+    -- TODO: Figure out how to get these to work...
+    --  Maybe we need to ship these instead of putting them in `src`?...
+    result[vim.fn.expand("~/build/neovim/src/nvim/lua")] = true
+
+    return result;
+end
+
 require('lspsaga').init_lsp_saga {
   use_saga_diagnostic_sign = false,
   code_action_prompt = {
@@ -53,14 +72,42 @@ lspconfig.rust_analyzer.setup({
 
 local sumneko_root = '/home/amirreza/.local/lua-language-server'
 local sumneko_binary = sumneko_root .. '/bin/Linux/lua-language-server'
-require('nlua.lsp.nvim').setup(require('lspconfig'), {
-  on_attach = on_attach,
-  cmd = { sumneko_binary, '-E', sumneko_root .. '/main.lua' },
-  globals = {
-    'vim',
-    'awesome',
-  },
-})
+
+lspconfig.sumneko_lua.setup({
+    cmd = { sumneko_binary, '-E', sumneko_root .. '/main.lua' },
+    -- Lua LSP configuration
+    settings = {
+      Lua = {
+        runtime = {
+          version = "LuaJIT",
+        },
+
+        completion = {
+          keywordSnippet = "Disable",
+        },
+
+        diagnostics = {
+          enable = true,
+          disable = {"trailing-space"},
+          globals = {
+              "vim",
+              "describe", "it", "before_each", "after_each", "teardown", "pending", "clear",
+              'awesome', 'client'
+            }
+        },
+
+        workspace = {
+          library = get_lua_runtime(),
+          maxPreload = 1000,
+          preloadFileSize = 1000,
+        },
+      }
+    },
+
+    -- Runtime configurations
+    filetypes = {"lua"},
+    on_attach = on_attach
+  })
 
 lspconfig.pyls_ms.setup({ on_attach = on_attach })
 lspconfig.clangd.setup({ on_attach = on_attach })

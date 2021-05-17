@@ -2,7 +2,7 @@
 require('plugin.plugins')
 -- Load plugin configurations
 require('blame').setup {
-  prefix = '',
+  prefix = ''
 }
 require('plugin.compe')
 require('plugin.telescope')

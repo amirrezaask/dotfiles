@@ -50,7 +50,7 @@ telescope.setup {
     },
   },
 }
-require('amirrezaask.nvim').highlight('TelescopeMatching', '#f2904b')
+
 local M = {}
 
 -- telescope.load_extension('fzy_native')
