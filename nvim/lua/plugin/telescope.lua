@@ -11,7 +11,7 @@ local ivy = themes.get_ivy
 local notheme = function(opts)
   return opts
 end
-local current_theme = ivy 
+local current_theme = notheme 
 
 local function wrap(fn, opts)
   return function() fn(current_theme(opts)) end
@@ -22,7 +22,7 @@ telescope.setup {
     prompt_prefix = '> ',
     selection_caret = ' ',
     layout_strategy = 'flex',
-    prompt_position = 'top',
+    prompt_position = 'bottom',
     sorting_strategy = 'descending',
     borderchars = { '─', '│', '─', '│', '┌', '┐', '┘', '└' },
     layout_defaults = {
