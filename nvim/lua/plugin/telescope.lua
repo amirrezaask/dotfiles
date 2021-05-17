@@ -8,6 +8,9 @@ local telescope = require('telescope')
 local themes = require('telescope.themes')
 local dropdown = themes.get_dropdown
 local ivy = themes.get_ivy
+local notheme = function(opts)
+  return opts
+end
 local current_theme = ivy 
 
 local function wrap(fn, opts)
