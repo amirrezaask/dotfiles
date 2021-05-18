@@ -165,7 +165,7 @@ make_statusline {
   seperator, space,
   get_icon,
   space,
-  function() return filename({shorten = false}) end,
+  simple_filename,
   modified,
   seperator,
   space,
