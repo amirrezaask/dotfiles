@@ -141,5 +141,6 @@ return require('packer').startup({
     -- }}}
     use {'ThePrimeagen/vim-be-good'}
     use {'ThePrimeagen/harpoon'}
+    use { 'nacro90/numb.nvim' }
   end,
 })
