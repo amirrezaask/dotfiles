@@ -27,6 +27,7 @@ return require('packer').startup({
     -- Plugin Manager
     use({ 'wbthomason/packer.nvim' })
 
+    use { 'amirrezaask/spawn.nvim' }
     -- Colorschemes {{{
     use { 'joshdick/onedark.vim' }
     use { 'mhartington/oceanic-next' }
@@ -55,7 +56,6 @@ return require('packer').startup({
     -- }}}
 
     -- Fuzzy.nvim {{{
-    use { 'amirrezaask/spawn.nvim' }
     use { 'amirrezaask/fuzzy.nvim' }
     -- }}}
 

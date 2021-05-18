@@ -158,28 +158,28 @@ local function make_statusline(elements, opts)
   end
 end
 
--- make_statusline {
---   mode,
---   space,
---   git_branch_icon, space, git_branch,
---   seperator, space,
---   get_icon,
---   space,
---   function() return filename({shorten = false}) end,
---   modified,
---   seperator,
---   space,
---   line_col,
---   filetype,
---   lsp_info,
--- }
-
-make_statusline ({
-  table.concat({space, line, colon, col}, ''),
-  table.concat({readonly, modified, simple_filename }, ''),
+make_statusline {
+  mode,
+  space,
+  git_branch_icon, space, git_branch,
+  seperator, space,
+  get_icon,
+  space,
+  function() return filename({shorten = false}) end,
+  modified,
+  seperator,
+  space,
+  line_col,
   filetype,
-  git_branch,
-  lsp_info
-}, {delimiter = ' | '})
+  lsp_info,
+}
+
+-- make_statusline ({
+--   table.concat({space, line, colon, col}, ''),
+--   table.concat({readonly, modified, simple_filename }, ''),
+--   filetype,
+--   git_branch,
+--   lsp_info
+-- }, {delimiter = ' | '})
 
 vim.o.statusline = '%!v:lua.__STATUSLINE()'
