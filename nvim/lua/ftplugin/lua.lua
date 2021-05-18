@@ -61,10 +61,6 @@ nvim.augroup({
 })
 LuaAutoFormat = true
 
--- vim.cmd([[
---       autocmd BufWritePre *.lua lua if LuaAutoFormat then require'ftplugin.lua'.format() end
---     ]])
-
 vim.cmd([[ nnoremap ,nf <cmd>lua LuaAutoFormat=false<CR> ]])
 
 vim.api.nvim_buf_set_keymap(0, 'n', ',f', '<cmd>LuaFormat<CR>', { noremap = true })

@@ -7,8 +7,8 @@ require('amirrezaask.terminal')
 require('amirrezaask.quickfix')
 require('amirrezaask.listchars')
 require('amirrezaask.statusline')
--- require'amirrezaask.nvim'.colorscheme('gruvbox')
-require('colorbuddy').colorscheme('gruvbuddy')
+require'amirrezaask.nvim'.colorscheme('gruvbox')
+-- require('colorbuddy').colorscheme('gruvbuddy')
 
 -- Load plugins
 require('plugin')
