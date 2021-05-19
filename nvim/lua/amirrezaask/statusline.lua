@@ -147,7 +147,7 @@ make_statusline {
   seperator,
   space,
   line_col,
-  filetype,
+  with_brackets(filetype),
   lsp_info,
 }
 
