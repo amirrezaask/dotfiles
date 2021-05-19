@@ -30,6 +30,7 @@ nvim.map {
   ['n <leader>v'] = '<cmd>vnew<CR>',
   ['n j'] = 'gj',
   ['n k'] = 'gk',
+  ['n ,t'] = require('amirrezaask.terminal').floating,
   ['t <Esc>'] = '<C-\\><C-n>',
   ['t jk'] = '<C-\\><C-n>',
   ['t jj'] = '<C-\\><C-n>',

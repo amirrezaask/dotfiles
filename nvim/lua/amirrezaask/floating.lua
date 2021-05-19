@@ -39,7 +39,6 @@ end
 
 function floating:new(opts)
   opts = opts or {}
-  assert(opts.source, 'need to specify source for the floating window')
   opts.width_pct = opts.width_pct or 90
   opts.height_pct = opts.height_pct or 60
 
@@ -55,15 +54,12 @@ function floating:new(opts)
     height = win_height,
     row = row,
     col = col,
-    border = 'single'
+    border = 'single',
+    style = 'minimal'
   })
   vim.api.nvim_win_set_option(win, 'winhl', 'Normal:Normal')
-  if type(opts.source) == 'string' then
-   job_to_buf(opts.source, buf)
-  elseif type(opts.source) == 'table' then
-    vim.api.nvim_buf_set_lines(buf, 0, -1, false, opts.source)
-  end
-end 
+  return buf, win
+end
 
 function floating:vnew(command)
   vim.cmd [[ vnew ]]
@@ -74,6 +70,7 @@ end
 
 function floating:command()
   local cmd = vim.fn.input('command: ')
-  floating:new({source=cmd})
+  local buf, _ = floating:new({source=cmd})
+  job_to_buf(cmd, buf)
 end
 return floating

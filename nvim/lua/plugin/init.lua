@@ -1,5 +1,6 @@
 -- Packer.nvim load plugins
 require('plugin.plugins')
+
 -- Load plugin configurations
 require('blame').setup {
   always = false,
