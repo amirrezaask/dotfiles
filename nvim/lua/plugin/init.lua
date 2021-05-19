@@ -2,7 +2,7 @@
 require('plugin.plugins')
 -- Load plugin configurations
 require('blame').setup {
-  always = true,
+  always = false,
   prefix = ''
 }
 require('plugin.compe')

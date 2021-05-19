@@ -20,31 +20,8 @@ local modified = '%m'
 local readonly = '%r'
 local space = ' '
 local simple_filename = '%f'
+local shorten_path = "%{pathshorten(expand('%:f'))}"
 local pipe = ' | '
-
-local shorten_path = (function()
-  if jit then
-    local ffi = require('ffi')
-    ffi.cdef [[
-    typedef unsigned char char_u;
-    char_u *shorten_dir(char_u *str);
-    ]]
-
-    return function(filepath)
-      if not filepath then
-        return filepath
-      end
-
-      local c_str = ffi.new("char[?]", #filepath + 1)
-      ffi.copy(c_str, filepath)
-      return ffi.string(ffi.C.shorten_dir(c_str))
-    end
-  else
-    return function(filepath)
-      return filepath
-    end
-  end
-end)()
 
 local function filename(opts)
   opts = opts or {}
@@ -165,7 +142,7 @@ make_statusline {
   seperator, space,
   get_icon,
   space,
-  simple_filename,
+  shorten_path,
   modified,
   seperator,
   space,
