@@ -132,4 +132,13 @@ vim.autocmd = nvim_autocmd
 vim.augroup = nvim_augroup
 vim.colorscheme = nvim_colorscheme
 vim.map = nvim_map
-
+vim.c = setmetatable({}, {
+  __index = function(_, name)
+    return setmetatable({}, {
+      __call = function(_, ...)
+        local args = {...}
+        vim.cmd(name)
+      end
+    })
+  end
+})

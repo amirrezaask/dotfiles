@@ -22,7 +22,7 @@ function _mt:set(opts)
   local lines = {}
   table.insert(lines, {(opts.prefix or self.prefix or '> ') .. tostring(opts.line), opts.hl or 'Comment'})
   vim.api.nvim_buf_set_virtual_text(self.buf, self.ns, opts.lnum, lines, {})
-  vim.cmd [[ redraw! ]]
+  vim.c.redraw()
 end
 
 function _mt:clear(buf)
