@@ -1,7 +1,6 @@
 local go = {}
 local floating = require('amirrezaask.floating')
 local quickfix = require('amirrezaask.quickfix')
-local nvim = require('amirrezaask.nvim')
 
 -- deps:
 -- gomodifytags github.com/fatih/gomodifytags
@@ -45,6 +44,6 @@ local formatter = default_formatter()
 
 vim.cmd(string.format([[autocmd BufWritePost <buffer> %s]], formatter))
 
-nvim.command('GoTest', go.test)
-nvim.command("GoBuild", go.build)
+nvim_command('GoTest', go.test)
+nvim_command("GoBuild", go.build)
 return go

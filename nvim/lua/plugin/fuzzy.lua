@@ -1,5 +1,4 @@
 local repos = require('amirrezaask.repos')
-local nvim = require('amirrezaask.nvim')
 local fuzzy = {}
 
 function fuzzy.base16_theme_selector()
@@ -106,7 +105,7 @@ vim.cmd [[ hi default link FuzzyNormal CursorLine ]]
 
 function fuzzy.on_attach()
   local fuzzy_lsp = require('fuzzy.lsp')
-  nvim.map {
+  nvim_map {
       ['n gd'] = fuzzy_lsp.definitions,
       ['n K'] = vim.lsp.buf.hover,
       ['n gI'] = fuzzy_lsp.implementation,
@@ -123,7 +122,7 @@ function fuzzy.on_attach()
   }
 end 
 
-nvim.map {
+nvim_map {
     ['n <leader><leader>'] = require('fuzzy').find_files,
     -- ['<leader>fb'] = require('fuzzy').interactive_finder,
     ['n <leader>ec'] = function()

@@ -1,5 +1,4 @@
 local M = {}
-local nvim = require('amirrezaask.nvim')
 local floating = require('amirrezaask.floating')
 
 function M.open(opts)
@@ -24,11 +23,11 @@ function M.floating(opts)
   vim.cmd [[ term ]]
 end
 
-nvim.command('VTerm', function()
+nvim_command('VTerm', function()
   require('amirrezaask.terminal').open({ orientation = 'v' })
 end)
 
-nvim.command('Term', function()
+nvim_command('Term', function()
   require('amirrezaask.terminal').open({ orientation = 'h' })
 end)
 

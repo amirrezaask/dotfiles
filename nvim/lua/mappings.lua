@@ -1,7 +1,6 @@
-local nvim = require('amirrezaask.nvim')
 vim.g.mapleader = ' '
 
-nvim.map {
+nvim_map {
   ['<C-j>'] = '<C-w>j',
   ['<C-k>'] = '<C-w>k',
   ['<C-l>'] = '<C-w>l',
@@ -16,7 +15,7 @@ nvim.map {
 }
 
 
-nvim.map {
+nvim_map {
   ['n <CR>'] = function()
     if vim.v.hlsearch == 1 then
       vim.cmd [[ :nohl ]]

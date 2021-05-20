@@ -11,7 +11,7 @@ __AUTOCMD_REGISTRY = {}
 --@param opts[1] event
 --@param opts[2] filter
 --@param opts[3] function or expression
-function M.autocmd(opts)
+function nvim_autocmd(opts)
  local function get_expression(f)
     if type(f) == 'string' then return f end
     if type(f) == 'function' then
@@ -24,7 +24,7 @@ function M.autocmd(opts)
   vim.cmd(string.format('autocmd %s %s %s', opts[1], opts[2], get_expression(opts[3])))
 end
 
-function M.highlight(name, guifg, guibg)
+function nvim_highlight(name, guifg, guibg)
   local t = { 'hi', name }
   if guifg then
     table.insert(t, string.format('guifg=%s', guifg))
@@ -35,31 +35,16 @@ function M.highlight(name, guifg, guibg)
   vim.cmd(table.concat(t, ' '))
 end
 
-function M.augroup(tbl)
+function nvim_augroup(tbl)
   for g, _ in pairs(tbl) do
     vim.cmd('augroup ' .. g)
-    M.autocmd(tbl[g])
+    nvim_autocmd(tbl[g])
     vim.cmd('augroup END')
   end
 end
 
--- TODO(amirreza): make this a lua object with metatable
-function M.with_options(tbl)
-  for n, v in pairs(tbl) do
-    if type(v) == "boolean" then
-      if v then
-        vim.cmd(string.format([[ set %s]], n))
-      else
-        vim.cmd(string.format([[ set no%s]], n))
-      end
-    else
-      vim.cmd(string.format([[ set %s=%s ]], n, v))
-    end
-  end
-end
-
 __MAP_REGISTRY = {}
-function M.map(keys)
+function nvim_map(keys)
   local function get_char(s, n)
     return s:sub(n, n)
   end
@@ -95,12 +80,12 @@ function M.map(keys)
   end
 end
 
-function M.colorscheme(name)
+function nvim_colorscheme(name)
   vim.cmd([[ colorscheme ]] .. name)
 end
 
 __COMMAND_REGISTRY = {}
-function M.command(name, expr, args)
+function nvim_command(name, expr, args)
   if type(expr) == 'function' then
     local fn = expr
     __COMMAND_REGISTRY[name] = function()
@@ -115,4 +100,32 @@ function M.command(name, expr, args)
     vim.cmd(string.format('command! -nargs=%s %s %s', args, name, expr))
   end
 end
-return M
+
+vim.opt = setmetatable({}, {
+  __index = function(_, k)
+    return vim.o[k]
+  end,
+  __newindex = function(_, k, v)
+    if type(v) == "boolean" then
+      if v then
+        vim.cmd(string.format([[ set %s ]], k))
+      else
+        vim.cmd(string.format([[ set no%s ]], k))
+      end
+      return
+    elseif type(v) == "table" and vim.tbl_islist(v) then
+      vim.cmd(string.format([[ set %s=%s ]], k, table.concat(v, ',')))
+    else
+      vim.cmd(string.format([[ set %s=%s ]], k, v))
+    end
+  end
+})
+
+-- return {
+--   command = nvim_command,
+--   map = nvim_map,
+--   colorscheme = nvim_colorscheme,
+--   autocmd = nvim_autocmd,
+--   augroup = nvim_augroup,
+--   highlight = nvim_highlight
+-- }

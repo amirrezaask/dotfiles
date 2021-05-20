@@ -1,6 +1,4 @@
-local nvim = require('amirrezaask.nvim')
-
-nvim.map {
+nvim_map {
   ['n ,b'] = require('blame').blame,
   ['n ,c'] = require('blame').clear
 }

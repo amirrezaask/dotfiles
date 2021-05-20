@@ -1,7 +1,7 @@
+require('nvim')
 -- Basic Neovim stuff
 require('options')
 require('mappings')
-
 -- Personal Modules
 require('ftplugin.lua')
 require('amirrezaask.terminal')
@@ -9,9 +9,8 @@ require('amirrezaask.quickfix')
 require('amirrezaask.listchars')
 require('amirrezaask.statusline')
 
--- require'amirrezaask.nvim'.colorscheme('gruvbox')
 vim.g.transparent = true
-require'amirrezaask.nvim'.colorscheme('gruvbuddy')
+nvim_colorscheme 'gruvbuddy'
 
 -- Load plugins
 require('plugin')

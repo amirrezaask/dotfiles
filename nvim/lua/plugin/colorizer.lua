@@ -5,10 +5,10 @@ function ColorPicker()
   colorizer.color_picker_on_cursor()
 end
 
-require'amirrezaask.nvim'.autocmd {
+nvim_autocmd {
   "BufEnter",
   "*",
   "ColorizerAttachToBuffer"
 }
 
-require('amirrezaask.nvim').command('ColorPicker', ColorPicker)
+nvim_command('ColorPicker', ColorPicker)

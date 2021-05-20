@@ -1,5 +1,4 @@
 local lua = {}
-local nvim = require('amirrezaask.nvim')
 
 -- Force reload the module
 function R(mod)
@@ -50,9 +49,9 @@ function lua.format(opts)
   vim.cmd([[ e ]])
 end
 
-nvim.command('LuaFormat', lua.format)
+nvim_command('LuaFormat', lua.format)
 
-nvim.augroup({
+nvim_augroup({
   lua = {
     'BufEnter',
     '*.lua',
@@ -65,7 +64,7 @@ vim.cmd([[ nnoremap ,nf <cmd>lua LuaAutoFormat=false<CR> ]])
 
 vim.api.nvim_buf_set_keymap(0, 'n', ',f', '<cmd>LuaFormat<CR>', { noremap = true })
 
-nvim.map{
+nvim_map{
     ['n ,x'] = '<cmd>lua EvalLine()<CR>',
     ['n <leader>x'] = '<cmd>luafile %<CR>',
 }

@@ -1,5 +1,4 @@
 local normal_maps = {}
-local nvim = require('amirrezaask.nvim')
 
 local repos = require('amirrezaask.repos')
 local fzf = {}
@@ -61,7 +60,7 @@ end
 
 function fzf.lsp_on_attach()
   local buf = vim.lsp.buf
-  require('amirrezaask.nvim').map {
+  nvim_map {
       ['n gd'] = function()
         buf.definition()
       end,
@@ -125,7 +124,7 @@ function WrapQuickfix(callback)
   end
 end
 
-nvim.command('MRU', function()
+nvim_command('MRU', function()
   FZF({
     source = vim.split(vim.fn.execute('oldfiles'), '\n'),
     sink = function(file)
@@ -134,5 +133,5 @@ nvim.command('MRU', function()
   })
 end)
 
-require('amirrezaask.nvim').map(normal_maps)
+nvim_map(normal_maps)
 return fzf

@@ -182,7 +182,7 @@ function M.git_files()
 end
 
 function M.on_attach(_)
-  require('amirrezaask.nvim').map {
+  nvim_map {
       ['n gd'] = wrap(require('telescope.builtin').lsp_definitions),
       ['n K'] = vim.lsp.buf.hover,
       ['n gI'] = wrap(require('telescope.builtin').lsp_implementations),
@@ -199,7 +199,7 @@ function M.on_attach(_)
 end
 
 
-require('amirrezaask.nvim').map {
+nvim_map {
     ['n <leader><leader>'] = wrap(require('telescope.builtin').find_files),
     ['n <leader>fb'] = wrap(require('telescope.builtin').file_browser),
     ['n <leader>fp'] = M.installed_plugins,

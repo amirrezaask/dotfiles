@@ -2,7 +2,7 @@ local M = {}
 
 M.list_chars = {
   eol = '↲',
-  tab = '» ',
+  tab = '»\\ ',
   trail = '·',
   extends = '<',
   precedes = '>',
@@ -12,14 +12,14 @@ M.list_chars = {
 
 function M:update(chars)
   chars = chars or self.list_chars
-  vim.cmd([[ set list ]])
+  vim.opt.list = true
   local list_chars_tuple = {}
   for k, v in pairs(chars) do
     if v ~= '' then
       table.insert(list_chars_tuple, string.format('%s:%s', k, v))
     end
   end
-  vim.cmd(string.format('let &listchars="%s"', table.concat(list_chars_tuple, ',')))
+  vim.opt.listchars = list_chars_tuple
 end
 
 M:update()

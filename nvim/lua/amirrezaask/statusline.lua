@@ -20,8 +20,8 @@ end
 local modified = '%m'
 local readonly = '%r'
 local space = ' '
-local simple_filename = '%f'
-local shorten_path = "%{pathshorten(expand('%:f'))}"
+local filename = '%f'
+local filename_shorten = "%{pathshorten(expand('%:f'))}"
 local pipe = ' | '
 
 local function filename(opts)
@@ -35,7 +35,7 @@ local function filename(opts)
     name = vim.fn.expand('%%') 
   end
   if opts.shorten then
-    return shorten_path(name)
+    return filename_shorten(name)
   else
     return name
   end
@@ -71,7 +71,7 @@ local line = '%l'
 local col = '%c'
 local percentage_of_file = '%%%p'
 
-local filetype = '%Y'
+local filetype = '%y'
 
 local seperator = '%='
 
@@ -143,12 +143,12 @@ make_statusline {
   seperator, space,
   get_icon,
   space,
-  shorten_path,
+  filename_shorten,
   modified,
   seperator,
   space,
   line_col,
-  with_brackets(filetype),
+  filetype,
   lsp_info,
 }
 

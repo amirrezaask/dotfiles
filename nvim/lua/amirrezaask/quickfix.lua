@@ -1,5 +1,4 @@
 local M = {}
-local nvim = require('amirrezaask.nvim')
 
 local quickfix_state = 'close'
 
@@ -15,7 +14,7 @@ function M.toggle()
   vim.api.nvim_set_current_win(current_win)
 end
 
-nvim.map {
+nvim_map {
   ['n <C-q>'] = '<cmd>lua require"amirrezaask.quickfix".toggle()<CR>',
   ['n {'] = ':cprev<CR>',
   ['n }'] = ':cnext<CR>',
