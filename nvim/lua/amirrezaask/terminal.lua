@@ -5,9 +5,9 @@ function M.open(opts)
   opts = opts or {}
   opts.orientation = opts.orientation or 'v'
   if opts.orientation == 'v' then
-    vim.cmd([[ vnew | term ]])
+    vim.c['vnew | term']()
   else
-    vim.cmd([[ 15new | term ]])
+    vim.c['15new | term']()
   end
 end
 
@@ -19,15 +19,15 @@ function M.floating(opts)
   local buf, win = floating:new(opts)
   vim.api.nvim_set_current_buf(buf)
   vim.api.nvim_set_current_win(win)
-  vim.cmd [[ startinsert! ]]
-  vim.cmd [[ term ]]
+  vim.c.startinsert()
+  vim.c.term()
 end
 
-vim.command('VTerm', function()
+vim.c('VTerm', function()
   require('amirrezaask.terminal').open({ orientation = 'v' })
 end)
 
-vim.command('Term', function()
+vim.c('Term', function()
   require('amirrezaask.terminal').open({ orientation = 'h' })
 end)
 

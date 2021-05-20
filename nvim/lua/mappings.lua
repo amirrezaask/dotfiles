@@ -18,7 +18,7 @@ vim.map {
 vim.map {
   ['n <CR>'] = function()
     if vim.v.hlsearch == 1 then
-      vim.cmd [[ :nohl ]]
+      vim.c.nohl()
     end
     vim.fn.feedkeys("<CR>")
   end,

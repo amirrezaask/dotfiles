@@ -31,8 +31,8 @@ function EvalLine()
       lnum = lnum - 1,
       line = result
     })
-    vim.cmd [[ w ]]
-    vim.cmd [[ e ]]
+    vim.c.write()
+    vim.c.edit()
   end
 end
 

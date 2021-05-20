@@ -62,7 +62,7 @@ function floating:new(opts)
 end
 
 function floating:vnew(command)
-  vim.cmd [[ vnew ]]
+  vim.c.vnew()
   local buf = vim.api.nvim_get_current_buf()
   setup_buf(buf)
   cmd_result_to_buf(command or vim.fn.input('cmd: '), buf)

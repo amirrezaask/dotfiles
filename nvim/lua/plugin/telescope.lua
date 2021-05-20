@@ -131,7 +131,7 @@ function M.projects()
     attach_mappings = function(prompt_bufnr, map)
       local cd_into = function()
         local dir = action_state.get_selected_entry(prompt_bufnr)[1]
-        vim.cmd([[ cd ]] .. dir)
+        vim.c.cd(dir)
       end
       map('i', '<CR>', cd_into)
       map('n', '<CR>', cd_into)

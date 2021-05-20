@@ -27,13 +27,13 @@ dap.configurations.go = {
 }
 
 -- Commands
-vim.cmd([[command! DapToggleBreakpoint lua require'dap'.toggle_breakpoint()]])
-vim.cmd([[command! DapReplOpen lua require'dap'.repl.open()]])
-vim.cmd([[command! DapContinue lua require'dap'.continue()]])
-vim.cmd([[command! DapStepInto lua require'dap'.step_into()]])
-vim.cmd([[command! DapStepOver lua require'dap'.step_over()]])
-vim.cmd([[command! DapStepOut lua require'dap'.step_out()]])
-vim.cmd([[command! DapHover lua require('dap.ui.variables').hover()]])
+vim.c([[DapToggleBreakpoint]], require'dap'.toggle_breakpoint)
+vim.c([[DapReplOpen lua require'dap'.repl.open()]])
+vim.c([[DapContinue lua require'dap'.continue()]])
+vim.c([[DapStepInto lua require'dap'.step_into()]])
+vim.c([[DapStepOver lua require'dap'.step_over()]])
+vim.c([[DapStepOut lua require'dap'.step_out()]])
+vim.c([[DapHover lua require('dap.ui.variables').hover()]])
 
 -- Mappings
 vim.cmd([[nnoremap <silent> <F3>  <cmd>DapToggleBreakpoint<CR>]])
