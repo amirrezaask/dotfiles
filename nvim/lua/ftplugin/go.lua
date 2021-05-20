@@ -42,8 +42,12 @@ end
 
 local formatter = default_formatter()
 
-vim.cmd(string.format([[autocmd BufWritePost <buffer> %s]], formatter))
+vim.autocmd {
+  'BufWritePost',
+  '<buffer>',
+  formatter
+}
 
-nvim_command('GoTest', go.test)
-nvim_command("GoBuild", go.build)
+vim.c('GoTest', go.test)
+vim.c("GoBuild", go.build)
 return go

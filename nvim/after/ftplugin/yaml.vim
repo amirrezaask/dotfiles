@@ -9,5 +9,5 @@ require('amirrezaask.listchars'):update {
     conceal = '┊',
     nbsp = '␣',
   }
-vim.cmd [[ autocmd BufLeave <buffer> lua require('amirrezaask.listchars'):update() ]]
+vim.autocmd { 'BufLeave', '<buffer>', function() require('amirrezaask.listchars'):update() end }
 EOF
