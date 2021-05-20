@@ -130,14 +130,17 @@ vim.highlight = setmetatable({}, {
 vim.command = nvim_command
 vim.autocmd = nvim_autocmd
 vim.augroup = nvim_augroup
-vim.colorscheme = nvim_colorscheme
 vim.map = nvim_map
 vim.c = setmetatable({}, {
   __index = function(_, name)
     return setmetatable({}, {
       __call = function(_, ...)
         local args = {...}
-        vim.cmd(name)
+        local cmd = {name}
+        for _, a in ipairs(args) do
+          table.insert(cmd, a)
+        end
+        vim.cmd(table.concat(cmd, ' '))
       end
     })
   end

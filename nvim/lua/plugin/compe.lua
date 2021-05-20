@@ -25,7 +25,7 @@ vim.cmd([[inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"]])
 vim.cmd([[inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"]])
 
 -- Set completeopt to have a better completion experience
-vim.cmd([[set completeopt=menuone,noselect]])
+vim.opt.completeopt = {'menuone', 'noselect'}
 
 -- Avoid showing message extra message when using completion
 vim.cmd([[set shortmess+=c]])
