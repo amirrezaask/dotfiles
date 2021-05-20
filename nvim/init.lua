@@ -10,7 +10,7 @@ require('amirrezaask.listchars')
 require('amirrezaask.statusline')
 
 vim.g.transparent = true
-nvim_colorscheme 'gruvbuddy'
+vim.colorscheme 'gruvbuddy'
 
 -- Load plugins
 require('plugin')

@@ -23,11 +23,11 @@ function M.floating(opts)
   vim.cmd [[ term ]]
 end
 
-nvim_command('VTerm', function()
+vim.command('VTerm', function()
   require('amirrezaask.terminal').open({ orientation = 'v' })
 end)
 
-nvim_command('Term', function()
+vim.command('Term', function()
   require('amirrezaask.terminal').open({ orientation = 'h' })
 end)
 

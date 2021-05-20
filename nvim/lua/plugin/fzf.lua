@@ -124,7 +124,7 @@ function WrapQuickfix(callback)
   end
 end
 
-nvim_command('MRU', function()
+vim.command('MRU', function()
   FZF({
     source = vim.split(vim.fn.execute('oldfiles'), '\n'),
     sink = function(file)

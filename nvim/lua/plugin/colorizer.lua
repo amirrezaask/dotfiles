@@ -11,4 +11,4 @@ vim.autocmd {
   "ColorizerAttachToBuffer"
 }
 
-nvim_command('ColorPicker', ColorPicker)
+vim.command('ColorPicker', ColorPicker)

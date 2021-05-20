@@ -79,12 +79,12 @@ local function nvim_map(keys)
   end
 end
 
-function nvim_colorscheme(name)
+local function nvim_colorscheme(name)
   vim.cmd([[ colorscheme ]] .. name)
 end
 
 __COMMAND_REGISTRY = {}
-function nvim_command(name, expr, args)
+local function nvim_command(name, expr, args)
   if type(expr) == 'function' then
     local fn = expr
     __COMMAND_REGISTRY[name] = function()
