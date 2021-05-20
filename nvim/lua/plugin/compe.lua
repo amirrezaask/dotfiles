@@ -30,7 +30,7 @@ vim.cmd([[set completeopt=menuone,noselect]])
 -- Avoid showing message extra message when using completion
 vim.cmd([[set shortmess+=c]])
 
-nvim_map {
+vim.map {
     ['i <expr> <C-Space>'] = 'compe#complete()',
     ['i <expr> <CR>'] = "compe#confirm()",
     ['i <expr> <C-e>'] = "compe#close('<C-e>')",

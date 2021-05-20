@@ -49,9 +49,9 @@ function lua.format(opts)
   vim.cmd([[ e ]])
 end
 
-nvim_command('LuaFormat', lua.format)
+vim.command('LuaFormat', lua.format)
 
-nvim_augroup({
+vim.augroup({
   lua = {
     'BufEnter',
     '*.lua',
@@ -64,7 +64,7 @@ vim.cmd([[ nnoremap ,nf <cmd>lua LuaAutoFormat=false<CR> ]])
 
 vim.api.nvim_buf_set_keymap(0, 'n', ',f', '<cmd>LuaFormat<CR>', { noremap = true })
 
-nvim_map{
+vim.map {
     ['n ,x'] = '<cmd>lua EvalLine()<CR>',
     ['n <leader>x'] = '<cmd>luafile %<CR>',
 }

@@ -105,7 +105,7 @@ vim.cmd [[ hi default link FuzzyNormal CursorLine ]]
 
 function fuzzy.on_attach()
   local fuzzy_lsp = require('fuzzy.lsp')
-  nvim_map {
+  vim.map {
       ['n gd'] = fuzzy_lsp.definitions,
       ['n K'] = vim.lsp.buf.hover,
       ['n gI'] = fuzzy_lsp.implementation,
@@ -122,7 +122,7 @@ function fuzzy.on_attach()
   }
 end 
 
-nvim_map {
+vim.map {
     ['n <leader><leader>'] = require('fuzzy').find_files,
     -- ['<leader>fb'] = require('fuzzy').interactive_finder,
     ['n <leader>ec'] = function()

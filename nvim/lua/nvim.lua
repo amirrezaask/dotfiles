@@ -1,4 +1,3 @@
-local M = {}
 local function tohex(s)
   local R = {}
   for i = 1, #s do
@@ -11,7 +10,7 @@ __AUTOCMD_REGISTRY = {}
 --@param opts[1] event
 --@param opts[2] filter
 --@param opts[3] function or expression
-function nvim_autocmd(opts)
+local function nvim_autocmd(opts)
  local function get_expression(f)
     if type(f) == 'string' then return f end
     if type(f) == 'function' then
@@ -24,7 +23,7 @@ function nvim_autocmd(opts)
   vim.cmd(string.format('autocmd %s %s %s', opts[1], opts[2], get_expression(opts[3])))
 end
 
-function nvim_highlight(name, guifg, guibg)
+local function nvim_highlight(name, guifg, guibg)
   local t = { 'hi', name }
   if guifg then
     table.insert(t, string.format('guifg=%s', guifg))
@@ -35,16 +34,16 @@ function nvim_highlight(name, guifg, guibg)
   vim.cmd(table.concat(t, ' '))
 end
 
-function nvim_augroup(tbl)
+local function nvim_augroup(tbl)
   for g, _ in pairs(tbl) do
     vim.cmd('augroup ' .. g)
-    nvim_autocmd(tbl[g])
+    vim.autocmd(tbl[g])
     vim.cmd('augroup END')
   end
 end
 
 __MAP_REGISTRY = {}
-function nvim_map(keys)
+local function nvim_map(keys)
   local function get_char(s, n)
     return s:sub(n, n)
   end
@@ -121,11 +120,16 @@ vim.opt = setmetatable({}, {
   end
 })
 
--- return {
---   command = nvim_command,
---   map = nvim_map,
---   colorscheme = nvim_colorscheme,
---   autocmd = nvim_autocmd,
---   augroup = nvim_augroup,
---   highlight = nvim_highlight
--- }
+local o_vim_highlight = vim.highlight
+vim.highlight = setmetatable({}, {
+  __index = o_vim_highlight,
+  __call = function(_, ...)
+    nvim_highlight(...)
+  end
+})
+vim.command = nvim_command
+vim.autocmd = nvim_autocmd
+vim.augroup = nvim_augroup
+vim.colorscheme = nvim_colorscheme
+vim.map = nvim_map
+

@@ -60,7 +60,7 @@ end
 
 function fzf.lsp_on_attach()
   local buf = vim.lsp.buf
-  nvim_map {
+  vim.map {
       ['n gd'] = function()
         buf.definition()
       end,
@@ -133,5 +133,5 @@ nvim_command('MRU', function()
   })
 end)
 
-nvim_map(normal_maps)
+vim.map(normal_maps)
 return fzf

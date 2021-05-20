@@ -14,7 +14,7 @@ function M.toggle()
   vim.api.nvim_set_current_win(current_win)
 end
 
-nvim_map {
+vim.map {
   ['n <C-q>'] = '<cmd>lua require"amirrezaask.quickfix".toggle()<CR>',
   ['n {'] = ':cprev<CR>',
   ['n }'] = ':cnext<CR>',

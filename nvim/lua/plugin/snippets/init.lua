@@ -1,6 +1,6 @@
 local snippets = require('snippets')
 
-nvim_map {
+vim.map {
     ['i <c-s>'] = '<cmd> lua require"snippets".expand_or_advance(1)<CR>',
 }
 

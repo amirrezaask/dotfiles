@@ -8,6 +8,6 @@ require('gitsigns').setup({
   },
 })
 
-nvim_map{
+vim.map {
   ['n <leader>gm'] = '<cmd>lua require"gitsigns".blame_line()<CR>',
 }

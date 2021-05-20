@@ -1,6 +1,6 @@
 vim.g.mapleader = ' '
 
-nvim_map {
+vim.map {
   ['<C-j>'] = '<C-w>j',
   ['<C-k>'] = '<C-w>k',
   ['<C-l>'] = '<C-w>l',
@@ -15,7 +15,7 @@ nvim_map {
 }
 
 
-nvim_map {
+vim.map {
   ['n <CR>'] = function()
     if vim.v.hlsearch == 1 then
       vim.cmd [[ :nohl ]]

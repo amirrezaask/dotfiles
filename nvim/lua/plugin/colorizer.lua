@@ -5,7 +5,7 @@ function ColorPicker()
   colorizer.color_picker_on_cursor()
 end
 
-nvim_autocmd {
+vim.autocmd {
   "BufEnter",
   "*",
   "ColorizerAttachToBuffer"
