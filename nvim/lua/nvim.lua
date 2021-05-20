@@ -127,11 +127,11 @@ vim.highlight = setmetatable({}, {
     nvim_highlight(...)
   end
 })
-vim.command = nvim_command
 vim.autocmd = nvim_autocmd
 vim.augroup = nvim_augroup
 vim.map = nvim_map
-vim.c = setmetatable({}, {
+vim.command = setmetatable({}, {
+  __call = function(_, ...) nvim_command(...) end,
   __index = function(_, name)
     return setmetatable({}, {
       __call = function(_, ...)
@@ -145,3 +145,4 @@ vim.c = setmetatable({}, {
     })
   end
 })
+vim.c = vim.command
