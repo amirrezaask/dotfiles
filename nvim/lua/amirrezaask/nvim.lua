@@ -43,6 +43,7 @@ function M.augroup(tbl)
   end
 end
 
+-- TODO(amirreza): make this a lua object with metatable
 function M.with_options(tbl)
   for n, v in pairs(tbl) do
     if type(v) == "boolean" then
