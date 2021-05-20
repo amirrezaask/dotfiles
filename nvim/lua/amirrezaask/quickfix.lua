@@ -15,9 +15,9 @@ function M.toggle()
 end
 
 vim.map {
-  ['n <C-q>'] = '<cmd>lua require"amirrezaask.quickfix".toggle()<CR>',
-  ['n {'] = ':cprev<CR>',
-  ['n }'] = ':cnext<CR>',
+  ['n <C-q>'] = M.toggle,
+  ['n {'] = vim.c.cprev,
+  ['n }'] = vim.c.cnext,
 }
 
 local function gen_from_cmd_output(qflist, data)

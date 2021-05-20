@@ -13,7 +13,7 @@ __AUTOCMD_REGISTRY = {}
 local function nvim_autocmd(opts)
  local function get_expression(f)
     if type(f) == 'string' then return f end
-    if type(f) == 'function' then
+    if type(f) == 'function' or type(f) == 'table' then
       __AUTOCMD_REGISTRY[tohex(opts[1] .. opts[2])] = function()
         f()
       end
@@ -61,7 +61,7 @@ local function nvim_map(keys)
  
   local function get_key_cmd(k, f)
     if type(f) == 'string' then return f end
-    if type(f) == 'function' then
+    if type(f) == 'function' or type(f) == 'table' then
       __MAP_REGISTRY[tohex(k)] = function()
         f()
       end
@@ -73,14 +73,11 @@ local function nvim_map(keys)
     local cmd = get_key_cmd(k, f)
     if cmd == nil then
       print(k)
+      print(vim.inspect(f))
       print(cmd)
     end
     vim.api.nvim_set_keymap(mode, keyseq, cmd, {noremap = true})
   end
-end
-
-local function nvim_colorscheme(name)
-  vim.cmd([[ colorscheme ]] .. name)
 end
 
 __COMMAND_REGISTRY = {}
