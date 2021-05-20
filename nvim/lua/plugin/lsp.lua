@@ -15,6 +15,7 @@ local function get_lua_runtime()
     -- TODO: Figure out how to get these to work...
     --  Maybe we need to ship these instead of putting them in `src`?...
     result[vim.fn.expand("~/build/neovim/src/nvim/lua")] = true
+    result[vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true
 
     return result;
 end

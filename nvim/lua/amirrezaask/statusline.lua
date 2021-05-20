@@ -16,6 +16,7 @@ local function mode()
     return m
   end
 end
+
 local modified = '%m'
 local readonly = '%r'
 local space = ' '

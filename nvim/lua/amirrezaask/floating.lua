@@ -16,7 +16,7 @@ local center = function(win_height, win_width)
   return row, col
 end
 
-local function job_to_buf(cmd, buf)
+local function cmd_result_to_buf(cmd, buf)
   vim.fn.jobstart(cmd, {
     on_exit = function(_, code, _)
       print('process exited with code ' .. code)
@@ -65,12 +65,12 @@ function floating:vnew(command)
   vim.cmd [[ vnew ]]
   local buf = vim.api.nvim_get_current_buf()
   setup_buf(buf)
-  job_to_buf(command or vim.fn.input('cmd: '), buf)
+  cmd_result_to_buf(command or vim.fn.input('cmd: '), buf)
 end
 
 function floating:command()
   local cmd = vim.fn.input('command: ')
   local buf, _ = floating:new({source=cmd})
-  job_to_buf(cmd, buf)
+  cmd_result_to_buf(cmd, buf)
 end
 return floating
