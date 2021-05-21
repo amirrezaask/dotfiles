@@ -46,8 +46,6 @@ return require('packer').startup({
     use { 'amirrezaask/base16.nvim' }
     -- }}}
 
-    use { 'norcalli/ui.nvim' }
-
     -- FZF {{{
     use({ 'junegunn/fzf'})
     use({ 'junegunn/fzf.vim'})
@@ -60,13 +58,13 @@ return require('packer').startup({
     -- Telescope.nvim {{{
     use({ 'nvim-lua/plenary.nvim' })
     use({ 'nvim-lua/popup.nvim' })
-    use('nvim-telescope/telescope.nvim')
+    use({'nvim-telescope/telescope.nvim'})
     use({ 'nvim-telescope/telescope-fzy-native.nvim' })
     use({ 'nvim-telescope/telescope-dap.nvim' })
     use({ 'nvim-telescope/telescope-media-files.nvim' })
     use({ 'nvim-telescope/telescope-github.nvim' })
     use({ 'nvim-telescope/telescope-snippets.nvim' })
-    use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
+    use({'nvim-telescope/telescope-fzf-native.nvim', run = 'make' })
     -- }}}
 
     -- Snippets {{{
@@ -137,6 +135,7 @@ return require('packer').startup({
     use({ 'kyazdani42/nvim-web-devicons' })
     use({ 'yamatsum/nvim-nonicons' }) -- need to have nonicons font installed look into https://github.com/yamatsum/nonicons
     -- }}}
+
     use {'ThePrimeagen/vim-be-good'}
     use {'ThePrimeagen/harpoon'}
     use { 'nacro90/numb.nvim' }
