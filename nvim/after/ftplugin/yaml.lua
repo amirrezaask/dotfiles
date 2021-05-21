@@ -1,4 +1,3 @@
-lua << EOF
 require('amirrezaask.listchars'):update {
     ['lead']='·',
     ['trail']='*',
@@ -10,4 +9,3 @@ require('amirrezaask.listchars'):update {
     nbsp = '␣',
   }
 vim.autocmd { 'BufLeave', '<buffer>', function() require('amirrezaask.listchars'):update() end }
-EOF
