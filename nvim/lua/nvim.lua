@@ -144,37 +144,37 @@ vim.command = setmetatable({}, {
 })
 vim.c = vim.command
 
-local function find_ftplugins_for (filetype)
-  local patterns = {
-    string.format("ftplugin/%s.lua", filetype),
-  }
-
-  local result = {}
-  for _, pat in ipairs(patterns) do
-    vim.list_extend(result, vim.api.nvim_get_runtime_file(pat, true))
-  end
-
-  return result
-end
-
 -- Took from tjdevries/astronauta.nvim
-local function load_file(f)
-  local env = setmetatable({
-      print = vim.schedule_wrap(print)
-      },
-      {
-        __index = _G,
-        __newindex = _G
-      })
-  local floader = loadfile(f)
-  pcall(setfenv(floader, env))
-end
-
 -- Load ftplugin/*.lua and after/ftplugin/*.lua for * FileType 
 vim.autocmd {
   "Filetype",
   "*",
   function()
+    local function load_file(f)
+      local env = setmetatable({
+          print = vim.schedule_wrap(print)
+          },
+          {
+            __index = _G,
+            __newindex = _G
+          })
+      local floader = loadfile(f)
+      pcall(setfenv(floader, env))
+    end
+
+    local function find_ftplugins_for (filetype)
+      local patterns = {
+        string.format("ftplugin/%s.lua", filetype),
+      }
+
+      local result = {}
+      for _, pat in ipairs(patterns) do
+        vim.list_extend(result, vim.api.nvim_get_runtime_file(pat, true))
+      end
+
+      return result
+    end
+
     local ftplugins = find_ftplugins_for(vim.fn.expand('<amatch>'))
     for _, file in ipairs(ftplugins) do
       load_file(file)
