@@ -15,5 +15,6 @@ require('plugin.snippets')
 require('plugin.lsp')
 require('plugin.dap')
 require('plugin.treesitter')
+require('plugin.fugitive')
 require('numb').setup()
 
