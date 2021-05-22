@@ -28,43 +28,17 @@ return require('packer').startup({
     use({ 'wbthomason/packer.nvim' })
 
     use { 'amirrezaask/spawn.nvim' }
-    -- Colorschemes {{{
-    use { 'joshdick/onedark.vim' }
-    use { 'mhartington/oceanic-next' }
-    use { 'cocopon/iceberg.vim' }
-    use { 'AlessandroYorba/Alduin' }
-    use { 'tyrannicaltoucan/vim-deep-space' }
-    use { 'wadackel/vim-dogrun' }
-    use { 'sonph/onehalf' }
-    use { 'fcpg/vim-orbital' }
-    use { 'lifepillar/vim-solarized8' }
-    use { 'liuchengxu/space-vim-dark' }
-    use { 'jaredgorski/SpaceCamp' }
-    use { 'jacoborus/tender.vim' }
-    use { 'rakr/vim-two-firewatch' }
-    use { 'gruvbox-community/gruvbox' }
-    use { 'amirrezaask/base16.nvim' }
-    -- }}}
-
-    -- FZF {{{
-    use({ 'junegunn/fzf'})
-    use({ 'junegunn/fzf.vim'})
-    -- }}}
-
-    -- Fuzzy.nvim {{{
-    use { 'amirrezaask/fuzzy.nvim' }
-    -- }}}
 
     -- Telescope.nvim {{{
     use({ 'nvim-lua/plenary.nvim' })
     use({ 'nvim-lua/popup.nvim' })
-    use({'nvim-telescope/telescope.nvim'})
+    use({ 'nvim-telescope/telescope.nvim' })
     use({ 'nvim-telescope/telescope-fzy-native.nvim' })
     use({ 'nvim-telescope/telescope-dap.nvim' })
     use({ 'nvim-telescope/telescope-media-files.nvim' })
     use({ 'nvim-telescope/telescope-github.nvim' })
     use({ 'nvim-telescope/telescope-snippets.nvim' })
-    use({'nvim-telescope/telescope-fzf-native.nvim', run = 'make' })
+    use({ 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' })
     -- }}}
 
     -- Snippets {{{

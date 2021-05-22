@@ -36,7 +36,7 @@
 " }}}
 
 " Specials {{{
-    highlight Special guifg=#aa92cd
+    highlight Special guifg=#aa92cd gui=italic
     highlight SpecialChar guifg=#a3685a
     highlight NonText guifg=#4e545c
     highlight WhiteSpace guifg=#8e6fbd
@@ -117,6 +117,8 @@
     highlight TSVariableBuiltin guifg=#f8fe7a
     highlight TSKeyword guifg=#b294bb gui=italic,bold
     highlight TSLabel guifg=#cc6666
+    highlight TSString guifg=#99cc99
+
 " }}}
 
 " VimWiki {{{

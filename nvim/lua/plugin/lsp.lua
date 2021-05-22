@@ -90,7 +90,40 @@ lspconfig.sumneko_lua.setup({
 
     -- Runtime configurations
     filetypes = {"lua"},
-    on_attach = on_attach,
+    on_attach = function()
+      on_attach()
+      vim.lsp.handlers['textDocument/hover'] = function(_, _, _)
+
+        local original_iskeyword = vim.bo.iskeyword
+        vim.bo.iskeyword = vim.bo.iskeyword .. ',.'
+        local word = vim.fn.expand("<cword>")
+        vim.bo.iskeyword = original_iskeyword
+
+        if string.find(word, 'vim.api') then
+          local _, finish = string.find(word, 'vim.api.')
+          local api_function = string.sub(word, finish + 1)
+
+          vim.cmd(string.format('help %s', api_function))
+          return
+        elseif string.find(word, 'vim.fn') then
+          local _, finish = string.find(word, 'vim.fn.')
+          local api_function = string.sub(word, finish + 1) .. '()'
+
+          vim.cmd(string.format('help %s', api_function))
+          return
+        else
+          local ok = pcall(vim.cmd, string.format('help %s', word))
+
+          if not ok then
+            local split_word = vim.split(word, '.', true)
+            ok = pcall(vim.cmd, string.format('help %s', split_word[#split_word]))
+          end
+          if not ok then
+            vim.lsp.buf.hover()
+          end
+        end
+      end
+    end,
   })
 
 lspconfig.pyls_ms.setup({ on_attach = on_attach })
