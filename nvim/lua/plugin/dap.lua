@@ -28,18 +28,20 @@ dap.configurations.go = {
 
 -- Commands
 vim.c([[DapToggleBreakpoint]], require'dap'.toggle_breakpoint)
-vim.c([[DapReplOpen lua require'dap'.repl.open()]])
-vim.c([[DapContinue lua require'dap'.continue()]])
-vim.c([[DapStepInto lua require'dap'.step_into()]])
-vim.c([[DapStepOver lua require'dap'.step_over()]])
-vim.c([[DapStepOut lua require'dap'.step_out()]])
-vim.c([[DapHover lua require('dap.ui.variables').hover()]])
+vim.c([[DapReplOpen]], require'dap'.repl.open)
+vim.c([[DapContinue]], require'dap'.continue)
+vim.c([[DapStepInto]], require'dap'.step_into)
+vim.c([[DapStepOver]], require'dap'.step_over)
+vim.c([[DapStepOut]], require'dap'.step_out)
+vim.c([[DapHover]], require('dap.ui.variables').hover)
 
 -- Mappings
-vim.cmd([[nnoremap <silent> <F3>  <cmd>DapToggleBreakpoint<CR>]])
-vim.cmd([[nnoremap <silent> <F4>  <cmd>DapReplOpen<CR>]])
-vim.cmd([[nnoremap <silent> <F5>  <cmd>DapContinue<CR>]])
-vim.cmd([[nnoremap <silent> <F7>  <cmd>DapStepInto<CR>]])
-vim.cmd([[nnoremap <silent> <F8>  <cmd>DapStepOver<CR>]])
-vim.cmd([[nnoremap <silent> <F9>  <cmd>DapStepOut()<CR>]])
-vim.cmd([[nnoremap <silent> <F10> <cmd>DapHover<CR>]])
+vim.nmap {
+  ['<silent> <F3>'] = require'dap'.toggle_breakpoint,
+  ['<silent> <F4>'] = require'dap'.repl.open,
+  ['<silent> <F5>'] = require'dap'.continue,
+  ['<silent> <F7>'] = require'dap'.step_into,
+  ['<silent> <F8>'] = require'dap'.step_over,
+  ['<silent> <F9>'] = require'dap'.step_out,
+  ['<silent> <F10>'] = require'dap.ui.variables'.hover
+}
