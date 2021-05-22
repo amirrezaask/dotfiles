@@ -2,13 +2,10 @@ local hl = require('palette').highlight
 
 -- Extracted from https://github.com/tjdevries/gruvbuddy.nvim
 hl:apply { "Normal", bg='#282c34', fg='#e0e0e0' }
-
 hl:apply { "InvNormal", bg="#c5c8c6", fg="#282c34" }
-
 hl:apply { "NormalFloat", bg="#111317", fg="#fafafa" }
 hl:apply { "LineNr", bg="#282a2e", fg="#969896" }
 hl:apply { "EndOfBuffer", fg="#969896"}
-
 hl:apply { "SignColumn", bg="#282a2e", fg="#969896" }
 hl:apply { "Visual", bg="#38556d" }
 hl:apply { "VisualMode", bg="#38556d" }
@@ -47,17 +44,7 @@ hl:apply { "ReplaceMode", bg="#f8fe7a", fg="#ffffff" }
 hl:apply { "TerminalMode", bg="#698b69", fg="#ffffff" }
 
 hl:apply { {"Boolean", "TSBoolean" }, fg="#3fffff" }
-hl:apply { "Comment", fg="#969896", styles={"italic"}}
-hl:apply { "Character", fg="#cc6666" }
-hl:apply { "Conditional", fg="#cc6666" }
-hl:apply { "Define", fg="#8abeb7" }
 hl:apply { "Error", fg="#d98c8c" }
-hl:apply { "Number", fg="#cc6666" }
-hl:apply { "Float", fg="#cc6666" }
-hl:apply { "Constant", fg="#de935f" }
-hl:apply { "Identifier", fg="#cc6666" }
-hl:apply { "Include", fg="#8abeb7" }
-hl:apply { "Keyword", fg="#b294bb" }
 hl:apply { { "Label", "TSLabel" } , fg="#cc6666" }
 hl:apply { { "Operator", "TSOperator" }, fg="#e6b3b3" }
 hl:apply { "PreProc", fg="#f8fe7a" }
@@ -65,7 +52,7 @@ hl:apply { { "Repeat", "TSRepeat" }, fg="#cc6666" }
 hl:apply { "Repeat", fg="#cc6666" }
 hl:apply { "Statement", fg="#c04040" }
 hl:apply { "StorageClass", fg="#f8fe7a" }
-hl:apply { { "String", "TSString" }, fg="#99cc99" }
+hl:apply { { "String", "TSString" }, fg="#99cc99", styles = {"italic"} }
 hl:apply { "Structure", fg="#b294bb" }
 hl:apply { { "Tag", "TSTag" }, fg="#f8fe7a" }
 hl:apply { "Todo", fg="#f8fe7a" }
@@ -73,17 +60,20 @@ hl:apply { "Typedef", fg="#f8fe7a" }
 hl:apply { { "Type", "TSType" }, fg="#b294bb" }
 hl:apply { "Folded", bg="#4e545c", fg="#7c7f7c" }
 hl:apply { { "vimFunction", "Function", "TSFunction", "pythonBuiltinFunc" }, fg="#f8fe7a" }
+
+hl:apply { { "Number", "Float", "TSNumber", "TSFloat" }, fg="#cc6666" }
 hl:apply { "MatchParen", fg="#8abeb7" }
-hl:apply { "TSCharacter", fg="#99cc99" }
-hl:apply { "TSComment", fg="#969896", styles={"italic"}}
-hl:apply { "TSConditional", fg="#f8fe8a", styles={"bold"}}
-hl:apply { "TSConstant", fg="#cc6666" }
-hl:apply { "TSInclude", fg="#8abeb7" }
-hl:apply { {  "vimCommand", "vimNotFunc", "TSConstant", "vimLet"}, fg="#81a2be" }
+hl:apply { { "TSCharacter", "Character" }, fg="#cc6666" }
+hl:apply { { "TSComment", "Comment" }, fg="#969896", styles={"italic"}}
+hl:apply { { "Conditional", "TSConditional" }, fg="#f8fe8a", styles={"bold"}}
+hl:apply { { "Identifier", "TSConstant", "Constant" }, fg="#cc6666" }
+
+hl:apply { { "Define", "TSInclude", "Include" }, fg="#8abeb7" }
+hl:apply { { "vimCommand", "vimNotFunc", "TSConstant", "vimLet" }, fg="#81a2be" }
 hl:apply { "TSVariable", fg="#e0e0e0" }
 hl:apply { "TSFunction", fg="#f8fe7a", styles={"bold","italic"}}
-hl:apply { "TSVariableBuiltin", fg="#f8fe7a" }
-hl:apply { { "vimIsCommand", "vimFuncVar", "TSKeyword", }, fg="#b294bb", styles={"italic","bold"}}
+hl:apply { { "TSVariableBuiltin", "TSConstantBuiltin" }, fg="#f8fe7a" }
+hl:apply { { "vimIsCommand", "vimFuncVar", "TSKeyword", "Keyword" }, fg="#b294bb", styles={"italic","bold"}}
 hl:apply { "TSLabel", fg="#cc6666"}
 
 
