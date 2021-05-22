@@ -244,7 +244,7 @@ end
 
 vim.nmap {
   [',x'] = eval_line,
-  ['<leader>x'] = eval_file
+  ['<space>x'] = eval_file
 }
 
 

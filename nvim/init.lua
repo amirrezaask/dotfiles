@@ -11,8 +11,8 @@ require('amirrezaask.quickfix')
 require('amirrezaask.listchars')
 require('amirrezaask.statusline')
 
-vim.g.transparent = false
-vim.c.colorscheme('gruvbuddy')
+-- colorscheme
+require('gruvbuddy')
 
 -- Load plugins
 require('plugin')
