@@ -18,3 +18,4 @@ require('plugin.treesitter')
 require('plugin.fugitive')
 require('numb').setup()
 
+vim.g.netrw_banner = 0
