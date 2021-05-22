@@ -4,18 +4,8 @@ local highlight = {}
 palette.highlight = highlight
 highlight.__index = highlight
 
--- {
---   name = 'Normal',
---   name = {'TSComment', 'Comment'}
---   either
---   bg = '',
---   fg = '',
---   styles = {}
---   or
---   link = ''
--- }
 function highlight:_apply_link()
-  return table.concat({'highlight', 'link', self.name, self.link}, ' ')
+  vim.cmd(table.concat({'highlight', 'link', self.name, self.link}, ' '))
 end
 function highlight:_apply_actual()
   if type(self.name) == 'table' and vim.tbl_islist(self.name) then

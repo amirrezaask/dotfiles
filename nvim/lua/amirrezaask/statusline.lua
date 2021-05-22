@@ -1,17 +1,17 @@
 local function mode()
   local m = vim.fn.mode()
   if m == 'n' then
-    return '%#Function# Normal %*'
+    return '%#NormalMode# Normal %*'
   elseif m == 'v' or m == 'V' then
-    return '%#StatusLine# Visual %*'
+    return '%#VisualMode# Visual %*'
   elseif m == 'i' then
-    return '%#StatusLine# Insert %*'
+    return '%#InsertMode# Insert %*'
   elseif m == 'ic' or m == 'ix' then
     return ' IComplete '
   elseif m == 'c' then
-    return '%#Constant# Command %*'
+    return '%#CommandMode# Command %*'
   elseif m == 't' then
-    return '%#Constant# Terminal %*'
+    return '%#TerminalMode# Terminal %*'
   else
     return m
   end

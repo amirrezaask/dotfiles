@@ -37,11 +37,11 @@ hl:apply { "StatusLineNC", bg="#3f4349", fg="#969896" }
 hl:apply { "User1", bg="#f8fe7a", fg="#ffffff" }
 hl:apply { "User2", bg="#cc6666", fg="#ffffff" }
 hl:apply { "User3", bg="#99cc99", fg="#ffffff" }
-hl:apply { "CommandMode", bg="#99cc99", fg="#ffffff" }
-hl:apply { "NormalMode", bg="#cc6666", fg="#ffffff" }
-hl:apply { "InsertMode", bg="#f8fe7a", fg="#ffffff" }
-hl:apply { "ReplaceMode", bg="#f8fe7a", fg="#ffffff" }
-hl:apply { "TerminalMode", bg="#698b69", fg="#ffffff" }
+hl:apply { "CommandMode", link = "Constant" }
+hl:apply { "VisualMode", link = "StatusLine" }
+hl:apply { "NormalMode", link = "Function" }
+hl:apply { "InsertMode", link = "StatusLine" }
+hl:apply { "TerminalMode", link = "Constant" }
 
 hl:apply { {"Boolean", "TSBoolean" }, fg="#3fffff" }
 hl:apply { "Error", fg="#d98c8c" }
