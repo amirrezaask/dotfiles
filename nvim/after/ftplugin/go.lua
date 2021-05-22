@@ -42,11 +42,11 @@ end
 
 local formatter = default_formatter()
 
-vim.autocmd {
-  'BufWritePost',
-  '<buffer>',
-  formatter
-}
+-- vim.autocmd {
+--   'BufWritePost',
+--   '<buffer>',
+--   formatter
+-- }
 
 vim.c('GoTest', go.test)
 vim.c("GoBuild", go.build)

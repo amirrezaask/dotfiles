@@ -1,7 +1,9 @@
 require('nvim')
+
 -- Basic Neovim stuff
 require('options')
 require('mappings')
+
 -- Personal Modules
 
 require('amirrezaask.terminal')

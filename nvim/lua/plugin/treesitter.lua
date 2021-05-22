@@ -1,6 +1,13 @@
 local treesitter = require('nvim-treesitter.configs')
 treesitter.setup({
-  ensure_installed = { 'go', 'lua', 'python', 'rust' },
+  ensure_installed = { 'go', 'lua', 'python', 'rust', 'query', 'toml', 'php', 'yaml', 'json', 'dockerfile', 'c', 'gomod', 'html' },
+  context_commentstring = {
+    enable = true,
+    config = {
+      c   = '// %s',
+      lua = '-- %s',
+    },
+  },
   highlight = {
     enable = true,
   },
@@ -14,25 +21,6 @@ treesitter.setup({
     enable = true,
   },
   textobjects = {
-    -- @block.inner
-    -- @block.outer
-    -- @call.inner
-    -- @call.outer
-    -- @class.inner
-    -- @class.outer
-    -- @comment.outer
-    -- @conditional.inner
-    -- @conditional.outer
-    -- @frame.inner
-    -- @frame.outer
-    -- @function.inner
-    -- @function.outer
-    -- @loop.inner
-    -- @loop.outer
-    -- @parameter.inner
-    -- @parameter.outer
-    -- @scopename.inner
-    -- @statement.outer
     select = {
       enable = true,
       keymaps = {

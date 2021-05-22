@@ -184,10 +184,8 @@ end
 function M.on_attach(_)
   vim.map {
       ['n gd'] = wrap(require('telescope.builtin').lsp_definitions),
-      ['n K'] = vim.lsp.buf.hover,
       ['n gI'] = wrap(require('telescope.builtin').lsp_implementations),
       ['n gR'] = wrap(require('telescope.builtin').lsp_references),
-      ['n <leader>lR'] = vim.lsp.buf.rename,
       ['n <leader>lr'] = wrap(require('telescope.builtin').lsp_references),
       ['n <leader>li'] = wrap(require('telescope.builtin').lsp_implementations),
       ['n <leader>ld'] = wrap(require('telescope.builtin').lsp_document_symbols),

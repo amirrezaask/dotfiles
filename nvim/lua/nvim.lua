@@ -58,7 +58,7 @@ local function nvim_map(keys)
     end
     return '', key
   end
- 
+
   local function get_key_cmd(k, f)
     if type(f) == 'string' then return f end
     if type(f) == 'function' or type(f) == 'table' then
@@ -77,6 +77,16 @@ local function nvim_map(keys)
       print(cmd)
     end
     vim.api.nvim_set_keymap(mode, keyseq, cmd, {noremap = true})
+  end
+end
+
+local function make_mapper(mode)
+  return function(keymaps)
+    local new_keymaps = {}
+    for k, fn in pairs(keymaps) do
+      new_keymaps[string.format('%s %s', mode, k)] = fn
+    end
+    nvim_map(new_keymaps)
   end
 end
 
@@ -126,7 +136,13 @@ vim.highlight = setmetatable({}, {
 })
 vim.autocmd = nvim_autocmd
 vim.augroup = nvim_augroup
+
 vim.map = nvim_map
+vim.nmap = make_mapper('n')
+vim.vmap = make_mapper('v')
+vim.tmap = make_mapper('t')
+vim.imap = make_mapper('i')
+
 vim.command = setmetatable({}, {
   __call = function(_, ...) nvim_command(...) end,
   __index = function(_, name)

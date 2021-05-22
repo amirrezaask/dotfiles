@@ -20,50 +20,33 @@ local function get_lua_runtime()
     return result;
 end
 
-require('lspsaga').init_lsp_saga {
-  use_saga_diagnostic_sign = false,
-  code_action_prompt = {
-    enable = false,
-    sign = true,
-    virtual_text = true,
-  },
-  finder_action_keys = {
-    open = 'o', vsplit = 's',split = 'i',quit = 'q',scroll_down = '<C-f>', scroll_up = '<C-b>'
-  },
-  code_action_keys = {
-    quit = 'q',exec = '<CR>'
-  },
-  rename_action_keys = {
-    quit = '<C-c>',exec = '<CR>'
-  },
-  server_filetype_map = {}
-}
+local telescope_on_attach = require('plugin.telescope').on_attach
+local support_formatting = {'go', 'rust'}
 
-local on_attach
-
-if package.loaded['plugin.fzf'] then
-  on_attach = require('plugin.fzf').lsp_on_attach
-elseif package.loaded['plugin.telescope'] then
-  on_attach = require('plugin.telescope').on_attach
-elseif package.loaded['plugin.fuzzy'] then
-  on_attach = require('plugin.fuzzy').on_attach
-end
-
-local function global_on_attach(inner)
-  return function()
-    if inner then inner() end
-    vim.cmd [[ nnoremap <silent><leader>lc <cmd>lua require('lspsaga.codeaction').code_action()<CR> ]]
-    vim.cmd [[ vnoremap <silent><leader>lc :<C-U>lua require('lspsaga.codeaction').range_code_action()<CR> ]]
-    vim.cmd [[ nnoremap <silent><leader>lR <cmd>lua require('lspsaga.rename').rename()<CR> ]]
-    vim.cmd [[ nnoremap <silent><leader>d? <cmd>lua require'lspsaga.diagnostic'.show_line_diagnostics()<CR> ]]
-    vim.cmd [[ nnoremap <silent> [e <cmd>lua require'lspsaga.diagnostic'.lsp_jump_diagnostic_prev()<CR> ]]
-    vim.cmd [[ nnoremap <silent> ]e <cmd>lua require'lspsaga.diagnostic'.lsp_jump_diagnostic_next()<CR> ]]
+local function make_on_attach(base)
+  return function(_, _)
+    if base then base() end
+    vim.nmap {
+      ['<leader>lR'] = vim.lsp.buf.rename,
+      [',r'] = vim.lsp.buf.rename,
+      ['K'] = vim.lsp.buf.hover,
+      [',dn'] = vim.lsp.diagnostic.goto_next,
+      [',dp'] = vim.lsp.diagnostic.goto_prev,
+      [',dl'] = vim.lsp.diagnostic.show_line_diagnostics,
+    }
+    local filetype = vim.api.nvim_buf_get_option(0, 'filetype')
+    if vim.tbl_contains(support_formatting, filetype) then
+      vim.autocmd {
+        'BufWritePre', '<buffer>', vim.lsp.buf.formatting_sync
+      }
+    end
   end
 end
+local on_attach = make_on_attach(telescope_on_attach)
 
-on_attach = global_on_attach(on_attach)
-
-lspconfig.gopls.setup({ on_attach = on_attach })
+lspconfig.gopls.setup({ 
+  on_attach = on_attach
+})
 lspconfig.rust_analyzer.setup({
   on_attach = function()
     on_attach()
@@ -107,8 +90,9 @@ lspconfig.sumneko_lua.setup({
 
     -- Runtime configurations
     filetypes = {"lua"},
-    on_attach = on_attach
+    on_attach = on_attach,
   })
 
 lspconfig.pyls_ms.setup({ on_attach = on_attach })
 lspconfig.clangd.setup({ on_attach = on_attach })
+

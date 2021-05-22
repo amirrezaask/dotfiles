@@ -58,7 +58,7 @@
 
 " Standard Syntax {{{
     highlight Boolean guifg=#de935f
-    highlight Comment guifg=#969896
+    highlight Comment guifg=#969896 gui=italic
     highlight Character guifg=#cc6666
     highlight Conditional guifg=#cc6666
     highlight Define guifg=#8abeb7
@@ -105,11 +105,18 @@
 " }}}
 
 " Treesitter {{{
-highlight TSInclude guifg=#8abeb7
-highlight TSConstant guifg=#81a2be
-highlight TSVariable guifg=#e0e0e0
-highlight TSFunction guifg=#f8fe7a
-highlight TSVariableBuiltin guifg=#f8fe7a
+    highlight TSBoolean guifg=#3fffff
+    highlight TSCharacter guifg=#99cc99
+    highlight TSComment guifg=#969896 gui=italic
+    highlight TSConditional guifg=#f8fe8a gui=bold
+    highlight TSConstant guifg=#cc6666
+    highlight TSInclude guifg=#8abeb7
+    highlight TSConstant guifg=#81a2be
+    highlight TSVariable guifg=#e0e0e0
+    highlight TSFunction guifg=#f8fe7a gui=bold,italic
+    highlight TSVariableBuiltin guifg=#f8fe7a
+    highlight TSKeyword guifg=#b294bb gui=italic,bold
+    highlight TSLabel guifg=#cc6666
 " }}}
 
 " VimWiki {{{
@@ -117,7 +124,7 @@ highlight TSVariableBuiltin guifg=#f8fe7a
 " }}}
 
 " Telescope {{{
-    highlight TelescopeMatching guifg=#f2904b
+    highlight TelescopeMatching guifg=#f2904b gui=bold
 " }}}
 
 " Startify {{{
@@ -132,24 +139,6 @@ highlight TSVariableBuiltin guifg=#f8fe7a
     highlight StartifyFooter guifg=#373b41
 " }}}
 
-" Typescript {{{
-    highlight tsGenerics guifg=#5f89ad
-    highlight tsxTypes guifg=#a3bbd0
-    highlight typescriptBraces guifg=#5f89ad
-    highlight tsxElseOperator guifg=#f8fe7a
-    highlight typescriptType guifg=#b294bb
-    highlight typescriptStorageClass guifg=#aa92cd
-    highlight typescriptStorageClass guifg=#aa92cd
-    highlight tsxTagName guifg=#de935f
-    highlight tsxCloseTagName guifg=#de935f
-    highlight tsxTag guifg=#e7b089
-    highlight tsxCloseTag guifg=#e7b089
-    highlight tsxComponentName guifg=#de935f
-    highlight tsxCloseComponentName guifg=#de935f
-    highlight typescriptDecorators guifg=#77bb77
-    highlight typescriptEndColons guifg=#aa92cd
-" }}}
-
 " fold {{{
     highlight foldbraces guifg=#f2e5bc
 " }}}
@@ -158,20 +147,6 @@ highlight TSVariableBuiltin guifg=#f8fe7a
     highlight markdownH1 guifg=#81a2be
     highlight markdownH2 guifg=#a3bbd0
     highlight markdownH3 guifg=#c5d4e1
-" }}}
-
-" Python {{{
-    highlight pythonSelf guifg=#c9b3cf
-    highlight pythonSelfArg guifg=#969896
-    highlight pythonOperator guifg=#cc6666
-    highlight pythonNone guifg=#d98c8c
-    highlight pythonNone guifg=#d98c8c
-    highlight pythonBytes guifg=#99cc99
-    highlight pythonRawBytes guifg=#99cc99
-    highlight pythonBytesContent guifg=#99cc99
-    highlight pythonBytesError guifg=#d98c8c
-    highlight pythonBytesEscapeError guifg=#d98c8c
-    highlight pythonBytesEscape guifg=#aa92cd
 " }}}
 
 " vimscript {{{
@@ -189,26 +164,4 @@ highlight TSVariableBuiltin guifg=#f8fe7a
     highlight vimMap guifg=#698b69
     highlight nvimMap guifg=#698b69
     highlight vimAutoloadFunction guifg=#f3fe14
-" }}}
-
-" Lua {{{
-    highlight luaStatement guifg=#f6fe47
-    highlight luaKeyword guifg=#d67634
-    highlight luaMyKeyword guifg=#aa92cd
-    highlight luaFunction guifg=#f8fe7a
-    highlight luaFunctionCall guifg=#5f89ad
-    highlight luaSpecialFunctions guifg=#a3bbd0
-    highlight luaMetatableEvents guifg=#8e6fbd
-    highlight luaMetatableArithmetic guifg=#8e6fbd
-    highlight luaMetatableEquivalence guifg=#8e6fbd
-    highlight luaEmmyFluff guifg=#ced0ce
-" }}}
-
-" SQL {{{
-    highlight SqlKeyword guifg=#cc6666
-" }}}
-
-" html {{{
-    highlight htmlH1 guifg=#81a2be
-    highlight htmlh1 guifg=#81a2be
 " }}}
