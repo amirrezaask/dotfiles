@@ -21,8 +21,6 @@ require('compe').setup({
     snippets_nvim = true,
   },
 })
-vim.cmd([[inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"]])
-vim.cmd([[inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"]])
 
 -- Set completeopt to have a better completion experience
 vim.opt.completeopt = {'menuone', 'noselect'}
@@ -30,10 +28,12 @@ vim.opt.completeopt = {'menuone', 'noselect'}
 -- Avoid showing message extra message when using completion
 vim.cmd([[set shortmess+=c]])
 
-vim.map {
-    ['i <expr> <C-Space>'] = 'compe#complete()',
-    ['i <expr> <CR>'] = "compe#confirm()",
-    ['i <expr> <C-e>'] = "compe#close('<C-e>')",
-    ['i <expr> <C-f>'] = "compe#scroll( {'delta': +4} )",
-    ['i <expr> <C-d>'] = "compe#scroll( {'delta': -4} )",
+vim.imap {
+  ['<expr> <S-Tab>'] = [[ pumvisible() ? "\<C-p>" : "\<S-Tab>"]],
+  ['<expr> <Tab>'] = [[ pumvisible() ? "\<C-n>" : "\<Tab>" ]],
+  ['<expr> <C-Space>'] = 'compe#complete()',
+  ['<expr> <CR>'] = "compe#confirm()",
+  ['<expr> <C-e>'] = "compe#close('<C-e>')",
+  ['<expr> <C-f>'] = "compe#scroll( {'delta': +4} )",
+  ['<expr> <C-d>'] = "compe#scroll( {'delta': -4} )",
 }
