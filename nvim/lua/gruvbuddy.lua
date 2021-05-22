@@ -45,7 +45,8 @@ hl:apply { "NormalMode", bg="#cc6666", fg="#ffffff" }
 hl:apply { "InsertMode", bg="#f8fe7a", fg="#ffffff" }
 hl:apply { "ReplaceMode", bg="#f8fe7a", fg="#ffffff" }
 hl:apply { "TerminalMode", bg="#698b69", fg="#ffffff" }
-hl:apply { "Boolean", fg="#de935f" }
+
+hl:apply { {"Boolean", "TSBoolean" }, fg="#3fffff" }
 hl:apply { "Comment", fg="#969896", styles={"italic"}}
 hl:apply { "Character", fg="#cc6666" }
 hl:apply { "Conditional", fg="#cc6666" }
@@ -57,24 +58,34 @@ hl:apply { "Constant", fg="#de935f" }
 hl:apply { "Identifier", fg="#cc6666" }
 hl:apply { "Include", fg="#8abeb7" }
 hl:apply { "Keyword", fg="#b294bb" }
-hl:apply { "Label", fg="#f8fe7a" }
-hl:apply { "Operator", fg="#e6b3b3" }
+hl:apply { { "Label", "TSLabel" } , fg="#cc6666" }
+hl:apply { { "Operator", "TSOperator" }, fg="#e6b3b3" }
 hl:apply { "PreProc", fg="#f8fe7a" }
-hl:apply { "Repeat", fg="#cc6666" }
+hl:apply { { "Repeat", "TSRepeat" }, fg="#cc6666" }
 hl:apply { "Repeat", fg="#cc6666" }
 hl:apply { "Statement", fg="#c04040" }
 hl:apply { "StorageClass", fg="#f8fe7a" }
-hl:apply { "String", fg="#99cc99" }
+hl:apply { { "String", "TSString" }, fg="#99cc99" }
 hl:apply { "Structure", fg="#b294bb" }
-hl:apply { "Tag", fg="#f8fe7a" }
+hl:apply { { "Tag", "TSTag" }, fg="#f8fe7a" }
 hl:apply { "Todo", fg="#f8fe7a" }
 hl:apply { "Typedef", fg="#f8fe7a" }
-hl:apply { "Type", fg="#b294bb" }
+hl:apply { { "Type", "TSType" }, fg="#b294bb" }
 hl:apply { "Folded", bg="#4e545c", fg="#7c7f7c" }
-hl:apply { "Function", fg="#f8fe7a" }
-hl:apply { "pythonBuiltinFunc", fg="#f8fe7a" }
-hl:apply { "vimFunction", fg="#f8fe7a"}
-hl:apply { "MatchParen", fg="#8abeb7"}
+hl:apply { { "vimFunction", "Function", "TSFunction", "pythonBuiltinFunc" }, fg="#f8fe7a" }
+hl:apply { "MatchParen", fg="#8abeb7" }
+hl:apply { "TSCharacter", fg="#99cc99" }
+hl:apply { "TSComment", fg="#969896", styles={"italic"}}
+hl:apply { "TSConditional", fg="#f8fe8a", styles={"bold"}}
+hl:apply { "TSConstant", fg="#cc6666" }
+hl:apply { "TSInclude", fg="#8abeb7" }
+hl:apply { {  "vimCommand", "vimNotFunc", "TSConstant", "vimLet"}, fg="#81a2be" }
+hl:apply { "TSVariable", fg="#e0e0e0" }
+hl:apply { "TSFunction", fg="#f8fe7a", styles={"bold","italic"}}
+hl:apply { "TSVariableBuiltin", fg="#f8fe7a" }
+hl:apply { { "vimIsCommand", "vimFuncVar", "TSKeyword", }, fg="#b294bb", styles={"italic","bold"}}
+hl:apply { "TSLabel", fg="#cc6666"}
+
 
 hl:apply { "HelpDoc", bg="#698b69", fg="#ffffff" }
 hl:apply { "HelpIgnore", fg="#99cc99" }
@@ -87,23 +98,9 @@ hl:apply { "DiffDelete", bg="#0" }
 hl:apply { "DiffRemoved", fg="#cc6666" }
 hl:apply { "DiffAdded", fg="#99cc99" }
 
-hl:apply { "TSBoolean", fg="#3fffff" }
-hl:apply { "TSCharacter", fg="#99cc99" }
-hl:apply { "TSComment", fg="#969896", styles={"italic"}}
-hl:apply { "TSConditional", fg="#f8fe8a", styles={"bold"}}
-hl:apply { "TSConstant", fg="#cc6666" }
-hl:apply { "TSInclude", fg="#8abeb7" }
-hl:apply { "TSConstant", fg="#81a2be" }
-hl:apply { "TSVariable", fg="#e0e0e0" }
-hl:apply { "TSFunction", fg="#f8fe7a", styles={"bold","italic"}}
-hl:apply { "TSVariableBuiltin", fg="#f8fe7a" }
-hl:apply { "TSKeyword", fg="#b294bb", styles={"italic","bold"}}
-hl:apply { "TSLabel", fg="#cc6666"}
-hl:apply { "TSString", fg="#99cc99"}
-
-
 hl:apply { "VimwikiBold", fg="#cc6666" }
 hl:apply { "TelescopeMatching", fg="#f2904b", styles={"bold"} }
+
 hl:apply { "StartifyBracket", fg="#cc6666" }
 hl:apply { "StartifyFile", fg="#c04040" }
 hl:apply { "StartifyNumber", fg="#81a2be" }
@@ -120,12 +117,7 @@ hl:apply { "markdownH1", fg="#81a2be" }
 hl:apply { "markdownH2", fg="#a3bbd0" }
 hl:apply { "markdownH3", fg="#c5d4e1" }
 
-hl:apply { "vimNotFunc", fg="#81a2be" }
-hl:apply { "vimCommand", fg="#81a2be" }
-hl:apply { "vimLet", fg="#aa92cd", styles={"italic"}}
-hl:apply { "vimFuncVar", fg="#8e6fbd", styles={"italic"}}
 hl:apply { "vimCommentTitle", fg="#cc6666" }
-hl:apply { "vimIsCommand", fg="#aa92cd" }
 hl:apply { "vimMapModKey", fg="#8abeb7" }
 hl:apply { "vimNotation", fg="#8abeb7" }
 hl:apply { "vimMapLHS", fg="#f8fe7a" }

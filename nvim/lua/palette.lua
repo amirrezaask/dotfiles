@@ -21,13 +21,12 @@ function highlight:_apply_actual()
   if type(self.name) == 'table' and vim.tbl_islist(self.name) then
     local hls = {}
     for _, name in ipairs(self.name) do
-      local this_hl = highlight:new {
+      local this_hl = highlight:apply {
         name = name,
         bg = self.bg,
         fg = self.fg,
         styles = self.styles
       }
-      this_hl:apply()
       table.insert(hls, this_hl)
     end
   elseif type(self.name) == 'string' then
