@@ -24,23 +24,6 @@ local filename = '%f'
 local filename_shorten = "%{pathshorten(expand('%:f'))}"
 local pipe = ' | '
 
-local function filename(opts)
-  opts = opts or {}
-  if opts.shorten == nil then opts.shorten = true end
-  opts.from_root = false
-  local name
-  if opts.from_root then
-    name = vim.api.nvim_buf_get_name(0)
-  else
-    name = vim.fn.expand('%%') 
-  end
-  if opts.shorten then
-    return filename_shorten(name)
-  else
-    return name
-  end
-end
-
 local function lsp_info()
   local warnings = vim.lsp.diagnostic.get_count(0, 'Warning')
   local errors = vim.lsp.diagnostic.get_count(0, 'Error')
