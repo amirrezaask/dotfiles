@@ -110,10 +110,9 @@ return require('packer').startup({
     use({ 'yamatsum/nvim-nonicons' }) -- need to have nonicons font installed look into https://github.com/yamatsum/nonicons
     -- }}}
 
-    use { 'tamago324/lir.nvim' }
-    use {'ThePrimeagen/vim-be-good'}
-    use {'ThePrimeagen/harpoon'}
+    use { 'ThePrimeagen/vim-be-good' }
+    use { 'ThePrimeagen/harpoon' }
     use { 'nacro90/numb.nvim' }
-    use 'mhinz/vim-startify'
+    use { 'mhinz/vim-startify' }
   end,
 })

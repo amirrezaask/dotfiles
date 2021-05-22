@@ -1,3 +1,19 @@
+-- Force reload the module
+function R(mod)
+  package.loaded[mod] = nil
+  return require(mod)
+end
+
+-- is the package loaded ?
+function L(mod)
+  return package.loaded[mod] ~= nil
+end
+
+-- Printer
+function P(obj)
+  print(vim.inspect(obj))
+end
+
 local function tohex(s)
   local R = {}
   for i = 1, #s do
@@ -197,3 +213,38 @@ vim.autocmd {
     end
   end
 }
+
+local function eval_line()
+  vim.cmd [[ w ]]
+  local lnum = vim.api.nvim_win_get_cursor(0)[1]
+  local line = vim.api.nvim_buf_get_lines(0, lnum - 1, lnum, false)[1]
+  local function wrap(l)
+    return string.format('return(vim.inspect(%s))', l)
+  end
+  local result = load(wrap(line))()
+  if result ~= nil then
+    local inlay = require('amirrezaask.inlayhints').for_buf(vim.api.nvim_get_current_buf())
+    inlay:set({
+      lnum = lnum - 1,
+      line = result
+    })
+    vim.c.write()
+    vim.c.edit()
+  end
+end
+
+local function eval_file()
+  local filetype = vim.api.nvim_buf_get_option(0, 'filetype')
+  if filetype == 'lua' then
+    vim.cmd(string.format('luafile %s', vim.api.nvim_buf_get_name(0)))
+  elseif filetype == 'vim' then
+    vim.cmd(string.format('source %s', vim.api.nvim_buf_get_name(0)))
+  end
+end
+
+vim.nmap {
+  [',x'] = eval_line,
+  ['<leader>x'] = eval_file
+}
+
+

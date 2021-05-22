@@ -154,8 +154,8 @@
 " vimscript {{{
     highlight vimNotFunc guifg=#81a2be
     highlight vimCommand guifg=#81a2be
-    highlight vimLet guifg=#aa92cd
-    highlight vimFuncVar guifg=#8e6fbd
+    highlight vimLet guifg=#aa92cd gui=italic
+    highlight vimFuncVar guifg=#8e6fbd gui=italic
     highlight vimCommentTitle guifg=#cc6666
     highlight vimIsCommand guifg=#aa92cd
     highlight vimMapModKey guifg=#8abeb7
