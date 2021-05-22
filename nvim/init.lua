@@ -1,4 +1,5 @@
 require('nvim')
+vim.g.mapleader = ' '
 
 -- colorscheme
 require('gruvbuddy')

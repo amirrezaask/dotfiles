@@ -1,3 +1,5 @@
+-- Make sure packer.nvim is installed
+require('packer_install')
 -- Packer.nvim load plugins
 require('plugin.plugins')
 

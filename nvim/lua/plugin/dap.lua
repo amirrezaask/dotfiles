@@ -27,13 +27,13 @@ dap.configurations.go = {
 }
 
 -- Commands
-vim.c([[DapToggleBreakpoint]], require'dap'.toggle_breakpoint)
-vim.c([[DapReplOpen]], require'dap'.repl.open)
-vim.c([[DapContinue]], require'dap'.continue)
-vim.c([[DapStepInto]], require'dap'.step_into)
-vim.c([[DapStepOver]], require'dap'.step_over)
-vim.c([[DapStepOut]], require'dap'.step_out)
-vim.c([[DapHover]], require('dap.ui.variables').hover)
+vim.c("DapToggleBreakpoint", require'dap'.toggle_breakpoint)
+vim.c("DapReplOpen", require'dap'.repl.open)
+vim.c("DapContinue", require'dap'.continue)
+vim.c("DapStepInto", require'dap'.step_into)
+vim.c("DapStepOver", require'dap'.step_over)
+vim.c("DapStepOut", require'dap'.step_out)
+vim.c("DapHover", require('dap.ui.variables').hover)
 
 -- Mappings
 vim.nmap {
