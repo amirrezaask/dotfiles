@@ -6,14 +6,12 @@ vim.g.startify_lists = {
   -- { 'type': 'dir',       'header': ['   MRU '. getcwd()] },
   { ['type'] = 'sessions',  ['header'] = {'   Sessions'}       },
   -- { 'type': 'bookmarks', 'header': ['   Bookmarks']      },
-  -- { 'type': 'commands',  'header': ['   Commands']       },
+  { ['type'] = 'commands',  ['header'] = {'   Commands'}       },
 }
 
 vim.g.startify_skiplist = {
   'COMMIT_EDITMSG',
 }
-
-vim.g.startify_custom_footer = {'', "Best thing since pink floyd", ''}
 
 vim.map {
   ['<M-s>'] = function()
