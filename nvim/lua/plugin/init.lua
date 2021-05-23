@@ -19,5 +19,7 @@ require('plugin.dap')
 require('plugin.treesitter')
 require('plugin.fugitive')
 require('numb').setup()
+require('plugin.lir')
+require('plugin.startify')
 
 vim.g.netrw_banner = 0

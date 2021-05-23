@@ -53,6 +53,7 @@ end
 local function nvim_augroup(tbl)
   for g, _ in pairs(tbl) do
     vim.cmd('augroup ' .. g)
+    vim.cmd('autocmd!')
     vim.autocmd(tbl[g])
     vim.cmd('augroup END')
   end

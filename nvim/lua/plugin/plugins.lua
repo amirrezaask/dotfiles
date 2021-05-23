@@ -73,6 +73,7 @@ return require('packer').startup({
       branch = 'color-editor',
     })
 
+    use 'tamago324/lir.nvim'
     -- Languages {{{
     use({ 'honza/dockerfile.vim' })
     use({ 'hashivim/vim-terraform' })
@@ -82,6 +83,13 @@ return require('packer').startup({
     use({ 'cespare/vim-toml' })
     use({ 'chr4/nginx.vim' })
     use({ 'elixir-editors/vim-elixir' })
+    use 'neovimhaskell/haskell-vim'
+    use 'justinmk/vim-syntax-extra'
+    use 'goodell/vim-mscgen'
+    use 'pearofducks/ansible-vim'
+    use 'PProvost/vim-ps1'
+    use 'Glench/Vim-Jinja2-Syntax'
+
     -- }}}
 
     -- Completion {{{

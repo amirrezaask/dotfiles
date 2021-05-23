@@ -58,7 +58,7 @@ function highlight:apply(opts)
   return obj
 end
 
--- Should open a split window with all the highlight groups on save the buffer colors should get updated
+-- TODO: Should open a split window with all the highlight groups on save the buffer colors should get updated
 function palette:editor()
   local buf = vim.api.nvim_create_buf(true, true)
   local hls = vim.fn.getcompletion('', 'highlight')
