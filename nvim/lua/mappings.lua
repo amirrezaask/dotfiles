@@ -21,9 +21,10 @@ vim.map {
     end
     vim.fn.feedkeys("<CR>")
   end,
-  ['n <M-p>'] = ':tabprevious<CR>',
-  ['n <M-n>'] = ':tabnext<CR>',
-  ['n <M-q>'] = ':tabnext<CR>',
+  ['<M-p>'] = ':tabprevious<CR>',
+  ['<M-n>'] = ':tabnext<CR>',
+  ['<M-q>'] = ':tabclose<CR>',
+  ['<M-t>'] = ':tabnew<CR>',
   ['n tn'] = ':tabnext<CR>',
   ['n tp'] = ':tabprevious<CR>',
   ['n tc'] = ':tabclose<CR>',
