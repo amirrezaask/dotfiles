@@ -243,9 +243,9 @@ local function eval_file()
   end
 end
 
-vim.nmap {
+vim.map {
   [',x'] = eval_line,
-  ['<space>x'] = eval_file
+  ['<M-x>'] = eval_file
 }
 
 
