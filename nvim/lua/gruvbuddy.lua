@@ -20,7 +20,7 @@ hl:apply { "Search", bg="#f8fe7a", fg="#282a2e"}
 hl:apply { "TabLine", bg="#282a2e", fg="#5f89ad"}
 hl:apply { "TabLineFill", bg="#969896", fg="#ebdbb2"}
 hl:apply { "TabLineSel", bg="#282a2e", fg="#ffffff"}
-hl:apply { "ColorColumn", bg="#3131bf", fg="#ffffff"}
+hl:apply { "ColorColumn", bg="#81a2be", fg="#ffffff"}
 hl:apply { "qfFileName", fg="#f8fe7a" }
 
 hl:apply { "Special", fg="#aa92cd", styles={"italic"} }
@@ -43,7 +43,7 @@ hl:apply { "NormalMode", link = "Function" }
 hl:apply { "InsertMode", link = "StatusLine" }
 hl:apply { "TerminalMode", link = "Constant" }
 
-hl:apply { {"Boolean", "TSBoolean" }, fg="#3fffff" }
+hl:apply { {"Boolean", "TSBoolean" }, fg="#7fbfff" }
 hl:apply { "Error", fg="#d98c8c" }
 hl:apply { { "Label", "TSLabel" } , fg="#cc6666" }
 hl:apply { { "Operator", "TSOperator" }, fg="#e6b3b3" }

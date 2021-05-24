@@ -3,6 +3,7 @@ local palette = {}
 local highlight = {}
 palette.highlight = highlight
 highlight.__index = highlight
+_G.__palette_hls = {}
 
 function highlight:_apply_link()
   vim.cmd(table.concat({'highlight', 'link', self.name, self.link}, ' '))
@@ -61,7 +62,9 @@ end
 -- TODO: Should open a split window with all the highlight groups on save the buffer colors should get updated
 function palette:editor()
   local buf = vim.api.nvim_create_buf(true, true)
-  local hls = vim.fn.getcompletion('', 'highlight')
+  vim.c('vnew')
+  local win = vim.api.nvim_get_current_win(true, true)
+  -- TODO: use __palette_hls to do this
   -- P(vim.fn.execute('hi Normal'))
 end
 
