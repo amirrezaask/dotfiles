@@ -1,9 +1,11 @@
 local function mode()
-  local m = vim.fn.mode()
+  local m = vim.api.nvim_get_mode().mode
   if m == 'n' then
     return '%#NormalMode# Normal %*'
   elseif m == 'v' or m == 'V' then
     return '%#VisualMode# Visual %*'
+  elseif m == '' then
+    return '%#VisualMode# VisualBlock %*'
   elseif m == 'i' then
     return '%#InsertMode# Insert %*'
   elseif m == 'ic' or m == 'ix' then
