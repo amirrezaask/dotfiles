@@ -15,9 +15,5 @@ require('amirrezaask.quickfix')
 require('amirrezaask.listchars')
 require('amirrezaask.statusline')
 
--- Load packer.nvim plugins
+-- Load plugins and configuration
 require('plugins')
-
--- Loads all lua files in lua/plugin directories
-LoadLuaPlugins()
-

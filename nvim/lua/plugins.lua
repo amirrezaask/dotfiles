@@ -1,5 +1,7 @@
 vim.cmd([[packadd packer.nvim]])
-local download_packer = function()
+
+-- Took from TJDevries configuration
+if not pcall(require, 'packer') then
   if vim.fn.input("Download Packer? (y for yes)") ~= "y" then
     return
   end
@@ -22,13 +24,9 @@ local download_packer = function()
   print("( You'll need to restart now )")
 end
 
-if not pcall(require, 'packer') then
-  download_packer()
-end
-
 local personal_plugins_path = os.getenv('HOME') .. '/src/github.com/'
 
-return require('packer').startup({
+require('packer').startup({
   function(_use)
     local function use(opts)
       local base = personal_plugins_path
@@ -153,3 +151,13 @@ return require('packer').startup({
     use { 'mhinz/vim-startify' }
   end,
 })
+
+-- Load plugin configuration from lua/plugin
+for _, file in ipairs(vim.api.nvim_get_runtime_file('lua/plugin/**/*.lua', true)) do
+  local ok, msg = pcall(loadfile(file))
+  if not ok then
+    print("Failed to load: ", file)
+    print("\t", msg)
+  end
+end
+
