@@ -11,7 +11,7 @@ local ivy = themes.get_ivy
 local notheme = function(opts)
   return opts
 end
-local current_theme = notheme 
+local current_theme = notheme
 
 local function wrap(fn, opts)
   return function() fn(current_theme(opts)) end
@@ -182,48 +182,48 @@ function M.git_files()
 end
 
 function M.on_attach(_)
-  vim.map {
-      ['n gd'] = wrap(require('telescope.builtin').lsp_definitions),
-      ['n gI'] = wrap(require('telescope.builtin').lsp_implementations),
-      ['n gR'] = wrap(require('telescope.builtin').lsp_references),
-      ['n <leader>lr'] = wrap(require('telescope.builtin').lsp_references),
-      ['n <leader>li'] = wrap(require('telescope.builtin').lsp_implementations),
-      ['n <leader>ld'] = wrap(require('telescope.builtin').lsp_document_symbols),
-      ['n <leader>lw'] = wrap(require('plugin.telescope').lsp_workspace_symbols),
-      ['n <leader>lc'] = wrap(require('telescope.builtin').lsp_code_actions),
-      ['n <leader>d?'] = wrap(require('telescope.builtin').lsp_document_diagnostics),
-      ['n <leader>w?'] = wrap(require('telescope.builtin').lsp_workspace_diagnostics)
+  vim.nmap {
+      ['gd'] = wrap(require('telescope.builtin').lsp_definitions),
+      ['gI'] = wrap(require('telescope.builtin').lsp_implementations),
+      ['gR'] = wrap(require('telescope.builtin').lsp_references),
+      ['<leader>lr'] = wrap(require('telescope.builtin').lsp_references),
+      ['<leader>li'] = wrap(require('telescope.builtin').lsp_implementations),
+      ['<leader>ld'] = wrap(require('telescope.builtin').lsp_document_symbols),
+      ['<leader>lw'] = wrap(require('plugin.telescope').lsp_workspace_symbols),
+      ['<leader>lc'] = wrap(require('telescope.builtin').lsp_code_actions),
+      ['<leader>d?'] = wrap(require('telescope.builtin').lsp_document_diagnostics),
+      ['<leader>w?'] = wrap(require('telescope.builtin').lsp_workspace_diagnostics)
   }
 end
 
 
-vim.map {
-    ['n <leader><leader>'] = wrap(require('telescope.builtin').find_files),
-    ['n <leader>fb'] = wrap(require('telescope.builtin').file_browser),
-    ['n <leader>fp'] = M.installed_plugins,
-    ['n <leader>pf'] = M.projects,
-    ['n <C-p>'] = M.git_files,
-    ['n <M-q>'] = require('telescope.builtin').quickfix,
-    ['n ??'] = wrap(require('telescope.builtin').live_grep),
-    ['n <leader>b'] = wrap(require('telescope.builtin').buffers),
-    ['n <leader>ec'] = M.edit_configs,
-    ['n <leader>tc'] = M.base16_theme_selector,
-    ['n <leader>en'] = M.edit_neovim,
-    ['n <leader>ez'] = M.edit_zsh,
-    ['n <leader>fs'] = M.find_src,
-    ['n ,w'] = M.set_wallpaper,
-    ['n <leader>c'] = wrap(require('telescope.builtin').commands),
-    ['n <leader>fr'] = wrap(require('telescope.builtin').oldfiles),
-    ['n <leader>h'] = wrap(require('telescope.builtin').help_tags),
+vim.nmap {
+    ['<leader><leader>'] = wrap(require('telescope.builtin').find_files),
+    ['<leader>fb'] = wrap(require('telescope.builtin').file_browser),
+    ['<leader>fp'] = M.installed_plugins,
+    ['<leader>pf'] = M.projects,
+    ['<C-p>'] = M.git_files,
+    ['<M-q>'] = require('telescope.builtin').quickfix,
+    ['??'] = wrap(require('telescope.builtin').live_grep),
+    ['<leader>b'] = wrap(require('telescope.builtin').buffers),
+    ['<leader>ec'] = M.edit_configs,
+    ['<leader>tc'] = M.base16_theme_selector,
+    ['<leader>en'] = M.edit_neovim,
+    ['<leader>ez'] = M.edit_zsh,
+    ['<leader>fs'] = M.find_src,
+    [',w'] = M.set_wallpaper,
+    ['<leader>c'] = wrap(require('telescope.builtin').commands),
+    ['<leader>fr'] = wrap(require('telescope.builtin').oldfiles),
+    ['<leader>h'] = wrap(require('telescope.builtin').help_tags),
     -- Git
-    ['n <leader>gc'] = wrap(require('telescope.builtin').git_commits),
-    ['n <leader>gb'] = wrap(require('telescope.builtin').git_bcommits),
-    ['n <leader>go'] = wrap(require('telescope.builtin').git_checkout),
-    ['n <leader>gf'] = M.buffer_git_files,
-    ['n <leader>gs'] = wrap(require('telescope.builtin').git_status),
-    ['n <leader>gwc'] = require('telescope').extensions.git_worktree.create_git_worktree,
-    ['n <leader>gwl'] = require('telescope').extensions.git_worktree.git_worktrees,
-    ['n <leader>tf'] = require('telescope.builtin').treesitter,
+    ['<leader>gc'] = wrap(require('telescope.builtin').git_commits),
+    ['<leader>gb'] = wrap(require('telescope.builtin').git_bcommits),
+    ['<leader>go'] = wrap(require('telescope.builtin').git_checkout),
+    ['<leader>gf'] = M.buffer_git_files,
+    ['<leader>gs'] = wrap(require('telescope.builtin').git_status),
+    ['<leader>gwc'] = require('telescope').extensions.git_worktree.create_git_worktree,
+    ['<leader>gwl'] = require('telescope').extensions.git_worktree.git_worktrees,
+    ['<leader>tf'] = require('telescope.builtin').treesitter,
 }
 
 return M

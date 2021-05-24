@@ -92,6 +92,8 @@ return require('packer').startup({
 
     -- }}}
 
+
+    use {'amirrezaask/actions.nvim'}
     -- Completion {{{
     use('hrsh7th/nvim-compe')
     -- }}}
