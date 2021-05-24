@@ -153,6 +153,7 @@ require('packer').startup({
 })
 
 -- Load plugin configuration from lua/plugin
+-- Took from tjdevries/astronauta.nvim
 for _, file in ipairs(vim.api.nvim_get_runtime_file('lua/plugin/**/*.lua', true)) do
   local ok, msg = pcall(loadfile(file))
   if not ok then
