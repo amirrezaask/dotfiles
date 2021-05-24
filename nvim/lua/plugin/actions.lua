@@ -1,4 +1,5 @@
 local actions = require('actions')
+local utils = require('actions.utils')
 
 actions:setup {
   mappings = {
@@ -6,12 +7,13 @@ actions:setup {
   },
   filetypes = {
     lua = {
-      build = function()
+      build = function(bufnr)
         print('lua build command')
       end
     },
     go = {
-      build = function()
+      build = function(bufnr)
+        local root = utils.get_root(bufnr)
         print('go build command')
       end
     }
