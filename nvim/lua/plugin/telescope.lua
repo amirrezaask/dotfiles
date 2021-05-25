@@ -198,7 +198,7 @@ end
 
 
 vim.nmap {
-    ['<leader><leader>'] = wrap(require('telescope.builtin').find_files),
+    ['<leader><leader>'] = wrap(require('telescope.builtin').find_files, {hidden=true}),
     ['<leader>fb'] = wrap(require('telescope.builtin').file_browser),
     ['<leader>fp'] = M.installed_plugins,
     ['<leader>pf'] = M.projects,
