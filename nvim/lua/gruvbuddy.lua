@@ -1,11 +1,9 @@
 local hl = require('palette').highlight
 
+vim.g.transparent = true
 -- Extracted from https://github.com/tjdevries/gruvbuddy.nvim
 hl:apply { "Normal", bg='#282c34', fg='#e0e0e0' }
-vim.g.transparent = true
-if vim.g.transparent then
-  hl:apply { { "Normal", "LineNr", "CursorLineNR", "SignColumn" }, bg='none' }
-end
+
 hl:apply { "InvNormal", bg="#c5c8c6", fg="#282c34" }
 hl:apply { "NormalFloat", bg="#111317", fg="#fafafa" }
 hl:apply { "LineNr", bg="#282a2e", fg="#969896" }
@@ -121,3 +119,6 @@ hl:apply { "vimMap", fg="#698b69" }
 hl:apply { "nvimMap", fg="#698b69" }
 hl:apply { "vimAutoloadFunction", fg="#f3fe14" }
 
+if vim.g.transparent then
+  hl:apply { { "Normal", "LineNr", "CursorLineNR", "SignColumn" }, bg='none' }
+end
