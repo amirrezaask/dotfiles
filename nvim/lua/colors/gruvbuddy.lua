@@ -119,6 +119,4 @@ hl:apply { "vimMap", fg="#698b69" }
 hl:apply { "nvimMap", fg="#698b69" }
 hl:apply { "vimAutoloadFunction", fg="#f3fe14" }
 
-if vim.g.transparent then
-  hl:apply { { "Normal", "LineNr", "CursorLineNR", "SignColumn" }, bg='none' }
-end
+

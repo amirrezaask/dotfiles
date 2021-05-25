@@ -137,12 +137,12 @@ make_statusline {
   lsp_info,
 }
 
--- make_statusline ({
---   table.concat({space, line, colon, col}, ''),
---   table.concat({readonly, modified, simple_filename }, ''),
---   filetype,
---   git_branch,
---   lsp_info
--- }, {delimiter = ' | '})
+make_statusline ({
+  table.concat({space, line, colon, col}, ''),
+  table.concat({readonly, modified, filename }, ''),
+  filetype,
+  git_branch,
+  lsp_info
+}, {delimiter = ' | '})
 
 vim.o.statusline = '%!v:lua.__STATUSLINE()'

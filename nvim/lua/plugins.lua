@@ -53,6 +53,7 @@ require('packer').startup({
     use({ 'wbthomason/packer.nvim' })
 
     use { 'amirrezaask/spawn.nvim' }
+    use { 'gruvbox-community/gruvbox' }
 
     -- Telescope.nvim {{{
     use({ 'nvim-lua/plenary.nvim' })

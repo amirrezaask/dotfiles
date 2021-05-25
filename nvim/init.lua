@@ -2,8 +2,8 @@ require('nvim')
 vim.g.mapleader = ' '
 
 -- colorscheme
-require('gruvbuddy')
-
+-- require('colors.gruvbuddy')
+require('colors.gruvbox')
 -- Basic Neovim stuff
 require('options')
 require('mappings')
