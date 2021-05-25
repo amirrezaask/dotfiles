@@ -28,4 +28,4 @@ vim.opt.number = true
 vim.opt.pumblend = 13
 vim.opt.showmode = false
 vim.opt.clipboard = 'unnamedplus'
-
+vim.opt.hidden = true

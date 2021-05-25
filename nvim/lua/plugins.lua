@@ -149,6 +149,7 @@ require('packer').startup({
     use { 'ThePrimeagen/harpoon' }
     use { 'nacro90/numb.nvim' }
     use { 'mhinz/vim-startify' }
+    use {"akinsho/nvim-toggleterm.lua"}
   end,
 })
 
