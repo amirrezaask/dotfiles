@@ -1,6 +1,5 @@
 local hl = require('palette').highlight
 
-vim.g.transparent = true
 -- Extracted from https://github.com/tjdevries/gruvbuddy.nvim
 hl:apply { "Normal", bg='#282c34', fg='#e0e0e0' }
 

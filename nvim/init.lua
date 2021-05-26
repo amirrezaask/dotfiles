@@ -2,8 +2,9 @@ require('nvim')
 vim.g.mapleader = ' '
 
 -- colorscheme
--- require('colors.gruvbuddy')
-require('colors.gruvbox')
+require('colors.gruvbuddy')
+-- require('colors.gruvbox')
+-- require('colors.transparent')
 -- Basic Neovim stuff
 require('options')
 require('mappings')
