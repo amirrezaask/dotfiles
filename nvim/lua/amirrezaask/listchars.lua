@@ -1,17 +1,8 @@
 local M = {}
 
-M.list_chars = {
-  eol = '↲',
-  tab = '»\\ ',
-  trail = '·',
-  extends = '<',
-  precedes = '>',
-  conceal = '┊',
-  nbsp = '␣',
-}
+__Current_List_Chars = {}
 
 function M:update(chars)
-  chars = chars or self.list_chars
   vim.opt.list = true
   local list_chars_tuple = {}
   for k, v in pairs(chars) do
@@ -22,11 +13,13 @@ function M:update(chars)
   vim.opt.listchars = list_chars_tuple
 end
 
-M:update()
 return setmetatable(M, {
   __newindex = function(t, k, v)
-    t.list_chars[k] = v
-    t:update()
+    __Current_List_Chars[k] = v
+    t:update(__Current_List_Chars)
   end,
-  __call = function(t, _) t:update() end
+  __call = function(t, chars) 
+    __Current_List_Chars = chars
+    t:update(chars)
+  end
 })
