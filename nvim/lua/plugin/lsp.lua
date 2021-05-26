@@ -20,6 +20,10 @@ local function get_lua_runtime()
     return result;
 end
 
+local function rename()
+  require('amirrezaask.floating'):prompt('Rename> ', vim.lsp.buf.rename)
+end
+
 local telescope_on_attach = require('plugin.telescope').on_attach
 local support_formatting = {'go', 'rust'}
 
@@ -27,10 +31,8 @@ local function make_on_attach(base)
   return function(_, _)
     if base then base() end
     vim.nmap {
-      ['<leader>lR'] = function()
-        require('amirrezaask.floating_prompt'):new('Rename> ', vim.lsp.buf.rename)
-      end,
-      [',r'] = vim.lsp.buf.rename,
+      ['<leader>lR'] = rename,
+      [',r'] = rename,
       ['K'] = vim.lsp.buf.hover,
       [',dn'] = vim.lsp.diagnostic.goto_next,
       [',dp'] = vim.lsp.diagnostic.goto_prev,
