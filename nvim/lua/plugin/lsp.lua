@@ -27,7 +27,9 @@ local function make_on_attach(base)
   return function(_, _)
     if base then base() end
     vim.nmap {
-      ['<leader>lR'] = vim.lsp.buf.rename,
+      ['<leader>lR'] = function()
+        require('amirrezaask.floating_prompt'):new('Rename> ', vim.lsp.buf.rename)
+      end,
       [',r'] = vim.lsp.buf.rename,
       ['K'] = vim.lsp.buf.hover,
       [',dn'] = vim.lsp.diagnostic.goto_next,

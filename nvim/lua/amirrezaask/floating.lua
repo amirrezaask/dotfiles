@@ -43,7 +43,9 @@ function floating:new(opts)
   opts.height_pct = opts.height_pct or 60
 
   local win_width = math.ceil(vim.api.nvim_get_option('columns') * opts.width_pct / 100)
+  win_width = opts.width or win_width
   local win_height = math.ceil(vim.api.nvim_get_option('lines') * opts.height_pct / 100)
+  win_height = opts.height or win_height
   local row, col = center(win_height, win_width)
 
   local buf = vim.api.nvim_create_buf(true, true)
@@ -54,7 +56,7 @@ function floating:new(opts)
     height = win_height,
     row = row,
     col = col,
-    border = 'single',
+    border = opts.border or 'single',
     style = 'minimal'
   })
   vim.api.nvim_win_set_option(win, 'winhl', 'Normal:Normal')
