@@ -34,19 +34,19 @@ end
 
 local function default_formatter()
   if vim.fn.executable('goimports') then
-    return 'lua require("ftplugin.go").imports()'
+    return go.imports 
   else
-    return 'lua require("ftplugin.go").fmt()'
+    return go.fmt 
   end
 end
 
 local formatter = default_formatter()
 
--- vim.autocmd {
---   'BufWritePost',
---   '<buffer>',
---   formatter
--- }
+vim.autocmd {
+  'BufWritePost',
+  '<buffer>',
+  formatter
+}
 
 vim.c('GoTest', go.test)
 vim.c("GoBuild", go.build)

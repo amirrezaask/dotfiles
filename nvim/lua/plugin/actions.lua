@@ -16,7 +16,7 @@ end
 
 actions:setup {
   mappings = {
-    ['n ,ab'] = 'build'
+    ['n ,ab'] = 'build',
     ['n ,at'] = 'test_all'
   },
   filetypes = {
@@ -31,7 +31,7 @@ actions:setup {
           jobstart = {
             cwd = vim.fn.expand('%:p:h')
           }
-        }))
+        })
       end,
     }
   }
