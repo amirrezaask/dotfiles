@@ -75,6 +75,7 @@ function M.set_wallpaper()
    require('telescope.builtin').find_files({
     cwd = '~/src/github.com/amirrezaask/dotfiles/wallpapers/',
     prompt_title = 'Set Wallpaper',
+    previewer = false,
     attach_mappings = function(prompt_bufnr, map)
       local apply = function()
         local selected = action_state.get_selected_entry(prompt_bufnr)
@@ -124,6 +125,7 @@ end
 
 function M.projects()
   pickers.new(current_theme(), {
+    previewer = false,
     finder = finders.new_table({
       results = repos.list_projects({ '~/src/github.com/amirrezaask' }),
     }),
@@ -172,7 +174,6 @@ end
 function M.lsp_workspace_symbols()
   local q = vim.fn.input('Symbol: ')
   require('telescope.builtin').lsp_workspace_symbols({
-    layout_strategy = 'vertical',
     query = q,
   })
 end
@@ -228,7 +229,7 @@ vim.nmap {
 
 return setmetatable(M, {
   __index = function(tbl, k)
-    R(k)
+    R('plugin.telescope')
     if tbl[k] then
       return tbl[k]
     else
