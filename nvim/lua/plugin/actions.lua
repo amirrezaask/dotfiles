@@ -1,5 +1,4 @@
 local actions = require('actions')
-local utils = require('actions.utils')
 
 actions:setup {
   mappings = {
