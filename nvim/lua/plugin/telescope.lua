@@ -134,6 +134,7 @@ function M.projects()
       local cd_into = function()
         local dir = action_state.get_selected_entry(prompt_bufnr)[1]
         vim.c.cd(dir)
+        actions.close(prompt_bufnr)
       end
       map('i', '<CR>', cd_into)
       map('n', '<CR>', cd_into)
@@ -202,7 +203,7 @@ vim.nmap {
     ['<leader><leader>'] = wrap(require('telescope.builtin').find_files, {hidden=true}),
     ['<leader>fb'] = wrap(require('telescope.builtin').file_browser),
     ['<leader>fp'] = M.installed_plugins,
-    ['<leader>pf'] = M.projects,
+    ['<leader>pp'] = M.projects,
     ['<C-p>'] = M.git_files,
     ['<M-q>'] = require('telescope.builtin').quickfix,
     ['??'] = wrap(require('telescope.builtin').live_grep),
