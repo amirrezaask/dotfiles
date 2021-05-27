@@ -24,11 +24,11 @@ function M.floating(opts)
 end
 
 vim.c('VTerm', function()
-  require('amirrezaask.terminal').open({ orientation = 'v' })
+  require('plugin.terminal').open({ orientation = 'v' })
 end)
 
 vim.c('Term', function()
-  require('amirrezaask.terminal').open({ orientation = 'h' })
+  require('plugin.terminal').open({ orientation = 'h' })
 end)
 
 return M

@@ -163,8 +163,7 @@ vim.imap = make_mapper('i')
 vim.command = setmetatable({}, {
   __call = function(_, ...) nvim_command(...) end,
   __index = function(_, name)
-    return setmetatable({}, {
-      __call = function(_, ...)
+    return function(...)
         local args = {...}
         local cmd = {name}
         for _, a in ipairs(args) do
@@ -172,7 +171,6 @@ vim.command = setmetatable({}, {
         end
         vim.cmd(table.concat(cmd, ' '))
       end
-    })
   end
 })
 vim.c = vim.command
