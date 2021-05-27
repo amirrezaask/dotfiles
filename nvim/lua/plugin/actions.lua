@@ -1,5 +1,6 @@
 local actions = require('actions')
 local floating = require('floating')
+local lsp = require('plugin.lsp')
 
 local function floating_window_opts(opts)
   local base = {
@@ -14,6 +15,7 @@ local function floating_window_opts(opts)
   return base
 end
 
+
 actions:setup {
   mappings = {
     ['n ,ab'] = 'build',
@@ -21,15 +23,15 @@ actions:setup {
   },
   filetypes = {
     go = {
-      build = function(bufnr)
+      build = function(_)
         floating:command('go build', floating_window_opts {
-          cwd = vim.fn.expand('%:p:h')
+          cwd = lsp.go_root()
         })
       end,
-      test_all = function(bufnr)
+      test_all = function(_)
         floating:command('go test -v ./...', floating_window_opts {
           jobstart = {
-            cwd = vim.fn.expand('%:p:h')
+            cwd = lsp.go_root()
           }
         })
       end,

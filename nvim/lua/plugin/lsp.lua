@@ -1,4 +1,16 @@
 local lspconfig = require('lspconfig')
+local lspconfig_util = require('lspconfig.util')
+
+local M = {}
+
+local function get_root(...)
+  return lspconfig_util.root_pattern(...)(vim.api.nvim_buf_get_name(vim.api.nvim_get_current_buf()))
+end
+
+function M.go_root()
+  local go_root_patterns = {'go.mod', '.git'}
+  get_root(unpack(go_root_patterns))
+end
 
 local function get_lua_runtime()
     local result = {};
@@ -128,3 +140,4 @@ lspconfig.sumneko_lua.setup({
 lspconfig.pyls_ms.setup({ on_attach = on_attach })
 lspconfig.clangd.setup({ on_attach = on_attach })
 
+return M
