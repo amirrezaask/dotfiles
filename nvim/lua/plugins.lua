@@ -53,6 +53,9 @@ require('packer').startup({
     use({ 'wbthomason/packer.nvim' })
 
     use { 'amirrezaask/spawn.nvim' }
+
+    -- palette.nvim for creating beautiful themes
+    use { 'amirrezaask/palette.nvim' }
     use { 'gruvbox-community/gruvbox' }
 
     -- Telescope.nvim {{{
@@ -150,13 +153,12 @@ require('packer').startup({
     use { 'ThePrimeagen/harpoon' }
     use { 'nacro90/numb.nvim' }
     use { 'mhinz/vim-startify' }
-    use { "akinsho/nvim-toggleterm.lua" }
     use { "folke/todo-comments.nvim",
       requires = "nvim-lua/plenary.nvim" }
   end,
 })
 
--- Load plugin configuration from lua/plugin
+-- Load plugin configuration from lua/configs
 -- Took from tjdevries/astronauta.nvim
 for _, file in ipairs(vim.api.nvim_get_runtime_file('lua/plugin/**/*.lua', true)) do
   local ok, msg = pcall(loadfile(file))
