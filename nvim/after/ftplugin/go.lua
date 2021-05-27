@@ -1,5 +1,5 @@
 local go = {}
-local floating = require('plugin.floating')
+local floating = require('floating')
 local quickfix = require('plugin.quickfix')
 
 -- deps:

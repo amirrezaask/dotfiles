@@ -9,19 +9,14 @@ local function get_lua_runtime()
         end
     end
 
-    -- This loads the `lua` files from nvim into the runtime.
     result[vim.fn.expand("$VIMRUNTIME/lua")] = true
-
-    -- TODO: Figure out how to get these to work...
-    --  Maybe we need to ship these instead of putting them in `src`?...
-    result[vim.fn.expand("~/build/neovim/src/nvim/lua")] = true
-    result[vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true
-
+    result[vim.fn.expand('$VIMRUNTIME/lua/vim')] = true
     return result;
 end
 
 local function rename()
-  require('floating'):prompt('Rename> ', vim.lsp.buf.rename)
+  local current_word = vim.fn.expand('<cword>')
+  require('floating'):prompt(string.format('Rename %s to > ', current_word), vim.lsp.buf.rename)
 end
 
 local telescope_on_attach = require('plugin.telescope').on_attach

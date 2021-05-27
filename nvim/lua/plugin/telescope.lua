@@ -22,9 +22,9 @@ telescope.setup {
     prompt_prefix = '> ',
     selection_caret = '> ',
     layout_strategy = 'flex',
-    prompt_position = 'bottom',
+    prompt_position = 'top',
     sorting_strategy = 'descending',
-    borderchars = { '─', '│', '─', '│', '┌', '┐', '┘', '└' },
+    borderchars = { '─', '│', '─', '│', '╭', '╮', '╯', '╰' },
     layout_defaults = {
       horizontal = {
         width_padding = 0.1,
@@ -226,4 +226,13 @@ vim.nmap {
     ['<leader>tf'] = require('telescope.builtin').treesitter,
 }
 
-return M
+return setmetatable(M, {
+  __index = function(tbl, k)
+    R(k)
+    if tbl[k] then
+      return tbl[k]
+    else
+      return require('telescope.builtin')[k]
+    end
+  end
+})

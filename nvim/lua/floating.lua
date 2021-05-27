@@ -16,24 +16,24 @@ local center = function(win_height, win_width)
   return row, col
 end
 
-local function cmd_result_to_buf(cmd, buf)
-  vim.fn.jobstart(cmd, {
-    on_exit = function(_, code, _)
+local function cmd_result_to_buf(cmd, buf, opts)
+  opts = opts or {} 
+  opts.on_exit = function(_, code, _)
       print('process exited with code ' .. code)
-    end,
-    on_stdout = function(_, data, _)
-      vim.schedule(function() 
-        local count = vim.api.nvim_buf_line_count(buf)
-        vim.api.nvim_buf_set_lines(buf, count, -1, false, data)
-      end)
-    end,
-    on_stderr = function(_, data, _)
-      vim.schedule(function() 
-        local count = vim.api.nvim_buf_line_count(buf)
-        vim.api.nvim_buf_set_lines(buf, count, -1, false, data)
-      end)
-    end
-  })
+  end
+  opts.on_stdout = function(_, data, _)
+    vim.schedule(function() 
+      local count = vim.api.nvim_buf_line_count(buf)
+      vim.api.nvim_buf_set_lines(buf, count, -1, false, data)
+    end)
+  end
+  opts.on_stderr = function(_, data, _)
+    vim.schedule(function() 
+      local count = vim.api.nvim_buf_line_count(buf)
+      vim.api.nvim_buf_set_lines(buf, count, -1, false, data)
+    end)
+  end
+  vim.fn.jobstart(cmd, opts)
 
 end
 
@@ -70,10 +70,10 @@ function floating:vnew(command)
   cmd_result_to_buf(command or vim.fn.input('cmd: '), buf)
 end
 
-function floating:command()
-  local cmd = vim.fn.input('command: ')
-  local buf, _ = floating:new({source=cmd})
-  cmd_result_to_buf(cmd, buf)
+function floating:command(cmd, opts)
+  cmd = cmd or vim.fn.input('command: ')
+  local buf, _ = floating:new(opts)
+  cmd_result_to_buf(cmd, buf, opts.jobstart or {})
 end
 
 function floating:prompt(prompt, callback)
@@ -82,6 +82,7 @@ function floating:prompt(prompt, callback)
     height = 1,
   }
   vim.api.nvim_buf_set_option(buf, 'buftype', 'prompt')
+  vim.api.nvim_buf_set_keymap(buf, 'n', 'q', string.format('<cmd>call nvim_win_close(%s, 1)<CR>', win))
   vim.fn.prompt_setprompt(buf, prompt)
   vim.c.startinsert()
   vim.fn.prompt_setcallback(buf, function(text)
