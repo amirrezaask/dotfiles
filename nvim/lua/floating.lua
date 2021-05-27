@@ -16,27 +16,6 @@ local center = function(win_height, win_width)
   return row, col
 end
 
-local function cmd_result_to_buf(cmd, buf, opts)
-  opts = opts or {} 
-  opts.on_exit = function(_, code, _)
-      print('process exited with code ' .. code)
-  end
-  opts.on_stdout = function(_, data, _)
-    vim.schedule(function() 
-      local count = vim.api.nvim_buf_line_count(buf)
-      vim.api.nvim_buf_set_lines(buf, count, -1, false, data)
-    end)
-  end
-  opts.on_stderr = function(_, data, _)
-    vim.schedule(function() 
-      local count = vim.api.nvim_buf_line_count(buf)
-      vim.api.nvim_buf_set_lines(buf, count, -1, false, data)
-    end)
-  end
-  vim.fn.jobstart(cmd, opts)
-
-end
-
 function floating:new(opts)
   opts = opts or {}
   opts.width_pct = opts.width_pct or 90
@@ -101,7 +80,15 @@ function floating:new(opts)
       "BufLeave",
       "<buffer>",
       function()
-        vim.api.nvim_buf_delete(border_buf, {force=true})
+        vim.api.nvim_win_close(border_win, {force=true})
+      end
+    }
+    vim.autocmd {
+      "TermClose",
+      "*",
+      function()
+        vim.api.nvim_win_close(border_win, {force=true})
+        vim.api.nvim_win_close(win, {force=true})
       end
     }
   end
@@ -109,6 +96,28 @@ function floating:new(opts)
   vim.api.nvim_win_set_option(win, 'winhl', 'Normal:Normal')
   return buf, win 
 end
+
+local function cmd_result_to_buf(cmd, buf, opts)
+  opts = opts or {} 
+  opts.on_exit = function(_, code, _)
+      print('process exited with code ' .. code)
+  end
+  opts.on_stdout = function(_, data, _)
+    vim.schedule(function() 
+      local count = vim.api.nvim_buf_line_count(buf)
+      vim.api.nvim_buf_set_lines(buf, count, -1, false, data)
+    end)
+  end
+  opts.on_stderr = function(_, data, _)
+    vim.schedule(function() 
+      local count = vim.api.nvim_buf_line_count(buf)
+      vim.api.nvim_buf_set_lines(buf, count, -1, false, data)
+    end)
+  end
+  vim.fn.jobstart(cmd, opts)
+
+end
+
 
 function floating:vnew(command)
   vim.c.vnew()
@@ -138,6 +147,5 @@ function floating:prompt(prompt, callback)
     callback(text)
   end)
 end
-
 
 return floating
