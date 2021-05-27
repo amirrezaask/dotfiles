@@ -1,4 +1,4 @@
-require('amirrezaask.listchars'):update {
+require('plugin.listchars'):update {
     ['lead']='·',
     ['trail']='*',
     eol = '↲',
@@ -8,4 +8,4 @@ require('amirrezaask.listchars'):update {
     conceal = '┊',
     nbsp = '␣',
   }
-vim.autocmd { 'BufLeave', '<buffer>', function() require('amirrezaask.listchars'):update() end }
+vim.autocmd { 'BufLeave', '<buffer>', function() require('plugin.listchars'):update() end }

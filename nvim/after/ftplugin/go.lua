@@ -1,6 +1,6 @@
 local go = {}
-local floating = require('amirrezaask.floating')
-local quickfix = require('amirrezaask.quickfix')
+local floating = require('plugin.floating')
+local quickfix = require('plugin.quickfix')
 
 -- deps:
 -- gomodifytags github.com/fatih/gomodifytags

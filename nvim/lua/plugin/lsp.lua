@@ -21,7 +21,7 @@ local function get_lua_runtime()
 end
 
 local function rename()
-  require('amirrezaask.floating'):prompt('Rename> ', vim.lsp.buf.rename)
+  require('floating'):prompt('Rename> ', vim.lsp.buf.rename)
 end
 
 local telescope_on_attach = require('plugin.telescope').on_attach

@@ -222,7 +222,7 @@ local function eval_line()
   end
   local result = load(wrap(line))()
   if result ~= nil then
-    local inlay = require('amirrezaask.inlayhints').for_buf(vim.api.nvim_get_current_buf())
+    local inlay = require('plugin.inlayhints').for_buf(vim.api.nvim_get_current_buf())
     inlay:set({
       lnum = lnum - 1,
       line = result
