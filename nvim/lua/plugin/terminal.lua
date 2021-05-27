@@ -28,7 +28,7 @@ vim.c('VTerm', function()
 end)
 
 vim.c('Term', function()
-  require('plugin.terminal').open({ orientation = 'h' })
+  require('plugin.terminal').floating()
 end)
 
 return M
