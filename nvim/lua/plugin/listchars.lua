@@ -1,12 +1,6 @@
 local listchars = function(chars)
   vim.opt.list = true
-  local list_chars_tuple = {}
-  for k, v in pairs(chars) do
-    if v ~= '' then
-      table.insert(list_chars_tuple, string.format('%s:%s', k, v))
-    end
-  end
-  vim.opt.listchars = list_chars_tuple
+  vim.opt.listchars = chars 
 end
 
 local default_listchars = {
@@ -34,7 +28,6 @@ vim.autocmd {
   "BufEnter",
   "*.yaml,*.yml",
   function()
-    print("yaml mode")
     listchars(yaml_listchars)
   end
 }

@@ -124,26 +124,6 @@ local function nvim_command(name, expr, args)
   end
 end
 
-vim.opt = setmetatable({}, {
-  __index = function(_, k)
-    return vim.o[k]
-  end,
-  __newindex = function(_, k, v)
-    if type(v) == "boolean" then
-      if v then
-        vim.cmd(string.format([[ set %s ]], k))
-      else
-        vim.cmd(string.format([[ set no%s ]], k))
-      end
-      return
-    elseif type(v) == "table" and vim.tbl_islist(v) then
-      vim.cmd(string.format([[ set %s=%s ]], k, table.concat(v, ',')))
-    else
-      vim.cmd(string.format([[ set %s=%s ]], k, v))
-    end
-  end
-})
-
 local o_vim_highlight = vim.highlight
 vim.highlight = setmetatable({}, {
   __index = o_vim_highlight,
