@@ -19,8 +19,8 @@ end
 
 telescope.setup {
   defaults = {
-    prompt_prefix = '> ',
-    selection_caret = '> ',
+    prompt_prefix = '❯ ',
+    selection_caret = '❯ ',
     layout_strategy = 'flex',
     prompt_position = 'bottom',
     sorting_strategy = 'descending',

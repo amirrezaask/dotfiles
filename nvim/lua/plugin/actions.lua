@@ -22,6 +22,13 @@ actions:setup {
     ['n ,tt'] = 'test_this',
     ['n ,ar'] = 'run',
   },
+  projects = {
+    ['~/src/github.com/amirrezaask/worker'] = {
+      build = function(bufnr)
+        print("project worker build command")
+      end
+    }
+  },
   filetypes = {
     lua = {
       run = function(bufnr)
