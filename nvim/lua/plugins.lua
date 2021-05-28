@@ -47,15 +47,17 @@ require('packer').startup({
         _use(opts)
       end
     end
-    -- TODO(amirreza): Some treesitter R&D
-
     -- Plugin Manager
     use({ 'wbthomason/packer.nvim' })
 
+
+    -- Easier jobstart
     use { 'amirrezaask/spawn.nvim' }
 
     -- palette.nvim for creating beautiful themes
     use { 'amirrezaask/palette.nvim' }
+
+    -- grubox theme
     use { 'gruvbox-community/gruvbox' }
 
     -- Telescope.nvim {{{
@@ -97,12 +99,15 @@ require('packer').startup({
     use({ 'nvim-lua/lsp_extensions.nvim' })
     -- }}}
 
+    -- Highlight colors
     use({
       'norcalli/nvim-colorizer.lua',
       branch = 'color-editor',
     })
 
+    -- File Explorer
     use 'tamago324/lir.nvim'
+
     -- Languages {{{
     use({ 'honza/dockerfile.vim' })
     use({ 'hashivim/vim-terraform' })
@@ -121,7 +126,9 @@ require('packer').startup({
     -- }}}
 
 
+    -- Define same action for different Languages
     use {'amirrezaask/actions.nvim'}
+
     -- Completion {{{
     use('hrsh7th/nvim-compe')
     -- }}}
@@ -150,7 +157,9 @@ require('packer').startup({
     use({ 'yamatsum/nvim-nonicons' })
     -- }}}
 
+    -- Startscreen also session manager
     use { 'mhinz/vim-startify' }
+    -- Highlight todo and etc...
     use { "folke/todo-comments.nvim",
       requires = "nvim-lua/plenary.nvim" }
   end,

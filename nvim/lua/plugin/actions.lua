@@ -25,16 +25,7 @@ actions:setup {
   filetypes = {
     lua = {
       run = function(bufnr)
-        local name = vim.api.nvim_buf_get_name(bufnr)        
-        local loader = loadfile(name)
-        local env = setmetatable({
-          print = vim.schedule_wrap(print)
-        },
-        {
-          __index = _G,
-          __newindex = _G
-        })
-        pcall(setfenv(loader, env))
+        vim.c.luafile(vim.api.nvim_buf_get_name(bufnr))
       end
     },
     go = {
