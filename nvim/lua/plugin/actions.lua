@@ -2,10 +2,6 @@ local actions = require('actions')
 local floating = require('floating')
 local lsp = require('plugin.lsp')
 
--- function go_current_function_call()
---   local line = vim.fn.getline('.')
--- end
-
 local function floating_window_opts(opts)
   local base = {
     height_pct = 50,
@@ -19,14 +15,28 @@ local function floating_window_opts(opts)
   return base
 end
 
-
 actions:setup {
   mappings = {
     ['n ,ab'] = 'build',
     ['n ,at'] = 'test_all',
-    ['n ,tt'] = 'test_this'
+    ['n ,tt'] = 'test_this',
+    ['n ,ar'] = 'run',
   },
   filetypes = {
+    lua = {
+      run = function(bufnr)
+        local name = vim.api.nvim_buf_get_name(bufnr)        
+        local loader = loadfile(name)
+        local env = setmetatable({
+          print = vim.schedule_wrap(print)
+        },
+        {
+          __index = _G,
+          __newindex = _G
+        })
+        pcall(setfenv(loader, env))
+      end
+    },
     go = {
       build = function(_)
         floating:command('go build', floating_window_opts {
@@ -57,10 +67,6 @@ actions:setup {
           }
         })
       end,
-      -- this_doc = function(bufnr)
-
-      --   floating:command(('go doc '))
-      -- end
     }
   }
 }

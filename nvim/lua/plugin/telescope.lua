@@ -22,7 +22,7 @@ telescope.setup {
     prompt_prefix = '> ',
     selection_caret = '> ',
     layout_strategy = 'flex',
-    prompt_position = 'top',
+    prompt_position = 'bottom',
     sorting_strategy = 'descending',
     borderchars = { '─', '│', '─', '│', '╭', '╮', '╯', '╰' },
     layout_defaults = {

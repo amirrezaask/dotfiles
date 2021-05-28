@@ -118,7 +118,6 @@ require('packer').startup({
     use 'pearofducks/ansible-vim'
     use 'PProvost/vim-ps1'
     use 'Glench/Vim-Jinja2-Syntax'
-
     -- }}}
 
 
@@ -146,12 +145,11 @@ require('packer').startup({
 
     -- Icons {{{
     use({ 'kyazdani42/nvim-web-devicons' })
-    use({ 'yamatsum/nvim-nonicons' }) -- need to have nonicons font installed look into https://github.com/yamatsum/nonicons
+
+    -- need to have nonicons font installed look into https://github.com/yamatsum/nonicons
+    use({ 'yamatsum/nvim-nonicons' })
     -- }}}
 
-    use { 'ThePrimeagen/vim-be-good' }
-    use { 'ThePrimeagen/harpoon' }
-    use { 'nacro90/numb.nvim' }
     use { 'mhinz/vim-startify' }
     use { "folke/todo-comments.nvim",
       requires = "nvim-lua/plenary.nvim" }

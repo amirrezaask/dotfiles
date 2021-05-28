@@ -140,6 +140,8 @@ function floating:prompt(prompt, callback)
   }
   vim.api.nvim_buf_set_option(buf, 'buftype', 'prompt')
   vim.api.nvim_buf_set_keymap(buf, 'n', 'q', string.format('<cmd>call nvim_win_close(%s, 1)<CR>', win), {})
+  vim.api.nvim_buf_set_keymap(buf, 'n', '<C-C>', string.format('<cmd>call nvim_win_close(%s, 1)<CR>', win), {})
+  vim.api.nvim_buf_set_keymap(buf, 'i', '<C-c>', string.format('<cmd>call nvim_win_close(%s, 1)<CR>', win), {})
   vim.fn.prompt_setprompt(buf, prompt)
   vim.c.startinsert()
   vim.fn.prompt_setcallback(buf, function(text)

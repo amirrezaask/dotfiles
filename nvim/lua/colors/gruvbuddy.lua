@@ -5,7 +5,7 @@ hl:apply { "Normal", bg='#282c34', fg='#e0e0e0' }
 
 hl:apply { "InvNormal", bg="#c5c8c6", fg="#282c34" }
 hl:apply { "NormalFloat", bg="#111317", fg="#fafafa" }
-hl:apply { "LineNr", bg="#282a2e", fg="#969896", styles= {'italic'} }
+hl:apply { "LineNr", bg="#282a2e", fg="#969896", styles= {'bold'} }
 hl:apply { "EndOfBuffer", fg="#969896"}
 hl:apply { "SignColumn", bg="#282a2e", fg="#969896" }
 hl:apply { "Visual", bg="#38556d" }
