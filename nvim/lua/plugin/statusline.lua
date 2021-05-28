@@ -56,7 +56,7 @@ local line = '%l'
 local col = '%c'
 local percentage_of_file = '%%%p'
 
-local filetype = '%y'
+local filetype = '%Y'
 
 local seperator = '%='
 
@@ -121,28 +121,28 @@ local function make_statusline(elements, opts)
   end
 end
 
-make_statusline {
-  mode,
-  space,
-  git_branch_icon, space, git_branch,
-  seperator, space,
-  get_icon,
-  space,
-  filename,
-  modified,
-  seperator,
-  space,
-  line_col,
-  filetype,
-  lsp_info,
-}
-
--- make_statusline ({
---   table.concat({space, line, colon, col}, ''),
---   table.concat({readonly, modified, filename }, ''),
+-- make_statusline {
+--   mode,
+--   space,
+--   git_branch_icon, space, git_branch,
+--   seperator, space,
+--   get_icon,
+--   space,
+--   filename,
+--   modified,
+--   seperator,
+--   space,
+--   line_col,
 --   filetype,
---   git_branch,
---   lsp_info
--- }, {delimiter = ' | '})
+--   lsp_info,
+-- }
+
+make_statusline ({
+  table.concat({space, line, colon, col}, ''),
+  table.concat({readonly, modified, filename }, ''),
+  filetype,
+  git_branch,
+  lsp_info
+}, {delimiter = ' | '})
 
 vim.o.statusline = '%!v:lua.__STATUSLINE()'
