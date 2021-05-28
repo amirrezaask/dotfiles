@@ -126,7 +126,7 @@ require('packer').startup({
     -- }}}
 
 
-    -- Define same action for different Languages
+    -- Define same action for different Languages and projects
     use {'amirrezaask/actions.nvim'}
 
     -- Completion {{{
