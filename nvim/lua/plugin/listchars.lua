@@ -12,19 +12,20 @@ local default_listchars = {
 
 local yaml_listchars = {
   lead ='·',
-  trail='*',
   eol = '↲',
-  tab = '->\\ ',
+  tab = '»\\ ',
+  trail = '*',
   extends = '<',
   precedes = '>',
   conceal = '┊',
   nbsp = '␣',
 }
+
 vim.autocmd {
   "BufEnter",
   "*.yaml,*.yml",
   function()
-    vim.opt.listchar = yaml_listchars
+    vim.opt.listchars = yaml_listchars
   end
 }
 
@@ -32,7 +33,7 @@ vim.autocmd {
   "BufLeave",
   "*.yaml,*.yml",
   function()
-    vim.opt.listchar = default_listchars
+    vim.opt.listchars = default_listchars
   end
 }
 
