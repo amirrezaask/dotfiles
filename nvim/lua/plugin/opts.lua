@@ -29,3 +29,8 @@ vim.opt.pumblend = 13
 vim.opt.showmode = false
 vim.opt.clipboard = 'unnamedplus'
 vim.opt.hidden = true
+
+if vim.fn.executable("rg") == 1 then
+    vim.opt.grepprg='rg --vimgrep --no-heading'
+    vim.opt.grepformat='%f:%l:%c:%m,%f:%l:%m'
+end
