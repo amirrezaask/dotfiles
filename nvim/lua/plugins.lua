@@ -159,9 +159,13 @@ require('packer').startup({
 
     -- Startscreen also session manager
     use { 'mhinz/vim-startify' }
+
     -- Highlight todo and etc...
     use { "folke/todo-comments.nvim",
       requires = "nvim-lua/plenary.nvim" }
+
+    use { 'godlygeek/tabular' }
+
   end,
 })
 

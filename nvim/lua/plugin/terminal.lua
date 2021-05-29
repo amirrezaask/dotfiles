@@ -31,4 +31,7 @@ vim.c('Term', function()
   require('plugin.terminal').floating()
 end)
 
+vim.map {
+  ['n ,t'] = M.floating,
+}
 return M

@@ -6,6 +6,13 @@ vim.map {
     end
     vim.fn.feedkeys("<CR>")
   end,
+
+  -- Disable arrows in insert :)
+  ['i <Up>'] = '<C-o>:echom "You dumb? use k"<CR>',
+  ['i <Down>'] = '<C-o>:echom "You dumb? use j"<CR>',
+  ['i <Right>'] = '<C-o>:echom "You dumb? use l"<CR>',
+  ['i <Left>'] = '<C-o>:echom "You dumb? use h"<CR>',
+
   -- Splits movement
   ['<C-j>'] = '<C-w>j',
   ['<C-k>'] = '<C-w>k',
@@ -21,10 +28,10 @@ vim.map {
   ['<Up>'] = ':resize +5<CR>',
   ['<Down>'] = ':resize -5<CR>',
 
-  ['n <c->>'] = ':vertical resize +5<CR>',
-  ['n <c-,>'] = ':vertical resize -5<CR>',
-  ['n <C-\'>'] = ':resize +5<CR>',
-  ['n <C-;>'] = ':resize -5<CR>',
+  ['<C->>'] = ':vertical resize +5<CR>',
+  ['<C-,>'] = ':vertical resize -5<CR>',
+  ['<C-\'>'] = ':resize +5<CR>',
+  ['<C-;>'] = ':resize -5<CR>',
 
   -- Tabs stuff
   ['<M-l>'] = ':tabprevious<CR>',
@@ -34,7 +41,6 @@ vim.map {
 
   ['n j'] = 'gj',
   ['n k'] = 'gk',
-  ['n ,t'] = require('plugin.terminal').floating,
 
   -- Terminal mode
   ['t <Esc>'] = '<C-\\><C-n>',
@@ -45,7 +51,7 @@ vim.map {
   ['i jk'] = '<esc>',
   ['i kj'] = '<esc>',
 
-  -- Move lines ( jetbrains style :) )
+  -- Move lines jetbrains style -> Thanks to TJ again
   ['n <M-j>'] = ":m .+1<CR>==",
   ['n <M-k>'] = ":m .-2<CR>==",
   ['i <M-j>'] = "<Esc>:m .+1<CR>==gi",
