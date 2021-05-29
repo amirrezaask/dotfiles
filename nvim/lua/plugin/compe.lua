@@ -15,7 +15,7 @@ require('compe').setup({
   source = {
     path = true,
     buffer = true,
-    calc = true,
+    calc = false,
     nvim_lsp = true,
     nvim_lua = true,
     snippets_nvim = true,
@@ -26,7 +26,7 @@ require('compe').setup({
 vim.opt.completeopt = {'menuone', 'noselect'}
 
 -- Avoid showing message extra message when using completion
-vim.cmd([[set shortmess+=c]])
+vim.opt.shortmess = vim.opt.shortmess + 'c'
 
 vim.imap {
   ['<expr> <S-Tab>'] = [[ pumvisible() ? "\<C-p>" : "\<S-Tab>"]],
