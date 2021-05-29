@@ -165,6 +165,7 @@ require('packer').startup({
       requires = "nvim-lua/plenary.nvim" }
 
     use { 'godlygeek/tabular' }
+    use { 'kyazdani42/nvim-tree.lua' }
 
   end,
 })
