@@ -557,3 +557,4 @@ end)
 
 -- Setup xrandr
 awful.spawn('xrandr --output eDP-1 --right-of DP-1 --output eDP-1 --left-of HDMI-2 --output DP-1 --left-of eDP-1')
+awful.spawn('compton')

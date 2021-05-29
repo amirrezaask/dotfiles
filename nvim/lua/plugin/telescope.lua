@@ -88,6 +88,13 @@ function M.set_wallpaper()
   })
 end
 
+function M.grep_string()
+  require('telescope.builtin').grep_string {
+    shorten_path = true,
+    search = vim.fn.input("Grep String > "),
+  }
+end
+
 function M.base16_theme_selector()
   local theme_names = require('base16.themes'):names() 
   pickers.new(current_theme(), {
@@ -185,16 +192,16 @@ end
 
 function M.on_attach(_)
   vim.nmap {
-      ['gd'] = wrap(require('telescope.builtin').lsp_definitions),
-      ['gI'] = wrap(require('telescope.builtin').lsp_implementations),
-      ['gR'] = wrap(require('telescope.builtin').lsp_references),
-      ['<leader>lr'] = wrap(require('telescope.builtin').lsp_references),
-      ['<leader>li'] = wrap(require('telescope.builtin').lsp_implementations),
-      ['<leader>ld'] = wrap(require('telescope.builtin').lsp_document_symbols),
-      ['<leader>lw'] = wrap(require('plugin.telescope').lsp_workspace_symbols),
-      ['<leader>lc'] = wrap(require('telescope.builtin').lsp_code_actions),
-      ['<leader>d?'] = wrap(require('telescope.builtin').lsp_document_diagnostics),
-      ['<leader>w?'] = wrap(require('telescope.builtin').lsp_workspace_diagnostics)
+    ['gd'] = wrap(require('telescope.builtin').lsp_definitions),
+    ['gI'] = wrap(require('telescope.builtin').lsp_implementations),
+    ['gR'] = wrap(require('telescope.builtin').lsp_references),
+    ['<leader>lr'] = wrap(require('telescope.builtin').lsp_references),
+    ['<leader>li'] = wrap(require('telescope.builtin').lsp_implementations),
+    ['<leader>ld'] = wrap(require('telescope.builtin').lsp_document_symbols),
+    ['<leader>lw'] = wrap(require('plugin.telescope').lsp_workspace_symbols),
+    ['<leader>lc'] = wrap(require('telescope.builtin').lsp_code_actions),
+    ['<leader>d?'] = wrap(require('telescope.builtin').lsp_document_diagnostics),
+    ['<leader>w?'] = wrap(require('telescope.builtin').lsp_workspace_diagnostics)
   }
 end
 
@@ -207,6 +214,7 @@ vim.nmap {
     ['<C-p>'] = M.git_files,
     ['<M-q>'] = require('telescope.builtin').quickfix,
     ['??'] = wrap(require('telescope.builtin').live_grep),
+    [',?'] = wrap(M.grep_string),
     ['<leader>b'] = wrap(require('telescope.builtin').buffers),
     ['<leader>ec'] = M.edit_configs,
     ['<leader>tc'] = M.base16_theme_selector,
