@@ -2,7 +2,7 @@ vim.opt.list = true
 
 local default_listchars = {
   eol = '↲',
-  tab = '»\\ ',
+  tab = '» ',
   trail = '·',
   extends = '<',
   precedes = '>',
@@ -13,7 +13,7 @@ local default_listchars = {
 local yaml_listchars = {
   lead ='·',
   eol = '↲',
-  tab = '»\\ ',
+  tab = '» ',
   trail = '*',
   extends = '<',
   precedes = '>',
