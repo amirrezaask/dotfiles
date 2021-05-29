@@ -5,7 +5,7 @@ hl { "Normal", bg='#282c34', fg='#e0e0e0' }
 
 hl { "InvNormal", bg="#c5c8c6", fg="#282c34" }
 hl { "NormalFloat", bg="#111317", fg="#fafafa" }
-hl { "LineNr", bg="#282a2e", fg="#969896" }
+hl { "LineNr", bg="#282a2e", fg="#969896", styles = {'italic'}}
 hl { "EndOfBuffer", fg="#969896"}
 hl { "SignColumn", bg="#282a2e", fg="#969896" }
 hl { "Visual", bg="#38556d" }

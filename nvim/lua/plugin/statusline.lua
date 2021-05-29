@@ -9,7 +9,7 @@ local function mode()
   elseif m == 'i' then
     return '%#InsertMode# Insert %*'
   elseif m == 'ic' or m == 'ix' then
-    return ' IComplete '
+    return '%#InsertMode# IComplete %*'
   elseif m == 'c' then
     return '%#CommandMode# Command %*'
   elseif m == 't' then
@@ -145,4 +145,4 @@ make_statusline {
 --   lsp_info
 -- }, {delimiter = ' | '})
 
-vim.o.statusline = '%!v:lua.__STATUSLINE()'
+vim.opt.statusline = '%!v:lua.__STATUSLINE()'
