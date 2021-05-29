@@ -1,6 +1,6 @@
 local M = {}
 
-local quickfix_state = 'close'
+_G.quickfix_state = 'close'
 
 function M.toggle()
   local current_win = vim.api.nvim_get_current_win()
@@ -15,7 +15,6 @@ function M.toggle()
 end
 
 vim.map {
-  ['n <C-q>'] = M.toggle,
   ['n {'] = vim.c.cprev,
   ['n }'] = vim.c.cnext,
 }

@@ -71,7 +71,7 @@ local function nvim_map(keys)
     if #vim.split(key, ' ') > 1 then
       local mode = get_char(key, 1)
       local keyseq = keymap(key)
-      -- keyseq = vim.api.nvim_replace_termcodes(key, true, true, true)
+      keyseq = vim.api.nvim_replace_termcodes(keyseq, true, true, false)
       return mode, keyseq
     end
     return '', key

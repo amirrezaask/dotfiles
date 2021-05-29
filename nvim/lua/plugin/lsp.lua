@@ -139,5 +139,6 @@ lspconfig.sumneko_lua.setup({
 
 lspconfig.pyls_ms.setup({ on_attach = on_attach })
 lspconfig.clangd.setup({ on_attach = on_attach })
+lspconfig.intelephense.setup({ on_attach = on_attach })
 
 return M

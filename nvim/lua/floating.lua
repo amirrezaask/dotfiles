@@ -5,7 +5,7 @@ floating.__call = floating.new
 local function setup_buf(buf)
   vim.api.nvim_buf_set_option(buf, 'bufhidden', 'wipe')
   vim.api.nvim_buf_set_option(buf, 'buftype', 'nofile')
-  vim.api.nvim_buf_set_keymap(buf, 'n', 'q', '<cmd>bd!<cr>', {})
+  vim.api.nvim_buf_set_keymap(buf, 'n', 'q', ':bd!<cr>', {})
 end
 
 local center = function(win_height, win_width)

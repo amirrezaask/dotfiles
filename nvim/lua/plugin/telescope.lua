@@ -19,8 +19,8 @@ end
 
 telescope.setup {
   defaults = {
-    prompt_prefix = '❯ ',
-    selection_caret = '❯ ',
+    prompt_prefix = '> ',
+    selection_caret = '> ',
     layout_strategy = 'flex',
     prompt_position = 'bottom',
     sorting_strategy = 'descending',
@@ -180,14 +180,24 @@ function M.edit_zsh()
 end
 
 function M.lsp_workspace_symbols()
-  local q = vim.fn.input('Symbol: ')
-  require('telescope.builtin').lsp_workspace_symbols({
-    query = q,
-  })
+  require('floating'):prompt('Search For> ', function(word)
+    require('telescope.builtin').lsp_workspace_symbols({
+      query = word,
+    })
+  end)
+  
 end
 
 function M.git_files()
   require('telescope.builtin').git_files(current_theme()) 
+end
+
+function M.quickfix()
+  if _G.quickfix_state == 'open' then
+    vim.c.cclose()
+  else
+    require('telescope.builtin').quickfix()
+  end
 end
 
 function M.on_attach(_)
@@ -212,9 +222,11 @@ vim.nmap {
     ['<leader>fp'] = M.installed_plugins,
     ['<leader>pp'] = M.projects,
     ['<C-p>'] = M.git_files,
+    ['<C-q>'] = M.quickfix,
     ['<M-q>'] = require('telescope.builtin').quickfix,
     ['??'] = wrap(require('telescope.builtin').live_grep),
-    [',?'] = wrap(M.grep_string),
+    [',f'] = wrap(M.grep_string),
+    [',s'] = wrap(require('telescope.builtin').grep_string),
     ['<leader>b'] = wrap(require('telescope.builtin').buffers),
     ['<leader>ec'] = M.edit_configs,
     ['<leader>tc'] = M.base16_theme_selector,
@@ -235,7 +247,6 @@ vim.nmap {
     ['<leader>gwl'] = require('telescope').extensions.git_worktree.git_worktrees,
     ['<leader>tf'] = require('telescope.builtin').treesitter,
 }
-
 return setmetatable(M, {
   __index = function(tbl, k)
     R('plugin.telescope')
