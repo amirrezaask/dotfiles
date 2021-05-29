@@ -12,10 +12,3 @@ vim.g.startify_lists = {
 vim.g.startify_skiplist = {
   'COMMIT_EDITMSG',
 }
-
-vim.map {
-  ['<M-s>'] = function()
-    vim.cmd(':SSave ' .. vim.fn.input('Session Name: '))
-  end,
-  ['<M-l>'] = ':SLoad '
-}

@@ -121,4 +121,7 @@ hl { "vimMap", fg="#698b69" }
 hl { "nvimMap", fg="#698b69" }
 hl { "vimAutoloadFunction", fg="#f3fe14" }
 
+-- Git signs
+hl { "GitSignsAddNr", bg='green'}
+
 vim.g.transparent = true

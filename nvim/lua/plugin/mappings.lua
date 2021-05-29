@@ -1,18 +1,3 @@
-vim.g.mapleader = ' '
-vim.map {
-  ['<C-j>'] = '<C-w>j',
-  ['<C-k>'] = '<C-w>k',
-  ['<C-l>'] = '<C-w>l',
-  ['<C-h>'] = '<C-w>h',
-  Q = '<nop>',
-  [';'] = ':',
-  ['<f5>'] = '<cmd> Run<CR>',
-  ['<Left>'] = '<cmd>vertical resize -5<CR>',
-  ['<Right>'] = '<cmd>vertical resize +5<CR>',
-  ['<Up>'] = '<cmd>resize +5<CR>',
-  ['<Down>'] = '<cmd>resize -5<CR>',
-}
-
 
 vim.map {
   ['n <CR>'] = function()
@@ -21,30 +6,50 @@ vim.map {
     end
     vim.fn.feedkeys("<CR>")
   end,
-  ['<M-p>'] = ':tabprevious<CR>',
-  ['<M-n>'] = ':tabnext<CR>',
+  -- Splits movement
+  ['<C-j>'] = '<C-w>j',
+  ['<C-k>'] = '<C-w>k',
+  ['<C-l>'] = '<C-w>l',
+  ['<C-h>'] = '<C-w>h',
+
+  Q = '<nop>',
+  [';'] = ':',
+
+  -- Resizes
+  ['<Left>'] = ':vertical resize -5<CR>',
+  ['<Right>'] = ':vertical resize +5<CR>',
+  ['<Up>'] = ':resize +5<CR>',
+  ['<Down>'] = ':resize -5<CR>',
+
+  ['n <c->>'] = ':vertical resize +5<CR>',
+  ['n <c-,>'] = ':vertical resize -5<CR>',
+  ['n <C-\'>'] = ':resize +5<CR>',
+  ['n <C-;>'] = ':resize -5<CR>',
+
+  -- Tabs stuff
+  ['<M-l>'] = ':tabprevious<CR>',
+  ['<M-h>'] = ':tabnext<CR>',
   ['<M-q>'] = ':tabclose<CR>',
   ['<M-t>'] = ':tabnew<CR>',
-  ['n tn'] = ':tabnext<CR>',
-  ['n tp'] = ':tabprevious<CR>',
-  ['n tc'] = ':tabclose<CR>',
-  ['n tt'] = ':tabnew<CR>',
-  ['n <leader>v'] = '<cmd>vnew<CR>',
+
   ['n j'] = 'gj',
   ['n k'] = 'gk',
   ['n ,t'] = require('plugin.terminal').floating,
+
+  -- Terminal mode
   ['t <Esc>'] = '<C-\\><C-n>',
   ['t jk'] = '<C-\\><C-n>',
-  ['t jj'] = '<C-\\><C-n>',
-  ['t kk'] = '<C-\\><C-n>',
   ['t kj'] = '<C-\\><C-n>',
-  ['i jk'] = '<esc>',
-  ['i jj'] = '<esc>',
-  ['i kk'] = '<esc>',
-  ['i kj'] = '<esc>',
-}
 
-vim.map {
-  ['n ,b'] = require('blame').blame,
-  ['n ,c'] = require('blame').clear
+  -- Fast <ESC>
+  ['i jk'] = '<esc>',
+  ['i kj'] = '<esc>',
+
+  -- Move lines ( jetbrains style :) )
+  ['n <M-j>'] = ":m .+1<CR>==",
+  ['n <M-k>'] = ":m .-2<CR>==",
+  ['i <M-j>'] = "<Esc>:m .+1<CR>==gi",
+  ['i <M-k>'] = "<Esc>:m .-2<CR>==gi",
+  ['v <M-j>'] = ":m '>+1<CR>gv=gv",
+  ['v <M-k>'] = ":m '<-2<CR>gv=gv",
 }

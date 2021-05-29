@@ -8,6 +8,10 @@ require('gitsigns').setup({
   },
 })
 
-vim.nmap {
-  ['<leader>gm'] = require"gitsigns".blame_line
-}
+
+-- nnoremap <M-j> :m .+1<CR>==
+-- nnoremap <M-k> :m .-2<CR>==
+-- inoremap <M-j> <Esc>:m .+1<CR>==gi
+-- inoremap <M-k> <Esc>:m .-2<CR>==gi
+-- vnoremap <M-j> :m '>+1<CR>gv=gv
+-- vnoremap <M-k> :m '<-2<CR>gv=gv

@@ -9,7 +9,7 @@ function L(mod)
   return package.loaded[mod] ~= nil
 end
 
--- Printer
+-- does print(vim.inspect(obj))
 function P(obj)
   print(vim.inspect(obj))
 end
@@ -70,7 +70,8 @@ local function nvim_map(keys)
   local function parse_key(key)
     if #vim.split(key, ' ') > 1 then
       local mode = get_char(key, 1)
-      local keyseq = vim.api.nvim_replace_termcodes(keymap(key), true, true, true)
+      local keyseq = keymap(key)
+      -- keyseq = vim.api.nvim_replace_termcodes(key, true, true, true)
       return mode, keyseq
     end
     return '', key
@@ -134,32 +135,6 @@ vim.highlight = setmetatable({}, {
 vim.autocmd = nvim_autocmd
 vim.augroup = nvim_augroup
 
--- TODO make this compatible with internal vim.opt
--- vim.opt = setmetatable({}, {
---   __index = function(_, k)
---     return vim.o[k]
---   end,
---   __newindex = function(_, k, v)
---     if type(v) == "boolean" then
---       if v then
---         vim.cmd(string.format([[ set %s ]], k))
---       else
---         vim.cmd(string.format([[ set no%s ]], k))
---       end
---       return
---     elseif type(v) == "table" and vim.tbl_islist(v) then
---       vim.cmd(string.format([[ set %s=%s ]], k, table.concat(v, ',')))
---     elseif type(v) == 'table' then
---       local o = {}
---       for key,val in pairs(v) do
---         table.insert(o, string.format('%s:%s', key, val))
---       end
---       vim.cmd(string.format("set %s=%s", k, table.concat(o, ',')))
---     else
---       vim.cmd(string.format([[ set %s=%s ]], k, v))
---     end
---   end
--- })
 vim.map = nvim_map
 vim.nmap = make_mapper('n')
 vim.vmap = make_mapper('v')

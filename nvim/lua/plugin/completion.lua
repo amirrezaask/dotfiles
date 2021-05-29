@@ -26,7 +26,7 @@ require('compe').setup({
 vim.opt.completeopt = {'menuone', 'noselect'}
 
 -- Avoid showing message extra message when using completion
-vim.opt.shortmess = vim.opt.shortmess + 'c'
+vim.opt.shortmess:append('c')
 
 vim.imap {
   ['<expr> <S-Tab>'] = [[ pumvisible() ? "\<C-p>" : "\<S-Tab>"]],
