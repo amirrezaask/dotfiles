@@ -134,6 +134,32 @@ vim.highlight = setmetatable({}, {
 vim.autocmd = nvim_autocmd
 vim.augroup = nvim_augroup
 
+-- TODO make this compatible with internal vim.opt
+vim.opt = setmetatable({}, {
+  __index = function(_, k)
+    return vim.o[k]
+  end,
+  __newindex = function(_, k, v)
+    if type(v) == "boolean" then
+      if v then
+        vim.cmd(string.format([[ set %s ]], k))
+      else
+        vim.cmd(string.format([[ set no%s ]], k))
+      end
+      return
+    elseif type(v) == "table" and vim.tbl_islist(v) then
+      vim.cmd(string.format([[ set %s=%s ]], k, table.concat(v, ',')))
+    elseif type(v) == 'table' then
+      local o = {}
+      for key,val in pairs(v) do
+        table.insert(o, string.format('%s:%s', key, val))
+      end
+      vim.cmd(string.format("set %s=%s", k, table.concat(o, ',')))
+    else
+      vim.cmd(string.format([[ set %s=%s ]], k, v))
+    end
+  end
+})
 vim.map = nvim_map
 vim.nmap = make_mapper('n')
 vim.vmap = make_mapper('v')

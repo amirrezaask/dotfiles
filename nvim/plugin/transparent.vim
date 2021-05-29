@@ -1,3 +1,3 @@
-if get(g:, 'transparent', 1)
+if get(g:, 'transparent', 0)
     lua require('colors.transparent')
 endif

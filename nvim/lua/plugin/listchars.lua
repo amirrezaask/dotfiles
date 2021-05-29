@@ -1,7 +1,4 @@
-local listchars = function(chars)
-  vim.opt.list = true
-  vim.opt.listchars = chars 
-end
+vim.opt.list = true
 
 local default_listchars = {
   eol = '↲',
@@ -23,12 +20,11 @@ local yaml_listchars = {
   conceal = '┊',
   nbsp = '␣',
 }
-
 vim.autocmd {
   "BufEnter",
   "*.yaml,*.yml",
   function()
-    listchars(yaml_listchars)
+    vim.opt.listchar = yaml_listchars
   end
 }
 
@@ -36,8 +32,8 @@ vim.autocmd {
   "BufLeave",
   "*.yaml,*.yml",
   function()
-    listchars(default_listchars)
+    vim.opt.listchar = default_listchars
   end
 }
 
-listchars(default_listchars)
+vim.opt.listchars = default_listchars
