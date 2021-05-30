@@ -5,6 +5,18 @@ local lspconfig_util = require('lspconfig.util')
 
 local M = {}
 
+local has_lspstatus, lspstatus = pcall(require, 'lsp-status')
+if has_lspstatus then
+  lspstatus.config({
+    indicator_errors = 'E:',
+    indicator_warnings = 'W:',
+    indicator_info = 'I:',
+    indicator_hint = 'H:',
+    indicator_ok = 'OK',
+    status_symbol = '',
+  })
+end
+
 local function get_root(...)
   return lspconfig_util.root_pattern(...)(vim.api.nvim_buf_get_name(vim.api.nvim_get_current_buf()))
 end
@@ -39,7 +51,6 @@ local support_formatting = {'go', 'rust'}
 local function make_on_attach(base)
   return function(client)
     if base then base() end
-    local has_lspstatus, lspstatus = pcall(require, 'lsp-status')
     if has_lspstatus and client then
       lspstatus.on_attach(client)
     end

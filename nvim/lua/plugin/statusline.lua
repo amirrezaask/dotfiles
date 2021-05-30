@@ -4,19 +4,6 @@ if not has_nline then
 end
 local parts = nline.parts
 
-local has_lspstatus, lspstatus = pcall(require, 'lsp-status')
-if has_lspstatus then
-  lspstatus.config({
-    indicator_errors = 'E:',
-    indicator_warnings = 'W:',
-    indicator_info = 'I:',
-    indicator_hint = 'H:',
-    indicator_ok = 'OK',
-    status_symbol = '',
-  })
-end
-
-
 nline.make {
   parts.mode,
   parts.space,
