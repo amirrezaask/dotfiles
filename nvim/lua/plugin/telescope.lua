@@ -135,7 +135,7 @@ function M.projects()
   pickers.new(current_theme(), {
     previewer = false,
     finder = finders.new_table({
-      results = repos.list_projects({ '~/src/github.com/amirrezaask' }),
+      results = repos.list_projects({ '~/src/' }),
     }),
     sorter = conf.generic_sorter(),
     attach_mappings = function(prompt_bufnr, map)

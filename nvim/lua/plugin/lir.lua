@@ -1,3 +1,6 @@
+local has_lir, lir = pcall(require, 'lir')
+if not has_lir then return end
+
 local has_devicons, devicons = pcall(require, 'nvim-web-devicons')
 if has_devicons then
   devicons.setup({
@@ -12,7 +15,7 @@ if has_devicons then
 end
 
 local actions = require('lir.actions')
-require('lir').setup {
+lir.setup {
   show_hidden_files = true,
   devicons_enable = true,
 
