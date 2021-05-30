@@ -19,24 +19,24 @@ vim.map {
   ['<C-h>'] = '<C-w>h',
 
   Q = '<nop>',
-  [';'] = ':',
+  [';'] = {':', "Map semicolon to colon"},
 
   -- Resizes
-  ['<Left>']  = ':vertical resize -5<CR>',
-  ['<Right>'] = ':vertical resize +5<CR>',
-  ['<Up>']    = ':resize +5<CR>',
-  ['<Down>']  = ':resize -5<CR>',
+  ['<Left>']  = { ':vertical resize -5<CR>', "Decreases window width", "Window" },
+  ['<Right>'] = { ':vertical resize +5<CR>', "Increases window width", "Window" },
+  ['<Up>']    = { ':resize +5<CR>', "Decreases window height", "Window" },
+  ['<Down>']  = { ':resize -5<CR>', "Increases window height", "Window" },
 
   -- Window resizes
-  ['<M-.>'] = ':vertical resize +5<CR>',
-  ['<M-,>'] = ':vertical resize -5<CR>',
-  ["<M-'>"] = ':resize +5<CR>',
-  ['<M-;>'] = ':resize -5<CR>',
+  ['<M-.>'] = { ':vertical resize +5<CR>', "Increases window width", "Window" },
+  ['<M-,>'] = { ':vertical resize -5<CR>', "Decreases window width", "Window" },
+  ["<M-'>"] = { ':resize +5<CR>', "Decreases window height", "Window" },
+  ['<M-;>'] = { ':resize -5<CR>', "Decreases window height", "Window" },
 
   -- Tabs stuff
-  ['<M-l>'] = ':tabprevious<CR>',
-  ['<M-h>'] = ':tabnext<CR>',
-  ['<M-t>'] = ':tabnew<CR>',
+  ['<M-l>'] = { ':tabprevious<CR>', "Previous Tab", "Tabs" },
+  ['<M-h>'] = { ':tabnext<CR>', "Next tab", "Tabs" },
+  ['<M-t>'] = { ':tabnew<CR>', "New Tab", "Tabs" },
 
   ['n j'] = 'gj',
   ['n k'] = 'gk',
@@ -51,10 +51,10 @@ vim.map {
   ['i kj'] = '<esc>',
 
   -- Move lines jetbrains style -> Thanks to TJ again
-  ['n <M-j>'] = ":m .+1<CR>==",
-  ['n <M-k>'] = ":m .-2<CR>==",
-  ['i <M-j>'] = "<Esc>:m .+1<CR>==gi",
-  ['i <M-k>'] = "<Esc>:m .-2<CR>==gi",
-  ['v <M-j>'] = ":m '>+1<CR>gv=gv",
-  ['v <M-k>'] = ":m '<-2<CR>gv=gv",
+  ['n <M-j>'] = { ":m .+1<CR>==", "Move current line down", "Editing" },
+  ['n <M-k>'] = { ":m .-2<CR>==", "Move current line up", "Editing" },
+  ['i <M-j>'] = { "<Esc>:m .+1<CR>==gi", "Move current line down", "Editing" },
+  ['i <M-k>'] = { "<Esc>:m .-2<CR>==gi", "Move current line up", "Editing" },
+  ['v <M-j>'] = { ":m '>+1<CR>gv=gv", "Move selected lines down", "Editing" },
+  ['v <M-k>'] = { ":m '<-2<CR>gv=gv", "Move selected lines up", "Editing" },
 }

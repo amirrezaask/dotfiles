@@ -29,7 +29,7 @@ end)
 
 vim.c('Term', function()
   require('plugin.terminal').floating()
-end)
+end, nil, "Floating terminal")
 
 vim.map {
   ['n ,t'] = M.floating,

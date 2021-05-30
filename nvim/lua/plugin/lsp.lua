@@ -40,12 +40,12 @@ local function make_on_attach(base)
   return function(_, _)
     if base then base() end
     vim.nmap {
-      ['<leader>lR'] = rename,
-      [',r'] = rename,
-      ['K'] = vim.lsp.buf.hover,
-      [',dn'] = vim.lsp.diagnostic.goto_next,
-      [',dp'] = vim.lsp.diagnostic.goto_prev,
-      [',dl'] = vim.lsp.diagnostic.show_line_diagnostics,
+      ['<leader>lR'] = { rename, "Rename current symbol under cursor", "IDE" },
+      [',r'] = { rename, "Rename current symbol under cursor", "IDE" },
+      ['K'] = { vim.lsp.buf.hover, "Hover information about symbol under cursor", "IDE" },
+      [',dn'] = { vim.lsp.diagnostic.goto_next, "Goto next diagnostic", "IDE" },
+      [',dp'] = { vim.lsp.diagnostic.goto_prev, "Goto previous diagnostic", "IDE"},
+      [',dl'] = { vim.lsp.diagnostic.show_line_diagnostics, "Show current line diagnostic", "IDE" },
     }
     local filetype = vim.api.nvim_buf_get_option(0, 'filetype')
     if vim.tbl_contains(support_formatting, filetype) then

@@ -70,6 +70,28 @@ telescope.load_extension('git_worktree')
 telescope.load_extension('gh')
 telescope.load_extension('snippets')
 telescope.load_extension('fzf')
+--TODO: write telescope function for nvim doc things
+
+function M.docs()
+  local docs = {}
+  for group, group_keys in pairs(__MAPS_DOCS) do
+    for k, doc in pairs(group_keys) do
+      table.insert(docs, string.format('%s [%s] -> %s', group, k, doc))
+    end
+  end
+  for cmd, doc in pairs(__CMDS_DOCS) do
+    table.insert(docs, string.format('%s -> %s', cmd, doc))
+  end
+  pickers.new(current_theme(), {
+    prompt_title = "Docs :)",
+    finder = finders.new_table {
+      results = docs,
+    },
+    sorter = conf.generic_sorter(),
+    previewer = false,
+
+  }):find()
+end
 
 function M.grep_string()
   require('floating'):prompt('> Grep String < ', function(word)
@@ -227,19 +249,18 @@ end
 
 function M.on_attach(_)
   vim.nmap {
-    ['gd'] = wrap(require('telescope.builtin').lsp_definitions),
-    ['gI'] = wrap(require('telescope.builtin').lsp_implementations),
-    ['gR'] = wrap(require('telescope.builtin').lsp_references),
-    ['<leader>lr'] = wrap(require('telescope.builtin').lsp_references),
-    ['<leader>li'] = wrap(require('telescope.builtin').lsp_implementations),
-    ['<leader>ld'] = wrap(require('telescope.builtin').lsp_document_symbols),
-    ['<leader>lw'] = wrap(require('plugin.telescope').lsp_workspace_symbols),
-    ['<leader>lc'] = wrap(require('telescope.builtin').lsp_code_actions),
-    ['<leader>d?'] = wrap(require('telescope.builtin').lsp_document_diagnostics),
-    ['<leader>w?'] = wrap(require('telescope.builtin').lsp_workspace_diagnostics)
+    ['gd'] = { wrap(require('telescope.builtin').lsp_definitions), "Goto defenition", "IDE" },
+    ['gI'] = { wrap(require('telescope.builtin').lsp_implementations), "Goto implementations", "IDE" },
+    ['gR'] = { wrap(require('telescope.builtin').lsp_references), "Goto references", "IDE" },
+    ['<leader>lr'] = { wrap(require('telescope.builtin').lsp_references), "Goto references", "IDE" },
+    ['<leader>li'] = { wrap(require('telescope.builtin').lsp_implementations), "Goto implementations", "IDE" },
+    ['<leader>ld'] = { wrap(require('telescope.builtin').lsp_document_symbols), "Search through document symbols", "IDE" },
+    ['<leader>lw'] = { wrap(require('plugin.telescope').lsp_workspace_symbols), "Search through workspace symbols", "IDE" },
+    ['<leader>lc'] = { wrap(require('telescope.builtin').lsp_code_actions), "Show code actions", "IDE" },
+    ['<leader>d?'] = { wrap(require('telescope.builtin').lsp_document_diagnostics), "Search through document diagnostic", "IDE" },
+    ['<leader>w?'] = { wrap(require('telescope.builtin').lsp_workspace_diagnostics), "Search through workspace diagnostics", "IDE" }
   }
 end
-
 
 vim.nmap {
     ['<leader><leader>'] = wrap(require('telescope.builtin').find_files, {hidden=true}),

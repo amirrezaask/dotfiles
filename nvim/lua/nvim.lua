@@ -1,3 +1,5 @@
+__MAPS_DOCS = {}
+__CMDS_DOCS = {}
 -- Force reload the module
 function R(mod)
   package.loaded[mod] = nil
@@ -59,6 +61,10 @@ local function nvim_augroup(tbl)
   end
 end
 
+function nvim_make_expr(expr, doc, group)
+  return {expr, doc, group}
+end
+
 __MAP_REGISTRY = {}
 local function nvim_map(keys)
   local function get_char(s, n)
@@ -76,9 +82,11 @@ local function nvim_map(keys)
     end
     return '', key
   end
-
   local function get_key_cmd(k, f)
     if type(f) == 'string' then return f end
+    if type(f) == 'table' then
+      return get_key_cmd(k, f[1])
+    end
     if type(f) == 'function' or type(f) == 'table' then
       __MAP_REGISTRY[tohex(k)] = function()
         f()
@@ -93,6 +101,19 @@ local function nvim_map(keys)
       print(k)
       print(vim.inspect(f))
       print(cmd)
+    end
+    if type(f) == "table" then
+      if #f > 2 then
+        if not __MAPS_DOCS[f[3]] then
+          __MAPS_DOCS[f[3]] = {}
+        end
+        __MAPS_DOCS[f[3]][k] = f[2]
+      else
+        if not __MAPS_DOCS['UNGROUPED'] then
+          __MAPS_DOCS['UNGROUPED'] = {}
+        end
+        __MAPS_DOCS['UNGROUPED'][k] = f[2]
+      end
     end
     vim.api.nvim_set_keymap(mode, keyseq, cmd, {noremap = true})
   end
@@ -109,7 +130,7 @@ local function make_mapper(mode)
 end
 
 __COMMAND_REGISTRY = {}
-local function nvim_command(name, expr, args)
+local function nvim_command(name, expr, args, doc)
   if type(expr) == 'function' then
     local fn = expr
     __COMMAND_REGISTRY[name] = function()
@@ -122,6 +143,9 @@ local function nvim_command(name, expr, args)
   end
   if args then
     vim.cmd(string.format('command! -nargs=%s %s %s', args, name, expr))
+  end
+  if doc then
+    __CMDS_DOCS[name] = doc
   end
 end
 
@@ -193,3 +217,11 @@ vim.autocmd {
     end
   end
 }
+
+vim.c("KeyDoc", function()
+  P(__MAPS_DOCS)
+end)
+
+vim.c("CmdDoc", function()
+  P(__CMDS_DOCS)
+end)
