@@ -37,8 +37,12 @@ local telescope_on_attach = require('plugin.telescope').on_attach
 local support_formatting = {'go', 'rust'}
 
 local function make_on_attach(base)
-  return function(_, _)
+  return function(client)
     if base then base() end
+    local has_lspstatus, lspstatus = pcall(require, 'lsp-status')
+    if has_lspstatus and client then
+      lspstatus.on_attach(client)
+    end
     vim.nmap {
       ['<leader>lR'] = { rename, "Rename current symbol under cursor", "IDE" },
       [',r'] = { rename, "Rename current symbol under cursor", "IDE" },
@@ -57,12 +61,12 @@ local function make_on_attach(base)
 end
 local on_attach = make_on_attach(telescope_on_attach)
 
-lspconfig.gopls.setup({ 
+lspconfig.gopls.setup({
   on_attach = on_attach
 })
 lspconfig.rust_analyzer.setup({
-  on_attach = function()
-    on_attach()
+  on_attach = function(client)
+    on_attach(client)
     require('lsp_extensions').inlay_hints({})
   end,
 })
@@ -103,8 +107,8 @@ lspconfig.sumneko_lua.setup({
 
     -- Runtime configurations
     filetypes = {"lua"},
-    on_attach = function()
-      on_attach()
+    on_attach = function(client)
+      on_attach(client)
       vim.lsp.handlers['textDocument/hover'] = function(_, _, _)
 
         local original_iskeyword = vim.bo.iskeyword

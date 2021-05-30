@@ -18,6 +18,16 @@ local function mode()
     return m
   end
 end
+local has_lspstatus, lspstatus = pcall(require, 'lsp-status')
+if has_lspstatus then
+  lspstatus.config({
+    indicator_errors = 'E:',
+    indicator_warnings = 'W:',
+    indicator_info = 'I: ',
+    indicator_hint = 'H:',
+    indicator_ok = 'OK',
+  })
+end
 
 local modified = '%m'
 local readonly = '%r'
@@ -25,32 +35,6 @@ local space = ' '
 local filename = '%f'
 local filename_shorten = "%{pathshorten(expand('%:f'))}"
 local pipe = ' | '
-
-local function lsp_info()
-  local warnings = vim.lsp.diagnostic.get_count(0, 'Warning')
-  local errors = vim.lsp.diagnostic.get_count(0, 'Error')
-  local hints = vim.lsp.diagnostic.get_count(0, 'Hint')
-  local infos = vim.lsp.diagnostic.get_count(0, 'Information')
-  local output = ''
-  if hints ~= 0 then
-    output = output .. ' Hints: ' .. hints
-  end
-  if errors ~= 0 then
-    output = output .. ' Errors: ' .. errors
-  end
-  if warnings ~= 0 then
-    output = output .. ' Warnings: ' .. warnings
-  end
-  if infos ~= 0 then
-    output = output .. ' Information: ' .. infos
-  end
-  if output == '' then
-    return ''
-  end
-  output = output .. ' '
-  return output
-end
-
 local line_col = '[ %l:%c %%%p ]'
 local line = '%l'
 local col = '%c'
@@ -122,7 +106,6 @@ local function make_statusline(elements, opts)
 end
 
 local function lsp_status()
-  local has_lspstatus, lspstatus = pcall(require, 'lsp-status')
   if not has_lspstatus then return '' end
   return with_brackets(lspstatus.status())
 end
@@ -141,7 +124,6 @@ make_statusline {
   line_col,
   filetype,
   lsp_status,
-  lsp_info,
 }
 
 -- make_statusline ({
