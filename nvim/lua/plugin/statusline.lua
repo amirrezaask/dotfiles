@@ -1,11 +1,11 @@
-local has_nline, nline = pcall(require, 'nline')
+local has_nline, statusline = pcall(require, 'statusline')
 if not has_nline then
   return
 end
-local parts = nline.parts
-local wrappers = nline.wrappers
+local parts = statusline.parts
+local wrappers = statusline.wrappers
 
-nline.make {
+statusline.make {
   parts.mode,
   parts.space,
   parts.icons.git, parts.space, parts.git_branch,

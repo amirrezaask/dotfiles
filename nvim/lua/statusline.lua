@@ -117,6 +117,12 @@ function parts.lsp_status()
   return lspstatus.status()
 end
 
+vim.autocmd {
+  "CursorMoved,CursorMovedI",
+  "*",
+  "lua require('lsp-status').update_current_function()"
+}
+
 vim.opt.statusline = '%!v:lua.__STATUSLINE()'
 
 return {
