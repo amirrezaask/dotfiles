@@ -5,9 +5,6 @@ local pickers = require('telescope.pickers')
 local conf = require('telescope.config').values
 local repos = require('repos')
 local telescope = require('telescope')
-local themes = require('telescope.themes')
-local dropdown = themes.get_dropdown
-local ivy = themes.get_ivy
 local notheme = function(opts)
   return opts
 end
@@ -89,10 +86,12 @@ function M.set_wallpaper()
 end
 
 function M.grep_string()
-  require('telescope.builtin').grep_string {
-    shorten_path = true,
-    search = vim.fn.input("Grep String > "),
-  }
+  require('floating'):prompt('Grep String> ', function(word)
+    require('telescope.builtin').grep_string {
+        shorten_path = true,
+        search = word,
+    }
+  end)
 end
 
 function M.base16_theme_selector()
@@ -185,7 +184,6 @@ function M.lsp_workspace_symbols()
       query = word,
     })
   end)
-  
 end
 
 function M.git_files()
