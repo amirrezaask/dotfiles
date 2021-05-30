@@ -207,7 +207,7 @@ function M.buffer_grep()
         local line = action_state.get_selected_entry(prompt_bufnr)[1]
         local prompt = vim.api.nvim_buf_get_lines(prompt_bufnr, 0, -1, false)[1]
         local current_picker = action_state.get_current_picker(prompt_bufnr)
-        local col = line:find(prompt:sub(#current_picker.prompt_prefix+1, -1))
+        local col = line:find(prompt:sub(#current_picker.prompt_prefix+1, -1)) or 0
         actions.close(prompt_bufnr)
         for i, l in ipairs(lines) do
           if l == line then
@@ -255,6 +255,7 @@ vim.nmap {
     ['<C-p>'] = M.git_files,
     ['<C-q>'] = M.quickfix,
     ['<M-q>'] = require('telescope.builtin').quickfix,
+    ['\\\\'] = wrap(M.buffer_grep),
     ['??'] = wrap(require('telescope.builtin').live_grep),
     [',f'] = wrap(M.grep_string),
     [',s'] = wrap(require('telescope.builtin').grep_string),
