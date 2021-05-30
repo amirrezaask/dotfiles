@@ -1,7 +1,8 @@
-sync-windows-terminal:
-	cp /mnt/c/Users/Amirreza/AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/settings.json ./windows-terminal/
-sync-vscode:
-	cp /mnt/c/Users/Amirreza/AppData/Roaming/Code/User/settings.json ./vscode/
-sync-powershell:
-	cp /mnt/c/Users/Amirreza/Documents/PowerShell/Microsoft.PowerShell_profile.ps1 ./powershell/
-
+install:
+	@sudo apt install kitty gettext clang cmake libtool-bin ripgrep feh
+	@mkdir -p ~/tmp
+	@git clone git@github.com:neovim/neovim.git ~/tmp/neovim
+	@cd ~/tmp/neovim && make && sudo make install
+	@mkdir -p ~/.local/share/nvim/site/pack/packer/start
+	@git clone https://github.com/wbthomason/packer.nvim/ ~/.local/share/nvim/site/pack/packer/start/packer.nvim
+	@echo "export WALLPAPERS_PATH=$(pwd)/wallpapers" > ~/.profile

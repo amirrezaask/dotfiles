@@ -5,6 +5,7 @@ local pickers = require('telescope.pickers')
 local conf = require('telescope.config').values
 local repos = require('repos')
 local telescope = require('telescope')
+local wallpapers_path = os.getenv("WALLPAPERS_PATH") or "~/src/github.com/amirrezaask/dotfiles/wallpapers"
 local notheme = function(opts)
   return opts
 end
@@ -70,7 +71,7 @@ telescope.load_extension('fzf')
 
 function M.set_wallpaper()
    require('telescope.builtin').find_files({
-    cwd = '~/src/github.com/amirrezaask/dotfiles/wallpapers/',
+    cwd = wallpapers_path,
     prompt_title = 'Set Wallpaper',
     previewer = false,
     attach_mappings = function(prompt_bufnr, map)
