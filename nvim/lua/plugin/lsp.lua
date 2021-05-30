@@ -12,11 +12,11 @@ local M = {}
 local has_lspstatus, lspstatus = pcall(require, 'lsp-status')
 if has_lspstatus then
   lspstatus.config({
-    indicator_errors = 'E:',
-    indicator_warnings = 'W:',
-    indicator_info = 'I:',
-    indicator_hint = 'H:',
-    indicator_ok = 'OK',
+    indicator_errors = '😡',
+    indicator_warnings = '😳',
+    indicator_info = '🛈',
+    indicator_hint = '😅',
+    indicator_ok = '🆗',
     status_symbol = '',
   })
 end

@@ -79,16 +79,19 @@ end
 
 function wrappers.square_brackets(item)
   if type(item) == 'function' then item = item() end
+  if item == nil or item == '' then return '' end
   return '[' .. item .. ']'
 end
 
 function wrappers.parens(item)
   if type(item) == 'function' then item = item() end
+  if item == nil or item == '' then return '' end
   return '(' .. item .. ')'
 end
 
 function wrappers.curly_brackets(item)
   if type(item) == 'function' then item = item() end
+  if item == nil or item == '' then return '' end
   return '{' .. item .. '}'
 end
 
@@ -111,7 +114,7 @@ end
 
 function parts.lsp_status()
   if not has_lspstatus then return '' end
-  return wrappers.square_brackets(lspstatus.status())
+  return lspstatus.status()
 end
 
 vim.opt.statusline = '%!v:lua.__STATUSLINE()'

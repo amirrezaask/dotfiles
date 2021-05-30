@@ -2,7 +2,7 @@ MNIM_BUFFERS = {}
 local filter = function(b)
   return vim.fn.buflisted(b) == 1 and vim.api.nvim_buf_get_option(b, 'filetype') ~= ''
 end
-
+--TODO: should store only last n items
 vim.autocmd {
   "BufEnter",
   "*",
