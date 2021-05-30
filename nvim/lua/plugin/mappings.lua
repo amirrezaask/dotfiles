@@ -36,7 +36,6 @@ vim.map {
   -- Tabs stuff
   ['<M-l>'] = ':tabprevious<CR>',
   ['<M-h>'] = ':tabnext<CR>',
-  ['<M-q>'] = ':tabclose<CR>',
   ['<M-t>'] = ':tabnew<CR>',
 
   ['n j'] = 'gj',

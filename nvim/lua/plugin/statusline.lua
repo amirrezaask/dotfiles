@@ -128,7 +128,7 @@ make_statusline {
   seperator, space,
   get_icon,
   space,
-  filename,
+  filename_shorten,
   modified,
   seperator,
   space,

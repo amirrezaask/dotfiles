@@ -37,12 +37,12 @@ vim.c("DapStepOut", require'dap'.step_out)
 vim.c("DapHover", require('dap.ui.variables').hover)
 
 -- Mappings
-vim.nmap {
-  ['<silent> <F3>'] = require'dap'.toggle_breakpoint,
-  ['<silent> <F4>'] = require'dap'.repl.open,
-  ['<silent> <F5>'] = require'dap'.continue,
-  ['<silent> <F7>'] = require'dap'.step_into,
-  ['<silent> <F8>'] = require'dap'.step_over,
-  ['<silent> <F9>'] = require'dap'.step_out,
-  ['<silent> <F10>'] = require'dap.ui.variables'.hover
+vim.map {
+  ['<F3>'] = require'dap'.toggle_breakpoint,
+  ['<F4>'] = require'dap'.repl.open,
+  ['<F5>'] = require'dap'.continue,
+  ['<F7>'] = require'dap'.step_into,
+  ['<F8>'] = require'dap'.step_over,
+  ['<F9>'] = require'dap'.step_out,
+  ['<F10>'] = require'dap.ui.variables'.hover
 }

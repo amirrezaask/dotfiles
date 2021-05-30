@@ -48,8 +48,6 @@ telescope.setup {
         ['<ESC>'] = actions.close,
         ['<C-c>'] = actions.close,
         ['jk'] = actions.close,
-        ['jj'] = actions.close,
-        ['kk'] = actions.close,
         ['kj'] = actions.close,
       },
       i = {
@@ -74,7 +72,7 @@ telescope.load_extension('snippets')
 telescope.load_extension('fzf')
 
 function M.grep_string()
-  require('floating'):prompt('Grep String> ', function(word)
+  require('floating'):prompt('> Grep String < ', function(word)
     require('telescope.builtin').grep_string {
         shorten_path = true,
         search = word,
@@ -177,7 +175,7 @@ function M.edit_zsh()
 end
 
 function M.lsp_workspace_symbols()
-  require('floating'):prompt('Search For> ', function(word)
+  require('floating'):prompt('> LSP Workspace: ', function(word)
     require('telescope.builtin').lsp_workspace_symbols({
       query = word,
     })
@@ -191,7 +189,7 @@ end
 function M.buffer_grep()
   local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
   pickers.new(current_theme(), {
-    prompt_title = "Current File Grep",
+    prompt_title = "> Current File Grep <",
     -- TODO: add previewer
     previewer = false,
     finder = finders.new_table({

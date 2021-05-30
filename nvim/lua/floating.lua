@@ -75,23 +75,32 @@ function floating:new(opts)
     border = 'none',
     style = 'minimal'
   })
-  if opts.border then
-    vim.autocmd {
-      "BufLeave",
-      "<buffer>",
-      function()
-        vim.api.nvim_win_close(border_win, {force=true})
+  vim.autocmd {
+    "BufEnter",
+    string.format('<buffer=%s>', border_buf),
+    function()
+      vim.api.nvim_set_current_win(win)
+    end
+  }
+  vim.autocmd {
+    "BufLeave",
+    string.format("<buffer=%s>", buf),
+    function()
+      if opts.border then
+        pcall(vim.api.nvim_win_close,border_win, {force=true})
       end
-    }
-    vim.autocmd {
-      "TermClose",
-      "*",
-      function()
-        vim.api.nvim_win_close(border_win, {force=true})
-        vim.api.nvim_win_close(win, {force=true})
+    end
+  }
+  vim.autocmd {
+    "TermClose",
+    "*",
+    function()
+      if opts.border then
+        pcall(vim.api.nvim_win_close,border_win, {force=true})
       end
-    }
-  end
+      vim.api.nvim_win_close(win, {force=true})
+    end
+  }
 
   vim.api.nvim_win_set_option(win, 'winhl', 'Normal:Normal')
   return buf, win 
