@@ -6,6 +6,7 @@ local conf = require('telescope.config').values
 local repos = require('repos')
 local telescope = require('telescope')
 local wallpapers_path = os.getenv("WALLPAPERS_PATH") or "~/src/github.com/amirrezaask/dotfiles/wallpapers"
+local ivy = require('telescope.themes').get_ivy
 local notheme = function(opts)
   return opts
 end
@@ -189,6 +190,37 @@ end
 
 function M.git_files()
   require('telescope.builtin').git_files(current_theme()) 
+end
+
+function M.buffer_grep()
+  local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+  pickers.new(current_theme(), {
+    prompt_title = "Current File Grep",
+    -- TODO: add previewer
+    previewer = false,
+    finder = finders.new_table({
+      results = lines,
+    }),
+    sorter = conf.generic_sorter(),
+    attach_mappings = function(prompt_bufnr, map)
+      local jump_to = function()
+        local line = action_state.get_selected_entry(prompt_bufnr)[1]
+        local prompt = vim.api.nvim_buf_get_lines(prompt_bufnr, 0, -1, false)[1]
+        local current_picker = action_state.get_current_picker(prompt_bufnr)
+        local col = line:find(prompt:sub(#current_picker.prompt_prefix+1, -1))
+        actions.close(prompt_bufnr)
+        for i, l in ipairs(lines) do
+          if l == line then
+            vim.api.nvim_win_set_cursor(0, {i, col})
+          end
+        end
+      end
+      map('i', '<CR>', jump_to)
+      map('n', '<CR>', jump_to)
+      return true
+    end,
+  }):find()
+
 end
 
 function M.quickfix()
