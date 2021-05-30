@@ -5,7 +5,7 @@ local pickers = require('telescope.pickers')
 local conf = require('telescope.config').values
 local repos = require('repos')
 local telescope = require('telescope')
-local wallpapers_path = os.getenv("WALLPAPERS_PATH") or "~/src/github.com/amirrezaask/dotfiles/wallpapers/"
+local wallpaper = require('plugin.wallpaper')
 local ivy = require('telescope.themes').get_ivy
 local notheme = function(opts)
   return opts
@@ -69,23 +69,6 @@ telescope.load_extension('git_worktree')
 telescope.load_extension('gh')
 telescope.load_extension('snippets')
 telescope.load_extension('fzf')
-
-function M.set_wallpaper()
-   require('telescope.builtin').find_files({
-    cwd = wallpapers_path,
-    prompt_title = 'Set Wallpaper',
-    previewer = false,
-    attach_mappings = function(prompt_bufnr, map)
-      local apply = function()
-        local selected = action_state.get_selected_entry(prompt_bufnr)
-        vim.fn.system(string.format('feh --bg-fill %s', selected.cwd .. selected.value))
-      end
-      map('i', '<CR>', apply)
-      map('n', '<CR>', apply)
-      return true
-    end,
-  })
-end
 
 function M.grep_string()
   require('floating'):prompt('Grep String> ', function(word)
@@ -265,7 +248,7 @@ vim.nmap {
     ['<leader>en'] = M.edit_neovim,
     ['<leader>ez'] = M.edit_zsh,
     ['<leader>fs'] = M.find_src,
-    [',w'] = M.set_wallpaper,
+    [',w'] = wallpaper.set_wallpaper,
     ['<leader>c'] = wrap(require('telescope.builtin').commands),
     ['<leader>fr'] = wrap(require('telescope.builtin').oldfiles),
     ['<leader>h'] = wrap(require('telescope.builtin').help_tags),

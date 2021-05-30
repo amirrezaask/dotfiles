@@ -28,10 +28,10 @@ vim.map {
   ['<Down>']  = ':resize -5<CR>',
 
   -- ??? why not working ?
-  ['<C-.>'] = ':vertical resize +5<CR>',
-  ['<C-,>'] = ':vertical resize -5<CR>',
-  ["<C-'>"] = ':resize +5<CR>',
-  ['<C-;>'] = ':resize -5<CR>',
+  ['<M-.>'] = ':vertical resize +5<CR>',
+  ['<M-,>'] = ':vertical resize -5<CR>',
+  ["<M-'>"] = ':resize +5<CR>',
+  ['<M-;>'] = ':resize -5<CR>',
 
   -- Tabs stuff
   ['<M-l>'] = ':tabprevious<CR>',
