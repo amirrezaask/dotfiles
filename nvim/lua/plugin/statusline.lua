@@ -23,9 +23,10 @@ if has_lspstatus then
   lspstatus.config({
     indicator_errors = 'E:',
     indicator_warnings = 'W:',
-    indicator_info = 'I: ',
+    indicator_info = 'I:',
     indicator_hint = 'H:',
     indicator_ok = 'OK',
+    status_symbol = '',
   })
 end
 
