@@ -39,6 +39,9 @@ alias goland='~/jetbrains/GoLand-2020.3/bin/goland.sh 2>/dev/null  &'
 alias gdoc='godoc -http=:6060'
 alias flua='stylua --config-path ~/.stylua.toml'
 alias snapp='sudo openfortivpn -c ~/snappDC.conf'
+alias gpm='git push origin master'
+alias glm='git pull origin master'
+
 if type nvim > /dev/null 2>&1; then
     export MANPAGER='nvim +Man!'
     alias vim='nvim'
