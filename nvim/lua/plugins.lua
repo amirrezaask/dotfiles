@@ -167,6 +167,8 @@ require('packer').startup({
     use { 'godlygeek/tabular' }
     use { 'kyazdani42/nvim-tree.lua' }
 
+    use { 'nvim-lua/lsp-status.nvim' }
+
   end,
 })
 

@@ -121,6 +121,12 @@ local function make_statusline(elements, opts)
   end
 end
 
+local function lsp_status()
+  local has_lspstatus, lspstatus = pcall(require, 'lsp-status')
+  if not has_lspstatus then return '' end
+  return with_brackets(lspstatus.status())
+end
+
 make_statusline {
   mode,
   space,
@@ -134,6 +140,7 @@ make_statusline {
   space,
   line_col,
   filetype,
+  lsp_status,
   lsp_info,
 }
 
