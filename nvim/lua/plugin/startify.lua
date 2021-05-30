@@ -1,4 +1,4 @@
--- vim.g.startify_disable_at_vimenter = 1
+vim.g.startify_disable_at_vimenter = 1
 vim.g.startify_change_to_dir = 1
 
 vim.g.startify_lists = {

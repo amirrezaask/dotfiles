@@ -1,7 +1,11 @@
 local has_lspconfig, lspconfig = pcall(require,'lspconfig')
 if not has_lspconfig then return end
-
 local lspconfig_util = require('lspconfig.util')
+
+local has_lspkind, lspkind = pcall(require, 'lspkind')
+if has_lspkind then
+  lspkind.init()
+end
 
 local M = {}
 

@@ -12,4 +12,4 @@ vim.autocmd {
   "ColorizerAttachToBuffer"
 }
 
-vim.command('ColorPicker', ColorPicker)
+vim.command('ColorPicker', ColorPicker, nil, 'Opens the color picker on the color code under cursor')

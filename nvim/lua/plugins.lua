@@ -95,8 +95,9 @@ require('packer').startup({
 
     -- LSP {{{
     use({ 'neovim/nvim-lspconfig' })
-    use({ 'glepnir/lspsaga.nvim' })
     use({ 'nvim-lua/lsp_extensions.nvim' })
+    use({ 'onsails/lspkind-nvim' })
+    use({ 'nvim-lua/lsp-status.nvim' })
     -- }}}
 
     -- Highlight colors
@@ -106,7 +107,7 @@ require('packer').startup({
     })
 
     -- File Explorer
-    use 'tamago324/lir.nvim'
+    use ({ 'tamago324/lir.nvim' })
 
     -- Languages {{{
     use({ 'honza/dockerfile.vim' })
@@ -117,12 +118,12 @@ require('packer').startup({
     use({ 'cespare/vim-toml' })
     use({ 'chr4/nginx.vim' })
     use({ 'elixir-editors/vim-elixir' })
-    use 'neovimhaskell/haskell-vim'
-    use 'justinmk/vim-syntax-extra'
-    use 'goodell/vim-mscgen'
-    use 'pearofducks/ansible-vim'
-    use 'PProvost/vim-ps1'
-    use 'Glench/Vim-Jinja2-Syntax'
+    use({ 'neovimhaskell/haskell-vim' })
+    use({ 'justinmk/vim-syntax-extra' })
+    use({ 'goodell/vim-mscgen' })
+    use({ 'pearofducks/ansible-vim' })
+    use({ 'PProvost/vim-ps1' })
+    use({ 'Glench/Vim-Jinja2-Syntax' })
     -- }}}
 
 
@@ -158,16 +159,15 @@ require('packer').startup({
     -- }}}
 
     -- Startscreen also session manager
-    use { 'mhinz/vim-startify' }
+    use ({ 'mhinz/vim-startify' })
 
     -- Highlight todo and etc...
-    use { "folke/todo-comments.nvim",
-      requires = "nvim-lua/plenary.nvim" }
+    use ({ "folke/todo-comments.nvim",
+      requires = "nvim-lua/plenary.nvim" })
 
-    use { 'godlygeek/tabular' }
-    use { 'kyazdani42/nvim-tree.lua' }
+    use ({ 'godlygeek/tabular' })
+    use ({ 'kyazdani42/nvim-tree.lua' })
 
-    use { 'nvim-lua/lsp-status.nvim' }
 
   end,
 })
