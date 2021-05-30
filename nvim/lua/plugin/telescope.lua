@@ -5,7 +5,7 @@ local pickers = require('telescope.pickers')
 local conf = require('telescope.config').values
 local repos = require('repos')
 local telescope = require('telescope')
-local wallpapers_path = os.getenv("WALLPAPERS_PATH") or "~/src/github.com/amirrezaask/dotfiles/wallpapers"
+local wallpapers_path = os.getenv("WALLPAPERS_PATH") or "~/src/github.com/amirrezaask/dotfiles/wallpapers/"
 local ivy = require('telescope.themes').get_ivy
 local notheme = function(opts)
   return opts
