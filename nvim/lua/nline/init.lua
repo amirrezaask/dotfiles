@@ -1,3 +1,5 @@
+local has_lspstatus, lspstatus = pcall(require, 'lsp-status')
+
 local parts = {}
 local wrappers = {}
 
@@ -8,7 +10,7 @@ function parts.mode()
   elseif m == 'v' or m == 'V' then
     return '%#VisualMode# Visual %*'
   elseif m == '' then
-    return '%#VisualMode# VisualBlock %*'
+    return '%#VisualBlockMode# VisualBlock %*'
   elseif m == 'i' then
     return '%#InsertMode# Insert %*'
   elseif m == 'ic' or m == 'ix' then
@@ -20,18 +22,6 @@ function parts.mode()
   else
     return m
   end
-end
-
-local has_lspstatus, lspstatus = pcall(require, 'lsp-status')
-if has_lspstatus then
-  lspstatus.config({
-    indicator_errors = 'E:',
-    indicator_warnings = 'W:',
-    indicator_info = 'I:',
-    indicator_hint = 'H:',
-    indicator_ok = 'OK',
-    status_symbol = '',
-  })
 end
 
 parts.modified = '%m'
@@ -83,15 +73,24 @@ function parts.git_branch()
   success, __BRANCH = pcall(vim.fn['fugitive#head'])
   if success and __BRANCH ~= '' then
     return __BRANCH
-   -- __BRANCH = require('nvim-web-devicons').get_icon('git', 'git', {default=true}) .. ' ' .. __BRANCH
   end
   return __BRANCH
 end
 
 function wrappers.square_brackets(item)
+  if type(item) == 'function' then item = item() end
   return '[' .. item .. ']'
 end
 
+function wrappers.parens(item)
+  if type(item) == 'function' then item = item() end
+  return '(' .. item .. ')'
+end
+
+function wrappers.curly_brackets(item)
+  if type(item) == 'function' then item = item() end
+  return '{' .. item .. '}'
+end
 
 __STATUSLINE = nil
 
@@ -116,7 +115,6 @@ function parts.lsp_status()
 end
 
 vim.opt.statusline = '%!v:lua.__STATUSLINE()'
-
 
 return {
   make = make_statusline,

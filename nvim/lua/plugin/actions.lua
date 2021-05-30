@@ -1,5 +1,7 @@
 local has_actions, actions = pcall(require, 'actions')
-if not has_actions then return end
+if not has_actions then
+  return
+end
 
 local floating = require('floating')
 local lsp = require('plugin.lsp')
