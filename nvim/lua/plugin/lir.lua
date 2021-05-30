@@ -1,5 +1,7 @@
 local has_lir, lir = pcall(require, 'lir')
-if not has_lir then return end
+if not has_lir then
+  return
+end
 
 local has_devicons, devicons = pcall(require, 'nvim-web-devicons')
 if has_devicons then

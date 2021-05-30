@@ -1,4 +1,5 @@
-local dap = require('dap')
+local has_dap, dap = pcall(require,'dap')
+if not has_dap then return end
 
 vim.g.dap_virtual_text = true
 dap.adapters.go = function(callback, config)

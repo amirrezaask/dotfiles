@@ -1,4 +1,7 @@
-require('compe').setup({
+local has_compe, compe = pcall(require, 'compe')
+if not has_compe then return end
+
+compe.setup({
   enabled = true,
   autocomplete = true,
   debug = false,

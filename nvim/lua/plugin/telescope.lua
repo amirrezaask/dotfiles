@@ -1,3 +1,6 @@
+local has_telescope, _ = pcall(require, 'telescope')
+if not has_telescope then return end
+
 local actions = require('telescope.actions')
 local action_state = require('telescope.actions.state')
 local finders = require('telescope.finders')
@@ -151,10 +154,20 @@ function M.edit_neovim()
   require('telescope.builtin').find_files(current_theme {
     layout_strategy = 'vertical',
     prompt_title = '> Edit Neovim Config <',
-    cwd = '~/src/github.com/amirrezaask/dotfiles/nvim',
+    cwd = '~/.config/nvim',
     previewer = false,
   })
 end
+
+function M.edit_awesome()
+  require('telescope.builtin').find_files(current_theme {
+    layout_strategy = 'vertical',
+    prompt_title = '> Edit Neovim Config <',
+    cwd = '~/.config/awesome',
+    previewer = false,
+  })
+end
+
 
 function M.edit_zsh()
   require('telescope.builtin').find_files(current_theme {
@@ -247,6 +260,7 @@ vim.nmap {
     ['<leader>tc'] = M.base16_theme_selector,
     ['<leader>en'] = M.edit_neovim,
     ['<leader>ez'] = M.edit_zsh,
+    ['<leader>ea'] = M.edit_awesome,
     ['<leader>fs'] = M.find_src,
     [',w'] = wallpaper.set_wallpaper,
     ['<leader>c'] = wrap(require('telescope.builtin').commands),

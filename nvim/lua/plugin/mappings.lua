@@ -27,7 +27,7 @@ vim.map {
   ['<Up>']    = ':resize +5<CR>',
   ['<Down>']  = ':resize -5<CR>',
 
-  -- ??? why not working ?
+  -- Window resizes
   ['<M-.>'] = ':vertical resize +5<CR>',
   ['<M-,>'] = ':vertical resize -5<CR>',
   ["<M-'>"] = ':resize +5<CR>',
