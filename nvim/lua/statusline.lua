@@ -1,5 +1,11 @@
 local has_lspstatus, lspstatus = pcall(require, 'lsp-status')
-
+local default_icons = {
+    error = '😡',
+    warning = '😳',
+    info = '🛈',
+    hint = '😅',
+    ok = '🆗',
+}
 local parts = {}
 local wrappers = {}
 
@@ -78,21 +84,28 @@ function parts.git_branch()
 end
 
 function wrappers.square_brackets(item)
-  if type(item) == 'function' then item = item() end
-  if item == nil or item == '' then return '' end
-  return '[' .. item .. ']'
+  return function()
+    if type(item) == 'function' then item = item() end
+    if item == nil or item == '' then return '' end
+    return '[' .. item .. ']'
+  end
 end
 
 function wrappers.parens(item)
-  if type(item) == 'function' then item = item() end
-  if item == nil or item == '' then return '' end
-  return '(' .. item .. ')'
+  return function()
+    if type(item) == 'function' then item = item() end
+    print(item)
+    if item == nil or item == '' then return '' end
+    return '(' .. item .. ')'
+  end
 end
 
 function wrappers.curly_brackets(item)
-  if type(item) == 'function' then item = item() end
-  if item == nil or item == '' then return '' end
-  return '{' .. item .. '}'
+  return function()
+    if type(item) == 'function' then item = item() end
+    if item == nil or item == '' then return '' end
+    return '{' .. item .. '}'
+  end
 end
 
 __STATUSLINE = nil
@@ -104,6 +117,8 @@ local function make_statusline(elements, opts)
     for _, e in ipairs(elements) do
       if type(e) == 'function' then
         table.insert(_parts, e())
+      elseif type(e) == 'table' then
+        table.insert(_parts, table.concat(e, ''))
       else
         table.insert(_parts, e)
       end
@@ -112,16 +127,41 @@ local function make_statusline(elements, opts)
   end
 end
 
-function parts.lsp_status()
+function parts.lsp_progress()
   if not has_lspstatus then return '' end
-  return lspstatus.status()
+  return lspstatus.status_progress()
 end
 
-vim.autocmd {
-  "CursorMoved,CursorMovedI",
-  "*",
-  "lua require('lsp-status').update_current_function()"
-}
+function parts.lsp_current_function()
+  local ok, current_function = pcall(vim.api.nvim_buf_get_var,0, 'lsp_current_function')
+  if ok then
+    return current_function
+  else
+    return ''
+  end
+end
+
+function parts.lsp_diagnostics(icons)
+  icons = icons or {}
+  return function()
+    local diag = lspstatus.diagnostics()
+    local output = {}
+    if diag.errors ~= 0 then
+      table.insert(output, string.format("%s %s", icons.error or default_icons.error, diag.errors))
+    end
+    if diag.warnings ~= 0 then
+      table.insert(output, string.format("%s %s", icons.warning or default_icons.warning, diag.warnings))
+    end
+    if diag.hints ~= 0 then
+      table.insert(output, string.format("%s %s", icons.hint or default_icons.hint, diag.hints))
+    end
+    if diag.info ~= 0 then
+      table.insert(output, string.format("%s %s", icons.info or default_icons.info, diag.info))
+    end
+    if #output < 1 then return icons.ok or default_icons.ok end
+    return table.concat(output, ' ')
+  end
+end
 
 vim.opt.statusline = '%!v:lua.__STATUSLINE()'
 

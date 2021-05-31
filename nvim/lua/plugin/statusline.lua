@@ -15,6 +15,9 @@ statusline.make {
   parts.filename,
   parts.modified,
   parts.seperator,
-  parts.space, parts.lsp_status,
+  parts.lsp_current_function,
   parts.space,
+  parts.lsp_diagnostics(),
+  parts.space,
+  parts.lsp_progress,
 }

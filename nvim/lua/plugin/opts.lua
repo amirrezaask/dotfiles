@@ -29,6 +29,7 @@ vim.opt.pumblend = 13
 vim.opt.showmode = false
 vim.opt.clipboard = 'unnamedplus'
 vim.opt.hidden = true
+vim.opt.updatetime = 100
 
 if vim.fn.executable("rg") == 1 then
     vim.opt.grepprg='rg --vimgrep --no-heading'
