@@ -15,9 +15,11 @@ statusline.make {
   parts.filename,
   parts.modified,
   parts.seperator,
+  wrappers.square_brackets(parts.git_changes()),
   wrappers.square_brackets(parts.lsp_current_function()),
   parts.space,
-  parts.lsp_diagnostics(),
+  wrappers.square_brackets(parts.lsp_diagnostics()),
   parts.space,
   parts.lsp_progress,
+  parts.filetype,
 }

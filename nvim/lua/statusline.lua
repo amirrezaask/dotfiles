@@ -6,6 +6,9 @@ local default_icons = {
     hint = '😅',
     ok = '🆗',
     ['function'] = '',
+    git_insertions = '+',
+    git_changed = '~',
+    git_deletions = '-'
 }
 local parts = {}
 local wrappers = {}
@@ -93,7 +96,7 @@ function wrappers.square_brackets(item)
     if result == nil or result == '' then
       return ''
     end
-    return '[' .. result .. ']'
+    return '[ ' .. result .. ' ]'
   end
 end
 
@@ -106,7 +109,7 @@ function wrappers.parens(item)
     if result == nil or result == '' then
       return ''
     end
-    return '(' .. result .. ')'
+    return '( ' .. result .. ' )'
   end
 end
 
@@ -119,7 +122,7 @@ function wrappers.curly_brackets(item)
     if result == nil or result == '' then
       return ''
     end
-    return '{' .. result .. '}'
+    return '{ ' .. result .. ' }'
   end
 end
 
@@ -181,6 +184,62 @@ function parts.lsp_diagnostics(icons)
       table.insert(output, string.format("%s %s", icons.info or default_icons.info, diag.info))
     end
     if #output < 1 then return icons.ok or default_icons.ok end
+    return table.concat(output, ' ')
+  end
+end
+
+function parts.git_changes(icons)
+  icons = icons or {}
+  return function()
+    if vim.api.nvim_buf_get_option(0, 'bufhidden') ~= ""
+        or vim.api.nvim_buf_get_option(0, 'buftype') == 'nofile' then
+      return ''
+    end
+
+    if vim.fn.filereadable(vim.api.nvim_buf_get_name(0)) ~= 1 then
+      return ''
+    end
+    local has_spawn, spawn = pcall(require, 'spawn')
+    if not has_spawn then return '' end
+    local parse_shortstat_output = function(s)
+      local result = {}
+
+      local git_changed = vim.regex([[\(\d\+\)\( file changed\)\@=]])
+      local git_insertions = vim.regex([[\(\d\+\)\( insertions\)\@=]])
+      local git_deletions = vim.regex([[\(\d\+\)\( deletions\)\@=]])
+
+      local changed = {git_changed:match_str(s)}
+      if not vim.tbl_isempty(changed) then
+        result['changed'] = string.sub(s, changed[1] + 1, changed[2])
+      end
+
+      local insert = {git_insertions:match_str(s)}
+      if not vim.tbl_isempty(insert) then
+        result['deletions'] = string.sub(s, insert[1] + 1, insert[2])
+      end
+
+      local delete = {git_deletions:match_str(s)}
+      if not vim.tbl_isempty(delete) then
+        result['insertions'] = string.sub(s, delete[1] + 1, delete[2])
+      end
+      return result
+    end
+
+    local j = require('plenary.job'):new({
+      command = "git",
+      args = {"diff", "--shortstat", vim.api.nvim_buf_get_name(0)},
+      cwd = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":h"),
+    }):sync()
+    local ok, result = pcall(function()
+      return parse_shortstat_output(vim.trim(j[1]))
+    end)
+    if not ok then return '' end
+    if not result then return '' end
+    local output = {}
+    if result.changed then table.insert(output, string.format('%s %s', default_icons.git_changed, result.changed)) end
+    if result.deletions then table.insert(output, string.format('%s %s', default_icons.git_deletions, result.deletions)) end
+    if result.insertions then table.insert(output, string.format('%s %s',default_icons.git_insertions, result.insertions)) end
+    if vim.tbl_isempty(output) then return '' end
     return table.concat(output, ' ')
   end
 end

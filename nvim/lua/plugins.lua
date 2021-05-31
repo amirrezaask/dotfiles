@@ -50,9 +50,11 @@ require('packer').startup({
     -- Plugin Manager
     use({ 'wbthomason/packer.nvim' })
 
-
     -- Easier jobstart
     use { 'amirrezaask/spawn.nvim' }
+
+    -- Missing stdlib for neovim
+    use({ 'nvim-lua/plenary.nvim' })
 
     -- palette.nvim for creating beautiful themes
     use { 'amirrezaask/palette.nvim' }
@@ -61,7 +63,6 @@ require('packer').startup({
     use { 'gruvbox-community/gruvbox' }
 
     -- Telescope.nvim {{{
-    use({ 'nvim-lua/plenary.nvim' })
     use({ 'nvim-lua/popup.nvim' })
     use({ 'nvim-telescope/telescope.nvim' })
     use({ 'nvim-telescope/telescope-fzy-native.nvim' })
@@ -155,7 +156,7 @@ require('packer').startup({
     use({ 'kyazdani42/nvim-web-devicons' })
 
     -- need to have nonicons font installed look into https://github.com/yamatsum/nonicons
-    -- use({ 'yamatsum/nvim-nonicons' })
+    use({ 'yamatsum/nvim-nonicons' })
     -- }}}
 
     -- Startscreen also session manager
@@ -165,9 +166,12 @@ require('packer').startup({
     use ({ "folke/todo-comments.nvim",
       requires = "nvim-lua/plenary.nvim" })
 
+    -- beautify text :)
     use ({ 'godlygeek/tabular' })
+    -- File tree ( added for @mnim220 )
     use ({ 'kyazdani42/nvim-tree.lua' })
 
+    -- Highlight current symbol and it's other usages using LSP.
     use ({ 'amirrezaask/nvim-cursorline' })
 
   end,
