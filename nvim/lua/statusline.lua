@@ -40,7 +40,7 @@ parts.space = ' '
 parts.filename = '%f'
 parts.filename_shorten = "%{pathshorten(expand('%:f'))}"
 parts.pipe = '|'
-parts.line_col = '[ %l:%c %%%p ]'
+parts.line_col = '[ %l:%c ]'
 parts.line = '%l'
 parts.col = '%c'
 parts.percentage_of_file = '%%%p'
@@ -236,9 +236,9 @@ function parts.git_changes(icons)
     if not ok then return '' end
     if not result then return '' end
     local output = {}
-    if result.changed then table.insert(output, string.format('%s %s', default_icons.git_changed, result.changed)) end
-    if result.deletions then table.insert(output, string.format('%s %s', default_icons.git_deletions, result.deletions)) end
-    if result.insertions then table.insert(output, string.format('%s %s',default_icons.git_insertions, result.insertions)) end
+    if result.changed then table.insert(output, string.format('%s%s', default_icons.git_changed, result.changed)) end
+    if result.deletions then table.insert(output, string.format('%s%s', default_icons.git_deletions, result.deletions)) end
+    if result.insertions then table.insert(output, string.format('%s%s',default_icons.git_insertions, result.insertions)) end
     if vim.tbl_isempty(output) then return '' end
     return table.concat(output, ' ')
   end
