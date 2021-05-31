@@ -1,6 +1,7 @@
 local parts = {}
 
 function parts.mode()
+  -- TODO: this should get config and use that to generate highlights
   local m = vim.api.nvim_get_mode().mode
   if m == 'n' then
     return '%#NormalMode# Normal %*'
@@ -64,6 +65,7 @@ parts.icons = {
 }
 
 function parts.git_branch()
+  -- TODO: make this use plenary
   local __BRANCH
   local success
   success, __BRANCH = pcall(vim.fn['fugitive#head'])
