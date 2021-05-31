@@ -11,10 +11,6 @@ function L(mod)
   return package.loaded[mod] ~= nil
 end
 
-function notfound_err(mod)
-  vim.api.nvim_err_writeln('plugin ' .. mod .. ' not found')
-end
-
 -- does print(vim.inspect(obj))
 function P(obj)
   print(vim.inspect(obj))

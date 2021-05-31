@@ -5,7 +5,7 @@ local default_icons = {
     info = '🛈',
     hint = '😅',
     ok = '🆗',
-    ['function'] = 'ƒ',
+    ['function'] = '',
 }
 local parts = {}
 local wrappers = {}
@@ -86,26 +86,40 @@ end
 
 function wrappers.square_brackets(item)
   return function()
-    if type(item) == 'function' then item = item() end
-    if item == nil or item == '' then return '' end
-    return '[' .. item .. ']'
+    local result = item
+    if type(item) == 'function' then
+      result = result()
+    end
+    if result == nil or result == '' then
+      return ''
+    end
+    return '[' .. result .. ']'
   end
 end
 
 function wrappers.parens(item)
   return function()
-    if type(item) == 'function' then item = item() end
-    print(item)
-    if item == nil or item == '' then return '' end
-    return '(' .. item .. ')'
+    local result = item
+    if type(item) == 'function' then
+      result = result()
+    end
+    if result == nil or result == '' then
+      return ''
+    end
+    return '(' .. result .. ')'
   end
 end
 
 function wrappers.curly_brackets(item)
   return function()
-    if type(item) == 'function' then item = item() end
-    if item == nil or item == '' then return '' end
-    return '{' .. item .. '}'
+    local result = item
+    if type(item) == 'function' then
+      result = result()
+    end
+    if result == nil or result == '' then
+      return ''
+    end
+    return '{' .. result .. '}'
   end
 end
 
@@ -138,7 +152,11 @@ function parts.lsp_current_function(symbol)
   return function()
     local ok, current_function = pcall(vim.api.nvim_buf_get_var,0, 'lsp_current_function')
     if ok and current_function ~= '' then
-      return symbol .. ' ' .. current_function
+      if symbol == '' then
+        return current_function
+      else
+        return symbol .. ' ' .. current_function
+      end
     else
       return ''
     end

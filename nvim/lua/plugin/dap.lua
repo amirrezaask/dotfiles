@@ -2,7 +2,7 @@ local has_dap, dap = pcall(require,'dap')
 if not has_dap then return end
 
 vim.g.dap_virtual_text = true
-dap.adapters.go = function(callback, config)
+dap.adapters.go = function(callback, _)
   local port = 38697
   local handle
   handle, _ = vim.loop.spawn('dlv', {
