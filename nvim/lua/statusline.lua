@@ -5,6 +5,7 @@ local default_icons = {
     info = '🛈',
     hint = '😅',
     ok = '🆗',
+    ['function'] = 'ƒ',
 }
 local parts = {}
 local wrappers = {}
@@ -35,7 +36,7 @@ parts.readonly = '%r'
 parts.space = ' '
 parts.filename = '%f'
 parts.filename_shorten = "%{pathshorten(expand('%:f'))}"
-parts.pipe = ' | '
+parts.pipe = '|'
 parts.line_col = '[ %l:%c %%%p ]'
 parts.line = '%l'
 parts.col = '%c'
@@ -132,12 +133,15 @@ function parts.lsp_progress()
   return lspstatus.status_progress()
 end
 
-function parts.lsp_current_function()
-  local ok, current_function = pcall(vim.api.nvim_buf_get_var,0, 'lsp_current_function')
-  if ok then
-    return current_function
-  else
-    return ''
+function parts.lsp_current_function(symbol)
+  symbol = symbol or default_icons['function']
+  return function()
+    local ok, current_function = pcall(vim.api.nvim_buf_get_var,0, 'lsp_current_function')
+    if ok and current_function ~= '' then
+      return symbol .. ' ' .. current_function
+    else
+      return ''
+    end
   end
 end
 
