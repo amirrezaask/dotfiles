@@ -13,7 +13,7 @@ statusline.make {
   parts.seperator, parts.space,
   parts.icons.file,
   parts.space,
-  parts.filename,
+  parts.filename_shorten,
   parts.modified,
   parts.seperator,
   parts.space,

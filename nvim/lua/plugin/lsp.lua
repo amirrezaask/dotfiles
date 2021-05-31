@@ -3,6 +3,7 @@ if not has_lspconfig then return end
 local lspconfig_util = require('lspconfig.util')
 
 local has_lspkind, lspkind = pcall(require, 'lspkind')
+
 if has_lspkind then
   lspkind.init()
 end
@@ -11,6 +12,7 @@ local M = {}
 
 local has_lspstatus, lspstatus = pcall(require, 'lsp-status')
 if has_lspstatus then
+  lspstatus.register_progress()
   lspstatus.config({
     indicator_errors = '😡',
     indicator_warnings = '😳',
