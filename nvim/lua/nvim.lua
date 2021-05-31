@@ -180,6 +180,8 @@ vim.command = setmetatable({}, {
 })
 vim.c = vim.command
 
+vim.colorscheme = vim.c.colorscheme
+
 -- Took from tjdevries/astronauta.nvim
 -- Load ftplugin/*.lua and after/ftplugin/*.lua for * FileType 
 vim.autocmd {
