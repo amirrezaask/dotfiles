@@ -168,6 +168,7 @@ require('packer').startup({
     use ({ 'godlygeek/tabular' })
     use ({ 'kyazdani42/nvim-tree.lua' })
 
+    use ({ 'amirrezaask/nvim-cursorline' })
 
   end,
 })
