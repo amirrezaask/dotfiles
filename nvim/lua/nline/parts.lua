@@ -1,17 +1,4 @@
-local has_lspstatus, lspstatus = pcall(require, 'lsp-status')
-local default_icons = {
-    error = '😡',
-    warning = '😳',
-    info = '🛈',
-    hint = '😅',
-    ok = '🆗',
-    ['function'] = '',
-    git_insertions = '+',
-    git_changed = '~',
-    git_deletions = '-'
-}
 local parts = {}
-local wrappers = {}
 
 function parts.mode()
   local m = vim.api.nvim_get_mode().mode
@@ -74,7 +61,6 @@ parts.icons = {
     end
     return ''
   end
-
 }
 
 function parts.git_branch()
@@ -87,63 +73,18 @@ function parts.git_branch()
   return __BRANCH
 end
 
-function wrappers.square_brackets(item)
-  return function()
-    local result = item
-    if type(item) == 'function' then
-      result = result()
-    end
-    if result == nil or result == '' then
-      return ''
-    end
-    return '[ ' .. result .. ' ]'
-  end
-end
-
-function wrappers.parens(item)
-  return function()
-    local result = item
-    if type(item) == 'function' then
-      result = result()
-    end
-    if result == nil or result == '' then
-      return ''
-    end
-    return '( ' .. result .. ' )'
-  end
-end
-
-function wrappers.curly_brackets(item)
-  return function()
-    local result = item
-    if type(item) == 'function' then
-      result = result()
-    end
-    if result == nil or result == '' then
-      return ''
-    end
-    return '{ ' .. result .. ' }'
-  end
-end
-
-__STATUSLINE = nil
-
-local function make_statusline(elements, opts)
-  opts = opts or {}
-  __STATUSLINE = function()
-    local _parts = {}
-    for _, e in ipairs(elements) do
-      if type(e) == 'function' then
-        table.insert(_parts, e())
-      elseif type(e) == 'table' then
-        table.insert(_parts, table.concat(e, ''))
-      else
-        table.insert(_parts, e)
-      end
-    end
-    return table.concat(_parts, opts.delimiter or '')
-  end
-end
+local has_lspstatus, lspstatus = pcall(require, 'lsp-status')
+local default_icons = {
+    error = '😡',
+    warning = '😳',
+    info = '🛈',
+    hint = '😅',
+    ok = '',
+    ['function'] = '',
+    git_insertions = '+',
+    git_changed = '~',
+    git_deletions = '-'
+}
 
 function parts.lsp_progress()
   if not has_lspstatus then return '' end
@@ -244,11 +185,5 @@ function parts.git_changes(icons)
   end
 end
 
-vim.opt.statusline = '%!v:lua.__STATUSLINE()'
 
-return {
-  make = make_statusline,
-  parts = parts,
-  wrappers = wrappers,
-}
-
+return parts

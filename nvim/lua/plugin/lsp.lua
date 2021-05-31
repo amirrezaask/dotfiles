@@ -18,17 +18,17 @@ if has_lspstatus then
     indicator_warnings = '😳',
     indicator_info = '🛈',
     indicator_hint = '😅',
-    indicator_ok = '🆗',
+    indicator_ok = '',
     status_symbol = '',
     kind_labels = {
-      Class = "Class: ",
-      Function = "Function: ",
-      Method = "Method: ",
-      Struct = "Struct: ",
-      Enum = "Enum: ",
-      Interface = "Interface: ",
-      Namespace = "Namespace: ",
-      Module = "Module: ",
+      Class = "Class:",
+      Function = "Function:",
+      Method = "Method:",
+      Struct = "Struct:",
+      Enum = "Enum:",
+      Interface = "Interface:",
+      Namespace = "Namespace:",
+      Module = "Module:",
     }
   })
 end

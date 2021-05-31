@@ -1,6 +1,6 @@
 local M = {}
 
-_G.quickfix_state = 'close'
+local quickfix_state = 'close'
 
 function M.toggle()
   local current_win = vim.api.nvim_get_current_win()
