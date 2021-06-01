@@ -65,6 +65,9 @@ require('packer').startup({
     use { 'jacoborus/tender.vim' }
     use { 'Luxed/ayu-vim' }
     use { 'challenger-deep-theme/vim' }
+    use { 'liuchengxu/space-vim-theme' }
+    use { 'joshdick/onedark.vim' }
+    use { 'arcticicestudio/nord-vim' }
     -- }}}
 
     -- Telescope.nvim {{{
