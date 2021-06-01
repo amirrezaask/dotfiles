@@ -5,7 +5,7 @@ hl { "Normal", bg='#282c34', fg='#e0e0e0' }
 
 hl { "InvNormal", bg="#c5c8c6", fg="#282c34" }
 hl { "NormalFloat", bg="#111317", fg="#fafafa" }
-hl { "LineNr", bg="#282a2e", fg="#969896", styles = {'italic'}}
+hl { "LineNr", bg="#282a2e", fg="#969896" }
 hl { "EndOfBuffer", fg="#969896"}
 hl { "SignColumn", bg="#282a2e", fg="#969896" }
 hl { "Visual", bg="#38556d" }
@@ -24,7 +24,7 @@ hl { "TabLineSel", bg="#282a2e", fg="#ffffff"}
 hl { "ColorColumn", bg="#81a2be", fg="#ffffff"}
 hl { "qfFileName", fg="#f8fe7a" }
 
-hl { "Special", fg="#aa92cd", styles={"italic"} }
+hl { "Special", fg="#aa92cd" }
 
 hl { "SpecialChar", fg="#a3685a" }
 hl { "NonText", fg="#4e545c" }
@@ -56,7 +56,7 @@ hl { { "Repeat", "TSRepeat" }, fg="#cc6666" }
 hl { "Repeat", fg="#cc6666" }
 hl { "Statement", fg="#c04040" }
 hl { "StorageClass", fg="#f8fe7a" }
-hl { { "String", "TSString" }, fg="#99cc99", styles = {"italic"} }
+hl { { "String", "TSString" }, fg="#99cc99" }
 hl { "Structure", fg="#b294bb" }
 hl { { "Tag", "TSTag" }, fg="#f8fe7a" }
 hl { "Todo", fg="#f8fe7a" }
@@ -77,7 +77,7 @@ hl { { "vimCommand", "vimNotFunc", "TSConstant", "vimLet" }, fg="#81a2be" }
 hl { "TSVariable", fg="#e0e0e0" }
 hl { "TSFunction", fg="#f8fe7a", styles={"bold"}}
 hl { { "TSVariableBuiltin", "TSConstantBuiltin" }, fg="#f8fe7a" }
-hl { { "vimIsCommand", "vimFuncVar", "TSKeyword", "Keyword" }, fg="#b294bb", styles={"italic","bold"}}
+hl { { "vimIsCommand", "vimFuncVar", "TSKeyword", "Keyword" }, fg="#b294bb", styles={"bold"}}
 hl { "TSLabel", fg="#cc6666"}
 
 

@@ -1,7 +1,12 @@
 CtrlTabBuffers = {}
-
+CtrlTabConfig = {}
 local ctrltab = {}
 
+function ctrltab.setup(opts)
+  opts = opts or {}
+  opts.max_buffer_count = opts.max_buffer_count or 10
+  CtrlTabConfig = opts
+end
 function ctrltab:jump_to_last()
   vim.api.nvim_set_current_buf(CtrlTabBuffers[#CtrlTabBuffers-1])
   local tmp = CtrlTabBuffers[#CtrlTabBuffers-1]
@@ -13,6 +18,7 @@ function ctrltab:telescope_switcher()
   local has_telescope, _ = require('telescope')
   if not has_telescope then
     vim.api.nvim_err_writeln('Install telescope to use this function')
+    return
   end
   local pickers = require('telescope.pickers')
   local finders = require('telescope.finders')
@@ -66,11 +72,13 @@ function ctrltab.add_to_buffer_list()
       table.insert(CtrlTabBuffers, bufnr)
     end
   end
+  if #CtrlTabBuffers > (CtrlTabConfig.max_buffer_count or 10) then
+    table.remove(CtrlTabBuffers, 1)
+  end
 end
 
---TODO: should store only last n items
-vim.cmd [[ augroup CtrlTab
-  au!
+vim.cmd [[augroup CtrlTab
+  autocmd!
   autocmd BufEnter * lua require('ctrltab').add_to_buffer_list()
   augroup END
 ]]
