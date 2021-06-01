@@ -75,7 +75,7 @@ hl { { "Identifier", "TSConstant", "Constant" }, fg="#cc6666" }
 hl { { "Define", "TSInclude", "Include" }, fg="#8abeb7" }
 hl { { "vimCommand", "vimNotFunc", "TSConstant", "vimLet" }, fg="#81a2be" }
 hl { "TSVariable", fg="#e0e0e0" }
-hl { "TSFunction", fg="#f8fe7a", styles={"bold","italic"}}
+hl { "TSFunction", fg="#f8fe7a", styles={"bold"}}
 hl { { "TSVariableBuiltin", "TSConstantBuiltin" }, fg="#f8fe7a" }
 hl { { "vimIsCommand", "vimFuncVar", "TSKeyword", "Keyword" }, fg="#b294bb", styles={"italic","bold"}}
 hl { "TSLabel", fg="#cc6666"}

@@ -181,7 +181,7 @@ require('packer').startup({
 
     -- Highlight current symbol and it's other usages using LSP.
     use ({ 'amirrezaask/nvim-cursorline' })
-
+    use { 'milisims/nvim-luaref' }
   end,
 })
 
