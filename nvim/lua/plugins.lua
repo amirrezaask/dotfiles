@@ -181,7 +181,10 @@ require('packer').startup({
 
     -- Highlight current symbol and it's other usages using LSP.
     use ({ 'amirrezaask/nvim-cursorline' })
+
+    -- Lua reference manual for vim help
     use { 'milisims/nvim-luaref' }
+
   end,
 })
 
