@@ -11,19 +11,17 @@ local wrappers = require('nline.wrappers')
 
 nline.make {
   vim.mode(),
-  vim.space(),
-  icons.git, vim.space(), git.branch(),
-  vim.space(), vim.seperator(),
-  icons.file,
-  vim.space(),
-  vim.filename(),
-  vim.modified(),
+  vim.space(), icons.git_branch, vim.space(), git.branch(),
+
   vim.seperator(),
+
+  icons.file, vim.space(), vim.filename(), vim.modified(),
+
+  vim.seperator(),
+
   wrappers.square_brackets(lsp.current_function()),
   wrappers.square_brackets(git.changes()),
-  vim.space(),
   wrappers.square_brackets(lsp.diagnostics()),
-  vim.space(),
   lsp.progress(),
   wrappers.square_brackets(vim.line()..vim.space()..vim.colon()..vim.col()),
   vim.filetype(),
