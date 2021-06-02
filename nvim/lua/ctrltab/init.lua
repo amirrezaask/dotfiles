@@ -7,6 +7,7 @@ function ctrltab.setup(opts)
   opts.max_buffer_count = opts.max_buffer_count or 10
   CtrlTabConfig = opts
 end
+
 function ctrltab:jump_to_last()
   vim.api.nvim_set_current_buf(CtrlTabBuffers[#CtrlTabBuffers-1])
   local tmp = CtrlTabBuffers[#CtrlTabBuffers-1]

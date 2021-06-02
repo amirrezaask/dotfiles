@@ -1,24 +1,34 @@
 local parts = {}
 
-function parts.mode()
-  -- TODO: this should get config and use that to generate highlights
-  local m = vim.api.nvim_get_mode().mode
-  if m == 'n' then
-    return '%#NormalMode# Normal %*'
-  elseif m == 'v' or m == 'V' then
-    return '%#VisualMode# Visual %*'
-  elseif m == '' then
-    return '%#VisualBlockMode# VisualBlock %*'
-  elseif m == 'i' then
-    return '%#InsertMode# Insert %*'
-  elseif m == 'ic' or m == 'ix' then
-    return '%#InsertMode# IComplete %*'
-  elseif m == 'c' then
-    return '%#CommandMode# Command %*'
-  elseif m == 't' then
-    return '%#TerminalMode# Terminal %*'
-  else
-    return m
+function parts.mode(opts)
+  local default_opts = {
+    normal = 'NormalMode',
+    visual = 'VisualMode',
+    visual_block = 'VisualBlockMode',
+    insert = 'InsertMode',
+    command = 'CommandMode',
+    terminal = 'TerminalMode'
+  }
+  opts = opts or {}
+  return function()
+    local m = vim.api.nvim_get_mode().mode
+    if m == 'n' then
+      return string.format('%%#%s# Normal %%*', opts.normal or default_opts.normal)
+    elseif m == 'v' or m == 'V' then
+      return string.format('%%#%s# Visual %%*', opts.visual or default_opts.visual)
+    elseif m == '' then
+      return string.format('%%#%s# VisualBlock %%*', opts.visual_block or default_opts.visual_block)
+    elseif m == 'i' then
+      return string.format('%%#%s# Insert %%*', opts.insert or default_opts.insert)
+    elseif m == 'ic' or m == 'ix' then
+      return string.format('%%#%s# IComplete %%*', opts.insert or default_opts.insert)
+    elseif m == 'c' then
+      return string.format('%%#%s# Command %%*', opts.command or default_opts.command)
+    elseif m == 't' then
+      return string.format('%%#%s# Terminal %%*', opts.terminal or default_opts.terminal)
+    else
+      return m
+    end
   end
 end
 

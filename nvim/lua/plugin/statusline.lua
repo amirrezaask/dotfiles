@@ -7,7 +7,7 @@ local parts = nline.parts
 local wrappers = nline.wrappers
 
 nline.make {
-  parts.mode,
+  parts.mode(),
   parts.space,
   parts.icons.git, parts.space, parts.git_branch,
   parts.space, parts.seperator,

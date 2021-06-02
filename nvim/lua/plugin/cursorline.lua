@@ -1,9 +1,9 @@
-local cursorline = require('nvim-cursorline')
+-- local cursorline = require('nvim-cursorline')
 
-cursorline.config {
-  highlight_styles = {
-    -- 'italic',
-    -- 'bold',
-    'underline'
-  }
-}
+-- cursorline.config {
+--   highlight_styles = {
+--     -- 'italic',
+--     -- 'bold',
+--     'underline'
+--   }
+-- }

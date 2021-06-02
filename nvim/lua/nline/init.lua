@@ -1,4 +1,4 @@
-NLINE_STATUS_GENERATOR = nil
+NLineStatusLineGenerator = nil
 
 local function process(e)
   if type(e) == "function" then
@@ -12,7 +12,7 @@ end
 
 local function make_statusline(elements, opts)
   opts = opts or {}
-  NLINE_STATUS_GENERATOR = function()
+  NLineStatusLineGenerator = function()
     local _parts = {}
     for _, e in ipairs(elements) do
       local processed = process(e)
@@ -22,7 +22,7 @@ local function make_statusline(elements, opts)
   end
 end
 
-vim.opt.statusline = '%!v:lua.NLINE_STATUS_GENERATOR()'
+vim.opt.statusline = '%!v:lua.NLineStatusLineGenerator()'
 
 return {
   make = make_statusline,
