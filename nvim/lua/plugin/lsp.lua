@@ -2,6 +2,9 @@ local has_lspconfig, lspconfig = pcall(require,'lspconfig')
 if not has_lspconfig then return end
 local lspconfig_util = require('lspconfig.util')
 
+local has_nlua, nlua = pcall(require, 'nlua.lsp.nvim')
+
+if not has_nlua then print('for better lua support install nlua') end
 local has_lspkind, lspkind = pcall(require, 'lspkind')
 
 if has_lspkind then
@@ -42,27 +45,13 @@ function M.go_root()
   get_root(unpack(go_root_patterns))
 end
 
-local function get_lua_runtime()
-    local result = {};
-    for _, path in pairs(vim.api.nvim_list_runtime_paths()) do
-        local lua_path = path .. "/lua/";
-        if vim.fn.isdirectory(lua_path) then
-            result[lua_path] = true
-        end
-    end
-
-    result[vim.fn.expand("$VIMRUNTIME/lua")] = true
-    result[vim.fn.expand('$VIMRUNTIME/lua/vim')] = true
-    return result;
-end
-
 local function rename()
   local current_word = vim.fn.expand('<cword>')
   require('floating'):prompt(string.format('Rename %s to > ', current_word), vim.lsp.buf.rename)
 end
 
 local telescope_on_attach = require('plugin.telescope').on_attach
-local support_formatting = {'go', 'rust'}
+local support_formatting = {'rust'}
 
 local function make_on_attach(base)
   return function(client)
@@ -101,7 +90,41 @@ lspconfig.rust_analyzer.setup({
 local sumneko_root = '/home/amirreza/.local/lua-language-server'
 local sumneko_binary = sumneko_root .. '/bin/Linux/lua-language-server'
 
-lspconfig.sumneko_lua.setup({
+if has_nlua then
+  nlua.setup(require('lspconfig'), {
+    on_attach = on_attach,
+    cmd = {
+      sumneko_binary,
+      "-E",
+      string.format(
+        "%s/main.lua",
+       sumneko_root
+      ),
+    },
+
+    -- Include globals you want to tell the LSP are real :)
+    globals = {
+      "Color", "c", "Group", "g", "s",
+      "vim",
+      "describe", "it", "before_each", "after_each", "teardown", "pending", "clear",
+      'awesome', 'client'
+    }
+  })
+else
+  local function get_lua_runtime()
+    local result = {};
+    for _, path in pairs(vim.api.nvim_list_runtime_paths()) do
+        local lua_path = path .. "/lua/";
+        if vim.fn.isdirectory(lua_path) then
+            result[lua_path] = true
+        end
+    end
+
+    result[vim.fn.expand("$VIMRUNTIME/lua")] = true
+    result[vim.fn.expand('$VIMRUNTIME/lua/vim')] = true
+    return result;
+  end
+  lspconfig.sumneko_lua.setup({
     cmd = { sumneko_binary, '-E', sumneko_root .. '/main.lua' },
     -- Lua LSP configuration
     settings = {
@@ -169,7 +192,7 @@ lspconfig.sumneko_lua.setup({
       end
     end,
   })
-
+end
 lspconfig.pyls_ms.setup({ on_attach = on_attach })
 lspconfig.clangd.setup({ on_attach = on_attach })
 lspconfig.intelephense.setup({ on_attach = on_attach })

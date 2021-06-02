@@ -187,7 +187,15 @@ require('packer').startup({
 
     -- Statusline
     use { 'amirrezaask/nline.nvim' }
+
+    -- Nvim Lua dev
+    use { 'tjdevries/nlua.nvim' }
   end,
+  config = {
+    display = {
+      open_fn = require('packer.util').float,
+    },
+  }
 })
 
 -- Load plugin configuration from lua/configs
