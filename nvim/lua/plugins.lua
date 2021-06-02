@@ -185,6 +185,8 @@ require('packer').startup({
     -- Lua reference manual for vim help
     use { 'milisims/nvim-luaref' }
 
+    -- Statusline
+    use { 'amirrezaask/nline.nvim' }
   end,
 })
 

@@ -22,6 +22,6 @@ nline.make {
   wrappers.square_brackets(parts.lsp_diagnostics()),
   parts.space,
   parts.lsp_progress,
-  wrappers.square_brackets('%l:%c'),
+  wrappers.square_brackets(parts.line..parts.space..parts.colon..parts.col),
   parts.filetype,
 }
