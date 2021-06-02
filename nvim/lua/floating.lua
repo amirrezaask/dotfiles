@@ -143,6 +143,7 @@ function floating:command(cmd, opts)
 end
 
 function floating:prompt(prompt, callback)
+  local origin_win = vim.api.nvim_get_current_win()
   local buf, win = floating:new {
     width_pct = 60,
     height = 1,
@@ -155,6 +156,7 @@ function floating:prompt(prompt, callback)
   vim.c.startinsert()
   vim.fn.prompt_setcallback(buf, function(text)
     vim.api.nvim_win_close(win, true)
+    vim.api.nvim_set_current_win(origin_win)
     callback(text)
   end)
 end
