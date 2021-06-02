@@ -3,27 +3,27 @@ if not has_nline then
   return
 end
 
-local parts = nline.parts
+local vim = require('nline.parts.vim')
 local git = require('nline.parts.git')
 local lsp = require('nline.parts.lsp')
-local wrappers = nline.wrappers
+local wrappers = require('nline.wrappers')
 
 nline.make {
-  parts.mode(),
-  parts.space,
-  parts.icons.git, parts.space, git.branch,
-  parts.space, parts.seperator,
-  parts.icons.file,
-  parts.space,
-  parts.filename,
-  parts.modified,
-  parts.seperator,
+  vim.mode(),
+  vim.space(),
+  vim.icons.git, vim.space(), git.branch(),
+  vim.space(), vim.seperator(),
+  vim.icons.file,
+  vim.space(),
+  vim.filename(),
+  vim.modified(),
+  vim.seperator(),
   wrappers.square_brackets(lsp.current_function()),
   wrappers.square_brackets(git.changes()),
-  parts.space,
+  vim.space(),
   wrappers.square_brackets(lsp.diagnostics()),
-  parts.space,
-  lsp.progress,
-  wrappers.square_brackets(parts.line..parts.space..parts.colon..parts.col),
-  parts.filetype,
+  vim.space(),
+  lsp.progress(),
+  wrappers.square_brackets(vim.line()..vim.space()..vim.colon()..vim.col()),
+  vim.filetype(),
 }
