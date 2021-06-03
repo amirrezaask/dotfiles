@@ -60,14 +60,9 @@ require('packer').startup({
     -- palette.nvim for creating beautiful themes
     use { 'amirrezaask/palette.nvim' }
     use { 'folke/tokyonight.nvim' }
-    use { 'Haron-Prime/Antares' }
     use { 'gruvbox-community/gruvbox' }
-    use { 'jacoborus/tender.vim' }
-    use { 'Luxed/ayu-vim' }
-    use { 'challenger-deep-theme/vim' }
     use { 'liuchengxu/space-vim-theme' }
     use { 'joshdick/onedark.vim' }
-    use { 'arcticicestudio/nord-vim' }
     -- }}}
 
     -- Telescope.nvim {{{
@@ -182,15 +177,15 @@ require('packer').startup({
     -- Highlight current symbol and it's other usages using LSP.
     use ({ 'amirrezaask/nvim-cursorline' })
 
-    -- Lua reference manual for vim help
+    -- Nvim Lua dev {{{
+    use { 'tjdevries/nlua.nvim' }
     use { 'milisims/nvim-luaref' }
+    -- }}}
 
     -- Statusline
     use { 'amirrezaask/nline.nvim' }
 
-    -- Nvim Lua dev
-    use { 'tjdevries/nlua.nvim' }
-  end,
+      end,
   config = {
     display = {
       open_fn = require('packer.util').float,

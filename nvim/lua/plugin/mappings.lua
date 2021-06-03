@@ -30,8 +30,8 @@ vim.map {
   -- Window resizes
   ['<M-.>'] = { ':vertical resize +5<CR>', "Increases window width", "Window" },
   ['<M-,>'] = { ':vertical resize -5<CR>', "Decreases window width", "Window" },
-  ["<M-'>"] = { ':resize +5<CR>', "Decreases window height", "Window" },
-  ['<M-;>'] = { ':resize -5<CR>', "Decreases window height", "Window" },
+  ["<M-=>"] = { ':resize +5<CR>', "Decreases window height", "Window" },
+  ['<M-->'] = { ':resize -5<CR>', "Decreases window height", "Window" },
 
   -- Tabs stuff
   ['<M-l>'] = { ':tabprevious<CR>', "Previous Tab", "Tabs" },
