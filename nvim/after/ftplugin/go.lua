@@ -29,7 +29,7 @@ function go.test()
   }
 end
 function go.build()
-  quickfix.quickfix_from_cmd('go build ./...')
+  quickfix.from_cmd('go build ./...')
 end
 
 local function default_formatter()

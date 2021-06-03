@@ -34,7 +34,7 @@ local function gen_from_cmd_output(qflist, data)
   return qflist 
 end
 
-function M.quickfix_from_cmd(cmd)
+function M.from_cmd(cmd)
   vim.fn.jobstart(cmd, {
     on_exit = function(_, exit_code, _)
       if exit_code ~= 0 then print('exit code ' .. exit_code) end
@@ -52,7 +52,7 @@ function M.quickfix_from_cmd(cmd)
   })
 end
 
-function M.quickfix_entry(filename, lnum, col, text)
+function M.make_entry(filename, lnum, col, text)
   return {filename=filename, lnum=lnum, col=col, text=text}
 end
 
