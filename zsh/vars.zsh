@@ -42,6 +42,7 @@ alias snapp='sudo openfortivpn -c ~/snappDC.conf'
 alias gpm='git push origin master'
 alias glm='git pull origin master'
 alias work='cd ~/src/gitlab.snapp.ir/'
+alias oss='cd ~/src/github.com/amirrezaask'
 
 if type nvim > /dev/null 2>&1; then
     export MANPAGER='nvim +Man!'
