@@ -5,6 +5,7 @@ end
 
 local floating = require('floating')
 local lsp = require('plugin.lsp')
+local utils = require('actions.utils')
 
 local function floating_window_opts(opts)
   local base = {
@@ -26,20 +27,17 @@ actions:setup {
     ['n ,tt'] = 'test_this',
     ['n ,ar'] = 'run',
   },
-  projects = {
-    ['~/src/github.com/amirrezaask/worker'] = {
-      build = function(bufnr)
-        print("project worker build command")
-      end
-    }
-  },
-  filetypes = {
-    lua = {
+  {
+    predicate = utils.make_language_predicate('lua'),
+    actions = {
       run = function(bufnr)
         vim.c.luafile(vim.api.nvim_buf_get_name(bufnr))
-      end
+      end,
     },
-    go = {
+  },
+  {
+    predicate = utils.make_language_predicate('go'),
+    actions = {
       build = function(_)
         floating:command('go build', floating_window_opts {
           cwd = lsp.go_root()
@@ -68,7 +66,7 @@ actions:setup {
             cwd = lsp.go_root()
           }
         })
-      end,
+      end
     }
-  }
+  },
 }
