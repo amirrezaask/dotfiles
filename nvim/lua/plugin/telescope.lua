@@ -255,8 +255,8 @@ function M.on_attach(_)
     ['?d'] = { wrap(require('telescope.builtin').lsp_document_symbols), "Search through document symbols", "IDE" },
     ['?w'] = { wrap(require('plugin.telescope').lsp_workspace_symbols), "Search through workspace symbols", "IDE" },
     ['?c'] = { wrap(require('telescope.builtin').lsp_code_actions), "Show code actions", "IDE" },
-    [',d?'] = { wrap(require('telescope.builtin').lsp_document_diagnostics), "Search through document diagnostic", "IDE" },
-    [',w?'] = { wrap(require('telescope.builtin').lsp_workspace_diagnostics), "Search through workspace diagnostics", "IDE" }
+    ['\'d'] = { wrap(require('telescope.builtin').lsp_document_diagnostics), "Search through document diagnostic", "IDE" },
+    ['\'w'] = { wrap(require('telescope.builtin').lsp_workspace_diagnostics), "Search through workspace diagnostics", "IDE" }
   }
 end
 
