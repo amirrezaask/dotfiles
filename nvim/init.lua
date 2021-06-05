@@ -9,4 +9,6 @@ require('colors.gruvbuddy')
 -- Load plugins and configuration
 require('plugins')
 
+-- require('symhl'):setup({})
+
 

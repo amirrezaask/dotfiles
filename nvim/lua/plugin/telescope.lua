@@ -250,15 +250,13 @@ end
 function M.on_attach(_)
   vim.nmap {
     ['gd'] = { wrap(require('telescope.builtin').lsp_definitions), "Goto defenition", "IDE" },
-    ['gI'] = { wrap(require('telescope.builtin').lsp_implementations), "Goto implementations", "IDE" },
-    ['gR'] = { wrap(require('telescope.builtin').lsp_references), "Goto references", "IDE" },
-    ['<leader>lr'] = { wrap(require('telescope.builtin').lsp_references), "Goto references", "IDE" },
-    ['<leader>li'] = { wrap(require('telescope.builtin').lsp_implementations), "Goto implementations", "IDE" },
-    ['<leader>ld'] = { wrap(require('telescope.builtin').lsp_document_symbols), "Search through document symbols", "IDE" },
-    ['<leader>lw'] = { wrap(require('plugin.telescope').lsp_workspace_symbols), "Search through workspace symbols", "IDE" },
-    ['<leader>lc'] = { wrap(require('telescope.builtin').lsp_code_actions), "Show code actions", "IDE" },
-    ['<leader>d?'] = { wrap(require('telescope.builtin').lsp_document_diagnostics), "Search through document diagnostic", "IDE" },
-    ['<leader>w?'] = { wrap(require('telescope.builtin').lsp_workspace_diagnostics), "Search through workspace diagnostics", "IDE" }
+    ['gi'] = { wrap(require('telescope.builtin').lsp_implementations), "Goto implementations", "IDE" },
+    ['gr'] = { wrap(require('telescope.builtin').lsp_references), "Goto references", "IDE" },
+    ['?d'] = { wrap(require('telescope.builtin').lsp_document_symbols), "Search through document symbols", "IDE" },
+    ['?w'] = { wrap(require('plugin.telescope').lsp_workspace_symbols), "Search through workspace symbols", "IDE" },
+    ['?c'] = { wrap(require('telescope.builtin').lsp_code_actions), "Show code actions", "IDE" },
+    [',d?'] = { wrap(require('telescope.builtin').lsp_document_diagnostics), "Search through document diagnostic", "IDE" },
+    [',w?'] = { wrap(require('telescope.builtin').lsp_workspace_diagnostics), "Search through workspace diagnostics", "IDE" }
   }
 end
 

@@ -171,15 +171,14 @@ require('packer').startup({
 
     -- beautify text :)
     use ({ 'godlygeek/tabular' })
+
     -- File tree ( added for @mnim220 )
     use ({ 'kyazdani42/nvim-tree.lua' })
 
-    -- Highlight current symbol and it's other usages using LSP.
-    use ({ 'amirrezaask/nvim-cursorline' })
-
-    -- Nvim Lua dev {{{
+    -- Nvim Lua dev & docs {{{
     use { 'tjdevries/nlua.nvim' }
     use { 'milisims/nvim-luaref' }
+    use { "nanotee/luv-vimdocs" }
     -- }}}
 
     -- Statusline
