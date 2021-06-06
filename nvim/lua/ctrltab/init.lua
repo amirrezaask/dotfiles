@@ -67,14 +67,24 @@ function ctrltab.add_to_buffer_list()
   local filter = function(b)
     return vim.fn.buflisted(b) == 1 and vim.api.nvim_buf_get_option(b, 'filetype') ~= ''
   end
-  local bufnr = vim.api.nvim_get_current_buf()
-  if filter(bufnr) then
-    if not vim.tbl_contains(CtrlTabBuffers, bufnr) then
-      table.insert(CtrlTabBuffers, bufnr)
+  local index_of = function(t, e)
+    for idx, elm in ipairs(t) do
+      if elm == e then return idx end
     end
   end
-  if #CtrlTabBuffers > (CtrlTabConfig.max_buffer_count or 10) then
-    table.remove(CtrlTabBuffers, 1)
+  local add_to_list = function(b)
+    if vim.tbl_contains(CtrlTabBuffers, b) then
+      local idx = index_of(CtrlTabBuffers, b)
+      table.remove(CtrlTabBuffers, idx)
+    end
+    if #CtrlTabBuffers > (CtrlTabConfig.max_buffer_count or 10) then
+      table.remove(CtrlTabBuffers, 1)
+    end
+    table.insert(CtrlTabBuffers, b)
+  end
+  local bufnr = vim.api.nvim_get_current_buf()
+  if filter(bufnr) then
+    add_to_list(bufnr)
   end
 end
 

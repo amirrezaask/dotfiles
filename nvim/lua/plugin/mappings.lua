@@ -19,7 +19,8 @@ vim.map {
   ['<C-h>'] = '<C-w>h',
 
   Q = '<nop>',
-  [';'] = {':', "Map semicolon to colon"},
+  [';'] = {':', "Map semicolon to colon" },
+  ['q;'] = {'q:', "Command mode with vim powers" },
 
   -- Resizes
   ['<Left>']  = { ':vertical resize -5<CR>', "Decreases window width", "Window" },

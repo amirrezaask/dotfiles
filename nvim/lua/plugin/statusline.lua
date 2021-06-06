@@ -15,11 +15,11 @@ nline.make {
 
   vim.seperator(),
 
-  icons.file, vim.space(), vim.filename(), vim.modified(),
+  icons.file, vim.space(), vim.filename({ shorten = true }), vim.modified(),
 
   vim.seperator(),
 
-  wrappers.square_brackets(lsp.current_function()),
+  -- wrappers.square_brackets(lsp.current_function()),
   wrappers.square_brackets(git.changes()),
   wrappers.square_brackets(lsp.diagnostics()),
   lsp.progress(),

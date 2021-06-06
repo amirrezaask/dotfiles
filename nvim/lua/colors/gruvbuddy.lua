@@ -24,7 +24,7 @@ hl { "TabLineSel"          , bg="#282a2e"          , fg="#ffffff"}
 hl { "ColorColumn"         , bg="#81a2be"          , fg="#ffffff"}
 hl { "qfFileName"          , fg="#f8fe7a" }
 
-hl { "Special"             , fg="#aa92cd" }
+hl { "Special"             , fg="#aa92cd", styles={'italic'} }
 
 hl { "SpecialChar"         , fg="#a3685a" }
 hl { "NonText"             , fg="#4e545c" }
