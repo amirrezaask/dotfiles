@@ -181,6 +181,8 @@ require('packer').startup({
     use { "nanotee/luv-vimdocs" }
     -- }}}
 
+    use "tpope/vim-scriptease"
+
     -- Statusline
     use { 'amirrezaask/nline.nvim' }
   end,

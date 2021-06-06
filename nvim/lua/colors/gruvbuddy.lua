@@ -122,7 +122,7 @@ hl { "nvimMap"             , fg="#698b69" }
 hl { "vimAutoloadFunction" , fg="#f3fe14" }
 
 -- LSP
-hl { { 'LspReferenceRead', 'LspReferenceWrite' }    , bg='#3f4d5e' }
+hl { { 'LspReferenceRead', 'LspReferenceWrite' }    , bg='#414f5e' }
 -- hl { 'LspReferenceText'    , bg='#333842' }
 
 -- Git signs
