@@ -121,6 +121,10 @@ hl { "vimMap"              , fg="#698b69" }
 hl { "nvimMap"             , fg="#698b69" }
 hl { "vimAutoloadFunction" , fg="#f3fe14" }
 
+-- LSP
+hl { { 'LspReferenceRead', 'LspReferenceWrite' }    , bg='#3f4d5e' }
+-- hl { 'LspReferenceText'    , bg='#333842' }
+
 -- Git signs
 hl { "GitSignsAddNr"       , bg='green'}
 

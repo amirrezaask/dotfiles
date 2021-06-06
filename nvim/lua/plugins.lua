@@ -183,8 +183,7 @@ require('packer').startup({
 
     -- Statusline
     use { 'amirrezaask/nline.nvim' }
-
-      end,
+  end,
   config = {
     display = {
       open_fn = require('packer.util').float,
