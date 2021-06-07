@@ -24,7 +24,7 @@ hl { "TabLineSel"          , bg="#282a2e"          , fg="#ffffff"}
 hl { "ColorColumn"         , bg="#81a2be"          , fg="#ffffff"}
 hl { "qfFileName"          , fg="#f8fe7a" }
 
-hl { "Special"             , fg="#aa92cd" }
+hl { "Special"             , fg="#aa92cd", styles={'italic'} }
 
 hl { "SpecialChar"         , fg="#a3685a" }
 hl { "NonText"             , fg="#4e545c" }
@@ -122,7 +122,7 @@ hl { "nvimMap"             , fg="#698b69" }
 hl { "vimAutoloadFunction" , fg="#f3fe14" }
 
 -- LSP
-hl { { 'LspReferenceRead', 'LspReferenceWrite' }    , bg='#3f4d5e' }
+hl { { 'LspReferenceRead', 'LspReferenceWrite' }    , bg='#414f5e' }
 -- hl { 'LspReferenceText'    , bg='#333842' }
 
 -- Git signs
