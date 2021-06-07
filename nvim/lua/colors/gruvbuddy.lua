@@ -1,4 +1,5 @@
 local hl = require('palette').highlight
+local styles = require('palette').styles
 
 -- Extracted from https://github.com/tjdevries/gruvbuddy.nvim
 hl { "Normal"              , bg='#282c34'          , fg='#e0e0e0' }
@@ -24,14 +25,14 @@ hl { "TabLineSel"          , bg="#282a2e"          , fg="#ffffff"}
 hl { "ColorColumn"         , bg="#81a2be"          , fg="#ffffff"}
 hl { "qfFileName"          , fg="#f8fe7a" }
 
-hl { "Special"             , fg="#aa92cd", styles={'italic'} }
+hl { "Special"             , fg="#aa92cd", styles={styles.italic} }
 
 hl { "SpecialChar"         , fg="#a3685a" }
 hl { "NonText"             , fg="#4e545c" }
 hl { "WhiteSpace"          , fg="#8e6fbd" }
 hl { "Conceal"             , bg="#4e545c"          , fg="#282c34" }
 
-hl { "StatusLine"          , bg="#81a2be"          , fg="#373b41"      , styles = {} }
+hl { "StatusLine"          , bg="#81a2be"          , fg="#373b41" }
 
 hl { "StatusLineNC"        , bg="#3f4349"          , fg="#969896" }
 
@@ -63,21 +64,21 @@ hl { "Todo"                , fg="#f8fe7a" }
 hl { "Typedef"             , fg="#f8fe7a" }
 hl { { "Type"              , "TSType" }            , fg="#b294bb" }
 hl { "Folded"              , bg="#4e545c"          , fg="#7c7f7c" }
-hl { { "vimFunction"       , "Function"            , "TSFunction"      , "pythonBuiltinFunc" } , fg="#f8fe7a" }
+hl { { "vimFunction"       , "Function"            , "TSFunction"      , "pythonBuiltinFunc" } , fg="#f8fe7a", styles={styles.italic} }
 
 hl { { "Number"            , "Float"               , "TSNumber"        , "TSFloat" }           , fg="#cc6666" }
 hl { "MatchParen"          , fg="#8abeb7" }
 hl { { "TSCharacter"       , "Character" }         , fg="#cc6666" }
-hl { { "TSComment"         , "Comment" }           , fg="#969896"      , styles={"italic"}}
-hl { { "Conditional"       , "TSConditional" }     , fg="#f8fe8a"      , styles={"bold"}}
+hl { { "TSComment"         , "Comment" }           , fg="#969896"      , styles={styles.italic}}
+hl { { "Conditional"       , "TSConditional" }     , fg="#f8fe8a"      , styles={styles.bold}}
 hl { { "Identifier"        , "TSConstant"          , "Constant" }      , fg="#cc6666" }
 
 hl { { "Define"            , "TSInclude"           , "Include" }       , fg="#8abeb7" }
 hl { { "vimCommand"        , "vimNotFunc"          , "TSConstant"      , "vimLet" }            , fg="#81a2be" }
 hl { "TSVariable"          , fg="#e0e0e0" }
-hl { "TSFunction"          , fg="#f8fe7a"          , styles={"bold"}}
+hl { "TSFunction"          , fg="#f8fe7a"          , styles={styles.bold}}
 hl { { "TSVariableBuiltin" , "TSConstantBuiltin" } , fg="#f8fe7a" }
-hl { { "vimIsCommand"      , "vimFuncVar"          , "TSKeyword"       , "Keyword" }           , fg="#b294bb"   , styles={"bold"}}
+hl { { "vimIsCommand"      , "vimFuncVar"          , "TSKeyword"       , "Keyword" }           , fg="#b294bb"   , styles={styles.bold}}
 hl { "TSLabel"             , fg="#cc6666"}
 
 
@@ -93,7 +94,7 @@ hl { "DiffRemoved"         , fg="#cc6666" }
 hl { "DiffAdded"           , fg="#99cc99" }
 
 hl { "VimwikiBold"         , fg="#cc6666" }
-hl { "TelescopeMatching"   , fg="#f2904b"          , styles={"bold"} }
+hl { "TelescopeMatching"   , fg="#f2904b"          , styles={styles.bold} }
 
 hl { "StartifyBracket"     , fg="#cc6666" }
 hl { "StartifyFile"        , fg="#c04040" }

@@ -1,0 +1,23 @@
+[user]
+	email = raskarpour@gmail.com
+	name = amirrezaask
+[core]
+  editor = nvim
+  pager = delta
+
+[alias]
+  lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
+
+[push]
+  default = current
+
+[delta]
+  line-numbers = true
+  syntax-theme = gruvbox
+  side-by-side = false
+
+  file-modified-label = modified:
+
+[interactive]
+  diffFilter = delta --color-only
+
