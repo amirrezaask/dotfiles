@@ -24,14 +24,14 @@ if has_lspstatus then
     indicator_ok = '',
     status_symbol = '',
     kind_labels = {
-      Class = "Class:",
-      Function = "Function:",
-      Method = "Method:",
-      Struct = "Struct:",
-      Enum = "Enum:",
-      Interface = "Interface:",
-      Namespace = "Namespace:",
-      Module = "Module:",
+      Class = "C:",
+      Function = "F:",
+      Method = "M:",
+      Struct = "S:",
+      Enum = "E:",
+      Interface = "I:",
+      Namespace = "N:",
+      Module = "M:",
     }
   })
 end

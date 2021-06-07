@@ -61,10 +61,6 @@ local function nvim_augroup(tbl)
   end
 end
 
-function nvim_make_expr(expr, doc, group)
-  return {expr, doc, group}
-end
-
 __MAP_REGISTRY = {}
 local function nvim_map(keys)
   local function get_char(s, n)
