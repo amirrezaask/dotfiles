@@ -41,6 +41,7 @@ alias flua='stylua --config-path ~/.stylua.toml'
 alias snapp='sudo openfortivpn -c ~/snappDC.conf'
 alias gpm='git push origin master'
 alias glm='git pull origin master'
+alias gs='git status'
 alias work='cd ~/src/gitlab.snapp.ir/'
 alias oss='cd ~/src/github.com/amirrezaask'
 
