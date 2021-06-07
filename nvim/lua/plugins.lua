@@ -181,6 +181,7 @@ require('packer').startup({
     use { "nanotee/luv-vimdocs" }
     -- }}}
 
+    -- :Messages
     use "tpope/vim-scriptease"
 
     -- Statusline
