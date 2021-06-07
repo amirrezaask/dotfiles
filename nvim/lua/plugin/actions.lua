@@ -26,6 +26,7 @@ actions:setup {
     ['n ,at'] = 'test_all',
     ['n ,tt'] = 'test_this',
     ['n ,ar'] = 'run',
+    ['n ,af'] = 'format',
   },
   {
     predicate = utils.make_language_predicate('lua'),
@@ -38,6 +39,10 @@ actions:setup {
   {
     predicate = utils.make_language_predicate('go'),
     actions = {
+      format = function()
+        vim.cmd [[ GoFmt ]]
+        vim.cmd [[ write! ]]
+      end,
       build = function(_)
         floating:command('go build', floating_window_opts {
           cwd = lsp.go_root()

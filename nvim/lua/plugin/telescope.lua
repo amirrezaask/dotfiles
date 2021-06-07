@@ -10,6 +10,7 @@ local repos = require('repos')
 local telescope = require('telescope')
 local wallpaper = require('plugin.wallpaper')
 local ivy = require('telescope.themes').get_ivy
+local dropdown = require('telescope.themes').get_dropdown
 local notheme = function(opts)
   return opts
 end
@@ -238,6 +239,77 @@ function M.buffer_grep()
   }):find()
 
 end
+
+function M.actions(bufnr)
+  if not has_telescope then
+    vim.api.nvim_err_writeln('Install telescope to use this function')
+    return
+  end
+  if not bufnr then
+    bufnr = vim.api.nvim_get_current_buf()
+  end
+    local telescope_actions = require('telescope.actions')
+  local telescope_action_state = require('telescope.actions.state')
+  local current_actions = Actions:browser(bufnr)
+  local dropdown = require('telescope.themes').get_dropdown
+  pickers.new(dropdown(), {
+    prompt_title = "> Actions Browser <",
+    finder = finders.new_table({
+      results = current_actions,
+      entry_maker = function(ob)
+        return {
+          value = ob[2],
+          display = ob[1],
+          ordinal = ob[1],
+        }
+      end,
+    }),
+    sorter = conf.generic_sorter(),
+    attach_mappings = function(prompt_bufnr, map)
+      local run = function()
+        local fn = telescope_action_state.get_selected_entry(prompt_bufnr).value
+        telescope_actions.close(prompt_bufnr)
+        fn(bufnr)
+      end
+      map('i', '<CR>', run)
+      map('n', '<CR>', run)
+      return true
+    end,
+  }):find()
+end
+
+function M.commands(pat)
+  P(pat)
+  if not has_telescope then
+    vim.api.nvim_err_writeln('Install telescope to use this function')
+    return
+  end
+  pickers.new(dropdown(), {
+    prompt_title = "> Command Browser <",
+    finder = finders.new_table({
+      results = vim.fn.getcompletion(pat or '', 'command'),
+      entry_maker = function(command)
+        return {
+          value = command,
+          display = command,
+          ordinal = command,
+        }
+      end,
+    }),
+    sorter = conf.generic_sorter(),
+    attach_mappings = function(prompt_bufnr, map)
+      local run = function()
+        local command = action_state.get_selected_entry(prompt_bufnr).value
+        actions.close(prompt_bufnr)
+        vim.cmd(command)
+      end
+      map('i', '<CR>', run)
+      map('n', '<CR>', run)
+      return true
+    end,
+  }):find()
+end
+vim.cmd [[command! -nargs=* Cmd lua require('plugin.telescope').commands(<f-args>) ]]
 
 function M.quickfix()
   if _G.quickfix_state == 'open' then

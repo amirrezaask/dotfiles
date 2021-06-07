@@ -185,6 +185,11 @@ require('packer').startup({
 
     -- Statusline
     use { 'amirrezaask/nline.nvim' }
+
+
+    -- Go development
+    use { 'fatih/vim-go' }
+
   end,
   config = {
     display = {

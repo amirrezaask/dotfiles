@@ -67,7 +67,7 @@ hl { "Folded"              , bg="#4e545c"          , fg="#7c7f7c" }
 hl { { "vimFunction"       , "Function"            , "TSFunction"      , "pythonBuiltinFunc" } , fg="#f8fe7a", styles={styles.italic} }
 
 hl { { "Number"            , "Float"               , "TSNumber"        , "TSFloat" }           , fg="#cc6666" }
-hl { "MatchParen"          , fg="#8abeb7" }
+hl { "MatchParen"          , styles={styles.underline}}
 hl { { "TSCharacter"       , "Character" }         , fg="#cc6666" }
 hl { { "TSComment"         , "Comment" }           , fg="#969896"      , styles={styles.italic}}
 hl { { "Conditional"       , "TSConditional" }     , fg="#f8fe8a"      , styles={styles.bold}}

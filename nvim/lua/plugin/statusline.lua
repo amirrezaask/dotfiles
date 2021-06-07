@@ -22,7 +22,7 @@ nline.make {
   -- wrappers.square_brackets(lsp.current_function()),
   wrappers.square_brackets(git.changes()),
   wrappers.square_brackets(lsp.diagnostics()),
-  lsp.progress(),
+  -- lsp.progress(),
   wrappers.square_brackets(vim.line()..vim.space()..vim.colon()..vim.col()),
   vim.filetype(),
 }
