@@ -63,6 +63,7 @@ require('packer').startup({
     use { 'gruvbox-community/gruvbox' }
     use { 'liuchengxu/space-vim-theme' }
     use { 'joshdick/onedark.vim' }
+    -- use { 'amirrezaask/nvim-base16.lua' }
     -- }}}
 
     -- Telescope.nvim {{{
@@ -92,6 +93,8 @@ require('packer').startup({
     use({ 'lewis6991/gitsigns.nvim' })
     use({ 'ThePrimeagen/git-worktree.nvim' })
     use { 'amirrezaask/blame.nvim', requires = {{"nvim-lua/plenary.nvim"}}}
+
+    use { 'tanvirtin/vgit.nvim' }
     -- }}}
 
     -- Comment codes at ease
@@ -190,7 +193,6 @@ require('packer').startup({
 
     -- Go development
     use { 'fatih/vim-go' }
-
   end,
   config = {
     display = {

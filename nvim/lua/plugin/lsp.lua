@@ -11,6 +11,8 @@ if has_lspkind then
   lspkind.init()
 end
 
+local M = {}
+
 vim.lsp.handlers["textDocument/definition"] = function(_, _, result)
   if not result or vim.tbl_isempty(result) then
     print "[LSP] Could not find definition"
@@ -23,8 +25,6 @@ vim.lsp.handlers["textDocument/definition"] = function(_, _, result)
     vim.lsp.util.jump_to_location(result)
   end
 end
-
-local M = {}
 
 local has_lspstatus, lspstatus = pcall(require, 'lsp-status')
 if has_lspstatus then
@@ -126,7 +126,7 @@ if has_nlua then
     -- Include globals you want to tell the LSP are real :)
     globals = {
       "Color", "c", "Group", "g", "s",
-      "vim",
+      "vim", "Action",
       "describe", "it", "before_each", "after_each", "teardown", "pending", "clear",
       'awesome', 'client'
     }

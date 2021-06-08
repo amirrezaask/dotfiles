@@ -279,7 +279,6 @@ function M.actions(bufnr)
 end
 
 function M.commands(pat)
-  P(pat)
   if not has_telescope then
     vim.api.nvim_err_writeln('Install telescope to use this function')
     return
@@ -319,6 +318,45 @@ function M.quickfix()
   end
 end
 
+function M.telescope_commands()
+  local output = {}
+  for name, fn in pairs(require('telescope.builtin')) do
+    table.insert(output, {name, fn})
+  end
+  for name, fn in pairs(require('plugin.telescope')) do
+    table.insert(output, {name, fn})
+  end
+  if not has_telescope then
+    vim.api.nvim_err_writeln('Install telescope to use this function')
+    return
+  end
+  pickers.new(dropdown(), {
+    prompt_title = "> Telescope Browser <",
+    finder = finders.new_table({
+      results = output,
+      entry_maker = function(entry)
+        return {
+          value = entry[2],
+          display = entry[1],
+          ordinal = entry[1],
+        }
+      end,
+    }),
+    sorter = conf.generic_sorter(),
+    attach_mappings = function(prompt_bufnr, map)
+      local run = function()
+        local command = action_state.get_selected_entry(prompt_bufnr).value
+        actions.close(prompt_bufnr)
+        vim.cmd [[ startinsert ]]
+        command()
+      end
+      map('i', '<CR>', run)
+      map('n', '<CR>', run)
+      return true
+    end,
+  }):find()
+end
+
 function M.on_attach(_)
   vim.nmap {
     ['gd'] = { wrap(require('telescope.builtin').lsp_definitions), "Goto defenition", "IDE" },
@@ -347,7 +385,7 @@ vim.nmap {
     [',s'] = wrap(require('telescope.builtin').grep_string),
     ['<leader>b'] = wrap(require('telescope.builtin').buffers),
     ['<leader>ec'] = M.edit_configs,
-    ['<leader>tc'] = M.base16_theme_selector,
+    ['<leader>L'] = M.telescope_commands,
     ['<leader>en'] = M.edit_neovim,
     ['<leader>ez'] = M.edit_zsh,
     ['<leader>ea'] = M.edit_awesome,
