@@ -309,7 +309,7 @@ function M.commands(pat)
     end,
   }):find()
 end
-vim.cmd [[command! -nargs=* Cmd lua require('plugin.telescope').commands(<f-args>) ]]
+vim.cmd [[command! -nargs=* Command lua require('plugin.telescope').commands(<f-args>) ]]
 
 function M.quickfix()
   if _G.quickfix_state == 'open' then
@@ -341,8 +341,7 @@ vim.nmap {
     ['<C-q>'] = M.quickfix,
     ['<M-q>'] = require('telescope.builtin').quickfix,
     ['\\\\'] = wrap(M.buffer_grep),
-    -- ['??'] = wrap(require('telescope.builtin').live_grep),
-    ['??'] = wrap(M.grep_string),
+    ['??'] = wrap(require('telescope.builtin').live_grep),
     [',f'] = wrap(M.grep_string),
     [',s'] = wrap(require('telescope.builtin').grep_string),
     ['<leader>b'] = wrap(require('telescope.builtin').buffers),
