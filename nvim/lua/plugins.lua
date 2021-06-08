@@ -166,7 +166,7 @@ require('packer').startup({
     -- }}}
 
     -- Startscreen also session manager
-    use ({ 'mhinz/vim-startify' })
+    -- use ({ 'mhinz/vim-startify' })
 
     -- Highlight todo and etc...
     use ({ "folke/todo-comments.nvim",
@@ -193,6 +193,12 @@ require('packer').startup({
 
     -- Go development
     use { 'fatih/vim-go' }
+
+    -- Open nvim how it was in the CWD
+    use { 'rmagatti/auto-session' }
+
+    -- better inc/dec
+    use { 'monaqa/dial.nvim' }
   end,
   config = {
     display = {
