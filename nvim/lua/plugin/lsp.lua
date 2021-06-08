@@ -4,7 +4,7 @@ local lspconfig_util = require('lspconfig.util')
 
 local has_nlua, nlua = pcall(require, 'nlua.lsp.nvim')
 
-if not has_nlua then print('for better lua support install nlua') end
+if not has_nlua then print('for better lua support install nlua'); return end
 local has_lspkind, lspkind = pcall(require, 'lspkind')
 
 if has_lspkind then
