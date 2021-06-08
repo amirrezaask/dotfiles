@@ -56,14 +56,8 @@ require('packer').startup({
     -- Missing stdlib for neovim
     use({ 'nvim-lua/plenary.nvim' })
 
-    -- Colorschemes {{{
-    -- palette.nvim for creating beautiful themes
+    -- Colorscheme {{{
     use { 'amirrezaask/palette.nvim' }
-    use { 'folke/tokyonight.nvim' }
-    use { 'gruvbox-community/gruvbox' }
-    use { 'liuchengxu/space-vim-theme' }
-    use { 'joshdick/onedark.vim' }
-    -- use { 'amirrezaask/nvim-base16.lua' }
     -- }}}
 
     -- Telescope.nvim {{{

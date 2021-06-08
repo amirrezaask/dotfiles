@@ -13,19 +13,6 @@ end
 
 local M = {}
 
-vim.lsp.handlers["textDocument/definition"] = function(_, _, result)
-  if not result or vim.tbl_isempty(result) then
-    print "[LSP] Could not find definition"
-    return
-  end
-  P(result)
-  if vim.tbl_islist(result) then
-    vim.lsp.util.jump_to_location(result[1])
-  else
-    vim.lsp.util.jump_to_location(result)
-  end
-end
-
 local has_lspstatus, lspstatus = pcall(require, 'lsp-status')
 if has_lspstatus then
   lspstatus.register_progress()
@@ -135,5 +122,18 @@ end
 lspconfig.pyls_ms.setup({ on_attach = on_attach })
 lspconfig.clangd.setup({ on_attach = on_attach })
 lspconfig.intelephense.setup({ on_attach = on_attach })
+
+vim.lsp.handlers["textDocument/definition"] = function(_, _, result)
+  if not result or vim.tbl_isempty(result) then
+    print "[LSP] Could not find definition"
+    return
+  end
+  P(result)
+  if vim.tbl_islist(result) then
+    vim.lsp.util.jump_to_location(result[1])
+  else
+    vim.lsp.util.jump_to_location(result)
+  end
+end
 
 return M

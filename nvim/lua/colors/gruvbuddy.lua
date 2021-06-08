@@ -129,4 +129,3 @@ hl { { 'LspReferenceRead', 'LspReferenceWrite' }    , bg='#414f5e' }
 -- Git signs
 hl { "GitSignsAddNr"       , bg='green'}
 
-vim.g.transparent = true
