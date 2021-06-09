@@ -10,7 +10,17 @@ local icons = require('nline.parts.icons')
 local wrappers = require('nline.wrappers')
 
 nline.make {
-  vim.mode(),
+  vim.mode {
+    texts = {
+      normal = '[Normal]',
+      visual = '[Visual]',
+      visual_block = '[VisualBlock]',
+      insert = '[Insert]',
+      insert_complete = '[IComplete]',
+      command = '[Command]',
+      terminal = '[Terminal]'
+    }
+  },
   vim.space(), icons.git_branch, vim.space(), git.branch(),
 
   vim.seperator(),
