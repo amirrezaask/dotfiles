@@ -157,7 +157,7 @@ require('packer').startup({
     use({ 'kyazdani42/nvim-web-devicons' })
 
     -- need to have nonicons font installed look into https://github.com/yamatsum/nonicons
-    -- use({ 'yamatsum/nvim-nonicons' })
+    use({ 'yamatsum/nvim-nonicons' })
     -- }}}
 
     -- Startscreen also session manager
@@ -184,13 +184,6 @@ require('packer').startup({
 
     -- Statusline
     use { 'amirrezaask/nline.nvim' }
-
-
-    -- Go development
-    use { 'fatih/vim-go' }
-
-    -- Open nvim how it was in the CWD
-    use { 'rmagatti/auto-session' }
 
     -- better inc/dec
     use { 'monaqa/dial.nvim' }
