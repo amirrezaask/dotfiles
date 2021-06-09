@@ -8,6 +8,7 @@ vim.g.transparent = false
 
 -- colorscheme
 require('colors.gruvbuddy')
+-- require('base16').set('norcalli')
 
 -- Load plugins and configuration
 require('plugins')
