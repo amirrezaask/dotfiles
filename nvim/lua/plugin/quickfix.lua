@@ -51,9 +51,42 @@ function M.from_cmd(cmd)
     end,
   })
 end
+local function readFileSync(path)
+  local uv = vim.loop
+  local fd = assert(uv.fs_open(path, "r", 438))
+  local stat = assert(uv.fs_fstat(fd))
+  local data = assert(uv.fs_read(fd, stat.size, 0))
+  assert(uv.fs_close(fd))
+  return data
+end
+
+function M.from_buffer_or_file(source)
+  source = source or vim.api.nvim_get_current_buf()
+  local entries = {}
+  local lines = {}
+  if type(source) == 'string' then
+    lines = vim.split(readFileSync(vim.fn.expand(source)), '\n')
+  elseif type(source) == 'number' then
+    lines = vim.api.nvim_buf_get_lines(source, 0, -1, false)
+  end
+  for _, line in ipairs(lines) do
+    local parts = vim.split(line, "|")
+    if #parts < 3 then
+      goto continue
+    end
+    local filename = parts[1]
+    local lnum = vim.split(parts[2], ' ')[1]
+    local col = vim.split(parts[2], ' ')[2]
+    local text = parts[3]
+    table.insert(entries, M.make_entry(filename, lnum, col, text))
+    ::continue::
+  end
+  vim.fn.setqflist(entries)
+end
 
 function M.make_entry(filename, lnum, col, text)
   return {filename=filename, lnum=lnum, col=col, text=text}
 end
 
+vim.cmd [[ command! -nargs=* QFromFile lua require('plugin.quickfix').from_buffer_or_file(<f-args>) ]]
 return M

@@ -1,18 +1,24 @@
 local hl = require('palette').highlight
 local styles = require('palette').styles
 
+local colors = {
+  light_gray = '#282c34',
+  super_white = '#e0e0e0',
+  white = "#c5c8c6",
+  blue = '#38556d'
+}
+
 -- Extracted from https://github.com/tjdevries/gruvbuddy.nvim
-hl { "Normal"              , bg='#282c34'          , fg='#e0e0e0' }
--- hl { "Normal"              , bg='#181818'          , fg='#e0e0e0' }
-hl { "InvNormal"           , bg="#c5c8c6"          , fg="#282c34" }
+hl { "Normal"              , bg=colors.light_gray          , fg=colors.white }
+hl { "InvNormal"           , bg=colors.white          , fg=colors.light_gray }
 hl { "NormalFloat"         , bg="#111317"          , fg="#fafafa" }
 hl { "LineNr"              , bg="#282a2e"          , fg="#969896" }
 hl { "EndOfBuffer"         , fg="#969896"}
 hl { "SignColumn"          , bg="#282a2e"          , fg="#969896" }
-hl { "Visual"              , bg="#38556d" }
-hl { "VisualMode"          , bg="#38556d" }
-hl { "VisualLineMode"      , bg="#38556d" }
-hl { "Cursor"              , bg="#e0e0e0"          , fg="#282c34" }
+hl { "Visual"              , bg=colors.blue }
+hl { "VisualMode"          , bg=colors.blue }
+hl { "VisualLineMode"      , bg=colors.blue }
+hl { "Cursor"              , bg=colors.super_white          , fg="#282c34" }
 hl { "CursorLine"          , bg="#333842"}
 hl { "PMenu"               , bg="#373b41"          , fg="#b4b7b4"}
 hl { "PMenuSel"            , bg="#fbffad"          , fg="#282c34"}
@@ -75,7 +81,7 @@ hl { { "Identifier"        , "TSConstant"          , "Constant" }      , fg="#cc
 
 hl { { "Define"            , "TSInclude"           , "Include" }       , fg="#8abeb7" }
 hl { { "vimCommand"        , "vimNotFunc"          , "TSConstant"      , "vimLet" }            , fg="#81a2be" }
-hl { "TSVariable"          , fg="#e0e0e0" }
+hl { "TSVariable"          , fg=colors.super_white }
 hl { "TSFunction"          , fg="#f8fe7a"          , styles={styles.bold}}
 hl { { "TSVariableBuiltin" , "TSConstantBuiltin" } , fg="#f8fe7a" }
 hl { { "vimIsCommand"      , "vimFuncVar"          , "TSKeyword"       , "Keyword" }           , fg="#b294bb"   , styles={styles.bold}}
