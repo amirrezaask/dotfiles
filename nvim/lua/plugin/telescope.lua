@@ -25,7 +25,7 @@ telescope.setup {
     prompt_prefix = '> ',
     selection_caret = '> ',
     layout_strategy = 'flex',
-    prompt_position = 'bottom',
+    prompt_position = 'top',
     sorting_strategy = 'descending',
     borderchars = { '─', '│', '─', '│', '╭', '╮', '╯', '╰' },
     layout_defaults = {
@@ -194,6 +194,7 @@ function M.edit_zsh()
   require('telescope.builtin').find_files(current_theme {
     prompt_title = '> Edit ZSH Config <',
     cwd = '~/src/github.com/amirrezaask/dotfiles/zsh',
+    hidden = true,
   })
 end
 

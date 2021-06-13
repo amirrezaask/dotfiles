@@ -31,7 +31,7 @@ local function gen_from_cmd_output(qflist, data)
       end
     end
   end
-  return qflist 
+  return qflist
 end
 
 function M.from_cmd(cmd)
