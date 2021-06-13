@@ -45,15 +45,3 @@ alias glm='git pull origin master'
 alias gs='git status'
 alias work='cd ~/src/gitlab.snapp.ir/'
 alias oss='cd ~/src/github.com/amirrezaask'
-
-if type nvim > /dev/null 2>&1; then
-    export MANPAGER='nvim +Man!'
-    alias vim='nvim'
-    alias vi='nvim'
-    alias v='nvim'
-    alias n='nvim'
-fi
-if type bat > /dev/null 2>&1; then
-    alias cat='bat'
-fi
-
