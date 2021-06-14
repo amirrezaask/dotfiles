@@ -12,13 +12,13 @@ local wrappers = require('nline.wrappers')
 nline.make {
   vim.mode {
     texts = {
-      normal = '[Normal]',
-      visual = '[Visual]',
-      visual_block = '[VisualBlock]',
-      insert = '[Insert]',
-      insert_complete = '[IComplete]',
-      command = '[Command]',
-      terminal = '[Terminal]'
+      normal = 'Normal',
+      visual = 'Visual',
+      visual_block = 'VisualBlock',
+      insert = 'Insert',
+      insert_complete = 'IComplete',
+      command = 'Command',
+      terminal = 'Terminal'
     }
   },
   vim.space(), icons.git_branch, vim.space(), git.branch(),
@@ -29,10 +29,10 @@ nline.make {
 
   vim.seperator(),
 
-  -- wrappers.square_brackets(lsp.current_function()),
+  wrappers.square_brackets(lsp.current_function()),
   wrappers.square_brackets(git.changes()),
   wrappers.square_brackets(lsp.diagnostics()),
-  -- lsp.progress(),
+  lsp.progress(),
   wrappers.square_brackets(vim.line()..vim.space()..vim.colon()..vim.col()),
   vim.filetype(),
 }

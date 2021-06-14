@@ -138,11 +138,11 @@ function M.buffer_git_files()
   })
 end
 
-function M.projects()
+function M.projects(path)
   pickers.new(current_theme(), {
     previewer = false,
     finder = finders.new_table({
-      results = repos.list_projects({ '~/src/' }),
+      results = repos.list_projects({ path or '~/src/' }),
     }),
     sorter = conf.generic_sorter(),
     attach_mappings = function(prompt_bufnr, map)
@@ -156,6 +156,10 @@ function M.projects()
       return true
     end,
   }):find()
+end
+
+function M.snapp()
+  M.projects('~/src/gitlab.snapp.ir')
 end
 
 function M.installed_plugins()
@@ -377,6 +381,7 @@ vim.nmap {
     ['<leader>fb'] = wrap(require('telescope.builtin').file_browser),
     ['<leader>fp'] = M.installed_plugins,
     ['<leader>pp'] = M.projects,
+    ['<leader>ps'] = M.snapp,
     ['<C-p>'] = M.git_files,
     ['<C-q>'] = M.quickfix,
     ['<M-q>'] = require('telescope.builtin').quickfix,
