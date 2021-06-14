@@ -9,6 +9,8 @@ local colors = {
   black = '#111317',
   yellow = '#f8fe7a',
   red = '#cc6666',
+  green = '#99cc99',
+  dark_green = '#698b69',
 }
 
 -- Extracted from https://github.com/tjdevries/gruvbuddy.nvim
@@ -47,7 +49,7 @@ hl { "StatusLineNC"        , bg="#3f4349"          , fg="#969896" }
 
 hl { "User1"               , bg=colors.yellow          , fg="#ffffff" }
 hl { "User2"               , bg=colors.red          , fg="#ffffff" }
-hl { "User3"               , bg="#99cc99"          , fg="#ffffff" }
+hl { "User3"               , bg=colors.green          , fg="#ffffff" }
 hl { "CommandMode"         , link = "Constant" }
 hl { "VisualMode"          , link = "StatusLine" }
 hl { "NormalMode"          , link = "Function" }
@@ -66,7 +68,7 @@ hl { { "Repeat"            , "TSRepeat" }          , fg=colors.red }
 hl { "Repeat"              , fg=colors.red }
 hl { "Statement"           , fg="#c04040" }
 hl { "StorageClass"        , fg=colors.yellow }
-hl { { "String"            , "TSString" }          , fg="#99cc99" }
+hl { { "String"            , "TSString" }          , fg=colors.green }
 hl { "Structure"           , fg="#b294bb" }
 hl { { "Tag"               , "TSTag" }             , fg=colors.yellow }
 hl { "Todo"                , fg=colors.yellow }
@@ -91,8 +93,8 @@ hl { { "vimIsCommand"      , "vimFuncVar"          , "TSKeyword"       , "Keywor
 hl { "TSLabel"             , fg=colors.red}
 
 
-hl { "HelpDoc"             , bg="#698b69"          , fg="#ffffff" }
-hl { "HelpIgnore"          , fg="#99cc99" }
+hl { "HelpDoc"             , bg=colors.dark_green          , fg="#ffffff" }
+hl { "HelpIgnore"          , fg=colors.green }
 
 hl { "gitDiff"             , fg="#c7c7c7" }
 hl { "DiffChange"          , bg="#2800" }
@@ -100,7 +102,7 @@ hl { "DiffText"            , bg="#8e00" }
 hl { "DiffAdd"             , bg="#2800" }
 hl { "DiffDelete"          , bg="#0" }
 hl { "DiffRemoved"         , fg=colors.red }
-hl { "DiffAdded"           , fg="#99cc99" }
+hl { "DiffAdded"           , fg=colors.green }
 
 hl { "VimwikiBold"         , fg=colors.red }
 hl { "TelescopeMatching"   , fg="#f2904b"          , styles={styles.bold} }
@@ -127,8 +129,8 @@ hl { "vimNotation"         , fg="#8abeb7" }
 hl { "vimMapLHS"           , fg=colors.yellow }
 hl { "vimNotation"         , fg="#8abeb7" }
 hl { "vimBracket"          , fg="#96535c" }
-hl { "vimMap"              , fg="#698b69" }
-hl { "nvimMap"             , fg="#698b69" }
+hl { "vimMap"              , fg=colors.dark_green }
+hl { "nvimMap"             , fg=colors.dark_green }
 hl { "vimAutoloadFunction" , fg="#f3fe14" }
 
 -- LSP
