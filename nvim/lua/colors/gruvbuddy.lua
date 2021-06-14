@@ -75,7 +75,7 @@ hl { "Todo"                , fg=colors.yellow }
 hl { "Typedef"             , fg=colors.yellow }
 hl { { "Type"              , "TSType" }            , fg="#b294bb" }
 hl { "Folded"              , bg="#4e545c"          , fg="#7c7f7c" }
-hl { { "vimFunction"       , "Function"            , "TSFunction"      , "pythonBuiltinFunc" } , fg=colors.yellow, styles={styles.italic} }
+hl { { "vimFunction"       , "Function"            , "TSFunction"      , "pythonBuiltinFunc" } , fg=colors.yellow }
 
 hl { { "Number"            , "Float"               , "TSNumber"        , "TSFloat" }           , fg=colors.red }
 hl { "MatchParen"          , styles={styles.underline}}
@@ -87,7 +87,6 @@ hl { { "Identifier"        , "TSConstant"          , "Constant" }      , fg=colo
 hl { { "Define"            , "TSInclude"           , "Include" }       , fg="#8abeb7" }
 hl { { "vimCommand"        , "vimNotFunc"          , "TSConstant"      , "vimLet" }            , fg="#81a2be" }
 hl { "TSVariable"          , fg=colors.super_white }
-hl { "TSFunction"          , fg=colors.yellow          , styles={styles.bold}}
 hl { { "TSVariableBuiltin" , "TSConstantBuiltin" } , fg=colors.yellow }
 hl { { "vimIsCommand"      , "vimFuncVar"          , "TSKeyword"       , "Keyword" }           , fg="#b294bb"   , styles={styles.bold}}
 hl { "TSLabel"             , fg=colors.red}
