@@ -25,7 +25,7 @@ nline.make {
 
   vim.seperator(),
 
-  icons.file, vim.space(), vim.filename({ shorten = false }), vim.modified(),
+  icons.file, vim.space(), vim.filename({ shorten = true }), vim.modified(),
 
   vim.seperator(),
 

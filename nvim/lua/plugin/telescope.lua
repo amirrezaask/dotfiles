@@ -215,34 +215,9 @@ function M.git_files()
 end
 
 function M.buffer_grep()
-  local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
-  pickers.new(current_theme(), {
-    prompt_title = "> Current File Grep <",
-    -- TODO: add previewer
-    previewer = false,
-    finder = finders.new_table({
-      results = lines,
-    }),
-    sorter = conf.generic_sorter(),
-    attach_mappings = function(prompt_bufnr, map)
-      local jump_to = function()
-        local line = action_state.get_selected_entry(prompt_bufnr)[1]
-        local prompt = vim.api.nvim_buf_get_lines(prompt_bufnr, 0, -1, false)[1]
-        local current_picker = action_state.get_current_picker(prompt_bufnr)
-        local col = line:find(prompt:sub(#current_picker.prompt_prefix+1, -1)) or 0
-        actions.close(prompt_bufnr)
-        for i, l in ipairs(lines) do
-          if l == line then
-            vim.api.nvim_win_set_cursor(0, {i, col})
-          end
-        end
-      end
-      map('i', '<CR>', jump_to)
-      map('n', '<CR>', jump_to)
-      return true
-    end,
-  }):find()
-
+  require('telescope.builtin').current_buffer_fuzzy_find(dropdown({
+    previewer = false
+  }))
 end
 
 function M.actions(bufnr)
@@ -323,6 +298,23 @@ function M.quickfix()
   end
 end
 
+
+-- Took from TJ config
+function M.grep_last_search(opts)
+  opts = opts or {}
+
+  -- \<getreg\>\C
+  -- -> Subs out the search things
+  local register = vim.fn.getreg("/"):gsub("\\<", ""):gsub("\\>", ""):gsub("\\C", "")
+
+  opts.shorten_path = true
+  opts.word_match = "-w"
+  opts.search = register
+
+  print('$ ' .. register)
+  require("telescope.builtin").grep_string(opts)
+end
+
 function M.telescope_commands()
   local output = {}
   for name, fn in pairs(require('telescope.builtin')) do
@@ -386,6 +378,7 @@ vim.nmap {
     ['<C-q>'] = M.quickfix,
     ['<M-q>'] = require('telescope.builtin').quickfix,
     ['\\\\'] = wrap(M.buffer_grep),
+    ['\\l'] = wrap(M.grep_last_search),
     ['??'] = wrap(require('telescope.builtin').live_grep),
     [',f'] = wrap(M.grep_string),
     [',s'] = wrap(require('telescope.builtin').grep_string),

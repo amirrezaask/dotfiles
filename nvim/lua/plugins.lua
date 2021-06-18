@@ -161,7 +161,7 @@ require('packer').startup({
     -- }}}
 
     -- Startscreen also session manager
-    -- use ({ 'mhinz/vim-startify' })
+    use ({ 'mhinz/vim-startify' })
 
     -- Highlight todo and etc...
     use ({ "folke/todo-comments.nvim",
