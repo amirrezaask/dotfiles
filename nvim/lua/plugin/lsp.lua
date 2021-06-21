@@ -64,7 +64,7 @@ local function make_on_attach(base)
       ['K'] = { vim.lsp.buf.hover, "Hover information about symbol under cursor", "IDE" },
       ['[d'] = { vim.lsp.diagnostic.goto_next, "Goto next diagnostic", "IDE" },
       [']d'] = { vim.lsp.diagnostic.goto_prev, "Goto previous diagnostic", "IDE"},
-      [',dl'] = { vim.lsp.diagnostic.show_line_diagnostics, "Show current line diagnostic", "IDE" },
+      [',l'] = { vim.lsp.diagnostic.show_line_diagnostics, "Show current line diagnostic", "IDE" },
     }
     local filetype = vim.api.nvim_buf_get_option(0, 'filetype')
     if vim.tbl_contains(support_formatting, filetype) then
