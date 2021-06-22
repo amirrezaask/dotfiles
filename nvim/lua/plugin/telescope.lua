@@ -95,12 +95,10 @@ function M.docs()
 end
 
 function M.grep_string()
-  require('floating'):prompt('> Grep String < ', function(word)
     require('telescope.builtin').grep_string {
         shorten_path = true,
-        search = word,
+        search = vim.fn.input("Grep String> "),
     }
-  end)
 end
 
 function M.base16_theme_selector()
@@ -203,11 +201,9 @@ function M.edit_zsh()
 end
 
 function M.lsp_workspace_symbols()
-  require('floating'):prompt('> LSP Workspace: ', function(word)
-    require('telescope.builtin').lsp_workspace_symbols({
-      query = word,
+  require('telescope.builtin').lsp_workspace_symbols({
+      query = vim.fn.input("Query LSP Workspace Symbols: "),
     })
-  end)
 end
 
 function M.git_files()

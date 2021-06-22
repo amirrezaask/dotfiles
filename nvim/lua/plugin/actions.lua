@@ -40,8 +40,7 @@ actions:setup {
     predicate = utils.make_language_predicate('go'),
     actions = {
       format = function()
-        vim.cmd [[ GoFmt ]]
-        vim.cmd [[ write! ]]
+        vim.lsp.buf.formatting_sync()
       end,
       build = function(_)
         floating:command('go build', floating_window_opts {

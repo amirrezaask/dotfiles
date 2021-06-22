@@ -47,7 +47,7 @@ end
 
 local function rename()
   local current_word = vim.fn.expand('<cword>')
-  require('floating'):prompt(string.format('Rename %s to > ', current_word), vim.lsp.buf.rename)
+  vim.lsp.buf.rename(vim.fn.input(string.format('Rename %s to > ', current_word)))
 end
 
 local telescope_on_attach = require('plugin.telescope').on_attach
