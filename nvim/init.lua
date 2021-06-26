@@ -4,7 +4,7 @@ require('nvim')
 vim.g.mapleader = ' '
 
 -- If you want transparency support
-vim.g.transparent = false
+vim.g.transparent = true
 
 -- colorscheme
 require('colors.gruvbuddy')
