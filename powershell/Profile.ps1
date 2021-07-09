@@ -1,3 +1,8 @@
+# notepad $PROFILE
+#
+# $Profile = "~/source/repos/dotfiles/powershell/Profile.ps1"
+# . $profile
+
 function Install-And-Import($Name) {
     if (-Not (Get-Module -ListAvailable -Name $Name)) {
         Write-Host "Module does not exist" + $Name
