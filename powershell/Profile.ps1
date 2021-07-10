@@ -19,7 +19,7 @@ Install-And-Import -Name Terminal-Icons
 
 
 # Prompt
-Set-PoshPrompt marcduiker
+Set-PoshPrompt -Theme ~/source/repos/dotfiles/oh-my-posh/ohmyposh.json
 
 # PSReadLine
 Set-PSReadLineOption -PredictionSource History
