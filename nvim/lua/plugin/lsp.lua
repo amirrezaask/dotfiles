@@ -120,6 +120,7 @@ if has_nlua then
   })
 end
 lspconfig.pyls_ms.setup({ on_attach = on_attach })
+lspconfig.jedi_language_server.setup({on_attach = on_attach})
 lspconfig.clangd.setup({ on_attach = on_attach })
 lspconfig.intelephense.setup({ on_attach = on_attach })
 
