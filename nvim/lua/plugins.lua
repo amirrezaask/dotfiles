@@ -156,10 +156,6 @@ require('packer').startup({
     -- Icons {{{
     use({ 'kyazdani42/nvim-web-devicons' })
 
-    -- need to have nonicons font installed look into https://github.com/yamatsum/nonicons
-    use({ 'yamatsum/nvim-nonicons' })
-    -- }}}
-
     -- Startscreen also session manager
     use ({ 'mhinz/vim-startify' })
 
