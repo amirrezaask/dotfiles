@@ -14,14 +14,6 @@ SPACESHIP_PROMPT_ORDER=(
     dir           # Current directory section
     host          # Hostname section
     git           # Git section (git_branch + git_status)
-    golang        # Go section
-    php           # PHP section
-    rust          # Rust section
-    docker        # Docker section
-    venv          # virtualenv section
-    dotnet        # .NET section
-    kubectl       # Kubectl context section
-    terraform     # Terraform workspace section
     exec_time     # Execution time
     line_sep      # Line break
     jobs          # Background jobs indicator
