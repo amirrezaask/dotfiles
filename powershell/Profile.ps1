@@ -12,16 +12,18 @@ function Install-And-Import($Name) {
     Import-Module $Name
 }
 # install modules
-Install-And-Import posh-git
-Install-And-Import oh-my-posh
+# Install-And-Import posh-git
+# Install-And-Import oh-my-posh
 Install-And-Import PSReadLine
 Install-And-Import -Name Terminal-Icons
 
 
 # Prompt
-Set-PoshPrompt -Theme ~/source/repos/dotfiles/oh-my-posh/ohmyposh.json
+# Set-PoshPrompt -Theme ~/source/repos/dotfiles/oh-my-posh/ohmyposh.json
 
 # PSReadLine
 Set-PSReadLineOption -PredictionSource History
 Set-PSReadLineOption -PredictionViewStyle ListView
 Set-PSReadLineOption -EditMode Windows
+$VARS = "~/source/repos/dotfiles/powershell/Variables.ps1"
+. $VARS
