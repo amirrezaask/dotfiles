@@ -40,7 +40,11 @@ actions:setup {
     predicate = utils.make_language_predicate('go'),
     actions = {
       format = function()
-        vim.fn.system(string.format("goimports -w %s && go fmt .", vim.api.nvim_buf_get_name(0)))
+        if vim.fn.executable("goimports") == 1 then
+          vim.fn.system(string.format("goimports -w %s && go fmt .", vim.api.nvim_buf_get_name(0)))
+        else
+          vim.fn.system(string.format("go fmt ./..."))
+        end
         vim.c.edit()
       end,
       build = function(_)
