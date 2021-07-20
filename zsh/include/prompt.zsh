@@ -7,4 +7,4 @@ get_branch(){
     fi
 }
 
-PROMPT='%~ $(get_branch) '
+PROMPT='%F{35}%~%f %F{127}$(get_branch)%f '
