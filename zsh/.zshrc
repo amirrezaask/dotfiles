@@ -5,20 +5,6 @@ ZSH_INCLUDE_DIR="$ZSH_CONFIG_BASE_DIR/include"
 PLUGINS=(
     zsh-autosuggestions
     zsh-syntax-highlighting
-    spaceship-prompt
-)
-
-SPACESHIP_PROMPT_ORDER=(
-    time          # Time stamps section
-    user          # Username section
-    dir           # Current directory section
-    host          # Hostname section
-    git           # Git section (git_branch + git_status)
-    exec_time     # Execution time
-    line_sep      # Line break
-    jobs          # Background jobs indicator
-    exit_code     # Exit code section
-    char          # Prompt character
 )
 
 # Load plugins
