@@ -3,8 +3,9 @@ get_branch(){
     if [ -z "$branch" ]; then
         echo ""
     else
-        echo "on  $branch"
+        echo "%F{15}on%f %F{127} $branch%f"
     fi
 }
 
-PROMPT='%F{35}%~%f %F{127}$(get_branch)%f '
+setopt PROMPT_SUBST
+PROMPT='%F{32}%2~%f $(get_branch) '
