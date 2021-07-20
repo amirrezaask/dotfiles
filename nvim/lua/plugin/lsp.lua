@@ -95,6 +95,10 @@ lspconfig.rust_analyzer.setup({
   end,
 })
 
+lspconfig.tsserver.setup({
+  on_attach = on_attach
+})
+
 local sumneko_root = '/home/amirreza/.local/lua-language-server'
 local sumneko_binary = sumneko_root .. '/bin/Linux/lua-language-server'
 
