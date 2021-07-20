@@ -1,5 +1,5 @@
 #! /bin/bash
-git clone https://github.com/sumneko/lua-language-server ~/.local/lua-language-server
+git clone https://github.com/sumneko/lua-language-server ~/.local/lua-language-server --depth 1
 
 cd ~/.local/lua-language-server
 git submodule update --init --recursive

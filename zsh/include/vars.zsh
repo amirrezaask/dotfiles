@@ -10,7 +10,8 @@ export GOPROXY='https://repo.snapp.tech/repository/goproxy,goproxy.io,direct'
 export PLAN9="$HOME/.local/plan9"
 export ZIGPATH="/usr/local/zig"
 export ENCORE_INSTALL="/home/amirreza/.encore"
-export PATH="$ENCORE_INSTALL/bin:$PATH:$HOME/.luarocks/bin:$ZIGPATH:/usr/local/go/bin:$HOME/.config/composer/vendor/bin:$GOROOT/bin:$GOPATH/bin:$HOME/.cargo/bin:$PYTHONBINS:/usr/local/Postman:$HOME/.local/elixir-ls/:$PATH"
+export DENO_PATH="/home/amirreza/.deno"
+export PATH="$DENO_PATH/bin:$ENCORE_INSTALL/bin:$PATH:$HOME/.luarocks/bin:$ZIGPATH:/usr/local/go/bin:$HOME/.config/composer/vendor/bin:$GOROOT/bin:$GOPATH/bin:$HOME/.cargo/bin:$PYTHONBINS:/usr/local/Postman:$HOME/.local/elixir-ls/:$PATH"
 export DOTFILES="~/src/github.com/amirrezaask/dotfiles"
 
 # Aliases
