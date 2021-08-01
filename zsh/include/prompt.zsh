@@ -3,7 +3,8 @@ get_branch(){
     if [ -z "$branch" ]; then
         echo ""
     else
-        echo "%F{13}on%f %F{13} $branch%f"
+        # echo "%F{13}on%f %F{13} $branch%f"
+        echo "%F{13}on%f %F{13}$branch%f"
     fi
 }
 
