@@ -59,6 +59,7 @@ require('packer').startup({
     -- Colorscheme {{{
     use { 'amirrezaask/palette.nvim' }
     use { 'amirrezaask/base16.nvim' }
+    use { 'gruvbox-community/gruvbox' }
     -- }}}
 
     -- Telescope.nvim {{{

@@ -4,11 +4,12 @@ require('nvim')
 vim.g.mapleader = ' '
 
 -- If you want transparency support
-vim.g.transparent = false
+vim.g.transparent = true 
 
--- colorscheme
-require('colors.gruvbuddy')
+-- Theme
+-- require('colors.gruvbuddy')
 -- require('base16').set('norcalli')
+require('colors.gruvbox')
 
 -- Load plugins and configuration
 require('plugins')
