@@ -5,6 +5,7 @@ hl { "VisualMode", link = "StatusLine" }
 hl { "NormalMode", link = "Function" }
 hl { "InsertMode", link = "StatusLine" }
 hl { "TerminalMode", link = "Constant" }
+hl { "LineNr", fg='#5eacd3' }
 
 
 
