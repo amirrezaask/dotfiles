@@ -58,4 +58,11 @@ vim.map {
   ['i <M-k>'] = { "<Esc>:m .-2<CR>==gi", "Move current line up", "Editing" },
   ['v <M-j>'] = { ":m '>+1<CR>gv=gv", "Move selected lines down", "Editing" },
   ['v <M-k>'] = { ":m '<-2<CR>gv=gv", "Move selected lines up", "Editing" },
+
+  
+  -- Some mappings took from @ThePrimeagen
+  -- Make y(yank) act like other letters
+  ['Y'] = { "y$" },
+  ['n'] = { "nzz" },
+  ['N'] = { "Nzz" }
 }
