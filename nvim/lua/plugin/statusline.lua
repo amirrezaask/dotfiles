@@ -38,7 +38,7 @@ local wrappers = require('nline.wrappers')
 -- }
 
 
-nline.make {
+nline.make({
    vim.mode {
     hls = {
       normal = 'StatusLine',
@@ -59,8 +59,9 @@ nline.make {
        terminal = 'Terminal'
      }
    },
-  vim.space(), vim.pipe(), vim.space(), git.branch(), vim.space(), vim.pipe(), vim.space(), vim.filename({ shorten = false }), vim.space(),
-  vim.pipe(), vim.space(), git.changes(), vim.space(), vim.pipe(), vim.space(),
+  git.branch(),
+  vim.filename({ shorten = false }),
+  git.changes(),
   lsp.diagnostics({
     icons = {
       error = 'E',
@@ -70,7 +71,7 @@ nline.make {
       ok = '',
       ['function'] = '',
       },
-    }), vim.space(), vim.pipe(),
-    vim.space(), vim.line()..vim.space()..vim.colon()..vim.col(), vim.space(), vim.pipe(),
-    vim.space(), lsp.progress()
-}
+    }),
+    vim.line()..vim.space()..vim.colon()..vim.col(),
+    lsp.progress()
+}, {delimiter = ' | '})
