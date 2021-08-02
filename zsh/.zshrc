@@ -5,6 +5,7 @@ ZSH_INCLUDE_DIR="$ZSH_CONFIG_BASE_DIR/include"
 PLUGINS=(
     zsh-autosuggestions
     # zsh-syntax-highlighting
+    spaceship-prompt
 )
 
 # Load plugins
