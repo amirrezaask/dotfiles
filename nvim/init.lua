@@ -7,9 +7,9 @@ vim.g.mapleader = ' '
 vim.g.transparent = true
 
 -- Theme
--- require('colors.gruvbuddy')
+require('colors.gruvbuddy')
 -- require('base16').set('norcalli')
-require('colors.gruvbox')
+-- require('colors.gruvbox')
 
 -- Load plugins and configuration
 require('plugins')
