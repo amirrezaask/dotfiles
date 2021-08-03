@@ -185,6 +185,10 @@ require('packer').startup({
 
     -- better inc/dec
     use { 'monaqa/dial.nvim' }
+
+
+    -- refactoring plugin
+    use { "ThePrimeagen/refactoring.nvim" }
   end,
   config = {
     display = {
