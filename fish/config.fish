@@ -8,6 +8,7 @@ set -x ZIGPATH "/usr/local/zig"
 # set -x CARGO_TARGET_DIR "~/.local/cargo/"
 set -x PATH "$ZIGPATH:/usr/local/go/bin:$HOME/.config/composer/vendor/bin:$GOROOT/bin:$GOPATH/bin:$HOME/.cargo/bin:$PYTHONBINS:/usr/local/Postman:$HOME/.local/elixir-ls/:$PATH"
 set -x DOTFILES "~/src/github.com/amirrezaask/dotfiles/"
+
 alias open='xdg-open'
 alias g='git status'
 alias ga='git add'
@@ -23,6 +24,7 @@ alias gcb='git checkout -b'
 alias gpsup='gp --set-upstream origin (git_current_branch)'
 alias kcl='kubectl'
 alias dots="cd $DOTFILES"
+alias oss='cd $GOPATH/src/github.com/amirrezaask'
 alias prj="cd $GOPATH/src/github.com/amirrezaask"
 alias freenet="echo $VPN_PASSWORD | sudo openconnect --no-dtls --passwd-on-stdin --user $VPN_USERNAME $VPN_SERVER"
 alias lock='i3lock -c000000'
