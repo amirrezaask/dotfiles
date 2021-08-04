@@ -39,3 +39,6 @@ alias gdoc='godoc -http=:6060'
 alias vim='nvim'
 alias vi='nvim'
 alias v='nvim'
+
+starship init fish | source
+
