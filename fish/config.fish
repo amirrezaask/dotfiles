@@ -40,5 +40,11 @@ alias vim='nvim'
 alias vi='nvim'
 alias v='nvim'
 
+# install starship if not installed
+if not command -v starship &> /dev/null
+then
+    curl -fsSL 'https://starship.rs/install.sh'
+end
+
 starship init fish | source
 

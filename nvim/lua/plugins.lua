@@ -115,9 +115,9 @@ require('packer').startup({
     -- Languages {{{
     use({ 'honza/dockerfile.vim' })
     use({ 'hashivim/vim-terraform' })
-    use({ 'LnL7/vim-nix', ft = 'nix' })
-    use({ 'ziglang/zig.vim', ft = 'zig' })
-    use({ 'dag/vim-fish', ft = 'fish' })
+    use({ 'LnL7/vim-nix' })
+    use({ 'ziglang/zig.vim' })
+    use({ 'dag/vim-fish' })
     use({ 'cespare/vim-toml' })
     use({ 'chr4/nginx.vim' })
     use({ 'elixir-editors/vim-elixir' })

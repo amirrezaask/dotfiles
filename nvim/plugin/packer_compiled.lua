@@ -105,6 +105,10 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/gitsigns.nvim"
   },
+  gruvbox = {
+    loaded = true,
+    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/gruvbox"
+  },
   ["haskell-vim"] = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/haskell-vim"
@@ -165,6 +169,10 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/nvim-luaref"
   },
+  ["nvim-nonicons"] = {
+    loaded = true,
+    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/nvim-nonicons"
+  },
   ["nvim-tree.lua"] = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/nvim-tree.lua"
@@ -204,6 +212,10 @@ _G.packer_plugins = {
   ["popup.nvim"] = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/popup.nvim"
+  },
+  ["refactoring.nvim"] = {
+    loaded = true,
+    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/refactoring.nvim"
   },
   ["rust-tools.nvim"] = {
     loaded = true,
@@ -271,9 +283,8 @@ _G.packer_plugins = {
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/vim-elixir"
   },
   ["vim-fish"] = {
-    loaded = false,
-    needs_bufread = true,
-    path = "/home/amirreza/.local/share/nvim/site/pack/packer/opt/vim-fish"
+    loaded = true,
+    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/vim-fish"
   },
   ["vim-fugitive"] = {
     loaded = true,
@@ -293,9 +304,8 @@ _G.packer_plugins = {
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/vim-mscgen"
   },
   ["vim-nix"] = {
-    loaded = false,
-    needs_bufread = true,
-    path = "/home/amirreza/.local/share/nvim/site/pack/packer/opt/vim-nix"
+    loaded = true,
+    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/vim-nix"
   },
   ["vim-ps1"] = {
     loaded = true,
@@ -326,9 +336,8 @@ _G.packer_plugins = {
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/vim-toml"
   },
   ["zig.vim"] = {
-    loaded = false,
-    needs_bufread = true,
-    path = "/home/amirreza/.local/share/nvim/site/pack/packer/opt/zig.vim"
+    loaded = true,
+    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/zig.vim"
   }
 }
 
@@ -337,23 +346,11 @@ vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]
   -- Filetype lazy-loads
 time([[Defining lazy-load filetype autocommands]], true)
-vim.cmd [[au FileType zig ++once lua require("packer.load")({'zig.vim'}, { ft = "zig" }, _G.packer_plugins)]]
-vim.cmd [[au FileType fish ++once lua require("packer.load")({'vim-fish'}, { ft = "fish" }, _G.packer_plugins)]]
-vim.cmd [[au FileType json ++once lua require("packer.load")({'vim-jdaddy'}, { ft = "json" }, _G.packer_plugins)]]
-vim.cmd [[au FileType nix ++once lua require("packer.load")({'vim-nix'}, { ft = "nix" }, _G.packer_plugins)]]
 vim.cmd [[au FileType rust ++once lua require("packer.load")({'rust.vim'}, { ft = "rust" }, _G.packer_plugins)]]
+vim.cmd [[au FileType json ++once lua require("packer.load")({'vim-jdaddy'}, { ft = "json" }, _G.packer_plugins)]]
 time([[Defining lazy-load filetype autocommands]], false)
 vim.cmd("augroup END")
 vim.cmd [[augroup filetypedetect]]
-time([[Sourcing ftdetect script at: /home/amirreza/.local/share/nvim/site/pack/packer/opt/vim-fish/ftdetect/fish.vim]], true)
-vim.cmd [[source /home/amirreza/.local/share/nvim/site/pack/packer/opt/vim-fish/ftdetect/fish.vim]]
-time([[Sourcing ftdetect script at: /home/amirreza/.local/share/nvim/site/pack/packer/opt/vim-fish/ftdetect/fish.vim]], false)
-time([[Sourcing ftdetect script at: /home/amirreza/.local/share/nvim/site/pack/packer/opt/vim-nix/ftdetect/nix.vim]], true)
-vim.cmd [[source /home/amirreza/.local/share/nvim/site/pack/packer/opt/vim-nix/ftdetect/nix.vim]]
-time([[Sourcing ftdetect script at: /home/amirreza/.local/share/nvim/site/pack/packer/opt/vim-nix/ftdetect/nix.vim]], false)
-time([[Sourcing ftdetect script at: /home/amirreza/.local/share/nvim/site/pack/packer/opt/zig.vim/ftdetect/zig.vim]], true)
-vim.cmd [[source /home/amirreza/.local/share/nvim/site/pack/packer/opt/zig.vim/ftdetect/zig.vim]]
-time([[Sourcing ftdetect script at: /home/amirreza/.local/share/nvim/site/pack/packer/opt/zig.vim/ftdetect/zig.vim]], false)
 time([[Sourcing ftdetect script at: /home/amirreza/.local/share/nvim/site/pack/packer/opt/rust.vim/ftdetect/rust.vim]], true)
 vim.cmd [[source /home/amirreza/.local/share/nvim/site/pack/packer/opt/rust.vim/ftdetect/rust.vim]]
 time([[Sourcing ftdetect script at: /home/amirreza/.local/share/nvim/site/pack/packer/opt/rust.vim/ftdetect/rust.vim]], false)
