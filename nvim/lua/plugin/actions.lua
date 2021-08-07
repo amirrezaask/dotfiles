@@ -34,6 +34,9 @@ actions:setup {
       run = function(bufnr)
         vim.c.luafile(vim.api.nvim_buf_get_name(bufnr))
       end,
+      format = function(bufnr)
+        require("stylua"):run(bufnr)
+      end,
     },
   },
   {

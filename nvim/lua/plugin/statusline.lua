@@ -35,7 +35,7 @@ nline.make {
 
   vim.seperator(),
 
-  wrappers.square_brackets(lsp.current_function()),
+  -- wrappers.square_brackets(lsp.current_function()),
   wrappers.square_brackets(git.changes()),
   wrappers.square_brackets(lsp.diagnostics()),
   -- lsp.progress(),
