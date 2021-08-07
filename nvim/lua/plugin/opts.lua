@@ -4,12 +4,12 @@ vim.opt.equalalways = false
 vim.opt.modeline = true
 vim.opt.autoread = true
 vim.opt.compatible = false
-vim.opt.encoding = 'utf-8'
+vim.opt.encoding = "utf-8"
 vim.opt.hlsearch = true
 vim.opt.history = 700
 vim.opt.tabpagemax = 100
 vim.opt.ruler = true
-vim.opt.mouse = 'a'
+vim.opt.mouse = "a"
 vim.opt.wrap = true
 vim.opt.autoindent = true
 vim.opt.termguicolors = true
@@ -27,12 +27,12 @@ vim.opt.relativenumber = true
 vim.opt.number = true
 vim.opt.pumblend = 13
 vim.opt.showmode = false
-vim.opt.clipboard = 'unnamedplus'
+vim.opt.clipboard = "unnamedplus"
 vim.opt.hidden = true
 vim.opt.updatetime = 100
 vim.opt.shortmess = vim.opt.shortmess + "I"
 
-if vim.fn.executable("rg") == 1 then
-    vim.opt.grepprg='rg --vimgrep --no-heading'
-    vim.opt.grepformat='%f:%l:%c:%m,%f:%l:%m'
+if vim.fn.executable "rg" == 1 then
+  vim.opt.grepprg = "rg --vimgrep --no-heading"
+  vim.opt.grepformat = "%f:%l:%c:%m,%f:%l:%m"
 end

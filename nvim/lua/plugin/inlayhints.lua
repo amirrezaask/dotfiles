@@ -10,17 +10,17 @@ _mt.__index = _mt
 function inlayhints.new(opts)
   opts = opts or {}
   opts.buf = opts.buf or vim.api.nvim_get_current_buf()
-  opts.ns = vim.api.nvim_create_namespace(opts.name or 'INLAY_HINT')
+  opts.ns = vim.api.nvim_create_namespace(opts.name or "INLAY_HINT")
   __INLAY_HINTS_STATE[opts.buf] = opts
   return setmetatable(opts, _mt)
 end
 
 --@param opts.line: line to set in virtual_text
 function _mt:set(opts)
-  assert(opts, 'pass opts')
+  assert(opts, "pass opts")
   opts.lnum = opts.lnum or vim.api.nvim_win_get_cursor(0)[1] - 1
   local lines = {}
-  table.insert(lines, {(opts.prefix or self.prefix or '> ') .. tostring(opts.line), opts.hl or 'Comment'})
+  table.insert(lines, { (opts.prefix or self.prefix or "> ") .. tostring(opts.line), opts.hl or "Comment" })
   vim.api.nvim_buf_set_virtual_text(self.buf, self.ns, opts.lnum, lines, {})
   vim.c.redraw()
 end
@@ -30,11 +30,13 @@ function _mt:clear(buf)
 end
 
 function inlayhints.for_buf(buf)
-  if __INLAY_HINTS_STATE[buf] then return __INLAY_HINTS_STATE[buf] end
-  __INLAY_HINTS_STATE[buf] = inlayhints.new({
+  if __INLAY_HINTS_STATE[buf] then
+    return __INLAY_HINTS_STATE[buf]
+  end
+  __INLAY_HINTS_STATE[buf] = inlayhints.new {
     buf = buf,
-    name = string.format('inlays for %d', buf)
-  })
+    name = string.format("inlays for %d", buf),
+  }
   return __INLAY_HINTS_STATE[buf]
 end
 
@@ -46,4 +48,3 @@ function inlayhints.clear()
 end
 
 return inlayhints
-

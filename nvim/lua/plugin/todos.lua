@@ -1,7 +1,9 @@
-local has_todo_comments, todo_comments = pcall(require, 'todo-comments')
-if not has_todo_comments then return end
+local has_todo_comments, todo_comments = pcall(require, "todo-comments")
+if not has_todo_comments then
+  return
+end
 
-todo_comments.setup({
+todo_comments.setup {
   signs = true, -- show icons in the signs column
   -- keywords recognized as todo comments
   keywords = {
@@ -58,8 +60,7 @@ todo_comments.setup({
     pattern = [[\b(KEYWORDS):]], -- ripgrep regex
     -- pattern = [[\b(KEYWORDS)\b]], -- match without the extra colon. You'll likely get false positives
   },
-})
-vim.map {
-  ['<M-e>'] = ':TodoTelescope<CR>'
 }
-
+vim.map {
+  ["<M-e>"] = ":TodoTelescope<CR>",
+}

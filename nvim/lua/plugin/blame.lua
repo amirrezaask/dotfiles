@@ -1,4 +1,4 @@
-local has_blame, blame = pcall(require,'blame')
+local has_blame, blame = pcall(require, "blame")
 if not has_blame then
   return
 end
@@ -8,5 +8,5 @@ blame.setup {
 }
 
 vim.nmap {
-  ['-'] = require('blame').toggle,
+  ["-"] = require("blame").toggle,
 }

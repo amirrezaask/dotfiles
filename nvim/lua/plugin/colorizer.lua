@@ -1,5 +1,7 @@
-local has_colorizer, colorizer = pcall(require, 'colorizer')
-if not has_colorizer then return end
+local has_colorizer, colorizer = pcall(require, "colorizer")
+if not has_colorizer then
+  return
+end
 
 function ColorPicker()
   _PICKER_ASHKAN_KIANI_COPYRIGHT_2020_LONG_NAME_HERE_ = nil
@@ -9,7 +11,7 @@ end
 vim.autocmd {
   "BufEnter",
   "*",
-  "ColorizerAttachToBuffer"
+  "ColorizerAttachToBuffer",
 }
 
-vim.command('ColorPicker', ColorPicker, nil, 'Opens the color picker on the color code under cursor')
+vim.command("ColorPicker", ColorPicker, nil, "Opens the color picker on the color code under cursor")

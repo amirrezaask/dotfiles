@@ -1,3 +1,3 @@
 return {
-  todo = '-- TODO(amirreza): $1',
+  todo = "-- TODO(amirreza): $1",
 }

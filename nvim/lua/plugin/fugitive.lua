@@ -1,1 +1,1 @@
-vim.c('Gpm', 'Git push origin master')
+vim.c("Gpm", "Git push origin master")

@@ -5,5 +5,5 @@
 -- }
 
 vim.map {
-  ['<F8>'] = ":NvimTreeToggle<CR>"
+  ["<F8>"] = ":NvimTreeToggle<CR>",
 }

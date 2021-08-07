@@ -6,4 +6,3 @@ vmap <C-x> <Plug>(dial-decrement)
 vmap g<C-a> <Plug>(dial-increment-additional)
 vmap g<C-x> <Plug>(dial-decrement-additional)
 ]]
-
