@@ -40,6 +40,12 @@ actions:setup {
     },
   },
   {
+    predicate = utils.make_path_predicate "gitlab.snapp.ir",
+    actions = {
+      format = function() end,
+    },
+  },
+  {
     predicate = utils.make_language_predicate "go",
     actions = {
       format = function()
@@ -92,4 +98,13 @@ actions:setup {
       end,
     },
   },
+}
+
+vim.autocmd {
+  "BufWritePost",
+  "*",
+  function()
+    Actions:exec(0, "format")
+    vim.c.edit()
+  end,
 }
