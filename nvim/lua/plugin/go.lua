@@ -4,16 +4,14 @@ local M = {}
 function M.format(bufnr)
   bufnr = bufnr or 0
   vim.c.write()
-  local job = Job
-    :new({
-      "goimports",
-      vim.api.nvim_buf_get_name(0),
-    })
+  local job = Job:new {
+    "goimports",
+    vim.api.nvim_buf_get_name(0),
+  }
 
   local output = job:sync()
 
   if job.code ~= 0 then
-    print "cannot format"
     return
   end
 
