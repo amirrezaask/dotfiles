@@ -50,15 +50,7 @@ actions:setup {
     predicate = utils.make_language_predicate "go",
     actions = {
       format = function(bufnr)
-        vim.c.write()
-        local output = Job
-          :new({
-            "goimports",
-            vim.api.nvim_buf_get_name(0),
-          })
-          :sync()
-
-        vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, output)
+        require("plugin.go").format(bufnr)
       end,
       -- format = function(bufnr)
       --   local timeoutms = 1000
