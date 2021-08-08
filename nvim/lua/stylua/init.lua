@@ -44,16 +44,19 @@ end
 --@param bufnr: number
 function Stylua:run(bufnr)
   local config_path = self:get_config_path(bufnr)
-  local output = Job
-    :new({
-      "stylua",
-      "--config-path",
-      config_path,
-      "-",
-      writer = vim.api.nvim_buf_get_lines(0, 0, -1, false),
-    })
-    :sync()
+  local job = Job:new({
+    "stylua",
+    "--config-path",
+    config_path,
+    "-",
+    writer = vim.api.nvim_buf_get_lines(0, 0, -1, false),
+  })
+  local output = job:sync()
 
+  if job.code ~= 0 then
+    print "cannot format"
+    return
+  end
   vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, output)
 end
 
