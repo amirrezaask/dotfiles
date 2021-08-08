@@ -51,3 +51,8 @@ alias glm='git pull origin master'
 alias gs='git status'
 alias work='cd ~/src/gitlab.snapp.ir/'
 alias oss='cd ~/src/github.com/amirrezaask'
+if command -v nvim &> /dev/null
+then
+    alias vim=nvim
+    alias vi=nvim
+fi
