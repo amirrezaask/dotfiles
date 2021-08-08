@@ -1,4 +1,5 @@
 local has_actions, actions = pcall(require, "actions")
+local Job = require "plenary.job"
 if not has_actions then
   return
 end
@@ -49,22 +50,33 @@ actions:setup {
     predicate = utils.make_language_predicate "go",
     actions = {
       format = function(bufnr)
-        local timeoutms = 1000
-        local context = { source = { organizeImports = true } }
-        vim.validate { context = { context, "t", true } }
-        local params = vim.lsp.util.make_range_params()
-        params.context = context
-        local method = "textDocument/codeAction"
-        local resp = vim.lsp.buf_request_sync(0, method, params, timeoutms)
-        if resp and resp[1] then
-          local result = resp[1].result
-          if result and result[1] then
-            local edit = result[1].edit
-            vim.lsp.util.apply_workspace_edit(edit)
-          end
-        end
-        vim.lsp.buf.formatting_sync()
+        vim.c.write()
+        local output = Job
+          :new({
+            "goimports",
+            vim.api.nvim_buf_get_name(0),
+          })
+          :sync()
+
+        vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, output)
       end,
+      -- format = function(bufnr)
+      --   local timeoutms = 1000
+      --   local context = { source = { organizeImports = true } }
+      --   vim.validate { context = { context, "t", true } }
+      --   local params = vim.lsp.util.make_range_params()
+      --   params.context = context
+      --   local method = "textDocument/codeAction"
+      --   local resp = vim.lsp.buf_request_sync(0, method, params, timeoutms)
+      --   if resp and resp[1] then
+      --     local result = resp[1].result
+      --     if result and result[1] then
+      --       local edit = result[1].edit
+      --       vim.lsp.util.apply_workspace_edit(edit)
+      --     end
+      --   end
+      --   vim.lsp.buf.formatting_sync()
+      -- end,
       build = function(_)
         floating:command(
           "go build",
