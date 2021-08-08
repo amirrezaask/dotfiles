@@ -30,7 +30,6 @@ vim.opt.showmode = false
 vim.opt.clipboard = "unnamedplus"
 vim.opt.hidden = true
 vim.opt.updatetime = 100
-vim.opt.shortmess = vim.opt.shortmess + "I"
 
 if vim.fn.executable "rg" == 1 then
   vim.opt.grepprg = "rg --vimgrep --no-heading"

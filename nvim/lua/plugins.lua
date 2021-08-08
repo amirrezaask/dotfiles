@@ -45,18 +45,10 @@ require("packer").startup {
     -- Plugin Manager
     use { "wbthomason/packer.nvim" }
 
-    -- Easier jobstart
-    use { "amirrezaask/spawn.nvim" }
-
     -- Missing stdlib for neovim
     use { "nvim-lua/plenary.nvim" }
 
-    -- Colorscheme {{{
     use { "amirrezaask/palette.nvim" }
-    use { "amirrezaask/base16.nvim" }
-    use { "gruvbox-community/gruvbox" }
-    -- }}}
-
     -- Telescope.nvim {{{
     use { "nvim-lua/popup.nvim" }
     use { "nvim-telescope/telescope.nvim" }
