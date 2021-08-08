@@ -44,14 +44,17 @@ end
 --@param bufnr: number
 function Stylua:run(bufnr)
   local config_path = self:get_config_path(bufnr)
-  Job
+  local output = Job
     :new({
-      command = "stylua",
-      args = { "--config-path", config_path, vim.api.nvim_buf_get_name(bufnr) },
+      "stylua",
+      "--config-path",
+      config_path,
+      "-",
+      writer = vim.api.nvim_buf_get_lines(0, 0, -1, false),
     })
     :sync()
 
-  vim.c.edit()
+  vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, output)
 end
 
 return Stylua

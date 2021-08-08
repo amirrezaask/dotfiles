@@ -42,19 +42,28 @@ actions:setup {
   {
     predicate = utils.make_path_predicate "gitlab.snapp.ir",
     actions = {
-      format = function() end,
+      -- format = function() end,
     },
   },
   {
     predicate = utils.make_language_predicate "go",
     actions = {
-      format = function()
-        if vim.fn.executable "goimports" == 1 then
-          vim.fn.system(string.format("goimports -w %s && go fmt .", vim.api.nvim_buf_get_name(0)))
-        else
-          vim.fn.system(string.format "go fmt ./...")
+      format = function(bufnr)
+        local timeoutms = 1000
+        local context = { source = { organizeImports = true } }
+        vim.validate { context = { context, "t", true } }
+        local params = vim.lsp.util.make_range_params()
+        params.context = context
+        local method = "textDocument/codeAction"
+        local resp = vim.lsp.buf_request_sync(0, method, params, timeoutms)
+        if resp and resp[1] then
+          local result = resp[1].result
+          if result and result[1] then
+            local edit = result[1].edit
+            vim.lsp.util.apply_workspace_edit(edit)
+          end
         end
-        vim.c.edit()
+        vim.lsp.buf.formatting_sync()
       end,
       build = function(_)
         floating:command(
@@ -101,10 +110,9 @@ actions:setup {
 }
 
 vim.autocmd {
-  "BufWritePost",
+  "BufWritePre",
   "*",
   function()
     Actions:exec(0, "format")
-    vim.c.edit()
   end,
 }

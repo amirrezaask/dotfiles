@@ -1,4 +1,5 @@
 -- My neovim standard lib :)
+
 require "nvim"
 
 vim.g.mapleader = " "
