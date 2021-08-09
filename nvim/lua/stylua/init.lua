@@ -35,6 +35,11 @@ function Stylua:get_config_path(bufnr)
         cached_configs[path] = stylua_path:absolute()
         break
       end
+      stylua_path = Path:new { os.getenv "HOME", ".stylua.toml" }
+      if stylua_path:exists() then
+        cached_configs[path] = stylua_path:absolute()
+        break
+      end
     end
   end
 
@@ -44,13 +49,13 @@ end
 --@param bufnr: number
 function Stylua:run(bufnr)
   local config_path = self:get_config_path(bufnr)
-  local job = Job:new({
+  local job = Job:new {
     "stylua",
     "--config-path",
     config_path,
     "-",
     writer = vim.api.nvim_buf_get_lines(0, 0, -1, false),
-  })
+  }
   local output = job:sync()
 
   if job.code ~= 0 then
