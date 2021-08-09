@@ -81,10 +81,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/ansible-vim"
   },
-  ["base16.nvim"] = {
-    loaded = true,
-    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/base16.nvim"
-  },
   ["blame.nvim"] = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/blame.nvim"
@@ -97,17 +93,9 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/dockerfile.vim"
   },
-  ["git-worktree.nvim"] = {
-    loaded = true,
-    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/git-worktree.nvim"
-  },
   ["gitsigns.nvim"] = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/gitsigns.nvim"
-  },
-  gruvbox = {
-    loaded = true,
-    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/gruvbox"
   },
   ["haskell-vim"] = {
     loaded = true,
@@ -213,10 +201,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/popup.nvim"
   },
-  ["refactoring.nvim"] = {
-    loaded = true,
-    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/refactoring.nvim"
-  },
   ["rust-tools.nvim"] = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/rust-tools.nvim"
@@ -229,10 +213,6 @@ _G.packer_plugins = {
   ["snippets.nvim"] = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/snippets.nvim"
-  },
-  ["spawn.nvim"] = {
-    loaded = true,
-    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/spawn.nvim"
   },
   tabular = {
     loaded = true,
@@ -270,10 +250,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/todo-comments.nvim"
   },
-  ["vgit.nvim"] = {
-    loaded = true,
-    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/vgit.nvim"
-  },
   ["vim-commentary"] = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/vim-commentary"
@@ -285,10 +261,6 @@ _G.packer_plugins = {
   ["vim-fish"] = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/vim-fish"
-  },
-  ["vim-fugitive"] = {
-    loaded = true,
-    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/vim-fugitive"
   },
   ["vim-jdaddy"] = {
     loaded = false,
@@ -346,8 +318,8 @@ vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]
   -- Filetype lazy-loads
 time([[Defining lazy-load filetype autocommands]], true)
-vim.cmd [[au FileType rust ++once lua require("packer.load")({'rust.vim'}, { ft = "rust" }, _G.packer_plugins)]]
 vim.cmd [[au FileType json ++once lua require("packer.load")({'vim-jdaddy'}, { ft = "json" }, _G.packer_plugins)]]
+vim.cmd [[au FileType rust ++once lua require("packer.load")({'rust.vim'}, { ft = "rust" }, _G.packer_plugins)]]
 time([[Defining lazy-load filetype autocommands]], false)
 vim.cmd("augroup END")
 vim.cmd [[augroup filetypedetect]]

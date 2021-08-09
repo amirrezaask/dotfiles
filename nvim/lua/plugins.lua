@@ -42,13 +42,16 @@ require("packer").startup {
         _use(opts)
       end
     end
+
     -- Plugin Manager
     use { "wbthomason/packer.nvim" }
 
     -- Missing stdlib for neovim
     use { "nvim-lua/plenary.nvim" }
 
+    -- Palette.nvim for creating colorschemes
     use { "amirrezaask/palette.nvim" }
+
     -- Telescope.nvim {{{
     use { "nvim-lua/popup.nvim" }
     use { "nvim-telescope/telescope.nvim" }
@@ -72,12 +75,8 @@ require("packer").startup {
     use { "elzr/vim-json" }
 
     -- Git Integration {{{
-    use { "tpope/vim-fugitive" }
     use { "lewis6991/gitsigns.nvim" }
-    use { "ThePrimeagen/git-worktree.nvim" }
     use { "amirrezaask/blame.nvim", requires = { { "nvim-lua/plenary.nvim" } } }
-
-    use { "tanvirtin/vgit.nvim" }
     -- }}}
 
     -- Comment codes at ease
@@ -170,9 +169,6 @@ require("packer").startup {
 
     -- better inc/dec
     use { "monaqa/dial.nvim" }
-
-    -- refactoring plugin
-    use { "ThePrimeagen/refactoring.nvim" }
   end,
   config = {
     display = {
