@@ -76,7 +76,6 @@ require("packer").startup {
 
     -- Git Integration {{{
     use { "lewis6991/gitsigns.nvim" }
-    use { "amirrezaask/blame.nvim", requires = { { "nvim-lua/plenary.nvim" } } }
     -- }}}
 
     -- Comment codes at ease
@@ -171,6 +170,13 @@ require("packer").startup {
     use { "monaqa/dial.nvim" }
 
     use { "ThePrimeagen/git-worktree.nvim" }
+
+    use {
+      "antoinemadec/FixCursorHold.nvim",
+      run = function()
+        vim.g.curshold_updatime = 1000
+      end,
+    }
   end,
   config = {
     display = {
