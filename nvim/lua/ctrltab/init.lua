@@ -6,6 +6,11 @@ function ctrltab.setup(opts)
   opts = opts or {}
   opts.max_buffer_count = opts.max_buffer_count or 10
   CtrlTabConfig = opts
+  vim.cmd [[augroup CtrlTab
+    autocmd!
+    autocmd BufEnter * lua require('ctrltab').add_to_buffer_list()
+    augroup END
+  ]]
 end
 
 function ctrltab:jump_to_last()
@@ -89,11 +94,5 @@ function ctrltab.add_to_buffer_list()
     add_to_list(bufnr)
   end
 end
-
-vim.cmd [[augroup CtrlTab
-  autocmd!
-  autocmd BufEnter * lua require('ctrltab').add_to_buffer_list()
-  augroup END
-]]
 
 return ctrltab

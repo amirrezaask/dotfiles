@@ -169,6 +169,8 @@ require("packer").startup {
 
     -- better inc/dec
     use { "monaqa/dial.nvim" }
+
+    use { "ThePrimeagen/git-worktree.nvim" }
   end,
   config = {
     display = {

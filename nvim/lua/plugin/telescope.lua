@@ -80,8 +80,8 @@ telescope.load_extension "media_files"
 telescope.load_extension "git_worktree"
 telescope.load_extension "gh"
 telescope.load_extension "snippets"
-telescope.load_extension "fzf"
---TODO: write telescope function for nvim doc things
+-- telescope.load_extension "fzf"
+telescope.load_extension "fzy_native"
 
 function M.docs()
   local docs = {}
@@ -390,11 +390,13 @@ vim.nmap {
   [",f"] = wrap(M.grep_string),
   [",s"] = wrap(require("telescope.builtin").grep_string),
   ["<leader>b"] = wrap(require("telescope.builtin").buffers),
+  [",c"] = M.edit_configs,
   ["<leader>ec"] = M.edit_configs,
   ["<leader>L"] = M.telescope_commands,
   ["<leader>en"] = M.edit_neovim,
-  ["<leader>ez"] = M.edit_zsh,
-  ["<leader>ea"] = M.edit_awesome,
+  [",n"] = M.edit_neovim,
+  [",z"] = M.edit_zsh,
+  [",a"] = M.edit_awesome,
   ["<leader>fs"] = M.find_src,
   [",w"] = wallpaper.set_wallpaper,
   ["<leader>c"] = wrap(require("telescope.builtin").commands),
