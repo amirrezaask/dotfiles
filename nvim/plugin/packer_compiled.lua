@@ -85,6 +85,10 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/ansible-vim"
   },
+  ["colorbuddy.nvim"] = {
+    loaded = true,
+    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/colorbuddy.nvim"
+  },
   ["dial.nvim"] = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/dial.nvim"
@@ -100,6 +104,10 @@ _G.packer_plugins = {
   ["gitsigns.nvim"] = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/gitsigns.nvim"
+  },
+  ["gruvbuddy.nvim"] = {
+    loaded = true,
+    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/gruvbuddy.nvim"
   },
   ["haskell-vim"] = {
     loaded = true,
@@ -189,10 +197,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/packer.nvim"
   },
-  ["palette.nvim"] = {
-    loaded = true,
-    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/palette.nvim"
-  },
   playground = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/playground"
@@ -213,10 +217,6 @@ _G.packer_plugins = {
     loaded = false,
     needs_bufread = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/opt/rust.vim"
-  },
-  ["snippets.nvim"] = {
-    loaded = true,
-    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/snippets.nvim"
   },
   tabular = {
     loaded = true,
@@ -241,10 +241,6 @@ _G.packer_plugins = {
   ["telescope-media-files.nvim"] = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/telescope-media-files.nvim"
-  },
-  ["telescope-snippets.nvim"] = {
-    loaded = true,
-    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/telescope-snippets.nvim"
   },
   ["telescope.nvim"] = {
     loaded = true,
@@ -290,10 +286,6 @@ _G.packer_plugins = {
   ["vim-scriptease"] = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/vim-scriptease"
-  },
-  ["vim-startify"] = {
-    loaded = true,
-    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/vim-startify"
   },
   ["vim-surround"] = {
     loaded = true,

@@ -55,7 +55,7 @@ local function rename()
   vim.lsp.buf.rename(vim.fn.input(string.format("Rename %s to > ", current_word)))
 end
 
-local telescope_on_attach = require("plugin.telescope").on_attach
+local telescope_on_attach = require("amirrezaask.telescope").on_attach
 local support_formatting = { "rust" }
 
 local function make_on_attach(base)

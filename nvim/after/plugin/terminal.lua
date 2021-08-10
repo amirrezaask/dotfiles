@@ -1,5 +1,5 @@
 local M = {}
-local floating = require "floating"
+local floating = require "amirrezaask.floating"
 
 function M.open(opts)
   opts = opts or {}

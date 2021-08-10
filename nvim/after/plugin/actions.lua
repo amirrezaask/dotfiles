@@ -4,8 +4,8 @@ if not has_actions then
   return
 end
 
-local floating = require "floating"
-local lsp = require "plugin.lsp"
+local floating = require "amirrezaask.floating"
+local lsp = require "amirrezaask.lsp"
 local utils = require "actions.utils"
 
 local function floating_window_opts(opts)
@@ -36,7 +36,7 @@ actions:setup {
         vim.c.luafile(vim.api.nvim_buf_get_name(bufnr))
       end,
       format = function(bufnr)
-        require("stylua"):run(bufnr)
+        require("amirrezaask.stylua"):run(bufnr)
       end,
     },
   },

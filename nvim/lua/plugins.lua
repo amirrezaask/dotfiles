@@ -49,8 +49,12 @@ require("packer").startup {
     -- Missing stdlib for neovim
     use { "nvim-lua/plenary.nvim" }
 
-    -- Palette.nvim for creating colorschemes
+    -- Base library for my colorscheme {{{
     use { "amirrezaask/palette.nvim" }
+    -- }}}
+
+    -- Statusline
+    use { "amirrezaask/nline.nvim" }
 
     -- Telescope.nvim {{{
     use { "nvim-lua/popup.nvim" }
@@ -59,12 +63,7 @@ require("packer").startup {
     use { "nvim-telescope/telescope-dap.nvim" }
     use { "nvim-telescope/telescope-media-files.nvim" }
     use { "nvim-telescope/telescope-github.nvim" }
-    use { "nvim-telescope/telescope-snippets.nvim" }
     use { "nvim-telescope/telescope-fzf-native.nvim", run = "make" }
-    -- }}}
-
-    -- Snippets {{{
-    use { "norcalli/snippets.nvim" }
     -- }}}
 
     -- Vim Surround text objects
@@ -76,6 +75,7 @@ require("packer").startup {
 
     -- Git Integration {{{
     use { "lewis6991/gitsigns.nvim" }
+    use { "ThePrimeagen/git-worktree.nvim" }
     -- }}}
 
     -- Comment codes at ease
@@ -142,9 +142,6 @@ require("packer").startup {
     use { "kyazdani42/nvim-web-devicons" }
     use { "yamatsum/nvim-nonicons" }
 
-    -- Startscreen also session manager
-    use { "mhinz/vim-startify" }
-
     -- Highlight todo and etc...
     use { "folke/todo-comments.nvim", requires = "nvim-lua/plenary.nvim" }
 
@@ -168,8 +165,6 @@ require("packer").startup {
 
     -- better inc/dec
     use { "monaqa/dial.nvim" }
-
-    use { "ThePrimeagen/git-worktree.nvim" }
 
     use {
       "antoinemadec/FixCursorHold.nvim",

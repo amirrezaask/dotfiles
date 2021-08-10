@@ -8,9 +8,9 @@ local action_state = require "telescope.actions.state"
 local finders = require "telescope.finders"
 local pickers = require "telescope.pickers"
 local conf = require("telescope.config").values
-local repos = require "repos"
+local repos = require "amirrezaask.repos"
 local telescope = require "telescope"
-local wallpaper = require "plugin.wallpaper"
+local wallpaper = require "amirrezaask.wallpaper"
 local ivy = require("telescope.themes").get_ivy
 local dropdown = require("telescope.themes").get_dropdown
 local notheme = function(opts)
@@ -79,7 +79,6 @@ telescope.load_extension "dap"
 telescope.load_extension "media_files"
 telescope.load_extension "git_worktree"
 telescope.load_extension "gh"
-telescope.load_extension "snippets"
 -- telescope.load_extension "fzf"
 telescope.load_extension "fzy_native"
 
@@ -323,7 +322,7 @@ function M.telescope_commands()
   for name, fn in pairs(require "telescope.builtin") do
     table.insert(output, { name, fn })
   end
-  for name, fn in pairs(require "plugin.telescope") do
+  for name, fn in pairs(require "amirrezaask.telescope") do
     table.insert(output, { name, fn })
   end
   if not has_telescope then
@@ -363,7 +362,7 @@ function M.on_attach(_)
     ["gi"] = { wrap(require("telescope.builtin").lsp_implementations), "Goto implementations", "IDE" },
     ["gr"] = { wrap(require("telescope.builtin").lsp_references), "Goto references", "IDE" },
     ["?d"] = { wrap(require("telescope.builtin").lsp_document_symbols), "Search through document symbols", "IDE" },
-    ["?w"] = { wrap(require("plugin.telescope").lsp_workspace_symbols), "Search through workspace symbols", "IDE" },
+    ["?w"] = { wrap(require("amirrezaask.telescope").lsp_workspace_symbols), "Search through workspace symbols", "IDE" },
     ["?c"] = { wrap(require("telescope.builtin").lsp_code_actions), "Show code actions", "IDE" },
     ["'d"] = { wrap(require("telescope.builtin").lsp_document_diagnostics), "Search through document diagnostic", "IDE" },
     ["'w"] = {
@@ -414,7 +413,7 @@ vim.nmap {
 }
 return setmetatable(M, {
   __index = function(tbl, k)
-    R "plugin.telescope"
+    R "amirrezaask.telescope"
     if tbl[k] then
       return tbl[k]
     else
