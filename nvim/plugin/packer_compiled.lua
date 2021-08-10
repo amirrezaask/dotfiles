@@ -85,10 +85,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/ansible-vim"
   },
-  ["colorbuddy.nvim"] = {
-    loaded = true,
-    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/colorbuddy.nvim"
-  },
   ["dial.nvim"] = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/dial.nvim"
@@ -104,10 +100,6 @@ _G.packer_plugins = {
   ["gitsigns.nvim"] = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/gitsigns.nvim"
-  },
-  ["gruvbuddy.nvim"] = {
-    loaded = true,
-    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/gruvbuddy.nvim"
   },
   ["haskell-vim"] = {
     loaded = true,
@@ -196,6 +188,10 @@ _G.packer_plugins = {
   ["packer.nvim"] = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/packer.nvim"
+  },
+  ["palette.nvim"] = {
+    loaded = true,
+    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/palette.nvim"
   },
   playground = {
     loaded = true,
