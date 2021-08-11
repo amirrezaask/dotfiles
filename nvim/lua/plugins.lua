@@ -1,5 +1,10 @@
 vim.cmd [[packadd packer.nvim]]
 
+local is_wsl = (function()
+  local output = vim.fn.systemlist "uname -r"
+  return not not string.find(output[1] or "", "WSL")
+end)()
+
 -- Took from TJDevries configuration
 if not pcall(require, "packer") then
   if vim.fn.input "Download Packer? (y for yes)" ~= "y" then
@@ -140,7 +145,10 @@ require("packer").startup {
 
     -- Icons {{{
     use { "kyazdani42/nvim-web-devicons" }
-    use { "yamatsum/nvim-nonicons" }
+
+    if not is_wsl then
+      use { "yamatsum/nvim-nonicons" }
+    end
 
     -- Highlight todo and etc...
     use { "folke/todo-comments.nvim", requires = "nvim-lua/plenary.nvim" }

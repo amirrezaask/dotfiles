@@ -6,6 +6,7 @@ local colors = {
   super_white = "#e0e0e0",
   white = "#c5c8c6",
   blue = "#38556d",
+  light_blue = "#81a2be",
   black = "#111317",
   yellow = "#f8fe7a",
   red = "#cc6666",
@@ -33,7 +34,7 @@ hl { "Search", bg = colors.yellow, fg = "#282a2e" }
 hl { "TabLine", bg = "#282a2e", fg = "#5f89ad" }
 hl { "TabLineFill", bg = "#969896", fg = "#ebdbb2" }
 hl { "TabLineSel", bg = "#282a2e", fg = "#ffffff" }
-hl { "ColorColumn", bg = "#81a2be", fg = "#ffffff" }
+hl { "ColorColumn", bg = colors.light_blue, fg = "#ffffff" }
 hl { "qfFileName", fg = colors.yellow }
 
 hl { "Special", fg = "#aa92cd", styles = { styles.italic } }
