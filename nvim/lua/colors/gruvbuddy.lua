@@ -12,6 +12,8 @@ local colors = {
   red = "#cc6666",
   green = "#99cc99",
   dark_green = "#698b69",
+  purple = "#8e6fbd",
+  light_purple = "#aa92cd",
 }
 
 -- Extracted from https://github.com/tjdevries/gruvbuddy.nvim
@@ -37,14 +39,14 @@ hl { "TabLineSel", bg = "#282a2e", fg = "#ffffff" }
 hl { "ColorColumn", bg = colors.light_blue, fg = "#ffffff" }
 hl { "qfFileName", fg = colors.yellow }
 
-hl { "Special", fg = "#aa92cd", styles = { styles.italic } }
+hl { "Special", fg = colors.light_purple, styles = { styles.italic } }
 
 hl { "SpecialChar", fg = "#a3685a" }
 hl { "NonText", fg = "#4e545c" }
-hl { "WhiteSpace", fg = "#8e6fbd" }
+hl { "WhiteSpace", fg = colors.purple }
 hl { "Conceal", bg = "#4e545c", fg = "#282c34" }
 
-hl { "StatusLine", bg = "#81a2be", fg = "#373b41" }
+hl { "StatusLine", bg = colors.light_blue, fg = "#373b41" }
 
 hl { "StatusLineNC", bg = "#3f4349", fg = "#969896" }
 
@@ -86,7 +88,7 @@ hl { { "Conditional", "TSConditional" }, fg = "#f8fe8a", styles = { styles.bold 
 hl { { "Identifier", "TSConstant", "Constant" }, fg = colors.red }
 
 hl { { "Define", "TSInclude", "Include" }, fg = "#8abeb7" }
-hl { { "vimCommand", "vimNotFunc", "TSConstant", "vimLet" }, fg = "#81a2be" }
+hl { { "vimCommand", "vimNotFunc", "TSConstant", "vimLet" }, fg = colors.light_blue }
 hl { "TSVariable", fg = colors.super_white }
 hl { { "TSVariableBuiltin", "TSConstantBuiltin" }, fg = colors.yellow }
 hl {
@@ -112,7 +114,7 @@ hl { "TelescopeMatching", fg = "#f2904b", styles = { styles.bold } }
 
 hl { "StartifyBracket", fg = colors.red }
 hl { "StartifyFile", fg = "#c04040" }
-hl { "StartifyNumber", fg = "#81a2be" }
+hl { "StartifyNumber", fg = colors.light_blue }
 hl { "StartifyPath", fg = "#77bb77" }
 hl { "StartifySlash", fg = "#8abeb7" }
 hl { "StartifySection", fg = "#fbffad" }
@@ -122,7 +124,7 @@ hl { "StartifyFooter", fg = "#373b41" }
 
 hl { "foldbraces", fg = "#f2e5bc" }
 
-hl { "markdownH1", fg = "#81a2be" }
+hl { "markdownH1", fg = colors.light_blue }
 hl { "markdownH2", fg = "#a3bbd0" }
 hl { "markdownH3", fg = "#c5d4e1" }
 
