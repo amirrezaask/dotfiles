@@ -40,6 +40,7 @@ alias vim='nvim'
 alias vi='nvim'
 alias v='nvim'
 alias reload='source ~/.config/fish/config.fish'
+alias snapp='sudo openfortivpn -c ~/snappDC.conf'
 
 # install starship if not installed
 if not command -v starship &> /dev/null
