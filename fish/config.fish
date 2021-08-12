@@ -26,8 +26,7 @@ alias gpsup='gp --set-upstream origin (git_current_branch)'
 alias kcl='kubectl'
 alias dots="cd $DOTFILES"
 alias oss='cd $GOPATH/src/github.com/amirrezaask'
-alias prj="cd $GOPATH/src/github.com/amirrezaask"
-function freenet()
+function freenet
     echo $VPN_PASSWORD | sudo openconnect --no-dtls --passwd-on-stdin --user $VPN_USERNAME $VPN_SERVER
 end
 alias lock='i3lock -c000000'
@@ -41,8 +40,14 @@ alias gdoc='godoc -http=:6060'
 alias vim='nvim'
 alias vi='nvim'
 alias v='nvim'
-alias reload='source ~/.config/fish/config.fish'
-alias snapp='sudo openfortivpn -c ~/snappDC.conf'
+
+function reload
+    source ~/.config/fish/config.fish
+end
+
+function snapp
+    sudo openfortivpn -c ~/snappDC.conf
+end
 
 # install starship if not installed
 if not command -v starship &> /dev/null
