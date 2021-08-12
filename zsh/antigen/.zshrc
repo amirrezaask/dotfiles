@@ -16,8 +16,8 @@ then
     sh -c "$(curl -fsSL https://starship.rs/install.sh)"
 fi
 
-# eval "$(starship init zsh)"
+eval "$(starship init zsh)"
 
-setopt PROMPT_SUBST
-# PROMPT='%F{51}%2~%f $(get_branch) '
-PROMPT='%2~ %F{green}>%f '
+# setopt PROMPT_SUBST
+# # PROMPT='%F{51}%2~%f $(get_branch) '
+# PROMPT='%2~ %F{green}>%f '
