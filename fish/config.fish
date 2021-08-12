@@ -27,7 +27,9 @@ alias kcl='kubectl'
 alias dots="cd $DOTFILES"
 alias oss='cd $GOPATH/src/github.com/amirrezaask'
 alias prj="cd $GOPATH/src/github.com/amirrezaask"
-alias freenet="echo $VPN_PASSWORD | sudo openconnect --no-dtls --passwd-on-stdin --user $VPN_USERNAME $VPN_SERVER"
+function freenet()
+    echo $VPN_PASSWORD | sudo openconnect --no-dtls --passwd-on-stdin --user $VPN_USERNAME $VPN_SERVER
+end
 alias lock='i3lock -c000000'
 alias tf='terraform'
 alias tg='terragrunt'
