@@ -11,13 +11,5 @@ source ~/env
 
 source "${ZSH_CONFIG_BASE_DIR}/vars.zsh"
 
-if ! command -v starship &> /dev/null
-then
-    sh -c "$(curl -fsSL https://starship.rs/install.sh)"
-fi
-
-eval "$(starship init zsh)"
-
-# setopt PROMPT_SUBST
-# # PROMPT='%F{51}%2~%f $(get_branch) '
-# PROMPT='%2~ %F{green}>%f '
+source "$ZSH_CONFIG_BASE_DIR/git.zsh"
+source "$ZSH_CONFIG_BASE_DIR/prompt.zsh"
