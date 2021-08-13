@@ -13,10 +13,10 @@ get_branch(){
     if [ -z "$branch" ]; then
         echo ""
     else
-        echo "$branch"
+        echo " $branch"
     fi
 }
 
 setopt PROMPT_SUBST
 
-PROMPT='%F{green}%~%f $(get_branch) > '
+PROMPT='%F{green}%~%f$(get_branch) > '
