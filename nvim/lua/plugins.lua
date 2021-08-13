@@ -168,9 +168,6 @@ require("packer").startup {
     -- :Messages
     use "tpope/vim-scriptease"
 
-    -- Statusline
-    use { "amirrezaask/nline.nvim" }
-
     -- better inc/dec
     use { "monaqa/dial.nvim" }
 
