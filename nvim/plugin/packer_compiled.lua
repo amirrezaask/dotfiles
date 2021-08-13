@@ -85,10 +85,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/ansible-vim"
   },
-  ["colorbuddy.nvim"] = {
-    loaded = true,
-    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/colorbuddy.nvim"
-  },
   ["dial.nvim"] = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/dial.nvim"
@@ -104,10 +100,6 @@ _G.packer_plugins = {
   ["gitsigns.nvim"] = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/gitsigns.nvim"
-  },
-  ["gruvbuddy.nvim"] = {
-    loaded = true,
-    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/gruvbuddy.nvim"
   },
   ["haskell-vim"] = {
     loaded = true,
@@ -169,10 +161,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/nvim-luaref"
   },
-  ["nvim-nonicons"] = {
-    loaded = true,
-    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/nvim-nonicons"
-  },
   ["nvim-tree.lua"] = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/nvim-tree.lua"
@@ -196,6 +184,10 @@ _G.packer_plugins = {
   ["packer.nvim"] = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/packer.nvim"
+  },
+  ["palette.nvim"] = {
+    loaded = true,
+    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/palette.nvim"
   },
   playground = {
     loaded = true,
@@ -314,8 +306,8 @@ vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]
   -- Filetype lazy-loads
 time([[Defining lazy-load filetype autocommands]], true)
-vim.cmd [[au FileType rust ++once lua require("packer.load")({'rust.vim'}, { ft = "rust" }, _G.packer_plugins)]]
 vim.cmd [[au FileType json ++once lua require("packer.load")({'vim-jdaddy'}, { ft = "json" }, _G.packer_plugins)]]
+vim.cmd [[au FileType rust ++once lua require("packer.load")({'rust.vim'}, { ft = "rust" }, _G.packer_plugins)]]
 time([[Defining lazy-load filetype autocommands]], false)
 vim.cmd("augroup END")
 vim.cmd [[augroup filetypedetect]]
