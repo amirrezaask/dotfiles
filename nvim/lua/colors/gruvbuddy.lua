@@ -2,6 +2,7 @@ local hl = require("palette").highlight
 local styles = require("palette").styles
 
 local colors = {
+  pure_black = "#000000",
   light_gray = "#282c34",
   super_white = "#e0e0e0",
   white = "#c5c8c6",
@@ -9,6 +10,7 @@ local colors = {
   light_blue = "#81a2be",
   black = "#111317",
   yellow = "#f8fe7a",
+  light_yellow = "#fbffad",
   red = "#cc6666",
   green = "#99cc99",
   dark_green = "#698b69",
@@ -29,7 +31,7 @@ hl { "VisualLineMode", bg = colors.blue }
 hl { "Cursor", bg = colors.super_white, fg = "#282c34" }
 hl { "CursorLine", bg = "#333842" }
 hl { "PMenu", bg = "#373b41", fg = "#b4b7b4" }
-hl { "PMenuSel", bg = "#fbffad", fg = "#282c34" }
+hl { "PMenuSel", bg = colors.light_yellow, fg = "#282c34" }
 hl { "PMenuSbar", bg = "#282c34" }
 hl { "PMenuThumb", bg = "#b4b7b4" }
 hl { "Search", bg = colors.yellow, fg = "#282a2e" }
@@ -117,7 +119,7 @@ hl { "StartifyFile", fg = "#c04040" }
 hl { "StartifyNumber", fg = colors.light_blue }
 hl { "StartifyPath", fg = "#77bb77" }
 hl { "StartifySlash", fg = "#8abeb7" }
-hl { "StartifySection", fg = "#fbffad" }
+hl { "StartifySection", fg = colors.light_yellow }
 hl { "StartifySpecial", fg = "#de935f" }
 hl { "StartifyHeader", fg = "#de935f" }
 hl { "StartifyFooter", fg = "#373b41" }
