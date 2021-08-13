@@ -50,7 +50,7 @@ actions:setup {
     predicate = utils.make_language_predicate "go",
     actions = {
       format = function(bufnr)
-        require("plugin.go").format(bufnr)
+        require("amirrezaask.go").format(bufnr)
       end,
       build = function(_)
         floating:command(

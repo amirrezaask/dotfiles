@@ -66,6 +66,9 @@ local function make_on_attach(base)
     if has_lspstatus and client then
       lspstatus.on_attach(client)
     end
+    vim.imap {
+      ["<c-s>"] = { vim.lsp.buf.signature_help, "" },
+    }
     vim.nmap {
       ["R"] = { rename, "Rename current symbol under cursor", "IDE" },
       ["K"] = { vim.lsp.buf.hover, "Hover information about symbol under cursor", "IDE" },
