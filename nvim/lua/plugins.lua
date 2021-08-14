@@ -56,9 +56,10 @@ require("packer").startup {
 
     -- Base library for my colorscheme {{{
     use { "amirrezaask/palette.nvim" }
+    use { "amirrezaask/base16.nvim" }
+    use { "gruvbox-community/gruvbox" }
     -- }}}
 
-    use { "amirrezaask/base16.nvim" }
     -- Statusline
     use { "amirrezaask/nline.nvim" }
 

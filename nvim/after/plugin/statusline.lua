@@ -9,6 +9,7 @@ local lsp = require "nline.parts.lsp"
 local icons = require "nline.parts.icons"
 local wrappers = require "nline.wrappers"
 
+-- Took after TJDevries configuration of express_line.nvim
 local tj = {
   vim.mode {
     texts = {
@@ -49,8 +50,10 @@ local simple = {
   vim.space(),
   vim.filetype(),
   vim.space(),
-  git.branch(),
+  vim.seperator(),
+  wrappers.square_brackets(git.branch()),
   vim.space(),
   wrappers.square_brackets(git.changes()),
 }
-nline.make(simple)
+nline.make(tj)
+-- nline.make(simple)

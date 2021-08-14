@@ -193,7 +193,7 @@ end
 function M.edit_awesome()
   require("telescope.builtin").find_files(current_theme {
     layout_strategy = "vertical",
-    prompt_title = "> Edit Neovim Config <",
+    prompt_title = "> Edit Awesome Config <",
     cwd = "~/.config/awesome",
     previewer = false,
   })
