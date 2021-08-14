@@ -55,5 +55,5 @@ local simple = {
   vim.space(),
   wrappers.square_brackets(git.changes()),
 }
-nline.make(tj)
--- nline.make(simple)
+-- nline.make(tj)
+nline.make(simple)
