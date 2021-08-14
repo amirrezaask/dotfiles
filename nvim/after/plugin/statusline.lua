@@ -9,7 +9,7 @@ local lsp = require "nline.parts.lsp"
 local icons = require "nline.parts.icons"
 local wrappers = require "nline.wrappers"
 
-nline.make {
+local tj = {
   vim.mode {
     texts = {
       normal = "Normal",
@@ -42,3 +42,15 @@ nline.make {
   wrappers.square_brackets(vim.line() .. vim.space() .. vim.colon() .. vim.col()),
   vim.filetype(),
 }
+
+local simple = {
+  vim.modified,
+  vim.filename { shorten = false },
+  vim.space(),
+  vim.filetype(),
+  vim.space(),
+  git.branch(),
+  vim.space(),
+  wrappers.square_brackets(git.changes()),
+}
+nline.make(simple)

@@ -58,6 +58,7 @@ require("packer").startup {
     use { "amirrezaask/palette.nvim" }
     -- }}}
 
+    use { "amirrezaask/base16.nvim" }
     -- Statusline
     use { "amirrezaask/nline.nvim" }
 
