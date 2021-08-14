@@ -85,6 +85,10 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/ansible-vim"
   },
+  ["base16.nvim"] = {
+    loaded = true,
+    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/base16.nvim"
+  },
   ["dial.nvim"] = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/dial.nvim"
@@ -100,6 +104,10 @@ _G.packer_plugins = {
   ["gitsigns.nvim"] = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/gitsigns.nvim"
+  },
+  gruvbox = {
+    loaded = true,
+    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/gruvbox"
   },
   ["haskell-vim"] = {
     loaded = true,
@@ -310,8 +318,8 @@ vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]
   -- Filetype lazy-loads
 time([[Defining lazy-load filetype autocommands]], true)
-vim.cmd [[au FileType json ++once lua require("packer.load")({'vim-jdaddy'}, { ft = "json" }, _G.packer_plugins)]]
 vim.cmd [[au FileType rust ++once lua require("packer.load")({'rust.vim'}, { ft = "rust" }, _G.packer_plugins)]]
+vim.cmd [[au FileType json ++once lua require("packer.load")({'vim-jdaddy'}, { ft = "json" }, _G.packer_plugins)]]
 time([[Defining lazy-load filetype autocommands]], false)
 vim.cmd("augroup END")
 vim.cmd [[augroup filetypedetect]]

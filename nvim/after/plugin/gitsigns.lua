@@ -12,7 +12,7 @@ gitsigns.setup {
     changedelete = { text = "~-", numhl = "GitSignsChangeNr" },
   },
   numhl = false,
-  current_line_blame = true,
+  current_line_blame = false,
   current_line_blame_delay = 800,
   current_line_blame_position = "eol",
 }
