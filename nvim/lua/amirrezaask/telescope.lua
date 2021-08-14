@@ -411,6 +411,7 @@ vim.nmap {
   ["<leader>gwl"] = require("telescope").extensions.git_worktree.git_worktrees,
   ["<leader>tf"] = require("telescope.builtin").treesitter,
 }
+
 return setmetatable(M, {
   __index = function(tbl, k)
     R "amirrezaask.telescope"

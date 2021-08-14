@@ -59,6 +59,15 @@ require("packer").startup {
     use { "amirrezaask/base16.nvim" }
     use { "gruvbox-community/gruvbox" }
     use { "amirrezaask/cyberpunk.nvim" }
+    use { "gosukiwi/vim-atom-dark" }
+    use { "arcticicestudio/nord-vim" }
+    use { "rakr/vim-one" }
+    use { "mhartington/oceanic-next" }
+    use { "drewtempelmeyer/palenight.vim" }
+    use { "tomasiser/vim-code-dark" }
+    use { "marko-cerovac/material.nvim" }
+    use { "ishan9299/modus-theme-vim" }
+    use { "tanvirtin/monokai.nvim" }
     -- }}}
 
     -- Statusline
