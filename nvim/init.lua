@@ -5,7 +5,7 @@ require "nvim"
 vim.g.mapleader = " "
 
 -- Theme
-require "colors.gruvbuddy"
+vim.colorscheme "gruvbuddy"
 
 -- Load plugins and configuration
 require "plugins"

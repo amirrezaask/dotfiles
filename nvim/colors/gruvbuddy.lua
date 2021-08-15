@@ -18,6 +18,7 @@ local colors = {
   light_purple = "#aa92cd",
 }
 
+vim.g.colors_name = "gruvbuddy"
 -- Extracted from https://github.com/tjdevries/gruvbuddy.nvim
 hl { "Normal", bg = colors.light_gray, fg = colors.white }
 hl { "InvNormal", bg = colors.white, fg = colors.light_gray }
