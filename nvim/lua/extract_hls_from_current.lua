@@ -1,6 +1,6 @@
 local hls = vim.fn.getcompletion("", "highlight")
 
-function convert_hl_map_to_hi_inst(name, hl_map)
+local function convert_hl_map_to_hi_inst(name, hl_map)
   output = { "hi", name }
   if hl_map.foreground then
     table.insert(output, string.format('guifg="#%x"', hl_map.foreground))
@@ -14,7 +14,7 @@ function convert_hl_map_to_hi_inst(name, hl_map)
   return table.concat(output, " ")
 end
 
-insts = {}
+local insts = {}
 for i, hl in ipairs(hls) do
   local hl_map = vim.api.nvim_get_hl_by_name(hl, true)
   local inst = convert_hl_map_to_hi_inst(hl, hl_map)
