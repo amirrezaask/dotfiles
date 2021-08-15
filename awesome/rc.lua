@@ -705,3 +705,4 @@ end)
 
 awful.spawn "compton"
 awful.spawn "vmware-user"
+awful.spawn "setxkbmap -option ctrl:nocaps"
