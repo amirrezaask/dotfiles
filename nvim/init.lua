@@ -5,7 +5,7 @@ require "nvim"
 vim.g.mapleader = " "
 
 -- Theme
-COLOR = "tokyonight"
+COLOR = "gruvbuddy"
 vim.colorscheme(COLOR)
 
 -- Load plugins and configuration

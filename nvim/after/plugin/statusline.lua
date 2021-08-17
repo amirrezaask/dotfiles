@@ -54,11 +54,11 @@ if has_nline then
     vim.space(),
     wrappers.square_brackets(git.changes()),
   }
-  -- nline.make(tj)
-  nline.make(simple)
+  nline.make(tj)
+  -- nline.make(simple)
 end
 
-if has_lualine then
+if false then
   lualine.setup {
     options = {
       icons_enabled = true,
