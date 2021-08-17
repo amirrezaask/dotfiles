@@ -68,6 +68,7 @@ require("packer").startup {
     use { "marko-cerovac/material.nvim" }
     use { "ishan9299/modus-theme-vim" }
     use { "tanvirtin/monokai.nvim" }
+    use { "folke/tokyonight.nvim" }
     -- }}}
 
     -- Statusline

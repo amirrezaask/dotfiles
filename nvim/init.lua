@@ -5,7 +5,8 @@ require "nvim"
 vim.g.mapleader = " "
 
 -- Theme
-vim.colorscheme "gruvbuddy"
+vim.g.tokyonight_style = "night"
+vim.colorscheme "tokyonight"
 
 -- Load plugins and configuration
 require "plugins"
