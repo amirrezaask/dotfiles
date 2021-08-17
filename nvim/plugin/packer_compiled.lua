@@ -89,6 +89,10 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/base16.nvim"
   },
+  ["cyberpunk.nvim"] = {
+    loaded = true,
+    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/cyberpunk.nvim"
+  },
   ["dial.nvim"] = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/dial.nvim"
@@ -133,6 +137,18 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/luv-vimdocs"
   },
+  ["material.nvim"] = {
+    loaded = true,
+    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/material.nvim"
+  },
+  ["modus-theme-vim"] = {
+    loaded = true,
+    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/modus-theme-vim"
+  },
+  ["monokai.nvim"] = {
+    loaded = true,
+    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/monokai.nvim"
+  },
   ["nginx.vim"] = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/nginx.vim"
@@ -144,6 +160,10 @@ _G.packer_plugins = {
   ["nlua.nvim"] = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/nlua.nvim"
+  },
+  ["nord-vim"] = {
+    loaded = true,
+    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/nord-vim"
   },
   ["nvim-colorizer.lua"] = {
     loaded = true,
@@ -193,9 +213,17 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/nvim-web-devicons"
   },
+  ["oceanic-next"] = {
+    loaded = true,
+    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/oceanic-next"
+  },
   ["packer.nvim"] = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/packer.nvim"
+  },
+  ["palenight.vim"] = {
+    loaded = true,
+    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/palenight.vim"
   },
   ["palette.nvim"] = {
     loaded = true,
@@ -254,6 +282,18 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/todo-comments.nvim"
   },
+  ["tokyonight.nvim"] = {
+    loaded = true,
+    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/tokyonight.nvim"
+  },
+  ["vim-atom-dark"] = {
+    loaded = true,
+    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/vim-atom-dark"
+  },
+  ["vim-code-dark"] = {
+    loaded = true,
+    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/vim-code-dark"
+  },
   ["vim-commentary"] = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/vim-commentary"
@@ -282,6 +322,10 @@ _G.packer_plugins = {
   ["vim-nix"] = {
     loaded = true,
     path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/vim-nix"
+  },
+  ["vim-one"] = {
+    loaded = true,
+    path = "/home/amirreza/.local/share/nvim/site/pack/packer/start/vim-one"
   },
   ["vim-ps1"] = {
     loaded = true,

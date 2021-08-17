@@ -171,6 +171,7 @@ end
 function M.installed_plugins()
   require("telescope.builtin").find_files(current_theme {
     cwd = vim.fn.stdpath "data" .. "/site/pack/packer/start/",
+    follow = true,
   })
 end
 

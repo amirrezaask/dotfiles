@@ -69,10 +69,13 @@ require("packer").startup {
     use { "ishan9299/modus-theme-vim" }
     use { "tanvirtin/monokai.nvim" }
     use { "folke/tokyonight.nvim" }
+    use { "ntk148v/vim-horizon" }
+    use { "joshdick/onedark.vim" }
     -- }}}
 
     -- Statusline
     use { "amirrezaask/nline.nvim" }
+    use { "hoob3rt/lualine.nvim" }
 
     -- Telescope.nvim {{{
     use { "nvim-lua/popup.nvim" }
