@@ -1,6 +1,9 @@
 local hl = require("palette").highlight
 local styles = require("palette").styles
 
+vim.g.colors_name = "gruvbuddy"
+
+-- Took and changed from https://github.com/tjdevries/gruvbuddy.nvim
 local colors = {
   pure_black = "#000000",
   background = "#282c34",
@@ -11,13 +14,16 @@ local colors = {
   blue2 = "#5f89ad",
   blue3 = "#38556d",
   black = "#111317",
-  yellow = "#f8fe7a",
-  light_yellow = "#fbffad",
-  red = "#cc6666",
-  green = "#99cc99",
+  yellow1 = "#fbffad",
+  yellow2 = "#f8fe7a",
+  red1 = "#cc6666",
+  red2 = "#96535c",
+  green1 = "#8abeb7",
+  green2 = "#77bb77",
+  green3 = "#99cc99",
   dark_green = "#698b69",
-  purple = "#8e6fbd",
-  light_purple = "#aa92cd",
+  purple1 = "#aa92cd",
+  purple2 = "#8e6fbd",
   white1 = "#ffffff",
   white2 = "#c7c7c7",
   white3 = "#b4b7b4",
@@ -26,10 +32,10 @@ local colors = {
   grey3 = "#333842",
   orange1 = "#f2904b",
   orange2 = "#de935f",
+  pink1 = "#e6b3b3",
+  pink2 = "#d98c8c",
 }
 
-vim.g.colors_name = "gruvbuddy"
--- Extracted from https://github.com/tjdevries/gruvbuddy.nvim
 hl { "Normal", bg = colors.background, fg = colors.white }
 hl { "InvNormal", bg = colors.white, fg = colors.background }
 hl { "NormalFloat", bg = colors.black, fg = colors.white1 }
@@ -42,30 +48,30 @@ hl { "VisualLineMode", bg = colors.blue3 }
 hl { "Cursor", bg = colors.super_white, fg = colors.background }
 hl { "CursorLine", bg = colors.grey3 }
 hl { "PMenu", bg = colors.grey3, fg = colors.white2 }
-hl { "PMenuSel", bg = colors.light_yellow, fg = colors.background }
+hl { "PMenuSel", bg = colors.yellow1, fg = colors.background }
 hl { "PMenuSbar", bg = colors.background }
 hl { "PMenuThumb", bg = colors.white2 }
-hl { "Search", bg = colors.yellow, fg = colors.background }
+hl { "Search", bg = colors.yellow2, fg = colors.background }
 hl { "TabLine", bg = colors.line_nr, fg = colors.blue1 }
 hl { "TabLineFill", bg = colors.grey1, fg = "#ebdbb2" }
 hl { "TabLineSel", bg = colors.line_nr, fg = colors.white1 }
 hl { "ColorColumn", bg = colors.blue1, fg = colors.white1 }
-hl { "qfFileName", fg = colors.yellow }
+hl { "qfFileName", fg = colors.yellow2 }
 
-hl { "Special", fg = colors.light_purple, styles = { styles.italic } }
+hl { "Special", fg = colors.purple1, styles = { styles.italic } }
 
 hl { "SpecialChar", fg = "#a3685a" }
 hl { "NonText", fg = colors.grey2 }
-hl { "WhiteSpace", fg = colors.purple }
+hl { "WhiteSpace", fg = colors.purple2 }
 hl { "Conceal", bg = colors.grey2, fg = colors.background }
 
 hl { "StatusLine", bg = colors.blue1, fg = colors.grey3 }
 
 hl { "StatusLineNC", bg = colors.grey3, fg = colors.grey1 }
 
-hl { "User1", bg = colors.yellow, fg = colors.white1 }
-hl { "User2", bg = colors.red, fg = colors.white1 }
-hl { "User3", bg = colors.green, fg = colors.white1 }
+hl { "User1", bg = colors.yellow2, fg = colors.white1 }
+hl { "User2", bg = colors.red1, fg = colors.white1 }
+hl { "User3", bg = colors.green3, fg = colors.white1 }
 hl { "CommandMode", link = "Constant" }
 hl { "VisualMode", link = "StatusLine" }
 hl { "NormalMode", link = "Function" }
@@ -76,84 +82,80 @@ hl { "TerminalMode", link = "Constant" }
 hl { "Boolean", fg = "#7fbfff" }
 hl { "TSBoolean", link = "Boolean" }
 
-hl { "Error", fg = "#d98c8c" }
-hl { { "Label", "TSLabel" }, fg = colors.red }
-hl { { "Operator", "TSOperator" }, fg = "#e6b3b3" }
-hl { "PreProc", fg = colors.yellow }
-hl { { "Repeat", "TSRepeat" }, fg = colors.red }
-hl { "Repeat", fg = colors.red }
-hl { "Statement", fg = colors.red }
-hl { "StorageClass", fg = colors.yellow }
-hl { { "String", "TSString" }, fg = colors.green }
-hl { "Structure", fg = "#b294bb" }
-hl { { "Tag", "TSTag" }, fg = colors.yellow }
-hl { "Todo", fg = colors.yellow }
-hl { "Typedef", fg = colors.yellow }
-hl { { "Type", "TSType" }, fg = "#b294bb" }
-hl { "Folded", bg = "#4e545c", fg = "#7c7f7c" }
-hl { { "vimFunction", "Function", "TSFunction", "pythonBuiltinFunc" }, fg = colors.yellow }
+hl { "Error", fg = colors.pink2 }
+hl { { "Label", "TSLabel" }, fg = colors.red1 }
+hl { { "Operator", "TSOperator" }, fg = colors.pink1 }
+hl { "PreProc", fg = colors.yellow2 }
+hl { { "Repeat", "TSRepeat" }, fg = colors.red1 }
+hl { "Repeat", fg = colors.red1 }
+hl { "Statement", fg = colors.red1 }
+hl { "StorageClass", fg = colors.yellow2 }
+hl { { "String", "TSString" }, fg = colors.green3 }
+hl { "Structure", fg = colors.purple1 }
+hl { { "Tag", "TSTag" }, fg = colors.yellow2 }
+hl { "Todo", fg = colors.yellow2 }
+hl { "Typedef", fg = colors.yellow2 }
+hl { { "Type", "TSType" }, fg = colors.purple1 }
+hl { "Folded", bg = colors.grey3, fg = colors.grey1 }
+hl { { "vimFunction", "Function", "TSFunction", "pythonBuiltinFunc" }, fg = colors.yellow2 }
 
-hl { { "Number", "Float", "TSNumber", "TSFloat" }, fg = colors.red }
+hl { { "Number", "Float", "TSNumber", "TSFloat" }, fg = colors.red1 }
 hl { "MatchParen", styles = { styles.underline } }
-hl { { "TSCharacter", "Character" }, fg = colors.red }
+hl { { "TSCharacter", "Character" }, fg = colors.red1 }
 hl { { "TSComment", "Comment" }, fg = colors.grey1, styles = { styles.italic } }
-hl { { "Conditional", "TSConditional" }, fg = colors.yellow, styles = { styles.bold } }
-hl { { "Identifier", "TSConstant", "Constant" }, fg = colors.red }
+hl { { "Conditional", "TSConditional" }, fg = colors.yellow2, styles = { styles.bold } }
+hl { { "Identifier", "TSConstant", "Constant" }, fg = colors.red1 }
 
-hl { { "Define", "TSInclude", "Include" }, fg = "#8abeb7" }
+hl { { "Define", "TSInclude", "Include" }, fg = colors.green1 }
 hl { { "vimCommand", "vimNotFunc", "TSConstant", "vimLet" }, fg = colors.blue1 }
 hl { "TSVariable", fg = colors.super_white }
-hl { { "TSVariableBuiltin", "TSConstantBuiltin" }, fg = colors.yellow }
+hl { { "TSVariableBuiltin", "TSConstantBuiltin" }, fg = colors.yellow2 }
 hl {
   { "vimIsCommand", "vimFuncVar", "TSKeyword", "Keyword" },
-  fg = "#b294bb",
+  fg = colors.purple1,
   styles = { styles.bold },
 }
 hl { "TSLabel", fg = colors.red }
 
-hl { "HelpDoc", bg = colors.dark_green, fg = colors.white1 }
-hl { "HelpIgnore", fg = colors.green }
+hl { "HelpDoc", bg = colors.green3, fg = colors.white1 }
+hl { "HelpIgnore", fg = colors.green3 }
 
-hl { "gitDiff", fg = "#c7c7c7" }
+hl { "gitDiff", fg = colors.white2 }
 hl { "DiffChange", bg = "#2800" }
 hl { "DiffText", bg = "#8e00" }
 hl { "DiffAdd", bg = "#2800" }
 hl { "DiffDelete", bg = "#0" }
 hl { "DiffRemoved", fg = colors.red }
-hl { "DiffAdded", fg = colors.green }
+hl { "DiffAdded", fg = colors.green3 }
 
 hl { "VimwikiBold", fg = colors.red }
-hl { "TelescopeMatching", fg = "#f2904b", styles = { styles.bold } }
+hl { "TelescopeMatching", fg = colors.orange1, styles = { styles.bold } }
 
 hl { "StartifyBracket", fg = colors.red }
 hl { "StartifyFile", fg = colors.red }
 hl { "StartifyNumber", fg = colors.blue1 }
-hl { "StartifyPath", fg = "#77bb77" }
-hl { "StartifySlash", fg = "#8abeb7" }
-hl { "StartifySection", fg = colors.light_yellow }
+hl { "StartifyPath", fg = colors.green3 }
+hl { "StartifySlash", fg = colors.green1 }
+hl { "StartifySection", fg = colors.yellow1 }
 hl { "StartifySpecial", fg = colors.orange2 }
 hl { "StartifyHeader", fg = colors.orange2 }
-hl { "StartifyFooter", fg = "#373b41" }
+hl { "StartifyFooter", fg = colors.grey3 }
 
 hl { "foldbraces", fg = "#f2e5bc" }
 
-hl { "markdownH1", fg = colors.blue1 }
-hl { "markdownH2", fg = "#a3bbd0" }
-hl { "markdownH3", fg = "#c5d4e1" }
-
 hl { "vimCommentTitle", fg = colors.red }
-hl { "vimMapModKey", fg = "#8abeb7" }
-hl { "vimNotation", fg = "#8abeb7" }
-hl { "vimMapLHS", fg = colors.yellow }
-hl { "vimNotation", fg = "#8abeb7" }
-hl { "vimBracket", fg = "#96535c" }
-hl { "vimMap", fg = colors.dark_green }
-hl { "nvimMap", fg = colors.dark_green }
-hl { "vimAutoloadFunction", fg = "#f3fe14" }
+hl { "vimMapModKey", fg = colors.green1 }
+hl { "vimNotation", fg = colors.green1 }
+hl { "vimMapLHS", fg = colors.yellow2 }
+hl { "vimNotation", fg = colors.green1 }
+hl { "vimBracket", fg = colors.red2 }
+hl { "vimMap", fg = colors.green3 }
+hl { "nvimMap", fg = colors.green3 }
+hl { "vimAutoloadFunction", fg = colors.yellow2 }
 
 -- LSP
-hl { { "LspReferenceRead", "LspReferenceWrite" }, bg = "#414f5e" }
+hl { { "LspReferenceRead", "LspReferenceWrite" }, bg = colors.blue1 }
 -- hl { 'LspReferenceText'    , bg='#333842' }
 
 -- Git signs
-hl { "GitSignsAddNr", bg = "green" }
+hl { "GitSignsAddNr", bg = colors.green2 }
