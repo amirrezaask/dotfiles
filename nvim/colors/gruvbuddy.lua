@@ -10,7 +10,8 @@ local colors = {
   line_nr = "#282a2e",
   super_white = "#e0e0e0",
   white = "#c5c8c6",
-  blue1 = "#81a2be",
+  blue1 = "#7fbfff",
+  -- blue1 = "#81a2be",
   blue2 = "#5f89ad",
   blue3 = "#38556d",
   black = "#111317",
@@ -34,6 +35,7 @@ local colors = {
   orange2 = "#de935f",
   pink1 = "#e6b3b3",
   pink2 = "#d98c8c",
+  white_yellow = "#ebdbb2",
 }
 
 hl { "Normal", bg = colors.background, fg = colors.white }
@@ -53,14 +55,14 @@ hl { "PMenuSbar", bg = colors.background }
 hl { "PMenuThumb", bg = colors.white2 }
 hl { "Search", bg = colors.yellow2, fg = colors.background }
 hl { "TabLine", bg = colors.line_nr, fg = colors.blue1 }
-hl { "TabLineFill", bg = colors.grey1, fg = "#ebdbb2" }
+hl { "TabLineFill", bg = colors.grey1, fg = colors.white_yellow }
 hl { "TabLineSel", bg = colors.line_nr, fg = colors.white1 }
 hl { "ColorColumn", bg = colors.blue1, fg = colors.white1 }
 hl { "qfFileName", fg = colors.yellow2 }
 
 hl { "Special", fg = colors.purple1, styles = { styles.italic } }
 
-hl { "SpecialChar", fg = "#a3685a" }
+hl { "SpecialChar", fg = colors.pink2 }
 hl { "NonText", fg = colors.grey2 }
 hl { "WhiteSpace", fg = colors.purple2 }
 hl { "Conceal", bg = colors.grey2, fg = colors.background }
@@ -79,7 +81,7 @@ hl { "InsertMode", link = "StatusLine" }
 hl { "TerminalMode", link = "Constant" }
 
 -- Booleans
-hl { "Boolean", fg = "#7fbfff" }
+hl { "Boolean", fg = colors.blue1 }
 hl { "TSBoolean", link = "Boolean" }
 
 hl { "Error", fg = colors.pink2 }
@@ -141,7 +143,7 @@ hl { "StartifySpecial", fg = colors.orange2 }
 hl { "StartifyHeader", fg = colors.orange2 }
 hl { "StartifyFooter", fg = colors.grey3 }
 
-hl { "foldbraces", fg = "#f2e5bc" }
+hl { "foldbraces", fg = colors.white_yellow }
 
 hl { "vimCommentTitle", fg = colors.red }
 hl { "vimMapModKey", fg = colors.green1 }
