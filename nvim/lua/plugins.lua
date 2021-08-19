@@ -71,6 +71,7 @@ require("packer").startup {
     use { "folke/tokyonight.nvim" }
     use { "ntk148v/vim-horizon" }
     use { "joshdick/onedark.vim" }
+    use { "EdenEast/nightfox.nvim" }
     -- }}}
 
     -- Statusline
