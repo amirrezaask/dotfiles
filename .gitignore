@@ -13,3 +13,4 @@ emacs/transient
 emacs/straight/
 nvim/.netrwhist
 fonts/.uuid
+nvim/plugin/packer_compiled.lua
