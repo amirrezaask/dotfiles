@@ -1,3 +1,4 @@
+source ~/env.fish
 set -x GO111MODULE 'on'
 set -x GOPATH "$HOME"
 set -x PYTHONBINS "$HOME/.local/bin"
