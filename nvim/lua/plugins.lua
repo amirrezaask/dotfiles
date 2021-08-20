@@ -188,6 +188,10 @@ require("packer").startup {
     -- better inc/dec
     use { "monaqa/dial.nvim" }
 
+    -- FZF
+    use { "junegunn/fzf" }
+    use { "junegunn/fzf.vim" }
+
     use {
       "antoinemadec/FixCursorHold.nvim",
       run = function()
