@@ -27,6 +27,7 @@ alias gpsup='gp --set-upstream origin (git_current_branch)'
 alias kcl='kubectl'
 alias dots="cd $DOTFILES"
 alias oss='cd $GOPATH/src/github.com/amirrezaask'
+alias work='cd $GOPATH/src/gitlab.snapp.ir/'
 function freenet
     echo $VPN_PASSWORD | sudo openconnect --no-dtls --passwd-on-stdin --user $VPN_USERNAME $VPN_SERVER
 end
