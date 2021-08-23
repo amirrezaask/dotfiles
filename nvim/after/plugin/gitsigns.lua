@@ -13,6 +13,8 @@ gitsigns.setup {
   },
   numhl = false,
   current_line_blame = false,
-  current_line_blame_delay = 800,
-  current_line_blame_position = "eol",
+  current_line_blame_opts = {
+    delay = 800,
+    virt_text_pos = "eol",
+  },
 }
