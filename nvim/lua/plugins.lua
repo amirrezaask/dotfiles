@@ -171,8 +171,13 @@ require("packer").startup {
     use { "monaqa/dial.nvim" }
 
     -- FZF
-    use { "junegunn/fzf" }
-    use { "junegunn/fzf.vim" }
+    if vim.g.fuzzy_finder == "fzf" then
+      use { "junegunn/fzf" }
+      use { "junegunn/fzf.vim" }
+      use {
+        "ojroques/nvim-lspfuzzy",
+      }
+    end
 
     use {
       "antoinemadec/FixCursorHold.nvim",

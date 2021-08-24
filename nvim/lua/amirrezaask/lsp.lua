@@ -60,16 +60,17 @@ end
 local fuzzy_finder_on_attach
 
 if has_telescope and vim.g.fuzzy_finder == "telescope" then
-  local fuzzy_finder_on_attach = telescope.on_attach
+  fuzzy_finder_on_attach = telescope.on_attach
+elseif vim.g.fuzzy_finder == "fzf" then
+  fuzzy_finder_on_attach = function()
+    require("lspfuzzy").setup {}
+  end
 end
 
 local support_formatting = { "rust" }
 
 local function make_on_attach(base)
   return function(client)
-    if base then
-      base()
-    end
     if has_lspstatus and client then
       lspstatus.on_attach(client)
     end
@@ -78,6 +79,13 @@ local function make_on_attach(base)
       ["<c-d>"] = { vim.lsp.diagnostic.show_line_diagnostics, "" },
     }
     vim.nmap {
+      ["gd"] = { vim.lsp.buf.definition, "" },
+      ["gi"] = { vim.lsp.buf.implementation, "" },
+      ["gr"] = { vim.lsp.buf.references, "" },
+      ["?d"] = { vim.lsp.buf.document_symbol, "" },
+      ["?w"] = { vim.lsp.buf.workspace_symbol, "" },
+      ["?c"] = { vim.lsp.buf.code_action, "" },
+
       ["<c-s>"] = { vim.lsp.buf.signature_help, "" },
       ["<c-d>"] = { vim.lsp.diagnostic.show_line_diagnostics, "" },
       ["R"] = { rename, "Rename current symbol under cursor", "IDE" },
@@ -102,9 +110,12 @@ local function make_on_attach(base)
         augroup END
       ]]
     end
+    if base then
+      base()
+    end
   end
 end
-local on_attach = make_on_attach(telescope_on_attach)
+local on_attach = make_on_attach(fuzzy_finder_on_attach)
 
 lspconfig.gopls.setup {
   on_attach = on_attach,
