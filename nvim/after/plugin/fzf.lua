@@ -23,7 +23,7 @@ local function fzf_command(cmd, ...)
   end
 end
 
-if true then
+if false then
   vim.nmap {
     ["<leader><leader>"] = function()
       vim.cmd [[ Files ]]
