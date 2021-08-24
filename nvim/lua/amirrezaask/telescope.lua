@@ -405,8 +405,6 @@ vim.nmap {
   ["<leader>go"] = wrap(require("telescope.builtin").git_checkout),
   ["<leader>gf"] = M.buffer_git_files,
   ["<leader>gs"] = wrap(require("telescope.builtin").git_status),
-  ["<leader>gwc"] = require("telescope").extensions.git_worktree.create_git_worktree,
-  ["<leader>gwl"] = require("telescope").extensions.git_worktree.git_worktrees,
   ["<leader>tf"] = require("telescope.builtin").treesitter,
 }
 
