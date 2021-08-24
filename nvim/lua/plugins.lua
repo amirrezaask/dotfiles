@@ -57,26 +57,11 @@ require("packer").startup {
     -- Base library for my colorscheme {{{
     use { "amirrezaask/palette.nvim" }
     use { "amirrezaask/base16.nvim" }
-    use { "gruvbox-community/gruvbox" }
-    use { "amirrezaask/cyberpunk.nvim" }
-    use { "gosukiwi/vim-atom-dark" }
-    use { "arcticicestudio/nord-vim" }
-    use { "rakr/vim-one" }
-    use { "mhartington/oceanic-next" }
-    use { "drewtempelmeyer/palenight.vim" }
-    use { "tomasiser/vim-code-dark" }
-    use { "marko-cerovac/material.nvim" }
-    use { "ishan9299/modus-theme-vim" }
-    use { "tanvirtin/monokai.nvim" }
-    use { "folke/tokyonight.nvim" }
-    use { "ntk148v/vim-horizon" }
-    use { "joshdick/onedark.vim" }
-    use { "EdenEast/nightfox.nvim" }
+    use { "eemed/sitruuna.vim" }
     -- }}}
 
     -- Statusline
     use { "amirrezaask/nline.nvim" }
-    use { "hoob3rt/lualine.nvim" }
 
     -- Telescope.nvim {{{
     use { "nvim-lua/popup.nvim" }
@@ -97,7 +82,6 @@ require("packer").startup {
 
     -- Git Integration {{{
     use { "lewis6991/gitsigns.nvim" }
-    use { "ThePrimeagen/git-worktree.nvim" }
     -- }}}
 
     -- Comment codes at ease
@@ -199,9 +183,4 @@ require("packer").startup {
       end,
     }
   end,
-  config = {
-    display = {
-      open_fn = require("packer.util").float,
-    },
-  },
 }
