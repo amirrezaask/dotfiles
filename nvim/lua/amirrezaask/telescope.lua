@@ -76,9 +76,6 @@ local M = {}
 
 -- telescope.load_extension('fzy_native')
 telescope.load_extension "dap"
-telescope.load_extension "media_files"
-telescope.load_extension "git_worktree"
-telescope.load_extension "gh"
 -- telescope.load_extension "fzf"
 telescope.load_extension "fzy_native"
 
