@@ -156,7 +156,7 @@ hl { "nvimMap", fg = colors.green3 }
 hl { "vimAutoloadFunction", fg = colors.yellow2 }
 
 -- LSP
-hl { { "LspReferenceRead", "LspReferenceWrite" }, bg = colors.blue1 }
+hl { { "LspReferenceRead", "LspReferenceWrite" }, bg = colors.blue3 }
 -- hl { 'LspReferenceText'    , bg='#333842' }
 
 -- Git signs

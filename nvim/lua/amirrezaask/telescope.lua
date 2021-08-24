@@ -145,7 +145,7 @@ function M.buffer_git_files()
 end
 
 function M.projects(path)
-  pickers.new(current_theme(), {
+  pickers.new(dropdown(), {
     previewer = false,
     finder = finders.new_table {
       results = repos.list_projects { path or "~/src/" },
