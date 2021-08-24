@@ -23,7 +23,7 @@ local function fzf_command(cmd, ...)
   end
 end
 
-if false then
+if vim.g.fuzzy_finder == "fzf" then
   vim.nmap {
     ["<leader><leader>"] = function()
       vim.cmd [[ Files ]]

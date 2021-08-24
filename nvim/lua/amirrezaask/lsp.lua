@@ -16,6 +16,8 @@ if has_lspkind then
   lspkind.init()
 end
 
+local has_telescope, telescope = pcall(require, "amirrezaask.telescope")
+
 local M = {}
 
 local has_lspstatus, lspstatus = pcall(require, "lsp-status")
@@ -55,7 +57,12 @@ local function rename()
   vim.lsp.buf.rename(vim.fn.input(string.format("Rename %s to > ", current_word)))
 end
 
-local telescope_on_attach = require("amirrezaask.telescope").on_attach
+local fuzzy_finder_on_attach
+
+if has_telescope and vim.g.fuzzy_finder == "telescope" then
+  local fuzzy_finder_on_attach = telescope.on_attach
+end
+
 local support_formatting = { "rust" }
 
 local function make_on_attach(base)

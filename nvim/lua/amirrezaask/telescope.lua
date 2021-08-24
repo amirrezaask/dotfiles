@@ -1,5 +1,5 @@
 local has_telescope, _ = pcall(require, "telescope")
-if not has_telescope then
+if not has_telescope or (vim.g.fuzzy_finder ~= "telescope") then
   return
 end
 

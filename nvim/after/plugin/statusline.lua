@@ -7,8 +7,10 @@ local wrappers = require "nline.wrappers"
 
 if has_nline then
   nline.make {
+    vim.mode(),
+    vim.space(),
     vim.modified,
-    vim.filename { shorten = false },
+    vim.filename { shorten = true },
     vim.space(),
     "[",
     vim.line(),
