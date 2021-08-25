@@ -344,6 +344,12 @@ globalkeys = gears.table.join(
     group = "launcher",
   }),
   awful.key({ MODKEY, "Control" }, "r", awesome.restart, { description = "reload awesome", group = "awesome" }),
+  awful.key({ MODKEY, "Shift" }, "r", function()
+    awful.spawn "i3-dmenu-desktop"
+  end, {
+    description = "runs i3-dmenu-desktop",
+    group = "awesome",
+  }),
   awful.key({ MODKEY, "Shift" }, "q", awesome.quit, { description = "quit awesome", group = "awesome" }),
 
   awful.key({ MODKEY }, "l", function()
@@ -699,10 +705,10 @@ end)
 -- }}}
 
 -- Setup xrandr
--- awful.spawn('xrandr --output eDP-1 --right-of DP-1 --output eDP-1 --left-of HDMI-2 --output DP-1 --left-of eDP-1')
+-- awful.spawn "xrandr --output eDP-1 --right-of DP-1 --output eDP-1 --left-of HDMI-2 --output DP-1 --left-of eDP-1"
 -- awful.spawn("xrandr --output eDP-1 --below HDMI-2")
 -- awful.spawn('xrandr --output DP-0 --primary --right-of HDMI-0 --output eDP-1-1 --off')
-
+awful.spawn "xrandr --output eDP-1 --left-of HDMI-2"
 awful.spawn "compton"
 awful.spawn "vmware-user"
-awful.spawn "setxkbmap -option ctrl:nocaps"
+awful.spawn "setxkbmap -option ctrl:nocaps -layout us,ir"

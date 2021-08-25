@@ -29,13 +29,13 @@
 (core/pkg-init)
 
 ;; Delete old tangled README file
-(delete-file "~/.emacs.d/README.el")
+(delete-file "~/.config/emacs/README.el")
 
 ;; Initiate module system
 (require 'core-modules)
 
 ;; Load configuration
-(org-babel-load-file "~/.emacs.d/README.org")
+(org-babel-load-file "~/.config/emacs/README.org")
 
 
 (provide 'init)
