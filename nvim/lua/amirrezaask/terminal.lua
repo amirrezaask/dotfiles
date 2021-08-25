@@ -12,4 +12,6 @@ function M.new_tab_terminal()
   vim.cmd [[ tabnew | term ]]
 end
 
+vim.command("TTerm", M.new_tab_terminal)
+
 return M
