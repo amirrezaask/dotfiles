@@ -58,6 +58,11 @@ require("packer").startup {
     use { "amirrezaask/palette.nvim" }
     use { "amirrezaask/base16.nvim" }
     use { "eemed/sitruuna.vim" }
+    use { "gosukiwi/vim-atom-dark" }
+    use { "dracula/vim" }
+    use { "overcache/NeoSolarized" }
+    use { "sonph/onehalf" }
+    use { "chriskempson/base16-vim" }
     -- }}}
 
     -- Statusline

@@ -5,12 +5,12 @@ require "nvim"
 vim.g.mapleader = " "
 
 -- Theme
--- vim.colorscheme "gruvbuddy"
-vim.colorscheme "sitruuna"
+vim.colorscheme "gruvbuddy"
+-- vim.colorscheme "sitruuna"
 
 -- Fuzzy finder
-vim.g.fuzzy_finder = "fzf"
--- vim.g.fuzzy_finder = "telescope"
+-- vim.g.fuzzy_finder = "fzf"
+vim.g.fuzzy_finder = "telescope"
 
 -- Load plugins and configuration
 require "plugins"
