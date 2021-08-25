@@ -174,9 +174,7 @@ require("packer").startup {
     if vim.g.fuzzy_finder == "fzf" then
       use { "junegunn/fzf" }
       use { "junegunn/fzf.vim" }
-      use {
-        "ojroques/nvim-lspfuzzy",
-      }
+      use "gfanto/fzf-lsp.nvim"
     end
 
     use {

@@ -59,12 +59,12 @@ end
 
 local fuzzy_finder_on_attach
 
+if vim.g.fuzzy_finder == "fzf" then
+  require("fzf_lsp").setup()
+end
+
 if has_telescope and vim.g.fuzzy_finder == "telescope" then
   fuzzy_finder_on_attach = telescope.on_attach
-elseif vim.g.fuzzy_finder == "fzf" then
-  fuzzy_finder_on_attach = function()
-    require("lspfuzzy").setup {}
-  end
 end
 
 local support_formatting = { "rust" }

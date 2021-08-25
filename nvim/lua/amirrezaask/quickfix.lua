@@ -96,4 +96,8 @@ function M.make_entry(filename, lnum, col, text)
 end
 
 vim.cmd [[ command! -nargs=* QFromFile lua require('plugin.quickfix').from_buffer_or_file(<f-args>) ]]
+vim.nmap {
+  ["}"] = { "cnext" },
+  ["{"] = { "cprevious" },
+}
 return M
