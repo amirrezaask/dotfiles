@@ -450,8 +450,8 @@ Emacs is so extensible that it can actually be a X window manager. You can liter
 * Appereance
 ** Themes
  #+BEGIN_SRC emacs-lisp
-   (use-package modus-operandi-theme :straight t :defer t)
-   (use-package modus-vivendi-theme :straight t :defer t)
+   ;; (use-package modus-operandi-theme :straight t :defer t)
+   ;; (use-package modus-vivendi-theme :straight t :defer t)
    (use-package doom-themes :straight t :defer t)
  #+END_SRC
  You probably notice the =:defer= part in use-package, with =:defer= keyword (:something is called a keyword in elisp)
@@ -1169,8 +1169,9 @@ Dumb jump is actually a smart way of jumping to defenitions using grep tools lik
 *** Java
 #+begin_src emacs-lisp
   (use-package gradle-mode :straight t :mode "\\Gradle")
-  (use-package flycheck-gradle :straight t :mode "Gradle")
-  (use-package groovy-mode :straight t :mode "\\.groovy")
+  ;; (use-package flycheck-gradle :straight t :mode "Gradle")
+  ;; (
+   use-package groovy-mode :straight t :mode "\\.groovy")
   ;; (use-package meghanada :straight t :hook (java-mode . (lambda ()
   ;;                                                         (meghanada-mode t)
   ;;                                                         (flycheck-mode +1)
