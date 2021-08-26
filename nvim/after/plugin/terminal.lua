@@ -12,4 +12,8 @@ function M.new_tab_terminal()
   vim.cmd [[ tabnew | term ]]
 end
 
+vim.command("TTerm", M.new_tab_terminal)
+vim.nmap {
+  ["<C-t>"] = { ":TTerm<CR>", "new tab terminal" },
+}
 return M

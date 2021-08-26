@@ -30,6 +30,9 @@ vim.opt.showmode = false
 vim.opt.clipboard = "unnamedplus"
 vim.opt.hidden = true
 vim.opt.updatetime = 100
+vim.opt.wildmode = { "longest", "list", "full" }
+vim.opt.wildmode = vim.opt.wildmode - "list"
+vim.opt.wildmode = vim.opt.wildmode + { "longest", "full" }
 
 if vim.fn.executable "rg" == 1 then
   vim.opt.grepprg = "rg --vimgrep --no-heading"
