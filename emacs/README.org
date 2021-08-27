@@ -83,146 +83,6 @@
 
      (global-hl-line-mode +1)
 #+END_SRC
-** Exwm ( Emacs as X window manager )
-   :PROPERTIES:
-   :header-args: :tangle no
-   :END:
-   #+BEGIN_SRC elisp
-     (use-package exwm
-       :straight t
-       :config
-       (require 'exwm)
-       (require 'exwm-config)
-       (require 'exwm-systemtray)
-
-       (defun amirreza/exwm-lock ()
-         "lock using 'slock'"
-         (interactive)
-         (start-process "" nil "/usr/bin/slock"))
-
-       (defun amirreza/application-launcher (command)
-         "Acts as a dmenu replacement."
-         (interactive (list (read-shell-command "$ ")))
-         (start-process-shell-command command nil command))
-
-       (defun amirreza/exwm-current-workspace ()
-         "Show index of current workspace."
-         (interactive)
-         exwm-workspace-current-index)
-
-       (setq exwm-workspace-number 10)
-       (add-hook 'exwm-update-class-hook
-                 (lambda ()
-                   (unless (or (string-prefix-p "sun-awt-X11-" exwm-instance-name)
-                               (string= "gimp" exwm-instance-name))
-                     (exwm-workspace-rename-buffer exwm-class-name))))
-
-       (add-hook 'exwm-update-title-hook
-                 (lambda ()
-                   (when (or (not exwm-instance-name)
-                             (string-prefix-p "sun-awt-X11-" exwm-instance-name)
-                             (string= "gimp" exwm-instance-name))
-                     (exwm-workspace-rename-buffer exwm-title))))
-       (setq exwm-input-global-keys
-             `(
-               ;; Bind "s-r" to exit char-mode and fullscreen mode.
-               ([?\s-r] . exwm-reset)
-               ([?\s-g] . keyboard-quit)
-               ;; Bind "s-w" to switch workspace interactively.
-               ([?\s-w] . exwm-workspace-switch)
-
-               ;; Bind "s-0" to "s-9" to switch to a workspace by its index.
-               ,@(mapcar (lambda (i)
-                           `(,(kbd (format "s-%d" i)) .
-                             (lambda ()
-                               (interactive)
-                               (exwm-workspace-switch-create ,i))))
-                         (number-sequence 0 9))
-               ;; Bind "s-&" to launch applications ('M-&' also works if the output
-               ;; buffer does not bother you).
-               ([?\s-d] . amirreza/application-launcher)
-               ;; Bind "s-l" to "slock", a simple X display locker.
-               ([?\s-l] . amirreza/exwm-lock)
-               (,(kbd "<XF86AudioRaiseVolume>") . (lambda ()
-                                                                (interactive)
-                                                                (start-process-shell-command "RaiseVolume" nil "pactl set-sink-volume @DEFAULT_SINK@ +10%")))
-
-               (,(kbd "<XF86AudioLowerVolume>") . (lambda ()
-                                                                (interactive)
-                                                                (start-process-shell-command "DownVolume" nil "pactl set-sink-volume @DEFAULT_SINK@ -10%")))
-
-               (,(kbd "<XF86AudioMute>") . (lambda ()
-                                                         (interactive)
-                                                         (start-process-shell-command "MuteVolume" nil "pactl set-sink-mute @DEFAULT_SINK@ toggle")))
-
-               (,(kbd "<XF86AudioMicMute>") . (lambda ()
-                                                            (interactive)
-                                                            (start-process-shell-command "MuteMicVolume" nil "pactl set-source-mute @DEFAULT_SOURCE@ toggle")))
-
-
-               ))
-
-
-       (setq exwm-input-simulation-keys
-             '(
-               ;; movement
-               ([?\C-b] . [left])
-               ([?\M-b] . [C-left])
-               ([?\C-f] . [right])
-               ([?\M-f] . [C-right])
-               ([?\C-p] . [up])
-               ([?\C-n] . [down])
-               ([?\C-a] . [home])
-               ([?\C-e] . [end])
-               ([?\M-v] . [prior])
-               ([?\C-v] . [next])
-               ([?\C-d] . [delete])
-               ([?\C-k] . [S-end delete])
-               ;; cut/paste.
-               ([?\C-w] . [?\C-x])
-               ([?\M-w] . [?\C-c])
-               ([?\C-y] . [?\C-v])
-               ;; search
-               ([?\C-s] . [?\C-f])))
-
-
-       (require 'exwm-randr)
-
-       ;; (setq exwm-randr-workspace-output-plist '(0 "eDP-1"
-       ;;                                             1 "HDMI-1"
-       ;;                                             2 "HDMI-1"
-       ;;                                             3 "HDMI-1"
-       ;;                                             4 "HDMI-1"
-       ;;                                             5 "HDMI-1"
-       ;;                                             6 "eDP-1"
-       ;;                                             7 "HDMI-1"
-       ;;                                             8 "HDMI-1"
-       ;;                                             9 "HDMI-1"))
-       (add-hook 'exwm-randr-screen-change-hook
-                 (lambda ()
-                   (start-process-shell-command
-                    "xrandr" nil "xrandr --output HDMI-1 --above eDP-1 --mode 1920x1080")))
-
-       (global-set-key (kbd "<XF86AudioRaiseVolume>") (lambda ()
-                                                      (interactive)
-                                                      (start-process-shell-command "RaiseVolume" nil "pactl set-sink-volume @DEFAULT_SINK@ +10%")))
-
-       (global-set-key (kbd "<XF86AudioLowerVolume>") (lambda ()
-                                                      (interactive)
-                                                      (start-process-shell-command "DownVolume" nil "pactl set-sink-volume @DEFAULT_SINK@ -10%")))
-
-       (global-set-key (kbd "<XF86AudioMute>") (lambda ()
-                                                      (interactive)
-                                                      (start-process-shell-command "MuteVolume" nil "pactl set-sink-mute @DEFAULT_SINK@ toggle")))
-
-       (global-set-key (kbd "<XF86AudioMicMute>") (lambda ()
-                                                      (interactive)
-                                                      (start-process-shell-command "MuteMicVolume" nil "pactl set-source-mute @DEFAULT_SOURCE@ toggle")))
-       (exwm-randr-enable)
-       (start-process-shell-command "Set keyboard layout" nil "setxkbmap -layout 'us,ir' -option 'grp:shifts_toggle' -option 'ctrl:nocaps'")
-       (exwm-systemtray-enable)
-       (exwm-enable))
-   #+END_SRC
 ** Themes
    #+BEGIN_SRC elisp
      (use-package doom-themes :straight t :defer t)
@@ -448,7 +308,12 @@
    #+END_SRC
 *** Doom modeline
    #+begin_src emacs-lisp
-     (use-package doom-modeline :straight t :config (doom-modeline-mode 1))
+     (use-package doom-modeline
+       :straight t
+       :config
+       (doom-modeline-mode 1)
+       (setq doom-modeline-height 35))
+
 #+end_src
 ** Buffer Management
    #+BEGIN_SRC elisp
@@ -584,6 +449,7 @@
         (embark-collect-mode . consult-preview-at-point-mode))
     #+end_src
 ** Editor
+*** Highlight indents
    #+BEGIN_SRC elisp
      (use-package highlight-indent-guides
        :straight t
@@ -592,17 +458,23 @@
        (setq highlight-indent-guides-method 'character)
        :config
        (add-hook 'focus-in-hook #'highlight-indent-guides-auto-set-faces))
-
+    #+END_SRC
+*** Edit files with sudo access
+    #+BEGIN_SRC elisp
      (use-package sudo-edit
           :straight t
           :commands (sudo-edit))
-
+    #+END_SRC
+*** Expand currently selected region
+    #+BEGIN_SRC elisp
      (use-package expand-region
        :straight t
        :bind (("C-=" . 'er/expand-region)
              ("C--" . 'er/contract-region)))
+    #+END_SRC
 
-
+*** Highlight TODO/FIXME/... items in text
+    #+BEGIN_SRC elisp
      (use-package hl-todo
        :straight t
        :hook ((prog-mode) . hl-todo-mode)
@@ -615,102 +487,60 @@
             ("REVIEW"     font-lock-keyword-face bold)
             ("NOTE"       success bold)
             ("DEPRECATED" font-lock-doc-face bold))))
-
-
-     (use-package multiple-cursors
-       :straight t
-       :commands (mc/edit-lines
-         mc/mark-all-like-this
-         mc/mark-next-like-this
-         mc/skip-to-next-like-this
-         mc/unmark-next-like-this
-         mc/mark-previous-like-this
-         mc/skip-to-previous-like-this
-         mc/unmark-previous-like-this
-         mc/mark-all-in-region-regexp
-         mc/insert-numbers
-         mc/insert-letters)
-       :bind (("C-M-n" .  mc/mark-next-like-this)
-              ("C-M-p" . mc/mark-previous-like-this)
-              ("C-M-a" . mc/mark-all-like-this)))
-
-
+    #+END_SRC
+*** Handle large files and long lines
+    #+BEGIN_SRC elisp
      (use-package so-long 
        :config (global-so-long-mode 1))
 
      (use-package vlf :straight t :commands (vlf))
-
+    #+END_SRC
+*** Edit files over SSH
+    #+BEGIN_SRC elisp
      (use-package tramp
            :commands (tramp)
            :config
            (setq tramp-default-method "ssh"))
-
-
+    #+END_SRC
+*** Markdown
+    #+BEGIN_SRC elisp
      (use-package markdown-mode
        :straight t
        :mode ("\\.md$" . markdown-mode))
+    #+END_SRC
+*** Pdf tools
+    #+BEGIN_SRC elisp
+      (use-package pdf-tools
+        :straight t
+        :hook (pdf-tools-enabled-hook . menu-bar-mode))
+    #+END_SRC
+*** Configuration syntax support
+    #+BEGIN_SRC elisp
+      (use-package crontab-mode :defer t :straight t)
 
-     (use-package pdf-tools
-       :straight t
-       :hook (pdf-tools-enabled-hook . menu-bar-mode))
+      (use-package apache-mode :straight t
+        :mode ("\\.htaccess\\'" "httpd\\.conf\\'" "srm\\.conf\\'" "access\\.conf\\'"))
 
-     (use-package crontab-mode :defer t :straight t)
+      (use-package systemd :straight t
+        :mode ("\\.service\\'" "\\.timer\\'"))
 
-     (use-package apache-mode :straight t
-       :mode ("\\.htaccess\\'" "httpd\\.conf\\'" "srm\\.conf\\'" "access\\.conf\\'"))
-
-     (use-package systemd :straight t
-       :mode ("\\.service\\'" "\\.timer\\'"))
-
-     (use-package nginx-mode :straight 
-       :mode ("/etc/nginx/conf.d/.*" "/etc/nginx/.*\\.conf\\'"))
-
-     (use-package imenu
-       :bind ("M-i" . imenu))
-
-     (use-package rainbow-delimiters :straight t :hook (prog-mode . rainbow-delimiters-mode))
-
-     (use-package eldoc
-       :config (global-eldoc-mode 1))
-     (use-package magit
-       :straight t
-       :commands (magit-status magit-get-current-branch)
-       :init
-       (with-eval-after-load 'evil (evil-global-set-key 'normal (kbd "SPC v g") 'magit-status))
-       :bind
-       (("C-x g" . 'magit-status)
-        ("C-c v s" . 'magit-status)
-        )
-       )
-
-     (use-package diff-hl
-       :straight t
-       :config (global-diff-hl-mode 1))
-
-     (use-package gitconfig-mode
-       :straight t
-       :mode "/\\.gitconfig\\'")
-
-     (use-package gitignore-mode
-       :straight t
-       :mode "/\\.gitignore\\'")
-
-     (use-package gitattributes-mode
-       :straight t
-       :mode "/\\.gitattributes\\'")
-
-     (use-package git-messenger
-       :straight t
-       :commands
-       (git-messenger:popup-message)
-       :bind
-       (("C-c v b" . git-messenger:popup-message))
-
-       :config
-       (setq git-messenger:show-detail t)
-       (setq git-messenger:use-magit-popup t))
-
-   #+END_SRC
+      (use-package nginx-mode :straight 
+        :mode ("/etc/nginx/conf.d/.*" "/etc/nginx/.*\\.conf\\'"))
+    #+END_SRC
+*** IMenu: Language agnostic movement in buffer
+    #+BEGIN_SRC elisp
+      (use-package imenu
+        :bind ("M-i" . imenu))
+    #+END_SRC
+*** Colorize matching parens
+    #+BEGIN_SRC elisp
+      (use-package rainbow-delimiters :straight t :hook (prog-mode . rainbow-delimiters-mode))
+    #+END_SRC
+*** Emacs documentation engine
+    #+BEGIN_SRC elisp
+      (use-package eldoc
+        :config (global-eldoc-mode 1))
+    #+END_SRC
 ** IDE
 *** LSP
 #+BEGIN_SRC elisp
@@ -803,6 +633,46 @@
    #+begin_src elisp
      (use-package vterm :straight t :bind ("C-c t" . vterm-other-window))
    #+end_src
+*** Git
+    #+begin_src emacs-lisp
+      (use-package magit
+        :straight t
+        :commands (magit-status magit-get-current-branch)
+        :init
+        (with-eval-after-load 'evil (evil-global-set-key 'normal (kbd "SPC v g") 'magit-status))
+        :bind
+        (("C-x g" . 'magit-status)
+         ("C-c v s" . 'magit-status)
+         )
+        )
+
+      (use-package diff-hl
+        :straight t
+        :config (global-diff-hl-mode 1))
+
+      (use-package gitconfig-mode
+        :straight t
+        :mode "/\\.gitconfig\\'")
+
+      (use-package gitignore-mode
+        :straight t
+        :mode "/\\.gitignore\\'")
+
+      (use-package gitattributes-mode
+        :straight t
+        :mode "/\\.gitattributes\\'")
+
+      (use-package git-messenger
+        :straight t
+        :commands
+        (git-messenger:popup-message)
+        :bind
+        (("C-c v b" . git-messenger:popup-message))
+
+        :config
+        (setq git-messenger:show-detail t)
+        (setq git-messenger:use-magit-popup t))
+#+end_src
 ** Org
    #+BEGIN_SRC elisp
      (use-package org
@@ -845,14 +715,15 @@
      (use-package htmlize :straight t :defer t)
 
    #+END_SRC
-** Env
+** Environment Variables
+   Since emacs is a GUI app and is not launched by your default shell, probably it's not going to have correct env variables so we need to force all env
+   variables from default shell to be in Emacs process as well.
    #+BEGIN_SRC elisp
      (use-package exec-path-from-shell 
        :straight t
        :config
        (setq exec-path-from-shell-shell-name "zsh")
        (exec-path-from-shell-initialize))
-
    #+END_SRC
 ** Programming Languages
 *** Golang
@@ -917,7 +788,7 @@
    #+begin_src emacs-lisp
 (use-package ccls :straight t)
    #+end_src
-** Emacs windows
+** Window management and Switching
    #+BEGIN_SRC elisp
      (setq display-buffer-alist
            '(("\\*\\(Backtrace\\|Warnings\\|Compile-Log\\|Messages\\)\\*"
@@ -949,21 +820,21 @@
               ("C-x C-o" . 'ace-window)))
    #+END_SRC
 ** Workspaces
-   #+BEGIN_SRC elisp
-     (use-package eyebrowse 
+   Using =perspective= you can have groups of windows and buffers associated with a name, this helps you to have just one instance of Emacs and
+   work on multiple projects, it's like having multiple workspaces in the desktop environment.
+   #+begin_src emacs-lisp
+     (use-package perspective
        :straight t
-       :demand
-       :config (eyebrowse-mode +1) 
-       :bind (("C-!" . eyebrowse-switch-to-window-config-1)
-              ("C-@" . eyebrowse-switch-to-window-config-2)
-              ("C-#" . eyebrowse-switch-to-window-config-3)
-              ("C-$" . eyebrowse-switch-to-window-config-4)
-              ("C-%" . eyebrowse-switch-to-window-config-5)
-              ("C-^" . eyebrowse-switch-to-window-config-6)
-              ("C-&" . eyebrowse-switch-to-window-config-7)
-              ("C-M-n" . eyebrowse-next-window-config)
-              ("C-M-p" . eyebrowse-previous-window-config)))
-   #+END_SRC
+       :bind (("C-M-k" . persp-switch)
+              ("C-M-n" . persp-next)
+              ("C-x k" . persp-kill-buffer*))
+       :custom
+       (persp-initial-frame-name "Main")
+       :config
+       ;; Running `persp-mode' multiple times resets the perspective list...
+       (unless (equal persp-mode t)
+         (persp-mode)))
+   #+end_src 
 ** DevOps
    #+begin_src emacs-lisp
      (use-package docker-compose-mode
@@ -990,26 +861,4 @@
         "ec" 'amirreza/edit-dot-config))
 
      (define-key global-map (kbd "C-c e c") 'amirreza/edit-dot-config)
-   #+end_src
-** Launcher
-   #+begin_src emacs-lisp
-     (defun amirreza/run-command (cmd)
-         (let* ((process-name (format "External: %s" cmd))
-                (args ""))
-           (when (string-match-p "\\.desktop" cmd)
-             (setq args cmd)
-             (setq cmd "gtk-launch"))
-
-           (start-process process-name process-name cmd (car (last (split-string args "/"))))))
-
-       (defun amirreza/launch ()
-         (interactive)
-         (let* ((bins '())
-                (_ (mapc (lambda (path)
-                           (ignore-errors (setq bins (append bins (directory-files-recursively path directory-files-no-dot-files-regexp))))
-                           ) exec-path))
-                (cmd (completing-read "Run: " bins)))
-           (amirreza/run-command cmd)))
-
-     (global-set-key (kbd "s-d") 'amirreza/launch)
    #+end_src
