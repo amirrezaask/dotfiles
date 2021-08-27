@@ -154,6 +154,7 @@
 
      (use-package evil
        :straight t
+       :disabled t
        :init
        (setq evil-want-integration t)
        (setq evil-want-keybinding nil)
@@ -178,15 +179,17 @@
        :config
        (evil-collection-init))
 
-     (use-package evil-escape :straight t :config (setq-default evil-escape-key-sequence "jk") (setq evil-escape-unordered-key-sequence t) (evil-escape-mode 1))
+     (use-package evil-escape :straight t :after evil :config (setq-default evil-escape-key-sequence "jk") (setq evil-escape-unordered-key-sequence t) (evil-escape-mode 1))
 
      (use-package evil-surround
        :straight t
+       :after evil
        :config
        (global-evil-surround-mode 1))
 
      (use-package general
        :straight t
+       :after evil
        :config
        (general-evil-setup t)
 
@@ -205,7 +208,6 @@
    #+begin_src emacs-lisp
      (use-package which-key
        :straight t
-       :defer 1
        :init
        (setq which-key-sort-order #'which-key-prefix-then-key-order
                which-key-sort-uppercase-first nil
@@ -368,7 +370,7 @@
          ("M-y" . 'counsel-yank-pop)
          ("C-S-s" . 'counsel-rg))
         :init
-        (with-eval-after-load 'general 
+        (with-eval-after-load 'evil
           (amirreza/COMMA-keys
             "," 'counsel-find-file
             "x" 'counsel-M-x)
@@ -559,6 +561,7 @@
           ("C-S-i" . lsp-find-implementation))
 
     :hook ((lsp-mode . lsp-enable-which-key-integration)
+           (lsp-mode . (lambda () (interactive) (lsp-headerline-breadcrumb-mode -1))) 
            (before-save . amirreza-lsp-format)))
 
   (use-package lsp-ivy
@@ -856,7 +859,7 @@
        (find-file (completing-read "Edit: " (directory-files-recursively amirreza/dotfiles-location ".*" nil (lambda (name)
                                                                                                                (not (string-match "\\.git" name)))
                                                                          t))))
-     (with-eval-after-load 'general
+     (with-eval-after-load 'evil
        (amirreza/SPC-keys
         "ec" 'amirreza/edit-dot-config))
 
