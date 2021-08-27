@@ -106,6 +106,4 @@ This is to be used with the `pre-command-hook'."
           gcmh-idle-timer nil)
     (remove-hook 'pre-command-hook #'gcmh-set-high-threshold)))
 
-(provide 'core-gcmh)
-
-;;; gcmh.el ends here
+(provide 'gcmh)

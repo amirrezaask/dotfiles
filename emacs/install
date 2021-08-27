@@ -1,9 +1,0 @@
-#! /bin/bash
-rm -rf ~/.emacs.d
-mkdir ~/.emacs.d
-ln -s "$(pwd)/init.el" ~/.emacs.d/init.el
-ln -s "$(pwd)/early-init.el" ~/.emacs.d/early-init.el
-ln -s "$(pwd)/README.org" ~/.emacs.d/README.org
-ln -s "$(pwd)/corelib" ~/.emacs.d/corelib
-ln -s "$(pwd)/site-lisp" ~/.emacs.d/site-lisp
-
