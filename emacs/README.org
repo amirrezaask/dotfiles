@@ -279,9 +279,6 @@
    #+END_SRC
 ** Keybindings
 *** Evil
-:PROPERTIES:
-:header-args: :tangle no
-:END:
    #+BEGIN_SRC elisp
      (defun amirreza/evil-hook ()
        (dolist (mode '(custom-mode
@@ -311,7 +308,7 @@
        ;; Use visual line motions even outside of visual-line-mode buffers
        (evil-global-set-key 'motion "j" 'evil-next-visual-line)
        (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
-
+       (evil-global-set-key 'normal ";" 'evil-ex)
        (evil-set-initial-state 'messages-buffer-mode 'normal)
        (evil-set-initial-state 'dashboard-mode 'normal))
 
@@ -511,7 +508,6 @@
             "," 'counsel-find-file
             "x" 'counsel-M-x)
           (amirreza/SPC-keys
-            "SPC" 'counsel-fzf
             "h f" 'counsel-describe-function
             "h v" 'counsel-describe-variable
             "h a" 'counsel-apropos
@@ -776,7 +772,9 @@
             ("<f2>" . 'amirreza/find-symbol-at-point)
             ("C-M-f" . 'amirreza/find-file-at-point)
             ("C-M-g" . 'amirreza/find-symbol-at-point))
-
+           :general
+           (amirreza/SPC-keys
+             "SPC" 'projectile-find-file)
            :config
            (defun amirreza/find-project ()
              "List of projects in pre defined project locations."
