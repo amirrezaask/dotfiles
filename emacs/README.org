@@ -332,7 +332,7 @@
 
       (use-package ivy
         :straight t
-        :demand
+        :disabled t
         :bind
         (:map ivy-switch-buffer-map
               ("C-k" . 'ivy-previous-line)
@@ -359,6 +359,8 @@
 
       (use-package counsel
         :straight t
+        :disabled t
+        :after ivy
         :bind
         (("M-x" . 'counsel-M-x)
          ("C-x C-f" . 'counsel-find-file)
@@ -380,38 +382,41 @@
             "h a" 'counsel-apropos
             "h b" 'counsel-descbinds)))
 
-      (use-package ivy-rich :straight t :after ivy :config (ivy-rich-mode 1))
+      (use-package ivy-rich :straight t :disabled t :config (ivy-rich-mode 1))
 
 
     #+END_SRC
 *** Vertico/Consult
-   :PROPERTIES:
-   :header-args: :tangle no
-   :END:
     #+begin_src emacs-lisp
+      ;; minibuffer completion engine
+      (use-package vertico :straight t :init (vertico-mode +1))
+
+      ;; Use history when ranking results
+      (use-package savehist
+        :after vertico
+        :init
+        (savehist-mode))
+
       ;; Advance Fuzzy search over results
       (use-package orderless
         :straight t
+        :after vertico
         :init
         (setq completion-styles '(orderless)
               completion-category-defaults nil
               completion-category-overrides '((file (styles partial-completion)))))
 
-      ;; Use history when ranking results
-      (use-package savehist
-        :init
-        (savehist-mode))
-
-      ;; minibuffer completion engine
-      (use-package vertico :straight t :init (vertico-mode +1))
-
       ;; useful commands like ivy's counsel
-      (use-package consult :straight t
+
+      (use-package consult
+        :after vertico
+        :straight t
         :bind (("C-s" . consult-line)
                ("C-S-s" . consult-ripgrep)))
-         
+
 
       (use-package marginalia
+        :after vertico
         :straight t
         ;; Either bind `marginalia-cycle` globally or only in the minibuffer
         :bind (("M-A" . marginalia-cycle)
@@ -421,6 +426,7 @@
         (marginalia-mode))
 
       (use-package embark
+        :after vertico
         :straight t
         :bind
         (("C-." . embark-act)         ;; pick some comfortable binding
@@ -432,23 +438,20 @@
         (setq prefix-help-command #'embark-prefix-help-command)
 
         :config
-
         ;; Hide the mode line of the Embark live/completions buffers
         (add-to-list 'display-buffer-alist
                      '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
                        nil
                        (window-parameters (mode-line-format . none)))))
 
-
       ;; Consult users will also want the embark-consult package.
+
       (use-package embark-consult
         :straight t
-        :after (embark consult)
-        :demand t ; only necessary if you have the hook below
-        ;; if you want to have consult previews as you move around an
-        ;; auto-updating embark collect buffer
+        :after (vertico embark consult)
         :hook
         (embark-collect-mode . consult-preview-at-point-mode))
+      
     #+end_src
 ** Editor
 *** Highlight indents
@@ -782,7 +785,7 @@
    #+END_SRC
 *** Lua
    #+BEGIN_SRC elisp
-     (use-package lua-mode :straight t :mode "\\.lua" :hook (lua-mode . amirreza/lsp))
+     (use-package lua-mode :straight t :mode "\\.lua" :hook (lua-mode . lsp))
      (setq lsp-clients-lua-language-server-install-dir "/home/amirreza/.local/lua-language-server")
      (setq lsp-clients-lua-language-server-bin (concat lsp-clients-lua-language-server-install-dir "/bin/Linux/lua-language-server"))
      (setq lsp-clients-lua-language-server-main-location (concat lsp-clients-lua-language-server-install-dir "/main.lua"))
