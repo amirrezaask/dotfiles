@@ -463,9 +463,6 @@
    #+END_SRC
 ** Minibuffer
 *** Ivy/Counsel/Swiper
-   :PROPERTIES:
-   :header-args: :tangle no
-   :END:
     #+BEGIN_SRC elisp
       (use-package flx :straight t)
 
@@ -525,6 +522,9 @@
 
     #+END_SRC
 *** Vertico/Consult
+   :PROPERTIES:
+   :header-args: :tangle no
+   :END:
     #+begin_src emacs-lisp
       ;; Advance Fuzzy search over results
       (use-package orderless
@@ -731,10 +731,16 @@
     (:map lsp-mode-map
           ("C-S-r" . lsp-find-references)
           ("C-S-i" . lsp-find-implementation))
-  
+
     :hook ((lsp-mode . lsp-enable-which-key-integration)
            (before-save . amirreza-lsp-format)))
 
+  (use-package lsp-ivy
+    :straight t
+    :after ivy
+    :bind
+    (:map lsp-mode-map
+          ("C-S-s" . lsp-ivy-workspace-symbol)))
 #+END_SRC
 *** Code Completion
    #+BEGIN_SRC elisp
@@ -949,31 +955,16 @@
      (use-package eyebrowse 
        :straight t
        :demand
-       :commands (eyebrowse-close-window-config
-                  eyebrowse-create-window-config
-                  eyebrowse-switch-to-window-config-0
-                  eyebrowse-switch-to-window-config-1
-                  eyebrowse-switch-to-window-config-2
-                  eyebrowse-switch-to-window-config-3
-                  eyebrowse-switch-to-window-config-4
-                  eyebrowse-switch-to-window-config-5
-                  eyebrowse-switch-to-window-config-6
-                  eyebrowse-switch-to-window-config-7
-                  eyebrowse-switch-to-window-config-8
-                  eyebrowse-switch-to-window-config-9)
        :config (eyebrowse-mode +1) 
-       :bind (("C-c w 0" . eyebrowse-switch-to-window-config-0)
-              ("C-c w 1" . eyebrowse-switch-to-window-config-1)
-              ("C-c w 2" . eyebrowse-switch-to-window-config-2)
-              ("C-c w 3" . eyebrowse-switch-to-window-config-3)
-              ("C-c w 4" . eyebrowse-switch-to-window-config-4)
-              ("C-c w 5" . eyebrowse-switch-to-window-config-5)
-              ("C-c w 6" . eyebrowse-switch-to-window-config-6)
-              ("C-c w 7" . eyebrowse-switch-to-window-config-7)
-              ("C-c w 8" . eyebrowse-switch-to-window-config-8)
-              ("C-c w 9" . eyebrowse-switch-to-window-config-9)
-              ("C-c w n" . eyebrowse-create-window-config)
-              ("C-c w c" . eyebrowse-close-window-config)))
+       :bind (("C-!" . eyebrowse-switch-to-window-config-1)
+              ("C-@" . eyebrowse-switch-to-window-config-2)
+              ("C-#" . eyebrowse-switch-to-window-config-3)
+              ("C-$" . eyebrowse-switch-to-window-config-4)
+              ("C-%" . eyebrowse-switch-to-window-config-5)
+              ("C-^" . eyebrowse-switch-to-window-config-6)
+              ("C-&" . eyebrowse-switch-to-window-config-7)
+              ("C-M-n" . eyebrowse-next-window-config)
+              ("C-M-p" . eyebrowse-previous-window-config)))
    #+END_SRC
 ** DevOps
    #+begin_src emacs-lisp
