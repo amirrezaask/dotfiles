@@ -315,7 +315,6 @@
        :config
        (doom-modeline-mode 1)
        (setq doom-modeline-height 35))
-
 #+end_src
 ** Buffer Management
    #+BEGIN_SRC elisp
@@ -389,7 +388,15 @@
 *** Vertico/Consult
     #+begin_src emacs-lisp
       ;; minibuffer completion engine
-      (use-package vertico :straight t :init (vertico-mode +1))
+      (use-package vertico
+        :straight t
+        :init
+        (setq vertico-cycle t)
+        (vertico-mode +1)
+        :bind (:map vertico-map
+                    ("C-j" . vertico-next)
+                    ("C-k" . vertico-previous)
+                    ))
 
       ;; Use history when ranking results
       (use-package savehist
@@ -412,7 +419,8 @@
         :after vertico
         :straight t
         :bind (("C-s" . consult-line)
-               ("C-S-s" . consult-ripgrep)))
+               ("C-S-s" . consult-ripgrep)
+               ("C-c g" . consult-ripgrep)))
 
 
       (use-package marginalia
@@ -436,7 +444,11 @@
         :init
         ;; Optionally replace the key help with a completing-read interface
         (setq prefix-help-command #'embark-prefix-help-command)
-
+        (setq embark-action-indicator
+              (lambda (map)
+                (which-key--show-keymap "Embark" map nil nil 'no-paging)
+                #'which-key--hide-popup-ignore-command)
+        embark-become-indicator embark-action-indicator)
         :config
         ;; Hide the mode line of the Embark live/completions buffers
         (add-to-list 'display-buffer-alist
@@ -451,7 +463,7 @@
         :after (vertico embark consult)
         :hook
         (embark-collect-mode . consult-preview-at-point-mode))
-      
+
     #+end_src
 ** Editor
 *** Highlight indents
@@ -602,7 +614,6 @@
            :bind
            (("C-c p" . amirreza/find-project)
             ("C-c f" . projectile-find-file)
-            ("C-c g" . projectile-grep)
             ("C-M-s" . 'amirreza/find-symbol-at-point)
             ("<f1>" . 'amirreza/find-file-at-point)
             ("<f2>" . 'amirreza/find-symbol-at-point)
