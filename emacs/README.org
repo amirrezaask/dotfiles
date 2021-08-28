@@ -154,7 +154,6 @@
 
      (use-package evil
        :straight t
-       :disabled t
        :init
        (setq evil-want-integration t)
        (setq evil-want-keybinding nil)
@@ -878,4 +877,9 @@
         "ec" 'amirreza/edit-dot-config))
 
      (define-key global-map (kbd "C-c e c") 'amirreza/edit-dot-config)
+   #+end_src
+
+** Emacs Server
+   #+begin_src emacs-lisp
+     (server-start)
    #+end_src
