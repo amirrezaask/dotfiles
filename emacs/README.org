@@ -153,6 +153,7 @@
         (add-to-list 'evil-emacs-state-modes mode)))
 
      (use-package evil
+       :demand t
        :straight t
        :init
        (setq evil-want-integration t)
@@ -168,15 +169,17 @@
        ;; Use visual line motions even outside of visual-line-mode buffers
        (evil-global-set-key 'motion "j" 'evil-next-visual-line)
        (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
-       (evil-global-set-key 'normal ";" 'evil-ex)
-       (evil-set-initial-state 'messages-buffer-mode 'normal)
-       (evil-set-initial-state 'dashboard-mode 'normal))
 
-     (use-package evil-collection
-       :straight t
-       :after evil
-       :config
-       (evil-collection-init))
+       (evil-global-set-key 'normal ";" 'evil-ex)
+
+       (evil-set-initial-state 'messages-buffer-mode 'normal)
+       (evil-set-initial-state 'dashboard-mode 'normal)
+
+       (use-package evil-collection
+         :straight t
+         :after evil
+         :config
+         (evil-collection-init)))
 
      (use-package evil-escape :straight t :after evil :config (setq-default evil-escape-key-sequence "jk") (setq evil-escape-unordered-key-sequence t) (evil-escape-mode 1))
 
@@ -200,7 +203,18 @@
        (general-create-definer amirreza/SPC-keys
          :keymaps '(normal insert visual emacs)
          :prefix "SPC"
-         :global-prefix "C-SPC"))
+         :global-prefix "C-SPC")
+
+       (amirreza/SPC-keys
+         "b" 'switch-to-buffer
+         "h f" 'describe-function
+         "h v" 'describe-variable
+         "h a" 'apropos
+         "h k" 'describe-key)
+
+       (amirreza/COMMA-keys
+         "," 'find-file
+         "x" 'execute-extended-command))
 
    #+END_SRC
 *** Which-key
@@ -419,7 +433,12 @@
         :straight t
         :bind (("C-s" . consult-line)
                ("C-S-s" . consult-ripgrep)
-               ("C-c g" . consult-ripgrep)))
+               ("C-c g" . consult-ripgrep))
+        :config
+        (with-eval-after-load 'evil
+          (evil-global-set-key 'normal (kbd "??") 'consult-ripgrep)
+          )
+        )
 
 
       (use-package marginalia
@@ -576,7 +595,9 @@
 
     :hook ((lsp-mode . lsp-enable-which-key-integration)
            (lsp-mode . (lambda () (interactive) (lsp-headerline-breadcrumb-mode -1))) 
-           (before-save . amirreza-lsp-format)))
+           (before-save . amirreza-lsp-format))
+    :config
+    (evil-define-key 'normal global-map (kbd "gd") 'xref-find-definitions))
 
   (use-package lsp-ivy
     :straight t
@@ -620,7 +641,9 @@
             ("C-M-g" . 'amirreza/find-symbol-at-point))
            :general
            (amirreza/SPC-keys
-             "SPC" 'projectile-find-file)
+             "SPC" 'projectile-find-file
+             "pp" 'amirreza/find-project)
+
            :config
            (defun amirreza/find-project ()
              "List of projects in pre defined project locations."
@@ -839,17 +862,22 @@
    Using =perspective= you can have groups of windows and buffers associated with a name, this helps you to have just one instance of Emacs and
    work on multiple projects, it's like having multiple workspaces in the desktop environment.
    #+begin_src emacs-lisp
-     (use-package perspective
-       :straight t
-       :bind (("C-M-k" . persp-switch)
-              ("C-M-n" . persp-next)
-              ("C-x k" . persp-kill-buffer*))
-       :custom
-       (persp-initial-frame-name "Main")
-       :config
-       ;; Running `persp-mode' multiple times resets the perspective list...
-       (unless (equal persp-mode t)
-         (persp-mode)))
+          (use-package perspective
+            :straight t
+            :bind (("C-M-k" . persp-switch)
+                   ("C-M-n" . persp-next)
+                   ("C-x k" . persp-kill-buffer*))
+            :custom
+            (persp-initial-frame-name "Main")
+            :config
+            ;; Running `persp-mode' multiple times resets the perspective list...
+            (unless (equal persp-mode t)
+              (persp-mode))
+            (with-eval-after-load 'evil 
+              (amirreza/SPC-keys
+                "ps" 'persp-switch
+                "pn" 'persp-next)
+              t))
    #+end_src 
 ** DevOps
    #+begin_src emacs-lisp
