@@ -780,6 +780,11 @@
        (defun amirreza/go-hook ()
          (interactive)
          (lsp)
+         (with-eval-after-load 'evil
+           (evil-define-key 'normal go-mode-map (kbd "gd") 'lsp-find-definition) 
+           (evil-define-key 'normal go-mode-map (kbd "gi") 'lsp-find-implementation) 
+           (evil-define-key 'normal go-mode-map (kbd "gr") 'lsp-find-references))
+
          ;; add go binaries to exec-path
          (add-to-list 'exec-path (concat (getenv "HOME") "/go/bin"))))
 
@@ -862,22 +867,22 @@
    Using =perspective= you can have groups of windows and buffers associated with a name, this helps you to have just one instance of Emacs and
    work on multiple projects, it's like having multiple workspaces in the desktop environment.
    #+begin_src emacs-lisp
-          (use-package perspective
-            :straight t
-            :bind (("C-M-k" . persp-switch)
-                   ("C-M-n" . persp-next)
-                   ("C-x k" . persp-kill-buffer*))
-            :custom
-            (persp-initial-frame-name "Main")
-            :config
-            ;; Running `persp-mode' multiple times resets the perspective list...
-            (unless (equal persp-mode t)
-              (persp-mode))
-            (with-eval-after-load 'evil 
-              (amirreza/SPC-keys
-                "ps" 'persp-switch
-                "pn" 'persp-next)
-              t))
+     (use-package perspective
+       :straight t
+       :bind (("C-M-k" . persp-switch)
+              ("C-M-n" . persp-next)
+              ("C-x k" . persp-kill-buffer*))
+       :general
+       (amirreza/SPC-keys
+         "ps" 'persp-switch
+         "pn" 'persp-next)
+       :custom
+       (persp-initial-frame-name "Main")
+       :config
+       ;; Running `persp-mode' multiple times resets the perspective list...
+       (unless (equal persp-mode t)
+         (persp-mode))
+         )
    #+end_src 
 ** DevOps
    #+begin_src emacs-lisp
