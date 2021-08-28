@@ -727,6 +727,18 @@
         (setq git-messenger:show-detail t)
         (setq git-messenger:use-magit-popup t))
 #+end_src
+*** Snippets
+    #+begin_src emacs-lisp
+      (use-package yasnippet
+        :straight t
+        :demand t
+        :config (yas-global-mode 1)
+        :bind
+        (("C-x C-x" . yas-expand)
+         ("C-x C-l" . yas-insert-snippet)))
+
+      (use-package yasnippet-snippets :straight t)
+    #+end_src
 ** Org
    #+BEGIN_SRC elisp
      (use-package org
