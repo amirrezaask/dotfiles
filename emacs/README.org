@@ -153,7 +153,7 @@
         (add-to-list 'evil-emacs-state-modes mode)))
 
      (use-package evil
-       :demand t
+       :disabled t
        :straight t
        :init
        (setq evil-want-integration t)
@@ -588,6 +588,23 @@
     (defun amirreza-lsp-format ()
       (interactive)
       (when (lsp-feature? "textDocument/formatting") (lsp-format-buffer)))
+
+    (defun amirreza/lsp-keys (map)
+      (define-key map (kbd "M-.") 'lsp-find-definition)
+      (define-key map (kbd "M-i") 'lsp-find-implementation)
+      (define-key map (kbd "M-r") 'lsp-find-references)
+
+      (with-eval-after-load 'evil
+        (evil-define-key 'normal map (kbd "gd") 'lsp-find-definition)
+        (evil-define-key 'normal map (kbd "gi") 'lsp-find-implementation)
+        (evil-define-key 'normal map (kbd "gr") 'lsp-find-references)))
+  
+    (defun amirreza/lsp (lang)
+      (lsp)
+      (let ((map (intern (concat (symbol-name 'go) "-mode-map"))))
+        (amirreza/lsp-keys (symbol-value map))))
+
+
     :bind
     (:map lsp-mode-map
           ("C-S-r" . lsp-find-references)
@@ -595,9 +612,7 @@
 
     :hook ((lsp-mode . lsp-enable-which-key-integration)
            (lsp-mode . (lambda () (interactive) (lsp-headerline-breadcrumb-mode -1))) 
-           (before-save . amirreza-lsp-format))
-    :config
-    (evil-define-key 'normal global-map (kbd "gd") 'xref-find-definitions))
+           (before-save . amirreza-lsp-format)))
 
   (use-package lsp-ivy
     :straight t
@@ -632,7 +647,7 @@
            :straight t
            :commands (projectile-find-file projectile-project-root)
            :bind
-           (("C-c p" . amirreza/find-project)
+           (("C-c p p" . amirreza/find-project)
             ("C-c f" . projectile-find-file)
             ("C-M-s" . 'amirreza/find-symbol-at-point)
             ("<f1>" . 'amirreza/find-file-at-point)
@@ -779,12 +794,7 @@
          )
        (defun amirreza/go-hook ()
          (interactive)
-         (lsp)
-         (with-eval-after-load 'evil
-           (evil-define-key 'normal go-mode-map (kbd "gd") 'lsp-find-definition) 
-           (evil-define-key 'normal go-mode-map (kbd "gi") 'lsp-find-implementation) 
-           (evil-define-key 'normal go-mode-map (kbd "gr") 'lsp-find-references))
-
+         (amirreza/lsp 'go)
          ;; add go binaries to exec-path
          (add-to-list 'exec-path (concat (getenv "HOME") "/go/bin"))))
 
@@ -830,7 +840,7 @@
    #+END_SRC
 *** C/C++
    #+begin_src emacs-lisp
-(use-package ccls :straight t)
+(use-package ccls :straight t :hook (c-mode . (lambda () (interactive) (amirreza/lsp 'c))))
    #+end_src
 ** Window management and Switching
    #+BEGIN_SRC elisp
@@ -869,9 +879,9 @@
    #+begin_src emacs-lisp
      (use-package perspective
        :straight t
-       :bind (("C-M-k" . persp-switch)
-              ("C-M-n" . persp-next)
-              ("C-x k" . persp-kill-buffer*))
+       :bind (("C-c p s" . persp-switch)
+              ("C-c p n" . persp-next)
+              ("C-x p k" . persp-kill-buffer*))
        :general
        (amirreza/SPC-keys
          "ps" 'persp-switch
