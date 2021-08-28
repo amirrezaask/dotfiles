@@ -247,11 +247,9 @@
    #+end_src
 ** Buffer Management
    #+BEGIN_SRC elisp
-     (use-package ibuffer
-       :bind (("C-x C-b" . 'ibuffer)))
-
-     (use-package ibuffer-vc :straight t
-       :hook (ibuffer-mode . (lambda () (interactive) (ibuffer-vc-set-filter-groups-by-vc-root))))
+     (use-package bufler
+       :straight t
+       :bind (("C-x C-b" . 'bufler)))
    #+END_SRC
 ** Window management and Switching
    #+BEGIN_SRC elisp
