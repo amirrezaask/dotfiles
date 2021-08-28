@@ -631,7 +631,7 @@
        (use-package eglot
          :straight t
          :hook
-         (prog-mode . #'eglot)
+         ((go-mode php-mode python-mode lua-mode c-mode) . #'eglot-ensure)
          :bind
          (
           ("M-?" . xref-find-references)
@@ -823,7 +823,6 @@
          )
        (defun amirreza/go-hook ()
          (interactive)
-         (amirreza/lsp 'go)
          ;; add go binaries to exec-path
          (add-to-list 'exec-path (concat (getenv "HOME") "/go/bin"))))
 
@@ -846,8 +845,7 @@
 #+BEGIN_SRC elisp
   (use-package php-mode
     :straight t 
-    :mode "\\.php\\'"
-    :hook (php-mode . lsp))
+    :mode "\\.php\\'")
 #+END_SRC
 *** Python
    #+BEGIN_SRC elisp
@@ -862,14 +860,14 @@
    #+END_SRC
 *** Lua
    #+BEGIN_SRC elisp
-     (use-package lua-mode :straight t :mode "\\.lua" :hook (lua-mode . lsp))
+     (use-package lua-mode :straight t :mode "\\.lua")
      (setq lsp-clients-lua-language-server-install-dir "/home/amirreza/.local/lua-language-server")
      (setq lsp-clients-lua-language-server-bin (concat lsp-clients-lua-language-server-install-dir "/bin/Linux/lua-language-server"))
      (setq lsp-clients-lua-language-server-main-location (concat lsp-clients-lua-language-server-install-dir "/main.lua"))
    #+END_SRC
 *** C/C++
    #+begin_src emacs-lisp
-(use-package ccls :straight t :hook (c-mode . (lambda () (interactive) (amirreza/lsp 'c))))
+(use-package ccls :straight t)
    #+end_src
 ** Window management and Switching
    #+BEGIN_SRC elisp
