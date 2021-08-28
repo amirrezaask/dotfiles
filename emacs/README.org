@@ -83,8 +83,16 @@
 
      (global-hl-line-mode +1) ;; Highlight current line.
 #+END_SRC
+** Modeline
+   #+begin_src emacs-lisp
+     (use-package doom-modeline
+       :straight t
+       :config
+       (doom-modeline-mode 1)
+       (setq doom-modeline-height 35))
+   #+end_src
 ** Themes
-   =Doom-themes= is a great package containing beautiful color themes for Emacs.
+   =doom-themes= is a great package containing beautiful color themes for Emacs.
    #+BEGIN_SRC elisp
      (use-package doom-themes :straight t :defer t)
 
@@ -224,6 +232,7 @@
    #+begin_src emacs-lisp
      (use-package which-key
        :straight t
+       :diminish which-key-mode
        :init
        (setq which-key-sort-order #'which-key-prefix-then-key-order
                which-key-sort-uppercase-first nil
@@ -236,14 +245,6 @@
        (defalias 'which-key! 'which-key-add-key-based-replacements)
        (which-key-mode 1)
        (which-key-setup-minibuffer))
-   #+end_src
-** Modeline
-   #+begin_src emacs-lisp
-     (use-package doom-modeline
-       :straight t
-       :config
-       (doom-modeline-mode 1)
-       (setq doom-modeline-height 35))
    #+end_src
 ** Buffer Management
    #+BEGIN_SRC elisp
@@ -422,7 +423,7 @@
         :straight t
         :bind
         (("C-." . embark-act)         ;; pick some comfortable binding
-         ("C-;" . embark-dwim)        ;; good alternative: M-.
+         ("C-;" . embark-export)        ;; good alternative: M-.
          ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
 
         :init
@@ -473,7 +474,13 @@
        :bind (("C-=" . 'er/expand-region)
              ("C--" . 'er/contract-region)))
     #+END_SRC
-
+*** Fix indents
+    #+begin_src emacs-lisp
+      (defun amirreza/fix-indents ()
+        (interactive)
+        (mark-whole-buffer)
+        (indent-region 0 (buffer-size (current-buffer))))
+    #+end_src
 *** Highlight TODO/FIXME/... items in text
     #+BEGIN_SRC elisp
      (use-package hl-todo
@@ -540,6 +547,7 @@
 *** Emacs documentation engine
     #+BEGIN_SRC elisp
       (use-package eldoc
+        :diminish eldoc-mode
         :config (global-eldoc-mode 1))
     #+END_SRC
 ** IDE
@@ -608,6 +616,7 @@
    #+BEGIN_SRC elisp
      (use-package company
        :straight t
+       :diminish company-mode
        :hook (prog-mode . company-mode)
        :bind (:map company-active-map
                    ("C-n" . company-select-next)
@@ -715,6 +724,7 @@
       (use-package yasnippet
         :straight t
         :demand t
+        :diminish yas-minor-mode
         :config (yas-global-mode 1)
         :bind
         (("C-x C-x" . yas-expand)
@@ -867,3 +877,5 @@
    #+begin_src emacs-lisp
      (server-start)
    #+end_src
+   
+   
