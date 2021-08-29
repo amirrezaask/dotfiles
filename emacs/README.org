@@ -535,72 +535,48 @@
       (use-package nginx-mode :straight 
         :mode ("/etc/nginx/conf.d/.*" "/etc/nginx/.*\\.conf\\'"))
     #+END_SRC
-*** IMenu: Language agnostic movement in buffer
-    #+BEGIN_SRC elisp
-      (use-package imenu
-        :bind ("M-i" . imenu))
-    #+END_SRC
 *** Colorize matching parens
     #+BEGIN_SRC elisp
       (use-package rainbow-delimiters :straight t :hook (prog-mode . rainbow-delimiters-mode))
     #+END_SRC
-*** Emacs documentation engine
-    #+BEGIN_SRC elisp
-      (use-package eldoc
-        :diminish eldoc-mode
-        :config (global-eldoc-mode 1))
-    #+END_SRC
 ** IDE
 *** LSP
 **** Lsp-Mode
-     :PROPERTIES:
-:header-args: :tangle no
-:END:
-
     #+BEGIN_SRC elisp
-  (use-package lsp-mode :straight t
-    :init
-    (setq lsp-file-watch-threshold 10000)
-    (setq lsp-auto-guess-root t)
-    (setq lsp-keymap-prefix "C-c l")
-    (setq lsp-before-save-edit t)
-    (defun amirreza-lsp-format ()
-      (interactive)
-      (when (lsp-feature? "textDocument/formatting") (lsp-format-buffer)))
+      (use-package lsp-mode :straight t
+        :init
+        (setq lsp-file-watch-threshold 10000)
+        (setq lsp-auto-guess-root t)
+        (setq lsp-keymap-prefix "C-c l")
+        (setq lsp-before-save-edit t)
+        :bind
+        (("M-?" . lsp-find-references))
+        :config
+        (defun amirreza-lsp-format ()
+          (interactive)
+          (when (lsp-feature? "textDocument/formatting") (lsp-format-buffer)))
 
-    (defun amirreza/lsp-keys (map)
-      (define-key map (kbd "M-.") 'lsp-find-definition)
-      (define-key map (kbd "M-i") 'lsp-find-implementation)
-      (define-key map (kbd "M-r") 'lsp-find-references)
+        :hook ((lsp-mode . lsp-enable-which-key-integration)
+               (lsp-mode . (lambda () (interactive) (lsp-headerline-breadcrumb-mode -1))) 
+               (before-save . amirreza-lsp-format)))
 
-      (with-eval-after-load 'evil
-        (evil-define-key 'normal map (kbd "gd") 'lsp-find-definition)
-        (evil-define-key 'normal map (kbd "gi") 'lsp-find-implementation)
-        (evil-define-key 'normal map (kbd "gr") 'lsp-find-references)))
-  
-    (defun amirreza/lsp (lang)
-      (lsp)
-      (let ((map (intern (concat (symbol-name 'go) "-mode-map"))))
-        (amirreza/lsp-keys (symbol-value map))))
+      (use-package lsp-ivy
+        :straight t
+        :after ivy
+        :bind
+        (
+         ("M-?" . xref-find-references)
+         ("M-." . xref-find-definitions)
+         ("M-i" . eglot-find-implementation))
+        (:map lsp-mode-map
+              ("C-S-s" . lsp-ivy-workspace-symbol)))
 
-
-    :bind
-    (:map lsp-mode-map
-          ("C-S-r" . lsp-find-references)
-          ("C-S-i" . lsp-find-implementation))
-
-    :hook ((lsp-mode . lsp-enable-which-key-integration)
-           (lsp-mode . (lambda () (interactive) (lsp-headerline-breadcrumb-mode -1))) 
-           (before-save . amirreza-lsp-format)))
-
-  (use-package lsp-ivy
-    :straight t
-    :after ivy
-    :bind
-    (:map lsp-mode-map
-          ("C-S-s" . lsp-ivy-workspace-symbol)))
+      (use-package consult-lsp :straight t :after consult)
 #+END_SRC
 **** Eglot
+          :PROPERTIES:
+          :header-args: :tangle no
+:END:
      #+begin_src emacs-lisp
        (use-package eglot
          :straight t
@@ -639,7 +615,7 @@
            :straight t
            :commands (projectile-find-file projectile-project-root)
            :bind
-           (("C-c p p" . amirreza/find-project)
+           (("C-x p f" . amirreza/find-project)
             ("C-c f" . projectile-find-file)
             ("C-M-s" . 'amirreza/find-symbol-at-point)
             ("<f1>" . 'amirreza/find-file-at-point)
@@ -732,6 +708,17 @@
 
       (use-package yasnippet-snippets :straight t)
     #+end_src
+*** IMenu: Language agnostic movement in buffer
+    #+BEGIN_SRC elisp
+      (use-package imenu
+        :bind ("M-i" . imenu))
+    #+END_SRC
+*** Eldoc: Emacs documentation engine
+    #+BEGIN_SRC elisp
+      (use-package eldoc
+        :diminish eldoc-mode
+        :config (global-eldoc-mode 1))
+    #+END_SRC
 ** Org
    #+BEGIN_SRC elisp
      (use-package org
