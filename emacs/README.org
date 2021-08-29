@@ -103,20 +103,19 @@
                      mode-line-end-spaces))
    #+end_src
 ** Themes
-   I include doom themes but I use now builtin =modus= themes.
    #+BEGIN_SRC elisp
      (use-package doom-themes :straight t :defer t)
 
-     (defun amirreza/load-theme (theme)
+     (defun amirreza/load-theme (&optional theme)
        (interactive)
        (cond
         ((null theme) (let ((theme (intern  (completing-read "Theme: " (mapcar #'symbol-name
                                                                                (custom-available-themes))))))
                         (mapc #'disable-theme custom-enabled-themes)
                         (load-theme theme t)))
-        (t (load-theme theme))))
+        (t (load-theme theme t))))
 
-     (amirreza/load-theme 'modus-vivendi)
+     (amirreza/load-theme 'doom-dracula)
    #+END_SRC
 ** Font
    #+BEGIN_SRC elisp
@@ -130,86 +129,6 @@
      (define-key global-map (kbd "C-=") (lambda () (interactive) (text-scale-adjust +1)))
    #+END_SRC
 ** Keybindings
-*** Evil
-    Enables Vi emulation layer for Emacs.
-   #+BEGIN_SRC elisp
-     (defun amirreza/evil-hook ()
-       (dolist (mode '(custom-mode
-                       eshell-mode
-                       git-rebase-mode
-                       erc-mode
-                       circe-server-mode
-                       circe-chat-mode
-                       circe-query-mode
-                       sauron-mode
-                       term-mode))
-        (add-to-list 'evil-emacs-state-modes mode)))
-
-     (use-package evil
-       :disabled t
-       :straight t
-       :init
-       (setq evil-want-integration t)
-       (setq evil-want-keybinding nil)
-       (setq evil-want-C-u-scroll t)
-       (setq evil-want-C-i-jump nil)
-       :hook (evil-mode . amirreza/evil-hook)
-       :config
-       (evil-mode 1)
-       (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
-       (define-key evil-insert-state-map (kbd "C-h") 'evil-delete-backward-char-and-join)
-
-       ;; Use visual line motions even outside of visual-line-mode buffers
-       (evil-global-set-key 'motion "j" 'evil-next-visual-line)
-       (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
-
-       (evil-global-set-key 'normal ";" 'evil-ex)
-
-       (evil-set-initial-state 'messages-buffer-mode 'normal)
-       (evil-set-initial-state 'dashboard-mode 'normal)
-
-       (use-package evil-collection
-         :straight t
-         :after evil
-         :config
-         (evil-collection-init)))
-
-     (use-package evil-escape :straight t :after evil :config (setq-default evil-escape-key-sequence "jk") (setq evil-escape-unordered-key-sequence t) (evil-escape-mode 1))
-
-     (use-package evil-surround
-       :straight t
-       :after evil
-       :config
-       (global-evil-surround-mode 1))
-
-     (use-package general
-       :straight t
-       :after evil
-       :config
-       (general-evil-setup t)
-
-       (general-create-definer amirreza/COMMA-keys
-         :keymaps '(normal insert visual emacs)
-         :prefix ","
-         :global-prefix "C-,")
-
-       (general-create-definer amirreza/SPC-keys
-         :keymaps '(normal insert visual emacs)
-         :prefix "SPC"
-         :global-prefix "C-SPC")
-
-       (amirreza/SPC-keys
-         "b" 'switch-to-buffer
-         "h f" 'describe-function
-         "h v" 'describe-variable
-         "h a" 'apropos
-         "h k" 'describe-key)
-
-       (amirreza/COMMA-keys
-         "," 'find-file
-         "x" 'execute-extended-command))
-
-   #+END_SRC
 *** Which-key
     Shows possible candidates for continuing a keychord in minibuffer.
    #+begin_src emacs-lisp
@@ -252,79 +171,20 @@
        :bind (("C-c p s" . persp-switch)
               ("C-c p n" . persp-next)
               ("C-x p k" . persp-kill-buffer*))
-       :general
-       (amirreza/SPC-keys
-         "ps" 'persp-switch
-         "pn" 'persp-next)
+       :init
+       (with-eval-after-load 'evil
+         (amirreza/SPC-keys
+          "ps" 'persp-switch
+          "pn" 'persp-next))
        :custom
        (persp-initial-frame-name "Main")
        :config
        ;; Running `persp-mode' multiple times resets the perspective list...
        (unless (equal persp-mode t)
          (persp-mode))
-         )
+       )
    #+end_src 
-** Minibuffer
-*** Ivy/Counsel/Swiper
-    #+BEGIN_SRC elisp
-      (use-package flx :straight t)
-
-      (use-package ivy
-        :straight t
-        :disabled t
-        :bind
-        (:map ivy-switch-buffer-map
-              ("C-k" . 'ivy-previous-line)
-              :map ivy-minibuffer-map
-              ("C-j" . 'ivy-next-line)
-              ("C-k" . 'ivy-previous-line)
-              ("RET" . 'ivy-alt-done))
-        :config
-        (setq ivy-height 15)
-        ;; loopish cycling through list
-        (setq ivy-wrap t)
-        ;; don't show recents in minibuffer
-        (setq ivy-use-virtual-buffers nil)
-        ;; ...but if that ever changes, show their full path
-        (setq ivy-virtual-abbreviate 'full)
-        ;; ;; don't quit minibuffer on delete-error
-        (setq ivy-on-del-error-function #'ignore)
-        (setf (alist-get 't ivy-format-functions-alist)
-              #'ivy-format-function-line)
-        (setq ivy-initial-inputs-alist nil)
-        (setq ivy-re-builders-alist
-              '((t . ivy--regex-ignore-order)))
-        (ivy-mode +1))
-
-      (use-package counsel
-        :straight t
-        :disabled t
-        :after ivy
-        :bind
-        (("M-x" . 'counsel-M-x)
-         ("C-x C-f" . 'counsel-find-file)
-         ("C-h b" . 'counsel-descbinds)
-         ("C-h f" . 'counsel-describe-function)
-         ("C-h v" . 'counsel-describe-variable)
-         ("C-h a" . 'counsel-apropos)
-         ("M-i" . 'counsel-imenu) ;; code semantics
-         ("M-y" . 'counsel-yank-pop)
-         ("C-S-s" . 'counsel-rg))
-        :init
-        (with-eval-after-load 'evil
-          (amirreza/COMMA-keys
-            "," 'counsel-find-file
-            "x" 'counsel-M-x)
-          (amirreza/SPC-keys
-            "h f" 'counsel-describe-function
-            "h v" 'counsel-describe-variable
-            "h a" 'counsel-apropos
-            "h b" 'counsel-descbinds)))
-
-      (use-package ivy-rich :straight t :disabled t :config (ivy-rich-mode 1))
-
-
-    #+END_SRC
+** Minibuffer Completion
 *** Vertico/Consult
     #+begin_src emacs-lisp
       ;; minibuffer completion engine
@@ -582,10 +442,11 @@
             ("<f2>" . 'amirreza/find-symbol-at-point)
             ("C-M-f" . 'amirreza/find-file-at-point)
             ("C-M-g" . 'amirreza/find-symbol-at-point))
-           :general
-           (amirreza/SPC-keys
-             "SPC" 'projectile-find-file
-             "pp" 'amirreza/find-project)
+           :init
+           (with-eval-after-load 'evil
+             (amirreza/SPC-keys
+              "SPC" 'projectile-find-file
+              "pp" 'amirreza/find-project))
 
            :config
            (defun amirreza/find-project ()
@@ -827,3 +688,147 @@
    #+end_src
    
    
+** Deprecated
+   :PROPERTIES:
+   :header-args: :tangle no
+   :END:
+*** Evil
+    #+begin_src emacs-lisp
+      (defun amirreza/evil-hook ()
+        (dolist (mode '(custom-mode
+                        eshell-mode
+                        git-rebase-mode
+                        erc-mode
+                        circe-server-mode
+                        circe-chat-mode
+                        circe-query-mode
+                        sauron-mode
+                        term-mode))
+          (add-to-list 'evil-emacs-state-modes mode)))
+
+      (use-package evil
+        :straight t
+        :demand t
+        :init
+        (setq evil-want-integration t)
+        (setq evil-want-keybinding nil)
+        (setq evil-want-C-u-scroll t)
+        (setq evil-want-C-i-jump nil)
+        :hook (evil-mode . amirreza/evil-hook)
+        :config
+        (evil-mode 1)
+        (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
+        (define-key evil-insert-state-map (kbd "C-h") 'evil-delete-backward-char-and-join)
+
+        ;; Use visual line motions even outside of visual-line-mode buffers
+        (evil-global-set-key 'motion "j" 'evil-next-visual-line)
+        (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
+
+        (evil-global-set-key 'normal ";" 'evil-ex)
+
+        (evil-set-initial-state 'messages-buffer-mode 'normal)
+        (evil-set-initial-state 'dashboard-mode 'normal))
+
+      (use-package evil-collection
+        :straight t
+        :after evil
+        :config
+        (evil-collection-init))
+
+      (use-package evil-escape :straight t :after evil :config (setq-default evil-escape-key-sequence "jk") (setq evil-escape-unordered-key-sequence t) (evil-escape-mode 1))
+
+      (use-package evil-surround
+        :straight t
+        :after evil
+        :config
+        (global-evil-surround-mode 1))
+
+      (use-package general
+        :straight t
+        :after evil
+        :config
+        (general-evil-setup t)
+
+        (general-create-definer amirreza/COMMA-keys
+                                :keymaps '(normal insert visual emacs)
+                                :prefix ","
+                                :global-prefix "C-,")
+
+        (general-create-definer amirreza/SPC-keys
+                                :keymaps '(normal insert visual emacs)
+                                :prefix "SPC"
+                                :global-prefix "C-SPC")
+
+        (amirreza/SPC-keys
+         "b" 'switch-to-buffer
+         "h f" 'describe-function
+         "h v" 'describe-variable
+         "h a" 'apropos
+         "h k" 'describe-key)
+
+        (amirreza/COMMA-keys
+         "," 'find-file
+         "x" 'execute-extended-command))
+
+
+#+end_src
+*** Ivy/Counsel/Swiper
+    #+BEGIN_SRC elisp
+      (use-package flx :straight t)
+
+      (use-package ivy
+        :straight t
+        :disabled t
+        :bind
+        (:map ivy-switch-buffer-map
+              ("C-k" . 'ivy-previous-line)
+              :map ivy-minibuffer-map
+              ("C-j" . 'ivy-next-line)
+              ("C-k" . 'ivy-previous-line)
+              ("RET" . 'ivy-alt-done))
+        :config
+        (setq ivy-height 15)
+        ;; loopish cycling through list
+        (setq ivy-wrap t)
+        ;; don't show recents in minibuffer
+        (setq ivy-use-virtual-buffers nil)
+        ;; ...but if that ever changes, show their full path
+        (setq ivy-virtual-abbreviate 'full)
+        ;; ;; don't quit minibuffer on delete-error
+        (setq ivy-on-del-error-function #'ignore)
+        (setf (alist-get 't ivy-format-functions-alist)
+              #'ivy-format-function-line)
+        (setq ivy-initial-inputs-alist nil)
+        (setq ivy-re-builders-alist
+              '((t . ivy--regex-ignore-order)))
+        (ivy-mode +1))
+
+      (use-package counsel
+        :straight t
+        :disabled t
+        :after ivy
+        :bind
+        (("M-x" . 'counsel-M-x)
+         ("C-x C-f" . 'counsel-find-file)
+         ("C-h b" . 'counsel-descbinds)
+         ("C-h f" . 'counsel-describe-function)
+         ("C-h v" . 'counsel-describe-variable)
+         ("C-h a" . 'counsel-apropos)
+         ("M-i" . 'counsel-imenu) ;; code semantics
+         ("M-y" . 'counsel-yank-pop)
+         ("C-S-s" . 'counsel-rg))
+        :init
+        (with-eval-after-load 'evil
+          (amirreza/COMMA-keys
+            "," 'counsel-find-file
+            "x" 'counsel-M-x)
+          (amirreza/SPC-keys
+            "h f" 'counsel-describe-function
+            "h v" 'counsel-describe-variable
+            "h a" 'counsel-apropos
+            "h b" 'counsel-descbinds)))
+
+      (use-package ivy-rich :straight t :disabled t :config (ivy-rich-mode 1))
+
+
+    #+END_SRC
