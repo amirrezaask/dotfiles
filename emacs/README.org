@@ -85,55 +85,38 @@
 #+END_SRC
 ** Modeline
    #+begin_src emacs-lisp
-     (use-package doom-modeline
-       :straight t
-       :config
-       (doom-modeline-mode 1)
-       (setq doom-modeline-height 35))
+     (setq-default mode-line-format
+                   '("%e"
+                     mode-line-front-space
+                     mode-line-mule-info
+                     mode-line-client
+                     mode-line-modified
+                     mode-line-remote
+                     mode-line-frame-identification
+                     mode-line-buffer-identification
+                     "  "
+                     mode-line-position
+                     "  "
+                     (vc-mode vc-mode)
+                     "  "
+                     mode-line-misc-info
+                     mode-line-end-spaces))
    #+end_src
 ** Themes
-   =doom-themes= is a great package containing beautiful color themes for Emacs.
+   I include doom themes but I use now builtin =modus= themes.
    #+BEGIN_SRC elisp
      (use-package doom-themes :straight t :defer t)
 
-     (defvar amirreza/current-mode 'dark "Current color mode of Emacs.")
-     (defvar amirreza/dark-theme 'doom-dracula)
-     (defvar amirreza/light-theme 'doom-one-light)
-
-     (defmacro amirreza/--load-theme (&rest theme-opts)
-       `(progn (mapc #'disable-theme custom-enabled-themes)
-               (load-theme ,@theme-opts)))
-
-     (defun amirreza/load-theme ()
+     (defun amirreza/load-theme (theme)
        (interactive)
-       (let ((theme (intern  (completing-read "Theme: " (mapcar #'symbol-name
-                                                                (custom-available-themes))))))
-         (amirreza/--load-theme theme t)))
+       (cond
+        ((null theme) (let ((theme (intern  (completing-read "Theme: " (mapcar #'symbol-name
+                                                                               (custom-available-themes))))))
+                        (mapc #'disable-theme custom-enabled-themes)
+                        (load-theme theme t)))
+        (t (load-theme theme))))
 
-     (defun amirreza/apply-color (mode)
-       "Apply current color mode to Emacs."
-       (if (eq amirreza/current-mode 'dark)
-           (amirreza/--load-theme amirreza/dark-theme t)
-         (amirreza/--load-theme  amirreza/light-theme t)))
-
-     (defun amirreza/transparent-frame (pct)
-       "Sets transparency of the frame to PCT"
-       (interactive)
-       (set-frame-parameter (selected-frame) 'alpha '(90 . 90))
-       (add-to-list 'default-frame-alist '(alpha . (90 . 90)))
-       (set-frame-parameter (selected-frame) 'fullscreen 'maximized)
-       (add-to-list 'default-frame-alist '(fullscreen . maximized)))
-
-     (defun amirreza/toggle-color-mode ()
-       "Toggle current mode to the opposite"
-       (interactive)
-       (if (eq amirreza/current-mode 'dark)
-           (setq amirreza/current-mode 'light)
-         (setq amirreza/current-mode 'dark))
-       (amirreza/apply-color amirreza/current-mode))
-     (amirreza/transparent-frame 90)
-     (amirreza/apply-color amirreza/current-mode)
-
+     (amirreza/load-theme 'modus-vivendi)
    #+END_SRC
 ** Font
    #+BEGIN_SRC elisp
@@ -254,29 +237,6 @@
    #+END_SRC
 ** Window management and Switching
    #+BEGIN_SRC elisp
-     (setq display-buffer-alist
-           '(("\\*\\(Backtrace\\|Warnings\\|Compile-Log\\|Messages\\)\\*"
-                (display-buffer-in-side-window)
-                (window-width . 0.40)
-                (side . right)
-                (slot . 0))
-             ("^vterm"
-               (display-buffer-in-side-window)
-               (window-width . 0.40)
-               (side . right)
-               (slot . 0))
-             ("\*eshell.*"
-               (display-buffer-in-side-window)
-               (window-width . 0.40)
-               (side . right)
-               (slot . 0))
-             ("\\*rg"
-               (display-buffer-in-side-window)
-               (window-width . 0.50)
-               (side . right)
-               (slot . 0))))
-
-
      (use-package ace-window
        :straight t
        :commands (ace-window)
@@ -542,6 +502,9 @@
 ** IDE
 *** LSP
 **** Lsp-Mode
+    :PROPERTIES:
+          :header-args: :tangle no
+:END:
     #+BEGIN_SRC elisp
       (use-package lsp-mode :straight t
         :init
@@ -574,9 +537,6 @@
       (use-package consult-lsp :straight t :after consult)
 #+END_SRC
 **** Eglot
-          :PROPERTIES:
-          :header-args: :tangle no
-:END:
      #+begin_src emacs-lisp
        (use-package eglot
          :straight t
@@ -841,6 +801,7 @@
      (use-package docker :straight t 
        :bind
        ("C-c i d" . docker))
+
      (use-package dockerfile-mode :straight t :mode "\\Dockerfile\\'")
      (use-package kubel :straight t :commands (kubel) :bind (("C-c i k" . kubel)))
    #+end_src
