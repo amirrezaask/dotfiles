@@ -108,6 +108,10 @@
      (amirreza/load-theme 'doom-dracula)
    #+END_SRC
 ** Evil
+   :PROPERTIES:
+:header-args: :tangle no
+:END:
+
     #+begin_src emacs-lisp
       (defun amirreza/evil-hook ()
         (dolist (mode '(custom-mode
@@ -133,9 +137,10 @@
         :bind
         ((:map evil-normal-state-map
                ("SPC h f" . describe-function)
-               ("SPC h b" . describe-key)
+               ("SPC h k" . describe-key)
                ("SPC h v" . describe-variable)
                (",," . find-file)
+               (",x" . execute-extended-command)
                (";" . 'evil-ex))
          (:map evil-insert-state-map
                ("C-g" . 'evil-normal-state)
@@ -198,6 +203,8 @@
    #+BEGIN_SRC elisp
      (use-package bufler
        :straight t
+       :init
+       (with-eval-after-load 'evil (evil-define-key 'normal global-map (kbd "SPC B") 'bufler))
        :bind (("C-x C-b" . 'bufler)))
    #+END_SRC
 ** Window management and Switching
@@ -264,13 +271,10 @@
         :after vertico
         :straight t
         :bind (("C-s" . consult-line)
-               ("C-S-s" . consult-ripgrep)
-               ("C-c g" . consult-ripgrep))
+               ("C-S-s" . consult-ripgrep))
         :config
         (with-eval-after-load 'evil
-          (evil-global-set-key 'normal (kbd "??") 'consult-ripgrep)
-          )
-        )
+          (evil-global-set-key 'normal (kbd "??") 'consult-ripgrep)))
 
 
       (use-package marginalia
@@ -534,12 +538,9 @@
         :straight t
         :commands (magit-status magit-get-current-branch)
         :init
-        (with-eval-after-load 'evil (evil-global-set-key 'normal (kbd "SPC v g") 'magit-status))
+        (with-eval-after-load 'evil (evil-global-set-key 'normal (kbd "SPC g s") 'magit-status))
         :bind
-        (("C-x g" . 'magit-status)
-         ("C-c v s" . 'magit-status)
-         )
-        )
+        (("C-x g" . 'magit-status)))
 
       (use-package diff-hl
         :straight t
@@ -561,8 +562,10 @@
         :straight t
         :commands
         (git-messenger:popup-message)
+        :init
+        (with-eval-after-load 'evil (evil-global-set-key 'normal (kbd "SPC g b") git-messenger:popup-message))
         :bind
-        (("C-c v b" . git-messenger:popup-message))
+        (("C-c g b" . git-messenger:popup-message))
 
         :config
         (setq git-messenger:show-detail t)
