@@ -727,7 +727,7 @@
                                                                                                                (not (string-match "\\.git" name)))
                                                                          t))))
 
-     (define-key evil-normal-state-map (kbd "SPC ec") 'amirreza/edit-dot-config)
+     (with-eval-after-load 'evil (define-key evil-normal-state-map (kbd "SPC ec") 'amirreza/edit-dot-config))
      (define-key global-map (kbd "C-c e c") 'amirreza/edit-dot-config)
    #+end_src
 
