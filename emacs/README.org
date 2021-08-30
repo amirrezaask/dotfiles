@@ -85,21 +85,12 @@
 #+END_SRC
 ** Modeline
    #+begin_src emacs-lisp
-     (setq-default mode-line-format
-                   '("%e"
-                     mode-line-front-space
-                     mode-line-client
-                     mode-line-modified
-                     mode-line-remote
-                     mode-line-frame-identification
-                     mode-line-buffer-identification
-                     "  "
-                     mode-line-position
-                     "  "
-                     (vc-mode vc-mode)
-                     "  "
-                     mode-line-misc-info
-                     mode-line-end-spaces))
+     (use-package doom-modeline
+       :straight t
+       :init
+       (setq doom-modeline-height 35)
+       :config
+       (doom-modeline-mode 1))
    #+end_src
 ** Themes
    #+BEGIN_SRC elisp
@@ -490,7 +481,8 @@
        :commands (projectile-find-file projectile-project-root)
        :bind
        (("C-x p f" . amirreza/find-project)
-        ("C-c f" . projectile-find-file)
+        ("C-x C-f" . amirreza/find-file)
+        ("C-c f" . amirreza/find-file)
         ("C-M-s" . 'amirreza/find-symbol-at-point)
         ("<f1>" . 'amirreza/find-file-at-point)
         ("<f2>" . 'amirreza/find-symbol-at-point)
@@ -498,10 +490,17 @@
         ("C-M-g" . 'amirreza/find-symbol-at-point))
        :init
        (with-eval-after-load 'evil 
-         (evil-define-key 'normal global-map (kbd "SPC SPC") 'projectile-find-file)
+         (evil-define-key 'normal global-map (kbd "SPC SPC") 'amirreza/find-file)
          (evil-define-key 'normal global-map (kbd "SPC p p") 'amirreza/find-project))
 
        :config
+       (defun amirreza/find-file ()
+         "If we are in project use projectile-find-file else use internal find-file"
+         (interactive)
+         (cond
+          ((projectile-project-p) (projectile-find-file))
+          (t (call-interactively 'find-file))))
+
        (defun amirreza/find-project ()
          "List of projects in pre defined project locations."
          (interactive)
@@ -573,14 +572,13 @@
     #+begin_src emacs-lisp
       (use-package yasnippet
         :straight t
-        :demand t
         :diminish yas-minor-mode
         :config (yas-global-mode 1)
         :bind
         (("C-x C-x" . yas-expand)
          ("C-x C-l" . yas-insert-snippet)))
 
-      (use-package yasnippet-snippets :straight t)
+      (use-package yasnippet-snippets :straight t :after yasnippet)
     #+end_src
 *** IMenu: Language agnostic movement in buffer
     #+BEGIN_SRC elisp
