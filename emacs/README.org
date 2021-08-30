@@ -88,7 +88,6 @@
      (setq-default mode-line-format
                    '("%e"
                      mode-line-front-space
-                     mode-line-mule-info
                      mode-line-client
                      mode-line-modified
                      mode-line-remote
@@ -117,6 +116,62 @@
 
      (amirreza/load-theme 'doom-dracula)
    #+END_SRC
+** Evil
+    #+begin_src emacs-lisp
+      (defun amirreza/evil-hook ()
+        (dolist (mode '(custom-mode
+                        eshell-mode
+                        git-rebase-mode
+                        erc-mode
+                        circe-server-mode
+                        circe-chat-mode
+                        circe-query-mode
+                        sauron-mode
+                        term-mode))
+          (add-to-list 'evil-emacs-state-modes mode)))
+
+      (use-package evil
+        :straight t
+        :demand t
+        :init
+        (setq evil-want-integration t)
+        (setq evil-want-keybinding nil)
+        (setq evil-want-C-u-scroll t)
+        (setq evil-want-C-i-jump nil)
+        :hook (evil-mode . amirreza/evil-hook)
+        :bind
+        ((:map evil-normal-state-map
+               ("SPC h f" . describe-function)
+               ("SPC h b" . describe-key)
+               ("SPC h v" . describe-variable)
+               (",," . find-file)
+               (";" . 'evil-ex))
+         (:map evil-insert-state-map
+               ("C-g" . 'evil-normal-state)
+               ("C-h" . 'evil-delete-backward-char-and-join))
+         (:map evil-motion-state-map
+               ("j" . 'evil-next-visual-line)
+               ("k" . 'evil-previous-visual-line)))
+        :config
+        (evil-mode 1)
+        (evil-set-initial-state 'messages-buffer-mode 'normal)
+        (evil-set-initial-state 'dashboard-mode 'normal))
+
+      (use-package evil-collection
+        :straight t
+        :after evil
+        :config
+        (evil-collection-init))
+
+      (use-package evil-escape :straight t :after evil :config (setq-default evil-escape-key-sequence "jk") (setq evil-escape-unordered-key-sequence t) (evil-escape-mode 1))
+
+      (use-package evil-surround
+        :straight t
+        :after evil
+        :config
+        (global-evil-surround-mode 1))
+
+#+end_src
 ** Font
    #+BEGIN_SRC elisp
      (defun amirreza/change-font (font)
@@ -172,10 +227,9 @@
               ("C-c p n" . persp-next)
               ("C-x p k" . persp-kill-buffer*))
        :init
-       (with-eval-after-load 'evil
-         (amirreza/SPC-keys
-          "ps" 'persp-switch
-          "pn" 'persp-next))
+       (with-eval-after-load 'evil 
+         (evil-define-key 'normal global-map (kbd "SPC ps") 'persp-switch)
+         (evil-define-key 'normal global-map (kbd "SPC pn") 'persp-next))
        :custom
        (persp-initial-frame-name "Main")
        :config
@@ -432,42 +486,41 @@
 *** Projectile
    #+BEGIN_SRC elisp
      (use-package projectile
-           :straight t
-           :commands (projectile-find-file projectile-project-root)
-           :bind
-           (("C-x p f" . amirreza/find-project)
-            ("C-c f" . projectile-find-file)
-            ("C-M-s" . 'amirreza/find-symbol-at-point)
-            ("<f1>" . 'amirreza/find-file-at-point)
-            ("<f2>" . 'amirreza/find-symbol-at-point)
-            ("C-M-f" . 'amirreza/find-file-at-point)
-            ("C-M-g" . 'amirreza/find-symbol-at-point))
-           :init
-           (with-eval-after-load 'evil
-             (amirreza/SPC-keys
-              "SPC" 'projectile-find-file
-              "pp" 'amirreza/find-project))
+       :straight t
+       :commands (projectile-find-file projectile-project-root)
+       :bind
+       (("C-x p f" . amirreza/find-project)
+        ("C-c f" . projectile-find-file)
+        ("C-M-s" . 'amirreza/find-symbol-at-point)
+        ("<f1>" . 'amirreza/find-file-at-point)
+        ("<f2>" . 'amirreza/find-symbol-at-point)
+        ("C-M-f" . 'amirreza/find-file-at-point)
+        ("C-M-g" . 'amirreza/find-symbol-at-point))
+       :init
+       (with-eval-after-load 'evil 
+         (evil-define-key 'normal global-map (kbd "SPC SPC") 'projectile-find-file)
+         (evil-define-key 'normal global-map (kbd "SPC p p") 'amirreza/find-project))
 
-           :config
-           (defun amirreza/find-project ()
-             "List of projects in pre defined project locations."
-             (interactive)
-             (dired (completing-read "Project: "
-                                     (directory-files-recursively "~/src"
-                                                                  ".*"
-                                                                  t
-                                                                  (lambda (path) (not (projectile-project-p path)))
-                                                                  t))))
+       :config
+       (defun amirreza/find-project ()
+         "List of projects in pre defined project locations."
+         (interactive)
+         (dired (completing-read "Project: "
+                                 (directory-files-recursively "~/src"
+                                                              ".*"
+                                                              t
+                                                              (lambda (path) (not (projectile-project-p path)))
+                                                              t))))
 
-           (defun amirreza/recursive-search-path (initial path)
-             (completing-read "Find File: " (directory-files-recursively path directory-files-no-dot-files-regexp nil (lambda (name)
-                                                                                                                        (not (string-match "\\.git" name)))
-                                                                         t) nil nil initial))
+       (defun amirreza/recursive-search-path (initial path)
+         (completing-read "Find File: " (directory-files-recursively path directory-files-no-dot-files-regexp nil (lambda (name)
+                                                                                                                    (not (string-match "\\.git" name)))
+                                                                     t) nil nil initial))
 
-           (defun amirreza/find-symbol-at-point ()
-             (interactive)
-             (let* ((symbol (thing-at-point 'word)))
-               (consult-ripgrep (projectile-project-root) symbol))))
+       (defun amirreza/find-symbol-at-point ()
+         (interactive)
+         (let* ((symbol (thing-at-point 'word)))
+           (consult-ripgrep (projectile-project-root) symbol))))
 
 
      (use-package project :defer t)
@@ -675,10 +728,8 @@
        (find-file (completing-read "Edit: " (directory-files-recursively amirreza/dotfiles-location ".*" nil (lambda (name)
                                                                                                                (not (string-match "\\.git" name)))
                                                                          t))))
-     (with-eval-after-load 'evil
-       (amirreza/SPC-keys
-        "ec" 'amirreza/edit-dot-config))
 
+     (define-key evil-normal-state-map (kbd "SPC ec") 'amirreza/edit-dot-config)
      (define-key global-map (kbd "C-c e c") 'amirreza/edit-dot-config)
    #+end_src
 
@@ -686,92 +737,10 @@
    #+begin_src emacs-lisp
      (server-start)
    #+end_src
-   
-   
 ** Deprecated
    :PROPERTIES:
    :header-args: :tangle no
    :END:
-*** Evil
-    #+begin_src emacs-lisp
-      (defun amirreza/evil-hook ()
-        (dolist (mode '(custom-mode
-                        eshell-mode
-                        git-rebase-mode
-                        erc-mode
-                        circe-server-mode
-                        circe-chat-mode
-                        circe-query-mode
-                        sauron-mode
-                        term-mode))
-          (add-to-list 'evil-emacs-state-modes mode)))
-
-      (use-package evil
-        :straight t
-        :demand t
-        :init
-        (setq evil-want-integration t)
-        (setq evil-want-keybinding nil)
-        (setq evil-want-C-u-scroll t)
-        (setq evil-want-C-i-jump nil)
-        :hook (evil-mode . amirreza/evil-hook)
-        :config
-        (evil-mode 1)
-        (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
-        (define-key evil-insert-state-map (kbd "C-h") 'evil-delete-backward-char-and-join)
-
-        ;; Use visual line motions even outside of visual-line-mode buffers
-        (evil-global-set-key 'motion "j" 'evil-next-visual-line)
-        (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
-
-        (evil-global-set-key 'normal ";" 'evil-ex)
-
-        (evil-set-initial-state 'messages-buffer-mode 'normal)
-        (evil-set-initial-state 'dashboard-mode 'normal))
-
-      (use-package evil-collection
-        :straight t
-        :after evil
-        :config
-        (evil-collection-init))
-
-      (use-package evil-escape :straight t :after evil :config (setq-default evil-escape-key-sequence "jk") (setq evil-escape-unordered-key-sequence t) (evil-escape-mode 1))
-
-      (use-package evil-surround
-        :straight t
-        :after evil
-        :config
-        (global-evil-surround-mode 1))
-
-      (use-package general
-        :straight t
-        :after evil
-        :config
-        (general-evil-setup t)
-
-        (general-create-definer amirreza/COMMA-keys
-                                :keymaps '(normal insert visual emacs)
-                                :prefix ","
-                                :global-prefix "C-,")
-
-        (general-create-definer amirreza/SPC-keys
-                                :keymaps '(normal insert visual emacs)
-                                :prefix "SPC"
-                                :global-prefix "C-SPC")
-
-        (amirreza/SPC-keys
-         "b" 'switch-to-buffer
-         "h f" 'describe-function
-         "h v" 'describe-variable
-         "h a" 'apropos
-         "h k" 'describe-key)
-
-        (amirreza/COMMA-keys
-         "," 'find-file
-         "x" 'execute-extended-command))
-
-
-#+end_src
 *** Ivy/Counsel/Swiper
     #+BEGIN_SRC elisp
       (use-package flx :straight t)
@@ -816,17 +785,15 @@
          ("C-h a" . 'counsel-apropos)
          ("M-i" . 'counsel-imenu) ;; code semantics
          ("M-y" . 'counsel-yank-pop)
-         ("C-S-s" . 'counsel-rg))
-        :init
-        (with-eval-after-load 'evil
-          (amirreza/COMMA-keys
-            "," 'counsel-find-file
-            "x" 'counsel-M-x)
-          (amirreza/SPC-keys
-            "h f" 'counsel-describe-function
-            "h v" 'counsel-describe-variable
-            "h a" 'counsel-apropos
-            "h b" 'counsel-descbinds)))
+         ("C-S-s" . 'counsel-rg)
+         (:map evil-normal-state-map
+               (",," . 'counsel-find-file)
+               (",x" . 'counsel-M-x)
+               ("SPC h f" . 'counsel-describe-function)
+               ("SPC h v" . 'counsel-describe-variable)
+               ("SPC h a" . 'counsel-apropos)
+               ("SPC h b" . 'counsel-descbinds))))
+         
 
       (use-package ivy-rich :straight t :disabled t :config (ivy-rich-mode 1))
 
