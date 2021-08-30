@@ -6,3 +6,6 @@ eln-cache
 README.el
 history
 server
+custom.el
+lsp-cache
+url
