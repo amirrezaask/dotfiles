@@ -19,7 +19,7 @@ else
 
     setopt PROMPT_SUBST
 
-    PROMPT='%F{green}%~%f$(get_branch) > '
+    PROMPT='%F{46}%~%f$(get_branch) > '
 fi
 
 

@@ -57,5 +57,5 @@ then
     curl -fsSL 'https://starship.rs/install.sh'
 end
 
-starship init fish | source
+# starship init fish | source
 
