@@ -25,5 +25,5 @@ Set-PSReadLineOption -PredictionSource History
 Set-PSReadLineOption -PredictionViewStyle ListView
 Set-PSReadLineOption -EditMode Windows
 
-$VARS = "~/source/repos/dotfiles/powershell/Variables.ps1"
+$VARS = "~/source/repos/github.com/amirrezaask/dotfiles/powershell/Variables.ps1"
 . $VARS
