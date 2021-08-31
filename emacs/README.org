@@ -85,16 +85,13 @@
 #+END_SRC
 ** Modeline
    #+begin_src emacs-lisp
-     (use-package doom-modeline
-       :straight t
-       :init
-       (setq doom-modeline-height 35)
-       :config
-       (doom-modeline-mode 1))
+     (pkg! doom-modeline
+           (setq doom-modeline-height 35)
+           (doom-modeline-mode 1))
    #+end_src
 ** Themes
    #+BEGIN_SRC elisp
-     (use-package doom-themes :straight t :defer t)
+     (pkg! doom-themes)
 
      (defun amirreza/load-theme (&optional theme)
        (interactive)
@@ -439,7 +436,7 @@
         (
          ("M-?" . xref-find-references)
          ("M-." . xref-find-definitions)
-         ("M-i" . eglot-find-implementation))
+         ("M-i" . lsp-find-implementation))
         (:map lsp-mode-map
               ("C-S-s" . lsp-ivy-workspace-symbol)))
 
@@ -450,7 +447,9 @@
        (use-package eglot
          :straight t
          :hook
-         ((go-mode php-mode python-mode lua-mode c-mode) . #'eglot-ensure)
+         (
+          ((go-mode php-mode python-mode lua-mode c-mode) . #'eglot-ensure)
+          (before-save . #'eglot-format-buffer))
          :bind
          (
           ("M-?" . xref-find-references)
