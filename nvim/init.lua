@@ -5,9 +5,9 @@ require "nvim"
 vim.g.mapleader = " "
 
 -- Theme
--- vim.colorscheme "gruvbuddy"
+vim.colorscheme "gruvbuddy"
 -- vim.colorscheme "sitruuna"
-vim.colorscheme "dracula"
+-- vim.colorscheme "dracula"
 
 -- Fuzzy finder
 -- vim.g.fuzzy_finder = "fzf"
