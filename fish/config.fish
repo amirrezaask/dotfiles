@@ -3,10 +3,10 @@ set -x GO111MODULE 'on'
 set -x GOPATH "$HOME"
 set -x PYTHONBINS "$HOME/.local/bin"
 set -x EDITOR 'nvim'
-set -x GOPRIVATE 'devheroes.codes,gitlab.com,gitlab.espadev.ir'
+set -x GOROOT '/usr/local/go'
+set -x GOPRIVATE 'gitlab.snapp.ir'
 set -x PLAN9 "$HOME/.local/plan9"
 set -x ZIGPATH "/usr/local/zig"
-# set -x CARGO_TARGET_DIR "~/.local/cargo/"
 set -x PATH "$ZIGPATH:/usr/local/go/bin:$HOME/.config/composer/vendor/bin:$GOROOT/bin:$GOPATH/bin:$HOME/.cargo/bin:$PYTHONBINS:/usr/local/Postman:$HOME/.local/elixir-ls/:$PATH"
 set -x DOTFILES "~/src/github.com/amirrezaask/dotfiles/"
 
@@ -52,10 +52,10 @@ function snapp
 end
 
 # install starship if not installed
-if not command -v starship &> /dev/null
-then
-    curl -fsSL 'https://starship.rs/install.sh'
-end
+#if not command -v starship &> /dev/null
+#then
+#    curl -fsSL 'https://starship.rs/install.sh'
+#end
 
 # starship init fish | source
 
