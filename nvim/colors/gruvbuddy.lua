@@ -38,7 +38,11 @@ local colors = {
   white_yellow = "#ebdbb2",
 }
 
-hl { "Normal", bg = colors.background, fg = colors.white }
+if vim.g.transparent == nil then
+  hl { "Normal", bg = colors.background, fg = colors.white }
+else
+  hl { "Normal", bg = nil }
+end
 hl { "InvNormal", bg = colors.white, fg = colors.background }
 hl { "NormalFloat", bg = colors.black, fg = colors.white1 }
 hl { "LineNr", bg = colors.line_nr, fg = colors.grey1 }
