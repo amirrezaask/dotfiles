@@ -121,6 +121,7 @@ lspconfig.gopls.setup {
   on_attach = on_attach,
 }
 lspconfig.rust_analyzer.setup {
+  cmd = {"rustup", "run", "nightly", "rust-analyzer"},
   on_attach = function(client)
     on_attach(client)
     require("lsp_extensions").inlay_hints {}
