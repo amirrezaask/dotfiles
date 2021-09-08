@@ -44,7 +44,6 @@ alias webstorm="webstorm 2>/dev/null &"
 alias pycharm="pycharm 2>/dev/null &"
 alias intelij="intelij 2>/dev/null &"
 alias datagrip="datagrip 2>/dev/null &"
-
 alias gdoc='godoc -http=:6060'
 alias vim='nvim'
 alias vi='nvim'
