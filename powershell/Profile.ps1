@@ -10,7 +10,7 @@ Import-Module -Name PSReadLine
 Import-Module -Name Terminal-Icons
 
 # Set Prompt
-Set-PoshPrompt marcduiker
+Set-PoshPrompt iterm2 
 
 $VARS = "$HOME/src/repos/Personal/dotfiles/powershell/Variables.ps1"
 . $VARS
@@ -35,3 +35,7 @@ function freenet {
 }
 
 function gs { git status }
+
+if ($IsLinux) {
+    Set-Alias -Name ls -Value Get-ChildItem
+}
