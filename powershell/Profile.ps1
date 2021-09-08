@@ -12,5 +12,5 @@ Import-Module -Name Terminal-Icons
 # Set Prompt
 Set-PoshPrompt marcduiker
 
-$VARS = "$HOME/source/repos/github.com/amirrezaask/dotfiles/powershell/Variables.ps1"
+$VARS = "$HOME/source/repos/Personal/dotfiles/powershell/Variables.ps1"
 . $VARS
