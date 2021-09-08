@@ -15,6 +15,8 @@ Set-PoshPrompt marcduiker
 $VARS = "$HOME/src/repos/Personal/dotfiles/powershell/Variables.ps1"
 . $VARS
 
+. $HOME/env.ps1
+
 function reload {
     . $PROFILE
 }
@@ -24,8 +26,12 @@ function p {
 function s {
     Set-Location ~/src/repos/Snapp 
 }
-function sn {
+function snappvpn {
     sudo openfortivpn -c ~/snappDC.conf
+}
+
+function freenet {
+    Write-Output $env:VPN_PASSWORD | sudo openconnect --no-dtls --passwd-on-stdin --user $env:VPN_USERNAME $env:VPN_SERVER
 }
 
 function gs { git status }
