@@ -1,3 +1,4 @@
+# DEPREACATED: I use fish
 ZSH_CONFIG_BASE_DIR="$HOME/.config/zsh"
 source "${ZSH_CONFIG_BASE_DIR}/antigen.zsh"
 
