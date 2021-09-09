@@ -54,11 +54,8 @@ require("packer").startup {
     -- Missing stdlib for neovim
     use { "nvim-lua/plenary.nvim" }
 
-    -- Base library for my colorscheme {{{
+    -- Tool that I use for my colorscheme
     use { "amirrezaask/palette.nvim" }
-    use { "amirrezaask/base16.nvim" }
-    use { "eemed/sitruuna.vim" }
-    -- }}}
 
     -- Statusline
     use {
