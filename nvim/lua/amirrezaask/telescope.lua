@@ -141,7 +141,7 @@ function M.projects(path)
   pickers.new(dropdown(), {
     previewer = false,
     finder = finders.new_table {
-      results = repos.list_projects { path or "~/src/" },
+      results = repos.list_projects { path or "~/src/repos/Personal" },
     },
     sorter = conf.generic_sorter(),
     attach_mappings = function(prompt_bufnr, map)
@@ -158,7 +158,7 @@ function M.projects(path)
 end
 
 function M.snapp()
-  M.projects "~/src/gitlab.snapp.ir"
+  M.projects "~/src/repos/Snapp"
 end
 
 function M.installed_plugins()
@@ -171,7 +171,7 @@ end
 function M.edit_configs()
   require("telescope.builtin").find_files(current_theme {
     prompt_title = "> Edit Configs <",
-    cwd = "~/src/github.com/amirrezaask/dotfiles",
+    cwd = "~/src/repos/Personal/dotfiles",
   })
 end
 
