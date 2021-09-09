@@ -11,7 +11,6 @@ vim.colorscheme "gruvbuddy"
 -- vim.colorscheme "dracula"
 
 -- Fuzzy finder
--- vim.g.fuzzy_finder = "fzf"
 vim.g.fuzzy_finder = "telescope"
 
 -- Load plugins and configuration

@@ -57,16 +57,6 @@ local function rename()
   vim.lsp.buf.rename(vim.fn.input(string.format("Rename %s to > ", current_word)))
 end
 
-local fuzzy_finder_on_attach
-
-if vim.g.fuzzy_finder == "fzf" then
-  require("fzf_lsp").setup()
-end
-
-if has_telescope and vim.g.fuzzy_finder == "telescope" then
-  fuzzy_finder_on_attach = telescope.on_attach
-end
-
 local support_formatting = { "rust" }
 
 local function make_on_attach(base)
@@ -115,13 +105,13 @@ local function make_on_attach(base)
     end
   end
 end
-local on_attach = make_on_attach(fuzzy_finder_on_attach)
+local on_attach = make_on_attach(require("amirrezaask.telescope").on_attach)
 
 lspconfig.gopls.setup {
   on_attach = on_attach,
 }
 lspconfig.rust_analyzer.setup {
-  cmd = {"rustup", "run", "nightly", "rust-analyzer"},
+  cmd = { "rustup", "run", "nightly", "rust-analyzer" },
   on_attach = function(client)
     on_attach(client)
     require("lsp_extensions").inlay_hints {}

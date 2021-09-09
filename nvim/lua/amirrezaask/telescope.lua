@@ -1,8 +1,4 @@
 local has_telescope, _ = pcall(require, "telescope")
-if not has_telescope or (vim.g.fuzzy_finder ~= "telescope") then
-  return
-end
-
 local actions = require "telescope.actions"
 local action_state = require "telescope.actions.state"
 local finders = require "telescope.finders"

@@ -58,15 +58,54 @@ require("packer").startup {
     use { "amirrezaask/palette.nvim" }
     use { "amirrezaask/base16.nvim" }
     use { "eemed/sitruuna.vim" }
-    use { "gosukiwi/vim-atom-dark" }
-    use { "dracula/vim" }
-    use { "overcache/NeoSolarized" }
-    use { "sonph/onehalf" }
-    use { "chriskempson/base16-vim" }
     -- }}}
 
     -- Statusline
-    use { "amirrezaask/nline.nvim" }
+    use {
+      "amirrezaask/nline.nvim",
+      config = function()
+        local nline = require "nline"
+
+        local vim = require "nline.parts.vim"
+        local git = require "nline.parts.git"
+        local lsp = require "nline.parts.lsp"
+        local icons = require "nline.parts.icons"
+        local wrappers = require "nline.wrappers"
+        nline.make {
+          vim.mode {
+            texts = {
+              normal = "Normal",
+              visual = "Visual",
+              visual_block = "VisualBlock",
+              insert = "Insert",
+              insert_complete = "IComplete",
+              command = "Command",
+              terminal = "Terminal",
+            },
+          },
+          vim.space(),
+          icons.git_branch,
+          vim.space(),
+          git.branch(),
+
+          vim.seperator(),
+
+          icons.file,
+          vim.space(),
+          vim.filename { shorten = true },
+          vim.modified(),
+
+          vim.seperator(),
+
+          -- wrappers.square_brackets(lsp.current_function()),
+          wrappers.square_brackets(git.changes()),
+          wrappers.square_brackets(lsp.diagnostics()),
+          -- lsp.progress(),
+          wrappers.square_brackets(vim.line() .. vim.space() .. vim.colon() .. vim.col()),
+          vim.filetype(),
+        }
+      end,
+    }
 
     -- Telescope.nvim {{{
     use { "nvim-lua/popup.nvim" }
@@ -83,9 +122,27 @@ require("packer").startup {
     use { "tpope/vim-jdaddy", ft = "json" }
     use { "elzr/vim-json" }
 
-    -- Git Integration {{{
-    use { "lewis6991/gitsigns.nvim" }
-    -- }}}
+    -- Git changed signs and also git blame
+    use {
+      "lewis6991/gitsigns.nvim",
+      config = function()
+        require("gitsigns").setup {
+          signs = {
+            add = { text = "|", numhl = "GitSignsAddNr" },
+            change = { text = "|", numhl = "GitSignsChangeNr" },
+            delete = { text = "_", numhl = "GitSignsDeleteNr" },
+            topdelete = { text = "‾", numhl = "GitSignsDeleteNr" },
+            changedelete = { text = "~-", numhl = "GitSignsChangeNr" },
+          },
+          numhl = false,
+          current_line_blame = false,
+          current_line_blame_opts = {
+            delay = 800,
+            virt_text_pos = "eol",
+          },
+        }
+      end,
+    }
 
     -- Comment codes at ease
     use { "tpope/vim-commentary" }
@@ -101,10 +158,25 @@ require("packer").startup {
     use {
       "norcalli/nvim-colorizer.lua",
       branch = "color-editor",
+      config = function()
+        function ColorPicker()
+          _PICKER_ASHKAN_KIANI_COPYRIGHT_2020_LONG_NAME_HERE_ = nil
+          require("colorizer").color_picker_on_cursor()
+        end
+        vim.autocmd {
+          "BufEnter",
+          "*",
+          "ColorizerAttachToBuffer",
+        }
+
+        vim.command("ColorPicker", ColorPicker, nil, "Opens the color picker on the color code under cursor")
+      end,
     }
 
     -- File Explorer
-    use { "tamago324/lir.nvim" }
+    use {
+      "tamago324/lir.nvim",
+    }
 
     -- Languages {{{
     use { "honza/dockerfile.vim" }
@@ -132,7 +204,6 @@ require("packer").startup {
     use "hrsh7th/cmp-nvim-lua"
     use "hrsh7th/cmp-nvim-lsp"
     use "hrsh7th/cmp-path"
-    use "hrsh7th/cmp-nvim-lua"
     -- }}}
 
     -- Rust {{{
@@ -160,13 +231,19 @@ require("packer").startup {
     end
 
     -- Highlight todo and etc...
-    use { "folke/todo-comments.nvim", requires = "nvim-lua/plenary.nvim" }
+    use {
+      "folke/todo-comments.nvim",
+      requires = "nvim-lua/plenary.nvim",
+      config = function()
+        require("todo-comments").setup {}
+        vim.map {
+          ["<M-e>"] = ":TodoTelescope<CR>",
+        }
+      end,
+    }
 
     -- beautify text :)
     use { "godlygeek/tabular" }
-
-    -- File tree ( added for @mnim220 )
-    use { "kyazdani42/nvim-tree.lua" }
 
     -- Nvim Lua dev & docs {{{
     use { "tjdevries/nlua.nvim" }
@@ -178,14 +255,19 @@ require("packer").startup {
     use "tpope/vim-scriptease"
 
     -- better inc/dec
-    use { "monaqa/dial.nvim" }
-
-    -- FZF
-    if vim.g.fuzzy_finder == "fzf" then
-      use { "junegunn/fzf" }
-      use { "junegunn/fzf.vim" }
-      use "gfanto/fzf-lsp.nvim"
-    end
+    use {
+      "monaqa/dial.nvim",
+      config = function()
+        vim.cmd [[
+          nmap <C-a> <Plug>(dial-increment)
+          nmap <C-x> <Plug>(dial-decrement)
+          vmap <C-a> <Plug>(dial-increment)
+          vmap <C-x> <Plug>(dial-decrement)
+          vmap g<C-a> <Plug>(dial-increment-additional)
+          vmap g<C-x> <Plug>(dial-decrement-additional)
+          ]]
+      end,
+    }
 
     use {
       "antoinemadec/FixCursorHold.nvim",
