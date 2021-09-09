@@ -24,7 +24,7 @@ if not pcall(require, "packer") then
   print "( You'll need to restart now )"
 end
 
-local personal_plugins_path = os.getenv "HOME" .. "/src/github.com/"
+local personal_plugins_path = os.getenv "HOME" .. "/src/repos/personal/plugins/"
 
 require("packer").startup {
   function(_use)
@@ -36,11 +36,12 @@ require("packer").startup {
       else
         path = opts[1]
       end
-      if vim.fn.isdirectory(base .. path) ~= 0 then
+      name = vim.split(path, "/")[2]
+      if vim.fn.isdirectory(base .. name) ~= 0 then
         if type(opts) == "table" then
-          opts[1] = base .. path
+          opts[1] = base ..name 
         elseif type(opts) == "string" then
-          opts = { base .. path }
+          opts = { base .. name }
         end
         _use(opts)
       else
