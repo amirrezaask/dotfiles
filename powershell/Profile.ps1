@@ -8,6 +8,7 @@ Import-Module -Name posh-git
 Import-Module -Name oh-my-posh
 Import-Module -Name PSReadLine
 Import-Module -Name Terminal-Icons
+Import-Module -Name z
 
 # Set Prompt
 Set-PoshPrompt marcduiker
