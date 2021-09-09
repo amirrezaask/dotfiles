@@ -10,7 +10,7 @@ Import-Module -Name PSReadLine
 Import-Module -Name Terminal-Icons
 
 # Set Prompt
-Set-PoshPrompt iterm2 
+Set-PoshPrompt marcduiker
 
 Set-PSReadLineOption -PredictionSource History
 Set-PSReadLineOption -PredictionViewStyle ListView

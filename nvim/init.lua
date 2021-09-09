@@ -4,6 +4,7 @@ require "nvim"
 
 vim.g.mapleader = " "
 
+vim.g.transparent = true
 -- Theme
 vim.colorscheme "gruvbuddy"
 -- vim.colorscheme "sitruuna"
