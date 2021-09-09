@@ -12,6 +12,10 @@ Import-Module -Name Terminal-Icons
 # Set Prompt
 Set-PoshPrompt iterm2 
 
+Set-PSReadLineOption -PredictionSource History
+Set-PSReadLineOption -PredictionViewStyle ListView
+Set-PSReadLineOption -EditMode Emacs
+
 $VARS = "$HOME/src/repos/Personal/dotfiles/powershell/Variables.ps1"
 . $VARS
 
