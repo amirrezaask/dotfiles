@@ -36,7 +36,7 @@ require("packer").startup {
       else
         path = opts[1]
       end
-      name = vim.split(path, "/")[2]
+      local name = vim.split(path, "/")[2]
       if vim.fn.isdirectory(base .. name) ~= 0 then
         if type(opts) == "table" then
           opts[1] = base .. name
@@ -99,7 +99,7 @@ require("packer").startup {
 
           vim.seperator(),
 
-          -- wrappers.square_brackets(lsp.current_function()),
+          wrappers.square_brackets(lsp.current_function()),
           wrappers.square_brackets(git.changes()),
           wrappers.square_brackets(lsp.diagnostics()),
           -- lsp.progress(),
@@ -153,7 +153,6 @@ require("packer").startup {
     use { "neovim/nvim-lspconfig" }
     use { "nvim-lua/lsp_extensions.nvim" }
     use { "onsails/lspkind-nvim" }
-    use { "nvim-lua/lsp-status.nvim" }
     -- }}}
 
     -- Highlight colors
@@ -165,13 +164,8 @@ require("packer").startup {
           _PICKER_ASHKAN_KIANI_COPYRIGHT_2020_LONG_NAME_HERE_ = nil
           require("colorizer").color_picker_on_cursor()
         end
-        vim.autocmd {
-          "BufEnter",
-          "*",
-          "ColorizerAttachToBuffer",
-        }
+        vim.cmd [[ autocmd BufEnter * ColorizerAttachToBuffer ]]
         vim.cmd [[ command! ColorPicker lua ColorPicker ]]
-        -- vim.command("ColorPicker", ColorPicker, nil, "Opens the color picker on the color code under cursor")
       end,
     }
 

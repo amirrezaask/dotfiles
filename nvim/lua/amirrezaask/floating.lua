@@ -75,13 +75,9 @@ function floating:new(opts)
     border = "none",
     style = "minimal",
   })
-  vim.autocmd {
-    "BufEnter",
-    string.format("<buffer=%s>", border_buf),
-    function()
-      vim.api.nvim_set_current_win(win)
-    end,
-  }
+
+  vim.cmd(string.format([[ autocmd BufEnter <buffer=%s> call nvim_set_current_win(%s)]], border_buf, win))
+
   vim.autocmd {
     "BufLeave",
     string.format("<buffer=%s>", buf),

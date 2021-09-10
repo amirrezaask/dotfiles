@@ -16,32 +16,7 @@ if has_lspkind then
   lspkind.init()
 end
 
-local has_telescope, telescope = pcall(require, "amirrezaask.telescope")
-
 local M = {}
-
-local has_lspstatus, lspstatus = pcall(require, "lsp-status")
-if has_lspstatus then
-  lspstatus.register_progress()
-  lspstatus.config {
-    indicator_errors = "😡",
-    indicator_warnings = "😳",
-    indicator_info = "🛈",
-    indicator_hint = "😅",
-    indicator_ok = "",
-    status_symbol = "",
-    kind_labels = {
-      Class = "C:",
-      Function = "F:",
-      Method = "M:",
-      Struct = "S:",
-      Enum = "E:",
-      Interface = "I:",
-      Namespace = "N:",
-      Module = "M:",
-    },
-  }
-end
 
 local function get_root(...)
   return lspconfig_util.root_pattern(...)(vim.api.nvim_buf_get_name(vim.api.nvim_get_current_buf()))
@@ -61,9 +36,6 @@ local support_formatting = { "rust" }
 
 local function make_on_attach(base)
   return function(client)
-    if has_lspstatus and client then
-      lspstatus.on_attach(client)
-    end
     vim.imap {
       ["<c-s>"] = { vim.lsp.buf.signature_help, "" },
       ["<c-d>"] = { vim.lsp.diagnostic.show_line_diagnostics, "" },
