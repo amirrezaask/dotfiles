@@ -33,6 +33,7 @@ vim.opt.updatetime = 100
 vim.opt.wildmode = { "longest", "list", "full" }
 vim.opt.wildmode = vim.opt.wildmode - "list"
 vim.opt.wildmode = vim.opt.wildmode + { "longest", "full" }
+vim.opt.colorcolumn = "80"
 
 if vim.fn.executable "rg" == 1 then
   vim.opt.grepprg = "rg --vimgrep --no-heading"

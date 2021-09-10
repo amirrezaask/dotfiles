@@ -39,7 +39,7 @@ require("packer").startup {
       name = vim.split(path, "/")[2]
       if vim.fn.isdirectory(base .. name) ~= 0 then
         if type(opts) == "table" then
-          opts[1] = base ..name 
+          opts[1] = base .. name
         elseif type(opts) == "string" then
           opts = { base .. name }
         end
@@ -57,6 +57,10 @@ require("packer").startup {
 
     -- Tool that I use for my colorscheme
     use { "amirrezaask/palette.nvim" }
+
+    use { "amirrezaask/base16.nvim" }
+
+    use { "chriskempson/base16-vim" }
 
     -- Statusline
     use {
@@ -166,8 +170,8 @@ require("packer").startup {
           "*",
           "ColorizerAttachToBuffer",
         }
-
-        vim.command("ColorPicker", ColorPicker, nil, "Opens the color picker on the color code under cursor")
+        vim.cmd [[ command! ColorPicker lua ColorPicker ]]
+        -- vim.command("ColorPicker", ColorPicker, nil, "Opens the color picker on the color code under cursor")
       end,
     }
 
