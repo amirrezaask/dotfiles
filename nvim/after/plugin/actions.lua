@@ -105,10 +105,4 @@ actions:setup {
   },
 }
 
-vim.autocmd {
-  "BufWritePre",
-  "*",
-  function()
-    Actions:exec(0, "format")
-  end,
-}
+vim.cmd [[ autocmd BufWritePre * lua Actions:exec(0, 'format') ]]

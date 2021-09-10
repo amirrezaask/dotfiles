@@ -58,8 +58,6 @@ require("packer").startup {
     -- Tool that I use for my colorscheme
     use { "amirrezaask/palette.nvim" }
 
-    use { "amirrezaask/base16.nvim" }
-
     use { "chriskempson/base16-vim" }
 
     -- Statusline
@@ -153,6 +151,7 @@ require("packer").startup {
     use { "neovim/nvim-lspconfig" }
     use { "nvim-lua/lsp_extensions.nvim" }
     use { "onsails/lspkind-nvim" }
+    use { "nvim-lua/lsp-status.nvim" }
     -- }}}
 
     -- Highlight colors

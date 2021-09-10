@@ -1,19 +1,3 @@
--- Set completeopt to have a better completion experience
--- vim.opt.completeopt = { "menuone", "noselect" }
-
--- -- Avoid showing message extra message when using completion
--- vim.opt.shortmess:append "c"
-
--- vim.imap {
---   ["<expr> <S-Tab>"] = [[ pumvisible() ? "\<C-p>" : "\<S-Tab>"]],
---   ["<expr> <Tab>"] = [[ pumvisible() ? "\<C-n>" : "\<Tab>" ]],
---   ["<expr> <C-Space>"] = "compe#complete()",
---   ["<expr> <CR>"] = "compe#confirm()",
---   ["<expr> <C-e>"] = "compe#close('<C-e>')",
---   ["<expr> <C-f>"] = "compe#scroll( {'delta': +4} )",
---   ["<expr> <C-d>"] = "compe#scroll( {'delta': -4} )",
--- }
-
 local has_cmp, cmp = pcall(require, "cmp")
 if not has_cmp then
   return

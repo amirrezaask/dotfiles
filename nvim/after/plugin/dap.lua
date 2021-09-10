@@ -30,21 +30,19 @@ dap.configurations.go = {
 }
 
 -- Commands
-vim.c("DapToggleBreakpoint", require("dap").toggle_breakpoint)
-vim.c("DapReplOpen", require("dap").repl.open)
-vim.c("DapContinue", require("dap").continue)
-vim.c("DapStepInto", require("dap").step_into)
-vim.c("DapStepOver", require("dap").step_over)
-vim.c("DapStepOut", require("dap").step_out)
-vim.c("DapHover", require("dap.ui.variables").hover)
+vim.cmd [[ command! DapToggleBreakpoint" lua require("dap").toggle_breakpoint) ]]
+vim.cmd [[ command! DapReplOpen lua  require("dap").repl.open) ]]
+vim.cmd [[ command! DapContinue lua  require("dap").continue) ]]
+vim.cmd [[ command! DapStepInto lua  require("dap").step_into) ]]
+vim.cmd [[ command! DapStepOver lua  require("dap").step_over) ]]
+vim.cmd [[ command! DapStepOut lua require("dap").step_out) ]]
+vim.cmd [[ command! DapHover lua require("dap.ui.variables").hover) ]]
 
 -- Mappings
-vim.map {
-  ["<F3>"] = require("dap").toggle_breakpoint,
-  ["<F4>"] = require("dap").repl.open,
-  ["<F5>"] = require("dap").continue,
-  ["<F7>"] = require("dap").step_into,
-  ["<F8>"] = require("dap").step_over,
-  ["<F9>"] = require("dap").step_out,
-  ["<F10>"] = require("dap.ui.variables").hover,
-}
+vim.cmd [[ map <F3> lua require("dap").toggle_breakpoint ]]
+vim.cmd [[ map <F4> lua require("dap").repl.open ]]
+vim.cmd [[ map <F5> lua require("dap").continue ]]
+vim.cmd [[ map <F7> lua require("dap").step_into ]]
+vim.cmd [[ map <F8> lua require("dap").step_over ]]
+vim.cmd [[ map <F9> lua require("dap").step_out ]]
+vim.cmd [[ map <F10> lua require("dap.ui.variables").hover ]]
