@@ -54,4 +54,4 @@ nnoremap n nzz
 nnoremap N Nzz
 
 " Thanks to TJ again
-nnoremap <expr> <CR> {-> v:hlsearch ? ":nohl\<CR>" : "\<CR>"}()
+nnoremap <expr><CR> {-> v:hlsearch ? ":nohl\<CR>" : "\<CR>"}()

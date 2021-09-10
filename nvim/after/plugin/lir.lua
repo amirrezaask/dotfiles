@@ -50,10 +50,7 @@ function _G.LirSettings()
   vim.api.nvim_echo({ { vim.fn.expand "%:p", "Normal" } }, false, {})
 end
 
-vim.augroup {
-  lir_settings = {
-    "Filetype",
-    "lir",
-    ":lua LirSettings()",
-  },
-}
+vim.cmd [[ augroup LirSettings ]]
+vim.cmd [[ autocmd! ]]
+vim.cmd [[ autocmd FileType lir :lua LirSettings() ]]
+vim.cmd [[ augroup END ]]
