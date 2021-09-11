@@ -57,11 +57,7 @@ local function make_on_attach(base)
     }
     local filetype = vim.api.nvim_buf_get_option(0, "filetype")
     if vim.tbl_contains(support_formatting, filetype) then
-      vim.autocmd {
-        "BufWritePre",
-        "<buffer>",
-        vim.lsp.buf.formatting_sync,
-      }
+      vim.cmd [[ autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync() ]]
     end
     if client.resolved_capabilities.document_highlight then
       vim.cmd [[
