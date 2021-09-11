@@ -30,7 +30,7 @@ dap.configurations.go = {
 }
 
 -- Commands
-vim.cmd [[ command! DapToggleBreakpoint" lua require("dap").toggle_breakpoint) ]]
+vim.cmd [[ command! DapToggleBreakpoint lua require("dap").toggle_breakpoint) ]]
 vim.cmd [[ command! DapReplOpen lua  require("dap").repl.open) ]]
 vim.cmd [[ command! DapContinue lua  require("dap").continue) ]]
 vim.cmd [[ command! DapStepInto lua  require("dap").step_into) ]]
