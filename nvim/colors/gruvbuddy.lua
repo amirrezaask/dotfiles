@@ -62,7 +62,7 @@ hl { "TabLine", bg = colors.line_nr, fg = colors.blue1 }
 hl { "TabLineFill", bg = colors.grey1, fg = colors.white_yellow }
 hl { "TabLineSel", bg = colors.line_nr, fg = colors.white1 }
 hl { "qfFileName", fg = colors.yellow2 }
-hl { "ColorColumn", bg = colors.grey3 }
+hl { "ColorColumn", link = "CursorLine" }
 
 hl { "Special", fg = colors.purple1, styles = { styles.italic } }
 
