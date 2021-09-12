@@ -61,6 +61,8 @@ require("packer").startup {
     -- My fork from emmad/sitruuna.vim
     use { "amirrezaask/sitruuna.vim" }
 
+    use { "gruvbox-community/gruvbox" }
+
     -- Statusline
     use {
       "amirrezaask/nline.nvim",
