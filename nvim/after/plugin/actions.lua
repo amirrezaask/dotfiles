@@ -50,6 +50,14 @@ actions:setup {
     },
   },
   {
+    predicate = utils.make_language_predicate "rust",
+    actions = {
+      run = function(_)
+        vim.cmd [[ vnew | term cargo run ]]
+      end,
+    },
+  },
+  {
     predicate = utils.make_path_predicate "gitlab.snapp.ir",
     actions = {
       -- format = function() end,
