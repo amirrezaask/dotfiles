@@ -64,10 +64,10 @@ require("packer").startup {
     use { "gruvbox-community/gruvbox" }
 
     -- Statusline
-    use {
-      "amirrezaask/nline.nvim",
-    }
-
+    -- use {
+    --   "amirrezaask/nline.nvim",
+    -- }
+    use { "itchyny/lightline.vim" }
     -- Telescope.nvim {{{
     use { "nvim-lua/popup.nvim" }
     use { "nvim-telescope/telescope.nvim" }

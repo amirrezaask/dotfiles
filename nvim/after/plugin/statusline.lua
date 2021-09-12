@@ -1,4 +1,7 @@
-local nline = require "nline"
+local has_nline, nline = pcall(require, "nline")
+if not has_nline then
+  return
+end
 
 local vim = require "nline.parts.vim"
 local git = require "nline.parts.git"
@@ -54,4 +57,4 @@ local me = {
   wrappers.square_brackets(vim.line() .. vim.space() .. vim.colon() .. vim.col()),
   vim.filetype(),
 }
-nline.make(me)
+-- nline.make(me)
