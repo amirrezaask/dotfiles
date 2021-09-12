@@ -7,7 +7,8 @@ set -x GOROOT '/usr/local/go'
 set -x GOPRIVATE 'gitlab.snapp.ir'
 set -x PLAN9 "$HOME/.local/plan9"
 set -x ZIGPATH "/usr/local/zig"
-set -x PATH "$ZIGPATH:/usr/local/go/bin:$HOME/.config/composer/vendor/bin:$GOROOT/bin:$GOPATH/bin:$HOME/.cargo/bin:$PYTHONBINS:/usr/local/Postman:$HOME/.local/elixir-ls/:$PATH"
+set -x RUSTUP "$HOME/.rustup/toolchains/nightly-x86_64-unknown-linux-gnu/bin"
+set -x PATH "$RUSTUP:$ZIGPATH:/usr/local/go/bin:$HOME/.config/composer/vendor/bin:$GOROOT/bin:$GOPATH/bin:$HOME/.cargo/bin:$PYTHONBINS:/usr/local/Postman:$HOME/.local/elixir-ls/:$PATH"
 set -x DOTFILES "~/src/repos/personal/dotfiles/"
 
 alias open='xdg-open'
