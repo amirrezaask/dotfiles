@@ -22,7 +22,7 @@ require "nvim"
 vim.g.mapleader = " "
 
 -- Set the colorscheme
-vim.colorscheme "sitruuna"
+vim.colorscheme "gruvbuddy"
 
 -- Load plugins
 require "plugins"

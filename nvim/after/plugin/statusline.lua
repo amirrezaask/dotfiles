@@ -5,7 +5,8 @@ local git = require "nline.parts.git"
 local lsp = require "nline.parts.lsp"
 local icons = require "nline.parts.icons"
 local wrappers = require "nline.wrappers"
-nline.make {
+
+local tj = {
   vim.mode {
     texts = {
       normal = "Normal",
@@ -38,3 +39,19 @@ nline.make {
   wrappers.square_brackets(vim.line() .. vim.space() .. vim.colon() .. vim.col()),
   vim.filetype(),
 }
+
+local me = {
+  vim.modified(),
+  vim.filename { shorten = true } { hl = "NormalMode" },
+
+  vim.seperator(),
+
+  wrappers.square_brackets(git.branch()),
+  wrappers.square_brackets(lsp.current_function()),
+  wrappers.square_brackets(git.changes()),
+  wrappers.square_brackets(lsp.diagnostics()),
+  -- lsp.progress(),
+  wrappers.square_brackets(vim.line() .. vim.space() .. vim.colon() .. vim.col()),
+  vim.filetype(),
+}
+nline.make(me)
