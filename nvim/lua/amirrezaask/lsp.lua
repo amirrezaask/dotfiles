@@ -36,6 +36,9 @@ local support_formatting = { "rust" }
 
 local function make_on_attach(base)
   return function(client)
+    if base then
+      base()
+    end
     vim.imap {
       ["<c-s>"] = { vim.lsp.buf.signature_help, "" },
       ["<c-d>"] = { vim.lsp.diagnostic.show_line_diagnostics, "" },
