@@ -24,7 +24,7 @@ if not pcall(require, "packer") then
   print "( You'll need to restart now )"
 end
 
-local personal_plugins_path = os.getenv "HOME" .. "/src/repos/personal/plugins/"
+local personal_plugins_path = os.getenv "HOME" .. "/src/github.com/amirrezaask/"
 
 require("packer").startup {
   function(_use)

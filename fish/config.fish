@@ -1,6 +1,6 @@
 source ~/env.fish
 set -x GO111MODULE 'on'
-set -x GOPATH "$HOME/go"
+set -x GOPATH "$HOME"
 set -x PYTHONBINS "$HOME/.local/bin"
 set -x EDITOR 'nvim'
 set -x GOROOT '/usr/local/go'
@@ -9,15 +9,14 @@ set -x PLAN9 "$HOME/.local/plan9"
 set -x ZIGPATH "/usr/local/zig"
 set -x RUSTUP "$HOME/.rustup/toolchains/nightly-x86_64-unknown-linux-gnu/bin"
 set -x PATH "$RUSTUP:$ZIGPATH:/usr/local/go/bin:$HOME/.config/composer/vendor/bin:$GOROOT/bin:$GOPATH/bin:$HOME/.cargo/bin:$PYTHONBINS:/usr/local/Postman:$HOME/.local/elixir-ls/:$PATH"
-set -x DOTFILES "~/src/repos/personal/dotfiles/"
-
 alias open='xdg-open'
 alias gs='git status'
 alias gpsup='gp --set-upstream origin (git_current_branch)'
 alias kcl='kubectl'
+alias oss='cd ~/src/github.com/amirrezaask'
+set -x DOTFILES "~/src/github.com/amirrezaask/dotfiles"
 alias dots="cd $DOTFILES"
-alias oss='cd ~/src/repos/personal/'
-alias snapp='cd ~/src/repos/snapp/'
+alias snapp='cd ~/src/gitlab.snapp.ir'
 function freenet
     echo $VPN_PASSWORD | sudo openconnect --no-dtls --passwd-on-stdin --user $VPN_USERNAME $VPN_SERVER
 end
