@@ -50,5 +50,10 @@ then
     curl -fsSL 'https://starship.rs/install.sh'
 end
 
+# Greeting message from fish
+function fish_greeting
+    welcome
+end
+
 starship init fish | source
 
