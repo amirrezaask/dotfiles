@@ -55,6 +55,12 @@ actions:setup {
       run = function(_)
         vim.cmd [[ vnew | term cargo run ]]
       end,
+      build = function(_)
+        vim.cmd [[ vnew | term cargo check ]]
+      end,
+      test_all = function(_)
+        vim.cmd [[ vnew | term cargo test ]]
+      end,
     },
   },
   {
