@@ -17,7 +17,7 @@ Set-PSReadLineOption -PredictionSource History
 Set-PSReadLineOption -PredictionViewStyle ListView
 Set-PSReadLineOption -EditMode Emacs
 
-$VARS = "$HOME/src/repos/Personal/dotfiles/powershell/Variables.ps1"
+$VARS = "$HOME/src/github.com/amirrezaask/dotfiles/powershell/Variables.ps1"
 . $VARS
 
 . $HOME/env.ps1
