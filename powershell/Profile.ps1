@@ -11,7 +11,7 @@ Import-Module -Name Terminal-Icons
 Import-Module -Name z
 
 # Set Prompt
-Set-PoshPrompt marcduiker
+Set-PoshPrompt -Theme ~/src/github.com/amirrezaask/dotfiles/powershell/amirreza.omp.json
 
 Set-PSReadLineOption -PredictionSource History
 Set-PSReadLineOption -PredictionViewStyle ListView
@@ -41,6 +41,4 @@ function freenet {
 
 function gs { git status }
 
-if ($IsLinux) {
-    Set-Alias -Name ls -Value Get-ChildItem
-}
+#TODO: maybe write a function to be alias for ls and if there were no arguments and flags run Get-ChileItem and if there was run /bin/ls
