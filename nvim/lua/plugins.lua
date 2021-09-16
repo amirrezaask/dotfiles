@@ -61,7 +61,9 @@ require("packer").startup {
     -- My fork from emmad/sitruuna.vim
     use { "amirrezaask/sitruuna.vim" }
 
+    -- Colorschemes
     use { "gruvbox-community/gruvbox" }
+    use { "overcache/NeoSolarized" }
 
     use { "Shatur/neovim-ayu" }
     -- Statusline
