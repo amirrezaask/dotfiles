@@ -22,8 +22,7 @@ require "nvim"
 vim.g.mapleader = " "
 
 -- Set the colorscheme
-vim.g.gruvbox_contrast_dark = "hard"
-vim.colorscheme "gruvbox"
+vim.colorscheme "gruvbuddy"
 
 -- Load plugins
 require "plugins"
