@@ -6,7 +6,6 @@ local pickers = require "telescope.pickers"
 local conf = require("telescope.config").values
 local repos = require "amirrezaask.repos"
 local telescope = require "telescope"
-local wallpaper = require "amirrezaask.wallpaper"
 local ivy = require("telescope.themes").get_ivy
 local dropdown = require("telescope.themes").get_dropdown
 local notheme = function(opts)
@@ -391,7 +390,6 @@ vim.nmap {
   [",z"] = M.edit_zsh,
   [",a"] = M.edit_awesome,
   ["<leader>fs"] = M.find_src,
-  [",w"] = wallpaper.set_wallpaper,
   ["<leader>c"] = wrap(require("telescope.builtin").commands),
   ["<leader>fr"] = wrap(require("telescope.builtin").oldfiles),
   ["<leader>h"] = wrap(require("telescope.builtin").help_tags),

@@ -10,7 +10,7 @@ local wrappers = require "nline.wrappers"
 
 local me = {
   vim.modified(),
-  vim.filename { shorten = true } { hl = "NormalMode" },
+  vim.filename { shorten = false } { hl = "NormalMode" },
 
   vim.seperator(),
 
