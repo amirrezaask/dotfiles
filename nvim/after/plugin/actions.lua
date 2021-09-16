@@ -4,7 +4,6 @@ if not has_actions then
   return
 end
 
-local floating = require "amirrezaask.floating"
 local lsp = require "amirrezaask.lsp"
 local utils = require "actions.utils"
 
@@ -76,22 +75,10 @@ actions:setup {
         require("amirrezaask.go").format(bufnr)
       end,
       build = function(_)
-        floating:command(
-          "go build",
-          floating_window_opts {
-            cwd = lsp.go_root(),
-          }
-        )
+        vim.cmd [[ vnew | term go build ]]
       end,
       test_all = function(_)
-        floating:command(
-          "go test -v ./...",
-          floating_window_opts {
-            jobstart = {
-              cwd = lsp.go_root(),
-            },
-          }
-        )
+        vim.cmd [[ vnew | term go test -v ./... ]]
       end,
       test_this = function(_)
         local function go_current_test()
@@ -106,14 +93,7 @@ actions:setup {
           return test_name
         end
         local current_test = go_current_test()
-        floating:command(
-          ("go test -v -run %s"):format(current_test),
-          floating_window_opts {
-            jobstart = {
-              cwd = lsp.go_root(),
-            },
-          }
-        )
+        vim.cmd(string.format([[ vnew | term go test -v -run %s ]], current_test))
       end,
     },
   },
