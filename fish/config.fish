@@ -49,10 +49,23 @@ then
     curl -fsSL 'https://starship.rs/install.sh'
 end
 
+set -x PROMPT_ENGINE "oh-my-posh" # Also starship, none available
+
+# install oh-my-posh
+if not command -v oh-my-posh &> /dev/null
+then
+    sudo wget https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/posh-linux-amd64 -O /usr/local/bin/oh-my-posh
+    sudo chmod +x /usr/local/bin/oh-my-posh
+end
+
 # Greeting message from fish
 function fish_greeting
     welcome
 end
+if $PROMPT_ENGINE == "starship"
+    starship init fish | source
+end
 
-starship init fish | source
-
+if $PROMPT_ENGINE == "oh-my-posh"
+    oh-my-posh --init --shell fish --config ~/src/github.com/amirrezaask/dotfiles/powershell/amirreza.omp.json | source
+end
