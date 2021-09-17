@@ -60,7 +60,7 @@ end
 
 # Greeting message from fish
 function fish_greeting
-    welcome
+    # welcome
 end
 if $PROMPT_ENGINE == "starship"
     starship init fish | source
