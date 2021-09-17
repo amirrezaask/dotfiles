@@ -3,7 +3,7 @@ local styles = require("palette").styles
 
 vim.g.colors_name = "gruvbuddy"
 
--- Took and changed from https://github.com/tjdevries/gruvbuddy.nvim
+-- Fork of https://github.com/tjdevries/gruvbuddy.nvim
 local colors = {
   pure_black = "#000000",
   background = "#282c34",
@@ -39,13 +39,13 @@ local colors = {
 }
 
 if vim.g.transparent == nil then
-  hl { "Normal", bg = colors.background, fg = colors.white }
+  hl { "Normal", bg = "None", fg = colors.white }
 else
   hl { "Normal", bg = nil }
 end
 hl { "InvNormal", bg = colors.white, fg = colors.background }
 hl { "NormalFloat", bg = colors.black, fg = colors.white1 }
-hl { "LineNr", bg = colors.line_nr, fg = colors.grey1 }
+hl { "LineNr", bg = "None", fg = colors.grey1 }
 hl { "EndOfBuffer", fg = colors.grey1 }
 hl { "SignColumn", bg = colors.line_nr, fg = colors.grey1 }
 hl { "Visual", bg = colors.blue3 }
