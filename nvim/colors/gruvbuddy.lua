@@ -39,7 +39,7 @@ local colors = {
 }
 
 if vim.g.transparent == nil then
-  hl { "Normal", bg = "None", fg = colors.white }
+  hl { "Normal", bg = colors.background, fg = colors.white }
 else
   hl { "Normal", bg = nil }
 end

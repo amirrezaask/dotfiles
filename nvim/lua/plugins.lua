@@ -64,6 +64,7 @@ require("packer").startup {
     -- Colorschemes
     use { "gruvbox-community/gruvbox" }
     use { "overcache/NeoSolarized" }
+    use { "shaunsingh/nord.nvim" }
 
     use { "Shatur/neovim-ayu" }
     -- Statusline
