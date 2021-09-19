@@ -43,8 +43,11 @@ require("packer").startup {
 
     -- Colorschemes
     use { "gruvbox-community/gruvbox" }
-    use { "overcache/NeoSolarized" }
-    use { "shaunsingh/nord.nvim" }
+    use { "bluz71/vim-nightfly-guicolors" }
+    use { "mrkn/mrkn256.vim" }
+    use { "arzg/vim-colors-xcode" }
+    use { "lisposter/vim-blackboard" }
+    use { "haishanh/night-owl.vim" }
 
     use { "Shatur/neovim-ayu" }
     -- Statusline

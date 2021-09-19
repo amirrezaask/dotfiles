@@ -24,8 +24,8 @@ require "nvim"
 -- Map leader to <Space>
 vim.g.mapleader = " "
 
--- Set the colorscheme
-vim.colorscheme "gruvbuddy"
-
 -- Load plugins
 require "plugins"
+
+-- Set the colorscheme
+vim.colorscheme "gruvbuddy"

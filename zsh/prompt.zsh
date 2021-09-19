@@ -1,6 +1,3 @@
-# TODO: Check if starship is set as prompt do these
-
-
 if [ "$PROMPT_ENGINE" = "starship" ]; then
     if ! command -v starship &> /dev/null
     then
@@ -27,6 +24,7 @@ else
     setopt PROMPT_SUBST
 
     PROMPT='%F{46}%~%f$(get_branch) > '
+    PROMPT='%F{#bcbcbc}[$(date "+%H:%M")]%f %F{#005fff}`hostname`%f %F{#d7d700}%~%f %F{#00d700}$(get_branch)%f %F{red}| %f'
 fi
 
 
