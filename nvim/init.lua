@@ -6,6 +6,9 @@
 
 -- A simple note to people reading my configuration stuff
 --
+-- ./lua/plugins.lua
+-- is where all 3rd party plugins are installed using `packer.nvim`
+--
 -- ./lua/amirrezaask/*.lua
 -- is were I put my new plugins or extensions for existing plugins.
 --

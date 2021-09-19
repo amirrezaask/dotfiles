@@ -34,6 +34,21 @@ alias gdoc='godoc -http=:6060'
 alias vim='nvim'
 alias vi='nvim'
 alias v='nvim'
+# FZF stuff
+setenv FZF_DEFAULT_COMMAND 'fd --type file --follow'
+setenv FZF_CTRL_T_COMMAND 'fd --type file --follow'
+setenv FZF_DEFAULT_OPTS '--height 20%'
+
+if command -v exa > /dev/null
+	abbr -a l 'exa'
+	abbr -a ls 'exa'
+	abbr -a ll 'exa -l'
+	abbr -a lll 'exa -la'
+else
+	abbr -a l 'ls'
+	abbr -a ll 'ls -l'
+	abbr -a lll 'ls -la'
+end
 
 function reload
     source ~/.config/fish/config.fish
@@ -41,6 +56,12 @@ end
 
 function snappvpn
     sudo openfortivpn -c ~/snappDC.conf
+end
+
+function fish_greeting
+    if command -v welcome > /dev/null
+        welcome
+    end
 end
 
 set -x PROMPT_ENGINE "none" # Also starship, oh-my-posh, none 
