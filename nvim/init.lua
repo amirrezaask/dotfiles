@@ -28,4 +28,4 @@ vim.g.mapleader = " "
 require "plugins"
 
 -- Set the colorscheme
-vim.colorscheme "sitruuna"
+vim.colorscheme "gruvbuddy"
