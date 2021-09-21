@@ -1,3 +1,7 @@
+if ! exists("g:loaded_telescope")
+    finish
+endif
+
 nnoremap <leader><leader> :lua require"amirrezaask.telescope".wrap(require("telescope.builtin").find_files, { hidden = true })()<CR>
 nnoremap <leader>fb :lua require"amirrezaask.telescope".wrap(require("telescope.builtin").file_browser)()<CR>
 nnoremap <leader>fp :lua require"amirrezaask.telescope".installed_plugins()<CR>

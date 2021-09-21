@@ -55,17 +55,18 @@ require("packer").startup {
       "amirrezaask/nline.nvim",
     }
     -- use { "itchyny/lightline.vim" }
+
     -- Telescope.nvim {{{
-    use { "nvim-lua/popup.nvim" }
-    use { "nvim-telescope/telescope.nvim" }
-    use { "nvim-telescope/telescope-fzy-native.nvim" }
-    use { "nvim-telescope/telescope-dap.nvim" }
-    use { "nvim-telescope/telescope-fzf-native.nvim", run = "make" }
+    -- use { "nvim-lua/popup.nvim" }
+    -- use { "nvim-telescope/telescope.nvim" }
+    -- use { "nvim-telescope/telescope-fzy-native.nvim" }
+    -- use { "nvim-telescope/telescope-dap.nvim" }
+    -- use { "nvim-telescope/telescope-fzf-native.nvim", run = "make" }
     -- }}}
 
-    -- use { "junegunn/fzf" }
-    -- use { "junegunn/fzf.vim" }
-    -- use { "ojroques/nvim-lspfuzzy" }
+    use { "junegunn/fzf" }
+    use { "junegunn/fzf.vim" }
+    use { "ojroques/nvim-lspfuzzy" }
 
     -- Vim Surround text objects
     use { "tpope/vim-surround" }
