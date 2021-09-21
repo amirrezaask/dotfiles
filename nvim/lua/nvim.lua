@@ -43,17 +43,6 @@ local function nvim_autocmd(opts)
   vim.cmd(string.format("autocmd %s %s %s", opts[1], opts[2], get_expression(opts[3])))
 end
 
-local function nvim_highlight(name, guifg, guibg)
-  local t = { "hi", name }
-  if guifg then
-    table.insert(t, string.format("guifg=%s", guifg))
-  end
-  if guibg then
-    table.insert(t, string.format("guibg=%s", guibg))
-  end
-  vim.cmd(table.concat(t, " "))
-end
-
 local function nvim_augroup(tbl)
   for g, _ in pairs(tbl) do
     vim.cmd("augroup " .. g)
@@ -149,13 +138,6 @@ local function nvim_command(name, expr, args, doc)
   end
 end
 
-local o_vim_highlight = vim.highlight
-vim.highlight = setmetatable({}, {
-  __index = o_vim_highlight,
-  __call = function(_, ...)
-    nvim_highlight(...)
-  end,
-})
 vim.autocmd = nvim_autocmd
 vim.augroup = nvim_augroup
 

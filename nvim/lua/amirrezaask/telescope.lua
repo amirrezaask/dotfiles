@@ -1,4 +1,7 @@
 local has_telescope, _ = pcall(require, "telescope")
+if not has_telescope then
+  return
+end
 local actions = require "telescope.actions"
 local action_state = require "telescope.actions.state"
 local finders = require "telescope.finders"
@@ -12,12 +15,6 @@ local notheme = function(opts)
   return opts
 end
 local current_theme = notheme
-
-local function wrap(fn, opts)
-  return function()
-    fn(current_theme(opts))
-  end
-end
 
 telescope.setup {
   defaults = {
@@ -68,6 +65,12 @@ telescope.setup {
 }
 
 local M = {}
+
+function M.wrap(fn, opts)
+  return function()
+    fn(current_theme(opts))
+  end
+end
 
 -- telescope.load_extension('fzy_native')
 telescope.load_extension "dap"
@@ -122,12 +125,6 @@ function M.base16_theme_selector()
       return true
     end,
   }):find()
-end
-
-function M.find_src()
-  require("telescope.builtin").find_files(current_theme {
-    cwd = "~/src",
-  })
 end
 
 function M.buffer_git_files()
@@ -227,7 +224,6 @@ function M.actions(bufnr)
   local telescope_actions = require "telescope.actions"
   local telescope_action_state = require "telescope.actions.state"
   local current_actions = Actions:browser(bufnr)
-  local dropdown = require("telescope.themes").get_dropdown
   pickers.new(dropdown(), {
     prompt_title = "> Actions Browser <",
     finder = finders.new_table {
@@ -254,38 +250,6 @@ function M.actions(bufnr)
   }):find()
 end
 
-function M.commands(pat)
-  if not has_telescope then
-    vim.api.nvim_err_writeln "Install telescope to use this function"
-    return
-  end
-  pickers.new(dropdown(), {
-    prompt_title = "> Command Browser <",
-    finder = finders.new_table {
-      results = vim.fn.getcompletion(pat or "", "command"),
-      entry_maker = function(command)
-        return {
-          value = command,
-          display = command,
-          ordinal = command,
-        }
-      end,
-    },
-    sorter = conf.generic_sorter(),
-    attach_mappings = function(prompt_bufnr, map)
-      local run = function()
-        local command = action_state.get_selected_entry(prompt_bufnr).value
-        actions.close(prompt_bufnr)
-        vim.cmd(command)
-      end
-      map("i", "<CR>", run)
-      map("n", "<CR>", run)
-      return true
-    end,
-  }):find()
-end
-vim.cmd [[command! -nargs=* Command lua require('plugin.telescope').commands(<f-args>) ]]
-
 function M.quickfix()
   if _G.quickfix_state == "open" then
     vim.c.cclose()
@@ -293,114 +257,6 @@ function M.quickfix()
     require("telescope.builtin").quickfix()
   end
 end
-
--- Took from TJ config
-function M.grep_last_search(opts)
-  opts = opts or {}
-
-  -- \<getreg\>\C
-  -- -> Subs out the search things
-  local register = vim.fn.getreg("/"):gsub("\\<", ""):gsub("\\>", ""):gsub("\\C", "")
-
-  opts.shorten_path = true
-  opts.word_match = "-w"
-  opts.search = register
-
-  print("$ " .. register)
-  require("telescope.builtin").grep_string(opts)
-end
-
-function M.telescope_commands()
-  local output = {}
-  for name, fn in pairs(require "telescope.builtin") do
-    table.insert(output, { name, fn })
-  end
-  for name, fn in pairs(require "amirrezaask.telescope") do
-    table.insert(output, { name, fn })
-  end
-  if not has_telescope then
-    vim.api.nvim_err_writeln "Install telescope to use this function"
-    return
-  end
-  pickers.new(dropdown(), {
-    prompt_title = "> Telescope Browser <",
-    finder = finders.new_table {
-      results = output,
-      entry_maker = function(entry)
-        return {
-          value = entry[2],
-          display = entry[1],
-          ordinal = entry[1],
-        }
-      end,
-    },
-    sorter = conf.generic_sorter(),
-    attach_mappings = function(prompt_bufnr, map)
-      local run = function()
-        local command = action_state.get_selected_entry(prompt_bufnr).value
-        actions.close(prompt_bufnr)
-        vim.cmd [[ startinsert ]]
-        command()
-      end
-      map("i", "<CR>", run)
-      map("n", "<CR>", run)
-      return true
-    end,
-  }):find()
-end
-
-function M.on_attach(_)
-  vim.nmap {
-    ["gd"] = { wrap(require("telescope.builtin").lsp_definitions), "Goto defenition", "IDE" },
-    ["gi"] = { wrap(require("telescope.builtin").lsp_implementations), "Goto implementations", "IDE" },
-    ["gr"] = { wrap(require("telescope.builtin").lsp_references), "Goto references", "IDE" },
-    ["?d"] = { wrap(require("telescope.builtin").lsp_document_symbols), "Search through document symbols", "IDE" },
-    ["?w"] = { wrap(require("amirrezaask.telescope").lsp_workspace_symbols), "Search through workspace symbols", "IDE" },
-    ["?c"] = { wrap(require("telescope.builtin").lsp_code_actions), "Show code actions", "IDE" },
-    ["'d"] = { wrap(require("telescope.builtin").lsp_document_diagnostics), "Search through document diagnostic", "IDE" },
-    ["'w"] = {
-      wrap(require("telescope.builtin").lsp_workspace_diagnostics),
-      "Search through workspace diagnostics",
-      "IDE",
-    },
-    ["'c"] = { wrap(require("telescope.builtin").lsp_code_actions), "code actions", "IDE" },
-  }
-end
-
-vim.nmap {
-  ["<leader><leader>"] = wrap(require("telescope.builtin").find_files, { hidden = true }),
-  ["<leader>fb"] = wrap(require("telescope.builtin").file_browser),
-  ["<leader>fp"] = M.installed_plugins,
-  ["<leader>pp"] = M.projects,
-  ["<leader>ps"] = M.snapp,
-  ["<C-p>"] = M.git_files,
-  ["<C-q>"] = M.quickfix,
-  ["<M-q>"] = require("telescope.builtin").quickfix,
-  ["\\\\"] = wrap(M.buffer_grep),
-  ["\\l"] = wrap(M.grep_last_search),
-  ["??"] = wrap(require("telescope.builtin").live_grep),
-  [",f"] = wrap(M.grep_string),
-  [",s"] = wrap(require("telescope.builtin").grep_string),
-  ["<leader>b"] = wrap(require("telescope.builtin").buffers),
-  [",c"] = M.edit_configs,
-  ["<leader>ec"] = M.edit_configs,
-  ["<leader>L"] = M.telescope_commands,
-  ["<leader>en"] = M.edit_neovim,
-  [",n"] = M.edit_neovim,
-  [",z"] = M.edit_zsh,
-  [",a"] = M.edit_awesome,
-  ["<leader>fs"] = M.find_src,
-  ["<leader>c"] = wrap(require("telescope.builtin").commands),
-  ["<leader>fr"] = wrap(require("telescope.builtin").oldfiles),
-  ["<leader>h"] = wrap(require("telescope.builtin").help_tags),
-  -- Git
-  ["<leader>gc"] = wrap(require("telescope.builtin").git_commits),
-  ["<leader>gb"] = wrap(require("telescope.builtin").git_bcommits),
-  ["<leader>go"] = wrap(require("telescope.builtin").git_checkout),
-  ["<leader>gf"] = M.buffer_git_files,
-  ["<leader>gs"] = wrap(require("telescope.builtin").git_status),
-  ["<leader>tf"] = require("telescope.builtin").treesitter,
-}
 
 return setmetatable(M, {
   __index = function(tbl, k)

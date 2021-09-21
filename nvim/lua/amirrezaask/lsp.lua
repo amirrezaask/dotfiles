@@ -34,11 +34,8 @@ end
 
 local support_formatting = { "rust" }
 
-local function make_on_attach(base)
+local function make_on_attach()
   return function(client)
-    if base then
-      base()
-    end
     vim.imap {
       ["<c-s>"] = { vim.lsp.buf.signature_help, "" },
       ["<c-d>"] = { vim.lsp.diagnostic.show_line_diagnostics, "" },
@@ -71,12 +68,9 @@ local function make_on_attach(base)
         augroup END
       ]]
     end
-    if base then
-      base()
-    end
   end
 end
-local on_attach = make_on_attach(require("amirrezaask.telescope").on_attach)
+local on_attach = make_on_attach()
 
 lspconfig.gopls.setup {
   on_attach = on_attach,

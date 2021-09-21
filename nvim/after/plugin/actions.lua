@@ -29,6 +29,14 @@ actions:setup {
     ["n ,af"] = "format",
   },
   {
+    predicate = utils.make_language_predicate "vim",
+    actions = {
+      run = function(bufnr)
+        vim.cmd [[ so % ]]
+      end,
+    },
+  },
+  {
     predicate = utils.compose(utils.make_language_predicate "lua", utils.make_path_predicate "plugins.lua"),
     actions = {
       run = function(bufnr)

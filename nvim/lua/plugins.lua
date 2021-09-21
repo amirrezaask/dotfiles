@@ -63,6 +63,10 @@ require("packer").startup {
     use { "nvim-telescope/telescope-fzf-native.nvim", run = "make" }
     -- }}}
 
+    -- use { "junegunn/fzf" }
+    -- use { "junegunn/fzf.vim" }
+    -- use { "ojroques/nvim-lspfuzzy" }
+
     -- Vim Surround text objects
     use { "tpope/vim-surround" }
 
