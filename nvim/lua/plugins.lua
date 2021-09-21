@@ -42,7 +42,7 @@ require("packer").startup {
     use { "amirrezaask/sitruuna.vim" }
 
     -- Colorschemes
-    use { "gruvbox-community/gruvbox" }
+    use { "amirrezaask/gruvbox" }
     use { "bluz71/vim-nightfly-guicolors" }
     use { "mrkn/mrkn256.vim" }
     use { "arzg/vim-colors-xcode" }

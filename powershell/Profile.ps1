@@ -11,7 +11,7 @@ Import-Module -Name Terminal-Icons
 Import-Module -Name z
 
 # Set Prompt
-Set-PoshPrompt -Theme ~/src/github.com/amirrezaask/dotfiles/powershell/amirreza.omp.json
+Set-PoshPrompt -Theme ~/.poshthemes/craver.omp.json
 
 Set-PSReadLineOption -PredictionSource History
 Set-PSReadLineOption -PredictionViewStyle ListView

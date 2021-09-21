@@ -15,7 +15,7 @@ if [ $PROMPT_ENGINE = "oh-my-posh" ]
         sudo wget https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/posh-linux-amd64 -O /usr/local/bin/oh-my-posh
         sudo chmod +x /usr/local/bin/oh-my-posh
     end
-    oh-my-posh --init --shell fish --config ~/src/github.com/amirrezaask/dotfiles/powershell/amirreza.omp.json | source
+    oh-my-posh --init --shell fish --config ~/.poshthemes/craver.omp.json | source
 end
 
 if [ $PROMPT_ENGINE = "none" ]
