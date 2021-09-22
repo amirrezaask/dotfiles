@@ -11,7 +11,9 @@ Import-Module -Name Terminal-Icons
 Import-Module -Name z
 
 # Set Prompt
-Set-PoshPrompt -Theme ~/.poshthemes/craver.omp.json
+if ($IsWindows) {
+    Set-PoshPrompt -Theme marcduiker
+}
 
 Set-PSReadLineOption -PredictionSource History
 Set-PSReadLineOption -PredictionViewStyle ListView
