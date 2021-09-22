@@ -6,6 +6,8 @@ end)()
 
 local personal_plugins_path = os.getenv "HOME" .. "/src/github.com/amirrezaask/"
 
+local fuzzy_finder = "telescope"
+
 require("packer").startup {
   function(_use)
     local function use(opts)
@@ -56,17 +58,19 @@ require("packer").startup {
     }
     -- use { "itchyny/lightline.vim" }
 
-    -- Telescope.nvim {{{
-    -- use { "nvim-lua/popup.nvim" }
-    -- use { "nvim-telescope/telescope.nvim" }
-    -- use { "nvim-telescope/telescope-fzy-native.nvim" }
-    -- use { "nvim-telescope/telescope-dap.nvim" }
-    -- use { "nvim-telescope/telescope-fzf-native.nvim", run = "make" }
-    -- }}}
+    if fuzzy_finder == "telescope" then
+      use { "nvim-lua/popup.nvim" }
+      use { "nvim-telescope/telescope.nvim" }
+      use { "nvim-telescope/telescope-fzy-native.nvim" }
+      use { "nvim-telescope/telescope-dap.nvim" }
+      use { "nvim-telescope/telescope-fzf-native.nvim", run = "make" }
+    end
 
-    use { "junegunn/fzf" }
-    use { "junegunn/fzf.vim" }
-    use { "ojroques/nvim-lspfuzzy" }
+    if fuzzy_finder == "fzf" then
+      use { "junegunn/fzf" }
+      use { "junegunn/fzf.vim" }
+      use { "ojroques/nvim-lspfuzzy" }
+    end
 
     -- Vim Surround text objects
     use { "tpope/vim-surround" }
