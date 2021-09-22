@@ -8,17 +8,15 @@ Import-Module -Name posh-git
 Import-Module -Name oh-my-posh
 Import-Module -Name PSReadLine
 Import-Module -Name Terminal-Icons
-Import-Module -Name z
 
 
-$PromptTheme = "gmay"
+$PromptTheme = "craver"
 
-# Set Prompt
-if ($IsWindows) {
-    Set-PoshPrompt -Theme $PromptTheme
-}
 if ($IsLinux) {
     Set-PoshPrompt -Theme "~/.poshthemes/$PromptTheme.omp.json"
+}
+else {
+    Set-PoshPrompt -Theme $PromptTheme
 }
 
 Set-PSReadLineOption -PredictionSource History
