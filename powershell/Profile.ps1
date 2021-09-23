@@ -31,11 +31,11 @@ $VARS = "$HOME/src/github.com/amirrezaask/dotfiles/powershell/Variables.ps1"
 function reload {
     . $PROFILE
 }
-function p {
-    Set-Location ~/src/repos/Personal 
+function oss {
+    Set-Location ~/src/github.com/amirrezaask 
 }
-function s {
-    Set-Location ~/src/repos/Snapp 
+function snapp {
+    Set-Location ~/src/gitlab.snapp.ir
 }
 function snappvpn {
     sudo openfortivpn -c ~/snappDC.conf
