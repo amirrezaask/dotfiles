@@ -10,7 +10,7 @@ Import-Module -Name PSReadLine
 Import-Module -Name Terminal-Icons
 
 
-$PromptTheme = "marcduiker"
+$PromptTheme = "gmay"
 
 if ($IsLinux) {
     Set-PoshPrompt -Theme "~/.poshthemes/$PromptTheme.omp.json"
