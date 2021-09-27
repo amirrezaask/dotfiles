@@ -41,13 +41,6 @@ local function make_on_attach()
       ["<c-d>"] = { vim.lsp.diagnostic.show_line_diagnostics, "" },
     }
     vim.nmap {
-      ["gd"] = { vim.lsp.buf.definition, "" },
-      ["gi"] = { vim.lsp.buf.implementation, "" },
-      ["gr"] = { vim.lsp.buf.references, "" },
-      ["?d"] = { vim.lsp.buf.document_symbol, "" },
-      ["?w"] = { vim.lsp.buf.workspace_symbol, "" },
-      ["?c"] = { vim.lsp.buf.code_action, "" },
-
       ["<c-s>"] = { vim.lsp.buf.signature_help, "" },
       ["<c-d>"] = { vim.lsp.diagnostic.show_line_diagnostics, "" },
       ["R"] = { rename, "Rename current symbol under cursor", "IDE" },
@@ -123,18 +116,5 @@ end
 lspconfig.jedi_language_server.setup { on_attach = on_attach }
 lspconfig.clangd.setup { on_attach = on_attach }
 lspconfig.intelephense.setup { on_attach = on_attach }
-
-vim.lsp.handlers["textDocument/definition"] = function(_, _, result)
-  if not result or vim.tbl_isempty(result) then
-    print "[LSP] Could not find definition"
-    return
-  end
-  P(result)
-  if vim.tbl_islist(result) then
-    vim.lsp.util.jump_to_location(result[1])
-  else
-    vim.lsp.util.jump_to_location(result)
-  end
-end
 
 return M
