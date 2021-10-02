@@ -72,6 +72,6 @@ function fish_greeting
     end
 end
 
-set -x PROMPT_ENGINE "none" # Also starship, oh-my-posh, none 
+set -x PROMPT_ENGINE "starship" # Also starship, oh-my-posh, none 
 
 source ~/.config/fish/prompt.fish

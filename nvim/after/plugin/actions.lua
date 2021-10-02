@@ -66,7 +66,10 @@ actions:setup {
         vim.cmd [[ vnew | term cargo check ]]
       end,
       test_all = function(_)
-        vim.cmd [[ vnew | term cargo test ]]
+        vim.cmd [[ RustTest! ]]
+      end,
+      test_this = function(_)
+        vim.cmd [[ RustTest ]]
       end,
     },
   },
