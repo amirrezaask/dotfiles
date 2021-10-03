@@ -37,9 +37,6 @@ require("packer").startup {
     -- Missing stdlib for neovim
     use { "nvim-lua/plenary.nvim" }
 
-    -- Tool that I use for my colorscheme
-    use { "amirrezaask/palette.nvim" }
-
     -- My fork from emmad/sitruuna.vim
     use { "amirrezaask/sitruuna.vim" }
 
