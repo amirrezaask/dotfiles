@@ -4,20 +4,15 @@
 # . $profile
 # Install these ofcourse
 
-Import-Module -Name posh-git
-Import-Module -Name oh-my-posh
 Import-Module -Name PSReadLine
 Import-Module -Name Terminal-Icons
 
-
-$PromptTheme = "gmay"
-
-if ($IsLinux) {
-    Set-PoshPrompt -Theme "~/.poshthemes/$PromptTheme.omp.json"
-}
-else {
-    Set-PoshPrompt -Theme $PromptTheme
-}
+# Prompt and stuff
+Import-Module -Name posh-git
+$GitPromptSettings.DefaultPromptAbbreviateHomeDirectory = $true
+$GitPromptSettings.DefaultPromptPrefix.Text = '$(Get-Date -f "HH:mm:ss") '
+$GitPromptSettings.DefaultPromptPrefix.ForegroundColor = [ConsoleColor]::Magenta
+$GitPromptSettings.DefaultPromptPath.ForegroundColor = 'Orange'
 
 Set-PSReadLineOption -PredictionSource History
 Set-PSReadLineOption -PredictionViewStyle ListView
@@ -46,5 +41,6 @@ function freenet {
 }
 
 function gs { git status }
+function e { explorer.exe . }
 
 #TODO: maybe write a function to be alias for ls and if there were no arguments and flags run Get-ChileItem and if there was run /bin/ls
