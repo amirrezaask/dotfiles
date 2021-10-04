@@ -29,6 +29,9 @@ function reload {
 function oss {
     Set-Location ~/src/github.com/amirrezaask 
 }
+function dots {
+    Set-Location ~/src/github.com/amirrezaask/dotfiles
+}
 function snapp {
     Set-Location ~/src/gitlab.snapp.ir
 }
