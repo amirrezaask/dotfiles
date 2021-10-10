@@ -31,12 +31,6 @@ alias datagrip="datagrip 2>/dev/null &"
 
 alias gdoc='godoc -http=:6060'
 
-# Editor
-alias vim='nvim'
-alias vi='nvim'
-alias v='nvim'
-
-
 # Git
 alias gs='git status'
 alias gd='git diff'

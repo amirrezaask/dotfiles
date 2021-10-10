@@ -3,7 +3,6 @@ source ~/env
 # Variables
 export GO111MODULE='on'
 export GOPATH="$HOME"
-export GOROOT='/usr/local/go'
 export PYTHONBINS="$HOME/.local/bin"
 export EDITOR='nvim'
 export GOPRIVATE='devheroes.codes,gitlab.com,gitlab.espadev.ir'
