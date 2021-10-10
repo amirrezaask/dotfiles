@@ -47,6 +47,8 @@ require("packer").startup {
     use { "arzg/vim-colors-xcode" }
     use { "lisposter/vim-blackboard" }
     use { "haishanh/night-owl.vim" }
+    use { 'projekt0n/github-nvim-theme' }
+    use { 'wuelnerdotexe/vim-enfocado'}
 
     use { "Shatur/neovim-ayu" }
     -- Statusline
