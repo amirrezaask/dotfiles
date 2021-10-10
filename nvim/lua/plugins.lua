@@ -44,11 +44,11 @@ require("packer").startup {
     use { "amirrezaask/gruvbox" }
     use { "bluz71/vim-nightfly-guicolors" }
     use { "mrkn/mrkn256.vim" }
-    use { "arzg/vim-colors-xcode" }
     use { "lisposter/vim-blackboard" }
     use { "haishanh/night-owl.vim" }
-    use { 'projekt0n/github-nvim-theme' }
-    use { 'wuelnerdotexe/vim-enfocado'}
+    use { "projekt0n/github-nvim-theme" }
+    use { "wuelnerdotexe/vim-enfocado" }
+    use { "doums/darcula" }
 
     use { "Shatur/neovim-ayu" }
     -- Statusline
