@@ -36,11 +36,6 @@ Set-PSReadLineKeyHandler -Key Alt+f -Function ShellForwardWord
 Set-PSReadLineKeyHandler -Key Alt+B -Function SelectShellBackwardWord
 Set-PSReadLineKeyHandler -Key Alt+F -Function SelectShellForwardWord
 
-$VARS = "$HOME/src/github.com/amirrezaask/dotfiles/powershell/Variables.ps1"
-. $VARS
-
-. $HOME/env.ps1
-
 function reload {
     . $PROFILE
 }
@@ -73,3 +68,14 @@ function gs { git status }
 function e { explorer.exe . }
 
 #TODO: maybe write a function to be alias for ls and if there were no arguments and flags run Get-ChileItem and if there was run /bin/ls
+
+
+$env:GOPROXY = "https://repo.snapp.tech/repository/goproxy,goproxy.io,direct"
+$env:GOPRIVATE = "https://gitlab.snapp.ir"
+if ($IsLinux) {
+    $env:GOROOT = "/usr/local/go"
+}
+$env:GOPATH = "$HOME"
+$env:DOTFILES = "~/src/github.com/amirrezaask/dotfiles/"
+$env:PATH += ":/usr/local/go/bin:$HOME/.local/lua-language-server/bin/Linux:$env:GOPATH/bin:$HOME/.local/bin:$HOME/.config/composer/vendor/bin:$HOME/.cargo/bin"
+. $HOME/env.ps1
