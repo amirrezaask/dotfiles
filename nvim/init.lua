@@ -26,6 +26,3 @@ vim.g.mapleader = " "
 
 -- Load plugins
 require "plugins"
-
--- Set the colorscheme
-vim.colorscheme "gruvbuddy"
