@@ -14,7 +14,7 @@ local dropdown = require("telescope.themes").get_dropdown
 local notheme = function(opts)
   return opts
 end
-local current_theme = ivy
+local current_theme = notheme
 
 telescope.setup {
   defaults = {
