@@ -15,20 +15,13 @@ $GitPromptSettings.DefaultPromptPrefix.Text = '$(Get-Date -f "HH:mm:ss") '
 $GitPromptSettings.DefaultPromptPrefix.ForegroundColor = [ConsoleColor]::Red
 $GitPromptSettings.DefaultPromptPath.ForegroundColor = 'Orange'
 
-Set-PoshPrompt craver
+Set-PoshPrompt rudolfs-dark
 
 Set-PSReadLineOption -PredictionSource History
 Set-PSReadLineOption -PredictionViewStyle ListView
 Set-PSReadLineOption -EditMode Emacs
 
-# CaptureScreen is good for blog posts or email showing a transaction
-# of what you did when asking for help or demonstrating a technique.
 Set-PSReadLineKeyHandler -Chord 'Ctrl+d,Ctrl+c' -Function CaptureScreen
-
-# The built-in word movement uses character delimiters, but token based word
-# movement is also very useful - these are the bindings you'd use if you
-# prefer the token based movements bound to the normal emacs word movement
-# key bindings.
 Set-PSReadLineKeyHandler -Key Alt+d -Function ShellKillWord
 Set-PSReadLineKeyHandler -Key Alt+Backspace -Function ShellBackwardKillWord
 Set-PSReadLineKeyHandler -Key Alt+b -Function ShellBackwardWord
