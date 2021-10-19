@@ -10,7 +10,14 @@ elif [ "$PROMPT_ENGINE" = "oh-my-posh" ]; then
         sudo wget https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/posh-linux-amd64 -O /usr/local/bin/oh-my-posh
         sudo chmod +x /usr/local/bin/oh-my-posh
     fi
-    eval "$(oh-my-posh --init --shell zsh --config ~/src/github.com/amirrezaask/dotfiles/powershell/amirreza.omp.json)"
+    if [ ! -d ~/.poshthemes ]; then
+        mkdir -p ~/.poshthemes
+        wget https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/themes.zip -O ~/.poshthemes/themes.zip
+        unzip ~/.poshthemes/themes.zip -d ~/.poshthemes
+        chmod u+rw ~/.poshthemes/*.json
+        rm ~/.poshthemes/themes.zip
+    fi
+    eval "$(oh-my-posh --init --shell zsh --config ~/.poshthemes/rudolfs-dark.omp.json)"
 else
     get_branch(){
         branch=$(parse_git_branch)
