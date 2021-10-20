@@ -1,1 +1,1 @@
-vim.colorscheme "github_dark"
+vim.colorscheme "sitruuna"
