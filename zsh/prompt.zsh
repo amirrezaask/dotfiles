@@ -17,7 +17,7 @@ elif [ "$PROMPT_ENGINE" = "oh-my-posh" ]; then
         chmod u+rw ~/.poshthemes/*.json
         rm ~/.poshthemes/themes.zip
     fi
-    eval "$(oh-my-posh --init --shell zsh --config ~/.poshthemes/rudolfs-dark.omp.json)"
+    eval "$(oh-my-posh --init --shell zsh --config ~/.poshthemes/craver.omp.json)"
 else
     get_branch(){
         branch=$(parse_git_branch)
