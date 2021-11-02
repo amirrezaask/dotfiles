@@ -18,6 +18,9 @@ elif [ "$PROMPT_ENGINE" = "oh-my-posh" ]; then
         rm ~/.poshthemes/themes.zip
     fi
     eval "$(oh-my-posh --init --shell zsh --config ~/.poshthemes/craver.omp.json)"
+
+elif [ "$PROMPT_ENGINE" = "omz" ]; then
+    antigen theme robbyrussell
 else
     get_branch(){
         branch=$(parse_git_branch)
