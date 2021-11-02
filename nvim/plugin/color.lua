@@ -1,1 +1,1 @@
-vim.colorscheme "gruvbuddy"
+vim.colorscheme "gruvbox"
