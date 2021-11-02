@@ -2,7 +2,6 @@
 if [ $PROMPT_ENGINE = "starship" ]
     # install if not exists
     if not command -v starship &> /dev/null
-    then
         curl -fsSL 'https://starship.rs/install.sh'
     end
 
@@ -11,7 +10,6 @@ end
 
 if [ $PROMPT_ENGINE = "oh-my-posh" ]
     if not command -v oh-my-posh &> /dev/null
-    then
         sudo wget https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/posh-linux-amd64 -O /usr/local/bin/oh-my-posh
         sudo chmod +x /usr/local/bin/oh-my-posh
     end

@@ -41,7 +41,7 @@ setenv FZF_DEFAULT_COMMAND 'fd --type file --follow'
 setenv FZF_CTRL_T_COMMAND 'fd --type file --follow'
 setenv FZF_DEFAULT_OPTS '--height 20%'
 
-if command -v exa > /dev/null
+if type -q exa
 	abbr -a l 'exa'
 	abbr -a ls 'exa'
 	abbr -a ll 'exa -l'
