@@ -76,7 +76,7 @@ actions:setup {
   {
     predicate = utils.make_path_predicate "gitlab.snapp.ir",
     actions = {
-      -- format = function() end,
+      format = function() end,
     },
   },
   {
