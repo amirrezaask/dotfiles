@@ -137,7 +137,7 @@ function M.projects(path)
   pickers.new(dropdown(), {
     previewer = false,
     finder = finders.new_table {
-      results = repos.list_projects { path or "~/src/repos/personal" },
+      results = repos.list_projects { path or "~/src/" },
     },
     sorter = conf.generic_sorter(),
     attach_mappings = function(prompt_bufnr, map)
@@ -154,7 +154,7 @@ function M.projects(path)
 end
 
 function M.snapp()
-  M.projects "~/src/repos/snapp"
+  M.projects "~/src/gitlab.snapp.ir"
 end
 
 function M.installed_plugins()
