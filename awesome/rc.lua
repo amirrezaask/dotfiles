@@ -23,7 +23,7 @@ local hotkeys_popup = require "awful.hotkeys_popup"
 require "awful.hotkeys_popup.keys"
 
 -- Load Debian menu entries
-local debian = require "debian.menu"
+local has_debian, debian = pcall(require, "debian.menu")
 local has_fdo, freedesktop = pcall(require, "freedesktop")
 
 -- {{{ Error handling
@@ -75,8 +75,8 @@ MODKEY = "Mod4"
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts = {
-  awful.layout.suit.floating,
   awful.layout.suit.tile,
+  awful.layout.suit.floating,
   -- awful.layout.suit.tile.left,
   -- awful.layout.suit.tile.bottom,
   -- awful.layout.suit.tile.top,
@@ -122,7 +122,8 @@ if has_fdo then
     before = { menu_awesome },
     after = { menu_terminal },
   }
-else
+end
+if has_debian then
   mymainmenu = awful.menu {
     items = {
       menu_awesome,

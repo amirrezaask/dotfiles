@@ -1,1 +1,1 @@
-vim.colorscheme "sitruuna"
+vim.colorscheme "gruvbuddy"
