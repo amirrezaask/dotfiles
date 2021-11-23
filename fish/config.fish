@@ -41,17 +41,6 @@ setenv FZF_DEFAULT_COMMAND 'fd --type file --follow'
 setenv FZF_CTRL_T_COMMAND 'fd --type file --follow'
 setenv FZF_DEFAULT_OPTS '--height 20%'
 
-if type -q exa
-	abbr -a l 'exa'
-	abbr -a ls 'exa'
-	abbr -a ll 'exa -l'
-	abbr -a lll 'exa -la'
-else
-	abbr -a l 'ls'
-	abbr -a ll 'ls -l'
-	abbr -a lll 'ls -la'
-end
-
 function reload
     source ~/.config/fish/config.fish
 end
@@ -60,12 +49,25 @@ function snappvpn
     sudo openfortivpn -c ~/snappDC.conf
 end
 
-function fish_greeting
-    if command -v welcome > /dev/null
-        welcome
+set __fish_git_prompt_showuntrackedfiles 'yes'
+set __fish_git_prompt_showdirtystate 'yes'
+set __fish_git_prompt_showstashstate ''
+set __fish_git_prompt_showupstream 'none'
+set -g fish_prompt_pwd_dir_length 3
+function fish_prompt
+    set_color brblack
+    echo -n "["(date "+%H:%M")"] "
+    set_color brblue
+    echo -n (hostname)
+    if [ $PWD != $HOME ]
+        set_color brblack
+        echo -n ':'
+        set_color yellow
+        echo -n (basename $PWD)
     end
+    set_color green
+    printf '%s ' (__fish_git_prompt)
+    set_color red
+    echo -n '| '
+    set_color normal
 end
-
-set -x PROMPT_ENGINE "starship" # Also starship, oh-my-posh, none 
-
-source ~/.config/fish/prompt.fish
