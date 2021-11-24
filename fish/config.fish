@@ -3,7 +3,7 @@ set -x GO111MODULE 'on'
 set -x GOPATH "$HOME"
 set -x PYTHONBINS "$HOME/.local/bin"
 set -x EDITOR 'nvim'
-set -x GOROOT '/usr/local/go'
+# set -x GOROOT '/usr/local/go'
 set -x GOPRIVATE 'gitlab.snapp.ir'
 set -x ZIGPATH "/usr/local/zig"
 set -x RUSTUP "$HOME/.rustup/toolchains/nightly-x86_64-unknown-linux-gnu/bin"
