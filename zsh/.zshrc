@@ -12,7 +12,7 @@ source ~/env
 source "${ZSH_CONFIG_BASE_DIR}/vars.zsh"
 
 source "$ZSH_CONFIG_BASE_DIR/git.zsh"
-export PROMPT_ENGINE="starship" # "custom" or "starship" or "oh-my-posh
+export PROMPT_ENGINE="oh-my-posh" # "custom" or "starship" or "oh-my-posh
 source "$ZSH_CONFIG_BASE_DIR/prompt.zsh"
 
 antigen apply
