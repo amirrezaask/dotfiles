@@ -56,4 +56,4 @@ local me = {
   wrappers.square_brackets(vim.line() .. vim.space() .. vim.colon() .. vim.col()),
   vim.filetype(),
 }
-nline.make(me)
+nline.make(tj)
