@@ -14,6 +14,7 @@ end
 require("packer").startup {
   function(use)
     use { "wbthomason/packer.nvim" } -- Plugin manager
+    use { "navarasu/onedark.nvim" }
     use { "amirrezaask/nline.nvim", requires = { "nvim-lua/plenary.nvim", "nvim-lua/lsp-status.nvim" } } -- Statusline
     use { "nvim-telescope/telescope.nvim", requires = { "nvim-lua/plenary.nvim" } } -- UI to search for things
     use { "tpope/vim-surround" } -- Vim surround objects
@@ -47,6 +48,7 @@ require("packer").startup {
     use { "tjdevries/nlua.nvim" } -- Better lua dev for neovim
     use { "milisims/nvim-luaref" } -- lua reference as vim help
     use { "nanotee/luv-vimdocs" } -- luv reference as vim help
+    use { "lukas-reineke/indent-blankline.nvim" }
   end,
 }
 -- Basic vim options
@@ -140,7 +142,8 @@ nnoremap("N", "Nzz")
 nnoremap("<expr><CR>", '{-> v:hlsearch ? ":nohl<CR>" : "<CR>"}')
 
 -- Colorscheme
-vim.cmd [[ colorscheme gruvbuddy ]]
+vim.g.onedark_style = "deep"
+vim.cmd [[ colorscheme onedark ]]
 
 -- highlight on yank
 vim.cmd [[
@@ -149,6 +152,12 @@ vim.cmd [[
     autocmd TextYankPost * silent! lua vim.highlight.on_yank()
   augroup end
 ]]
+-- Indent line
+vim.g.indent_blankline_char = "┊"
+vim.g.indent_blankline_filetype_exclude = { "help", "packer" }
+vim.g.indent_blankline_buftype_exclude = { "terminal", "nofile" }
+vim.g.indent_blankline_show_trailing_blankline_indent = false
+vim.g.indent_blankline_show_current_context = true
 
 -- Color Picker
 function ColorPicker()
@@ -393,7 +402,7 @@ actions:setup {
     predicate = utils.make_language_predicate "lua",
     actions = {
       run = function(bufnr)
-        vim.c.luafile(vim.api.nvim_buf_get_name(bufnr))
+        vim.cmd [[ luafile(vim.api.nvim_buf_get_name(bufnr)) ]]
       end,
       format = function(bufnr)
         require("stylua"):run(bufnr)
@@ -428,7 +437,7 @@ actions:setup {
     actions = {
       format = function(bufnr)
         bufnr = bufnr or 0
-        vim.c.write()
+        vim.cmd [[ write ]]
         local job = require("plenary.job"):new {
           "goimports",
           vim.api.nvim_buf_get_name(0),
@@ -594,3 +603,55 @@ vim.cmd [[ map <F7> lua require("dap").step_into ]]
 vim.cmd [[ map <F8> lua require("dap").step_over ]]
 -- vim.cmd [[ map <F9> lua require("dap").step_out ]]
 vim.cmd [[ map <F10> lua require("dap.ui.variables").hover ]]
+
+-- Treesitter, better syntax highlight
+require("nvim-treesitter.configs").setup {
+  highlight = {
+    enable = true, -- false will disable the whole extension
+  },
+  incremental_selection = {
+    enable = true,
+    keymaps = {
+      init_selection = "gnn",
+      node_incremental = "grn",
+      scope_incremental = "grc",
+      node_decremental = "grm",
+    },
+  },
+  indent = {
+    enable = true,
+  },
+  textobjects = {
+    select = {
+      enable = true,
+      lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
+      keymaps = {
+        -- You can use the capture groups defined in textobjects.scm
+        ["af"] = "@function.outer",
+        ["if"] = "@function.inner",
+        ["ac"] = "@class.outer",
+        ["ic"] = "@class.inner",
+      },
+    },
+    move = {
+      enable = true,
+      set_jumps = true, -- whether to set jumps in the jumplist
+      goto_next_start = {
+        ["]m"] = "@function.outer",
+        ["]]"] = "@class.outer",
+      },
+      goto_next_end = {
+        ["]M"] = "@function.outer",
+        ["]["] = "@class.outer",
+      },
+      goto_previous_start = {
+        ["[m"] = "@function.outer",
+        ["[["] = "@class.outer",
+      },
+      goto_previous_end = {
+        ["[M"] = "@function.outer",
+        ["[]"] = "@class.outer",
+      },
+    },
+  },
+}
