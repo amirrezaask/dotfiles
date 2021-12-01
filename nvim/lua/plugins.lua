@@ -42,20 +42,19 @@ require("packer").startup {
 
     -- Colorschemes
     use { "amirrezaask/gruvbox" }
-    use { "bluz71/vim-nightfly-guicolors" }
-    use { "mrkn/mrkn256.vim" }
-    use { "lisposter/vim-blackboard" }
-    use { "haishanh/night-owl.vim" }
     use { "projekt0n/github-nvim-theme" }
-    use { "wuelnerdotexe/vim-enfocado" }
-    use { "doums/darcula" }
 
-    use { "Shatur/neovim-ayu" }
-    -- Statusline
     use {
-      "amirrezaask/nline.nvim",
+      "nvim-lualine/lualine.nvim",
+      requires = { "kyazdani42/nvim-web-devicons", opt = true },
+      config = function()
+        require("lualine").setup {
+          options = {
+            theme = "material",
+          },
+        }
+      end,
     }
-    -- use { "itchyny/lightline.vim" }
 
     if fuzzy_finder == "telescope" then
       use { "nvim-lua/popup.nvim" }
