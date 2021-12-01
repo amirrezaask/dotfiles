@@ -10,11 +10,12 @@ local conf = require("telescope.config").values
 local repos = require "amirrezaask.repos"
 local telescope = require "telescope"
 local ivy = require("telescope.themes").get_ivy
-local dropdown = require("telescope.themes").get_dropdown
-local notheme = function(opts)
-  return opts
+-- themes are just some lua table.
+local current_theme = ivy { layout_config = { height = 0.4 } }
+
+local theme = function(opts)
+  return vim.tbl_extend("force", current_theme, opts)
 end
-local current_theme = ivy
 
 telescope.setup {
   defaults = {
@@ -24,12 +25,10 @@ telescope.setup {
     sorting_strategy = "ascending",
     borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
     layout_config = {
-      width = 0.95,
-      height = 0.85,
-      -- preview_cutoff = 120,
       prompt_position = "top",
 
       horizontal = {
+        width = 0.8,
         -- width_padding = 0.1,
         -- height_padding = 0.1,
         preview_width = function(_, cols, _)
@@ -67,10 +66,11 @@ telescope.setup {
 local M = {}
 
 function M.wrap(fn, opts)
+  opts = opts or {}
   if type(fn) == "function" then
-    fn(current_theme(opts))
+    fn(theme(opts))
   elseif type(fn) == "string" then
-    require("telescope.builtin")[fn](current_theme(opts))
+    require("telescope.builtin")[fn](theme(opts))
   end
 end
 
@@ -89,7 +89,7 @@ function M.docs()
   for cmd, doc in pairs(__CMDS_DOCS) do
     table.insert(docs, string.format("%s -> %s", cmd, doc))
   end
-  pickers.new(current_theme(), {
+  pickers.new(theme(), {
     prompt_title = "Docs :)",
     finder = finders.new_table {
       results = docs,
@@ -108,7 +108,7 @@ end
 
 function M.base16_theme_selector()
   local theme_names = require("base16.themes"):names()
-  pickers.new(current_theme(), {
+  pickers.new(theme(), {
     finder = finders.new_table {
       results = theme_names,
     },
@@ -130,7 +130,7 @@ function M.base16_theme_selector()
 end
 
 function M.buffer_git_files()
-  require("telescope.builtin").git_files(current_theme {
+  require("telescope.builtin").git_files(theme {
     cwd = vim.fn.expand "%:p:h",
   })
 end
@@ -160,21 +160,21 @@ function M.snapp()
 end
 
 function M.installed_plugins()
-  require("telescope.builtin").find_files(current_theme {
+  require("telescope.builtin").find_files(theme {
     cwd = vim.fn.stdpath "data" .. "/site/pack/packer/start/",
     follow = true,
   })
 end
 
 function M.edit_configs()
-  require("telescope.builtin").find_files(current_theme {
+  require("telescope.builtin").find_files(theme {
     prompt_title = "> Edit Configs <",
     cwd = "~/src/repos/personal/dotfiles",
   })
 end
 
 function M.edit_neovim()
-  require("telescope.builtin").find_files(current_theme {
+  require("telescope.builtin").find_files(theme {
     layout_strategy = "vertical",
     prompt_title = "> Edit Neovim Config <",
     cwd = "~/.config/nvim",
@@ -183,7 +183,7 @@ function M.edit_neovim()
 end
 
 function M.edit_awesome()
-  require("telescope.builtin").find_files(current_theme {
+  require("telescope.builtin").find_files(theme {
     layout_strategy = "vertical",
     prompt_title = "> Edit Awesome Config <",
     cwd = "~/.config/awesome",
@@ -192,7 +192,7 @@ function M.edit_awesome()
 end
 
 function M.edit_zsh()
-  require("telescope.builtin").find_files(current_theme {
+  require("telescope.builtin").find_files(theme {
     prompt_title = "> Edit ZSH Config <",
     cwd = "~/src/github.com/amirrezaask/dotfiles/zsh",
     hidden = true,
@@ -206,7 +206,7 @@ function M.lsp_workspace_symbols()
 end
 
 function M.git_files()
-  require("telescope.builtin").git_files(current_theme())
+  require("telescope.builtin").git_files(theme())
 end
 
 function M.buffer_grep()
@@ -265,7 +265,7 @@ return setmetatable(M, {
     if tbl[k] then
       return tbl[k]
     else
-      return require("telescope.builtin")[k](current_theme())
+      return require("telescope.builtin")[k](theme())
     end
   end,
 })

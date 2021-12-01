@@ -1,1 +1,1 @@
-vim.colorscheme "github_dark_default"
+vim.colorscheme "gruvbuddy"

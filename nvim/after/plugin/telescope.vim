@@ -15,6 +15,7 @@ nnoremap <leader>ec <cmd>lua require"amirrezaask.telescope".edit_configs()<CR>
 nnoremap <leader>L  <cmd>lua require"amirrezaask.telescope".telescope_commands()<CR>
 nnoremap <leader>en <cmd>lua require"amirrezaask.telescope".edit_neovim()<CR>
 nnoremap ,n <cmd>lua require"amirrezaask.telescope".edit_neovim()<CR>
+
 " LSP
 nnoremap gd <cmd>lua require"amirrezaask.telescope".wrap('lsp_definitions')<CR>
 nnoremap gr <cmd>lua require"amirrezaask.telescope".wrap('lsp_references')<CR>
