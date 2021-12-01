@@ -14,7 +14,7 @@ local dropdown = require("telescope.themes").get_dropdown
 local notheme = function(opts)
   return opts
 end
-local current_theme = notheme
+local current_theme = ivy
 
 telescope.setup {
   defaults = {
@@ -67,8 +67,10 @@ telescope.setup {
 local M = {}
 
 function M.wrap(fn, opts)
-  return function()
+  if type(fn) == "function" then
     fn(current_theme(opts))
+  elseif type(fn) == "string" then
+    require("telescope.builtin")[fn](current_theme(opts))
   end
 end
 
@@ -260,11 +262,10 @@ end
 
 return setmetatable(M, {
   __index = function(tbl, k)
-    R "amirrezaask.telescope"
     if tbl[k] then
       return tbl[k]
     else
-      return require("telescope.builtin")[k]
+      return require("telescope.builtin")[k](current_theme())
     end
   end,
 })
