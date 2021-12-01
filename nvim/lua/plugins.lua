@@ -6,8 +6,6 @@ end)()
 
 local personal_plugins_path = os.getenv "HOME" .. "/src/github.com/amirrezaask/"
 
-local fuzzy_finder = "telescope"
-
 require("packer").startup {
   function(_use)
     local function use(opts)
@@ -44,31 +42,14 @@ require("packer").startup {
     use { "amirrezaask/gruvbox" }
     use { "projekt0n/github-nvim-theme" }
 
-    use {
-      "nvim-lualine/lualine.nvim",
-      requires = { "kyazdani42/nvim-web-devicons", opt = true },
-      config = function()
-        require("lualine").setup {
-          options = {
-            theme = "material",
-          },
-        }
-      end,
-    }
+    -- statusline
+    use { "amirrezaask/nline.nvim" }
 
-    if fuzzy_finder == "telescope" then
-      use { "nvim-lua/popup.nvim" }
-      use { "nvim-telescope/telescope.nvim" }
-      use { "nvim-telescope/telescope-fzy-native.nvim" }
-      use { "nvim-telescope/telescope-dap.nvim" }
-      use { "nvim-telescope/telescope-fzf-native.nvim", run = "make" }
-    end
-
-    if fuzzy_finder == "fzf" then
-      use { "junegunn/fzf" }
-      use { "junegunn/fzf.vim" }
-      use { "ojroques/nvim-lspfuzzy" }
-    end
+    use { "nvim-lua/popup.nvim" }
+    use { "nvim-telescope/telescope.nvim" }
+    use { "nvim-telescope/telescope-fzy-native.nvim" }
+    use { "nvim-telescope/telescope-dap.nvim" }
+    use { "nvim-telescope/telescope-fzf-native.nvim", run = "make" }
 
     -- Vim Surround text objects
     use { "tpope/vim-surround" }
