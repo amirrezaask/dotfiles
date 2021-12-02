@@ -113,7 +113,7 @@ hl { "NonText", fg = colors.grey2 }
 hl { "WhiteSpace", fg = colors.purple2 }
 hl { "Conceal", bg = colors.grey2, fg = colors.background }
 
-hl { "StatusLine", bg = colors.blue1, fg = colors.grey3 }
+hl { "StatusLine", bg = colors.blue2, fg = colors.grey3 }
 
 hl { "StatusLineNC", bg = colors.grey3, fg = colors.grey1 }
 

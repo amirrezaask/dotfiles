@@ -70,7 +70,7 @@ vim.opt.tabpagemax = 100
 vim.opt.ruler = true -- show line/col in statusbar
 vim.opt.mouse = "a" -- enable mouse
 vim.opt.wrap = true
-vim.opt.autoindent = true
+vim.opt.autoindent = true -- use same indent as previous line
 vim.opt.termguicolors = true
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
@@ -151,11 +151,12 @@ vim.cmd [[ nnoremap <expr><CR> {-> v:hlsearch ? ":nohl<CR>" : "<CR>"}() ]]
 vim.g.onedark_style = "deep"
 vim.g.material_style = "darker"
 vim.g.tokyonight_style = "night"
+vim.cmd [[ colorscheme gruvbuddy ]]
 -- vim.cmd [[ colorscheme onedark ]]
 -- vim.cmd [[ colorscheme catppuccin ]]
 -- vim.cmd [[ colorscheme dracula ]]
 -- vim.cmd [[ colorscheme material ]]
-vim.cmd [[ colorscheme tokyonight ]]
+-- vim.cmd [[ colorscheme tokyonight ]]
 -- vim.cmd [[ colorscheme nightfly ]]
 
 -- highlight on yank
