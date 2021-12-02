@@ -14,14 +14,10 @@ end
 require("packer").startup {
   function(use)
     use { "wbthomason/packer.nvim" } -- Plugin manager
-    use { "navarasu/onedark.nvim" }
-    -- colorschemes
-    use { "marko-cerovac/material.nvim" }
-    use { "bluz71/vim-nightfly-guicolors" }
-    use { "folke/tokyonight.nvim" }
-    use { "catppuccin/nvim" }
-    use { "dracula/vim" }
-    use { "gruvbox-community/gruvbox" }
+    use { "navarasu/onedark.nvim" } -- Onedark from Atom
+    use { "folke/tokyonight.nvim" } -- Tokyonight
+    use { "dracula/vim" } -- Dracula
+    use { "gruvbox-community/gruvbox" } -- Gruvbox
     use {
       "nvim-lualine/lualine.nvim",
       config = function()
@@ -72,6 +68,7 @@ require("packer").startup {
     use { "milisims/nvim-luaref" } -- lua reference as vim help
     use { "nanotee/luv-vimdocs" } -- luv reference as vim help
     use { "lukas-reineke/indent-blankline.nvim" }
+    use { "ray-x/go.nvim" }
   end,
 }
 -- Basic vim options
@@ -635,3 +632,57 @@ require("nvim-treesitter.configs").setup {
 }
 
 vim.cmd(string.format([[ command! Term %s new | term]], math.ceil(vim.api.nvim_get_option "lines" * 0.3)))
+
+-- Golang IDE setup
+require("go").setup()
+
+GO_telescope_picker = function(opts)
+  local pickers = require "telescope.pickers"
+  local finders = require "telescope.finders"
+  local make_entry = require "telescope.make_entry"
+  local conf = require("telescope.config").values
+  local action_state = require "telescope.actions.state"
+  local actions = require "telescope.actions"
+  opts = opts or require("telescope.themes").get_dropdown()
+  pickers.new(opts, {
+    prompt_title = "Go Commands",
+    finder = finders.new_table {
+      results = (function()
+        local commands_iter = vim.api.nvim_get_commands { builtin = false }
+        local go_commands = {}
+        for _, cmd in pairs(commands_iter) do
+          if string.find(cmd.name, "Go") then
+            table.insert(go_commands, cmd)
+          end
+        end
+        return go_commands
+      end)(),
+      entry_maker = make_entry.gen_from_commands(),
+    },
+    sorter = conf.generic_sorter(opts),
+    attach_mappings = function(prompt_bufnr)
+      actions.select_default:replace(function()
+        local selection = action_state.get_selected_entry()
+        if selection == nil then
+          print "[telescope] Nothing currently selected"
+          return
+        end
+
+        actions.close(prompt_bufnr)
+        local val = selection.value
+        local cmd = string.format([[:%s ]], val.name)
+
+        if val.nargs == "0" then
+          vim.cmd(cmd)
+        else
+          vim.cmd [[stopinsert]]
+          vim.fn.feedkeys(cmd)
+        end
+      end)
+
+      return true
+    end,
+  }):find()
+end
+
+vim.cmd [[ command! GoCommands lua GO_telescope_picker() ]]
