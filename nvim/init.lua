@@ -27,6 +27,16 @@ require("packer").startup {
         require("lualine").setup()
       end,
     }
+    use {
+      "jghauser/mkdir.nvim",
+      config = function()
+        require "mkdir"
+      end,
+    }
+    use "TimUntersberger/neogit"
+    use { "windwp/nvim-spectre", requires = { "nvim-lua/plenary.nvim" } }
+    use { "p00f/nvim-ts-rainbow" } -- rainbow parens
+    use { "karb94/neoscroll.nvim" }
     use { "nvim-telescope/telescope.nvim", requires = { "nvim-lua/plenary.nvim" } } -- UI to search for things
     use { "tpope/vim-surround" } -- Vim surround objects
     use { "lewis6991/gitsigns.nvim", requires = { "nvim-lua/plenary.nvim" } } -- Gitsigns
@@ -588,14 +598,22 @@ require("nvim-treesitter.configs").setup {
   incremental_selection = {
     enable = true,
     keymaps = {
-      init_selection = "gnn",
-      node_incremental = "grn",
+      init_selection = "<C-a>",
+      node_incremental = "<C-a>",
       scope_incremental = "grc",
-      node_decremental = "grm",
+      node_decremental = "<M-a>",
     },
   },
   indent = {
     enable = true,
+  },
+  rainbow = {
+    enable = true,
+    -- disable = { "jsx", "cpp" }, list of languages you want to disable the plugin for
+    extended_mode = true, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
+    max_file_lines = nil, -- Do not enable for files with more than n lines, int
+    -- colors = {}, -- table of hex strings
+    -- termcolors = {} -- table of colour name strings
   },
   textobjects = {
     select = {
@@ -609,26 +627,25 @@ require("nvim-treesitter.configs").setup {
         ["ic"] = "@class.inner",
       },
     },
-    move = {
-      enable = true,
-      set_jumps = true, -- whether to set jumps in the jumplist
-      goto_next_start = {
-        ["]m"] = "@function.outer",
-        ["]]"] = "@class.outer",
-      },
-      goto_next_end = {
-        ["]M"] = "@function.outer",
-        ["]["] = "@class.outer",
-      },
-      goto_previous_start = {
-        ["[m"] = "@function.outer",
-        ["[["] = "@class.outer",
-      },
-      goto_previous_end = {
-        ["[M"] = "@function.outer",
-        ["[]"] = "@class.outer",
-      },
-    },
   },
 }
+
+-- vim.cmd [[ set foldmethod=expr ]]
+
+-- vim.cmd [[ set foldexpr=nvim_treesitter#foldexpr() ]]
+
 vim.cmd(string.format([[ command! Term %s new | term]], math.ceil(vim.api.nvim_get_option "lines" * 0.3)))
+
+-- smooth scrolling
+require("neoscroll").setup {
+  -- All these keys will be mapped to their corresponding default scrolling animation
+  mappings = { "<C-u>", "<C-d>", "<C-b>", "<C-f>", "<C-y>", "<C-e>", "zt", "zz", "zb" },
+  hide_cursor = true, -- Hide cursor while scrolling
+  stop_eof = true, -- Stop at <EOF> when scrolling downwards
+  use_local_scrolloff = false, -- Use the local scope of scrolloff instead of the global scope
+  respect_scrolloff = false, -- Stop scrolling when the cursor reaches the scrolloff margin of the file
+  cursor_scrolls_alone = true, -- The cursor will keep on scrolling even if the window cannot scroll further
+  easing_function = nil, -- Default easing function
+  pre_hook = nil, -- Function to run before the scrolling animation starts
+  post_hook = nil, -- Function to run after the scrolling animation ends
+}
