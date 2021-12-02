@@ -34,10 +34,11 @@ require("packer").startup {
         require "mkdir"
       end,
     }
-    use "TimUntersberger/neogit"
+    use { "saadparwaiz1/cmp_luasnip" }
+    use { "L3MON4D3/LuaSnip" } -- Snippets plugin
+    use { "tpope/vim-fugitive" }
     use { "windwp/nvim-spectre", requires = { "nvim-lua/plenary.nvim" } }
     use { "p00f/nvim-ts-rainbow" } -- rainbow parens
-    use { "karb94/neoscroll.nvim" }
     use { "nvim-telescope/telescope.nvim", requires = { "nvim-lua/plenary.nvim" } } -- UI to search for things
     use { "tpope/vim-surround" } -- Vim surround objects
     use { "lewis6991/gitsigns.nvim", requires = { "nvim-lua/plenary.nvim" } } -- Gitsigns
@@ -159,6 +160,9 @@ vnoremap("<M-k>", ":m '<-2<CR>gv=gv")
 nnoremap("Y", "y$")
 nnoremap("n", "nzz")
 nnoremap("N", "Nzz")
+
+nnoremap("{", ":cprev<CR>")
+nnoremap("}", ":cnext<CR>")
 
 -- Thanks to TJ again
 vim.cmd [[ nnoremap <expr><CR> {-> v:hlsearch ? ":nohl<CR>" : "<CR>"}() ]]
@@ -300,24 +304,9 @@ local lspconfig = require "lspconfig"
 local on_attach = function(client, bufnr)
   vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
   local opts = { noremap = true, silent = true }
-  vim.api.nvim_set_keymap(
-    "n",
-    "gd",
-    '<cmd>lua telescope_wrap("lsp_definitions", {hidden = true })<CR>',
-    { silent = true, noremap = true }
-  )
-  vim.api.nvim_set_keymap(
-    "n",
-    "gi",
-    '<cmd>lua telescope_wrap("lsp_implementations", {hidden = true })<CR>',
-    { silent = true, noremap = true }
-  )
-  vim.api.nvim_set_keymap(
-    "n",
-    "gr",
-    '<cmd>lua telescope_wrap("lsp_references", {hidden = true })<CR>',
-    { silent = true, noremap = true }
-  )
+  vim.api.nvim_set_keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", { silent = true, noremap = true })
+  vim.api.nvim_set_keymap("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", { silent = true, noremap = true })
+  vim.api.nvim_set_keymap("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", { silent = true, noremap = true })
   vim.api.nvim_set_keymap(
     "n",
     "?d",
@@ -342,8 +331,8 @@ local on_attach = function(client, bufnr)
   vim.api.nvim_buf_set_keymap(bufnr, "i", "<c-s>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
   vim.api.nvim_buf_set_keymap(bufnr, "n", "<c-s>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
   vim.api.nvim_buf_set_keymap(bufnr, "n", "<c-d>", "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>", opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "[d", "<cmd>lua <CR>", opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "]d", "<cmd>lua <CR>", opts)
+  vim.api.nvim_buf_set_keymap(bufnr, "n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
+  vim.api.nvim_buf_set_keymap(bufnr, "n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
 
   vim.cmd [[ command! Format execute '<cmd>lua vim.lsp.buf.formatting()' ]]
 
@@ -470,21 +459,8 @@ actions:setup {
   {
     predicate = utils.make_language_predicate "go",
     actions = {
-      format = function(bufnr)
-        bufnr = bufnr or 0
-        vim.cmd [[ write ]]
-        local job = require("plenary.job"):new {
-          "goimports",
-          vim.api.nvim_buf_get_name(0),
-        }
-
-        local output = job:sync()
-
-        if job.code ~= 0 then
-          return
-        end
-
-        vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, output)
+      format = function(_)
+        vim.lsp.buf.formatting()
       end,
       build = function(_)
         vim.cmd [[ vnew | term go build ]]
@@ -523,8 +499,13 @@ vim.opt.completeopt = { "menuone", "noselect" }
 vim.opt.shortmess:append "c"
 
 local cmp = require "cmp"
+local luasnip = require "luasnip"
 cmp.setup {
-  snippet = {},
+  snippet = {
+    expand = function(args)
+      luasnip.lsp_expand(args.body)
+    end,
+  },
 
   -- You can set mapping if you want.
   mapping = {
@@ -538,6 +519,24 @@ cmp.setup {
       behavior = cmp.ConfirmBehavior.Insert,
       select = true,
     },
+    ["<Tab>"] = function(fallback)
+      if cmp.visible() then
+        cmp.select_next_item()
+      elseif luasnip.expand_or_jumpable() then
+        luasnip.expand_or_jump()
+      else
+        fallback()
+      end
+    end,
+    ["<S-Tab>"] = function(fallback)
+      if cmp.visible() then
+        cmp.select_prev_item()
+      elseif luasnip.jumpable(-1) then
+        luasnip.jump(-1)
+      else
+        fallback()
+      end
+    end,
   },
 
   -- You should specify your *installed* sources.
@@ -635,22 +634,4 @@ require("nvim-treesitter.configs").setup {
   },
 }
 
--- vim.cmd [[ set foldmethod=expr ]]
-
--- vim.cmd [[ set foldexpr=nvim_treesitter#foldexpr() ]]
-
 vim.cmd(string.format([[ command! Term %s new | term]], math.ceil(vim.api.nvim_get_option "lines" * 0.3)))
-
--- smooth scrolling
-require("neoscroll").setup {
-  -- All these keys will be mapped to their corresponding default scrolling animation
-  mappings = { "<C-u>", "<C-d>", "<C-b>", "<C-f>", "<C-y>", "<C-e>", "zt", "zz", "zb" },
-  hide_cursor = true, -- Hide cursor while scrolling
-  stop_eof = true, -- Stop at <EOF> when scrolling downwards
-  use_local_scrolloff = false, -- Use the local scope of scrolloff instead of the global scope
-  respect_scrolloff = false, -- Stop scrolling when the cursor reaches the scrolloff margin of the file
-  cursor_scrolls_alone = true, -- The cursor will keep on scrolling even if the window cannot scroll further
-  easing_function = nil, -- Default easing function
-  pre_hook = nil, -- Function to run before the scrolling animation starts
-  post_hook = nil, -- Function to run after the scrolling animation ends
-}
