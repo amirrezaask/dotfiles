@@ -151,11 +151,11 @@ vim.cmd [[ nnoremap <expr><CR> {-> v:hlsearch ? ":nohl<CR>" : "<CR>"}() ]]
 vim.g.onedark_style = "deep"
 vim.g.material_style = "darker"
 vim.g.tokyonight_style = "night"
-vim.cmd [[ colorscheme onedark ]]
+-- vim.cmd [[ colorscheme onedark ]]
 -- vim.cmd [[ colorscheme catppuccin ]]
 -- vim.cmd [[ colorscheme dracula ]]
 -- vim.cmd [[ colorscheme material ]]
--- vim.cmd [[ colorscheme tokyonight ]]
+vim.cmd [[ colorscheme tokyonight ]]
 -- vim.cmd [[ colorscheme nightfly ]]
 
 -- highlight on yank

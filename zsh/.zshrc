@@ -25,7 +25,7 @@ get_branch(){
 
 setopt PROMPT_SUBST
 NEWLINE=$'\n'
-PROMPT="%F{#bcbcbc}[$(date '+%H:%M')]%f %F{#005fff}`hostname`%f %F{#d7d700}%~%f %F{#00d700}$(get_branch)%f${NEWLINE}%F{red}|> %f"
+PROMPT="%F{#bcbcbc}[$(date '+%H:%M')]%f %F{#005fff}`hostname`%f %F{#d7d700}%~%f %F{#00d700}$(parse_git_branch)%f${NEWLINE}%F{red}|> %f"
 
 antigen apply
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
