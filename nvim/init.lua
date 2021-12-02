@@ -21,10 +21,11 @@ require("packer").startup {
     use { "folke/tokyonight.nvim" }
     use { "catppuccin/nvim" }
     use { "dracula/vim" }
+    use { "gruvbox-community/gruvbox" }
     use {
       "nvim-lualine/lualine.nvim",
       config = function()
-        require("lualine").setup()
+        require("lualine").setup { options = { theme = "gruvbox" } }
       end,
     }
     use {
@@ -171,8 +172,12 @@ vim.g.tokyonight_style = "night"
 -- vim.cmd [[ colorscheme catppuccin ]]
 -- vim.cmd [[ colorscheme dracula ]]
 -- vim.cmd [[ colorscheme material ]]
-vim.cmd [[ colorscheme tokyonight ]]
+-- vim.cmd [[ colorscheme tokyonight ]]
+vim.cmd [[ colorscheme gruvbox ]]
 -- vim.cmd [[ colorscheme nightfly ]]
+
+-- transparency
+vim.cmd [[ hi Normal guibg=none ]]
 
 -- highlight on yank
 vim.cmd [[
