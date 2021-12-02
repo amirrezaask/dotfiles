@@ -139,7 +139,7 @@ nnoremap("n", "nzz")
 nnoremap("N", "Nzz")
 
 -- Thanks to TJ again
-nnoremap("<expr><CR>", '{-> v:hlsearch ? ":nohl<CR>" : "<CR>"}')
+vim.cmd [[ nnoremap <expr><CR> {-> v:hlsearch ? ":nohl<CR>" : "<CR>"}() ]]
 
 -- Colorscheme
 vim.g.onedark_style = "deep"
@@ -401,8 +401,8 @@ actions:setup {
   {
     predicate = utils.make_language_predicate "lua",
     actions = {
-      run = function(bufnr)
-        vim.cmd [[ luafile(vim.api.nvim_buf_get_name(bufnr)) ]]
+      run = function(_)
+        vim.cmd [[ so % ]]
       end,
       format = function(bufnr)
         require("stylua"):run(bufnr)
@@ -655,3 +655,5 @@ require("nvim-treesitter.configs").setup {
     },
   },
 }
+local term_height = math.ceil(vim.api.nvim_get_option "lines" * 0.3)
+vim.cmd(string.format([[ command! Term %s new | term]], term_height))
