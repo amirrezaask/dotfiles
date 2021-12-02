@@ -15,6 +15,12 @@ require("packer").startup {
   function(use)
     use { "wbthomason/packer.nvim" } -- Plugin manager
     use { "navarasu/onedark.nvim" }
+    -- colorschemes
+    use { "marko-cerovac/material.nvim" }
+    use { "bluz71/vim-nightfly-guicolors" }
+    use { "folke/tokyonight.nvim" }
+    use { "catppuccin/nvim" }
+    use { "dracula/vim" }
     use { "amirrezaask/nline.nvim", requires = { "nvim-lua/plenary.nvim", "nvim-lua/lsp-status.nvim" } } -- Statusline
     use { "nvim-telescope/telescope.nvim", requires = { "nvim-lua/plenary.nvim" } } -- UI to search for things
     use { "tpope/vim-surround" } -- Vim surround objects
@@ -143,7 +149,14 @@ vim.cmd [[ nnoremap <expr><CR> {-> v:hlsearch ? ":nohl<CR>" : "<CR>"}() ]]
 
 -- Colorscheme
 vim.g.onedark_style = "deep"
+vim.g.material_style = "darker"
+vim.g.tokyonight_style = "night"
 vim.cmd [[ colorscheme onedark ]]
+-- vim.cmd [[ colorscheme catppuccin ]]
+-- vim.cmd [[ colorscheme dracula ]]
+-- vim.cmd [[ colorscheme material ]]
+-- vim.cmd [[ colorscheme tokyonight ]]
+-- vim.cmd [[ colorscheme nightfly ]]
 
 -- highlight on yank
 vim.cmd [[
