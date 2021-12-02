@@ -6,7 +6,9 @@
 
 -- Install package manager
 local install_path = vim.fn.stdpath "data" .. "/site/pack/packer/start/packer.nvim"
-
+local is_wsl = (function()
+  return string.find(vim.fn.systemlist("uname -r")[1] or "", "WSL")
+end)()
 if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
   vim.fn.execute("!git clone https://github.com/wbthomason/packer.nvim " .. install_path)
 end
@@ -61,7 +63,9 @@ require("packer").startup {
     use { "mfussenegger/nvim-dap" } -- debug adapter protocol
     use { "theHamsta/nvim-dap-virtual-text" } -- debug adapter protocol virtual text
     use { "kyazdani42/nvim-web-devicons" } -- Icons
-    use { "yamatsum/nvim-nonicons" } -- better Icons
+    if not is_wsl then
+      use { "yamatsum/nvim-nonicons" } -- better Icons
+    end
     use { "folke/todo-comments.nvim", requires = "nvim-lua/plenary.nvim" } -- Highlight todo and etc...
     use { "godlygeek/tabular" } -- beautify text
     use { "tjdevries/nlua.nvim" } -- Better lua dev for neovim
