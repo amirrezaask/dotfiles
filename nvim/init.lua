@@ -21,7 +21,12 @@ require("packer").startup {
     use { "folke/tokyonight.nvim" }
     use { "catppuccin/nvim" }
     use { "dracula/vim" }
-    use { "amirrezaask/nline.nvim", requires = { "nvim-lua/plenary.nvim", "nvim-lua/lsp-status.nvim" } } -- Statusline
+    use {
+      "nvim-lualine/lualine.nvim",
+      config = function()
+        require("lualine").setup()
+      end,
+    }
     use { "nvim-telescope/telescope.nvim", requires = { "nvim-lua/plenary.nvim" } } -- UI to search for things
     use { "tpope/vim-surround" } -- Vim surround objects
     use { "lewis6991/gitsigns.nvim", requires = { "nvim-lua/plenary.nvim" } } -- Gitsigns
@@ -151,12 +156,12 @@ vim.cmd [[ nnoremap <expr><CR> {-> v:hlsearch ? ":nohl<CR>" : "<CR>"}() ]]
 vim.g.onedark_style = "deep"
 vim.g.material_style = "darker"
 vim.g.tokyonight_style = "night"
-vim.cmd [[ colorscheme gruvbuddy ]]
+-- vim.cmd [[ colorscheme gruvbuddy ]]
 -- vim.cmd [[ colorscheme onedark ]]
 -- vim.cmd [[ colorscheme catppuccin ]]
 -- vim.cmd [[ colorscheme dracula ]]
 -- vim.cmd [[ colorscheme material ]]
--- vim.cmd [[ colorscheme tokyonight ]]
+vim.cmd [[ colorscheme tokyonight ]]
 -- vim.cmd [[ colorscheme nightfly ]]
 
 -- highlight on yank
@@ -495,50 +500,6 @@ actions:setup {
 }
 
 vim.cmd [[ autocmd BufWritePre * lua Actions:exec(0, 'format') ]] -- auto format files on save
-
--- Statusline
-local nline = require "nline"
-local nline_vim = require "nline.parts.vim"
-local git = require "nline.parts.git"
-local lsp = require "nline.parts.lsp"
-local wrappers = require "nline.wrappers"
-local icons = require "nline.parts.icons"
-
-local tj = {
-  nline_vim.mode {
-    texts = {
-      normal = "Normal",
-      visual = "Visual",
-      visual_block = "VisualBlock",
-      insert = "Insert",
-      insert_complete = "IComplete",
-      command = "Command",
-      terminal = "Terminal",
-    },
-  },
-  nline_vim.space(),
-  icons.git_branch,
-  nline_vim.space(),
-  git.branch(),
-
-  nline_vim.seperator(),
-
-  icons.file,
-  nline_vim.space(),
-  nline_vim.filename { shorten = true },
-  nline_vim.modified(),
-
-  nline_vim.seperator(),
-
-  -- wrappers.square_brackets(lsp.current_function()),
-  wrappers.square_brackets(git.changes()),
-  wrappers.square_brackets(lsp.diagnostics()),
-  lsp.progress(),
-  wrappers.square_brackets(nline_vim.line() .. nline_vim.space() .. nline_vim.colon() .. nline_vim.col()),
-  nline_vim.filetype(),
-}
-
-nline.make(tj)
 
 -- Auto complete
 vim.opt.completeopt = { "menuone", "noselect" }
