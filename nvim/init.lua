@@ -643,8 +643,7 @@ GO_telescope_picker = function(opts)
   local conf = require("telescope.config").values
   local action_state = require "telescope.actions.state"
   local actions = require "telescope.actions"
-  opts = opts or require("telescope.themes").get_dropdown()
-  pickers.new(opts, {
+  pickers.new(require("telescope.themes").get_ivy(), {
     prompt_title = "Go Commands",
     finder = finders.new_table {
       results = (function()
