@@ -56,6 +56,7 @@ alias golobby='cd ~/src/github.com/golobby'
 if command -v nvim &> /dev/null
 then
     alias v=nvim
+    alias vim=nvim
     alias n=nvim
 fi
 
