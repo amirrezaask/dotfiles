@@ -65,6 +65,7 @@ function M.wallpaper()
     end,
   }
 end
+vim.cmd [[ command! Wallpaper lua require"amirrezaask.telescope".wallpaper() ]]
 
 -- some mappings for searching using telescope
 vim.api.nvim_set_keymap(
