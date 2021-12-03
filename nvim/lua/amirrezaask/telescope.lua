@@ -48,6 +48,24 @@ function M.wrap(fn, opts)
   end
 end
 
+function M.wallpaper()
+  local path = os.getenv "WALLPAPERS_PATH" or "~/src/github.com/amirrezaask/dotfiles/wallpapers/"
+  require("telescope.builtin").find_files {
+    cwd = path,
+    prompt_title = "Set Wallpaper",
+    previewer = false,
+    attach_mappings = function(prompt_bufnr, map)
+      local apply = function()
+        local selected = require("telescope.actions.state").get_selected_entry()
+        vim.fn.system(string.format("feh --bg-fill %s", selected.cwd .. selected.value))
+      end
+      map("i", "<CR>", apply)
+      map("n", "<CR>", apply)
+      return true
+    end,
+  }
+end
+
 -- some mappings for searching using telescope
 vim.api.nvim_set_keymap(
   "n",

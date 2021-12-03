@@ -96,3 +96,5 @@ actions:setup {
     },
   },
 }
+-- Auto formatting for lua
+vim.cmd [[ autocmd BufWritePre *.lua lua Actions:exec(0, 'format') ]]
