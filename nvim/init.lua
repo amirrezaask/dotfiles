@@ -110,7 +110,6 @@ vim.opt.updatetime = 100
 vim.opt.wildmode = { "longest", "list", "full" }
 vim.opt.wildmode = vim.opt.wildmode - "list"
 vim.opt.wildmode = vim.opt.wildmode + { "longest", "full" }
-
 local nnoremap = function(lhs, rhs)
   vim.api.nvim_set_keymap("n", lhs, rhs, { silent = true, noremap = true })
 end
@@ -169,17 +168,7 @@ nnoremap("}", ":cnext<CR>")
 vim.cmd [[ nnoremap <expr><CR> {-> v:hlsearch ? ":nohl<CR>" : "<CR>"}() ]]
 
 -- Colorscheme
-vim.g.onedark_style = "deep"
-vim.g.material_style = "darker"
-vim.g.tokyonight_style = "night"
--- vim.cmd [[ colorscheme gruvbuddy ]]
--- vim.cmd [[ colorscheme onedark ]]
--- vim.cmd [[ colorscheme catppuccin ]]
--- vim.cmd [[ colorscheme dracula ]]
--- vim.cmd [[ colorscheme material ]]
--- vim.cmd [[ colorscheme tokyonight ]]
 vim.cmd [[ colorscheme gruvbox ]]
--- vim.cmd [[ colorscheme nightfly ]]
 
 -- transparency
 vim.cmd [[ hi Normal guibg=none ]]
@@ -261,7 +250,7 @@ end
 vim.api.nvim_set_keymap(
   "n",
   "<leader><leader>",
-  '<cmd>lua telescope_wrap("find_files", {hidden = true })<CR>',
+  '<cmd>lua telescope_wrap("find_files", { hidden = false })<CR>',
   { silent = true, noremap = true }
 )
 vim.api.nvim_set_keymap(
@@ -689,3 +678,8 @@ GO_telescope_picker = function(opts)
 end
 
 vim.cmd [[ command! GoCommands lua GO_telescope_picker() ]]
+
+vim.cmd [[ augroup Go ]]
+vim.cmd [[ autocmd BufWritePre *.go :silent! lua require('go.format').gofmt() ]]
+vim.cmd [[ autocmd BufWritePre *.go :silent! lua require('go.format').goimport() ]]
+vim.cmd [[ augroup END ]]
