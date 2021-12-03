@@ -96,5 +96,3 @@ actions:setup {
     },
   },
 }
-
-vim.cmd [[ autocmd BufWritePre * lua Actions:exec(0, 'format') ]] -- auto format files on save

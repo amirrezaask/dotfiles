@@ -1,4 +1,3 @@
-require("go").setup()
 local dap = require "dap"
 dap.adapters.go = function(callback, _)
   local port = 38697
@@ -25,10 +24,5 @@ dap.configurations.go = {
     program = "${file}",
   },
 }
-
-vim.cmd [[ command! GoCommands lua GO_telescope_picker() ]]
-
-vim.cmd [[ augroup Go ]]
--- vim.cmd [[ autocmd BufWritePre *.go :silent! lua require('go.format').gofmt() ]]
-vim.cmd [[ autocmd BufWritePre *.go :silent! lua require('go.format').goimport() ]]
-vim.cmd [[ augroup END ]]
+vim.g.go_fmt_autosave = 1
+vim.g.go_fmt_command = "goimports"

@@ -65,6 +65,6 @@ require("packer").startup {
     use { "milisims/nvim-luaref" } -- lua reference as vim help
     use { "nanotee/luv-vimdocs" } -- luv reference as vim help
     use { "lukas-reineke/indent-blankline.nvim" }
-    use { "ray-x/go.nvim" }
+    use { "fatih/vim-go" }
   end,
 }
