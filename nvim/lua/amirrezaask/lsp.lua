@@ -8,19 +8,19 @@ local on_attach = function(client, bufnr)
   vim.api.nvim_set_keymap(
     "n",
     "?d",
-    '<cmd>lua telescope_wrap("lsp_document_symbols", {hidden = true })<CR>',
+    '<cmd>lua require"amirrezaask.telescope".wrap("lsp_document_symbols", {hidden = true })<CR>',
     { silent = true, noremap = true }
   )
   vim.api.nvim_set_keymap(
     "n",
     "?w",
-    '<cmd>lua telescope_wrap("lsp_workspace_symbols", {hidden = true })<CR>',
+    '<cmd>lua require"amirrezaask.telescope".wrap("lsp_workspace_symbols", {hidden = true })<CR>',
     { silent = true, noremap = true }
   )
   vim.api.nvim_set_keymap(
     "n",
     "?c",
-    '<cmd>lua telescope_wrap("lsp_code_actions", {hidden = true })<CR>',
+    '<cmd>lua require"amirrezaask.telescope".wrap("lsp_code_actions", {hidden = true })<CR>',
     { silent = true, noremap = true }
   )
 
