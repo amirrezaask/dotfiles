@@ -13,12 +13,6 @@ require("packer").startup {
     use { "folke/tokyonight.nvim" } -- Tokyonight
     use { "dracula/vim" } -- Dracula
     use { "gruvbox-community/gruvbox" } -- Gruvbox
-    -- use {
-    --   "nvim-lualine/lualine.nvim",
-    --   config = function()
-    --     require("lualine").setup { options = { theme = "gruvbox" } }
-    --   end,
-    -- }
     use {
       "amirrezaask/nline.nvim",
       requires = { "nvim-lua/plenary.nvim" },
