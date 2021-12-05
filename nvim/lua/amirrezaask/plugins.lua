@@ -62,7 +62,8 @@ require("packer").startup {
     use { "tjdevries/nlua.nvim" } -- Better lua dev for neovim
     use { "milisims/nvim-luaref" } -- lua reference as vim help
     use { "nanotee/luv-vimdocs" } -- luv reference as vim help
-    use { "lukas-reineke/indent-blankline.nvim" }
-    use { "fatih/vim-go" }
+    use { "lukas-reineke/indent-blankline.nvim" } -- Show indent highlights
+    use { "fatih/vim-go" } -- Go IDE features
+    use { "ThePrimeagen/harpoon", requires = { "nvim-lua/plenary.nvim" } }
   end,
 }
