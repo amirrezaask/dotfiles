@@ -32,6 +32,8 @@ require("telescope").setup {
   },
 }
 
+require("telescope").load_extension "harpoon"
+
 local ivy = require("telescope.themes").get_ivy
 local current_theme = {}
 -- local current_theme = ivy { layout_config = { height = 0.4 } }
