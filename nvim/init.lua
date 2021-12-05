@@ -17,6 +17,9 @@ require "amirrezaask.options"
 -- Colorscheme
 require "amirrezaask.color"
 
+-- Statusline
+require "amirrezaask.statusline"
+
 -- Keymaps
 require "amirrezaask.keymaps"
 
