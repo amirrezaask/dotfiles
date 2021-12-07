@@ -53,10 +53,6 @@ require("packer").startup {
     use { "nvim-treesitter/nvim-treesitter-textobjects" } -- more text objects for treesitter
     use { "mfussenegger/nvim-dap" } -- debug adapter protocol
     use { "theHamsta/nvim-dap-virtual-text" } -- debug adapter protocol virtual text
-    use { "kyazdani42/nvim-web-devicons" } -- Icons
-    if not is_wsl then
-      use { "yamatsum/nvim-nonicons" } -- better Icons
-    end
     use { "folke/todo-comments.nvim", requires = "nvim-lua/plenary.nvim" } -- Highlight todo and etc...
     use { "godlygeek/tabular" } -- beautify text
     use { "tjdevries/nlua.nvim" } -- Better lua dev for neovim
