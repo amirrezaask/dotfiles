@@ -1,5 +1,5 @@
 -- Colorscheme
-vim.cmd [[ colorscheme gruvbox ]]
+vim.cmd [[ colorscheme gruvbuddy ]]
 
 -- transparency
 -- vim.cmd [[ hi Normal guibg=none ]]
