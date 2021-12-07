@@ -17,18 +17,6 @@ export DOTFILES="~/src/github.com/amirrezaask/dotfiles"
 
 # Aliases
 alias open='xdg-open'
-alias g='git status'
-alias ga='git add'
-alias gcl='git clone'
-alias gpl='git pull'
-alias gd='git diff'
-alias gc='git commit'
-alias gp='git push'
-alias gcm='git commit -m'
-alias gf='git fetch'
-alias gco='git checkout'
-alias gcb='git checkout -b'
-alias gpsup='gp --set-upstream origin $(git_current_branch)'
 alias kcl='kubectl'
 alias dots="cd ${DOTFILES}"
 alias prj="cd ${GOPATH}/src/github.com/amirrezaask"
@@ -65,3 +53,8 @@ then
     alias ls=exa
     alias ll=exa -la
 fi
+
+function setup() {
+    tmux rename-window nvim
+    tmux new-window -n shell
+}
