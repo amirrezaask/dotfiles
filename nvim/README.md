@@ -1,25 +1,22 @@
 # My neovim IDE
 ## Features 
 ### Navigation 
-- Goto definition
-- Find References
-- Find Implementation
+- Goto definition ( gd )
+- Find References ( gr )
+- Find Implementation ( gi )
 ### Editing
 - Autocomplete
 - Snippets
-- Rename
+- Rename ( Shift+R )
 ### Actions
-- Build
-- Test
-- Run
+- Build ( ,ab )
+- Test ( ,ata )
+- Run ( ,ar )
 - Debugging
-- Format 
+- Format ( ,af )
 - or any other action
+
 ### Git
-- See changed files 
-- commit changes ( chunk or file )
-- push
-- pull
-- fetch
-- checkout
+- See changed files ( Ctrl + K )
+- commit changes ( chunk or file ) ( Ctrl + k )
 
