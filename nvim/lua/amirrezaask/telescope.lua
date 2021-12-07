@@ -15,6 +15,9 @@ require("telescope").setup {
         preview_height = 0.75,
       },
     },
+    file_ignore_patterns = {
+      "__pycache__",
+    },
     mappings = {
       n = {
         ["<ESC>"] = telescope_actions.close,
