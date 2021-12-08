@@ -26,6 +26,7 @@ dap.configurations.go = {
 }
 vim.g.go_fmt_autosave = 1
 vim.g.go_fmt_command = "goimports"
-Go_telescope_picker = require"amirrezaask.telescope".make_command_picker("Go", {})
+vim.g.go_gopls_enabled = false
+Go_telescope_picker = require("amirrezaask.telescope").make_command_picker("Go", {})
 
 vim.cmd [[ command! GoPicker lua Go_telescope_picker() ]]
