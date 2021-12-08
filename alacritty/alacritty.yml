@@ -1,15 +1,12 @@
 font:
   normal:
-    family: "UbuntuMono"
+    family: "JetBrainsMono Nerd Font Mono"
     style: Medium
-  size: 15
+  size: 11
   background_opacity: 0.6
 window:
     dynamic_title: true
 background_opacity: 0.95
-
-key_bindings:
-  - { key: N, mods: Control|Shift, action: SpawnNewInstance }
 
 colors:
   primary:

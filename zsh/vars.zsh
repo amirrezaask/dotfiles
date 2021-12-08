@@ -37,7 +37,6 @@ alias baly='echo ${BALY_PASSWORD} | sudo openconnect --user amirreza.askarpour v
 alias gpm='git push origin master'
 alias gplm='git pull origin master'
 alias gs='git status'
-alias snapp='cd ~/src/gitlab.snapp.ir/'
 alias oss='cd ~/src/github.com/amirrezaask'
 alias golobby='cd ~/src/github.com/golobby'
 
@@ -53,6 +52,10 @@ then
     alias ls=exa
     alias ll=exa -la
 fi
+
+function snapp() {
+    cd ~/src/gitlab.snapp.ir/
+}
 
 function setup() {
     tmux rename-window nvim
