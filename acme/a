@@ -1,4 +1,0 @@
-#! /bin/bash
-
-
-acme -f /mnt/font/'FiraMono-Regular'/12a/font "$@" &

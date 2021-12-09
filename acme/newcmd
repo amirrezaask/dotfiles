@@ -1,7 +1,0 @@
-#! /bin/bash
-SCRIPTS="/home/amirreza/w/dotfiles/acme/"
-FILE="$1"
-touch $FILE 
-chmod u+x $FILE 
-$SCRIPTS/INSTALL
-

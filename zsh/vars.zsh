@@ -7,14 +7,14 @@ export PYTHONBINS="$HOME/.local/bin"
 export EDITOR='nvim'
 export GOPRIVATE='gitlab.snapp.ir'
 export GOPROXY='https://repo.snapp.tech/repository/goproxy,goproxy.io,direct'
-export PLAN9="$HOME/.local/plan9"
+export PLAN9="/usr/local/plan9"
 export ZIGPATH="/usr/local/zig"
 export ENCORE_INSTALL="/home/amirreza/.encore"
 export DENO_PATH="/home/amirreza/.deno"
 export BIN_PATH="$HOME/.local/bin"
 export DOTFILES="$HOME/src/github.com/amirrezaask/dotfiles"
 export SCRIPTS="$DOTFILES/scripts"
-export PATH="$SCRIPTS:$DENO_PATH/bin:$ENCORE_INSTALL/bin:$PATH:$HOME/.luarocks/bin:$ZIGPATH:/usr/local/go/bin:$HOME/.config/composer/vendor/bin:$GOROOT/bin:$GOPATH/bin:$HOME/.cargo/bin:$PYTHONBINS:/usr/local/Postman:$HOME/.local/elixir-ls/:$PATH"
+export PATH="$DOTFILES/acme:$PLAN9/bin:$SCRIPTS:$DENO_PATH/bin:$ENCORE_INSTALL/bin:$PATH:$HOME/.luarocks/bin:$ZIGPATH:/usr/local/go/bin:$HOME/.config/composer/vendor/bin:$GOROOT/bin:$GOPATH/bin:$HOME/.cargo/bin:$PYTHONBINS:/usr/local/Postman:$HOME/.local/elixir-ls/:$PATH"
 
 # Aliases
 alias open='xdg-open'
@@ -40,7 +40,7 @@ alias gplm='git pull origin master'
 alias gs='git status'
 alias oss='cd ~/src/github.com/amirrezaask'
 alias golobby='cd ~/src/github.com/golobby'
-
+alias a="acme -a -f /mnt/font/'JetBrainsMonoNerdFontCompleteM-Regular'/13a/font"
 if command -v nvim &> /dev/null
 then
     alias v=nvim

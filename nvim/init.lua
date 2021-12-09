@@ -5,7 +5,7 @@
 -- /_/  |_/_/ /_/ /_/_/_/  /_/   \___/ /___/\__,_/_/  |_/____/_/|_|
 --
 -- Configuration is splitted into modules
--- modules are in lua/amirrezaask namespace
+-- Modules are in lua/amirrezaask namespace
 --
 
 -- Install package manager

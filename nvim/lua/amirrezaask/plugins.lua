@@ -61,5 +61,7 @@ require("packer").startup {
     use { "lukas-reineke/indent-blankline.nvim" } -- Show indent highlights
     use { "fatih/vim-go" } -- Go IDE features
     use { "ThePrimeagen/harpoon", requires = { "nvim-lua/plenary.nvim" } }
+    use { "junegunn/fzf" }
+    use { "junegunn/fzf.vim" }
   end,
 }
