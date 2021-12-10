@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+printf "\ngit status\ngit add .\ngit commit -m ''\ngit push"
