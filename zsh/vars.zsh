@@ -40,6 +40,7 @@ alias gplm='git pull origin master'
 alias gs='git status'
 alias oss='cd ~/src/github.com/amirrezaask'
 alias golobby='cd ~/src/github.com/golobby'
+alias snapp='cd ~/src/gitlab.snapp.ir'
 if command -v nvim &> /dev/null
 then
     alias v=nvim
