@@ -1,0 +1,4 @@
+#!/bin/bash
+
+
+impl $2 $1

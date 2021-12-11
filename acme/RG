@@ -1,4 +1,4 @@
 #!/usr/bin/bash
 
 
-rg --vimgrep $@
+rg --column --line-number --no-heading --ignore-case "$@"
