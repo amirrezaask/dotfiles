@@ -13,6 +13,7 @@ export ENCORE_INSTALL="/home/amirreza/.encore"
 export DENO_PATH="/home/amirreza/.deno"
 export BIN_PATH="$HOME/.local/bin"
 export DOTFILES="$HOME/src/github.com/amirrezaask/dotfiles"
+export SNAPP="$HOME/src/gitlab.snapp.ir"
 export SCRIPTS="$DOTFILES/scripts"
 export PATH="$DOTFILES/acme:$SCRIPTS:$DENO_PATH/bin:$ENCORE_INSTALL/bin:$PATH:$HOME/.luarocks/bin:$ZIGPATH:/usr/local/go/bin:$HOME/.config/composer/vendor/bin:$GOROOT/bin:$GOPATH/bin:$HOME/.cargo/bin:$PYTHONBINS:/usr/local/Postman:$HOME/.local/elixir-ls/:$PATH"
 
@@ -40,7 +41,7 @@ alias gplm='git pull origin master'
 alias gs='git status'
 alias oss='cd ~/src/github.com/amirrezaask'
 alias golobby='cd ~/src/github.com/golobby'
-alias snapp='cd ~/src/gitlab.snapp.ir'
+alias snapp="cd $SNAPP"
 if command -v nvim &> /dev/null
 then
     alias v=nvim
