@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# save the file
+printf "put\n" | 9p write acme/$winid/ctl
+
+if [ -x "$(command -v goimports)" ]; then
+	goimports -w $samfile
+else
+	gofmt -w $samfile
+fi
+
+printf "get\n" | 9p write acme/$winid/ctl
