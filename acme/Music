@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+
+printf "(PlayPause)(Next)(Previous)(Vol+)(Vol-)"
