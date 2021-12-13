@@ -1,0 +1,11 @@
+#!/usr/bin/bash
+
+go run *.go
+
+exit_status=$?
+
+if [[ $exit_status -ne 0 ]]; then
+	echo "============ Run Failed ============"
+else
+	echo "============ Run Succeded ============"
+fi
