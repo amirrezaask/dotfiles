@@ -5,6 +5,7 @@ export PATH="$PLAN9/bin:$PATH"
 export ACME="/home/amirreza/src/github.com/amirrezaask/dotfiles/acme"
 export SHELL=rc
 FONT='JetBrainsMonoNerdFontCompleteM-Regular'
+SIZE='12'
 plumbproc=$(ps ax | grep -v grep | grep plumber)
 if [ -z "$plumbproc" ]; then
     9 plumber
@@ -15,4 +16,4 @@ if [ -z "$fontsrvproc" ]; then
 fi
 export DISPLAY=':0'
 
-9term -f "/mnt/font/$FONT/11a/font"
+9term -f "/mnt/font/$FONT/${SIZE}a/font"

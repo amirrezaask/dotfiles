@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+
+rhythmbox-client --volume-up
