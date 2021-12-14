@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+# there should be a variable called marks pointing to project marks
+
+echo "$1" >> $MARKSFILE

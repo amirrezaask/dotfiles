@@ -1,9 +1,4 @@
 #!/usr/bin/env bash
 
 path="$1"
-#echo "" | 9p write acme/new/body
-echo "opening $1"
-last=$(9p ls acme | sort -g | tail -n 1)
-echo "name $path" | 9p write acme/$last/ctl
-echo "clean" | 9p write acme/$last/ctl
-echo "get" | 9p write acme/$last/ctl
+xplor $path
