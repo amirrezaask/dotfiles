@@ -1,6 +1,6 @@
 font:
   normal:
-    family: "JetBrainsMono Nerd Font Mono"
+    family: "GoMono"
   size: 8
 window:
     dynamic_title: true
