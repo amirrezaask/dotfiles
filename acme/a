@@ -5,7 +5,7 @@ export PATH="$PLAN9/bin:$PATH"
 export ACME="/home/amirreza/src/github.com/amirrezaask/dotfiles/acme"
 export SHELL=rc
 FONT='GoMono'
-FONTSIZE='10'
+FONTSIZE='11'
 plumbproc=$(ps ax | grep -v grep | grep plumber)
 if [ -z "$plumbproc" ]; then
     9 plumber
@@ -14,6 +14,6 @@ fontsrvproc=$(ps ax | grep -v grep | grep fontsrv)
 if [ -z "$fontsrvproc" ]; then
     9 fontsrv -m /mnt/font &
 fi
-export DISPLAY=':0'
-/usr/local/plan9/bin/acme -a -f "/mnt/font/$FONT/${FONTSIZE}a/font" 2>/dev/null 1>/dev/null &
+#export DISPLAY=':0'
+/usr/local/plan9/bin/acme -a -f "/mnt/font/$FONT/${FONTSIZE}a/font" &
 #/usr/local/plan9/bin/acme -a -f "/mnt/font/$FONT/11a/font"

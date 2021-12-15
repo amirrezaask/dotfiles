@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+if [ -x "$(command -v rg)" ]; then
+	Rg "$1"
+elif [ -x "$(command -v git)" ]; then
+	gg "$1"
+else
+	/bin/grep -e "$1" -n -r .
+fi

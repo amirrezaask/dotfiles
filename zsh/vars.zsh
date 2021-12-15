@@ -3,8 +3,8 @@ source ~/env
 # Variables
 export GO111MODULE='on'
 export BASEGOROOT='/usr/local/go'
-# export GOVERSION='1.18beta1'
-export GOVERSION='1.17.3'
+export GOVERSION='1.18beta1'
+# export GOVERSION='1.17.3'
 export GOROOT="${BASEGOROOT}-${GOVERSION}"
 export GOPATH="$HOME"
 export PYTHONBINS="$HOME/.local/bin"

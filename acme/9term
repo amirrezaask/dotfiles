@@ -14,6 +14,5 @@ fontsrvproc=$(ps ax | grep -v grep | grep fontsrv)
 if [ -z "$fontsrvproc" ]; then
     9 fontsrv -m /mnt/font &
 fi
-export DISPLAY=':0'
 
 9term -f "/mnt/font/$FONT/${SIZE}a/font"
