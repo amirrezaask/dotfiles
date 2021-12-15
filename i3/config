@@ -34,8 +34,8 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 # start a terminal
-bindsym $mod+Shift+Return exec alacritty 
-bindsym $mod+Return exec alacritty 
+bindsym $mod+Shift+Return exec kitty 
+bindsym $mod+Return exec kitty 
 # kill focused window
 bindsym $mod+Shift+q kill
 
@@ -169,7 +169,7 @@ bar {
 }
 exec_always setxkbmap -layout "us,ir" -option "grp:alt_shift_toggle" -option "ctrl:nocaps"
 exec_always feh --bg-scale /home/amirreza/src/github.com/amirrezaask/dotfiles/wallpapers/1.jpg
-exec_always compton &
+# exec_always compton &
 
 # VMWare tools integration
 exec --no-startup-id vmware-user

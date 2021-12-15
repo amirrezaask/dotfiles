@@ -2,6 +2,10 @@ source ~/env
 
 # Variables
 export GO111MODULE='on'
+export BASEGOROOT='/usr/local/go'
+# export GOVERSION='1.18beta1'
+export GOVERSION='1.17.3'
+export GOROOT="${BASEGOROOT}-${GOVERSION}"
 export GOPATH="$HOME"
 export PYTHONBINS="$HOME/.local/bin"
 export EDITOR='nvim'
@@ -15,7 +19,7 @@ export BIN_PATH="$HOME/.local/bin"
 export DOTFILES="$HOME/src/github.com/amirrezaask/dotfiles"
 export SNAPP="$HOME/src/gitlab.snapp.ir"
 export SCRIPTS="$DOTFILES/scripts"
-export PATH="$DOTFILES/acme:$SCRIPTS:$DENO_PATH/bin:$ENCORE_INSTALL/bin:$PATH:$HOME/.luarocks/bin:$ZIGPATH:/usr/local/go/bin:$HOME/.config/composer/vendor/bin:$GOROOT/bin:$GOPATH/bin:$HOME/.cargo/bin:$PYTHONBINS:/usr/local/Postman:$HOME/.local/elixir-ls/:$PATH"
+export PATH="$DOTFILES/acme:$SCRIPTS:$ENCORE_INSTALL/bin:$PATH:$HOME/.luarocks/bin:$ZIGPATH:$HOME/.config/composer/vendor/bin:$GOROOT/bin:$GOPATH/bin:$HOME/.cargo/bin:$PYTHONBINS:/usr/local/Postman:$HOME/.local/elixir-ls/:$PATH"
 
 # Aliases
 alias open='xdg-open'
