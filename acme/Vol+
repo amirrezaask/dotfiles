@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-
-rhythmbox-client --volume-up
+pactl set-sink-volume @DEFAULT_SINK@ +10%
+# rhythmbox-client --volume-up
