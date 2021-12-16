@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+rg --files . | fzf -f "$1"
+
