@@ -5,5 +5,5 @@ if [ -x "$(command -v rg)" ]; then
 elif [ -x "$(command -v git)" ]; then
 	gg "$1"
 else
-	/bin/grep -e "$1" -n -r .
+	grep -e "$1" -n -r
 fi
