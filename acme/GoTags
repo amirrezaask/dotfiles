@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-printf "GoBuild GoRun Gofmt GoTest" | 9p write acme/$winid/tag

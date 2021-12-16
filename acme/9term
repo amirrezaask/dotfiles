@@ -15,4 +15,4 @@ if [ -z "$fontsrvproc" ]; then
     9 fontsrv -m /mnt/font &
 fi
 
-9term -f "/mnt/font/$FONT/${SIZE}a/font"
+9term -c -f "/mnt/font/$FONT/${SIZE}a/font"

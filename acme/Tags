@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+filename=`echo $samfile`
+
+extension=`echo "${filename##*.}"`
+
+base=' Comp Def Refs Impls Sig'
+
+if [ $extension == 'go' ]; then
+	base="$base GoBuild GoRun Gofmt GoTest"
+fi
+
+printf "$base" | 9p write acme/$winid/tag
