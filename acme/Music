@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
 
+filename=`echo $samfile`
 
-printf "(PlayPause)(Next)(Previous)(Vol+)(Vol-)"
+extension=`echo "${filename##*.}"`
+
+base=' | PlayPause Next Previous Vol+ Vol-'
+
+printf "$base" | 9p write acme/$winid/tag
