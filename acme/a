@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-source ~/.config/zsh/vars.zsh
+source ~/.profile
 export PLAN9='/usr/local/plan9'
 export PATH="$PLAN9/bin:$PATH"
 export ACME="/home/amirreza/src/github.com/amirrezaask/dotfiles/acme"
