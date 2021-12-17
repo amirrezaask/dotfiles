@@ -1,0 +1,11 @@
+#!/usr/bin/bash
+filename=`echo $samfile`
+
+extension=`echo "${filename##*.}"`
+
+if [ $extension == 'go' ]; then
+	acme-lsp -server '([/\\]go\.mod)|([/\\]go\.sum)|(\.go)$:gopls serve' -workspaces ./go.mod
+fi
+if [ $extension == 'php' ]; then
+	acme-lsp -server '(\.php)$:intelephense --stdio' -rootdir '.'
+fi

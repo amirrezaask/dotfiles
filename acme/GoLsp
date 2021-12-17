@@ -1,3 +1,0 @@
-#!/usr/bin/bash
-
-acme-lsp -server '([/\\]go\.mod)|([/\\]go\.sum)|(\.go)$:gopls serve' -workspaces ./go.mod
