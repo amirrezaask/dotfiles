@@ -1,9 +1,5 @@
 #!/usr/bin/env bash
 
-filename=`echo $samfile`
-
-extension=`echo "${filename##*.}"`
-
 base=' | PlayPause Next Previous Vol+ Vol-'
 
-printf "$base" | 9p write acme/$winid/tag
+printf "$base"

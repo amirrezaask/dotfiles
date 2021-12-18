@@ -1,32 +1,3 @@
-if [ -n "$BASH_VERSION" ]; then
-    # include .bashrc if it exists
-    if [ -f "$HOME/.bashrc" ]; then
-	. "$HOME/.bashrc"
-    fi
-fi
-source ~/env
-
-# Variables
-export GO111MODULE='on'
-export BASEGOROOT='/usr/local/go'
-export GOVERSION='1.18beta1'
-# export GOVERSION='1.17.3'
-export GOROOT="${BASEGOROOT}-${GOVERSION}"
-export GOPATH="$HOME"
-export EDITOR='nvim'
-export GOPRIVATE='gitlab.snapp.ir'
-export GOPROXY='https://repo.snapp.tech/repository/goproxy,goproxy.io,direct'
-export PLAN9="/usr/local/plan9"
-export ENCORE_INSTALL="/home/amirreza/.encore"
-export DENO_PATH="/home/amirreza/.deno"
-export BIN_PATH="$HOME/.local/bin"
-export OSS="$HOME/src/github.com/amirrezaask"
-export DOTFILES="$HOME/src/github.com/amirrezaask/dotfiles"
-export SNAPP="$HOME/src/gitlab.snapp.ir"
-export SCRIPTS="$DOTFILES/scripts"
-export PATH="$DOTFILES/acme:$HOME/.luarocks/bin:$HOME/.config/composer/vendor/bin:$GOROOT/bin:$GOPATH/bin:$HOME/.cargo/bin:$HOME/.local/bin:/usr/local/Postman:$HOME/.local/elixir-ls/:$PATH:$PLAN9/bin"
-
-# Aliases
 alias open='xdg-open'
 alias kcl='kubectl'
 alias dots="cd ${DOTFILES}"
@@ -57,4 +28,3 @@ then
     alias vim=nvim
     alias n=nvim
 fi
-echo "sourced"
