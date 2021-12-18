@@ -4,7 +4,7 @@ filename=`echo $samfile`
 
 extension=`echo "${filename##*.}"`
 
-base=' | G F | Comp Def Refs Impls Sig'
+base=' | C D F G | Comp Def Refs Impls Sig'
 
 if [ $extension == 'go' ]; then
 	base="$base | GoBuild GoRun Gofmt GoTest"

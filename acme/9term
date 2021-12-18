@@ -5,7 +5,7 @@ export PATH="$PLAN9/bin:$PATH"
 export ACME="/home/amirreza/src/github.com/amirrezaask/dotfiles/acme"
 export SHELL=rc
 FONT='GoMono'
-SIZE='10'
+SIZE='11'
 plumbproc=$(ps ax | grep -v grep | grep plumber)
 if [ -z "$plumbproc" ]; then
     9 plumber

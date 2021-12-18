@@ -2,9 +2,8 @@
 tool=$1
 shift
 query=`echo $@ | tr ' ' '+'`
-url="cht.sh/$tool/$query"
-echo $url
-curl $url
+url="cht.sh/$tool/$query?qT"
+curl --no-progress-meter $url
 
 
 
