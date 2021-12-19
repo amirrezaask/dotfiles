@@ -13,6 +13,7 @@ require("packer").startup {
     use { "folke/tokyonight.nvim" } -- Tokyonight
     use { "dracula/vim" } -- Dracula
     use { "gruvbox-community/gruvbox" } -- Gruvbox
+    use { "plan9-for-vimspace/acme-colors" }
     use {
       "amirrezaask/nline.nvim",
       requires = { "nvim-lua/plenary.nvim" },
