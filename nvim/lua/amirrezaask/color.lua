@@ -1,5 +1,5 @@
 -- Colorscheme
-vim.cmd [[ colorscheme gruvbox ]]
+vim.cmd [[ colorscheme solarized8 ]]
 
 -- Transparency
 -- vim.cmd [[ hi Normal guibg=none ]]

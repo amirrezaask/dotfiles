@@ -169,7 +169,7 @@ bar {
 }
 exec_always setxkbmap -layout "us,ir" -option "grp:alt_shift_toggle" -option "ctrl:nocaps"
 exec_always feh --bg-scale /home/amirreza/src/github.com/amirrezaask/dotfiles/wallpapers/1.jpg
-exec_always xrandr --output eDP-1 --left-of --output HDMI-1-0
+# exec_always xrandr --output eDP-1 --left-of --output HDMI-1-0
 # exec_always compton &
 
 # VMWare tools integration

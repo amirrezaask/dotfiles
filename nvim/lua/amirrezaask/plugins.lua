@@ -9,11 +9,8 @@ end
 require("packer").startup {
   function(use)
     use { "wbthomason/packer.nvim" } -- Plugin manager
-    use { "navarasu/onedark.nvim" } -- Onedark from Atom
-    use { "folke/tokyonight.nvim" } -- Tokyonight
-    use { "dracula/vim" } -- Dracula
     use { "gruvbox-community/gruvbox" } -- Gruvbox
-    use { "plan9-for-vimspace/acme-colors" }
+    use { "lifepillar/vim-solarized8" }
     use {
       "amirrezaask/nline.nvim",
       requires = { "nvim-lua/plenary.nvim" },
@@ -60,9 +57,12 @@ require("packer").startup {
     use { "milisims/nvim-luaref" } -- lua reference as vim help
     use { "nanotee/luv-vimdocs" } -- luv reference as vim help
     use { "lukas-reineke/indent-blankline.nvim" } -- Show indent highlights
-    use { "fatih/vim-go" } -- Go IDE features
     use { "ThePrimeagen/harpoon", requires = { "nvim-lua/plenary.nvim" } }
     use { "junegunn/fzf" }
     use { "junegunn/fzf.vim" }
+    use "kyazdani42/nvim-web-devicons"
+    if not is_wsl then
+      use "yamatsum/nvim-web-nonicons"
+    end
   end,
 }

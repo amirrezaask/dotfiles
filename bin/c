@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+filename=`echo $samfile`
+
+extension=`echo "${filename##*.}"`
+
+if [ $extension == "go" ]; then
+	echo $1 | awk '{print "//" $0}'
+fi
+
+
