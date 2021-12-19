@@ -116,3 +116,5 @@ if ! shopt -oq posix; then
   fi
 fi
 export PS1="\W % "
+
+alias luamake=/home/amirreza/.local/lua-language-server/3rd/luamake/luamake
