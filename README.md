@@ -1,8 +1,6 @@
 # Amirreza Configurations
 
 # My Dev Setup
-- Windows 11
-- WSL2
-- Powershell (see powershell directory)
-- Windows Terminal
-- Neovim (See nvim directory)
+- Linux
+- Shell: ZSH ( git clone sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" )
+- Editor Acme ( sudo git clone https://github.com/9fans/plan9port /usr/local/plan9 )
