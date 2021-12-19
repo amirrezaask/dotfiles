@@ -56,4 +56,3 @@ then
     alias vim=nvim
     alias n=nvim
 fi
-echo "sourced"
