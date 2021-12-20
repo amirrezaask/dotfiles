@@ -1,6 +1,3 @@
 #!/usr/bin/env bash
 
-
-message=`/bin/cat -`
-message=`echo "$message" | sed 's/^[ \t]*//'`
-git commit -m "$message"
+git commit -m "$1"
