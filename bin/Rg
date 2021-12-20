@@ -1,4 +1,0 @@
-#!/usr/bin/bash
-
-
-rg --column --line-number --no-heading --ignore-case "$1"

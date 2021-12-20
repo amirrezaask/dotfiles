@@ -2,10 +2,13 @@
 filename=`echo $samfile`
 
 extension=`echo "${filename##*.}"`
-
+tags='| Comp Def Refs Impls Sig'
+#TODO: should check if an LSP is running for path no run again.
 if [ $extension == 'go' ]; then
 	acme-lsp -server '([/\\]go\.mod)|([/\\]go\.sum)|(\.go)$:gopls serve' -workspaces ./go.mod
 fi
 if [ $extension == 'php' ]; then
 	acme-lsp -server '(\.php)$:intelephense --stdio' -rootdir '.'
 fi
+
+printf "\n$tags" | 9p write acme/$winid/tag

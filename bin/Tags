@@ -4,5 +4,5 @@ filename=`echo $samfile`
 
 extension=`echo "${filename##*.}"`
 
-base='|c |uc |i+ |i- F G Build Run Format Test Cheat Doc | Comp Def Refs Impls Sig'
+base='|c |uc |i+ |i- Find Grep Build Run Format Test Cheat Doc'
 printf "\n$base" | 9p write acme/$winid/tag
