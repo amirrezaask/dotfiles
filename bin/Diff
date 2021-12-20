@@ -4,6 +4,7 @@ filename=`/bin/cat -`
 filename=`echo "$filename" | /bin/sed 's/^[ \t]*//'`
 filename="${base}/${filename}"
 
+
 git diff --no-color "$filename"
 
 #if [[ $? -ne 0 ]]; then
