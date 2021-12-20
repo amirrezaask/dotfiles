@@ -29,9 +29,11 @@ END {
 	};
 
 }'
+
 # Get unstaged files
+printf "Add\nCommit \nDiff\n\n\n"
 printf "Unstaged:\n\t"
 git --no-pager diff --name-status | awk "$awk_script"
 
-printf "Staged:\n\t"
+printf "\nStaged:\n\t"
 git --no-pager diff --staged --name-status | awk "$awk_script"

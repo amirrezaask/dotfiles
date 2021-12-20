@@ -4,4 +4,4 @@ filename=`echo $samfile`
 filename=`basename $filename`
 slide_number=`echo "${filename%%.*}"`
 slide_number=`expr $slide_number + 1`
-set_slide $slide_number
+Slide $slide_number

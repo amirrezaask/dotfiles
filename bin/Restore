@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+base=`git rev-parse --show-toplevel`
+filename=`/bin/cat -`
+filename=`echo "$filename" | /bin/sed 's/^[ \t]*//'`
+filename="${base}/${filename}"
+git restore "$filename"
