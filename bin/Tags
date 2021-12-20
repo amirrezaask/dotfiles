@@ -1,1 +1,8 @@
-tags
+#!/usr/bin/env bash
+
+filename=`echo $samfile`
+
+extension=`echo "${filename##*.}"`
+
+base='|c |uc |i+ |i- F G Build Run Format Test Cheat Doc | Comp Def Refs Impls Sig'
+printf "\n$base" | 9p write acme/$winid/tag
