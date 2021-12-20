@@ -1,3 +1,0 @@
-#!/usr/bin/bash
-
-acme-lsp -server '(\.php)$:intelephense serve'

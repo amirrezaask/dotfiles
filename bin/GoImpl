@@ -1,4 +1,9 @@
 #!/bin/bash
 
+# GoImpl io.Reader 'f *File
+
+receiver=$2
+iface=$1
 
 impl $2 $1
+

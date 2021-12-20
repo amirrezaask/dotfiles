@@ -1,7 +1,12 @@
 #!/usr/bin/bash
+filename=`echo $samfile`
 
-go run *.go
+extension=`echo "${filename##*.}"`
 
+if [ $extension == 'go' ]; then
+	cmd='go run *.go'
+fi
+eval $cmd
 exit_status=$?
 
 if [[ $exit_status -ne 0 ]]; then

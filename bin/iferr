@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
 
-printf "if err != nil {\n\t\n}"
+printf "if err != nil {\n\t\n\t}"

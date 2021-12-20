@@ -2,8 +2,8 @@
 Name=Acme
 GenericName=Text Editor
 Comment=Edit text files
-TryExec=/home/amirreza/src/github.com/amirrezaask/dotfiles/bin/a
-Exec=/home/amirreza/src/github.com/amirrezaask/dotfiles/bin/a %F
+TryExec=/home/amirreza/src/github.com/amirrezaask/dotfiles/bin/acme
+Exec=/home/amirreza/src/github.com/amirrezaask/dotfiles/bin/acme %F
 Terminal=false
 Type=Application
 Icon=/home/amirreza/src/github.com/amirrezaask/dotfiles/bin/icon.jpg
