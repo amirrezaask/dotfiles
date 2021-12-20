@@ -7,6 +7,6 @@ filename="${base}/${filename}"
 
 git diff --no-color "$filename"
 
-#if [[ $? -ne 0 ]]; then
-#	git diff --no-color --staged "$filename"
-#fi
+if [[ $? -ne 0 ]]; then
+	git diff --no-color --staged "$filename"
+fi
