@@ -36,10 +36,29 @@ END {
 	}
 }'
 
-# Get unstaged files
-printf ">Add\nCommit \n>Diff\n>Restore\nPush\n\n\n"
-printf "Unstaged:\n"
-git --no-pager diff --name-status | awk "$awk_script"
+output=''
 
-printf "\nStaged:\n"
-git --no-pager diff --staged --name-status | awk "$awk_script"
+# Get unstaged files
+output+=`echo ">Add\nCommit \n>Diff\n>Restore\nPush\n\n\n"`
+output+=`echo "Unstaged:\n"`
+output+=`git --no-pager diff --name-status | awk "$awk_script"`
+
+output+=`echo "\nStaged:\n"`
+output+=`git --no-pager diff --staged --name-status | awk "$awk_script"`
+
+base=`git rev-parse --show-toplevel`
+
+# make a new window
+
+
+
+# if current window is a Git window just refresh that with new content
+last_window_name="$samfile"
+
+#echo "$last_window_name"
+echo -n "" | 9p write acme/new/body
+last=$(9p ls acme | sort -g | tail -n 1)
+
+echo "name ${base}/+Git" | 9p write "acme/$last/ctl"
+printf "$output" | 9p write "acme/$last/body"
+echo "clean" | 9p write "acme/$last/ctl"
