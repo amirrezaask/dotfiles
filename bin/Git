@@ -13,27 +13,33 @@ BEGIN{modified_idx=0; added_idx=0; deleted_idx=0;}
 }
 
 END {
-	print "Modified:";
-	for (m in modified) {
-		printf("\t\t%s\n", modified[m]);
-	};
-	printf "\t";
-	print "Added:";
-	for (a in added) {
-		printf("\t\t%s\n", added[a]);
-	};
-	printf "\t";
-	print "Deleted:";
-	for (d in deleted) {
-		printf("\t\t%s\n", deleted[d]);
-	};
-
+	if (modified_idx != 0) {
+		printf "\t"
+		print "Modified:";
+		for (m in modified) {
+			printf("\t\t%s\n", modified[m]);
+		};
+	}
+	if (added_idx != 0) {
+		printf "\t";
+		print "Added:";
+		for (a in added) {
+			printf("\t\t%s\n", added[a]);
+		};
+	}
+	if (deleted_idx != 0) {
+		printf "\t";
+		print "Deleted:";
+		for (d in deleted) {
+			printf("\t\t%s\n", deleted[d]);
+		};
+	}
 }'
 
 # Get unstaged files
 printf "Add\nCommit \nDiff\nPush\n\n\n"
-printf "Unstaged:\n\t"
+printf "Unstaged:\n"
 git --no-pager diff --name-status | awk "$awk_script"
 
-printf "\nStaged:\n\t"
+printf "\nStaged:\n"
 git --no-pager diff --staged --name-status | awk "$awk_script"
