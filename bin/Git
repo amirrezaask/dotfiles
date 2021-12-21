@@ -37,7 +37,7 @@ END {
 }'
 
 # Get unstaged files
-printf "Add\nCommit \nDiff\nPush\n\n\n"
+printf ">Add\nCommit \n>Diff\n>Restore\nPush\n\n\n"
 printf "Unstaged:\n"
 git --no-pager diff --name-status | awk "$awk_script"
 
