@@ -10,13 +10,15 @@ else
 	query_type="$2"
 fi
 
+
 # Add more languages :)
 
-if [ $extension == 'go' ]; then
+if [ $extension == 'go' ] | [ $3 == 'go' ]; then
 	f="func $1"
 	sc="type $1 struct"
 	i="type $1 interface"
 	v="(var $1)|($1\s*:=)"
+	extension_matched='1'
 fi
 
 
@@ -24,21 +26,24 @@ fi
 #echo $sc
 #echo $i
 #echo $v
-cmd="rg --vimgrep"
-if [ $query_type == "f" ] || [ $query_type == "a" ]; then
-	cmd+=" -e '$f'"
-fi
+if [ $extension_matched == '1' ]; then
+	cmd="rg -i --vimgrep"
+	if [ $query_type == "f" ] || [ $query_type == "a" ]; then
+		cmd+=" -e '$f'"
+	fi
 
-if [ $query_type == "sc" ] || [ $query_type == "a" ]; then
-	cmd+=" -e '$sc'"
-fi
+	if [ $query_type == "sc" ] || [ $query_type == "a" ]; then
+		cmd+=" -e '$sc'"
+	fi
 
-if [ $query_type == "i" ] || [ $query_type == "a" ]; then
-	cmd+=" -e '$i'"
-fi
+	if [ $query_type == "i" ] || [ $query_type == "a" ]; then
+		cmd+=" -e '$i'"
+	fi
 
-if [ $query_type == "v" ] || [ $query_type == "a" ]; then
-	cmd+=" -e '$v'"
+	if [ $query_type == "v" ] || [ $query_type == "a" ]; then
+		cmd+=" -e '$v'"
+	fi
+	#echo $cmd
+	eval $cmd
+
 fi
-#echo $cmd
-eval $cmd
