@@ -1,5 +1,5 @@
 -- Colorscheme
-vim.cmd [[ colorscheme github_dark_default ]]
+vim.cmd [[ colorscheme nord ]]
 
 -- Transparency
 -- vim.cmd [[ hi Normal guibg=none ]]

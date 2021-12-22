@@ -12,6 +12,7 @@ require("packer").startup {
     use { "gruvbox-community/gruvbox" } -- Gruvbox
     use { "lifepillar/vim-solarized8" }
     use { "projekt0n/github-nvim-theme" }
+    use { "arcticicestudio/nord-vim" }
     use {
       "amirrezaask/nline.nvim",
       requires = { "nvim-lua/plenary.nvim" },
