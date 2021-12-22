@@ -13,19 +13,23 @@ fi
 
 # Add more languages :)
 
-if [ $extension == 'go' ] | [ $3 == 'go' ]; then
+if [ "$extension" == 'go' ] | [ "$3" == 'go' ]; then
 	f="func $1"
 	sc="type $1 struct"
 	i="type $1 interface"
 	v="(var $1)|($1\s*:=)"
 	extension_matched='1'
 fi
+if [ "$extension" = 'php' ] | [ "$3" == 'php' ]; then
+	f="(?:public|private|protected)\s*(?:static)? ($1)\(.*\)"
+	sc="(?:public|private|protected)\s*class\s*($1)"
+	i="(?:public|private|protected)\s*interface\s*($1)"
+	v='(?:public|private)?\$'
+	v+="($1)\s*=.*;$"
+	extension_matched='1'
+fi
 
 
-#echo $f
-#echo $sc
-#echo $i
-#echo $v
 if [ $extension_matched == '1' ]; then
 	cmd="rg -i --vimgrep"
 	if [ $query_type == "f" ] || [ $query_type == "a" ]; then
@@ -43,7 +47,7 @@ if [ $extension_matched == '1' ]; then
 	if [ $query_type == "v" ] || [ $query_type == "a" ]; then
 		cmd+=" -e '$v'"
 	fi
-	#echo $cmd
+	echo $cmd
 	eval $cmd
 
 fi

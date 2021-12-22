@@ -4,7 +4,7 @@ export PLAN9='/usr/local/plan9'
 export PATH="$PLAN9/bin:$PATH"
 export ACME="/home/amirreza/src/github.com/amirrezaask/dotfiles/bin"
 export SHELL=rc
-FONT='GoRegular'
+FONT='GoMono'
 FONTSIZE='12'
 plumbproc=$(ps ax | grep -v grep | grep plumber)
 if [ -z "$plumbproc" ]; then
