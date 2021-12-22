@@ -4,6 +4,7 @@ vim.cmd [[ colorscheme nord ]]
 vim.g.lightline = {
   colorscheme = "nord",
 }
+
 -- Transparency
 -- vim.cmd [[ hi Normal guibg=none ]]
 

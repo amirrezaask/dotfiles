@@ -8,7 +8,7 @@
 -- Modules are in lua/amirrezaask namespace
 --
 
--- Install package manager
+-- Install package manage
 require "amirrezaask.plugins"
 
 -- Basic vim options
@@ -16,9 +16,6 @@ require "amirrezaask.options"
 
 -- Colorscheme
 require "amirrezaask.color"
-
--- Statusline
-require "amirrezaask.statusline"
 
 -- Keymaps
 require "amirrezaask.keymaps"
