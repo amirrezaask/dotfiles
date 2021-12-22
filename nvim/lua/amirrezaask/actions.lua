@@ -21,6 +21,7 @@ actions:setup {
     predicate = utils.compose(utils.make_language_predicate "lua", utils.make_path_predicate "plugins.lua"),
     actions = {
       run = function(bufnr)
+        print "this action"
         vim.cmd [[ luafile % ]]
         vim.cmd [[ PackerInstall ]]
       end,

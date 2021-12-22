@@ -10,9 +10,9 @@ require("packer").startup {
   function(use)
     use { "wbthomason/packer.nvim" } -- Plugin manager
     use { "gruvbox-community/gruvbox" } -- Gruvbox
-    use { "lifepillar/vim-solarized8" }
     use { "projekt0n/github-nvim-theme" }
     use { "arcticicestudio/nord-vim" }
+    use { "sonph/onehalf", rtp = "vim" }
     use {
       "amirrezaask/nline.nvim",
       requires = { "nvim-lua/plenary.nvim" },
@@ -28,7 +28,7 @@ require("packer").startup {
     use { "L3MON4D3/LuaSnip" } -- Snippets plugin
     use { "tpope/vim-fugitive" }
     use { "windwp/nvim-spectre", requires = { "nvim-lua/plenary.nvim" } }
-    use { "p00f/nvim-ts-rainbow" } -- rainbow parens
+    -- use { "p00f/nvim-ts-rainbow" } -- rainbow parens
     use { "nvim-telescope/telescope.nvim", requires = { "nvim-lua/plenary.nvim" } } -- UI to search for things
     use { "tpope/vim-surround" } -- Vim surround objects
     use { "lewis6991/gitsigns.nvim", requires = { "nvim-lua/plenary.nvim" } } -- Gitsigns
