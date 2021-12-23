@@ -1,8 +1,8 @@
 -- Colorscheme
-vim.cmd [[ colorscheme gruvbox ]]
+vim.cmd [[ colorscheme nord ]]
 
 vim.g.lightline = {
-  colorscheme = "gruvbox",
+  colorscheme = "nord",
 }
 
 -- Transparency

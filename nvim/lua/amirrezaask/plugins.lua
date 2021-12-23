@@ -13,6 +13,7 @@ require("packer").startup {
     use { "projekt0n/github-nvim-theme" }
     use { "arcticicestudio/nord-vim" }
     use { "sonph/onehalf", rtp = "vim" }
+    use { "rebelot/kanagawa.nvim" }
     use {
       "jghauser/mkdir.nvim",
       config = function()
