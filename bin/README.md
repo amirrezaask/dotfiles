@@ -20,4 +20,4 @@ My collection of scripts for using ACME as my dev environment.
 - go install golang.org/x/tools/cmd/goimports@latest
 - go install github.com/fhs/acme-lsp/cmd/acme-lsp@latest
 - go install github.com/fhs/acme-lsp/cmd/L@latest
-- go install git.sr.ht/~mkhl/xplor
+- go install git.sr.ht/~mkhl/xplor@latest
