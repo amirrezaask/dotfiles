@@ -69,8 +69,8 @@ require("packer").startup {
 
     use { "ThePrimeagen/harpoon", requires = { "nvim-lua/plenary.nvim" } }
 
-    use "kyazdani42/nvim-web-devicons"
     if not is_wsl then
+      use "kyazdani42/nvim-web-devicons"
       use "yamatsum/nvim-web-nonicons"
     end
   end,

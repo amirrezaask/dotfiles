@@ -7,7 +7,8 @@ DOWNLOAD_URL=$(curl -s https://api.github.com/repos/JohnnyMorganz/StyLua/release
 
 curl -L $DOWNLOAD_URL > stylua.zip
 unzip stylua.zip
-mv stylua $BIN_PATH/stylua
-chmod +x $BIN_PATH/stylua
+mkdir -p ~/.local/bin
+mv stylua ~/.local/bin/stylua
+chmod +x ~/.local/bin/stylua
 rm stylua.zip
 

@@ -24,3 +24,11 @@ dap.configurations.go = {
     program = "${file}",
   },
 }
+
+local function format(bufnr)
+  bufnr = bufnr or 0
+
+end
+
+
+return { format = format }
