@@ -68,7 +68,7 @@ actions:setup {
     predicate = utils.make_language_predicate "go",
     actions = {
       format = function(_)
-        vim.lsp.buf.formatting()
+        require("amirrezaask.go").format()
       end,
       build = function(_)
         vim.cmd [[ vnew | term go build ]]
@@ -98,5 +98,5 @@ actions:setup {
   },
 }
 -- Auto formatting for lua
-vim.cmd [[ autocmd BufWritePre *.lua lua Actions:exec(0, 'format') ]]
 vim.cmd [[ autocmd BufWritePre *.rs lua Actions:exec(0, 'format') ]]
+vim.cmd [[ autocmd BufWritePre *.go lua Actions:exec(0, 'format') ]]
