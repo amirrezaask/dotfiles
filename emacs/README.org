@@ -85,30 +85,27 @@
 #+END_SRC
 ** Modeline
    #+begin_src emacs-lisp
-     (pkg! doom-modeline
+     (use-package doom-modeline :straight t
+           :init
            (setq doom-modeline-height 35)
            (doom-modeline-mode 1))
    #+end_src
 ** Themes
    #+BEGIN_SRC elisp
-     (pkg! doom-themes)
-
-     (defun amirreza/load-theme (&optional theme)
-       (interactive)
-       (cond
-        ((null theme) (let ((theme (intern  (completing-read "Theme: " (mapcar #'symbol-name
-                                                                               (custom-available-themes))))))
-                        (mapc #'disable-theme custom-enabled-themes)
-                        (load-theme theme t)))
-        (t (load-theme theme t))))
-
+     (use-package doom-themes
+       :straight t
+       :init
+       (defun amirreza/load-theme (&optional theme)
+         (interactive)
+         (cond
+          ((null theme) (let ((theme (intern  (completing-read "Theme: " (mapcar #'symbol-name
+                                                                                 (custom-available-themes))))))
+                          (mapc #'disable-theme custom-enabled-themes)
+                          (load-theme theme t)))
+          (t (load-theme theme t)))))
      (amirreza/load-theme 'doom-dracula)
    #+END_SRC
 ** Evil
-   :PROPERTIES:
-:header-args: :tangle no
-:END:
-
     #+begin_src emacs-lisp
       (defun amirreza/evil-hook ()
         (dolist (mode '(custom-mode
@@ -545,17 +542,13 @@
         :straight t
         :config (global-diff-hl-mode 1))
 
-      (use-package gitconfig-mode
-        :straight t
-        :mode "/\\.gitconfig\\'")
+      ;; (use-package gitignore-mode
+      ;;   :straight t
+      ;;   :mode "/\\.gitignore\\'")
 
-      (use-package gitignore-mode
-        :straight t
-        :mode "/\\.gitignore\\'")
-
-      (use-package gitattributes-mode
-        :straight t
-        :mode "/\\.gitattributes\\'")
+      ;; (use-package gitattributes-mode
+      ;;   :straight t
+      ;;   :mode "/\\.gitattributes\\'")
 
       (use-package git-messenger
         :straight t

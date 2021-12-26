@@ -1,5 +1,5 @@
 ;; Debug Mode
-;; (setq debug-on-error t)
+(setq debug-on-error t)
 
 (defun amirreza-package-manager-init ()
   "Initialize Straight.el package manager."
@@ -21,35 +21,4 @@
 
 (amirreza-package-manager-init)
 
-(use-package doom-themes :straight t)
-
-(load-theme 'doom-dracula t)
-(use-package which-key
-  :straight t
-
-  :init
-  (setq which-key-sort-order #'which-key-prefix-then-key-order
-	which-key-sort-uppercase-first nil
-	which-key-add-column-padding 1
-	which-key-max-display-columns nil
-	which-key-min-display-lines 6
-	which-key-side-window-slot -10)
-  :config
-  (setq which-key-idle-delay 0.3)
-  (which-key-mode 1)
-  (which-key-setup-minibuffer))
-
-
-(defun amirreza/change-font (font)
-  (setq default-frame-alist `((font . ,font))))
-
-(defvar amirreza/font "GoRegular-11")
-(amirreza/change-font amirreza/font)
-
-(define-key global-map (kbd "C--") (lambda () (interactive) (text-scale-adjust -1)))
-(define-key global-map (kbd "C-=") (lambda () (interactive) (text-scale-adjust +1)))
-
-
-
-
-
+(org-babel-load-file (expand-file-name "README.org" user-emacs-directory))
