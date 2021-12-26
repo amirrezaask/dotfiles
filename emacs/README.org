@@ -100,7 +100,7 @@
      (defun amirreza/change-font (font)
        (setq default-frame-alist `((font . ,font))))
 
-     (defvar amirreza/font "Go Mono")
+     (defvar amirreza/font "JetBrainsMono Nerd Font Mono")
      (amirreza/change-font amirreza/font)
 
      (define-key global-map (kbd "C--") (lambda () (interactive) (text-scale-adjust -1)))
@@ -309,7 +309,7 @@
       (use-package rainbow-delimiters :straight t :defer t)
     #+END_SRC
 ** IDE
-*** LSP
+*** Language Server Mode
 **** Lsp-Mode
     #+BEGIN_SRC elisp
       (use-package lsp-mode :straight t
@@ -342,23 +342,6 @@
 
       (use-package consult-lsp :straight t :after consult)
 #+END_SRC
-**** Eglot
-    :PROPERTIES:
-          :header-args: :tangle no
-:END:
-     #+begin_src emacs-lisp
-       (use-package eglot
-         :straight t
-         :hook
-         (
-          ((go-mode php-mode python-mode lua-mode c-mode) . #'eglot-ensure)
-          (before-save . #'eglot-format-buffer))
-         :bind
-         (
-          ("M-?" . xref-find-references)
-          ("M-." . xref-find-definitions)
-          ("M-i" . eglot-find-implementation)))
-     #+end_src
 *** Code Completion
    #+BEGIN_SRC elisp
      (use-package company
@@ -387,7 +370,7 @@
        :commands (projectile-find-file projectile-project-root)
        :bind
        (("C-x p f" . amirreza/find-project)
-        ("C-x C-f" . amirreza/find-file)
+        ("C-x C-f" . find-file)
         ("C-c f" . amirreza/find-file)
         ("C-M-s" . 'amirreza/find-symbol-at-point)
         ("<f1>" . 'amirreza/find-file-at-point)
@@ -487,11 +470,6 @@
 ** Org
    #+BEGIN_SRC elisp
      (use-package org
-           :init
-           (with-eval-after-load 'evil
-             (evil-define-key 'normal org-mode-map "SPC m n" 'amirreza/--org-insert-no-tangle)
-             (evil-define-key 'normal org-mode-map "SPC m b" 'amirreza/--org-insert-elisp-code-block)
-             )
            :config
      (defun amirreza/--org-insert-elisp-code-block ()
        (interactive)
@@ -590,7 +568,7 @@
    #+BEGIN_SRC elisp
      (use-package lua-mode :straight t :mode "\\.lua")
      (setq lsp-clients-lua-language-server-install-dir "/home/amirreza/.local/lua-language-server")
-     (setq lsp-clients-lua-language-server-bin (concat lsp-clients-lua-language-server-install-dir "/bin/Linux/lua-language-server"))
+     (setq lsp-clients-lua-language-server-bin (concat lsp-clients-lua-language-server-install-dir "/bin/lua-language-server"))
      (setq lsp-clients-lua-language-server-main-location (concat lsp-clients-lua-language-server-install-dir "/main.lua"))
    #+END_SRC
 *** C/C++
@@ -620,7 +598,6 @@
                                                                                                                (not (string-match "\\.git" name)))
                                                                          t))))
 
-     (with-eval-after-load 'evil (define-key evil-normal-state-map (kbd "SPC ec") 'amirreza/edit-dot-config))
      (define-key global-map (kbd "C-c e c") 'amirreza/edit-dot-config)
    #+end_src
 
