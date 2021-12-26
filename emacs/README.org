@@ -126,6 +126,10 @@
        (which-key-mode 1)
        (which-key-setup-minibuffer))
    #+end_src
+*** Keycast
+#+begin_src emacs-lisp
+(use-package keycast :straight t :bind ("<f10>" . keycast-mode))
+#+end_src
 ** Buffer Management
    #+BEGIN_SRC elisp
      (use-package bufler
@@ -174,8 +178,7 @@
 #+begin_src emacs-lisp
   (use-package consult
     :straight t
-    :bind (("C-s" . consult-line)
-           ("C-S-s" . consult-ripgrep))
+    :bind (("C-s" . consult-ripgrep))
     :config
     (with-eval-after-load 'evil
       (evil-global-set-key 'normal (kbd "??") 'consult-ripgrep)))
@@ -516,6 +519,9 @@
    #+END_SRC
 ** Programming Languages
 *** Golang
+Golang is my main programming language, but after doing a minimalistic life style of Acme for some time
+I know tend to use simplest tools and less is more, and also trying to integrate more with command line tools so i have no
+fancy feature for Go or any other language, other than the lsp itself.
    #+BEGIN_SRC elisp
      (use-package go-mode
        :straight t
