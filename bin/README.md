@@ -12,7 +12,7 @@ My collection of scripts for using ACME as my dev environment.
 - Git: Awesome git interface ( adding files, diff, commit , push )
 - Cheat: shortcut for cheat.sh
 - Tags: expands to tags needed for current window.
-- Search/s: searches for a symbol based on language semantics.
+- Search/s: searches for a symbol based on language semantics.
 - desktop file to have acme in your applications menu
 
 ## TO INSTALL

@@ -6,3 +6,6 @@ source $HOME/.profile
 
 
 alias luamake=/home/amirreza/.local/lua-language-server/3rd/luamake/luamake
+
+
+
