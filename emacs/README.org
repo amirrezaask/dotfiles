@@ -162,37 +162,7 @@
        )
    #+end_src 
 ** Minibuffer Completion
-*** Vertico ( Disabled )
-:PROPERTIES:
-:header-args: :tangle no
-:END:
-#+begin_src emacs-lisp
-(use-package vertico
-  :straight t
-  :init
-  (setq vertico-cycle t)
-  (vertico-mode +1)
-  :bind (:map vertico-map
-              ("C-j" . vertico-next)
-              ("C-k" . vertico-previous)
-              ))
-
-;; Use history when ranking results
-(use-package savehist
-  :after vertico
-  :init
-  (savehist-mode))
-
-;; Advance Fuzzy search over results
-(use-package orderless
-  :straight t
-  :after vertico
-  :init
-  (setq completion-styles '(orderless)
-        completion-category-defaults nil
-        completion-category-overrides '((file (styles partial-completion)))))
-#+end_src
-*** mct  ( By the GREAT Prot )
+*** Minibuffer and Completions in Tandem  ( By the GREAT Prot )
 #+begin_src emacs-lisp
   (use-package mct :straight t
     :config (mct-mode 1)
