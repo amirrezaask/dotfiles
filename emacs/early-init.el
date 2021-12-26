@@ -40,7 +40,3 @@
 
 ;; I have no time for nonsense
 (amirreza-faster-start)
-
-;; Set Emacs frame title
-(setq frame-title-format '(multiple-frames "Dutchman - %b"
-                                          ("" "Dutchman - %b")))
