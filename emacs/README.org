@@ -92,18 +92,15 @@
    #+end_src
 ** Themes
    #+BEGIN_SRC elisp
-     (use-package doom-themes
-       :straight t
-       :init
-       (defun amirreza/load-theme (&optional theme)
-         (interactive)
-         (cond
-          ((null theme) (let ((theme (intern  (completing-read "Theme: " (mapcar #'symbol-name
-                                                                                 (custom-available-themes))))))
-                          (mapc #'disable-theme custom-enabled-themes)
-                          (load-theme theme t)))
-          (t (load-theme theme t)))))
-     (amirreza/load-theme 'doom-dracula)
+     (defvar --current-color 'dark "current state of Emacs colorscheme")
+     (defun toggle-color ()
+       (interactive)
+       (if (eq --current-color 'dark)
+           (progn (load-theme 'modus-operandi t) (setq --current-color 'light))
+         (progn (load-theme 'modus-vivendi t) (setq --current-color 'dark)))
+       )
+     (load-theme 'modus-vivendi t)
+     (define-key global-map (kbd "<f12>") 'toggle-color)
    #+END_SRC
 ** Evil
     #+begin_src emacs-lisp
