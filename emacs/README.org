@@ -136,9 +136,6 @@
 (use-package keycast :straight t :bind ("<f10>" . keycast-mode))
 #+end_src
 *** Evil
-:PROPERTIES:
-:header-args: :tangle no
-:END:
 #+begin_src emacs-lisp
   (defun amirreza/evil-hook ()
     (dolist (mode '(custom-mode
@@ -213,9 +210,15 @@
    #+begin_src emacs-lisp
      (use-package perspective
        :straight t
-       :bind (("C-x p s" . persp-switch)
-              ("C-x p n" . persp-next)
-              ("C-x p k" . persp-kill-buffer*))
+       :init
+       (with-eval-after-load 'evil
+         (evil-define-key 'normal 'global (kbd "SPC w s") 'persp-switch)
+         (evil-define-key 'normal 'global (kbd "SPC w n") 'persp-next)
+         (evil-define-key 'normal 'global (kbd "SPC w k") 'persp-kill-buffer*))
+  
+       :bind (("C-x w s" . persp-switch)
+              ("C-x w n" . persp-next)
+              ("C-x w k" . persp-kill-buffer*))
        :custom
        (persp-initial-frame-name "Main")
        :config
