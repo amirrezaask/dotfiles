@@ -100,7 +100,7 @@
      (defun amirreza/change-font (font)
        (setq default-frame-alist `((font . ,font))))
 
-     (defvar amirreza/font "JetBrainsMono Nerd Font Mono")
+     (defvar amirreza/font "JetBrainsMono Nerd Font Mono-10")
      (amirreza/change-font amirreza/font)
 
      (define-key global-map (kbd "C--") (lambda () (interactive) (text-scale-adjust -1)))
@@ -129,6 +129,61 @@
 *** Keycast
 #+begin_src emacs-lisp
 (use-package keycast :straight t :bind ("<f10>" . keycast-mode))
+#+end_src
+*** Evil
+#+begin_src emacs-lisp
+  (defun amirreza/evil-hook ()
+    (dolist (mode '(custom-mode
+                    eshell-mode
+                    git-rebase-mode
+                    erc-mode
+                    circe-server-mode
+                    circe-chat-mode
+                    circe-query-mode
+                    sauron-mode
+                    term-mode))
+      (add-to-list 'evil-emacs-state-modes mode)))
+
+  (use-package evil
+    :straight t
+    :demand t
+    :init
+    (setq evil-want-integration t)
+    (setq evil-want-keybinding nil)
+    (setq evil-want-C-u-scroll t)
+    (setq evil-want-C-i-jump nil)
+    :hook (evil-mode . amirreza/evil-hook)
+    :bind
+    ((:map evil-normal-state-map
+           ("SPC h f" . describe-function)
+           ("SPC h k" . describe-key)
+           ("SPC h v" . describe-variable)
+           ("SPC SPC" . find-file)
+           ("SPC f f" . find-file))
+     (:map evil-insert-state-map
+           ("C-g" . 'evil-normal-state)
+           ("C-h" . 'evil-delete-backward-char-and-join))
+     (:map evil-motion-state-map
+           ("j" . 'evil-next-visual-line)
+           ("k" . 'evil-previous-visual-line)))
+    :config
+    (evil-mode 1)
+    (evil-set-initial-state 'messages-buffer-mode 'normal)
+    (evil-set-initial-state 'dashboard-mode 'normal))
+
+  (use-package evil-collection
+    :straight t
+    :after evil
+    :config
+    (evil-collection-init))
+
+  (use-package evil-escape :straight t :after evil :config (setq-default evil-escape-key-sequence "jk") (setq evil-escape-unordered-key-sequence t) (evil-escape-mode 1))
+
+  (use-package evil-surround
+    :straight t
+    :after evil
+    :config
+    (global-evil-surround-mode 1))
 #+end_src
 ** Buffer Management
    #+BEGIN_SRC elisp
