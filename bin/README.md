@@ -17,7 +17,7 @@ My collection of scripts for using ACME as my dev environment.
 
 ## TO INSTALL
 - go install github.com/eaburns/Watch@latest # watch a for file changes and run a command
-- go install golang.org/x/tools/cmd/goimports@latest # goimports
+- go install golang.org/x/tools/cmd/goimports@latest# goimports
 - go install github.com/fhs/acme-lsp/cmd/acme-lsp@latest # lsp client
 - go install github.com/fhs/acme-lsp/cmd/L@latest # lsp commands
 - go install git.sr.ht/~mkhl/xplor@latest # better file explorer
