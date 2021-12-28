@@ -93,11 +93,15 @@
            (progn (load-theme 'modus-operandi t) (setq --current-color 'light))
          (progn (load-theme 'modus-vivendi t) (setq --current-color 'dark)))
        )
-     (load-theme 'doom-dracula t)
+     (load-theme 'modus-vivendi t)
      (define-key global-map (kbd "<f12>") 'toggle-color)
    #+END_SRC
 ** Modeline
+:PROPERTIES:
+:header-args: :tangle no
+:END:
 #+begin_src emacs-lisp
+  
   (use-package doom-modeline :straight t
     :config
     (setq doom-modeline-height 35)
@@ -108,7 +112,7 @@
      (defun amirreza/change-font (font)
        (setq default-frame-alist `((font . ,font))))
 
-     (defvar amirreza/font "Go Mono-11")
+     (defvar amirreza/font "Go-11")
      (amirreza/change-font amirreza/font)
    #+END_SRC
 ** Keybindings
