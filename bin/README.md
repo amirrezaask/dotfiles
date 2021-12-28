@@ -22,3 +22,4 @@ My collection of scripts for using ACME as my dev environment.
 - go install github.com/fhs/acme-lsp/cmd/L@latest # lsp commands
 - go install git.sr.ht/~mkhl/xplor@latest # better file explorer
 - go install 9fans.net/go/acme/acmego@latest # do fmt and imports on save
+- go install 9fans.net/go/acme/editinacme@latest # to use acme in $editor command
