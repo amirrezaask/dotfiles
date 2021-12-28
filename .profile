@@ -16,7 +16,7 @@ export GOPATH="$HOME"
 export GOPRIVATE='gitlab.snapp.ir'
 export GOPROXY='https://repo.snapp.tech/repository/goproxy,goproxy.io,direct'
 
-export EDITOR='nvim'
+export EDITOR='editinacme'
 
 export PLAN9="/usr/local/plan9"
 
