@@ -97,6 +97,11 @@
      (define-key global-map (kbd "<f12>") 'toggle-color)
    #+END_SRC
 ** Modeline
+*** Hide all minor mode `minions`
+#+begin_src emacs-lisp
+(use-package minions :straight t :config (minions-mode 1))
+#+end_src
+*** Doom modeline
 :PROPERTIES:
 :header-args: :tangle no
 :END:
@@ -112,7 +117,7 @@
      (defun amirreza/change-font (font)
        (setq default-frame-alist `((font . ,font))))
 
-     (defvar amirreza/font "Go-11")
+     (defvar amirreza/font "JetbrainsMono Nerd Font Mono-11")
      (amirreza/change-font amirreza/font)
    #+END_SRC
 ** Keybindings
