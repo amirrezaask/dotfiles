@@ -108,7 +108,7 @@
      (defun amirreza/change-font (font)
        (setq default-frame-alist `((font . ,font))))
 
-     (defvar amirreza/font "JetBrainsMono Nerd Font Mono-11")
+     (defvar amirreza/font "Go Mono-11")
      (amirreza/change-font amirreza/font)
    #+END_SRC
 ** Keybindings
@@ -136,6 +136,9 @@
 (use-package keycast :straight t :bind ("<f10>" . keycast-mode))
 #+end_src
 *** Evil
+:PROPERTIES:
+:header-args: :tangle no
+:END:
 #+begin_src emacs-lisp
   (defun amirreza/evil-hook ()
     (dolist (mode '(custom-mode
@@ -404,6 +407,7 @@
     #+END_SRC
 ** IDE
 *** Language Server Mode
+**** Lsp-Mode
     #+BEGIN_SRC elisp
       (use-package lsp-mode :straight t
         :init
@@ -426,6 +430,24 @@
                (before-save . amirreza-lsp-format)))
       (use-package consult-lsp :straight t :after consult)
 #+END_SRC
+**** Eglot
+#+begin_src emacs-lisp
+  (use-package eglot
+    :straight t
+    :hook
+    (
+     ((go-mode php-mode python-mode lua-mode c-mode) . #'amirreza-eglot-lsp-hook))
+
+    :config
+    (defun amirreza-eglot-lsp-hook ()
+      (eglot-ensure)
+      (add-hook before-save-hook #'eglot-format-buffer))
+
+    :bind
+    (("M-?" . xref-find-references)
+     ("M-." . xref-find-definitions)
+     ("M-i" . eglot-find-implementation)))
+#+end_src
 *** Code Completion
    #+BEGIN_SRC elisp
      (use-package company
@@ -611,9 +633,8 @@ fancy feature for Go or any other language, other than the lsp itself.
        (defun amirreza/go-hook ()
          (interactive)
          ;; add go binaries to exec-path
-
          (add-to-list 'exec-path (concat (getenv "HOME") "/go/bin"))
-         (lsp)))
+         ))
 
 
      (use-package go-add-tags :straight t :bind (:map go-mode-map ("C-c m s" . go-add-tags)))
@@ -638,7 +659,7 @@ fancy feature for Go or any other language, other than the lsp itself.
     :hook (php-mode . amirreza/php-hook)
     :init
     (defun amirreza/php-hook ()
-      (lsp)))
+      ))
 #+END_SRC
 *** Python
    #+BEGIN_SRC elisp

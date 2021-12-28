@@ -37,6 +37,6 @@
         inhibit-default-init t
         initial-major-mode 'fundamental-mode
         initial-scratch-message nil))
-
+(setq native-comp-async-report-warnings-errors 'silent) ;; for new emacs native compiler
 ;; I have no time for nonsense
 (amirreza-faster-start)
