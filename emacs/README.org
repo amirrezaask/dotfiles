@@ -47,7 +47,7 @@
      (setq hscroll-step 1) ;; Number of columns to scroll when point is to close to edge.
      (setq hscroll-margin 1) ;; How many columns away from edge to start scrolling.
 
-     (setq custom-file "~/.emacs.d/custom.el") ;; Don't tamper with init.el for custom variables and use given file.
+     (setq custom-file "~/.config/emacs/custom.el") ;; Don't tamper with init.el for custom variables and use given file.
 
      (use-package delsel ;; delete region when start typing
        :hook (after-init . delete-selection-mode))
@@ -81,7 +81,7 @@
 
      (blink-cursor-mode 1) ;; Cursor blinks.
 
-     (global-hl-line-mode +1) ;; Highlight current line.
+     ;; (global-hl-line-mode +1) ;; Highlight current line.
 #+END_SRC
 ** Theme
    #+BEGIN_SRC elisp
@@ -682,6 +682,11 @@ fancy feature for Go or any other language, other than the lsp itself.
 ** Dotfiles
    #+begin_src emacs-lisp
      (defvar amirreza/dotfiles-location (exec-path-from-shell-copy-env "DOTFILES") "Location of my dotfiles.")
+     (defun amirreza/edit-dot-emacs ()
+       (interactive)
+       (find-file (completing-read "Edit: " (directory-files-recursively "~/.config/emacs" ".*" nil (lambda (name)
+                                                                                                               (not (string-match "\\.git" name)))
+                                                                         t))))
 
      (defun amirreza/edit-dot-config ()
        (interactive)
@@ -689,6 +694,7 @@ fancy feature for Go or any other language, other than the lsp itself.
                                                                                                                (not (string-match "\\.git" name)))
                                                                          t))))
      (define-key global-map (kbd "C-c e c") 'amirreza/edit-dot-config)
+     (define-key global-map (kbd "C-c e e") 'amirreza/edit-dot-emacs)
    #+end_src
 
 ** Emacs Server
