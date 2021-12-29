@@ -145,9 +145,6 @@
 (use-package keycast :straight t :bind ("<f10>" . keycast-mode))
 #+end_src
 *** Evil
-:PROPERTIES:
-:header-args: :tangle no
-:END:
 #+begin_src emacs-lisp
   (defun amirreza/evil-hook ()
     (dolist (mode '(custom-mode
@@ -416,29 +413,6 @@
     #+END_SRC
 ** IDE
 *** Language Server Mode
-**** Lsp-Mode
-    #+BEGIN_SRC elisp
-      (use-package lsp-mode :straight t
-        :init
-        (setq lsp-file-watch-threshold 10000)
-        (setq lsp-auto-guess-root t)
-        (setq lsp-keymap-prefix "C-c l")
-        (setq lsp-before-save-edit t)
-        :config
-        (with-eval-after-load 'evil
-          (evil-global-set-key 'normal (kbd "gd") 'lsp-find-definition)
-          (evil-global-set-key 'normal (kbd "gr") 'lsp-find-references)
-          (evil-global-set-key 'normal (kbd "gi") 'lsp-find-implementation))
-
-        (defun amirreza-lsp-format ()
-          (interactive)
-          (when (lsp-feature? "textDocument/formatting") (lsp-format-buffer)))
-
-        :hook ((lsp-mode . lsp-enable-which-key-integration)
-               (lsp-mode . (lambda () (interactive) (lsp-headerline-breadcrumb-mode -1))) 
-               (before-save . amirreza-lsp-format)))
-      (use-package consult-lsp :straight t :after consult)
-#+END_SRC
 **** Eglot
 #+begin_src emacs-lisp
   (use-package eglot
@@ -447,10 +421,10 @@
     (
      ((go-mode php-mode python-mode lua-mode c-mode) . #'amirreza-eglot-lsp-hook))
 
-    :config
+    :init
     (defun amirreza-eglot-lsp-hook ()
       (eglot-ensure)
-      (add-hook before-save-hook #'eglot-format-buffer))
+      (add-hook 'before-save-hook #'eglot-format-buffer))
 
     :bind
     (("M-?" . xref-find-references)
