@@ -10,8 +10,9 @@
   "tries to open FILENAME if exists in current dir"
   (if (file-exists-p filename)
       (progn 
-        (other-window 1))
-        (find-file filename)
+        (split-window-right)
+        (other-window 1)
+        (find-file filename))
     nil))
 
 (defun --acme-pass-to-plumber (text)
@@ -36,7 +37,8 @@
     if no file found, pass it to plumber function"
   (interactive)
   (unless (eq (--acme-open-file-if-exists (--acme-get-region-or-word)) t) (--acme-pass-to-plumber (--acme-get-region-or-word))))
-acme.el
+
+
 (defun acme-execute ()
   "Tries to execute passed command.
    if first char is '|' it will pipe selected text as input and reads stdout and replaces the region

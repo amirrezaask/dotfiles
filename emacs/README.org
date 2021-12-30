@@ -10,7 +10,7 @@
      (setq kept-old-versions 2) ;; Number of old versions to keep.
      (setq create-lockfiles nil) ;; Don't create .# files as lock.
      (setq backup-directory-alist ;; all backups should go here (PATTERN . LOCATION)
-           '(("." . "~/.emacs.d/backup/")))
+           '(("." . "~/.config/emacs/backup/")))
 
      (setq-default indent-tabs-mode nil ;; Don't insert tabs for indentation.
                      tab-width 4) ;; Width of the TAB character in display.
@@ -695,6 +695,8 @@ fancy feature for Go or any other language, other than the lsp itself.
                                                                          t))))
      (define-key global-map (kbd "C-c e c") 'amirreza/edit-dot-config)
      (define-key global-map (kbd "C-c e e") 'amirreza/edit-dot-emacs)
+     (with-eval-after-load 'evil (evil-define-key 'normal 'global (kbd "SPC e e") 'amirreza/edit-dot-emacs))
+     (with-eval-after-load 'evil (evil-define-key 'normal 'global (kbd "SPC e c") 'amirreza/edit-dot-config))
    #+end_src
 
 ** Emacs Server
