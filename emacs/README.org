@@ -81,7 +81,7 @@
 
      (blink-cursor-mode 1) ;; Cursor blinks.
 
-     ;; (global-hl-line-mode +1) ;; Highlight current line.
+     (global-hl-line-mode +1) ;; Highlight current line.
 #+END_SRC
 ** Theme
    #+BEGIN_SRC elisp
@@ -166,6 +166,8 @@
     (setq evil-want-keybinding nil)
     (setq evil-want-C-u-scroll t)
     (setq evil-want-C-i-jump nil)
+    (setq evil-vsplit-window-right t)
+    (setq evil-split-window-below t)
     :hook (evil-mode . amirreza/evil-hook)
     :bind
     ((:map evil-normal-state-map
@@ -198,6 +200,9 @@
     :after evil
     :config
     (global-evil-surround-mode 1))
+
+  (use-package evil-visualstar :straight t :config (global-evil-visualstar-mode 1))
+
 #+end_src
 ** Buffer Management
    #+BEGIN_SRC elisp

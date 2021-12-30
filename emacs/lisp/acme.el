@@ -1,6 +1,6 @@
 ;; Acme-like functionalities
-;; so we want acme
-;; we need to main functions
+;;  So we want acme
+;;  we need to main functions
 ;;  Middle click => Execute (if any thing selected use that as stdin else use current word)
 ;;  Right click => Load search for the selected text or current word as a file in pwd first else pass it to plumber program
 
@@ -73,14 +73,18 @@
 
 
 (defun --acme-execute-pipe (cmd)
-  ""
+  "Pipe selected region to cmd and pipe back the output and replace region with it"
+  (make-pipe-process )
   (split-window-right)
   (other-window 1)
   (insert (shell-command-to-string cmd))
   )
 
-(defun --acme-execute-write (cmd) (message "WRITE"))
-(defun --acme-execute-read (cmd) (message "READ"))
+(defun --acme-execute-write (cmd)
+  "executes the cmd and pipes region or word into it's stdin")
+
+(defun --acme-execute-read (cmd)
+  "executes the cmd and reads the stdout and replaces the region with it")
 
 (defun acme-execute ()
   "Tries to execute passed command.
