@@ -38,12 +38,48 @@
   (interactive)
   (unless (eq (--acme-open-file-if-exists (--acme-get-region-or-word)) t) (--acme-pass-to-plumber (--acme-get-region-or-word))))
 
+(defun --acme-get-cmd-prefix (cmd)
+  (let (
+        (prefix (nth 0 (string-to-list cmd)))
+        )
+    (cond
+     ((eq prefix (string-to-char "|")) "|")
+     ((eq prefix (string-to-char ">")) ">")
+     ((eq prefix (string-to-char "<")) "<")
+     (t nil)
+     )
+  ))
+
+
+(defun --acme-get-actual-cmd (cmd)
+  (if (eq nil (--acme-get-cmd-prefix cmd))
+      cmd (apply 'string (cdr (string-to-list cmd)))))
+
+(defun --acme-execute-pipe (cmd) (message "PIPE"))
+(defun --acme-execute-write (cmd) (message "WRITE"))
+(defun --acme-execute-read (cmd) (message "READ"))
 
 (defun acme-execute ()
   "Tries to execute passed command.
    if first char is '|' it will pipe selected text as input and reads stdout and replaces the region
    if first char is '>' it will pipe selected text as input.
-   if first char is '<' it will just replace region with stdout.")
+   if first char is '<' it will just replace region with stdout."
+  (interactive)
+  (let* ((usercmd (--acme-get-region-or-word))
+         (cmdprefix (--acme-get-cmd-prefix usercmd))
+         (useractualcmd (--acme-get-actual-cmd usercmd)))
+    (message "user cmd -> %s" usercmd)
+    (message "cmd prefix -> %s" cmdprefix)
+    (message "actual cmd -> %s" useractualcmd)
+    (cond
+     ((string= "|" cmdprefix) (--acme-execute-pipe useractualcmd))
+     ((string= ">" cmdprefix) (--acme-execute-write useractualcmd))
+     ((string= "<" cmdprefix) (--acme-execute-read useractualcmd))
+     (t (message "no match")))
+    )
+  )
+
+<ls
 
 
 
