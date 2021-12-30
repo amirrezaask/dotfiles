@@ -55,7 +55,30 @@
   (if (eq nil (--acme-get-cmd-prefix cmd))
       cmd (apply 'string (cdr (string-to-list cmd)))))
 
-(defun --acme-execute-pipe (cmd) (message "PIPE"))
+
+(defun --acme-execute-noop (cmd)
+  "TODO check if buffer is open already in any window just use that don't other window it"
+  "Just executes the command and writes the output to another window" 
+  (let* ((procname (format "%s %s" (buffer-name) cmd))
+        (bufname (format "%s+Errors" (buffer-name) cmd))
+        (splitted (split-string cmd " "))
+        (program (car splitted))
+        (args (string-join (cdr splitted))))
+            (start-process procname bufname program args)
+            (split-window-right)
+            (other-window 1)
+            (switch-to-buffer bufname)
+    )
+  )
+
+
+(defun --acme-execute-pipe (cmd)
+  ""
+  (split-window-right)
+  (other-window 1)
+  (insert (shell-command-to-string cmd))
+  )
+
 (defun --acme-execute-write (cmd) (message "WRITE"))
 (defun --acme-execute-read (cmd) (message "READ"))
 
@@ -75,11 +98,12 @@
      ((string= "|" cmdprefix) (--acme-execute-pipe useractualcmd))
      ((string= ">" cmdprefix) (--acme-execute-write useractualcmd))
      ((string= "<" cmdprefix) (--acme-execute-read useractualcmd))
-     (t (message "no match")))
+     (t (--acme-execute-noop useractualcmd)))
     )
   )
 
-<ls
+|ls
+
 
 
 
