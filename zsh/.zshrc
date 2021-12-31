@@ -1,11 +1,20 @@
-export ZSH="/home/amirreza/.oh-my-zsh"
-ZSH_THEME="robbyrussell"
-plugins=(git zsh-autosuggestions)
-source $ZSH/oh-my-zsh.sh
 source $HOME/.profile
 
+source $DOTFILES/zsh/antigen.zsh
 
-alias luamake=/home/amirreza/.local/lua-language-server/3rd/luamake/luamake
+antigen use oh-my-zsh
 
+antigen bundle git
 
+antigen bundle zsh-users/zsh-syntax-highlighting
+antigen bundle zsh-users/zsh-autosuggestions
+
+command -v 'starship' > /dev/null
+
+if [ "$?" != '0' ]; then
+    sh -c "$(curl -fsSL https://starship.rs/install.sh)"
+fi
+
+antigen apply
+eval "$(starship init zsh)"
 
