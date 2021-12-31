@@ -1,4 +1,5 @@
 require("nvim-treesitter.configs").setup {
+  ensure_installed = {'php', 'go', 'lua', 'python' },
   highlight = {
     enable = true, -- false will disable the whole extension
   },

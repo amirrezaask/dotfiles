@@ -20,7 +20,7 @@ require("packer").startup {
         require "mkdir"
       end,
     }
-    use { "itchyny/lightline.vim" }
+    use { "amirrezaask/nline.nvim" } -- Statusline plugin
     use { "L3MON4D3/LuaSnip" } -- Snippets plugin
     use { "tpope/vim-fugitive" }
     use { "windwp/nvim-spectre", requires = { "nvim-lua/plenary.nvim" } }

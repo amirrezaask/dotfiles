@@ -14,8 +14,8 @@ require "amirrezaask.plugins"
 -- Basic vim options
 require "amirrezaask.options"
 
--- Colorscheme
-require "amirrezaask.color"
+-- UI 
+require "amirrezaask.ui"
 
 -- Keymaps
 require "amirrezaask.keymaps"
