@@ -86,15 +86,7 @@
 ** Theme
    #+BEGIN_SRC elisp
      (use-package doom-themes :straight t )
-     (defvar --current-color 'dark "current state of Emacs colorscheme")
-     (defun toggle-color ()
-       (interactive)
-       (if (eq --current-color 'dark)
-           (progn (load-theme 'modus-operandi t) (setq --current-color 'light))
-         (progn (load-theme 'modus-vivendi t) (setq --current-color 'dark)))
-       )
      (load-theme 'modus-vivendi t)
-     (define-key global-map (kbd "<f12>") 'toggle-color)
    #+END_SRC
 ** Modeline
 *** Hide all minor mode `minions`
@@ -432,9 +424,13 @@
       (add-hook 'before-save-hook #'eglot-format-buffer))
 
     :bind
-    (("M-?" . xref-find-references)
+    (:map global-map ("M-?" . xref-find-references)
      ("M-." . xref-find-definitions)
-     ("M-i" . eglot-find-implementation)))
+     ("M-i" . eglot-find-implementation))
+    (:map evil-normal-state-map
+          ("g d" . xref-find-defenitions)
+          ("g r" . xref-find-references)
+          ("g i" . eglot-find-implementation)))
 #+end_src
 *** Code Completion
    #+BEGIN_SRC elisp
