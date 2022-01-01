@@ -231,10 +231,12 @@
    #+end_src 
 ** Minibuffer Completion
 *** Minibuffer and Completions in Tandem  ( By the GREAT Prot )
+:PROPERTIES:
+:header-args: :tangle no
+:END:
 #+begin_src emacs-lisp
   (use-package mct :straight t
     :config (mct-mode 1)
-    :disabled t
     :init
     (setq mct-live-update-delay 0.6)
     (setq mct-hide-completion-mode-line t))
@@ -464,20 +466,12 @@
           ((projectile-project-p) (projectile-find-file))
           (t (call-interactively 'find-file))))
 
+       (defvar amirreza/project-locations '("~/src/gitlab.snapp.ir" "~/src/github.com/amirrezaask" "~/src/gitlab.espadev.ir"))
        (defun amirreza/find-project ()
          "List of projects in pre defined project locations."
          (interactive)
-         (dired (completing-read "Project: "
-                                 (directory-files-recursively "~/src"
-                                                              ".*"
-                                                              t
-                                                              (lambda (path) (not (projectile-project-p path)))
-                                                              t))))
-
-       (defun amirreza/recursive-search-path (initial path)
-         (completing-read "Find File: " (directory-files-recursively path directory-files-no-dot-files-regexp nil (lambda (name)
-                                                                                                                    (not (string-match "\\.git" name)))
-                                                                     t) nil nil initial))
+     ;;    (directory-files )
+         )
 
        (defun amirreza/find-symbol-at-point ()
          (interactive)

@@ -1,3 +1,14 @@
 #!/usr/bin/env bash
 
-find . -type f -not -path '*/\.git/*' -iname "*$1*"
+results=`find . -type f -not -path '*/\.git/*' -iname "*$1*"`
+count=`echo "$results" | wc -l | sed -e 's/      //'`
+
+if [ "$count" == "1" ]; then
+	directory=`9p read acme/$winid/tag | awk '{print $1}'`
+	echo "" | 9p write acme/new/body
+	last=$(9p ls acme | sort -g | tail -n 1)
+	name=`realpath ${directory}/$results`
+	echo "clean" | 9p write acme/$last/ctl
+	echo "name $name" | 9p write acme/$last/ctl
+	echo "get" | 9p write acme/$last/ctl
+fi
