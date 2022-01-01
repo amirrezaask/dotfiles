@@ -86,7 +86,7 @@
 ** Theme
    #+BEGIN_SRC elisp
      (use-package doom-themes :straight t )
-     (load-theme 'modus-vivendi t)
+     (load-theme 'doom-moonlight t)
    #+END_SRC
 ** Modeline
 *** Hide all minor mode `minions`
@@ -343,13 +343,6 @@
        :bind (("C-=" . 'er/expand-region)
              ("C--" . 'er/contract-region)))
     #+END_SRC
-*** Fix indents
-    #+begin_src emacs-lisp
-      (defun amirreza/fix-indents ()
-        (interactive)
-        (mark-whole-buffer)
-        (indent-region 0 (buffer-size (current-buffer))))
-    #+end_src
 *** Highlight TODO/FIXME/... items in text
     #+BEGIN_SRC elisp
      (use-package hl-todo
@@ -610,16 +603,12 @@ fancy feature for Go or any other language, other than the lsp itself.
        :hook
        (go-mode . amirreza/go-hook)
        :config
-       (defun amirreza/go-ggtags ()
-         (interactive)
-         (shell-command-to-string (format"gogtags -p %s" (amirreza/find-root)))
-         )
+       
        (defun amirreza/go-hook ()
          (interactive)
          ;; add go binaries to exec-path
          (add-to-list 'exec-path (concat (getenv "HOME") "/go/bin"))
          ))
-
 
      (use-package go-add-tags :straight t :bind (:map go-mode-map ("C-c m s" . go-add-tags)))
      (use-package gotest :straight t 
