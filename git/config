@@ -9,13 +9,14 @@
 [push]
   default = current
 
-#[delta]
-#   line-numbers = true
-#   syntax-theme = gruvbox
-#   side-by-side = false
+[delta]
+   line-numbers = true
+   syntax-theme = gruvbox
+   side-by-side = false
 
-#  file-modified-label = modified:
+   file-modified-label = modified:
 
 [interactive]
-#   diffFilter = delta --color-only
-# https://github.com/dandavison/delta/releases/download/0.8.0/git-delta_0.8.0_amd64.deb
+   diffFilter = delta --color-only
+
+# https://github.com/dandavison/delta 

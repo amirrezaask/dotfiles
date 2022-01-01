@@ -86,23 +86,16 @@
 ** Theme
    #+BEGIN_SRC elisp
      (use-package doom-themes :straight t )
-     (load-theme 'doom-moonlight t)
+     (load-theme 'doom-dracula t)
    #+END_SRC
 ** Modeline
 *** Hide all minor mode `minions`
 #+begin_src emacs-lisp
 (use-package minions :straight t :config (minions-mode 1))
 #+end_src
-*** Doom modeline
-:PROPERTIES:
-:header-args: :tangle no
-:END:
+*** Modeline Format
 #+begin_src emacs-lisp
-  
-  (use-package doom-modeline :straight t
-    :config
-    (setq doom-modeline-height 35)
-    (doom-modeline-mode 1))
+()
 #+end_src
 ** Font
    #+BEGIN_SRC elisp
@@ -137,6 +130,9 @@
 (use-package keycast :straight t :bind ("<f10>" . keycast-mode))
 #+end_src
 *** Evil
+:PROPERTIES:
+:header-args: :tangle no
+:END:
 #+begin_src emacs-lisp
   (defun amirreza/evil-hook ()
     (dolist (mode '(custom-mode
@@ -415,15 +411,17 @@
     (defun amirreza-eglot-lsp-hook ()
       (eglot-ensure)
       (add-hook 'before-save-hook #'eglot-format-buffer))
+    (with-eval-after-load 'evil
+        (evil-define-key 'normal global-map (kbd "g d") 'xref-find-defenitions)
+        (evil-define-key 'normal global-map (kbd "g r") 'xref-find-references)
+        (evil-define-key 'normal global-map (kbd "g i") 'eglot-find-implementation)
+    )
 
     :bind
-    (:map global-map ("M-?" . xref-find-references)
-     ("M-." . xref-find-definitions)
-     ("M-i" . eglot-find-implementation))
-    (:map evil-normal-state-map
-          ("g d" . xref-find-defenitions)
-          ("g r" . xref-find-references)
-          ("g i" . eglot-find-implementation)))
+    (:map global-map
+          ("M-?" . xref-find-references)
+          ("M-." . xref-find-definitions)
+          ("M-i" . eglot-find-implementation)))
 #+end_src
 *** Code Completion
    #+BEGIN_SRC elisp

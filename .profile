@@ -47,6 +47,7 @@ alias snapp="cd $SNAPP"
 alias espad="cd $ESPAD"
 alias dots="cd ${DOTFILES}"
 alias luamake=/home/amirreza/.local/lua-language-server/3rd/luamake/luamake
+[ -f "/home/amirreza/.ghcup/env" ] && source "/home/amirreza/.ghcup/env" # ghcup-env
 if command -v nvim &> /dev/null
 then
     alias v=nvim
