@@ -449,16 +449,17 @@
    #+END_SRC
 *** Projects
    #+BEGIN_SRC elisp
-       (defvar amirreza/project-locations '("~/src/gitlab.snapp.ir" "~/src/github.com/amirrezaask" "~/src/gitlab.snapp.ir"))
-       (defun amirreza/find-project ()
-         "List of projects in pre defined project locations."
-         (interactive)
-         (let ((output '()))
-           (dolist (path amirreza/project-locations)
-             (dolist (p (directory-files path t)) (add-to-list 'output p))
-             )
-           (dired (completing-read "Project: " output))
+     (defvar amirreza/project-locations '("~/src/gitlab.snapp.ir" "~/src/github.com/amirrezaask" "~/src/gitlab.snapp.ir"))
+     (defun amirreza/find-project ()
+       "List of projects in pre defined project locations."
+       (interactive)
+       (let ((output '()))
+         (dolist (path amirreza/project-locations)
+           (dolist (p (directory-files path t)) (add-to-list 'output p))
+           )
+         (dired (completing-read "Project: " output))
          ))
+     (define-key global-map (kbd "C-x p") 'amirreza/find-project)
 
      (use-package projectile
        :straight t
