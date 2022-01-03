@@ -1,37 +1,34 @@
 #!/usr/bin/bash
 # searches for every symbol in your source code, symbol types can be f , sc , i , v
+# usage
+# Search php/go sc/f/i/v SYMBOL
 
-filename=`echo $samfile`
-
-extension=`echo "${filename##*.}"`
-if [ -z "$2" ]; then
-	query_type='a'
-else
-	query_type="$2"
-fi
-
+extension="$1"
+query_type="$2"
+query="$3"
+query=".*$query.*"
 
 # Add more languages :)
 
-if [ "$extension" == 'go' ] | [ "$3" == 'go' ]; then
-	f="func $1"
-	sc="type $1 struct"
-	i="type $1 interface"
-	v="(var $1)|($1\s*:=)"
+if [ "$extension" == 'go' ]; then
+	f="func $query"
+	sc="type $query struct"
+	i="type $query interface"
+	v="(var $query)|($query\s*:=)"
 	extension_matched='1'
 fi
-if [ "$extension" = 'php' ] | [ "$3" == 'php' ]; then
-	f="(?:public|private|protected)\s*(?:static)? ($1)\(.*\)"
-	sc="(?:public|private|protected)\s*class\s*($1)"
-	i="(?:public|private|protected)\s*interface\s*($1)"
+if [ "$extension" = 'php' ]; then
+	f="(?:public|private|protected)?\s*(?:static)? ($query)\(.*\)"
+	sc="(?:public|private|protected)?\s*class\s*(.*$query.*)\s*\{"
+	i="(?:public|private|protected)?\s*interface\s*($query)"
 	v='(?:public|private)?\$'
-	v+="($1)\s*=.*;$"
+	v+="($query)\s*=.*;$"
 	extension_matched='1'
 fi
 
 
 if [ $extension_matched == '1' ]; then
-	cmd="rg -i --vimgrep"
+	cmd="rg -i --vimgrep --smart-case"
 	if [ $query_type == "f" ] || [ $query_type == "a" ]; then
 		cmd+=" -e '$f'"
 	fi
