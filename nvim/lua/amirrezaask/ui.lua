@@ -1,5 +1,5 @@
 -- Colorscheme
-vim.cmd [[ colorscheme gruvbuddy ]]
+vim.cmd [[ colorscheme gruvbox ]]
 
 -- Statusline
 local has_nline, nline = pcall(require, "nline")
@@ -10,38 +10,37 @@ end
 local vimparts = require "nline.parts.vim"
 local git = require "nline.parts.git"
 local wrappers = require "nline.wrappers"
-local icons = require "nline.parts.icons"
 
-local tj = {
-  vimparts.mode {
-    texts = {
-      normal = "Normal",
-      visual = "Visual",
-      visual_block = "VisualBlock",
-      insert = "Insert",
-      insert_complete = "IComplete",
-      command = "Command",
-      terminal = "Terminal",
-    },
-  },
+local simple = {
   vimparts.space(),
-  icons.git_branch,
+  vimparts.filename { shorten = false },
+
   vimparts.space(),
+  vimparts.pipe(),
+  vimparts.space(),
+
   git.branch(),
 
   vimparts.seperator(),
 
-  icons.file,
+
   vimparts.space(),
-  vimparts.filename { shorten = true },
-  vimparts.modified(),
+  vimparts.pipe(),
+  vimparts.space(),
 
-  vimparts.seperator(),
+vimparts.line() .. vimparts.space() .. vimparts.colon() .. vimparts.col(),
 
-  wrappers.square_brackets(git.changes()),
-  wrappers.square_brackets(vimparts.line() .. vimparts.space() .. vimparts.colon() .. vimparts.col()),
+  vimparts.space(),
+  vimparts.pipe(),
+  vimparts.space(),
+
+  git.changes(),
+  vimparts.space(),
+  vimparts.pipe(),
+  vimparts.space(),
+
   vimparts.filetype(),
 }
 
-nline.make(tj)
+nline.make(simple)
 
