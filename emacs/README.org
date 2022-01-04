@@ -87,7 +87,7 @@
    #+BEGIN_SRC elisp
      (use-package doom-themes :straight t )
      (use-package dracula-theme :straight t)
-     (load-theme 'dracula t)
+     (load-theme 'dracula t) 
    #+END_SRC
 ** Modeline
 *** Hide all minor mode `minions`
@@ -655,6 +655,11 @@ fancy feature for Go or any other language, other than the lsp itself.
    #+begin_src emacs-lisp
 (use-package ccls :straight t)
    #+end_src
+*** Elixir
+#+begin_src emacs-lisp
+  (use-package elixir-mode :straight t :mode ("\\.exs?\\'" . elixir-mode))
+  (use-package alchemist :straight t)
+#+end_src
 ** DevOps
    #+begin_src emacs-lisp
      (use-package docker-compose-mode

@@ -12,6 +12,7 @@ emacs/abbrev_defs
 emacs/transient
 emacs/straight/
 emacs/var
+emacs/eshell
 nvim/.netrwhist
 fonts/.uuid
 nvim/plugin/packer_compiled.lua
