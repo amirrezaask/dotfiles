@@ -47,13 +47,12 @@ vim.g.colors_name = "gruvbuddy"
 
 -- Fork of https://github.com/tjdevries/gruvbuddy.nvim
 local colors = {
-  pure_black = "#000000",
-  background = "#282c34",
+  background = "#000000",
+  -- background = "#282c34",
   line_nr = "#282a2e",
   super_white = "#e0e0e0",
   white = "#c5c8c6",
   blue1 = "#7fbfff",
-  -- blue1 = "#81a2be",
   blue2 = "#5f89ad",
   blue3 = "#38556d",
   black = "#111317",
@@ -80,11 +79,7 @@ local colors = {
   white_yellow = "#ebdbb2",
 }
 
-if vim.g.transparent == nil then
-  hl { "Normal", bg = colors.background, fg = colors.white }
-else
-  hl { "Normal", bg = nil }
-end
+hl { "Normal", bg = colors.background, fg = colors.white }
 hl { "InvNormal", bg = colors.white, fg = colors.background }
 hl { "NormalFloat", bg = colors.black, fg = colors.white1 }
 hl { "LineNr", bg = "None", fg = colors.grey1 }
@@ -113,7 +108,7 @@ hl { "NonText", fg = colors.grey2 }
 hl { "WhiteSpace", fg = colors.purple2 }
 hl { "Conceal", bg = colors.grey2, fg = colors.background }
 
-hl { "StatusLine", bg = colors.blue1, fg = colors.grey3 }
+hl { "StatusLine", bg = colors.blue1, fg = "#000000" }
 
 hl { "StatusLineNC", bg = colors.grey3, fg = colors.grey1 }
 
@@ -203,7 +198,6 @@ hl { "vimAutoloadFunction", fg = colors.yellow2 }
 
 -- LSP
 hl { { "LspReferenceRead", "LspReferenceWrite" }, bg = colors.blue3 }
--- hl { 'LspReferenceText'    , bg='#333842' }
 
 -- Git signs
 hl { "GitSignsAddNr", bg = colors.green2 }
