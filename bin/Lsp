@@ -1,7 +1,5 @@
 #!/usr/bin/bash
-filename=`echo $samfile`
-
-extension=`echo "${filename##*.}"`
+extension="$1"
 tags='| Comp Def Refs Impls Sig'
 #TODO: should check if an LSP is running for path no run again.
 if [ $extension == 'go' ]; then

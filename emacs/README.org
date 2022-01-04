@@ -86,7 +86,8 @@
 ** Theme
    #+BEGIN_SRC elisp
      (use-package doom-themes :straight t )
-     (load-theme 'doom-dracula t)
+     (use-package dracula-theme :straight t)
+     (load-theme 'dracula t)
    #+END_SRC
 ** Modeline
 *** Hide all minor mode `minions`
@@ -421,9 +422,9 @@
 
     :bind
     (:map global-map
-          ("M-?" . xref-find-references)
+          ("C-c l r" . xref-find-references)
           ("M-." . xref-find-definitions)
-          ("M-i" . eglot-find-implementation)))
+          ("C-c l i" . eglot-find-implementation)))
 #+end_src
 *** Code Completion
    #+BEGIN_SRC elisp
@@ -446,8 +447,20 @@
        (setq company-backends '(company-capf company-dabbrev company-files company-dabbrev-code)))
 
    #+END_SRC
-*** Projectile
+*** Projects
    #+BEGIN_SRC elisp
+     (defvar amirreza/project-locations '("~/src/gitlab.snapp.ir" "~/src/github.com/amirrezaask" "~/src/gitlab.snapp.ir"))
+     (defun amirreza/find-project ()
+       "List of projects in pre defined project locations."
+       (interactive)
+       (let ((output '()))
+         (dolist (path amirreza/project-locations)
+           (dolist (p (directory-files path t)) (add-to-list 'output p))
+           )
+         (dired (completing-read "Project: " output))
+         ))
+     (define-key global-map (kbd "C-x p") 'amirreza/find-project)
+
      (use-package projectile
        :straight t
        :commands (projectile-find-file projectile-project-root)
@@ -466,12 +479,6 @@
           ((projectile-project-p) (projectile-find-file))
           (t (call-interactively 'find-file))))
 
-       (defvar amirreza/project-locations '("~/src/gitlab.snapp.ir" "~/src/github.com/amirrezaask" "~/src/gitlab.espadev.ir"))
-       (defun amirreza/find-project ()
-         "List of projects in pre defined project locations."
-         (interactive)
-     ;;    (directory-files )
-         )
 
        (defun amirreza/find-symbol-at-point ()
          (interactive)

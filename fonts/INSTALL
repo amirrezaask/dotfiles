@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+mkdir -p ~/.local/share/fonts
+
+cp * ~/.local/share/fonts
+
+fc-cache -vr
