@@ -16,6 +16,8 @@ export GOPATH="$HOME"
 export GOPRIVATE='gitlab.snapp.ir'
 export GOPROXY='https://repo.snapp.tech/repository/goproxy,goproxy.io,direct'
 
+export ELIXIR="/usr/local/elixir"
+
 export EDITOR='emacsclient -t'
 
 export PLAN9="/usr/local/plan9"
@@ -27,7 +29,7 @@ export ESPAD="$HOME/src/gitlab.espadev.ir"
 
 export BINS="$DOTFILES/bin"
 
-export PATH="$DOTFILES/bin:$HOME/.luarocks/bin:$HOME/.config/composer/vendor/bin:$GOROOT/bin:$GOPATH/bin:$HOME/.cargo/bin:$HOME/.local/bin:/usr/local/Postman:$HOME/.local/elixir-ls/:$PATH:$PLAN9/bin"
+export PATH="$ELIXIR/bin:$DOTFILES/bin:$HOME/.luarocks/bin:$HOME/.config/composer/vendor/bin:$GOROOT/bin:$GOPATH/bin:$HOME/.cargo/bin:$HOME/.local/bin:/usr/local/Postman:$HOME/.local/elixir-ls/:$PATH:$PLAN9/bin"
 
 # Aliases
 alias open='xdg-open'

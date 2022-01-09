@@ -86,8 +86,7 @@
 ** Theme
    #+BEGIN_SRC elisp
      (use-package doom-themes :straight t )
-     (use-package dracula-theme :straight t)
-     (load-theme 'dracula t) 
+     (load-theme 'modus-vivendi t) 
    #+END_SRC
 ** Modeline
 *** Hide all minor mode `minions`
