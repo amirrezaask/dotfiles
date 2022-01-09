@@ -93,6 +93,10 @@
 #+begin_src emacs-lisp
 (use-package minions :straight t :config (minions-mode 1))
 #+end_src
+*** Doom modeline
+#+begin_src emacs-lisp
+  (use-package doom-modeline :straight t :init (setq doom-modeline-height 35) :config (doom-modeline-mode 1))
+#+end_src
 ** Font
    #+BEGIN_SRC elisp
      (defun amirreza/change-font (font)
@@ -184,6 +188,11 @@
 
   (use-package evil-visualstar :straight t :config (global-evil-visualstar-mode 1))
 
+#+end_src
+*** Hydra
+#+begin_src emacs-lisp
+  (use-package hydra :straight t)
+  (use-package pretty-hydra :straight t)
 #+end_src
 ** Buffer Management
    #+BEGIN_SRC elisp
@@ -310,6 +319,85 @@
       (embark-collect-mode . consult-preview-at-point-mode))
 
 #+end_src
+** Projectile
+   #+BEGIN_SRC elisp
+     (defvar amirreza/project-locations '("~/src/gitlab.snapp.ir" "~/src/github.com/amirrezaask" "~/src/gitlab.snapp.ir"))
+     (defun amirreza/find-project ()
+       "List of projects in pre defined project locations."
+       (interactive)
+       (let ((output '()))
+         (dolist (path amirreza/project-locations)
+           (dolist (p (directory-files path t)) (add-to-list 'output p))
+           )
+         (dired (completing-read "Project: " output))
+         ))
+
+     (use-package projectile
+       :straight t
+       :commands (projectile-find-file projectile-project-root amirreza/find/body)
+       :pretty-hydra
+       ((:title "Find" :quit-key "q" :exit t)
+        ("Files"
+         (("p" amirreza/find-project "Find project")
+          ("f" amirreza/find-file "Find file in current dir")
+          ("s" amirreza/find-symbol-at-point "Find symbol at point")
+          )))
+       :bind
+       (:map global-map
+             ("C-c f" . projectile-hydra/body)
+        (:map evil-normal-state-map
+             ("SPC f" . projectile-hydra/body)))
+       :config
+       (defun amirreza/find-file ()
+         "If we are in project use projectile-find-file else use internal find-file"
+         (interactive)
+         (cond
+          ((projectile-project-p) (projectile-find-file))
+          (t (call-interactively 'find-file))))
+       (defun amirreza/find-symbol-at-point ()
+         (interactive)
+         (let* ((symbol (thing-at-point 'word)))
+           (consult-ripgrep (projectile-project-root) symbol))))
+
+     (use-package project :defer t)
+   #+END_SRC
+** Org
+   #+BEGIN_SRC elisp
+     (use-package org
+           :config
+     (defun amirreza/--org-insert-elisp-code-block ()
+       (interactive)
+       (insert (format "#+begin_src emacs-lisp\n\n#+end_src"))
+       (previous-line)
+       (beginning-of-line))
+
+     (defun amirreza/--org-insert-no-tangle ()
+       ""
+       (interactive)
+       (insert (format ":PROPERTIES:\n:header-args: :tangle no\n:END:\n"))
+       (previous-line)
+       (beginning-of-line))
+
+     (setq org-ellipsis "⤵")
+     (setq org-src-fontify-natively t)
+     (setq org-src-tab-acts-natively t)
+     (setq org-support-shift-select t)
+     (setq org-src-window-setup 'split-window-right)
+     (setq org-startup-folded t)
+     :bind (:map org-mode-map
+                 ("C-c m n" . amirreza/--org-insert-no-tangle)
+                 ("C-c m b" . amirreza/--org-insert-elisp-code-block)))
+
+     (use-package org-bullets
+       :straight t
+       :hook (org-mode . (lambda () (org-bullets-mode 1))))
+
+
+     (use-package toc-org :straight t :hook (org-mode . toc-org-mode))
+
+     (use-package htmlize :straight t :defer t)
+
+   #+END_SRC
 ** Editor
 *** Highlight indents
    #+BEGIN_SRC elisp
@@ -377,201 +465,26 @@
     #+END_SRC
 *** Configuration syntax support
     #+BEGIN_SRC elisp
-      (use-package crontab-mode :defer t :straight t)
+       (use-package crontab-mode :defer t :straight t)
 
-      (use-package apache-mode :straight t
-        :mode ("\\.htaccess\\'" "httpd\\.conf\\'" "srm\\.conf\\'" "access\\.conf\\'"))
+       (use-package apache-mode :straight t
+         :mode ("\\.htaccess\\'" "httpd\\.conf\\'" "srm\\.conf\\'" "access\\.conf\\'"))
 
-      (use-package systemd :straight t
-        :mode ("\\.service\\'" "\\.timer\\'"))
+       (use-package systemd :straight t
+         :mode ("\\.service\\'" "\\.timer\\'"))
 
-      (use-package nginx-mode :straight 
-        :mode ("/etc/nginx/conf.d/.*" "/etc/nginx/.*\\.conf\\'"))
+       (use-package nginx-mode :straight 
+         :mode ("/etc/nginx/conf.d/.*" "/etc/nginx/.*\\.conf\\'"))
+
+      (use-package docker-compose-mode
+        :straight t
+        :mode "docker-compose\\.yml")
+     (use-package dockerfile-mode :straight t :mode "\\Dockerfile\\'")
     #+END_SRC
 *** Colorize matching parens
     #+BEGIN_SRC elisp
       (use-package rainbow-delimiters :straight t :defer t)
     #+END_SRC
-** IDE
-*** Language Server Mode
-**** Eglot
-#+begin_src emacs-lisp
-  (use-package eglot
-    :straight t
-    :hook
-    (
-     ((go-mode php-mode python-mode lua-mode c-mode elixir-mode) . #'amirreza-eglot-lsp-hook))
-
-    :init
-    (defun amirreza-eglot-lsp-hook ()
-      (eglot-ensure)
-      (add-hook 'before-save-hook #'eglot-format-buffer))
-    (with-eval-after-load 'evil
-        (evil-define-key 'normal global-map (kbd "g d") 'xref-find-defenitions)
-        (evil-define-key 'normal global-map (kbd "g r") 'xref-find-references)
-        (evil-define-key 'normal global-map (kbd "g i") 'eglot-find-implementation)
-    )
-
-    :bind
-    (:map global-map
-          ("C-c l r" . xref-find-references)
-          ("M-." . xref-find-definitions)
-          ("C-c l i" . eglot-find-implementation)))
-#+end_src
-*** Code Completion
-   #+BEGIN_SRC elisp
-     (use-package company
-       :straight t
-       :diminish company-mode
-       :hook (prog-mode . company-mode)
-       :bind (:map company-active-map
-                   ("C-n" . company-select-next)
-                   ("C-p" . company-select-previous)
-                   ("C-o" . company-other-backend)
-                   ("<tab>" . company-complete-common-or-cycle)
-                   ("RET" . company-complete-selection))
-       :config
-       (setq company-minimum-prefix-lenght 1)
-       (setq company-tooltip-limit 30)
-       (setq company-idle-delay 0.0)
-       (setq company-echo-delay 0.1)
-       (setq company-show-numbers t)
-       (setq company-backends '(company-capf company-dabbrev company-files company-dabbrev-code)))
-
-   #+END_SRC
-*** Projects
-   #+BEGIN_SRC elisp
-     (defvar amirreza/project-locations '("~/src/gitlab.snapp.ir" "~/src/github.com/amirrezaask" "~/src/gitlab.snapp.ir"))
-     (defun amirreza/find-project ()
-       "List of projects in pre defined project locations."
-       (interactive)
-       (let ((output '()))
-         (dolist (path amirreza/project-locations)
-           (dolist (p (directory-files path t)) (add-to-list 'output p))
-           )
-         (dired (completing-read "Project: " output))
-         ))
-
-     (define-key global-map (kbd "C-x p") 'amirreza/find-project)
-
-     (use-package projectile
-       :straight t
-       :commands (projectile-find-file projectile-project-root)
-       :bind
-       (("C-c f" . projectile-find-file)
-        ("C-M-s" . 'amirreza/find-symbol-at-point)
-        ("<f1>" . 'amirreza/find-file-at-point)
-        ("<f2>" . 'amirreza/find-symbol-at-point)
-        ("C-M-f" . 'amirreza/find-file-at-point)
-        ("C-M-g" . 'amirreza/find-symbol-at-point))
-       :config
-       (defun amirreza/find-file ()
-         "If we are in project use projectile-find-file else use internal find-file"
-         (interactive)
-         (cond
-          ((projectile-project-p) (projectile-find-file))
-          (t (call-interactively 'find-file))))
-
-
-       (defun amirreza/find-symbol-at-point ()
-         (interactive)
-         (let* ((symbol (thing-at-point 'word)))
-           (consult-ripgrep (projectile-project-root) symbol))))
-
-
-     (use-package project :defer t)
-   #+END_SRC
-*** Terminal
-   #+begin_src elisp
-     (use-package vterm :straight t :bind ("C-c t" . vterm-other-window))
-   #+end_src
-*** Git
-    #+begin_src emacs-lisp
-      (use-package magit
-        :straight t
-        :commands (magit-status magit-get-current-branch)
-        :init
-        (with-eval-after-load 'evil (evil-global-set-key 'normal (kbd "SPC g s") 'magit-status))
-        :bind
-        (("C-x g" . 'magit-status)))
-
-      (use-package diff-hl
-        :straight t
-        :config (global-diff-hl-mode 1))
-
-      (use-package git-messenger
-        :straight t
-        :commands
-        (git-messenger:popup-message)
-        :init
-        (with-eval-after-load 'evil (evil-global-set-key 'normal (kbd "SPC g b") 'git-messenger:popup-message))
-        :bind
-        (("C-c g b" . git-messenger:popup-message))
-
-        :config
-        (setq git-messenger:show-detail t)
-        (setq git-messenger:use-magit-popup t))
-#+end_src
-*** Snippets
-    #+begin_src emacs-lisp
-      (use-package yasnippet
-        :straight t
-        :diminish yas-minor-mode
-        :config (yas-global-mode 1)
-        :bind
-        (("C-x C-x" . yas-expand)
-         ("C-x C-l" . yas-insert-snippet)))
-
-      (use-package yasnippet-snippets :straight t :after yasnippet)
-    #+end_src
-*** IMenu: Language agnostic movement in buffer
-    #+BEGIN_SRC elisp
-      (use-package imenu
-        :bind ("M-i" . imenu))
-    #+END_SRC
-*** Eldoc: Emacs documentation engine
-    #+BEGIN_SRC elisp
-      (use-package eldoc
-        :diminish eldoc-mode
-        :config (global-eldoc-mode 1))
-    #+END_SRC
-** Org
-   #+BEGIN_SRC elisp
-     (use-package org
-           :config
-     (defun amirreza/--org-insert-elisp-code-block ()
-       (interactive)
-       (insert (format "#+begin_src emacs-lisp\n\n#+end_src"))
-       (previous-line)
-       (beginning-of-line))
-
-     (defun amirreza/--org-insert-no-tangle ()
-       ""
-       (interactive)
-       (insert (format ":PROPERTIES:\n:header-args: :tangle no\n:END:\n"))
-       (previous-line)
-       (beginning-of-line))
-
-     (setq org-ellipsis "⤵")
-     (setq org-src-fontify-natively t)
-     (setq org-src-tab-acts-natively t)
-     (setq org-support-shift-select t)
-     (setq org-src-window-setup 'current-window)
-     (setq org-startup-folded t)
-     :bind (:map org-mode-map
-                 ("C-c m n" . amirreza/--org-insert-no-tangle)
-                 ("C-c m b" . amirreza/--org-insert-elisp-code-block)))
-
-     (use-package org-bullets
-       :straight t
-       :hook (org-mode . (lambda () (org-bullets-mode 1))))
-
-
-     (use-package toc-org :straight t :hook (org-mode . toc-org-mode))
-
-     (use-package htmlize :straight t :defer t)
-
-   #+END_SRC
 ** Environment Variables
    Since emacs is a GUI app and is not launched by your default shell, probably it's not going to have correct env variables so we need to force all env
    variables from default shell to be in Emacs process as well.
@@ -653,17 +566,106 @@ fancy feature for Go or any other language, other than the lsp itself.
   (use-package elixir-mode :straight t :mode ("\\.exs?\\'" . elixir-mode))
   (use-package alchemist :straight t)
 #+end_src
+** IDE
+*** Language Servers
+#+begin_src emacs-lisp
+  (use-package eglot
+    :straight t
+    :hook
+    (
+     ((go-mode php-mode python-mode lua-mode c-mode elixir-mode) . #'amirreza-eglot-lsp-hook))
+
+    :init
+    (defun amirreza-eglot-lsp-hook ()
+      (eglot-ensure)
+      (add-hook 'before-save-hook #'eglot-format-buffer))
+    (with-eval-after-load 'evil
+        (evil-define-key 'normal global-map (kbd "g d") 'xref-find-defenitions)
+        (evil-define-key 'normal global-map (kbd "g r") 'xref-find-references)
+        (evil-define-key 'normal global-map (kbd "g i") 'eglot-find-implementation)
+    )
+
+    :bind
+    (:map global-map
+          ("C-c l r" . xref-find-references)
+          ("M-." . xref-find-definitions)
+          ("C-c l i" . eglot-find-implementation)))
+#+end_src
+*** Code Completion
+   #+BEGIN_SRC elisp
+     (use-package company
+       :straight t
+       :diminish company-mode
+       :hook (prog-mode . company-mode)
+       :bind (:map company-active-map
+                   ("C-n" . company-select-next)
+                   ("C-p" . company-select-previous)
+                   ("C-o" . company-other-backend)
+                   ("<tab>" . company-complete-common-or-cycle)
+                   ("RET" . company-complete-selection))
+       :config
+       (setq company-minimum-prefix-lenght 1)
+       (setq company-tooltip-limit 30)
+       (setq company-idle-delay 0.0)
+       (setq company-echo-delay 0.1)
+       (setq company-show-numbers t)
+       (setq company-backends '(company-capf company-dabbrev company-files company-dabbrev-code)))
+
+   #+END_SRC
+*** Terminal
+   #+begin_src elisp
+     (use-package vterm :straight t :bind ("C-c t" . vterm-other-window))
+   #+end_src
+*** Git
+    #+begin_src emacs-lisp
+      (use-package magit
+        :straight t
+        :commands (magit-status magit-get-current-branch)
+        :init
+        (with-eval-after-load 'evil (evil-global-set-key 'normal (kbd "SPC g s") 'magit-status))
+        :bind
+        (("C-x g" . 'magit-status)))
+
+      (use-package diff-hl
+        :straight t
+        :config (global-diff-hl-mode 1))
+
+      (use-package git-messenger
+        :straight t
+        :commands
+        (git-messenger:popup-message)
+        :init
+        (with-eval-after-load 'evil (evil-global-set-key 'normal (kbd "SPC g b") 'git-messenger:popup-message))
+        :bind
+        (("C-c g b" . git-messenger:popup-message))
+
+        :config
+        (setq git-messenger:show-detail t)
+        (setq git-messenger:use-magit-popup t))
+#+end_src
+*** Snippets
+    #+begin_src emacs-lisp
+      (use-package yasnippet
+        :straight t
+        :diminish yas-minor-mode
+        :config (yas-global-mode 1)
+        :bind
+        (("C-x C-x" . yas-expand)
+         ("C-x C-l" . yas-insert-snippet)))
+
+      (use-package yasnippet-snippets :straight t :after yasnippet)
+    #+end_src
+*** Eldoc: Emacs documentation engine
+    #+BEGIN_SRC elisp
+      (use-package eldoc
+        :diminish eldoc-mode
+        :config (global-eldoc-mode 1))
+    #+END_SRC
 ** DevOps
    #+begin_src emacs-lisp
-     (use-package docker-compose-mode
-       :straight t
-       :mode "docker-compose\\.yml")
-
      (use-package docker :straight t 
        :bind
        ("C-c i d" . docker))
-
-     (use-package dockerfile-mode :straight t :mode "\\Dockerfile\\'")
      (use-package kubel :straight t :commands (kubel) :bind (("C-c i k" . kubel)))
    #+end_src
 ** Dotfiles
@@ -685,9 +687,3 @@ fancy feature for Go or any other language, other than the lsp itself.
      (with-eval-after-load 'evil (evil-define-key 'normal 'global (kbd "SPC e e") 'amirreza/edit-dot-emacs))
      (with-eval-after-load 'evil (evil-define-key 'normal 'global (kbd "SPC e c") 'amirreza/edit-dot-config))
    #+end_src
-
-** Emacs Server
-   #+begin_src emacs-lisp
-     (server-start)
-   #+end_src
- 
