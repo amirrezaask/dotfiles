@@ -86,16 +86,12 @@
 ** Theme
    #+BEGIN_SRC elisp
      (use-package doom-themes :straight t )
-     (load-theme 'modus-vivendi t) 
+     (load-theme 'doom-dracula t) 
    #+END_SRC
 ** Modeline
 *** Hide all minor mode `minions`
 #+begin_src emacs-lisp
 (use-package minions :straight t :config (minions-mode 1))
-#+end_src
-*** Modeline Format
-#+begin_src emacs-lisp
-()
 #+end_src
 ** Font
    #+BEGIN_SRC elisp
@@ -130,9 +126,6 @@
 (use-package keycast :straight t :bind ("<f10>" . keycast-mode))
 #+end_src
 *** Evil
-:PROPERTIES:
-:header-args: :tangle no
-:END:
 #+begin_src emacs-lisp
   (defun amirreza/evil-hook ()
     (dolist (mode '(custom-mode
@@ -407,7 +400,7 @@
     :straight t
     :hook
     (
-     ((go-mode php-mode python-mode lua-mode c-mode) . #'amirreza-eglot-lsp-hook))
+     ((go-mode php-mode python-mode lua-mode c-mode elixir-mode) . #'amirreza-eglot-lsp-hook))
 
     :init
     (defun amirreza-eglot-lsp-hook ()
@@ -458,13 +451,14 @@
            )
          (dired (completing-read "Project: " output))
          ))
+
      (define-key global-map (kbd "C-x p") 'amirreza/find-project)
 
      (use-package projectile
        :straight t
        :commands (projectile-find-file projectile-project-root)
        :bind
-       (("C-c f" . amirreza/find-file)
+       (("C-c f" . projectile-find-file)
         ("C-M-s" . 'amirreza/find-symbol-at-point)
         ("<f1>" . 'amirreza/find-file-at-point)
         ("<f2>" . 'amirreza/find-symbol-at-point)
@@ -696,3 +690,4 @@ fancy feature for Go or any other language, other than the lsp itself.
    #+begin_src emacs-lisp
      (server-start)
    #+end_src
+ 
