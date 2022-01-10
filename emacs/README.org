@@ -189,10 +189,6 @@
   (use-package evil-visualstar :straight t :config (global-evil-visualstar-mode 1))
 
 #+end_src
-*** Hydra
-#+begin_src emacs-lisp
-  (use-package hydra :straight t)
-  (use-package pretty-hydra :straight t)
 #+end_src
 ** Buffer Management
    #+BEGIN_SRC elisp
@@ -334,20 +330,26 @@
 
      (use-package projectile
        :straight t
-       :commands (projectile-find-file projectile-project-root amirreza/find/body)
-       :pretty-hydra
-       ((:title "Find" :quit-key "q" :exit t)
-        ("Files"
-         (("p" amirreza/find-project "Find project")
-          ("f" amirreza/find-file "Find file in current dir")
-          ("s" amirreza/find-symbol-at-point "Find symbol at point")
-          )))
+       :commands (projectile-find-file projectile-project-root amirreza/find/body amirreza/grep)
+       :init
+       (with-eval-after-load 'evil
+         (evil-global-set-key 'normal (kbd "SPC f f") 'amirreza/find-file)
+         (evil-global-set-key 'normal (kbd "SPC f p") 'amirreza/find-project)
+         (evil-global-set-key 'normal (kbd "SPC f s") 'amirreza/grep)
+         (evil-global-set-key 'normal (kbd "??") 'amirreza/grep))
+
        :bind
        (:map global-map
-             ("C-c f" . projectile-hydra/body)
-        (:map evil-normal-state-map
-             ("SPC f" . projectile-hydra/body)))
+             ("C-c f f" . amirreza/find-file)
+             ("C-c f p" . amirreza/find-project)
+             ("C-c f s" . amirreza/grep))
        :config
+       (defun amirreza/grep ()
+         (interactive)
+         (cond
+          ((projectile-project-p) (consult-git-grep))
+          ((executable-find "rg") (consult-ripgrep))
+          ))
        (defun amirreza/find-file ()
          "If we are in project use projectile-find-file else use internal find-file"
          (interactive)
@@ -579,12 +581,11 @@ fancy feature for Go or any other language, other than the lsp itself.
     (defun amirreza-eglot-lsp-hook ()
       (eglot-ensure)
       (add-hook 'before-save-hook #'eglot-format-buffer))
-    (with-eval-after-load 'evil
-        (evil-define-key 'normal global-map (kbd "g d") 'xref-find-defenitions)
-        (evil-define-key 'normal global-map (kbd "g r") 'xref-find-references)
-        (evil-define-key 'normal global-map (kbd "g i") 'eglot-find-implementation)
-    )
 
+    (with-eval-after-load 'evil
+      (evil-define-key 'normal global-map (kbd "g d") 'xref-find-definitions)
+      (evil-define-key 'normal global-map (kbd "g r") 'xref-find-references))
+      (evil-define-key 'normal global-map (kbd "g i") 'eglot-find-implementations)
     :bind
     (:map global-map
           ("C-c l r" . xref-find-references)
