@@ -1,5 +1,5 @@
 -- Colorscheme
-vim.cmd [[ colorscheme gruvbox ]]
+vim.cmd [[ colorscheme dracula ]]
 
 -- Statusline
 local has_nline, nline = pcall(require, "nline")

@@ -14,6 +14,7 @@ require("packer").startup {
     use { "arcticicestudio/nord-vim" }
     use { "sonph/onehalf", rtp = "vim" }
     use { "rebelot/kanagawa.nvim" }
+    use { "dracula/vim" }
     use {
       "jghauser/mkdir.nvim",
       config = function()
