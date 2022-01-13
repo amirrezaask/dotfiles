@@ -11,9 +11,8 @@ vim.cmd [[ hi Normal guibg=None ]]
 
 local vimparts = require "nline.parts.vim"
 local git = require "nline.parts.git"
-local wrappers = require "nline.wrappers"
 
-local simple = {
+nline.make({
   vimparts.space(),
   vimparts.filename { shorten = false },
 
@@ -42,7 +41,6 @@ vimparts.line() .. vimparts.space() .. vimparts.colon() .. vimparts.col(),
   vimparts.space(),
 
   vimparts.filetype(),
-}
+})
 
-nline.make(simple)
 
