@@ -7,6 +7,8 @@ if not has_nline then
   return
 end
 
+vim.cmd [[ hi Normal guibg=None ]]
+
 local vimparts = require "nline.parts.vim"
 local git = require "nline.parts.git"
 local wrappers = require "nline.wrappers"

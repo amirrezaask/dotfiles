@@ -674,7 +674,7 @@ fancy feature for Go or any other language, other than the lsp itself.
      (defvar amirreza/dotfiles-location (exec-path-from-shell-copy-env "DOTFILES") "Location of my dotfiles.")
      (defun amirreza/edit-dot-emacs ()
        (interactive)
-       (find-file (completing-read "Edit: " (directory-files-recursively "~/.config/emacs" ".*" nil (lambda (name)
+       (find-file (completing-read "Edit: " (directory-files-recursively "~/.emacs.d/" ".*" nil (lambda (name)
                                                                                                                (not (string-match "\\.git" name)))
                                                                          t))))
 

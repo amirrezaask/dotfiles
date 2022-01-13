@@ -56,3 +56,4 @@ then
     alias vim=nvim
     alias n=nvim
 fi
+. "$HOME/.cargo/env"
