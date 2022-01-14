@@ -17,9 +17,6 @@ require "amirrezaask.options"
 -- UI 
 require "amirrezaask.ui"
 
--- Keymaps
-require "amirrezaask.keymaps"
-
 -- Editor stuff
 require "amirrezaask.editor"
 
@@ -37,9 +34,6 @@ require "amirrezaask.actions"
 
 -- Auto complete
 require "amirrezaask.autocomplete"
-
--- Debugger
-require "amirrezaask.debugger"
 
 -- Treesitter
 require "amirrezaask.treesitter"
