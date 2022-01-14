@@ -4,7 +4,9 @@
 --  / ___ |/ / / / / / / /  / /  /  __/ / /_/ /_/ / ___ |(__  ) ,<
 -- /_/  |_/_/ /_/ /_/_/_/  /_/   \___/ /___/\__,_/_/  |_/____/_/|_|
 --
--- All configurations are inside after/plugins directory in vim/lua files.
+-- All configurations are inside after/plugin directory in vim/lua files.
 
 -- Install package manage
 require "amirrezaask.plugins"
+
+vim.cmd [[ colorscheme gruvbuddy ]]
