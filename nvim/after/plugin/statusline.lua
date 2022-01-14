@@ -1,5 +1,3 @@
--- Colorscheme
-
 -- Statusline
 local has_nline, nline = pcall(require, "nline")
 if not has_nline then

@@ -9,4 +9,4 @@
 -- Install package manage
 require "amirrezaask.plugins"
 
-vim.cmd [[ colorscheme gruvbuddy ]]
+vim.cmd [[ colorscheme dracula ]]
