@@ -95,7 +95,7 @@
 #+end_src
 *** Doom modeline
 #+begin_src emacs-lisp
-  (use-package doom-modeline :straight t :init (setq doom-modeline-height 35) :config (doom-modeline-mode 1))
+  (use-package doom-modeline :straight t :init (setq doom-modeline-height 30) :config (doom-modeline-mode 1))
 #+end_src
 ** Font
    #+BEGIN_SRC elisp
@@ -130,6 +130,10 @@
 (use-package keycast :straight t :bind ("<f10>" . keycast-mode))
 #+end_src
 *** Evil
+:PROPERTIES:
+:header-args: :tangle no
+:END:
+
 #+begin_src emacs-lisp
   (defun amirreza/evil-hook ()
     (dolist (mode '(custom-mode
@@ -584,8 +588,8 @@ fancy feature for Go or any other language, other than the lsp itself.
 
     (with-eval-after-load 'evil
       (evil-define-key 'normal global-map (kbd "g d") 'xref-find-definitions)
-      (evil-define-key 'normal global-map (kbd "g r") 'xref-find-references))
-      (evil-define-key 'normal global-map (kbd "g i") 'eglot-find-implementations)
+      (evil-define-key 'normal global-map (kbd "g r") 'xref-find-references)
+      (evil-define-key 'normal global-map (kbd "g i") 'eglot-find-implementations))
     :bind
     (:map global-map
           ("C-c l r" . xref-find-references)

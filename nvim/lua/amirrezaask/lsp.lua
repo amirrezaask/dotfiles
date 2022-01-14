@@ -91,3 +91,8 @@ require("lspconfig").sumneko_lua.setup {
     },
   },
 }
+
+require"lspconfig".elixirls.setup {
+  cmd = { "/home/amirreza/.local/elixirls/language_server.sh" }
+
+}
