@@ -109,26 +109,20 @@
 *** Which-key
     Shows possible candidates for continuing a keychord in minibuffer.
    #+begin_src emacs-lisp
-     (use-package which-key
-       :straight t
-       :diminish which-key-mode
-       :init
-       (setq which-key-sort-order #'which-key-prefix-then-key-order
-               which-key-sort-uppercase-first nil
-               which-key-add-column-padding 1
-               which-key-max-display-columns nil
-               which-key-min-display-lines 6
-               which-key-side-window-slot -10)
-       :config
-       (setq which-key-idle-delay 0.3)
-       (defalias 'which-key! 'which-key-add-key-based-replacements)
-       (which-key-mode 1)
-       (which-key-setup-minibuffer))
+     (straight-use-package 'which-key)
+     (setq which-key-sort-order #'which-key-prefix-then-key-order
+           which-key-sort-uppercase-first nil
+           which-key-add-column-padding 1
+           which-key-max-display-columns nil
+           which-key-min-display-lines 6
+           which-key-side-window-slot -10)
+
+     (setq which-key-idle-delay 0.3)
+
+     (which-key-mode 1)
+
+     (which-key-setup-minibuffer)
    #+end_src
-*** Keycast
-#+begin_src emacs-lisp
-(use-package keycast :straight t :bind ("<f10>" . keycast-mode))
-#+end_src
 *** Evil
 :PROPERTIES:
 :header-args: :tangle no
@@ -196,17 +190,13 @@
 #+end_src
 ** Buffer Management
    #+BEGIN_SRC elisp
-     (use-package bufler
-       :straight t
-       :bind (("C-x C-b" . 'bufler)))
+     (straight-use-package 'bufler)
+     (global-set-key (kbd "C-x C-b") 'bufler)
    #+END_SRC
 ** Window management and Switching
    #+BEGIN_SRC elisp
-     (use-package ace-window
-       :straight t
-       :commands (ace-window)
-       :bind (("C-x o" . 'ace-window)
-              ("C-x C-o" . 'ace-window)))
+     (straight-use-package 'ace-window)
+     (global-set-key (kbd "C-x o") 'ace-window)
    #+END_SRC
 ** Workspaces
    Using =perspective= you can have groups of windows and buffers associated with a name, this helps you to have just one instance of Emacs and
@@ -373,8 +363,6 @@
    #+END_SRC
 ** Org
    #+BEGIN_SRC elisp
-     (use-package org
-           :config
      (defun amirreza/--org-insert-elisp-code-block ()
        (interactive)
        (insert (format "#+begin_src emacs-lisp\n\n#+end_src"))
@@ -394,19 +382,17 @@
      (setq org-support-shift-select t)
      (setq org-src-window-setup 'split-window-right)
      (setq org-startup-folded t)
-     :bind (:map org-mode-map
-                 ("C-c m n" . amirreza/--org-insert-no-tangle)
-                 ("C-c m b" . amirreza/--org-insert-elisp-code-block)))
 
-     (use-package org-bullets
-       :straight t
-       :hook (org-mode . (lambda () (org-bullets-mode 1))))
+     (define-key org-mode-map (kbd "C-c m n") 'amirreza/--org-insert-no-tangle)
 
+     (define-key org-mode-map (kbd "C-c m b") 'amirreza/--org-insert-elisp-code-block)
 
-     (use-package toc-org :straight t :hook (org-mode . toc-org-mode))
-
-     (use-package htmlize :straight t :defer t)
-
+     (straight-use-package 'org-bullets)
+     (straight-use-package 'toc-org)
+     (straight-use-package 'htmlize)
+ 
+     (add-hook 'org-mode-hook #'org-bullets-mode)
+     (add-hook 'org-mode-hook #'toc-org-mode)
    #+END_SRC
 ** Editor
 *** Highlight indents
