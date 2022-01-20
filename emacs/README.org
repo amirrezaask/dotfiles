@@ -95,14 +95,14 @@
 #+end_src
 *** Doom modeline
 #+begin_src emacs-lisp
-  (use-package doom-modeline :disabled t :straight t :init (setq doom-modeline-height 30) :config (doom-modeline-mode 1))
+  (use-package doom-modeline :straight t :init (setq doom-modeline-height 30) :config (doom-modeline-mode 1))
 #+end_src
 ** Font
    #+BEGIN_SRC elisp
      (defun amirreza/change-font (font)
        (setq default-frame-alist `((font . ,font))))
 
-     (defvar amirreza/font "JetbrainsMono Nerd Font Mono-11")
+     (defvar amirreza/font "GoMono-11")
      (amirreza/change-font amirreza/font)
    #+END_SRC
 ** Keybindings
@@ -319,51 +319,55 @@
       (embark-collect-mode . consult-preview-at-point-mode))
 
 #+end_src
-** Projectile
+** Projects
+*** Find project
+#+begin_src emacs-lisp
+  (defvar amirreza/project-locations '("~/src/gitlab.snapp.ir" "~/src/github.com/amirrezaask" "~/src/gitlab.snapp.ir"))
+  (defun amirreza/find-project ()
+    "List of projects in pre defined project locations."
+    (interactive)
+    (let ((output '()))
+      (dolist (path amirreza/project-locations)
+        (dolist (p (directory-files path t)) (add-to-list 'output p))
+        )
+      (dired (completing-read "Project: " output))
+      ))
+   (global-set-key (kbd "C-c f p") 'amirreza/find-project)
+#+end_src
+*** Inteligent searches
    #+BEGIN_SRC elisp
-     (defvar amirreza/project-locations '("~/src/gitlab.snapp.ir" "~/src/github.com/amirrezaask" "~/src/gitlab.snapp.ir"))
-     (defun amirreza/find-project ()
-       "List of projects in pre defined project locations."
-       (interactive)
-       (let ((output '()))
-         (dolist (path amirreza/project-locations)
-           (dolist (p (directory-files path t)) (add-to-list 'output p))
-           )
-         (dired (completing-read "Project: " output))
-         ))
-
      (use-package projectile
-       :straight t
-       :commands (projectile-find-file projectile-project-root amirreza/find/body amirreza/grep)
-       :init
-       (with-eval-after-load 'evil
-         (evil-global-set-key 'normal (kbd "SPC f f") 'amirreza/find-file)
-         (evil-global-set-key 'normal (kbd "SPC f p") 'amirreza/find-project)
-         (evil-global-set-key 'normal (kbd "SPC f s") 'amirreza/grep)
-         (evil-global-set-key 'normal (kbd "??") 'amirreza/grep))
+       :straight t :commands (projectile-project-p projectile-find-file projectile-project-root))
 
-       :bind
-       (:map global-map
-             ("C-c f f" . amirreza/find-file)
-             ("C-c f p" . amirreza/find-project)
-             ("C-c f s" . amirreza/grep))
-       :config
+     (with-eval-after-load 'projectile
        (defun amirreza/grep ()
          (interactive)
          (cond
           ((projectile-project-p) (consult-git-grep))
           ((executable-find "rg") (consult-ripgrep))
           ))
+
        (defun amirreza/find-file ()
          "If we are in project use projectile-find-file else use internal find-file"
          (interactive)
          (cond
           ((projectile-project-p) (projectile-find-file))
           (t (call-interactively 'find-file))))
+
        (defun amirreza/find-symbol-at-point ()
          (interactive)
          (let* ((symbol (thing-at-point 'word)))
-           (consult-ripgrep (projectile-project-root) symbol))))
+           (consult-ripgrep (projectile-project-root) symbol)))
+
+       (global-set-key (kbd "C-c f f") 'amirreza/find-file)
+      
+       (global-set-key (kbd "C-c f s") 'amirreza/grep)
+  
+       (with-eval-after-load 'evil
+         (evil-global-set-key 'normal (kbd "SPC f f") 'amirreza/find-file)
+         (evil-global-set-key 'normal (kbd "SPC f p") 'amirreza/find-project)
+         (evil-global-set-key 'normal (kbd "SPC f s") 'amirreza/grep)
+         (evil-global-set-key 'normal (kbd "??") 'amirreza/grep)))
 
      (use-package project :defer t)
    #+END_SRC
@@ -518,8 +522,7 @@ fancy feature for Go or any other language, other than the lsp itself.
        (defun amirreza/go-hook ()
          (interactive)
          ;; add go binaries to exec-path
-         (add-to-list 'exec-path (concat (getenv "HOME") "/go/bin"))
-         ))
+         (add-to-list 'exec-path (concat (getenv "HOME") "/go/bin"))))
 
      (use-package go-add-tags :straight t :bind (:map go-mode-map ("C-c m s" . go-add-tags)))
      (use-package gotest :straight t 
@@ -666,13 +669,6 @@ fancy feature for Go or any other language, other than the lsp itself.
         :diminish eldoc-mode
         :config (global-eldoc-mode 1))
     #+END_SRC
-** DevOps
-   #+begin_src emacs-lisp
-     (use-package docker :straight t 
-       :bind
-       ("C-c i d" . docker))
-     (use-package kubel :straight t :commands (kubel) :bind (("C-c i k" . kubel)))
-   #+end_src
 ** Dotfiles
    #+begin_src emacs-lisp
      (defvar amirreza/dotfiles-location (exec-path-from-shell-copy-env "DOTFILES") "Location of my dotfiles.")
