@@ -1,6 +1,7 @@
 (defvar amirreza-emacs-init-timestamp (float-time) "Holds Emacs initialization time.")
 
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
+(add-to-list 'load-path (expand-file-name "site-lisp" user-emacs-directory))
 
 (defun amirreza-faster-start ()
   ;; Defer Garbage collection

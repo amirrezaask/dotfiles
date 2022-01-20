@@ -86,7 +86,15 @@
 ** Theme
    #+BEGIN_SRC elisp
      (use-package doom-themes :straight t )
-     (load-theme 'doom-dracula t) 
+     (load-theme 'wombat t)
+
+     (set-face-background 'default "#111")
+     (set-face-background 'cursor "#c96")
+     (set-face-background 'isearch "#c60")
+     (set-face-foreground 'isearch "#eee")
+     (set-face-background 'lazy-highlight "#960")
+     (set-face-foreground 'lazy-highlight "#ccc")
+     (set-face-foreground 'font-lock-comment-face "#fc0")
    #+END_SRC
 ** Modeline
 *** Hide all minor mode `minions`
@@ -95,7 +103,7 @@
 #+end_src
 *** Doom modeline
 #+begin_src emacs-lisp
-  (use-package doom-modeline :straight t :init (setq doom-modeline-height 30) :config (doom-modeline-mode 1))
+  (use-package doom-modeline :disabled t :straight t :init (setq doom-modeline-height 30) :config (doom-modeline-mode 1))
 #+end_src
 ** Font
    #+BEGIN_SRC elisp

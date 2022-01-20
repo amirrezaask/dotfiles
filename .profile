@@ -18,7 +18,7 @@ export GOPROXY='https://repo.snapp.tech/repository/goproxy,goproxy.io,direct'
 
 export ELIXIR="/usr/local/elixir"
 
-export EDITOR='emacsclient -t'
+export EDITOR='vim'
 
 export PLAN9="/usr/local/plan9"
 
