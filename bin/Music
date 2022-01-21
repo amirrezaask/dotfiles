@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+base=' | PlayPause Next Previous Vol+ Vol-'
+
+printf "$base"
