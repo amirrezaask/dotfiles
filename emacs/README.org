@@ -85,17 +85,19 @@
 #+END_SRC
 ** Theme
    #+BEGIN_SRC elisp
-     (use-package doom-themes :straight t )
+     (straight-use-package 'doom-themes)
+     (straight-use-package 'all-the-icons-completion)
+
      (load-theme 'doom-dracula t)
+     (all-the-icons-completion-mode 1)
    #+END_SRC
 ** Modeline
-*** Hide all minor mode `minions`
 #+begin_src emacs-lisp
-(use-package minions :straight t :config (minions-mode 1))
-#+end_src
-*** Doom modeline
-#+begin_src emacs-lisp
-  (use-package doom-modeline :straight t :init (setq doom-modeline-height 30) :config (doom-modeline-mode 1))
+  (straight-use-package 'doom-modeline)
+
+  (setq doom-modeline-height 30)
+
+  (doom-modeline-mode 1)
 #+end_src
 ** Font
    #+BEGIN_SRC elisp
@@ -127,7 +129,6 @@
 :PROPERTIES:
 :header-args: :tangle no
 :END:
-
 #+begin_src emacs-lisp
   (defun amirreza/evil-hook ()
     (dolist (mode '(custom-mode
@@ -141,52 +142,50 @@
                     term-mode))
       (add-to-list 'evil-emacs-state-modes mode)))
 
-  (use-package evil
-    :straight t
-    :demand t
-    :init
-    (setq evil-want-integration t)
-    (setq evil-want-keybinding nil)
-    (setq evil-want-C-u-scroll t)
-    (setq evil-want-C-i-jump nil)
-    (setq evil-vsplit-window-right t)
-    (setq evil-split-window-below t)
-    :hook (evil-mode . amirreza/evil-hook)
-    :bind
-    ((:map evil-normal-state-map
-           ("SPC h f" . describe-function)
-           ("SPC h k" . describe-key)
-           ("SPC h v" . describe-variable)
-           ("SPC SPC" . find-file)
-           ("SPC f f" . find-file))
-     (:map evil-insert-state-map
-           ("C-g" . 'evil-normal-state)
-           ("C-h" . 'evil-delete-backward-char-and-join))
-     (:map evil-motion-state-map
-           ("j" . 'evil-next-visual-line)
-           ("k" . 'evil-previous-visual-line)))
-    :config
-    (evil-mode 1)
-    (evil-set-initial-state 'messages-buffer-mode 'normal)
-    (evil-set-initial-state 'dashboard-mode 'normal))
+  (straight-use-package 'evil)
 
-  (use-package evil-collection
-    :straight t
-    :after evil
-    :config
-    (evil-collection-init))
+  (setq evil-want-integration t)
+  (setq evil-want-keybinding nil)
+  (setq evil-want-C-u-scroll t)
+  (setq evil-want-C-i-jump nil)
+  (setq evil-vsplit-window-right t)
+  (setq evil-split-window-below t)
 
-  (use-package evil-escape :straight t :after evil :config (setq-default evil-escape-key-sequence "jk") (setq evil-escape-unordered-key-sequence t) (evil-escape-mode 1))
+  (add-hook 'evil-mode-hook 'amirreza/evil-hook)
 
-  (use-package evil-surround
-    :straight t
-    :after evil
-    :config
-    (global-evil-surround-mode 1))
+  (define-key evil-normal-state-map (kbd "SPC h f") 'describe-function)
+  (define-key evil-normal-state-map (kbd "SPC h k") 'describe-key)
+  (define-key evil-normal-state-map (kbd "SPC h v") 'describe-variable)
+  (define-key evil-normal-state-map (kbd "SPC h f") 'find-file)
+  (define-key evil-normal-state-map (kbd "SPC SPC") 'find-file)
+  (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
+  (define-key evil-insert-state-map (kbd "C-h") 'evil-delete-backward-char-and-join)
+  (define-key evil-motion-state-map (kbd "j") 'evil-next-visual-line)
+  (define-key evil-motion-state-map (kbd "k") 'evil-previous-visual-line)
 
-  (use-package evil-visualstar :straight t :config (global-evil-visualstar-mode 1))
+  (evil-mode 1)
 
-#+end_src
+  (evil-set-initial-state 'messages-buffer-mode 'normal)
+
+  (evil-set-initial-state 'dashboard-mode 'normal)
+
+  (straight-use-package 'evil-collection)
+
+  (with-eval-after-load 'evil (evil-collection-init))
+
+  (straight-use-package 'evil-escape)
+
+  (with-eval-after-load 'evil
+    (setq-default evil-escape-key-sequence "jk")
+    (setq evil-escape-unordered-key-sequence t)
+    (evil-escape-mode 1))
+
+
+  (straight-use-package 'evil-surround)
+  (global-evil-surround-mode 1)
+
+  (straight-use-package 'evil-visualstar)
+  (global-evil-visualstar-mode 1)
 #+end_src
 ** Buffer Management
    #+BEGIN_SRC elisp
@@ -326,40 +325,35 @@
 #+end_src
 *** Inteligent searches
    #+BEGIN_SRC elisp
-     (use-package projectile
-       :straight t :commands (projectile-project-p projectile-find-file projectile-project-root))
+     (straight-use-package 'projectile)
 
-     (with-eval-after-load 'projectile
-       (defun amirreza/grep ()
-         (interactive)
-         (cond
-          ((projectile-project-p) (consult-git-grep))
-          ((executable-find "rg") (consult-ripgrep))
-          ))
+     (defun amirreza/grep ()
+       (interactive)
+       (cond
+        ((projectile-project-p) (consult-git-grep))
+        ((executable-find "rg") (consult-ripgrep))))
 
-       (defun amirreza/find-file ()
-         "If we are in project use projectile-find-file else use internal find-file"
-         (interactive)
-         (cond
-          ((projectile-project-p) (projectile-find-file))
-          (t (call-interactively 'find-file))))
+     (defun amirreza/find-file ()
+       "If we are in project use projectile-find-file else use internal find-file"
+       (interactive)
+       (cond
+        ((projectile-project-p) (projectile-find-file))
+        (t (call-interactively 'find-file))))
 
-       (defun amirreza/find-symbol-at-point ()
-         (interactive)
-         (let* ((symbol (thing-at-point 'word)))
-           (consult-ripgrep (projectile-project-root) symbol)))
+     (defun amirreza/find-symbol-at-point ()
+       (interactive)
+       (let* ((symbol (thing-at-point 'word)))
+         (consult-ripgrep (projectile-project-root) symbol)))
 
-       (global-set-key (kbd "C-c f f") 'amirreza/find-file)
-      
-       (global-set-key (kbd "C-c f s") 'amirreza/grep)
-  
-       (with-eval-after-load 'evil
-         (evil-global-set-key 'normal (kbd "SPC f f") 'amirreza/find-file)
-         (evil-global-set-key 'normal (kbd "SPC f p") 'amirreza/find-project)
-         (evil-global-set-key 'normal (kbd "SPC f s") 'amirreza/grep)
-         (evil-global-set-key 'normal (kbd "??") 'amirreza/grep)))
+     (global-set-key (kbd "C-c f f") 'amirreza/find-file)
 
-     (use-package project :defer t)
+     (global-set-key (kbd "C-c f s") 'amirreza/grep)
+
+     (with-eval-after-load 'evil
+       (evil-global-set-key 'normal (kbd "SPC f f") 'amirreza/find-file)
+       (evil-global-set-key 'normal (kbd "SPC f p") 'amirreza/find-project)
+       (evil-global-set-key 'normal (kbd "SPC f s") 'amirreza/grep)
+       (evil-global-set-key 'normal (kbd "??") 'amirreza/grep))
    #+END_SRC
 ** Org
    #+BEGIN_SRC elisp
@@ -397,41 +391,39 @@
 ** Editor
 *** Highlight indents
    #+BEGIN_SRC elisp
-     (use-package highlight-indent-guides
-       :straight t
-       :hook ((yaml-mode) . highlight-indent-guides-mode)
-       :init
-       (setq highlight-indent-guides-method 'character)
-       :config
-       (add-hook 'focus-in-hook #'highlight-indent-guides-auto-set-faces))
+     (straight-use-package 'highlight-indent-guides)
+
+     (add-hook 'yaml-mode-hook #'highlight-indent-guide)
+
+     (setq highlight-indent-guides-method 'character)
+
+     (add-hook 'focus-in-hook #'highlight-indent-guides-auto-set-faces)
+
     #+END_SRC
 *** Edit files with sudo access
     #+BEGIN_SRC elisp
-     (use-package sudo-edit
-          :straight t
-          :commands (sudo-edit))
+      (straight-use-package 'sudo-edit)
     #+END_SRC
 *** Expand currently selected region
     #+BEGIN_SRC elisp
-     (use-package expand-region
-       :straight t
-       :bind (("C-=" . 'er/expand-region)
-             ("C--" . 'er/contract-region)))
+      (straight-use-package 'expand-region)
+
+      (global-set-key (kbd "C-=") 'er/expand-region)
+
+      (global-set-key (kbd "C--") 'er/contract-region)
     #+END_SRC
 *** Highlight TODO/FIXME/... items in text
     #+BEGIN_SRC elisp
-     (use-package hl-todo
-       :straight t
-       :hook ((prog-mode) . hl-todo-mode)
-       :config
-       (setq hl-todo-highlight-punctuation ":"
-          hl-todo-keyword-faces
-          `(("TODO"       warning bold)
-            ("FIXME"      error bold)
-            ("HACK"       font-lock-constant-face bold)
-            ("REVIEW"     font-lock-keyword-face bold)
-            ("NOTE"       success bold)
-            ("DEPRECATED" font-lock-doc-face bold))))
+      (straight-use-package 'hl-todo)
+      (add-hook 'prog-mode-hook #'hl-todo-mode)
+      (setq hl-todo-highlight-punctuation ":"
+            hl-todo-keyword-faces
+            `(("TODO"       warning bold)
+              ("FIXME"      error bold)
+              ("HACK"       font-lock-constant-face bold)
+              ("REVIEW"     font-lock-keyword-face bold)
+              ("NOTE"       success bold)
+              ("DEPRECATED" font-lock-doc-face bold)))
     #+END_SRC
 *** Handle large files and long lines
     #+BEGIN_SRC elisp
