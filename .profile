@@ -8,10 +8,10 @@ source ~/env
 
 # Go related stuff
 export GO111MODULE='on'
-export BASEGOROOT='/usr/local/go'
-export GOVERSION='1.18beta1'
+# export BASEGOROOT='/usr/local/go'
+# export GOVERSION='1.18beta1'
 # export GOVERSION='1.17.5'
-export GOROOT="${BASEGOROOT}-${GOVERSION}"
+#export GOROOT="${BASEGOROOT}-${GOVERSION}"
 export GOPATH="$HOME"
 export GOPRIVATE='gitlab.snapp.ir'
 export GOPROXY='https://repo.snapp.tech/repository/goproxy,goproxy.io,direct'
@@ -20,19 +20,17 @@ export ELIXIR="/usr/local/elixir"
 
 export EDITOR='vim'
 
-export PLAN9="/usr/local/plan9"
+export PLAN9="$HOME/plan9"
 
 export OSS="$HOME/src/github.com/amirrezaask"
 export DOTFILES="$HOME/src/github.com/amirrezaask/dotfiles"
 export SNAPP="$HOME/src/gitlab.snapp.ir"
 export ESPAD="$HOME/src/gitlab.espadev.ir"
 
-export BINS="$DOTFILES/bin"
-
-export PATH="$ELIXIR/bin:$DOTFILES/bin:$HOME/.luarocks/bin:$HOME/.config/composer/vendor/bin:$GOROOT/bin:$GOPATH/bin:$HOME/.cargo/bin:$HOME/.local/bin:/usr/local/Postman:$HOME/.local/elixir-ls/:$PATH:$PLAN9/bin"
+export PATH="/opt/homebrew/bin:$ELIXIR/bin:$HOME/.luarocks/bin:$HOME/.config/composer/vendor/bin:$GOROOT/bin:$GOPATH/bin:$HOME/.cargo/bin:$HOME/.local/bin:/usr/local/Postman:$HOME/.local/elixir-ls/:$PATH:$PLAN9/bin"
 
 # Aliases
-alias open='xdg-open'
+# alias open='xdg-open'
 alias lock='i3lock -c000000'
 alias reload='source ~/.zshrc'
 

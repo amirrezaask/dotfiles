@@ -104,7 +104,7 @@
      (defun amirreza/change-font (font)
        (setq default-frame-alist `((font . ,font))))
 
-     (defvar amirreza/font "GoMono-11")
+     (defvar amirreza/font "JetBrainsMono Nerd Font Mono-15")
      (amirreza/change-font amirreza/font)
    #+END_SRC
 ** Keybindings
@@ -326,7 +326,7 @@
 *** Inteligent searches
    #+BEGIN_SRC elisp
      (straight-use-package 'projectile)
-
+     (autoload 'projectile-project-p "projectile.el")
      (defun amirreza/grep ()
        (interactive)
        (cond
