@@ -9,3 +9,4 @@ server
 custom.el
 lsp-cache
 url
+elpa
