@@ -60,7 +60,7 @@
 
      (display-time-mode 1) ;; Show time in modeline.
 
-     (global-display-line-numbers-mode 1) ;; Enable line numbers globally.
+     (global-display-line-numbers-mode 1) ;; Ensure line numbers globally.
 
      (show-paren-mode 1) ;; Highlight matching parens
      (setq show-paren-delay 0) ;; highlight matching parens instantly.
@@ -85,15 +85,15 @@
 #+END_SRC
 ** Theme
    #+BEGIN_SRC elisp
-     (straight-use-package 'doom-themes)
-     (straight-use-package 'all-the-icons-completion)
+     (package-install 'doom-themes)
+     (package-install 'all-the-icons-completion)
 
      (load-theme 'doom-dracula t)
      (all-the-icons-completion-mode 1)
    #+END_SRC
 ** Modeline
 #+begin_src emacs-lisp
-  (straight-use-package 'doom-modeline)
+  (package-install 'doom-modeline)
 
   (setq doom-modeline-height 30)
 
@@ -101,17 +101,13 @@
 #+end_src
 ** Font
    #+BEGIN_SRC elisp
-     (defun amirreza/change-font (font)
-       (setq default-frame-alist `((font . ,font))))
-
-     (defvar amirreza/font "JetBrainsMono Nerd Font Mono-15")
-     (amirreza/change-font amirreza/font)
+(set-frame-font "JetBrainsMono Nerd Font Mono 14" nil t)
    #+END_SRC
 ** Keybindings
 *** Which-key
     Shows possible candidates for continuing a keychord in minibuffer.
    #+begin_src emacs-lisp
-     (straight-use-package 'which-key)
+     (package-install 'which-key)
      (setq which-key-sort-order #'which-key-prefix-then-key-order
            which-key-sort-uppercase-first nil
            which-key-add-column-padding 1
@@ -142,7 +138,7 @@
                     term-mode))
       (add-to-list 'evil-emacs-state-modes mode)))
 
-  (straight-use-package 'evil)
+  (package-install 'evil)
 
   (setq evil-want-integration t)
   (setq evil-want-keybinding nil)
@@ -169,11 +165,11 @@
 
   (evil-set-initial-state 'dashboard-mode 'normal)
 
-  (straight-use-package 'evil-collection)
+  (package-install 'evil-collection)
 
   (with-eval-after-load 'evil (evil-collection-init))
 
-  (straight-use-package 'evil-escape)
+  (package-install 'evil-escape)
 
   (with-eval-after-load 'evil
     (setq-default evil-escape-key-sequence "jk")
@@ -181,20 +177,20 @@
     (evil-escape-mode 1))
 
 
-  (straight-use-package 'evil-surround)
+  (package-install 'evil-surround)
   (global-evil-surround-mode 1)
 
-  (straight-use-package 'evil-visualstar)
+  (package-install 'evil-visualstar)
   (global-evil-visualstar-mode 1)
 #+end_src
 ** Buffer Management
    #+BEGIN_SRC elisp
-     (straight-use-package 'bufler)
+     (package-install 'bufler)
      (global-set-key (kbd "C-x C-b") 'bufler)
    #+END_SRC
 ** Window management and Switching
    #+BEGIN_SRC elisp
-     (straight-use-package 'ace-window)
+     (package-install 'ace-window)
      (global-set-key (kbd "C-x o") 'ace-window)
    #+END_SRC
 ** Workspaces
@@ -202,7 +198,7 @@
    work on multiple projects, it's like having multiple workspaces in the desktop environment.
    #+begin_src emacs-lisp
      (use-package perspective
-       :straight t
+       :ensure t
        :init
        (with-eval-after-load 'evil
          (evil-define-key 'normal 'global (kbd "SPC w s") 'persp-switch)
@@ -226,7 +222,7 @@
 :header-args: :tangle no
 :END:
 #+begin_src emacs-lisp
-  (use-package mct :straight t
+  (use-package mct :ensure t
     :config (mct-mode 1)
     :init
     (setq mct-live-update-delay 0.6)
@@ -235,7 +231,7 @@
 *** Vertico
 #+begin_src emacs-lisp
 (use-package vertico
-  :straight t
+  :ensure t
   :init
   (setq vertico-cycle t)
   (vertico-mode +1)
@@ -252,7 +248,7 @@
 
 ;; Advance Fuzzy search over results
 (use-package orderless
-  :straight t
+  :ensure t
   :after vertico
   :init
   (setq completion-styles '(orderless)
@@ -262,7 +258,7 @@
 *** Embark/Consult
 #+begin_src emacs-lisp
     (use-package consult
-      :straight t
+      :ensure t
       :bind (("C-s" . consult-line)
              ("M-s" . consult-ripgrep))
       :config
@@ -270,7 +266,7 @@
         (evil-global-set-key 'normal (kbd "??") 'consult-ripgrep)))
 
     (use-package embark
-      :straight t
+      :ensure t
       :bind
       (("C-." . embark-act)         ;; pick some comfortable binding
        ("C-;" . embark-export)        ;; good alternative: M-.
@@ -294,7 +290,7 @@
     ;; Consult users will also want the embark-consult package.
 
     (use-package marginalia
-      :straight t
+      :ensure t
       ;; Either bind `marginalia-cycle` globally or only in the minibuffer
       :bind (("M-A" . marginalia-cycle)
              :map minibuffer-local-map
@@ -302,7 +298,7 @@
       :init
       (marginalia-mode))
     (use-package embark-consult
-      :straight t
+      :ensure t
       :after (embark consult)
       :hook
       (embark-collect-mode . consult-preview-at-point-mode))
@@ -325,7 +321,7 @@
 #+end_src
 *** Inteligent searches
    #+BEGIN_SRC elisp
-     (straight-use-package 'projectile)
+     (package-install 'projectile)
      (autoload 'projectile-project-p "projectile.el")
      (defun amirreza/grep ()
        (interactive)
@@ -381,9 +377,9 @@
 
      (define-key org-mode-map (kbd "C-c m b") 'amirreza/--org-insert-elisp-code-block)
 
-     (straight-use-package 'org-bullets)
-     (straight-use-package 'toc-org)
-     (straight-use-package 'htmlize)
+     (package-install 'org-bullets)
+     (package-install 'toc-org)
+     (package-install 'htmlize)
  
      (add-hook 'org-mode-hook #'org-bullets-mode)
      (add-hook 'org-mode-hook #'toc-org-mode)
@@ -391,7 +387,7 @@
 ** Editor
 *** Highlight indents
    #+BEGIN_SRC elisp
-     (straight-use-package 'highlight-indent-guides)
+     (package-install 'highlight-indent-guides)
 
      (add-hook 'yaml-mode-hook #'highlight-indent-guide)
 
@@ -402,11 +398,11 @@
     #+END_SRC
 *** Edit files with sudo access
     #+BEGIN_SRC elisp
-      (straight-use-package 'sudo-edit)
+      (package-install 'sudo-edit)
     #+END_SRC
 *** Expand currently selected region
     #+BEGIN_SRC elisp
-      (straight-use-package 'expand-region)
+      (package-install 'expand-region)
 
       (global-set-key (kbd "C-=") 'er/expand-region)
 
@@ -414,7 +410,7 @@
     #+END_SRC
 *** Highlight TODO/FIXME/... items in text
     #+BEGIN_SRC elisp
-      (straight-use-package 'hl-todo)
+      (package-install 'hl-todo)
       (add-hook 'prog-mode-hook #'hl-todo-mode)
       (setq hl-todo-highlight-punctuation ":"
             hl-todo-keyword-faces
@@ -427,9 +423,9 @@
     #+END_SRC
 *** Handle large files and long lines
     #+BEGIN_SRC elisp
-      (straight-use-package 'so-long)
+      (package-install 'so-long)
       (global-so-long-mode 1)
-      (straight-use-package 'vlf)
+      (package-install 'vlf)
 
     #+END_SRC
 *** Edit files over SSH aka Tramp
@@ -438,42 +434,42 @@
     #+END_SRC
 *** Markdown
     #+BEGIN_SRC elisp
-      (straight-use-package 'markdown-mode)
+      (package-install 'markdown-mode)
       (add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
     #+END_SRC
 *** Pdf tools
     #+BEGIN_SRC elisp
-      (straight-use-package 'pdf-tools)
-      (add-hook 'pdf-tools-enabled-hook #'menu-bar-mode)
+      (package-install 'pdf-tools)
+      (add-hook 'pdf-tools-ensured-hook #'menu-bar-mode)
     #+END_SRC
 *** Configuration syntax support
     #+BEGIN_SRC elisp
-       (use-package crontab-mode :defer t :straight t)
+       (use-package crontab-mode :defer t :ensure t)
 
-       (use-package apache-mode :straight t
+       (use-package apache-mode :ensure t
          :mode ("\\.htaccess\\'" "httpd\\.conf\\'" "srm\\.conf\\'" "access\\.conf\\'"))
 
-       (use-package systemd :straight t
+       (use-package systemd :ensure t
          :mode ("\\.service\\'" "\\.timer\\'"))
 
-       (use-package nginx-mode :straight 
+       (use-package nginx-mode :ensure 
          :mode ("/etc/nginx/conf.d/.*" "/etc/nginx/.*\\.conf\\'"))
 
       (use-package docker-compose-mode
-        :straight t
+        :ensure t
         :mode "docker-compose\\.yml")
-     (use-package dockerfile-mode :straight t :mode "\\Dockerfile\\'")
+     (use-package dockerfile-mode :ensure t :mode "\\Dockerfile\\'")
     #+END_SRC
 *** Colorize matching parens
     #+BEGIN_SRC elisp
-      (use-package rainbow-delimiters :straight t :defer t)
+      (use-package rainbow-delimiters :ensure t :defer t)
     #+END_SRC
 ** Environment Variables
    Since emacs is a GUI app and is not launched by your default shell, probably it's not going to have correct env variables so we need to force all env
    variables from default shell to be in Emacs process as well.
    #+BEGIN_SRC elisp
      (use-package exec-path-from-shell 
-       :straight t
+       :ensure t
        :config
        (setq exec-path-from-shell-shell-name "zsh")
        (exec-path-from-shell-copy-envs '("GOPROXY" "GOPRIVATE"))
@@ -486,7 +482,7 @@ I know tend to use simplest tools and less is more, and also trying to integrate
 fancy feature for Go or any other language, other than the lsp itself.
    #+BEGIN_SRC elisp
      (use-package go-mode
-       :straight t
+       :ensure t
        :mode ("\\.go\\'" . go-mode)
        :hook
        (go-mode . amirreza/go-hook)
@@ -497,8 +493,8 @@ fancy feature for Go or any other language, other than the lsp itself.
          ;; add go binaries to exec-path
          (add-to-list 'exec-path (concat (getenv "HOME") "/go/bin"))))
 
-     (use-package go-add-tags :straight t :bind (:map go-mode-map ("C-c m s" . go-add-tags)))
-     (use-package gotest :straight t 
+     (use-package go-add-tags :ensure t :bind (:map go-mode-map ("C-c m s" . go-add-tags)))
+     (use-package gotest :ensure t 
        :after go-mode
        :config
        (define-key go-mode-map (kbd "C-c m t f") 'go-test-current-file) 
@@ -506,15 +502,13 @@ fancy feature for Go or any other language, other than the lsp itself.
    #+END_SRC
 *** Lisp
    #+BEGIN_SRC elisp
-     (use-package paredit :straight t
+     (use-package paredit :ensure t
        :hook ((clojure-mode emacs-lisp-mode) . paredit-mode))
-
-     (use-package parinfer :straight t  :hook ((clojure-mode emacs-lisp-mode) . parinfer-mode))
    #+END_SRC
 *** PHP
 #+BEGIN_SRC elisp
   (use-package php-mode
-    :straight t 
+    :ensure t 
     :mode "\\.php\\'"
     :hook (php-mode . amirreza/php-hook)
     :init
@@ -527,32 +521,36 @@ fancy feature for Go or any other language, other than the lsp itself.
        :mode "\\.py\\'")
 
      (use-package py-autopep8
-       :straight t
+       :ensure t
        :hook python-mode
        :config
-       (py-autopep8-enable-on-save))
+       (py-autopep8-ensure-on-save))
    #+END_SRC
 *** Lua
    #+BEGIN_SRC elisp
-     (use-package lua-mode :straight t :mode "\\.lua")
+     (use-package lua-mode :ensure t :mode "\\.lua")
      (setq lsp-clients-lua-language-server-install-dir "/home/amirreza/.local/lua-language-server")
      (setq lsp-clients-lua-language-server-bin (concat lsp-clients-lua-language-server-install-dir "/bin/lua-language-server"))
      (setq lsp-clients-lua-language-server-main-location (concat lsp-clients-lua-language-server-install-dir "/main.lua"))
    #+END_SRC
 *** C/C++
    #+begin_src emacs-lisp
-(use-package ccls :straight t)
+(use-package ccls :ensure t)
    #+end_src
 *** Elixir
 #+begin_src emacs-lisp
-  (use-package elixir-mode :straight t :mode ("\\.exs?\\'" . elixir-mode))
-  (use-package alchemist :straight t)
+  (use-package elixir-mode :ensure t :mode ("\\.exs?\\'" . elixir-mode))
+  (use-package alchemist :ensure t)
+#+end_src
+*** Erlang
+    #+begin_src emacs-lisp
+      (package-install 'erlang)
 #+end_src
 ** IDE
 *** Language Servers
 #+begin_src emacs-lisp
   (use-package eglot
-    :straight t
+    :ensure t
     :hook
     (
      ((go-mode php-mode python-mode lua-mode c-mode elixir-mode) . #'amirreza-eglot-lsp-hook))
@@ -575,7 +573,7 @@ fancy feature for Go or any other language, other than the lsp itself.
 *** Code Completion
    #+BEGIN_SRC elisp
      (use-package company
-       :straight t
+       :ensure t
        :diminish company-mode
        :hook (prog-mode . company-mode)
        :bind (:map company-active-map
@@ -593,14 +591,10 @@ fancy feature for Go or any other language, other than the lsp itself.
        (setq company-backends '(company-capf company-dabbrev company-files company-dabbrev-code)))
 
    #+END_SRC
-*** Terminal
-   #+begin_src elisp
-     (use-package vterm :straight t :bind ("C-c t" . vterm-other-window))
-   #+end_src
 *** Git
     #+begin_src emacs-lisp
       (use-package magit
-        :straight t
+        :ensure t
         :commands (magit-status magit-get-current-branch)
         :init
         (with-eval-after-load 'evil (evil-global-set-key 'normal (kbd "SPC g s") 'magit-status))
@@ -608,11 +602,11 @@ fancy feature for Go or any other language, other than the lsp itself.
         (("C-x g" . 'magit-status)))
 
       (use-package diff-hl
-        :straight t
+        :ensure t
         :config (global-diff-hl-mode 1))
 
       (use-package git-messenger
-        :straight t
+        :ensure t
         :commands
         (git-messenger:popup-message)
         :init
@@ -627,14 +621,14 @@ fancy feature for Go or any other language, other than the lsp itself.
 *** Snippets
     #+begin_src emacs-lisp
       (use-package yasnippet
-        :straight t
+        :ensure t
         :diminish yas-minor-mode
         :config (yas-global-mode 1)
         :bind
         (("C-x C-x" . yas-expand)
          ("C-x C-l" . yas-insert-snippet)))
 
-      (use-package yasnippet-snippets :straight t :after yasnippet)
+      (use-package yasnippet-snippets :ensure t :after yasnippet)
     #+end_src
 *** Eldoc: Emacs documentation engine
     #+BEGIN_SRC elisp

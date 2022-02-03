@@ -27,7 +27,7 @@ export DOTFILES="$HOME/src/github.com/amirrezaask/dotfiles"
 export SNAPP="$HOME/src/gitlab.snapp.ir"
 export ESPAD="$HOME/src/gitlab.espadev.ir"
 
-export PATH="/opt/homebrew/bin:$ELIXIR/bin:$HOME/.luarocks/bin:$HOME/.config/composer/vendor/bin:$GOROOT/bin:$GOPATH/bin:$HOME/.cargo/bin:$HOME/.local/bin:/usr/local/Postman:$HOME/.local/elixir-ls/:$PATH:$PLAN9/bin"
+export PATH="/opt/homebrew/bin:$ELIXIR/bin:$HOME/.luarocks/bin:$HOME/.config/composer/vendor/bin:$GOROOT/bin:$GOPATH/bin:$HOME/.cargo/bin:$HOME/.local/bin:/usr/local/Postman:$HOME/.local/elixir-ls/:$HOME/.cache/rebar3/bin:$PATH:$PLAN9/bin"
 
 # Aliases
 # alias open='xdg-open'
