@@ -88,8 +88,8 @@
      (package-install 'doom-themes)
      (package-install 'all-the-icons-completion)
 
-     (load-theme 'doom-dracula t)
-     (all-the-icons-completion-mode 1)
+   (load-theme 'tango-dark t)
+   (all-the-icons-completion-mode 1)
    #+END_SRC
 ** Modeline
 #+begin_src emacs-lisp
@@ -97,11 +97,11 @@
 
   (setq doom-modeline-height 30)
 
-  (doom-modeline-mode 1)
+;;  (doom-modeline-mode 1)
 #+end_src
 ** Font
    #+BEGIN_SRC elisp
-(set-frame-font "JetBrainsMono Nerd Font Mono 14" nil t)
+(set-frame-font "JetBrainsMono Nerd Font Mono 16" nil t)
    #+END_SRC
 ** Keybindings
 *** Which-key
@@ -121,68 +121,6 @@
 
      (which-key-setup-minibuffer)
    #+end_src
-*** Evil
-:PROPERTIES:
-:header-args: :tangle no
-:END:
-#+begin_src emacs-lisp
-  (defun amirreza/evil-hook ()
-    (dolist (mode '(custom-mode
-                    eshell-mode
-                    git-rebase-mode
-                    erc-mode
-                    circe-server-mode
-                    circe-chat-mode
-                    circe-query-mode
-                    sauron-mode
-                    term-mode))
-      (add-to-list 'evil-emacs-state-modes mode)))
-
-  (package-install 'evil)
-
-  (setq evil-want-integration t)
-  (setq evil-want-keybinding nil)
-  (setq evil-want-C-u-scroll t)
-  (setq evil-want-C-i-jump nil)
-  (setq evil-vsplit-window-right t)
-  (setq evil-split-window-below t)
-
-  (add-hook 'evil-mode-hook 'amirreza/evil-hook)
-
-  (define-key evil-normal-state-map (kbd "SPC h f") 'describe-function)
-  (define-key evil-normal-state-map (kbd "SPC h k") 'describe-key)
-  (define-key evil-normal-state-map (kbd "SPC h v") 'describe-variable)
-  (define-key evil-normal-state-map (kbd "SPC h f") 'find-file)
-  (define-key evil-normal-state-map (kbd "SPC SPC") 'find-file)
-  (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
-  (define-key evil-insert-state-map (kbd "C-h") 'evil-delete-backward-char-and-join)
-  (define-key evil-motion-state-map (kbd "j") 'evil-next-visual-line)
-  (define-key evil-motion-state-map (kbd "k") 'evil-previous-visual-line)
-
-  (evil-mode 1)
-
-  (evil-set-initial-state 'messages-buffer-mode 'normal)
-
-  (evil-set-initial-state 'dashboard-mode 'normal)
-
-  (package-install 'evil-collection)
-
-  (with-eval-after-load 'evil (evil-collection-init))
-
-  (package-install 'evil-escape)
-
-  (with-eval-after-load 'evil
-    (setq-default evil-escape-key-sequence "jk")
-    (setq evil-escape-unordered-key-sequence t)
-    (evil-escape-mode 1))
-
-
-  (package-install 'evil-surround)
-  (global-evil-surround-mode 1)
-
-  (package-install 'evil-visualstar)
-  (global-evil-visualstar-mode 1)
-#+end_src
 ** Buffer Management
    #+BEGIN_SRC elisp
      (package-install 'bufler)
@@ -217,17 +155,6 @@
        )
    #+end_src 
 ** Minibuffer Completion
-*** Minibuffer and Completions in Tandem  ( By the GREAT Prot )
-:PROPERTIES:
-:header-args: :tangle no
-:END:
-#+begin_src emacs-lisp
-  (use-package mct :ensure t
-    :config (mct-mode 1)
-    :init
-    (setq mct-live-update-delay 0.6)
-    (setq mct-hide-completion-mode-line t))
-#+end_src
 *** Vertico
 #+begin_src emacs-lisp
 (use-package vertico
@@ -549,26 +476,7 @@ fancy feature for Go or any other language, other than the lsp itself.
 ** IDE
 *** Language Servers
 #+begin_src emacs-lisp
-  (use-package eglot
-    :ensure t
-    :hook
-    (
-     ((go-mode php-mode python-mode lua-mode c-mode elixir-mode) . #'amirreza-eglot-lsp-hook))
-
-    :init
-    (defun amirreza-eglot-lsp-hook ()
-      (eglot-ensure)
-      (add-hook 'before-save-hook #'eglot-format-buffer))
-
-    (with-eval-after-load 'evil
-      (evil-define-key 'normal global-map (kbd "g d") 'xref-find-definitions)
-      (evil-define-key 'normal global-map (kbd "g r") 'xref-find-references)
-      (evil-define-key 'normal global-map (kbd "g i") 'eglot-find-implementations))
-    :bind
-    (:map global-map
-          ("C-c l r" . xref-find-references)
-          ("M-." . xref-find-definitions)
-          ("C-c l i" . eglot-find-implementation)))
+  (require 'lsp-config)
 #+end_src
 *** Code Completion
    #+BEGIN_SRC elisp
@@ -638,20 +546,5 @@ fancy feature for Go or any other language, other than the lsp itself.
     #+END_SRC
 ** Dotfiles
    #+begin_src emacs-lisp
-     (defvar amirreza/dotfiles-location (exec-path-from-shell-copy-env "DOTFILES") "Location of my dotfiles.")
-     (defun amirreza/edit-dot-emacs ()
-       (interactive)
-       (find-file (completing-read "Edit: " (directory-files-recursively "~/.emacs.d/" ".*" nil (lambda (name)
-                                                                                                               (not (string-match "\\.git" name)))
-                                                                         t))))
-
-     (defun amirreza/edit-dot-config ()
-       (interactive)
-       (find-file (completing-read "Edit: " (directory-files-recursively amirreza/dotfiles-location ".*" nil (lambda (name)
-                                                                                                               (not (string-match "\\.git" name)))
-                                                                         t))))
-     (define-key global-map (kbd "C-c e c") 'amirreza/edit-dot-config)
-     (define-key global-map (kbd "C-c e e") 'amirreza/edit-dot-emacs)
-     (with-eval-after-load 'evil (evil-define-key 'normal 'global (kbd "SPC e e") 'amirreza/edit-dot-emacs))
-     (with-eval-after-load 'evil (evil-define-key 'normal 'global (kbd "SPC e c") 'amirreza/edit-dot-config))
+     (require 'dotfiles)
    #+end_src
