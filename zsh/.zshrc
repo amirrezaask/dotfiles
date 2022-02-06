@@ -15,5 +15,5 @@ if [ "$?" != '0' ]; then
     sh -c "$(curl -fsSL https://starship.rs/install.sh)"
 fi
 antigen apply
-eval "$(starship init zsh)"
+# eval "$(starship init zsh)"
 
