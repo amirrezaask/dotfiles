@@ -22,3 +22,4 @@ set relativenumber
 set number
 set clipboard=unnamedplus
 set hidden
+nnoremap ; :

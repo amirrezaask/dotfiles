@@ -14,6 +14,9 @@ command -v 'starship' > /dev/null
 if [ "$?" != '0' ]; then
     sh -c "$(curl -fsSL https://starship.rs/install.sh)"
 fi
+antigen theme robbyrussell
 antigen apply
 # eval "$(starship init zsh)"
 
+
+alias luamake=/Users/amirreza/.local/lua-language-server/3rd/luamake/luamake
