@@ -26,7 +26,7 @@ nline.make({
   vimparts.pipe(),
   vimparts.space(),
 
-vimparts.line() .. vimparts.space() .. vimparts.colon() .. vimparts.col(),
+  vimparts.line() .. vimparts.space() .. vimparts.colon() .. vimparts.col(),
 
   vimparts.space(),
   vimparts.pipe(),

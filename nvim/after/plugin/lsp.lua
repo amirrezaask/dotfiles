@@ -57,7 +57,7 @@ for _, lsp in ipairs(servers) do
   }
 end
 
-local sumneko_root = "/home/amirreza/.local/lua-language-server"
+local sumneko_root = string.format("%s/.local/lua-language-server", os.getenv("HOME"))
 local sumneko_binary = sumneko_root .. "/bin/lua-language-server"
 
 local runtime_path = vim.split(package.path, ";")
