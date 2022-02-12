@@ -9,12 +9,9 @@ end
 require("packer").startup {
   function(use)
     use { "wbthomason/packer.nvim" } -- Plugin manager
-    use { "gruvbox-community/gruvbox" } -- Gruvbox
-    use { "projekt0n/github-nvim-theme" }
-    use { "arcticicestudio/nord-vim" }
-    use { "sonph/onehalf", rtp = "vim" }
-    use { "rebelot/kanagawa.nvim" }
     use { "dracula/vim" }
+    use { 'junegunn/fzf' }
+    use { 'junegunn/fzf.vim' }
     use {
       "jghauser/mkdir.nvim",
       config = function()

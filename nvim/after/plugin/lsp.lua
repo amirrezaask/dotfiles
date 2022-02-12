@@ -93,6 +93,6 @@ require("lspconfig").sumneko_lua.setup {
 }
 
 require"lspconfig".elixirls.setup {
-  cmd = { "/home/amirreza/.local/elixirls/language_server.sh" }
+  cmd = { os.getenv("HOME") .. "/.local/elixir-ls/language_server.sh" }
 
 }

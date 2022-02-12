@@ -1,3 +1,6 @@
+if true then
+  return nil
+end
 local telescope_actions = require "telescope.actions"
 
 -- Telescope
@@ -48,8 +51,6 @@ vim.cmd [[
 
   nnoremap ?? <cmd>Telescope live_grep theme=ivy<CR>
 
-  nnoremap <leader>en <cmd>Telescope find_files theme=ivy<CR>
-
-  nnoremap <leader><leader> <cmd>Telescope find_files theme=ivy<CR>
+  nnoremap <leader>en <cmd>Telescope find_files theme=ivy cwd=~/.config/nvim<CR>
 ]]
 
