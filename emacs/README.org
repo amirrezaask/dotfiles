@@ -135,24 +135,15 @@
    Using =perspective= you can have groups of windows and buffers associated with a name, this helps you to have just one instance of Emacs and
    work on multiple projects, it's like having multiple workspaces in the desktop environment.
    #+begin_src emacs-lisp
-     (use-package perspective
-       :ensure t
-       :init
-       (with-eval-after-load 'evil
-         (evil-define-key 'normal 'global (kbd "SPC w s") 'persp-switch)
-         (evil-define-key 'normal 'global (kbd "SPC w n") 'persp-next)
-         (evil-define-key 'normal 'global (kbd "SPC w k") 'persp-kill-buffer*))
-  
-       :bind (("C-x w s" . persp-switch)
-              ("C-x w n" . persp-next)
-              ("C-x w k" . persp-kill-buffer*))
-       :custom
-       (persp-initial-frame-name "Main")
-       :config
-       ;; Running `persp-mode' multiple times resets the perspective list...
-       (unless (equal persp-mode t)
-         (persp-mode))
-       )
+     (package-install 'perspective)
+
+     (global-set-key (kbd "C-x w s") 'persp-switch)
+     (global-set-key (kbd "C-x w n") 'persp-next)
+     (global-set-key (kbd "C-x w k") 'persp-kill-buffer*)
+
+     (setq persp-initial-frame-name "Main")
+
+     (persp-mode)
    #+end_src 
 ** Minibuffer Completion
 *** Vertico
@@ -371,21 +362,24 @@
     #+END_SRC
 *** Configuration syntax support
     #+BEGIN_SRC elisp
-       (use-package crontab-mode :defer t :ensure t)
+        (use-package crontab-mode :defer t :ensure t)
+      (package-install 'crontab-mode)
+      (package-install 'apache-mode)
+      (package-install 'systemd)
+      (package-install 'nginx-mode)
+        (use-package apache-mode :ensure t
+          :mode ("\\.htaccess\\'" "httpd\\.conf\\'" "srm\\.conf\\'" "access\\.conf\\'"))
 
-       (use-package apache-mode :ensure t
-         :mode ("\\.htaccess\\'" "httpd\\.conf\\'" "srm\\.conf\\'" "access\\.conf\\'"))
+        (use-package systemd :ensure t
+          :mode ("\\.service\\'" "\\.timer\\'"))
 
-       (use-package systemd :ensure t
-         :mode ("\\.service\\'" "\\.timer\\'"))
+        (use-package nginx-mode :ensure 
+          :mode ("/etc/nginx/conf.d/.*" "/etc/nginx/.*\\.conf\\'"))
 
-       (use-package nginx-mode :ensure 
-         :mode ("/etc/nginx/conf.d/.*" "/etc/nginx/.*\\.conf\\'"))
-
-      (use-package docker-compose-mode
-        :ensure t
-        :mode "docker-compose\\.yml")
-     (use-package dockerfile-mode :ensure t :mode "\\Dockerfile\\'")
+       (use-package docker-compose-mode
+         :ensure t
+         :mode "docker-compose\\.yml")
+      (use-package dockerfile-mode :ensure t :mode "\\Dockerfile\\'")
     #+END_SRC
 *** Colorize matching parens
     #+BEGIN_SRC elisp
