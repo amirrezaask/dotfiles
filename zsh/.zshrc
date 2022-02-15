@@ -13,8 +13,9 @@ command -v 'starship' > /dev/null
 if [ "$?" != '0' ]; then
     sh -c "$(curl -fsSL https://starship.rs/install.sh)"
 fi
-antigen theme robbyrussell
+antigen theme cloud 
 antigen apply
 # eval "$(starship init zsh)"
 
 alias luamake=/Users/amirreza/.local/lua-language-server/3rd/luamake/luamake
+[ -f "/Users/amirreza/.ghcup/env" ] && source "/Users/amirreza/.ghcup/env" # ghcup-env

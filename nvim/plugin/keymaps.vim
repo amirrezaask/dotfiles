@@ -13,9 +13,9 @@ nnoremap <Down> :resize -5<CR>
 nnoremap j gj
 nnoremap k gk
 
-tnoremap <Esc> <C-\\><C-n>
-tnoremap jk <C-\\><C-n>
-tnoremap kj <C-\\><C-n>
+tnoremap <Esc> <C-\><C-n>
+tnoremap jk <C-\><C-n>
+tnoremap kj <C-\><C-n>
 
 inoremap jk <esc>
 inoremap kj <esc>
