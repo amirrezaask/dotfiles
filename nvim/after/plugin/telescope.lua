@@ -1,6 +1,3 @@
-if true then
-  return nil
-end
 local telescope_actions = require "telescope.actions"
 
 -- Telescope
