@@ -88,7 +88,7 @@
      (package-install 'doom-themes)
      (package-install 'all-the-icons-completion)
 
-   (load-theme 'tango-dark t)
+   (load-theme 'doom-dracula t)
    (all-the-icons-completion-mode 1)
    #+END_SRC
 ** Modeline
@@ -97,7 +97,7 @@
 
   (setq doom-modeline-height 30)
 
-;;  (doom-modeline-mode 1)
+  (doom-modeline-mode 1)
 #+end_src
 ** Font
    #+BEGIN_SRC elisp
@@ -473,10 +473,42 @@ fancy feature for Go or any other language, other than the lsp itself.
     #+begin_src emacs-lisp
       (package-install 'erlang)
 #+end_src
+*** Purescript
+    #+begin_src emacs-lisp
+      (package-install 'purescript-mode)
+      (add-hook 'purescript-mode-hook #'turn-on-purescript-indentation)
+    #+end_src
+*** Haskell
+    #+begin_src emacs-lisp
+      (package-install 'haskell-mode)
+      (package-install 'lsp-haskell)
+    #+end_src
 ** IDE
 *** Language Servers
 #+begin_src emacs-lisp
-  (require 'lsp-config)
+  (package-install 'lsp-mode)
+  ;; Adds hooks for languages
+  (add-hook 'go-mode-hook #'lsp)
+
+  (add-hook 'go-mode-hook #'lsp)
+
+  (add-hook 'php-mode-hook #'lsp)
+
+  (add-hook 'c-mode-hook #'lsp)
+
+  (add-hook 'lua-mode-hook #'lsp)
+
+  (add-hook 'python-mode-hook #'lsp)
+
+  (add-hook 'erlang-mode-hook #'lsp)
+
+  (add-hook 'purescript-mode-hook #'lsp)
+
+  (add-hook 'haskell-mode #'lsp)
+
+  (add-hook 'lsp-mode-hook (lambda ()
+                             (local-set-key (kbd "C-c f i") 'lsp-find-implementation)
+                             ))
 #+end_src
 *** Code Completion
    #+BEGIN_SRC elisp

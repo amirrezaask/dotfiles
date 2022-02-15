@@ -37,7 +37,8 @@ require("packer").startup {
     use { "pearofducks/ansible-vim" } -- Ansible
     use { "Glench/Vim-Jinja2-Syntax" } -- Jinja2
     use { "amirrezaask/actions.nvim" } -- Define IDE like actions.
-
+    use { "purescript-contrib/purescript-vim" }
+  
     -- Completion
     use { "hrsh7th/nvim-cmp" } -- completion popup
     use { "hrsh7th/cmp-buffer" } -- source for completion from words in current buffer

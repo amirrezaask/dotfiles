@@ -38,16 +38,16 @@ require("telescope").setup {
 require("telescope").load_extension "harpoon"
 
 vim.cmd [[
-  nnoremap <leader><leader> <cmd>Telescope find_files theme=ivy<CR>
+  nnoremap <leader><leader> <cmd>Telescope find_files <CR>
 
-  nnoremap <leader>fp <cmd>Telescope find_files theme=ivy hidden=true cwd=~/.local/share/nvim/site/pack/packer<CR>
+  nnoremap <leader>fp <cmd>Telescope find_files hidden=true cwd=~/.local/share/nvim/site/pack/packer<CR>
 
-  nnoremap <leader>ps <cmd>Telescope find_files theme=ivy hidden=true cwd=~/src/gitlab.snapp.ir<CR>
+  nnoremap <leader>ps <cmd>Telescope find_files hidden=true cwd=~/src/gitlab.snapp.ir<CR>
 
-  nnoremap <C-q> <cmd>Telescope quickfix theme=ivy<CR>
+  nnoremap <C-q> <cmd>Telescope quickfix <CR>
 
-  nnoremap ?? <cmd>Telescope live_grep theme=ivy<CR>
+  nnoremap ?? <cmd>Telescope live_grep <CR>
 
-  nnoremap <leader>en <cmd>Telescope find_files theme=ivy cwd=~/.config/nvim<CR>
+  nnoremap <leader>en <cmd>Telescope find_files cwd=~/.config/nvim<CR>
 ]]
 
