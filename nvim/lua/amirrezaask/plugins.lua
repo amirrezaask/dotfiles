@@ -12,6 +12,7 @@ require("packer").startup {
     use { "dracula/vim" }
     use { 'junegunn/fzf' }
     use { 'junegunn/fzf.vim' }
+    use { 'gruvbox-community/gruvbox' }
     use {
       "jghauser/mkdir.nvim",
       config = function()
@@ -38,6 +39,7 @@ require("packer").startup {
     use { "Glench/Vim-Jinja2-Syntax" } -- Jinja2
     use { "amirrezaask/actions.nvim" } -- Define IDE like actions.
     use { "purescript-contrib/purescript-vim" }
+    use { "ziglang/zig.vim" }
   
     -- Completion
     use { "hrsh7th/nvim-cmp" } -- completion popup
