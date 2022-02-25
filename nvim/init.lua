@@ -8,4 +8,5 @@
 require "amirrezaask.plugins"
 
 vim.g.gruvbox_contrast_dark = "hard"
+vim.g.gruvbox_contrast_light = "light"
 vim.cmd [[ colorscheme gruvbox ]]
