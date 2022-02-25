@@ -453,28 +453,12 @@ local lspconfig = require "lspconfig"
 local on_attach = function(client, bufnr)
   vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
   local opts = { noremap = true, silent = true }
-  vim.api.nvim_set_keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", { silent = true, noremap = true })
-  vim.api.nvim_set_keymap("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", { silent = true, noremap = true })
-  vim.api.nvim_set_keymap("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", { silent = true, noremap = true })
-  vim.api.nvim_set_keymap(
-    "n",
-    "?d",
-    '<cmd>lua require"amirrezaask.telescope".wrap("lsp_document_symbols", {hidden = true })<CR>',
-    { silent = true, noremap = true }
-  )
-  vim.api.nvim_set_keymap(
-    "n",
-    "?w",
-    '<cmd>lua require"amirrezaask.telescope".wrap("lsp_workspace_symbols", {hidden = true })<CR>',
-    { silent = true, noremap = true }
-  )
-  vim.api.nvim_set_keymap(
-    "n",
-    "?c",
-    '<cmd>lua require"amirrezaask.telescope".wrap("lsp_code_actions", {hidden = true })<CR>',
-    { silent = true, noremap = true }
-  )
-
+  vim.api.nvim_buf_set_keymap(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", { silent = true, noremap = true })
+  vim.api.nvim_buf_set_keymap(bufnr, "n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", { silent = true, noremap = true })
+  vim.api.nvim_buf_set_keymap(bufnr, "n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", { silent = true, noremap = true })
+  vim.api.nvim_buf_set_keymap(bufnr, "n","?d",'<cmd>Telescope lsp_document_symbols<CR>',{ silent = true, noremap = true })
+  vim.api.nvim_buf_set_keymap(bufnr, "n","?w",'<cmd>Telescope lsp_workspace_symbols<CR>',{ silent = true, noremap = true })
+  vim.api.nvim_buf_set_keymap(bufnr, "n","?c",'<cmd>Telescope lsp_code_actions<CR>',{ silent = true, noremap = true })
   vim.api.nvim_buf_set_keymap(bufnr, "n", "R", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
   vim.api.nvim_buf_set_keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
   vim.api.nvim_buf_set_keymap(bufnr, "i", "<c-s>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
