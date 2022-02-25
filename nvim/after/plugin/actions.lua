@@ -68,7 +68,7 @@ actions:setup {
     predicate = utils.make_language_predicate "go",
     actions = {
       format = function(_)
-        require("amirrezaask.go").format()
+        GoFormat()
       end,
       build = function(_)
         vim.cmd [[ vnew | term go build ]]

@@ -26,7 +26,7 @@ dap.configurations.go = {
   },
 }
 
-local function format(bufnr)
+function GoFormat(bufnr)
   bufnr = bufnr or 0
   vim.cmd [[ write ]]
   local job = Job:new {
@@ -43,4 +43,3 @@ local function format(bufnr)
   vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, output)
 end
 
-return { format = format }
