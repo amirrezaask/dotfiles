@@ -65,8 +65,7 @@ require("packer").startup {
       end,
     }
     use { "amirrezaask/nline.nvim" } -- Statusline plugin
-    use 'vim-airline/vim-airline'
-    use 'vim-airline/vim-airline-themes'
+    use { "itchyny/lightline.vim" }
     use { "L3MON4D3/LuaSnip" } -- Snippets plugin
     use { "tpope/vim-fugitive" }
     use { "windwp/nvim-spectre", requires = { "nvim-lua/plenary.nvim" } }
