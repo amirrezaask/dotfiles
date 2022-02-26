@@ -45,14 +45,6 @@ vim.opt.wildmode = vim.opt.wildmode + { "longest", "full" }
 -- Installing plugins
 --------------------------------------------------------------------------------
 
-local install_path = vim.fn.stdpath "data" .. "/site/pack/packer/start/packer.nvim"
-local is_wsl = (function()
-  return string.find(vim.fn.systemlist("uname -r")[1] or "", "WSL")
-end)()
-if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
-  vim.fn.execute("!git clone https://github.com/wbthomason/packer.nvim " .. install_path)
-end
-
 require("packer").startup {
   function(use)
     use { "wbthomason/packer.nvim" } -- Plugin manager
@@ -60,13 +52,11 @@ require("packer").startup {
     use { 'gruvbox-community/gruvbox' } -- gruvbox Theme
     use { "jghauser/mkdir.nvim", config = function() require "mkdir" end } -- Mkdir
     use { "itchyny/lightline.vim" } -- Statusline
-    use { "L3MON4D3/LuaSnip" } -- Snippets plugin
     use { 'chriskempson/base16-vim' } -- Colorschemes
     use { "tpope/vim-fugitive" } -- Vim Git bindings
     use { "windwp/nvim-spectre", requires = { "nvim-lua/plenary.nvim" } }
     use { "nvim-telescope/telescope.nvim", requires = { "nvim-lua/plenary.nvim" } } -- UI to search for things
     use { "tpope/vim-surround" } -- Vim surround objects
-    use { "lewis6991/gitsigns.nvim", requires = { "nvim-lua/plenary.nvim" } } -- Gitsigns
     use { "tpope/vim-commentary" } -- Comment codes at ease
     use { "neovim/nvim-lspconfig" } -- LSP configurations
     use { "honza/dockerfile.vim" } -- Dockerfile
@@ -88,7 +78,6 @@ require("packer").startup {
     use { "rust-lang/rust.vim", ft = "rust" } -- rust syntax
     use { "nvim-treesitter/nvim-treesitter" } -- treesitter integration
     use { "nvim-treesitter/nvim-treesitter-textobjects" } -- more text objects for treesitter
-    use { "folke/todo-comments.nvim", requires = "nvim-lua/plenary.nvim" } -- Highlight todo and etc...
     use { "godlygeek/tabular" } -- Beautify text
     use { "lukas-reineke/indent-blankline.nvim" } -- Show indent highlights
     use { "fatih/vim-go" } -- Golang IDE
@@ -99,8 +88,8 @@ vim.g.gruvbox_contrast_dark = "hard"
 vim.g.gruvbox_contrast_light = "light"
 vim.cmd [[ colorscheme dracula ]]
 vim.g.lightline = {
-      colorscheme = 'dracula',
-    }
+  colorscheme = 'dracula',
+}
 --------------------------------------------------------------------------------
 -- Keymaps
 --------------------------------------------------------------------------------
@@ -230,15 +219,10 @@ require("telescope").setup {
 
 vim.cmd [[
   nnoremap <leader><leader> <cmd>Telescope find_files <CR>
-
   nnoremap <leader>fp <cmd>Telescope find_files hidden=true cwd=~/.local/share/nvim/site/pack/packer<CR>
-
   nnoremap <leader>ps <cmd>Telescope find_files hidden=true cwd=~/src/gitlab.snapp.ir<CR>
-
   nnoremap <C-q> <cmd>Telescope quickfix <CR>
-
   nnoremap ?? <cmd>Telescope live_grep <CR>
-
   nnoremap <leader>en <cmd>Telescope find_files cwd=~/.config/nvim<CR>
 ]]
 
@@ -272,7 +256,7 @@ actions:setup {
   {
     predicate = utils.compose(utils.make_language_predicate "lua", utils.make_path_predicate "plugins.lua"),
     actions = {
-      run = function(bufnr)
+      run = function(_)
         vim.cmd [[ luafile % ]]
         vim.cmd [[ PackerInstall ]]
       end,
@@ -285,7 +269,7 @@ actions:setup {
         vim.cmd [[ so % ]]
       end,
       format = function(bufnr)
-        stylua_format(bufnr) 
+        stylua_format(bufnr)
       end,
     },
   },
@@ -353,27 +337,10 @@ vim.cmd [[ autocmd BufWritePre *.rs lua Actions:exec(0, 'format') ]]
 vim.cmd [[ autocmd BufWritePre *.go lua Actions:exec(0, 'format') ]]
 
 --------------------------------------------------------------------------------
--- Git signs and popups
+-- Git
 --------------------------------------------------------------------------------
-require("gitsigns").setup {
-  signs = {
-    add = { text = "|", numhl = "GitSignsAddNr" },
-    change = { text = "|", numhl = "GitSignsChangeNr" },
-    delete = { text = "_", numhl = "GitSignsDeleteNr" },
-    topdelete = { text = "‾", numhl = "GitSignsDeleteNr" },
-    changedelete = { text = "~-", numhl = "GitSignsChangeNr" },
-  },
-  numhl = false,
-  current_line_blame = false,
-  current_line_blame_opts = {
-    delay = 800,
-    virt_text_pos = "eol",
-  },
-}
-
 vim.cmd [[ 
-  nnoremap <leader>gb :Gitsigns blame_line<CR>
-  nnoremap <C-k> :G<CR>
+  nnoremap <leader>gb :Gblame<CR>
   nnoremap <leader>gc :Telescope git_branches<CR>
 ]]
 
@@ -478,17 +445,9 @@ table.insert(runtime_path, "lua/?/init.lua")
 require("lspconfig").sumneko_lua.setup {
   cmd = { sumneko_binary, "-E", sumneko_root .. "/main.lua" },
   on_attach = on_attach,
-  capabilities = capabilities,
   settings = {
     Lua = {
-      runtime = {
-        -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-        version = "LuaJIT",
-        -- Setup your lua path
-        path = runtime_path,
-      },
       diagnostics = {
-        -- Get the language server to recognize the `vim` global
         globals = { "vim" },
       },
       workspace = {
@@ -572,8 +531,6 @@ cmp.setup {
 --------------------------------------------------------------------------------
 local Job = require "plenary.job"
 local Path = require "plenary.path"
-
-local Stylua = {}
 
 local cached_configs = {}
 
