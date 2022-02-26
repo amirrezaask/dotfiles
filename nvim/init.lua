@@ -225,9 +225,9 @@ require("telescope").setup {
 
 vim.cmd [[
   nnoremap <leader><leader> <cmd>Telescope find_files<CR>
-  nnoremap <leader>fp <cmd>Telescope find_files cwd='~/.local/share/nvim/site/pack/packer'<CR>
-  nnoremap <leader>ps <cmd>Telsccope find_files cwd='~/src/gitlab.snapp.ir'<CR>
-  nnoremap <leader>en <cmd>Telscope find_files cwd='~/.config/nvim'<CR>
+  nnoremap <leader>fp <cmd>Telescope find_files cwd=~/.local/share/nvim/site/pack/packer<CR>
+  nnoremap <leader>ps <cmd>Telsccope find_files cwd=~/src/gitlab.snapp.ir<CR>
+  nnoremap <leader>en <cmd>Telescope find_files cwd=~/.config/nvim<CR>
   nnoremap ?? <cmd>Telescope live_grep<CR>
 ]]
 
@@ -273,9 +273,6 @@ actions:setup {
       run = function(_)
         vim.cmd [[ so % ]]
       end,
-      format = function(bufnr)
-        stylua_format(bufnr)
-      end,
     },
   },
   {
@@ -308,7 +305,7 @@ actions:setup {
     predicate = utils.make_language_predicate "go",
     actions = {
       format = function(_)
-        GoFormat()
+        vim.cmd([[GoFmt]])
       end,
       build = function(_)
         vim.cmd [[ vnew | term go build ]]
@@ -345,29 +342,13 @@ vim.cmd [[ autocmd BufWritePre *.go lua Actions:exec(0, 'format') ]]
 -- Git
 --------------------------------------------------------------------------------
 vim.cmd [[ 
-  nnoremap <leader>gb :Gblame<CR>
+  nnoremap <leader>gb :Git blame<CR>
   nnoremap <leader>gc :Telescope git_branches<CR>
 ]]
 
 --------------------------------------------------------------------------------
 -- Golang
 --------------------------------------------------------------------------------
-function GoFormat(bufnr)
-  bufnr = bufnr or 0
-  vim.cmd [[ write ]]
-  local job = require("plenary.job"):new {
-    "goimports",
-    vim.api.nvim_buf_get_name(0),
-  }
-
-  local output = job:sync()
-
-  if job.code ~= 0 then
-    return
-  end
-
-  vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, output)
-end
 vim.g.go_fmt_autosave = 0
 vim.g.go_imports_autosave = 0
 
@@ -398,7 +379,7 @@ vim.cmd [[
 -- LSP
 --------------------------------------------------------------------------------
 local lspconfig = require "lspconfig"
-local on_attach = function(client, bufnr)
+local on_attach = function(_, bufnr)
   vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
   local opts = { noremap = true, silent = true }
   vim.api.nvim_buf_set_keymap(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", { silent = true, noremap = true })
@@ -416,16 +397,6 @@ local on_attach = function(client, bufnr)
   vim.api.nvim_buf_set_keymap(bufnr, "n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
 
   vim.cmd [[ command! Format execute '<cmd>lua vim.lsp.buf.formatting()' ]]
-
-  if client.resolved_capabilities.document_highlight then -- highlight current symbol usages in code
-    vim.cmd [[
-      augroup lsp_document_highlight
-        autocmd! * <buffer>
-        autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
-        autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-      augroup END
-  ]]
-  end
 end
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
