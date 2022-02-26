@@ -56,6 +56,8 @@ require("packer").startup {
     use { "tpope/vim-fugitive" } -- Vim Git bindings
     use { "windwp/nvim-spectre", requires = { "nvim-lua/plenary.nvim" } }
     use { "nvim-telescope/telescope.nvim", requires = { "nvim-lua/plenary.nvim" } } -- UI to search for things
+    use { 'junegunn/fzf' }
+    use { 'junegunn/fzf.vim' }
     use { "tpope/vim-surround" } -- Vim surround objects
     use { "tpope/vim-commentary" } -- Comment codes at ease
     use { "neovim/nvim-lspconfig" } -- LSP configurations
@@ -83,6 +85,9 @@ require("packer").startup {
     use { "fatih/vim-go" } -- Golang IDE
   end,
 }
+--------------------------------------------------------------------------------
+-- Colorscheme
+--------------------------------------------------------------------------------
 
 vim.g.gruvbox_contrast_dark = "hard"
 vim.g.gruvbox_contrast_light = "light"
@@ -94,47 +99,45 @@ vim.g.lightline = {
 -- Keymaps
 --------------------------------------------------------------------------------
 vim.g.mapleader = " "
-vim.cmd [[
-  nnoremap Q <NOP>
-  nnoremap ; :
-  nnoremap q; q:
 
-  " Window resizes
-  nnoremap <Left> :vertical resize -5<CR>
-  nnoremap <Right> :vertical resize +5<CR>
-  nnoremap <Up> :resize +5<CR>
-  nnoremap <Down> :resize -5<CR>
+local map = function(mode, lhs, rhs) vim.api.nvim_set_keymap(mode, lhs, rhs, {silent=true, noremap=true}) end
+map('n', "Q", "<NOP>")
+map('n', ';', ':')
+map('n', 'q;', 'q:')
 
-  nnoremap j gj
-  nnoremap k gk
+map('n', '<Left>', ':vertical resize -5<CR>')
+map('n', '<Right>', ':vertical resize +5<CR>')
+map('n', '<Up>', ':resize +5<CR>')
+map('n', '<Down>', ':resize -5<CR>')
 
-  tnoremap <Esc> <C-\><C-n>
-  tnoremap jk <C-\><C-n>
-  tnoremap kj <C-\><C-n>
+map('n', 'j', 'gj')
+map('n', 'k', 'gk')
 
-  inoremap jk <esc>
-  inoremap kj <esc>
+map('t', '<Esc>', '<C-\\><C-n>')
+map('t', 'jk', '<C-\\><C-n>')
+map('t', 'kj', '<C-\\><C-n>')
 
-  " Move lines jetbrains style -> Thanks to TJ again
+map('i', 'jk', '<esc>')
+map('i', 'kj', '<esc>')
+
+map('n', 'Y', 'y$')
+map('n', 'n', 'nzz')
+map('n', 'N', '"Nzz')
+
+vim.cmd [[ 
   nnoremap <M-j> :m .+1<CR>==
   nnoremap <M-k> :m .-2<CR>==
-
   inoremap <M-j> <Esc>:m .+1<CR>==gi
   inoremap <M-k> <Esc>:m .-2<CR>==gi
-
   vnoremap <M-j> :m '>+1<CR>gv=gv
   vnoremap <M-k> :m '<-2<CR>gv=gv
-
-  nnoremap Y y$
-  nnoremap n nzz
-  nnoremap N "Nzz
-
-  nnoremap { :cprev<CR>
-  nnoremap } :cnext<CR>
-
-  " Thanks to TJ again
-  nnoremap <expr><CR> {-> v:hlsearch ? ":nohl<CR>" : "<CR>"}()
 ]]
+
+map('n', '{', ':cprev<CR>')
+map('n', '}', ':cnext<CR>')
+
+
+vim.cmd [[ nnoremap <expr><CR> {-> v:hlsearch ? ":nohl<CR>" : "<CR>"}() ]]
 
 --------------------------------------------------------------------------------
 -- Netrw
@@ -177,53 +180,19 @@ require("nvim-treesitter.configs").setup {
     },
   },
 }
-
 --------------------------------------------------------------------------------
--- Telescope
+-- FZF
 --------------------------------------------------------------------------------
-local telescope_actions = require "telescope.actions"
-
-require("telescope").setup {
-  defaults = {
-    layout_strategy = "flex",
-    layout_config = {
-      width = 0.9,
-      height = 0.8,
-
-      horizontal = {
-        width = { padding = 0.15 },
-      },
-      vertical = {
-        preview_height = 0.75,
-      },
-    },
-    file_ignore_patterns = {
-      "__pycache__",
-    },
-    mappings = {
-      n = {
-        ["<ESC>"] = telescope_actions.close,
-        ["<C-c>"] = telescope_actions.close,
-        ["jk"] = telescope_actions.close,
-        ["kj"] = telescope_actions.close,
-      },
-      i = {
-        ["<C-c>"] = telescope_actions.close,
-        ["<C-q>"] = telescope_actions.send_to_qflist,
-        ["<C-j>"] = telescope_actions.move_selection_next,
-        ["<C-k>"] = telescope_actions.move_selection_previous,
-      },
-    },
-  },
+vim.g.fzf_layout = {
+  down = '40%'
 }
 
 vim.cmd [[
-  nnoremap <leader><leader> <cmd>Telescope find_files <CR>
-  nnoremap <leader>fp <cmd>Telescope find_files hidden=true cwd=~/.local/share/nvim/site/pack/packer<CR>
-  nnoremap <leader>ps <cmd>Telescope find_files hidden=true cwd=~/src/gitlab.snapp.ir<CR>
-  nnoremap <C-q> <cmd>Telescope quickfix <CR>
-  nnoremap ?? <cmd>Telescope live_grep <CR>
-  nnoremap <leader>en <cmd>Telescope find_files cwd=~/.config/nvim<CR>
+  nnoremap <leader><leader> <cmd>Files<CR>
+  nnoremap <leader>fp <cmd>Files ~/.local/share/nvim/site/pack/packer<CR>
+  nnoremap <leader>ps <cmd>Files ~/src/gitlab.snapp.ir<CR>
+  nnoremap ?? <cmd>Rg<CR>
+  nnoremap <leader>Files ~/.config/nvim<CR>
 ]]
 
 
@@ -514,72 +483,4 @@ cmp.setup {
     { name = "nvim_lua" },
   },
 }
-
---------------------------------------------------------------------------------
--- Stylua, Lua autoformat
---------------------------------------------------------------------------------
-local Job = require "plenary.job"
-local Path = require "plenary.path"
-
-local cached_configs = {}
-
-local lspconfig_util = require "lspconfig.util"
-local root_finder = lspconfig_util.root_pattern ".git"
-
---@param bufnr: number
-local function stylua_get_config_path(bufnr)
-  local path = vim.api.nvim_buf_get_name(bufnr)
-  if cached_configs[path] == nil then
-    local file_path = Path:new(path)
-    local root_path = Path:new(root_finder(path))
-
-    local file_parents = file_path:parents()
-    local root_parents = root_path:parents()
-
-    local relative_diff = #file_parents - #root_parents
-    for index, dir in ipairs(file_parents) do
-      if index > relative_diff then
-        break
-      end
-
-      local stylua_path = Path:new { dir, "stylua.toml" }
-      if stylua_path:exists() then
-        cached_configs[path] = stylua_path:absolute()
-        break
-      end
-
-      stylua_path = Path:new { dir, ".stylua.toml" }
-      if stylua_path:exists() then
-        cached_configs[path] = stylua_path:absolute()
-        break
-      end
-      stylua_path = Path:new { os.getenv "HOME", ".stylua.toml" }
-      if stylua_path:exists() then
-        cached_configs[path] = stylua_path:absolute()
-        break
-      end
-    end
-  end
-
-  return cached_configs[path]
-end
-
---@param bufnr: number
-function stylua_format(bufnr)
-  local config_path = stylua_get_config_path(bufnr)
-  local job = Job:new {
-    "stylua",
-    "--config-path",
-    config_path,
-    "-",
-    writer = vim.api.nvim_buf_get_lines(0, 0, -1, false),
-  }
-  local output = job:sync()
-
-  if job.code ~= 0 then
-    print "cannot format"
-    return
-  end
-  vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, output)
-end
 
