@@ -56,25 +56,19 @@ end
 require("packer").startup {
   function(use)
     use { "wbthomason/packer.nvim" } -- Plugin manager
-    use { "dracula/vim" } -- Theme
-    use { 'gruvbox-community/gruvbox' } -- Theme
-    use {
-      "jghauser/mkdir.nvim",
-      config = function()
-        require "mkdir"
-      end,
-    }
-    use { "amirrezaask/nline.nvim" } -- Statusline plugin
-    use { "itchyny/lightline.vim" }
+    use { "dracula/vim" } -- dracula Theme
+    use { 'gruvbox-community/gruvbox' } -- gruvbox Theme
+    use { "jghauser/mkdir.nvim", config = function() require "mkdir" end } -- Mkdir
+    use { "itchyny/lightline.vim" } -- Statusline
     use { "L3MON4D3/LuaSnip" } -- Snippets plugin
-    use { "tpope/vim-fugitive" }
+    use { 'chriskempson/base16-vim' } -- Colorschemes
+    use { "tpope/vim-fugitive" } -- Vim Git bindings
     use { "windwp/nvim-spectre", requires = { "nvim-lua/plenary.nvim" } }
     use { "nvim-telescope/telescope.nvim", requires = { "nvim-lua/plenary.nvim" } } -- UI to search for things
     use { "tpope/vim-surround" } -- Vim surround objects
     use { "lewis6991/gitsigns.nvim", requires = { "nvim-lua/plenary.nvim" } } -- Gitsigns
     use { "tpope/vim-commentary" } -- Comment codes at ease
     use { "neovim/nvim-lspconfig" } -- LSP configurations
-    use { "norcalli/nvim-colorizer.lua", branch = "color-editor" }
     use { "honza/dockerfile.vim" } -- Dockerfile
     use { "hashivim/vim-terraform" } -- Terraform
     use { "LnL7/vim-nix" } -- Nix
@@ -85,76 +79,72 @@ require("packer").startup {
     use { "Glench/Vim-Jinja2-Syntax" } -- Jinja2
     use { "amirrezaask/actions.nvim" } -- Define IDE like actions.
     use { "purescript-contrib/purescript-vim" }
-    use { "ziglang/zig.vim" }
+    use { "ziglang/zig.vim" } -- Zig language Support
     use { "hrsh7th/nvim-cmp" } -- completion popup
     use { "hrsh7th/cmp-buffer" } -- source for completion from words in current buffer
     use { "hrsh7th/cmp-nvim-lua" } -- source for completion from neovim stuff
     use { "hrsh7th/cmp-nvim-lsp" } -- source for completion from lsp
     use { "hrsh7th/cmp-path" } -- source for completion from fs path
-    use { "saadparwaiz1/cmp_luasnip" }
     use { "rust-lang/rust.vim", ft = "rust" } -- rust syntax
     use { "nvim-treesitter/nvim-treesitter" } -- treesitter integration
     use { "nvim-treesitter/nvim-treesitter-textobjects" } -- more text objects for treesitter
-    use { "mfussenegger/nvim-dap" } -- debug adapter protocol
-    use { "theHamsta/nvim-dap-virtual-text" } -- debug adapter protocol virtual text
     use { "folke/todo-comments.nvim", requires = "nvim-lua/plenary.nvim" } -- Highlight todo and etc...
-    use { "godlygeek/tabular" } -- beautify text
-    use { "milisims/nvim-luaref" } -- lua reference as vim help
-    use { "nanotee/luv-vimdocs" } -- luv reference as vim help
+    use { "godlygeek/tabular" } -- Beautify text
     use { "lukas-reineke/indent-blankline.nvim" } -- Show indent highlights
-    use { "ThePrimeagen/harpoon", requires = { "nvim-lua/plenary.nvim" } }
-    use { "fatih/vim-go" }
+    use { "fatih/vim-go" } -- Golang IDE
   end,
 }
 
 vim.g.gruvbox_contrast_dark = "hard"
 vim.g.gruvbox_contrast_light = "light"
-vim.cmd [[ colorscheme gruvbox ]]
-
+vim.cmd [[ colorscheme dracula ]]
+vim.g.lightline = {
+      colorscheme = 'dracula',
+    }
 --------------------------------------------------------------------------------
 -- Keymaps
 --------------------------------------------------------------------------------
 vim.g.mapleader = " "
 vim.cmd [[
-nnoremap Q <NOP>
-nnoremap ; :
-nnoremap q; q:
+  nnoremap Q <NOP>
+  nnoremap ; :
+  nnoremap q; q:
 
-" Window resizes
-nnoremap <Left> :vertical resize -5<CR>
-nnoremap <Right> :vertical resize +5<CR>
-nnoremap <Up> :resize +5<CR>
-nnoremap <Down> :resize -5<CR>
+  " Window resizes
+  nnoremap <Left> :vertical resize -5<CR>
+  nnoremap <Right> :vertical resize +5<CR>
+  nnoremap <Up> :resize +5<CR>
+  nnoremap <Down> :resize -5<CR>
 
-nnoremap j gj
-nnoremap k gk
+  nnoremap j gj
+  nnoremap k gk
 
-tnoremap <Esc> <C-\><C-n>
-tnoremap jk <C-\><C-n>
-tnoremap kj <C-\><C-n>
+  tnoremap <Esc> <C-\><C-n>
+  tnoremap jk <C-\><C-n>
+  tnoremap kj <C-\><C-n>
 
-inoremap jk <esc>
-inoremap kj <esc>
+  inoremap jk <esc>
+  inoremap kj <esc>
 
-" Move lines jetbrains style -> Thanks to TJ again
-nnoremap <M-j> :m .+1<CR>==
-nnoremap <M-k> :m .-2<CR>==
+  " Move lines jetbrains style -> Thanks to TJ again
+  nnoremap <M-j> :m .+1<CR>==
+  nnoremap <M-k> :m .-2<CR>==
 
-inoremap <M-j> <Esc>:m .+1<CR>==gi
-inoremap <M-k> <Esc>:m .-2<CR>==gi
+  inoremap <M-j> <Esc>:m .+1<CR>==gi
+  inoremap <M-k> <Esc>:m .-2<CR>==gi
 
-vnoremap <M-j> :m '>+1<CR>gv=gv
-vnoremap <M-k> :m '<-2<CR>gv=gv
+  vnoremap <M-j> :m '>+1<CR>gv=gv
+  vnoremap <M-k> :m '<-2<CR>gv=gv
 
-nnoremap Y y$
-nnoremap n nzz
-nnoremap N "Nzz
+  nnoremap Y y$
+  nnoremap n nzz
+  nnoremap N "Nzz
 
-nnoremap { :cprev<CR>
-nnoremap } :cnext<CR>
+  nnoremap { :cprev<CR>
+  nnoremap } :cnext<CR>
 
-" Thanks to TJ again
-nnoremap <expr><CR> {-> v:hlsearch ? ":nohl<CR>" : "<CR>"}()
+  " Thanks to TJ again
+  nnoremap <expr><CR> {-> v:hlsearch ? ":nohl<CR>" : "<CR>"}()
 ]]
 
 --------------------------------------------------------------------------------
@@ -237,8 +227,6 @@ require("telescope").setup {
     },
   },
 }
-
-require("telescope").load_extension "harpoon"
 
 vim.cmd [[
   nnoremap <leader><leader> <cmd>Telescope find_files <CR>
@@ -390,19 +378,6 @@ vim.cmd [[
 ]]
 
 --------------------------------------------------------------------------------
--- Harpoon
---------------------------------------------------------------------------------
-vim.cmd [[
-  nnoremap <leader>mp <cmd>lua require"harpoon.ui".nav_prev()<CR>
-  nnoremap <leader>mn <cmd>lua require"harpoon.ui".nav_next()<CR>
-  nnoremap <leader>m1 <cmd>lua require"harpoon.ui".nav_file(1)<CR>
-  nnoremap <leader>m2 <cmd>lua require"harpoon.ui".nav_file(2)<CR>
-  nnoremap <leader>m3 <cmd>lua require"harpoon.ui".nav_file(3)<CR>
-  nnoremap <leader>ma <cmd>lua require"harpoon.mark".add_file()<CR>
-  nnoremap <leader>mm <cmd>lua require"harpoon.ui".toggle_quick_menu()<CR>
-]]
-
---------------------------------------------------------------------------------
 -- Golang
 --------------------------------------------------------------------------------
 function GoFormat(bufnr)
@@ -437,7 +412,7 @@ vim.g.indent_blankline_use_treesitter = true
 vim.g.indent_blankline_filetype = {"yaml", "json"}
 
 --------------------------------------------------------------------------------
--- highlight on yank
+-- Highlight on yank
 --------------------------------------------------------------------------------
 vim.cmd [[
   augroup YankHighlight
