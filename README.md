@@ -3,5 +3,11 @@
 
 ## Setup
 - Kitty ( Terminal Emulator )
-- Neovim 0.7
+- Neovim HEAD
+
+## Getting started
+```bash
+    make install
+```
+
 
