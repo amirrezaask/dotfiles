@@ -41,6 +41,7 @@ vim.opt.updatetime = 100
 vim.opt.wildmode = { "longest", "list", "full" }
 vim.opt.wildmode = vim.opt.wildmode - "list"
 vim.opt.wildmode = vim.opt.wildmode + { "longest", "full" }
+
 --------------------------------------------------------------------------------
 -- Installing plugins
 --------------------------------------------------------------------------------
@@ -51,8 +52,8 @@ require("packer").startup {
     use { "dracula/vim" } -- dracula Theme
     use { 'gruvbox-community/gruvbox' } -- gruvbox Theme
     use { "jghauser/mkdir.nvim", config = function() require "mkdir" end } -- Mkdir
-    use { "itchyny/lightline.vim" } -- Statusline
     use { 'chriskempson/base16-vim' } -- Colorschemes
+    use { "itchyny/lightline.vim" } -- Statusline
     use { "tpope/vim-fugitive" } -- Vim Git bindings
     use { "windwp/nvim-spectre", requires = { "nvim-lua/plenary.nvim" } }
     use { "nvim-telescope/telescope.nvim", requires = { "nvim-lua/plenary.nvim" } } -- UI to search for things
@@ -83,6 +84,10 @@ require("packer").startup {
     use { "godlygeek/tabular" } -- Beautify text
     use { "lukas-reineke/indent-blankline.nvim" } -- Show indent highlights
     use { "fatih/vim-go" } -- Golang IDE
+    use 'hrsh7th/vim-vsnip'
+    use 'hrsh7th/vim-vsnip-integ'
+    use "kyazdani42/nvim-web-devicons"
+    use "yamatsum/nvim-web-nonicons"
   end,
 }
 --------------------------------------------------------------------------------
@@ -180,19 +185,50 @@ require("nvim-treesitter.configs").setup {
     },
   },
 }
---------------------------------------------------------------------------------
--- FZF
---------------------------------------------------------------------------------
-vim.g.fzf_layout = {
-  down = '40%'
+----------------------------------------------------------------------
+-- Telescope
+----------------------------------------------------------------------
+local telescope_actions = require "telescope.actions"
+require("telescope").setup {
+  defaults = {
+    layout_strategy = "flex",
+    layout_config = {
+      width = 0.9,
+      height = 0.8,
+
+      horizontal = {
+        width = { padding = 0.15 },
+      },
+      vertical = {
+        preview_height = 0.75,
+      },
+    },
+    file_ignore_patterns = {
+      "__pycache__",
+    },
+    mappings = {
+      n = {
+        ["<ESC>"] = telescope_actions.close,
+        ["<C-c>"] = telescope_actions.close,
+        ["jk"] = telescope_actions.close,
+        ["kj"] = telescope_actions.close,
+      },
+      i = {
+        ["<C-c>"] = telescope_actions.close,
+        ["<C-q>"] = telescope_actions.send_to_qflist,
+        ["<C-j>"] = telescope_actions.move_selection_next,
+        ["<C-k>"] = telescope_actions.move_selection_previous,
+      },
+    },
+  },
 }
 
 vim.cmd [[
-  nnoremap <leader><leader> <cmd>Files<CR>
-  nnoremap <leader>fp <cmd>Files ~/.local/share/nvim/site/pack/packer<CR>
-  nnoremap <leader>ps <cmd>Files ~/src/gitlab.snapp.ir<CR>
-  nnoremap ?? <cmd>Rg<CR>
-  nnoremap <leader>Files ~/.config/nvim<CR>
+  nnoremap <leader><leader> <cmd>Telescope find_files<CR>
+  nnoremap <leader>fp <cmd>Telescope find_files cwd='~/.local/share/nvim/site/pack/packer'<CR>
+  nnoremap <leader>ps <cmd>Telsccope find_files cwd='~/src/gitlab.snapp.ir'<CR>
+  nnoremap <leader>en <cmd>Telscope find_files cwd='~/.config/nvim'<CR>
+  nnoremap ?? <cmd>Telescope live_grep<CR>
 ]]
 
 
@@ -447,6 +483,11 @@ vim.opt.shortmess:append "c"
 
 local cmp = require "cmp"
 cmp.setup {
+  snippet = {
+      expand = function(args)
+        vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+      end,
+    },
   -- You can set mapping if you want.
   mapping = {
     ["<C-p>"] = cmp.mapping.select_prev_item(),
