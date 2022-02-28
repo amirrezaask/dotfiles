@@ -84,7 +84,7 @@ require("packer").startup {
     use { "godlygeek/tabular" } -- Beautify text
     use { "lukas-reineke/indent-blankline.nvim" } -- Show indent highlights
     use { "fatih/vim-go" } -- Golang IDE
-    use 'hrsh7th/vim-vsnip'
+    use { 'hrsh7th/vim-vsnip' } -- Snippet plugin
     use 'hrsh7th/vim-vsnip-integ'
     use "kyazdani42/nvim-web-devicons"
     use "yamatsum/nvim-web-nonicons"
