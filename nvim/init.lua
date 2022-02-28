@@ -48,12 +48,9 @@ vim.opt.wildmode = vim.opt.wildmode + { "longest", "full" }
 require("packer").startup {
   function(use)
     use { "wbthomason/packer.nvim" } -- Plugin manager
-    use { "dracula/vim" } -- dracula Theme
-    use { 'gruvbox-community/gruvbox' } -- gruvbox Theme
     use { "jghauser/mkdir.nvim", config = function() require "mkdir" end } -- Mkdir
-    use { 'chriskempson/base16-vim' } -- Colorschemes
-    use { "itchyny/lightline.vim" } -- Statusline
-    use { 'shinchu/lightline-gruvbox.vim' } -- Statusline theme
+    use { "amirrezaask/base16.nvim" } -- Base16 Themes
+    use { "amirrezaask/nline.nvim" } -- Statusline
     use { "tpope/vim-fugitive" } -- Vim Git bindings
     use { "windwp/nvim-spectre", requires = { "nvim-lua/plenary.nvim" } }
     use { "nvim-telescope/telescope.nvim", requires = { "nvim-lua/plenary.nvim" } } -- UI to search for things
@@ -93,13 +90,7 @@ require("packer").startup {
 --------------------------------------------------------------------------------
 -- Colorscheme
 --------------------------------------------------------------------------------
-
-vim.g.gruvbox_contrast_dark = "hard"
-vim.g.gruvbox_contrast_light = "light"
-vim.cmd [[ colorscheme gruvbox ]]
-vim.g.lightline = {
-  colorscheme = 'gruvbox',
-}
+require'base16'.apply(require'base16.themes'.norcalli)
 --------------------------------------------------------------------------------
 -- Keymaps
 --------------------------------------------------------------------------------
@@ -129,6 +120,8 @@ map('n', 'Y', 'y$')
 map('n', 'n', 'nzz')
 map('n', 'N', '"Nzz')
 
+map('n', ',tn', ":tabnext<CR>")
+map('n', ',tp', ":tabprevious<CR>")
 vim.cmd [[ 
   nnoremap <M-j> :m .+1<CR>==
   nnoremap <M-k> :m .-2<CR>==
@@ -143,6 +136,45 @@ map('n', '}', ':cnext<CR>')
 
 
 vim.cmd [[ nnoremap <expr><CR> {-> v:hlsearch ? ":nohl<CR>" : "<CR>"}() ]]
+
+--------------------------------------------------------------------------------
+-- Statusline
+--------------------------------------------------------------------------------
+
+local nline = require"nline"
+local vimparts = require "nline.parts.vim"
+local git = require "nline.parts.git"
+
+nline.make({
+  vimparts.space(),
+  vimparts.filename { shorten = false },
+
+  vimparts.space(),
+  vimparts.pipe(),
+  vimparts.space(),
+
+  git.branch(),
+
+  vimparts.seperator(),
+
+
+  vimparts.space(),
+  vimparts.pipe(),
+  vimparts.space(),
+
+vimparts.line() .. vimparts.space() .. vimparts.colon() .. vimparts.col(),
+
+  vimparts.space(),
+  vimparts.pipe(),
+  vimparts.space(),
+
+  git.changes(),
+  vimparts.space(),
+  vimparts.pipe(),
+  vimparts.space(),
+
+  vimparts.filetype(),
+})
 
 --------------------------------------------------------------------------------
 -- Netrw
@@ -204,7 +236,7 @@ require("telescope").setup {
     layout_strategy = "flex",
     layout_config = {
       width = 0.9,
-      height = 0.8,
+      height = 0.9,
 
       horizontal = {
         width = { padding = 0.15 },
@@ -246,6 +278,10 @@ vim.cmd [[
     autocmd BufEnter *.lua setlocal ts=2 | setlocal sts=2 | setlocal expandtab | setlocal shiftwidth=2
 ]]
 
+--------------------------------------------------------------------------------
+-- FZF
+--------------------------------------------------------------------------------
+vim.g.fzf_layout = {down = '40%'}
 --------------------------------------------------------------------------------
 -- Actions.nvim
 --------------------------------------------------------------------------------
