@@ -54,6 +54,7 @@ require("packer").startup {
     use { "jghauser/mkdir.nvim", config = function() require "mkdir" end } -- Mkdir
     use { 'chriskempson/base16-vim' } -- Colorschemes
     use { "itchyny/lightline.vim" } -- Statusline
+    use { 'shinchu/lightline-gruvbox.vim' } -- Statusline theme
     use { "tpope/vim-fugitive" } -- Vim Git bindings
     use { "windwp/nvim-spectre", requires = { "nvim-lua/plenary.nvim" } }
     use { "nvim-telescope/telescope.nvim", requires = { "nvim-lua/plenary.nvim" } } -- UI to search for things
@@ -96,9 +97,9 @@ require("packer").startup {
 
 vim.g.gruvbox_contrast_dark = "hard"
 vim.g.gruvbox_contrast_light = "light"
-vim.cmd [[ colorscheme dracula ]]
+vim.cmd [[ colorscheme gruvbox ]]
 vim.g.lightline = {
-  colorscheme = 'dracula',
+  colorscheme = 'gruvbox',
 }
 --------------------------------------------------------------------------------
 -- Keymaps
