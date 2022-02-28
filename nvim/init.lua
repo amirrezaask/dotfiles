@@ -45,7 +45,6 @@ vim.opt.wildmode = vim.opt.wildmode + { "longest", "full" }
 --------------------------------------------------------------------------------
 -- Installing plugins
 --------------------------------------------------------------------------------
-
 require("packer").startup {
   function(use)
     use { "wbthomason/packer.nvim" } -- Plugin manager
@@ -86,9 +85,9 @@ require("packer").startup {
     use { "lukas-reineke/indent-blankline.nvim" } -- Show indent highlights
     use { "fatih/vim-go" } -- Golang IDE
     use { 'hrsh7th/vim-vsnip' } -- Snippet plugin
-    use 'hrsh7th/vim-vsnip-integ'
-    use "kyazdani42/nvim-web-devicons"
-    use "yamatsum/nvim-web-nonicons"
+    use { 'hrsh7th/vim-vsnip-integ' }
+    use { 'kyazdani42/nvim-web-devicons' }
+    use { 'yamatsum/nvim-web-nonicons' }
   end,
 }
 --------------------------------------------------------------------------------
@@ -152,6 +151,16 @@ vim.g.netrw_browse_split = 0
 vim.g.netrw_banner = 0
 vim.g.netrw_winsize = 25
 
+--------------------------------------------------------------------------------
+-- FileTypes
+--------------------------------------------------------------------------------
+
+vim.cmd [[
+augroup FileTypes
+  autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o 
+  autocmd FileType yaml setlocal cursorcolumn
+augroup END
+]]
 --------------------------------------------------------------------------------
 -- Treesitter
 --------------------------------------------------------------------------------
