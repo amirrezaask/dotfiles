@@ -7,13 +7,6 @@
 -- All configuration of different plugins are in
 -- after/plugin/*.lua
 
---------------------------------------------------------------------------------
--- Colorscheme
---------------------------------------------------------------------------------
-vim.cmd [[ colorscheme gruvbuddy ]]
 
---------------------------------------------------------------------------------
--- FileTypes
---------------------------------------------------------------------------------
-vim.cmd [[ autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o ]]
 
+-- Nothing is Here :))
