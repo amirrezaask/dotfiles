@@ -38,6 +38,7 @@ require("packer").startup {
     use { 'hrsh7th/vim-vsnip-integ' }
     use { 'kyazdani42/nvim-web-devicons' }
     use { 'yamatsum/nvim-web-nonicons' }
+    use { "j-hui/fidget.nvim" }
   end,
 }
 
