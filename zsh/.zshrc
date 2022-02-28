@@ -15,10 +15,11 @@ if [ "$?" != '0' ]; then
 fi
 antigen theme cloud 
 antigen apply
-# eval "$(starship init zsh)"
 
 alias luamake=/Users/amirreza/.local/lua-language-server/3rd/luamake/luamake
 [ -f "/Users/amirreza/.ghcup/env" ] && source "/Users/amirreza/.ghcup/env" # ghcup-env
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
+eval "$(starship init zsh)"
 
