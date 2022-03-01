@@ -26,6 +26,8 @@ map('n', 'N', '"Nzz')
 
 map('n', ',tn', ":tabnext<CR>")
 map('n', ',tp', ":tabprevious<CR>")
+map('n', ',tt', ":tabnew<CR>")
+
 vim.cmd [[ 
   nnoremap <M-j> :m .+1<CR>==
   nnoremap <M-k> :m .-2<CR>==
