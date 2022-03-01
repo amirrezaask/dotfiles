@@ -1,37 +1,28 @@
-
-local nline = require"nline"
-local vimparts = require "nline.parts.vim"
-local git = require "nline.parts.git"
-
-nline.make({
-  vimparts.space(),
-  vimparts.filename { shorten = false },
-
-  vimparts.space(),
-  vimparts.pipe(),
-  vimparts.space(),
-
-  git.branch(),
-
-  vimparts.seperator(),
-
-
-  vimparts.space(),
-  vimparts.pipe(),
-  vimparts.space(),
-
-vimparts.line() .. vimparts.space() .. vimparts.colon() .. vimparts.col(),
-
-  vimparts.space(),
-  vimparts.pipe(),
-  vimparts.space(),
-
-  git.changes(),
-  vimparts.space(),
-  vimparts.pipe(),
-  vimparts.space(),
-
-  vimparts.filetype(),
-})
-
-
+require('lualine').setup {
+  options = {
+    icons_enabled = true,
+    theme = 'gruvbox',
+    component_separators = { left = '', right = ''},
+    section_separators = { left = '', right = ''},
+    disabled_filetypes = {},
+    always_divide_middle = true,
+  },
+  sections = {
+    lualine_a = {'mode'},
+    lualine_b = {'branch', 'diff', 'diagnostics'},
+    lualine_c = {'filename'},
+    lualine_x = {'encoding', 'fileformat', 'filetype'},
+    lualine_y = {'progress'},
+    lualine_z = {'location'}
+  },
+  inactive_sections = {
+    lualine_a = {},
+    lualine_b = {},
+    lualine_c = {'filename'},
+    lualine_x = {'location'},
+    lualine_y = {},
+    lualine_z = {}
+  },
+  tabline = {},
+  extensions = {}
+}
