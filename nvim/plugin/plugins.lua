@@ -3,6 +3,8 @@ require("packer").startup {
     use { "wbthomason/packer.nvim" } -- Plugin manager
     use { "jghauser/mkdir.nvim", config = function() require "mkdir" end } -- Mkdir
     use { "amirrezaask/base16.nvim" } -- Base16 Themes
+    use { "dracula/vim" }
+    use { "gruvbox-community/gruvbox" }
     use { "tpope/vim-fugitive" } -- Vim Git bindings
     use { "windwp/nvim-spectre", requires = { "nvim-lua/plenary.nvim" } }
     use { "nvim-telescope/telescope.nvim", requires = { "nvim-lua/plenary.nvim" } } -- UI to search for things
