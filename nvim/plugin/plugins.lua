@@ -41,6 +41,7 @@ require("packer").startup {
     use { 'yamatsum/nvim-web-nonicons' }
     use { "j-hui/fidget.nvim" }
     use { "nvim-lualine/lualine.nvim" }
+    use { "rcarriga/nvim-notify" }
   end,
 }
 
