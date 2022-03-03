@@ -8,10 +8,7 @@ require("packer").startup {
     use { "tpope/vim-fugitive" } -- Vim Git bindings
     use { "windwp/nvim-spectre", requires = { "nvim-lua/plenary.nvim" } }
     use { "nvim-telescope/telescope.nvim", requires = { "nvim-lua/plenary.nvim" } } -- UI to search for things
-    use { 'junegunn/fzf' }
-    use { 'junegunn/fzf.vim' }
     use { "tpope/vim-surround" } -- Vim surround objects
-    use { "tpope/vim-commentary" } -- Comment codes at ease
     use { "neovim/nvim-lspconfig" } -- LSP configurations
     use { "honza/dockerfile.vim" } -- Dockerfile
     use { "hashivim/vim-terraform" } -- Terraform
@@ -42,6 +39,7 @@ require("packer").startup {
     use { "j-hui/fidget.nvim" }
     use { "nvim-lualine/lualine.nvim" }
     use { "rcarriga/nvim-notify" }
+    use { "numToStr/Comment.nvim" }
   end,
 }
 

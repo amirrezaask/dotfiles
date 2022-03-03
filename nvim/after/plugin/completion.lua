@@ -3,6 +3,7 @@ vim.opt.completeopt = { "menuone", "noselect" }
 -- Don't show the dumb matching stuff.
 vim.opt.shortmess:append "c"
 
+
 local cmp = require "cmp"
 cmp.setup {
   snippet = {
