@@ -4,8 +4,8 @@ source ~/.env
 export ACME="$HOME/src/github.com/amirrezaask/dotfiles/bin"
 export PATH="$PLAN9/bin:$ACME:$PATH"
 export SHELL=rc
-FONT='JetBrainsMonoNerdFontCompleteM-Regular'
-FONTSIZE='15'
+FONT='Menlo-Regular'
+FONTSIZE='13'
 plumbproc=$(ps ax | grep -v grep | grep plumber)
 if [ -z "$plumbproc" ]; then
     9 plumber
