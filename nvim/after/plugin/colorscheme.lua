@@ -1,1 +1,1 @@
-vim.cmd [[ colorscheme gruvbuddy ]]
+vim.cmd [[ colorscheme dracula ]]

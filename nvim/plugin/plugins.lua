@@ -39,6 +39,9 @@ require("packer").startup {
     use { "numToStr/Comment.nvim" }
     use { "L3MON4D3/LuaSnip" }
     use { "tjdevries/express_line.nvim" }
+    use { 'fladson/vim-kitty' }
+    use { 'vim-erlang/vim-erlang-runtime' }
+    use {'cohama/agit.vim'}
   end,
 }
 
