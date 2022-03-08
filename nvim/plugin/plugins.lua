@@ -35,10 +35,10 @@ require("packer").startup {
     use { 'kyazdani42/nvim-web-devicons' }
     use { 'yamatsum/nvim-web-nonicons' }
     use { "j-hui/fidget.nvim" }
-    use { "nvim-lualine/lualine.nvim" }
     use { "rcarriga/nvim-notify" }
     use { "numToStr/Comment.nvim" }
     use { "L3MON4D3/LuaSnip" }
+    use { "tjdevries/express_line.nvim" }
   end,
 }
 
