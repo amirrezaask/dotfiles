@@ -1,11 +1,9 @@
-#!/usr/bin/env bash
-source ~/.env
-
+#!/usr/bin/env zsh
 export ACME="$HOME/src/github.com/amirrezaask/dotfiles/bin"
 export PATH="$PLAN9/bin:$ACME:$PATH"
 export SHELL=rc
 FONT='JetBrainsMonoNerdFontCompleteM-Regular'
-FONTSIZE='13'
+FONTSIZE='14'
 plumbproc=$(ps ax | grep -v grep | grep plumber)
 if [ -z "$plumbproc" ]; then
     9 plumber
