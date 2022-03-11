@@ -38,10 +38,13 @@ require("packer").startup {
     use { "rcarriga/nvim-notify" }
     use { "numToStr/Comment.nvim" }
     use { "L3MON4D3/LuaSnip" }
-    use { "tjdevries/express_line.nvim" }
     use { 'fladson/vim-kitty' }
     use { 'vim-erlang/vim-erlang-runtime' }
-    use {'cohama/agit.vim'}
+    use { 'cohama/agit.vim' }
+    use {
+      'nvim-lualine/lualine.nvim',
+      requires = { 'kyazdani42/nvim-web-devicons', opt = true }
+    }
   end,
 }
 
