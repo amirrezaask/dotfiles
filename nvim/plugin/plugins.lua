@@ -45,6 +45,8 @@ require("packer").startup {
       'nvim-lualine/lualine.nvim',
       requires = { 'kyazdani42/nvim-web-devicons', opt = true }
     }
+    use { 'mhinz/vim-startify' }
+    use { 'ful1e5/onedark.nvim' }
   end,
 }
 
