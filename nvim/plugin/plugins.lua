@@ -47,6 +47,8 @@ require("packer").startup {
     }
     use { 'mhinz/vim-startify' }
     use { 'ful1e5/onedark.nvim' }
+    use { 'folke/tokyonight.nvim' }
+    use { 'shaunsingh/nord.nvim' }
   end,
 }
 
