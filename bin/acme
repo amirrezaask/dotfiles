@@ -3,7 +3,9 @@ export ACME="$HOME/src/github.com/amirrezaask/dotfiles/bin"
 export PATH="$PLAN9/bin:$ACME:$PATH"
 export SHELL=rc
 FONT='JetBrainsMonoNerdFontCompleteM-Regular'
-FONTSIZE='14'
+FONTSIZE='12'
+ALTERNATEFONT='JetBrainsMonoNerdFontCompleteM-Regular'
+ALTERNATEFONTSIZE='15'
 plumbproc=$(ps ax | grep -v grep | grep plumber)
 if [ -z "$plumbproc" ]; then
     9 plumber
@@ -13,5 +15,5 @@ if [ -z "$fontsrvproc" ]; then
     9 fontsrv -m /mnt/font &
 fi
 
-$PLAN9/bin/acme -a -f "/mnt/font/$FONT/${FONTSIZE}a/font" &
+$PLAN9/bin/acme -a -f "/mnt/font/$FONT/${FONTSIZE}a/font" -F "/mnt/font/$ALTERNATEFONT/${ALTERNATEFONTSIZE}a/font" &
 
