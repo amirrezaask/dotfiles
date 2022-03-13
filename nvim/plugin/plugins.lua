@@ -53,6 +53,7 @@ require("packer").startup {
     use { 'junegunn/fzf' }
     use { 'junegunn/fzf.vim' }
     use { 'tanvirtin/monokai.nvim' }
+    use { 'eemed/sitruuna.vim' }
   end,
 }
 
