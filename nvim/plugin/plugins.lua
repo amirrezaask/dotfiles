@@ -49,6 +49,7 @@ require("packer").startup {
     use { 'ful1e5/onedark.nvim' }
     use { 'folke/tokyonight.nvim' }
     use { 'shaunsingh/nord.nvim' }
+    use { 'mfussenegger/nvim-dap' }
   end,
 }
 
