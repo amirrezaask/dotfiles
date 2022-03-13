@@ -50,6 +50,9 @@ require("packer").startup {
     use { 'folke/tokyonight.nvim' }
     use { 'shaunsingh/nord.nvim' }
     use { 'mfussenegger/nvim-dap' }
+    use { 'junegunn/fzf' }
+    use { 'junegunn/fzf.vim' }
+    use { 'tanvirtin/monokai.nvim' }
   end,
 }
 
