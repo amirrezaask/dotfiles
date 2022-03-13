@@ -11,6 +11,9 @@ cmp.setup {
         require('luasnip').lsp_expand(args.body)
       end,
     },
+  documentation = {
+    border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+  },
   -- You can set mapping if you want.
   mapping = {
     ["<C-p>"] = cmp.mapping.select_prev_item(),
