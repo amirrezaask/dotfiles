@@ -7,13 +7,15 @@ antigen bundle git
 
 antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle zsh-users/zsh-autosuggestions
+antigen bundle dracula/zsh
 
 # command -v 'starship' > /dev/null
 #
 # if [ "$?" != '0' ]; then
 #     sh -c "$(curl -fsSL https://starship.rs/install.sh)"
 # fi
-antigen theme robbyrussell
+
+antigen theme dracula/zsh dracula
 antigen apply
 
 alias luamake=/Users/amirreza/.local/lua-language-server/3rd/luamake/luamake
