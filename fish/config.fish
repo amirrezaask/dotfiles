@@ -20,8 +20,10 @@ alias lock='i3lock -c000000'
 alias gs='git status'
 alias gd='git diff'
 alias gp='git push'
+alias gpl='git pull'
 alias gco='git checkout'
 alias gcb='git checkout -b'
+alias gca='git commit -a'
 
 # vim
 alias vim='nvim'
