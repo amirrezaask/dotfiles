@@ -1,3 +1,4 @@
+-- lualine
 require('lualine').setup {
   options = {
     icons_enabled = true,
@@ -26,3 +27,6 @@ require('lualine').setup {
   tabline = {},
   extensions = {}
 }
+-- global statusline
+vim.opt.laststatus=3
+
