@@ -1,15 +1,14 @@
 # source ~/env.fish
-set -x GO111MODULE 'on'
+set -x GO111MODULE 'auto'
 set -x GOPATH "$HOME"
 set -x PYTHONBINS "$HOME/.local/bin"
 set -x EDITOR 'nvim'
 set -x GOPRIVATE 'gitlab.snapp.ir'
 set -x DOTFILES "~/src/github.com/amirrezaask/dotfiles"
+set -x SNAPP "~/src/gitlab.snapp.ir"
+set -x OSS "~/src/github.com/amirrezaask"
+set -x GOLOBBY "~/src/github.com/golobby"
 set -x PATH "$GOPATH/bin:/opt/homebrew/bin:$ELIXIR/bin:$HOME/.luarocks/bin:$HOME/.config/composer/vendor/bin:$GOROOT/bin:$HOME/.cargo/bin:$HOME/.local/bin:/usr/local/Postman:$HOME/.local/elixir-ls/:$HOME/.cache/rebar3/bin:$PATH:$DOTFILES/bin:$PLAN9/bin:$HOME/.composer/vendor/bin"
-
-alias dots="cd $DOTFILES"
-alias snapp='cd ~/src/gitlab.snapp.ir'
-alias oss='cd ~/src/github.com/amirrezaask'
 
 function freenet
     echo $VPN_PASSWORD | sudo openconnect --no-dtls --passwd-on-stdin --user $VPN_USERNAME $VPN_SERVER
@@ -42,26 +41,20 @@ function snappvpn
     sudo openfortivpn -c ~/snappDC.conf
 end
 
-set __fish_git_prompt_showuntrackedfiles 'yes'
-set __fish_git_prompt_showdirtystate 'yes'
-set __fish_git_prompt_showstashstate ''
-set __fish_git_prompt_showupstream 'none'
-set -g fish_prompt_pwd_dir_length 3
+function golobby
+    cd $GOLOBBY
+end
 
-# function fish_prompt
-#     set_color brblack
-#     echo -n "["(date "+%H:%M")"] "
-#     set_color brblue
-#     echo -n (hostname)
-#     if [ $PWD != $HOME ]
-#         set_color brblack
-#         echo -n ':'
-#         set_color yellow
-#         echo -n (basename $PWD)
-#     end
-#     set_color green
-#     printf '%s ' (__fish_git_prompt)
-#     set_color red
-#     echo -n '| '
-#     set_color normal
-# end
+function oss
+    cd $OSS
+end
+
+function snapp
+    cd $SNAPP
+end
+
+function dots
+    cd $DOTFILES
+end
+
+
