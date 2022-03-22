@@ -32,6 +32,8 @@ actions:setup {
       run = function(_)
         vim.cmd [[ so % ]]
       end,
+      format = function()
+      end
     },
   },
   {

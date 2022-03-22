@@ -41,10 +41,6 @@ require("packer").startup {
     use { 'fladson/vim-kitty' }
     use { 'vim-erlang/vim-erlang-runtime' }
     use { 'cohama/agit.vim' }
-    use {
-      'nvim-lualine/lualine.nvim',
-      requires = { 'kyazdani42/nvim-web-devicons', opt = true }
-    }
     use { 'mhinz/vim-startify' }
     use { 'ful1e5/onedark.nvim' }
     use { 'folke/tokyonight.nvim' }
@@ -54,6 +50,7 @@ require("packer").startup {
     use { 'junegunn/fzf.vim' }
     use { 'tanvirtin/monokai.nvim' }
     use { 'eemed/sitruuna.vim' }
+    use { 'norcalli/nvim-colorizer.lua' }
   end,
 }
 
