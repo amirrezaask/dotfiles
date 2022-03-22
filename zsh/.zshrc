@@ -18,3 +18,5 @@ alias luamake=/Users/amirreza/.local/lua-language-server/3rd/luamake/luamake
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
