@@ -23,6 +23,7 @@ alias gpl='git pull'
 alias gco='git checkout'
 alias gcb='git checkout -b'
 alias gca='git commit -a'
+alias gc='git commit'
 
 # vim
 alias vim='nvim'
