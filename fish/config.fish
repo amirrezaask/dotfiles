@@ -40,13 +40,13 @@ set -x __fish_git_prompt_show_informative_status true
 # prompt
 function fish_prompt
     set_color green
-    echo (prompt_pwd) (fish_git_prompt) '>' (set_color normal)
+    echo "$(prompt_pwd)$(fish_git_prompt)> $(set_color normal)"
 end
 
 function fish_right_prompt
     set_color purple
     date "+%d/%m/%y %H:%M"
-end 
+end
 
 function reload
     source ~/.config/fish/config.fish
