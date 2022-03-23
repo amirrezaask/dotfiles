@@ -34,6 +34,20 @@ setenv FZF_DEFAULT_COMMAND 'fd --type file --follow'
 setenv FZF_CTRL_T_COMMAND 'fd --type file --follow'
 setenv FZF_DEFAULT_OPTS '--height 20%'
 
+set -x __fish_git_prompt_showdirtystate true
+set -x __fish_git_prompt_showuntrackedfiles true
+set -x __fish_git_prompt_show_informative_status true
+# prompt
+function fish_prompt
+    set_color green
+    echo (prompt_pwd) (fish_git_prompt) '>' (set_color normal)
+end
+
+function fish_right_prompt
+    set_color purple
+    date "+%d/%m/%y %H:%M"
+end 
+
 function reload
     source ~/.config/fish/config.fish
 end
