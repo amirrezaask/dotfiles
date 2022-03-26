@@ -24,7 +24,6 @@ vim.opt.splitbelow = true -- always split to below
 vim.opt.cursorline = true -- highlight current line
 vim.opt.relativenumber = true -- relative line numbers
 vim.opt.number = true -- show current line number
-vim.opt.pumblend = 5
 vim.opt.showmode = false
 vim.opt.clipboard = "unnamedplus"
 vim.opt.hidden = true
