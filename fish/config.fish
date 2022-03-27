@@ -33,13 +33,9 @@ alias vim='nvim'
 alias v='nvim'
 
 # FZF stuff
-setenv FZF_DEFAULT_COMMAND 'fd --type file --follow'
-setenv FZF_CTRL_T_COMMAND 'fd --type file --follow'
 setenv FZF_DEFAULT_OPTS '--height 20%'
+setenv FZF_DEFAULT_COMMAND 'rg --files'
 
-set -x __fish_git_prompt_showdirtystate true
-set -x __fish_git_prompt_showuntrackedfiles true
-set -x __fish_git_prompt_show_informative_status true
 # prompt
 function fish_prompt
     echo "$(prompt_pwd)$(set_color green)$(fish_git_prompt)> $(set_color normal)"
