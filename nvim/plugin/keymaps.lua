@@ -24,9 +24,10 @@ map('n', 'Y', 'y$')
 map('n', 'n', 'nzz')
 map('n', 'N', '"Nzz')
 
-map('n', ',tn', ":tabnext<CR>")
-map('n', ',tp', ":tabprevious<CR>")
-map('n', ',tt', ":tabnew<CR>")
+map('n', '<M-t>', ":tabnew<CR>")
+map('n', '<M-p>', ":tabprev<CR>")
+map('n', '<M-n>', ":tabnext<CR>")
+
 
 vim.cmd [[ 
   nnoremap <M-j> :m .+1<CR>==
