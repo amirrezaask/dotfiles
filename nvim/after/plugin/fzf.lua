@@ -1,4 +1,7 @@
--- vim.g.fzf_layout = { ['down'] = '40%' }
+if true then
+  return
+end
+vim.g.fzf_layout = { ['down'] = '30%' }
 vim.g.fzf_preview_window = {}
 vim.cmd [[
   nnoremap <leader><leader> <cmd>Files<CR>

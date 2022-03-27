@@ -9,7 +9,7 @@ antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle zsh-users/zsh-autosuggestions
 antigen bundle dracula/zsh
 
-antigen theme dracula/zsh dracula
+antigen theme robbyrussell
 antigen apply
 
 alias luamake=/Users/amirreza/.local/lua-language-server/3rd/luamake/luamake
