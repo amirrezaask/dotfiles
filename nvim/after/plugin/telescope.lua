@@ -32,13 +32,13 @@ require("telescope").setup {
     },
   },
 }
--- vim.cmd [[
---   nnoremap <leader><leader> <cmd>Telescope find_files <CR>
---   nnoremap <leader>fp <cmd>Telescope find_files  cwd=~/.local/share/nvim/site/pack/packer<CR>
---   nnoremap <leader>ps <cmd>Telsccope find_files  cwd=~/src/gitlab.snapp.ir<CR>
---   nnoremap <leader>en <cmd>Telescope find_files  cwd=~/.config/nvim<CR>
---   nnoremap ?? <cmd>Telescope live_grep <CR>
--- ]]
+vim.cmd [[
+  nnoremap <leader><leader> <cmd>Telescope find_files <CR>
+  nnoremap <leader>fp <cmd>Telescope find_files  cwd=~/.local/share/nvim/site/pack/packer<CR>
+  nnoremap <leader>ps <cmd>Telsccope find_files  cwd=~/src/gitlab.snapp.ir<CR>
+  nnoremap <leader>en <cmd>Telescope find_files  cwd=~/.config/nvim<CR>
+  nnoremap ?? <cmd>Telescope live_grep <CR>
+]]
 
 
 vim.cmd [[
