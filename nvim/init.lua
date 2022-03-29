@@ -4,11 +4,6 @@
 --  / ___ |/ / / / / / / /  / /  /  __/ / /_/ /_/ / ___ |(__  ) ,<
 -- /_/  |_/_/ /_/ /_/_/_/  /_/   \___/ /___/\__,_/_/  |_/____/_/|_|
 --
--- All configuration of different plugins are in
--- after/plugin/*.lua
-
--- Everything is just configuration of various plugins
-
 -- Colorscheme stuff
 vim.cmd [[ colorscheme sitruuna ]]
 
@@ -122,7 +117,7 @@ require("packer").startup {
     use { "nvim-treesitter/nvim-treesitter-textobjects" } -- more text objects for treesitter
     use { "lukas-reineke/indent-blankline.nvim" } -- Show indent highlights
     use { "fatih/vim-go" } -- Golang IDE
-    use { 'fladson/vim-kitty' } 
+    use { 'fladson/vim-kitty' }
     use { 'vim-erlang/vim-erlang-runtime' }
     use { 'junegunn/fzf' }
     use { 'junegunn/fzf.vim' }
@@ -178,4 +173,138 @@ vim.cmd [[
   nnoremap ?? <cmd>Rg<CR>
 ]]
 
+-- Autocomplete
+vim.opt.completeopt = { "menuone", "noselect" }
 
+-- Don't show the dumb matching stuff.
+vim.opt.shortmess:append "c"
+
+
+local cmp = require "cmp"
+cmp.setup {
+  snippet = {
+      expand = function(args)
+        require('luasnip').lsp_expand(args.body)
+      end,
+    },
+  -- You can set mapping if you want.
+  mapping = {
+    ["<C-p>"] = cmp.mapping.select_prev_item(),
+    ["<C-n>"] = cmp.mapping.select_next_item(),
+    ["<C-d>"] = cmp.mapping.scroll_docs(-4),
+    ["<C-f>"] = cmp.mapping.scroll_docs(4),
+    ["<C-Space>"] = cmp.mapping.complete(),
+    ["<C-e>"] = cmp.mapping.close(),
+    ["<CR>"] = cmp.mapping.confirm {
+      behavior = cmp.ConfirmBehavior.Insert,
+      select = false,
+    },
+    ["<Tab>"] = function(fallback)
+      if cmp.visible() then
+        cmp.select_next_item()
+      else
+        fallback()
+      end
+    end,
+    ["<S-Tab>"] = function(fallback)
+      if cmp.visible() then
+        cmp.select_prev_item()
+      else
+        fallback()
+      end
+    end,
+  },
+
+  -- You should specify your *installed* sources.
+  sources = {
+    { name = "buffer" },
+    -- { name = 'luasnip' },
+    { name = "nvim_lsp" },
+    { name = "path" },
+    { name = "nvim_lua" },
+  },
+}
+
+
+local lspconfig = require "lspconfig"
+local on_attach = function(_, bufnr)
+  vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
+  local opts = { noremap = true, silent = true }
+  vim.api.nvim_buf_set_keymap(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", { silent = true, noremap = true })
+  vim.api.nvim_buf_set_keymap(bufnr, "n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", { silent = true, noremap = true })
+  vim.api.nvim_buf_set_keymap(bufnr, "n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", { silent = true, noremap = true })
+  vim.api.nvim_buf_set_keymap(bufnr, "n","?d",'<cmd>Telescope lsp_document_symbols<CR>',{ silent = true, noremap = true })
+  vim.api.nvim_buf_set_keymap(bufnr, "n","?w",'<cmd>Telescope lsp_workspace_symbols<CR>',{ silent = true, noremap = true })
+  vim.api.nvim_buf_set_keymap(bufnr, "n","?c",'<cmd>Telescope lsp_code_actions<CR>',{ silent = true, noremap = true })
+  vim.api.nvim_buf_set_keymap(bufnr, "n", "R", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
+  vim.api.nvim_buf_set_keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
+  vim.api.nvim_buf_set_keymap(bufnr, "i", "<c-s>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
+  vim.api.nvim_buf_set_keymap(bufnr, "n", "<c-s>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
+  vim.api.nvim_buf_set_keymap(bufnr, "n", "<c-d>", "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>", opts)
+  vim.api.nvim_buf_set_keymap(bufnr, "n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
+  vim.api.nvim_buf_set_keymap(bufnr, "n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
+
+  vim.cmd [[ command! Format execute '<cmd>lua vim.lsp.buf.formatting()' ]]
+end
+
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
+
+local servers = { "clangd", "rust_analyzer", "gopls", "intelephense", "jedi_language_server", "hls", "purescriptls", "zls" }
+
+for _, lsp in ipairs(servers) do
+  lspconfig[lsp].setup {
+    on_attach = on_attach,
+    capabilities = capabilities,
+  }
+end
+
+local sumneko_root = string.format("%s/.local/lua-language-server", os.getenv("HOME"))
+local sumneko_binary = sumneko_root .. "/bin/lua-language-server"
+
+local runtime_path = vim.split(package.path, ";")
+table.insert(runtime_path, "lua/?.lua")
+table.insert(runtime_path, "lua/?/init.lua")
+
+require("lspconfig").sumneko_lua.setup {
+  cmd = { sumneko_binary, "-E", sumneko_root .. "/main.lua" },
+  on_attach = on_attach,
+  settings = {
+    Lua = {
+      diagnostics = {
+        globals = { "vim" },
+      },
+      workspace = {
+        library = vim.api.nvim_get_runtime_file("", true),
+      },
+      telemetry = {
+        enable = false,
+      },
+    },
+  },
+}
+
+require"lspconfig".elixirls.setup {
+  cmd = { os.getenv("HOME") .. "/.local/elixir-ls/language_server.sh" }
+}
+
+local function make_listchars_str(tbl)
+  local tbl_pairs = {}
+  for name, value in pairs(tbl) do
+    table.insert(tbl_pairs, string.format("%s:%s", name, value))
+  end
+
+  return table.concat(tbl_pairs, ",")
+end
+local str = make_listchars_str({
+  eol = '↲',
+  tab = '» ',
+  trail = '·',
+  extends= '<',
+  precedes= '>',
+  conceal= '┊',
+  nbsp= '␣',
+})
+
+vim.opt.list = true
+vim.opt.listchars = str
