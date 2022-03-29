@@ -7,7 +7,8 @@
 -- All configuration of different plugins are in
 -- after/plugin/*.lua
 
-
-
--- Nothing is Here :))
 -- Everything is just configuration of various plugins
+
+vim.g.tokyonight_style = "night"
+vim.g.gruvbox_contrast_dark='hard'
+vim.cmd [[ colorscheme sitruuna ]]
