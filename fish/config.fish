@@ -31,6 +31,7 @@ alias g='git'
 # vim
 alias vim='nvim'
 alias v='nvim'
+alias vi='nvim'
 
 # FZF stuff
 setenv FZF_DEFAULT_OPTS '--height 20%'
