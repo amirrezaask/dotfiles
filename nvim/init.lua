@@ -90,6 +90,11 @@ vim.opt.wildmode = { "longest", "list", "full" }
 vim.opt.wildmode = vim.opt.wildmode - "list"
 vim.opt.wildmode = vim.opt.wildmode + { "longest", "full" }
 
+-- statusline
+vim.opt.laststatus=3 -- global statusline -- needs neovim HEAD
+vim.opt.statusline='%{FugitiveStatusline()} %= %q%w%h%r%m%f %= %l:%c:%L'
+
+
 -- Plugins
 require("packer").startup {
   function(use)
@@ -129,5 +134,48 @@ require("packer").startup {
 }
 
 
+-- Treesitter
+require("nvim-treesitter.configs").setup {
+  ensure_installed = {'php', 'go', 'lua', 'python' },
+  highlight = {
+    enable = true, -- false will disable the whole extension
+  },
+  incremental_selection = {
+    enable = true,
+    keymaps = {
+      init_selection = "<C-a>",
+      node_incremental = "<C-a>",
+      scope_incremental = "grc",
+      node_decremental = "<M-a>",
+    },
+  },
+  indent = {
+    enable = true,
+  },
+  textobjects = {
+    select = {
+      enable = true,
+      lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
+      keymaps = {
+        -- You can use the capture groups defined in textobjects.scm
+        ["af"] = "@function.outer",
+        ["if"] = "@function.inner",
+        ["ac"] = "@class.outer",
+        ["ic"] = "@class.inner",
+      },
+    },
+  },
+}
+
+-- FZF
+vim.g.fzf_layout = { ['down'] = '40%' }
+vim.g.fzf_preview_window = {}
+vim.cmd [[
+  nnoremap <leader><leader> <cmd>Files<CR>
+  nnoremap <leader>fp <cmd>Files ~/.local/share/nvim/site/pack/packer<CR>
+  nnoremap <leader>ps <cmd>Files ~/src/gitlab.snapp.ir<CR>
+  nnoremap <leader>en <cmd>Files ~/.config/nvim<CR>
+  nnoremap ?? <cmd>Rg<CR>
+]]
 
 
