@@ -31,6 +31,7 @@ require("packer").startup {
     use { 'eemed/sitruuna.vim' }
     use { 'luisiacc/gruvbox-baby' }
     use { 'ap/vim-buftabline' }
+    use { 'tpope/vim-commentary' }
   end,
 }
 
