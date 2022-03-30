@@ -132,6 +132,7 @@ set complete-=i " don't search for all included files
 set wildmenu
 set wildoptions=tagfile
 set list listchars=tab:»·,trail:·,nbsp:·
+set guicursor=
 
 " Colorscheme
 set termguicolors
