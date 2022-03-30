@@ -29,11 +29,11 @@ alias ga='git add'
 alias g='git'
 
 # Vim stuff
-if type -q nvim
-    alias v=nvim
-    alias vim=nvim
-    alias vi=nvim
-end
+# if type -q nvim
+#     alias v=nvim
+#     alias vim=nvim
+#     alias vi=nvim
+# end
 
 # FZF stuff
 setenv FZF_DEFAULT_OPTS '--height 20%'
