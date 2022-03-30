@@ -6,6 +6,49 @@
 "
 " Vim Configuration for minimalist developer
 
+call plug#begin()
+    if has('nvim')
+        Plug 'jghauser/mkdir.nvim'
+        Plug 'windwp/nvim-spectre'
+        Plug 'nvim-treesitter/nvim-treesitter' 
+        Plug 'nvim-treesitter/nvim-treesitter-textobjects' 
+        Plug 'hrsh7th/nvim-cmp' 
+        Plug 'hrsh7th/cmp-buffer' 
+        Plug 'hrsh7th/cmp-nvim-lua' 
+        Plug 'hrsh7th/cmp-nvim-lsp' 
+        Plug 'hrsh7th/cmp-path' 
+        Plug 'neovim/nvim-lspconfig' 
+        Plug 'luisiacc/gruvbox-baby'
+        Plug 'lukas-reineke/indent-blankline.nvim' 
+    else
+        Plug 'prabirshrestha/asyncomplete.vim'
+        Plug 'prabirshrestha/asyncomplete-lsp.vim'
+        Plug 'prabirshrestha/vim-lsp'
+        Plug 'mattn/vim-lsp-settings'
+    endif
+    Plug 'tpope/vim-surround'  
+    Plug 'honza/dockerfile.vim' 
+    Plug 'hashivim/vim-terraform' 
+    Plug 'LnL7/vim-nix' 
+    Plug 'dag/vim-fish' 
+    Plug 'cespare/vim-toml' 
+    Plug 'elixir-editors/vim-elixir' 
+    Plug 'pearofducks/ansible-vim' 
+    Plug 'Glench/Vim-Jinja2-Syntax' 
+    Plug 'ziglang/zig.vim' 
+    Plug 'rust-lang/rust.vim'
+    Plug 'fatih/vim-go' 
+    Plug 'fladson/vim-kitty'
+    Plug 'vim-erlang/vim-erlang-runtime'
+    Plug 'junegunn/fzf'
+    Plug 'junegunn/fzf.vim'
+    Plug 'eemed/sitruuna.vim'
+    Plug 'ap/vim-buftabline'
+    Plug 'tpope/vim-commentary'
+    Plug 'dracula/vim'
+call plug#end()
+
+
 let g:mapleader = ' '
 
 " Keymappings
@@ -64,7 +107,6 @@ set ruler
 set mouse=a
 set wrap
 set autoindent
-set termguicolors
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
@@ -75,72 +117,34 @@ set noswapfile
 set splitright
 set splitbelow
 set nocursorline
-set relativenumber
-set number
-set showmode
-set clipboard=unnamedplus
+set relativenumber " show relative line numbers
+set number " show current line number
+set showmode " show current vim mode down of the screen
+set showcmd " show commands as they are being typed
+set clipboard=unnamed
 set hidden
 set updatetime=100
 set incsearch
-set t_Co=256
-let &t_ut=''
-set background=dark
 set guioptions=egmrti
 set gfn=JetBrainsMono\ Nerd\ Font\ Mono\ 10
+set backspace=indent,eol,start
+set complete-=i " don't search for all included files
+set wildmenu
+set wildoptions=tagfile
+set list listchars=tab:»·,trail:·,nbsp:·
 
+" Colorscheme
+set termguicolors
+colorscheme sitruuna
+
+" Statusline
 if has('nvim')
     set laststatus=3
 else
     set laststatus=2
 endif
+set statusline=%q%w%h%r%m%f\ %=\ %l:%c:%L
 
-set statusline=\ %=\ %q%w%h%r%m%f\ %=\ %l:%c:%L
-
-call plug#begin()
-if has('nvim')
-    Plug 'jghauser/mkdir.nvim'
-    Plug 'windwp/nvim-spectre'
-    Plug 'nvim-treesitter/nvim-treesitter' 
-    Plug 'nvim-treesitter/nvim-treesitter-textobjects' 
-    Plug 'hrsh7th/nvim-cmp' 
-    Plug 'hrsh7th/cmp-buffer' 
-    Plug 'hrsh7th/cmp-nvim-lua' 
-    Plug 'hrsh7th/cmp-nvim-lsp' 
-    Plug 'hrsh7th/cmp-path' 
-    Plug 'neovim/nvim-lspconfig' 
-    Plug 'luisiacc/gruvbox-baby'
-    Plug 'lukas-reineke/indent-blankline.nvim' 
-else
-    Plug 'prabirshrestha/asyncomplete.vim'
-    Plug 'prabirshrestha/asyncomplete-lsp.vim'
-    Plug 'prabirshrestha/vim-lsp'
-    Plug 'mattn/vim-lsp-settings'
-endif
-Plug 'tpope/vim-surround'  
-Plug 'honza/dockerfile.vim' 
-Plug 'hashivim/vim-terraform' 
-Plug 'LnL7/vim-nix' 
-Plug 'dag/vim-fish' 
-Plug 'cespare/vim-toml' 
-Plug 'elixir-editors/vim-elixir' 
-Plug 'pearofducks/ansible-vim' 
-Plug 'Glench/Vim-Jinja2-Syntax' 
-Plug 'ziglang/zig.vim' 
-Plug 'rust-lang/rust.vim'
-Plug 'fatih/vim-go' 
-Plug 'fladson/vim-kitty'
-Plug 'vim-erlang/vim-erlang-runtime'
-Plug 'junegunn/fzf'
-Plug 'junegunn/fzf.vim'
-Plug 'eemed/sitruuna.vim'
-Plug 'ap/vim-buftabline'
-Plug 'tpope/vim-commentary'
-Plug 'dracula/vim'
-call plug#end()
-
-colorscheme sitruuna
-
-let &t_ut=''
 
 " FZF stuff
 let g:fzf_preview_window = {}
