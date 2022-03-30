@@ -4,50 +4,49 @@
 --  / ___ |/ / / / / / / /  / /  /  __/ / /_/ /_/ / ___ |(__  ) ,<
 -- /_/  |_/_/ /_/ /_/_/_/  /_/   \___/ /___/\__,_/_/  |_/____/_/|_|
 --
+
 -- Colorscheme stuff
 vim.cmd [[ colorscheme sitruuna ]]
 
--- Basic Keymaps
+-- Basic mappings
 vim.g.mapleader = " "
-local map = function(mode, lhs, rhs) vim.api.nvim_set_keymap(mode, lhs, rhs, {silent=true, noremap=true}) end
-map('n', "Q", "<NOP>")
-map('n', ';', ':')
-map('n', 'q;', 'q:')
 
-map('n', '<Left>', ':vertical resize -5<CR>')
-map('n', '<Right>', ':vertical resize +5<CR>')
-map('n', '<Up>', ':resize +5<CR>')
-map('n', '<Down>', ':resize -5<CR>')
+vim.keymap.set('n', "Q", "<NOP>")
+vim.keymap.set('n', ';', ':')
+vim.keymap.set('n', 'q;', 'q:')
 
-map('n', 'j', 'gj')
-map('n', 'k', 'gk')
+vim.keymap.set('n', '<Left>', ':vertical resize -5<CR>')
+vim.keymap.set('n', '<Right>', ':vertical resize +5<CR>')
+vim.keymap.set('n', '<Up>', ':resize +5<CR>')
+vim.keymap.set('n', '<Down>', ':resize -5<CR>')
 
-map('t', '<Esc>', '<C-\\><C-n>')
-map('t', 'jk', '<C-\\><C-n>')
-map('t', 'kj', '<C-\\><C-n>')
+vim.keymap.set('n', 'j', 'gj')
+vim.keymap.set('n', 'k', 'gk')
 
-map('i', 'jk', '<esc>')
-map('i', 'kj', '<esc>')
+vim.keymap.set('t', '<Esc>', '<C-\\><C-n>')
+vim.keymap.set('t', 'jk', '<C-\\><C-n>')
+vim.keymap.set('t', 'kj', '<C-\\><C-n>')
 
-map('n', 'Y', 'y$')
-map('n', 'n', 'nzz')
-map('n', 'N', '"Nzz')
+vim.keymap.set('i', 'jk', '<esc>')
+vim.keymap.set('i', 'kj', '<esc>')
 
-map('n', '<M-t>', ":tabnew<CR>")
-map('n', '<M-p>', ":tabprev<CR>")
-map('n', '<M-n>', ":tabnext<CR>")
+vim.keymap.set('n', 'Y', 'y$')
+vim.keymap.set('n', 'n', 'nzz')
+vim.keymap.set('n', 'N', '"Nzz')
 
-vim.cmd [[ 
-  nnoremap <M-j> :m .+1<CR>==
-  nnoremap <M-k> :m .-2<CR>==
-  inoremap <M-j> <Esc>:m .+1<CR>==gi
-  inoremap <M-k> <Esc>:m .-2<CR>==gi
-  vnoremap <M-j> :m '>+1<CR>gv=gv
-  vnoremap <M-k> :m '<-2<CR>gv=gv
-]]
+vim.keymap.set('n', '<M-t>', ":tabnew<CR>")
+vim.keymap.set('n', '<M-p>', ":tabprev<CR>")
+vim.keymap.set('n', '<M-n>', ":tabnext<CR>")
 
-map('n', '{', ':cprev<CR>')
-map('n', '}', ':cnext<CR>')
+vim.keymap.set("n", "<M-j>", ":m .+1<CR>==")
+vim.keymap.set("n", "<M-k>", ":m .-2<CR>==")
+vim.keymap.set("i", "<M-j>", "<Esc>:m .+1<CR>==gi")
+vim.keymap.set("i", "<M-k>", "<Esc>:m .-2<CR>==gi")
+vim.keymap.set("v", "<M-k>", ":m '>+1<CR>gv=gv")
+vim.keymap.set("v", "<M-k>", "<Esc>:m .-2<CR>==gi")
+
+vim.keymap.set('n', '{', ':cprev<CR>')
+vim.keymap.set('n', '}', ':cnext<CR>')
 
 vim.cmd [[ nnoremap <expr><CR> {-> v:hlsearch ? ":nohl<CR>" : "<CR>"}() ]]
 
