@@ -91,10 +91,10 @@ vnoremap <M-k> <Esc>:m .-2<CR>==gi
 nnoremap { :cprev<CR>
 nnoremap } :cnext<CR>
 
-nnoremap <expr><CR> {-> v:hlsearch ? ':nohl<CR>' : '<CR>'}() 
+nnoremap <expr><CR> {-> v:hlsearch ? ':nohl<CR>' : '<CR>'}()
 
 " Options
-set smartcase 
+set smartcase
 set noequalalways
 set modeline
 set autoread
@@ -136,6 +136,7 @@ set list listchars=tab:»·,trail:·,nbsp:·
 " Colorscheme
 set termguicolors
 set t_Co=256
+set background=dark
 colorscheme sitruuna
 
 " Statusline
@@ -204,9 +205,6 @@ else
           vim.api.nvim_buf_set_keymap(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", { silent = true, noremap = true })
           vim.api.nvim_buf_set_keymap(bufnr, "n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", { silent = true, noremap = true })
           vim.api.nvim_buf_set_keymap(bufnr, "n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", { silent = true, noremap = true })
-          vim.api.nvim_buf_set_keymap(bufnr, "n","?d",'<cmd>Telescope lsp_document_symbols<CR>',{ silent = true, noremap = true })
-          vim.api.nvim_buf_set_keymap(bufnr, "n","?w",'<cmd>Telescope lsp_workspace_symbols<CR>',{ silent = true, noremap = true })
-          vim.api.nvim_buf_set_keymap(bufnr, "n","?c",'<cmd>Telescope lsp_code_actions<CR>',{ silent = true, noremap = true })
           vim.api.nvim_buf_set_keymap(bufnr, "n", "R", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
           vim.api.nvim_buf_set_keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
           vim.api.nvim_buf_set_keymap(bufnr, "i", "<c-s>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
@@ -305,7 +303,6 @@ else
           -- You should specify your *installed* sources.
           sources = {
             { name = "buffer" },
-            -- { name = 'luasnip' },
             { name = "nvim_lsp" },
             { name = "path" },
             { name = "nvim_lua" },
