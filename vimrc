@@ -7,8 +7,8 @@
 " Vim Configuration for minimalist developer
 
 call plug#begin()
-    if has('nvim')
-        Plug 'jghauser/mkdir.nvim'
+    Plug 'eemed/sitruuna.vim'      " Best Minimal Colorscheme if you like black,yellow and green colors
+    if has('nvim')                 " if using neovim use neovim only plugins
         Plug 'windwp/nvim-spectre'
         Plug 'nvim-treesitter/nvim-treesitter' 
         Plug 'nvim-treesitter/nvim-treesitter-textobjects' 
@@ -26,26 +26,24 @@ call plug#begin()
         Plug 'prabirshrestha/vim-lsp'
         Plug 'mattn/vim-lsp-settings'
     endif
-    Plug 'tpope/vim-surround'  
-    Plug 'honza/dockerfile.vim' 
-    Plug 'hashivim/vim-terraform' 
-    Plug 'LnL7/vim-nix' 
-    Plug 'dag/vim-fish' 
-    Plug 'cespare/vim-toml' 
-    Plug 'elixir-editors/vim-elixir' 
-    Plug 'pearofducks/ansible-vim' 
-    Plug 'Glench/Vim-Jinja2-Syntax' 
-    Plug 'ziglang/zig.vim' 
-    Plug 'rust-lang/rust.vim'
-    Plug 'fatih/vim-go' 
-    Plug 'fladson/vim-kitty'
-    Plug 'vim-erlang/vim-erlang-runtime'
-    Plug 'junegunn/fzf'
-    Plug 'junegunn/fzf.vim'
-    Plug 'eemed/sitruuna.vim'
-    Plug 'ap/vim-buftabline'
-    Plug 'tpope/vim-commentary'
-    Plug 'dracula/vim'
+    Plug 'sheerun/vim-polyglot'    " Basic vim support for multiple languages see https://github.com/sheerun/vim-polyglot for the full list.
+    Plug 'Glench/Vim-Jinja2-Syntax'
+    Plug 'ziglang/zig.vim'         " Best language ever ?
+    Plug 'rust-lang/rust.vim'      " Haskell on LLVM ?
+    Plug 'fatih/vim-go'            " Java without OOP ?
+    Plug 'fladson/vim-kitty'       " Best Terminal Emulator config syntax
+    Plug 'junegunn/fzf'            " Google of the command line
+    Plug 'junegunn/fzf.vim'        " Integrate fzf into vim as commands
+    Plug 'pbrisbin/vim-mkdir'      " Save files and create not existing directories
+    Plug 'ap/vim-buftabline'       " Open buffers as tabs
+                                   " Tpope stuff
+    Plug 'tpope/vim-commentary'    " Best commenting plugin ever
+    Plug 'tpope/vim-surround'      " Now you can command your surroundings
+    Plug 'tpope/vim-fugitive'      " Best Vim Git client
+
+    Plug 'junegunn/gv.vim'         " Git blame in vim
+    Plug 'junegunn/vim-easy-align' " Align text with ease
+
 call plug#end()
 
 
@@ -94,7 +92,7 @@ nnoremap } :cnext<CR>
 nnoremap <expr><CR> {-> v:hlsearch ? ':nohl<CR>' : '<CR>'}()
 
 " Options
-let &t_ut=''
+let &t_ut='' " Kitty terminal fix
 set smartcase
 set noequalalways
 set modeline
@@ -122,7 +120,6 @@ set relativenumber " show relative line numbers
 set number " show current line number
 set showmode " show current vim mode down of the screen
 set showcmd " show commands as they are being typed
-set clipboard=unnamed
 set hidden
 set updatetime=100
 set incsearch
@@ -349,3 +346,7 @@ autocmd FileType yaml setlocal cursorcolumn
 " Zig
 let g:zig_fmt_autosave = 1
 
+
+" Easy Align
+xmap ga <Plug>(EasyAlign)
+nmap ga <Plug>(EasyAlign)
