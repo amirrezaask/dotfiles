@@ -6,6 +6,7 @@
 "
 " Vim Configuration for minimalist developer
 
+" Plugins
 call plug#begin()
     Plug 'eemed/sitruuna.vim'      " Best Minimal Colorscheme if you like black,yellow and green colors
     Plug 'gruvbox-community/gruvbox' " Popular gruvbox
@@ -13,12 +14,12 @@ call plug#begin()
         Plug 'windwp/nvim-spectre'
         Plug 'nvim-treesitter/nvim-treesitter' 
         Plug 'nvim-treesitter/nvim-treesitter-textobjects' 
-        Plug 'hrsh7th/nvim-cmp' 
-        Plug 'hrsh7th/cmp-buffer' 
-        Plug 'hrsh7th/cmp-nvim-lua' 
-        Plug 'hrsh7th/cmp-nvim-lsp' 
-        Plug 'hrsh7th/cmp-path' 
-        Plug 'neovim/nvim-lspconfig' 
+        Plug 'hrsh7th/nvim-cmp'
+        Plug 'hrsh7th/cmp-buffer'
+        Plug 'hrsh7th/cmp-nvim-lua'
+        Plug 'hrsh7th/cmp-nvim-lsp'
+        Plug 'hrsh7th/cmp-path'
+        Plug 'neovim/nvim-lspconfig'
         Plug 'lukas-reineke/indent-blankline.nvim' 
         Plug 'kyazdani42/nvim-web-devicons'
         Plug 'nvim-lua/plenary.nvim'
@@ -174,6 +175,17 @@ if has('nvim')
     nnoremap <leader><leader> <cmd>Telescope find_files<cr>
     nnoremap <leader>ec <cmd>Telescope find_files cwd=$DOTFILES<cr>
     nnoremap ?? <cmd>Telescope live_grep<cr>
+    lua << EOF
+        require('telescope').setup{
+          defaults = {
+            mappings = {
+              i = {
+                ["<C-h>"] = "which_key"
+              }
+            }
+          },
+        }
+EOF
 else
     " if vim use fzf
     let g:fzf_preview_window = {}
