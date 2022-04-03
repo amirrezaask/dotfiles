@@ -45,7 +45,7 @@ function fish_prompt
 end
 
 function fish_right_prompt
-    set_color purple
+    # set_color purple
     date "+%d/%m/%y %H:%M"
 end
 
