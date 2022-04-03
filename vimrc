@@ -20,6 +20,9 @@ call plug#begin()
         Plug 'hrsh7th/cmp-path' 
         Plug 'neovim/nvim-lspconfig' 
         Plug 'lukas-reineke/indent-blankline.nvim' 
+        Plug 'kyazdani42/nvim-web-devicons'
+        Plug 'nvim-lua/plenary.nvim'
+        Plug 'nvim-telescope/telescope.nvim'
     else
         Plug 'prabirshrestha/asyncomplete.vim'
         Plug 'prabirshrestha/asyncomplete-lsp.vim'
@@ -32,8 +35,10 @@ call plug#begin()
     Plug 'rust-lang/rust.vim'      " Haskell on LLVM ?
     Plug 'fatih/vim-go'            " Java without OOP ?
     Plug 'fladson/vim-kitty'       " Best Terminal Emulator config syntax
-    Plug 'junegunn/fzf'            " Google of the command line
-    Plug 'junegunn/fzf.vim'        " Integrate fzf into vim as commands
+    if !has('nvim')
+        Plug 'junegunn/fzf'            " Google of the command line
+        Plug 'junegunn/fzf.vim'        " Integrate fzf into vim as commands
+    endif
     Plug 'pbrisbin/vim-mkdir'      " Save files and create not existing directories
     Plug 'ap/vim-buftabline'       " Open buffers as tabs
     Plug 'tpope/vim-commentary'    " Best commenting plugin ever
@@ -73,9 +78,8 @@ nnoremap Y y$
 nnoremap n nzz
 nnoremap N "Nzz
 
-nnoremap <M-t> :tabnew<CR>
-nnoremap <M-p> :tabprev<CR>
-nnoremap <M-n> :tabnext<CR>
+nnoremap <M-p> :bprev<CR>
+nnoremap <M-n> :bnext<CR>
 
 nnoremap <M-j> :m .+1<CR>==
 nnoremap <M-k> :m .-2<CR>==
@@ -164,14 +168,20 @@ set statusline=%q%w%h%r%m%f\ %=\ %l:%c:%L
 
 
 
-" FZF stuff
-let g:fzf_preview_window = {}
-let g:fzf_layout = {'down': '40%' }
-nnoremap <leader><leader> <cmd>Files<CR>
-nnoremap <leader>fp <cmd>Files ~/.local/share/nvim/site/pack/packer<CR>
-nnoremap <leader>ps <cmd>Files ~/src/gitlab.snapp.ir<CR>
-nnoremap <leader>en <cmd>Files ~/.config/nvim<CR>
-nnoremap ?? <cmd>Rg<CR>
+" Fuzzy Finder stuff
+if has('nvim')
+    " If neovim use telescope
+    nnoremap <leader><leader> <cmd>Telescope find_files<cr>
+    nnoremap <leader>ec <cmd>Telescope find_files cwd=$DOTFILES<cr>
+    nnoremap ?? <cmd>Telescope live_grep<cr>
+else
+    " if vim use fzf
+    let g:fzf_preview_window = {}
+    let g:fzf_layout = {'down': '40%' }
+    nnoremap <leader><leader> <cmd>Files<CR>
+    nnoremap <leader>ec <cmd>Files $DOTFILES<CR>
+    nnoremap ?? <cmd>Rg<CR>
+endif
 
 " LSP stuff
 if !has('nvim')
