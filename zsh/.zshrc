@@ -1,4 +1,4 @@
-[ -f "$HOME/.env" ] && source $HOME/.env
+[ -f "$HOME/env" ] && source $HOME/env
 source $DOTFILES/zsh/antigen.zsh
 
 antigen use oh-my-zsh
