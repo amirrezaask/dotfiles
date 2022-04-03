@@ -28,13 +28,6 @@ alias gc='git commit'
 alias ga='git add'
 alias g='git'
 
-# Vim stuff
-# if type -q nvim
-#     alias v=nvim
-#     alias vim=nvim
-#     alias vi=nvim
-# end
-
 # FZF stuff
 setenv FZF_DEFAULT_OPTS '--height 20%'
 setenv FZF_DEFAULT_COMMAND 'rg --files'
@@ -73,4 +66,12 @@ function dots
     cd $DOTFILES
 end
 
+command -v 'starship' > /dev/null
+
+if test $status -ne '0'
+    sh -c "$(curl -fsSL https://starship.rs/install.sh)"
+end
+
+
+starship init fish | source
 
