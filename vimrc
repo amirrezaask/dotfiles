@@ -49,6 +49,12 @@ call plug#begin()
     Plug 'junegunn/gv.vim'         " Git diff split
     Plug 'cohama/agit.vim'         " Git log viewer
     Plug 'junegunn/vim-easy-align' " Align text with ease
+    if has('nvim')
+        Plug 'nvim-lualine/lualine.nvim'
+   else
+        Plug 'vim-airline/vim-airline'
+        Plug 'vim-airline/vim-airline-themes'
+    endif
 
 call plug#end()
 
@@ -162,10 +168,13 @@ colorscheme gruvbox
 " Statusline
 if has('nvim')
     set laststatus=3
+    lua<<EOF
+        require("lualine").setup()
+EOF
 else
     set laststatus=2
 endif
-set statusline=%q%w%h%r%m%f\ %=\ %l:%c:%L
+
 
 
 
