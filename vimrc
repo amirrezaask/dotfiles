@@ -18,7 +18,6 @@ call plug#begin()
         Plug 'hrsh7th/cmp-nvim-lsp' 
         Plug 'hrsh7th/cmp-path' 
         Plug 'neovim/nvim-lspconfig' 
-        Plug 'luisiacc/gruvbox-baby'
         Plug 'lukas-reineke/indent-blankline.nvim' 
     else
         Plug 'prabirshrestha/asyncomplete.vim'
@@ -26,6 +25,7 @@ call plug#begin()
         Plug 'prabirshrestha/vim-lsp'
         Plug 'mattn/vim-lsp-settings'
     endif
+    Plug 'gruvbox-community/gruvbox'
     Plug 'sheerun/vim-polyglot'    " Basic vim support for multiple languages see https://github.com/sheerun/vim-polyglot for the full list.
     Plug 'Glench/Vim-Jinja2-Syntax'
     Plug 'ziglang/zig.vim'         " Best language ever ?
@@ -149,8 +149,9 @@ set maxmempattern=20000
 " Colorscheme
 set termguicolors
 set t_Co=256
+let g:gruvbox_contrast_dark='hard'
 set background=dark
-colorscheme sitruuna
+colorscheme gruvbox 
 
 " Statusline
 if has('nvim')
