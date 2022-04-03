@@ -42,7 +42,10 @@ call plug#begin()
     Plug 'tpope/vim-fugitive'      " Best Vim Git client
 
     Plug 'junegunn/gv.vim'         " Git blame in vim
+
     Plug 'junegunn/vim-easy-align' " Align text with ease
+
+    Plug 'itchyny/lightline.vim'
 
 call plug#end()
 
