@@ -72,6 +72,13 @@ if test $status -ne '0'
     sh -c "$(curl -fsSL https://starship.rs/install.sh)"
 end
 
+command -v 'nvim' > /dev/null
 
+if test $status -eq '0'
+    alias vim='nvim'
+    alias vi='nvim'
+    alias v='nvim'
+    setenv EDITOR 'nvim'
+end
 starship init fish | source
 
