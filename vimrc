@@ -36,16 +36,12 @@ call plug#begin()
     Plug 'junegunn/fzf.vim'        " Integrate fzf into vim as commands
     Plug 'pbrisbin/vim-mkdir'      " Save files and create not existing directories
     Plug 'ap/vim-buftabline'       " Open buffers as tabs
-                                   " Tpope stuff
     Plug 'tpope/vim-commentary'    " Best commenting plugin ever
     Plug 'tpope/vim-surround'      " Now you can command your surroundings
     Plug 'tpope/vim-fugitive'      " Best Vim Git client
 
     Plug 'junegunn/gv.vim'         " Git blame in vim
-
     Plug 'junegunn/vim-easy-align' " Align text with ease
-
-    Plug 'itchyny/lightline.vim'
 
 call plug#end()
 
