@@ -8,6 +8,7 @@
 
 call plug#begin()
     Plug 'eemed/sitruuna.vim'      " Best Minimal Colorscheme if you like black,yellow and green colors
+    Plug 'gruvbox-community/gruvbox' " Popular gruvbox
     if has('nvim')                 " if using neovim use neovim only plugins
         Plug 'windwp/nvim-spectre'
         Plug 'nvim-treesitter/nvim-treesitter' 
@@ -25,7 +26,6 @@ call plug#begin()
         Plug 'prabirshrestha/vim-lsp'
         Plug 'mattn/vim-lsp-settings'
     endif
-    Plug 'gruvbox-community/gruvbox'
     Plug 'sheerun/vim-polyglot'    " Basic vim support for multiple languages see https://github.com/sheerun/vim-polyglot for the full list.
     Plug 'Glench/Vim-Jinja2-Syntax'
     Plug 'ziglang/zig.vim'         " Best language ever ?
@@ -40,7 +40,8 @@ call plug#begin()
     Plug 'tpope/vim-surround'      " Now you can command your surroundings
     Plug 'tpope/vim-fugitive'      " Best Vim Git client
 
-    Plug 'junegunn/gv.vim'         " Git blame in vim
+    Plug 'junegunn/gv.vim'         " Git diff split
+    Plug 'cohama/agit.vim'         " Git log viewer
     Plug 'junegunn/vim-easy-align' " Align text with ease
 
 call plug#end()
@@ -160,6 +161,7 @@ else
     set laststatus=2
 endif
 set statusline=%q%w%h%r%m%f\ %=\ %l:%c:%L
+
 
 
 " FZF stuff
