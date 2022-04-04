@@ -41,7 +41,6 @@ call plug#begin()
         Plug 'junegunn/fzf.vim'        " Integrate fzf into vim as commands
     endif
     Plug 'pbrisbin/vim-mkdir'      " Save files and create not existing directories
-    Plug 'ap/vim-buftabline'       " Open buffers as tabs
     Plug 'tpope/vim-commentary'    " Best commenting plugin ever
     Plug 'tpope/vim-surround'      " Now you can command your surroundings
     Plug 'tpope/vim-fugitive'      " Best Vim Git client
@@ -163,19 +162,18 @@ set termguicolors
 set t_Co=256
 let g:gruvbox_contrast_dark='hard'
 set background=dark
-colorscheme gruvbox 
+colorscheme sitruuna 
 
 " Statusline
 if has('nvim')
     set laststatus=3
     lua<<EOF
-        require("lualine").setup()
+    require("lualine").setup{}
 EOF
 else
     set laststatus=2
+    let g:airline_theme='gruvbox'
 endif
-
-
 
 
 " Fuzzy Finder stuff
