@@ -415,26 +415,20 @@
 (global-set-key (kbd "C-x C-l") 'yas-insert-snippet)
 
 (global-eldoc-mode 1)
-
 (setq ivy-sort-max-size 7500)
 (setq ivy-height 13
         ivy-wrap t
         ivy-fixed-height-minibuffer t
         ivy-read-action-function #'ivy-hydra-read-action
         ivy-read-action-format-function #'ivy-read-action-format-columns
-        ;; don't show recent files in switch-buffer
         ivy-use-virtual-buffers nil
-        ;; ...but if that ever changes, show their full path
         ivy-virtual-abbreviate 'full
-        ;; don't quit minibuffer on delete-error
         ivy-on-del-error-function #'ignore
-        ;; enable ability to select prompt (alternative to `ivy-immediate-done')
-        ivy-use-selectable-prompt t)
+        ivy-use-selectable-prompt t
+        )
 
-(ivy-mode 1)
-(require 'counsel nil t)
-(all-the-icons-ivy-setup)
-(ivy-rich-mode 1)
+(ivy-mode 1) ;; enable ivy
+(setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line) ;; highlight whole line selection
 
 (define-key evil-normal-state-map (kbd "SPC SPC") 'counsel-find-file)
 (define-key evil-normal-state-map (kbd "??") 'counsel-rg)
@@ -444,4 +438,5 @@
 (define-key evil-normal-state-map (kbd "SPC h k") 'describe-key)
 (define-key evil-normal-state-map (kbd "SPC h v") 'describe-variable)
 (define-key evil-normal-state-map (kbd "SPC h a") 'apropos)
-
+(ivy-rich-mode 1)
+(add-hook 'after-init-hook 'all-the-icons-ivy-setup)
