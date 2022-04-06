@@ -1,5 +1,5 @@
-(tool-bar-mode 0)
-(scroll-bar-mode 0)
+(tool-bar-mode 0) ;; disable top toolbar
+(scroll-bar-mode 0) ;; disable scroll bar
 (setq backup-by-copying t) ;; Always copy files for backup.
 (setq version-control t) ;; Use version numbers for backup.
 (setq delete-old-versions t) ;; Delete old backup of files.
@@ -114,8 +114,8 @@
         sudo-edit ;; edit files with sudo access
         expand-region ;; expand selected region
         hl-todo ;; highlight todo, etc keywords in code
-        so-long
-        vlf
+        so-long ;; minor mode to help emacs handle long lines
+        vlf ;; minor mode to help emacs handle large files
         markdown-mode
         pdf-tools
         crontab-mode
@@ -146,6 +146,12 @@
         yasnippet
         yasnippet-snippets
         eldoc
+        ivy
+        counsel
+        swiper
+        all-the-icons-ivy
+        ivy-rich
+        flx
 		))
 
 ;; Enable modeline
@@ -269,8 +275,10 @@
 (setq org-src-window-setup 'split-window-right)
 (setq org-startup-folded t)
 
-(define-key org-mode-map (kbd "C-c m n") 'amirreza/--org-insert-no-tangle)
-(define-key org-mode-map (kbd "C-c m b") 'amirreza/--org-insert-elisp-code-block)
+
+(with-eval-after-load 'org
+    (define-key org-mode-map (kbd "C-c m n") 'amirreza/--org-insert-no-tangle)
+    (define-key org-mode-map (kbd "C-c m b") 'amirreza/--org-insert-elisp-code-block))
 
 (add-hook 'org-mode-hook #'org-bullets-mode)
 (add-hook 'org-mode-hook #'toc-org-mode)
@@ -363,17 +371,19 @@
                            (local-set-key (kbd "C-c f i") 'lsp-find-implementation)
                            ))
 (add-hook 'prog-mode-hook #'company-mode)
-(define-key company-active-map (kbd "C-n") #'company-select-next)
-(define-key company-active-map (kbd "C-p") #'company-select-previous)
-(define-key company-active-map (kbd "C-o") #'company-other-backend)
-(define-key company-active-map (kbd "<tab>") #'company-complete-common-or-cycle)
-(define-key company-active-map (kbd "RET") #'company-complete-selection)
-(setq company-minimum-prefix-lenght 1)
-(setq company-tooltip-limit 30)
-(setq company-idle-delay 0.0)
-(setq company-echo-delay 0.1)
-(setq company-show-numbers t)
-(setq company-backends '(company-capf company-dabbrev company-files company-dabbrev-code))
+(with-eval-after-load 'company
+    (define-key company-active-map (kbd "C-n") #'company-select-next)
+    (define-key company-active-map (kbd "C-p") #'company-select-previous)
+    (define-key company-active-map (kbd "C-o") #'company-other-backend)
+    (define-key company-active-map (kbd "<tab>") #'company-complete-common-or-cycle)
+    (define-key company-active-map (kbd "RET") #'company-complete-selection)
+    (setq company-minimum-prefix-lenght 1)
+    (setq company-tooltip-limit 30)
+    (setq company-idle-delay 0.0)
+    (setq company-echo-delay 0.1)
+    (setq company-show-numbers t)
+    (setq company-backends '(company-capf company-dabbrev company-files company-dabbrev-code))
+)
 
 (setq git-messenger:show-detail t)
 (setq git-messenger:use-magit-popup t)
@@ -384,5 +394,26 @@
 
 (global-eldoc-mode 1)
 
+(setq ivy-sort-max-size 7500)
+(setq ivy-height 13
+        ivy-wrap t
+        ivy-fixed-height-minibuffer t
+        ivy-read-action-function #'ivy-hydra-read-action
+        ivy-read-action-format-function #'ivy-read-action-format-columns
+        ;; don't show recent files in switch-buffer
+        ivy-use-virtual-buffers nil
+        ;; ...but if that ever changes, show their full path
+        ivy-virtual-abbreviate 'full
+        ;; don't quit minibuffer on delete-error
+        ivy-on-del-error-function #'ignore
+        ;; enable ability to select prompt (alternative to `ivy-immediate-done')
+        ivy-use-selectable-prompt t)
 
+(ivy-mode 1)
+(all-the-icons-ivy-setup)
+(ivy-rich-mode 1)
 
+(define-key evil-normal-state-map (kbd "SPC SPC") 'counsel-find-file)
+(define-key evil-normal-state-map (kbd "??") 'counsel-rg)
+(define-key evil-normal-state-map (kbd "SPC fp") 'amirreza/find-project)
+(define-key evil-normal-state-map (kbd "SPC g") 'magit-status)
