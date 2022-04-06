@@ -194,8 +194,30 @@
 (setq evil-want-keybinding nil)
 (setq evil-want-C-u-scroll t)
 (setq evil-want-C-i-jump nil)
+(setq evil-ex-search-vim-style-regexp t
+        evil-ex-visual-char-range t  ; column range for ex commands
+        evil-mode-line-format 'nil
+        ;; more vim-like behavior
+        evil-symbol-word-search t
+        ;; if the current state is obvious from the cursor's color/shape, then
+        ;; we won't need superfluous indicators to do it instead.
+        evil-default-cursor '+evil-default-cursor-fn
+        evil-normal-state-cursor 'box
+        evil-emacs-state-cursor  '(box +evil-emacs-cursor-fn)
+        evil-insert-state-cursor 'bar
+        evil-visual-state-cursor 'hollow
+        ;; Only do highlighting in selected window so that Emacs has less work
+        ;; to do highlighting them all.
+        evil-ex-interactive-search-highlight 'selected-window
+        ;; It's infuriating that innocuous "beginning of line" or "end of line"
+        ;; errors will abort macros, so suppress them:
+        evil-kbd-macro-suppress-motion-error t
+)
+
+(defvar evil-want-Y-yank-to-eol t)
 (add-hook 'evil-mode-hook 'amirreza/evil-hook)
 (evil-mode 1)
+(evil-select-search-module 'evil-search-module 'evil-search)
 (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
 (define-key evil-insert-state-map (kbd "C-h") 'evil-delete-backward-char-and-join)
 
@@ -410,10 +432,16 @@
         ivy-use-selectable-prompt t)
 
 (ivy-mode 1)
+(require 'counsel nil t)
 (all-the-icons-ivy-setup)
 (ivy-rich-mode 1)
 
 (define-key evil-normal-state-map (kbd "SPC SPC") 'counsel-find-file)
 (define-key evil-normal-state-map (kbd "??") 'counsel-rg)
-(define-key evil-normal-state-map (kbd "SPC fp") 'amirreza/find-project)
+(define-key evil-normal-state-map (kbd "SPC f p") 'amirreza/find-project)
 (define-key evil-normal-state-map (kbd "SPC g") 'magit-status)
+(define-key evil-normal-state-map (kbd "SPC h f") 'describe-function)
+(define-key evil-normal-state-map (kbd "SPC h k") 'describe-key)
+(define-key evil-normal-state-map (kbd "SPC h v") 'describe-variable)
+(define-key evil-normal-state-map (kbd "SPC h a") 'apropos)
+
