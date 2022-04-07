@@ -355,27 +355,41 @@ show available keymaps based on what you typed
 
 
 #+end_src
+** Copy env variables from default shell
 #+begin_src emacs-lisp
-
   (setq exec-path-from-shell-shell-name "zsh")
   (exec-path-from-shell-copy-envs '("GOPROXY" "GOPRIVATE"))
   (exec-path-from-shell-initialize)
-
+#+end_src
+** GO setup
+#+begin_src emacs-lisp
   (defun amirreza/go-hook ()
       (interactive)
       ;; add go binaries to exec-path
       (add-to-list 'exec-path (concat (getenv "HOME") "/go/bin")))
 
   (add-hook 'go-mode-hook 'amirreza/go-hook)
-
+#+end_src
+** Python Setup
+#+begin_src emacs-lisp
   (add-hook 'python-mode-hook #'(py-autopep8-ensure-on-save))
-
+#+end_src
+** General LSP settings
+#+begin_src emacs-lisp
   (setq lsp-clients-lua-language-server-install-dir "/home/amirreza/.local/lua-language-server")
 
   (setq lsp-clients-lua-language-server-bin (concat lsp-clients-lua-language-server-install-dir "/bin/lua-language-server"))
 
   (setq lsp-clients-lua-language-server-main-location (concat lsp-clients-lua-language-server-install-dir "/main.lua"))
-
+  (add-hook 'lsp-mode-hook (lambda ()
+                             (local-set-key (kbd "C-c f i") 'lsp-find-implementation)
+                             ))
+  (add-hook 'lsp-mode-hook (lambda ()
+                             (define-key 'lsp-mode-map (kbd "K") 'lsp-hover)
+                             ))
+#+end_src
+** Enable LSP for languages that I want to have LSP 
+#+begin_src emacs-lisp
   (add-hook 'purescript-mode-hook #'turn-on-purescript-indentation)
   ;; Adds hooks for languages
   (add-hook 'go-mode-hook #'lsp)
@@ -397,68 +411,74 @@ show available keymaps based on what you typed
   (add-hook 'haskell-mode-hook #'lsp)
 
   (add-hook 'zig-mode-hook #'lsp)
-
-  (add-hook 'lsp-mode-hook (lambda ()
-                             (local-set-key (kbd "C-c f i") 'lsp-find-implementation)
-                             ))
-  (add-hook 'prog-mode-hook #'company-mode)
-  (add-hook 'lsp-mode-hook (lambda ()
-                             (define-key 'lsp-mode-map (kbd "K") 'lsp-hover)
-                             ))
+ #+end_src
+** Enable company mode for auto complete
+#+begin_src emacs-lisp
+(add-hook 'prog-mode-hook #'company-mode)
   (with-eval-after-load 'company
-      (define-key company-active-map (kbd "C-n") #'company-select-next)
-      (define-key company-active-map (kbd "C-p") #'company-select-previous)
-      (define-key company-active-map (kbd "C-o") #'company-other-backend)
-      (define-key company-active-map (kbd "<tab>") #'company-complete-common-or-cycle)
-      (define-key company-active-map (kbd "RET") #'company-complete-selection)
-      (setq company-minimum-prefix-lenght 1)
-      (setq company-tooltip-limit 30)
-      (setq company-idle-delay 0.0)
-      (setq company-echo-delay 0.1)
-      (setq company-show-numbers t)
-      (setq company-backends '(company-capf company-dabbrev company-files company-dabbrev-code))
-  )
+       (define-key company-active-map (kbd "C-n") #'company-select-next)
+       (define-key company-active-map (kbd "C-p") #'company-select-previous)
+       (define-key company-active-map (kbd "C-o") #'company-other-backend)
+       (define-key company-active-map (kbd "<tab>") #'company-complete-common-or-cycle)
+       (define-key company-active-map (kbd "RET") #'company-complete-selection)
+       (setq company-minimum-prefix-lenght 1)
+       (setq company-tooltip-limit 30)
+       (setq company-idle-delay 0.0)
+       (setq company-echo-delay 0.1)
+       (setq company-show-numbers t)
+       (setq company-backends '(company-capf company-dabbrev company-files company-dabbrev-code))
+   )
+#+end_src
+** Git messenger: Git blame
+#+begin_src emacs-lisp
+   (setq git-messenger:show-detail t)
+   (setq git-messenger:use-magit-popup t)
 
-  (setq git-messenger:show-detail t)
-  (setq git-messenger:use-magit-popup t)
+#+end_src
+** Yasnippets: Code snippets
+#+begin_src emacs-lisp
+    (yas-global-mode 1)
+    (global-set-key (kbd "C-x C-x") 'yas-expand)
+    (global-set-key (kbd "C-x C-l") 'yas-insert-snippet)
+#+end_src
+** Eldoc mode
+#+begin_src emacs-lisp
+    (global-eldoc-mode 1)
+#+end_src
+** Ivy minibuffer completion framework
+#+begin_src emacs-lisp
+   (setq ivy-sort-max-size 7500)
+   (setq ivy-height 13
+           ivy-wrap t
+           ivy-fixed-height-minibuffer t
+           ivy-read-action-function #'ivy-hydra-read-action
+           ivy-read-action-format-function #'ivy-read-action-format-columns
+           ivy-use-virtual-buffers nil
+           ivy-virtual-abbreviate 'full
+           ivy-on-del-error-function #'ignore
+           ivy-use-selectable-prompt t
+           )
 
-  (yas-global-mode 1)
-  (global-set-key (kbd "C-x C-x") 'yas-expand)
-  (global-set-key (kbd "C-x C-l") 'yas-insert-snippet)
+   (ivy-mode 1) ;; enable ivy
+   (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line) ;; highlight whole line selection
 
-  (global-eldoc-mode 1)
-  (setq ivy-sort-max-size 7500)
-  (setq ivy-height 13
-          ivy-wrap t
-          ivy-fixed-height-minibuffer t
-          ivy-read-action-function #'ivy-hydra-read-action
-          ivy-read-action-format-function #'ivy-read-action-format-columns
-          ivy-use-virtual-buffers nil
-          ivy-virtual-abbreviate 'full
-          ivy-on-del-error-function #'ignore
-          ivy-use-selectable-prompt t
-          )
+   (define-key evil-normal-state-map (kbd "SPC SPC") 'counsel-find-file)
+   (define-key evil-normal-state-map (kbd "??") 'counsel-rg)
+   (define-key evil-normal-state-map (kbd "SPC f p") 'amirreza/find-project)
+   (define-key evil-normal-state-map (kbd "SPC g") 'magit-status)
+   (define-key evil-normal-state-map (kbd "SPC h f") 'describe-function)
+   (define-key evil-normal-state-map (kbd "SPC h k") 'describe-key)
+   (define-key evil-normal-state-map (kbd "SPC h v") 'describe-variable)
+   (define-key evil-normal-state-map (kbd "SPC h a") 'counsel-apropos)
+   (define-key evil-normal-state-map (kbd "K") (lambda ()
+                                                 (interactive)
+                                                 (call-interactively 'counsel-apropos t (thing-at-point 'word))
+                                                 ))
 
-  (ivy-mode 1) ;; enable ivy
-  (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line) ;; highlight whole line selection
+   (ivy-rich-mode 1)
+   (add-hook 'after-init-hook 'all-the-icons-ivy-setup)
 
-  (define-key evil-normal-state-map (kbd "SPC SPC") 'counsel-find-file)
-  (define-key evil-normal-state-map (kbd "??") 'counsel-rg)
-  (define-key evil-normal-state-map (kbd "SPC f p") 'amirreza/find-project)
-  (define-key evil-normal-state-map (kbd "SPC g") 'magit-status)
-  (define-key evil-normal-state-map (kbd "SPC h f") 'describe-function)
-  (define-key evil-normal-state-map (kbd "SPC h k") 'describe-key)
-  (define-key evil-normal-state-map (kbd "SPC h v") 'describe-variable)
-  (define-key evil-normal-state-map (kbd "SPC h a") 'counsel-apropos)
-  (define-key evil-normal-state-map (kbd "K") (lambda ()
-                                                (interactive)
-                                                (call-interactively 'counsel-apropos t (thing-at-point 'word))
-                                                ))
-
-  (ivy-rich-mode 1)
-  (add-hook 'after-init-hook 'all-the-icons-ivy-setup)
-
-  (define-key evil-normal-state-map (kbd "SPC w s") 'persp-switch)
-  (define-key evil-normal-state-map (kbd "SPC w n") 'persp-next)
-  (define-key evil-normal-state-map (kbd "SPC w d") 'persp-kill-buffer*)
+   (define-key evil-normal-state-map (kbd "SPC w s") 'persp-switch)
+   (define-key evil-normal-state-map (kbd "SPC w n") 'persp-next)
+   (define-key evil-normal-state-map (kbd "SPC w d") 'persp-kill-buffer*)
 #+end_src
