@@ -55,25 +55,22 @@ This is my emacs configuration written in literate format.
 (display-time-mode 1) ;; Show time in modeline.
 (global-display-line-numbers-mode 1) ;; Ensure line numbers globally.
 #+end_src
+** Editor basics
 #+begin_src emacs-lisp
   (setq kill-ring-max 15) ;; Capacity of kill-ring.
   (show-paren-mode 1) ;; Highlight matching parens
   (setq show-paren-delay 0) ;; highlight matching parens instantly.
-
   (when (> emacs-major-version 26) (global-tab-line-mode -1)) ;; Disable tab line in Emacs 27+.
-
-
   (setq-default cursor-type 'bar) ;; Shape of the cursor.
-
   (blink-cursor-mode 1) ;; Cursor blinks.
-
   (global-hl-line-mode +1) ;; Highlight current line.
+#+end_src
+** Package manager setup and installation of packages
+#+begin_src emacs-lisp
+  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/")) ;; add melpa repository
 
-  ;; Add melpa repository
-  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
-
-  (package-initialize)
   ;; Initialize emacs package manager
+  (package-initialize)
 
   ;; helper to install missing packages
   (defun install-pkgs (packages)
@@ -82,8 +79,6 @@ This is my emacs configuration written in literate format.
           (package-install pkg)))
     packages
     ))
-
-  (package-install 'use-package)
 
   ;; Installing packages
   (install-pkgs
@@ -147,27 +142,16 @@ This is my emacs configuration written in literate format.
           flx
           zig-mode
           ))
-
-
-
-  (use-package
-    doom-modeline
-    :ensure t
-    :config
-    (doom-modeline-mode 1))
-
-  ;; Set the theme
-  (use-package
-      doom-themes 
-      :ensure t
-      :config
-      (load-theme 'doom-dracula t))
-
-  ;; Set the font
-  (set-frame-font "JetBrainsMono Nerd Font Mono 16" nil t)
-
-
-  ;; Which key: show available keymaps based on what you typed
+#+end_src
+** Appereance
+#+begin_src emacs-lisp
+(doom-modeline-mode 1) ;; enable doom modeline
+(load-theme 'doom-dracula t) ;; set theme
+(set-frame-font "JetBrainsMono Nerd Font Mono 16" nil t) ;; Set font
+#+end_src
+** Which Key setup
+show available keymaps based on what you typed
+#+begin_src emacs-lisp
   (setq which-key-sort-order #'which-key-prefix-then-key-order
         which-key-sort-uppercase-first nil
         which-key-add-column-padding 1
@@ -180,7 +164,9 @@ This is my emacs configuration written in literate format.
   (which-key-mode 1)
 
   (which-key-setup-minibuffer)
-
+#+end_src
+** Evil Mode: Vim emualtion in Emacs
+#+begin_src emacs-lisp
   (defun amirreza/evil-hook ()
     (dolist (mode '(custom-mode
                     eshell-mode
@@ -239,6 +225,10 @@ This is my emacs configuration written in literate format.
 
   (global-evil-surround-mode 1)
 
+
+#+end_src
+** Project based functionalities
+#+begin_src emacs-lisp
   (defvar amirreza/project-locations '("~/src/gitlab.snapp.ir" "~/src/github.com/amirrezaask" "~/src/gitlab.snapp.ir"))
   (defun amirreza/find-project ()
     "List of projects in pre defined project locations."
@@ -280,6 +270,10 @@ This is my emacs configuration written in literate format.
     (evil-global-set-key 'normal (kbd "SPC f s") 'amirreza/grep)
     (evil-global-set-key 'normal (kbd "??") 'amirreza/grep))
 
+
+#+end_src
+** Org mode
+#+begin_src emacs-lisp
   (defun amirreza/--org-insert-elisp-code-block ()
     (interactive)
     (insert (format "#+begin_src emacs-lisp\n\n#+end_src"))
@@ -307,20 +301,20 @@ This is my emacs configuration written in literate format.
 
   (add-hook 'org-mode-hook #'org-bullets-mode)
   (add-hook 'org-mode-hook #'toc-org-mode)
-
-
-
-
+#+end_src
+** Highlight indents
+#+begin_src emacs-lisp
   (add-hook 'yaml-mode-hook #'highlight-indent-guide)
-
   (setq highlight-indent-guides-method 'character)
-
   (add-hook 'focus-in-hook #'highlight-indent-guides-auto-set-faces)
-
+#+end_src
+** Expand selection smartly
+#+begin_src emacs-lisp
   (global-set-key (kbd "C-=") 'er/expand-region)
-
   (global-set-key (kbd "C--") 'er/contract-region)
-
+#+end_src
+** Highlight todos in code
+#+begin_src emacs-lisp
   (add-hook 'prog-mode-hook #'hl-todo-mode)
   (setq hl-todo-highlight-punctuation ":"
         hl-todo-keyword-faces
@@ -330,15 +324,21 @@ This is my emacs configuration written in literate format.
           ("REVIEW"     font-lock-keyword-face bold)
           ("NOTE"       success bold)
           ("DEPRECATED" font-lock-doc-face bold)))
-
+#+end_src
+** Don't choke on long lines pls
+#+begin_src emacs-lisp
   (global-so-long-mode 1)
-
+#+end_src
+** Emacs over SSH: Tramp mdoe
+#+begin_src emacs-lisp
   (setq tramp-default-method "ssh")
-
-  (add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
-
+#+end_src
+** Enable menu bar on when loading pdf tools
+#+begin_src emacs-lisp
   (add-hook 'pdf-tools-ensured-hook #'menu-bar-mode)
-
+#+end_src
+** Some config file formats
+#+begin_src emacs-lisp
   ;; (use-package apache-mode :ensure t
   ;;     :mode ("\\.htaccess\\'" "httpd\\.conf\\'" "srm\\.conf\\'" "access\\.conf\\'"))
 
@@ -352,6 +352,10 @@ This is my emacs configuration written in literate format.
   ;;     :ensure t
   ;;     :mode "docker-compose\\.yml")
   ;; (use-package dockerfile-mode :ensure t :mode "\\Dockerfile\\'")
+
+
+#+end_src
+#+begin_src emacs-lisp
 
   (setq exec-path-from-shell-shell-name "zsh")
   (exec-path-from-shell-copy-envs '("GOPROXY" "GOPRIVATE"))
