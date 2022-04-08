@@ -22,8 +22,8 @@ call plug#begin()
         Plug 'neovim/nvim-lspconfig'
         Plug 'lukas-reineke/indent-blankline.nvim' 
         Plug 'kyazdani42/nvim-web-devicons'
-        Plug 'nvim-lua/plenary.nvim'
-        Plug 'nvim-telescope/telescope.nvim'
+        " Plug 'nvim-lua/plenary.nvim'
+        " Plug 'nvim-telescope/telescope.nvim'
     else
         Plug 'prabirshrestha/asyncomplete.vim'
         Plug 'prabirshrestha/asyncomplete-lsp.vim'
@@ -36,10 +36,8 @@ call plug#begin()
     Plug 'rust-lang/rust.vim'      " Haskell on LLVM ?
     Plug 'fatih/vim-go'            " Java without OOP ?
     Plug 'fladson/vim-kitty'       " Best Terminal Emulator config syntax
-    if !has('nvim')
-        Plug 'junegunn/fzf'            " Google of the command line
-        Plug 'junegunn/fzf.vim'        " Integrate fzf into vim as commands
-    endif
+    Plug 'junegunn/fzf'            " Google of the command line
+    Plug 'junegunn/fzf.vim'        " Integrate fzf into vim as commands
     Plug 'pbrisbin/vim-mkdir'      " Save files and create not existing directories
     Plug 'tpope/vim-commentary'    " Best commenting plugin ever
     Plug 'tpope/vim-surround'      " Now you can command your surroundings
@@ -140,7 +138,7 @@ set complete-=i " don't search for all included files
 set wildmenu
 set wildoptions=tagfile
 set list listchars=tab:»·,trail:·,nbsp:·
-" set guicursor=
+set guicursor=
 set updatetime=300
 set pumheight=10             " Completion window max size
 set conceallevel=2           " Concealed text is completely hidden
@@ -177,30 +175,30 @@ endif
 
 
 " Fuzzy Finder stuff
-if has('nvim')
-    " If neovim use telescope
-    nnoremap <leader><leader> <cmd>Telescope find_files<cr>
-    nnoremap <leader>ec <cmd>Telescope find_files cwd=$DOTFILES<cr>
-    nnoremap ?? <cmd>Telescope live_grep<cr>
-    lua << EOF
-        require('telescope').setup{
-          defaults = {
-            mappings = {
-              i = {
-                ["<C-h>"] = "which_key"
-              }
-            }
-          },
-        }
-EOF
-else
+" if has('nvim')
+"     " If neovim use telescope
+"     nnoremap <leader><leader> <cmd>Telescope find_files<cr>
+"     nnoremap <leader>ec <cmd>Telescope find_files cwd=$DOTFILES<cr>
+"     nnoremap ?? <cmd>Telescope live_grep<cr>
+"     lua << EOF
+"         require('telescope').setup{
+"           defaults = {
+"             mappings = {
+"               i = {
+"                 ["<C-h>"] = "which_key"
+"               }
+"             }
+"           },
+"         }
+" EOF
+" else
     " if vim use fzf
-    let g:fzf_preview_window = {}
-    let g:fzf_layout = {'down': '40%' }
-    nnoremap <leader><leader> <cmd>Files<CR>
-    nnoremap <leader>ec <cmd>Files $DOTFILES<CR>
-    nnoremap ?? <cmd>Rg<CR>
-endif
+let g:fzf_preview_window = {}
+let g:fzf_layout = {'down': '40%' }
+nnoremap <leader><leader> <cmd>Files<CR>
+nnoremap <leader>ec <cmd>Files $DOTFILES<CR>
+nnoremap ?? <cmd>Rg<CR>
+" endif
 
 " LSP stuff
 if !has('nvim')
