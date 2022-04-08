@@ -38,7 +38,6 @@ function fish_prompt
 end
 
 function fish_right_prompt
-    # set_color purple
     date "+%d/%m/%y %H:%M"
 end
 
@@ -66,11 +65,11 @@ function dots
     cd $DOTFILES
 end
 
-command -v 'starship' > /dev/null
+# command -v 'starship' > /dev/null
 
-if test $status -ne '0'
-    sh -c "$(curl -fsSL https://starship.rs/install.sh)"
-end
+# if test $status -ne '0'
+#     sh -c "$(curl -fsSL https://starship.rs/install.sh)"
+# end
 
 command -v 'nvim' > /dev/null
 
@@ -80,5 +79,12 @@ if test $status -eq '0'
     alias v='nvim'
     setenv EDITOR 'nvim'
 end
-starship init fish | source
+
+command -v 'exa' > /dev/null
+if test $status -eq '0'
+    alias ls='exa'
+    alias ll='exa -la'
+end
+
+# starship init fish | source
 
