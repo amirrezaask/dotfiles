@@ -160,7 +160,7 @@ set termguicolors
 set t_Co=256
 let g:gruvbox_contrast_dark='hard'
 set background=dark
-colorscheme gruvbox 
+colorscheme sitruuna 
 
 " Statusline
 if has('nvim')
