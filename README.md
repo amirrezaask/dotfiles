@@ -7,4 +7,6 @@ Set of configurations with minimalism in mind.
     make install-vim-config
 ```
 ### Terminal Emulator
-
+```bash
+    make install-kitty
+```
