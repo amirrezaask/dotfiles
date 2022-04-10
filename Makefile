@@ -1,2 +1,2 @@
-install-vim:
-	./.scripts/install_vim.sh
+install-vim-config:
+	./.scripts/install_vim_config.sh

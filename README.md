@@ -1,13 +1,10 @@
-# Amirreza Configurations
-
-
-## Setup
-- Kitty ( Terminal Emulator )
-- Neovim HEAD
+# AmirrezaAsk Dotfiles
+Set of configurations with minimalism in mind.
 
 ## Getting started
+### Neovim/Vim
 ```bash
-    make install
+    make install-vim-config
 ```
-
+### Terminal Emulator
 
