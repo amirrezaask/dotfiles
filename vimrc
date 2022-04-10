@@ -30,6 +30,7 @@ call plug#begin()
         Plug 'prabirshrestha/vim-lsp'
         Plug 'mattn/vim-lsp-settings'
     endif
+    Plug 'hrsh7th/vim-vsnip'
     Plug 'mhinz/vim-startify'
     Plug 'sheerun/vim-polyglot'    " Basic vim support for multiple languages see https://github.com/sheerun/vim-polyglot for the full list.
     Plug 'Glench/Vim-Jinja2-Syntax'
@@ -310,7 +311,7 @@ else
         cmp.setup {
           snippet = {
               expand = function(args)
-                require('luasnip').lsp_expand(args.body)
+                vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
               end,
             },
           -- You can set mapping if you want.
@@ -372,7 +373,6 @@ autocmd FileType yaml setlocal cursorcolumn
 
 " Zig
 let g:zig_fmt_autosave = 1
-
 
 " Easy Align
 xmap ga <Plug>(EasyAlign)
