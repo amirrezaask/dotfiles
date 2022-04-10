@@ -22,8 +22,8 @@ call plug#begin()
         Plug 'neovim/nvim-lspconfig'
         Plug 'lukas-reineke/indent-blankline.nvim' 
         Plug 'kyazdani42/nvim-web-devicons'
-        " Plug 'nvim-lua/plenary.nvim'
-        " Plug 'nvim-telescope/telescope.nvim'
+        Plug 'nvim-lua/plenary.nvim'
+        Plug 'nvim-telescope/telescope.nvim'
     else
         Plug 'prabirshrestha/asyncomplete.vim'
         Plug 'prabirshrestha/asyncomplete-lsp.vim'
@@ -175,30 +175,28 @@ endif
 
 
 " Fuzzy Finder stuff
-" if has('nvim')
-"     " If neovim use telescope
-"     nnoremap <leader><leader> <cmd>Telescope find_files<cr>
-"     nnoremap <leader>ec <cmd>Telescope find_files cwd=$DOTFILES<cr>
-"     nnoremap ?? <cmd>Telescope live_grep<cr>
-"     lua << EOF
-"         require('telescope').setup{
-"           defaults = {
-"             mappings = {
-"               i = {
-"                 ["<C-h>"] = "which_key"
-"               }
-"             }
-"           },
-"         }
-" EOF
-" else
-    " if vim use fzf
-let g:fzf_preview_window = {}
-let g:fzf_layout = {'down': '40%' }
-nnoremap <leader><leader> <cmd>Files<CR>
-nnoremap <leader>ec <cmd>Files $DOTFILES<CR>
-nnoremap ?? <cmd>Rg<CR>
-" endif
+if has('nvim') " If Neovim use telescope
+    nnoremap <leader><leader> <cmd>Telescope find_files<cr>
+    nnoremap <leader>ec <cmd>Telescope find_files cwd=$DOTFILES<cr>
+    nnoremap ?? <cmd>Telescope live_grep<cr>
+lua << EOF
+        require('telescope').setup{
+          defaults = {
+            mappings = {
+              i = {
+                ["<C-h>"] = "which_key"
+              }
+            }
+          },
+        }
+EOF
+else " if vim use fzf
+    let g:fzf_preview_window = {}
+    let g:fzf_layout = {'down': '40%' }
+    nnoremap <leader><leader> <cmd>Files<CR>
+    nnoremap <leader>ec <cmd>Files $DOTFILES<CR>
+    nnoremap ?? <cmd>Rg<CR>
+endif
 
 " LSP stuff
 if !has('nvim')
