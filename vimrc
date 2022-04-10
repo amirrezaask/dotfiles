@@ -30,6 +30,7 @@ call plug#begin()
         Plug 'prabirshrestha/vim-lsp'
         Plug 'mattn/vim-lsp-settings'
     endif
+    Plug 'mhinz/vim-startify'
     Plug 'sheerun/vim-polyglot'    " Basic vim support for multiple languages see https://github.com/sheerun/vim-polyglot for the full list.
     Plug 'Glench/Vim-Jinja2-Syntax'
     Plug 'ziglang/zig.vim'         " Best language ever ?
@@ -100,7 +101,7 @@ nnoremap } :cnext<CR>
 nnoremap <expr><CR> {-> v:hlsearch ? ':nohl<CR>' : '<CR>'}()
 
 " Options
-let &t_ut='' " Kitty terminal fix
+let &t_ut=''       " Kitty terminal fix
 set smartcase
 set noequalalways
 set modeline
@@ -125,23 +126,22 @@ set splitright
 set splitbelow
 set nocursorline
 set relativenumber " show relative line numbers
-set number " show current line number
-set showmode " show current vim mode down of the screen
-set showcmd " show commands as they are being typed
+set number         " show current line number
+set showmode       " show current vim mode down of the screen
+set showcmd        " show commands as they are being typed
 set hidden
 set updatetime=100
 set incsearch
 set guioptions=egmrti
 set gfn=JetBrainsMono\ Nerd\ Font\ Mono\ 10
 set backspace=indent,eol,start
-set complete-=i " don't search for all included files
+set complete-=i    " don't search for all included files
 set wildmenu
 set wildoptions=tagfile
 set list listchars=tab:»·,trail:·,nbsp:·
-set guicursor=
 set updatetime=300
-set pumheight=10             " Completion window max size
-set conceallevel=2           " Concealed text is completely hidden
+set pumheight=10   " Completion window max size
+set conceallevel=2 " Concealed text is completely hidden
 
 set shortmess+=c   " Shut off completion messages
 set belloff+=ctrlg " If Vim beeps during completion
