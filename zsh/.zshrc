@@ -45,6 +45,13 @@ then
     export EDITOR='nvim'
 fi
 
+if command -v subl &> /dev/null
+then
+    alias s='subl .'
+fi
+
+
+
 source $DOTFILES/zsh/antigen.zsh
 
 antigen use oh-my-zsh
