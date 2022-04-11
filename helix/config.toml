@@ -1,4 +1,4 @@
-theme = "bogster"
+theme = "nord"
 
 [editor]
 line-number = "relative"
