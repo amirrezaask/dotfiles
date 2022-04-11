@@ -1,0 +1,7 @@
+[[language]]
+name = "go"
+auto-format = false
+
+[[language]]
+name = "php"
+auto-format = false
