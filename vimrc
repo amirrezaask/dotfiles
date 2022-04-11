@@ -20,7 +20,6 @@ call plug#begin()
         Plug 'hrsh7th/cmp-nvim-lsp'
         Plug 'hrsh7th/cmp-path'
         Plug 'neovim/nvim-lspconfig'
-        Plug 'lukas-reineke/indent-blankline.nvim' 
         Plug 'kyazdani42/nvim-web-devicons'
         Plug 'nvim-lua/plenary.nvim'
         Plug 'nvim-telescope/telescope.nvim'
