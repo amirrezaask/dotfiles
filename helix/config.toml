@@ -1,9 +1,12 @@
+theme = "default"
+
 [editor]
 line-number = "relative"
 mouse = true
 
 [editor.lsp]
 display-messages = true
+
 [editor.cursor-shape]
 insert = "bar"
 normal = "block"
@@ -12,3 +15,6 @@ select = "underline"
 [keys.insert]
 j = { k = "normal_mode" }
 k = { j = "normal_mode" }
+
+[keys.normal]
+"space" = { "space" = "file_picker"}
