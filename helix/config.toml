@@ -1,4 +1,4 @@
-theme = "gruvbox"
+theme = "default"
 
 [editor]
 line-number = "relative"
@@ -18,3 +18,5 @@ k = { j = "normal_mode" }
 
 [keys.normal]
 "space" = { "space" = "file_picker"}
+"?" = { "?" = "global_search"}
+"semicolon" = "command_mode"
