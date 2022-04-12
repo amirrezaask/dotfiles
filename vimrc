@@ -44,7 +44,6 @@ call plug#begin()
     Plug 'junegunn/gv.vim'                                 " Git diff split
     Plug 'cohama/agit.vim'                                 " Git log viewer
     Plug 'junegunn/vim-easy-align'                         " Align text with ease
-    Plug 'itchyny/lightline.vim'                           " Status line
     
 call plug#end()
 
@@ -116,14 +115,14 @@ set nowritebackup
 set noswapfile
 set splitright
 set splitbelow
-set nocursorline
+set cursorline     " highlight current line
 set relativenumber " show relative line numbers
 set number         " show current line number
 set showmode       " show current vim mode down of the screen
 set showcmd        " show commands as they are being typed
 set hidden
 set updatetime=100
-set incsearch
+set incsearch      " Continue search as I type characters
 set guioptions=egmrti
 set gfn=JetBrainsMono\ Nerd\ Font\ Mono\ 10
 set backspace=indent,eol,start
@@ -140,8 +139,8 @@ set belloff+=ctrlg " If Vim beeps during completion
 set lazyredraw
 
 "http://stackoverflow.com/questions/20186975/vim-mac-how-to-copy-to-clipboard-without-pbcopy
-set clipboard^=unnamed
 set clipboard^=unnamedplus
+set clipboard^=unnamed
 
 " increase max memory to show syntax highlighting for large files 
 set maxmempattern=20000
@@ -156,29 +155,9 @@ colorscheme gruvbox
 " Statusline
 if has('nvim')
     set laststatus=3
-else
-    set laststatus=2
-    let g:airline_theme='gruvbox'
+
 endif
-
-
-" Fuzzy Finder stuff
-" if has('nvim') " If Neovim use telescope
-"     nnoremap <leader><leader> <cmd>Telescope find_files<cr>
-"     nnoremap <leader>ec <cmd>Telescope find_files cwd=$DOTFILES<cr>
-"     nnoremap ?? <cmd>Telescope live_grep<cr>
-" lua << EOF
-"         require('telescope').setup{
-"           defaults = {
-"             mappings = {
-"               i = {
-"                 ["<C-h>"] = "which_key"
-"               }
-"             }
-"           },
-"         }
-" EOF
-" else " if vim use fzf
+set statusline=%=%f%m%r%h%w\ %y\ %l\ of\ %L\ %c
 
 " FZF
 let g:fzf_preview_window = {}
@@ -186,8 +165,6 @@ let g:fzf_layout = {'down': '50%' }
 nnoremap <leader><leader> <cmd>Files<CR>
 nnoremap <leader>ec <cmd>Files $DOTFILES<CR>
 nnoremap ?? <cmd>Rg<CR>
-
-" endif
 
 " LSP stuff
 if !has('nvim')
