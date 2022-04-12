@@ -37,9 +37,9 @@ function fish_prompt
     echo "$(prompt_pwd)$(set_color green)$(fish_git_prompt)> $(set_color normal)"
 end
 
-function fish_right_prompt
-    date "+%d/%m/%y %H:%M"
-end
+# function fish_right_prompt
+#     date "+%d/%m/%y %H:%M"
+# end
 
 function reload
     source ~/.config/fish/config.fish

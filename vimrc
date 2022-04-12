@@ -8,52 +8,44 @@
 
 " Plugins
 call plug#begin()
-    Plug 'eemed/sitruuna.vim'      " Best Minimal Colorscheme if you like black,yellow and green colors
-    Plug 'gruvbox-community/gruvbox' " Popular gruvbox
-    if has('nvim')                 " if using neovim use neovim only plugins
-        Plug 'windwp/nvim-spectre'
-        Plug 'nvim-treesitter/nvim-treesitter' 
-        Plug 'nvim-treesitter/nvim-treesitter-textobjects' 
-        Plug 'hrsh7th/nvim-cmp'
-        Plug 'hrsh7th/cmp-buffer'
-        Plug 'hrsh7th/cmp-nvim-lua'
-        Plug 'hrsh7th/cmp-nvim-lsp'
-        Plug 'hrsh7th/cmp-path'
-        Plug 'neovim/nvim-lspconfig'
-        Plug 'kyazdani42/nvim-web-devicons'
-        Plug 'nvim-lua/plenary.nvim'
-        Plug 'nvim-telescope/telescope.nvim'
+    Plug 'eemed/sitruuna.vim'                              " Best Minimal Colorscheme if you like black,yellow and green colors
+    Plug 'gruvbox-community/gruvbox'                       " Popular gruvbox
+    if has('nvim')                                         " if using neovim use neovim only plugins
+        Plug 'windwp/nvim-spectre'                         " Search/Replace project wide
+        Plug 'nvim-treesitter/nvim-treesitter'             " Treesitter syntax highlighting
+        Plug 'nvim-treesitter/nvim-treesitter-textobjects' " Treesitter text objects
+        Plug 'hrsh7th/nvim-cmp'                            " Neovim auto complete menu
+        Plug 'hrsh7th/cmp-buffer'                          " auto complete buffer source
+        Plug 'hrsh7th/cmp-nvim-lua'                        " auto complete nvim lua stuff source
+        Plug 'hrsh7th/cmp-nvim-lsp'                        " auto complete lsp source
+        Plug 'hrsh7th/cmp-path'                            " auto complete os path source
+        Plug 'neovim/nvim-lspconfig'                       " LSP client configurations
     else
-        Plug 'prabirshrestha/asyncomplete.vim'
-        Plug 'prabirshrestha/asyncomplete-lsp.vim'
-        Plug 'prabirshrestha/vim-lsp'
-        Plug 'mattn/vim-lsp-settings'
+        Plug 'prabirshrestha/asyncomplete.vim'             " Auto complete menu for vim
+        Plug 'prabirshrestha/asyncomplete-lsp.vim'         " LSP integration into auto complete
+        Plug 'prabirshrestha/vim-lsp'                      " Vim LSP client
+        Plug 'mattn/vim-lsp-settings'                      " Vim LSP client configurations
     endif
-    Plug 'hrsh7th/vim-vsnip'
-    Plug 'mhinz/vim-startify'
-    Plug 'sheerun/vim-polyglot'    " Basic vim support for multiple languages see https://github.com/sheerun/vim-polyglot for the full list.
-    Plug 'Glench/Vim-Jinja2-Syntax'
-    Plug 'ziglang/zig.vim'         " Best language ever ?
-    Plug 'rust-lang/rust.vim'      " Haskell on LLVM ?
-    Plug 'fatih/vim-go'            " Java without OOP ?
-    Plug 'fladson/vim-kitty'       " Best Terminal Emulator config syntax
-    Plug 'junegunn/fzf'            " Google of the command line
-    Plug 'junegunn/fzf.vim'        " Integrate fzf into vim as commands
-    Plug 'pbrisbin/vim-mkdir'      " Save files and create not existing directories
-    Plug 'tpope/vim-commentary'    " Best commenting plugin ever
-    Plug 'tpope/vim-surround'      " Now you can command your surroundings
-    Plug 'tpope/vim-fugitive'      " Best Vim Git client
+    Plug 'hrsh7th/vim-vsnip'                               " Snippets
+    Plug 'mhinz/vim-startify'                              " Startscreen
+    Plug 'sheerun/vim-polyglot'                            " Basic vim support for multiple languages see https://github.com/sheerun/vim-polyglot for the full list.
+    Plug 'Glench/Vim-Jinja2-Syntax'                        " Jinja2 syntax
+    Plug 'ziglang/zig.vim'                                 " Best language ever ?
+    Plug 'rust-lang/rust.vim'                              " Haskell on LLVM ?
+    Plug 'fatih/vim-go'                                    " Java without OOP ?
+    Plug 'fladson/vim-kitty'                               " Best Terminal Emulator config syntax
+    Plug 'junegunn/fzf'                                    " Google of the command line
+    Plug 'junegunn/fzf.vim'                                " Integrate fzf into vim as commands
+    Plug 'pbrisbin/vim-mkdir'                              " Save files and create not existing directories
+    Plug 'tpope/vim-commentary'                            " Best commenting plugin ever
+    Plug 'tpope/vim-surround'                              " Now you can command your surroundings
+    Plug 'tpope/vim-fugitive'                              " Best Vim Git client
 
-    Plug 'junegunn/gv.vim'         " Git diff split
-    Plug 'cohama/agit.vim'         " Git log viewer
-    Plug 'junegunn/vim-easy-align' " Align text with ease
-    if has('nvim')
-        Plug 'nvim-lualine/lualine.nvim'
-   else
-        Plug 'vim-airline/vim-airline'
-        Plug 'vim-airline/vim-airline-themes'
-    endif
-
+    Plug 'junegunn/gv.vim'                                 " Git diff split
+    Plug 'cohama/agit.vim'                                 " Git log viewer
+    Plug 'junegunn/vim-easy-align'                         " Align text with ease
+    Plug 'itchyny/lightline.vim'                           " Status line
+    
 call plug#end()
 
 
@@ -164,9 +156,6 @@ colorscheme gruvbox
 " Statusline
 if has('nvim')
     set laststatus=3
-    lua<<EOF
-    require("lualine").setup{}
-EOF
 else
     set laststatus=2
     let g:airline_theme='gruvbox'
@@ -174,28 +163,31 @@ endif
 
 
 " Fuzzy Finder stuff
-if has('nvim') " If Neovim use telescope
-    nnoremap <leader><leader> <cmd>Telescope find_files<cr>
-    nnoremap <leader>ec <cmd>Telescope find_files cwd=$DOTFILES<cr>
-    nnoremap ?? <cmd>Telescope live_grep<cr>
-lua << EOF
-        require('telescope').setup{
-          defaults = {
-            mappings = {
-              i = {
-                ["<C-h>"] = "which_key"
-              }
-            }
-          },
-        }
-EOF
-else " if vim use fzf
-    let g:fzf_preview_window = {}
-    let g:fzf_layout = {'down': '40%' }
-    nnoremap <leader><leader> <cmd>Files<CR>
-    nnoremap <leader>ec <cmd>Files $DOTFILES<CR>
-    nnoremap ?? <cmd>Rg<CR>
-endif
+" if has('nvim') " If Neovim use telescope
+"     nnoremap <leader><leader> <cmd>Telescope find_files<cr>
+"     nnoremap <leader>ec <cmd>Telescope find_files cwd=$DOTFILES<cr>
+"     nnoremap ?? <cmd>Telescope live_grep<cr>
+" lua << EOF
+"         require('telescope').setup{
+"           defaults = {
+"             mappings = {
+"               i = {
+"                 ["<C-h>"] = "which_key"
+"               }
+"             }
+"           },
+"         }
+" EOF
+" else " if vim use fzf
+
+" FZF
+let g:fzf_preview_window = {}
+let g:fzf_layout = {'down': '40%' }
+nnoremap <leader><leader> <cmd>Files<CR>
+nnoremap <leader>ec <cmd>Files $DOTFILES<CR>
+nnoremap ?? <cmd>Rg<CR>
+
+" endif
 
 " LSP stuff
 if !has('nvim')
