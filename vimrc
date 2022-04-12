@@ -182,7 +182,7 @@ endif
 
 " FZF
 let g:fzf_preview_window = {}
-let g:fzf_layout = {'down': '40%' }
+let g:fzf_layout = {'down': '50%' }
 nnoremap <leader><leader> <cmd>Files<CR>
 nnoremap <leader>ec <cmd>Files $DOTFILES<CR>
 nnoremap ?? <cmd>Rg<CR>
