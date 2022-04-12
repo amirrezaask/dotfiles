@@ -50,7 +50,12 @@ then
     alias s='subl .'
 fi
 
-
+# if command -v hx &> /dev/null
+# then
+#     alias v='hx'
+#     alias vi='hx'
+#     alias vim='hx'
+# fi
 
 source $DOTFILES/zsh/antigen.zsh
 

@@ -1,4 +1,4 @@
-theme = "monokai_pro_spectrum"
+theme = "gruvbox"
 
 [editor]
 line-number = "relative"
