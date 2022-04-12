@@ -138,7 +138,6 @@ set backspace=indent,eol,start
 set complete-=i    " don't search for all included files
 set wildmenu
 set wildoptions=tagfile
-set list listchars=tab:»·,trail:·,nbsp:·
 set updatetime=300
 set pumheight=10   " Completion window max size
 set conceallevel=2 " Concealed text is completely hidden
@@ -160,7 +159,7 @@ set termguicolors
 set t_Co=256
 let g:gruvbox_contrast_dark='hard'
 set background=dark
-colorscheme sitruuna 
+colorscheme gruvbox 
 
 " Statusline
 if has('nvim')
