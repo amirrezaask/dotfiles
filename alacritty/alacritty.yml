@@ -1,11 +1,10 @@
 font:
   normal:
-    family: "GoMono"
+    family: "JetBrainsMono Nerd Font Mono"
   size: 8
-window:
-    dynamic_title: true
-# shell:
-#   program: 'tmux'
+
+shell:
+  program: '/opt/homebrew/bin/tmux'
 
 colors:
   primary:
