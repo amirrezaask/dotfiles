@@ -1,7 +1,7 @@
 font:
   normal:
     family: "JetBrainsMono Nerd Font Mono"
-  size: 8
+  size: 14
 
 shell:
   program: '/opt/homebrew/bin/tmux'
@@ -30,3 +30,5 @@ colors:
     magenta: '#d3869b'
     cyan:    '#8ec07c'
     white:   '#ebdbb2'
+key_bindings:
+  - { key: Return , mods: Control, action: CreateNewWindow }
