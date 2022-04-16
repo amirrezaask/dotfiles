@@ -82,7 +82,8 @@ end
 
 command -v 'exa' > /dev/null
 if test $status -eq '0'
-    alias ls='exa'
+    alias ls='exa -la'
+    alias l='exa -la'
     alias ll='exa -la'
 end
 
