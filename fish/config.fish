@@ -8,7 +8,7 @@ set -x DOTFILES "$HOME/src/github.com/amirrezaask/dotfiles"
 set -x SNAPP "$HOME/src/gitlab.snapp.ir"
 set -x OSS "$HOME/src/github.com/amirrezaask"
 set -x GOLOBBY "$HOME/src/github.com/golobby"
-set -x PATH "$GOPATH/bin:/opt/homebrew/bin:$ELIXIR/bin:$HOME/.luarocks/bin:$HOME/.config/composer/vendor/bin:$GOROOT/bin:$HOME/.cargo/bin:$HOME/.local/bin:/usr/local/Postman:$HOME/.local/elixir-ls/:$HOME/.cache/rebar3/bin:$PATH:$HOME/.composer/vendor/bin"
+set -x PATH "$DOTFILES/bin:$GOPATH/bin:/opt/homebrew/bin:$ELIXIR/bin:$HOME/.luarocks/bin:$HOME/.config/composer/vendor/bin:$GOROOT/bin:$HOME/.cargo/bin:$HOME/.local/bin:/usr/local/Postman:$HOME/.local/elixir-ls/:$HOME/.cache/rebar3/bin:$PATH:$HOME/.composer/vendor/bin"
 
 function freenet
     echo $VPN_PASSWORD | sudo openconnect --no-dtls --passwd-on-stdin --user $VPN_USERNAME $VPN_SERVER
@@ -85,6 +85,12 @@ if test $status -eq '0'
     alias ls='exa'
     alias ll='exa -la'
 end
+
+command -v 'subl' > /dev/null
+if test $status -eq '0'
+    alias s='subl .'
+end
+
 
 # starship init fish | source
 
