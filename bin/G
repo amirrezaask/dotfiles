@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-
-if [ -x "$(command -v rg)" ]; then
-	rg --color never --vimgrep --ignore-case "${1}"
-elif [ -x "$(command -v git)" ]; then
-	git grep -n --column "$@"
-else
-	grep -e "$1" -n -r
-fi

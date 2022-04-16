@@ -151,6 +151,8 @@ set t_Co=256
 let g:gruvbox_contrast_dark='hard'
 set background=dark
 colorscheme gruvbox 
+" transparency
+hi Normal guibg=none
 
 " Statusline
 if has('nvim')

@@ -3,8 +3,8 @@ font:
     family: "JetBrainsMono Nerd Font Mono"
   size: 14
 
-shell:
-  program: '/opt/homebrew/bin/tmux'
+# shell:
+#   program: '/opt/homebrew/bin/tmux'
 
 colors:
   primary:
@@ -32,3 +32,5 @@ colors:
     white:   '#ebdbb2'
 key_bindings:
   - { key: Return , mods: Control, action: CreateNewWindow }
+window:
+  opacity: 0.98
