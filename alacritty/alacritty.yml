@@ -33,4 +33,4 @@ font:
 key_bindings:
   - { key: Return , mods: Control, action: CreateNewWindow }
 window:
-  opacity: 0.98
+  opacity: 1.0 
