@@ -93,17 +93,18 @@ nnoremap <expr><CR> {-> v:hlsearch ? ':nohl<CR>' : '<CR>'}()
 
 " Options
 let &t_ut=''       " Kitty terminal fix
-set smartcase
-set noequalalways
-set modeline
-set autoread
-set nocompatible
-set encoding=utf-8
-set hlsearch
-set history=700
-set tabpagemax=100
-set ruler
-set mouse=a
+set ignorecase " ignore case when searching
+set smartcase " don't ignore case in search when there is uppercase letter 
+set noequalalways " don't resize windows on changing window state ( closing or splitting )
+set modeline " 
+set autoread " If you detect a file change read it automatically
+set nocompatible " no need legacy VI compatibility
+set encoding=utf-8 " Default file encoding
+set hlsearch " Highlight search matches
+set history=700 " Number of stored history items
+set tabpagemax=100 " Max number of tabs
+set ruler " Show line and column in statusline
+set mouse=a " enable mouse support for all modes
 set wrap
 set autoindent
 set tabstop=4
@@ -150,7 +151,7 @@ set termguicolors
 set t_Co=256
 let g:gruvbox_contrast_dark='hard'
 set background=dark
-colorscheme gruvbox 
+colorscheme sitruuna 
 " transparency
 hi Normal guibg=none
 
