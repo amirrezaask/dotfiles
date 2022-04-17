@@ -20,6 +20,8 @@ call plug#begin()
         Plug 'hrsh7th/cmp-nvim-lsp'                        " auto complete lsp source
         Plug 'hrsh7th/cmp-path'                            " auto complete os path source
         Plug 'neovim/nvim-lspconfig'                       " LSP client configurations
+        Plug 'nvim-telescope/telescope.nvim'
+        Plug 'nvim-lua/plenary.nvim'
     else
         Plug 'prabirshrestha/asyncomplete.vim'             " Auto complete menu for vim
         Plug 'prabirshrestha/asyncomplete-lsp.vim'         " LSP integration into auto complete
@@ -162,12 +164,23 @@ if has('nvim')
 endif
 set statusline=%=%f%m%r%h%w\ %y\ %l\ of\ %L\ %c
 
-" FZF
-let g:fzf_preview_window = {}
-let g:fzf_layout = {'down': '50%' }
-nnoremap <leader><leader> <cmd>Files<CR>
-nnoremap <leader>ec <cmd>Files $DOTFILES<CR>
-nnoremap ?? <cmd>Rg<CR>
+
+" Fuzzy Finder
+if has('nvim')
+    nnoremap <leader><leader> <cmd>Telescope find_files<CR>
+    nnoremap <leader>ec <cmd>Telescope find_files cwd=$DOTFILES<CR>
+    nnoremap ?? <cmd>Telescope live_grep<CR>
+
+    lua<<EOF
+EOF
+else
+    " FZF
+    let g:fzf_preview_window = {}
+    let g:fzf_layout = {'down': '50%' }
+    nnoremap <leader><leader> <cmd>Files<CR>
+    nnoremap <leader>ec <cmd>Files $DOTFILES<CR>
+    nnoremap ?? <cmd>Rg<CR>
+endif
 
 " LSP stuff
 if !has('nvim')
