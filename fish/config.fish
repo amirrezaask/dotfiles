@@ -2,12 +2,8 @@
 set -x GO111MODULE 'auto'
 set -x GOPATH "$HOME"
 set -x PYTHONBINS "$HOME/.local/bin"
-set -x EDITOR 'nvim'
 set -x GOPRIVATE 'gitlab.snapp.ir'
 set -x DOTFILES "$HOME/src/github.com/amirrezaask/dotfiles"
-set -x SNAPP "$HOME/src/gitlab.snapp.ir"
-set -x OSS "$HOME/src/github.com/amirrezaask"
-set -x GOLOBBY "$HOME/src/github.com/golobby"
 set -x PATH "$DOTFILES/bin:$GOPATH/bin:/opt/homebrew/bin:$ELIXIR/bin:$HOME/.luarocks/bin:$HOME/.config/composer/vendor/bin:$GOROOT/bin:$HOME/.cargo/bin:$HOME/.local/bin:/usr/local/Postman:$HOME/.local/elixir-ls/:$HOME/.cache/rebar3/bin:$PATH:$HOME/.composer/vendor/bin"
 
 function freenet
@@ -45,19 +41,9 @@ function snappvpn
     sudo openfortivpn -c ~/snappDC.conf
 end
 
-function golobby
-    cd $GOLOBBY
-end
-
 function dots
     cd $DOTFILES
 end
-
-# command -v 'starship' > /dev/null
-
-# if test $status -ne '0'
-#     sh -c "$(curl -fsSL https://starship.rs/install.sh)"
-# end
 
 command -v 'nvim' > /dev/null
 
@@ -80,13 +66,15 @@ if test $status -eq '0'
     alias s='subl .'
 end
 
-function ide
-    nvim $argv[1]
+command -v 'code' > /dev/null
+if test $status -eq '0'
+    alias c='code .'
 end
+
 
 function work
     set PROJECT $(find $LOOKUP_DIR/* -type d -maxdepth 0 | fzf) 
-    tmux new-session -c $PROJECT -s $(basename $PROJECT) -n "Shell" -d
+    tmux new-session -c $PROJECT -s $(basename $PROJECT) -n "shell" -d
     tmux neww -n editor -c $PROJECT
     tmux attach-session -t $(basename $PROJECT)
 end
@@ -103,7 +91,7 @@ function golobby
     set -x LOOKUP_DIR "$HOME/src/github.com/golobby/" && work 
 end
 
-
-alias csnapp='cd $SNAPP'
-# starship init fish | source
-
+# some tmux stuff
+alias tl='tmux ls'
+alias ta='tmux attach -t'
+alias tks='tmux kill-session -t'
