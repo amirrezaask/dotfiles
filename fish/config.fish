@@ -71,12 +71,19 @@ if test $status -eq '0'
     alias c='code .'
 end
 
+set -x IDE "code" # can be vim as well
 
 function work
     set PROJECT $(find $LOOKUP_DIR/* -type d -maxdepth 0 | fzf) 
     tmux new-session -c $PROJECT -s $(basename $PROJECT) -n "shell" -d
-    tmux neww -n editor -c $PROJECT
-    tmux attach-session -t $(basename $PROJECT)
+    if [ "$IDE" = 'vim' ]
+        echo "IDE is nvim"
+        tmux neww -n editor -c $PROJECT
+    else if [ "$IDE" = 'code' ]
+        echo "IDE is code"
+        code $PROJECT
+    end
+    # tmux attach-session -t $(basename $PROJECT)
 end
 
 function snapp
