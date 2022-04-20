@@ -37,10 +37,6 @@ function fish_prompt
     echo "$(prompt_pwd)$(set_color green)$(fish_git_prompt)> $(set_color normal)"
 end
 
-# function fish_right_prompt
-#     date "+%d/%m/%y %H:%M"
-# end
-
 function reload
     source ~/.config/fish/config.fish
 end
@@ -51,14 +47,6 @@ end
 
 function golobby
     cd $GOLOBBY
-end
-
-function oss
-    cd $OSS
-end
-
-function snapp
-    cd $SNAPP
 end
 
 function dots
@@ -92,6 +80,30 @@ if test $status -eq '0'
     alias s='subl .'
 end
 
+function ide
+    nvim $argv[1]
+end
 
+function work
+    set PROJECT $(find $LOOKUP_DIR/* -type d -maxdepth 0 | fzf) 
+    tmux new-session -c $PROJECT -s $(basename $PROJECT) -n "Shell" -d
+    tmux neww -n editor -c $PROJECT
+    tmux attach-session -t $(basename $PROJECT)
+end
+
+function snapp
+    set -x LOOKUP_DIR "$HOME/src/gitlab.snapp.ir/" && work
+end
+
+function oss
+    set -x LOOKUP_DIR "$HOME/src/github.com/amirrezaask/" && work 
+end
+
+function golobby 
+    set -x LOOKUP_DIR "$HOME/src/github.com/golobby/" && work 
+end
+
+
+alias csnapp='cd $SNAPP'
 # starship init fish | source
 

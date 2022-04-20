@@ -32,5 +32,6 @@ font:
 #     white:   '#ebdbb2'
 key_bindings:
   - { key: Return , mods: Control, action: CreateNewWindow }
+  - { key: Return , mods: Command, action: CreateNewWindow }
 window:
   opacity: 1.0 
