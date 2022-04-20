@@ -9,14 +9,28 @@
 [push]
   default = current
 
-[delta]
-   line-numbers = true
-   syntax-theme = gruvbox
-   side-by-side = false
+# [delta]
+#    line-numbers = true
+#    syntax-theme = gruvbox
+#    side-by-side = false
 
-   file-modified-label = modified:
+#    file-modified-label = modified:
 
 [interactive]
    diffFilter = delta --color-only
 
+[core]
+    pager = delta
+
+[interactive]
+    diffFilter = delta --color-only
+
+[delta]
+    navigate = true  # use n and N to move between diff sections
+
+[merge]
+    conflictstyle = diff3
+
+[diff]
+    colorMoved = default
 # https://github.com/dandavison/delta 
