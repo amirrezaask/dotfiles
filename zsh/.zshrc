@@ -26,10 +26,6 @@ alias baly='echo ${BALY_PASSWORD} | sudo openconnect --user amirreza.askarpour v
 alias gs='git status'
 
 # Workspace stuff
-alias oss='cd ~/src/github.com/amirrezaask'
-alias golobby='cd ~/src/github.com/golobby'
-alias snapp="cd $SNAPP"
-alias espad="cd $ESPAD"
 alias dots="cd ${DOTFILES}"
 alias luamake=/home/amirreza/.local/lua-language-server/3rd/luamake/luamake
 alias zr='zig build run'
@@ -67,6 +63,37 @@ export HOMEBREW_NO_AUTO_UPDATE=1
 
 export FZF_DEFAULT_OPTS='--height 20%'
 export FZF_DEFAULT_COMMAND='rg --files'
+
+export IDE='vim'
+
+function work {
+    PROJECT=$(find $LOOKUP_DIR/* -type d -maxdepth 0 | fzf)
+    if [ "$IDE" = 'vim' ]; then
+        echo "IDE is vim"
+        tmux new-session -c $PROJECT -s $(basename $PROJECT) -n "shell" -d
+        tmux neww -n editor -c $PROJECT
+        tmux attach-session -t $(basename $PROJECT)
+    elif [ "$IDE" = 'code' ]; then
+        echo "IDE is code"
+        code $PROJECT
+    fi
+}
+
+function snapp {
+    LOOKUP_DIR="$HOME/src/gitlab.snapp.ir/" work
+}
+
+function oss {
+    LOOKUP_DIR="$HOME/src/github.com/amirrezaask/" work
+}
+
+function golobby {
+    LOOKUP_DIR="$HOME/src/github.com/golobby/" work
+}
+
+alias tl='tmux ls'
+alias ta='tmux attach -t'
+alias tks='tmux kill-session -t'
 
 # Install starship
 command -v 'starship' > /dev/null
