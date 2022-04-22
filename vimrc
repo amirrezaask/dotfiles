@@ -21,7 +21,7 @@ call plug#begin()
         Plug 'hrsh7th/cmp-nvim-lsp'                        " auto complete lsp source
         Plug 'hrsh7th/cmp-path'                            " auto complete os path source
         Plug 'neovim/nvim-lspconfig'                       " LSP client configurations
-        Plug 'nvim-telescope/telescope.nvim'
+        Plug 'nvim-telescope/telescope.nvim'               " Telescope fuzzy finder by great TJDevries
         Plug 'nvim-lua/plenary.nvim'
     else
         Plug 'prabirshrestha/asyncomplete.vim'             " Auto complete menu for vim
@@ -35,7 +35,6 @@ call plug#begin()
     Plug 'Glench/Vim-Jinja2-Syntax'                        " Jinja2 syntax
     Plug 'ziglang/zig.vim'                                 " Best language ever ?
     Plug 'rust-lang/rust.vim'                              " Haskell on LLVM ?
-    Plug 'fatih/vim-go'                                    " Java without OOP ?
     Plug 'fladson/vim-kitty'                               " Best Terminal Emulator config syntax
     Plug 'junegunn/fzf'                                    " Google of the command line
     Plug 'junegunn/fzf.vim'                                " Integrate fzf into vim as commands
@@ -43,7 +42,6 @@ call plug#begin()
     Plug 'tpope/vim-commentary'                            " Best commenting plugin ever
     Plug 'tpope/vim-surround'                              " Now you can command your surroundings
     Plug 'tpope/vim-fugitive'                              " Best Vim Git client
-
     Plug 'junegunn/gv.vim'                                 " Git diff split
     Plug 'cohama/agit.vim'                                 " Git log viewer
     Plug 'junegunn/vim-easy-align'                         " Align text with ease
