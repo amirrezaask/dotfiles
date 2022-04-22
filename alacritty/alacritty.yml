@@ -1,6 +1,16 @@
 font:
   normal:
-    family: "JetBrainsMono Nerd Font Mono"
+    family: "OperatorMono Nerd Font"
+  bold:
+    family: "OperatorMono Nerd Font"
+    style: bold
+  bold_italic:
+    family: "OperatorMono Nerd Font"
+    style: bold_italic
+  italic:
+    family: "OperatorMono Nerd Font"
+    style: italic
+
   size: 14
 
 # shell:

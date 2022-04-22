@@ -162,7 +162,7 @@ if has('nvim')
     set laststatus=3
 
 endif
-set statusline=%=%f%m%r%h%w\ %y\ %l\ of\ %L\ %c
+set statusline=%f%=%m%r%h%w\ %y\ %l\ of\ %L\ %c
 
 
 " Fuzzy Finder
