@@ -48,7 +48,11 @@ call plug#begin()
     Plug 'junegunn/vim-easy-align'                         " Align text with ease
     
 call plug#end()
-
+if has('nvim')
+    command! Config :edit ~/.config/nvim/init.vim
+else
+    command! Config :edit ~/.config/vimrc
+endif
 
 let g:mapleader = ' '
 
@@ -109,6 +113,8 @@ set ruler " Show line and column in statusline
 set mouse=a " enable mouse support for all modes
 set wrap
 set autoindent
+set cindent 
+set wrap
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
