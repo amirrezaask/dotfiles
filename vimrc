@@ -9,6 +9,7 @@
 " Plugins
 call plug#begin()
     Plug 'eemed/sitruuna.vim'                              " Best Minimal Colorscheme if you like black,yellow and green colors
+    Plug 'joshdick/onedark.vim'
     Plug 'gruvbox-community/gruvbox'                       " Popular gruvbox
     if has('nvim')                                         " if using neovim use neovim only plugins
         Plug 'windwp/nvim-spectre'                         " Search/Replace project wide
@@ -159,7 +160,7 @@ set termguicolors
 set t_Co=256
 let g:gruvbox_contrast_dark='hard'
 set background=dark
-colorscheme gruvbox 
+colorscheme onedark 
 " transparency
 hi Normal guibg=none
 
