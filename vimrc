@@ -159,11 +159,9 @@ set termguicolors
 set t_Co=256
 set background=dark
 let g:gruvbox_contrast_dark='hard'
-let g:sonokai_style = 'andromeda'
+let g:sonokai_style = 'atlantis'
 let g:sonokai_better_performance = 1
 colorscheme sonokai 
-" transparency
-hi Normal guibg=none
 
 " Statusline
 if has('nvim')
