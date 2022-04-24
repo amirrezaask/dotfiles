@@ -76,7 +76,7 @@ function work {
         echo "No project selected"
         return
     fi
-    if [ "$IDE" = 'vim' || "$IDE" = 'nvim' ]; then
+    if [[ "$IDE" = 'vim' || "$IDE" = 'nvim' ]]; then
         echo "IDE is vim"
         tmux new-session -c $PROJECT -s $(basename $PROJECT) -n "shell" -d
         tmux neww -n editor -c $PROJECT
