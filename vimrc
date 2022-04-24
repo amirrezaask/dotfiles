@@ -11,6 +11,7 @@ call plug#begin()
     Plug 'eemed/sitruuna.vim'                              " Best Minimal Colorscheme if you like black,yellow and green colors
     Plug 'joshdick/onedark.vim'
     Plug 'gruvbox-community/gruvbox'                       " Popular gruvbox
+    Plug 'sainnhe/sonokai'
     if has('nvim')                                         " if using neovim use neovim only plugins
         Plug 'windwp/nvim-spectre'                         " Search/Replace project wide
         Plug 'nvim-treesitter/nvim-treesitter'             " Treesitter syntax highlighting
@@ -156,9 +157,11 @@ set maxmempattern=20000
 " Colorscheme
 set termguicolors
 set t_Co=256
-let g:gruvbox_contrast_dark='hard'
 set background=dark
-colorscheme onedark 
+let g:gruvbox_contrast_dark='hard'
+let g:sonokai_style = 'andromeda'
+let g:sonokai_better_performance = 1
+colorscheme sonokai 
 " transparency
 hi Normal guibg=none
 
@@ -167,7 +170,7 @@ if has('nvim')
     set laststatus=3
 
 endif
-set statusline=%f%=%m%r%h%w\ %y\ %l\ of\ %L\ %c
+set statusline=%f%=%m%r%h%w\ %y\ %l:%c
 
 
 " Fuzzy Finder
