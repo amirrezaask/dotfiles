@@ -27,8 +27,8 @@ font:
 
   size: 16
 
-# shell:
-#   program: '/opt/homebrew/bin/tmux'
+window:
+  opacity: 0.99
 
 key_bindings:
   - { key: Return , mods: Control, action: CreateNewWindow }

@@ -46,6 +46,13 @@ then
     alias s='subl .'
 fi
 
+if command -v exa &> /dev/null
+then
+    alias ls='exa'
+    alias ll='exa -la'
+    alias l='exa -la'
+fi
+
 
 
 alias luamake=/Users/amirreza/.local/lua-language-server/3rd/luamake/luamake
@@ -60,11 +67,16 @@ export HOMEBREW_NO_AUTO_UPDATE=1
 export FZF_DEFAULT_OPTS='--height 20%'
 export FZF_DEFAULT_COMMAND='rg --files'
 
-export IDE='vim'
+# export IDE='code'
+export IDE='nvim'
 
 function work {
     PROJECT=$(find $LOOKUP_DIR/* -type d -maxdepth 0 | fzf)
-    if [ "$IDE" = 'vim' ]; then
+    if [ "$PROJECT" = '' ]; then
+        echo "No project selected"
+        return
+    fi
+    if [ "$IDE" = 'vim' || "$IDE" = 'nvim' ]; then
         echo "IDE is vim"
         tmux new-session -c $PROJECT -s $(basename $PROJECT) -n "shell" -d
         tmux neww -n editor -c $PROJECT
@@ -76,20 +88,24 @@ function work {
 }
 
 function snapp {
-    LOOKUP_DIR="$HOME/src/gitlab.snapp.ir/" work
+    LOOKUP_DIR="$HOME/src/gitlab.snapp.ir" work
 }
 
 function oss {
-    LOOKUP_DIR="$HOME/src/github.com/amirrezaask/" work
+    LOOKUP_DIR="$HOME/src/github.com/amirrezaask" work
 }
 
 function golobby {
-    LOOKUP_DIR="$HOME/src/github.com/golobby/" work
+    LOOKUP_DIR="$HOME/src/github.com/golobby" work
 }
 
 alias tl='tmux ls'
 alias ta='tmux attach -t'
 alias tks='tmux kill-session -t'
+
+alias ca='cargo'
+alias car='cargo run'
+alias cab='cargo build'
 
 # Install starship
 command -v 'starship' > /dev/null
