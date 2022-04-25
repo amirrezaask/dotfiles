@@ -107,6 +107,11 @@ alias ca='cargo'
 alias car='cargo run'
 alias cab='cargo build'
 
+alias oss="cd $OSS"
+alias dots="cd $DOTFILES"
+alias snapp="cd $SNAPP"
+alias golobby="cd $GOLOBBY"
+
 # Install starship
 command -v 'starship' > /dev/null
 
