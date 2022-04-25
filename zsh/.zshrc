@@ -1,3 +1,5 @@
+# Fig pre block. Keep at the top of this file.
+. "$HOME/.fig/shell/zshrc.pre.zsh"
 # Go related stuff
 export GO111MODULE='on'
 export GOPATH="$HOME"
@@ -127,3 +129,6 @@ antigen apply
 
 # using starship for prompt
 eval "$(starship init zsh)"
+
+# Fig post block. Keep at the bottom of this file.
+. "$HOME/.fig/shell/zshrc.post.zsh"
