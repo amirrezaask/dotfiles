@@ -58,7 +58,7 @@ then
     alias v='hx'
     alias vi='hx'
     alias vim='hx'
-    export EDITOR='nvim'
+    export EDITOR='hx'
 fi
 
 
