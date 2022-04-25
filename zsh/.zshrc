@@ -1,5 +1,3 @@
-# Fig pre block. Keep at the top of this file.
-. "$HOME/.fig/shell/zshrc.pre.zsh"
 # Go related stuff
 export GO111MODULE='on'
 export GOPATH="$HOME"
@@ -55,6 +53,13 @@ then
     alias l='exa -la'
 fi
 
+if command -v hx &> /dev/null
+then
+    alias v='hx'
+    alias vi='hx'
+    alias vim='hx'
+    export EDITOR='nvim'
+fi
 
 
 alias luamake=/Users/amirreza/.local/lua-language-server/3rd/luamake/luamake
@@ -129,6 +134,3 @@ antigen apply
 
 # using starship for prompt
 eval "$(starship init zsh)"
-
-# Fig post block. Keep at the bottom of this file.
-. "$HOME/.fig/shell/zshrc.post.zsh"
