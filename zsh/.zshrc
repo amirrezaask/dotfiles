@@ -85,6 +85,7 @@ function work {
     fi
     if [[ "$IDE" = 'vim' || "$IDE" = 'nvim' ]]; then
         echo "IDE is vim"
+        cd $PROJECT
         tmux new-session -c $PROJECT -s $(basename $PROJECT) -n "shell" -d
         tmux neww -n editor -c $PROJECT
         tmux attach-session -t $(basename $PROJECT)
@@ -114,10 +115,10 @@ alias ca='cargo'
 alias car='cargo run'
 alias cab='cargo build'
 
-alias oss="cd $OSS"
-alias dots="cd $DOTFILES"
-alias snapp="cd $SNAPP"
-alias golobby="cd $GOLOBBY"
+# alias oss="cd $OSS"
+# alias dots="cd $DOTFILES"
+# alias snapp="cd $SNAPP"
+# alias golobby="cd $GOLOBBY"
 
 # Install starship
 command -v 'starship' > /dev/null

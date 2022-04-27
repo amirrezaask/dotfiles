@@ -20,3 +20,8 @@ k = { j = "normal_mode" }
 "space" = { "space" = "file_picker"}
 "?" = { "?" = "global_search"}
 "semicolon" = "command_mode"
+"K" = "hover"
+"G" = "goto_last_line"
+
+[keys.select]
+"G" = "goto_last_line"
