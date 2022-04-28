@@ -23,7 +23,7 @@ call plug#begin()
         Plug 'hrsh7th/cmp-path'                            " auto complete os path source
         Plug 'neovim/nvim-lspconfig'                       " LSP client configurations
         Plug 'nvim-telescope/telescope.nvim'               " Telescope fuzzy finder by great TJDevries
-        Plug 'nvim-lua/plenary.nvim'
+        Plug 'nvim-lua/plenary.nvim'                       " Neovim stdlib lua by TJDevries
     else
         Plug 'prabirshrestha/asyncomplete.vim'             " Auto complete menu for vim
         Plug 'prabirshrestha/asyncomplete-lsp.vim'         " LSP integration into auto complete
@@ -366,3 +366,47 @@ let g:zig_fmt_autosave = 1
 " Easy Align
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
+
+
+if has('nvim')
+    lua <<EOF
+    require'nvim-treesitter.configs'.setup {
+      textobjects = {
+        move = {
+              enable = true,
+              set_jumps = true, -- whether to set jumps in the jumplist
+              goto_next_start = {
+                ["]m"] = "@function.outer",
+                ["]]"] = "@class.outer",
+              },
+              goto_next_end = {
+                ["]M"] = "@function.outer",
+                ["]["] = "@class.outer",
+              },
+              goto_previous_start = {
+                ["[m"] = "@function.outer",
+                ["[["] = "@class.outer",
+              },
+              goto_previous_end = {
+                ["[M"] = "@function.outer",
+                ["[]"] = "@class.outer",
+              },
+            },
+        select = {
+          enable = true,
+
+          -- Automatically jump forward to textobj, similar to targets.vim
+          lookahead = true,
+
+          keymaps = {
+            -- You can use the capture groups defined in textobjects.scm
+            ["af"] = "@function.outer",
+            ["if"] = "@function.inner",
+            ["ac"] = "@class.outer",
+            ["ic"] = "@class.inner",
+          },
+        },
+      },
+    }
+EOF
+endif
