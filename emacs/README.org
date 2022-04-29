@@ -116,6 +116,10 @@ show available keymaps based on what you typed
     :init
       (setq evil-want-keybinding nil)
       (evil-mode 1)
+    :bind
+    (:map evil-normal-state-map
+          ("g r" . 'xref-find-references)
+          ("g d" . 'xref-find-definitions))
     :config
       (setq evil-want-integration t)
       (setq evil-want-C-u-scroll t)
@@ -267,9 +271,8 @@ show available keymaps based on what you typed
 #+begin_src emacs-lisp
   (use-package hl-todo
     :ensure t
-    :hook
-    (prog-mode . #'hl-todo-mode)
     :config
+      (global-hl-todo-mode 1)
       (setq hl-todo-highlight-punctuation ":"
         hl-todo-keyword-faces
         `(("TODO"       warning bold)
@@ -351,37 +354,53 @@ show available keymaps based on what you typed
 #+begin_src emacs-lisp
   (use-package lsp-mode
     :ensure t
+    :commands
+    lsp
     :hook
-    (((purescript-mode-hook
-      go-mode-hook
-      rust-mode-hook
-      php-mode-hook
-      c-mode-hook
-      lua-mode-hook
-      python-mode-hook
-      erlang-mode-hook
-      haskell-mode-hook
-      zig-mode-hook
-      ) . #'lsp)
-      ((lsp-mode-hook) (lambda ()
-                          (local-set-key (kbd "C-c f i") 'lsp-find-implementation)
-                          )))
+    (((purescript-mode
+      go-mode
+      rust-mode
+      php-mode
+      c-mode
+      lua-mode
+      python-mode
+      erlang-mode
+      haskell-mode
+      zig-mode
+      ) . lsp))
 
+    :bind
+    (:map evil-normal-state-map
+          ("g i" . lsp-find-implementation)
+     )
     :config
+      (setq xref-prompt-for-identifier nil)
       ;; TODO lsp-ui-doc-show/hide toggle key
-      (defvar amirreza/--lsp-ui-doc-state t)
       (setq lsp-clients-lua-language-server-install-dir "/home/amirreza/.local/lua-language-server")
       (setq lsp-clients-lua-language-server-bin (concat lsp-clients-lua-language-server-install-dir "/bin/lua-language-server"))
       (setq lsp-clients-lua-language-server-main-location (concat lsp-clients-lua-language-server-install-dir "/main.lua"))
     )
 
-  (add-hook 'purescript-mode-hook #'turn-on-purescript-indentation)
+  (use-package lsp-ui :ensure t
+    :bind
+    (:map evil-normal-state-map
+          ("K" . amirreza/lsp-ui-doc-toggle))
+    :init
+    (setq amirreza/--lsp-ui-doc-state 0)
+    (defun amirreza/lsp-ui-doc-toggle ()
+      "Toggle doc popup"
+      (interactive)
+      (if (= amirreza/--lsp-ui-doc-state 0)
+          (progn (lsp-ui-doc-show) (setq amirreza/--lsp-ui-doc-state 1))
+        (progn (lsp-ui-doc-hide) (setq amirreza/--lsp-ui-doc-state 0)))
+      ))
+
  #+end_src
 ** Company mode for Autocomplete
 #+begin_src emacs-lisp
   (use-package company
     :ensure t
-    :hook (prog-mode-hook . #'company-mode)
+    :hook (prog-mode-hook . company-mode)
     :bind
     (:map company-active-map
           ("C-n" . #'company-select-next)
@@ -463,4 +482,10 @@ show available keymaps based on what you typed
     (define-key evil-normal-state-map (kbd "SPC w n") 'persp-next)
     (define-key evil-normal-state-map (kbd "SPC w d") 'persp-kill-buffer*)
   )
+#+end_src
+
+** Edit Dotfiles
+#+begin_src emacs-lisp
+  ;; (evil-global-set-key (kbd "SPC e c") (lambda ()
+  ;;                                         (find-file "~/.emacs.d/README.org")))
 #+end_src
