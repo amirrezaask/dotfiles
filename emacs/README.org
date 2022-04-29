@@ -225,33 +225,40 @@ show available keymaps based on what you typed
 #+end_src
 ** Org mode
 #+begin_src emacs-lisp
-  (defun amirreza/--org-insert-elisp-code-block ()
-    (interactive)
-    (insert (format "#+begin_src emacs-lisp\n\n#+end_src"))
-    (previous-line)
-    (beginning-of-line))
 
-  (defun amirreza/--org-insert-no-tangle ()
-    ""
-    (interactive)
-    (insert (format ":PROPERTIES:\n:header-args: :tangle no\n:END:\n"))
-    (previous-line)
-    (beginning-of-line))
+  (use-package org
+    :hook
+    (
+     (org-mode . #'org-bullets-mode)
+     (org-mode . #'toc-org-mode)
+     )
+    :bind
+    (:map org-mode-map
+          ("SPC c b" . amirreza/--org-insert-elisp-code-block)
+          ("SPC n t" . amirreza/--org-insert-no-tangle)
+          )
+    :config
+      (defun amirreza/--org-insert-elisp-code-block ()
+          (interactive)
+          (insert (format "#+begin_src emacs-lisp\n\n#+end_src"))
+          (previous-line)
+          (beginning-of-line))
 
-  (setq org-ellipsis "⤵")
-  (setq org-src-fontify-natively t)
-  (setq org-src-tab-acts-natively t)
-  (setq org-support-shift-select t)
-  (setq org-src-window-setup 'current-window)
-  (setq org-startup-folded t)
+      (defun amirreza/--org-insert-no-tangle ()
+          ""
+          (interactive)
+          (insert (format ":PROPERTIES:\n:header-args: :tangle no\n:END:\n"))
+          (previous-line)
+          (beginning-of-line))
 
+      (setq org-ellipsis "⤵")
+      (setq org-src-fontify-natively t)
+      (setq org-src-tab-acts-natively t)
+      (setq org-support-shift-select t)
+      (setq org-src-window-setup 'current-window)
+      (setq org-startup-folded t)
+    )
 
-  (with-eval-after-load 'org
-      (define-key org-mode-map (kbd "C-c m n") 'amirreza/--org-insert-no-tangle)
-      (define-key org-mode-map (kbd "C-c m b") 'amirreza/--org-insert-elisp-code-block))
-
-  (add-hook 'org-mode-hook #'org-bullets-mode)
-  (add-hook 'org-mode-hook #'toc-org-mode)
 #+end_src
 ** Highlight indents
 #+begin_src emacs-lisp
@@ -400,7 +407,7 @@ show available keymaps based on what you typed
 #+begin_src emacs-lisp
   (use-package company
     :ensure t
-    :hook (prog-mode-hook . company-mode)
+    :hook (prog-mode . company-mode)
     :bind
     (:map company-active-map
           ("C-n" . #'company-select-next)
