@@ -10,7 +10,7 @@
 ;; Initialize emacs package manager
 (package-initialize)
 
-(package-install 'use-package)
+(package-install 'use-package) ;; Install use-package
 
 (amirreza/reload) ;; Load user configuration
 
