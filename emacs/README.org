@@ -333,25 +333,22 @@ show available keymaps based on what you typed
 
   (use-package go-mode
     :ensure t
+    :mode "\\.go\\'"
     :hook
     (go-mode . #'amirreza/go-hook))
-  
+
 
 #+end_src
 ** Rust setup
 #+begin_src emacs-lisp
-  (defun amirreza/rust-hook ()
-    (message "Rust mode loading...")
-    )
+  (use-package rust-mode :ensure t :mode "\\.rs\\'")
+  (use-package rustic :ensure t)
 #+end_src
 ** Zig Setup
 #+begin_src emacs-lisp
   (use-package zig-mode
+    :mode "\\.zig\\'"
     :ensure t)
-#+end_src
-** Python Setup
-#+begin_src emacs-lisp
-  (add-hook 'python-mode-hook #'(py-autopep8-ensure-on-save))
 #+end_src
 ** LSP Setup
 #+begin_src emacs-lisp
@@ -426,8 +423,7 @@ show available keymaps based on what you typed
   (use-package git-messenger :ensure t
     :config
       (setq git-messenger:show-detail t)
-      (setq git-messenger:use-magit-popup t)
-    )
+      (setq git-messenger:use-magit-popup t))
 #+end_src
 ** Yasnippets: Code snippets
 #+begin_src emacs-lisp
@@ -489,6 +485,23 @@ show available keymaps based on what you typed
 
 ** Edit Dotfiles
 #+begin_src emacs-lisp
-  ;; (evil-global-set-key (kbd "SPC e c") (lambda ()
-  ;;                                         (find-file "~/.emacs.d/README.org")))
+  (evil-global-set-key 'normal (kbd "SPC e c") (lambda ()
+                                          (interactive)
+                                          (find-file "~/.emacs.d/README.org")))
+#+end_src
+
+** Workspaces
+#+begin_src emacs-lisp
+  (use-package perspective
+    :ensure t
+    :bind
+    (:map evil-normal-state-map
+          ("SPC w s" . persp-switch)
+          ))
+#+end_src
+
+** Terminal Emulator
+#+begin_src emacs-lisp
+  (use-package vterm
+    :ensure t)
 #+end_src
