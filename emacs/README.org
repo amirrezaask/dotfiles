@@ -88,7 +88,7 @@ show available keymaps based on what you typed
           which-key-min-display-lines 6
           which-key-side-window-slot -10)
 
-      (setq which-key-idle-delay 0.3)
+      (setq which-key-idle-delay 0.5)
 
       (which-key-mode 1)
 
@@ -225,19 +225,14 @@ show available keymaps based on what you typed
 #+end_src
 ** Org mode
 #+begin_src emacs-lisp
-
   (use-package org
     :hook
-    (
-     (org-mode . #'org-bullets-mode)
-     (org-mode . #'toc-org-mode)
-     )
-    :bind
-    (:map org-mode-map
-          ("SPC c b" . amirreza/--org-insert-elisp-code-block)
-          ("SPC n t" . amirreza/--org-insert-no-tangle)
-          )
+    ((org-mode . #'org-bullets-mode)
+     (org-mode . #'toc-org-mode))
     :config
+      (evil-define-key 'normal org-mode-map (kbd "SPC m b") 'amirreza/--org-insert-elisp-code-block)
+      (evil-define-key 'normal org-mode-map (kbd "SPC m n") 'amirreza/--org-insert-no-tangle)
+      (define-key org-src-mode-map (kbd "C-c C-c") #'org-edit-src-exit) ;; consitent with magit commit
       (defun amirreza/--org-insert-elisp-code-block ()
           (interactive)
           (insert (format "#+begin_src emacs-lisp\n\n#+end_src"))
@@ -349,7 +344,7 @@ show available keymaps based on what you typed
 ** Rust setup
 #+begin_src emacs-lisp
   (use-package rust-mode :ensure t :mode "\\.rs\\'")
-  (use-package rustic :ensure t)
+  (use-package rustic :ensure t :hook (rust-mode . #'rustic-mode))
 #+end_src
 ** Zig Setup
 #+begin_src emacs-lisp
@@ -501,6 +496,9 @@ show available keymaps based on what you typed
 #+begin_src emacs-lisp
   (use-package perspective
     :ensure t
+    :config
+    (setq persp-suppress-no-prefix-key-warning t)
+    (persp-mode 1)
     :bind
     (:map evil-normal-state-map
           ("SPC w s" . persp-switch)
