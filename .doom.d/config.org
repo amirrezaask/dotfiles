@@ -1,0 +1,12 @@
+* My DOOM Emacs Configuration
+** Theme
+#+begin_src elisp
+(setq doom-theme 'doom-moonlight)
+#+end_src
+** Font
+#+begin_src elisp
+(setq doom-font "JetBrainsMono Nerd Font Mono-14")
+#+end_src
+
+#+RESULTS:
+: JetBrainsMono Nerd Font Mono-14
