@@ -57,13 +57,16 @@ This is my emacs configuration written in literate format.
 #+end_src
 ** Editor basics
 #+begin_src emacs-lisp
-  (setq kill-ring-max 15) ;; Capacity of kill-ring.
-  (show-paren-mode 1) ;; Highlight matching parens
-  (setq show-paren-delay 0) ;; highlight matching parens instantly.
-  (when (> emacs-major-version 26) (global-tab-line-mode -1)) ;; Disable tab line in Emacs 27+.
-  (setq-default cursor-type 'bar) ;; Shape of the cursor.
-  (blink-cursor-mode 1) ;; Cursor blinks.
-  (global-hl-line-mode +1) ;; Highlight current line.
+  (use-package emacs
+    :config
+      (setq kill-ring-max 15) ;; Capacity of kill-ring.
+      (show-paren-mode 1) ;; Highlight matching parens
+      (setq show-paren-delay 0) ;; highlight matching parens instantly.
+      (when (> emacs-major-version 26) (global-tab-line-mode -1)) ;; Disable tab line in Emacs 27+.
+      (setq-default cursor-type 'bar) ;; Shape of the cursor.
+      (blink-cursor-mode 1) ;; Cursor blinks.
+      (global-hl-line-mode +1) ;; Highlight current line.
+      )
 #+end_src
 ** Appereance
 #+begin_src emacs-lisp
@@ -148,10 +151,20 @@ show available keymaps based on what you typed
     )
 
 
-  (use-package evil-collection :ensure t :config (evil-collection-init))
-  (use-package evil-escape :ensure t :config (setq-default evil-escape-key-sequence "jk") (setq evil-escape-unordered-key-sequence t))
+  (use-package evil-collection
+    :ensure t
+    :config (evil-collection-init))
 
-  (use-package evil-surround :ensure t :config (global-evil-surround-mode 1))
+  (use-package evil-escape :ensure t
+      :init
+      (setq-default evil-escape-key-sequence "jk")
+      (setq evil-escape-unordered-key-sequence t)
+      (setq-default evil-escape-delay 0.1)
+      (evil-escape-mode 1))
+
+  (use-package evil-surround
+    :ensure t
+    :config (global-evil-surround-mode 1))
 
 
 #+end_src
