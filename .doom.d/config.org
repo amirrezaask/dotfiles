@@ -1,4 +1,8 @@
 * My DOOM Emacs Configuration
+** Use lexical bindings
+#+begin_src elisp
+;;; config.el -*- lexical-binding: t; -*-
+#+end_src
 ** Theme
 #+begin_src elisp
 (setq doom-theme 'doom-moonlight)
@@ -8,3 +12,8 @@
 (setq doom-font "JetBrainsMono Nerd Font Mono-14")
 #+end_src
 
+
+** Workspaces
+#+begin_src elisp
+(map! :leader :map global-map "w s" #'persp-switch)
+#+end_src
