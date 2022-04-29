@@ -1,12 +1,6 @@
 (amirreza/packages-install
- '(doom-themes ;; nice themes
-        doom-modeline ;; nice modeline
-        evil ;; Vim modal editing
-        evil-collection ;; Vim integration for popular packages
-        evil-escape ;; jk kj escape from insert
-        evil-surround ;; clone of vim-sorround
+ '(
         delsel ;; delete-selection-mode
-        which-key ;; help with keymaps
         bufler ;; better buffer management
         ace-window ;; better window switch
         perspective ;; workspaces like i3
