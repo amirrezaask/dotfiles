@@ -12,8 +12,9 @@
   (interactive)
   (load-file amirreza/packages-file))
 
+(require 'package)
 
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/")) ;; add melpa repository
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 
 ;; Initialize emacs package manager
 (package-initialize)
@@ -26,7 +27,7 @@
     packages
     ))
 
-
+(package-install 'use-package)
 
 (amirreza/sync) ;; Sync packages
 
