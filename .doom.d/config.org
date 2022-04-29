@@ -8,5 +8,3 @@
 (setq doom-font "JetBrainsMono Nerd Font Mono-14")
 #+end_src
 
-#+RESULTS:
-: JetBrainsMono Nerd Font Mono-14
