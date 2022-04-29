@@ -48,10 +48,6 @@ Workspaces like i3, each workspace has it's own windows and buffers, mostly I ha
 
 ** LSP
 #+begin_src emacs-lisp
- (use-package! lsp-mode
-   :hook
-   (lsp-mode . (lambda ()
-                 (map! :n :map lsp-mode-map "gr" 'xref-find-references)
-                 (map! :n :map lsp-mode-map "gd" 'xref-find-definitions)
-                 )))
+(map! :map lsp-mode-map :n (kbd "gr") 'xref-find-references)
+(map! :map lsp-mode-map :n (kbd "gi") 'lsp-find-implementation)
 #+end_src
