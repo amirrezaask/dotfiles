@@ -77,3 +77,4 @@
 ;; they are implemented.
 
 (map! :n ";" 'evil-ex)
+(map! :n "g r" 'xref-find-references)
