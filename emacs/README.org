@@ -170,6 +170,8 @@ show available keymaps based on what you typed
     :ensure t
     :config (global-evil-surround-mode 1))
 
+  (use-package evil-commentary :ensure t :config (evil-commentary-mode 1))
+
 
 #+end_src
 ** Project based functionalities
@@ -344,7 +346,8 @@ show available keymaps based on what you typed
 #+end_src
 ** Zig Setup
 #+begin_src emacs-lisp
-
+  (use-package zig-mode
+    :ensure t)
 #+end_src
 ** Python Setup
 #+begin_src emacs-lisp
