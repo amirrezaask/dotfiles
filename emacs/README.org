@@ -295,8 +295,9 @@ show available keymaps based on what you typed
           ("DEPRECATED" font-lock-doc-face bold)))
     )
 #+end_src
-** Don't choke on long lines pls
+** Long files and lines 
 #+begin_src emacs-lisp
+  (use-package vlf :ensure t)
   (global-so-long-mode 1)
 #+end_src
 ** Emacs over SSH: Tramp mdoe
@@ -515,3 +516,4 @@ show available keymaps based on what you typed
   (use-package vterm
     :ensure t)
 #+end_src
+                     
