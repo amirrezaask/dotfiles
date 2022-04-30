@@ -219,12 +219,11 @@ show available keymaps based on what you typed
       (global-set-key (kbd "C-c f s") 'amirreza/grep)
 
       (with-eval-after-load 'evil
-      (evil-global-set-key 'normal (kbd "SPC f f") 'amirreza/find-file)
-      (evil-global-set-key 'normal (kbd "SPC f p") 'amirreza/find-project)
-      (evil-global-set-key 'normal (kbd "SPC f s") 'amirreza/grep)
-      (evil-global-set-key 'normal (kbd "??") 'amirreza/grep))
-
-
+          (evil-global-set-key 'normal (kbd "SPC f f") 'find-file)
+          (evil-global-set-key 'normal (kbd "SPC f p") 'amirreza/find-project)
+          (evil-global-set-key 'normal (kbd "SPC f s") 'amirreza/grep)
+          (evil-global-set-key 'normal (kbd "SPC SPC")  'amirreza/find-file)
+          (evil-global-set-key 'normal (kbd "??") 'amirreza/grep))
     )
 
 #+end_src
@@ -259,6 +258,10 @@ show available keymaps based on what you typed
       (setq org-startup-folded t)
     )
 
+#+end_src
+** Dired
+#+begin_src emacs-lisp
+  (use-package dired)
 #+end_src
 ** Highlight indents
 #+begin_src emacs-lisp
@@ -334,17 +337,15 @@ show available keymaps based on what you typed
 ** Go setup
 #+begin_src emacs-lisp
   (defun amirreza/go-hook ()
-        (interactive)
-        ;; add go binaries to exec-path
-        (add-to-list 'exec-path (concat (getenv "HOME") "/go/bin")))
+      (interactive)
+      ;; add go binaries to exec-path
+      (add-to-list 'exec-path (concat (getenv "HOME") "/go/bin")))
 
   (use-package go-mode
-    :ensure t
-    :mode "\\.go\\'"
-    :hook
-    (go-mode . #'amirreza/go-hook))
-
-
+      :ensure t
+      :mode "\\.go\\'"
+      :hook
+      (go-mode . amirreza/go-hook))
 #+end_src
 ** Rust setup
 #+begin_src emacs-lisp
@@ -473,7 +474,6 @@ show available keymaps based on what you typed
     :ensure t
     :bind
     (:map evil-normal-state-map
-          ("SPC SPC" . find-file)
           ("??" . consult-ripgrep)
           ("SPC f p" . amirreza/find-project)
           ("SPC g" . magit-status)
