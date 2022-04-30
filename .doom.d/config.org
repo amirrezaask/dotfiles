@@ -1,5 +1,10 @@
 * My DOOM Emacs Configuration
 This is my DOOM Emacs configuration file, I also have a vanilla Emacs configuration but I have moved into DOOM for it's large community and support
+** Personal information
+#+begin_src emacs-lisp
+(setq user-full-name "Amirreza Askarpour"
+      user-mail-address "raskarpour@gmail.com")
+#+end_src
 ** Use lexical bindings
 #+begin_src elisp
 ;;; config.el -*- lexical-binding: t; -*-
@@ -12,53 +17,63 @@ This is my DOOM Emacs configuration file, I also have a vanilla Emacs configurat
 #+begin_src elisp
 (setq doom-font "JetBrainsMono Nerd Font Mono-14")
 #+end_src
+** Map ; to :
+for ease of use I map ; to : for simpler evil commands.
+#+begin_src emacs-lisp
+(map! :n ";" 'evil-ex)
+#+end_src
 ** Workspaces
 Workspaces like i3, each workspace has it's own windows and buffers, mostly I have one Emacs open and multiple workspaces for each project.
 #+begin_src elisp
 (map! :leader :map global-map "w s" #'persp-switch)
 #+end_src
-
 ** Org
+I don't do a lot of configuration for org, most important ones are "SPC m b" which inserts a code block
+and "SPC m n" which inserts a no tangle block.
 #+begin_src elisp
 (use-package! org
-  :init
-  (map! :leader :n :map org-mode-map "m b" 'amirreza/--org-insert-elisp-code-block)
-  (map! :leader :n :map org-mode-map "m n" 'amirreza/--org-insert-no-tangle)
-  :config
-    (defun amirreza/--org-insert-elisp-code-block ()
-          (interactive)
-          (insert (format "#+begin_src emacs-lisp\n\n#+end_src"))
-          (previous-line)
-          (beginning-of-line))
+        :config
+        (map! :leader :n :map org-mode-map "m b" 'amirreza/--org-insert-elisp-code-block)
+        (map! :leader :n :map org-mode-map "m n" 'amirreza/--org-insert-no-tangle)
+        (defun amirreza/--org-insert-elisp-code-block ()
+                (interactive)
+                (insert (format "#+begin_src emacs-lisp\n\n#+end_src"))
+                (previous-line)
+                (beginning-of-line))
 
-      (defun amirreza/--org-insert-no-tangle ()
-          ""
-          (interactive)
-          (insert (format ":PROPERTIES:\n:header-args: :tangle no\n:END:\n"))
-          (previous-line)
-          (beginning-of-line))
+        (defun amirreza/--org-insert-no-tangle ()
+                ""
+                (interactive)
+                (insert (format ":PROPERTIES:\n:header-args: :tangle no\n:END:\n"))
+                (previous-line)
+                (beginning-of-line))
 
-      (setq org-src-fontify-natively t)
-      (setq org-src-tab-acts-natively t)
-      (setq org-support-shift-select t)
-      (setq org-src-window-setup 'current-window)
-      (setq org-startup-folded t)
-  )
+        (setq org-src-fontify-natively t)
+        (setq org-src-tab-acts-natively t)
+        (setq org-support-shift-select t)
+        (setq org-src-window-setup 'current-window)
+        (setq org-startup-folded t)
+        )
 #+end_src
 ** LSP
+LSP configurations in DOOM is almost complete I just need some simpler keybindings for most used operations
 #+begin_src emacs-lisp
-(map! :map lsp-mode-map :n (kbd "gr") 'xref-find-references)
-(map! :map lsp-mode-map :n (kbd "gi") 'lsp-find-implementation)
+(after! eglot
+        (map! :map eglot-mode-map :n (kbd "gd") 'xref-find-definitions) ;; I know it's default, but I wanted to have it for explicitness.
+        (map! :map eglot-mode-map :n (kbd "gr") 'xref-find-references)
+        (map! :map eglot-mode-map :n (kbd "gi") 'eglot-find-implementation)
+        )
 #+end_src
-
 ** Very large files
-#+begin_src emacs-lisp
-(package! screenshot
-  :recipe (:host github :repo "tecosaur/screenshot")
-  :pin "41b92a2a885d517fc14626dd0e666ae9ca20e529")
+#+begin_src emacs-lisp :tangle packages.el
+(package! vlf
+  :recipe (:host github :repo "m00natic/vlfi" :files ("*.el"))
+  :pin "cc02f2533782d6b9b628cec7e2dcf25b2d05a27c")
 #+end_src
-
-
+#+begin_src emacs-lisp
+(use-package! vlf-setup
+  :defer-incrementally vlf-tune vlf-base vlf-write vlf-search vlf-occur vlf-follow vlf-ediff vlf)
+#+end_src
 ** String style conversion
 #+begin_src emacs-lisp
 (package! string-inflection
@@ -91,4 +106,45 @@ Workspaces like i3, each workspace has it's own windows and buffers, mostly I ha
       (string-inflection-all-cycle)
       (setq evil-repeat-info '([?g ?~])))
     (define-key evil-normal-state-map (kbd "g~") 'evil-operator-string-inflection)))
+#+end_src
+
+** Better project management
+Since I follow old Go GOPATH conventions for all my development projects, I wrote these simple functions to find project folders easily
+without any kind of caching.
+#+begin_src emacs-lisp
+      (defvar amirreza/project-locations '("~/src/github.com/amirrezaask" "~/src/github.com/golobby" "~/src/gitlab.snapp.ir/"))
+      (defun amirreza/find-project ()
+      "List of projects in pre defined project locations."
+      (interactive)
+      (let ((output '()))
+          (dolist (path amirreza/project-locations)
+          (dolist (p (directory-files path t)) (add-to-list 'output p))
+          )
+          (dired (completing-read "Project: " output))
+          ))
+      (global-set-key (kbd "C-c f p") 'amirreza/find-project)
+
+      (autoload 'projectile-project-p "projectile.el")
+      (defun amirreza/grep ()
+        (interactive)
+        (cond
+                ((projectile-project-p) (consult-git-grep))
+                ((executable-find "rg") (consult-ripgrep))))
+
+      (defun amirreza/find-file ()
+        "If we are in project use projectile-find-file else use internal find-file"
+        (interactive)
+        (cond
+                ((projectile-project-p) (projectile-find-file))
+                (t (call-interactively 'find-file))))
+
+      (defun amirreza/find-symbol-at-point ()
+        (interactive)
+        (let* ((symbol (thing-at-point 'word)))
+                (consult-ripgrep (projectile-project-root) symbol)))
+
+      (evil-global-set-key 'normal (kbd "SPC f f") 'find-file)
+      (evil-global-set-key 'normal (kbd "SPC SPC") 'amirreza/find-file)
+      (evil-global-set-key 'normal (kbd "??") 'amirreza/grep)
+      (evil-global-set-key 'normal (kbd "SPC p p") 'amirreza/find-project)
 #+end_src

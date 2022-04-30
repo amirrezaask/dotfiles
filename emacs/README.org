@@ -218,14 +218,15 @@ show available keymaps based on what you typed
 
       (global-set-key (kbd "C-c f s") 'amirreza/grep)
 
-      (with-eval-after-load 'evil
-          (evil-global-set-key 'normal (kbd "SPC f f") 'find-file)
-          (evil-global-set-key 'normal (kbd "SPC f p") 'amirreza/find-project)
-          (evil-global-set-key 'normal (kbd "SPC f s") 'amirreza/grep)
-          (evil-global-set-key 'normal (kbd "SPC SPC")  'amirreza/find-file)
-          (evil-global-set-key 'normal (kbd "??") 'amirreza/grep))
+      (defun amirreza/evil-finders (map)
+          (evil-define-key 'normal map (kbd "SPC f f") 'find-file)
+          (evil-define-key 'normal map (kbd "SPC f p") 'amirreza/find-project)
+          (evil-define-key 'normal map (kbd "SPC f s") 'amirreza/grep)
+          (evil-define-key 'normal map (kbd "SPC SPC")  'amirreza/find-file)
+          (evil-define-key 'normal map (kbd "??") 'amirreza/grep)
+        )
+      (amirreza/evil-finders global-map)
     )
-
 #+end_src
 ** Org mode
 #+begin_src emacs-lisp
@@ -261,7 +262,6 @@ show available keymaps based on what you typed
 #+end_src
 ** Dired
 #+begin_src emacs-lisp
-  (use-package dired)
 #+end_src
 ** Highlight indents
 #+begin_src emacs-lisp
@@ -351,7 +351,7 @@ show available keymaps based on what you typed
 ** Rust setup
 #+begin_src emacs-lisp
   (use-package rust-mode :ensure t :mode "\\.rs\\'")
-  (use-package rustic :ensure t :hook (rust-mode . #'rustic-mode))
+  ;; (use-package rustic :ensure t :hook (rust-mode . #'rustic-mode))
 #+end_src
 ** Zig Setup
 #+begin_src emacs-lisp
@@ -361,50 +361,11 @@ show available keymaps based on what you typed
 #+end_src
 ** LSP Setup
 #+begin_src emacs-lisp
-  (use-package lsp-mode
+  (use-package eglot
     :ensure t
-    :commands
-    lsp
     :hook
-    (((purescript-mode
-      go-mode
-      rust-mode
-      php-mode
-      c-mode
-      lua-mode
-      python-mode
-      erlang-mode
-      haskell-mode
-      zig-mode
-      ) . lsp))
-
-    :bind
-    (:map evil-normal-state-map
-          ("g i" . lsp-find-implementation)
-     )
-    :config
-      (setq xref-prompt-for-identifier nil)
-      ;; TODO lsp-ui-doc-show/hide toggle key
-      (setq lsp-clients-lua-language-server-install-dir "/home/amirreza/.local/lua-language-server")
-      (setq lsp-clients-lua-language-server-bin (concat lsp-clients-lua-language-server-install-dir "/bin/lua-language-server"))
-      (setq lsp-clients-lua-language-server-main-location (concat lsp-clients-lua-language-server-install-dir "/main.lua"))
-    )
-
-  (use-package lsp-ui :ensure t
-    :bind
-    (:map evil-normal-state-map
-          ("K" . amirreza/lsp-ui-doc-toggle))
-    :init
-    (setq amirreza/--lsp-ui-doc-state 0)
-    (defun amirreza/lsp-ui-doc-toggle ()
-      "Toggle doc popup"
-      (interactive)
-      (if (= amirreza/--lsp-ui-doc-state 0)
-          (progn (lsp-ui-doc-show) (setq amirreza/--lsp-ui-doc-state 1))
-        (progn (lsp-ui-doc-hide) (setq amirreza/--lsp-ui-doc-state 0)))
-      ))
-
- #+end_src
+    ((go-mode python-mode rust-mode zig-mode) . eglot-ensure))
+#+end_src
 ** Company mode for Autocomplete
 #+begin_src emacs-lisp
   (use-package company
@@ -446,7 +407,7 @@ show available keymaps based on what you typed
 #+end_src
 ** Eldoc mode
 #+begin_src emacs-lisp
-    (global-eldoc-mode 1)
+  ;; (global-eldoc-mode 1)
 #+end_src
 ** Vertico And Consult
 #+begin_src emacs-lisp
