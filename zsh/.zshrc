@@ -53,13 +53,13 @@ then
     alias l='exa -la'
 fi
 
-if command -v hx &> /dev/null
-then
-    alias v='hx'
-    alias vi='hx'
-    alias vim='hx'
-    export EDITOR='hx'
-fi
+# if command -v hx &> /dev/null
+# then
+#     alias v='hx'
+#     alias vi='hx'
+#     alias vim='hx'
+#     export EDITOR='hx'
+# fi
 
 
 alias luamake=/Users/amirreza/.local/lua-language-server/3rd/luamake/luamake

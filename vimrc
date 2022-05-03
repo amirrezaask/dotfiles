@@ -161,7 +161,7 @@ set background=dark
 let g:gruvbox_contrast_dark='hard'
 let g:sonokai_style = 'atlantis'
 let g:sonokai_better_performance = 1
-colorscheme sonokai 
+colorscheme sitruuna 
 
 " Statusline
 if has('nvim')
@@ -258,6 +258,8 @@ else
             capabilities = capabilities,
           }
         end
+        vim.cmd [[ command! Fmt :lua vim.lsp.buf.formatting_sync() ]]
+        vim.cmd [[ nnoremap <leader>F :Fmt<CR> ]]
 
         local sumneko_root = string.format("%s/.local/lua-language-server", os.getenv("HOME"))
         local sumneko_binary = sumneko_root .. "/bin/lua-language-server"
