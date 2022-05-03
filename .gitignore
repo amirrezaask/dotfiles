@@ -6,6 +6,7 @@ xmonad/xmonad.errors
 xmonad/xmonad-x86_64-linux
 emacs/.cache/
 emacs/.dap-breakpoints
+emacs/projects
 emacs/.lsp-session-v1
 emacs/README.el
 emacs/abbrev_defs
