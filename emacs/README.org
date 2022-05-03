@@ -140,6 +140,27 @@ show available keymaps based on what you typed
       (which-key-setup-minibuffer)
       )
 #+end_src
+** Better *help* buffers
+#+begin_src emacs-lisp
+  (use-package helpful
+    :straight t
+    :bind
+    (:map evil-normal-state-map
+          ("SPC h v" . helpful-variable)
+          ("SPC h k" . helpful-key)
+          ("SPC h f" . helpful-function)
+          ("SPC h s" . helpful-symbol)
+          ("SPC h c" . helpful-command)
+          )
+    (:map global-map
+          ("C-h s" . helpful-symbol)
+          ("C-h k" . helpful-key)
+          ("C-h v" . helpful-variable)
+          ("C-h c" . helpful-command)
+          ("C-h f" . helpful-function)
+    )
+  )
+#+end_src
 ** Evil Mode: Vim emualtion in Emacs
 #+begin_src emacs-lisp
   (defun amirreza/evil-hook ()
