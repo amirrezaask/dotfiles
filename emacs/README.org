@@ -1,7 +1,50 @@
-* DEPREACATED
-I MOVED TO AMAZING DOOM Emacs, you can see my configuration [[https://github.com/amirrezaask/dotfiles/tree/master/.doom.d/config.org][here]].
 * Amirreza Emacs Configuration
 This is my emacs configuration written in literate format.
+** early-init.el file
+From Emacs 27 there is file called early-init.el. This file gets loaded before =init.el= file and also before UI gets loaded so i can disable UI elements I don't use.
+#+begin_src emacs-lisp :tangle early-init.el
+  (tool-bar-mode 0) ;; disable top toolbar
+  (scroll-bar-mode 0) ;; disable scroll bar
+  (menu-bar-mode -1) ;; Disable menu bar
+  (setq package-enable-at-startup nil) ;; disable emacs default package manager
+#+end_src
+** Package manager setup
+Emacs ofcourse has concept of packages, It also has a builtin package manager called =package.el= but it's not a deterministic approach and you can not lock packages
+to a specific version and also packages should be present at Emacs package archives and not all packages (99% does) do, so let's use alternative called =straight.el=.
+#+begin_src emacs-lisp :tangle init.el
+  (defvar bootstrap-version)
+  (let ((bootstrap-file
+          (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 5))
+  (unless (file-exists-p bootstrap-file)
+      (with-current-buffer
+          (url-retrieve-synchronously
+          "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+          'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+
+#+end_src
+** Use-package
+use-package is a declarative way for Emacs users to define their configurations using a declarative syntax.
+#+begin_src emacs-lisp :tangle init.el
+(straight-use-package 'use-package)
+#+end_src
+** Read THIS file at startup
+As you can see we are doing emacs config in a literate format, emacs by default does not read anything other that =init.el= and recently the =early-init.el= file, so we need to make sure
+that it reads our literate configuration.
+#+begin_src emacs-lisp :tangle init.el
+  (defvar amirreza/config-file (expand-file-name "README.org" user-emacs-directory))
+
+  (defun amirreza/reload ()
+    "Reload user configuration file"
+    (interactive)
+    (org-babel-load-file amirreza/config-file))
+
+
+  (org-babel-load-file amirreza/config-file)
+#+end_src
 ** Basic Emacs setups
 #+begin_src emacs-lisp
 (setq backup-by-copying t) ;; Always copy files for backup.
@@ -72,8 +115,8 @@ This is my emacs configuration written in literate format.
 #+end_src
 ** Appereance
 #+begin_src emacs-lisp
-  (use-package doom-themes :ensure t)
-  (use-package doom-modeline :ensure t)
+  (use-package doom-themes :straight t)
+  (use-package doom-modeline :straight t)
   (doom-modeline-mode 1) ;; enable doom modeline
   (load-theme 'doom-moonlight t) ;; set theme
   (set-frame-font "JetBrainsMono Nerd Font Mono 16" nil t) ;; Set font
@@ -81,7 +124,7 @@ This is my emacs configuration written in literate format.
 ** Which Key setup
 show available keymaps based on what you typed
 #+begin_src emacs-lisp
-  (use-package which-key :ensure t
+  (use-package which-key :straight t
     :config 
       (setq which-key-sort-order #'which-key-prefix-then-key-order
           which-key-sort-uppercase-first nil
@@ -112,7 +155,7 @@ show available keymaps based on what you typed
      (add-to-list 'evil-emacs-state-modes mode)))
 
   (use-package evil
-    :ensure t
+    :straight t
     :hook
     (evil-mode . amirreza/evil-hook)
     :init
@@ -158,10 +201,10 @@ show available keymaps based on what you typed
 
 
   (use-package evil-collection
-    :ensure t
+    :straight t
     :config (evil-collection-init))
 
-  (use-package evil-escape :ensure t
+  (use-package evil-escape :straight t
       :init
       (setq-default evil-escape-key-sequence "jk")
       (setq evil-escape-unordered-key-sequence t)
@@ -169,77 +212,85 @@ show available keymaps based on what you typed
       (evil-escape-mode 1))
 
   (use-package evil-surround
-    :ensure t
+    :straight t
     :config (global-evil-surround-mode 1))
 
-  (use-package evil-commentary :ensure t :config (evil-commentary-mode 1))
+  (use-package evil-commentary :straight t :config (evil-commentary-mode 1))
 
 
+#+end_src
+** Edit Dotfiles
+#+begin_src emacs-lisp
+  (evil-global-set-key 'normal (kbd "SPC e c") (lambda ()
+                                          (interactive)
+                                          (find-file "~/.emacs.d/README.org")))
+#+end_src
+** Vertico And Consult
+#+begin_src emacs-lisp
+    (use-package vertico
+      :straight t
+      :init
+      (vertico-mode 1)
+      :config
+      (setq vertico-resize nil
+            vertico-count 17
+            vertico-cycle t
+            completion-in-region-function
+            (lambda (&rest args)
+              (apply (if vertico-mode
+                         #'consult-completion-in-region
+                       #'completion--in-region)
+                     args))))
+  (use-package orderless
+    :straight t
+    :init
+    (setq completion-styles '(orderless basic)
+          completion-category-defaults nil
+          completion-category-overrides '((file (styles partial-completion)))))
+
+  (use-package consult
+    :straight t
+    :bind
+    (:map evil-normal-state-map
+          ("??" . consult-ripgrep)
+          ("SPC h f" . describe-function)
+          ("SPC h k" . describe-key)
+          ("SPC h v" . describe-variable)
+          ("SPC h a" . describe-apropos)
+          )
+    )
+#+end_src
+** Perspective
+Perspective provides a way to have multiple workspaces in Emacs.
+#+begin_src emacs-lisp
+  (use-package perspective :straight t
+    :config
+    (setq persp-suppress-no-prefix-key-warning t)
+    (persp-mode 1)
+    (evil-global-set-key 'normal (kbd "SPC w s") 'persp-switch)
+    (evil-global-set-key 'normal (kbd "SPC w n") 'persp-next)
+    (evil-global-set-key 'normal (kbd "SPC w d") 'persp-kill-buffer*)
+    )
+#+end_src
+** Map some basic keys
+Since we are using Evil mode we need to bind some basic functionalities of emacs to more vimish like keys.
+#+begin_src emacs-lisp
+  (evil-define-key 'normal global-map (kbd "SPC f f") 'find-file)
+  (evil-define-key 'normal global-map (kbd "SPC SPC") 'find-file)
 #+end_src
 ** Buffers
 #+begin_src emacs-lisp
   (evil-global-set-key 'normal (kbd "SPC b b") 'switch-to-buffer)  
   (evil-global-set-key 'normal (kbd "SPC b k") 'kill-buffer)  
 #+end_src
-** Project based functionalities
-#+begin_src emacs-lisp
-  (use-package projectile
-    :config
-      (defvar amirreza/project-locations '("~/src/gitlab.snapp.ir" "~/src/github.com/amirrezaask" "~/src/gitlab.snapp.ir"))
-      (defun amirreza/find-project ()
-      "List of projects in pre defined project locations."
-      (interactive)
-      (let ((output '()))
-          (dolist (path amirreza/project-locations)
-          (dolist (p (directory-files path t)) (add-to-list 'output p))
-          )
-          (dired (completing-read "Project: " output))
-          ))
-      (global-set-key (kbd "C-c f p") 'amirreza/find-project)
-
-      (autoload 'projectile-project-p "projectile.el")
-      (defun amirreza/grep ()
-      (interactive)
-      (cond
-      ((projectile-project-p) (consult-git-grep))
-      ((executable-find "rg") (consult-ripgrep))))
-
-      (defun amirreza/find-file ()
-      "If we are in project use projectile-find-file else use internal find-file"
-      (interactive)
-      (cond
-      ((projectile-project-p) (projectile-find-file))
-      (t (call-interactively 'find-file))))
-
-      (defun amirreza/find-symbol-at-point ()
-      (interactive)
-      (let* ((symbol (thing-at-point 'word)))
-          (consult-ripgrep (projectile-project-root) symbol)))
-
-      (global-set-key (kbd "C-c f f") 'amirreza/find-file)
-
-      (global-set-key (kbd "C-c f s") 'amirreza/grep)
-
-      (defun amirreza/evil-finders (map)
-          (evil-define-key 'normal map (kbd "SPC f f") 'find-file)
-          (evil-define-key 'normal map (kbd "SPC f p") 'amirreza/find-project)
-          (evil-define-key 'normal map (kbd "SPC f s") 'amirreza/grep)
-          (evil-define-key 'normal map (kbd "SPC SPC")  'amirreza/find-file)
-          (evil-define-key 'normal map (kbd "??") 'amirreza/grep)
-        )
-      (amirreza/evil-finders global-map)
-    )
-#+end_src
 ** Org mode
 #+begin_src emacs-lisp
   (use-package org
-    :hook
-    ((org-mode . #'org-bullets-mode)
-     (org-mode . #'toc-org-mode))
     :config
       (evil-define-key 'normal org-mode-map (kbd "SPC m b") 'amirreza/--org-insert-elisp-code-block)
       (evil-define-key 'normal org-mode-map (kbd "SPC m n") 'amirreza/--org-insert-no-tangle)
       (define-key org-src-mode-map (kbd "C-c C-c") #'org-edit-src-exit) ;; consitent with magit commit
+
       (defun amirreza/--org-insert-elisp-code-block ()
           (interactive)
           (insert (format "#+begin_src emacs-lisp\n\n#+end_src"))
@@ -260,7 +311,14 @@ show available keymaps based on what you typed
       (setq org-src-window-setup 'current-window)
       (setq org-startup-folded t)
     )
-
+#+end_src
+** Magit
+BEST git client ever ?
+#+begin_src emacs-lisp
+  (use-package magit :straight t
+    :bind
+    (:map evil-normal-state-map
+          ("SPC g g" . magit-status)))
 #+end_src
 ** Dired
 #+begin_src emacs-lisp
@@ -270,13 +328,13 @@ show available keymaps based on what you typed
   (use-package highlight-indent-guides
     :hook ((yaml-mode-hook . #'highlight-indent-guides)
            (focus-in-hook . #'highlight-indent-guides-auto-set-faces))
-      :ensure t
+      :straight t
       :config
       (setq highlight-indent-guides-method 'character))
 #+end_src
 ** Expand selection smartly
 #+begin_src emacs-lisp
-  (use-package expand-region :ensure t
+  (use-package expand-region :straight t
     :bind
     (("C-=" . er/expand-region)
      ("C--" . er/contract-region)))
@@ -284,7 +342,7 @@ show available keymaps based on what you typed
 ** Highlight todos in code
 #+begin_src emacs-lisp
   (use-package hl-todo
-    :ensure t
+    :straight t
     :config
       (global-hl-todo-mode 1)
       (setq hl-todo-highlight-punctuation ":"
@@ -299,7 +357,7 @@ show available keymaps based on what you typed
 #+end_src
 ** Long files and lines 
 #+begin_src emacs-lisp
-  (use-package vlf :ensure t)
+  (use-package vlf :straight t)
   (global-so-long-mode 1)
 #+end_src
 ** Emacs over SSH: Tramp mdoe
@@ -312,25 +370,25 @@ show available keymaps based on what you typed
 #+end_src
 ** Some config file formats
 #+begin_src emacs-lisp
-   (use-package apache-mode :ensure t
+   (use-package apache-mode :straight t
        :mode ("\\.htaccess\\'" "httpd\\.conf\\'" "srm\\.conf\\'" "access\\.conf\\'"))
 
-     (use-package systemd :ensure t
+     (use-package systemd :straight t
        :mode ("\\.service\\'" "\\.timer\\'"))
 
-     (use-package nginx-mode :ensure 
+     (use-package nginx-mode :straight 
        :mode ("/etc/nginx/conf.d/.*" "/etc/nginx/.*\\.conf\\'"))
 
    (use-package docker-compose-mode
-       :ensure t
+       :straight t
        :mode "docker-compose\\.yml")
-   (use-package dockerfile-mode :ensure t :mode "\\Dockerfile\\'")
+   (use-package dockerfile-mode :straight t :mode "\\Dockerfile\\'")
 
 
 #+end_src
 ** Copy env variables from default shell
 #+begin_src emacs-lisp
-  (use-package exec-path-from-shell :ensure t
+  (use-package exec-path-from-shell :straight t
     :config
       (setq exec-path-from-shell-shell-name "zsh")
       (exec-path-from-shell-copy-envs '("GOPROXY" "GOPRIVATE"))
@@ -345,34 +403,34 @@ show available keymaps based on what you typed
       (add-to-list 'exec-path (concat (getenv "HOME") "/go/bin")))
 
   (use-package go-mode
-      :ensure t
+      :straight t
       :mode "\\.go\\'"
       :hook
       (go-mode . amirreza/go-hook))
 #+end_src
 ** Rust setup
 #+begin_src emacs-lisp
-  (use-package rust-mode :ensure t :mode "\\.rs\\'")
-  ;; (use-package rustic :ensure t :hook (rust-mode . #'rustic-mode))
+  (use-package rust-mode :straight t :mode "\\.rs\\'")
+  ;; (use-package rustic :straight t :hook (rust-mode . #'rustic-mode))
 #+end_src
 ** Zig Setup
 #+begin_src emacs-lisp
   (use-package zig-mode
     :mode "\\.zig\\'"
-    :ensure t)
+    :straight t)
 #+end_src
 ** LSP Setup
 #+begin_src emacs-lisp
   (use-package eglot
-    :ensure t
+    :straight t
     :hook
-    ((go-mode python-mode rust-mode zig-mode) . eglot-ensure))
+    ((prog-mode) . eglot-ensure))
 #+end_src
 ** Company mode for Autocomplete
 #+begin_src emacs-lisp
   (use-package company
-    :ensure t
-    :hook (prog-mode . company-mode)
+    :straight t
+    :hook (after-init . global-company-mode)
     :bind
     (:map company-active-map
           ("C-n" . #'company-select-next)
@@ -392,14 +450,14 @@ show available keymaps based on what you typed
 #+end_src
 ** Git messenger: Git blame
 #+begin_src emacs-lisp
-  (use-package git-messenger :ensure t
+  (use-package git-messenger :straight t
     :config
       (setq git-messenger:show-detail t)
       (setq git-messenger:use-magit-popup t))
 #+end_src
 ** Yasnippets: Code snippets
 #+begin_src emacs-lisp
-  (use-package yasnippet :ensure t
+  (use-package yasnippet :straight t
     :bind
     (("C-x C-x" . yas-expand)
      ("C-x C-l" . yas-insert-snippet))
@@ -411,60 +469,10 @@ show available keymaps based on what you typed
 #+begin_src emacs-lisp
   ;; (global-eldoc-mode 1)
 #+end_src
-** Vertico And Consult
-#+begin_src emacs-lisp
-    (use-package vertico
-      :ensure t
-      :init
-      (vertico-mode 1)
-      :config
-      (setq vertico-resize nil
-            vertico-count 17
-            vertico-cycle t
-            completion-in-region-function
-            (lambda (&rest args)
-              (apply (if vertico-mode
-                         #'consult-completion-in-region
-                       #'completion--in-region)
-                     args))))
-  (use-package orderless
-    :ensure t
-    :init
-    (setq completion-styles '(orderless basic)
-          completion-category-defaults nil
-          completion-category-overrides '((file (styles partial-completion)))))
-
-  (use-package consult
-    :ensure t
-    :bind
-    (:map evil-normal-state-map
-          ("??" . consult-ripgrep)
-          ("SPC f p" . amirreza/find-project)
-          ("SPC g" . magit-status)
-          ("SPC h f" . describe-function)
-          ("SPC h k" . describe-key)
-          ("SPC h v" . describe-variable)
-          ("SPC h a" . describe-apropos)
-          )
-    :config
-    (persp-mode 1)
-    (define-key evil-normal-state-map (kbd "SPC w s") 'persp-switch)
-    (define-key evil-normal-state-map (kbd "SPC w n") 'persp-next)
-    (define-key evil-normal-state-map (kbd "SPC w d") 'persp-kill-buffer*)
-  )
-#+end_src
-
-** Edit Dotfiles
-#+begin_src emacs-lisp
-  (evil-global-set-key 'normal (kbd "SPC e c") (lambda ()
-                                          (interactive)
-                                          (find-file "~/.emacs.d/README.org")))
-#+end_src
-
 ** Workspaces
 #+begin_src emacs-lisp
   (use-package perspective
-    :ensure t
+    :straight t
     :config
     (setq persp-suppress-no-prefix-key-warning t)
     (persp-mode 1)
@@ -477,6 +485,6 @@ show available keymaps based on what you typed
 ** Terminal Emulator
 #+begin_src emacs-lisp
   (use-package vterm
-    :ensure t)
+    :straight t)
 #+end_src
                      
