@@ -199,6 +199,15 @@ or disable a module. Now let's enable what I want.
 #+begin_src elisp
 (setq doom-font "JetBrainsMono Nerd Font Mono-14")
 #+end_src
+** Windows
+#+begin_src emacs-lisp
+(map! "<up>" 'evil-window-increase-height)
+(map! "<down>" 'evil-window-decrease-height)
+
+(map! "<right>" 'evil-window-increase-height)
+(map! "<left>" 'evil-window-decrease-height)
+
+#+end_src
 ** Map ; to :
 for ease of use I map ; to : for simpler evil commands.
 #+begin_src emacs-lisp
@@ -240,6 +249,11 @@ and "SPC m n" which inserts a no tangle block.
 ** LSP
 LSP configurations in DOOM is almost complete I just need some simpler keybindings for most used operations
 #+begin_src emacs-lisp
+(after! lsp-mode
+        (map! :map lsp-mode-map :n (kbd "gd") 'xref-find-definitions) ;; I know it's default, but I wanted to have it for explicitness.
+        (map! :map lsp-mode-map :n (kbd "gr") 'xref-find-references)
+        (map! :map lsp-mode-map :n (kbd "gi") 'lsp-find-implementation)
+        )
 (after! eglot
         (map! :map eglot-mode-map :n (kbd "gd") 'xref-find-definitions) ;; I know it's default, but I wanted to have it for explicitness.
         (map! :map eglot-mode-map :n (kbd "gr") 'xref-find-references)
@@ -302,5 +316,3 @@ Disables caching to always see updated files list.
 #+begin_src emacs-lisp
 (setq projectile-enable-caching nil)
 #+end_src
-
-**
