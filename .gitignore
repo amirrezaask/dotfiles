@@ -13,6 +13,7 @@ emacs/transient
 emacs/straight/
 emacs/var
 emacs/eshell
+.doom.d/packages.el
 .doom.d/config.el
 nvim/.netrwhist
 fonts/.uuid
