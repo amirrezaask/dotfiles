@@ -1,3 +1,5 @@
+* DEPREACATED
+I MOVED TO AMAZING DOOM Emacs, you can see my configuration [[https://github.com/amirrezaask/dotfiles/tree/master/.doom.d/config.org][here]].
 * Amirreza Emacs Configuration
 This is my emacs configuration written in literate format.
 ** Basic Emacs setups
