@@ -121,46 +121,6 @@ that it reads our literate configuration.
   (load-theme 'doom-moonlight t) ;; set theme
   (set-frame-font "JetBrainsMono Nerd Font Mono 16" nil t) ;; Set font
 #+end_src
-** Which Key setup
-show available keymaps based on what you typed
-#+begin_src emacs-lisp
-  (use-package which-key :straight t
-    :config 
-      (setq which-key-sort-order #'which-key-prefix-then-key-order
-          which-key-sort-uppercase-first nil
-          which-key-add-column-padding 1
-          which-key-max-display-columns nil
-          which-key-min-display-lines 6
-          which-key-side-window-slot -10)
-
-      (setq which-key-idle-delay 0.5)
-
-      (which-key-mode 1)
-
-      (which-key-setup-minibuffer)
-      )
-#+end_src
-** Better *help* buffers
-#+begin_src emacs-lisp
-  (use-package helpful
-    :straight t
-    :bind
-    (:map evil-normal-state-map
-          ("SPC h v" . helpful-variable)
-          ("SPC h k" . helpful-key)
-          ("SPC h f" . helpful-function)
-          ("SPC h s" . helpful-symbol)
-          ("SPC h c" . helpful-command)
-          )
-    (:map global-map
-          ("C-h s" . helpful-symbol)
-          ("C-h k" . helpful-key)
-          ("C-h v" . helpful-variable)
-          ("C-h c" . helpful-command)
-          ("C-h f" . helpful-function)
-    )
-  )
-#+end_src
 ** Evil Mode: Vim emualtion in Emacs
 #+begin_src emacs-lisp
   (defun amirreza/evil-hook ()
@@ -240,6 +200,47 @@ show available keymaps based on what you typed
 
 
 #+end_src
+** Which Key setup
+show available keymaps based on what you typed
+#+begin_src emacs-lisp
+  (use-package which-key :straight t
+    :config 
+      (setq which-key-sort-order #'which-key-prefix-then-key-order
+          which-key-sort-uppercase-first nil
+          which-key-add-column-padding 1
+          which-key-max-display-columns nil
+          which-key-min-display-lines 6
+          which-key-side-window-slot -10)
+
+      (setq which-key-idle-delay 0.5)
+
+      (which-key-mode 1)
+
+      (which-key-setup-minibuffer)
+      )
+#+end_src
+** Better *help* buffers
+#+begin_src emacs-lisp
+  (use-package helpful
+    :straight t
+    :bind
+    (:map evil-normal-state-map
+          ("SPC h v" . helpful-variable)
+          ("SPC h k" . helpful-key)
+          ("SPC h f" . helpful-function)
+          ("SPC h s" . helpful-symbol)
+          ("SPC h c" . helpful-command)
+          ("SPC h m" . helpful-mode)
+          )
+    (:map global-map
+          ("C-h s" . helpful-symbol)
+          ("C-h k" . helpful-key)
+          ("C-h v" . helpful-variable)
+          ("C-h c" . helpful-command)
+          ("C-h f" . helpful-function)
+    )
+  )
+#+end_src
 ** Edit Dotfiles
 #+begin_src emacs-lisp
   (evil-global-set-key 'normal (kbd "SPC e c") (lambda ()
@@ -274,11 +275,23 @@ show available keymaps based on what you typed
     :bind
     (:map evil-normal-state-map
           ("??" . consult-ripgrep)
-          ("SPC h f" . describe-function)
-          ("SPC h k" . describe-key)
-          ("SPC h v" . describe-variable)
-          ("SPC h a" . describe-apropos)
           )
+    )
+#+end_src
+** Projects
+Emacs has a builtin =project.el= library to help with project based functions.
+#+begin_src emacs-lisp
+  (use-package project
+    :commands
+    (project-find-file)
+    :bind
+    (:map evil-normal-state-map
+          ("SPC SPC" . project-find-file)
+          ("SPC p s" . project-switch-project)
+          ("SPC p d" . project-dired)
+          ("SPC b b" . project-switch-to-buffer)  
+          ("SPC f f" . find-file)
+     )
     )
 #+end_src
 ** Perspective
@@ -293,15 +306,8 @@ Perspective provides a way to have multiple workspaces in Emacs.
     (evil-global-set-key 'normal (kbd "SPC w d") 'persp-kill-buffer*)
     )
 #+end_src
-** Map some basic keys
-Since we are using Evil mode we need to bind some basic functionalities of emacs to more vimish like keys.
-#+begin_src emacs-lisp
-  (evil-define-key 'normal global-map (kbd "SPC f f") 'find-file)
-  (evil-define-key 'normal global-map (kbd "SPC SPC") 'find-file)
-#+end_src
 ** Buffers
 #+begin_src emacs-lisp
-  (evil-global-set-key 'normal (kbd "SPC b b") 'switch-to-buffer)  
   (evil-global-set-key 'normal (kbd "SPC b k") 'kill-buffer)  
 #+end_src
 ** Org mode
