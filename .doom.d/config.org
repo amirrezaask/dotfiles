@@ -208,6 +208,11 @@ or disable a module. Now let's enable what I want.
 (map! "<left>" 'evil-window-decrease-height)
 
 #+end_src
+** Evil split
+#+begin_src emacs-lisp
+(setq evil-split-window-below t)
+(setq evil-vsplit-window-right t)
+#+end_src
 ** Map ; to :
 for ease of use I map ; to : for simpler evil commands.
 #+begin_src emacs-lisp
@@ -270,41 +275,6 @@ LSP configurations in DOOM is almost complete I just need some simpler keybindin
 (use-package! vlf-setup
   :defer-incrementally vlf-tune vlf-base vlf-write vlf-search vlf-occur vlf-follow vlf-ediff vlf)
 #+end_src
-** String style conversion
-#+begin_src emacs-lisp :tangle packages.el
-(package! string-inflection
-  :pin "c4a519be102cb99dd86be3ee8c387f008d097635")
-#+end_src
-#+begin_src emacs-lisp
-(use-package! string-inflection
-  :commands (string-inflection-all-cycle
-             string-inflection-toggle
-             string-inflection-camelcase
-             string-inflection-lower-camelcase
-             string-inflection-kebab-case
-             string-inflection-underscore
-             string-inflection-capital-underscore
-             string-inflection-upcase)
-  :init
-  (map! :leader :prefix ("c~" . "naming convention")
-        :desc "cycle" "~" #'string-inflection-all-cycle
-        :desc "toggle" "t" #'string-inflection-toggle
-        :desc "CamelCase" "c" #'string-inflection-camelcase
-        :desc "downCase" "d" #'string-inflection-lower-camelcase
-        :desc "kebab-case" "k" #'string-inflection-kebab-case
-        :desc "under_score" "_" #'string-inflection-underscore
-        :desc "Upper_Score" "u" #'string-inflection-capital-underscore
-        :desc "UP_CASE" "U" #'string-inflection-upcase)
-  (after! evil
-    (evil-define-operator evil-operator-string-inflection (beg end _type)
-      "Define a new evil operator that cycles symbol casing."
-      :move-point nil
-      (interactive "<R>")
-      (string-inflection-all-cycle)
-      (setq evil-repeat-info '([?g ?~])))
-    (define-key evil-normal-state-map (kbd "g~") 'evil-operator-string-inflection)))
-#+end_src
-
 ** Projectile
 *** Indexing method
 defines how projectile should index project names and files.
