@@ -296,3 +296,15 @@ Disables caching to always see updated files list.
 (setq projectile-enable-caching nil)
 #+end_src
 
+** Which key
+#+begin_src emacs-lisp
+(after! which-key
+  (setq which-key-idle-delay 0.3))
+#+end_src
+
+** Searching
+#+begin_src emacs-lisp
+(after! consult
+  (map! :n "??" 'consult-ripgrep)
+  )
+#+end_src
