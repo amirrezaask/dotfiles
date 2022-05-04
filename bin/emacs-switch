@@ -3,10 +3,10 @@ PROFILE=$1
 
 if [ $PROFILE = "doom" ]; then
     echo "switching to doom"
-    rm -rf .emacs.d
-    ln -s ~/.emacs.d.doom .emacs.d
+    rm -rf ~/.emacs.d
+    ln -s ~/.emacs.d.doom ~/.emacs.d
 elif [ $PROFILE = "personal" ]; then
     echo "switching to personal"
-    rm -rf .emacs.d
-    ln -s ~/.emacs.d.personal .emacs.d
+    rm -rf ~/.emacs.d
+    ln -s ~/.emacs.d.personal ~/.emacs.d
 fi

@@ -47,9 +47,9 @@ or disable a module. Now let's enable what I want.
        ;;unicode           ; extended unicode support for various languages
        vc-gutter         ; vcs diff in the fringe
        vi-tilde-fringe   ; fringe tildes to mark beyond EOB
-       ;;window-select     ; visually switch windows
+       window-select     ; visually switch windows
        workspaces        ; tab emulation, persistence & separate workspaces
-       ;;zen               ; distraction-free coding or writing
+       zen               ; distraction-free coding or writing
 
        :editor
        (evil +everywhere); come to the dark side, we have cookies
@@ -58,7 +58,7 @@ or disable a module. Now let's enable what I want.
        ;;(format +onsave)  ; automated prettiness
        ;;god               ; run Emacs commands without modifier keys
        ;;lispy             ; vim for lisp, for people who don't like vim
-       ;;multiple-cursors  ; editing in many places at once
+       multiple-cursors  ; editing in many places at once
        ;;objed             ; text object editing for the innocent
        ;;parinfer          ; turn lisp into python, sort of
        ;;rotate-text       ; cycle region at point between text candidates
@@ -191,24 +191,31 @@ or disable a module. Now let's enable what I want.
        literate
        (default +bindings +smartparens))
 #+end_src
+
+#+RESULTS:
+
+** Dashboard and startscreen
+I love to have a minimal start screen and I don't need DOOM cheats:).
+#+begin_src emacs-lisp
+(setq +doom-dashboard-functions '(doom-dashboard-widget-banner doom-dashboard-widget-loaded doom-dashboard-widget-footer))
+#+end_src
 ** Theme
 #+begin_src elisp
 (setq doom-theme 'doom-moonlight)
 #+end_src
+** Modeline
+first of all show me what workspace I am in.
+#+begin_src emacs-lisp
+(setq doom-modeline-persp-icon t)
+(setq doom-modeline-persp-name t)
+#+end_src
 ** Font
 #+begin_src elisp
-(setq doom-font "JetBrainsMono Nerd Font Mono-14")
-#+end_src
-** Windows
-#+begin_src emacs-lisp
-(map! "<up>" 'evil-window-increase-height)
-(map! "<down>" 'evil-window-decrease-height)
-
-(map! "<right>" 'evil-window-increase-height)
-(map! "<left>" 'evil-window-decrease-height)
-
+;; (setq doom-font "JetBrainsMono Nerd Font Mono-14")
+(setq doom-font "OperatorMono Nerd Font-14")
 #+end_src
 ** Evil split
+I rather my splits to be on bottom and right.
 #+begin_src emacs-lisp
 (setq evil-split-window-below t)
 (setq evil-vsplit-window-right t)
@@ -266,6 +273,8 @@ LSP configurations in DOOM is almost complete I just need some simpler keybindin
         )
 #+end_src
 ** Very large files
+When emacs wants to read a file, it reads it completely and stores it in RAM, this would destroy emacs on large megabytes or gigabytes files,
+so we use =vlf= package to handle in this situations.
 #+begin_src emacs-lisp :tangle packages.el
 (package! vlf
   :recipe (:host github :repo "m00natic/vlfi" :files ("*.el"))
@@ -286,3 +295,4 @@ Disables caching to always see updated files list.
 #+begin_src emacs-lisp
 (setq projectile-enable-caching nil)
 #+end_src
+
