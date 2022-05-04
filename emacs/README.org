@@ -1,14 +1,15 @@
 * Amirreza Emacs Configuration
 This is my emacs configuration written in literate format.
-** early-init.el file
+** Emacs base
+*** early-init.el file
 From Emacs 27 there is file called early-init.el. This file gets loaded before =init.el= file and also before UI gets loaded so i can disable UI elements I don't use.
 #+begin_src emacs-lisp :tangle early-init.el
-  (tool-bar-mode 0) ;; disable top toolbar
-  (scroll-bar-mode 0) ;; disable scroll bar
-  (menu-bar-mode -1) ;; Disable menu bar
-  (setq package-enable-at-startup nil) ;; disable emacs default package manager
+(tool-bar-mode 0) ;; disable top toolbar
+(scroll-bar-mode 0) ;; disable scroll bar
+(menu-bar-mode -1) ;; Disable menu bar
+(setq package-enable-at-startup nil) ;; disable emacs default package manager
 #+end_src
-** Package manager setup
+*** Package manager setup
 Emacs ofcourse has concept of packages, It also has a builtin package manager called =package.el= but it's not a deterministic approach and you can not lock packages
 to a specific version and also packages should be present at Emacs package archives and not all packages (99% does) do, so let's use alternative called =straight.el=.
 #+begin_src emacs-lisp :tangle init.el
@@ -26,12 +27,12 @@ to a specific version and also packages should be present at Emacs package archi
   (load bootstrap-file nil 'nomessage))
 
 #+end_src
-** Use-package
+*** Use-package
 use-package is a declarative way for Emacs users to define their configurations using a declarative syntax.
 #+begin_src emacs-lisp :tangle init.el
 (straight-use-package 'use-package)
 #+end_src
-** Read THIS file at startup
+*** Read THIS file at startup
 As you can see we are doing emacs config in a literate format, emacs by default does not read anything other that =init.el= and recently the =early-init.el= file, so we need to make sure
 that it reads our literate configuration.
 #+begin_src emacs-lisp :tangle init.el
@@ -45,7 +46,7 @@ that it reads our literate configuration.
 
   (org-babel-load-file amirreza/config-file)
 #+end_src
-** Basic Emacs setups
+*** Basic Emacs setups
 #+begin_src emacs-lisp
 (setq backup-by-copying t) ;; Always copy files for backup.
 (setq version-control t) ;; Use version numbers for backup.
@@ -93,14 +94,54 @@ that it reads our literate configuration.
 
 (setq custom-file "~/.config/emacs/custom.el") ;; Don't tamper with init.el for custom variables and use given file.
 #+end_src
-** Show more information in modeline
+*** Show more information in modeline
 #+begin_src emacs-lisp
 (column-number-mode +1) ;; Show column number in modeline.
 (display-battery-mode 1) ;; Show battery in modeline.
 (display-time-mode 1) ;; Show time in modeline.
 (global-display-line-numbers-mode 1) ;; Ensure line numbers globally.
 #+end_src
-** Editor basics
+*** Better *help* buffers
+#+begin_src emacs-lisp
+  (use-package helpful
+    :straight t
+    :bind
+    (:map evil-normal-state-map
+          ("SPC h v" . helpful-variable)
+          ("SPC h k" . helpful-key)
+          ("SPC h f" . helpful-function)
+          ("SPC h s" . helpful-symbol)
+          ("SPC h c" . helpful-command)
+          ("SPC h m" . helpful-mode)
+          )
+    (:map global-map
+          ("C-h s" . helpful-symbol)
+          ("C-h k" . helpful-key)
+          ("C-h v" . helpful-variable)
+          ("C-h c" . helpful-command)
+          ("C-h f" . helpful-function)
+    )
+  )
+#+end_src
+*** Sync env with default shell
+#+begin_src emacs-lisp
+  (use-package exec-path-from-shell :straight t
+    :config
+      (setq exec-path-from-shell-shell-name "zsh")
+      (exec-path-from-shell-copy-envs '("GOPROXY" "GOPRIVATE"))
+      (exec-path-from-shell-initialize))
+#+end_src
+** UI
+#+begin_src emacs-lisp
+  (use-package doom-themes :straight t)
+  (use-package doom-modeline :straight t)
+  (doom-modeline-mode 1) ;; enable doom modeline
+  (load-theme 'doom-moonlight t) ;; set theme
+  ;; (set-frame-font "JetBrainsMono Nerd Font Mono 16" nil t) ;; Set font
+  (set-frame-font "OperatorMono Nerd Font 16" nil t) ;; Set font
+#+end_src
+** Editor
+*** Editor basics
 #+begin_src emacs-lisp
   (use-package emacs
     :config
@@ -113,26 +154,13 @@ that it reads our literate configuration.
       (global-hl-line-mode +1) ;; Highlight current line.
       )
 #+end_src
-** Appereance
-#+begin_src emacs-lisp
-  (use-package doom-themes :straight t)
-  (use-package doom-modeline :straight t)
-  (doom-modeline-mode 1) ;; enable doom modeline
-  (load-theme 'doom-moonlight t) ;; set theme
-  ;; (set-frame-font "JetBrainsMono Nerd Font Mono 16" nil t) ;; Set font
-  (set-frame-font "OperatorMono Nerd Font 16" nil t) ;; Set font
-#+end_src
-** Evil Mode: Vim emualtion in Emacs
+*** Evil Mode: Vim emualtion in Emacs
 #+begin_src emacs-lisp
   (defun amirreza/evil-hook ()
     (dolist (mode '(custom-mode
                     eshell-mode
                     git-rebase-mode
                     erc-mode
-                    circe-server-mode
-                    circe-chat-mode
-                    circe-query-mode
-                    sauron-mode
                     term-mode))
      (add-to-list 'evil-emacs-state-modes mode)))
 
@@ -144,9 +172,6 @@ that it reads our literate configuration.
       (setq evil-want-keybinding nil)
       (evil-mode 1)
     :bind
-    (:map evil-normal-state-map
-          ("g r" . 'xref-find-references)
-          ("g d" . 'xref-find-definitions))
     :config
       (setq evil-want-integration t)
       (setq evil-want-C-u-scroll t)
@@ -178,6 +203,7 @@ that it reads our literate configuration.
       (evil-select-search-module 'evil-search-module 'evil-search)
       (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
       (define-key evil-insert-state-map (kbd "C-h") 'evil-delete-backward-char-and-join)
+      (evil-global-set-key 'normal (kbd "SPC b k") 'kill-buffer)  
       (evil-set-leader nil "SPC")
       (setq evil-want-Y-yank-to-eol t)
     )
@@ -202,7 +228,7 @@ that it reads our literate configuration.
 
 
 #+end_src
-** Mapping helper
+*** Mapping helper
 #+begin_src emacs-lisp
     ;; (map :modes '(normal emacs visual) :key "SPC " :fn 'fn)
  
@@ -217,7 +243,7 @@ that it reads our literate configuration.
     ;;     )
     ;;   )
 #+end_src
-** Which Key setup
+*** Which Key setup
 show available keymaps based on what you typed
 #+begin_src emacs-lisp
   (use-package which-key :straight t
@@ -236,35 +262,51 @@ show available keymaps based on what you typed
       (which-key-setup-minibuffer)
       )
 #+end_src
-** Better *help* buffers
-#+begin_src emacs-lisp
-  (use-package helpful
-    :straight t
-    :bind
-    (:map evil-normal-state-map
-          ("SPC h v" . helpful-variable)
-          ("SPC h k" . helpful-key)
-          ("SPC h f" . helpful-function)
-          ("SPC h s" . helpful-symbol)
-          ("SPC h c" . helpful-command)
-          ("SPC h m" . helpful-mode)
-          )
-    (:map global-map
-          ("C-h s" . helpful-symbol)
-          ("C-h k" . helpful-key)
-          ("C-h v" . helpful-variable)
-          ("C-h c" . helpful-command)
-          ("C-h f" . helpful-function)
-    )
-  )
-#+end_src
-** Edit Dotfiles
+*** Edit Dotfiles
 #+begin_src emacs-lisp
   (evil-global-set-key 'normal (kbd "SPC e c") (lambda ()
                                           (interactive)
                                           (find-file "~/.emacs.d/README.org")))
 #+end_src
-** Vertico And Consult
+*** Highlight indents
+#+begin_src emacs-lisp
+  (use-package highlight-indent-guides
+    :hook ((yaml-mode-hook . #'highlight-indent-guides)
+           (focus-in-hook . #'highlight-indent-guides-auto-set-faces))
+      :straight t
+      :config
+      (setq highlight-indent-guides-method 'character))
+#+end_src
+*** Expand selection smartly
+#+begin_src emacs-lisp
+  (use-package expand-region :straight t
+    :bind
+    (("C-=" . er/expand-region)
+     ("C--" . er/contract-region)))
+#+end_src
+*** Highlight todos in code
+#+begin_src emacs-lisp
+  (use-package hl-todo
+    :straight t
+    :config
+      (global-hl-todo-mode 1)
+      (setq hl-todo-highlight-punctuation ":"
+        hl-todo-keyword-faces
+        `(("TODO"       warning bold)
+          ("FIXME"      error bold)
+          ("HACK"       font-lock-constant-face bold)
+          ("REVIEW"     font-lock-keyword-face bold)
+          ("NOTE"       success bold)
+          ("DEPRECATED" font-lock-doc-face bold)))
+    )
+#+end_src
+*** Long files and lines 
+#+begin_src emacs-lisp
+  (use-package vlf :straight t)
+  (global-so-long-mode 1)
+#+end_src
+** Completions
+*** Minibuffer 
 #+begin_src emacs-lisp
     (use-package vertico
       :straight t
@@ -295,6 +337,59 @@ show available keymaps based on what you typed
           )
     )
 #+end_src
+*** In buffer 
+#+begin_src emacs-lisp
+  (use-package company
+    :straight t
+    :hook (after-init . global-company-mode)
+    :bind
+    (:map company-active-map
+          ("C-n" . #'company-select-next)
+          ("C-p" . #'company-select-previous)
+          ("C-o" . #'company-other-backend)
+          ("<tab>" . #'company-complete-common-or-cycle)
+          ("RET" . #'company-complete-selection)
+          )
+    :config
+      (setq company-minimum-prefix-lenght 1)
+      (setq company-tooltip-limit 30)
+      (setq company-idle-delay 0.0)
+      (setq company-echo-delay 0.1)
+      (setq company-show-numbers t)
+      (setq company-backends '(company-capf company-dabbrev company-files company-dabbrev-code))
+    )
+#+end_src
+** Tools
+*** Git 
+**** Magit
+BEST git client ever ?
+#+begin_src emacs-lisp
+  (use-package magit :straight t
+    :bind
+    (:map evil-normal-state-map
+          ("SPC g g" . magit-status)))
+#+end_src
+**** Git messenger
+#+begin_src emacs-lisp
+  (use-package git-messenger :straight t
+      :config
+        (setq git-messenger:show-detail t)
+        (setq git-messenger:use-magit-popup t))
+#+end_src
+*** Tramp: Emacs over SSH 
+#+begin_src emacs-lisp
+  (setq tramp-default-method "ssh")
+#+end_src
+*** Enable menu bar on when loading pdf tools
+#+begin_src emacs-lisp
+  (add-hook 'pdf-tools-ensured-hook #'menu-bar-mode)
+#+end_src
+*** Terminal Emulator
+#+begin_src emacs-lisp
+  (use-package vterm
+    :straight t)
+#+end_src
+                     
 ** Projects
 Emacs has a builtin =project.el= library to help with project based functions.
 #+begin_src emacs-lisp
@@ -310,7 +405,7 @@ Emacs has a builtin =project.el= library to help with project based functions.
      )
     )
 #+end_src
-** Perspective
+** Workspaces
 Perspective provides a way to have multiple workspaces in Emacs.
 #+begin_src emacs-lisp
   (use-package perspective :straight t
@@ -320,11 +415,8 @@ Perspective provides a way to have multiple workspaces in Emacs.
     (evil-global-set-key 'normal (kbd "SPC w s") 'persp-switch)
     (evil-global-set-key 'normal (kbd "SPC w n") 'persp-next)
     (evil-global-set-key 'normal (kbd "SPC w d") 'persp-kill-buffer*)
+    (evil-global-set-key 'normal (kbd "SPC w k") 'persp-kill)
     )
-#+end_src
-** Buffers
-#+begin_src emacs-lisp
-  (evil-global-set-key 'normal (kbd "SPC b k") 'kill-buffer)  
 #+end_src
 ** Org mode
 #+begin_src emacs-lisp
@@ -355,75 +447,36 @@ Perspective provides a way to have multiple workspaces in Emacs.
       (setq org-startup-folded t)
     )
 #+end_src
-** Git 
-*** Magit
-BEST git client ever ?
+** Languages
+*** Go
 #+begin_src emacs-lisp
-  (use-package magit :straight t
-    :bind
-    (:map evil-normal-state-map
-          ("SPC g g" . magit-status)))
-#+end_src
-*** Git messenger
-#+begin_src emacs-lisp
-  (use-package git-messenger :straight t
-      :config
-        (setq git-messenger:show-detail t)
-        (setq git-messenger:use-magit-popup t))
-#+end_src
-** Dired
-#+begin_src emacs-lisp
-  (with-eval-after-load 'dired
-    :config
-      (evil-define-key '(normal emacs) dired-mode-map "<leader><leader>" 'project-find-file)
-      (evil-define-key '(normal emacs) dired-mode-map "<leader> f f" 'find-file))
-#+end_src
-** Highlight indents
-#+begin_src emacs-lisp
-  (use-package highlight-indent-guides
-    :hook ((yaml-mode-hook . #'highlight-indent-guides)
-           (focus-in-hook . #'highlight-indent-guides-auto-set-faces))
+  (defun amirreza/go-hook ()
+      (interactive)
+      ;; add go binaries to exec-path
+      (add-to-list 'exec-path (concat (getenv "HOME") "/go/bin")))
+
+  (use-package go-mode
       :straight t
-      :config
-      (setq highlight-indent-guides-method 'character))
+      :mode "\\.go\\'"
+      :hook
+      (go-mode . amirreza/go-hook))
 #+end_src
-** Expand selection smartly
+*** Rust
 #+begin_src emacs-lisp
-  (use-package expand-region :straight t
-    :bind
-    (("C-=" . er/expand-region)
-     ("C--" . er/contract-region)))
+  (use-package rust-mode :straight t :mode "\\.rs\\'")
+  (use-package rustic :straight t :hook (rust-mode . #'rustic-mode))
 #+end_src
-** Highlight todos in code
+*** Zig
 #+begin_src emacs-lisp
-  (use-package hl-todo
-    :straight t
-    :config
-      (global-hl-todo-mode 1)
-      (setq hl-todo-highlight-punctuation ":"
-        hl-todo-keyword-faces
-        `(("TODO"       warning bold)
-          ("FIXME"      error bold)
-          ("HACK"       font-lock-constant-face bold)
-          ("REVIEW"     font-lock-keyword-face bold)
-          ("NOTE"       success bold)
-          ("DEPRECATED" font-lock-doc-face bold)))
-    )
+  (use-package zig-mode
+    :mode "\\.zig\\'"
+    :straight t)
 #+end_src
-** Long files and lines 
+*** Haskell
 #+begin_src emacs-lisp
-  (use-package vlf :straight t)
-  (global-so-long-mode 1)
+(use-package haskell-mode :straight t)
 #+end_src
-** Emacs over SSH: Tramp mdoe
-#+begin_src emacs-lisp
-  (setq tramp-default-method "ssh")
-#+end_src
-** Enable menu bar on when loading pdf tools
-#+begin_src emacs-lisp
-  (add-hook 'pdf-tools-ensured-hook #'menu-bar-mode)
-#+end_src
-** Some config file formats
+*** Some config file formats
 #+begin_src emacs-lisp
    (use-package apache-mode :straight t
        :mode ("\\.htaccess\\'" "httpd\\.conf\\'" "srm\\.conf\\'" "access\\.conf\\'"))
@@ -441,68 +494,15 @@ BEST git client ever ?
 
 
 #+end_src
-** Copy env variables from default shell
-#+begin_src emacs-lisp
-  (use-package exec-path-from-shell :straight t
-    :config
-      (setq exec-path-from-shell-shell-name "zsh")
-      (exec-path-from-shell-copy-envs '("GOPROXY" "GOPRIVATE"))
-      (exec-path-from-shell-initialize))
-#+end_src
-** Go setup
-#+begin_src emacs-lisp
-  (defun amirreza/go-hook ()
-      (interactive)
-      ;; add go binaries to exec-path
-      (add-to-list 'exec-path (concat (getenv "HOME") "/go/bin")))
-
-  (use-package go-mode
-      :straight t
-      :mode "\\.go\\'"
-      :hook
-      (go-mode . amirreza/go-hook))
-#+end_src
-** Rust setup
-#+begin_src emacs-lisp
-  (use-package rust-mode :straight t :mode "\\.rs\\'")
-  (use-package rustic :straight t :hook (rust-mode . #'rustic-mode))
-#+end_src
-** Zig Setup
-#+begin_src emacs-lisp
-  (use-package zig-mode
-    :mode "\\.zig\\'"
-    :straight t)
-#+end_src
-** LSP Setup
+** IDE
+*** LSP
 #+begin_src emacs-lisp
   (use-package eglot
     :straight t
     :hook
     ((prog-mode) . eglot-ensure))
 #+end_src
-** Company mode for Autocomplete
-#+begin_src emacs-lisp
-  (use-package company
-    :straight t
-    :hook (after-init . global-company-mode)
-    :bind
-    (:map company-active-map
-          ("C-n" . #'company-select-next)
-          ("C-p" . #'company-select-previous)
-          ("C-o" . #'company-other-backend)
-          ("<tab>" . #'company-complete-common-or-cycle)
-          ("RET" . #'company-complete-selection)
-          )
-    :config
-      (setq company-minimum-prefix-lenght 1)
-      (setq company-tooltip-limit 30)
-      (setq company-idle-delay 0.0)
-      (setq company-echo-delay 0.1)
-      (setq company-show-numbers t)
-      (setq company-backends '(company-capf company-dabbrev company-files company-dabbrev-code))
-    )
-#+end_src
-** Yasnippets: Code snippets
+*** Yasnippets: Code snippets
 #+begin_src emacs-lisp
   (use-package yasnippet :straight t
     :bind
@@ -512,13 +512,3 @@ BEST git client ever ?
       (yas-global-mode 1)
     )
 #+end_src
-** Eldoc mode
-#+begin_src emacs-lisp
-  (global-eldoc-mode 1)
-#+end_src
-** Terminal Emulator
-#+begin_src emacs-lisp
-  (use-package vterm
-    :straight t)
-#+end_src
-                     
