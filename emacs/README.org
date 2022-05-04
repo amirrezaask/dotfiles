@@ -119,7 +119,8 @@ that it reads our literate configuration.
   (use-package doom-modeline :straight t)
   (doom-modeline-mode 1) ;; enable doom modeline
   (load-theme 'doom-moonlight t) ;; set theme
-  (set-frame-font "JetBrainsMono Nerd Font Mono 16" nil t) ;; Set font
+  ;; (set-frame-font "JetBrainsMono Nerd Font Mono 16" nil t) ;; Set font
+  (set-frame-font "OperatorMono Nerd Font 16" nil t) ;; Set font
 #+end_src
 ** Evil Mode: Vim emualtion in Emacs
 #+begin_src emacs-lisp
@@ -177,6 +178,7 @@ that it reads our literate configuration.
       (evil-select-search-module 'evil-search-module 'evil-search)
       (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
       (define-key evil-insert-state-map (kbd "C-h") 'evil-delete-backward-char-and-join)
+      (evil-set-leader nil "SPC")
       (setq evil-want-Y-yank-to-eol t)
     )
 
@@ -297,12 +299,11 @@ show available keymaps based on what you typed
 Emacs has a builtin =project.el= library to help with project based functions.
 #+begin_src emacs-lisp
   (use-package project
-    :commands
-    (project-find-file)
     :bind
     (:map evil-normal-state-map
           ("SPC SPC" . project-find-file)
           ("SPC p s" . project-switch-project)
+          ("SPC p p" . project-switch-project)
           ("SPC p d" . project-dired)
           ("SPC b b" . project-switch-to-buffer)  
           ("SPC f f" . find-file)
@@ -372,6 +373,10 @@ BEST git client ever ?
 #+end_src
 ** Dired
 #+begin_src emacs-lisp
+  (with-eval-after-load 'dired
+    :config
+      (evil-define-key '(normal emacs) dired-mode-map "<leader><leader>" 'project-find-file)
+      (evil-define-key '(normal emacs) dired-mode-map "<leader> f f" 'find-file))
 #+end_src
 ** Highlight indents
 #+begin_src emacs-lisp
@@ -443,7 +448,6 @@ BEST git client ever ?
       (setq exec-path-from-shell-shell-name "zsh")
       (exec-path-from-shell-copy-envs '("GOPROXY" "GOPRIVATE"))
       (exec-path-from-shell-initialize))
-
 #+end_src
 ** Go setup
 #+begin_src emacs-lisp
@@ -461,7 +465,7 @@ BEST git client ever ?
 ** Rust setup
 #+begin_src emacs-lisp
   (use-package rust-mode :straight t :mode "\\.rs\\'")
-  ;; (use-package rustic :straight t :hook (rust-mode . #'rustic-mode))
+  (use-package rustic :straight t :hook (rust-mode . #'rustic-mode))
 #+end_src
 ** Zig Setup
 #+begin_src emacs-lisp
@@ -498,9 +502,6 @@ BEST git client ever ?
       (setq company-backends '(company-capf company-dabbrev company-files company-dabbrev-code))
     )
 #+end_src
-** Git messenger: Git blame
-#+begin_src emacs-lisp
-  #+end_src
 ** Yasnippets: Code snippets
 #+begin_src emacs-lisp
   (use-package yasnippet :straight t
