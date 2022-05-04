@@ -200,6 +200,21 @@ that it reads our literate configuration.
 
 
 #+end_src
+** Mapping helper
+#+begin_src emacs-lisp
+    ;; (map :modes '(normal emacs visual) :key "SPC " :fn 'fn)
+ 
+    ;; (defun map (&args)
+    ;;   ""
+    ;;   (let* ((modes (plist-get args :modes))
+    ;;          (key (plist-get args :key))
+    ;;          (fn (plist-get args :fn))
+    ;;          )
+    ;;     (dolist (mode modes)
+    ;;       ())
+    ;;     )
+    ;;   )
+#+end_src
 ** Which Key setup
 show available keymaps based on what you typed
 #+begin_src emacs-lisp
@@ -339,13 +354,21 @@ Perspective provides a way to have multiple workspaces in Emacs.
       (setq org-startup-folded t)
     )
 #+end_src
-** Magit
+** Git 
+*** Magit
 BEST git client ever ?
 #+begin_src emacs-lisp
   (use-package magit :straight t
     :bind
     (:map evil-normal-state-map
           ("SPC g g" . magit-status)))
+#+end_src
+*** Git messenger
+#+begin_src emacs-lisp
+  (use-package git-messenger :straight t
+      :config
+        (setq git-messenger:show-detail t)
+        (setq git-messenger:use-magit-popup t))
 #+end_src
 ** Dired
 #+begin_src emacs-lisp
@@ -477,11 +500,7 @@ BEST git client ever ?
 #+end_src
 ** Git messenger: Git blame
 #+begin_src emacs-lisp
-  (use-package git-messenger :straight t
-    :config
-      (setq git-messenger:show-detail t)
-      (setq git-messenger:use-magit-popup t))
-#+end_src
+  #+end_src
 ** Yasnippets: Code snippets
 #+begin_src emacs-lisp
   (use-package yasnippet :straight t
@@ -494,21 +513,8 @@ BEST git client ever ?
 #+end_src
 ** Eldoc mode
 #+begin_src emacs-lisp
-  ;; (global-eldoc-mode 1)
+  (global-eldoc-mode 1)
 #+end_src
-** Workspaces
-#+begin_src emacs-lisp
-  (use-package perspective
-    :straight t
-    :config
-    (setq persp-suppress-no-prefix-key-warning t)
-    (persp-mode 1)
-    :bind
-    (:map evil-normal-state-map
-          ("SPC w s" . persp-switch)
-          ))
-#+end_src
-
 ** Terminal Emulator
 #+begin_src emacs-lisp
   (use-package vterm
