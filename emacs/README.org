@@ -102,28 +102,6 @@ that it reads our literate configuration.
 (display-time-mode 1) ;; Show time in modeline.
 (global-display-line-numbers-mode 1) ;; Ensure line numbers globally.
 #+end_src
-*** Better *help* buffers
-#+begin_src emacs-lisp
-  (use-package helpful
-    :straight t
-    :bind
-    (:map evil-normal-state-map
-          ("SPC h v" . helpful-variable)
-          ("SPC h k" . helpful-key)
-          ("SPC h f" . helpful-function)
-          ("SPC h s" . helpful-symbol)
-          ("SPC h c" . helpful-command)
-          ("SPC h m" . helpful-mode)
-          )
-    (:map global-map
-          ("C-h s" . helpful-symbol)
-          ("C-h k" . helpful-key)
-          ("C-h v" . helpful-variable)
-          ("C-h c" . helpful-command)
-          ("C-h f" . helpful-function)
-    )
-  )
-#+end_src
 *** Sync env with default shell
 #+begin_src emacs-lisp
   (use-package exec-path-from-shell :straight t
@@ -227,6 +205,25 @@ that it reads our literate configuration.
   (use-package evil-commentary :straight t :config (evil-commentary-mode 1))
 
 
+#+end_src
+*** Better *help* buffers
+#+begin_src emacs-lisp
+  (use-package helpful
+    :straight t
+    :bind
+    (("C-h s" . helpful-symbol)
+          ("C-h k" . helpful-key)
+          ("C-h v" . helpful-variable)
+          ("C-h c" . helpful-command)
+          ("C-h f" . helpful-function)
+          :map evil-normal-state-map
+          ("SPC h v" . helpful-variable)
+          ("SPC h k" . helpful-key)
+          ("SPC h f" . helpful-function)
+          ("SPC h s" . helpful-symbol)
+          ("SPC h c" . helpful-command)
+          )
+  )
 #+end_src
 *** Mapping helper
 #+begin_src emacs-lisp
