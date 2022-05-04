@@ -1,5 +1,6 @@
 * Amirreza Emacs Configuration
-This is my emacs configuration written in literate format.
+This is my emacs configuration written in literate format. I tend to keep my emacs configuration as minimal
+as possible. No unnecessary package is installed.
 ** Emacs base
 *** early-init.el file
 From Emacs 27 there is file called early-init.el. This file gets loaded before =init.el= file and also before UI gets loaded so i can disable UI elements I don't use.
@@ -137,8 +138,7 @@ that it reads our literate configuration.
   (use-package doom-modeline :straight t)
   (doom-modeline-mode 1) ;; enable doom modeline
   (load-theme 'doom-moonlight t) ;; set theme
-  ;; (set-frame-font "JetBrainsMono Nerd Font Mono 16" nil t) ;; Set font
-  (set-frame-font "OperatorMono Nerd Font 16" nil t) ;; Set font
+  (set-frame-font "JetBrainsMono Nerd Font Mono 16" nil t) ;; Set font
 #+end_src
 ** Editor
 *** Editor basics
@@ -390,35 +390,7 @@ BEST git client ever ?
     :straight t)
 #+end_src
                      
-** Projects
-Emacs has a builtin =project.el= library to help with project based functions.
-#+begin_src emacs-lisp
-  (use-package project
-    :bind
-    (:map evil-normal-state-map
-          ("SPC SPC" . project-find-file)
-          ("SPC p s" . project-switch-project)
-          ("SPC p p" . project-switch-project)
-          ("SPC p d" . project-dired)
-          ("SPC b b" . project-switch-to-buffer)  
-          ("SPC f f" . find-file)
-     )
-    )
-#+end_src
-** Workspaces
-Perspective provides a way to have multiple workspaces in Emacs.
-#+begin_src emacs-lisp
-  (use-package perspective :straight t
-    :config
-    (setq persp-suppress-no-prefix-key-warning t)
-    (persp-mode 1)
-    (evil-global-set-key 'normal (kbd "SPC w s") 'persp-switch)
-    (evil-global-set-key 'normal (kbd "SPC w n") 'persp-next)
-    (evil-global-set-key 'normal (kbd "SPC w d") 'persp-kill-buffer*)
-    (evil-global-set-key 'normal (kbd "SPC w k") 'persp-kill)
-    )
-#+end_src
-** Org mode
+*** Org mode
 #+begin_src emacs-lisp
   (use-package org
     :config
@@ -445,6 +417,34 @@ Perspective provides a way to have multiple workspaces in Emacs.
       (setq org-support-shift-select t)
       (setq org-src-window-setup 'current-window)
       (setq org-startup-folded t)
+    )
+#+end_src
+** Projects
+Emacs has a builtin =project.el= library to help with project based functions.
+#+begin_src emacs-lisp
+  (use-package project
+    :bind
+    (:map evil-normal-state-map
+          ("SPC SPC" . project-find-file)
+          ("SPC p s" . project-switch-project)
+          ("SPC p p" . project-switch-project)
+          ("SPC p d" . project-dired)
+          ("SPC b b" . project-switch-to-buffer)  
+          ("SPC f f" . find-file)
+     )
+    )
+#+end_src
+** Workspaces
+Perspective provides a way to have multiple workspaces in Emacs.
+#+begin_src emacs-lisp
+  (use-package perspective :straight t
+    :config
+    (setq persp-suppress-no-prefix-key-warning t)
+    (persp-mode 1)
+    (evil-global-set-key 'normal (kbd "SPC w s") 'persp-switch)
+    (evil-global-set-key 'normal (kbd "SPC w n") 'persp-next)
+    (evil-global-set-key 'normal (kbd "SPC w d") 'persp-kill-buffer*)
+    (evil-global-set-key 'normal (kbd "SPC w k") 'persp-kill)
     )
 #+end_src
 ** Languages
@@ -476,7 +476,7 @@ Perspective provides a way to have multiple workspaces in Emacs.
 #+begin_src emacs-lisp
 (use-package haskell-mode :straight t)
 #+end_src
-*** Some config file formats
+*** Misc
 #+begin_src emacs-lisp
    (use-package apache-mode :straight t
        :mode ("\\.htaccess\\'" "httpd\\.conf\\'" "srm\\.conf\\'" "access\\.conf\\'"))
@@ -511,4 +511,14 @@ Perspective provides a way to have multiple workspaces in Emacs.
     :config
       (yas-global-mode 1)
     )
+#+end_src
+
+*** Flymake: inline diagnostics
+#+begin_src emacs-lisp
+  (use-package flymake
+    :bind
+    (:map evil-normal-state-map
+          ("[d" . flymake-goto-next-error)
+          ("]d" . flymake-goto-prev-error)
+          ))
 #+end_src
