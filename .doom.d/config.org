@@ -1,10 +1,13 @@
 * My DOOM Emacs Configuration
-This is my DOOM Emacs configuration file, I also have a vanilla Emacs configuration but I have moved into DOOM for it's large community and support
+This is my DOOM Emacs configuration file, I also have a vanilla Emacs configuration but I have moved into DOOM for it's large community and support and less hassle and more productivity. I also tend to keep my Emacs experience as minimal as possible and you will see through this document how I do it.
 ** Use lexical bindings
+At start let's make this file load a bit faster by enabling the =lexical bindings=.
 #+begin_src elisp
 ;;; config.el -*- lexical-binding: t; -*-
 #+end_src
 ** Personal information
+It's useful for Emacs to know who am I, example usecases are when emacs want to add a header containing author info to a file, or using
+emacs as mail client or when emacs wants to do PGP stuff.
 #+begin_src emacs-lisp
 (setq user-full-name "Amirreza Askarpour"
       user-mail-address "raskarpour@gmail.com")
@@ -35,7 +38,7 @@ or disable a module. Now let's enable what I want.
        hl-todo           ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
        ;;hydra
        indent-guides     ; highlighted indent columns
-       ligatures         ; ligatures and symbols to make your code pretty again
+       ;; ligatures         ; ligatures and symbols to make your code pretty again
        ;;minimap           ; show a map of the code on the side
        modeline          ; snazzy, Atom-inspired modeline, plus API
        ;;nav-flash         ; blink cursor line after big motions
@@ -211,8 +214,8 @@ first of all show me what workspace I am in.
 #+end_src
 ** Font
 #+begin_src elisp
-;; (setq doom-font "JetBrainsMono Nerd Font Mono-14")
-(setq doom-font "OperatorMono Nerd Font-14")
+(setq doom-font "JetBrainsMono Nerd Font Mono-14")
+;; (setq doom-font "OperatorMono Nerd Font-14")
 #+end_src
 ** Evil split
 I rather my splits to be on bottom and right.
@@ -285,6 +288,7 @@ so we use =vlf= package to handle in this situations.
   :defer-incrementally vlf-tune vlf-base vlf-write vlf-search vlf-occur vlf-follow vlf-ediff vlf)
 #+end_src
 ** Projectile
+I don't like =projectile= that much and I hope =DOOM= moves to =project.el= ASAP.
 *** Indexing method
 defines how projectile should index project names and files.
 #+begin_src emacs-lisp
@@ -301,10 +305,8 @@ Disables caching to always see updated files list.
 (after! which-key
   (setq which-key-idle-delay 0.3))
 #+end_src
-
 ** Searching
 #+begin_src emacs-lisp
 (after! consult
-  (map! :n "??" 'consult-ripgrep)
-  )
+  (map! :n "??" 'consult-ripgrep))
 #+end_src
