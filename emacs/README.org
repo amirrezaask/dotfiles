@@ -225,21 +225,6 @@ that it reads our literate configuration.
           )
   )
 #+end_src
-*** Mapping helper
-#+begin_src emacs-lisp
-    ;; (map :modes '(normal emacs visual) :key "SPC " :fn 'fn)
- 
-    ;; (defun map (&args)
-    ;;   ""
-    ;;   (let* ((modes (plist-get args :modes))
-    ;;          (key (plist-get args :key))
-    ;;          (fn (plist-get args :fn))
-    ;;          )
-    ;;     (dolist (mode modes)
-    ;;       ())
-    ;;     )
-    ;;   )
-#+end_src
 *** Which Key setup
 show available keymaps based on what you typed
 #+begin_src emacs-lisp
@@ -447,21 +432,15 @@ Perspective provides a way to have multiple workspaces in Emacs.
 ** Languages
 *** Go
 #+begin_src emacs-lisp
-  (defun amirreza/go-hook ()
-      (interactive)
-      ;; add go binaries to exec-path
-      (add-to-list 'exec-path (concat (getenv "HOME") "/go/bin")))
-
-  (use-package go-mode
-      :straight t
-      :mode "\\.go\\'"
-      :hook
-      (go-mode . amirreza/go-hook))
+    (use-package go-mode
+        :straight t
+        :mode "\\.go\\'"
+        :hook
+        (go-mode . (lambda () (add-to-list 'exec-path (concat (getenv "HOME") "/go/bin")))))
 #+end_src
 *** Rust
 #+begin_src emacs-lisp
   (use-package rust-mode :straight t :mode "\\.rs\\'")
-  (use-package rustic :straight t :hook (rust-mode . #'rustic-mode))
 #+end_src
 *** Zig
 #+begin_src emacs-lisp
@@ -488,8 +467,6 @@ Perspective provides a way to have multiple workspaces in Emacs.
        :straight t
        :mode "docker-compose\\.yml")
    (use-package dockerfile-mode :straight t :mode "\\Dockerfile\\'")
-
-
 #+end_src
 ** IDE
 *** LSP
