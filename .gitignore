@@ -16,6 +16,7 @@ emacs/var
 emacs/eshell
 .doom.d/packages.el
 .doom.d/config.el
+.doom.d/init.el
 nvim/.netrwhist
 fonts/.uuid
 nvim/plugin/packer_compiled.lua
