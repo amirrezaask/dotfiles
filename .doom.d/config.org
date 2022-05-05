@@ -97,7 +97,7 @@ or disable a module. Now let's enable what I want.
        (eval +overlay)     ; run code, run (also, repls)
        gist              ; interacting with github gists
        lookup              ; navigate your code and its documentation
-       (lsp +eglot)               ; M-x vscode
+       lsp                ; M-x vscode
        magit             ; a git porcelain for Emacs
        make              ; run make tasks from Emacs
        ;; pass              ; password manager for nerds
@@ -310,3 +310,4 @@ Disables caching to always see updated files list.
 (after! consult
   (map! :n "??" 'consult-ripgrep))
 #+end_src
+

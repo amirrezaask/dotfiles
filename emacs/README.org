@@ -471,10 +471,15 @@ Perspective provides a way to have multiple workspaces in Emacs.
 ** IDE
 *** LSP
 #+begin_src emacs-lisp
-  (use-package eglot
+  (use-package lsp-mode 
     :straight t
+    :bind
+    (:map evil-normal-state-map
+          ("K" . (lambda () (interactive) (lsp-hover))))
     :hook
-    ((prog-mode) . eglot-ensure))
+    ((prog-mode) . lsp)
+
+    )
 #+end_src
 *** Yasnippets: Code snippets
 #+begin_src emacs-lisp
