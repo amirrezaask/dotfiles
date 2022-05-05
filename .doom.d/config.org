@@ -269,11 +269,6 @@ LSP configurations in DOOM is almost complete I just need some simpler keybindin
         (map! :map lsp-mode-map :n (kbd "gr") 'xref-find-references)
         (map! :map lsp-mode-map :n (kbd "gi") 'lsp-find-implementation)
         )
-(after! eglot
-        (map! :map eglot-mode-map :n (kbd "gd") 'xref-find-definitions) ;; I know it's default, but I wanted to have it for explicitness.
-        (map! :map eglot-mode-map :n (kbd "gr") 'xref-find-references)
-        (map! :map eglot-mode-map :n (kbd "gi") 'eglot-find-implementation)
-        )
 #+end_src
 ** Very large files
 When emacs wants to read a file, it reads it completely and stores it in RAM, this would destroy emacs on large megabytes or gigabytes files,
