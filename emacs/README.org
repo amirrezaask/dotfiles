@@ -1,5 +1,4 @@
-* DEPREACATED: Moved to DOOM emacs, [[https://github.com/amirrezaask/dotfiles/tree/master/.doom.d/config.org][DOOM Config]]
-* Amirreza Emacs Configuration
+* DEPREACATED: Moved to DOOM emacs, [[https://github.com/amirrezaask/dotfiles/tree/master/.doom.d/config.org][DOOM Config]]* Amirreza Emacs Configuration
 This is my emacs configuration written in literate format. I tend to keep my emacs configuration as minimal
 as possible. No unnecessary package is installed.
 ** Emacs base

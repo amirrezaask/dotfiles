@@ -1,0 +1,7 @@
+* Amirreza Dotfiles
+** Softwares
+- [[https://github.com/amirrezaask/dotfiles/tree/master/.doom.d][DOOM Emacs]]
+- [[https://github.com/amirrezaask/dotfiles/tree/master/nvim][Neovim]]
+- [[https://github.com/amirrezaask/dotfiles/tree/master/.vimrc][Vim]]
+- [[https://github.com/amirrezaask/dotfiles/tree/master/kitty][Kitty]]
+- [[https://github.com/amirrezaask/dotfiles/tree/master/Alacritty][Alacritty]]
