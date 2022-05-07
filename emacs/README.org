@@ -114,6 +114,7 @@ that it reads our literate configuration.
 #+begin_src emacs-lisp
   (use-package doom-themes :straight t)
   (use-package doom-modeline :straight t)
+  (setq doom-modeline-height 35)
   (doom-modeline-mode 1) ;; enable doom modeline
   (load-theme 'doom-moonlight t) ;; set theme
   (set-frame-font "JetBrainsMono Nerd Font Mono 16" nil t) ;; Set font
