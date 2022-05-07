@@ -95,17 +95,21 @@ function work {
     fi
 }
 
-function snapp {
-    LOOKUP_DIR="$HOME/src/gitlab.snapp.ir" work
-}
+alias snapp="cd $SNAPP"
+alias oss="cd $OSS"
+alias golobby="cd $GOLOBBY"
 
-function oss {
-    LOOKUP_DIR="$HOME/src/github.com/amirrezaask" work
-}
+# function snapp {
+#     LOOKUP_DIR="$HOME/src/gitlab.snapp.ir" work
+# }
 
-function golobby {
-    LOOKUP_DIR="$HOME/src/github.com/golobby" work
-}
+# function oss {
+#     LOOKUP_DIR="$HOME/src/github.com/amirrezaask" work
+# }
+
+# function golobby {
+#     LOOKUP_DIR="$HOME/src/github.com/golobby" work
+# }
 
 alias tl='tmux ls'
 alias ta='tmux attach -t'

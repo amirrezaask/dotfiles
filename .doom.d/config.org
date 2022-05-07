@@ -155,7 +155,7 @@ or disable a module. Now let's enable what I want.
        nix               ; I hereby declare "nix geht mehr!"
        ;;ocaml             ; an objective camel
        org               ; organize your plain life in plain text
-       php               ; perl's insecure younger brother
+       (php +lsp)               ; perl's insecure younger brother
        ;;plantuml          ; diagrams for confusing people more
        purescript        ; javascript, but functional
        python            ; beautiful is better than ugly
@@ -264,11 +264,11 @@ and "SPC m n" which inserts a no tangle block.
 ** LSP
 LSP configurations in DOOM is almost complete I just need some simpler keybindings for most used operations
 #+begin_src emacs-lisp
-(after! lsp-mode
-        (map! :map lsp-mode-map :n (kbd "gd") 'xref-find-definitions) ;; I know it's default, but I wanted to have it for explicitness.
-        (map! :map lsp-mode-map :n (kbd "gr") 'xref-find-references)
-        (map! :map lsp-mode-map :n (kbd "gi") 'lsp-find-implementation)
-        )
+(setq lsp-file-watch-threshold 100000)
+(setq lsp-auto-guess-root t)
+(map! :map lsp-mode-map :n (kbd "gd") 'xref-find-definitions) ;; I know it's default, but I wanted to have it for explicitness.
+(map! :map lsp-mode-map :n (kbd "gr") 'xref-find-references)
+(map! :map lsp-mode-map :n (kbd "gi") 'lsp-find-implementation)
 #+end_src
 ** Very large files
 When emacs wants to read a file, it reads it completely and stores it in RAM, this would destroy emacs on large megabytes or gigabytes files,
@@ -302,7 +302,7 @@ Disables caching to always see updated files list.
 #+end_src
 ** Searching
 #+begin_src emacs-lisp
-(after! consult
-  (map! :n "??" 'consult-ripgrep))
+(map! :n "??" 'consult-ripgrep)
 #+end_src
+
 

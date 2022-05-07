@@ -1,5 +1,6 @@
 * Amirreza Dotfiles
 ** Softwares
+- [[https://github.com/amirrezaask/dotfiles/tree/master/emacs][GNU Emacs]]
 - [[https://github.com/amirrezaask/dotfiles/tree/master/.doom.d][DOOM Emacs]]
 - [[https://github.com/amirrezaask/dotfiles/tree/master/nvim][Neovim]]
 - [[https://github.com/amirrezaask/dotfiles/tree/master/.vimrc][Vim]]
