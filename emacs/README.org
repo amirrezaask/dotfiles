@@ -1,4 +1,4 @@
-* DEPREACATED: Moved to DOOM emacs, [[https://github.com/amirrezaask/dotfiles/tree/master/.doom.d/config.org][DOOM Config]]* Amirreza Emacs Configuration
+* Amirreza Emacs Configuration
 This is my emacs configuration written in literate format. I tend to keep my emacs configuration as minimal
 as possible. No unnecessary package is installed.
 ** Emacs base
@@ -287,6 +287,15 @@ show available keymaps based on what you typed
   (use-package vlf :straight t)
   (global-so-long-mode 1)
 #+end_src
+*** Auto close parens
+#+begin_src emacs-lisp
+  (use-package smartparens
+    :straight t
+    :hook
+    (prog-mode . smartparens-mode)
+    :config
+    (require 'smartparens-config))
+#+end_src
 ** Completions
 *** Minibuffer 
 #+begin_src emacs-lisp
@@ -450,7 +459,8 @@ Perspective provides a way to have multiple workspaces in Emacs.
 #+end_src
 *** Haskell
 #+begin_src emacs-lisp
-(use-package haskell-mode :straight t)
+  (use-package haskell-mode :straight t)
+  (use-package lsp-haskell :straight t)
 #+end_src
 *** Misc
 #+begin_src emacs-lisp
@@ -473,6 +483,9 @@ Perspective provides a way to have multiple workspaces in Emacs.
 #+begin_src emacs-lisp
   (use-package lsp-mode 
     :straight t
+    :config
+    (setq lsp-auto-guess-root t)
+    (setq lsp-file-watch-threshold 100000)
     :bind
     (:map evil-normal-state-map
           ("K" . (lambda () (interactive) (lsp-hover))))
