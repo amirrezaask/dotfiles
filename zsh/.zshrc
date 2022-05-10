@@ -9,11 +9,7 @@ export DOTFILES="$HOME/src/github.com/amirrezaask/dotfiles"
 export SNAPP="$HOME/src/gitlab.snapp.ir"
 export ESPAD="$HOME/src/gitlab.espadev.ir"
 
-source $DOTFILES/zsh/antigen.zsh
-antigen bundle zsh-users/zsh-autosuggestions
-antigen use oh-my-zsh
-antigen bundle git
-antigen apply
+
 
 export PATH="$HOME/.emacs.d/bin/:/Applications/Emacs.app/Contents/MacOS:$GOPATH/bin:/opt/homebrew/bin:$ELIXIR/bin:$HOME/.luarocks/bin:$HOME/.config/composer/vendor/bin:$GOROOT/bin:$HOME/.cargo/bin:$HOME/.local/bin:/usr/local/Postman:$HOME/.local/elixir-ls/:$HOME/.cache/rebar3/bin:$PATH:$DOTFILES/bin:$HOME/.composer/vendor/bin"
 
@@ -138,5 +134,10 @@ if [ "$?" != '0' ]; then
  sh -c "$(curl -fsSL https://starship.rs/install.sh)"
 fi
 
+source $DOTFILES/zsh/antigen.zsh
+antigen bundle zsh-users/zsh-autosuggestions
+antigen use oh-my-zsh
+antigen bundle git
+antigen apply
 # using starship for prompt
 eval "$(starship init zsh)"
