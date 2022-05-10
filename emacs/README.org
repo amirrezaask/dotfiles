@@ -381,7 +381,6 @@ BEST git client ever ?
   (use-package vterm
     :straight t)
 #+end_src
-                     
 *** Org mode
 #+begin_src emacs-lisp
   (use-package org
@@ -462,6 +461,10 @@ Perspective provides a way to have multiple workspaces in Emacs.
 #+begin_src emacs-lisp
   (use-package haskell-mode :straight t)
   (use-package lsp-haskell :straight t)
+#+end_src
+*** PHP
+#+begin_src emacs-lisp
+  (use-package php-mode :straight t)
 #+end_src
 *** Misc
 #+begin_src emacs-lisp
