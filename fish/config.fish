@@ -73,32 +73,12 @@ end
 
 set -x IDE "vim" # can be vim as well
 
-function work
-    set PROJECT $(find $LOOKUP_DIR/* -type d -maxdepth 0 | fzf) 
-    if [ "$IDE" = 'vim' ]
-        echo "IDE is vim"
-        tmux new-session -c $PROJECT -s $(basename $PROJECT) -n "shell" -d
-        tmux neww -n editor -c $PROJECT
-        tmux attach-session -t $(basename $PROJECT)
-    else if [ "$IDE" = 'code' ]
-        echo "IDE is code"
-        code $PROJECT
-    end
-end
-
-function snapp
-    set -x LOOKUP_DIR "$HOME/src/gitlab.snapp.ir/" && work
-end
-
-function oss
-    set -x LOOKUP_DIR "$HOME/src/github.com/amirrezaask/" && work 
-end
-
-function golobby 
-    set -x LOOKUP_DIR "$HOME/src/github.com/golobby/" && work 
-end
+alias snapp='cd ~/src/gitlab.snapp.ir/'
+alias oss='cd ~/src/github.com/amirrezaask/'
+alias golobby='cd ~/src/gitlab.espadev.ir/'
 
 # some tmux stuff
 alias tl='tmux ls'
 alias ta='tmux attach -t'
 alias tks='tmux kill-session -t'
+
