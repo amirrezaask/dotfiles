@@ -28,11 +28,6 @@ alias g='git'
 setenv FZF_DEFAULT_OPTS '--height 20%'
 setenv FZF_DEFAULT_COMMAND 'rg --files'
 
-# prompt
-function fish_prompt
-    echo "$(prompt_pwd)$(set_color green)$(fish_git_prompt)> $(set_color normal)"
-end
-
 function reload
     source ~/.config/fish/config.fish
 end
