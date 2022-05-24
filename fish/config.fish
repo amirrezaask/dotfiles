@@ -4,7 +4,8 @@ set -x GOPATH "$HOME"
 set -x PYTHONBINS "$HOME/.local/bin"
 set -x GOPRIVATE 'gitlab.snapp.ir'
 set -x DOTFILES "$HOME/src/github.com/amirrezaask/dotfiles"
-set -x PATH "$DOTFILES/bin:$GOPATH/bin:/opt/homebrew/bin:$ELIXIR/bin:$HOME/.luarocks/bin:$HOME/.config/composer/vendor/bin:$GOROOT/bin:$HOME/.cargo/bin:$HOME/.local/bin:/usr/local/Postman:$HOME/.local/elixir-ls/:$HOME/.cache/rebar3/bin:$PATH:$HOME/.composer/vendor/bin"
+set -x GHCUP "$HOME/.ghcup"
+set -x PATH "$GHCUP/bin:$HOME/.emacs.d/bin/:/Applications/Emacs.app/Contents/MacOS:$DOTFILES/bin:$GOPATH/bin:/opt/homebrew/bin:$ELIXIR/bin:$HOME/.luarocks/bin:$HOME/.config/composer/vendor/bin:$GOROOT/bin:$HOME/.cargo/bin:$HOME/.local/bin:/usr/local/Postman:$HOME/.local/elixir-ls/:$HOME/.cache/rebar3/bin:$PATH:$HOME/.composer/vendor/bin"
 
 function freenet
     echo $VPN_PASSWORD | sudo openconnect --no-dtls --passwd-on-stdin --user $VPN_USERNAME $VPN_SERVER
