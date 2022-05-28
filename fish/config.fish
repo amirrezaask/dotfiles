@@ -1,9 +1,13 @@
 # source ~/env.fish
 set -x GO111MODULE 'auto'
-set -x GOPATH "$HOME"
+set -x GOPATH "$HOME/.local/go"
 set -x PYTHONBINS "$HOME/.local/bin"
 set -x GOPRIVATE 'gitlab.snapp.ir'
-set -x DOTFILES "$HOME/src/github.com/amirrezaask/dotfiles"
+set -x PERSONAL "$HOME/personal"
+set -x SNAPP "$HOME/work/snapp"
+set -x ESPAD "$HOME/work/espad"
+set -x SEDS "$HOME/work/seds"
+set -x DOTFILES "$PERSONAL/dotfiles"
 set -x GHCUP "$HOME/.ghcup"
 set -x PATH "$GHCUP/bin:$HOME/.emacs.d/bin/:/Applications/Emacs.app/Contents/MacOS:$DOTFILES/bin:$GOPATH/bin:/opt/homebrew/bin:$ELIXIR/bin:$HOME/.luarocks/bin:$HOME/.config/composer/vendor/bin:$GOROOT/bin:$HOME/.cargo/bin:$HOME/.local/bin:/usr/local/Postman:$HOME/.local/elixir-ls/:$HOME/.cache/rebar3/bin:$PATH:$HOME/.composer/vendor/bin"
 
@@ -69,9 +73,10 @@ end
 
 set -x IDE "vim" # can be vim as well
 
-alias snapp='cd ~/src/gitlab.snapp.ir/'
-alias oss='cd ~/src/github.com/amirrezaask/'
-alias golobby='cd ~/src/gitlab.espadev.ir/'
+alias snapp="cd $SNAPP"
+alias espad="cd $ESPAD"
+alias seds="cd $SEDS"
+alias oss="cd $PERSONAL"
 
 # some tmux stuff
 alias tl='tmux ls'
