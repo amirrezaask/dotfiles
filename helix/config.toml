@@ -1,4 +1,4 @@
-theme = "tokyonight_storm"
+theme = "default"
 
 [editor]
 line-number = "relative"
@@ -22,6 +22,6 @@ j = { k = "normal_mode" }
 "semicolon" = "command_mode"
 "K" = "hover"
 "G" = "goto_last_line"
-
+"$" = "goto_line_end"
 [keys.select]
 "G" = "goto_last_line"
