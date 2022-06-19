@@ -161,8 +161,8 @@ set background=dark
 let g:gruvbox_contrast_dark='hard'
 let g:sonokai_style = 'atlantis'
 let g:sonokai_better_performance = 1
-colorscheme gruvbox
-" colorscheme sitruuna 
+" colorscheme gruvbox
+colorscheme sitruuna 
 
 " Statusline
 if has('nvim')
