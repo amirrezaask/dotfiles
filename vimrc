@@ -177,6 +177,7 @@ if has('nvim')
     nnoremap <leader><leader> <cmd>Telescope find_files<CR>
     nnoremap <leader>ec <cmd>Telescope find_files cwd=$DOTFILES<CR>
     nnoremap ?? <cmd>Telescope live_grep<CR>
+    nnoremap ?c <cmd>Telescope lsp_code_actions<CR>
 
     lua<<EOF
 EOF

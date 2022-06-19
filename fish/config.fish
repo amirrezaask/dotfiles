@@ -3,6 +3,7 @@ set -x GO111MODULE 'auto'
 set -x GOPATH "$HOME/.local/go"
 set -x PYTHONBINS "$HOME/.local/bin"
 set -x GOPRIVATE 'gitlab.snapp.ir'
+set -x GOPROXY 'https://repo.snapp.tech/repository/goproxy,goproxy.io,direct'
 set -x PERSONAL "$HOME/personal"
 set -x SNAPP "$HOME/work/snapp"
 set -x ESPAD "$HOME/work/espad"
