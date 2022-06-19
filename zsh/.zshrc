@@ -1,6 +1,6 @@
 export ZSH=$HOME/.oh-my-zsh
 
-ZSH_THEME="gnzh"
+ZSH_THEME="fishy"
 
 plugins=(git kubectl oc)
 
