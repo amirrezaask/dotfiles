@@ -1,4 +1,6 @@
 * Amirreza Dotfiles
+** Setup
+
 ** Softwares
 - [[https://github.com/amirrezaask/dotfiles/tree/master/emacs][GNU Emacs]]
 - [[https://github.com/amirrezaask/dotfiles/tree/master/.doom.d][DOOM Emacs]]
