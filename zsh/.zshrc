@@ -5,14 +5,20 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-export ZSH=$HOME/.oh-my-zsh
+if [ ! -f "$HOME/.antigen.zsh" ]; then
+    curl -L git.io/antigen > .antigen.zsh
+fi
 
-ZSH_THEME="powerlevel10k/powerlevel10k"
-# ZSH_THEME="fishy"
+source $HOME/.antigen.zsh
 
-plugins=(git kubectl oc)
+antigen use oh-my-zsh
+antigen bundle git
+antigen bundle zsh-users/zsh-syntax-highlighting
+antigen bundle zsh-users/zsh-autosuggestions
 
-source $ZSH/oh-my-zsh.sh
+antigen theme romkatv/powerlevel10k
+
+antigen apply
 
 # Go related stuff
 export GO111MODULE='on'
