@@ -24,11 +24,14 @@ call plug#begin()
         Plug 'neovim/nvim-lspconfig'                       " LSP client configurations
         Plug 'nvim-telescope/telescope.nvim'               " Telescope fuzzy finder by great TJDevries
         Plug 'nvim-lua/plenary.nvim'                       " Neovim stdlib lua by TJDevries
+        Plug 'kyazdani42/nvim-web-devicons'
     else
         Plug 'prabirshrestha/asyncomplete.vim'             " Auto complete menu for vim
         Plug 'prabirshrestha/asyncomplete-lsp.vim'         " LSP integration into auto complete
         Plug 'prabirshrestha/vim-lsp'                      " Vim LSP client
         Plug 'mattn/vim-lsp-settings'                      " Vim LSP client configurations
+        Plug 'junegunn/fzf'                                    " Google of the command line
+        Plug 'junegunn/fzf.vim'                                " Integrate fzf into vim as commands
     endif
     Plug 'hrsh7th/vim-vsnip'                               " Snippets
     Plug 'mhinz/vim-startify'                              " Startscreen
@@ -37,8 +40,6 @@ call plug#begin()
     Plug 'ziglang/zig.vim'                                 " Best language ever ?
     Plug 'rust-lang/rust.vim'                              " Haskell on LLVM ?
     Plug 'fladson/vim-kitty'                               " Best Terminal Emulator config syntax
-    Plug 'junegunn/fzf'                                    " Google of the command line
-    Plug 'junegunn/fzf.vim'                                " Integrate fzf into vim as commands
     Plug 'pbrisbin/vim-mkdir'                              " Save files and create not existing directories
     Plug 'tpope/vim-commentary'                            " Best commenting plugin ever
     Plug 'tpope/vim-surround'                              " Now you can command your surroundings
@@ -46,6 +47,7 @@ call plug#begin()
     Plug 'junegunn/gv.vim'                                 " Git diff split
     Plug 'cohama/agit.vim'                                 " Git log viewer
     Plug 'junegunn/vim-easy-align'                         " Align text with ease
+    Plug 'itchyny/lightline.vim'
     
 call plug#end()
 if has('nvim')
@@ -161,8 +163,8 @@ set background=dark
 let g:gruvbox_contrast_dark='hard'
 let g:sonokai_style = 'atlantis'
 let g:sonokai_better_performance = 1
-" colorscheme gruvbox
-colorscheme sitruuna 
+colorscheme gruvbox
+" colorscheme sitruuna 
 
 " Statusline
 if has('nvim')
