@@ -30,10 +30,10 @@ call plug#begin()
         Plug 'prabirshrestha/asyncomplete-lsp.vim'         " LSP integration into auto complete
         Plug 'prabirshrestha/vim-lsp'                      " Vim LSP client
         Plug 'mattn/vim-lsp-settings'                      " Vim LSP client configurations
-        Plug 'junegunn/fzf'                                    " Google of the command line
-        Plug 'junegunn/fzf.vim'                                " Integrate fzf into vim as commands
     endif
     Plug 'hrsh7th/vim-vsnip'                               " Snippets
+    Plug 'junegunn/fzf'                                    " Google of the command line
+    Plug 'junegunn/fzf.vim'                                " Integrate fzf into vim as commands
     Plug 'mhinz/vim-startify'                              " Startscreen
     Plug 'sheerun/vim-polyglot'                            " Basic vim support for multiple languages see https://github.com/sheerun/vim-polyglot for the full list.
     Plug 'Glench/Vim-Jinja2-Syntax'                        " Jinja2 syntax
@@ -163,8 +163,8 @@ set background=dark
 let g:gruvbox_contrast_dark='hard'
 let g:sonokai_style = 'atlantis'
 let g:sonokai_better_performance = 1
-colorscheme gruvbox
-" colorscheme sitruuna 
+" colorscheme gruvbox
+colorscheme sitruuna 
 
 " Statusline
 if has('nvim')
@@ -175,22 +175,22 @@ set statusline=%f%=%m%r%h%w\ %y\ %l:%c\ %p
 
 
 " Fuzzy Finder
-if has('nvim')
-    nnoremap <leader><leader> <cmd>Telescope find_files<CR>
-    nnoremap <leader>ec <cmd>Telescope find_files cwd=$DOTFILES<CR>
-    nnoremap ?? <cmd>Telescope live_grep<CR>
-    nnoremap ?c <cmd>Telescope lsp_code_actions<CR>
+" if has('nvim')
+"     nnoremap <leader><leader> <cmd>Telescope find_files<CR>
+"     nnoremap <leader>ec <cmd>Telescope find_files cwd=$DOTFILES<CR>
+"     nnoremap ?? <cmd>Telescope live_grep<CR>
+"     nnoremap ?c <cmd>Telescope lsp_code_actions<CR>
 
-    lua<<EOF
-EOF
-else
+"     lua<<EOF
+" EOF
+" else
     " FZF
-    let g:fzf_preview_window = {}
-    let g:fzf_layout = {'down': '50%' }
-    nnoremap <leader><leader> <cmd>Files<CR>
-    nnoremap <leader>ec <cmd>Files $DOTFILES<CR>
-    nnoremap ?? <cmd>Rg<CR>
-endif
+let g:fzf_preview_window = {}
+let g:fzf_layout = {'down': '50%' }
+nnoremap <leader><leader> <cmd>Files<CR>
+nnoremap <leader>ec <cmd>Files $DOTFILES<CR>
+nnoremap ?? <cmd>Rg<CR>
+" endif
 
 " LSP stuff
 if !has('nvim')
