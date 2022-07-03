@@ -47,7 +47,6 @@ call plug#begin()
     Plug 'junegunn/gv.vim'                                 " Git diff split
     Plug 'cohama/agit.vim'                                 " Git log viewer
     Plug 'junegunn/vim-easy-align'                         " Align text with ease
-    Plug 'itchyny/lightline.vim'
     
 call plug#end()
 if has('nvim')
@@ -165,6 +164,8 @@ let g:sonokai_style = 'atlantis'
 let g:sonokai_better_performance = 1
 " colorscheme gruvbox
 colorscheme sitruuna 
+" colorscheme sonokai
+hi Normal guibg=#14191e
 
 " Statusline
 if has('nvim')

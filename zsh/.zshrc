@@ -77,3 +77,9 @@ export FZF_DEFAULT_COMMAND='rg --files'
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+subl() {
+   SUBL_BIN='' 
+   /Applications/Sublime\ Text.app/Contents/MacOS/sublime_text $1 > /dev/null 2>&1 &
+}
+
