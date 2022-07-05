@@ -1,6 +1,6 @@
 -- Install packages
 require('packer').startup(function(use)
-		use 'wbthomason/packer.nvim'
+    use 'wbthomason/packer.nvim'
     use 'eemed/sitruuna.vim'                              -- Best Minimal Colorscheme if you like black,yellow and green colors
     use 'joshdick/onedark.vim'
     use 'gruvbox-community/gruvbox'                       -- Popular gruvbox
@@ -58,12 +58,6 @@ end
 
 -- Set <Space> as <leader>
 vim.g.mapleader = ' '
-
--- Edit configurations
-nnoremap("<leader>ec", function()
-    vim.fn.edit "~/.config/nvim/init.lua"
-end)
-
 -- basic keybindings
 nnoremap("Q", '<NOP>')
 nnoremap(";,", ':')
@@ -165,6 +159,11 @@ nnoremap('<leader><leader>', function() telescope_builtin.find_files() end)
 nnoremap('<leader>ec', '<cmd>Telescope find_files cwd=$DOTFILES<CR>')
 nnoremap('??', '<cmd>Telescope live_grep<CR>')
 nnoremap('?c', '<cmd>Telescope lsp_code_actions<CR>')
+
+-- Edit configurations
+nnoremap("<leader>ec", function()
+    vim.cmd [[ "~/.config/nvim/init.lua" ]]
+end)
 
 -- LSP
 local lspconfig = require "lspconfig"
