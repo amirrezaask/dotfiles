@@ -1,6 +1,8 @@
 -- Install packages
 require('packer').startup(function(use)
-    use 'wbthomason/packer.nvim'
+ use 'folke/tokyonight.nvim'
+ use 'wbthomason/packer.nvim'
+    use 'jnurmine/Zenburn'
     use 'eemed/sitruuna.vim'                              -- Best Minimal Colorscheme if you like black,yellow and green colors
     use 'joshdick/onedark.vim'
     use 'gruvbox-community/gruvbox'                       -- Popular gruvbox
@@ -149,21 +151,21 @@ vim.opt.termguicolors = true
 
 vim.cmd [[ set clipboard^=unnamedplus ]]
 
-vim.cmd [[ colorscheme sitruuna ]]
-
-vim.cmd [[ hi Normal guibg=#14191e ]]
+vim.g.tokyonight_style = "night"
+vim.cmd [[ colorscheme tokyonight ]]
+vim.cmd [[ hi Normal guibg=none ]]
 
 -- Telescope
 local telescope_builtin = require "telescope.builtin"
 nnoremap('<leader><leader>', function() telescope_builtin.find_files() end)
-nnoremap('<leader>ec', '<cmd>Telescope find_files cwd=$DOTFILES<CR>')
 nnoremap('??', '<cmd>Telescope live_grep<CR>')
 nnoremap('?c', '<cmd>Telescope lsp_code_actions<CR>')
 
--- Edit configurations
-nnoremap("<leader>ec", function()
-    vim.cmd [[ "~/.config/nvim/init.lua" ]]
-end)
+-- FZF
+-- vim.g.fzf_layout = { ['down'] = '40%' }
+-- vim.g.fzf_layout = { ['window'] = { ['width'] = 0.9, ['height'] = 0.7 } }
+-- nnoremap('<leader><leader>', ":Files<CR>")
+-- nnoremap('??', ':Rg<CR>')
 
 -- LSP
 local lspconfig = require "lspconfig"

@@ -16,7 +16,7 @@ antigen bundle git
 antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle zsh-users/zsh-autosuggestions
 
-antigen theme romkatv/powerlevel10k
+antigen theme robbyrussell 
 
 antigen apply
 
@@ -75,11 +75,10 @@ export HOMEBREW_NO_AUTO_UPDATE=1
 export FZF_DEFAULT_OPTS='--height 20%'
 export FZF_DEFAULT_COMMAND='rg --files'
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
 subl() {
    SUBL_BIN='' 
    /Applications/Sublime\ Text.app/Contents/MacOS/sublime_text $1 > /dev/null 2>&1 &
 }
 
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
