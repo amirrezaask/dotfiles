@@ -1,7 +1,7 @@
 -- Install packages
 require('packer').startup(function(use)
- use 'folke/tokyonight.nvim'
- use 'wbthomason/packer.nvim'
+    use 'folke/tokyonight.nvim'
+    use 'wbthomason/packer.nvim'
     use 'jnurmine/Zenburn'
     use 'eemed/sitruuna.vim'                              -- Best Minimal Colorscheme if you like black,yellow and green colors
     use 'joshdick/onedark.vim'
@@ -22,7 +22,6 @@ require('packer').startup(function(use)
     use 'hrsh7th/vim-vsnip'                               -- Snippets
     use 'junegunn/fzf'                                    -- Google of the command line
     use 'junegunn/fzf.vim'                                -- Integrate fzf into vim as commands
-    use 'mhinz/vim-startify'                              -- Startscreen
     use 'sheerun/vim-polyglot'                            -- Basic vim support for multiple languages see https://github.com/sheerun/vim-polyglot for the full list.
     use 'Glench/Vim-Jinja2-Syntax'                        -- Jinja2 syntax
     use 'ziglang/zig.vim'                                 -- Best language ever ?
@@ -99,6 +98,11 @@ vnoremap('<M-k>', '<Esc>:m .-2<CR>==gi')
 nnoremap('{', ':cprev<CR>')
 nnoremap('}', ':cnext<CR>')
 
+nnoremap("<C-h>", ":tabprev<CR>")
+nnoremap("<C-l>", ":tabnext<CR>")
+nnoremap("<C-n>", ":tabnew<CR>")
+
+
 vim.cmd [[ nnoremap <expr><CR> {-> v:hlsearch ? ':nohl<CR>' : '<CR>'}() ]]
 
 
@@ -106,7 +110,7 @@ vim.cmd [[ nnoremap <expr><CR> {-> v:hlsearch ? ':nohl<CR>' : '<CR>'}() ]]
 vim.opt.ignorecase = true -- ignore case when searching
 vim.opt.smartcase = true --don't ignore case in search when there is uppercase letter
 vim.opt.equalalways = false -- don't resize windows on changing window state ( closing or splitting )
-vim.opt.modeline = true -- 
+vim.opt.modeline = true --
 vim.opt.autoread = true -- If you detect a file change read it automatically
 vim.opt.compatible = false -- no need legacy VI compatibility
 vim.opt.encoding = 'utf-8' -- Default file encoding
@@ -148,24 +152,16 @@ vim.opt.shortmess = vim.opt.shortmess + 'c'   -- Shut off completion messages
 vim.opt.belloff = vim.opt.belloff + 'ctrlg' -- If Vim beeps during completion
 vim.opt.lazyredraw = true
 vim.opt.termguicolors = true
-
 vim.cmd [[ set clipboard^=unnamedplus ]]
 
 vim.g.tokyonight_style = "night"
 vim.cmd [[ colorscheme tokyonight ]]
-vim.cmd [[ hi Normal guibg=none ]]
 
 -- Telescope
 local telescope_builtin = require "telescope.builtin"
 nnoremap('<leader><leader>', function() telescope_builtin.find_files() end)
 nnoremap('??', '<cmd>Telescope live_grep<CR>')
 nnoremap('?c', '<cmd>Telescope lsp_code_actions<CR>')
-
--- FZF
--- vim.g.fzf_layout = { ['down'] = '40%' }
--- vim.g.fzf_layout = { ['window'] = { ['width'] = 0.9, ['height'] = 0.7 } }
--- nnoremap('<leader><leader>', ":Files<CR>")
--- nnoremap('??', ':Rg<CR>')
 
 -- LSP
 local lspconfig = require "lspconfig"
@@ -190,16 +186,30 @@ end
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
 
-local servers = { "clangd", "rust_analyzer", "gopls", "intelephense", "jedi_language_server", "hls", "purescriptls", "zls" }
-
-for _, lsp in ipairs(servers) do
-  lspconfig[lsp].setup {
-    on_attach = on_attach,
-    capabilities = capabilities,
-  }
-end
-vim.cmd [[ command! Fmt :lua vim.lsp.buf.formatting_sync() ]]
-vim.cmd [[ nnoremap <leader>F :Fmt<CR> ]]
+require("lspconfig").clangd.setup {
+   on_attach = on_attach,
+}
+require("lspconfig").rust_analyzer.setup {
+   on_attach = on_attach,
+}
+require("lspconfig").gopls.setup {
+   on_attach = on_attach,
+}
+require("lspconfig").intelephense.setup {
+   on_attach = on_attach,
+}
+require("lspconfig").jedi_language_server.setup {
+   on_attach = on_attach,
+}
+require("lspconfig").hls.setup {
+   on_attach = on_attach,
+}
+require("lspconfig").purescriptls.setup {
+   on_attach = on_attach,
+}
+require("lspconfig").zls.setup {
+   on_attach = on_attach,
+}
 
 local sumneko_root = string.format("%s/.local/lua-language-server", os.getenv("HOME"))
 local sumneko_binary = sumneko_root .. "/bin/lua-language-server"
@@ -229,15 +239,15 @@ require("lspconfig").sumneko_lua.setup {
 }
 
 require"lspconfig".elixirls.setup {
-  cmd = { os.getenv("HOME") .. "/.local/elixir-ls/language_server.sh" }
+   on_attach = on_attach,
+   cmd = { os.getenv("HOME") .. "/.local/elixir-ls/language_server.sh" }
 
 }
 vim.opt.completeopt = { "menuone", "noselect" }
 
--- Don't show the dumb matching stuff.
 vim.opt.shortmess:append "c"
 
-
+-- AutoComplete
 local cmp = require "cmp"
 cmp.setup {
   snippet = {
@@ -335,9 +345,10 @@ let g:go_imports_autosave = 1
 autocmd FileType yaml setlocal cursorcolumn
 
 " Zig
-let g:zig_fmt_autosave = 1
 
 " Easy Align
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign) 
 ]]
+
+vim.g.zig_fmt_autosave = 1

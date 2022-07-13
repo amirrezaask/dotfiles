@@ -73,3 +73,6 @@ subl() {
    /Applications/Sublime\ Text.app/Contents/MacOS/sublime_text $1 > /dev/null 2>&1 &
 }
 POWERLEVEL9K_DISABLE_CONFIGURATION_WIZARD=true
+
+alias ta='tmux attach -t '
+alias tl='tmux list-sessions'
