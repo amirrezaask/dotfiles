@@ -76,3 +76,4 @@ POWERLEVEL9K_DISABLE_CONFIGURATION_WIZARD=true
 
 alias ta='tmux attach -t '
 alias tl='tmux list-sessions'
+alias tns='tmux new-session -s '
