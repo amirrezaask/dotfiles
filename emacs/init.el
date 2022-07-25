@@ -70,9 +70,7 @@
     (exec-path-from-shell-copy-envs '("GOPROXY" "GOPRIVATE"))
     (exec-path-from-shell-initialize))
 
-(use-package doom-themes :straight t)
-
-(load-theme 'doom-moonlight t) ;; set theme
+(load-theme 'tango-dark t) ;; set theme
 
 (set-frame-font "JetBrainsMono Nerd Font Mono 16" nil t) ;; Set font
 
@@ -84,12 +82,7 @@
 
 (when (> emacs-major-version 26) (global-tab-line-mode -1)) ;; Disable tab line in Emacs 27+.
 
-(setq-default cursor-type 'bar) ;; Shape of the cursor.
-
 (blink-cursor-mode 1) ;; Cursor blinks.
-
-
-(global-hl-line-mode +1) ;; Highlight current line.
 
 
 (use-package helpful
@@ -147,7 +140,6 @@
                      #'completion--in-region)
                    args))))
 
-
 (use-package orderless
   :straight t
   :init
@@ -156,7 +148,12 @@
         completion-category-overrides '((file (styles partial-completion)))))
 
 (use-package consult
-  :straight t)
+  :straight t
+  :bind
+  (
+   ("C-s" . consult-line)
+   )
+  )
 
 (use-package company
   :straight t
