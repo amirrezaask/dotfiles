@@ -214,26 +214,17 @@
     (setq org-startup-folded t)
   )
 
-(use-package project
-  ;; :bind
-  ;; (:map evil-normal-state-map
-  ;;       ("SPC SPC" . project-find-file)
-  ;;       ("SPC p s" . project-switch-project)
-  ;;       ("SPC p p" . project-switch-project)
-  ;;       ("SPC p d" . project-dired)
-  ;;       ("SPC b b" . project-switch-to-buffer)  
-  ;;       ("SPC f f" . find-file)
-  ;;  )
-  )
 
 (use-package perspective :straight t
   :config
   (setq persp-suppress-no-prefix-key-warning t)
   (persp-mode 1)
-  ;; (evil-global-set-key 'normal (kbd "SPC w s") 'persp-switch)
-  ;; (evil-global-set-key 'normal (kbd "SPC w n") 'persp-next)
-  ;; (evil-global-set-key 'normal (kbd "SPC w d") 'persp-kill-buffer*)
-  ;; (evil-global-set-key 'normal (kbd "SPC w k") 'persp-kill)
+  :bind
+  (
+   ("C-x w s" . persp-switch)
+   ("C-x w n" . persp-next)
+   ("C-x w k" . persp-kill)
+   )
   )
 
 (use-package go-mode
@@ -253,21 +244,22 @@
 (use-package apache-mode :straight t
     :mode ("\\.htaccess\\'" "httpd\\.conf\\'" "srm\\.conf\\'" "access\\.conf\\'"))
 
-  (use-package systemd :straight t
-    :mode ("\\.service\\'" "\\.timer\\'"))
+(use-package systemd :straight t
+  :mode ("\\.service\\'" "\\.timer\\'"))
 
-  (use-package nginx-mode :straight 
-    :mode ("/etc/nginx/conf.d/.*" "/etc/nginx/.*\\.conf\\'"))
+(use-package nginx-mode :straight 
+  :mode ("/etc/nginx/conf.d/.*" "/etc/nginx/.*\\.conf\\'"))
 
 (use-package docker-compose-mode
     :straight t
     :mode "docker-compose\\.yml")
+
 (use-package dockerfile-mode :straight t :mode "\\Dockerfile\\'")
 
 (use-package lsp-mode 
   :straight t
   :hook
-  ((prog-mode) . lsp)
+  ((go-mode php-mode rust-mode python-mode zig-mode c-mode c++-mode) . lsp)
 
   )
 
@@ -278,5 +270,3 @@
   :config
     (yas-global-mode 1)
   )
-
-(use-package flymake)
