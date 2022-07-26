@@ -73,32 +73,30 @@
 
 (when (> emacs-major-version 26) (global-tab-line-mode -1)) ;; Disable tab line in Emacs 27+.
 
-(blink-cursor-mode 1) ;; Cursor blinks.
-
-(load-theme 'tango-dark t) ;; set theme
 (set-frame-font "JetBrainsMono Nerd Font Mono 16" nil t) ;; Set font
 
-(use-package vertico
-    :straight t
-    :init
-    (vertico-mode 1)
-    :config
-    (setq vertico-resize nil
-          vertico-count 17
-          vertico-cycle t
-          completion-in-region-function
-          (lambda (&rest args)
-            (apply (if vertico-mode
-                       #'consult-completion-in-region
-                     #'completion--in-region)
-                   args))))
+(straight-use-package 'vertico)
+(vertico-mode 1)
+(setq vertico-resize nil
+      vertico-count 17
+      vertico-cycle t
+      completion-in-region-function
+      (lambda (&rest args)
+        (apply (if vertico-mode
+                   #'consult-completion-in-region
+                 #'completion--in-region)
+              args)))
 
-(use-package orderless
-  :straight t
-  :init
-  (setq completion-styles '(orderless basic)
-        completion-category-defaults nil
-        completion-category-overrides '((file (styles partial-completion)))))
+(straight-use-package 'orderless)
+
+(setq completion-styles '(orderless basic)
+      completion-category-defaults nil
+      completion-category-overrides '((file (styles partial-completion))))
+
+(require 'orderless)
+
+(use-package gruber-darker-theme :straight t)
+(load-theme 'gruber-darker t) ;; set theme
 
 (use-package consult
   :straight t
@@ -190,6 +188,8 @@
 
 (use-package go-mode :straight t :mode "\\.go\\'" :hook (go-mode . (lambda () (add-to-list 'exec-path (concat (getenv "HOME") "/go/bin")))))
 
+(use-package jai-mode)
+
 (use-package php-mode :straight t)
 
 (use-package rust-mode :straight t :mode "\\.rs\\'")
@@ -208,6 +208,6 @@
 
 (use-package dockerfile-mode :straight t :mode "\\Dockerfile\\'")
 
-(use-package lsp-mode :straight t :hook ((go-mode php-mode rust-mode python-mode zig-mode c-mode c++-mode) . lsp))
+(use-package lsp-mode :straight t :init (setq lsp-headerline-breadcrumb-enable nil) :hook ((go-mode php-mode rust-mode python-mode zig-mode c-mode c++-mode) . lsp))
 
 (use-package yasnippet :straight t :bind (("C-x C-x" . yas-expand) ("C-x C-l" . yas-insert-snippet)) :config (yas-global-mode 1))
