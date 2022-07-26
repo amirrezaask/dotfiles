@@ -95,23 +95,18 @@
 
 (require 'orderless)
 
-(use-package gruber-darker-theme :straight t)
+(straight-use-package 'gruber-darker-theme)
 (load-theme 'gruber-darker t) ;; set theme
 
-(use-package consult
-  :straight t
-  :bind
-  (
-   ("C-s" . consult-line)
-   ("C-M-s" . consult-grep)
-   )
-  )
+(straight-use-package 'consult)
+(global-set-key (kbd "C-s") 'consult-line)
+(global-set-key (kbd "C-M-s") 'consult-grep)
 
-(use-package exec-path-from-shell :straight t
-  :config
-    (setq exec-path-from-shell-shell-name "zsh")
-    (exec-path-from-shell-copy-envs '("GOPROXY" "GOPRIVATE"))
-    (exec-path-from-shell-initialize))
+(straight-use-package 'exec-path-from-shell)
+
+(setq exec-path-from-shell-shell-name "zsh")
+(exec-path-from-shell-copy-envs '("GOPROXY" "GOPRIVATE"))
+(exec-path-from-shell-initialize)
 
 (use-package highlight-indent-guides
   :hook ((yaml-mode-hook . #'highlight-indent-guides)
@@ -211,3 +206,91 @@
 (use-package lsp-mode :straight t :init (setq lsp-headerline-breadcrumb-enable nil) :hook ((go-mode php-mode rust-mode python-mode zig-mode c-mode c++-mode) . lsp))
 
 (use-package yasnippet :straight t :bind (("C-x C-x" . yas-expand) ("C-x C-l" . yas-insert-snippet)) :config (yas-global-mode 1))
+
+
+(defun amirreza/evil-hook ()
+  (dolist (mode '(custom-mode
+                  eshell-mode
+                  git-rebase-mode
+                  erc-mode
+                  term-mode))
+   (add-to-list 'evil-emacs-state-modes mode)))
+
+(use-package evil
+  :straight t
+  :hook
+  (evil-mode . amirreza/evil-hook)
+  :init
+    (setq evil-want-keybinding nil)
+    (evil-mode 1)
+  :bind
+  :config
+    (setq evil-want-integration t)
+    (setq evil-want-C-u-scroll t)
+    (setq evil-want-C-i-jump nil)
+    (setq evil-ex-search-vim-style-regexp t
+            evil-ex-visual-char-range t  ; column range for ex commands
+            evil-mode-line-format 'nil
+            ;; more vim-like behavior
+            evil-symbol-word-search t
+            ;; if the current state is obvious from the cursor's color/shape, then
+            ;; we won't need superfluous indicators to do it instead.
+            evil-default-cursor '+evil-default-cursor-fn
+            evil-normal-state-cursor 'box
+            evil-emacs-state-cursor  '(box +evil-emacs-cursor-fn)
+            evil-insert-state-cursor 'bar
+            evil-visual-state-cursor 'hollow
+            ;; Only do highlighting in selected window so that Emacs has less work
+            ;; to do highlighting them all.
+            evil-ex-interactive-search-highlight 'selected-window
+            ;; It's infuriating that innocuous "beginning of line" or "end of line"
+            ;; errors will abort macros, so suppress them:
+            evil-kbd-macro-suppress-motion-error t
+    )
+    (evil-global-set-key 'motion "j" 'evil-next-visual-line)
+    (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
+    (evil-global-set-key 'normal ";" 'evil-ex)
+    (evil-set-initial-state 'messages-buffer-mode 'normal)
+    (evil-set-initial-state 'dashboard-mode 'normal)
+    (evil-select-search-module 'evil-search-module 'evil-search)
+    (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
+    (define-key evil-insert-state-map (kbd "C-h") 'evil-delete-backward-char-and-join)
+    (evil-global-set-key 'normal (kbd "SPC b k") 'kill-buffer)  
+    (evil-set-leader nil "SPC")
+    (setq evil-want-Y-yank-to-eol t)
+  )
+
+
+(use-package evil-collection
+  :straight t
+  :config (evil-collection-init))
+
+(use-package evil-escape :straight t
+    :init
+    (setq-default evil-escape-key-sequence "jk")
+    (setq evil-escape-unordered-key-sequence t)
+    (setq-default evil-escape-delay 0.1)
+    (evil-escape-mode 1))
+
+(use-package evil-surround
+  :straight t
+  :config (global-evil-surround-mode 1))
+
+(use-package evil-commentary :straight t :config (evil-commentary-mode 1))
+
+
+(evil-define-key 'normal 'global (kbd "SPC SPC") 'project-find-file)
+(evil-define-key 'normal 'global (kbd "SPC f f") 'find-file)
+(evil-define-key 'normal 'global (kbd "SPC p p") 'project-switch-project)
+(evil-define-key 'normal 'global (kbd "SPC p b") 'project-switch-to-buffer)
+(evil-define-key 'normal 'global (kbd "SPC p d") 'project-dired-project)
+(evil-define-key 'normal 'global (kbd "SPC SPC") 'project-find-file)
+
+(evil-global-set-key 'normal (kbd "SPC w s") 'persp-switch)
+(evil-global-set-key 'normal (kbd "SPC w n") 'persp-next)
+(evil-global-set-key 'normal (kbd "SPC w d") 'persp-kill-buffer*)
+(evil-global-set-key 'normal (kbd "SPC w k") 'persp-kill)
+
+(evil-global-set-key 'normal (kbd "SPC g s") 'magit-status)
+
+(evil-global-set-key 'normal (kbd "??") 'consult-grep)
