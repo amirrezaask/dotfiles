@@ -22,7 +22,7 @@
 (setq kept-old-versions 2) ;; Number of old versions to keep.
 (setq create-lockfiles nil) ;; Don't create .# files as lock.
 (setq backup-directory-alist ;; all backups should go here (PATTERN . LOCATION)
-      '(("." . "~/.config/emacs/backup/")))
+      '(("." . (expand-file-name "backup" user-emacs-directory))))
 
 (setq-default indent-tabs-mode nil ;; Don't insert tabs for indentation.
                 tab-width 4) ;; Width of the TAB character in display.
@@ -59,7 +59,7 @@
 (setq hscroll-step 1) ;; Number of columns to scroll when point is to close to edge.
 (setq hscroll-margin 1) ;; How many columns away from edge to start scrolling.
 
-(setq custom-file "~/.config/emacs/custom.el") ;; Don't tamper with init.el for custom variables and use given file.
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory)) ;; Don't tamper with init.el for custom variables and use given file.
 
 (column-number-mode +1) ;; Show column number in modeline.
 
@@ -99,8 +99,10 @@
 (load-theme 'gruber-darker t) ;; set theme
 
 (straight-use-package 'consult)
+
 (global-set-key (kbd "C-s") 'consult-line)
-(global-set-key (kbd "C-M-s") 'consult-grep)
+
+(global-set-key (kbd "C-c C-f") 'project-find-file)
 
 (straight-use-package 'exec-path-from-shell)
 
@@ -133,7 +135,7 @@
         ("NOTE"       success bold)
         ("DEPRECATED" font-lock-doc-face bold))))
 
-(use-package vlf :straight t)
+(straight-use-package 'vlf)
 
 (global-so-long-mode 1)
 
@@ -156,7 +158,8 @@
     (setq company-backends '(company-capf company-dabbrev company-files company-dabbrev-code))
   )
 
-(use-package magit :straight t)
+
+(straight-use-package 'magit)
 
 (use-package org
   :config
@@ -181,17 +184,19 @@
    )
   )
 
-(use-package go-mode :straight t :mode "\\.go\\'" :hook (go-mode . (lambda () (add-to-list 'exec-path (concat (getenv "HOME") "/go/bin")))))
+(straight-use-package 'go-mode)
+(add-hook 'go-mode-hook (lambda () (add-to-list 'exec-path (concat (getenv "HOME") "/bin"))))
 
-(use-package jai-mode)
+(require 'jai-mode)
 
-(use-package php-mode :straight t)
+(straight-use-package 'php-mode)
 
-(use-package rust-mode :straight t :mode "\\.rs\\'")
+(straight-use-package 'rust-mode)
+(setq rust-format-on-save t)
 
-(use-package zig-mode :mode "\\.zig\\'" :straight t)
+(straight-use-package 'zig-mode)
 
-(use-package haskell-mode :straight t)
+(straight-use-package 'haskell-mode)
 
 (use-package apache-mode :straight t :mode ("\\.htaccess\\'" "httpd\\.conf\\'" "srm\\.conf\\'" "access\\.conf\\'"))
 
@@ -203,94 +208,98 @@
 
 (use-package dockerfile-mode :straight t :mode "\\Dockerfile\\'")
 
-(use-package lsp-mode :straight t :init (setq lsp-headerline-breadcrumb-enable nil) :hook ((go-mode php-mode rust-mode python-mode zig-mode c-mode c++-mode) . lsp))
+(use-package lsp-mode :straight t :init (setq lsp-headerline-breadcrumb-enable nil) :hook ((go-mode php-mode rust-mode python-mode zig-mode c-mode c++-mode) . lsp) :config (setq lsp-auto-guess-root t))
 
 (use-package yasnippet :straight t :bind (("C-x C-x" . yas-expand) ("C-x C-l" . yas-insert-snippet)) :config (yas-global-mode 1))
 
 
-(defun amirreza/evil-hook ()
-  (dolist (mode '(custom-mode
-                  eshell-mode
-                  git-rebase-mode
-                  erc-mode
-                  term-mode))
-   (add-to-list 'evil-emacs-state-modes mode)))
+;; (defun amirreza/evil-hook ()
+;;   (dolist (mode '(custom-mode
+;;                   eshell-mode
+;;                   git-rebase-mode
+;;                   erc-mode
+;;                   term-mode))
+;;    (add-to-list 'evil-emacs-state-modes mode)))
 
-(use-package evil
-  :straight t
-  :hook
-  (evil-mode . amirreza/evil-hook)
-  :init
-    (setq evil-want-keybinding nil)
-    (evil-mode 1)
-  :bind
-  :config
-    (setq evil-want-integration t)
-    (setq evil-want-C-u-scroll t)
-    (setq evil-want-C-i-jump nil)
-    (setq evil-ex-search-vim-style-regexp t
-            evil-ex-visual-char-range t  ; column range for ex commands
-            evil-mode-line-format 'nil
-            ;; more vim-like behavior
-            evil-symbol-word-search t
-            ;; if the current state is obvious from the cursor's color/shape, then
-            ;; we won't need superfluous indicators to do it instead.
-            evil-default-cursor '+evil-default-cursor-fn
-            evil-normal-state-cursor 'box
-            evil-emacs-state-cursor  '(box +evil-emacs-cursor-fn)
-            evil-insert-state-cursor 'bar
-            evil-visual-state-cursor 'hollow
-            ;; Only do highlighting in selected window so that Emacs has less work
-            ;; to do highlighting them all.
-            evil-ex-interactive-search-highlight 'selected-window
-            ;; It's infuriating that innocuous "beginning of line" or "end of line"
-            ;; errors will abort macros, so suppress them:
-            evil-kbd-macro-suppress-motion-error t
-    )
-    (evil-global-set-key 'motion "j" 'evil-next-visual-line)
-    (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
-    (evil-global-set-key 'normal ";" 'evil-ex)
-    (evil-set-initial-state 'messages-buffer-mode 'normal)
-    (evil-set-initial-state 'dashboard-mode 'normal)
-    (evil-select-search-module 'evil-search-module 'evil-search)
-    (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
-    (define-key evil-insert-state-map (kbd "C-h") 'evil-delete-backward-char-and-join)
-    (evil-global-set-key 'normal (kbd "SPC b k") 'kill-buffer)  
-    (evil-set-leader nil "SPC")
-    (setq evil-want-Y-yank-to-eol t)
-  )
-
-
-(use-package evil-collection
-  :straight t
-  :config (evil-collection-init))
-
-(use-package evil-escape :straight t
-    :init
-    (setq-default evil-escape-key-sequence "jk")
-    (setq evil-escape-unordered-key-sequence t)
-    (setq-default evil-escape-delay 0.1)
-    (evil-escape-mode 1))
-
-(use-package evil-surround
-  :straight t
-  :config (global-evil-surround-mode 1))
-
-(use-package evil-commentary :straight t :config (evil-commentary-mode 1))
+;; (use-package evil
+;;   :straight t
+;;   :hook
+;;   (evil-mode . amirreza/evil-hook)
+;;   :init
+;;     (setq evil-want-keybinding nil)
+;;     (evil-mode 1)
+;;   :bind
+;;   :config
+;;     (setq evil-want-integration t)
+;;     (setq evil-want-C-u-scroll t)
+;;     (setq evil-want-C-i-jump nil)
+;;     (setq evil-ex-search-vim-style-regexp t
+;;             evil-ex-visual-char-range t  ; column range for ex commands
+;;             evil-mode-line-format 'nil
+;;             ;; more vim-like behavior
+;;             evil-symbol-word-search t
+;;             ;; if the current state is obvious from the cursor's color/shape, then
+;;             ;; we won't need superfluous indicators to do it instead.
+;;             evil-default-cursor '+evil-default-cursor-fn
+;;             evil-normal-state-cursor 'box
+;;             evil-emacs-state-cursor  '(box +evil-emacs-cursor-fn)
+;;             evil-insert-state-cursor 'bar
+;;             evil-visual-state-cursor 'hollow
+;;             ;; Only do highlighting in selected window so that Emacs has less work
+;;             ;; to do highlighting them all.
+;;             evil-ex-interactive-search-highlight 'selected-window
+;;             ;; It's infuriating that innocuous "beginning of line" or "end of line"
+;;             ;; errors will abort macros, so suppress them:
+;;             evil-kbd-macro-suppress-motion-error t
+;;     )
+;;     (evil-global-set-key 'motion "j" 'evil-next-visual-line)
+;;     (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
+;;     (evil-global-set-key 'normal ";" 'evil-ex)
+;;     (evil-set-initial-state 'messages-buffer-mode 'normal)
+;;     (evil-set-initial-state 'dashboard-mode 'normal)
+;;     (evil-select-search-module 'evil-search-module 'evil-search)
+;;     (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
+;;     (define-key evil-insert-state-map (kbd "C-h") 'evil-delete-backward-char-and-join)
+;;     (evil-global-set-key 'normal (kbd "SPC b k") 'kill-buffer)  
+;;     (evil-set-leader nil "SPC")
+;;     (setq evil-want-Y-yank-to-eol t)
+;;   )
 
 
-(evil-define-key 'normal 'global (kbd "SPC SPC") 'project-find-file)
-(evil-define-key 'normal 'global (kbd "SPC f f") 'find-file)
-(evil-define-key 'normal 'global (kbd "SPC p p") 'project-switch-project)
-(evil-define-key 'normal 'global (kbd "SPC p b") 'project-switch-to-buffer)
-(evil-define-key 'normal 'global (kbd "SPC p d") 'project-dired-project)
-(evil-define-key 'normal 'global (kbd "SPC SPC") 'project-find-file)
+;; (use-package evil-collection
+;;   :straight t
+;;   :config (evil-collection-init))
 
-(evil-global-set-key 'normal (kbd "SPC w s") 'persp-switch)
-(evil-global-set-key 'normal (kbd "SPC w n") 'persp-next)
-(evil-global-set-key 'normal (kbd "SPC w d") 'persp-kill-buffer*)
-(evil-global-set-key 'normal (kbd "SPC w k") 'persp-kill)
+;; (use-package evil-escape :straight t
+;;     :init
+;;     (setq-default evil-escape-key-sequence "jk")
+;;     (setq evil-escape-unordered-key-sequence t)
+;;     (setq-default evil-escape-delay 0.1)
+;;     (evil-escape-mode 1))
 
-(evil-global-set-key 'normal (kbd "SPC g s") 'magit-status)
+;; (use-package evil-surround
+;;   :straight t
+;;   :config (global-evil-surround-mode 1))
 
-(evil-global-set-key 'normal (kbd "??") 'consult-grep)
+;; (use-package evil-commentary :straight t :config (evil-commentary-mode 1))
+
+
+;; (evil-define-key 'normal 'global (kbd "SPC SPC") 'project-find-file)
+;; (evil-define-key 'normal 'global (kbd "SPC f f") 'find-file)
+;; (evil-define-key 'normal 'global (kbd "SPC p p") 'project-switch-project)
+;; (evil-define-key 'normal 'global (kbd "SPC p b") 'project-switch-to-buffer)
+;; (evil-define-key 'normal 'global (kbd "SPC p d") 'project-dired-project)
+;; (evil-define-key 'normal 'global (kbd "SPC SPC") 'project-find-file)
+
+;; (evil-global-set-key 'normal (kbd "SPC w s") 'persp-switch)
+;; (evil-global-set-key 'normal (kbd "SPC w n") 'persp-next)
+;; (evil-global-set-key 'normal (kbd "SPC w d") 'persp-kill-buffer*)
+;; (evil-global-set-key 'normal (kbd "SPC w k") 'persp-kill)
+
+;; (evil-global-set-key 'normal (kbd "SPC g s") 'magit-status)
+
+;; (evil-global-set-key 'normal (kbd "??"
+                                  ;; ) 'consult-grep)
+
+(deftheme JonathanBlow
+  "Created 2017-04-14.")
