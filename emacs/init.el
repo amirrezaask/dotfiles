@@ -1,19 +1,8 @@
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory)) ;; add my scripts to load path
 
-(defvar bootstrap-version)
-(let ((bootstrap-file
-        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-    (bootstrap-version 5))
-(unless (file-exists-p bootstrap-file)
-    (with-current-buffer
-        (url-retrieve-synchronously
-        "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
-        'silent 'inhibit-cookies)
-    (goto-char (point-max))
-    (eval-print-last-sexp)))
-(load bootstrap-file nil 'nomessage))
-
-(straight-use-package 'use-package)
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+(package-initialize)
 
 (setq backup-by-copying t) ;; Always copy files for backup.
 (setq version-control t) ;; Use version numbers for backup.
@@ -24,6 +13,8 @@
 
 (setq backup-directory-alist ;; all backups should go here (PATTERN . LOCATION)
       '(("." . "~/.emacs.d/backup")))
+
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 
 (setq-default indent-tabs-mode nil ;; Don't insert tabs for indentation.
                 tab-width 4) ;; Width of the TAB character in display.
@@ -72,9 +63,11 @@
 
 (when (> emacs-major-version 26) (global-tab-line-mode -1)) ;; Disable tab line in Emacs 27+.
 
+;; Font
 (set-frame-font "JetBrainsMono Nerd Font Mono 16" nil t) ;; Set font
 
-(straight-use-package 'vertico)
+;; Vertico - Consult
+(package-install 'vertico)
 (vertico-mode 1)
 (setq vertico-resize nil
       vertico-count 17
@@ -86,7 +79,7 @@
                  #'completion--in-region)
               args)))
 
-(straight-use-package 'orderless)
+(package-install 'orderless)
 
 (setq completion-styles '(orderless basic)
       completion-category-defaults nil
@@ -94,142 +87,133 @@
 
 (require 'orderless)
 
-(straight-use-package 'gruber-darker-theme)
+(package-install 'gruber-darker-theme)
 ;;(load-theme 'gruber-darker t) ;; set theme
 
-(straight-use-package 'consult)
+(package-install 'consult)
 
 (global-set-key (kbd "C-s") 'consult-line)
-
 (global-set-key (kbd "C-c C-f") 'project-find-file)
 
-(straight-use-package 'exec-path-from-shell)
-
+(package-install 'exec-path-from-shell)
 (setq exec-path-from-shell-shell-name "zsh")
 (exec-path-from-shell-copy-envs '("GOPROXY" "GOPRIVATE"))
 (exec-path-from-shell-initialize)
 
-(use-package highlight-indent-guides
-  :hook ((yaml-mode-hook . #'highlight-indent-guides)
-         (focus-in-hook . #'highlight-indent-guides-auto-set-faces))
-    :straight t
-    :config
-    (setq highlight-indent-guides-method 'character))
 
-(use-package expand-region :straight t
-  :bind
-  (("C-=" . er/expand-region)
-   ("C--" . er/contract-region)))
+;; Highlight indents for yaml
+(package-install 'highlight-indent-guides)
+(add-hook 'yaml-mode-hook-hook #'highlight-indent-guides)
+(add-hook 'focus-in-hook #'highlight-indent-guides-auto-set-faces)
+(setq highlight-indent-guides-method 'character)
 
-(use-package hl-todo
-  :straight t
-  :config
-    (global-hl-todo-mode 1)
-    (setq hl-todo-highlight-punctuation ":"
-      hl-todo-keyword-faces
-      `(("TODO"       warning bold)
-        ("FIXME"      error bold)
-        ("HACK"       font-lock-constant-face bold)
-        ("REVIEW"     font-lock-keyword-face bold)
-        ("NOTE"       success bold)
-        ("DEPRECATED" font-lock-doc-face bold))))
 
-(straight-use-package 'vlf)
+;; Expand region
+(package-install 'expand-region)
+(global-set-key (kbd "C-=") 'er/expand-region)
+(global-set-key (kbd "C--") 'er/contract-region)
 
+(package-install 'vlf)
 (global-so-long-mode 1)
 
-(use-package company
-  :straight t
-  :hook (after-init . global-company-mode)
-  :bind
-  (:map company-active-map
-        ("C-n" . #'company-select-next)
-        ("C-p" . #'company-select-previous)
-        ("C-o" . #'company-other-backend)
-        ("<tab>" . #'company-complete-common-or-cycle)
-        ("RET" . #'company-complete-selection))
-  :config
-    (setq company-minimum-prefix-lenght 1)
-    (setq company-tooltip-limit 30)
-    (setq company-idle-delay 0.0)
-    (setq company-echo-delay 0.1)
-    (setq company-show-numbers t)
-    (setq company-backends '(company-capf company-dabbrev company-files company-dabbrev-code))
-  )
+
+;; Company ( Auto complete )
+(package-install 'company)
+(global-company-mode)
+(add-hook 'company-mode-hook (lambda ()
+                               (define-key company-active-map (kbd "C-n") #'company-select-next)
+                               (define-key company-active-map (kbd "C-p") #'company-select-previous)
+                               (define-key company-active-map (kbd "C-o") #'company-other-backend)
+                               (define-key company-active-map (kbd "<tab>") #'company-complete-common-or-cycle)
+                               (define-key company-active-map (kbd "RET") #'company-complete-selection)
+                               (setq company-minimum-prefix-lenght 1)
+                               (setq company-tooltip-limit 30)
+                               (setq company-idle-delay 0.0)
+                               (setq company-echo-delay 0.1)
+                               (setq company-show-numbers t)
+                               (setq company-backends '(company-capf company-dabbrev company-files company-dabbrev-code))
+                               ))
 
 
-(straight-use-package 'magit)
 
-(use-package org
-  :config
-    (define-key org-src-mode-map (kbd "C-c C-c") #'org-edit-src-exit) ;; consitent with magit commit
-    (setq org-ellipsis "⤵")
-    (setq org-src-fontify-natively t)
-    (setq org-src-tab-acts-natively t)
-    (setq org-support-shift-select t)
-    (setq org-src-window-setup 'current-window)
-    (setq org-startup-folded t))
+;; Magit
+(package-install 'magit)
+
+;; Org mode
+(add-hook 'org-mode-hook (lambda ()
+                           (define-key org-src-mode-map (kbd "C-c C-c") #'org-edit-src-exit) ;; consitent with magit commit
+                           (setq org-ellipsis "⤵")
+                           (setq org-src-fontify-natively t)
+                           (setq org-src-tab-acts-natively t)
+                           (setq org-support-shift-select t)
+                           (setq org-src-window-setup 'current-window)
+                           (setq org-startup-folded t)
+                           ))
+
+;; Perspective mode
+(package-install 'perspective)
+(global-set-key (kbd "C-x w s") 'persp-switch)
+(global-set-key (kbd "C-x w n") 'persp-next)
+(global-set-key (kbd "C-x w k") 'persp-kill)
+(setq persp-suppress-no-prefix-key-warning t)
+(persp-mode 1)
 
 
-(use-package perspective :straight t
-  :config
-  (setq persp-suppress-no-prefix-key-warning t)
-  (persp-mode 1)
-  :bind
-  (
-   ("C-x w s" . persp-switch)
-   ("C-x w n" . persp-next)
-   ("C-x w k" . persp-kill)
-   )
-  )
 
-(straight-use-package 'go-mode)
+;; Golang
+(package-install 'go-mode)
 (add-hook 'go-mode-hook (lambda () (add-to-list 'exec-path (concat (getenv "HOME") "/bin"))))
 
+;; Jai
 (require 'jai-mode)
 
-(straight-use-package 'php-mode)
+;; PHP
+(package-install 'php-mode)
 
-(straight-use-package 'rust-mode)
+;; Rust
+(package-install 'rust-mode)
 (setq rust-format-on-save t)
 
-(straight-use-package 'zig-mode)
+;; Ziglang
+(package-install 'zig-mode)
 
-(straight-use-package 'haskell-mode)
+;; Haskell
+(package-install 'haskell-mode)
 
-(use-package apache-mode :straight t :mode ("\\.htaccess\\'" "httpd\\.conf\\'" "srm\\.conf\\'" "access\\.conf\\'"))
+;; Configuration formats
+(package-install 'apache-mode)
+(package-install 'systemd)
+;;(package-install 'nginx-mode)
+(package-install 'docker-compose-mode)
+(package-install 'dockerfile-mode)
 
-(use-package systemd :straight t :mode ("\\.service\\'" "\\.timer\\'"))
+;; LSP
+(package-install 'lsp-mode)
+(setq lsp-headerline-breadcrumb-enable nil)
+(setq lsp-auto-guess-root t)
+(add-hook 'go-mode-hook #'lsp)
+(add-hook 'php-mode-hook #'lsp)
+(add-hook 'rust-mode-hook #'lsp)
+(add-hook 'zig-mode-hook #'lsp)
+(add-hook 'python-mode-hook #'lsp)
+(add-hook 'c-mode-hook #'lsp)
+(add-hook 'c++-mode-hook #'lsp)
 
-(use-package nginx-mode :straight :mode ("/etc/nginx/conf.d/.*" "/etc/nginx/.*\\.conf\\'"))
+;; Modeline
+(setq-default mode-line-format
+              '("%e"
+                mode-line-front-space
+                mode-line-mule-info
+                mode-line-client
+                mode-line-modified
+                mode-line-remote
+                mode-line-frame-identification
+                mode-line-buffer-identification
+                "   "
+                mode-line-position
+                (vc-mode vc-mode)
+                "  "
+                mode-line-end-spaces))
 
-(use-package docker-compose-mode :straight t :mode "docker-compose\\.yml")
-
-(use-package dockerfile-mode :straight t :mode "\\Dockerfile\\'")
-
-(use-package lsp-mode :straight t :init (setq lsp-headerline-breadcrumb-enable nil) :hook ((go-mode php-mode rust-mode python-mode zig-mode c-mode c++-mode) . lsp) :config (setq lsp-auto-guess-root t))
-
-(use-package yasnippet :straight t :bind (("C-x C-x" . yas-expand) ("C-x C-l" . yas-insert-snippet)) :config (yas-global-mode 1))
-
-(custom-set-faces
- '(default ((t (:foreground "#d3b58d" :background "#072626"))))
- '(cursor-color ((t (:foreground "lightgreen"))))
- '(custom-group-tag-face ((t (:underline t :foreground "lightblue"))) t)
- '(custom-variable-tag-face ((t (:underline t :foreground "lightblue"))) t)
- '(font-lock-builtin-face ((t nil)))
-
- '(font-lock-comment-face ((t (:foreground "#616b04"))))
- '(font-lock-function-name-face ((((class color) (background dark)) (:foreground "white")))) 
- '(font-lock-keyword-face ((t (:foreground "white" ))))
-
- '(font-lock-string-face ((t (:foreground "#0fdfaf"))))
- '(font-lock-variable-name-face ((((class color) (background dark)) (:foreground "#c8d4ec"))))  
-
- '(font-lock-warning-face ((t (:foreground "#504038"))))
- '(highlight ((t (:foreground "navyblue" :background "darkseagreen2"))))
- '(mode-line ((t (:inverse-video t))))
- '(mode-line-inactive ((t (:inverse-video t))))
- '(region ((t (:background "blue"))))
- '(widget-field-face ((t (:foreground "white"))) t)
- '(widget-single-line-field-face ((t (:background "darkgray"))) t))
-
+(add-to-list 'custom-theme-load-path (expand-file-name "lisp" user-emacs-directory))
+(load-theme '8ball t)
