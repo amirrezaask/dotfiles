@@ -88,7 +88,6 @@
 (require 'orderless)
 
 (package-install 'gruber-darker-theme)
-;;(load-theme 'gruber-darker t) ;; set theme
 
 (package-install 'consult)
 
@@ -187,10 +186,23 @@
 (package-install 'docker-compose-mode)
 (package-install 'dockerfile-mode)
 
+(package-install 'which-key)
+
+(which-key-setup-minibuffer)
+
 ;; LSP
 (package-install 'lsp-mode)
+(package-install 'lsp-ui)
+(package-install 'consult-lsp)
+(setq lsp-keymap-prefix "C-c l")
+(add-hook 'lsp-mode-hook (lambda ()
+                           (define-key lsp-mode-map (kbd "M-i") #'consult-lsp-symbols)
+                           (define-key lsp-mode-map (kbd "M-'") #'consult-lsp-diagnostics)
+                           ))
+
 (setq lsp-headerline-breadcrumb-enable nil)
 (setq lsp-auto-guess-root t)
+;; LSP hooks
 (add-hook 'go-mode-hook #'lsp)
 (add-hook 'php-mode-hook #'lsp)
 (add-hook 'rust-mode-hook #'lsp)
@@ -216,4 +228,6 @@
                 mode-line-end-spaces))
 
 (add-to-list 'custom-theme-load-path (expand-file-name "lisp" user-emacs-directory))
+
+;; theme
 (load-theme '8ball t)
