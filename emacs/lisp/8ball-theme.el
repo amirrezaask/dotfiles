@@ -2,7 +2,7 @@
 (custom-theme-set-faces
  '8ball
  '(default ((t (:foreground "#d3b58d" :background "#072626"))))
- '(cursor-color ((t (:foreground "lightgreen"))))
+ '(cursor ((t (:background "white"))))
  '(custom-group-tag-face ((t (:underline t :foreground "lightblue"))) t)
  '(custom-variable-tag-face ((t (:underline t :foreground "lightblue"))) t)
  '(font-lock-builtin-face ((t nil)))
@@ -15,10 +15,10 @@
  '(font-lock-variable-name-face ((((class color) (background dark)) (:foreground "#c8d4ec"))))  
 
  '(font-lock-warning-face ((t (:foreground "#504038"))))
- '(highlight ((t (:foreground "navyblue" :background "darkseagreen2"))))
+ '(highlight ((t (:foreground "#d3b58d" :background "#3c02fa"))))
  '(mode-line ((t (:inverse-video t))))
  '(mode-line-inactive ((t (:inverse-video t))))
- '(region ((t (:background "blue"))))
+ '(region ((t (:background "#3c02fa"))))
  '(widget-field-face ((t (:foreground "white"))) t)
  '(widget-single-line-field-face ((t (:background "darkgray"))) t))
 
