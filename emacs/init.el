@@ -252,13 +252,12 @@
    )
   )
 
-
-
 (global-set-key (kbd "C-9") #'compile)
 (global-set-key (kbd "C-8") #'async-shell-command)
 (global-set-key (kbd "C-0") 'GREP)
 (global-set-key (kbd "C-\\") 'FIND-FILE)
 (global-set-key (kbd "C-x C-d") 'dired)
+(define-key grep-mode-map (kbd "M-.") 'find-file-at-point)
 
 ;; UI stuff
 (set-face-attribute 'default nil :foreground "#d3b58d" :background "#072626")
