@@ -11,16 +11,23 @@
 (setq kept-old-versions 2) ;; Number of old versions to keep.
 (setq create-lockfiles nil) ;; Don't create .# files as lock.
 
+(delete-selection-mode 1)
+
 (setq backup-directory-alist ;; all backups should go here (PATTERN . LOCATION)
       '(("." . "~/.emacs.d/backup")))
 
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 
 (setq-default indent-tabs-mode nil ;; Don't insert tabs for indentation.
-                tab-width 4) ;; Width of the TAB character in display.
+              tab-width 4) ;; Width of the TAB character in display.
+
+(setq-default cursor-type 'box)
 
 
 (defalias 'yes-or-no-p 'y-or-n-p) ;; Show y or n instead of yes or no for question prompts.
+
+(global-set-key (kbd "M-p") (lambda () (interactive) (previous-line 20)))
+(global-set-key (kbd "M-n") (lambda () (interactive) (next-line 20)))
 
 (setq echo-keystrokes 0.1) ;; Show keystrokes in minibuffer faster than default.
 
@@ -51,7 +58,7 @@
 (setq hscroll-step 1) ;; Number of columns to scroll when point is to close to edge.
 (setq hscroll-margin 1) ;; How many columns away from edge to start scrolling.
 
-(column-number-mode +1) ;; Show column number in modeline.
+;; (column-number-mode +1) ;; Show column number in modeline.
 
 (global-display-line-numbers-mode 1) ;; Ensure line numbers globally.
 
@@ -67,32 +74,32 @@
 (set-frame-font "JetBrainsMono Nerd Font Mono 16" nil t) ;; Set font
 
 ;; Vertico - Consult
-(package-install 'vertico)
-(vertico-mode 1)
-(setq vertico-resize nil
-      vertico-count 17
-      vertico-cycle t
-      completion-in-region-function
-      (lambda (&rest args)
-        (apply (if vertico-mode
-                   #'consult-completion-in-region
-                 #'completion--in-region)
-              args)))
+;; (package-install 'vertico)
+;; (vertico-mode 1)
+;; (setq vertico-resize nil
+;;       vertico-count 14
+;;       vertico-cycle t
+;;       completion-in-region-function
+;;       (lambda (&rest args)
+;;         (apply (if vertico-mode
+;;                    #'consult-completion-in-region
+;;                  #'completion--in-region)
+;;               args)))
 
-(package-install 'orderless)
+;; (package-install 'orderless)
 
-(setq completion-styles '(orderless basic)
-      completion-category-defaults nil
-      completion-category-overrides '((file (styles partial-completion))))
+;; (setq completion-styles '(basic orderless)
+;;       completion-category-defaults nil
+;;       completion-category-overrides '((file (styles partial-completion))))
 
 (require 'orderless)
 
 (package-install 'gruber-darker-theme)
 
-(package-install 'consult)
+;;(package-install 'consult)
 
-(global-set-key (kbd "C-s") 'consult-line)
-(global-set-key (kbd "C-c C-f") 'project-find-file)
+;; (global-set-key (kbd "C-s") 'consult-line)
+;; (global-set-key (kbd "C-c C-f") 'project-find-file)
 
 (package-install 'exec-path-from-shell)
 (setq exec-path-from-shell-shell-name "zsh")
@@ -166,15 +173,18 @@
 ;; Jai
 (require 'jai-mode)
 
+;; Loki
+(require 'loki-mode)
 ;; PHP
 (package-install 'php-mode)
 
 ;; Rust
 (package-install 'rust-mode)
-(setq rust-format-on-save t)
+(add-hook 'rust-mode-hook (lambda () (interactive) (local-unset-key (kbd "C-c C-f"))))
 
 ;; Ziglang
 (package-install 'zig-mode)
+(setq zig-format-on-save nil)
 
 ;; Haskell
 (package-install 'haskell-mode)
@@ -191,25 +201,29 @@
 (which-key-setup-minibuffer)
 
 ;; LSP
-(package-install 'lsp-mode)
-(package-install 'lsp-ui)
-(package-install 'consult-lsp)
-(setq lsp-keymap-prefix "C-c l")
-(add-hook 'lsp-mode-hook (lambda ()
-                           (define-key lsp-mode-map (kbd "M-i") #'consult-lsp-symbols)
-                           (define-key lsp-mode-map (kbd "M-'") #'consult-lsp-diagnostics)
-                           ))
 
-(setq lsp-headerline-breadcrumb-enable nil)
-(setq lsp-auto-guess-root t)
-;; LSP hooks
-(add-hook 'go-mode-hook #'lsp)
-(add-hook 'php-mode-hook #'lsp)
-(add-hook 'rust-mode-hook #'lsp)
-(add-hook 'zig-mode-hook #'lsp)
-(add-hook 'python-mode-hook #'lsp)
-(add-hook 'c-mode-hook #'lsp)
-(add-hook 'c++-mode-hook #'lsp)
+;; (package-install 'lsp-mode)
+;; (package-install 'consult-lsp)
+
+;; (setq lsp-keymap-prefix "C-c l")
+
+;; (add-hook 'lsp-mode-hook (lambda ()
+;;                            (define-key lsp-mode-map (kbd "M-i") #'consult-lsp-symbols)
+;;                            (define-key lsp-mode-map (kbd "M-'") #'consult-lsp-diagnostics)
+;;                            ))
+
+;; (setq lsp-headerline-breadcrumb-enable nil)
+;; (setq lsp-auto-guess-root t)
+;; ;; LSP hooks
+;; (add-hook 'go-mode-hook #'lsp)
+;; (add-hook 'php-mode-hook #'lsp)
+;; (add-hook 'rust-mode-hook #'lsp)
+;; (add-hook 'zig-mode-hook #'lsp)
+;; (add-hook 'python-mode-hook #'lsp)
+;; (add-hook 'c-mode-hook #'lsp)
+;; (add-hook 'c++-mode-hook #'lsp)
+
+(package-install 'cmake-mode)
 
 ;; Modeline
 (setq-default mode-line-format
@@ -229,5 +243,17 @@
 
 (add-to-list 'custom-theme-load-path (expand-file-name "lisp" user-emacs-directory))
 
+
+(global-set-key (kbd "C-c b") #'compile)
+(global-set-key (kbd "C-c e") #'async-shell-command)
+
+(global-set-key (kbd "C-c c" ) (lambda ()
+                               (interactive)
+                               (find-file (expand-file-name "init.el" user-emacs-directory))
+                               ))
+
+(package-install 'keycast)
+
 ;; theme
 (load-theme '8ball t)
+;; (load-theme 'gruber-darker t)
