@@ -252,23 +252,55 @@
                                (find-file (expand-file-name "init.el" user-emacs-directory))
                                ))
 
+
+(defun GREP (text)
+  (interactive "sPattern: ")
+
+  (cond
+   (
+    (not (null (executable-find "rg"))) (compilation-start
+                                          (concat
+                                           "rg "
+                                           "--line-number "
+                                           "--no-heading "
+                                           "--ignore-case "
+                                           text
+                                           )
+                                          'grep-mode
+                                          ))
+    (vc-backend (buffer-file-name) ) (compilation-start
+                                      (concat
+                                       "git "
+                                       "grep "
+                                       text
+                                       )
+                                      'grep-mode
+                                      )
+     
+    )
+   
+  )
+
+
 ;; theme
 (set-face-attribute 'default nil :foreground "#d3b58d" :background "#072626")
 (set-face-attribute 'cursor nil :background "green")
 
-(set-face-attribute 'font-lock-comment-face nil :foreground "#516b04")
-(set-face-attribute 'font-lock-function-name-face nil :background "dark")
-(set-face-attribute 'font-lock-keyword-face nil :foreground "white")
-(set-face-attribute 'font-lock-string-face nil :foreground "gray")
+(set-face-attribute 'font-lock-comment-face nil :foreground "#118a1a")
+(set-face-attribute 'font-lock-function-name-face nil :foreground "white" :bold nil)
+(set-face-attribute 'font-lock-keyword-face nil :foreground "#d4d4d4")
+(set-face-attribute 'font-lock-string-face nil :foreground "#2ec09c")
 (set-face-attribute 'font-lock-variable-name-face nil :foreground "#c8d4ec")
 (set-face-attribute 'font-lock-warning-face nil :foreground "$504038")
+(set-face-attribute 'font-lock-constant-face nil :foreground "#7ad0c6")
 
-(set-face-attribute 'highlight nil :foreground "#d3b58d")
-(set-face-attribute 'mode-line nil :foreground "#072626" :background "grey") ;; background is the color of text some how.
+(set-face-attribute 'grep-highlight-matches nil :foreground "white" :bold t)
+
+(set-face-attribute 'highlight nil :foreground "white")
+
+(set-face-attribute 'mode-line nil :foreground "grey" :background "black") ;; background is the color of text some how.
 (set-face-attribute 'region nil :background "#3c02fa")
 
-;; (set-face-attribute 'widget-field-face nil :background "white")
 (set-face-attribute 'widget-single-line-field nil :background "darkgray")
-
 
 
