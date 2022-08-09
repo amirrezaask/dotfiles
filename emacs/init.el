@@ -127,20 +127,46 @@
 ;; Golang
 (package-install 'go-mode)
 (add-hook 'go-mode-hook (lambda () (add-to-list 'exec-path (concat (getenv "HOME") "/bin"))))
+(add-hook 'go-mode-hook
+       (lambda ()
+	     (if (or (file-exists-p "makefile")
+		             (file-exists-p "Makefile"))
+             (setq-local compile-command "make")
+           (setq-local compile-command "go build ./...")
+           )
+         )
+       )
 
 ;; Jai
 (require 'jai-mode)
 
-;; Loki
-(require 'loki-mode)
 ;; PHP
 (package-install 'php-mode)
 
 ;; Rust
 (package-install 'rust-mode)
+(add-hook 'rust-mode-hook
+       (lambda ()
+	     (if (or (file-exists-p "makefile")
+		             (file-exists-p "Makefile"))
+             (setq-local compile-command "make")
+           (setq-local compile-command "cargo build")
+           )
+         )
+       )
 
 ;; Ziglang
 (package-install 'zig-mode)
+(add-hook 'zig-mode-hook
+       (lambda ()
+	     (if (or (file-exists-p "makefile")
+		             (file-exists-p "Makefile"))
+             (setq-local compile-command "make")
+           (setq-local compile-command "zig build")
+           )
+         )
+       )
+
 (setq zig-format-on-save nil)
 
 ;; Haskell
@@ -148,9 +174,13 @@
 
 ;; Configuration formats
 (package-install 'apache-mode)
+
 (package-install 'systemd)
-;;(package-install 'nginx-mode)
+
+(package-install 'nginx-mode)
+
 (package-install 'docker-compose-mode)
+
 (package-install 'dockerfile-mode)
 
 ;; LSP
@@ -162,6 +192,8 @@
 (add-hook 'python-mode-hook #'eglot-ensure)
 (add-hook 'c-mode-hook #'eglot-ensure)
 (add-hook 'c++-mode-hook #'eglot-ensure)
+
+(global-set-key (kbd "C-6") 'eglot-format-buffer)
 
 
 (package-install 'cmake-mode)
@@ -225,8 +257,8 @@
 (global-set-key (kbd "C-9") #'compile)
 (global-set-key (kbd "C-8") #'async-shell-command)
 (global-set-key (kbd "C-0") 'GREP)
-
-(global-set-key (kbd "C-x C-f") 'FIND-FILE)
+(global-set-key (kbd "C-\\") 'FIND-FILE)
+(global-set-key (kbd "C-x C-d") 'dired)
 
 ;; UI stuff
 (set-face-attribute 'default nil :foreground "#d3b58d" :background "#072626")
