@@ -252,8 +252,23 @@
                                (find-file (expand-file-name "init.el" user-emacs-directory))
                                ))
 
-(package-install 'keycast)
-
 ;; theme
-(load-theme '8ball t)
-;; (load-theme 'gruber-darker t)
+(set-face-attribute 'default nil :foreground "#d3b58d" :background "#072626")
+(set-face-attribute 'cursor nil :background "green")
+
+(set-face-attribute 'font-lock-comment-face nil :foreground "#516b04")
+(set-face-attribute 'font-lock-function-name-face nil :background "dark")
+(set-face-attribute 'font-lock-keyword-face nil :foreground "white")
+(set-face-attribute 'font-lock-string-face nil :foreground "gray")
+(set-face-attribute 'font-lock-variable-name-face nil :foreground "#c8d4ec")
+(set-face-attribute 'font-lock-warning-face nil :foreground "$504038")
+
+(set-face-attribute 'highlight nil :foreground "#d3b58d")
+(set-face-attribute 'mode-line nil :foreground "#072626" :background "grey") ;; background is the color of text some how.
+(set-face-attribute 'region nil :background "#3c02fa")
+
+;; (set-face-attribute 'widget-field-face nil :background "white")
+(set-face-attribute 'widget-single-line-field nil :background "darkgray")
+
+
+
