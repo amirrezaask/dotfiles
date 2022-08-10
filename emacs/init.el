@@ -66,7 +66,6 @@
 
 (when (> emacs-major-version 26) (global-tab-line-mode -1)) ;; Disable tab line in Emacs 27+.
 
-;; Font
 (package-install 'gruber-darker-theme)
 
 (package-install 'exec-path-from-shell)
@@ -74,19 +73,18 @@
 (exec-path-from-shell-copy-envs '("GOPROXY" "GOPRIVATE"))
 (exec-path-from-shell-initialize)
 
-
 ;; Highlight indents for yaml
 (package-install 'highlight-indent-guides)
 (add-hook 'yaml-mode-hook-hook #'highlight-indent-guides)
 (add-hook 'focus-in-hook #'highlight-indent-guides-auto-set-faces)
 (setq highlight-indent-guides-method 'character)
 
-
 ;; Expand region
 (package-install 'expand-region)
 (global-set-key (kbd "C-=") 'er/expand-region)
 (global-set-key (kbd "C--") 'er/contract-region)
 
+;; handle large files and long lines better
 (package-install 'vlf)
 (global-so-long-mode 1)
 
@@ -185,6 +183,14 @@
 
 ;; LSP
 (package-install 'eglot)
+
+;; disable eglot mouse things
+(add-hook 'eglot-managed-mode-hook (lambda ()
+          (put 'eglot-node 'flymake-overlay-control nil)
+          (put 'eglot-warning 'flymake-overlay-control nil)
+          (put 'eglot-error 'flymake-overlay-control nil)
+          ))
+
 (add-hook 'go-mode-hook #'eglot-ensure)
 (add-hook 'php-mode-hook #'eglot-ensure)
 (add-hook 'rust-mode-hook #'eglot-ensure)
@@ -193,8 +199,10 @@
 (add-hook 'c-mode-hook #'eglot-ensure)
 (add-hook 'c++-mode-hook #'eglot-ensure)
 
-(global-set-key (kbd "C-6") 'eglot-format-buffer)
-
+(defun my-c++-mode-hook ()
+  (setq c-basic-offset 4)
+  (c-set-offset 'substatement-open 0))
+(add-hook 'c++-mode-hook 'my-c++-mode-hook)
 
 (package-install 'cmake-mode)
 
@@ -257,7 +265,27 @@
 (global-set-key (kbd "C-0") 'GREP)
 (global-set-key (kbd "C-\\") 'FIND-FILE)
 (global-set-key (kbd "C-x C-d") 'dired)
-(define-key grep-mode-map (kbd "M-.") 'find-file-at-point)
+(global-set-key (kbd "C-6") 'eglot-format-buffer)
+(global-set-key (kbd "C-1") (lambda () (interactive) (find-file (expand-file-name "init.el" user-emacs-directory))))
+(add-hook 'grep-mode-hook (lambda ()
+                            (define-key grep-mode-map (kbd "M-.") 'find-file-at-point)
+                            ))
+
+
+(package-install 'ace-window)
+(global-set-key (kbd "C-x o") 'ace-select-window)
+
+;; VIM - Evil
+(package-install 'evil)
+(package-install 'evil-collection)
+
+(setq evil-want-keybinding nil)
+
+(evil-mode 1)
+(evil-collection-init)
+
+
+
 
 ;; UI stuff
 (set-face-attribute 'default nil :foreground "#d3b58d" :background "#072626")
@@ -271,9 +299,8 @@
 (set-face-attribute 'font-lock-warning-face nil :foreground "$504038")
 (set-face-attribute 'font-lock-constant-face nil :foreground "#7ad0c6")
 (set-face-attribute 'highlight nil :foreground "white")
-(set-face-attribute 'mode-line nil :foreground "grey" :background "black") ;; background is the color of text some how.
+(set-face-attribute 'mode-line nil :foreground "grey" :background "black") 
 (set-face-attribute 'region nil :background "#3c02fa")
 
-(set-face-attribute 'widget-single-line-field nil :background "darkgray")
-(set-frame-font "JetBrainsMono Nerd Font Mono 16" nil t) ;; Set font
+(set-frame-font "Inconsolata 18" nil t)
 
