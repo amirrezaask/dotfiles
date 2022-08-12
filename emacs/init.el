@@ -1,3 +1,8 @@
+(tool-bar-mode 0) ;; disable top toolbar
+(scroll-bar-mode 0) ;; disable scroll bar
+(menu-bar-mode -1) ;; Disable menu bar
+(setq package-enable-at-startup nil) ;; disable emacs default package manager
+
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory)) ;; add my scripts to load path
 
 (require 'package)
@@ -12,6 +17,8 @@
 (setq create-lockfiles nil) ;; Don't create .# files as lock.
 
 (delete-selection-mode 1)
+
+(blink-cursor-mode -1)
 
 (setq backup-directory-alist ;; all backups should go here (PATTERN . LOCATION)
       '(("." . "~/.emacs.d/backup")))
@@ -68,10 +75,10 @@
 
 (package-install 'gruber-darker-theme)
 
-(package-install 'exec-path-from-shell)
-(setq exec-path-from-shell-shell-name "zsh")
-(exec-path-from-shell-copy-envs '("GOPROXY" "GOPRIVATE"))
-(exec-path-from-shell-initialize)
+;; (package-install 'exec-path-from-shell)
+;; (setq exec-path-from-shell-shell-name "zsh")
+;; (exec-path-from-shell-copy-envs '("GOPROXY" "GOPRIVATE"))
+;; (exec-path-from-shell-initialize)
 
 ;; Highlight indents for yaml
 (package-install 'highlight-indent-guides)
@@ -136,7 +143,7 @@
        )
 
 ;; Jai
-(require 'jai-mode)
+;;(require 'jai-mode)
 
 ;; PHP
 (package-install 'php-mode)
@@ -276,13 +283,13 @@
 (global-set-key (kbd "C-x o") 'ace-select-window)
 
 ;; VIM - Evil
-(package-install 'evil)
-(package-install 'evil-collection)
+;; (package-install 'evil)
+;; (package-install 'evil-collection)
 
-(setq evil-want-keybinding nil)
+;; (setq evil-want-keybinding nil)
 
-(evil-mode 1)
-(evil-collection-init)
+;; (evil-mode 1)
+;; (evil-collection-init)
 
 
 
@@ -302,5 +309,5 @@
 (set-face-attribute 'mode-line nil :foreground "grey" :background "black") 
 (set-face-attribute 'region nil :background "#3c02fa")
 
-(set-frame-font "Inconsolata 18" nil t)
+(set-frame-font "Inconsolata 16" nil t)
 
