@@ -1,3 +1,8 @@
+(tool-bar-mode 0) ;; disable top toolbar
+(scroll-bar-mode 0) ;; disable scroll bar
+(menu-bar-mode -1) ;; Disable menu bar
+(setq package-enable-at-startup nil) ;; disable emacs default package manager
+
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory)) ;; add my scripts to load path
 
 (require 'package)
@@ -121,7 +126,7 @@
                            (setq org-src-window-setup 'current-window)
                            (setq org-startup-folded t)
                            ))
-
+          
 ;; Golang
 (package-install 'go-mode)
 (add-hook 'go-mode-hook (lambda () (add-to-list 'exec-path (concat (getenv "HOME") "/bin"))))
@@ -144,8 +149,8 @@
 ;; Rust
 (package-install 'rust-mode)
 (add-hook 'rust-mode-hook
-       (lambda ()
-	     (if (or (file-exists-p "makefile")
+          (lambda ()
+	        (if (or (file-exists-p "makefile")
 		             (file-exists-p "Makefile"))
              (setq-local compile-command "make")
            (setq-local compile-command "cargo build")
@@ -274,18 +279,6 @@
 
 (package-install 'ace-window)
 (global-set-key (kbd "C-x o") 'ace-select-window)
-
-;; VIM - Evil
-(package-install 'evil)
-(package-install 'evil-collection)
-
-(setq evil-want-keybinding nil)
-
-(evil-mode 1)
-(evil-collection-init)
-
-
-
 
 ;; UI stuff
 (set-face-attribute 'default nil :foreground "#d3b58d" :background "#072626")

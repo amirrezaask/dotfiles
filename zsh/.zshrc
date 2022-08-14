@@ -77,3 +77,7 @@ POWERLEVEL9K_DISABLE_CONFIGURATION_WIZARD=true
 alias ta='tmux attach -t '
 alias tl='tmux list-sessions'
 alias tns='tmux new-session -s '
+
+export LIBRARY_PATH="$LIBRARY_PATH:$(brew --prefix)/lib"
+
+export C_INCLUDE_PATH="$C_INCLUDE_PATH:$(brew --prefix)/include"
