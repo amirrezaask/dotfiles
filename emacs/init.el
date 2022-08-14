@@ -18,6 +18,8 @@
 
 (delete-selection-mode 1)
 
+(blink-cursor-mode -1)
+
 (setq backup-directory-alist ;; all backups should go here (PATTERN . LOCATION)
       '(("." . "~/.emacs.d/backup")))
 
@@ -73,10 +75,10 @@
 
 (package-install 'gruber-darker-theme)
 
-(package-install 'exec-path-from-shell)
-(setq exec-path-from-shell-shell-name "zsh")
-(exec-path-from-shell-copy-envs '("GOPROXY" "GOPRIVATE"))
-(exec-path-from-shell-initialize)
+;; (package-install 'exec-path-from-shell)
+;; (setq exec-path-from-shell-shell-name "zsh")
+;; (exec-path-from-shell-copy-envs '("GOPROXY" "GOPRIVATE"))
+;; (exec-path-from-shell-initialize)
 
 ;; Highlight indents for yaml
 (package-install 'highlight-indent-guides)
@@ -141,7 +143,7 @@
        )
 
 ;; Jai
-(require 'jai-mode)
+;;(require 'jai-mode)
 
 ;; PHP
 (package-install 'php-mode)
@@ -295,5 +297,5 @@
 (set-face-attribute 'mode-line nil :foreground "grey" :background "black") 
 (set-face-attribute 'region nil :background "#3c02fa")
 
-(set-frame-font "Inconsolata 18" nil t)
+(set-frame-font "Inconsolata 16" nil t)
 
