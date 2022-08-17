@@ -172,7 +172,7 @@ bindsym $mod+r mode "resize"
 bindsym $mod+m exec i3-msg move workspace to output left
 bar {
 	position bottom
-	status_command i3status -c ~/src/github.com/amirrezaask/dotfiles/i3/i3status
+	status_command i3status -c ~/.config/i3/i3status
 }
 exec_always setxkbmap -layout "us,ir" -option "grp:alt_shift_toggle" -option "ctrl:nocaps"
 exec_always feh --bg-scale /home/amirreza/src/github.com/amirrezaask/dotfiles/wallpapers/1.jpg
