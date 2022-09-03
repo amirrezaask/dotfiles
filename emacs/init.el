@@ -74,12 +74,12 @@
 (when (> emacs-major-version 26) (global-tab-line-mode -1)) ;; Disable tab line in Emacs 27+.
 
 (package-install 'gruber-darker-theme)
-
-;; (package-install 'exec-path-from-shell)
-;; (setq exec-path-from-shell-shell-name "zsh")
-;; (exec-path-from-shell-copy-envs '("GOPROXY" "GOPRIVATE"))
-;; (exec-path-from-shell-initialize)
-
+(unless (eq system-type 'windows-nt)
+  (package-install 'exec-path-from-shell)
+  (setq exec-path-from-shell-shell-name "zsh")
+  (exec-path-from-shell-copy-envs '("GOPROXY" "GOPRIVATE"))
+  (exec-path-from-shell-initialize)
+)
 ;; Highlight indents for yaml
 (package-install 'highlight-indent-guides)
 (add-hook 'yaml-mode-hook-hook #'highlight-indent-guides)
@@ -110,6 +110,7 @@
                                (setq company-idle-delay 0.0)
                                (setq company-echo-delay 0.1)
                                (setq company-show-numbers t)
+                               (setq company-dabbrev-downcase nil)
                                (setq company-backends '(company-capf company-dabbrev company-files company-dabbrev-code))
                                ))
 
@@ -128,7 +129,7 @@
                            (setq org-src-window-setup 'current-window)
                            (setq org-startup-folded t)
                            ))
-          
+
 ;; Golang
 (package-install 'go-mode)
 (add-hook 'go-mode-hook (lambda () (add-to-list 'exec-path (concat (getenv "HOME") "/bin"))))
@@ -151,8 +152,8 @@
 ;; Rust
 (package-install 'rust-mode)
 (add-hook 'rust-mode-hook
-          (lambda ()
-	        (if (or (file-exists-p "makefile")
+       (lambda ()
+	     (if (or (file-exists-p "makefile")
 		             (file-exists-p "Makefile"))
              (setq-local compile-command "make")
            (setq-local compile-command "cargo build")
@@ -198,13 +199,13 @@
           (put 'eglot-error 'flymake-overlay-control nil)
           ))
 
-(add-hook 'go-mode-hook #'eglot-ensure)
-(add-hook 'php-mode-hook #'eglot-ensure)
-(add-hook 'rust-mode-hook #'eglot-ensure)
-(add-hook 'zig-mode-hook #'eglot-ensure)
-(add-hook 'python-mode-hook #'eglot-ensure)
-(add-hook 'c-mode-hook #'eglot-ensure)
-(add-hook 'c++-mode-hook #'eglot-ensure)
+;; (add-hook 'go-mode-hook #'eglot-ensure)
+;; (add-hook 'php-mode-hook #'eglot-ensure)
+;; (add-hook 'rust-mode-hook #'eglot-ensure)
+;; (add-hook 'zig-mode-hook #'eglot-ensure)
+;; (add-hook 'python-mode-hook #'eglot-ensure)
+;; (add-hook 'c-mode-hook #'eglot-ensure)
+;; (add-hook 'c++-mode-hook #'eglot-ensure)
 
 (defun my-c++-mode-hook ()
   (setq c-basic-offset 4)
@@ -229,33 +230,40 @@
                 "  "
                 mode-line-end-spaces))
 
-
-
-
-(defun GREP (text)
-  (interactive "sPattern: ")
-
+(defun rg (pattern)
+  (interactive)
   (cond
-   ((not (null (executable-find "rg"))) (compilation-start
+   ((vc-backend buffer-file-name) (let ((default-directory (vc-root-dir)))
+                                      (compilation-start
                                           (concat
                                            "rg "
                                            "--line-number "
                                            "--no-heading "
                                            "--ignore-case "
-                                           text
+                                           (format "'%s'" text)
+                                           )
+                                          'grep-mode
+                                          )))
+   (t                                (compilation-start
+                                          (concat
+                                           "rg "
+                                           "--line-number "
+                                           "--no-heading "
+                                           "--ignore-case "
+                                           (format "'%s'" text)
                                            )
                                           'grep-mode
                                           ))
-    ((vc-backend (buffer-file-name)) (compilation-start
-                                      (concat
-                                       "git "
-                                       "grep -n "
-                                       text
-                                       )
-                                      'grep-mode
-                                      ))
+   )
+  )
+
+
+(defun GREP (text)
+  (interactive "sPattern: ")
+  (cond
+    ;; ((not (null (executable-find "rg"))) (rg text))
+    ((vc-backend (buffer-file-name)) (compilation-start (concat "git grep -n " text) 'grep-mode))
     (t (compilation-start (concat "grep -n -RI " text) 'grep-mode))
-     
     )
   )
 
@@ -267,8 +275,16 @@
    )
   )
 
+
+(defun ASYNC-SHELL-COMMAND ()
+  (interactive)
+  (let ((default-directory (vc-root-dir)))
+    (call-interactively 'async-shell-command)
+    )
+  )
+
 (global-set-key (kbd "C-9") #'compile)
-(global-set-key (kbd "C-8") #'async-shell-command)
+(global-set-key (kbd "C-8") #'ASYNC-SHELL-COMMAND)
 (global-set-key (kbd "C-0") 'GREP)
 (global-set-key (kbd "C-\\") 'FIND-FILE)
 (global-set-key (kbd "C-x C-d") 'dired)
@@ -282,6 +298,7 @@
 (package-install 'ace-window)
 (global-set-key (kbd "C-x o") 'ace-select-window)
 
+
 ;; UI stuff
 (set-face-attribute 'default nil :foreground "#d3b58d" :background "#072626")
 (set-face-attribute 'cursor nil :background "green")
@@ -291,11 +308,10 @@
 (set-face-attribute 'font-lock-keyword-face nil :foreground "#d4d4d4")
 (set-face-attribute 'font-lock-string-face nil :foreground "#2ec09c")
 (set-face-attribute 'font-lock-variable-name-face nil :foreground "#c8d4ec")
-(set-face-attribute 'font-lock-warning-face nil :foreground "$504038")
+(set-face-attribute 'font-lock-warning-face nil :foreground "#504038")
 (set-face-attribute 'font-lock-constant-face nil :foreground "#7ad0c6")
 (set-face-attribute 'highlight nil :foreground "white")
-(set-face-attribute 'mode-line nil :foreground "grey" :background "black") 
+(set-face-attribute 'mode-line nil :foreground "black" :background "#d3b58d")
 (set-face-attribute 'region nil :background "#3c02fa")
 
-(set-frame-font "Inconsolata 16" nil t)
-
+(set-frame-font "Inconsolata Bold 16" nil t)
