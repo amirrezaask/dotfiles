@@ -85,6 +85,13 @@
 (add-hook 'focus-in-hook #'highlight-indent-guides-auto-set-faces)
 (setq highlight-indent-guides-method 'character)
 
+;; VTerm
+
+(when (not (eq 'system-type 'windows-nt))
+  (package-install 'vterm))
+
+
+
 ;; Expand region
 (package-install 'expand-region)
 (global-set-key (kbd "C-=") 'er/expand-region)
@@ -145,6 +152,9 @@
 ;; Jai
 ;;(require 'jai-mode)
 
+;; OCaml
+(package-install 'tuareg)
+
 ;; PHP
 (package-install 'php-mode)
 
@@ -198,13 +208,10 @@
           (put 'eglot-error 'flymake-overlay-control nil)
           ))
 
-;; (add-hook 'go-mode-hook #'eglot-ensure)
-;; (add-hook 'php-mode-hook #'eglot-ensure)
-;; (add-hook 'rust-mode-hook #'eglot-ensure)
-;; (add-hook 'zig-mode-hook #'eglot-ensure)
-;; (add-hook 'python-mode-hook #'eglot-ensure)
-;; (add-hook 'c-mode-hook #'eglot-ensure)
-;; (add-hook 'c++-mode-hook #'eglot-ensure)
+(add-hook 'go-mode-hook #'eglot-ensure)
+(add-hook 'rust-mode-hook #'eglot-ensure)
+
+(add-to-list 'auto-mode-alist '("\\.one\\'" . haskell-mode))
 
 (defun my-c++-mode-hook ()
   (setq c-basic-offset 4)
@@ -318,9 +325,11 @@
       (set-face-attribute 'mode-line nil :foreground "black" :background "#d3b58d")
       (set-face-attribute 'region nil :background "#3c02fa")
       )
-  (ef-themes-select 'ef-night)
+  ;; (ef-themes-select 'ef-night)
+  (load-theme 'gruber-darker t)
   )
 
 
-(set-frame-font "Inconsolata Bold 16" nil t)
+
+(set-frame-font "Inconsolata Bold 22" nil t)
 
