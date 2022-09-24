@@ -90,7 +90,29 @@
 (when (not (eq 'system-type 'windows-nt))
   (package-install 'vterm))
 
+;; Wdired
+(add-hook 'dired-mode-hook (lambda ()
+                             (define-key dired-mode-map (kbd "C-c C-e") 'wdired-change-to-wdired-mode)
+                             ))
 
+;; Icomplete mode for minibuffer completion
+(icomplete-mode 1)
+(setq
+ icomplete-delay-completions-threshold 0
+ icomplete-max-delay-chars 0
+ icomplete-compute-delay 0
+ icomplete-show-matches-on-no-input t
+ icomplete-hide-common-prefix nil
+ icomplete-in-buffer t
+ icomplete-prospects-height 15
+ icomplete-with-completion-tables t
+ )
+
+(define-key icomplete-minibuffer-map (kbd "<return>") 'icomplete-force-complete-and-exit)
+(define-key icomplete-minibuffer-map (kbd "<down>") 'icomplete-forward-completions)
+(define-key icomplete-minibuffer-map (kbd "<up>") 'icomplete-backward-completions)
+(define-key icomplete-minibuffer-map (kbd "<C-n>") 'icomplete-forward-completions)
+(define-key icomplete-minibuffer-map (kbd "<C-p>") 'icomplete-backward-completions)
 
 ;; Expand region
 (package-install 'expand-region)
@@ -120,8 +142,6 @@
                                (setq company-backends '(company-capf company-dabbrev company-files company-dabbrev-code))
                                ))
 
-
-
 ;; Magit
 (package-install 'magit)
 
@@ -150,7 +170,7 @@
        )
 
 ;; Jai
-;;(require 'jai-mode)
+(require 'jai-mode)
 
 ;; OCaml
 (package-install 'tuareg)
@@ -211,7 +231,7 @@
 (add-hook 'go-mode-hook #'eglot-ensure)
 (add-hook 'rust-mode-hook #'eglot-ensure)
 
-(add-to-list 'auto-mode-alist '("\\.one\\'" . haskell-mode))
+(add-to-list 'auto-mode-alist '("\\.one\\'" . jai-mode))
 
 (defun my-c++-mode-hook ()
   (setq c-basic-offset 4)
@@ -309,7 +329,7 @@
 (package-install 'ef-themes)
 
 ;; UI stuff
-(if nil
+(if t
     (progn
       (set-face-attribute 'default nil :foreground "#d3b58d" :background "#072626")
       (set-face-attribute 'cursor nil :background "green")
@@ -325,11 +345,10 @@
       (set-face-attribute 'mode-line nil :foreground "black" :background "#d3b58d")
       (set-face-attribute 'region nil :background "#3c02fa")
       )
-  ;; (ef-themes-select 'ef-night)
   (load-theme 'gruber-darker t)
   )
 
 
 
-(set-frame-font "Inconsolata Bold 22" nil t)
+(set-frame-font "Iosevka 22" nil t)
 
