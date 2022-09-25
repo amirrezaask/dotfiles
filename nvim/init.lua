@@ -39,6 +39,7 @@ require('packer').startup(function(use)
     use 'junegunn/gv.vim'                                 -- Git diff split
     use 'cohama/agit.vim'                                 -- Git log viewer
     use 'junegunn/vim-easy-align'                         -- Align text with ease
+    use 'jansedivy/jai.vim'
 end)
 
 vim.g.tokyonight_style = "night"
