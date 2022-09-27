@@ -108,8 +108,6 @@ xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign) 
 ]]
 
-vim.g.zig_fmt_autosave = 1
-
 local bind = vim.keymap.set
 
 local nnoremap = function(key, fn)
@@ -127,6 +125,54 @@ end
 local vnoremap = function(key, fn)
     bind('v', key, fn)
 end
+-- Set <Space> as <leader>
+vim.g.mapleader = ' '
+-- basic keybindings
+nnoremap("Q", '<NOP>')
+nnoremap(";,", ':')
+nnoremap('q;', 'q:')
+
+nnoremap('<Left>', ':vertical resize -5<CR>')
+nnoremap('<Right>', ':vertical resize +5<CR>')
+nnoremap('<Up>', ':resize +5<CR>')
+nnoremap('<Down>', ':resize -5<CR>')
+
+nnoremap('j', 'gj')
+nnoremap('k', 'gk')
+
+tnoremap('<Esc>', '<C-\\><C-n>')
+tnoremap('jk','<C-\\><C-n>')
+tnoremap('kj','<C-\\><C-n>')
+
+inoremap('jk', '<esc>')
+inoremap('kj', '<esc>')
+
+nnoremap('Y', 'y$')
+nnoremap('n', 'nzz')
+nnoremap('N', 'Nzz')
+
+nnoremap('<M-p>', ':bprev<CR>')
+nnoremap('<M-n>', ':bnext<CR>')
+
+nnoremap('<M-j>', ':m .+1<CR>==')
+nnoremap('<M-k>', ':m .-2<CR>==')
+
+inoremap('<M-j>', '<Esc>:m .+1<CR>==gi')
+inoremap('<M-k>', '<Esc>:m .-2<CR>==gi')
+
+vnoremap('<M-k>', ':m >+1<CR>gv=gv')
+vnoremap('<M-k>', '<Esc>:m .-2<CR>==gi')
+
+nnoremap('{', ':cprev<CR>')
+nnoremap('}', ':cnext<CR>')
+
+nnoremap("<C-h>", ":tabprev<CR>")
+nnoremap("<C-l>", ":tabnext<CR>")
+nnoremap("<C-n>", ":tabnew<CR>")
+
+vim.cmd [[ nnoremap <expr><CR> {-> v:hlsearch ? ':nohl<CR>' : '<CR>'}() ]]
+
+vim.g.zig_fmt_autosave = 1
 
 -- Telescope
 local telescope_builtin = require "telescope.builtin"
@@ -182,55 +228,6 @@ cmp.setup {
     { name = "nvim_lua" },
   },
 }
-
--- Set <Space> as <leader>
-vim.g.mapleader = ' '
--- basic keybindings
-nnoremap("Q", '<NOP>')
-nnoremap(";,", ':')
-nnoremap('q;', 'q:')
-
-nnoremap('<Left>', ':vertical resize -5<CR>')
-nnoremap('<Right>', ':vertical resize +5<CR>')
-nnoremap('<Up>', ':resize +5<CR>')
-nnoremap('<Down>', ':resize -5<CR>')
-
-nnoremap('j', 'gj')
-nnoremap('k', 'gk')
-
-tnoremap('<Esc>', '<C-\\><C-n>')
-tnoremap('jk','<C-\\><C-n>')
-tnoremap('kj','<C-\\><C-n>')
-
-inoremap('jk', '<esc>')
-inoremap('kj', '<esc>')
-
-nnoremap('Y', 'y$')
-nnoremap('n', 'nzz')
-nnoremap('N', 'Nzz')
-
-nnoremap('<M-p>', ':bprev<CR>')
-nnoremap('<M-n>', ':bnext<CR>')
-
-nnoremap('<M-j>', ':m .+1<CR>==')
-nnoremap('<M-k>', ':m .-2<CR>==')
-
-inoremap('<M-j>', '<Esc>:m .+1<CR>==gi')
-inoremap('<M-k>', '<Esc>:m .-2<CR>==gi')
-
-vnoremap('<M-k>', ':m >+1<CR>gv=gv')
-vnoremap('<M-k>', '<Esc>:m .-2<CR>==gi')
-
-nnoremap('{', ':cprev<CR>')
-nnoremap('}', ':cnext<CR>')
-
-nnoremap("<C-h>", ":tabprev<CR>")
-nnoremap("<C-l>", ":tabnext<CR>")
-nnoremap("<C-n>", ":tabnew<CR>")
-
-
-vim.cmd [[ nnoremap <expr><CR> {-> v:hlsearch ? ':nohl<CR>' : '<CR>'}() ]]
-
 
 
 -- Language Servers

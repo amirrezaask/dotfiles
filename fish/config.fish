@@ -72,8 +72,6 @@ if test $status -eq '0'
     alias c='code .'
 end
 
-set -x IDE "vim" # can be vim as well
-
 alias snapp="cd $SNAPP"
 alias espad="cd $ESPAD"
 alias seds="cd $SEDS"
@@ -88,5 +86,5 @@ function fish_prompt
     # This shows up as USER@HOST /home/user/ >, with the directory colored
     # $USER and $hostname are set by fish, so you can just use them
     # instead of using `whoami` and `hostname`
-    printf '%s %s%s%s%s > ' $USER (set_color green) (prompt_pwd) (set_color normal) (fish_git_prompt) 
+    printf '%s%s%s%s > '  (prompt_pwd) (set_color green) (fish_git_prompt) 
 end
