@@ -231,7 +231,7 @@
 (add-hook 'go-mode-hook #'eglot-ensure)
 (add-hook 'rust-mode-hook #'eglot-ensure)
 
-(add-to-list 'auto-mode-alist '("\\.one\\'" . jai-mode))
+(add-to-list 'auto-mode-alist '("\\.loki\\'" . jai-mode))
 
 (defun my-c++-mode-hook ()
   (setq c-basic-offset 4)
