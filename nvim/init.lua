@@ -22,6 +22,8 @@ require('packer').startup(function(use)
     use 'hrsh7th/cmp-path'                            -- auto complete os path source
     use 'neovim/nvim-lspconfig'                       -- LSP client configurations
     use 'nvim-telescope/telescope.nvim'               -- Telescope fuzzy finder by great TJDevries
+    use 'junegunn/fzf'
+    use 'junegunn/fzf.vim'
     use 'nvim-lua/plenary.nvim'                       -- Neovim stdlib lua by TJDevries
     use 'hrsh7th/vim-vsnip'                               -- Snippets
     use 'sheerun/vim-polyglot'                            -- Basic vim support for multiple languages see https://github.com/sheerun/vim-polyglot for the full list.
@@ -88,7 +90,7 @@ vim.opt.termguicolors = true
 vim.cmd [[ set clipboard^=unnamedplus ]]
 
 -- Colorscheme
-vim.cmd [[ colorscheme tokyonight-night ]]
+vim.cmd [[ colorscheme gruvbox ]]
 
 vim.g.netrw_banner = false
 vim.g.netrw_winsize = 25
@@ -253,7 +255,7 @@ require"lspconfig".elixirls.setup {
 
 }
 
--- Treesitter
+-- Treesitter {{{
 
 require'nvim-treesitter.configs'.setup {
   textobjects = {
@@ -294,17 +296,22 @@ require'nvim-treesitter.configs'.setup {
   },
 }
 
+-- }}}
+
 -- Telescope
-local telescope_builtin = require "telescope.builtin"
-nnoremap('<leader><leader>', function() telescope_builtin.find_files() end)
-nnoremap('??', '<cmd>Telescope live_grep<CR>')
-nnoremap('?a', '<cmd>lua vim.lsp.buf.code_action()<CR>')
+-- local telescope_builtin = require "telescope.builtin"
+-- nnoremap('<leader><leader>', function() telescope_builtin.find_files() end)
+-- nnoremap('??', '<cmd>Telescope live_grep<CR>')
+-- nnoremap('?a', '<cmd>lua vim.lsp.buf.code_action()<CR>')
 
+-- FZF {{{
+nnoremap('<leader><leader>', '<cmd>Files<CR>')
+nnoremap('??', '<cmd>Rg<CR>')
+-- }}}
+
+-- AutoComplete {{{
 vim.opt.completeopt = { "menuone", "noselect" }
-
 vim.opt.shortmess:append "c"
-
--- AutoComplete
 local cmp = require "cmp"
 cmp.setup {
   snippet = {
@@ -348,5 +355,5 @@ cmp.setup {
     { name = "nvim_lua" },
   },
 }
-
+-- }}}
 
