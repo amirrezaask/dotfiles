@@ -87,12 +87,8 @@ vim.opt.lazyredraw = true
 vim.opt.termguicolors = true
 vim.cmd [[ set clipboard^=unnamedplus ]]
 
-
-
 -- Colorscheme
-vim.g.tokyonight_style = "night"
-vim.cmd [[ colorscheme sitruuna ]]
-
+vim.cmd [[ colorscheme tokyonight-night ]]
 
 vim.g.netrw_banner = false
 vim.g.netrw_winsize = 25
