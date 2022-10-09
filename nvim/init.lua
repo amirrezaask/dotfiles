@@ -90,7 +90,7 @@ vim.opt.termguicolors = true
 vim.cmd [[ set clipboard^=unnamedplus ]]
 
 -- Colorscheme
-vim.cmd [[ colorscheme gruvbox ]]
+vim.cmd [[ colorscheme nightfly ]]
 
 vim.g.netrw_banner = false
 vim.g.netrw_winsize = 25
@@ -191,7 +191,7 @@ local on_attach = function(_, bufnr)
   vim.api.nvim_buf_set_keymap(bufnr, "n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
   vim.api.nvim_buf_set_keymap(bufnr, "n", "C", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
 
-  vim.cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()]]
+  vim.cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.format()]]
 end
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -298,15 +298,16 @@ require'nvim-treesitter.configs'.setup {
 
 -- }}}
 
--- Telescope
--- local telescope_builtin = require "telescope.builtin"
--- nnoremap('<leader><leader>', function() telescope_builtin.find_files() end)
--- nnoremap('??', '<cmd>Telescope live_grep<CR>')
--- nnoremap('?a', '<cmd>lua vim.lsp.buf.code_action()<CR>')
+-- Telescope {{{
+local telescope_builtin = require "telescope.builtin"
+nnoremap('<leader><leader>', function() telescope_builtin.find_files() end)
+nnoremap('??', '<cmd>Telescope live_grep<CR>')
+nnoremap('?a', '<cmd>lua vim.lsp.buf.code_action()<CR>')
+-- }}}
 
 -- FZF {{{
-nnoremap('<leader><leader>', '<cmd>Files<CR>')
-nnoremap('??', '<cmd>Rg<CR>')
+-- nnoremap('<leader><leader>', '<cmd>Files<CR>')
+-- nnoremap('??', '<cmd>Rg<CR>')
 -- }}}
 
 -- AutoComplete {{{
