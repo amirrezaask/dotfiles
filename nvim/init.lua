@@ -22,6 +22,8 @@ require('packer').startup(function(use)
     use 'hrsh7th/cmp-path'                            -- auto complete os path source
     use 'neovim/nvim-lspconfig'                       -- LSP client configurations
     use 'nvim-telescope/telescope.nvim'               -- Telescope fuzzy finder by great TJDevries
+    use 'junegunn/fzf'
+    use 'junegunn/fzf.vim'
     use 'nvim-lua/plenary.nvim'                       -- Neovim stdlib lua by TJDevries
     use 'hrsh7th/vim-vsnip'                               -- Snippets
     use 'sheerun/vim-polyglot'                            -- Basic vim support for multiple languages see https://github.com/sheerun/vim-polyglot for the full list.
@@ -87,12 +89,8 @@ vim.opt.lazyredraw = true
 vim.opt.termguicolors = true
 vim.cmd [[ set clipboard^=unnamedplus ]]
 
-
-
 -- Colorscheme
-vim.g.tokyonight_style = "night"
-vim.cmd [[ colorscheme sitruuna ]]
-
+vim.cmd [[ colorscheme nightfly ]]
 
 vim.g.netrw_banner = false
 vim.g.netrw_winsize = 25
@@ -170,64 +168,9 @@ nnoremap("<C-h>", ":tabprev<CR>")
 nnoremap("<C-l>", ":tabnext<CR>")
 nnoremap("<C-n>", ":tabnew<CR>")
 
+
 vim.cmd [[ nnoremap <expr><CR> {-> v:hlsearch ? ':nohl<CR>' : '<CR>'}() ]]
 
-vim.g.zig_fmt_autosave = 1
-
--- Telescope
-local telescope_builtin = require "telescope.builtin"
-nnoremap('<leader><leader>', function() telescope_builtin.find_files() end)
-nnoremap('??', '<cmd>Telescope live_grep<CR>')
-nnoremap('?c', '<cmd>lua vim.lsp.buf.code_action()<CR>')
-
-vim.opt.completeopt = { "menuone", "noselect" }
-
-vim.opt.shortmess:append "c"
-
--- AutoComplete
-local cmp = require "cmp"
-cmp.setup {
-  snippet = {
-      expand = function(args)
-        vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
-      end,
-    },
-  -- You can set mapping if you want.
-  mapping = {
-    ["<C-p>"] = cmp.mapping.select_prev_item(),
-    ["<C-n>"] = cmp.mapping.select_next_item(),
-    ["<C-d>"] = cmp.mapping.scroll_docs(-4),
-    ["<C-f>"] = cmp.mapping.scroll_docs(4),
-    ["<C-Space>"] = cmp.mapping.complete(),
-    ["<C-e>"] = cmp.mapping.close(),
-    ["<CR>"] = cmp.mapping.confirm {
-      behavior = cmp.ConfirmBehavior.Insert,
-      select = false,
-    },
-    ["<Tab>"] = function(fallback)
-      if cmp.visible() then
-        cmp.select_next_item()
-      else
-        fallback()
-      end
-    end,
-    ["<S-Tab>"] = function(fallback)
-      if cmp.visible() then
-        cmp.select_prev_item()
-      else
-        fallback()
-      end
-    end,
-  },
-
-  -- You should specify your *installed* sources.
-  sources = {
-    { name = "buffer" },
-    { name = "nvim_lsp" },
-    { name = "path" },
-    { name = "nvim_lua" },
-  },
-}
 
 
 -- Language Servers
@@ -246,7 +189,7 @@ local on_attach = function(_, bufnr)
   vim.api.nvim_buf_set_keymap(bufnr, "n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
   vim.api.nvim_buf_set_keymap(bufnr, "n", "C", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
 
-  vim.cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()]]
+  vim.cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.format()]]
 end
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -310,7 +253,7 @@ require"lspconfig".elixirls.setup {
 
 }
 
--- Treesitter
+-- Treesitter {{{
 
 require'nvim-treesitter.configs'.setup {
   textobjects = {
@@ -350,3 +293,66 @@ require'nvim-treesitter.configs'.setup {
     },
   },
 }
+
+-- }}}
+
+-- Telescope {{{
+local telescope_builtin = require "telescope.builtin"
+nnoremap('<leader><leader>', function() telescope_builtin.find_files() end)
+nnoremap('??', '<cmd>Telescope live_grep<CR>')
+nnoremap('?a', '<cmd>lua vim.lsp.buf.code_action()<CR>')
+-- }}}
+
+-- FZF {{{
+-- nnoremap('<leader><leader>', '<cmd>Files<CR>')
+-- nnoremap('??', '<cmd>Rg<CR>')
+-- }}}
+
+-- AutoComplete {{{
+vim.opt.completeopt = { "menuone", "noselect" }
+vim.opt.shortmess:append "c"
+local cmp = require "cmp"
+cmp.setup {
+  snippet = {
+      expand = function(args)
+        vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+      end,
+    },
+  -- You can set mapping if you want.
+  mapping = {
+    ["<C-p>"] = cmp.mapping.select_prev_item(),
+    ["<C-n>"] = cmp.mapping.select_next_item(),
+    ["<C-d>"] = cmp.mapping.scroll_docs(-4),
+    ["<C-f>"] = cmp.mapping.scroll_docs(4),
+    ["<C-Space>"] = cmp.mapping.complete(),
+    ["<C-e>"] = cmp.mapping.close(),
+    ["<CR>"] = cmp.mapping.confirm {
+      behavior = cmp.ConfirmBehavior.Insert,
+      select = false,
+    },
+    ["<Tab>"] = function(fallback)
+      if cmp.visible() then
+        cmp.select_next_item()
+      else
+        fallback()
+      end
+    end,
+    ["<S-Tab>"] = function(fallback)
+      if cmp.visible() then
+        cmp.select_prev_item()
+      else
+        fallback()
+      end
+    end,
+  },
+
+  -- You should specify your *installed* sources.
+  sources = {
+    { name = "buffer" },
+    { name = "nvim_lsp" },
+    { name = "path" },
+    { name = "nvim_lua" },
+  },
+}
+-- }}}
+
