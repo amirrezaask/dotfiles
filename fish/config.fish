@@ -82,9 +82,20 @@ alias tl='tmux ls'
 alias ta='tmux attach -t'
 alias tks='tmux kill-session -t'
 
-function fish_prompt 
-    # This shows up as USER@HOST /home/user/ >, with the directory colored
-    # $USER and $hostname are set by fish, so you can just use them
-    # instead of using `whoami` and `hostname`
-    printf '%s%s%s%s > '  (prompt_pwd) (set_color green) (fish_git_prompt) 
+function fish_prompt
+	set_color brblack
+	echo -n "["(date "+%H:%M")"] "
+	set_color cyan 
+	echo -n (hostname)
+	if [ $PWD != $HOME ]
+		set_color brblack
+		echo -n ':'
+		set_color yellow
+		echo -n (basename $PWD)
+	end
+	set_color green
+	printf '%s ' (__fish_git_prompt)
+	set_color red
+	echo -n '| '
+	set_color normal
 end
