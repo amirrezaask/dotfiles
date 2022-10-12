@@ -90,7 +90,7 @@ vim.opt.termguicolors = true
 vim.cmd [[ set clipboard^=unnamedplus ]]
 
 -- Colorscheme
-vim.cmd [[ colorscheme nightfly ]]
+vim.cmd [[ colorscheme sitruuna ]]
 
 vim.g.netrw_banner = false
 vim.g.netrw_winsize = 25

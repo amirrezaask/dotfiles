@@ -77,6 +77,11 @@ alias espad="cd $ESPAD"
 alias seds="cd $SEDS"
 alias oss="cd $PERSONAL"
 
+function ss_proxy
+	set -g -x http_proxy "http://localhost:1087"
+	set -g -x https_proxy "http://localhost:1087"
+end
+
 # some tmux stuff
 alias tl='tmux ls'
 alias ta='tmux attach -t'
