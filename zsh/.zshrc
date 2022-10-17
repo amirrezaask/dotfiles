@@ -1,19 +1,10 @@
-if [ ! -f "$HOME/.antigen.zsh" ]; then
-    curl -L git.io/antigen > .antigen.zsh
-fi
+export ZSH="$HOME/.oh-my-zsh"
+ZSH_THEME="robbyrussell"
 
-source $HOME/.antigen.zsh
+plugins=(git)
 
-antigen use oh-my-zsh
-antigen bundle git
-antigen bundle zsh-users/zsh-syntax-highlighting
-antigen bundle zsh-users/zsh-autosuggestions
+source $ZSH/oh-my-zsh.sh
 
-antigen theme simple
-
-antigen apply
-
-# Go related stuff
 export GO111MODULE='on'
 export GOPATH="$HOME"
 export GOPRIVATE='gitlab.snapp.ir'
