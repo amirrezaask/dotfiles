@@ -1,11 +1,13 @@
+
 -- Install packages
 require('packer').startup(function(use)
     use 'wbthomason/packer.nvim'
 
     use 'eemed/sitruuna.vim'
     use 'sainnhe/sonokai'
-    use 'Th3Whit3Wolf/space-nvim'
-    use 'glepnir/dashboard-nvim'
+    use 'folke/tokyonight.nvim'
+
+    use "mhinz/vim-startify"
     use 'windwp/nvim-spectre'                         -- Search/Replace project wide
     use 'nvim-treesitter/nvim-treesitter'             -- Treesitter syntax highlighting
     use 'nvim-treesitter/nvim-treesitter-textobjects' -- Treesitter text objects
@@ -22,6 +24,7 @@ require('packer').startup(function(use)
     use 'Glench/Vim-Jinja2-Syntax'                        -- Jinja2 syntax
     use 'ziglang/zig.vim'                                 -- Best language ever ?
     use 'rust-lang/rust.vim'                              -- Haskell on LLVM ?
+    use 'simrat39/rust-tools.nvim'
     use 'fladson/vim-kitty'                               -- Best Terminal Emulator config syntax
     use 'pbrisbin/vim-mkdir'                              -- Save files and create not existing directories
     use 'tpope/vim-commentary'                            -- Best commenting plugin ever
@@ -32,7 +35,7 @@ require('packer').startup(function(use)
     use 'junegunn/vim-easy-align'                         -- Align text with ease
     use 'jansedivy/jai.vim'
     use 'j-hui/fidget.nvim'
-    use 'simrat39/rust-tools.nvim'
+    use "lewis6991/gitsigns.nvim"
 end)
 
 -- options
@@ -79,7 +82,7 @@ vim.opt.pumheight = 10   -- Completion window max size
 vim.opt.conceallevel = 2 -- Concealed text is completely hidden
 vim.opt.shortmess = vim.opt.shortmess + 'c'   -- Shut off completion messages
 vim.opt.belloff = vim.opt.belloff + 'ctrlg' -- If Vim beeps during completion
-vim.opt.lazyredraw = true
+-- vim.opt.lazyredraw = true
 vim.opt.termguicolors = true
 vim.cmd [[ set clipboard^=unnamedplus ]]
 
@@ -90,7 +93,7 @@ if vim.version().major >= 0 and vim.version().minor >= 8 then
 end
 
 -- Colorscheme
-vim.cmd [[ colorscheme sonokai ]]
+vim.cmd [[ colorscheme tokyonight-night ]]
 
 vim.g.netrw_banner = false
 vim.g.netrw_winsize = 25
@@ -333,3 +336,7 @@ vim.cmd [[ nnoremap <expr><CR> {-> v:hlsearch ? ':nohl<CR>' : '<CR>'}() ]]
     }
 -- }}}
 
+-- Git {{{
+    require('gitsigns').setup()
+
+-- }}}
