@@ -2,16 +2,10 @@
 require('packer').startup(function(use)
     use 'wbthomason/packer.nvim'
 
-    -- themes
-    use 'folke/tokyonight.nvim'
-    use 'eemed/sitruuna.vim'                              -- Best Minimal Colorscheme if you like black,yellow and green colors
-    use 'joshdick/onedark.vim'
-    use 'gruvbox-community/gruvbox'                       -- Popular gruvbox
+    use 'eemed/sitruuna.vim'
     use 'sainnhe/sonokai'
-    use 'dracula/vim'
-    use 'bluz71/vim-nightfly-guicolors'
-    use 'projekt0n/github-nvim-theme'
-
+    use 'Th3Whit3Wolf/space-nvim'
+    use 'glepnir/dashboard-nvim'
     use 'windwp/nvim-spectre'                         -- Search/Replace project wide
     use 'nvim-treesitter/nvim-treesitter'             -- Treesitter syntax highlighting
     use 'nvim-treesitter/nvim-treesitter-textobjects' -- Treesitter text objects
@@ -22,8 +16,6 @@ require('packer').startup(function(use)
     use 'hrsh7th/cmp-path'                            -- auto complete os path source
     use 'neovim/nvim-lspconfig'                       -- LSP client configurations
     use 'nvim-telescope/telescope.nvim'               -- Telescope fuzzy finder by great TJDevries
-    use 'junegunn/fzf'
-    use 'junegunn/fzf.vim'
     use 'nvim-lua/plenary.nvim'                       -- Neovim stdlib lua by TJDevries
     use 'hrsh7th/vim-vsnip'                               -- Snippets
     use 'sheerun/vim-polyglot'                            -- Basic vim support for multiple languages see https://github.com/sheerun/vim-polyglot for the full list.
@@ -39,6 +31,8 @@ require('packer').startup(function(use)
     use 'cohama/agit.vim'                                 -- Git log viewer
     use 'junegunn/vim-easy-align'                         -- Align text with ease
     use 'jansedivy/jai.vim'
+    use 'j-hui/fidget.nvim'
+    use 'simrat39/rust-tools.nvim'
 end)
 
 -- options
@@ -89,8 +83,14 @@ vim.opt.lazyredraw = true
 vim.opt.termguicolors = true
 vim.cmd [[ set clipboard^=unnamedplus ]]
 
+if vim.version().major >= 0 and vim.version().minor >= 8 then
+    vim.o.ls = 0
+    vim.o.ch = 0
+    vim.o.winbar = '%f %m'
+end
+
 -- Colorscheme
-vim.cmd [[ colorscheme sitruuna ]]
+vim.cmd [[ colorscheme sonokai ]]
 
 vim.g.netrw_banner = false
 vim.g.netrw_winsize = 25
@@ -98,261 +98,238 @@ vim.g.netrw_browse_split = false
 
 vim.cmd [[
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
-" Yaml
 autocmd FileType yaml setlocal cursorcolumn
-
-" Easy Align
-xmap ga <Plug>(EasyAlign)
-nmap ga <Plug>(EasyAlign) 
 ]]
 
-local bind = vim.keymap.set
-
-local nnoremap = function(key, fn)
-    bind('n', key, fn)
-end
-
-local inoremap = function(key, fn)
-    bind('i', key, fn)
-end
-
-local tnoremap = function(key, fn)
-    bind('t', key, fn)
-end
-
-local vnoremap = function(key, fn)
-    bind('v', key, fn)
-end
--- Set <Space> as <leader>
 vim.g.mapleader = ' '
--- basic keybindings
-nnoremap("Q", '<NOP>')
-nnoremap(";,", ':')
-nnoremap('q;', 'q:')
 
-nnoremap('<Left>', ':vertical resize -5<CR>')
-nnoremap('<Right>', ':vertical resize +5<CR>')
-nnoremap('<Up>', ':resize +5<CR>')
-nnoremap('<Down>', ':resize -5<CR>')
+-- basic keyvim.keymap.setings
+vim.keymap.set('n', "Q", '<NOP>')
+vim.keymap.set('n', ";,", ':')
+vim.keymap.set('n', 'q;', 'q:')
 
-nnoremap('j', 'gj')
-nnoremap('k', 'gk')
+vim.keymap.set('n', '<Left>', ':vertical resize -5<CR>')
+vim.keymap.set('n', '<Right>', ':vertical resize +5<CR>')
+vim.keymap.set('n', '<Up>', ':resize +5<CR>')
+vim.keymap.set('n', '<Down>', ':resize -5<CR>')
 
-tnoremap('<Esc>', '<C-\\><C-n>')
-tnoremap('jk','<C-\\><C-n>')
-tnoremap('kj','<C-\\><C-n>')
+vim.keymap.set('n', 'j', 'gj')
+vim.keymap.set('n', 'k', 'gk')
 
-inoremap('jk', '<esc>')
-inoremap('kj', '<esc>')
+vim.keymap.set('t', '<Esc>', '<C-\\><C-n>')
+vim.keymap.set('t', 'jk','<C-\\><C-n>')
+vim.keymap.set('t', 'kj','<C-\\><C-n>')
 
-nnoremap('Y', 'y$')
-nnoremap('n', 'nzz')
-nnoremap('N', 'Nzz')
+vim.keymap.set('i', 'jk', '<esc>')
+vim.keymap.set('i', 'kj', '<esc>')
 
-nnoremap('<M-p>', ':bprev<CR>')
-nnoremap('<M-n>', ':bnext<CR>')
+vim.keymap.set('n', 'Y', 'y$')
+vim.keymap.set('n', 'n', 'nzz')
+vim.keymap.set('n', 'N', 'Nzz')
 
-nnoremap('<M-j>', ':m .+1<CR>==')
-nnoremap('<M-k>', ':m .-2<CR>==')
+vim.keymap.set('n', '<M-p>', ':bprev<CR>')
+vim.keymap.set('n', '<M-n>', ':bnext<CR>')
 
-inoremap('<M-j>', '<Esc>:m .+1<CR>==gi')
-inoremap('<M-k>', '<Esc>:m .-2<CR>==gi')
+vim.keymap.set('n', '<M-j>', ':m .+1<CR>==')
+vim.keymap.set('n', '<M-k>', ':m .-2<CR>==')
 
-vnoremap('<M-k>', ':m >+1<CR>gv=gv')
-vnoremap('<M-k>', '<Esc>:m .-2<CR>==gi')
+vim.keymap.set('v', '<M-j>', '<Esc>:m .+1<CR>==gi')
+vim.keymap.set('v', '<M-k>', '<Esc>:m .-2<CR>==gi')
 
-nnoremap('{', ':cprev<CR>')
-nnoremap('}', ':cnext<CR>')
+vim.keymap.set('v', '<M-k>', ':m >+1<CR>gv=gv')
+vim.keymap.set('v', '<M-k>', '<Esc>:m .-2<CR>==gi')
 
-nnoremap("<C-h>", ":tabprev<CR>")
-nnoremap("<C-l>", ":tabnext<CR>")
-nnoremap("<C-n>", ":tabnew<CR>")
+vim.keymap.set('n', '{', ':cprev<CR>')
+vim.keymap.set('n', '}', ':cnext<CR>')
+
+vim.keymap.set('n', "<C-h>", ":tabprev<CR>")
+vim.keymap.set('n', "<C-l>", ":tabnext<CR>")
+vim.keymap.set('n', "<C-n>", ":tabnew<CR>")
 
 
 vim.cmd [[ nnoremap <expr><CR> {-> v:hlsearch ? ':nohl<CR>' : '<CR>'}() ]]
 
-
-
 -- Language Servers
-local on_attach = function(_, bufnr)
-  vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
-  local opts = { noremap = true, silent = true }
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", { silent = true, noremap = true })
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", { silent = true, noremap = true })
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", { silent = true, noremap = true })
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "R", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "i", "<c-s>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "<c-s>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "<c-d>", "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>", opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "C", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
+    local on_attach = function(_, bufnr)
+      vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
+      local opts = { noremap = true, silent = true }
+      vim.api.nvim_buf_set_keymap(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", { silent = true, noremap = true })
+      vim.api.nvim_buf_set_keymap(bufnr, "n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", { silent = true, noremap = true })
+      vim.api.nvim_buf_set_keymap(bufnr, "n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", { silent = true, noremap = true })
+      vim.api.nvim_buf_set_keymap(bufnr, "n", "R", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
+      vim.api.nvim_buf_set_keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
+      vim.api.nvim_buf_set_keymap(bufnr, "i", "<c-s>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
+      vim.api.nvim_buf_set_keymap(bufnr, "n", "<c-s>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
+      vim.api.nvim_buf_set_keymap(bufnr, "n", "<c-d>", "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>", opts)
+      vim.api.nvim_buf_set_keymap(bufnr, "n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
+      vim.api.nvim_buf_set_keymap(bufnr, "n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
+      vim.api.nvim_buf_set_keymap(bufnr, "n", "C", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
 
-  vim.cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.format()]]
-end
+    end
 
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
+    local capabilities = vim.lsp.protocol.make_client_capabilities()
+    capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
 
-require("lspconfig").clangd.setup {
-   on_attach = on_attach,
-}
-require("lspconfig").rust_analyzer.setup {
-   on_attach = on_attach,
-}
-require("lspconfig").gopls.setup {
-   on_attach = on_attach,
-}
-require("lspconfig").intelephense.setup {
-   on_attach = on_attach,
-}
-require("lspconfig").jedi_language_server.setup {
-   on_attach = on_attach,
-}
-require("lspconfig").hls.setup {
-   on_attach = on_attach,
-}
-require("lspconfig").purescriptls.setup {
-   on_attach = on_attach,
-}
-require("lspconfig").zls.setup {
-   on_attach = on_attach,
-}
+    require("lspconfig").clangd.setup {
+       on_attach = on_attach,
+    }
+    local rt = require"rust-tools"
+    rt.setup({
+        server = {
+            on_attach = function(_, bufnr)
+                on_attach(_, bufnr)
+                vim.keymap.set("n", "C", rt.hover_actions.hover_actions, { buffer = bufnr })
+                vim.keymap.set("n", "ga", rt.code_action_group.code_action_group, { buffer = bufnr })
+            end,
+        },
+    })
+    require("lspconfig").gopls.setup {
+       on_attach = on_attach,
+    }
+    require("lspconfig").intelephense.setup {
+       on_attach = on_attach,
+    }
+    require("lspconfig").jedi_language_server.setup {
+       on_attach = on_attach,
+    }
+    require("lspconfig").hls.setup {
+       on_attach = on_attach,
+    }
+    require("lspconfig").purescriptls.setup {
+       on_attach = on_attach,
+    }
+    require("lspconfig").zls.setup {
+       on_attach = on_attach,
+    }
 
-local sumneko_root = string.format("%s/.local/lua-language-server", os.getenv("HOME"))
-local sumneko_binary = sumneko_root .. "/bin/lua-language-server"
+    local sumneko_root = string.format("%s/.local/lua-language-server", os.getenv("HOME"))
+    local sumneko_binary = sumneko_root .. "/bin/lua-language-server"
 
-local runtime_path = vim.split(package.path, ";")
-table.insert(runtime_path, "lua/?.lua")
-table.insert(runtime_path, "lua/?/init.lua")
+    local runtime_path = vim.split(package.path, ";")
+    table.insert(runtime_path, "lua/?.lua")
+    table.insert(runtime_path, "lua/?/init.lua")
 
-require("lspconfig").sumneko_lua.setup {
-  cmd = { sumneko_binary, "-E", sumneko_root .. "/main.lua" },
-  on_attach = on_attach,
-  settings = {
-    Lua = {
-      diagnostics = {
-        globals = { "vim" },
-      },
-      workspace = {
-        -- Make the server aware of Neovim runtime files
-        library = vim.api.nvim_get_runtime_file("", true),
-      },
-      -- Do not send telemetry data containing a randomized but unique identifier
-      telemetry = {
-        enable = false,
-      },
-    },
-  },
-}
-
-require"lspconfig".elixirls.setup {
-   on_attach = on_attach,
-   cmd = { os.getenv("HOME") .. "/.local/elixir-ls/language_server.sh" }
-
-}
-
--- Treesitter {{{
-
-require'nvim-treesitter.configs'.setup {
-  textobjects = {
-    move = {
-          enable = true,
-          set_jumps = true, -- whether to set jumps in the jumplist
-          goto_next_start = {
-            ["]m"] = "@function.outer",
-            ["]]"] = "@class.outer",
+    require("lspconfig").sumneko_lua.setup {
+      cmd = { sumneko_binary, "-E", sumneko_root .. "/main.lua" },
+      on_attach = on_attach,
+      settings = {
+        Lua = {
+          diagnostics = {
+            globals = { "vim" },
           },
-          goto_next_end = {
-            ["]M"] = "@function.outer",
-            ["]["] = "@class.outer",
+          workspace = {
+            -- Make the server aware of Neovim runtime files
+            library = vim.api.nvim_get_runtime_file("", true),
           },
-          goto_previous_start = {
-            ["[m"] = "@function.outer",
-            ["[["] = "@class.outer",
-          },
-          goto_previous_end = {
-            ["[M"] = "@function.outer",
-            ["[]"] = "@class.outer",
+          -- Do not send telemetry data containing a randomized but unique identifier
+          telemetry = {
+            enable = false,
           },
         },
-    select = {
-      enable = true,
-
-      -- Automatically jump forward to textobj, similar to targets.vim
-      lookahead = true,
-
-      keymaps = {
-        -- You can use the capture groups defined in textobjects.scm
-        ["af"] = "@function.outer",
-        ["if"] = "@function.inner",
-        ["ac"] = "@class.outer",
-        ["ic"] = "@class.inner",
       },
-    },
-  },
-}
+    }
+
+    require"lspconfig".elixirls.setup {
+       on_attach = on_attach,
+       cmd = { os.getenv("HOME") .. "/.local/elixir-ls/language_server.sh" }
+    }
+    require"fidget".setup{}
+-- }}}
+
+-- Treesitter {{{
+    require'nvim-treesitter.configs'.setup {
+      textobjects = {
+        move = {
+              enable = true,
+              set_jumps = true, -- whether to set jumps in the jumplist
+              goto_next_start = {
+                ["]m"] = "@function.outer",
+                ["]]"] = "@class.outer",
+              },
+              goto_next_end = {
+                ["]M"] = "@function.outer",
+                ["]["] = "@class.outer",
+              },
+              goto_previous_start = {
+                ["[m"] = "@function.outer",
+                ["[["] = "@class.outer",
+              },
+              goto_previous_end = {
+                ["[M"] = "@function.outer",
+                ["[]"] = "@class.outer",
+              },
+            },
+        select = {
+          enable = true,
+
+          -- Automatically jump forward to textobj, similar to targets.vim
+          lookahead = true,
+
+          keymaps = {
+            -- You can use the capture groups defined in textobjects.scm
+            ["af"] = "@function.outer",
+            ["if"] = "@function.inner",
+            ["ac"] = "@class.outer",
+            ["ic"] = "@class.inner",
+          },
+        },
+      },
+    }
 
 -- }}}
 
 -- Telescope {{{
-local telescope_builtin = require "telescope.builtin"
-nnoremap('<leader><leader>', function() telescope_builtin.find_files() end)
-nnoremap('??', '<cmd>Telescope live_grep<CR>')
-nnoremap('?a', '<cmd>lua vim.lsp.buf.code_action()<CR>')
+    local telescope_builtin = require "telescope.builtin"
+    vim.keymap.set('n', '<leader><leader>', function() telescope_builtin.find_files() end)
+    vim.keymap.set('n', '??', '<cmd>Telescope live_grep<CR>')
+    vim.keymap.set('n', '?a', '<cmd>lua vim.lsp.buf.code_action()<CR>')
 -- }}}
 
--- FZF {{{
--- nnoremap('<leader><leader>', '<cmd>Files<CR>')
--- nnoremap('??', '<cmd>Rg<CR>')
--- }}}
+-- Autocomplete {{{
+    vim.opt.completeopt = { "menuone", "noselect" }
+    vim.opt.shortmess:append "c"
+    local cmp = require "cmp"
+    cmp.setup {
+      snippet = {
+          expand = function(args)
+            vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+          end,
+        },
+      -- You can set mapping if you want.
+      mapping = {
+        ["<C-p>"] = cmp.mapping.select_prev_item(),
+        ["<C-n>"] = cmp.mapping.select_next_item(),
+        ["<C-d>"] = cmp.mapping.scroll_docs(-4),
+        ["<C-f>"] = cmp.mapping.scroll_docs(4),
+        ["<C-Space>"] = cmp.mapping.complete(),
+        ["<C-e>"] = cmp.mapping.close(),
+        ["<CR>"] = cmp.mapping.confirm {
+          behavior = cmp.ConfirmBehavior.Insert,
+          select = false,
+        },
+        ["<Tab>"] = function(fallback)
+          if cmp.visible() then
+            cmp.select_next_item()
+          else
+            fallback()
+          end
+        end,
+        ["<S-Tab>"] = function(fallback)
+          if cmp.visible() then
+            cmp.select_prev_item()
+          else
+            fallback()
+          end
+        end,
+      },
 
--- AutoComplete {{{
-vim.opt.completeopt = { "menuone", "noselect" }
-vim.opt.shortmess:append "c"
-local cmp = require "cmp"
-cmp.setup {
-  snippet = {
-      expand = function(args)
-        vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
-      end,
-    },
-  -- You can set mapping if you want.
-  mapping = {
-    ["<C-p>"] = cmp.mapping.select_prev_item(),
-    ["<C-n>"] = cmp.mapping.select_next_item(),
-    ["<C-d>"] = cmp.mapping.scroll_docs(-4),
-    ["<C-f>"] = cmp.mapping.scroll_docs(4),
-    ["<C-Space>"] = cmp.mapping.complete(),
-    ["<C-e>"] = cmp.mapping.close(),
-    ["<CR>"] = cmp.mapping.confirm {
-      behavior = cmp.ConfirmBehavior.Insert,
-      select = false,
-    },
-    ["<Tab>"] = function(fallback)
-      if cmp.visible() then
-        cmp.select_next_item()
-      else
-        fallback()
-      end
-    end,
-    ["<S-Tab>"] = function(fallback)
-      if cmp.visible() then
-        cmp.select_prev_item()
-      else
-        fallback()
-      end
-    end,
-  },
-
-  -- You should specify your *installed* sources.
-  sources = {
-    { name = "buffer" },
-    { name = "nvim_lsp" },
-    { name = "path" },
-    { name = "nvim_lua" },
-  },
-}
+      -- You should specify your *installed* sources.
+      sources = {
+        { name = "buffer" },
+        { name = "nvim_lsp" },
+        { name = "path" },
+        { name = "nvim_lua" },
+      },
+    }
 -- }}}
 
