@@ -7,7 +7,6 @@ require('packer').startup(function(use)
     use 'sainnhe/sonokai'
     use 'folke/tokyonight.nvim'
 
-    use "mhinz/vim-startify"
     use 'windwp/nvim-spectre'                         -- Search/Replace project wide
     use 'nvim-treesitter/nvim-treesitter'             -- Treesitter syntax highlighting
     use 'nvim-treesitter/nvim-treesitter-textobjects' -- Treesitter text objects
@@ -93,7 +92,7 @@ if vim.version().major >= 0 and vim.version().minor >= 8 then
 end
 
 -- Colorscheme
-vim.cmd [[ colorscheme tokyonight-night ]]
+vim.cmd [[ colorscheme sonokai ]]
 
 vim.g.netrw_banner = false
 vim.g.netrw_winsize = 25
@@ -169,9 +168,6 @@ vim.cmd [[ nnoremap <expr><CR> {-> v:hlsearch ? ':nohl<CR>' : '<CR>'}() ]]
       vim.api.nvim_buf_set_keymap(bufnr, "n", "C", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
 
     end
-
-    local capabilities = vim.lsp.protocol.make_client_capabilities()
-    capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
 
     require("lspconfig").clangd.setup {
        on_attach = on_attach,

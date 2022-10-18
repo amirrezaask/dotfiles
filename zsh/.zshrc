@@ -8,7 +8,8 @@ source $ZSH/oh-my-zsh.sh
 export GO111MODULE='on'
 export GOPATH="$HOME"
 export GOPRIVATE='gitlab.snapp.ir'
-export GOPROXY='https://repo.snapp.tech/repository/goproxy,goproxy.io,direct'
+# export GOPROXY='https://repo.snapp.tech/repository/goproxy,goproxy.io,direct'
+export GOPROXY='goproxy.io,direct'
 export EDITOR='vim'
 export OSS="$HOME/personal"
 export DOTFILES="$HOME/personal/dotfiles"
