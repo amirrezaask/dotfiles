@@ -124,7 +124,7 @@
 (global-so-long-mode 1)
 
 
-;; Company ( Auto complete )
+;; Company
 (package-install 'company)
 (global-company-mode)
 (add-hook 'company-mode-hook (lambda ()
@@ -324,31 +324,28 @@
 (package-install 'ace-window)
 (global-set-key (kbd "C-x o") 'ace-select-window)
 
-
-
 (package-install 'ef-themes)
 
 ;; UI stuff
-(if t
-    (progn
-      (set-face-attribute 'default nil :foreground "#d3b58d" :background "#072626")
-      (set-face-attribute 'cursor nil :background "green")
+;; (if nil
+;;     (progn
+;;       (set-face-attribute 'default nil :foreground "#d3b58d" :background "#072626")
+;;       (set-face-attribute 'cursor nil :background "green")
 
-      (set-face-attribute 'font-lock-comment-face nil :foreground "#118a1a")
-      (set-face-attribute 'font-lock-function-name-face nil :foreground "white" :bold nil)
-      (set-face-attribute 'font-lock-keyword-face nil :foreground "#d4d4d4")
-      (set-face-attribute 'font-lock-string-face nil :foreground "#2ec09c")
-      (set-face-attribute 'font-lock-variable-name-face nil :foreground "#c8d4ec")
-      (set-face-attribute 'font-lock-warning-face nil :foreground "#504038")
-      (set-face-attribute 'font-lock-constant-face nil :foreground "#7ad0c6")
-      (set-face-attribute 'highlight nil :foreground "white")
-      (set-face-attribute 'mode-line nil :foreground "black" :background "#d3b58d")
-      (set-face-attribute 'region nil :background "#3c02fa")
-      )
-  (load-theme 'gruber-darker t)
-  )
+;;       (set-face-attribute 'font-lock-comment-face nil :foreground "#118a1a")
+;;       (set-face-attribute 'font-lock-function-name-face nil :foreground "white" :bold nil)
+;;       (set-face-attribute 'font-lock-keyword-face nil :foreground "#d4d4d4")
+;;       (set-face-attribute 'font-lock-string-face nil :foreground "#2ec09c")
+;;       (set-face-attribute 'font-lock-variable-name-face nil :foreground "#c8d4ec")
+;;       (set-face-attribute 'font-lock-warning-face nil :foreground "#504038")
+;;       (set-face-attribute 'font-lock-constant-face nil :foreground "#7ad0c6")
+;;       (set-face-attribute 'highlight nil :foreground "white")
+;;       (set-face-attribute 'mode-line nil :foreground "black" :background "#d3b58d")
+;;       (set-face-attribute 'region nil :background "#3c02fa")
+;;       )
+;;   (load-theme 'gruber-darker t)
+;;   )
 
-
-
+(load-theme 'gruber-darker t)
 (set-frame-font "Iosevka 22" nil t)
 
