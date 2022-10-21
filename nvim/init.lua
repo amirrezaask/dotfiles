@@ -1,12 +1,10 @@
-
 -- Install packages
 require('packer').startup(function(use)
     use 'wbthomason/packer.nvim'
-
     use 'eemed/sitruuna.vim'
     use 'sainnhe/sonokai'
     use 'folke/tokyonight.nvim'
-
+    use 'rcticicestudio/nord-vim'
     use 'windwp/nvim-spectre'                         -- Search/Replace project wide
     use 'nvim-treesitter/nvim-treesitter'             -- Treesitter syntax highlighting
     use 'nvim-treesitter/nvim-treesitter-textobjects' -- Treesitter text objects
@@ -35,6 +33,12 @@ require('packer').startup(function(use)
     use 'jansedivy/jai.vim'
     use 'j-hui/fidget.nvim'
     use "lewis6991/gitsigns.nvim"
+    use 'junegunn/goyo.vim'
+    use 'folke/which-key.nvim'
+    use {
+      "folke/todo-comments.nvim",
+      requires = "nvim-lua/plenary.nvim",
+    }
 end)
 
 -- options
@@ -334,4 +338,12 @@ vim.cmd [[ nnoremap <expr><CR> {-> v:hlsearch ? ':nohl<CR>' : '<CR>'}() ]]
 
 -- Git {{{
     require('gitsigns').setup()
+-- }}}
+
+-- Which-key {{{
+    require"which-key".setup()
+-- }}}
+
+-- TODO comments {{{
+    require"todo-comments".setup()
 -- }}}
