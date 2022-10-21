@@ -21,17 +21,9 @@ export PATH="$HOME/.emacs.d/bin/:/Applications/Emacs.app/Contents/MacOS:$GOPATH/
 # Aliases
 alias reload='source ~/.zshrc'
 
-alias snapp="cd $SNAPP"
-alias oss="cd $OSS"
-alias golobby="cd $GOLOBBY"
-alias dots="cd ${DOTFILES}"
-
 alias gs='git status'
 
-alias freenet="echo ${VPN_PASSWORD} | sudo openconnect --no-dtls --passwd-on-stdin --user ${VPN_USERNAME} ${VPN_SERVER}"
 alias snappvpn='sudo openfortivpn -c ~/snappDC.conf'
-alias baly='echo ${BALY_PASSWORD} | sudo openconnect --user amirreza.askarpour vpn-aws.snapp.ir:443'
-
 alias luamake=/home/amirreza/.local/lua-language-server/3rd/luamake/luamake
 
 [ -f "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env" # ghcup-env
@@ -64,7 +56,6 @@ subl() {
    SUBL_BIN='' 
    /Applications/Sublime\ Text.app/Contents/MacOS/sublime_text $1 > /dev/null 2>&1 &
 }
-POWERLEVEL9K_DISABLE_CONFIGURATION_WIZARD=true
 
 alias ta='tmux attach -t '
 alias tl='tmux list-sessions'
