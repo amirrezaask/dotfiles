@@ -92,7 +92,7 @@ if vim.version().major >= 0 and vim.version().minor >= 8 then
 end
 
 -- Colorscheme
-vim.cmd [[ colorscheme sonokai ]]
+vim.cmd [[ colorscheme tokyonight-moon ]]
 
 vim.g.netrw_banner = false
 vim.g.netrw_winsize = 25
@@ -334,5 +334,4 @@ vim.cmd [[ nnoremap <expr><CR> {-> v:hlsearch ? ':nohl<CR>' : '<CR>'}() ]]
 
 -- Git {{{
     require('gitsigns').setup()
-
 -- }}}
