@@ -60,3 +60,9 @@ subl() {
 alias ta='tmux attach -t '
 alias tl='tmux list-sessions'
 alias tns='tmux new-session -s '
+
+
+ss_proxy() {
+    export http_proxy='http://localhost:1087'
+    export https_proxy='http://localhost:1087'
+}
