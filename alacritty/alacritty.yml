@@ -13,6 +13,7 @@ font:
   size: 19
 
 window:
+   opacity: 0.98
    dimensions:
      columns: 200
      lines: 50
