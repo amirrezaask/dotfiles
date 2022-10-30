@@ -16,7 +16,7 @@ export DOTFILES="$HOME/personal/dotfiles"
 export SNAPP="$HOME/work/snapp"
 export ESPAD="$HOME/work/espad"
 
-export PATH="$HOME/.emacs.d/bin/:/Applications/Emacs.app/Contents/MacOS:$GOPATH/bin:/opt/homebrew/bin:$ELIXIR/bin:$HOME/.luarocks/bin:$HOME/.config/composer/vendor/bin:$GOROOT/bin:$HOME/.cargo/bin:$HOME/.local/bin:/usr/local/Postman:$HOME/.local/elixir-ls/:$HOME/.cache/rebar3/bin:$PATH:$DOTFILES/bin:$HOME/.composer/vendor/bin"
+export PATH="/opt/homebrew/opt/php@7.4/bin:$HOME/.emacs.d/bin/:/Applications/Emacs.app/Contents/MacOS:$GOPATH/bin:/opt/homebrew/bin:$ELIXIR/bin:$HOME/.luarocks/bin:$HOME/.config/composer/vendor/bin:$GOROOT/bin:$HOME/.cargo/bin:$HOME/.local/bin:/usr/local/Postman:$HOME/.local/elixir-ls/:$HOME/.cache/rebar3/bin:$PATH:$DOTFILES/bin:$HOME/.composer/vendor/bin"
 
 # Aliases
 alias reload='source ~/.zshrc'
@@ -66,3 +66,7 @@ ss_proxy() {
     export http_proxy='http://localhost:1087'
     export https_proxy='http://localhost:1087'
 }
+
+alias python=python3
+
+
