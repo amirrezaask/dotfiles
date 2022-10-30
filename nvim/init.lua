@@ -22,9 +22,9 @@ require('packer').startup(function(use)
     use 'ziglang/zig.vim'                                 -- Best language ever ?
     use 'rust-lang/rust.vim'                              -- Haskell on LLVM ?
     use 'simrat39/rust-tools.nvim'
-    use 'fladson/vim-kitty'                               -- Best Terminal Emulator config syntax
+    use 'fladson/vim-kitty'
     use 'pbrisbin/vim-mkdir'                              -- Save files and create not existing directories
-    use 'tpope/vim-commentary'                            -- Best commenting plugin ever
+    use 'tpope/vim-commentary'
     use 'tpope/vim-surround'                              -- Now you can command your surroundings
     use 'tpope/vim-fugitive'                              -- Best Vim Git client
     use 'junegunn/gv.vim'                                 -- Git diff split
