@@ -60,6 +60,7 @@ subl() {
 alias ta='tmux attach -t '
 alias tl='tmux list-sessions'
 alias tns='tmux new-session -s '
+alias dots='cd ~/dev/dotfiles'
 
 
 ss_proxy() {
