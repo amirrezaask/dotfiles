@@ -1,10 +1,13 @@
 -- Install packages
 require('packer').startup(function(use)
     use 'wbthomason/packer.nvim'
+
     use 'eemed/sitruuna.vim'
     use 'sainnhe/sonokai'
+    use 'overcache/NeoSolarized'
     use 'folke/tokyonight.nvim'
     use 'rcticicestudio/nord-vim'
+
     use 'windwp/nvim-spectre'                         -- Search/Replace project wide
     use 'nvim-treesitter/nvim-treesitter'             -- Treesitter syntax highlighting
     use 'nvim-treesitter/nvim-treesitter-textobjects' -- Treesitter text objects
@@ -96,7 +99,7 @@ if vim.version().major >= 0 and vim.version().minor >= 8 then
 end
 
 -- Colorscheme
-vim.cmd [[ colorscheme sonokai ]]
+vim.cmd [[ colorscheme NeoSolarized ]]
 
 vim.g.netrw_banner = false
 vim.g.netrw_winsize = 25
