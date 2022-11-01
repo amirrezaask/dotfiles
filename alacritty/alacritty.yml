@@ -2,9 +2,10 @@ import:
   - ~/.config/alacritty/themes/solarized_dark.yaml
 
 font:
-  size: 19
+  size: 15
   normal:
-    family: "Iosevka"
+    family: "JetBrainsMono Nerd Font Mono"
+    style: "Regular"
 
 window:
    opacity: 0.98
