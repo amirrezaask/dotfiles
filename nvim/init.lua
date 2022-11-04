@@ -4,9 +4,7 @@ require('packer').startup(function(use)
 
     use 'eemed/sitruuna.vim'
     use 'sainnhe/sonokai'
-    use 'overcache/NeoSolarized'
     use 'folke/tokyonight.nvim'
-    use 'rcticicestudio/nord-vim'
 
     use 'windwp/nvim-spectre'                         -- Search/Replace project wide
     use 'nvim-treesitter/nvim-treesitter'             -- Treesitter syntax highlighting
@@ -17,8 +15,10 @@ require('packer').startup(function(use)
     use 'hrsh7th/cmp-nvim-lsp'                        -- auto complete lsp source
     use 'hrsh7th/cmp-path'                            -- auto complete os path source
     use 'neovim/nvim-lspconfig'                       -- LSP client configurations
-    use 'nvim-telescope/telescope.nvim'               -- Telescope fuzzy finder by great TJDevries
-    use 'nvim-lua/plenary.nvim'                       -- Neovim stdlib lua by TJDevries
+    use {
+        'nvim-telescope/telescope.nvim',              -- Telescope fuzzy finder by great TJDevries
+        requires='nvim-lua/plenary.nvim'
+    }
     use 'hrsh7th/vim-vsnip'                               -- Snippets
     use 'sheerun/vim-polyglot'                            -- Basic vim support for multiple languages see https://github.com/sheerun/vim-polyglot for the full list.
     use 'Glench/Vim-Jinja2-Syntax'                        -- Jinja2 syntax
@@ -37,10 +37,9 @@ require('packer').startup(function(use)
     use 'j-hui/fidget.nvim'
     use "lewis6991/gitsigns.nvim"
     use 'junegunn/goyo.vim'
-    use 'folke/which-key.nvim'
     use {
-      "folke/todo-comments.nvim",
-      requires = "nvim-lua/plenary.nvim",
+        "folke/todo-comments.nvim",
+        requires = "nvim-lua/plenary.nvim",
     }
 end)
 
@@ -88,7 +87,6 @@ vim.opt.pumheight = 10   -- Completion window max size
 vim.opt.conceallevel = 2 -- Concealed text is completely hidden
 vim.opt.shortmess = vim.opt.shortmess + 'c'   -- Shut off completion messages
 vim.opt.belloff = vim.opt.belloff + 'ctrlg' -- If Vim beeps during completion
--- vim.opt.lazyredraw = true
 vim.opt.termguicolors = true
 vim.cmd [[ set clipboard^=unnamedplus ]]
 
@@ -99,7 +97,7 @@ if vim.version().major >= 0 and vim.version().minor >= 8 then
 end
 
 -- Colorscheme
-vim.cmd [[ colorscheme NeoSolarized ]]
+vim.cmd [[ colorscheme tokyonight-night ]]
 
 vim.g.netrw_banner = false
 vim.g.netrw_winsize = 25
@@ -341,10 +339,6 @@ vim.cmd [[ nnoremap <expr><CR> {-> v:hlsearch ? ':nohl<CR>' : '<CR>'}() ]]
 
 -- Git {{{
     require('gitsigns').setup()
--- }}}
-
--- Which-key {{{
-    require"which-key".setup()
 -- }}}
 
 -- TODO comments {{{
