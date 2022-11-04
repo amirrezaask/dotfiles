@@ -4,8 +4,4 @@ import:
 font:
   size: 19
   normal:
-    family: "Iosevka"
-
-window:
-   opacity: 0.98
-
+    family: "JetBrainsMono Nerd Font Mono"
