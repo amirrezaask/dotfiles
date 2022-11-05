@@ -100,6 +100,9 @@
 (vertico-mode)
 (setq vertico-cycle t)
 
+;; minibuffer annotations
+(package-install 'marginalia)
+(marginalia-mode)
 
 ;; Some useful functionalities
 (package-install 'consult)
@@ -286,5 +289,11 @@
 (set-face-attribute 'region nil :background "#3c02fa")
       
 ;; (load-theme 'gruber-darker t)
-(set-frame-font "JetBrainsMono Nerd Font Mono 14" nil t)
+
+(defun amirreza/home-monitor ()
+  (interactive)
+  (set-frame-font "Iosevka 20" nil t))
+
+
+(set-frame-font "Iosevka 14" nil t)
 
