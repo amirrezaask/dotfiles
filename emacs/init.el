@@ -100,6 +100,9 @@
 (vertico-mode)
 (setq vertico-cycle t)
 
+(package-install 'orderless)
+;; (setq completion-styles '(substring orderless basic))
+
 ;; minibuffer annotations
 (package-install 'marginalia)
 (marginalia-mode)
@@ -116,24 +119,10 @@
 (package-install 'vlf)
 (global-so-long-mode 1)
 
+;; In Buffer Completion
+(package-install 'corfu)
+(setq corfu-auto t)
 
-;; Company
-(package-install 'company)
-(global-company-mode)
-(add-hook 'company-mode-hook (lambda ()
-                               (define-key company-active-map (kbd "C-n") #'company-select-next)
-                               (define-key company-active-map (kbd "C-p") #'company-select-previous)
-                               (define-key company-active-map (kbd "C-o") #'company-other-backend)
-                               (define-key company-active-map (kbd "<tab>") #'company-complete-common-or-cycle)
-                               (define-key company-active-map (kbd "RET") #'company-complete-selection)
-                               (setq company-minimum-prefix-lenght 1)
-                               (setq company-tooltip-limit 30)
-                               (setq company-idle-delay 0.0)
-                               (setq company-echo-delay 0.1)
-                               (setq company-show-numbers t)
-                               (setq company-dabbrev-downcase nil)
-                               (setq company-backends '(company-capf company-dabbrev company-files company-dabbrev-code))
-                               ))
 
 ;; Magit
 (package-install 'magit)
@@ -271,7 +260,7 @@
 (global-set-key (kbd "C-x o") 'ace-select-window)
 
 (package-install 'ef-themes)
-(package-install 'gruber-darker)
+(package-install 'gruber-darker-theme)
 ;; UI stuff
 
 (set-face-attribute 'default nil :foreground "#d3b58d" :background "#072626")
@@ -293,6 +282,9 @@
 (defun amirreza/home-monitor ()
   (interactive)
   (set-frame-font "Iosevka 20" nil t))
+
+(defun amirreza/snapp-monitor ()
+  (set-frame-font "Iosevka 18" nil t))
 
 
 (set-frame-font "Iosevka 14" nil t)
