@@ -95,24 +95,14 @@
                              (define-key dired-mode-map (kbd "C-c C-e") 'wdired-change-to-wdired-mode)
                              ))
 
-;; Icomplete mode for minibuffer completion
-(icomplete-mode 1)
-(setq
- icomplete-delay-completions-threshold 0
- icomplete-max-delay-chars 0
- icomplete-compute-delay 0
- icomplete-show-matches-on-no-input t
- icomplete-hide-common-prefix nil
- icomplete-in-buffer t
- icomplete-prospects-height 15
- icomplete-with-completion-tables t
- )
+;; Completion
+(package-install 'vertico)
+(vertico-mode)
+(setq vertico-cycle t)
 
-(define-key icomplete-minibuffer-map (kbd "<return>") 'icomplete-force-complete-and-exit)
-(define-key icomplete-minibuffer-map (kbd "<down>") 'icomplete-forward-completions)
-(define-key icomplete-minibuffer-map (kbd "<up>") 'icomplete-backward-completions)
-(define-key icomplete-minibuffer-map (kbd "<C-n>") 'icomplete-forward-completions)
-(define-key icomplete-minibuffer-map (kbd "<C-p>") 'icomplete-backward-completions)
+
+;; Some useful functionalities
+(package-install 'consult)
 
 ;; Expand region
 (package-install 'expand-region)
@@ -256,51 +246,6 @@
                 "  "
                 mode-line-end-spaces))
 
-(defun rg (pattern)
-  (interactive)
-  (cond
-   ((vc-backend buffer-file-name) (let ((default-directory (vc-root-dir)))
-                                      (compilation-start
-                                          (concat
-                                           "rg "
-                                           "--line-number "
-                                           "--no-heading "
-                                           "--ignore-case "
-                                           (format "'%s'" text)
-                                           )
-                                          'grep-mode
-                                          )))
-   (t                                (compilation-start
-                                          (concat
-                                           "rg "
-                                           "--line-number "
-                                           "--no-heading "
-                                           "--ignore-case "
-                                           (format "'%s'" text)
-                                           )
-                                          'grep-mode
-                                          ))
-   )
-  )
-
-
-(defun GREP (text)
-  (interactive "sPattern: ")
-  (cond
-    ;; ((not (null (executable-find "rg"))) (rg text))
-    ((vc-backend (buffer-file-name)) (compilation-start (concat "git grep -n " text) 'grep-mode))
-    (t (compilation-start (concat "grep -n -RI " text) 'grep-mode))
-    )
-  )
-
-(defun FIND-FILE ()
-  (interactive)
-  (cond
-   ((vc-backend (buffer-file-name)) (project-find-file))
-   (t (call-interactively 'find-file))
-   )
-  )
-
 
 (defun ASYNC-SHELL-COMMAND ()
   (interactive)
@@ -311,8 +256,6 @@
 
 (global-set-key (kbd "C-9") #'compile)
 (global-set-key (kbd "C-8") #'ASYNC-SHELL-COMMAND)
-(global-set-key (kbd "C-0") 'GREP)
-(global-set-key (kbd "C-\\") 'FIND-FILE)
 (global-set-key (kbd "C-x C-d") 'dired)
 (global-set-key (kbd "C-6") 'eglot-format-buffer)
 (global-set-key (kbd "C-1") (lambda () (interactive) (find-file (expand-file-name "init.el" user-emacs-directory))))
@@ -325,27 +268,23 @@
 (global-set-key (kbd "C-x o") 'ace-select-window)
 
 (package-install 'ef-themes)
-
+(package-install 'gruber-darker)
 ;; UI stuff
-;; (if nil
-;;     (progn
-;;       (set-face-attribute 'default nil :foreground "#d3b58d" :background "#072626")
-;;       (set-face-attribute 'cursor nil :background "green")
 
-;;       (set-face-attribute 'font-lock-comment-face nil :foreground "#118a1a")
-;;       (set-face-attribute 'font-lock-function-name-face nil :foreground "white" :bold nil)
-;;       (set-face-attribute 'font-lock-keyword-face nil :foreground "#d4d4d4")
-;;       (set-face-attribute 'font-lock-string-face nil :foreground "#2ec09c")
-;;       (set-face-attribute 'font-lock-variable-name-face nil :foreground "#c8d4ec")
-;;       (set-face-attribute 'font-lock-warning-face nil :foreground "#504038")
-;;       (set-face-attribute 'font-lock-constant-face nil :foreground "#7ad0c6")
-;;       (set-face-attribute 'highlight nil :foreground "white")
-;;       (set-face-attribute 'mode-line nil :foreground "black" :background "#d3b58d")
-;;       (set-face-attribute 'region nil :background "#3c02fa")
-;;       )
-;;   (load-theme 'gruber-darker t)
-;;   )
+(set-face-attribute 'default nil :foreground "#d3b58d" :background "#072626")
+(set-face-attribute 'cursor nil :background "green")
 
-(load-theme 'gruber-darker t)
-(set-frame-font "Iosevka 22" nil t)
+(set-face-attribute 'font-lock-comment-face nil :foreground "#118a1a")
+(set-face-attribute 'font-lock-function-name-face nil :foreground "white" :bold nil)
+(set-face-attribute 'font-lock-keyword-face nil :foreground "#d4d4d4")
+(set-face-attribute 'font-lock-string-face nil :foreground "#2ec09c")
+(set-face-attribute 'font-lock-variable-name-face nil :foreground "#c8d4ec")
+(set-face-attribute 'font-lock-warning-face nil :foreground "#504038")
+(set-face-attribute 'font-lock-constant-face nil :foreground "#7ad0c6")
+(set-face-attribute 'highlight nil :foreground "white")
+(set-face-attribute 'mode-line nil :foreground "black" :background "#d3b58d")
+(set-face-attribute 'region nil :background "#3c02fa")
+      
+;; (load-theme 'gruber-darker t)
+(set-frame-font "JetBrainsMono Nerd Font Mono 14" nil t)
 
