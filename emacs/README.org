@@ -1,0 +1,116 @@
+* AmirrezaAsk Gnu Emacs Configuration
+** Basics
+*** Disable GUI stuff
+#+BEGIN_SRC emacs-lisp :tangle early-init.el
+(tool-bar-mode 0) ;; disable top toolbar
+(scroll-bar-mode 0) ;; disable scroll bar
+(menu-bar-mode -1) ;; Disable menu bar
+
+#+END_SRC
+*** Load custom ELISP scripts in my local
+#+BEGIN_SRC emacs-lisp :tangle init.el
+(setq package-enable-at-startup nil) ;; disable emacs default package manager
+#+END_SRC
+
+*** Custom file
+#+BEGIN_SRC emacs-lisp :tangle init.el
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+#+END_SRC
+*** Package Manager setup
+#+BEGIN_SRC emacs-lisp :tangle init.el
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+(package-initialize)
+#+END_SRC
+*** Use y-n instead of yes-or-no
+#+BEGIN_SRC emacs-lisp :tangle init.el
+  (defalias 'yes-or-no-p 'y-or-n-p) ;; Show y or n instead of yes or no for question prompts.
+#+END_SRC
+** User Interface
+*** Cursor shape
+#+BEGIN_SRC emacs-lisp :tangle init.el
+  (blink-cursor-mode -1)
+  (setq-default cursor-type 'box)
+#+END_SRC
+
+*** Theme
+*** Disable Tab line mode
+#+BEGIN_SRC emacs-lisp :tangle init.el
+(when (> emacs-major-version 26) (global-tab-line-mode -1)) ;; Disable tab line in Emacs 27+.
+#+END_SRC
+** Text Editor
+*** Backups and versioning
+#+BEGIN_SRC emacs-lisp :tangle init.el
+  (setq backup-by-copying t) ;; Always copy files for backup.
+  (setq version-control t) ;; Use version numbers for backup.
+  (setq delete-old-versions t) ;; Delete old backup of files.
+  (setq kept-new-versions 6) ;; Number of newest versions to keep.
+  (setq kept-old-versions 2) ;; Number of old versions to keep.
+  (setq create-lockfiles nil) ;; Don't create .# files as lock.
+
+  (setq backup-directory-alist ;; all backups should go here (PATTERN . LOCATION)
+        '(("." . "~/.emacs.d/backup")))
+#+END_SRC
+
+*** Delete selection when start typing
+#+BEGIN_SRC emacs-lisp :tangle init.el
+(delete-selection-mode 1)
+#+END_SRC
+*** Scrolling improvements
+#+BEGIN_SRC emacs-lisp :tangle init.el
+(setq scroll-step 5) ;; When point moves out of screen, number of lines to scroll
+(setq scroll-margin 5) ;; Scroll margin lines, when point arrives at these margins scroll the display.
+(setq scroll-conservatively 101) ;; Number of lines to scroll to bring point back into view.
+(setq scroll-up-aggressively 0.11) ;; When scrolling how much to move the view.
+(setq scroll-down-aggressively 0.01) ;; Same as above.
+(setq auto-window-vscroll nil) ;; Disable changing window-vscroll automatically.
+(setq fast-but-imprecise-scrolling nil) ;; Disable fast scroll since it does not feel good.
+(setq mouse-wheel-scroll-amount '(5
+                                  ((shift) . 10)))
+(setq mouse-wheel-progressive-speed t)
+;; Horizontal Scroll
+(setq hscroll-step 1) ;; Number of columns to scroll when point is to close to edge.
+(setq hscroll-margin 1) ;; How many columns away from edge to start scrolling.
+#+END_SRC
+*** Tab stuff
+#+BEGIN_SRC emacs-lisp :tangle init.el
+(setq-default indent-tabs-mode nil ;; Don't insert tabs for indentation.
+              tab-width 4) ;; Width of the TAB character in display.
+#+END_SRC
+*** UTF8 everywhere
+#+BEGIN_SRC emacs-lisp :tangle init.el
+(set-terminal-coding-system 'utf-8) ;; default emacs encodings
+(set-keyboard-coding-system 'utf-8)
+(prefer-coding-system 'utf-8)
+#+END_SRC
+*** Show matching parens
+#+BEGIN_SRC emacs-lisp :tangle init.el
+(show-paren-mode 1) ;; Highlight matching parens
+(setq show-paren-delay 0) ;; highlight matching parens instantly.
+#+END_SRC
+*** Display line numbers everywhere
+#+BEGIN_SRC emacs-lisp :tangle init.el
+(global-display-line-numbers-mode 1) ;; Ensure line numbers globally.
+#+END_SRC
+*** Better YAML support
+#+BEGIN_SRC emacs-lisp :tangle init.el
+  (package-install 'highlight-indent-guides)
+  (add-hook 'yaml-mode-hook-hook #'highlight-indent-guides)
+  (add-hook 'focus-in-hook #'highlight-indent-guides-auto-set-faces)
+  (setq highlight-indent-guides-method 'character)
+#+END_SRC
+
+*** Wdired
+#+BEGIN_SRC emacs-lisp :tangle init.el
+(add-hook 'dired-mode-hook (lambda ()
+                             (define-key dired-mode-map (kbd "C-c C-e") 'wdired-change-to-wdired-mode)
+                             ))
+
+#+END_SRC
+** IDE
+*** Terminal Emulator ( VTerm )
+#+BEGIN_SRC emacs-lisp :tangle init.el
+(when (not (eq 'system-type 'windows-nt))
+  (package-install 'vterm))
+#+END_SRC
+
