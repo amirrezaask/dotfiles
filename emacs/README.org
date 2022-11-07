@@ -32,6 +32,42 @@
 #+END_SRC
 
 *** Theme
+#+BEGIN_SRC emacs-lisp :tangle README.el
+  (package-install 'ef-themes)
+  (package-install 'gruber-darker-theme)
+
+  (defun amirreza/jblow-theme ()
+    (set-face-attribute 'default nil :foreground "#d3b58d" :background "#072626")
+    (set-face-attribute 'cursor nil :background "green")
+    (set-face-attribute 'font-lock-comment-face nil :foreground "#118a1a")
+    (set-face-attribute 'font-lock-function-name-face nil :foreground "white" :bold nil)
+    (set-face-attribute 'font-lock-keyword-face nil :foreground "#d4d4d4")
+    (set-face-attribute 'font-lock-string-face nil :foreground "#2ec09c")
+    (set-face-attribute 'font-lock-variable-name-face nil :foreground "#c8d4ec")
+    (set-face-attribute 'font-lock-warning-face nil :foreground "#504038")
+    (set-face-attribute 'font-lock-constant-face nil :foreground "#7ad0c6")
+    (set-face-attribute 'highlight nil :foreground "white")
+    (set-face-attribute 'mode-line nil :foreground "black" :background "#d3b58d")
+    (set-face-attribute 'region nil :background "#3c02fa")
+    )
+
+   (load-theme 'ef-dark t)
+#+END_SRC
+*** Font
+#+BEGIN_SRC emacs-lisp :tangle README.el
+  (defun amirreza/home-monitor ()
+    (interactive)
+    (set-frame-font "Iosevka 20" nil t))
+
+  (defun amirreza/snapp-monitor ()
+    (interactive)
+    (set-frame-font "Iosevka 15" nil t))
+
+  (defun amirreza/laptop ()
+    (interactive)
+    (set-frame-font "Iosevka 13" nil t))
+  (amirreza/laptop)
+#+END_SRC
 *** Disable Tab line mode
 #+BEGIN_SRC emacs-lisp :tangle yes
 (when (> emacs-major-version 26) (global-tab-line-mode -1)) ;; Disable tab line in Emacs 27+.
@@ -43,7 +79,7 @@
 (setq vertico-cycle t)
 
 (package-install 'orderless)
-;; (setq completion-styles '(substring orderless basic))
+(setq completion-styles '(substring orderless basic))
 
 ;; minibuffer annotations
 (package-install 'marginalia)
@@ -139,31 +175,110 @@
 (package-install 'vlf)
 (global-so-long-mode 1)
 #+END_SRC
+*** Expand Region
+#+BEGIN_SRC emacs-lisp :tangle yes
+(package-install 'expand-region)
+(global-set-key (kbd "C-=") 'er/expand-region)
+(global-set-key (kbd "C--") 'er/contract-region)
+#+END_SRC
 *** Misc
 #+BEGIN_SRC emacs-lisp :tangle yes
 
-(global-set-key (kbd "M-p") (lambda () (interactive) (previous-line 10)))
-(global-set-key (kbd "M-n") (lambda () (interactive) (next-line 10)))
+    (global-set-key (kbd "M-p") (lambda () (interactive) (previous-line 10)))
+    (global-set-key (kbd "M-n") (lambda () (interactive) (next-line 10)))
 
-(setq echo-keystrokes 0.1) ;; Show keystrokes in minibuffer faster than default.
+    (setq echo-keystrokes 0.1) ;; Show keystrokes in minibuffer faster than default.
 
-(setq use-dialog-box nil) ;; Don't use any kind of GUI dialog box.
-(setq inhibit-splash-screen 0) ;; Disable Emacs start screen.
-(setq ring-bell-function 'ignore) ;; No bell ringing.
+    (setq use-dialog-box nil) ;; Don't use any kind of GUI dialog box.
+    (setq inhibit-splash-screen 0) ;; Disable Emacs start screen.
+    (setq ring-bell-function 'ignore) ;; No bell ringing.
 
 
-(setq-default fill-column 80) ;; column number which emacs start to line wrap.
+    (setq-default fill-column 80) ;; column number which emacs start to line wrap.
 
-(setq kill-ring-max 15) ;; Capacity of kill-ring.
+    (setq kill-ring-max 15) ;; Capacity of kill-ring.
 
-(unless (eq system-type 'windows-nt)
-  (package-install 'exec-path-from-shell)
-  (setq exec-path-from-shell-shell-name "zsh")
-  (exec-path-from-shell-copy-envs '("GOPROXY" "GOPRIVATE"))
-  (exec-path-from-shell-initialize)
-)
+    (unless (eq system-type 'windows-nt)
+      (package-install 'exec-path-from-shell)
+      (setq exec-path-from-shell-shell-name "zsh")
+      (exec-path-from-shell-copy-envs '("GOPROXY" "GOPRIVATE"))
+      (exec-path-from-shell-initialize)
+    )
+
+  (package-install 'apache-mode)
+
+  (package-install 'systemd)
+
+  (package-install 'nginx-mode)
+
+  (package-install 'docker-compose-mode)
+
+  (package-install 'dockerfile-mode)
+
 #+END_SRC
 ** IDE
+*** Languages
+**** Golang
+#+BEGIN_SRC emacs-lisp :tangle yes
+(package-install 'go-mode)
+(add-hook 'go-mode-hook (lambda () (add-to-list 'exec-path (concat (getenv "HOME") "/bin"))))
+(add-hook 'go-mode-hook
+       (lambda ()
+	     (if (or (file-exists-p "makefile")
+		             (file-exists-p "Makefile"))
+             (setq-local compile-command "make")
+           (setq-local compile-command "go build ./...")
+           )
+         )
+       )
+
+#+END_SRC
+**** Jai
+#+BEGIN_SRC emacs-lisp :tangle yes
+;; Jai
+(require 'jai-mode)
+#+END_SRC
+**** OCaml
+#+BEGIN_SRC emacs-lisp :tangle yes
+(package-install 'tuareg)
+#+END_SRC
+**** PHP
+#+BEGIN_SRC emacs-lisp :tangle yes
+(package-install 'php-mode)
+#+END_SRC
+**** Rust
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (package-install 'rust-mode)
+  (add-hook 'rust-mode-hook
+         (lambda ()
+           (if (or (file-exists-p "makefile")
+                       (file-exists-p "Makefile"))
+               (setq-local compile-command "make")
+             (setq-local compile-command "cargo build")
+             )
+           )
+         )
+
+#+END_SRC
+**** Zig
+#+BEGIN_SRC emacs-lisp :tangle yes
+(package-install 'zig-mode)
+(add-hook 'zig-mode-hook
+       (lambda ()
+	     (if (or (file-exists-p "makefile")
+		             (file-exists-p "Makefile"))
+             (setq-local compile-command "make")
+           (setq-local compile-command "zig build")
+           )
+         )
+       )
+
+(setq zig-format-on-save nil)
+#+END_SRC
+**** Haskell
+#+BEGIN_SRC emacs-lisp :tangle yes
+(package-install 'haskell-mode)
+#+END_SRC
 *** Terminal Emulator ( VTerm )
 #+BEGIN_SRC emacs-lisp :tangle yes
 (when (not (eq 'system-type 'windows-nt))
@@ -181,75 +296,9 @@
 (package-install 'magit)
 #+END_SRC
 
-
 ** TODO
 #+BEGIN_SRC emacs-lisp :tangle yes
-;; Expand region
-(package-install 'expand-region)
-(global-set-key (kbd "C-=") 'er/expand-region)
-(global-set-key (kbd "C--") 'er/contract-region)
-
-;; Golang
-(package-install 'go-mode)
-(add-hook 'go-mode-hook (lambda () (add-to-list 'exec-path (concat (getenv "HOME") "/bin"))))
-(add-hook 'go-mode-hook
-       (lambda ()
-	     (if (or (file-exists-p "makefile")
-		             (file-exists-p "Makefile"))
-             (setq-local compile-command "make")
-           (setq-local compile-command "go build ./...")
-           )
-         )
-       )
-
-;; Jai
-(require 'jai-mode)
-
-;; OCaml
-(package-install 'tuareg)
-
-;; PHP
-(package-install 'php-mode)
-
-;; Rust
-(package-install 'rust-mode)
-(add-hook 'rust-mode-hook
-       (lambda ()
-	     (if (or (file-exists-p "makefile")
-		             (file-exists-p "Makefile"))
-             (setq-local compile-command "make")
-           (setq-local compile-command "cargo build")
-           )
-         )
-       )
-
-;; Ziglang
-(package-install 'zig-mode)
-(add-hook 'zig-mode-hook
-       (lambda ()
-	     (if (or (file-exists-p "makefile")
-		             (file-exists-p "Makefile"))
-             (setq-local compile-command "make")
-           (setq-local compile-command "zig build")
-           )
-         )
-       )
-
-(setq zig-format-on-save nil)
-
-;; Haskell
-(package-install 'haskell-mode)
-
 ;; Configuration formats
-(package-install 'apache-mode)
-
-(package-install 'systemd)
-
-(package-install 'nginx-mode)
-
-(package-install 'docker-compose-mode)
-
-(package-install 'dockerfile-mode)
 
 ;; LSP
 (package-install 'eglot)
@@ -301,7 +350,7 @@
 (global-set-key (kbd "C-8") #'ASYNC-SHELL-COMMAND)
 (global-set-key (kbd "C-x C-d") 'dired)
 (global-set-key (kbd "C-6") 'eglot-format-buffer)
-(global-set-key (kbd "C-1") (lambda () (interactive) (find-file (expand-file-name "init.el" user-emacs-directory))))
+(global-set-key (kbd "C-1") (lambda () (interactive) (find-file (expand-file-name "README.org" user-emacs-directory))))
 (add-hook 'grep-mode-hook (lambda ()
                             (define-key grep-mode-map (kbd "M-.") 'find-file-at-point)
                             ))
@@ -313,34 +362,6 @@
 
 
 ;; UI stuff
-(package-install 'ef-themes)
-(package-install 'gruber-darker-theme)
-
-(set-face-attribute 'default nil :foreground "#d3b58d" :background "#072626")
-(set-face-attribute 'cursor nil :background "green")
-
-(set-face-attribute 'font-lock-comment-face nil :foreground "#118a1a")
-(set-face-attribute 'font-lock-function-name-face nil :foreground "white" :bold nil)
-(set-face-attribute 'font-lock-keyword-face nil :foreground "#d4d4d4")
-(set-face-attribute 'font-lock-string-face nil :foreground "#2ec09c")
-(set-face-attribute 'font-lock-variable-name-face nil :foreground "#c8d4ec")
-(set-face-attribute 'font-lock-warning-face nil :foreground "#504038")
-(set-face-attribute 'font-lock-constant-face nil :foreground "#7ad0c6")
-(set-face-attribute 'highlight nil :foreground "white")
-(set-face-attribute 'mode-line nil :foreground "black" :background "#d3b58d")
-(set-face-attribute 'region nil :background "#3c02fa")
-      
-;; (load-theme 'gruber-darker t)
-
-(defun amirreza/home-monitor ()
-  (interactive)
-  (set-frame-font "Iosevka 20" nil t))
-
-(defun amirreza/snapp-monitor ()
-  (set-frame-font "Iosevka 18" nil t))
-
-
-(set-frame-font "Iosevka 14" nil t)
 
 
 
