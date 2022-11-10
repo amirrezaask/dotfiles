@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+filename=`echo $samfile`
+
+extension=`echo "${filename##*.}"`
+
+cmd=''
+if [ $extension == 'go' ]; then
+	cmd="go doc $@"
+fi
+eval $cmd

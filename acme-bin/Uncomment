@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+filename=`echo $samfile`
+
+extension=`echo "${filename##*.}"`
+
+if [ $extension == "go" ]; then
+	sed 's/\/\///'
+elif [ $extension == "sh" ] || [ $extension == "bash" ] || [ $extension == "zsh" ] || [ $extension == "fish" ] || [ $extension == "py" ]; then
+	sed 's/#//'
+else
+	sed 's/#//'
+fi
+

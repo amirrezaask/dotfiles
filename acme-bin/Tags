@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+filename=`echo $samfile`
+
+extension=`echo "${filename##*.}"`
+
+base='|c |uc |i+ |i- Find Grep Build Run Format Test Cheat Doc Def Refs Impls'
+printf "\n$base" | 9p write acme/$winid/tag

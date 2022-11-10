@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+printf "for i:=0;i<len();i++ {\n\n\t}"
