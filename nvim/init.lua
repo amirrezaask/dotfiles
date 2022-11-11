@@ -102,7 +102,7 @@ if vim.version().major >= 0 and vim.version().minor >= 8 then
 end
 
 -- Colorscheme
-vim.cmd [[ colorscheme NeoSolarized ]]
+vim.cmd [[ colorscheme tokyonight-night ]]
 
 vim.g.netrw_banner = false
 vim.g.netrw_winsize = 25
