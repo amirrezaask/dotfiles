@@ -5,6 +5,9 @@ require('packer').startup(function(use)
     use 'eemed/sitruuna.vim'
     use 'sainnhe/sonokai'
     use 'folke/tokyonight.nvim'
+    use 'shaunsingh/solarized.nvim'
+    use 'shaunsingh/nord.nvim'
+    use 'overcache/NeoSolarized'
 
     use 'windwp/nvim-spectre'                         -- Search/Replace project wide
     use 'nvim-treesitter/nvim-treesitter'             -- Treesitter syntax highlighting
@@ -37,6 +40,8 @@ require('packer').startup(function(use)
     use 'j-hui/fidget.nvim'
     use "lewis6991/gitsigns.nvim"
     use 'junegunn/goyo.vim'
+    use 'junegunn/fzf'
+    use 'junegunn/fzf.vim'
     use {
         "folke/todo-comments.nvim",
         requires = "nvim-lua/plenary.nvim",
@@ -97,7 +102,7 @@ if vim.version().major >= 0 and vim.version().minor >= 8 then
 end
 
 -- Colorscheme
-vim.cmd [[ colorscheme tokyonight-night ]]
+vim.cmd [[ colorscheme NeoSolarized ]]
 
 vim.g.netrw_banner = false
 vim.g.netrw_winsize = 25
@@ -287,6 +292,13 @@ vim.cmd [[ nnoremap <expr><CR> {-> v:hlsearch ? ':nohl<CR>' : '<CR>'}() ]]
     vim.keymap.set('n', '<leader><leader>', function() telescope_builtin.find_files() end)
     vim.keymap.set('n', '??', '<cmd>Telescope live_grep<CR>')
     vim.keymap.set('n', '?a', '<cmd>lua vim.lsp.buf.code_action()<CR>')
+-- }}}
+
+
+-- FZF {{{
+    -- vim.g.fzf_layout = { ['down'] = '50%' }
+    -- vim.keymap.set('n', '<leader><leader>', '<cmd>Files<CR>')
+    -- vim.keymap.set('n', '??', ':Rg<CR>')
 -- }}}
 
 -- Autocomplete {{{
