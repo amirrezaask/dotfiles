@@ -1,52 +1,56 @@
+local plugin_manager = require"plugin_manager"
+local use = plugin_manager.use
+
+plugin_manager.bootstrap()
 -- Install packages
-require('packer').startup(function(use)
-    use 'wbthomason/packer.nvim'
+use 'wbthomason/packer.nvim'
 
-    use 'eemed/sitruuna.vim'
-    use 'sainnhe/sonokai'
-    use 'folke/tokyonight.nvim'
-    use 'shaunsingh/solarized.nvim'
-    use 'shaunsingh/nord.nvim'
-    use 'overcache/NeoSolarized'
+use 'eemed/sitruuna.vim'
+use 'sainnhe/sonokai'
+use 'folke/tokyonight.nvim'
+use 'shaunsingh/solarized.nvim'
+use 'shaunsingh/nord.nvim'
+use 'overcache/NeoSolarized'
 
-    use 'windwp/nvim-spectre'                         -- Search/Replace project wide
-    use 'nvim-treesitter/nvim-treesitter'             -- Treesitter syntax highlighting
-    use 'nvim-treesitter/nvim-treesitter-textobjects' -- Treesitter text objects
-    use 'hrsh7th/nvim-cmp'                            -- Neovim auto complete menu
-    use 'hrsh7th/cmp-buffer'                          -- auto complete buffer source
-    use 'hrsh7th/cmp-nvim-lua'                        -- auto complete nvim lua stuff source
-    use 'hrsh7th/cmp-nvim-lsp'                        -- auto complete lsp source
-    use 'hrsh7th/cmp-path'                            -- auto complete os path source
-    use 'neovim/nvim-lspconfig'                       -- LSP client configurations
-    use {
-        'nvim-telescope/telescope.nvim',              -- Telescope fuzzy finder by great TJDevries
-        requires='nvim-lua/plenary.nvim'
-    }
-    use 'hrsh7th/vim-vsnip'                               -- Snippets
-    use 'sheerun/vim-polyglot'                            -- Basic vim support for multiple languages see https://github.com/sheerun/vim-polyglot for the full list.
-    use 'Glench/Vim-Jinja2-Syntax'                        -- Jinja2 syntax
-    use 'ziglang/zig.vim'                                 -- Best language ever ?
-    use 'rust-lang/rust.vim'                              -- Haskell on LLVM ?
-    use 'simrat39/rust-tools.nvim'
-    use 'fladson/vim-kitty'
-    use 'pbrisbin/vim-mkdir'                              -- Save files and create not existing directories
-    use 'tpope/vim-commentary'
-    use 'tpope/vim-surround'                              -- Now you can command your surroundings
-    use 'tpope/vim-fugitive'                              -- Best Vim Git client
-    use 'junegunn/gv.vim'                                 -- Git diff split
-    use 'cohama/agit.vim'                                 -- Git log viewer
-    use 'junegunn/vim-easy-align'                         -- Align text with ease
-    use 'jansedivy/jai.vim'
-    use 'j-hui/fidget.nvim'
-    use "lewis6991/gitsigns.nvim"
-    use 'junegunn/goyo.vim'
-    use 'junegunn/fzf'
-    use 'junegunn/fzf.vim'
-    use {
-        "folke/todo-comments.nvim",
-        requires = "nvim-lua/plenary.nvim",
-    }
-end)
+use 'windwp/nvim-spectre'                         -- Search/Replace project wide
+use 'nvim-treesitter/nvim-treesitter'             -- Treesitter syntax highlighting
+use 'nvim-treesitter/nvim-treesitter-textobjects' -- Treesitter text objects
+use 'hrsh7th/nvim-cmp'                            -- Neovim auto complete menu
+use 'hrsh7th/cmp-buffer'                          -- auto complete buffer source
+use 'hrsh7th/cmp-nvim-lua'                        -- auto complete nvim lua stuff source
+use 'hrsh7th/cmp-nvim-lsp'                        -- auto complete lsp source
+use 'hrsh7th/cmp-path'                            -- auto complete os path source
+use 'neovim/nvim-lspconfig'                       -- LSP client configurations
+use {
+    'nvim-telescope/telescope.nvim',              -- Telescope fuzzy finder by great TJDevries
+    requires='nvim-lua/plenary.nvim'
+}
+use 'hrsh7th/vim-vsnip'                               -- Snippets
+use 'sheerun/vim-polyglot'                            -- Basic vim support for multiple languages see https://github.com/sheerun/vim-polyglot for the full list.
+use 'Glench/Vim-Jinja2-Syntax'                        -- Jinja2 syntax
+use 'ziglang/zig.vim'                                 -- Best language ever ?
+use 'rust-lang/rust.vim'                              -- Haskell on LLVM ?
+use 'simrat39/rust-tools.nvim'
+use 'fladson/vim-kitty'
+use 'pbrisbin/vim-mkdir'                              -- Save files and create not existing directories
+use 'tpope/vim-commentary'
+use 'tpope/vim-surround'                              -- Now you can command your surroundings
+use 'tpope/vim-fugitive'                              -- Best Vim Git client
+use 'junegunn/gv.vim'                                 -- Git diff split
+use 'cohama/agit.vim'                                 -- Git log viewer
+use 'junegunn/vim-easy-align'                         -- Align text with ease
+use 'jansedivy/jai.vim'
+use 'j-hui/fidget.nvim'
+use "lewis6991/gitsigns.nvim"
+use 'junegunn/goyo.vim'
+use 'junegunn/fzf'
+use 'junegunn/fzf.vim'
+use {
+    "folke/todo-comments.nvim",
+    requires = "nvim-lua/plenary.nvim",
+}
+
+plugin_manager.install()
 
 -- options
 vim.opt.ignorecase = true -- ignore case when searching
