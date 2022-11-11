@@ -39,3 +39,5 @@ require"core.keymaps".bind {
         -- ['<M-k>'] = '<Esc>:m .-2<CR>==gi'
     }
 }
+
+vim.cmd [[ nnoremap <expr><CR> {-> v:hlsearch ? ':nohl<CR>' : '<CR>'}() ]]
