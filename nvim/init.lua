@@ -1,7 +1,11 @@
-local plugin_manager = require"plugin_manager"
+local plugin_manager = require"core.plugin_manager"
 local use = plugin_manager.use
+local module = require"core.module"
 
-plugin_manager.bootstrap()
+module.load_modules {
+    "navigation"
+}
+
 -- Install packages
 use 'wbthomason/packer.nvim'
 
@@ -21,10 +25,6 @@ use 'hrsh7th/cmp-nvim-lua'                        -- auto complete nvim lua stuf
 use 'hrsh7th/cmp-nvim-lsp'                        -- auto complete lsp source
 use 'hrsh7th/cmp-path'                            -- auto complete os path source
 use 'neovim/nvim-lspconfig'                       -- LSP client configurations
-use {
-    'nvim-telescope/telescope.nvim',              -- Telescope fuzzy finder by great TJDevries
-    requires='nvim-lua/plenary.nvim'
-}
 use 'hrsh7th/vim-vsnip'                               -- Snippets
 use 'sheerun/vim-polyglot'                            -- Basic vim support for multiple languages see https://github.com/sheerun/vim-polyglot for the full list.
 use 'Glench/Vim-Jinja2-Syntax'                        -- Jinja2 syntax
@@ -43,8 +43,6 @@ use 'jansedivy/jai.vim'
 use 'j-hui/fidget.nvim'
 use "lewis6991/gitsigns.nvim"
 use 'junegunn/goyo.vim'
-use 'junegunn/fzf'
-use 'junegunn/fzf.vim'
 use {
     "folke/todo-comments.nvim",
     requires = "nvim-lua/plenary.nvim",
@@ -117,7 +115,6 @@ autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 autocmd FileType yaml setlocal cursorcolumn
 ]]
 
-vim.g.mapleader = ' '
 
 -- basic keyvim.keymap.setings
 vim.keymap.set('n', "Q", '<NOP>')
@@ -289,20 +286,6 @@ vim.cmd [[ nnoremap <expr><CR> {-> v:hlsearch ? ':nohl<CR>' : '<CR>'}() ]]
       },
     }
 
--- }}}
-
--- Telescope {{{
-    local telescope_builtin = require "telescope.builtin"
-    vim.keymap.set('n', '<leader><leader>', function() telescope_builtin.find_files() end)
-    vim.keymap.set('n', '??', '<cmd>Telescope live_grep<CR>')
-    vim.keymap.set('n', '?a', '<cmd>lua vim.lsp.buf.code_action()<CR>')
--- }}}
-
-
--- FZF {{{
-    -- vim.g.fzf_layout = { ['down'] = '50%' }
-    -- vim.keymap.set('n', '<leader><leader>', '<cmd>Files<CR>')
-    -- vim.keymap.set('n', '??', ':Rg<CR>')
 -- }}}
 
 -- Autocomplete {{{
