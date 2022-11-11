@@ -22,3 +22,4 @@ nvim/.netrwhist
 fonts/.uuid
 nvim/plugin/packer_compiled.lua
 helix/runtime
+kak/plugins
