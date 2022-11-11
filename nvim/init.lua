@@ -1,7 +1,7 @@
 require"core.modules" {
     "basics",
     "ui",
-    "navigation",
+    "telescope",
 
     "completion",
     "git",

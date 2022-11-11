@@ -11,3 +11,5 @@ use 'junegunn/goyo.vim'
 use 'mhinz/vim-startify'
 use 'nvim-tree/nvim-web-devicons'
 use 'yamatsum/nvim-nonicons'
+use 'stevearc/dressing.nvim'
+use "folke/which-key.nvim"

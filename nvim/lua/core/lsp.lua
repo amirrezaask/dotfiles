@@ -3,7 +3,7 @@ local use = require"core.plugin_manager".use
 use 'neovim/nvim-lspconfig'
 
 local M = {}
-local lsp_languages = {}
+local languages = {}
 
 function M.lsp_on_attach(_, bufnr)
   vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
@@ -40,7 +40,7 @@ end
 
 setmetatable(M, {
   __call = function(_, language)
-    table.insert(lsp_languages, language)
+    table.insert(languages, language)
   end
 })
 
