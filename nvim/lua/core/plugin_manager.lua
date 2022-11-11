@@ -18,6 +18,8 @@ function M.use(spec)
   table.insert(_plugins, spec)
 end
 
+M.use 'wbthomason/packer.nvim'
+
 function M.install()
   require('packer').startup(function(use)
     for _, spec in ipairs(_plugins) do
