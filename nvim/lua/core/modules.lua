@@ -4,11 +4,6 @@ plugin_manager.bootstrap()
 
 local M = {}
 
-
-function M.new_module(name)
-
-end
-
 setmetatable(M,
   {
     __call = function (_, names)
