@@ -1,12 +1,14 @@
 local plugin_manager = require"core.plugin_manager"
 
+require "core.lsp"
+
 plugin_manager.bootstrap()
 
 local M = {}
 
 setmetatable(M,
   {
-    __call = function (t, names)
+    __call = function (_, names)
       for _, name in ipairs(names) do
         require ("modules." .. name .. ".plugins")
       end
