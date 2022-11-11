@@ -21,6 +21,7 @@ j = { k = "normal_mode" }
 "?" = { "?" = "global_search"}
 "K" = "hover"
 "G" = "goto_last_line"
+"C-c" = "normal_mode"
 
 [keys.select]
 "G" = "goto_last_line"
