@@ -160,3 +160,4 @@ require('dressing').setup({
 
 
 require("which-key").setup {}
+vim.opt.timeoutlen = 500
