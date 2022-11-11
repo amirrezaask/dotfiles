@@ -1,6 +1,6 @@
 # AmirrezaAsk Neovim Configuration
 
 ## Screenshots
-![StartScreen using `vim-startify`](https://github.com/amirrezaask/dotfiles/tree/master/nvim/screenshots/start.png)
-![`core/lsp.lua` module](https://github.com/amirrezaask/dotfiles/tree/master/nvim/screenshots/luacode.png)
+![StartScreen using `vim-startify`](https://raw.github.com/amirrezaask/dotfiles/master/nvim/screenshots/start.png)
+![`core/lsp.lua` module](https://raw.github.com/amirrezaask/dotfiles/master/nvim/screenshots/luacode.png)
 
