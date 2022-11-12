@@ -1,8 +1,12 @@
 local plugin_manager = require"core.plugin_manager"
 
-require "core.lsp"
 
+-- Init the packer
 plugin_manager.bootstrap()
+
+require "core.lsp"
+require "core.treesitter"
+require "core.netrw"
 
 local M = {}
 
