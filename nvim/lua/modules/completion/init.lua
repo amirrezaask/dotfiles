@@ -6,7 +6,6 @@ cmp.setup {
         vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
       end,
     },
-  -- You can set mapping if you want.
   mapping = {
     ["<C-p>"] = cmp.mapping.select_prev_item(),
     ["<C-n>"] = cmp.mapping.select_next_item(),
@@ -34,7 +33,6 @@ cmp.setup {
     end,
   },
 
-  -- You should specify your *installed* sources.
   sources = {
     { name = "buffer" },
     { name = "nvim_lsp" },
