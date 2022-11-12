@@ -4,7 +4,6 @@ use 'neovim/nvim-lspconfig'
 use "williamboman/mason.nvim"
 
 local M = {}
-local languages = {}
 
 require"mason".setup()
 
@@ -23,6 +22,7 @@ function M.lsp_on_attach(_, bufnr)
   vim.api.nvim_buf_set_keymap(bufnr, "n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
   vim.api.nvim_buf_set_keymap(bufnr, "n", "C", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
 end
+
 local border = {
       {"🭽", "FloatBorder"},
       {"▔", "FloatBorder"},
@@ -40,11 +40,5 @@ function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
   opts.border = opts.border or border
   return orig_util_open_floating_preview(contents, syntax, opts, ...)
 end
-
-setmetatable(M, {
-  __call = function(_, language)
-    table.insert(languages, language)
-  end
-})
 
 return M
