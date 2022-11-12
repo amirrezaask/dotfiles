@@ -5,7 +5,7 @@ local modules = require"core.modules"
 ui.colorscheme("tokyonight-night")
 
 modules {
-    "basics",
+    "editor",
     "telescope",
     "completion",
     "git",
