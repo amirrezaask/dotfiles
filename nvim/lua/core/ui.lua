@@ -1,4 +1,21 @@
-vim.cmd [[ colorscheme tokyonight-night ]]
+local use = require"core.plugin_manager".use
+
+use 'eemed/sitruuna.vim'
+use 'sainnhe/sonokai'
+use 'folke/tokyonight.nvim'
+use 'shaunsingh/solarized.nvim'
+use 'shaunsingh/nord.nvim'
+use 'overcache/NeoSolarized'
+use 'j-hui/fidget.nvim'
+use 'junegunn/goyo.vim'
+use 'mhinz/vim-startify'
+use 'nvim-tree/nvim-web-devicons'
+use 'yamatsum/nvim-nonicons'
+use 'stevearc/dressing.nvim'
+use "folke/which-key.nvim"
+
+local _colorscheme = "tokyonight-night"
+vim.cmd ([[ colorscheme ]] .. _colorscheme)
 
 require"fidget".setup{}
 
@@ -160,4 +177,13 @@ require('dressing').setup({
 
 
 require("which-key").setup {}
+
 vim.opt.timeoutlen = 500
+
+local M = {}
+
+function M.colorscheme(name)
+  vim.cmd ([[ colorscheme ]] .. name)
+end
+
+return M
