@@ -1,4 +1,6 @@
 require"packer".startup(function(use)
+    use 'wbthomason/packer.nvim'
+
     -- Colorschemes
     use 'eemed/sitruuna.vim'
     use 'sainnhe/sonokai'
@@ -63,8 +65,12 @@ require"packer".startup(function(use)
 
     use 'cuducos/yaml.nvim'
 
-    use 'Glench/Vim-Jinja2-Syntax'                        -- Jinja2 syntax
+    use 'Glench/Vim-Jinja2-Syntax'
 
+    use {
+      'nvim-lualine/lualine.nvim',
+      requires = { 'kyazdani42/nvim-web-devicons', opt = true }
+    }
 end)
 
 
