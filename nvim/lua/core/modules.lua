@@ -10,6 +10,7 @@ setmetatable(M,
     __call = function (_, names)
       local to_load = {}
       table.insert(to_load, "core.keymaps")
+      table.insert(to_load, "core.ui")
       table.insert(to_load, "core.lsp")
       table.insert(to_load, "core.treesitter")
 

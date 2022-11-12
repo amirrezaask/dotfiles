@@ -1,9 +1,6 @@
 local modules = require"core.modules"
 
--- Set colorscheme
-
 modules {
-    "ui",
     "editor",
     "telescope",
     "completion",
