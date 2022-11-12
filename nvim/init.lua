@@ -1,10 +1,9 @@
-local ui = require"core.ui"
 local modules = require"core.modules"
 
 -- Set colorscheme
-ui.colorscheme("tokyonight-night")
 
 modules {
+    "ui",
     "editor",
     "telescope",
     "completion",
