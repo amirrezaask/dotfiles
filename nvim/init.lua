@@ -1,25 +1,6 @@
-local modules = require "core.modules"
-local ui = require "core.ui"
-
-ui.colorscheme("sitruuna")
-
-modules {
-    "editor",
-    "telescope",
-    "completion",
-
-    "git",
-
-    "golang",
-    "haskell",
-    "elixir",
-    "python",
-    'purescript',
-    "rust",
-    "zig",
-    "php",
-    "lua",
-    "cc",
-    "yaml",
-    "jai"
-}
+--    ___         _                      ___       __
+--   / _ | __ _  (_)__________ ___ ___ _/ _ | ___ / /__
+--  / __ |/  ' \/ / __/ __/ -_)_ // _ `/ __ |(_-</  '_/
+-- /_/ |_/_/_/_/_/_/ /_/  \__//__/\_,_/_/ |_/___/_/\_\
+--
+-- AmirrezaAsk neovim configuration
