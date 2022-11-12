@@ -1,6 +1,6 @@
 local plugin_manager = require"core.plugin_manager"
 
--- Init the packer
+-- Init the packer if needed
 plugin_manager.bootstrap()
 
 local M = {}

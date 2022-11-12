@@ -1,10 +1,12 @@
-local modules = require"core.modules"
+local modules = require "core.modules"
 
 modules {
     "editor",
     "telescope",
     "completion",
+
     "git",
+
     "golang",
     "haskell",
     "elixir",
