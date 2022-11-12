@@ -1,7 +1,7 @@
 # AmirrezaAsk Neovim Configuration
 
 ## Structure
-- List of installed plugins in `lua/plugins.lua`
+- List of installed plugins in `plugin/plugins.lua`
 - Set of small utilities and helpers in `lua/keymaps.lua` and other files.
 - All plugin configurations in `after/plugin/{Plugin Name}.lua`
 - Basic neovim options in `plugin/options.lua`
