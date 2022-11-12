@@ -1,11 +1,11 @@
 local use = require'core.plugin_manager'.use
 
 use 'sheerun/vim-polyglot'
-use 'windwp/nvim-spectre'                         -- Search/Replace project wide
-use 'pbrisbin/vim-mkdir'                              -- Save files and create not existing directories
+use 'windwp/nvim-spectre'
+use 'pbrisbin/vim-mkdir'
 use 'tpope/vim-commentary'
-use 'tpope/vim-surround'                              -- Now you can command your surroundings
-use 'junegunn/vim-easy-align'                         -- Align text with ease
+use 'tpope/vim-surround'
+use 'junegunn/vim-easy-align'
 use 'fladson/vim-kitty'
 use {
     "folke/todo-comments.nvim",
