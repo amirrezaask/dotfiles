@@ -5,7 +5,6 @@ require"core.modules" {
 
     "completion",
     "git",
-    "treesitter",
 
     "golang",
     "haskell",

@@ -1,6 +1,8 @@
 local lsp = require"core.lsp"
 local rt = require"rust-tools"
 
+require"core.treesitter".install("rust")
+
 rt.setup({
     server = {
         on_attach = function(_, bufnr)

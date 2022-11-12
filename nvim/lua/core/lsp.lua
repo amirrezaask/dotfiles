@@ -1,9 +1,12 @@
 local use = require"core.plugin_manager".use
 
 use 'neovim/nvim-lspconfig'
+use { "williamboman/mason.nvim" }
 
 local M = {}
 local languages = {}
+
+require"mason".setup()
 
 function M.lsp_on_attach(_, bufnr)
   vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")

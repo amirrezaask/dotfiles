@@ -5,6 +5,8 @@ local runtime_path = vim.split(package.path, ";")
 table.insert(runtime_path, "lua/?.lua")
 table.insert(runtime_path, "lua/?/init.lua")
 
+require"core.treesitter".install("lua")
+
 require("lspconfig").sumneko_lua.setup {
   cmd = { sumneko_binary, "-E", sumneko_root .. "/main.lua" },
   on_attach = require"core.lsp".lsp_on_attach,
