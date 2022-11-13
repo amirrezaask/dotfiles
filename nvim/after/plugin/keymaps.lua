@@ -28,12 +28,6 @@ require"keymaps".bind {
         ['jk'] = '<esc>',
         ['kj'] = '<esc>',
     },
-    v = {
-        ['<M-j>'] = '<Esc>:m .+1<CR>==gi',
-        -- ['<M-k>'] = '<Esc>:m .-2<CR>==gi',
-        -- ['<M-k>'] = ':m >+1<CR>gv=gv',
-        -- ['<M-k>'] = '<Esc>:m .-2<CR>==gi'
-    }
 }
 
 vim.cmd [[ nnoremap <expr><CR> {-> v:hlsearch ? ':nohl<CR>' : '<CR>'}() ]]
