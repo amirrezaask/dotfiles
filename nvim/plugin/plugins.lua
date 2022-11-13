@@ -8,6 +8,8 @@ require"packer".startup(function(use)
     use 'shaunsingh/solarized.nvim'
     use 'shaunsingh/nord.nvim'
     use 'overcache/NeoSolarized'
+    use { 'amirrezaask/gruvbuddy.nvim', requires = 'tjdevries/colorbuddy.vim'}
+
     use 'j-hui/fidget.nvim'
     use 'junegunn/goyo.vim'
     use 'mhinz/vim-startify'

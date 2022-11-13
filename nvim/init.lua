@@ -4,11 +4,11 @@
 -- /_/ |_/_/_/_/_/_/ /_/  \__//__/\_,_/_/ |_/___/_/\_\
 --
 -- AmirrezaAsk neovim configuration
--- Structure:
+-- *Structure*:
 -- list of installed plugins in plugin/plugins.lua
 -- List of basic neovim options in plugin/options.lua
--- after/plugin contains configuration for installed plugins
--- some helpers and simple utilities in lua/*.lua
+-- After/plugin contains configuration for installed plugins
+-- Some helpers and simple utilities in lua/*.lua
 
 
 
