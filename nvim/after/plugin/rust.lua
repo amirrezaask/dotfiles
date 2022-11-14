@@ -12,3 +12,7 @@ rt.setup({
         end,
     },
 })
+
+require"onsave"("*.rs", function()
+    vim.lsp.buf.format()
+end)
