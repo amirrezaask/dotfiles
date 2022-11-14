@@ -44,8 +44,8 @@ vim.opt.belloff = vim.opt.belloff + 'ctrlg' -- If Vim beeps during completion
 vim.opt.termguicolors = true
 vim.cmd [[ set clipboard^=unnamedplus ]]
 
-if vim.version().major >= 0 and vim.version().minor >= 8 then
-    vim.o.ls = 0
-    vim.o.ch = 0
-    vim.o.winbar = '%f %m'
-end
+-- if vim.version().major >= 0 and vim.version().minor >= 8 then
+--     vim.o.ls = 0
+--     vim.o.ch = 0
+--     vim.o.winbar = '%f %m'
+-- end
