@@ -69,6 +69,7 @@ require"packer".startup(function(use)
     use 'cuducos/yaml.nvim'
 
     use 'Glench/Vim-Jinja2-Syntax'
+    use { 'amirrezaask/fuzzy.nvim', requires={'nvim-lua/plenary.nvim'}}
 end)
 
 
