@@ -1,6 +1,5 @@
 local M = {}
 
--- TODO: make this customizable
 vim.g.mapleader = ' '
 
 function M.bind(spec)

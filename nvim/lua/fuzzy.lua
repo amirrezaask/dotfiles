@@ -1,4 +1,4 @@
--- Simple Fuzzy finder to replace telescope
+-- Simple Fuzzy finder
 local M = {}
 
 local lev = require'levenshtein'
@@ -44,7 +44,7 @@ local function call_cmd(cmd)
 end
 
 
-local function draw(last_query, last_window, current_selection, bufnr, winnr, source, sorter, handler)
+local function draw(last_query, last_window, current_selection, bufnr, winnr, original_source, source, sorter, handler, live)
     local hlns = vim.api.nvim_create_namespace('fuzzy-hl')
     vim.api.nvim_buf_set_lines(bufnr, 0, -2, false, source)
     vim.cmd [[ startinsert! ]]
@@ -55,7 +55,7 @@ local function draw(last_query, last_window, current_selection, bufnr, winnr, so
         if current_selection < 1 then
             current_selection=1
         end
-        draw(last_query, last_window, current_selection, bufnr, winnr, source, sorter, handler)
+        draw(last_query, last_window, current_selection, bufnr, winnr, original_source, source, sorter, handler)
     end
 
     local down = function()
@@ -65,7 +65,7 @@ local function draw(last_query, last_window, current_selection, bufnr, winnr, so
         if current_selection > #source - 1 then
             current_selection= #source
         end
-        draw(last_query, last_window, current_selection, bufnr, winnr, source, sorter, handler)
+        draw(last_query, last_window, current_selection, bufnr, winnr, original_source ,source, sorter, handler)
     end
 
     local enter = function()
@@ -108,7 +108,7 @@ local function draw(last_query, last_window, current_selection, bufnr, winnr, so
                 return
             end
             source = sorter(query, source)
-            draw(query, last_window, #source, bufnr, winnr, source, sorter, handler)
+            draw(query, last_window, #source, bufnr, winnr, original_source, source, sorter, handler, live)
         end
     })
 end
@@ -119,8 +119,10 @@ local function fuzzy(opts)
     opts.loc = opts.loc or locations[default_loc]
     opts.query = opts.query or ""
     opts.width = 0.4
+    opts.live = opts.live or false
 
     if type(opts.source) == "function" then
+        opts.original_source = opts.source
         opts.source = opts.source()
     end
     if type(opts.source) == "string" then
@@ -150,7 +152,7 @@ local function fuzzy(opts)
     local last_window = vim.api.nvim_get_current_win()
     local winnr = vim.api.nvim_open_win(bufnr, true, win_opts)
     vim.api.nvim_win_set_option(winnr, 'winhl', 'Normal:Statusline')
-    draw(opts.query, last_window, #opts.source, bufnr, winnr, opts.source, opts.sorter, opts.handler)
+    draw(opts.query, last_window, #opts.source, bufnr, winnr, opts.original_source, opts.source, opts.sorter, opts.handler, opts.live)
 end
 
 setmetatable(M, {
@@ -158,9 +160,20 @@ setmetatable(M, {
         fuzzy(opts)
     end
 })
+function M.rg()
+    fuzzy {
+        source = function()
+            local output = call_cmd('rg --color never ""')
+            return table.slice(output, 1, #output-1)
+        end,
+        handler = function(item)
+            print(item)
+        end
+    }
+end
 
 
-local function rg_files_fuzzy()
+function M.rg_files()
     fuzzy {
         source = function()
             local output = call_cmd('rg --files --color never')
@@ -171,8 +184,5 @@ local function rg_files_fuzzy()
         end
     }
 end
-
-
-rg_files_fuzzy()
 
 return M
