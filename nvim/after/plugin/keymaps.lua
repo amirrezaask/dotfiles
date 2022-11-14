@@ -7,7 +7,6 @@ require"keymaps".bind {
         ['}'] = ':cnext<CR>',
         ["<C-h>"] = ":tabprev<CR>",
         ["<C-l>"] = ":tabnext<CR>",
-        ["<C-n>"] = ":tabnew<CR>",
         ['Y'] = 'y$',
         ['n'] = 'nzz',
         ['N'] = 'Nzz',
