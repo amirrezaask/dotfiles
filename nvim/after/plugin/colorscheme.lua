@@ -1,4 +1,4 @@
-vim.cmd [[ colorscheme tokyonight-storm ]]
+vim.cmd [[ colorscheme tokyonight-moon ]]
 -- vim.cmd [[ colorscheme gruvbuddy ]]
 -- norcali theme
 -- require('base16-colorscheme').setup({
