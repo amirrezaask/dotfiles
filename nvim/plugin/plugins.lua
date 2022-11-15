@@ -70,6 +70,11 @@ require"packer".startup(function(use)
     use 'cuducos/yaml.nvim'
 
     use 'Glench/Vim-Jinja2-Syntax'
+
+    use {
+        "tjdevries/express_line.nvim",
+        requires = "nvim-lua/plenary.nvim"
+    }
 end)
 
 
