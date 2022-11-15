@@ -62,6 +62,11 @@ vim.opt.conceallevel = 2 -- Concealed text is completely hidden
 vim.opt.shortmess = vim.opt.shortmess + "c" -- Shut off completion messages
 vim.opt.belloff = vim.opt.belloff + "ctrlg" -- If Vim beeps during completion
 vim.opt.termguicolors = true
+vim.opt.list = true
+vim.opt.listchars:append "tab:<->"
+vim.opt.listchars:append "eol:↲"
+vim.opt.listchars:append "trail:·"
+vim.opt.listchars:append "lead:·"
 vim.cmd [[ set clipboard^=unnamedplus ]]
 -- ]]
 
