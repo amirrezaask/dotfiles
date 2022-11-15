@@ -30,7 +30,6 @@ vim.opt.history = 700 -- Number of stored history items
 vim.opt.tabpagemax = 100 -- Max number of tabs
 vim.opt.ruler = true -- Show line and column in statusline
 vim.opt.mouse = "a" -- enable mouse support for all modes
-vim.opt.wrap = true
 vim.opt.autoindent = true
 vim.opt.cindent = true
 vim.opt.wrap = true
