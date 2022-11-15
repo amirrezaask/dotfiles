@@ -3,7 +3,6 @@
 --  / __ |/  ' \/ / __/ __/ -_)_ // _ `/ __ |(_-</  '_/
 -- /_/ |_/_/_/_/_/_/ /_/  \__//__/\_,_/_/ |_/___/_/\_\
 --
-
 local function packer_ensure()
   local fn = vim.fn
   local install_path = fn.stdpath "data" .. "/site/pack/packer/start/packer.nvim"
