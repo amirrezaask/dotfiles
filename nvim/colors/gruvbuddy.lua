@@ -1,39 +1,16 @@
 local function hl(opts)
   local color_group = opts[1] or opts["name"]
   assert(color_group)
-  local bg = opts.bg
-  local fg = opts.fg
-  local styles = opts.styles
-  local link = opts.link
-  local commands = {}
-  local function make_hl_command(name, gui_bg, gui_fg, gui, link)
-    local this_hl = { "highlight!", name }
-    if link then
-      this_hl = { "highlight!", "link", name, link }
-      return table.concat(this_hl, " ")
-    end
-    if gui_bg then
-      table.insert(this_hl, string.format("guibg=%s", gui_bg))
-    end
-    if gui_fg then
-      table.insert(this_hl, string.format("guifg=%s", gui_fg))
-    end
-    if gui and #gui > 0 then
-      table.insert(this_hl, string.format("gui=%s", table.concat(gui, ",")))
-    else
-      table.insert(this_hl, "gui=none")
-    end
-    return table.concat(this_hl, " ")
+  local value = {}
+  if opts.bg then
+    value.bg = opts.bg
   end
   if type(color_group) == "table" then
-    for _, color in ipairs(color_group) do
-      table.insert(commands, make_hl_command(color, bg, fg, styles, link))
+    for _, name in ipairs(color_group) do
+      vim.api.nvim_set_hl(0, name, value)
     end
   elseif type(color_group) == "string" then
-    table.insert(commands, make_hl_command(color_group, bg, fg, styles, link))
-  end
-  for _, command in ipairs(commands) do
-    vim.cmd(command)
+    vim.api.nvim_set_hl(0, color_group, value)
   end
 end
 

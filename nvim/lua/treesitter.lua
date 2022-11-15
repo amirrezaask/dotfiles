@@ -1,6 +1,6 @@
-require'nvim-treesitter.configs'.setup {
+require("nvim-treesitter.configs").setup {
   highlight = {
-    enable = true
+    enable = true,
   },
   rainbow = {
     enable = true,
@@ -9,25 +9,25 @@ require'nvim-treesitter.configs'.setup {
   },
   textobjects = {
     move = {
-          enable = true,
-          set_jumps = true, -- whether to set jumps in the jumplist
-          goto_next_start = {
-            ["]m"] = "@function.outer",
-            ["]]"] = "@class.outer",
-          },
-          goto_next_end = {
-            ["]M"] = "@function.outer",
-            ["]["] = "@class.outer",
-          },
-          goto_previous_start = {
-            ["[m"] = "@function.outer",
-            ["[["] = "@class.outer",
-          },
-          goto_previous_end = {
-            ["[M"] = "@function.outer",
-            ["[]"] = "@class.outer",
-          },
-        },
+      enable = true,
+      set_jumps = true, -- whether to set jumps in the jumplist
+      goto_next_start = {
+        ["]m"] = "@function.outer",
+        ["]]"] = "@class.outer",
+      },
+      goto_next_end = {
+        ["]M"] = "@function.outer",
+        ["]["] = "@class.outer",
+      },
+      goto_previous_start = {
+        ["[m"] = "@function.outer",
+        ["[["] = "@class.outer",
+      },
+      goto_previous_end = {
+        ["[M"] = "@function.outer",
+        ["[]"] = "@class.outer",
+      },
+    },
     select = {
       enable = true,
 
@@ -48,7 +48,7 @@ require'nvim-treesitter.configs'.setup {
 local M = {}
 
 function M.install(name)
-  require'nvim-treesitter.install'.ensure_installed({  name })
+  require("nvim-treesitter.install").ensure_installed { name }
 end
 
 return M

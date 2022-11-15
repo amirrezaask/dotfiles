@@ -1,4 +1,4 @@
-require('dressing').setup({
+require("dressing").setup {
   input = {
     -- Set to false to disable the vim.ui.input implementation
     enabled = true,
@@ -152,6 +152,4 @@ require('dressing').setup({
     -- see :help dressing_get_config
     get_config = nil,
   },
-})
-
-
+}

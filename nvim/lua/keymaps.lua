@@ -1,6 +1,6 @@
 local M = {}
 
-vim.g.mapleader = ' '
+vim.g.mapleader = " "
 
 function M.bind(spec)
   for mode, keys in pairs(spec) do
@@ -15,6 +15,5 @@ end
 --     ['Q'] = '<NOP>',
 --   }
 -- }
-
 
 return M
