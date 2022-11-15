@@ -49,6 +49,7 @@ require"packer".startup(function(use)
     use { "nvim-telescope/telescope-file-browser.nvim" }
 
     use 'sheerun/vim-polyglot'
+    use 'towolf/vim-helm'
     use 'windwp/nvim-spectre'
     use 'pbrisbin/vim-mkdir'
     use 'tpope/vim-commentary'
