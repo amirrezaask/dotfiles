@@ -470,6 +470,8 @@ require("lualine").setup {
   inactive_winbar = {},
   extensions = {},
 }
+
+vim.opt.laststatus = 3
 -- ]]
 
 -- [[ nvim-cmp
