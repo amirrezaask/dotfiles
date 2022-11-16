@@ -69,12 +69,8 @@ ss_proxy() {
     export https_proxy='http://localhost:1087'
 }
 
-if ! [ -x "$(command -v starship)" ]; then
-    curl -sS https://starship.rs/install.sh | sh
-fi
+
 
 alias acme-laptop="acme -f /mnt/font/'JetBrainsMono-Regular'/14a/font"
 alias acme-monitor="acme -f /mnt/font/'JetBrainsMono-Regular'/18a/font"
-
-eval "$(starship init zsh)"
 
