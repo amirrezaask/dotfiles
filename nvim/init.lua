@@ -99,6 +99,7 @@ bind {
     ["<M-k>"] = ":m .-2<CR>==",
     ["j"] = "gj",
     ["k"] = "gk",
+    ["<leader>c"] = ":e ~/.config/nvim/init.lua<CR>",
   },
   t = {
     ["<Esc>"] = "<C-\\><C-n>",
@@ -123,7 +124,6 @@ require("packer").startup(function(use)
   use "eemed/sitruuna.vim"
   use "sainnhe/sonokai"
   use "folke/tokyonight.nvim"
-  use "shaunsingh/solarized.nvim"
   use "shaunsingh/nord.nvim"
   use "ellisonleao/gruvbox.nvim"
   use { "amirrezaask/gruvbuddy.nvim", requires = "tjdevries/colorbuddy.vim" }
@@ -219,7 +219,7 @@ require("packer").startup(function(use)
   use { "ckipp01/stylua-nvim", run = "cargo install stylua" }
   use "rust-lang/rust.vim"
   use "simrat39/rust-tools.nvim"
-
+  use "folke/neodev.nvim"
   use "cuducos/yaml.nvim"
 
   use "Glench/Vim-Jinja2-Syntax"
@@ -301,6 +301,7 @@ end
 
 -- ]]
 -- [[ Lua
+require("neodev").setup {}
 local sumneko_root = string.format("%s/.local/lua-language-server", os.getenv "HOME")
 local sumneko_binary = sumneko_root .. "/bin/lua-language-server"
 
