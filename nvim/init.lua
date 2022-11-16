@@ -207,7 +207,7 @@ end)
 -- ]]
 
 -- [[ Colorscheme
-vim.cmd([[ colorscheme gruvbox ]])
+vim.cmd([[ colorscheme tokyonight-moon ]])
 -- ]]
 
 local function onsave(pattern, callback)
