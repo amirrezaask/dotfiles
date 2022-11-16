@@ -17,6 +17,9 @@ end
 -- If packer.nvim is not installed, install it.
 packer_ensure()
 
+-- If you want neovim to be transparent, it also needs your terminal to support transparency
+_G.TRANSPARENCY = true
+
 -- [[ Basic Options
 vim.opt.ignorecase = true -- ignore case when searching
 vim.opt.smartcase = true --don't ignore case in search when there is uppercase letter
@@ -68,6 +71,10 @@ vim.opt.listchars:append "trail:·"
 vim.opt.listchars:append "lead:·"
 vim.opt.timeoutlen = 500
 vim.cmd [[ set clipboard^=unnamedplus ]]
+if vim.version().major >= 0 and vim.version().minor >= 8 then
+  vim.opt.laststatus = 3
+end
+
 -- ]]
 
 -- Keymap helper
@@ -208,6 +215,22 @@ end)
 
 -- [[ Colorscheme
 vim.cmd [[ colorscheme tokyonight-moon ]]
+
+-- [[ Transparency
+if _G.TRANSPARENCY then
+  local function make_hls_transparent(names)
+    for _, name in ipairs(names) do
+      vim.api.nvim_set_hl(0, name, { bg = nil, default = false })
+    end
+  end
+  make_hls_transparent {
+    "Normal",
+    "TelescopeNormal",
+    "TelescopePrompt",
+  }
+end
+-- ]]
+
 -- ]]
 
 local function onsave(pattern, callback)
@@ -471,7 +494,9 @@ require("lualine").setup {
   extensions = {},
 }
 
-vim.opt.laststatus = 3
+if vim.version().major >= 0 and vim.version().minor >= 8 then
+  vim.opt.laststatus = 3
+end
 -- ]]
 
 -- [[ nvim-cmp
