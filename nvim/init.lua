@@ -140,7 +140,6 @@ require("packer").startup(function(use)
 		"j-hui/fidget.nvim",
 	})
 	use("junegunn/goyo.vim")
-	use("mhinz/vim-startify")
 	use("nvim-tree/nvim-web-devicons")
 	use("yamatsum/nvim-nonicons")
 	use({
@@ -214,9 +213,14 @@ end)
 -- ]]
 
 -- [[ Colorscheme
-vim.cmd([[ colorscheme tokyonight-moon ]])
+vim.cmd([[ colorscheme gruvbox ]])
+local function transparent()
+	vim.api.nvim_set_hl(0, "Normal", { bg = nil })
+end
+vim.api.nvim_create_user_command("Transparent", transparent, { force = true })
+
 if _G.TRANSPARENCY then
-  vim.api.nvim_set_hl(0, 'Normal', { bg = nil })
+	transparent()
 end
 
 -- ]]
