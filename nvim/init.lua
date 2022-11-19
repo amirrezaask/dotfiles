@@ -788,11 +788,17 @@ local myconfig = {
 				button("SPC SPC", "  Find file"),
 				button("SPC f g", "  Git files"),
 				button("??", "  Live Grep"),
-				button("SPC f r", " Recent Files"),
+				button("SPC f r", "  Recent Files"),
+				button("SPC p s", "  Sync Packages", "<cmd>PackerSync<Cr>"),
 			},
 			opts = { spacing = 1, hl = "Include" },
 		},
-		{ type = "text", val = "CopyLeft", opts = { position = "center", hl = "Type" } },
+		{ type = "padding", val = 2 },
+		{
+			type = "text",
+			val = string.format("Neovim %s.%s", vim.version().major, vim.version().minor),
+			opts = { position = "center", hl = "Type" },
+		},
 	},
 }
 require("alpha").setup(myconfig)
