@@ -165,6 +165,7 @@ require("packer").startup(function(use)
     "williamboman/mason.nvim",
   }
   use "williamboman/mason-lspconfig.nvim"
+  use "jayp0521/mason-nvim-dap.nvim"
 
   use "neovim/nvim-lspconfig"
   use {
@@ -294,6 +295,10 @@ require("fidget").setup()
 require("mason").setup()
 require("mason-lspconfig").setup {
   automatic_installation = true,
+}
+
+require("mason-nvim-dap").setup {
+  automatic_installation = false,
 }
 -- ]]
 
