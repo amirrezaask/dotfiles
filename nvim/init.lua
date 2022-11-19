@@ -18,7 +18,7 @@ end
 packer_ensure()
 
 -- If you want neovim to be transparent, it also needs your terminal to support transparency
-_G.TRANSPARENCY = true
+_G.TRANSPARENCY = false
 
 -- [[ Basic Options
 vim.opt.ignorecase = true -- ignore case when searching
@@ -154,6 +154,9 @@ require("packer").startup(function(use)
 	-- LSP
 	use("neovim/nvim-lspconfig")
 	use({
+		"ray-x/lsp_signature.nvim",
+	})
+	use({
 		"williamboman/mason.nvim",
 	})
 
@@ -219,7 +222,7 @@ end)
 -- ]]
 
 -- [[ Colorscheme
-vim.cmd([[ colorscheme gruvbox ]])
+vim.cmd([[ colorscheme tokyonight-night ]])
 local function transparent()
 	vim.api.nvim_set_hl(0, "Normal", { bg = nil })
 end
@@ -288,6 +291,8 @@ local function lsp_on_attach(_, bufnr)
 	vim.api.nvim_buf_set_keymap(bufnr, "n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
 	vim.api.nvim_buf_set_keymap(bufnr, "n", "C", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
 	vim.api.nvim_buf_set_keymap(bufnr, "n", "?a", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
+
+	require("lsp_signature").on_attach({}, bufnr)
 end
 
 local border = {
@@ -697,4 +702,8 @@ require("nvim-treesitter.configs").setup({
 	},
 })
 
+-- ]]
+
+-- [[ Bufferline
+require("bufferline").setup({})
 -- ]]
