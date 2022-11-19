@@ -174,9 +174,9 @@ vim.opt.history = 700 -- Number of stored history items
 vim.opt.tabpagemax = 100 -- Max number of tabs
 vim.opt.ruler = true -- Show line and column in statusline
 vim.opt.mouse = "a" -- enable mouse support for all modes
-vim.opt.autoindent = true
+vim.opt.autoindent = true -- do auto indent when going to new line
 vim.opt.cindent = true
-vim.opt.wrap = true
+vim.opt.wrap = false -- no line wrapping
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.softtabstop = 4
@@ -184,8 +184,8 @@ vim.opt.expandtab = true
 vim.opt.backup = false
 vim.opt.writebackup = false
 vim.opt.swapfile = false
-vim.opt.splitright = true
-vim.opt.splitbelow = true
+vim.opt.splitright = true -- vertical split creates a new window right of current window
+vim.opt.splitbelow = true -- horizontal split creates a new window below current window
 vim.opt.cursorline = true -- highlight current line
 vim.opt.relativenumber = true -- show relative line numbers
 vim.opt.number = true -- show current line number
@@ -204,17 +204,17 @@ vim.opt.pumheight = 10 -- Completion window max size
 vim.opt.conceallevel = 2 -- Concealed text is completely hidden
 vim.opt.shortmess = vim.opt.shortmess + "c" -- Shut off completion messages
 vim.opt.belloff = vim.opt.belloff + "ctrlg" -- If Vim beeps during completion
-vim.opt.termguicolors = true
-vim.opt.list = true
+vim.opt.termguicolors = true -- true color support, needs terminal support as well
+vim.opt.list = true -- use list characters that are defined below
 vim.opt.listchars:append("tab:<->")
 vim.opt.listchars:append("eol:↲")
 vim.opt.listchars:append("trail:·")
 vim.opt.listchars:append("lead:·")
-vim.opt.timeoutlen = 500
+vim.opt.timeoutlen = 500 -- when a key is pressed timeout until it's forgotten
 vim.opt.clipboard:append("unnamedplus") -- use system clipboard by default
 
-if vim.version().major >= 0 and vim.version().minor >= 8 then -- if supported use global statusline
-	vim.opt.laststatus = 3
+if vim.version().major >= 0 and vim.version().minor >= 8 then
+	vim.opt.laststatus = 3 -- if supported use global statusline
 end
 
 -- ]]
@@ -228,6 +228,7 @@ local window_width = function()
 end
 
 -- Keymap helper
+-- Set leader to <Space>
 vim.g.mapleader = " "
 
 local function bind(spec)
