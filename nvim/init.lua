@@ -785,11 +785,12 @@ local myconfig = {
 		{
 			type = "group",
 			val = {
-				button("SPC SPC", "  Find file", "<cmd>Telescope find_files<CR>"),
-				button("SPC f g", "  Git files", "<cmd> Telescope git_files<CR>"),
-				button("??", "  Live Grep", "<cmd> Telescope live_grep<CR>"),
+				button("SPC SPC", "  Find file"),
+				button("SPC f g", "  Git files"),
+				button("??", "  Live Grep"),
+				button("SPC f r", " Recent Files"),
 			},
-			opts = { spacing = 1, hl= 'Include' },
+			opts = { spacing = 1, hl = "Include" },
 		},
 		{ type = "text", val = "CopyLeft", opts = { position = "center", hl = "Type" } },
 	},
