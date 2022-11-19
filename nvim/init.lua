@@ -770,7 +770,7 @@ require("nvim-treesitter.configs").setup {
 -- ]]
 
 -- [[ Bufferline
-require("bufferline").setup {}
+-- require("bufferline").setup {}
 -- ]]
 
 -- [[ ToggleTerm
