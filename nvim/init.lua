@@ -70,12 +70,21 @@ vim.opt.listchars:append("eol:↲")
 vim.opt.listchars:append("trail:·")
 vim.opt.listchars:append("lead:·")
 vim.opt.timeoutlen = 500
+
 vim.cmd([[ set clipboard^=unnamedplus ]])
 if vim.version().major >= 0 and vim.version().minor >= 8 then
 	vim.opt.laststatus = 3
 end
 
 -- ]]
+
+local window_height = function()
+	return vim.api.nvim_win_get_height(0)
+end
+
+local window_width = function()
+	return vim.api.nvim_win_get_width(0)
+end
 
 -- Keymap helper
 vim.g.mapleader = " "
@@ -159,6 +168,11 @@ require("packer").startup(function(use)
 	use({
 		"williamboman/mason.nvim",
 	})
+	use({
+		"glepnir/lspsaga.nvim",
+		branch = "main",
+	})
+	use("onsails/lspkind.nvim")
 
 	-- Git stuff
 	use("tpope/vim-fugitive")
@@ -317,6 +331,11 @@ function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
 	opts.border = opts.border or border
 	return orig_util_open_floating_preview(contents, syntax, opts, ...)
 end
+require("lspsaga").init_lsp_saga({
+	symbol_in_winbar = {
+		enable = true,
+	},
+})
 
 -- ]]
 -- [[ Lua
@@ -516,6 +535,13 @@ cmp.setup({
 			vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
 		end,
 	},
+	formatting = {
+		format = require("lspkind").cmp_format({
+			mode = "symbol", -- show only symbol annotations
+			maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+			ellipsis_char = "...", -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
+		}),
+	},
 	mapping = {
 		["<C-p>"] = cmp.mapping.select_prev_item(),
 		["<C-n>"] = cmp.mapping.select_next_item(),
@@ -555,13 +581,6 @@ cmp.setup({
 -- [[ Telescope
 local dropdown = require("telescope.themes").get_dropdown()
 local ivy = require("telescope.themes").get_ivy()
-local window_height = function()
-	return vim.api.nvim_win_get_height(0)
-end
-
-local window_width = function()
-	return vim.api.nvim_win_get_width(0)
-end
 
 local function get_default_telescope_picker_opts()
 	return {
@@ -736,3 +755,5 @@ require("toggleterm").setup({
 	open_mapping = [[<c-`>]],
 })
 -- ]]
+
+--
