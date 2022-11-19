@@ -262,6 +262,7 @@ require("packer").startup(function(use)
   use {
     "numToStr/Comment.nvim",
   }
+ use 'christoomey/vim-tmux-navigator'
 end)
 -- ]]
 
