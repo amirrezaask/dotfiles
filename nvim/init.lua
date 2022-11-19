@@ -92,7 +92,16 @@ vim.g.mapleader = " "
 local function bind(spec)
   for mode, keys in pairs(spec) do
     for key, binding in pairs(keys) do
-      vim.keymap.set(mode, key, binding)
+      if type(binding) == "string" or type(binding) == "function" then
+        vim.keymap.set(mode, key, binding)
+      else
+        if type(binding) == "table" then
+          -- { function or string, doc }
+          local handler = binding[1]
+          table.remove(binding, 1)
+          vim.keymap.set(mode, key, handler, binding)
+        end
+      end
     end
   end
 end
@@ -285,7 +294,6 @@ local function onsave(pattern, callback)
 end
 
 require("neogit").setup()
-require("which-key").setup()
 require("gitsigns").setup()
 require("todo-comments").setup()
 require("dressing").setup()
@@ -695,22 +703,24 @@ require("telescope").setup {
 }
 require("telescope").load_extension "fzf"
 
-local function telescope_wrap(builtin)
+local function telescope_wrap(builtin, picker_opts)
   return function()
+    picker_opts = picker_opts or {}
     local opts = get_default_telescope_picker_opts()[builtin] or {}
     local theme = opts.theme or {}
-    require("telescope.builtin")[builtin](vim.tbl_extend("keep", opts, theme))
+    require("telescope.builtin")[builtin](vim.tbl_extend("keep", opts, theme, picker_opts))
   end
 end
 
 bind {
   n = {
-    ["<leader><leader>"] = telescope_wrap "find_files",
-    ["<leader>ff"] = telescope_wrap "find_files",
-    ["<leader>fg"] = telescope_wrap "git_files",
-    ["<leader>fr"] = telescope_wrap "oldfiles",
-    ["<leader>fh"] = telescope_wrap "help_tags",
-    ["<leader>fc"] = telescope_wrap "commands",
+    ["<leader><leader>"] = { telescope_wrap "find_files", desc = "Find Files" },
+    ["<leader>ff"] = { telescope_wrap "find_files", desc = "Find Files" },
+    ["<leader>fd"] = { telescope_wrap("find_files", { cwd = "~/dev/dotfiles" }), desc = "Find Dotfile" },
+    ["<leader>fg"] = { telescope_wrap "git_files", desc = "Git Files" },
+    ["<leader>fr"] = { telescope_wrap "oldfiles", desc = "Recent Files" },
+    ["<leader>fh"] = { telescope_wrap "help_tags", desc = "Help" },
+    ["<leader>fc"] = { telescope_wrap "commands", desc = "Commands" },
 
     ["??"] = telescope_wrap "live_grep",
   },
@@ -844,7 +854,6 @@ require("Comment").setup {
   ---Whether the cursor should stay at its position
   sticky = true,
   ---Lines to be ignored while (un)comment
-  ignore = nil,
   ---LHS of toggle mappings in NORMAL mode
   toggler = {
     ---Line-comment toggle keymap
@@ -875,13 +884,13 @@ require("Comment").setup {
     ---Extra mapping; `gco`, `gcO`, `gcA`
     extra = true,
   },
-  ---Function to call before (un)comment
-  pre_hook = nil,
-  ---Function to call after (un)comment
-  post_hook = nil,
 }
 -- ]]
 
 -- Snippets [[
 require("luasnip.loaders.from_vscode").lazy_load()
+-- ]]
+
+-- Which-key [[
+require("which-key").setup()
 -- ]]
