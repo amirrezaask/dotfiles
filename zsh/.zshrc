@@ -63,7 +63,8 @@ subl() {
 
 alias ta='tmux attach -t '
 alias tl='tmux list-sessions'
-alias tns='tmux new-session -s '
+alias t='tmux'
+alias tn='tmux new-session -t '
 alias dots='cd ~/dev/dotfiles'
 
 
