@@ -789,7 +789,7 @@ local myconfig = {
 				button("SPC f g", "  Git files", "<cmd> Telescope git_files<CR>"),
 				button("??", "  Live Grep", "<cmd> Telescope live_grep<CR>"),
 			},
-			opts = { spacing = 2, hl= 'Include' },
+			opts = { spacing = 1, hl= 'Include' },
 		},
 		{ type = "text", val = "CopyLeft", opts = { position = "center", hl = "Type" } },
 	},
