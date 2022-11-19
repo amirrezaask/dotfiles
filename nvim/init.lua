@@ -136,6 +136,8 @@ require("packer").startup(function(use)
 	use("ellisonleao/gruvbox.nvim")
 	use({ "amirrezaask/gruvbuddy.nvim", requires = "tjdevries/colorbuddy.vim" })
 
+	use({ "akinsho/bufferline.nvim", tag = "v3.*", requires = "nvim-tree/nvim-web-devicons" })
+
 	use({
 		"j-hui/fidget.nvim",
 	})
@@ -538,6 +540,9 @@ cmp.setup({
 
 -- [[ Telescope
 require("telescope").setup({
+	defaults = {
+		preview = false,
+	},
 	extensions = {
 		file_browser = {
 			-- disables netrw and use telescope-file-browser in its place
