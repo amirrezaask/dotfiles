@@ -136,7 +136,7 @@ bind({
 -- ]]
 
 -- [[ Plugins
-require("packer").startup(function(use)
+require("packer").startup({ function(use)
 	use("wbthomason/packer.nvim")
 
 	-- Colorschemes
@@ -272,7 +272,10 @@ require("packer").startup(function(use)
 	use("christoomey/vim-tmux-navigator")
 	-- Toggle window zoom like Tmux
 	use("szw/vim-maximizer")
-end)
+end, config = {
+  display = {
+    open_fn = require('packer.util').float,
+  }}})
 -- ]]
 
 -- [[ Colorscheme
