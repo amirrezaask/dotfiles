@@ -761,6 +761,7 @@ require("toggleterm").setup({
 -- ]]
 
 -- [[ Dashboard
+-- TODO: random ascii art
 local asciiart = vim.split(
 	[[
                      _                                     _    
@@ -784,11 +785,11 @@ local myconfig = {
 		{
 			type = "group",
 			val = {
-				button("SPC SPC", "  Find file"),
-				button("SPC f g", "  Git files"),
-				button("??", "  Live Grep"),
+				button("SPC SPC", "  Find file", "<cmd>Telescope find_files<CR>"),
+				button("SPC f g", "  Git files", "<cmd> Telescope git_files<CR>"),
+				button("??", "  Live Grep", "<cmd> Telescope live_grep<CR>"),
 			},
-            opts = { spacing = 2 }
+			opts = { spacing = 2, hl= 'Include' },
 		},
 		{ type = "text", val = "CopyLeft", opts = { position = "center", hl = "Type" } },
 	},
