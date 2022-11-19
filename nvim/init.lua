@@ -237,6 +237,10 @@ require("packer").startup(function(use)
 		"akinsho/toggleterm.nvim",
 		tag = "*",
 	})
+	use({
+		"goolord/alpha-nvim",
+		requires = { "kyazdani42/nvim-web-devicons" },
+	})
 end)
 -- ]]
 
@@ -756,4 +760,39 @@ require("toggleterm").setup({
 })
 -- ]]
 
---
+-- [[ Dashboard
+local asciiart = vim.split(
+	[[
+                     _                                     _    
+     /\             (_)                          /\       | |   
+    /  \   _ __ ___  _ _ __ _ __ ___ ______ _   /  \   ___| | __
+   / /\ \ | '_ ` _ \| | '__| '__/ _ \_  / _` | / /\ \ / __| |/ /
+  / ____ \| | | | | | | |  | | |  __// / (_| |/ ____ \\__ \   < 
+ /_/    \_\_| |_| |_|_|_|  |_|  \___/___\__,_/_/    \_\___/_|\_\
+                                                                
+                                                                
+]],
+	"\n"
+)
+
+local button = require("alpha.themes.dashboard").button
+local myconfig = {
+	layout = {
+		{ type = "padding", val = 2 },
+		{ type = "text", val = asciiart, opts = { position = "center", hl = "Type" } },
+		{ type = "padding", val = 2 },
+		{
+			type = "group",
+			val = {
+				button("SPC SPC", "  Find file"),
+				button("SPC f g", "  Git files"),
+				button("??", "  Live Grep"),
+			},
+            opts = { spacing = 2 }
+		},
+		{ type = "text", val = "CopyLeft", opts = { position = "center", hl = "Type" } },
+	},
+}
+require("alpha").setup(myconfig)
+
+-- ]]
