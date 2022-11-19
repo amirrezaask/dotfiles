@@ -72,8 +72,7 @@ ss_proxy() {
     export https_proxy='http://localhost:1087'
 }
 
-alias acme-laptop="acme -f /mnt/font/'JetBrainsMono-Regular'/14a/font"
-alias acme-monitor="acme -f /mnt/font/'JetBrainsMono-Regular'/18a/font"
+alias snapp='cd ~/dev/snapp/' 
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]

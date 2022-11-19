@@ -322,7 +322,7 @@ local function lsp_on_attach(_, bufnr)
       gr = { vim.lsp.buf.references, desc = "Goto references", buffer = bufnr },
       R = { vim.lsp.buf.rename, desc = "Rename symbol under cursor", buffer = bufnr },
       K = { vim.lsp.buf.hover, desc = "Hover docs under cursor", buffer = bufnr },
-      ["<c-d>"] = { vim.diagnostic.open_float, desc = "Show current line diagnostics", buffer = bufnr },
+      -- ["<c-d>"] = { vim.diagnostic.open_float, desc = "Show current line diagnostics", buffer = bufnr },
       ["[d"] = { vim.diagnostic.goto_prev, desc = "Goto previous diagnostic", buffer = bufnr },
       ["]d"] = { vim.diagnostic.goto_next, desc = "Goto next diagnostic", buffer = bufnr },
       ["C"] = { vim.lsp.buf.code_action, desc = "Code actions", buffer = bufnr },
@@ -378,6 +378,8 @@ vim.api.nvim_create_autocmd("BufEnter", {
     vim.cmd [[ setlocal sts=2 sw=2 ]]
   end,
 })
+
+require'lspconfig'.yamlls.setup {}
 
 require("lspconfig").sumneko_lua.setup {
   on_attach = lsp_on_attach,
