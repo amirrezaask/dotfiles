@@ -12,8 +12,154 @@ end
 -- If packer.nvim is not installed, install it.
 packer_ensure()
 
--- If you want neovim to be transparent, it also needs your terminal to support transparency
-_G.TRANSPARENCY = false
+-- Now we install plugins
+
+-- [[ Plugins
+require("packer").startup({
+	function(use)
+		use("wbthomason/packer.nvim")
+
+		-- Colorschemes
+		use("eemed/sitruuna.vim")
+		use("sainnhe/sonokai")
+		use("folke/tokyonight.nvim")
+		use("ellisonleao/gruvbox.nvim")
+		use("bluz71/vim-nightfly-colors")
+
+		use("junegunn/goyo.vim")
+
+		-- UI enhancements
+		use("nvim-tree/nvim-web-devicons")
+		use("yamatsum/nvim-nonicons")
+		use({
+			"stevearc/dressing.nvim",
+		})
+		use({
+			"folke/which-key.nvim",
+		})
+
+		-- LSP
+		use({
+			"j-hui/fidget.nvim",
+		})
+		use({
+			"williamboman/mason.nvim",
+		})
+		use("williamboman/mason-lspconfig.nvim")
+		use("jayp0521/mason-nvim-dap.nvim")
+
+		use("neovim/nvim-lspconfig")
+		use({
+			"ray-x/lsp_signature.nvim",
+		})
+		use({
+			"glepnir/lspsaga.nvim",
+			branch = "main",
+		})
+		use("onsails/lspkind.nvim")
+
+		-- JSON Scheumas
+		use("b0o/schemastore.nvim")
+
+		-- Git stuff
+		use("tpope/vim-fugitive")
+		use("junegunn/gv.vim")
+		use("cohama/agit.vim")
+		use({
+			"lewis6991/gitsigns.nvim",
+		})
+		use({
+			"TimUntersberger/neogit",
+			requires = "nvim-lua/plenary.nvim",
+		})
+
+		-- Snippets
+		use({ "L3MON4D3/LuaSnip", tag = "v<CurrentMajor>.*" })
+		use("rafamadriz/friendly-snippets")
+
+		-- Completion
+		use("hrsh7th/nvim-cmp")
+		use("saadparwaiz1/cmp_luasnip") -- cmp luasnip source
+		use("hrsh7th/cmp-buffer") -- cmp buffer source
+		use("hrsh7th/cmp-nvim-lua") -- cmp neovim lua source
+		use("hrsh7th/cmp-nvim-lsp") -- cmp neovim builtin lsp
+		use("hrsh7th/cmp-path") -- cmp path source
+
+		-- Treesitter
+		use("nvim-treesitter/nvim-treesitter")
+		use("nvim-treesitter/nvim-treesitter-textobjects")
+		use("p00f/nvim-ts-rainbow")
+
+		-- Telescope
+		use({ "nvim-telescope/telescope.nvim", requires = "nvim-lua/plenary.nvim" })
+		use({ "nvim-telescope/telescope-file-browser.nvim" })
+		use({
+			"nvim-telescope/telescope-fzf-native.nvim",
+			run = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
+		})
+
+		use("sheerun/vim-polyglot")
+
+		use("towolf/vim-helm")
+
+		use("pbrisbin/vim-mkdir")
+
+		use("tpope/vim-surround")
+
+		use("junegunn/vim-easy-align")
+
+		use("fladson/vim-kitty")
+
+		use({
+			"folke/todo-comments.nvim",
+			requires = "nvim-lua/plenary.nvim",
+		})
+
+		use("ziglang/zig.vim")
+
+		use("jansedivy/jai.vim")
+
+		use({ "ckipp01/stylua-nvim", run = "cargo install stylua" })
+
+		-- Rust
+		use("rust-lang/rust.vim")
+		use("simrat39/rust-tools.nvim")
+
+		use("folke/neodev.nvim")
+
+		use("cuducos/yaml.nvim")
+
+		use("Glench/Vim-Jinja2-Syntax")
+
+		-- statusline
+		use("nvim-lualine/lualine.nvim")
+
+		-- more convinient terminal emulator
+		use({
+			"akinsho/toggleterm.nvim",
+			tag = "*",
+		})
+		-- dashboard or start screen
+		use({
+			"goolord/alpha-nvim",
+			requires = { "kyazdani42/nvim-web-devicons" },
+		})
+		-- Commenting plugin
+		use({
+			"numToStr/Comment.nvim",
+		})
+		-- Integrate Tmux and neovim pane and window switching
+		use("christoomey/vim-tmux-navigator")
+		-- Toggle window zoom like Tmux
+		use("szw/vim-maximizer")
+	end,
+	config = {
+		display = {
+			open_fn = require("packer.util").float,
+		},
+	},
+})
+-- ]]
 
 -- [[ Basic Options
 vim.opt.ignorecase = true -- ignore case when searching
@@ -65,9 +211,9 @@ vim.opt.listchars:append("eol:↲")
 vim.opt.listchars:append("trail:·")
 vim.opt.listchars:append("lead:·")
 vim.opt.timeoutlen = 500
+vim.opt.clipboard:append("unnamedplus") -- use system clipboard by default
 
-vim.cmd([[ set clipboard^=unnamedplus ]])
-if vim.version().major >= 0 and vim.version().minor >= 8 then
+if vim.version().major >= 0 and vim.version().minor >= 8 then -- if supported use global statusline
 	vim.opt.laststatus = 3
 end
 
@@ -135,160 +281,8 @@ bind({
 
 -- ]]
 
--- [[ Plugins
-require("packer").startup({ function(use)
-	use("wbthomason/packer.nvim")
-
-	-- Colorschemes
-	use("eemed/sitruuna.vim")
-	use("sainnhe/sonokai")
-	use("folke/tokyonight.nvim")
-	use("ellisonleao/gruvbox.nvim")
-	use("bluz71/vim-nightfly-colors")
-
-	use("junegunn/goyo.vim")
-
-	-- UI enhancements
-	use("nvim-tree/nvim-web-devicons")
-	use("yamatsum/nvim-nonicons")
-	use({
-		"stevearc/dressing.nvim",
-	})
-	use({
-		"folke/which-key.nvim",
-	})
-
-	-- LSP
-	use({
-		"j-hui/fidget.nvim",
-	})
-	use({
-		"williamboman/mason.nvim",
-	})
-	use("williamboman/mason-lspconfig.nvim")
-	use("jayp0521/mason-nvim-dap.nvim")
-
-	use("neovim/nvim-lspconfig")
-	use({
-		"ray-x/lsp_signature.nvim",
-	})
-	use({
-		"glepnir/lspsaga.nvim",
-		branch = "main",
-	})
-	use("onsails/lspkind.nvim")
-
-	-- JSON Scheumas
-	use("b0o/schemastore.nvim")
-
-	-- Git stuff
-	use("tpope/vim-fugitive")
-	use("junegunn/gv.vim")
-	use("cohama/agit.vim")
-	use({
-		"lewis6991/gitsigns.nvim",
-	})
-	use({
-		"TimUntersberger/neogit",
-		requires = "nvim-lua/plenary.nvim",
-	})
-
-	-- Snippets
-	use({ "L3MON4D3/LuaSnip", tag = "v<CurrentMajor>.*" })
-	use("rafamadriz/friendly-snippets")
-
-	-- Completion
-	use("hrsh7th/nvim-cmp")
-	use("saadparwaiz1/cmp_luasnip") -- cmp luasnip source
-	use("hrsh7th/cmp-buffer") -- cmp buffer source
-	use("hrsh7th/cmp-nvim-lua") -- cmp neovim lua source
-	use("hrsh7th/cmp-nvim-lsp") -- cmp neovim builtin lsp
-	use("hrsh7th/cmp-path") -- cmp path source
-
-	-- Treesitter
-	use("nvim-treesitter/nvim-treesitter")
-	use("nvim-treesitter/nvim-treesitter-textobjects")
-	use("p00f/nvim-ts-rainbow")
-
-	-- Telescope
-	use({ "nvim-telescope/telescope.nvim", requires = "nvim-lua/plenary.nvim" })
-	use({ "nvim-telescope/telescope-file-browser.nvim" })
-	use({
-		"nvim-telescope/telescope-fzf-native.nvim",
-		run = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
-	})
-
-	use("sheerun/vim-polyglot")
-
-	use("towolf/vim-helm")
-
-	use("pbrisbin/vim-mkdir")
-
-	use("tpope/vim-surround")
-
-	use("junegunn/vim-easy-align")
-
-	use("fladson/vim-kitty")
-
-	use({
-		"folke/todo-comments.nvim",
-		requires = "nvim-lua/plenary.nvim",
-	})
-
-	use("ziglang/zig.vim")
-
-	use("jansedivy/jai.vim")
-
-	use({ "ckipp01/stylua-nvim", run = "cargo install stylua" })
-
-	-- Rust
-	use("rust-lang/rust.vim")
-	use("simrat39/rust-tools.nvim")
-
-	use("folke/neodev.nvim")
-
-	use("cuducos/yaml.nvim")
-
-	use("Glench/Vim-Jinja2-Syntax")
-
-	-- statusline
-	use("nvim-lualine/lualine.nvim")
-
-	-- more convinient terminal emulator
-	use({
-		"akinsho/toggleterm.nvim",
-		tag = "*",
-	})
-	-- dashboard or start screen
-	use({
-		"goolord/alpha-nvim",
-		requires = { "kyazdani42/nvim-web-devicons" },
-	})
-	-- Commenting plugin
-	use({
-		"numToStr/Comment.nvim",
-	})
-	-- Integrate Tmux and neovim pane and window switching
-	use("christoomey/vim-tmux-navigator")
-	-- Toggle window zoom like Tmux
-	use("szw/vim-maximizer")
-end, config = {
-  display = {
-    open_fn = require('packer.util').float,
-  }}})
--- ]]
-
 -- [[ Colorscheme
-vim.cmd([[ colorscheme tokyonight-night ]])
-local function transparent()
-	vim.api.nvim_set_hl(0, "Normal", { bg = nil })
-end
-vim.api.nvim_create_user_command("Transparent", transparent, { force = true })
-
-if _G.TRANSPARENCY then
-	transparent()
-end
-
+vim.cmd([[ colorscheme nightfly ]])
 -- ]]
 
 local function onsave(pattern, callback)
@@ -305,26 +299,26 @@ local function onsave(pattern, callback)
 		callback = callback,
 	})
 end
-
+-- [[ Git
 require("neogit").setup()
 require("gitsigns").setup()
-require("todo-comments").setup()
+-- ]]
+
 require("dressing").setup()
-require("fidget").setup()
 
 -- [[ Mason
 require("mason").setup()
-require("mason-lspconfig").setup({
-	automatic_installation = true,
-})
-
 require("mason-nvim-dap").setup({
 	automatic_installation = false,
 })
 -- ]]
 
 -- [[ LSP
+require("mason-lspconfig").setup({
+	automatic_installation = true,
+})
 
+require("fidget").setup()
 local function lsp_on_attach(_, bufnr)
 	vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 	bind({
@@ -391,7 +385,16 @@ vim.api.nvim_create_autocmd("BufEnter", {
 	end,
 })
 
-require("lspconfig").yamlls.setup({})
+-- JSON
+require("lspconfig").jsonls.setup({
+	on_attach = lsp_on_attach,
+	settings = {
+		json = {
+			schemas = require("schemastore").json.schemas(),
+			validate = { enable = true },
+		},
+	},
+})
 
 require("lspconfig").sumneko_lua.setup({
 	on_attach = lsp_on_attach,
@@ -509,13 +512,17 @@ require("lspconfig").jedi_language_server.setup({
 
 -- [[ Yaml
 require("nvim-treesitter.install").ensure_installed("yaml")
+require("lspconfig").yamlls.setup({
+	on_attach = lsp_on_attach,
+})
 vim.cmd([[
     autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
     autocmd FileType yaml setlocal cursorcolumn
 ]])
 -- ]]
 
--- JSON [[
+-- [[ JSON
+require("nvim-treesitter.install").ensure_installed("json")
 require("lspconfig").jsonls.setup({
 	settings = {
 		json = {
@@ -847,7 +854,8 @@ local myconfig = {
 require("alpha").setup(myconfig)
 -- ]]
 
--- [[ Comment.nvim
+-- [[ Comment
+require("todo-comments").setup()
 require("Comment").setup({
 	---Add a space b/w comment and the line
 	padding = true,
@@ -887,12 +895,8 @@ require("Comment").setup({
 })
 -- ]]
 
--- Snippets [[
+-- [[ Snippets
 require("luasnip.loaders.from_vscode").lazy_load()
--- ]]
-
--- Which-key [[
-require("which-key").setup()
 -- ]]
 
 -- [[ vim-maximizer
@@ -901,4 +905,9 @@ bind({
 		[",z"] = { "<cmd>MaximizerToggle<cr>", desc = "Toggle zoom on current window" },
 	},
 })
+-- ]]
+
+-- [[ Which-key
+-- remember we should always register which key after all keybindings are registered
+require("which-key").setup()
 -- ]]
