@@ -1,7 +1,7 @@
 # AmirrezaAsk Neovim Configuration
 
 ## Screenshots
-![StartScreen using `vim-startify`](https://raw.github.com/amirrezaask/dotfiles/master/nvim/screenshots/start.png)
-![`core/lsp.lua` module](https://raw.github.com/amirrezaask/dotfiles/master/nvim/screenshots/luacode.png)
-![Some Golang Code](https://raw.github.com/amirrezaask/dotfiles/master/nvim/screenshots/gocode.png)
+![Start screen](https://raw.github.com/amirrezaask/dotfiles/master/nvim/screenshots/0.png)
+![fuzzy finder](https://raw.github.com/amirrezaask/dotfiles/master/nvim/screenshots/1.png)
+![some go code](https://raw.github.com/amirrezaask/dotfiles/master/nvim/screenshots/2.png)
 
