@@ -185,6 +185,10 @@ require("packer").startup(function(use)
 	-- Telescope
 	use({ "nvim-telescope/telescope.nvim", requires = "nvim-lua/plenary.nvim" })
 	use({ "nvim-telescope/telescope-file-browser.nvim" })
+	use({
+		"nvim-telescope/telescope-fzf-native.nvim",
+		run = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
+	})
 
 	use("sheerun/vim-polyglot")
 
@@ -539,14 +543,68 @@ cmp.setup({
 -- ]]
 
 -- [[ Telescope
+local dropdown = require("telescope.themes").get_dropdown()
+local ivy = require("telescope.themes").get_ivy()
+local window_height = function()
+	return vim.api.nvim_win_get_height(0)
+end
+
+local function get_default_telescope_picker_opts()
+	return {
+		find_files = {
+			preview = false,
+			theme = dropdown,
+			layout_config = {
+				height = math.ceil(window_height() * 0.7),
+			},
+		},
+		oldfiles = {
+			preview = false,
+			theme = dropdown,
+			layout_config = {
+				height = math.ceil(window_height() * 0.7),
+			},
+		},
+		git_files = {
+			preview = false,
+			theme = dropdown,
+			layout_config = {
+				height = math.ceil(window_height() * 0.7),
+			},
+		},
+		live_grep = {
+			preview = true,
+			theme = dropdown,
+			layout_config = {
+				height = math.ceil(window_height() * 0.7),
+			},
+		},
+		help_tags = {
+			preview = false,
+			theme = dropdown,
+			layout_config = {
+				height = math.ceil(window_height() * 0.7),
+			},
+		},
+		commands = {
+			preview = false,
+			theme = dropdown,
+			layout_config = {
+				height = math.ceil(window_height() * 0.7),
+			},
+		},
+	}
+end
+
 require("telescope").setup({
 	defaults = {
 		preview = false,
+		prompt_prefix = "🔍 ",
 	},
 	extensions = {
 		file_browser = {
 			-- disables netrw and use telescope-file-browser in its place
-			hijack_netrw = true,
+			hijack_netrw = false,
 			mappings = {
 				["i"] = {
 					-- your custom insert mode mappings
@@ -556,15 +614,35 @@ require("telescope").setup({
 				},
 			},
 		},
+		fzf = {
+			fuzzy = true, -- false will only do exact matching
+			override_generic_sorter = true, -- override the generic sorter
+			override_file_sorter = true, -- override the file sorter
+			case_mode = "smart_case", -- or "ignore_case" or "respect_case"
+			-- the default case_mode is "smart_case"
+		},
 	},
 })
+require("telescope").load_extension("fzf")
+
+local function telescope_wrap(builtin)
+	return function()
+		local opts = get_default_telescope_picker_opts()[builtin] or {}
+		local theme = opts.theme or {}
+		require("telescope.builtin")[builtin](vim.tbl_extend("keep", opts, theme))
+	end
+end
 
 bind({
 	n = {
-		["<leader><leader>"] = "<cmd>Telescope find_files<CR>",
-		["<leader>h"] = "<cmd>Telescope help_tags<cr>",
-		["<leader>fb"] = "<cmd>Telescope file_browser<CR>",
-		["??"] = "<cmd>Telescope live_grep<CR>",
+		["<leader><leader>"] = telescope_wrap("find_files"),
+		["<leader>ff"] = telescope_wrap("find_files"),
+		["<leader>fg"] = telescope_wrap("git_files"),
+		["<leader>fr"] = telescope_wrap("oldfiles"),
+		["<leader>fh"] = telescope_wrap("help_tags"),
+		["<leader>fc"] = telescope_wrap("commands"),
+
+		["??"] = telescope_wrap("live_grep"),
 	},
 })
 
