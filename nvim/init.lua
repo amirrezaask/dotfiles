@@ -218,6 +218,11 @@ require("packer").startup(function(use)
 
 	use("Glench/Vim-Jinja2-Syntax")
 	use("nvim-lualine/lualine.nvim")
+
+	use({
+		"akinsho/toggleterm.nvim",
+		tag = "*",
+	})
 end)
 -- ]]
 
@@ -554,6 +559,10 @@ local window_height = function()
 	return vim.api.nvim_win_get_height(0)
 end
 
+local window_width = function()
+	return vim.api.nvim_win_get_width(0)
+end
+
 local function get_default_telescope_picker_opts()
 	return {
 		find_files = {
@@ -706,4 +715,24 @@ require("nvim-treesitter.configs").setup({
 
 -- [[ Bufferline
 require("bufferline").setup({})
+-- ]]
+
+-- [[ ToggleTerm
+require("toggleterm").setup({
+	size = function(term)
+		if term.direction == "horizontal" then
+			return 20
+		elseif term.direction == "vertical" then
+			return vim.o.columns * 0.4
+		end
+	end,
+	direction = "horizontal",
+	float_opts = {
+		border = "single",
+		height = math.ceil(window_height() * 0.5),
+		width = math.ceil(window_width() * 0.3),
+		winblend = 3,
+	},
+	open_mapping = [[<c-`>]],
+})
 -- ]]
