@@ -126,6 +126,7 @@ bind {
     ["j"] = "gj",
     ["k"] = "gk",
     ["<leader>c"] = ":e ~/.config/nvim/init.lua<CR>",
+    ["<CR>"] = { [[ {-> v:hlsearch ? ':nohl<CR>' : '<CR>'}() ]], expr = true },
   },
   t = {
     ["<Esc>"] = "<C-\\><C-n>",
@@ -139,7 +140,6 @@ bind {
   },
 }
 
-vim.cmd [[ nnoremap <expr><CR> {-> v:hlsearch ? ':nohl<CR>' : '<CR>'}() ]]
 -- ]]
 
 -- [[ Plugins
@@ -314,38 +314,23 @@ require("mason-nvim-dap").setup {
 
 local function lsp_on_attach(_, bufnr)
   vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
-  local opts = { noremap = true, silent = true }
-  vim.api.nvim_buf_set_keymap(
-    bufnr,
-    "n",
-    "gd",
-    "<cmd>lua vim.lsp.buf.definition()<CR>",
-    { silent = true, noremap = true }
-  )
-  vim.api.nvim_buf_set_keymap(
-    bufnr,
-    "n",
-    "gi",
-    "<cmd>lua vim.lsp.buf.implementation()<CR>",
-    { silent = true, noremap = true }
-  )
-  vim.api.nvim_buf_set_keymap(
-    bufnr,
-    "n",
-    "gr",
-    "<cmd>lua vim.lsp.buf.references()<CR>",
-    { silent = true, noremap = true }
-  )
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "R", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "i", "<c-s>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "<c-s>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "<c-d>", "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>", opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "C", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "?a", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
-
+  bind {
+    n = {
+      gd = { vim.lsp.buf.definition, desc = "Goto definition", buffer = bufnr },
+      gi = { vim.lsp.buf.implementation, desc = "Goto implementations", buffer = bufnr },
+      gr = { vim.lsp.buf.references, desc = "Goto references", buffer = bufnr },
+      R = { vim.lsp.buf.rename, desc = "Rename symbol under cursor", buffer = bufnr },
+      K = { vim.lsp.buf.hover, desc = "Hover docs under cursor", buffer = bufnr },
+      ["<c-d>"] = { vim.diagnostic.open_float, desc = "Show current line diagnostics", buffer = bufnr },
+      ["[d"] = { vim.diagnostic.goto_prev, desc = "Goto previous diagnostic", buffer = bufnr },
+      ["]d"] = { vim.diagnostic.goto_next, desc = "Goto next diagnostic", buffer = bufnr },
+      ["C"] = { vim.lsp.buf.code_action, desc = "Code actions", buffer = bufnr },
+      ["<C-s>"] = { vim.lsp.buf.signature_help, desc = "Toggle Signature help", buffer = bufnr },
+    },
+    i = {
+      ["<C-s>"] = { vim.lsp.buf.signature_help, desc = "Toggle Signature help", buffer = bufnr },
+    },
+  }
   require("lsp_signature").on_attach({}, bufnr)
 end
 
@@ -466,8 +451,12 @@ rt.setup {
   server = {
     on_attach = function(_, bufnr)
       lsp_on_attach(_, bufnr)
-      vim.keymap.set("n", "C", rt.hover_actions.hover_actions, { buffer = bufnr })
-      vim.keymap.set("n", "ga", rt.code_action_group.code_action_group, { buffer = bufnr })
+      bind {
+        n = {
+          C = { rt.hover_actions.hover_actions, desc = "Hover code actions", buffer = bufnr },
+          ga = { rt.code_action_group.code_action_group, desc = "Code actions", buffer = bufnr },
+        },
+      }
     end,
   },
 }
@@ -576,7 +565,7 @@ local cmp = require "cmp"
 cmp.setup {
   snippet = {
     expand = function(args)
-      vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+      require("luasnip").lsp_expand(args.body)
     end,
   },
   formatting = {
