@@ -26,7 +26,6 @@ local function get_default_telescope_picker_opts()
     },
     live_grep = {
       preview = true,
-      theme = dropdown,
       layout_config = {
         height = math.ceil(window_height() * 0.7),
       },
@@ -101,4 +100,3 @@ bind {
 }
 
 require("telescope").load_extension "file_browser"
-

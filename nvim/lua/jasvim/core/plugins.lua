@@ -73,25 +73,34 @@ require("packer").startup {
     }
 
     -- Snippets
-    use { "L3MON4D3/LuaSnip", tag = "v<CurrentMajor>.*" }
-    use "rafamadriz/friendly-snippets"
+    use { "L3MON4D3/LuaSnip", tag = "v<CurrentMajor>.*", requires = "rafamadriz/friendly-snippets" }
 
     -- Completion
-    use "hrsh7th/nvim-cmp"
-    use "saadparwaiz1/cmp_luasnip" -- cmp luasnip source
-    use "hrsh7th/cmp-buffer" -- cmp buffer source
-    use "hrsh7th/cmp-nvim-lua" -- cmp neovim lua source
-    use "hrsh7th/cmp-nvim-lsp" -- cmp neovim builtin lsp
-    use "hrsh7th/cmp-path" -- cmp path source
+    use {
+      "hrsh7th/nvim-cmp",
+      requires = {
+        "saadparwaiz1/cmp_luasnip",
+        "hrsh7th/cmp-buffer",
+        "hrsh7th/cmp-nvim-lua",
+        "hrsh7th/cmp-nvim-lsp",
+        "hrsh7th/cmp-path",
+      },
+    }
 
     -- Treesitter
-    use "nvim-treesitter/nvim-treesitter"
-    use "nvim-treesitter/nvim-treesitter-textobjects"
-    use "p00f/nvim-ts-rainbow"
+    use {
+      "nvim-treesitter/nvim-treesitter",
+      requires = {
+        "nvim-treesitter/nvim-treesitter-textobjects",
+        "p00f/nvim-ts-rainbow",
+      },
+    }
 
     -- Telescope
-    use { "nvim-telescope/telescope.nvim", requires = "nvim-lua/plenary.nvim" }
-    use { "nvim-telescope/telescope-file-browser.nvim" }
+    use { "nvim-telescope/telescope.nvim", 
+      requires = { "nvim-lua/plenary.nvim",
+ "nvim-telescope/telescope-file-browser.nvim", 
+    } }
     use {
       "nvim-telescope/telescope-fzf-native.nvim",
       run = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
@@ -158,7 +167,7 @@ require("packer").startup {
       },
       tag = "nightly", -- optional, updated every week. (see issue #1193)
     }
-use("windwp/nvim-autopairs")
+    use "windwp/nvim-autopairs"
   end,
   config = {
     display = {
