@@ -1,4 +1,9 @@
-# AmirrezaAsk Neovim Configuration
+# JasVim
+
+## Features
+- LSP + Automatic install of 90% of LSP servers
+- Telescope fuzzy finders
+- Tmux integration
 
 ## Screenshots
 ![Start screen](https://raw.github.com/amirrezaask/dotfiles/master/nvim/screenshots/0.png)
