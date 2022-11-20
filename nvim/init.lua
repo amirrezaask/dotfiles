@@ -516,10 +516,6 @@ require("nvim-treesitter.install").ensure_installed "yaml"
 require("lspconfig").yamlls.setup {
   on_attach = lsp_on_attach,
 }
-vim.cmd [[
-    autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
-    autocmd FileType yaml setlocal cursorcolumn
-]]
 -- ]]
 
 -- [[ JSON
