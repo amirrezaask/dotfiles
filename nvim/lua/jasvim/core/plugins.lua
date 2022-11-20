@@ -151,6 +151,14 @@ require("packer").startup {
     use "christoomey/vim-tmux-navigator"
     -- Toggle window zoom like Tmux
     use "szw/vim-maximizer"
+    use {
+      "nvim-tree/nvim-tree.lua",
+      requires = {
+        "nvim-tree/nvim-web-devicons", -- optional, for file icons
+      },
+      tag = "nightly", -- optional, updated every week. (see issue #1193)
+    }
+use("windwp/nvim-autopairs")
   end,
   config = {
     display = {

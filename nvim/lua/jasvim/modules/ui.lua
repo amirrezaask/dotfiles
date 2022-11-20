@@ -129,3 +129,9 @@ bind {
   },
 }
 
+require("nvim-tree").setup()
+bind {
+  n = {
+    ['<leader>l'] = '<cmd>NvimTreeToggle<CR>'
+  }
+}
