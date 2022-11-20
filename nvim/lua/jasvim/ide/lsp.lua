@@ -1,18 +1,18 @@
-plugin {
+jasvim.plugin {
   "williamboman/mason.nvim",
 }
-plugin "williamboman/mason-lspconfig.nvim"
-plugin "jayp0521/mason-nvim-dap.nvim"
+jasvim.plugin "williamboman/mason-lspconfig.nvim"
+jasvim.plugin "jayp0521/mason-nvim-dap.nvim"
 
-plugin "neovim/nvim-lspconfig"
-plugin {
+jasvim.plugin "neovim/nvim-lspconfig"
+jasvim.plugin {
   "ray-x/lsp_signature.nvim",
 }
-plugin {
+jasvim.plugin {
   "glepnir/lspsaga.nvim",
   branch = "main",
 }
-plugin "onsails/lspkind.nvim"
+jasvim.plugin "onsails/lspkind.nvim"
 
 _G.lsp = {}
 

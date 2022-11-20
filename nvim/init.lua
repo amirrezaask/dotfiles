@@ -1,7 +1,7 @@
 require "jasvim.core"
 
 
-modules {
+jasvim.modules {
 "jasvim.ui",
 'jasvim.editor',
 'jasvim.ide',

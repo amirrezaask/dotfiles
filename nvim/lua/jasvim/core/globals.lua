@@ -1,4 +1,6 @@
-function onsave(pattern, callback)
+_G.jasvim = {}
+
+function jasvim.onsave(pattern, callback)
   local augroup_name = ""
   if type(pattern) == "table" then
     augroup_name = table.concat(pattern, ",") .. "-onsave"
@@ -12,34 +14,16 @@ function onsave(pattern, callback)
     callback = callback,
   })
 end
-function bind(spec)
-  for mode, keys in pairs(spec) do
-    for key, binding in pairs(keys) do
-      if type(binding) == "string" or type(binding) == "function" then
-        vim.keymap.set(mode, key, binding)
-      else
-        if type(binding) == "table" then
-          -- { function or string, doc }
-          local handler = binding[1]
-          table.remove(binding, 1)
-          vim.keymap.set(mode, key, handler, binding)
-        end
-      end
-    end
-  end
-end
-
-window_height = function()
+jasvim.window_height = function()
   return vim.api.nvim_win_get_height(0)
 end
 
-window_width = function()
+jasvim.window_width = function()
   return vim.api.nvim_win_get_width(0)
 end
 
-_G.plugin = require("packer").use
 
-function _G.L(name)
+function jasvim.L(name)
   local exists, _ = require(name)
   if exists then
     return require(name)
@@ -47,8 +31,8 @@ function _G.L(name)
   vim.api.nvim_err_writeln(string.format("module %s does not exists", name))
 end
 
-function _G.modules(names)
+function jasvim.modules(names)
   for _, name in ipairs(names) do
-    L(name)
+    jasvim.L(name)
   end
 end

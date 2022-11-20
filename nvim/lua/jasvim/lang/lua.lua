@@ -1,5 +1,5 @@
-plugin { "ckipp01/stylua-nvim", run = "cargo install stylua" }
-plugin "folke/neodev.nvim"
+jasvim.plugin { "ckipp01/stylua-nvim", run = "cargo install stylua" }
+jasvim.plugin "folke/neodev.nvim"
 
 require("neodev").setup {}
 
@@ -9,7 +9,7 @@ table.insert(runtime_path, "lua/?/init.lua")
 
 require("nvim-treesitter.install").ensure_installed "lua"
 
-onsave("*.lua", function()
+jasvim.onsave("*.lua", function()
   require("stylua-nvim").format_file()
 end)
 

@@ -1,4 +1,4 @@
-plugin "ziglang/zig.vim"
+jasvim.plugin "ziglang/zig.vim"
 
 require("nvim-treesitter.install").ensure_installed "zig"
 require("lspconfig").zls.setup {

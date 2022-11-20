@@ -1,4 +1,4 @@
-plugin {
+jasvim.plugin {
       "akinsho/toggleterm.nvim",
       tag = "*",
     }
@@ -16,8 +16,8 @@ require("toggleterm").setup {
   direction = "horizontal",
   float_opts = {
     border = "single",
-    height = math.ceil(window_height() * 0.5),
-    width = math.ceil(window_width() * 0.3),
+    height = math.ceil(jasvim.window_height() * 0.5),
+    width = math.ceil(jasvim.window_width() * 0.3),
     winblend = 3,
   },
 }

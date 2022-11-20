@@ -1,5 +1,5 @@
 -- Completion
-plugin {
+jasvim.plugin {
   "hrsh7th/nvim-cmp",
   requires = {
     "saadparwaiz1/cmp_luasnip",

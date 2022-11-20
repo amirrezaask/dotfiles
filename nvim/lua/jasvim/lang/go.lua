@@ -4,6 +4,6 @@ require("lspconfig").gopls.setup {
   on_attach = lsp.on_attach,
 }
 
-onsave("*.go", function()
+jasvim.onsave("*.go", function()
   vim.lsp.buf.format()
 end)

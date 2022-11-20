@@ -1,24 +1,24 @@
 -- Integrate Tmux and neovim pane and window switching
-plugin "mrjones2014/smart-splits.nvim"
-plugin "christoomey/vim-tmux-navigator"
-plugin "pbrisbin/vim-mkdir"
-plugin "sheerun/vim-polyglot"
-plugin "szw/vim-maximizer"
-plugin "fladson/vim-kitty"
-plugin "towolf/vim-helm"
-plugin "jansedivy/jai.vim"
-plugin {
+jasvim.plugin "mrjones2014/smart-splits.nvim"
+jasvim.plugin "christoomey/vim-tmux-navigator"
+jasvim.plugin "pbrisbin/vim-mkdir"
+jasvim.plugin "sheerun/vim-polyglot"
+jasvim.plugin "szw/vim-maximizer"
+jasvim.plugin "fladson/vim-kitty"
+jasvim.plugin "towolf/vim-helm"
+jasvim.plugin "jansedivy/jai.vim"
+jasvim.plugin {
   "folke/todo-comments.nvim",
   requires = "nvim-lua/plenary.nvim",
 }
-plugin "tpope/vim-surround"
-plugin "junegunn/vim-easy-align"
-plugin {
+jasvim.plugin "tpope/vim-surround"
+jasvim.plugin "junegunn/vim-easy-align"
+jasvim.plugin {
   "numToStr/Comment.nvim",
 }
-plugin "windwp/nvim-autopairs"
-plugin { "L3MON4D3/LuaSnip", tag = "v<CurrentMajor>.*", requires = "rafamadriz/friendly-snippets" }
-plugin "junegunn/goyo.vim"
+jasvim.plugin "windwp/nvim-autopairs"
+jasvim.plugin { "L3MON4D3/LuaSnip", tag = "v<CurrentMajor>.*", requires = "rafamadriz/friendly-snippets" }
+jasvim.plugin "junegunn/goyo.vim"
 
 require "jasvim.editor.treesitter"
 require("todo-comments").setup()

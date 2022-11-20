@@ -1,4 +1,4 @@
-plugin "b0o/schemastore.nvim"
+jasvim.plugin "b0o/schemastore.nvim"
 
 require("nvim-treesitter.install").ensure_installed "json"
 require("lspconfig").jsonls.setup {

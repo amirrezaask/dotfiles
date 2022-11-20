@@ -1,11 +1,11 @@
-plugin  {
+jasvim.plugin  {
       "nvim-treesitter/nvim-treesitter",
       requires = {
         "nvim-treesitter/nvim-treesitter-textobjects",
         "p00f/nvim-ts-rainbow",
       },
     }
-L("nvim-treesitter.configs").setup {
+require("nvim-treesitter.configs").setup {
   highlight = {
     enable = true,
   },

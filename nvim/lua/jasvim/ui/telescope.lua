@@ -1,13 +1,11 @@
-    plugin {
-      "nvim-telescope/telescope.nvim",
-      requires = { "nvim-lua/plenary.nvim", "nvim-telescope/telescope-file-browser.nvim" },
-    }
-    plugin {
-      "nvim-telescope/telescope-fzf-native.nvim",
-      run = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
-    }
-
-
+jasvim.plugin {
+  "nvim-telescope/telescope.nvim",
+  requires = { "nvim-lua/plenary.nvim", "nvim-telescope/telescope-file-browser.nvim" },
+}
+jasvim.plugin {
+  "nvim-telescope/telescope-fzf-native.nvim",
+  run = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
+}
 
 local dropdown = require("telescope.themes").get_dropdown()
 local ivy = require("telescope.themes").get_ivy()
@@ -18,41 +16,41 @@ local function get_default_telescope_picker_opts()
       preview = false,
       theme = dropdown,
       layout_config = {
-        height = math.ceil(window_height() * 0.7),
+        height = math.ceil(jasvim.window_height() * 0.7),
       },
     },
     oldfiles = {
       preview = false,
       theme = dropdown,
       layout_config = {
-        height = math.ceil(window_height() * 0.7),
+        height = math.ceil(jasvim.window_height() * 0.7),
       },
     },
     git_files = {
       preview = false,
       theme = dropdown,
       layout_config = {
-        height = math.ceil(window_height() * 0.7),
+        height = math.ceil(jasvim.window_height() * 0.7),
       },
     },
     live_grep = {
       preview = true,
       layout_config = {
-        height = math.ceil(window_height() * 0.7),
+        height = math.ceil(jasvim.window_height() * 0.7),
       },
     },
     help_tags = {
       preview = false,
       theme = dropdown,
       layout_config = {
-        height = math.ceil(window_height() * 0.7),
+        height = math.ceil(jasvim.window_height() * 0.7),
       },
     },
     commands = {
       preview = false,
       theme = dropdown,
       layout_config = {
-        height = math.ceil(window_height() * 0.7),
+        height = math.ceil(jasvim.window_height() * 0.7),
       },
     },
   }

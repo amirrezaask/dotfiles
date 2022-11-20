@@ -2,6 +2,23 @@
 -- Set leader to <Space>
 vim.g.mapleader = " "
 
+function bind(spec)
+  for mode, keys in pairs(spec) do
+    for key, binding in pairs(keys) do
+      if type(binding) == "string" or type(binding) == "function" then
+        vim.keymap.set(mode, key, binding)
+      else
+        if type(binding) == "table" then
+          -- { function or string, doc }
+          local handler = binding[1]
+          table.remove(binding, 1)
+          vim.keymap.set(mode, key, handler, binding)
+        end
+      end
+    end
+  end
+end
+
 -- [[ Basic keymaps
 bind {
   n = {
@@ -33,5 +50,3 @@ bind {
     ["kj"] = "<esc>",
   },
 }
-
-
