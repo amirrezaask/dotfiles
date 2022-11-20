@@ -1,3 +1,6 @@
+require 'jasvim.ide.git'
+require 'jasvim.ide.completion'
+require 'jasvim.ide.mason'
 require 'jasvim.ide.lsp'
 require 'jasvim.ide.dap'
 require 'jasvim.ide.terminal'

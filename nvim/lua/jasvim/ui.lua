@@ -1,4 +1,5 @@
 require("dressing").setup()
+require 'jasvim.ui.telescope'
 require("lualine").setup {
   options = {
     icons_enabled = true,

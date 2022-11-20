@@ -3,16 +3,19 @@ require "jasvim.plugins"
 require "jasvim.options"
 require "jasvim.keymaps"
 require "jasvim.colorscheme"
-require "jasvim.git"
+
+-- Enhance neovim user interface using better default handlers for UI
+-- and also telescope.nvim
 require "jasvim.ui"
-require 'jasvim.editor'
-require "jasvim.mason"
-require 'jasvim.ide'
-require "jasvim.completion"
-require "jasvim.telescope"
+
+-- neovim is a good editor
+-- let's make it a great one
 require "jasvim.editor"
 
--- Programming languages
+-- neovim as your IDE
+require "jasvim.ide"
+
+-- Programming languages support
 require "jasvim.lang"
 
 -- Which key should always load at last to make sure all keymap docs are loaded
