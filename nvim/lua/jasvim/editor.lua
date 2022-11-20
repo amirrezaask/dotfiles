@@ -1,3 +1,4 @@
+require 'jasvim.editor.treesitter'
 require("todo-comments").setup()
 require("Comment").setup {
   ---Add a space b/w comment and the line

@@ -1,20 +1,19 @@
-require "jasvim.modules.globals"
-require "jasvim.modules.plugins"
-require "jasvim.modules.options"
-require "jasvim.modules.keymaps"
-require "jasvim.modules.colorscheme"
-require "jasvim.modules.git"
-require "jasvim.modules.ui"
-require "jasvim.modules.mason"
-require "jasvim.modules.lsp"
-require "jasvim.modules.completion"
-require "jasvim.modules.dap"
-require "jasvim.modules.telescope"
-require "jasvim.modules.treesitter"
-require "jasvim.modules.terminal"
-require "jasvim.modules.editor"
+require "jasvim.globals"
+require "jasvim.plugins"
+require "jasvim.options"
+require "jasvim.keymaps"
+require "jasvim.colorscheme"
+require "jasvim.git"
+require "jasvim.ui"
+require 'jasvim.editor'
+require "jasvim.mason"
+require 'jasvim.ide'
+require "jasvim.completion"
+require "jasvim.telescope"
+require "jasvim.editor"
+
 -- Programming languages
-require "jasvim.modules.lang"
+require "jasvim.lang"
 
 -- Which key should always load at last to make sure all keymap docs are loaded
-require "jasvim.modules.whichkey"
+require "jasvim.whichkey"
