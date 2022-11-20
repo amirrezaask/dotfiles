@@ -147,17 +147,22 @@ require("packer").startup {
       "akinsho/toggleterm.nvim",
       tag = "*",
     }
+
     -- dashboard or start screen
     use {
       "goolord/alpha-nvim",
       requires = { "kyazdani42/nvim-web-devicons" },
     }
+
     -- Commenting plugin
     use {
       "numToStr/Comment.nvim",
     }
+
     -- Integrate Tmux and neovim pane and window switching
+    use "mrjones2014/smart-splits.nvim"
     use "christoomey/vim-tmux-navigator"
+
     -- Toggle window zoom like Tmux
     use "szw/vim-maximizer"
     use {
