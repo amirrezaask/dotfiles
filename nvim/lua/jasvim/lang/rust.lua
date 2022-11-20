@@ -1,4 +1,7 @@
-local rt = require "rust-tools"
+plugin "rust-lang/rust.vim"
+plugin "simrat39/rust-tools.nvim"
+
+local rt = L "rust-tools"
 
 require("nvim-treesitter.install").ensure_installed "rust"
 

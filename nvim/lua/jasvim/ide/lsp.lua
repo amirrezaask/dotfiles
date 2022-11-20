@@ -1,3 +1,19 @@
+plugin {
+  "williamboman/mason.nvim",
+}
+plugin "williamboman/mason-lspconfig.nvim"
+plugin "jayp0521/mason-nvim-dap.nvim"
+
+plugin "neovim/nvim-lspconfig"
+plugin {
+  "ray-x/lsp_signature.nvim",
+}
+plugin {
+  "glepnir/lspsaga.nvim",
+  branch = "main",
+}
+plugin "onsails/lspkind.nvim"
+
 _G.lsp = {}
 
 require("fidget").setup()

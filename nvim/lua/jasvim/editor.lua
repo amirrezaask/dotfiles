@@ -1,4 +1,26 @@
-require 'jasvim.editor.treesitter'
+-- Integrate Tmux and neovim pane and window switching
+plugin "mrjones2014/smart-splits.nvim"
+plugin "christoomey/vim-tmux-navigator"
+plugin "pbrisbin/vim-mkdir"
+plugin "sheerun/vim-polyglot"
+plugin "szw/vim-maximizer"
+plugin "fladson/vim-kitty"
+plugin "towolf/vim-helm"
+plugin "jansedivy/jai.vim"
+plugin {
+  "folke/todo-comments.nvim",
+  requires = "nvim-lua/plenary.nvim",
+}
+plugin "tpope/vim-surround"
+plugin "junegunn/vim-easy-align"
+plugin {
+  "numToStr/Comment.nvim",
+}
+plugin "windwp/nvim-autopairs"
+plugin { "L3MON4D3/LuaSnip", tag = "v<CurrentMajor>.*", requires = "rafamadriz/friendly-snippets" }
+plugin "junegunn/goyo.vim"
+
+require "jasvim.editor.treesitter"
 require("todo-comments").setup()
 require("Comment").setup {
   ---Add a space b/w comment and the line
@@ -40,6 +62,5 @@ require("Comment").setup {
 -- ]]
 
 require("luasnip.loaders.from_vscode").lazy_load()
-
 
 require("nvim-autopairs").setup {}

@@ -1,3 +1,10 @@
+plugin {
+      "akinsho/toggleterm.nvim",
+      tag = "*",
+    }
+
+
+
 require("toggleterm").setup {
   size = function(term)
     if term.direction == "horizontal" then

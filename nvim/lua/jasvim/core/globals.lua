@@ -28,6 +28,7 @@ function bind(spec)
     end
   end
 end
+
 window_height = function()
   return vim.api.nvim_win_get_height(0)
 end
@@ -36,3 +37,18 @@ window_width = function()
   return vim.api.nvim_win_get_width(0)
 end
 
+_G.plugin = require("packer").use
+
+function _G.L(name)
+  local exists, _ = require(name)
+  if exists then
+    return require(name)
+  end
+  vim.api.nvim_err_writeln(string.format("module %s does not exists", name))
+end
+
+function _G.modules(names)
+  for _, name in ipairs(names) do
+    L(name)
+  end
+end

@@ -1,3 +1,14 @@
+    plugin {
+      "nvim-telescope/telescope.nvim",
+      requires = { "nvim-lua/plenary.nvim", "nvim-telescope/telescope-file-browser.nvim" },
+    }
+    plugin {
+      "nvim-telescope/telescope-fzf-native.nvim",
+      run = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
+    }
+
+
+
 local dropdown = require("telescope.themes").get_dropdown()
 local ivy = require("telescope.themes").get_ivy()
 

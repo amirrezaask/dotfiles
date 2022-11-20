@@ -1,5 +1,39 @@
-require("dressing").setup()
-require 'jasvim.ui.telescope'
+plugin {
+  "stevearc/dressing.nvim",
+}
+plugin "sainnhe/sonokai"
+plugin "folke/tokyonight.nvim"
+plugin "ellisonleao/gruvbox.nvim"
+plugin "bluz71/vim-nightfly-colors"
+
+plugin {
+  "nvim-tree/nvim-tree.lua",
+  requires = {
+    "nvim-tree/nvim-web-devicons", -- optional, for file icons
+  },
+  tag = "nightly", -- optional, updated every week. (see issue #1193)
+}
+
+plugin {
+  "folke/which-key.nvim",
+}
+
+plugin {
+  "j-hui/fidget.nvim",
+}
+plugin {
+  "goolord/alpha-nvim",
+  requires = { "kyazdani42/nvim-web-devicons" },
+}
+
+plugin "nvim-lualine/lualine.nvim"
+
+vim.g.nightflyCursorColor = true
+colorscheme_status, _ = pcall(vim.cmd, [[ colorscheme nightfly ]])
+
+require("dressing").setup {}
+
+L "jasvim.ui.telescope"
 require("lualine").setup {
   options = {
     icons_enabled = true,

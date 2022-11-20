@@ -1,3 +1,6 @@
+plugin { "ckipp01/stylua-nvim", run = "cargo install stylua" }
+plugin "folke/neodev.nvim"
+
 require("neodev").setup {}
 
 local runtime_path = vim.split(package.path, ";")
