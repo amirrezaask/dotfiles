@@ -5,7 +5,7 @@ jasvim.plugin  {
         "p00f/nvim-ts-rainbow",
       },
     }
-require("nvim-treesitter.configs").setup {
+jasvim.L("nvim-treesitter.configs").setup {
   highlight = {
     enable = true,
   },

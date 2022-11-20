@@ -1,1 +1,1 @@
-require'mason'.setup{}
+jasvim.L'mason'.setup{}

@@ -31,10 +31,10 @@ jasvim.plugin "nvim-lualine/lualine.nvim"
 vim.g.nightflyCursorColor = true
 colorscheme_status, _ = pcall(vim.cmd, [[ colorscheme nightfly ]])
 
-require("dressing").setup {}
+jasvim.L("dressing").setup {}
 
-require "jasvim.ui.telescope"
-require("lualine").setup {
+jasvim.L "jasvim.ui.telescope"
+jasvim.L("lualine").setup {
   options = {
     icons_enabled = true,
     theme = "auto",
@@ -123,7 +123,7 @@ local asciiarts = {
   ),
 }
 math.randomseed(os.clock() * 100000000000)
-local button = require("alpha.themes.dashboard").button
+local button = jasvim.L("alpha.themes.dashboard").button
 local myconfig = {
   layout = {
     { type = "padding", val = 2 },
@@ -156,7 +156,7 @@ local myconfig = {
     },
   },
 }
-require("alpha").setup(myconfig)
+jasvim.L("alpha").setup(myconfig)
 
 bind {
   n = {
@@ -164,7 +164,7 @@ bind {
   },
 }
 
-require("nvim-tree").setup()
+jasvim.L("nvim-tree").setup()
 bind {
   n = {
     ["<leader>l"] = "<cmd>NvimTreeToggle<CR>",
@@ -172,18 +172,18 @@ bind {
 }
 
 -- smart split
-require("smart-splits").setup {}
+jasvim.L("smart-splits").setup {}
 
 bind {
   n = {
-    ["<A-h>"] = require("smart-splits").resize_left,
-    ["<A-j>"] = require("smart-splits").resize_down,
-    ["<A-k>"] = require("smart-splits").resize_up,
-    ["<A-l>"] = require("smart-splits").resize_right,
+    ["<A-h>"] = jasvim.L("smart-splits").resize_left,
+    ["<A-j>"] = jasvim.L("smart-splits").resize_down,
+    ["<A-k>"] = jasvim.L("smart-splits").resize_up,
+    ["<A-l>"] = jasvim.L("smart-splits").resize_right,
 
-    ["<C-h>"] = require("smart-splits").move_cursor_left,
-    ["<C-j>"] = require("smart-splits").move_cursor_down,
-    ["<C-k>"] = require("smart-splits").move_cursor_up,
-    ["<C-l>"] = require("smart-splits").move_cursor_right,
+    ["<C-h>"] = jasvim.L("smart-splits").move_cursor_left,
+    ["<C-j>"] = jasvim.L("smart-splits").move_cursor_down,
+    ["<C-k>"] = jasvim.L("smart-splits").move_cursor_up,
+    ["<C-l>"] = jasvim.L("smart-splits").move_cursor_right,
   },
 }

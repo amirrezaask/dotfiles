@@ -7,8 +7,8 @@ jasvim.plugin {
   run = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
 }
 
-local dropdown = require("telescope.themes").get_dropdown()
-local ivy = require("telescope.themes").get_ivy()
+local dropdown = jasvim.L("telescope.themes").get_dropdown()
+local ivy = jasvim.L("telescope.themes").get_ivy()
 
 local function get_default_telescope_picker_opts()
   return {
@@ -56,7 +56,7 @@ local function get_default_telescope_picker_opts()
   }
 end
 
-require("telescope").setup {
+jasvim.L("telescope").setup {
   defaults = {
     preview = false,
     prompt_prefix = "🔍 ",
@@ -83,14 +83,14 @@ require("telescope").setup {
     },
   },
 }
-require("telescope").load_extension "fzf"
+jasvim.L("telescope").load_extension "fzf"
 
 local function telescope_wrap(builtin, picker_opts)
   return function()
     picker_opts = picker_opts or {}
     local opts = get_default_telescope_picker_opts()[builtin] or {}
     local theme = opts.theme or {}
-    require("telescope.builtin")[builtin](vim.tbl_extend("keep", opts, theme, picker_opts))
+    jasvim.L("telescope.builtin")[builtin](vim.tbl_extend("keep", opts, theme, picker_opts))
   end
 end
 
@@ -108,4 +108,4 @@ bind {
   },
 }
 
-require("telescope").load_extension "file_browser"
+jasvim.L("telescope").load_extension "file_browser"

@@ -1,9 +1,9 @@
 jasvim.plugin "rust-lang/rust.vim"
 jasvim.plugin "simrat39/rust-tools.nvim"
 
-local rt = require "rust-tools"
+local rt = jasvim.L "rust-tools"
 
-require("nvim-treesitter.install").ensure_installed "rust"
+jasvim.L("nvim-treesitter.install").ensure_installed "rust"
 
 rt.setup {
   server = {

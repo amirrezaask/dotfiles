@@ -1,1 +1,1 @@
-require("which-key").setup()
+jasvim.L("which-key").setup()

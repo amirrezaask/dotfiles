@@ -1,10 +1,10 @@
 jasvim.plugin "b0o/schemastore.nvim"
 
-require("nvim-treesitter.install").ensure_installed "json"
-require("lspconfig").jsonls.setup {
+jasvim.L("nvim-treesitter.install").ensure_installed "json"
+jasvim.L("lspconfig").jsonls.setup {
   settings = {
     json = {
-      schemas = require("schemastore").json.schemas(),
+      schemas = jasvim.L("schemastore").json.schemas(),
       validate = { enable = true },
     },
   },

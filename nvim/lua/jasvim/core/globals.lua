@@ -24,15 +24,17 @@ end
 
 
 function jasvim.L(name)
-  local exists, _ = require(name)
+  local exists, _ = pcall(require, name)
   if exists then
-    return require(name)
+    return require(name) 
   end
   vim.api.nvim_err_writeln(string.format("module %s does not exists", name))
 end
-
+-- Enable modules
+-- @param names: table
 function jasvim.modules(names)
   for _, name in ipairs(names) do
     jasvim.L(name)
   end
 end
+

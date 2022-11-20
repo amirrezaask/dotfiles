@@ -9,7 +9,7 @@ jasvim.plugin "towolf/vim-helm"
 jasvim.plugin "jansedivy/jai.vim"
 jasvim.plugin {
   "folke/todo-comments.nvim",
-  requires = "nvim-lua/plenary.nvim",
+  reuqires = "nvim-lua/plenary.nvim",
 }
 jasvim.plugin "tpope/vim-surround"
 jasvim.plugin "junegunn/vim-easy-align"
@@ -20,9 +20,9 @@ jasvim.plugin "windwp/nvim-autopairs"
 jasvim.plugin { "L3MON4D3/LuaSnip", tag = "v<CurrentMajor>.*", requires = "rafamadriz/friendly-snippets" }
 jasvim.plugin "junegunn/goyo.vim"
 
-require "jasvim.editor.treesitter"
-require("todo-comments").setup()
-require("Comment").setup {
+jasvim.L "jasvim.editor.treesitter"
+jasvim.L("todo-comments").setup()
+jasvim.L("Comment").setup {
   ---Add a space b/w comment and the line
   padding = true,
   ---Whether the cursor should stay at its position
@@ -61,6 +61,6 @@ require("Comment").setup {
 }
 -- ]]
 
-require("luasnip.loaders.from_vscode").lazy_load()
+jasvim.L("luasnip.loaders.from_vscode").lazy_load()
 
-require("nvim-autopairs").setup {}
+jasvim.L("nvim-autopairs").setup {}
