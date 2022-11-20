@@ -1,5 +1,11 @@
 # JasVim
 
+## How to install
+```bash
+git clone https://github.com/amirrezaask/dotfiles amirrezaask_dotfiles --depth 1
+cp amirrezaask_dotfiles/nvim $HOME/.config/
+```
+
 ## Features
 - LSP + Automatic install of 90% of LSP servers
 - Telescope fuzzy finders
