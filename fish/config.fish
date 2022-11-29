@@ -88,20 +88,10 @@ alias tl='tmux ls'
 alias ta='tmux attach -t'
 alias tks='tmux kill-session -t'
 
-function fish_prompt
-	set_color brblack
-	echo -n "["(date "+%H:%M")"] "
-	set_color cyan 
-	echo -n (hostname)
-	if [ $PWD != $HOME ]
-		set_color brblack
-		echo -n ':'
-		set_color yellow
-		echo -n (basename $PWD)
-	end
-	set_color green
-	printf '%s ' (__fish_git_prompt)
-	set_color red
-	echo -n '| '
-	set_color normal
+function fish_prompt -d "Write out the prompt"
+    printf '%s' (prompt_pwd)
+    set_color green
+    printf '%s' (__fish_git_prompt)
+    set_color normal
+    printf ' > '
 end

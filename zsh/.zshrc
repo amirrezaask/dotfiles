@@ -52,7 +52,6 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 
 export HOMEBREW_NO_AUTO_UPDATE=1
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_OPTS='--height 20%'
 export FZF_DEFAULT_COMMAND='rg --files'
 
@@ -74,3 +73,6 @@ ss_proxy() {
 }
 
 alias snapp='cd ~/dev/snapp/' 
+
+[[ $- == *i* ]] && source "$HOME/.config/zsh/completion.zsh" 2> /dev/null
+source "$HOME/.config/zsh/key-bindings.zsh"
