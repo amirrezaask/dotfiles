@@ -38,8 +38,3 @@ langs = {
     autoformat = true,
   },
 }
-
--- Loader
--- install all missing plugins
--- then load all your /lua/plugins/*.lua and /lua/langs/*.lua
-require "core.loader"

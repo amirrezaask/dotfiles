@@ -30,11 +30,6 @@ local load = function()
     require(m)
   end
 
-  local ok, _ = pcall(require, "which-key")
-  if ok then
-    require("which-key").setup {}
-  end
-
   vim.cmd.PackerInstall()
 
   for _, cfg in pairs(configs) do
