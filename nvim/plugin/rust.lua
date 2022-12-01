@@ -7,7 +7,7 @@ use {
 }
 
 function configs.rust()
-  treesitter.ensure "rust"
+  require("nvim-treesitter.install").ensure_installed "rust"
   local rt = require "rust-tools"
   rt.setup {
     server = {

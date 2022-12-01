@@ -1,6 +1,6 @@
 use { "cuducos/yaml.nvim" }
 function configs.yaml()
-  treesitter.ensure "yaml"
+  require("nvim-treesitter.install").ensure_installed "yaml"
   lsp.config("yamlls", {
     on_attach = lsp.on_attach,
   })

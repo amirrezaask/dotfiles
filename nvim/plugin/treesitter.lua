@@ -17,15 +17,6 @@ use {
   after = "nvim-treesitter",
 }
 
-_G.treesitter = {}
-_G.treesitter.ensure = function(name)
-  local ok, _ = pcall(require, "nvim-treesitter.install")
-  if not ok then
-    return
-  end
-  require("nvim-treesitter.install").ensure_installed(name)
-end
-
 function configs.treesitter()
   require("nvim-treesitter.configs").setup {
     highlight = {

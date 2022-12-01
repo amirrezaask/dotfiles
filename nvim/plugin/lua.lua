@@ -7,7 +7,7 @@ use "nanotee/luv-vimdocs"
 
 function configs.lua()
   require("neodev").setup {}
-  treesitter.ensure "lua"
+  require("nvim-treesitter.install").ensure_installed "lua"
 
   if cfg(langs, "autoformat", "lua.autoformat") then
     vim.api.nvim_create_autocmd("BufWritePre", {

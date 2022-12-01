@@ -32,7 +32,7 @@ function configs.go()
     end,
   })
 
-  treesitter.ensure "go"
+  require("nvim-treesitter.install").ensure_installed "go"
 
   lsp.config "gopls"
 

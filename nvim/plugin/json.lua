@@ -12,5 +12,5 @@ function configs.json()
     },
   })
 
-  treesitter.ensure "json"
+  require("nvim-treesitter.install").ensure_installed "json"
 end
