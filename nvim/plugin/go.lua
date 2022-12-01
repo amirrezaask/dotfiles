@@ -1,6 +1,7 @@
 use {
   "fatih/vim-go",
 }
+local keymaps = require "core.keymaps"
 
 _G.go_group = vim.api.nvim_create_augroup("GoModule", {})
 function configs.go()
@@ -10,9 +11,9 @@ function configs.go()
     group = _G.go_group,
     callback = function(meta)
       local utils = require "core.utils"
-      buf_nnoremap(meta.buffer, "<leader>lat", "<cmd>GoAddTag<CR>", { remap = true })
-      buf_nnoremap(meta.buffer, "<leader>lrt", "<cmd>GoRmTag<CR>", { remap = true })
-      buf_nnoremap(meta.buffer, "<leader>lfs", "<cmd>GoFillStruct<CR>", { remap = true })
+      keymaps.buf_nnoremap(meta.buffer, "<leader>lat", "<cmd>GoAddTag<CR>", { remap = true })
+      keymaps.buf_nnoremap(meta.buffer, "<leader>lrt", "<cmd>GoRmTag<CR>", { remap = true })
+      keymaps.buf_nnoremap(meta.buffer, "<leader>lfs", "<cmd>GoFillStruct<CR>", { remap = true })
       local go_palete = function()
         vim.ui.select(vim.fn.getcompletion("Go", "command"), {}, function(cmd)
           if cmd == "" then
@@ -27,13 +28,14 @@ function configs.go()
           end
         end)
       end
-      buf_nnoremap(meta.buffer, "<leader>p", go_palete)
+      keymaps.buf_nnoremap(meta.buffer, "<leader>p", go_palete)
     end,
   })
+
   treesitter.ensure "go"
-  lsp.config("gopls", {
-    on_attach = lsp.on_attach,
-  })
+
+  lsp.config "gopls"
+
   if cfg(langs, "autoformat", "go.autoformat") then
     vim.api.nvim_create_autocmd("BufWritePost", {
       pattern = "*.go",

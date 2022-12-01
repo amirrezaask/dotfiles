@@ -4,6 +4,7 @@ use {
     "nvim-lua/plenary.nvim",
   },
 }
+
 function configs.harpoon()
   require("telescope").load_extension "harpoon"
   require("core.keymaps").bind {
