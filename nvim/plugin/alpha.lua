@@ -22,6 +22,9 @@ else
 end
 
 function configs.alpha()
+  if cfg(plugins, "alpha.enabled") == false then
+    return
+  end
   local ascii_art = vim.split(asciiart, "\n")
   local button = require("alpha.themes.dashboard").button
   local myconfig = {
