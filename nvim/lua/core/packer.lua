@@ -19,6 +19,7 @@ require("packer").init {
   },
 }
 
+-- Where plugins store their configurations
 configs = {}
 
 use = require("packer").use
@@ -28,12 +29,7 @@ use "lewis6991/impatient.nvim"
 
 local _, _ = pcall(require, "impatient")
 
-local function reload()
-  vim.cmd [[PackerInstall]]
-  for _, cfg in pairs(configs) do
-    pcall(cfg)
-  end
-end
+local function reload() end
 
 return {
   reload = reload,

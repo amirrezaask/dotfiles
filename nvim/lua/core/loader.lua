@@ -35,10 +35,14 @@ local load = function()
     require("which-key").setup {}
   end
 
-  require("core.packer").reload()
+  vim.cmd.PackerInstall()
+
+  for _, cfg in pairs(configs) do
+    pcall(cfg)
+  end
 end
 
-vim.api.nvim_create_user_command("Reload", "<cmd>so ~/.config/nvim/init.lua<cr>", {})
+vim.api.nvim_create_user_command("Reload", "so ~/.config/nvim/init.lua", {})
 nnoremap("<leader>cr", "<cmd>so ~/.config/nvim/init.lua<CR>", {})
 
 load()
