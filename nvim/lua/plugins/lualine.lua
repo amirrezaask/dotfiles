@@ -1,6 +1,4 @@
-use {
-  "nvim-lualine/lualine.nvim",
-}
+use { "nvim-lualine/lualine.nvim" }
 
 function configs.lualine()
   require("lualine").setup {
