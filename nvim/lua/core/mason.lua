@@ -1,4 +1,4 @@
-plugin {
+use {
   "williamboman/mason.nvim",
   requires = {
     "jayp0521/mason-nvim-dap.nvim",

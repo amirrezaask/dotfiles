@@ -8,9 +8,6 @@ local function get_config_path()
   return config
 end
 
--- Plugins register their config callback in here
-_G.conf = {}
-
 local load = function()
   local plugins_dir = get_config_path() .. "/lua/plugins"
 
@@ -24,12 +21,15 @@ local load = function()
     end
     return list
   end
+
   for _, m in ipairs(get_lua_files(plugins_dir)) do
     require(m)
   end
+
   for _, m in ipairs(get_lua_files(langs_dir)) do
     require(m)
   end
+
   local ok, _ = pcall(require, "which-key")
   if ok then
     require("which-key").setup {}

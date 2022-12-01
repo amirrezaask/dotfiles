@@ -1,3 +1,13 @@
+use {
+  "nvim-telescope/telescope.nvim",
+  requires = { "nvim-lua/plenary.nvim" },
+}
+
+use {
+  "nvim-telescope/telescope-fzf-native.nvim",
+  run = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
+}
+
 _G.window_height = function()
   return vim.api.nvim_win_get_height(0)
 end
@@ -31,7 +41,7 @@ local _mt = {
 
 _G.telescope = setmetatable({}, _mt)
 
-function conf.telescope()
+function configs.telescope()
   if _G.plugins.fuzzy_finder ~= "telescope" then
     return
   end
@@ -67,18 +77,6 @@ function conf.telescope()
       ["??"] = { telescope "live_grep", desc = "Live Grep" },
     },
   }
+
+  require("telescope").load_extension "fzf"
 end
-
-plugin {
-  "nvim-telescope/telescope.nvim",
-  requires = { "nvim-lua/plenary.nvim" },
-  config = conf.telescope,
-}
-
-plugin {
-  "nvim-telescope/telescope-fzf-native.nvim",
-  run = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
-  config = function()
-    require("telescope").load_extension "fzf"
-  end,
-}
