@@ -16,6 +16,8 @@ require("core.keymaps").bind {
     ["k"] = "gk",
     ["<leader>ce"] = ":e ~/.config/nvim/init.lua<CR>",
     ["<CR>"] = { [[ {-> v:hlsearch ? ':nohl<CR>' : '<CR>'}() ]], expr = true },
+
+    ["<leader>ek"] = { ":e ~/.config/kitty/kitty.conf<CR>", desc = "Edit Kitty" },
   },
   t = {
     ["<Esc>"] = "<C-\\><C-n>",

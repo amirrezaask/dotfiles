@@ -68,6 +68,7 @@ function configs.telescope()
       ["<leader><leader>"] = { telescope "find_files", desc = "Find Files" },
       ["<leader>ff"] = { telescope "find_files", desc = "Find Files" },
       ["<leader>fn"] = { telescope("find_files", { cwd = "~/.config/nvim" }), desc = "Neovim Config" },
+      ["<leader>en"] = { telescope("find_files", { cwd = "~/.config/nvim" }), desc = "Neovim Config" },
       ["<leader>fg"] = { telescope "git_files", desc = "Git Files" },
       ["<leader>fr"] = { telescope "oldfiles", desc = "Recent Files" },
       ["<leader>fh"] = { telescope "help_tags", desc = "Help" },
