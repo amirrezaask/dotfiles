@@ -5,7 +5,7 @@ require "core"
 plugins.fuzzy_finder = "telescope"
 
 -- Colorscheme, check :Theme command for available options
-plugins.colorscheme = "catppuccin"
+plugins.colorscheme = "ayu-dark"
 plugins.transparent = false
 
 -- Wether you want startup alpha dashboard or no.
