@@ -3,5 +3,5 @@ use {
 }
 
 function configs.fidget()
-  require("fidget").setup {}
+  -- require("fidget").setup {}
 end

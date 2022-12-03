@@ -10,7 +10,7 @@ plugins.transparent = false
 
 -- Wether you want startup alpha dashboard or no.
 plugins.alpha = {
-  enabled = true,
+  enabled = false,
   asciiart = [[
 
 ███    ██ ███████  ██████  ██    ██ ██ ███    ███ 

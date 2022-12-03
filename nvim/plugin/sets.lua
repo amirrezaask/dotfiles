@@ -41,8 +41,8 @@ vim.opt.shortmess = vim.opt.shortmess + "c" -- Shut off completion messages
 vim.opt.belloff = vim.opt.belloff + "ctrlg" -- If Vim beeps during completion
 vim.opt.termguicolors = true -- true color support, needs terminal support as well
 vim.opt.list = true -- use list characters that are defined below
-vim.opt.listchars:append "tab:<->"
-vim.opt.listchars:append "eol:↲"
+-- vim.opt.listchars:append "tab:<->"
+-- vim.opt.listchars:append "eol:↲"
 vim.opt.listchars:append "trail:·"
 vim.opt.listchars:append "lead:·"
 vim.opt.timeoutlen = 500 -- when a key is pressed timeout until it's forgotten

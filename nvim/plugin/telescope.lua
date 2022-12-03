@@ -75,6 +75,7 @@ function configs.telescope()
       ["<leader>p"] = { telescope "commands", desc = "Command palete" },
       ["<leader>fc"] = { telescope "commands", desc = "Command palete" },
       ["??"] = { telescope "live_grep", desc = "Live Grep" },
+      ["<leader>fw"] = { telescope "grep_string", desc = "grep string" },
     },
   }
 
