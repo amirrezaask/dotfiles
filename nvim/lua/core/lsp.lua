@@ -1,6 +1,18 @@
+use {
+  "neovim/nvim-lspconfig",
+}
+
 local keymaps = require "core.keymaps"
 
 local lsp = {}
+function configs.lspconfig()
+  local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
+  function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
+    opts = opts or {}
+    opts.border = "rounded"
+    return orig_util_open_floating_preview(contents, syntax, opts, ...)
+  end
+end
 
 function lsp.on_attach(_, bufnr)
   vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
