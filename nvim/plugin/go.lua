@@ -1,11 +1,16 @@
+-- use {
+--   "fatih/vim-go",
+--   run = ":GoInstalBinaries",
+-- }
 use {
-  "fatih/vim-go",
+  "ray-x/go.nvim",
 }
+
 local keymaps = require "core.keymaps"
 
 _G.go_group = vim.api.nvim_create_augroup("GoModule", {})
 function configs.go()
-  vim.g.go_gopls_enabled = false -- we do the LSP using our own systems
+  require("go").setup()
   vim.api.nvim_create_autocmd("BufEnter", {
     pattern = "*.go",
     group = _G.go_group,

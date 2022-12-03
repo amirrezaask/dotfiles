@@ -16,6 +16,12 @@ _G.window_width = function()
   return vim.api.nvim_win_get_width(0)
 end
 
+local default_theme = require("telescope.themes").get_dropdown {
+  layout_config = {
+    height = math.ceil(window_height() * 0.7),
+  },
+}
+
 local _mt = {
   __call = function(tbl, name, user_opts)
     return function()
@@ -29,7 +35,7 @@ local _mt = {
       }
       local opts = pickers_settings[name] or {}
       user_opts = user_opts or {}
-      local theme = opts.theme or {}
+      local theme = opts.theme or default_theme
       if tbl[name] then
         tbl[name](vim.tbl_extend("keep", user_opts, opts, theme))
       else

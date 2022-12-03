@@ -5,12 +5,12 @@ require "core"
 plugins.fuzzy_finder = "telescope"
 
 -- Colorscheme, check :Theme command for available options
-plugins.colorscheme = "gruvbox"
+plugins.colorscheme = "nightfly"
 plugins.transparent = false
 
 -- Wether you want startup alpha dashboard or no.
 plugins.alpha = {
-  enabled = false,
+  enabled = true,
   asciiart = [[
 
 ███    ██ ███████  ██████  ██    ██ ██ ███    ███ 

@@ -2,6 +2,10 @@ use {
   "jose-elias-alvarez/null-ls.nvim",
 }
 
+-- local methods = require "null-ls.methods"
+--
+-- local CODE_ACTION = methods.internal.CODE_ACTION
+
 function configs.null_ls()
   require("null-ls").setup {
     sources = {
