@@ -40,7 +40,7 @@ vim.opt.conceallevel = 2 -- Concealed text is completely hidden
 vim.opt.shortmess = vim.opt.shortmess + "c" -- Shut off completion messages
 vim.opt.belloff = vim.opt.belloff + "ctrlg" -- If Vim beeps during completion
 vim.opt.termguicolors = true -- true color support, needs terminal support as well
-vim.opt.list = true -- use list characters that are defined below
+vim.opt.list = false -- use list characters that are defined below
 -- vim.opt.listchars:append "tab:<->"
 -- vim.opt.listchars:append "eol:↲"
 vim.opt.listchars:append "trail:·"
