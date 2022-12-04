@@ -7,11 +7,12 @@ local keymaps = require "amirrezaask.keymaps"
 
 require("go").setup()
 
+local go_group = vim.api.nvim_create_augroup("go", {})
 vim.api.nvim_create_autocmd("BufEnter", {
   pattern = "*.go",
-  group = _G.go_group,
+  group = go_group,
   callback = function(meta)
-    local utils = require "core.utils"
+    local utils = require "amirrezaask.utils"
     keymaps.buf_nnoremap(meta.buffer, "<leader>lat", "<cmd>GoAddTag<CR>", { remap = true })
     keymaps.buf_nnoremap(meta.buffer, "<leader>lrt", "<cmd>GoRmTag<CR>", { remap = true })
     keymaps.buf_nnoremap(meta.buffer, "<leader>lfs", "<cmd>GoFillStruct<CR>", { remap = true })

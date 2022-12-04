@@ -6,5 +6,3 @@ lsp.config("jsonls", {
     },
   },
 })
-
-require("nvim-treesitter.install").ensure_installed "json"

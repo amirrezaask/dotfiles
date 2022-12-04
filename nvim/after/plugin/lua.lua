@@ -1,5 +1,4 @@
 require("neodev").setup {}
-require("nvim-treesitter.install").ensure_installed "lua"
 
 vim.api.nvim_create_autocmd("BufWritePre", {
   pattern = "*.lua",

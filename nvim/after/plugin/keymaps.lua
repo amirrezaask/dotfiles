@@ -1,3 +1,4 @@
+vim.g.mapleader = " "
 require("amirrezaask.keymaps").bind {
   n = {
     ["Q"] = "<NOP>",
@@ -15,6 +16,7 @@ require("amirrezaask.keymaps").bind {
     ["j"] = "gj",
     ["k"] = "gk",
     ["<leader>ce"] = ":e ~/.config/nvim/init.lua<CR>",
+    ["<leader>x"] = ":w | :so %<CR>",
     ["<CR>"] = { [[ {-> v:hlsearch ? ':nohl<CR>' : '<CR>'}() ]], expr = true },
 
     ["<leader>ek"] = { ":e ~/.config/kitty/kitty.conf<CR>", desc = "Edit Kitty" },

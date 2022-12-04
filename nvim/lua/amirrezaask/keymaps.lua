@@ -1,4 +1,3 @@
-vim.g.mapleader = " "
 local M = {}
 
 function M.bind(spec)

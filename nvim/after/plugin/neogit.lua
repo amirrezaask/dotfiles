@@ -4,3 +4,5 @@ if not ok then
 end
 
 require("neogit").setup()
+
+require("amirrezaask.keymaps").nnoremap("<leader>g", "<cmd>Neogit<cr>")

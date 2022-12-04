@@ -73,6 +73,7 @@ require("packer").startup {
       },
     }
 
+    -- Autocompletion
     use {
       "hrsh7th/nvim-cmp",
       requires = {
@@ -84,12 +85,17 @@ require("packer").startup {
       },
     }
 
+    -- Automatically create directory when you create a new file in a directory that
+    -- does not exists.
     use "pbrisbin/vim-mkdir"
 
+    -- Support for many filetypes.
     use "sheerun/vim-polyglot"
 
+    -- toggle a window to be maximized, like tmux zoom
     use "szw/vim-maximizer"
 
+    -- Support Kitty terminal syntax
     use "fladson/vim-kitty"
 
     use "towolf/vim-helm"
@@ -111,6 +117,7 @@ require("packer").startup {
     use {
       "stevearc/dressing.nvim",
     }
+
     use {
       "j-hui/fidget.nvim",
     }
@@ -127,11 +134,11 @@ require("packer").startup {
       "cohama/agit.vim",
     }
 
-    -- I use fugitive but this will mimic emacs magit, only a prefrence option
-    -- use {
-    --   "TimUntersberger/neogit",
-    --   requires = "nvim-lua/plenary.nvim",
-    -- }
+    -- Emacs magit clone
+    use {
+      "TimUntersberger/neogit",
+      requires = "nvim-lua/plenary.nvim",
+    }
 
     use {
       "tpope/vim-fugitive",
@@ -218,9 +225,12 @@ require("packer").startup {
   end,
   config = {
     compile_path = require("packer.util").join_paths(vim.fn.stdpath "data", "packer_compiled.lua"),
-    display = {
-      open_fn = require("packer.util").float,
-    },
+    -- display = {
+    --   open_fn = function(opts)
+    --     opts.border = "rounded"
+    --     require("packer.util").float(opts)
+    --   end,
+    -- },
   },
 }
 
