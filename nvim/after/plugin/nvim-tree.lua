@@ -5,7 +5,7 @@ end
 
 require("nvim-tree").setup()
 require("amirrezaask.keymaps").bind {
-  n = {
-    ["<leader>1"] = "<cmd>NvimTreeToggle<CR>",
-  },
+  -- n = {
+  --   ["<leader>1"] = "<cmd>NvimTreeToggle<CR>",
+  -- },
 }

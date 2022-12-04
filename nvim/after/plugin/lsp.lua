@@ -24,9 +24,6 @@ local function on_attach(_, bufnr)
       ["<A-p>"] = { vim.diagnostic.goto_prev, desc = "Goto previous diagnostic", buffer = bufnr },
       ["<A-n>"] = { vim.diagnostic.goto_next, desc = "Goto next diagnostic", buffer = bufnr },
 
-      ["N"] = { vim.diagnostic.goto_prev, desc = "Goto previous diagnostic", buffer = bufnr },
-      ["P"] = { vim.diagnostic.goto_next, desc = "Goto next diagnostic", buffer = bufnr },
-
       ["C"] = { vim.lsp.buf.code_action, desc = "Code Actions", buffer = bufnr },
       ["<C-a>"] = { vim.lsp.buf.code_action, desc = "Code Actions", buffer = bufnr },
 

@@ -224,7 +224,9 @@ require("packer").startup {
       "akinsho/toggleterm.nvim",
     }
 
-    use { "christoomey/vim-tmux-navigator" }
+    -- If you use tmux you should have this to integrate
+    -- tmux splits movement with vim/neovim.
+    -- use { "christoomey/vim-tmux-navigator" }
 
     use {
       "ziglang/zig.vim",

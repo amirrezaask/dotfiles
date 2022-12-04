@@ -1,4 +1,3 @@
-vim.g.mapleader = " "
 require("amirrezaask.keymaps").bind {
   n = {
     ["Q"] = "<NOP>",
@@ -12,6 +11,9 @@ require("amirrezaask.keymaps").bind {
 
     ["<M-j>"] = ":m .+1<CR>==",
     ["<M-k>"] = ":m .-2<CR>==",
+
+    ["<C-d>"] = "<C-d>zz",
+    ["<C-u>"] = "<C-u>zz",
 
     ["j"] = "gj",
     ["k"] = "gk",
