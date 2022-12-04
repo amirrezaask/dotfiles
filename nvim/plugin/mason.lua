@@ -1,7 +1,7 @@
 local ok, _ = pcall(require, "mason")
 
 if not ok then
-	return
+  return
 end
 
-require("amirrezaask.mason")
+require "amirrezaask.mason"
