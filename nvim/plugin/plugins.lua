@@ -35,30 +35,30 @@ require("packer").startup {
       requires = { "nvim-treesitter/nvim-treesitter", opt = true },
     }
 
+    -- Treesitter
     use {
       "nvim-treesitter/nvim-treesitter",
+      requires = {
+        "nvim-treesitter/nvim-treesitter-textobjects",
+        "p00f/nvim-ts-rainbow",
+        "nvim-treesitter/nvim-treesitter-context",
+      },
     }
 
-    use {
-      "nvim-treesitter/nvim-treesitter-textobjects",
-      after = "nvim-treesitter",
-    }
+    -- If you want a facny start screen
+    -- use {
+    --   "goolord/alpha-nvim",
+    --   requires = { "kyazdani42/nvim-web-devicons" },
+    -- }
 
-    use {
-      "p00f/nvim-ts-rainbow",
-      after = "nvim-treesitter",
-    }
-
-    use {
-      "nvim-treesitter/nvim-treesitter-context",
-      after = "nvim-treesitter",
-    }
-    use {
-      "goolord/alpha-nvim",
-      requires = { "kyazdani42/nvim-web-devicons" },
-    }
+    -- LSP
     use {
       "neovim/nvim-lspconfig",
+      requires = {
+        "ray-x/lsp_signature.nvim",
+        "onsails/lspkind.nvim",
+        "glepnir/lspsaga.nvim",
+      },
     }
 
     use {
@@ -115,15 +115,17 @@ require("packer").startup {
       "cohama/agit.vim",
     }
 
-    use {
-      "TimUntersberger/neogit",
-      requires = "nvim-lua/plenary.nvim",
-    }
+    -- I use fugitive but this will mimic emacs magit, only a prefrence option
+    -- use {
+    --   "TimUntersberger/neogit",
+    --   requires = "nvim-lua/plenary.nvim",
+    -- }
 
     use {
       "tpope/vim-fugitive",
     }
 
+    -- Golang tools and code actions
     use {
       "ray-x/go.nvim",
     }
@@ -134,23 +136,16 @@ require("packer").startup {
         "nvim-lua/plenary.nvim",
       },
     }
+
     use {
       "b0o/schemastore.nvim",
     }
 
     use {
-      "ray-x/lsp_signature.nvim",
-    }
-
-    use "onsails/lspkind.nvim"
-    use {
-      "glepnir/lspsaga.nvim",
-      branch = "main",
-    }
-    use {
       "folke/neodev.nvim",
       requires = { "nvim-lua/plenary.nvim" },
     }
+
     use "milisims/nvim-luaref"
     use "nanotee/luv-vimdocs"
 
@@ -158,6 +153,8 @@ require("packer").startup {
       "L3MON4D3/LuaSnip",
       requires = "rafamadriz/friendly-snippets",
     }
+
+    -- Package manager for all tools, LSPs, DAPs and other utilities ...
     use {
       "williamboman/mason.nvim",
       requires = {
@@ -165,6 +162,8 @@ require("packer").startup {
         "williamboman/mason-lspconfig.nvim",
       },
     }
+
+    -- Hook non LSP tools into neovim LSP client
     use {
       "jose-elias-alvarez/null-ls.nvim",
     }
@@ -182,6 +181,7 @@ require("packer").startup {
     }
 
     use "Glench/Vim-Jinja2-Syntax"
+
     use {
       "rust-lang/rust.vim",
     }
@@ -189,13 +189,17 @@ require("packer").startup {
     use {
       "simrat39/rust-tools.nvim",
     }
+
     use {
       "mrjones2014/smart-splits.nvim",
     }
+
     use {
       "akinsho/toggleterm.nvim",
     }
+
     use { "christoomey/vim-tmux-navigator" }
+
     use {
       "ziglang/zig.vim",
     }
