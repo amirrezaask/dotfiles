@@ -16,6 +16,10 @@ nnoremap("<leader>ff", function()
   require("telescope.builtin").find_files()
 end)
 
+nnoremap("<leader>fn", function()
+  require("telescope.builtin").find_files { cwd = "~/.config/nvim" }
+end)
+
 nnoremap("<C-P>", function()
   require("telescope.builtin").commands(require("telescope.themes").get_dropdown())
 end)
