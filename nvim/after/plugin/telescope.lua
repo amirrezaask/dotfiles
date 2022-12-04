@@ -17,5 +17,13 @@ nnoremap("<leader>ff", function()
 end)
 
 nnoremap("<C-P>", function()
-  require("telescope.builtin").commands()
+  require("telescope.builtin").commands(require("telescope.themes").get_dropdown())
+end)
+
+nnoremap("<leader>fw", function()
+  require("telescope.builtin").live_grep()
+end)
+
+nnoremap("??", function()
+  require("telescope.builtin").live_grep()
 end)
