@@ -1,6 +1,6 @@
-local ok, _ = pcall(require, 'luasnip')
+local ok, _ = pcall(require, "luasnip")
 if not ok then
-  return
+	return
 end
 
 require("luasnip.loaders.from_vscode").lazy_load()

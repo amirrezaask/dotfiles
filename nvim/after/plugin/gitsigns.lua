@@ -1,9 +1,7 @@
-local ok, _ = pcall(require, 'gitsigns')
+local ok, _ = pcall(require, "gitsigns")
 
 if not ok then
-  return
+	return
 end
 
-
-
-require("gitsigns").setup {}
+require("gitsigns").setup({})

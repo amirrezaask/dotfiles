@@ -1,3 +1,3 @@
-local colorscheme = 'gruvbox'
+local colorscheme = "gruvbox"
 
-pcall(vim.cmd, 'colorscheme ' .. colorscheme)
+pcall(vim.cmd, "colorscheme " .. colorscheme)

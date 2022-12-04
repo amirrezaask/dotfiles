@@ -1,5 +1,5 @@
-local ok, _ = pcall(require, 'fidget')
+local ok, _ = pcall(require, "fidget")
 
 if not ok then
-  return
+	return
 end

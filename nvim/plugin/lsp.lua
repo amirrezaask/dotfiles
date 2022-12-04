@@ -1,1 +1,1 @@
-require 'amirrezaask.lsp'
+require("amirrezaask.lsp")
