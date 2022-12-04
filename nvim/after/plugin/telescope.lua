@@ -10,15 +10,24 @@ require("telescope").setup {}
 require("telescope").load_extension "fzf"
 
 nnoremap("<leader><leader>", function()
+  -- local is_git, _ = pcall(function()
+  --   require("telescope.builtin").git_files()
+  -- end)
+  -- if not is_git then
   require("telescope.builtin").find_files()
+  -- end
 end)
 
 nnoremap("<leader>ff", function()
   require("telescope.builtin").find_files()
 end)
 
+nnoremap("<leader>gf", function()
+  require("telescope.builtin").git_files()
+end)
+
 nnoremap("<C-P>", function()
-  require("telescope.builtin").commands(require("telescope.themes").get_dropdown())
+  require("telescope.builtin").find_files()
 end)
 
 nnoremap("<leader>fw", function()
