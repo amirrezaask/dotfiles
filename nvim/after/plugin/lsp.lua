@@ -17,10 +17,19 @@ local function on_attach(_, bufnr)
       R = { vim.lsp.buf.rename, desc = "Rename symbol under cursor", buffer = bufnr },
       K = { vim.lsp.buf.hover, desc = "Hover docs under cursor", buffer = bufnr },
       ["<leader>lf"] = { vim.lsp.buf.format, desc = "format document", buffer = bufnr },
+
       ["[d"] = { vim.diagnostic.goto_prev, desc = "Goto previous diagnostic", buffer = bufnr },
       ["]d"] = { vim.diagnostic.goto_next, desc = "Goto next diagnostic", buffer = bufnr },
+
+      ["<A-p>"] = { vim.diagnostic.goto_prev, desc = "Goto previous diagnostic", buffer = bufnr },
+      ["<A-n>"] = { vim.diagnostic.goto_next, desc = "Goto next diagnostic", buffer = bufnr },
+
+      ["N"] = { vim.diagnostic.goto_prev, desc = "Goto previous diagnostic", buffer = bufnr },
+      ["P"] = { vim.diagnostic.goto_next, desc = "Goto next diagnostic", buffer = bufnr },
+
       ["C"] = { vim.lsp.buf.code_action, desc = "Code Actions", buffer = bufnr },
-      ["<leader>ca"] = { vim.lsp.buf.code_action, desc = "Code Actions", buffer = bufnr },
+      ["<C-a>"] = { vim.lsp.buf.code_action, desc = "Code Actions", buffer = bufnr },
+
       ["<C-s>"] = { vim.lsp.buf.signature_help, desc = "Toggle Signature help", buffer = bufnr },
     },
     i = {
@@ -58,11 +67,9 @@ local servers = {
             globals = { "vim" },
           },
           workspace = {
-            -- Make the server aware of Neovim runtime files
             library = vim.api.nvim_get_runtime_file("", true),
             checkThirdParty = false,
           },
-          -- Do not send telemetry data containing a randomized but unique identifier
           telemetry = {
             enable = false,
           },
