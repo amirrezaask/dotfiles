@@ -15,6 +15,7 @@ require("packer").startup {
   function(use)
     use "wbthomason/packer.nvim"
     use "lewis6991/impatient.nvim"
+
     use "numToStr/Comment.nvim"
 
     use "sainnhe/sonokai"
@@ -33,6 +34,17 @@ require("packer").startup {
     use {
       "glepnir/zephyr-nvim",
       requires = { "nvim-treesitter/nvim-treesitter", opt = true },
+    }
+
+    -- Telescope
+    use {
+      "nvim-telescope/telescope.nvim",
+      requires = { { "nvim-lua/plenary.nvim" } },
+    }
+
+    use {
+      "nvim-telescope/telescope-fzf-native.nvim",
+      run = "make",
     }
 
     -- Treesitter

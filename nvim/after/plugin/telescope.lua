@@ -7,6 +7,7 @@ local keymaps = require "amirrezaask.keymaps"
 local nnoremap = keymaps.nnoremap
 
 require("telescope").setup {}
+require("telescope").load_extension "fzf"
 
 nnoremap("<leader><leader>", function()
   require("telescope.builtin").find_files()
