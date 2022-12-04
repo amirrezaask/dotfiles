@@ -9,4 +9,4 @@ require("null-ls").setup {
   },
 }
 
-MasonInstall { "gitlint", "stylua", "golangci-lint", "goimports" }
+require("amirrezaask.mason").install { "gitlint", "stylua", "golangci-lint", "goimports" }

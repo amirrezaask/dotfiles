@@ -60,16 +60,23 @@ require("packer").startup {
     -- If you want a facny start screen
     -- use {
     --   "goolord/alpha-nvim",
-    --   requires = { "kyazdani42/nvim-web-devicons" },
+    --   requires = { "nvim-tree/nvim-web-devicons" },
     -- }
 
     -- LSP
     use {
       "neovim/nvim-lspconfig",
       requires = {
-        "ray-x/lsp_signature.nvim",
-        "onsails/lspkind.nvim",
-        "glepnir/lspsaga.nvim",
+        "ray-x/lsp_signature.nvim", -- function signature as you type in parameters
+        "onsails/lspkind.nvim", -- icons in completion
+      },
+    }
+
+    use {
+      "utilyre/barbecue.nvim",
+      requires = {
+        "smiteshp/nvim-navic",
+        "nvim-tree/nvim-web-devicons", -- optional
       },
     }
 
@@ -140,9 +147,9 @@ require("packer").startup {
       requires = "nvim-lua/plenary.nvim",
     }
 
-    use {
-      "tpope/vim-fugitive",
-    }
+    -- use {
+    --   "tpope/vim-fugitive",
+    -- }
 
     -- Golang tools and code actions
     use {

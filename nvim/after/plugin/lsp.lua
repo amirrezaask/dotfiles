@@ -1,6 +1,3 @@
-local keymaps = require "amirrezaask.keymaps"
-
-local lsp = {}
 local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
 
 function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
@@ -9,7 +6,8 @@ function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
   return orig_util_open_floating_preview(contents, syntax, opts, ...)
 end
 
-function lsp.on_attach(_, bufnr)
+local function on_attach(_, bufnr)
+  local keymaps = require "amirrezaask.keymaps"
   vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
   keymaps.bind {
     n = {
@@ -29,21 +27,66 @@ function lsp.on_attach(_, bufnr)
       ["<C-s>"] = { vim.lsp.buf.signature_help, desc = "Toggle Signature help", buffer = bufnr },
     },
   }
-  require("lsp_signature").on_attach({}, bufnr)
+  local ok, signature = pcall(require, "lsp-Signature")
+  if ok then
+    signature.on_attach({}, bufnr)
+  end
 end
 
-function lsp.config(name, opts)
-  local ok, _ = pcall(require, "lspconfig")
-  if not ok then
-    return
+local servers = {
+  "clangd",
+  "elixirls",
+  "gopls",
+  "hls",
+  {
+    "jsonls",
+    {
+      settings = {
+        json = {
+          schemas = require("schemastore").json.schemas(),
+          validate = { enable = true },
+        },
+      },
+    },
+  },
+  {
+    "sumneko_lua",
+    {
+      settings = {
+        Lua = {
+          diagnostics = {
+            globals = { "vim" },
+          },
+          workspace = {
+            -- Make the server aware of Neovim runtime files
+            library = vim.api.nvim_get_runtime_file("", true),
+            checkThirdParty = false,
+          },
+          -- Do not send telemetry data containing a randomized but unique identifier
+          telemetry = {
+            enable = false,
+          },
+        },
+      },
+    },
+  },
+  "intelephense",
+  "purescriptls",
+  "jedi_language_server",
+  "rust_analyzer",
+  "zls",
+}
+
+for _, srv in ipairs(servers) do
+  if type(srv) == "string" then
+    require("lspconfig")[srv].setup {
+      on_attach = on_attach,
+    }
   end
-  opts = opts or {}
-  if not opts.on_attach then
-    opts.on_attach = lsp.on_attach
+
+  if type(srv) == "table" then
+    require("lspconfig")[srv[1]].setup(vim.tbl_extend("keep", srv[2], {
+      on_attach = on_attach,
+    }))
   end
-  require("lspconfig")[name].setup(opts)
 end
-
-_G.lsp = lsp
-
-return lsp

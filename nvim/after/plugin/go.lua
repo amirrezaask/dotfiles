@@ -34,7 +34,7 @@ vim.api.nvim_create_autocmd("BufEnter", {
   end,
 })
 
-lsp.config "gopls"
+-- lsp.config "gopls"
 
 -- Auto format
 vim.api.nvim_create_autocmd("BufWritePost", {
