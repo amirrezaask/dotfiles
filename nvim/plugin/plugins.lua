@@ -147,9 +147,9 @@ require("packer").startup {
       requires = "nvim-lua/plenary.nvim",
     }
 
-    -- use {
-    --   "tpope/vim-fugitive",
-    -- }
+    use {
+      "tpope/vim-fugitive",
+    }
 
     -- Golang tools and code actions
     use {
@@ -246,3 +246,10 @@ if packer_bootstrap then
 end
 
 local ok, impatient = pcall(require, "impatient")
+
+vim.api.nvim_create_autocmd("BufWritePost", {
+  pattern = "plugins.lua",
+  callback = function(meta)
+    vim.cmd.PackerInstall()
+  end,
+})
