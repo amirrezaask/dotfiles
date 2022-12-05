@@ -23,6 +23,7 @@ require("packer").startup {
     use "Mofiqul/dracula.nvim"
     use "Mofiqul/vscode.nvim"
     use "ellisonleao/gruvbox.nvim"
+    use "gruvbox-community/gruvbox"
     use "tanvirtin/monokai.nvim"
     use "rmehri01/onenord.nvim"
     use "bluz71/vim-nightfly-colors"
