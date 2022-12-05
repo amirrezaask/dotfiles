@@ -1,23 +1,26 @@
 vim.g.catppuccin_flavour = "mocha"
 local colorscheme = "gruvbox"
+local transparent = true
 
 local ok, gruvbox = pcall(require, "gruvbox")
 if ok then
   gruvbox.setup {
-    transparent_mode = true,
+    transparent_mode = transparent,
     contrast = "hard",
   }
 end
 
-local ok, tokyonight = pcall(require, "tokyonight")
+ok, _ = pcall(require, "tokyonight")
 if ok then
-  tokyonight.setup {
+  require("tokyonight").setup {
     style = "night",
-    transparent = true,
+    transparent = transparent,
   }
 end
 
-pcall(vim.cmd, "colorscheme " .. colorscheme)
+pcall(function()
+  vim.cmd("colorscheme " .. colorscheme)
+end)
 
 local hl = function(thing, opts)
   vim.api.nvim_set_hl(0, thing, opts)
