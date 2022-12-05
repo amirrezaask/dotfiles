@@ -17,7 +17,7 @@ require("amirrezaask.keymaps").bind {
 
     ["j"] = "gj",
     ["k"] = "gk",
-    ["<leader>ce"] = ":e ~/.config/nvim/init.lua<CR>",
+
     ["X"] = ":w | :so %<CR>",
     ["<CR>"] = { [[ {-> v:hlsearch ? ':nohl<CR>' : '<CR>'}() ]], expr = true },
 
