@@ -58,10 +58,10 @@ require("packer").startup {
     }
 
     -- If you want a facny start screen
-    use {
-      "goolord/alpha-nvim",
-      requires = { "nvim-tree/nvim-web-devicons" },
-    }
+    -- use {
+    --   "goolord/alpha-nvim",
+    --   requires = { "nvim-tree/nvim-web-devicons" },
+    -- }
 
     -- LSP
     use {
@@ -125,9 +125,9 @@ require("packer").startup {
       "stevearc/dressing.nvim",
     }
 
-    use {
-      "j-hui/fidget.nvim",
-    }
+    -- use {
+    --   "j-hui/fidget.nvim",
+    -- }
 
     use {
       "lewis6991/gitsigns.nvim",
