@@ -231,6 +231,7 @@ require("packer").startup {
     -- If you use tmux you should have this to integrate
     -- tmux splits movement with vim/neovim.
     use { "christoomey/vim-tmux-navigator" }
+
     use "RyanMillerC/better-vim-tmux-resizer"
 
     use {

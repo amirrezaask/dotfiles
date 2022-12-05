@@ -6,8 +6,8 @@ end
 local keymaps = require "amirrezaask.keymaps"
 
 -- require("go").setup()
-vim.g.go_gopls_enabled = false
-vim.g.go_template_autocreate = false
+vim.g.go_gopls_enabled = 0
+vim.g.go_template_autocreate = 0
 
 local go_group = vim.api.nvim_create_augroup("go", {})
 vim.api.nvim_create_autocmd("BufEnter", {

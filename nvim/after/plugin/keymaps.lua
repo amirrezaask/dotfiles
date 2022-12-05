@@ -1,14 +1,8 @@
-require("amirrezaask.keymaps").bind {
-  n = {
-    ["Q"] = "<NOP>",
-    [";,"] = ":",
-    ["q;"] = "q:",
-    ["{"] = ":cprev<CR>",
-    ["}"] = ":cnext<CR>",
-    ["Y"] = "y$",
-    ["n"] = "nzz",
-    ["N"] = "Nzz",
+local keymaps = require "amirrezaask.keymaps"
+local nnoremap = keymaps.nnoremap
 
+keymaps.bind {
+  n = {
     ["<M-j>"] = ":m .+1<CR>==",
     ["<M-k>"] = ":m .-2<CR>==",
 
@@ -34,3 +28,10 @@ require("amirrezaask.keymaps").bind {
     ["kj"] = "<esc>",
   },
 }
+
+nnoremap("Q", "<NOP>")
+nnoremap("{", ":cnext<CR>")
+nnoremap("}", ":cprev<CR>")
+nnoremap("Y", "y$")
+nnoremap("n", "nzz")
+nnoremap("N", "Nzz")
