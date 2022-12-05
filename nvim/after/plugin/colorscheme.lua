@@ -1,5 +1,5 @@
 vim.g.catppuccin_flavour = "mocha"
-local colorscheme = "gruvbox"
+local colorscheme = "tokyonight"
 
 local ok, gruvbox = pcall(require, "gruvbox")
 if ok then
