@@ -12,6 +12,7 @@ local ok, tokyonight = pcall(require, "tokyonight")
 if ok then
   tokyonight.setup {
     style = "night",
+    transparent = true,
   }
 end
 

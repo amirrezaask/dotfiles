@@ -21,8 +21,10 @@ require("packer").startup {
     use "sainnhe/sonokai"
     use "folke/tokyonight.nvim"
     use "Mofiqul/dracula.nvim"
+    use "Mofiqul/vscode.nvim"
     use "ellisonleao/gruvbox.nvim"
     use "tanvirtin/monokai.nvim"
+    use "rmehri01/onenord.nvim"
     use "bluz71/vim-nightfly-colors"
     use "navarasu/onedark.nvim"
     use "Shatur/neovim-ayu"
@@ -72,13 +74,13 @@ require("packer").startup {
       },
     }
 
-    use {
-      "utilyre/barbecue.nvim",
-      requires = {
-        "smiteshp/nvim-navic",
-        "nvim-tree/nvim-web-devicons", -- optional
-      },
-    }
+    -- use {
+    --   "utilyre/barbecue.nvim",
+    --   requires = {
+    --     "smiteshp/nvim-navic",
+    --     "nvim-tree/nvim-web-devicons", -- optional
+    --   },
+    -- }
 
     -- Autocompletion
     use {
@@ -153,7 +155,7 @@ require("packer").startup {
 
     -- Golang tools and code actions
     use {
-      "ray-x/go.nvim",
+      "fatih/vim-go",
     }
 
     use {
@@ -228,7 +230,8 @@ require("packer").startup {
 
     -- If you use tmux you should have this to integrate
     -- tmux splits movement with vim/neovim.
-    -- use { "christoomey/vim-tmux-navigator" }
+    use { "christoomey/vim-tmux-navigator" }
+    use "RyanMillerC/better-vim-tmux-resizer"
 
     use {
       "ziglang/zig.vim",
