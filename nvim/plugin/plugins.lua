@@ -163,6 +163,8 @@ require("packer").startup {
       },
     }
 
+    use "ThePrimeagen/vim-be-good"
+
     use {
       "b0o/schemastore.nvim",
     }
