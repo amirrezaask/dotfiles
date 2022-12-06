@@ -1,6 +1,8 @@
 vim.g.catppuccin_flavour = "mocha"
 vim.g.gruvbox_contrast_dark = "hard"
+
 local colorscheme = "gruvbox"
+
 local transparent = true
 
 local ok, gruvbox = pcall(require, "gruvbox")

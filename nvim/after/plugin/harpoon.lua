@@ -5,27 +5,27 @@ nnoremap("<C-e>", require("harpoon.ui").toggle_quick_menu)
 
 nnoremap("<leader>a", require("harpoon.mark").add_file)
 
-nnoremap("<C-1>", function()
+nnoremap("<leader>1", function()
   require("harpoon.ui").nav_file(1)
 end)
 
-nnoremap("<C-2>", function()
+nnoremap("<leader>2", function()
   require("harpoon.ui").nav_file(2)
 end)
 
-nnoremap("<C-3>", function()
+nnoremap("<leader>3", function()
   require("harpoon.ui").nav_file(3)
 end)
 
-nnoremap("<C-4>", function()
+nnoremap("<leader>4", function()
   require("harpoon.ui").nav_file(4)
 end)
 
-nnoremap("<C-5>", function()
+nnoremap("<leader>5", function()
   require("harpoon.ui").nav_file(5)
 end)
 
-nnoremap("<C-6>", function()
+nnoremap("<leader>6", function()
   require("harpoon.ui").nav_file(6)
 end)
 

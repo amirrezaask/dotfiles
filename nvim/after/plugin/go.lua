@@ -5,7 +5,6 @@ end
 
 local keymaps = require "amirrezaask.keymaps"
 
--- require("go").setup()
 vim.g.go_gopls_enabled = 0
 vim.g.go_template_autocreate = 0
 
@@ -14,9 +13,6 @@ vim.api.nvim_create_autocmd("BufEnter", {
   pattern = "*.go",
   group = go_group,
   callback = function(meta)
-    vim.g.go_gopls_enabled = false
-    vim.g.go_template_autocreate = false
-
     local utils = require "amirrezaask.utils"
     keymaps.buf_nnoremap(meta.buffer, "<leader>lat", "<cmd>GoAddTag<CR>", { remap = true })
     keymaps.buf_nnoremap(meta.buffer, "<leader>lrt", "<cmd>GoRmTag<CR>", { remap = true })
@@ -39,13 +35,11 @@ vim.api.nvim_create_autocmd("BufEnter", {
   end,
 })
 
--- lsp.config "gopls"
-
 -- Auto format
-vim.api.nvim_create_autocmd("BufWritePost", {
-  pattern = "*.go",
-  group = go_group,
-  callback = function(_)
-    vim.lsp.buf.format()
-  end,
-})
+-- vim.api.nvim_create_autocmd("BufWritePost", {
+--   pattern = "*.go",
+--   group = go_group,
+--   callback = function(_)
+--     vim.lsp.buf.format()
+--   end,
+-- })

@@ -33,7 +33,6 @@ require("packer").startup {
     use "EdenEast/nightfox.nvim"
     use "bluz71/vim-moonfly-colors"
     use { "catppuccin/nvim", as = "catppuccin" }
-    use "tiagovla/tokyodark.nvim"
     use {
       "glepnir/zephyr-nvim",
       requires = { "nvim-treesitter/nvim-treesitter", opt = true },
@@ -128,6 +127,7 @@ require("packer").startup {
       "stevearc/dressing.nvim",
     }
 
+    -- Show progress of LSP.
     -- use {
     --   "j-hui/fidget.nvim",
     -- }
@@ -199,6 +199,7 @@ require("packer").startup {
       "jose-elias-alvarez/null-ls.nvim",
     }
 
+    -- Tree file explorer, I don't use just use telescope or netrw
     -- use {
     --   "nvim-tree/nvim-tree.lua",
     --   requires = {
