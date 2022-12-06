@@ -54,25 +54,21 @@ export HOMEBREW_NO_AUTO_UPDATE=1
 
 export FZF_DEFAULT_OPTS='--height 20%'
 export FZF_DEFAULT_COMMAND='rg --files'
-
-subl() {
-   SUBL_BIN='' 
-   /Applications/Sublime\ Text.app/Contents/MacOS/sublime_text $1 > /dev/null 2>&1 &
-}
-
-# alias ta='tmux attach -t '
-# alias tl='tmux list-sessions'
-# alias t='tmux'
-# alias tn='tmux new-session -t '
 alias dots='cd ~/dev/dotfiles'
-
 
 ss_proxy() {
     export http_proxy='http://localhost:1087'
     export https_proxy='http://localhost:1087'
 }
 
-alias snapp='cd ~/dev/snapp/' 
+alias snapp='cd ~/dev/snapp/'
 
 [[ $- == *i* ]] && source "$HOME/.config/zsh/completion.zsh" 2> /dev/null
+
 source "$HOME/.config/zsh/key-bindings.zsh"
+if ! command -v starship &> /dev/null
+then
+    curl -sS https://starship.rs/install.sh | sh
+fi
+
+eval "$(starship init zsh)"
