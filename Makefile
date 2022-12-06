@@ -14,5 +14,3 @@ install:
 	cp -r ~/.config/kitty ~/.config/kitty_back
 	rm -rf ~/.config/kitty
 	ln -s kitty ~/.config/kitty
-
-
