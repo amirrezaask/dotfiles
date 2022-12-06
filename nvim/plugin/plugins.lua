@@ -21,11 +21,7 @@ require("packer").startup {
     use "sainnhe/sonokai"
     use "folke/tokyonight.nvim"
     use "Mofiqul/dracula.nvim"
-    use "Mofiqul/vscode.nvim"
     use "ellisonleao/gruvbox.nvim"
-    use "gruvbox-community/gruvbox"
-    use "tanvirtin/monokai.nvim"
-    use "rmehri01/onenord.nvim"
     use "bluz71/vim-nightfly-colors"
     use "navarasu/onedark.nvim"
     use "Shatur/neovim-ayu"
@@ -33,10 +29,6 @@ require("packer").startup {
     use "EdenEast/nightfox.nvim"
     use "bluz71/vim-moonfly-colors"
     use { "catppuccin/nvim", as = "catppuccin" }
-    use {
-      "glepnir/zephyr-nvim",
-      requires = { "nvim-treesitter/nvim-treesitter", opt = true },
-    }
 
     -- Telescope
     use {
@@ -47,6 +39,12 @@ require("packer").startup {
     use {
       "nvim-telescope/telescope-fzf-native.nvim",
       run = "make",
+    }
+
+    -- Statusline
+    use {
+      "nvim-lualine/lualine.nvim",
+      requires = { "kyazdani42/nvim-web-devicons", opt = true },
     }
 
     -- Treesitter
@@ -73,14 +71,6 @@ require("packer").startup {
         "onsails/lspkind.nvim", -- icons in completion
       },
     }
-
-    -- use {
-    --   "utilyre/barbecue.nvim",
-    --   requires = {
-    --     "smiteshp/nvim-navic",
-    --     "nvim-tree/nvim-web-devicons", -- optional
-    --   },
-    -- }
 
     -- Autocompletion
     use {
@@ -128,9 +118,9 @@ require("packer").startup {
     }
 
     -- Show progress of LSP.
-    -- use {
-    --   "j-hui/fidget.nvim",
-    -- }
+    use {
+      "j-hui/fidget.nvim",
+    }
 
     use {
       "lewis6991/gitsigns.nvim",
