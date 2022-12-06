@@ -60,10 +60,10 @@ subl() {
    /Applications/Sublime\ Text.app/Contents/MacOS/sublime_text $1 > /dev/null 2>&1 &
 }
 
-alias ta='tmux attach -t '
-alias tl='tmux list-sessions'
-alias t='tmux'
-alias tn='tmux new-session -t '
+# alias ta='tmux attach -t '
+# alias tl='tmux list-sessions'
+# alias t='tmux'
+# alias tn='tmux new-session -t '
 alias dots='cd ~/dev/dotfiles'
 
 

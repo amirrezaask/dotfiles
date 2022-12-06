@@ -16,7 +16,6 @@ local function on_attach(_, bufnr)
       gr = { vim.lsp.buf.references, desc = "Goto references", buffer = bufnr },
       R = { vim.lsp.buf.rename, desc = "Rename symbol under cursor", buffer = bufnr },
       K = { vim.lsp.buf.hover, desc = "Hover docs under cursor", buffer = bufnr },
-      ["<leader>lf"] = { vim.lsp.buf.format, desc = "format document", buffer = bufnr },
 
       ["[d"] = { vim.diagnostic.goto_prev, desc = "Goto previous diagnostic", buffer = bufnr },
       ["]d"] = { vim.diagnostic.goto_next, desc = "Goto next diagnostic", buffer = bufnr },
@@ -38,6 +37,10 @@ local function on_attach(_, bufnr)
     signature.on_attach({}, bufnr)
   end
 end
+
+vim.api.nvim_create_user_command("Format", function()
+  vim.lsp.buf.format()
+end, {})
 
 local servers = {
   "clangd",

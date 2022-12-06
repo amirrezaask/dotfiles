@@ -1,7 +1,8 @@
 vim.g.catppuccin_flavour = "mocha"
 vim.g.gruvbox_contrast_dark = "hard"
+local tokyonight_style = "moon"
 
-local colorscheme = "gruvbox"
+local colorscheme = "tokyonight"
 
 local transparent = true
 
@@ -16,7 +17,7 @@ end
 ok, _ = pcall(require, "tokyonight")
 if ok then
   require("tokyonight").setup {
-    style = "night",
+    style = tokyonight_style,
     transparent = transparent,
   }
 end
