@@ -1,3 +1,7 @@
+if true then
+  return
+end
+
 local function has_plugins(plugins)
   for _, name in ipairs(plugins) do
     local ok, _ = pcall(require, name)

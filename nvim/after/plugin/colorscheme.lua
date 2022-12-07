@@ -1,4 +1,4 @@
-vim.g.catppuccin_flavour = "mocha"
+vim.g.catppuccin_flavour = "macchiato"
 vim.g.gruvbox_contrast_dark = "hard"
 
 local tokyonight_style = "storm"

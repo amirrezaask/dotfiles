@@ -1,7 +1,3 @@
-if true then
-  return
-end
-
 local ok, _ = require "lsp-zero"
 if not ok then
   return
@@ -19,9 +15,16 @@ lsp.ensure_installed {
   "gopls",
   "rust_analyzer",
   "sumneko_lua",
+  "clangd",
+  "elixirls",
+  "hls",
+  "jsonls",
+  "intelephense",
+  "jedi_language_server",
+  "zls",
 }
 
-lsp.on_attach(function(client, bufnr)
+lsp.on_attach(function(_, bufnr)
   local keymaps = require "core.keymaps"
   vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
   keymaps.bind {
@@ -49,10 +52,32 @@ lsp.on_attach(function(client, bufnr)
       ["<C-s>"] = { vim.lsp.buf.signature_help, desc = "Toggle Signature help", buffer = bufnr },
     },
   }
-  local ok, signature = pcall(require, "lsp-Signature")
-  if ok then
-    signature.on_attach({}, bufnr)
-  end
 end)
+
+lsp.configure("sumneko_lua", {
+  settings = {
+    Lua = {
+      diagnostics = {
+        globals = { "vim" },
+      },
+      workspace = {
+        library = vim.api.nvim_get_runtime_file("", true),
+        checkThirdParty = false,
+      },
+      telemetry = {
+        enable = false,
+      },
+    },
+  },
+})
+
+lsp.configure("jsonls", {
+  settings = {
+    json = {
+      schemas = require("schemastore").json.schemas(),
+      validate = { enable = true },
+    },
+  },
+})
 
 lsp.setup()
