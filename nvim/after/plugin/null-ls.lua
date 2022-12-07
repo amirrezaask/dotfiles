@@ -9,4 +9,4 @@ require("null-ls").setup {
   },
 }
 
-require("core.mason").install { "gitlint", "stylua", "golangci-lint", "goimports" }
+-- require("core.mason").install { "gitlint", "stylua", "golangci-lint", "goimports" }
