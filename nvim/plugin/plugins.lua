@@ -64,54 +64,32 @@ require("packer").startup {
     -- }
     --
 
-    -- -- LSP
-    -- use {
-    --   "neovim/nvim-lspconfig",
-    --   requires = {
-    --     "onsails/lspkind.nvim", -- icons in completion
-    --   },
-    -- }
-    --
-    -- -- Autocompletion
-    -- use {
-    --   "hrsh7th/nvim-cmp",
-    --   requires = {
-    --     "saadparwaiz1/cmp_luasnip",
-    --     "hrsh7th/cmp-buffer",
-    --     "hrsh7th/cmp-nvim-lua",
-    --     "hrsh7th/cmp-nvim-lsp",
-    --     "hrsh7th/cmp-path",
-    --   },
-    -- }
-    --
-    -- -- Package manager for all tools, LSPs, DAPs and other utilities ...
-    -- use {
-    --   "williamboman/mason.nvim",
-    --   requires = {
-    --     "jayp0521/mason-nvim-dap.nvim",
-    --     "williamboman/mason-lspconfig.nvim",
-    --   },
-    -- }
-
+    -- LSP
     use {
-      "VonHeikemen/lsp-zero.nvim",
+      "neovim/nvim-lspconfig",
       requires = {
-        -- LSP Support
-        { "neovim/nvim-lspconfig" },
-        { "williamboman/mason.nvim" },
-        { "williamboman/mason-lspconfig.nvim" },
+        "onsails/lspkind.nvim", -- icons in completion
+      },
+    }
 
-        -- Autocompletion
-        { "hrsh7th/nvim-cmp" },
-        { "hrsh7th/cmp-buffer" },
-        { "hrsh7th/cmp-path" },
-        { "saadparwaiz1/cmp_luasnip" },
-        { "hrsh7th/cmp-nvim-lsp" },
-        { "hrsh7th/cmp-nvim-lua" },
+    -- Autocompletion
+    use {
+      "hrsh7th/nvim-cmp",
+      requires = {
+        "saadparwaiz1/cmp_luasnip",
+        "hrsh7th/cmp-buffer",
+        "hrsh7th/cmp-nvim-lua",
+        "hrsh7th/cmp-nvim-lsp",
+        "hrsh7th/cmp-path",
+      },
+    }
 
-        -- Snippets
-        { "L3MON4D3/LuaSnip" },
-        { "rafamadriz/friendly-snippets" },
+    -- Package manager for all tools, LSPs, DAPs and other utilities ...
+    use {
+      "williamboman/mason.nvim",
+      requires = {
+        "jayp0521/mason-nvim-dap.nvim",
+        "williamboman/mason-lspconfig.nvim",
       },
     }
 

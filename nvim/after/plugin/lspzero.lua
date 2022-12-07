@@ -1,5 +1,4 @@
-local ok, _ = require "lsp-zero"
-if not ok then
+if not require("core.utils").has_plugins "lsp-zero" then
   return
 end
 
