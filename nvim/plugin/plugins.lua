@@ -144,10 +144,10 @@ require("packer").startup {
     }
 
     -- Emacs magit clone
-    use {
-      "TimUntersberger/neogit",
-      requires = "nvim-lua/plenary.nvim",
-    }
+    -- use {
+    --   "TimUntersberger/neogit",
+    --   requires = "nvim-lua/plenary.nvim",
+    -- }
 
     use {
       "tpope/vim-fugitive",
