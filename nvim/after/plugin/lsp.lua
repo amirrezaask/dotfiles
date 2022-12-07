@@ -1,6 +1,6 @@
-local utils = require 'core.utils'
+local utils = require "core.utils"
 
-if not utils.has_plugins({ "lspconfig" }) then
+if not utils.has_plugins { "lspconfig" } then
   return
 end
 
@@ -25,9 +25,9 @@ local function on_attach(_, bufnr)
 
       ["<leader>lf"] = { vim.lsp.buf.format, desc = "format buffer", buffer = bufnr },
 
-      ["<leader>ld"] = { vim.diagnostic.open_float, desc = "Show floating diagnostics", buffer = bufnr },
-      ["<leader>lp"] = { vim.diagnostic.goto_prev, desc = "Goto previous diagnostic", buffer = bufnr },
-      ["<leader>ln"] = { vim.diagnostic.goto_next, desc = "Goto next diagnostic", buffer = bufnr },
+      ["<leader>dl"] = { vim.diagnostic.open_float, desc = "Show floating diagnostics", buffer = bufnr },
+      ["<leader>dp"] = { vim.diagnostic.goto_prev, desc = "Goto previous diagnostic", buffer = bufnr },
+      ["<leader>dn"] = { vim.diagnostic.goto_next, desc = "Goto next diagnostic", buffer = bufnr },
 
       ["C"] = { vim.lsp.buf.code_action, desc = "Code Actions", buffer = bufnr },
 

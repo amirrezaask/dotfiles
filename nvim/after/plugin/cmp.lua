@@ -1,4 +1,4 @@
-if not require 'core.utils'.has_plugins({ "cmp" }) then
+if not require("core.utils").has_plugins { "cmp" } then
   return
 end
 
