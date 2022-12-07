@@ -3,15 +3,23 @@ vim.g.gruvbox_contrast_dark = "hard"
 
 local tokyonight_style = "storm"
 
-local colorscheme = "tokyonight"
+local colorscheme = "rose-pine"
 
-local transparent = true
+local transparent = false
 
 local ok, gruvbox = pcall(require, "gruvbox")
 if ok then
   gruvbox.setup {
     transparent_mode = transparent,
     contrast = "hard",
+  }
+end
+
+ok, _ = pcall(require, "onedark")
+if ok then
+  require("onedark").setup {
+    style = "darker",
+    transparent = transparent,
   }
 end
 
@@ -51,3 +59,36 @@ if colorscheme == "gruvbox" then
     fg = "#5eacd3",
   })
 end
+
+local themes = {
+  "rose-pine",
+
+  "cappuccin",
+  "cappuccin-mocha",
+  "catppuccin-macchiato",
+  "catppuccin-frappe",
+  "catppuccin-latte",
+
+  "sonokai",
+  "tokyonight",
+  "tokyonight-night",
+  "tokyonight-moon",
+  "tokyonight-storm",
+  "tokyonight-day",
+
+  "dracula",
+  "gruvbox",
+  "nightfox",
+  "nightfly",
+  "onedark",
+}
+
+local function select_theme()
+  vim.ui.select(themes, {
+    prompt = "Choose theme: ",
+  }, function(theme)
+    vim.cmd.colorscheme(theme)
+  end)
+end
+
+vim.api.nvim_create_user_command("Theme", select_theme, {})
