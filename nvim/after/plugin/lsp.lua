@@ -7,7 +7,7 @@ function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
 end
 
 local function on_attach(_, bufnr)
-  local keymaps = require "amirrezaask.keymaps"
+  local keymaps = require "core.keymaps"
   vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
   keymaps.bind {
     n = {

@@ -5,4 +5,4 @@ end
 
 require("neogit").setup()
 
-require("amirrezaask.keymaps").nnoremap("<leader>g", "<cmd>Neogit<cr>")
+require("core.keymaps").nnoremap("<leader>g", "<cmd>Neogit<cr>")

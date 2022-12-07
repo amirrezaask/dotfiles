@@ -3,7 +3,7 @@ if not ok then
   return
 end
 
-local keymaps = require "amirrezaask.keymaps"
+local keymaps = require "core.keymaps"
 
 vim.g.go_gopls_enabled = 0
 vim.g.go_template_autocreate = 0
@@ -13,7 +13,7 @@ vim.api.nvim_create_autocmd("BufEnter", {
   pattern = "*.go",
   group = go_group,
   callback = function(meta)
-    local utils = require "amirrezaask.utils"
+    local utils = require "core.utils"
     keymaps.buf_nnoremap(meta.buffer, "<leader>lat", "<cmd>GoAddTag<CR>", { remap = true })
     keymaps.buf_nnoremap(meta.buffer, "<leader>lrt", "<cmd>GoRmTag<CR>", { remap = true })
     keymaps.buf_nnoremap(meta.buffer, "<leader>lfs", "<cmd>GoFillStruct<CR>", { remap = true })

@@ -1,4 +1,4 @@
-local keymaps = require "amirrezaask.keymaps"
+local keymaps = require "core.keymaps"
 local nnoremap = keymaps.nnoremap
 
 keymaps.bind {
