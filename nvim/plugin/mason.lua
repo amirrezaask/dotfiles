@@ -1,3 +1,6 @@
+if true then
+  return
+end
 if not require("core.utils").has_plugins { "mason", "mason-lspconfig", "lspconfig" } then
   return
 end

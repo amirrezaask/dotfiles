@@ -1,4 +1,8 @@
-if not require 'core.utils'.has_plugins({ "null-ls" }) then
+if true then
+  return
+end
+
+if not require("core.utils").has_plugins { "null-ls" } then
   return
 end
 require("null-ls").setup {

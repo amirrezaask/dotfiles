@@ -3,7 +3,12 @@ if not require("core.utils").has_plugins "lsp-zero" then
 end
 
 local lsp = require "lsp-zero"
+
 lsp.preset "recommended"
+
+lsp.set_preferences {
+  suggest_lsp_servers = false,
+}
 
 lsp.nvim_workspace {
   library = vim.api.nvim_get_runtime_file("", true),
@@ -20,6 +25,7 @@ lsp.ensure_installed {
   "intelephense",
   "jedi_language_server",
   "zls",
+  "yamlls",
 }
 
 lsp.on_attach(function(_, bufnr)
@@ -85,3 +91,41 @@ lsp.configure("jsonls", {
 })
 
 lsp.setup()
+
+local null_opts = lsp.build_options("null-ls", {})
+
+require("null-ls").setup {
+  on_attach = null_opts.on_attach,
+  sources = {
+    require("null-ls").builtins.code_actions.gitsigns,
+    require("null-ls").builtins.diagnostics.gitlint,
+    require("null-ls").builtins.diagnostics.golangci_lint,
+    require("null-ls").builtins.diagnostics.trail_space.with { disabled_filetypes = { "NvimTree" } },
+    require("null-ls").builtins.formatting.stylua,
+    require("null-ls").builtins.formatting.goimports,
+  },
+}
+
+Mason = {}
+local install_path = require("mason-core.path").concat { vim.fn.stdpath "data", "mason" }
+
+local function has(name)
+  return vim.fn.filereadable(require("mason-core.path").concat { install_path, "bin", name }) == 1
+end
+
+function Mason.install(to_install)
+  local missing = {}
+
+  for _, name in pairs(to_install) do
+    if not has(name) then
+      table.insert(missing, name)
+    end
+  end
+  require("mason.api.command").MasonInstall(missing)
+end
+
+Mason.install { "gitlint", "stylua", "golangci-lint", "goimports", "gofumpt", "yamlfmt" }
+
+vim.diagnostic.config {
+  signs = false,
+}
