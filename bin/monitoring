@@ -1,4 +1,0 @@
-#!/bin/bash
-
-# this will use $MONITORING_SERVERS and ssh to all of them and run sudo journalctl -fu $MONITORING_SYSTEMD_UNIT
-
