@@ -1,7 +1,7 @@
 require("telescope").load_extension "harpoon"
 local nnoremap = require("amirrezaask.keymaps").nnoremap
 
-nnoremap("<C-e>", require("harpoon.ui").toggle_quick_menu)
+nnoremap("<C-w>", require("harpoon.ui").toggle_quick_menu)
 
 nnoremap("<leader>a", require("harpoon.mark").add_file)
 

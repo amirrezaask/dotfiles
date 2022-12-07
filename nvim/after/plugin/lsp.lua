@@ -17,6 +17,9 @@ local function on_attach(_, bufnr)
       R = { vim.lsp.buf.rename, desc = "Rename symbol under cursor", buffer = bufnr },
       K = { vim.lsp.buf.hover, desc = "Hover docs under cursor", buffer = bufnr },
 
+      ["<leader>lf"] = { vim.lsp.buf.format, desc = "format buffer", buffer = bufnr },
+
+      ["<leader>ld"] = { vim.diagnostic.open_float, desc = "Show floating diagnostics", buffer = bufnr },
       ["[d"] = { vim.diagnostic.goto_prev, desc = "Goto previous diagnostic", buffer = bufnr },
       ["]d"] = { vim.diagnostic.goto_next, desc = "Goto next diagnostic", buffer = bufnr },
 
@@ -24,7 +27,6 @@ local function on_attach(_, bufnr)
       ["<A-n>"] = { vim.diagnostic.goto_next, desc = "Goto next diagnostic", buffer = bufnr },
 
       ["C"] = { vim.lsp.buf.code_action, desc = "Code Actions", buffer = bufnr },
-      ["<C-a>"] = { vim.lsp.buf.code_action, desc = "Code Actions", buffer = bufnr },
 
       ["<C-s>"] = { vim.lsp.buf.signature_help, desc = "Toggle Signature help", buffer = bufnr },
     },
