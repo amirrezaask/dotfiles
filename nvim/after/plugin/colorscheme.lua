@@ -63,8 +63,8 @@ end
 local themes = {
   "rose-pine",
 
-  "cappuccin",
-  "cappuccin-mocha",
+  "catppuccin",
+  "catppuccin-mocha",
   "catppuccin-macchiato",
   "catppuccin-frappe",
   "catppuccin-latte",
