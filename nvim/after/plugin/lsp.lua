@@ -1,22 +1,34 @@
-if true then
+if not require("core.utils").has_plugins "lsp-zero" then
   return
 end
 
-local utils = require "core.utils"
+local lsp = require "lsp-zero"
 
-if not utils.has_plugins { "lspconfig" } then
-  return
-end
+lsp.preset "recommended"
 
-local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
+lsp.set_preferences {
+  suggest_lsp_servers = false,
+}
 
-function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
-  opts = opts or {}
-  opts.border = "rounded"
-  return orig_util_open_floating_preview(contents, syntax, opts, ...)
-end
+lsp.nvim_workspace {
+  library = vim.api.nvim_get_runtime_file("", true),
+}
 
-local function on_attach(_, bufnr)
+lsp.ensure_installed {
+  "gopls",
+  "rust_analyzer",
+  "sumneko_lua",
+  "clangd",
+  "elixirls",
+  "hls",
+  "jsonls",
+  "intelephense",
+  "jedi_language_server",
+  "zls",
+  "yamlls",
+}
+
+lsp.on_attach(function(_, bufnr)
   local keymaps = require "core.keymaps"
   vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
   keymaps.bind {
@@ -34,67 +46,86 @@ local function on_attach(_, bufnr)
       ["<leader>dn"] = { vim.diagnostic.goto_next, desc = "Goto next diagnostic", buffer = bufnr },
 
       ["C"] = { vim.lsp.buf.code_action, desc = "Code Actions", buffer = bufnr },
-
       ["<C-s>"] = { vim.lsp.buf.signature_help, desc = "Toggle Signature help", buffer = bufnr },
     },
     i = {
       ["<C-s>"] = { vim.lsp.buf.signature_help, desc = "Toggle Signature help", buffer = bufnr },
     },
   }
-end
+end)
 
-local servers = {
-  "clangd",
-  "elixirls",
-  "gopls",
-  "hls",
-  {
-    "jsonls",
-    {
-      settings = {
-        json = {
-          schemas = require("schemastore").json.schemas(),
-          validate = { enable = true },
-        },
-      },
-    },
+local cmp = require "cmp"
+local cmp_select = { behavior = cmp.SelectBehavior.Select }
+
+lsp.setup_nvim_cmp {
+  mapping = lsp.defaults.cmp_mappings {
+    ["<C-p>"] = cmp.mapping.select_prev_item(cmp_select),
+    ["<C-n>"] = cmp.mapping.select_next_item(cmp_select),
   },
-  {
-    "sumneko_lua",
-    {
-      settings = {
-        Lua = {
-          diagnostics = {
-            globals = { "vim" },
-          },
-          workspace = {
-            library = vim.api.nvim_get_runtime_file("", true),
-            checkThirdParty = false,
-          },
-          telemetry = {
-            enable = false,
-          },
-        },
-      },
-    },
-  },
-  "intelephense",
-  "purescriptls",
-  "jedi_language_server",
-  "rust_analyzer",
-  "zls",
 }
 
-for _, srv in ipairs(servers) do
-  if type(srv) == "string" then
-    require("lspconfig")[srv].setup {
-      on_attach = on_attach,
-    }
-  end
+lsp.configure("sumneko_lua", {
+  settings = {
+    Lua = {
+      diagnostics = {
+        globals = { "vim" },
+      },
+      workspace = {
+        library = vim.api.nvim_get_runtime_file("", true),
+        checkThirdParty = false,
+      },
+      telemetry = {
+        enable = false,
+      },
+    },
+  },
+})
 
-  if type(srv) == "table" then
-    require("lspconfig")[srv[1]].setup(vim.tbl_extend("keep", srv[2], {
-      on_attach = on_attach,
-    }))
-  end
+lsp.configure("jsonls", {
+  settings = {
+    json = {
+      schemas = require("schemastore").json.schemas(),
+      validate = { enable = true },
+    },
+  },
+})
+
+lsp.setup()
+
+local null_opts = lsp.build_options("null-ls", {})
+
+require("null-ls").setup {
+  on_attach = null_opts.on_attach,
+  sources = {
+    require("null-ls").builtins.code_actions.gitsigns,
+    require("null-ls").builtins.diagnostics.gitlint,
+    require("null-ls").builtins.diagnostics.golangci_lint,
+    require("null-ls").builtins.diagnostics.trail_space.with { disabled_filetypes = { "NvimTree" } },
+    require("null-ls").builtins.formatting.stylua,
+    require("null-ls").builtins.formatting.goimports,
+  },
+}
+
+Mason = {}
+local install_path = require("mason-core.path").concat { vim.fn.stdpath "data", "mason" }
+
+local function has(name)
+  return vim.fn.filereadable(require("mason-core.path").concat { install_path, "bin", name }) == 1
 end
+
+function Mason.install(to_install)
+  local missing = {}
+
+  for _, name in pairs(to_install) do
+    if not has(name) then
+      table.insert(missing, name)
+    end
+  end
+  require("mason.api.command").MasonInstall(missing)
+end
+
+Mason.install { "gitlint", "stylua", "golangci-lint", "goimports", "gofumpt", "yamlfmt" }
+
+vim.diagnostic.config {
+  signs = false,
+}
