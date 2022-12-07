@@ -1,3 +1,7 @@
+if true then
+  return
+end
+
 local utils = require "core.utils"
 
 if not utils.has_plugins { "lspconfig" } then

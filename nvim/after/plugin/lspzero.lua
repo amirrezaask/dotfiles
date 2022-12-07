@@ -3,7 +3,6 @@ if not require("core.utils").has_plugins "lsp-zero" then
 end
 
 local lsp = require "lsp-zero"
-
 lsp.preset "recommended"
 
 lsp.nvim_workspace {
@@ -48,6 +47,16 @@ lsp.on_attach(function(_, bufnr)
     },
   }
 end)
+
+local cmp = require "cmp"
+local cmp_select = { behavior = cmp.SelectBehavior.Select }
+
+lsp.setup_nvim_cmp {
+  mapping = lsp.defaults.cmp_mappings {
+    ["<C-p>"] = cmp.mapping.select_prev_item(cmp_select),
+    ["<C-n>"] = cmp.mapping.select_next_item(cmp_select),
+  },
+}
 
 lsp.configure("sumneko_lua", {
   settings = {

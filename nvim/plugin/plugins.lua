@@ -65,56 +65,56 @@ require("packer").startup {
     --
     --
     -- LSP Zero
+    use {
+      "VonHeikemen/lsp-zero.nvim",
+      requires = {
+        -- LSP Support
+        { "neovim/nvim-lspconfig" },
+        { "williamboman/mason.nvim" },
+        { "williamboman/mason-lspconfig.nvim" },
+
+        -- Autocompletion
+        { "hrsh7th/nvim-cmp" },
+        { "hrsh7th/cmp-buffer" },
+        { "hrsh7th/cmp-path" },
+        { "saadparwaiz1/cmp_luasnip" },
+        { "hrsh7th/cmp-nvim-lsp" },
+        { "hrsh7th/cmp-nvim-lua" },
+
+        -- Snippets
+        { "L3MON4D3/LuaSnip" },
+        { "rafamadriz/friendly-snippets" },
+      },
+    }
+
+    -- LSP
     -- use {
-    --   "VonHeikemen/lsp-zero.nvim",
+    --   "neovim/nvim-lspconfig",
     --   requires = {
-    --     -- LSP Support
-    --     { "neovim/nvim-lspconfig" },
-    --     { "williamboman/mason.nvim" },
-    --     { "williamboman/mason-lspconfig.nvim" },
-    --
-    --     -- Autocompletion
-    --     { "hrsh7th/nvim-cmp" },
-    --     { "hrsh7th/cmp-buffer" },
-    --     { "hrsh7th/cmp-path" },
-    --     { "saadparwaiz1/cmp_luasnip" },
-    --     { "hrsh7th/cmp-nvim-lsp" },
-    --     { "hrsh7th/cmp-nvim-lua" },
-    --
-    --     -- Snippets
-    --     { "L3MON4D3/LuaSnip" },
-    --     { "rafamadriz/friendly-snippets" },
+    --     "onsails/lspkind.nvim", -- icons in completion
     --   },
     -- }
 
-    -- LSP
-    use {
-      "neovim/nvim-lspconfig",
-      requires = {
-        "onsails/lspkind.nvim", -- icons in completion
-      },
-    }
-
     -- Autocompletion
-    use {
-      "hrsh7th/nvim-cmp",
-      requires = {
-        "saadparwaiz1/cmp_luasnip",
-        "hrsh7th/cmp-buffer",
-        "hrsh7th/cmp-nvim-lua",
-        "hrsh7th/cmp-nvim-lsp",
-        "hrsh7th/cmp-path",
-      },
-    }
+    -- use {
+    --   "hrsh7th/nvim-cmp",
+    --   requires = {
+    --     "saadparwaiz1/cmp_luasnip",
+    --     "hrsh7th/cmp-buffer",
+    --     "hrsh7th/cmp-nvim-lua",
+    --     "hrsh7th/cmp-nvim-lsp",
+    --     "hrsh7th/cmp-path",
+    --   },
+    -- }
 
     -- Package manager for all tools, LSPs, DAPs and other utilities ...
-    use {
-      "williamboman/mason.nvim",
-      requires = {
-        "jayp0521/mason-nvim-dap.nvim",
-        "williamboman/mason-lspconfig.nvim",
-      },
-    }
+    -- use {
+    --   "williamboman/mason.nvim",
+    --   requires = {
+    --     "jayp0521/mason-nvim-dap.nvim",
+    --     "williamboman/mason-lspconfig.nvim",
+    --   },
+    -- }
 
     -- Automatically create directory when you create a new file in a directory that
     -- does not exists.

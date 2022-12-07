@@ -4,14 +4,14 @@ end
 
 Mason = {}
 local install_path = require("mason-core.path").concat { vim.fn.stdpath "data", "mason" }
-
-require("mason").setup {
-  install_root_dir = install_path,
-}
-
-require("mason-lspconfig").setup {
-  automatic_installation = true,
-}
+--
+-- require("mason").setup {
+--   install_root_dir = install_path,
+-- }
+--
+-- require("mason-lspconfig").setup {
+--   automatic_installation = true,
+-- }
 
 local function has(name)
   return vim.fn.filereadable(require("mason-core.path").concat { install_path, "bin", name }) == 1

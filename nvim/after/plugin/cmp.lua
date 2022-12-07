@@ -1,3 +1,7 @@
+if true then
+  return
+end
+
 if not require("core.utils").has_plugins { "cmp" } then
   return
 end
