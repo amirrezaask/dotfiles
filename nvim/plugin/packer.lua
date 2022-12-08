@@ -93,6 +93,7 @@ require("packer").startup {
 
     use "junegunn/vim-easy-align"
 
+    -- Preview quickfix list item.
     use "kevinhwang91/nvim-bqf"
 
     -- Helper commands like :Rename, :Move, :Delete, :Remove, ...
