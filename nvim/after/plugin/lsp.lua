@@ -117,6 +117,14 @@ end
 
 MasonInstall { "gitlint", "stylua", "golangci-lint", "goimports", "gofumpt", "yamlfmt" }
 
+-- Lua autoformat
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = "*.lua",
+  callback = function(_)
+    vim.lsp.buf.format()
+  end,
+})
+
 vim.diagnostic.config {
   signs = false,
 }
