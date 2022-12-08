@@ -58,10 +58,10 @@ require("packer").startup {
     }
 
     -- If you want a facny start screen
-    use {
-      "goolord/alpha-nvim",
-      requires = { "nvim-tree/nvim-web-devicons" },
-    }
+    -- use {
+    --   "goolord/alpha-nvim",
+    --   requires = { "nvim-tree/nvim-web-devicons" },
+    -- }
 
     -- LSP Zero
     use {
@@ -193,11 +193,6 @@ require("packer").startup {
       "b0o/schemastore.nvim",
     }
 
-    use {
-      "folke/neodev.nvim",
-      requires = { "nvim-lua/plenary.nvim" },
-    }
-
     use "milisims/nvim-luaref"
     use "nanotee/luv-vimdocs"
 
@@ -234,6 +229,7 @@ require("packer").startup {
       "simrat39/rust-tools.nvim",
     }
 
+    -- Tmux integration, look here for tmux part https://github.com/mrjones2014/smart-splits.nvim#tmux-integration
     use {
       "mrjones2014/smart-splits.nvim",
     }
@@ -241,10 +237,6 @@ require("packer").startup {
     use {
       "akinsho/toggleterm.nvim",
     }
-
-    -- If you use tmux you should have this to integrate
-    -- tmux splits movement with vim/neovim.
-    use { "christoomey/vim-tmux-navigator" }
 
     use "RyanMillerC/better-vim-tmux-resizer"
 
@@ -254,12 +246,6 @@ require("packer").startup {
   end,
   config = {
     compile_path = require("packer.util").join_paths(vim.fn.stdpath "data", "packer_compiled.lua"),
-    -- display = {
-    --   open_fn = function(opts)
-    --     opts.border = "rounded"
-    --     require("packer.util").float(opts)
-    --   end,
-    -- },
   },
 }
 
