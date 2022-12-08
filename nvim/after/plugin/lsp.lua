@@ -23,30 +23,27 @@ lsp.ensure_installed {
   "intelephense",
 }
 
+local nnoremap = require("core.keymaps").nnoremap
+local inoremap = require("core.keymaps").inoremap
+
 lsp.on_attach(function(_, bufnr)
-  local keymaps = require "core.keymaps"
   vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
-  keymaps.bind {
-    n = {
-      gd = { vim.lsp.buf.definition, desc = "Goto definition", buffer = bufnr },
-      gi = { vim.lsp.buf.implementation, desc = "Goto implementations", buffer = bufnr },
-      gr = { vim.lsp.buf.references, desc = "Goto references", buffer = bufnr },
-      R = { vim.lsp.buf.rename, desc = "Rename symbol under cursor", buffer = bufnr },
-      K = { vim.lsp.buf.hover, desc = "Hover docs under cursor", buffer = bufnr },
+  local buffer = { buffer = bufnr }
+  nnoremap("gd", vim.lsp.buf.definition, buffer)
+  nnoremap("gi", vim.lsp.buf.implementation, buffer)
+  nnoremap("gr", vim.lsp.buf.references, buffer)
+  nnoremap("R", vim.lsp.buf.rename, buffer)
+  nnoremap("K", vim.lsp.buf.hover, buffer)
+  nnoremap("<leader>lf", vim.lsp.buf.format, buffer)
 
-      ["<leader>lf"] = { vim.lsp.buf.format, desc = "format buffer", buffer = bufnr },
+  nnoremap("<leader>dl", vim.diagnostic.open_float, buffer)
+  nnoremap("gl", vim.diagnostic.open_float, buffer)
+  nnoremap("<leader>dp", vim.diagnostic.goto_prev, buffer)
+  nnoremap("<leader>dn", vim.diagnostic.goto_next, buffer)
 
-      ["<leader>dl"] = { vim.diagnostic.open_float, desc = "Show floating diagnostics", buffer = bufnr },
-      ["<leader>dp"] = { vim.diagnostic.goto_prev, desc = "Goto previous diagnostic", buffer = bufnr },
-      ["<leader>dn"] = { vim.diagnostic.goto_next, desc = "Goto next diagnostic", buffer = bufnr },
-
-      ["C"] = { vim.lsp.buf.code_action, desc = "Code Actions", buffer = bufnr },
-      ["<C-s>"] = { vim.lsp.buf.signature_help, desc = "Toggle Signature help", buffer = bufnr },
-    },
-    i = {
-      ["<C-s>"] = { vim.lsp.buf.signature_help, desc = "Toggle Signature help", buffer = bufnr },
-    },
-  }
+  nnoremap("C", vim.lsp.buf.code_action, buffer)
+  nnoremap("<C-s>", vim.lsp.buf.signature_help, buffer)
+  inoremap("<C-s>", vim.lsp.buf.signature_help, buffer)
 end)
 
 local cmp = require "cmp"
