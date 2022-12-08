@@ -27,4 +27,6 @@ function M.get_command(name)
   end
 end
 
+_G.has_plugins = M.has_plugins
+
 return M

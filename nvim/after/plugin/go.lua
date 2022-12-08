@@ -9,8 +9,9 @@ vim.api.nvim_create_autocmd("BufEnter", {
   pattern = "*.go",
   group = go_group,
   callback = function(meta)
-    keymaps.buf_nnoremap(meta.buffer, "<leader>lat", "<cmd>GoAddTag<CR>", { remap = true })
-    keymaps.buf_nnoremap(meta.buffer, "<leader>lrt", "<cmd>GoRmTag<CR>", { remap = true })
-    keymaps.buf_nnoremap(meta.buffer, "<leader>lfs", "<cmd>GoFillStruct<CR>", { remap = true })
+    local buffer = { buffer = meta.bufnr, remap = true }
+    keymaps.nnoremap("<leader>lat", "<cmd>GoAddTag<CR>", buffer)
+    keymaps.nnoremap("<leader>lrt", "<cmd>GoRmTag<CR>", buffer)
+    keymaps.nnoremap("<leader>lfs", "<cmd>GoFillStruct<CR>", buffer)
   end,
 })

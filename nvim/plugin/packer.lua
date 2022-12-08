@@ -136,8 +136,10 @@ require("packer").startup {
 
     use "kevinhwang91/nvim-bqf"
 
+    -- Helper commands like :Rename, :Move, :Delete, :Remove, ...
     use "tpope/vim-eunuch"
 
+    -- Heuristically set buffer options
     use "tpope/vim-sleuth"
 
     use {

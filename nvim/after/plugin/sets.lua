@@ -25,7 +25,7 @@ vim.opt.splitbelow = true -- horizontal split creates a new window below current
 vim.opt.cursorline = true -- highlight current line
 vim.opt.relativenumber = true -- show relative line numbers
 vim.opt.number = true -- show current line number
-vim.opt.showmode = true -- show current vim mode down of the screen
+vim.opt.showmode = false -- show current vim mode down of the screen
 vim.opt.showcmd = true -- show commands as they are being typed
 vim.opt.hidden = true
 vim.opt.updatetime = 50
@@ -47,8 +47,7 @@ vim.opt.listchars:append "eol:↲"
 vim.opt.listchars:append "trail:·"
 vim.opt.listchars:append "lead:·"
 vim.opt.timeoutlen = 500 -- when a key is pressed timeout until it's forgotten
-vim.opt.clipboard:append "unnamedplus" -- use system clipboard by default
--- vim.opt.guicursor = ""
+vim.opt.clipboard:append "unnamedplus" -- use system clipboard as default register.
 vim.opt.colorcolumn = "120"
 
 if vim.version().major >= 0 and vim.version().minor >= 8 then

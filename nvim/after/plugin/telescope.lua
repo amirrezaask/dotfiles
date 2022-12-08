@@ -3,9 +3,6 @@ if not ok then
   return
 end
 
-local keymaps = require "core.keymaps"
-local nnoremap = keymaps.nnoremap
-
 require("telescope").setup {}
 require("telescope").load_extension "fzf"
 
@@ -29,7 +26,7 @@ nnoremap("<C-p>", function()
   require("telescope.builtin").find_files()
 end)
 
-nnoremap("<leader>fw", function()
+nnoremap("<leader>fs", function()
   require("telescope.builtin").live_grep()
 end)
 
@@ -43,18 +40,6 @@ end)
 
 nnoremap("<leader>fh", function()
   require("telescope.builtin").help_tags()
-end)
-
-nnoremap("<leader>fk", function()
-  require("telescope.builtin").keymaps()
-end)
-
-nnoremap("<leader>d", function()
-  require("telescope.builtin").diagnostics(require("telescope.themes").get_dropdown())
-end)
-
-nnoremap("<A-d>", function()
-  require("telescope.builtin").diagnostics(require("telescope.themes").get_dropdown())
 end)
 
 -- Edit configurations

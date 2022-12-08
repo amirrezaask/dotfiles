@@ -12,3 +12,4 @@
 -- then all plugin/* files get sourced
 -- then all after/plugin/* files get sourced
 -- all files under lua/* are just there and need to be sourced manually
+require "core"
