@@ -124,3 +124,9 @@ MasonInstall { "gitlint", "stylua", "golangci-lint", "goimports", "gofumpt", "ya
 vim.diagnostic.config {
   signs = false,
 }
+
+local ok, _ = pcall(require, "fidget")
+
+if ok then
+  require("fidget").setup()
+end
