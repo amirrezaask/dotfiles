@@ -41,12 +41,6 @@ require("packer").startup {
       run = "make",
     }
 
-    -- Statusline
-    -- use {
-    --   "nvim-lualine/lualine.nvim",
-    --   requires = { "kyazdani42/nvim-web-devicons", opt = true },
-    -- }
-
     -- Treesitter
     use {
       "nvim-treesitter/nvim-treesitter",
@@ -56,12 +50,6 @@ require("packer").startup {
         "nvim-treesitter/nvim-treesitter-context",
       },
     }
-
-    -- If you want a facny start screen
-    -- use {
-    --   "goolord/alpha-nvim",
-    --   requires = { "nvim-tree/nvim-web-devicons" },
-    -- }
 
     -- LSP Zero
     use {
@@ -85,35 +73,6 @@ require("packer").startup {
         { "rafamadriz/friendly-snippets" },
       },
     }
-
-    -- LSP
-    -- use {
-    --   "neovim/nvim-lspconfig",
-    --   requires = {
-    --     "onsails/lspkind.nvim", -- icons in completion
-    --   },
-    -- }
-
-    -- Autocompletion
-    -- use {
-    --   "hrsh7th/nvim-cmp",
-    --   requires = {
-    --     "saadparwaiz1/cmp_luasnip",
-    --     "hrsh7th/cmp-buffer",
-    --     "hrsh7th/cmp-nvim-lua",
-    --     "hrsh7th/cmp-nvim-lsp",
-    --     "hrsh7th/cmp-path",
-    --   },
-    -- }
-
-    -- Package manager for all tools, LSPs, DAPs and other utilities ...
-    -- use {
-    --   "williamboman/mason.nvim",
-    --   requires = {
-    --     "jayp0521/mason-nvim-dap.nvim",
-    --     "williamboman/mason-lspconfig.nvim",
-    --   },
-    -- }
 
     -- Automatically create directory when you create a new file in a directory that
     -- does not exists.
@@ -150,11 +109,6 @@ require("packer").startup {
       "stevearc/dressing.nvim",
     }
 
-    -- Show progress of LSP.
-    use {
-      "j-hui/fidget.nvim",
-    }
-
     use {
       "lewis6991/gitsigns.nvim",
     }
@@ -166,12 +120,6 @@ require("packer").startup {
     use {
       "cohama/agit.vim",
     }
-
-    -- Emacs magit clone
-    -- use {
-    --   "TimUntersberger/neogit",
-    --   requires = "nvim-lua/plenary.nvim",
-    -- }
 
     use {
       "tpope/vim-fugitive",
@@ -198,27 +146,9 @@ require("packer").startup {
     use "milisims/nvim-luaref"
     use "nanotee/luv-vimdocs"
 
-    use {
-      "L3MON4D3/LuaSnip",
-      requires = "rafamadriz/friendly-snippets",
-    }
-
     -- Hook non LSP tools into neovim LSP client
     use {
       "jose-elias-alvarez/null-ls.nvim",
-    }
-
-    -- Tree file explorer, I don't use just use telescope or netrw
-    -- use {
-    --   "nvim-tree/nvim-tree.lua",
-    --   requires = {
-    --     "nvim-tree/nvim-web-devicons", -- optional, for file icons
-    --   },
-    --   tag = "nightly", -- optional, updated every week. (see issue #1193)
-    -- }
-
-    use {
-      "purescript-contrib/purescript-vim",
     }
 
     use "Glench/Vim-Jinja2-Syntax"
@@ -235,12 +165,6 @@ require("packer").startup {
     use {
       "mrjones2014/smart-splits.nvim",
     }
-
-    use {
-      "akinsho/toggleterm.nvim",
-    }
-
-    use "RyanMillerC/better-vim-tmux-resizer"
 
     use {
       "ziglang/zig.vim",
