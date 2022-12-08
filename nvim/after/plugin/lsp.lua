@@ -19,13 +19,8 @@ lsp.ensure_installed {
   "rust_analyzer",
   "sumneko_lua",
   "clangd",
-  "elixirls",
-  "hls",
   "jsonls",
   "intelephense",
-  "jedi_language_server",
-  "zls",
-  "yamlls",
 }
 
 lsp.on_attach(function(_, bufnr)
