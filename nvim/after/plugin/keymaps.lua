@@ -1,7 +1,4 @@
-local keymaps = require "core.keymaps"
-local nnoremap = keymaps.nnoremap
-
-keymaps.bind {
+bind {
   n = {
     ["<M-j>"] = ":m .+1<CR>==",
     ["<M-k>"] = ":m .-2<CR>==",

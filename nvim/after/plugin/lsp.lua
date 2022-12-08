@@ -1,4 +1,4 @@
-if not require("core.utils").has_plugins "lsp-zero" then
+if not has_plugins "lsp-zero" then
   return
 end
 

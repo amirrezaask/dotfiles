@@ -1,5 +1,4 @@
-local ok, _ = pcall(require, "nvim-treesitter")
-if not ok then
+if not has_plugins { "nvim-treesitter", "treesitter-context" } then
   return
 end
 

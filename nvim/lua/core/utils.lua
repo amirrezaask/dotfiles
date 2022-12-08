@@ -1,6 +1,4 @@
-local M = {}
-
-function M.has_plugins(plugins)
+local function has_plugins(plugins)
   if type(plugins) == "table" then
     for _, name in ipairs(plugins) do
       local ok, _ = pcall(require, name)
@@ -18,15 +16,4 @@ function M.has_plugins(plugins)
   return true
 end
 
-function M.get_command(name)
-  local all = vim.api.nvim_get_commands {}
-  for _, cmd in pairs(all) do
-    if cmd.name == name then
-      return cmd
-    end
-  end
-end
-
-_G.has_plugins = M.has_plugins
-
-return M
+_G.has_plugins = has_plugins

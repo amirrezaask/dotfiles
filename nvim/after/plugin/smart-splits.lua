@@ -1,5 +1,4 @@
-local ok, _ = pcall(require, "smart-splits")
-if not ok then
+if not has_plugins "smart-splits" then
   return
 end
 

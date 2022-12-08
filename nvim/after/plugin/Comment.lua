@@ -1,5 +1,4 @@
-local ok, _ = pcall(require, "Comment")
-if not ok then
+if not has_plugins "Comment" then
   return
 end
 

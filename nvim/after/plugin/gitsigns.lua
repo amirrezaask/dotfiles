@@ -1,6 +1,4 @@
-local ok, _ = pcall(require, "gitsigns")
-
-if not ok then
+if not has_plugins "gitsigns" then
   return
 end
 

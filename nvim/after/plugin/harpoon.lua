@@ -1,3 +1,7 @@
+if not has_plugins { "harpoon", "telescope" } then
+  return
+end
+
 require("telescope").load_extension "harpoon"
 local nnoremap = require("core.keymaps").nnoremap
 
