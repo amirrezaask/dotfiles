@@ -23,8 +23,6 @@ lsp.ensure_installed {
   "intelephense",
 }
 
-local nnoremap = require("core.keymaps").nnoremap
-local inoremap = require("core.keymaps").inoremap
 
 lsp.on_attach(function(_, bufnr)
   vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
@@ -128,9 +126,3 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 vim.diagnostic.config {
   signs = false,
 }
-
-local ok, _ = pcall(require, "fidget")
-
-if ok then
-  require("fidget").setup()
-end

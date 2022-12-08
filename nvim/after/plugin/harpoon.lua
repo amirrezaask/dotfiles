@@ -3,7 +3,6 @@ if not has_plugins { "harpoon", "telescope" } then
 end
 
 require("telescope").load_extension "harpoon"
-local nnoremap = require("core.keymaps").nnoremap
 
 nnoremap("<C-w>", require("harpoon.ui").toggle_quick_menu)
 
