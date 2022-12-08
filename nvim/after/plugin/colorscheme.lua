@@ -3,7 +3,7 @@ vim.g.gruvbox_contrast_dark = "hard"
 
 local tokyonight_style = "storm"
 
-local colorscheme = "catppuccin"
+local colorscheme = "tokyonight"
 
 local transparent = false
 
