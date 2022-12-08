@@ -15,6 +15,9 @@ xmonad/xmonad-x86_64-linux
 .emacs.d/straight/
 .emacs.d/var
 .emacs.d/eshell
+.emacs.d/history
+.emacs.d/transient
+.emacs.d/elpa
 .doom.d/packages.el
 .doom.d/config.el
 .doom.d/init.el

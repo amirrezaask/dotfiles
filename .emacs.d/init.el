@@ -99,6 +99,7 @@
 (setq show-paren-delay 0) ;; highlight matching parens instantly.
 
 (global-display-line-numbers-mode 1)
+
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory)) ;; add my scripts to load path
 
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
