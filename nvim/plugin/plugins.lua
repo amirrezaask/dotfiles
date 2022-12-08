@@ -58,12 +58,11 @@ require("packer").startup {
     }
 
     -- If you want a facny start screen
-    -- use {
-    --   "goolord/alpha-nvim",
-    --   requires = { "nvim-tree/nvim-web-devicons" },
-    -- }
-    --
-    --
+    use {
+      "goolord/alpha-nvim",
+      requires = { "nvim-tree/nvim-web-devicons" },
+    }
+
     -- LSP Zero
     use {
       "VonHeikemen/lsp-zero.nvim",
@@ -268,11 +267,4 @@ if packer_bootstrap then
   require("packer").sync()
 end
 
-local ok, impatient = pcall(require, "impatient")
-
-vim.api.nvim_create_autocmd("BufWritePost", {
-  pattern = "plugins.lua",
-  callback = function(meta)
-    vim.cmd.PackerInstall()
-  end,
-})
+pcall(require, "impatient")

@@ -109,11 +109,11 @@ require("null-ls").setup {
 Mason = {}
 local install_path = require("mason-core.path").concat { vim.fn.stdpath "data", "mason" }
 
-local function has(name)
-  return vim.fn.filereadable(require("mason-core.path").concat { install_path, "bin", name }) == 1
-end
+local function MasonInstall(to_install)
+  local function has(name)
+    return vim.fn.filereadable(require("mason-core.path").concat { install_path, "bin", name }) == 1
+  end
 
-function Mason.install(to_install)
   local missing = {}
 
   for _, name in pairs(to_install) do
@@ -124,7 +124,7 @@ function Mason.install(to_install)
   require("mason.api.command").MasonInstall(missing)
 end
 
-Mason.install { "gitlint", "stylua", "golangci-lint", "goimports", "gofumpt", "yamlfmt" }
+MasonInstall { "gitlint", "stylua", "golangci-lint", "goimports", "gofumpt", "yamlfmt" }
 
 vim.diagnostic.config {
   signs = false,
