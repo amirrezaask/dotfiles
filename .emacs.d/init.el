@@ -8,7 +8,8 @@
   (interactive)
   (set-frame-font (concat amirreza/font " 19") nil t))
 
-(amirreza/laptop)
+;; (amirreza/laptop)
+(amirreza/home-monitor)
 
 ;; Package manager setup
 (defvar bootstrap-version)
@@ -105,7 +106,12 @@
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 
 
-(use-package projectile)
+(use-package projectile
+  :bind
+  (
+   ("C-x p f" . projectile-find-file)
+   ("C-x p g" . projectile-grep)
+   ))
 
 
 (use-package magit
@@ -153,3 +159,5 @@
 (use-package docker-compose-mode)
 
 (use-package dockerfile-mode)
+
+(add-to-list 'exec-path (expand-file-name "bin" user-emacs-directory))
