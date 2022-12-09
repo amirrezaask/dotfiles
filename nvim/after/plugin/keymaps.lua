@@ -1,3 +1,5 @@
+local set = vim.keymap.set
+
 nnoremap("<C-d>", "<C-d>zz")
 nnoremap("<C-u>", "<C-u>zz")
 
@@ -22,3 +24,6 @@ tnoremap("kj", "<C-\\><C-n>")
 
 inoremap("jk", "<esc>")
 inoremap("kj", "<esc>")
+
+set({ "n", "t" }, "<C-,>", "<cmd>tabprev<CR>")
+set({ "n", "t" }, "<C-.>", "<cmd>tabnext<CR>")
