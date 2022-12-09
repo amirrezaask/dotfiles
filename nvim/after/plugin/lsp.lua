@@ -23,7 +23,6 @@ lsp.ensure_installed {
   "intelephense",
 }
 
-
 lsp.on_attach(function(_, bufnr)
   vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
   local buffer = { buffer = bufnr }

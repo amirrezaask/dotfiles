@@ -21,5 +21,5 @@ end
 function tnoremap(lhs, rhs, opts)
   opts = opts or {}
   opts = vim.tbl_extend("force", opts, { noremap = true })
-  vim.keymap.set("v", lhs, rhs, opts)
+  vim.keymap.set("t", lhs, rhs, opts)
 end
