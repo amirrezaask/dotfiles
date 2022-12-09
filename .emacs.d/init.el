@@ -111,6 +111,8 @@
   (
    ("C-x p f" . projectile-find-file)
    ("C-x p g" . projectile-grep)
+   ("C-x p s". projectile-switch-project)
+   ("C-x p a". projectile-add-known-project)
    ))
 
 
@@ -160,4 +162,28 @@
 
 (use-package dockerfile-mode)
 
+(use-package exec-path-from-shell
+  :config
+  (exec-path-from-shell-initialize))
+
+
 (add-to-list 'exec-path (expand-file-name "bin" user-emacs-directory))
+
+(global-set-key (kbd "M-n") (lambda () (interactive) (next-line 10)))
+(global-set-key (kbd "M-p") (lambda () (interactive) (previous-line 10)))
+
+
+(defun ASYNC-SHELL-COMMAND ()
+  (interactive)
+  (let ((default-directory (vc-root-dir)))
+    (call-interactively 'async-shell-command)
+    ))
+
+(global-set-key (kbd "C-9") #'compile)
+(global-set-key (kbd "C-8") #'ASYNC-SHELL-COMMAND)
+
+(global-set-key (kbd "C-1") (lambda () (interactive) (find-file (expand-file-name "init.el" user-emacs-directory))))
+
+(add-hook 'grep-mode-hook (lambda ()
+                            (define-key grep-mode-map (kbd "M-.") 'find-file-at-point)
+                            ))
