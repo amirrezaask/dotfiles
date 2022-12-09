@@ -1,6 +1,5 @@
 vim.g.catppuccin_flavour = "macchiato"
 vim.g.gruvbox_contrast_dark = "hard"
-
 local tokyonight_style = "night"
 
 local colorscheme = "tokyonight"
