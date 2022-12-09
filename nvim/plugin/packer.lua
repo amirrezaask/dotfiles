@@ -170,6 +170,9 @@ require("packer").startup {
     use {
       "ziglang/zig.vim",
     }
+    use {
+      "akinsho/toggleterm.nvim",
+    }
   end,
   config = {
     compile_path = require("packer.util").join_paths(vim.fn.stdpath "data", "packer_compiled.lua"),

@@ -1,5 +1,3 @@
-vim.opt.guicursor = ""
-
 vim.opt.nu = true
 vim.opt.relativenumber = true
 
@@ -34,6 +32,8 @@ vim.opt.updatetime = 50
 
 -- Don't pass messages to |ins-completion-menu|.
 vim.opt.shortmess:append "c"
+-- No Intro message
+vim.opt.shortmess:append "I"
 
 vim.opt.colorcolumn = "80"
 
@@ -46,7 +46,7 @@ vim.opt.splitbelow = true
 vim.opt.splitright = true
 
 if vim.version().major >= 0 and vim.version().minor >= 8 then
-  vim.opt.laststatus = 3 -- if supported use global statusline
+    vim.opt.laststatus = 3 -- if supported use global statusline
 end
 
 -- Simple statusline
