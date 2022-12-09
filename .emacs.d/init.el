@@ -81,7 +81,7 @@
 (use-package doom-themes)
 (use-package gruber-darker-theme)
 
-(load-theme 'doom-one t)
+(load-theme 'modus-vivendi t)
 
 (setq backup-by-copying t) ;; Always copy files for backup.
 (setq version-control t) ;; Use version numbers for backup.
@@ -129,24 +129,6 @@
   :hook (rust-mode . eglot-ensure))
 
 
-;; Modeline
-(setq-default mode-line-format
-              '("%e"
-                mode-line-front-space
-                mode-line-mule-info
-                mode-line-client
-                mode-line-modified
-                mode-line-remote
-                mode-line-frame-identification
-                mode-line-buffer-identification
-                "   "
-                mode-line-position
-                (vc-mode vc-mode)
-                "  "
-                mode-line-end-spaces))
-
-
-
 (use-package dired
   :straight nil
   :hook (dired-mode . (lambda ()
@@ -169,8 +151,26 @@
 
 (add-to-list 'exec-path (expand-file-name "bin" user-emacs-directory))
 
-(global-set-key (kbd "M-n") (lambda () (interactive) (next-line 10)))
-(global-set-key (kbd "M-p") (lambda () (interactive) (previous-line 10)))
+(defun amirreza/up-center ()
+  (interactive)
+  (scroll-up-command)
+  (recenter-top-bottom)
+  )
+
+(defun amirreza/down-center ()
+  (interactive)
+  (scroll-down-command)
+  (recenter-top-bottom)
+
+  )
+
+;; Best movement ever ?????
+(setq recenter-positions '(middle))
+(global-set-key (kbd "M-n") (lambda () (interactive) (amirreza/up-center)))
+(global-set-key (kbd "M-p") (lambda () (interactive) (amirreza/down-center)))
+
+
+(use-package vterm)
 
 
 (defun ASYNC-SHELL-COMMAND ()
