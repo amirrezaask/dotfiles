@@ -1,3 +1,5 @@
+(add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory)) ;; add my scripts to load path
+
 (setq amirreza/font "JetBrainsMono Nerd Font Mono")
 
 (defun amirreza/home-monitor ()
@@ -9,7 +11,7 @@
   (set-frame-font (concat amirreza/font " 19") nil t))
 
 ;; (amirreza/laptop)
-(amirreza/home-monitor)
+;; (amirreza/home-monitor)
 
 ;; Package manager setup
 (defvar bootstrap-version)
@@ -107,7 +109,6 @@
 
 (global-display-line-numbers-mode 1)
 
-(add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory)) ;; add my scripts to load path
 
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 
@@ -159,21 +160,21 @@
 
 (defun amirreza/up-center ()
   (interactive)
-  (scroll-up-command)
+  (previous-line 20)
   (recenter-top-bottom)
   )
 
 (defun amirreza/down-center ()
   (interactive)
-  (scroll-down-command)
+  (next-line 20)
   (recenter-top-bottom)
 
   )
 
 ;; Best movement ever ?????
 (setq recenter-positions '(middle))
-(global-set-key (kbd "M-n") (lambda () (interactive) (amirreza/up-center)))
-(global-set-key (kbd "M-p") (lambda () (interactive) (amirreza/down-center)))
+(global-set-key (kbd "M-p") (lambda () (interactive) (amirreza/up-center)))
+(global-set-key (kbd "M-n") (lambda () (interactive) (amirreza/down-center)))
 
 
 (use-package vterm)
