@@ -94,25 +94,17 @@ require("null-ls").setup {
   },
 }
 
-Mason = {}
-local install_path = require("mason-core.path").concat { vim.fn.stdpath "data", "mason" }
+local mason = {}
 
-local function MasonInstall(to_install)
-  local function has(name)
-    return vim.fn.filereadable(require("mason-core.path").concat { install_path, "bin", name }) == 1
-  end
-
-  local missing = {}
-
-  for _, name in pairs(to_install) do
-    if not has(name) then
-      table.insert(missing, name)
+function mason.ensure_installed(to_install)
+  for _, pkg in ipairs(to_install) do
+    if not require("mason-registry").is_installed(pkg) then
+      require("mason.api.command").MasonInstall(pkg)
     end
   end
-  require("mason.api.command").MasonInstall(missing)
 end
 
-MasonInstall { "gitlint", "stylua", "golangci-lint", "goimports", "gofumpt", "yamlfmt" }
+mason.ensure_installed { "gitlint", "stylua", "golangci-lint", "goimports", "gofumpt", "yamlfmt" }
 
 -- Lua autoformat
 vim.api.nvim_create_autocmd("BufWritePre", {
