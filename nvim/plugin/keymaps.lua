@@ -54,3 +54,5 @@ inoremap("kj", "<esc>")
 set({ "n", "t" }, "<C-,>", "<cmd>tabprev<CR>")
 set({ "n", "t" }, "<C-.>", "<cmd>tabnext<CR>")
 set({ "n", "t" }, "<C-t>", "<cmd>tabnew<CR>")
+
+nnoremap("<leader>.", "<cmd>Explore<CR>")

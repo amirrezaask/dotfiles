@@ -16,8 +16,6 @@ require("packer").startup {
     use "wbthomason/packer.nvim"
     use "lewis6991/impatient.nvim"
 
-    use "numToStr/Comment.nvim"
-
     use "sainnhe/sonokai"
     use "folke/tokyonight.nvim"
     use "Mofiqul/dracula.nvim"
@@ -29,6 +27,14 @@ require("packer").startup {
     use "EdenEast/nightfox.nvim"
     use "bluz71/vim-moonfly-colors"
     use { "catppuccin/nvim", as = "catppuccin" }
+
+    -- Comment
+    use {
+      "numToStr/Comment.nvim",
+      config = function()
+        require("Comment").setup()
+      end,
+    }
 
     -- Telescope
     use {
@@ -46,6 +52,7 @@ require("packer").startup {
     --   "nvim-lualine/lualine.nvim",
     --   requires = { "kyazdani42/nvim-web-devicons", opt = true },
     -- }
+
     -- Treesitter
     use {
       "nvim-treesitter/nvim-treesitter",
@@ -109,14 +116,30 @@ require("packer").startup {
 
     use {
       "windwp/nvim-autopairs",
+      config = function()
+        require("nvim-autopairs").setup()
+      end,
     }
 
     use {
       "stevearc/dressing.nvim",
+      config = function()
+        require("dressing").setup {
+          input = {
+            enabled = true,
+          },
+          select = {
+            enabled = true,
+          },
+        }
+      end,
     }
 
     use {
       "lewis6991/gitsigns.nvim",
+      config = function()
+        require("gitsigns").setup {}
+      end,
     }
 
     use {
@@ -129,6 +152,9 @@ require("packer").startup {
 
     use {
       "tpope/vim-fugitive",
+      config = function()
+        vim.keymap.set("n", "<leader>g", "<cmd>Git<cr>")
+      end,
     }
 
     -- Golang tools and code actions
@@ -177,9 +203,28 @@ require("packer").startup {
     }
     use {
       "akinsho/toggleterm.nvim",
+      config = function()
+        require("toggleterm").setup {
+          size = function(term)
+            if term.direction == "horizontal" then
+              return 15
+            elseif term.direction == "vertical" then
+              return vim.o.columns * 0.4
+            end
+          end,
+          direction = "vertical",
+        }
+
+        vim.keymap.set({ "n", "t" }, "<C-`>", "<cmd>ToggleTerm<CR>", {})
+      end,
     }
     use {
       "nvim-tree/nvim-tree.lua",
+      config = function()
+        require("nvim-tree").setup()
+
+        vim.keymap.set("n", "<leader>e", "<cmd>NvimTreeToggle<CR>")
+      end,
     }
   end,
   config = {
