@@ -160,6 +160,23 @@ require("packer").startup {
     -- Golang tools and code actions
     use {
       "fatih/vim-go",
+      config = function()
+        vim.g.go_gopls_enabled = 0
+        vim.g.go_template_autocreate = 0
+
+        local go_group = vim.api.nvim_create_augroup("go", {})
+
+        vim.api.nvim_create_autocmd("BufEnter", {
+          pattern = "*.go",
+          group = go_group,
+          callback = function(meta)
+            local buffer = { buffer = meta.bufnr, remap = true }
+            nnoremap("<leader>lat", "<cmd>GoAddTag<CR>", buffer)
+            nnoremap("<leader>lrt", "<cmd>GoRmTag<CR>", buffer)
+            nnoremap("<leader>lfs", "<cmd>GoFillStruct<CR>", buffer)
+          end,
+        })
+      end,
     }
 
     use {
@@ -196,6 +213,29 @@ require("packer").startup {
     -- Tmux integration, look here for tmux part https://github.com/mrjones2014/smart-splits.nvim#tmux-integration
     use {
       "mrjones2014/smart-splits.nvim",
+      config = function()
+        require("smart-splits").setup {}
+
+        nnoremap("<A-h>", require("smart-splits").resize_left)
+        nnoremap("<A-j>", require("smart-splits").resize_down)
+        nnoremap("<A-k>", require("smart-splits").resize_up)
+        nnoremap("<A-l>", require("smart-splits").resize_right)
+
+        nnoremap("<C-h>", require("smart-splits").move_cursor_left)
+        nnoremap("<C-j>", require("smart-splits").move_cursor_down)
+        nnoremap("<C-k>", require("smart-splits").move_cursor_up)
+        nnoremap("<C-l>", require("smart-splits").move_cursor_right)
+
+        tnoremap("<A-h>", require("smart-splits").resize_left)
+        tnoremap("<A-j>", require("smart-splits").resize_down)
+        tnoremap("<A-k>", require("smart-splits").resize_up)
+        tnoremap("<A-l>", require("smart-splits").resize_right)
+
+        tnoremap("<C-h>", require("smart-splits").move_cursor_left)
+        tnoremap("<C-j>", require("smart-splits").move_cursor_down)
+        tnoremap("<C-k>", require("smart-splits").move_cursor_up)
+        tnoremap("<C-l>", require("smart-splits").move_cursor_right)
+      end,
     }
 
     use {
