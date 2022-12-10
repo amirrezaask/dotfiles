@@ -82,6 +82,20 @@ local themes = {
   "onedark",
 }
 
+local color_mode = "dark"
+
+local function toggle_color_mode()
+  if color_mode == "dark" then
+    color_mode = "light"
+  else
+    color_mode = "dark"
+  end
+  vim.opt.background = color_mode
+end
+
+vim.api.nvim_create_user_command("ToggleColor", toggle_color_mode, {})
+vim.keymap.set("n", "<F10>", "<cmd>ToggleColor<CR>")
+
 local function select_theme()
   vim.ui.select(themes, {
     prompt = "Choose theme: ",
