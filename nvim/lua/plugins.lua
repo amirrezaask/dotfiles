@@ -69,10 +69,13 @@ use {
 }
 
 -- Statusline
--- use {
---   "nvim-lualine/lualine.nvim",
---   requires = { "kyazdani42/nvim-web-devicons", opt = true },
--- }
+use {
+  "nvim-lualine/lualine.nvim",
+  requires = { "kyazdani42/nvim-web-devicons", opt = true },
+  config = function()
+    require("lualine").setup {}
+  end,
+}
 
 -- Treesitter
 use {
@@ -107,7 +110,14 @@ use {
     -- Snippets
     { "L3MON4D3/LuaSnip" },
     { "rafamadriz/friendly-snippets" },
+
+    -- Json Schemas
+    { "b0o/schemastore.nvim" },
+
+    -- Null LS
+    { "jose-elias-alvarez/null-ls.nvim" },
   },
+
   config = function()
     require "plugins.lsp"
   end,
@@ -204,17 +214,8 @@ use {
 
 use "ThePrimeagen/vim-be-good"
 
-use {
-  "b0o/schemastore.nvim",
-}
-
 use "milisims/nvim-luaref"
 use "nanotee/luv-vimdocs"
-
--- Hook non LSP tools into neovim LSP client
-use {
-  "jose-elias-alvarez/null-ls.nvim",
-}
 
 use "Glench/Vim-Jinja2-Syntax"
 
@@ -268,21 +269,3 @@ if packer_bootstrap then
 end
 
 pcall(require, "impatient")
-
-function has_plugins(plugins)
-  if type(plugins) == "table" then
-    for _, name in ipairs(plugins) do
-      local ok, _ = pcall(require, name)
-      if not ok then
-        return false
-      end
-    end
-  elseif type(plugins) == "string" then
-    local ok, _ = pcall(require, plugins)
-    if not ok then
-      return false
-    end
-  end
-
-  return true
-end
