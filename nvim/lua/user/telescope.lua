@@ -1,8 +1,4 @@
-local ok, _ = pcall(require, "telescope")
-if not ok then
-  return
-end
-
+local nnoremap = vim.keymap.nnoremap
 require("telescope").setup {}
 require("telescope").load_extension "fzf"
 

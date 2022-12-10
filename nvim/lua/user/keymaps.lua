@@ -1,30 +1,35 @@
 vim.g.mapleader = " "
 
-function nnoremap(lhs, rhs, opts)
+local function nnoremap(lhs, rhs, opts)
   opts = opts or {}
   opts = vim.tbl_extend("force", opts, { noremap = true })
   vim.keymap.set("n", lhs, rhs, opts)
 end
 
-function inoremap(lhs, rhs, opts)
+local function inoremap(lhs, rhs, opts)
   opts = opts or {}
   opts = vim.tbl_extend("force", opts, { noremap = true })
   vim.keymap.set("i", lhs, rhs, opts)
 end
 
-function vnoremap(lhs, rhs, opts)
+local function vnoremap(lhs, rhs, opts)
   opts = opts or {}
   opts = vim.tbl_extend("force", opts, { noremap = true })
   vim.keymap.set("v", lhs, rhs, opts)
 end
 
-function tnoremap(lhs, rhs, opts)
+local function tnoremap(lhs, rhs, opts)
   opts = opts or {}
   opts = vim.tbl_extend("force", opts, { noremap = true })
   vim.keymap.set("t", lhs, rhs, opts)
 end
 
 local set = vim.keymap.set
+
+vim.keymap.nnoremap = nnoremap
+vim.keymap.inoremap = inoremap
+vim.keymap.tnoremap = tnoremap
+vim.keymap.vnoremap = vnoremap
 
 nnoremap("<C-d>", "<C-d>zz")
 nnoremap("<C-u>", "<C-u>zz")

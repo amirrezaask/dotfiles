@@ -5,10 +5,19 @@
 -- ██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║
 -- ██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║
 -- ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝
---
---
--- Read :h runtimepath to know how these files get sourced but in summary
 
--- 1. init.lua => nothing :)
--- 2. plugin/*.lua or *.vim => basics + plugin spec
--- 3. after/plugin/*.lua or *.vim => plugin configurations + other settings
+require "user.options"
+
+require "user.keymaps"
+
+require "user.plugins"
+
+require "user.colorscheme"
+
+require "user.telescope"
+
+require "user.treesitter"
+
+require "user.lsp"
+
+require "user.harpoon"

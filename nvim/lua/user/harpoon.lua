@@ -1,6 +1,4 @@
-if not has_plugins { "harpoon", "telescope" } then
-  return
-end
+local nnoremap = vim.keymap.nnoremap
 
 require("telescope").load_extension "harpoon"
 

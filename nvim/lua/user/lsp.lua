@@ -1,7 +1,3 @@
-if not has_plugins "lsp-zero" then
-  return
-end
-
 local lsp = require "lsp-zero"
 
 lsp.preset "recommended"
@@ -26,6 +22,8 @@ lsp.ensure_installed {
 lsp.on_attach(function(_, bufnr)
   vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
   local buffer = { buffer = bufnr }
+  local nnoremap = vim.keymap.nnoremap
+  local inoremap = vim.keymap.inoremap
   nnoremap("gd", vim.lsp.buf.definition, buffer)
   nnoremap("gi", vim.lsp.buf.implementation, buffer)
   nnoremap("gr", vim.lsp.buf.references, buffer)

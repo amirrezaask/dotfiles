@@ -1,7 +1,3 @@
-if not has_plugins { "nvim-treesitter", "treesitter-context" } then
-  return
-end
-
 require("nvim-treesitter.configs").setup {
   ensure_installed = "all",
   highlight = {
