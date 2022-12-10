@@ -54,6 +54,7 @@
   :bind
   (
    ("C-s" . consult-line)
+   ("C-c g" . consult-ripgrep)
    ))
 
 
@@ -74,6 +75,11 @@
 
 (use-package eglot
   :hook ((go-mode-hook) . eglot-ensure)
+  :bind ((
+	  ("C-c l r" . #'eglot-rename)
+	  ("C-c l f" . #'eglot-format)
+	  ("C-c l c" . #'eglot-code-actions)
+	  ))
   )
 
 
@@ -81,7 +87,7 @@
 (use-package doom-themes)
 (use-package gruber-darker-theme)
 
-(load-theme 'modus-vivendi t)
+(load-theme 'doom-gruvbox t)
 
 (setq backup-by-copying t) ;; Always copy files for backup.
 (setq version-control t) ;; Use version numbers for backup.
@@ -181,6 +187,14 @@
 
 (global-set-key (kbd "C-9") #'compile)
 (global-set-key (kbd "C-8") #'ASYNC-SHELL-COMMAND)
+
+
+(when (file-executable-p "rg")
+			 (grep-apply-setting
+			  'grep-command
+			  "rg --no-heading --vimgrep "))
+
+(global-set-key (kbd "C-0") #'grep)
 
 (global-set-key (kbd "C-1") (lambda () (interactive) (find-file (expand-file-name "init.el" user-emacs-directory))))
 
