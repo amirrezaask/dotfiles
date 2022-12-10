@@ -26,24 +26,19 @@ local use = require("packer").use
 use "wbthomason/packer.nvim"
 use "lewis6991/impatient.nvim"
 
-use "sainnhe/sonokai"
 use "folke/tokyonight.nvim"
-use "Mofiqul/dracula.nvim"
 use "ellisonleao/gruvbox.nvim"
 use "bluz71/vim-nightfly-colors"
 use "navarasu/onedark.nvim"
-use "Shatur/neovim-ayu"
 use "rose-pine/neovim"
 use "EdenEast/nightfox.nvim"
 use "bluz71/vim-moonfly-colors"
 use {
   "catppuccin/nvim",
   as = "catppuccin",
-  config = function()
-    require "plugins.colorscheme"
-  end,
 }
 
+require "plugins.colorscheme"
 -- Comment
 use {
   "numToStr/Comment.nvim",

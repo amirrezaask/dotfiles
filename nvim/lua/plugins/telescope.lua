@@ -14,7 +14,7 @@ nnoremap("<leader>fb", function()
   require("telescope.builtin").buffers()
 end)
 
-nnoremap("<leader>gf", function()
+nnoremap("<leader>fg", function()
   require("telescope.builtin").git_files()
 end)
 

@@ -28,6 +28,7 @@ lsp.on_attach(function(_, bufnr)
   nnoremap("gi", vim.lsp.buf.implementation, buffer)
   nnoremap("gr", vim.lsp.buf.references, buffer)
   nnoremap("R", vim.lsp.buf.rename, buffer)
+  nnoremap("<F2>", vim.lsp.buf.rename, buffer)
   nnoremap("K", vim.lsp.buf.hover, buffer)
   nnoremap("gf", vim.lsp.buf.format, buffer)
 
@@ -39,16 +40,6 @@ lsp.on_attach(function(_, bufnr)
   nnoremap("<C-s>", vim.lsp.buf.signature_help, buffer)
   inoremap("<C-s>", vim.lsp.buf.signature_help, buffer)
 end)
-
-local cmp = require "cmp"
-local cmp_select = { behavior = cmp.SelectBehavior.Select }
-
-lsp.setup_nvim_cmp {
-  mapping = lsp.defaults.cmp_mappings {
-    ["<C-p>"] = cmp.mapping.select_prev_item(cmp_select),
-    ["<C-n>"] = cmp.mapping.select_next_item(cmp_select),
-  },
-}
 
 lsp.configure("sumneko_lua", {
   settings = {
