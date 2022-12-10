@@ -43,10 +43,6 @@ nnoremap("<leader>fh", function()
 end)
 
 -- Edit configurations
-nnoremap("<leader>en", function()
+nnoremap("<C-9>", function()
   require("telescope.builtin").find_files { cwd = "~/.config/nvim" }
-end)
-
-nnoremap("<leader>ek", function()
-  require("telescope.builtin").find_files { cwd = "~/.config/kitty" }
 end)
