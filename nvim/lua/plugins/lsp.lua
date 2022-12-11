@@ -17,6 +17,9 @@ lsp.ensure_installed {
   "clangd",
   "jsonls",
   "intelephense",
+  "phpactor",
+  "pyright",
+  "jedi_language_server",
 }
 
 lsp.on_attach(function(_, bufnr)
@@ -25,6 +28,7 @@ lsp.on_attach(function(_, bufnr)
   local nnoremap = vim.keymap.nnoremap
   local inoremap = vim.keymap.inoremap
   nnoremap("gd", vim.lsp.buf.definition, buffer)
+  nnoremap("gD", vim.lsp.buf.declaration, buffer)
   nnoremap("gi", vim.lsp.buf.implementation, buffer)
   nnoremap("gr", vim.lsp.buf.references, buffer)
   nnoremap("R", vim.lsp.buf.rename, buffer)
