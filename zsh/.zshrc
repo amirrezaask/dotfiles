@@ -25,6 +25,8 @@ alias gs='git status'
 alias snappvpn='sudo openfortivpn -c ~/snappDC.conf'
 alias luamake=/home/amirreza/.local/lua-language-server/3rd/luamake/luamake
 
+alias ca="cargo"
+
 [ -f "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env" # ghcup-env
 [ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
 
