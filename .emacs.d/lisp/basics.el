@@ -25,4 +25,11 @@
         completion-category-defaults nil
         completion-category-overrides '((file (styles partial-completion)))))
 
+
+(straight-use-package 'bufler)
+(global-set-key (kbd "C-x b") 'bufler)
+
+(straight-use-package 'ace-window)
+(global-set-key (kbd "C-x o") 'ace-window)
+
 (provide 'basics)
