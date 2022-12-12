@@ -30,8 +30,8 @@
 
 (defun amirreza/load-theme ()
   (if (eq amirreza/--color-mode 'dark)
-      (load-theme amirreza/dark-theme)
-    (load-theme amirreza/light-theme)
+      (load-theme amirreza/dark-theme t)
+    (load-theme amirreza/light-theme t)
       )
   )
 

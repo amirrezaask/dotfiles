@@ -18,4 +18,8 @@
 (global-set-key (kbd "C-s") 'swiper)
 (global-set-key (kbd "C-c g") 'counsel-rg)
 
+
+(ivy-mode 1)
+(ivy-rich-mode 1)
+
 (provide 'minibuffer-ivy)
