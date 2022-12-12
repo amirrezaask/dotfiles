@@ -23,6 +23,4 @@
   :config
   (evil-collection-init))
 
-
-
 (provide 'vim)

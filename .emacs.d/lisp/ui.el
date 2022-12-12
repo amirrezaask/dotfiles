@@ -18,12 +18,13 @@
 (use-package doom-themes)
 (use-package gruber-darker-theme)
 
-;; (setq amirreza/theme 'doom-outrun-electric)
-;; (setq amirreza/theme 'doom-one)
-;; (setq amirreza/theme 'doom-xcode)
+;; (setq amirreza/dark-theme 'doom-outrun-electric)
+(setq amirreza/dark-theme 'doom-one)
+(setq amirreza/light-theme 'doom-one-light)
+;; (setq amirreza/dark-theme 'doom-xcode)
 
-(setq amirreza/dark-theme 'modus-vivendi)
-(setq amirreza/light-theme 'modus-operandi)
+;; (setq amirreza/dark-theme 'modus-vivendi)
+;; (setq amirreza/light-theme 'modus-operandi)
 
 (setq amirreza/--color-mode 'dark)
 
