@@ -15,7 +15,6 @@
   (define-key eglot-mode-map (kbd "C-c r") 'eglot-rename)
   (define-key eglot-mode-map (kbd "C-c f") 'eglot-format)
   (define-key eglot-mode-map (kbd "C-c c") 'eglot-code-actions)
-  (define-key eglot-mode-map (kbd "<f1>") 'eldoc)
   )
 
 (add-hook 'go-mode-hook 'amirreza/eglot-hook)

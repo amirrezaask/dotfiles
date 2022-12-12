@@ -1,4 +1,4 @@
-(use-package go-mode
-  :hook (go-mode . eglot-ensure))
+(use-package go-mode)
+
 
 (provide 'langs/go)
