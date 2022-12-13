@@ -250,14 +250,14 @@ use {
     vim.keymap.set({ "n", "t" }, "<C-`>", "<cmd>ToggleTerm<CR>", {})
   end,
 }
-use {
-  "nvim-tree/nvim-tree.lua",
-  config = function()
-    require("nvim-tree").setup()
-
-    vim.keymap.set("n", "<leader>e", "<cmd>NvimTreeToggle<CR>")
-  end,
-}
+-- use {
+--   "nvim-tree/nvim-tree.lua",
+--   config = function()
+--     require("nvim-tree").setup()
+--
+--     vim.keymap.set("n", "<leader>e", "<cmd>NvimTreeToggle<CR>")
+--   end,
+-- }
 
 if packer_bootstrap then
   require("packer").sync()
