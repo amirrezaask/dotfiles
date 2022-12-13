@@ -40,10 +40,8 @@ vim.opt.shortmess:append "c"
 -- No Intro message
 vim.opt.shortmess:append "I"
 
-vim.opt.colorcolumn = "80"
-
 vim.opt.clipboard:append "unnamedplus" -- use system clipboard as default register.
-vim.opt.colorcolumn = "120"
+-- vim.opt.colorcolumn = "120"
 
 vim.opt.splitbelow = true
 vim.opt.splitright = true
