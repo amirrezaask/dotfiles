@@ -16,7 +16,7 @@ require("packer").init {
   compile_path = vim.fn.stdpath "data" .. "/site/plugin/packer_compiled.lua",
   display = {
     open_fn = function()
-      return require("packer.util").float { border = "solid" }
+      return require("packer.util").float { border = "rounded" }
     end,
   },
 }
@@ -38,7 +38,7 @@ use {
   as = "catppuccin",
 }
 
-require "plugins.colorscheme"
+require "amirreza.plugins.colorscheme"
 -- Comment
 use {
   "numToStr/Comment.nvim",
@@ -59,7 +59,7 @@ use {
   },
 
   config = function()
-    require "plugins.telescope"
+    require "amirreza.plugins.telescope"
   end,
 }
 
@@ -81,7 +81,7 @@ use {
     "nvim-treesitter/nvim-treesitter-context",
   },
   config = function()
-    require "plugins.treesitter"
+    require "amirreza.plugins.treesitter"
   end,
 }
 
@@ -114,7 +114,7 @@ use {
   },
 
   config = function()
-    require "plugins.lsp"
+    require "amirreza.plugins.lsp"
   end,
 }
 
@@ -185,7 +185,7 @@ use {
 use {
   "fatih/vim-go",
   config = function()
-    require "plugins.go"
+    require "amirreza.plugins.go"
   end,
 }
 
@@ -195,7 +195,7 @@ use {
     "nvim-lua/plenary.nvim",
   },
   config = function()
-    require "plugins.harpoon"
+    require "amirreza.plugins.harpoon"
   end,
 }
 
@@ -218,7 +218,7 @@ use {
 use {
   "mrjones2014/smart-splits.nvim",
   config = function()
-    require "plugins.smart-splits"
+    require "amirreza.plugins.smart-splits"
   end,
 }
 

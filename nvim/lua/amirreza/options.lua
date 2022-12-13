@@ -24,7 +24,7 @@ vim.opt.termguicolors = true
 
 -- How cursor should look in different modes.
 -- empty strings means always use same box like shape.
-vim.opt.guicursor = ""
+-- vim.opt.guicursor = ""
 
 vim.opt.scrolloff = 8
 vim.opt.signcolumn = "yes"

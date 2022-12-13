@@ -5,8 +5,4 @@
 -- /_/   \_\_| |_| |_|_|_|  |_|  \___/___\__,_/_/   \_\___/_|\_\
 --
 
-require "options"
-
-require "keymaps"
-
-require "plugins"
+require "amirreza"
