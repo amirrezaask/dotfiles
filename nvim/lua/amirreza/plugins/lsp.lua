@@ -94,7 +94,7 @@ local mason = {
 function mason.ensure_installed(to_install)
   for _, pkg in ipairs(to_install) do
     if not require("mason-registry").is_installed(pkg) then
-      require("mason.api.command").MasonInstall({ pkg })
+      require("mason.api.command").MasonInstall { pkg }
     end
   end
 end

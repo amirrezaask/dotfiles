@@ -21,7 +21,17 @@ require("packer").init {
   },
 }
 
-local use = require("packer").use
+local _configs = {}
+
+local use = function(spec)
+  if type(spec) == "table" then
+    if spec.config then
+      table.insert(_configs, spec.config)
+      spec.config = nil
+    end
+  end
+  require("packer").use(spec)
+end
 
 use "wbthomason/packer.nvim"
 use "lewis6991/impatient.nvim"
@@ -247,4 +257,9 @@ if packer_bootstrap then
   require("packer").sync()
 end
 
+require("packer").install()
 pcall(require, "impatient")
+
+for _, cfg in ipairs(_configs) do
+  cfg()
+end
