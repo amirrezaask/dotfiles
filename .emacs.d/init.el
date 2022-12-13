@@ -25,3 +25,4 @@
 (require 'langs/rust)
 
 (require 'lsp-eglot)
+;; (require 'lsp-lspmode)

@@ -12,6 +12,7 @@
   (put 'eglot-warning 'flymake-overlay-control nil)
   (put 'eglot-error 'flymake-overlay-control nil)
 
+  (define-key eglot-mode-map (kbd "C-c d") 'eldoc)
   (define-key eglot-mode-map (kbd "C-c r") 'eglot-rename)
   (define-key eglot-mode-map (kbd "C-c f") 'eglot-format)
   (define-key eglot-mode-map (kbd "C-c c") 'eglot-code-actions)
