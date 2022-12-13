@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+
+tmux new-session -t "$1" -c "~/dev/$1"

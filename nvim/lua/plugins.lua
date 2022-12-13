@@ -175,14 +175,6 @@ use {
 }
 
 use {
-  "junegunn/gv.vim",
-}
-
-use {
-  "cohama/agit.vim",
-}
-
-use {
   "tpope/vim-fugitive",
   config = function()
     vim.keymap.set("n", "<leader>g", "<cmd>Git<cr>")
@@ -250,14 +242,6 @@ use {
     vim.keymap.set({ "n", "t" }, "<C-`>", "<cmd>ToggleTerm<CR>", {})
   end,
 }
--- use {
---   "nvim-tree/nvim-tree.lua",
---   config = function()
---     require("nvim-tree").setup()
---
---     vim.keymap.set("n", "<leader>e", "<cmd>NvimTreeToggle<CR>")
---   end,
--- }
 
 if packer_bootstrap then
   require("packer").sync()
