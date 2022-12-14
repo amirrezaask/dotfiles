@@ -40,5 +40,5 @@ end)
 
 -- Edit configurations
 nnoremap("<C-9>", function()
-  require("telescope.builtin").find_files { cwd = "~/.config/nvim" }
+  require("telescope.builtin").find_files { cwd = "~/dev/dotfiles" }
 end)
