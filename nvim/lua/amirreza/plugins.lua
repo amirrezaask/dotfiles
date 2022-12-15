@@ -112,6 +112,17 @@ use {
   end,
 }
 
+-- Icons
+use "kyazdani42/nvim-web-devicons"
+
+-- trouble all errors, warning in one place
+use {
+  "folke/trouble.nvim",
+  config = function()
+    require("trouble").setup {}
+  end,
+}
+
 -- Autocompletion
 use {
   "hrsh7th/nvim-cmp",
@@ -154,6 +165,7 @@ use "fladson/vim-kitty"
 -- Support for helm template syntax
 use "towolf/vim-helm"
 
+-- surrounding text objects
 use "tpope/vim-surround"
 
 -- Preview quickfix list item.
@@ -172,6 +184,7 @@ use {
   end,
 }
 
+-- Better UI for neovim default UI components like input box or selecting
 use {
   "stevearc/dressing.nvim",
   config = function()
@@ -241,6 +254,7 @@ use {
 use {
   "ziglang/zig.vim",
 }
+
 use {
   "akinsho/toggleterm.nvim",
   config = function()
