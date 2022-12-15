@@ -222,8 +222,6 @@ use {
 
 use "ThePrimeagen/vim-be-good"
 
-use "Glench/Vim-Jinja2-Syntax"
-
 use {
   "rust-lang/rust.vim",
 }
