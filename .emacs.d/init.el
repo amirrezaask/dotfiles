@@ -9,8 +9,8 @@
 
 (setq amirreza/font-size "21")
 
-(setq amirreza/dark-theme 'gruber-darker)
-(setq amirreza/light-theme 'ef-day)
+(setq amirreza/dark-theme 'doom-one)
+(setq amirreza/light-theme 'doom-one-light)
 
 
 ;; Setup package manager.
@@ -61,7 +61,7 @@
 ;; Buffer management UI
 (use-package bufler
   :bind
-  ("C-x b" . bufler))
+  ("C-x C-b" . bufler))
 
 ;; Better window management facilities
 (use-package ace-window
@@ -84,6 +84,7 @@
 (use-package ef-themes)
 (use-package doom-themes)
 (use-package gruber-darker-theme)
+(use-package catppuccin :straight (:type git :host github :repo "catppuccin/emacs"))
 
 ;; Toggle between light and dark mode
 (setq amirreza/--color-mode 'dark)
@@ -271,3 +272,14 @@
 (use-package yaml-mode)
 (use-package csv-mode)
 (use-package json-mode)
+
+(use-package doom-modeline
+  :init
+  (setq doom-modeline-height 35)
+  (doom-modeline-mode 1))
+
+(use-package tree-sitter
+  :config
+  (global-tree-sitter-mode))
+
+(use-package tree-sitter-langs)
