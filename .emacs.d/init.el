@@ -189,7 +189,9 @@
 
 (add-to-list 'exec-path (expand-file-name "bin" user-emacs-directory))
 
-(global-set-key (kbd "C-9") #'compile)
+
+
+(global-set-key (kbd "C-9") #'compile) ;; Run compile command and show it's output
 (global-set-key (kbd "C-8") #'async-shell-command)
 
 (when (file-executable-p "rg")
@@ -207,6 +209,7 @@
 
 (use-package go-mode)
 (use-package rust-mode)
+(use-package zig-mode)
 
 (use-package eglot
   :init
@@ -226,9 +229,41 @@
     (define-key eglot-mode-map (kbd "C-c c") 'eglot-code-actions))
 
   :hook
-  ((go-mode rust-mode python-mode php-mode) . amirreza/eglot-hook))
+  (
+   (go-mode
+    rust-mode
+    python-mode
+    php-mode
+    ). amirreza/eglot-hook))
 
-;; Load all configurations
-(load-file (expand-file-name "loader.el" (expand-file-name "lisp" user-emacs-directory)))
+(use-package org-present)
+
+(use-package smartparens :hook prog-mode)
+
+(use-package rainbow-delimiters :hook prog-mode)
+
+(use-package org-bullets :hook org-mode)
+
+(use-package git-gutter
+  :init
+  (global-git-gutter-mode))
+
+(use-package prescient)
+
+(use-package vertico-prescient
+  :init
+  (vertico-prescient-mode))
+
+
+(use-package company-prescient
+  :init
+  (company-prescient-mode))
+
+
+(use-package helpful
+  :bind
+  (("C-h k" . helpful-key)
+   ("C-h f" . helpful-callable)
+   ("C-h v" . helpful-variable)))
 
 
