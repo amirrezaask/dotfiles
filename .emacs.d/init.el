@@ -5,10 +5,11 @@
 (menu-bar-mode -1) ;; Disable menu bar
 
 (setq amirreza/font "FiraCode Nerd Font Mono")
+(setq amirreza/font "JetBrainsMono Nerd Font Mono")
 
 (setq amirreza/font-size "21")
 
-(setq amirreza/dark-theme 'ef-night)
+(setq amirreza/dark-theme 'gruber-darker)
 (setq amirreza/light-theme 'ef-day)
 
 
@@ -224,6 +225,7 @@
 
     (define-key eglot-mode-map (kbd "C-c d") 'eldoc)
     (define-key eglot-mode-map (kbd "C-c r") 'eglot-rename)
+    (define-key eglot-mode-map (kbd "M-r") 'xref-find-references)
     (define-key eglot-mode-map (kbd "C-c f") 'eglot-format)
     (define-key eglot-mode-map (kbd "C-c c") 'eglot-code-actions))
 
