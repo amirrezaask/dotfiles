@@ -268,3 +268,6 @@
    ("C-h v" . helpful-variable)))
 
 
+(use-package yaml-mode)
+(use-package csv-mode)
+(use-package json-mode)
