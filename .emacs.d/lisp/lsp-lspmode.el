@@ -1,5 +1,9 @@
 (straight-use-package 'lsp-mode)
 
+(setq eldoc-echo-area-use-multiline-p nil)
+(setq eldoc-echo-area-display-truncation-message nil)
+(setq eldoc-echo-area-prefer-doc-buffer nil)
+
 (defun amirreza/lspmode-hook ()
   (lsp)
   (define-key lsp-mode-map (kbd "C-c r") 'lsp-rename)

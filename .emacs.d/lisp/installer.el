@@ -1,6 +1,3 @@
-
-
-
 (setq packages '( ((mac aarch64 rust-analyzer) . 1) ) )
 
 

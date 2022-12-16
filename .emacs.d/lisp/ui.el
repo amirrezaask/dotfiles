@@ -2,7 +2,7 @@
 ;; (setq amirreza/font "OperatorMono Nerd Font")
 ;; (setq amirreza/font "JetBrainsMono Nerd Font Mono")
 
-(setq amirreza/font-size "18")
+(setq amirreza/font-size "21")
 
 (defun amirreza/home-monitor ()
   (interactive)
@@ -19,12 +19,8 @@
 (use-package gruber-darker-theme)
 
 
-;; (setq amirreza/dark-theme 'doom-one)
-(setq amirreza/dark-theme 'doom-dracula)
+(setq amirreza/dark-theme 'doom-one)
 (setq amirreza/light-theme 'doom-one-light)
-
-;; (setq amirreza/dark-theme 'modus-vivendi)
-;; (setq amirreza/light-theme 'modus-operandi)
 
 (setq amirreza/--color-mode 'dark)
 
@@ -48,11 +44,12 @@
 
 (amirreza/load-theme)
 
-;; (amirreza/laptop)
-(amirreza/home-monitor)
-
+(defun amirreza/reload-font ()
+  (interactive)
+  (set-frame-font (concat amirreza/font " " amirreza/font-size) nil t))
 
 (straight-use-package 'doom-modeline)
+
 (doom-modeline-mode 1)
 
 (provide 'ui)
