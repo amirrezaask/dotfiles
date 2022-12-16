@@ -1,29 +1,12 @@
-(add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
+(setq amirreza/font "FiraCode Nerd Font Mono")
+;; (setq amirreza/font "OperatorMono Nerd Font")
+;; (setq amirreza/font "JetBrainsMono Nerd Font Mono")
 
-(require 'package-manager)
-(require 'ui)
-(require 'basics)
+(setq amirreza/font-size "21")
 
-(require 'minibuffer-vertico)
-;; (require 'minibuffer-ivy)
+(setq amirreza/dark-theme 'ef-night)
+(setq amirreza/light-theme 'ef-day)
 
-(require 'completion-company)
-;; (require 'completion-corfu)
 
-(require 'project-manager)
-
-(require 'file-manager)
-
-(require 'navigation)
-
-(require 'git)
-
-(require 'misc)
-
-(require 'langs/go)
-
-(require 'langs/rust)
-
-;; (require 'lsp-eglot)
-
-(require 'lsp-lspmode)
+;; Load all configurations
+(load-file (expand-file-name "loader.el" (expand-file-name "lisp" user-emacs-directory)))
