@@ -79,6 +79,7 @@
   (setq amirreza/font-size "19")
   (set-frame-font (concat amirreza/font " " amirreza/font-size) nil t))
 
+;; Themes
 (use-package ef-themes)
 (use-package doom-themes)
 (use-package gruber-darker-theme)
@@ -111,13 +112,12 @@
 
 (amirreza/reload-font)
 
-
+;; Minibuffer completion
 (use-package vertico
   :init
   (vertico-mode)
   (setq vertico-count 20)
-  (setq vertico-cycle t)
-  )
+  (setq vertico-cycle t))
 
 (use-package emacs
   :init
@@ -204,8 +204,7 @@
 (global-set-key (kbd "C-1") (lambda () (interactive) (find-file (expand-file-name "init.el" user-emacs-directory))))
 
 (add-hook 'grep-mode-hook (lambda ()
-                            (define-key grep-mode-map (kbd "M-.") 'find-file-at-point)
-                            ))
+                            (define-key grep-mode-map (kbd "M-.") 'find-file-at-point)))
 
 (use-package go-mode)
 (use-package rust-mode)
