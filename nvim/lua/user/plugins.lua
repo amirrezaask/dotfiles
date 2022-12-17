@@ -250,8 +250,6 @@ use {
   end,
 }
 
-use { "rust-lang/rust.vim" }
-use { "ziglang/zig.vim" }
 use {
   "akinsho/toggleterm.nvim",
   config = function()

@@ -12,9 +12,10 @@ lsp.set_preferences {
   },
 }
 lsp.ensure_installed {
-  "gopls",
-  "sumneko_lua",
-  "rust_analyzer",
+  "gopls", -- Golang
+  "sumneko_lua", -- Lua
+  "rust_analyzer", -- Rust
+  "zls", -- Zig
 }
 
 lsp.on_attach(function(_, bufnr)
