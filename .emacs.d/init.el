@@ -1,7 +1,7 @@
 (setq package-enable-at-startup nil)
 
-(tool-bar-mode 0) ;; disable top toolbar
-(scroll-bar-mode 0) ;; disable scroll bar
+;;(tool-bar-mode 0) ;; disable top toolbar
+;;(scroll-bar-mode 0) ;; disable scroll bar
 (menu-bar-mode -1) ;; Disable menu bar
 
 (setq amirreza/font "FiraCode Nerd Font Mono")
@@ -50,6 +50,7 @@
   (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 )
 
+
 ;; Orderless completion matching algorithm
 (use-package orderless
   :init
@@ -84,7 +85,7 @@
 (use-package ef-themes)
 (use-package doom-themes)
 (use-package gruber-darker-theme)
-(use-package catppuccin :straight (:type git :host github :repo "catppuccin/emacs"))
+;; (use-package catppuccin :straight (:type git :host github :repo "catppuccin/emacs"))
 
 ;; Toggle between light and dark mode
 (setq amirreza/--color-mode 'dark)
@@ -130,6 +131,7 @@
   :init
   (savehist-mode))
 
+
 (use-package consult
   :bind
   (
@@ -152,6 +154,9 @@
   :hook (dired-mode . (lambda ()
                              (define-key dired-mode-map (kbd "C-c C-e") 'wdired-change-to-wdired-mode)
                              )))
+
+
+(use-package project :straight nil)
 
 ;; best movement ever ?
 (defun amirreza/up-center ()
@@ -191,23 +196,6 @@
 
 (add-to-list 'exec-path (expand-file-name "bin" user-emacs-directory))
 
-
-
-(global-set-key (kbd "C-9") #'compile) ;; Run compile command and show it's output
-(global-set-key (kbd "C-8") #'async-shell-command)
-
-(when (file-executable-p "rg")
-			 (grep-apply-setting
-			  'grep-command
-			  "rg --no-heading --vimgrep "))
-
-(global-set-key (kbd "C-0") #'grep)
-
-(global-set-key (kbd "C-1") (lambda () (interactive) (find-file (expand-file-name "init.el" user-emacs-directory))))
-
-(add-hook 'grep-mode-hook (lambda ()
-                            (define-key grep-mode-map (kbd "M-.") 'find-file-at-point)))
-
 (use-package go-mode)
 (use-package rust-mode)
 (use-package zig-mode)
@@ -223,6 +211,13 @@
     (put 'eglot-note 'flymake-overlay-control nil)
     (put 'eglot-warning 'flymake-overlay-control nil)
     (put 'eglot-error 'flymake-overlay-control nil)
+
+    (nmap "gk" 'eldoc)
+    (nmap "gi" 'eglot-find-implementation)
+    (nmap "gr" 'xref-find-references)
+    (nmap "gd" 'xref-find-definitions)
+    (nmap "gf" 'eglot-format)
+    (nmap "gc" 'eglot-code-actions)
 
     (define-key eglot-mode-map (kbd "C-c d") 'eldoc)
     (define-key eglot-mode-map (kbd "C-c r") 'eglot-rename)
@@ -283,3 +278,49 @@
   (global-tree-sitter-mode))
 
 (use-package tree-sitter-langs)
+
+;; Vim emulation
+;; (use-package evil
+;;   :init
+;;   (setq evil-want-C-u-scroll t)
+;;   (setq evil-split-window-below t)
+;;   (setq evil-vsplit-window-right t)
+;;   (setq evil-want-integration t)
+;;   (setq evil-want-keybinding nil)
+;;   :config
+;;   (evil-mode 1)
+;;   (evil-global-set-key 'normal (kbd "<C-d>") (lambda
+;; 					       ()
+;; 					       (interactive)
+;; 					       (evil-scroll-down)
+;; 					       (evil-scroll-line-to-center)
+;; 					       ))
+;;   (evil-global-set-key 'normal (kbd "<C-u>") (lambda
+;; 					       ()
+;; 					       (interactive)
+;; 					       (evil-scroll-up)
+;; 					       (evil-scroll-line-to-center)
+;; 					       ))
+
+
+;;   )
+
+;; (use-package evil-escape
+;;   :init
+;;   (setq-default evil-escape-key-sequence "jk")
+;;   (setq evil-escape-unordered-key-sequence t)
+;;   :config
+;;   (evil-escape-mode))
+
+;; (use-package general
+;;   :config
+;;   (general-create-definer SPC-leader :prefix "SPC" :keymaps 'normal)
+;;   (general-create-definer nmap :keymaps 'normal)
+;;   (general-create-definer imap :keymaps 'insert)
+
+;;   (SPC-leader "SPC" 'find-file)
+;;   )
+
+;; (use-package evil-collection
+;;   :config
+;;   (evil-collection-init))
