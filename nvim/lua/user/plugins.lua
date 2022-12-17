@@ -61,7 +61,7 @@ use {
 -- Set the colorscheme
 use(function()
   pcall(function()
-    vim.cmd.colorscheme "catppuccin"
+    vim.cmd.colorscheme "rose-pine"
   end)
 end)
 
@@ -115,11 +115,17 @@ use {
   requires = {
     "nvim-treesitter/nvim-treesitter-textobjects",
     "p00f/nvim-ts-rainbow",
-    "nvim-treesitter/nvim-treesitter-context",
     "JoosepAlviste/nvim-ts-context-commentstring",
   },
   config = function()
     require "user.plugins.treesitter"
+  end,
+}
+
+use {
+  "nvim-treesitter/nvim-treesitter-context",
+  config = function()
+    require("treesitter-context").setup {}
   end,
 }
 
