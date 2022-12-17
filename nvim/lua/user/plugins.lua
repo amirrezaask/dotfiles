@@ -48,6 +48,7 @@ use {
   as = "catppuccin",
 }
 
+-- Colorscheme of choice
 require "user.plugins.colorscheme"
 
 -- Comment
@@ -101,27 +102,30 @@ use {
   end,
 }
 
--- Mason
 use {
-  "williamboman/mason.nvim",
+  "VonHeikemen/lsp-zero.nvim",
   requires = {
+    -- LSP Support
+    { "neovim/nvim-lspconfig" },
+    { "williamboman/mason.nvim" },
     { "williamboman/mason-lspconfig.nvim" },
-  },
-  config = function()
-    require "user.plugins.mason"
-  end,
-}
 
--- Lsp configurations
-use {
-  "neovim/nvim-lspconfig",
+    -- Autocompletion
+    { "hrsh7th/nvim-cmp" },
+    { "hrsh7th/cmp-buffer" },
+    { "hrsh7th/cmp-path" },
+    { "saadparwaiz1/cmp_luasnip" },
+    { "hrsh7th/cmp-nvim-lsp" },
+    { "hrsh7th/cmp-nvim-lua" },
+
+    -- Snippets
+    { "L3MON4D3/LuaSnip" },
+    { "rafamadriz/friendly-snippets" },
+  },
   config = function()
     require "user.plugins.lsp"
   end,
 }
-
--- Icons
-use "kyazdani42/nvim-web-devicons"
 
 -- trouble all errors, warning in one place
 use {
@@ -130,27 +134,6 @@ use {
     require("trouble").setup {}
   end,
 }
-
--- Autocompletion
-use {
-  "hrsh7th/nvim-cmp",
-  requires = {
-    { "hrsh7th/cmp-buffer" },
-    { "hrsh7th/cmp-path" },
-    { "saadparwaiz1/cmp_luasnip" },
-    { "hrsh7th/cmp-nvim-lsp" },
-    { "hrsh7th/cmp-nvim-lua" },
-    { "onsails/lspkind.nvim" },
-  },
-  config = function()
-    require "user.plugins.cmp"
-  end,
-}
-
--- Snippets
-use { "L3MON4D3/LuaSnip", requires = {
-  { "rafamadriz/friendly-snippets" },
-} }
 
 -- Json Schemas
 use { "b0o/schemastore.nvim" }
@@ -227,7 +210,22 @@ use {
 use {
   "fatih/vim-go",
   config = function()
-    require "user.plugins.go"
+    vim.g.go_gopls_enabled = 0
+    vim.g.go_template_autocreate = 0
+
+    local go_group = vim.api.nvim_create_augroup("go", {})
+
+    vim.api.nvim_create_autocmd("BufEnter", {
+      pattern = "*.go",
+      group = go_group,
+      callback = function(meta)
+        local buffer = { buffer = meta.bufnr, remap = true }
+        local nnoremap = vim.keymap.nnoremap
+        nnoremap("<leader>lat", "<cmd>GoAddTag<CR>", buffer)
+        nnoremap("<leader>lrt", "<cmd>GoRmTag<CR>", buffer)
+        nnoremap("<leader>lfs", "<cmd>GoFillStruct<CR>", buffer)
+      end,
+    })
   end,
 }
 
@@ -238,7 +236,30 @@ use {
     "nvim-lua/plenary.nvim",
   },
   config = function()
-    require "user.plugins.harpoon"
+    local nnoremap = vim.keymap.nnoremap
+    require("telescope").load_extension "harpoon"
+    nnoremap("<leader>a", require("harpoon.mark").add_file)
+    nnoremap("<leader>1", function()
+      require("harpoon.ui").nav_file(1)
+    end)
+    nnoremap("<leader>2", function()
+      require("harpoon.ui").nav_file(2)
+    end)
+    nnoremap("<leader>3", function()
+      require("harpoon.ui").nav_file(3)
+    end)
+    nnoremap("<leader>4", function()
+      require("harpoon.ui").nav_file(4)
+    end)
+    nnoremap("<leader>5", function()
+      require("harpoon.ui").nav_file(5)
+    end)
+    nnoremap("<leader>6", function()
+      require("harpoon.ui").nav_file(6)
+    end)
+    -- I dont use these two keys so I remap them for harpoon
+    nnoremap("L", require("harpoon.ui").nav_next)
+    nnoremap("H", require("harpoon.ui").nav_prev)
   end,
 }
 
@@ -256,7 +277,30 @@ use {
 use {
   "mrjones2014/smart-splits.nvim",
   config = function()
-    require "user.plugins.smart-splits"
+    local nnoremap = vim.keymap.nnoremap
+
+    local tnoremap = vim.keymap.tnoremap
+    require("smart-splits").setup {}
+
+    nnoremap("<A-h>", require("smart-splits").resize_left)
+    nnoremap("<A-j>", require("smart-splits").resize_down)
+    nnoremap("<A-k>", require("smart-splits").resize_up)
+    nnoremap("<A-l>", require("smart-splits").resize_right)
+
+    nnoremap("<C-h>", require("smart-splits").move_cursor_left)
+    nnoremap("<C-j>", require("smart-splits").move_cursor_down)
+    nnoremap("<C-k>", require("smart-splits").move_cursor_up)
+    nnoremap("<C-l>", require("smart-splits").move_cursor_right)
+
+    tnoremap("<A-h>", require("smart-splits").resize_left)
+    tnoremap("<A-j>", require("smart-splits").resize_down)
+    tnoremap("<A-k>", require("smart-splits").resize_up)
+    tnoremap("<A-l>", require("smart-splits").resize_right)
+
+    tnoremap("<C-h>", require("smart-splits").move_cursor_left)
+    tnoremap("<C-j>", require("smart-splits").move_cursor_down)
+    tnoremap("<C-k>", require("smart-splits").move_cursor_up)
+    tnoremap("<C-l>", require("smart-splits").move_cursor_right)
   end,
 }
 
