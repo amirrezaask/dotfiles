@@ -12,16 +12,8 @@ nnoremap("<leader>ff", function()
   require("telescope.builtin").find_files(dropdown_no_preview)
 end)
 
-nnoremap("<leader>fb", function()
-  require("telescope.builtin").buffers(dropdown_no_preview)
-end)
-
 nnoremap("<leader>fg", function()
   require("telescope.builtin").git_files(dropdown_no_preview)
-end)
-
-nnoremap("<C-p>", function()
-  require("telescope.builtin").find_files(dropdown_no_preview)
 end)
 
 nnoremap("<leader>fs", function()
@@ -41,6 +33,6 @@ nnoremap("<leader>fh", function()
 end)
 
 -- Edit configurations
-nnoremap("<C-9>", function()
+nnoremap("<leader>fd", function()
   require("telescope.builtin").find_files(vim.tbl_extend("keep", { cwd = "~/dev/dotfiles" }, dropdown_no_preview))
 end)
