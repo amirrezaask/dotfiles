@@ -2,10 +2,6 @@ vim.g.catppuccin_flavour = "macchiato"
 vim.g.gruvbox_contrast_dark = "hard"
 local tokyonight_style = "night"
 
-local colorscheme = "rose-pine"
-
-local transparent = false
-
 local ok, gruvbox = pcall(require, "gruvbox")
 if ok then
   gruvbox.setup {
@@ -41,21 +37,6 @@ end
 if transparent then
   hl("Normal", {
     bg = "none",
-  })
-end
-
-if colorscheme == "gruvbox" then
-  hl("ColorColumn", {
-    ctermbg = 0,
-    bg = "#2B79A0",
-  })
-
-  hl("LineNr", {
-    fg = "#5eacd3",
-  })
-
-  hl("netrwDir", {
-    fg = "#5eacd3",
   })
 end
 
