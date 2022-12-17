@@ -98,10 +98,6 @@ require("packer").startup {
   },
 }
 
-if packer_bootstrap then
-  require("packer").sync()
-end
-
 require("packer").install()
 
 pcall(require, "impatient")

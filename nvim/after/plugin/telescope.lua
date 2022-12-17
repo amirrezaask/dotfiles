@@ -1,4 +1,8 @@
-local dropdown_no_preview = require("telescope.themes").get_dropdown { previewer = false }
+local has, _ = pcall(require, "telescope")
+if not has then
+  return
+end
+
 local no_preview = { previewer = false }
 
 require("telescope").setup {}

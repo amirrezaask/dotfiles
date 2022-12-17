@@ -1,3 +1,8 @@
+local has, _ = pcall(require, "lsp-zero")
+if not has then
+  return
+end
+
 local lsp = require "lsp-zero"
 
 lsp.preset "recommended"
