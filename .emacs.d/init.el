@@ -1,7 +1,7 @@
 (setq package-enable-at-startup nil)
 
-;;(tool-bar-mode 0) ;; disable top toolbar
-;;(scroll-bar-mode 0) ;; disable scroll bar
+(tool-bar-mode 0) ;; disable top toolbar
+(scroll-bar-mode 0) ;; disable scroll bar
 (menu-bar-mode -1) ;; Disable menu bar
 
 (setq amirreza/font "FiraCode Nerd Font Mono")
@@ -9,8 +9,8 @@
 
 (setq amirreza/font-size "21")
 
-(setq amirreza/dark-theme 'doom-one)
-(setq amirreza/light-theme 'doom-one-light)
+(setq amirreza/dark-theme 'doom-catppuccin)
+(setq amirreza/light-theme 'catppuccin-latte)
 
 
 ;; Setup package manager.
@@ -85,15 +85,24 @@
 (use-package ef-themes)
 (use-package doom-themes)
 (use-package gruber-darker-theme)
-;; (use-package catppuccin :straight (:type git :host github :repo "catppuccin/emacs"))
+(use-package autothemer)
+
+(use-package catppuccin-theme :straight (catppuccin-theme :type git :host github :repo "catppuccin/emacs" :local-repo-name "catppuccin"))
 
 ;; Toggle between light and dark mode
 (setq amirreza/--color-mode 'dark)
 
 (defun amirreza/load-theme ()
   (if (eq amirreza/--color-mode 'dark)
-      (load-theme amirreza/dark-theme t)
-    (load-theme amirreza/light-theme t)))
+      (progn
+	(disable-theme amirreza/light-theme)
+	(load-theme amirreza/dark-theme t)
+	)
+
+    (progn
+      (disable-theme amirreza/dark-theme)
+      (load-theme amirreza/light-theme t)))
+      )
 
 (defun amirreza/toggle-color ()
   (interactive)
