@@ -199,7 +199,7 @@ use {
 use {
   "tpope/vim-fugitive",
   config = function()
-    vim.keymap.set("n", "<leader>gs", "<cmd>Git<cr>")
+    vim.keymap.set("n", "<leader>gs", vim.cmd.Git)
   end,
 }
 
@@ -223,40 +223,6 @@ use {
         nnoremap("<leader>lfs", "<cmd>GoFillStruct<CR>", buffer)
       end,
     })
-  end,
-}
-
--- Harpoon
-use {
-  "ThePrimeagen/harpoon",
-  requires = {
-    "nvim-lua/plenary.nvim",
-  },
-  config = function()
-    local nnoremap = vim.keymap.nnoremap
-    require("telescope").load_extension "harpoon"
-    nnoremap("<leader>a", require("harpoon.mark").add_file)
-    nnoremap("<leader>1", function()
-      require("harpoon.ui").nav_file(1)
-    end)
-    nnoremap("<leader>2", function()
-      require("harpoon.ui").nav_file(2)
-    end)
-    nnoremap("<leader>3", function()
-      require("harpoon.ui").nav_file(3)
-    end)
-    nnoremap("<leader>4", function()
-      require("harpoon.ui").nav_file(4)
-    end)
-    nnoremap("<leader>5", function()
-      require("harpoon.ui").nav_file(5)
-    end)
-    nnoremap("<leader>6", function()
-      require("harpoon.ui").nav_file(6)
-    end)
-    -- I dont use these two keys so I remap them for harpoon
-    nnoremap("L", require("harpoon.ui").nav_next)
-    nnoremap("H", require("harpoon.ui").nav_prev)
   end,
 }
 
@@ -293,13 +259,6 @@ use {
   config = function()
     require("zen-mode").setup {}
     vim.keymap.nnoremap("<leader>z", vim.cmd.ZenMode)
-  end,
-}
-
-use {
-  "folke/which-key.nvim",
-  config = function()
-    require("which-key").setup()
   end,
 }
 

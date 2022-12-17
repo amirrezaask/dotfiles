@@ -61,3 +61,15 @@ set({ "n", "t" }, "<C-.>", "<cmd>tabnext<CR>")
 set({ "n", "t" }, "<C-t>", "<cmd>tabnew<CR>")
 
 nnoremap("<leader>.", "<cmd>Explore<CR>")
+
+-- Easier split navigation
+nnoremap("<C-h>", "<C-w>h")
+nnoremap("<C-j>", "<C-w>j")
+nnoremap("<C-k>", "<C-w>k")
+nnoremap("<C-l>", "<C-w>l")
+
+-- Easier split resizing
+nnoremap("<A-l>", "<C-w><")
+nnoremap("<A-h>", "<C-w>>")
+nnoremap("<A-j>", "<C-w>-")
+nnoremap("<A-k>", "<C-w>+")
