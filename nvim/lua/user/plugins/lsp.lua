@@ -2,6 +2,15 @@ local lsp = require "lsp-zero"
 
 lsp.preset "recommended"
 
+lsp.set_preferences {
+  suggest_lsp_servers = true,
+  sign_icons = {
+    error = "E",
+    warn = "W",
+    hint = "H",
+    info = "I",
+  },
+}
 lsp.ensure_installed {
   "gopls",
   "sumneko_lua",
@@ -31,22 +40,7 @@ lsp.on_attach(function(_, bufnr)
   inoremap("<C-s>", vim.lsp.buf.signature_help, buffer)
 end)
 
-lsp.configure("sumneko_lua", {
-  settings = {
-    Lua = {
-      diagnostics = {
-        globals = { "vim" },
-      },
-      workspace = {
-        library = vim.api.nvim_get_runtime_file("", true),
-        checkThirdParty = false,
-      },
-      telemetry = {
-        enable = false,
-      },
-    },
-  },
-})
+lsp.nvim_workspace()
 
 lsp.setup()
 
@@ -91,3 +85,5 @@ vim.api.nvim_create_user_command("VirtualTextToggle", function()
     virtual_text = virtual_text,
   }
 end, {})
+
+require("fidget").setup {}

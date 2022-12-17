@@ -49,7 +49,6 @@ use {
   end,
 }
 
-use "bluz71/vim-nightfly-colors"
 use { "rose-pine/neovim", as = "rose-pine" }
 use {
   "catppuccin/nvim",
@@ -78,7 +77,14 @@ use {
 use {
   "nvim-lualine/lualine.nvim",
   config = function()
-    require("lualine").setup {}
+    require("lualine").setup {
+      options = {
+        icons_enabled = false,
+        theme = "auto",
+        component_separators = "|",
+        section_separators = "",
+      },
+    }
   end,
 }
 
@@ -142,6 +148,9 @@ use {
 
     -- Null ls
     { "jose-elias-alvarez/null-ls.nvim" },
+
+    -- Fidget , standalone UI for lsp progress
+    { "j-hui/fidget.nvim" },
   },
   config = function()
     require "user.plugins.lsp"
@@ -233,16 +242,8 @@ use {
   end,
 }
 
-use "ThePrimeagen/vim-be-good"
-
-use {
-  "rust-lang/rust.vim",
-}
-
-use {
-  "ziglang/zig.vim",
-}
-
+use { "rust-lang/rust.vim" }
+use { "ziglang/zig.vim" }
 use {
   "akinsho/toggleterm.nvim",
   config = function()
