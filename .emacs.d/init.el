@@ -13,8 +13,8 @@
 
 (setq amirreza/font-size "21")
 
-(setq amirreza/dark-theme 'doom-catppuccin)
-(setq amirreza/light-theme 'catppuccin-latte)
+(setq amirreza/dark-theme 'doom-dracula)
+(setq amirreza/light-theme 'catppuccin-one-light)
 
 
 ;; Setup package manager.
