@@ -4,12 +4,16 @@
 (scroll-bar-mode 0) ;; disable scroll bar
 (menu-bar-mode -1) ;; Disable menu bar
 
+(global-set-key (kbd "C-1") (lambda ()
+			      (interactive)
+			      (find-file (expand-file-name "init.el" user-emacs-directory))))
+
 (setq amirreza/font "FiraCode Nerd Font Mono")
 (setq amirreza/font "JetBrainsMono Nerd Font Mono")
 
 (setq amirreza/font-size "21")
 
-(setq amirreza/dark-theme 'catppuccin-macchiato)
+(setq amirreza/dark-theme 'doom-catppuccin)
 (setq amirreza/light-theme 'catppuccin-latte)
 
 
@@ -214,19 +218,14 @@
   (setq eldoc-echo-area-use-multiline-p nil)
   (setq eldoc-echo-area-display-truncation-message nil)
   (setq eldoc-echo-area-prefer-doc-buffer nil)
+
   (global-eldoc-mode)
+
   (defun amirreza/eglot-hook ()
     (eglot-ensure)
     (put 'eglot-note 'flymake-overlay-control nil)
     (put 'eglot-warning 'flymake-overlay-control nil)
     (put 'eglot-error 'flymake-overlay-control nil)
-
-    (nmap "gk" 'eldoc)
-    (nmap "gi" 'eglot-find-implementation)
-    (nmap "gr" 'xref-find-references)
-    (nmap "gd" 'xref-find-definitions)
-    (nmap "gf" 'eglot-format)
-    (nmap "gc" 'eglot-code-actions)
 
     (define-key eglot-mode-map (kbd "C-c d") 'eldoc)
     (define-key eglot-mode-map (kbd "C-c r") 'eglot-rename)
