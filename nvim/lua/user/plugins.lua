@@ -36,20 +36,28 @@ end
 use "wbthomason/packer.nvim"
 use "lewis6991/impatient.nvim"
 
-use "folke/tokyonight.nvim"
-use "ellisonleao/gruvbox.nvim"
+local colorscheme = "catppuccin"
+local transparent = false
+
+use {
+  "folke/tokyonight.nvim",
+  config = function()
+    require("tokyonight").setup {
+      style = "night",
+      transparent = transparent,
+    }
+  end,
+}
+
 use "bluz71/vim-nightfly-colors"
-use "navarasu/onedark.nvim"
-use "rose-pine/neovim"
-use "EdenEast/nightfox.nvim"
-use "bluz71/vim-moonfly-colors"
+use { "rose-pine/neovim", as = "rose-pine" }
 use {
   "catppuccin/nvim",
   as = "catppuccin",
+  config = function()
+    vim.g.catppuccin_flavour = "macchiato"
+  end,
 }
-
--- Colorscheme of choice
-require "user.plugins.colorscheme"
 
 -- Comment
 use {
@@ -121,25 +129,17 @@ use {
     -- Snippets
     { "L3MON4D3/LuaSnip" },
     { "rafamadriz/friendly-snippets" },
+
+    -- Json langauge server schemas
+    { "b0o/schemastore.nvim" },
+
+    -- Null ls
+    { "jose-elias-alvarez/null-ls.nvim" },
   },
   config = function()
     require "user.plugins.lsp"
   end,
 }
-
--- trouble all errors, warning in one place
-use {
-  "folke/trouble.nvim",
-  config = function()
-    require("trouble").setup {}
-  end,
-}
-
--- Json Schemas
-use { "b0o/schemastore.nvim" }
-
--- Null ls
-use { "jose-elias-alvarez/null-ls.nvim" }
 
 -- Automatically create directory when you create a new file in a directory that
 -- does not exists.
@@ -147,9 +147,6 @@ use "pbrisbin/vim-mkdir"
 
 -- Support for many filetypes.
 use "sheerun/vim-polyglot"
-
--- toggle a window to be maximized, like tmux zoom
-use "szw/vim-maximizer"
 
 -- Support Kitty terminal config syntax
 use "fladson/vim-kitty"
@@ -191,6 +188,7 @@ use {
   end,
 }
 
+-- Git stuff
 use {
   "lewis6991/gitsigns.nvim",
   config = function()
@@ -198,11 +196,10 @@ use {
   end,
 }
 
--- Git integration
 use {
   "tpope/vim-fugitive",
   config = function()
-    vim.keymap.set("n", "<leader>g", "<cmd>Git<cr>")
+    vim.keymap.set("n", "<leader>gs", "<cmd>Git<cr>")
   end,
 }
 
@@ -270,41 +267,6 @@ use {
 }
 
 use {
-  "simrat39/rust-tools.nvim",
-}
-
--- Tmux integration, look here for tmux part https://github.com/mrjones2014/smart-splits.nvim#tmux-integration
-use {
-  "mrjones2014/smart-splits.nvim",
-  config = function()
-    local nnoremap = vim.keymap.nnoremap
-
-    local tnoremap = vim.keymap.tnoremap
-    require("smart-splits").setup {}
-
-    nnoremap("<A-h>", require("smart-splits").resize_left)
-    nnoremap("<A-j>", require("smart-splits").resize_down)
-    nnoremap("<A-k>", require("smart-splits").resize_up)
-    nnoremap("<A-l>", require("smart-splits").resize_right)
-
-    nnoremap("<C-h>", require("smart-splits").move_cursor_left)
-    nnoremap("<C-j>", require("smart-splits").move_cursor_down)
-    nnoremap("<C-k>", require("smart-splits").move_cursor_up)
-    nnoremap("<C-l>", require("smart-splits").move_cursor_right)
-
-    tnoremap("<A-h>", require("smart-splits").resize_left)
-    tnoremap("<A-j>", require("smart-splits").resize_down)
-    tnoremap("<A-k>", require("smart-splits").resize_up)
-    tnoremap("<A-l>", require("smart-splits").resize_right)
-
-    tnoremap("<C-h>", require("smart-splits").move_cursor_left)
-    tnoremap("<C-j>", require("smart-splits").move_cursor_down)
-    tnoremap("<C-k>", require("smart-splits").move_cursor_up)
-    tnoremap("<C-l>", require("smart-splits").move_cursor_right)
-  end,
-}
-
-use {
   "ziglang/zig.vim",
 }
 
@@ -324,14 +286,21 @@ use {
 
     vim.keymap.set({ "n", "t" }, "<C-`>", "<cmd>ToggleTerm<CR>", {})
   end,
+}
 
-  -- Which key
-  use {
-    "folke/which-key.nvim",
-    config = function()
-      require("which-key").setup()
-    end,
-  },
+use {
+  "folke/zen-mode.nvim",
+  config = function()
+    require("zen-mode").setup {}
+    vim.keymap.nnoremap("<leader>z", vim.cmd.ZenMode)
+  end,
+}
+
+use {
+  "folke/which-key.nvim",
+  config = function()
+    require("which-key").setup()
+  end,
 }
 
 if packer_bootstrap then
@@ -344,3 +313,8 @@ pcall(require, "impatient")
 for _, cfg in ipairs(_configs) do
   cfg()
 end
+
+-- Colorscheme of choice
+pcall(function()
+  vim.cmd("colorscheme " .. colorscheme)
+end)

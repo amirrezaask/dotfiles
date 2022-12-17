@@ -8,7 +8,7 @@ lsp.ensure_installed {
   "rust_analyzer",
 }
 
-lsp.on_attach(function(_client, bufnr)
+lsp.on_attach(function(_, bufnr)
   vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
   local buffer = { buffer = bufnr }
   local nnoremap = vim.keymap.nnoremap
@@ -83,3 +83,11 @@ for _, pkg in ipairs(mason_ensure_installed) do
     require("mason.api.command").MasonInstall { pkg }
   end
 end
+
+local virtual_text = true
+vim.api.nvim_create_user_command("VirtualTextToggle", function()
+  virtual_text = not virtual_text
+  vim.diagnostic.config {
+    virtual_text = virtual_text,
+  }
+end, {})
