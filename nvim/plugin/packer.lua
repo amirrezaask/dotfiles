@@ -9,7 +9,7 @@ local ensure_packer = function()
   return false
 end
 
-local packer_bootstrap = ensure_packer()
+ensure_packer()
 
 require("packer").startup {
   function(use)
@@ -63,9 +63,6 @@ require("packer").startup {
         { "L3MON4D3/LuaSnip" },
         { "rafamadriz/friendly-snippets" },
 
-        -- Json langauge server schemas
-        { "b0o/schemastore.nvim" },
-
         -- Null ls
         { "jose-elias-alvarez/null-ls.nvim" },
 
@@ -82,7 +79,7 @@ require("packer").startup {
     use "tpope/vim-eunuch" -- Helper commands like :Rename, :Move, :Delete, :Remove, ...
     use "tpope/vim-sleuth" -- Heuristically set buffer options
     use "windwp/nvim-autopairs"
-    use "lewis6991/gitsigns.nvim"
+    use "lewis6991/gitsigns.nvim" -- Signs next to line numbers to show git status of a line
     use "tpope/vim-fugitive" -- Best Git Client after magit :)
     use "fatih/vim-go" -- Golang tools and code actions
     use "akinsho/toggleterm.nvim" -- Toggleterm
