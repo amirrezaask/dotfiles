@@ -1,4 +1,0 @@
-* Amirreza Emacs Configuration
-** Dependencies
-*** Gopls
-*** Rust-Analyzer
