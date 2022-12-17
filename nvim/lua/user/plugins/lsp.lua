@@ -71,7 +71,7 @@ require("null-ls").setup {
   },
 }
 
-local mason_ensure_installed = { "gitlint", "stylua", "golangci-lint", "goimports", "gofumpt", "yamlfmt" }
+local mason_ensure_installed = { "stylua", "golangci-lint", "goimports", "gofumpt", "yamlfmt" }
 for _, pkg in ipairs(mason_ensure_installed) do
   if not require("mason-registry").is_installed(pkg) then
     require("mason.api.command").MasonInstall { pkg }

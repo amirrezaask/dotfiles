@@ -50,18 +50,12 @@ use {
 }
 
 use { "rose-pine/neovim", as = "rose-pine" }
-use {
-  "catppuccin/nvim",
-  as = "catppuccin",
-  config = function()
-    vim.g.catppuccin_flavour = "macchiato"
-  end,
-}
+use { "catppuccin/nvim", as = "catppuccin" }
 
 -- Set the colorscheme
 use(function()
   pcall(function()
-    vim.cmd.colorscheme "rose-pine"
+    vim.cmd.colorscheme "catppuccin-mocha"
   end)
 end)
 
@@ -242,9 +236,7 @@ use {
   config = function()
     vim.g.go_gopls_enabled = 0
     vim.g.go_template_autocreate = 0
-
     local go_group = vim.api.nvim_create_augroup("go", {})
-
     vim.api.nvim_create_autocmd("BufEnter", {
       pattern = "*.go",
       group = go_group,
