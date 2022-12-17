@@ -99,7 +99,7 @@ use {
   },
 
   config = function()
-    require "user.plugins.telescope"
+    require "user.telescope"
   end,
 }
 
@@ -112,7 +112,7 @@ use {
     "JoosepAlviste/nvim-ts-context-commentstring",
   },
   config = function()
-    require "user.plugins.treesitter"
+    require "user.treesitter"
   end,
 }
 
@@ -153,7 +153,7 @@ use {
     { "j-hui/fidget.nvim" },
   },
   config = function()
-    require "user.plugins.lsp"
+    require "user.lsp"
   end,
 }
 
@@ -242,10 +242,9 @@ use {
       group = go_group,
       callback = function(meta)
         local buffer = { buffer = meta.bufnr, remap = true }
-        local nnoremap = vim.keymap.nnoremap
-        nnoremap("<leader>lat", "<cmd>GoAddTag<CR>", buffer)
-        nnoremap("<leader>lrt", "<cmd>GoRmTag<CR>", buffer)
-        nnoremap("<leader>lfs", "<cmd>GoFillStruct<CR>", buffer)
+        vim.keymap.set("n", "<leader>lat", "<cmd>GoAddTag<CR>", buffer)
+        vim.keymap.set("n", "<leader>lrt", "<cmd>GoRmTag<CR>", buffer)
+        vim.keymap.set("n", "<leader>lfs", "<cmd>GoFillStruct<CR>", buffer)
       end,
     })
   end,
@@ -275,7 +274,7 @@ use {
   "folke/zen-mode.nvim",
   config = function()
     require("zen-mode").setup {}
-    vim.keymap.nnoremap("<leader>z", vim.cmd.ZenMode)
+    vim.keymap.set("n", "<leader>z", vim.cmd.ZenMode)
   end,
 }
 
