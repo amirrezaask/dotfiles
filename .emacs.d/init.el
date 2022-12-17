@@ -9,7 +9,7 @@
 
 (setq amirreza/font-size "21")
 
-(setq amirreza/dark-theme 'doom-catppuccin)
+(setq amirreza/dark-theme 'catppuccin-macchiato)
 (setq amirreza/light-theme 'catppuccin-latte)
 
 
