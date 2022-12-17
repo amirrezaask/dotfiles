@@ -29,22 +29,22 @@ local use = function(spec)
       table.insert(_configs, spec.config)
       spec.config = nil
     end
+  elseif type(spec) == "function" then
+    table.insert(_configs, spec)
+    return
   end
   require("packer").use(spec)
 end
 
 use "wbthomason/packer.nvim"
 use "lewis6991/impatient.nvim"
-
-local colorscheme = "catppuccin"
-local transparent = false
-
+use "NTBBloodbath/doom-one.nvim"
+use "navarasu/onedark.nvim"
 use {
   "folke/tokyonight.nvim",
   config = function()
     require("tokyonight").setup {
       style = "night",
-      transparent = transparent,
     }
   end,
 }
@@ -58,6 +58,13 @@ use {
     vim.g.catppuccin_flavour = "macchiato"
   end,
 }
+
+-- Set the colorscheme
+use(function()
+  pcall(function()
+    vim.cmd.colorscheme "catppuccin"
+  end)
+end)
 
 -- Comment
 use {
@@ -272,8 +279,3 @@ pcall(require, "impatient")
 for _, cfg in ipairs(_configs) do
   cfg()
 end
-
--- Colorscheme of choice
-pcall(function()
-  vim.cmd("colorscheme " .. colorscheme)
-end)
