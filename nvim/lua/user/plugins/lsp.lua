@@ -34,39 +34,53 @@ vim.api.nvim_create_autocmd("LspAttach", {
   end,
 })
 
-lspconfig["gopls"].setup {}
-lspconfig["rust_analyzer"].setup {}
-lspconfig["clangd"].setup {}
-lspconfig["intelephense"].setup {}
-lspconfig["phpactor"].setup {}
-lspconfig["pyright"].setup {}
-lspconfig["jedi_language_server"].setup {}
+local servers = {
+  "gopls",
+  "rust_analyzer",
+  "clangd",
+  "intelephense",
+  "phpactor",
+  "pyright",
+  "jedi_language_server",
+  {
+    "sumneko_lua",
+    {
+      settings = {
+        Lua = {
+          diagnostics = {
+            globals = { "vim" },
+          },
+          workspace = {
+            library = vim.api.nvim_get_runtime_file("", true),
+            checkThirdParty = false,
+          },
+          telemetry = {
+            enable = false,
+          },
+        },
+      },
+    },
+  },
+  {
+    "jsonls",
+    {
 
-lspconfig["sumneko_lua"].setup {
-  settings = {
-    Lua = {
-      diagnostics = {
-        globals = { "vim" },
-      },
-      workspace = {
-        library = vim.api.nvim_get_runtime_file("", true),
-        checkThirdParty = false,
-      },
-      telemetry = {
-        enable = false,
+      settings = {
+        json = {
+          schemas = require("schemastore").json.schemas(),
+          validate = { enable = true },
+        },
       },
     },
   },
 }
-
-lspconfig["jsonls"].setup {
-  settings = {
-    json = {
-      schemas = require("schemastore").json.schemas(),
-      validate = { enable = true },
-    },
-  },
-}
+for _, srv in ipairs(servers) do
+  if type(srv) == "string" then
+    lspconfig[srv].setup {}
+  elseif type(srv) == "table" then
+    lspconfig[srv[1]].setup(srv[2])
+  end
+end
 
 require("null-ls").setup {
   sources = {
