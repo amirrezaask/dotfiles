@@ -65,7 +65,6 @@ require("packer").startup {
       },
     }
     use "pbrisbin/vim-mkdir" -- Automatically create directory if not exists
-    use "sheerun/vim-polyglot" -- Support for many filetypes.
     use "fladson/vim-kitty" -- Support Kitty terminal config syntax
     use "towolf/vim-helm" -- Support for helm template syntax
     use "tpope/vim-surround" -- surrounding text objects
