@@ -18,6 +18,7 @@ require("packer").startup {
 
     use { "folke/tokyonight.nvim" }
     use { "rose-pine/neovim", as = "rose-pine" }
+    use { "navarasu/onedark.nvim" }
     use { "catppuccin/nvim", as = "catppuccin" }
 
     use { "numToStr/Comment.nvim" } -- Comment code with ease

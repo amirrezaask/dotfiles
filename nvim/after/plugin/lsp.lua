@@ -54,6 +54,7 @@ vim.diagnostic.config {
 
 local autoformat_patterns = {
   "*.rs",
+  "*.go",
   "*.lua",
 }
 
