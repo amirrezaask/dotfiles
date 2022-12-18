@@ -1,3 +1,7 @@
+
+(setq gc-cons-threshold (* 100 1024 1024))
+(setq read-process-output-max (* 1024 1024))
+
 ;; Setup package manager.
 (setq package-enable-at-startup nil)
 (defvar bootstrap-version)
@@ -22,11 +26,19 @@
 			      (find-file (expand-file-name "init.el" user-emacs-directory))))
 
 
+
 (setq amirreza/font "FiraCode Nerd Font Mono")
 (setq amirreza/font-size "21")
-
-(setq amirreza/dark-theme 'doom-one)
-(setq amirreza/light-theme 'doom-one-light)
+(if (display-graphic-p)
+    (progn
+      (setq amirreza/dark-theme 'doom-dracula)
+      (setq amirreza/light-theme 'doom-one-light)
+      )
+  (progn
+      (setq amirreza/dark-theme 'modus-vivendi)
+      (setq amirreza/light-theme 'modus-operandi)
+      )
+  )
 
 (use-package emacs
   :config
@@ -105,6 +117,7 @@
   (setq amirreza/--color-mode 'dark)
 
   (defun amirreza/load-theme ()
+    (interactive)
     (if (eq amirreza/--color-mode 'dark)
 	(progn
 	  (disable-theme amirreza/light-theme)
@@ -122,7 +135,9 @@
     (amirreza/load-theme))
   (global-set-key (kbd "<f12>") 'amirreza/toggle-color)
   ;; Load theme
-  (amirreza/load-theme)
+  (when (display-graphic-p)
+    (amirreza/load-theme)
+    )
   )
 
 ;; Minibuffer completion
@@ -204,17 +219,43 @@
 (use-package rust-mode)
 (use-package zig-mode)
 
-(use-package lsp-mode
-  :config
-  (defun amirreza/lspmode-hook ()
-    (lsp)
-    (define-key lsp-mode-map (kbd "C-c d") 'eldoc)
-    (define-key lsp-mode-map (kbd "C-c r") 'lsp-rename)
-    (define-key lsp-mode-map (kbd "M-r")   'lsp-find-references)
-    (define-key lsp-mode-map (kbd "C-c f") 'lsp-format)
-    (define-key lsp-mode-map (kbd "C-c c") 'lsp-code-actions))
+;; (use-package lsp-mode
+;;   :config
+;;   (defun amirreza/lspmode-hook ()
+;;     (lsp)
+;;     (define-key lsp-mode-map (kbd "C-c d") 'eldoc)
+;;     (define-key lsp-mode-map (kbd "C-c r") 'lsp-rename)
+;;     (define-key lsp-mode-map (kbd "M-r")   'lsp-find-references)
+;;     (define-key lsp-mode-map (kbd "C-c f") 'lsp-format)
+;;     (define-key lsp-mode-map (kbd "C-c c") 'lsp-code-actions))
+;;   :hook
+;;   ((go-mode rust-mode python-mode php-mode) . amirreza/lspmode-hook))
+
+;; (use-package lsp-ui)
+;; (use-package flycheck :hook (prog-mode . flycheck-mode))
+
+(use-package eglot
+  :init
+  (setq eldoc-echo-area-use-multiline-p nil)
+  (setq eldoc-echo-area-display-truncation-message nil)
+  (setq eldoc-echo-area-prefer-doc-buffer nil)
+
+  (global-eldoc-mode)
+
+  (defun amirreza/eglot-hook ()
+    (eglot-ensure)
+    (put 'eglot-note 'flymake-overlay-control nil)
+    (put 'eglot-warning 'flymake-overlay-control nil)
+    (put 'eglot-error 'flymake-overlay-control nil)
+
+    (define-key eglot-mode-map (kbd "C-c d") 'eldoc)
+    (define-key eglot-mode-map (kbd "C-c r") 'eglot-rename)
+    (define-key eglot-mode-map (kbd "M-r") 'xref-find-references)
+    (define-key eglot-mode-map (kbd "C-c f") 'eglot-format)
+    (define-key eglot-mode-map (kbd "C-c c") 'eglot-code-actions))
+
   :hook
-  ((go-mode rust-mode python-mode php-mode) . amirreza/lspmode-hook))
+  ((go-mode rust-mode python-mode php-mode) . amirreza/eglot-hook))
 
 (use-package smartparens :hook prog-mode)
 
@@ -279,4 +320,10 @@
 		  mode-line-modes
 		  ))
   (mini-modeline-mode t))
+
+(use-package perspective
+  :config
+  (persp-mode 1)
+  :bind
+  ("C-c w s" . persp-switch))
 
