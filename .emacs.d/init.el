@@ -168,6 +168,9 @@
   (("C-9" . project-compile))
   )
 
+(global-set-key (kbd "C-8") 'split-window-below)
+(global-set-key (kbd "C-9") 'split-window-right)
+
 ;; best movement ever ?
 (defun amirreza/up-center ()
   (interactive)
@@ -226,8 +229,7 @@
     (define-key eglot-mode-map (kbd "C-c c") 'eglot-code-actions))
 
   :hook
-  (
-   (go-mode
+  ((go-mode
     rust-mode
     python-mode
     php-mode
@@ -292,6 +294,5 @@
 		'("%e"
 		  mode-line-modes
 		  ))
-  (setq mini-modeline-face-attr '(:background "#00000"))
   (mini-modeline-mode t))
 
