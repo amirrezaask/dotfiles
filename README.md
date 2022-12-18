@@ -10,4 +10,4 @@
 
 
 ## Screenshots
-![EMacs](https://raw.github.com/amirrezaask/dotfiles/tree/master/emacs.png)
+![EMacs](https://raw.github.com/amirrezaask/dotfiles/master/emacs.png)
