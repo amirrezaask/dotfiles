@@ -33,16 +33,10 @@ require("packer").startup {
       },
     }
     -- Treesitter
-    use {
-      "nvim-treesitter/nvim-treesitter",
-      requires = {
-        "nvim-treesitter/nvim-treesitter-textobjects",
-        "p00f/nvim-ts-rainbow",
-        "JoosepAlviste/nvim-ts-context-commentstring",
-        "nvim-treesitter/playground",
-        "nvim-treesitter/nvim-treesitter-context",
-      },
-    }
+    use { "nvim-treesitter/nvim-treesitter" }
+    use { "nvim-treesitter/nvim-treesitter-textobjects", after = "nvim-treesitter" }
+    use "nvim-treesitter/nvim-treesitter-context"
+
     use {
       "VonHeikemen/lsp-zero.nvim",
       requires = {
