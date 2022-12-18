@@ -169,7 +169,10 @@
                              )))
 
 
-(use-package project :straight nil)
+(use-package project :straight nil
+  :bind
+  (("C-9" . project-compile))
+  )
 
 ;; best movement ever ?
 (defun amirreza/up-center ()
