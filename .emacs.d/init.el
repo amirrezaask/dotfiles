@@ -208,6 +208,7 @@
 (use-package nginx-mode)
 (use-package docker-compose-mode)
 (use-package dockerfile-mode)
+(use-package markdown-mode)
 
 (use-package exec-path-from-shell
   :config

@@ -10,4 +10,5 @@
 
 
 ## Screenshots
-![EMacs](https://raw.github.com/amirrezaask/dotfiles/master/emacs.png)
+### Emacs
+![Emacs](https://raw.github.com/amirrezaask/dotfiles/master/emacs.png)
