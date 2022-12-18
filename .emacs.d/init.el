@@ -1,23 +1,5 @@
-(setq package-enable-at-startup nil)
-
-(tool-bar-mode 0) ;; disable top toolbar
-(scroll-bar-mode 0) ;; disable scroll bar
-(menu-bar-mode -1) ;; Disable menu bar
-
-(global-set-key (kbd "C-1") (lambda ()
-			      (interactive)
-			      (find-file (expand-file-name "init.el" user-emacs-directory))))
-
-(setq amirreza/font "FiraCode Nerd Font Mono")
-(setq amirreza/font "JetBrainsMono Nerd Font Mono")
-
-(setq amirreza/font-size "21")
-
-(setq amirreza/dark-theme 'doom-dracula)
-(setq amirreza/light-theme 'catppuccin-one-light)
-
-
 ;; Setup package manager.
+(setq package-enable-at-startup nil)
 (defvar bootstrap-version)
 (let ((bootstrap-file
        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
@@ -35,10 +17,23 @@
 
 (setq straight-use-package-by-default t)
 
+(global-set-key (kbd "C-1") (lambda ()
+			      (interactive)
+			      (find-file (expand-file-name "init.el" user-emacs-directory))))
 
+
+(setq amirreza/font "FiraCode Nerd Font Mono")
+(setq amirreza/font-size "21")
+
+(setq amirreza/dark-theme 'doom-dracula)
+(setq amirreza/light-theme 'doom-one-light)
 
 (use-package emacs
   :config
+  (tool-bar-mode 0) ;; disable top toolbar
+  (scroll-bar-mode 0) ;; disable scroll bar
+  (menu-bar-mode -1) ;; Disable menu bar
+  (setq inhibit-startup-screen t) ;; No startup splash screen
   (setq backup-by-copying t) ;; Always copy files for backup.
   (setq version-control t) ;; Use version numbers for backup.
   (setq delete-old-versions t) ;; Delete old backup of files.
@@ -52,6 +47,8 @@
   (setq show-paren-delay 0) ;; highlight matching parens instantly.
   (global-display-line-numbers-mode 1)
   (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+  (global-hl-line-mode)
+  (defalias 'yes-or-no-p 'y-or-n-p)
 )
 
 
@@ -89,9 +86,6 @@
 (use-package ef-themes)
 (use-package doom-themes)
 (use-package gruber-darker-theme)
-(use-package autothemer)
-
-(use-package catppuccin-theme :straight (catppuccin-theme :type git :host github :repo "catppuccin/emacs" :local-repo-name "catppuccin"))
 
 ;; Toggle between light and dark mode
 (setq amirreza/--color-mode 'dark)
@@ -195,15 +189,10 @@
   (("C-x g" . magit)))
 
 (use-package apache-mode)
-
 (use-package vterm)
-
 (use-package systemd)
-
 (use-package nginx-mode)
-
 (use-package docker-compose-mode)
-
 (use-package dockerfile-mode)
 
 (use-package exec-path-from-shell
@@ -244,8 +233,6 @@
     php-mode
     ). amirreza/eglot-hook))
 
-(use-package org-present)
-
 (use-package smartparens :hook prog-mode)
 
 (use-package rainbow-delimiters :hook prog-mode)
@@ -257,16 +244,12 @@
   (global-git-gutter-mode))
 
 (use-package prescient)
-
 (use-package vertico-prescient
   :init
   (vertico-prescient-mode))
-
-
 (use-package company-prescient
   :init
   (company-prescient-mode))
-
 
 (use-package helpful
   :bind
@@ -279,59 +262,36 @@
 (use-package csv-mode)
 (use-package json-mode)
 
-(use-package doom-modeline
-  :init
-  (setq doom-modeline-height 35)
-  (doom-modeline-mode 1))
-
 (use-package tree-sitter
   :config
   (global-tree-sitter-mode))
 
 (use-package tree-sitter-langs)
 
-;; Vim emulation
-;; (use-package evil
-;;   :init
-;;   (setq evil-want-C-u-scroll t)
-;;   (setq evil-split-window-below t)
-;;   (setq evil-vsplit-window-right t)
-;;   (setq evil-want-integration t)
-;;   (setq evil-want-keybinding nil)
-;;   :config
-;;   (evil-mode 1)
-;;   (evil-global-set-key 'normal (kbd "<C-d>") (lambda
-;; 					       ()
-;; 					       (interactive)
-;; 					       (evil-scroll-down)
-;; 					       (evil-scroll-line-to-center)
-;; 					       ))
-;;   (evil-global-set-key 'normal (kbd "<C-u>") (lambda
-;; 					       ()
-;; 					       (interactive)
-;; 					       (evil-scroll-up)
-;; 					       (evil-scroll-line-to-center)
-;; 					       ))
+(use-package mini-modeline
+  :init
+  (setq mini-modeline-right-padding (/ (frame-width) 5))
+  (setq mini-modeline-echo-duration 0.8)
+  
+  :config
+  (setq-default mini-modeline-l-format
+		'("%e"
+		  mode-line-front-space
+		  mode-line-mule-info
+		  mode-line-client
+		  mode-line-modified
+		  mode-line-remote
+		  mode-line-frame-identification
+		  mode-line-buffer-identification
+		  " "
+		  mode-line-position
+		  )
+		)
 
+  (setq-default mini-modeline-r-format
+		'("%e"
+		  mode-line-modes
+		  ))
+  (setq mini-modeline-face-attr '(:background "#00000"))
+  (mini-modeline-mode t))
 
-;;   )
-
-;; (use-package evil-escape
-;;   :init
-;;   (setq-default evil-escape-key-sequence "jk")
-;;   (setq evil-escape-unordered-key-sequence t)
-;;   :config
-;;   (evil-escape-mode))
-
-;; (use-package general
-;;   :config
-;;   (general-create-definer SPC-leader :prefix "SPC" :keymaps 'normal)
-;;   (general-create-definer nmap :keymaps 'normal)
-;;   (general-create-definer imap :keymaps 'insert)
-
-;;   (SPC-leader "SPC" 'find-file)
-;;   )
-
-;; (use-package evil-collection
-;;   :config
-;;   (evil-collection-init))
