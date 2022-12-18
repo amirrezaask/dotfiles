@@ -17,7 +17,7 @@
 
 (setq straight-use-package-by-default t)
 
-(global-set-key (kbd "C-1") (lambda ()
+(global-set-key (kbd "C-c e c") (lambda ()
 			      (interactive)
 			      (find-file (expand-file-name "init.el" user-emacs-directory))))
 
@@ -25,11 +25,13 @@
 (setq amirreza/font "FiraCode Nerd Font Mono")
 (setq amirreza/font-size "21")
 
-(setq amirreza/dark-theme 'doom-dracula)
+(setq amirreza/dark-theme 'doom-one)
 (setq amirreza/light-theme 'doom-one-light)
 
 (use-package emacs
   :config
+  (blink-cursor-mode -1)
+  (setq-default cursor-type 'bar)
   (tool-bar-mode 0) ;; disable top toolbar
   (scroll-bar-mode 0) ;; disable scroll bar
   (menu-bar-mode -1) ;; Disable menu bar
@@ -45,7 +47,8 @@
   (delete-selection-mode 1) ;; When a region of text is selected and then something is typed remove text and replace with what has been typed.
   (show-paren-mode 1) ;; Highlight matching parens
   (setq show-paren-delay 0) ;; highlight matching parens instantly.
-  (global-display-line-numbers-mode 1)
+  (setq display-line-numbers-type 'relative) ;; relative line numbers
+  (global-display-line-numbers-mode 1) ;; enable line numbers globaly
   (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
   (global-hl-line-mode)
   (defalias 'yes-or-no-p 'y-or-n-p)
@@ -70,57 +73,57 @@
   :bind
   ("C-x o" . ace-window))
 
-;; My font setup for my home monitor
-(defun amirreza/home-monitor ()
-  (interactive)
-  (setq amirreza/font-size "23")
-  (set-frame-font (concat amirreza/font " " amirreza/font-size) nil t))
+;; Font settings
+(use-package emacs
+  :config
+  ;; My font setup for my home monitor
+  (defun amirreza/home-monitor ()
+    (interactive)
+    (setq amirreza/font-size "23")
+    (set-frame-font (concat amirreza/font " " amirreza/font-size) nil t))
 
-;; My font setup for my laptop setup
-(defun amirreza/laptop ()
-  (interactive)
-  (setq amirreza/font-size "19")
-  (set-frame-font (concat amirreza/font " " amirreza/font-size) nil t))
+  ;; My font setup for my laptop setup
+  (defun amirreza/laptop ()
+    (interactive)
+    (setq amirreza/font-size "19")
+    (set-frame-font (concat amirreza/font " " amirreza/font-size) nil t))
+  
+  ;; Reload font settings
+  (defun amirreza/reload-font ()
+    (interactive)
+    (set-frame-font (concat amirreza/font " " amirreza/font-size) nil t))
+
+  (amirreza/reload-font)
+
+  )
+
 
 ;; Themes
-(use-package ef-themes)
-(use-package doom-themes)
-(use-package gruber-darker-theme)
+(use-package doom-themes
+  :config
+  ;; Toggle between light and dark mode
+  (setq amirreza/--color-mode 'dark)
 
-;; Toggle between light and dark mode
-(setq amirreza/--color-mode 'dark)
-
-(defun amirreza/load-theme ()
-  (if (eq amirreza/--color-mode 'dark)
+  (defun amirreza/load-theme ()
+    (if (eq amirreza/--color-mode 'dark)
+	(progn
+	  (disable-theme amirreza/light-theme)
+	  (load-theme amirreza/dark-theme t))
       (progn
-	(disable-theme amirreza/light-theme)
-	(load-theme amirreza/dark-theme t)
-	)
+	(disable-theme amirreza/dark-theme)
+	(load-theme amirreza/light-theme t))))
 
-    (progn
-      (disable-theme amirreza/dark-theme)
-      (load-theme amirreza/light-theme t)))
+  (defun amirreza/toggle-color ()
+    (interactive)
+    (if (eq amirreza/--color-mode 'dark)
+	(setq amirreza/--color-mode 'light)
+      (setq amirreza/--color-mode 'dark)
       )
-
-(defun amirreza/toggle-color ()
-  (interactive)
-  (if (eq amirreza/--color-mode 'dark)
-      (setq amirreza/--color-mode 'light)
-    (setq amirreza/--color-mode 'dark)
-    )
-  (amirreza/load-theme))
-
-(global-set-key (kbd "<f12>") 'amirreza/toggle-color)
-
-;; Load theme
-(amirreza/load-theme)
-
-;; Reload font settings
-(defun amirreza/reload-font ()
-  (interactive)
-  (set-frame-font (concat amirreza/font " " amirreza/font-size) nil t))
-
-(amirreza/reload-font)
+    (amirreza/load-theme))
+  (global-set-key (kbd "<f12>") 'amirreza/toggle-color)
+  ;; Load theme
+  (amirreza/load-theme)
+  )
 
 ;; Minibuffer completion
 (use-package vertico
@@ -141,8 +144,7 @@
 
 (use-package consult
   :bind
-  (
-   ("C-s" . consult-line)
+  (("C-s" . consult-line)
    ("C-c g" . consult-ripgrep)))
 
 (use-package marginalia
@@ -159,17 +161,11 @@
 (use-package dired
   :straight nil
   :hook (dired-mode . (lambda ()
-                             (define-key dired-mode-map (kbd "C-c C-e") 'wdired-change-to-wdired-mode)
-                             )))
+                             (define-key dired-mode-map (kbd "C-c C-e") 'wdired-change-to-wdired-mode))))
 
 
-(use-package project :straight nil
-  :bind
-  (("C-9" . project-compile))
-  )
+(use-package project :straight nil)
 
-(global-set-key (kbd "C-8") 'split-window-below)
-(global-set-key (kbd "C-9") 'split-window-right)
 
 ;; best movement ever ?
 (defun amirreza/up-center ()
@@ -246,9 +242,11 @@
   (global-git-gutter-mode))
 
 (use-package prescient)
+
 (use-package vertico-prescient
   :init
   (vertico-prescient-mode))
+
 (use-package company-prescient
   :init
   (company-prescient-mode))
@@ -274,6 +272,7 @@
   :init
   (setq mini-modeline-right-padding (/ (frame-width) 5))
   (setq mini-modeline-echo-duration 0.8)
+  (setq mini-modeline-face-attr '(:background "#000000"))
   
   :config
   (setq-default mini-modeline-l-format
