@@ -29,7 +29,7 @@
   (setq completion-cycle-threshold 3)
   (setq tab-always-indent 'complete)
   (vertico-mode)
-  (setq vertico-count 20)
+  (setq vertico-count 15)
   (setq vertico-cycle t))
 
 
