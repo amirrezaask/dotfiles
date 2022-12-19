@@ -4,3 +4,4 @@ straight
 elpa
 .lsp*
 persp*
+README.el
