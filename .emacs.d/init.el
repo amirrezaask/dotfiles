@@ -1,4 +1,5 @@
-(setq debug-on-error t)
+;; (setq debug-on-error t)
+
 ;; Top level user configurations
 (load-file (expand-file-name "user.el" user-emacs-directory))
 
@@ -8,9 +9,6 @@
 
 ;; site-lisp is like a lab for my experiments and maybe potential packages
 (add-to-list 'load-path (expand-file-name "site-lisp" user-emacs-directory))
-
-;; Package manager
-(setq package-enable-at-startup nil)
 
 (defvar bootstrap-version)
 (let ((bootstrap-file
