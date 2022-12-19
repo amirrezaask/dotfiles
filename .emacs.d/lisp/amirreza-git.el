@@ -25,14 +25,11 @@
 ;;; Code:
 
 
-(use-package git-gutter
-  :init
+(elpa-package git-gutter
   (global-git-gutter-mode))
 
-(use-package magit
-  :bind
-  (("C-x g" . magit)))
-
+(elpa-package magit
+	      (define-key global-map (kbd "C-x g") 'magit))
 
 (provide 'amirreza-git)
 ;;; amirreza-git.el ends here

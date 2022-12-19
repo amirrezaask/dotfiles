@@ -24,8 +24,7 @@
 
 ;;; Code:
 
-(use-package company
-  :init
+(elpa-package company
   (setq company-backends '(company-capf))
   (global-company-mode))
 

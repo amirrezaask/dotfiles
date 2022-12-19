@@ -60,12 +60,10 @@
 (global-set-key (kbd "M-n") (lambda () (interactive) (amirreza/down-center)))
 
 ;; Copy PATH from default shell
-(use-package exec-path-from-shell
-  :config
-  (exec-path-from-shell-initialize))
+(elpa-package exec-path-from-shell
+	      (exec-path-from-shell-initialize))
 
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-
 
 (defalias 'yes-or-no-p 'y-or-n-p)
 

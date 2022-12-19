@@ -24,11 +24,11 @@
 
 ;;; Code:
 
-(use-package helpful
-  :bind
-  (("C-h k" . helpful-key)
-   ("C-h f" . helpful-callable)
-   ("C-h v" . helpful-variable)))
+(elpa-package helpful
+	      :bind
+	      (define-key global-map (kbd "C-h k") 'helpful-key)
+	      (define-key global-map (kbd "C-h f") 'helpful-callable)
+	      (define-key global-map (kbd "C-h v") 'helpful-variable))
 
 
 (provide 'amirreza-help)

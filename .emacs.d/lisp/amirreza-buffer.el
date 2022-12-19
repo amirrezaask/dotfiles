@@ -24,9 +24,8 @@
 
 ;;; Code:
 
-(use-package bufler
-  :bind
-  ("C-x C-b" . bufler))
+(elpa-package bufler
+  (define-key global-map (kbd "C-x C-b") 'bufler))
 
 (provide 'amirreza-buffer)
 ;;; amirreza-buffer.el ends here

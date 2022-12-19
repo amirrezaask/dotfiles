@@ -24,19 +24,19 @@
 
 ;;; Code:
 
-(use-package apache-mode)
-(use-package vterm)
-(use-package systemd)
-(use-package nginx-mode)
-(use-package docker-compose-mode)
-(use-package dockerfile-mode)
-(use-package markdown-mode)
-(use-package go-mode)
-(use-package rust-mode)
-(use-package zig-mode)
-(use-package yaml-mode)
-(use-package csv-mode)
-(use-package json-mode)
+(elpa-package apache-mode)
+(elpa-package vterm)
+(elpa-package systemd)
+(elpa-package nginx-mode)
+(elpa-package docker-compose-mode)
+(elpa-package dockerfile-mode)
+(elpa-package markdown-mode)
+(elpa-package go-mode)
+(elpa-package rust-mode)
+(elpa-package zig-mode)
+(elpa-package yaml-mode)
+(elpa-package csv-mode)
+(elpa-package json-mode)
 
 (provide 'amirreza-languages)
 ;;; amirreza-languages.el ends here

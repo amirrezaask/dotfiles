@@ -24,13 +24,10 @@
 
 ;;; Code:
 
-(use-package mini-modeline
-  :init
+(elpa-package mini-modeline
   (setq mini-modeline-right-padding (/ (frame-width) 5))
   (setq mini-modeline-echo-duration 0.8)
   (setq mini-modeline-face-attr '(:background "#000000"))
-
-  :config
   (setq-default mini-modeline-l-format
 		'("%e"
 		  mode-line-front-space

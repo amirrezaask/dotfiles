@@ -24,8 +24,8 @@
 
 ;;; Code:
 
-(use-package ef-themes)
-(use-package doom-themes)
+(elpa-package ef-themes)
+(elpa-package doom-themes)
 
 (setq amirreza/--current-theme nil)
 

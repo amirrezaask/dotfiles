@@ -24,9 +24,9 @@
 
 ;;; Code:
 
-(use-package ace-window
-  :bind
-  ("C-x o" . ace-window))
+(elpa-package ace-window
+	      (define-key global-map (kbd "C-x o") 'ace-window))
+
 
 
 (provide 'amirreza-windows)

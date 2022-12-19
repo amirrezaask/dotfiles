@@ -24,10 +24,9 @@
 
 ;;; Code:
 
-(use-package dired
-  :straight nil
-  :hook (dired-mode . (lambda () (define-key dired-mode-map (kbd "C-c C-e") 'wdired-change-to-wdired-mode))))
-
+(emacs-package dired
+	       (add-hook 'dired-mode-hook (lambda ()
+					    (define-key dired-mode-map (kbd "C-c C-e") 'wdired-change-to-wdired-mode))))
 
 (provide 'amirreza-dired)
 ;;; amirreza-dired.el ends here

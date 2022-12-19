@@ -24,8 +24,8 @@
 
 ;;; Code:
 
-(use-package eglot
-  :init
+(elpa-package eglot
+
   (setq eldoc-echo-area-use-multiline-p nil)
   (setq eldoc-echo-area-display-truncation-message nil)
   (setq eldoc-echo-area-prefer-doc-buffer nil)
@@ -44,8 +44,10 @@
     (define-key eglot-mode-map (kbd "C-c f") 'eglot-format)
     (define-key eglot-mode-map (kbd "C-c c") 'eglot-code-actions))
 
-  :hook
-  ((go-mode rust-mode python-mode php-mode) . amirreza/eglot-hook))
+  (add-hook 'go-mode-hook 'amirreza/eglot-hook)
+  (add-hook 'rust-mode-hook 'amirreza/eglot-hook)
+  (add-hook 'python-mode-hook 'amirreza/eglot-hook)
+  (add-hook 'php-mode-hook 'amirreza/eglot-hook))
 
 
 (provide 'amirreza-eglot)

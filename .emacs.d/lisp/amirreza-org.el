@@ -24,11 +24,11 @@
 
 ;;; Code:
 
-(use-package org :straight nil
-  :config
-  (setq org-src-window-setup 'current-window))
+(emacs-package org
+	       (setq org-src-window-setup 'current-window))
 
-(use-package org-bullets :hook org-mode)
+(elpa-package org-bullets
+	       (add-hook 'org-mode-hook #'org-bullets-mode))
 
 (provide 'amirreza-org)
 ;;; amirreza-org.el ends here

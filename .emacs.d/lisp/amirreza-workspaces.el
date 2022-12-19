@@ -25,11 +25,10 @@
 ;;; Code:
 
 
-(use-package perspective
-  :config
-  (persp-mode 1)
-  :bind
-  ("C-c w s" . persp-switch))
+(elpa-package perspective
+	      (setq persp-mode-prefix-key "C-c w")
+	      (persp-mode 1)
+	      (define-key global-map (kbd "C-c w s") 'persp-switch))
 
 (provide 'amirreza-workspaces)
 ;;; amirreza-workspaces.el ends here

@@ -24,32 +24,28 @@
 
 ;;; Code:
 
-(use-package vertico
-  :init
-  (setq completion-cycle-threshold 3)
-  (setq tab-always-indent 'complete)
-  (vertico-mode)
-  (setq vertico-count 15)
-  (setq vertico-cycle t))
+(elpa-package vertico
+	      (setq completion-cycle-threshold 3)
+	      (setq tab-always-indent 'complete)
+	      (vertico-mode)
+	      (setq vertico-count 15)
+	      (setq vertico-cycle t))
 
 
-(use-package savehist
-  :init
-  (savehist-mode))
+(elpa-package savehist
+	      (savehist-mode))
 
-(use-package consult
-  :bind
-  (("C-c g" . consult-ripgrep)))
+(elpa-package consult
+	      (setq consult-async-min-input 1)
+	      (define-key global-map (kbd "C-c g") 'consult-ripgrep))
 
-(use-package marginalia
-  :init
-  (marginalia-mode))
+(elpa-package marginalia
+	      (marginalia-mode))
 
-(use-package orderless
-  :init
-  (setq completion-styles '(orderless basic)
-	completion-category-defaults nil
-	completion-category-overrides '((file (styles partial-completion)))))
+(elpa-package orderless
+	      (setq completion-styles '(orderless basic)
+		    completion-category-defaults nil
+		    completion-category-overrides '((file (styles partial-completion)))))
 
 
 (provide 'amirreza-minibuffer)

@@ -25,11 +25,10 @@
 ;;; Code:
 
 
-(use-package tree-sitter
-  :config
+(elpa-package tree-sitter
   (global-tree-sitter-mode))
 
-(use-package tree-sitter-langs)
+(elpa-package tree-sitter-langs)
 
 
 

@@ -24,14 +24,12 @@
 
 ;;; Code:
 
-(use-package prescient)
+(elpa-package prescient)
 
-(use-package vertico-prescient
-  :init
+(elpa-package vertico-prescient
   (vertico-prescient-mode))
 
-(use-package company-prescient
-  :init
+(elpa-package company-prescient
   (company-prescient-mode))
 
 

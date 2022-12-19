@@ -24,9 +24,11 @@
 
 ;;; Code:
 
-(use-package smartparens :hook prog-mode)
+(elpa-package smartparens
+	      (add-hook 'prog-mode-hook #'smartparens-mode))
 
-(use-package rainbow-delimiters :hook prog-mode)
+(elpa-package rainbow-delimiters
+	      (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 
 (delete-selection-mode 1) ;; When a region of text is selected and then something is typed remove text and replace with what has been typed.
 
