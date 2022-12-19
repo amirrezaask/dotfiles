@@ -56,8 +56,9 @@
 
 ;; Best movement ever ?????
 (setq recenter-positions '(middle))
-(global-set-key (kbd "M-p") (lambda () (interactive) (amirreza/up-center)))
-(global-set-key (kbd "M-n") (lambda () (interactive) (amirreza/down-center)))
+(if-not-evil 
+    (global-set-key (kbd "M-p") (lambda () (interactive) (amirreza/up-center)))
+    (global-set-key (kbd "M-n") (lambda () (interactive) (amirreza/down-center))))
 
 ;; Copy PATH from default shell
 (elpa-package exec-path-from-shell
@@ -66,6 +67,15 @@
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 
 (defalias 'yes-or-no-p 'y-or-n-p)
+
+(if-evil
+ (nmap-leader
+  "SPC" 'find-file
+  "p f" 'project-find-file
+  "p p" 'project-switch-project
+  "p g" 'project-find-regexp
+  )
+ )
 
 (provide 'amirreza-emacs)
 ;;; amirreza-emacs.el ends here
