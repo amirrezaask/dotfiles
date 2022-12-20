@@ -49,7 +49,6 @@
      (nmap "gi" 'eglot-find-implementation)
      (nmap "gf" 'eglot-format)
      (nmap "S-c" 'eglot-code-actions)
-
      )
     )
 
