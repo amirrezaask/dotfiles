@@ -27,12 +27,17 @@
 (global-set-key (kbd "M-p") (lambda () (interactive) (amirreza/up-center)))
 (global-set-key (kbd "M-n") (lambda () (interactive) (amirreza/down-center)))
 
+(with-eval-after-load 'evil
+  (evil-define-key 'normal global-map (kbd "C-d") 'amirreza/down-center)
+  (evil-define-key 'normal global-map (kbd "C-u") 'amirreza/up-center))
+
 (setq evil-escape-unordered-key-sequence t)
 
 ;; LSP keybindings
 (evil-define-key 'normal lsp-mode-map (kbd "gr") 'xref-find-references)
 (evil-define-key 'normal lsp-mode-map (kbd "gi") 'lsp-find-implementation)
 (evil-define-key 'normal lsp-mode-map (kbd "gd") 'xref-find-definitions)
+
 
 ;; Magit
 (evil-define-key 'normal global-map (kbd "SPC g s") 'magit)
