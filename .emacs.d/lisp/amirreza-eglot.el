@@ -42,7 +42,16 @@
     (define-key eglot-mode-map (kbd "C-c r") 'eglot-rename)
     (define-key eglot-mode-map (kbd "M-r") 'xref-find-references)
     (define-key eglot-mode-map (kbd "C-c f") 'eglot-format)
-    (define-key eglot-mode-map (kbd "C-c c") 'eglot-code-actions))
+    (define-key eglot-mode-map (kbd "C-c c") 'eglot-code-actions)
+    (if-evil
+     (nmap "gd" 'xref-find-definitions)
+     (nmap "gr" 'xref-find-references)
+     (nmap "gi" 'eglot-find-implementation)
+     (nmap "gf" 'eglot-format)
+     (nmap "S-c" 'eglot-code-actions)
+
+     )
+    )
 
   (add-hook 'go-mode-hook 'amirreza/eglot-hook)
   (add-hook 'rust-mode-hook 'amirreza/eglot-hook)

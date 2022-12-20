@@ -78,10 +78,18 @@
 (if-evil
  (nmap-leader
   "SPC" 'amirreza/find-file
+  "f f" 'find-file
   "p f" 'project-find-file
   "p p" 'project-switch-project
   "p g" 'project-find-regexp
   )
+
+ (nmap
+   "C-j" 'evil-window-bottom
+   "C-k" 'evil-window-up
+   "C-h" 'evil-window-left
+   "C-l" 'evil-window-right
+   )
  )
 
 (provide 'amirreza-emacs)
