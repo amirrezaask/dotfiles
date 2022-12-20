@@ -27,7 +27,14 @@
 (elpa-package helpful
 	      (define-key global-map (kbd "C-h k") 'helpful-key)
 	      (define-key global-map (kbd "C-h f") 'helpful-callable)
-	      (define-key global-map (kbd "C-h v") 'helpful-variable))
+	      (define-key global-map (kbd "C-h v") 'helpful-variable)
+	      )
+
+(if-evil
+ (nmap-leader "h k" 'helpful-key)
+ (nmap-leader "h f" 'helpful-callable)
+ (nmap-leader "h v" 'helpful-variable)
+ )
 
 
 (provide 'amirreza-help)

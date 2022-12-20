@@ -68,9 +68,16 @@
 
 (defalias 'yes-or-no-p 'y-or-n-p)
 
+(defun amirreza/find-file ()
+  (interactive)
+  (if (vc-backend (buffer-file-name))
+      (project-find-file)
+    (call-interactively 'find-file)
+    ))
+
 (if-evil
  (nmap-leader
-  "SPC" 'find-file
+  "SPC" 'amirreza/find-file
   "p f" 'project-find-file
   "p p" 'project-switch-project
   "p g" 'project-find-regexp
