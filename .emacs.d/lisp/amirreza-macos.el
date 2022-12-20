@@ -1,4 +1,4 @@
-;;; amirreza-languages.el --- Different langauge support  -*- lexical-binding: t; -*-
+;;; amirreza-macos.el --- MacOS tweaks               -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2022  Amirreza Askarpour
 
@@ -24,29 +24,11 @@
 
 ;;; Code:
 
-(elpa-package apache-mode)
-(elpa-package vterm)
-(elpa-package systemd)
-(elpa-package nginx-mode)
 
-(elpa-package docker-compose-mode)
-(elpa-package dockerfile-mode)
+;; You can switch between command and option as meta as you wish
+(setq mac-command-modifier 'super) ;; set command key to super
+(setq mac-option-modifier 'meta)
 
-(elpa-package markdown-mode)
+(provide 'amirreza-macos)
+;;; amirreza-macos.el ends here
 
-(elpa-package go-mode)
-
-(elpa-package rust-mode)
-
-(elpa-package zig-mode)
-
-(elpa-package yaml-mode)
-(elpa-package csv-mode)
-(elpa-package json-mode)
-
-;; clojure support
-(elpa-package clojure-mode)
-(elpa-package cider)
-
-(provide 'amirreza-languages)
-;;; amirreza-languages.el ends here

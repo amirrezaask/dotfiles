@@ -48,13 +48,13 @@
 ;; 		  ))
 ;;   (mini-modeline-mode t))
 
-(elpa-package minions
-	      (setq minions-mode-line-lighter ";")
-	      (setq minions-prominent-modes
-		    (list 'defining-kbd-macro
-			  'flymake-mode))
+;; (elpa-package minions
+;; 	      (setq minions-mode-line-lighter ";")
+;; 	      (setq minions-prominent-modes
+;; 		    (list 'defining-kbd-macro
+;; 			  'flymake-mode))
 
-	      (minions-mode 1))
+;; 	      (minions-mode 1))
 
 (setq-default mode-line-format
               '("%e"
