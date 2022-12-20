@@ -38,9 +38,13 @@
 (evil-define-key 'normal lsp-mode-map (kbd "gi") 'lsp-find-implementation)
 (evil-define-key 'normal lsp-mode-map (kbd "gd") 'xref-find-definitions)
 
-
 ;; Magit
-(evil-define-key 'normal global-map (kbd "SPC g s") 'magit)
+(map! :mode 'normal :leader :desc "Magit status" "g s" #'magit)
 
 ;; My sexy keymap from my vim setup.
-(evil-define-key 'normal global-map (kbd "RET") 'evil-ex-nohighlight)
+(map! :mode 'normal "RET" #'evil-ex-nohighlight)
+
+(map! :mode 'normal "C-j" #'evil-window-bottom)
+(map! :mode 'normal "C-k" #'evil-window-up)
+(map! :mode 'normal "C-h" #'evil-window-left)
+(map! :mode 'normal "C-l" #'evil-window-right)
