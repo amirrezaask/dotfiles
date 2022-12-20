@@ -26,7 +26,7 @@
 
 
 (elpa-package perspective
-	      (setq persp-mode-prefix-key "C-c w")
+	      (setq persp-mode-prefix-key (kbd "C-c w"))
 	      (persp-mode 1)
 	      (define-key global-map (kbd "C-c w s") 'persp-switch))
 

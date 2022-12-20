@@ -68,5 +68,18 @@
 	 ,@body)))
 
 
+(elpa-package general
+	      (if-evil
+	       (general-create-definer nmap-leader :prefix "SPC" :keymaps 'normal)
+	       (general-create-definer nmap :keymaps 'normal)
+	       (general-create-definer vmap :keymaps 'visual)
+	       (general-create-definer imap :keymaps 'insert))
+	      
+	      (general-create-definer c-c-leader :prefix "C-c")
+	      (general-create-definer c-x-leader :prefix "C-x")
+	      
+	      )
+
+
 (provide 'amirreza-core)
 ;;; amirreza-core.el ends here

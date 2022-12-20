@@ -51,11 +51,6 @@
 	       (setq evil-escape-unordered-key-sequence t)
 	       (evil-escape-mode))
 
- (elpa-package general
-	       (general-create-definer nmap-leader :prefix "SPC" :keymaps 'normal)
-	       (general-create-definer nmap :keymaps 'normal)
-	       (general-create-definer vmap :keymaps 'visual)
-	       (general-create-definer imap :keymaps 'insert))
 
 
  (elpa-package evil-collection

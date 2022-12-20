@@ -22,7 +22,8 @@ alias reload='source ~/.zshrc'
 
 alias gs='git status'
 
-alias emacs='emacs -nw'
+# alias emacs='emacs -nw'
+alias emacs='emacs'
 
 alias snappvpn='sudo openfortivpn -c ~/snappDC.conf'
 alias luamake=/home/amirreza/.local/lua-language-server/3rd/luamake/luamake
