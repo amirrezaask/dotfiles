@@ -26,39 +26,48 @@
 (if-evil
  
  
-(elpa-package evil
-	      (setq evil-want-C-u-scroll t)
-	      (setq evil-split-window-below t)
-	      (setq evil-vsplit-window-right t)
-	      (setq evil-want-integration t)
-	      (setq evil-want-keybinding nil)
-	      (evil-mode 1)
-	      (evil-global-set-key 'normal (kbd "<C-d>") (lambda
-							   ()
-							   (interactive)
-							   (evil-scroll-down)
-							   (evil-scroll-line-to-center)
-							   ))
-	      (evil-global-set-key 'normal (kbd "<C-u>") (lambda
-							   ()
-							   (interactive)
-							   (evil-scroll-up)
-							   (evil-scroll-line-to-center))))
+ (elpa-package evil
+	       (setq evil-want-C-u-scroll t)
+	       (setq evil-split-window-below t)
+	       (setq evil-vsplit-window-right t)
+	       (setq evil-want-integration t)
+	       (setq evil-want-keybinding nil)
+	       (evil-mode 1)
+	       (evil-global-set-key 'normal (kbd "<C-d>") (lambda
+							    ()
+							    (interactive)
+							    (evil-scroll-down)
+							    (evil-scroll-line-to-center)
+							    ))
+	       (evil-global-set-key 'normal (kbd "<C-u>") (lambda
+							    ()
+							    (interactive)
+							    (evil-scroll-up)
+							    (evil-scroll-line-to-center))))
 
 
-(elpa-package evil-escape
-	      (setq-default evil-escape-key-sequence "jk")
-	      (setq evil-escape-unordered-key-sequence t)
-	      (evil-escape-mode))
+ (elpa-package evil-escape
+	       (setq-default evil-escape-key-sequence "jk")
+	       (setq evil-escape-unordered-key-sequence t)
+	       (evil-escape-mode))
 
-(elpa-package general
-	      (general-create-definer nmap-leader :prefix "SPC" :keymaps 'normal)
-	      (general-create-definer nmap :keymaps 'normal)
-	      (general-create-definer imap :keymaps 'insert))
+ (elpa-package general
+	       (general-create-definer nmap-leader :prefix "SPC" :keymaps 'normal)
+	       (general-create-definer nmap :keymaps 'normal)
+	       (general-create-definer vmap :keymaps 'visual)
+	       (general-create-definer imap :keymaps 'insert))
 
 
-(elpa-package evil-collection
-	      (evil-collection-init))
-)
+ (elpa-package evil-collection
+	       (evil-collection-init))
+
+ (elpa-package evil-nerd-commenter
+	       (nmap "gc" 'evilnc-comment-or-uncomment-lines)
+	       (vmap "gc" 'evilnc-comment-or-uncomment-lines))
+
+ (elpa-package evil-surround
+	       (global-evil-surround-mode 1))
+
+ )
 (provide 'amirreza-vim)
 ;;; amirreza-vim.el ends here

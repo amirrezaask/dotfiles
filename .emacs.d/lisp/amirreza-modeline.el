@@ -24,29 +24,55 @@
 
 ;;; Code:
 
-(elpa-package mini-modeline
-  (setq mini-modeline-right-padding (/ (frame-width) 5))
-  (setq mini-modeline-echo-duration 0.8)
-  (setq mini-modeline-face-attr '(:background "#000000"))
-  (setq-default mini-modeline-l-format
-		'("%e"
-		  mode-line-front-space
-		  mode-line-mule-info
-		  mode-line-client
-		  mode-line-modified
-		  mode-line-remote
-		  mode-line-frame-identification
-		  mode-line-buffer-identification
-		  " "
-		  mode-line-position
-		  )
-		)
+;; (elpa-package mini-modeline
+;;   (setq mini-modeline-right-padding (/ (frame-width) 5))
+;;   (setq mini-modeline-echo-duration 0.8)
+;;   (setq mini-modeline-face-attr '(:background "#000000"))
+;;   (setq-default mini-modeline-l-format
+;; 		'("%e"
+;; 		  mode-line-front-space
+;; 		  mode-line-mule-info
+;; 		  mode-line-client
+;; 		  mode-line-modified
+;; 		  mode-line-remote
+;; 		  mode-line-frame-identification
+;; 		  mode-line-buffer-identification
+;; 		  " "
+;; 		  mode-line-position
+;; 		  )
+;; 		)
 
-  (setq-default mini-modeline-r-format
-		'("%e"
-		  mode-line-modes
-		  ))
-  (mini-modeline-mode t))
+;;   (setq-default mini-modeline-r-format
+;; 		'("%e"
+;; 		  mode-line-modes
+;; 		  ))
+;;   (mini-modeline-mode t))
+
+(elpa-package minions
+	      (setq minions-mode-line-lighter ";")
+	      (setq minions-prominent-modes
+		    (list 'defining-kbd-macro
+			  'flymake-mode))
+
+	      (minions-mode 1))
+
+(setq-default mode-line-format
+              '("%e"
+                mode-line-front-space
+                mode-line-mule-info
+                mode-line-client
+                mode-line-modified
+                mode-line-remote
+                mode-line-frame-identification
+                mode-line-buffer-identification
+                "  "
+                mode-line-position
+                mode-line-modes
+                "  "
+                (vc-mode vc-mode)
+                "  "
+                mode-line-misc-info
+                mode-line-end-spaces))
 
 
 (provide 'amirreza-modeline)

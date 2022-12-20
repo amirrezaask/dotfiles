@@ -29,7 +29,11 @@
   (global-git-gutter-mode))
 
 (elpa-package magit
-	      (define-key global-map (kbd "C-x g") 'magit))
+	      (define-key global-map (kbd "C-x g") 'magit)
+	      (if-evil
+	       (nmap-leader "gs" 'magit)
+	       )
+	      )
 
 (provide 'amirreza-git)
 ;;; amirreza-git.el ends here
