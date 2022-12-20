@@ -41,3 +41,6 @@
 
 ;; Magit
 (evil-define-key 'normal global-map (kbd "SPC g s") 'magit)
+
+;; My sexy keymap from my vim setup.
+(evil-define-key 'normal global-map (kbd "RET") 'evil-ex-nohighlight)
