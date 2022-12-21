@@ -71,6 +71,7 @@
 
 (defalias 'yes-or-no-p 'y-or-n-p)
 
+
 (defun amirreza/find-file ()
   (interactive)
   (if (vc-backend (buffer-file-name))

@@ -27,6 +27,10 @@
 (elpa-package ef-themes)
 (elpa-package doom-themes)
 
+;; Add custom themes path to themes load path
+(add-to-list 'custom-theme-load-path
+             (expand-file-name "themes" user-emacs-directory))
+
 (setq amirreza/--current-theme nil)
 
 (defun amirreza/switch-theme ()
@@ -40,6 +44,7 @@
     (disable-theme amirreza/--current-theme))
   (setq amirreza/--current-theme theme)
   (load-theme amirreza/--current-theme t))
+
 
 (amirreza/load-theme amirreza/theme)
 
