@@ -33,6 +33,7 @@
 (require 'amirreza-modeline)
 (require 'amirreza-org)
 (require 'amirreza-prescient)
+(require 'amirreza-project)
 (require 'amirreza-theme)
 (require 'amirreza-treesitter)
 (require 'amirreza-windows)

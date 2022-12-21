@@ -25,10 +25,30 @@
 ;;; Code:
 
 (emacs-package org
+	       (defun amirreza/org-code-block ()
+		 (interactive)
+		 (insert (format "#+BEGIN_SRC %s\n\n#+END_SRC"
+				 (completing-read "Language: "
+						  '("emacs-lisp"
+						    "go"
+						    "rust"
+						    "python"
+						    "lua"
+						    "bash"
+						    "sh"
+						    "fish"
+						    "java"
+						    )))))
+	       (defun amirreza/org-hook ()
+		 (interactive)
+		 (c-c-leader :map org-mode-map "c b" 'amirreza/org-code-block)
+		 )
+		 
+	       (add-hook 'org-mode-hook #'amirreza/org-hook)
 	       (setq org-src-window-setup 'current-window))
 
-(elpa-package org-bullets
-	       (add-hook 'org-mode-hook #'org-bullets-mode))
+;; (elpa-package org-bullets
+;; 	       (add-hook 'org-mode-hook #'org-bullets-mode))
 
 (provide 'amirreza-org)
 ;;; amirreza-org.el ends here

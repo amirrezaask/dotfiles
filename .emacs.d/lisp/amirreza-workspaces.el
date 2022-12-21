@@ -38,7 +38,6 @@
 	      
 	      (persp-mode 1)
 	      (define-key global-map (kbd "C-c w s") 'persp-switch)
-	      (add-hook 'after-init-hook 'amirreza/load-session)
 	      (add-hook 'kill-emacs-hook 'amirreza/save-session)
 	      (if-evil
 	       (nmap-leader
