@@ -38,11 +38,12 @@
     (put 'eglot-warning 'flymake-overlay-control nil)
     (put 'eglot-error 'flymake-overlay-control nil)
 
-    (define-key eglot-mode-map (kbd "C-c d") 'eldoc)
-    (define-key eglot-mode-map (kbd "C-c r") 'eglot-rename)
+    (define-key eglot-mode-map (kbd "C-c l d") 'eldoc)
+    (define-key eglot-mode-map (kbd "C-c l r") 'eglot-rename)
     (define-key eglot-mode-map (kbd "M-r") 'xref-find-references)
-    (define-key eglot-mode-map (kbd "C-c f") 'eglot-format)
-    (define-key eglot-mode-map (kbd "C-c c") 'eglot-code-actions)
+    (define-key eglot-mode-map (kbd "C-c l f") 'eglot-format)
+    (define-key eglot-mode-map (kbd "C-c l c") 'eglot-code-actions)
+
     (if-evil
      (nmap "gd" 'xref-find-definitions)
      (nmap "gr" 'xref-find-references)
