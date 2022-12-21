@@ -25,7 +25,9 @@
 ;;; Code:
 (elpa-package doom-modeline
 	      (setq doom-modeline-height 25)
-	      (doom-modeline-mode 1))
+	      ;; (doom-modeline-mode 1)
+
+	      )
 
 (provide 'amirreza-modeline)
 ;;; amirreza-modeline.el ends here

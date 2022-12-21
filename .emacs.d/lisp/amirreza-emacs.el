@@ -44,6 +44,8 @@
 (scroll-bar-mode 0) ;; disable scroll bar
 (menu-bar-mode -1) ;; Disable menu bar
 
+(setq-default cursor-type 'box) ;; instead of box use a horizontal line.
+(blink-cursor-mode -1) ;; no blinking cursor.
 
 (defun amirreza/up-center ()
   (interactive)

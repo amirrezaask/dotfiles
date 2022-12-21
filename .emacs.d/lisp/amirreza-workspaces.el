@@ -27,13 +27,13 @@
 
 (elpa-package perspective
 	      (setq persp-mode-prefix-key (kbd "C-c w"))
+	      (setq persp-state-default-file (expand-file-name "sessions" user-emacs-directory))
 	      (persp-mode 1)
 	      (define-key global-map (kbd "C-c w s") 'persp-switch)
 	      (if-evil
 	       (nmap-leader
 		 "w s" 'persp-switch
-		 )
-	      ))
+		 )))
 
 (provide 'amirreza-workspaces)
 ;;; amirreza-workspaces.el ends here
