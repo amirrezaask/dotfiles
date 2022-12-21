@@ -33,7 +33,7 @@
 	       (nmap-leader
 		 "w s" 'persp-switch
 		 )
-	      )
+	      ))
 
 (provide 'amirreza-workspaces)
 ;;; amirreza-workspaces.el ends here

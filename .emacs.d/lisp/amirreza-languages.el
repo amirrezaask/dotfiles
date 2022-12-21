@@ -34,7 +34,15 @@
 
 (elpa-package markdown-mode)
 
+;; Golang
 (elpa-package go-mode)
+(elpa-package go-tag)
+
+(defun amirreza/go-hook ()
+  (interactive)
+  (define-key go-mode-map (kbd "C-c l a") 'go-tag-add))
+
+(add-hook 'go-mode-hook 'amirreza/go-hook)
 
 (elpa-package rust-mode)
 

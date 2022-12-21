@@ -26,7 +26,8 @@
 
 
 ;; You can switch between command and option as meta as you wish
-(setq mac-command-modifier 'super) ;; set command key to super
+
+(setq mac-command-modifier 'meta) ;; set command key to super
 (setq mac-option-modifier 'meta)
 
 (provide 'amirreza-macos)

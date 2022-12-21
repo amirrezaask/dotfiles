@@ -8,7 +8,7 @@
 (add-to-list 'load-path (expand-file-name "site-lisp" user-emacs-directory))
 
 ;; If we want to join DARK SIDE
-(setq amirreza/darkside t)
+;; (setq amirreza/darkside t)
 
 (setq user-full-name "Amirreza Askarpour")
 (setq user-email "raskarpour@gmail.com")

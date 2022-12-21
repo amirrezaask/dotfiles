@@ -44,6 +44,7 @@
 (scroll-bar-mode 0) ;; disable scroll bar
 (menu-bar-mode -1) ;; Disable menu bar
 
+
 (defun amirreza/up-center ()
   (interactive)
   (previous-line 20)
