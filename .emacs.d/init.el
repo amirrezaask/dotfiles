@@ -15,7 +15,7 @@
 (setq amirreza/font "FiraCode Nerd Font Mono")
 ;; (setq amirreza/font "JetBrainsMono Nerd Font Mono")
 (setq amirreza/font-size "21")
-(setq amirreza/theme 'modus-vivendi)
+(setq amirreza/theme 'jblow)
 
 (require 'amirreza-core)
 (require 'amirreza-vim)
