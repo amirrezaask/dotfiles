@@ -42,8 +42,7 @@
 
 (elpa-package expand-region
 	      (define-key global-map (kbd "C-=") 'er/expand-region)
-	      (define-key global-map (kbd "C--") 'er/contract-region)
-	      )
+	      (define-key global-map (kbd "C--") 'er/contract-region))
 
 (global-hl-line-mode)
 
