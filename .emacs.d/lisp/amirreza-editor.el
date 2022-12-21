@@ -40,6 +40,11 @@
 
 (global-display-line-numbers-mode 1) ;; enable line numbers globaly
 
+(elpa-package expand-region
+	      (define-key global-map (kbd "C-=") 'er/expand-region)
+	      (define-key global-map (kbd "C--") 'er/contract-region)
+	      )
+
 (global-hl-line-mode)
 
 (provide 'amirreza-editor)
