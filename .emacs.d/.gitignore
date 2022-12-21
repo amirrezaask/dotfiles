@@ -7,3 +7,5 @@ persp*
 README.el
 sessions
 projectile*
+early-init.el
+eshell

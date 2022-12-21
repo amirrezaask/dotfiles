@@ -1,5 +1,18 @@
 ;; (setq debug-on-error t)
 
+
+;; Feed early-init.el in case of it does not exists
+(unless (file-exists-p (expand-file-name "early-init.el" user-emacs-directory))
+  (append-to-file " ;;; Auto generated from init.el
+(setq package-enable-at-startup nil)
+(tool-bar-mode 0) ;; disable top toolbar
+(scroll-bar-mode 0) ;; disable scroll bar
+(menu-bar-mode -1) ;; Disable menu bar
+(setq gc-cons-threshold (* 100 1024 1024))
+(setq read-process-output-max (* 1024 1024))
+" nil (expand-file-name "early-init.el" user-emacs-directory))
+  )
+
 ;; lisp/*.el contains configurations for packages both emacs-core and third-party
 ;; amirreza-<package name>.el
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
