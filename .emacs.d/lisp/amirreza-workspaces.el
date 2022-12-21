@@ -26,10 +26,20 @@
 
 
 (elpa-package perspective
-	      (setq persp-mode-prefix-key (kbd "C-c w"))
 	      (setq persp-state-default-file (expand-file-name "sessions" user-emacs-directory))
+	      (setq persp-mode-prefix-key (kbd "C-c w"))
+	      (defun amirreza/save-session ()
+		(interactive)
+		(persp-state-save persp-state-default-file))
+
+	      (defun amirreza/load-session ()
+		(interactive)
+		(persp-state-load persp-state-default-file))
+	      
 	      (persp-mode 1)
 	      (define-key global-map (kbd "C-c w s") 'persp-switch)
+	      (add-hook 'after-init-hook 'amirreza/load-session)
+	      (add-hook 'kill-emacs-hook 'amirreza/save-session)
 	      (if-evil
 	       (nmap-leader
 		 "w s" 'persp-switch
