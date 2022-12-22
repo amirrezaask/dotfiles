@@ -1,6 +1,6 @@
 * Emacs configuration
 They call it kitchen sink
-but I call it ICE ( =[I]=ntegrated =[C]=omputing =[E]=nvironment )
+but I call it ICE ( =[I]= ntegrated =[C]= omputing =[E]= nvironment )
 ** How to install ?
 It's a fairly simple thing to do
 #+BEGIN_SRC sh
@@ -11,12 +11,13 @@ It's a fairly simple thing to do
 #+END_SRC
 ** Personal Customization Variable
 #+BEGIN_SRC emacs-lisp
-(setq user-full-name "Amirreza Askarpour")
-(setq user-email "raskarpour@gmail.com")
-;; (setq amirreza/font "FiraCode Nerd Font Mono")
-(setq amirreza/font "JetBrainsMono Nerd Font Mono")
-(setq amirreza/font-size "21")
-(setq amirreza/theme 'jblow)
+  (setq user-full-name "Amirreza Askarpour")
+  (setq user-email "raskarpour@gmail.com")
+  ;; (setq amirreza/font "FiraCode Nerd Font Mono")
+  (setq amirreza/font "JetBrainsMono Nerd Font Mono")
+  (setq amirreza/font-size "21")
+  (setq amirreza/theme 'jblow)
+  ;; (setq amirreza/darkside t) ;; if uncommented evil mode and other vim emulation stuff will get enabled.
 #+END_SRC
 ** Early-init
 From emacs 27 I think they added a file called =early-init.el= which will get sourced
@@ -212,21 +213,6 @@ and then run =FORMS= passed into it.
 (setq-default cursor-type 'box) ;; instead of box use a horizontal line.
 (blink-cursor-mode -1) ;; no blinking cursor.
 
-(defun amirreza/up-center ()
-  (interactive)
-  (previous-line 20)
-  (recenter-top-bottom))
-
-(defun amirreza/down-center ()
-  (interactive)
-  (next-line 20)
-  (recenter-top-bottom))
-
-;; Best movement ever ?????
-(setq recenter-positions '(middle))
-(if-not-evil 
-    (global-set-key (kbd "M-p") (lambda () (interactive) (amirreza/up-center)))
-    (global-set-key (kbd "M-n") (lambda () (interactive) (amirreza/down-center))))
 
 ;; Copy PATH from default shell
 (elpa-package exec-path-from-shell
@@ -292,24 +278,41 @@ and then run =FORMS= passed into it.
 #+END_SRC
 ** Editor UX
 #+BEGIN_SRC emacs-lisp
-(elpa-package rainbow-delimiters
-	      (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
+    (elpa-package rainbow-delimiters
+		  (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 
-(delete-selection-mode 1) ;; When a region of text is selected and then something is typed remove text and replace with what has been typed.
+    (delete-selection-mode 1) ;; When a region of text is selected and then something is typed remove text and replace with what has been typed.
 
-(show-paren-mode 1) ;; Highlight matching parens
+    (show-paren-mode 1) ;; Highlight matching parens
 
-(setq show-paren-delay 0) ;; highlight matching parens instantly.
+    (setq show-paren-delay 0) ;; highlight matching parens instantly.
 
-(setq display-line-numbers-type 'relative) ;; relative line numbers
+    (setq display-line-numbers-type 'relative) ;; relative line numbers
 
-(global-display-line-numbers-mode 1) ;; enable line numbers globaly
+    (global-display-line-numbers-mode 1) ;; enable line numbers globaly
 
-(elpa-package expand-region
-	      (define-key global-map (kbd "C-=") 'er/expand-region)
-	      (define-key global-map (kbd "C--") 'er/contract-region))
+    (elpa-package expand-region
+		  (define-key global-map (kbd "C-=") 'er/expand-region)
+		  (define-key global-map (kbd "C--") 'er/contract-region))
 
-(global-hl-line-mode)
+    (global-hl-line-mode)
+
+    (defun amirreza/up-center ()
+    (interactive)
+    (previous-line 20)
+    (recenter-top-bottom))
+
+  (defun amirreza/down-center ()
+    (interactive)
+    (next-line 20)
+    (recenter-top-bottom))
+
+  ;; Best movement ever ?????
+  (setq recenter-positions '(middle))
+  (if-not-evil 
+      (global-set-key (kbd "M-p") (lambda () (interactive) (amirreza/up-center)))
+      (global-set-key (kbd "M-n") (lambda () (interactive) (amirreza/down-center))))
+  
 #+END_SRC
 ** LSP
 #+BEGIN_SRC emacs-lisp
