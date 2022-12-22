@@ -1,6 +1,14 @@
 * Emacs configuration
 They call it kitchen sink
 but I call it ICE ( [I]ntegrated [C]omputing [E]nvironment )
+** How to install ?
+It's a fairly simple thing to do
+#+BEGIN_SRC sh
+  git clone https://github.com/amirrezaask/dotfiles.git amirreza-dotfiles
+  # remember to backup your own emacs.d directory
+  cp -r amirreza-dotfiles ~/.emacs.d
+  # launch emacs and let it install all packages.
+#+END_SRC
 ** Personal Customization Variable
 #+BEGIN_SRC emacs-lisp
 (setq user-full-name "Amirreza Askarpour")
