@@ -43,8 +43,3 @@
 
 ;; My sexy keymap from my vim setup.
 (map! :mode 'normal "RET" #'evil-ex-nohighlight)
-
-(map! :mode 'normal "C-j" #'evil-window-bottom)
-(map! :mode 'normal "C-k" #'evil-window-up)
-(map! :mode 'normal "C-h" #'evil-window-left)
-(map! :mode 'normal "C-l" #'evil-window-right)

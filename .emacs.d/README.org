@@ -52,6 +52,8 @@ I don't use =use-package= macro because I think It's too magical for my taste
 so I have a simpler macro called =elpa-package= which will just install a package
 and then run =FORMS= passed into it.
 #+BEGIN_SRC emacs-lisp
+  (add-to-list 'exec-path (expand-file-name "site-lisp" user-emacs-directory))
+  (add-to-list 'exec-path (expand-file-name "lisp" user-emacs-directory))
   (defmacro elpa-package
       (package &rest body)
     "Check if PACKAGE is installed and evaluate BODY."
@@ -466,16 +468,17 @@ and then run =FORMS= passed into it.
 
 ** Project management
 #+BEGIN_SRC emacs-lisp
-(elpa-package projectile
-	      (c-x-leader
-		"p f" 'projectile-find-file
-		"p s" 'projectile-switch-project
-		"p c" 'projectile-compile-project
-		"p a" 'projectile-add-known-project
-		"p d" 'projectile-dired
-		"p g" 'projectile-grep
+  (elpa-package projectile
+		(setq projectile-prefix-map "C-x p")
+		(c-x-leader
+		  "p f" 'projectile-find-file
+		  "p s" 'projectile-switch-project
+		  "p c" 'projectile-compile-project
+		  "p a" 'projectile-add-known-project
+		  "p d" 'projectile-dired
+		  "p g" 'projectile-grep
+		  )
 		)
-	      )
 
 #+END_SRC
 
