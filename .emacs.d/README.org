@@ -1,3 +1,500 @@
-* Amirreza Emacs
-** Structure
-All configuration for different packages both internal and third party are in =lisp= directory.
+* Emacs configuration
+They call it kitchen sink
+but I call it ICE ( [I]ntegrated [C]omputing [E]nvironment )
+** Personal Customization Variable
+#+BEGIN_SRC emacs-lisp
+(setq user-full-name "Amirreza Askarpour")
+(setq user-email "raskarpour@gmail.com")
+;; (setq amirreza/font "FiraCode Nerd Font Mono")
+(setq amirreza/font "JetBrainsMono Nerd Font Mono")
+(setq amirreza/font-size "21")
+(setq amirreza/theme 'jblow)
+#+END_SRC
+** Early-init
+From emacs 27 I think they added a file called =early-init.el= which will get sourced
+before UI stuff happens in Emacs, so it's a good place to turn of UI things.
+#+BEGIN_SRC emacs-lisp :tangle early-init.el
+(setq package-enable-at-startup nil) ;; Disable default package manager package.el
+(tool-bar-mode 0) ;; disable top toolbar
+(scroll-bar-mode 0) ;; disable scroll bar
+(menu-bar-mode -1) ;; Disable menu bar
+(setq gc-cons-threshold (* 100 1024 1024))
+(setq read-process-output-max (* 1024 1024))
+#+END_SRC
+
+** =Straight.el= package manager
+#+BEGIN_SRC emacs-lisp
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 6))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+	(url-retrieve-synchronously
+	 "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+	 'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+#+END_SRC
+
+** My core lib
+I don't use =use-package= macro because I think It's too magical for my taste
+so I have a simpler macro called =elpa-package= which will just install a package
+and then run =FORMS= passed into it.
+#+BEGIN_SRC emacs-lisp
+(defmacro elpa-package
+    (package &rest body)
+  "Check if PACKAGE is installed and evaluate BODY."
+  `(progn
+     (straight-use-package (quote,package))
+     (progn ,@body)
+     ))
+
+(defmacro emacs-package
+    (package &rest body)
+  `(progn
+     ,@body))
+
+
+
+(defmacro if-evil 
+    (&rest body)
+  `(if (boundp 'amirreza/darkside)
+       (progn
+	 ,@body)))
+
+(defmacro if-not-evil 
+    (&rest body)
+  `(unless (boundp 'amirreza/darkside)
+       (progn
+	 ,@body)))
+
+
+(elpa-package general
+	      (if-evil
+	       (general-create-definer nmap-leader :prefix "SPC" :keymaps 'normal)
+	       (general-create-definer nmap :keymaps 'normal)
+	       (general-create-definer vmap :keymaps 'visual)
+	       (general-create-definer imap :keymaps 'insert))
+	      
+	      (general-create-definer c-c-leader :prefix "C-c")
+	      (general-create-definer c-x-leader :prefix "C-x")
+	      
+	      )
+#+END_SRC
+** Theme and coloring Emacs
+#+BEGIN_SRC emacs-lisp
+(elpa-package ef-themes)
+(elpa-package doom-themes)
+
+;; Add custom themes path to themes load path
+(add-to-list 'custom-theme-load-path
+             (expand-file-name "themes" user-emacs-directory))
+
+(setq amirreza/--current-theme nil)
+
+(defun amirreza/switch-theme ()
+  (interactive)
+  (let ((theme (intern (completing-read "Theme: " (mapcar #'symbol-name
+							  (custom-available-themes))))))
+    (amirreza/load-theme theme)))
+
+(defun amirreza/load-theme (theme)
+  (when (not (eq amirreza/--current-theme nil))
+    (disable-theme amirreza/--current-theme))
+  (setq amirreza/--current-theme theme)
+  (load-theme amirreza/--current-theme t))
+
+
+(amirreza/load-theme amirreza/theme)
+
+#+END_SRC
+
+** Font stuff
+#+BEGIN_SRC emacs-lisp
+;; Font settings
+(defun amirreza/home-monitor ()
+  (interactive)
+  (setq amirreza/font-size "23")
+  (set-frame-font (concat amirreza/font " " amirreza/font-size) nil t))
+
+;; My font setup for my laptop setup
+(defun amirreza/laptop ()
+  (interactive)
+  (setq amirreza/font-size "15")
+  (set-frame-font (concat amirreza/font " " amirreza/font-size) nil t))
+
+;; Reload font settings
+(defun amirreza/reload-font ()
+  (interactive)
+  (set-frame-font (concat amirreza/font " " amirreza/font-size) nil t))
+
+(amirreza/reload-font)
+
+#+END_SRC
+** DARK SIDE stuff
+#+BEGIN_SRC emacs-lisp
+(if-evil
+ 
+ 
+ (elpa-package evil
+	       (setq evil-want-C-u-scroll t)
+	       (setq evil-split-window-below t)
+	       (setq evil-vsplit-window-right t)
+	       (setq evil-want-integration t)
+	       (setq evil-want-keybinding nil)
+	       (evil-mode 1)
+	       (evil-global-set-key 'normal (kbd "<C-d>") (lambda
+							    ()
+							    (interactive)
+							    (evil-scroll-down)
+							    (evil-scroll-line-to-center)
+							    ))
+	       (evil-global-set-key 'normal (kbd "<C-u>") (lambda
+							    ()
+							    (interactive)
+							    (evil-scroll-up)
+							    (evil-scroll-line-to-center))))
+
+
+ (elpa-package evil-escape
+	       (setq-default evil-escape-key-sequence "jk")
+	       (setq evil-escape-unordered-key-sequence t)
+	       (evil-escape-mode))
+
+
+
+ (elpa-package evil-collection
+	       (evil-collection-init))
+
+ (elpa-package evil-nerd-commenter
+	       (nmap "gc" 'evilnc-comment-or-uncomment-lines)
+	       (vmap "gc" 'evilnc-comment-or-uncomment-lines))
+
+ (elpa-package evil-surround
+	       (global-evil-surround-mode 1))
+
+ )
+#+END_SRC
+** Emacs internal configurations
+#+BEGIN_SRC emacs-lisp
+(setq gc-cons-threshold (* 100 1024 1024))
+
+;; Many packages like LSP clients will try and spawn a subprocess to do some work, Emacs should read from those processes output and process the result, increasing maximum read means less sys calls to read from, subprocess output and basically more speed.
+(setq read-process-output-max (* 1024 1024))
+
+(setq create-lockfiles nil) ;; Don't create .# files as lock.
+
+(setq make-backup-files nil) ;; Disable backup files ~file
+(setq auto-save-default nil) ;; Disable auto save files
+(setq inhibit-startup-screen t) ;; No startup splash screen
+(setq use-dialog-box nil) ;; Do not use UI for questions
+
+(tool-bar-mode 0) ;; disable top toolbar
+(scroll-bar-mode 0) ;; disable scroll bar
+(menu-bar-mode -1) ;; Disable menu bar
+
+(setq-default cursor-type 'box) ;; instead of box use a horizontal line.
+(blink-cursor-mode -1) ;; no blinking cursor.
+
+(defun amirreza/up-center ()
+  (interactive)
+  (previous-line 20)
+  (recenter-top-bottom))
+
+(defun amirreza/down-center ()
+  (interactive)
+  (next-line 20)
+  (recenter-top-bottom))
+
+;; Best movement ever ?????
+(setq recenter-positions '(middle))
+(if-not-evil 
+    (global-set-key (kbd "M-p") (lambda () (interactive) (amirreza/up-center)))
+    (global-set-key (kbd "M-n") (lambda () (interactive) (amirreza/down-center))))
+
+;; Copy PATH from default shell
+(elpa-package exec-path-from-shell
+	      (exec-path-from-shell-initialize))
+
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+
+(defalias 'yes-or-no-p 'y-or-n-p)
+
+
+(defun amirreza/find-file ()
+  (interactive)
+  (if (vc-backend (buffer-file-name))
+      (project-find-file)
+    (call-interactively 'find-file)
+    ))
+
+(if-evil
+ (nmap-leader
+  "SPC" 'amirreza/find-file
+  "f f" 'find-file
+  "p f" 'project-find-file
+  "p p" 'project-switch-project
+  "p g" 'project-find-regexp
+  )
+
+ (nmap
+   "C-j" 'evil-window-bottom
+   "C-k" 'evil-window-up
+   "C-h" 'evil-window-left
+   "C-l" 'evil-window-right
+   )
+ )
+
+(elpa-package ace-window
+	      (define-key global-map (kbd "C-x o") 'ace-window))
+
+(elpa-package bufler
+  (define-key global-map (kbd "C-x C-b") 'bufler))
+
+(emacs-package dired
+	       (add-hook 'dired-mode-hook (lambda ()
+					    (define-key dired-mode-map (kbd "C-c C-e") 'wdired-change-to-wdired-mode))))
+
+(elpa-package helpful
+	      (define-key global-map (kbd "C-h k") 'helpful-key)
+	      (define-key global-map (kbd "C-h f") 'helpful-callable)
+	      (define-key global-map (kbd "C-h v") 'helpful-variable)
+	      )
+
+(if-evil
+ (nmap-leader "h k" 'helpful-key)
+ (nmap-leader "h f" 'helpful-callable)
+ (nmap-leader "h v" 'helpful-variable)
+ )
+
+#+END_SRC
+** Auto complete aka Company
+#+BEGIN_SRC emacs-lisp
+(elpa-package company
+  (setq company-backends '(company-capf))
+  (global-company-mode))
+#+END_SRC
+** Editor UX
+#+BEGIN_SRC emacs-lisp
+(elpa-package rainbow-delimiters
+	      (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
+
+(delete-selection-mode 1) ;; When a region of text is selected and then something is typed remove text and replace with what has been typed.
+
+(show-paren-mode 1) ;; Highlight matching parens
+
+(setq show-paren-delay 0) ;; highlight matching parens instantly.
+
+(setq display-line-numbers-type 'relative) ;; relative line numbers
+
+(global-display-line-numbers-mode 1) ;; enable line numbers globaly
+
+(elpa-package expand-region
+	      (define-key global-map (kbd "C-=") 'er/expand-region)
+	      (define-key global-map (kbd "C--") 'er/contract-region))
+
+(global-hl-line-mode)
+#+END_SRC
+** LSP
+#+BEGIN_SRC emacs-lisp
+(elpa-package eglot
+
+  (setq eldoc-echo-area-use-multiline-p nil)
+  (setq eldoc-echo-area-display-truncation-message nil)
+  (setq eldoc-echo-area-prefer-doc-buffer nil)
+
+  (global-eldoc-mode)
+
+  (defun amirreza/eglot-hook ()
+    (eglot-ensure)
+    (put 'eglot-note 'flymake-overlay-control nil)
+    (put 'eglot-warning 'flymake-overlay-control nil)
+    (put 'eglot-error 'flymake-overlay-control nil)
+
+    (define-key eglot-mode-map (kbd "C-c l d") 'eldoc)
+    (define-key eglot-mode-map (kbd "C-c l r") 'eglot-rename)
+    (define-key eglot-mode-map (kbd "M-r") 'xref-find-references)
+    (define-key eglot-mode-map (kbd "C-c l f") 'eglot-format)
+    (define-key eglot-mode-map (kbd "C-c l c") 'eglot-code-actions)
+
+    (if-evil
+     (nmap "gd" 'xref-find-definitions)
+     (nmap "gr" 'xref-find-references)
+     (nmap "gi" 'eglot-find-implementation)
+     (nmap "gf" 'eglot-format)
+     (nmap "S-c" 'eglot-code-actions)
+     )
+    )
+
+  (add-hook 'go-mode-hook 'amirreza/eglot-hook)
+  (add-hook 'rust-mode-hook 'amirreza/eglot-hook)
+  (add-hook 'python-mode-hook 'amirreza/eglot-hook)
+  (add-hook 'php-mode-hook 'amirreza/eglot-hook))
+
+
+#+END_SRC
+** Magit
+#+BEGIN_SRC emacs-lisp
+(elpa-package git-gutter
+  (global-git-gutter-mode))
+
+(elpa-package magit
+	      (define-key global-map (kbd "C-x g") 'magit)
+	      (if-evil
+	       (nmap-leader "gs" 'magit)))
+
+#+END_SRC
+** Languages
+#+BEGIN_SRC emacs-lisp
+(elpa-package apache-mode)
+(elpa-package vterm)
+(elpa-package systemd)
+(elpa-package nginx-mode)
+
+(elpa-package docker-compose-mode)
+(elpa-package dockerfile-mode)
+
+(elpa-package markdown-mode)
+
+;; Golang
+(elpa-package go-mode)
+(elpa-package go-tag)
+
+(defun amirreza/go-hook ()
+  (interactive)
+  (define-key go-mode-map (kbd "C-c l a") 'go-tag-add))
+
+(add-hook 'go-mode-hook 'amirreza/go-hook)
+
+(elpa-package rust-mode)
+
+(elpa-package zig-mode)
+
+(elpa-package yaml-mode)
+(elpa-package csv-mode)
+(elpa-package json-mode)
+
+;; clojure support
+(elpa-package clojure-mode)
+(elpa-package cider)
+#+END_SRC
+
+** Minibuffer
+#+BEGIN_SRC emacs-lisp
+
+(elpa-package vertico
+	      (setq completion-cycle-threshold 3)
+	      (setq tab-always-indent 'complete)
+	      (vertico-mode)
+	      (setq vertico-count 15)
+	      (setq vertico-cycle t))
+
+
+(elpa-package savehist
+	      (savehist-mode))
+
+(elpa-package consult
+	      (setq consult-async-min-input 1)
+	      (define-key global-map (kbd "C-c g") 'consult-ripgrep))
+
+(elpa-package marginalia
+	      (marginalia-mode))
+
+(elpa-package orderless
+	      (setq completion-styles '(orderless basic)
+		    completion-category-defaults nil
+		    completion-category-overrides '((file (styles partial-completion)))))
+
+#+END_SRC
+
+** Org mode
+#+BEGIN_SRC emacs-lisp
+(emacs-package org
+	       (defun amirreza/org-code-block ()
+		 (interactive)
+		 (insert (format "#+BEGIN_SRC %s\n\n#+END_SRC"
+				 (completing-read "Language: "
+						  '("emacs-lisp"
+						    "go"
+						    "rust"
+						    "python"
+						    "lua"
+						    "bash"
+						    "sh"
+						    "fish"
+						    "java"
+						    )))))
+	       (defun amirreza/org-hook ()
+		 (interactive)
+		 (c-c-leader :map org-mode-map "c b" 'amirreza/org-code-block)
+		 )
+		 
+	       (add-hook 'org-mode-hook #'amirreza/org-hook)
+	       (setq org-src-window-setup 'current-window))
+#+END_SRC
+
+** Psychic like completion
+#+BEGIN_SRC emacs-lisp
+(elpa-package prescient)
+
+(elpa-package vertico-prescient
+  (vertico-prescient-mode))
+
+(elpa-package company-prescient
+  (company-prescient-mode))
+
+#+END_SRC
+
+** Project management
+#+BEGIN_SRC emacs-lisp
+(elpa-package projectile
+	      (c-x-leader
+		"p f" 'projectile-find-file
+		"p s" 'projectile-switch-project
+		"p c" 'projectile-compile-project
+		"p a" 'projectile-add-known-project
+		"p d" 'projectile-dired
+		"p g" 'projectile-grep
+		)
+	      )
+
+#+END_SRC
+
+** Treesitter, get rid of regex
+#+BEGIN_SRC emacs-lisp
+(elpa-package tree-sitter
+  (global-tree-sitter-mode))
+
+(elpa-package tree-sitter-langs)
+#+END_SRC
+
+** Never loose a good setup
+#+BEGIN_SRC emacs-lisp
+(elpa-package perspective
+	      (setq persp-state-default-file (expand-file-name "sessions" user-emacs-directory))
+	      (setq persp-mode-prefix-key (kbd "C-c w"))
+	      (defun amirreza/save-session ()
+		(interactive)
+		(persp-state-save persp-state-default-file))
+
+	      (defun amirreza/load-session ()
+		(interactive)
+		(persp-state-load persp-state-default-file))
+	      
+	      (persp-mode 1)
+	      (define-key global-map (kbd "C-c w s") 'persp-switch)
+	      (add-hook 'kill-emacs-hook 'amirreza/save-session)
+	      (if-evil
+	       (nmap-leader
+		 "w s" 'persp-switch
+		 )))
+
+#+END_SRC
+
+** Shitty apple computers
+#+BEGIN_SRC emacs-lisp
+(setq mac-command-modifier 'meta) ;; set command key to super
+(setq mac-option-modifier 'meta)
+#+END_SRC
