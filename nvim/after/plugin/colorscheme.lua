@@ -1,1 +1,1 @@
-pcall(vim.cmd.colorscheme, "tokyonight")
+pcall(vim.cmd.colorscheme, "tokyonight-night")
