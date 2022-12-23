@@ -23,30 +23,22 @@ It's a fairly simple thing to do
 From emacs 27 I think they added a file called =early-init.el= which will get sourced
 before UI stuff happens in Emacs, so it's a good place to turn of UI things.
 #+BEGIN_SRC emacs-lisp :tangle early-init.el
-(setq package-enable-at-startup nil) ;; Disable default package manager package.el
+;; (setq package-enable-at-startup nil) ;; Disable default package manager package.el
 (tool-bar-mode 0) ;; disable top toolbar
 (scroll-bar-mode 0) ;; disable scroll bar
 (menu-bar-mode -1) ;; Disable menu bar
 (setq gc-cons-threshold (* 100 1024 1024))
 (setq read-process-output-max (* 1024 1024))
 #+END_SRC
-
-** =straight.el= package manager
+** Package.el aka Emacs lisp package archive or ELPA
 #+BEGIN_SRC emacs-lisp
-(defvar bootstrap-version)
-(let ((bootstrap-file
-       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-      (bootstrap-version 6))
-  (unless (file-exists-p bootstrap-file)
-    (with-current-buffer
-	(url-retrieve-synchronously
-	 "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
-	 'silent 'inhibit-cookies)
-      (goto-char (point-max))
-      (eval-print-last-sexp)))
-  (load bootstrap-file nil 'nomessage))
-#+END_SRC
+  (require 'package)
+  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+  (package-initialize)
+  (unless package-archive-contents
+           (package-refresh-contents))
 
+#+END_SRC
 ** My core lib
 I don't use =use-package= macro because I think It's too magical for my taste
 so I have a simpler macro called =elpa-package= which will just install a package
@@ -58,7 +50,7 @@ and then run =FORMS= passed into it.
       (package &rest body)
     "Check if PACKAGE is installed and evaluate BODY."
     `(progn
-       (straight-use-package (quote,package))
+       (package-install (quote,package))
        (progn ,@body)
        ))
 
@@ -278,11 +270,15 @@ and then run =FORMS= passed into it.
  )
 
 #+END_SRC
-** Auto complete aka Company
+** Auto completion
 #+BEGIN_SRC emacs-lisp
-(elpa-package company
-  (setq company-backends '(company-capf))
-  (global-company-mode))
+  (elpa-package corfu
+		(setq corfu-auto t)
+		(global-corfu-mode)
+		(corfu-history-mode 1)
+		(corfu-echo-mode 1)
+		(corfu-popupinfo-mode 1)
+		)
 #+END_SRC
 ** Editor UX
 #+BEGIN_SRC emacs-lisp
@@ -362,14 +358,13 @@ and then run =FORMS= passed into it.
 #+END_SRC
 ** Magit
 #+BEGIN_SRC emacs-lisp
-(elpa-package git-gutter
-  (global-git-gutter-mode))
+  (elpa-package git-gutter
+    (global-git-gutter-mode))
 
-(elpa-package magit
-	      (define-key global-map (kbd "C-x g") 'magit)
-	      (if-evil
-	       (nmap-leader "gs" 'magit)))
-
+  (elpa-package magit
+		(define-key global-map (kbd "C-x g") 'magit)
+		(if-evil
+		 (nmap-leader "gs" 'magit)))
 #+END_SRC
 ** Languages
 #+BEGIN_SRC emacs-lisp
