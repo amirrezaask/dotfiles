@@ -13,10 +13,10 @@ It's a fairly simple thing to do
 #+BEGIN_SRC emacs-lisp
   (setq user-full-name "Amirreza Askarpour")
   (setq user-email "raskarpour@gmail.com")
-  ;; (setq amirreza/font "FiraCode Nerd Font Mono")
-  (setq amirreza/font "JetBrainsMono Nerd Font Mono")
+  (setq amirreza/font "FiraCode Nerd Font Mono")
+  ;; (setq amirreza/font "JetBrainsMono Nerd Font Mono")
   (setq amirreza/font-size "21")
-  (setq amirreza/theme 'ef-dark)
+  (setq amirreza/theme 'modus-vivendi)
   ;; (setq amirreza/darkside t) ;; if uncommented evil mode and other vim emulation stuff will get enabled.
 #+END_SRC
 ** Early-init
@@ -99,9 +99,13 @@ and then run =FORMS= passed into it.
 
 
   (c-c-leader :map global-map "e c" 'amirreza/edit-emacs)
+  (if-evil
+   (nmap-leader :map global-map "e c" 'amirreza/edit-emacs)
+   )
 #+END_SRC
 ** Theme and coloring Emacs
 #+BEGIN_SRC emacs-lisp
+  (elpa-package all-the-icons)
   (elpa-package ef-themes)
   (elpa-package doom-themes)
   (elpa-package gruber-darker-theme)
@@ -124,11 +128,10 @@ and then run =FORMS= passed into it.
     (setq amirreza/--current-theme theme)
     (load-theme amirreza/--current-theme t))
 
-
+  (c-c-leader "t t" 'amirreza/switch-theme)
   (amirreza/load-theme amirreza/theme)
 
 #+END_SRC
-
 ** Font stuff
 #+BEGIN_SRC emacs-lisp
 ;; Font settings
@@ -153,47 +156,49 @@ and then run =FORMS= passed into it.
 #+END_SRC
 ** DARK SIDE stuff
 #+BEGIN_SRC emacs-lisp
-(if-evil
- 
- 
- (elpa-package evil
-	       (setq evil-want-C-u-scroll t)
-	       (setq evil-split-window-below t)
-	       (setq evil-vsplit-window-right t)
-	       (setq evil-want-integration t)
-	       (setq evil-want-keybinding nil)
-	       (evil-mode 1)
-	       (evil-global-set-key 'normal (kbd "<C-d>") (lambda
-							    ()
-							    (interactive)
-							    (evil-scroll-down)
-							    (evil-scroll-line-to-center)
-							    ))
-	       (evil-global-set-key 'normal (kbd "<C-u>") (lambda
-							    ()
-							    (interactive)
-							    (evil-scroll-up)
-							    (evil-scroll-line-to-center))))
+  (if-evil
+   (elpa-package evil
+		 (setq evil-want-C-u-scroll t)
+		 (setq evil-split-window-below t)
+		 (setq evil-vsplit-window-right t)
+		 (setq evil-want-integration t)
+		 (setq evil-want-keybinding nil)
+		 (evil-mode 1)
+		 (evil-global-set-key 'normal (kbd "<C-d>") (lambda
+							      ()
+							      (interactive)
+							      (evil-scroll-down)
+							      (evil-scroll-line-to-center)
+							      ))
+		 (evil-global-set-key 'normal (kbd "<C-u>") (lambda
+							      ()
+							      (interactive)
+							      (evil-scroll-up)
+							      (evil-scroll-line-to-center))))
 
 
- (elpa-package evil-escape
-	       (setq-default evil-escape-key-sequence "jk")
-	       (setq evil-escape-unordered-key-sequence t)
-	       (evil-escape-mode))
+   (elpa-package evil-escape
+		 (setq-default evil-escape-key-sequence "jk")
+		 (setq evil-escape-unordered-key-sequence t)
+		 (evil-escape-mode))
 
 
 
- (elpa-package evil-collection
-	       (evil-collection-init))
+   (elpa-package evil-collection
+		 (evil-collection-init))
 
- (elpa-package evil-nerd-commenter
-	       (nmap "gc" 'evilnc-comment-or-uncomment-lines)
-	       (vmap "gc" 'evilnc-comment-or-uncomment-lines))
+   (elpa-package evil-nerd-commenter
+		 (nmap "gc" 'evilnc-comment-or-uncomment-lines)
+		 (vmap "gc" 'evilnc-comment-or-uncomment-lines))
 
- (elpa-package evil-surround
-	       (global-evil-surround-mode 1))
+   (elpa-package evil-surround
+		 (global-evil-surround-mode 1))
 
- )
+   (nmap-leader
+     "x" 'execute-extended-command
+     )
+
+   )
 #+END_SRC
 ** Emacs internal configurations
 #+BEGIN_SRC emacs-lisp
@@ -302,12 +307,12 @@ and then run =FORMS= passed into it.
 
     (defun amirreza/up-center ()
     (interactive)
-    (previous-line 20)
+    (previous-line (/ (window-height) 2))
     (recenter-top-bottom))
 
   (defun amirreza/down-center ()
     (interactive)
-    (next-line 20)
+    (next-line (/ (window-height) 2))
     (recenter-top-bottom))
 
   ;; Best movement ever ?????
@@ -315,7 +320,7 @@ and then run =FORMS= passed into it.
   (if-not-evil 
       (global-set-key (kbd "M-p") (lambda () (interactive) (amirreza/up-center)))
       (global-set-key (kbd "M-n") (lambda () (interactive) (amirreza/down-center))))
-  
+
 #+END_SRC
 ** LSP
 #+BEGIN_SRC emacs-lisp
@@ -344,7 +349,7 @@ and then run =FORMS= passed into it.
      (nmap "gr" 'xref-find-references)
      (nmap "gi" 'eglot-find-implementation)
      (nmap "gf" 'eglot-format)
-     (nmap "S-c" 'eglot-code-actions)
+     (nmap "g." 'eglot-code-actions)
      )
     )
 
@@ -454,6 +459,9 @@ and then run =FORMS= passed into it.
 
 		 (add-hook 'org-mode-hook #'amirreza/org-hook)
 		 (setq org-src-window-setup 'current-window))
+  (elpa-package org-bullets
+		(add-hook 'org-mode-hook #'org-bullets-mode)
+		)
 #+END_SRC
 ** Psychic like completion
 #+BEGIN_SRC emacs-lisp
@@ -499,13 +507,11 @@ and then run =FORMS= passed into it.
 	       (nmap-leader
 		 "w s" 'persp-switch
 		 )))
-
 #+END_SRC
-
 ** Shitty apple computers
 #+BEGIN_SRC emacs-lisp
-(setq mac-command-modifier 'meta) ;; set command key to super
-(setq mac-option-modifier 'meta)
+(setq mac-command-modifier 'super) ;; set command key to super
+(setq mac-option-modifier 'meta) ;; option key as meta
 #+END_SRC
 ** Which Key
 #+BEGIN_SRC emacs-lisp

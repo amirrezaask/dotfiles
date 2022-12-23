@@ -3,10 +3,10 @@
 (setq user-full-name "Amirreza Askarpour"
       user-mail-address "raskarpour@gmail.com")
 
-(setq doom-font (font-spec :family "FiraCode Nerd Font Mono" :size 19))
-;; (setq doom-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 21 :weight 'semi-light))
+;; (setq doom-font (font-spec :family "FiraCode Nerd Font Mono" :size 19))
+(setq doom-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 21 :weight 'semi-light))
 
-(setq doom-theme 'doom-dracula)
+(setq doom-theme 'doom-one)
 (setq display-line-numbers-type 'relative)
 
 (setq org-directory "~/org/")
