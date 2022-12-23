@@ -13,11 +13,11 @@ It's a fairly simple thing to do
 #+BEGIN_SRC emacs-lisp
   (setq user-full-name "Amirreza Askarpour")
   (setq user-email "raskarpour@gmail.com")
-  (setq amirreza/font "FiraCode Nerd Font Mono")
-  ;; (setq amirreza/font "JetBrainsMono Nerd Font Mono")
+  ;; (setq amirreza/font "FiraCode Nerd Font Mono")
+  (setq amirreza/font "JetBrainsMono Nerd Font Mono")
   (setq amirreza/font-size "21")
-  (setq amirreza/theme 'modus-vivendi)
-  ;; (setq amirreza/darkside t) ;; if uncommented evil mode and other vim emulation stuff will get enabled.
+  (setq amirreza/theme 'doom-one)
+  (setq amirreza/darkside t) ;; if uncommented evil mode and other vim emulation stuff will get enabled.
 #+END_SRC
 ** Early-init
 From emacs 27 I think they added a file called =early-init.el= which will get sourced
@@ -436,6 +436,12 @@ and then run =FORMS= passed into it.
 		(setq completion-styles '(orderless basic)
 		      completion-category-defaults nil
 		      completion-category-overrides '((file (styles partial-completion)))))
+#+END_SRC
+** Modeline
+#+BEGIN_SRC emacs-lisp
+  (elpa-package doom-modeline
+		(setq doom-modeline-height 40)
+		(doom-modeline-mode 1))
 #+END_SRC
 ** Org mode
 #+BEGIN_SRC emacs-lisp

@@ -47,10 +47,8 @@
 (map! :n "C-h" #'evil-window-left)
 (map! :n "C-l" #'evil-window-right)
 
-(setq
- evil-split-window-below t
- evil-vsplit-window-right t
- )
+(setq evil-split-window-below t
+ evil-vsplit-window-right t)
 
 ;; Workspaces
 (map! :leader :n "w s" 'persp-switch)
