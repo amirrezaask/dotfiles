@@ -3,8 +3,8 @@
 (setq user-full-name "Amirreza Askarpour"
       user-mail-address "raskarpour@gmail.com")
 
-;; (setq doom-font (font-spec :family "FiraCode Nerd Font Mono" :size 19))
-(setq doom-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 21 :weight 'semi-light))
+(setq doom-font (font-spec :family "FiraCode Nerd Font Mono" :size 19))
+;; (setq doom-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 21 :weight 'semi-light))
 
 (setq doom-theme 'doom-one)
 (setq display-line-numbers-type 'relative)
@@ -34,12 +34,22 @@
 (setq evil-escape-unordered-key-sequence t)
 
 ;; LSP keybindings
-(evil-define-key 'normal lsp-mode-map (kbd "gr") 'xref-find-references)
-(evil-define-key 'normal lsp-mode-map (kbd "gi") 'lsp-find-implementation)
-(evil-define-key 'normal lsp-mode-map (kbd "gd") 'xref-find-definitions)
+(map! :map lsp-mode-map :n "g r" 'xref-find-references)
+(map! :map lsp-mode-map :n "g i" 'lsp-find-implementation)
+(map! :map lsp-mode-map :n "g d" 'xref-find-definitions)
 
 ;; Magit
-(map! :mode 'normal :leader :desc "Magit status" "g s" #'magit)
+(map! :leader :desc "Magit status" :n "g s" #'magit)
 
 ;; My sexy keymap from my vim setup.
-(map! :mode 'normal "RET" #'evil-ex-nohighlight)
+(map! :n "RET" #'evil-ex-nohighlight)
+
+(map! :n "C-j" #'evil-window-down)
+(map! :n "C-k" #'evil-window-up)
+(map! :n "C-h" #'evil-window-left)
+(map! :n "C-l" #'evil-window-right)
+
+(setq
+ evil-split-window-below t
+ evil-vsplit-window-right t
+ )
