@@ -17,7 +17,7 @@ It's a fairly simple thing to do
   (setq amirreza/font "JetBrainsMono Nerd Font Mono")
   (setq amirreza/font-size "21")
   (setq amirreza/theme 'doom-one)
-  (setq amirreza/darkside t) ;; if uncommented evil mode and other vim emulation stuff will get enabled.
+  ;; (setq amirreza/darkside t) ;; if uncommented evil mode and other vim emulation stuff will get enabled.
 #+END_SRC
 ** Early-init
 From emacs 27 I think they added a file called =early-init.el= which will get sourced
@@ -45,61 +45,21 @@ before UI stuff happens in Emacs, so it's a good place to turn of UI things.
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 #+END_SRC
-** My core lib
-I don't use =use-package= macro because I think It's too magical for my taste
-so I have a simpler macro called =elpa-package= which will just install a package
-and then run =FORMS= passed into it.
+** Comrade
 #+BEGIN_SRC emacs-lisp
-  (add-to-list 'exec-path (expand-file-name "site-lisp" user-emacs-directory))
-  (add-to-list 'exec-path (expand-file-name "lisp" user-emacs-directory))
-  (defmacro elpa-package
-      (package &rest body)
-    "Check if PACKAGE is installed and evaluate BODY."
-    `(progn
-       (straight-use-package (quote ,package))
-       (progn ,@body)
-       ))
-
-  (defmacro emacs-package
-      (package &rest body)
-    `(progn
-       ,@body))
-
-
-
-  (defmacro if-evil 
-      (&rest body)
-    `(if (boundp 'amirreza/darkside)
-	 (progn
-	   ,@body)))
-
-  (defmacro if-not-evil 
-      (&rest body)
-    `(unless (boundp 'amirreza/darkside)
-	 (progn
-	   ,@body)))
+  (add-to-list 'load-path (expand-file-name "site-lisp" user-emacs-directory))
+  (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
+  (require 'comrade)
+#+END_SRC
+** Edit Emacs configuration
+#+BEGIN_SRC emacs-lisp
 
   (defun amirreza/edit-emacs ()
     (interactive)
     (find-file (expand-file-name "README.org" user-emacs-directory)))
-
-  (elpa-package general
-		(if-evil
-		 (general-create-definer nmap-leader :prefix "SPC" :keymaps 'normal)
-		 (general-create-definer nmap :keymaps 'normal)
-		 (general-create-definer vmap :keymaps 'visual)
-		 (general-create-definer imap :keymaps 'insert))
-
-		(general-create-definer c-c-leader :prefix "C-c")
-		(general-create-definer c-x-leader :prefix "C-x")
-
-		)
-
-
-  (c-c-leader :map global-map "e c" 'amirreza/edit-emacs)
+  (global-set-key (kbd "C-c e c") 'amirreza/edit-emacs)
   (if-evil
-   (nmap-leader :map global-map "e c" 'amirreza/edit-emacs)
-   )
+   (evil-define-key 'normal global-map "SPC e c" 'amirreza/edit-emacs))
 #+END_SRC
 ** Theme and coloring Emacs
 #+BEGIN_SRC emacs-lisp
@@ -126,7 +86,7 @@ and then run =FORMS= passed into it.
     (setq amirreza/--current-theme theme)
     (load-theme amirreza/--current-theme t))
 
-  (c-c-leader "t t" 'amirreza/switch-theme)
+  (global-set-key (kbd "C-c t t") 'amirreza/switch-theme)
   (amirreza/load-theme amirreza/theme)
 
 #+END_SRC
@@ -186,94 +146,84 @@ and then run =FORMS= passed into it.
 		 (evil-collection-init))
 
    (elpa-package evil-nerd-commenter
-		 (nmap "gc" 'evilnc-comment-or-uncomment-lines)
-		 (vmap "gc" 'evilnc-comment-or-uncomment-lines))
+		 (evil-define-key '(normal visual) "gc" 'evilnc-comment-or-uncomment-lines))
 
    (elpa-package evil-surround
 		 (global-evil-surround-mode 1))
 
-   (nmap-leader
-     "x" 'execute-extended-command
-     )
-
+   (evil-define-key 'normal global-map "SPC x" 'execute-extended-command)
    )
 #+END_SRC
 ** Emacs internal configurations
 #+BEGIN_SRC emacs-lisp
-(setq gc-cons-threshold (* 100 1024 1024))
+  (setq gc-cons-threshold (* 100 1024 1024))
 
-;; Many packages like LSP clients will try and spawn a subprocess to do some work, Emacs should read from those processes output and process the result, increasing maximum read means less sys calls to read from, subprocess output and basically more speed.
-(setq read-process-output-max (* 1024 1024))
+  ;; Many packages like LSP clients will try and spawn a subprocess to do some work, Emacs should read from those processes output and process the result, increasing maximum read means less sys calls to read from, subprocess output and basically more speed.
+  (setq read-process-output-max (* 1024 1024))
 
-(setq create-lockfiles nil) ;; Don't create .# files as lock.
+  (setq create-lockfiles nil) ;; Don't create .# files as lock.
 
-(setq make-backup-files nil) ;; Disable backup files ~file
-(setq auto-save-default nil) ;; Disable auto save files
-(setq inhibit-startup-screen t) ;; No startup splash screen
-(setq use-dialog-box nil) ;; Do not use UI for questions
+  (setq make-backup-files nil) ;; Disable backup files ~file
+  (setq auto-save-default nil) ;; Disable auto save files
+  (setq inhibit-startup-screen t) ;; No startup splash screen
+  (setq use-dialog-box nil) ;; Do not use UI for questions
 
-(tool-bar-mode 0) ;; disable top toolbar
-(scroll-bar-mode 0) ;; disable scroll bar
-(menu-bar-mode -1) ;; Disable menu bar
+  (tool-bar-mode 0) ;; disable top toolbar
+  (scroll-bar-mode 0) ;; disable scroll bar
+  (menu-bar-mode -1) ;; Disable menu bar
 
-(setq-default cursor-type 'box) ;; instead of box use a horizontal line.
-(blink-cursor-mode -1) ;; no blinking cursor.
-
-
-;; Copy PATH from default shell
-(elpa-package exec-path-from-shell
-	      (exec-path-from-shell-initialize))
-
-(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-
-(defalias 'yes-or-no-p 'y-or-n-p)
+  (setq-default cursor-type 'box) ;; instead of box use a horizontal line.
+  (blink-cursor-mode -1) ;; no blinking cursor.
 
 
-(defun amirreza/find-file ()
-  (interactive)
-  (if (vc-backend (buffer-file-name))
-      (project-find-file)
-    (call-interactively 'find-file)
-    ))
+  ;; Copy PATH from default shell
+  (elpa-package exec-path-from-shell
+		(exec-path-from-shell-initialize))
 
-(if-evil
- (nmap-leader
-  "SPC" 'amirreza/find-file
-  "f f" 'find-file
-  "p f" 'project-find-file
-  "p p" 'project-switch-project
-  "p g" 'project-find-regexp
-  )
+  (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 
- (nmap
-   "C-j" 'evil-window-bottom
-   "C-k" 'evil-window-up
-   "C-h" 'evil-window-left
-   "C-l" 'evil-window-right
+  (defalias 'yes-or-no-p 'y-or-n-p)
+
+
+  (defun amirreza/find-file ()
+    (interactive)
+    (if (vc-backend (buffer-file-name))
+	(project-find-file)
+      (call-interactively 'find-file)
+      ))
+
+  (if-evil
+   (evil-define-key 'normal global-map "SPC SPC" 'amirreza/find-file)
+   (evil-define-key 'normal global-map "SPC f f" 'find-file)
+   (evil-define-key 'normal global-map "SPC p f" 'project-find-file)
+   (evil-define-key 'normal global-map "SPC p p" 'project-switch-project)
+   (evil-define-key 'normal global-map "SPC p g" 'project-find-regexp)
+   (evil-define-key 'normal global-map "C-j" 'evil-window-bottom)
+   (evil-define-key 'normal global-map "C-k" 'evil-window-up    )
+   (evil-define-key 'normal global-map "C-h" 'evil-window-left  )
+   (evil-define-key 'normal global-map "C-l" 'evil-window-right ))
+
+  (elpa-package ace-window
+		(define-key global-map (kbd "C-x o") 'ace-window))
+
+  (elpa-package bufler
+		(define-key global-map (kbd "C-x C-b") 'bufler))
+
+  (emacs-package dired
+		 (add-hook 'dired-mode-hook (lambda ()
+					      (define-key dired-mode-map (kbd "C-c C-e") 'wdired-change-to-wdired-mode))))
+
+  (elpa-package helpful
+		(define-key global-map (kbd "C-h k") 'helpful-key)
+		(define-key global-map (kbd "C-h f") 'helpful-callable)
+		(define-key global-map (kbd "C-h v") 'helpful-variable)
+		)
+
+  (if-evil
+   (evil-define-key 'normal global-map "h k" 'helpful-key)
+   (evil-define-key 'normal global-map "h f" 'helpful-callable)
+   (evil-define-key 'normal global-map "h v" 'helpful-variable)
    )
- )
-
-(elpa-package ace-window
-	      (define-key global-map (kbd "C-x o") 'ace-window))
-
-(elpa-package bufler
-  (define-key global-map (kbd "C-x C-b") 'bufler))
-
-(emacs-package dired
-	       (add-hook 'dired-mode-hook (lambda ()
-					    (define-key dired-mode-map (kbd "C-c C-e") 'wdired-change-to-wdired-mode))))
-
-(elpa-package helpful
-	      (define-key global-map (kbd "C-h k") 'helpful-key)
-	      (define-key global-map (kbd "C-h f") 'helpful-callable)
-	      (define-key global-map (kbd "C-h v") 'helpful-variable)
-	      )
-
-(if-evil
- (nmap-leader "h k" 'helpful-key)
- (nmap-leader "h f" 'helpful-callable)
- (nmap-leader "h v" 'helpful-variable)
- )
 
 #+END_SRC
 ** Auto completion
@@ -327,39 +277,39 @@ and then run =FORMS= passed into it.
 #+END_SRC
 ** LSP
 #+BEGIN_SRC emacs-lisp
-(elpa-package eglot
+  (elpa-package eglot
 
-  (setq eldoc-echo-area-use-multiline-p nil)
-  (setq eldoc-echo-area-display-truncation-message nil)
-  (setq eldoc-echo-area-prefer-doc-buffer nil)
+    (setq eldoc-echo-area-use-multiline-p nil)
+    (setq eldoc-echo-area-display-truncation-message nil)
+    (setq eldoc-echo-area-prefer-doc-buffer nil)
 
-  (global-eldoc-mode)
+    (global-eldoc-mode)
 
-  (defun amirreza/eglot-hook ()
-    (eglot-ensure)
-    (put 'eglot-note 'flymake-overlay-control nil)
-    (put 'eglot-warning 'flymake-overlay-control nil)
-    (put 'eglot-error 'flymake-overlay-control nil)
+    (defun amirreza/eglot-hook ()
+      (eglot-ensure)
+      (put 'eglot-note 'flymake-overlay-control nil)
+      (put 'eglot-warning 'flymake-overlay-control nil)
+      (put 'eglot-error 'flymake-overlay-control nil)
 
-    (define-key eglot-mode-map (kbd "C-c l d") 'eldoc)
-    (define-key eglot-mode-map (kbd "C-c l r") 'eglot-rename)
-    (define-key eglot-mode-map (kbd "M-r") 'xref-find-references)
-    (define-key eglot-mode-map (kbd "C-c l f") 'eglot-format)
-    (define-key eglot-mode-map (kbd "C-c l c") 'eglot-code-actions)
+      (define-key eglot-mode-map (kbd "C-c l d") 'eldoc)
+      (define-key eglot-mode-map (kbd "C-c l r") 'eglot-rename)
+      (define-key eglot-mode-map (kbd "M-r") 'xref-find-references)
+      (define-key eglot-mode-map (kbd "C-c l f") 'eglot-format)
+      (define-key eglot-mode-map (kbd "C-c l c") 'eglot-code-actions)
 
-    (if-evil
-     (nmap "gd" 'xref-find-definitions)
-     (nmap "gr" 'xref-find-references)
-     (nmap "gi" 'eglot-find-implementation)
-     (nmap "gf" 'eglot-format)
-     (nmap "g." 'eglot-code-actions)
-     )
-    )
+      (if-evil
+       (evil-define-key 'normal eglot-mode-map "gd" 'xref-find-definitions)
+       (evil-define-key 'normal eglot-mode-map "gr" 'xref-find-references)
+       (evil-define-key 'normal eglot-mode-map "gi" 'eglot-find-implementation)
+       (evil-define-key 'normal eglot-mode-map "gf" 'eglot-format)
+       (evil-define-key 'normal eglot-mode-map "g." 'eglot-code-actions)
+       )
+      )
 
-  (add-hook 'go-mode-hook 'amirreza/eglot-hook)
-  (add-hook 'rust-mode-hook 'amirreza/eglot-hook)
-  (add-hook 'python-mode-hook 'amirreza/eglot-hook)
-  (add-hook 'php-mode-hook 'amirreza/eglot-hook))
+    (add-hook 'go-mode-hook 'amirreza/eglot-hook)
+    (add-hook 'rust-mode-hook 'amirreza/eglot-hook)
+    (add-hook 'python-mode-hook 'amirreza/eglot-hook)
+    (add-hook 'php-mode-hook 'amirreza/eglot-hook))
 
 
 #+END_SRC
@@ -371,7 +321,7 @@ and then run =FORMS= passed into it.
   (elpa-package magit
 		(define-key global-map (kbd "C-x g") 'magit)
 		(if-evil
-		 (nmap-leader "gs" 'magit)))
+		 (evil-define-key 'normal global-map "SPC g s" 'magit)))
 #+END_SRC
 ** Languages
 #+BEGIN_SRC emacs-lisp
@@ -462,30 +412,26 @@ and then run =FORMS= passed into it.
 						      )))))
 		 (defun amirreza/org-hook ()
 		   (interactive)
-		   (c-c-leader :map org-mode-map "c b" 'amirreza/org-code-block)
+		   (define-key org-mode-map (kbd "C-c m c b") 'amirreza/org-code-block)
 		   (if-evil
-		    (nmap-leader :map org-mode-map "m c" 'amirreza/org-code-block)
-		    )
+		    (evil-define-key 'normal org-mode-map "SPC m c" 'amirreza/org-code-block))
 		   )
 
 		 (add-hook 'org-mode-hook #'amirreza/org-hook)
 		 (setq org-src-window-setup 'current-window))
   (elpa-package org-bullets
-		(add-hook 'org-mode-hook #'org-bullets-mode)
-		)
+		(add-hook 'org-mode-hook #'org-bullets-mode))
 #+END_SRC
 ** Psychic like completion
 #+BEGIN_SRC emacs-lisp
-(elpa-package prescient)
+    (elpa-package prescient)
 
-(elpa-package vertico-prescient
-  (vertico-prescient-mode))
+    (elpa-package vertico-prescient
+      (vertico-prescient-mode))
 
-(elpa-package corfu-prescient
-  (corfu-prescient-mode))
-
+    (elpa-package corfu-prescient
+      (corfu-prescient-mode))
 #+END_SRC
-
 ** Project management
 #+BEGIN_SRC emacs-lisp
   (emacs-package project)
@@ -500,24 +446,23 @@ and then run =FORMS= passed into it.
 
 ** Never loose a good setup
 #+BEGIN_SRC emacs-lisp
-(elpa-package perspective
-	      (setq persp-state-default-file (expand-file-name "sessions" user-emacs-directory))
-	      (setq persp-mode-prefix-key (kbd "C-c w"))
-	      (defun amirreza/save-session ()
-		(interactive)
-		(persp-state-save persp-state-default-file))
+  (elpa-package perspective
+		(setq persp-state-default-file (expand-file-name "sessions" user-emacs-directory))
+		(setq persp-mode-prefix-key (kbd "C-c w"))
+		(defun amirreza/save-session ()
+		  (interactive)
+		  (persp-state-save persp-state-default-file))
 
-	      (defun amirreza/load-session ()
-		(interactive)
-		(persp-state-load persp-state-default-file))
-	      
-	      (persp-mode 1)
-	      (define-key global-map (kbd "C-c w s") 'persp-switch)
-	      (add-hook 'kill-emacs-hook 'amirreza/save-session)
-	      (if-evil
-	       (nmap-leader
-		 "w s" 'persp-switch
-		 )))
+		(defun amirreza/load-session ()
+		  (interactive)
+		  (persp-state-load persp-state-default-file))
+
+		(persp-mode 1)
+		(define-key global-map (kbd "C-c w s") 'persp-switch)
+		(add-hook 'kill-emacs-hook 'amirreza/save-session)
+		(if-evil
+		 (evil-define-key 'normal global-map "SPC w s" 'persp-switch)))
+  
 #+END_SRC
 ** Shitty apple computers
 #+BEGIN_SRC emacs-lisp
