@@ -16,7 +16,7 @@ It's a fairly simple thing to do
   ;; (setq amirreza/font "FiraCode Nerd Font Mono")
   (setq amirreza/font "JetBrainsMono Nerd Font Mono")
   (setq amirreza/font-size "21")
-  (setq amirreza/theme 'jblow)
+  (setq amirreza/theme 'ef-dark)
   ;; (setq amirreza/darkside t) ;; if uncommented evil mode and other vim emulation stuff will get enabled.
 #+END_SRC
 ** Early-init
@@ -430,30 +430,32 @@ and then run =FORMS= passed into it.
 
 ** Org mode
 #+BEGIN_SRC emacs-lisp
-(emacs-package org
-	       (defun amirreza/org-code-block ()
-		 (interactive)
-		 (insert (format "#+BEGIN_SRC %s\n\n#+END_SRC"
-				 (completing-read "Language: "
-						  '("emacs-lisp"
-						    "go"
-						    "rust"
-						    "python"
-						    "lua"
-						    "bash"
-						    "sh"
-						    "fish"
-						    "java"
-						    )))))
-	       (defun amirreza/org-hook ()
-		 (interactive)
-		 (c-c-leader :map org-mode-map "c b" 'amirreza/org-code-block)
-		 )
-		 
-	       (add-hook 'org-mode-hook #'amirreza/org-hook)
-	       (setq org-src-window-setup 'current-window))
-#+END_SRC
+  (emacs-package org
+		 (defun amirreza/org-code-block ()
+		   (interactive)
+		   (insert (format "#+BEGIN_SRC %s\n\n#+END_SRC"
+				   (completing-read "Language: "
+						    '("emacs-lisp"
+						      "go"
+						      "rust"
+						      "python"
+						      "lua"
+						      "bash"
+						      "sh"
+						      "fish"
+						      "java"
+						      )))))
+		 (defun amirreza/org-hook ()
+		   (interactive)
+		   (c-c-leader :map org-mode-map "c b" 'amirreza/org-code-block)
+		   (if-evil
+		    (nmap-leader :map org-mode-map "m c" 'amirreza/org-code-block)
+		    )
+		   )
 
+		 (add-hook 'org-mode-hook #'amirreza/org-hook)
+		 (setq org-src-window-setup 'current-window))
+#+END_SRC
 ** Psychic like completion
 #+BEGIN_SRC emacs-lisp
 (elpa-package prescient)
@@ -468,20 +470,8 @@ and then run =FORMS= passed into it.
 
 ** Project management
 #+BEGIN_SRC emacs-lisp
-  (elpa-package projectile
-		(setq projectile-prefix-map "C-x p")
-		(c-x-leader
-		  "p f" 'projectile-find-file
-		  "p s" 'projectile-switch-project
-		  "p c" 'projectile-compile-project
-		  "p a" 'projectile-add-known-project
-		  "p d" 'projectile-dired
-		  "p g" 'projectile-grep
-		  )
-		)
-
+  (emacs-package project)
 #+END_SRC
-
 ** Treesitter, get rid of regex
 #+BEGIN_SRC emacs-lisp
 (elpa-package tree-sitter
@@ -517,4 +507,9 @@ and then run =FORMS= passed into it.
 #+BEGIN_SRC emacs-lisp
 (setq mac-command-modifier 'meta) ;; set command key to super
 (setq mac-option-modifier 'meta)
+#+END_SRC
+** Which Key
+#+BEGIN_SRC emacs-lisp
+  (elpa-package which-key
+		(which-key-mode +1))
 #+END_SRC
