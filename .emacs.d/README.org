@@ -31,7 +31,7 @@ before UI stuff happens in Emacs, so it's a good place to turn of UI things.
 (setq read-process-output-max (* 1024 1024))
 #+END_SRC
 
-** =Straight.el= package manager
+** =straight.el= package manager
 #+BEGIN_SRC emacs-lisp
 (defvar bootstrap-version)
 (let ((bootstrap-file
@@ -102,29 +102,30 @@ and then run =FORMS= passed into it.
 #+END_SRC
 ** Theme and coloring Emacs
 #+BEGIN_SRC emacs-lisp
-(elpa-package ef-themes)
-(elpa-package doom-themes)
+  (elpa-package ef-themes)
+  (elpa-package doom-themes)
+  (elpa-package gruber-darker-theme)
 
-;; Add custom themes path to themes load path
-(add-to-list 'custom-theme-load-path
-             (expand-file-name "themes" user-emacs-directory))
+  ;; Add custom themes path to themes load path
+  (add-to-list 'custom-theme-load-path
+	       (expand-file-name "themes" user-emacs-directory))
 
-(setq amirreza/--current-theme nil)
+  (setq amirreza/--current-theme nil)
 
-(defun amirreza/switch-theme ()
-  (interactive)
-  (let ((theme (intern (completing-read "Theme: " (mapcar #'symbol-name
-							  (custom-available-themes))))))
-    (amirreza/load-theme theme)))
+  (defun amirreza/switch-theme ()
+    (interactive)
+    (let ((theme (intern (completing-read "Theme: " (mapcar #'symbol-name
+							    (custom-available-themes))))))
+      (amirreza/load-theme theme)))
 
-(defun amirreza/load-theme (theme)
-  (when (not (eq amirreza/--current-theme nil))
-    (disable-theme amirreza/--current-theme))
-  (setq amirreza/--current-theme theme)
-  (load-theme amirreza/--current-theme t))
+  (defun amirreza/load-theme (theme)
+    (when (not (eq amirreza/--current-theme nil))
+      (disable-theme amirreza/--current-theme))
+    (setq amirreza/--current-theme theme)
+    (load-theme amirreza/--current-theme t))
 
 
-(amirreza/load-theme amirreza/theme)
+  (amirreza/load-theme amirreza/theme)
 
 #+END_SRC
 
@@ -403,31 +404,29 @@ and then run =FORMS= passed into it.
 ** Minibuffer
 #+BEGIN_SRC emacs-lisp
 
-(elpa-package vertico
-	      (setq completion-cycle-threshold 3)
-	      (setq tab-always-indent 'complete)
-	      (vertico-mode)
-	      (setq vertico-count 15)
-	      (setq vertico-cycle t))
+  (elpa-package vertico
+		(setq completion-cycle-threshold 3)
+		(setq tab-always-indent 'complete)
+		(vertico-mode)
+		(setq vertico-count 15)
+		(setq vertico-cycle t))
 
 
-(elpa-package savehist
-	      (savehist-mode))
+  (elpa-package savehist
+		(savehist-mode))
 
-(elpa-package consult
-	      (setq consult-async-min-input 1)
-	      (define-key global-map (kbd "C-c g") 'consult-ripgrep))
+  (elpa-package consult
+		(setq consult-async-min-input 1)
+		(define-key global-map (kbd "C-c g") 'consult-ripgrep))
 
-(elpa-package marginalia
-	      (marginalia-mode))
+  (elpa-package marginalia
+		(marginalia-mode))
 
-(elpa-package orderless
-	      (setq completion-styles '(orderless basic)
-		    completion-category-defaults nil
-		    completion-category-overrides '((file (styles partial-completion)))))
-
+  (elpa-package orderless
+		(setq completion-styles '(orderless basic)
+		      completion-category-defaults nil
+		      completion-category-overrides '((file (styles partial-completion)))))
 #+END_SRC
-
 ** Org mode
 #+BEGIN_SRC emacs-lisp
   (emacs-package org

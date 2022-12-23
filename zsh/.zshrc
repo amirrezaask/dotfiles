@@ -5,12 +5,14 @@ antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle zsh-users/zsh-autosuggestions
 antigen apply
 
+alias emacs='emacs -nw'
+# alias emacs='emacs'
 export GO111MODULE='on'
 export GOPATH="$HOME"
 export GOPRIVATE='gitlab.snapp.ir'
 # export GOPROXY='https://repo.snapp.tech/repository/goproxy,goproxy.io,direct'
 export GOPROXY='goproxy.io,direct'
-export EDITOR='vim'
+export EDITOR='emacs -nw'
 export OSS="$HOME/personal"
 export DOTFILES="$HOME/dev/dotfiles"
 export SNAPP="$HOME/work/snapp"
@@ -21,10 +23,6 @@ export PATH="$HOME/.emacs.d/bin/:/Applications/Emacs.app/Contents/MacOS:$GOPATH/
 alias reload='source ~/.zshrc'
 
 alias gs='git status'
-
-# alias emacs='emacs -nw'
-alias emacs='emacs'
-
 alias snappvpn='sudo openfortivpn -c ~/snappDC.conf'
 alias luamake=/home/amirreza/.local/lua-language-server/3rd/luamake/luamake
 
