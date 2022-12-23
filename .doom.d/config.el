@@ -6,7 +6,7 @@
 (setq doom-font (font-spec :family "FiraCode Nerd Font Mono" :size 19))
 ;; (setq doom-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 21 :weight 'semi-light))
 
-(setq doom-theme 'doom-one)
+(setq doom-theme 'doom-dracula)
 (setq display-line-numbers-type 'relative)
 
 (setq org-directory "~/org/")
@@ -21,17 +21,15 @@
   (forward-line 20)
   (recenter-top-bottom))
 
+(setq evil-escape-unordered-key-sequence t)
 ;; Best movement ever ?????
 (setq recenter-positions '(middle))
 
-(global-set-key (kbd "M-p") (lambda () (interactive) (amirreza/up-center)))
-(global-set-key (kbd "M-n") (lambda () (interactive) (amirreza/down-center)))
+(map! :e "M-p" 'amirreza/up-center)
+(map! :e "M-n" 'amirreza/down-center)
 
-(with-eval-after-load 'evil
-  (evil-define-key 'normal global-map (kbd "C-d") 'amirreza/down-center)
-  (evil-define-key 'normal global-map (kbd "C-u") 'amirreza/up-center))
-
-(setq evil-escape-unordered-key-sequence t)
+(map! :n "C-d" 'amirreza/down-center)
+(map! :n "C-u" 'amirreza/up-center)
 
 ;; LSP keybindings
 (map! :map lsp-mode-map :n "g r" 'xref-find-references)
