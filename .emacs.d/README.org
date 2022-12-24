@@ -85,12 +85,12 @@ before UI stuff happens in Emacs, so it's a good place to turn of UI things.
 		 (evil-collection-init))
 
    (elpa-package evil-nerd-commenter
-		 (evil-define-key '(normal visual) global-map "gc" 'evilnc-comment-or-uncomment-lines))
+		 (evil-define-key '(normal visual) global-map (kbd "gc") 'evilnc-comment-or-uncomment-lines))
 
    (elpa-package evil-surround
 		 (global-evil-surround-mode 1))
 
-   (evil-define-key 'normal global-map "SPC x" 'execute-extended-command)
+   (evil-define-key 'normal global-map (kbd "SPC x") 'execute-extended-command)
    )
 #+END_SRC
 ** Edit Emacs configuration
@@ -100,7 +100,7 @@ before UI stuff happens in Emacs, so it's a good place to turn of UI things.
     (find-file (expand-file-name "README.org" user-emacs-directory)))
   (global-set-key (kbd "C-c e c") 'amirreza/edit-emacs)
   (if-evil
-   (evil-define-key 'normal global-map "SPC e c" 'amirreza/edit-emacs))
+   (evil-define-key 'normal global-map (kbd "SPC e c") 'amirreza/edit-emacs))
 #+END_SRC
 ** Theme and coloring Emacs
 #+BEGIN_SRC emacs-lisp
@@ -128,6 +128,7 @@ before UI stuff happens in Emacs, so it's a good place to turn of UI things.
     (load-theme amirreza/--current-theme t))
 
   (global-set-key (kbd "C-c t t") 'amirreza/switch-theme)
+  (evil-define-key 'normal global-map (kbd "SPC t t") 'amirreza/switch-theme)
   (amirreza/load-theme amirreza/theme)
 
 #+END_SRC
@@ -192,15 +193,15 @@ before UI stuff happens in Emacs, so it's a good place to turn of UI things.
       ))
 
   (if-evil
-   (evil-define-key 'normal global-map "SPC SPC" 'amirreza/find-file)
-   (evil-define-key 'normal global-map "SPC f f" 'find-file)
-   (evil-define-key 'normal global-map "SPC p f" 'project-find-file)
-   (evil-define-key 'normal global-map "SPC p p" 'project-switch-project)
-   (evil-define-key 'normal global-map "SPC p g" 'project-find-regexp)
-   (evil-define-key 'normal global-map "C-j" 'evil-window-bottom)
-   (evil-define-key 'normal global-map "C-k" 'evil-window-up    )
-   (evil-define-key 'normal global-map "C-h" 'evil-window-left  )
-   (evil-define-key 'normal global-map "C-l" 'evil-window-right ))
+   (evil-define-key 'normal global-map (kbd "SPC SPC") 'amirreza/find-file)
+   (evil-define-key 'normal global-map (kbd "SPC f f") 'find-file)
+   (evil-define-key 'normal global-map (kbd "SPC p f") 'project-find-file)
+   (evil-define-key 'normal global-map (kbd "SPC p p") 'project-switch-project)
+   (evil-define-key 'normal global-map (kbd "SPC p g") 'project-find-regexp)
+   (evil-define-key 'normal global-map (kbd "C-j") 'evil-window-bottom)
+   (evil-define-key 'normal global-map (kbd "C-k") 'evil-window-up    )
+   (evil-define-key 'normal global-map (kbd "C-h") 'evil-window-left  )
+   (evil-define-key 'normal global-map (kbd "C-l") 'evil-window-right ))
 
   (elpa-package ace-window
 		(define-key global-map (kbd "C-x o") 'ace-window))
@@ -219,9 +220,9 @@ before UI stuff happens in Emacs, so it's a good place to turn of UI things.
 		)
 
   (if-evil
-   (evil-define-key 'normal global-map "h k" 'helpful-key)
-   (evil-define-key 'normal global-map "h f" 'helpful-callable)
-   (evil-define-key 'normal global-map "h v" 'helpful-variable)
+   (evil-define-key 'normal global-map (kbd "SPC h k") 'helpful-key)
+   (evil-define-key 'normal global-map (kbd "SPC h f") 'helpful-callable)
+   (evil-define-key 'normal global-map (kbd "SPC h v") 'helpful-variable)
    )
 
 #+END_SRC
@@ -297,11 +298,11 @@ before UI stuff happens in Emacs, so it's a good place to turn of UI things.
       (define-key eglot-mode-map (kbd "C-c l c") 'eglot-code-actions)
 
       (if-evil
-       (evil-define-key 'normal eglot-mode-map "gd" 'xref-find-definitions)
-       (evil-define-key 'normal eglot-mode-map "gr" 'xref-find-references)
-       (evil-define-key 'normal eglot-mode-map "gi" 'eglot-find-implementation)
-       (evil-define-key 'normal eglot-mode-map "gf" 'eglot-format)
-       (evil-define-key 'normal eglot-mode-map "g." 'eglot-code-actions)
+       (evil-define-key 'normal eglot-mode-map (kbd "gd") 'xref-find-definitions)
+       (evil-define-key 'normal eglot-mode-map (kbd "gr") 'xref-find-references)
+       (evil-define-key 'normal eglot-mode-map (kbd "gi") 'eglot-find-implementation)
+       (evil-define-key 'normal eglot-mode-map (kbd "gf") 'eglot-format)
+       (evil-define-key 'normal eglot-mode-map (kbd "g.") 'eglot-code-actions)
        )
       )
 
@@ -320,7 +321,7 @@ before UI stuff happens in Emacs, so it's a good place to turn of UI things.
   (elpa-package magit
 		(define-key global-map (kbd "C-x g") 'magit)
 		(if-evil
-		 (evil-define-key 'normal global-map "SPC g s" 'magit)))
+		 (evil-define-key 'normal global-map (kbd "SPC g s") 'magit)))
 #+END_SRC
 ** Languages
 #+BEGIN_SRC emacs-lisp
@@ -413,7 +414,7 @@ before UI stuff happens in Emacs, so it's a good place to turn of UI things.
 		   (interactive)
 		   (define-key org-mode-map (kbd "C-c m c b") 'amirreza/org-code-block)
 		   (if-evil
-		    (evil-define-key 'normal org-mode-map "SPC m c" 'amirreza/org-code-block))
+		    (evil-define-key 'normal org-mode-map (kbd "SPC m c") 'amirreza/org-code-block))
 		   )
 
 		 (add-hook 'org-mode-hook #'amirreza/org-hook)
@@ -460,7 +461,7 @@ before UI stuff happens in Emacs, so it's a good place to turn of UI things.
 		(define-key global-map (kbd "C-c w s") 'persp-switch)
 		(add-hook 'kill-emacs-hook 'amirreza/save-session)
 		(if-evil
-		 (evil-define-key 'normal global-map "SPC w s" 'persp-switch)))
+		 (evil-define-key 'normal global-map (kbd "SPC w s") 'persp-switch)))
   
 #+END_SRC
 ** Shitty apple computers
