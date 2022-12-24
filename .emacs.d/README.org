@@ -17,7 +17,7 @@ It's a fairly simple thing to do
   (setq amirreza/font "JetBrainsMono Nerd Font Mono")
   (setq amirreza/font-size "21")
   (setq amirreza/theme 'doom-one)
-  ;; (setq amirreza/darkside t) ;; if uncommented evil mode and other vim emulation stuff will get enabled.
+  (setq amirreza/darkside t) ;; if uncommented evil mode and other vim emulation stuff will get enabled.
 #+END_SRC
 ** Early-init
 From emacs 27 I think they added a file called =early-init.el= which will get sourced
@@ -157,74 +157,76 @@ before UI stuff happens in Emacs, so it's a good place to turn of UI things.
 #+END_SRC
 ** Emacs internal configurations
 #+BEGIN_SRC emacs-lisp
-  (setq gc-cons-threshold (* 100 1024 1024))
+    (setq gc-cons-threshold (* 100 1024 1024))
 
-  ;; Many packages like LSP clients will try and spawn a subprocess to do some work, Emacs should read from those processes output and process the result, increasing maximum read means less sys calls to read from, subprocess output and basically more speed.
-  (setq read-process-output-max (* 1024 1024))
+    ;; Many packages like LSP clients will try and spawn a subprocess to do some work, Emacs should read from those processes output and process the result, increasing maximum read means less sys calls to read from, subprocess output and basically more speed.
+    (setq read-process-output-max (* 1024 1024))
 
-  (setq create-lockfiles nil) ;; Don't create .# files as lock.
+    (setq create-lockfiles nil) ;; Don't create .# files as lock.
 
-  (setq make-backup-files nil) ;; Disable backup files ~file
-  (setq auto-save-default nil) ;; Disable auto save files
-  (setq inhibit-startup-screen t) ;; No startup splash screen
-  (setq use-dialog-box nil) ;; Do not use UI for questions
+    (setq make-backup-files nil) ;; Disable backup files ~file
+    (setq auto-save-default nil) ;; Disable auto save files
+    (setq inhibit-startup-screen t) ;; No startup splash screen
+    (setq use-dialog-box nil) ;; Do not use UI for questions
 
-  (tool-bar-mode 0) ;; disable top toolbar
-  (scroll-bar-mode 0) ;; disable scroll bar
-  (menu-bar-mode -1) ;; Disable menu bar
+    (tool-bar-mode 0) ;; disable top toolbar
+    (scroll-bar-mode 0) ;; disable scroll bar
+    (menu-bar-mode -1) ;; Disable menu bar
 
-  (setq-default cursor-type 'box) ;; instead of box use a horizontal line.
-  (blink-cursor-mode -1) ;; no blinking cursor.
-
-
-  ;; Copy PATH from default shell
-  (elpa-package exec-path-from-shell
-		(exec-path-from-shell-initialize))
-
-  (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-
-  (defalias 'yes-or-no-p 'y-or-n-p)
+    (setq-default cursor-type 'box) ;; instead of box use a horizontal line.
+    (blink-cursor-mode -1) ;; no blinking cursor.
 
 
-  (defun amirreza/find-file ()
-    (interactive)
-    (if (vc-backend (buffer-file-name))
-	(project-find-file)
-      (call-interactively 'find-file)
-      ))
+    ;; Copy PATH from default shell
+    (elpa-package exec-path-from-shell
+		  (exec-path-from-shell-initialize))
 
-  (if-evil
-   (evil-define-key 'normal global-map (kbd "SPC SPC") 'amirreza/find-file)
-   (evil-define-key 'normal global-map (kbd "SPC f f") 'find-file)
-   (evil-define-key 'normal global-map (kbd "SPC p f") 'project-find-file)
-   (evil-define-key 'normal global-map (kbd "SPC p p") 'project-switch-project)
-   (evil-define-key 'normal global-map (kbd "SPC p g") 'project-find-regexp)
-   (evil-define-key 'normal global-map (kbd "C-j") 'evil-window-bottom)
-   (evil-define-key 'normal global-map (kbd "C-k") 'evil-window-up    )
-   (evil-define-key 'normal global-map (kbd "C-h") 'evil-window-left  )
-   (evil-define-key 'normal global-map (kbd "C-l") 'evil-window-right ))
+    (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 
-  (elpa-package ace-window
-		(define-key global-map (kbd "C-x o") 'ace-window))
+    (defalias 'yes-or-no-p 'y-or-n-p)
 
-  (elpa-package bufler
-		(define-key global-map (kbd "C-x C-b") 'bufler))
 
-  (emacs-package dired
-		 (add-hook 'dired-mode-hook (lambda ()
-					      (define-key dired-mode-map (kbd "C-c C-e") 'wdired-change-to-wdired-mode))))
+    (defun amirreza/find-file ()
+      (interactive)
+      (if (vc-backend (buffer-file-name))
+	  (project-find-file)
+	(call-interactively 'find-file)
+	))
 
-  (elpa-package helpful
-		(define-key global-map (kbd "C-h k") 'helpful-key)
-		(define-key global-map (kbd "C-h f") 'helpful-callable)
-		(define-key global-map (kbd "C-h v") 'helpful-variable)
-		)
+    (if-evil
+     (evil-define-key 'normal global-map (kbd "SPC b b") 'switch-to-buffer)
+     (evil-define-key 'normal global-map (kbd "SPC b k") 'switch-to-buffer)
+     (evil-define-key 'normal global-map (kbd "SPC SPC") 'amirreza/find-file)
+     (evil-define-key 'normal global-map (kbd "SPC f f") 'find-file)
+     (evil-define-key 'normal global-map (kbd "SPC p f") 'project-find-file)
+     (evil-define-key 'normal global-map (kbd "SPC p p") 'project-switch-project)
+     (evil-define-key 'normal global-map (kbd "SPC p g") 'project-find-regexp)
+     (evil-define-key 'normal global-map (kbd "C-j") 'evil-window-bottom)
+     (evil-define-key 'normal global-map (kbd "C-k") 'evil-window-up    )
+     (evil-define-key 'normal global-map (kbd "C-h") 'evil-window-left  )
+     (evil-define-key 'normal global-map (kbd "C-l") 'evil-window-right ))
 
-  (if-evil
-   (evil-define-key 'normal global-map (kbd "SPC h k") 'helpful-key)
-   (evil-define-key 'normal global-map (kbd "SPC h f") 'helpful-callable)
-   (evil-define-key 'normal global-map (kbd "SPC h v") 'helpful-variable)
-   )
+    (elpa-package ace-window
+		  (define-key global-map (kbd "C-x o") 'ace-window))
+
+    (elpa-package bufler
+		  (define-key global-map (kbd "C-x C-b") 'bufler))
+
+    (emacs-package dired
+		   (add-hook 'dired-mode-hook (lambda ()
+						(define-key dired-mode-map (kbd "C-c C-e") 'wdired-change-to-wdired-mode))))
+
+    (elpa-package helpful
+		  (define-key global-map (kbd "C-h k") 'helpful-key)
+		  (define-key global-map (kbd "C-h f") 'helpful-callable)
+		  (define-key global-map (kbd "C-h v") 'helpful-variable)
+		  )
+
+    (if-evil
+     (evil-define-key 'normal global-map (kbd "SPC h k") 'helpful-key)
+     (evil-define-key 'normal global-map (kbd "SPC h f") 'helpful-callable)
+     (evil-define-key 'normal global-map (kbd "SPC h v") 'helpful-variable)
+     )
 
 #+END_SRC
 ** Auto completion
@@ -278,41 +280,41 @@ before UI stuff happens in Emacs, so it's a good place to turn of UI things.
 #+END_SRC
 ** LSP
 #+BEGIN_SRC emacs-lisp
-  (elpa-package eglot
+    (elpa-package eglot
 
-    (setq eldoc-echo-area-use-multiline-p nil)
-    (setq eldoc-echo-area-display-truncation-message nil)
-    (setq eldoc-echo-area-prefer-doc-buffer nil)
+      (setq eldoc-echo-area-use-multiline-p nil)
+      (setq eldoc-echo-area-display-truncation-message nil)
+      (setq eldoc-echo-area-prefer-doc-buffer nil)
 
-    (global-eldoc-mode)
+      (global-eldoc-mode)
 
-    (defun amirreza/eglot-hook ()
-      (eglot-ensure)
-      (put 'eglot-note 'flymake-overlay-control nil)
-      (put 'eglot-warning 'flymake-overlay-control nil)
-      (put 'eglot-error 'flymake-overlay-control nil)
+      (defun amirreza/eglot-hook ()
+	(eglot-ensure)
+	(put 'eglot-note 'flymake-overlay-control nil)
+	(put 'eglot-warning 'flymake-overlay-control nil)
+	(put 'eglot-error 'flymake-overlay-control nil)
 
-      (define-key eglot-mode-map (kbd "C-c l d") 'eldoc)
-      (define-key eglot-mode-map (kbd "C-c l r") 'eglot-rename)
-      (define-key eglot-mode-map (kbd "M-r") 'xref-find-references)
-      (define-key eglot-mode-map (kbd "C-c l f") 'eglot-format)
-      (define-key eglot-mode-map (kbd "C-c l c") 'eglot-code-actions)
+	(define-key eglot-mode-map (kbd "C-c l d") 'eldoc)
+	(define-key eglot-mode-map (kbd "C-c l r") 'eglot-rename)
+	(define-key eglot-mode-map (kbd "M-r") 'xref-find-references)
+	(define-key eglot-mode-map (kbd "C-c l f") 'eglot-format)
+	(define-key eglot-mode-map (kbd "C-c l c") 'eglot-code-actions)
 
-      (if-evil
-       (evil-define-key 'normal eglot-mode-map (kbd "gd") 'xref-find-definitions)
-       (evil-define-key 'normal eglot-mode-map (kbd "gr") 'xref-find-references)
-       (evil-define-key 'normal eglot-mode-map (kbd "gi") 'eglot-find-implementation)
-       (evil-define-key 'normal eglot-mode-map (kbd "gf") 'eglot-format)
-       (evil-define-key 'normal eglot-mode-map (kbd "g.") 'eglot-code-actions)
-       )
-      )
+	(if-evil
+	 (message "eglot evil")
+	 (evil-define-key 'normal eglot-mode-map (kbd "g d") 'xref-find-definitions)
+	 (evil-define-key 'normal eglot-mode-map (kbd "g r") 'xref-find-references)
+	 (evil-define-key 'normal eglot-mode-map (kbd "g i") 'eglot-find-implementation)
+	 (evil-define-key 'normal eglot-mode-map (kbd "g f") 'eglot-format)
+	 (evil-define-key 'normal eglot-mode-map (kbd "g .") 'eglot-code-actions)
+	 (evil-define-key 'normal eglot-mode-map (kbd "K") 'eldoc)
+	 )
+	)
 
-    (add-hook 'go-mode-hook 'amirreza/eglot-hook)
-    (add-hook 'rust-mode-hook 'amirreza/eglot-hook)
-    (add-hook 'python-mode-hook 'amirreza/eglot-hook)
-    (add-hook 'php-mode-hook 'amirreza/eglot-hook))
-
-
+      (add-hook 'go-mode-hook 'amirreza/eglot-hook)
+      (add-hook 'rust-mode-hook 'amirreza/eglot-hook)
+      (add-hook 'python-mode-hook 'amirreza/eglot-hook)
+      (add-hook 'php-mode-hook 'amirreza/eglot-hook))
 #+END_SRC
 ** Magit
 #+BEGIN_SRC emacs-lisp
