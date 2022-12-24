@@ -122,6 +122,22 @@ before UI stuff happens in Emacs, so it's a good place to turn of UI things.
 (amirreza/reload-font)
 
 #+END_SRC
+** Modeline
+#+BEGIN_SRC emacs-lisp
+  (emacs-package modeline
+		 (setq-default mode-line-format
+			       '("%e" mode-line-front-space
+				(:propertize
+				 ("" mode-line-mule-info mode-line-client mode-line-modified mode-line-remote)
+				 display
+				 (min-width
+				  (5.0)))
+				mode-line-frame-identification mode-line-buffer-identification "   " mode-line-position
+				(vc-mode vc-mode)
+				"  " mode-line-misc-info mode-line-end-spaces)
+			       )
+		 )
+#+END_SRC
 ** Emacs internal configurations
 #+BEGIN_SRC emacs-lisp
   (setq gc-cons-threshold (* 100 1024 1024))
@@ -191,6 +207,12 @@ before UI stuff happens in Emacs, so it's a good place to turn of UI things.
 		(corfu-history-mode 1)
 		(corfu-echo-mode 1)
 		(corfu-popupinfo-mode 1)
+		)
+
+
+
+  (elpa-package corfu-terminal
+		(corfu-terminal-mode)
 		)
 
 #+END_SRC
