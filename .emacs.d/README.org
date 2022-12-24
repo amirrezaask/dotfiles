@@ -17,7 +17,7 @@ It's a fairly simple thing to do
   (setq amirreza/font "JetBrainsMono Nerd Font Mono")
   (setq amirreza/font-size "21")
   (setq amirreza/theme 'doom-one)
-  (setq amirreza/darkside t) ;; if uncommented evil mode and other vim emulation stuff will get enabled.
+  ;; (setq amirreza/darkside t) ;; if uncommented evil mode and other vim emulation stuff will get enabled.
 #+END_SRC
 ** Early-init
 From emacs 27 I think they added a file called =early-init.el= which will get sourced
@@ -280,41 +280,43 @@ before UI stuff happens in Emacs, so it's a good place to turn of UI things.
 #+END_SRC
 ** LSP
 #+BEGIN_SRC emacs-lisp
-    (elpa-package eglot
+  (elpa-package eglot
 
-      (setq eldoc-echo-area-use-multiline-p nil)
-      (setq eldoc-echo-area-display-truncation-message nil)
-      (setq eldoc-echo-area-prefer-doc-buffer nil)
+    (setq eldoc-echo-area-use-multiline-p nil)
+    (setq eldoc-echo-area-display-truncation-message nil)
+    (setq eldoc-echo-area-prefer-doc-buffer nil)
 
-      (global-eldoc-mode)
+    (global-eldoc-mode)
 
-      (defun amirreza/eglot-hook ()
-	(eglot-ensure)
-	(put 'eglot-note 'flymake-overlay-control nil)
-	(put 'eglot-warning 'flymake-overlay-control nil)
-	(put 'eglot-error 'flymake-overlay-control nil)
+    (defun amirreza/eglot-hook ()
+      (eglot-ensure)
+      (put 'eglot-note 'flymake-overlay-control nil)
+      (put 'eglot-warning 'flymake-overlay-control nil)
+      (put 'eglot-error 'flymake-overlay-control nil)
 
-	(define-key eglot-mode-map (kbd "C-c l d") 'eldoc)
-	(define-key eglot-mode-map (kbd "C-c l r") 'eglot-rename)
-	(define-key eglot-mode-map (kbd "M-r") 'xref-find-references)
-	(define-key eglot-mode-map (kbd "C-c l f") 'eglot-format)
-	(define-key eglot-mode-map (kbd "C-c l c") 'eglot-code-actions)
+      (define-key eglot-mode-map (kbd "C-c l d") 'eldoc)
+      (define-key eglot-mode-map (kbd "C-c l r") 'eglot-rename)
+      (define-key eglot-mode-map (kbd "M-r") 'xref-find-references)
+      (define-key eglot-mode-map (kbd "C-c l f") 'eglot-format)
+      (define-key eglot-mode-map (kbd "C-c l c") 'eglot-code-actions)
 
-	(if-evil
-	 (message "eglot evil")
-	 (evil-define-key 'normal eglot-mode-map (kbd "g d") 'xref-find-definitions)
-	 (evil-define-key 'normal eglot-mode-map (kbd "g r") 'xref-find-references)
-	 (evil-define-key 'normal eglot-mode-map (kbd "g i") 'eglot-find-implementation)
-	 (evil-define-key 'normal eglot-mode-map (kbd "g f") 'eglot-format)
-	 (evil-define-key 'normal eglot-mode-map (kbd "g .") 'eglot-code-actions)
-	 (evil-define-key 'normal eglot-mode-map (kbd "K") 'eldoc)
+      (if-evil
+       (message "eglot evil")
+       (let ((map (intern (concat (symbol-name major-mode) "-map"))))
+	 (evil-define-key 'normal map (kbd "g d") 'xref-find-definitions)
+	 (evil-define-key 'normal map (kbd "g r") 'xref-find-references)
+	 (evil-define-key 'normal map (kbd "g i") 'eglot-find-implementation)
+	 (evil-define-key 'normal map (kbd "g f") 'eglot-format)
+	 (evil-define-key 'normal map (kbd "g .") 'eglot-code-actions)
+	 (evil-define-key 'normal map (kbd "K") 'eldoc)
 	 )
-	)
+       )
+      )
 
-      (add-hook 'go-mode-hook 'amirreza/eglot-hook)
-      (add-hook 'rust-mode-hook 'amirreza/eglot-hook)
-      (add-hook 'python-mode-hook 'amirreza/eglot-hook)
-      (add-hook 'php-mode-hook 'amirreza/eglot-hook))
+    (add-hook 'go-mode-hook 'amirreza/eglot-hook)
+    (add-hook 'rust-mode-hook 'amirreza/eglot-hook)
+    (add-hook 'python-mode-hook 'amirreza/eglot-hook)
+    (add-hook 'php-mode-hook 'amirreza/eglot-hook))
 #+END_SRC
 ** Magit
 #+BEGIN_SRC emacs-lisp
