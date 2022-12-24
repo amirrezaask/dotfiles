@@ -201,10 +201,14 @@ before UI stuff happens in Emacs, so it's a good place to turn of UI things.
 #+END_SRC
 ** Editor UX
 #+BEGIN_SRC emacs-lisp
-    (elpa-package rainbow-delimiters
-		  (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
+  (elpa-package olivetti
+		(setq olivetti-body-width 100)
+		)
 
-    (delete-selection-mode 1) ;; When a region of text is selected and then something is typed remove text and replace with what has been typed.
+  (elpa-package rainbow-delimiters
+		(add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
+
+  (delete-selection-mode 1) ;; When a region of text is selected and then something is typed remove text and replace with what has been typed.
 
     (show-paren-mode 1) ;; Highlight matching parens
 
@@ -478,6 +482,7 @@ before UI stuff happens in Emacs, so it's a good place to turn of UI things.
     "M-," 'xref-go-back
     "M-r" 'xref-find-references
     "M-i" 'eglot-find-implementation
+    "M-f" 'eglot-format
 
     "C-c m r" 'eglot-rename
     "C-c m s" 'consult-eglot-symbols
