@@ -178,19 +178,9 @@ before UI stuff happens in Emacs, so it's a good place to turn of UI things.
 	(project-find-file)
       (call-interactively 'find-file)
       ))
-
   (elpa-package ace-window)
-
   (elpa-package bufler)
-
-  (emacs-package dired
-		 (add-hook 'dired-mode-hook (lambda ()
-					      (define-key dired-mode-map (kbd "C-c C-e") 'wdired-change-to-wdired-mode))))
-
   (elpa-package helpful)
-  (emacs-package emacs
-		 (define-key global-map (kbd "M-SPC") 'set-mark-command))
-
 #+END_SRC
 ** Auto completion
 #+BEGIN_SRC emacs-lisp
@@ -224,10 +214,7 @@ before UI stuff happens in Emacs, so it's a good place to turn of UI things.
 
     (global-display-line-numbers-mode 1) ;; enable line numbers globaly
 
-    (elpa-package expand-region
-		  (define-key global-map (kbd "C-=") 'er/expand-region)
-		  (define-key global-map (kbd "C--") 'er/contract-region))
-
+    (elpa-package expand-region)
     (global-hl-line-mode)
 
     (defun amirreza/up-center ()
@@ -266,8 +253,8 @@ before UI stuff happens in Emacs, so it's a good place to turn of UI things.
   (elpa-package git-gutter
     (global-git-gutter-mode))
 
-  (elpa-package magit
-		(define-key global-map (kbd "C-x g") 'magit))
+  (elpa-package magit)
+
 #+END_SRC
 ** Languages
 #+BEGIN_SRC emacs-lisp
@@ -284,12 +271,6 @@ before UI stuff happens in Emacs, so it's a good place to turn of UI things.
 ;; Golang
 (elpa-package go-mode)
 (elpa-package go-tag)
-
-(defun amirreza/go-hook ()
-  (interactive)
-  (define-key go-mode-map (kbd "C-c l a") 'go-tag-add))
-
-(add-hook 'go-mode-hook 'amirreza/go-hook)
 
 (elpa-package rust-mode)
 
@@ -322,8 +303,7 @@ before UI stuff happens in Emacs, so it's a good place to turn of UI things.
 		(savehist-mode))
 
   (elpa-package consult
-		(setq consult-async-min-input 1)
-		(define-key global-map (kbd "C-c g") 'consult-ripgrep))
+		(setq consult-async-min-input 1))
 
   (elpa-package marginalia
 		(marginalia-mode))
@@ -392,14 +372,10 @@ before UI stuff happens in Emacs, so it's a good place to turn of UI things.
 		(defun amirreza/save-session ()
 		  (interactive)
 		  (persp-state-save persp-state-default-file))
-
 		(defun amirreza/load-session ()
 		  (interactive)
 		  (persp-state-load persp-state-default-file))
-
 		(persp-mode 1)
-		(define-key global-map (kbd "C-c w s") 'persp-switch)
-		(global-set-key (kbd "C-x b") 'persp-switch-to-buffer*)
 		(add-hook 'kill-emacs-hook 'amirreza/save-session))
 
 #+END_SRC
@@ -429,6 +405,37 @@ before UI stuff happens in Emacs, so it's a good place to turn of UI things.
 *** Buffer management using bufler
 #+BEGIN_SRC emacs-lisp
 (general-def :keymaps 'override "C-x C-b" 'bufler)
+#+END_SRC
+*** Perspective workspaces
+#+BEGIN_SRC emacs-lisp
+(general-def :prefix "C-c w" :keymaps 'override "s" 'persp-switch)
+#+END_SRC
+*** Editor related keybindings
+#+BEGIN_SRC emacs-lisp
+  (general-def :keymaps 'override
+    "C-=" 'er/expand-region
+    "C--" 'er/contract-region
+    "M-SPC" 'set-mark-command)
+#+END_SRC
+*** Magit
+#+BEGIN_SRC emacs-lisp
+(general-def :prefix "C-x" :keymaps 'override "g" 'magit)
+#+END_SRC
+*** GOlang
+#+BEGIN_SRC emacs-lisp
+  (general-def :keymaps 'go-mode-map
+    :prefix "C-c m"
+    "a" 'go-tag-add
+    )
+#+END_SRC
+*** Dired
+#+BEGIN_SRC emacs-lisp
+  (general-def
+    :prefix "C-c"
+    :keymaps 'dired-mode-map
+    "C-e" 'wdired-change-to-wdired-mode)
+
+
 #+END_SRC
 *** Org Mode Related Keymaps
 #+BEGIN_SRC emacs-lisp
