@@ -128,7 +128,8 @@ before UI stuff happens in Emacs, so it's a good place to turn of UI things.
     (load-theme amirreza/--current-theme t))
 
   (global-set-key (kbd "C-c t t") 'amirreza/switch-theme)
-  (evil-define-key 'normal global-map (kbd "SPC t t") 'amirreza/switch-theme)
+  (if-evil 
+   (evil-define-key 'normal global-map (kbd "SPC t t") 'amirreza/switch-theme))
   (amirreza/load-theme amirreza/theme)
 
 #+END_SRC
