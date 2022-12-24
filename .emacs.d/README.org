@@ -16,7 +16,7 @@ It's a fairly simple thing to do
   ;; (setq amirreza/font "FiraCode Nerd Font Mono")
   (setq amirreza/font "JetBrainsMono Nerd Font Mono")
   (setq amirreza/font-size "21")
-  (setq amirreza/theme 'jblow)
+  (setq amirreza/theme 'doom-dracula)
 #+END_SRC
 ** Early-init
 From emacs 27 I think they added a file called =early-init.el= which will get sourced
