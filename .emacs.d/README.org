@@ -16,8 +16,7 @@ It's a fairly simple thing to do
   ;; (setq amirreza/font "FiraCode Nerd Font Mono")
   (setq amirreza/font "JetBrainsMono Nerd Font Mono")
   (setq amirreza/font-size "21")
-  (setq amirreza/theme 'doom-one)
-  ;; (setq amirreza/darkside t) ;; if uncommented evil mode and other vim emulation stuff will get enabled.
+  (setq amirreza/theme 'jblow)
 #+END_SRC
 ** Early-init
 From emacs 27 I think they added a file called =early-init.el= which will get sourced
@@ -45,53 +44,25 @@ before UI stuff happens in Emacs, so it's a good place to turn of UI things.
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 #+END_SRC
-** Comrade
+** Some basic macros
 #+BEGIN_SRC emacs-lisp
   (add-to-list 'load-path (expand-file-name "site-lisp" user-emacs-directory))
   (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
-  (require 'comrade)
-#+END_SRC
-** DARK SIDE stuff
-#+BEGIN_SRC emacs-lisp
-  (if-evil
-   (elpa-package evil
-		 (setq evil-want-C-u-scroll t)
-		 (setq evil-split-window-below t)
-		 (setq evil-vsplit-window-right t)
-		 (setq evil-want-integration t)
-		 (setq evil-want-keybinding nil)
-		 (evil-mode 1)
-		 (evil-global-set-key 'normal (kbd "<C-d>") (lambda
-							      ()
-							      (interactive)
-							      (evil-scroll-down)
-							      (evil-scroll-line-to-center)
-							      ))
-		 (evil-global-set-key 'normal (kbd "<C-u>") (lambda
-							      ()
-							      (interactive)
-							      (evil-scroll-up)
-							      (evil-scroll-line-to-center))))
 
+  (defmacro elpa-package
+      (package &rest body)
+    "Check if PACKAGE is installed and evaluate BODY."
+    `(progn
+       (straight-use-package (quote ,package))
+       (progn ,@body)
+       ))
 
-   (elpa-package evil-escape
-		 (setq-default evil-escape-key-sequence "jk")
-		 (setq evil-escape-unordered-key-sequence t)
-		 (evil-escape-mode))
+  (defmacro emacs-package
+      (package &rest body)
+    "Nothing fancy, just evaluate BODY, mostly for organization"
+    `(progn
+       ,@body))
 
-
-
-   (elpa-package evil-collection
-		 (evil-collection-init))
-
-   (elpa-package evil-nerd-commenter
-		 (evil-define-key '(normal visual) global-map (kbd "gc") 'evilnc-comment-or-uncomment-lines))
-
-   (elpa-package evil-surround
-		 (global-evil-surround-mode 1))
-
-   (evil-define-key 'normal global-map (kbd "SPC x") 'execute-extended-command)
-   )
 #+END_SRC
 ** Edit Emacs configuration
 #+BEGIN_SRC emacs-lisp
@@ -99,8 +70,6 @@ before UI stuff happens in Emacs, so it's a good place to turn of UI things.
     (interactive)
     (find-file (expand-file-name "README.org" user-emacs-directory)))
   (global-set-key (kbd "C-c e c") 'amirreza/edit-emacs)
-  (if-evil
-   (evil-define-key 'normal global-map (kbd "SPC e c") 'amirreza/edit-emacs))
 #+END_SRC
 ** Theme and coloring Emacs
 #+BEGIN_SRC emacs-lisp
@@ -128,8 +97,6 @@ before UI stuff happens in Emacs, so it's a good place to turn of UI things.
     (load-theme amirreza/--current-theme t))
 
   (global-set-key (kbd "C-c t t") 'amirreza/switch-theme)
-  (if-evil 
-   (evil-define-key 'normal global-map (kbd "SPC t t") 'amirreza/switch-theme))
   (amirreza/load-theme amirreza/theme)
 
 #+END_SRC
@@ -193,19 +160,6 @@ before UI stuff happens in Emacs, so it's a good place to turn of UI things.
 	(call-interactively 'find-file)
 	))
 
-    (if-evil
-     (evil-define-key 'normal global-map (kbd "SPC b b") 'switch-to-buffer)
-     (evil-define-key 'normal global-map (kbd "SPC b k") 'switch-to-buffer)
-     (evil-define-key 'normal global-map (kbd "SPC SPC") 'amirreza/find-file)
-     (evil-define-key 'normal global-map (kbd "SPC f f") 'find-file)
-     (evil-define-key 'normal global-map (kbd "SPC p f") 'project-find-file)
-     (evil-define-key 'normal global-map (kbd "SPC p p") 'project-switch-project)
-     (evil-define-key 'normal global-map (kbd "SPC p g") 'project-find-regexp)
-     (evil-define-key 'normal global-map (kbd "C-j") 'evil-window-bottom)
-     (evil-define-key 'normal global-map (kbd "C-k") 'evil-window-up    )
-     (evil-define-key 'normal global-map (kbd "C-h") 'evil-window-left  )
-     (evil-define-key 'normal global-map (kbd "C-l") 'evil-window-right ))
-
     (elpa-package ace-window
 		  (define-key global-map (kbd "C-x o") 'ace-window))
 
@@ -221,12 +175,6 @@ before UI stuff happens in Emacs, so it's a good place to turn of UI things.
 		  (define-key global-map (kbd "C-h f") 'helpful-callable)
 		  (define-key global-map (kbd "C-h v") 'helpful-variable)
 		  )
-
-    (if-evil
-     (evil-define-key 'normal global-map (kbd "SPC h k") 'helpful-key)
-     (evil-define-key 'normal global-map (kbd "SPC h f") 'helpful-callable)
-     (evil-define-key 'normal global-map (kbd "SPC h v") 'helpful-variable)
-     )
 
 #+END_SRC
 ** Auto completion
@@ -273,50 +221,36 @@ before UI stuff happens in Emacs, so it's a good place to turn of UI things.
 
   ;; Best movement ever ?????
   (setq recenter-positions '(middle))
-  (if-not-evil 
-      (global-set-key (kbd "M-p") (lambda () (interactive) (amirreza/up-center)))
-      (global-set-key (kbd "M-n") (lambda () (interactive) (amirreza/down-center))))
+  (global-set-key (kbd "M-p") (lambda () (interactive) (amirreza/up-center)))
+  (global-set-key (kbd "M-n") (lambda () (interactive) (amirreza/down-center)))
 
 #+END_SRC
 ** LSP
 #+BEGIN_SRC emacs-lisp
-  (elpa-package eglot
+    (elpa-package eglot
+      (require 'eglot)
+      (setq eldoc-echo-area-use-multiline-p nil)
+      (setq eldoc-echo-area-display-truncation-message nil)
+      (setq eldoc-echo-area-prefer-doc-buffer nil)
 
-    (setq eldoc-echo-area-use-multiline-p nil)
-    (setq eldoc-echo-area-display-truncation-message nil)
-    (setq eldoc-echo-area-prefer-doc-buffer nil)
+	(global-eldoc-mode)
 
-    (global-eldoc-mode)
+      (defun amirreza/eglot-hook ()
+	(eglot-ensure)
+	(put 'eglot-note 'flymake-overlay-control nil)
+	(put 'eglot-warning 'flymake-overlay-control nil)
+	(put 'eglot-error 'flymake-overlay-control nil)
+        (define-key eglot-mode-map (kbd "C-c l d") 'eldoc)
+	(define-key eglot-mode-map (kbd "C-c l r") 'eglot-rename)
+	(define-key eglot-mode-map (kbd "M-r") 'xref-find-references)
+	(define-key eglot-mode-map (kbd "C-c l f") 'eglot-format)
+	(define-key eglot-mode-map (kbd "C-c l c") 'eglot-code-actions)
+	)
 
-    (defun amirreza/eglot-hook ()
-      (eglot-ensure)
-      (put 'eglot-note 'flymake-overlay-control nil)
-      (put 'eglot-warning 'flymake-overlay-control nil)
-      (put 'eglot-error 'flymake-overlay-control nil)
-
-      (define-key eglot-mode-map (kbd "C-c l d") 'eldoc)
-      (define-key eglot-mode-map (kbd "C-c l r") 'eglot-rename)
-      (define-key eglot-mode-map (kbd "M-r") 'xref-find-references)
-      (define-key eglot-mode-map (kbd "C-c l f") 'eglot-format)
-      (define-key eglot-mode-map (kbd "C-c l c") 'eglot-code-actions)
-
-      (if-evil
-       (message "eglot evil")
-       (let ((map (intern (concat (symbol-name major-mode) "-map"))))
-	 (evil-define-key 'normal map (kbd "g d") 'xref-find-definitions)
-	 (evil-define-key 'normal map (kbd "g r") 'xref-find-references)
-	 (evil-define-key 'normal map (kbd "g i") 'eglot-find-implementation)
-	 (evil-define-key 'normal map (kbd "g f") 'eglot-format)
-	 (evil-define-key 'normal map (kbd "g .") 'eglot-code-actions)
-	 (evil-define-key 'normal map (kbd "K") 'eldoc)
-	 )
-       )
-      )
-
-    (add-hook 'go-mode-hook 'amirreza/eglot-hook)
-    (add-hook 'rust-mode-hook 'amirreza/eglot-hook)
-    (add-hook 'python-mode-hook 'amirreza/eglot-hook)
-    (add-hook 'php-mode-hook 'amirreza/eglot-hook))
+      (add-hook 'go-mode-hook 'amirreza/eglot-hook)
+      (add-hook 'rust-mode-hook 'amirreza/eglot-hook)
+      (add-hook 'python-mode-hook 'amirreza/eglot-hook)
+      (add-hook 'php-mode-hook 'amirreza/eglot-hook))
 #+END_SRC
 ** Magit
 #+BEGIN_SRC emacs-lisp
@@ -324,9 +258,7 @@ before UI stuff happens in Emacs, so it's a good place to turn of UI things.
     (global-git-gutter-mode))
 
   (elpa-package magit
-		(define-key global-map (kbd "C-x g") 'magit)
-		(if-evil
-		 (evil-define-key 'normal global-map (kbd "SPC g s") 'magit)))
+		(define-key global-map (kbd "C-x g") 'magit))
 #+END_SRC
 ** Languages
 #+BEGIN_SRC emacs-lisp
@@ -392,12 +324,6 @@ before UI stuff happens in Emacs, so it's a good place to turn of UI things.
 		      completion-category-defaults nil
 		      completion-category-overrides '((file (styles partial-completion)))))
 #+END_SRC
-** Modeline
-#+BEGIN_SRC emacs-lisp
-  (elpa-package doom-modeline
-		(setq doom-modeline-height 40)
-		(doom-modeline-mode 1))
-#+END_SRC
 ** Org mode
 #+BEGIN_SRC emacs-lisp
   (emacs-package org
@@ -418,8 +344,6 @@ before UI stuff happens in Emacs, so it's a good place to turn of UI things.
 		 (defun amirreza/org-hook ()
 		   (interactive)
 		   (define-key org-mode-map (kbd "C-c m c b") 'amirreza/org-code-block)
-		   (if-evil
-		    (evil-define-key 'normal org-mode-map (kbd "SPC m c") 'amirreza/org-code-block))
 		   )
 
 		 (add-hook 'org-mode-hook #'amirreza/org-hook)
@@ -464,9 +388,7 @@ before UI stuff happens in Emacs, so it's a good place to turn of UI things.
 
 		(persp-mode 1)
 		(define-key global-map (kbd "C-c w s") 'persp-switch)
-		(add-hook 'kill-emacs-hook 'amirreza/save-session)
-		(if-evil
-		 (evil-define-key 'normal global-map (kbd "SPC w s") 'persp-switch)))
+		(add-hook 'kill-emacs-hook 'amirreza/save-session))
   
 #+END_SRC
 ** Shitty apple computers
