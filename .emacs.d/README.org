@@ -124,57 +124,63 @@ before UI stuff happens in Emacs, so it's a good place to turn of UI things.
 #+END_SRC
 ** Emacs internal configurations
 #+BEGIN_SRC emacs-lisp
-    (setq gc-cons-threshold (* 100 1024 1024))
+  (setq gc-cons-threshold (* 100 1024 1024))
 
-    ;; Many packages like LSP clients will try and spawn a subprocess to do some work, Emacs should read from those processes output and process the result, increasing maximum read means less sys calls to read from, subprocess output and basically more speed.
-    (setq read-process-output-max (* 1024 1024))
+  ;; Many packages like LSP clients will try and spawn a subprocess to do some work, Emacs should read from those processes output and process the result, increasing maximum read means less sys calls to read from, subprocess output and basically more speed.
+  (setq read-process-output-max (* 1024 1024))
 
-    (setq create-lockfiles nil) ;; Don't create .# files as lock.
+  (setq create-lockfiles nil) ;; Don't create .# files as lock.
 
-    (setq make-backup-files nil) ;; Disable backup files ~file
-    (setq auto-save-default nil) ;; Disable auto save files
-    (setq inhibit-startup-screen t) ;; No startup splash screen
-    (setq use-dialog-box nil) ;; Do not use UI for questions
+  (setq make-backup-files nil) ;; Disable backup files ~file
+  (setq auto-save-default nil) ;; Disable auto save files
+  (setq inhibit-startup-screen t) ;; No startup splash screen
+  (setq use-dialog-box nil) ;; Do not use UI for questions
+  (setq ring-bell-function 'ignore) ;; Do not beep please.
 
-    (tool-bar-mode 0) ;; disable top toolbar
-    (scroll-bar-mode 0) ;; disable scroll bar
-    (menu-bar-mode -1) ;; Disable menu bar
+  (tool-bar-mode 0) ;; disable top toolbar
+  (scroll-bar-mode 0) ;; disable scroll bar
+  (menu-bar-mode -1) ;; Disable menu bar
 
-    (setq-default cursor-type 'box) ;; instead of box use a horizontal line.
-    (blink-cursor-mode -1) ;; no blinking cursor.
-
-
-    ;; Copy PATH from default shell
-    (elpa-package exec-path-from-shell
-		  (exec-path-from-shell-initialize))
-
-    (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-
-    (defalias 'yes-or-no-p 'y-or-n-p)
+  (setq-default cursor-type 'box) ;; instead of box use a horizontal line.
+  (blink-cursor-mode -1) ;; no blinking cursor.
 
 
-    (defun amirreza/find-file ()
-      (interactive)
-      (if (vc-backend (buffer-file-name))
-	  (project-find-file)
-	(call-interactively 'find-file)
-	))
+  ;; Copy PATH from default shell
+  (elpa-package exec-path-from-shell
+		(exec-path-from-shell-initialize))
 
-    (elpa-package ace-window
-		  (define-key global-map (kbd "C-x o") 'ace-window))
+  (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 
-    (elpa-package bufler
-		  (define-key global-map (kbd "C-x C-b") 'bufler))
+  (defalias 'yes-or-no-p 'y-or-n-p)
 
-    (emacs-package dired
-		   (add-hook 'dired-mode-hook (lambda ()
-						(define-key dired-mode-map (kbd "C-c C-e") 'wdired-change-to-wdired-mode))))
 
-    (elpa-package helpful
-		  (define-key global-map (kbd "C-h k") 'helpful-key)
-		  (define-key global-map (kbd "C-h f") 'helpful-callable)
-		  (define-key global-map (kbd "C-h v") 'helpful-variable)
-		  )
+  (defun amirreza/find-file ()
+    (interactive)
+    (if (vc-backend (buffer-file-name))
+	(project-find-file)
+      (call-interactively 'find-file)
+      ))
+
+  (elpa-package ace-window
+		(define-key global-map (kbd "C-x o") 'ace-window))
+
+  (elpa-package bufler
+		(define-key global-map (kbd "C-x C-b") 'bufler))
+
+  (emacs-package dired
+		 (add-hook 'dired-mode-hook (lambda ()
+					      (define-key dired-mode-map (kbd "C-c C-e") 'wdired-change-to-wdired-mode))))
+
+  (elpa-package helpful
+		(define-key global-map (kbd "C-h k") 'helpful-key)
+		(define-key global-map (kbd "C-h f") 'helpful-callable)
+		(define-key global-map (kbd "C-h v") 'helpful-variable)
+		)
+
+
+  (emacs-package emacs
+		 (define-key global-map (kbd "M-SPC") 'set-mark-command)
+   )
 
 #+END_SRC
 ** Auto completion
