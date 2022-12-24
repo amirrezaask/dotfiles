@@ -63,13 +63,16 @@ before UI stuff happens in Emacs, so it's a good place to turn of UI things.
     `(progn
        ,@body))
 
+  ;; For keybindings I use general.el which provides a really
+  ;; useful macro `general-def`
+  (elpa-package general)
+
 #+END_SRC
 ** Edit Emacs configuration
 #+BEGIN_SRC emacs-lisp
-  (defun amirreza/edit-emacs ()
-    (interactive)
-    (find-file (expand-file-name "README.org" user-emacs-directory)))
-  (global-set-key (kbd "C-c e c") 'amirreza/edit-emacs)
+    (defun amirreza/edit-emacs ()
+      (interactive)
+      (find-file (expand-file-name "README.org" user-emacs-directory)))
 #+END_SRC
 ** Theme and coloring Emacs
 #+BEGIN_SRC emacs-lisp
@@ -96,7 +99,6 @@ before UI stuff happens in Emacs, so it's a good place to turn of UI things.
     (setq amirreza/--current-theme theme)
     (load-theme amirreza/--current-theme t))
 
-  (global-set-key (kbd "C-c t t") 'amirreza/switch-theme)
   (amirreza/load-theme amirreza/theme)
 
 #+END_SRC
@@ -177,26 +179,17 @@ before UI stuff happens in Emacs, so it's a good place to turn of UI things.
       (call-interactively 'find-file)
       ))
 
-  (elpa-package ace-window
-		(define-key global-map (kbd "C-x o") 'ace-window))
+  (elpa-package ace-window)
 
-  (elpa-package bufler
-		(define-key global-map (kbd "C-x C-b") 'bufler))
+  (elpa-package bufler)
 
   (emacs-package dired
 		 (add-hook 'dired-mode-hook (lambda ()
 					      (define-key dired-mode-map (kbd "C-c C-e") 'wdired-change-to-wdired-mode))))
 
-  (elpa-package helpful
-		(define-key global-map (kbd "C-h k") 'helpful-key)
-		(define-key global-map (kbd "C-h f") 'helpful-callable)
-		(define-key global-map (kbd "C-h v") 'helpful-variable)
-		)
-
-
+  (elpa-package helpful)
   (emacs-package emacs
-		 (define-key global-map (kbd "M-SPC") 'set-mark-command)
-   )
+		 (define-key global-map (kbd "M-SPC") 'set-mark-command))
 
 #+END_SRC
 ** Auto completion
@@ -371,7 +364,6 @@ before UI stuff happens in Emacs, so it's a good place to turn of UI things.
 						      )))))
 		 (defun amirreza/org-hook ()
 		   (interactive)
-		   (define-key org-mode-map (kbd "C-c m c b") 'amirreza/org-code-block)
 		   )
 
 		 (add-hook 'org-mode-hook #'amirreza/org-hook)
@@ -400,7 +392,6 @@ before UI stuff happens in Emacs, so it's a good place to turn of UI things.
 
 (elpa-package tree-sitter-langs)
 #+END_SRC
-
 ** Never loose a good setup
 #+BEGIN_SRC emacs-lisp
   (elpa-package perspective
@@ -416,8 +407,9 @@ before UI stuff happens in Emacs, so it's a good place to turn of UI things.
 
 		(persp-mode 1)
 		(define-key global-map (kbd "C-c w s") 'persp-switch)
+		(global-set-key (kbd "C-x b") 'persp-switch-to-buffer*)
 		(add-hook 'kill-emacs-hook 'amirreza/save-session))
-  
+
 #+END_SRC
 ** Shitty apple computers
 #+BEGIN_SRC emacs-lisp
@@ -428,4 +420,140 @@ before UI stuff happens in Emacs, so it's a good place to turn of UI things.
 #+BEGIN_SRC emacs-lisp
   (elpa-package which-key
 		(which-key-mode +1))
+#+END_SRC
+** Keybindings
+#+BEGIN_SRC emacs-lisp
+  (general-def
+    :prefix "C-c"
+    :keymaps 'override
+
+    ;; Edit Emacs configuration, this file
+    "e e" 'amirreza/edit-emacs
+
+    ;; Switch emacs theme
+    "t t" 'amirreza/switch-theme
+    )
+
+
+  (general-def
+    :prefix "C-c m"
+    :keymaps 'org-mode-map
+
+    "c b" 'amirreza/org-code-block)
+
+  (general-def
+    :prefix "C-x"
+    :keymaps 'override
+
+    "o" 'ace-window
+    "C-b" 'bufler)
+
+
+  (general-def
+    :prefix "C-h"
+    :keymaps 'override
+
+    "k" 'helpful-key
+    "f" 'helpful-callable
+    "v" 'helpful-variable)
+#+END_SRC
+** Evil Mode
+As you probably know evil mode in Emacs emulates vim modal editing experience.
+It's closest thing I have seen to vim in all editors and IDEs, since I constanly switching
+between Emacs and Vim style of keybindings I keep this section at the end to easily disable it If
+I want.
+#+BEGIN_SRC emacs-lisp
+  (elpa-package evil
+		(setq evil-want-C-u-scroll t)
+		(setq evil-want-C-i-jump nil)
+		(setq evil-split-window-below t)
+		(setq evil-vsplit-window-right t)
+		(setq evil-want-integration t)
+		(setq evil-want-keybinding nil)
+		(evil-mode 1)
+		(evil-global-set-key 'normal (kbd "<C-d>") (lambda
+							     ()
+							     (interactive)
+							     (evil-scroll-down)
+							     (evil-scroll-line-to-center)
+							     ))
+		(evil-global-set-key 'normal (kbd "<C-u>") (lambda
+							     ()
+							     (interactive)
+							     (evil-scroll-up)
+							     (evil-scroll-line-to-center))))
+
+
+  (elpa-package evil-escape
+		(setq-default evil-escape-key-sequence "jk")
+		(setq evil-escape-unordered-key-sequence t)
+		(evil-escape-mode))
+
+
+
+  (elpa-package evil-collection
+		(evil-collection-init))
+
+  (elpa-package evil-nerd-commenter
+		(evil-define-key '(normal visual) global-map (kbd "gc") 'evilnc-comment-or-uncomment-lines))
+
+  (elpa-package evil-surround
+		(global-evil-surround-mode 1))
+#+END_SRC
+*** Keybindings
+#+BEGIN_SRC emacs-lisp
+    ;; Window management stuff
+  (general-def
+    :states 'normal
+    "C-j" 'evil-window-down
+    "C-k" 'evil-window-up
+    "C-l" 'evil-window-right
+    "C-h" 'evil-window-left)
+
+  ;; Buffer management stuff
+  (general-def
+    :states 'normal
+    :keymaps 'override
+    :prefix "SPC b"
+    "b" 'persp-switch-to-buffer*
+    "k" 'kill-buffer
+    )
+
+  (general-def
+    :prefix "SPC"
+    :keymaps 'override
+    :states 'normal
+
+    "e e" 'amirreza/edit-emacs)
+
+  (general-def
+    :prefix "SPC m"
+    :keymaps 'org-mode-map
+    :states 'normal
+
+    "c b" 'amirreza/org-code-block)
+
+
+  ;; File navigation and management stuff
+  (general-def
+    :states 'normal
+    :keymaps 'override
+    :prefix "SPC f"
+
+    "f" 'find-file
+    "d" 'dired
+    )
+
+  (general-def :states 'normal :keymaps 'override "SPC SPC" 'amirreza/find-file)
+  (general-def :states 'normal :keymaps 'override "SPC g s" 'magit)
+
+  (general-def
+    :states 'normal
+    :keymaps 'override
+    :prefix "SPC p"
+
+    "p" 'project-switch-project
+    "f" 'project-find-file
+    "d" 'project-dired
+  )
 #+END_SRC
