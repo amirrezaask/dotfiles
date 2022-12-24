@@ -248,30 +248,18 @@ before UI stuff happens in Emacs, so it's a good place to turn of UI things.
 #+END_SRC
 ** LSP
 #+BEGIN_SRC emacs-lisp
-    (elpa-package eglot
-      (require 'eglot)
-      (setq eldoc-echo-area-use-multiline-p nil)
-      (setq eldoc-echo-area-display-truncation-message nil)
-      (setq eldoc-echo-area-prefer-doc-buffer nil)
+  (elpa-package eglot
+		(require 'eglot)
+		(setq eldoc-echo-area-use-multiline-p nil)
+		(setq eldoc-echo-area-display-truncation-message nil)
+		(setq eldoc-echo-area-prefer-doc-buffer nil)
 
-	(global-eldoc-mode)
-
-      (defun amirreza/eglot-hook ()
-	(eglot-ensure)
-	(put 'eglot-note 'flymake-overlay-control nil)
-	(put 'eglot-warning 'flymake-overlay-control nil)
-	(put 'eglot-error 'flymake-overlay-control nil)
-        (define-key eglot-mode-map (kbd "C-c l d") 'eldoc)
-	(define-key eglot-mode-map (kbd "C-c l r") 'eglot-rename)
-	(define-key eglot-mode-map (kbd "M-r") 'xref-find-references)
-	(define-key eglot-mode-map (kbd "C-c l f") 'eglot-format)
-	(define-key eglot-mode-map (kbd "C-c l c") 'eglot-code-actions)
-	)
-
-      (add-hook 'go-mode-hook 'amirreza/eglot-hook)
-      (add-hook 'rust-mode-hook 'amirreza/eglot-hook)
-      (add-hook 'python-mode-hook 'amirreza/eglot-hook)
-      (add-hook 'php-mode-hook 'amirreza/eglot-hook))
+		(global-eldoc-mode)
+		(add-hook 'go-mode-hook 'eglot-ensure)
+		(add-hook 'rust-mode-hook 'eglot-ensure)
+		(add-hook 'python-mode-hook 'eglot-ensure)
+		(add-hook 'php-mode-hook 'eglot-ensure))
+  (elpa-package consult-eglot)
 #+END_SRC
 ** Magit
 #+BEGIN_SRC emacs-lisp
@@ -362,12 +350,16 @@ before UI stuff happens in Emacs, so it's a good place to turn of UI things.
 						      "fish"
 						      "java"
 						      )))))
-		 (defun amirreza/org-hook ()
-		   (interactive)
-		   )
 
-		 (add-hook 'org-mode-hook #'amirreza/org-hook)
+		 (defun amirreza/org-disable-tangle ()
+		   (interactive)
+		   (insert ":PROPERTIES:
+  :header-args:    :tangle no
+  :END:"
+		   ))
+		 (setq org-use-property-inheritance t)
 		 (setq org-src-window-setup 'current-window))
+
   (elpa-package org-bullets
 		(add-hook 'org-mode-hook #'org-bullets-mode))
 #+END_SRC
@@ -422,42 +414,72 @@ before UI stuff happens in Emacs, so it's a good place to turn of UI things.
 		(which-key-mode +1))
 #+END_SRC
 ** Keybindings
+*** Edit Emacs Configuration
 #+BEGIN_SRC emacs-lisp
-  (general-def
-    :prefix "C-c"
-    :keymaps 'override
-
-    ;; Edit Emacs configuration, this file
-    "e e" 'amirreza/edit-emacs
-
-    ;; Switch emacs theme
-    "t t" 'amirreza/switch-theme
-    )
-
-
+(general-def :keymaps 'override "C-c e e" 'amirreza/edit-emacs)
+#+END_SRC
+*** Switch theme
+#+BEGIN_SRC emacs-lisp
+(general-def :keymaps 'override "C-c t t" 'amirreza/switch-theme)
+#+END_SRC
+*** Window management using ace-window
+#+BEGIN_SRC emacs-lisp
+(general-def :keymaps 'override "C-x o" 'ace-window)
+#+END_SRC
+*** Buffer management using bufler
+#+BEGIN_SRC emacs-lisp
+(general-def :keymaps 'override "C-x C-b" 'bufler)
+#+END_SRC
+*** Org Mode Related Keymaps
+#+BEGIN_SRC emacs-lisp
   (general-def
     :prefix "C-c m"
     :keymaps 'org-mode-map
 
     "c b" 'amirreza/org-code-block)
-
-  (general-def
-    :prefix "C-x"
-    :keymaps 'override
-
-    "o" 'ace-window
-    "C-b" 'bufler)
-
-
-  (general-def
+#+END_SRC
+*** Helpful instead of default help
+#+BEGIN_SRC emacs-lisp
+(general-def
     :prefix "C-h"
     :keymaps 'override
 
     "k" 'helpful-key
     "f" 'helpful-callable
-    "v" 'helpful-variable)
+    "v" 'helpful-variable
+    )
+
+#+END_SRC
+*** Project related keys
+#+BEGIN_SRC emacs-lisp
+  (general-def
+    :keymaps 'override
+    :prefix "C-x p"
+
+    "f" 'project-find-file
+    "p" 'project-switch-project
+    "b" 'project-buffers
+    "d" 'project-dired
+    "c" 'project-compile
+    )
+#+END_SRC
+*** LSP related keys
+#+BEGIN_SRC emacs-lisp
+  (general-def
+    :keymaps 'eglot-mode-map
+    "M-." 'xref-find-definitions
+    "M-," 'xref-go-back
+    "M-r" 'xref-find-references
+    "M-i" 'eglot-find-implementation
+
+    "C-c m r" 'eglot-rename
+    "C-c m s" 'consult-eglot-symbols
+    )
 #+END_SRC
 ** Evil Mode
+:PROPERTIES:
+:header-args:    :tangle no
+:END:
 As you probably know evil mode in Emacs emulates vim modal editing experience.
 It's closest thing I have seen to vim in all editors and IDEs, since I constanly switching
 between Emacs and Vim style of keybindings I keep this section at the end to easily disable it If
@@ -502,13 +524,23 @@ I want.
 #+END_SRC
 *** Keybindings
 #+BEGIN_SRC emacs-lisp
-    ;; Window management stuff
+  ;; Window management stuff
   (general-def
     :states 'normal
     "C-j" 'evil-window-down
     "C-k" 'evil-window-up
     "C-l" 'evil-window-right
     "C-h" 'evil-window-left)
+
+
+  (general-def
+    :prefix "SPC h"
+    :states 'normal
+    :keymaps 'override
+
+    "k" 'helpful-key
+    "f" 'helpful-callable
+    "v" 'helpful-variable)
 
   ;; Buffer management stuff
   (general-def
@@ -546,6 +578,7 @@ I want.
 
   (general-def :states 'normal :keymaps 'override "SPC SPC" 'amirreza/find-file)
   (general-def :states 'normal :keymaps 'override "SPC g s" 'magit)
+  (general-def :states 'normal :keymaps 'override "SPC x" 'execute-extended-command)
 
   (general-def
     :states 'normal
@@ -555,5 +588,15 @@ I want.
     "p" 'project-switch-project
     "f" 'project-find-file
     "d" 'project-dired
-  )
+    )
+#+END_SRC
+**** LSP
+#+BEGIN_SRC emacs-lisp
+  (general-def
+    :states 'normal
+    :keymaps 'eglot-mode-map
+    "g r" 'xref-find-references
+    "g i" 'eglot-find-implementation
+    "g d" 'xref-find-definitions
+    )
 #+END_SRC
