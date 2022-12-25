@@ -40,7 +40,11 @@ init.el will just load this file.
 #+BEGIN_SRC emacs-lisp :tangle init.el
 (org-babel-load-file (expand-file-name "README.org" user-emacs-directory))
 #+END_SRC
-** [[https://github.com/radian-software/straight.el][straight.el]]
+** Side effects
+As a functional programming enthusiast I think we should isolate side effects and stateful stuff
+from pure things so in this section I will do the installing of all pacakges that I need and since
+I am using =straight.el= I have full control on the version if I want to.
+*** [[https://github.com/radian-software/straight.el][straight.el]]
 #+BEGIN_SRC emacs-lisp
 (defvar bootstrap-version)
 (let ((bootstrap-file
@@ -55,29 +59,108 @@ init.el will just load this file.
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 #+END_SRC
+#+BEGIN_SRC emacs-lisp
+
+#+END_SRC
+*** Now let's install everything I need
+#+BEGIN_SRC emacs-lisp
+  (setq amirreza/packages
+	'(
+	  ;; General
+	  general
+	  ;; Themes and UI stuff
+	  all-the-icons
+	  ef-themes
+	  doom-themes
+	  gruber-darker-theme
+
+	  exec-path-from-shell ;; Environments from my default shell
+
+	  ace-window ;; Window management made easy
+
+	  bufler ;; buffer management made easy
+
+	  helpful ;; Better help buffers, more info like keymappings in function help buffers.
+
+	  ;; Autocomplete popup in buffer, we need this as a custom reciepe to have extensions in my `load-path`
+	  (corfu :type git :host github :repo "emacs-straight/corfu" :files ("*" "extensions/*.el" (:exclude ".git")))
+	  ;; make corfu work in terminal emacs
+	  corfu-terminal
+
+	  ;; Centralize your buffer text
+	  olivetti
+
+	  ;; Don't need any description right ?
+	  rainbow-delimiters
+
+	  ;; select a portion of your buffer and expand or contract semantically
+	  expand-region
+
+	  ;; LSP client, in Emacs 29 it's going to be upstreamed in core
+	  eglot
+
+	  ;; just this command `consult-eglot-symbols`
+	  consult-eglot
+
+	  ;; Show git diff signs in sidebar
+	  git-gutter
+	  ;; Best git client on the earth
+	  magit
+
+	  vterm ;; Modern terminal in Emacs
+	  apache-mode ;; Apache config syntax
+	  systemd ;; Systemd config syntax
+	  nginx-mode ;; Nginx config syntax
+	  docker-compose-mode ;; Docker-compose syntax
+	  dockerfile-mode ;; Dockerfile syntax
+	  markdown-mode ;; Markdown syntax
+	  go-mode ;; Golang
+	  go-tag ;; Manage Struct tags in Golang
+	  rust-mode ;; Rust
+	  zig-mode ;; Zig
+	  yaml-mode
+	  csv-mode 
+	  json-mode
+	  clojure-mode ;; LISP on JVM
+	  cider ;; Clojure repl integrated into Emacs
+
+	  vertico
+	  savehist
+	  consult
+	  marginalia
+	  orderless
+
+	  org-bullets
+	  org-reveal
+	  htmlize
+
+	  prescient
+	  vertico-prescient
+	  corfu-prescient
+
+	  tree-sitter
+	  tree-sitter-langs
+
+	  perspective
+
+	  which-key
+	  ))
+
+  (mapc (lambda (pkg-receipe)
+	  (straight-use-package pkg-receipe)
+	  ) amirreza/packages)
+#+END_SRC
 ** Some basic macros
 #+BEGIN_SRC emacs-lisp
   (add-to-list 'load-path (expand-file-name "site-lisp" user-emacs-directory))
   (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 
-  (defmacro elpa-package
+  (defmacro config
       (package &rest body)
-    "Check if PACKAGE is installed and evaluate BODY."
+    ""
     `(progn
-       (straight-use-package (quote ,package))
        (progn ,@body)
        ))
-
-  (defmacro emacs-package
-      (package &rest body)
-    "Nothing fancy, just evaluate BODY, mostly for organization"
-    `(progn
-       ,@body))
-
-  ;; For keybindings I use general.el which provides a really
-  ;; useful macro `general-def`
-  (elpa-package general)
-
 #+END_SRC
 ** Edit Emacs configuration
 #+BEGIN_SRC emacs-lisp
@@ -87,10 +170,10 @@ init.el will just load this file.
 #+END_SRC
 ** Theme and coloring Emacs
 #+BEGIN_SRC emacs-lisp
-  (elpa-package all-the-icons)
-  (elpa-package ef-themes)
-  (elpa-package doom-themes)
-  (elpa-package gruber-darker-theme)
+  (config all-the-icons)
+  (config ef-themes)
+  (config doom-themes)
+  (config gruber-darker-theme)
 
   ;; Add custom themes path to themes load path
   (add-to-list 'custom-theme-load-path
@@ -140,7 +223,7 @@ init.el will just load this file.
 ** Modeline
 I don't do anything fancy just remove minor modes from modeline because I think they are useless really.
 #+BEGIN_SRC emacs-lisp
-  (emacs-package modeline
+  (config modeline
 		 (setq-default mode-line-format
 			       '("%e" mode-line-front-space
 				(:propertize
@@ -178,7 +261,7 @@ I don't do anything fancy just remove minor modes from modeline because I think 
 
 
   ;; Copy PATH from default shell
-  (elpa-package exec-path-from-shell
+  (config exec-path-from-shell
 		(exec-path-from-shell-initialize))
 
   (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
@@ -192,13 +275,13 @@ I don't do anything fancy just remove minor modes from modeline because I think 
 	(project-find-file)
       (call-interactively 'find-file)
       ))
-  (elpa-package ace-window)
-  (elpa-package bufler)
-  (elpa-package helpful)
+  (config ace-window)
+  (config bufler)
+  (config helpful)
 #+END_SRC
 ** Auto completion
 #+BEGIN_SRC emacs-lisp
-  (elpa-package (corfu :type git :host github :repo "emacs-straight/corfu" :files ("*" "extensions/*.el" (:exclude ".git")))
+  (config (corfu :type git :host github :repo "emacs-straight/corfu" :files ("*" "extensions/*.el" (:exclude ".git")))
 		(setq corfu-auto t)
 		(global-corfu-mode)
 		(corfu-history-mode 1)
@@ -208,18 +291,18 @@ I don't do anything fancy just remove minor modes from modeline because I think 
 
 
 
-  (elpa-package corfu-terminal
+  (config corfu-terminal
 		(corfu-terminal-mode)
 		)
 
 #+END_SRC
 ** Editor UX
 #+BEGIN_SRC emacs-lisp
-  (elpa-package olivetti
+  (config olivetti
 		(setq olivetti-body-width 100)
 		)
 
-  (elpa-package rainbow-delimiters
+  (config rainbow-delimiters
 		(add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 
   (delete-selection-mode 1) ;; When a region of text is selected and then something is typed remove text and replace with what has been typed.
@@ -232,7 +315,7 @@ I don't do anything fancy just remove minor modes from modeline because I think 
 
     (global-display-line-numbers-mode 1) ;; enable line numbers globaly
 
-    (elpa-package expand-region)
+    (config expand-region)
     (global-hl-line-mode)
 
     (defun amirreza/up-center ()
@@ -281,54 +364,54 @@ I don't do anything fancy just remove minor modes from modeline because I think 
 #+END_SRC
 ** LSP
 #+BEGIN_SRC emacs-lisp
-  (elpa-package eglot
+  (config eglot
 		(add-hook 'go-mode-hook 'eglot-ensure)
 		(add-hook 'rust-mode-hook 'eglot-ensure)
 		(add-hook 'python-mode-hook 'eglot-ensure)
 		(add-hook 'php-mode-hook 'eglot-ensure))
 
 
-  (elpa-package consult-eglot)
+  (config consult-eglot)
 #+END_SRC
 ** Magit
 #+BEGIN_SRC emacs-lisp
-  (elpa-package git-gutter
+  (config git-gutter
     (global-git-gutter-mode))
 
-  (elpa-package magit)
+  (config magit)
 
 #+END_SRC
 ** Languages
 #+BEGIN_SRC emacs-lisp
-(elpa-package apache-mode)
-(elpa-package vterm)
-(elpa-package systemd)
-(elpa-package nginx-mode)
+(config apache-mode)
+(config vterm)
+(config systemd)
+(config nginx-mode)
 
-(elpa-package docker-compose-mode)
-(elpa-package dockerfile-mode)
+(config docker-compose-mode)
+(config dockerfile-mode)
 
-(elpa-package markdown-mode)
+(config markdown-mode)
 
 ;; Golang
-(elpa-package go-mode)
-(elpa-package go-tag)
+(config go-mode)
+(config go-tag)
 
-(elpa-package rust-mode)
+(config rust-mode)
 
-(elpa-package zig-mode)
+(config zig-mode)
 
-(elpa-package yaml-mode)
-(elpa-package csv-mode)
-(elpa-package json-mode)
+(config yaml-mode)
+(config csv-mode)
+(config json-mode)
 
 ;; clojure support
-(elpa-package clojure-mode)
-(elpa-package cider)
+(config clojure-mode)
+(config cider)
 #+END_SRC
 ** Minibuffer
 #+BEGIN_SRC emacs-lisp
-  (elpa-package (vertico
+  (config (vertico
 		 :type git
 		 :host github
 		 :repo "emacs-straight/vertico"
@@ -340,23 +423,23 @@ I don't do anything fancy just remove minor modes from modeline because I think 
 		(setq vertico-cycle t))
 
 
-  (elpa-package savehist
+  (config savehist
 		(savehist-mode))
 
-  (elpa-package consult
+  (config consult
 		(setq consult-async-min-input 1))
 
-  (elpa-package marginalia
+  (config marginalia
 		(marginalia-mode))
 
-  (elpa-package orderless
+  (config orderless
 		(setq completion-styles '(orderless basic)
 		      completion-category-defaults nil
 		      completion-category-overrides '((file (styles partial-completion)))))
 #+END_SRC
 ** Org mode
 #+BEGIN_SRC emacs-lisp
-  (emacs-package org
+  (config org
 		 (defun amirreza/org-code-block ()
 		   (interactive)
 		   (insert (format "#+BEGIN_SRC %s\n\n#+END_SRC"
@@ -381,14 +464,14 @@ I don't do anything fancy just remove minor modes from modeline because I think 
 		 (setq org-use-property-inheritance t)
 		 (setq org-src-window-setup 'current-window))
 
-  (elpa-package org-bullets
+  (config org-bullets
 		(add-hook 'org-mode-hook #'org-bullets-mode))
 #+END_SRC
 *** Org-reveal
 =org-reveal= will let you create =reveal.js= presentations from Org mode documents.
 #+BEGIN_SRC emacs-lisp
-  (elpa-package org-reveal)
-  (elpa-package htmlize)
+  (config org-reveal)
+  (config htmlize)
   (add-hook 'org-mode-hook
 	    (lambda ()
 	      (require 'ox-reveal))
@@ -398,28 +481,28 @@ I don't do anything fancy just remove minor modes from modeline because I think 
 #+END_SRC
 ** Psychic like completion
 #+BEGIN_SRC emacs-lisp
-    (elpa-package prescient)
+    (config prescient)
 
-    (elpa-package vertico-prescient
+    (config vertico-prescient
       (vertico-prescient-mode))
 
-    (elpa-package corfu-prescient
+    (config corfu-prescient
       (corfu-prescient-mode))
 #+END_SRC
 ** Project management
 #+BEGIN_SRC emacs-lisp
-  (emacs-package project)
+  (config project)
 #+END_SRC
 ** Treesitter, get rid of regex
 #+BEGIN_SRC emacs-lisp
-(elpa-package tree-sitter
+(config tree-sitter
   (global-tree-sitter-mode))
 
-(elpa-package tree-sitter-langs)
+(config tree-sitter-langs)
 #+END_SRC
 ** Never loose a good setup
 #+BEGIN_SRC emacs-lisp
-  (elpa-package perspective
+  (config perspective
 		(setq persp-state-default-file (expand-file-name "sessions" user-emacs-directory))
 		(setq persp-mode-prefix-key (kbd "C-c w"))
 
@@ -449,7 +532,7 @@ I don't do anything fancy just remove minor modes from modeline because I think 
 #+END_SRC
 ** Which Key
 #+BEGIN_SRC emacs-lisp
-  (elpa-package which-key
+  (config which-key
 		(which-key-mode +1))
 #+END_SRC
 ** Keybindings
@@ -572,7 +655,7 @@ It's closest thing I have seen to vim in all editors and IDEs, since I constanly
 between Emacs and Vim style of keybindings I keep this section at the end to easily disable it If
 I want.
 #+BEGIN_SRC emacs-lisp
-  (elpa-package evil
+  (config evil
 		(setq evil-want-C-u-scroll t)
 		(setq evil-want-C-i-jump nil)
 		(setq evil-split-window-below t)
@@ -593,20 +676,20 @@ I want.
 							     (evil-scroll-line-to-center))))
 
 
-  (elpa-package evil-escape
+  (config evil-escape
 		(setq-default evil-escape-key-sequence "jk")
 		(setq evil-escape-unordered-key-sequence t)
 		(evil-escape-mode))
 
 
 
-  (elpa-package evil-collection
+  (config evil-collection
 		(evil-collection-init))
 
-  (elpa-package evil-nerd-commenter
+  (config evil-nerd-commenter
 		(evil-define-key '(normal visual) global-map (kbd "gc") 'evilnc-comment-or-uncomment-lines))
 
-  (elpa-package evil-surround
+  (config evil-surround
 		(global-evil-surround-mode 1))
 #+END_SRC
 *** Keybindings
