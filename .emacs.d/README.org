@@ -125,6 +125,7 @@ before UI stuff happens in Emacs, so it's a good place to turn of UI things.
 
 #+END_SRC
 ** Modeline
+I don't do anything fancy just remove minor modes from modeline because I think they are useless really.
 #+BEGIN_SRC emacs-lisp
   (emacs-package modeline
 		 (setq-default mode-line-format
@@ -419,7 +420,8 @@ before UI stuff happens in Emacs, so it's a good place to turn of UI things.
   (general-def :keymaps 'override
     "C-=" 'er/expand-region
     "C--" 'er/contract-region
-    "M-SPC" 'set-mark-command)
+    "C-q" 'set-mark-command ;; really important key if you use emacs in terminal
+    )
 #+END_SRC
 *** Magit
 #+BEGIN_SRC emacs-lisp
