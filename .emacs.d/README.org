@@ -48,7 +48,8 @@
   - [[#kitty][Kitty]]
 
 ** How to install ?
-It's a fairly simple thing to do
+It's a fairly simple thing to do but remember this will override your current =kitty= and =emacs= config, so backup
+them please
 #+BEGIN_SRC sh
   curl https://raw.githubusercontent.com/amirrezaask/dotfiles/master/.emacs.d/README.org > ~/.emacs.d/README.org &&\
       emacs --batch --eval "(require 'org)" --eval '(org-babel-tangle-file "~/.emacs.d/README.org")'
