@@ -31,14 +31,16 @@
       - [[#golang][Golang]]
     - [[#workspaces][Workspaces]]
   - [[#kitty][Kitty]]
+    - [[#themes-1][Themes]]
+      - [[#dracula][Dracula]]
+    - [[#configs][Configs]]
 
 ** How to install ?
 It's a fairly simple thing to do but remember this will override your current =kitty= and =emacs= config, so backup
 them please
 #+BEGIN_SRC sh
-  mkdir -p ~/.config/kitty/ &&\
-      curl https://raw.githubusercontent.com/amirrezaask/dotfiles/master/.emacs.d/README.org > ~/.emacs.d/README.org &&\
-      emacs --batch --eval "(require 'org)" --eval '(org-babel-tangle-file "~/.emacs.d/README.org")'
+  curl https://raw.githubusercontent.com/amirrezaask/dotfiles/master/.emacs.d/README.org > ~/.emacs.d/README.org &&\
+  emacs --batch --eval "(require 'org)" --eval '(org-babel-tangle-file "~/.emacs.d/README.org")'
 #+END_SRC
 ** Emacs
 *** Personal Customization Variable
@@ -319,32 +321,20 @@ I rather have all side effects ( installing packages on disk ) in one place.
 *** Editor
 #+BEGIN_SRC emacs-lisp
   (setq olivetti-body-width 100)
-
   (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
-
   (delete-selection-mode 1) ;; When a region of text is selected and then something is typed remove text and replace with what has been typed.
-
   (show-paren-mode 1) ;; Highlight matching parens
-
   (setq show-paren-delay 0) ;; highlight matching parens instantly.
-
   (setq display-line-numbers-type 'relative) ;; relative line numbers
-
   (global-display-line-numbers-mode 1) ;; enable line numbers globaly
-
-
-  (global-hl-line-mode)
-
   (defun amirreza/up-center ()
     (interactive)
     (previous-line (/ (window-height) 2))
     (recenter-top-bottom))
-
   (defun amirreza/down-center ()
     (interactive)
     (next-line (/ (window-height) 2))
     (recenter-top-bottom))
-
   ;; Best movement ever ?????
   (setq recenter-positions '(middle))
   (global-set-key (kbd "M-p") (lambda () (interactive) (amirreza/up-center)))
@@ -513,7 +503,9 @@ and a seperate buffer.
   (general-def :prefix "C-c w" :keymaps 'override "s" 'persp-switch)
 #+END_SRC
 ** Kitty
-#+BEGIN_SRC conf :tangle ~/.config/kitty/kitty.conf
+*** Themes
+**** Dracula
+#+BEGIN_SRC conf :tangle ~/.config/kitty/kitty.conf :mkdirp yes
   foreground            #f8f8f2
   background            #282a36
   selection_foreground  #ffffff
@@ -571,17 +563,20 @@ and a seperate buffer.
   active_border_color #f8f8f2
   inactive_border_color #6272a4
 
+
+#+END_SRC
+*** Configs
+#+BEGIN_SRC conf :tangle ~/.config/kitty/kitty.conf :mkdirp yes
   # Font configuration
+  font_family OperatorMono Nerd Font Medium
+  bold_font OperatorMono Nerd Font Bold
+  italic_font  OperatorMono Nerd Font Italic
+  bold_italic_font OperatorMono Nerd Font Bold Italic
 
-  # font_family OperatorMono Nerd Font Medium
-  # bold_font OperatorMono Nerd Font Bold
-  # italic_font  OperatorMono Nerd Font Italic
-  # bold_italic_font OperatorMono Nerd Font Bold Italic
-
-  font_family FiraCode Nerd Font Mono Medium
-  bold_font FiraCode Nerd Font Mono Bold
-  italic_font  FiraCode Nerd Font Mono Italic
-  bold_italic_font FiraCode Nerd Font Mono Bold Italic
+  # font_family FiraCode Nerd Font Mono Medium
+  # bold_font FiraCode Nerd Font Mono Bold
+  # italic_font  FiraCode Nerd Font Mono Italic
+  # bold_italic_font FiraCode Nerd Font Mono Bold Italic
 
   # font_family JetBrainsMono Nerd Font Mono Regular
   # bold_font JetBrainsMono Nerd Font Mono Bold
@@ -642,6 +637,6 @@ and a seperate buffer.
   # term
   term xterm-256color
 
-  background_opacity 0.88
+  background_opacity 0.96
   # background_opacity 1
 #+END_SRC
