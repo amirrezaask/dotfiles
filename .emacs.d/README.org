@@ -22,7 +22,7 @@
     - [[#editor][Editor]]
       - [[#org-mode][Org mode]]
         - [[#org-reveal][Org-reveal]]
-    - [[#ide][IDE]]
+    - [[#programming][Programming]]
       - [[#eldoc][Eldoc]]
       - [[#lsp][LSP]]
       - [[#git][Git]]
@@ -401,8 +401,11 @@ I don't do anything fancy just remove minor modes from modeline because I think 
 
 
 #+END_SRC
-*** IDE
+*** Programming
 **** Eldoc
+Eldoc is a core emacs package that can be used
+to show documentation and possibly errors both in =echo-area=
+and a seperate buffer.
 #+BEGIN_SRC emacs-lisp
   (setq eldoc-echo-area-use-multiline-p nil)
   (setq eldoc-echo-area-display-truncation-message nil)
