@@ -7,10 +7,14 @@
   - [[#how-to-install-][How to install ?]]
   - [[#emacs][Emacs]]
     - [[#personal-customization-variable][Personal Customization Variable]]
-    - [[#early-initel][early-init.el]]
-    - [[#initel][init.el]]
+    - [[#init-files][Init Files]]
+      - [[#early-initel][early-init.el]]
+      - [[#initel][init.el]]
     - [[#packages][Packages]]
     - [[#basics-and-core-settings][Basics and core settings]]
+    - [[#windows-and-buffers][Windows and Buffers]]
+    - [[#dired-file-manager][Dired File Manager]]
+    - [[#emacs-help][Emacs Help]]
     - [[#ui][UI]]
         - [[#themes][Themes]]
         - [[#font][Font]]
@@ -21,24 +25,12 @@
     - [[#editor][Editor]]
       - [[#org-mode][Org mode]]
         - [[#org-reveal][Org-reveal]]
+    - [[#git][Git]]
     - [[#programming][Programming]]
       - [[#eldoc][Eldoc]]
       - [[#lsp][LSP]]
-      - [[#git][Git]]
-    - [[#workspaces][Workspaces]]
-    - [[#keybindings][Keybindings]]
-      - [[#edit-emacs-configuration][Edit Emacs Configuration]]
-      - [[#switch-theme][Switch theme]]
-      - [[#window-management-using-ace-window][Window management using ace-window]]
-      - [[#buffer-management-using-bufler][Buffer management using bufler]]
-      - [[#perspective-workspaces][Perspective workspaces]]
-      - [[#editor-related-keybindings][Editor related keybindings]]
-      - [[#magit][Magit]]
       - [[#golang][Golang]]
-      - [[#dired][Dired]]
-      - [[#org-mode-1][Org Mode]]
-      - [[#helpful][Helpful]]
-      - [[#ide-like-experience][IDE like experience]]
+    - [[#workspaces][Workspaces]]
   - [[#kitty][Kitty]]
 
 ** How to install ?
@@ -60,7 +52,8 @@ them please
   (setq amirreza/default-workspaces '(emacs risma ripo RideAggregator))
   (setq amirreza/transparent t) ;; For terminal only
 #+END_SRC
-*** early-init.el
+*** Init Files
+**** early-init.el
 From emacs 27 I think they added a file called =early-init.el= which will get sourced
 before UI stuff happens in Emacs, so it's a good place to turn of UI things.
 #+BEGIN_SRC emacs-lisp :tangle early-init.el
@@ -71,7 +64,7 @@ before UI stuff happens in Emacs, so it's a good place to turn of UI things.
 (setq gc-cons-threshold (* 100 1024 1024))
 (setq read-process-output-max (* 1024 1024))
 #+END_SRC
-*** init.el
+**** init.el
 init.el will just load this file.
 #+BEGIN_SRC emacs-lisp :tangle init.el
   (add-to-list 'load-path (expand-file-name "site-lisp" user-emacs-directory))
@@ -219,6 +212,33 @@ I rather have all side effects ( installing packages on disk ) in one place.
   (defun amirreza/edit-emacs ()
     (interactive)
     (find-file (expand-file-name "README.org" user-emacs-directory)))
+
+
+  (general-def :keymaps 'override "C-c e e" 'amirreza/edit-emacs)
+#+END_SRC
+*** Windows and Buffers
+#+BEGIN_SRC emacs-lisp
+(general-def :keymaps 'override "C-x o" 'ace-window)
+(general-def :keymaps 'override "C-x C-b" 'bufler)
+#+END_SRC
+*** Dired File Manager
+#+BEGIN_SRC emacs-lisp
+  (general-def
+    :prefix "C-c"
+    :keymaps 'dired-mode-map
+    "C-e" 'wdired-change-to-wdired-mode)
+#+END_SRC
+*** Emacs Help
+#+BEGIN_SRC emacs-lisp
+  (general-def
+    :prefix "C-h"
+    :keymaps 'override
+
+    [remap describe-key] 'helpful-key
+    [remap describe-function] 'helpful-callable
+    [remap describe-variable] 'helpful-variable
+    )
+
 #+END_SRC
 *** UI
 ***** Themes
@@ -250,6 +270,7 @@ I rather have all side effects ( installing packages on disk ) in one place.
 	(set-face-background 'default "0"))))
 
   (amirreza/load-theme amirreza/theme)
+  (general-def :keymaps 'override "C-c t t" 'amirreza/switch-theme)
 #+END_SRC
 ***** Font
 #+BEGIN_SRC emacs-lisp
@@ -357,7 +378,11 @@ I don't do anything fancy just remove minor modes from modeline because I think 
   (setq recenter-positions '(middle))
   (global-set-key (kbd "M-p") (lambda () (interactive) (amirreza/up-center)))
   (global-set-key (kbd "M-n") (lambda () (interactive) (amirreza/down-center)))
-
+  (general-def :keymaps 'override
+    "C-=" 'er/expand-region
+    "C--" 'er/contract-region
+    "C-q" 'set-mark-command ;; really important key if you use emacs in terminal
+    )
 #+END_SRC
 **** Org mode
 #+BEGIN_SRC emacs-lisp
@@ -388,6 +413,11 @@ I don't do anything fancy just remove minor modes from modeline because I think 
 
   (add-hook 'org-mode-hook #'org-bullets-mode)
   (add-hook 'org-mode-hook #'toc-org-mode)
+  (general-def
+    :prefix "C-c m"
+    :keymaps 'org-mode-map
+
+    "c b" 'amirreza/org-code-block)
 #+END_SRC
 ***** Org-reveal
 =org-reveal= will let you create =reveal.js= presentations from Org mode documents.
@@ -398,6 +428,11 @@ I don't do anything fancy just remove minor modes from modeline because I think 
 	    )
 
 
+#+END_SRC
+*** Git
+#+BEGIN_SRC emacs-lisp
+  (global-git-gutter-mode)
+  (general-def :prefix "C-x" :keymaps 'override "g" 'magit)
 #+END_SRC
 *** Programming
 **** Eldoc
@@ -437,104 +472,7 @@ and a seperate buffer.
   (add-hook 'rust-mode-hook 'eglot-ensure)
   (add-hook 'python-mode-hook 'eglot-ensure)
   (add-hook 'php-mode-hook 'eglot-ensure)
-#+END_SRC
-**** Git
-#+BEGIN_SRC emacs-lisp
-  (global-git-gutter-mode)
-#+END_SRC
-*** Workspaces
-#+BEGIN_SRC emacs-lisp
-  (setq persp-state-default-file (expand-file-name "sessions" user-emacs-directory))
-  (setq persp-mode-prefix-key (kbd "C-c w"))
 
-
-  (defun amirreza/save-session ()
-    (interactive)
-    (persp-state-save persp-state-default-file))
-
-
-  (defun amirreza/load-session ()
-    (interactive)
-    (persp-state-load persp-state-default-file))
-
-
-  (persp-mode 1)
-
-  (dolist (w amirreza/default-workspaces)
-    (persp-new (symbol-name w)))
-
-  (add-hook 'kill-emacs-hook 'amirreza/save-session)
-
-#+END_SRC
-*** Keybindings
-**** Edit Emacs Configuration
-#+BEGIN_SRC emacs-lisp
-(general-def :keymaps 'override "C-c e e" 'amirreza/edit-emacs)
-#+END_SRC
-**** Switch theme
-#+BEGIN_SRC emacs-lisp
-(general-def :keymaps 'override "C-c t t" 'amirreza/switch-theme)
-#+END_SRC
-**** Window management using ace-window
-#+BEGIN_SRC emacs-lisp
-(general-def :keymaps 'override "C-x o" 'ace-window)
-#+END_SRC
-**** Buffer management using bufler
-#+BEGIN_SRC emacs-lisp
-(general-def :keymaps 'override "C-x C-b" 'bufler)
-#+END_SRC
-**** Perspective workspaces
-#+BEGIN_SRC emacs-lisp
-(general-def :prefix "C-c w" :keymaps 'override "s" 'persp-switch)
-#+END_SRC
-**** Editor related keybindings
-#+BEGIN_SRC emacs-lisp
-  (general-def :keymaps 'override
-    "C-=" 'er/expand-region
-    "C--" 'er/contract-region
-    "C-q" 'set-mark-command ;; really important key if you use emacs in terminal
-    )
-#+END_SRC
-**** Magit
-#+BEGIN_SRC emacs-lisp
-(general-def :prefix "C-x" :keymaps 'override "g" 'magit)
-#+END_SRC
-**** Golang
-#+BEGIN_SRC emacs-lisp
-  (general-def :keymaps 'go-mode-map
-    :prefix "C-c m"
-    "a" 'go-tag-add ;; Add struct tags
-    )
-#+END_SRC
-**** Dired
-#+BEGIN_SRC emacs-lisp
-  (general-def
-    :prefix "C-c"
-    :keymaps 'dired-mode-map
-    "C-e" 'wdired-change-to-wdired-mode)
-#+END_SRC
-**** Org Mode
-#+BEGIN_SRC emacs-lisp
-  (general-def
-    :prefix "C-c m"
-    :keymaps 'org-mode-map
-
-    "c b" 'amirreza/org-code-block)
-#+END_SRC
-**** Helpful
-#+BEGIN_SRC emacs-lisp
-  (general-def
-      :prefix "C-h"
-      :keymaps 'override
-
-      [remap describe-key] 'helpful-key
-      [remap describe-function] 'helpful-callable
-      [remap describe-variable] 'helpful-variable
-      )
-
-#+END_SRC
-**** IDE like experience
-#+BEGIN_SRC emacs-lisp
   (general-def
     :keymaps 'override
     :prefix "C-x p"
@@ -571,6 +509,37 @@ and a seperate buffer.
     "C-c m e" 'consult-flymake
     "C-c m i" 'eglot-find-implementation
     )
+#+END_SRC
+**** Golang
+#+BEGIN_SRC emacs-lisp
+  (general-def :keymaps 'go-mode-map
+    :prefix "C-c m"
+    "a" 'go-tag-add ;; Add struct tags
+    )
+#+END_SRC
+*** Workspaces
+#+BEGIN_SRC emacs-lisp
+  (setq persp-state-default-file (expand-file-name "sessions" user-emacs-directory))
+  (setq persp-mode-prefix-key (kbd "C-c w"))
+
+
+  (defun amirreza/save-session ()
+    (interactive)
+    (persp-state-save persp-state-default-file))
+
+
+  (defun amirreza/load-session ()
+    (interactive)
+    (persp-state-load persp-state-default-file))
+
+
+  (persp-mode 1)
+
+  (dolist (w amirreza/default-workspaces)
+    (persp-new (symbol-name w)))
+
+  (add-hook 'kill-emacs-hook 'amirreza/save-session)
+  (general-def :prefix "C-c w" :keymaps 'override "s" 'persp-switch)
 #+END_SRC
 ** Kitty
 #+BEGIN_SRC conf :tangle ~/.config/kitty/kitty.conf
