@@ -1,10 +1,10 @@
-#+TITLE: AmirrezaAsk Emacs Configuration
+#+TITLE: AmirrezaAsk Computation Environment
 #+DATE: <2022-12-25 Sun>
 #+REVEAL_ROOT: https://cdn.jsdelivr.net/npm/reveal.js
 #+OPTIONS: toc:nil reveal_title_slide:nil
 #+REVEAL_INIT_OPTIONS: slideNumber:false
 
-* Emacs configuration
+* Emacs
 They call it kitchen sink
 but I call it ICE ( =[I]= ntegrated =[C]= omputing =[E]= nvironment )
 ** How to install ?
@@ -687,3 +687,83 @@ I want.
     "g d" 'xref-find-definitions
     )
 #+END_SRC
+
+* Kitty
+#+BEGIN_SRC conf :tangle ~/.config/kitty/kitty.conf
+  # Font configuration
+
+  # font_family OperatorMono Nerd Font Medium
+  # bold_font OperatorMono Nerd Font Bold
+  # italic_font  OperatorMono Nerd Font Italic
+  # bold_italic_font OperatorMono Nerd Font Bold Italic
+
+  font_family FiraCode Nerd Font Mono Medium
+  bold_font FiraCode Nerd Font Mono Bold
+  italic_font  FiraCode Nerd Font Mono Italic
+  bold_italic_font FiraCode Nerd Font Mono Bold Italic
+
+  # font_family JetBrainsMono Nerd Font Mono Regular
+  # bold_font JetBrainsMono Nerd Font Mono Bold
+  # italic_font JetBrainsMono Nerd Font Mono Italic
+  # bold_italic_font JetBrainsMono Nerd Font Mono Bold Italic
+
+  # No cursor changing
+  shell_integration no-cursor
+
+  # Font Size
+  font_size 18
+  # font_size 13
+
+  # Performane
+  sync_to_monitor yes
+  repaint_delay 5
+  input_delay 2
+
+  # NO BELLS!
+  enable_audio_bell no
+
+  cursor_shape block
+
+  clear_all_shortcuts yes
+
+  kitty_mod ctrl+shift
+
+  map mod+equal change_font_size all +2.0
+  map mod+minus change_font_size all -2.0
+
+  map cmd+equal change_font_size all +2.0
+  map cmd+minus change_font_size all -2.0
+
+  map cmd+c copy_to_clipboard
+  map cmd+v paste_from_clipboard
+
+  map cmd+t new_tab
+  map cmd+left previous_tab
+  map cmd+right next_tab
+
+  # Tab settings
+  tab_bar_align left
+  tab_bar_edge bottom
+
+  tab_title_template "{title}"
+  allow_remote_control yes
+
+  # Cursor
+  cursor_blink_interval 0
+
+  # macOS stuff
+  macos_titlebar_color               background
+  macos_option_as_alt                both
+  macos_quit_when_last_window_closed yes
+  macos_show_window_title_in         none
+  macos_custom_beam_cursor           yes
+
+  # term
+  term xterm-256color
+
+  background_opacity 0.88
+  # background_opacity 1
+#+END_SRC
+* Tmux
+* Zsh
+* Git
