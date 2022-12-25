@@ -3,16 +3,17 @@
 #+REVEAL_ROOT: https://cdn.jsdelivr.net/npm/reveal.js
 #+OPTIONS: toc:nil reveal_title_slide:nil
 #+REVEAL_INIT_OPTIONS: slideNumber:false
-
-* Emacs
-They call it kitchen sink
-but I call it ICE ( =[I]= ntegrated =[C]= omputing =[E]= nvironment )
-** How to install ?
+* How to install ?
 It's a fairly simple thing to do
 #+BEGIN_SRC sh
   curl https://raw.githubusercontent.com/amirrezaask/dotfiles/master/.emacs.d/README.org > ~/.emacs.d/README.org &&\
       emacs --batch --eval "(require 'org)" --eval '(org-babel-tangle-file "~/.emacs.d/README.org")'
 #+END_SRC
+
+* Emacs
+They call it kitchen sink
+but I call it ICE ( =[I]= ntegrated =[C]= omputing =[E]= nvironment )
+
 ** Personal Customization Variable
 #+BEGIN_SRC emacs-lisp
   (setq user-full-name "Amirreza Askarpour")
