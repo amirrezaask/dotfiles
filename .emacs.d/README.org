@@ -3,11 +3,20 @@ They call it kitchen sink
 but I call it ICE ( =[I]= ntegrated =[C]= omputing =[E]= nvironment )
 ** How to install ?
 It's a fairly simple thing to do
+*** Using Git
 #+BEGIN_SRC sh
   git clone https://github.com/amirrezaask/dotfiles.git amirreza-dotfiles
   # remember to backup your own emacs.d directory
   cp -r amirreza-dotfiles ~/.emacs.d
   # launch emacs and let it install all packages.
+  
+#+END_SRC
+*** Just copy/paste
+For even simpler setup you can just copy all contents of this file from[[https://raw.githubusercontent.com/amirrezaask/dotfiles/master/.emacs.d/README.org][ here]]
+in =~/.emacs.d/README.org= file,
+and in your terminal ( assuming you got emacs installed ) run
+#+BEGIN_SRC sh
+emacs --batch --eval "(require 'org)" --eval '(org-babel-tangle-file "~/.emacs.d/README.org")'
 #+END_SRC
 ** Personal Customization Variable
 #+BEGIN_SRC emacs-lisp
@@ -17,8 +26,9 @@ It's a fairly simple thing to do
   (setq amirreza/font "JetBrainsMono Nerd Font Mono")
   (setq amirreza/font-size "21")
   (setq amirreza/theme 'ef-dark)
+  (setq amirreza/default-workspaces '(emacs risma ripo RideAggregator))
 #+END_SRC
-** Early-init
+** early-init.el
 From emacs 27 I think they added a file called =early-init.el= which will get sourced
 before UI stuff happens in Emacs, so it's a good place to turn of UI things.
 #+BEGIN_SRC emacs-lisp :tangle early-init.el
@@ -28,6 +38,11 @@ before UI stuff happens in Emacs, so it's a good place to turn of UI things.
 (menu-bar-mode -1) ;; Disable menu bar
 (setq gc-cons-threshold (* 100 1024 1024))
 (setq read-process-output-max (* 1024 1024))
+#+END_SRC
+** init.el
+init.el will just load this file.
+#+BEGIN_SRC emacs-lisp :tangle init.el
+(org-babel-load-file (expand-file-name "README.org" user-emacs-directory))
 #+END_SRC
 ** Straight.el 
 #+BEGIN_SRC emacs-lisp
@@ -289,7 +304,6 @@ I don't do anything fancy just remove minor modes from modeline because I think 
 (elpa-package clojure-mode)
 (elpa-package cider)
 #+END_SRC
-
 ** Minibuffer
 #+BEGIN_SRC emacs-lisp
   (elpa-package (vertico
@@ -374,13 +388,23 @@ I don't do anything fancy just remove minor modes from modeline because I think 
   (elpa-package perspective
 		(setq persp-state-default-file (expand-file-name "sessions" user-emacs-directory))
 		(setq persp-mode-prefix-key (kbd "C-c w"))
+
+
 		(defun amirreza/save-session ()
 		  (interactive)
 		  (persp-state-save persp-state-default-file))
+
+
 		(defun amirreza/load-session ()
 		  (interactive)
 		  (persp-state-load persp-state-default-file))
+
+
 		(persp-mode 1)
+
+		(dolist (w amirreza/default-workspaces)
+		  (persp-new (symbol-name w)))
+
 		(add-hook 'kill-emacs-hook 'amirreza/save-session))
 
 #+END_SRC
