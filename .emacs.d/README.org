@@ -9,7 +9,6 @@
     - [[#personal-customization-variable][Personal Customization Variable]]
     - [[#early-initel][early-init.el]]
     - [[#initel][init.el]]
-    - [[#installing-straightel-itself][Installing straight.el itself]]
     - [[#packages][Packages]]
     - [[#basics-and-core-settings][Basics and core settings]]
     - [[#ui][UI]]
@@ -79,24 +78,23 @@ init.el will just load this file.
   (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
   (org-babel-load-file (expand-file-name "README.org" user-emacs-directory))
 #+END_SRC
-*** Installing [[https://github.com/radian-software/straight.el][straight.el]] itself
-#+BEGIN_SRC emacs-lisp
-(defvar bootstrap-version)
-(let ((bootstrap-file
-       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-      (bootstrap-version 6))
-  (unless (file-exists-p bootstrap-file)
-    (with-current-buffer
-        (url-retrieve-synchronously
-         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
-         'silent 'inhibit-cookies)
-      (goto-char (point-max))
-      (eval-print-last-sexp)))
-  (load bootstrap-file nil 'nomessage))
-#+END_SRC
 *** Packages
 I rather have all side effects ( installing packages on disk ) in one place.
 #+BEGIN_SRC emacs-lisp
+  ;; Bootstrap straight.el
+  (defvar bootstrap-version)
+  (let ((bootstrap-file
+	 (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+	(bootstrap-version 6))
+    (unless (file-exists-p bootstrap-file)
+      (with-current-buffer
+	  (url-retrieve-synchronously
+	   "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+	   'silent 'inhibit-cookies)
+	(goto-char (point-max))
+	(eval-print-last-sexp)))
+    (load bootstrap-file nil 'nomessage))
+
   (setq amirreza/packages
 	'(
 	  ;; General
