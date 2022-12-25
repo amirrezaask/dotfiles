@@ -431,7 +431,7 @@ I don't do anything fancy just remove minor modes from modeline because I think 
 #+BEGIN_SRC emacs-lisp
   (general-def :keymaps 'go-mode-map
     :prefix "C-c m"
-    "a" 'go-tag-add
+    "a" 'go-tag-add ;; Add struct tags
     )
 #+END_SRC
 *** Dired
@@ -453,14 +453,14 @@ I don't do anything fancy just remove minor modes from modeline because I think 
 #+END_SRC
 *** Helpful instead of default help
 #+BEGIN_SRC emacs-lisp
-(general-def
-    :prefix "C-h"
-    :keymaps 'override
+  (general-def
+      :prefix "C-h"
+      :keymaps 'override
 
-    "k" 'helpful-key
-    "f" 'helpful-callable
-    "v" 'helpful-variable
-    )
+      [remap describe-key] 'helpful-key
+      [remap describe-function] 'helpful-callable
+      [remap describe-variable] 'helpful-variable
+      )
 
 #+END_SRC
 *** Project related keys
@@ -484,13 +484,13 @@ I don't do anything fancy just remove minor modes from modeline because I think 
     "M-," 'xref-go-back
     "M-r" 'xref-find-references
     "M-i" 'eglot-find-implementation
-    "M-f" 'eglot-format
-
     "C-c m r" 'eglot-rename
     "C-c m s" 'consult-eglot-symbols
+    "C-c m f" 'eglot-format
     )
 #+END_SRC
-** Evil Mode
+
+** =[DEPREACATED]= Evil Mode
 :PROPERTIES:
 :header-args:    :tangle no
 :END:
