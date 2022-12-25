@@ -16,6 +16,7 @@ It's a fairly simple thing to do
   (setq amirreza/font-size "21")
   (setq amirreza/theme 'ef-dark)
   (setq amirreza/default-workspaces '(emacs risma ripo RideAggregator))
+  (setq amirreza/transparent t) ;; For terminal only
 #+END_SRC
 ** early-init.el
 From emacs 27 I think they added a file called =early-init.el= which will get sourced
@@ -101,10 +102,12 @@ init.el will just load this file.
     (when (not (eq amirreza/--current-theme nil))
       (disable-theme amirreza/--current-theme))
     (setq amirreza/--current-theme theme)
-    (load-theme amirreza/--current-theme t))
+    (load-theme amirreza/--current-theme t)
+    (unless (display-graphic-p)
+      (when amirreza/transparent
+	(set-face-background 'default "0"))))
 
   (amirreza/load-theme amirreza/theme)
-
 #+END_SRC
 ** Font stuff
 #+BEGIN_SRC emacs-lisp
