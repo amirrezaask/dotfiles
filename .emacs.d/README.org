@@ -3,20 +3,9 @@ They call it kitchen sink
 but I call it ICE ( =[I]= ntegrated =[C]= omputing =[E]= nvironment )
 ** How to install ?
 It's a fairly simple thing to do
-*** Using Git
 #+BEGIN_SRC sh
-  git clone https://github.com/amirrezaask/dotfiles.git amirreza-dotfiles
-  # remember to backup your own emacs.d directory
-  cp -r amirreza-dotfiles ~/.emacs.d
-  # launch emacs and let it install all packages.
-  
-#+END_SRC
-*** Just copy/paste
-For even simpler setup you can just copy all contents of this file from[[https://raw.githubusercontent.com/amirrezaask/dotfiles/master/.emacs.d/README.org][ here]]
-in =~/.emacs.d/README.org= file,
-and in your terminal ( assuming you got emacs installed ) run
-#+BEGIN_SRC sh
-emacs --batch --eval "(require 'org)" --eval '(org-babel-tangle-file "~/.emacs.d/README.org")'
+  curl https://raw.githubusercontent.com/amirrezaask/dotfiles/master/.emacs.d/README.org > ~/.emacs.d/README.org &&\
+      emacs --batch --eval "(require 'org)" --eval '(org-babel-tangle-file "~/.emacs.d/README.org")'
 #+END_SRC
 ** Personal Customization Variable
 #+BEGIN_SRC emacs-lisp
