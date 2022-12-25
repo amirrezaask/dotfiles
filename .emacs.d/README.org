@@ -34,7 +34,7 @@ init.el will just load this file.
 #+BEGIN_SRC emacs-lisp :tangle init.el
 (org-babel-load-file (expand-file-name "README.org" user-emacs-directory))
 #+END_SRC
-** Straight.el 
+** [[https://github.com/radian-software/straight.el][straight.el]]
 #+BEGIN_SRC emacs-lisp
 (defvar bootstrap-version)
 (let ((bootstrap-file
