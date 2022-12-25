@@ -9,32 +9,26 @@
     - [[#personal-customization-variable][Personal Customization Variable]]
     - [[#early-initel][early-init.el]]
     - [[#initel][init.el]]
-    - [[#changing-state-of-the-world][Changing state of the world]]
-      - [[#installing-straightel-itself][Installing straight.el itself]]
-      - [[#now-lets-install-emacs-packages-i-need][Now let's install emacs packages I need]]
-      - [[#tba-installing-lsps-and-other-binaries-as-part-of-my-computing-experience][TBA: Installing LSPs, and other binaries as part of my computing experience]]
-    - [[#edit-emacs-configuration][Edit Emacs configuration]]
-    - [[#emacs-internals-and-basics][Emacs internals and basics]]
-    - [[#modules][Modules]]
-      - [[#ui][UI]]
-        - [[#color-me-daddy][Color me daddy]]
+    - [[#installing-straightel-itself][Installing straight.el itself]]
+    - [[#packages][Packages]]
+    - [[#basics-and-core-settings][Basics and core settings]]
+    - [[#ui][UI]]
+        - [[#themes][Themes]]
         - [[#font][Font]]
         - [[#modeline][Modeline]]
-    - [[#auto-completion][Auto completion]]
-    - [[#editor-ux][Editor UX]]
+    - [[#completion][Completion]]
+      - [[#in-buffer-completion][In-Buffer Completion]]
+      - [[#minibuffer-completion][Minibuffer Completion]]
+    - [[#editor][Editor]]
+      - [[#org-mode][Org mode]]
+        - [[#org-reveal][Org-reveal]]
     - [[#ide][IDE]]
       - [[#eldoc][Eldoc]]
       - [[#lsp][LSP]]
       - [[#git][Git]]
-    - [[#minibuffer-completion][Minibuffer Completion]]
-    - [[#org-mode][Org mode]]
-      - [[#org-reveal][Org-reveal]]
-    - [[#treesitter-get-rid-of-regex][Treesitter, get rid of regex]]
-    - [[#never-loose-a-good-setup-or-workspace-settings][Never loose a good setup or Workspace settings]]
-    - [[#shitty-apple-computers][Shitty apple computers]]
-    - [[#which-key][Which Key]]
+    - [[#workspaces][Workspaces]]
     - [[#keybindings][Keybindings]]
-      - [[#edit-emacs-configuration-1][Edit Emacs Configuration]]
+      - [[#edit-emacs-configuration][Edit Emacs Configuration]]
       - [[#switch-theme][Switch theme]]
       - [[#window-management-using-ace-window][Window management using ace-window]]
       - [[#buffer-management-using-bufler][Buffer management using bufler]]
@@ -85,11 +79,7 @@ init.el will just load this file.
   (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
   (org-babel-load-file (expand-file-name "README.org" user-emacs-directory))
 #+END_SRC
-*** Changing state of the world
-As a functional programming enthusiast I think we should isolate side effects and stateful events
-from pure things, so in this section I will do the installing of all pacakges that I need and since
-I am using =straight.el= I have full control on the version if I want to.
-**** Installing [[https://github.com/radian-software/straight.el][straight.el]] itself
+*** Installing [[https://github.com/radian-software/straight.el][straight.el]] itself
 #+BEGIN_SRC emacs-lisp
 (defvar bootstrap-version)
 (let ((bootstrap-file
@@ -104,22 +94,13 @@ I am using =straight.el= I have full control on the version if I want to.
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 #+END_SRC
-#+BEGIN_SRC emacs-lisp
-
-#+END_SRC
-**** Now let's install emacs packages I need
+*** Packages
+I rather have all side effects ( installing packages on disk ) in one place.
 #+BEGIN_SRC emacs-lisp
   (setq amirreza/packages
 	'(
 	  ;; General
 	  general
-	  ;; Themes and UI stuff
-	  all-the-icons
-	  ef-themes
-	  doom-themes
-	  gruber-darker-theme
-
-	  exec-path-from-shell ;; Environments from my default shell
 
 	  ace-window ;; Window management made easy
 
@@ -184,9 +165,6 @@ I am using =straight.el= I have full control on the version if I want to.
 	  vertico-prescient
 	  corfu-prescient
 
-	  tree-sitter
-	  tree-sitter-langs
-
 	  perspective
 
 	  which-key
@@ -199,14 +177,7 @@ I am using =straight.el= I have full control on the version if I want to.
 	  (straight-use-package pkg-receipe)
 	  ) amirreza/packages)
 #+END_SRC
-**** TBA: Installing LSPs, and other binaries as part of my computing experience
-*** Edit Emacs configuration
-#+BEGIN_SRC emacs-lisp
-    (defun amirreza/edit-emacs ()
-      (interactive)
-      (find-file (expand-file-name "README.org" user-emacs-directory)))
-#+END_SRC
-*** Emacs internals and basics
+*** Basics and core settings
 #+BEGIN_SRC emacs-lisp
   (setq gc-cons-threshold (* 100 1024 1024))
 
@@ -230,7 +201,7 @@ I am using =straight.el= I have full control on the version if I want to.
 
 
   ;; Copy PATH from default shell
-
+  (straight-use-package 'exec-path-from-shell)
   (exec-path-from-shell-initialize)
 
   (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
@@ -244,11 +215,21 @@ I am using =straight.el= I have full control on the version if I want to.
 	(project-find-file)
       (call-interactively 'find-file)
       ))
+
+  (setq mac-command-modifier 'super) ;; set command key to super
+  (setq mac-option-modifier 'meta) ;; option key as meta
+  (defun amirreza/edit-emacs ()
+    (interactive)
+    (find-file (expand-file-name "README.org" user-emacs-directory)))
 #+END_SRC
-*** Modules
-**** UI
-***** Color me daddy
+*** UI
+***** Themes
 #+BEGIN_SRC emacs-lisp
+  (straight-use-package 'all-the-icons)
+  (straight-use-package 'ef-themes)
+  (straight-use-package 'doom-themes)
+  (straight-use-package 'gruber-darker-theme)
+
   ;; Add custom themes path to themes load path
   (add-to-list 'custom-theme-load-path
 	       (expand-file-name "themes" user-emacs-directory))
@@ -296,7 +277,7 @@ I am using =straight.el= I have full control on the version if I want to.
 #+END_SRC
 ***** Modeline
 I don't do anything fancy just remove minor modes from modeline because I think they are useless really.
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
   (setq-default mode-line-format
 		'("%e" mode-line-front-space
 		  (:propertize
@@ -311,7 +292,8 @@ I don't do anything fancy just remove minor modes from modeline because I think 
 
 #+END_SRC
 
-*** Auto completion
+*** Completion
+**** In-Buffer Completion
 #+BEGIN_SRC emacs-lisp
   (setq corfu-auto t)
   (global-corfu-mode)
@@ -321,7 +303,30 @@ I don't do anything fancy just remove minor modes from modeline because I think 
   (corfu-terminal-mode)
   (corfu-prescient-mode)
 #+END_SRC
-*** Editor UX
+**** Minibuffer Completion
+#+BEGIN_SRC emacs-lisp
+  (setq completion-cycle-threshold 3)
+  (setq tab-always-indent 'complete)
+  (vertico-mode)
+  (setq vertico-count 15)
+  (setq vertico-cycle t)
+
+  (savehist-mode)
+
+
+  (setq consult-async-min-input 1)
+
+
+  (marginalia-mode)
+
+
+  (setq completion-styles '(orderless basic)
+	completion-category-defaults nil
+	completion-category-overrides '((file (styles partial-completion))))
+
+  (vertico-prescient-mode)
+#+END_SRC
+*** Editor
 #+BEGIN_SRC emacs-lisp
   (setq olivetti-body-width 100)
 
@@ -354,6 +359,46 @@ I don't do anything fancy just remove minor modes from modeline because I think 
   (setq recenter-positions '(middle))
   (global-set-key (kbd "M-p") (lambda () (interactive) (amirreza/up-center)))
   (global-set-key (kbd "M-n") (lambda () (interactive) (amirreza/down-center)))
+
+#+END_SRC
+**** Org mode
+#+BEGIN_SRC emacs-lisp
+  (defun amirreza/org-code-block ()
+    (interactive)
+    (insert (format "#+BEGIN_SRC %s\n\n#+END_SRC"
+		    (completing-read "Language: "
+				     '("emacs-lisp"
+				       "go"
+				       "rust"
+				       "python"
+				       "lua"
+				       "bash"
+				       "sh"
+				       "fish"
+				       "java"
+				       )))))
+
+  (defun amirreza/org-disable-tangle ()
+    (interactive)
+    (insert ":PROPERTIES:
+  :header-args:    :tangle no
+  :END:"
+	    ))
+  (setq org-use-property-inheritance t)
+  (setq org-src-window-setup 'current-window)
+
+
+  (add-hook 'org-mode-hook #'org-bullets-mode)
+  (add-hook 'org-mode-hook #'toc-org-mode)
+#+END_SRC
+***** Org-reveal
+=org-reveal= will let you create =reveal.js= presentations from Org mode documents.
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'org-mode-hook
+	    (lambda ()
+	      (require 'ox-reveal))
+	    )
+
 
 #+END_SRC
 *** IDE
@@ -396,77 +441,8 @@ I don't do anything fancy just remove minor modes from modeline because I think 
 #+BEGIN_SRC emacs-lisp
   (global-git-gutter-mode)
 #+END_SRC
-*** Minibuffer Completion
+*** Workspaces
 #+BEGIN_SRC emacs-lisp
-  (setq completion-cycle-threshold 3)
-  (setq tab-always-indent 'complete)
-  (vertico-mode)
-  (setq vertico-count 15)
-  (setq vertico-cycle t)
-
-  (savehist-mode)
-
-
-  (setq consult-async-min-input 1)
-
-
-  (marginalia-mode)
-
-
-  (setq completion-styles '(orderless basic)
-	completion-category-defaults nil
-	completion-category-overrides '((file (styles partial-completion))))
-
-  (vertico-prescient-mode)
-#+END_SRC
-*** Org mode
-#+BEGIN_SRC emacs-lisp
-
-  (defun amirreza/org-code-block ()
-    (interactive)
-    (insert (format "#+BEGIN_SRC %s\n\n#+END_SRC"
-		    (completing-read "Language: "
-				     '("emacs-lisp"
-				       "go"
-				       "rust"
-				       "python"
-				       "lua"
-				       "bash"
-				       "sh"
-				       "fish"
-				       "java"
-				       )))))
-
-  (defun amirreza/org-disable-tangle ()
-    (interactive)
-    (insert ":PROPERTIES:
-  :header-args:    :tangle no
-  :END:"
-	    ))
-  (setq org-use-property-inheritance t)
-  (setq org-src-window-setup 'current-window)
-
-
-  (add-hook 'org-mode-hook #'org-bullets-mode)
-  (add-hook 'org-mode-hook #'toc-org-mode)
-#+END_SRC
-**** Org-reveal
-=org-reveal= will let you create =reveal.js= presentations from Org mode documents.
-#+BEGIN_SRC emacs-lisp
-  (add-hook 'org-mode-hook
-	    (lambda ()
-	      (require 'ox-reveal))
-	    )
-
-
-#+END_SRC
-*** Treesitter, get rid of regex
-#+BEGIN_SRC emacs-lisp
-  (global-tree-sitter-mode)
-#+END_SRC
-*** Never loose a good setup or Workspace settings
-#+BEGIN_SRC emacs-lisp
-
   (setq persp-state-default-file (expand-file-name "sessions" user-emacs-directory))
   (setq persp-mode-prefix-key (kbd "C-c w"))
 
@@ -488,15 +464,6 @@ I don't do anything fancy just remove minor modes from modeline because I think 
 
   (add-hook 'kill-emacs-hook 'amirreza/save-session)
 
-#+END_SRC
-*** Shitty apple computers
-#+BEGIN_SRC emacs-lisp
-(setq mac-command-modifier 'super) ;; set command key to super
-(setq mac-option-modifier 'meta) ;; option key as meta
-#+END_SRC
-*** Which Key
-#+BEGIN_SRC emacs-lisp
-  (which-key-mode +1)
 #+END_SRC
 *** Keybindings
 **** Edit Emacs Configuration
@@ -544,8 +511,6 @@ I don't do anything fancy just remove minor modes from modeline because I think 
     :prefix "C-c"
     :keymaps 'dired-mode-map
     "C-e" 'wdired-change-to-wdired-mode)
-
-
 #+END_SRC
 **** Org Mode
 #+BEGIN_SRC emacs-lisp
