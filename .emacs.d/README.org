@@ -18,7 +18,6 @@
     - [[#ui][UI]]
         - [[#themes][Themes]]
         - [[#font][Font]]
-        - [[#modeline][Modeline]]
     - [[#completion][Completion]]
       - [[#in-buffer-completion][In-Buffer Completion]]
       - [[#minibuffer-completion][Minibuffer Completion]]
@@ -222,22 +221,16 @@ I rather have all side effects ( installing packages on disk ) in one place.
 #+END_SRC
 *** Dired File Manager
 #+BEGIN_SRC emacs-lisp
-  (general-def
-    :prefix "C-c"
-    :keymaps 'dired-mode-map
-    "C-e" 'wdired-change-to-wdired-mode)
+  (general-def :keymaps 'dired-mode-map "C-c C-e" 'wdired-change-to-wdired-mode)
 #+END_SRC
 *** Emacs Help
 #+BEGIN_SRC emacs-lisp
   (general-def
-    :prefix "C-h"
     :keymaps 'override
-
     [remap describe-key] 'helpful-key
     [remap describe-function] 'helpful-callable
     [remap describe-variable] 'helpful-variable
     )
-
 #+END_SRC
 *** UI
 ***** Themes
@@ -293,23 +286,6 @@ I rather have all side effects ( installing packages on disk ) in one place.
 (amirreza/reload-font)
 
 #+END_SRC
-***** Modeline
-I don't do anything fancy just remove minor modes from modeline because I think they are useless really.
-#+BEGIN_SRC emacs-lisp
-  (setq-default mode-line-format
-		'("%e" mode-line-front-space
-		  (:propertize
-		   ("" mode-line-mule-info mode-line-client mode-line-modified mode-line-remote)
-		   display
-		   (min-width
-		    (5.0)))
-		  mode-line-frame-identification mode-line-buffer-identification "   " mode-line-position
-		  (vc-mode vc-mode)
-		  "  " mode-line-misc-info mode-line-end-spaces)
-		)
-
-#+END_SRC
-
 *** Completion
 **** In-Buffer Completion
 #+BEGIN_SRC emacs-lisp
@@ -329,14 +305,9 @@ I don't do anything fancy just remove minor modes from modeline because I think 
   (setq vertico-count 15)
   (setq vertico-cycle t)
 
-  (savehist-mode)
-
-
   (setq consult-async-min-input 1)
 
-
   (marginalia-mode)
-
 
   (setq completion-styles '(orderless basic)
 	completion-category-defaults nil
@@ -431,7 +402,7 @@ I don't do anything fancy just remove minor modes from modeline because I think 
 *** Git
 #+BEGIN_SRC emacs-lisp
   (global-git-gutter-mode)
-  (general-def :prefix "C-x" :keymaps 'override "g" 'magit)
+  (general-def :keymaps 'override "C-x g" 'magit)
 #+END_SRC
 *** Programming
 **** Eldoc
