@@ -14,22 +14,22 @@
       - [[#now-lets-install-emacs-packages-i-need][Now let's install emacs packages I need]]
       - [[#tba-installing-lsps-and-other-binaries-as-part-of-my-computing-experience][TBA: Installing LSPs, and other binaries as part of my computing experience]]
     - [[#edit-emacs-configuration][Edit Emacs configuration]]
-    - [[#theme-and-coloring-emacs][Theme and coloring Emacs]]
-    - [[#font-stuff][Font stuff]]
-    - [[#modeline][Modeline]]
-    - [[#emacs-internal-configurations][Emacs internal configurations]]
+    - [[#emacs-internals-and-basics][Emacs internals and basics]]
+    - [[#ui][UI]]
+      - [[#color-me-daddy][Color me daddy]]
+      - [[#font][Font]]
+      - [[#modeline][Modeline]]
     - [[#auto-completion][Auto completion]]
     - [[#editor-ux][Editor UX]]
     - [[#ide][IDE]]
       - [[#eldoc][Eldoc]]
       - [[#lsp][LSP]]
-    - [[#magit][Magit]]
-    - [[#minibuffer][Minibuffer]]
+      - [[#git][Git]]
+    - [[#minibuffer-completion][Minibuffer Completion]]
     - [[#org-mode][Org mode]]
       - [[#org-reveal][Org-reveal]]
-    - [[#psychic-like-completion][Psychic like completion]]
     - [[#treesitter-get-rid-of-regex][Treesitter, get rid of regex]]
-    - [[#never-loose-a-good-setup][Never loose a good setup]]
+    - [[#never-loose-a-good-setup-or-workspace-settings][Never loose a good setup or Workspace settings]]
     - [[#shitty-apple-computers][Shitty apple computers]]
     - [[#which-key][Which Key]]
     - [[#keybindings][Keybindings]]
@@ -39,12 +39,11 @@
       - [[#buffer-management-using-bufler][Buffer management using bufler]]
       - [[#perspective-workspaces][Perspective workspaces]]
       - [[#editor-related-keybindings][Editor related keybindings]]
-      - [[#magit-1][Magit]]
+      - [[#magit][Magit]]
       - [[#golang][Golang]]
       - [[#dired][Dired]]
-      - [[#org-mode-related-keymaps][Org Mode Related Keymaps]]
-      - [[#helpful-instead-of-default-help][Helpful instead of default help]]
-      - [[#project-related-keys][Project related keys]]
+      - [[#org-mode-1][Org Mode]]
+      - [[#helpful][Helpful]]
       - [[#ide-like-experience][IDE like experience]]
   - [[#kitty][Kitty]]
 
@@ -205,70 +204,7 @@ I am using =straight.el= I have full control on the version if I want to.
       (interactive)
       (find-file (expand-file-name "README.org" user-emacs-directory)))
 #+END_SRC
-*** Theme and coloring Emacs
-#+BEGIN_SRC emacs-lisp
-  ;; Add custom themes path to themes load path
-  (add-to-list 'custom-theme-load-path
-	       (expand-file-name "themes" user-emacs-directory))
-
-  (setq amirreza/--current-theme nil)
-
-  (defun amirreza/switch-theme ()
-    (interactive)
-    (let ((theme (intern (completing-read "Theme: " (mapcar #'symbol-name
-							    (custom-available-themes))))))
-      (amirreza/load-theme theme)))
-
-  (defun amirreza/load-theme (theme)
-    (when (not (eq amirreza/--current-theme nil))
-      (disable-theme amirreza/--current-theme))
-    (setq amirreza/--current-theme theme)
-    (load-theme amirreza/--current-theme t)
-    (unless (display-graphic-p)
-      (when amirreza/transparent
-	(set-face-background 'default "0"))))
-
-  (amirreza/load-theme amirreza/theme)
-#+END_SRC
-*** Font stuff
-#+BEGIN_SRC emacs-lisp
-;; Font settings
-(defun amirreza/home-monitor ()
-  (interactive)
-  (setq amirreza/font-size "23")
-  (set-frame-font (concat amirreza/font " " amirreza/font-size) nil t))
-
-;; My font setup for my laptop setup
-(defun amirreza/laptop ()
-  (interactive)
-  (setq amirreza/font-size "15")
-  (set-frame-font (concat amirreza/font " " amirreza/font-size) nil t))
-
-;; Reload font settings
-(defun amirreza/reload-font ()
-  (interactive)
-  (set-frame-font (concat amirreza/font " " amirreza/font-size) nil t))
-
-(amirreza/reload-font)
-
-#+END_SRC
-*** Modeline
-I don't do anything fancy just remove minor modes from modeline because I think they are useless really.
-#+BEGIN_SRC emacs-lisp
-  (setq-default mode-line-format
-		'("%e" mode-line-front-space
-		  (:propertize
-		   ("" mode-line-mule-info mode-line-client mode-line-modified mode-line-remote)
-		   display
-		   (min-width
-		    (5.0)))
-		  mode-line-frame-identification mode-line-buffer-identification "   " mode-line-position
-		  (vc-mode vc-mode)
-		  "  " mode-line-misc-info mode-line-end-spaces)
-		)
-
-#+END_SRC
-*** Emacs internal configurations
+*** Emacs internals and basics
 #+BEGIN_SRC emacs-lisp
   (setq gc-cons-threshold (* 100 1024 1024))
 
@@ -307,6 +243,72 @@ I don't do anything fancy just remove minor modes from modeline because I think 
       (call-interactively 'find-file)
       ))
 #+END_SRC
+*** UI
+**** Color me daddy
+#+BEGIN_SRC emacs-lisp
+  ;; Add custom themes path to themes load path
+  (add-to-list 'custom-theme-load-path
+	       (expand-file-name "themes" user-emacs-directory))
+
+  (setq amirreza/--current-theme nil)
+
+  (defun amirreza/switch-theme ()
+    (interactive)
+    (let ((theme (intern (completing-read "Theme: " (mapcar #'symbol-name
+							    (custom-available-themes))))))
+      (amirreza/load-theme theme)))
+
+  (defun amirreza/load-theme (theme)
+    (when (not (eq amirreza/--current-theme nil))
+      (disable-theme amirreza/--current-theme))
+    (setq amirreza/--current-theme theme)
+    (load-theme amirreza/--current-theme t)
+    (unless (display-graphic-p)
+      (when amirreza/transparent
+	(set-face-background 'default "0"))))
+
+  (amirreza/load-theme amirreza/theme)
+#+END_SRC
+**** Font
+#+BEGIN_SRC emacs-lisp
+;; Font settings
+(defun amirreza/home-monitor ()
+  (interactive)
+  (setq amirreza/font-size "23")
+  (set-frame-font (concat amirreza/font " " amirreza/font-size) nil t))
+
+;; My font setup for my laptop setup
+(defun amirreza/laptop ()
+  (interactive)
+  (setq amirreza/font-size "15")
+  (set-frame-font (concat amirreza/font " " amirreza/font-size) nil t))
+
+;; Reload font settings
+(defun amirreza/reload-font ()
+  (interactive)
+  (set-frame-font (concat amirreza/font " " amirreza/font-size) nil t))
+
+(amirreza/reload-font)
+
+#+END_SRC
+**** Modeline
+I don't do anything fancy just remove minor modes from modeline because I think they are useless really.
+#+BEGIN_SRC emacs-lisp
+  (setq-default mode-line-format
+		'("%e" mode-line-front-space
+		  (:propertize
+		   ("" mode-line-mule-info mode-line-client mode-line-modified mode-line-remote)
+		   display
+		   (min-width
+		    (5.0)))
+		  mode-line-frame-identification mode-line-buffer-identification "   " mode-line-position
+		  (vc-mode vc-mode)
+		  "  " mode-line-misc-info mode-line-end-spaces)
+		)
+
+#+END_SRC
+
+
 *** Auto completion
 #+BEGIN_SRC emacs-lisp
   (setq corfu-auto t)
@@ -315,6 +317,7 @@ I don't do anything fancy just remove minor modes from modeline because I think 
   (corfu-echo-mode 1)
   (corfu-popupinfo-mode 1)
   (corfu-terminal-mode)
+  (corfu-prescient-mode)
 #+END_SRC
 *** Editor UX
 #+BEGIN_SRC emacs-lisp
@@ -387,11 +390,11 @@ I don't do anything fancy just remove minor modes from modeline because I think 
   (add-hook 'python-mode-hook 'eglot-ensure)
   (add-hook 'php-mode-hook 'eglot-ensure)
 #+END_SRC
-*** Magit
+**** Git
 #+BEGIN_SRC emacs-lisp
   (global-git-gutter-mode)
 #+END_SRC
-*** Minibuffer
+*** Minibuffer Completion
 #+BEGIN_SRC emacs-lisp
   (setq completion-cycle-threshold 3)
   (setq tab-always-indent 'complete)
@@ -411,6 +414,8 @@ I don't do anything fancy just remove minor modes from modeline because I think 
   (setq completion-styles '(orderless basic)
 	completion-category-defaults nil
 	completion-category-overrides '((file (styles partial-completion))))
+
+  (vertico-prescient-mode)
 #+END_SRC
 *** Org mode
 #+BEGIN_SRC emacs-lisp
@@ -441,6 +446,7 @@ I don't do anything fancy just remove minor modes from modeline because I think 
 
 
   (add-hook 'org-mode-hook #'org-bullets-mode)
+  (add-hook 'org-mode-hook #'toc-org-mode)
 #+END_SRC
 **** Org-reveal
 =org-reveal= will let you create =reveal.js= presentations from Org mode documents.
@@ -452,18 +458,11 @@ I don't do anything fancy just remove minor modes from modeline because I think 
 
 
 #+END_SRC
-*** Psychic like completion
-#+BEGIN_SRC emacs-lisp
-  (vertico-prescient-mode)
-
-
-  (corfu-prescient-mode)
-#+END_SRC
 *** Treesitter, get rid of regex
 #+BEGIN_SRC emacs-lisp
   (global-tree-sitter-mode)
 #+END_SRC
-*** Never loose a good setup
+*** Never loose a good setup or Workspace settings
 #+BEGIN_SRC emacs-lisp
 
   (setq persp-state-default-file (expand-file-name "sessions" user-emacs-directory))
@@ -546,7 +545,7 @@ I don't do anything fancy just remove minor modes from modeline because I think 
 
 
 #+END_SRC
-**** Org Mode Related Keymaps
+**** Org Mode
 #+BEGIN_SRC emacs-lisp
   (general-def
     :prefix "C-c m"
@@ -554,7 +553,7 @@ I don't do anything fancy just remove minor modes from modeline because I think 
 
     "c b" 'amirreza/org-code-block)
 #+END_SRC
-**** Helpful instead of default help
+**** Helpful
 #+BEGIN_SRC emacs-lisp
   (general-def
       :prefix "C-h"
@@ -566,7 +565,7 @@ I don't do anything fancy just remove minor modes from modeline because I think 
       )
 
 #+END_SRC
-**** Project related keys
+**** IDE like experience
 #+BEGIN_SRC emacs-lisp
   (general-def
     :keymaps 'override
@@ -578,9 +577,6 @@ I don't do anything fancy just remove minor modes from modeline because I think 
     "d" 'project-dired
     "c" 'project-compile
     )
-#+END_SRC
-**** IDE like experience
-#+BEGIN_SRC emacs-lisp
   (general-def
     :keymaps 'override
     "C-h ." 'amirreza/eldoc-toggle-buffer ;; Toggle eldoc buffer
