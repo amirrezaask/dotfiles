@@ -245,19 +245,43 @@ I don't do anything fancy just remove minor modes from modeline because I think 
   (global-set-key (kbd "M-n") (lambda () (interactive) (amirreza/down-center)))
 
 #+END_SRC
+** Eldoc
+#+BEGIN_SRC emacs-lisp
+  (setq eldoc-echo-area-use-multiline-p nil)
+  (setq eldoc-echo-area-display-truncation-message nil)
+  (setq eldoc-echo-area-prefer-doc-buffer nil)
+
+  (setq amirreza/--eldoc-window-open 'close)
+
+  (defun amirreza/eldoc-toggle-buffer ()
+    "Toggle eldoc buffer."
+    (interactive)
+    (if (eq 'open amirreza/--eldoc-window-open)
+	(progn
+	  (message "closing...")
+	  (dolist (w (window-list))
+	    (when (string-match-p "\\*eldoc.*" (buffer-name (window-buffer w)))
+	      (quit-window nil w)
+	      ))
+	  (setq amirreza/--eldoc-window-open 'close))
+      (progn
+	(message "opening...")
+	(eldoc-doc-buffer t)
+	(setq amirreza/--eldoc-window-open 'open))
+    ))
+
+  (global-eldoc-mode)
+
+#+END_SRC
 ** LSP
 #+BEGIN_SRC emacs-lisp
   (elpa-package eglot
-		(require 'eglot)
-		(setq eldoc-echo-area-use-multiline-p nil)
-		(setq eldoc-echo-area-display-truncation-message nil)
-		(setq eldoc-echo-area-prefer-doc-buffer nil)
-
-		(global-eldoc-mode)
 		(add-hook 'go-mode-hook 'eglot-ensure)
 		(add-hook 'rust-mode-hook 'eglot-ensure)
 		(add-hook 'python-mode-hook 'eglot-ensure)
 		(add-hook 'php-mode-hook 'eglot-ensure))
+
+
   (elpa-package consult-eglot)
 #+END_SRC
 ** Magit
@@ -492,20 +516,35 @@ I don't do anything fancy just remove minor modes from modeline because I think 
     "c" 'project-compile
     )
 #+END_SRC
-*** LSP related keys
+*** IDE like experience
 #+BEGIN_SRC emacs-lisp
   (general-def
+    :keymaps 'override
+    "C-h ." 'amirreza/eldoc-toggle-buffer ;; Toggle eldoc buffer
+
+    "M-0" 'amirreza/eldoc-toggle-buffer ;; Toggle eldoc buffer
+
+    "C-c m n" 'flymake-goto-next-error ;; Next error
+    "C-c m p" 'flymake-goto-prev-error ;; Previous error
+
+    "M-j" 'flymake-goto-next-error ;; Next error
+    "M-k" 'flymake-goto-prev-error ;; Previous error
+
+    "M-." 'xref-find-definitions ;; Goto definitions
+    "M-," 'xref-go-back ;; hop back where you where before jump
+    "M-r" 'xref-find-references ;; Goto references
+    )
+
+  (general-def
     :keymaps 'eglot-mode-map
-    "M-." 'xref-find-definitions
-    "M-," 'xref-go-back
-    "M-r" 'xref-find-references
     "M-i" 'eglot-find-implementation
     "C-c m r" 'eglot-rename
     "C-c m s" 'consult-eglot-symbols
     "C-c m f" 'eglot-format
+    "C-c m e" 'consult-flymake
+    "C-c m i" 'eglot-find-implementation
     )
 #+END_SRC
-
 ** =[DEPREACATED]= Evil Mode
 :PROPERTIES:
 :header-args:    :tangle no
