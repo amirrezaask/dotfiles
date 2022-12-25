@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>AmirrezaAsk Emacs Configuration</title>
+<meta name="author" content="Amirreza Askarpour"/>
+<meta name="description" content=""/>
+<meta name="keywords" content=""/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js/dist/reveal.css"/>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js/dist/theme/moon.css" id="theme"/>
+
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'https://cdn.jsdelivr.net/npm/reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+
+<section>
+<section id="slide-orgaa06d70">
+<h2 id="orgaa06d70"><span class="section-number-2">1.</span> Emacs configuration</h2>
+<p>
+They call it kitchen sink
+but I call it ICE ( <code>[I]</code> ntegrated <code>[C]</code> omputing <code>[E]</code> nvironment )
+</p>
+</section>
+<section id="slide-org2434da9">
+<h3 id="org2434da9"><span class="section-number-3">1.1.</span> How to install ?</h3>
+<p>
+It's a fairly simple thing to do
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-sh"   ><code trim>curl https://raw.githubusercontent.com/amirrezaask/dotfiles/master/.emacs.d/README.org &gt; ~/.emacs.d/README.org &amp;&amp;<span style="color: #029fff;">\</span>
+    emacs --batch --eval <span style="color: #029fff;">"(require 'org)"</span> --eval <span style="color: #029fff;">'(org-babel-tangle-file "~/.emacs.d/README.org")'</span>
+</code></pre>
+</div>
+</section>
+<section id="slide-org1e3190c">
+<h3 id="org1e3190c"><span class="section-number-3">1.2.</span> Personal Customization Variable</h3>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp"   ><code trim><span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">setq</span> user-full-name <span style="color: #029fff;">"Amirreza Askarpour"</span><span style="color: #6fafff;">)</span>
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">setq</span> user-email <span style="color: #029fff;">"raskarpour@gmail.com"</span><span style="color: #6fafff;">)</span>
+<span style="color: #cf9f7f; font-style: italic;">;; </span><span style="color: #cf9f7f; font-style: italic;">(setq amirreza/font "FiraCode Nerd Font Mono")</span>
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">setq</span> amirreza/font <span style="color: #029fff;">"JetBrainsMono Nerd Font Mono"</span><span style="color: #6fafff;">)</span>
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">setq</span> amirreza/font-size <span style="color: #029fff;">"21"</span><span style="color: #6fafff;">)</span>
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">setq</span> amirreza/theme 'ef-dark<span style="color: #6fafff;">)</span>
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">setq</span> amirreza/default-workspaces '<span style="color: #af8aff;">(</span>emacs risma ripo RideAggregator<span style="color: #af8aff;">)</span><span style="color: #6fafff;">)</span>
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">setq</span> amirreza/transparent t<span style="color: #6fafff;">)</span> <span style="color: #cf9f7f; font-style: italic;">;; </span><span style="color: #cf9f7f; font-style: italic;">For terminal only</span>
+</code></pre>
+</div>
+</section>
+<section id="slide-org9ad2ea4">
+<h3 id="org9ad2ea4"><span class="section-number-3">1.3.</span> early-init.el</h3>
+<p>
+From emacs 27 I think they added a file called <code>early-init.el</code> which will get sourced
+before UI stuff happens in Emacs, so it's a good place to turn of UI things.
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp"   ><code trim><span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">setq</span> package-enable-at-startup nil<span style="color: #6fafff;">)</span> <span style="color: #cf9f7f; font-style: italic;">;; </span><span style="color: #cf9f7f; font-style: italic;">Disable default package manager package.el</span>
+<span style="color: #6fafff;">(</span>tool-bar-mode 0<span style="color: #6fafff;">)</span> <span style="color: #cf9f7f; font-style: italic;">;; </span><span style="color: #cf9f7f; font-style: italic;">disable top toolbar</span>
+<span style="color: #6fafff;">(</span>scroll-bar-mode 0<span style="color: #6fafff;">)</span> <span style="color: #cf9f7f; font-style: italic;">;; </span><span style="color: #cf9f7f; font-style: italic;">disable scroll bar</span>
+<span style="color: #6fafff;">(</span>menu-bar-mode -1<span style="color: #6fafff;">)</span> <span style="color: #cf9f7f; font-style: italic;">;; </span><span style="color: #cf9f7f; font-style: italic;">Disable menu bar</span>
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">setq</span> gc-cons-threshold <span style="color: #af8aff;">(</span>* 100 1024 1024<span style="color: #af8aff;">)</span><span style="color: #6fafff;">)</span>
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">setq</span> read-process-output-max <span style="color: #af8aff;">(</span>* 1024 1024<span style="color: #af8aff;">)</span><span style="color: #6fafff;">)</span>
+</code></pre>
+</div>
+</section>
+<section id="slide-orge1e023b">
+<h3 id="orge1e023b"><span class="section-number-3">1.4.</span> init.el</h3>
+<p>
+init.el will just load this file.
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp"   ><code trim><span style="color: #6fafff;">(</span>org-babel-load-file <span style="color: #af8aff;">(</span>expand-file-name <span style="color: #029fff;">"README.org"</span> user-emacs-directory<span style="color: #af8aff;">)</span><span style="color: #6fafff;">)</span>
+</code></pre>
+</div>
+</section>
+<section id="slide-org912051e">
+<h3 id="org912051e"><span class="section-number-3">1.5.</span> <a href="https://github.com/radian-software/straight.el">straight.el</a></h3>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp"   ><code trim><span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">defvar</span> <span style="color: #4fb0cf;">bootstrap-version</span><span style="color: #6fafff;">)</span>
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">let</span> <span style="color: #af8aff;">(</span><span style="color: #df8f6f;">(</span>bootstrap-file
+       <span style="color: #6a88ff;">(</span>expand-file-name <span style="color: #029fff;">"straight/repos/straight.el/bootstrap.el"</span> user-emacs-directory<span style="color: #6a88ff;">)</span><span style="color: #df8f6f;">)</span>
+      <span style="color: #df8f6f;">(</span>bootstrap-version 6<span style="color: #df8f6f;">)</span><span style="color: #af8aff;">)</span>
+  <span style="color: #af8aff;">(</span><span style="color: #6a88ff; font-weight: bold;">unless</span> <span style="color: #df8f6f;">(</span>file-exists-p bootstrap-file<span style="color: #df8f6f;">)</span>
+    <span style="color: #df8f6f;">(</span><span style="color: #6a88ff; font-weight: bold;">with-current-buffer</span>
+        <span style="color: #6a88ff;">(</span>url-retrieve-synchronously
+         <span style="color: #029fff;">"https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"</span>
+         'silent 'inhibit-cookies<span style="color: #6a88ff;">)</span>
+      <span style="color: #6a88ff;">(</span>goto-char <span style="color: #d570af;">(</span>point-max<span style="color: #d570af;">)</span><span style="color: #6a88ff;">)</span>
+      <span style="color: #6a88ff;">(</span>eval-print-last-sexp<span style="color: #6a88ff;">)</span><span style="color: #df8f6f;">)</span><span style="color: #af8aff;">)</span>
+  <span style="color: #af8aff;">(</span>load bootstrap-file nil 'nomessage<span style="color: #af8aff;">)</span><span style="color: #6fafff;">)</span>
+</code></pre>
+</div>
+</section>
+<section id="slide-org6af6e61">
+<h3 id="org6af6e61"><span class="section-number-3">1.6.</span> Some basic macros</h3>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp"   ><code trim><span style="color: #6fafff;">(</span>add-to-list 'load-path <span style="color: #af8aff;">(</span>expand-file-name <span style="color: #029fff;">"site-lisp"</span> user-emacs-directory<span style="color: #af8aff;">)</span><span style="color: #6fafff;">)</span>
+<span style="color: #6fafff;">(</span>add-to-list 'load-path <span style="color: #af8aff;">(</span>expand-file-name <span style="color: #029fff;">"lisp"</span> user-emacs-directory<span style="color: #af8aff;">)</span><span style="color: #6fafff;">)</span>
+
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">defmacro</span> <span style="color: #3dc0b0;">elpa-package</span>
+    <span style="color: #af8aff;">(</span>package <span style="color: #af8aff;">&amp;rest</span> body<span style="color: #af8aff;">)</span>
+  <span style="color: #92b4df; font-style: italic;">"Check if PACKAGE is installed and evaluate BODY."</span>
+  `<span style="color: #af8aff;">(</span><span style="color: #6a88ff; font-weight: bold;">progn</span>
+     <span style="color: #df8f6f;">(</span>straight-use-package <span style="color: #6a88ff;">(</span><span style="color: #6a88ff; font-weight: bold;">quote</span> ,package<span style="color: #6a88ff;">)</span><span style="color: #df8f6f;">)</span>
+     <span style="color: #df8f6f;">(</span><span style="color: #6a88ff; font-weight: bold;">progn</span> ,@body<span style="color: #df8f6f;">)</span>
+     <span style="color: #af8aff;">)</span><span style="color: #6fafff;">)</span>
+
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">defmacro</span> <span style="color: #3dc0b0;">emacs-package</span>
+    <span style="color: #af8aff;">(</span>package <span style="color: #af8aff;">&amp;rest</span> body<span style="color: #af8aff;">)</span>
+  <span style="color: #92b4df; font-style: italic;">"Nothing fancy, just evaluate BODY, mostly for organization"</span>
+  `<span style="color: #af8aff;">(</span><span style="color: #6a88ff; font-weight: bold;">progn</span>
+     ,@body<span style="color: #af8aff;">)</span><span style="color: #6fafff;">)</span>
+
+<span style="color: #cf9f7f; font-style: italic;">;; </span><span style="color: #cf9f7f; font-style: italic;">For keybindings I use general.el which provides a really</span>
+<span style="color: #cf9f7f; font-style: italic;">;; </span><span style="color: #cf9f7f; font-style: italic;">useful macro `general-def`</span>
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">elpa-package</span> general<span style="color: #6fafff;">)</span>
+
+</code></pre>
+</div>
+</section>
+<section id="slide-org0b96bb0">
+<h3 id="org0b96bb0"><span class="section-number-3">1.7.</span> Edit Emacs configuration</h3>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp"   ><code trim><span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">defun</span> <span style="color: #3dc0b0;">amirreza/edit-emacs</span> <span style="color: #af8aff;">()</span>
+  <span style="color: #af8aff;">(</span><span style="color: #6a88ff; font-weight: bold;">interactive</span><span style="color: #af8aff;">)</span>
+  <span style="color: #af8aff;">(</span>find-file <span style="color: #df8f6f;">(</span>expand-file-name <span style="color: #029fff;">"README.org"</span> user-emacs-directory<span style="color: #df8f6f;">)</span><span style="color: #af8aff;">)</span><span style="color: #6fafff;">)</span>
+</code></pre>
+</div>
+</section>
+<section id="slide-org69dbf57">
+<h3 id="org69dbf57"><span class="section-number-3">1.8.</span> Theme and coloring Emacs</h3>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp"   ><code trim><span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">elpa-package</span> all-the-icons<span style="color: #6fafff;">)</span>
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">elpa-package</span> ef-themes<span style="color: #6fafff;">)</span>
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">elpa-package</span> doom-themes<span style="color: #6fafff;">)</span>
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">elpa-package</span> gruber-darker-theme<span style="color: #6fafff;">)</span>
+
+<span style="color: #cf9f7f; font-style: italic;">;; </span><span style="color: #cf9f7f; font-style: italic;">Add custom themes path to themes load path</span>
+<span style="color: #6fafff;">(</span>add-to-list 'custom-theme-load-path
+             <span style="color: #af8aff;">(</span>expand-file-name <span style="color: #029fff;">"themes"</span> user-emacs-directory<span style="color: #af8aff;">)</span><span style="color: #6fafff;">)</span>
+
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">setq</span> amirreza/--current-theme nil<span style="color: #6fafff;">)</span>
+
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">defun</span> <span style="color: #3dc0b0;">amirreza/switch-theme</span> <span style="color: #af8aff;">()</span>
+  <span style="color: #af8aff;">(</span><span style="color: #6a88ff; font-weight: bold;">interactive</span><span style="color: #af8aff;">)</span>
+  <span style="color: #af8aff;">(</span><span style="color: #6a88ff; font-weight: bold;">let</span> <span style="color: #df8f6f;">(</span><span style="color: #6a88ff;">(</span>theme <span style="color: #d570af;">(</span>intern <span style="color: #1fa526;">(</span>completing-read <span style="color: #029fff;">"Theme: "</span> <span style="color: #c48502;">(</span>mapcar #'symbol-name
+                                                          <span style="color: #4fb0cf;">(</span>custom-available-themes<span style="color: #4fb0cf;">)</span><span style="color: #c48502;">)</span><span style="color: #1fa526;">)</span><span style="color: #d570af;">)</span><span style="color: #6a88ff;">)</span><span style="color: #df8f6f;">)</span>
+    <span style="color: #df8f6f;">(</span>amirreza/load-theme theme<span style="color: #df8f6f;">)</span><span style="color: #af8aff;">)</span><span style="color: #6fafff;">)</span>
+
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">defun</span> <span style="color: #3dc0b0;">amirreza/load-theme</span> <span style="color: #af8aff;">(</span>theme<span style="color: #af8aff;">)</span>
+  <span style="color: #af8aff;">(</span><span style="color: #6a88ff; font-weight: bold;">when</span> <span style="color: #df8f6f;">(</span>not <span style="color: #6a88ff;">(</span>eq amirreza/--current-theme nil<span style="color: #6a88ff;">)</span><span style="color: #df8f6f;">)</span>
+    <span style="color: #df8f6f;">(</span>disable-theme amirreza/--current-theme<span style="color: #df8f6f;">)</span><span style="color: #af8aff;">)</span>
+  <span style="color: #af8aff;">(</span><span style="color: #6a88ff; font-weight: bold;">setq</span> amirreza/--current-theme theme<span style="color: #af8aff;">)</span>
+  <span style="color: #af8aff;">(</span>load-theme amirreza/--current-theme t<span style="color: #af8aff;">)</span>
+  <span style="color: #af8aff;">(</span><span style="color: #6a88ff; font-weight: bold;">unless</span> <span style="color: #df8f6f;">(</span>display-graphic-p<span style="color: #df8f6f;">)</span>
+    <span style="color: #df8f6f;">(</span><span style="color: #6a88ff; font-weight: bold;">when</span> amirreza/transparent
+      <span style="color: #6a88ff;">(</span>set-face-background 'default <span style="color: #029fff;">"0"</span><span style="color: #6a88ff;">)</span><span style="color: #df8f6f;">)</span><span style="color: #af8aff;">)</span><span style="color: #6fafff;">)</span>
+
+<span style="color: #6fafff;">(</span>amirreza/load-theme amirreza/theme<span style="color: #6fafff;">)</span>
+</code></pre>
+</div>
+</section>
+<section id="slide-orgbe81f75">
+<h3 id="orgbe81f75"><span class="section-number-3">1.9.</span> Font stuff</h3>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp"   ><code trim><span style="color: #cf9f7f; font-style: italic;">;; </span><span style="color: #cf9f7f; font-style: italic;">Font settings</span>
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">defun</span> <span style="color: #3dc0b0;">amirreza/home-monitor</span> <span style="color: #af8aff;">()</span>
+  <span style="color: #af8aff;">(</span><span style="color: #6a88ff; font-weight: bold;">interactive</span><span style="color: #af8aff;">)</span>
+  <span style="color: #af8aff;">(</span><span style="color: #6a88ff; font-weight: bold;">setq</span> amirreza/font-size <span style="color: #029fff;">"23"</span><span style="color: #af8aff;">)</span>
+  <span style="color: #af8aff;">(</span>set-frame-font <span style="color: #df8f6f;">(</span>concat amirreza/font <span style="color: #029fff;">" "</span> amirreza/font-size<span style="color: #df8f6f;">)</span> nil t<span style="color: #af8aff;">)</span><span style="color: #6fafff;">)</span>
+
+<span style="color: #cf9f7f; font-style: italic;">;; </span><span style="color: #cf9f7f; font-style: italic;">My font setup for my laptop setup</span>
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">defun</span> <span style="color: #3dc0b0;">amirreza/laptop</span> <span style="color: #af8aff;">()</span>
+  <span style="color: #af8aff;">(</span><span style="color: #6a88ff; font-weight: bold;">interactive</span><span style="color: #af8aff;">)</span>
+  <span style="color: #af8aff;">(</span><span style="color: #6a88ff; font-weight: bold;">setq</span> amirreza/font-size <span style="color: #029fff;">"15"</span><span style="color: #af8aff;">)</span>
+  <span style="color: #af8aff;">(</span>set-frame-font <span style="color: #df8f6f;">(</span>concat amirreza/font <span style="color: #029fff;">" "</span> amirreza/font-size<span style="color: #df8f6f;">)</span> nil t<span style="color: #af8aff;">)</span><span style="color: #6fafff;">)</span>
+
+<span style="color: #cf9f7f; font-style: italic;">;; </span><span style="color: #cf9f7f; font-style: italic;">Reload font settings</span>
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">defun</span> <span style="color: #3dc0b0;">amirreza/reload-font</span> <span style="color: #af8aff;">()</span>
+  <span style="color: #af8aff;">(</span><span style="color: #6a88ff; font-weight: bold;">interactive</span><span style="color: #af8aff;">)</span>
+  <span style="color: #af8aff;">(</span>set-frame-font <span style="color: #df8f6f;">(</span>concat amirreza/font <span style="color: #029fff;">" "</span> amirreza/font-size<span style="color: #df8f6f;">)</span> nil t<span style="color: #af8aff;">)</span><span style="color: #6fafff;">)</span>
+
+<span style="color: #6fafff;">(</span>amirreza/reload-font<span style="color: #6fafff;">)</span>
+
+</code></pre>
+</div>
+</section>
+<section id="slide-org3aa79bf">
+<h3 id="org3aa79bf"><span class="section-number-3">1.10.</span> Modeline</h3>
+<p>
+I don't do anything fancy just remove minor modes from modeline because I think they are useless really.
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp"   ><code trim><span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">emacs-package</span> modeline
+               <span style="color: #af8aff;">(</span><span style="color: #6a88ff; font-weight: bold;">setq-default</span> mode-line-format
+                             '<span style="color: #df8f6f;">(</span><span style="color: #029fff;">"%e"</span> mode-line-front-space
+                              <span style="color: #6a88ff;">(</span><span style="color: #00a972; font-weight: bold;">:propertize</span>
+                               <span style="color: #d570af;">(</span><span style="color: #029fff;">""</span> mode-line-mule-info mode-line-client mode-line-modified mode-line-remote<span style="color: #d570af;">)</span>
+                               display
+                               <span style="color: #d570af;">(</span>min-width
+                                <span style="color: #1fa526;">(</span>5.0<span style="color: #1fa526;">)</span><span style="color: #d570af;">)</span><span style="color: #6a88ff;">)</span>
+                              mode-line-frame-identification mode-line-buffer-identification <span style="color: #029fff;">"   "</span> mode-line-position
+                              <span style="color: #6a88ff;">(</span>vc-mode vc-mode<span style="color: #6a88ff;">)</span>
+                              <span style="color: #029fff;">"  "</span> mode-line-misc-info mode-line-end-spaces<span style="color: #df8f6f;">)</span>
+                             <span style="color: #af8aff;">)</span>
+               <span style="color: #6fafff;">)</span>
+</code></pre>
+</div>
+</section>
+<section id="slide-orgc1fcd02">
+<h3 id="orgc1fcd02"><span class="section-number-3">1.11.</span> Emacs internal configurations</h3>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp"   ><code trim><span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">setq</span> gc-cons-threshold <span style="color: #af8aff;">(</span>* 100 1024 1024<span style="color: #af8aff;">)</span><span style="color: #6fafff;">)</span>
+
+<span style="color: #cf9f7f; font-style: italic;">;; </span><span style="color: #cf9f7f; font-style: italic;">Many packages like LSP clients will try and spawn a subprocess to do some work, Emacs should read from those processes output and process the result, increasing maximum read means less sys calls to read from, subprocess output and basically more speed.</span>
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">setq</span> read-process-output-max <span style="color: #af8aff;">(</span>* 1024 1024<span style="color: #af8aff;">)</span><span style="color: #6fafff;">)</span>
+
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">setq</span> create-lockfiles nil<span style="color: #6fafff;">)</span> <span style="color: #cf9f7f; font-style: italic;">;; </span><span style="color: #cf9f7f; font-style: italic;">Don't create .# files as lock.</span>
+
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">setq</span> make-backup-files nil<span style="color: #6fafff;">)</span> <span style="color: #cf9f7f; font-style: italic;">;; </span><span style="color: #cf9f7f; font-style: italic;">Disable backup files ~file</span>
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">setq</span> auto-save-default nil<span style="color: #6fafff;">)</span> <span style="color: #cf9f7f; font-style: italic;">;; </span><span style="color: #cf9f7f; font-style: italic;">Disable auto save files</span>
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">setq</span> inhibit-startup-screen t<span style="color: #6fafff;">)</span> <span style="color: #cf9f7f; font-style: italic;">;; </span><span style="color: #cf9f7f; font-style: italic;">No startup splash screen</span>
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">setq</span> use-dialog-box nil<span style="color: #6fafff;">)</span> <span style="color: #cf9f7f; font-style: italic;">;; </span><span style="color: #cf9f7f; font-style: italic;">Do not use UI for questions</span>
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">setq</span> ring-bell-function 'ignore<span style="color: #6fafff;">)</span> <span style="color: #cf9f7f; font-style: italic;">;; </span><span style="color: #cf9f7f; font-style: italic;">Do not beep please.</span>
+
+<span style="color: #6fafff;">(</span>tool-bar-mode 0<span style="color: #6fafff;">)</span> <span style="color: #cf9f7f; font-style: italic;">;; </span><span style="color: #cf9f7f; font-style: italic;">disable top toolbar</span>
+<span style="color: #6fafff;">(</span>scroll-bar-mode 0<span style="color: #6fafff;">)</span> <span style="color: #cf9f7f; font-style: italic;">;; </span><span style="color: #cf9f7f; font-style: italic;">disable scroll bar</span>
+<span style="color: #6fafff;">(</span>menu-bar-mode -1<span style="color: #6fafff;">)</span> <span style="color: #cf9f7f; font-style: italic;">;; </span><span style="color: #cf9f7f; font-style: italic;">Disable menu bar</span>
+
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">setq-default</span> cursor-type 'box<span style="color: #6fafff;">)</span> <span style="color: #cf9f7f; font-style: italic;">;; </span><span style="color: #cf9f7f; font-style: italic;">instead of box use a horizontal line.</span>
+<span style="color: #6fafff;">(</span>blink-cursor-mode -1<span style="color: #6fafff;">)</span> <span style="color: #cf9f7f; font-style: italic;">;; </span><span style="color: #cf9f7f; font-style: italic;">no blinking cursor.</span>
+
+
+<span style="color: #cf9f7f; font-style: italic;">;; </span><span style="color: #cf9f7f; font-style: italic;">Copy PATH from default shell</span>
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">elpa-package</span> exec-path-from-shell
+              <span style="color: #af8aff;">(</span>exec-path-from-shell-initialize<span style="color: #af8aff;">)</span><span style="color: #6fafff;">)</span>
+
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">setq</span> custom-file <span style="color: #af8aff;">(</span>expand-file-name <span style="color: #029fff;">"custom.el"</span> user-emacs-directory<span style="color: #af8aff;">)</span><span style="color: #6fafff;">)</span>
+
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">defalias</span> '<span style="color: #3dc0b0;">yes-or-no-p</span> 'y-or-n-p<span style="color: #6fafff;">)</span>
+
+
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">defun</span> <span style="color: #3dc0b0;">amirreza/find-file</span> <span style="color: #af8aff;">()</span>
+  <span style="color: #af8aff;">(</span><span style="color: #6a88ff; font-weight: bold;">interactive</span><span style="color: #af8aff;">)</span>
+  <span style="color: #af8aff;">(</span><span style="color: #6a88ff; font-weight: bold;">if</span> <span style="color: #df8f6f;">(</span>vc-backend <span style="color: #6a88ff;">(</span>buffer-file-name<span style="color: #6a88ff;">)</span><span style="color: #df8f6f;">)</span>
+      <span style="color: #df8f6f;">(</span>project-find-file<span style="color: #df8f6f;">)</span>
+    <span style="color: #df8f6f;">(</span>call-interactively 'find-file<span style="color: #df8f6f;">)</span>
+    <span style="color: #af8aff;">)</span><span style="color: #6fafff;">)</span>
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">elpa-package</span> ace-window<span style="color: #6fafff;">)</span>
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">elpa-package</span> bufler<span style="color: #6fafff;">)</span>
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">elpa-package</span> helpful<span style="color: #6fafff;">)</span>
+</code></pre>
+</div>
+</section>
+<section id="slide-org20eebc9">
+<h3 id="org20eebc9"><span class="section-number-3">1.12.</span> Auto completion</h3>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp"   ><code trim><span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">elpa-package</span> <span style="color: #af8aff;">(</span>corfu <span style="color: #00a972; font-weight: bold;">:type</span> git <span style="color: #00a972; font-weight: bold;">:host</span> github <span style="color: #00a972; font-weight: bold;">:repo</span> <span style="color: #029fff;">"emacs-straight/corfu"</span> <span style="color: #00a972; font-weight: bold;">:files</span> <span style="color: #df8f6f;">(</span><span style="color: #029fff;">"*"</span> <span style="color: #029fff;">"extensions/*.el"</span> <span style="color: #6a88ff;">(</span><span style="color: #00a972; font-weight: bold;">:exclude</span> <span style="color: #029fff;">".git"</span><span style="color: #6a88ff;">)</span><span style="color: #df8f6f;">)</span><span style="color: #af8aff;">)</span>
+              <span style="color: #af8aff;">(</span><span style="color: #6a88ff; font-weight: bold;">setq</span> corfu-auto t<span style="color: #af8aff;">)</span>
+              <span style="color: #af8aff;">(</span>global-corfu-mode<span style="color: #af8aff;">)</span>
+              <span style="color: #af8aff;">(</span>corfu-history-mode 1<span style="color: #af8aff;">)</span>
+              <span style="color: #af8aff;">(</span>corfu-echo-mode 1<span style="color: #af8aff;">)</span>
+              <span style="color: #af8aff;">(</span>corfu-popupinfo-mode 1<span style="color: #af8aff;">)</span>
+              <span style="color: #6fafff;">)</span>
+
+
+
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">elpa-package</span> corfu-terminal
+              <span style="color: #af8aff;">(</span>corfu-terminal-mode<span style="color: #af8aff;">)</span>
+              <span style="color: #6fafff;">)</span>
+
+</code></pre>
+</div>
+</section>
+<section id="slide-org1b6bfbd">
+<h3 id="org1b6bfbd"><span class="section-number-3">1.13.</span> Editor UX</h3>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp"   ><code trim><span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">elpa-package</span> olivetti
+              <span style="color: #af8aff;">(</span><span style="color: #6a88ff; font-weight: bold;">setq</span> olivetti-body-width 100<span style="color: #af8aff;">)</span>
+              <span style="color: #6fafff;">)</span>
+
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">elpa-package</span> rainbow-delimiters
+              <span style="color: #af8aff;">(</span>add-hook 'prog-mode-hook #'rainbow-delimiters-mode<span style="color: #af8aff;">)</span><span style="color: #6fafff;">)</span>
+
+<span style="color: #6fafff;">(</span>delete-selection-mode 1<span style="color: #6fafff;">)</span> <span style="color: #cf9f7f; font-style: italic;">;; </span><span style="color: #cf9f7f; font-style: italic;">When a region of text is selected and then something is typed remove text and replace with what has been typed.</span>
+
+  <span style="color: #6fafff;">(</span>show-paren-mode 1<span style="color: #6fafff;">)</span> <span style="color: #cf9f7f; font-style: italic;">;; </span><span style="color: #cf9f7f; font-style: italic;">Highlight matching parens</span>
+
+  <span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">setq</span> show-paren-delay 0<span style="color: #6fafff;">)</span> <span style="color: #cf9f7f; font-style: italic;">;; </span><span style="color: #cf9f7f; font-style: italic;">highlight matching parens instantly.</span>
+
+  <span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">setq</span> display-line-numbers-type 'relative<span style="color: #6fafff;">)</span> <span style="color: #cf9f7f; font-style: italic;">;; </span><span style="color: #cf9f7f; font-style: italic;">relative line numbers</span>
+
+  <span style="color: #6fafff;">(</span>global-display-line-numbers-mode 1<span style="color: #6fafff;">)</span> <span style="color: #cf9f7f; font-style: italic;">;; </span><span style="color: #cf9f7f; font-style: italic;">enable line numbers globaly</span>
+
+  <span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">elpa-package</span> expand-region<span style="color: #6fafff;">)</span>
+  <span style="color: #6fafff;">(</span>global-hl-line-mode<span style="color: #6fafff;">)</span>
+
+  <span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">defun</span> <span style="color: #3dc0b0;">amirreza/up-center</span> <span style="color: #af8aff;">()</span>
+  <span style="color: #af8aff;">(</span><span style="color: #6a88ff; font-weight: bold;">interactive</span><span style="color: #af8aff;">)</span>
+  <span style="color: #af8aff;">(</span>previous-line <span style="color: #df8f6f;">(</span>/ <span style="color: #6a88ff;">(</span>window-height<span style="color: #6a88ff;">)</span> 2<span style="color: #df8f6f;">)</span><span style="color: #af8aff;">)</span>
+  <span style="color: #af8aff;">(</span>recenter-top-bottom<span style="color: #af8aff;">)</span><span style="color: #6fafff;">)</span>
+
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">defun</span> <span style="color: #3dc0b0;">amirreza/down-center</span> <span style="color: #af8aff;">()</span>
+  <span style="color: #af8aff;">(</span><span style="color: #6a88ff; font-weight: bold;">interactive</span><span style="color: #af8aff;">)</span>
+  <span style="color: #af8aff;">(</span>next-line <span style="color: #df8f6f;">(</span>/ <span style="color: #6a88ff;">(</span>window-height<span style="color: #6a88ff;">)</span> 2<span style="color: #df8f6f;">)</span><span style="color: #af8aff;">)</span>
+  <span style="color: #af8aff;">(</span>recenter-top-bottom<span style="color: #af8aff;">)</span><span style="color: #6fafff;">)</span>
+
+<span style="color: #cf9f7f; font-style: italic;">;; </span><span style="color: #cf9f7f; font-style: italic;">Best movement ever ?????</span>
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">setq</span> recenter-positions '<span style="color: #af8aff;">(</span>middle<span style="color: #af8aff;">)</span><span style="color: #6fafff;">)</span>
+<span style="color: #6fafff;">(</span>global-set-key <span style="color: #af8aff;">(</span>kbd <span style="color: #029fff;">"M-p"</span><span style="color: #af8aff;">)</span> <span style="color: #af8aff;">(</span><span style="color: #6a88ff; font-weight: bold;">lambda</span> <span style="color: #df8f6f;">()</span> <span style="color: #df8f6f;">(</span><span style="color: #6a88ff; font-weight: bold;">interactive</span><span style="color: #df8f6f;">)</span> <span style="color: #df8f6f;">(</span>amirreza/up-center<span style="color: #df8f6f;">)</span><span style="color: #af8aff;">)</span><span style="color: #6fafff;">)</span>
+<span style="color: #6fafff;">(</span>global-set-key <span style="color: #af8aff;">(</span>kbd <span style="color: #029fff;">"M-n"</span><span style="color: #af8aff;">)</span> <span style="color: #af8aff;">(</span><span style="color: #6a88ff; font-weight: bold;">lambda</span> <span style="color: #df8f6f;">()</span> <span style="color: #df8f6f;">(</span><span style="color: #6a88ff; font-weight: bold;">interactive</span><span style="color: #df8f6f;">)</span> <span style="color: #df8f6f;">(</span>amirreza/down-center<span style="color: #df8f6f;">)</span><span style="color: #af8aff;">)</span><span style="color: #6fafff;">)</span>
+
+</code></pre>
+</div>
+</section>
+<section id="slide-org12577c3">
+<h3 id="org12577c3"><span class="section-number-3">1.14.</span> Eldoc</h3>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp"   ><code trim><span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">setq</span> eldoc-echo-area-use-multiline-p nil<span style="color: #6fafff;">)</span>
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">setq</span> eldoc-echo-area-display-truncation-message nil<span style="color: #6fafff;">)</span>
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">setq</span> eldoc-echo-area-prefer-doc-buffer nil<span style="color: #6fafff;">)</span>
+
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">setq</span> amirreza/--eldoc-window-open 'close<span style="color: #6fafff;">)</span>
+
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">defun</span> <span style="color: #3dc0b0;">amirreza/eldoc-toggle-buffer</span> <span style="color: #af8aff;">()</span>
+  <span style="color: #92b4df; font-style: italic;">"Toggle eldoc buffer."</span>
+  <span style="color: #af8aff;">(</span><span style="color: #6a88ff; font-weight: bold;">interactive</span><span style="color: #af8aff;">)</span>
+  <span style="color: #af8aff;">(</span><span style="color: #6a88ff; font-weight: bold;">if</span> <span style="color: #df8f6f;">(</span>eq 'open amirreza/--eldoc-window-open<span style="color: #df8f6f;">)</span>
+      <span style="color: #df8f6f;">(</span><span style="color: #6a88ff; font-weight: bold;">progn</span>
+        <span style="color: #6a88ff;">(</span>message <span style="color: #029fff;">"closing..."</span><span style="color: #6a88ff;">)</span>
+        <span style="color: #6a88ff;">(</span><span style="color: #6a88ff; font-weight: bold;">dolist</span> <span style="color: #d570af;">(</span>w <span style="color: #1fa526;">(</span>window-list<span style="color: #1fa526;">)</span><span style="color: #d570af;">)</span>
+          <span style="color: #d570af;">(</span><span style="color: #6a88ff; font-weight: bold;">when</span> <span style="color: #1fa526;">(</span>string-match-p <span style="color: #029fff;">"\\*eldoc.*"</span> <span style="color: #c48502;">(</span>buffer-name <span style="color: #4fb0cf;">(</span>window-buffer w<span style="color: #4fb0cf;">)</span><span style="color: #c48502;">)</span><span style="color: #1fa526;">)</span>
+            <span style="color: #1fa526;">(</span>quit-window nil w<span style="color: #1fa526;">)</span>
+            <span style="color: #d570af;">)</span><span style="color: #6a88ff;">)</span>
+        <span style="color: #6a88ff;">(</span><span style="color: #6a88ff; font-weight: bold;">setq</span> amirreza/--eldoc-window-open 'close<span style="color: #6a88ff;">)</span><span style="color: #df8f6f;">)</span>
+    <span style="color: #df8f6f;">(</span><span style="color: #6a88ff; font-weight: bold;">progn</span>
+      <span style="color: #6a88ff;">(</span>message <span style="color: #029fff;">"opening..."</span><span style="color: #6a88ff;">)</span>
+      <span style="color: #6a88ff;">(</span>eldoc-doc-buffer t<span style="color: #6a88ff;">)</span>
+      <span style="color: #6a88ff;">(</span><span style="color: #6a88ff; font-weight: bold;">setq</span> amirreza/--eldoc-window-open 'open<span style="color: #6a88ff;">)</span><span style="color: #df8f6f;">)</span>
+  <span style="color: #af8aff;">)</span><span style="color: #6fafff;">)</span>
+
+<span style="color: #6fafff;">(</span>global-eldoc-mode<span style="color: #6fafff;">)</span>
+
+</code></pre>
+</div>
+</section>
+<section id="slide-org7884f1b">
+<h3 id="org7884f1b"><span class="section-number-3">1.15.</span> LSP</h3>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp"   ><code trim><span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">elpa-package</span> eglot
+              <span style="color: #af8aff;">(</span>add-hook 'go-mode-hook 'eglot-ensure<span style="color: #af8aff;">)</span>
+              <span style="color: #af8aff;">(</span>add-hook 'rust-mode-hook 'eglot-ensure<span style="color: #af8aff;">)</span>
+              <span style="color: #af8aff;">(</span>add-hook 'python-mode-hook 'eglot-ensure<span style="color: #af8aff;">)</span>
+              <span style="color: #af8aff;">(</span>add-hook 'php-mode-hook 'eglot-ensure<span style="color: #af8aff;">)</span><span style="color: #6fafff;">)</span>
+
+
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">elpa-package</span> consult-eglot<span style="color: #6fafff;">)</span>
+</code></pre>
+</div>
+</section>
+<section id="slide-orgc8b7aeb">
+<h3 id="orgc8b7aeb"><span class="section-number-3">1.16.</span> Magit</h3>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp"   ><code trim><span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">elpa-package</span> git-gutter
+  <span style="color: #af8aff;">(</span>global-git-gutter-mode<span style="color: #af8aff;">)</span><span style="color: #6fafff;">)</span>
+
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">elpa-package</span> magit<span style="color: #6fafff;">)</span>
+
+</code></pre>
+</div>
+</section>
+<section id="slide-orgce59f46">
+<h3 id="orgce59f46"><span class="section-number-3">1.17.</span> Languages</h3>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp"   ><code trim><span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">elpa-package</span> apache-mode<span style="color: #6fafff;">)</span>
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">elpa-package</span> vterm<span style="color: #6fafff;">)</span>
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">elpa-package</span> systemd<span style="color: #6fafff;">)</span>
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">elpa-package</span> nginx-mode<span style="color: #6fafff;">)</span>
+
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">elpa-package</span> docker-compose-mode<span style="color: #6fafff;">)</span>
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">elpa-package</span> dockerfile-mode<span style="color: #6fafff;">)</span>
+
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">elpa-package</span> markdown-mode<span style="color: #6fafff;">)</span>
+
+<span style="color: #cf9f7f; font-style: italic;">;; </span><span style="color: #cf9f7f; font-style: italic;">Golang</span>
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">elpa-package</span> go-mode<span style="color: #6fafff;">)</span>
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">elpa-package</span> go-tag<span style="color: #6fafff;">)</span>
+
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">elpa-package</span> rust-mode<span style="color: #6fafff;">)</span>
+
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">elpa-package</span> zig-mode<span style="color: #6fafff;">)</span>
+
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">elpa-package</span> yaml-mode<span style="color: #6fafff;">)</span>
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">elpa-package</span> csv-mode<span style="color: #6fafff;">)</span>
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">elpa-package</span> json-mode<span style="color: #6fafff;">)</span>
+
+<span style="color: #cf9f7f; font-style: italic;">;; </span><span style="color: #cf9f7f; font-style: italic;">clojure support</span>
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">elpa-package</span> clojure-mode<span style="color: #6fafff;">)</span>
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">elpa-package</span> cider<span style="color: #6fafff;">)</span>
+</code></pre>
+</div>
+</section>
+<section id="slide-org8491de9">
+<h3 id="org8491de9"><span class="section-number-3">1.18.</span> Minibuffer</h3>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp"   ><code trim><span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">elpa-package</span> <span style="color: #af8aff;">(</span>vertico
+               <span style="color: #00a972; font-weight: bold;">:type</span> git
+               <span style="color: #00a972; font-weight: bold;">:host</span> github
+               <span style="color: #00a972; font-weight: bold;">:repo</span> <span style="color: #029fff;">"emacs-straight/vertico"</span>
+               <span style="color: #00a972; font-weight: bold;">:files</span> <span style="color: #df8f6f;">(</span><span style="color: #029fff;">"*"</span> <span style="color: #029fff;">"extensions/*.el"</span> <span style="color: #6a88ff;">(</span><span style="color: #00a972; font-weight: bold;">:exclude</span> <span style="color: #029fff;">".git"</span><span style="color: #6a88ff;">)</span><span style="color: #df8f6f;">)</span><span style="color: #af8aff;">)</span>
+              <span style="color: #af8aff;">(</span><span style="color: #6a88ff; font-weight: bold;">setq</span> completion-cycle-threshold 3<span style="color: #af8aff;">)</span>
+              <span style="color: #af8aff;">(</span><span style="color: #6a88ff; font-weight: bold;">setq</span> tab-always-indent 'complete<span style="color: #af8aff;">)</span>
+              <span style="color: #af8aff;">(</span>vertico-mode<span style="color: #af8aff;">)</span>
+              <span style="color: #af8aff;">(</span><span style="color: #6a88ff; font-weight: bold;">setq</span> vertico-count 15<span style="color: #af8aff;">)</span>
+              <span style="color: #af8aff;">(</span><span style="color: #6a88ff; font-weight: bold;">setq</span> vertico-cycle t<span style="color: #af8aff;">)</span><span style="color: #6fafff;">)</span>
+
+
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">elpa-package</span> savehist
+              <span style="color: #af8aff;">(</span>savehist-mode<span style="color: #af8aff;">)</span><span style="color: #6fafff;">)</span>
+
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">elpa-package</span> consult
+              <span style="color: #af8aff;">(</span><span style="color: #6a88ff; font-weight: bold;">setq</span> consult-async-min-input 1<span style="color: #af8aff;">)</span><span style="color: #6fafff;">)</span>
+
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">elpa-package</span> marginalia
+              <span style="color: #af8aff;">(</span>marginalia-mode<span style="color: #af8aff;">)</span><span style="color: #6fafff;">)</span>
+
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">elpa-package</span> orderless
+              <span style="color: #af8aff;">(</span><span style="color: #6a88ff; font-weight: bold;">setq</span> completion-styles '<span style="color: #df8f6f;">(</span>orderless basic<span style="color: #df8f6f;">)</span>
+                    completion-category-defaults nil
+                    completion-category-overrides '<span style="color: #df8f6f;">(</span><span style="color: #6a88ff;">(</span>file <span style="color: #d570af;">(</span>styles partial-completion<span style="color: #d570af;">)</span><span style="color: #6a88ff;">)</span><span style="color: #df8f6f;">)</span><span style="color: #af8aff;">)</span><span style="color: #6fafff;">)</span>
+</code></pre>
+</div>
+</section>
+<section id="slide-orge2a1ac2">
+<h3 id="orge2a1ac2"><span class="section-number-3">1.19.</span> Org mode</h3>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp"   ><code trim><span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">emacs-package</span> org
+               <span style="color: #af8aff;">(</span><span style="color: #6a88ff; font-weight: bold;">defun</span> <span style="color: #3dc0b0;">amirreza/org-code-block</span> <span style="color: #df8f6f;">()</span>
+                 <span style="color: #df8f6f;">(</span><span style="color: #6a88ff; font-weight: bold;">interactive</span><span style="color: #df8f6f;">)</span>
+                 <span style="color: #df8f6f;">(</span>insert <span style="color: #6a88ff;">(</span>format <span style="color: #029fff;">"#+BEGIN_SRC %s\n\n#+END_SRC"</span>
+                                 <span style="color: #d570af;">(</span>completing-read <span style="color: #029fff;">"Language: "</span>
+                                                  '<span style="color: #1fa526;">(</span><span style="color: #029fff;">"emacs-lisp"</span>
+                                                    <span style="color: #029fff;">"go"</span>
+                                                    <span style="color: #029fff;">"rust"</span>
+                                                    <span style="color: #029fff;">"python"</span>
+                                                    <span style="color: #029fff;">"lua"</span>
+                                                    <span style="color: #029fff;">"bash"</span>
+                                                    <span style="color: #029fff;">"sh"</span>
+                                                    <span style="color: #029fff;">"fish"</span>
+                                                    <span style="color: #029fff;">"java"</span>
+                                                    <span style="color: #1fa526;">)</span><span style="color: #d570af;">)</span><span style="color: #6a88ff;">)</span><span style="color: #df8f6f;">)</span><span style="color: #af8aff;">)</span>
+
+               <span style="color: #af8aff;">(</span><span style="color: #6a88ff; font-weight: bold;">defun</span> <span style="color: #3dc0b0;">amirreza/org-disable-tangle</span> <span style="color: #df8f6f;">()</span>
+                 <span style="color: #df8f6f;">(</span><span style="color: #6a88ff; font-weight: bold;">interactive</span><span style="color: #df8f6f;">)</span>
+                 <span style="color: #df8f6f;">(</span>insert <span style="color: #029fff;">":PROPERTIES:</span>
+<span style="color: #029fff;">:header-args:    :tangle no</span>
+<span style="color: #029fff;">:END:"</span>
+                 <span style="color: #df8f6f;">)</span><span style="color: #af8aff;">)</span>
+               <span style="color: #af8aff;">(</span><span style="color: #6a88ff; font-weight: bold;">setq</span> org-use-property-inheritance t<span style="color: #af8aff;">)</span>
+               <span style="color: #af8aff;">(</span><span style="color: #6a88ff; font-weight: bold;">setq</span> org-src-window-setup 'current-window<span style="color: #af8aff;">)</span><span style="color: #6fafff;">)</span>
+
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">elpa-package</span> org-bullets
+              <span style="color: #af8aff;">(</span>add-hook 'org-mode-hook #'org-bullets-mode<span style="color: #af8aff;">)</span><span style="color: #6fafff;">)</span>
+</code></pre>
+</div>
+</section>
+<section id="slide-org8453cd5">
+<h4 id="org8453cd5"><span class="section-number-4">1.19.1.</span> Org-reveal</h4>
+<p>
+<code>org-reveal</code> will let you create <code>reveal.js</code> presentations from Org mode documents.
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp"   ><code trim><span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">elpa-package</span> org-reveal<span style="color: #6fafff;">)</span>
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">elpa-package</span> htmlize<span style="color: #6fafff;">)</span>
+<span style="color: #6fafff;">(</span>add-hook 'org-mode-hook
+          <span style="color: #af8aff;">(</span><span style="color: #6a88ff; font-weight: bold;">lambda</span> <span style="color: #df8f6f;">()</span>
+            <span style="color: #df8f6f;">(</span><span style="color: #6a88ff; font-weight: bold;">require</span> '<span style="color: #af8aff;">ox-reveal</span><span style="color: #df8f6f;">)</span><span style="color: #af8aff;">)</span>
+          <span style="color: #6fafff;">)</span>
+
+
+</code></pre>
+</div>
+</section>
+<section id="slide-org4c1aca1">
+<h3 id="org4c1aca1"><span class="section-number-3">1.20.</span> Psychic like completion</h3>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp"   ><code trim><span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">elpa-package</span> prescient<span style="color: #6fafff;">)</span>
+
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">elpa-package</span> vertico-prescient
+  <span style="color: #af8aff;">(</span>vertico-prescient-mode<span style="color: #af8aff;">)</span><span style="color: #6fafff;">)</span>
+
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">elpa-package</span> corfu-prescient
+  <span style="color: #af8aff;">(</span>corfu-prescient-mode<span style="color: #af8aff;">)</span><span style="color: #6fafff;">)</span>
+</code></pre>
+</div>
+</section>
+<section id="slide-orgf127c17">
+<h3 id="orgf127c17"><span class="section-number-3">1.21.</span> Project management</h3>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp"   ><code trim><span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">emacs-package</span> project<span style="color: #6fafff;">)</span>
+</code></pre>
+</div>
+</section>
+<section id="slide-orge1c051c">
+<h3 id="orge1c051c"><span class="section-number-3">1.22.</span> Treesitter, get rid of regex</h3>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp"   ><code trim><span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">elpa-package</span> tree-sitter
+  <span style="color: #af8aff;">(</span>global-tree-sitter-mode<span style="color: #af8aff;">)</span><span style="color: #6fafff;">)</span>
+
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">elpa-package</span> tree-sitter-langs<span style="color: #6fafff;">)</span>
+</code></pre>
+</div>
+</section>
+<section id="slide-org55279a0">
+<h3 id="org55279a0"><span class="section-number-3">1.23.</span> Never loose a good setup</h3>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp"   ><code trim><span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">elpa-package</span> perspective
+              <span style="color: #af8aff;">(</span><span style="color: #6a88ff; font-weight: bold;">setq</span> persp-state-default-file <span style="color: #df8f6f;">(</span>expand-file-name <span style="color: #029fff;">"sessions"</span> user-emacs-directory<span style="color: #df8f6f;">)</span><span style="color: #af8aff;">)</span>
+              <span style="color: #af8aff;">(</span><span style="color: #6a88ff; font-weight: bold;">setq</span> persp-mode-prefix-key <span style="color: #df8f6f;">(</span>kbd <span style="color: #029fff;">"C-c w"</span><span style="color: #df8f6f;">)</span><span style="color: #af8aff;">)</span>
+
+
+              <span style="color: #af8aff;">(</span><span style="color: #6a88ff; font-weight: bold;">defun</span> <span style="color: #3dc0b0;">amirreza/save-session</span> <span style="color: #df8f6f;">()</span>
+                <span style="color: #df8f6f;">(</span><span style="color: #6a88ff; font-weight: bold;">interactive</span><span style="color: #df8f6f;">)</span>
+                <span style="color: #df8f6f;">(</span>persp-state-save persp-state-default-file<span style="color: #df8f6f;">)</span><span style="color: #af8aff;">)</span>
+
+
+              <span style="color: #af8aff;">(</span><span style="color: #6a88ff; font-weight: bold;">defun</span> <span style="color: #3dc0b0;">amirreza/load-session</span> <span style="color: #df8f6f;">()</span>
+                <span style="color: #df8f6f;">(</span><span style="color: #6a88ff; font-weight: bold;">interactive</span><span style="color: #df8f6f;">)</span>
+                <span style="color: #df8f6f;">(</span>persp-state-load persp-state-default-file<span style="color: #df8f6f;">)</span><span style="color: #af8aff;">)</span>
+
+
+              <span style="color: #af8aff;">(</span>persp-mode 1<span style="color: #af8aff;">)</span>
+
+              <span style="color: #af8aff;">(</span><span style="color: #6a88ff; font-weight: bold;">dolist</span> <span style="color: #df8f6f;">(</span>w amirreza/default-workspaces<span style="color: #df8f6f;">)</span>
+                <span style="color: #df8f6f;">(</span>persp-new <span style="color: #6a88ff;">(</span>symbol-name w<span style="color: #6a88ff;">)</span><span style="color: #df8f6f;">)</span><span style="color: #af8aff;">)</span>
+
+              <span style="color: #af8aff;">(</span>add-hook 'kill-emacs-hook 'amirreza/save-session<span style="color: #af8aff;">)</span><span style="color: #6fafff;">)</span>
+
+</code></pre>
+</div>
+</section>
+<section id="slide-org059c7be">
+<h3 id="org059c7be"><span class="section-number-3">1.24.</span> Shitty apple computers</h3>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp"   ><code trim><span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">setq</span> mac-command-modifier 'super<span style="color: #6fafff;">)</span> <span style="color: #cf9f7f; font-style: italic;">;; </span><span style="color: #cf9f7f; font-style: italic;">set command key to super</span>
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">setq</span> mac-option-modifier 'meta<span style="color: #6fafff;">)</span> <span style="color: #cf9f7f; font-style: italic;">;; </span><span style="color: #cf9f7f; font-style: italic;">option key as meta</span>
+</code></pre>
+</div>
+</section>
+<section id="slide-org7fd7a82">
+<h3 id="org7fd7a82"><span class="section-number-3">1.25.</span> Which Key</h3>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp"   ><code trim><span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">elpa-package</span> which-key
+              <span style="color: #af8aff;">(</span>which-key-mode +1<span style="color: #af8aff;">)</span><span style="color: #6fafff;">)</span>
+</code></pre>
+</div>
+</section>
+<section id="slide-org24c4ee2">
+<h3 id="org24c4ee2"><span class="section-number-3">1.26.</span> Keybindings</h3>
+<div class="outline-text-3" id="text-1-26">
+</div>
+</section>
+<section id="slide-orgbb3f11a">
+<h4 id="orgbb3f11a"><span class="section-number-4">1.26.1.</span> Edit Emacs Configuration</h4>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp"   ><code trim><span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">general-def</span> <span style="color: #00a972; font-weight: bold;">:keymaps</span> 'override <span style="color: #029fff;">"C-c e e"</span> 'amirreza/edit-emacs<span style="color: #6fafff;">)</span>
+</code></pre>
+</div>
+</section>
+<section id="slide-org2d3a211">
+<h4 id="org2d3a211"><span class="section-number-4">1.26.2.</span> Switch theme</h4>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp"   ><code trim><span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">general-def</span> <span style="color: #00a972; font-weight: bold;">:keymaps</span> 'override <span style="color: #029fff;">"C-c t t"</span> 'amirreza/switch-theme<span style="color: #6fafff;">)</span>
+</code></pre>
+</div>
+</section>
+<section id="slide-org4432ef4">
+<h4 id="org4432ef4"><span class="section-number-4">1.26.3.</span> Window management using ace-window</h4>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp"   ><code trim><span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">general-def</span> <span style="color: #00a972; font-weight: bold;">:keymaps</span> 'override <span style="color: #029fff;">"C-x o"</span> 'ace-window<span style="color: #6fafff;">)</span>
+</code></pre>
+</div>
+</section>
+<section id="slide-orgd345d7a">
+<h4 id="orgd345d7a"><span class="section-number-4">1.26.4.</span> Buffer management using bufler</h4>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp"   ><code trim><span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">general-def</span> <span style="color: #00a972; font-weight: bold;">:keymaps</span> 'override <span style="color: #029fff;">"C-x C-b"</span> 'bufler<span style="color: #6fafff;">)</span>
+</code></pre>
+</div>
+</section>
+<section id="slide-orgab00791">
+<h4 id="orgab00791"><span class="section-number-4">1.26.5.</span> Perspective workspaces</h4>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp"   ><code trim><span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">general-def</span> <span style="color: #00a972; font-weight: bold;">:prefix</span> <span style="color: #029fff;">"C-c w"</span> <span style="color: #00a972; font-weight: bold;">:keymaps</span> 'override <span style="color: #029fff;">"s"</span> 'persp-switch<span style="color: #6fafff;">)</span>
+</code></pre>
+</div>
+</section>
+<section id="slide-org79bcb35">
+<h4 id="org79bcb35"><span class="section-number-4">1.26.6.</span> Editor related keybindings</h4>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp"   ><code trim><span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">general-def</span> <span style="color: #00a972; font-weight: bold;">:keymaps</span> 'override
+  <span style="color: #029fff;">"C-="</span> 'er/expand-region
+  <span style="color: #029fff;">"C--"</span> 'er/contract-region
+  <span style="color: #029fff;">"C-q"</span> 'set-mark-command <span style="color: #cf9f7f; font-style: italic;">;; </span><span style="color: #cf9f7f; font-style: italic;">really important key if you use emacs in terminal</span>
+  <span style="color: #6fafff;">)</span>
+</code></pre>
+</div>
+</section>
+<section id="slide-orgffc2e33">
+<h4 id="orgffc2e33"><span class="section-number-4">1.26.7.</span> Magit</h4>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp"   ><code trim><span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">general-def</span> <span style="color: #00a972; font-weight: bold;">:prefix</span> <span style="color: #029fff;">"C-x"</span> <span style="color: #00a972; font-weight: bold;">:keymaps</span> 'override <span style="color: #029fff;">"g"</span> 'magit<span style="color: #6fafff;">)</span>
+</code></pre>
+</div>
+</section>
+<section id="slide-org440fb2a">
+<h4 id="org440fb2a"><span class="section-number-4">1.26.8.</span> GOlang</h4>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp"   ><code trim><span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">general-def</span> <span style="color: #00a972; font-weight: bold;">:keymaps</span> 'go-mode-map
+  <span style="color: #00a972; font-weight: bold;">:prefix</span> <span style="color: #029fff;">"C-c m"</span>
+  <span style="color: #029fff;">"a"</span> 'go-tag-add <span style="color: #cf9f7f; font-style: italic;">;; </span><span style="color: #cf9f7f; font-style: italic;">Add struct tags</span>
+  <span style="color: #6fafff;">)</span>
+</code></pre>
+</div>
+</section>
+<section id="slide-orgca65555">
+<h4 id="orgca65555"><span class="section-number-4">1.26.9.</span> Dired</h4>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp"   ><code trim><span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">general-def</span>
+  <span style="color: #00a972; font-weight: bold;">:prefix</span> <span style="color: #029fff;">"C-c"</span>
+  <span style="color: #00a972; font-weight: bold;">:keymaps</span> 'dired-mode-map
+  <span style="color: #029fff;">"C-e"</span> 'wdired-change-to-wdired-mode<span style="color: #6fafff;">)</span>
+
+
+</code></pre>
+</div>
+</section>
+<section id="slide-orgd0a3ddf">
+<h4 id="orgd0a3ddf"><span class="section-number-4">1.26.10.</span> Org Mode Related Keymaps</h4>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp"   ><code trim><span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">general-def</span>
+  <span style="color: #00a972; font-weight: bold;">:prefix</span> <span style="color: #029fff;">"C-c m"</span>
+  <span style="color: #00a972; font-weight: bold;">:keymaps</span> 'org-mode-map
+
+  <span style="color: #029fff;">"c b"</span> 'amirreza/org-code-block<span style="color: #6fafff;">)</span>
+</code></pre>
+</div>
+</section>
+<section id="slide-org5d5ccbb">
+<h4 id="org5d5ccbb"><span class="section-number-4">1.26.11.</span> Helpful instead of default help</h4>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp"   ><code trim><span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">general-def</span>
+    <span style="color: #00a972; font-weight: bold;">:prefix</span> <span style="color: #029fff;">"C-h"</span>
+    <span style="color: #00a972; font-weight: bold;">:keymaps</span> 'override
+
+    <span style="color: #af8aff;">[</span>remap describe-key<span style="color: #af8aff;">]</span> 'helpful-key
+    <span style="color: #af8aff;">[</span>remap describe-function<span style="color: #af8aff;">]</span> 'helpful-callable
+    <span style="color: #af8aff;">[</span>remap describe-variable<span style="color: #af8aff;">]</span> 'helpful-variable
+    <span style="color: #6fafff;">)</span>
+
+</code></pre>
+</div>
+</section>
+<section id="slide-org91cf35a">
+<h4 id="org91cf35a"><span class="section-number-4">1.26.12.</span> Project related keys</h4>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp"   ><code trim><span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">general-def</span>
+  <span style="color: #00a972; font-weight: bold;">:keymaps</span> 'override
+  <span style="color: #00a972; font-weight: bold;">:prefix</span> <span style="color: #029fff;">"C-x p"</span>
+
+  <span style="color: #029fff;">"f"</span> 'project-find-file
+  <span style="color: #029fff;">"p"</span> 'project-switch-project
+  <span style="color: #029fff;">"b"</span> 'project-buffers
+  <span style="color: #029fff;">"d"</span> 'project-dired
+  <span style="color: #029fff;">"c"</span> 'project-compile
+  <span style="color: #6fafff;">)</span>
+</code></pre>
+</div>
+</section>
+<section id="slide-orgfd98941">
+<h4 id="orgfd98941"><span class="section-number-4">1.26.13.</span> IDE like experience</h4>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp"   ><code trim><span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">general-def</span>
+  <span style="color: #00a972; font-weight: bold;">:keymaps</span> 'override
+  <span style="color: #029fff;">"C-h ."</span> 'amirreza/eldoc-toggle-buffer <span style="color: #cf9f7f; font-style: italic;">;; </span><span style="color: #cf9f7f; font-style: italic;">Toggle eldoc buffer</span>
+
+  <span style="color: #029fff;">"M-0"</span> 'amirreza/eldoc-toggle-buffer <span style="color: #cf9f7f; font-style: italic;">;; </span><span style="color: #cf9f7f; font-style: italic;">Toggle eldoc buffer</span>
+
+  <span style="color: #029fff;">"C-c m n"</span> 'flymake-goto-next-error <span style="color: #cf9f7f; font-style: italic;">;; </span><span style="color: #cf9f7f; font-style: italic;">Next error</span>
+  <span style="color: #029fff;">"C-c m p"</span> 'flymake-goto-prev-error <span style="color: #cf9f7f; font-style: italic;">;; </span><span style="color: #cf9f7f; font-style: italic;">Previous error</span>
+
+  <span style="color: #029fff;">"M-j"</span> 'flymake-goto-next-error <span style="color: #cf9f7f; font-style: italic;">;; </span><span style="color: #cf9f7f; font-style: italic;">Next error</span>
+  <span style="color: #029fff;">"M-k"</span> 'flymake-goto-prev-error <span style="color: #cf9f7f; font-style: italic;">;; </span><span style="color: #cf9f7f; font-style: italic;">Previous error</span>
+
+  <span style="color: #029fff;">"M-."</span> 'xref-find-definitions <span style="color: #cf9f7f; font-style: italic;">;; </span><span style="color: #cf9f7f; font-style: italic;">Goto definitions</span>
+  <span style="color: #029fff;">"M-,"</span> 'xref-go-back <span style="color: #cf9f7f; font-style: italic;">;; </span><span style="color: #cf9f7f; font-style: italic;">hop back where you where before jump</span>
+  <span style="color: #029fff;">"M-r"</span> 'xref-find-references <span style="color: #cf9f7f; font-style: italic;">;; </span><span style="color: #cf9f7f; font-style: italic;">Goto references</span>
+  <span style="color: #6fafff;">)</span>
+
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">general-def</span>
+  <span style="color: #00a972; font-weight: bold;">:keymaps</span> 'eglot-mode-map
+  <span style="color: #029fff;">"M-i"</span> 'eglot-find-implementation
+  <span style="color: #029fff;">"C-c m r"</span> 'eglot-rename
+  <span style="color: #029fff;">"C-c m s"</span> 'consult-eglot-symbols
+  <span style="color: #029fff;">"C-c m f"</span> 'eglot-format
+  <span style="color: #029fff;">"C-c m e"</span> 'consult-flymake
+  <span style="color: #029fff;">"C-c m i"</span> 'eglot-find-implementation
+  <span style="color: #6fafff;">)</span>
+</code></pre>
+</div>
+</section>
+<section id="slide-org59c8480">
+<h3 id="org59c8480"><span class="section-number-3">1.27.</span> <code>[DEPREACATED]</code> Evil Mode</h3>
+<p>
+As you probably know evil mode in Emacs emulates vim modal editing experience.
+It's closest thing I have seen to vim in all editors and IDEs, since I constanly switching
+between Emacs and Vim style of keybindings I keep this section at the end to easily disable it If
+I want.
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp"   ><code trim><span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">elpa-package</span> evil
+              <span style="color: #af8aff;">(</span><span style="color: #6a88ff; font-weight: bold;">setq</span> evil-want-C-u-scroll t<span style="color: #af8aff;">)</span>
+              <span style="color: #af8aff;">(</span><span style="color: #6a88ff; font-weight: bold;">setq</span> evil-want-C-i-jump nil<span style="color: #af8aff;">)</span>
+              <span style="color: #af8aff;">(</span><span style="color: #6a88ff; font-weight: bold;">setq</span> evil-split-window-below t<span style="color: #af8aff;">)</span>
+              <span style="color: #af8aff;">(</span><span style="color: #6a88ff; font-weight: bold;">setq</span> evil-vsplit-window-right t<span style="color: #af8aff;">)</span>
+              <span style="color: #af8aff;">(</span><span style="color: #6a88ff; font-weight: bold;">setq</span> evil-want-integration t<span style="color: #af8aff;">)</span>
+              <span style="color: #af8aff;">(</span><span style="color: #6a88ff; font-weight: bold;">setq</span> evil-want-keybinding nil<span style="color: #af8aff;">)</span>
+              <span style="color: #af8aff;">(</span>evil-mode 1<span style="color: #af8aff;">)</span>
+              <span style="color: #af8aff;">(</span>evil-global-set-key 'normal <span style="color: #df8f6f;">(</span>kbd <span style="color: #029fff;">"&lt;C-d&gt;"</span><span style="color: #df8f6f;">)</span> <span style="color: #df8f6f;">(</span><span style="color: #6a88ff; font-weight: bold;">lambda</span>
+                                                           <span style="color: #6a88ff;">()</span>
+                                                           <span style="color: #6a88ff;">(</span><span style="color: #6a88ff; font-weight: bold;">interactive</span><span style="color: #6a88ff;">)</span>
+                                                           <span style="color: #6a88ff;">(</span>evil-scroll-down<span style="color: #6a88ff;">)</span>
+                                                           <span style="color: #6a88ff;">(</span>evil-scroll-line-to-center<span style="color: #6a88ff;">)</span>
+                                                           <span style="color: #df8f6f;">)</span><span style="color: #af8aff;">)</span>
+              <span style="color: #af8aff;">(</span>evil-global-set-key 'normal <span style="color: #df8f6f;">(</span>kbd <span style="color: #029fff;">"&lt;C-u&gt;"</span><span style="color: #df8f6f;">)</span> <span style="color: #df8f6f;">(</span><span style="color: #6a88ff; font-weight: bold;">lambda</span>
+                                                           <span style="color: #6a88ff;">()</span>
+                                                           <span style="color: #6a88ff;">(</span><span style="color: #6a88ff; font-weight: bold;">interactive</span><span style="color: #6a88ff;">)</span>
+                                                           <span style="color: #6a88ff;">(</span>evil-scroll-up<span style="color: #6a88ff;">)</span>
+                                                           <span style="color: #6a88ff;">(</span>evil-scroll-line-to-center<span style="color: #6a88ff;">)</span><span style="color: #df8f6f;">)</span><span style="color: #af8aff;">)</span><span style="color: #6fafff;">)</span>
+
+
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">elpa-package</span> evil-escape
+              <span style="color: #af8aff;">(</span><span style="color: #6a88ff; font-weight: bold;">setq-default</span> evil-escape-key-sequence <span style="color: #029fff;">"jk"</span><span style="color: #af8aff;">)</span>
+              <span style="color: #af8aff;">(</span><span style="color: #6a88ff; font-weight: bold;">setq</span> evil-escape-unordered-key-sequence t<span style="color: #af8aff;">)</span>
+              <span style="color: #af8aff;">(</span>evil-escape-mode<span style="color: #af8aff;">)</span><span style="color: #6fafff;">)</span>
+
+
+
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">elpa-package</span> evil-collection
+              <span style="color: #af8aff;">(</span>evil-collection-init<span style="color: #af8aff;">)</span><span style="color: #6fafff;">)</span>
+
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">elpa-package</span> evil-nerd-commenter
+              <span style="color: #af8aff;">(</span>evil-define-key '<span style="color: #df8f6f;">(</span>normal visual<span style="color: #df8f6f;">)</span> global-map <span style="color: #df8f6f;">(</span>kbd <span style="color: #029fff;">"gc"</span><span style="color: #df8f6f;">)</span> 'evilnc-comment-or-uncomment-lines<span style="color: #af8aff;">)</span><span style="color: #6fafff;">)</span>
+
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">elpa-package</span> evil-surround
+              <span style="color: #af8aff;">(</span>global-evil-surround-mode 1<span style="color: #af8aff;">)</span><span style="color: #6fafff;">)</span>
+</code></pre>
+</div>
+</section>
+<section id="slide-org21b4c3a">
+<h4 id="org21b4c3a"><span class="section-number-4">1.27.1.</span> Keybindings</h4>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp"   ><code trim><span style="color: #cf9f7f; font-style: italic;">;; </span><span style="color: #cf9f7f; font-style: italic;">Window management stuff</span>
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">general-def</span>
+  <span style="color: #00a972; font-weight: bold;">:states</span> 'normal
+  <span style="color: #029fff;">"C-j"</span> 'evil-window-down
+  <span style="color: #029fff;">"C-k"</span> 'evil-window-up
+  <span style="color: #029fff;">"C-l"</span> 'evil-window-right
+  <span style="color: #029fff;">"C-h"</span> 'evil-window-left<span style="color: #6fafff;">)</span>
+
+
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">general-def</span>
+  <span style="color: #00a972; font-weight: bold;">:prefix</span> <span style="color: #029fff;">"SPC h"</span>
+  <span style="color: #00a972; font-weight: bold;">:states</span> 'normal
+  <span style="color: #00a972; font-weight: bold;">:keymaps</span> 'override
+
+  <span style="color: #029fff;">"k"</span> 'helpful-key
+  <span style="color: #029fff;">"f"</span> 'helpful-callable
+  <span style="color: #029fff;">"v"</span> 'helpful-variable<span style="color: #6fafff;">)</span>
+
+<span style="color: #cf9f7f; font-style: italic;">;; </span><span style="color: #cf9f7f; font-style: italic;">Buffer management stuff</span>
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">general-def</span>
+  <span style="color: #00a972; font-weight: bold;">:states</span> 'normal
+  <span style="color: #00a972; font-weight: bold;">:keymaps</span> 'override
+  <span style="color: #00a972; font-weight: bold;">:prefix</span> <span style="color: #029fff;">"SPC b"</span>
+  <span style="color: #029fff;">"b"</span> 'persp-switch-to-buffer*
+  <span style="color: #029fff;">"k"</span> 'kill-buffer
+  <span style="color: #6fafff;">)</span>
+
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">general-def</span>
+  <span style="color: #00a972; font-weight: bold;">:prefix</span> <span style="color: #029fff;">"SPC"</span>
+  <span style="color: #00a972; font-weight: bold;">:keymaps</span> 'override
+  <span style="color: #00a972; font-weight: bold;">:states</span> 'normal
+
+  <span style="color: #029fff;">"e e"</span> 'amirreza/edit-emacs<span style="color: #6fafff;">)</span>
+
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">general-def</span>
+  <span style="color: #00a972; font-weight: bold;">:prefix</span> <span style="color: #029fff;">"SPC m"</span>
+  <span style="color: #00a972; font-weight: bold;">:keymaps</span> 'org-mode-map
+  <span style="color: #00a972; font-weight: bold;">:states</span> 'normal
+
+  <span style="color: #029fff;">"c b"</span> 'amirreza/org-code-block<span style="color: #6fafff;">)</span>
+
+
+<span style="color: #cf9f7f; font-style: italic;">;; </span><span style="color: #cf9f7f; font-style: italic;">File navigation and management stuff</span>
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">general-def</span>
+  <span style="color: #00a972; font-weight: bold;">:states</span> 'normal
+  <span style="color: #00a972; font-weight: bold;">:keymaps</span> 'override
+  <span style="color: #00a972; font-weight: bold;">:prefix</span> <span style="color: #029fff;">"SPC f"</span>
+
+  <span style="color: #029fff;">"f"</span> 'find-file
+  <span style="color: #029fff;">"d"</span> 'dired
+  <span style="color: #6fafff;">)</span>
+
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">general-def</span> <span style="color: #00a972; font-weight: bold;">:states</span> 'normal <span style="color: #00a972; font-weight: bold;">:keymaps</span> 'override <span style="color: #029fff;">"SPC SPC"</span> 'amirreza/find-file<span style="color: #6fafff;">)</span>
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">general-def</span> <span style="color: #00a972; font-weight: bold;">:states</span> 'normal <span style="color: #00a972; font-weight: bold;">:keymaps</span> 'override <span style="color: #029fff;">"SPC g s"</span> 'magit<span style="color: #6fafff;">)</span>
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">general-def</span> <span style="color: #00a972; font-weight: bold;">:states</span> 'normal <span style="color: #00a972; font-weight: bold;">:keymaps</span> 'override <span style="color: #029fff;">"SPC x"</span> 'execute-extended-command<span style="color: #6fafff;">)</span>
+
+<span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">general-def</span>
+  <span style="color: #00a972; font-weight: bold;">:states</span> 'normal
+  <span style="color: #00a972; font-weight: bold;">:keymaps</span> 'override
+  <span style="color: #00a972; font-weight: bold;">:prefix</span> <span style="color: #029fff;">"SPC p"</span>
+
+  <span style="color: #029fff;">"p"</span> 'project-switch-project
+  <span style="color: #029fff;">"f"</span> 'project-find-file
+  <span style="color: #029fff;">"d"</span> 'project-dired
+  <span style="color: #6fafff;">)</span>
+</code></pre>
+</div>
+<ol class="org-ol">
+<li><a id="org7a041fd"></a>LSP<br />
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp"   ><code trim><span style="color: #6fafff;">(</span><span style="color: #6a88ff; font-weight: bold;">general-def</span>
+  <span style="color: #00a972; font-weight: bold;">:states</span> 'normal
+  <span style="color: #00a972; font-weight: bold;">:keymaps</span> 'eglot-mode-map
+  <span style="color: #029fff;">"g r"</span> 'xref-find-references
+  <span style="color: #029fff;">"g i"</span> 'eglot-find-implementation
+  <span style="color: #029fff;">"g d"</span> 'xref-find-definitions
+  <span style="color: #6fafff;">)</span>
+</code></pre>
+</div>
+</li>
+</ol>
+</section>
+</section>
+</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js/dist/reveal.js"></script>
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+slideNumber:false,
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: 'https://cdn.jsdelivr.net/npm/reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'https://cdn.jsdelivr.net/npm/reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'https://cdn.jsdelivr.net/npm/reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: 'https://cdn.jsdelivr.net/npm/reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }]
+
+});
+
+</script>
+</body>
+</html>

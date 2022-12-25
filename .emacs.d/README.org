@@ -1,3 +1,9 @@
+#+TITLE: AmirrezaAsk Emacs Configuration
+#+DATE: <2022-12-25 Sun>
+#+REVEAL_ROOT: https://cdn.jsdelivr.net/npm/reveal.js
+#+OPTIONS: toc:nil reveal_title_slide:nil
+#+REVEAL_INIT_OPTIONS: slideNumber:false
+
 * Emacs configuration
 They call it kitchen sink
 but I call it ICE ( =[I]= ntegrated =[C]= omputing =[E]= nvironment )
@@ -377,6 +383,18 @@ I don't do anything fancy just remove minor modes from modeline because I think 
 
   (elpa-package org-bullets
 		(add-hook 'org-mode-hook #'org-bullets-mode))
+#+END_SRC
+*** Org-reveal
+=org-reveal= will let you create =reveal.js= presentations from Org mode documents.
+#+BEGIN_SRC emacs-lisp
+  (elpa-package org-reveal)
+  (elpa-package htmlize)
+  (add-hook 'org-mode-hook
+	    (lambda ()
+	      (require 'ox-reveal))
+	    )
+
+
 #+END_SRC
 ** Psychic like completion
 #+BEGIN_SRC emacs-lisp
