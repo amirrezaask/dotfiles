@@ -136,32 +136,29 @@ I rather have all side effects ( installing packages on disk ) in one place.
 	  rust-mode ;; Rust
 	  zig-mode ;; Zig
 	  yaml-mode
-	  csv-mode 
-	  json-mode
+	  csv-mode
+	  json-mode ;; Javascript Object Notation
 	  clojure-mode ;; LISP on JVM
 	  cider ;; Clojure repl integrated into Emacs
 
-	  vertico
+	  ;; Minibuffer Completion and Enhancements
+	  vertico 
 	  savehist
 	  consult
 	  marginalia
 	  orderless
 
 	  org-bullets
-	  org-reveal
-	  toc-org
-	  htmlize
+	  org-reveal ;; Export org document as reveal.js presentation
+	  toc-org ;; Add a table of content to org file
+	  htmlize ;; dependency of org-reveal
 
-	  prescient
-	  vertico-prescient
-	  corfu-prescient
+	  prescient ;; Sort completion suggestions based on your history
+	  vertico-prescient ;; prescient for vertico
+	  corfu-prescient ;; prescient for corfu
 
-	  perspective
+	  perspective ;; i3 like workspaces
 
-	  which-key
-
-	  wgrep
-	  rg
 	  ))
 
   (mapc (lambda (pkg-receipe)
@@ -198,6 +195,8 @@ I rather have all side effects ( installing packages on disk ) in one place.
   (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 
   (defalias 'yes-or-no-p 'y-or-n-p)
+
+  (setq echo-keystrokes 0.4)
 
 
   (defun amirreza/find-file ()
@@ -296,7 +295,7 @@ I rather have all side effects ( installing packages on disk ) in one place.
 #+END_SRC
 ***** Modeline
 I don't do anything fancy just remove minor modes from modeline because I think they are useless really.
-#+BEGIN_SRC emacs-lisp :tangle no
+#+BEGIN_SRC emacs-lisp
   (setq-default mode-line-format
 		'("%e" mode-line-front-space
 		  (:propertize
