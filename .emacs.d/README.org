@@ -42,7 +42,7 @@ init.el will just load this file.
   (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
   (org-babel-load-file (expand-file-name "README.org" user-emacs-directory))
 #+END_SRC
-** Installing packages
+** Changing state of the world
 As a functional programming enthusiast I think we should isolate side effects and stateful events
 from pure things, so in this section I will do the installing of all pacakges that I need and since
 I am using =straight.el= I have full control on the version if I want to.
@@ -64,7 +64,7 @@ I am using =straight.el= I have full control on the version if I want to.
 #+BEGIN_SRC emacs-lisp
 
 #+END_SRC
-*** Now let's install everything I need
+*** Now let's install emacs packages I need
 #+BEGIN_SRC emacs-lisp
   (setq amirreza/packages
 	'(
@@ -308,7 +308,8 @@ I don't do anything fancy just remove minor modes from modeline because I think 
   (global-set-key (kbd "M-n") (lambda () (interactive) (amirreza/down-center)))
 
 #+END_SRC
-** Eldoc
+** IDE
+*** Eldoc
 #+BEGIN_SRC emacs-lisp
   (setq eldoc-echo-area-use-multiline-p nil)
   (setq eldoc-echo-area-display-truncation-message nil)
@@ -336,7 +337,7 @@ I don't do anything fancy just remove minor modes from modeline because I think 
   (global-eldoc-mode)
 
 #+END_SRC
-** LSP
+*** LSP
 #+BEGIN_SRC emacs-lisp
   (add-hook 'go-mode-hook 'eglot-ensure)
   (add-hook 'rust-mode-hook 'eglot-ensure)
