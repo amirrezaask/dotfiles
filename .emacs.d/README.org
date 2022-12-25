@@ -3,18 +3,59 @@
 #+REVEAL_ROOT: https://cdn.jsdelivr.net/npm/reveal.js
 #+OPTIONS: toc:nil reveal_title_slide:nil
 #+REVEAL_INIT_OPTIONS: slideNumber:false
-* How to install ?
+* My Computing Environment :TOC_5:
+  - [[#how-to-install-][How to install ?]]
+  - [[#emacs][Emacs]]
+    - [[#personal-customization-variable][Personal Customization Variable]]
+    - [[#early-initel][early-init.el]]
+    - [[#initel][init.el]]
+    - [[#changing-state-of-the-world][Changing state of the world]]
+      - [[#installing-straightel-itself][Installing straight.el itself]]
+      - [[#now-lets-install-emacs-packages-i-need][Now let's install emacs packages I need]]
+      - [[#tba-installing-lsps-and-other-binaries-as-part-of-my-computing-experience][TBA: Installing LSPs, and other binaries as part of my computing experience]]
+    - [[#edit-emacs-configuration][Edit Emacs configuration]]
+    - [[#theme-and-coloring-emacs][Theme and coloring Emacs]]
+    - [[#font-stuff][Font stuff]]
+    - [[#modeline][Modeline]]
+    - [[#emacs-internal-configurations][Emacs internal configurations]]
+    - [[#auto-completion][Auto completion]]
+    - [[#editor-ux][Editor UX]]
+    - [[#ide][IDE]]
+      - [[#eldoc][Eldoc]]
+      - [[#lsp][LSP]]
+    - [[#magit][Magit]]
+    - [[#minibuffer][Minibuffer]]
+    - [[#org-mode][Org mode]]
+      - [[#org-reveal][Org-reveal]]
+    - [[#psychic-like-completion][Psychic like completion]]
+    - [[#treesitter-get-rid-of-regex][Treesitter, get rid of regex]]
+    - [[#never-loose-a-good-setup][Never loose a good setup]]
+    - [[#shitty-apple-computers][Shitty apple computers]]
+    - [[#which-key][Which Key]]
+    - [[#keybindings][Keybindings]]
+      - [[#edit-emacs-configuration-1][Edit Emacs Configuration]]
+      - [[#switch-theme][Switch theme]]
+      - [[#window-management-using-ace-window][Window management using ace-window]]
+      - [[#buffer-management-using-bufler][Buffer management using bufler]]
+      - [[#perspective-workspaces][Perspective workspaces]]
+      - [[#editor-related-keybindings][Editor related keybindings]]
+      - [[#magit-1][Magit]]
+      - [[#golang][Golang]]
+      - [[#dired][Dired]]
+      - [[#org-mode-related-keymaps][Org Mode Related Keymaps]]
+      - [[#helpful-instead-of-default-help][Helpful instead of default help]]
+      - [[#project-related-keys][Project related keys]]
+      - [[#ide-like-experience][IDE like experience]]
+  - [[#kitty][Kitty]]
+
+** How to install ?
 It's a fairly simple thing to do
 #+BEGIN_SRC sh
   curl https://raw.githubusercontent.com/amirrezaask/dotfiles/master/.emacs.d/README.org > ~/.emacs.d/README.org &&\
       emacs --batch --eval "(require 'org)" --eval '(org-babel-tangle-file "~/.emacs.d/README.org")'
 #+END_SRC
-
-* Emacs
-They call it kitchen sink
-but I call it ICE ( =[I]= ntegrated =[C]= omputing =[E]= nvironment )
-
-** Personal Customization Variable
+** Emacs
+*** Personal Customization Variable
 #+BEGIN_SRC emacs-lisp
   (setq user-full-name "Amirreza Askarpour")
   (setq user-email "raskarpour@gmail.com")
@@ -25,7 +66,7 @@ but I call it ICE ( =[I]= ntegrated =[C]= omputing =[E]= nvironment )
   (setq amirreza/default-workspaces '(emacs risma ripo RideAggregator))
   (setq amirreza/transparent t) ;; For terminal only
 #+END_SRC
-** early-init.el
+*** early-init.el
 From emacs 27 I think they added a file called =early-init.el= which will get sourced
 before UI stuff happens in Emacs, so it's a good place to turn of UI things.
 #+BEGIN_SRC emacs-lisp :tangle early-init.el
@@ -36,18 +77,18 @@ before UI stuff happens in Emacs, so it's a good place to turn of UI things.
 (setq gc-cons-threshold (* 100 1024 1024))
 (setq read-process-output-max (* 1024 1024))
 #+END_SRC
-** init.el
+*** init.el
 init.el will just load this file.
 #+BEGIN_SRC emacs-lisp :tangle init.el
   (add-to-list 'load-path (expand-file-name "site-lisp" user-emacs-directory))
   (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
   (org-babel-load-file (expand-file-name "README.org" user-emacs-directory))
 #+END_SRC
-** Changing state of the world
+*** Changing state of the world
 As a functional programming enthusiast I think we should isolate side effects and stateful events
 from pure things, so in this section I will do the installing of all pacakges that I need and since
 I am using =straight.el= I have full control on the version if I want to.
-*** Installing [[https://github.com/radian-software/straight.el][straight.el]] itself
+**** Installing [[https://github.com/radian-software/straight.el][straight.el]] itself
 #+BEGIN_SRC emacs-lisp
 (defvar bootstrap-version)
 (let ((bootstrap-file
@@ -65,7 +106,7 @@ I am using =straight.el= I have full control on the version if I want to.
 #+BEGIN_SRC emacs-lisp
 
 #+END_SRC
-*** Now let's install emacs packages I need
+**** Now let's install emacs packages I need
 #+BEGIN_SRC emacs-lisp
   (setq amirreza/packages
 	'(
@@ -135,6 +176,7 @@ I am using =straight.el= I have full control on the version if I want to.
 
 	  org-bullets
 	  org-reveal
+	  toc-org
 	  htmlize
 
 	  prescient
@@ -156,14 +198,14 @@ I am using =straight.el= I have full control on the version if I want to.
 	  (straight-use-package pkg-receipe)
 	  ) amirreza/packages)
 #+END_SRC
-*** TBA: Installing LSPs, and other binaries as part of my computing experience
-** Edit Emacs configuration
+**** TBA: Installing LSPs, and other binaries as part of my computing experience
+*** Edit Emacs configuration
 #+BEGIN_SRC emacs-lisp
     (defun amirreza/edit-emacs ()
       (interactive)
       (find-file (expand-file-name "README.org" user-emacs-directory)))
 #+END_SRC
-** Theme and coloring Emacs
+*** Theme and coloring Emacs
 #+BEGIN_SRC emacs-lisp
   ;; Add custom themes path to themes load path
   (add-to-list 'custom-theme-load-path
@@ -188,7 +230,7 @@ I am using =straight.el= I have full control on the version if I want to.
 
   (amirreza/load-theme amirreza/theme)
 #+END_SRC
-** Font stuff
+*** Font stuff
 #+BEGIN_SRC emacs-lisp
 ;; Font settings
 (defun amirreza/home-monitor ()
@@ -210,7 +252,7 @@ I am using =straight.el= I have full control on the version if I want to.
 (amirreza/reload-font)
 
 #+END_SRC
-** Modeline
+*** Modeline
 I don't do anything fancy just remove minor modes from modeline because I think they are useless really.
 #+BEGIN_SRC emacs-lisp
   (setq-default mode-line-format
@@ -226,7 +268,7 @@ I don't do anything fancy just remove minor modes from modeline because I think 
 		)
 
 #+END_SRC
-** Emacs internal configurations
+*** Emacs internal configurations
 #+BEGIN_SRC emacs-lisp
   (setq gc-cons-threshold (* 100 1024 1024))
 
@@ -265,7 +307,7 @@ I don't do anything fancy just remove minor modes from modeline because I think 
       (call-interactively 'find-file)
       ))
 #+END_SRC
-** Auto completion
+*** Auto completion
 #+BEGIN_SRC emacs-lisp
   (setq corfu-auto t)
   (global-corfu-mode)
@@ -274,7 +316,7 @@ I don't do anything fancy just remove minor modes from modeline because I think 
   (corfu-popupinfo-mode 1)
   (corfu-terminal-mode)
 #+END_SRC
-** Editor UX
+*** Editor UX
 #+BEGIN_SRC emacs-lisp
   (setq olivetti-body-width 100)
 
@@ -309,8 +351,8 @@ I don't do anything fancy just remove minor modes from modeline because I think 
   (global-set-key (kbd "M-n") (lambda () (interactive) (amirreza/down-center)))
 
 #+END_SRC
-** IDE
-*** Eldoc
+*** IDE
+**** Eldoc
 #+BEGIN_SRC emacs-lisp
   (setq eldoc-echo-area-use-multiline-p nil)
   (setq eldoc-echo-area-display-truncation-message nil)
@@ -338,18 +380,18 @@ I don't do anything fancy just remove minor modes from modeline because I think 
   (global-eldoc-mode)
 
 #+END_SRC
-*** LSP
+**** LSP
 #+BEGIN_SRC emacs-lisp
   (add-hook 'go-mode-hook 'eglot-ensure)
   (add-hook 'rust-mode-hook 'eglot-ensure)
   (add-hook 'python-mode-hook 'eglot-ensure)
   (add-hook 'php-mode-hook 'eglot-ensure)
 #+END_SRC
-** Magit
+*** Magit
 #+BEGIN_SRC emacs-lisp
   (global-git-gutter-mode)
 #+END_SRC
-** Minibuffer
+*** Minibuffer
 #+BEGIN_SRC emacs-lisp
   (setq completion-cycle-threshold 3)
   (setq tab-always-indent 'complete)
@@ -370,7 +412,7 @@ I don't do anything fancy just remove minor modes from modeline because I think 
 	completion-category-defaults nil
 	completion-category-overrides '((file (styles partial-completion))))
 #+END_SRC
-** Org mode
+*** Org mode
 #+BEGIN_SRC emacs-lisp
 
   (defun amirreza/org-code-block ()
@@ -400,7 +442,7 @@ I don't do anything fancy just remove minor modes from modeline because I think 
 
   (add-hook 'org-mode-hook #'org-bullets-mode)
 #+END_SRC
-*** Org-reveal
+**** Org-reveal
 =org-reveal= will let you create =reveal.js= presentations from Org mode documents.
 #+BEGIN_SRC emacs-lisp
   (add-hook 'org-mode-hook
@@ -410,18 +452,18 @@ I don't do anything fancy just remove minor modes from modeline because I think 
 
 
 #+END_SRC
-** Psychic like completion
+*** Psychic like completion
 #+BEGIN_SRC emacs-lisp
   (vertico-prescient-mode)
 
 
   (corfu-prescient-mode)
 #+END_SRC
-** Treesitter, get rid of regex
+*** Treesitter, get rid of regex
 #+BEGIN_SRC emacs-lisp
   (global-tree-sitter-mode)
 #+END_SRC
-** Never loose a good setup
+*** Never loose a good setup
 #+BEGIN_SRC emacs-lisp
 
   (setq persp-state-default-file (expand-file-name "sessions" user-emacs-directory))
@@ -446,37 +488,37 @@ I don't do anything fancy just remove minor modes from modeline because I think 
   (add-hook 'kill-emacs-hook 'amirreza/save-session)
 
 #+END_SRC
-** Shitty apple computers
+*** Shitty apple computers
 #+BEGIN_SRC emacs-lisp
 (setq mac-command-modifier 'super) ;; set command key to super
 (setq mac-option-modifier 'meta) ;; option key as meta
 #+END_SRC
-** Which Key
+*** Which Key
 #+BEGIN_SRC emacs-lisp
   (which-key-mode +1)
 #+END_SRC
-** Keybindings
-*** Edit Emacs Configuration
+*** Keybindings
+**** Edit Emacs Configuration
 #+BEGIN_SRC emacs-lisp
 (general-def :keymaps 'override "C-c e e" 'amirreza/edit-emacs)
 #+END_SRC
-*** Switch theme
+**** Switch theme
 #+BEGIN_SRC emacs-lisp
 (general-def :keymaps 'override "C-c t t" 'amirreza/switch-theme)
 #+END_SRC
-*** Window management using ace-window
+**** Window management using ace-window
 #+BEGIN_SRC emacs-lisp
 (general-def :keymaps 'override "C-x o" 'ace-window)
 #+END_SRC
-*** Buffer management using bufler
+**** Buffer management using bufler
 #+BEGIN_SRC emacs-lisp
 (general-def :keymaps 'override "C-x C-b" 'bufler)
 #+END_SRC
-*** Perspective workspaces
+**** Perspective workspaces
 #+BEGIN_SRC emacs-lisp
 (general-def :prefix "C-c w" :keymaps 'override "s" 'persp-switch)
 #+END_SRC
-*** Editor related keybindings
+**** Editor related keybindings
 #+BEGIN_SRC emacs-lisp
   (general-def :keymaps 'override
     "C-=" 'er/expand-region
@@ -484,18 +526,18 @@ I don't do anything fancy just remove minor modes from modeline because I think 
     "C-q" 'set-mark-command ;; really important key if you use emacs in terminal
     )
 #+END_SRC
-*** Magit
+**** Magit
 #+BEGIN_SRC emacs-lisp
 (general-def :prefix "C-x" :keymaps 'override "g" 'magit)
 #+END_SRC
-*** Golang
+**** Golang
 #+BEGIN_SRC emacs-lisp
   (general-def :keymaps 'go-mode-map
     :prefix "C-c m"
     "a" 'go-tag-add ;; Add struct tags
     )
 #+END_SRC
-*** Dired
+**** Dired
 #+BEGIN_SRC emacs-lisp
   (general-def
     :prefix "C-c"
@@ -504,7 +546,7 @@ I don't do anything fancy just remove minor modes from modeline because I think 
 
 
 #+END_SRC
-*** Org Mode Related Keymaps
+**** Org Mode Related Keymaps
 #+BEGIN_SRC emacs-lisp
   (general-def
     :prefix "C-c m"
@@ -512,7 +554,7 @@ I don't do anything fancy just remove minor modes from modeline because I think 
 
     "c b" 'amirreza/org-code-block)
 #+END_SRC
-*** Helpful instead of default help
+**** Helpful instead of default help
 #+BEGIN_SRC emacs-lisp
   (general-def
       :prefix "C-h"
@@ -524,7 +566,7 @@ I don't do anything fancy just remove minor modes from modeline because I think 
       )
 
 #+END_SRC
-*** Project related keys
+**** Project related keys
 #+BEGIN_SRC emacs-lisp
   (general-def
     :keymaps 'override
@@ -537,7 +579,7 @@ I don't do anything fancy just remove minor modes from modeline because I think 
     "c" 'project-compile
     )
 #+END_SRC
-*** IDE like experience
+**** IDE like experience
 #+BEGIN_SRC emacs-lisp
   (general-def
     :keymaps 'override
@@ -566,7 +608,7 @@ I don't do anything fancy just remove minor modes from modeline because I think 
     "C-c m i" 'eglot-find-implementation
     )
 #+END_SRC
-* Kitty
+** Kitty
 #+BEGIN_SRC conf :tangle ~/.config/kitty/kitty.conf
   # Font configuration
 
