@@ -15,10 +15,11 @@
       - [[#tba-installing-lsps-and-other-binaries-as-part-of-my-computing-experience][TBA: Installing LSPs, and other binaries as part of my computing experience]]
     - [[#edit-emacs-configuration][Edit Emacs configuration]]
     - [[#emacs-internals-and-basics][Emacs internals and basics]]
-    - [[#ui][UI]]
-      - [[#color-me-daddy][Color me daddy]]
-      - [[#font][Font]]
-      - [[#modeline][Modeline]]
+    - [[#modules][Modules]]
+      - [[#ui][UI]]
+        - [[#color-me-daddy][Color me daddy]]
+        - [[#font][Font]]
+        - [[#modeline][Modeline]]
     - [[#auto-completion][Auto completion]]
     - [[#editor-ux][Editor UX]]
     - [[#ide][IDE]]
@@ -244,8 +245,9 @@ I am using =straight.el= I have full control on the version if I want to.
       (call-interactively 'find-file)
       ))
 #+END_SRC
-*** UI
-**** Color me daddy
+*** Modules
+**** UI
+***** Color me daddy
 #+BEGIN_SRC emacs-lisp
   ;; Add custom themes path to themes load path
   (add-to-list 'custom-theme-load-path
@@ -270,7 +272,7 @@ I am using =straight.el= I have full control on the version if I want to.
 
   (amirreza/load-theme amirreza/theme)
 #+END_SRC
-**** Font
+***** Font
 #+BEGIN_SRC emacs-lisp
 ;; Font settings
 (defun amirreza/home-monitor ()
@@ -292,7 +294,7 @@ I am using =straight.el= I have full control on the version if I want to.
 (amirreza/reload-font)
 
 #+END_SRC
-**** Modeline
+***** Modeline
 I don't do anything fancy just remove minor modes from modeline because I think they are useless really.
 #+BEGIN_SRC emacs-lisp
   (setq-default mode-line-format
@@ -308,7 +310,6 @@ I don't do anything fancy just remove minor modes from modeline because I think 
 		)
 
 #+END_SRC
-
 
 *** Auto completion
 #+BEGIN_SRC emacs-lisp
