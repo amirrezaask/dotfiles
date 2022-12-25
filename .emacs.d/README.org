@@ -146,6 +146,9 @@ I am using =straight.el= I have full control on the version if I want to.
 	  perspective
 
 	  which-key
+
+	  wgrep
+	  rg
 	  ))
 
   (mapc (lambda (pkg-receipe)
@@ -483,7 +486,7 @@ I don't do anything fancy just remove minor modes from modeline because I think 
 #+BEGIN_SRC emacs-lisp
 (general-def :prefix "C-x" :keymaps 'override "g" 'magit)
 #+END_SRC
-*** GOlang
+*** Golang
 #+BEGIN_SRC emacs-lisp
   (general-def :keymaps 'go-mode-map
     :prefix "C-c m"
