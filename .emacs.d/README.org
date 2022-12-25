@@ -38,13 +38,15 @@ before UI stuff happens in Emacs, so it's a good place to turn of UI things.
 ** init.el
 init.el will just load this file.
 #+BEGIN_SRC emacs-lisp :tangle init.el
-(org-babel-load-file (expand-file-name "README.org" user-emacs-directory))
+  (add-to-list 'load-path (expand-file-name "site-lisp" user-emacs-directory))
+  (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
+  (org-babel-load-file (expand-file-name "README.org" user-emacs-directory))
 #+END_SRC
-** Side effects
-As a functional programming enthusiast I think we should isolate side effects and stateful stuff
-from pure things so in this section I will do the installing of all pacakges that I need and since
+** Installing packages
+As a functional programming enthusiast I think we should isolate side effects and stateful events
+from pure things, so in this section I will do the installing of all pacakges that I need and since
 I am using =straight.el= I have full control on the version if I want to.
-*** [[https://github.com/radian-software/straight.el][straight.el]]
+*** Installing [[https://github.com/radian-software/straight.el][straight.el]] itself
 #+BEGIN_SRC emacs-lisp
 (defvar bootstrap-version)
 (let ((bootstrap-file
@@ -150,18 +152,7 @@ I am using =straight.el= I have full control on the version if I want to.
 	  (straight-use-package pkg-receipe)
 	  ) amirreza/packages)
 #+END_SRC
-** Some basic macros
-#+BEGIN_SRC emacs-lisp
-  (add-to-list 'load-path (expand-file-name "site-lisp" user-emacs-directory))
-  (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
-
-  (defmacro config
-      (package &rest body)
-    ""
-    `(progn
-       (progn ,@body)
-       ))
-#+END_SRC
+*** TBA: Installing LSPs, and other binaries as part of my computing experience
 ** Edit Emacs configuration
 #+BEGIN_SRC emacs-lisp
     (defun amirreza/edit-emacs ()
@@ -170,11 +161,6 @@ I am using =straight.el= I have full control on the version if I want to.
 #+END_SRC
 ** Theme and coloring Emacs
 #+BEGIN_SRC emacs-lisp
-  (config all-the-icons)
-  (config ef-themes)
-  (config doom-themes)
-  (config gruber-darker-theme)
-
   ;; Add custom themes path to themes load path
   (add-to-list 'custom-theme-load-path
 	       (expand-file-name "themes" user-emacs-directory))
@@ -223,19 +209,18 @@ I am using =straight.el= I have full control on the version if I want to.
 ** Modeline
 I don't do anything fancy just remove minor modes from modeline because I think they are useless really.
 #+BEGIN_SRC emacs-lisp
-  (config modeline
-		 (setq-default mode-line-format
-			       '("%e" mode-line-front-space
-				(:propertize
-				 ("" mode-line-mule-info mode-line-client mode-line-modified mode-line-remote)
-				 display
-				 (min-width
-				  (5.0)))
-				mode-line-frame-identification mode-line-buffer-identification "   " mode-line-position
-				(vc-mode vc-mode)
-				"  " mode-line-misc-info mode-line-end-spaces)
-			       )
-		 )
+  (setq-default mode-line-format
+		'("%e" mode-line-front-space
+		  (:propertize
+		   ("" mode-line-mule-info mode-line-client mode-line-modified mode-line-remote)
+		   display
+		   (min-width
+		    (5.0)))
+		  mode-line-frame-identification mode-line-buffer-identification "   " mode-line-position
+		  (vc-mode vc-mode)
+		  "  " mode-line-misc-info mode-line-end-spaces)
+		)
+
 #+END_SRC
 ** Emacs internal configurations
 #+BEGIN_SRC emacs-lisp
@@ -261,8 +246,8 @@ I don't do anything fancy just remove minor modes from modeline because I think 
 
 
   ;; Copy PATH from default shell
-  (config exec-path-from-shell
-		(exec-path-from-shell-initialize))
+
+  (exec-path-from-shell-initialize)
 
   (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 
@@ -275,50 +260,36 @@ I don't do anything fancy just remove minor modes from modeline because I think 
 	(project-find-file)
       (call-interactively 'find-file)
       ))
-  (config ace-window)
-  (config bufler)
-  (config helpful)
 #+END_SRC
 ** Auto completion
 #+BEGIN_SRC emacs-lisp
-  (config (corfu :type git :host github :repo "emacs-straight/corfu" :files ("*" "extensions/*.el" (:exclude ".git")))
-		(setq corfu-auto t)
-		(global-corfu-mode)
-		(corfu-history-mode 1)
-		(corfu-echo-mode 1)
-		(corfu-popupinfo-mode 1)
-		)
-
-
-
-  (config corfu-terminal
-		(corfu-terminal-mode)
-		)
-
+  (setq corfu-auto t)
+  (global-corfu-mode)
+  (corfu-history-mode 1)
+  (corfu-echo-mode 1)
+  (corfu-popupinfo-mode 1)
+  (corfu-terminal-mode)
 #+END_SRC
 ** Editor UX
 #+BEGIN_SRC emacs-lisp
-  (config olivetti
-		(setq olivetti-body-width 100)
-		)
+  (setq olivetti-body-width 100)
 
-  (config rainbow-delimiters
-		(add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
+  (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
 
   (delete-selection-mode 1) ;; When a region of text is selected and then something is typed remove text and replace with what has been typed.
 
-    (show-paren-mode 1) ;; Highlight matching parens
+  (show-paren-mode 1) ;; Highlight matching parens
 
-    (setq show-paren-delay 0) ;; highlight matching parens instantly.
+  (setq show-paren-delay 0) ;; highlight matching parens instantly.
 
-    (setq display-line-numbers-type 'relative) ;; relative line numbers
+  (setq display-line-numbers-type 'relative) ;; relative line numbers
 
-    (global-display-line-numbers-mode 1) ;; enable line numbers globaly
+  (global-display-line-numbers-mode 1) ;; enable line numbers globaly
 
-    (config expand-region)
-    (global-hl-line-mode)
 
-    (defun amirreza/up-center ()
+  (global-hl-line-mode)
+
+  (defun amirreza/up-center ()
     (interactive)
     (previous-line (/ (window-height) 2))
     (recenter-top-bottom))
@@ -364,114 +335,69 @@ I don't do anything fancy just remove minor modes from modeline because I think 
 #+END_SRC
 ** LSP
 #+BEGIN_SRC emacs-lisp
-  (config eglot
-		(add-hook 'go-mode-hook 'eglot-ensure)
-		(add-hook 'rust-mode-hook 'eglot-ensure)
-		(add-hook 'python-mode-hook 'eglot-ensure)
-		(add-hook 'php-mode-hook 'eglot-ensure))
-
-
-  (config consult-eglot)
+  (add-hook 'go-mode-hook 'eglot-ensure)
+  (add-hook 'rust-mode-hook 'eglot-ensure)
+  (add-hook 'python-mode-hook 'eglot-ensure)
+  (add-hook 'php-mode-hook 'eglot-ensure)
 #+END_SRC
 ** Magit
 #+BEGIN_SRC emacs-lisp
-  (config git-gutter
-    (global-git-gutter-mode))
-
-  (config magit)
-
-#+END_SRC
-** Languages
-#+BEGIN_SRC emacs-lisp
-(config apache-mode)
-(config vterm)
-(config systemd)
-(config nginx-mode)
-
-(config docker-compose-mode)
-(config dockerfile-mode)
-
-(config markdown-mode)
-
-;; Golang
-(config go-mode)
-(config go-tag)
-
-(config rust-mode)
-
-(config zig-mode)
-
-(config yaml-mode)
-(config csv-mode)
-(config json-mode)
-
-;; clojure support
-(config clojure-mode)
-(config cider)
+  (global-git-gutter-mode)
 #+END_SRC
 ** Minibuffer
 #+BEGIN_SRC emacs-lisp
-  (config (vertico
-		 :type git
-		 :host github
-		 :repo "emacs-straight/vertico"
-		 :files ("*" "extensions/*.el" (:exclude ".git")))
-		(setq completion-cycle-threshold 3)
-		(setq tab-always-indent 'complete)
-		(vertico-mode)
-		(setq vertico-count 15)
-		(setq vertico-cycle t))
+  (setq completion-cycle-threshold 3)
+  (setq tab-always-indent 'complete)
+  (vertico-mode)
+  (setq vertico-count 15)
+  (setq vertico-cycle t)
+
+  (savehist-mode)
 
 
-  (config savehist
-		(savehist-mode))
+  (setq consult-async-min-input 1)
 
-  (config consult
-		(setq consult-async-min-input 1))
 
-  (config marginalia
-		(marginalia-mode))
+  (marginalia-mode)
 
-  (config orderless
-		(setq completion-styles '(orderless basic)
-		      completion-category-defaults nil
-		      completion-category-overrides '((file (styles partial-completion)))))
+
+  (setq completion-styles '(orderless basic)
+	completion-category-defaults nil
+	completion-category-overrides '((file (styles partial-completion))))
 #+END_SRC
 ** Org mode
 #+BEGIN_SRC emacs-lisp
-  (config org
-		 (defun amirreza/org-code-block ()
-		   (interactive)
-		   (insert (format "#+BEGIN_SRC %s\n\n#+END_SRC"
-				   (completing-read "Language: "
-						    '("emacs-lisp"
-						      "go"
-						      "rust"
-						      "python"
-						      "lua"
-						      "bash"
-						      "sh"
-						      "fish"
-						      "java"
-						      )))))
 
-		 (defun amirreza/org-disable-tangle ()
-		   (interactive)
-		   (insert ":PROPERTIES:
+  (defun amirreza/org-code-block ()
+    (interactive)
+    (insert (format "#+BEGIN_SRC %s\n\n#+END_SRC"
+		    (completing-read "Language: "
+				     '("emacs-lisp"
+				       "go"
+				       "rust"
+				       "python"
+				       "lua"
+				       "bash"
+				       "sh"
+				       "fish"
+				       "java"
+				       )))))
+
+  (defun amirreza/org-disable-tangle ()
+    (interactive)
+    (insert ":PROPERTIES:
   :header-args:    :tangle no
   :END:"
-		   ))
-		 (setq org-use-property-inheritance t)
-		 (setq org-src-window-setup 'current-window))
+	    ))
+  (setq org-use-property-inheritance t)
+  (setq org-src-window-setup 'current-window)
 
-  (config org-bullets
-		(add-hook 'org-mode-hook #'org-bullets-mode))
+
+  (add-hook 'org-mode-hook #'org-bullets-mode)
 #+END_SRC
 *** Org-reveal
 =org-reveal= will let you create =reveal.js= presentations from Org mode documents.
 #+BEGIN_SRC emacs-lisp
-  (config org-reveal)
-  (config htmlize)
   (add-hook 'org-mode-hook
 	    (lambda ()
 	      (require 'ox-reveal))
@@ -481,48 +407,38 @@ I don't do anything fancy just remove minor modes from modeline because I think 
 #+END_SRC
 ** Psychic like completion
 #+BEGIN_SRC emacs-lisp
-    (config prescient)
+  (vertico-prescient-mode)
 
-    (config vertico-prescient
-      (vertico-prescient-mode))
 
-    (config corfu-prescient
-      (corfu-prescient-mode))
-#+END_SRC
-** Project management
-#+BEGIN_SRC emacs-lisp
-  (config project)
+  (corfu-prescient-mode)
 #+END_SRC
 ** Treesitter, get rid of regex
 #+BEGIN_SRC emacs-lisp
-(config tree-sitter
-  (global-tree-sitter-mode))
-
-(config tree-sitter-langs)
+  (global-tree-sitter-mode)
 #+END_SRC
 ** Never loose a good setup
 #+BEGIN_SRC emacs-lisp
-  (config perspective
-		(setq persp-state-default-file (expand-file-name "sessions" user-emacs-directory))
-		(setq persp-mode-prefix-key (kbd "C-c w"))
+
+  (setq persp-state-default-file (expand-file-name "sessions" user-emacs-directory))
+  (setq persp-mode-prefix-key (kbd "C-c w"))
 
 
-		(defun amirreza/save-session ()
-		  (interactive)
-		  (persp-state-save persp-state-default-file))
+  (defun amirreza/save-session ()
+    (interactive)
+    (persp-state-save persp-state-default-file))
 
 
-		(defun amirreza/load-session ()
-		  (interactive)
-		  (persp-state-load persp-state-default-file))
+  (defun amirreza/load-session ()
+    (interactive)
+    (persp-state-load persp-state-default-file))
 
 
-		(persp-mode 1)
+  (persp-mode 1)
 
-		(dolist (w amirreza/default-workspaces)
-		  (persp-new (symbol-name w)))
+  (dolist (w amirreza/default-workspaces)
+    (persp-new (symbol-name w)))
 
-		(add-hook 'kill-emacs-hook 'amirreza/save-session))
+  (add-hook 'kill-emacs-hook 'amirreza/save-session)
 
 #+END_SRC
 ** Shitty apple computers
@@ -532,8 +448,7 @@ I don't do anything fancy just remove minor modes from modeline because I think 
 #+END_SRC
 ** Which Key
 #+BEGIN_SRC emacs-lisp
-  (config which-key
-		(which-key-mode +1))
+  (which-key-mode +1)
 #+END_SRC
 ** Keybindings
 *** Edit Emacs Configuration
@@ -655,42 +570,41 @@ It's closest thing I have seen to vim in all editors and IDEs, since I constanly
 between Emacs and Vim style of keybindings I keep this section at the end to easily disable it If
 I want.
 #+BEGIN_SRC emacs-lisp
-  (config evil
-		(setq evil-want-C-u-scroll t)
-		(setq evil-want-C-i-jump nil)
-		(setq evil-split-window-below t)
-		(setq evil-vsplit-window-right t)
-		(setq evil-want-integration t)
-		(setq evil-want-keybinding nil)
-		(evil-mode 1)
-		(evil-global-set-key 'normal (kbd "<C-d>") (lambda
-							     ()
-							     (interactive)
-							     (evil-scroll-down)
-							     (evil-scroll-line-to-center)
-							     ))
-		(evil-global-set-key 'normal (kbd "<C-u>") (lambda
-							     ()
-							     (interactive)
-							     (evil-scroll-up)
-							     (evil-scroll-line-to-center))))
-
-
-  (config evil-escape
-		(setq-default evil-escape-key-sequence "jk")
-		(setq evil-escape-unordered-key-sequence t)
-		(evil-escape-mode))
+  (setq evil-want-C-u-scroll t)
+  (setq evil-want-C-i-jump nil)
+  (setq evil-split-window-below t)
+  (setq evil-vsplit-window-right t)
+  (setq evil-want-integration t)
+  (setq evil-want-keybinding nil)
+  (evil-mode 1)
+  (evil-global-set-key 'normal (kbd "<C-d>") (lambda
+					       ()
+					       (interactive)
+					       (evil-scroll-down)
+					       (evil-scroll-line-to-center)
+					       ))
+  (evil-global-set-key 'normal (kbd "<C-u>") (lambda
+					       ()
+					       (interactive)
+					       (evil-scroll-up)
+					       (evil-scroll-line-to-center)))
 
 
 
-  (config evil-collection
-		(evil-collection-init))
+  (setq-default evil-escape-key-sequence "jk")
+  (setq evil-escape-unordered-key-sequence t)
+  (evil-escape-mode)
 
-  (config evil-nerd-commenter
-		(evil-define-key '(normal visual) global-map (kbd "gc") 'evilnc-comment-or-uncomment-lines))
 
-  (config evil-surround
-		(global-evil-surround-mode 1))
+
+
+  (evil-collection-init)
+
+
+  (evil-define-key '(normal visual) global-map (kbd "gc") 'evilnc-comment-or-uncomment-lines)
+
+
+  (global-evil-surround-mode 1)
 #+END_SRC
 *** Keybindings
 #+BEGIN_SRC emacs-lisp
