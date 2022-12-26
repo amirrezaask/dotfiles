@@ -22,7 +22,7 @@
       - [[#in-buffer-completion][In-Buffer Completion]]
       - [[#minibuffer-completion][Minibuffer Completion]]
     - [[#editor][Editor]]
-      - [[#org-mode][Org mode]]
+    - [[#org-mode][Org mode]]
         - [[#org-reveal][Org-reveal]]
     - [[#git][Git]]
     - [[#programming][Programming]]
@@ -58,7 +58,7 @@ them please
   ;; (setq amirreza/font "FiraCode Nerd Font Mono")
   ;; (setq amirreza/font "OperatorMono Nerd Font Light")
   (setq amirreza/font "JetBrainsMono Nerd Font Mono")
-  (setq amirreza/font-size "21")
+  (setq amirreza/font-size "15")
   (setq amirreza/theme 'doom-one)
   (setq amirreza/transparent t) ;; For terminal only
 #+END_SRC
@@ -210,8 +210,20 @@ I rather have all side effects ( installing packages on disk ) in one place.
       (call-interactively 'find-file)
       ))
 
-  (setq mac-command-modifier 'super) ;; set command key to super
-  (setq mac-option-modifier 'meta) ;; option key as meta
+
+  (defun amirreza/keyboard-kinesis ()
+    (interactive)
+    (setq mac-command-modifier 'super)
+    (setq mac-option-modifier 'meta)
+    )
+
+  (defun amirreza/keyboard-mac ()
+    (interactive)
+    (setq mac-command-modifier 'meta)
+    (setq mac-option-modifier 'super)
+    )
+
+
   (defun amirreza/edit-emacs ()
     (interactive)
     (find-file (expand-file-name "README.org" user-emacs-directory)))
@@ -353,7 +365,7 @@ I rather have all side effects ( installing packages on disk ) in one place.
   ;; really important key if you use emacs in terminal
   (general-def :keymaps 'override "C-q" 'set-mark-command)
 #+END_SRC
-**** Org mode
+*** Org mode
 #+BEGIN_SRC emacs-lisp
   (defun amirreza/org-code-block ()
     (interactive)
@@ -376,7 +388,9 @@ I rather have all side effects ( installing packages on disk ) in one place.
   :header-args:    :tangle no
   :END:"
 	    ))
+
   (setq org-use-property-inheritance t)
+  (setq org-startup-folded t) ;; Start org mode all headers collapsed
   (setq org-src-window-setup 'current-window)
 
 
