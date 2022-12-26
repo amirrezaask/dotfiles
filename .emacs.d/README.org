@@ -33,7 +33,15 @@
   - [[#kitty][Kitty]]
     - [[#themes-1][Themes]]
       - [[#dracula][Dracula]]
-    - [[#configs][Configs]]
+    - [[#font-1][Font]]
+    - [[#cursor][Cursor]]
+    - [[#performance][Performance]]
+    - [[#no-audio-bell][No Audio Bell]]
+    - [[#keybindings][Keybindings]]
+    - [[#tab-bar][Tab bar]]
+    - [[#macos][macOS]]
+    - [[#terminal-type][Terminal Type]]
+    - [[#background-opacity][Background Opacity]]
 
 ** How to install ?
 It's a fairly simple thing to do but remember this will override your current =kitty= and =emacs= config, so backup
@@ -566,7 +574,7 @@ and a seperate buffer.
 
 
 #+END_SRC
-*** Configs
+*** Font
 #+BEGIN_SRC conf :tangle ~/.config/kitty/kitty.conf :mkdirp yes
   # Font configuration
   # font_family OperatorMono Nerd Font Medium
@@ -583,24 +591,26 @@ and a seperate buffer.
   # bold_font JetBrainsMono Nerd Font Mono Bold
   # italic_font JetBrainsMono Nerd Font Mono Italic
   # bold_italic_font JetBrainsMono Nerd Font Mono Bold Italic
-
-  # No cursor changing
-  shell_integration no-cursor
-
-  # Font Size
   font_size 18
-  # font_size 13
-
-  # Performane
+#+END_SRC
+*** Cursor
+#+BEGIN_SRC conf :tangle ~/.config/kitty/kitty.conf :mkdirp yes
+  shell_integration no-cursor
+  cursor_shape block
+  cursor_blink_interval 0
+#+END_SRC
+*** Performance
+#+BEGIN_SRC conf :tangle ~/.config/kitty/kitty.conf :mkdirp yes
   sync_to_monitor yes
   repaint_delay 5
   input_delay 2
-
-  # NO BELLS!
+#+END_SRC
+*** No Audio Bell
+#+BEGIN_SRC conf :tangle ~/.config/kitty/kitty.conf :mkdirp yes
   enable_audio_bell no
-
-  cursor_shape block
-
+#+END_SRC
+*** Keybindings
+#+BEGIN_SRC conf :tangle ~/.config/kitty/kitty.conf :mkdirp yes
   clear_all_shortcuts yes
 
   kitty_mod ctrl+shift
@@ -617,27 +627,27 @@ and a seperate buffer.
   map cmd+t new_tab
   map cmd+left previous_tab
   map cmd+right next_tab
-
-  # Tab settings
+#+END_SRC
+*** Tab bar
+#+BEGIN_SRC conf :tangle ~/.config/kitty/kitty.conf :mkdirp yes
   tab_bar_align left
   tab_bar_edge bottom
 
   tab_title_template "{title}"
-  allow_remote_control yes
-
-  # Cursor
-  cursor_blink_interval 0
-
-  # macOS stuff
+#+END_SRC
+*** macOS
+#+BEGIN_SRC conf :tangle ~/.config/kitty/kitty.conf :mkdirp yes
   macos_titlebar_color               background
   macos_option_as_alt                both
   macos_quit_when_last_window_closed yes
   macos_show_window_title_in         none
   macos_custom_beam_cursor           yes
-
-  # term
+#+END_SRC
+*** Terminal Type
+#+BEGIN_SRC conf :tangle ~/.config/kitty/kitty.conf :mkdirp yes
   term xterm-256color
-
+#+END_SRC
+*** Background Opacity
+#+BEGIN_SRC conf :tangle ~/.config/kitty/kitty.conf :mkdirp yes
   background_opacity 0.96
-  # background_opacity 1
 #+END_SRC
