@@ -759,11 +759,8 @@ and a seperate buffer.
   set -gx GO111MODULE 'on'
 
   set -gx SNAPP "$HOME/dev/snapp/"
-  set -gx PATH "$HOME/.emacs.d/bin/:/Applications/Emacs.app/Contents/MacOS:$GOPATH/bin:/opt/homebrew/bin:$ELIXIR/bin:$HOME/.luarocks/bin:$HOME/.config/composer/vendor/bin:$GOROOT/bin:$HOME/.cargo/bin:$HOME/.local/bin:/usr/local/Postman:$HOME/.local/elixir-ls/:$HOME/.cache/rebar3/bin:$PATH:$DOTFILES/bin:$HOME/.composer/vendor/bin:$PLAN9/bin:$DOTFILES/acme-bin"
+  set -gx PATH "$HOME/.cargo/bin:/Applications/Emacs.app/Contents/MacOS:$GOPATH/bin:/opt/homebrew/bin:$ELIXIR/bin:$HOME/.luarocks/bin:$HOME/.config/composer/vendor/bin:$GOROOT/bin:$HOME/.cargo/bin:$HOME/.local/bin:$PATH:$HOME/.composer/vendor/bin"
   alias snappvpn='sudo openfortivpn -c ~/snappDC.conf'
-  if test -e "$HOME/.cargo/env"
-     source "$HOME/.cargo/env"
-  end
 
   set -gx EDITOR 'emacs -nw'	  
   alias emacs='emacs -nw'
