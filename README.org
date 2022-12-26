@@ -1,9 +1,8 @@
-#+TITLE: AmirrezaAsk Computing Environment
 #+DATE: <2022-12-25 Sun>
 #+REVEAL_ROOT: https://cdn.jsdelivr.net/npm/reveal.js
 #+OPTIONS: toc:nil reveal_title_slide:nil
 #+REVEAL_INIT_OPTIONS: slideNumber:false
-* AmirrezaAsk Computing Environment                                   :TOC_5:
+* Amirreza Ask Literate Computing Environment                         :TOC_4:
   - [[#how-to-install-][How to install ?]]
   - [[#emacs][Emacs]]
     - [[#personal-customization-variable][Personal Customization Variable]]
@@ -16,14 +15,11 @@
     - [[#dired-file-manager][Dired File Manager]]
     - [[#emacs-help][Emacs Help]]
     - [[#ui][UI]]
-        - [[#themes][Themes]]
-        - [[#font][Font]]
     - [[#completion][Completion]]
       - [[#in-buffer-completion][In-Buffer Completion]]
       - [[#minibuffer-completion][Minibuffer Completion]]
     - [[#editor][Editor]]
     - [[#org-mode][Org mode]]
-        - [[#org-reveal][Org-reveal]]
     - [[#git][Git]]
     - [[#programming][Programming]]
       - [[#eldoc][Eldoc]]
@@ -31,9 +27,9 @@
       - [[#golang][Golang]]
     - [[#workspaces][Workspaces]]
   - [[#kitty][Kitty]]
-    - [[#themes-1][Themes]]
+    - [[#themes][Themes]]
       - [[#dracula][Dracula]]
-    - [[#font-1][Font]]
+    - [[#font][Font]]
     - [[#cursor][Cursor]]
     - [[#performance][Performance]]
     - [[#no-audio-bell][No Audio Bell]]
@@ -43,6 +39,7 @@
     - [[#terminal-type][Terminal Type]]
     - [[#background-opacity][Background Opacity]]
   - [[#git-global-config][Git Global Config]]
+    - [[#user-info][User Info]]
 
 ** How to install ?
 It's a fairly simple thing to do but remember this will override your current =kitty= and =emacs= config, so backup
@@ -686,15 +683,15 @@ and a seperate buffer.
   # italic_font  OperatorMono Nerd Font Italic
   # bold_italic_font OperatorMono Nerd Font Bold Italic
 
-  font_family FiraCode Nerd Font Mono Medium
-  bold_font FiraCode Nerd Font Mono Bold
-  italic_font  FiraCode Nerd Font Mono Italic
-  bold_italic_font FiraCode Nerd Font Mono Bold Italic
+  # font_family FiraCode Nerd Font Mono Medium
+  # bold_font FiraCode Nerd Font Mono Bold
+  # italic_font  FiraCode Nerd Font Mono Italic
+  # bold_italic_font FiraCode Nerd Font Mono Bold Italic
 
-  # font_family JetBrainsMono Nerd Font Mono Regular
-  # bold_font JetBrainsMono Nerd Font Mono Bold
-  # italic_font JetBrainsMono Nerd Font Mono Italic
-  # bold_italic_font JetBrainsMono Nerd Font Mono Bold Italic
+  font_family JetBrainsMono Nerd Font Mono Regular
+  bold_font JetBrainsMono Nerd Font Mono Bold
+  italic_font JetBrainsMono Nerd Font Mono Italic
+  bold_italic_font JetBrainsMono Nerd Font Mono Bold Italic
   font_size 18
 #+END_SRC
 *** Cursor
@@ -756,11 +753,13 @@ and a seperate buffer.
   background_opacity 0.96
 #+END_SRC
 ** Git Global Config
+*** User Info
 #+BEGIN_SRC config :tangle ~/.config/git/config :mkdirp yes
 [user]
 	email = raskarpour@gmail.com
 	name = amirrezaask
-
+#+END_SRC
+#+BEGIN_SRC config :tangle ~/.config/git/config :mkdirp yes
 [alias]
   lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
 
