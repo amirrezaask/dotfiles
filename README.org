@@ -38,6 +38,7 @@
     - [[#macos][macOS]]
     - [[#terminal-type][Terminal Type]]
     - [[#background-opacity][Background Opacity]]
+  - [[#fish][Fish]]
   - [[#git-global-config][Git Global Config]]
     - [[#user-info][User Info]]
 
@@ -57,7 +58,7 @@ them please.
   ;; (setq amirreza/font "OperatorMono Nerd Font Light")
   (setq amirreza/font "JetBrainsMono Nerd Font Mono")
   (setq amirreza/font-size "15")
-  (setq amirreza/theme 'doom-one)
+  (setq amirreza/theme 'doom-dracula)
   (setq amirreza/transparent t) ;; For terminal only
 #+END_SRC
 *** Init Files
@@ -751,6 +752,30 @@ and a seperate buffer.
 *** Background Opacity
 #+BEGIN_SRC conf :tangle ~/.config/kitty/kitty.conf :mkdirp yes
   background_opacity 0.96
+#+END_SRC
+** Fish
+#+BEGIN_SRC conf :tangle ~/.config/fish/config.fish :mkdirp yes
+
+  set -gx GO111MODULE 'on'
+
+  set -gx SNAPP "$HOME/dev/snapp/"
+  set -gx PATH "$HOME/.emacs.d/bin/:/Applications/Emacs.app/Contents/MacOS:$GOPATH/bin:/opt/homebrew/bin:$ELIXIR/bin:$HOME/.luarocks/bin:$HOME/.config/composer/vendor/bin:$GOROOT/bin:$HOME/.cargo/bin:$HOME/.local/bin:/usr/local/Postman:$HOME/.local/elixir-ls/:$HOME/.cache/rebar3/bin:$PATH:$DOTFILES/bin:$HOME/.composer/vendor/bin:$PLAN9/bin:$DOTFILES/acme-bin"
+  alias snappvpn='sudo openfortivpn -c ~/snappDC.conf'
+  if test -e "$HOME/.cargo/env"
+     source "$HOME/.cargo/env"
+  end
+
+  set -gx EDITOR 'emacs -nw'	  
+  alias emacs='emacs -nw'
+
+  set -gx HOMEBREW_NO_AUTO_UPDATE '1'
+  set -gx FZF_DEFAULT_OPTS '--height 20%'
+  set -gx FZF_DEFAULT_COMMAND 'rg --files'
+
+  function ss_proxy
+      set -gx http_proxy 'http://localhost:1087'
+      set -gx https_proxy 'http://localhost:1087'
+  end
 #+END_SRC
 ** Git Global Config
 *** User Info
