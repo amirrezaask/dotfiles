@@ -1,9 +1,9 @@
-#+TITLE: AmirrezaAsk Computation Environment
+#+TITLE: AmirrezaAsk Computing Environment
 #+DATE: <2022-12-25 Sun>
 #+REVEAL_ROOT: https://cdn.jsdelivr.net/npm/reveal.js
 #+OPTIONS: toc:nil reveal_title_slide:nil
 #+REVEAL_INIT_OPTIONS: slideNumber:false
-* My Computing Environment :TOC_5:
+* AmirrezaAsk Computing Environment                                   :TOC_5:
   - [[#how-to-install-][How to install ?]]
   - [[#emacs][Emacs]]
     - [[#personal-customization-variable][Personal Customization Variable]]
@@ -45,7 +45,7 @@
 
 ** How to install ?
 It's a fairly simple thing to do but remember this will override your current =kitty= and =emacs= config, so backup
-them please
+them please.
 #+BEGIN_SRC sh
   curl https://raw.githubusercontent.com/amirrezaask/dotfiles/master/.emacs.d/README.org > ~/.emacs.d/README.org &&\
   emacs --batch --eval "(require 'org)" --eval '(org-babel-tangle-file "~/.emacs.d/README.org")'
