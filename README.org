@@ -33,6 +33,7 @@
     - [[#terminal-type][Terminal Type]]
     - [[#background-opacity][Background Opacity]]
   - [[#fish][Fish]]
+    - [[#disable-fish-greeting-message][Disable Fish greeting message]]
     - [[#go-environments][Go environments]]
     - [[#path][Path]]
     - [[#editor-1][Editor]]
@@ -389,6 +390,10 @@ init.el will just load this file.
     :after prescient
     :config
     (vertico-prescient-mode))
+
+
+  ;; TODO: Maybe a context like completion
+  ;; for example in org mode have a key to open minibuffer with just org mode functions
 #+END_SRC
 *** Editor
 #+BEGIN_SRC emacs-lisp
@@ -669,7 +674,8 @@ and a seperate buffer.
 ** Kitty
 *** Themes
 **** Dracula
-#+BEGIN_SRC conf :tangle ~/.config/kitty/kitty.conf :mkdirp yes
+#+BEGIN_SRC :tangle no
+##+BEGIN_SRC conf :tangle ~/.config/kitty/kitty.conf :mkdirp yes
   foreground            #f8f8f2
   background            #282a36
   selection_foreground  #ffffff
@@ -804,9 +810,13 @@ and a seperate buffer.
 #+END_SRC
 *** Background Opacity
 #+BEGIN_SRC conf :tangle ~/.config/kitty/kitty.conf :mkdirp yes
-  background_opacity 0.96
+  background_opacity 0.90
 #+END_SRC
 ** Fish
+*** Disable Fish greeting message
+#+BEGIN_SRC fish :tangle ~/.config/fish/config.fish :mkdirp yes
+set fish_greeting ""
+#+END_SRC
 *** Go environments
 #+BEGIN_SRC fish :tangle ~/.config/fish/config.fish :mkdirp yes
   set -gx GO111MODULE 'on'
