@@ -2,49 +2,7 @@
 #+REVEAL_ROOT: https://cdn.jsdelivr.net/npm/reveal.js
 #+OPTIONS: toc:nil reveal_title_slide:nil
 #+REVEAL_INIT_OPTIONS: slideNumber:false
-* Amirreza Ask Literate Computing Environment                         :TOC_4:
-  - [[#introduction][Introduction]]
-  - [[#how-to-install-][How to install ?]]
-  - [[#emacs][Emacs]]
-    - [[#personal-customization-variable][Personal Customization Variable]]
-    - [[#init-files][Init Files]]
-      - [[#early-initel][early-init.el]]
-      - [[#initel][init.el]]
-    - [[#packages][Packages]]
-    - [[#basics-and-core-settings][Basics and core settings]]
-    - [[#windows-and-buffers][Windows and Buffers]]
-    - [[#dired-file-manager][Dired File Manager]]
-    - [[#emacs-help][Emacs Help]]
-    - [[#ui][UI]]
-      - [[#themes][Themes]]
-      - [[#font][Font]]
-    - [[#completion][Completion]]
-      - [[#in-buffer-completion][In-Buffer Completion]]
-      - [[#minibuffer-completion][Minibuffer Completion]]
-    - [[#editor][Editor]]
-    - [[#org-mode][Org mode]]
-    - [[#git][Git]]
-    - [[#programming][Programming]]
-      - [[#eldoc][Eldoc]]
-      - [[#lsp][LSP]]
-      - [[#golang][Golang]]
-    - [[#workspaces][Workspaces]]
-  - [[#kitty][Kitty]]
-    - [[#themes-1][Themes]]
-      - [[#dracula][Dracula]]
-    - [[#font-1][Font]]
-    - [[#cursor][Cursor]]
-    - [[#performance][Performance]]
-    - [[#no-audio-bell][No Audio Bell]]
-    - [[#keybindings][Keybindings]]
-    - [[#tab-bar][Tab bar]]
-    - [[#macos][macOS]]
-    - [[#terminal-type][Terminal Type]]
-    - [[#background-opacity][Background Opacity]]
-  - [[#fish][Fish]]
-  - [[#git-global-config][Git Global Config]]
-    - [[#user-info][User Info]]
-
+* Amirreza Ask Literate Computing Environment                         
 ** Introduction
 This file contains my configurations for =fish=, =kitty= and =emacs= in literate
 format using =org-mode=.
@@ -87,8 +45,7 @@ init.el will just load this file.
   (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
   (org-babel-load-file (expand-file-name "README.org" user-emacs-directory))
 #+END_SRC
-*** Packages
-I rather have all side effects ( installing packages on disk ) in one place.
+*** Package Manager
 #+BEGIN_SRC emacs-lisp
   ;; Bootstrap straight.el
   (defvar bootstrap-version)
@@ -104,81 +61,7 @@ I rather have all side effects ( installing packages on disk ) in one place.
 	(eval-print-last-sexp)))
     (load bootstrap-file nil 'nomessage))
 
-  (setq amirreza/packages
-	'(
-	  ;; General
-	  general
-
-	  ace-window ;; Window management made easy
-
-	  bufler ;; buffer management made easy
-
-	  helpful ;; Better help buffers, more info like keymappings in function help buffers.
-
-	  ;; Autocomplete popup in buffer, we need this as a custom reciepe to have extensions in my `load-path`
-	  (corfu :type git :host github :repo "emacs-straight/corfu" :files ("*" "extensions/*.el" (:exclude ".git")))
-	  ;; make corfu work in terminal emacs
-	  corfu-terminal
-
-	  ;; Centralize your buffer text
-	  olivetti
-
-	  ;; Don't need any description right ?
-	  rainbow-delimiters
-
-	  ;; select a portion of your buffer and expand or contract semantically
-	  expand-region
-
-	  ;; LSP client, in Emacs 29 it's going to be upstreamed in core
-	  eglot
-
-	  ;; just this command `consult-eglot-symbols`
-	  consult-eglot
-
-	  ;; Show git diff signs in sidebar
-	  git-gutter
-	  ;; Best git client on the earth
-	  magit
-
-	  vterm ;; Modern terminal in Emacs
-	  apache-mode ;; Apache config syntax
-	  systemd ;; Systemd config syntax
-	  nginx-mode ;; Nginx config syntax
-	  docker-compose-mode ;; Docker-compose syntax
-	  dockerfile-mode ;; Dockerfile syntax
-	  markdown-mode ;; Markdown syntax
-	  go-mode ;; Golang
-	  go-tag ;; Manage Struct tags in Golang
-	  rust-mode ;; Rust
-	  zig-mode ;; Zig
-	  yaml-mode
-	  fish-mode
-	  csv-mode
-	  json-mode ;; Javascript Object Notation
-	  clojure-mode ;; LISP on JVM
-	  cider ;; Clojure repl integrated into Emacs
-
-	  ;; Minibuffer Completion and Enhancements
-	  vertico 
-	  savehist
-	  consult
-	  marginalia
-	  orderless
-
-	  org-reveal ;; Export org document as reveal.js presentation
-	  toc-org ;; Add a table of content to org file
-	  htmlize ;; dependency of org-reveal
-
-	  prescient ;; Sort completion suggestions based on your history
-	  vertico-prescient ;; prescient for vertico
-	  corfu-prescient ;; prescient for corfu
-
-	  perspective ;; i3 like workspaces
-	  ))
-
-  (mapc (lambda (pkg-receipe)
-	  (straight-use-package pkg-receipe)
-	  ) amirreza/packages)
+  (setq straight-use-package-by-default t)
 #+END_SRC
 *** Basics and core settings
 #+BEGIN_SRC emacs-lisp
@@ -199,8 +82,8 @@ I rather have all side effects ( installing packages on disk ) in one place.
 
 
   ;; Copy PATH from default shell
-  (straight-use-package 'exec-path-from-shell)
-  (exec-path-from-shell-initialize)
+  (use-package exec-path-from-shell :config
+    (exec-path-from-shell-initialize))
 
   (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 
@@ -234,34 +117,45 @@ I rather have all side effects ( installing packages on disk ) in one place.
     (interactive)
     (find-file (expand-file-name "README.org" user-emacs-directory)))
 
-
+  (use-package general) ;; For a beautiful keymap macro
   (general-def :keymaps 'override "C-c e e" 'amirreza/edit-emacs)
 #+END_SRC
 *** Windows and Buffers
 #+BEGIN_SRC emacs-lisp
-(general-def :keymaps 'override "C-x o" 'ace-window)
-(general-def :keymaps 'override "C-x C-b" 'bufler)
+  (use-package ace-window
+    :general
+    (:keymaps 'override "C-x o" 'ace-window))
+
+
+  (use-package bufler
+    :general
+    (:keymaps 'override "C-x C-b" 'bufler)
+    )
 #+END_SRC
 *** Dired File Manager
 #+BEGIN_SRC emacs-lisp
-  (general-def :keymaps 'dired-mode-map "C-c C-e" 'wdired-change-to-wdired-mode)
+  (use-package dired :straight nil
+    :general
+    (:keymaps 'dired-mode-map
+	      "C-c C-e" 'wdired-change-to-wdired-mode))
+
 #+END_SRC
 *** Emacs Help
 #+BEGIN_SRC emacs-lisp
-  (general-def
-    :keymaps 'override
+  (use-package helpful
+    :general
+    (:keymaps 'global-map
     [remap describe-key] 'helpful-key
     [remap describe-function] 'helpful-callable
-    [remap describe-variable] 'helpful-variable
-    )
+    [remap describe-variable] 'helpful-variable))
 #+END_SRC
 *** UI
 **** Themes
 #+BEGIN_SRC emacs-lisp
-  (straight-use-package 'all-the-icons)
-  (straight-use-package 'ef-themes)
-  (straight-use-package 'doom-themes)
-  (straight-use-package 'gruber-darker-theme)
+  (use-package all-the-icons)
+  (use-package ef-themes)
+  (use-package doom-themes)
+  (use-package gruber-darker-theme)
 
   ;; Add custom themes path to themes load path
   (add-to-list 'custom-theme-load-path
@@ -400,49 +294,104 @@ I rather have all side effects ( installing packages on disk ) in one place.
 *** Completion
 **** In-Buffer Completion
 #+BEGIN_SRC emacs-lisp
-  (setq corfu-auto t)
-  (global-corfu-mode)
-  (corfu-history-mode 1)
-  (corfu-echo-mode 1)
-  (corfu-popupinfo-mode 1)
-  (corfu-terminal-mode)
-  (corfu-prescient-mode)
+  (use-package corfu
+    :straight
+    (corfu :type git :host github :repo "emacs-straight/corfu" :files ("*" "extensions/*.el" (:exclude ".git")))
+
+    :init
+    (setq corfu-auto t)
+    :config
+    (global-corfu-mode)
+    (corfu-history-mode 1)
+    (corfu-echo-mode 1)
+    (corfu-popupinfo-mode 1))
+
+  (use-package corfu-terminal
+    :config
+    (corfu-terminal-mode))
+
+  (use-package corfu-prescient
+    :after prescient
+    :config
+    (corfu-prescient-mode))
 #+END_SRC
 **** Minibuffer Completion
 #+BEGIN_SRC emacs-lisp
-  (setq completion-cycle-threshold 3)
-  (setq tab-always-indent 'complete)
-  (vertico-mode)
-  (setq vertico-count 15)
-  (setq vertico-cycle t)
+  (use-package emacs
+    :config
+    (setq completion-cycle-threshold 3)
+    (setq tab-always-indent 'complete))
 
-  (setq consult-async-min-input 1)
+  (use-package vertico
+    :init
+    (setq vertico-count 15)
+    (setq vertico-cycle t)
 
-  (marginalia-mode)
+    :config
+    (vertico-mode))
 
-  (setq completion-styles '(orderless basic)
+  (use-package consult
+    :init
+    (setq consult-async-min-input 1))
+
+  (use-package marginalia
+    :config
+    (marginalia-mode))
+
+  (use-package orderless
+    :config
+    (setq completion-styles '(orderless basic)
 	completion-category-defaults nil
-	completion-category-overrides '((file (styles partial-completion))))
+	completion-category-overrides '((file (styles partial-completion)))))
 
-  (vertico-prescient-mode)
+
+  (use-package vertico-prescient
+    :after prescient
+    :config
+    (vertico-prescient-mode))
 #+END_SRC
 *** Editor
 #+BEGIN_SRC emacs-lisp
-  (setq olivetti-body-width 100)
-  (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
-  (delete-selection-mode 1) ;; When a region of text is selected and then something is typed remove text and replace with what has been typed.
-  (show-paren-mode 1) ;; Highlight matching parens
-  (setq show-paren-delay 0) ;; highlight matching parens instantly.
-  (setq display-line-numbers-type 'relative) ;; relative line numbers
-  (global-display-line-numbers-mode 1) ;; enable line numbers globaly
+  (use-package olivetti
+    :init
+    (setq olivetti-body-width 100))
+
+  (use-package rainbow-delimiters
+    :hook
+    (prog-mode . rainbow-delimiters-mode))
+
+  (use-package delsel
+    :straight nil
+    :config
+    (delete-selection-mode 1) ;; When a region of text is selected and then something is typed remove text and replace with what has been typed.
+    )
+
+  (use-package paren
+    :straight nil
+    :init
+    (setq show-paren-delay 0) ;; highlight matching parens instantly.
+    :config
+    (show-paren-mode 1) ;; Highlight matching parens
+    )
+
+  (use-package display-line-numbers
+    :straight nil
+    :init
+    (setq display-line-numbers-type 'relative) ;; relative line numbers
+    :config
+    (global-display-line-numbers-mode 1) ;; enable line numbers globaly
+    )
+
   (defun amirreza/up-center ()
     (interactive)
     (previous-line (/ (window-height) 2))
     (recenter-top-bottom))
+
   (defun amirreza/down-center ()
     (interactive)
     (next-line (/ (window-height) 2))
     (recenter-top-bottom))
+
   ;; Best movement ever ?????
   (setq recenter-positions '(middle))
 
@@ -451,172 +400,231 @@ I rather have all side effects ( installing packages on disk ) in one place.
     "M-n" 'amirreza/down-center
     )
 
-  (general-def :keymaps 'global-map
-    "C-=" 'er/expand-region
-    "C--" 'er/contract-region
-    )
+  (use-package expand-region
+    :general
+    (:keymaps 'global-map
+	      "C-=" 'er/expand-region
+	      "C--" 'er/contract-region
+	      ))
 
   ;; really important key if you use emacs in terminal
-  (general-def :keymaps 'override "C-q" 'set-mark-command)
+  (use-package simple
+    :straight nil
+    :general
+    (:keymaps 'override "C-q" 'set-mark-command))
 #+END_SRC
 *** Org mode
 #+BEGIN_SRC emacs-lisp
-  (defun amirreza/org-code-block ()
-    (interactive)
-    (insert (format "#+BEGIN_SRC %s\n\n#+END_SRC"
-		    (completing-read "Language: "
-				     '("emacs-lisp"
-				       "go"
-				       "rust"
-				       "python"
-				       "lua"
-				       "bash"
-				       "sh"
-				       "fish"
-				       "java"
-				       )))))
+  (use-package org
+    :straight nil
+    :init
+    (setq org-use-property-inheritance t)
+    (setq org-startup-folded t) ;; Start org mode all headers collapsed
+    (setq org-src-window-setup 'current-window)
+    (defun amirreza/org-code-block ()
+      (interactive)
+      (insert (format "#+BEGIN_SRC %s\n\n#+END_SRC"
+		      (completing-read "Language: "
+				       '("emacs-lisp"
+					 "go"
+					 "rust"
+					 "python"
+					 "lua"
+					 "bash"
+					 "sh"
+					 "fish"
+					 "java"
+					 )))))
 
-  (defun amirreza/org-disable-tangle ()
-    (interactive)
-    (insert ":PROPERTIES:
+    (defun amirreza/org-disable-tangle ()
+      (interactive)
+      (insert ":PROPERTIES:
   :header-args:    :tangle no
   :END:"
-	    ))
+	      ))
 
-  (setq org-use-property-inheritance t)
-  (setq org-startup-folded t) ;; Start org mode all headers collapsed
-  (setq org-src-window-setup 'current-window)
-
-
-  (add-hook 'org-mode-hook #'toc-org-mode)
-
-  (general-def
-    :prefix "C-c m"
-    :keymaps 'org-mode-map
-
-    "c b" 'amirreza/org-code-block)
-
-  (general-def
-    :keymaps 'org-mode-map
-    "M-n" 'org-next-visible-heading
-    "M-p" 'org-previous-visible-heading
+    :general
+    (:keymaps 'org-mode-map
+	      :prefix "C-c m"
+	      "c b" 'amirreza/org-code-block
+	      )
+    (:keymaps 'org-mode-map
+	      "M-n" 'org-next-visible-heading
+	      "M-p" 'org-previous-visible-heading
+	      )
     )
-#+END_SRC
-***** Org-reveal
-=org-reveal= will let you create =reveal.js= presentations from Org mode documents.
-#+BEGIN_SRC emacs-lisp
-  (add-hook 'org-mode-hook
-	    (lambda ()
-	      (require 'ox-reveal))
-	    )
 
-
+  (use-package ox-reveal)
+  (use-package htmlize)
+  (use-package toc-org
+    :hook
+    (org-mode . toc-org-mode))
 #+END_SRC
 *** Git
 #+BEGIN_SRC emacs-lisp
-  (global-git-gutter-mode)
-  (general-def :keymaps 'override "C-x g" 'magit)
+  (use-package git-gutter
+    :init
+    (global-git-gutter-mode))
+
+  (use-package magit
+    :general
+    (:keymaps 'global-map "C-x g" 'magit))
+#+END_SRC
+*** Project management
+#+BEGIN_SRC emacs-lisp
+  (use-package project
+    :straight nil
+    :general
+    (:keymaps 'global-map
+	      :prefix "C-x p"
+	      "f" 'project-find-file
+	      "p" 'project-switch-project
+	      "b" 'project-buffers
+	      "d" 'project-dired
+	      "c" 'project-compile
+	      ))
+
+
 #+END_SRC
 *** Programming
+**** Flymake
+#+BEGIN_SRC emacs-lisp
+  (use-package flymake
+    :straight nil
+
+    :general
+    (:keymaps 'global-map
+	      "C-c m n" 'flymake-goto-next-error ;; Next error
+	      "C-c m p" 'flymake-goto-prev-error ;; Previous error
+	      "M-j" 'flymake-goto-next-error ;; Next error
+	      "M-k" 'flymake-goto-prev-error ;; Previous error
+	      ))
+#+END_SRC
+**** Xref
+#+BEGIN_SRC emacs-lisp
+  (use-package xref
+    :straight nil
+    :general
+      (:keymaps 'global-map
+		"M-." 'xref-find-definitions ;; Goto definitions
+		"M-," 'xref-go-back ;; hop back where you where before jump
+		"M-r" 'xref-find-references ;; Goto references
+    ))
+#+END_SRC
 **** Eldoc
 Eldoc is a core emacs package that can be used
 to show documentation and possibly errors both in =echo-area=
 and a seperate buffer.
 #+BEGIN_SRC emacs-lisp
-  (setq eldoc-echo-area-use-multiline-p nil)
-  (setq eldoc-echo-area-display-truncation-message nil)
-  (setq eldoc-echo-area-prefer-doc-buffer nil)
+  (use-package eldoc
+    :straight nil
+    :init
+    (setq eldoc-echo-area-use-multiline-p nil)
+    (setq eldoc-echo-area-display-truncation-message nil)
+    (setq eldoc-echo-area-prefer-doc-buffer nil)
+    :general
+    (:keymaps 'global-map
+		  "C-h ." 'amirreza/eldoc-toggle-buffer ;; Toggle eldoc buffer
+		  "M-0" 'amirreza/eldoc-toggle-buffer ;; Toggle eldoc buffer
+		  )
+    :config
+    (setq amirreza/--eldoc-window-open 'close)
 
-  (setq amirreza/--eldoc-window-open 'close)
-
-  (defun amirreza/eldoc-toggle-buffer ()
-    "Toggle eldoc buffer."
-    (interactive)
-    (if (eq 'open amirreza/--eldoc-window-open)
+    (defun amirreza/eldoc-toggle-buffer ()
+      "Toggle eldoc buffer."
+      (interactive)
+      (if (eq 'open amirreza/--eldoc-window-open)
+	  (progn
+	    (message "closing...")
+	    (dolist (w (window-list))
+	      (when (string-match-p "\\*eldoc.*" (buffer-name (window-buffer w)))
+		(quit-window nil w)
+		))
+	    (setq amirreza/--eldoc-window-open 'close))
 	(progn
-	  (message "closing...")
-	  (dolist (w (window-list))
-	    (when (string-match-p "\\*eldoc.*" (buffer-name (window-buffer w)))
-	      (quit-window nil w)
-	      ))
-	  (setq amirreza/--eldoc-window-open 'close))
-      (progn
-	(message "opening...")
-	(eldoc-doc-buffer t)
-	(setq amirreza/--eldoc-window-open 'open))
-    ))
-
-  (global-eldoc-mode)
-
+	  (message "opening...")
+	  (eldoc-doc-buffer t)
+	  (setq amirreza/--eldoc-window-open 'open))
+	))
+    (global-eldoc-mode))
 #+END_SRC
 **** LSP
 #+BEGIN_SRC emacs-lisp
-  (add-hook 'go-mode-hook 'eglot-ensure)
-  (add-hook 'rust-mode-hook 'eglot-ensure)
-  (add-hook 'python-mode-hook 'eglot-ensure)
-  (add-hook 'php-mode-hook 'eglot-ensure)
+  (use-package eglot
+    :hook
+    ((go-mode rust-mode python-mode php-mode) . 'eglot-ensure)
+    :general
+    (:keymaps 'eglot-mode-map
+	      "M-i" 'eglot-find-implementation
+	      "C-c m r" 'eglot-rename
+	      "C-c m s" 'consult-eglot-symbols
+	      "C-c m f" 'eglot-format
+	      "C-c m e" 'consult-flymake
+	      "C-c m i" 'eglot-find-implementation
+	      ))
 
-  (general-def
-    :keymaps 'override
-    :prefix "C-x p"
-
-    "f" 'project-find-file
-    "p" 'project-switch-project
-    "b" 'project-buffers
-    "d" 'project-dired
-    "c" 'project-compile
-    )
-  (general-def
-    :keymaps 'override
-    "C-h ." 'amirreza/eldoc-toggle-buffer ;; Toggle eldoc buffer
-
-    "M-0" 'amirreza/eldoc-toggle-buffer ;; Toggle eldoc buffer
-
-    "C-c m n" 'flymake-goto-next-error ;; Next error
-    "C-c m p" 'flymake-goto-prev-error ;; Previous error
-
-    "M-j" 'flymake-goto-next-error ;; Next error
-    "M-k" 'flymake-goto-prev-error ;; Previous error
-
-    "M-." 'xref-find-definitions ;; Goto definitions
-    "M-," 'xref-go-back ;; hop back where you where before jump
-    "M-r" 'xref-find-references ;; Goto references
-    )
-
-  (general-def
-    :keymaps 'eglot-mode-map
-    "M-i" 'eglot-find-implementation
-    "C-c m r" 'eglot-rename
-    "C-c m s" 'consult-eglot-symbols
-    "C-c m f" 'eglot-format
-    "C-c m e" 'consult-flymake
-    "C-c m i" 'eglot-find-implementation
-    )
+  (use-package consult-eglot)
 #+END_SRC
-**** Golang
+**** Languages
+***** Golang
 #+BEGIN_SRC emacs-lisp
-  (general-def :keymaps 'go-mode-map
-    :prefix "C-c m"
-    "a" 'go-tag-add ;; Add struct tags
-    )
+  (use-package go-mode)
+
+  (use-package go-tag
+    :general
+    (:keymaps 'go-mode-map
+	      :prefix "C-c m"
+	      "a" 'go-tag-add ;; Add struct tags
+	      ))
+#+END_SRC
+***** Rust
+#+BEGIN_SRC emacs-lisp
+(use-package rust-mode)
+#+END_SRC
+***** Clojure
+#+BEGIN_SRC emacs-lisp
+  (use-package clojure-mode) ;; LISP on JVM
+  ;;(use-package cider) ;; Clojure repl integrated into Emacs
+#+END_SRC
+***** Zig
+#+BEGIN_SRC emacs-lisp
+(use-package zig-mode) ;; Zig
+#+END_SRC
+***** Misc
+#+BEGIN_SRC emacs-lisp
+  (use-package apache-mode) ;; Apache config syntax
+  (use-package systemd) ;; Systemd config syntax
+  (use-package nginx-mode) ;; Nginx config syntax
+  (use-package docker-compose-mode) ;; Docker-compose syntax
+  (use-package dockerfile-mode) ;; Dockerfile syntax
+  (use-package markdown-mode) ;; Markdown syntax
+  (use-package yaml-mode) ;; Yaml
+  (use-package fish-mode) ;; Fish
+  (use-package csv-mode) ;; CSV
+  (use-package json-mode) ;; Javascript Object Notation
+
 #+END_SRC
 *** Workspaces
 #+BEGIN_SRC emacs-lisp
-  (setq persp-state-default-file (expand-file-name "sessions" user-emacs-directory))
-  (setq persp-mode-prefix-key (kbd "C-c w"))
+  (use-package perspective
+    :init
+    (setq persp-state-default-file (expand-file-name "sessions" user-emacs-directory))
+    (setq persp-mode-prefix-key (kbd "C-c w"))
 
 
-  (defun amirreza/save-session ()
-    (interactive)
-    (persp-state-save persp-state-default-file))
+    (defun amirreza/save-session ()
+      (interactive)
+      (persp-state-save persp-state-default-file))
 
 
-  (defun amirreza/load-session ()
-    (interactive)
-    (persp-state-load persp-state-default-file))
-  (persp-mode 1)
-  (add-hook 'kill-emacs-hook 'amirreza/save-session)
-  (general-def :prefix "C-c w" :keymaps 'override "s" 'persp-switch)
+    (defun amirreza/load-session ()
+      (interactive)
+      (persp-state-load persp-state-default-file))
+    (persp-mode 1)
+    :hook
+    (kill-emacs . amirreza/save-session)
+    :general
+    (:prefix "C-c w" :keymaps 'override "s" 'persp-switch))
 #+END_SRC
 ** Kitty
 *** Themes
