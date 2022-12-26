@@ -3,6 +3,7 @@
 #+OPTIONS: toc:nil reveal_title_slide:nil
 #+REVEAL_INIT_OPTIONS: slideNumber:false
 * Amirreza Ask Literate Computing Environment                         :TOC_4:
+  - [[#introduction][Introduction]]
   - [[#how-to-install-][How to install ?]]
   - [[#emacs][Emacs]]
     - [[#personal-customization-variable][Personal Customization Variable]]
@@ -15,6 +16,8 @@
     - [[#dired-file-manager][Dired File Manager]]
     - [[#emacs-help][Emacs Help]]
     - [[#ui][UI]]
+      - [[#themes][Themes]]
+      - [[#font][Font]]
     - [[#completion][Completion]]
       - [[#in-buffer-completion][In-Buffer Completion]]
       - [[#minibuffer-completion][Minibuffer Completion]]
@@ -27,9 +30,9 @@
       - [[#golang][Golang]]
     - [[#workspaces][Workspaces]]
   - [[#kitty][Kitty]]
-    - [[#themes][Themes]]
+    - [[#themes-1][Themes]]
       - [[#dracula][Dracula]]
-    - [[#font][Font]]
+    - [[#font-1][Font]]
     - [[#cursor][Cursor]]
     - [[#performance][Performance]]
     - [[#no-audio-bell][No Audio Bell]]
@@ -42,6 +45,9 @@
   - [[#git-global-config][Git Global Config]]
     - [[#user-info][User Info]]
 
+** Introduction
+This file contains my configurations for =fish=, =kitty= and =emacs= in literate
+format using =org-mode=.
 ** How to install ?
 It's a fairly simple thing to do but remember this will override your current =kitty= and =emacs= config, so backup
 them please.
@@ -159,7 +165,6 @@ I rather have all side effects ( installing packages on disk ) in one place.
 	  marginalia
 	  orderless
 
-	  org-bullets
 	  org-reveal ;; Export org document as reveal.js presentation
 	  toc-org ;; Add a table of content to org file
 	  htmlize ;; dependency of org-reveal
@@ -251,7 +256,7 @@ I rather have all side effects ( installing packages on disk ) in one place.
     )
 #+END_SRC
 *** UI
-***** Themes
+**** Themes
 #+BEGIN_SRC emacs-lisp
   (straight-use-package 'all-the-icons)
   (straight-use-package 'ef-themes)
@@ -370,7 +375,7 @@ I rather have all side effects ( installing packages on disk ) in one place.
 ;;; jblow-theme.el ends here
 
 #+END_SRC
-***** Font
+**** Font
 #+BEGIN_SRC emacs-lisp
 ;; Font settings
 (defun amirreza/home-monitor ()
@@ -483,7 +488,6 @@ I rather have all side effects ( installing packages on disk ) in one place.
   (setq org-src-window-setup 'current-window)
 
 
-  (add-hook 'org-mode-hook #'org-bullets-mode)
   (add-hook 'org-mode-hook #'toc-org-mode)
 
   (general-def
