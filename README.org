@@ -33,6 +33,13 @@
     - [[#terminal-type][Terminal Type]]
     - [[#background-opacity][Background Opacity]]
   - [[#fish][Fish]]
+    - [[#go-environments][Go environments]]
+    - [[#path][Path]]
+    - [[#editor-1][Editor]]
+    - [[#disable-homebrew-auto-update][Disable Homebrew auto update]]
+    - [[#fzf-settings][Fzf settings]]
+    - [[#use-shadowsocksv2ray-proxy][Use Shadowsocks/V2ray proxy]]
+    - [[#some-snapp-stuff][Some Snapp stuff]]
   - [[#git-global-config][Git Global Config]]
     - [[#user-info][User Info]]
 
@@ -51,9 +58,9 @@ them please.
 #+BEGIN_SRC emacs-lisp
   (setq user-full-name "Amirreza Askarpour")
   (setq user-email "raskarpour@gmail.com")
-  ;; (setq amirreza/font "FiraCode Nerd Font Mono")
+  (setq amirreza/font "FiraCode Nerd Font Mono")
   ;; (setq amirreza/font "OperatorMono Nerd Font Light")
-  (setq amirreza/font "JetBrainsMono Nerd Font Mono")
+  ;; (setq amirreza/font "JetBrainsMono Nerd Font Mono")
   (setq amirreza/font-size "15")
   (setq amirreza/theme 'doom-dracula)
   (setq amirreza/transparent t) ;; For terminal only
@@ -730,15 +737,15 @@ and a seperate buffer.
   # italic_font  OperatorMono Nerd Font Italic
   # bold_italic_font OperatorMono Nerd Font Bold Italic
 
-  # font_family FiraCode Nerd Font Mono Medium
-  # bold_font FiraCode Nerd Font Mono Bold
-  # italic_font  FiraCode Nerd Font Mono Italic
-  # bold_italic_font FiraCode Nerd Font Mono Bold Italic
+  font_family FiraCode Nerd Font Mono Medium
+  bold_font FiraCode Nerd Font Mono Bold
+  italic_font  FiraCode Nerd Font Mono Italic
+  bold_italic_font FiraCode Nerd Font Mono Bold Italic
 
-  font_family JetBrainsMono Nerd Font Mono Regular
-  bold_font JetBrainsMono Nerd Font Mono Bold
-  italic_font JetBrainsMono Nerd Font Mono Italic
-  bold_italic_font JetBrainsMono Nerd Font Mono Bold Italic
+  # font_family JetBrainsMono Nerd Font Mono Regular
+  # bold_font JetBrainsMono Nerd Font Mono Bold
+  # italic_font JetBrainsMono Nerd Font Mono Italic
+  # bold_italic_font JetBrainsMono Nerd Font Mono Bold Italic
   font_size 18
 #+END_SRC
 *** Cursor
@@ -800,24 +807,42 @@ and a seperate buffer.
   background_opacity 0.96
 #+END_SRC
 ** Fish
+*** Go environments
 #+BEGIN_SRC fish :tangle ~/.config/fish/config.fish :mkdirp yes
   set -gx GO111MODULE 'on'
-
-  set -gx SNAPP "$HOME/dev/snapp/"
+  set -gx GOPATH "$HOME"
+  set -gx GOPRIVATE "gitlab.snapp.ir"
+  set -gx GOPROXY 'goproxy.io,direct'
+#+END_SRC
+*** Path
+#+BEGIN_SRC fish :tangle ~/.config/fish/config.fish :mkdirp yes
   set -gx PATH "$HOME/.cargo/bin:/Applications/Emacs.app/Contents/MacOS:$GOPATH/bin:/opt/homebrew/bin:$ELIXIR/bin:$HOME/.luarocks/bin:$HOME/.config/composer/vendor/bin:$GOROOT/bin:$HOME/.cargo/bin:$HOME/.local/bin:$PATH:$HOME/.composer/vendor/bin"
-  alias snappvpn='sudo openfortivpn -c ~/snappDC.conf'
-
+#+END_SRC
+*** Editor
+#+BEGIN_SRC fish :tangle ~/.config/fish/config.fish :mkdirp yes
   set -gx EDITOR 'emacs -nw'	  
   alias emacs='emacs -nw'
-
+#+END_SRC
+*** Disable Homebrew auto update
+#+BEGIN_SRC fish :tangle ~/.config/fish/config.fish :mkdirp yes
   set -gx HOMEBREW_NO_AUTO_UPDATE '1'
+#+END_SRC
+*** Fzf settings
+#+BEGIN_SRC fish :tangle ~/.config/fish/config.fish :mkdirp yes
   set -gx FZF_DEFAULT_OPTS '--height 20%'
   set -gx FZF_DEFAULT_COMMAND 'rg --files'
-
+#+END_SRC
+*** Use Shadowsocks/V2ray proxy
+#+BEGIN_SRC fish :tangle ~/.config/fish/config.fish :mkdirp yes
   function ss_proxy
       set -gx http_proxy 'http://localhost:1087'
       set -gx https_proxy 'http://localhost:1087'
   end
+#+END_SRC
+*** Some Snapp stuff
+#+BEGIN_SRC fish :tangle ~/.config/fish/config.fish :mkdirp yes
+  set -gx SNAPP "$HOME/dev/snapp/"
+  alias snappvpn='sudo openfortivpn -c ~/snappDC.conf'
 #+END_SRC
 ** Git Global Config
 *** User Info
