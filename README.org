@@ -146,6 +146,7 @@ I rather have all side effects ( installing packages on disk ) in one place.
 	  rust-mode ;; Rust
 	  zig-mode ;; Zig
 	  yaml-mode
+	  fish-mode
 	  csv-mode
 	  json-mode ;; Javascript Object Notation
 	  clojure-mode ;; LISP on JVM
@@ -754,8 +755,7 @@ and a seperate buffer.
   background_opacity 0.96
 #+END_SRC
 ** Fish
-#+BEGIN_SRC conf :tangle ~/.config/fish/config.fish :mkdirp yes
-
+#+BEGIN_SRC fish :tangle ~/.config/fish/config.fish :mkdirp yes
   set -gx GO111MODULE 'on'
 
   set -gx SNAPP "$HOME/dev/snapp/"
