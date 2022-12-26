@@ -168,7 +168,6 @@ I rather have all side effects ( installing packages on disk ) in one place.
 	  corfu-prescient ;; prescient for corfu
 
 	  perspective ;; i3 like workspaces
-
 	  ))
 
   (mapc (lambda (pkg-receipe)
@@ -177,11 +176,6 @@ I rather have all side effects ( installing packages on disk ) in one place.
 #+END_SRC
 *** Basics and core settings
 #+BEGIN_SRC emacs-lisp
-  (setq gc-cons-threshold (* 100 1024 1024))
-
-  ;; Many packages like LSP clients will try and spawn a subprocess to do some work, Emacs should read from those processes output and process the result, increasing maximum read means less sys calls to read from, subprocess output and basically more speed.
-  (setq read-process-output-max (* 1024 1024))
-
   (setq create-lockfiles nil) ;; Don't create .# files as lock.
 
   (setq make-backup-files nil) ;; Disable backup files ~file
@@ -345,13 +339,19 @@ I rather have all side effects ( installing packages on disk ) in one place.
     (recenter-top-bottom))
   ;; Best movement ever ?????
   (setq recenter-positions '(middle))
-  (global-set-key (kbd "M-p") (lambda () (interactive) (amirreza/up-center)))
-  (global-set-key (kbd "M-n") (lambda () (interactive) (amirreza/down-center)))
-  (general-def :keymaps 'override
+
+  (general-def :keymaps 'global-map
+    "M-p" 'amirreza/up-center
+    "M-n" 'amirreza/down-center
+    )
+
+  (general-def :keymaps 'global-map
     "C-=" 'er/expand-region
     "C--" 'er/contract-region
-    "C-q" 'set-mark-command ;; really important key if you use emacs in terminal
     )
+
+  ;; really important key if you use emacs in terminal
+  (general-def :keymaps 'override "C-q" 'set-mark-command)
 #+END_SRC
 **** Org mode
 #+BEGIN_SRC emacs-lisp
