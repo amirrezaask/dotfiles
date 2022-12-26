@@ -571,7 +571,7 @@ and a seperate buffer.
 	    (message "closing...")
 	    (dolist (w (window-list))
 	      (when (string-match-p "\\*eldoc.*" (buffer-name (window-buffer w)))
-		(quit-window nil w)
+		(quit-window t w)
 		))
 	    (setq amirreza/--eldoc-window-open 'close))
 	(progn
