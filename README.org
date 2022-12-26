@@ -2,7 +2,40 @@
 #+REVEAL_ROOT: https://cdn.jsdelivr.net/npm/reveal.js
 #+OPTIONS: toc:nil reveal_title_slide:nil
 #+REVEAL_INIT_OPTIONS: slideNumber:false
-* Amirreza Ask Literate Computing Environment                         
+* Amirreza Ask Literate Computing Environment                       :TOC_3:
+  - [[#introduction][Introduction]]
+  - [[#how-to-install-][How to install ?]]
+  - [[#emacs][Emacs]]
+    - [[#personal-customization-variable][Personal Customization Variable]]
+    - [[#init-files][Init Files]]
+    - [[#package-manager][Package Manager]]
+    - [[#basics-and-core-settings][Basics and core settings]]
+    - [[#windows-and-buffers][Windows and Buffers]]
+    - [[#dired-file-manager][Dired File Manager]]
+    - [[#emacs-help][Emacs Help]]
+    - [[#ui][UI]]
+    - [[#completion][Completion]]
+    - [[#editor][Editor]]
+    - [[#org-mode][Org mode]]
+    - [[#git][Git]]
+    - [[#project-management][Project management]]
+    - [[#programming][Programming]]
+    - [[#workspaces][Workspaces]]
+  - [[#kitty][Kitty]]
+    - [[#themes][Themes]]
+    - [[#font][Font]]
+    - [[#cursor][Cursor]]
+    - [[#performance][Performance]]
+    - [[#no-audio-bell][No Audio Bell]]
+    - [[#keybindings][Keybindings]]
+    - [[#tab-bar][Tab bar]]
+    - [[#macos][macOS]]
+    - [[#terminal-type][Terminal Type]]
+    - [[#background-opacity][Background Opacity]]
+  - [[#fish][Fish]]
+  - [[#git-global-config][Git Global Config]]
+    - [[#user-info][User Info]]
+
 ** Introduction
 This file contains my configurations for =fish=, =kitty= and =emacs= in literate
 format using =org-mode=.
