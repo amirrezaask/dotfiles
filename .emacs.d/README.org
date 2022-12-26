@@ -48,10 +48,10 @@ them please
   (setq user-full-name "Amirreza Askarpour")
   (setq user-email "raskarpour@gmail.com")
   ;; (setq amirreza/font "FiraCode Nerd Font Mono")
+  ;; (setq amirreza/font "OperatorMono Nerd Font Light")
   (setq amirreza/font "JetBrainsMono Nerd Font Mono")
   (setq amirreza/font-size "21")
-  (setq amirreza/theme 'ef-dark)
-  (setq amirreza/default-workspaces '(emacs risma ripo RideAggregator))
+  (setq amirreza/theme 'doom-one)
   (setq amirreza/transparent t) ;; For terminal only
 #+END_SRC
 *** Init Files
@@ -374,11 +374,18 @@ I rather have all side effects ( installing packages on disk ) in one place.
 
   (add-hook 'org-mode-hook #'org-bullets-mode)
   (add-hook 'org-mode-hook #'toc-org-mode)
+
   (general-def
     :prefix "C-c m"
     :keymaps 'org-mode-map
 
     "c b" 'amirreza/org-code-block)
+
+  (general-def
+    :keymaps 'org-mode-map
+    "M-n" 'org-next-visible-heading
+    "M-p" 'org-previous-visible-heading
+    )
 #+END_SRC
 ***** Org-reveal
 =org-reveal= will let you create =reveal.js= presentations from Org mode documents.
@@ -492,13 +499,7 @@ and a seperate buffer.
   (defun amirreza/load-session ()
     (interactive)
     (persp-state-load persp-state-default-file))
-
-
   (persp-mode 1)
-
-  (dolist (w amirreza/default-workspaces)
-    (persp-new (symbol-name w)))
-
   (add-hook 'kill-emacs-hook 'amirreza/save-session)
   (general-def :prefix "C-c w" :keymaps 'override "s" 'persp-switch)
 #+END_SRC
@@ -568,15 +569,15 @@ and a seperate buffer.
 *** Configs
 #+BEGIN_SRC conf :tangle ~/.config/kitty/kitty.conf :mkdirp yes
   # Font configuration
-  font_family OperatorMono Nerd Font Medium
-  bold_font OperatorMono Nerd Font Bold
-  italic_font  OperatorMono Nerd Font Italic
-  bold_italic_font OperatorMono Nerd Font Bold Italic
+  # font_family OperatorMono Nerd Font Medium
+  # bold_font OperatorMono Nerd Font Bold
+  # italic_font  OperatorMono Nerd Font Italic
+  # bold_italic_font OperatorMono Nerd Font Bold Italic
 
-  # font_family FiraCode Nerd Font Mono Medium
-  # bold_font FiraCode Nerd Font Mono Bold
-  # italic_font  FiraCode Nerd Font Mono Italic
-  # bold_italic_font FiraCode Nerd Font Mono Bold Italic
+  font_family FiraCode Nerd Font Mono Medium
+  bold_font FiraCode Nerd Font Mono Bold
+  italic_font  FiraCode Nerd Font Mono Italic
+  bold_italic_font FiraCode Nerd Font Mono Bold Italic
 
   # font_family JetBrainsMono Nerd Font Mono Regular
   # bold_font JetBrainsMono Nerd Font Mono Bold
