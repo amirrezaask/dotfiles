@@ -865,8 +865,6 @@ set fish_greeting ""
   antigen bundle unixorn/fzf-zsh-plugin@main
   antigen apply
 
-  alias emacs='emacs -nw'
-
   export GO111MODULE='on'
   export GOPATH="$HOME"
   export GOPRIVATE='gitlab.snapp.ir'
@@ -874,6 +872,12 @@ set fish_greeting ""
   export EDITOR='emacs -nw'
   export PATH="$HOME/.emacs.d/bin/:/Applications/Emacs.app/Contents/MacOS:$GOPATH/bin:/opt/homebrew/bin::$HOME/.config/composer/vendor/bin:$GOROOT/bin:$HOME/.cargo/bin:$HOME/.local/bin:$PATH:$HOME/.composer/vendor/bin"
 
+  if ! emacsclient -e 0 >&/dev/null; then
+      echo "Starting Emacs"
+      emacs --daemon
+  fi
+
+  alias emacs='emacsclient -t'
   # Aliases
   alias reload='source ~/.zshrc'
 
