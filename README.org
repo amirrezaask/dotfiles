@@ -2,28 +2,46 @@
 #+REVEAL_ROOT: https://cdn.jsdelivr.net/npm/reveal.js
 #+OPTIONS: toc:nil reveal_title_slide:nil
 #+REVEAL_INIT_OPTIONS: slideNumber:false
-* Amirreza Ask Literate Computing Environment                       :TOC_3:
+* Amirreza Ask Literate Computing Environment                       :TOC_5:
   - [[#introduction][Introduction]]
   - [[#how-to-install-][How to install ?]]
   - [[#emacs][Emacs]]
     - [[#personal-customization-variable][Personal Customization Variable]]
     - [[#init-files][Init Files]]
+      - [[#early-initel][early-init.el]]
+      - [[#initel][init.el]]
     - [[#package-manager][Package Manager]]
     - [[#basics-and-core-settings][Basics and core settings]]
     - [[#windows-and-buffers][Windows and Buffers]]
     - [[#dired-file-manager][Dired File Manager]]
     - [[#emacs-help][Emacs Help]]
     - [[#ui][UI]]
+      - [[#themes][Themes]]
+      - [[#font][Font]]
     - [[#completion][Completion]]
+      - [[#in-buffer-completion][In-Buffer Completion]]
+      - [[#minibuffer-completion][Minibuffer Completion]]
     - [[#editor][Editor]]
     - [[#org-mode][Org mode]]
     - [[#git][Git]]
     - [[#project-management][Project management]]
     - [[#programming][Programming]]
+      - [[#flymake][Flymake]]
+      - [[#xref][Xref]]
+      - [[#eldoc][Eldoc]]
+      - [[#lsp-eglot][LSP (Eglot)]]
+      - [[#hydra][Hydra]]
+      - [[#languages][Languages]]
+        - [[#golang][Golang]]
+        - [[#rust][Rust]]
+        - [[#clojure][Clojure]]
+        - [[#zig][Zig]]
+        - [[#misc][Misc]]
     - [[#workspaces][Workspaces]]
   - [[#kitty][Kitty]]
-    - [[#themes][Themes]]
-    - [[#font][Font]]
+    - [[#themes-1][Themes]]
+      - [[#dracula][Dracula]]
+    - [[#font-1][Font]]
     - [[#cursor][Cursor]]
     - [[#performance][Performance]]
     - [[#no-audio-bell][No Audio Bell]]
@@ -606,7 +624,7 @@ and a seperate buffer.
 	))
     (global-eldoc-mode))
 #+END_SRC
-**** LSP
+**** LSP (Eglot)
 #+BEGIN_SRC emacs-lisp
   (use-package eglot
     :hook
