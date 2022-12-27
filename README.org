@@ -168,6 +168,10 @@ init.el will just load this file.
 
   (use-package general) ;; For a beautiful keymap macro
   (use-package hydra) ;; Make your keybindings stick
+  (defmacro amirreza/defhydra (name body heads)
+    `(eval (append '(defhydra ,name ,body) ,heads)))
+
+
   (general-def :keymaps 'override "C-c e e" 'amirreza/edit-emacs)
 #+END_SRC
 *** Windows and Buffers
@@ -529,7 +533,7 @@ init.el will just load this file.
   (use-package project
     :straight nil
     :general
-    (:keymaps 'global-map "C-x p" 'amirreza/project-hydra/body)
+    (:keymaps 'override "C-x p" 'amirreza/project-hydra/body)
     :init
     (defhydra amirreza/project-hydra (:exit t)
       ("f" project-find-file "Find File")
@@ -539,18 +543,18 @@ init.el will just load this file.
     ))
 #+END_SRC
 *** Programming
+#+BEGIN_SRC emacs-lisp
+(setq amirreza/programming-hydra-heads '())
+#+END_SRC
 **** Flymake
 #+BEGIN_SRC emacs-lisp
   (use-package flymake
     :straight nil
+    :init
+    (add-to-list 'amirreza/programming-hydra-heads '("n" flymake-goto-next-error "Goto Next Error"))
+    (add-to-list 'amirreza/programming-hydra-heads '("p" flymake-goto-previous-error "Goto Previous Error"))
+    (add-to-list 'amirreza/programming-hydra-heads '("e" consult-flymake "List of errors")))
 
-    :general
-    (:keymaps 'global-map
-	      "C-c m n" 'flymake-goto-next-error ;; Next error
-	      "C-c m p" 'flymake-goto-prev-error ;; Previous error
-	      "M-j" 'flymake-goto-next-error ;; Next error
-	      "M-k" 'flymake-goto-prev-error ;; Previous error
-	      ))
 #+END_SRC
 **** Xref
 #+BEGIN_SRC emacs-lisp
@@ -574,11 +578,13 @@ and a seperate buffer.
     (setq eldoc-echo-area-use-multiline-p nil)
     (setq eldoc-echo-area-display-truncation-message nil)
     (setq eldoc-echo-area-prefer-doc-buffer nil)
+    (add-to-list 'amirreza/programming-hydra-heads '("." amirreza/eldoc-toggle-buffer "Toggle Eldoc for point"))
     :general
     (:keymaps 'global-map
 		  "C-h ." 'amirreza/eldoc-toggle-buffer ;; Toggle eldoc buffer
 		  "M-0" 'amirreza/eldoc-toggle-buffer ;; Toggle eldoc buffer
 		  )
+  
     :config
     (setq amirreza/--eldoc-window-open 'close)
 
@@ -605,41 +611,44 @@ and a seperate buffer.
   (use-package eglot
     :hook
     ((go-mode rust-mode python-mode php-mode) . 'eglot-ensure)
-    :general
-    (:keymaps 'eglot-mode-map
-	      "C-c m" 'amirreza/eglot-hydra/body
-	      "C-0" 'amirreza/eglot-hydra/body
-	      )
-
     :init
-    (defhydra amirreza/eglot-hydra (:color red :exit t)
-      ("d" xref-find-definitions "Goto Definition")
-      ("r" xref-find-references "Find References")
-      ("i" eglot-find-implementation "Find Implementation")
-      ("s" consult-eglot-symbols "Find Symbol In Workspace")
-      ("e" consult-flymake "Find Errors")
-      ("R" eglot-rename "Rename")
-      ("f" eglot-format "Format" )
-      )
+    (add-to-list 'amirreza/programming-hydra-heads '("d" xref-find-definitions "Goto Definitions"))
+    (add-to-list 'amirreza/programming-hydra-heads '("r" xref-find-references "Find References"))
+    (add-to-list 'amirreza/programming-hydra-heads '("i" eglot-find-implementation "Find Implementations"))
+    (add-to-list 'amirreza/programming-hydra-heads '("s" consult-eglot-symbols "Goto Definitions"))
+    (add-to-list 'amirreza/programming-hydra-heads '("R" eglot-rename "Rename"))
+    (add-to-list 'amirreza/programming-hydra-heads '("f" eglot-format "Format"))
     )
 
   (use-package consult-eglot)
 #+END_SRC
+**** Hydra
+#+BEGIN_SRC emacs-lisp
+  ;; If a language has no specific keys other that programming one like rust they can map this.
+  (amirreza/defhydra amirreza/programming-hydra (:exit t) amirreza/programming-hydra-heads)
+
+  (general-def 
+    :keymaps 'prog-mode-map "C-c m" 'amirreza/programming-hydra/body)
+
+#+END_SRC
 **** Languages
 ***** Golang
 #+BEGIN_SRC emacs-lisp
-  (use-package go-mode)
-
-  (use-package go-tag
+  (use-package go-mode
+    :init
+    (amirreza/defhydra amirreza/go-hydra
+		       (:exit t)
+		       (append amirreza/programming-hydra-heads '(("a" go-tag-add "Add Struct Tag"))))
     :general
     (:keymaps 'go-mode-map
-	      :prefix "C-c m"
-	      "a" 'go-tag-add ;; Add struct tags
-	      ))
+	      "C-c m" 'amirreza/go-hydra/body))
+
+
+  (use-package go-tag)
 #+END_SRC
 ***** Rust
 #+BEGIN_SRC emacs-lisp
-(use-package rust-mode)
+  (use-package rust-mode)
 #+END_SRC
 ***** Clojure
 #+BEGIN_SRC emacs-lisp
