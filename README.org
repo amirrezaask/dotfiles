@@ -160,6 +160,7 @@ init.el will just load this file.
     (find-file (expand-file-name "README.org" user-emacs-directory)))
 
   (use-package general) ;; For a beautiful keymap macro
+  (use-package hydra) ;; Make your keybindings stick
   (general-def :keymaps 'override "C-c e e" 'amirreza/edit-emacs)
 #+END_SRC
 *** Windows and Buffers
@@ -520,16 +521,14 @@ init.el will just load this file.
   (use-package project
     :straight nil
     :general
-    (:keymaps 'global-map
-	      :prefix "C-x p"
-	      "f" 'project-find-file
-	      "p" 'project-switch-project
-	      "b" 'project-buffers
-	      "d" 'project-dired
-	      "c" 'project-compile
-	      ))
-
-
+    (:keymaps 'global-map "C-x p" 'amirreza/project-hydra/body)
+    :init
+    (defhydra amirreza/project-hydra (:exit t)
+      ("f" project-find-file "Find File")
+      ("p" project-switch-project "Switch To Project")
+      ("b" project-buffers "Find Buffer In Project")
+      ("p" project-compile "Compile Project")
+    ))
 #+END_SRC
 *** Programming
 **** Flymake
@@ -583,7 +582,7 @@ and a seperate buffer.
 	    (message "closing...")
 	    (dolist (w (window-list))
 	      (when (string-match-p "\\*eldoc.*" (buffer-name (window-buffer w)))
-		(quit-window t w)
+		(quit-window nil w)
 		))
 	    (setq amirreza/--eldoc-window-open 'close))
 	(progn
@@ -600,13 +599,21 @@ and a seperate buffer.
     ((go-mode rust-mode python-mode php-mode) . 'eglot-ensure)
     :general
     (:keymaps 'eglot-mode-map
-	      "M-i" 'eglot-find-implementation
-	      "C-c m r" 'eglot-rename
-	      "C-c m s" 'consult-eglot-symbols
-	      "C-c m f" 'eglot-format
-	      "C-c m e" 'consult-flymake
-	      "C-c m i" 'eglot-find-implementation
-	      ))
+	      "C-c m" 'amirreza/eglot-hydra/body
+	      "C-0" 'amirreza/eglot-hydra/body
+	      )
+
+    :init
+    (defhydra amirreza/eglot-hydra (:color red :exit t)
+      ("d" xref-find-definitions "Goto Definition")
+      ("r" xref-find-references "Find References")
+      ("i" eglot-find-implementation "Find Implementation")
+      ("s" consult-eglot-symbols "Find Symbol In Workspace")
+      ("e" consult-flymake "Find Errors")
+      ("R" eglot-rename "Rename")
+      ("f" eglot-format "Format" )
+      )
+    )
 
   (use-package consult-eglot)
 #+END_SRC
