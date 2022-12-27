@@ -42,6 +42,13 @@
     - [[#use-shadowsocksv2ray-proxy][Use Shadowsocks/V2ray proxy]]
     - [[#some-snapp-stuff][Some Snapp stuff]]
   - [[#zsh][Zsh]]
+    - [[#shebang][Shebang]]
+    - [[#antigen-setup][Antigen Setup]]
+    - [[#plugins][Plugins]]
+    - [[#environment-variables][Environment Variables]]
+    - [[#start-emacs-daemon-if-not-exist][Start Emacs daemon if not exist]]
+    - [[#aliases][Aliases]]
+    - [[#starship][StarShip]]
   - [[#git-global-config][Git Global Config]]
     - [[#user-info][User Info]]
 
@@ -490,14 +497,15 @@ init.el will just load this file.
   :END:"
 	      ))
 
+    (defhydra amirreza/org-mode-hydra (:exit t)
+      ("l" org-toggle-link-display "Toggle Link Display")
+      ("b" amirreza/org-code-block "Insert a Code Block")
+      ("n" amirreza/org-disable-tangle "Disable Tangle PROPERTIES")
+      )
+
     :general
     (:keymaps 'org-mode-map
-	      "C-c z" 'org-toggle-link-display)
-    (:keymaps 'org-mode-map
-	      :prefix "C-c m"
-	      "c b" 'amirreza/org-code-block
-	      "l t" 'org-toggle-link-display
-	      )
+	      "C-c m" 'amirreza/org-mode-hydra/body)
     )
 
   (use-package ox-reveal)
@@ -527,7 +535,7 @@ init.el will just load this file.
       ("f" project-find-file "Find File")
       ("p" project-switch-project "Switch To Project")
       ("b" project-buffers "Find Buffer In Project")
-      ("p" project-compile "Compile Project")
+      ("c" project-compile "Compile Project")
     ))
 #+END_SRC
 *** Programming
@@ -862,35 +870,31 @@ set fish_greeting ""
   alias snappvpn='sudo openfortivpn -c ~/snappDC.conf'
 #+END_SRC
 ** Zsh
+*** Shebang
 #+BEGIN_SRC sh :tangle ~/.zshrc :mkdirp yes
   #!/usr/bin/env zsh
+#+END_SRC
+*** Antigen Setup
+#+BEGIN_SRC sh :tangle ~/.zshrc :mkdirp yes
   [ ! -f "$HOME/.antigen.zsh" ] && curl -L git.io/antigen > antigen.zsh
   source $HOME/.antigen.zsh
+#+END_SRC
+*** Plugins
+#+BEGIN_SRC sh :tangle ~/.zshrc :mkdirp yes
   antigen use oh-my-zsh
   antigen bundle zsh-users/zsh-syntax-highlighting
   antigen bundle zsh-users/zsh-autosuggestions
   antigen bundle unixorn/fzf-zsh-plugin@main
   antigen apply
-
+#+END_SRC
+*** Environment Variables
+#+BEGIN_SRC sh :tangle ~/.zshrc :mkdirp yes
   export GO111MODULE='on'
   export GOPATH="$HOME"
   export GOPRIVATE='gitlab.snapp.ir'
   export GOPROXY='goproxy.io,direct'
   export EDITOR='emacs -nw'
   export PATH="$HOME/.emacs.d/bin/:/Applications/Emacs.app/Contents/MacOS:$GOPATH/bin:/opt/homebrew/bin::$HOME/.config/composer/vendor/bin:$GOROOT/bin:$HOME/.cargo/bin:$HOME/.local/bin:$PATH:$HOME/.composer/vendor/bin"
-
-  if ! emacsclient -e 0 >&/dev/null; then
-      echo "Starting Emacs"
-      emacs --daemon
-  fi
-
-  alias emacs='emacsclient -t'
-  # Aliases
-  alias reload='source ~/.zshrc'
-
-  alias gs='git status'
-  alias snappvpn='sudo openfortivpn -c ~/snappDC.conf'
-  alias ca="cargo"
 
   [ -f "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env" # ghcup-env
   [ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
@@ -905,6 +909,27 @@ set fish_greeting ""
       export https_proxy='http://localhost:1087'
   }
 
+
+#+END_SRC
+*** Start Emacs daemon if not exist
+#+BEGIN_SRC sh :tangle ~/.zshrc :mkdirp yes
+  if ! emacsclient -e 0 >&/dev/null; then
+      echo "Starting Emacs"
+      emacs --daemon
+  fi
+#+END_SRC
+*** Aliases
+#+BEGIN_SRC sh :tangle ~/.zshrc :mkdirp yes
+  alias emacs='emacsclient -t'
+  # Aliases
+  alias reload='source ~/.zshrc'
+
+  alias gs='git status'
+  alias snappvpn='sudo openfortivpn -c ~/snappDC.conf'
+  alias ca="cargo"
+#+END_SRC
+*** StarShip
+#+BEGIN_SRC sh :tangle ~/.zshrc :mkdirp yes
   if ! command -v starship &> /dev/null
   then
       curl -sS https://starship.rs/install.sh | sh
