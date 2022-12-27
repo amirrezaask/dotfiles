@@ -41,6 +41,7 @@
     - [[#fzf-settings][Fzf settings]]
     - [[#use-shadowsocksv2ray-proxy][Use Shadowsocks/V2ray proxy]]
     - [[#some-snapp-stuff][Some Snapp stuff]]
+  - [[#zsh][Zsh]]
   - [[#git-global-config][Git Global Config]]
     - [[#user-info][User Info]]
 
@@ -490,12 +491,11 @@ init.el will just load this file.
 
     :general
     (:keymaps 'org-mode-map
+	      "C-c z" 'org-toggle-link-display)
+    (:keymaps 'org-mode-map
 	      :prefix "C-c m"
 	      "c b" 'amirreza/org-code-block
-	      )
-    (:keymaps 'org-mode-map
-	      "M-n" 'org-next-visible-heading
-	      "M-p" 'org-previous-visible-heading
+	      "l t" 'org-toggle-link-display
 	      )
     )
 
@@ -853,6 +853,53 @@ set fish_greeting ""
 #+BEGIN_SRC fish :tangle ~/.config/fish/config.fish :mkdirp yes
   set -gx SNAPP "$HOME/dev/snapp/"
   alias snappvpn='sudo openfortivpn -c ~/snappDC.conf'
+#+END_SRC
+** Zsh
+#+BEGIN_SRC sh :tangle ~/.zshrc :mkdirp yes
+  #!/usr/bin/env zsh
+  [ ! -f "$HOME/.antigen.zsh" ] && curl -L git.io/antigen > antigen.zsh
+  source $HOME/.antigen.zsh
+  antigen use oh-my-zsh
+  antigen bundle zsh-users/zsh-syntax-highlighting
+  antigen bundle zsh-users/zsh-autosuggestions
+  antigen bundle unixorn/fzf-zsh-plugin@main
+  antigen apply
+
+  alias emacs='emacs -nw'
+
+  export GO111MODULE='on'
+  export GOPATH="$HOME"
+  export GOPRIVATE='gitlab.snapp.ir'
+  export GOPROXY='goproxy.io,direct'
+  export EDITOR='emacs -nw'
+  export PATH="$HOME/.emacs.d/bin/:/Applications/Emacs.app/Contents/MacOS:$GOPATH/bin:/opt/homebrew/bin::$HOME/.config/composer/vendor/bin:$GOROOT/bin:$HOME/.cargo/bin:$HOME/.local/bin:$PATH:$HOME/.composer/vendor/bin"
+
+  # Aliases
+  alias reload='source ~/.zshrc'
+
+  alias gs='git status'
+  alias snappvpn='sudo openfortivpn -c ~/snappDC.conf'
+  alias ca="cargo"
+
+  [ -f "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env" # ghcup-env
+  [ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
+
+  export HOMEBREW_NO_AUTO_UPDATE=1
+
+  export FZF_DEFAULT_OPTS='--height 20%'
+  export FZF_DEFAULT_COMMAND='rg --files'
+
+  ss_proxy() {
+      export http_proxy='http://localhost:1087'
+      export https_proxy='http://localhost:1087'
+  }
+
+  if ! command -v starship &> /dev/null
+  then
+      curl -sS https://starship.rs/install.sh | sh
+  fi
+
+  eval "$(starship init zsh)"
 #+END_SRC
 ** Git Global Config
 *** User Info
