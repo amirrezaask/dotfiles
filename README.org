@@ -52,15 +52,6 @@
     - [[#macos][macOS]]
     - [[#terminal-type][Terminal Type]]
     - [[#background-opacity][Background Opacity]]
-  - [[#fish][Fish]]
-    - [[#disable-fish-greeting-message][Disable Fish greeting message]]
-    - [[#go-environments][Go environments]]
-    - [[#path][Path]]
-    - [[#editor-1][Editor]]
-    - [[#disable-homebrew-auto-update][Disable Homebrew auto update]]
-    - [[#fzf-settings][Fzf settings]]
-    - [[#use-shadowsocksv2ray-proxy][Use Shadowsocks/V2ray proxy]]
-    - [[#some-snapp-stuff][Some Snapp stuff]]
   - [[#zsh][Zsh]]
     - [[#shebang][Shebang]]
     - [[#antigen-setup][Antigen Setup]]
@@ -188,6 +179,7 @@ init.el will just load this file.
 
   (use-package general) ;; For a beautiful keymap macro
   (use-package hydra) ;; Make your keybindings stick
+
   (defmacro amirreza/defhydra (name body heads)
     `(eval (append '(defhydra ,name ,body) ,heads)))
 
@@ -656,7 +648,8 @@ and a seperate buffer.
 **** Hydra
 #+BEGIN_SRC emacs-lisp
   ;; If a language has no specific keys other that programming one like rust they can map this.
-  (amirreza/defhydra amirreza/programming-hydra (:exit t) amirreza/programming-hydra-heads)
+  (amirreza/defhydra amirreza/programming-hydra (:exit t)
+		     amirreza/programming-hydra-heads)
 
   (general-def 
     :keymaps 'prog-mode-map "C-c m" 'amirreza/programming-hydra/body)
@@ -880,48 +873,6 @@ and a seperate buffer.
 *** Background Opacity
 #+BEGIN_SRC conf :tangle ~/.config/kitty/kitty.conf :mkdirp yes
   background_opacity 0.90
-#+END_SRC
-** Fish
-*** Disable Fish greeting message
-#+BEGIN_SRC fish :tangle ~/.config/fish/config.fish :mkdirp yes
-set fish_greeting ""
-#+END_SRC
-*** Go environments
-#+BEGIN_SRC fish :tangle ~/.config/fish/config.fish :mkdirp yes
-  set -gx GO111MODULE 'on'
-  set -gx GOPATH "$HOME"
-  set -gx GOPRIVATE "gitlab.snapp.ir"
-  set -gx GOPROXY 'goproxy.io,direct'
-#+END_SRC
-*** Path
-#+BEGIN_SRC fish :tangle ~/.config/fish/config.fish :mkdirp yes
-  set -gx PATH "$HOME/.cargo/bin:/Applications/Emacs.app/Contents/MacOS:$GOPATH/bin:/opt/homebrew/bin:$ELIXIR/bin:$HOME/.luarocks/bin:$HOME/.config/composer/vendor/bin:$GOROOT/bin:$HOME/.cargo/bin:$HOME/.local/bin:$PATH:$HOME/.composer/vendor/bin"
-#+END_SRC
-*** Editor
-#+BEGIN_SRC fish :tangle ~/.config/fish/config.fish :mkdirp yes
-  set -gx EDITOR 'emacs -nw'	  
-  alias emacs='emacs -nw'
-#+END_SRC
-*** Disable Homebrew auto update
-#+BEGIN_SRC fish :tangle ~/.config/fish/config.fish :mkdirp yes
-  set -gx HOMEBREW_NO_AUTO_UPDATE '1'
-#+END_SRC
-*** Fzf settings
-#+BEGIN_SRC fish :tangle ~/.config/fish/config.fish :mkdirp yes
-  set -gx FZF_DEFAULT_OPTS '--height 20%'
-  set -gx FZF_DEFAULT_COMMAND 'rg --files'
-#+END_SRC
-*** Use Shadowsocks/V2ray proxy
-#+BEGIN_SRC fish :tangle ~/.config/fish/config.fish :mkdirp yes
-  function ss_proxy
-      set -gx http_proxy 'http://localhost:1087'
-      set -gx https_proxy 'http://localhost:1087'
-  end
-#+END_SRC
-*** Some Snapp stuff
-#+BEGIN_SRC fish :tangle ~/.config/fish/config.fish :mkdirp yes
-  set -gx SNAPP "$HOME/dev/snapp/"
-  alias snappvpn='sudo openfortivpn -c ~/snappDC.conf'
 #+END_SRC
 ** Zsh
 *** Shebang
