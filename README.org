@@ -18,6 +18,7 @@
     - [[#ui][UI]]
       - [[#themes][Themes]]
       - [[#font][Font]]
+      - [[#transparency][Transparency]]
     - [[#completion][Completion]]
       - [[#in-buffer-completion][In-Buffer Completion]]
       - [[#minibuffer-completion][Minibuffer Completion]]
@@ -38,6 +39,7 @@
         - [[#zig][Zig]]
         - [[#misc][Misc]]
     - [[#workspaces][Workspaces]]
+    - [[#device-specific-setup][Device Specific Setup]]
   - [[#kitty][Kitty]]
     - [[#themes-1][Themes]]
       - [[#dracula][Dracula]]
@@ -90,7 +92,7 @@ them please.
   ;; (setq amirreza/font "JetBrainsMono Nerd Font Mono")
   (setq amirreza/font-size "15")
   (setq amirreza/theme 'ef-dark)
-  (setq amirreza/transparent t) ;; For terminal only
+  (setq amirreza/transparent 95) ;; For terminal only
 #+END_SRC
 *** Init Files
 **** early-init.el
@@ -350,13 +352,13 @@ init.el will just load this file.
 **** Font
 #+BEGIN_SRC emacs-lisp
 ;; Font settings
-(defun amirreza/home-monitor ()
+(defun amirreza/display-benq ()
   (interactive)
   (setq amirreza/font-size "23")
   (set-frame-font (concat amirreza/font " " amirreza/font-size) nil t))
 
 ;; My font setup for my laptop setup
-(defun amirreza/laptop ()
+(defun amirreza/display-mac ()
   (interactive)
   (setq amirreza/font-size "15")
   (set-frame-font (concat amirreza/font " " amirreza/font-size) nil t))
@@ -368,6 +370,11 @@ init.el will just load this file.
 
 (amirreza/reload-font)
 
+#+END_SRC
+**** Transparency
+#+BEGIN_SRC emacs-lisp
+  (set-frame-parameter (selected-frame) 'alpha (list amirreza/transparent amirreza/transparent))
+  (add-to-list 'default-frame-alist (append '(alpha) (list amirreza/transparent amirreza/transparent)))
 #+END_SRC
 *** Completion
 **** In-Buffer Completion
@@ -718,6 +725,20 @@ and a seperate buffer.
     (kill-emacs . amirreza/save-session)
     :general
     (:prefix "C-c w" :keymaps 'override "s" 'persp-switch))
+#+END_SRC
+*** Device Specific Setup
+#+BEGIN_SRC emacs-lisp
+  (defun amirreza/mac-laptop-mode ()
+    (interactive)
+    (amirreza/display-mac)
+    (amirreza/keyboard-mac)
+    )
+
+  (defun amirreza/mac-workstation-mode ()
+    (interactive)
+    (amirreza/display-benq)
+    (amirreza/keyboard-kinesis)
+    )
 #+END_SRC
 ** Kitty
 *** Themes
