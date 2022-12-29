@@ -82,7 +82,7 @@ them please.
   ;; (setq amirreza/font "OperatorMono Nerd Font Light")
   ;; (setq amirreza/font "JetBrainsMono Nerd Font Mono")
   (setq amirreza/font-size "15")
-  (setq amirreza/theme 'ef-dark)
+  (setq amirreza/theme 'doom-dracula)
   (setq amirreza/transparent 95) ;; For terminal only
 #+END_SRC
 *** Init Files
