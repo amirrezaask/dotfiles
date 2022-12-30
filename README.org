@@ -895,7 +895,7 @@ and a seperate buffer.
   export GOPATH="$HOME"
   export GOPRIVATE='gitlab.snapp.ir'
   export GOPROXY='goproxy.io,direct'
-  export EDITOR='emacsclient -t'
+  export EDITOR='emacsclient -t -a ""'
   export PATH="$HOME/.emacs.d/bin/:/Applications/Emacs.app/Contents/MacOS:$GOPATH/bin:/opt/homebrew/bin::$HOME/.config/composer/vendor/bin:$GOROOT/bin:$HOME/.cargo/bin:$HOME/.local/bin:$PATH:$HOME/.composer/vendor/bin"
 
   [ -f "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env" # ghcup-env
