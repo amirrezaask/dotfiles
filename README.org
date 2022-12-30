@@ -2,7 +2,7 @@
 #+REVEAL_ROOT: https://cdn.jsdelivr.net/npm/reveal.js
 #+OPTIONS: toc:nil reveal_title_slide:nil
 #+REVEAL_INIT_OPTIONS: slideNumber:false
-* Amirreza Ask Literate Computing Environment                       :TOC_5:
+* Amirreza Ask Literate Computing Environment                         :TOC_5:
   - [[#introduction][Introduction]]
   - [[#how-to-install-][How to install ?]]
   - [[#emacs][Emacs]]
@@ -17,6 +17,7 @@
     - [[#emacs-help][Emacs Help]]
     - [[#ui][UI]]
       - [[#themes][Themes]]
+      - [[#modeline][Modeline]]
       - [[#font][Font]]
       - [[#transparency][Transparency]]
     - [[#completion][Completion]]
@@ -39,7 +40,7 @@
         - [[#zig][Zig]]
         - [[#misc][Misc]]
     - [[#workspaces][Workspaces]]
-    - [[#device-specific-setup][Device Specific Setup]]
+    - [[#macos-setup][macOS setup]]
   - [[#kitty][Kitty]]
     - [[#themes-1][Themes]]
       - [[#dracula][Dracula]]
@@ -158,20 +159,6 @@ init.el will just load this file.
 	(project-find-file)
       (call-interactively 'find-file)
       ))
-
-
-  (defun amirreza/keyboard-kinesis ()
-    (interactive)
-    (setq mac-command-modifier 'super)
-    (setq mac-option-modifier 'meta)
-    )
-
-  (defun amirreza/keyboard-mac ()
-    (interactive)
-    (setq mac-command-modifier 'meta)
-    (setq mac-option-modifier 'super)
-    )
-
 
   (defun amirreza/edit-emacs ()
     (interactive)
@@ -341,6 +328,13 @@ init.el will just load this file.
   ;;; jblow-theme.el ends here
 
 #+END_SRC
+**** Modeline
+#+BEGIN_SRC emacs-lisp
+  (use-package doom-modeline
+    :init
+    (setq doom-modeline-height 35)
+    (doom-modeline-mode 1))
+#+END_SRC
 **** Font
 #+BEGIN_SRC emacs-lisp
 ;; Font settings
@@ -377,6 +371,7 @@ init.el will just load this file.
 
     :init
     (setq corfu-auto t)
+    (setq corfu-auto-delay 0.1)
     :config
     (global-corfu-mode)
     (corfu-history-mode 1)
@@ -719,19 +714,11 @@ and a seperate buffer.
     :general
     (:prefix "C-c w" :keymaps 'override "s" 'persp-switch))
 #+END_SRC
-*** Device Specific Setup
+*** macOS setup
 #+BEGIN_SRC emacs-lisp
-  (defun amirreza/mac-laptop-mode ()
-    (interactive)
-    (amirreza/display-mac)
-    (amirreza/keyboard-mac)
-    )
-
-  (defun amirreza/mac-workstation-mode ()
-    (interactive)
-    (amirreza/display-benq)
-    (amirreza/keyboard-kinesis)
-    )
+  (when (string-equal system-type "darwin")
+      (setq mac-command-modifier 'meta)
+      (setq mac-option-modifier 'meta))
 #+END_SRC
 ** Kitty
 *** Themes
