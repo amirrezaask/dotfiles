@@ -15,3 +15,6 @@
 -- Basic neovim remaps are in plugin/remap.lua
 -- All plugins are sepcified in plugin/packer.lua
 -- All plugin configurations are in after/plugin/<plugin name>.lua
+--
+--
+_G.transparent = true

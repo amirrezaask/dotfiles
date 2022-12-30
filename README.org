@@ -25,6 +25,7 @@
       - [[#minibuffer-completion][Minibuffer Completion]]
     - [[#editor][Editor]]
     - [[#org-mode][Org mode]]
+    - [[#pdf--ebook-reader-][Pdf ( Ebook reader )]]
     - [[#git][Git]]
     - [[#project-management][Project management]]
     - [[#programming][Programming]]
@@ -58,9 +59,8 @@
     - [[#antigen-setup][Antigen Setup]]
     - [[#plugins][Plugins]]
     - [[#environment-variables][Environment Variables]]
-    - [[#start-emacs-daemon-if-not-exist][Start Emacs daemon if not exist]]
     - [[#aliases][Aliases]]
-    - [[#starship][StarShip]]
+    - [[#starship-prompt][Starship prompt]]
   - [[#git-global-config][Git Global Config]]
     - [[#user-info][User Info]]
 
@@ -337,24 +337,30 @@ init.el will just load this file.
 #+END_SRC
 **** Font
 #+BEGIN_SRC emacs-lisp
-;; Font settings
-(defun amirreza/display-benq ()
-  (interactive)
-  (setq amirreza/font-size "23")
-  (set-frame-font (concat amirreza/font " " amirreza/font-size) nil t))
+  ;; Font settings
+  (defun amirreza/display-benq ()
+    (interactive)
+    (setq amirreza/font-size "23")
+    (set-frame-font (concat amirreza/font " " amirreza/font-size) nil t))
 
-;; My font setup for my laptop setup
-(defun amirreza/display-mac ()
-  (interactive)
-  (setq amirreza/font-size "15")
-  (set-frame-font (concat amirreza/font " " amirreza/font-size) nil t))
+  ;; My font setup for my laptop setup
+  (defun amirreza/display-mac ()
+    (interactive)
+    (setq amirreza/font-size "15")
+    (set-frame-font (concat amirreza/font " " amirreza/font-size) nil t))
 
-;; Reload font settings
-(defun amirreza/reload-font ()
-  (interactive)
-  (set-frame-font (concat amirreza/font " " amirreza/font-size) nil t))
+  ;; Interactively ask for font size
+  (defun amirreza/set-font (size)
+    (interactive "sSize: ")
+    (setq amirreza/font-size size)
+    (set-frame-font (concat amirreza/font " " amirreza/font-size) nil t))
 
-(amirreza/reload-font)
+  ;; Reload font settings
+  (defun amirreza/reload-font ()
+    (interactive)
+    (set-frame-font (concat amirreza/font " " amirreza/font-size) nil t))
+
+  (amirreza/reload-font)
 
 #+END_SRC
 **** Transparency
@@ -535,6 +541,10 @@ init.el will just load this file.
   (use-package toc-org
     :hook
     (org-mode . toc-org-mode))
+#+END_SRC
+*** Pdf ( Ebook reader )
+#+BEGIN_SRC emacs-lisp
+(use-package pdf-tools)
 #+END_SRC
 *** Git
 #+BEGIN_SRC emacs-lisp
@@ -885,7 +895,7 @@ and a seperate buffer.
   export GOPATH="$HOME"
   export GOPRIVATE='gitlab.snapp.ir'
   export GOPROXY='goproxy.io,direct'
-  export EDITOR='emacs -nw'
+  export EDITOR='emacsclient -t'
   export PATH="$HOME/.emacs.d/bin/:/Applications/Emacs.app/Contents/MacOS:$GOPATH/bin:/opt/homebrew/bin::$HOME/.config/composer/vendor/bin:$GOROOT/bin:$HOME/.cargo/bin:$HOME/.local/bin:$PATH:$HOME/.composer/vendor/bin"
 
   [ -f "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env" # ghcup-env
@@ -903,31 +913,17 @@ and a seperate buffer.
 
 
 #+END_SRC
-*** Start Emacs daemon if not exist
-#+BEGIN_SRC sh :tangle ~/.zshrc :mkdirp yes
-  if ! emacsclient -e 0 >&/dev/null; then
-      echo "Starting Emacs"
-      emacs --daemon
-  fi
-#+END_SRC
 *** Aliases
 #+BEGIN_SRC sh :tangle ~/.zshrc :mkdirp yes
-  alias emacs='emacsclient -t'
-  # Aliases
-  alias reload='source ~/.zshrc'
-
-  alias gs='git status'
-  alias snappvpn='sudo openfortivpn -c ~/snappDC.conf'
-  alias ca="cargo"
+alias emacs='emacsclient -t -a ""'
 #+END_SRC
-*** StarShip
+*** Starship prompt
 #+BEGIN_SRC sh :tangle ~/.zshrc :mkdirp yes
-  if ! command -v starship &> /dev/null
-  then
-      curl -sS https://starship.rs/install.sh | sh
-  fi
-
-  eval "$(starship init zsh)"
+if ! command -v starship &> /dev/null
+then
+    curl -sS https://starship.rs/install.sh | sh
+fi
+eval "$(starship init zsh)"
 #+END_SRC
 ** Git Global Config
 *** User Info
