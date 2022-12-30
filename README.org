@@ -915,7 +915,8 @@ and a seperate buffer.
 #+END_SRC
 *** Aliases
 #+BEGIN_SRC sh :tangle ~/.zshrc :mkdirp yes
-alias emacs='emacsclient -t -a ""'
+  alias emacs='emacsclient -t -a ""'
+  alias e='emacs'
 #+END_SRC
 *** Starship prompt
 #+BEGIN_SRC sh :tangle ~/.zshrc :mkdirp yes
