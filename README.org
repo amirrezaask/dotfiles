@@ -475,6 +475,7 @@ init.el will just load this file.
       ("l" org-toggle-link-display "Toggle Link Display")
       ("b" amirreza/org-code-block "Insert a Code Block")
       ("n" amirreza/org-disable-tangle "Disable Tangle PROPERTIES")
+      ("e" org-export-dispatch "Export")
       )
 
     :general
