@@ -30,7 +30,7 @@ them please.
   ;; (setq amirreza/font "OperatorMono Nerd Font Light")
   ;; (setq amirreza/font "JetBrainsMono Nerd Font Mono")
   (setq amirreza/font-size "22")
-  (setq amirreza/theme 'doom-dracula)
+  (setq amirreza/theme 'doom-palenight)
   (setq amirreza/transparent 95) ;; For terminal only
 #+END_SRC
 *** Init Files
@@ -215,6 +215,11 @@ init.el will just load this file.
     :general
     (:keymaps 'override "C-x C-b" 'bufler)
     )
+
+  (use-package winner
+    :init
+    (winner-mode 1)
+    )
 #+END_SRC
 *** Dired File Manager
 #+BEGIN_SRC emacs-lisp
@@ -227,6 +232,7 @@ init.el will just load this file.
 	  ;; Always copy/delete recursively
 	  dired-recursive-copies  'always
 	  dired-recursive-deletes 'top
+	  large-file-warning-threshold nil
 	  ;; Ask whether destination dirs should get created when copying/removing files.
 	  dired-create-destination-dirs 'ask
 	  ;; Screens are larger nowadays, we can afford slightly larger thumbnails
@@ -892,6 +898,11 @@ and a seperate buffer.
   (when (string-equal system-type "darwin")
       (setq mac-command-modifier 'meta)
       (setq mac-option-modifier 'meta))
+#+END_SRC
+*** Chat
+**** Telegram
+#+BEGIN_SRC emacs-lisp
+  (use-package telega)
 #+END_SRC
 * Kitty
 *** Themes
