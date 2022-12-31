@@ -1,3 +1,5 @@
+#+TITLE: AmirrezaAsk Computing Environment
+#+DESCRIPTION: My configurations for different tools I use on a daily basis.
 #+DATE: <2022-12-25 Sun>
 #+REVEAL_ROOT: https://cdn.jsdelivr.net/npm/reveal.js
 #+OPTIONS: toc:nil reveal_title_slide:nil
@@ -11,7 +13,7 @@ This is my configuration file which will generate configurations for all tools I
 - Kitty ( Terminal Emulator )
 - Zsh ( Shell )
 - Git
-  
+
 ** How to install ?
 It's a fairly simple thing to do but remember this will override your current =kitty= and =emacs= config, so backup
 them please.
