@@ -376,6 +376,10 @@ init.el will just load this file.
     :config
     (vertico-prescient-mode))
 
+  ;; Icons in minibuffer completion
+  (use-package all-the-icons-completion
+    :init
+    (all-the-icons-completion-mode))
 
   ;; TODO: Maybe a context like completion
   ;; for example in org mode have a key to open minibuffer with just org mode functions
@@ -385,6 +389,11 @@ init.el will just load this file.
   (use-package olivetti
     :init
     (setq olivetti-body-width 100))
+
+  ;; Search and replace beautifuly
+  (use-package wgrep)
+  ;; Ripgrep
+  (use-package rg)
 
   (use-package rainbow-delimiters
     :hook
@@ -451,6 +460,7 @@ init.el will just load this file.
     (setq org-use-property-inheritance t)
     (setq org-startup-folded t) ;; Start org mode all headers collapsed
     (setq org-src-window-setup 'current-window)
+    (setq org-src-tab-acts-natively nil)
     (defun amirreza/org-code-block ()
       (interactive)
       (insert (format "#+BEGIN_SRC %s\n\n#+END_SRC"
@@ -483,14 +493,20 @@ init.el will just load this file.
     :general
     (:keymaps 'org-mode-map
 	      "C-c m" 'amirreza/org-mode-hydra/body)
+    (:keymaps 'org-src-mode-map
+	      "C-c C-c" #'org-edit-src-exit
+	      )
     )
 
   (use-package ox-reveal)
+  (use-package ob-go)
+  (use-package ob-php)
   (use-package htmlize)
 #+END_SRC
 *** Pdf ( Ebook reader )
 #+BEGIN_SRC emacs-lisp
 (use-package pdf-tools)
+(use-package saveplace-pdf-view)
 #+END_SRC
 *** Git
 #+BEGIN_SRC emacs-lisp
