@@ -127,7 +127,7 @@ init.el will just load this file.
 
   (general-def :keymaps 'override "C-c e e" 'amirreza/edit-emacs)
 #+END_SRC
-*** Evil Mode ( Disabled, I like emacs more, but here anyway )
+*** Evil Mode
 #+BEGIN_SRC emacs-lisp :tangle no
   (use-package undo-tree
     :init
@@ -201,6 +201,9 @@ init.el will just load this file.
     "p" 'amirreza/project-hydra/body)
 
 #+END_SRC
+
+#+RESULTS:
+
 *** Windows and Buffers
 #+BEGIN_SRC emacs-lisp
   (use-package ace-window
@@ -279,6 +282,41 @@ init.el will just load this file.
     (:keymaps 'dired-mode-map
 	      "C-c m g" 'dired-git-info))
 
+  (setq mediaplayer (cond
+	     (IS-MAC "/Applications/VLC.app/Contents/MacOS/VLC")
+	     (IS-LINUX "vlc")
+	     ))
+
+
+  (setq pdfviewer (cond
+		   (IS-MAC "open")
+		   ))
+
+  (setq imageviewer (cond
+		     (IS-MAC "open")
+		     ))
+
+  (use-package openwith
+    :init
+    (openwith-mode)
+    :config
+    (setq openwith-associations
+	  (list
+	    (list (openwith-make-extension-regexp
+		  '("mpg" "mpeg" "mp3" "mp4"
+		    "avi" "wmv" "wav" "mov" "flv"
+		    "ogm" "ogg" "mkv"))
+		  mediaplayer
+		  '(file))
+	    (list (openwith-make-extension-regexp
+		  '("xbm" "pbm" "pgm" "ppm" "pnm"
+		    "png" "gif" "bmp" "tif" "jpeg" "jpg"))
+		    imageviewer
+		    '(file))
+	    (list (openwith-make-extension-regexp
+		  '("pdf"))
+		  pdfviewer
+		  '(file)))))
 #+END_SRC
 *** Emacs Help
 #+BEGIN_SRC emacs-lisp
