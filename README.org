@@ -175,6 +175,7 @@ init.el will just load this file.
 	  evil-escape-unordered-key-sequence t)
     (evil-escape-mode))
 
+
   (general-evil-setup)
 
   ;; Help me with stuff
@@ -201,9 +202,6 @@ init.el will just load this file.
     "p" 'amirreza/project-hydra/body)
 
 #+END_SRC
-
-#+RESULTS:
-
 *** Windows and Buffers
 #+BEGIN_SRC emacs-lisp
   (use-package ace-window
