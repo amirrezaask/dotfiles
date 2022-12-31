@@ -1,9 +1,5 @@
 #+TITLE: AmirrezaAsk Computing Environment
 #+DESCRIPTION: My configurations for different tools I use on a daily basis.
-#+DATE: <2022-12-25 Sun>
-#+REVEAL_ROOT: https://cdn.jsdelivr.net/npm/reveal.js
-#+REVEAL_INIT_OPTIONS: slideNumber:false
-#+SETUPFILE: https://fniessen.github.io/org-html-themes/org/theme-readtheorg.setup
 #+OPTIONS: toc:4
 #+EXPORT_FILE_NAME: index.html
 * Introduction
@@ -120,6 +116,10 @@ init.el will just load this file.
 
   (use-package general) ;; For a beautiful keymap macro
   (use-package hydra) ;; Make your keybindings stick
+
+  (use-package benchmark-init
+    :config
+    (add-hook 'after-init-hook 'benchmark-init/deactivate))
 
   (defmacro amirreza/defhydra (name body heads)
     `(eval (append '(defhydra ,name ,body) ,heads)))
@@ -697,11 +697,6 @@ init.el will just load this file.
     :if (boundp 'IS-EVIL) ;; Only if evil mode is enabled
     :hook (org-mode . evil-org-mode))
 #+END_SRC
-*** Pdf ( Ebook reader )
-#+BEGIN_SRC emacs-lisp
-(use-package pdf-tools)
-(use-package saveplace-pdf-view)
-#+END_SRC
 *** Git
 #+BEGIN_SRC emacs-lisp
   (use-package git-gutter
@@ -848,7 +843,7 @@ and a seperate buffer.
 ***** Clojure
 #+BEGIN_SRC emacs-lisp
   (use-package clojure-mode) ;; LISP on JVM
-  (use-package cider) ;; Clojure repl integrated into Emacs
+  (use-package cider :after clojure-mode) ;; Clojure repl integrated into Emacs
 #+END_SRC
 ***** Zig
 #+BEGIN_SRC emacs-lisp
@@ -899,11 +894,6 @@ and a seperate buffer.
   (when (string-equal system-type "darwin")
       (setq mac-command-modifier 'meta)
       (setq mac-option-modifier 'meta))
-#+END_SRC
-*** Chat
-**** Telegram
-#+BEGIN_SRC emacs-lisp
-  (use-package telega)
 #+END_SRC
 * Kitty
 *** Themes
