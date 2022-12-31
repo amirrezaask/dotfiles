@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2022-12-31 Sat 06:06 -->
+<!-- 2022-12-31 Sat 07:00 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>AmirrezaAsk Computing Environment</title>
@@ -24,93 +24,80 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgcc40f57">1. Introduction</a></li>
-<li><a href="#orgafa61de">2. How to install ?</a></li>
-<li><a href="#org96860c5">3. Emacs</a>
+<li><a href="#org2569562">1. Introduction</a></li>
+<li><a href="#org8be1e3c">2. How to install ?</a></li>
+<li><a href="#org38415e6">3. Emacs</a>
 <ul>
-<li><a href="#org9a0bf29">3.1. Personal Customization Variable</a></li>
-<li><a href="#org74fdad5">3.2. Init Files</a>
+<li>
 <ul>
-<li><a href="#org4a46b13">3.2.1. early-init.el</a></li>
-<li><a href="#orgf2d66ac">3.2.2. init.el</a></li>
+<li><a href="#org56e09d6">3.0.1. Personal Customization Variable</a></li>
+<li><a href="#orga21593a">3.0.2. Init Files</a></li>
+<li><a href="#org9fc52b7">3.0.3. Package Manager</a></li>
+<li><a href="#orgec45edc">3.0.4. Basics and core settings</a></li>
+<li><a href="#org80ebe41">3.0.5. Evil Mode ( Disabled, I like emacs more, but here anyway )</a></li>
+<li><a href="#org327c03e">3.0.6. Windows and Buffers</a></li>
+<li><a href="#org18bf8dd">3.0.7. Dired File Manager</a></li>
+<li><a href="#orgaf3a236">3.0.8. Emacs Help</a></li>
+<li><a href="#orgafcdd3c">3.0.9. UI</a></li>
+<li><a href="#org2235085">3.0.10. Completion</a></li>
+<li><a href="#orgb341163">3.0.11. Editor</a></li>
+<li><a href="#orgcdcce5e">3.0.12. Org mode</a></li>
+<li><a href="#orga95e4d1">3.0.13. Pdf ( Ebook reader )</a></li>
+<li><a href="#org6d50e37">3.0.14. Git</a></li>
+<li><a href="#org8441eaa">3.0.15. Project management</a></li>
+<li><a href="#orgd23ec44">3.0.16. Programming</a></li>
+<li><a href="#org96fc757">3.0.17. Workspaces</a></li>
+<li><a href="#org53e2b8f">3.0.18. macOS setup</a></li>
 </ul>
 </li>
-<li><a href="#orgdd00a0d">3.3. Package Manager</a></li>
-<li><a href="#orge92d6fc">3.4. Basics and core settings</a></li>
-<li><a href="#org5a24fef">3.5. Windows and Buffers</a></li>
-<li><a href="#orgae27421">3.6. Dired File Manager</a></li>
-<li><a href="#org7185d29">3.7. Emacs Help</a></li>
-<li><a href="#org7606a37">3.8. UI</a>
-<ul>
-<li><a href="#orga3bd24b">3.8.1. Themes</a></li>
-<li><a href="#orgd633744">3.8.2. Modeline</a></li>
-<li><a href="#org1bc4030">3.8.3. Font</a></li>
-<li><a href="#orgdad7646">3.8.4. Transparency</a></li>
 </ul>
 </li>
-<li><a href="#orgd9ec5c3">3.9. Completion</a>
+<li><a href="#orgeb57629">4. Kitty</a>
 <ul>
-<li><a href="#org95cd6a0">3.9.1. In-Buffer Completion</a></li>
-<li><a href="#org3fa27c2">3.9.2. Minibuffer Completion</a></li>
+<li>
+<ul>
+<li><a href="#org7f846c3">4.0.1. Themes</a></li>
+<li><a href="#org4a7ad68">4.0.2. Font</a></li>
+<li><a href="#org355f2f7">4.0.3. Cursor</a></li>
+<li><a href="#orgfed86c0">4.0.4. Performance</a></li>
+<li><a href="#org495c626">4.0.5. No Audio Bell</a></li>
+<li><a href="#org0f92b42">4.0.6. Keybindings</a></li>
+<li><a href="#org877912a">4.0.7. Tab bar</a></li>
+<li><a href="#org40465c9">4.0.8. macOS</a></li>
+<li><a href="#orgc90b398">4.0.9. Terminal Type</a></li>
+<li><a href="#org67e02fc">4.0.10. Background Opacity</a></li>
 </ul>
 </li>
-<li><a href="#orgde6da88">3.10. Editor</a></li>
-<li><a href="#org84c4312">3.11. Org mode</a></li>
-<li><a href="#orgb9a502a">3.12. Pdf ( Ebook reader )</a></li>
-<li><a href="#org2b9110b">3.13. Git</a></li>
-<li><a href="#orgeef6a13">3.14. Project management</a></li>
-<li><a href="#org9b989ff">3.15. Programming</a>
-<ul>
-<li><a href="#orge3534fd">3.15.1. Flymake</a></li>
-<li><a href="#orgd16b85f">3.15.2. Xref</a></li>
-<li><a href="#org9f336f9">3.15.3. Eldoc</a></li>
-<li><a href="#org9aeef47">3.15.4. LSP (Eglot)</a></li>
-<li><a href="#orgfa25f93">3.15.5. Hydra</a></li>
-<li><a href="#org0495c65">3.15.6. Languages</a></li>
 </ul>
 </li>
-<li><a href="#org52143fc">3.16. Workspaces</a></li>
-<li><a href="#org1e401a0">3.17. macOS setup</a></li>
+<li><a href="#org368b7be">5. Zsh</a>
+<ul>
+<li>
+<ul>
+<li><a href="#orge59fc16">5.0.1. Shebang</a></li>
+<li><a href="#org82087df">5.0.2. Antigen Setup</a></li>
+<li><a href="#org67d3a1d">5.0.3. Plugins</a></li>
+<li><a href="#org363ed34">5.0.4. Environment Variables</a></li>
+<li><a href="#org68301ba">5.0.5. Aliases</a></li>
+<li><a href="#org33553f3">5.0.6. Starship prompt</a></li>
 </ul>
 </li>
-<li><a href="#orge12c188">4. Kitty</a>
-<ul>
-<li><a href="#org843f5b3">4.1. Themes</a>
-<ul>
-<li><a href="#orgfd1c7ba">4.1.1. Dracula</a></li>
 </ul>
 </li>
-<li><a href="#org07586fc">4.2. Font</a></li>
-<li><a href="#org9ed23de">4.3. Cursor</a></li>
-<li><a href="#orgec5e737">4.4. Performance</a></li>
-<li><a href="#org6c8fa53">4.5. No Audio Bell</a></li>
-<li><a href="#org82824f5">4.6. Keybindings</a></li>
-<li><a href="#orgbd0049c">4.7. Tab bar</a></li>
-<li><a href="#org04ccb8e">4.8. macOS</a></li>
-<li><a href="#org1b742cf">4.9. Terminal Type</a></li>
-<li><a href="#org416dfdd">4.10. Background Opacity</a></li>
+<li><a href="#orgf253765">6. Git Global Config</a>
+<ul>
+<li>
+<ul>
+<li><a href="#org6a3f33a">6.0.1. User Info</a></li>
 </ul>
 </li>
-<li><a href="#orge61beb2">5. Zsh</a>
-<ul>
-<li><a href="#org3b57422">5.1. Shebang</a></li>
-<li><a href="#org692160f">5.2. Antigen Setup</a></li>
-<li><a href="#orged3732f">5.3. Plugins</a></li>
-<li><a href="#org634fa4e">5.4. Environment Variables</a></li>
-<li><a href="#org4fcce37">5.5. Aliases</a></li>
-<li><a href="#orga097b91">5.6. Starship prompt</a></li>
-</ul>
-</li>
-<li><a href="#orga6c454a">6. Git Global Config</a>
-<ul>
-<li><a href="#org75c9e60">6.1. User Info</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgcc40f57" class="outline-2">
-<h2 id="orgcc40f57"><span class="section-number-2">1.</span> Introduction</h2>
+<div id="outline-container-org2569562" class="outline-2">
+<h2 id="org2569562"><span class="section-number-2">1.</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 This is my configuration file which will generate configurations for all tools I use on daily basis:
@@ -124,8 +111,8 @@ This is my configuration file which will generate configurations for all tools I
 </div>
 </div>
 
-<div id="outline-container-orgafa61de" class="outline-2">
-<h2 id="orgafa61de"><span class="section-number-2">2.</span> How to install ?</h2>
+<div id="outline-container-org8be1e3c" class="outline-2">
+<h2 id="org8be1e3c"><span class="section-number-2">2.</span> How to install ?</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 It's a fairly simple thing to do but remember this will override your current <code>kitty</code> and <code>emacs</code> config, so backup
@@ -138,13 +125,13 @@ emacs --batch --eval <span style="color: #f1fa8c;">"(require 'org)"</span> --eva
 </div>
 </div>
 </div>
-<div id="outline-container-org96860c5" class="outline-2">
-<h2 id="org96860c5"><span class="section-number-2">3.</span> Emacs</h2>
+<div id="outline-container-org38415e6" class="outline-2">
+<h2 id="org38415e6"><span class="section-number-2">3.</span> Emacs</h2>
 <div class="outline-text-2" id="text-3">
 </div>
-<div id="outline-container-org9a0bf29" class="outline-3">
-<h3 id="org9a0bf29"><span class="section-number-3">3.1.</span> Personal Customization Variable</h3>
-<div class="outline-text-3" id="text-3-1">
+<div id="outline-container-org56e09d6" class="outline-4">
+<h4 id="org56e09d6"><span class="section-number-4">3.0.1.</span> Personal Customization Variable</h4>
+<div class="outline-text-4" id="text-3-0-1">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #61bfff;">(</span><span style="color: #ff79c6;">setq</span> user-full-name <span style="color: #f1fa8c;">"Amirreza Askarpour"</span><span style="color: #61bfff;">)</span>
 <span style="color: #61bfff;">(</span><span style="color: #ff79c6;">setq</span> user-email <span style="color: #f1fa8c;">"raskarpour@gmail.com"</span><span style="color: #61bfff;">)</span>
@@ -159,13 +146,13 @@ emacs --batch --eval <span style="color: #f1fa8c;">"(require 'org)"</span> --eva
 </div>
 </div>
 </div>
-<div id="outline-container-org74fdad5" class="outline-3">
-<h3 id="org74fdad5"><span class="section-number-3">3.2.</span> Init Files</h3>
-<div class="outline-text-3" id="text-3-2">
+<div id="outline-container-orga21593a" class="outline-4">
+<h4 id="orga21593a"><span class="section-number-4">3.0.2.</span> Init Files</h4>
+<div class="outline-text-4" id="text-3-0-2">
 </div>
-<div id="outline-container-org4a46b13" class="outline-4">
-<h4 id="org4a46b13"><span class="section-number-4">3.2.1.</span> early-init.el</h4>
-<div class="outline-text-4" id="text-3-2-1">
+<ol class="org-ol">
+<li><a id="orge3e2d78"></a>early-init.el<br />
+<div class="outline-text-5" id="text-3-0-2-1">
 <p>
 From emacs 27 I think they added a file called <code>early-init.el</code> which will get sourced
 before UI stuff happens in Emacs, so it's a good place to turn of UI things.
@@ -180,10 +167,9 @@ before UI stuff happens in Emacs, so it's a good place to turn of UI things.
 </pre>
 </div>
 </div>
-</div>
-<div id="outline-container-orgf2d66ac" class="outline-4">
-<h4 id="orgf2d66ac"><span class="section-number-4">3.2.2.</span> init.el</h4>
-<div class="outline-text-4" id="text-3-2-2">
+</li>
+<li><a id="org9f1a154"></a>init.el<br />
+<div class="outline-text-5" id="text-3-0-2-2">
 <p>
 init.el will just load this file.
 </p>
@@ -195,11 +181,12 @@ init.el will just load this file.
 </pre>
 </div>
 </div>
+</li>
+</ol>
 </div>
-</div>
-<div id="outline-container-orgdd00a0d" class="outline-3">
-<h3 id="orgdd00a0d"><span class="section-number-3">3.3.</span> Package Manager</h3>
-<div class="outline-text-3" id="text-3-3">
+<div id="outline-container-org9fc52b7" class="outline-4">
+<h4 id="org9fc52b7"><span class="section-number-4">3.0.3.</span> Package Manager</h4>
+<div class="outline-text-4" id="text-3-0-3">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #6272a4;">;; </span><span style="color: #6272a4;">Bootstrap straight.el</span>
 <span style="color: #61bfff;">(</span><span style="color: #ff79c6;">defvar</span> <span style="color: #ffc9e8;">bootstrap-version</span><span style="color: #61bfff;">)</span>
@@ -220,9 +207,9 @@ init.el will just load this file.
 </div>
 </div>
 </div>
-<div id="outline-container-orge92d6fc" class="outline-3">
-<h3 id="orge92d6fc"><span class="section-number-3">3.4.</span> Basics and core settings</h3>
-<div class="outline-text-3" id="text-3-4">
+<div id="outline-container-orgec45edc" class="outline-4">
+<h4 id="orgec45edc"><span class="section-number-4">3.0.4.</span> Basics and core settings</h4>
+<div class="outline-text-4" id="text-3-0-4">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #61bfff;">(</span><span style="color: #ff79c6;">setq</span> create-lockfiles nil<span style="color: #61bfff;">)</span> <span style="color: #6272a4;">;; </span><span style="color: #6272a4;">Don't create .# files as lock.</span>
 
@@ -236,8 +223,6 @@ init.el will just load this file.
 <span style="color: #61bfff;">(</span>scroll-bar-mode 0<span style="color: #61bfff;">)</span> <span style="color: #6272a4;">;; </span><span style="color: #6272a4;">disable scroll bar</span>
 <span style="color: #61bfff;">(</span>menu-bar-mode -1<span style="color: #61bfff;">)</span> <span style="color: #6272a4;">;; </span><span style="color: #6272a4;">Disable menu bar</span>
 
-<span style="color: #61bfff;">(</span><span style="color: #ff79c6;">setq-default</span> cursor-type 'box<span style="color: #61bfff;">)</span> <span style="color: #6272a4;">;; </span><span style="color: #6272a4;">instead of box use a horizontal line.</span>
-<span style="color: #61bfff;">(</span>blink-cursor-mode -1<span style="color: #61bfff;">)</span> <span style="color: #6272a4;">;; </span><span style="color: #6272a4;">no blinking cursor.</span>
 
 
 <span style="color: #6272a4;">;; </span><span style="color: #6272a4;">Copy PATH from default shell</span>
@@ -274,9 +259,88 @@ init.el will just load this file.
 </div>
 </div>
 </div>
-<div id="outline-container-org5a24fef" class="outline-3">
-<h3 id="org5a24fef"><span class="section-number-3">3.5.</span> Windows and Buffers</h3>
-<div class="outline-text-3" id="text-3-5">
+<div id="outline-container-org80ebe41" class="outline-4">
+<h4 id="org80ebe41"><span class="section-number-4">3.0.5.</span> Evil Mode ( Disabled, I like emacs more, but here anyway )</h4>
+<div class="outline-text-4" id="text-3-0-5">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #61bfff;">(</span><span style="color: #ff79c6;">use-package</span> <span style="color: #8be9fd;">undo-tree</span>
+  <span style="color: #ffb86c;">:init</span>
+  <span style="color: #ff79c6;">(</span>global-undo-tree-mode 1<span style="color: #ff79c6;">)</span><span style="color: #61bfff;">)</span>
+
+<span style="color: #61bfff;">(</span><span style="color: #ff79c6;">use-package</span> <span style="color: #8be9fd;">evil</span>
+  <span style="color: #ffb86c;">:init</span>
+  <span style="color: #ff79c6;">(</span><span style="color: #ff79c6;">setq</span> IS-EVIL t<span style="color: #ff79c6;">)</span>
+  <span style="color: #ff79c6;">(</span><span style="color: #ff79c6;">setq</span> evil-want-integration t<span style="color: #ff79c6;">)</span>
+  <span style="color: #ff79c6;">(</span><span style="color: #ff79c6;">setq</span> evil-want-keybinding nil<span style="color: #ff79c6;">)</span>
+  <span style="color: #ff79c6;">(</span><span style="color: #ff79c6;">setq</span> evil-want-C-u-scroll t<span style="color: #ff79c6;">)</span>
+  <span style="color: #ff79c6;">(</span><span style="color: #ff79c6;">setq</span> evil-want-C-i-jump nil<span style="color: #ff79c6;">)</span>
+  <span style="color: #ff79c6;">(</span><span style="color: #ff79c6;">setq</span> evil-respect-visual-line-mode t<span style="color: #ff79c6;">)</span>
+  <span style="color: #ff79c6;">(</span><span style="color: #ff79c6;">setq</span> evil-undo-system 'undo-tree<span style="color: #ff79c6;">)</span>
+  <span style="color: #ff79c6;">(</span><span style="color: #ff79c6;">setq</span> evil-split-window-below t<span style="color: #ff79c6;">)</span>
+  <span style="color: #ff79c6;">(</span><span style="color: #ff79c6;">setq</span> evil-vsplit-window-right t<span style="color: #ff79c6;">)</span>
+  <span style="color: #ffb86c;">:config</span>
+  <span style="color: #ff79c6;">(</span>evil-mode 1<span style="color: #ff79c6;">)</span>
+  <span style="color: #ff79c6;">(</span>define-key evil-insert-state-map <span style="color: #50fa7b;">(</span>kbd <span style="color: #f1fa8c;">"C-g"</span><span style="color: #50fa7b;">)</span> 'evil-normal-state<span style="color: #ff79c6;">)</span>
+  <span style="color: #ff79c6;">(</span>define-key evil-insert-state-map <span style="color: #50fa7b;">(</span>kbd <span style="color: #f1fa8c;">"C-h"</span><span style="color: #50fa7b;">)</span> 'evil-delete-backward-char-and-join<span style="color: #ff79c6;">)</span>
+
+  <span style="color: #6272a4;">;; </span><span style="color: #6272a4;">Use visual line motions even outside of visual-line-mode buffers</span>
+  <span style="color: #ff79c6;">(</span>evil-global-set-key 'motion <span style="color: #f1fa8c;">"j"</span> 'evil-next-visual-line<span style="color: #ff79c6;">)</span>
+  <span style="color: #ff79c6;">(</span>evil-global-set-key 'motion <span style="color: #f1fa8c;">"k"</span> 'evil-previous-visual-line<span style="color: #ff79c6;">)</span>
+
+  <span style="color: #ff79c6;">(</span>evil-set-initial-state 'messages-buffer-mode 'normal<span style="color: #ff79c6;">)</span>
+  <span style="color: #ff79c6;">(</span>evil-set-initial-state 'dashboard-mode 'normal<span style="color: #ff79c6;">)</span><span style="color: #61bfff;">)</span>
+
+<span style="color: #61bfff;">(</span><span style="color: #ff79c6;">use-package</span> <span style="color: #8be9fd;">evil-collection</span>
+  <span style="color: #ffb86c;">:after</span> evil
+  <span style="color: #ffb86c;">:init</span>
+  <span style="color: #ff79c6;">(</span><span style="color: #ff79c6;">setq</span> evil-collection-company-use-tng nil<span style="color: #ff79c6;">)</span>  <span style="color: #6272a4;">;; </span><span style="color: #6272a4;">Is this a bug in evil-collection?</span>
+  <span style="color: #ffb86c;">:custom</span>
+  <span style="color: #ff79c6;">(</span>evil-collection-outline-bind-tab-p nil<span style="color: #ff79c6;">)</span>
+  <span style="color: #ffb86c;">:config</span>
+  <span style="color: #ff79c6;">(</span><span style="color: #ff79c6;">setq</span> evil-collection-mode-list
+        <span style="color: #50fa7b;">(</span>remove 'lispy evil-collection-mode-list<span style="color: #50fa7b;">)</span><span style="color: #ff79c6;">)</span>
+  <span style="color: #ff79c6;">(</span>evil-collection-init<span style="color: #ff79c6;">)</span><span style="color: #61bfff;">)</span>
+
+
+<span style="color: #61bfff;">(</span><span style="color: #ff79c6;">use-package</span> <span style="color: #8be9fd;">evil-escape</span>
+  <span style="color: #ffb86c;">:after</span> evil
+  <span style="color: #ffb86c;">:init</span>
+  <span style="color: #ff79c6;">(</span><span style="color: #ff79c6;">setq</span> evil-escape-key-sequence <span style="color: #f1fa8c;">"jk"</span>
+        evil-escape-unordered-key-sequence t<span style="color: #ff79c6;">)</span>
+  <span style="color: #ff79c6;">(</span>evil-escape-mode<span style="color: #ff79c6;">)</span><span style="color: #61bfff;">)</span>
+
+<span style="color: #61bfff;">(</span>general-evil-setup<span style="color: #61bfff;">)</span>
+
+<span style="color: #6272a4;">;; </span><span style="color: #6272a4;">Help me with stuff</span>
+<span style="color: #61bfff;">(</span>general-nmap
+  <span style="color: #ffb86c;">:prefix</span> <span style="color: #f1fa8c;">"SPC"</span>
+  <span style="color: #f1fa8c;">"h f"</span> 'describe-function
+  <span style="color: #f1fa8c;">"h v"</span> 'describe-variable
+  <span style="color: #f1fa8c;">"h k"</span> 'describe-key<span style="color: #61bfff;">)</span>
+
+<span style="color: #6272a4;">;; </span><span style="color: #6272a4;">window stuff</span>
+<span style="color: #61bfff;">(</span>general-nmap
+  <span style="color: #ffb86c;">:keymaps</span> 'override
+  <span style="color: #f1fa8c;">"C-j"</span> 'evil-window-down
+  <span style="color: #f1fa8c;">"C-k"</span> 'evil-window-up
+  <span style="color: #f1fa8c;">"C-h"</span> 'evil-window-left
+  <span style="color: #f1fa8c;">"C-l"</span> 'evil-window-right<span style="color: #61bfff;">)</span>
+
+<span style="color: #6272a4;">;; </span><span style="color: #6272a4;">Files and navigation</span>
+<span style="color: #61bfff;">(</span>general-nmap
+  <span style="color: #ffb86c;">:prefix</span> <span style="color: #f1fa8c;">"SPC"</span>
+  <span style="color: #f1fa8c;">"SPC"</span> 'amirreza/find-file
+  <span style="color: #f1fa8c;">"x"</span> 'execute-extended-command
+  <span style="color: #f1fa8c;">"f f"</span> 'find-file
+  <span style="color: #f1fa8c;">"p"</span> 'amirreza/project-hydra/body<span style="color: #61bfff;">)</span>
+
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org327c03e" class="outline-4">
+<h4 id="org327c03e"><span class="section-number-4">3.0.6.</span> Windows and Buffers</h4>
+<div class="outline-text-4" id="text-3-0-6">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #61bfff;">(</span><span style="color: #ff79c6;">use-package</span> <span style="color: #8be9fd;">ace-window</span>
   <span style="color: #ffb86c;">:general</span>
@@ -291,9 +355,9 @@ init.el will just load this file.
 </div>
 </div>
 </div>
-<div id="outline-container-orgae27421" class="outline-3">
-<h3 id="orgae27421"><span class="section-number-3">3.6.</span> Dired File Manager</h3>
-<div class="outline-text-3" id="text-3-6">
+<div id="outline-container-org18bf8dd" class="outline-4">
+<h4 id="org18bf8dd"><span class="section-number-4">3.0.7.</span> Dired File Manager</h4>
+<div class="outline-text-4" id="text-3-0-7">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #61bfff;">(</span><span style="color: #ff79c6;">use-package</span> <span style="color: #8be9fd;">dired</span> <span style="color: #ffb86c;">:straight</span> nil
   <span style="color: #ffb86c;">:general</span>
@@ -304,9 +368,9 @@ init.el will just load this file.
 </div>
 </div>
 </div>
-<div id="outline-container-org7185d29" class="outline-3">
-<h3 id="org7185d29"><span class="section-number-3">3.7.</span> Emacs Help</h3>
-<div class="outline-text-3" id="text-3-7">
+<div id="outline-container-orgaf3a236" class="outline-4">
+<h4 id="orgaf3a236"><span class="section-number-4">3.0.8.</span> Emacs Help</h4>
+<div class="outline-text-4" id="text-3-0-8">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #61bfff;">(</span><span style="color: #ff79c6;">use-package</span> <span style="color: #8be9fd;">helpful</span>
   <span style="color: #ffb86c;">:general</span>
@@ -318,13 +382,13 @@ init.el will just load this file.
 </div>
 </div>
 </div>
-<div id="outline-container-org7606a37" class="outline-3">
-<h3 id="org7606a37"><span class="section-number-3">3.8.</span> UI</h3>
-<div class="outline-text-3" id="text-3-8">
+<div id="outline-container-orgafcdd3c" class="outline-4">
+<h4 id="orgafcdd3c"><span class="section-number-4">3.0.9.</span> UI</h4>
+<div class="outline-text-4" id="text-3-0-9">
 </div>
-<div id="outline-container-orga3bd24b" class="outline-4">
-<h4 id="orga3bd24b"><span class="section-number-4">3.8.1.</span> Themes</h4>
-<div class="outline-text-4" id="text-3-8-1">
+<ol class="org-ol">
+<li><a id="orgadf0fdf"></a>Themes<br />
+<div class="outline-text-5" id="text-3-0-9-1">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #61bfff;">(</span><span style="color: #ff79c6;">use-package</span> <span style="color: #8be9fd;">all-the-icons</span><span style="color: #61bfff;">)</span>
 <span style="color: #61bfff;">(</span><span style="color: #ff79c6;">use-package</span> <span style="color: #8be9fd;">ef-themes</span><span style="color: #61bfff;">)</span>
@@ -358,8 +422,8 @@ init.el will just load this file.
 </div>
 </div>
 <ol class="org-ol">
-<li><a id="orga1e6ad6"></a>My Custom Jonathan Blow esque theme<br />
-<div class="outline-text-6" id="text-3-8-1-0-1">
+<li><a id="orgc475fca"></a>My Custom Jonathan Blow esque theme<br />
+<div class="outline-text-7" id="text-3-0-9-1-0-1">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #6272a4;">;;; </span><span style="color: #6272a4;">jblow-theme.el --- Theme copied from jonathan blow emacs theme  -*- lexical-binding: t; -*-</span>
 
@@ -457,10 +521,9 @@ init.el will just load this file.
 </div>
 </li>
 </ol>
-</div>
-<div id="outline-container-orgd633744" class="outline-4">
-<h4 id="orgd633744"><span class="section-number-4">3.8.2.</span> Modeline</h4>
-<div class="outline-text-4" id="text-3-8-2">
+</li>
+<li><a id="org0a9e8a2"></a>Modeline<br />
+<div class="outline-text-5" id="text-3-0-9-2">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #61bfff;">(</span><span style="color: #ff79c6;">use-package</span> <span style="color: #8be9fd;">doom-modeline</span>
   <span style="color: #ffb86c;">:init</span>
@@ -469,10 +532,9 @@ init.el will just load this file.
 </pre>
 </div>
 </div>
-</div>
-<div id="outline-container-org1bc4030" class="outline-4">
-<h4 id="org1bc4030"><span class="section-number-4">3.8.3.</span> Font</h4>
-<div class="outline-text-4" id="text-3-8-3">
+</li>
+<li><a id="org3be0099"></a>Font<br />
+<div class="outline-text-5" id="text-3-0-9-3">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #6272a4;">;; </span><span style="color: #6272a4;">Font settings</span>
 <span style="color: #61bfff;">(</span><span style="color: #ff79c6;">defun</span> <span style="color: #50fa7b;">amirreza/display-benq</span> <span style="color: #ff79c6;">()</span>
@@ -502,25 +564,35 @@ init.el will just load this file.
 </pre>
 </div>
 </div>
+</li>
+<li><a id="org56edf83"></a>Cursor<br />
+<div class="outline-text-5" id="text-3-0-9-4">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #61bfff;">(</span><span style="color: #ff79c6;">setq-default</span> cursor-type 'box<span style="color: #61bfff;">)</span> <span style="color: #6272a4;">;; </span><span style="color: #6272a4;">instead of box use a horizontal line.</span>
+<span style="color: #61bfff;">(</span>set-cursor-color 'red<span style="color: #61bfff;">)</span>
+<span style="color: #61bfff;">(</span>blink-cursor-mode -1<span style="color: #61bfff;">)</span> <span style="color: #6272a4;">;; </span><span style="color: #6272a4;">no blinking cursor.</span>
+</pre>
 </div>
-<div id="outline-container-orgdad7646" class="outline-4">
-<h4 id="orgdad7646"><span class="section-number-4">3.8.4.</span> Transparency</h4>
-<div class="outline-text-4" id="text-3-8-4">
+</div>
+</li>
+<li><a id="orge7a65a5"></a>Transparency<br />
+<div class="outline-text-5" id="text-3-0-9-5">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #61bfff;">(</span>set-frame-parameter <span style="color: #ff79c6;">(</span>selected-frame<span style="color: #ff79c6;">)</span> 'alpha <span style="color: #ff79c6;">(</span>list amirreza/transparent amirreza/transparent<span style="color: #ff79c6;">)</span><span style="color: #61bfff;">)</span>
 <span style="color: #61bfff;">(</span>add-to-list 'default-frame-alist <span style="color: #ff79c6;">(</span>append '<span style="color: #50fa7b;">(</span>alpha<span style="color: #50fa7b;">)</span> <span style="color: #50fa7b;">(</span>list amirreza/transparent amirreza/transparent<span style="color: #50fa7b;">)</span><span style="color: #ff79c6;">)</span><span style="color: #61bfff;">)</span>
 </pre>
 </div>
 </div>
+</li>
+</ol>
 </div>
+<div id="outline-container-org2235085" class="outline-4">
+<h4 id="org2235085"><span class="section-number-4">3.0.10.</span> Completion</h4>
+<div class="outline-text-4" id="text-3-0-10">
 </div>
-<div id="outline-container-orgd9ec5c3" class="outline-3">
-<h3 id="orgd9ec5c3"><span class="section-number-3">3.9.</span> Completion</h3>
-<div class="outline-text-3" id="text-3-9">
-</div>
-<div id="outline-container-org95cd6a0" class="outline-4">
-<h4 id="org95cd6a0"><span class="section-number-4">3.9.1.</span> In-Buffer Completion</h4>
-<div class="outline-text-4" id="text-3-9-1">
+<ol class="org-ol">
+<li><a id="org91a93ee"></a>In-Buffer Completion<br />
+<div class="outline-text-5" id="text-3-0-10-1">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #61bfff;">(</span><span style="color: #ff79c6;">use-package</span> <span style="color: #8be9fd;">corfu</span>
   <span style="color: #ffb86c;">:straight</span>
@@ -546,10 +618,9 @@ init.el will just load this file.
 </pre>
 </div>
 </div>
-</div>
-<div id="outline-container-org3fa27c2" class="outline-4">
-<h4 id="org3fa27c2"><span class="section-number-4">3.9.2.</span> Minibuffer Completion</h4>
-<div class="outline-text-4" id="text-3-9-2">
+</li>
+<li><a id="org5f0d7c4"></a>Minibuffer Completion<br />
+<div class="outline-text-5" id="text-3-0-10-2">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #61bfff;">(</span><span style="color: #ff79c6;">use-package</span> <span style="color: #8be9fd;">emacs</span>
   <span style="color: #ffb86c;">:config</span>
@@ -594,11 +665,12 @@ init.el will just load this file.
 </pre>
 </div>
 </div>
+</li>
+</ol>
 </div>
-</div>
-<div id="outline-container-orgde6da88" class="outline-3">
-<h3 id="orgde6da88"><span class="section-number-3">3.10.</span> Editor</h3>
-<div class="outline-text-3" id="text-3-10">
+<div id="outline-container-orgb341163" class="outline-4">
+<h4 id="orgb341163"><span class="section-number-4">3.0.11.</span> Editor</h4>
+<div class="outline-text-4" id="text-3-0-11">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #61bfff;">(</span><span style="color: #ff79c6;">use-package</span> <span style="color: #8be9fd;">olivetti</span>
   <span style="color: #ffb86c;">:init</span>
@@ -669,9 +741,9 @@ init.el will just load this file.
 </div>
 </div>
 </div>
-<div id="outline-container-org84c4312" class="outline-3">
-<h3 id="org84c4312"><span class="section-number-3">3.11.</span> Org mode</h3>
-<div class="outline-text-3" id="text-3-11">
+<div id="outline-container-orgcdcce5e" class="outline-4">
+<h4 id="orgcdcce5e"><span class="section-number-4">3.0.12.</span> Org mode</h4>
+<div class="outline-text-4" id="text-3-0-12">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #61bfff;">(</span><span style="color: #ff79c6;">use-package</span> <span style="color: #8be9fd;">org</span>
   <span style="color: #ffb86c;">:straight</span> nil
@@ -707,14 +779,17 @@ init.el will just load this file.
     <span style="color: #50fa7b;">(</span><span style="color: #f1fa8c;">"b"</span> amirreza/org-code-block <span style="color: #f1fa8c;">"Insert a Code Block"</span><span style="color: #50fa7b;">)</span>
     <span style="color: #50fa7b;">(</span><span style="color: #f1fa8c;">"n"</span> amirreza/org-disable-tangle <span style="color: #f1fa8c;">"Disable Tangle PROPERTIES"</span><span style="color: #50fa7b;">)</span>
     <span style="color: #50fa7b;">(</span><span style="color: #f1fa8c;">"e"</span> org-export-dispatch <span style="color: #f1fa8c;">"Export"</span><span style="color: #50fa7b;">)</span>
+    <span style="color: #50fa7b;">(</span><span style="color: #f1fa8c;">"o"</span> org-open-at-point <span style="color: #f1fa8c;">"Open At Point"</span><span style="color: #50fa7b;">)</span>
+    <span style="color: #50fa7b;">(</span><span style="color: #f1fa8c;">"h"</span> <span style="color: #bd93f9;">(</span><span style="color: #ff79c6;">lambda</span> <span style="color: #0189cc;">()</span> <span style="color: #0189cc;">(</span><span style="color: #ff79c6;">interactive</span><span style="color: #0189cc;">)</span> <span style="color: #0189cc;">(</span>org-export-as 'html<span style="color: #0189cc;">)</span><span style="color: #bd93f9;">)</span> <span style="color: #f1fa8c;">"Org Export To HTML"</span><span style="color: #50fa7b;">)</span>
+    <span style="color: #50fa7b;">(</span><span style="color: #f1fa8c;">"t"</span>  org-todo <span style="color: #f1fa8c;">"Open At Point"</span><span style="color: #50fa7b;">)</span>
     <span style="color: #ff79c6;">)</span>
-
   <span style="color: #ffb86c;">:general</span>
   <span style="color: #ff79c6;">(</span><span style="color: #ffb86c;">:keymaps</span> 'org-mode-map
             <span style="color: #f1fa8c;">"C-c m"</span> 'amirreza/org-mode-hydra/body<span style="color: #ff79c6;">)</span>
   <span style="color: #ff79c6;">(</span><span style="color: #ffb86c;">:keymaps</span> 'org-src-mode-map
             <span style="color: #f1fa8c;">"C-c C-c"</span> #'org-edit-src-exit
             <span style="color: #ff79c6;">)</span>
+  <span style="color: #ff79c6;">(</span><span style="color: #ffb86c;">:states</span> 'normal <span style="color: #ffb86c;">:keymaps</span> 'org-mode-map <span style="color: #f1fa8c;">"SPC m"</span> 'amirreza/org-mode-hydra/body<span style="color: #ff79c6;">)</span>
   <span style="color: #61bfff;">)</span>
 
 <span style="color: #61bfff;">(</span><span style="color: #ff79c6;">use-package</span> <span style="color: #8be9fd;">ox-reveal</span><span style="color: #61bfff;">)</span>
@@ -725,9 +800,9 @@ init.el will just load this file.
 </div>
 </div>
 </div>
-<div id="outline-container-orgb9a502a" class="outline-3">
-<h3 id="orgb9a502a"><span class="section-number-3">3.12.</span> Pdf ( Ebook reader )</h3>
-<div class="outline-text-3" id="text-3-12">
+<div id="outline-container-orga95e4d1" class="outline-4">
+<h4 id="orga95e4d1"><span class="section-number-4">3.0.13.</span> Pdf ( Ebook reader )</h4>
+<div class="outline-text-4" id="text-3-0-13">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #61bfff;">(</span><span style="color: #ff79c6;">use-package</span> <span style="color: #8be9fd;">pdf-tools</span><span style="color: #61bfff;">)</span>
 <span style="color: #61bfff;">(</span><span style="color: #ff79c6;">use-package</span> <span style="color: #8be9fd;">saveplace-pdf-view</span><span style="color: #61bfff;">)</span>
@@ -735,9 +810,9 @@ init.el will just load this file.
 </div>
 </div>
 </div>
-<div id="outline-container-org2b9110b" class="outline-3">
-<h3 id="org2b9110b"><span class="section-number-3">3.13.</span> Git</h3>
-<div class="outline-text-3" id="text-3-13">
+<div id="outline-container-org6d50e37" class="outline-4">
+<h4 id="org6d50e37"><span class="section-number-4">3.0.14.</span> Git</h4>
+<div class="outline-text-4" id="text-3-0-14">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #61bfff;">(</span><span style="color: #ff79c6;">use-package</span> <span style="color: #8be9fd;">git-gutter</span>
   <span style="color: #ffb86c;">:init</span>
@@ -745,14 +820,16 @@ init.el will just load this file.
 
 <span style="color: #61bfff;">(</span><span style="color: #ff79c6;">use-package</span> <span style="color: #8be9fd;">magit</span>
   <span style="color: #ffb86c;">:general</span>
-  <span style="color: #ff79c6;">(</span><span style="color: #ffb86c;">:keymaps</span> 'global-map <span style="color: #f1fa8c;">"C-x g"</span> 'magit<span style="color: #ff79c6;">)</span><span style="color: #61bfff;">)</span>
+  <span style="color: #ff79c6;">(</span><span style="color: #ffb86c;">:keymaps</span> 'global-map <span style="color: #f1fa8c;">"C-x g"</span> 'magit<span style="color: #ff79c6;">)</span>
+  <span style="color: #ff79c6;">(</span><span style="color: #ffb86c;">:states</span> 'normal <span style="color: #f1fa8c;">"SPC g"</span> 'magit<span style="color: #ff79c6;">)</span>
+  <span style="color: #61bfff;">)</span>
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgeef6a13" class="outline-3">
-<h3 id="orgeef6a13"><span class="section-number-3">3.14.</span> Project management</h3>
-<div class="outline-text-3" id="text-3-14">
+<div id="outline-container-org8441eaa" class="outline-4">
+<h4 id="org8441eaa"><span class="section-number-4">3.0.15.</span> Project management</h4>
+<div class="outline-text-4" id="text-3-0-15">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #61bfff;">(</span><span style="color: #ff79c6;">use-package</span> <span style="color: #8be9fd;">project</span>
   <span style="color: #ffb86c;">:straight</span> nil
@@ -769,17 +846,17 @@ init.el will just load this file.
 </div>
 </div>
 </div>
-<div id="outline-container-org9b989ff" class="outline-3">
-<h3 id="org9b989ff"><span class="section-number-3">3.15.</span> Programming</h3>
-<div class="outline-text-3" id="text-3-15">
+<div id="outline-container-orgd23ec44" class="outline-4">
+<h4 id="orgd23ec44"><span class="section-number-4">3.0.16.</span> Programming</h4>
+<div class="outline-text-4" id="text-3-0-16">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #61bfff;">(</span><span style="color: #ff79c6;">setq</span> amirreza/programming-hydra-heads '<span style="color: #ff79c6;">()</span><span style="color: #61bfff;">)</span>
 </pre>
 </div>
 </div>
-<div id="outline-container-orge3534fd" class="outline-4">
-<h4 id="orge3534fd"><span class="section-number-4">3.15.1.</span> Flymake</h4>
-<div class="outline-text-4" id="text-3-15-1">
+<ol class="org-ol">
+<li><a id="org0a54d29"></a>Flymake<br />
+<div class="outline-text-5" id="text-3-0-16-1">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #61bfff;">(</span><span style="color: #ff79c6;">use-package</span> <span style="color: #8be9fd;">flymake</span>
   <span style="color: #ffb86c;">:straight</span> nil
@@ -791,10 +868,9 @@ init.el will just load this file.
 </pre>
 </div>
 </div>
-</div>
-<div id="outline-container-orgd16b85f" class="outline-4">
-<h4 id="orgd16b85f"><span class="section-number-4">3.15.2.</span> Xref</h4>
-<div class="outline-text-4" id="text-3-15-2">
+</li>
+<li><a id="org1051262"></a>Xref<br />
+<div class="outline-text-5" id="text-3-0-16-2">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #61bfff;">(</span><span style="color: #ff79c6;">use-package</span> <span style="color: #8be9fd;">xref</span>
   <span style="color: #ffb86c;">:straight</span> nil
@@ -807,10 +883,9 @@ init.el will just load this file.
 </pre>
 </div>
 </div>
-</div>
-<div id="outline-container-org9f336f9" class="outline-4">
-<h4 id="org9f336f9"><span class="section-number-4">3.15.3.</span> Eldoc</h4>
-<div class="outline-text-4" id="text-3-15-3">
+</li>
+<li><a id="org9f6d47e"></a>Eldoc<br />
+<div class="outline-text-5" id="text-3-0-16-3">
 <p>
 Eldoc is a core emacs package that can be used
 to show documentation and possibly errors both in <code>echo-area</code>
@@ -853,10 +928,9 @@ and a seperate buffer.
 </pre>
 </div>
 </div>
-</div>
-<div id="outline-container-org9aeef47" class="outline-4">
-<h4 id="org9aeef47"><span class="section-number-4">3.15.4.</span> LSP (Eglot)</h4>
-<div class="outline-text-4" id="text-3-15-4">
+</li>
+<li><a id="org8a5413e"></a>LSP (Eglot)<br />
+<div class="outline-text-5" id="text-3-0-16-4">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #61bfff;">(</span><span style="color: #ff79c6;">use-package</span> <span style="color: #8be9fd;">eglot</span>
   <span style="color: #ffb86c;">:hook</span>
@@ -873,10 +947,9 @@ and a seperate buffer.
 </pre>
 </div>
 </div>
-</div>
-<div id="outline-container-orgfa25f93" class="outline-4">
-<h4 id="orgfa25f93"><span class="section-number-4">3.15.5.</span> Hydra</h4>
-<div class="outline-text-4" id="text-3-15-5">
+</li>
+<li><a id="org4169930"></a>Hydra<br />
+<div class="outline-text-5" id="text-3-0-16-5">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #6272a4;">;; </span><span style="color: #6272a4;">If a language has no specific keys other that programming one like rust they can map this.</span>
 <span style="color: #61bfff;">(</span><span style="color: #ff79c6;">amirreza/defhydra</span> amirreza/programming-hydra <span style="color: #ff79c6;">(</span><span style="color: #ffb86c;">:exit</span> t<span style="color: #ff79c6;">)</span>
@@ -885,17 +958,19 @@ and a seperate buffer.
 <span style="color: #61bfff;">(</span><span style="color: #ff79c6;">general-def</span> 
   <span style="color: #ffb86c;">:keymaps</span> 'prog-mode-map <span style="color: #f1fa8c;">"C-c m"</span> 'amirreza/programming-hydra/body<span style="color: #61bfff;">)</span>
 
+
+<span style="color: #61bfff;">(</span><span style="color: #ff79c6;">general-def</span>
+  <span style="color: #ffb86c;">:keymaps</span> 'prog-mode-map
+  <span style="color: #ffb86c;">:states</span> 'normal
+  <span style="color: #f1fa8c;">"SPC m"</span> 'amirreza/programming-hydra/body<span style="color: #61bfff;">)</span>
 </pre>
 </div>
 </div>
-</div>
-<div id="outline-container-org0495c65" class="outline-4">
-<h4 id="org0495c65"><span class="section-number-4">3.15.6.</span> Languages</h4>
-<div class="outline-text-4" id="text-3-15-6">
-</div>
+</li>
+<li><a id="org55a6e21"></a>Languages<br />
 <ol class="org-ol">
-<li><a id="org1aef103"></a>Golang<br />
-<div class="outline-text-5" id="text-3-15-6-1">
+<li><a id="org6b0fed9"></a>Golang<br />
+<div class="outline-text-6" id="text-3-0-16-6-1">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #61bfff;">(</span><span style="color: #ff79c6;">use-package</span> <span style="color: #8be9fd;">go-mode</span>
   <span style="color: #ffb86c;">:init</span>
@@ -904,7 +979,10 @@ and a seperate buffer.
                      <span style="color: #50fa7b;">(</span>append amirreza/programming-hydra-heads '<span style="color: #bd93f9;">(</span><span style="color: #0189cc;">(</span><span style="color: #f1fa8c;">"a"</span> go-tag-add <span style="color: #f1fa8c;">"Add Struct Tag"</span><span style="color: #0189cc;">)</span><span style="color: #bd93f9;">)</span><span style="color: #50fa7b;">)</span><span style="color: #ff79c6;">)</span>
   <span style="color: #ffb86c;">:general</span>
   <span style="color: #ff79c6;">(</span><span style="color: #ffb86c;">:keymaps</span> 'go-mode-map
-            <span style="color: #f1fa8c;">"C-c m"</span> 'amirreza/go-hydra/body<span style="color: #ff79c6;">)</span><span style="color: #61bfff;">)</span>
+            <span style="color: #f1fa8c;">"C-c m"</span> 'amirreza/go-hydra/body<span style="color: #ff79c6;">)</span>
+  <span style="color: #ff79c6;">(</span><span style="color: #ffb86c;">:keymaps</span> 'go-mode-map
+            <span style="color: #f1fa8c;">"SPC m"</span> 'amirreza/go-hydra/body<span style="color: #ff79c6;">)</span>
+  <span style="color: #61bfff;">)</span>
 
 
 <span style="color: #61bfff;">(</span><span style="color: #ff79c6;">use-package</span> <span style="color: #8be9fd;">go-tag</span><span style="color: #61bfff;">)</span>
@@ -912,16 +990,16 @@ and a seperate buffer.
 </div>
 </div>
 </li>
-<li><a id="orgbfb737b"></a>Rust<br />
-<div class="outline-text-5" id="text-3-15-6-2">
+<li><a id="org3d1056b"></a>Rust<br />
+<div class="outline-text-6" id="text-3-0-16-6-2">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #61bfff;">(</span><span style="color: #ff79c6;">use-package</span> <span style="color: #8be9fd;">rust-mode</span><span style="color: #61bfff;">)</span>
 </pre>
 </div>
 </div>
 </li>
-<li><a id="org8a8c0ef"></a>Clojure<br />
-<div class="outline-text-5" id="text-3-15-6-3">
+<li><a id="org0cd2039"></a>Clojure<br />
+<div class="outline-text-6" id="text-3-0-16-6-3">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #61bfff;">(</span><span style="color: #ff79c6;">use-package</span> <span style="color: #8be9fd;">clojure-mode</span><span style="color: #61bfff;">)</span> <span style="color: #6272a4;">;; </span><span style="color: #6272a4;">LISP on JVM</span>
 <span style="color: #6272a4;">;;</span><span style="color: #6272a4;">(use-package cider) ;; Clojure repl integrated into Emacs</span>
@@ -929,16 +1007,16 @@ and a seperate buffer.
 </div>
 </div>
 </li>
-<li><a id="orgc2705fa"></a>Zig<br />
-<div class="outline-text-5" id="text-3-15-6-4">
+<li><a id="org602bc49"></a>Zig<br />
+<div class="outline-text-6" id="text-3-0-16-6-4">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #61bfff;">(</span><span style="color: #ff79c6;">use-package</span> <span style="color: #8be9fd;">zig-mode</span><span style="color: #61bfff;">)</span> <span style="color: #6272a4;">;; </span><span style="color: #6272a4;">Zig</span>
 </pre>
 </div>
 </div>
 </li>
-<li><a id="orge8cff72"></a>Misc<br />
-<div class="outline-text-5" id="text-3-15-6-5">
+<li><a id="org052b1a1"></a>Misc<br />
+<div class="outline-text-6" id="text-3-0-16-6-5">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #61bfff;">(</span><span style="color: #ff79c6;">use-package</span> <span style="color: #8be9fd;">apache-mode</span><span style="color: #61bfff;">)</span> <span style="color: #6272a4;">;; </span><span style="color: #6272a4;">Apache config syntax</span>
 <span style="color: #61bfff;">(</span><span style="color: #ff79c6;">use-package</span> <span style="color: #8be9fd;">systemd</span><span style="color: #61bfff;">)</span> <span style="color: #6272a4;">;; </span><span style="color: #6272a4;">Systemd config syntax</span>
@@ -956,14 +1034,16 @@ and a seperate buffer.
 </div>
 </li>
 </ol>
+</li>
+</ol>
 </div>
-</div>
-<div id="outline-container-org52143fc" class="outline-3">
-<h3 id="org52143fc"><span class="section-number-3">3.16.</span> Workspaces</h3>
-<div class="outline-text-3" id="text-3-16">
+<div id="outline-container-org96fc757" class="outline-4">
+<h4 id="org96fc757"><span class="section-number-4">3.0.17.</span> Workspaces</h4>
+<div class="outline-text-4" id="text-3-0-17">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #61bfff;">(</span><span style="color: #ff79c6;">use-package</span> <span style="color: #8be9fd;">perspective</span>
   <span style="color: #ffb86c;">:init</span>
+
   <span style="color: #ff79c6;">(</span><span style="color: #ff79c6;">setq</span> persp-state-default-file <span style="color: #50fa7b;">(</span>expand-file-name <span style="color: #f1fa8c;">"sessions"</span> user-emacs-directory<span style="color: #50fa7b;">)</span><span style="color: #ff79c6;">)</span>
   <span style="color: #ff79c6;">(</span><span style="color: #ff79c6;">setq</span> persp-mode-prefix-key <span style="color: #50fa7b;">(</span>kbd <span style="color: #f1fa8c;">"C-c w"</span><span style="color: #50fa7b;">)</span><span style="color: #ff79c6;">)</span>
 
@@ -980,14 +1060,17 @@ and a seperate buffer.
   <span style="color: #ffb86c;">:hook</span>
   <span style="color: #ff79c6;">(</span>kill-emacs . amirreza/save-session<span style="color: #ff79c6;">)</span>
   <span style="color: #ffb86c;">:general</span>
-  <span style="color: #ff79c6;">(</span><span style="color: #ffb86c;">:prefix</span> <span style="color: #f1fa8c;">"C-c w"</span> <span style="color: #ffb86c;">:keymaps</span> 'override <span style="color: #f1fa8c;">"s"</span> 'persp-switch<span style="color: #ff79c6;">)</span><span style="color: #61bfff;">)</span>
+  <span style="color: #ff79c6;">(</span><span style="color: #ffb86c;">:prefix</span> <span style="color: #f1fa8c;">"C-c w"</span> <span style="color: #ffb86c;">:keymaps</span> 'override <span style="color: #f1fa8c;">"s"</span> 'persp-switch<span style="color: #ff79c6;">)</span>
+  <span style="color: #ff79c6;">(</span><span style="color: #ffb86c;">:prefix</span> <span style="color: #f1fa8c;">"SPC w"</span> <span style="color: #ffb86c;">:states</span> 'normal <span style="color: #ffb86c;">:keymaps</span> 'override <span style="color: #f1fa8c;">"s"</span> 'persp-switch<span style="color: #ff79c6;">)</span>
+
+  <span style="color: #61bfff;">)</span>
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org1e401a0" class="outline-3">
-<h3 id="org1e401a0"><span class="section-number-3">3.17.</span> macOS setup</h3>
-<div class="outline-text-3" id="text-3-17">
+<div id="outline-container-org53e2b8f" class="outline-4">
+<h4 id="org53e2b8f"><span class="section-number-4">3.0.18.</span> macOS setup</h4>
+<div class="outline-text-4" id="text-3-0-18">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #61bfff;">(</span><span style="color: #ff79c6;">when</span> <span style="color: #ff79c6;">(</span>string-equal system-type <span style="color: #f1fa8c;">"darwin"</span><span style="color: #ff79c6;">)</span>
     <span style="color: #ff79c6;">(</span><span style="color: #ff79c6;">setq</span> mac-command-modifier 'meta<span style="color: #ff79c6;">)</span>
@@ -997,17 +1080,17 @@ and a seperate buffer.
 </div>
 </div>
 </div>
-<div id="outline-container-orge12c188" class="outline-2">
-<h2 id="orge12c188"><span class="section-number-2">4.</span> Kitty</h2>
+<div id="outline-container-orgeb57629" class="outline-2">
+<h2 id="orgeb57629"><span class="section-number-2">4.</span> Kitty</h2>
 <div class="outline-text-2" id="text-4">
 </div>
-<div id="outline-container-org843f5b3" class="outline-3">
-<h3 id="org843f5b3"><span class="section-number-3">4.1.</span> Themes</h3>
-<div class="outline-text-3" id="text-4-1">
+<div id="outline-container-org7f846c3" class="outline-4">
+<h4 id="org7f846c3"><span class="section-number-4">4.0.1.</span> Themes</h4>
+<div class="outline-text-4" id="text-4-0-1">
 </div>
-<div id="outline-container-orgfd1c7ba" class="outline-4">
-<h4 id="orgfd1c7ba"><span class="section-number-4">4.1.1.</span> Dracula</h4>
-<div class="outline-text-4" id="text-4-1-1">
+<ol class="org-ol">
+<li><a id="org31f25b0"></a>Dracula<br />
+<div class="outline-text-5" id="text-4-0-1-1">
 <div class="org-src-container">
 <pre class="src src-:tangle">##+BEGIN_SRC conf :tangle ~/.config/kitty/kitty.conf :mkdirp yes
   foreground            #f8f8f2
@@ -1071,11 +1154,12 @@ and a seperate buffer.
 </pre>
 </div>
 </div>
+</li>
+</ol>
 </div>
-</div>
-<div id="outline-container-org07586fc" class="outline-3">
-<h3 id="org07586fc"><span class="section-number-3">4.2.</span> Font</h3>
-<div class="outline-text-3" id="text-4-2">
+<div id="outline-container-org4a7ad68" class="outline-4">
+<h4 id="org4a7ad68"><span class="section-number-4">4.0.2.</span> Font</h4>
+<div class="outline-text-4" id="text-4-0-2">
 <div class="org-src-container">
 <pre class="src src-conf"><span style="color: #6272a4;"># </span><span style="color: #6272a4;">Font configuration</span>
 <span style="color: #6272a4;"># </span><span style="color: #6272a4;">font_family OperatorMono Nerd Font Medium</span>
@@ -1097,9 +1181,9 @@ font_size 18
 </div>
 </div>
 </div>
-<div id="outline-container-org9ed23de" class="outline-3">
-<h3 id="org9ed23de"><span class="section-number-3">4.3.</span> Cursor</h3>
-<div class="outline-text-3" id="text-4-3">
+<div id="outline-container-org355f2f7" class="outline-4">
+<h4 id="org355f2f7"><span class="section-number-4">4.0.3.</span> Cursor</h4>
+<div class="outline-text-4" id="text-4-0-3">
 <div class="org-src-container">
 <pre class="src src-conf">shell_integration no-cursor
 cursor_shape block
@@ -1108,9 +1192,9 @@ cursor_blink_interval 0
 </div>
 </div>
 </div>
-<div id="outline-container-orgec5e737" class="outline-3">
-<h3 id="orgec5e737"><span class="section-number-3">4.4.</span> Performance</h3>
-<div class="outline-text-3" id="text-4-4">
+<div id="outline-container-orgfed86c0" class="outline-4">
+<h4 id="orgfed86c0"><span class="section-number-4">4.0.4.</span> Performance</h4>
+<div class="outline-text-4" id="text-4-0-4">
 <div class="org-src-container">
 <pre class="src src-conf">sync_to_monitor yes
 repaint_delay 5
@@ -1119,18 +1203,18 @@ input_delay 2
 </div>
 </div>
 </div>
-<div id="outline-container-org6c8fa53" class="outline-3">
-<h3 id="org6c8fa53"><span class="section-number-3">4.5.</span> No Audio Bell</h3>
-<div class="outline-text-3" id="text-4-5">
+<div id="outline-container-org495c626" class="outline-4">
+<h4 id="org495c626"><span class="section-number-4">4.0.5.</span> No Audio Bell</h4>
+<div class="outline-text-4" id="text-4-0-5">
 <div class="org-src-container">
 <pre class="src src-conf">enable_audio_bell no
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org82824f5" class="outline-3">
-<h3 id="org82824f5"><span class="section-number-3">4.6.</span> Keybindings</h3>
-<div class="outline-text-3" id="text-4-6">
+<div id="outline-container-org0f92b42" class="outline-4">
+<h4 id="org0f92b42"><span class="section-number-4">4.0.6.</span> Keybindings</h4>
+<div class="outline-text-4" id="text-4-0-6">
 <div class="org-src-container">
 <pre class="src src-conf">clear_all_shortcuts yes
 
@@ -1152,9 +1236,9 @@ map cmd+right next_tab
 </div>
 </div>
 </div>
-<div id="outline-container-orgbd0049c" class="outline-3">
-<h3 id="orgbd0049c"><span class="section-number-3">4.7.</span> Tab bar</h3>
-<div class="outline-text-3" id="text-4-7">
+<div id="outline-container-org877912a" class="outline-4">
+<h4 id="org877912a"><span class="section-number-4">4.0.7.</span> Tab bar</h4>
+<div class="outline-text-4" id="text-4-0-7">
 <div class="org-src-container">
 <pre class="src src-conf">tab_bar_align left
 tab_bar_edge bottom
@@ -1164,9 +1248,9 @@ tab_title_template <span style="color: #f1fa8c;">"{title}"</span>
 </div>
 </div>
 </div>
-<div id="outline-container-org04ccb8e" class="outline-3">
-<h3 id="org04ccb8e"><span class="section-number-3">4.8.</span> macOS</h3>
-<div class="outline-text-3" id="text-4-8">
+<div id="outline-container-org40465c9" class="outline-4">
+<h4 id="org40465c9"><span class="section-number-4">4.0.8.</span> macOS</h4>
+<div class="outline-text-4" id="text-4-0-8">
 <div class="org-src-container">
 <pre class="src src-conf">macos_titlebar_color               background
 macos_option_as_alt                both
@@ -1177,18 +1261,18 @@ macos_custom_beam_cursor           yes
 </div>
 </div>
 </div>
-<div id="outline-container-org1b742cf" class="outline-3">
-<h3 id="org1b742cf"><span class="section-number-3">4.9.</span> Terminal Type</h3>
-<div class="outline-text-3" id="text-4-9">
+<div id="outline-container-orgc90b398" class="outline-4">
+<h4 id="orgc90b398"><span class="section-number-4">4.0.9.</span> Terminal Type</h4>
+<div class="outline-text-4" id="text-4-0-9">
 <div class="org-src-container">
 <pre class="src src-conf">term xterm-256color
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org416dfdd" class="outline-3">
-<h3 id="org416dfdd"><span class="section-number-3">4.10.</span> Background Opacity</h3>
-<div class="outline-text-3" id="text-4-10">
+<div id="outline-container-org67e02fc" class="outline-4">
+<h4 id="org67e02fc"><span class="section-number-4">4.0.10.</span> Background Opacity</h4>
+<div class="outline-text-4" id="text-4-0-10">
 <div class="org-src-container">
 <pre class="src src-conf">background_opacity 0.90
 </pre>
@@ -1196,22 +1280,22 @@ macos_custom_beam_cursor           yes
 </div>
 </div>
 </div>
-<div id="outline-container-orge61beb2" class="outline-2">
-<h2 id="orge61beb2"><span class="section-number-2">5.</span> Zsh</h2>
+<div id="outline-container-org368b7be" class="outline-2">
+<h2 id="org368b7be"><span class="section-number-2">5.</span> Zsh</h2>
 <div class="outline-text-2" id="text-5">
 </div>
-<div id="outline-container-org3b57422" class="outline-3">
-<h3 id="org3b57422"><span class="section-number-3">5.1.</span> Shebang</h3>
-<div class="outline-text-3" id="text-5-1">
+<div id="outline-container-orge59fc16" class="outline-4">
+<h4 id="orge59fc16"><span class="section-number-4">5.0.1.</span> Shebang</h4>
+<div class="outline-text-4" id="text-5-0-1">
 <div class="org-src-container">
 <pre class="src src-sh"><span style="color: #6272a4;">#</span><span style="color: #6272a4;">!/usr/bin/</span><span style="color: #ff79c6;">env</span><span style="color: #6272a4;"> zsh</span>
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org692160f" class="outline-3">
-<h3 id="org692160f"><span class="section-number-3">5.2.</span> Antigen Setup</h3>
-<div class="outline-text-3" id="text-5-2">
+<div id="outline-container-org82087df" class="outline-4">
+<h4 id="org82087df"><span class="section-number-4">5.0.2.</span> Antigen Setup</h4>
+<div class="outline-text-4" id="text-5-0-2">
 <div class="org-src-container">
 <pre class="src src-sh"><span style="color: #61bfff;">[</span> <span style="color: #bd93f9; font-weight: bold;">!</span> -f <span style="color: #f1fa8c;">"$HOME/.antigen.zsh"</span> <span style="color: #61bfff;">]</span> &amp;&amp; curl -L git.io/antigen &gt; antigen.zsh
 <span style="color: #ffb86c;">source</span> $<span style="color: #ffc9e8;">HOME</span>/.antigen.zsh
@@ -1219,9 +1303,9 @@ macos_custom_beam_cursor           yes
 </div>
 </div>
 </div>
-<div id="outline-container-orged3732f" class="outline-3">
-<h3 id="orged3732f"><span class="section-number-3">5.3.</span> Plugins</h3>
-<div class="outline-text-3" id="text-5-3">
+<div id="outline-container-org67d3a1d" class="outline-4">
+<h4 id="org67d3a1d"><span class="section-number-4">5.0.3.</span> Plugins</h4>
+<div class="outline-text-4" id="text-5-0-3">
 <div class="org-src-container">
 <pre class="src src-sh">antigen use oh-my-zsh
 antigen bundle zsh-users/zsh-syntax-highlighting
@@ -1232,9 +1316,9 @@ antigen apply
 </div>
 </div>
 </div>
-<div id="outline-container-org634fa4e" class="outline-3">
-<h3 id="org634fa4e"><span class="section-number-3">5.4.</span> Environment Variables</h3>
-<div class="outline-text-3" id="text-5-4">
+<div id="outline-container-org363ed34" class="outline-4">
+<h4 id="org363ed34"><span class="section-number-4">5.0.4.</span> Environment Variables</h4>
+<div class="outline-text-4" id="text-5-0-4">
 <div class="org-src-container">
 <pre class="src src-sh"><span style="color: #ffb86c;">export</span> <span style="color: #ffc9e8;">GO111MODULE</span>=<span style="color: #f1fa8c;">'on'</span>
 <span style="color: #ffb86c;">export</span> <span style="color: #ffc9e8;">GOPATH</span>=<span style="color: #f1fa8c;">"$HOME"</span>
@@ -1261,9 +1345,9 @@ antigen apply
 </div>
 </div>
 </div>
-<div id="outline-container-org4fcce37" class="outline-3">
-<h3 id="org4fcce37"><span class="section-number-3">5.5.</span> Aliases</h3>
-<div class="outline-text-3" id="text-5-5">
+<div id="outline-container-org68301ba" class="outline-4">
+<h4 id="org68301ba"><span class="section-number-4">5.0.5.</span> Aliases</h4>
+<div class="outline-text-4" id="text-5-0-5">
 <div class="org-src-container">
 <pre class="src src-sh"><span style="color: #ffb86c;">alias</span> <span style="color: #ffc9e8;">emacs</span>=<span style="color: #f1fa8c;">'emacsclient -t -a ""'</span>
 <span style="color: #ffb86c;">alias</span> <span style="color: #ffc9e8;">e</span>=<span style="color: #f1fa8c;">'emacs'</span>
@@ -1271,9 +1355,9 @@ antigen apply
 </div>
 </div>
 </div>
-<div id="outline-container-orga097b91" class="outline-3">
-<h3 id="orga097b91"><span class="section-number-3">5.6.</span> Starship prompt</h3>
-<div class="outline-text-3" id="text-5-6">
+<div id="outline-container-org33553f3" class="outline-4">
+<h4 id="org33553f3"><span class="section-number-4">5.0.6.</span> Starship prompt</h4>
+<div class="outline-text-4" id="text-5-0-6">
 <div class="org-src-container">
 <pre class="src src-sh"><span style="color: #ff79c6;">if</span> <span style="color: #bd93f9; font-weight: bold;">!</span> command -v starship &amp;&gt; /dev/null
 <span style="color: #ff79c6;">then</span>
@@ -1285,13 +1369,13 @@ antigen apply
 </div>
 </div>
 </div>
-<div id="outline-container-orga6c454a" class="outline-2">
-<h2 id="orga6c454a"><span class="section-number-2">6.</span> Git Global Config</h2>
+<div id="outline-container-orgf253765" class="outline-2">
+<h2 id="orgf253765"><span class="section-number-2">6.</span> Git Global Config</h2>
 <div class="outline-text-2" id="text-6">
 </div>
-<div id="outline-container-org75c9e60" class="outline-3">
-<h3 id="org75c9e60"><span class="section-number-3">6.1.</span> User Info</h3>
-<div class="outline-text-3" id="text-6-1">
+<div id="outline-container-org6a3f33a" class="outline-4">
+<h4 id="org6a3f33a"><span class="section-number-4">6.0.1.</span> User Info</h4>
+<div class="outline-text-4" id="text-6-0-1">
 <div class="org-src-container">
 <pre class="src src-config">[user]
         email = raskarpour@gmail.com
@@ -1333,7 +1417,7 @@ antigen apply
 <div id="postamble" class="status">
 <p class="date">Date: 2022-12-25 Sun 00:00</p>
 <p class="author">Author: Amirreza Askarpour</p>
-<p class="date">Created: 2022-12-31 Sat 06:06</p>
+<p class="date">Created: 2022-12-31 Sat 07:00</p>
 <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

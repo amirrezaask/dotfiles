@@ -7,21 +7,21 @@
 #+SETUPFILE: https://fniessen.github.io/org-html-themes/org/theme-readtheorg.setup
 #+OPTIONS: toc:4
 #+EXPORT_FILE_NAME: index.html
-** Introduction
+* Introduction
 This is my configuration file which will generate configurations for all tools I use on daily basis:
 - Emacs
 - Kitty ( Terminal Emulator )
 - Zsh ( Shell )
 - Git
 
-** How to install ?
+* How to install ?
 It's a fairly simple thing to do but remember this will override your current =kitty= and =emacs= config, so backup
 them please.
 #+BEGIN_SRC sh
   curl https://raw.githubusercontent.com/amirrezaask/dotfiles/master/.emacs.d/README.org > ~/.emacs.d/README.org &&\
   emacs --batch --eval "(require 'org)" --eval '(org-babel-tangle-file "~/.emacs.d/README.org")'
 #+END_SRC
-** Emacs
+* Emacs
 *** Personal Customization Variable
 #+BEGIN_SRC emacs-lisp
   (setq user-full-name "Amirreza Askarpour")
@@ -86,8 +86,6 @@ init.el will just load this file.
   (scroll-bar-mode 0) ;; disable scroll bar
   (menu-bar-mode -1) ;; Disable menu bar
 
-  (setq-default cursor-type 'box) ;; instead of box use a horizontal line.
-  (blink-cursor-mode -1) ;; no blinking cursor.
 
 
   ;; Copy PATH from default shell
@@ -120,6 +118,80 @@ init.el will just load this file.
 
 
   (general-def :keymaps 'override "C-c e e" 'amirreza/edit-emacs)
+#+END_SRC
+*** Evil Mode ( Disabled, I like emacs more, but here anyway )
+#+BEGIN_SRC emacs-lisp :tangle no
+  (use-package undo-tree
+    :init
+    (global-undo-tree-mode 1))
+
+  (use-package evil
+    :init
+    (setq IS-EVIL t)
+    (setq evil-want-integration t)
+    (setq evil-want-keybinding nil)
+    (setq evil-want-C-u-scroll t)
+    (setq evil-want-C-i-jump nil)
+    (setq evil-respect-visual-line-mode t)
+    (setq evil-undo-system 'undo-tree)
+    (setq evil-split-window-below t)
+    (setq evil-vsplit-window-right t)
+    :config
+    (evil-mode 1)
+    (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
+    (define-key evil-insert-state-map (kbd "C-h") 'evil-delete-backward-char-and-join)
+
+    ;; Use visual line motions even outside of visual-line-mode buffers
+    (evil-global-set-key 'motion "j" 'evil-next-visual-line)
+    (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
+
+    (evil-set-initial-state 'messages-buffer-mode 'normal)
+    (evil-set-initial-state 'dashboard-mode 'normal))
+
+  (use-package evil-collection
+    :after evil
+    :init
+    (setq evil-collection-company-use-tng nil)  ;; Is this a bug in evil-collection?
+    :custom
+    (evil-collection-outline-bind-tab-p nil)
+    :config
+    (setq evil-collection-mode-list
+	  (remove 'lispy evil-collection-mode-list))
+    (evil-collection-init))
+
+
+  (use-package evil-escape
+    :after evil
+    :init
+    (setq evil-escape-key-sequence "jk"
+	  evil-escape-unordered-key-sequence t)
+    (evil-escape-mode))
+
+  (general-evil-setup)
+
+  ;; Help me with stuff
+  (general-nmap
+    :prefix "SPC"
+    "h f" 'describe-function
+    "h v" 'describe-variable
+    "h k" 'describe-key)
+
+  ;; window stuff
+  (general-nmap
+    :keymaps 'override
+    "C-j" 'evil-window-down
+    "C-k" 'evil-window-up
+    "C-h" 'evil-window-left
+    "C-l" 'evil-window-right)
+
+  ;; Files and navigation
+  (general-nmap
+    :prefix "SPC"
+    "SPC" 'amirreza/find-file
+    "x" 'execute-extended-command
+    "f f" 'find-file
+    "p" 'amirreza/project-hydra/body)
+
 #+END_SRC
 *** Windows and Buffers
 #+BEGIN_SRC emacs-lisp
@@ -311,6 +383,12 @@ init.el will just load this file.
   (amirreza/reload-font)
 
 #+END_SRC
+**** Cursor
+#+BEGIN_SRC emacs-lisp
+  (setq-default cursor-type 'box) ;; instead of box use a horizontal line.
+  (set-cursor-color 'red)
+  (blink-cursor-mode -1) ;; no blinking cursor.
+#+END_SRC
 **** Transparency
 #+BEGIN_SRC emacs-lisp
   (set-frame-parameter (selected-frame) 'alpha (list amirreza/transparent amirreza/transparent))
@@ -488,14 +566,17 @@ init.el will just load this file.
       ("b" amirreza/org-code-block "Insert a Code Block")
       ("n" amirreza/org-disable-tangle "Disable Tangle PROPERTIES")
       ("e" org-export-dispatch "Export")
+      ("o" org-open-at-point "Open At Point")
+      ("h" (lambda () (interactive) (org-export-as 'html)) "Org Export To HTML")
+      ("t"  org-todo "Open At Point")
       )
-
     :general
     (:keymaps 'org-mode-map
 	      "C-c m" 'amirreza/org-mode-hydra/body)
     (:keymaps 'org-src-mode-map
 	      "C-c C-c" #'org-edit-src-exit
 	      )
+    (:states 'normal :keymaps 'org-mode-map "SPC m" 'amirreza/org-mode-hydra/body)
     )
 
   (use-package ox-reveal)
@@ -516,7 +597,9 @@ init.el will just load this file.
 
   (use-package magit
     :general
-    (:keymaps 'global-map "C-x g" 'magit))
+    (:keymaps 'global-map "C-x g" 'magit)
+    (:states 'normal "SPC g" 'magit)
+    )
 #+END_SRC
 *** Project management
 #+BEGIN_SRC emacs-lisp
@@ -620,6 +703,11 @@ and a seperate buffer.
   (general-def 
     :keymaps 'prog-mode-map "C-c m" 'amirreza/programming-hydra/body)
 
+
+  (general-def
+    :keymaps 'prog-mode-map
+    :states 'normal
+    "SPC m" 'amirreza/programming-hydra/body)
 #+END_SRC
 **** Languages
 ***** Golang
@@ -631,7 +719,10 @@ and a seperate buffer.
 		       (append amirreza/programming-hydra-heads '(("a" go-tag-add "Add Struct Tag"))))
     :general
     (:keymaps 'go-mode-map
-	      "C-c m" 'amirreza/go-hydra/body))
+	      "C-c m" 'amirreza/go-hydra/body)
+    (:keymaps 'go-mode-map
+	      "SPC m" 'amirreza/go-hydra/body)
+    )
 
 
   (use-package go-tag)
@@ -667,6 +758,7 @@ and a seperate buffer.
 #+BEGIN_SRC emacs-lisp
   (use-package perspective
     :init
+  
     (setq persp-state-default-file (expand-file-name "sessions" user-emacs-directory))
     (setq persp-mode-prefix-key (kbd "C-c w"))
 
@@ -683,7 +775,10 @@ and a seperate buffer.
     :hook
     (kill-emacs . amirreza/save-session)
     :general
-    (:prefix "C-c w" :keymaps 'override "s" 'persp-switch))
+    (:prefix "C-c w" :keymaps 'override "s" 'persp-switch)
+    (:prefix "SPC w" :states 'normal :keymaps 'override "s" 'persp-switch)
+
+    )
 #+END_SRC
 *** macOS setup
 #+BEGIN_SRC emacs-lisp
@@ -691,7 +786,7 @@ and a seperate buffer.
       (setq mac-command-modifier 'meta)
       (setq mac-option-modifier 'meta))
 #+END_SRC
-** Kitty
+* Kitty
 *** Themes
 **** Dracula
 #+BEGIN_SRC :tangle no
@@ -832,7 +927,7 @@ and a seperate buffer.
 #+BEGIN_SRC conf :tangle ~/.config/kitty/kitty.conf :mkdirp yes
   background_opacity 0.90
 #+END_SRC
-** Zsh
+* Zsh
 *** Shebang
 #+BEGIN_SRC sh :tangle ~/.zshrc :mkdirp yes
   #!/usr/bin/env zsh
@@ -887,7 +982,7 @@ then
 fi
 eval "$(starship init zsh)"
 #+END_SRC
-** Git Global Config
+* Git Global Config
 *** User Info
 #+BEGIN_SRC config :tangle ~/.config/git/config :mkdirp yes
 [user]
