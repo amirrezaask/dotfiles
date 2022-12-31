@@ -4,10 +4,14 @@
 #+REVEAL_INIT_OPTIONS: slideNumber:false
 #+SETUPFILE: https://fniessen.github.io/org-html-themes/org/theme-readtheorg.setup
 #+OPTIONS: toc:4
-
+#+EXPORT_FILE_NAME: index.html
 ** Introduction
-This file contains my configurations for =fish=, =kitty= and =emacs= in literate
-format using =org-mode=.
+This is my configuration file which will generate configurations for all tools I use on daily basis:
+- Emacs
+- Kitty ( Terminal Emulator )
+- Zsh ( Shell )
+- Git
+  
 ** How to install ?
 It's a fairly simple thing to do but remember this will override your current =kitty= and =emacs= config, so backup
 them please.
