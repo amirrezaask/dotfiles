@@ -2,7 +2,6 @@
 #+DESCRIPTION: My configurations for different tools I use on a daily basis.
 #+DATE: <2022-12-25 Sun>
 #+REVEAL_ROOT: https://cdn.jsdelivr.net/npm/reveal.js
-#+OPTIONS: toc:nil reveal_title_slide:nil
 #+REVEAL_INIT_OPTIONS: slideNumber:false
 #+SETUPFILE: https://fniessen.github.io/org-html-themes/org/theme-readtheorg.setup
 #+OPTIONS: toc:4
@@ -649,6 +648,7 @@ init.el will just load this file.
 
   (use-package ox-reveal)
   (use-package ob-go)
+  (use-package ob-rust)
   (use-package ob-php)
   (use-package htmlize)
 #+END_SRC
@@ -750,6 +750,7 @@ and a seperate buffer.
 **** LSP (Eglot)
 #+BEGIN_SRC emacs-lisp
   (use-package eglot
+    :straight nil
     :hook
     ((go-mode rust-mode python-mode php-mode) . 'eglot-ensure)
     :init
@@ -760,7 +761,7 @@ and a seperate buffer.
     (add-to-list 'amirreza/programming-hydra-heads '("R" eglot-rename "Rename"))
     (add-to-list 'amirreza/programming-hydra-heads '("f" eglot-format "Format")))
 
-  (use-package consult-eglot)
+    (use-package consult-eglot)
 #+END_SRC
 **** Hydra
 #+BEGIN_SRC emacs-lisp
