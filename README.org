@@ -695,6 +695,9 @@ init.el will just load this file.
   (use-package ob-rust)
   (use-package ob-php)
   (use-package htmlize)
+  (use-package evil-org
+    :if (boundp 'IS-EVIL) ;; Only if evil mode is enabled
+    :hook (org-mode . evil-org-mode))
 #+END_SRC
 *** Pdf ( Ebook reader )
 #+BEGIN_SRC emacs-lisp
