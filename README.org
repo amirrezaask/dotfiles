@@ -70,7 +70,7 @@ init.el will just load this file.
 *** Basics and core settings
 #+BEGIN_SRC emacs-lisp
   (setq create-lockfiles nil) ;; Don't create .# files as lock.
-
+  (setq native-comp-async-report-warnings-errors 'silent) ;; Silent Emacs 28 native compilation
   (setq make-backup-files nil) ;; Disable backup files ~file
   (setq auto-save-default nil) ;; Disable auto save files
   (setq inhibit-startup-screen t) ;; No startup splash screen
@@ -120,6 +120,11 @@ init.el will just load this file.
   (use-package benchmark-init
     :config
     (add-hook 'after-init-hook 'benchmark-init/deactivate))
+
+  (use-package gcmh
+    :init
+    (gcmh-mode 1)
+    )
 
   (defmacro amirreza/defhydra (name body heads)
     `(eval (append '(defhydra ,name ,body) ,heads)))
