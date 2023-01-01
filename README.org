@@ -28,7 +28,7 @@ them please.
   (setq amirreza/font "Iosevka")
   (setq amirreza/font-size "22")
   (setq amirreza/theme 'doom-dracula)
-  (setq amirreza/transparent 95) ;; For terminal only
+  (setq amirreza/transparent 100) ;; For terminal only
 #+END_SRC
 *** Init Files
 **** early-init.el
@@ -466,6 +466,7 @@ init.el will just load this file.
 **** Modeline
 #+BEGIN_SRC emacs-lisp
   (use-package doom-modeline
+    :if nil
     :init
     (setq doom-modeline-height 35)
     (setq doom-modeline-buffer-file-name-style 'truncate-with-project)
@@ -504,6 +505,7 @@ init.el will just load this file.
   (setq-default cursor-type 'box) ;; instead of box use a horizontal line.
   (set-cursor-color 'red)
   (blink-cursor-mode -1) ;; no blinking cursor.
+  (global-hl-line-mode)
 #+END_SRC
 **** Transparency
 #+BEGIN_SRC emacs-lisp
