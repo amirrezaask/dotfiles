@@ -698,6 +698,9 @@ init.el will just load this file.
   (use-package ob-rust)
   (use-package ob-php)
   (use-package htmlize)
+  (use-package org-bullets
+    :hook
+    (org-mode . org-bullets-mode))
   (use-package evil-org
     :if (boundp 'IS-EVIL) ;; Only if evil mode is enabled
     :hook (org-mode . evil-org-mode))
@@ -799,10 +802,11 @@ and a seperate buffer.
     :hook
     ((go-mode rust-mode python-mode php-mode) . 'eglot-ensure)
     :init
-    (add-to-list 'amirreza/programming-hydra-heads '("d" xref-find-definitions "Goto Definitions"))
+    (add-to-list 'amirreza/programming-hydra-heads '("d" eldoc "Document THING at POINT"))
+    (add-to-list 'amirreza/programming-hydra-heads '("D" xref-find-definitions "Goto Definitions"))
     (add-to-list 'amirreza/programming-hydra-heads '("r" xref-find-references "Find References"))
     (add-to-list 'amirreza/programming-hydra-heads '("i" eglot-find-implementation "Find Implementations"))
-    (add-to-list 'amirreza/programming-hydra-heads '("s" consult-eglot-symbols "Goto Definitions"))
+    (add-to-list 'amirreza/programming-hydra-heads '("s" consult-eglot-symbols "Workspace Symbols"))
     (add-to-list 'amirreza/programming-hydra-heads '("R" eglot-rename "Rename"))
     (add-to-list 'amirreza/programming-hydra-heads '("f" eglot-format "Format")))
 
