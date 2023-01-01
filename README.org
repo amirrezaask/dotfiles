@@ -26,8 +26,8 @@ them please.
   ;; (setq amirreza/font "OperatorMono Nerd Font Light")
   ;; (setq amirreza/font "JetBrainsMono Nerd Font Mono")
   (setq amirreza/font "Iosevka")
-  (setq amirreza/font-size "22")
-  (setq amirreza/theme 'doom-dracula)
+  (setq amirreza/font-size "18")
+  (setq amirreza/theme 'gruber-darker)
   (setq amirreza/transparent 100) ;; For terminal only
 #+END_SRC
 *** Init Files
@@ -361,10 +361,7 @@ init.el will just load this file.
     (when (not (eq amirreza/--current-theme nil))
       (disable-theme amirreza/--current-theme))
     (setq amirreza/--current-theme theme)
-    (load-theme amirreza/--current-theme t)
-    (unless (display-graphic-p)
-      (when amirreza/transparent
-	(set-face-background 'default "0"))))
+    (load-theme amirreza/--current-theme t))
 
   (amirreza/load-theme amirreza/theme)
   (general-def :keymaps 'override "C-c t t" 'amirreza/switch-theme)
@@ -574,6 +571,7 @@ init.el will just load this file.
 
   ;; Icons in minibuffer completion
   (use-package all-the-icons-completion
+    :if nil
     :init
     (all-the-icons-completion-mode))
 
@@ -1059,7 +1057,7 @@ and a seperate buffer.
 #+END_SRC
 *** Background Opacity
 #+BEGIN_SRC conf :tangle ~/.config/kitty/kitty.conf :mkdirp yes
-  background_opacity 0.90
+  background_opacity 1
 #+END_SRC
 * Zsh
 *** Shebang
