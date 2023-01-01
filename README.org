@@ -26,7 +26,7 @@ them please.
   ;; (setq amirreza/font "OperatorMono Nerd Font Light")
   ;; (setq amirreza/font "JetBrainsMono Nerd Font Mono")
   (setq amirreza/font-size "22")
-  (setq amirreza/theme 'doom-palenight)
+  (setq amirreza/theme 'doom-dracula)
   (setq amirreza/transparent 95) ;; For terminal only
 #+END_SRC
 *** Init Files
@@ -467,6 +467,7 @@ init.el will just load this file.
   (use-package doom-modeline
     :init
     (setq doom-modeline-height 35)
+    (setq doom-modeline-buffer-file-name-style 'truncate-with-project)
     (doom-modeline-mode 1))
 #+END_SRC
 **** Font
