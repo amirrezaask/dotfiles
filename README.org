@@ -700,9 +700,6 @@ init.el will just load this file.
   (use-package ob-rust)
   (use-package ob-php)
   (use-package htmlize)
-  (use-package org-bullets
-    :hook
-    (org-mode . org-bullets-mode))
   (use-package evil-org
     :if (boundp 'IS-EVIL) ;; Only if evil mode is enabled
     :hook (org-mode . evil-org-mode))
@@ -841,6 +838,7 @@ and a seperate buffer.
     (:keymaps 'go-mode-map
 	      "C-c m" 'amirreza/go-hydra/body)
     (:keymaps 'go-mode-map
+    :states 'normal
 	      "SPC m" 'amirreza/go-hydra/body)
     )
 
@@ -871,7 +869,19 @@ and a seperate buffer.
   (use-package yaml-mode) ;; Yaml
   (use-package fish-mode) ;; Fish
   (use-package csv-mode) ;; CSV
-  (use-package json-mode) ;; Javascript Object Notation
+  (use-package json-mode
+    :init
+    (setq amirreza/json-hydra-heads '(
+				      ("f" json-pretty-print "Pretty print region")
+				      ("F" json-pretty-print-buffer "Pretty print buffer")
+				      ))
+    (amirreza/defhydra amirreza/json-hydra (:exit t) amirreza/json-hydra-heads)
+    :general
+    (:keymaps 'json-mode-map
+	      "C-c m" 'amirreza/json-hydra/body
+	      )
+    (:states 'normal :keymaps 'json-mode-map "SPC m" 'amirreza/json-hydra/body)
+    )
 
 #+END_SRC
 *** Workspaces
@@ -978,10 +988,12 @@ and a seperate buffer.
   # italic_font  OperatorMono Nerd Font Italic
   # bold_italic_font OperatorMono Nerd Font Bold Italic
 
-  font_family FiraCode Nerd Font Mono Medium
-  bold_font FiraCode Nerd Font Mono Bold
-  italic_font  FiraCode Nerd Font Mono Italic
-  bold_italic_font FiraCode Nerd Font Mono Bold Italic
+  # font_family FiraCode Nerd Font Mono Medium
+  # bold_font FiraCode Nerd Font Mono Bold
+  # italic_font  FiraCode Nerd Font Mono Italic
+  # bold_italic_font FiraCode Nerd Font Mono Bold Italic
+
+  font_family Iosevka
 
   # font_family JetBrainsMono Nerd Font Mono Regular
   # bold_font JetBrainsMono Nerd Font Mono Bold
