@@ -484,7 +484,7 @@ init.el will just load this file.
     (set-frame-font (concat amirreza/font " " amirreza/font-size) nil t))
 
   ;; Interactively ask for font size
-  (defun amirreza/set-font (size)
+  (defun amirreza/set-font-size (size)
     (interactive "sSize: ")
     (setq amirreza/font-size size)
     (set-frame-font (concat amirreza/font " " amirreza/font-size) nil t))
