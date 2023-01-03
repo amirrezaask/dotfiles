@@ -1,0 +1,14 @@
+projects
+history
+straight
+elpa
+.lsp*
+persp*
+README.el
+sessions
+projectile*
+eshell
+var
+README.html
+early-init.el
+eln-cache
