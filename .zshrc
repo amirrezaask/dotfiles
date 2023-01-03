@@ -24,21 +24,16 @@ export HOMEBREW_NO_AUTO_UPDATE=1
 export FZF_DEFAULT_OPTS='--height 20%'
 export FZF_DEFAULT_COMMAND='rg --files'
 
+reload() {
+    source ~/.zshrc
+}
+
 ss_proxy() {
     export http_proxy='http://localhost:1087'
     export https_proxy='http://localhost:1087'
 }
 
-alias emacs='emacsclient -t -a ""'
-alias e='emacs'
-
 if command -v nvim &> /dev/null
 then
     alias vim='nvim'
 fi
-
-if ! command -v starship &> /dev/null
-then
-    curl -sS https://starship.rs/install.sh | sh
-fi
-eval "$(starship init zsh)"

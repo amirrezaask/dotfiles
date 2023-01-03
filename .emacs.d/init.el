@@ -1,12 +1,12 @@
 (setq debug-on-init t)
 (setq user-full-name "Amirreza Askarpour")
 (setq user-email "raskarpour@gmail.com")
-(setq amirreza/font "Source Code Pro")
+;; (setq amirreza/font "Source Code Pro")
 ;; (setq amirreza/font "FiraCode Nerd Font Mono")
 ;; (setq amirreza/font "OperatorMono Nerd Font Light")
 ;; (setq amirreza/font "JetBrainsMono Nerd Font Mono")
-;; (setq amirreza/font "Iosevka")
-(setq amirreza/font-size "18")
+(setq amirreza/font "Iosevka")
+(setq amirreza/font-size "20")
 (setq amirreza/theme 'doom-solarized-dark)
 (setq amirreza/transparent 100)
 
@@ -95,17 +95,15 @@
 
 (amirreza/install-packages
  '(
-   general
    hydra
    helpful
    gcmh
    ace-window
-   benchmark-init
    bufler
+   wgrep
+   ripgrep
    )
  )
-
-(add-hook 'after-init-hook 'benchmark-init/deactivate)
 
 (gcmh-mode 1)
 
@@ -210,10 +208,8 @@
   :config
   (corfu-prescient-mode))
 
-(use-package emacs
-  :config
-  (setq completion-cycle-threshold 3)
-  (setq tab-always-indent 'complete))
+(setq completion-cycle-threshold 3)
+(setq tab-always-indent 'complete)
 
 (use-package vertico
   :init
@@ -236,7 +232,6 @@
   (setq completion-styles '(orderless basic)
       completion-category-defaults nil
       completion-category-overrides '((file (styles partial-completion)))))
-
 
 (use-package vertico-prescient
   :after prescient
@@ -355,27 +350,11 @@
 
 (add-to-list 'amirreza/programming-hydra-heads '("." amirreza/eldoc-toggle-buffer "Toggle Eldoc for point"))
 
-(global-set-key (kbd "C-h .") 'amirreza/eldoc-toggle-buffer)
-(global-set-key (kbd "M-0") 'amirreza/eldoc-toggle-buffer)
+(global-set-key (kbd "C-h .") 'eldoc)
+(global-set-key (kbd "M-0") 'eldoc)
 
 (setq amirreza/--eldoc-window-open 'close)
 
-(defun amirreza/eldoc-toggle-buffer ()
-  "Toggle eldoc buffer."
-  (interactive)
-  (if (eq 'open amirreza/--eldoc-window-open)
-      (progn
-	(message "closing...")
-	(dolist (w (window-list))
-	  (when (string-match-p "\\*eldoc.*" (buffer-name (window-buffer w)))
-	    (quit-window nil w)
-	    ))
-	(setq amirreza/--eldoc-window-open 'close))
-    (progn
-      (message "opening...")
-      (eldoc-doc-buffer t)
-      (setq amirreza/--eldoc-window-open 'open))
-    ))
 (global-eldoc-mode)
 
 (use-package eglot
