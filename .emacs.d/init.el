@@ -98,34 +98,26 @@
    general
    hydra
    helpful
+   gcmh
+   ace-window
+   benchmark-init
+   bufler
    )
  )
 
-(use-package benchmark-init
-  :config
-  (add-hook 'after-init-hook 'benchmark-init/deactivate))
+(add-hook 'after-init-hook 'benchmark-init/deactivate)
 
-(use-package gcmh
-  :init
-  (gcmh-mode 1))
+(gcmh-mode 1)
 
 (defmacro amirreza/defhydra (name body heads)
   `(eval (append '(defhydra ,name ,body) ,heads)))
 
-
 (global-set-key (kbd "C-c e e") 'amirreza/edit-emacs)
-
-(use-package ace-window)
-
 (global-set-key (kbd "C-x o") 'ace-window)
-
-(use-package bufler)
-
 (global-set-key (kbd "C-x C-b") 'ace-window)
 
-
 (add-hook 'dired-mode-hook (lambda ()
-			       (define-key dired-mode-map (kbd "C-c C-e") 'wdired-change-to-wdired-mode)
+			     (define-key dired-mode-map (kbd "C-c C-e") 'wdired-change-to-wdired-mode)
 			     ))
 (setq
  IS-MAC (string-equal system-type "darwin")
@@ -164,7 +156,7 @@
   (load-theme amirreza/--current-theme t))
 
 (amirreza/load-theme amirreza/theme)
-(general-def :keymaps 'override "C-c t t" 'amirreza/switch-theme)
+(global-set-key (kbd "C-c t t") 'amirreza/switch-theme)
 
 ;; Font settings
 (defun amirreza/display-benq ()
@@ -401,33 +393,11 @@
 
   (use-package consult-eglot)
 
-;; If a language has no specific keys other that programming one like rust they can map this.
 (amirreza/defhydra amirreza/programming-hydra (:exit t)
 		   amirreza/programming-hydra-heads)
 
-(general-def 
-  :keymaps 'prog-mode-map "C-c m" 'amirreza/programming-hydra/body)
-
-
-(general-def
-  :keymaps 'prog-mode-map
-  :states 'normal
-  "SPC m" 'amirreza/programming-hydra/body)
-
-(use-package go-mode
-  :init
-  (amirreza/defhydra amirreza/go-hydra
-		     (:exit t)
-		     (append amirreza/programming-hydra-heads '(("a" go-tag-add "Add Struct Tag"))))
-  :general
-  (:keymaps 'go-mode-map
-	    "C-c m" 'amirreza/go-hydra/body)
-  (:keymaps 'go-mode-map
-  :states 'normal
-	    "SPC m" 'amirreza/go-hydra/body)
-  )
-
 (amirreza/install-packages '(
+			     go-mode
 			     go-tag
 			     rust-mode
 			     clojure-mode ;; LISP on JVM
@@ -441,43 +411,46 @@
 			     markdown-mode ;; Markdown syntax
 			     yaml-mode ;; Yaml
 			     fish-mode ;; Fish
+			     json-mode ;; JSON
 			     csv-mode ;; CSV
 			     ))
-(use-package json-mode
-  :init
-  (setq amirreza/json-hydra-heads '(
-				    ("f" json-pretty-print "Pretty print region")
-				    ("F" json-pretty-print-buffer "Pretty print buffer")
-				    ))
-  (amirreza/defhydra amirreza/json-hydra (:exit t) amirreza/json-hydra-heads)
-  :general
-  (:keymaps 'json-mode-map
-	    "C-c m" 'amirreza/json-hydra/body
-	    )
-  (:states 'normal :keymaps 'json-mode-map "SPC m" 'amirreza/json-hydra/body)
-  )
 
+(add-hook 'prog-mode-hook (lambda ()
+			    (define-key prog-mode-map (kbd "C-c m") 'amirreza/programming-hydra/body)))
+
+
+
+(amirreza/defhydra amirreza/go-hydra
+		   (:exit t)
+		   (append amirreza/programming-hydra-heads '(("a" go-tag-add "Add Struct Tag"))))
+  
+(add-hook 'go-mode-hook (lambda ()
+			    (define-key go-mode-map (kbd "C-c m") 'amirreza/go-hydra/body)))
+
+(setq amirreza/json-hydra-heads '(
+				  ("f" json-pretty-print "Pretty print region")
+				  ("F" json-pretty-print-buffer "Pretty print buffer")
+				  ))
+(amirreza/defhydra amirreza/json-hydra (:exit t) amirreza/json-hydra-heads)
+
+(add-hook 'json-mode-hook (lambda ()
+			    (define-key (kbd "C-c m") 'amirreza/json-hydra/body)
+			    ))
 (use-package perspective
   :init
-
   (setq persp-state-default-file (expand-file-name "sessions" user-emacs-directory))
   (setq persp-mode-prefix-key (kbd "C-c w"))
-
-
   (defun amirreza/save-session ()
     (interactive)
     (persp-state-save persp-state-default-file))
-
-
   (defun amirreza/load-session ()
     (interactive)
     (persp-state-load persp-state-default-file))
   (persp-mode 1)
   :hook
   (kill-emacs . amirreza/save-session)
-  :general
-  (:prefix "C-c w" :keymaps 'override "s" 'persp-switch)
-  (:prefix "SPC w" :states 'normal :keymaps 'override "s" 'persp-switch)
+  :config
+  (global-set-key (kbd "C-c w s") 'persp-switch)
   )
 
 (when (string-equal system-type "darwin")
