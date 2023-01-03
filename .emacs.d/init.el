@@ -1,12 +1,13 @@
+(setq debug-on-init t)
 (setq user-full-name "Amirreza Askarpour")
 (setq user-email "raskarpour@gmail.com")
-;; (setq amirreza/font "Source Code Pro")
+(setq amirreza/font "Source Code Pro")
 ;; (setq amirreza/font "FiraCode Nerd Font Mono")
 ;; (setq amirreza/font "OperatorMono Nerd Font Light")
-(setq amirreza/font "JetBrainsMono Nerd Font Mono")
+;; (setq amirreza/font "JetBrainsMono Nerd Font Mono")
 ;; (setq amirreza/font "Iosevka")
 (setq amirreza/font-size "18")
-(setq amirreza/theme 'gruber-darker)
+(setq amirreza/theme 'doom-solarized-dark)
 (setq amirreza/transparent 100)
 
 ;; If early-init wasn't there.
@@ -81,7 +82,7 @@
 
 (defun amirreza/edit-emacs ()
   (interactive)
-  (find-file (expand-file-name "README.org" user-emacs-directory)))
+  (find-file (expand-file-name "init.el" user-emacs-directory)))
 
 
 (defun amirreza/getenv (name default)
@@ -96,6 +97,7 @@
  '(
    general
    hydra
+   helpful
    )
  )
 
@@ -110,62 +112,36 @@
 (defmacro amirreza/defhydra (name body heads)
   `(eval (append '(defhydra ,name ,body) ,heads)))
 
-(general-def :keymaps 'override "C-c e e" 'amirreza/edit-emacs)
 
-(use-package ace-window
-  :general
-  (:keymaps 'override "C-x o" 'ace-window))
+(global-set-key (kbd "C-c e e") 'amirreza/edit-emacs)
 
-(use-package bufler
-  :general
-  (:keymaps 'override "C-x C-b" 'bufler))
+(use-package ace-window)
 
-(general-def :keymaps 'dired-mode-map
-  "C-c C-e" 'wdired-change-to-wdired-mode)
+(global-set-key (kbd "C-x o") 'ace-window)
 
+(use-package bufler)
+
+(global-set-key (kbd "C-x C-b") 'ace-window)
+
+
+(add-hook 'dired-mode-hook (lambda ()
+			       (define-key dired-mode-map (kbd "C-c C-e") 'wdired-change-to-wdired-mode)
+			     ))
 (setq
  IS-MAC (string-equal system-type "darwin")
  IS-LINUX (string-equal system-type "linux")
- IS-WINDOWS (string-equal system-type "windows"))
+ IS-WINDOWS (string-equal system-type "windows")
+ mediaplayer (cond
+	      (IS-MAC "/Applications/VLC.app/Contents/MacOS/VLC")
+	      (IS-LINUX "vlc"))
+ pdfviewer (cond
+	    (IS-MAC "open"))
+ imageviewer (cond
+	      (IS-MAC "open")))
 
-(setq mediaplayer (cond
-	   (IS-MAC "/Applications/VLC.app/Contents/MacOS/VLC")
-	   (IS-LINUX "vlc")))
-
-(setq pdfviewer (cond
-		 (IS-MAC "open")))
-
-(setq imageviewer (cond
-		   (IS-MAC "open")))
-
-(use-package openwith
-  :init
-  (openwith-mode)
-  :config
-  (setq openwith-associations
-	(list
-	  (list (openwith-make-extension-regexp
-		'("mpg" "mpeg" "mp3" "mp4"
-		  "avi" "wmv" "wav" "mov" "flv"
-		  "ogm" "ogg" "mkv"))
-		mediaplayer
-		'(file))
-	  (list (openwith-make-extension-regexp
-		'("xbm" "pbm" "pgm" "ppm" "pnm"
-		  "png" "gif" "bmp" "tif" "jpeg" "jpg"))
-		  imageviewer
-		  '(file))
-	  (list (openwith-make-extension-regexp
-		'("pdf"))
-		pdfviewer
-		'(file)))))
-
-(use-package helpful
-  :general
-  (:keymaps 'global-map
-  [remap describe-key] 'helpful-key
-  [remap describe-function] 'helpful-callable
-  [remap describe-variable] 'helpful-variable))
+(global-set-key [remap describe-key] 'helpful-key)
+(global-set-key [remap describe-function] 'helpful-callable)
+(global-set-key [remap describe-variable] 'helpful-variable)
 
 (amirreza/install-packages '(ef-themes doom-themes gruber-darker-theme))
 
@@ -278,10 +254,6 @@
 ;; Search and replace beautifuly
 (amirreza/install-packages '(wgrep rg))
 
-(use-package rainbow-delimiters
-  :hook
-  (prog-mode . rainbow-delimiters-mode))
-
 (delete-selection-mode 1) ;; When a region of text is selected and then something is typed remove text and replace with what has been typed.
 (setq show-paren-delay 0) ;; highlight matching parens instantly.
 (show-paren-mode 1) ;; Highlight matching parens
@@ -301,16 +273,12 @@
 ;; Best movement ever ?????
 (setq recenter-positions '(middle))
 
-(general-def :keymaps 'global-map
-  "M-p" 'amirreza/up-center
-  "M-n" 'amirreza/down-center
-  )
+(global-set-key (kbd "M-p") 'amirreza/up-center)
+(global-set-key (kbd "M-n") 'amirreza/down-center)
 
-(use-package expand-region
-  :general
-  (:keymaps 'global-map
-	    "C-=" 'er/expand-region
-	    "C--" 'er/contract-region))
+(use-package expand-region)
+(global-set-key (kbd "C-=") 'er/expand-region)
+(global-set-key (kbd "C--") 'er/contract-region)
 
 (global-set-key (kbd "C-q") 'set-mark-command)
 
@@ -350,11 +318,11 @@
   ("t"  org-todo "Open At Point")
   )
 
-(general-def :keymaps 'org-mode-map
-  "C-c m" 'amirreza/org-mode-hydra/body)
-(general-def :keymaps 'org-src-mode-map
-  "C-c C-c" #'org-edit-src-exit
-  )
+
+(add-hook 'org-mode-hook (lambda ()
+			     (define-key org-mode-map (kbd "C-c m") 'amirreza/org-mode-hydra/body)
+			     (define-key org-src-mode-map (kbd "C-c C-c") #'org-edit-src-exit)
+			   ))
 
 (amirreza/install-packages '(
 			     ox-reveal
@@ -364,77 +332,59 @@
 			     htmlize
 			     ))
 
-(use-package git-gutter
-  :init
-  (global-git-gutter-mode))
+(use-package git-gutter)
+(global-git-gutter-mode)
 
-(use-package magit
-  :general
-  (:keymaps 'global-map "C-x g" 'magit))
+(use-package magit)
 
+(global-set-key (kbd "C-x g") 'magit)
 
-(use-package project
-  :straight nil
-  :general
-  (:keymaps 'override "C-x p" 'amirreza/project-hydra/body)
-  :init
-  (defhydra amirreza/project-hydra (:exit t)
-    ("f" project-find-file "Find File")
-    ("p" project-switch-project "Switch To Project")
-    ("b" project-buffers "Find Buffer In Project")
-    ("c" project-compile "Compile Project")))
+(defhydra amirreza/project-hydra (:exit t)
+  ("f" project-find-file "Find File")
+  ("p" project-switch-project "Switch To Project")
+  ("b" project-buffers "Find Buffer In Project")
+  ("c" project-compile "Compile Project"))
+
+(global-set-key (kbd "C-x p") 'amirreza/project-hydra/body)
 
 (setq amirreza/programming-hydra-heads '())
 
-(use-package flymake
-  :straight nil
-  :init
-  (add-to-list 'amirreza/programming-hydra-heads '("n" flymake-goto-next-error "Goto Next Error"))
-  (add-to-list 'amirreza/programming-hydra-heads '("p" flymake-goto-previous-error "Goto Previous Error"))
-  (add-to-list 'amirreza/programming-hydra-heads '("e" consult-flymake "List of errors")))
+(add-to-list 'amirreza/programming-hydra-heads '("n" flymake-goto-next-error "Goto Next Error"))
+(add-to-list 'amirreza/programming-hydra-heads '("p" flymake-goto-previous-error "Goto Previous Error"))
+(add-to-list 'amirreza/programming-hydra-heads '("e" consult-flymake "List of errors"))
 
-(use-package xref
-  :straight nil
-  :general
-    (:keymaps 'global-map
-	      "M-." 'xref-find-definitions ;; Goto definitions
-	      "M-," 'xref-go-back ;; hop back where you where before jump
-	      "M-r" 'xref-find-references ;; Goto references
-  ))
+(global-set-key (kbd "M-.") 'xref-find-definitions)
+(global-set-key (kbd "M-,") 'xref-go-back)
+(global-set-key (kbd "M-r") 'xref-find-references)
 
-(use-package eldoc
-  :straight nil
-  :init
-  (setq eldoc-echo-area-use-multiline-p nil)
-  (setq eldoc-echo-area-display-truncation-message nil)
-  (setq eldoc-echo-area-prefer-doc-buffer nil)
-  (add-to-list 'amirreza/programming-hydra-heads '("." amirreza/eldoc-toggle-buffer "Toggle Eldoc for point"))
-  :general
-  (:keymaps 'global-map
-		"C-h ." 'amirreza/eldoc-toggle-buffer ;; Toggle eldoc buffer
-		"M-0" 'amirreza/eldoc-toggle-buffer ;; Toggle eldoc buffer
-		)
+(setq eldoc-echo-area-use-multiline-p nil)
+(setq eldoc-echo-area-display-truncation-message nil)
+(setq eldoc-echo-area-prefer-doc-buffer nil)
 
-  :config
-  (setq amirreza/--eldoc-window-open 'close)
+(add-to-list 'amirreza/programming-hydra-heads '("." amirreza/eldoc-toggle-buffer "Toggle Eldoc for point"))
 
-  (defun amirreza/eldoc-toggle-buffer ()
-    "Toggle eldoc buffer."
-    (interactive)
-    (if (eq 'open amirreza/--eldoc-window-open)
-	(progn
-	  (message "closing...")
-	  (dolist (w (window-list))
-	    (when (string-match-p "\\*eldoc.*" (buffer-name (window-buffer w)))
-	      (quit-window nil w)
-	      ))
-	  (setq amirreza/--eldoc-window-open 'close))
+(global-set-key (kbd "C-h .") 'amirreza/eldoc-toggle-buffer)
+(global-set-key (kbd "M-0") 'amirreza/eldoc-toggle-buffer)
+
+(setq amirreza/--eldoc-window-open 'close)
+
+(defun amirreza/eldoc-toggle-buffer ()
+  "Toggle eldoc buffer."
+  (interactive)
+  (if (eq 'open amirreza/--eldoc-window-open)
       (progn
-	(message "opening...")
-	(eldoc-doc-buffer t)
-	(setq amirreza/--eldoc-window-open 'open))
-      ))
-  (global-eldoc-mode))
+	(message "closing...")
+	(dolist (w (window-list))
+	  (when (string-match-p "\\*eldoc.*" (buffer-name (window-buffer w)))
+	    (quit-window nil w)
+	    ))
+	(setq amirreza/--eldoc-window-open 'close))
+    (progn
+      (message "opening...")
+      (eldoc-doc-buffer t)
+      (setq amirreza/--eldoc-window-open 'open))
+    ))
+(global-eldoc-mode)
 
 (use-package eglot
   :straight nil
@@ -528,7 +478,6 @@
   :general
   (:prefix "C-c w" :keymaps 'override "s" 'persp-switch)
   (:prefix "SPC w" :states 'normal :keymaps 'override "s" 'persp-switch)
-
   )
 
 (when (string-equal system-type "darwin")
