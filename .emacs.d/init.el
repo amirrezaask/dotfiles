@@ -3,8 +3,8 @@
 ;; (setq amirreza/font "Source Code Pro")
 ;; (setq amirreza/font "FiraCode Nerd Font Mono")
 ;; (setq amirreza/font "OperatorMono Nerd Font Light")
-;; (setq amirreza/font "JetBrainsMono Nerd Font Mono")
-(setq amirreza/font "Iosevka")
+(setq amirreza/font "JetBrainsMono Nerd Font Mono")
+;; (setq amirreza/font "Iosevka")
 (setq amirreza/font-size "18")
 (setq amirreza/theme 'gruber-darker)
 (setq amirreza/transparent 100)
@@ -37,6 +37,15 @@
   (load bootstrap-file nil 'nomessage))
 
 (setq straight-use-package-by-default t)
+
+
+(defun amirreza/install-packages
+    (packages)
+  ;; Packages that just need installing
+  (mapc (lambda (pkg)
+	  (straight-use-package pkg)
+	  ) packages) 
+  )
 
 (setq create-lockfiles nil) ;; Don't create .# files as lock.
 (setq native-comp-async-report-warnings-errors 'silent) ;; Silent Emacs 28 native compilation
@@ -83,8 +92,12 @@
       default
     )))
 
-(use-package general) ;; For a beautiful keymap macro
-(use-package hydra) ;; Make your keybindings stick
+(amirreza/install-packages
+ '(
+   general
+   hydra
+   )
+ )
 
 (use-package benchmark-init
   :config
@@ -92,12 +105,10 @@
 
 (use-package gcmh
   :init
-  (gcmh-mode 1)
-  )
+  (gcmh-mode 1))
 
 (defmacro amirreza/defhydra (name body heads)
   `(eval (append '(defhydra ,name ,body) ,heads)))
-
 
 (general-def :keymaps 'override "C-c e e" 'amirreza/edit-emacs)
 
@@ -105,63 +116,27 @@
   :general
   (:keymaps 'override "C-x o" 'ace-window))
 
-
 (use-package bufler
   :general
-  (:keymaps 'override "C-x C-b" 'bufler)
-  )
+  (:keymaps 'override "C-x C-b" 'bufler))
 
-(use-package winner
-  :init
-  (winner-mode 1)
-  )
-
-(use-package dired :straight nil
-  :init
-    (setq dired-dwim-target t  ; suggest a target for moving/copying intelligently
-	dired-hide-details-hide-symlink-targets nil
-	;; don't prompt to revert, just do it
-	dired-auto-revert-buffer #'dired-buffer-stale-p
-	;; Always copy/delete recursively
-	dired-recursive-copies  'always
-	dired-recursive-deletes 'top
-	large-file-warning-threshold nil
-	;; Ask whether destination dirs should get created when copying/removing files.
-	dired-create-destination-dirs 'ask
-	;; Screens are larger nowadays, we can afford slightly larger thumbnails
-	image-dired-thumb-size 150)
-
-  :general
-  (:keymaps 'dired-mode-map
-	    "C-c C-e" 'wdired-change-to-wdired-mode))
-
-(use-package all-the-icons-dired
-  :hook (dired-mode . all-the-icons-dired-mode)
-  )
+(general-def :keymaps 'dired-mode-map
+  "C-c C-e" 'wdired-change-to-wdired-mode)
 
 (setq
  IS-MAC (string-equal system-type "darwin")
  IS-LINUX (string-equal system-type "linux")
  IS-WINDOWS (string-equal system-type "windows"))
 
-(use-package dired-git-info
-  :general
-  (:keymaps 'dired-mode-map
-	    "C-c m g" 'dired-git-info))
-
 (setq mediaplayer (cond
 	   (IS-MAC "/Applications/VLC.app/Contents/MacOS/VLC")
-	   (IS-LINUX "vlc")
-	   ))
-
+	   (IS-LINUX "vlc")))
 
 (setq pdfviewer (cond
-		 (IS-MAC "open")
-		 ))
+		 (IS-MAC "open")))
 
 (setq imageviewer (cond
-		   (IS-MAC "open")
-		   ))
+		   (IS-MAC "open")))
 
 (use-package openwith
   :init
@@ -192,10 +167,7 @@
   [remap describe-function] 'helpful-callable
   [remap describe-variable] 'helpful-variable))
 
-(use-package all-the-icons)
-(use-package ef-themes)
-(use-package doom-themes)
-(use-package gruber-darker-theme)
+(amirreza/install-packages '(ef-themes doom-themes gruber-darker-theme))
 
 ;; Add custom themes path to themes load path
 (add-to-list 'custom-theme-load-path
@@ -247,9 +219,6 @@
 (set-cursor-color 'red)
 (blink-cursor-mode -1) ;; no blinking cursor.
 (global-hl-line-mode)
-
-(set-frame-parameter (selected-frame) 'alpha (list amirreza/transparent amirreza/transparent))
-(add-to-list 'default-frame-alist (append '(alpha) (list amirreza/transparent amirreza/transparent)))
 
 (use-package corfu
   :straight
@@ -306,49 +275,18 @@
   :config
   (vertico-prescient-mode))
 
-;; Icons in minibuffer completion
-(use-package all-the-icons-completion
-  :if nil
-  :init
-  (all-the-icons-completion-mode))
-
-;; TODO: Maybe a context like completion
-;; for example in org mode have a key to open minibuffer with just org mode functions
-
-(use-package olivetti
-  :init
-  (setq olivetti-body-width 100))
-
 ;; Search and replace beautifuly
-(use-package wgrep)
-;; Ripgrep
-(use-package rg)
+(amirreza/install-packages '(wgrep rg))
 
 (use-package rainbow-delimiters
   :hook
   (prog-mode . rainbow-delimiters-mode))
 
-(use-package delsel
-  :straight nil
-  :config
-  (delete-selection-mode 1) ;; When a region of text is selected and then something is typed remove text and replace with what has been typed.
-  )
-
-(use-package paren
-  :straight nil
-  :init
-  (setq show-paren-delay 0) ;; highlight matching parens instantly.
-  :config
-  (show-paren-mode 1) ;; Highlight matching parens
-  )
-
-(use-package display-line-numbers
-  :straight nil
-  :init
-  (setq display-line-numbers-type 'relative) ;; relative line numbers
-  :config
-  (global-display-line-numbers-mode 1) ;; enable line numbers globaly
-  )
+(delete-selection-mode 1) ;; When a region of text is selected and then something is typed remove text and replace with what has been typed.
+(setq show-paren-delay 0) ;; highlight matching parens instantly.
+(show-paren-mode 1) ;; Highlight matching parens
+(setq display-line-numbers-type 'relative) ;; relative line numbers
+(global-display-line-numbers-mode 1) ;; enable line numbers globaly
 
 (defun amirreza/up-center ()
   (interactive)
@@ -372,70 +310,59 @@
   :general
   (:keymaps 'global-map
 	    "C-=" 'er/expand-region
-	    "C--" 'er/contract-region
-	    ))
+	    "C--" 'er/contract-region))
 
-;; really important key if you use emacs in terminal
-(use-package simple
-  :straight nil
-  :general
-  (:keymaps 'override "C-q" 'set-mark-command))
+(global-set-key (kbd "C-q") 'set-mark-command)
 
-(use-package org
-  :straight nil
-  :init
-  (setq org-use-property-inheritance t)
-  (setq org-startup-folded t) ;; Start org mode all headers collapsed
-  (setq org-src-window-setup 'current-window)
-  (setq org-src-tab-acts-natively nil)
-  (defun amirreza/org-code-block ()
-    (interactive)
-    (insert (format "#+BEGIN_SRC %s\n\n#+END_SRC"
-		    (completing-read "Language: "
-				     '("emacs-lisp"
-				       "go"
-				       "rust"
-				       "python"
-				       "lua"
-				       "bash"
-				       "sh"
-				       "fish"
-				       "java"
-				       )))))
+(setq org-use-property-inheritance t)
+(setq org-startup-folded t) ;; Start org mode all headers collapsed
+(setq org-src-window-setup 'current-window)
+(setq org-src-tab-acts-natively nil)
+(defun amirreza/org-code-block ()
+  (interactive)
+  (insert (format "#+BEGIN_SRC %s\n\n#+END_SRC"
+		  (completing-read "Language: "
+				   '("emacs-lisp"
+				     "go"
+				     "rust"
+				     "python"
+				     "lua"
+				     "bash"
+				     "sh"
+				     "fish"
+				     "java"
+				     )))))
 
-  (defun amirreza/org-disable-tangle ()
-    (interactive)
-    (insert ":PROPERTIES:
+(defun amirreza/org-disable-tangle ()
+  (interactive)
+  (insert ":PROPERTIES:
 :header-args:    :tangle no
 :END:"
-	    ))
+	  ))
 
-  (defhydra amirreza/org-mode-hydra (:exit t)
-    ("l" org-toggle-link-display "Toggle Link Display")
-    ("b" amirreza/org-code-block "Insert a Code Block")
-    ("n" amirreza/org-disable-tangle "Disable Tangle PROPERTIES")
-    ("e" org-export-dispatch "Export")
-    ("o" org-open-at-point "Open At Point")
-    ("h" (lambda () (interactive) (org-export-as 'html)) "Org Export To HTML")
-    ("t"  org-todo "Open At Point")
-    )
-  :general
-  (:keymaps 'org-mode-map
-	    "C-c m" 'amirreza/org-mode-hydra/body)
-  (:keymaps 'org-src-mode-map
-	    "C-c C-c" #'org-edit-src-exit
-	    )
-  (:states 'normal :keymaps 'org-mode-map "SPC m" 'amirreza/org-mode-hydra/body)
+(defhydra amirreza/org-mode-hydra (:exit t)
+  ("l" org-toggle-link-display "Toggle Link Display")
+  ("b" amirreza/org-code-block "Insert a Code Block")
+  ("n" amirreza/org-disable-tangle "Disable Tangle PROPERTIES")
+  ("e" org-export-dispatch "Export")
+  ("o" org-open-at-point "Open At Point")
+  ("h" (lambda () (interactive) (org-export-as 'html)) "Org Export To HTML")
+  ("t"  org-todo "Open At Point")
   )
 
-(use-package ox-reveal)
-(use-package ob-go)
-(use-package ob-rust)
-(use-package ob-php)
-(use-package htmlize)
-(use-package evil-org
-  :if (boundp 'IS-EVIL) ;; Only if evil mode is enabled
-  :hook (org-mode . evil-org-mode))
+(general-def :keymaps 'org-mode-map
+  "C-c m" 'amirreza/org-mode-hydra/body)
+(general-def :keymaps 'org-src-mode-map
+  "C-c C-c" #'org-edit-src-exit
+  )
+
+(amirreza/install-packages '(
+			     ox-reveal
+			     ob-go
+			     ob-rust
+			     ob-php
+			     htmlize
+			     ))
 
 (use-package git-gutter
   :init
@@ -443,9 +370,8 @@
 
 (use-package magit
   :general
-  (:keymaps 'global-map "C-x g" 'magit)
-  (:states 'normal "SPC g" 'magit)
-  )
+  (:keymaps 'global-map "C-x g" 'magit))
+
 
 (use-package project
   :straight nil
@@ -456,8 +382,7 @@
     ("f" project-find-file "Find File")
     ("p" project-switch-project "Switch To Project")
     ("b" project-buffers "Find Buffer In Project")
-    ("c" project-compile "Compile Project")
-  ))
+    ("c" project-compile "Compile Project")))
 
 (setq amirreza/programming-hydra-heads '())
 
@@ -552,25 +477,22 @@
 	    "SPC m" 'amirreza/go-hydra/body)
   )
 
-
-(use-package go-tag)
-
-(use-package rust-mode)
-
-(use-package clojure-mode) ;; LISP on JVM
-(use-package cider :after clojure-mode) ;; Clojure repl integrated into Emacs
-
-(use-package zig-mode) ;; Zig
-
-(use-package apache-mode) ;; Apache config syntax
-(use-package systemd) ;; Systemd config syntax
-(use-package nginx-mode) ;; Nginx config syntax
-(use-package docker-compose-mode) ;; Docker-compose syntax
-(use-package dockerfile-mode) ;; Dockerfile syntax
-(use-package markdown-mode) ;; Markdown syntax
-(use-package yaml-mode) ;; Yaml
-(use-package fish-mode) ;; Fish
-(use-package csv-mode) ;; CSV
+(amirreza/install-packages '(
+			     go-tag
+			     rust-mode
+			     clojure-mode ;; LISP on JVM
+			     cider
+			     zig-mode ;; Zig
+			     apache-mode ;; Apache config syntax
+			     systemd ;; Systemd config syntax
+			     nginx-mode;; Nginx config syntax
+			     docker-compose-mode ;; Docker-compose syntax
+			     dockerfile-mode ;; Dockerfile syntax
+			     markdown-mode ;; Markdown syntax
+			     yaml-mode ;; Yaml
+			     fish-mode ;; Fish
+			     csv-mode ;; CSV
+			     ))
 (use-package json-mode
   :init
   (setq amirreza/json-hydra-heads '(
@@ -612,4 +534,3 @@
 (when (string-equal system-type "darwin")
     (setq mac-command-modifier 'meta)
     (setq mac-option-modifier 'meta))
-
