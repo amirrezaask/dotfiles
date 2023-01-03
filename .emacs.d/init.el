@@ -616,6 +616,8 @@
   (:states 'normal :keymaps 'json-mode-map "SPC m" 'amirreza/json-hydra/body)
   )
 
+(use-package consult-jq)
+
 (use-package perspective
   :init
 
