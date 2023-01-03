@@ -9,6 +9,14 @@
 (setq amirreza/theme 'gruber-darker)
 (setq amirreza/transparent 100)
 
+;; If early-init wasn't there.
+(setq package-enable-at-startup nil) ;; Disable default package manager package.el
+(tool-bar-mode 0) ;; disable top toolbar
+(scroll-bar-mode 0) ;; disable scroll bar
+(menu-bar-mode -1) ;; Disable menu bar
+(setq gc-cons-threshold (* 100 1024 1024))
+(setq read-process-output-max (* 1024 1024))
+
 
 (setq vc-follow-symlinks t)
 (add-to-list 'load-path (expand-file-name "site-lisp" user-emacs-directory))
@@ -136,38 +144,6 @@
  IS-LINUX (string-equal system-type "linux")
  IS-WINDOWS (string-equal system-type "windows"))
 
-(use-package dired-x
-  :straight nil
-  :hook (dired-mode . dired-omit-mode)
-  :config
-  (setq dired-omit-verbose nil
-	dired-omit-files
-	(concat dired-omit-files
-		"\\|^\\.DS_Store\\'"
-		"\\|^\\.project\\(?:ile\\)?\\'"
-		"\\|^\\.\\(?:svn\\|git\\)\\'"
-		"\\|^\\.ccls-cache\\'"
-		"\\|\\(?:\\.js\\)?\\.meta\\'"
-		"\\|\\.\\(?:elc\\|o\\|pyo\\|swp\\|class\\)\\'"))
-  ;; Disable the prompt about whether I want to kill the Dired buffer for a
-  ;; deleted directory. Of course I do!
-  (setq dired-clean-confirm-killing-deleted-buffers nil)
-  ;; Let OS decide how to open certain files
-  (when-let (cmd (cond (IS-MAC "open")
-		       (IS-LINUX "xdg-open")
-		       (IS-WINDOWS "start")))
-    (setq dired-guess-shell-alist-user
-	  `(("\\.\\(?:docx\\|pdf\\|djvu\\|eps\\)\\'" ,cmd)
-	    ("\\.\\(?:jpe?g\\|png\\|gif\\|xpm\\)\\'" ,cmd)
-	    ("\\.\\(?:xcf\\)\\'" ,cmd)
-	    ("\\.csv\\'" ,cmd)
-	    ("\\.tex\\'" ,cmd)
-	    ("\\.\\(?:mp4\\|mkv\\|avi\\|flv\\|rm\\|rmvb\\|ogv\\)\\(?:\\.part\\)?\\'" ,cmd)
-	    ("\\.\\(?:mp3\\|flac\\)\\'" ,cmd)
-	    ("\\.html?\\'" ,cmd)
-	    ("\\.md\\'" ,cmd)))))
-
-
 (use-package dired-git-info
   :general
   (:keymaps 'dired-mode-map
@@ -241,13 +217,6 @@
 
 (amirreza/load-theme amirreza/theme)
 (general-def :keymaps 'override "C-c t t" 'amirreza/switch-theme)
-
-(use-package doom-modeline
-  :if nil
-  :init
-  (setq doom-modeline-height 35)
-  (setq doom-modeline-buffer-file-name-style 'truncate-with-project)
-  (doom-modeline-mode 1))
 
 ;; Font settings
 (defun amirreza/display-benq ()
