@@ -118,6 +118,7 @@ require("packer").startup {
     use { "rose-pine/neovim", as = "rose-pine" }
     use { "navarasu/onedark.nvim" }
     use { "catppuccin/nvim", as = "catppuccin" }
+    use { "ellisonleao/gruvbox.nvim" }
 
     use { "numToStr/Comment.nvim" } -- Comment code with ease
 
@@ -212,11 +213,20 @@ setup("rose-pine", {
   disable_background = vim.g.transparent,
   disable_float_background = vim.g.transparent,
 })
+
 setup("tokyonight", {
   transparent = vim.g.transparent,
 })
 
-pcall(vim.cmd.colorscheme, "rose-pine")
+setup("catppuccin", {
+  transparent_background = vim.g.transparent,
+})
+
+setup("gruvbox", {
+  transparent_mode = true,
+})
+
+pcall(vim.cmd.colorscheme, "catppuccin")
 
 -- File manager like a boss
 setup("oil", {})
@@ -345,10 +355,10 @@ setup("toggleterm", {
   end,
   direction = "vertical",
 })
+
 vim.keymap.set({ "n", "t" }, "<C-`>", "<cmd>ToggleTerm<CR>", {})
 
 setup("nvim-treesitter.configs", {
-
   ensure_installed = { "json", "yaml", "c", "cpp", "lua", "rust", "go", "python", "php" },
   context_commentstring = {
     enable = true,
@@ -438,15 +448,25 @@ if has_telescope then
   require("telescope").setup {}
   require("telescope").load_extension "fzf"
 
+  local function telescope_smart_find_files(opts)
+    local head = vim.fn["fugitive#Head"]
+    local status, res = pcall(head)
+    if status and res ~= "" then
+      require("telescope.builtin").git_files(opts)
+    else
+      require("telescope.builtin").find_files(opts)
+    end
+  end
+
   vim.keymap.set("n", "<leader><leader>", function()
-    require("telescope.builtin").find_files(no_preview)
+    telescope_smart_find_files(no_preview)
   end)
 
   vim.keymap.set("n", "<leader>ff", function()
     require("telescope.builtin").find_files(no_preview)
   end)
 
-  vim.keymap.set("n", "<leader>fg", function()
+  vim.keymap.set("n", "<leader>gf", function()
     require("telescope.builtin").git_files(no_preview)
   end)
 
