@@ -169,11 +169,11 @@ require("packer").startup {
     use "kevinhwang91/nvim-bqf" -- Preview quickfix list item.
     use "tpope/vim-eunuch" -- Helper commands like :Rename, :Move, :Delete, :Remove, ...
     use "tpope/vim-sleuth" -- Heuristically set buffer options
-    use "windwp/nvim-autopairs"
+    use "windwp/nvim-autopairs" -- Auto insert pairs like () [] {}
     use "lewis6991/gitsigns.nvim" -- Signs next to line numbers to show git status of a line
     use "tpope/vim-fugitive" -- Best Git Client after magit :)
     use "fatih/vim-go" -- Golang tools and code actions
-    use "akinsho/toggleterm.nvim" -- Toggleterm
+    use "akinsho/toggleterm.nvim" -- Terminal emulator that we deserve
     use "folke/zen-mode.nvim" -- Focus on coding
   end,
   config = {
@@ -411,7 +411,7 @@ if has_gitsigns then
   }
 end
 
-pcall(vim.cmd.colorscheme, "tokyonight-night")
+pcall(vim.cmd.colorscheme, "onedark")
 
 vim.keymap.set("n", "<leader>gs", vim.cmd.Git)
 
