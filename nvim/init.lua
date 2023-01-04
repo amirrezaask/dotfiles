@@ -118,7 +118,9 @@ require("packer").startup {
     use { "catppuccin/nvim", as = "catppuccin" }
 
     use { "numToStr/Comment.nvim" } -- Comment code with ease
+
     use { "nvim-lualine/lualine.nvim" } -- Statusline
+
     use {
       "nvim-telescope/telescope.nvim",
       requires = {
@@ -128,7 +130,8 @@ require("packer").startup {
         },
         { "nvim-lua/plenary.nvim" },
       },
-    }
+    } -- Best search interface of all time
+
     -- Treesitter
     use { "nvim-treesitter/nvim-treesitter" }
     use { "nvim-treesitter/nvim-treesitter-textobjects", after = "nvim-treesitter" }
@@ -411,7 +414,7 @@ if has_gitsigns then
   }
 end
 
-pcall(vim.cmd.colorscheme, "onedark")
+pcall(vim.cmd.colorscheme, "tokyonight")
 
 vim.keymap.set("n", "<leader>gs", vim.cmd.Git)
 
