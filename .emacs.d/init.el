@@ -39,14 +39,65 @@
 
 (setq straight-use-package-by-default t)
 
+;; All packages I install
+(setq amirreza/packages
+ '(
+   hydra
+   helpful
+   gcmh
 
-(defun amirreza/install-packages
-    (packages)
-  ;; Packages that just need installing
-  (mapc (lambda (pkg)
-	  (straight-use-package pkg)
-	  ) packages) 
-  )
+   ace-window
+   bufler
+
+   wgrep
+   ripgrep
+
+   ox-reveal
+   ob-go
+   ob-rust
+   ob-php
+   htmlize
+
+   git-gutter
+   magit
+
+   ef-themes
+   doom-themes
+   gruber-darker-theme
+
+   (corfu :type git :host github :repo "emacs-straight/corfu" :files ("*" "extensions/*.el" (:exclude ".git")))
+   corfu-terminal
+   corfu-prescient
+   
+   vertico
+   vertico-prescient
+   consult
+   marginalia
+   orderless
+   wgrep rg
+   consult-eglot
+   go-mode
+   go-tag
+   rust-mode
+   clojure-mode ;; LISP on JVM
+   cider
+   zig-mode ;; Zig
+   apache-mode ;; Apache config syntax
+   systemd ;; Systemd config syntax
+   nginx-mode;; Nginx config syntax
+   docker-compose-mode ;; Docker-compose syntax
+   dockerfile-mode ;; Dockerfile syntax
+   markdown-mode ;; Markdown syntax
+   yaml-mode ;; Yaml
+   fish-mode ;; Fish
+   json-mode ;; JSON
+   csv-mode ;; CSV
+
+   )
+ )
+
+(mapc (lambda (pkg)
+	(straight-use-package pkg)) amirreza/packages)
 
 (setq create-lockfiles nil) ;; Don't create .# files as lock.
 (setq native-comp-async-report-warnings-errors 'silent) ;; Silent Emacs 28 native compilation
@@ -89,21 +140,8 @@
   (let ((value (getenv name)))
     (if value
 	value
-      default
-    )))
+      default)))
 
-(amirreza/install-packages
- '(
-   hydra
-   helpful
-   gcmh
-   ace-window
-   bufler
-   wgrep
-   ripgrep
-
-   )
- )
 
 (gcmh-mode 1)
 
@@ -132,8 +170,6 @@
 (global-set-key [remap describe-key] 'helpful-key)
 (global-set-key [remap describe-function] 'helpful-callable)
 (global-set-key [remap describe-variable] 'helpful-variable)
-
-(amirreza/install-packages '(ef-themes doom-themes gruber-darker-theme))
 
 ;; Add custom themes path to themes load path
 (add-to-list 'custom-theme-load-path
@@ -186,11 +222,6 @@
 (blink-cursor-mode -1) ;; no blinking cursor.
 (global-hl-line-mode)
 
-(amirreza/install-packages '(
-			     (corfu :type git :host github :repo "emacs-straight/corfu" :files ("*" "extensions/*.el" (:exclude ".git")))
-			     corfu-terminal
-			     corfu-prescient
-			     ))
 
 (setq corfu-auto t)
 (setq corfu-auto-delay 0.1)
@@ -204,14 +235,6 @@
 (setq completion-cycle-threshold 3)
 (setq tab-always-indent 'complete)
 
-(amirreza/install-packages '(
-			     vertico
-			     vertico-prescient
-			     consult
-			     marginalia
-			     orderless
-			     ))
-
 (setq vertico-count 15)
 (setq vertico-cycle t)
 
@@ -224,9 +247,6 @@
       completion-category-overrides '((file (styles partial-completion))))
 
 (vertico-prescient-mode)
-
-;; Search and replace beautifuly
-(amirreza/install-packages '(wgrep rg))
 
 (delete-selection-mode 1) ;; When a region of text is selected and then something is typed remove text and replace with what has been typed.
 (setq show-paren-delay 0) ;; highlight matching parens instantly.
@@ -298,19 +318,7 @@
 			     (define-key org-src-mode-map (kbd "C-c C-c") #'org-edit-src-exit)
 			   ))
 
-(amirreza/install-packages '(
-			     ox-reveal
-			     ob-go
-			     ob-rust
-			     ob-php
-			     htmlize
-			     ))
 
-
-(amirreza/install-packages '(
-			     git-gutter
-			     magit
-			     ))
 
 (global-git-gutter-mode)
 
@@ -347,8 +355,6 @@
 
 (global-eldoc-mode)
 
-(amirreza/install-packages '(consult-eglot))
-
 (add-hook 'go-mode-hook #'eglot-ensure)
 (add-hook 'rust-mode-hook #'eglot-ensure)
 (add-hook 'python-mode-hook #'eglot-ensure)
@@ -363,25 +369,6 @@
 
 (amirreza/defhydra amirreza/programming-hydra (:exit t)
 		   amirreza/programming-hydra-heads)
-
-(amirreza/install-packages '(
-			     go-mode
-			     go-tag
-			     rust-mode
-			     clojure-mode ;; LISP on JVM
-			     cider
-			     zig-mode ;; Zig
-			     apache-mode ;; Apache config syntax
-			     systemd ;; Systemd config syntax
-			     nginx-mode;; Nginx config syntax
-			     docker-compose-mode ;; Docker-compose syntax
-			     dockerfile-mode ;; Dockerfile syntax
-			     markdown-mode ;; Markdown syntax
-			     yaml-mode ;; Yaml
-			     fish-mode ;; Fish
-			     json-mode ;; JSON
-			     csv-mode ;; CSV
-			     ))
 
 (add-hook 'prog-mode-hook (lambda ()
 			    (define-key prog-mode-map (kbd "C-c m") 'amirreza/programming-hydra/body)))

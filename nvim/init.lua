@@ -76,16 +76,20 @@ vim.keymap.set({ "n", "t" }, "<C-t>", "<cmd>tabnew<CR>")
 
 vim.keymap.set("n", "<leader>.", "<cmd>Explore<CR>")
 
+-- Easier buffer switching
+vim.keymap.set("n", "<TAB>", ":bn<CR>")
+vim.keymap.set("n", "<S-TAB>", ":bp<CR>")
+
 -- Easier split navigation
 vim.keymap.set("n", "<C-h>", "<C-w>h")
 vim.keymap.set("n", "<C-j>", "<C-w>j")
 vim.keymap.set("n", "<C-k>", "<C-w>k")
 vim.keymap.set("n", "<C-l>", "<C-w>l")
 
-vim.keymap.set("t", "<C-h>", "<C-\\><C-n><C-w>h")
-vim.keymap.set("t", "<C-j>", "<C-\\><C-n><C-w>j")
-vim.keymap.set("t", "<C-k>", "<C-\\><C-n><C-w>k")
-vim.keymap.set("t", "<C-l>", "<C-\\><C-n><C-w>l")
+vim.keymap.set("t", "<C-h>", "<cmd>wincmd h<CR>")
+vim.keymap.set("t", "<C-j>", "<cmd>wincmd j<CR>")
+vim.keymap.set("t", "<C-k>", "<cmd>wincmd k<CR>")
+vim.keymap.set("t", "<C-l>", "<cmd>wincmd l<CR>")
 
 -- Easier split resizing
 vim.keymap.set("n", "<A-l>", "<C-w><")
@@ -181,6 +185,7 @@ require("packer").startup {
     use "windwp/nvim-autopairs" -- Auto insert pairs like () [] {}
     use "lewis6991/gitsigns.nvim" -- Signs next to line numbers to show git status of a line
     use "tpope/vim-fugitive" -- Best Git Client after magit :)
+    use { "TimUntersberger/neogit", requires = "nvim-lua/plenary.nvim" } -- Magit clone
     use "fatih/vim-go" -- Golang tools and code actions
     use "akinsho/toggleterm.nvim" -- Terminal emulator that we deserve
     use "folke/zen-mode.nvim" -- Focus on coding
