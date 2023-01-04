@@ -1,13 +1,10 @@
-#!/usr/bin/env zsh
+[ ! -d "$HOME/.oh-my-zsh" ] && git clone https://github.com/ohmyzsh/ohmyzsh.git --single-branch --depth 1 .oh-my-zsh
+export ZSH="$HOME/.oh-my-zsh"
+ZSH_THEME="robbyrussell"
 
-[ ! -f "$HOME/.antigen.zsh" ] && curl -L git.io/antigen > antigen.zsh
-source $HOME/.antigen.zsh
+plugins=(git fzf)
 
-antigen use oh-my-zsh
-antigen bundle fzf
-antigen bundle zsh-users/zsh-syntax-highlighting
-antigen bundle zsh-users/zsh-autosuggestions
-antigen apply
+source $ZSH/oh-my-zsh.sh
 
 export GO111MODULE='on'
 export GOPATH="$HOME"
@@ -37,3 +34,5 @@ if command -v nvim &> /dev/null
 then
     alias vim='nvim'
 fi
+
+
