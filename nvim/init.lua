@@ -46,6 +46,9 @@ vim.g.mapleader = " "
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
 
+vim.keymap.set("n", "<leader>vs", "<cmd>vsplit<CR>")
+vim.keymap.set("n", "<leader>sp", "<cmd>split<CR>")
+
 vim.keymap.set("n", "Q", "<NOP>")
 
 vim.keymap.set("n", "{", ":cnext<CR>")
@@ -226,7 +229,7 @@ setup("gruvbox", {
   transparent_mode = true,
 })
 
-pcall(vim.cmd.colorscheme, "catppuccin")
+pcall(vim.cmd.colorscheme, "rose-pine")
 
 -- File manager like a boss
 setup("oil", {})
