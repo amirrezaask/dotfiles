@@ -33,6 +33,8 @@ vim.opt.splitright = true
 if vim.version().major >= 0 and vim.version().minor >= 8 then
   vim.opt.laststatus = 3 -- if supported use global statusline
 end
+-- My configuration value to enable or disable transparency
+vim.g.transparent = true
 
 -- Netrw
 vim.g.netrw_browse_split = 0
@@ -189,16 +191,35 @@ require("packer").startup {
   },
 }
 
+-- Simple function to reduce boilerplate
+-- when configuring a plugin using a conventional
+-- Lua interface.
+local function setup(plugin, opts)
+  local has_plugin, _ = pcall(require, plugin)
+  if has_plugin then
+    require(plugin).setup(opts)
+  end
+end
+
 -- Install missing plugins
 require("packer").install()
 
 -- Faster lua module lookup by caching
 pcall(require, "impatient")
 
-local has_oil, _ = pcall(require, "oil")
-if has_oil then
-  require("oil").setup {}
-end
+-- Colorscheme
+setup("rose-pine", {
+  disable_background = vim.g.transparent,
+  disable_float_background = vim.g.transparent,
+})
+setup("tokyonight", {
+  transparent = vim.g.transparent,
+})
+
+pcall(vim.cmd.colorscheme, "rose-pine")
+
+-- File manager like a boss
+setup("oil", {})
 
 -- LSP + nvim-cmp (Autocomplete) setup
 local has_lsp_zero, _ = pcall(require, "lsp-zero")
@@ -267,23 +288,20 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 })
 
 -- Hook non-LSP sources into LSP
-local has_null_ls, _ = pcall(require, "null-ls")
-if has_null_ls then
-  require("null-ls").setup {
-    sources = {
-      require("null-ls").builtins.code_actions.gitsigns,
-      require("null-ls").builtins.diagnostics.golangci_lint,
-      require("null-ls").builtins.diagnostics.trail_space.with { disabled_filetypes = { "NvimTree" } },
-      require("null-ls").builtins.formatting.stylua,
-      require("null-ls").builtins.formatting.goimports,
-    },
-  }
-end
+setup("null-ls", {
+  sources = {
+    require("null-ls").builtins.code_actions.gitsigns,
+    require("null-ls").builtins.diagnostics.golangci_lint,
+    require("null-ls").builtins.diagnostics.trail_space.with { disabled_filetypes = { "NvimTree" } },
+    require("null-ls").builtins.formatting.stylua,
+    require("null-ls").builtins.formatting.goimports,
+  },
+})
 
 -- Package manager inside neovim
 local has_mason, _ = pcall(require, "mason")
 if has_mason then
-  local mason_ensure_installed = { "stylua", "golangci-lint", "goimports", "gofumpt", "yamlfmt" }
+  local mason_ensure_installed = { "stylua", "golangci-lint", "goimports", "gofumpt", "yamlfmt" } -- Ensure these tools are installed
   for _, pkg in ipairs(mason_ensure_installed) do
     if not require("mason-registry").is_installed(pkg) then
       require("mason.api.command").MasonInstall { pkg }
@@ -299,10 +317,7 @@ vim.api.nvim_create_user_command("VirtualTextToggle", function()
   }
 end, {})
 
-local has_fidget, _ = pcall(require, "fidget")
-if has_fidget then
-  require("fidget").setup {}
-end
+setup("fidget", {})
 
 -- Some Golang stuff
 vim.g.go_gopls_enabled = 0
@@ -320,101 +335,83 @@ vim.api.nvim_create_autocmd("BufEnter", {
 })
 
 -- Terminal emulator
-local has_toggleterm, _ = pcall(require, "toggleterm")
-if has_toggleterm then
-  require("toggleterm").setup {
-    size = function(term)
-      if term.direction == "horizontal" then
-        return 15
-      elseif term.direction == "vertical" then
-        return vim.o.columns * 0.4
-      end
-    end,
-    direction = "vertical",
-  }
+setup("toggleterm", {
+  size = function(term)
+    if term.direction == "horizontal" then
+      return 15
+    elseif term.direction == "vertical" then
+      return vim.o.columns * 0.4
+    end
+  end,
+  direction = "vertical",
+})
+vim.keymap.set({ "n", "t" }, "<C-`>", "<cmd>ToggleTerm<CR>", {})
 
-  vim.keymap.set({ "n", "t" }, "<C-`>", "<cmd>ToggleTerm<CR>", {})
-end
+setup("nvim-treesitter.configs", {
 
-local has_treesitter, _ = pcall(require, "nvim-treesitter")
-if has_treesitter then
-  require("nvim-treesitter.configs").setup {
-    ensure_installed = { "json", "yaml", "c", "cpp", "lua", "rust", "go", "python", "php" },
-    context_commentstring = {
+  ensure_installed = { "json", "yaml", "c", "cpp", "lua", "rust", "go", "python", "php" },
+  context_commentstring = {
+    enable = true,
+  },
+  highlight = {
+    enable = true,
+  },
+  rainbow = {
+    enable = true,
+    extended_mode = true, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
+    max_file_lines = nil, -- Do not enable for files with more than n lines, int
+  },
+  textobjects = {
+    move = {
       enable = true,
-    },
-    highlight = {
-      enable = true,
-    },
-    rainbow = {
-      enable = true,
-      extended_mode = true, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
-      max_file_lines = nil, -- Do not enable for files with more than n lines, int
-    },
-    textobjects = {
-      move = {
-        enable = true,
-        set_jumps = true, -- whether to set jumps in the jumplist
-        goto_next_start = {
-          ["]m"] = "@function.outer",
-          ["]]"] = "@class.outer",
-        },
-        goto_next_end = {
-          ["]M"] = "@function.outer",
-          ["]["] = "@class.outer",
-        },
-        goto_previous_start = {
-          ["[m"] = "@function.outer",
-          ["[["] = "@class.outer",
-        },
-        goto_previous_end = {
-          ["[M"] = "@function.outer",
-          ["[]"] = "@class.outer",
-        },
+      set_jumps = true, -- whether to set jumps in the jumplist
+      goto_next_start = {
+        ["]m"] = "@function.outer",
+        ["]]"] = "@class.outer",
       },
-      select = {
-        enable = true,
-
-        -- Automatically jump forward to textobj, similar to targets.vim
-        lookahead = true,
-
-        keymaps = {
-          -- You can use the capture groups defined in textobjects.scm
-          ["af"] = "@function.outer",
-          ["if"] = "@function.inner",
-          ["ac"] = "@class.outer",
-          ["ic"] = "@class.inner",
-        },
+      goto_next_end = {
+        ["]M"] = "@function.outer",
+        ["]["] = "@class.outer",
+      },
+      goto_previous_start = {
+        ["[m"] = "@function.outer",
+        ["[["] = "@class.outer",
+      },
+      goto_previous_end = {
+        ["[M"] = "@function.outer",
+        ["[]"] = "@class.outer",
       },
     },
-  }
-end
+    select = {
+      enable = true,
 
-local has_treesitter_context, _ = pcall(require, "treesitter-context")
+      -- Automatically jump forward to textobj, similar to targets.vim
+      lookahead = true,
 
-if has_treesitter_context then
-  require("treesitter-context").setup {}
-end
-
-local has_comment, _ = pcall(require, "Comment")
-if has_comment then
-  require("Comment").setup()
-end
-
-local has_gitsigns, _ = pcall(require, "gitsigns")
-if has_gitsigns then
-  require("gitsigns").setup {
-    signs = {
-      add = { text = "+" },
-      change = { text = "~" },
-      delete = { text = "_" },
-      topdelete = { text = "‾" },
-      changedelete = { text = "~" },
+      keymaps = {
+        -- You can use the capture groups defined in textobjects.scm
+        ["af"] = "@function.outer",
+        ["if"] = "@function.inner",
+        ["ac"] = "@class.outer",
+        ["ic"] = "@class.inner",
+      },
     },
-  }
-end
+  },
+})
 
-pcall(vim.cmd.colorscheme, "tokyonight")
+setup("treesitter-context", {})
+
+setup("Comment", {})
+
+setup("gitsigns", {
+  signs = {
+    add = { text = "+" },
+    change = { text = "~" },
+    delete = { text = "_" },
+    topdelete = { text = "‾" },
+    changedelete = { text = "~" },
+  },
+})
 
 vim.keymap.set("n", "<leader>gs", vim.cmd.Git)
 
@@ -422,28 +419,17 @@ vim.api.nvim_create_user_command("Gp", function()
   vim.cmd.Git "push"
 end, {})
 
-local has_lualine, _ = pcall(require, "lualine")
-if has_lualine then
-  require("lualine").setup {
-    options = {
-      icons_enabled = false,
-      theme = "auto",
-      component_separators = "|",
-      section_separators = "",
-    },
-  }
-end
+setup("lualine", {
+  options = {
+    icons_enabled = false,
+    theme = "auto",
+    component_separators = "|",
+    section_separators = "",
+  },
+})
 
-local has_autopairs, _ = pcall(require, "nvim-autopairs")
-if has_autopairs then
-  require("nvim-autopairs").setup()
-end
-
-local has_zenmode, _ = pcall(require, "zen-mode")
-if has_zenmode then
-  require("zen-mode").setup {}
-  vim.keymap.set("n", "<leader>z", vim.cmd.ZenMode)
-end
+setup "zen-mode"
+vim.keymap.set("n", "<leader>z", vim.cmd.ZenMode)
 
 local has_telescope, _ = pcall(require, "telescope")
 if has_telescope then
