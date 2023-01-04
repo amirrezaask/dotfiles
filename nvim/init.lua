@@ -34,7 +34,7 @@ if vim.version().major >= 0 and vim.version().minor >= 8 then
   vim.opt.laststatus = 3 -- if supported use global statusline
 end
 -- My configuration value to enable or disable transparency
-vim.g.transparent = true
+vim.g.transparent = false
 
 -- Netrw
 vim.g.netrw_browse_split = 0
@@ -126,6 +126,7 @@ require("packer").startup {
     use { "navarasu/onedark.nvim" }
     use { "catppuccin/nvim", as = "catppuccin" }
     use { "ellisonleao/gruvbox.nvim" }
+    use "rebelot/kanagawa.nvim"
 
     use { "numToStr/Comment.nvim" } -- Comment code with ease
 
@@ -186,6 +187,7 @@ require("packer").startup {
     use "lewis6991/gitsigns.nvim" -- Signs next to line numbers to show git status of a line
     use "tpope/vim-fugitive" -- Best Git Client after magit :)
     use { "TimUntersberger/neogit", requires = "nvim-lua/plenary.nvim" } -- Magit clone
+    use { "sindrets/diffview.nvim", requires = "nvim-lua/plenary.nvim" } -- Diff and Merge tool
     use "fatih/vim-go" -- Golang tools and code actions
     use "akinsho/toggleterm.nvim" -- Terminal emulator that we deserve
     use "folke/zen-mode.nvim" -- Focus on coding
@@ -234,7 +236,7 @@ setup("gruvbox", {
   transparent_mode = true,
 })
 
-pcall(vim.cmd.colorscheme, "rose-pine")
+pcall(vim.cmd.colorscheme, "catppuccin")
 
 -- File manager like a boss
 setup("oil", {})
@@ -431,7 +433,7 @@ setup("gitsigns", {
   },
 })
 
-vim.keymap.set("n", "<leader>gs", vim.cmd.Git)
+vim.keymap.set("n", "<leader>gs", vim.cmd.Neogit)
 
 vim.api.nvim_create_user_command("Gp", function()
   vim.cmd.Git "push"
