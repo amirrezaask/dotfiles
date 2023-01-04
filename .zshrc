@@ -4,9 +4,9 @@
 source $HOME/.antigen.zsh
 
 antigen use oh-my-zsh
+antigen bundle fzf
 antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle zsh-users/zsh-autosuggestions
-antigen bundle unixorn/fzf-zsh-plugin@main
 antigen apply
 
 export GO111MODULE='on'
