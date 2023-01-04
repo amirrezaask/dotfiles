@@ -61,10 +61,9 @@
 (menu-bar-mode -1) ;; Disable menu bar
 
 
-
+(straight-use-package 'exec-path-from-shell)
 ;; Copy PATH from default shell
-(use-package exec-path-from-shell :config
-  (exec-path-from-shell-initialize))
+(exec-path-from-shell-initialize)
 
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 
@@ -102,6 +101,7 @@
    bufler
    wgrep
    ripgrep
+
    )
  )
 
@@ -186,57 +186,44 @@
 (blink-cursor-mode -1) ;; no blinking cursor.
 (global-hl-line-mode)
 
-(use-package corfu
-  :straight
-  (corfu :type git :host github :repo "emacs-straight/corfu" :files ("*" "extensions/*.el" (:exclude ".git")))
+(amirreza/install-packages '(
+			     (corfu :type git :host github :repo "emacs-straight/corfu" :files ("*" "extensions/*.el" (:exclude ".git")))
+			     corfu-terminal
+			     corfu-prescient
+			     ))
 
-  :init
-  (setq corfu-auto t)
-  (setq corfu-auto-delay 0.1)
-  :config
-  (global-corfu-mode)
-  (corfu-history-mode 1)
-  (corfu-echo-mode 1)
-  (corfu-popupinfo-mode 1))
-
-(use-package corfu-terminal
-  :config
-  (corfu-terminal-mode))
-
-(use-package corfu-prescient
-  :after prescient
-  :config
-  (corfu-prescient-mode))
+(setq corfu-auto t)
+(setq corfu-auto-delay 0.1)
+(global-corfu-mode)
+(corfu-history-mode 1)
+(corfu-echo-mode 1)
+(corfu-popupinfo-mode 1)
+(corfu-terminal-mode)
+(corfu-prescient-mode)
 
 (setq completion-cycle-threshold 3)
 (setq tab-always-indent 'complete)
 
-(use-package vertico
-  :init
-  (setq vertico-count 15)
-  (setq vertico-cycle t)
+(amirreza/install-packages '(
+			     vertico
+			     vertico-prescient
+			     consult
+			     marginalia
+			     orderless
+			     ))
 
-  :config
-  (vertico-mode))
+(setq vertico-count 15)
+(setq vertico-cycle t)
 
-(use-package consult
-  :init
-  (setq consult-async-min-input 1))
+(vertico-mode)
+(setq consult-async-min-input 1)
+(marginalia-mode)
 
-(use-package marginalia
-  :config
-  (marginalia-mode))
-
-(use-package orderless
-  :config
-  (setq completion-styles '(orderless basic)
+(setq completion-styles '(orderless basic)
       completion-category-defaults nil
-      completion-category-overrides '((file (styles partial-completion)))))
+      completion-category-overrides '((file (styles partial-completion))))
 
-(use-package vertico-prescient
-  :after prescient
-  :config
-  (vertico-prescient-mode))
+(vertico-prescient-mode)
 
 ;; Search and replace beautifuly
 (amirreza/install-packages '(wgrep rg))
@@ -263,7 +250,7 @@
 (global-set-key (kbd "M-p") 'amirreza/up-center)
 (global-set-key (kbd "M-n") 'amirreza/down-center)
 
-(use-package expand-region)
+(straight-use-package 'expand-region)
 (global-set-key (kbd "C-=") 'er/expand-region)
 (global-set-key (kbd "C--") 'er/contract-region)
 
@@ -319,10 +306,13 @@
 			     htmlize
 			     ))
 
-(use-package git-gutter)
-(global-git-gutter-mode)
 
-(use-package magit)
+(amirreza/install-packages '(
+			     git-gutter
+			     magit
+			     ))
+
+(global-git-gutter-mode)
 
 (global-set-key (kbd "C-x g") 'magit)
 
@@ -357,20 +347,19 @@
 
 (global-eldoc-mode)
 
-(use-package eglot
-  :straight nil
-  :hook
-  ((go-mode rust-mode python-mode php-mode) . 'eglot-ensure)
-  :init
-  (add-to-list 'amirreza/programming-hydra-heads '("d" eldoc "Document THING at POINT"))
-  (add-to-list 'amirreza/programming-hydra-heads '("D" xref-find-definitions "Goto Definitions"))
-  (add-to-list 'amirreza/programming-hydra-heads '("r" xref-find-references "Find References"))
-  (add-to-list 'amirreza/programming-hydra-heads '("i" eglot-find-implementation "Find Implementations"))
-  (add-to-list 'amirreza/programming-hydra-heads '("s" consult-eglot-symbols "Workspace Symbols"))
-  (add-to-list 'amirreza/programming-hydra-heads '("R" eglot-rename "Rename"))
-  (add-to-list 'amirreza/programming-hydra-heads '("f" eglot-format "Format")))
+(amirreza/install-packages '(consult-eglot))
 
-  (use-package consult-eglot)
+(add-hook 'go-mode-hook #'eglot-ensure)
+(add-hook 'rust-mode-hook #'eglot-ensure)
+(add-hook 'python-mode-hook #'eglot-ensure)
+(add-hook 'php-mode-hook #'eglot-ensure)
+(add-to-list 'amirreza/programming-hydra-heads '("d" eldoc "Document THING at POINT"))
+(add-to-list 'amirreza/programming-hydra-heads '("D" xref-find-definitions "Goto Definitions"))
+(add-to-list 'amirreza/programming-hydra-heads '("r" xref-find-references "Find References"))
+(add-to-list 'amirreza/programming-hydra-heads '("i" eglot-find-implementation "Find Implementations"))
+(add-to-list 'amirreza/programming-hydra-heads '("s" consult-eglot-symbols "Workspace Symbols"))
+(add-to-list 'amirreza/programming-hydra-heads '("R" eglot-rename "Rename"))
+(add-to-list 'amirreza/programming-hydra-heads '("f" eglot-format "Format"))
 
 (amirreza/defhydra amirreza/programming-hydra (:exit t)
 		   amirreza/programming-hydra-heads)
@@ -415,22 +404,23 @@
 (add-hook 'json-mode-hook (lambda ()
 			    (define-key (kbd "C-c m") 'amirreza/json-hydra/body)
 			    ))
-(use-package perspective
-  :init
-  (setq persp-state-default-file (expand-file-name "sessions" user-emacs-directory))
-  (setq persp-mode-prefix-key (kbd "C-c w"))
-  (defun amirreza/save-session ()
-    (interactive)
-    (persp-state-save persp-state-default-file))
-  (defun amirreza/load-session ()
-    (interactive)
-    (persp-state-load persp-state-default-file))
-  (persp-mode 1)
-  :hook
-  (kill-emacs . amirreza/save-session)
-  :config
-  (global-set-key (kbd "C-c w s") 'persp-switch)
-  )
+
+(straight-use-package 'perspective)
+
+(setq persp-state-default-file (expand-file-name "sessions" user-emacs-directory))
+(setq persp-mode-prefix-key (kbd "C-c w"))
+
+(defun amirreza/save-session ()
+  (interactive)
+  (persp-state-save persp-state-default-file))
+
+(defun amirreza/load-session ()
+  (interactive)
+  (persp-state-load persp-state-default-file))
+
+(persp-mode 1)
+
+(global-set-key (kbd "C-c w s") 'persp-switch)
 
 (when (string-equal system-type "darwin")
     (setq mac-command-modifier 'meta)
