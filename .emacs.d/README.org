@@ -1,5 +1,5 @@
 #+TITLE: AmirrezaAsk Computing Environment
 ** Features:
-+ LSP (using Eglot)
-+ Autocompletion
-  
++ LSP using =Eglot=
++ Autocompletion using =corfu=
++ Workspace management using =perspective=

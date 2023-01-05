@@ -89,7 +89,7 @@
    go-mode ;; Go major mode
    go-tag ;; Struct tags in Golang
 
-   rust-mode
+   rust-mode ;; LLVM with some haskell on it
 
    clojure-mode ;; LISP on JVM
    cider ;; Clojure repl integration
@@ -127,6 +127,7 @@
 
 
 (straight-use-package 'exec-path-from-shell)
+
 ;; Copy PATH from default shell
 (exec-path-from-shell-initialize)
 
@@ -308,12 +309,12 @@
   ("e" org-export-dispatch "Export")
   ("o" org-open-at-point "Open At Point")
   ("h" (lambda () (interactive) (org-export-as 'html)) "Org Export To HTML")
-  ("t"  org-todo "Open At Point")
-  )
+  ("t"  org-todo "Open At Point"))
 
 
 (add-hook 'org-mode-hook (lambda ()
 			     (define-key org-mode-map (kbd "C-c m") 'amirreza/org-mode-hydra/body)
+			     (define-key org-mode-map (kbd "C-x m") 'amirreza/org-mode-hydra/body)
 			     (define-key org-src-mode-map (kbd "C-c C-c") #'org-edit-src-exit)
 			   ))
 
@@ -372,7 +373,8 @@
 		   amirreza/programming-hydra-heads)
 
 (add-hook 'prog-mode-hook (lambda ()
-			    (define-key prog-mode-map (kbd "C-c m") 'amirreza/programming-hydra/body)))
+			    (define-key prog-mode-map (kbd "C-c m") 'amirreza/programming-hydra/body)
+			    (define-key prog-mode-map (kbd "C-x m") 'amirreza/programming-hydra/body)))
 
 
 
@@ -381,7 +383,8 @@
 		   (append amirreza/programming-hydra-heads '(("a" go-tag-add "Add Struct Tag"))))
   
 (add-hook 'go-mode-hook (lambda ()
-			    (define-key go-mode-map (kbd "C-c m") 'amirreza/go-hydra/body)))
+			  (define-key go-mode-map (kbd "C-x m") 'amirreza/go-hydra/body)
+			  (define-key go-mode-map (kbd "C-c m") 'amirreza/go-hydra/body)))
 
 (setq amirreza/json-hydra-heads '(
 				  ("f" json-pretty-print "Pretty print region")
@@ -390,6 +393,7 @@
 (amirreza/defhydra amirreza/json-hydra (:exit t) amirreza/json-hydra-heads)
 
 (add-hook 'json-mode-hook (lambda ()
+			    (define-key (kbd "C-x m") 'amirreza/json-hydra/body)
 			    (define-key (kbd "C-c m") 'amirreza/json-hydra/body)))
 
 
