@@ -433,6 +433,7 @@ setup("Comment", {})
 
 setup("neogit", {
   kind = "split",
+  disable_commit_confirmation = true,
   integrations = {
     diffview = true,
   },
