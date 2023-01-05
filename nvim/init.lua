@@ -187,8 +187,13 @@ require("packer").startup {
     use "windwp/nvim-autopairs" -- Auto insert pairs like () [] {}
     use "lewis6991/gitsigns.nvim" -- Signs next to line numbers to show git status of a line
     use "tpope/vim-fugitive" -- Best Git Client after magit :)
-    use { "TimUntersberger/neogit", requires = "nvim-lua/plenary.nvim" } -- Magit clone
-    use { "sindrets/diffview.nvim", requires = "nvim-lua/plenary.nvim" } -- Diff and Merge tool
+    use {
+      "TimUntersberger/neogit",
+      requires = {
+        "nvim-lua/plenary.nvim",
+        "sindrets/diffview.nvim",
+      },
+    }
     use "fatih/vim-go" -- Golang tools and code actions
     use "akinsho/toggleterm.nvim" -- Terminal emulator that we deserve
     use "folke/zen-mode.nvim" -- Focus on coding
@@ -428,6 +433,9 @@ setup("Comment", {})
 
 setup("neogit", {
   kind = "split",
+  integrations = {
+    diffview = true,
+  },
 })
 
 setup("gitsigns", {
