@@ -348,9 +348,9 @@ vim.api.nvim_create_autocmd("BufEnter", {
   group = go_group,
   callback = function(meta)
     local buffer = { buffer = meta.bufnr, remap = true }
-    vim.keymap.set("n", "<leader>lat", "<cmd>GoAddTag<CR>", buffer)
-    vim.keymap.set("n", "<leader>lrt", "<cmd>GoRmTag<CR>", buffer)
-    vim.keymap.set("n", "<leader>lfs", "<cmd>GoFillStruct<CR>", buffer)
+    vim.keymap.set("n", "<leader>ma", "<cmd>GoAddTag<CR>", buffer)
+    vim.keymap.set("n", "<leader>md", "<cmd>GoRmTag<CR>", buffer)
+    vim.keymap.set("n", "<leader>mf", "<cmd>GoFillStruct<CR>", buffer)
   end,
 })
 
