@@ -127,6 +127,7 @@ require("packer").startup {
     use { "catppuccin/nvim", as = "catppuccin" }
     use { "ellisonleao/gruvbox.nvim" }
     use "rebelot/kanagawa.nvim"
+    use "marko-cerovac/material.nvim"
 
     use { "numToStr/Comment.nvim" } -- Comment code with ease
 
@@ -236,7 +237,9 @@ setup("gruvbox", {
   transparent_mode = true,
 })
 
-pcall(vim.cmd.colorscheme, "catppuccin")
+vim.g.material_style = "deep ocean"
+
+pcall(vim.cmd.colorscheme, "catppuccin-mocha")
 
 -- File manager like a boss
 setup("oil", {})
@@ -463,11 +466,9 @@ if has_telescope then
   require("telescope").load_extension "fzf"
 
   local function telescope_smart_find_files(opts)
-    local head = vim.fn["fugitive#Head"]
-    local status, res = pcall(head)
-    if status and res ~= "" then
-      require("telescope.builtin").git_files(opts)
-    else
+    local git_files = require("telescope.builtin").git_files
+    local status, _ = pcall(git_files)
+    if not status then
       require("telescope.builtin").find_files(opts)
     end
   end
