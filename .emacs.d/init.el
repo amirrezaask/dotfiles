@@ -1,14 +1,14 @@
-(setq debug-on-init t)
+;; (setq debug-on-init t)
 (setq user-full-name "Amirreza Askarpour")
 (setq user-email "raskarpour@gmail.com")
+
 ;; (setq amirreza/font "Source Code Pro")
-(setq amirreza/font "FiraCode Nerd Font Mono")
+;; (setq amirreza/font "FiraCode Nerd Font Mono")
 ;; (setq amirreza/font "OperatorMono Nerd Font Light")
 ;; (setq amirreza/font "JetBrainsMono Nerd Font Mono")
-;; (setq amirreza/font "Iosevka")
+(setq amirreza/font "Iosevka")
 (setq amirreza/font-size "20")
-(setq amirreza/theme 'doom-solarized-dark)
-(setq amirreza/transparent 100)
+(setq amirreza/theme 'jblow)
 
 ;; If early-init wasn't there.
 (setq package-enable-at-startup nil) ;; Disable default package manager package.el
@@ -42,45 +42,58 @@
 ;; All packages I install
 (setq amirreza/packages
  '(
+   ;; Basic stuff
    hydra
    helpful
    gcmh
 
+   ;; Window and buffer management
    ace-window
    bufler
 
+   ;; Grep and Search
    wgrep
    ripgrep
 
+   ;; Org mode stuff
    ox-reveal
    ob-go
    ob-rust
    ob-php
    htmlize
 
+   ;; Git Stuff
    git-gutter
    magit
 
+   ;; Themes
    ef-themes
    doom-themes
    gruber-darker-theme
 
+   ;; Autocompletion menu
    (corfu :type git :host github :repo "emacs-straight/corfu" :files ("*" "extensions/*.el" (:exclude ".git")))
    corfu-terminal
    corfu-prescient
-   
+
+   ;; Minibuffer completion
    vertico
    vertico-prescient
    consult
    marginalia
    orderless
-   wgrep rg
    consult-eglot
-   go-mode
-   go-tag
+
+   ;; Language major modes
+
+   go-mode ;; Go major mode
+   go-tag ;; Struct tags in Golang
+
    rust-mode
+
    clojure-mode ;; LISP on JVM
-   cider
+   cider ;; Clojure repl integration
+
    zig-mode ;; Zig
    apache-mode ;; Apache config syntax
    systemd ;; Systemd config syntax
@@ -93,6 +106,7 @@
    json-mode ;; JSON
    csv-mode ;; CSV
 
+   perspective ;; Workspace management
    )
  )
 
@@ -124,11 +138,11 @@
 
 
 (defun amirreza/find-file ()
+  "Smart find file function to do project-files if in Git repo otherwise use default find-file."
   (interactive)
   (if (vc-backend (buffer-file-name))
       (project-find-file)
-    (call-interactively 'find-file)
-    ))
+    (call-interactively 'find-file)))
 
 (defun amirreza/edit-emacs ()
   (interactive)
@@ -150,22 +164,10 @@
 
 (global-set-key (kbd "C-c e e") 'amirreza/edit-emacs)
 (global-set-key (kbd "C-x o") 'ace-window)
-(global-set-key (kbd "C-x C-b") 'ace-window)
+(global-set-key (kbd "C-x C-b") 'bufler)
 
 (add-hook 'dired-mode-hook (lambda ()
-			     (define-key dired-mode-map (kbd "C-c C-e") 'wdired-change-to-wdired-mode)
-			     ))
-(setq
- IS-MAC (string-equal system-type "darwin")
- IS-LINUX (string-equal system-type "linux")
- IS-WINDOWS (string-equal system-type "windows")
- mediaplayer (cond
-	      (IS-MAC "/Applications/VLC.app/Contents/MacOS/VLC")
-	      (IS-LINUX "vlc"))
- pdfviewer (cond
-	    (IS-MAC "open"))
- imageviewer (cond
-	      (IS-MAC "open")))
+			     (define-key dired-mode-map (kbd "C-c C-e") 'wdired-change-to-wdired-mode)))
 
 (global-set-key [remap describe-key] 'helpful-key)
 (global-set-key [remap describe-function] 'helpful-callable)
@@ -218,11 +220,8 @@
 (amirreza/reload-font)
 
 (setq-default cursor-type 'box) ;; instead of box use a horizontal line.
-(set-cursor-color 'red)
-(blink-cursor-mode -1) ;; no blinking cursor.
-(global-hl-line-mode)
 
-
+;; Autocompletion configs
 (setq corfu-auto t)
 (setq corfu-auto-delay 0.1)
 (global-corfu-mode)
@@ -355,10 +354,12 @@
 
 (global-eldoc-mode)
 
+;; Language with LSP
 (add-hook 'go-mode-hook #'eglot-ensure)
 (add-hook 'rust-mode-hook #'eglot-ensure)
 (add-hook 'python-mode-hook #'eglot-ensure)
 (add-hook 'php-mode-hook #'eglot-ensure)
+
 (add-to-list 'amirreza/programming-hydra-heads '("d" eldoc "Document THING at POINT"))
 (add-to-list 'amirreza/programming-hydra-heads '("D" xref-find-definitions "Goto Definitions"))
 (add-to-list 'amirreza/programming-hydra-heads '("r" xref-find-references "Find References"))
@@ -389,10 +390,8 @@
 (amirreza/defhydra amirreza/json-hydra (:exit t) amirreza/json-hydra-heads)
 
 (add-hook 'json-mode-hook (lambda ()
-			    (define-key (kbd "C-c m") 'amirreza/json-hydra/body)
-			    ))
+			    (define-key (kbd "C-c m") 'amirreza/json-hydra/body)))
 
-(straight-use-package 'perspective)
 
 (setq persp-state-default-file (expand-file-name "sessions" user-emacs-directory))
 (setq persp-mode-prefix-key (kbd "C-c w"))
