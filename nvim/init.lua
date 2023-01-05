@@ -423,6 +423,10 @@ setup("treesitter-context", {})
 
 setup("Comment", {})
 
+setup("neogit", {
+  kind = "split",
+})
+
 setup("gitsigns", {
   signs = {
     add = { text = "+" },
