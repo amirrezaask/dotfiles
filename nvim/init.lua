@@ -237,7 +237,7 @@ setup("gruvbox", {
 
 vim.g.material_style = "deep ocean"
 
-pcall(vim.cmd.colorscheme, "catppuccin-mocha")
+pcall(vim.cmd.colorscheme, "tokyonight")
 
 -- File manager like a boss
 setup("oil", {})
@@ -460,7 +460,6 @@ setup("lualine", {
 })
 
 setup "zen-mode"
-vim.keymap.set("n", "<leader>z", vim.cmd.ZenMode)
 
 local has_telescope, _ = pcall(require, "telescope")
 if has_telescope then
