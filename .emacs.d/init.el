@@ -47,6 +47,7 @@
    hydra
    helpful
    gcmh
+   expand-region
 
    ;; Window and buffer management
    ace-window
@@ -138,6 +139,7 @@
 	(straight-use-package pkg)) amirreza/packages)
 
 (gcmh-mode 1)
+
 (setq create-lockfiles nil) ;; Don't create .# files as lock.
 (setq native-comp-async-report-warnings-errors 'silent) ;; Silent Emacs 28 native compilation
 (setq make-backup-files nil) ;; Disable backup files ~file
@@ -293,7 +295,6 @@
 (global-set-key (kbd "M-p") 'amirreza/up-center)
 (global-set-key (kbd "M-n") 'amirreza/down-center)
 
-(straight-use-package 'expand-region)
 (global-set-key (kbd "C-=") 'er/expand-region)
 (global-set-key (kbd "C--") 'er/contract-region)
 
