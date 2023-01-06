@@ -14,11 +14,13 @@ plugins=(
 
 source $ZSH/oh-my-zsh.sh
 
+alias emacs='emacsclient -t -a ""'
+alias e='emacsclient -t -a ""'
 export GO111MODULE='on'
 export GOPATH="$HOME"
 export GOPRIVATE='gitlab.snapp.ir'
 export GOPROXY='goproxy.io,direct'
-export EDITOR='nvim'
+export EDITOR='emacsclient -t -a ""'
 
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
@@ -35,8 +37,6 @@ export HOMEBREW_NO_AUTO_UPDATE=1
 
 export FZF_DEFAULT_OPTS='--height 20%'
 export FZF_DEFAULT_COMMAND='rg --files'
-
-alias e='emacsclient -t -a ""'
 
 reload() {
     source ~/.zshrc

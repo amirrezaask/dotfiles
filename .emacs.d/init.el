@@ -113,7 +113,7 @@
 (use-package dired
   :straight nil
   :bind
-  (:map dired-mode
+  (:map dired-mode-map
 	("C-c C-e" . wdired-change-to-wdired-mode)))
 
 ;; Improve help buffers in emacs.
@@ -432,17 +432,17 @@
 (use-package fish-mode) ;; Fish
 (use-package nix-mode) ;; Nix
 
-(use-package json-snatcher :mode "\\.json\\") ;; Show path of json value at POINT
+(use-package json-snatcher :mode "\\.json\\'") ;; Show path of json value at POINT
 
-(use-package csv-mode :mode "\\.csv\\") ;; CSV
+(use-package csv-mode :mode "\\.csv\\'") ;; CSV
 
-(use-package js2-mode :mode "\\.js\\") ;; Javascript
-(use-package rjsx-mode :mode "\\.jsx\\") ;; React JSX syntax
-(use-package typescript-mode :mode "\\.ts\\") ;; Typescript syntax
+(use-package js2-mode :mode "\\.js\\'") ;; Javascript
+(use-package rjsx-mode :mode "\\.jsx\\'") ;; React JSX syntax
+(use-package typescript-mode :mode "\\.ts\\'") ;; Typescript syntax
 (use-package nodejs-repl :after js2-mode) ;; Nodejs repl
 (use-package tide :after typescript-mode) ;; Typescript IDE
 
-(use-package php-mode :mode "\\.php\\") ;; PHP
+(use-package php-mode :mode "\\.php\\'") ;; PHP
 (use-package psysh :after php-mode) ;; PHP repl in Emacs
 (use-package composer :after php-mode) ;; Composer
 
@@ -452,7 +452,7 @@
 (use-package python-isort :straight (python-isort :type git :host github :repo "wyuenho/emacs-python-isort") :after python-mode)
 
 (use-package go-mode
-  :mode "\\.go\\"
+  :mode "\\.go\\'"
   :init
   (amirreza/defhydra amirreza/go-hydra
 		     (:exit t)
@@ -463,19 +463,19 @@
 
 (use-package go-tag :after go-mode) ;; Struct tags in Golang
 (use-package go-gen-test :after go-mode) ;; Generate test for function
-(use-package clojure-mode :mode "\\.clj\\") ;; LISP on JVM
+(use-package clojure-mode :mode "\\.clj\\'") ;; LISP on JVM
 (use-package cider :after clojure-mode) ;; Clojure repl integration
-(use-package lua-mode :mode "\\.lua\\") ;; Lua
-(use-package zig-mode :mode "\\.zig\\") ;; Zig
+(use-package lua-mode :mode "\\.lua\\'") ;; Lua
+(use-package zig-mode :mode "\\.zig\\'") ;; Zig
 
 (use-package rustic
-  :mode "\\.rs\\"
+  :mode "\\.rs\\'"
   :init
   (setq rustic-lsp-client 'eglot)) ;; Rustic default is lsp-mode
 
 
 (use-package json-mode
-  :mode "\\.json\\"
+  :mode "\\.json\\'"
   :init
   (setq amirreza/json-hydra-heads '(("f" json-pretty-print "Pretty print region")
 				    ("F" json-pretty-print-buffer "Pretty print buffer")))
