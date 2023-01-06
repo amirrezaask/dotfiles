@@ -20,7 +20,7 @@ shift + cmd+ ctrl - l : yabai -m window --warp east
 cmd - r : yabai -m space --rotate 90
 
 # toggle window fullscreen zoom
-cmd - f : yabai -m window --toggle zoom-fullscreen
+cmd + shift - f : yabai -m window --toggle zoom-fullscreen
 
 # toggle window split type
 cmd - e : yabai -m window --toggle split

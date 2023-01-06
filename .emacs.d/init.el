@@ -6,7 +6,7 @@
 ;; (setq amirreza/font "OperatorMono Nerd Font Light")
 ;; (setq amirreza/font "JetBrainsMono Nerd Font Mono")
 ;; (setq amirreza/font "Iosevka")
-(setq amirreza/font-size "20")
+(setq amirreza/font-size "18")
 (setq amirreza/theme 'doom-dracula)
 
 ;; If early-init wasn't there.
@@ -36,6 +36,7 @@
   (load bootstrap-file nil 'nomessage))
 
 (setq straight-use-package-by-default t)
+(setq use-package-always-defer t)
 
 (use-package benchmark-init
   :init
@@ -274,8 +275,8 @@
   ("C-<return>" . set-mark-command))
 
 ;; Org mode stuff
-
 (use-package org
+  :mode "\\.org\\'"
   :init
   (setq org-use-property-inheritance t)
   (setq org-startup-folded t) ;; Start org mode all headers collapsed
@@ -388,9 +389,7 @@
   (add-to-list 'amirreza/programming-hydra-heads '("i" eglot-find-implementation "Find Implementations"))
   (add-to-list 'amirreza/programming-hydra-heads '("s" consult-eglot-symbols "Workspace Symbols"))
   (add-to-list 'amirreza/programming-hydra-heads '("R" eglot-rename "Rename"))
-  (add-to-list 'amirreza/programming-hydra-heads '("f" eglot-format "Format"))
-
-  )
+  (add-to-list 'amirreza/programming-hydra-heads '("f" eglot-format "Format")))
 
 (use-package prog-mode
   :straight nil
@@ -429,12 +428,12 @@
 (use-package cmake-mode) ;; CMake
 (use-package systemd) ;; Systemd config syntax
 (use-package nginx-mode) ;; Nginx config syntax
-(use-package docker-compose-mode) ;; Docker-compose syntax
-(use-package dockerfile-mode) ;; Dockerfile syntax
-(use-package markdown-mode) ;; Markdown syntax
-(use-package yaml-mode) ;; Yaml
-(use-package fish-mode) ;; Fish
-(use-package nix-mode) ;; Nix
+(use-package docker-compose-mode :mode "docker-compose") ;; Docker-compose syntax
+(use-package dockerfile-mode :mode "Dockerfile\\'") ;; Dockerfile syntax
+(use-package markdown-mode :mode "\\.md\\'") ;; Markdown syntax
+(use-package yaml-mode :mode "(\\.yaml|\\.yml)\\'") ;; Yaml
+(use-package fish-mode :mode "\\.fish\\'") ;; Fish
+(use-package nix-mode :mode "\\.nix\\'") ;; Nix
 
 (use-package json-snatcher :mode "\\.json\\'") ;; Show path of json value at POINT
 
