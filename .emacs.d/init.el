@@ -5,8 +5,8 @@
 ;; (setq amirreza/font "Source Code Pro")
 ;; (setq amirreza/font "FiraCode Nerd Font Mono")
 ;; (setq amirreza/font "OperatorMono Nerd Font Light")
-(setq amirreza/font "JetBrainsMono Nerd Font Mono")
-;; (setq amirreza/font "Iosevka")
+;; (setq amirreza/font "JetBrainsMono Nerd Font Mono")
+(setq amirreza/font "Iosevka")
 
 (setq amirreza/font-size "20")
 (setq amirreza/theme 'doom-dracula)
@@ -191,9 +191,11 @@
 (global-set-key (kbd "C-x o") 'ace-window)
 (global-set-key (kbd "C-x C-b") 'bufler)
 
-(add-hook 'dired-mode-hook (lambda ()
-			     (define-key dired-mode-map (kbd "C-c C-e") 'wdired-change-to-wdired-mode)))
 
+(add-hook 'dired-mode-hook (lambda ()
+			     (define-key dired-mode-map (kbd "C-c C-e") 'wdired-change-to-wdired-mode))) ;; In dired doing C-c C-e makes it amazing file manager.
+
+;; Improve help buffers in emacs.
 (global-set-key [remap describe-key] 'helpful-key)
 (global-set-key [remap describe-function] 'helpful-callable)
 (global-set-key [remap describe-variable] 'helpful-variable)
