@@ -19,7 +19,14 @@ export GOPATH="$HOME"
 export GOPRIVATE='gitlab.snapp.ir'
 export GOPROXY='goproxy.io,direct'
 export EDITOR='nvim'
-export PATH="$HOME/.emacs.d/bin/:/Applications/Emacs.app/Contents/MacOS:$GOPATH/bin:/opt/homebrew/bin:$HOME/.config/composer/vendor/bin:$GOROOT/bin:$HOME/.cargo/bin:$HOME/.local/bin:$PATH:$HOME/.composer/vendor/bin"
+
+export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.cargo/bin:$PATH"
+export PATH="$GOROOT/bin:$PATH"
+export PATH="$HOME/.config/composer/vendor/bin:$PATH"
+export PATH="/opt/homebrew/bin:$PATH"
+export PATH="$GOPATH/bin:$PATH"
+export PATH="/Applications/Emacs.app/Contents/MacOS:$PATH"
 
 [ -f "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env" # ghcup-env
 [ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
@@ -28,6 +35,8 @@ export HOMEBREW_NO_AUTO_UPDATE=1
 
 export FZF_DEFAULT_OPTS='--height 20%'
 export FZF_DEFAULT_COMMAND='rg --files'
+
+alias e='emacsclient -t -a ""'
 
 reload() {
     source ~/.zshrc

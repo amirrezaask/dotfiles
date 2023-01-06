@@ -1,10 +1,3 @@
---     _              _                           _        _
---    / \   _ __ ___ (_)_ __ _ __ ___ ______ _   / \   ___| | __
---   / _ \ | '_ ` _ \| | '__| '__/ _ \_  / _` | / _ \ / __| |/ /
---  / ___ \| | | | | | | |  | | |  __// / (_| |/ ___ \\__ \   <
--- /_/   \_\_| |_| |_|_|_|  |_|  \___/___\__,_/_/   \_\___/_|\_\
---
-
 vim.opt.number = true -- Line numbers
 vim.opt.relativenumber = true -- Relative line numbers
 vim.opt.errorbells = false
@@ -34,7 +27,7 @@ if vim.version().major >= 0 and vim.version().minor >= 8 then
   vim.opt.laststatus = 3 -- if supported use global statusline
 end
 -- My configuration value to enable or disable transparency
-vim.g.transparent = false
+vim.g.transparent = true
 
 -- Netrw
 vim.g.netrw_browse_split = 0
@@ -319,8 +312,10 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 setup("null-ls", {
   sources = {
     require("null-ls").builtins.code_actions.gitsigns,
+
     require("null-ls").builtins.diagnostics.golangci_lint,
     require("null-ls").builtins.diagnostics.trail_space.with { disabled_filetypes = { "NvimTree" } },
+
     require("null-ls").builtins.formatting.stylua,
     require("null-ls").builtins.formatting.goimports,
   },

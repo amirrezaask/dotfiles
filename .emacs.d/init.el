@@ -2,13 +2,14 @@
 (setq user-full-name "Amirreza Askarpour")
 (setq user-email "raskarpour@gmail.com")
 
-;; (setq amirreza/font "Source Code Pro")
+(setq amirreza/font "Source Code Pro")
 ;; (setq amirreza/font "FiraCode Nerd Font Mono")
 ;; (setq amirreza/font "OperatorMono Nerd Font Light")
 ;; (setq amirreza/font "JetBrainsMono Nerd Font Mono")
-(setq amirreza/font "Iosevka")
+;; (setq amirreza/font "Iosevka")
+
 (setq amirreza/font-size "20")
-(setq amirreza/theme 'jblow)
+(setq amirreza/theme 'doom-one)
 
 ;; If early-init wasn't there.
 (setq package-enable-at-startup nil) ;; Disable default package manager package.el
@@ -82,10 +83,8 @@
    consult
    marginalia
    orderless
-   consult-eglot
 
    ;; Language major modes
-
    go-mode ;; Go major mode
    go-tag ;; Struct tags in Golang
 
@@ -94,7 +93,10 @@
    clojure-mode ;; LISP on JVM
    cider ;; Clojure repl integration
 
+   lua-mode ;; Lua
+
    zig-mode ;; Zig
+
    apache-mode ;; Apache config syntax
    systemd ;; Systemd config syntax
    nginx-mode;; Nginx config syntax
@@ -112,7 +114,7 @@
 
 (mapc (lambda (pkg)
 	(straight-use-package pkg)) amirreza/packages)
-
+(gcmh-mode 1)
 (setq create-lockfiles nil) ;; Don't create .# files as lock.
 (setq native-comp-async-report-warnings-errors 'silent) ;; Silent Emacs 28 native compilation
 (setq make-backup-files nil) ;; Disable backup files ~file
@@ -156,9 +158,6 @@
     (if value
 	value
       default)))
-
-
-(gcmh-mode 1)
 
 (defmacro amirreza/defhydra (name body heads)
   `(eval (append '(defhydra ,name ,body) ,heads)))
@@ -315,8 +314,7 @@
 (add-hook 'org-mode-hook (lambda ()
 			     (define-key org-mode-map (kbd "C-c m") 'amirreza/org-mode-hydra/body)
 			     (define-key org-mode-map (kbd "C-x m") 'amirreza/org-mode-hydra/body)
-			     (define-key org-src-mode-map (kbd "C-c C-c") #'org-edit-src-exit)
-			   ))
+			     (define-key org-src-mode-map (kbd "C-c C-c") #'org-edit-src-exit)))
 
 
 
@@ -356,10 +354,7 @@
 (global-eldoc-mode)
 
 ;; Language with LSP
-(add-hook 'go-mode-hook #'eglot-ensure)
-(add-hook 'rust-mode-hook #'eglot-ensure)
-(add-hook 'python-mode-hook #'eglot-ensure)
-(add-hook 'php-mode-hook #'eglot-ensure)
+(add-hook 'prog-mode-hook #'eglot-ensure)
 
 (add-to-list 'amirreza/programming-hydra-heads '("d" eldoc "Document THING at POINT"))
 (add-to-list 'amirreza/programming-hydra-heads '("D" xref-find-definitions "Goto Definitions"))
