@@ -5,10 +5,10 @@
 ;; (setq amirreza/font "Source Code Pro")
 ;; (setq amirreza/font "FiraCode Nerd Font Mono")
 ;; (setq amirreza/font "OperatorMono Nerd Font Light")
-;; (setq amirreza/font "JetBrainsMono Nerd Font Mono")
-(setq amirreza/font "Iosevka")
+(setq amirreza/font "JetBrainsMono Nerd Font Mono")
+;; (setq amirreza/font "Iosevka")
 
-(setq amirreza/font-size "20")
+(setq amirreza/font-size "18")
 (setq amirreza/theme 'solarized-dark)
 
 ;; If early-init wasn't there.
@@ -135,6 +135,7 @@
    perspective ;; Workspace management
    ))
 
+;; Install all packages
 (mapc (lambda (pkg)
 	(straight-use-package pkg)) amirreza/packages)
 
@@ -152,7 +153,6 @@
 (scroll-bar-mode 0) ;; disable scroll bar
 (menu-bar-mode -1) ;; Disable menu bar
 
-
 (straight-use-package 'exec-path-from-shell)
 
 ;; Copy PATH from default shell
@@ -163,7 +163,6 @@
 (defalias 'yes-or-no-p 'y-or-n-p)
 
 (setq echo-keystrokes 0.4)
-
 
 (defun amirreza/find-file ()
   "Smart find file function to do project-files if in Git repo otherwise use default find-file."
@@ -190,7 +189,6 @@
 (global-set-key (kbd "C-c e e") 'amirreza/edit-emacs)
 (global-set-key (kbd "C-x o") 'ace-window)
 (global-set-key (kbd "C-x C-b") 'bufler)
-
 
 (add-hook 'dired-mode-hook (lambda ()
 			     (define-key dired-mode-map (kbd "C-c C-e") 'wdired-change-to-wdired-mode))) ;; In dired doing C-c C-e makes it amazing file manager.
