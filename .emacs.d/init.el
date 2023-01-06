@@ -1,4 +1,4 @@
-(setq debug-on-init t)
+;; (setq debug-on-init t)
 (setq user-full-name "Amirreza Askarpour")
 (setq user-email "raskarpour@gmail.com")
 ;; (setq amirreza/font "Source Code Pro")
@@ -7,7 +7,7 @@
 ;; (setq amirreza/font "JetBrainsMono Nerd Font Mono")
 ;; (setq amirreza/font "Iosevka")
 (setq amirreza/font-size "18")
-(setq amirreza/theme 'doom-dracula)
+(setq amirreza/theme 'solarized-dark)
 
 ;; If early-init wasn't there.
 (setq package-enable-at-startup nil) ;; Disable default package manager package.el
@@ -36,7 +36,6 @@
   (load bootstrap-file nil 'nomessage))
 
 (setq straight-use-package-by-default t)
-(setq use-package-always-defer t)
 
 (use-package benchmark-init
   :init
@@ -129,9 +128,9 @@
 	     (expand-file-name "themes" user-emacs-directory))
 
 
-(use-package ef-themes)
-(use-package doom-themes)
-(use-package gruber-darker-theme)
+(use-package ef-themes :defer t)
+(use-package solarized-theme :defer t)
+(use-package gruber-darker-theme :defer t)
 
 (setq amirreza/--current-theme nil)
 
@@ -213,6 +212,8 @@
   (vertico-mode))
 
 (use-package consult
+  :commands
+  (consult-flymake consult-ripgrep)
   :init
   (setq consult-async-min-input 1))
 
@@ -472,7 +473,7 @@
 (use-package zig-mode :mode "\\.zig\\'") ;; Zig
 
 (use-package rustic
-  :mode "\\.rs\\'"
+  :mode ("\\.rs\\'" . rust-mode)
   :init
   (setq rustic-lsp-client 'eglot)) ;; Rustic default is lsp-mode
 
