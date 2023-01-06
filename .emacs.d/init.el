@@ -147,6 +147,10 @@
   (load-theme amirreza/--current-theme t))
 
 (amirreza/load-theme amirreza/theme)
+
+(unless (display-graphic-p)
+  (set-face-background 'default "0"))
+
 (global-set-key (kbd "C-c t t") 'amirreza/switch-theme)
 
 ;; Font settings
