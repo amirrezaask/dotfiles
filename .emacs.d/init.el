@@ -2,14 +2,14 @@
 (setq user-full-name "Amirreza Askarpour")
 (setq user-email "raskarpour@gmail.com")
 
-(setq amirreza/font "Source Code Pro")
+;; (setq amirreza/font "Source Code Pro")
 ;; (setq amirreza/font "FiraCode Nerd Font Mono")
 ;; (setq amirreza/font "OperatorMono Nerd Font Light")
-;; (setq amirreza/font "JetBrainsMono Nerd Font Mono")
+(setq amirreza/font "JetBrainsMono Nerd Font Mono")
 ;; (setq amirreza/font "Iosevka")
 
 (setq amirreza/font-size "20")
-(setq amirreza/theme 'doom-one)
+(setq amirreza/theme 'doom-dracula)
 
 ;; If early-init wasn't there.
 (setq package-enable-at-startup nil) ;; Disable default package manager package.el
@@ -87,8 +87,9 @@
    ;; Language major modes
    go-mode ;; Go major mode
    go-tag ;; Struct tags in Golang
+   go-gen-test ;; Generate test for function
 
-   rust-mode ;; LLVM with some haskell on it
+   rustic ;; LLVM with some haskell on it
 
    clojure-mode ;; LISP on JVM
    cider ;; Clojure repl integration
@@ -97,7 +98,23 @@
 
    zig-mode ;; Zig
 
+   pip-requirements ;; requirements.txt
+   pipenv ;; pipenv
+   pyimport
+   (python-isort :type git :host github :repo "wyuenho/emacs-python-isort")
+
+   js2-mode ;; Javascript
+   rjsx-mode ;; React JSX syntax
+   typescript-mode ;; Typescript syntax
+   nodejs-repl ;; Nodejs repl
+   tide ;; Typescript IDE
+
+   php-mode ;; PHP
+   psysh ;; PHP repl in Emacs
+   composer ;; Composer
+
    apache-mode ;; Apache config syntax
+   cmake-mode ;; CMake
    systemd ;; Systemd config syntax
    nginx-mode;; Nginx config syntax
    docker-compose-mode ;; Docker-compose syntax
@@ -105,15 +122,21 @@
    markdown-mode ;; Markdown syntax
    yaml-mode ;; Yaml
    fish-mode ;; Fish
+   nix-mode ;; Nix
+
    json-mode ;; JSON
+   json-snatcher ;; Show path of json value at POINT
+
    csv-mode ;; CSV
 
+   vterm
+
    perspective ;; Workspace management
-   )
- )
+   ))
 
 (mapc (lambda (pkg)
 	(straight-use-package pkg)) amirreza/packages)
+
 (gcmh-mode 1)
 (setq create-lockfiles nil) ;; Don't create .# files as lock.
 (setq native-comp-async-report-warnings-errors 'silent) ;; Silent Emacs 28 native compilation
@@ -219,7 +242,8 @@
 
 (amirreza/reload-font)
 
-(setq-default cursor-type 'box) ;; instead of box use a horizontal line.
+(setq-default cursor-type 'bar)
+(blink-cursor-mode -1)
 
 ;; Autocompletion configs
 (setq corfu-auto t)
@@ -236,8 +260,8 @@
 
 (setq vertico-count 15)
 (setq vertico-cycle t)
-
 (vertico-mode)
+
 (setq consult-async-min-input 1)
 (marginalia-mode)
 
@@ -279,6 +303,7 @@
 (setq org-startup-folded t) ;; Start org mode all headers collapsed
 (setq org-src-window-setup 'current-window)
 (setq org-src-tab-acts-natively nil)
+
 (defun amirreza/org-code-block ()
   (interactive)
   (insert (format "#+BEGIN_SRC %s\n\n#+END_SRC"
@@ -298,8 +323,7 @@
   (interactive)
   (insert ":PROPERTIES:
 :header-args:    :tangle no
-:END:"
-	  ))
+:END:"))
 
 (defhydra amirreza/org-mode-hydra (:exit t)
   ("l" org-toggle-link-display "Toggle Link Display")
@@ -372,6 +396,7 @@
 			    (define-key prog-mode-map (kbd "C-x m") 'amirreza/programming-hydra/body)))
 
 
+(setq rustic-lsp-client 'eglot) ;; Rustic default is lsp-mode
 
 (amirreza/defhydra amirreza/go-hydra
 		   (:exit t)
