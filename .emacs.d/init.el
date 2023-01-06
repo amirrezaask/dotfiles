@@ -259,21 +259,17 @@
 (corfu-terminal-mode)
 (corfu-prescient-mode)
 
+;; Minibuffer completion
 (setq completion-cycle-threshold 3)
 (setq tab-always-indent 'complete)
-
 (setq vertico-count 15)
 (setq vertico-cycle t)
 (vertico-mode)
-
+(vertico-prescient-mode)
 (setq consult-async-min-input 1)
-(marginalia-mode)
-
 (setq completion-styles '(orderless basic)
       completion-category-defaults nil
       completion-category-overrides '((file (styles partial-completion))))
-
-(vertico-prescient-mode)
 
 (delete-selection-mode 1) ;; When a region of text is selected and then something is typed remove text and replace with what has been typed.
 (setq show-paren-delay 0) ;; highlight matching parens instantly.
