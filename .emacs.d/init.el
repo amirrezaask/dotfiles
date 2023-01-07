@@ -159,6 +159,9 @@
 
    csv-mode ;; CSV
 
+   vterm
+   multi-vterm
+
    perspective ;; Workspace management
    ))
 
@@ -205,6 +208,7 @@
 (defalias 'yes-or-no-p 'y-or-n-p) ;; Instead of yes or no use y or n
 
 (setq echo-keystrokes 0.4) ;; faster echoing of keystrokes in minibuffer.
+(which-key-mode)
 
 (defun amirreza/edit-emacs ()
   "Edit emacs configuration."
@@ -429,11 +433,6 @@
 
 
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;                           Programming (Flycheck)                                 ;;
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                           Programming (LSP aka eglot)                                 ;;
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -512,6 +511,29 @@
     (setq mac-command-modifier 'meta) ;; make command key in mac act as meta/alt
     (setq mac-option-modifier 'meta))
 
+
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                                Eshell & VTerm                                         ;;
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defun spawn-eshell-with-name (name)
+  "Spawn a new eshell instance with given NAME."
+  (interactive "sName: ")
+  (let ((eshell-buffer-name (format "*eshell-%s*" name)))
+    (eshell)))
+
+(defun spawn-eshell ()
+  "Spawn a new eshell instance with the name of current buffer or jump if there is one existing"
+  (interactive)
+  (let ((eshell-buffer-name (format "*eshell-%s-buffer*" (buffer-name (current-buffer)))))
+    (eshell)))
+
+(defhydra amirreza/spawn-hydra (:exit t)
+  ("v" multi-vterm "Spawn VTerm")
+  ("e" spawn-eshell "Spawn Eshell"))
+
+(global-set-key (kbd "C-c s e") 'amirreza/spawn-hydra/body)
+(global-set-key (kbd "C-S") 'spawn-eshell)
 
 (provide 'init)
 ;;; init.el ends here
