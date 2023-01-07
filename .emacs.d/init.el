@@ -172,11 +172,12 @@
 (setq user-full-name "Amirreza Askarpour")
 (setq user-email "raskarpour@gmail.com")
 
-(setq amirreza/font "FiraCode Nerd Font Mono")
+;; (setq amirreza/font "FiraCode Nerd Font Mono")
+;; (setq amirreza/font "Go Mono")
 ;; (setq amirreza/font "Source Code Pro")
 ;; (setq amirreza/font "OperatorMono Nerd Font Light")
 ;; (setq amirreza/font "JetBrainsMono Nerd Font Mono")
-;; (setq amirreza/font "Iosevka")
+(setq amirreza/font "Iosevka")
 (setq amirreza/font-size "18")
 
 (setq amirreza/theme 'jblow) ;; default theme
@@ -290,10 +291,11 @@
 (setq corfu-auto t) ;; make corfu start automatically aka AutoComplete or Intelisense for VSCode guys.
 (setq corfu-auto-delay 0.1) ;; Less delay to show the autocompletion menu.
 (global-corfu-mode) ;; Globally enable auto complete.
-(corfu-history-mode 1)
-(corfu-echo-mode 1)
-(corfu-popupinfo-mode 1)
-(corfu-terminal-mode)
+(corfu-history-mode 1) ;; Sort completion based on history.
+(corfu-echo-mode 1) ;; Show candidate documentation in echo area.
+(corfu-popupinfo-mode 1) 
+(unless (display-graphic-p) ;; If in terminal emacs do some compat stuff.
+  (corfu-terminal-mode))
 (corfu-prescient-mode)
 
 
@@ -392,11 +394,14 @@
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                                 Programming                                           ;;
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq amirreza/programming-hydra-heads '()) ;; This will eventualy have all actions I want as sort of my context menu in programming modes.
+
+;; This will eventualy have all actions I want as sort of my context menu in programming modes.
+(setq amirreza/programming-hydra-heads '())
 
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                           Programming (Diagnostics)                                   ;;
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (add-to-list 'amirreza/programming-hydra-heads '("n" flymake-goto-next-error "Goto Next Error"))
 (add-to-list 'amirreza/programming-hydra-heads '("p" flymake-goto-prev-error "Goto Previous Error"))
 (add-to-list 'amirreza/programming-hydra-heads '("e" consult-flymake "List of errors"))
@@ -404,6 +409,7 @@
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                           Programming (Goto)                                          ;;
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (global-set-key (kbd "M-.") 'xref-find-definitions) ;; Jump to definitions
 (global-set-key (kbd "M-,") 'xref-go-back) ;; Jump back
 (global-set-key (kbd "M-r") 'xref-find-references) ;; Find references
@@ -411,6 +417,7 @@
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                           Programming (Documentation)                                          ;;
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (setq eldoc-echo-area-use-multiline-p nil) ;; Don't do multiline document in minibuffer it's distracting
 (setq eldoc-echo-area-display-truncation-message nil)
 (setq eldoc-echo-area-prefer-doc-buffer nil)
@@ -419,10 +426,22 @@
 (global-set-key (kbd "M-0") 'eldoc)
 (global-eldoc-mode) ;; All modes should have emacs documentatino system enabled.
 
+
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                           Programming (Flycheck)                                 ;;
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                           Programming (LSP aka eglot)                                 ;;
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(unless (>= emacs-major-version 29) ;; If emacs 28 or lower install eglot.
+  (straight-use-package 'eglot))
+
 (add-hook 'prog-mode-hook #'eglot-ensure) ;; Try to use LSP for all programming modes.
+
+
 
 (add-to-list 'amirreza/programming-hydra-heads '("d" eldoc "Document THING at POINT"))
 (add-to-list 'amirreza/programming-hydra-heads '("D" xref-find-definitions "Goto Definitions"))
@@ -431,6 +450,7 @@
 (add-to-list 'amirreza/programming-hydra-heads '("s" consult-eglot-symbols "Workspace Symbols"))
 (add-to-list 'amirreza/programming-hydra-heads '("R" eglot-rename "Rename"))
 (add-to-list 'amirreza/programming-hydra-heads '("f" eglot-format "Format"))
+
 (setq rustic-lsp-client 'eglot) ;; Rustic default is lsp-mode
 
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
