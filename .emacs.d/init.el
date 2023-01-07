@@ -499,6 +499,19 @@
   (let ((eshell-buffer-name (format "*eshell-%s*" name)))
     (eshell)))
 
+
+(defun eshell--complete-history-prompt ()
+  "Prompt with completion for history elements from `eshell-history-ring`."
+  (interactive)
+  (if-let ((hist (ring-elements eshell-history-ring)))
+      (insert (completing-read "Input from history: "
+                       hist nil t nil
+                       'prot-eshell--complete-history-prompt-history))
+    (user-error "There is no Eshell history")))
+
+(add-hook 'eshell-mode-hook (lambda ()
+			      (define-key eshell-mode-map (kbd "C-r") 'eshell--complete-history-prompt)))
+
 (defun spawn-eshell ()
   "Spawn a new eshell instance with the name of current buffer or jump if there is one existing"
   (interactive)
