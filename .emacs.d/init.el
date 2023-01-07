@@ -161,6 +161,7 @@
 
    perspective ;; Workspace management
    ))
+
 (mapc (lambda (pkg)
 	(straight-use-package pkg)) amirreza/packages)
 
@@ -172,12 +173,12 @@
 (setq user-full-name "Amirreza Askarpour")
 (setq user-email "raskarpour@gmail.com")
 
-;; (setq amirreza/font "FiraCode Nerd Font Mono")
+(setq amirreza/font "FiraCode Nerd Font Mono")
 ;; (setq amirreza/font "Go Mono")
 ;; (setq amirreza/font "Source Code Pro")
 ;; (setq amirreza/font "OperatorMono Nerd Font Light")
 ;; (setq amirreza/font "JetBrainsMono Nerd Font Mono")
-(setq amirreza/font "Iosevka")
+;; (setq amirreza/font "Iosevka")
 (setq amirreza/font-size "18")
 
 (setq amirreza/theme 'jblow) ;; default theme
@@ -514,5 +515,3 @@
 
 (provide 'init)
 ;;; init.el ends here
-
-
