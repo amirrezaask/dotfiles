@@ -46,6 +46,7 @@
    expand-region
    parinfer-rust-mode
    keycast
+   avy
    
    ;; Window and buffer management
    ace-window
@@ -158,7 +159,7 @@
 ;; (setq amirreza/font "Iosevka")
 (setq amirreza/font-size "18")
 
-(setq amirreza/theme 'jblow) ;; default theme
+(setq amirreza/theme 'modus-vivendi) ;; default theme
 
 (gcmh-mode 1) ;; Smartly manage Emacs garbage collector pauses (better perf).
 
@@ -330,6 +331,8 @@
 
 (global-set-key (kbd "C-q") 'set-mark-command) ;; start selecting
 (global-unset-key (kbd "C-SPC"))
+
+(global-set-key (kbd "C-;") 'avy-goto-line)
 
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                                 Org Mode                                              ;;
