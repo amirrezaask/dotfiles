@@ -24,11 +24,6 @@
 
 ;;; Code:
 
-
-
-(provide 'init)
-;;; init.el ends here
-
 ;; (setq debug-on-init t)
 (setq user-full-name "Amirreza Askarpour")
 (setq user-email "raskarpour@gmail.com")
@@ -468,5 +463,9 @@
 (when (string-equal system-type "darwin")
     (setq mac-command-modifier 'meta)
     (setq mac-option-modifier 'meta))
+
+
+(provide 'init)
+;;; init.el ends here
 
 
