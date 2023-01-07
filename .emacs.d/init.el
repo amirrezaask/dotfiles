@@ -24,20 +24,10 @@
 
 ;;; Code:
 
-;; (setq debug-on-init t)
-(setq user-full-name "Amirreza Askarpour")
-(setq user-email "raskarpour@gmail.com")
+;; 1. install packages
+;; 2. Setting configuration values and defining helper functions
+;; 3. Keybindings
 
-;; (setq amirreza/font "Source Code Pro")
-;; (setq amirreza/font "FiraCode Nerd Font Mono")
-;; (setq amirreza/font "OperatorMono Nerd Font Light")
-(setq amirreza/font "JetBrainsMono Nerd Font Mono")
-;; (setq amirreza/font "Iosevka")
-
-(setq amirreza/font-size "18")
-(setq amirreza/theme 'solarized-dark)
-
-;; If early-init wasn't there.
 (setq package-enable-at-startup nil) ;; Disable default package manager package.el
 (tool-bar-mode 0) ;; disable top toolbar
 (scroll-bar-mode 0) ;; disable scroll bar
@@ -45,12 +35,9 @@
 (setq gc-cons-threshold (* 100 1024 1024))
 (setq read-process-output-max (* 1024 1024))
 
-
-(setq vc-follow-symlinks t)
-(add-to-list 'load-path (expand-file-name "site-lisp" user-emacs-directory))
-(add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
-
-;; Bootstrap straight.el
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                                 Installing Package manager                            ;;
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defvar bootstrap-version)
 (let ((bootstrap-file
        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
@@ -63,8 +50,11 @@
       (goto-char (point-max))
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
-
 (setq straight-use-package-by-default t)
+
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                                 Installing Packages                                   ;;
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; All packages I install
 (setq amirreza/packages
@@ -112,9 +102,6 @@
    marginalia
    orderless
 
-   flycheck ;; Diagnostics in buffer
-
-   ;; Language major modes
    go-mode ;; Go major mode
    go-tag ;; Struct tags in Golang
    go-gen-test ;; Generate test for function
@@ -159,22 +146,38 @@
 
    csv-mode ;; CSV
 
-   vterm
-
    perspective ;; Workspace management
    ))
-
-;; Install all packages
 (mapc (lambda (pkg)
 	(straight-use-package pkg)) amirreza/packages)
 
-(gcmh-mode 1)
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                                 Customization Variables                               ;;
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; (setq debug-on-init t) ;; debug emacs itself
+(setq user-full-name "Amirreza Askarpour")
+(setq user-email "raskarpour@gmail.com")
+
+(setq amirreza/font "FiraCode Nerd Font Mono")
+;; (setq amirreza/font "Source Code Pro")
+;; (setq amirreza/font "OperatorMono Nerd Font Light")
+;; (setq amirreza/font "JetBrainsMono Nerd Font Mono")
+;; (setq amirreza/font "Iosevka")
+(setq amirreza/font-size "18")
+
+(setq amirreza/theme 'jblow) ;; default theme
+
+(gcmh-mode 1) ;; Smartly manage Emacs garbage collector pauses (better perf).
+
+(setq native-comp-async-report-warnings-errors 'silent) ;; Silent Emacs 28 native compilation
 
 (setq create-lockfiles nil) ;; Don't create .# files as lock.
-(setq native-comp-async-report-warnings-errors 'silent) ;; Silent Emacs 28 native compilation
 (setq make-backup-files nil) ;; Disable backup files ~file
 (setq auto-save-default nil) ;; Disable auto save files
+
 (setq inhibit-startup-screen t) ;; No startup splash screen
+
 (setq use-dialog-box nil) ;; Do not use UI for questions
 (setq ring-bell-function 'ignore) ;; Do not beep please.
 
@@ -182,28 +185,19 @@
 (scroll-bar-mode 0) ;; disable scroll bar
 (menu-bar-mode -1) ;; Disable menu bar
 
-(straight-use-package 'exec-path-from-shell)
+(exec-path-from-shell-initialize) ;; Copy PATH from default shell
 
-;; Copy PATH from default shell
-(exec-path-from-shell-initialize)
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory)) ;; don't touch my config for custom variables put them in another file.
 
-(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(defalias 'yes-or-no-p 'y-or-n-p) ;; Instead of yes or no use y or n
 
-(defalias 'yes-or-no-p 'y-or-n-p)
-
-(setq echo-keystrokes 0.4)
-
-(defun amirreza/find-file ()
-  "Smart find file function to do project-files if in Git repo otherwise use default `find-file`."
-  (interactive)
-  (if (vc-backend (buffer-file-name))
-      (project-find-file)
-    (call-interactively 'find-file)))
+(setq echo-keystrokes 0.4) ;; faster echoing of keystrokes in minibuffer.
 
 (defun amirreza/edit-emacs ()
+  "Edit emacs configuration."
   (interactive)
   (find-file (expand-file-name "init.el" user-emacs-directory)))
-
+(global-set-key (kbd "C-c e e") 'amirreza/edit-emacs)
 
 (defun amirreza/getenv (name default)
   "Get env if not defined use default"
@@ -215,14 +209,14 @@
 (defmacro amirreza/defhydra (name body heads)
   `(eval (append '(defhydra ,name ,body) ,heads)))
 
-(global-set-key (kbd "C-c e e") 'amirreza/edit-emacs) ;; edit emacs configuration
+
 (global-set-key (kbd "C-x o") 'ace-window) ;; window switch
 (global-set-key (kbd "C-x C-b") 'bufler) ;; buffer management
 
 (global-unset-key (kbd "C-z")) ;; No minimizing
 
-(add-hook 'dired-mode-hook (lambda ()
-			     (define-key dired-mode-map (kbd "C-c C-e") 'wdired-change-to-wdired-mode))) ;; In dired doing C-c C-e makes it amazing file manager.
+(add-hook 'dired-mode-hook (lambda () ;; Make a dired buffer writable and changes will affect files structure in disk.
+			     (define-key dired-mode-map (kbd "C-c C-e") 'wdired-change-to-wdired-mode)))
 
 ;; Improve help buffers in emacs.
 (global-set-key [remap describe-key] 'helpful-key)
@@ -233,22 +227,13 @@
 (add-to-list 'custom-theme-load-path
 	     (expand-file-name "themes" user-emacs-directory))
 
-(setq amirreza/--current-theme nil)
+;; disable other themes before loading new one.
+(defadvice load-theme (before theme-dont-propagate activate)
+  "Disable theme before loading new one."
+  (mapcar #'disable-theme custom-enabled-themes))
 
-(defun amirreza/switch-theme ()
-  (interactive)
-  (let ((theme (intern (completing-read "Theme: " (mapcar #'symbol-name
-							  (custom-available-themes))))))
-    (amirreza/load-theme theme)))
-
-(defun amirreza/load-theme (theme)
-  (when (not (eq amirreza/--current-theme nil))
-    (disable-theme amirreza/--current-theme))
-  (setq amirreza/--current-theme theme)
-  (load-theme amirreza/--current-theme t))
-
-(amirreza/load-theme amirreza/theme)
-(global-set-key (kbd "C-c t t") 'amirreza/switch-theme)
+(load-theme amirreza/theme t)
+(global-set-key (kbd "C-c t t") 'load-theme)
 
 ;; Font settings
 (defun amirreza/display-benq ()
@@ -257,33 +242,32 @@
   (set-frame-font (concat amirreza/font " " amirreza/font-size) nil t))
 
 ;; My font setup for my laptop setup
-(defun amirreza/display-mac ()
+(defun amirreza/display-macbook-personal ()
   (interactive)
   (setq amirreza/font-size "15")
   (set-frame-font (concat amirreza/font " " amirreza/font-size) nil t))
 
 ;; Interactively ask for font size
-(defun amirreza/set-font-size (size)
+(defun set-font-size (size)
   (interactive "sSize: ")
   (setq amirreza/font-size size)
   (set-frame-font (concat amirreza/font " " amirreza/font-size) nil t))
 
 ;; Reload font settings
-(defun amirreza/reload-font ()
+(defun reload-font ()
   (interactive)
   (set-frame-font (concat amirreza/font " " amirreza/font-size) nil t))
 
-(amirreza/reload-font)
+(reload-font) ;; Load font settings
 
-(setq-default cursor-type 'box)
-(global-hl-line-mode 1)
-(set-face-attribute 'cursor nil :background "#ffffff")
-(blink-cursor-mode -1)
+(setq-default cursor-type 'box) ;; set cursor type to be box, I like box better that a single horizontal line, it's more observable.
+(global-hl-line-mode 1) ;; highlight current line that cursor is one, again for observabality.
+(blink-cursor-mode -1) ;; Cusror blinking is distracting
 
 ;; Autocompletion configs
-(setq corfu-auto t)
-(setq corfu-auto-delay 0.1)
-(global-corfu-mode)
+(setq corfu-auto t) ;; make corfu start automatically aka AutoComplete or Intelisense for VSCode guys.
+(setq corfu-auto-delay 0.1) ;; Less delay to show the autocompletion menu.
+(global-corfu-mode) ;; Globally enable auto complete.
 (corfu-history-mode 1)
 (corfu-echo-mode 1)
 (corfu-popupinfo-mode 1)
@@ -309,11 +293,13 @@
 (global-display-line-numbers-mode 1) ;; enable line numbers globaly
 
 (defun amirreza/up-center ()
+  "Move half a page up and also center the cursor."
   (interactive)
   (previous-line (/ (window-height) 2))
   (recenter-top-bottom))
 
 (defun amirreza/down-center ()
+  "Move half a page down and also center the cursor."
   (interactive)
   (next-line (/ (window-height) 2))
   (recenter-top-bottom))
@@ -324,58 +310,37 @@
 (global-set-key (kbd "M-p") 'amirreza/up-center)
 (global-set-key (kbd "M-n") 'amirreza/down-center)
 
-(global-set-key (kbd "C-=") 'er/expand-region)
-(global-set-key (kbd "C--") 'er/contract-region)
+(global-set-key (kbd "C-=") 'er/expand-region) ;; Expand your current selection based on the semantics of syntax.
+(global-set-key (kbd "C--") 'er/contract-region) ;; Contract your current selection based on the semantics of syntax.
 
-(global-set-key (kbd "C-q") 'set-mark-command)
+(global-set-key (kbd "C-q") 'set-mark-command) ;; start selecting
+(global-unset-key (kbd "C-SPC"))
 
-(setq org-use-property-inheritance t)
+
+(setq org-use-property-inheritance t) ;; Inherit properties of the parent node in Org Emode.
 (setq org-startup-folded t) ;; Start org mode all headers collapsed
-(setq org-src-window-setup 'current-window)
+(setq org-src-window-setup 'current-window) ;; use current window in org src edit.
 (setq org-src-tab-acts-natively nil)
 
-(defun amirreza/org-code-block ()
-  (interactive)
-  (insert (format "#+BEGIN_SRC %s\n\n#+END_SRC"
-		  (completing-read "Language: "
-				   '("emacs-lisp"
-				     "go"
-				     "rust"
-				     "python"
-				     "lua"
-				     "bash"
-				     "sh"
-				     "fish"
-				     "java"
-				     )))))
-
-(defun amirreza/org-disable-tangle ()
-  (interactive)
-  (insert ":PROPERTIES:
-:header-args:    :tangle no
-:END:"))
 
 (defhydra amirreza/org-mode-hydra (:exit t)
   ("l" org-toggle-link-display "Toggle Link Display")
-  ("b" amirreza/org-code-block "Insert a Code Block")
-  ("n" amirreza/org-disable-tangle "Disable Tangle PROPERTIES")
   ("e" org-export-dispatch "Export")
   ("o" org-open-at-point "Open At Point")
   ("h" (lambda () (interactive) (org-export-as 'html)) "Org Export To HTML")
   ("t"  org-todo "Open At Point"))
 
-
 (add-hook 'org-mode-hook (lambda ()
 			     (define-key org-mode-map (kbd "C-c m") 'amirreza/org-mode-hydra/body)
-			     (define-key org-src-mode-map (kbd "C-c C-c") #'org-edit-src-exit)))
+			     (define-key org-src-mode-map (kbd "C-c C-c") #'org-edit-src-exit))) ;; more consistent with magit and other modes.
 
 
+(global-git-gutter-mode) ;; Show git changes along side line numbers.
 
-(global-git-gutter-mode)
+(global-set-key (kbd "C-x g") 'magit) ;; Best Git client ever
 
-(global-set-key (kbd "C-x g") 'magit)
 
-(defhydra amirreza/project-hydra (:exit t)
+(defhydra amirreza/project-hydra (:exit t) ;; Emacs can understands Projects
   ("f" project-find-file "Find File")
   ("p" project-switch-project "Switch To Project")
   ("b" project-buffers "Find Buffer In Project")
@@ -385,10 +350,9 @@
 
 (setq amirreza/programming-hydra-heads '())
 
-(add-to-list 'amirreza/programming-hydra-heads '("n" flycheck-next-error "Goto Next Error"))
-(add-to-list 'amirreza/programming-hydra-heads '("p" flycheck-previous-error "Goto Previous Error"))
+(add-to-list 'amirreza/programming-hydra-heads '("n" flymake-goto-next-error "Goto Next Error"))
+(add-to-list 'amirreza/programming-hydra-heads '("p" flymake-goto-prev-error "Goto Previous Error"))
 (add-to-list 'amirreza/programming-hydra-heads '("e" consult-flymake "List of errors"))
-(global-flycheck-mode)
 
 (global-set-key (kbd "M-.") 'xref-find-definitions)
 (global-set-key (kbd "M-,") 'xref-go-back)
@@ -403,10 +367,7 @@
 (global-set-key (kbd "C-h .") 'eldoc)
 (global-set-key (kbd "M-0") 'eldoc)
 
-(setq amirreza/--eldoc-window-open 'close)
-
 (global-eldoc-mode)
-
 ;; Language with LSP
 (add-hook 'prog-mode-hook #'eglot-ensure)
 
