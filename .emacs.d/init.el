@@ -522,7 +522,7 @@
   ("v" multi-vterm "Spawn VTerm")
   ("e" spawn-eshell-with-name "Spawn Eshell"))
 
-(global-set-key (kbd "C-c s e") 'amirreza/spawn-hydra/body)
+(global-set-key (kbd "C-c s") 'amirreza/spawn-hydra/body)
 (global-set-key (kbd "C-S-s") 'spawn-eshell)
 
 (provide 'init)
