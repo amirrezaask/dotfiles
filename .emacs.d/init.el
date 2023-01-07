@@ -1,3 +1,34 @@
+;;; init.el --- My Emacs initial script              -*- lexical-binding: t; -*-
+
+;; Copyright (C) 2023  Amirreza Askarpour
+
+;; Author: Amirreza Askarpour <amirreza@amirrezas-MacBook-Pro.local>
+;; Keywords: lisp
+
+;; This program is free software; you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation, either version 3 of the License, or
+;; (at your option) any later version.
+
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+
+;; You should have received a copy of the GNU General Public License
+;; along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+;;; Commentary:
+
+;; 
+
+;;; Code:
+
+
+
+(provide 'init)
+;;; init.el ends here
+
 ;; (setq debug-on-init t)
 (setq user-full-name "Amirreza Askarpour")
 (setq user-email "raskarpour@gmail.com")
@@ -71,6 +102,7 @@
    ;; Themes
    ef-themes
    solarized-theme
+   doom-themes
    gruber-darker-theme
 
    ;; Autocompletion menu
@@ -84,6 +116,8 @@
    consult
    marginalia
    orderless
+
+   flycheck ;; Diagnostics in buffer
 
    ;; Language major modes
    go-mode ;; Go major mode
@@ -165,7 +199,7 @@
 (setq echo-keystrokes 0.4)
 
 (defun amirreza/find-file ()
-  "Smart find file function to do project-files if in Git repo otherwise use default find-file."
+  "Smart find file function to do project-files if in Git repo otherwise use default `find-file`."
   (interactive)
   (if (vc-backend (buffer-file-name))
       (project-find-file)
@@ -186,9 +220,11 @@
 (defmacro amirreza/defhydra (name body heads)
   `(eval (append '(defhydra ,name ,body) ,heads)))
 
-(global-set-key (kbd "C-c e e") 'amirreza/edit-emacs)
-(global-set-key (kbd "C-x o") 'ace-window)
-(global-set-key (kbd "C-x C-b") 'bufler)
+(global-set-key (kbd "C-c e e") 'amirreza/edit-emacs) ;; edit emacs configuration
+(global-set-key (kbd "C-x o") 'ace-window) ;; window switch
+(global-set-key (kbd "C-x C-b") 'bufler) ;; buffer management
+
+(global-unset-key (kbd "C-z")) ;; No minimizing
 
 (add-hook 'dired-mode-hook (lambda ()
 			     (define-key dired-mode-map (kbd "C-c C-e") 'wdired-change-to-wdired-mode))) ;; In dired doing C-c C-e makes it amazing file manager.
@@ -354,9 +390,10 @@
 
 (setq amirreza/programming-hydra-heads '())
 
-(add-to-list 'amirreza/programming-hydra-heads '("n" flymake-goto-next-error "Goto Next Error"))
-(add-to-list 'amirreza/programming-hydra-heads '("p" flymake-goto-previous-error "Goto Previous Error"))
+(add-to-list 'amirreza/programming-hydra-heads '("n" flycheck-next-error "Goto Next Error"))
+(add-to-list 'amirreza/programming-hydra-heads '("p" flycheck-previous-error "Goto Previous Error"))
 (add-to-list 'amirreza/programming-hydra-heads '("e" consult-flymake "List of errors"))
+(global-flycheck-mode)
 
 (global-set-key (kbd "M-.") 'xref-find-definitions)
 (global-set-key (kbd "M-,") 'xref-go-back)
@@ -431,3 +468,5 @@
 (when (string-equal system-type "darwin")
     (setq mac-command-modifier 'meta)
     (setq mac-option-modifier 'meta))
+
+
