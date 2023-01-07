@@ -24,16 +24,17 @@
 
 ;;; Code:
 
-;; 1. install packages
-;; 2. Setting configuration values and defining helper functions
-;; 3. Keybindings
+;; (setq debug-on-init t) ;; debug emacs itself
 
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                                 Early-init.el                                         ;;
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq package-enable-at-startup nil) ;; Disable default package manager package.el
 (tool-bar-mode 0) ;; disable top toolbar
 (scroll-bar-mode 0) ;; disable scroll bar
 (menu-bar-mode -1) ;; Disable menu bar
-(setq gc-cons-threshold (* 100 1024 1024))
-(setq read-process-output-max (* 1024 1024))
+(setq gc-cons-threshold (* 100 1024 1024)) ;; Increase Emacs garbage collector threshold to 100 MB
+(setq read-process-output-max (* 1024 1024)) ;; Increase Emacs read from process output to 100 MB
 
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                                 Installing Package manager                            ;;
@@ -64,6 +65,7 @@
    helpful
    gcmh
    expand-region
+   exec-path-from-shell
 
    ;; Window and buffer management
    ace-window
@@ -152,10 +154,10 @@
 	(straight-use-package pkg)) amirreza/packages)
 
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;                                 Customization Variables                               ;;
+;;                                 Customize core stuff                                  ;;
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; (setq debug-on-init t) ;; debug emacs itself
+
 (setq user-full-name "Amirreza Askarpour")
 (setq user-email "raskarpour@gmail.com")
 
@@ -176,14 +178,12 @@
 (setq make-backup-files nil) ;; Disable backup files ~file
 (setq auto-save-default nil) ;; Disable auto save files
 
+(setq vc-follow-symlinks t)
+
 (setq inhibit-startup-screen t) ;; No startup splash screen
 
 (setq use-dialog-box nil) ;; Do not use UI for questions
 (setq ring-bell-function 'ignore) ;; Do not beep please.
-
-(tool-bar-mode 0) ;; disable top toolbar
-(scroll-bar-mode 0) ;; disable scroll bar
-(menu-bar-mode -1) ;; Disable menu bar
 
 (exec-path-from-shell-initialize) ;; Copy PATH from default shell
 
@@ -218,11 +218,17 @@
 (add-hook 'dired-mode-hook (lambda () ;; Make a dired buffer writable and changes will affect files structure in disk.
 			     (define-key dired-mode-map (kbd "C-c C-e") 'wdired-change-to-wdired-mode)))
 
-;; Improve help buffers in emacs.
+
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                                 Help me daddy                                         ;;
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (global-set-key [remap describe-key] 'helpful-key)
 (global-set-key [remap describe-function] 'helpful-callable)
 (global-set-key [remap describe-variable] 'helpful-variable)
 
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                                 Font & Theme                                          ;;
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Add custom themes path to themes load path
 (add-to-list 'custom-theme-load-path
 	     (expand-file-name "themes" user-emacs-directory))
@@ -230,7 +236,7 @@
 ;; disable other themes before loading new one.
 (defadvice load-theme (before theme-dont-propagate activate)
   "Disable theme before loading new one."
-  (mapcar #'disable-theme custom-enabled-themes))
+  (mapc #'disable-theme custom-enabled-themes))
 
 (load-theme amirreza/theme t)
 (global-set-key (kbd "C-c t t") 'load-theme)
@@ -260,11 +266,16 @@
 
 (reload-font) ;; Load font settings
 
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                                 Cursor configs                                        ;;
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq-default cursor-type 'box) ;; set cursor type to be box, I like box better that a single horizontal line, it's more observable.
 (global-hl-line-mode 1) ;; highlight current line that cursor is one, again for observabality.
 (blink-cursor-mode -1) ;; Cusror blinking is distracting
 
-;; Autocompletion configs
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                                 Auto Completion                                       ;;
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq corfu-auto t) ;; make corfu start automatically aka AutoComplete or Intelisense for VSCode guys.
 (setq corfu-auto-delay 0.1) ;; Less delay to show the autocompletion menu.
 (global-corfu-mode) ;; Globally enable auto complete.
@@ -274,7 +285,10 @@
 (corfu-terminal-mode)
 (corfu-prescient-mode)
 
-;; Minibuffer completion
+
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                                 Minibuffer Completion                                 ;;
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq completion-cycle-threshold 3)
 (setq tab-always-indent 'complete)
 (setq vertico-count 15)
@@ -286,6 +300,9 @@
       completion-category-defaults nil
       completion-category-overrides '((file (styles partial-completion))))
 
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                                 Editor Experience                                      ;;
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (delete-selection-mode 1) ;; When a region of text is selected and then something is typed remove text and replace with what has been typed.
 (setq show-paren-delay 0) ;; highlight matching parens instantly.
 (show-paren-mode 1) ;; Highlight matching parens
@@ -316,12 +333,13 @@
 (global-set-key (kbd "C-q") 'set-mark-command) ;; start selecting
 (global-unset-key (kbd "C-SPC"))
 
-
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                                 Org Mode                                              ;;
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq org-use-property-inheritance t) ;; Inherit properties of the parent node in Org Emode.
 (setq org-startup-folded t) ;; Start org mode all headers collapsed
 (setq org-src-window-setup 'current-window) ;; use current window in org src edit.
 (setq org-src-tab-acts-natively nil)
-
 
 (defhydra amirreza/org-mode-hydra (:exit t)
   ("l" org-toggle-link-display "Toggle Link Display")
@@ -335,11 +353,16 @@
 			     (define-key org-src-mode-map (kbd "C-c C-c") #'org-edit-src-exit))) ;; more consistent with magit and other modes.
 
 
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                                 Git                                                   ;;
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (global-git-gutter-mode) ;; Show git changes along side line numbers.
 
 (global-set-key (kbd "C-x g") 'magit) ;; Best Git client ever
 
-
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                                 Project                                               ;;
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defhydra amirreza/project-hydra (:exit t) ;; Emacs can understands Projects
   ("f" project-find-file "Find File")
   ("p" project-switch-project "Switch To Project")
@@ -348,28 +371,41 @@
 
 (global-set-key (kbd "C-x p") 'amirreza/project-hydra/body)
 
-(setq amirreza/programming-hydra-heads '())
 
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                                 Programming                                           ;;
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq amirreza/programming-hydra-heads '()) ;; This will eventualy have all actions I want as sort of my context menu in programming modes.
+
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                           Programming (Diagnostics)                                   ;;
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (add-to-list 'amirreza/programming-hydra-heads '("n" flymake-goto-next-error "Goto Next Error"))
 (add-to-list 'amirreza/programming-hydra-heads '("p" flymake-goto-prev-error "Goto Previous Error"))
 (add-to-list 'amirreza/programming-hydra-heads '("e" consult-flymake "List of errors"))
 
-(global-set-key (kbd "M-.") 'xref-find-definitions)
-(global-set-key (kbd "M-,") 'xref-go-back)
-(global-set-key (kbd "M-r") 'xref-find-references)
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                           Programming (Goto)                                          ;;
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(global-set-key (kbd "M-.") 'xref-find-definitions) ;; Jump to definitions
+(global-set-key (kbd "M-,") 'xref-go-back) ;; Jump back
+(global-set-key (kbd "M-r") 'xref-find-references) ;; Find references
 
-(setq eldoc-echo-area-use-multiline-p nil)
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                           Programming (Documentation)                                          ;;
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq eldoc-echo-area-use-multiline-p nil) ;; Don't do multiline document in minibuffer it's distracting
 (setq eldoc-echo-area-display-truncation-message nil)
 (setq eldoc-echo-area-prefer-doc-buffer nil)
-
 (add-to-list 'amirreza/programming-hydra-heads '("." amirreza/eldoc-toggle-buffer "Toggle Eldoc for point"))
-
 (global-set-key (kbd "C-h .") 'eldoc)
 (global-set-key (kbd "M-0") 'eldoc)
+(global-eldoc-mode) ;; All modes should have emacs documentatino system enabled.
 
-(global-eldoc-mode)
-;; Language with LSP
-(add-hook 'prog-mode-hook #'eglot-ensure)
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                           Programming (LSP aka eglot)                                 ;;
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(add-hook 'prog-mode-hook #'eglot-ensure) ;; Try to use LSP for all programming modes.
 
 (add-to-list 'amirreza/programming-hydra-heads '("d" eldoc "Document THING at POINT"))
 (add-to-list 'amirreza/programming-hydra-heads '("D" xref-find-definitions "Goto Definitions"))
@@ -378,34 +414,44 @@
 (add-to-list 'amirreza/programming-hydra-heads '("s" consult-eglot-symbols "Workspace Symbols"))
 (add-to-list 'amirreza/programming-hydra-heads '("R" eglot-rename "Rename"))
 (add-to-list 'amirreza/programming-hydra-heads '("f" eglot-format "Format"))
+(setq rustic-lsp-client 'eglot) ;; Rustic default is lsp-mode
 
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                                   Programming                                         ;;
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (amirreza/defhydra amirreza/programming-hydra (:exit t)
 		   amirreza/programming-hydra-heads)
 
 (add-hook 'prog-mode-hook (lambda ()
+			    (define-key prog-mode-map (kbd "C-SPC") 'amirreza/programming-hydra/body)
 			    (define-key prog-mode-map (kbd "C-c m") 'amirreza/programming-hydra/body)))
 
-
-
-(setq rustic-lsp-client 'eglot) ;; Rustic default is lsp-mode
-
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                                       Go                                              ;;
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (amirreza/defhydra amirreza/go-hydra
 		   (:exit t)
 		   (append amirreza/programming-hydra-heads '(("a" go-tag-add "Add Struct Tag"))))
   
 (add-hook 'go-mode-hook (lambda ()
+			  (define-key go-mode-map (kbd "C-SPC") 'amirreza/go-hydra/body)
 			  (define-key go-mode-map (kbd "C-c m") 'amirreza/go-hydra/body)))
 
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                                       JSON                                            ;;
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq amirreza/json-hydra-heads '(
 				  ("f" json-pretty-print "Pretty print region")
-				  ("F" json-pretty-print-buffer "Pretty print buffer")
-				  ))
+				  ("F" json-pretty-print-buffer "Pretty print buffer")))
 (amirreza/defhydra amirreza/json-hydra (:exit t) amirreza/json-hydra-heads)
 
 (add-hook 'json-mode-hook (lambda ()
+			    (define-key (kbd "C-SPC") 'amirreza/json-hydra/body)
 			    (define-key (kbd "C-c m") 'amirreza/json-hydra/body)))
 
-
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                                 Workspaces                                            ;;
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq persp-state-default-file (expand-file-name "sessions" user-emacs-directory))
 (setq persp-mode-prefix-key (kbd "C-c w"))
 
@@ -421,8 +467,11 @@
 
 (global-set-key (kbd "C-c w s") 'persp-switch)
 
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                                 MacOS Settings                                        ;;
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (when (string-equal system-type "darwin")
-    (setq mac-command-modifier 'meta)
+    (setq mac-command-modifier 'meta) ;; make command key in mac act as meta/alt
     (setq mac-option-modifier 'meta))
 
 
