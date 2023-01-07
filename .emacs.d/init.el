@@ -1,29 +1,3 @@
-;;; init.el --- My Emacs initial script              -*- lexical-binding: t; -*-
-
-;; Copyright (C) 2023  Amirreza Askarpour
-
-;; Author: Amirreza Askarpour <amirreza@amirrezas-MacBook-Pro.local>
-;; Keywords: lisp
-
-;; This program is free software; you can redistribute it and/or modify
-;; it under the terms of the GNU General Public License as published by
-;; the Free Software Foundation, either version 3 of the License, or
-;; (at your option) any later version.
-
-;; This program is distributed in the hope that it will be useful,
-;; but WITHOUT ANY WARRANTY; without even the implied warranty of
-;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-;; GNU General Public License for more details.
-
-;; You should have received a copy of the GNU General Public License
-;; along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
-;;; Commentary:
-
-;; 
-
-;;; Code:
-
 ;; (setq debug-on-init t) ;; debug emacs itself
 
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -530,10 +504,10 @@
 
 (defhydra amirreza/spawn-hydra (:exit t)
   ("v" multi-vterm "Spawn VTerm")
-  ("e" spawn-eshell "Spawn Eshell"))
+  ("e" spawn-eshell-with-name "Spawn Eshell"))
 
 (global-set-key (kbd "C-c s e") 'amirreza/spawn-hydra/body)
-(global-set-key (kbd "C-S") 'spawn-eshell)
+(global-set-key (kbd "C-S-s") 'spawn-eshell)
 
 (provide 'init)
 ;;; init.el ends here
