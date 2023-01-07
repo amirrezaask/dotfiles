@@ -71,6 +71,7 @@
    multiple-cursors
    expand-region
    parinfer-rust-mode
+   keycast
    
    ;; Window and buffer management
    ace-window
