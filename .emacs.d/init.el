@@ -490,7 +490,7 @@
 
 
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;                                Eshell & VTerm                                         ;;
+;;                         Eshell & VTerm & External Programs                            ;;
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun spawn-eshell-with-name (name)
@@ -520,6 +520,7 @@
 
 (defhydra amirreza/spawn-hydra (:exit t)
   ("v" multi-vterm "Spawn VTerm")
+  ("p" async-shell-command "Spawn a process")
   ("e" spawn-eshell-with-name "Spawn Eshell"))
 
 (global-set-key (kbd "C-c s") 'amirreza/spawn-hydra/body)
