@@ -2,13 +2,15 @@
 
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                                 Early-init.el                                         ;;
+;;                            Put these into $EMACS_DIR/early-init.el                    ;;
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (setq package-enable-at-startup nil) ;; Disable default package manager package.el
 (tool-bar-mode 0) ;; disable top toolbar
 (scroll-bar-mode 0) ;; disable scroll bar
 (menu-bar-mode -1) ;; Disable menu bar
 (setq gc-cons-threshold (* 100 1024 1024)) ;; Increase Emacs garbage collector threshold to 100 MB
-(setq read-process-output-max (* 1024 1024)) ;; Increase Emacs read from process output to 100 MB
+(setq read-process-output-max (* 1024 1024)) ;; Increase Emacs read from process output to 1 MB
 
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                                 Installing Package manager                            ;;
@@ -56,6 +58,9 @@
    wgrep
    ripgrep
 
+   ;; Dired File manager
+   dired-subtree
+
    ;; Org mode stuff
    ox-reveal
    ob-go
@@ -72,7 +77,6 @@
    solarized-theme
    doom-themes
    gruber-darker-theme
-   cyberpunk-theme
    gruvbox-theme
    exotica-theme
 
@@ -157,9 +161,10 @@
 ;; (setq amirreza/font "OperatorMono Nerd Font Light")
 ;; (setq amirreza/font "JetBrainsMono Nerd Font Mono")
 ;; (setq amirreza/font "Iosevka")
-(setq amirreza/font-size "18")
+(setq amirreza/font-size "20")
 
-(setq amirreza/theme 'modus-vivendi) ;; default theme
+(setq custom-safe-themes t)
+(setq amirreza/theme 'doom-dracula) ;; default theme
 
 (gcmh-mode 1) ;; Smartly manage Emacs garbage collector pauses (better perf).
 
@@ -212,7 +217,7 @@
 
 
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;                                 Help me daddy                                         ;;
+;;                                 Emacs Help System                                     ;;
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (global-set-key [remap describe-key] 'helpful-key)
 (global-set-key [remap describe-function] 'helpful-callable)
@@ -277,7 +282,6 @@
 (unless (display-graphic-p) ;; If in terminal emacs do some compat stuff.
   (corfu-terminal-mode))
 (corfu-prescient-mode)
-
 
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                                 Minibuffer Completion                                 ;;
@@ -403,7 +407,7 @@
 (setq eldoc-echo-area-use-multiline-p nil) ;; Don't do multiline document in minibuffer it's distracting
 (setq eldoc-echo-area-display-truncation-message nil)
 (setq eldoc-echo-area-prefer-doc-buffer nil)
-(add-to-list 'amirreza/programming-hydra-heads '("." amirreza/eldoc-toggle-buffer "Toggle Eldoc for point"))
+(add-to-list 'amirreza/programming-hydra-heads '("." amirreza/eldoc "Eldoc"))
 (global-set-key (kbd "C-h .") 'eldoc)
 (global-set-key (kbd "M-0") 'eldoc)
 (global-eldoc-mode) ;; All modes should have emacs documentatino system enabled.
@@ -525,6 +529,19 @@
 
 (global-set-key (kbd "C-c s") 'amirreza/spawn-hydra/body)
 (global-set-key (kbd "C-S-s") 'spawn-eshell)
+
+
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                                       Dired                                           ;;
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(setq dired-guess-shell-alist-user
+      (list
+       (list "\\.\\(mkv\\|avi\\|mp4\\)" "/Applications/VLC.app/Contents/MacOS/VLC&")))
+
+(setq wdired-allow-to-change-permissions t)
+(setq wdired-create-parent-directories t)
+
 
 (provide 'init)
 ;;; init.el ends here
