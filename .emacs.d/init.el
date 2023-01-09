@@ -415,6 +415,10 @@
 (setq eldoc-echo-area-display-truncation-message nil)
 (setq eldoc-echo-area-prefer-doc-buffer nil)
 (add-to-list 'amirreza/programming-hydra-heads '("." amirreza/eldoc "Eldoc"))
+(setq eldoc-idle-delay 0.1)
+
+
+
 (global-set-key (kbd "C-h .") 'eldoc)
 (global-set-key (kbd "M-0") 'eldoc)
 (global-eldoc-mode) ;; All modes should have emacs documentatino system enabled.
