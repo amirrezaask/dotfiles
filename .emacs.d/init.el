@@ -42,6 +42,7 @@
    gcmh
    exec-path-from-shell
    which-key
+   doom-modeline
 
    ;; Editing
    multiple-cursors
@@ -215,6 +216,8 @@
 (add-hook 'dired-mode-hook (lambda () ;; Make a dired buffer writable and changes will affect files structure in disk.
 			     (define-key dired-mode-map (kbd "C-c C-e") 'wdired-change-to-wdired-mode)))
 
+(setq doom-modeline-height 40)
+(doom-modeline-mode 1)
 
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                                 Emacs Help System                                     ;;
@@ -535,9 +538,22 @@
 ;;                                       Dired                                           ;;
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(defvar amirreza/video-player
+      (cond
+       ((eq system-type 'darwin) "/Applications/VLC.app/Contents/MacOS/VLC&")
+       ((eq system-type 'linux) "vlc&")
+       ) "My video player for different operating systems.")
+
+(defvar amirreza/video-player
+      (cond
+       ((eq system-type 'darwin) "/Applications/VLC.app/Contents/MacOS/VLC&")
+       ((eq system-type 'linux) "vlc&")
+       ) "My video player for different operating systems.")
+
 (setq dired-guess-shell-alist-user
       (list
-       (list "\\.\\(mkv\\|avi\\|mp4\\)" "/Applications/VLC.app/Contents/MacOS/VLC&")))
+       (list "\\.\\(mkv\\|avi\\|mp4\\)" amirreza/video-player)
+       (list "\\.\\(mp3\\)" amirreza/music-player)))
 
 (setq wdired-allow-to-change-permissions t)
 (setq wdired-create-parent-directories t)
