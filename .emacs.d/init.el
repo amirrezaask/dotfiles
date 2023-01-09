@@ -74,12 +74,14 @@
    magit
 
    ;; Themes
+   autothemer
    ef-themes
    solarized-theme
    doom-themes
    gruber-darker-theme
    gruvbox-theme
    exotica-theme
+   (catppuccin :type git :host github :repo "catppuccin/emacs")
 
    ;; Autocompletion menu
    (corfu :type git :host github :repo "emacs-straight/corfu" :files ("*" "extensions/*.el" (:exclude ".git")))
@@ -165,7 +167,7 @@
 (setq amirreza/font-size "20")
 
 (setq custom-safe-themes t)
-(setq amirreza/theme 'doom-dracula) ;; default theme
+(setq amirreza/theme 'doom-catppuccin) ;; default theme
 
 (gcmh-mode 1) ;; Smartly manage Emacs garbage collector pauses (better perf).
 
@@ -300,6 +302,8 @@
       completion-category-defaults nil
       completion-category-overrides '((file (styles partial-completion))))
 
+(global-set-key (kbd "C-s") 'consult-line)
+
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                                 Editor Experience                                      ;;
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -404,7 +408,7 @@
 (global-set-key (kbd "M-r") 'xref-find-references) ;; Find references
 
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;                           Programming (Documentation)                                          ;;
+;;                           Programming (Documentation)                                 ;;
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq eldoc-echo-area-use-multiline-p nil) ;; Don't do multiline document in minibuffer it's distracting
@@ -544,7 +548,7 @@
        ((eq system-type 'linux) "vlc&")
        ) "My video player for different operating systems.")
 
-(defvar amirreza/video-player
+(defvar amirreza/music-player
       (cond
        ((eq system-type 'darwin) "/Applications/VLC.app/Contents/MacOS/VLC&")
        ((eq system-type 'linux) "vlc&")
