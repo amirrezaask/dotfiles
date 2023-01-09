@@ -1,8 +1,0 @@
-#+TITLE: AmirrezaAsk Emacs Configuration
-** Features:
-+ No =use-package= magic
-+ Fast to startup =1.3= seconds in my macbook.
-+ Simple and short =500= lines
-+ LSP using =Eglot=
-+ Autocompletion using =corfu=
-+ Workspace management using =perspective=
