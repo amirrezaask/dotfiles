@@ -327,8 +327,8 @@
 (add-hook 'prog-mode-hook 'hs-minor-mode) ;; Enable HideShow minor mode for all programming mdoes.
 (global-set-key (kbd "C-'") 'hs-toggle-hiding) ;; toggle Fold
 
-(global-set-key (kbd "C->") 'mc/mark-next-like-this) ;; Insert cursor next
-(global-set-key (kbd "C-<") 'mc/mark-previous-like-this) ;; Insert cursor prev
+(global-set-key (kbd "M->") 'mc/mark-next-like-this) ;; Insert cursor next
+(global-set-key (kbd "M-<") 'mc/mark-previous-like-this) ;; Insert cursor prev
 
 (defun amirreza/up-center ()
   "Move half a page up and also center the cursor."
