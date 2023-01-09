@@ -217,7 +217,7 @@
 (add-hook 'dired-mode-hook (lambda () ;; Make a dired buffer writable and changes will affect files structure in disk.
 			     (define-key dired-mode-map (kbd "C-c C-e") 'wdired-change-to-wdired-mode)))
 
-(setq doom-modeline-height 40)
+(setq doom-modeline-height 50)
 (doom-modeline-mode 1)
 
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -354,7 +354,8 @@
 (global-set-key (kbd "C-q") 'set-mark-command) ;; start selecting
 (global-unset-key (kbd "C-SPC"))
 
-(global-set-key (kbd "C-;") 'avy-goto-line)
+(global-set-key (kbd "M-;") 'avy-goto-line)
+(global-set-key (kbd "C-;") 'goto-line)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                                          Org Mode
@@ -392,6 +393,7 @@
   ("f" project-find-file "Find File")
   ("p" project-switch-project "Switch To Project")
   ("b" project-buffers "Find Buffer In Project")
+  ("t" multi-vterm-project "Open terminal for this project")
   ("c" project-compile "Compile Project"))
 
 (global-set-key (kbd "C-x p") 'amirreza/project-hydra/body)
@@ -486,11 +488,11 @@
 (defun amirreza/emacs-lisp-title (title)
   (interactive "sTitle:")
   (let* ((width 90)
-	 (sep (make-string width ?;)))
+	 (sep (make-string width ?\;)))
 			  (insert (format "%s\n" sep))
 			  (insert (format ";; %s\n" (format "%s%s" (make-string (/ (- width (length title)) 2) ?\s) title)))
 			  (insert (format "%s\n" sep))
-			  )))))
+			  ))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                                            JSON
@@ -537,14 +539,13 @@
 ;;                                           Shells
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun spawn-eshell-with-name (name)
+(defun amirreza/eshell-with-name (name)
   "Spawn a new eshell instance with given NAME."
   (interactive "sName: ")
   (let ((eshell-buffer-name (format "*eshell-%s*" name)))
     (eshell)))
 
-
-(defun eshell--complete-history-prompt ()
+(defun amirreza/eshell--complete-history-prompt ()
   "Prompt with completion for history elements from `eshell-history-ring`."
   (interactive)
   (if-let ((hist (ring-elements eshell-history-ring)))
@@ -554,21 +555,24 @@
     (user-error "There is no Eshell history")))
 
 (add-hook 'eshell-mode-hook (lambda ()
-			      (define-key eshell-mode-map (kbd "C-r") 'eshell--complete-history-prompt)))
+			      (define-key eshell-mode-map (kbd "C-r") 'amirreza/eshell--complete-history-prompt)))
 
-(defun spawn-eshell ()
-  "Spawn a new eshell instance with the name of current buffer or jump if there is one existing"
+(defun amirreza/eshell ()
+  "Spawn a new eshell instance for current project, if not project use current-buffer name."
   (interactive)
-  (let ((eshell-buffer-name (format "*eshell-%s-buffer*" (buffer-name (current-buffer)))))
-    (eshell)))
+  (let ((project (project-current)))
+    (if project
+        (amirreza/eshell-with-name (project-name (project-current))))
+      (let ((eshell-buffer-name (format "%s" (buffer-name (current-buffer)))))
+	(eshell))))
 
 (defhydra amirreza/spawn-hydra (:exit t)
   ("v" multi-vterm "Spawn VTerm")
   ("p" async-shell-command "Spawn a process")
-  ("e" spawn-eshell-with-name "Spawn Eshell"))
+  ("e" amirreza/eshell-with-name "Spawn Eshell"))
 
 (global-set-key (kbd "C-c s") 'amirreza/spawn-hydra/body)
-(global-set-key (kbd "C-S-s") 'spawn-eshell)
+(global-set-key (kbd "C-S-s") 'amirreza/eshell)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
