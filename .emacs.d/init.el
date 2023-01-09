@@ -158,12 +158,7 @@
 (setq user-full-name "Amirreza Askarpour")
 (setq user-email "raskarpour@gmail.com")
 
-;; (setq amirreza/font "FiraCode Nerd Font Mono")
-;; (setq amirreza/font "Go Mono")
 (setq amirreza/font "Source Code Pro")
-;; (setq amirreza/font "OperatorMono Nerd Font Light")
-;; (setq amirreza/font "JetBrainsMono Nerd Font Mono")
-;; (setq amirreza/font "Iosevka")
 (setq amirreza/font-size "20")
 
 (setq custom-safe-themes t)
@@ -401,22 +396,7 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;                                        Programming
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; This will eventualy have all actions I want as sort of my context menu in programming modes.
-(setq amirreza/programming-hydra-heads '())
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;                                 Programming - Diagnostics
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(add-to-list 'amirreza/programming-hydra-heads '("n" flymake-goto-next-error "Goto Next Error"))
-(add-to-list 'amirreza/programming-hydra-heads '("p" flymake-goto-prev-error "Goto Previous Error"))
-(add-to-list 'amirreza/programming-hydra-heads '("e" consult-flymake "List of errors"))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;                                     Programming - Goto
+;;                                            Goto
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (global-set-key (kbd "M-.") 'xref-find-definitions) ;; Jump to definitions
@@ -424,7 +404,7 @@
 (global-set-key (kbd "M-r") 'xref-find-references) ;; Find references
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;                                Programming - Documentation
+;;                                       Documentation
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq eldoc-echo-area-use-multiline-p nil) ;; Don't do multiline document in minibuffer it's distracting
@@ -433,15 +413,12 @@
 (add-to-list 'amirreza/programming-hydra-heads '("." amirreza/eldoc "Eldoc"))
 (setq eldoc-idle-delay 0.1)
 
-
-
 (global-set-key (kbd "C-h .") 'eldoc)
 (global-set-key (kbd "M-0") 'eldoc)
 (global-eldoc-mode) ;; All modes should have emacs documentatino system enabled.
 
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;                                     Programming - LSP
+;;                                            Lsp
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (unless (>= emacs-major-version 29) ;; If emacs 28 or lower install eglot.
@@ -449,19 +426,19 @@
 
 (add-hook 'prog-mode-hook #'eglot-ensure) ;; Try to use LSP for all programming modes.
 
-(add-to-list 'amirreza/programming-hydra-heads '("d" eldoc "Document THING at POINT"))
-(add-to-list 'amirreza/programming-hydra-heads '("D" xref-find-definitions "Goto Definitions"))
-(add-to-list 'amirreza/programming-hydra-heads '("r" xref-find-references "Find References"))
-(add-to-list 'amirreza/programming-hydra-heads '("i" eglot-find-implementation "Find Implementations"))
-(add-to-list 'amirreza/programming-hydra-heads '("s" consult-eglot-symbols "Workspace Symbols"))
-(add-to-list 'amirreza/programming-hydra-heads '("R" eglot-rename "Rename"))
-(add-to-list 'amirreza/programming-hydra-heads '("f" eglot-format "Format"))
-
-(setq rustic-lsp-client 'eglot) ;; Rustic default is lsp-mode
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                                        Programming
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq amirreza/programming-hydra-heads '(("n" flymake-goto-next-error "Goto Next Error")
+					 ("p" flymake-goto-prev-error "Goto Previous Error")
+					 ("e" consult-flymake "List of errors")
+					 ("d" eldoc "Document THING at POINT")
+					 ("D" xref-find-definitions "Goto Definitions")
+					 ("r" xref-find-references "Find References")
+					 ("i" eglot-find-implementation "Find Implementations")
+					 ("s" consult-eglot-symbols "Workspace Symbols")
+					 ("R" eglot-rename "Rename")
+					 ("f" eglot-format "Format")))
 
 (amirreza/defhydra amirreza/programming-hydra (:exit t)
 		   amirreza/programming-hydra-heads)
@@ -483,9 +460,14 @@
 			  (define-key go-mode-map (kbd "C-c m") 'amirreza/go-hydra/body)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;                                    Emacs Lisp
+;;                                            Rust
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(setq rustic-lsp-client 'eglot) ;; Rustic default is lsp-mode
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                                    Emacs Lisp
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun amirreza/emacs-lisp-title (title)
   (interactive "sTitle:")
   (let* ((width 90)
@@ -493,6 +475,14 @@
 			  (insert (format "%s\n" sep))
 			  (insert (format ";; %s\n" (format "%s%s" (make-string (/ (- width (length title)) 2) ?\s) title)))
 			  (insert (format "%s\n" sep))))
+
+(amirreza/defhydra amirreza/emacs-lisp-hydra (:exit t) '(
+							 ("t" amirreza/emacs-lisp-title "Insert a title block")
+							 ))
+(add-hook 'emacs-lisp-mode-hook (lambda ()
+				  (define-key emacs-lisp-mode-map (kbd "C-SPC") 'amirreza/emacs-lisp-hydra/body)
+				  (define-key emacs-lisp-mode-map (kbd "C-c m") 'amirreza/emacs-lisp-hydra/body)
+				  ))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                                            JSON
