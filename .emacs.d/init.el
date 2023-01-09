@@ -167,7 +167,7 @@
 (setq amirreza/font-size "20")
 
 (setq custom-safe-themes t)
-(setq amirreza/theme 'doom-catppuccin) ;; default theme
+(setq amirreza/theme 'sweet) ;; default theme
 
 (gcmh-mode 1) ;; Smartly manage Emacs garbage collector pauses (better perf).
 
@@ -218,8 +218,8 @@
 (add-hook 'dired-mode-hook (lambda () ;; Make a dired buffer writable and changes will affect files structure in disk.
 			     (define-key dired-mode-map (kbd "C-c C-e") 'wdired-change-to-wdired-mode)))
 
-(setq doom-modeline-height 50)
-(doom-modeline-mode 1)
+;; (setq doom-modeline-height 50)
+;; (doom-modeline-mode 1)
 
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                                 Emacs Help System                                     ;;
