@@ -239,6 +239,10 @@
   "Disable theme before loading new one."
   (mapc #'disable-theme custom-enabled-themes))
 
+(defun amirreza/transparent (percent)
+  (interactive "nPercent: ")
+  (set-frame-parameter (selected-frame) 'alpha `(,percent ,percent)))
+
 (load-theme amirreza/theme t)
 (global-set-key (kbd "C-c t t") 'load-theme)
 
