@@ -82,6 +82,7 @@
    gruvbox-theme
    exotica-theme
    (catppuccin :type git :host github :repo "catppuccin/emacs")
+   sweet-theme
 
    ;; Autocompletion menu
    (corfu :type git :host github :repo "emacs-straight/corfu" :files ("*" "extensions/*.el" (:exclude ".git")))
@@ -159,10 +160,10 @@
 
 ;; (setq amirreza/font "FiraCode Nerd Font Mono")
 ;; (setq amirreza/font "Go Mono")
-;; (setq amirreza/font "Source Code Pro")
+(setq amirreza/font "Source Code Pro")
 ;; (setq amirreza/font "OperatorMono Nerd Font Light")
 ;; (setq amirreza/font "JetBrainsMono Nerd Font Mono")
-(setq amirreza/font "Iosevka")
+;; (setq amirreza/font "Iosevka")
 (setq amirreza/font-size "20")
 
 (setq custom-safe-themes t)
@@ -491,8 +492,7 @@
 	 (sep (make-string width ?\;)))
 			  (insert (format "%s\n" sep))
 			  (insert (format ";; %s\n" (format "%s%s" (make-string (/ (- width (length title)) 2) ?\s) title)))
-			  (insert (format "%s\n" sep))
-			  ))
+			  (insert (format "%s\n" sep))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                                            JSON
