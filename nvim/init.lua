@@ -119,6 +119,7 @@ require("packer").startup {
     use { "navarasu/onedark.nvim" }
     use { "catppuccin/nvim", as = "catppuccin" }
     use { "ellisonleao/gruvbox.nvim" }
+    use { "amirrezaask/gruvbuddy.nvim", requires = { "tjdevries/colorbuddy.nvim" } }
     use "rebelot/kanagawa.nvim"
     use "marko-cerovac/material.nvim"
 
