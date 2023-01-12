@@ -119,9 +119,6 @@ require("packer").startup {
     use { "navarasu/onedark.nvim" }
     use { "catppuccin/nvim", as = "catppuccin" }
     use { "ellisonleao/gruvbox.nvim" }
-    use { "amirrezaask/gruvbuddy.nvim", requires = { "tjdevries/colorbuddy.nvim" } }
-    use "rebelot/kanagawa.nvim"
-    use "marko-cerovac/material.nvim"
 
     use { "numToStr/Comment.nvim" } -- Comment code with ease
 
@@ -181,16 +178,8 @@ require("packer").startup {
     use "windwp/nvim-autopairs" -- Auto insert pairs like () [] {}
     use "lewis6991/gitsigns.nvim" -- Signs next to line numbers to show git status of a line
     use "tpope/vim-fugitive" -- Best Git Client after magit :)
-    use {
-      "TimUntersberger/neogit",
-      requires = {
-        "nvim-lua/plenary.nvim",
-        "sindrets/diffview.nvim",
-      },
-    }
     use "fatih/vim-go" -- Golang tools and code actions
     use "akinsho/toggleterm.nvim" -- Terminal emulator that we deserve
-    use "folke/zen-mode.nvim" -- Focus on coding
   end,
   config = {
     compile_path = vim.fn.stdpath "data" .. "/site/plugin/packer_compiled.lua",
@@ -238,7 +227,7 @@ setup("gruvbox", {
 
 vim.g.material_style = "deep ocean"
 
-pcall(vim.cmd.colorscheme, "catppuccin")
+pcall(vim.cmd.colorscheme, "tokyonight")
 
 -- File manager like a boss
 setup("oil", {})
@@ -426,14 +415,6 @@ setup("nvim-treesitter.configs", {
 setup("treesitter-context", {})
 
 setup("Comment", {})
-
-setup("neogit", {
-  kind = "split",
-  disable_commit_confirmation = true,
-  integrations = {
-    diffview = true,
-  },
-})
 
 setup("gitsigns", {
   signs = {
