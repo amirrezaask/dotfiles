@@ -23,9 +23,7 @@ vim.opt.shortmess:append "I" -- No Intro message
 vim.opt.clipboard:append "unnamedplus" -- use system clipboard as default register.
 vim.opt.splitbelow = true
 vim.opt.splitright = true
-if vim.version().major >= 0 and vim.version().minor >= 8 then
-  vim.opt.laststatus = 3 -- if supported use global statusline
-end
+vim.opt.winbar = "%f"
 -- My configuration value to enable or disable transparency
 vim.g.transparent = true
 
