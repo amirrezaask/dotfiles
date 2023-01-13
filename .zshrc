@@ -57,6 +57,19 @@ then
     curl -sS https://starship.rs/install.sh | sh
 fi
 
+# for git diff
+if ! command -v delta &> /dev/null
+then
+    if command -v brew &> /dev/null
+    then
+        brew install git-delta
+    fi
+    if command -v apt &> /dev/null
+    then
+        sudo apt install git-delta
+    fi
+fi
+
 eval "$(starship init zsh)"
 
 
