@@ -117,6 +117,7 @@ require("packer").startup {
     use { "rose-pine/neovim", as = "rose-pine" }
     use { "navarasu/onedark.nvim" }
     use { "catppuccin/nvim", as = "catppuccin" }
+    use { "NTBBloodbath/doom-one.nvim" }
     use { "ellisonleao/gruvbox.nvim" }
 
     use { "numToStr/Comment.nvim" } -- Comment code with ease
@@ -226,7 +227,7 @@ setup("gruvbox", {
 
 vim.g.material_style = "deep ocean"
 
-pcall(vim.cmd.colorscheme, "catppuccin")
+pcall(vim.cmd.colorscheme, "doom-one")
 
 -- File manager like a boss
 setup("oil", {})
