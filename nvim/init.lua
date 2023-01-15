@@ -23,8 +23,6 @@ vim.opt.shortmess:append "I" -- No Intro message
 vim.opt.clipboard:append "unnamedplus" -- use system clipboard as default register.
 vim.opt.splitbelow = true
 vim.opt.splitright = true
-vim.opt.winbar = "%f"
-vim.opt.laststatus = 0
 -- My configuration value to enable or disable transparency
 vim.g.transparent = false
 
@@ -227,7 +225,7 @@ setup("gruvbox", {
 
 vim.g.material_style = "deep ocean"
 
-pcall(vim.cmd.colorscheme, "doom-one")
+pcall(vim.cmd.colorscheme, "catppuccin")
 
 -- File manager like a boss
 setup("oil", {})
@@ -432,14 +430,14 @@ vim.api.nvim_create_user_command("Gp", function()
   vim.cmd.Git "push"
 end, {})
 
--- setup("lualine", {
---   options = {
---     icons_enabled = false,
---     theme = "auto",
---     component_separators = "|",
---     section_separators = "",
---   },
--- })
+setup("lualine", {
+  options = {
+    icons_enabled = false,
+    theme = "auto",
+    component_separators = "|",
+    section_separators = "",
+  },
+})
 
 setup "zen-mode"
 
