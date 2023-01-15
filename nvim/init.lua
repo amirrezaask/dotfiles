@@ -24,8 +24,9 @@ vim.opt.clipboard:append "unnamedplus" -- use system clipboard as default regist
 vim.opt.splitbelow = true
 vim.opt.splitright = true
 vim.opt.winbar = "%f"
+vim.opt.laststatus = 0
 -- My configuration value to enable or disable transparency
-vim.g.transparent = true
+vim.g.transparent = false
 
 -- Netrw
 vim.g.netrw_browse_split = 0
@@ -42,8 +43,8 @@ vim.keymap.set("n", "<leader>sp", "<cmd>split<CR>")
 
 vim.keymap.set("n", "Q", "<NOP>")
 
-vim.keymap.set("n", "{", ":cnext<CR>")
-vim.keymap.set("n", "}", ":cprev<CR>")
+vim.keymap.set("n", "{", ":cprev<CR>")
+vim.keymap.set("n", "}", ":cnext<CR>")
 
 vim.keymap.set("n", "Y", "y$")
 vim.keymap.set("n", "n", "nzz")
