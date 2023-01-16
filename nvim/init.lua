@@ -24,7 +24,7 @@ vim.opt.clipboard:append "unnamedplus" -- use system clipboard as default regist
 vim.opt.splitbelow = true
 vim.opt.splitright = true
 -- My configuration value to enable or disable transparency
-vim.g.transparent = false
+vim.g.transparent = true
 
 -- Netrw
 vim.g.netrw_browse_split = 0
@@ -225,7 +225,7 @@ setup("gruvbox", {
 
 vim.g.material_style = "deep ocean"
 
-pcall(vim.cmd.colorscheme, "catppuccin")
+pcall(vim.cmd.colorscheme, "rose-pine")
 
 -- File manager like a boss
 setup("oil", {})
