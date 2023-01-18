@@ -1,6 +1,4 @@
 [ ! -d "$HOME/.oh-my-zsh" ] && git clone https://github.com/ohmyzsh/ohmyzsh.git --single-branch --depth 1 .oh-my-zsh
-[ ! -d "$HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions" ] && git clone https://github.com/zsh-users/zsh-autosuggestions "${HOME}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
-[ ! -d "$HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting" ] && git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "${HOME}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
 
 export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="robbyrussell"
@@ -8,8 +6,6 @@ ZSH_THEME="robbyrussell"
 plugins=(
     git
     fzf
-    zsh-autosuggestions
-    zsh-syntax-highlighting
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -52,10 +48,10 @@ then
     alias vim='nvim'
 fi
 
-if ! command -v starship &> /dev/null
-then
-    curl -sS https://starship.rs/install.sh | sh
-fi
+# if ! command -v starship &> /dev/null
+# then
+#     curl -sS https://starship.rs/install.sh | sh
+# fi
 
 # for git diff
 if ! command -v delta &> /dev/null
@@ -70,9 +66,7 @@ then
     fi
 fi
 
-eval "$(starship init zsh)"
-
-
+# eval "$(starship init zsh)" 
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
