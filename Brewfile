@@ -29,6 +29,8 @@ brew "neovim", args: ["HEAD"]
 brew "ninja"
 brew "openconnect"
 brew "openfortivpn"
+brew "docker"
+brew "docker-compose"
 brew "php@7.4"
 brew "ripgrep"
 brew "rust-analyzer"
