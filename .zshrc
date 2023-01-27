@@ -16,7 +16,7 @@ export GO111MODULE='on'
 export GOPATH="$HOME"
 export GOPRIVATE='gitlab.snapp.ir'
 export GOPROXY='goproxy.io,direct'
-export EDITOR='emacsclient -t -a ""'
+export EDITOR='vim'
 
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
@@ -24,6 +24,7 @@ export PATH="$GOROOT/bin:$PATH"
 export PATH="$HOME/.config/composer/vendor/bin:$PATH"
 export PATH="/opt/homebrew/bin:$PATH"
 export PATH="$GOPATH/bin:$PATH"
+export PATH="/Users/amirreza/Library/Python/3.10/bin:$PATH"
 export PATH="/Applications/Emacs.app/Contents/MacOS:$PATH"
 
 [ -f "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env" # ghcup-env
@@ -46,12 +47,13 @@ ss_proxy() {
 if command -v nvim &> /dev/null
 then
     alias vim='nvim'
+    export EDITOR='nvim'
 fi
 
-# if ! command -v starship &> /dev/null
-# then
-#     curl -sS https://starship.rs/install.sh | sh
-# fi
+if ! command -v starship &> /dev/null
+then
+    curl -sS https://starship.rs/install.sh | sh
+fi
 
 # for git diff
 if ! command -v delta &> /dev/null
@@ -66,7 +68,7 @@ then
     fi
 fi
 
-# eval "$(starship init zsh)" 
+# eval "$(starship init zsh)"
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm

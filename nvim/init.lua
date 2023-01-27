@@ -92,6 +92,14 @@ vim.keymap.set("t", "<A-h>", "<C-\\><C-n><C-w>>")
 vim.keymap.set("t", "<A-j>", "<C-\\><C-n><C-w>-")
 vim.keymap.set("t", "<A-k>", "<C-\\><C-n><C-w>+")
 
+vim.keymap.set("n", "<leader>R", function()
+  vim.cmd.source "~/.config/nvim/init.lua"
+end)
+
+vim.api.nvim_create_user_command("Reload", function(_)
+  vim.cmd.source "~/.config/nvim/init.lua"
+end, {})
+
 local ensure_packer = function()
   local fn = vim.fn
   local install_path = fn.stdpath "data" .. "/site/pack/packer/start/packer.nvim"
@@ -423,6 +431,10 @@ setup("gitsigns", {
     changedelete = { text = "~" },
   },
 })
+
+vim.keymap.set("n", "<leader>gb", function()
+  vim.cmd.Gitsigns "blame_line"
+end)
 
 vim.keymap.set("n", "<leader>gs", vim.cmd.Git)
 
