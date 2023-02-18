@@ -121,10 +121,7 @@ require("packer").startup {
 
     use { "folke/tokyonight.nvim" }
     use { "rose-pine/neovim", as = "rose-pine" }
-    use { "navarasu/onedark.nvim" }
     use { "catppuccin/nvim", as = "catppuccin" }
-    use { "NTBBloodbath/doom-one.nvim" }
-    use { "ellisonleao/gruvbox.nvim" }
 
     use { "numToStr/Comment.nvim" } -- Comment code with ease
 
@@ -233,7 +230,7 @@ setup("gruvbox", {
 
 vim.g.material_style = "deep ocean"
 
-pcall(vim.cmd.colorscheme, "catppuccin")
+pcall(vim.cmd.colorscheme, "rose-pine")
 
 -- File manager like a boss
 setup("oil", {})
@@ -256,7 +253,7 @@ if has_lsp_zero then
   }
   lsp.ensure_installed {
     "gopls", -- Golang
-    "sumneko_lua", -- Lua
+    "lua_ls", -- Lua
     "rust_analyzer", -- Rust
     "zls", -- Zig
   }
@@ -450,8 +447,6 @@ setup("lualine", {
     section_separators = "",
   },
 })
-
-setup "zen-mode"
 
 local has_telescope, _ = pcall(require, "telescope")
 if has_telescope then
