@@ -122,6 +122,7 @@ require("packer").startup {
     use { "folke/tokyonight.nvim" }
     use { "rose-pine/neovim", as = "rose-pine" }
     use { "catppuccin/nvim", as = "catppuccin" }
+    use { "dracula/vim", as = "dracula" }
 
     use { "numToStr/Comment.nvim" } -- Comment code with ease
 
@@ -228,9 +229,7 @@ setup("gruvbox", {
   transparent_mode = true,
 })
 
-vim.g.material_style = "deep ocean"
-
-pcall(vim.cmd.colorscheme, "rose-pine")
+pcall(vim.cmd.colorscheme, "dracula")
 
 -- File manager like a boss
 setup("oil", {})
