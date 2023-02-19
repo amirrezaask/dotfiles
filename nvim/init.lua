@@ -185,6 +185,7 @@ require("packer").startup {
     use "tpope/vim-fugitive" -- Best Git Client after magit :)
     use "fatih/vim-go" -- Golang tools and code actions
     use "akinsho/toggleterm.nvim" -- Terminal emulator that we deserve
+    use "dag/vim-fish"
   end,
   config = {
     compile_path = vim.fn.stdpath "data" .. "/site/plugin/packer_compiled.lua",

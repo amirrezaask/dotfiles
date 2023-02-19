@@ -5,7 +5,17 @@ set -gx GOPATH "$HOME"
 set -gx GOPRIVATE "gitlab.snapp.ir"
 set -gx GOPROXY 'goproxy.io,direct'
 
-set -gx PATH "$HOME/.cargo/bin:/Applications/Emacs.app/Contents/MacOS:$GOPATH/bin:/opt/homebrew/bin:$ELIXIR/bin:$HOME/.luarocks/bin:$HOME/.config/composer/vendor/bin:$GOROOT/bin:$HOME/.cargo/bin:$HOME/.local/bin:$PATH:$HOME/.composer/vendor/bin"
+set -gx PATH "$HOME/.local/bin:$PATH"
+
+set -gx PATH "$GOROOT/bin:$PATH"
+
+set -gx PATH "$HOME/.config/composer/vendor/bin:$PATH"
+
+set -gx PATH "$GOPATH/bin:$PATH"
+
+set -gx PATH "$HOME/.cargo/bin:$PATH"
+
+eval $(brew shellenv)
 
 set -gx EDITOR 'vim'
 set -gx HOMEBREW_NO_AUTO_UPDATE '1'
@@ -13,9 +23,22 @@ set -gx HOMEBREW_NO_AUTO_UPDATE '1'
 set -gx FZF_DEFAULT_OPTS '--height 20%'
 set -gx FZF_DEFAULT_COMMAND 'rg --files'
 
-function ss_proxy
-    set -gx http_proxy 'http://localhost:1087'
-    set -gx https_proxy 'http://localhost:1087'
-end
-
 alias snappvpn='sudo openfortivpn -c ~/snappDC.conf'
+
+function fish_prompt
+	set_color brblack
+	echo -n "["(date "+%H:%M")"] "
+	set_color blue
+	echo -n (whoami)
+	if [ $PWD != $HOME ]
+		set_color brblack
+		echo -n ':'
+		set_color yellow
+		echo -n (basename $PWD)
+	end
+	set_color green
+	printf '%s ' (__fish_git_prompt)
+	set_color red
+	echo -n '| '
+	set_color normal
+end
