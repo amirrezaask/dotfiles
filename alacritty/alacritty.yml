@@ -5,4 +5,5 @@ font:
   size: 22
 
 import:
-  - "/Users/amirreza/.config/alacritty/dracula.yml"
+#   - "/Users/amirreza/.config/alacritty/dracula.yml"
+  - "/Users/amirreza/.config/alacritty/gruvbox.yml"

@@ -123,6 +123,7 @@ require("packer").startup {
     use { "rose-pine/neovim", as = "rose-pine" }
     use { "catppuccin/nvim", as = "catppuccin" }
     use { "dracula/vim", as = "dracula" }
+    use { "ellisonleao/gruvbox.nvim" }
 
     use { "numToStr/Comment.nvim" } -- Comment code with ease
 
@@ -229,7 +230,7 @@ setup("gruvbox", {
   transparent_mode = true,
 })
 
-pcall(vim.cmd.colorscheme, "dracula")
+pcall(vim.cmd.colorscheme, "gruvbox")
 
 -- File manager like a boss
 setup("oil", {})
