@@ -5,4 +5,8 @@ transient
 custom.el
 bin
 README.el
+fish/completions
+fish/conf.d
+fish/functions
+fish/fish_variables
 
