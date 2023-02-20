@@ -10,8 +10,6 @@ plugins=(
 
 source $ZSH/oh-my-zsh.sh
 
-alias emacs='emacsclient -t -a ""'
-alias e='emacsclient -t -a ""'
 export GO111MODULE='on'
 export GOPATH="$HOME"
 export GOPRIVATE='gitlab.snapp.ir'
@@ -27,6 +25,8 @@ export PATH="$GOPATH/bin:$PATH"
 export PATH="/Users/amirreza/Library/Python/3.10/bin:$PATH"
 export PATH="/Applications/Emacs.app/Contents/MacOS:$PATH"
 
+eval $(brew shellenv)
+
 [ -f "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env" # ghcup-env
 [ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
 
@@ -37,11 +37,6 @@ export FZF_DEFAULT_COMMAND='rg --files'
 
 reload() {
     source ~/.zshrc
-}
-
-ss_proxy() {
-    export http_proxy='http://localhost:1087'
-    export https_proxy='http://localhost:1087'
 }
 
 if command -v nvim &> /dev/null
@@ -68,7 +63,7 @@ then
     fi
 fi
 
-# eval "$(starship init zsh)"
+eval "$(starship init zsh)"
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
