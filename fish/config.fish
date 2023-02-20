@@ -27,6 +27,10 @@ set -gx FZF_DEFAULT_COMMAND 'rg --files'
 
 alias snappvpn='sudo openfortivpn -c ~/snappDC.conf'
 
+alias gs='git status'
+alias gd='git diff'
+alias gpsup='git push --set-upstream origin $(git_current_branch)'
+
 function fish_prompt
 	set_color red
 	echo -n "["(date "+%H:%M")"] "
@@ -43,4 +47,8 @@ function fish_prompt
 	set_color red
 	echo -n '| '
 	set_color normal
+end
+
+function reload
+	source $HOME/.config/fish/config.fish
 end
