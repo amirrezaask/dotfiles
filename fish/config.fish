@@ -35,13 +35,7 @@ function gpsup
 end
 
 function fish_prompt
-	set_color red
-	echo -n "["(date "+%H:%M")"] "
-	set_color blue
-	echo -n (whoami)
 	if [ $PWD != $HOME ]
-		set_color brblack
-		echo -n ':'
 		set_color yellow
 		echo -n (basename $PWD)
 	end
