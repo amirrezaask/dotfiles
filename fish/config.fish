@@ -29,7 +29,10 @@ alias snappvpn='sudo openfortivpn -c ~/snappDC.conf'
 
 alias gs='git status'
 alias gd='git diff'
-alias gpsup='git push --set-upstream origin $(git_current_branch)'
+alias gp='git push'
+function gpsup
+	git push --set-upstream origin {$git_current_branch}
+end
 
 function fish_prompt
 	set_color red
