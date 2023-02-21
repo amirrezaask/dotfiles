@@ -35,14 +35,16 @@ function gpsup
 end
 
 function fish_prompt
+	echo -n " "
 	if [ $PWD != $HOME ]
 		set_color yellow
 		echo -n (basename $PWD)
+	else
+		set color yellow
+		echo -n "~"
 	end
 	set_color green
 	printf '%s ' (__fish_git_prompt)
-	set_color red
-	echo -n '| '
 	set_color normal
 end
 
