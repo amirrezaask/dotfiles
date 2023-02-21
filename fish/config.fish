@@ -49,6 +49,12 @@ function fish_prompt
 	set_color normal
 end
 
+if command -v nvim &> /dev/null
+    alias vim='nvim'
+    export EDITOR='nvim'
+end
+
+
 function reload
 	source $HOME/.config/fish/config.fish
 end
