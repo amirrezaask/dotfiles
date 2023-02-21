@@ -18,6 +18,7 @@ vim.opt.scrolloff = 8
 vim.opt.signcolumn = "yes"
 vim.opt.isfname:append "@-@"
 vim.opt.updatetime = 50
+vim.opt.guicursor = ""
 vim.opt.shortmess:append "c" -- Don't pass messages to |ins-completion-menu|.
 vim.opt.shortmess:append "I" -- No Intro message
 vim.opt.clipboard:append "unnamedplus" -- use system clipboard as default register.
@@ -65,10 +66,6 @@ vim.keymap.set({ "n", "t" }, "<C-.>", "<cmd>tabnext<CR>")
 vim.keymap.set({ "n", "t" }, "<C-t>", "<cmd>tabnew<CR>")
 
 vim.keymap.set("n", "<leader>.", "<cmd>Explore<CR>")
-
--- Easier buffer switching
-vim.keymap.set("n", "<TAB>", ":bn<CR>")
-vim.keymap.set("n", "<S-TAB>", ":bp<CR>")
 
 -- Easier split navigation
 vim.keymap.set("n", "<C-h>", "<C-w>h")
@@ -124,6 +121,7 @@ require("packer").startup {
     use { "catppuccin/nvim", as = "catppuccin" }
     use { "dracula/vim", as = "dracula" }
     use { "ellisonleao/gruvbox.nvim" }
+    use { "eemed/sitruuna.vim" }
 
     use { "numToStr/Comment.nvim" } -- Comment code with ease
 
@@ -231,7 +229,7 @@ setup("gruvbox", {
   transparent_mode = vim.g.transparent,
 })
 
-pcall(vim.cmd.colorscheme, "rose-pine")
+pcall(vim.cmd.colorscheme, "sitruuna")
 
 -- File manager like a boss
 setup("oil", {})
@@ -334,7 +332,7 @@ vim.api.nvim_create_user_command("VirtualTextToggle", function()
   }
 end, {})
 
-setup("fidget", {})
+-- setup("fidget", {})
 
 -- Some Golang stuff
 vim.g.go_gopls_enabled = 0
