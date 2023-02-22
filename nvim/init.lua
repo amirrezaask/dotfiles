@@ -217,7 +217,7 @@ setup("gruvbox", {
   transparent_mode = vim.g.transparent,
 })
 
-pcall(vim.cmd.colorscheme, "sitruuna")
+pcall(vim.cmd.colorscheme, "catppuccin")
 
 -- File manager like a boss
 setup("oil", {})
@@ -256,17 +256,6 @@ end
 local has_mason_lsp, mason_lspconfig = pcall(require, "mason-lspconfig")
 
 if has_mason_lsp then
-  local border = {
-    { "🭽", "FloatBorder" },
-    { "▔", "FloatBorder" },
-    { "🭾", "FloatBorder" },
-    { "▕", "FloatBorder" },
-    { "🭿", "FloatBorder" },
-    { "▁", "FloatBorder" },
-    { "🭼", "FloatBorder" },
-    { "▏", "FloatBorder" },
-  }
-
   local ensure_installed = {
     gopls = {},
     lua_ls = {
@@ -285,14 +274,13 @@ if has_mason_lsp then
     rust_analyzer = {},
     zls = {},
   }
-
   mason_lspconfig.setup {
     ensure_installed = vim.tbl_keys(ensure_installed),
   }
 
   local handlers = {
-    ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = border }),
-    ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border }),
+    ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" }),
+    ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" }),
   }
 
   local has_nvim_cmp_lsp, _ = pcall(require, "cmp_nvim_lsp")
@@ -311,6 +299,18 @@ if has_mason_lsp then
       }
     end,
   }
+  -- Hook non-LSP sources into LSP
+  setup("null-ls", {
+    sources = {
+      require("null-ls").builtins.code_actions.gitsigns,
+
+      require("null-ls").builtins.diagnostics.golangci_lint,
+      require("null-ls").builtins.diagnostics.trail_space.with { disabled_filetypes = { "NvimTree" } },
+
+      require("null-ls").builtins.formatting.stylua,
+      require("null-ls").builtins.formatting.goimports,
+    },
+  })
 end
 vim.diagnostic.config {
   virtual_text = true,
@@ -329,18 +329,6 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   end,
 })
 
--- Hook non-LSP sources into LSP
-setup("null-ls", {
-  sources = {
-    require("null-ls").builtins.code_actions.gitsigns,
-
-    require("null-ls").builtins.diagnostics.golangci_lint,
-    require("null-ls").builtins.diagnostics.trail_space.with { disabled_filetypes = { "NvimTree" } },
-
-    require("null-ls").builtins.formatting.stylua,
-    require("null-ls").builtins.formatting.goimports,
-  },
-})
 local has_luasnip, luasnip = pcall(require, "luasnip")
 if has_luasnip then
   luasnip.config.setup {}
