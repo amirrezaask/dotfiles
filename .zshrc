@@ -39,6 +39,10 @@ reload() {
     source ~/.zshrc
 }
 
+snappvpn() {
+    sudo openfortivpn -c ~/snappDC.conf
+}
+
 if command -v nvim &> /dev/null
 then
     alias vim='nvim'
