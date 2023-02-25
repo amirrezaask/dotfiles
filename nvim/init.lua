@@ -149,7 +149,6 @@ require("packer").startup {
     -- Treesitter
     use { "nvim-treesitter/nvim-treesitter" }
     use { "nvim-treesitter/nvim-treesitter-textobjects", after = "nvim-treesitter" }
-    use "nvim-treesitter/nvim-treesitter-context"
     use { "neovim/nvim-lspconfig" }
     use { "williamboman/mason.nvim" }
     use { "williamboman/mason-lspconfig.nvim" }
@@ -166,6 +165,7 @@ require("packer").startup {
     use { "rafamadriz/friendly-snippets" }
     -- Null LS
     use { "jose-elias-alvarez/null-ls.nvim" }
+
     use "stevearc/oil.nvim" -- File manager like a BOSS
     use "pbrisbin/vim-mkdir" -- Automatically create directory if not exists
     use "fladson/vim-kitty" -- Support Kitty terminal config syntax
@@ -461,8 +461,6 @@ setup("nvim-treesitter.configs", {
     },
   },
 })
-
-setup("treesitter-context", {})
 
 setup("Comment", {})
 
