@@ -109,19 +109,6 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-local ensure_packer = function()
-  local fn = vim.fn
-  local install_path = fn.stdpath "data" .. "/site/pack/packer/start/packer.nvim"
-  if fn.empty(fn.glob(install_path)) > 0 then
-    fn.system { "git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path }
-    vim.cmd [[packadd packer.nvim]]
-    return true
-  end
-  return false
-end
-
-ensure_packer()
-
 local function if_has(...)
   for _, mod in ipairs(arg) do
     local has, _ = pcall(require, mod)
@@ -133,76 +120,90 @@ local function if_has(...)
   return true
 end
 
--- require("lazy").setup "plugins"
--- Installing Packages
-require("packer").startup {
-  function(use)
-    use "wbthomason/packer.nvim" -- plugin manager itself
-    use "lewis6991/impatient.nvim" -- Faster lua require using caching
-
-    use { "folke/tokyonight.nvim" }
-    use { "rose-pine/neovim", as = "rose-pine" }
-    use { "catppuccin/nvim", as = "catppuccin" }
-    use { "dracula/vim", as = "dracula" }
-    use { "ellisonleao/gruvbox.nvim" }
-    use { "eemed/sitruuna.vim" }
-
-    use { "numToStr/Comment.nvim" } -- Comment code with ease
-
-    use {
-      "nvim-telescope/telescope.nvim",
-      requires = {
-        {
-          "nvim-telescope/telescope-fzf-native.nvim",
-          run = "make",
-        },
-        { "nvim-lua/plenary.nvim" },
-      },
-    } -- Best search interface of all time
-
-    -- Treesitter
-    use { "nvim-treesitter/nvim-treesitter" }
-    use { "nvim-treesitter/nvim-treesitter-textobjects", after = "nvim-treesitter" }
-    use { "neovim/nvim-lspconfig" }
-    use { "williamboman/mason.nvim" }
-    use { "williamboman/mason-lspconfig.nvim" }
-
-    -- Autocompletion
-    use { "hrsh7th/nvim-cmp" }
-    use { "hrsh7th/cmp-buffer" }
-    use { "hrsh7th/cmp-path" }
-    use { "saadparwaiz1/cmp_luasnip" }
-    use { "hrsh7th/cmp-nvim-lsp" }
-    use { "hrsh7th/cmp-nvim-lua" }
-    -- Snippets
-    use { "L3MON4D3/LuaSnip" }
-    use { "rafamadriz/friendly-snippets" }
-    -- Null LS
-    use { "jose-elias-alvarez/null-ls.nvim" }
-
-    use "stevearc/oil.nvim" -- File manager like a BOSS
-    use "pbrisbin/vim-mkdir" -- Automatically create directory if not exists
-    use "fladson/vim-kitty" -- Support Kitty terminal config syntax
-    use "towolf/vim-helm" -- Support for helm template syntax
-    use "tpope/vim-surround" -- surrounding text objects
-    use "kevinhwang91/nvim-bqf" -- Preview quickfix list item.
-    use "tpope/vim-eunuch" -- Helper commands like :Rename, :Move, :Delete, :Remove, ...
-    use "tpope/vim-sleuth" -- Heuristically set buffer options
-    use "windwp/nvim-autopairs" -- Auto insert pairs like () [] {}
-    use "lewis6991/gitsigns.nvim" -- Signs next to line numbers to show git status of a line
-    use "tpope/vim-fugitive" -- Best Git Client after magit :)
-    use "fatih/vim-go" -- Golang tools and code actions
-    use "akinsho/toggleterm.nvim" -- Terminal emulator that we deserve
-    use "dag/vim-fish"
-  end,
-  config = {
-    compile_path = vim.fn.stdpath "data" .. "/site/plugin/packer_compiled.lua",
-    display = {
-      open_fn = function()
-        return require("packer.util").float { border = "rounded" }
-      end,
+require("lazy").setup {
+  { "folke/tokyonight.nvim", lazy = true, opts = {
+    transparent = vim.g.transparent,
+  } },
+  {
+    "rose-pine/neovim",
+    name = "rose-pine",
+    opts = {
+      disable_background = vim.g.transparent,
+      disable_float_background = vim.g.transparent,
     },
   },
+  { "catppuccin/nvim", name = "catppuccin", opts = {
+
+    transparent_background = vim.g.transparent,
+  } },
+  { "dracula/vim", name = "dracula" },
+  { "ellisonleao/gruvbox.nvim", opts = {
+    transparent_mode = vim.g.transparent,
+  } },
+  { "eemed/sitruuna.vim" },
+  { "numToStr/Comment.nvim" },
+  {
+    "nvim-telescope/telescope.nvim",
+    version = "*",
+    dependencies = { "nvim-lua/plenary.nvim", { "nvim-telescope/telescope-fzf-native.nvim", build = "make" } },
+  },
+  { -- Highlight, edit, and navigate code
+    "nvim-treesitter/nvim-treesitter",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter-textobjects",
+    },
+    config = function()
+      pcall(require("nvim-treesitter.install").update { with_sync = true })
+    end,
+  },
+  { -- LSP Configuration & Plugins
+    "neovim/nvim-lspconfig",
+    dependencies = {
+      -- Automatically install LSPs to stdpath for neovim
+      { "williamboman/mason.nvim", opts = {} },
+      "williamboman/mason-lspconfig.nvim",
+      -- Additional lua configuration, makes nvim stuff amazing!
+      "folke/neodev.nvim",
+    },
+  },
+  { -- Autocompletion
+    "hrsh7th/nvim-cmp",
+    dependencies = {
+      "hrsh7th/cmp-nvim-lsp",
+      "L3MON4D3/LuaSnip",
+      "saadparwaiz1/cmp_luasnip",
+      "hrsh7th/cmp-path",
+      "hrsh7th/cmp-buffer",
+    },
+  },
+
+  { "jose-elias-alvarez/null-ls.nvim" },
+  { "stevearc/oil.nvim", opts = {} }, -- File manager like a BOSS
+  { "pbrisbin/vim-mkdir" }, -- Automatically create directory if not exists
+  { "fladson/vim-kitty" }, -- Support Kitty terminal config syntax
+  { "towolf/vim-helm" }, -- Support for helm template syntax
+  { "tpope/vim-surround" }, -- surrounding text objects
+  { "kevinhwang91/nvim-bqf" }, -- Preview quickfix list item.
+  { "tpope/vim-eunuch" }, -- Helper commands like :Rename, :Move, :Delete, :Remove, ...
+  { "tpope/vim-sleuth" }, -- Heuristically set buffer options
+  { "windwp/nvim-autopairs" }, -- Auto insert pairs like () [] {}
+  { "lewis6991/gitsigns.nvim" }, -- Signs next to line numbers to show git status of a line
+  { "tpope/vim-fugitive" }, -- Best Git Client after magit :)
+  { "fatih/vim-go" }, -- Golang tools and code actions
+  {
+    "akinsho/toggleterm.nvim",
+    opts = {
+      size = function(term)
+        if term.direction == "horizontal" then
+          return 15
+        elseif term.direction == "vertical" then
+          return vim.o.columns * 0.4
+        end
+      end,
+      direction = "vertical",
+    },
+  }, -- Terminal emulator that we deserve
+  { "dag/vim-fish" }, -- Vim fish syntax
 }
 
 -- Simple function to reduce boilerplate
@@ -215,37 +216,9 @@ local function setup(plugin, opts)
   end
 end
 
--- Install missing plugins
-require("packer").install()
-
--- Faster lua module lookup by caching
-pcall(require, "impatient")
-
--- Colorscheme
-setup("rose-pine", {
-  disable_background = vim.g.transparent,
-  disable_float_background = vim.g.transparent,
-})
-
-setup("tokyonight", {
-  transparent = vim.g.transparent,
-})
-
-setup("catppuccin", {
-  transparent_background = vim.g.transparent,
-})
-
-setup("gruvbox", {
-  transparent_mode = vim.g.transparent,
-})
-
 pcall(vim.cmd.colorscheme, "tokyonight-night")
 
--- File manager like a boss
-setup("oil", {})
-
 if if_has "mason" then
-  setup("mason", {})
   for _, pkg in ipairs { "stylua", "golangci-lint", "goimports", "gofumpt", "yamlfmt" } do -- ensure these tools are installed
     if not require("mason-registry").is_installed(pkg) then
       require("mason.api.command").MasonInstall { pkg }
@@ -409,18 +382,6 @@ vim.api.nvim_create_autocmd("BufEnter", {
     vim.keymap.set("n", "<leader>md", "<cmd>GoRmTag<CR>", buffer)
     vim.keymap.set("n", "<leader>mf", "<cmd>GoFillStruct<CR>", buffer)
   end,
-})
-
--- Terminal emulator
-setup("toggleterm", {
-  size = function(term)
-    if term.direction == "horizontal" then
-      return 15
-    elseif term.direction == "vertical" then
-      return vim.o.columns * 0.4
-    end
-  end,
-  direction = "vertical",
 })
 
 vim.keymap.set({ "n", "t" }, "<C-`>", "<cmd>ToggleTerm<CR>", {})
