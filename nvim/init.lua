@@ -96,6 +96,19 @@ vim.api.nvim_create_user_command("Reload", function(_)
   vim.cmd.source "~/.config/nvim/init.lua"
 end, {})
 
+local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system {
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable", -- latest stable release
+    lazypath,
+  }
+end
+vim.opt.rtp:prepend(lazypath)
+
 local ensure_packer = function()
   local fn = vim.fn
   local install_path = fn.stdpath "data" .. "/site/pack/packer/start/packer.nvim"
@@ -120,6 +133,7 @@ local function if_has(...)
   return true
 end
 
+-- require("lazy").setup "plugins"
 -- Installing Packages
 require("packer").startup {
   function(use)
