@@ -24,7 +24,6 @@ vim.opt.shortmess:append "I" -- No Intro message
 vim.opt.clipboard:append "unnamedplus" -- use system clipboard as default register.
 vim.opt.splitbelow = true
 vim.opt.splitright = true
--- My configuration value to enable or disable transparency
 vim.g.transparent = false
 
 -- Netrw
@@ -109,6 +108,17 @@ local ensure_packer = function()
 end
 
 ensure_packer()
+
+local function if_has(...)
+  for _, mod in ipairs(arg) do
+    local has, _ = pcall(require, mod)
+    if not has then
+      return false
+    end
+  end
+
+  return true
+end
 
 -- Installing Packages
 require("packer").startup {
@@ -217,34 +227,33 @@ setup("gruvbox", {
   transparent_mode = vim.g.transparent,
 })
 
-pcall(vim.cmd.colorscheme, "catppuccin")
+pcall(vim.cmd.colorscheme, "rose-pine")
 
 -- File manager like a boss
 setup("oil", {})
 
-local function lsp_on_attach(_, bufnr)
-  vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
-  local buffer = { buffer = bufnr }
-  vim.keymap.set("n", "gd", vim.lsp.buf.definition, buffer)
-  vim.keymap.set("n", "gD", vim.lsp.buf.declaration, buffer)
-  vim.keymap.set("n", "gi", vim.lsp.buf.implementation, buffer)
-  vim.keymap.set("n", "gr", vim.lsp.buf.references, buffer)
-  vim.keymap.set("n", "R", vim.lsp.buf.rename, buffer)
-  vim.keymap.set("n", "<F2>", vim.lsp.buf.rename, buffer)
-  vim.keymap.set("n", "K", vim.lsp.buf.hover, buffer)
-  vim.keymap.set("n", "gf", vim.lsp.buf.format, buffer)
+if if_has("mason", "lspconfig", "mason_lspconfig", "cmp_nvim_lsp") then
+  local function lsp_on_attach(_, bufnr)
+    vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
+    local buffer = { buffer = bufnr }
+    vim.keymap.set("n", "gd", vim.lsp.buf.definition, buffer)
+    vim.keymap.set("n", "gD", vim.lsp.buf.declaration, buffer)
+    vim.keymap.set("n", "gi", vim.lsp.buf.implementation, buffer)
+    vim.keymap.set("n", "gr", vim.lsp.buf.references, buffer)
+    vim.keymap.set("n", "R", vim.lsp.buf.rename, buffer)
+    vim.keymap.set("n", "<F2>", vim.lsp.buf.rename, buffer)
+    vim.keymap.set("n", "K", vim.lsp.buf.hover, buffer)
+    vim.keymap.set("n", "gf", vim.lsp.buf.format, buffer)
 
-  vim.keymap.set("n", "gl", vim.diagnostic.open_float, buffer)
-  vim.keymap.set("n", "gp", vim.diagnostic.goto_prev, buffer)
-  vim.keymap.set("n", "gn", vim.diagnostic.goto_next, buffer)
+    vim.keymap.set("n", "gl", vim.diagnostic.open_float, buffer)
+    vim.keymap.set("n", "gp", vim.diagnostic.goto_prev, buffer)
+    vim.keymap.set("n", "gn", vim.diagnostic.goto_next, buffer)
 
-  vim.keymap.set("n", "C", vim.lsp.buf.code_action, buffer)
-  vim.keymap.set("n", "<C-s>", vim.lsp.buf.signature_help, buffer)
-  vim.keymap.set("i", "<C-s>", vim.lsp.buf.signature_help, buffer)
-end
+    vim.keymap.set("n", "C", vim.lsp.buf.code_action, buffer)
+    vim.keymap.set("n", "<C-s>", vim.lsp.buf.signature_help, buffer)
+    vim.keymap.set("i", "<C-s>", vim.lsp.buf.signature_help, buffer)
+  end
 
-local has_mason, _ = pcall(require, "mason")
-if has_mason then
   require("mason").setup()
   local mason_ensure_installed = { "stylua", "golangci-lint", "goimports", "gofumpt", "yamlfmt" } -- Ensure these tools are installed
   for _, pkg in ipairs(mason_ensure_installed) do
@@ -252,10 +261,8 @@ if has_mason then
       require("mason.api.command").MasonInstall { pkg }
     end
   end
-end
-local has_mason_lsp, mason_lspconfig = pcall(require, "mason-lspconfig")
+  local mason_lspconfig = require "mason-lspconfig"
 
-if has_mason_lsp then
   local ensure_installed = {
     gopls = {},
     lua_ls = {
@@ -283,11 +290,8 @@ if has_mason_lsp then
     ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" }),
   }
 
-  local has_nvim_cmp_lsp, _ = pcall(require, "cmp_nvim_lsp")
   local capabilities = vim.lsp.protocol.make_client_capabilities()
-  if has_nvim_cmp_lsp then
-    capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
-  end
+  capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
   mason_lspconfig.setup_handlers {
     function(server_name)
@@ -299,19 +303,19 @@ if has_mason_lsp then
       }
     end,
   }
-  -- Hook non-LSP sources into LSP
-  setup("null-ls", {
-    sources = {
-      require("null-ls").builtins.code_actions.gitsigns,
-
-      require("null-ls").builtins.diagnostics.golangci_lint,
-      require("null-ls").builtins.diagnostics.trail_space.with { disabled_filetypes = { "NvimTree" } },
-
-      require("null-ls").builtins.formatting.stylua,
-      require("null-ls").builtins.formatting.goimports,
-    },
-  })
 end
+-- Hook non-LSP sources into LSP
+setup("null-ls", {
+  sources = {
+    require("null-ls").builtins.code_actions.gitsigns,
+
+    require("null-ls").builtins.diagnostics.golangci_lint,
+    require("null-ls").builtins.diagnostics.trail_space.with { disabled_filetypes = { "NvimTree" } },
+
+    require("null-ls").builtins.formatting.stylua,
+    require("null-ls").builtins.formatting.goimports,
+  },
+})
 vim.diagnostic.config {
   virtual_text = true,
 }
@@ -329,15 +333,11 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   end,
 })
 
-local has_luasnip, luasnip = pcall(require, "luasnip")
-if has_luasnip then
-  luasnip.config.setup {}
-else
-  return
-end
+if if_has("cmp", "luasnip") then
+  require("luasnip").config.setup {}
 
-local has_cmp = pcall(require, "cmp")
-if has_cmp and has_luasnip then
+  local luasnip = require "luasnip"
+
   local cmp = require "cmp"
 
   cmp.setup {
@@ -379,7 +379,6 @@ if has_cmp and has_luasnip then
     },
   }
 end
-
 local virtual_text = true
 vim.api.nvim_create_user_command("VirtualTextToggle", function()
   virtual_text = not virtual_text
@@ -501,8 +500,7 @@ setup("lualine", {
   },
 })
 
-local has_telescope, _ = pcall(require, "telescope")
-if has_telescope then
+if if_has "telescope" then
   local no_preview = { previewer = false }
 
   require("telescope").setup {}
