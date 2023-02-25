@@ -141,11 +141,12 @@ require("lazy").setup {
     transparent_mode = vim.g.transparent,
   } },
   { "eemed/sitruuna.vim" },
-  { "numToStr/Comment.nvim" },
+  { "numToStr/Comment.nvim", opts = {} },
   {
     "nvim-telescope/telescope.nvim",
     version = "*",
     dependencies = { "nvim-lua/plenary.nvim", { "nvim-telescope/telescope-fzf-native.nvim", build = "make" } },
+    opts = {},
   },
   { -- Highlight, edit, and navigate code
     "nvim-treesitter/nvim-treesitter",
@@ -187,7 +188,18 @@ require("lazy").setup {
   { "tpope/vim-eunuch" }, -- Helper commands like :Rename, :Move, :Delete, :Remove, ...
   { "tpope/vim-sleuth" }, -- Heuristically set buffer options
   { "windwp/nvim-autopairs" }, -- Auto insert pairs like () [] {}
-  { "lewis6991/gitsigns.nvim" }, -- Signs next to line numbers to show git status of a line
+  {
+    "lewis6991/gitsigns.nvim",
+    opts = {
+      signs = {
+        add = { text = "+" },
+        change = { text = "~" },
+        delete = { text = "_" },
+        topdelete = { text = "‾" },
+        changedelete = { text = "~" },
+      },
+    },
+  }, -- Signs next to line numbers to show git status of a line
   { "tpope/vim-fugitive" }, -- Best Git Client after magit :)
   { "fatih/vim-go" }, -- Golang tools and code actions
   {
@@ -437,18 +449,6 @@ setup("nvim-treesitter.configs", {
   },
 })
 
-setup("Comment", {})
-
-setup("gitsigns", {
-  signs = {
-    add = { text = "+" },
-    change = { text = "~" },
-    delete = { text = "_" },
-    topdelete = { text = "‾" },
-    changedelete = { text = "~" },
-  },
-})
-
 vim.keymap.set("n", "<leader>gb", function()
   vim.cmd.Gitsigns "blame_line"
 end)
@@ -462,7 +462,6 @@ end, {})
 if if_has "telescope" then
   local no_preview = { previewer = false }
 
-  require("telescope").setup {}
   require("telescope").load_extension "fzf"
 
   local function telescope_smart_find_files(opts)
