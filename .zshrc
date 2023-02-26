@@ -1,3 +1,11 @@
+# nu
+# cargo install exa
+# cargo install coreutils
+# cargo install du-dust
+# cargo install bat
+# cargo install zellij
+# cargo install mprocs
+# cargo install ripgrep
 [ ! -d "$HOME/.oh-my-zsh" ] && git clone https://github.com/ohmyzsh/ohmyzsh.git --single-branch --depth 1 .oh-my-zsh
 
 export ZSH="$HOME/.oh-my-zsh"

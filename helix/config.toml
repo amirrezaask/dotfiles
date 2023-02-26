@@ -1,0 +1,9 @@
+theme = "tokyonight"
+
+[editor]
+line-number = "relative"
+bufferline = "multiple"
+
+[keys.insert]
+j = { k = "normal_mode"}
+k = { j = "normal_mode"}
