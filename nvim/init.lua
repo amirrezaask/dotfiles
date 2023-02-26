@@ -121,25 +121,23 @@ local function if_has(...)
 end
 
 require("lazy").setup {
-  { "folke/tokyonight.nvim", lazy = true, opts = {
-    transparent = vim.g.transparent,
-  } },
+  {
+    "folke/tokyonight.nvim",
+    lazy = true,
+    opts = { transparent = vim.g.transparent },
+  },
   {
     "rose-pine/neovim",
     name = "rose-pine",
-    opts = {
-      disable_background = vim.g.transparent,
-      disable_float_background = vim.g.transparent,
-    },
+    opts = { disable_background = vim.g.transparent, disable_float_background = vim.g.transparent },
   },
-  { "catppuccin/nvim", name = "catppuccin", opts = {
-
-    transparent_background = vim.g.transparent,
-  } },
+  {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    opts = { transparent_background = vim.g.transparent },
+  },
   { "dracula/vim", name = "dracula" },
-  { "ellisonleao/gruvbox.nvim", opts = {
-    transparent_mode = vim.g.transparent,
-  } },
+  { "ellisonleao/gruvbox.nvim", opts = { transparent_mode = vim.g.transparent } },
   { "eemed/sitruuna.vim" },
   { "numToStr/Comment.nvim", opts = {} },
   {
@@ -228,7 +226,7 @@ local function setup(plugin, opts)
   end
 end
 
-pcall(vim.cmd.colorscheme, "tokyonight-night")
+pcall(vim.cmd.colorscheme, "catppuccin")
 
 if if_has "mason" then
   for _, pkg in ipairs { "stylua", "golangci-lint", "goimports", "gofumpt", "yamlfmt" } do -- ensure these tools are installed

@@ -35,24 +35,14 @@ function gpsup
 end
 
 function fish_prompt
-	echo -n " "
-	if [ $PWD != $HOME ]
-		set_color yellow
-		echo -n (basename $PWD)
-	else
-		set color yellow
-		echo -n "~"
-	end
-	set_color green
-	printf '%s ' (__fish_git_prompt)
-	set_color normal
+    printf '%s@%s%s%s > ' $USER \
+        (set_color $fish_color_cwd) (prompt_pwd) (set_color normal)
 end
 
 if command -v nvim &> /dev/null
     alias vim='nvim'
     export EDITOR='nvim'
 end
-
 
 function reload
 	source $HOME/.config/fish/config.fish
