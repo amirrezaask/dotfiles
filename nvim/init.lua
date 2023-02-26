@@ -24,7 +24,7 @@ vim.opt.shortmess:append "I" -- No Intro message
 vim.opt.clipboard:append "unnamedplus" -- use system clipboard as default register.
 vim.opt.splitbelow = true
 vim.opt.splitright = true
-vim.g.transparent = false
+vim.g.transparent = true
 
 -- Netrw
 vim.g.netrw_browse_split = 0
