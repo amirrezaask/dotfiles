@@ -47,3 +47,7 @@ end
 function reload
 	source $HOME/.config/fish/config.fish
 end
+
+
+alias ca='cargo'
+

@@ -120,6 +120,164 @@ local function if_has(...)
   return true
 end
 
+local configs = {}
+
+function configs.lspconfig(_, _)
+  local autoformat_patterns = {
+    "*.rs",
+    "*.lua",
+  }
+
+  vim.api.nvim_create_autocmd("BufWritePre", {
+    pattern = autoformat_patterns,
+    callback = function(_)
+      vim.lsp.buf.format()
+    end,
+  })
+  local virtual_text = true
+  vim.api.nvim_create_user_command("VirtualTextToggle", function()
+    virtual_text = not virtual_text
+    vim.diagnostic.config {
+      virtual_text = virtual_text,
+    }
+  end, {})
+
+  vim.diagnostic.config {
+    virtual_text = true,
+  }
+end
+
+function configs.mason(_, opts)
+  require("mason").setup(opts)
+  for _, pkg in ipairs { "stylua", "golangci-lint", "goimports", "gofumpt", "yamlfmt" } do -- ensure these tools are installed
+    if not require("mason-registry").is_installed(pkg) then
+      require("mason.api.command").MasonInstall { pkg }
+    end
+  end
+end
+
+function configs.mason_lspconfig()
+  local capabilities = vim.lsp.protocol.make_client_capabilities()
+  capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+
+  local mason_lspconfig = require "mason-lspconfig"
+  local ensure_installed = {
+    gopls = {},
+    lua_ls = {
+      Lua = {
+        telemetry = { enable = false },
+        diagnostics = {
+          globals = { "vim" },
+        },
+        workspace = {
+          checkThirdParty = false,
+          library = vim.api.nvim_get_runtime_file("", true),
+        },
+      },
+    },
+    rust_analyzer = {},
+    zls = {},
+  }
+  mason_lspconfig.setup {
+    ensure_installed = vim.tbl_keys(ensure_installed),
+  }
+
+  mason_lspconfig.setup_handlers {
+    function(server_name)
+      require("lspconfig")[server_name].setup {
+        capabilities = capabilities,
+        on_attach = function(_, bufnr)
+          vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
+          local buffer = { buffer = bufnr }
+          vim.keymap.set("n", "gd", vim.lsp.buf.definition, buffer)
+          vim.keymap.set("n", "gD", vim.lsp.buf.declaration, buffer)
+          vim.keymap.set("n", "gi", vim.lsp.buf.implementation, buffer)
+          vim.keymap.set("n", "gr", vim.lsp.buf.references, buffer)
+          vim.keymap.set("n", "R", vim.lsp.buf.rename, buffer)
+          vim.keymap.set("n", "<F2>", vim.lsp.buf.rename, buffer)
+          vim.keymap.set("n", "K", vim.lsp.buf.hover, buffer)
+          vim.keymap.set("n", "gf", vim.lsp.buf.format, buffer)
+
+          vim.keymap.set("n", "gl", vim.diagnostic.open_float, buffer)
+          vim.keymap.set("n", "gp", vim.diagnostic.goto_prev, buffer)
+          vim.keymap.set("n", "gn", vim.diagnostic.goto_next, buffer)
+
+          vim.keymap.set("n", "C", vim.lsp.buf.code_action, buffer)
+          vim.keymap.set("n", "<C-s>", vim.lsp.buf.signature_help, buffer)
+          vim.keymap.set("i", "<C-s>", vim.lsp.buf.signature_help, buffer)
+        end,
+
+        settings = ensure_installed[server_name],
+        handlers = {
+          ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" }),
+          ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" }),
+        },
+      }
+    end,
+  }
+end
+
+configs.null_ls = {
+  sources = {
+    require("null-ls").builtins.code_actions.gitsigns,
+
+    require("null-ls").builtins.diagnostics.golangci_lint,
+    require("null-ls").builtins.diagnostics.trail_space.with { disabled_filetypes = { "NvimTree" } },
+
+    require("null-ls").builtins.formatting.stylua,
+    require("null-ls").builtins.formatting.goimports,
+  },
+}
+
+function configs.luasnip(_, _)
+  require("luasnip").config.setup {}
+end
+
+function configs.cmp(_, _)
+  local luasnip = require "luasnip"
+
+  local cmp = require "cmp"
+
+  cmp.setup {
+    snippet = {
+      expand = function(args)
+        luasnip.lsp_expand(args.body)
+      end,
+    },
+    mapping = cmp.mapping.preset.insert {
+      ["<C-d>"] = cmp.mapping.scroll_docs( -4),
+      ["<C-f>"] = cmp.mapping.scroll_docs(4),
+      ["<C-Space>"] = cmp.mapping.complete {},
+      ["<CR>"] = cmp.mapping.confirm {
+        behavior = cmp.ConfirmBehavior.Replace,
+        select = true,
+      },
+      ["<Tab>"] = cmp.mapping(function(fallback)
+        if cmp.visible() then
+          cmp.select_next_item()
+        elseif luasnip.expand_or_jumpable() then
+          luasnip.expand_or_jump()
+        else
+          fallback()
+        end
+      end, { "i", "s" }),
+      ["<S-Tab>"] = cmp.mapping(function(fallback)
+        if cmp.visible() then
+          cmp.select_prev_item()
+        elseif luasnip.jumpable( -1) then
+          luasnip.jump( -1)
+        else
+          fallback()
+        end
+      end, { "i", "s" }),
+    },
+    sources = {
+      { name = "nvim_lsp" },
+      { name = "luasnip" },
+    },
+  }
+end
+
 require("lazy").setup {
   {
     "folke/tokyonight.nvim",
@@ -136,10 +294,12 @@ require("lazy").setup {
     name = "catppuccin",
     opts = { transparent_background = vim.g.transparent },
   },
-  { "dracula/vim", name = "dracula" },
+  { "Mofiqul/dracula.nvim", opts = {
+    transparent_bg = vim.g.transparent,
+  } },
   { "ellisonleao/gruvbox.nvim", opts = { transparent_mode = vim.g.transparent } },
   { "eemed/sitruuna.vim" },
-  { "numToStr/Comment.nvim", opts = {} },
+  { "numToStr/Comment.nvim",    opts = {} },
   {
     "nvim-telescope/telescope.nvim",
     version = "*",
@@ -157,27 +317,35 @@ require("lazy").setup {
   },
   { -- LSP Configuration & Plugins
     "neovim/nvim-lspconfig",
+    config = configs.lspconfig,
     dependencies = {
       -- Automatically install LSPs to stdpath for neovim
-      { "williamboman/mason.nvim", opts = {} },
-      "williamboman/mason-lspconfig.nvim",
+      {
+        "williamboman/mason.nvim",
+        config = configs.mason,
+      },
+      {
+        "williamboman/mason-lspconfig.nvim",
+        config = configs.mason_lspconfig,
+      },
       -- Additional lua configuration, makes nvim stuff amazing!
       "folke/neodev.nvim",
     },
   },
   { -- Autocompletion
     "hrsh7th/nvim-cmp",
+    config = configs.cmp,
     dependencies = {
       "hrsh7th/cmp-nvim-lsp",
-      "L3MON4D3/LuaSnip",
+      { "L3MON4D3/LuaSnip", config = configs.luasnip },
       "saadparwaiz1/cmp_luasnip",
       "hrsh7th/cmp-path",
       "hrsh7th/cmp-buffer",
     },
   },
 
-  { "jose-elias-alvarez/null-ls.nvim" },
-  { "stevearc/oil.nvim", opts = {} }, -- File manager like a BOSS
+  { "jose-elias-alvarez/null-ls.nvim", opts = configs.null_ls },
+  { "stevearc/oil.nvim",               opts = {} }, -- File manager like a BOSS
   { "pbrisbin/vim-mkdir" }, -- Automatically create directory if not exists
   { "fladson/vim-kitty" }, -- Support Kitty terminal config syntax
   { "towolf/vim-helm" }, -- Support for helm template syntax
@@ -214,6 +382,7 @@ require("lazy").setup {
     },
   }, -- Terminal emulator that we deserve
   { "dag/vim-fish" }, -- Vim fish syntax
+  { "imsnif/kdl.vim" },
 }
 
 -- Simple function to reduce boilerplate
@@ -226,158 +395,7 @@ local function setup(plugin, opts)
   end
 end
 
-pcall(vim.cmd.colorscheme, "catppuccin")
-
-if if_has "mason" then
-  for _, pkg in ipairs { "stylua", "golangci-lint", "goimports", "gofumpt", "yamlfmt" } do -- ensure these tools are installed
-    if not require("mason-registry").is_installed(pkg) then
-      require("mason.api.command").MasonInstall { pkg }
-    end
-  end
-end
-
-if if_has("mason", "lspconfig", "mason_lspconfig", "cmp_nvim_lsp") then
-  local mason_lspconfig = require "mason-lspconfig"
-  local ensure_installed = {
-    gopls = {},
-    lua_ls = {
-      Lua = {
-        telemetry = { enable = false },
-        diagnostics = {
-          globals = { "vim" },
-        },
-        workspace = {
-          checkThirdParty = false,
-          library = vim.api.nvim_get_runtime_file("", true),
-        },
-      },
-    },
-    rust_analyzer = {},
-    zls = {},
-  }
-  mason_lspconfig.setup {
-    ensure_installed = vim.tbl_keys(ensure_installed),
-  }
-
-  local capabilities = vim.lsp.protocol.make_client_capabilities()
-  capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
-
-  mason_lspconfig.setup_handlers {
-    function(server_name)
-      require("lspconfig")[server_name].setup {
-        capabilities = capabilities,
-        on_attach = function(_, bufnr)
-          vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
-          local buffer = { buffer = bufnr }
-          vim.keymap.set("n", "gd", vim.lsp.buf.definition, buffer)
-          vim.keymap.set("n", "gD", vim.lsp.buf.declaration, buffer)
-          vim.keymap.set("n", "gi", vim.lsp.buf.implementation, buffer)
-          vim.keymap.set("n", "gr", vim.lsp.buf.references, buffer)
-          vim.keymap.set("n", "R", vim.lsp.buf.rename, buffer)
-          vim.keymap.set("n", "<F2>", vim.lsp.buf.rename, buffer)
-          vim.keymap.set("n", "K", vim.lsp.buf.hover, buffer)
-          vim.keymap.set("n", "gf", vim.lsp.buf.format, buffer)
-
-          vim.keymap.set("n", "gl", vim.diagnostic.open_float, buffer)
-          vim.keymap.set("n", "gp", vim.diagnostic.goto_prev, buffer)
-          vim.keymap.set("n", "gn", vim.diagnostic.goto_next, buffer)
-
-          vim.keymap.set("n", "C", vim.lsp.buf.code_action, buffer)
-          vim.keymap.set("n", "<C-s>", vim.lsp.buf.signature_help, buffer)
-          vim.keymap.set("i", "<C-s>", vim.lsp.buf.signature_help, buffer)
-        end,
-
-        settings = ensure_installed[server_name],
-        handlers = {
-          ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" }),
-          ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" }),
-        },
-      }
-    end,
-  }
-  local autoformat_patterns = {
-    "*.rs",
-    "*.lua",
-  }
-
-  vim.api.nvim_create_autocmd("BufWritePre", {
-    pattern = autoformat_patterns,
-    callback = function(_)
-      vim.lsp.buf.format()
-    end,
-  })
-  local virtual_text = true
-  vim.api.nvim_create_user_command("VirtualTextToggle", function()
-    virtual_text = not virtual_text
-    vim.diagnostic.config {
-      virtual_text = virtual_text,
-    }
-  end, {})
-
-  vim.diagnostic.config {
-    virtual_text = true,
-  }
-end
-
--- Hook non-LSP sources into LSP
-setup("null-ls", {
-  sources = {
-    require("null-ls").builtins.code_actions.gitsigns,
-
-    require("null-ls").builtins.diagnostics.golangci_lint,
-    require("null-ls").builtins.diagnostics.trail_space.with { disabled_filetypes = { "NvimTree" } },
-
-    require("null-ls").builtins.formatting.stylua,
-    require("null-ls").builtins.formatting.goimports,
-  },
-})
-
-if if_has("cmp", "luasnip") then
-  require("luasnip").config.setup {}
-
-  local luasnip = require "luasnip"
-
-  local cmp = require "cmp"
-
-  cmp.setup {
-    snippet = {
-      expand = function(args)
-        luasnip.lsp_expand(args.body)
-      end,
-    },
-    mapping = cmp.mapping.preset.insert {
-      ["<C-d>"] = cmp.mapping.scroll_docs(-4),
-      ["<C-f>"] = cmp.mapping.scroll_docs(4),
-      ["<C-Space>"] = cmp.mapping.complete {},
-      ["<CR>"] = cmp.mapping.confirm {
-        behavior = cmp.ConfirmBehavior.Replace,
-        select = true,
-      },
-      ["<Tab>"] = cmp.mapping(function(fallback)
-        if cmp.visible() then
-          cmp.select_next_item()
-        elseif luasnip.expand_or_jumpable() then
-          luasnip.expand_or_jump()
-        else
-          fallback()
-        end
-      end, { "i", "s" }),
-      ["<S-Tab>"] = cmp.mapping(function(fallback)
-        if cmp.visible() then
-          cmp.select_prev_item()
-        elseif luasnip.jumpable(-1) then
-          luasnip.jump(-1)
-        else
-          fallback()
-        end
-      end, { "i", "s" }),
-    },
-    sources = {
-      { name = "nvim_lsp" },
-      { name = "luasnip" },
-    },
-  }
-end
+pcall(vim.cmd.colorscheme, "dracula")
 
 -- Some Golang stuff
 vim.g.go_gopls_enabled = 0
