@@ -1,4 +1,3 @@
-tap "d12frosted/emacs-plus"
 tap "homebrew/bundle"
 tap "homebrew/cask"
 tap "homebrew/cask-fonts"
@@ -38,7 +37,6 @@ brew "telnet"
 brew "tmux"
 brew "tree"
 brew "wget"
-brew "d12frosted/emacs-plus/emacs-plus@29", args: ["with-native-comp"]
 cask "alt-tab"
 brew "watch"
 brew "viddy"
