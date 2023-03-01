@@ -44,6 +44,10 @@ if command -v nvim &> /dev/null
     export EDITOR='nvim'
 end
 
+if command -v hx &> /dev/null
+    export EDITOR='hx'
+end
+
 function reload
 	source $HOME/.config/fish/config.fish
 end

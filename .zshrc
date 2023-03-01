@@ -57,6 +57,11 @@ then
     export EDITOR='nvim'
 fi
 
+if command -v hx &> /dev/null
+then
+    export EDITOR='hx'
+fi
+
 if ! command -v starship &> /dev/null
 then
     curl -sS https://starship.rs/install.sh | sh
