@@ -17,7 +17,7 @@ plugins=(
 )
 
 source $ZSH/oh-my-zsh.sh
-
+[ -f "$HOME/snapp-shell" ] && source "$HOME/snapp-shell"
 export GO111MODULE='on'
 export GOPATH="$HOME"
 export GOPRIVATE='gitlab.snapp.ir'
@@ -48,7 +48,7 @@ reload() {
 }
 
 snappvpn() {
-    sudo openfortivpn -c ~/snappDC.conf
+    sudo openfortivpn -c ~/snapp-fortigate.conf
 }
 
 if command -v nvim &> /dev/null
