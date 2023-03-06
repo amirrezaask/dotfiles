@@ -278,6 +278,59 @@ function configs.cmp(_, _)
   }
 end
 
+function configs.toggleterm(_, opts)
+  require("toggleterm").setup(opts)
+  vim.keymap.set({ "n", "t" }, "<C-`>", "<cmd>ToggleTerm<CR>", {})
+end
+
+function configs.telescope(_, opts)
+  require("telescope").setup(opts)
+  local no_preview = { previewer = false }
+
+  require("telescope").load_extension "fzf"
+
+  local function telescope_smart_find_files(opts)
+    local git_files = require("telescope.builtin").git_files
+    local status, _ = pcall(git_files)
+    if not status then
+      require("telescope.builtin").find_files(opts)
+    end
+  end
+
+  vim.keymap.set("n", "<leader><leader>", function()
+    telescope_smart_find_files(no_preview)
+  end)
+
+  vim.keymap.set("n", "<leader>ff", function()
+    require("telescope.builtin").find_files(no_preview)
+  end)
+
+  vim.keymap.set("n", "<leader>gf", function()
+    require("telescope.builtin").git_files(no_preview)
+  end)
+
+  vim.keymap.set("n", "<leader>fs", function()
+    require("telescope.builtin").live_grep()
+  end)
+
+  vim.keymap.set("n", "??", function()
+    require("telescope.builtin").live_grep()
+  end)
+
+  vim.keymap.set("n", "<leader>fc", function()
+    require("telescope.builtin").commands()
+  end)
+
+  vim.keymap.set("n", "<leader>fh", function()
+    require("telescope.builtin").help_tags(no_preview)
+  end)
+
+  -- Edit configurations
+  vim.keymap.set("n", "<leader>fd", function()
+    require("telescope.builtin").find_files(vim.tbl_extend("keep", { cwd = "~/dev/dotfiles" }, no_preview))
+  end)
+end
+
 require("lazy").setup {
   {
     "folke/tokyonight.nvim",
@@ -305,13 +358,64 @@ require("lazy").setup {
     version = "*",
     dependencies = { "nvim-lua/plenary.nvim", { "nvim-telescope/telescope-fzf-native.nvim", build = "make" } },
     opts = {},
+    config = configs.telescope,
   },
   { -- Highlight, edit, and navigate code
     "nvim-treesitter/nvim-treesitter",
     dependencies = {
       "nvim-treesitter/nvim-treesitter-textobjects",
     },
-    config = function()
+    config = function(_, opts)
+      require("nvim-treesitter.configs").setup {
+        ensure_installed = { "json", "yaml", "c", "cpp", "lua", "rust", "go", "python", "php" },
+        context_commentstring = {
+          enable = true,
+        },
+        highlight = {
+          enable = true,
+        },
+        rainbow = {
+          enable = true,
+          extended_mode = true, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
+          max_file_lines = nil, -- Do not enable for files with more than n lines, int
+        },
+        textobjects = {
+          move = {
+            enable = true,
+            set_jumps = true, -- whether to set jumps in the jumplist
+            goto_next_start = {
+              ["]m"] = "@function.outer",
+              ["]]"] = "@class.outer",
+            },
+            goto_next_end = {
+              ["]M"] = "@function.outer",
+              ["]["] = "@class.outer",
+            },
+            goto_previous_start = {
+              ["[m"] = "@function.outer",
+              ["[["] = "@class.outer",
+            },
+            goto_previous_end = {
+              ["[M"] = "@function.outer",
+              ["[]"] = "@class.outer",
+            },
+          },
+          select = {
+            enable = true,
+
+            -- Automatically jump forward to textobj, similar to targets.vim
+            lookahead = true,
+
+            keymaps = {
+              -- You can use the capture groups defined in textobjects.scm
+              ["af"] = "@function.outer",
+              ["if"] = "@function.inner",
+              ["ac"] = "@class.outer",
+              ["ic"] = "@class.inner",
+            },
+          },
+        },
+      }
       pcall(require("nvim-treesitter.install").update { with_sync = true })
     end,
   },
@@ -365,9 +469,41 @@ require("lazy").setup {
         changedelete = { text = "~" },
       },
     },
+    config = function(_, opts)
+      require("gitsigns").setup(opts)
+      vim.keymap.set("n", "<leader>gb", function()
+        vim.cmd.Gitsigns "blame_line"
+      end)
+    end,
   }, -- Signs next to line numbers to show git status of a line
-  { "tpope/vim-fugitive" }, -- Best Git Client after magit :)
-  { "fatih/vim-go" }, -- Golang tools and code actions
+  {
+    "tpope/vim-fugitive",
+    config = function()
+      vim.api.nvim_create_user_command("Gp", function(_, _)
+        vim.cmd.Git "push"
+      end, {})
+
+      vim.keymap.set("n", "<leader>gs", vim.cmd.Git)
+    end,
+  }, -- Best Git Client after magit :)
+  {
+    "fatih/vim-go",
+    function()
+      vim.g.go_gopls_enabled = 0
+      vim.g.go_template_autocreate = 0
+      local go_group = vim.api.nvim_create_augroup("go", {})
+      vim.api.nvim_create_autocmd("BufEnter", {
+        pattern = "*.go",
+        group = go_group,
+        callback = function(meta)
+          local buffer = { buffer = meta.bufnr, remap = true }
+          vim.keymap.set("n", "<leader>ma", "<cmd>GoAddTag<CR>", buffer)
+          vim.keymap.set("n", "<leader>md", "<cmd>GoRmTag<CR>", buffer)
+          vim.keymap.set("n", "<leader>mf", "<cmd>GoFillStruct<CR>", buffer)
+        end,
+      })
+    end,
+  }, -- Golang tools and code actions
   {
     "akinsho/toggleterm.nvim",
     opts = {
@@ -380,144 +516,12 @@ require("lazy").setup {
       end,
       direction = "vertical",
     },
+
+    config = configs.toggleterm,
   }, -- Terminal emulator that we deserve
   { "dag/vim-fish" }, -- Vim fish syntax
   { "imsnif/kdl.vim" },
 }
 
--- Simple function to reduce boilerplate
--- when configuring a plugin using a conventional
--- Lua interface.
-local function setup(plugin, opts)
-  local has_plugin, _ = pcall(require, plugin)
-  if has_plugin then
-    require(plugin).setup(opts)
-  end
-end
-
-pcall(vim.cmd.colorscheme, "dracula")
-
--- Some Golang stuff
-vim.g.go_gopls_enabled = 0
-vim.g.go_template_autocreate = 0
-local go_group = vim.api.nvim_create_augroup("go", {})
-vim.api.nvim_create_autocmd("BufEnter", {
-  pattern = "*.go",
-  group = go_group,
-  callback = function(meta)
-    local buffer = { buffer = meta.bufnr, remap = true }
-    vim.keymap.set("n", "<leader>ma", "<cmd>GoAddTag<CR>", buffer)
-    vim.keymap.set("n", "<leader>md", "<cmd>GoRmTag<CR>", buffer)
-    vim.keymap.set("n", "<leader>mf", "<cmd>GoFillStruct<CR>", buffer)
-  end,
-})
-
-vim.keymap.set({ "n", "t" }, "<C-`>", "<cmd>ToggleTerm<CR>", {})
-
-setup("nvim-treesitter.configs", {
-  ensure_installed = { "json", "yaml", "c", "cpp", "lua", "rust", "go", "python", "php" },
-  context_commentstring = {
-    enable = true,
-  },
-  highlight = {
-    enable = true,
-  },
-  rainbow = {
-    enable = true,
-    extended_mode = true, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
-    max_file_lines = nil, -- Do not enable for files with more than n lines, int
-  },
-  textobjects = {
-    move = {
-      enable = true,
-      set_jumps = true, -- whether to set jumps in the jumplist
-      goto_next_start = {
-        ["]m"] = "@function.outer",
-        ["]]"] = "@class.outer",
-      },
-      goto_next_end = {
-        ["]M"] = "@function.outer",
-        ["]["] = "@class.outer",
-      },
-      goto_previous_start = {
-        ["[m"] = "@function.outer",
-        ["[["] = "@class.outer",
-      },
-      goto_previous_end = {
-        ["[M"] = "@function.outer",
-        ["[]"] = "@class.outer",
-      },
-    },
-    select = {
-      enable = true,
-
-      -- Automatically jump forward to textobj, similar to targets.vim
-      lookahead = true,
-
-      keymaps = {
-        -- You can use the capture groups defined in textobjects.scm
-        ["af"] = "@function.outer",
-        ["if"] = "@function.inner",
-        ["ac"] = "@class.outer",
-        ["ic"] = "@class.inner",
-      },
-    },
-  },
-})
-
-vim.keymap.set("n", "<leader>gb", function()
-  vim.cmd.Gitsigns "blame_line"
-end)
-
-vim.keymap.set("n", "<leader>gs", vim.cmd.Git)
-
-vim.api.nvim_create_user_command("Gp", function()
-  vim.cmd.Git "push"
-end, {})
-
-if if_has "telescope" then
-  local no_preview = { previewer = false }
-
-  require("telescope").load_extension "fzf"
-
-  local function telescope_smart_find_files(opts)
-    local git_files = require("telescope.builtin").git_files
-    local status, _ = pcall(git_files)
-    if not status then
-      require("telescope.builtin").find_files(opts)
-    end
-  end
-
-  vim.keymap.set("n", "<leader><leader>", function()
-    telescope_smart_find_files(no_preview)
-  end)
-
-  vim.keymap.set("n", "<leader>ff", function()
-    require("telescope.builtin").find_files(no_preview)
-  end)
-
-  vim.keymap.set("n", "<leader>gf", function()
-    require("telescope.builtin").git_files(no_preview)
-  end)
-
-  vim.keymap.set("n", "<leader>fs", function()
-    require("telescope.builtin").live_grep()
-  end)
-
-  vim.keymap.set("n", "??", function()
-    require("telescope.builtin").live_grep()
-  end)
-
-  vim.keymap.set("n", "<leader>fc", function()
-    require("telescope.builtin").commands()
-  end)
-
-  vim.keymap.set("n", "<leader>fh", function()
-    require("telescope.builtin").help_tags(no_preview)
-  end)
-
-  -- Edit configurations
-  vim.keymap.set("n", "<leader>fd", function()
-    require("telescope.builtin").find_files(vim.tbl_extend("keep", { cwd = "~/dev/dotfiles" }, no_preview))
-  end)
-end
+-- colorscheme
+pcall(vim.cmd.colorscheme, "rose-pine")
