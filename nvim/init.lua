@@ -347,9 +347,7 @@ require("lazy").setup {
     name = "catppuccin",
     opts = { transparent_background = vim.g.transparent },
   },
-  { "Mofiqul/dracula.nvim", opts = {
-    transparent_bg = vim.g.transparent,
-  } },
+  { "Mofiqul/dracula.nvim", opts = { transparent_bg = vim.g.transparent } },
   { "ellisonleao/gruvbox.nvim", opts = { transparent_mode = vim.g.transparent } },
   { "eemed/sitruuna.vim" },
   { "numToStr/Comment.nvim",    opts = {} },
@@ -357,7 +355,6 @@ require("lazy").setup {
     "nvim-telescope/telescope.nvim",
     version = "*",
     dependencies = { "nvim-lua/plenary.nvim", { "nvim-telescope/telescope-fzf-native.nvim", build = "make" } },
-    opts = {},
     config = configs.telescope,
   },
   { -- Highlight, edit, and navigate code
@@ -488,7 +485,7 @@ require("lazy").setup {
   }, -- Best Git Client after magit :)
   {
     "fatih/vim-go",
-    function()
+    config = function(_, _)
       vim.g.go_gopls_enabled = 0
       vim.g.go_template_autocreate = 0
       local go_group = vim.api.nvim_create_augroup("go", {})
