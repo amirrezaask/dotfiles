@@ -96,6 +96,11 @@ vim.api.nvim_create_user_command("Reload", function(_)
   vim.cmd.source "~/.config/nvim/init.lua"
 end, {})
 
+local function has(mod)
+  local _has, _ = pcall(require, mod)
+  return _has
+end
+
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system {
@@ -109,115 +114,209 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-local function if_has(...)
-  for _, mod in ipairs(arg) do
-    local has, _ = pcall(require, mod)
-    if not has then
-      return false
-    end
-  end
+require("lazy").setup {
+  { "folke/tokyonight.nvim", opts = { transparent = vim.g.transparent } },
+  {
+    "rose-pine/neovim",
+    name = "rose-pine",
+    opts = { disable_background = vim.g.transparent, disable_float_background = vim.g.transparent },
+  },
+  { "catppuccin/nvim", name = "catppuccin", opts = { transparent_background = vim.g.transparent } },
+  { "Mofiqul/dracula.nvim", opts = { transparent_bg = vim.g.transparent } },
+  { "ellisonleao/gruvbox.nvim", opts = { transparent_mode = vim.g.transparent } },
+  { "eemed/sitruuna.vim" },
+  { "numToStr/Comment.nvim", opts = {} },
+  {
+    "nvim-telescope/telescope.nvim",
+    version = "*",
+    dependencies = { "nvim-lua/plenary.nvim", { "nvim-telescope/telescope-fzf-native.nvim", build = "make" } },
+  },
+  { -- Highlight, edit, and navigate code
+    "nvim-treesitter/nvim-treesitter",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter-textobjects",
+    },
+  },
+  { -- LSP Configuration & Plugins
+    "neovim/nvim-lspconfig",
+    dependencies = {
+      "williamboman/mason.nvim",
+      "williamboman/mason-lspconfig.nvim",
+      "folke/neodev.nvim",
+    },
+  },
+  { -- Autocompletion
+    "hrsh7th/nvim-cmp",
+    dependencies = {
+      "hrsh7th/cmp-nvim-lsp",
+      "L3MON4D3/LuaSnip",
+      "saadparwaiz1/cmp_luasnip",
+      "hrsh7th/cmp-path",
+      "hrsh7th/cmp-buffer",
+    },
+  },
+  { "jose-elias-alvarez/null-ls.nvim" },
+  { "stevearc/oil.nvim", opts = {} }, -- File manager like a BOSS
+  { "pbrisbin/vim-mkdir" }, -- Automatically create directory if not exists
+  { "fladson/vim-kitty" }, -- Support Kitty terminal config syntax
+  { "towolf/vim-helm" }, -- Support for helm template syntax
+  { "tpope/vim-surround" }, -- surrounding text objects
+  { "kevinhwang91/nvim-bqf" }, -- Preview quickfix list item.
+  { "tpope/vim-eunuch" }, -- Helper commands like :Rename, :Move, :Delete, :Remove, ...
+  { "tpope/vim-sleuth" }, -- Heuristically set buffer options
+  { "windwp/nvim-autopairs" }, -- Auto insert pairs like () [] {}
+  { "lewis6991/gitsigns.nvim" }, -- Signs next to line numbers to show git status of a line
+  { "tpope/vim-fugitive" }, -- Best Git Client after magit :)
+  { "fatih/vim-go" }, -- Golang tools and code actions
+  { "akinsho/toggleterm.nvim" }, -- Terminal emulator that we deserve
+  { "dag/vim-fish" }, -- Vim fish syntax
+  { "imsnif/kdl.vim" },
+}
 
-  return true
-end
+-- nvim-cmp
+local luasnip = require "luasnip"
 
-local configs = {}
+local cmp = require "cmp"
 
-function configs.lspconfig(_, _)
-  local autoformat_patterns = {
-    "*.rs",
-    "*.lua",
-  }
-
-  vim.api.nvim_create_autocmd("BufWritePre", {
-    pattern = autoformat_patterns,
-    callback = function(_)
-      vim.lsp.buf.format()
+cmp.setup {
+  snippet = {
+    expand = function(args)
+      luasnip.lsp_expand(args.body)
     end,
-  })
-  local virtual_text = true
-  vim.api.nvim_create_user_command("VirtualTextToggle", function()
-    virtual_text = not virtual_text
-    vim.diagnostic.config {
-      virtual_text = virtual_text,
-    }
-  end, {})
+  },
+  mapping = cmp.mapping.preset.insert {
+    ["<C-d>"] = cmp.mapping.scroll_docs(-4),
+    ["<C-f>"] = cmp.mapping.scroll_docs(4),
+    ["<C-Space>"] = cmp.mapping.complete {},
+    ["<CR>"] = cmp.mapping.confirm {
+      behavior = cmp.ConfirmBehavior.Replace,
+      select = true,
+    },
+    ["<Tab>"] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_next_item()
+      elseif luasnip.expand_or_jumpable() then
+        luasnip.expand_or_jump()
+      else
+        fallback()
+      end
+    end, { "i", "s" }),
+    ["<S-Tab>"] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_prev_item()
+      elseif luasnip.jumpable(-1) then
+        luasnip.jump(-1)
+      else
+        fallback()
+      end
+    end, { "i", "s" }),
+  },
+  sources = {
+    { name = "nvim_lsp" },
+    { name = "luasnip" },
+  },
+}
 
-  vim.diagnostic.config {
-    virtual_text = true,
-  }
-end
-
-function configs.mason(_, opts)
-  require("mason").setup(opts)
-  for _, pkg in ipairs { "stylua", "golangci-lint", "goimports", "gofumpt", "yamlfmt" } do -- ensure these tools are installed
-    if not require("mason-registry").is_installed(pkg) then
-      require("mason.api.command").MasonInstall { pkg }
-    end
+-- mason
+require("mason").setup {}
+for _, pkg in ipairs { "stylua", "golangci-lint", "goimports", "gofumpt", "yamlfmt" } do -- ensure these tools are installed
+  if not require("mason-registry").is_installed(pkg) then
+    require("mason.api.command").MasonInstall { pkg }
   end
 end
 
-function configs.mason_lspconfig()
-  local capabilities = vim.lsp.protocol.make_client_capabilities()
-  capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+-- Mason lsp
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
-  local mason_lspconfig = require "mason-lspconfig"
-  local ensure_installed = {
-    gopls = {},
-    lua_ls = {
-      Lua = {
-        telemetry = { enable = false },
-        diagnostics = {
-          globals = { "vim" },
-        },
-        workspace = {
-          checkThirdParty = false,
-          library = vim.api.nvim_get_runtime_file("", true),
-        },
+local mason_lspconfig = require "mason-lspconfig"
+local ensure_installed = {
+  gopls = {},
+  lua_ls = {
+    Lua = {
+      telemetry = { enable = false },
+      diagnostics = {
+        globals = { "vim" },
+      },
+      workspace = {
+        checkThirdParty = false,
+        library = vim.api.nvim_get_runtime_file("", true),
       },
     },
-    rust_analyzer = {},
-    zls = {},
+  },
+  rust_analyzer = {},
+  zls = {},
+}
+mason_lspconfig.setup {
+  ensure_installed = vim.tbl_keys(ensure_installed),
+}
+
+mason_lspconfig.setup_handlers {
+  function(server_name)
+    require("lspconfig")[server_name].setup {
+      capabilities = capabilities,
+      on_attach = function(_, bufnr)
+        vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
+        local buffer = { buffer = bufnr }
+        vim.keymap.set("n", "gd", vim.lsp.buf.definition, buffer)
+        vim.keymap.set("n", "gD", vim.lsp.buf.declaration, buffer)
+        vim.keymap.set("n", "gi", vim.lsp.buf.implementation, buffer)
+        vim.keymap.set("n", "gr", vim.lsp.buf.references, buffer)
+        vim.keymap.set("n", "R", vim.lsp.buf.rename, buffer)
+        vim.keymap.set("n", "<F2>", vim.lsp.buf.rename, buffer)
+        vim.keymap.set("n", "K", vim.lsp.buf.hover, buffer)
+        vim.keymap.set("n", "gf", vim.lsp.buf.format, buffer)
+
+        vim.keymap.set("n", "gl", vim.diagnostic.open_float, buffer)
+        vim.keymap.set("n", "gp", vim.diagnostic.goto_prev, buffer)
+        vim.keymap.set("n", "gn", vim.diagnostic.goto_next, buffer)
+
+        vim.keymap.set("n", "C", vim.lsp.buf.code_action, buffer)
+        vim.keymap.set("n", "<C-s>", vim.lsp.buf.signature_help, buffer)
+        vim.keymap.set("i", "<C-s>", vim.lsp.buf.signature_help, buffer)
+      end,
+
+      settings = ensure_installed[server_name],
+      handlers = {
+        ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" }),
+        ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" }),
+      },
+    }
+  end,
+}
+
+-- LSP
+local autoformat_patterns = {
+  "*.rs",
+  "*.lua",
+}
+
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = autoformat_patterns,
+  callback = function(_)
+    vim.lsp.buf.format()
+  end,
+})
+local virtual_text = true
+vim.api.nvim_create_user_command("VirtualTextToggle", function()
+  virtual_text = not virtual_text
+  vim.diagnostic.config {
+    virtual_text = virtual_text,
   }
-  mason_lspconfig.setup {
-    ensure_installed = vim.tbl_keys(ensure_installed),
-  }
+end, {})
 
-  mason_lspconfig.setup_handlers {
-    function(server_name)
-      require("lspconfig")[server_name].setup {
-        capabilities = capabilities,
-        on_attach = function(_, bufnr)
-          vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
-          local buffer = { buffer = bufnr }
-          vim.keymap.set("n", "gd", vim.lsp.buf.definition, buffer)
-          vim.keymap.set("n", "gD", vim.lsp.buf.declaration, buffer)
-          vim.keymap.set("n", "gi", vim.lsp.buf.implementation, buffer)
-          vim.keymap.set("n", "gr", vim.lsp.buf.references, buffer)
-          vim.keymap.set("n", "R", vim.lsp.buf.rename, buffer)
-          vim.keymap.set("n", "<F2>", vim.lsp.buf.rename, buffer)
-          vim.keymap.set("n", "K", vim.lsp.buf.hover, buffer)
-          vim.keymap.set("n", "gf", vim.lsp.buf.format, buffer)
+vim.diagnostic.config {
+  virtual_text = true,
+}
 
-          vim.keymap.set("n", "gl", vim.diagnostic.open_float, buffer)
-          vim.keymap.set("n", "gp", vim.diagnostic.goto_prev, buffer)
-          vim.keymap.set("n", "gn", vim.diagnostic.goto_next, buffer)
+-- LuaSnip
+require("luasnip").config.setup {}
 
-          vim.keymap.set("n", "C", vim.lsp.buf.code_action, buffer)
-          vim.keymap.set("n", "<C-s>", vim.lsp.buf.signature_help, buffer)
-          vim.keymap.set("i", "<C-s>", vim.lsp.buf.signature_help, buffer)
-        end,
+-- colorscheme
+pcall(vim.cmd.colorscheme, "rose-pine")
 
-        settings = ensure_installed[server_name],
-        handlers = {
-          ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" }),
-          ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" }),
-        },
-      }
-    end,
-  }
-end
-
-configs.null_ls = {
+-- null ls
+require("null-ls").setup {
   sources = {
     require("null-ls").builtins.code_actions.gitsigns,
 
@@ -229,62 +328,27 @@ configs.null_ls = {
   },
 }
 
-function configs.luasnip(_, _)
-  require("luasnip").config.setup {}
-end
+-- Git
+require("gitsigns").setup {
+  signs = {
+    add = { text = "+" },
+    change = { text = "~" },
+    delete = { text = "_" },
+    topdelete = { text = "‾" },
+    changedelete = { text = "~" },
+  },
+}
+vim.keymap.set("n", "<leader>gb", function()
+  vim.cmd.Gitsigns "blame_line"
+end)
+vim.api.nvim_create_user_command("Gp", function(_, _)
+  vim.cmd.Git "push"
+end, {})
+vim.keymap.set("n", "<leader>gs", vim.cmd.Git)
 
-function configs.cmp(_, _)
-  local luasnip = require "luasnip"
-
-  local cmp = require "cmp"
-
-  cmp.setup {
-    snippet = {
-      expand = function(args)
-        luasnip.lsp_expand(args.body)
-      end,
-    },
-    mapping = cmp.mapping.preset.insert {
-      ["<C-d>"] = cmp.mapping.scroll_docs( -4),
-      ["<C-f>"] = cmp.mapping.scroll_docs(4),
-      ["<C-Space>"] = cmp.mapping.complete {},
-      ["<CR>"] = cmp.mapping.confirm {
-        behavior = cmp.ConfirmBehavior.Replace,
-        select = true,
-      },
-      ["<Tab>"] = cmp.mapping(function(fallback)
-        if cmp.visible() then
-          cmp.select_next_item()
-        elseif luasnip.expand_or_jumpable() then
-          luasnip.expand_or_jump()
-        else
-          fallback()
-        end
-      end, { "i", "s" }),
-      ["<S-Tab>"] = cmp.mapping(function(fallback)
-        if cmp.visible() then
-          cmp.select_prev_item()
-        elseif luasnip.jumpable( -1) then
-          luasnip.jump( -1)
-        else
-          fallback()
-        end
-      end, { "i", "s" }),
-    },
-    sources = {
-      { name = "nvim_lsp" },
-      { name = "luasnip" },
-    },
-  }
-end
-
-function configs.toggleterm(_, opts)
-  require("toggleterm").setup(opts)
-  vim.keymap.set({ "n", "t" }, "<C-`>", "<cmd>ToggleTerm<CR>", {})
-end
-
-function configs.telescope(_, opts)
-  require("telescope").setup(opts)
+-- telescope
+if has "telescope" then
+  require("telescope").setup {}
   local no_preview = { previewer = false }
 
   require("telescope").load_extension "fzf"
@@ -331,194 +395,85 @@ function configs.telescope(_, opts)
   end)
 end
 
-require("lazy").setup {
-  {
-    "folke/tokyonight.nvim",
-    lazy = true,
-    opts = { transparent = vim.g.transparent },
-  },
-  {
-    "rose-pine/neovim",
-    name = "rose-pine",
-    opts = { disable_background = vim.g.transparent, disable_float_background = vim.g.transparent },
-  },
-  {
-    "catppuccin/nvim",
-    name = "catppuccin",
-    opts = { transparent_background = vim.g.transparent },
-  },
-  { "Mofiqul/dracula.nvim", opts = { transparent_bg = vim.g.transparent } },
-  { "ellisonleao/gruvbox.nvim", opts = { transparent_mode = vim.g.transparent } },
-  { "eemed/sitruuna.vim" },
-  { "numToStr/Comment.nvim",    opts = {} },
-  {
-    "nvim-telescope/telescope.nvim",
-    version = "*",
-    dependencies = { "nvim-lua/plenary.nvim", { "nvim-telescope/telescope-fzf-native.nvim", build = "make" } },
-    config = configs.telescope,
-  },
-  { -- Highlight, edit, and navigate code
-    "nvim-treesitter/nvim-treesitter",
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter-textobjects",
+-- treesitter
+if has "nvim-treesitter.configs" then
+  require("nvim-treesitter.configs").setup {
+    ensure_installed = { "json", "yaml", "c", "cpp", "lua", "rust", "go", "python", "php" },
+    context_commentstring = {
+      enable = true,
     },
-    config = function(_, opts)
-      require("nvim-treesitter.configs").setup {
-        ensure_installed = { "json", "yaml", "c", "cpp", "lua", "rust", "go", "python", "php" },
-        context_commentstring = {
-          enable = true,
+    highlight = {
+      enable = true,
+    },
+    rainbow = {
+      enable = true,
+      extended_mode = true, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
+      max_file_lines = nil, -- Do not enable for files with more than n lines, int
+    },
+    textobjects = {
+      move = {
+        enable = true,
+        set_jumps = true, -- whether to set jumps in the jumplist
+        goto_next_start = {
+          ["]m"] = "@function.outer",
+          ["]]"] = "@class.outer",
         },
-        highlight = {
-          enable = true,
+        goto_next_end = {
+          ["]M"] = "@function.outer",
+          ["]["] = "@class.outer",
         },
-        rainbow = {
-          enable = true,
-          extended_mode = true, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
-          max_file_lines = nil, -- Do not enable for files with more than n lines, int
+        goto_previous_start = {
+          ["[m"] = "@function.outer",
+          ["[["] = "@class.outer",
         },
-        textobjects = {
-          move = {
-            enable = true,
-            set_jumps = true, -- whether to set jumps in the jumplist
-            goto_next_start = {
-              ["]m"] = "@function.outer",
-              ["]]"] = "@class.outer",
-            },
-            goto_next_end = {
-              ["]M"] = "@function.outer",
-              ["]["] = "@class.outer",
-            },
-            goto_previous_start = {
-              ["[m"] = "@function.outer",
-              ["[["] = "@class.outer",
-            },
-            goto_previous_end = {
-              ["[M"] = "@function.outer",
-              ["[]"] = "@class.outer",
-            },
-          },
-          select = {
-            enable = true,
-
-            -- Automatically jump forward to textobj, similar to targets.vim
-            lookahead = true,
-
-            keymaps = {
-              -- You can use the capture groups defined in textobjects.scm
-              ["af"] = "@function.outer",
-              ["if"] = "@function.inner",
-              ["ac"] = "@class.outer",
-              ["ic"] = "@class.inner",
-            },
-          },
+        goto_previous_end = {
+          ["[M"] = "@function.outer",
+          ["[]"] = "@class.outer",
         },
-      }
-      pcall(require("nvim-treesitter.install").update { with_sync = true })
-    end,
-  },
-  { -- LSP Configuration & Plugins
-    "neovim/nvim-lspconfig",
-    config = configs.lspconfig,
-    dependencies = {
-      -- Automatically install LSPs to stdpath for neovim
-      {
-        "williamboman/mason.nvim",
-        config = configs.mason,
       },
-      {
-        "williamboman/mason-lspconfig.nvim",
-        config = configs.mason_lspconfig,
-      },
-      -- Additional lua configuration, makes nvim stuff amazing!
-      "folke/neodev.nvim",
-    },
-  },
-  { -- Autocompletion
-    "hrsh7th/nvim-cmp",
-    config = configs.cmp,
-    dependencies = {
-      "hrsh7th/cmp-nvim-lsp",
-      { "L3MON4D3/LuaSnip", config = configs.luasnip },
-      "saadparwaiz1/cmp_luasnip",
-      "hrsh7th/cmp-path",
-      "hrsh7th/cmp-buffer",
-    },
-  },
+      select = {
+        enable = true,
 
-  { "jose-elias-alvarez/null-ls.nvim", opts = configs.null_ls },
-  { "stevearc/oil.nvim",               opts = {} }, -- File manager like a BOSS
-  { "pbrisbin/vim-mkdir" }, -- Automatically create directory if not exists
-  { "fladson/vim-kitty" }, -- Support Kitty terminal config syntax
-  { "towolf/vim-helm" }, -- Support for helm template syntax
-  { "tpope/vim-surround" }, -- surrounding text objects
-  { "kevinhwang91/nvim-bqf" }, -- Preview quickfix list item.
-  { "tpope/vim-eunuch" }, -- Helper commands like :Rename, :Move, :Delete, :Remove, ...
-  { "tpope/vim-sleuth" }, -- Heuristically set buffer options
-  { "windwp/nvim-autopairs" }, -- Auto insert pairs like () [] {}
-  {
-    "lewis6991/gitsigns.nvim",
-    opts = {
-      signs = {
-        add = { text = "+" },
-        change = { text = "~" },
-        delete = { text = "_" },
-        topdelete = { text = "‾" },
-        changedelete = { text = "~" },
+        -- Automatically jump forward to textobj, similar to targets.vim
+        lookahead = true,
+
+        keymaps = {
+          -- You can use the capture groups defined in textobjects.scm
+          ["af"] = "@function.outer",
+          ["if"] = "@function.inner",
+          ["ac"] = "@class.outer",
+          ["ic"] = "@class.inner",
+        },
       },
     },
-    config = function(_, opts)
-      require("gitsigns").setup(opts)
-      vim.keymap.set("n", "<leader>gb", function()
-        vim.cmd.Gitsigns "blame_line"
-      end)
-    end,
-  }, -- Signs next to line numbers to show git status of a line
-  {
-    "tpope/vim-fugitive",
-    config = function()
-      vim.api.nvim_create_user_command("Gp", function(_, _)
-        vim.cmd.Git "push"
-      end, {})
+  }
+  pcall(require("nvim-treesitter.install").update { with_sync = true })
+end
 
-      vim.keymap.set("n", "<leader>gs", vim.cmd.Git)
-    end,
-  }, -- Best Git Client after magit :)
-  {
-    "fatih/vim-go",
-    config = function(_, _)
-      vim.g.go_gopls_enabled = 0
-      vim.g.go_template_autocreate = 0
-      local go_group = vim.api.nvim_create_augroup("go", {})
-      vim.api.nvim_create_autocmd("BufEnter", {
-        pattern = "*.go",
-        group = go_group,
-        callback = function(meta)
-          local buffer = { buffer = meta.bufnr, remap = true }
-          vim.keymap.set("n", "<leader>ma", "<cmd>GoAddTag<CR>", buffer)
-          vim.keymap.set("n", "<leader>md", "<cmd>GoRmTag<CR>", buffer)
-          vim.keymap.set("n", "<leader>mf", "<cmd>GoFillStruct<CR>", buffer)
-        end,
-      })
-    end,
-  }, -- Golang tools and code actions
-  {
-    "akinsho/toggleterm.nvim",
-    opts = {
-      size = function(term)
-        if term.direction == "horizontal" then
-          return 15
-        elseif term.direction == "vertical" then
-          return vim.o.columns * 0.4
-        end
-      end,
-      direction = "vertical",
-    },
-
-    config = configs.toggleterm,
-  }, -- Terminal emulator that we deserve
-  { "dag/vim-fish" }, -- Vim fish syntax
-  { "imsnif/kdl.vim" },
+-- Toggleterm
+require("toggleterm").setup {
+  size = function(term)
+    if term.direction == "horizontal" then
+      return 15
+    elseif term.direction == "vertical" then
+      return vim.o.columns * 0.4
+    end
+  end,
+  direction = "vertical",
 }
+vim.keymap.set({ "n", "t" }, "<C-`>", "<cmd>ToggleTerm<CR>", {})
 
--- colorscheme
-pcall(vim.cmd.colorscheme, "rose-pine")
+-- Golang
+vim.g.go_gopls_enabled = 0
+vim.g.go_template_autocreate = 0
+local go_group = vim.api.nvim_create_augroup("go", {})
+vim.api.nvim_create_autocmd("BufEnter", {
+  pattern = "*.go",
+  group = go_group,
+  callback = function(meta)
+    local buffer = { buffer = meta.bufnr, remap = true }
+    vim.keymap.set("n", "<leader>ma", "<cmd>GoAddTag<CR>", buffer)
+    vim.keymap.set("n", "<leader>md", "<cmd>GoRmTag<CR>", buffer)
+    vim.keymap.set("n", "<leader>mf", "<cmd>GoFillStruct<CR>", buffer)
+  end,
+})
