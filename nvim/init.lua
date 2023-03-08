@@ -313,7 +313,7 @@ vim.diagnostic.config {
 require("luasnip").config.setup {}
 
 -- colorscheme
-pcall(vim.cmd.colorscheme, "rose-pine")
+pcall(vim.cmd.colorscheme, "catppuccin")
 
 -- null ls
 require("null-ls").setup {
