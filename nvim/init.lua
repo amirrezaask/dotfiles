@@ -24,7 +24,7 @@ vim.opt.shortmess:append "I" -- No Intro message
 vim.opt.clipboard:append "unnamedplus" -- use system clipboard as default register.
 vim.opt.splitbelow = true
 vim.opt.splitright = true
-vim.g.transparent = true
+vim.g.transparent = false
 
 -- Netrw
 vim.g.netrw_browse_split = 0
@@ -101,6 +101,10 @@ local function has(mod)
   return _has
 end
 
+local function setup(mod, opts)
+  require(mod).setup(opts)
+end
+
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system {
@@ -115,37 +119,17 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup {
-  { "folke/tokyonight.nvim", opts = { transparent = vim.g.transparent } },
-  {
-    "rose-pine/neovim",
-    name = "rose-pine",
-    opts = { disable_background = vim.g.transparent, disable_float_background = vim.g.transparent },
-  },
-  { "catppuccin/nvim", name = "catppuccin", opts = { transparent_background = vim.g.transparent } },
-  { "Mofiqul/dracula.nvim", opts = { transparent_bg = vim.g.transparent } },
-  { "ellisonleao/gruvbox.nvim", opts = { transparent_mode = vim.g.transparent } },
+  { "folke/tokyonight.nvim" },
+  { "rose-pine/neovim",                name = "rose-pine" },
+  { "catppuccin/nvim",                 name = "catppuccin" },
+  { "Mofiqul/dracula.nvim" },
+  { "ellisonleao/gruvbox.nvim" },
   { "eemed/sitruuna.vim" },
-  { "numToStr/Comment.nvim", opts = {} },
-  {
-    "nvim-telescope/telescope.nvim",
-    version = "*",
-    dependencies = { "nvim-lua/plenary.nvim", { "nvim-telescope/telescope-fzf-native.nvim", build = "make" } },
-  },
-  { -- Highlight, edit, and navigate code
-    "nvim-treesitter/nvim-treesitter",
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter-textobjects",
-    },
-  },
-  { -- LSP Configuration & Plugins
-    "neovim/nvim-lspconfig",
-    dependencies = {
-      "williamboman/mason.nvim",
-      "williamboman/mason-lspconfig.nvim",
-      "folke/neodev.nvim",
-    },
-  },
-  { -- Autocompletion
+  { "numToStr/Comment.nvim" },
+  { "nvim-telescope/telescope.nvim",   dependencies = { "nvim-lua/plenary.nvim", { "nvim-telescope/telescope-fzf-native.nvim", build = "make" } } },
+  { "nvim-treesitter/nvim-treesitter", dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" } },
+  { "neovim/nvim-lspconfig",           dependencies = { "williamboman/mason.nvim", "williamboman/mason-lspconfig.nvim", "folke/neodev.nvim" } },
+  { -- Autocomplete
     "hrsh7th/nvim-cmp",
     dependencies = {
       "hrsh7th/cmp-nvim-lsp",
@@ -156,7 +140,7 @@ require("lazy").setup {
     },
   },
   { "jose-elias-alvarez/null-ls.nvim" },
-  { "stevearc/oil.nvim", opts = {} }, -- File manager like a BOSS
+  { "stevearc/oil.nvim" }, -- File manager like a BOSS
   { "pbrisbin/vim-mkdir" }, -- Automatically create directory if not exists
   { "fladson/vim-kitty" }, -- Support Kitty terminal config syntax
   { "towolf/vim-helm" }, -- Support for helm template syntax
@@ -173,6 +157,16 @@ require("lazy").setup {
   { "imsnif/kdl.vim" },
 }
 
+-- Colorschemes
+setup("tokyonight", { transparent = vim.g.transparent })
+setup("rose-pine", { disable_background = vim.g.transparent, disable_float_background = vim.g.transparent })
+setup("catppuccin", { transparent_background = vim.g.transparent })
+setup("dracula", { transparent_bg = vim.g.transparent })
+setup("gruvbox", { transparent_mode = vim.g.transparent })
+
+setup("Comment", {})
+setup("oil", {})
+
 -- nvim-cmp
 local luasnip = require "luasnip"
 
@@ -185,7 +179,7 @@ cmp.setup {
     end,
   },
   mapping = cmp.mapping.preset.insert {
-    ["<C-d>"] = cmp.mapping.scroll_docs(-4),
+    ["<C-d>"] = cmp.mapping.scroll_docs( -4),
     ["<C-f>"] = cmp.mapping.scroll_docs(4),
     ["<C-Space>"] = cmp.mapping.complete {},
     ["<CR>"] = cmp.mapping.confirm {
@@ -204,8 +198,8 @@ cmp.setup {
     ["<S-Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_prev_item()
-      elseif luasnip.jumpable(-1) then
-        luasnip.jump(-1)
+      elseif luasnip.jumpable( -1) then
+        luasnip.jump( -1)
       else
         fallback()
       end
