@@ -120,15 +120,15 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup {
   { "folke/tokyonight.nvim" },
-  { "rose-pine/neovim",                name = "rose-pine" },
-  { "catppuccin/nvim",                 name = "catppuccin" },
+  { "rose-pine/neovim", name = "rose-pine" },
+  { "catppuccin/nvim", name = "catppuccin" },
   { "Mofiqul/dracula.nvim" },
   { "ellisonleao/gruvbox.nvim" },
   { "eemed/sitruuna.vim" },
   { "numToStr/Comment.nvim" },
-  { "nvim-telescope/telescope.nvim",   dependencies = { "nvim-lua/plenary.nvim", { "nvim-telescope/telescope-fzf-native.nvim", build = "make" } } },
+  { "nvim-telescope/telescope.nvim", dependencies = { "nvim-lua/plenary.nvim", { "nvim-telescope/telescope-fzf-native.nvim", build = "make" } } },
   { "nvim-treesitter/nvim-treesitter", dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" } },
-  { "neovim/nvim-lspconfig",           dependencies = { "williamboman/mason.nvim", "williamboman/mason-lspconfig.nvim", "folke/neodev.nvim" } },
+  { "neovim/nvim-lspconfig", dependencies = { "williamboman/mason.nvim", "williamboman/mason-lspconfig.nvim", "folke/neodev.nvim" } },
   { -- Autocomplete
     "hrsh7th/nvim-cmp",
     dependencies = {
@@ -179,7 +179,7 @@ cmp.setup {
     end,
   },
   mapping = cmp.mapping.preset.insert {
-    ["<C-d>"] = cmp.mapping.scroll_docs( -4),
+    ["<C-d>"] = cmp.mapping.scroll_docs(-4),
     ["<C-f>"] = cmp.mapping.scroll_docs(4),
     ["<C-Space>"] = cmp.mapping.complete {},
     ["<CR>"] = cmp.mapping.confirm {
@@ -198,8 +198,8 @@ cmp.setup {
     ["<S-Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_prev_item()
-      elseif luasnip.jumpable( -1) then
-        luasnip.jump( -1)
+      elseif luasnip.jumpable(-1) then
+        luasnip.jump(-1)
       else
         fallback()
       end
@@ -365,10 +365,6 @@ if has "telescope" then
 
   vim.keymap.set("n", "<leader>gf", function()
     require("telescope.builtin").git_files(no_preview)
-  end)
-
-  vim.keymap.set("n", "<leader>fs", function()
-    require("telescope.builtin").live_grep()
   end)
 
   vim.keymap.set("n", "??", function()
