@@ -120,15 +120,15 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup {
   { "folke/tokyonight.nvim" },
-  { "rose-pine/neovim", name = "rose-pine" },
-  { "catppuccin/nvim", name = "catppuccin" },
+  { "rose-pine/neovim",                name = "rose-pine" },
+  { "catppuccin/nvim",                 name = "catppuccin" },
   { "Mofiqul/dracula.nvim" },
   { "ellisonleao/gruvbox.nvim" },
   { "eemed/sitruuna.vim" },
   { "numToStr/Comment.nvim" },
-  { "nvim-telescope/telescope.nvim", dependencies = { "nvim-lua/plenary.nvim", { "nvim-telescope/telescope-fzf-native.nvim", build = "make" } } },
+  { "nvim-telescope/telescope.nvim",   dependencies = { "nvim-lua/plenary.nvim", { "nvim-telescope/telescope-fzf-native.nvim", build = "make" } } },
   { "nvim-treesitter/nvim-treesitter", dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" } },
-  { "neovim/nvim-lspconfig", dependencies = { "williamboman/mason.nvim", "williamboman/mason-lspconfig.nvim", "folke/neodev.nvim" } },
+  { "neovim/nvim-lspconfig",           dependencies = { "williamboman/mason.nvim", "williamboman/mason-lspconfig.nvim", "folke/neodev.nvim" } },
   { -- Autocomplete
     "hrsh7th/nvim-cmp",
     dependencies = {
@@ -179,7 +179,7 @@ cmp.setup {
     end,
   },
   mapping = cmp.mapping.preset.insert {
-    ["<C-d>"] = cmp.mapping.scroll_docs(-4),
+    ["<C-d>"] = cmp.mapping.scroll_docs( -4),
     ["<C-f>"] = cmp.mapping.scroll_docs(4),
     ["<C-Space>"] = cmp.mapping.complete {},
     ["<CR>"] = cmp.mapping.confirm {
@@ -198,8 +198,8 @@ cmp.setup {
     ["<S-Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_prev_item()
-      elseif luasnip.jumpable(-1) then
-        luasnip.jump(-1)
+      elseif luasnip.jumpable( -1) then
+        luasnip.jump( -1)
       else
         fallback()
       end
@@ -307,7 +307,7 @@ vim.diagnostic.config {
 require("luasnip").config.setup {}
 
 -- colorscheme
-pcall(vim.cmd.colorscheme, "catppuccin")
+pcall(vim.cmd.colorscheme, "tokyonight")
 
 -- null ls
 require("null-ls").setup {
@@ -456,14 +456,3 @@ vim.keymap.set({ "n", "t" }, "<C-`>", "<cmd>ToggleTerm<CR>", {})
 -- Golang
 vim.g.go_gopls_enabled = 0
 vim.g.go_template_autocreate = 0
-local go_group = vim.api.nvim_create_augroup("go", {})
-vim.api.nvim_create_autocmd("BufEnter", {
-  pattern = "*.go",
-  group = go_group,
-  callback = function(meta)
-    local buffer = { buffer = meta.bufnr, remap = true }
-    vim.keymap.set("n", "<leader>ma", "<cmd>GoAddTag<CR>", buffer)
-    vim.keymap.set("n", "<leader>md", "<cmd>GoRmTag<CR>", buffer)
-    vim.keymap.set("n", "<leader>mf", "<cmd>GoFillStruct<CR>", buffer)
-  end,
-})
