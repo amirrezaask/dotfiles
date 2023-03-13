@@ -252,19 +252,25 @@ mason_lspconfig.setup_handlers {
       on_attach = function(_, bufnr)
         vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
         local buffer = { buffer = bufnr }
+        -- New keybindings based on amirrezaask keybindings
+        vim.keymap.set("n", "<C-.>", vim.lsp.buf.definition, buffer)
+        vim.keymap.set("n", "<C-,>", "<C-o>", buffer)
+        vim.keymap.set("n", "<C-i>", vim.lsp.buf.implementation, buffer)
+        vim.keymap.set("n", "<C-r>", vim.lsp.buf.references, buffer)
+        vim.keymap.set("n", "<C-'>", vim.lsp.buf.hover, buffer)
+        vim.keymap.set("n", '<C-">', vim.lsp.buf.code_action, buffer)
+
+        -- Vim classic keybindings
         vim.keymap.set("n", "gd", vim.lsp.buf.definition, buffer)
         vim.keymap.set("n", "gD", vim.lsp.buf.declaration, buffer)
         vim.keymap.set("n", "gi", vim.lsp.buf.implementation, buffer)
         vim.keymap.set("n", "gr", vim.lsp.buf.references, buffer)
         vim.keymap.set("n", "R", vim.lsp.buf.rename, buffer)
-        vim.keymap.set("n", "<F2>", vim.lsp.buf.rename, buffer)
         vim.keymap.set("n", "K", vim.lsp.buf.hover, buffer)
         vim.keymap.set("n", "gf", vim.lsp.buf.format, buffer)
-
         vim.keymap.set("n", "gl", vim.diagnostic.open_float, buffer)
         vim.keymap.set("n", "gp", vim.diagnostic.goto_prev, buffer)
         vim.keymap.set("n", "gn", vim.diagnostic.goto_next, buffer)
-
         vim.keymap.set("n", "C", vim.lsp.buf.code_action, buffer)
         vim.keymap.set("n", "<C-s>", vim.lsp.buf.signature_help, buffer)
         vim.keymap.set("i", "<C-s>", vim.lsp.buf.signature_help, buffer)
@@ -338,7 +344,7 @@ end)
 vim.api.nvim_create_user_command("Gp", function(_, _)
   vim.cmd.Git "push"
 end, {})
-vim.keymap.set("n", "<leader>gs", vim.cmd.Git)
+vim.keymap.set("n", "<C-2>", vim.cmd.Git)
 
 -- telescope
 if has "telescope" then
