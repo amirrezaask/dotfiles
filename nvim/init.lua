@@ -24,7 +24,7 @@ vim.opt.shortmess:append "I" -- No Intro message
 vim.opt.clipboard:append "unnamedplus" -- use system clipboard as default register.
 vim.opt.splitbelow = true
 vim.opt.splitright = true
-vim.g.transparent = true
+vim.g.transparent = false
 
 -- Netrw
 vim.g.netrw_browse_split = 0
@@ -155,6 +155,7 @@ require("lazy").setup {
   { "akinsho/toggleterm.nvim" }, -- Terminal emulator that we deserve
   { "dag/vim-fish" }, -- Vim fish syntax
   { "imsnif/kdl.vim" },
+  { "jansedivy/jai.vim" },
 }
 
 -- Colorschemes
@@ -182,10 +183,7 @@ cmp.setup {
     ["<C-d>"] = cmp.mapping.scroll_docs(-4),
     ["<C-f>"] = cmp.mapping.scroll_docs(4),
     ["<C-Space>"] = cmp.mapping.complete {},
-    ["<CR>"] = cmp.mapping.confirm {
-      behavior = cmp.ConfirmBehavior.Replace,
-      select = true,
-    },
+    ["<CR>"] = cmp.mapping.confirm { behavior = cmp.ConfirmBehavior.Replace, select = true },
     ["<Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
@@ -252,13 +250,6 @@ mason_lspconfig.setup_handlers {
       on_attach = function(_, bufnr)
         vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
         local buffer = { buffer = bufnr }
-        -- New keybindings based on amirrezaask keybindings
-        vim.keymap.set("n", "<C-.>", vim.lsp.buf.definition, buffer)
-        vim.keymap.set("n", "<C-,>", "<C-o>", buffer)
-        vim.keymap.set("n", "<C-i>", vim.lsp.buf.implementation, buffer)
-        vim.keymap.set("n", "<C-r>", vim.lsp.buf.references, buffer)
-        vim.keymap.set("n", "<C-'>", vim.lsp.buf.hover, buffer)
-        vim.keymap.set("n", '<C-">', vim.lsp.buf.code_action, buffer)
 
         -- Vim classic keybindings
         vim.keymap.set("n", "gd", vim.lsp.buf.definition, buffer)
@@ -313,7 +304,7 @@ vim.diagnostic.config {
 require("luasnip").config.setup {}
 
 -- colorscheme
-pcall(vim.cmd.colorscheme, "tokyonight-storm")
+pcall(vim.cmd.colorscheme, "tokyonight-night")
 
 -- null ls
 require("null-ls").setup {
@@ -344,7 +335,7 @@ end)
 vim.api.nvim_create_user_command("Gp", function(_, _)
   vim.cmd.Git "push"
 end, {})
-vim.keymap.set("n", "<C-2>", vim.cmd.Git)
+vim.keymap.set("n", "<leader>gs", vim.cmd.Git)
 
 -- telescope
 if has "telescope" then
