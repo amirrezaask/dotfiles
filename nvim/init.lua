@@ -24,7 +24,7 @@ vim.opt.shortmess:append "I" -- No Intro message
 vim.opt.clipboard:append "unnamedplus" -- use system clipboard as default register.
 vim.opt.splitbelow = true
 vim.opt.splitright = true
-vim.g.transparent = true
+vim.g.transparent = false
 
 -- Netrw
 vim.g.netrw_browse_split = 0
@@ -137,6 +137,7 @@ require("lazy").setup {
   { "dag/vim-fish" }, -- Vim fish syntax
   { "imsnif/kdl.vim" },
   { "jansedivy/jai.vim" },
+  { "christoomey/vim-tmux-navigator" },
 }
 
 -- Colorschemes
