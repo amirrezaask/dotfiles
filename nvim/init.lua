@@ -24,7 +24,7 @@ vim.opt.shortmess:append "I" -- No Intro message
 vim.opt.clipboard:append "unnamedplus" -- use system clipboard as default register.
 vim.opt.splitbelow = true
 vim.opt.splitright = true
-vim.g.transparent = false
+vim.g.transparent = true
 
 -- Netrw
 vim.g.netrw_browse_split = 0
@@ -156,9 +156,7 @@ setup("oil", {})
 
 -- nvim-cmp
 local luasnip = require "luasnip"
-
 local cmp = require "cmp"
-
 cmp.setup {
   snippet = {
     expand = function(args)
@@ -170,24 +168,8 @@ cmp.setup {
     ["<C-f>"] = cmp.mapping.scroll_docs(4),
     ["<C-Space>"] = cmp.mapping.complete {},
     ["<CR>"] = cmp.mapping.confirm { behavior = cmp.ConfirmBehavior.Replace, select = true },
-    ["<Tab>"] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_next_item()
-      elseif luasnip.expand_or_jumpable() then
-        luasnip.expand_or_jump()
-      else
-        fallback()
-      end
-    end, { "i", "s" }),
-    ["<S-Tab>"] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_prev_item()
-      elseif luasnip.jumpable(-1) then
-        luasnip.jump(-1)
-      else
-        fallback()
-      end
-    end, { "i", "s" }),
+    ["<Tab>"] = nil,
+    ["<S-Tab>"] = nil,
   },
   sources = {
     { name = "nvim_lsp" },
@@ -225,6 +207,7 @@ local ensure_installed = {
   rust_analyzer = {},
   zls = {},
 }
+
 mason_lspconfig.setup {
   ensure_installed = vim.tbl_keys(ensure_installed),
 }
@@ -262,18 +245,13 @@ mason_lspconfig.setup_handlers {
   end,
 }
 
--- LSP
-local autoformat_patterns = {
-  "*.rs",
-  "*.lua",
-}
-
 vim.api.nvim_create_autocmd("BufWritePre", {
-  pattern = autoformat_patterns,
+  pattern = { "*.rs", "*.lua" },
   callback = function(_)
     vim.lsp.buf.format()
   end,
 })
+
 local virtual_text = true
 vim.api.nvim_create_user_command("VirtualTextToggle", function()
   virtual_text = not virtual_text
@@ -315,12 +293,15 @@ require("gitsigns").setup {
     changedelete = { text = "~" },
   },
 }
+
 vim.keymap.set("n", "<leader>gb", function()
   vim.cmd.Gitsigns "blame_line"
 end)
+
 vim.api.nvim_create_user_command("Gp", function(_, _)
   vim.cmd.Git "push"
 end, {})
+
 vim.keymap.set("n", "<leader>gs", vim.cmd.Git)
 
 -- telescope
