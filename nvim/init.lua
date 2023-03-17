@@ -137,7 +137,7 @@ require("lazy").setup {
   { "dag/vim-fish" }, -- Vim fish syntax
   { "imsnif/kdl.vim" },
   { "jansedivy/jai.vim" },
-  { "christoomey/vim-tmux-navigator" },
+  { "aserowy/tmux.nvim" },
 }
 
 -- Colorschemes
@@ -409,3 +409,5 @@ vim.keymap.set({ "n", "t" }, "<C-`>", "<cmd>ToggleTerm<CR>", {})
 -- Golang
 vim.g.go_gopls_enabled = 0
 vim.g.go_template_autocreate = 0
+
+setup "tmux"
