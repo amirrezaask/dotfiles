@@ -88,14 +88,6 @@ vim.keymap.set("t", "<A-h>", "<C-\\><C-n><C-w>>")
 vim.keymap.set("t", "<A-j>", "<C-\\><C-n><C-w>-")
 vim.keymap.set("t", "<A-k>", "<C-\\><C-n><C-w>+")
 
-vim.keymap.set("n", "<leader>R", function()
-  vim.cmd.source "~/.config/nvim/init.lua"
-end)
-
-vim.api.nvim_create_user_command("Reload", function(_)
-  vim.cmd.source "~/.config/nvim/init.lua"
-end, {})
-
 local function has(mod)
   local _has, _ = pcall(require, mod)
   return _has
@@ -129,15 +121,9 @@ require("lazy").setup {
   { "nvim-telescope/telescope.nvim", dependencies = { "nvim-lua/plenary.nvim", { "nvim-telescope/telescope-fzf-native.nvim", build = "make" } } },
   { "nvim-treesitter/nvim-treesitter", dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" } },
   { "neovim/nvim-lspconfig", dependencies = { "williamboman/mason.nvim", "williamboman/mason-lspconfig.nvim", "folke/neodev.nvim" } },
-  { -- Autocomplete
+  {
     "hrsh7th/nvim-cmp",
-    dependencies = {
-      "hrsh7th/cmp-nvim-lsp",
-      "L3MON4D3/LuaSnip",
-      "saadparwaiz1/cmp_luasnip",
-      "hrsh7th/cmp-path",
-      "hrsh7th/cmp-buffer",
-    },
+    dependencies = { "hrsh7th/cmp-nvim-lsp", "L3MON4D3/LuaSnip", "saadparwaiz1/cmp_luasnip", "hrsh7th/cmp-path", "hrsh7th/cmp-buffer" },
   },
   { "jose-elias-alvarez/null-ls.nvim" },
   { "stevearc/oil.nvim" }, -- File manager like a BOSS
@@ -209,7 +195,7 @@ cmp.setup {
   },
 }
 
--- mason
+-- Mason
 require("mason").setup {}
 for _, pkg in ipairs { "stylua", "golangci-lint", "goimports", "gofumpt", "yamlfmt" } do -- ensure these tools are installed
   if not require("mason-registry").is_installed(pkg) then
