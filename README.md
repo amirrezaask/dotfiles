@@ -6,7 +6,7 @@ Always WIP :)
 
 In VSCode, Sublime and Emacs I use same keybindings for features that I want.
 
-**Note**: Primary is Ctrl on windows/linux and cmd on macOS.
+**Note**: Primary is Ctrl on windows/linux and cmd/ctrl on macOS.
 
 ### Editor UIs and Integrated Tools
 
@@ -21,23 +21,23 @@ In VSCode, Sublime and Emacs I use same keybindings for features that I want.
 
 | Keys        | Action                     |
 |-------------|----------------------------|
-| Primary + = | Expand Smart Selection     |
-| Primary + - | Shrink Smart Selection     |
+| alt + = | Expand Smart Selection     |
+| alt + - | Shrink Smart Selection     |
 | Primary + Shift + down | Add another cursor below     |
 | Primary + Shift + Up | Add another cursor above     |
 
 ### LSP based features
 | Keys        | Action                     |
 |-------------|----------------------------|
-| Primary + . | Goto Definition            |
-| Primary + , | Go back                    |
-| Primary + i | Find Implementations       |
-| Primary + r | Find References            |
-| Primary + ' | Hover                      |
-| Primary + " | QuickFixes or Code Actions |
-| Primary + o | Find Symbol in Document    |
-| Primary + O | Find Symbol in Project     |
-| Primary + R | Rename Symbol              |
+| alt + . | Goto Definition            |
+| alt + , | Go back                    |
+| alt + i | Find Implementations       |
+| alt + r | Find References            |
+| alt + ' | Hover                      |
+| alt + " | QuickFixes or Code Actions |
+| alt + o | Find Symbol in Document    |
+| alt + O | Find Symbol in Project     |
+| alt + R | Rename Symbol              |
 
 ## Tools
 
