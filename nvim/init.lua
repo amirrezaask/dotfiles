@@ -24,6 +24,7 @@ vim.opt.shortmess:append "I" -- No Intro message
 vim.opt.clipboard:append "unnamedplus" -- use system clipboard as default register.
 vim.opt.splitbelow = true
 vim.opt.splitright = true
+vim.opt.cursorline = true
 vim.g.transparent = false
 
 -- Netrw
@@ -118,7 +119,7 @@ require("lazy").setup {
   { "neovim/nvim-lspconfig", dependencies = { "williamboman/mason.nvim", "williamboman/mason-lspconfig.nvim", "folke/neodev.nvim" } },
   {
     "hrsh7th/nvim-cmp",
-    dependencies = { "hrsh7th/cmp-nvim-lsp", "L3MON4D3/LuaSnip", "saadparwaiz1/cmp_luasnip", "hrsh7th/cmp-path", "hrsh7th/cmp-buffer" },
+    dependencies = { "hrsh7th/cmp-nvim-lsp", "hrsh7th/cmp-vsnip", "hrsh7th/vim-vsnip", "hrsh7th/cmp-path", "hrsh7th/cmp-buffer" },
   },
   { "jose-elias-alvarez/null-ls.nvim" },
   { "stevearc/oil.nvim" }, -- File manager like a BOSS
@@ -151,12 +152,11 @@ setup("Comment", {})
 setup("oil", {})
 
 -- nvim-cmp
-local luasnip = require "luasnip"
 local cmp = require "cmp"
 cmp.setup {
   snippet = {
     expand = function(args)
-      luasnip.lsp_expand(args.body)
+      vim.fn["vsnip#anonymous"](args.body)
     end,
   },
   mapping = cmp.mapping.preset.insert {
@@ -260,9 +260,6 @@ end, {})
 vim.diagnostic.config {
   virtual_text = true,
 }
-
--- LuaSnip
-require("luasnip").config.setup {}
 
 -- colorscheme
 pcall(vim.cmd.colorscheme, "tokyonight-night")
