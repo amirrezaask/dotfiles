@@ -262,7 +262,7 @@ vim.diagnostic.config {
 }
 
 -- colorscheme
-pcall(vim.cmd.colorscheme, "tokyonight-night")
+pcall(vim.cmd.colorscheme, "rose-pine")
 
 -- null ls
 require("null-ls").setup {
