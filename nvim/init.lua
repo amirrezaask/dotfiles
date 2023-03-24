@@ -262,7 +262,7 @@ vim.diagnostic.config {
 }
 
 -- colorscheme
-pcall(vim.cmd.colorscheme, "rose-pine")
+pcall(vim.cmd.colorscheme, "jblow")
 
 -- null ls
 require("null-ls").setup {
