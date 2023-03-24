@@ -26,7 +26,6 @@ vim.opt.splitbelow = true
 vim.opt.splitright = true
 vim.opt.cursorline = true
 vim.g.transparent = false
-
 -- Netrw
 vim.g.netrw_browse_split = 0
 vim.g.netrw_banner = 0
@@ -150,7 +149,7 @@ require("lazy").setup {
   { "dag/vim-fish" }, -- Vim fish syntax
   { "imsnif/kdl.vim" },
   { "jansedivy/jai.vim" },
-  { "aserowy/tmux.nvim" },
+  { "aserowy/tmux.nvim", opts = {} },
 }
 
 -- Setup Colorschemes
@@ -294,9 +293,7 @@ require("gitsigns").setup {
 }
 
 vim.keymap.set("n", "<leader>gb", function() vim.cmd.Gitsigns "blame_line" end)
-
 vim.api.nvim_create_user_command("Gp", function(_, _) vim.cmd.Git "push" end, {})
-
 vim.keymap.set("n", "<leader>gs", vim.cmd.Git)
 
 -- telescope
@@ -390,5 +387,3 @@ vim.keymap.set({ "n", "t" }, "<C-`>", "<cmd>ToggleTerm<CR>", {})
 -- Golang
 vim.g.go_gopls_enabled = 0
 vim.g.go_template_autocreate = 0
-
-setup "tmux"
