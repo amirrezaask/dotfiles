@@ -25,7 +25,7 @@ vim.opt.clipboard:append "unnamedplus" -- use system clipboard as default regist
 vim.opt.splitbelow = true
 vim.opt.splitright = true
 vim.opt.cursorline = true
-vim.g.transparent = false
+vim.g.transparent = true
 vim.g.netrw_browse_split = 0
 vim.g.netrw_banner = 0
 vim.g.netrw_winsize = 25
@@ -67,103 +67,104 @@ vim.keymap.set("t", "<A-k>", "<C-\\><C-n><C-w>+")
 
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
-    vim.fn.system {
-        "git",
-        "clone",
-        "--filter=blob:none",
-        "https://github.com/folke/lazy.nvim.git",
-        "--branch=stable", -- latest stable release
-        lazypath,
-    }
+  vim.fn.system {
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable", -- latest stable release
+    lazypath,
+  }
 end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup {
-    { "folke/tokyonight.nvim",    opt = { transparent = vim.g.transparent } },
-    {
-        "rose-pine/neovim",
-        name = "rose-pine",
-        opt = { disable_background = vim.g.transparent, disable_float_background = vim.g.transparent },
+  { "folke/tokyonight.nvim", opt = { transparent = vim.g.transparent } },
+  {
+    "rose-pine/neovim",
+    name = "rose-pine",
+    opt = { disable_background = vim.g.transparent, disable_float_background = vim.g.transparent },
+  },
+  { "catppuccin/nvim", name = "catppuccin", opt = { transparent_background = vim.g.transparent } },
+  { "Mofiqul/dracula.nvim", opt = { transparent_bg = vim.g.transparent } },
+  { "ellisonleao/gruvbox.nvim", opt = { transparent_mode = vim.g.transparent } },
+  { "eemed/sitruuna.vim" },
+  { "numToStr/Comment.nvim", opt = {} },
+  {
+    "nvim-telescope/telescope.nvim",
+    dependencies = { "nvim-lua/plenary.nvim", { "nvim-telescope/telescope-fzf-native.nvim", build = "make" } },
+  },
+  {
+    "nvim-treesitter/nvim-treesitter",
+    dependencies = { "nvim-treesitter/nvim-treesitter-textobjects", "nvim-treesitter/playground" },
+  },
+  {
+    "neovim/nvim-lspconfig",
+    dependencies = {
+      "williamboman/mason.nvim",
+      "williamboman/mason-lspconfig.nvim",
+      "folke/neodev.nvim",
+      { "j-hui/fidget.nvim", opt = {} },
     },
-    { "catppuccin/nvim",          name = "catppuccin",                           opt = { transparent_background = vim.g.transparent } },
-    { "Mofiqul/dracula.nvim",     opt = { transparent_bg = vim.g.transparent } },
-    { "ellisonleao/gruvbox.nvim", opt = { transparent_mode = vim.g.transparent } },
-    { "eemed/sitruuna.vim" },
-    { "numToStr/Comment.nvim",    opt = {} },
-    {
-        "nvim-telescope/telescope.nvim",
-        dependencies = { "nvim-lua/plenary.nvim", { "nvim-telescope/telescope-fzf-native.nvim", build = "make" } },
+  },
+  {
+    "hrsh7th/nvim-cmp",
+    dependencies = {
+      "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/cmp-vsnip",
+      "hrsh7th/vim-vsnip",
+      "hrsh7th/cmp-path",
+      "hrsh7th/cmp-buffer",
     },
-    {
-        "nvim-treesitter/nvim-treesitter",
-        dependencies = { "nvim-treesitter/nvim-treesitter-textobjects", "nvim-treesitter/playground" },
-    },
-    {
-        "neovim/nvim-lspconfig",
-        dependencies = {
-            "williamboman/mason.nvim",
-            "williamboman/mason-lspconfig.nvim",
-            "folke/neodev.nvim",
-            { "j-hui/fidget.nvim", opt = {} },
-        },
-    },
-    {
-        "hrsh7th/nvim-cmp",
-        dependencies = {
-            "hrsh7th/cmp-nvim-lsp",
-            "hrsh7th/cmp-vsnip",
-            "hrsh7th/vim-vsnip",
-            "hrsh7th/cmp-path",
-            "hrsh7th/cmp-buffer",
-        },
-    },
-    { "jose-elias-alvarez/null-ls.nvim" },
-    { "stevearc/oil.nvim",              opt = {} }, -- File manager like a BOSS
-    { "pbrisbin/vim-mkdir" }, -- Automatically create directory if not exists
-    { "fladson/vim-kitty" }, -- Support Kitty terminal config syntax
-    { "towolf/vim-helm" }, -- Support for helm template syntax
-    { "tpope/vim-surround" }, -- surrounding text objects
-    { "kevinhwang91/nvim-bqf" }, -- Preview quickfix list item.
-    { "tpope/vim-eunuch" }, -- Helper commands like :Rename, :Move, :Delete, :Remove, ...
-    { "tpope/vim-sleuth" }, -- Heuristically set buffer options
-    { "windwp/nvim-autopairs" }, -- Auto insert pairs like () [] {}
-    { "lewis6991/gitsigns.nvim" }, -- Signs next to line numbers to show git status of a line
-    { "tpope/vim-fugitive" }, -- Best Git Client after magit :)
-    { "akinsho/toggleterm.nvim" }, -- Terminal emulator that we deserve
-    { "dag/vim-fish" }, -- Vim fish syntax
-    { "imsnif/kdl.vim" },
-    { "jansedivy/jai.vim" },
-    { "aserowy/tmux.nvim",              opts = {} }, -- tmux integration
+  },
+  { "jose-elias-alvarez/null-ls.nvim" },
+  { "stevearc/oil.nvim", opt = {} }, -- File manager like a BOSS
+  { "pbrisbin/vim-mkdir" }, -- Automatically create directory if not exists
+  { "fladson/vim-kitty" }, -- Support Kitty terminal config syntax
+  { "towolf/vim-helm" }, -- Support for helm template syntax
+  { "tpope/vim-surround" }, -- surrounding text objects
+  { "kevinhwang91/nvim-bqf" }, -- Preview quickfix list item.
+  { "tpope/vim-eunuch" }, -- Helper commands like :Rename, :Move, :Delete, :Remove, ...
+  { "tpope/vim-sleuth" }, -- Heuristically set buffer options
+  { "windwp/nvim-autopairs" }, -- Auto insert pairs like () [] {}
+  { "lewis6991/gitsigns.nvim" }, -- Signs next to line numbers to show git status of a line
+  { "tpope/vim-fugitive" }, -- Best Git Client after magit :)
+  { "akinsho/toggleterm.nvim" }, -- Terminal emulator that we deserve
+  { "dag/vim-fish" }, -- Vim fish syntax
+  { "imsnif/kdl.vim" },
+  { "jansedivy/jai.vim" },
+  { "aserowy/tmux.nvim", opts = {} }, -- tmux integration
 }
 
 -- Colorschemes
-pcall(vim.cmd.colorscheme, "catppuccin")
+pcall(vim.cmd.colorscheme, "gruvbox")
+if vim.g.transparent then vim.api.nvim_set_hl(0, "Normal", { bg = "none" }) end
 
 -- nvim-cmp
 local cmp = require "cmp"
 cmp.setup {
-    snippet = {
-        expand = function(args) vim.fn["vsnip#anonymous"](args.body) end,
-    },
-    mapping = cmp.mapping.preset.insert {
-        ["<C-d>"] = cmp.mapping.scroll_docs( -4),
-        ["<C-f>"] = cmp.mapping.scroll_docs(4),
-        ["<C-Space>"] = cmp.mapping.complete {},
-        ["<CR>"] = cmp.mapping.confirm { behavior = cmp.ConfirmBehavior.Replace, select = true },
-        ["<Tab>"] = nil,
-        ["<S-Tab>"] = nil,
-    },
-    sources = {
-        { name = "nvim_lsp" },
-        { name = "buffer" },
-        { name = "path" },
-    },
+  snippet = {
+    expand = function(args) vim.fn["vsnip#anonymous"](args.body) end,
+  },
+  mapping = cmp.mapping.preset.insert {
+    ["<C-d>"] = cmp.mapping.scroll_docs(-4),
+    ["<C-f>"] = cmp.mapping.scroll_docs(4),
+    ["<C-Space>"] = cmp.mapping.complete {},
+    ["<CR>"] = cmp.mapping.confirm { behavior = cmp.ConfirmBehavior.Replace, select = true },
+    ["<Tab>"] = nil,
+    ["<S-Tab>"] = nil,
+  },
+  sources = {
+    { name = "nvim_lsp" },
+    { name = "buffer" },
+    { name = "path" },
+  },
 }
 
 -- Mason
 require("mason").setup {}
 for _, pkg in ipairs { "stylua", "golangci-lint", "goimports", "gofumpt", "yamlfmt" } do -- ensure these tools are installed
-    if not require("mason-registry").is_installed(pkg) then require("mason.api.command").MasonInstall { pkg } end
+  if not require("mason-registry").is_installed(pkg) then require("mason.api.command").MasonInstall { pkg } end
 end
 
 -- Mason lsp
@@ -172,88 +173,88 @@ capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
 local mason_lspconfig = require "mason-lspconfig"
 local ensure_installed = {
-    gopls = {},
-    lua_ls = {
-        Lua = {
-            telemetry = { enable = false },
-            diagnostics = {
-                globals = { "vim" },
-            },
-            workspace = {
-                checkThirdParty = false,
-                library = vim.api.nvim_get_runtime_file("", true),
-            },
-        },
+  gopls = {},
+  lua_ls = {
+    Lua = {
+      telemetry = { enable = false },
+      diagnostics = {
+        globals = { "vim" },
+      },
+      workspace = {
+        checkThirdParty = false,
+        library = vim.api.nvim_get_runtime_file("", true),
+      },
     },
-    rust_analyzer = {},
-    zls = {},
+  },
+  rust_analyzer = {},
+  zls = {},
 }
 
 mason_lspconfig.setup {
-    ensure_installed = vim.tbl_keys(ensure_installed),
+  ensure_installed = vim.tbl_keys(ensure_installed),
 }
 
 mason_lspconfig.setup_handlers {
-    function(server_name)
-        require("lspconfig")[server_name].setup {
-            capabilities = capabilities,
-            on_attach = function(_, bufnr)
-                vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
-                local buffer = { buffer = bufnr }
+  function(server_name)
+    require("lspconfig")[server_name].setup {
+      capabilities = capabilities,
+      on_attach = function(_, bufnr)
+        vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
+        local buffer = { buffer = bufnr }
 
-                -- Vim classic keybindings
-                vim.keymap.set("n", "gd", vim.lsp.buf.definition, buffer)
-                vim.keymap.set("n", "gD", vim.lsp.buf.declaration, buffer)
-                vim.keymap.set("n", "gi", vim.lsp.buf.implementation, buffer)
-                vim.keymap.set("n", "gr", vim.lsp.buf.references, buffer)
-                vim.keymap.set("n", "R", vim.lsp.buf.rename, buffer)
-                vim.keymap.set("n", "K", vim.lsp.buf.hover, buffer)
-                vim.keymap.set("n", "gf", vim.lsp.buf.format, buffer)
-                vim.keymap.set("n", "gl", vim.diagnostic.open_float, buffer)
-                vim.keymap.set("n", "gp", vim.diagnostic.goto_prev, buffer)
-                vim.keymap.set("n", "gn", vim.diagnostic.goto_next, buffer)
-                vim.keymap.set("n", "C", vim.lsp.buf.code_action, buffer)
-                vim.keymap.set("n", "<C-s>", vim.lsp.buf.signature_help, buffer)
-                vim.keymap.set("i", "<C-s>", vim.lsp.buf.signature_help, buffer)
-            end,
-            settings = ensure_installed[server_name],
-            handlers = {
-                ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" }),
-                ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" }),
-            },
-        }
-    end,
+        -- Vim classic keybindings
+        vim.keymap.set("n", "gd", vim.lsp.buf.definition, buffer)
+        vim.keymap.set("n", "gD", vim.lsp.buf.declaration, buffer)
+        vim.keymap.set("n", "gi", vim.lsp.buf.implementation, buffer)
+        vim.keymap.set("n", "gr", vim.lsp.buf.references, buffer)
+        vim.keymap.set("n", "R", vim.lsp.buf.rename, buffer)
+        vim.keymap.set("n", "K", vim.lsp.buf.hover, buffer)
+        vim.keymap.set("n", "gf", vim.lsp.buf.format, buffer)
+        vim.keymap.set("n", "gl", vim.diagnostic.open_float, buffer)
+        vim.keymap.set("n", "gp", vim.diagnostic.goto_prev, buffer)
+        vim.keymap.set("n", "gn", vim.diagnostic.goto_next, buffer)
+        vim.keymap.set("n", "C", vim.lsp.buf.code_action, buffer)
+        vim.keymap.set("n", "<C-s>", vim.lsp.buf.signature_help, buffer)
+        vim.keymap.set("i", "<C-s>", vim.lsp.buf.signature_help, buffer)
+      end,
+      settings = ensure_installed[server_name],
+      handlers = {
+        ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" }),
+        ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" }),
+      },
+    }
+  end,
 }
 
 -- Auto format
 vim.api.nvim_create_autocmd("BufWritePre", {
-    pattern = { "*.rs", "*.lua" },
-    callback = function(_) vim.lsp.buf.format() end,
+  pattern = { "*.rs", "*.lua" },
+  callback = function(_) vim.lsp.buf.format() end,
 })
 
 -- null ls
 require("null-ls").setup {
-    sources = {
-        require("null-ls").builtins.code_actions.gitsigns,
+  sources = {
+    require("null-ls").builtins.code_actions.gitsigns,
 
-        require("null-ls").builtins.diagnostics.golangci_lint,
-        require("null-ls").builtins.diagnostics.trail_space.with { disabled_filetypes = { "NvimTree" } },
+    require("null-ls").builtins.diagnostics.golangci_lint,
+    require("null-ls").builtins.diagnostics.trail_space.with { disabled_filetypes = { "NvimTree" } },
 
-        require("null-ls").builtins.formatting.stylua,
-        require("null-ls").builtins.formatting.goimports,
-    },
+    require("null-ls").builtins.formatting.stylua,
+    require("null-ls").builtins.formatting.goimports,
+  },
 }
 
 -- Git
 local gs = require "gitsigns"
 gs.setup {
-    signs = {
-        add = { text = "+" },
-        change = { text = "~" },
-        delete = { text = "_" },
-        topdelete = { text = "‾" },
-        changedelete = { text = "~" },
-    },
+  signs = {
+    add = { text = "+" },
+    change = { text = "~" },
+    delete = { text = "_" },
+    topdelete = { text = "‾" },
+    changedelete = { text = "~" },
+  },
 }
 
 vim.keymap.set("n", "<leader>gs", vim.cmd.Git)
@@ -279,74 +280,74 @@ vim.keymap.set("n", "<leader>fh", function() require("telescope.builtin").help_t
 
 -- Edit configurations
 vim.keymap.set(
-    "n",
-    "<leader>fd",
-    function() require("telescope.builtin").find_files(vim.tbl_extend("keep", { cwd = "~/dev/dotfiles" }, no_preview)) end
+  "n",
+  "<leader>fd",
+  function() require("telescope.builtin").find_files(vim.tbl_extend("keep", { cwd = "~/dev/dotfiles" }, no_preview)) end
 )
 
 -- treesitter
 require("nvim-treesitter.configs").setup {
-    ensure_installed = { "json", "yaml", "c", "cpp", "lua", "rust", "go", "python", "php" },
-    context_commentstring = {
-        enable = true,
+  ensure_installed = { "json", "yaml", "c", "cpp", "lua", "rust", "go", "python", "php" },
+  context_commentstring = {
+    enable = true,
+  },
+  highlight = {
+    enable = true,
+  },
+  rainbow = {
+    enable = true,
+    extended_mode = true, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
+    max_file_lines = nil, -- Do not enable for files with more than n lines, int
+  },
+  textobjects = {
+    move = {
+      enable = true,
+      set_jumps = true, -- whether to set jumps in the jumplist
+      goto_next_start = {
+        ["]m"] = "@function.outer",
+        ["]]"] = "@class.outer",
+      },
+      goto_next_end = {
+        ["]M"] = "@function.outer",
+        ["]["] = "@class.outer",
+      },
+      goto_previous_start = {
+        ["[m"] = "@function.outer",
+        ["[["] = "@class.outer",
+      },
+      goto_previous_end = {
+        ["[M"] = "@function.outer",
+        ["[]"] = "@class.outer",
+      },
     },
-    highlight = {
-        enable = true,
-    },
-    rainbow = {
-        enable = true,
-        extended_mode = true, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
-        max_file_lines = nil, -- Do not enable for files with more than n lines, int
-    },
-    textobjects = {
-        move = {
-            enable = true,
-            set_jumps = true, -- whether to set jumps in the jumplist
-            goto_next_start = {
-                ["]m"] = "@function.outer",
-                ["]]"] = "@class.outer",
-            },
-            goto_next_end = {
-                ["]M"] = "@function.outer",
-                ["]["] = "@class.outer",
-            },
-            goto_previous_start = {
-                ["[m"] = "@function.outer",
-                ["[["] = "@class.outer",
-            },
-            goto_previous_end = {
-                ["[M"] = "@function.outer",
-                ["[]"] = "@class.outer",
-            },
-        },
-        select = {
-            enable = true,
+    select = {
+      enable = true,
 
-            -- Automatically jump forward to textobj, similar to targets.vim
-            lookahead = true,
+      -- Automatically jump forward to textobj, similar to targets.vim
+      lookahead = true,
 
-            keymaps = {
-                -- You can use the capture groups defined in textobjects.scm
-                ["af"] = "@function.outer",
-                ["if"] = "@function.inner",
-                ["ac"] = "@class.outer",
-                ["ic"] = "@class.inner",
-            },
-        },
+      keymaps = {
+        -- You can use the capture groups defined in textobjects.scm
+        ["af"] = "@function.outer",
+        ["if"] = "@function.inner",
+        ["ac"] = "@class.outer",
+        ["ic"] = "@class.inner",
+      },
     },
+  },
 }
 pcall(require("nvim-treesitter.install").update { with_sync = true })
 
 -- Toggleterm
 require("toggleterm").setup {
-    size = function(term)
-        if term.direction == "horizontal" then
-            return 15
-        elseif term.direction == "vertical" then
-            return vim.o.columns * 0.4
-        end
-    end,
-    direction = "vertical",
+  size = function(term)
+    if term.direction == "horizontal" then
+      return 15
+    elseif term.direction == "vertical" then
+      return vim.o.columns * 0.4
+    end
+  end,
+  direction = "vertical",
 }
 
 vim.keymap.set({ "n", "t" }, "<leader>;", "<cmd>ToggleTerm direction=float<CR>", {})

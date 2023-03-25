@@ -39,6 +39,15 @@ reload() {
     source ~/.zshrc
 }
 
+o() {
+    tmux new-session -A -t $(realpath $1) -c $(realpath $1)
+}
+
+alias tl='tmux list-sessions'
+alias tks="tmux kill-server"
+alias tk="tmux kill-session -t"
+alias ta="tmux attach -t"
+
 snappvpn() {
     sudo openfortivpn -c ~/snapp-fortigate.conf
 }
