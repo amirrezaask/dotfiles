@@ -137,7 +137,7 @@ require("lazy").setup {
 }
 
 -- Colorschemes
-pcall(vim.cmd.colorscheme, "tokyonight-storm")
+pcall(vim.cmd.colorscheme, "tokyonight-night")
 if vim.g.transparent then vim.api.nvim_set_hl(0, "Normal", { bg = "none" }) end
 
 -- nvim-cmp
