@@ -84,12 +84,18 @@ require("lazy").setup {
     "rose-pine/neovim",
     name = "rose-pine",
     opt = { disable_background = vim.g.transparent, disable_float_background = vim.g.transparent },
+    config = function(_, opts) require("rose-pine").setup(opts) end,
   },
   { "catppuccin/nvim", name = "catppuccin", opt = { transparent_background = vim.g.transparent } },
   { "Mofiqul/dracula.nvim", opt = { transparent_bg = vim.g.transparent } },
   { "ellisonleao/gruvbox.nvim", opt = { transparent_mode = vim.g.transparent } },
   { "eemed/sitruuna.vim" },
-  { "numToStr/Comment.nvim", opt = {} },
+  { "numToStr/Comment.nvim", config = function() require("Comment").setup() end },
+  {
+    "nvim-lualine/lualine.nvim",
+    opts = {},
+    config = function(_, opts) require("lualine").setup(opts) end,
+  },
   {
     "nvim-telescope/telescope.nvim",
     dependencies = { "nvim-lua/plenary.nvim", { "nvim-telescope/telescope-fzf-native.nvim", build = "make" } },
@@ -137,7 +143,7 @@ require("lazy").setup {
 }
 
 -- Colorschemes
-pcall(vim.cmd.colorscheme, "tokyonight-night")
+pcall(vim.cmd.colorscheme, "rose-pine")
 if vim.g.transparent then vim.api.nvim_set_hl(0, "Normal", { bg = "none" }) end
 
 -- nvim-cmp
