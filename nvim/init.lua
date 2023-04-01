@@ -92,11 +92,6 @@ require("lazy").setup {
   { "eemed/sitruuna.vim" },
   { "numToStr/Comment.nvim", config = function() require("Comment").setup() end },
   {
-    "nvim-lualine/lualine.nvim",
-    opts = {},
-    config = function(_, opts) require("lualine").setup(opts) end,
-  },
-  {
     "nvim-telescope/telescope.nvim",
     dependencies = { "nvim-lua/plenary.nvim", { "nvim-telescope/telescope-fzf-native.nvim", build = "make" } },
   },
