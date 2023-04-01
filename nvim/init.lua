@@ -126,14 +126,14 @@ require("lazy").setup {
   { "windwp/nvim-autopairs" }, -- Auto insert pairs like () [] {}
   { "lewis6991/gitsigns.nvim" }, -- Signs next to line numbers to show git status of a line
   { "tpope/vim-fugitive" }, -- Best Git Client after magit :)
-  { "akinsho/toggleterm.nvim" }, -- Terminal emulator that we deserve
+  { "akinsho/toggleterm.nvim", opts = { direction = "tab" } }, -- Terminal emulator that we deserve
   { "dag/vim-fish" }, -- Vim fish syntax
   { "jansedivy/jai.vim" },
   { "aserowy/tmux.nvim", opts = {} }, -- tmux integration
 }
 
 -- Colorschemes
-pcall(vim.cmd.colorscheme, "rose-pine")
+pcall(vim.cmd.colorscheme, "tokyonight-night")
 if vim.g.transparent then vim.api.nvim_set_hl(0, "Normal", { bg = "none" }) end
 
 -- nvim-cmp: Autocomplete [[[
@@ -262,9 +262,10 @@ vim.keymap.set("n", "<leader>gl", function() gs.blame_line { full = true } end)
 vim.keymap.set("n", "<leader>gD", function() gs.diffthis "~" end)
 vim.keymap.set("n", "<leader>gd", function() gs.toggle_deleted() end)
 vim.api.nvim_create_user_command("Gp", function(_, _) vim.cmd.Git "push" end, {})
+vim.keymap.set("n", "<leader>gP", function() vim.cmd.Git "push" end)
 -- ]]]
 
--- telescope [[[
+-- Telescope [[[
 require("telescope").setup {}
 local no_preview = { previewer = false }
 local dropdown = require("telescope.themes").get_dropdown(no_preview)
@@ -284,44 +285,14 @@ vim.keymap.set("n", "<leader>fh", function() require("telescope.builtin").help_t
 -- treesitter
 require("nvim-treesitter.configs").setup {
   ensure_installed = { "json", "yaml", "c", "cpp", "lua", "rust", "go", "python", "php" },
-  context_commentstring = {
-    enable = true,
-  },
-  highlight = {
-    enable = true,
-  },
-  rainbow = {
-    enable = true,
-    extended_mode = true, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
-    max_file_lines = nil, -- Do not enable for files with more than n lines, int
-  },
+  context_commentstring = { enable = true },
+  highlight = { enable = true },
+  rainbow = { enable = true, extended_mode = true, max_file_lines = nil },
   textobjects = {
-    move = {
-      enable = true,
-      set_jumps = true, -- whether to set jumps in the jumplist
-      goto_next_start = {
-        ["]m"] = "@function.outer",
-        ["]]"] = "@class.outer",
-      },
-      goto_next_end = {
-        ["]M"] = "@function.outer",
-        ["]["] = "@class.outer",
-      },
-      goto_previous_start = {
-        ["[m"] = "@function.outer",
-        ["[["] = "@class.outer",
-      },
-      goto_previous_end = {
-        ["[M"] = "@function.outer",
-        ["[]"] = "@class.outer",
-      },
-    },
     select = {
       enable = true,
-
       -- Automatically jump forward to textobj, similar to targets.vim
       lookahead = true,
-
       keymaps = {
         -- You can use the capture groups defined in textobjects.scm
         ["af"] = "@function.outer",
@@ -334,16 +305,6 @@ require("nvim-treesitter.configs").setup {
 }
 pcall(require("nvim-treesitter.install").update { with_sync = true })
 
--- Toggleterm
-require("toggleterm").setup {
-  size = function(term)
-    if term.direction == "horizontal" then
-      return 15
-    elseif term.direction == "vertical" then
-      return vim.o.columns * 0.4
-    end
-  end,
-  direction = "vertical",
-}
-
-vim.keymap.set({ "n", "t" }, "<leader>;", "<cmd>ToggleTerm direction=float<CR>", {})
+-- Toggleterm [[[
+vim.keymap.set({ "n", "t" }, "<C-`>", "<cmd>ToggleTerm<CR>", {})
+-- ]]]
