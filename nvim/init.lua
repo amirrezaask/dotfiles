@@ -9,7 +9,6 @@ vim.opt.smartindent = true
 vim.opt.wrap = false
 vim.opt.swapfile = false
 vim.opt.backup = false
-vim.opt.undodir = os.getenv "HOME" .. "/.vim/undodir"
 vim.opt.undofile = true
 vim.opt.hlsearch = false
 vim.opt.incsearch = true
@@ -48,14 +47,6 @@ vim.keymap.set("t", "jk", "<C-\\><C-n>")
 vim.keymap.set("t", "kj", "<C-\\><C-n>")
 vim.keymap.set("i", "jk", "<esc>")
 vim.keymap.set("i", "kj", "<esc>")
-vim.keymap.set("n", "<C-h>", "<C-w>h")
-vim.keymap.set("n", "<C-j>", "<C-w>j")
-vim.keymap.set("n", "<C-k>", "<C-w>k")
-vim.keymap.set("n", "<C-l>", "<C-w>l")
-vim.keymap.set("t", "<C-h>", "<cmd>wincmd h<CR>")
-vim.keymap.set("t", "<C-j>", "<cmd>wincmd j<CR>")
-vim.keymap.set("t", "<C-k>", "<cmd>wincmd k<CR>")
-vim.keymap.set("t", "<C-l>", "<cmd>wincmd l<CR>")
 vim.keymap.set("n", "<A-l>", "<C-w><")
 vim.keymap.set("n", "<A-h>", "<C-w>>")
 vim.keymap.set("n", "<A-j>", "<C-w>-")
@@ -64,6 +55,7 @@ vim.keymap.set("t", "<A-l>", "<C-\\><C-n><C-w><")
 vim.keymap.set("t", "<A-h>", "<C-\\><C-n><C-w>>")
 vim.keymap.set("t", "<A-j>", "<C-\\><C-n><C-w>-")
 vim.keymap.set("t", "<A-k>", "<C-\\><C-n><C-w>+")
+vim.keymap.set("n", "<leader>e", ":Explore<CR>")
 
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -79,6 +71,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup {
+  -- Colorschemes [[[
   { "folke/tokyonight.nvim", opt = { transparent = vim.g.transparent } },
   {
     "rose-pine/neovim",
@@ -90,16 +83,19 @@ require("lazy").setup {
   { "Mofiqul/dracula.nvim", opt = { transparent_bg = vim.g.transparent } },
   { "ellisonleao/gruvbox.nvim", opt = { transparent_mode = vim.g.transparent } },
   { "eemed/sitruuna.vim" },
+  -- ]]]
+
   { "numToStr/Comment.nvim", config = function() require("Comment").setup() end },
-  {
+
+  { --
     "nvim-telescope/telescope.nvim",
     dependencies = { "nvim-lua/plenary.nvim", { "nvim-telescope/telescope-fzf-native.nvim", build = "make" } },
   },
-  {
+  { -- Treesitter, incremental, fast parsing
     "nvim-treesitter/nvim-treesitter",
     dependencies = { "nvim-treesitter/nvim-treesitter-textobjects", "nvim-treesitter/playground" },
   },
-  {
+  { -- LSP: Language server configs + Auto install LSPs
     "neovim/nvim-lspconfig",
     dependencies = {
       "williamboman/mason.nvim",
@@ -109,7 +105,7 @@ require("lazy").setup {
     },
   },
   {
-    "hrsh7th/nvim-cmp",
+    "hrsh7th/nvim-cmp", -- Autocompletion popup
     dependencies = {
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/cmp-vsnip",
@@ -118,7 +114,7 @@ require("lazy").setup {
       "hrsh7th/cmp-buffer",
     },
   },
-  { "jose-elias-alvarez/null-ls.nvim" },
+  { "jose-elias-alvarez/null-ls.nvim" }, -- Adapt third party tools as LSP servers.
   { "stevearc/oil.nvim", opt = {} }, -- File manager like a BOSS
   { "pbrisbin/vim-mkdir" }, -- Automatically create directory if not exists
   { "fladson/vim-kitty" }, -- Support Kitty terminal config syntax
@@ -132,7 +128,6 @@ require("lazy").setup {
   { "tpope/vim-fugitive" }, -- Best Git Client after magit :)
   { "akinsho/toggleterm.nvim" }, -- Terminal emulator that we deserve
   { "dag/vim-fish" }, -- Vim fish syntax
-  { "imsnif/kdl.vim" },
   { "jansedivy/jai.vim" },
   { "aserowy/tmux.nvim", opts = {} }, -- tmux integration
 }
@@ -141,7 +136,7 @@ require("lazy").setup {
 pcall(vim.cmd.colorscheme, "rose-pine")
 if vim.g.transparent then vim.api.nvim_set_hl(0, "Normal", { bg = "none" }) end
 
--- nvim-cmp
+-- nvim-cmp: Autocomplete [[[
 local cmp = require "cmp"
 cmp.setup {
   snippet = {
@@ -161,10 +156,12 @@ cmp.setup {
     { name = "path" },
   },
 }
+-- ]]]
 
+-- LSP [[[
 -- Mason
 require("mason").setup {}
-for _, pkg in ipairs { "stylua", "golangci-lint", "goimports", "gofumpt", "yamlfmt" } do -- ensure these tools are installed
+for _, pkg in ipairs { "stylua", "golangci-lint", "goimports", "yamlfmt" } do -- ensure these tools are installed
   if not require("mason-registry").is_installed(pkg) then require("mason.api.command").MasonInstall { pkg } end
 end
 
@@ -233,6 +230,8 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   callback = function(_) vim.lsp.buf.format() end,
 })
 
+-- ]]]
+
 -- null ls
 require("null-ls").setup {
   sources = {
@@ -246,7 +245,7 @@ require("null-ls").setup {
   },
 }
 
--- Git
+-- Git [[[
 local gs = require "gitsigns"
 gs.setup {
   signs = {
@@ -263,8 +262,9 @@ vim.keymap.set("n", "<leader>gl", function() gs.blame_line { full = true } end)
 vim.keymap.set("n", "<leader>gD", function() gs.diffthis "~" end)
 vim.keymap.set("n", "<leader>gd", function() gs.toggle_deleted() end)
 vim.api.nvim_create_user_command("Gp", function(_, _) vim.cmd.Git "push" end, {})
+-- ]]]
 
--- telescope
+-- telescope [[[
 require("telescope").setup {}
 local no_preview = { previewer = false }
 local dropdown = require("telescope.themes").get_dropdown(no_preview)
@@ -279,13 +279,7 @@ vim.keymap.set("n", "<leader>o", function() require("telescope.builtin").treesit
 vim.keymap.set("n", "??", function() require("telescope.builtin").live_grep() end)
 vim.keymap.set("n", "<leader>fc", function() require("telescope.builtin").commands() end)
 vim.keymap.set("n", "<leader>fh", function() require("telescope.builtin").help_tags(no_preview) end)
-
--- Edit configurations
-vim.keymap.set(
-  "n",
-  "<leader>fd",
-  function() require("telescope.builtin").find_files(vim.tbl_extend("keep", { cwd = "~/dev/dotfiles" }, no_preview)) end
-)
+-- ]]]
 
 -- treesitter
 require("nvim-treesitter.configs").setup {
