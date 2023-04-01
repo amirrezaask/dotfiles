@@ -126,15 +126,18 @@ require("lazy").setup {
   { "windwp/nvim-autopairs" }, -- Auto insert pairs like () [] {}
   { "lewis6991/gitsigns.nvim" }, -- Signs next to line numbers to show git status of a line
   { "tpope/vim-fugitive" }, -- Best Git Client after magit :)
-  { "akinsho/toggleterm.nvim", opts = { direction = "tab" } }, -- Terminal emulator that we deserve
   { "dag/vim-fish" }, -- Vim fish syntax
   { "jansedivy/jai.vim" },
   { "aserowy/tmux.nvim", opts = {} }, -- tmux integration
 }
 
 -- Colorschemes
-pcall(vim.cmd.colorscheme, "tokyonight-night")
-if vim.g.transparent then vim.api.nvim_set_hl(0, "Normal", { bg = "none" }) end
+pcall(vim.cmd.colorscheme, "rose-pine")
+if vim.g.transparent then
+  vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+  vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+  vim.api.nvim_set_hl(0, "NormalNC", { bg = "none" })
+end
 
 -- nvim-cmp: Autocomplete [[[
 local cmp = require "cmp"
@@ -199,8 +202,6 @@ mason_lspconfig.setup_handlers {
       on_attach = function(_, bufnr)
         vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
         local buffer = { buffer = bufnr }
-
-        -- Vim classic keybindings
         vim.keymap.set("n", "gd", vim.lsp.buf.definition, buffer)
         vim.keymap.set("n", "gD", vim.lsp.buf.declaration, buffer)
         vim.keymap.set("n", "gi", vim.lsp.buf.implementation, buffer)
@@ -304,7 +305,3 @@ require("nvim-treesitter.configs").setup {
   },
 }
 pcall(require("nvim-treesitter.install").update { with_sync = true })
-
--- Toggleterm [[[
-vim.keymap.set({ "n", "t" }, "<C-`>", "<cmd>ToggleTerm<CR>", {})
--- ]]]
