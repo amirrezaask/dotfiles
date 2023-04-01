@@ -66,10 +66,10 @@ then
     export EDITOR='nvim'
 fi
 
-# if ! command -v starship &> /dev/null
-# then
-#     curl -sS https://starship.rs/install.sh | sh
-# fi
+if ! command -v starship &> /dev/null
+then
+    curl -sS https://starship.rs/install.sh | sh
+fi
 
 # for git diff
 if ! command -v delta &> /dev/null
@@ -84,7 +84,7 @@ then
     fi
 fi
 
-# eval "$(starship init zsh)"
+eval "$(starship init zsh)"
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
