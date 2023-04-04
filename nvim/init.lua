@@ -274,14 +274,11 @@ local dropdown = require("telescope.themes").get_dropdown(no_preview)
 
 require("telescope").load_extension "fzf"
 
-vim.keymap.set("n", "<leader><leader>", function() require("telescope.builtin").find_files(no_preview) end)
-vim.keymap.set("n", "<C-p>", function() require("telescope.builtin").find_files(no_preview) end)
+vim.keymap.set("n", "<leader><leader>", function() require("telescope.builtin").git_files(no_preview) end)
 vim.keymap.set("n", "<leader>ff", function() require("telescope.builtin").find_files(no_preview) end)
-vim.keymap.set("n", "<leader>fg", function() require("telescope.builtin").git_files(no_preview) end)
-vim.keymap.set("n", "<leader>o", function() require("telescope.builtin").treesitter(dropdown) end)
 vim.keymap.set("n", "??", function() require("telescope.builtin").live_grep() end)
-vim.keymap.set("n", "<leader>fc", function() require("telescope.builtin").commands() end)
-vim.keymap.set("n", "<leader>fh", function() require("telescope.builtin").help_tags(no_preview) end)
+vim.keymap.set("n", "<C-p>", function() require("telescope.builtin").git_files(no_preview) end)
+vim.keymap.set("n", "<leader>o", function() require("telescope.builtin").treesitter(dropdown) end)
 -- ]]]
 
 -- treesitter
