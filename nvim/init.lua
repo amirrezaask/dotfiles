@@ -86,6 +86,7 @@ require("lazy").setup {
   -- ]]]
 
   { "numToStr/Comment.nvim", config = function() require("Comment").setup() end },
+  { "mhinz/vim-startify" },
 
   { --
     "nvim-telescope/telescope.nvim",
