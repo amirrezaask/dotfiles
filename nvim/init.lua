@@ -72,20 +72,20 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup {
   -- Colorschemes [[[
-  { "folke/tokyonight.nvim",    opt = { transparent = vim.g.transparent } },
+  { "folke/tokyonight.nvim", opt = { transparent = vim.g.transparent } },
   {
     "rose-pine/neovim",
     name = "rose-pine",
     opt = { disable_background = vim.g.transparent, disable_float_background = vim.g.transparent },
     config = function(_, opts) require("rose-pine").setup(opts) end,
   },
-  { "catppuccin/nvim",          name = "catppuccin",                               opt = { transparent_background = vim.g.transparent } },
-  { "Mofiqul/dracula.nvim",     opt = { transparent_bg = vim.g.transparent } },
+  { "catppuccin/nvim", name = "catppuccin", opt = { transparent_background = vim.g.transparent } },
+  { "Mofiqul/dracula.nvim", opt = { transparent_bg = vim.g.transparent } },
   { "ellisonleao/gruvbox.nvim", opt = { transparent_mode = vim.g.transparent } },
   { "eemed/sitruuna.vim" },
   -- ]]]
 
-  { "numToStr/Comment.nvim",    config = function() require("Comment").setup() end },
+  { "numToStr/Comment.nvim", config = function() require("Comment").setup() end },
 
   { --
     "nvim-telescope/telescope.nvim",
@@ -115,7 +115,7 @@ require("lazy").setup {
     },
   },
   { "jose-elias-alvarez/null-ls.nvim" }, -- Adapt third party tools as LSP servers.
-  { "stevearc/oil.nvim",              opt = {} }, -- File manager like a BOSS
+  { "stevearc/oil.nvim", opt = {} }, -- File manager like a BOSS
   { "pbrisbin/vim-mkdir" }, -- Automatically create directory if not exists
   { "fladson/vim-kitty" }, -- Support Kitty terminal config syntax
   { "towolf/vim-helm" }, -- Support for helm template syntax
@@ -127,8 +127,8 @@ require("lazy").setup {
   { "lewis6991/gitsigns.nvim" }, -- Signs next to line numbers to show git status of a line
   { "tpope/vim-fugitive" }, -- Best Git Client after magit :)
   { "dag/vim-fish" }, -- Vim fish syntax
-  { "jansedivy/jai.vim" },
-  { "aserowy/tmux.nvim",              opts = {} }, -- tmux integration
+  { "jansedivy/jai.vim" }, -- Jai from Jonathan Blow
+  { "aserowy/tmux.nvim", opts = {} }, -- tmux integration
 }
 
 -- Colorschemes
@@ -146,7 +146,7 @@ cmp.setup {
     expand = function(args) vim.fn["vsnip#anonymous"](args.body) end,
   },
   mapping = cmp.mapping.preset.insert {
-    ["<C-d>"] = cmp.mapping.scroll_docs( -4),
+    ["<C-d>"] = cmp.mapping.scroll_docs(-4),
     ["<C-f>"] = cmp.mapping.scroll_docs(4),
     ["<C-Space>"] = cmp.mapping.complete {},
     ["<CR>"] = cmp.mapping.confirm { behavior = cmp.ConfirmBehavior.Replace, select = true },
