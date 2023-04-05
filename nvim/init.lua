@@ -40,13 +40,13 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup {
   -- Colorschemes [[[
   { "folke/tokyonight.nvim" },
-  { "rose-pine/neovim",        name = "rose-pine" },
-  { "catppuccin/nvim",         name = "catppuccin" },
+  { "rose-pine/neovim", name = "rose-pine" },
+  { "catppuccin/nvim", name = "catppuccin" },
   { "Mofiqul/dracula.nvim" },
   { "ellisonleao/gruvbox.nvim" },
   -- ]]]
 
-  { "numToStr/Comment.nvim",   opts = {} }, -- Comment
+  { "numToStr/Comment.nvim", opts = {} }, -- Comment
 
   { -- telescope
     "nvim-telescope/telescope.nvim",
@@ -80,13 +80,20 @@ require("lazy").setup {
       pcall(require("nvim-treesitter.install").update { with_sync = true })
     end,
   },
-  { -- LSP: Language server configs + Auto install LSPs
+  { -- LSP + Mason + Completion: Language server configs + Auto install LSPs + Autocomplete menu
     "neovim/nvim-lspconfig",
     dependencies = {
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
       "folke/neodev.nvim",
       { "j-hui/fidget.nvim", opts = {} },
+      "hrsh7th/nvim-cmp", -- Autocompletion popup
+      "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/cmp-vsnip",
+      "hrsh7th/vim-vsnip",
+      "hrsh7th/cmp-path",
+      "hrsh7th/cmp-buffer",
+      "jose-elias-alvarez/null-ls.nvim",
     },
     config = function()
       require("mason").setup {}
@@ -134,19 +141,6 @@ require("lazy").setup {
         pattern = { "*.rs", "*.lua" },
         callback = function(_) vim.lsp.buf.format() end,
       })
-    end,
-  },
-
-  {
-    "hrsh7th/nvim-cmp", -- Autocompletion popup
-    dependencies = {
-      "hrsh7th/cmp-nvim-lsp",
-      "hrsh7th/cmp-vsnip",
-      "hrsh7th/vim-vsnip",
-      "hrsh7th/cmp-path",
-      "hrsh7th/cmp-buffer",
-    },
-    config = function()
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
       local cmp = require "cmp"
@@ -163,25 +157,19 @@ require("lazy").setup {
           { name = "path" },
         },
       }
-    end,
-  },
-  {
-    "jose-elias-alvarez/null-ls.nvim",
-    config = function()
       require("null-ls").setup {
         sources = {
           require("null-ls").builtins.code_actions.gitsigns,
-
           require("null-ls").builtins.diagnostics.golangci_lint,
           require("null-ls").builtins.diagnostics.trail_space.with { disabled_filetypes = { "NvimTree" } },
-
           require("null-ls").builtins.formatting.stylua,
           require("null-ls").builtins.formatting.goimports,
         },
       }
     end,
-  }, -- Adapt third party tools as LSP servers.
-  { "stevearc/oil.nvim",    opt = {} }, -- File manager like a BOSS
+  },
+
+  { "stevearc/oil.nvim", opt = {} }, -- File manager like a BOSS
   { "pbrisbin/vim-mkdir" }, -- Automatically create directory if not exists
   { "fladson/vim-kitty" }, -- Support Kitty terminal config syntax
   { "towolf/vim-helm" }, -- Support for helm template syntax
@@ -225,68 +213,76 @@ require("lazy").setup {
 }
 
 -- Colorschemes
-pcall(vim.cmd.colorscheme, "tokyonight-night")
+pcall(vim.cmd.colorscheme, "gruvbox")
 vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
 vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
 vim.api.nvim_set_hl(0, "NormalNC", { bg = "none" })
 
 -- Keybindings
+local bind = vim.keymap.set
+-- Editing
+bind("t", "<Esc>", "<C-\\><C-n>")
+bind("t", "jk", "<C-\\><C-n>")
+bind("t", "kj", "<C-\\><C-n>")
+bind("i", "jk", "<esc>")
+bind("i", "kj", "<esc>")
+bind("n", "Y", "y$")
+-- Window management
+bind("n", "<leader>v", "<cmd>vsplit<CR>")
+bind("n", "<leader>h", "<cmd>split<CR>")
+bind("n", "<C-h>", "<cmd>wincmd h<CR>")
+bind("n", "<C-j>", "<cmd>wincmd j<CR>")
+bind("n", "<C-k>", "<cmd>wincmd k<CR>")
+bind("n", "<C-l>", "<cmd>wincmd l<CR>")
+bind("n", "<A-l>", "<C-w><")
+bind("n", "<A-h>", "<C-w>>")
+bind("n", "<A-j>", "<C-w>-")
+bind("n", "<A-k>", "<C-w>+")
+bind("t", "<A-l>", "<C-\\><C-n><C-w><")
+bind("t", "<A-h>", "<C-\\><C-n><C-w>>")
+bind("t", "<A-j>", "<C-\\><C-n><C-w>-")
+bind("t", "<A-k>", "<C-\\><C-n><C-w>+")
+-- Git
+bind("n", "<leader>gs", vim.cmd.Git)
+bind("n", "<leader>gl", function() require("gitsigns").blame_line { full = true } end)
+bind("n", "<leader>gd", function() require("gitsigns").diffthis "~" end)
+bind("n", "<leader>gP", function() vim.cmd.Git "push" end)
+-- Navigation
 local no_preview = { previewer = false }
 local dropdown = require("telescope.themes").get_dropdown(no_preview)
-vim.keymap.set("n", "<leader>v", "<cmd>vsplit<CR>")
-vim.keymap.set("n", "<leader>h", "<cmd>split<CR>")
-vim.keymap.set("n", "<leader><leader>", function() require("telescope.builtin").git_files(no_preview) end)
-vim.keymap.set("n", "<leader>ff", function() require("telescope.builtin").find_files(no_preview) end)
-vim.keymap.set("n", "<C-p>", function() require("telescope.builtin").git_files(no_preview) end)
-vim.keymap.set("n", "<leader>k", function() require("telescope.builtin").current_buffer_fuzzy_find(no_preview) end)
-vim.keymap.set("n", "<leader>o", function() require("telescope.builtin").treesitter(dropdown) end)
-vim.keymap.set("n", "??", function() require("telescope.builtin").live_grep() end)
-vim.keymap.set("n", "<leader>gs", vim.cmd.Git)
-vim.keymap.set("n", "<leader>gl", function() require("gitsigns").blame_line { full = true } end)
-vim.keymap.set("n", "<leader>gd", function() require("gitsigns").diffthis "~" end)
-vim.keymap.set("n", "<leader>gP", function() vim.cmd.Git "push" end)
-vim.keymap.set("n", "<C-d>", "<C-d>zz")
-vim.keymap.set("n", "<C-u>", "<C-u>zz")
-vim.keymap.set("n", "Q", "<NOP>")
-vim.keymap.set("n", "{", ":cprev<CR>")
-vim.keymap.set("n", "}", ":cnext<CR>")
-vim.keymap.set("n", "Y", "y$")
-vim.keymap.set("n", "n", "nzz")
-vim.keymap.set("n", "N", "Nzz")
-vim.keymap.set("n", "j", "gj")
-vim.keymap.set("n", "k", "gk")
-vim.keymap.set("n", "<CR>", [[ {-> v:hlsearch ? ':nohl<CR>' : '<CR>'}() ]], { expr = true })
-vim.keymap.set("t", "<Esc>", "<C-\\><C-n>")
-vim.keymap.set("t", "jk", "<C-\\><C-n>")
-vim.keymap.set("t", "kj", "<C-\\><C-n>")
-vim.keymap.set("i", "jk", "<esc>")
-vim.keymap.set("i", "kj", "<esc>")
-vim.keymap.set("n", "<A-l>", "<C-w><")
-vim.keymap.set("n", "<A-h>", "<C-w>>")
-vim.keymap.set("n", "<A-j>", "<C-w>-")
-vim.keymap.set("n", "<A-k>", "<C-w>+")
-vim.keymap.set("t", "<A-l>", "<C-\\><C-n><C-w><")
-vim.keymap.set("t", "<A-h>", "<C-\\><C-n><C-w>>")
-vim.keymap.set("t", "<A-j>", "<C-\\><C-n><C-w>-")
-vim.keymap.set("t", "<A-k>", "<C-\\><C-n><C-w>+")
-vim.keymap.set({ "n", "t" }, "<leader>j", "<cmd>ToggleTerm<CR>")
+bind("n", "<C-d>", "<C-d>zz")
+bind("n", "<C-u>", "<C-u>zz")
+bind("n", "<leader><leader>", function() require("telescope.builtin").git_files(no_preview) end)
+bind("n", "<leader>ff", function() require("telescope.builtin").find_files(no_preview) end)
+bind("n", "<C-p>", function() require("telescope.builtin").git_files(no_preview) end)
+bind("n", "<leader>k", function() require("telescope.builtin").current_buffer_fuzzy_find(no_preview) end)
+bind("n", "<leader>o", function() require("telescope.builtin").treesitter(dropdown) end)
+bind("n", "??", function() require("telescope.builtin").live_grep() end)
+bind("n", "Q", "<NOP>")
+bind("n", "{", ":cprev<CR>")
+bind("n", "}", ":cnext<CR>")
+bind("n", "n", "nzz")
+bind("n", "N", "Nzz")
+bind("n", "<CR>", [[ {-> v:hlsearch ? ':nohl<CR>' : '<CR>'}() ]], { expr = true })
+bind({ "n", "t" }, "<leader>j", "<cmd>ToggleTerm<CR>")
+-- LSP
 vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(args)
     local bufnr = args.buf
     vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
     local buffer = { buffer = bufnr }
-    vim.keymap.set("n", "gd", vim.lsp.buf.definition, buffer)
-    vim.keymap.set("n", "gD", vim.lsp.buf.declaration, buffer)
-    vim.keymap.set("n", "gi", vim.lsp.buf.implementation, buffer)
-    vim.keymap.set("n", "gr", vim.lsp.buf.references, buffer)
-    vim.keymap.set("n", "R", vim.lsp.buf.rename, buffer)
-    vim.keymap.set("n", "K", vim.lsp.buf.hover, buffer)
-    vim.keymap.set("n", "gf", vim.lsp.buf.format, buffer)
-    vim.keymap.set("n", "gl", vim.diagnostic.open_float, buffer)
-    vim.keymap.set("n", "gp", vim.diagnostic.goto_prev, buffer)
-    vim.keymap.set("n", "gn", vim.diagnostic.goto_next, buffer)
-    vim.keymap.set("n", "C", vim.lsp.buf.code_action, buffer)
-    vim.keymap.set("n", "<C-s>", vim.lsp.buf.signature_help, buffer)
-    vim.keymap.set("i", "<C-s>", vim.lsp.buf.signature_help, buffer)
+    bind("n", "gd", vim.lsp.buf.definition, buffer)
+    bind("n", "gD", vim.lsp.buf.declaration, buffer)
+    bind("n", "gi", vim.lsp.buf.implementation, buffer)
+    bind("n", "gr", vim.lsp.buf.references, buffer)
+    bind("n", "R", vim.lsp.buf.rename, buffer)
+    bind("n", "K", vim.lsp.buf.hover, buffer)
+    bind("n", "gf", vim.lsp.buf.format, buffer)
+    bind("n", "gl", vim.diagnostic.open_float, buffer)
+    bind("n", "gp", vim.diagnostic.goto_prev, buffer)
+    bind("n", "gn", vim.diagnostic.goto_next, buffer)
+    bind("n", "C", vim.lsp.buf.code_action, buffer)
+    bind("n", "<C-s>", vim.lsp.buf.signature_help, buffer)
+    bind("i", "<C-s>", vim.lsp.buf.signature_help, buffer)
   end,
 })
