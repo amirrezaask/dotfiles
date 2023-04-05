@@ -1,10 +1,6 @@
 vim.opt.number = true -- Line numbers
 vim.opt.relativenumber = true -- Relative line numbers
 vim.opt.errorbells = false
-vim.opt.tabstop = 4
-vim.opt.softtabstop = 4
-vim.opt.shiftwidth = 4
-vim.opt.expandtab = true
 vim.opt.smartindent = true
 vim.opt.wrap = false
 vim.opt.swapfile = false
@@ -13,7 +9,6 @@ vim.opt.undofile = true
 vim.opt.hlsearch = false
 vim.opt.incsearch = true
 vim.opt.termguicolors = true
-vim.opt.scrolloff = 8
 vim.opt.signcolumn = "yes"
 vim.opt.isfname:append "@-@"
 vim.opt.updatetime = 50
@@ -24,7 +19,6 @@ vim.opt.clipboard:append "unnamedplus" -- use system clipboard as default regist
 vim.opt.splitbelow = true
 vim.opt.splitright = true
 vim.opt.cursorline = true
-vim.g.transparent = true
 vim.g.netrw_browse_split = 0
 vim.g.netrw_banner = 0
 vim.g.netrw_winsize = 25
@@ -45,25 +39,16 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup {
   -- Colorschemes [[[
-  { "folke/tokyonight.nvim",    opt = { transparent = vim.g.transparent } },
-  {
-    "rose-pine/neovim",
-    name = "rose-pine",
-    opt = { disable_background = vim.g.transparent, disable_float_background = vim.g.transparent },
-    config = function(_, opts) require("rose-pine").setup(opts) end,
-  },
-  {
-    "catppuccin/nvim",
-    name = "catppuccin",
-    opt = { transparent_background = vim.g.transparent },
-  },
-  { "Mofiqul/dracula.nvim",     opt = { transparent_bg = vim.g.transparent } },
-  { "ellisonleao/gruvbox.nvim", opt = { transparent_mode = vim.g.transparent, contrast = "hard" } },
+  { "folke/tokyonight.nvim" },
+  { "rose-pine/neovim",        name = "rose-pine" },
+  { "catppuccin/nvim",         name = "catppuccin" },
+  { "Mofiqul/dracula.nvim" },
+  { "ellisonleao/gruvbox.nvim" },
   -- ]]]
 
-  { "numToStr/Comment.nvim",    config = function() require("Comment").setup() end },
+  { "numToStr/Comment.nvim",   opts = {} }, -- Comment
 
-  { --
+  { -- telescope
     "nvim-telescope/telescope.nvim",
     dependencies = { "nvim-lua/plenary.nvim", { "nvim-telescope/telescope-fzf-native.nvim", build = "make" } },
     config = function()
@@ -101,7 +86,7 @@ require("lazy").setup {
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
       "folke/neodev.nvim",
-      { "j-hui/fidget.nvim", opt = {} },
+      { "j-hui/fidget.nvim", opts = {} },
     },
     config = function()
       require("mason").setup {}
@@ -170,12 +155,7 @@ require("lazy").setup {
           expand = function(args) vim.fn["vsnip#anonymous"](args.body) end,
         },
         mapping = cmp.mapping.preset.insert {
-          ["<C-d>"] = cmp.mapping.scroll_docs( -4),
-          ["<C-f>"] = cmp.mapping.scroll_docs(4),
-          ["<C-Space>"] = cmp.mapping.complete {},
           ["<CR>"] = cmp.mapping.confirm { behavior = cmp.ConfirmBehavior.Replace, select = true },
-          ["<Tab>"] = nil,
-          ["<S-Tab>"] = nil,
         },
         sources = {
           { name = "nvim_lsp" },
@@ -183,7 +163,6 @@ require("lazy").setup {
           { name = "path" },
         },
       }
-      -- ]]]
     end,
   },
   {
@@ -234,7 +213,6 @@ require("lazy").setup {
   }, -- Best Git Client after magit :)
   { "dag/vim-fish" }, -- Vim fish syntax
   { "jansedivy/jai.vim" }, -- Jai from Jonathan Blow
-  { "aserowy/tmux.nvim", opts = {} }, -- tmux integration
   {
     "akinsho/toggleterm.nvim",
     config = function(_, _)
@@ -247,16 +225,16 @@ require("lazy").setup {
 }
 
 -- Colorschemes
-pcall(vim.cmd.colorscheme, "gruvbox")
-if vim.g.transparent then
-  vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-  vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
-  vim.api.nvim_set_hl(0, "NormalNC", { bg = "none" })
-end
+pcall(vim.cmd.colorscheme, "tokyonight-night")
+vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+vim.api.nvim_set_hl(0, "NormalNC", { bg = "none" })
 
 -- Keybindings
 local no_preview = { previewer = false }
 local dropdown = require("telescope.themes").get_dropdown(no_preview)
+vim.keymap.set("n", "<leader>v", "<cmd>vsplit<CR>")
+vim.keymap.set("n", "<leader>h", "<cmd>split<CR>")
 vim.keymap.set("n", "<leader><leader>", function() require("telescope.builtin").git_files(no_preview) end)
 vim.keymap.set("n", "<leader>ff", function() require("telescope.builtin").find_files(no_preview) end)
 vim.keymap.set("n", "<C-p>", function() require("telescope.builtin").git_files(no_preview) end)
@@ -269,8 +247,6 @@ vim.keymap.set("n", "<leader>gd", function() require("gitsigns").diffthis "~" en
 vim.keymap.set("n", "<leader>gP", function() vim.cmd.Git "push" end)
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
-vim.keymap.set("n", "<leader>vs", "<cmd>vsplit<CR>")
-vim.keymap.set("n", "<leader>sp", "<cmd>split<CR>")
 vim.keymap.set("n", "Q", "<NOP>")
 vim.keymap.set("n", "{", ":cprev<CR>")
 vim.keymap.set("n", "}", ":cnext<CR>")
