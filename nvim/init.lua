@@ -43,13 +43,13 @@ local function plugins()
   require("lazy").setup {
     -- Colorschemes [[[
     { "folke/tokyonight.nvim" },
-    { "rose-pine/neovim",        name = "rose-pine" },
-    { "catppuccin/nvim",         name = "catppuccin" },
+    { "rose-pine/neovim", name = "rose-pine" },
+    { "catppuccin/nvim", name = "catppuccin" },
     { "Mofiqul/dracula.nvim" },
-    { "ellisonleao/gruvbox.nvim" },
+    { "ellisonleao/gruvbox.nvim", opts = { contrast = "hard" } },
     -- ]]]
 
-    { "numToStr/Comment.nvim",   opts = {} }, -- Comment
+    { "numToStr/Comment.nvim", opts = {} }, -- Comment
 
     { -- telescope
       "nvim-telescope/telescope.nvim",
@@ -172,7 +172,7 @@ local function plugins()
       end,
     },
 
-    { "stevearc/oil.nvim",    opt = {} }, -- File manager like a BOSS
+    { "stevearc/oil.nvim", opt = {} }, -- File manager like a BOSS
     { "pbrisbin/vim-mkdir" }, -- Automatically create directory if not exists
     { "fladson/vim-kitty" }, -- Support Kitty terminal config syntax
     { "towolf/vim-helm" }, -- Support for helm template syntax
@@ -215,12 +215,11 @@ local function plugins()
     },
   }
 end
--- Colorschemes
 local function colorscheme()
   pcall(vim.cmd.colorscheme, "gruvbox")
-  vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-  vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
-  vim.api.nvim_set_hl(0, "NormalNC", { bg = "none" })
+  -- vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+  -- vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+  -- vim.api.nvim_set_hl(0, "NormalNC", { bg = "none" })
 end
 
 local function keybindings()
@@ -260,6 +259,7 @@ local function keybindings()
   bind("n", "<leader><leader>", function() require("telescope.builtin").git_files(no_preview) end)
   bind("n", "<leader>ff", function() require("telescope.builtin").find_files(no_preview) end)
   bind("n", "<C-p>", function() require("telescope.builtin").git_files(no_preview) end)
+  bind("n", "<M-p>", function() require("telescope.builtin").git_files(no_preview) end)
   bind("n", "<leader>k", function() require("telescope.builtin").current_buffer_fuzzy_find(no_preview) end)
   bind("n", "<leader>o", function() require("telescope.builtin").treesitter(dropdown) end)
   bind("n", "??", function() require("telescope.builtin").live_grep() end)
