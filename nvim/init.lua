@@ -216,10 +216,10 @@ local function plugins()
   }
 end
 local function colorscheme()
-  pcall(vim.cmd.colorscheme, "gruvbox")
-  -- vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-  -- vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
-  -- vim.api.nvim_set_hl(0, "NormalNC", { bg = "none" })
+  pcall(vim.cmd.colorscheme, "rose-pine")
+  vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+  vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+  vim.api.nvim_set_hl(0, "NormalNC", { bg = "none" })
 end
 
 local function keybindings()
@@ -254,15 +254,14 @@ local function keybindings()
   bind("n", "<leader>d", function() require("gitsigns").diffthis "~" end)
   -- Navigation
   local no_preview = { previewer = false }
-  local dropdown = require("telescope.themes").get_dropdown {}
   bind("n", "<C-d>", "<C-d>zz")
   bind("n", "<C-u>", "<C-u>zz")
   bind("n", "<leader><leader>", function() require("telescope.builtin").git_files(no_preview) end)
   bind("n", "<leader>ff", function() require("telescope.builtin").find_files(no_preview) end)
   bind("n", "<C-p>", function() require("telescope.builtin").git_files(no_preview) end)
   bind("n", "<M-p>", function() require("telescope.builtin").git_files(no_preview) end)
-  bind("n", "<leader>k", function() require("telescope.builtin").current_buffer_fuzzy_find(dropdown) end)
-  bind("n", "<leader>o", function() require("telescope.builtin").treesitter(dropdown) end)
+  bind("n", "<leader>k", function() require("telescope.builtin").current_buffer_fuzzy_find(no_preview) end)
+  bind("n", "<leader>o", function() require("telescope.builtin").treesitter(no_preview) end)
   bind("n", "??", function() require("telescope.builtin").live_grep() end)
   bind("n", "Q", "<NOP>")
   bind("n", "{", ":cprev<CR>")
@@ -290,7 +289,7 @@ local function keybindings()
       bind("n", "C", vim.lsp.buf.code_action, buffer)
       bind("n", "<C-s>", vim.lsp.buf.signature_help, buffer)
       bind("i", "<C-s>", vim.lsp.buf.signature_help, buffer)
-      bind("n", "<leader>o", function() require("telescope.builtin").lsp_document_symbols(dropdown) end, buffer)
+      bind("n", "<leader>o", function() require("telescope.builtin").lsp_document_symbols(no_preview) end, buffer)
     end,
   })
 end
