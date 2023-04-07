@@ -155,18 +155,15 @@ require("lazy").setup {
   { "windwp/nvim-autopairs" }, -- Auto insert pairs like () [] {}
   {
     "lewis6991/gitsigns.nvim",
-    config = function()
-      local gs = require "gitsigns"
-      gs.setup {
-        signs = {
-          add = { text = "+" },
-          change = { text = "~" },
-          delete = { text = "_" },
-          topdelete = { text = "‾" },
-          changedelete = { text = "~" },
-        },
-      }
-    end,
+    opts = {
+      signs = {
+        add = { text = "+" },
+        change = { text = "~" },
+        delete = { text = "_" },
+        topdelete = { text = "‾" },
+        changedelete = { text = "~" },
+      },
+    },
   }, -- Signs next to line numbers to show git status of a line
   {
     "tpope/vim-fugitive",
