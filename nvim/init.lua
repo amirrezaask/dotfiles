@@ -1,6 +1,6 @@
--- ==========================================================================
--- ==================== Plugins And Their Configurations ====================
--- ==========================================================================
+----------------------------------------------------------------------------
+---------------------- Plugins And Their Configurations --------------------
+----------------------------------------------------------------------------
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system {
@@ -33,7 +33,8 @@ require("lazy").setup {
       require("telescope").load_extension "fzf"
     end,
   },
-  { -- This section configures LSP + Treesitter + Mason: Treesitter syntax highlighting + Autocompletion + LSP
+  { "nvim-lualine/lualine.nvim", opts = {} },
+  { -- This section configures LSP + Treesitter + Mason: Treesitter syntax highlighting + Autocompletion + LSP + Auto installing LSP servers
     -- You can copy pase this section in your config and get all IDE like features easily
     -- For keybindindings check bottom of this file
     "neovim/nvim-lspconfig",
@@ -188,7 +189,7 @@ require("lazy").setup {
 -- ============================ Colorschemes ================================
 -- ==========================================================================
 
-pcall(vim.cmd.colorscheme, "rose-pine")
+pcall(vim.cmd.colorscheme, "gruvbox")
 vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
 vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
 vim.api.nvim_set_hl(0, "NormalNC", { bg = "none" })
@@ -235,9 +236,7 @@ bind("i", "kj", "<esc>")
 bind("n", "Y", "y$")
 -- Window management
 bind("n", "<leader>v", "<cmd>vsplit<CR>")
-bind("n", "<leader>\\", "<cmd>vsplit<CR>")
 bind("n", "<leader>h", "<cmd>split<CR>")
-bind("n", "<leader>-", "<cmd>split<CR>")
 bind("n", "<C-h>", "<cmd>wincmd h<CR>")
 bind("n", "<C-j>", "<cmd>wincmd j<CR>")
 bind("n", "<C-k>", "<cmd>wincmd k<CR>")
@@ -271,7 +270,7 @@ bind("n", "}", ":cnext<CR>")
 bind("n", "n", "nzz")
 bind("n", "N", "Nzz")
 bind("n", "<CR>", [[ {-> v:hlsearch ? ':nohl<CR>' : '<CR>'}() ]], { expr = true })
-bind({ "n", "t" }, "<leader>j", "<cmd>ToggleTerm<CR>")
+bind("n", "<leader>j", "<cmd>ToggleTerm<CR>")
 -- LSP
 vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(args)
