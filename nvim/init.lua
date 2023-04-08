@@ -39,18 +39,22 @@ require("lazy").setup {
     -- For keybindindings check bottom of this file
     "neovim/nvim-lspconfig",
     dependencies = {
-      "nvim-treesitter/nvim-treesitter",
-      "nvim-treesitter/nvim-treesitter-textobjects",
-      "nvim-treesitter/playground",
-      "williamboman/mason.nvim",
-      "williamboman/mason-lspconfig.nvim",
+      {
+        "nvim-treesitter/nvim-treesitter",
+        dependencies = { "nvim-treesitter/nvim-treesitter-textobjects", "nvim-treesitter/playground" },
+      },
+      { "williamboman/mason.nvim", dependencies = { "williamboman/mason-lspconfig.nvim" } },
       "folke/neodev.nvim",
-      "hrsh7th/nvim-cmp", -- Autocompletion popup
-      "hrsh7th/cmp-nvim-lsp",
-      "hrsh7th/cmp-vsnip",
-      "hrsh7th/vim-vsnip",
-      "hrsh7th/cmp-path",
-      "hrsh7th/cmp-buffer",
+      {
+        "hrsh7th/nvim-cmp", -- Autocompletion popup
+        dependencies = {
+          "hrsh7th/cmp-nvim-lsp",
+          "hrsh7th/cmp-vsnip",
+          "hrsh7th/vim-vsnip",
+          "hrsh7th/cmp-path",
+          "hrsh7th/cmp-buffer",
+        },
+      },
       "jose-elias-alvarez/null-ls.nvim",
     },
     config = function()
