@@ -16,11 +16,21 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup {
   -- Colorschemes [[[
-  { "folke/tokyonight.nvim" },
-  { "rose-pine/neovim", name = "rose-pine" },
-  { "catppuccin/nvim", name = "catppuccin" },
-  { "Mofiqul/dracula.nvim" },
-  { "ellisonleao/gruvbox.nvim", opts = { contrast = "hard" } },
+  {
+    "Mofiqul/dracula.nvim",
+    dependencies = {
+      { "folke/tokyonight.nvim" },
+      { "rose-pine/neovim", name = "rose-pine" },
+      { "catppuccin/nvim", name = "catppuccin" },
+      { "ellisonleao/gruvbox.nvim", opts = { contrast = "hard" } },
+    },
+    config = function()
+      pcall(vim.cmd.colorscheme, "gruvbox")
+      vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+      vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+      vim.api.nvim_set_hl(0, "NormalNC", { bg = "none" })
+    end,
+  },
   -- ]]]
 
   { "numToStr/Comment.nvim", opts = {} }, -- Comment
@@ -188,15 +198,6 @@ require("lazy").setup {
     end,
   },
 }
-
--- ==========================================================================
--- ============================ Colorschemes ================================
--- ==========================================================================
-
-pcall(vim.cmd.colorscheme, "gruvbox")
-vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
-vim.api.nvim_set_hl(0, "NormalNC", { bg = "none" })
 
 -- ==========================================================================
 -- ============================ Options ====================================
