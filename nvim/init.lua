@@ -23,9 +23,13 @@ require("lazy").setup {
       { "rose-pine/neovim", name = "rose-pine" },
       { "catppuccin/nvim", name = "catppuccin" },
       { "ellisonleao/gruvbox.nvim", opts = { contrast = "hard" } },
+      { "sainnhe/gruvbox-material" },
     },
     config = function()
-      pcall(vim.cmd.colorscheme, "gruvbox")
+      vim.g.gruvbox_material_background = "soft"
+      vim.g.gruvbox_material_better_performance = true
+
+      pcall(vim.cmd.colorscheme, "rose-pine")
       vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
       vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
       vim.api.nvim_set_hl(0, "NormalNC", { bg = "none" })
