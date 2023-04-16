@@ -29,7 +29,7 @@ require("lazy").setup {
       vim.g.gruvbox_material_background = "soft"
       vim.g.gruvbox_material_better_performance = true
 
-      pcall(vim.cmd.colorscheme, "rose-pine")
+      pcall(vim.cmd.colorscheme, "catppuccin")
       vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
       vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
       vim.api.nvim_set_hl(0, "NormalNC", { bg = "none" })

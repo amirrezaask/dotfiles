@@ -43,14 +43,12 @@ tmux-open() {
     tmux new-session -A -t $(realpath $1) -c $(realpath $1)
 }
 
-o() {
-    dir=$(find . -type d -exec sh -c 'cd "{}"; git rev-parse --git-dir 2> /dev/null 1>&2' \; -prune -print | fzf)
-    tmux-open $dir
-}
-
-bindkey -s '^p' 'o^M'
-
-
+# o() {
+#     dir=$(find . -type d -exec sh -c 'cd "{}"; git rev-parse --git-dir 2> /dev/null 1>&2' \; -prune -print | fzf)
+#     tmux-open $dir
+# }
+#
+alias to='tmux-open'
 alias tl='tmux list-sessions'
 alias tks="tmux kill-server"
 alias tk="tmux kill-session -t"
