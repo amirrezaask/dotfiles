@@ -24,12 +24,14 @@ require("lazy").setup {
       { "catppuccin/nvim", name = "catppuccin" },
       { "ellisonleao/gruvbox.nvim", opts = { contrast = "hard" } },
       { "sainnhe/gruvbox-material" },
+      { "tjdevries/gruvbuddy.nvim", dependencies = { "tjdevries/colorbuddy.vim" } },
     },
     config = function()
       vim.g.gruvbox_material_background = "soft"
       vim.g.gruvbox_material_better_performance = true
 
-      pcall(vim.cmd.colorscheme, "catppuccin")
+      pcall(vim.cmd.colorscheme, "tokyonight")
+      -- require("colorbuddy").colorscheme "gruvbuddy"
       vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
       vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
       vim.api.nvim_set_hl(0, "NormalNC", { bg = "none" })
@@ -47,7 +49,6 @@ require("lazy").setup {
       require("telescope").load_extension "fzf"
     end,
   },
-  { "nvim-lualine/lualine.nvim", opts = {} },
   { -- This section configures LSP + Treesitter + Mason: Treesitter syntax highlighting + Autocompletion + LSP + Auto installing LSP servers
     -- You can copy pase this section in your config and get all IDE like features easily
     -- For keybindindings check bottom of this file
@@ -230,6 +231,11 @@ vim.opt.cursorline = true
 vim.g.netrw_browse_split = 0
 vim.g.netrw_banner = 0
 vim.g.netrw_winsize = 25
+
+-- Statusline
+vim.opt.statusline = "%m%f %y%=%l:%c"
+vim.opt.laststatus = 0
+vim.opt.winbar = "%f"
 
 -- ==========================================================================
 -- ========================= Keybindings ====================================
