@@ -308,3 +308,5 @@ vim.api.nvim_create_autocmd("LspAttach", {
     bind("n", "<leader>o", function() require("telescope.builtin").lsp_document_symbols(no_preview) end, buffer)
   end,
 })
+-- Terminal
+bind({ "n", "t", "i" }, "<C-;>", vim.cmd.ToggleTerm)
