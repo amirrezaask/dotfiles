@@ -227,6 +227,9 @@ vim.opt.clipboard:append "unnamedplus" -- use system clipboard as default regist
 vim.opt.splitbelow = true
 vim.opt.splitright = true
 vim.opt.cursorline = true
+vim.opt.sw = 4
+vim.opt.ts = 4
+vim.opt.expandtab = true
 vim.g.netrw_browse_split = 0
 vim.g.netrw_banner = 0
 vim.g.netrw_winsize = 25
