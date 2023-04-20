@@ -15,9 +15,11 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup {
+
+  { "norcalli/nvim-colorizer.lua" },
   -- Colorschemes [[[
   {
-    "Mofiqul/dracula.nvim",
+    "amirrezaask/themes",
     dependencies = {
       { "folke/tokyonight.nvim" },
       { "rose-pine/neovim", name = "rose-pine" },
@@ -25,16 +27,13 @@ require("lazy").setup {
       { "ellisonleao/gruvbox.nvim", opts = { contrast = "hard" } },
       { "sainnhe/gruvbox-material" },
       { "tjdevries/gruvbuddy.nvim", dependencies = { "tjdevries/colorbuddy.vim" } },
+      "Mofiqul/dracula.nvim",
     },
     config = function()
       vim.g.gruvbox_material_background = "soft"
       vim.g.gruvbox_material_better_performance = true
 
-      pcall(vim.cmd.colorscheme, "tokyonight")
-      -- require("colorbuddy").colorscheme "gruvbuddy"
-      vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-      vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
-      vim.api.nvim_set_hl(0, "NormalNC", { bg = "none" })
+      pcall(vim.cmd.colorscheme, "naysayer")
     end,
   },
   -- ]]]
@@ -233,9 +232,7 @@ vim.g.netrw_banner = 0
 vim.g.netrw_winsize = 25
 
 -- Statusline
-vim.opt.statusline = "%m%f %y%=%l:%c"
-vim.opt.laststatus = 0
-vim.opt.winbar = "%f"
+vim.opt.laststatus = 2
 
 -- ==========================================================================
 -- ========================= Keybindings ====================================
