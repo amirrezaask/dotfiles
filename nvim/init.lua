@@ -20,21 +20,7 @@ require("lazy").setup {
   -- Colorschemes [[[
   {
     "amirrezaask/themes",
-    dependencies = {
-      { "folke/tokyonight.nvim" },
-      { "rose-pine/neovim", name = "rose-pine" },
-      { "catppuccin/nvim", name = "catppuccin" },
-      { "ellisonleao/gruvbox.nvim", opts = { contrast = "hard" } },
-      { "sainnhe/gruvbox-material" },
-      { "tjdevries/gruvbuddy.nvim", dependencies = { "tjdevries/colorbuddy.vim" } },
-      "Mofiqul/dracula.nvim",
-    },
-    config = function()
-      vim.g.gruvbox_material_background = "soft"
-      vim.g.gruvbox_material_better_performance = true
-
-      pcall(vim.cmd.colorscheme, "naysayer")
-    end,
+    config = function() pcall(vim.cmd.colorscheme, "naysayer") end,
   },
   -- ]]]
 
