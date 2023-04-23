@@ -1,6 +1,6 @@
-----------------------------------------------------------------------------
----------------------- Plugins And Their Configurations --------------------
-----------------------------------------------------------------------------
+-- ==========================================================================
+-- ========================= Plugins ========================================
+-- ==========================================================================
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system {
@@ -15,182 +15,177 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup {
-
-  { "norcalli/nvim-colorizer.lua" },
-  -- Colorschemes [[[
-  {
-    "amirrezaask/themes",
-    config = function() pcall(vim.cmd.colorscheme, "naysayer") end,
-  },
-  -- ]]]
-
-  { "numToStr/Comment.nvim", opts = {} }, -- Comment
-
+  "norcalli/nvim-colorizer.lua", -- Colorize colorcodes in neovim using blazingly fast LUA code
+  "ellisonleao/gruvbox.nvim", -- Best theme of all time ?
+  "amirrezaask/themes", -- My own custom created themes
+  "numToStr/Comment.nvim", -- Comment
   { -- telescope: Fuzzy finding and searching interface
     "nvim-telescope/telescope.nvim",
     dependencies = { "nvim-lua/plenary.nvim", { "nvim-telescope/telescope-fzf-native.nvim", build = "make" } },
-    config = function()
-      require("telescope").setup {}
-      require("telescope").load_extension "fzf"
-    end,
   },
-  { -- This section configures LSP + Treesitter + Mason: Treesitter syntax highlighting + Autocompletion + LSP + Auto installing LSP servers
+  { -- Treesitter syntax highlighting and text objects.
+    "nvim-treesitter/nvim-treesitter",
+    dependencies = { "nvim-treesitter/nvim-treesitter-textobjects", "nvim-treesitter/playground" },
+  },
+  {
+    "hrsh7th/nvim-cmp", -- Autocompletion popup
+    dependencies = {
+      "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/cmp-vsnip",
+      "hrsh7th/vim-vsnip",
+      "hrsh7th/cmp-path",
+      "hrsh7th/cmp-buffer",
+    },
+  },
+  { -- This section configures LSP + Mason: LSP + Auto installing LSP servers
     -- You can copy pase this section in your config and get all IDE like features easily
     -- For keybindindings check bottom of this file
     "neovim/nvim-lspconfig",
     dependencies = {
-      {
-        "nvim-treesitter/nvim-treesitter",
-        dependencies = { "nvim-treesitter/nvim-treesitter-textobjects", "nvim-treesitter/playground" },
-      },
       { "williamboman/mason.nvim", dependencies = { "williamboman/mason-lspconfig.nvim" } },
       "folke/neodev.nvim",
-      {
-        "hrsh7th/nvim-cmp", -- Autocompletion popup
-        dependencies = {
-          "hrsh7th/cmp-nvim-lsp",
-          "hrsh7th/cmp-vsnip",
-          "hrsh7th/vim-vsnip",
-          "hrsh7th/cmp-path",
-          "hrsh7th/cmp-buffer",
-        },
-      },
       "jose-elias-alvarez/null-ls.nvim",
     },
-    config = function()
-      require("nvim-treesitter.configs").setup {
-        ensure_installed = { "json", "yaml", "c", "cpp", "lua", "rust", "go", "python", "php" },
-        context_commentstring = { enable = true },
-        highlight = { enable = true },
-        textobjects = {
-          select = {
-            enable = true,
-            lookahead = true,
-            keymaps = {
-              ["af"] = "@function.outer",
-              ["if"] = "@function.inner",
-              ["ac"] = "@class.outer",
-              ["ic"] = "@class.inner",
-            },
-          },
-        },
-      }
-      pcall(require("nvim-treesitter.install").update { with_sync = true })
-      require("mason").setup {}
-      for _, pkg in ipairs { "stylua", "golangci-lint", "goimports", "yamlfmt" } do -- ensure these tools are installed
-        if not require("mason-registry").is_installed(pkg) then require("mason.api.command").MasonInstall { pkg } end
-      end
-
-      local mason_lspconfig = require "mason-lspconfig"
-      local lsp_servers = {
-        gopls = {},
-        lua_ls = {
-          Lua = {
-            telemetry = { enable = false },
-            diagnostics = {
-              globals = { "vim" },
-            },
-            workspace = {
-              checkThirdParty = false,
-              library = vim.api.nvim_get_runtime_file("", true),
-            },
-          },
-        },
-        rust_analyzer = {},
-        zls = {},
-      }
-
-      mason_lspconfig.setup {
-        ensure_installed = vim.tbl_keys(lsp_servers),
-      }
-
-      mason_lspconfig.setup_handlers {
-        function(server_name)
-          require("lspconfig")[server_name].setup {
-            settings = lsp_servers[server_name],
-            handlers = {
-              ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" }),
-              ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" }),
-            },
-          }
-        end,
-      }
-
-      -- Auto format
-      vim.api.nvim_create_autocmd("BufWritePre", {
-        pattern = { "*.rs", "*.lua" },
-        callback = function(_) vim.lsp.buf.format() end,
-      })
-      local capabilities = vim.lsp.protocol.make_client_capabilities()
-      capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
-      local cmp = require "cmp"
-      cmp.setup {
-        snippet = {
-          expand = function(args) vim.fn["vsnip#anonymous"](args.body) end,
-        },
-        mapping = cmp.mapping.preset.insert {
-          ["<CR>"] = cmp.mapping.confirm { behavior = cmp.ConfirmBehavior.Replace, select = true },
-        },
-        sources = {
-          { name = "nvim_lsp" },
-          { name = "buffer" },
-          { name = "path" },
-        },
-      }
-      require("null-ls").setup {
-        sources = {
-          require("null-ls").builtins.code_actions.gitsigns,
-          require("null-ls").builtins.diagnostics.golangci_lint,
-          require("null-ls").builtins.diagnostics.trail_space.with { disabled_filetypes = { "NvimTree" } },
-          require("null-ls").builtins.formatting.stylua,
-          require("null-ls").builtins.formatting.goimports,
-        },
-      }
-    end,
   },
-
-  { "stevearc/oil.nvim", opt = {} }, -- File manager like a BOSS
-  { "pbrisbin/vim-mkdir" }, -- Automatically create directory if not exists
-  { "fladson/vim-kitty" }, -- Support Kitty terminal config syntax
-  { "towolf/vim-helm" }, -- Support for helm template syntax
-  { "tpope/vim-surround" }, -- surrounding text objects
-  { "kevinhwang91/nvim-bqf" }, -- Preview quickfix list item.
-  { "tpope/vim-eunuch" }, -- Helper commands like :Rename, :Move, :Delete, :Remove, ...
-  { "tpope/vim-sleuth" }, -- Heuristically set buffer options
-  { "windwp/nvim-autopairs" }, -- Auto insert pairs like () [] {}
-  {
-    "lewis6991/gitsigns.nvim",
-    opts = {
-      signs = {
-        add = { text = "+" },
-        change = { text = "~" },
-        delete = { text = "_" },
-        topdelete = { text = "‾" },
-        changedelete = { text = "~" },
-      },
-    },
-  }, -- Signs next to line numbers to show git status of a line
-  {
-    "tpope/vim-fugitive",
-    config = function()
-      vim.api.nvim_create_user_command("Gp", function(_, _) vim.cmd.Git "push" end, {})
-    end,
-  }, -- Best Git Client after magit :)
-  { "dag/vim-fish" }, -- Vim fish syntax
-  { "jansedivy/jai.vim" }, -- Jai from Jonathan Blow
-  {
-    "akinsho/toggleterm.nvim",
-    config = function(_, _)
-      require("toggleterm").setup {
-        size = 20,
-        direction = "horizontal",
-      }
-    end,
-  },
+  "stevearc/oil.nvim", -- File manager like a BOSS
+  "pbrisbin/vim-mkdir", -- Automatically create directory if not exists
+  "fladson/vim-kitty", -- Support Kitty terminal config syntax
+  "towolf/vim-helm", -- Support for helm template syntax
+  "tpope/vim-surround", -- surrounding text objects
+  "kevinhwang91/nvim-bqf", -- Preview quickfix list item.
+  "tpope/vim-eunuch", -- Helper commands like :Rename, :Move, :Delete, :Remove, ...
+  "tpope/vim-sleuth", -- Heuristically set buffer options
+  "windwp/nvim-autopairs", -- Auto insert pairs like () [] {}
+  "lewis6991/gitsigns.nvim", -- Signs next to line numbers to show git status of a line
+  "tpope/vim-fugitive", -- Second best Git client ( first one is emacs magit )
+  "dag/vim-fish", -- Vim fish syntax
+  "jansedivy/jai.vim", -- Jai from Jonathan Blow
+  "akinsho/toggleterm.nvim", -- Terminal inside neovim
 }
 
 -- ==========================================================================
--- ============================ Options ====================================
+-- ========================= Plugins configuration ==========================
+-- ==========================================================================
+require("Comment").setup() -- Comment code with ease
+require("telescope").setup {} -- Best fuzzy finder
+require("telescope").load_extension "fzf" -- load fzf awesomnes into Telescope
+require("nvim-treesitter.configs").setup { -- Setup treesitter text objects module + highlight
+  ensure_installed = { "json", "yaml", "c", "cpp", "lua", "rust", "go", "python", "php" },
+  context_commentstring = { enable = true },
+  highlight = { enable = true },
+  textobjects = {
+    select = {
+      enable = true,
+      lookahead = true,
+      keymaps = {
+        ["af"] = "@function.outer",
+        ["if"] = "@function.inner",
+        ["ac"] = "@class.outer",
+        ["ic"] = "@class.inner",
+      },
+    },
+  },
+}
+-- Install all treesitter parsers.
+pcall(require("nvim-treesitter.install").update { with_sync = true })
+-- Autocompletion menu using nvim-cmp
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+local cmp = require "cmp"
+cmp.setup {
+  snippet = {
+    expand = function(args) vim.fn["vsnip#anonymous"](args.body) end,
+  },
+  mapping = cmp.mapping.preset.insert {
+    ["<CR>"] = cmp.mapping.confirm { behavior = cmp.ConfirmBehavior.Replace, select = true },
+  },
+  sources = {
+    { name = "nvim_lsp" },
+    { name = "buffer" },
+    { name = "path" },
+  },
+}
+-- Mason + LSP
+-- Setup mason.nvim package manager.
+-- Mason is not a plugin manager but a package manager for the tools you need to install on your system like LSP servers, linters, formatters, etc.
+require("mason").setup {}
+-- Install tools other that LSP servers, LSPs will get installed using `mason-lspconfig`.
+for _, pkg in ipairs { "stylua", "golangci-lint", "goimports", "yamlfmt" } do -- ensure these tools are installed
+  if not require("mason-registry").is_installed(pkg) then require("mason.api.command").MasonInstall { pkg } end
+end
+
+-- this lua table contians our configurations for different LSP servers.
+local lsp_servers = {
+  gopls = {},
+  lua_ls = {
+    Lua = {
+      telemetry = { enable = false },
+      diagnostics = {
+        globals = { "vim" },
+      },
+      workspace = {
+        checkThirdParty = false,
+        library = vim.api.nvim_get_runtime_file("", true),
+      },
+    },
+  },
+  rust_analyzer = {},
+  zls = {},
+}
+-- Mason-lspconfig helps us to configure Mason and neovim lsp to work together,
+local mason_lspconfig = require "mason-lspconfig"
+mason_lspconfig.setup {
+  ensure_installed = vim.tbl_keys(lsp_servers),
+}
+
+mason_lspconfig.setup_handlers {
+  function(server_name)
+    require("lspconfig")[server_name].setup {
+      settings = lsp_servers[server_name],
+      handlers = {
+        ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" }),
+        ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" }),
+      },
+    }
+  end,
+}
+
+-- Auto format using LSP server
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = { "*.rs", "*.lua" },
+  callback = function(_) vim.lsp.buf.format() end,
+})
+
+-- Null-LS helps us hook non LSP tools like linters into Neovim LSP infrastructure.
+require("null-ls").setup {
+  sources = {
+    require("null-ls").builtins.code_actions.gitsigns,
+    require("null-ls").builtins.diagnostics.golangci_lint,
+    require("null-ls").builtins.diagnostics.trail_space.with { disabled_filetypes = { "NvimTree" } },
+    require("null-ls").builtins.formatting.stylua,
+    require("null-ls").builtins.formatting.goimports,
+  },
+}
+-- gitsigns setup
+require("gitsigns").setup {
+  signs = {
+    add = { text = "+" },
+    change = { text = "~" },
+    delete = { text = "_" },
+    topdelete = { text = "‾" },
+    changedelete = { text = "~" },
+  },
+}
+-- Fugitive helper command to help ease git push :)
+vim.api.nvim_create_user_command("Gp", function(_, _) vim.cmd.Git "push" end, {})
+-- Toggleterm setup
+require("toggleterm").setup {
+  size = 20,
+  direction = "horizontal",
+}
+
+-- ==========================================================================
+-- ============================ Vim Options ====================================
 -- ==========================================================================
 vim.opt.number = true -- Line numbers
 vim.opt.relativenumber = true -- Relative line numbers
@@ -206,7 +201,7 @@ vim.opt.termguicolors = true
 vim.opt.signcolumn = "yes"
 vim.opt.isfname:append "@-@"
 vim.opt.updatetime = 50
-vim.opt.guicursor = ""
+vim.opt.guicursor = "" -- Don't style cursor in different modes, just a box would suffice
 vim.opt.shortmess:append "c" -- Don't pass messages to |ins-completion-menu|.
 vim.opt.shortmess:append "I" -- No Intro message
 vim.opt.clipboard:append "unnamedplus" -- use system clipboard as default register.
@@ -219,10 +214,21 @@ vim.opt.expandtab = true
 vim.g.netrw_browse_split = 0
 vim.g.netrw_banner = 0
 vim.g.netrw_winsize = 25
-
--- Statusline
 vim.opt.laststatus = 2
 
+-- ==========================================================================
+-- ========================= Colorscheme ====================================
+-- ==========================================================================
+require("gruvbox").setup {
+  contrast = "hard",
+  italic = {
+    strings = false,
+    comments = false,
+    operators = false,
+    folds = false,
+  },
+}
+pcall(vim.cmd.colorscheme, "gruvbox")
 -- ==========================================================================
 -- ========================= Keybindings ====================================
 -- ==========================================================================
