@@ -3,88 +3,90 @@
 -- ==========================================================================
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
-  vim.fn.system {
-    "git",
-    "clone",
-    "--filter=blob:none",
-    "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable", -- latest stable release
-    lazypath,
-  }
+    vim.fn.system {
+        "git",
+        "clone",
+        "--filter=blob:none",
+        "https://github.com/folke/lazy.nvim.git",
+        "--branch=stable", -- latest stable release
+        lazypath,
+    }
 end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup {
-  "norcalli/nvim-colorizer.lua", -- Colorize colorcodes in neovim using blazingly fast LUA code
-  "ellisonleao/gruvbox.nvim", -- Best theme of all time ?
-  "amirrezaask/themes", -- My own custom created themes
-  "numToStr/Comment.nvim", -- Comment
-  { -- telescope: Fuzzy finding and searching interface
-    "nvim-telescope/telescope.nvim",
-    dependencies = { "nvim-lua/plenary.nvim", { "nvim-telescope/telescope-fzf-native.nvim", build = "make" } },
-  },
-  { -- Treesitter syntax highlighting and text objects.
-    "nvim-treesitter/nvim-treesitter",
-    dependencies = { "nvim-treesitter/nvim-treesitter-textobjects", "nvim-treesitter/playground" },
-  },
-  {
-    "hrsh7th/nvim-cmp", -- Autocompletion popup
-    dependencies = {
-      "hrsh7th/cmp-nvim-lsp",
-      "hrsh7th/cmp-vsnip",
-      "hrsh7th/vim-vsnip",
-      "hrsh7th/cmp-path",
-      "hrsh7th/cmp-buffer",
+    "norcalli/nvim-colorizer.lua", -- Colorize colorcodes in neovim using blazingly fast LUA code
+    "ellisonleao/gruvbox.nvim", -- Best theme of all time ?
+    "amirrezaask/themes", -- My own custom created themes
+    "numToStr/Comment.nvim", -- Comment
+    { -- telescope: Fuzzy finding and searching interface
+        "nvim-telescope/telescope.nvim",
+        dependencies = { "nvim-lua/plenary.nvim", { "nvim-telescope/telescope-fzf-native.nvim", build = "make" } },
     },
-  },
-  { -- This section configures LSP + Mason: LSP + Auto installing LSP servers
-    -- You can copy pase this section in your config and get all IDE like features easily
-    -- For keybindindings check bottom of this file
-    "neovim/nvim-lspconfig",
-    dependencies = {
-      { "williamboman/mason.nvim", dependencies = { "williamboman/mason-lspconfig.nvim" } },
-      "folke/neodev.nvim",
-      "jose-elias-alvarez/null-ls.nvim",
+    { -- Treesitter syntax highlighting and text objects.
+        "nvim-treesitter/nvim-treesitter",
+        dependencies = { "nvim-treesitter/nvim-treesitter-textobjects", "nvim-treesitter/playground" },
     },
-  },
-  "stevearc/oil.nvim", -- File manager like a BOSS
-  "pbrisbin/vim-mkdir", -- Automatically create directory if not exists
-  "fladson/vim-kitty", -- Support Kitty terminal config syntax
-  "towolf/vim-helm", -- Support for helm template syntax
-  "tpope/vim-surround", -- surrounding text objects
-  "kevinhwang91/nvim-bqf", -- Preview quickfix list item.
-  "tpope/vim-eunuch", -- Helper commands like :Rename, :Move, :Delete, :Remove, ...
-  "tpope/vim-sleuth", -- Heuristically set buffer options
-  "windwp/nvim-autopairs", -- Auto insert pairs like () [] {}
-  "lewis6991/gitsigns.nvim", -- Signs next to line numbers to show git status of a line
-  "tpope/vim-fugitive", -- Second best Git client ( first one is emacs magit )
-  "dag/vim-fish", -- Vim fish syntax
-  "jansedivy/jai.vim", -- Jai from Jonathan Blow
-  "akinsho/toggleterm.nvim", -- Terminal inside neovim
+    {
+        "hrsh7th/nvim-cmp", -- Autocompletion popup
+        dependencies = {
+            "hrsh7th/cmp-nvim-lsp",
+            "hrsh7th/cmp-vsnip",
+            "hrsh7th/vim-vsnip",
+            "hrsh7th/cmp-path",
+            "hrsh7th/cmp-buffer",
+        },
+    },
+    { -- This section configures LSP + Mason: LSP + Auto installing LSP servers
+        -- You can copy pase this section in your config and get all IDE like features easily
+        -- For keybindindings check bottom of this file
+        "neovim/nvim-lspconfig",
+        dependencies = {
+            { "williamboman/mason.nvim", dependencies = { "williamboman/mason-lspconfig.nvim" } },
+            "folke/neodev.nvim",
+            "jose-elias-alvarez/null-ls.nvim",
+        },
+    },
+    "stevearc/oil.nvim", -- File manager like a BOSS
+    "pbrisbin/vim-mkdir", -- Automatically create directory if not exists
+    "fladson/vim-kitty", -- Support Kitty terminal config syntax
+    "towolf/vim-helm", -- Support for helm template syntax
+    "tpope/vim-surround", -- surrounding text objects
+    "kevinhwang91/nvim-bqf", -- Preview quickfix list item.
+    "tpope/vim-eunuch", -- Helper commands like :Rename, :Move, :Delete, :Remove, ...
+    "tpope/vim-sleuth", -- Heuristically set buffer options
+    "windwp/nvim-autopairs", -- Auto insert pairs like () [] {}
+    "lewis6991/gitsigns.nvim", -- Signs next to line numbers to show git status of a line
+    "tpope/vim-fugitive", -- Second best Git client ( first one is emacs magit )
+    "dag/vim-fish", -- Vim fish syntax
+    "jansedivy/jai.vim", -- Jai from Jonathan Blow
+    "akinsho/toggleterm.nvim", -- Terminal inside neovim
+    "folke/which-key.nvim", -- Cheat your way through keybindings
 }
 
 -- ==========================================================================
 -- ========================= Plugins configuration ==========================
 -- ==========================================================================
 require("Comment").setup() -- Comment code with ease
+require("which-key").setup()
 require("telescope").setup {} -- Best fuzzy finder
 require("telescope").load_extension "fzf" -- load fzf awesomnes into Telescope
 require("nvim-treesitter.configs").setup { -- Setup treesitter text objects module + highlight
-  ensure_installed = { "json", "yaml", "c", "cpp", "lua", "rust", "go", "python", "php" },
-  context_commentstring = { enable = true },
-  highlight = { enable = true },
-  textobjects = {
-    select = {
-      enable = true,
-      lookahead = true,
-      keymaps = {
-        ["af"] = "@function.outer",
-        ["if"] = "@function.inner",
-        ["ac"] = "@class.outer",
-        ["ic"] = "@class.inner",
-      },
+    ensure_installed = { "json", "yaml", "c", "cpp", "lua", "rust", "go", "python", "php" },
+    context_commentstring = { enable = true },
+    highlight = { enable = true },
+    textobjects = {
+        select = {
+            enable = true,
+            lookahead = true,
+            keymaps = {
+                ["af"] = "@function.outer",
+                ["if"] = "@function.inner",
+                ["ac"] = "@class.outer",
+                ["ic"] = "@class.inner",
+            },
+        },
     },
-  },
 }
 -- Install all treesitter parsers.
 pcall(require("nvim-treesitter.install").update { with_sync = true })
@@ -93,17 +95,17 @@ local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 local cmp = require "cmp"
 cmp.setup {
-  snippet = {
-    expand = function(args) vim.fn["vsnip#anonymous"](args.body) end,
-  },
-  mapping = cmp.mapping.preset.insert {
-    ["<CR>"] = cmp.mapping.confirm { behavior = cmp.ConfirmBehavior.Replace, select = true },
-  },
-  sources = {
-    { name = "nvim_lsp" },
-    { name = "buffer" },
-    { name = "path" },
-  },
+    snippet = {
+        expand = function(args) vim.fn["vsnip#anonymous"](args.body) end,
+    },
+    mapping = cmp.mapping.preset.insert {
+        ["<CR>"] = cmp.mapping.confirm { behavior = cmp.ConfirmBehavior.Replace, select = true },
+    },
+    sources = {
+        { name = "nvim_lsp" },
+        { name = "buffer" },
+        { name = "path" },
+    },
 }
 -- Mason + LSP
 -- Setup mason.nvim package manager.
@@ -111,77 +113,77 @@ cmp.setup {
 require("mason").setup {}
 -- Install tools other that LSP servers, LSPs will get installed using `mason-lspconfig`.
 for _, pkg in ipairs { "stylua", "golangci-lint", "goimports", "yamlfmt" } do -- ensure these tools are installed
-  if not require("mason-registry").is_installed(pkg) then require("mason.api.command").MasonInstall { pkg } end
+    if not require("mason-registry").is_installed(pkg) then require("mason.api.command").MasonInstall { pkg } end
 end
 
 -- this lua table contians our configurations for different LSP servers.
 local lsp_servers = {
-  gopls = {},
-  lua_ls = {
-    Lua = {
-      telemetry = { enable = false },
-      diagnostics = {
-        globals = { "vim" },
-      },
-      workspace = {
-        checkThirdParty = false,
-        library = vim.api.nvim_get_runtime_file("", true),
-      },
+    gopls = {},
+    lua_ls = {
+        Lua = {
+            telemetry = { enable = false },
+            diagnostics = {
+                globals = { "vim" },
+            },
+            workspace = {
+                checkThirdParty = false,
+                library = vim.api.nvim_get_runtime_file("", true),
+            },
+        },
     },
-  },
-  rust_analyzer = {},
-  zls = {},
+    rust_analyzer = {},
+    zls = {},
 }
 -- Mason-lspconfig helps us to configure Mason and neovim lsp to work together,
 local mason_lspconfig = require "mason-lspconfig"
 mason_lspconfig.setup {
-  ensure_installed = vim.tbl_keys(lsp_servers),
+    ensure_installed = vim.tbl_keys(lsp_servers),
 }
 
 mason_lspconfig.setup_handlers {
-  function(server_name)
-    require("lspconfig")[server_name].setup {
-      settings = lsp_servers[server_name],
-      handlers = {
-        ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" }),
-        ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" }),
-      },
-    }
-  end,
+    function(server_name)
+        require("lspconfig")[server_name].setup {
+            settings = lsp_servers[server_name],
+            handlers = {
+                ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" }),
+                ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" }),
+            },
+        }
+    end,
 }
 
 -- Auto format using LSP server
 vim.api.nvim_create_autocmd("BufWritePre", {
-  pattern = { "*.rs", "*.lua" },
-  callback = function(_) vim.lsp.buf.format() end,
+    pattern = { "*.rs", "*.lua" },
+    callback = function(_) vim.lsp.buf.format() end,
 })
 
 -- Null-LS helps us hook non LSP tools like linters into Neovim LSP infrastructure.
 require("null-ls").setup {
-  sources = {
-    require("null-ls").builtins.code_actions.gitsigns,
-    require("null-ls").builtins.diagnostics.golangci_lint,
-    require("null-ls").builtins.diagnostics.trail_space.with { disabled_filetypes = { "NvimTree" } },
-    require("null-ls").builtins.formatting.stylua,
-    require("null-ls").builtins.formatting.goimports,
-  },
+    sources = {
+        require("null-ls").builtins.code_actions.gitsigns,
+        require("null-ls").builtins.diagnostics.golangci_lint,
+        require("null-ls").builtins.diagnostics.trail_space.with { disabled_filetypes = { "NvimTree" } },
+        require("null-ls").builtins.formatting.stylua,
+        require("null-ls").builtins.formatting.goimports,
+    },
 }
 -- gitsigns setup
 require("gitsigns").setup {
-  signs = {
-    add = { text = "+" },
-    change = { text = "~" },
-    delete = { text = "_" },
-    topdelete = { text = "‾" },
-    changedelete = { text = "~" },
-  },
+    signs = {
+        add = { text = "+" },
+        change = { text = "~" },
+        delete = { text = "_" },
+        topdelete = { text = "‾" },
+        changedelete = { text = "~" },
+    },
 }
 -- Fugitive helper command to help ease git push :)
 vim.api.nvim_create_user_command("Gp", function(_, _) vim.cmd.Git "push" end, {})
 -- Toggleterm setup
 require("toggleterm").setup {
-  size = 20,
-  direction = "horizontal",
+    size = 20,
+    direction = "horizontal",
 }
 
 -- ==========================================================================
@@ -220,13 +222,13 @@ vim.opt.laststatus = 2
 -- ========================= Colorscheme ====================================
 -- ==========================================================================
 require("gruvbox").setup {
-  contrast = "hard",
-  italic = {
-    strings = false,
-    comments = false,
-    operators = false,
-    folds = false,
-  },
+    contrast = "hard",
+    italic = {
+        strings = false,
+        comments = false,
+        operators = false,
+        folds = false,
+    },
 }
 pcall(vim.cmd.colorscheme, "gruvbox")
 -- ==========================================================================
@@ -242,8 +244,8 @@ bind("i", "jk", "<esc>")
 bind("i", "kj", "<esc>")
 bind("n", "Y", "y$")
 -- Window management
-bind("n", "<leader>v", "<cmd>vsplit<CR>")
-bind("n", "<leader>h", "<cmd>split<CR>")
+bind("n", "<leader>v", "<cmd>vsplit<CR>", { desc = "Split vertically" })
+bind("n", "<leader>h", "<cmd>split<CR>", { desc = "Split horizontaly" })
 bind("n", "<C-h>", "<cmd>wincmd h<CR>")
 bind("n", "<C-j>", "<cmd>wincmd j<CR>")
 bind("n", "<C-k>", "<cmd>wincmd k<CR>")
@@ -257,20 +259,25 @@ bind("t", "<A-h>", "<C-\\><C-n><C-w>>")
 bind("t", "<A-j>", "<C-\\><C-n><C-w>-")
 bind("t", "<A-k>", "<C-\\><C-n><C-w>+")
 -- Git
-bind("n", "<leader>gs", vim.cmd.Git)
-bind("n", "<leader>b", function() require("gitsigns").blame_line { full = true } end)
-bind("n", "<leader>d", function() require("gitsigns").diffthis "~" end)
+bind("n", "<leader>gs", vim.cmd.Git, { desc = "Git status" })
+bind("n", "<leader>b", function() require("gitsigns").blame_line { full = true } end, { desc = "Git blame line" })
+bind("n", "<leader>d", function() require("gitsigns").diffthis "~" end, { desc = "Diff current file with HEAD" })
 -- Navigation
-local no_preview = { previewer = false }
+local telescope_current_theme = { previewer = false }
+local telescope_builtin = require "telescope.builtin"
 bind("n", "<C-d>", "<C-d>zz")
 bind("n", "<C-u>", "<C-u>zz")
-bind("n", "<leader><leader>", function() require("telescope.builtin").git_files(no_preview) end)
-bind("n", "<leader>ff", function() require("telescope.builtin").find_files(no_preview) end)
-bind("n", "<C-p>", function() require("telescope.builtin").git_files(no_preview) end)
-bind("n", "<M-p>", function() require("telescope.builtin").git_files(no_preview) end)
-bind("n", "<leader>k", function() require("telescope.builtin").current_buffer_fuzzy_find(no_preview) end)
-bind("n", "<leader>o", function() require("telescope.builtin").treesitter(no_preview) end)
-bind("n", "??", function() require("telescope.builtin").live_grep() end)
+bind("n", "<leader><leader>", function() telescope_builtin.git_files(telescope_current_theme) end,
+    { desc = "Telescope Git Files" })
+bind("n", "<leader>ff", function() telescope_builtin.find_files(telescope_current_theme) end,
+    { desc = "Telescope Find files" })
+bind("n", "<C-p>", function() telescope_builtin.git_files(telescope_current_theme) end, { desc = "Telescope Git Files" })
+bind("n", "<M-p>", function() telescope_builtin.git_files(telescope_current_theme) end, { desc = "Telescope Git Files" })
+bind("n", "<leader>k", function() telescope_builtin.current_buffer_fuzzy_find(telescope_current_theme) end,
+    { desc = "Current File Search" })
+bind("n", "<leader>o", function() telescope_builtin.treesitter(telescope_current_theme) end,
+    { desc = "Search Symbols In Current File" })
+bind("n", "??", function() telescope_builtin.live_grep() end)
 bind("n", "Q", "<NOP>")
 bind("n", "{", ":cprev<CR>")
 bind("n", "}", ":cnext<CR>")
@@ -280,25 +287,26 @@ bind("n", "<CR>", [[ {-> v:hlsearch ? ':nohl<CR>' : '<CR>'}() ]], { expr = true 
 bind("n", "<leader>j", "<cmd>ToggleTerm<CR>")
 -- LSP
 vim.api.nvim_create_autocmd("LspAttach", {
-  callback = function(args)
-    local bufnr = args.buf
-    vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
-    local buffer = { buffer = bufnr }
-    bind("n", "gd", vim.lsp.buf.definition, buffer)
-    bind("n", "gD", vim.lsp.buf.declaration, buffer)
-    bind("n", "gi", vim.lsp.buf.implementation, buffer)
-    bind("n", "gr", vim.lsp.buf.references, buffer)
-    bind("n", "R", vim.lsp.buf.rename, buffer)
-    bind("n", "K", vim.lsp.buf.hover, buffer)
-    bind("n", "gf", vim.lsp.buf.format, buffer)
-    bind("n", "gl", vim.diagnostic.open_float, buffer)
-    bind("n", "gp", vim.diagnostic.goto_prev, buffer)
-    bind("n", "gn", vim.diagnostic.goto_next, buffer)
-    bind("n", "C", vim.lsp.buf.code_action, buffer)
-    bind("n", "<C-s>", vim.lsp.buf.signature_help, buffer)
-    bind("i", "<C-s>", vim.lsp.buf.signature_help, buffer)
-    bind("n", "<leader>o", function() require("telescope.builtin").lsp_document_symbols(no_preview) end, buffer)
-  end,
+    callback = function(args)
+        local bufnr = args.buf
+        vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
+        local buffer = { buffer = bufnr }
+        bind("n", "gd", vim.lsp.buf.definition, buffer)
+        bind("n", "gD", vim.lsp.buf.declaration, buffer)
+        bind("n", "gi", vim.lsp.buf.implementation, buffer)
+        bind("n", "gr", vim.lsp.buf.references, buffer)
+        bind("n", "R", vim.lsp.buf.rename, buffer)
+        bind("n", "K", vim.lsp.buf.hover, buffer)
+        bind("n", "gf", vim.lsp.buf.format, buffer)
+        bind("n", "gl", vim.diagnostic.open_float, buffer)
+        bind("n", "gp", vim.diagnostic.goto_prev, buffer)
+        bind("n", "gn", vim.diagnostic.goto_next, buffer)
+        bind("n", "C", vim.lsp.buf.code_action, buffer)
+        bind("n", "<C-s>", vim.lsp.buf.signature_help, buffer)
+        bind("i", "<C-s>", vim.lsp.buf.signature_help, buffer)
+        bind("n", "<leader>o", function() require("telescope.builtin").lsp_document_symbols(telescope_current_theme) end,
+            buffer)
+    end,
 })
 -- Terminal
 bind({ "n", "t", "i" }, "<C-;>", vim.cmd.ToggleTerm)
