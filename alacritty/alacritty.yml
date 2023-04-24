@@ -6,6 +6,9 @@ font:
 live_config_reload: true
 window:
   opacity: 0.98
+  dimensions:
+    columns: 120
+    lines: 50
 
 
 # Colors (Gruvbox dark)
