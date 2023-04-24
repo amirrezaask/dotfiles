@@ -25,10 +25,10 @@ set -gx HOMEBREW_NO_AUTO_UPDATE '1'
 set -gx FZF_DEFAULT_OPTS '--height 20%'
 set -gx FZF_DEFAULT_COMMAND 'rg --files'
 
-alias snappvpn='sudo openfortivpn -c ~/snappDC.conf'
-alias gs='git status'
-alias gd='git diff'
-alias gpsup='git push --set-upstream origin $(git_current_branch)'
+alias snappvpn 'sudo openfortivpn -c ~/snappDC.conf'
+alias gs 'git status'
+alias gd 'git diff'
+alias gpsup 'git push --set-upstream origin (_current_branch)'
 
 # git prompt settings
 set -g __fish_git_prompt_show_informative_status 1
