@@ -28,7 +28,7 @@ set -gx FZF_DEFAULT_COMMAND 'rg --files'
 alias snappvpn 'sudo openfortivpn -c ~/snappDC.conf'
 alias gs 'git status'
 alias gd 'git diff'
-alias gpsup 'git push --set-upstream origin (_current_branch)'
+alias gp 'git push'
 
 # git prompt settings
 set -g __fish_git_prompt_show_informative_status 1
