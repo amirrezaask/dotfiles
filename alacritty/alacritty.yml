@@ -10,6 +10,9 @@ window:
     columns: 120
     lines: 50
 
+key_bindings:
+  - { key: N,              mods: Command,                    action: CreateNewWindow       }
+
 
 # Colors (Gruvbox dark)
 colors:
