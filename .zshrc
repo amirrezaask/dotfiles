@@ -43,6 +43,7 @@ tmux-open() {
     tmux new-session -A -t $(realpath $1) -c $(realpath $1)
 }
 
+alias o='tmux-open'
 alias to='tmux-open'
 alias tl='tmux list-sessions'
 alias tks="tmux kill-server"
