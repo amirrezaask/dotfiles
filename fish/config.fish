@@ -19,13 +19,15 @@ set -gx PATH "$HOME/.cargo/bin:$PATH"
 
 eval $(brew shellenv)
 
+alias vim 'nvim'
+
 set -gx EDITOR 'vim'
 set -gx HOMEBREW_NO_AUTO_UPDATE '1'
 
 set -gx FZF_DEFAULT_OPTS '--height 20%'
 set -gx FZF_DEFAULT_COMMAND 'rg --files'
 
-alias snappvpn 'sudo openfortivpn -c ~/snappDC.conf'
+alias snappvpn 'sudo openfortivpn -c ~/snapp-fortigate.conf'
 
 function tmux-open
     tmux new-session -A -t (realpath $argv[1]) -c (realpath $argv[1])

@@ -118,7 +118,7 @@ for _, pkg in ipairs { "stylua", "golangci-lint", "goimports", "yamlfmt" } do --
   if not require("mason-registry").is_installed(pkg) then require("mason.api.command").MasonInstall { pkg } end
 end
 
--- this lua table contians our configurations for different LSP servers.
+-- this lua table contains our configurations for different LSP servers.
 local lsp_servers = {
   gopls = {},
   lua_ls = {
