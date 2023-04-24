@@ -63,6 +63,7 @@ require("lazy").setup {
   "akinsho/toggleterm.nvim", -- Terminal inside neovim
   "folke/which-key.nvim", -- Cheat your way through keybindings
   "aserowy/tmux.nvim", -- Tmux integration
+  "nvim-tree/nvim-tree.lua", -- Tree file explorer
 }
 
 -- ==========================================================================
@@ -71,6 +72,7 @@ require("lazy").setup {
 require("Comment").setup() -- Comment code with ease
 require("tmux").setup()
 require("which-key").setup()
+require("nvim-tree").setup()
 require("telescope").setup {} -- Best fuzzy finder
 require("telescope").load_extension "fzf" -- load fzf awesomnes into Telescope
 require("nvim-treesitter.configs").setup { -- Setup treesitter text objects module + highlight
@@ -310,3 +312,4 @@ vim.api.nvim_create_autocmd("LspAttach", {
 })
 -- Terminal
 bind({ "n", "t", "i" }, "<C-;>", vim.cmd.ToggleTerm)
+bind({ "n" }, "<leader>1", vim.cmd.NvimTreeToggle)
