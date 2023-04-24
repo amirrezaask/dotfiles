@@ -26,9 +26,19 @@ set -gx FZF_DEFAULT_OPTS '--height 20%'
 set -gx FZF_DEFAULT_COMMAND 'rg --files'
 
 alias snappvpn 'sudo openfortivpn -c ~/snappDC.conf'
+
+function tmux-open
+    tmux new-session -A -t (realpath $argv[1]) -c (realpath $argv[1])
+end
+
+alias o 'tmux-open'
+
+# Git stuff
 alias gs 'git status'
 alias gd 'git diff'
 alias gp 'git push'
+
+alias reload 'source ~/.config/fish/config.fish'
 
 # git prompt settings
 set -g __fish_git_prompt_show_informative_status 1
