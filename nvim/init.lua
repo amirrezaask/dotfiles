@@ -221,7 +221,7 @@ vim.g.netrw_browse_split = 0
 vim.g.netrw_banner = 0
 vim.g.netrw_winsize = 25
 vim.opt.laststatus = 2
-vim.opt.timeoutlen = 100
+vim.opt.timeoutlen = 300
 
 -- ==========================================================================
 -- ========================= Colorscheme ====================================
@@ -242,7 +242,7 @@ vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
 -- ==========================================================================
 -- ========================= Keybindings ====================================
 -- ==========================================================================
-vim.g.mapleader = " "
+vim.g.mapleader = ","
 local bind = vim.keymap.set
 -- Editing
 bind("t", "<Esc>", "<C-\\><C-n>")
@@ -279,38 +279,37 @@ bind("n", "<leader><leader>", function() telescope_builtin.git_files(telescope_c
 bind("n", "<leader>ff", function() telescope_builtin.find_files(telescope_current_theme) end, { desc = "Telescope Find files" })
 bind("n", "<C-p>", function() telescope_builtin.git_files(telescope_current_theme) end, { desc = "Telescope Git Files" })
 bind("n", "<M-p>", function() telescope_builtin.git_files(telescope_current_theme) end, { desc = "Telescope Git Files" })
-bind("n", "<leader>k", function() telescope_builtin.current_buffer_fuzzy_find(telescope_current_theme) end, { desc = "Current File Search" })
+bind("n", "<leader>s", function() telescope_builtin.current_buffer_fuzzy_find(telescope_current_theme) end, { desc = "Current File Search" })
 bind("n", "<leader>o", function() telescope_builtin.treesitter(telescope_current_theme) end, { desc = "Search Symbols In Current File" })
-bind("n", "??", function() telescope_builtin.live_grep() end)
+bind("n", "??", function() telescope_builtin.live_grep() end, { desc = "Live Grep" })
 bind("n", "Q", "<NOP>")
 bind("n", "{", ":cprev<CR>")
 bind("n", "}", ":cnext<CR>")
 bind("n", "n", "nzz")
 bind("n", "N", "Nzz")
 bind("n", "<CR>", [[ {-> v:hlsearch ? ':nohl<CR>' : '<CR>'}() ]], { expr = true })
-bind("n", "<leader>j", "<cmd>ToggleTerm<CR>")
 -- LSP
 vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(args)
     local bufnr = args.buf
     vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
-    local buffer = { buffer = bufnr }
-    bind("n", "gd", vim.lsp.buf.definition, buffer)
-    bind("n", "gD", vim.lsp.buf.declaration, buffer)
-    bind("n", "gi", vim.lsp.buf.implementation, buffer)
-    bind("n", "gr", vim.lsp.buf.references, buffer)
-    bind("n", "R", vim.lsp.buf.rename, buffer)
-    bind("n", "K", vim.lsp.buf.hover, buffer)
-    bind("n", "gf", vim.lsp.buf.format, buffer)
-    bind("n", "gl", vim.diagnostic.open_float, buffer)
-    bind("n", "gp", vim.diagnostic.goto_prev, buffer)
-    bind("n", "gn", vim.diagnostic.goto_next, buffer)
-    bind("n", "C", vim.lsp.buf.code_action, buffer)
-    bind("n", "<C-s>", vim.lsp.buf.signature_help, buffer)
-    bind("i", "<C-s>", vim.lsp.buf.signature_help, buffer)
-    bind("n", "<leader>o", function() require("telescope.builtin").lsp_document_symbols(telescope_current_theme) end, buffer)
+    local buffer = function(desc) return { buffer = bufnr, desc = desc } end
+    bind("n", "gd", vim.lsp.buf.definition, buffer "Goto Definition")
+    bind("n", "gD", vim.lsp.buf.declaration, buffer "Goto Declaration")
+    bind("n", "gi", vim.lsp.buf.implementation, buffer "Goto Implementation")
+    bind("n", "gr", vim.lsp.buf.references, buffer "Goto References")
+    bind("n", "R", vim.lsp.buf.rename, buffer "Rename")
+    bind("n", "K", vim.lsp.buf.hover, buffer "Hover")
+    bind("n", "gf", vim.lsp.buf.format, buffer "Format Document")
+    bind("n", "gl", vim.diagnostic.open_float, buffer "")
+    bind("n", "gp", vim.diagnostic.goto_prev, buffer "")
+    bind("n", "gn", vim.diagnostic.goto_next, buffer "")
+    bind("n", "C", vim.lsp.buf.code_action, buffer "Code Actions")
+    bind("n", "<C-s>", vim.lsp.buf.signature_help, buffer "Signature Help")
+    bind("i", "<C-s>", vim.lsp.buf.signature_help, buffer "Signature Help")
+    bind("n", "<leader>o", function() require("telescope.builtin").lsp_document_symbols(telescope_current_theme) end, buffer "Document Symbols")
   end,
 })
 -- Terminal
-bind({ "n", "t", "i" }, "<C-;>", vim.cmd.ToggleTerm)
-bind({ "n" }, "<leader>1", vim.cmd.NvimTreeToggle)
+bind({ "n", "t", "i" }, "<leader>;", vim.cmd.ToggleTerm, { desc = "ToggleTerm" })
+bind({ "n" }, "<leader>1", vim.cmd.NvimTreeToggle, { desc = "NvimTreeToggle" })
