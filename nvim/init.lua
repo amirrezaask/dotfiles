@@ -70,7 +70,7 @@ require("lazy").setup {
 -- ========================= Plugins configuration ==========================
 -- ==========================================================================
 require("Comment").setup() -- Comment code with ease
-require("tmux").setup()
+require("tmux").setup() -- Integrate with Tmux splits
 require("which-key").setup()
 require("nvim-tree").setup()
 require("telescope").setup {} -- Best fuzzy finder
@@ -221,6 +221,7 @@ vim.g.netrw_browse_split = 0
 vim.g.netrw_banner = 0
 vim.g.netrw_winsize = 25
 vim.opt.laststatus = 2
+vim.opt.timeoutlen = 100
 
 -- ==========================================================================
 -- ========================= Colorscheme ====================================
