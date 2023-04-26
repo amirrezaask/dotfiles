@@ -311,5 +311,5 @@ vim.api.nvim_create_autocmd("LspAttach", {
   end,
 })
 -- Terminal
-bind({ "n", "t", "i" }, "<leader>;", vim.cmd.ToggleTerm, { desc = "ToggleTerm" })
+bind({ "n", "t", "i" }, "<leader>x", vim.cmd.ToggleTerm, { desc = "ToggleTerm" })
 bind({ "n" }, "<leader>1", vim.cmd.NvimTreeToggle, { desc = "NvimTreeToggle" })
