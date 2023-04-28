@@ -18,6 +18,7 @@ require("lazy").setup {
   "norcalli/nvim-colorizer.lua", -- Colorize colorcodes in neovim using blazingly fast LUA code
   "ellisonleao/gruvbox.nvim", -- Best theme of all time ?
   "amirrezaask/themes", -- My own custom created themes
+  "folke/tokyonight.nvim",
   "numToStr/Comment.nvim", -- Comment
   { -- telescope: Fuzzy finding and searching interface
     "nvim-telescope/telescope.nvim",
@@ -235,10 +236,12 @@ require("gruvbox").setup {
     folds = false,
   },
 }
-pcall(vim.cmd.colorscheme, "gruvbox")
+pcall(vim.cmd.colorscheme, "tokyonight-night")
 -- Transparency
-vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+-- if false then
+--   vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+--   vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+-- end
 -- ==========================================================================
 -- ========================= Keybindings ====================================
 -- ==========================================================================
@@ -264,7 +267,7 @@ local telescope_builtin = require "telescope.builtin"
 bind("n", "<C-d>", "<C-d>zz")
 bind("n", "<C-u>", "<C-u>zz")
 bind("n", "<leader><leader>", function() telescope_builtin.git_files(telescope_current_theme) end, { desc = "Telescope Git Files" })
-bind("n", "<leader>ff", function() telescope_builtin.find_files(telescope_current_theme) end, { desc = "Telescope Find files" })
+bind("n", "<leader>f", function() telescope_builtin.find_files(telescope_current_theme) end, { desc = "Telescope Find files" })
 bind("n", "<leader>s", function() telescope_builtin.current_buffer_fuzzy_find(telescope_current_theme) end, { desc = "Current File Search" })
 bind("n", "<leader>o", function() telescope_builtin.treesitter(telescope_current_theme) end, { desc = "Search Symbols In Current File" })
 bind("n", "??", function() telescope_builtin.live_grep() end, { desc = "Live Grep" })
