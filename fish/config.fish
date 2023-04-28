@@ -55,3 +55,8 @@ set -g __fish_git_prompt_color_dirtystate yellow
 set -g __fish_git_prompt_color_cleanstate green --bold
 set -g __fish_git_prompt_color_invalidstate red
 set -g __fish_git_prompt_color_branch cyan --dim --italics
+
+function fish_prompt
+    printf "%s%s " (set_color green && prompt_pwd) (set_color normal && fish_vcs_prompt)
+end
+

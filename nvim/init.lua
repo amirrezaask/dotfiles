@@ -277,8 +277,6 @@ bind("n", "<C-d>", "<C-d>zz")
 bind("n", "<C-u>", "<C-u>zz")
 bind("n", "<leader><leader>", function() telescope_builtin.git_files(telescope_current_theme) end, { desc = "Telescope Git Files" })
 bind("n", "<leader>ff", function() telescope_builtin.find_files(telescope_current_theme) end, { desc = "Telescope Find files" })
-bind("n", "<C-p>", function() telescope_builtin.git_files(telescope_current_theme) end, { desc = "Telescope Git Files" })
-bind("n", "<M-p>", function() telescope_builtin.git_files(telescope_current_theme) end, { desc = "Telescope Git Files" })
 bind("n", "<leader>s", function() telescope_builtin.current_buffer_fuzzy_find(telescope_current_theme) end, { desc = "Current File Search" })
 bind("n", "<leader>o", function() telescope_builtin.treesitter(telescope_current_theme) end, { desc = "Search Symbols In Current File" })
 bind("n", "??", function() telescope_builtin.live_grep() end, { desc = "Live Grep" })
@@ -311,5 +309,5 @@ vim.api.nvim_create_autocmd("LspAttach", {
   end,
 })
 -- Terminal
-bind({ "n", "t", "i" }, "<leader>x", vim.cmd.ToggleTerm, { desc = "ToggleTerm" })
+bind({ "n", "t", "i" }, "<C-p>", vim.cmd.ToggleTerm, { desc = "ToggleTerm" })
 bind({ "n" }, "<leader>1", vim.cmd.NvimTreeToggle, { desc = "NvimTreeToggle" })
