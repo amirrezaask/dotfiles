@@ -36,9 +36,12 @@ end
 alias o 'tmux-open'
 
 # Git stuff
+alias g 'git'
 alias gs 'git status'
 alias gd 'git diff'
 alias gp 'git push'
+
+alias ca 'cargo'
 
 alias reload 'source ~/.config/fish/config.fish'
 
