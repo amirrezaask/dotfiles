@@ -252,25 +252,22 @@ bind("n", "Y", "y$")
 bind("n", "<leader>v", "<cmd>vsplit<CR>", { desc = "Split vertically" })
 bind("n", "<leader>h", "<cmd>split<CR>", { desc = "Split horizontaly" })
 -- Git
-bind("n", "<leader>gs", vim.cmd.Git, { desc = "Git status" })
+bind("n", "<leader>g", vim.cmd.Git, { desc = "Git status" })
 bind("n", "<leader>b", function() require("gitsigns").blame_line { full = true } end, { desc = "Git blame line" })
 bind("n", "<leader>d", function() require("gitsigns").diffthis "~" end, { desc = "Diff current file with HEAD" })
 -- Navigation
-local no_preview = { previewer = false }
-local dropdown = require("telescope.themes").get_dropdown
-local telescope_builtin = require "telescope.builtin"
 bind("n", "<C-d>", "<C-d>zz")
 bind("n", "<C-u>", "<C-u>zz")
 bind("n", "<C-l>", "zz")
+-- Telescope
+local no_preview = { previewer = false, layout_config = { height = 0.4 } }
+local dropdown = require("telescope.themes").get_dropdown
+local telescope_builtin = require "telescope.builtin"
 bind("n", "<C-p>", function() telescope_builtin.git_files(dropdown(no_preview)) end, { desc = "Telescope Git Files" })
-bind("n", "<leader>pf", function() telescope_builtin.find_files(dropdown(no_preview)) end,
-    { desc = "Telescope Find files" })
-bind("n", "<leader><leader>", function() telescope_builtin.find_files(dropdown(no_preview)) end,
-    { desc = "Telescope Find files" })
-bind("n", "<C-f>", function() telescope_builtin.current_buffer_fuzzy_find(no_preview) end,
-    { desc = "Current File Search" })
-bind("n", "<leader>o", function() telescope_builtin.treesitter(dropdown(no_preview)) end,
-    { desc = "Search Symbols In Current File" })
+bind("n", "<leader>pf", function() telescope_builtin.find_files(dropdown(no_preview)) end, { desc = "Telescope Find files" })
+bind("n", "<leader><leader>", function() telescope_builtin.find_files(dropdown(no_preview)) end, { desc = "Telescope Find files" })
+bind("n", "<C-f>", function() telescope_builtin.current_buffer_fuzzy_find(no_preview) end, { desc = "Current File Search" })
+bind("n", "<leader>o", function() telescope_builtin.treesitter(dropdown(no_preview)) end, { desc = "Search Symbols In Current File" })
 bind("n", "??", function() telescope_builtin.live_grep(no_preview) end, { desc = "Live Grep" })
 bind("n", "\\\\", function() telescope_builtin.current_buffer_fuzzy_find(no_preview) end, { desc = "Live Grep" })
 bind("n", "Q", "<NOP>")
@@ -300,8 +297,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
         bind("n", "C", vim.lsp.buf.code_action, buffer "Code Actions")
         bind("n", "<C-s>", vim.lsp.buf.signature_help, buffer "Signature Help")
         bind("i", "<C-s>", vim.lsp.buf.signature_help, buffer "Signature Help")
-        bind("n", "<leader>o", function() require("telescope.builtin").lsp_document_symbols(dropdown(no_preview)) end,
-            buffer "Document Symbols")
+        bind("n", "<leader>o", function() require("telescope.builtin").lsp_document_symbols(dropdown(no_preview)) end, buffer "Document Symbols")
     end,
 })
 bind({ "n", "t", "i" }, "<C-j>", vim.cmd.ToggleTerm, { desc = "ToggleTerm" }) -- Terminal
