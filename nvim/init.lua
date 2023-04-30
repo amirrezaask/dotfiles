@@ -53,7 +53,7 @@ require("lazy").setup {
     "amirrezaask/themes", -- My own custom created themes
     "folke/tokyonight.nvim", -- folkkkkkeeeeee
     { "rose-pine/neovim", name = "rose-pine" },
-    "numToStr/Comment.nvim", -- Comment
+    "terrortylor/nvim-comment",
     { -- telescope: Fuzzy finding and searching interface
         "nvim-telescope/telescope.nvim",
         dependencies = { "nvim-lua/plenary.nvim", { "nvim-telescope/telescope-fzf-native.nvim", build = "make" } },
@@ -100,8 +100,8 @@ require("lazy").setup {
 -- ==========================================================================
 -- ========================= Plugins configuration ==========================
 -- ==========================================================================
-require("Comment").setup() -- Comment code with ease
 require("which-key").setup()
+require("nvim_comment").setup()
 require("nvim-tree").setup()
 require("telescope").setup {} -- Best fuzzy finder
 require("telescope").load_extension "fzf" -- load fzf awesomnes into Telescope
@@ -241,6 +241,7 @@ pcall(vim.cmd.colorscheme, "rose-pine")
 vim.g.mapleader = " "
 local bind = vim.keymap.set
 -- Editing
+bind({ "i", "n", "v" }, "<C-/>", "<cmd>CommentToggle<CR>")
 bind("t", "<Esc>", "<C-\\><C-n>")
 bind("t", "jk", "<C-\\><C-n>")
 bind("t", "kj", "<C-\\><C-n>")
@@ -255,20 +256,23 @@ bind("n", "<leader>gs", vim.cmd.Git, { desc = "Git status" })
 bind("n", "<leader>b", function() require("gitsigns").blame_line { full = true } end, { desc = "Git blame line" })
 bind("n", "<leader>d", function() require("gitsigns").diffthis "~" end, { desc = "Diff current file with HEAD" })
 -- Navigation
-local telescope_current_theme = { previewer = false }
+local no_preview = { previewer = false }
+local dropdown = require("telescope.themes").get_dropdown
 local telescope_builtin = require "telescope.builtin"
 bind("n", "<C-d>", "<C-d>zz")
 bind("n", "<C-u>", "<C-u>zz")
-bind("n", "<C-p>", function() telescope_builtin.git_files(telescope_current_theme) end, { desc = "Telescope Git Files" })
-bind("n", "<leader>pf", function() telescope_builtin.find_files(telescope_current_theme) end,
+bind("n", "<C-l>", "zz")
+bind("n", "<C-p>", function() telescope_builtin.git_files(dropdown(no_preview)) end, { desc = "Telescope Git Files" })
+bind("n", "<leader>pf", function() telescope_builtin.find_files(dropdown(no_preview)) end,
     { desc = "Telescope Find files" })
-bind("n", "<leader><leader>", function() telescope_builtin.find_files(telescope_current_theme) end,
+bind("n", "<leader><leader>", function() telescope_builtin.find_files(dropdown(no_preview)) end,
     { desc = "Telescope Find files" })
-bind("n", "<C-f>", function() telescope_builtin.current_buffer_fuzzy_find(telescope_current_theme) end,
+bind("n", "<C-f>", function() telescope_builtin.current_buffer_fuzzy_find(no_preview) end,
     { desc = "Current File Search" })
-bind("n", "<leader>o", function() telescope_builtin.treesitter(telescope_current_theme) end,
+bind("n", "<leader>o", function() telescope_builtin.treesitter(dropdown(no_preview)) end,
     { desc = "Search Symbols In Current File" })
-bind("n", "??", function() telescope_builtin.live_grep() end, { desc = "Live Grep" })
+bind("n", "??", function() telescope_builtin.live_grep(no_preview) end, { desc = "Live Grep" })
+bind("n", "\\\\", function() telescope_builtin.current_buffer_fuzzy_find(no_preview) end, { desc = "Live Grep" })
 bind("n", "Q", "<NOP>")
 bind("n", "{", ":cprev<CR>")
 bind("n", "}", ":cnext<CR>")
@@ -296,7 +300,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
         bind("n", "C", vim.lsp.buf.code_action, buffer "Code Actions")
         bind("n", "<C-s>", vim.lsp.buf.signature_help, buffer "Signature Help")
         bind("i", "<C-s>", vim.lsp.buf.signature_help, buffer "Signature Help")
-        bind("n", "<leader>o", function() require("telescope.builtin").lsp_document_symbols(telescope_current_theme) end,
+        bind("n", "<leader>o", function() require("telescope.builtin").lsp_document_symbols(dropdown(no_preview)) end,
             buffer "Document Symbols")
     end,
 })
