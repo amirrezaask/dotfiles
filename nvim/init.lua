@@ -227,7 +227,12 @@ require("gruvbox").setup {
         folds = false,
     },
 }
-pcall(vim.cmd.colorscheme, "rose-pine")
+require("rose-pine").setup {
+    dim_nc_background = true,
+    disable_background = true,
+    disable_float_background = true,
+}
+pcall(vim.cmd.colorscheme, "jblow")
 -- ==========================================================================
 -- ========================= Keybindings ====================================
 -- ==========================================================================
@@ -253,12 +258,9 @@ local telescope_builtin = require "telescope.builtin"
 bind("n", "<C-d>", "<C-d>zz")
 bind("n", "<C-u>", "<C-u>zz")
 bind("n", "<C-p>", function() telescope_builtin.git_files(telescope_current_theme) end, { desc = "Telescope Git Files" })
-bind("n", "<leader>pf", function() telescope_builtin.find_files(telescope_current_theme) end,
-    { desc = "Telescope Find files" })
-bind("n", "<C-f>", function() telescope_builtin.current_buffer_fuzzy_find(telescope_current_theme) end,
-    { desc = "Current File Search" })
-bind("n", "<leader>o", function() telescope_builtin.treesitter(telescope_current_theme) end,
-    { desc = "Search Symbols In Current File" })
+bind("n", "<leader>pf", function() telescope_builtin.find_files(telescope_current_theme) end, { desc = "Telescope Find files" })
+bind("n", "<C-f>", function() telescope_builtin.current_buffer_fuzzy_find(telescope_current_theme) end, { desc = "Current File Search" })
+bind("n", "<leader>o", function() telescope_builtin.treesitter(telescope_current_theme) end, { desc = "Search Symbols In Current File" })
 bind("n", "??", function() telescope_builtin.live_grep() end, { desc = "Live Grep" })
 bind("n", "Q", "<NOP>")
 bind("n", "{", ":cprev<CR>")
@@ -287,8 +289,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
         bind("n", "C", vim.lsp.buf.code_action, buffer "Code Actions")
         bind("n", "<C-s>", vim.lsp.buf.signature_help, buffer "Signature Help")
         bind("i", "<C-s>", vim.lsp.buf.signature_help, buffer "Signature Help")
-        bind("n", "<leader>o", function() require("telescope.builtin").lsp_document_symbols(telescope_current_theme) end,
-            buffer "Document Symbols")
+        bind("n", "<leader>o", function() require("telescope.builtin").lsp_document_symbols(telescope_current_theme) end, buffer "Document Symbols")
     end,
 })
 bind({ "n", "t", "i" }, "<C-j>", vim.cmd.ToggleTerm, { desc = "ToggleTerm" }) -- Terminal
