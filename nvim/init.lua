@@ -21,7 +21,7 @@ vim.opt.shortmess:append "I" -- No Intro message
 vim.opt.clipboard:append "unnamedplus" -- use system clipboard as default register.
 vim.opt.splitbelow = true
 vim.opt.splitright = true
-vim.opt.cursorline = true
+vim.opt.cursorline = false
 vim.opt.sw = 4
 vim.opt.ts = 4
 vim.opt.expandtab = true
@@ -233,6 +233,8 @@ require("rose-pine").setup {
     disable_float_background = true,
 }
 pcall(vim.cmd.colorscheme, "rose-pine")
+vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
 -- ==========================================================================
 -- ========================= Keybindings ====================================
 -- ==========================================================================
@@ -259,6 +261,8 @@ bind("n", "<C-d>", "<C-d>zz")
 bind("n", "<C-u>", "<C-u>zz")
 bind("n", "<C-p>", function() telescope_builtin.git_files(telescope_current_theme) end, { desc = "Telescope Git Files" })
 bind("n", "<leader>pf", function() telescope_builtin.find_files(telescope_current_theme) end,
+    { desc = "Telescope Find files" })
+bind("n", "<leader><leader>", function() telescope_builtin.find_files(telescope_current_theme) end,
     { desc = "Telescope Find files" })
 bind("n", "<C-f>", function() telescope_builtin.current_buffer_fuzzy_find(telescope_current_theme) end,
     { desc = "Current File Search" })
@@ -287,8 +291,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
         bind("n", "K", vim.lsp.buf.hover, buffer "Hover")
         bind("n", "gf", vim.lsp.buf.format, buffer "Format Document")
         bind("n", "gl", vim.diagnostic.open_float, buffer "")
-        bind("n", "gp", vim.diagnostic.goto_prev, buffer "")
-        bind("n", "gn", vim.diagnostic.goto_next, buffer "")
+        bind("n", "gp", vim.diagnostic.goto_prev, buffer "Next Diagnostic")
+        bind("n", "gn", vim.diagnostic.goto_next, buffer "Previous Diagnostic")
         bind("n", "C", vim.lsp.buf.code_action, buffer "Code Actions")
         bind("n", "<C-s>", vim.lsp.buf.signature_help, buffer "Signature Help")
         bind("i", "<C-s>", vim.lsp.buf.signature_help, buffer "Signature Help")
