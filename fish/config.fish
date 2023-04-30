@@ -21,7 +21,7 @@ eval $(brew shellenv)
 
 alias vim 'nvim'
 
-set -gx EDITOR 'vim'
+set -gx EDITOR 'nvim'
 set -gx HOMEBREW_NO_AUTO_UPDATE '1'
 
 set -gx FZF_DEFAULT_OPTS '--height 20%'

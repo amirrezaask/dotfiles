@@ -129,6 +129,10 @@ local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 local cmp = require "cmp"
 cmp.setup {
+    window = {
+        completion = cmp.config.window.bordered(),
+        documentation = cmp.config.window.bordered(),
+    },
     snippet = {
         expand = function(args) vim.fn["vsnip#anonymous"](args.body) end,
     },
@@ -228,13 +232,9 @@ require("gruvbox").setup {
     },
 }
 require("rose-pine").setup {
-    dim_nc_background = true,
     disable_background = true,
-    disable_float_background = true,
 }
 pcall(vim.cmd.colorscheme, "rose-pine")
-vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
 -- ==========================================================================
 -- ========================= Keybindings ====================================
 -- ==========================================================================
