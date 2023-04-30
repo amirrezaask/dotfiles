@@ -234,7 +234,7 @@ require("gruvbox").setup {
 require("rose-pine").setup {
     disable_background = true,
 }
-pcall(vim.cmd.colorscheme, "rose-pine")
+pcall(vim.cmd.colorscheme, "gruvbox")
 -- ==========================================================================
 -- ========================= Keybindings ====================================
 -- ==========================================================================
