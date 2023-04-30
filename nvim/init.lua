@@ -53,7 +53,7 @@ require("lazy").setup {
     "amirrezaask/themes", -- My own custom created themes
     "folke/tokyonight.nvim", -- folkkkkkeeeeee
     { "rose-pine/neovim", name = "rose-pine" },
-    "terrortylor/nvim-comment",
+    "numToStr/Comment.nvim",
     { -- telescope: Fuzzy finding and searching interface
         "nvim-telescope/telescope.nvim",
         dependencies = { "nvim-lua/plenary.nvim", { "nvim-telescope/telescope-fzf-native.nvim", build = "make" } },
@@ -101,8 +101,8 @@ require("lazy").setup {
 -- ========================= Plugins configuration ==========================
 -- ==========================================================================
 require("which-key").setup()
-require("nvim_comment").setup()
-require("nvim-tree").setup()
+require("nvim-tree").setup() -- Tree file explorer
+require("Comment").setup() -- Commenting
 require("telescope").setup {} -- Best fuzzy finder
 require("telescope").load_extension "fzf" -- load fzf awesomnes into Telescope
 require("nvim-treesitter.configs").setup { -- Setup treesitter text objects module + highlight
@@ -241,7 +241,6 @@ pcall(vim.cmd.colorscheme, "rose-pine")
 vim.g.mapleader = " "
 local bind = vim.keymap.set
 -- Editing
-bind({ "i", "n", "v" }, "<C-/>", "<cmd>CommentToggle<CR>")
 bind("t", "<Esc>", "<C-\\><C-n>")
 bind("t", "jk", "<C-\\><C-n>")
 bind("t", "kj", "<C-\\><C-n>")
