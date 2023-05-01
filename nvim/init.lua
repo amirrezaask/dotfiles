@@ -259,7 +259,7 @@ bind("n", "<C-d>", "<C-d>zz")
 bind("n", "<C-u>", "<C-u>zz")
 bind("n", "<C-l>", "zz")
 -- Telescope
-local no_preview = { previewer = false, layout_config = { height = 0.4 } }
+local no_preview = { previewer = false, layout_config = { height = 0.5 } }
 local dropdown = require("telescope.themes").get_dropdown
 local telescope_builtin = require "telescope.builtin"
 bind("n", "<C-p>", function() telescope_builtin.git_files(dropdown(no_preview)) end, { desc = "Telescope Git Files" })
