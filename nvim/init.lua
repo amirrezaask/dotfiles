@@ -60,7 +60,7 @@ require("lazy").setup {
     "shaunsingh/nord.nvim",
     "oxfist/night-owl.nvim",
     "shaunsingh/oxocarbon.nvim",
-    { "rose-pine/neovim", name = "rose-pine" },
+    { "rose-pine/neovim",          name = "rose-pine" },
     "numToStr/Comment.nvim",
     { -- telescope: Fuzzy finding and searching interface
         "nvim-telescope/telescope.nvim",
@@ -250,7 +250,10 @@ require("rose-pine").setup {
     disable_background = true,
 }
 
-pcall(vim.cmd.colorscheme, "nightfly")
+pcall(vim.cmd.colorscheme, "rose-pine")
+vim.cmd [[ hi Normal guibg = none ]]
+vim.cmd [[ hi NormalFloat guibg = none ]]
+vim.cmd [[ hi LineNr guibg = none ]]
 -- ==========================================================================
 -- ========================= Keybindings ====================================
 -- ==========================================================================
@@ -266,6 +269,9 @@ bind("n", "Y", "y$")
 -- Splits management
 bind("n", "<leader>v", "<cmd>vsplit<CR>", { desc = "Split vertically" })
 bind("n", "<leader>h", "<cmd>split<CR>", { desc = "Split horizontaly" })
+bind("n", "<Left>", "<cmd>vertical resize -10<CR>")
+bind("n", "<Right>", "<cmd>vertical resize +10<CR>")
+bind("n", "<C-w>=", "<cmd>wincmd =<CR>")
 -- Window navigation
 bind({ "n", "i" }, "<C-l>", "<cmd>wincmd l<CR>", { desc = "Move to split right" })
 bind({ "n", "i" }, "<C-k>", "<cmd>wincmd k<CR>", { desc = "Move to split above" })
@@ -283,12 +289,15 @@ local no_preview = { previewer = false, layout_config = { height = 0.5 } }
 local dropdown = require("telescope.themes").get_dropdown
 local telescope_builtin = require "telescope.builtin"
 bind("n", "<C-p>", function() telescope_builtin.git_files(dropdown(no_preview)) end, { desc = "Telescope Git Files" })
-bind("n", "<leader>pf", function() telescope_builtin.find_files(dropdown(no_preview)) end, { desc = "Telescope Find files" })
-bind("n", "<leader><leader>", function() telescope_builtin.find_files(dropdown(no_preview)) end, { desc = "Telescope Find files" })
-bind("n", "<C-f>", function() telescope_builtin.current_buffer_fuzzy_find(no_preview) end, { desc = "Current File Search" })
-bind("n", "<leader>o", function() telescope_builtin.treesitter(dropdown(no_preview)) end, { desc = "Search Symbols In Current File" })
+bind("n", "<leader>pf", function() telescope_builtin.find_files(dropdown(no_preview)) end,
+    { desc = "Telescope Find files" })
+bind("n", "<leader><leader>", function() telescope_builtin.find_files(dropdown(no_preview)) end,
+    { desc = "Telescope Find files" })
+bind("n", "<C-f>", function() telescope_builtin.current_buffer_fuzzy_find(no_preview) end,
+    { desc = "Current File Search" })
+bind("n", "<leader>o", function() telescope_builtin.treesitter(dropdown(no_preview)) end,
+    { desc = "Search Symbols In Current File" })
 bind("n", "??", function() telescope_builtin.live_grep(no_preview) end, { desc = "Live Grep" })
-bind("n", "\\\\", function() telescope_builtin.current_buffer_fuzzy_find(no_preview) end, { desc = "Live Grep" })
 bind("n", "Q", "<NOP>")
 bind("n", "{", ":cprev<CR>")
 bind("n", "}", ":cnext<CR>")
@@ -316,7 +325,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
         bind("n", "C", vim.lsp.buf.code_action, buffer "Code Actions")
         bind("n", "<C-s>", vim.lsp.buf.signature_help, buffer "Signature Help")
         bind("i", "<C-s>", vim.lsp.buf.signature_help, buffer "Signature Help")
-        bind("n", "<leader>o", function() require("telescope.builtin").lsp_document_symbols(dropdown(no_preview)) end, buffer "Document Symbols")
+        bind("n", "<leader>o", function() require("telescope.builtin").lsp_document_symbols(dropdown(no_preview)) end,
+            buffer "Document Symbols")
     end,
 })
 bind({ "n", "t", "i" }, "<A-j>", vim.cmd.ToggleTerm, { desc = "ToggleTerm" }) -- Terminal
