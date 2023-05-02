@@ -52,7 +52,13 @@ require("lazy").setup {
     "norcalli/nvim-colorizer.lua", -- Colorize colorcodes in neovim using blazingly fast LUA code
     "ellisonleao/gruvbox.nvim", -- Best theme of all time ?
     "amirrezaask/themes", -- My own custom created themes
+    "rebelot/kanagawa.nvim",
     "folke/tokyonight.nvim", -- folkkkkkeeeeee
+    "bluz71/vim-nightfly-colors",
+    "bluz71/vim-moonfly-colors",
+    "rafamadriz/neon",
+    "shaunsingh/nord.nvim",
+    "oxfist/night-owl.nvim",
     "shaunsingh/oxocarbon.nvim",
     { "rose-pine/neovim", name = "rose-pine" },
     "numToStr/Comment.nvim",
@@ -243,7 +249,8 @@ require("gruvbox").setup {
 require("rose-pine").setup {
     disable_background = true,
 }
-pcall(vim.cmd.colorscheme, "tokyonight-night")
+
+pcall(vim.cmd.colorscheme, "nightfly")
 -- ==========================================================================
 -- ========================= Keybindings ====================================
 -- ==========================================================================
