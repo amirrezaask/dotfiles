@@ -249,11 +249,15 @@ require("gruvbox").setup {
 require("rose-pine").setup {
     disable_background = true,
 }
+require("tokyonight").setup {
+    transparent = true,
+}
 
-pcall(vim.cmd.colorscheme, "rose-pine")
+pcall(vim.cmd.colorscheme, "nightfly")
 vim.cmd [[ hi Normal guibg = none ]]
 vim.cmd [[ hi NormalFloat guibg = none ]]
 vim.cmd [[ hi LineNr guibg = none ]]
+vim.cmd [[ hi SignColumn guibg = none ]]
 -- ==========================================================================
 -- ========================= Keybindings ====================================
 -- ==========================================================================
