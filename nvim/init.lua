@@ -95,12 +95,18 @@ require("lazy").setup {
     "akinsho/toggleterm.nvim", -- Terminal inside neovim
     "folke/which-key.nvim", -- Cheat your way through keybindings
     "nvim-tree/nvim-tree.lua", -- Tree file explorer
+    "folke/zen-mode.nvim",
 }
 
 -- ==========================================================================
 -- ========================= Plugins configuration ==========================
 -- ==========================================================================
-require("which-key").setup()
+require("which-key").setup {
+    window = {
+        border = "single",
+    },
+}
+require("zen-mode").setup()
 require("nvim-tree").setup() -- Tree file explorer
 require("Comment").setup() -- Commenting
 require("telescope").setup {} -- Best fuzzy finder
