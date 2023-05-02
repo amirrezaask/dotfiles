@@ -48,10 +48,12 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup {
+    { "nvim-lualine/lualine.nvim", dependencies = { "nvim-tree/nvim-web-devicons", opt = true } },
     "norcalli/nvim-colorizer.lua", -- Colorize colorcodes in neovim using blazingly fast LUA code
     "ellisonleao/gruvbox.nvim", -- Best theme of all time ?
     "amirrezaask/themes", -- My own custom created themes
     "folke/tokyonight.nvim", -- folkkkkkeeeeee
+    "shaunsingh/oxocarbon.nvim",
     { "rose-pine/neovim", name = "rose-pine" },
     "numToStr/Comment.nvim",
     { -- telescope: Fuzzy finding and searching interface
@@ -101,6 +103,7 @@ require("lazy").setup {
 -- ==========================================================================
 -- ========================= Plugins configuration ==========================
 -- ==========================================================================
+require("lualine").setup()
 require("which-key").setup {
     window = {
         border = "single",
@@ -240,7 +243,7 @@ require("gruvbox").setup {
 require("rose-pine").setup {
     disable_background = true,
 }
-pcall(vim.cmd.colorscheme, "rose-pine")
+pcall(vim.cmd.colorscheme, "tokyonight-night")
 -- ==========================================================================
 -- ========================= Keybindings ====================================
 -- ==========================================================================
@@ -253,9 +256,14 @@ bind("t", "kj", "<C-\\><C-n>")
 bind("i", "jk", "<esc>")
 bind("i", "kj", "<esc>")
 bind("n", "Y", "y$")
--- Window management
+-- Splits management
 bind("n", "<leader>v", "<cmd>vsplit<CR>", { desc = "Split vertically" })
 bind("n", "<leader>h", "<cmd>split<CR>", { desc = "Split horizontaly" })
+-- Window navigation
+bind({ "n", "i" }, "<C-l>", "<cmd>wincmd l<CR>", { desc = "Move to split right" })
+bind({ "n", "i" }, "<C-k>", "<cmd>wincmd k<CR>", { desc = "Move to split above" })
+bind({ "n", "i" }, "<C-j>", "<cmd>wincmd j<CR>", { desc = "Move to split below" })
+bind({ "n", "i" }, "<C-h>", "<cmd>wincmd h<CR>", { desc = "Move to split left" })
 -- Git
 bind("n", "<leader>g", vim.cmd.Git, { desc = "Git status" })
 bind("n", "<leader>b", function() require("gitsigns").blame_line { full = true } end, { desc = "Git blame line" })
@@ -263,7 +271,6 @@ bind("n", "<leader>d", function() require("gitsigns").diffthis "~" end, { desc =
 -- Navigation
 bind("n", "<C-d>", "<C-d>zz")
 bind("n", "<C-u>", "<C-u>zz")
-bind("n", "<C-l>", "zz")
 -- Telescope
 local no_preview = { previewer = false, layout_config = { height = 0.5 } }
 local dropdown = require("telescope.themes").get_dropdown
@@ -305,5 +312,5 @@ vim.api.nvim_create_autocmd("LspAttach", {
         bind("n", "<leader>o", function() require("telescope.builtin").lsp_document_symbols(dropdown(no_preview)) end, buffer "Document Symbols")
     end,
 })
-bind({ "n", "t", "i" }, "<C-j>", vim.cmd.ToggleTerm, { desc = "ToggleTerm" }) -- Terminal
+bind({ "n", "t", "i" }, "<A-j>", vim.cmd.ToggleTerm, { desc = "ToggleTerm" }) -- Terminal
 bind({ "n" }, "<C-b>", vim.cmd.NvimTreeToggle, { desc = "NvimTreeToggle" }) -- Tree File Explorer
