@@ -103,7 +103,7 @@ require("lazy").setup {
 -- ==========================================================================
 -- ========================= Plugins configuration ==========================
 -- ==========================================================================
-require("lualine").setup()
+require("lualine").setup {}
 require("which-key").setup {
     window = {
         border = "single",
@@ -313,4 +313,4 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end,
 })
 bind({ "n", "t", "i" }, "<A-j>", vim.cmd.ToggleTerm, { desc = "ToggleTerm" }) -- Terminal
-bind({ "n" }, "<C-b>", vim.cmd.NvimTreeToggle, { desc = "NvimTreeToggle" }) -- Tree File Explorer
+bind({ "n" }, "<A-b>", vim.cmd.NvimTreeToggle, { desc = "NvimTreeToggle" }) -- Tree File Explorer
