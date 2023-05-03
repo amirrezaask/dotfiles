@@ -253,7 +253,7 @@ require("tokyonight").setup {
     transparent = true,
 }
 
-pcall(vim.cmd.colorscheme, "nightfly")
+pcall(vim.cmd.colorscheme, "tokyonight")
 vim.cmd [[ hi Normal guibg = none ]]
 vim.cmd [[ hi NormalFloat guibg = none ]]
 vim.cmd [[ hi LineNr guibg = none ]]
