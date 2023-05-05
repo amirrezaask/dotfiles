@@ -48,6 +48,12 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup {
+    -- Statusline
+    {
+        "nvim-lualine/lualine.nvim",
+        dependencies = { "nvim-tree/nvim-web-devicons", opt = true },
+    },
+
     "ellisonleao/gruvbox.nvim", -- Best theme of all time ?
     "amirrezaask/themes", -- My own custom created themes
     "rebelot/kanagawa.nvim",
@@ -106,6 +112,7 @@ require("lazy").setup {
 -- ==========================================================================
 -- ========================= Plugins configuration ==========================
 -- ==========================================================================
+require("lualine").setup()
 require("which-key").setup {
     window = {
         border = "single",
@@ -242,8 +249,12 @@ require("gruvbox").setup {
         folds = false,
     },
 }
-require("rose-pine").setup {}
-require("tokyonight").setup {}
+require("rose-pine").setup {
+    disable_background = true,
+}
+require("tokyonight").setup {
+    transparent = true,
+}
 
 pcall(vim.cmd.colorscheme, "rose-pine")
 -- ==========================================================================
