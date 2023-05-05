@@ -56,7 +56,6 @@ require("lazy").setup {
     "bluz71/vim-moonfly-colors",
     "rafamadriz/neon",
     "shaunsingh/nord.nvim",
-    "oxfist/night-owl.nvim",
     "shaunsingh/oxocarbon.nvim",
     { "rose-pine/neovim", name = "rose-pine" },
     "numToStr/Comment.nvim",
@@ -107,13 +106,12 @@ require("lazy").setup {
 -- ==========================================================================
 -- ========================= Plugins configuration ==========================
 -- ==========================================================================
--- require("lualine").setup {}
--- require("which-key").setup {
---     window = {
---         border = "single",
---     },
--- }
--- require("zen-mode").setup()
+require("which-key").setup {
+    window = {
+        border = "single",
+    },
+}
+require("zen-mode").setup()
 require("nvim-tree").setup() -- Tree file explorer
 require("Comment").setup() -- Commenting
 require("telescope").setup {} -- Best fuzzy finder
@@ -247,7 +245,7 @@ require("gruvbox").setup {
 require("rose-pine").setup {}
 require("tokyonight").setup {}
 
-pcall(vim.cmd.colorscheme, "gruvbox")
+pcall(vim.cmd.colorscheme, "rose-pine")
 -- ==========================================================================
 -- ========================= Keybindings ====================================
 -- ==========================================================================
@@ -263,9 +261,9 @@ bind("n", "Y", "y$")
 -- Splits management
 bind("n", "<leader>v", "<cmd>vsplit<CR>", { desc = "Split vertically" })
 bind("n", "<leader>h", "<cmd>split<CR>", { desc = "Split horizontaly" })
-bind("n", "<Left>", "<cmd>vertical resize -10<CR>")
-bind("n", "<Right>", "<cmd>vertical resize +10<CR>")
-bind("n", "<C-w>=", "<cmd>wincmd =<CR>")
+-- bind("n", "<Left>", "<cmd>vertical resize -10<CR>")
+-- bind("n", "<Right>", "<cmd>vertical resize +10<CR>")
+-- bind("n", "<C-w>=", "<cmd>wincmd =<CR>")
 -- Window navigation
 bind({ "n", "i" }, "<C-l>", "<cmd>wincmd l<CR>", { desc = "Move to split right" })
 bind({ "n", "i" }, "<C-k>", "<cmd>wincmd k<CR>", { desc = "Move to split above" })
