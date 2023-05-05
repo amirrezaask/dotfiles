@@ -112,7 +112,7 @@ require("lazy").setup {
 -- ==========================================================================
 -- ========================= Plugins configuration ==========================
 -- ==========================================================================
-require("lualine").setup()
+require("lualine").setup {}
 require("which-key").setup {
     window = {
         border = "single",
@@ -272,9 +272,9 @@ bind("n", "Y", "y$")
 -- Splits management
 bind("n", "<leader>v", "<cmd>vsplit<CR>", { desc = "Split vertically" })
 bind("n", "<leader>h", "<cmd>split<CR>", { desc = "Split horizontaly" })
--- bind("n", "<Left>", "<cmd>vertical resize -10<CR>")
--- bind("n", "<Right>", "<cmd>vertical resize +10<CR>")
--- bind("n", "<C-w>=", "<cmd>wincmd =<CR>")
+bind("n", "<Left>", "<cmd>vertical resize -10<CR>")
+bind("n", "<Right>", "<cmd>vertical resize +10<CR>")
+bind("n", "<C-w>=", "<cmd>wincmd =<CR>")
 -- Window navigation
 bind({ "n", "i" }, "<C-l>", "<cmd>wincmd l<CR>", { desc = "Move to split right" })
 bind({ "n", "i" }, "<C-k>", "<cmd>wincmd k<CR>", { desc = "Move to split above" })
