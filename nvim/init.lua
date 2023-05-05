@@ -328,9 +328,8 @@ local no_preview = { previewer = false, layout_config = { height = 0.5 } }
 local dropdown = require("telescope.themes").get_dropdown
 local telescope_builtin = require "telescope.builtin"
 vim.keymap.set("n", "<C-p>", function() telescope_builtin.git_files(dropdown(no_preview)) end, { desc = "Telescope Git Files" })
-vim.keymap.set("n", "<leader>pf", function() telescope_builtin.find_files(dropdown(no_preview)) end, { desc = "Telescope Find files" })
 vim.keymap.set("n", "<leader><leader>", function() telescope_builtin.find_files(dropdown(no_preview)) end, { desc = "Telescope Find files" })
-vim.keymap.set("n", "<C-f>", function() telescope_builtin.current_buffer_fuzzy_find(no_preview) end, { desc = "Current File Search" })
+vim.keymap.set("n", ",,", function() telescope_builtin.current_buffer_fuzzy_find(no_preview) end, { desc = "Current File Search" })
 vim.keymap.set("n", "<leader>o", function() telescope_builtin.treesitter(dropdown(no_preview)) end, { desc = "Search Symbols In Current File" })
 vim.keymap.set("n", "??", function() telescope_builtin.live_grep(no_preview) end, { desc = "Live Grep" })
 vim.keymap.set("n", "Q", "<NOP>")
@@ -353,7 +352,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
         vim.keymap.set("n", "gr", vim.lsp.buf.references, buffer "Goto References")
         vim.keymap.set("n", "R", vim.lsp.buf.rename, buffer "Rename")
         vim.keymap.set("n", "K", vim.lsp.buf.hover, buffer "Hover")
-        vim.keymap.set("n", "gf", vim.lsp.buf.format, buffer "Format Document")
         vim.keymap.set("n", "gl", vim.diagnostic.open_float, buffer "")
         vim.keymap.set("n", "gp", vim.diagnostic.goto_prev, buffer "Next Diagnostic")
         vim.keymap.set("n", "gn", vim.diagnostic.goto_next, buffer "Previous Diagnostic")
