@@ -280,7 +280,7 @@ require("lazy").setup {
                 },
             }
         end,
-    }, -- Cheat your way through keybindings
+    }, -- Cheat your way through keyvim.keymap.setings
     {
         "nvim-tree/nvim-tree.lua",
         config = function()
@@ -294,75 +294,79 @@ require("lazy").setup {
 }
 
 -- ==========================================================================
--- ========================= Keybindings ====================================
+-- ========================= Keyvim.keymap.setings ====================================
 -- ==========================================================================
 vim.g.mapleader = " "
-local bind = vim.keymap.set
 -- Editing
-bind("t", "<Esc>", "<C-\\><C-n>")
-bind("t", "jk", "<C-\\><C-n>")
-bind("t", "kj", "<C-\\><C-n>")
-bind("i", "jk", "<esc>")
-bind("i", "kj", "<esc>")
-bind("n", "Y", "y$")
+vim.keymap.set("t", "<Esc>", "<C-\\><C-n>")
+vim.keymap.set("t", "jk", "<C-\\><C-n>")
+vim.keymap.set("t", "kj", "<C-\\><C-n>")
+vim.keymap.set("i", "jk", "<esc>")
+vim.keymap.set("i", "kj", "<esc>")
+vim.keymap.set("n", "Y", "y$")
 -- Splits management
-bind("n", "<leader>v", "<cmd>vsplit<CR>", { desc = "Split vertically" })
-bind("n", "<leader>h", "<cmd>split<CR>", { desc = "Split horizontaly" })
-bind("n", "<Left>", "<cmd>vertical resize -10<CR>")
-bind("n", "<Right>", "<cmd>vertical resize +10<CR>")
-bind("n", "<C-w>=", "<cmd>wincmd =<CR>")
+vim.keymap.set("n", "<leader>v", "<cmd>vsplit<CR>", { desc = "Split vertically" })
+vim.keymap.set("n", "<leader>h", "<cmd>split<CR>", { desc = "Split horizontaly" })
+vim.keymap.set("n", "<Left>", "<cmd>vertical resize -10<CR>")
+vim.keymap.set("n", "<Right>", "<cmd>vertical resize +10<CR>")
+vim.keymap.set("n", "<C-w>=", "<cmd>wincmd =<CR>")
 -- Window navigation
-bind({ "n", "i" }, "<C-l>", "<cmd>wincmd l<CR>", { desc = "Move to split right" })
-bind({ "n", "i" }, "<C-k>", "<cmd>wincmd k<CR>", { desc = "Move to split above" })
-bind({ "n", "i" }, "<C-j>", "<cmd>wincmd j<CR>", { desc = "Move to split below" })
-bind({ "n", "i" }, "<C-h>", "<cmd>wincmd h<CR>", { desc = "Move to split left" })
+vim.keymap.set({ "n", "i" }, "<C-l>", "<cmd>wincmd l<CR>", { desc = "Move to split right" })
+vim.keymap.set({ "n", "i" }, "<C-k>", "<cmd>wincmd k<CR>", { desc = "Move to split above" })
+vim.keymap.set({ "n", "i" }, "<C-j>", "<cmd>wincmd j<CR>", { desc = "Move to split below" })
+vim.keymap.set({ "n", "i" }, "<C-h>", "<cmd>wincmd h<CR>", { desc = "Move to split left" })
 -- Git
-bind("n", "<leader>g", vim.cmd.Git, { desc = "Git status" })
-bind("n", "<leader>b", function() require("gitsigns").blame_line { full = true } end, { desc = "Git blame line" })
-bind("n", "<leader>d", function() require("gitsigns").diffthis "~" end, { desc = "Diff current file with HEAD" })
-bind("n", "<leader>P", function() vim.cmd.Git "push" end, { desc = "Diff current file with HEAD" })
+vim.keymap.set("n", "<leader>g", vim.cmd.Git, { desc = "Git status" })
+vim.keymap.set("n", "<leader>b", function() require("gitsigns").blame_line { full = true } end, { desc = "Git blame line" })
+vim.keymap.set("n", "<leader>d", function() require("gitsigns").diffthis "~" end, { desc = "Diff current file with HEAD" })
+vim.keymap.set("n", "<leader>P", function() vim.cmd.Git "push" end, { desc = "Diff current file with HEAD" })
 -- Navigation
-bind("n", "<C-d>", "<C-d>zz")
-bind("n", "<C-u>", "<C-u>zz")
+vim.keymap.set("n", "<C-d>", "<C-d>zz")
+vim.keymap.set("n", "<C-u>", "<C-u>zz")
 -- Telescope
 local no_preview = { previewer = false, layout_config = { height = 0.5 } }
 local dropdown = require("telescope.themes").get_dropdown
 local telescope_builtin = require "telescope.builtin"
-bind("n", "<C-p>", function() telescope_builtin.git_files(dropdown(no_preview)) end, { desc = "Telescope Git Files" })
-bind("n", "<leader>pf", function() telescope_builtin.find_files(dropdown(no_preview)) end, { desc = "Telescope Find files" })
-bind("n", "<leader><leader>", function() telescope_builtin.find_files(dropdown(no_preview)) end, { desc = "Telescope Find files" })
-bind("n", "<C-f>", function() telescope_builtin.current_buffer_fuzzy_find(no_preview) end, { desc = "Current File Search" })
-bind("n", "<leader>o", function() telescope_builtin.treesitter(dropdown(no_preview)) end, { desc = "Search Symbols In Current File" })
-bind("n", "??", function() telescope_builtin.live_grep(no_preview) end, { desc = "Live Grep" })
-bind("n", "Q", "<NOP>")
-bind("n", "{", ":cprev<CR>")
-bind("n", "}", ":cnext<CR>")
-bind("v", "J", ":m '>+1<CR>gv=gv")
-bind("v", "K", ":m '<-2<CR>gv=gv")
-bind("n", "n", "nzz")
-bind("n", "N", "Nzz")
-bind("n", "<CR>", [[ {-> v:hlsearch ? ':nohl<CR>' : '<CR>'}() ]], { expr = true })
+vim.keymap.set("n", "<C-p>", function() telescope_builtin.git_files(dropdown(no_preview)) end, { desc = "Telescope Git Files" })
+vim.keymap.set("n", "<leader>pf", function() telescope_builtin.find_files(dropdown(no_preview)) end, { desc = "Telescope Find files" })
+vim.keymap.set("n", "<leader><leader>", function() telescope_builtin.find_files(dropdown(no_preview)) end, { desc = "Telescope Find files" })
+vim.keymap.set("n", "<C-f>", function() telescope_builtin.current_buffer_fuzzy_find(no_preview) end, { desc = "Current File Search" })
+vim.keymap.set("n", "<leader>o", function() telescope_builtin.treesitter(dropdown(no_preview)) end, { desc = "Search Symbols In Current File" })
+vim.keymap.set("n", "??", function() telescope_builtin.live_grep(no_preview) end, { desc = "Live Grep" })
+vim.keymap.set("n", "Q", "<NOP>")
+vim.keymap.set("n", "{", ":cprev<CR>")
+vim.keymap.set("n", "}", ":cnext<CR>")
+vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
+vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
+vim.keymap.set("n", "n", "nzz")
+vim.keymap.set("n", "N", "Nzz")
+vim.keymap.set("n", "<CR>", [[ {-> v:hlsearch ? ':nohl<CR>' : '<CR>'}() ]], { expr = true })
 -- LSP
 vim.api.nvim_create_autocmd("LspAttach", {
     callback = function(args)
         local bufnr = args.buf
         vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
         local buffer = function(desc) return { buffer = bufnr, desc = desc } end
-        bind("n", "gd", vim.lsp.buf.definition, buffer "Goto Definition")
-        bind("n", "gD", vim.lsp.buf.declaration, buffer "Goto Declaration")
-        bind("n", "gi", vim.lsp.buf.implementation, buffer "Goto Implementation")
-        bind("n", "gr", vim.lsp.buf.references, buffer "Goto References")
-        bind("n", "R", vim.lsp.buf.rename, buffer "Rename")
-        bind("n", "K", vim.lsp.buf.hover, buffer "Hover")
-        bind("n", "gf", vim.lsp.buf.format, buffer "Format Document")
-        bind("n", "gl", vim.diagnostic.open_float, buffer "")
-        bind("n", "gp", vim.diagnostic.goto_prev, buffer "Next Diagnostic")
-        bind("n", "gn", vim.diagnostic.goto_next, buffer "Previous Diagnostic")
-        bind("n", "C", vim.lsp.buf.code_action, buffer "Code Actions")
-        bind("n", "<C-s>", vim.lsp.buf.signature_help, buffer "Signature Help")
-        bind("i", "<C-s>", vim.lsp.buf.signature_help, buffer "Signature Help")
-        bind("n", "<leader>o", function() require("telescope.builtin").lsp_document_symbols(dropdown(no_preview)) end, buffer "Document Symbols")
+        vim.keymap.set("n", "gd", vim.lsp.buf.definition, buffer "Goto Definition")
+        vim.keymap.set("n", "gD", vim.lsp.buf.declaration, buffer "Goto Declaration")
+        vim.keymap.set("n", "gi", vim.lsp.buf.implementation, buffer "Goto Implementation")
+        vim.keymap.set("n", "gr", vim.lsp.buf.references, buffer "Goto References")
+        vim.keymap.set("n", "R", vim.lsp.buf.rename, buffer "Rename")
+        vim.keymap.set("n", "K", vim.lsp.buf.hover, buffer "Hover")
+        vim.keymap.set("n", "gf", vim.lsp.buf.format, buffer "Format Document")
+        vim.keymap.set("n", "gl", vim.diagnostic.open_float, buffer "")
+        vim.keymap.set("n", "gp", vim.diagnostic.goto_prev, buffer "Next Diagnostic")
+        vim.keymap.set("n", "gn", vim.diagnostic.goto_next, buffer "Previous Diagnostic")
+        vim.keymap.set("n", "C", vim.lsp.buf.code_action, buffer "Code Actions")
+        vim.keymap.set("n", "<C-s>", vim.lsp.buf.signature_help, buffer "Signature Help")
+        vim.keymap.set("i", "<C-s>", vim.lsp.buf.signature_help, buffer "Signature Help")
+        vim.keymap.set(
+            "n",
+            "<leader>o",
+            function() require("telescope.builtin").lsp_document_symbols(dropdown(no_preview)) end,
+            buffer "Document Symbols"
+        )
     end,
 })
-bind({ "n", "t", "i" }, "<A-j>", vim.cmd.ToggleTerm, { desc = "ToggleTerm" }) -- Terminal
-bind({ "n" }, "<A-b>", vim.cmd.NvimTreeToggle, { desc = "NvimTreeToggle" }) -- Tree File Explorer
+vim.keymap.set({ "n", "t", "i" }, "<A-j>", vim.cmd.ToggleTerm, { desc = "ToggleTerm" }) -- Terminal
+vim.keymap.set({ "n" }, "<A-b>", vim.cmd.NvimTreeToggle, { desc = "NvimTreeToggle" }) -- Tree File Explorer
