@@ -256,7 +256,9 @@ require("tokyonight").setup {
     transparent = true,
 }
 
-pcall(vim.cmd.colorscheme, "rose-pine")
+vim.g.nightflyTransparent = false
+pcall(vim.cmd.colorscheme, "nightfly")
+
 -- ==========================================================================
 -- ========================= Keybindings ====================================
 -- ==========================================================================
