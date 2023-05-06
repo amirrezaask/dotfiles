@@ -21,7 +21,7 @@ vim.opt.shortmess:append "I" -- No Intro message
 vim.opt.clipboard:append "unnamedplus" -- use system clipboard as default register.
 vim.opt.splitbelow = true
 vim.opt.splitright = true
-vim.opt.cursorline = true
+vim.opt.cursorline = false
 vim.opt.sw = 4
 vim.opt.ts = 4
 vim.opt.expandtab = true
@@ -55,12 +55,13 @@ require("lazy").setup {
     },
     {
         "amirrezaask/themes",
-        config = function() pcall(vim.cmd.colorscheme, "rose-pine") end,
+        config = function() vim.cmd.colorscheme "rose-pine" end,
         dependencies = {
             {
                 "ellisonleao/gruvbox.nvim", -- Best theme of all time
                 config = function()
                     require("gruvbox").setup {
+                        transparent_mode = true,
                         contrast = "hard",
                         italic = {
                             strings = false,
@@ -237,6 +238,7 @@ require("lazy").setup {
         end,
     },
     "stevearc/oil.nvim", -- File manager like a BOSS
+    { "fatih/vim-go", config = function() vim.g.go_template_autocreate = false end },
     "pbrisbin/vim-mkdir", -- Automatically create directory if not exists
     "fladson/vim-kitty", -- Support Kitty terminal config syntax
     "towolf/vim-helm", -- Support for helm template syntax
@@ -281,12 +283,6 @@ require("lazy").setup {
             }
         end,
     }, -- Cheat your way through keyvim.keymap.setings
-    {
-        "nvim-tree/nvim-tree.lua",
-        config = function()
-            require("nvim-tree").setup() -- Tree file explorer
-        end,
-    }, -- Tree file explorer
     {
         "folke/zen-mode.nvim",
         config = function() require("zen-mode").setup() end,
