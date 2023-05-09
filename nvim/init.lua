@@ -55,7 +55,7 @@ require("lazy").setup {
     },
     {
         "amirrezaask/themes",
-        config = function() vim.cmd.colorscheme "rose-pine" end,
+        config = function() vim.cmd.colorscheme "gruvbox" end,
         dependencies = {
             {
                 "ellisonleao/gruvbox.nvim", -- Best theme of all time
@@ -363,4 +363,3 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end,
 })
 vim.keymap.set({ "n", "t", "i" }, "<A-j>", vim.cmd.ToggleTerm, { desc = "ToggleTerm" }) -- Terminal
-vim.keymap.set({ "n" }, "<A-b>", vim.cmd.NvimTreeToggle, { desc = "NvimTreeToggle" }) -- Tree File Explorer
