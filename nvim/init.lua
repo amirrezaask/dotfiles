@@ -55,7 +55,7 @@ require("lazy").setup {
     },
     {
         "amirrezaask/themes",
-        config = function() vim.cmd.colorscheme "gruvbox" end,
+        config = function() vim.cmd.colorscheme "tokyonight" end,
         dependencies = {
             {
                 "ellisonleao/gruvbox.nvim", -- Best theme of all time
