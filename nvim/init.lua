@@ -178,14 +178,23 @@ require("lazy").setup {
     { -- LSP + Mason + Null-ls: Neovim builtin LSP client + Mason for installing langauge servers + Null-Ls to integrate non LSP tools into LSP client
         "neovim/nvim-lspconfig",
         dependencies = {
-            { "williamboman/mason.nvim", dependencies = { "williamboman/mason-lspconfig.nvim" } },
+            "williamboman/mason.nvim",
+            "williamboman/mason-lspconfig.nvim",
             "jose-elias-alvarez/null-ls.nvim",
+            "jay-babu/mason-null-ls.nvim",
         },
         config = function()
             require("mason").setup {}
-            for _, pkg in ipairs { "stylua", "golangci-lint", "goimports", "yamlfmt" } do -- ensure these tools are installed
-                if not require("mason-registry").is_installed(pkg) then require("mason.api.command").MasonInstall { pkg } end
-            end
+            require("mason-null-ls").setup {
+                automatic_setup = true,
+                ensure_installed = { "stylua", "golangci-lint", "goimports", "yamlfmt" },
+            }
+            require("null-ls").setup {
+                sources = {
+                    require("null-ls").builtins.code_actions.gitsigns,
+                    require("null-ls").builtins.diagnostics.trail_space.with { disabled_filetypes = { "NvimTree" } },
+                },
+            }
 
             local lsp_servers = {
                 gopls = {},
@@ -217,7 +226,8 @@ require("lazy").setup {
 
             -- Hover and signature help windows have rounded borders
             vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
-            vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
+            vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help,
+                { border = "rounded" })
 
             -- LspInfo window have rounded border
             require("lspconfig.ui.windows").default_options.border = "rounded"
@@ -226,15 +236,6 @@ require("lazy").setup {
                 pattern = { "*.rs", "*.lua" },
                 callback = function(_) vim.lsp.buf.format() end,
             })
-            require("null-ls").setup {
-                sources = {
-                    require("null-ls").builtins.code_actions.gitsigns,
-                    require("null-ls").builtins.diagnostics.golangci_lint,
-                    require("null-ls").builtins.diagnostics.trail_space.with { disabled_filetypes = { "NvimTree" } },
-                    require("null-ls").builtins.formatting.stylua,
-                    require("null-ls").builtins.formatting.goimports,
-                },
-            }
         end,
     },
     "stevearc/oil.nvim", -- File manager like a BOSS
@@ -318,8 +319,10 @@ vim.keymap.set({ "n", "i" }, "<C-j>", "<cmd>wincmd j<CR>", { desc = "Move to spl
 vim.keymap.set({ "n", "i" }, "<C-h>", "<cmd>wincmd h<CR>", { desc = "Move to split left" })
 -- Git
 vim.keymap.set("n", "<leader>g", vim.cmd.Git, { desc = "Git status" })
-vim.keymap.set("n", "<leader>b", function() require("gitsigns").blame_line { full = true } end, { desc = "Git blame line" })
-vim.keymap.set("n", "<leader>d", function() require("gitsigns").diffthis "~" end, { desc = "Diff current file with HEAD" })
+vim.keymap.set("n", "<leader>b", function() require("gitsigns").blame_line { full = true } end,
+    { desc = "Git blame line" })
+vim.keymap.set("n", "<leader>d", function() require("gitsigns").diffthis "~" end,
+    { desc = "Diff current file with HEAD" })
 vim.keymap.set("n", "<leader>P", function() vim.cmd.Git "push" end, { desc = "Diff current file with HEAD" })
 -- Navigation
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
@@ -328,10 +331,14 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz")
 local no_preview = { previewer = false, layout_config = { height = 0.5 } }
 local dropdown = require("telescope.themes").get_dropdown
 local telescope_builtin = require "telescope.builtin"
-vim.keymap.set("n", "<C-p>", function() telescope_builtin.git_files(dropdown(no_preview)) end, { desc = "Telescope Git Files" })
-vim.keymap.set("n", "<leader><leader>", function() telescope_builtin.find_files(dropdown(no_preview)) end, { desc = "Telescope Find files" })
-vim.keymap.set("n", ",,", function() telescope_builtin.current_buffer_fuzzy_find(no_preview) end, { desc = "Current File Search" })
-vim.keymap.set("n", "<leader>o", function() telescope_builtin.treesitter(dropdown(no_preview)) end, { desc = "Search Symbols In Current File" })
+vim.keymap.set("n", "<C-p>", function() telescope_builtin.git_files(dropdown(no_preview)) end,
+    { desc = "Telescope Git Files" })
+vim.keymap.set("n", "<leader><leader>", function() telescope_builtin.find_files(dropdown(no_preview)) end,
+    { desc = "Telescope Find files" })
+vim.keymap.set("n", ",,", function() telescope_builtin.current_buffer_fuzzy_find(no_preview) end,
+    { desc = "Current File Search" })
+vim.keymap.set("n", "<leader>o", function() telescope_builtin.treesitter(dropdown(no_preview)) end,
+    { desc = "Search Symbols In Current File" })
 vim.keymap.set("n", "??", function() telescope_builtin.live_grep(no_preview) end, { desc = "Live Grep" })
 vim.keymap.set("n", "Q", "<NOP>")
 vim.keymap.set("n", "{", ":cprev<CR>")
