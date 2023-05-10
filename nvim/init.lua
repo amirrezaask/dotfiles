@@ -261,7 +261,12 @@ require("lazy").setup {
             }
         end,
     }, -- Signs next to line numbers to show git status of a line
-    "tpope/vim-fugitive", -- Second best Git client ( first one is emacs magit )
+    {
+        "tpope/vim-fugitive",
+        config = function()
+            vim.api.nvim_create_user_command("Gp", function() vim.cmd.Git "push" end, {})
+        end,
+    }, -- Second best Git client ( first one is emacs magit )
     "dag/vim-fish", -- Vim fish syntax
     "jansedivy/jai.vim", -- Jai from Jonathan Blow
     {
