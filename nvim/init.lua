@@ -55,7 +55,10 @@ require("lazy").setup {
     },
     {
         "amirrezaask/themes",
-        config = function() vim.cmd.colorscheme "sitruuna" end,
+        config = function()
+            vim.cmd.colorscheme "tokyonight"
+            vim.api.nvim_set_hl(0, "Normal", { bg = nil })
+        end,
         dependencies = {
             {
                 "ellisonleao/gruvbox.nvim", -- Best theme of all time
@@ -99,10 +102,7 @@ require("lazy").setup {
     { -- If we want FZF for some reason
         "junegunn/fzf.vim",
         dependencies = { { "junegunn/fzf", build = ":execute fzf#install()" } },
-        config = function()
-            -- vim.g.fzf_layout = { down = "45%" }
-            vim.g.fzf_layout = { window = { width = 0.9, height = 0.6, relative = true } }
-        end,
+        config = function() vim.g.fzf_preview_window = {} end,
     },
     { -- telescope: Fuzzy finding and searching interface
         "nvim-telescope/telescope.nvim",
