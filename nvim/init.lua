@@ -55,7 +55,7 @@ require("lazy").setup {
     },
     {
         "amirrezaask/themes",
-        config = function() vim.cmd.colorscheme "tokyonight" end,
+        config = function() vim.cmd.colorscheme "sitruuna" end,
         dependencies = {
             {
                 "ellisonleao/gruvbox.nvim", -- Best theme of all time
@@ -77,6 +77,7 @@ require("lazy").setup {
                 config = function() vim.nightflyTransparent = true end,
             },
             "shaunsingh/nord.nvim",
+            "amirrezaask/sitruuna.vim",
             "shaunsingh/oxocarbon.nvim",
             {
                 "rose-pine/neovim",
