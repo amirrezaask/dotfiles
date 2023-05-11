@@ -96,6 +96,14 @@ require("lazy").setup {
         "numToStr/Comment.nvim",
         config = function() require("Comment").setup() end,
     },
+    { -- If we want FZF for some reason
+        "junegunn/fzf.vim",
+        dependencies = { { "junegunn/fzf", build = ":execute fzf#install()" } },
+        config = function()
+            -- vim.g.fzf_layout = { down = "45%" }
+            vim.g.fzf_layout = { window = { width = 0.9, height = 0.6, relative = true } }
+        end,
+    },
     { -- telescope: Fuzzy finding and searching interface
         "nvim-telescope/telescope.nvim",
         dependencies = {
@@ -184,7 +192,7 @@ require("lazy").setup {
         },
         config = function()
             -- Install all binaries
-            BINARIES = {
+            local INSTALL_THESE = {
                 -- LSP
                 "gopls",
                 "rust-analyzer",
@@ -199,7 +207,7 @@ require("lazy").setup {
                 -- Linters
                 "golangci-lint",
             }
-            for _, pkg in ipairs(BINARIES) do -- ensure these tools are installed
+            for _, pkg in ipairs(INSTALL_THESE) do -- ensure these tools are installed
                 if not require("mason-registry").is_installed(pkg) then require("mason.api.command").MasonInstall { pkg } end
             end
             -- TODO(amirreza): find a better more cross platform way of joining paths.
@@ -354,6 +362,7 @@ vim.keymap.set("n", ",,", function() telescope_builtin.current_buffer_fuzzy_find
 vim.keymap.set("n", "<leader>o", function() telescope_builtin.treesitter(dropdown(no_preview)) end,
     { desc = "Search Symbols In Current File" })
 vim.keymap.set("n", "??", function() telescope_builtin.live_grep(no_preview) end, { desc = "Live Grep" })
+
 vim.keymap.set("n", "Q", "<NOP>")
 vim.keymap.set("n", "{", ":cprev<CR>")
 vim.keymap.set("n", "}", ":cnext<CR>")
