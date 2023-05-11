@@ -179,20 +179,38 @@ require("lazy").setup {
         "neovim/nvim-lspconfig",
         dependencies = {
             "williamboman/mason.nvim",
-            "williamboman/mason-lspconfig.nvim",
             "jose-elias-alvarez/null-ls.nvim",
-            "jay-babu/mason-null-ls.nvim",
         },
         config = function()
-            require("mason").setup {}
-            require("mason-null-ls").setup {
-                automatic_setup = true,
-                ensure_installed = { "stylua", "golangci-lint", "goimports", "yamlfmt" },
+            -- Install all binaries
+            BINARIES = {
+                -- LSP
+                "gopls",
+                "rust-analyzer",
+                "lua-language-server",
+                "zls",
+
+                -- Formatters
+                "stylua",
+                "yamlfmt",
+                "goimports",
+
+                -- Linters
+                "golangci-lint",
             }
+            for _, pkg in ipairs(BINARIES) do -- ensure these tools are installed
+                if not require("mason-registry").is_installed(pkg) then require("mason.api.command").MasonInstall { pkg } end
+            end
+            -- TODO(amirreza): find a better more cross platform way of joining paths.
+            vim.env.PATH = string.format("%s/mason/bin", vim.fn.stdpath "data") .. vim.env.PATH
+            require("mason").setup {}
             require("null-ls").setup {
                 sources = {
                     require("null-ls").builtins.code_actions.gitsigns,
+                    require("null-ls").builtins.diagnostics.golangci_lint,
                     require("null-ls").builtins.diagnostics.trail_space.with { disabled_filetypes = { "NvimTree" } },
+                    require("null-ls").builtins.formatting.stylua,
+                    require("null-ls").builtins.formatting.goimports,
                 },
             }
 
@@ -215,11 +233,6 @@ require("lazy").setup {
                 rust_analyzer = {},
                 zls = {},
             }
-            local mason_lspconfig = require "mason-lspconfig"
-            mason_lspconfig.setup {
-                ensure_installed = vim.tbl_keys(lsp_servers),
-            }
-
             for server, config in pairs(lsp_servers) do
                 require("lspconfig")[server].setup(config)
             end
