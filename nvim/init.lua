@@ -55,10 +55,7 @@ require("lazy").setup {
     },
     {
         "amirrezaask/themes",
-        config = function()
-            vim.cmd.colorscheme "tokyonight"
-            vim.api.nvim_set_hl(0, "Normal", { bg = nil })
-        end,
+        config = function() vim.cmd.colorscheme "sitruuna" end,
         dependencies = {
             {
                 "ellisonleao/gruvbox.nvim", -- Best theme of all time
@@ -350,19 +347,26 @@ vim.keymap.set("n", "<leader>P", function() vim.cmd.Git "push" end, { desc = "Di
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
 -- Telescope
-local no_preview = { previewer = false, layout_config = { height = 0.5 } }
-local dropdown = require("telescope.themes").get_dropdown
-local telescope_builtin = require "telescope.builtin"
-vim.keymap.set("n", "<C-p>", function() telescope_builtin.git_files(dropdown(no_preview)) end,
-    { desc = "Telescope Git Files" })
-vim.keymap.set("n", "<leader><leader>", function() telescope_builtin.find_files(dropdown(no_preview)) end,
-    { desc = "Telescope Find files" })
-vim.keymap.set("n", ",,", function() telescope_builtin.current_buffer_fuzzy_find(no_preview) end,
-    { desc = "Current File Search" })
-vim.keymap.set("n", "<leader>o", function() telescope_builtin.treesitter(dropdown(no_preview)) end,
-    { desc = "Search Symbols In Current File" })
-vim.keymap.set("n", "??", function() telescope_builtin.live_grep(no_preview) end, { desc = "Live Grep" })
-
+if vim.fn.exepath "fzf" ~= nil then
+    vim.keymap.set("n", "<C-p>", "<cmd>GFiles<CR>")
+    vim.keymap.set("n", "<leader><leader>", "<cmd>Files<CR>")
+    vim.keymap.set("n", ",,", "<cmd>Lines<CR>")
+    vim.keymap.set("n", "??", "<cmd>Rg<CR>")
+else
+    local no_preview = { previewer = false, layout_config = { height = 0.5 } }
+    local dropdown = require("telescope.themes").get_dropdown
+    local telescope_builtin = require "telescope.builtin"
+    vim.keymap.set("n", "<C-p>", function() telescope_builtin.git_files(dropdown(no_preview)) end,
+        { desc = "Telescope Git Files" })
+    vim.keymap.set("n", "<leader><leader>", function() telescope_builtin.find_files(dropdown(no_preview)) end,
+        { desc = "Telescope Find files" })
+    vim.keymap.set("n", ",,", function() telescope_builtin.current_buffer_fuzzy_find(no_preview) end,
+        { desc = "Current File Search" })
+    vim.keymap.set("n", "<leader>o", function() telescope_builtin.treesitter(dropdown(no_preview)) end,
+        { desc = "Search Symbols In Current File" })
+    vim.keymap.set("n", "??", function() telescope_builtin.live_grep(no_preview) end, { desc = "Live Grep" })
+end
+--
 vim.keymap.set("n", "Q", "<NOP>")
 vim.keymap.set("n", "{", ":cprev<CR>")
 vim.keymap.set("n", "}", ":cnext<CR>")
