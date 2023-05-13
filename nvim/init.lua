@@ -388,12 +388,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
         vim.keymap.set("n", "C", vim.lsp.buf.code_action, buffer "Code Actions")
         vim.keymap.set("n", "<C-s>", vim.lsp.buf.signature_help, buffer "Signature Help")
         vim.keymap.set("i", "<C-s>", vim.lsp.buf.signature_help, buffer "Signature Help")
-        vim.keymap.set(
-            "n",
-            "<leader>o",
-            function() require("telescope.builtin").lsp_document_symbols(dropdown(no_preview)) end,
-            buffer "Document Symbols"
-        )
     end,
 })
 vim.keymap.set({ "n", "t", "i" }, "<A-j>", vim.cmd.ToggleTerm, { desc = "ToggleTerm" }) -- Terminal
