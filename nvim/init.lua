@@ -49,13 +49,8 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup {
     {
-        "nvim-lualine/lualine.nvim", -- Statusline
-        dependencies = { "nvim-tree/nvim-web-devicons", opt = true },
-        config = function() require("lualine").setup {} end,
-    },
-    {
         "amirrezaask/themes",
-        config = function() vim.cmd.colorscheme "sitruuna" end,
+        config = function() vim.cmd.colorscheme "tokyonight" end,
         dependencies = {
             {
                 "ellisonleao/gruvbox.nvim", -- Best theme of all time
