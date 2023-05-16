@@ -47,16 +47,18 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+local TRANSPARENT = false
+
 require("lazy").setup {
     {
         "amirrezaask/themes",
-        config = function() vim.cmd.colorscheme "gruvbox" end,
+        config = function() vim.cmd.colorscheme "rose-pine" end,
         dependencies = {
             {
                 "ellisonleao/gruvbox.nvim", -- Best theme of all time
                 config = function()
                     require("gruvbox").setup {
-                        transparent_mode = true,
+                        transparent_mode = TRANSPARENT,
                         contrast = "hard",
                         italic = {
                             strings = false,
@@ -78,7 +80,7 @@ require("lazy").setup {
                 "rebelot/kanagawa.nvim",
                 config = function()
                     require("kanagawa").setup {
-                        transparent = true,
+                        transparent = TRANSPARENT,
                     }
                 end,
             },
@@ -87,18 +89,18 @@ require("lazy").setup {
                 name = "catppuccin",
                 config = function()
                     require("catppuccin").setup {
-                        transparent_background = true,
+                        transparent_background = TRANSPARENT,
                     }
                 end,
             },
             {
                 "rose-pine/neovim",
                 name = "rose-pine",
-                config = function() require("rose-pine").setup { disable_background = true } end,
+                config = function() require("rose-pine").setup { disable_background = TRANSPARENT } end,
             },
             {
                 "folke/tokyonight.nvim",
-                config = function() require("tokyonight").setup { transparent = true } end,
+                config = function() require("tokyonight").setup { transparent = TRANSPARENT } end,
             }, -- folkkkkkeeeeee
         },
     },
@@ -365,7 +367,7 @@ if false then
     vim.keymap.set("n", ",,", "<cmd>Lines<CR>")
     vim.keymap.set("n", "??", "<cmd>Rg<CR>")
 else
-    local no_preview = { previewer = false, layout_config = { height = 0.5 } }
+    local no_preview = { previewer = false, layout_config = { height = 0.8 } }
     -- local dropdown = require("telescope.themes").get_dropdown
     local dropdown = function(opts) return opts end
     local telescope_builtin = require "telescope.builtin"
