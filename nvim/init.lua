@@ -21,7 +21,7 @@ vim.opt.shortmess:append "I" -- No Intro message
 vim.opt.clipboard:append "unnamedplus" -- use system clipboard as default register.
 vim.opt.splitbelow = true
 vim.opt.splitright = true
-vim.opt.cursorline = false
+vim.opt.cursorline = true
 vim.opt.sw = 4
 vim.opt.ts = 4
 vim.opt.expandtab = true
@@ -50,7 +50,7 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup {
     {
         "amirrezaask/themes",
-        config = function() vim.cmd.colorscheme "tokyonight" end,
+        config = function() vim.cmd.colorscheme "gruvbox" end,
         dependencies = {
             {
                 "ellisonleao/gruvbox.nvim", -- Best theme of all time
@@ -74,6 +74,23 @@ require("lazy").setup {
             "shaunsingh/nord.nvim",
             "amirrezaask/sitruuna.vim",
             "shaunsingh/oxocarbon.nvim",
+            {
+                "rebelot/kanagawa.nvim",
+                config = function()
+                    require("kanagawa").setup {
+                        transparent = true,
+                    }
+                end,
+            },
+            {
+                "catppuccin/nvim",
+                name = "catppuccin",
+                config = function()
+                    require("catppuccin").setup {
+                        transparent_background = true,
+                    }
+                end,
+            },
             {
                 "rose-pine/neovim",
                 name = "rose-pine",
@@ -342,14 +359,15 @@ vim.keymap.set("n", "<leader>P", function() vim.cmd.Git "push" end, { desc = "Di
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
 -- Telescope
-if vim.fn.exepath "fzf" ~= nil then
+if false then
     vim.keymap.set("n", "<C-p>", "<cmd>GFiles<CR>")
     vim.keymap.set("n", "<leader><leader>", "<cmd>Files<CR>")
     vim.keymap.set("n", ",,", "<cmd>Lines<CR>")
     vim.keymap.set("n", "??", "<cmd>Rg<CR>")
 else
     local no_preview = { previewer = false, layout_config = { height = 0.5 } }
-    local dropdown = require("telescope.themes").get_dropdown
+    -- local dropdown = require("telescope.themes").get_dropdown
+    local dropdown = function(opts) return opts end
     local telescope_builtin = require "telescope.builtin"
     vim.keymap.set("n", "<C-p>", function() telescope_builtin.git_files(dropdown(no_preview)) end,
         { desc = "Telescope Git Files" })
