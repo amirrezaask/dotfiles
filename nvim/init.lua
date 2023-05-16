@@ -51,8 +51,15 @@ local TRANSPARENT = false
 
 require("lazy").setup {
     {
+        "nvim-lualine/lualine.nvim",
+        dependencies = { "nvim-tree/nvim-web-devicons" },
+        config = function()
+            require("lualine").setup()
+        end,
+    },
+    {
         "amirrezaask/themes",
-        config = function() vim.cmd.colorscheme "rose-pine" end,
+        config = function() vim.cmd.colorscheme "catppuccin" end,
         dependencies = {
             {
                 "ellisonleao/gruvbox.nvim", -- Best theme of all time
