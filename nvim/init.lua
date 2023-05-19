@@ -48,6 +48,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 local TRANSPARENT = false
+local COLORSCHEME = "rose-pine"
 
 require("lazy").setup {
     {
@@ -57,7 +58,7 @@ require("lazy").setup {
     },
     {
         "amirrezaask/themes",
-        config = function() vim.cmd.colorscheme "catppuccin" end,
+        config = function() vim.cmd.colorscheme(COLORSCHEME) end,
         dependencies = {
             {
                 "ellisonleao/gruvbox.nvim", -- Best theme of all time
