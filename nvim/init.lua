@@ -21,7 +21,7 @@ vim.opt.shortmess:append "I" -- No Intro message
 vim.opt.clipboard:append "unnamedplus" -- use system clipboard as default register.
 vim.opt.splitbelow = true
 vim.opt.splitright = true
-vim.opt.cursorline = true
+vim.opt.cursorline = false
 vim.opt.sw = 4
 vim.opt.ts = 4
 vim.opt.expandtab = true
@@ -30,6 +30,37 @@ vim.g.netrw_banner = 0
 vim.g.netrw_winsize = 25
 vim.opt.laststatus = 2
 vim.opt.timeoutlen = 300
+
+-- ==========================================================================
+-- ============================ Basic Keymaps ===============================
+-- ==========================================================================
+vim.g.mapleader = " "
+local map = vim.keymap.set
+map("n", "<leader>v", "<cmd>vsplit<CR>", { desc = "Split vertically" })
+map("n", "<leader>h", "<cmd>split<CR>", { desc = "Split horizontaly" })
+map("n", "<Left>", "<cmd>vertical resize -10<CR>")
+map("n", "<Right>", "<cmd>vertical resize +10<CR>")
+map("n", "<C-w>=", "<cmd>wincmd =<CR>")
+map("t", "<Esc>", "<C-\\><C-n>")
+map("t", "jk", "<C-\\><C-n>")
+map("t", "kj", "<C-\\><C-n>")
+map("i", "jk", "<esc>")
+map("i", "kj", "<esc>")
+map("n", "Y", "y$")
+map({ "n", "i" }, "<C-l>", "<cmd>wincmd l<CR>", { desc = "Move to split right" })
+map({ "n", "i" }, "<C-k>", "<cmd>wincmd k<CR>", { desc = "Move to split above" })
+map({ "n", "i" }, "<C-j>", "<cmd>wincmd j<CR>", { desc = "Move to split below" })
+map({ "n", "i" }, "<C-h>", "<cmd>wincmd h<CR>", { desc = "Move to split left" })
+map("n", "<C-d>", "<C-d>zz")
+map("n", "<C-u>", "<C-u>zz")
+map("n", "Q", "<NOP>")
+map("n", "{", ":cprev<CR>")
+map("n", "}", ":cnext<CR>")
+map("v", "J", ":m '>+1<CR>gv=gv")
+map("v", "K", ":m '<-2<CR>gv=gv")
+map("n", "n", "nzz")
+map("n", "N", "Nzz")
+map("n", "<CR>", [[ {-> v:hlsearch ? ':nohl<CR>' : '<CR>'}() ]], { expr = true })
 
 -- ==========================================================================
 -- ========================= Plugins ========================================
@@ -138,6 +169,19 @@ require("lazy").setup {
             } -- Best fuzzy finder
             require("telescope").load_extension "fzf" -- load fzf awesomnes into Telescope
             require("telescope").load_extension "ui-select" -- Use telescope for vim.ui.select
+            local no_preview = { previewer = false, layout_config = { height = 0.8 } }
+            -- local dropdown = require("telescope.themes").get_dropdown
+            local dropdown = function(opts) return opts end
+            local telescope_builtin = require "telescope.builtin"
+            map("n", "<C-p>", function() telescope_builtin.git_files(dropdown(no_preview)) end,
+                { desc = "Telescope Git Files" })
+            map("n", "<leader><leader>", function() telescope_builtin.find_files(dropdown(no_preview)) end,
+                { desc = "Telescope Find files" })
+            map("n", ",,", function() telescope_builtin.current_buffer_fuzzy_find(no_preview) end,
+                { desc = "Current File Search" })
+            map("n", "<leader>o", function() telescope_builtin.treesitter(dropdown(no_preview)) end,
+                { desc = "Search Symbols In Current File" })
+            map("n", "??", function() telescope_builtin.live_grep(no_preview) end, { desc = "Live Grep" })
         end,
     },
     { -- Treesitter syntax highlighting and text objects.
@@ -262,7 +306,25 @@ require("lazy").setup {
             for server, config in pairs(lsp_servers) do
                 require("lspconfig")[server].setup(config)
             end
-
+            vim.api.nvim_create_autocmd("LspAttach", {
+                callback = function(args)
+                    local bufnr = args.buf
+                    vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
+                    local buffer = function(desc) return { buffer = bufnr, desc = desc } end
+                    map("n", "gd", vim.lsp.buf.definition, buffer "Goto Definition")
+                    map("n", "gD", vim.lsp.buf.declaration, buffer "Goto Declaration")
+                    map("n", "gi", vim.lsp.buf.implementation, buffer "Goto Implementation")
+                    map("n", "gr", vim.lsp.buf.references, buffer "Goto References")
+                    map("n", "R", vim.lsp.buf.rename, buffer "Rename")
+                    map("n", "K", vim.lsp.buf.hover, buffer "Hover")
+                    map("n", "gl", vim.diagnostic.open_float, buffer "")
+                    map("n", "gp", vim.diagnostic.goto_prev, buffer "Next Diagnostic")
+                    map("n", "gn", vim.diagnostic.goto_next, buffer "Previous Diagnostic")
+                    map("n", "C", vim.lsp.buf.code_action, buffer "Code Actions")
+                    map("n", "<C-s>", vim.lsp.buf.signature_help, buffer "Signature Help")
+                    map("i", "<C-s>", vim.lsp.buf.signature_help, buffer "Signature Help")
+                end,
+            })
             -- Hover and signature help windows have rounded borders
             vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
             vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help,
@@ -299,25 +361,29 @@ require("lazy").setup {
                     changedelete = { text = "~" },
                 },
             }
+            map("n", "<leader>b", function() require("gitsigns").blame_line { full = true } end,
+                { desc = "Git blame line" })
+            map("n", "<leader>d", function() require("gitsigns").diffthis "~" end,
+                { desc = "Diff current file with HEAD" })
         end,
     }, -- Signs next to line numbers to show git status of a line
     {
         "tpope/vim-fugitive",
         config = function()
             vim.api.nvim_create_user_command("Gp", function() vim.cmd.Git "push" end, {})
+
+            map("n", "<leader>P", function() vim.cmd.Git "push" end, { desc = "Git Push" })
+            map("n", "<leader>g", vim.cmd.Git, { desc = "Git status" })
         end,
     }, -- Second best Git client ( first one is emacs magit )
+
+    {
+        "akinsho/git-conflict.nvim",
+        version = "*",
+        config = function() require("git-conflict").setup() end,
+    },
     "dag/vim-fish", -- Vim fish syntax
     "jansedivy/jai.vim", -- Jai from Jonathan Blow
-    {
-        "akinsho/toggleterm.nvim",
-        config = function()
-            require("toggleterm").setup {
-                size = 20,
-                direction = "horizontal",
-            }
-        end,
-    }, -- Terminal inside neovim
     {
         "folke/which-key.nvim",
         config = function()
@@ -327,93 +393,9 @@ require("lazy").setup {
                 },
             }
         end,
-    }, -- Cheat your way through keyvim.keymap.setings
+    }, -- Cheat your way through keymapings
     {
         "folke/zen-mode.nvim",
         config = function() require("zen-mode").setup() end,
     },
 }
-
--- ==========================================================================
--- ========================= Keyvim.keymap.setings ====================================
--- ==========================================================================
-vim.g.mapleader = " "
--- Editing
-vim.keymap.set("t", "<Esc>", "<C-\\><C-n>")
-vim.keymap.set("t", "jk", "<C-\\><C-n>")
-vim.keymap.set("t", "kj", "<C-\\><C-n>")
-vim.keymap.set("i", "jk", "<esc>")
-vim.keymap.set("i", "kj", "<esc>")
-vim.keymap.set("n", "Y", "y$")
--- Splits management
-vim.keymap.set("n", "<leader>v", "<cmd>vsplit<CR>", { desc = "Split vertically" })
-vim.keymap.set("n", "<leader>h", "<cmd>split<CR>", { desc = "Split horizontaly" })
-vim.keymap.set("n", "<Left>", "<cmd>vertical resize -10<CR>")
-vim.keymap.set("n", "<Right>", "<cmd>vertical resize +10<CR>")
-vim.keymap.set("n", "<C-w>=", "<cmd>wincmd =<CR>")
--- Window navigation
-vim.keymap.set({ "n", "i" }, "<C-l>", "<cmd>wincmd l<CR>", { desc = "Move to split right" })
-vim.keymap.set({ "n", "i" }, "<C-k>", "<cmd>wincmd k<CR>", { desc = "Move to split above" })
-vim.keymap.set({ "n", "i" }, "<C-j>", "<cmd>wincmd j<CR>", { desc = "Move to split below" })
-vim.keymap.set({ "n", "i" }, "<C-h>", "<cmd>wincmd h<CR>", { desc = "Move to split left" })
--- Git
-vim.keymap.set("n", "<leader>g", vim.cmd.Git, { desc = "Git status" })
-vim.keymap.set("n", "<leader>b", function() require("gitsigns").blame_line { full = true } end,
-    { desc = "Git blame line" })
-vim.keymap.set("n", "<leader>d", function() require("gitsigns").diffthis "~" end,
-    { desc = "Diff current file with HEAD" })
-vim.keymap.set("n", "<leader>P", function() vim.cmd.Git "push" end, { desc = "Diff current file with HEAD" })
--- Navigation
-vim.keymap.set("n", "<C-d>", "<C-d>zz")
-vim.keymap.set("n", "<C-u>", "<C-u>zz")
--- Telescope
-if false then
-    vim.keymap.set("n", "<C-p>", "<cmd>GFiles<CR>")
-    vim.keymap.set("n", "<leader><leader>", "<cmd>Files<CR>")
-    vim.keymap.set("n", ",,", "<cmd>Lines<CR>")
-    vim.keymap.set("n", "??", "<cmd>Rg<CR>")
-else
-    local no_preview = { previewer = false, layout_config = { height = 0.8 } }
-    -- local dropdown = require("telescope.themes").get_dropdown
-    local dropdown = function(opts) return opts end
-    local telescope_builtin = require "telescope.builtin"
-    vim.keymap.set("n", "<C-p>", function() telescope_builtin.git_files(dropdown(no_preview)) end,
-        { desc = "Telescope Git Files" })
-    vim.keymap.set("n", "<leader><leader>", function() telescope_builtin.find_files(dropdown(no_preview)) end,
-        { desc = "Telescope Find files" })
-    vim.keymap.set("n", ",,", function() telescope_builtin.current_buffer_fuzzy_find(no_preview) end,
-        { desc = "Current File Search" })
-    vim.keymap.set("n", "<leader>o", function() telescope_builtin.treesitter(dropdown(no_preview)) end,
-        { desc = "Search Symbols In Current File" })
-    vim.keymap.set("n", "??", function() telescope_builtin.live_grep(no_preview) end, { desc = "Live Grep" })
-end
---
-vim.keymap.set("n", "Q", "<NOP>")
-vim.keymap.set("n", "{", ":cprev<CR>")
-vim.keymap.set("n", "}", ":cnext<CR>")
-vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
-vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
-vim.keymap.set("n", "n", "nzz")
-vim.keymap.set("n", "N", "Nzz")
-vim.keymap.set("n", "<CR>", [[ {-> v:hlsearch ? ':nohl<CR>' : '<CR>'}() ]], { expr = true })
--- LSP
-vim.api.nvim_create_autocmd("LspAttach", {
-    callback = function(args)
-        local bufnr = args.buf
-        vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
-        local buffer = function(desc) return { buffer = bufnr, desc = desc } end
-        vim.keymap.set("n", "gd", vim.lsp.buf.definition, buffer "Goto Definition")
-        vim.keymap.set("n", "gD", vim.lsp.buf.declaration, buffer "Goto Declaration")
-        vim.keymap.set("n", "gi", vim.lsp.buf.implementation, buffer "Goto Implementation")
-        vim.keymap.set("n", "gr", vim.lsp.buf.references, buffer "Goto References")
-        vim.keymap.set("n", "R", vim.lsp.buf.rename, buffer "Rename")
-        vim.keymap.set("n", "K", vim.lsp.buf.hover, buffer "Hover")
-        vim.keymap.set("n", "gl", vim.diagnostic.open_float, buffer "")
-        vim.keymap.set("n", "gp", vim.diagnostic.goto_prev, buffer "Next Diagnostic")
-        vim.keymap.set("n", "gn", vim.diagnostic.goto_next, buffer "Previous Diagnostic")
-        vim.keymap.set("n", "C", vim.lsp.buf.code_action, buffer "Code Actions")
-        vim.keymap.set("n", "<C-s>", vim.lsp.buf.signature_help, buffer "Signature Help")
-        vim.keymap.set("i", "<C-s>", vim.lsp.buf.signature_help, buffer "Signature Help")
-    end,
-})
-vim.keymap.set({ "n", "t", "i" }, "<A-j>", vim.cmd.ToggleTerm, { desc = "ToggleTerm" }) -- Terminal
