@@ -18,10 +18,9 @@ vim.opt.updatetime = 50
 vim.opt.guicursor = "" -- Don't style cursor in different modes, just a box would suffice
 vim.opt.shortmess:append "c" -- Don't pass messages to |ins-completion-menu|.
 vim.opt.shortmess:append "I" -- No Intro message
-vim.opt.clipboard:append "unnamedplus" -- use system clipboard as default register.
 vim.opt.splitbelow = true
 vim.opt.splitright = true
-vim.opt.cursorline = false
+vim.opt.cursorline = true
 vim.opt.sw = 4
 vim.opt.ts = 4
 vim.opt.expandtab = true
@@ -36,31 +35,36 @@ vim.opt.timeoutlen = 300
 -- ==========================================================================
 vim.g.mapleader = " "
 local map = vim.keymap.set
+-- Copy improvements
+map("n", "Y", "y$") -- Make yanking act like other operations
+map({ "n", "v" }, "<leader>y", [["+y]]) -- Copy to clipboard
+map("n", "<leader>Y", [["+Y]])
+-- Split windows
 map("n", "<leader>v", "<cmd>vsplit<CR>", { desc = "Split vertically" })
 map("n", "<leader>h", "<cmd>split<CR>", { desc = "Split horizontaly" })
+map({ "n", "i" }, "<C-l>", "<cmd>wincmd l<CR>", { desc = "Move to split right" })
+map({ "n", "i" }, "<C-h>", "<cmd>wincmd h<CR>", { desc = "Move to split left" })
 map("n", "<Left>", "<cmd>vertical resize -10<CR>")
 map("n", "<Right>", "<cmd>vertical resize +10<CR>")
 map("n", "<C-w>=", "<cmd>wincmd =<CR>")
+-- Simpler exiting insert mode
+map({ "i" }, "<C-c>", "<esc>")
+map({ "t" }, "<C-c>", "<C-\\><C-n>")
 map("t", "<Esc>", "<C-\\><C-n>")
-map("t", "jk", "<C-\\><C-n>")
-map("t", "kj", "<C-\\><C-n>")
-map("i", "jk", "<esc>")
-map("i", "kj", "<esc>")
-map("n", "Y", "y$")
-map({ "n", "i" }, "<C-l>", "<cmd>wincmd l<CR>", { desc = "Move to split right" })
-map({ "n", "i" }, "<C-k>", "<cmd>wincmd k<CR>", { desc = "Move to split above" })
-map({ "n", "i" }, "<C-j>", "<cmd>wincmd j<CR>", { desc = "Move to split below" })
-map({ "n", "i" }, "<C-h>", "<cmd>wincmd h<CR>", { desc = "Move to split left" })
+-- Quickfix list
+map({ "n" }, "<C-k>", "<cmd>cprev<CR>", { desc = "Previous quick fix list item" })
+map({ "n" }, "<C-j>", "<cmd>cnext<CR>", { desc = "Next quick fix list item" })
+-- When moving around always have pointer centered in screen
 map("n", "<C-d>", "<C-d>zz")
 map("n", "<C-u>", "<C-u>zz")
-map("n", "Q", "<NOP>")
-map("n", "{", ":cprev<CR>")
-map("n", "}", ":cnext<CR>")
-map("v", "J", ":m '>+1<CR>gv=gv")
-map("v", "K", ":m '<-2<CR>gv=gv")
 map("n", "n", "nzz")
 map("n", "N", "Nzz")
-map("n", "<CR>", [[ {-> v:hlsearch ? ':nohl<CR>' : '<CR>'}() ]], { expr = true })
+-- Move lines
+map("v", "J", ":m '>+1<CR>gv=gv")
+map("v", "K", ":m '<-2<CR>gv=gv")
+
+map("n", "Q", "<NOP>")
+map("n", "<CR>", [[ {-> v:hlsearch ? ':nohl<CR>' : '<CR>'}() ]], { expr = true }) -- handy when doing search in a buffer
 
 -- ==========================================================================
 -- ========================= Plugins ========================================
@@ -85,7 +89,7 @@ require("lazy").setup {
     {
         "nvim-lualine/lualine.nvim",
         dependencies = { "nvim-tree/nvim-web-devicons" },
-        config = function() require("lualine").setup() end,
+        config = function() require("lualine").setup {} end,
     },
     {
         "amirrezaask/themes",
@@ -380,7 +384,7 @@ require("lazy").setup {
     {
         "akinsho/git-conflict.nvim",
         version = "*",
-        config = function() require("git-conflict").setup() end,
+        config = function() require("git-conflict").setup {} end,
     },
     "dag/vim-fish", -- Vim fish syntax
     "jansedivy/jai.vim", -- Jai from Jonathan Blow
