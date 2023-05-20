@@ -82,7 +82,7 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-local TRANSPARENT = false
+local TRANSPARENT = true
 local COLORSCHEME = "tokyonight-night"
 
 require("lazy").setup {
