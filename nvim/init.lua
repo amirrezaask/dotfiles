@@ -79,7 +79,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 local TRANSPARENT = false
-local COLORSCHEME = "rose-pine"
+local COLORSCHEME = "tokyonight"
 
 require("lazy").setup {
     {
