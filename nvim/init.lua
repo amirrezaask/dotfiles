@@ -51,6 +51,7 @@ map("n", "<C-w>=", "<cmd>wincmd =<CR>")
 map({ "i" }, "<C-c>", "<esc>")
 map({ "t" }, "<C-c>", "<C-\\><C-n>")
 map("t", "<Esc>", "<C-\\><C-n>")
+map("i", "jj", "<ESC>")
 -- Quickfix list
 map({ "n" }, "<C-k>", "<cmd>cprev<CR>", { desc = "Previous quick fix list item" })
 map({ "n" }, "<C-j>", "<cmd>cnext<CR>", { desc = "Next quick fix list item" })
