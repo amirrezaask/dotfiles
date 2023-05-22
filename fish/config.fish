@@ -47,21 +47,7 @@ alias ca 'cargo'
 
 alias reload 'source ~/.config/fish/config.fish'
 
-# git prompt settings
-set -g __fish_git_prompt_show_informative_status 1
-set -g __fish_git_prompt_showdirtystate 'yes'
-set -g __fish_git_prompt_char_stateseparator ' '
-set -g __fish_git_prompt_char_dirtystate "✖"
-set -g __fish_git_prompt_char_cleanstate "✔"
-set -g __fish_git_prompt_char_untrackedfiles "…"
-set -g __fish_git_prompt_char_stagedstate "●"
-set -g __fish_git_prompt_char_conflictedstate "+"
-set -g __fish_git_prompt_color_dirtystate yellow
-set -g __fish_git_prompt_color_cleanstate green --bold
-set -g __fish_git_prompt_color_invalidstate red
-set -g __fish_git_prompt_color_branch cyan --dim --italics
-
-function fish_prompt
-    printf "%s%s " (set_color green && prompt_pwd) (set_color normal && fish_vcs_prompt)
+if ! command -v starship &> /dev/null
+    curl -sS https://starship.rs/install.sh | sh
 end
-
+starship init fish | source
