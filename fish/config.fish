@@ -41,6 +41,8 @@ alias gs 'git status'
 alias gd 'git diff'
 alias gp 'git push'
 
+alias c 'code'
+alias v 'vim'
 alias ca 'cargo'
 
 alias reload 'source ~/.config/fish/config.fish'
