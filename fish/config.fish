@@ -16,8 +16,8 @@ set -gx PATH "$HOME/.config/composer/vendor/bin:$PATH"
 set -gx PATH "$GOPATH/bin:$PATH"
 
 set -gx PATH "$HOME/.cargo/bin:$PATH"
-if ! command -v brew &> /dev/null
-    eval $(brew shellenv)
+if command -v brew &> /dev/null
+    eval (brew shellenv)
 end
 
 alias vim 'nvim'
