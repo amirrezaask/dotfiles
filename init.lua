@@ -489,6 +489,7 @@ require "lazy".setup {
             require "tmux".setup()
         end,
     },
+    "imsnif/kdl.vim"
 
 }
 
