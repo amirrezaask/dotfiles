@@ -29,7 +29,7 @@ vim.g.netrw_banner = 0
 vim.g.netrw_winsize = 25
 vim.opt.laststatus = 2
 vim.opt.timeoutlen = 300
-vim.opt.statusline = "%y%=%m%r%h%w%q%F%=L:%l C:%c"
+vim.opt.statusline = "%{FugitiveStatusline()}%=%m%r%h%w%q%F%=L:%l C:%c"
 vim.opt.laststatus = 3
 vim.g.mapleader = " "
 ----------------------------------------------------------
@@ -46,8 +46,6 @@ vim.keymap.set("x", "p", "\"_dP")
 -- Split windows
 vim.keymap.set("n", "<leader>v", "<cmd>vsplit<CR>", { desc = "Split vertically" })
 vim.keymap.set("n", "<leader>h", "<cmd>split<CR>", { desc = "Split horizontaly" })
-vim.keymap.set({ "n", "i" }, "<C-l>", "<cmd>wincmd l<CR>", { desc = "Move to split right" })
-vim.keymap.set({ "n", "i" }, "<C-h>", "<cmd>wincmd h<CR>", { desc = "Move to split left" })
 vim.keymap.set("n", "<Left>", "<cmd>vertical resize -10<CR>")
 vim.keymap.set("n", "<Right>", "<cmd>vertical resize +10<CR>")
 vim.keymap.set("n", "<C-w>=", "<cmd>wincmd =<CR>")
@@ -62,8 +60,8 @@ vim.keymap.set("t", "<Esc>", "<C-\\><C-n>")
 vim.keymap.set("i", "jk", "<ESC>")
 vim.keymap.set("i", "kj", "<ESC>")
 -- Quickfix list
-vim.keymap.set({ "n" }, "<C-k>", "<cmd>cprev<CR>", { desc = "Previous quick fix list item" })
-vim.keymap.set({ "n" }, "<C-j>", "<cmd>cnext<CR>", { desc = "Next quick fix list item" })
+vim.keymap.set({ "n" }, "{", "<cmd>cprev<CR>", { desc = "Previous quick fix list item" })
+vim.keymap.set({ "n" }, "}", "<cmd>cnext<CR>", { desc = "Next quick fix list item" })
 -- When moving around always have pointer centered in screen
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
@@ -78,6 +76,7 @@ vim.keymap.set("n", "<CR>", [[ {-> v:hlsearch ? ':nohl<CR>' : '<CR>'}() ]], { ex
 
 -- Netrw
 vim.keymap.set("n", "<leader>e", "<cmd>Ex<CR>")
+vim.keymap.set("n", "<leader>C", "<cmd>edit ~/.config/nvim/init.lua<CR>", { desc = "Edit configuration file" })
 ----------------------------------------------------------
 ---                     Plugins                         --
 ----------------------------------------------------------
@@ -162,6 +161,25 @@ require "lazy".setup {
             vim.g['go_def_mapping_enabled'] = 0
             vim.g['go_textobj_enabled'] = 0
             vim.g['go_list_type'] = 'quickfix'
+            vim.api.nvim_create_autocmd("BufWritePre", {
+                pattern = { "*.go" },
+                callback = function()
+                    local params = vim.lsp.util.make_range_params()
+                    params.context = { only = { "source.organizeImports" } }
+                    local result = vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, 2000)
+                    for _, res in pairs(result or {}) do
+                        for _, r in pairs(res.result or {}) do
+                            if r.edit then
+                                vim.lsp.util.apply_workspace_edit(r.edit, "utf-16")
+                            else
+                                vim.lsp.buf.execute_command(r.command)
+                            end
+                        end
+                    end
+
+                    vim.lsp.buf.format()
+                end
+            })
         end
     },
 
@@ -464,7 +482,14 @@ require "lazy".setup {
             vim.keymap.set("n", "??", function() telescope_builtin.live_grep(theme(no_preview)) end,
                 { desc = "Live Grep" })
         end,
-    }
+    },
+    {
+        "aserowy/tmux.nvim",
+        config = function()
+            require "tmux".setup()
+        end,
+    },
+
 }
 
 
