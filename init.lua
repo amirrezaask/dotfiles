@@ -153,6 +153,15 @@ require "lazy".setup {
     {
         "fatih/vim-go",
         config = function()
+            vim.g['go_gopls_enabled'] = 0
+            vim.g['go_code_completion_enabled'] = 0
+            vim.g['go_fmt_autosave'] = 0
+            vim.g['go_imports_autosave'] = 0
+            vim.g['go_mod_fmt_autosave'] = 0
+            vim.g['go_doc_keywordprg_enabled'] = 0
+            vim.g['go_def_mapping_enabled'] = 0
+            vim.g['go_textobj_enabled'] = 0
+            vim.g['go_list_type'] = 'quickfix'
         end
     },
 
@@ -316,7 +325,9 @@ require "lazy".setup {
                     vim.keymap.set("n", "gd", vim.lsp.buf.definition, buffer "Goto Definition")
                     vim.keymap.set("n", "gD", vim.lsp.buf.declaration, buffer "Goto Declaration")
                     vim.keymap.set("n", "gi", vim.lsp.buf.implementation, buffer "Goto Implementation")
+                    vim.keymap.set("n", "<C-i>", vim.lsp.buf.implementation, buffer "Goto Implementation")
                     vim.keymap.set("n", "gr", vim.lsp.buf.references, buffer "Goto References")
+                    vim.keymap.set("n", "<C-r>", vim.lsp.buf.references, buffer "Goto References")
                     vim.keymap.set("n", "R", vim.lsp.buf.rename, buffer "Rename")
                     vim.keymap.set("n", "K", vim.lsp.buf.hover, buffer "Hover")
                     vim.keymap.set("n", "gl", vim.diagnostic.open_float, buffer "")
