@@ -1,7 +1,7 @@
 ----------------------------------------------------------
 ---                     Options                         --
 ----------------------------------------------------------
-vim.opt.number = true         -- Line numbers
+vim.opt.number = true -- Line numbers
 vim.opt.relativenumber = true -- Relative line numbers
 vim.opt.errorbells = false
 vim.opt.smartindent = true
@@ -15,7 +15,7 @@ vim.opt.termguicolors = true
 vim.opt.signcolumn = "yes"
 vim.opt.isfname:append "@-@"
 vim.opt.updatetime = 50
-vim.opt.guicursor = ""       -- Don't style cursor in different modes, just a box would suffice
+vim.opt.guicursor = "" -- Don't style cursor in different modes, just a box would suffice
 vim.opt.shortmess:append "c" -- Don't pass messages to |ins-completion-menu|.
 vim.opt.shortmess:append "I" -- No Intro message
 vim.opt.splitbelow = true
@@ -36,10 +36,13 @@ vim.g.mapleader = " "
 ---                     Basic Keymaps                   --
 ----------------------------------------------------------
 -- Copy/paste improvements
-vim.keymap.set("n", "Y", "y$", { desc = "Copy line" })                               -- Make yanking act like other operations
+vim.keymap.set("n", "Y", "y$", { desc = "Copy line" }) -- Make yanking act like other operations
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]], { desc = "Copy into clipboard" }) -- Copy to clipboard
 vim.keymap.set("n", "<leader>Y", [["+Y]], { desc = "Copy line into clipboard" })
 vim.keymap.set("n", "<leader>p", [["+p]], { desc = "Paste from clipboard" })
+-- If I visually select words and paste from clipboard, don't replace my
+-- clipboard with the selected word, instead keep my old word in the clipboard
+vim.keymap.set("x", "p", "\"_dP")
 -- Split windows
 vim.keymap.set("n", "<leader>v", "<cmd>vsplit<CR>", { desc = "Split vertically" })
 vim.keymap.set("n", "<leader>h", "<cmd>split<CR>", { desc = "Split horizontaly" })
@@ -70,7 +73,7 @@ vim.keymap.set("n", "N", "Nzz")
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
-vim.keymap.set("n", "Q", "<NOP>")
+vim.keymap.set("n", "Q", "<cmd>q<CR>")
 vim.keymap.set("n", "<CR>", [[ {-> v:hlsearch ? ':nohl<CR>' : '<CR>'}() ]], { expr = true }) -- handy when doing search in a buffer
 
 -- Netrw
@@ -184,7 +187,7 @@ require "lazy".setup {
 
 
     "kevinhwang91/nvim-bqf", -- Preview quickfix list item.
-    "tpope/vim-surround",    -- surrounding text objects
+    "tpope/vim-surround", -- surrounding text objects
     "windwp/nvim-autopairs", -- Auto insert pairs like () [] {}
     {
         "folke/zen-mode.nvim",
@@ -206,10 +209,10 @@ require "lazy".setup {
     },
 
     "fladson/vim-kitty", -- Support Kitty terminal config syntax
-    "towolf/vim-helm",   -- Support for helm template syntax
+    "towolf/vim-helm", -- Support for helm template syntax
     "jansedivy/jai.vim", -- Jai from Jonathan Blow
-    "dag/vim-fish",      -- Vim fish syntax
-    "tpope/vim-sleuth",  -- Heuristically set buffer options
+    "dag/vim-fish", -- Vim fish syntax
+    "tpope/vim-sleuth", -- Heuristically set buffer options
     {
         "lewis6991/gitsigns.nvim",
         config = function()
@@ -222,8 +225,6 @@ require "lazy".setup {
                     changedelete = { text = "~" },
                 },
             }
-            vim.keymap.set("n", "<leader>b", function() require("gitsigns").blame_line { full = true } end,
-                { desc = "Git blame line" })
             vim.keymap.set("n", "<leader>d", function() require("gitsigns").diffthis "~" end,
                 { desc = "Diff current file with HEAD" })
         end,
@@ -231,10 +232,8 @@ require "lazy".setup {
     {
         "tpope/vim-fugitive",
         config = function()
-            vim.api.nvim_create_user_command("Gp", function() vim.cmd.Git "push" end, {})
-
-            vim.keymap.set("n", "<leader>P", function() vim.cmd.Git "push" end, { desc = "Git Push" })
-            vim.keymap.set("n", "<leader>g", vim.cmd.Git, { desc = "Git status" })
+            vim.keymap.set("n", "<leader>gs", vim.cmd.Git, { desc = "Git status" })
+            vim.keymap.set("n", "<leader>gb", function() vim.cmd.Git "blame" end, { desc = "Git Blame" })
         end,
     }, -- Second best Git client ( first one is emacs magit )
 
@@ -391,9 +390,9 @@ require "lazy".setup {
         end
     },
 
-    "stevearc/oil.nvim",  -- File manager like a BOSS
+    "stevearc/oil.nvim", -- File manager like a BOSS
     "pbrisbin/vim-mkdir", -- Automatically create directory if not exists
-    "tpope/vim-eunuch",   -- Helper commands like :Rename, :Move, :Delete, :Remove, ...
+    "tpope/vim-eunuch", -- Helper commands like :Rename, :Move, :Delete, :Remove, ...
     {
         "nvim-tree/nvim-tree.lua",
         config = function()
@@ -429,8 +428,8 @@ require "lazy".setup {
                         require("telescope.themes").get_dropdown {},
                     },
                 },
-            }                                               -- Best fuzzy finder
-            require("telescope").load_extension "fzf"       -- load fzf awesomnes into Telescope
+            } -- Best fuzzy finder
+            require("telescope").load_extension "fzf" -- load fzf awesomnes into Telescope
             require("telescope").load_extension "ui-select" -- Use telescope for vim.ui.select
             local no_preview = { previewer = false, layout_config = { height = 0.6, width = 0.9 } }
             -- local dropdown = require("telescope.themes").get_dropdown
