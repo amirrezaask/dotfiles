@@ -55,7 +55,7 @@ vim.keymap.set("n", "<C-.>", ':tabn<cr>', { desc = "Next Tab" })
 vim.keymap.set("n", "<C-t>", ":tabnew<CR>", { desc = "New Tab" })
 -- Simpler exiting insert mode
 vim.keymap.set({ "i" }, "<C-c>", "<esc>")
-vim.keymap.set({ "t" }, "<C-c>", "<C-\\><C-n>")
+-- vim.keymap.set({ "t" }, "<C-c>", "<C-\\><C-n>")
 vim.keymap.set("t", "<Esc>", "<C-\\><C-n>")
 vim.keymap.set("i", "jk", "<ESC>")
 vim.keymap.set("i", "kj", "<ESC>")
@@ -489,7 +489,15 @@ require "lazy".setup {
             require "tmux".setup()
         end,
     },
-    "imsnif/kdl.vim"
+    "imsnif/kdl.vim",
+    { 'junegunn/fzf.vim',
+        dependencies = { 'junegunn/fzf', build = ":execute fzf#install()" },
+        config = function()
+            vim.keymap.set("n", "<leader><leader>", ":Files<CR>")
+        end
+
+    }
+
 
 }
 
