@@ -70,6 +70,9 @@
     { "keys": ["primary+shift+g"], "command": "find_all_under" },
     { "keys": ["alt+1"], "command": "focus_group", "args": { "group": 0 } },
     { "keys": ["alt+2"], "command": "focus_group", "args": { "group": 1 } },
+    
+    { "keys": ["alt+1"], "command": "focus_group", "args": { "group": 0 } },
+    { "keys": ["alt+2"], "command": "focus_group", "args": { "group": 1 } },
     { "keys": ["alt+3"], "command": "focus_group", "args": { "group": 2 } },
     { "keys": ["alt+4"], "command": "focus_group", "args": { "group": 3 } },
 
