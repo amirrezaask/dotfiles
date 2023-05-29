@@ -13,7 +13,6 @@
 		"LSP-gopls",
 		"LSP-rust-analyzer",
 		"Odin",
-		"Open",
 		"Package Control",
 		"Rust Enhanced",
 		"SideBarEnhancements",
@@ -21,7 +20,6 @@
 		"Terminus",
 		"Zig Language",
 	],
-	"in_process_packages":
-	[
-	],
+	"install_missing": true,
+	
 }
