@@ -46,6 +46,8 @@ alias c 'code'
 alias v 'vim'
 alias ca 'cargo'
 
+alias s 'subl'
+
 alias reload 'source ~/.config/fish/config.fish'
 
 if ! command -v starship &> /dev/null

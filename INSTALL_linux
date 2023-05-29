@@ -7,6 +7,7 @@ mkdir -p $HOME/.config/zellij && ln -s $(pwd)/config.kdl $HOME/.config/zellij/co
 
 echo "Installing Editors configurations..."
 mkdir -p $HOME/.config/nvim && ln -s $(pwd)/init.lua $HOME/.config/nvim/init.lua
+mkdir -p $HOME/.config/sublime-text/Packages/ && ln -s $(pwd)/SublimeText $HOME/.config/sublime-text/Packages/User
 ln -s $(pwd)/.emacs $HOME/.emacs
 
 
