@@ -1,0 +1,12 @@
+// Settings in here override those in "LSP/LSP.sublime-settings"
+{
+    "log_debug": true,
+    "show_diagnostics_severity_level": 1,
+    "diagnostics_panel_include_severity_level": 1,
+    "show_multiline_diagnostics_highlights": false,
+    "show_diagnostics_count_in_view_status": true,
+    "lsp_format_on_save": false,
+    "show_diagnostics_panel_on_save": 0,
+    "document_highlight_style": "",
+    "link_highlight_style": "none",
+}

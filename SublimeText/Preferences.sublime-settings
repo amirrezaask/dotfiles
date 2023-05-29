@@ -1,0 +1,18 @@
+{
+	"font_size": 16,
+	"caret_style": "smooth",
+	"font_face": "Fira Code",
+	
+	"theme": "Adaptive.sublime-theme",
+	"show_panel_on_build": false,
+
+	"color_scheme": "Monokai.sublime-color-scheme",
+	"show_full_path": true,
+	"show_errors_inline": false,
+	"scroll_speed": 3.0,
+
+	"ignored_packages":
+	[
+		"Vintage",
+	],
+}
