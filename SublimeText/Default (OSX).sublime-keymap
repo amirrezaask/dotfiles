@@ -1,4 +1,13 @@
 [
+    { "keys": ["primary+shift+8"], "command": "chain", "args": {
+        "commands" : [
+            ["slurp_find_string"],
+            ["show_panel", {
+                "panel": "find_in_files",
+            }], ["find_all"]
+        ]}
+    },
+    { "keys": ["primary+8"], "command": "find_under" },
     { "keys": ["primary+b"], "command": "toggle_side_bar" },
     { "keys": ["primary+`"], "command": "toggle_terminus_panel" },
     { "keys": ["primary+,"], "command": "jump_back" },
@@ -6,9 +15,6 @@
     { "keys": ["primary+shift+down"], "command": "select_lines", "args": {"forward": true} },
     { "keys": ["primary+;"], "command": "show_overlay", "args": {"overlay": "goto", "text": ":"} },
     { "keys": ["primary+o"], "command": "show_overlay", "args": {"overlay": "goto", "text": "@"} },
-    { "keys": ["alt+="], "command": "expand_selection", "args": {"to": "smart"}},
-    { "keys": ["option+="], "command": "expand_selection", "args": {"to": "smart"}},
-    { "keys": ["ctrl+x", "ctrl+s"], "command": "save"},
     //Definition
 	{
         "command": "lsp_symbol_definition",

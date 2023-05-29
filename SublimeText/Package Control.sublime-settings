@@ -2,6 +2,7 @@
 	"bootstrapped": true,
 	"installed_packages":
 	[
+		"Chain of Command",
 		"Debugger",
 		"Dracula Color Scheme",
 		"Elixir",
@@ -22,4 +23,7 @@
 	],
 	"install_missing": true,
 	
+	"in_process_packages":
+	[
+	],
 }
