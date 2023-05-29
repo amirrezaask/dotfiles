@@ -2,11 +2,13 @@
 	"bootstrapped": true,
 	"installed_packages":
 	[
+		"Agila Theme",
 		"Chain of Command",
 		"Debugger",
 		"Dracula Color Scheme",
 		"Elixir",
 		"Git",
+		"Git blame",
 		"Gomod",
 		"Idris Syntax",
 		"Iridis Colour Scheme",
