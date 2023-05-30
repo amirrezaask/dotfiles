@@ -46,7 +46,7 @@ alias c 'code'
 alias v 'vim'
 alias ca 'cargo'
 
-alias s 'subl'
+alias s 'subl .'
 
 alias reload 'source ~/.config/fish/config.fish'
 
