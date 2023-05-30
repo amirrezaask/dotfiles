@@ -98,7 +98,15 @@ TRANSPARENT = true
 -- Installing and configuring plugins
 require "lazy".setup {
     {
+        {
+            "folke/neodev.nvim",
+            config = function()
+                require "neodev".setup()
+            end
+        },
+
         "amirrezaask/themes",
+        "amirrezaask/sitruuna.vim",
         {
             "ellisonleao/gruvbox.nvim", -- Best theme of all time
             config = function()
@@ -118,17 +126,6 @@ require "lazy".setup {
             "bluz71/vim-nightfly-colors",
             config = function() vim.nightflyTransparent = true end,
         },
-        "shaunsingh/nord.nvim",
-        "amirrezaask/sitruuna.vim",
-        "shaunsingh/oxocarbon.nvim",
-        {
-            "rebelot/kanagawa.nvim",
-            config = function()
-                require("kanagawa").setup {
-                    transparent = TRANSPARENT,
-                }
-            end,
-        },
         {
             "catppuccin/nvim",
             name = "catppuccin",
@@ -146,7 +143,7 @@ require "lazy".setup {
         {
             "folke/tokyonight.nvim",
             config = function() require("tokyonight").setup { transparent = TRANSPARENT } end,
-        }, -- folkkkkkeeeeee
+        },
     },
 
     {
@@ -161,6 +158,7 @@ require "lazy".setup {
             vim.g['go_def_mapping_enabled'] = 0
             vim.g['go_textobj_enabled'] = 0
             vim.g['go_list_type'] = 'quickfix'
+            vim.g['go_template_autocreate'] = false
             vim.api.nvim_create_autocmd("BufWritePre", {
                 pattern = { "*.go" },
                 callback = function()
