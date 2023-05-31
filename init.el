@@ -114,8 +114,9 @@
 (use-package modus-themes)
 (use-package ef-themes)
 (use-package sweet-theme)
+(use-package gruber-darker-theme)
 (use-package amirreza-themes :straight (:type git :host github :repo "amirrezaask/themes" :local-repo "amirreza-themes" ) :defer t)
-(load-theme 'doom-dracula t)
+(load-theme 'gruber-darker t)
 
 (use-package expand-region ;; Expand/contract your selection based on language semantics.
   :bind
@@ -357,3 +358,4 @@
     (cond
      ((project-current) (call-interactively 'project-find-file))
      (t (call-interactively 'find-file)))))
+
