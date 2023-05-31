@@ -63,8 +63,6 @@
 (use-package emacs :straight nil ;; Emacs internal modes configuration and tweaks
   :bind
   (
-   ("C-S-p" . (lambda () (interactive) (previous-line (/ (window-height) 2)) (recenter-top-bottom)))
-   ("C-S-n" . (lambda () (interactive) (next-line (/ (window-height) 2)) (recenter-top-bottom)))
    ("M-p" . (lambda () (interactive) (previous-line (/ (window-height) 2)) (recenter-top-bottom)))
    ("M-n" . (lambda () (interactive) (next-line (/ (window-height) 2)) (recenter-top-bottom)))
    ("M-0" . 'delete-window) ;; Delete current window
@@ -109,13 +107,15 @@
   (blink-cursor-mode -1) ;; Disable cursor blinking
   )
 
+(use-package hydra)
+
 ;; Themes
 (use-package doom-themes)
 (use-package modus-themes)
 (use-package ef-themes)
 (use-package sweet-theme)
 (use-package amirreza-themes :straight (:type git :host github :repo "amirrezaask/themes" :local-repo "amirreza-themes" ) :defer t)
-(load-theme 'doom-xcode t)
+(load-theme 'doom-dracula t)
 
 (use-package expand-region ;; Expand/contract your selection based on language semantics.
   :bind
@@ -125,11 +125,12 @@
 
 (use-package multiple-cursors ;; TODO: maybe find better keybindings for this
   :bind
-  (("C-." . mc/mark-next-like-this) ;; insert another cursor in next line
-  ("C-," . mc/mark-previous-like-this) ;; insert cursor in previous line
-  ("C->" . mc/unmark-next-like-this) ;; insert another cursor in next line
-  ("C-<" . mc/unmark-previous-like-this)) ;; insert cursor in previous line
+  (("C-S-n" . mc/mark-next-like-this) ;; insert another cursor in next line
+  ("C-S-p" . mc/mark-previous-like-this) ;; insert cursor in previous line
+  ("C-M-n" . mc/unmark-next-like-this) ;; insert another cursor in next line
+  ("C-M-p" . mc/unmark-previous-like-this) ;; insert cursor in previous line
   )
+)
 
 (use-package ace-window ;; better window management for Emacs
   :bind
@@ -204,8 +205,6 @@
   :config
   (setq corfu-auto t) ;; Corfu should start only when I want it to.
   (global-corfu-mode) ;; Globally enable auto complete.
-;;   (corfu-echo-mode 1) ;; Show candidate documentation in echo area.
-;;   (corfu-popupinfo-mode 1) ;; Show candidates documentation if avaible
   (unless (display-graphic-p) ;; If in terminal emacs do some compat stuff.
     (corfu-terminal-mode))
   )
@@ -343,7 +342,7 @@
   :bind
   (
    ("M-o" . 'amirreza/find-file) ;; Open File
-   ("M-;" . 'amirreza/compile) ;; Compile command
+   ("<F5>" . 'amirreza/compile) ;; Compile command
    )
   :init
   (defun amirreza/compile ()

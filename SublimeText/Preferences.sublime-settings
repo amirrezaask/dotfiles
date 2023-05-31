@@ -1,12 +1,12 @@
 {
-	"font_size": 24,
+	"font_size": 19,
 	"caret_style": "smooth",
 	"font_face": "Fira Code",
 	
-	"theme": "Adaptive.sublime-theme",
+	"theme": "GitHub Adaptive.sublime-theme",
 	"show_panel_on_build": false,
 
-	"color_scheme": "Packages/Agila Theme/Agila Neon Monocyanide.tmTheme",
+	"color_scheme": "GitHub Dark.sublime-color-scheme",
 	"show_full_path": true,
 	"show_errors_inline": false,
 	"scroll_speed": 3.0,
