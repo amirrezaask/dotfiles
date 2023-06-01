@@ -106,4 +106,4 @@ schemes:
       cyan:    '#0db9d7'
       white:   '#acb0d0'
 
-# colors: *gruvbox-dark
+colors: *tokyo-night
