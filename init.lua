@@ -1,7 +1,7 @@
 ----------------------------------------------------------
 ---                     Options                         --
 ----------------------------------------------------------
-vim.opt.number = true -- Line numbers
+vim.opt.number = true         -- Line numbers
 vim.opt.relativenumber = true -- Relative line numbers
 vim.opt.errorbells = false
 vim.opt.smartindent = true
@@ -15,7 +15,6 @@ vim.opt.termguicolors = true
 vim.opt.signcolumn = "yes"
 vim.opt.isfname:append "@-@"
 vim.opt.updatetime = 50
-vim.opt.guicursor = "" -- Don't style cursor in different modes, just a box would suffice
 vim.opt.shortmess:append "c" -- Don't pass messages to |ins-completion-menu|.
 vim.opt.shortmess:append "I" -- No Intro message
 vim.opt.splitbelow = true
@@ -36,7 +35,7 @@ vim.g.mapleader = " "
 ---                     Basic Keymaps                   --
 ----------------------------------------------------------
 -- Copy/paste improvements
-vim.keymap.set("n", "Y", "y$", { desc = "Copy line" }) -- Make yanking act like other operations
+vim.keymap.set("n", "Y", "y$", { desc = "Copy line" })                               -- Make yanking act like other operations
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]], { desc = "Copy into clipboard" }) -- Copy to clipboard
 vim.keymap.set("n", "<leader>Y", [["+Y]], { desc = "Copy line into clipboard" })
 vim.keymap.set("n", "<leader>p", [["+p]], { desc = "Paste from clipboard" })
@@ -50,9 +49,9 @@ vim.keymap.set("n", "<Left>", "<cmd>vertical resize -10<CR>")
 vim.keymap.set("n", "<Right>", "<cmd>vertical resize +10<CR>")
 vim.keymap.set("n", "<C-w>=", "<cmd>wincmd =<CR>")
 -- Tabs
-vim.keymap.set("n", "<C-,>", ':tabp<cr>', { desc = "Previous Tab" })
-vim.keymap.set("n", "<C-.>", ':tabn<cr>', { desc = "Next Tab" })
-vim.keymap.set("n", "<C-t>", ":tabnew<CR>", { desc = "New Tab" })
+vim.keymap.set({ "n", "t" }, "<C-,>", '<cmd>tabp<cr>', { desc = "Previous Tab" })
+vim.keymap.set({ "n", "t" }, "<C-.>", '<cmd>tabn<cr>', { desc = "Next Tab" })
+vim.keymap.set({ "n", "t" }, "<C-t>", "<cmd>tabnew | term <CR>", { desc = "New Terminal Tab" })
 -- Simpler exiting insert mode
 vim.keymap.set({ "i" }, "<C-c>", "<esc>")
 -- vim.keymap.set({ "t" }, "<C-c>", "<C-\\><C-n>")
@@ -98,6 +97,10 @@ TRANSPARENT = true
 -- Installing and configuring plugins
 require "lazy".setup {
     {
+        {
+            'amirrezaask/gruvbuddy.nvim',
+            dependencies = { 'tjdevries/colorbuddy.vim' }
+        },
         {
             "folke/neodev.nvim",
             config = function()
@@ -206,8 +209,8 @@ require "lazy".setup {
 
 
     "kevinhwang91/nvim-bqf", -- Preview quickfix list item.
-    "tpope/vim-surround", -- surrounding text objects
-    "tpope/vim-abolish", -- useful text stuff
+    "tpope/vim-surround",    -- surrounding text objects
+    "tpope/vim-abolish",     -- useful text stuff
     "windwp/nvim-autopairs", -- Auto insert pairs like () [] {}
     {
         "folke/zen-mode.nvim",
@@ -229,10 +232,10 @@ require "lazy".setup {
     },
 
     "fladson/vim-kitty", -- Support Kitty terminal config syntax
-    "towolf/vim-helm", -- Support for helm template syntax
+    "towolf/vim-helm",   -- Support for helm template syntax
     "jansedivy/jai.vim", -- Jai from Jonathan Blow
-    "dag/vim-fish", -- Vim fish syntax
-    "tpope/vim-sleuth", -- Heuristically set buffer options
+    "dag/vim-fish",      -- Vim fish syntax
+    "tpope/vim-sleuth",  -- Heuristically set buffer options
     {
         "lewis6991/gitsigns.nvim",
         config = function()
@@ -307,6 +310,12 @@ require "lazy".setup {
             vim.env.PATH = string.format("%s/mason/bin", vim.fn.stdpath "data") .. vim.env.PATH
             require("mason").setup {}
             local lsp_servers = {
+                ocamllsp = {
+                    cmd = { string.format("%s/.opam/default/bin/%s", os.getenv("HOME"), "ocamllsp") },
+                    get_language_id = function(_, ftype)
+                        return ftype
+                    end,
+                },
                 gopls = {},
                 lua_ls = {
                     settings = {
@@ -328,6 +337,7 @@ require "lazy".setup {
             for server, config in pairs(lsp_servers) do
                 require("lspconfig")[server].setup(config)
             end
+            vim.lsp.set_log_level(0)
             vim.api.nvim_create_autocmd("LspAttach", {
                 callback = function(args)
                     local bufnr = args.buf
@@ -412,9 +422,9 @@ require "lazy".setup {
         end
     },
 
-    "stevearc/oil.nvim", -- File manager like a BOSS
+    "stevearc/oil.nvim",  -- File manager like a BOSS
     "pbrisbin/vim-mkdir", -- Automatically create directory if not exists
-    "tpope/vim-eunuch", -- Helper commands like :Rename, :Move, :Delete, :Remove, ...
+    "tpope/vim-eunuch",   -- Helper commands like :Rename, :Move, :Delete, :Remove, ...
     {
         "nvim-tree/nvim-tree.lua",
         config = function()
@@ -450,8 +460,8 @@ require "lazy".setup {
                         require("telescope.themes").get_dropdown {},
                     },
                 },
-            } -- Best fuzzy finder
-            require("telescope").load_extension "fzf" -- load fzf awesomnes into Telescope
+            }                                               -- Best fuzzy finder
+            require("telescope").load_extension "fzf"       -- load fzf awesomnes into Telescope
             require("telescope").load_extension "ui-select" -- Use telescope for vim.ui.select
             local no_preview = { previewer = false, layout_config = { height = 0.6, width = 0.9 } }
             -- local dropdown = require("telescope.themes").get_dropdown
@@ -495,6 +505,13 @@ require "lazy".setup {
     }
 }
 
+vim.api.nvim_create_autocmd({ 'BufWinEnter', 'WinEnter' }, {
+    pattern = "term://*",
+    callback = function(_)
+        vim.cmd [[ startinsert! ]]
+    end
+})
+
 
 -- Setting the colorscheme
-vim.cmd.colorscheme "tokyonight-night"
+vim.cmd.colorscheme "gruvbuddy"

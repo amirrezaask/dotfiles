@@ -41,7 +41,7 @@
 (use-package emacs :straight nil
   :init
   (setq amirreza/font-size 16)
-  (setq amirreza/font "Fira Code")
+  (setq amirreza/font "FiraCode Nerd Font Mono")
 
   (defun amirreza/increase-font-size ()
     (interactive)
@@ -116,7 +116,23 @@
 (use-package sweet-theme)
 (use-package gruber-darker-theme)
 (use-package amirreza-themes :straight (:type git :host github :repo "amirrezaask/themes" :local-repo "amirreza-themes" ) :defer t)
-(load-theme 'gruber-darker t)
+
+(defun disable-all-themes ()
+  "disable all active themes."
+  (dolist (i custom-enabled-themes)
+    (disable-theme i)))
+
+(defadvice load-theme (before disable-themes-first activate)
+  (disable-all-themes))
+
+(load-theme 'doom-one t)
+
+;; modeline
+(use-package doom-modeline
+  :init
+  (setq doom-modeline-height 35)
+  (doom-modeline-mode +1)
+  )
 
 (use-package expand-region ;; Expand/contract your selection based on language semantics.
   :bind
@@ -161,7 +177,6 @@
   (setq consult-async-min-input 1)
   :bind
   (("M-y" . consult-yank-pop) ;; Emacs clipboard manager
-   ("M-?" . consult-ripgrep)
    ("C-7" . (lambda ()
               (interactive)
               (consult-ripgrep (project-root (project-current)) (thing-at-point 'word 'no-propertise))
@@ -229,6 +244,13 @@
 (use-package yaml-mode)
 (use-package json-mode)
 (use-package csv-mode)
+(use-package tuareg) ;; Ocaml
+(use-package utop
+  :init
+  (setq utop-command "opam exec -- dune utop . -- -emacs")
+  )
+
+
 
 ;; Org mode
 (use-package org :straight nil
@@ -260,7 +282,7 @@
 
 ;; Eglot
 (use-package eglot
-  :hook (((go-mode rust-mode) . eglot-ensure) (eglot-managed-mode . (lambda () ;; This will just disable fucking mouse when eglot is enabled.
+  :hook (((go-mode rust-mode tuareg-mode) . eglot-ensure) (eglot-managed-mode . (lambda () ;; This will just disable fucking mouse when eglot is enabled.
                                                                       (put 'eglot-note 'flymake-overlay-control nil)
                                                                       (put 'eglot-warning 'flymake-overlay-control nil)
                                                                       (put 'eglot-error 'flymake-overlay-control nil))))
@@ -303,19 +325,7 @@
         ("C-c C-e" . wdired-change-to-wdired-mode)))
 
 
-(use-package eshell :straight nil ;; Emacs builtin shell
-  :bind
-  ("C-`" . amirreza/eshell)
-  :init
-  (defun amirreza/eshell ()
-    (interactive)
-    (cond
-     ((project-current) (project-eshell))
-     (t (let ((eshell-buffer-name (format "*%s-eshell*" default-directory))) (eshell))))))
-
-
 (use-package rg)
-
 (use-package perspective
   :init
   (setq persp-mode-prefix-key (kbd "C-x w"))
@@ -327,9 +337,7 @@
   (when (file-exists-p dir)
     (progn
       (persp-switch name)
-      (dired dir))
-    )
-  )
+      (dired dir))))
 
 (setq re-open-at-boot '(("rah-go" "~/w/rahavard365-v2")
                         ("rah-mvc" "~/w/rahavard365-v1")
@@ -339,23 +347,25 @@
 (mapc (lambda (spec)
         (amirreza/open-project-in-persp (car spec) (car (cdr spec)))) re-open-at-boot)
 
-(use-package amirreza-functions :defer t :straight nil
-  :bind
-  (
-   ("M-o" . 'amirreza/find-file) ;; Open File
-   ("<F5>" . 'amirreza/compile) ;; Compile command
-   )
-  :init
-  (defun amirreza/compile ()
-    (interactive)
-    (cond
-     ((project-current) (call-interactively 'project-compile))
-     (t (call-interactively 'compile))))
-
+(use-package project :straight nil
+  :config
   (defun amirreza/find-file ()
     "Use git based finding if inside a git repository"
     (interactive)
     (cond
      ((project-current) (call-interactively 'project-find-file))
-     (t (call-interactively 'find-file)))))
+     (t (call-interactively 'find-file))))
+
+  (global-set-key (kbd "M-o") 'amirreza/find-file)
+
+  (defun amirreza/compile ()
+    (interactive)
+    (cond
+     ((project-current) (call-interactively 'project-compile))
+     (t (call-interactively 'compile))))
+  
+  :bind
+  (("M-c" . 'amirreza/compile) ;; Compile command
+   ("M-o" . 'amirreza/find-file)))
+
 

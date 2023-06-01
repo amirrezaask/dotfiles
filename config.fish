@@ -54,3 +54,6 @@ if ! command -v starship &> /dev/null
     curl -sS https://starship.rs/install.sh | sh
 end
 starship init fish | source
+
+# opam configuration
+source /Users/amirreza/.opam/opam-init/init.fish > /dev/null 2> /dev/null; or true
