@@ -514,4 +514,4 @@ vim.api.nvim_create_autocmd({ 'BufWinEnter', 'WinEnter' }, {
 
 
 -- Setting the colorscheme
-vim.cmd.colorscheme "gruvbuddy"
+vim.cmd.colorscheme "tokyonight-night"
