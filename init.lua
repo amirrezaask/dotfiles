@@ -5,7 +5,7 @@ vim.opt.number = true         -- Line numbers
 vim.opt.relativenumber = true -- Relative line numbers
 vim.opt.errorbells = false
 vim.opt.smartindent = true
-vim.opt.wrap = false
+vim.opt.wrap = true
 vim.opt.swapfile = false
 vim.opt.backup = false
 vim.opt.undofile = true
@@ -50,12 +50,11 @@ vim.keymap.set("n", "<Left>", "<cmd>vertical resize -10<CR>")
 vim.keymap.set("n", "<Right>", "<cmd>vertical resize +10<CR>")
 vim.keymap.set("n", "<C-w>=", "<cmd>wincmd =<CR>")
 -- Tabs
-vim.keymap.set({ "n", "t" }, "<C-,>", '<cmd>tabp<cr>', { desc = "Previous Tab" })
-vim.keymap.set({ "n", "t" }, "<C-.>", '<cmd>tabn<cr>', { desc = "Next Tab" })
-vim.keymap.set({ "n", "t" }, "<C-t>", "<cmd>tabnew | term <CR>", { desc = "New Terminal Tab" })
+vim.keymap.set({ "n", "t" }, "<leader>tp", '<cmd>tabp<cr>', { desc = "Previous Tab" })
+vim.keymap.set({ "n", "t" }, "<leader>tn", '<cmd>tabn<cr>', { desc = "Next Tab" })
+vim.keymap.set({ "n", "t" }, "<leader>tc", "<cmd>tabnew | term <CR>", { desc = "New Terminal Tab" })
 -- Simpler exiting insert mode
 vim.keymap.set({ "i" }, "<C-c>", "<esc>")
--- vim.keymap.set({ "t" }, "<C-c>", "<C-\\><C-n>")
 vim.keymap.set("t", "<Esc>", "<C-\\><C-n>")
 vim.keymap.set("i", "jk", "<ESC>")
 vim.keymap.set("i", "kj", "<ESC>")
@@ -74,9 +73,15 @@ vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 vim.keymap.set("n", "Q", "<cmd>q<CR>")
 vim.keymap.set("n", "<CR>", [[ {-> v:hlsearch ? ':nohl<CR>' : '<CR>'}() ]], { expr = true }) -- handy when doing search in a buffer
 
+
+-- Wrapped lines act as normal lines
+vim.keymap.set("n", 'j', 'gj')
+vim.keymap.set("n", 'k', 'gk')
 -- Netrw
 vim.keymap.set("n", "<leader>e", "<cmd>Ex<CR>")
-vim.keymap.set("n", "<leader>C", "<cmd>edit ~/.config/nvim/init.lua<CR>", { desc = "Edit configuration file" })
+
+-- Edit this file
+vim.keymap.set("n", "<leader>i", '<cmd>edit ~/.config/nvim/init.lua<CR>', { desc = "Edit init.lua" })
 ----------------------------------------------------------
 ---                     Plugins                         --
 ----------------------------------------------------------
@@ -256,15 +261,15 @@ require "lazy".setup {
                     changedelete = { text = "~" },
                 },
             }
-            vim.keymap.set("n", "<leader>d", function() require("gitsigns").diffthis "~" end,
+            vim.keymap.set("n", "<leader>gd", function() require("gitsigns").diffthis "~" end,
                 { desc = "Diff current file with HEAD" })
+            vim.keymap.set("n", "<leader>gb", require "gitsigns".blame_line, { desc = "Git blame line" })
         end,
     }, -- Signs next to line numbers to show git status of a line
     {
         "tpope/vim-fugitive",
         config = function()
             vim.keymap.set("n", "<leader>gs", vim.cmd.Git, { desc = "Git status" })
-            vim.keymap.set("n", "<leader>gb", function() vim.cmd.Git "blame" end, { desc = "Git Blame" })
         end,
     }, -- Second best Git client ( first one is emacs magit )
 
