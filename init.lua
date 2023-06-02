@@ -199,7 +199,7 @@ require "lazy".setup {
         config = function()
             require("nvim-treesitter.configs").setup {
                 -- Setup treesitter text objects module + highlight
-                ensure_installed = { "json", "yaml", "c", "cpp", "lua", "rust", "go", "python", "php" },
+                ensure_installed = { "json", "yaml", "c", "cpp", "lua", "rust", "go", "python", "php", "ocaml" },
                 context_commentstring = { enable = true },
                 highlight = { enable = true, additional_vim_regex_highlighting = false },
                 textobjects = {
