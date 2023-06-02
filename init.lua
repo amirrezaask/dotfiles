@@ -513,13 +513,5 @@ require "lazy".setup {
     }
 }
 
-vim.api.nvim_create_autocmd({ 'BufWinEnter', 'WinEnter' }, {
-    pattern = "term://*",
-    callback = function(_)
-        vim.cmd [[ startinsert! ]]
-    end
-})
-
-
 -- Setting the colorscheme
 vim.cmd.colorscheme "tokyonight-night"
