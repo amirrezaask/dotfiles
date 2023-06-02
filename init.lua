@@ -99,6 +99,13 @@ TRANSPARENT = true
 require "lazy".setup {
     {
         {
+            'nvim-lualine/lualine.nvim',
+            dependencies = { 'nvim-tree/nvim-web-devicons' },
+            config = function()
+                require("lualine").setup()
+            end
+        },
+        {
             'amirrezaask/gruvbuddy.nvim',
             dependencies = { 'tjdevries/colorbuddy.vim' }
         },

@@ -6,7 +6,7 @@ font:
   size: 22
 
 env:
-  TERM: xterm-256color
+  TERM: alacritty
 
 window:
   option_as_alt: Both

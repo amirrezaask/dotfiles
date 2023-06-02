@@ -16,6 +16,11 @@ set -gx PATH "$HOME/.config/composer/vendor/bin:$PATH"
 set -gx PATH "$GOPATH/bin:$PATH"
 
 set -gx PATH "$HOME/.cargo/bin:$PATH"
+
+if test -e "$HOME/.opam"
+    source $HOME/.opam/opam-init/init.fish > /dev/null 2> /dev/null; or true
+end
+
 if command -v brew &> /dev/null
     eval (brew shellenv)
 end
@@ -55,5 +60,3 @@ if ! command -v starship &> /dev/null
 end
 starship init fish | source
 
-# opam configuration
-source /Users/amirreza/.opam/opam-init/init.fish > /dev/null 2> /dev/null; or true
