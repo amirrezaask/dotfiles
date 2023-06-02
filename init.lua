@@ -282,6 +282,7 @@ require "lazy".setup {
     {
         "hrsh7th/nvim-cmp",
         config = function()
+            local cmp_select = { behavior = require "cmp".SelectBehavior.Select }
             -- Autocompletion menu using nvim-cmp
             local capabilities = vim.lsp.protocol.make_client_capabilities()
             capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
@@ -295,7 +296,10 @@ require "lazy".setup {
                     expand = function(args) vim.fn["vsnip#anonymous"](args.body) end,
                 },
                 mapping = cmp.mapping.preset.insert {
-                    ["<CR>"] = cmp.mapping.confirm { behavior = cmp.ConfirmBehavior.Replace, select = true },
+                    ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
+                    ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
+                    ['<C-y>'] = cmp.mapping.confirm({ select = true }),
+                    ["<C-Space>"] = cmp.mapping.complete(),
                 },
                 sources = {
                     { name = "nvim_lsp" },
@@ -320,7 +324,7 @@ require "lazy".setup {
         },
         config = function()
             -- TODO(amirreza): find a better more cross platform way of joining paths.
-            vim.env.PATH = string.format("%s/mason/bin", vim.fn.stdpath "data") .. vim.env.PATH
+            vim.env.PATH = string.format("%s/mason/bin:", vim.fn.stdpath "data") .. vim.env.PATH
             require("mason").setup {}
             local lsp_servers = {
                 ocamllsp = {
@@ -359,9 +363,7 @@ require "lazy".setup {
                     vim.keymap.set("n", "gd", vim.lsp.buf.definition, buffer "Goto Definition")
                     vim.keymap.set("n", "gD", vim.lsp.buf.declaration, buffer "Goto Declaration")
                     vim.keymap.set("n", "gi", vim.lsp.buf.implementation, buffer "Goto Implementation")
-                    vim.keymap.set("n", "<C-i>", vim.lsp.buf.implementation, buffer "Goto Implementation")
                     vim.keymap.set("n", "gr", vim.lsp.buf.references, buffer "Goto References")
-                    vim.keymap.set("n", "<C-r>", vim.lsp.buf.references, buffer "Goto References")
                     vim.keymap.set("n", "R", vim.lsp.buf.rename, buffer "Rename")
                     vim.keymap.set("n", "K", vim.lsp.buf.hover, buffer "Hover")
                     vim.keymap.set("n", "gl", vim.diagnostic.open_float, buffer "")
