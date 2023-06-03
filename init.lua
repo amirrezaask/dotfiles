@@ -199,7 +199,7 @@ require "lazy".setup {
         config = function()
             require("nvim-treesitter.configs").setup {
                 -- Setup treesitter text objects module + highlight
-                ensure_installed = { "json", "yaml", "c", "cpp", "lua", "rust", "go", "python", "php", "ocaml" },
+                ensure_installed = { "json", "yaml", "c", "cpp", "lua", "rust", "go", "python", "php", "ocaml", "fish" },
                 context_commentstring = { enable = true },
                 highlight = { enable = true, additional_vim_regex_highlighting = false },
                 textobjects = {
@@ -247,7 +247,6 @@ require "lazy".setup {
     "fladson/vim-kitty", -- Support Kitty terminal config syntax
     "towolf/vim-helm",   -- Support for helm template syntax
     "jansedivy/jai.vim", -- Jai from Jonathan Blow
-    "dag/vim-fish",      -- Vim fish syntax
     "tpope/vim-sleuth",  -- Heuristically set buffer options
     {
         "lewis6991/gitsigns.nvim",
@@ -521,4 +520,4 @@ require "lazy".setup {
 }
 
 -- Setting the colorscheme
-vim.cmd.colorscheme "tokyonight-night"
+vim.cmd.colorscheme "rose-pine"
