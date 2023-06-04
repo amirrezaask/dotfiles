@@ -287,6 +287,7 @@ require "lazy".setup {
             capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
             local cmp = require "cmp"
             cmp.setup {
+                preselect = require 'cmp.types'.cmp.PreselectMode.None,
                 window = {
                     completion = cmp.config.window.bordered(),
                     documentation = cmp.config.window.bordered(),
@@ -299,6 +300,7 @@ require "lazy".setup {
                     ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
                     ['<C-y>'] = cmp.mapping.confirm({ select = true }),
                     ["<C-Space>"] = cmp.mapping.complete(),
+                    ['<CR>'] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
                 },
                 sources = {
                     { name = "nvim_lsp" },
