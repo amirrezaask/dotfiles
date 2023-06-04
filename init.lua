@@ -440,26 +440,6 @@ require "lazy".setup {
     "pbrisbin/vim-mkdir", -- Automatically create directory if not exists
     "tpope/vim-eunuch",   -- Helper commands like :Rename, :Move, :Delete, :Remove, ...
     {
-        "nvim-tree/nvim-tree.lua",
-        config = function()
-            require("nvim-tree").setup {
-                renderer = {
-                    icons = {
-                        show = {
-                            file = false,
-                            folder = false,
-                            folder_arrow = false,
-                            git = false,
-                            modified = false,
-                        },
-                    },
-                },
-            }
-
-            vim.keymap.set("n", "<C-b>", "<cmd>NvimTreeToggle<CR>")
-        end,
-    }, -- Tree file explorer
-    {
         -- telescope: Fuzzy finding and searching interface
         "nvim-telescope/telescope.nvim",
         dependencies = {
