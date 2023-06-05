@@ -477,16 +477,7 @@ require "lazy".setup {
                 { desc = "Live Grep" })
         end,
     },
-    "imsnif/kdl.vim",
-    {
-        'junegunn/fzf.vim',
-        dependencies = { 'junegunn/fzf', build = ":execute fzf#install()" },
-        config = function()
-            vim.g.fzf_preview_window = ''
-        end
-
-    }
 }
 
 -- Setting the colorscheme
-vim.cmd.colorscheme "gruvbuddy"
+vim.cmd.colorscheme "tokyonight-night"
