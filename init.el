@@ -1,4 +1,4 @@
-s;; (setq debug-on-error t)
+;; (setq debug-on-error t)
 ;; ==========================================
 ;; Improve startup time
 ;; ==========================================
@@ -66,6 +66,7 @@ s;; (setq debug-on-error t)
    ("M-p" . (lambda () (interactive) (previous-line (/ (window-height) 2)) (recenter-top-bottom)))
    ("M-n" . (lambda () (interactive) (next-line (/ (window-height) 2)) (recenter-top-bottom)))
    ("M-0" . 'delete-window) ;; Delete current window
+   ("M-1" . 'delete-other-windows) ;; Delete other windows
    ("M-2" . 'split-window-below) ;; Split window horizontaly
    ("M-3" . 'split-window-right) ;; Split window verticaly
    ("C-q" . 'set-mark-command) ;; start selecting a region
@@ -105,6 +106,7 @@ s;; (setq debug-on-error t)
   (setq-default cursor-type 'box) ;; set cursor type to be box, I like box better that a single horizontal line, it's more observable.
   (toggle-frame-maximized) ;; Always start in maximized mode
   (blink-cursor-mode -1) ;; Disable cursor blinking
+  (global-hl-line-mode +1)
   )
 
 (use-package hydra)
@@ -125,7 +127,7 @@ s;; (setq debug-on-error t)
 (defadvice load-theme (before disable-themes-first activate)
   (disable-all-themes))
 
-(load-theme 'gruber-darker t)
+(load-theme 'doom-gruvbox t)
 
 (use-package expand-region ;; Expand/contract your selection based on language semantics.
   :bind

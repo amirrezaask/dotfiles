@@ -483,4 +483,5 @@ require "lazy".setup {
 }
 
 -- Setting the colorscheme
-vim.cmd.colorscheme "tokyonight-night"
+vim.cmd.colorscheme "gruvbuddy"
+vim.cmd [[ hi Normal guibg=none ]]
