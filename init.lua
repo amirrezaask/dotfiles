@@ -50,9 +50,9 @@ vim.keymap.set("n", "<Left>", "<cmd>vertical resize -10<CR>")
 vim.keymap.set("n", "<Right>", "<cmd>vertical resize +10<CR>")
 vim.keymap.set("n", "<C-w>=", "<cmd>wincmd =<CR>")
 -- Tabs
-vim.keymap.set({ "n", "t" }, "<leader>tp", '<cmd>tabp<cr>', { desc = "Previous Tab" })
-vim.keymap.set({ "n", "t" }, "<leader>tn", '<cmd>tabn<cr>', { desc = "Next Tab" })
-vim.keymap.set({ "n", "t" }, "<leader>tc", "<cmd>tabnew | term <CR>", { desc = "New Terminal Tab" })
+vim.keymap.set({ "n", "t" }, "<C-;>", '<cmd>tabp<cr>', { desc = "Previous Tab" })
+vim.keymap.set({ "n", "t" }, "<C-'>", '<cmd>tabn<cr>', { desc = "Next Tab" })
+vim.keymap.set({ "n" }, "<leader>tc", "<cmd>tabnew | term <CR>", { desc = "New Terminal Tab" })
 -- Simpler exiting insert mode
 vim.keymap.set({ "i" }, "<C-c>", "<esc>")
 vim.keymap.set("t", "<Esc>", "<C-\\><C-n>")
@@ -103,13 +103,6 @@ TRANSPARENT = true
 -- Installing and configuring plugins
 require "lazy".setup {
     {
-        {
-            'nvim-lualine/lualine.nvim',
-            dependencies = { 'nvim-tree/nvim-web-devicons' },
-            config = function()
-                require("lualine").setup()
-            end
-        },
         {
             'amirrezaask/gruvbuddy.nvim',
             dependencies = { 'tjdevries/colorbuddy.vim' }
@@ -484,12 +477,6 @@ require "lazy".setup {
                 { desc = "Live Grep" })
         end,
     },
-    {
-        "aserowy/tmux.nvim",
-        config = function()
-            require "tmux".setup()
-        end,
-    },
     "imsnif/kdl.vim",
     {
         'junegunn/fzf.vim',
@@ -502,4 +489,4 @@ require "lazy".setup {
 }
 
 -- Setting the colorscheme
-vim.cmd.colorscheme "tokyonight-night"
+vim.cmd.colorscheme "gruvbuddy"
