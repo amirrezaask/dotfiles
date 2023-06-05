@@ -1,4 +1,4 @@
-;; (setq debug-on-error t)
+s;; (setq debug-on-error t)
 ;; ==========================================
 ;; Improve startup time
 ;; ==========================================
@@ -125,14 +125,7 @@
 (defadvice load-theme (before disable-themes-first activate)
   (disable-all-themes))
 
-(load-theme 'doom-one t)
-
-;; modeline
-(use-package doom-modeline
-  :init
-  (setq doom-modeline-height 35)
-  (doom-modeline-mode +1)
-  )
+(load-theme 'gruber-darker t)
 
 (use-package expand-region ;; Expand/contract your selection based on language semantics.
   :bind
@@ -157,8 +150,7 @@
 
 (use-package magit ;; Best git client ever
   :bind
-  (("C-x g" . magit)
-   ("M-g" . magit)))
+  (("C-x g" . magit)))
 
 (use-package minions ;; Remove minor modes from modeline.
   :init
@@ -177,14 +169,8 @@
   (setq consult-async-min-input 1)
   :bind
   (("M-y" . consult-yank-pop) ;; Emacs clipboard manager
-   ("C-7" . (lambda ()
-              (interactive)
-              (consult-ripgrep (project-root (project-current)) (thing-at-point 'word 'no-propertise))
-              ))
-   ("C-8" . (lambda ()
-              (interactive)
-              (consult-line (thing-at-point 'word 'no-propertise) 0)
-              ))
+   ("C-s" . consult-line)
+   ("C-S-s" . consult-ripgrep)
    ))
 
 (use-package marginalia
@@ -195,7 +181,7 @@
   :bind
   (:map minibuffer-local-map
   ("C-." . embark-act)         ;; pick some comfortable binding
-  ("M-c" . embark-export)      ;; Export current items into a buffer, amazing feature.
+  ("C-S-e" . embark-export)      ;; Export current items into a buffer, amazing feature.
   ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
   )
 
@@ -333,20 +319,6 @@
   :bind
   (("C-x w s" . persp-switch)))
 
-(defun amirreza/open-project-in-persp (name dir)
-  (when (file-exists-p dir)
-    (progn
-      (persp-switch name)
-      (dired dir))))
-
-(setq re-open-at-boot '(("rah-go" "~/w/rahavard365-v2")
-                        ("rah-mvc" "~/w/rahavard365-v1")
-                        ("databaseapi" "~/w/databaseapi-v1")
-                        ("dataapi" "~/w/dataapi-v1")))
-
-(mapc (lambda (spec)
-        (amirreza/open-project-in-persp (car spec) (car (cdr spec)))) re-open-at-boot)
-
 (use-package project :straight nil
   :config
   (defun amirreza/find-file ()
@@ -365,7 +337,7 @@
      (t (call-interactively 'compile))))
   
   :bind
-  (("M-c" . 'amirreza/compile) ;; Compile command
+  (("C-c C-c" . 'amirreza/compile) ;; Compile command
    ("M-o" . 'amirreza/find-file)))
 
 
