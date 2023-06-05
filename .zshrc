@@ -50,9 +50,8 @@ alias tks="tmux kill-server"
 alias tk="tmux kill-session -t"
 alias ta="tmux attach -t"
 
-snappvpn() {
-    sudo openfortivpn -c ~/snapp-fortigate.conf
-}
+alias mabna-up='sudo ipsec up corp'
+alias mabna-down='sudo ipsec down corp'
 
 if command -v nvim &> /dev/null
 then
