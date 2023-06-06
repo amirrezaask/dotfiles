@@ -41,7 +41,7 @@
 (use-package emacs :straight nil
   :init
   (setq amirreza/font-size 16)
-  (setq amirreza/font "FiraCode Nerd Font Mono")
+  (setq amirreza/font "JetBrains Mono")
 
   (defun amirreza/increase-font-size ()
     (interactive)
@@ -167,13 +167,23 @@
   (setq vertico-cycle t)
   (vertico-mode))
 
+(use-package isearch :straight nil
+  :bind
+  (("C-." . isearch-forward-thing-at-point)
+   :map isearch-mode-map
+  ("C-." . isearch-repeat-forward)
+))
+  
+
 (use-package consult :init ;; Useful minibuffer functions
   (setq consult-async-min-input 1)
+  (defun ripgrep-word-at-point () (interactive) (consult-ripgrep nil (thing-at-point 'word)))
   :bind
-  (("M-y" . consult-yank-pop) ;; Emacs clipboard manager
-   ("C-s" . consult-line)
-   ("C-S-s" . consult-ripgrep)
-   ))
+  (
+   ("M-y" . consult-yank-pop) ;; Emacs clipboard manager
+   ("C-7" . ripgrep-word-at-point)
+   )
+  )
 
 (use-package marginalia
   :config
@@ -265,12 +275,14 @@
 (use-package xref :straight nil
   :bind
   (("M-," . xref-pop-marker-stack) ;; Jump back
+   ("M-." . xref-find-definitions)
    ("M-r" . xref-find-references) ;; Find references
    ))
 
 ;; Eglot
 (use-package eglot
-  :hook (((go-mode rust-mode tuareg-mode) . eglot-ensure) (eglot-managed-mode . (lambda () ;; This will just disable fucking mouse when eglot is enabled.
+  :hook (;; ((go-mode rust-mode tuareg-mode) . eglot-ensure) 
+         (eglot-managed-mode . (lambda () ;; This will just disable fucking mouse when eglot is enabled.
                                                                       (put 'eglot-note 'flymake-overlay-control nil)
                                                                       (put 'eglot-warning 'flymake-overlay-control nil)
                                                                       (put 'eglot-error 'flymake-overlay-control nil))))
@@ -319,7 +331,7 @@
   (setq persp-mode-prefix-key (kbd "C-x w"))
   (persp-mode)
   :bind
-  (("C-x w s" . persp-switch)))
+  (("C-X w s" . persp-switch)))
 
 (use-package project :straight nil
   :config
