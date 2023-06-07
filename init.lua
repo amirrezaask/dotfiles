@@ -111,6 +111,13 @@ require "lazy".setup {
             dependencies = { 'tjdevries/colorbuddy.vim' }
         },
         {
+            'projekt0n/github-nvim-theme',
+            config = function()
+                require "github-theme".setup()
+            end,
+
+        },
+        {
             "folke/neodev.nvim",
             config = function()
                 require "neodev".setup()
@@ -483,4 +490,4 @@ require "lazy".setup {
 }
 
 -- Setting the colorscheme
-vim.cmd.colorscheme "rose-pine"
+vim.cmd.colorscheme "github_dark_high_contrast"
