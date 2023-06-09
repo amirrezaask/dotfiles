@@ -102,7 +102,7 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-TRANSPARENT = true
+TRANSPARENT = false
 -- Installing and configuring plugins
 require "lazy".setup {
     {
@@ -278,7 +278,18 @@ require "lazy".setup {
     {
         "akinsho/git-conflict.nvim",
         version = "*",
-        config = function() require("git-conflict").setup {} end,
+        config = function()
+            require("git-conflict").setup {
+                default_mappings = {
+                    ours = 'o',
+                    theirs = 't',
+                    none = '0',
+                    both = 'b',
+                    next = 'n',
+                    prev = 'p',
+                },
+            }
+        end,
     },
     -- Autocompletion popup
     {
@@ -490,4 +501,4 @@ require "lazy".setup {
 }
 
 -- Setting the colorscheme
-vim.cmd.colorscheme "github_dark_high_contrast"
+vim.cmd.colorscheme "gruvbox"
