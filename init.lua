@@ -106,23 +106,7 @@ TRANSPARENT = false
 -- Installing and configuring plugins
 require "lazy".setup {
     {
-        {
-            'amirrezaask/gruvbuddy.nvim',
-            dependencies = { 'tjdevries/colorbuddy.vim' }
-        },
-        {
-            'projekt0n/github-nvim-theme',
-            config = function()
-                require "github-theme".setup()
-            end,
 
-        },
-        {
-            "folke/neodev.nvim",
-            config = function()
-                require "neodev".setup()
-            end
-        },
         -- Colorschemes
         {
             "ellisonleao/gruvbox.nvim",
@@ -501,4 +485,4 @@ require "lazy".setup {
 }
 
 -- Setting the colorscheme
-vim.cmd.colorscheme "gruvbox"
+vim.cmd.colorscheme "tokyonight-night"
