@@ -26,13 +26,6 @@ export FZF_DEFAULT_OPTS='--height 20%'
 export FZF_DEFAULT_COMMAND='rg --files'
 
 alias reload='source ~/.profile'
-# Tmux
-alias o='tmux-open'
-alias to='tmux-open'
-alias tl='tmux list-sessions'
-alias tks="tmux kill-server"
-alias tk="tmux kill-session -t"
-alias ta="tmux attach -t"
 
 # Mabna
 alias mabna-up='sudo ipsec up corp'
