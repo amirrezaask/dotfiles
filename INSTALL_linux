@@ -13,4 +13,5 @@ ln -s $(pwd)/.emacs $HOME/.emacs
 
 echo "Installing Shell configurations..."
 mkdir -p $HOME/.config/fish && ln -s $(pwd)/config.fish $HOME/.config/fish/config.fish
+rm -rf $HOME/.profile && ln -s $(pwd)/.profile $HOME/.profile
 
