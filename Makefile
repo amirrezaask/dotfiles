@@ -13,7 +13,7 @@ neovim:
 	rm -rf $(HOME)/.config/nvim/ && mkdir -p $(HOME)/.config/nvim && ln -s $(THIS_DIR)/init.lua $(HOME)/.config/nvim/init.lua
 
 emacs:
-	ln -s $(THIS_DIR)/.emacs $(HOME)/.emacs
+	rm -rf $(HOME)/.emacs && ln -s $(THIS_DIR)/.emacs $(HOME)/.emacs
 
 alacritty:
 	rm -rf $(HOME)/.config/alacritty/ $(HOME)/.config/alacritty.yml && mkdir -p $(HOME)/.config/alacritty && ln -s $(THIS_DIR)/alacritty.yml $(HOME)/.config/alacritty/alacritty.yml
@@ -23,3 +23,6 @@ kitty:
 
 zellij:
 	rm -rf $(HOME)/.config/zellij && mkdir -p $(HOME)/.config/zellij && ln -s $(THIS_DIR)/config.kdl $(HOME)/.config/zellij/config.kdl
+
+tmux:
+	rm -rf $(HOME)/.tmux.conf && ln -s $(THIS_DIR)/.tmux.conf $(HOME)/.tmux.conf
