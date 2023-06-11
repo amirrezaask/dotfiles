@@ -1,6 +1,2 @@
-if ! command -v starship &> /dev/null
-then
-    curl -sS https://starship.rs/install.sh | sh
-fi
+source $HOME/.profile
 eval "$(starship init zsh)"
-
