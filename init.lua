@@ -112,6 +112,17 @@ require "lazy".setup {
         'tanvirtin/monokai.nvim',
         'Mofiqul/dracula.nvim',
         'amirrezaask/themes',
+        'sainnhe/sonokai',
+        'fenetikm/falcon',
+        'shaunsingh/nord.nvim',
+        {
+            'marko-cerovac/material.nvim',
+            config = function()
+                vim.g.material_style = "deep ocean"
+            end
+        },
+        "rebelot/kanagawa.nvim",
+        'projekt0n/github-nvim-theme',
         {
             "ellisonleao/gruvbox.nvim",
             config = function()
@@ -489,4 +500,4 @@ require "lazy".setup {
 }
 
 -- Setting the colorscheme
-vim.cmd.colorscheme "vscode"
+vim.cmd.colorscheme "material"
