@@ -29,7 +29,10 @@ export PATH="$GOPATH/bin:$PATH"
 export PATH="/Users/amirreza/Library/Python/3.10/bin:$PATH"
 export PATH="/Applications/Emacs.app/Contents/MacOS:$PATH"
 
-eval $(brew shellenv)
+if command -v brew &> /dev/null
+then
+    eval $(brew shellenv)
+fi
 
 [ -f "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env" # ghcup-env
 [ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
@@ -66,19 +69,6 @@ fi
 if ! command -v starship &> /dev/null
 then
     curl -sS https://starship.rs/install.sh | sh
-fi
-
-# for git diff
-if ! command -v delta &> /dev/null
-then
-    if command -v brew &> /dev/null
-    then
-        brew install git-delta
-    fi
-    if command -v apt &> /dev/null
-    then
-        sudo apt install git-delta
-    fi
 fi
 
 eval "$(starship init zsh)"
