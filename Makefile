@@ -9,6 +9,9 @@ zsh: shell
 bash: shell
 	rm -rf $(HOME)/.bashrc && ln -s $(THIS_DIR)/.bashrc $(HOME)/.bashrc
 
+fish:
+	rm -rf $(HOME)/.config/fish && mkdir -p $(HOME)/.config/fish && ln -s $(THIS_DIR)/config.fish $(HOME)/.config/fish/config.fish
+
 neovim:
 	rm -rf $(HOME)/.config/nvim/ && mkdir -p $(HOME)/.config/nvim && ln -s $(THIS_DIR)/init.lua $(HOME)/.config/nvim/init.lua
 
