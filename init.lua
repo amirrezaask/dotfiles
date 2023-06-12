@@ -115,6 +115,7 @@ require "lazy".setup {
         'sainnhe/sonokai',
         'fenetikm/falcon',
         'shaunsingh/nord.nvim',
+        { "briones-gabriel/darcula-solid.nvim", dependencies = "rktjmp/lush.nvim" },
         {
             'marko-cerovac/material.nvim',
             config = function()
@@ -415,7 +416,14 @@ require "lazy".setup {
             {
                 "leoluz/nvim-dap-go",
                 config = function()
-                    require('dap-go').setup()
+                    require('dap-go').setup({
+                        dap_configurations = {
+                            type = 'go',
+                            name = 'debug cmd/api',
+                            request = 'launch',
+                            program = './cmd/api'
+                        }
+                    })
                 end
             },
             {
@@ -426,10 +434,7 @@ require "lazy".setup {
             }
         },
         config = function()
-            vim.keymap.set("n", "<F5>", function()
-                -- require "dapui".open()
-                require "dap".continue()
-            end)
+            vim.keymap.set("n", "<F5>", function() require "dap".continue() end)
             vim.keymap.set("n", "<F8>", ":lua require'dap'.step_over()<CR>")
             vim.keymap.set("n", "<F7>", ":lua require'dap'.step_into()<CR>")
             vim.keymap.set("n", "<F12>", ":lua require'dap'.step_out()<CR>")
@@ -500,4 +505,4 @@ require "lazy".setup {
 }
 
 -- Setting the colorscheme
-vim.cmd.colorscheme "material"
+vim.cmd.colorscheme "darcula-solid"
