@@ -21,6 +21,7 @@ vim.opt.guicursor = ''
 vim.opt.splitbelow = true
 vim.opt.splitright = true
 vim.opt.cursorline = false
+vim.opt.colorcolumn = '120'
 vim.opt.sw = 4
 vim.opt.ts = 4
 vim.opt.expandtab = true
@@ -505,4 +506,4 @@ require "lazy".setup {
 }
 
 -- Setting the colorscheme
-vim.cmd.colorscheme "darcula-solid"
+vim.cmd.colorscheme "jblow"
