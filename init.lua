@@ -506,4 +506,4 @@ require "lazy".setup {
 }
 
 -- Setting the colorscheme
-vim.cmd.colorscheme "jblow"
+vim.cmd.colorscheme "kanagawa"
