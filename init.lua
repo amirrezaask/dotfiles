@@ -337,10 +337,12 @@ require "lazy".setup {
         "neovim/nvim-lspconfig",
         dependencies = {
             "williamboman/mason.nvim",
+            'j-hui/fidget.nvim'
         },
         config = function()
             -- TODO(amirreza): find a better more cross platform way of joining paths.
             vim.env.PATH = string.format("%s/mason/bin:", vim.fn.stdpath "data") .. vim.env.PATH
+            require "fidget".setup {}
             require("mason").setup {}
             local lsp_servers = {
                 ocamllsp = {
@@ -454,6 +456,7 @@ require "lazy".setup {
             dap.listeners.before.event_exited["dapui_config"] = function()
                 dapui.close()
             end
+            require('dap.ext.vscode').load_launchjs(nil, {})
         end
     },
 
