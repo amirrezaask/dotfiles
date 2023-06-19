@@ -30,6 +30,8 @@ alias reload='source ~/.profile'
 # Mabna
 alias mabna-up='sudo ipsec up corp'
 alias mabna-down='sudo ipsec down corp'
+alias mabna-dns='networksetup -setdnsservers Wi-Fi 192.168.10.1'
+alias normal-dns='networksetup -setdnsservers Wi-Fi 178.22.122.100 185.51.200.2'
 
 if command -v nvim &> /dev/null
 then
