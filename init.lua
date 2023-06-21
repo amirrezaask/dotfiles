@@ -337,7 +337,7 @@ require "lazy".setup {
         "neovim/nvim-lspconfig",
         dependencies = {
             "williamboman/mason.nvim",
-            'j-hui/fidget.nvim'
+            { 'j-hui/fidget.nvim', tag = 'legacy' }
         },
         config = function()
             -- TODO(amirreza): find a better more cross platform way of joining paths.
