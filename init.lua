@@ -187,7 +187,8 @@ require "lazy".setup {
         config = function()
             require("nvim-treesitter.configs").setup {
                 -- Setup treesitter text objects module + highlight
-                ensure_installed = { "json", "yaml", "c", "cpp", "lua", "rust", "go", "python", "php", "ocaml", "fish" },
+                ensure_installed = { "json", "yaml", "c", "cpp", "lua", "rust", "go", "python", "php", "ocaml", "fish",
+                    "http" },
                 context_commentstring = { enable = true },
                 highlight = { enable = true, additional_vim_regex_highlighting = false },
                 textobjects = {
@@ -489,6 +490,13 @@ require "lazy".setup {
                 { desc = "Live Grep" })
         end,
     },
+    {
+        "amirrezaask/rest.nvim",
+        dependencies = { "nvim-lua/plenary.nvim" },
+        config = function()
+            require 'rest-nvim'.setup()
+        end
+    }
 }
 
 -- Setting the colorscheme

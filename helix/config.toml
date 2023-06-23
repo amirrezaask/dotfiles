@@ -1,4 +1,4 @@
-theme = "fleet_dark"
+theme = "base16_transparent"
 
 [editor]
 bufferline = 'multiple'
@@ -7,8 +7,7 @@ cursorline = true
 
 [editor.statusline]
 left = ["mode", "spinner"]
-center = ["file-name"]
-right = ["diagnostics", "version-control", "position", "position-percentage"]
+right = ["file-name", "diagnostics", "version-control", "position", "position-percentage"]
 mode.normal = "NORMAL"
 mode.insert = "INSERT"
 mode.select = "SELECT"
@@ -16,11 +15,14 @@ mode.select = "SELECT"
 [editor.indent-guides]
 render = true
 
+[editor.lsp]
+display-inlay-hints = true
+
 
 [editor.cursor-shape]
 normal = "block"
-insert = "bar"
 select = "underline"
 
 [keys.insert]
 C-c = "normal_mode"
+j = {k = "normal_mode"}
