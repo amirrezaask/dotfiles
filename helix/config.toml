@@ -15,10 +15,6 @@ mode.select = "SELECT"
 [editor.indent-guides]
 render = true
 
-[editor.lsp]
-display-inlay-hints = true
-
-
 [editor.cursor-shape]
 normal = "block"
 select = "underline"
