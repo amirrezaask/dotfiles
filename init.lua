@@ -103,28 +103,12 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-TRANSPARENT = false
+TRANSPARENT = true
 -- Installing and configuring plugins
 require "lazy".setup {
     {
 
         -- Colorschemes
-        'Mofiqul/vscode.nvim',
-        'tanvirtin/monokai.nvim',
-        'Mofiqul/dracula.nvim',
-        'amirrezaask/themes',
-        'sainnhe/sonokai',
-        'fenetikm/falcon',
-        'shaunsingh/nord.nvim',
-        { "briones-gabriel/darcula-solid.nvim", dependencies = "rktjmp/lush.nvim" },
-        {
-            'marko-cerovac/material.nvim',
-            config = function()
-                vim.g.material_style = "deep ocean"
-            end
-        },
-        "rebelot/kanagawa.nvim",
-        'projekt0n/github-nvim-theme',
         {
             "ellisonleao/gruvbox.nvim",
             config = function()
@@ -508,4 +492,4 @@ require "lazy".setup {
 }
 
 -- Setting the colorscheme
-vim.cmd.colorscheme "gruvbox"
+vim.cmd.colorscheme "rose-pine"

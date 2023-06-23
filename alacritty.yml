@@ -10,7 +10,7 @@ env:
 
 window:
   option_as_alt: Both
-  # opacity: 0.93
+  opacity: 0.93
 
 key_bindings:
   # create a new window
