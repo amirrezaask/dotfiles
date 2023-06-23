@@ -1,4 +1,4 @@
-theme = "base16_transparent"
+theme = "mytheme"
 
 [editor]
 bufferline = 'multiple'
