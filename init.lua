@@ -125,15 +125,6 @@ require "lazy".setup {
             end,
         },
         {
-            "catppuccin/nvim",
-            name = "catppuccin",
-            config = function()
-                require("catppuccin").setup {
-                    transparent_background = TRANSPARENT,
-                }
-            end,
-        },
-        {
             "rose-pine/neovim",
             name = "rose-pine",
             config = function() require("rose-pine").setup { disable_background = TRANSPARENT } end,
