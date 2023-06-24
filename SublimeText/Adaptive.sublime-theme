@@ -1,0 +1,12 @@
+// Documentation at https://www.sublimetext.com/docs/themes.html
+{
+	"variables":
+	{
+		"font_face": "Liberation Mono",
+		"font_size": "13"
+	},
+	"rules":
+	[
+		
+	]
+}
