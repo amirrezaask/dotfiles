@@ -1,7 +1,7 @@
 // Settings in here override those in "Default/Preferences.sublime-settings",
 // and are overridden in turn by syntax-specific settings.
 {
-	"font_size": 22,
+	"font_size": 24,
 	"caret_style": "smooth",
 	"font_face": "Anonymous pro",
 	"highlight_line": true,
@@ -9,4 +9,5 @@
 	[
 		"Vintage",
 	],
+	"color_scheme": "Monokai.sublime-color-scheme",
 }

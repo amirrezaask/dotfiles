@@ -78,4 +78,5 @@
         "command": "lsp_signature_help_show",
         "context": [{"key": "lsp.signature_help_available"}]
     },
+    { "keys": ["primary+l"], "command": "show_at_center"}
 ]
