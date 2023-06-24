@@ -237,6 +237,7 @@ require "lazy".setup {
     "towolf/vim-helm",   -- Support for helm template syntax
     "jansedivy/jai.vim", -- Jai from Jonathan Blow
     "tpope/vim-sleuth",  -- Heuristically set buffer options
+    "mg979/vim-visual-multi",
     {
         "lewis6991/gitsigns.nvim",
         config = function()
