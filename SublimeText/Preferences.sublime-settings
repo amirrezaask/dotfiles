@@ -1,10 +1,10 @@
 // Settings in here override those in "Default/Preferences.sublime-settings",
 // and are overridden in turn by syntax-specific settings.
 {
-	"font_size": 24,
+	"font_size": 19,
 	"caret_style": "smooth",
 	"block_caret": true,
-	"font_face": "Anonymous pro",
+	"font_face": "Jetbrains Mono",
 	"highlight_line": true,
 	"ignored_packages":
 	[
