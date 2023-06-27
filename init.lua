@@ -50,13 +50,6 @@ vim.keymap.set("n", "<leader>h", "<cmd>split<CR>", { desc = "Split horizontaly" 
 vim.keymap.set("n", "<Left>", "<cmd>vertical resize -10<CR>")
 vim.keymap.set("n", "<Right>", "<cmd>vertical resize +10<CR>")
 vim.keymap.set("n", "<C-w>=", "<cmd>wincmd =<CR>")
--- Tabs
-vim.keymap.set({ "n", "t" }, "<C-w><C-p>", '<cmd>tabp<cr>', { desc = "Previous Tab" })
-vim.keymap.set({ "n", "t" }, "<C-w><C-n>", '<cmd>tabn<cr>', { desc = "Next Tab" })
-vim.keymap.set({ "n", "t" }, "<C-w><C-t>", '<cmd>tabnew | term<cr>', { desc = "New Terminal Tab" })
-vim.keymap.set({ "n", "t" }, "<C-w><C-.>", '<cmd>tabnew | term<cr>', { desc = "New Terminal Tab" })
-vim.keymap.set({ "n", "t" }, "<C-w><C-q>", '<cmd>wincmd q<cr>', { desc = "Close tab" })
-vim.keymap.set({ "n", "t" }, "<C-w>c", "<cmd>tabnew<CR>", { desc = "New Tab" })
 -- Simpler exiting insert mode
 vim.keymap.set({ "i" }, "<C-c>", "<esc>")
 vim.keymap.set("t", "<Esc>", "<C-\\><C-n>")
@@ -103,7 +96,7 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-TRANSPARENT = true
+TRANSPARENT = false
 -- Installing and configuring plugins
 require "lazy".setup {
     {
@@ -415,8 +408,8 @@ require "lazy".setup {
         },
         config = function()
             vim.keymap.set("n", "<F5>", function() require "dap".continue() end)
-            vim.keymap.set("n", "<F8>", ":lua require'dap'.step_over()<CR>")
-            vim.keymap.set("n", "<F7>", ":lua require'dap'.step_into()<CR>")
+            vim.keymap.set("n", "<F10>", ":lua require'dap'.step_over()<CR>")
+            vim.keymap.set("n", "<F11>", ":lua require'dap'.step_into()<CR>")
             vim.keymap.set("n", "<F12>", ":lua require'dap'.step_out()<CR>")
             vim.keymap.set("n", "<leader>db", ":lua require'dap'.toggle_breakpoint()<CR>")
             vim.keymap.set("n", "<leader>dB",
@@ -454,7 +447,9 @@ require "lazy".setup {
                         require("telescope.themes").get_dropdown {},
                     },
                 },
-            }                                               -- Best fuzzy finder
+            } -- Best fuzzy finder
+
+            require("telescope").load_extension('harpoon')
             require("telescope").load_extension "fzf"       -- load fzf awesomnes into Telescope
             require("telescope").load_extension "ui-select" -- Use telescope for vim.ui.select
             local no_preview = { previewer = false, layout_config = { height = 0.6, width = 0.9 } }
@@ -483,10 +478,27 @@ require "lazy".setup {
         end,
     },
     {
-        "amirrezaask/rest.nvim",
-        dependencies = { "nvim-lua/plenary.nvim" },
+        "amirrezaask/restclient.nvim",
+        dir = "~/dev/restclient.nvim",
+        name = "restclient"
+    },
+    {
+        'ThePrimeagen/harpoon',
+        dependencies = { 'nvim-lua/plenary.nvim' },
         config = function()
-            require 'rest-nvim'.setup()
+            vim.keymap.set("n", "<leader>1", function()
+                require "harpoon.ui".nav_file(1)
+            end)
+            vim.keymap.set("n", "<leader>2", function()
+                require "harpoon.ui".nav_file(2)
+            end)
+            vim.keymap.set("n", "<leader>3", function()
+                require "harpoon.ui".nav_file(3)
+            end)
+            vim.keymap.set("n", "<leader>,", function() require "harpoon.ui".nav_prev() end)
+            vim.keymap.set("n", "<leader>.", function() require "harpoon.ui".nav_next() end)
+            vim.keymap.set("n", "<leader>m", function() require "harpoon.mark".add_file() end)
+            vim.keymap.set("n", "<leader>;", function() require "harpoon.ui".toggle_quick_menu() end)
         end
     }
 }
