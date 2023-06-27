@@ -33,6 +33,11 @@ alias mabna-down='sudo ipsec down corp'
 alias mabna-dns='networksetup -setdnsservers Wi-Fi 192.168.10.1'
 alias normal-dns='networksetup -setdnsservers Wi-Fi 8.8.8.8 4.2.2.4 '
 
+
+alias gwl='git worktree list'
+alias gwa='git worktree add'
+
+
 if command -v nvim &> /dev/null
 then
     alias vim='nvim'
