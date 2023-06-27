@@ -20,7 +20,7 @@ vim.opt.shortmess:append "I" -- No Intro message
 vim.opt.guicursor = ''
 vim.opt.splitbelow = true
 vim.opt.splitright = true
-vim.opt.cursorline = false
+vim.opt.cursorline = true
 vim.opt.colorcolumn = '120'
 vim.opt.sw = 4
 vim.opt.ts = 4
@@ -96,7 +96,7 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-TRANSPARENT = false
+TRANSPARENT = true
 -- Installing and configuring plugins
 require "lazy".setup {
     {
@@ -486,19 +486,19 @@ require "lazy".setup {
         'ThePrimeagen/harpoon',
         dependencies = { 'nvim-lua/plenary.nvim' },
         config = function()
-            vim.keymap.set("n", "<leader>1", function()
+            vim.keymap.set("n", "<C-1>", function()
                 require "harpoon.ui".nav_file(1)
             end)
-            vim.keymap.set("n", "<leader>2", function()
+            vim.keymap.set("n", "<C-2>", function()
                 require "harpoon.ui".nav_file(2)
             end)
-            vim.keymap.set("n", "<leader>3", function()
+            vim.keymap.set("n", "<C-3>", function()
                 require "harpoon.ui".nav_file(3)
             end)
-            vim.keymap.set("n", "<leader>,", function() require "harpoon.ui".nav_prev() end)
-            vim.keymap.set("n", "<leader>.", function() require "harpoon.ui".nav_next() end)
-            vim.keymap.set("n", "<leader>m", function() require "harpoon.mark".add_file() end)
-            vim.keymap.set("n", "<leader>;", function() require "harpoon.ui".toggle_quick_menu() end)
+            vim.keymap.set("n", "<leader>a", function() require "harpoon.mark".add_file() end)
+            vim.keymap.set("n", "<C-e>", function() require "harpoon.ui".toggle_quick_menu() end)
+            vim.keymap.set("n", "<C-'>", function() require "harpoon.ui".nav_next() end)
+            vim.keymap.set("n", "<C-;>", function() require "harpoon.ui".nav_prev() end)
         end
     }
 }
