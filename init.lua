@@ -391,10 +391,19 @@ require "lazy".setup {
                 config = function()
                     require('dap-go').setup({
                         dap_configurations = {
-                            type = 'go',
-                            name = 'debug cmd/api',
-                            request = 'launch',
-                            program = './cmd/api'
+                            {
+                                type = 'go',
+                                name = 'Mabna: API',
+                                request = 'launch',
+                                program = './cmd/api'
+                            },
+                            {
+                                type = 'go',
+                                name = 'Mabna: Service',
+                                request = 'launch',
+                                program = './cmd/service'
+                            },
+
                         }
                     })
                 end
