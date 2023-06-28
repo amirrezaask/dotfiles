@@ -96,35 +96,16 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-TRANSPARENT = true
+TRANSPARENT = false
 -- Installing and configuring plugins
 require "lazy".setup {
     {
 
-        -- Colorschemes
-        {
-            "ellisonleao/gruvbox.nvim",
-            config = function()
-                require("gruvbox").setup {
-                    transparent_mode = TRANSPARENT,
-                    contrast = "hard",
-                    italic = {
-                        strings = false,
-                        comments = false,
-                        operators = false,
-                        folds = false,
-                    },
-                }
-            end,
-        },
+        -- Colorscheme
         {
             "rose-pine/neovim",
             name = "rose-pine",
             config = function() require("rose-pine").setup { disable_background = TRANSPARENT } end,
-        },
-        {
-            "folke/tokyonight.nvim",
-            config = function() require("tokyonight").setup { transparent = TRANSPARENT } end,
         },
     },
 
@@ -171,8 +152,20 @@ require "lazy".setup {
         config = function()
             require("nvim-treesitter.configs").setup {
                 -- Setup treesitter text objects module + highlight
-                ensure_installed = { "json", "yaml", "c", "cpp", "lua", "rust", "go", "python", "php", "ocaml", "fish",
-                    "http" },
+                ensure_installed = {
+                    "json",
+                    "yaml",
+                    "c",
+                    "cpp",
+                    "lua",
+                    "rust",
+                    "go",
+                    "python",
+                    "php",
+                    "ocaml",
+                    "fish",
+                    "http"
+                },
                 context_commentstring = { enable = true },
                 highlight = { enable = true, additional_vim_regex_highlighting = false },
                 textobjects = {
@@ -198,10 +191,6 @@ require "lazy".setup {
     "tpope/vim-surround",    -- surrounding text objects
     "tpope/vim-abolish",     -- useful text stuff
     "windwp/nvim-autopairs", -- Auto insert pairs like () [] {}
-    {
-        "folke/zen-mode.nvim",
-        config = function() require("zen-mode").setup() end,
-    },
     {
         "folke/which-key.nvim",
         config = function()
@@ -489,7 +478,23 @@ require "lazy".setup {
     {
         "amirrezaask/restclient.nvim",
         dir = "~/dev/restclient.nvim",
-        name = "restclient"
+        name = "restclient",
+        config = function()
+            require "restclient".set_env {
+                production = {},
+                beta = {
+                    jwtToken =
+                    "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2ODcxNjk3MjYsImp0aSI6ImZiZjkxMGFhOTllYTRhMmE4OWQ5NWU1ZWY5MjRkZTJjIiwic3ViIjoiMTQ1ODYwNSIsIm5iZiI6MTY4NzE2OTcyNiwiZXhwIjoxNjk0OTQ1NzI2LCJpc3MiOiJjb20ubWFibmFkcC5hcGkucmFoYXZhcmQzNjUudjEuYmV0YSJ9.H0RKnEUVioEeYOuK-3_1zzbPrQ4iyo1eCudy7odMu0ItkmVh3s0FFZ-GSfIios9MFeElIZfpqmfHMDfRmH8LI9Yb8VZFdH64sSAgTD2Qw5EWdedhwLCAyR0aM_7RF-lsYUZvHtBN_o9SKz1d-LnikJBIMT0xFah357jg8iw5oHsoO_D9Od68TlsGKoTyvNUsR635J8YyjhRMY-yq7BTfwR63MCZlNX85XiWWJ-_gDwl1emrE-biCmb-LN-MHwc2vdD9N_etKl-5qFsAAcrqqllCuvMAqnOpQRKkgy2L3riRL5rP_o1LzdO5ZYttsoCS27BWUAXNrbUs6GwrfheHfhg",
+                    baseURL = "http://beta.rahavard365.com"
+                },
+                ["local"] = {
+                    jwtToken =
+                    "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2ODcxNjk3MjYsImp0aSI6ImZiZjkxMGFhOTllYTRhMmE4OWQ5NWU1ZWY5MjRkZTJjIiwic3ViIjoiMTQ1ODYwNSIsIm5iZiI6MTY4NzE2OTcyNiwiZXhwIjoxNjk0OTQ1NzI2LCJpc3MiOiJjb20ubWFibmFkcC5hcGkucmFoYXZhcmQzNjUudjEuYmV0YSJ9.H0RKnEUVioEeYOuK-3_1zzbPrQ4iyo1eCudy7odMu0ItkmVh3s0FFZ-GSfIios9MFeElIZfpqmfHMDfRmH8LI9Yb8VZFdH64sSAgTD2Qw5EWdedhwLCAyR0aM_7RF-lsYUZvHtBN_o9SKz1d-LnikJBIMT0xFah357jg8iw5oHsoO_D9Od68TlsGKoTyvNUsR635J8YyjhRMY-yq7BTfwR63MCZlNX85XiWWJ-_gDwl1emrE-biCmb-LN-MHwc2vdD9N_etKl-5qFsAAcrqqllCuvMAqnOpQRKkgy2L3riRL5rP_o1LzdO5ZYttsoCS27BWUAXNrbUs6GwrfheHfhg",
+                    baseURL = "http://localhost:1323"
+                }
+            }
+            require "restclient".choose_environment('local')
+        end
     },
     {
         'ThePrimeagen/harpoon',
