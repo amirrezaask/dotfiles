@@ -476,27 +476,6 @@ require "lazy".setup {
         end,
     },
     {
-        "amirrezaask/restclient.nvim",
-        dir = "~/dev/restclient.nvim",
-        name = "restclient",
-        config = function()
-            require "restclient".set_env {
-                production = {},
-                beta = {
-                    jwtToken =
-                    "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2ODcxNjk3MjYsImp0aSI6ImZiZjkxMGFhOTllYTRhMmE4OWQ5NWU1ZWY5MjRkZTJjIiwic3ViIjoiMTQ1ODYwNSIsIm5iZiI6MTY4NzE2OTcyNiwiZXhwIjoxNjk0OTQ1NzI2LCJpc3MiOiJjb20ubWFibmFkcC5hcGkucmFoYXZhcmQzNjUudjEuYmV0YSJ9.H0RKnEUVioEeYOuK-3_1zzbPrQ4iyo1eCudy7odMu0ItkmVh3s0FFZ-GSfIios9MFeElIZfpqmfHMDfRmH8LI9Yb8VZFdH64sSAgTD2Qw5EWdedhwLCAyR0aM_7RF-lsYUZvHtBN_o9SKz1d-LnikJBIMT0xFah357jg8iw5oHsoO_D9Od68TlsGKoTyvNUsR635J8YyjhRMY-yq7BTfwR63MCZlNX85XiWWJ-_gDwl1emrE-biCmb-LN-MHwc2vdD9N_etKl-5qFsAAcrqqllCuvMAqnOpQRKkgy2L3riRL5rP_o1LzdO5ZYttsoCS27BWUAXNrbUs6GwrfheHfhg",
-                    baseURL = "http://beta.rahavard365.com"
-                },
-                ["local"] = {
-                    jwtToken =
-                    "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2ODcxNjk3MjYsImp0aSI6ImZiZjkxMGFhOTllYTRhMmE4OWQ5NWU1ZWY5MjRkZTJjIiwic3ViIjoiMTQ1ODYwNSIsIm5iZiI6MTY4NzE2OTcyNiwiZXhwIjoxNjk0OTQ1NzI2LCJpc3MiOiJjb20ubWFibmFkcC5hcGkucmFoYXZhcmQzNjUudjEuYmV0YSJ9.H0RKnEUVioEeYOuK-3_1zzbPrQ4iyo1eCudy7odMu0ItkmVh3s0FFZ-GSfIios9MFeElIZfpqmfHMDfRmH8LI9Yb8VZFdH64sSAgTD2Qw5EWdedhwLCAyR0aM_7RF-lsYUZvHtBN_o9SKz1d-LnikJBIMT0xFah357jg8iw5oHsoO_D9Od68TlsGKoTyvNUsR635J8YyjhRMY-yq7BTfwR63MCZlNX85XiWWJ-_gDwl1emrE-biCmb-LN-MHwc2vdD9N_etKl-5qFsAAcrqqllCuvMAqnOpQRKkgy2L3riRL5rP_o1LzdO5ZYttsoCS27BWUAXNrbUs6GwrfheHfhg",
-                    baseURL = "http://localhost:1323"
-                }
-            }
-            require "restclient".choose_environment('local')
-        end
-    },
-    {
         'ThePrimeagen/harpoon',
         dependencies = { 'nvim-lua/plenary.nvim' },
         config = function()
