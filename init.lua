@@ -176,20 +176,16 @@ require "lazy".setup {
                 { desc = "Diff current file with HEAD" })
             vim.keymap.set("n", "<leader>gb", require "gitsigns".blame_line, { desc = "Git blame line" })
         end,
-    }, -- Signs next to line numbers to show git status of a line
-    {
-        "tpope/vim-fugitive",
-        config = function()
-            vim.keymap.set("n", "<leader>gs", vim.cmd.Git, { desc = "Git status" })
-        end,
-    }, -- Second best Git client ( first one is emacs magit )
+    },                        -- Signs next to line numbers to show git status of a line
+    { "tpope/vim-fugitive" }, -- only for getting branch name :)
     {
         'TimUntersberger/neogit',
         dependencies = 'nvim-lua/plenary.nvim',
         config = function()
             require "neogit".setup {
-                disable_commit_confirmation = false,
+                disable_commit_confirmation = true,
             }
+            vim.keymap.set("n", "<leader>gs", vim.cmd.Neogit)
         end
     },
 
