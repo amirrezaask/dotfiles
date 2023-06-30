@@ -106,6 +106,14 @@ require "lazy".setup {
     { "ellisonleao/gruvbox.nvim" },
     { 'nyoom-engineering/oxocarbon.nvim' },
     { 'luisiacc/gruvbox-baby' },
+
+    -- statusline
+    {
+        'nvim-lualine/lualine.nvim',
+        config = function()
+            require "lualine".setup {}
+        end
+    },
     -- Treesitter syntax highlighting and text objects.
     {
         "nvim-treesitter/nvim-treesitter",
