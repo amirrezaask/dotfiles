@@ -117,7 +117,8 @@ require "lazy".setup {
     -- Treesitter syntax highlighting and text objects.
     {
         "nvim-treesitter/nvim-treesitter",
-        dependencies = { "nvim-treesitter/nvim-treesitter-textobjects", "nvim-treesitter/playground" },
+        dependencies = { "nvim-treesitter/nvim-treesitter-textobjects", "nvim-treesitter/playground",
+            'nvim-treesitter/nvim-treesitter-context' },
         config = function()
             require("nvim-treesitter.configs").setup {
                 -- Setup treesitter text objects module + highlight
@@ -152,16 +153,15 @@ require "lazy".setup {
             }
             -- Install all treesitter parsers.
             pcall(require("nvim-treesitter.install").update { with_sync = true })
+
+            require 'treesitter-context'.setup { enable = true }
         end,
     },
 
 
     "tpope/vim-surround", -- surrounding text objects
     "tpope/vim-abolish",  -- useful text stuff
-    {
-        "numToStr/Comment.nvim",
-        config = function() require("Comment").setup() end,
-    },
+    { "numToStr/Comment.nvim", config = function() require("Comment").setup() end },
 
     "fladson/vim-kitty", -- Support Kitty terminal config syntax
     "towolf/vim-helm",   -- Support for helm template syntax
@@ -406,9 +406,8 @@ require "lazy".setup {
                         require("telescope.themes").get_dropdown {},
                     },
                 },
-            } -- Best fuzzy finder
+            }                                               -- Best fuzzy finder
 
-            require("telescope").load_extension('harpoon')
             require("telescope").load_extension "fzf"       -- load fzf awesomnes into Telescope
             require("telescope").load_extension "ui-select" -- Use telescope for vim.ui.select
             local no_preview = { previewer = false, layout_config = { height = 0.6, width = 0.9 } }
@@ -434,25 +433,6 @@ require "lazy".setup {
                 { desc = "Live Grep" })
         end,
     },
-    {
-        'ThePrimeagen/harpoon',
-        dependencies = { 'nvim-lua/plenary.nvim' },
-        config = function()
-            vim.keymap.set("n", "<C-1>", function()
-                require "harpoon.ui".nav_file(1)
-            end)
-            vim.keymap.set("n", "<C-2>", function()
-                require "harpoon.ui".nav_file(2)
-            end)
-            vim.keymap.set("n", "<C-3>", function()
-                require "harpoon.ui".nav_file(3)
-            end)
-            vim.keymap.set("n", "<leader>a", function() require "harpoon.mark".add_file() end)
-            vim.keymap.set("n", "<C-e>", function() require "harpoon.ui".toggle_quick_menu() end)
-            vim.keymap.set("n", "<C-'>", function() require "harpoon.ui".nav_next() end)
-            vim.keymap.set("n", "<C-;>", function() require "harpoon.ui".nav_prev() end)
-        end
-    }
 }
 
 -- Setting the colorscheme
