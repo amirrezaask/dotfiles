@@ -148,10 +148,8 @@ require "lazy".setup {
     },
 
 
-    "kevinhwang91/nvim-bqf", -- Preview quickfix list item.
-    "tpope/vim-surround",    -- surrounding text objects
-    "tpope/vim-abolish",     -- useful text stuff
-    "windwp/nvim-autopairs", -- Auto insert pairs like () [] {}
+    "tpope/vim-surround", -- surrounding text objects
+    "tpope/vim-abolish",  -- useful text stuff
     {
         "numToStr/Comment.nvim",
         config = function() require("Comment").setup() end,
@@ -378,7 +376,6 @@ require "lazy".setup {
         end
     },
 
-    "stevearc/oil.nvim",  -- File manager like a BOSS
     "pbrisbin/vim-mkdir", -- Automatically create directory if not exists
     "tpope/vim-eunuch",   -- Helper commands like :Rename, :Move, :Delete, :Remove, ...
     {
