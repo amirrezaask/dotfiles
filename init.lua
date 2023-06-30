@@ -183,7 +183,15 @@ require "lazy".setup {
             vim.keymap.set("n", "<leader>gs", vim.cmd.Git, { desc = "Git status" })
         end,
     }, -- Second best Git client ( first one is emacs magit )
-    { 'TimUntersberger/neogit', dependencies = 'nvim-lua/plenary.nvim' },
+    {
+        'TimUntersberger/neogit',
+        dependencies = 'nvim-lua/plenary.nvim',
+        config = function()
+            require "neogit".setup {
+                disable_commit_confirmation = false,
+            }
+        end
+    },
 
     {
         "akinsho/git-conflict.nvim",
