@@ -30,7 +30,6 @@ vim.g.netrw_banner = 0
 vim.g.netrw_winsize = 25
 vim.opt.laststatus = 2
 vim.opt.timeoutlen = 300
-vim.opt.statusline = "%{FugitiveStatusline()}%=%m%r%h%w%q%F%=L:%l C:%c"
 vim.opt.laststatus = 3
 vim.g.mapleader = " "
 ----------------------------------------------------------
@@ -97,7 +96,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 TRANSPARENT = true
-COLORSCHEME = 'tokyonight-night'
+COLORSCHEME = 'rose-pine'
 -- Installing and configuring plugins
 require "lazy".setup {
     -- Colorscheme
@@ -184,8 +183,7 @@ require "lazy".setup {
                 { desc = "Diff current file with HEAD" })
             vim.keymap.set("n", "<leader>gb", require "gitsigns".blame_line, { desc = "Git blame line" })
         end,
-    },                        -- Signs next to line numbers to show git status of a line
-    { "tpope/vim-fugitive" }, -- only for getting branch name :)
+    }, -- Signs next to line numbers to show git status of a line
     {
         'TimUntersberger/neogit',
         dependencies = 'nvim-lua/plenary.nvim',
@@ -195,23 +193,6 @@ require "lazy".setup {
             }
             vim.keymap.set("n", "<leader>gs", vim.cmd.Neogit)
         end
-    },
-
-    {
-        "akinsho/git-conflict.nvim",
-        version = "*",
-        config = function()
-            require("git-conflict").setup {
-                default_mappings = {
-                    ours = 'o',
-                    theirs = 't',
-                    none = '0',
-                    both = 'b',
-                    next = 'n',
-                    prev = 'p',
-                },
-            }
-        end,
     },
     -- Autocompletion popup
     {
@@ -294,9 +275,24 @@ require "lazy".setup {
                 require("lspconfig")[server].setup(config)
             end
             vim.lsp.set_log_level(0)
+            vim.diagnostic.config({ virtual_text = false })
             vim.api.nvim_create_autocmd("LspAttach", {
                 callback = function(args)
                     local bufnr = args.buf
+                    vim.api.nvim_create_autocmd("CursorHold", {
+                        buffer = bufnr,
+                        callback = function()
+                            local opts = {
+                                focusable = false,
+                                close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
+                                border = 'rounded',
+                                source = 'always',
+                                prefix = ' ',
+                                scope = 'cursor',
+                            }
+                            vim.diagnostic.open_float(nil, opts)
+                        end
+                    })
                     vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
                     local buffer = function(desc) return { buffer = bufnr, desc = desc } end
                     vim.keymap.set("n", "gd", vim.lsp.buf.definition, buffer "Goto Definition")
