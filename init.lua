@@ -36,7 +36,11 @@ vim.g.mapleader = " "
 function statusline() -- since this function is called from vimscript world it's simpler if it's global
     local branch = "NOT A GIT REPO"
     if vim.b.gitsigns_head then
-        branch = string.format("[%s %s]", vim.b.gitsigns_head, vim.b.gitsigns_status)
+        local signs = ""
+        if vim.b.gitsigns_status and vim.b.gitsigns_status ~= "" then
+            signs = " " .. vim.b.gitsigns_status
+        end
+        branch = string.format("[%s%s]", vim.b.gitsigns_head, signs)
     end
     return branch .. "%=%m%r%h%w%q%F%=L:%l C:%c"
 end
@@ -54,8 +58,6 @@ vim.keymap.set("n", "<leader>p", [["+p]], { desc = "Paste from clipboard" })
 -- clipboard with the selected word, instead keep my old word in the clipboard
 vim.keymap.set("x", "p", "\"_dP")
 -- Split windows
-vim.keymap.set("n", "<leader>v", "<cmd>vsplit<CR>", { desc = "Split vertically" })
-vim.keymap.set("n", "<leader>h", "<cmd>split<CR>", { desc = "Split horizontaly" })
 vim.keymap.set("n", "<Left>", "<cmd>vertical resize -10<CR>")
 vim.keymap.set("n", "<Right>", "<cmd>vertical resize +10<CR>")
 vim.keymap.set("n", "<C-w>=", "<cmd>wincmd =<CR>")
@@ -78,7 +80,6 @@ vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
 vim.keymap.set("n", "Q", "<cmd>q<CR>")
 vim.keymap.set("n", "<CR>", [[ {-> v:hlsearch ? ':nohl<CR>' : '<CR>'}() ]], { expr = true }) -- handy when doing search in a buffer
-
 
 -- Wrapped lines act as normal lines
 vim.keymap.set("n", 'j', 'gj')
@@ -476,4 +477,5 @@ vim.cmd.colorscheme(COLORSCHEME)
 
 if TRANSPARENT then
     vim.api.nvim_set_hl(0, 'Normal', { bg = nil })
+    vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
 end
