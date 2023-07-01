@@ -32,7 +32,8 @@ vim.opt.laststatus = 2
 vim.opt.timeoutlen = 300
 vim.opt.laststatus = 3
 vim.g.mapleader = " "
-function statusline()
+
+function statusline() -- since this function is called from vimscript world it's simpler if it's global
     local branch = "NOT A GIT REPO"
     if vim.b.gitsigns_head then
         branch = vim.b.gitsigns_head
@@ -106,6 +107,7 @@ vim.opt.rtp:prepend(lazypath)
 
 TRANSPARENT = true
 COLORSCHEME = 'rose-pine'
+DIAG_WIN_ID = -1
 -- Installing and configuring plugins
 require "lazy".setup {
     -- Colorscheme
@@ -281,20 +283,28 @@ require "lazy".setup {
             vim.api.nvim_create_autocmd("LspAttach", {
                 callback = function(args)
                     local bufnr = args.buf
-                    vim.api.nvim_create_autocmd("CursorHold", {
-                        buffer = bufnr,
-                        callback = function()
-                            local opts = {
-                                focusable = false,
-                                close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
-                                border = 'rounded',
-                                source = 'always',
-                                prefix = ' ',
-                                scope = 'cursor',
-                            }
-                            vim.diagnostic.open_float(nil, opts)
-                        end
-                    })
+                    -- vim.api.nvim_create_autocmd("CursorHold", {
+                    --     buffer = bufnr,
+                    --     callback = function()
+                    --         local opts = {
+                    --             focusable = false,
+                    --             close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
+                    --             border = 'rounded',
+                    --             source = 'always',
+                    --             prefix = ' ',
+                    --             scope = 'cursor',
+                    --         }
+                    --         _, DIAG_WIN_ID = vim.diagnostic.open_float(nil, opts)
+                    --     end
+                    -- })
+                    -- local function hover()
+                    --     if DIAG_WIN_ID ~= -1 then
+                    --         vim.api.nvim_win_close(DIAG_WIN_ID, true)
+                    --         DIAG_WIN_ID = -1
+                    --     end
+                    --
+                    --     vim.lsp.buf.hover()
+                    -- end
                     vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
                     local buffer = function(desc) return { buffer = bufnr, desc = desc } end
                     vim.keymap.set("n", "gd", vim.lsp.buf.definition, buffer "Goto Definition")
