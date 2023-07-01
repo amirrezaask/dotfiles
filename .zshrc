@@ -27,6 +27,12 @@ export FZF_DEFAULT_COMMAND='rg --files'
 
 alias reload='source ~/.zshrc'
 
+tw() {
+    dir=$(find $HOME/dev $HOME/w -type d -exec sh -c 'cd "{}"; git rev-parse --git-dir 2> /dev/null 1>&2' \; -prune -print | fzf)
+    echo $dir
+    tmux new-window -c $dir -n $(basename $dir)
+}
+
 # Mabna
 alias mabna-up='sudo ipsec up corp'
 alias mabna-down='sudo ipsec down corp'
