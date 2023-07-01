@@ -33,6 +33,15 @@ tw() {
     tmux new-window -c $dir -n $(basename $dir)
 }
 
+mabna() {
+    if [ -z "$TMUX" ]; then
+        # not inside a tmux session
+        
+    else
+
+    fi
+}
+
 # Mabna
 alias mabna-up='sudo ipsec up corp'
 alias mabna-down='sudo ipsec down corp'

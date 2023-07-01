@@ -107,16 +107,14 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 TRANSPARENT = true
-COLORSCHEME = 'rose-pine'
+COLORSCHEME = "tokyonight-night"
 -- Installing and configuring plugins
 require "lazy".setup {
     -- Colorscheme
-    { "rose-pine/neovim",                name = "rose-pine" },
-    { "folke/tokyonight.nvim" },
+    { "rose-pine/neovim",        name = "rose-pine" },
+    { "folke/tokyonight.nvim", },
     { "ellisonleao/gruvbox.nvim" },
-    { 'nyoom-engineering/oxocarbon.nvim' },
-    { 'luisiacc/gruvbox-baby' },
-
+    { "catppuccin/nvim",         name = "catppuccin" },
     -- Treesitter syntax highlighting and text objects.
     {
         "nvim-treesitter/nvim-treesitter",
