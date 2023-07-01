@@ -29,17 +29,27 @@ alias reload='source ~/.zshrc'
 
 tw() {
     dir=$(find $HOME/dev $HOME/w -type d -exec sh -c 'cd "{}"; git rev-parse --git-dir 2> /dev/null 1>&2' \; -prune -print | fzf)
-    echo $dir
     tmux new-window -c $dir -n $(basename $dir)
 }
 
-mabna() {
-    if [ -z "$TMUX" ]; then
-        # not inside a tmux session
-        
-    else
+ts() {
+    dir=$(find $HOME/dev $HOME/w -type d -exec sh -c 'cd "{}"; git rev-parse --git-dir 2> /dev/null 1>&2' \; -prune -print | fzf)
+    tmux new-session -A -c $dir -s $(basename $dir) -n $(basename $dir)
+}
 
-    fi
+alias ta='tmux attach -t'
+
+
+mabna() {
+    tmux new-session -d -A -s 'mabna' -n goshell -c $HOME/w/rahavard365-v2/
+    tmux new-window -d -c $HOME/w/rahavard365-v2/ -n go
+    tmux new-window -d -c $HOME/w/rahavard365-v1/ -n mvc
+    tmux new-window -d -c $HOME/w/dataapi-v1/ -n dataapi 
+    tmux new-window -d -c $HOME/w/datasdk-v1/ -n datasdk 
+    tmux new-window -d -c $HOME/w/databaseapi-v1/ -n dbapi
+    tmux new-window -d -c $HOME/w/databasesdk-v1/ -n dbsdk 
+    tmux new-window -d -c $HOME/w/data-access-v1/ -n dataaccess 
+    tmux attach -t 'mabna'
 }
 
 # Mabna
