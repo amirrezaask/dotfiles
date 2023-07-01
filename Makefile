@@ -6,12 +6,6 @@ shell:
 zsh: shell
 	rm -rf $(HOME)/.zshrc && ln -s $(THIS_DIR)/.zshrc $(HOME)/.zshrc
 
-bash: shell
-	rm -rf $(HOME)/.bashrc && ln -s $(THIS_DIR)/.bashrc $(HOME)/.bashrc
-
-fish:
-	rm -rf $(HOME)/.config/fish && mkdir -p $(HOME)/.config/fish && ln -s $(THIS_DIR)/config.fish $(HOME)/.config/fish/config.fish
-
 neovim:
 	rm -rf $(HOME)/.config/nvim/ && mkdir -p $(HOME)/.config/nvim && ln -s $(THIS_DIR)/init.lua $(HOME)/.config/nvim/init.lua
 
@@ -23,9 +17,6 @@ alacritty:
 
 kitty:
 	rm -rf $(HOME)/.config/kitty && mkdir -p $(HOME)/.config/kitty && ln -s $(THIS_DIR)/kitty.conf $(HOME)/.config/kitty/kitty.conf
-
-zellij:
-	rm -rf $(HOME)/.config/zellij && mkdir -p $(HOME)/.config/zellij && ln -s $(THIS_DIR)/config.kdl $(HOME)/.config/zellij/config.kdl
 
 tmux:
 	rm -rf $(HOME)/.tmux.conf && ln -s $(THIS_DIR)/.tmux.conf $(HOME)/.tmux.conf

@@ -242,7 +242,7 @@ require "lazy".setup {
         "neovim/nvim-lspconfig",
         dependencies = {
             "williamboman/mason.nvim",
-            { 'j-hui/fidget.nvim', tag = 'legacy' }
+            { 'j-hui/fidget.nvim', tag = 'legacy' },
         },
         config = function()
             -- TODO(amirreza): find a better more cross platform way of joining paths.
@@ -278,24 +278,20 @@ require "lazy".setup {
                 require("lspconfig")[server].setup(config)
             end
             vim.lsp.set_log_level(0)
-            vim.diagnostic.config({ virtual_text = false })
+            vim.diagnostic.config { virtual_text = true }
+            local diag = false
+            vim.keymap.set("n", "<leader>d", function()
+                if diag then
+                    diag = false
+                    vim.diagnostic.disable()
+                else
+                    diag = true
+                    vim.diagnostic.enable()
+                end
+            end)
             vim.api.nvim_create_autocmd("LspAttach", {
                 callback = function(args)
                     local bufnr = args.buf
-                    vim.api.nvim_create_autocmd("CursorHold", {
-                        buffer = bufnr,
-                        callback = function()
-                            local opts = {
-                                focusable = false,
-                                close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
-                                border = 'rounded',
-                                source = 'always',
-                                prefix = ' ',
-                                scope = 'cursor',
-                            }
-                            _, DIAG_WIN_ID = vim.diagnostic.open_float(nil, opts)
-                        end
-                    })
                     vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
                     local buffer = function(desc) return { buffer = bufnr, desc = desc } end
                     vim.keymap.set("n", "gd", vim.lsp.buf.definition, buffer "Goto Definition")
@@ -305,8 +301,8 @@ require "lazy".setup {
                     vim.keymap.set("n", "R", vim.lsp.buf.rename, buffer "Rename")
                     vim.keymap.set("n", "K", vim.lsp.buf.hover, buffer "Hover")
                     vim.keymap.set("n", "gl", vim.diagnostic.open_float, buffer "")
-                    vim.keymap.set("n", "[[", vim.diagnostic.goto_prev, buffer "Next Diagnostic")
-                    vim.keymap.set("n", "]]", vim.diagnostic.goto_next, buffer "Previous Diagnostic")
+                    vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, buffer "Next Diagnostic")
+                    vim.keymap.set("n", "]d", vim.diagnostic.goto_next, buffer "Previous Diagnostic")
                     vim.keymap.set("n", "C", vim.lsp.buf.code_action, buffer "Code Actions")
                     vim.keymap.set("n", "<C-s>", vim.lsp.buf.signature_help, buffer "Signature Help")
                     vim.keymap.set("i", "<C-s>", vim.lsp.buf.signature_help, buffer "Signature Help")
@@ -367,7 +363,7 @@ require "lazy".setup {
                 "rcarriga/nvim-dap-ui",
                 config = function()
                     require "dapui".setup()
-                    vim.keymap.set("n", "<leader>du", ":lua require'dapui'.toggle()<CR>")
+                    vim.keymap.set("n", "<F2>", ":lua require'dapui'.toggle()<CR>")
                 end
             },
             {
@@ -404,10 +400,8 @@ require "lazy".setup {
             vim.keymap.set("n", "<F10>", ":lua require'dap'.step_over()<CR>")
             vim.keymap.set("n", "<F11>", ":lua require'dap'.step_into()<CR>")
             vim.keymap.set("n", "<F12>", ":lua require'dap'.step_out()<CR>")
-            vim.keymap.set("n", "<leader>db", ":lua require'dap'.toggle_breakpoint()<CR>")
-            vim.keymap.set("n", "<leader>dB",
-                ":lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>")
-            vim.keymap.set("n", "<leader>dr", ":lua require'dap'.repl.open()<CR>")
+            vim.keymap.set("n", "<F1>", ":lua require'dap'.toggle_breakpoint()<CR>")
+            vim.keymap.set("n", "<F9>", ":lua require'dap'.repl.open()<CR>")
 
             local dap, dapui = require("dap"), require("dapui")
             dap.listeners.after.event_initialized["dapui_config"] = function()
