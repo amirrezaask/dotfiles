@@ -32,6 +32,15 @@ vim.opt.laststatus = 2
 vim.opt.timeoutlen = 300
 vim.opt.laststatus = 3
 vim.g.mapleader = " "
+function statusline()
+    local branch = "NOT A GIT REPO"
+    if vim.b.gitsigns_head then
+        branch = vim.b.gitsigns_head
+    end
+    return branch .. "%=%m%r%h%w%q%F%=L:%l C:%c"
+end
+
+vim.opt.statusline = "%!v:lua.statusline()"
 ----------------------------------------------------------
 ---                     Basic Keymaps                   --
 ----------------------------------------------------------
@@ -106,13 +115,6 @@ require "lazy".setup {
     { 'nyoom-engineering/oxocarbon.nvim' },
     { 'luisiacc/gruvbox-baby' },
 
-    -- statusline
-    {
-        'nvim-lualine/lualine.nvim',
-        config = function()
-            require "lualine".setup {}
-        end
-    },
     -- Treesitter syntax highlighting and text objects.
     {
         "nvim-treesitter/nvim-treesitter",
