@@ -20,7 +20,7 @@ vim.opt.shortmess:append "I" -- No Intro message
 vim.opt.guicursor = ''
 vim.opt.splitbelow = true
 vim.opt.splitright = true
-vim.opt.cursorline = true
+vim.opt.cursorline = false
 vim.opt.colorcolumn = '120'
 vim.opt.sw = 4
 vim.opt.ts = 4
@@ -34,7 +34,7 @@ vim.opt.laststatus = 3
 vim.g.mapleader = " "
 
 function statusline() -- since this function is called from vimscript world it's simpler if it's global
-    local branch = "NOT A GIT REPO"
+    local branch = ""
     if vim.b.gitsigns_head then
         local signs = ""
         if vim.b.gitsigns_status and vim.b.gitsigns_status ~= "" then
@@ -107,7 +107,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 TRANSPARENT = true
-COLORSCHEME = "tokyonight-night"
+COLORSCHEME = "gruvbox"
 -- Installing and configuring plugins
 require "lazy".setup {
     -- Colorscheme
