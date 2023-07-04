@@ -38,6 +38,7 @@ ts() {
 }
 
 alias ta='tmux attach -t'
+alias tl='tmux ls'
 
 
 mabna() {
