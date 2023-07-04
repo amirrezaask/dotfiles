@@ -64,6 +64,7 @@ then
     export EDITOR='nvim'
     export GIT_EDITOR='nvim'
 fi
+alias jvim='vim -c "set syntax=json" -c"setlocal buftype=nofile"'
 [[ ! -r /Users/amirreza/.opam/opam-init/init.zsh ]] || source /Users/amirreza/.opam/opam-init/init.zsh  > /dev/null 2> /dev/null
 
 # Oh My ZSH

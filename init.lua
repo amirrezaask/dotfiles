@@ -17,7 +17,7 @@ vim.opt.isfname:append "@-@"
 vim.opt.updatetime = 50
 vim.opt.shortmess:append "c" -- Don't pass messages to |ins-completion-menu|.
 vim.opt.shortmess:append "I" -- No Intro message
-vim.opt.guicursor = ''
+-- vim.opt.guicursor = ''
 vim.opt.splitbelow = true
 vim.opt.splitright = true
 vim.opt.cursorline = false
@@ -107,7 +107,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 TRANSPARENT = true
-COLORSCHEME = "tokyonight-night"
+COLORSCHEME = "gruvbox"
 -- Installing and configuring plugins
 require "lazy".setup {
     -- Colorscheme
