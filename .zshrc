@@ -1,3 +1,6 @@
+# Oh My ZSH
+[ ! -d "$HOME/.oh-my-zsh" ] && git clone https://github.com/ohmyzsh/ohmyzsh.git --single-branch --depth 1 .oh-my-zsh
+
 export GO111MODULE='on'
 export GOPATH="$HOME"
 export GOPRIVATE='gitlab.snapp.ir'
@@ -39,6 +42,13 @@ c() {
     fi
 }
 
+gco() {
+    branch=$(git branch -l | fzf)
+    if [ "$branch" != "" ]; then
+        git checkout "$branch"
+    fi
+}
+
 alias ta='tmux attach -t'
 alias tl='tmux ls'
 
@@ -72,14 +82,10 @@ fi
 alias jvim='vim -c "set syntax=json" -c"setlocal buftype=nofile"'
 [[ ! -r /Users/amirreza/.opam/opam-init/init.zsh ]] || source /Users/amirreza/.opam/opam-init/init.zsh  > /dev/null 2> /dev/null
 
-# Oh My ZSH
-[ ! -d "$HOME/.oh-my-zsh" ] && git clone https://github.com/ohmyzsh/ohmyzsh.git --single-branch --depth 1 .oh-my-zsh
-
 export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="robbyrussell"
 
 plugins=(
-    git
     fzf
 )
 
