@@ -32,9 +32,11 @@ tw() {
     tmux new-window -c $dir -n $(basename $dir)
 }
 
-ts() {
+c() {
     dir=$(find $HOME/dev $HOME/w -type d -exec sh -c 'cd "{}"; git rev-parse --git-dir 2> /dev/null 1>&2' \; -prune -print | fzf)
-    tmux new-session -A -c $dir -s $(basename $dir) -n $(basename $dir)
+    if [ "$dir" != "" ]; then
+        cd $dir
+    fi
 }
 
 alias ta='tmux attach -t'
@@ -58,6 +60,9 @@ alias mabna-up='sudo ipsec up corp'
 alias mabna-down='sudo ipsec down corp'
 alias mabna-dns='networksetup -setdnsservers Wi-Fi 192.168.10.1'
 alias normal-dns='networksetup -setdnsservers Wi-Fi 8.8.8.8 4.2.2.4 '
+alias shekan2-dns='networksetup -setdnsservers Wi-Fi 10.202.10.202 10.202.10.102 192.168.10.1'
+alias shekan-dns='networksetup -setdnsservers Wi-Fi 178.22.122.100 185.51.200.2 192.168.10.1'
+
 if command -v nvim &> /dev/null
 then
     alias vim='nvim'
