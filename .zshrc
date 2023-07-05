@@ -30,13 +30,19 @@ export FZF_DEFAULT_COMMAND='rg --files'
 
 alias reload='source ~/.zshrc'
 
+projects() {
+    find $HOME/dev $HOME/w -type d -exec sh -c 'cd "{}"; git rev-parse --git-dir 2> /dev/null 1>&2' \; -prune -print
+}
+
 tw() {
-    dir=$(find $HOME/dev $HOME/w -type d -exec sh -c 'cd "{}"; git rev-parse --git-dir 2> /dev/null 1>&2' \; -prune -print | fzf)
-    tmux new-window -c $dir -n $(basename $dir)
+    dir=$(projects | fzf)
+    if [ "$dir" != "" ]; then
+        tmux new-window -c $dir -n $(basename $dir)
+    fi
 }
 
 c() {
-    dir=$(find $HOME/dev $HOME/w -type d -exec sh -c 'cd "{}"; git rev-parse --git-dir 2> /dev/null 1>&2' \; -prune -print | fzf)
+    dir=$(projects | fzf)
     if [ "$dir" != "" ]; then
         cd $dir
     fi
