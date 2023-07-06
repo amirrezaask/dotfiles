@@ -48,7 +48,7 @@ c() {
 }
 
 gco() {
-    branch=$(git branch -l | fzf)
+    branch=$(git branch -l | fzf | sed -e 's/^[[:space:]]*//')
     if [ "$branch" != "" ]; then
         git checkout "$branch"
     fi
