@@ -47,6 +47,10 @@ c() {
     fi
 }
 
+alias gd='git diff'
+alias gds='git diff --staged'
+alias gs='git status'
+
 gco() {
     branch=$(git branch -l | fzf | sed -e 's/^[[:space:]]*//')
     if [ "$branch" != "" ]; then
@@ -57,7 +61,7 @@ gco() {
 s() {
     dir=$(projects | fzf)
     if [ "$dir" = "" ]; then
-        exit
+       return 
     fi
     project=$(basename $dir)
     if [ "$TMUX" = "" ]; then
