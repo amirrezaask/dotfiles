@@ -1,4 +1,3 @@
-# Oh My ZSH
 [ ! -d "$HOME/.oh-my-zsh" ] && git clone https://github.com/ohmyzsh/ohmyzsh.git --single-branch --depth 1 .oh-my-zsh
 
 export GO111MODULE='on'
