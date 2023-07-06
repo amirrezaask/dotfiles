@@ -1,8 +1,8 @@
 live_config_reload: true
 
 font:
-  normal:
-    family: "JetBrainsMono Nerd Font"
+  # normal:
+  #   family: "Liberation Mono"
   size: 20
 
 env:
