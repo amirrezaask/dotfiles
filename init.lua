@@ -459,13 +459,10 @@ require "lazy".setup {
                 { desc = "Live Grep" })
         end,
     },
-
     {
-        'akinsho/toggleterm.nvim',
-        version = "*",
+        "mbbill/undotree",
         config = function()
-            require("toggleterm").setup()
-            vim.keymap.set({ "n", "t" }, "<C-,>", "<cmd>ToggleTerm<CR>")
+            vim.keymap.set("n", "<leader>u", "<cmd>UndotreeToggle<CR>")
         end
     }
 }
