@@ -55,21 +55,26 @@ gco() {
     fi
 }
 
+s() {
+    dir=$(projects | fzf)
+    if [ "$dir" = "" ]; then
+        exit
+    fi
+    project=$(basename $dir)
+    if [ "$TMUX" = "" ]; then
+        tmux new-session -A -s $project -c $dir
+    else
+        tmux has-session -t="$project" 2>/dev/null
+        if [ $? != 0 ]; then
+            tmux switchc -t $(tmux new-session -s $project -c $dir -dP)
+        else
+            tmux switchc -t="$project"
+        fi
+    fi
+}
+
 alias ta='tmux attach -t'
 alias tl='tmux ls'
-
-
-mabna() {
-    tmux new-session -d -A -s 'mabna' -n goshell -c $HOME/w/rahavard365-v2/
-    tmux new-window -d -c $HOME/w/rahavard365-v2/ -n go
-    tmux new-window -d -c $HOME/w/rahavard365-v1/ -n mvc
-    tmux new-window -d -c $HOME/w/dataapi-v1/ -n dataapi 
-    tmux new-window -d -c $HOME/w/datasdk-v1/ -n datasdk 
-    tmux new-window -d -c $HOME/w/databaseapi-v1/ -n dbapi
-    tmux new-window -d -c $HOME/w/databasesdk-v1/ -n dbsdk 
-    tmux new-window -d -c $HOME/w/data-access-v1/ -n dataaccess 
-    tmux attach -t 'mabna'
-}
 
 # Mabna
 alias mabna-up='sudo ipsec up corp'
@@ -85,7 +90,9 @@ then
     export EDITOR='nvim'
     export GIT_EDITOR='nvim'
 fi
+
 alias jvim='vim -c "set syntax=json" -c"setlocal buftype=nofile"'
+
 [[ ! -r /Users/amirreza/.opam/opam-init/init.zsh ]] || source /Users/amirreza/.opam/opam-init/init.zsh  > /dev/null 2> /dev/null
 
 export ZSH="$HOME/.oh-my-zsh"
