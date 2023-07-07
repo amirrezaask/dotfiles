@@ -1,8 +1,6 @@
 live_config_reload: true
 
 font:
-  # normal:
-  #   family: "Liberation Mono"
   size: 20
 
 env:
@@ -10,10 +8,9 @@ env:
 
 window:
   option_as_alt: Both
-  opacity: 0.91
+  opacity: 0.80
 
 colors:
   primary:
-    # background: '#000000'
     background: '#191724'
     foreground: '#ffffff'
