@@ -10,7 +10,7 @@ env:
 
 window:
   option_as_alt: Both
-  opacity: 0.90
+  opacity: 0.91
 
 colors:
   primary:
