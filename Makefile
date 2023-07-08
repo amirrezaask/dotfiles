@@ -1,16 +1,10 @@
 THIS_DIR := $(dir $(abspath $(firstword $(MAKEFILE_LIST))))
 
-shell:
-	rm -rf $(HOME)/.profile && ln -s $(THIS_DIR)/.profile $(HOME)/.profile
-
-zsh: shell
+zsh: 
 	rm -rf $(HOME)/.zshrc && ln -s $(THIS_DIR)/.zshrc $(HOME)/.zshrc
 
 neovim:
 	rm -rf $(HOME)/.config/nvim/ && mkdir -p $(HOME)/.config/nvim && ln -s $(THIS_DIR)/init.lua $(HOME)/.config/nvim/init.lua
-
-emacs:
-	rm -rf $(HOME)/.emacs && ln -s $(THIS_DIR)/.emacs $(HOME)/.emacs
 
 alacritty:
 	rm -rf $(HOME)/.config/alacritty/ $(HOME)/.config/alacritty.yml && mkdir -p $(HOME)/.config/alacritty && ln -s $(THIS_DIR)/alacritty.yml $(HOME)/.config/alacritty/alacritty.yml
