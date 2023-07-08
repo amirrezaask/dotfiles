@@ -105,7 +105,7 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-TRANSPARENT = true
+TRANSPARENT = false
 COLORSCHEME = "rose-pine"
 -- Installing and configuring plugins
 require "lazy".setup {
