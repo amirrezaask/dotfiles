@@ -438,12 +438,32 @@ require "lazy".setup {
             local no_preview = { previewer = false, layout_config = { height = 0.6, width = 0.9 } }
             local theme = function(opts) return opts end
             local telescope_builtin = require "telescope.builtin"
-            vim.keymap.set("n", "<C-p>", function() telescope_builtin.git_files(theme(no_preview)) end,
-                { desc = "Telescope Git Files" })
+            local is_git_repo = function(path)
+                if vim.fn.isdirectory(path .. "/.git") == 0 then
+                    return true
+                else
+                    return false
+                end
+            end
+
+            local smart_file_picker = function()
+                local seperator = "/"
+                if vim.fn.has('win32') then
+                    seperator = "\\"
+                end
+                no_preview['prompt_title'] = 'Smart File Picker'
+                if is_git_repo(vim.fn.getcwd() .. seperator .. ".git") then
+                    telescope_builtin.git_files(theme(no_preview))
+                else
+                    telescope_builtin.find_files(theme(no_preview))
+                end
+            end
+            vim.keymap.set("n", "<C-p>", function() smart_file_picker() end,
+                { desc = "Smart File Picker" })
             vim.keymap.set("n", "<leader>b", function() telescope_builtin.buffers(theme(no_preview)) end,
                 { desc = "Telescope Buffers" })
-            vim.keymap.set("n", "<leader><leader>", function() telescope_builtin.find_files(theme(no_preview)) end,
-                { desc = "Telescope Find files" })
+            vim.keymap.set("n", "<leader><leader>", function() smart_file_picker() end,
+                { desc = "Smart File Picker" })
             vim.keymap.set("n", ",,", function() telescope_builtin.current_buffer_fuzzy_find(theme(no_preview)) end,
                 { desc = "Current File Search" })
             vim.keymap.set("n", "&", function() telescope_builtin.grep_string(theme(no_preview)) end,
