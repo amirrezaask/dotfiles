@@ -159,8 +159,27 @@ require "lazy".setup {
     },
 
 
-    "tpope/vim-surround", -- surrounding text objects
-    "tpope/vim-abolish",  -- useful text stuff
+    "tpope/vim-surround",    -- surrounding text objects
+    {
+        "tpope/vim-abolish", -- useful text stuff
+        config = function()
+            vim.api.nvim_create_user_command("ToSnakeCase", function(_)
+                vim.fn.feedkeys([[crs]])
+            end, { range = true })
+            vim.api.nvim_create_user_command("ToPascalCase", function(_)
+                vim.fn.feedkeys([[crm]])
+            end, { range = true })
+            vim.api.nvim_create_user_command("ToCamelCase", function(_)
+                vim.fn.feedkeys([[crc]])
+            end, { range = true })
+            vim.api.nvim_create_user_command("ToUpperCase", function(_)
+                vim.fn.feedkeys([[cru]])
+            end, { range = true })
+            vim.api.nvim_create_user_command("ToDotCase", function(_)
+                vim.fn.feedkeys([[cr.]])
+            end, { range = true })
+        end
+    },
     { "numToStr/Comment.nvim", config = function() require("Comment").setup() end },
 
     "fladson/vim-kitty", -- Support Kitty terminal config syntax
