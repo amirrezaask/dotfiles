@@ -90,6 +90,7 @@ alias shekan-dns='networksetup -setdnsservers Wi-Fi 178.22.122.100 185.51.200.2 
 if command -v nvim &> /dev/null
 then
     alias vim='nvim'
+    alias vi='nvim'
     export EDITOR='nvim'
     export GIT_EDITOR='nvim'
 fi
@@ -99,7 +100,7 @@ alias jvim='vim -c "set syntax=json" -c"setlocal buftype=nofile"'
 [[ ! -r /Users/amirreza/.opam/opam-init/init.zsh ]] || source /Users/amirreza/.opam/opam-init/init.zsh  > /dev/null 2> /dev/null
 
 export ZSH="$HOME/.oh-my-zsh"
-ZSH_THEME="robbyrussell"
+ZSH_THEME="apple"
 
 plugins=(
     fzf
