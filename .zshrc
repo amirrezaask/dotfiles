@@ -30,7 +30,7 @@ export FZF_DEFAULT_COMMAND='rg --files'
 alias reload='source ~/.zshrc'
 
 projects() {
-    find $HOME/dev $HOME/w -type d -exec sh -c 'cd "{}"; git rev-parse --git-dir 2> /dev/null 1>&2' \; -prune -print
+    find $HOME/dev $HOME/dev/ocaml $HOME/w -type d -exec sh -c 'cd "{}"; git rev-parse --git-dir 2> /dev/null 1>&2' \; -prune -print
 }
 
 tw() {

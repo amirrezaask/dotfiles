@@ -106,7 +106,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 TRANSPARENT = false
-COLORSCHEME = "catppuccin-mocha"
+COLORSCHEME = "rose-pine"
 -- Installing and configuring plugins
 require "lazy".setup {
     -- Colorscheme
