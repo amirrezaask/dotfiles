@@ -50,6 +50,7 @@ c() {
 alias gd='git diff'
 alias gds='git diff --staged'
 alias gs='git status'
+alias g='git'
 
 gco() {
     branch=$(git branch -l | fzf | sed -e 's/^[[:space:]]*//')
