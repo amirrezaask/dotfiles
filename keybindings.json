@@ -1,0 +1,88 @@
+[
+  // zoom and font size
+  { "key": "ctrl+=", "command": "editor.action.fontZoomIn" },
+  { "key": "ctrl+-", "command": "editor.action.fontZoomOut" },
+  { "key": "cmd+=", "command": "editor.action.fontZoomIn" },
+  { "key": "cmd+-", "command": "editor.action.fontZoomOut" },
+  { "key": "ctrl+shift+=", "command": "workbench.action.zoomIn" },
+  { "key": "ctrl+shift+-", "command": "workbench.action.zoomOut" },
+  { "key": "cmd+shift+=", "command": "workbench.action.zoomIn" },
+  { "key": "cmd+shift+-", "command": "workbench.action.zoomOut" },
+  { "key": "ctrl+shift+0", "command": "workbench.action.zoomReset"},
+  { "key": "cmd+shift+0", "command": "workbench.action.zoomReset"},
+  { "key": "cmd+0", "command": "editor.action.fontZoomReset"},
+  { "key": "ctrl+0", "command": "editor.action.fontZoomReset"},
+  // Some macOS consistency
+  { "key": "cmd+`", "command": "workbench.action.togglePanel" },
+  { "key": "ctrl+`", "command": "workbench.action.togglePanel" },
+  { "key": "cmd+g", "command": "workbench.action.gotoLine" },
+  // terminal
+  { "key": "cmd+t", "command": "workbench.action.terminal.toggleTerminal"},
+  { "key": "ctrl+t", "command": "workbench.action.terminal.toggleTerminal"},
+
+  // multiple cursors (cmd/ctrl + shift + arrow )
+  { "key": "ctrl+shift+down", "command": "editor.action.insertCursorBelow" },
+  { "key": "ctrl+shift+up", "command": "editor.action.insertCursorAbove" },
+  { "key": "cmd+shift+down", "command": "editor.action.insertCursorBelow" },
+  { "key": "cmd+shift+up", "command": "editor.action.insertCursorAbove" },
+  // shrink and expand selection based on language semantics
+  { "key": "ctrl+]", "command": "editor.action.smartSelect.expand" },
+  { "key": "ctrl+[", "command": "editor.action.smartSelect.shrink" },
+  { "key": "cmd+]", "command": "editor.action.smartSelect.expand" },
+  { "key": "cmd+[", "command": "editor.action.smartSelect.shrink" },
+  // LSP related stuff
+  // Find All Implementations
+  { "key": "ctrl+i", "when": "editorTextFocus", "command": "editor.action.goToImplementation" },
+  { "key": "cmd+i", "when": "editorTextFocus", "command": "editor.action.goToImplementation" },
+  // Find all references
+  { "key": "ctrl+r", "when": "editorTextFocus", "command": "editor.action.goToReferences" },
+  { "key": "cmd+r", "when": "editorTextFocus", "command": "editor.action.goToReferences" },
+  // Goto Definition
+  { "key": "cmd+.", "when": "editorTextFocus", "command": "editor.action.revealDefinition" },
+  { "key": "ctrl+.", "when": "editorTextFocus", "command": "editor.action.revealDefinition" },
+  // Jump back where you were
+  { "key": "cmd+,", "when": "editorTextFocus", "command": "workbench.action.navigateBack" },
+  { "key": "ctrl+,", "when": "editorTextFocus", "command": "workbench.action.navigateBack" },
+  // Hover
+  { "key": "cmd+'", "when": "editorFocus", "command": "editor.action.showHover" },
+  { "key": "ctrl+'", "when": "editorFocus", "command": "editor.action.showHover" },
+  // Quick fix
+  { "key": "ctrl+shift+a", "command": "editor.action.quickFix" },
+  { "key": "cmd+shift+a", "command": "editor.action.quickFix" },
+  // Rename
+  { "key": "ctrl+shift+r", "command": "editor.action.rename" },
+  { "key": "cmd+shift+r", "command": "editor.action.rename" },
+  // Goto Line
+  { "key": "cmd+;", "command": "workbench.action.gotoLine" },
+  { "key": "ctrl+;", "command": "workbench.action.gotoLine" },
+  // Find symbols in file
+  { "key": "ctrl+o", "command": "workbench.action.gotoSymbol" },
+  { "key": "cmd+o", "command": "workbench.action.gotoSymbol" },
+  // Find symbols in project
+  { "key": "cmd+shift+o", "command": "workbench.action.showAllSymbols" },
+  { "key": "ctrl+shift+o", "command": "workbench.action.showAllSymbols" },
+
+  // Toggle file explorer
+  { "key": "cmd+shift+e", "command": "workbench.action.toggleSidebarVisibility", "when": "view.workbench.explorer.fileView.visible"},
+  { "key": "ctrl+shift+e", "command": "workbench.action.toggleSidebarVisibility", "when": "view.workbench.explorer.fileView.visible"},
+
+  // Activity Bar 0
+  { "key": "cmd+0", "command": "workbench.action.toggleActivityBarVisibility" },
+  { "key": "ctrl+0", "command": "workbench.action.toggleActivityBarVisibility" },
+
+  // File explorer 1
+  { "key": "cmd+1", "command": "workbench.view.explorer" },
+  { "key": "ctrl+1", "command": "workbench.view.explorer" },
+  { "key": "cmd+1", "command": "workbench.action.toggleSidebarVisibility", "when": "view.workbench.explorer.fileView.visible"},
+  { "key": "ctrl+1", "command": "workbench.action.toggleSidebarVisibility", "when": "view.workbench.explorer.fileView.visible"},
+
+  // Git 2
+  { "key": "cmd+2", "command": "workbench.view.scm" },
+  { "key": "ctrl+2", "command": "workbench.view.scm" },
+  { "key": "cmd+2", "command": "workbench.action.toggleSidebarVisibility", "when": "view.workbench.explorer.scm.visible"},
+  { "key": "ctrl+2", "command": "workbench.action.toggleSidebarVisibility", "when": "view.workbench.explorer.scm.visible"},
+
+  // Rest Client
+  { "key": "cmd+enter", "command": "rest-client.request", "when": "resourceLangId == http"},
+  { "key": "ctrl+enter", "command": "rest-client.request", "when": "resourceLangId == http"},
+]
