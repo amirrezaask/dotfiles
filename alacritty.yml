@@ -15,3 +15,6 @@ colors:
   primary:
     background: '#191724'
     foreground: '#efdef4'
+
+key_bindings:
+  - { key: Return,   mods: Command,       action: SpawnNewInstance  }

@@ -103,6 +103,14 @@ if not vim.loop.fs_stat(lazypath) then
         lazypath,
     }
 end
+
+local function get_path_sep()
+    if vim.fn.has('win32') then
+        return '\\'
+    else
+        return "/"
+    end
+end
 vim.opt.rtp:prepend(lazypath)
 
 TRANSPARENT = false
@@ -114,6 +122,7 @@ require "lazy".setup {
     { "folke/tokyonight.nvim", },
     { "ellisonleao/gruvbox.nvim" },
     { "catppuccin/nvim",         name = "catppuccin" },
+    { 'kvrohit/rasmus.nvim' },
     -- Treesitter syntax highlighting and text objects.
     {
         "nvim-treesitter/nvim-treesitter",
@@ -263,7 +272,8 @@ require "lazy".setup {
         },
         config = function()
             -- TODO(amirreza): find a better more cross platform way of joining paths.
-            vim.env.PATH = string.format("%s/mason/bin:", vim.fn.stdpath "data") .. vim.env.PATH
+            local sep = get_path_sep()
+            vim.env.PATH = string.format("%s%smason%sbin:", (vim.fn.stdpath "data"), sep, sep) .. vim.env.PATH
             require "fidget".setup {}
             require("mason").setup {}
             local lsp_servers = {
@@ -457,21 +467,17 @@ require "lazy".setup {
             local no_preview = { previewer = false, layout_config = { height = 0.6, width = 0.9 } }
             local theme = function(opts) return opts end
             local telescope_builtin = require "telescope.builtin"
-            local is_git_repo = function(path)
-                if vim.fn.isdirectory(path .. "/.git") == 0 then
-                    return true
-                else
-                    return false
-                end
-            end
-
             local smart_file_picker = function()
-                local seperator = "/"
-                if vim.fn.has('win32') then
-                    seperator = "\\"
+                local is_git_repo = function(path)
+                    if vim.fn.isdirectory(path .. "/.git") == 0 then
+                        return true
+                    else
+                        return false
+                    end
                 end
+                local sep = get_path_sep()
                 no_preview['prompt_title'] = 'Smart File Picker'
-                if is_git_repo(vim.fn.getcwd() .. seperator .. ".git") then
+                if is_git_repo(vim.fn.getcwd() .. sep .. ".git") then
                     telescope_builtin.git_files(theme(no_preview))
                 else
                     telescope_builtin.find_files(theme(no_preview))
