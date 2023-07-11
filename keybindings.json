@@ -85,4 +85,11 @@
   // Rest Client
   { "key": "cmd+enter", "command": "rest-client.request", "when": "resourceLangId == http"},
   { "key": "ctrl+enter", "command": "rest-client.request", "when": "resourceLangId == http"},
+
+  // Switch Terminals
+  {"key": "cmd+[", "command": "workbench.action.terminal.focusPrevious", "when": "terminalFocus"},
+  {"key": "cmd+]", "command": "workbench.action.terminal.focusNext", "when": "terminalFocus"},
+
+  {"key": "ctrl+[", "command": "workbench.action.terminal.focusPrevious", "when": "terminalFocus"},
+  {"key": "ctrl+]", "command": "workbench.action.terminal.focusNext", "when": "terminalFocus"},
 ]
