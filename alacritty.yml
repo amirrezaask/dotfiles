@@ -2,7 +2,7 @@ live_config_reload: true
 
 font:
   normal:
-    family: "IntelOne Mono"
+    family: "Fira Code"
   size: 20
 
 env:
@@ -10,7 +10,7 @@ env:
 
 window:
   option_as_alt: Both
-  opacity: 0.93
+  opacity: 0.95
 
 colors:
   primary:

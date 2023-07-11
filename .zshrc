@@ -69,7 +69,7 @@ gco() {
 }
 
 s() {
-    dir=$(projects | fzf-tmux)
+    dir=$(projects | fzf)
     if [ "$dir" = "" ]; then
        return 
     fi
