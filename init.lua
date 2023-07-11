@@ -113,7 +113,7 @@ local function get_path_sep()
 end
 vim.opt.rtp:prepend(lazypath)
 
-TRANSPARENT = true
+TRANSPARENT = false
 COLORSCHEME = "rose-pine"
 -- Installing and configuring plugins
 require "lazy".setup {
@@ -230,6 +230,11 @@ require("nvim-treesitter.configs").setup {
         },
     },
 }
+-- Code folding using treesitter
+vim.opt.foldmethod = "expr"
+vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+vim.opt.foldenable = false
+
 -- Install all treesitter parsers.
 pcall(require("nvim-treesitter.install").update { with_sync = true })
 require 'treesitter-context'.setup { enable = true }
