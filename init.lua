@@ -448,7 +448,7 @@ vim.keymap.set("n", "<leader>gs", vim.cmd.Neogit)
 
 
 -- Debugger nvim-dap
-require "dapui".setup()
+require "dapui".setup {}
 vim.keymap.set("n", "<F2>", ":lua require'dapui'.toggle()<CR>")
 
 require('dap-go').setup({
