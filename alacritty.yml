@@ -3,6 +3,7 @@ live_config_reload: true
 font:
   normal:
     family: "JetBrains Mono"
+    style: "Regular"
   size: 20
 
 env:
