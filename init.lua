@@ -285,11 +285,6 @@ require("nvim-treesitter.configs").setup {
         },
     },
 }
--- Code folding using treesitter
-vim.opt.foldmethod = "expr"
-vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
-vim.opt.foldenable = false
-
 -- Install all treesitter parsers.
 pcall(require("nvim-treesitter.install").update { with_sync = true })
 require 'treesitter-context'.setup { enable = true }
@@ -390,16 +385,7 @@ for server, config in pairs(lsp_servers) do
 end
 vim.lsp.set_log_level(0)
 vim.diagnostic.config { virtual_text = true }
-local diag = false
-vim.keymap.set("n", "<leader>d", function()
-    if diag then
-        diag = false
-        vim.diagnostic.disable()
-    else
-        diag = true
-        vim.diagnostic.enable()
-    end
-end)
+
 vim.api.nvim_create_autocmd("LspAttach", {
     callback = function(args)
         local bufnr = args.buf
@@ -435,6 +421,11 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 
 -- Telescope fuzzy finder
 require("telescope").setup {
+    extensions = {
+        ["ui-select"] = {
+            require("telescope.themes").get_dropdown {},
+        },
+    },
 }                                               -- Best fuzzy finder
 
 require("telescope").load_extension "fzf"       -- load fzf awesomnes into Telescope
