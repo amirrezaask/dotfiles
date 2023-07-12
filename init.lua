@@ -20,7 +20,7 @@ vim.opt.shortmess:append "I" -- No Intro message
 vim.opt.guicursor = ''
 vim.opt.splitbelow = true
 vim.opt.splitright = true
-vim.opt.cursorline = false
+vim.opt.cursorline = true
 vim.opt.sw = 4
 vim.opt.ts = 4
 vim.opt.expandtab = true
@@ -117,33 +117,47 @@ TRANSPARENT = false
 COLORSCHEME = "tokyonight-night"
 -- Installing and configuring plugins
 require "lazy".setup {
-    -- Colorscheme
+    -- Colorschemes
     { "rose-pine/neovim",        name = "rose-pine" },
     { "folke/tokyonight.nvim", },
     { "ellisonleao/gruvbox.nvim" },
     { "catppuccin/nvim",         name = "catppuccin" },
-    { 'kvrohit/rasmus.nvim' },
+
     -- Treesitter syntax highlighting and text objects.
     {
         "nvim-treesitter/nvim-treesitter",
         dependencies = { "nvim-treesitter/nvim-treesitter-textobjects", "nvim-treesitter/playground",
             'nvim-treesitter/nvim-treesitter-context' },
     },
-
-
+    -- Editor stuff
+    { "lukas-reineke/indent-blankline.nvim", opts = {} },
     "tpope/vim-surround", -- surrounding text objects
     "tpope/vim-abolish",  -- useful text stuff
-    { "numToStr/Comment.nvim", config = function() require("Comment").setup() end },
+    { "numToStr/Comment.nvim",               opts = {} },
 
     "fladson/vim-kitty", -- Support Kitty terminal config syntax
     "towolf/vim-helm",   -- Support for helm template syntax
     "jansedivy/jai.vim", -- Jai from Jonathan Blow
     "tpope/vim-sleuth",  -- Heuristically set buffer options
     "mg979/vim-visual-multi",
-    "lewis6991/gitsigns.nvim",
+    {
+        "lewis6991/gitsigns.nvim",
+        opts = {
+            signs = {
+                add = { text = "+" },
+                change = { text = "~" },
+                delete = { text = "_" },
+                topdelete = { text = "‾" },
+                changedelete = { text = "~" },
+            },
+        }
+    },
     {
         'TimUntersberger/neogit',
         dependencies = 'nvim-lua/plenary.nvim',
+        opts = {
+            disable_commit_confirmation = true,
+        }
     },
     -- Autocompletion popup
     {
@@ -169,10 +183,51 @@ require "lazy".setup {
     "fatih/vim-go",
     {
         "mfussenegger/nvim-dap",
+        config = function()
+            require "dapui".setup {}
+            vim.keymap.set("n", "<F2>", ":lua require'dapui'.toggle()<CR>")
+
+            vim.keymap.set("n", "<F5>", function() require "dap".continue() end)
+            vim.keymap.set("n", "<F10>", ":lua require'dap'.step_over()<CR>")
+            vim.keymap.set("n", "<F11>", ":lua require'dap'.step_into()<CR>")
+            vim.keymap.set("n", "<F12>", ":lua require'dap'.step_out()<CR>")
+            vim.keymap.set("n", "<F1>", ":lua require'dap'.toggle_breakpoint()<CR>")
+            vim.keymap.set("n", "<F9>", ":lua require'dap'.repl.open()<CR>")
+
+            local dap, dapui = require("dap"), require("dapui")
+            dap.listeners.after.event_initialized["dapui_config"] = function()
+                dapui.open()
+            end
+            dap.listeners.before.event_terminated["dapui_config"] = function()
+                dapui.close()
+            end
+            dap.listeners.before.event_exited["dapui_config"] = function()
+                dapui.close()
+            end
+        end,
         dependencies = {
             "rcarriga/nvim-dap-ui",
-            "leoluz/nvim-dap-go",
-            'theHamsta/nvim-dap-virtual-text',
+            {
+                "leoluz/nvim-dap-go",
+                opts = {
+                    dap_configurations = {
+                        {
+                            type = 'go',
+                            name = 'Mabna: API',
+                            request = 'launch',
+                            program = './cmd/api'
+                        },
+                        {
+                            type = 'go',
+                            name = 'Mabna: Service',
+                            request = 'launch',
+                            program = './cmd/service'
+                        },
+
+                    }
+                }
+            },
+            { 'theHamsta/nvim-dap-virtual-text', opts = {} },
         },
     },
 
@@ -380,11 +435,6 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 
 -- Telescope fuzzy finder
 require("telescope").setup {
-    extensions = {
-        ["ui-select"] = {
-            require("telescope.themes").get_dropdown {},
-        },
-    },
 }                                               -- Best fuzzy finder
 
 require("telescope").load_extension "fzf"       -- load fzf awesomnes into Telescope
@@ -427,64 +477,5 @@ vim.keymap.set(
 vim.keymap.set("n", "??", function() telescope_builtin.live_grep(theme(no_preview)) end,
     { desc = "Live Grep" })
 
--- Gitsigns
-require("gitsigns").setup {
-    signs = {
-        add = { text = "+" },
-        change = { text = "~" },
-        delete = { text = "_" },
-        topdelete = { text = "‾" },
-        changedelete = { text = "~" },
-    },
-}
-vim.keymap.set("n", "<leader>gd", function() require("gitsigns").diffthis "~" end,
-    { desc = "Diff current file with HEAD" })
-vim.keymap.set("n", "<leader>gb", require "gitsigns".blame_line, { desc = "Git blame line" })
 -- Neogit
-require "neogit".setup {
-    disable_commit_confirmation = true,
-}
 vim.keymap.set("n", "<leader>gs", vim.cmd.Neogit)
-
-
--- Debugger nvim-dap
-require "dapui".setup {}
-vim.keymap.set("n", "<F2>", ":lua require'dapui'.toggle()<CR>")
-
-require('dap-go').setup({
-    dap_configurations = {
-        {
-            type = 'go',
-            name = 'Mabna: API',
-            request = 'launch',
-            program = './cmd/api'
-        },
-        {
-            type = 'go',
-            name = 'Mabna: Service',
-            request = 'launch',
-            program = './cmd/service'
-        },
-
-    }
-})
-
-vim.keymap.set("n", "<F5>", function() require "dap".continue() end)
-vim.keymap.set("n", "<F10>", ":lua require'dap'.step_over()<CR>")
-vim.keymap.set("n", "<F11>", ":lua require'dap'.step_into()<CR>")
-vim.keymap.set("n", "<F12>", ":lua require'dap'.step_out()<CR>")
-vim.keymap.set("n", "<F1>", ":lua require'dap'.toggle_breakpoint()<CR>")
-vim.keymap.set("n", "<F9>", ":lua require'dap'.repl.open()<CR>")
-
-local dap, dapui = require("dap"), require("dapui")
-dap.listeners.after.event_initialized["dapui_config"] = function()
-    dapui.open()
-end
-dap.listeners.before.event_terminated["dapui_config"] = function()
-    dapui.close()
-end
-dap.listeners.before.event_exited["dapui_config"] = function()
-    dapui.close()
-end
-
-require("nvim-dap-virtual-text").setup {}
