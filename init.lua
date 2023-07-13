@@ -113,8 +113,8 @@ local function get_path_sep()
 end
 vim.opt.rtp:prepend(lazypath)
 
-TRANSPARENT = false
-COLORSCHEME = "norcalli"
+TRANSPARENT = true
+COLORSCHEME = "tokyonight-night"
 -- Installing and configuring plugins
 require "lazy".setup {
     -- Colorschemes

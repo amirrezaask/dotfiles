@@ -14,7 +14,7 @@ window:
 
 colors:
   primary:
-    background: "#1a1b26"
+    background: "#121b2b"
     foreground: "#c0caf5"
 
 key_bindings:
