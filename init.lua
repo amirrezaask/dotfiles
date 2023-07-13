@@ -114,7 +114,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 TRANSPARENT = false
-COLORSCHEME = "tokyonight"
+COLORSCHEME = "catppuccin-mocha"
 -- Installing and configuring plugins
 require "lazy".setup {
     -- Colorschemes
@@ -418,6 +418,19 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 
 -- Telescope fuzzy finder
 require("telescope").setup {
+    defaults = {
+        sorting_strategy = "ascending",
+        layout_strategy = 'horizontal',
+        layout_config = {
+            preview_cutoff = 180,
+            prompt_position = "top",
+            height = 0.6,
+            width = 0.7,
+            preview_width = 0.7,
+        },
+
+    },
+
     extensions = {
         ["ui-select"] = {
             require("telescope.themes").get_dropdown {},
@@ -427,8 +440,6 @@ require("telescope").setup {
 
 require("telescope").load_extension "fzf"       -- load fzf awesomnes into Telescope
 require("telescope").load_extension "ui-select" -- Use telescope for vim.ui.select
-local no_preview = { previewer = false, layout_config = { height = 0.6, width = 0.9 } }
-local theme = function(opts) return opts end
 local telescope_builtin = require "telescope.builtin"
 local smart_file_picker = function()
     local is_git_repo = function(path)
@@ -438,30 +449,29 @@ local smart_file_picker = function()
             return false
         end
     end
-    no_preview['prompt_title'] = 'Smart File Picker'
     if is_git_repo(vim.fn.getcwd() .. sep .. ".git") then
-        telescope_builtin.git_files(theme(no_preview))
+        telescope_builtin.git_files({ prompt_title = "smart_file_picker" })
     else
-        telescope_builtin.find_files(theme(no_preview))
+        telescope_builtin.find_files({ prompt_title = "smart_file_picker" })
     end
 end
 vim.keymap.set("n", "<C-p>", function() smart_file_picker() end,
     { desc = "Smart File Picker" })
-vim.keymap.set("n", "<leader>b", function() telescope_builtin.buffers(theme(no_preview)) end,
+vim.keymap.set("n", "<leader>b", telescope_builtin.buffers,
     { desc = "Telescope Buffers" })
-vim.keymap.set("n", "<leader><leader>", function() smart_file_picker() end,
+vim.keymap.set("n", "<leader><leader>", smart_file_picker,
     { desc = "Smart File Picker" })
-vim.keymap.set("n", ",,", function() telescope_builtin.current_buffer_fuzzy_find(theme(no_preview)) end,
+vim.keymap.set("n", ",,", telescope_builtin.current_buffer_fuzzy_find,
     { desc = "Current File Search" })
-vim.keymap.set("n", "&", function() telescope_builtin.grep_string(theme(no_preview)) end,
+vim.keymap.set("n", "&", telescope_builtin.grep_string,
     { desc = "Grep for word at point" })
 vim.keymap.set(
     "n",
     "<leader>o",
-    function() telescope_builtin.treesitter(theme(no_preview)) end,
+    telescope_builtin.treesitter,
     { desc = "Search Symbols In Current File" }
 )
-vim.keymap.set("n", "??", function() telescope_builtin.live_grep(theme(no_preview)) end,
+vim.keymap.set("n", "??", telescope_builtin.live_grep,
     { desc = "Live Grep" })
 
 -- Neogit
