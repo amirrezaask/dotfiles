@@ -81,6 +81,7 @@ vim.keymap.set('t', '<esc>', [[<C-\><C-n>]])
 vim.keymap.set({ "n", "t" }, "<C-k>", '<cmd>tabnext<CR>')
 vim.keymap.set({ "n", "t" }, "<C-j>", '<cmd>tabprev<CR>')
 vim.keymap.set("n", "<C-`>", open_term)
+vim.keymap.set("n", "<leader>n", "<cmd>tabnew<CR>")
 
 ----------------------------------------------------------
 ---                     Plugins                         --
@@ -108,7 +109,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 TRANSPARENT = false
-COLORSCHEME = "gruvbox"
+COLORSCHEME = "catppuccin-mocha"
 -- Installing and configuring plugins
 require "lazy".setup {
     -- Colorschemes
