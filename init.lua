@@ -124,7 +124,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 TRANSPARENT = false
-COLORSCHEME = "catppuccin-mocha"
+COLORSCHEME = "sonokai"
 -- Installing and configuring plugins
 require "lazy".setup {
     -- Colorschemes
@@ -132,6 +132,13 @@ require "lazy".setup {
     { "folke/tokyonight.nvim", },
     { "ellisonleao/gruvbox.nvim" },
     { "catppuccin/nvim",         name = "catppuccin" },
+    {
+        "sainnhe/sonokai",
+        config = function()
+            vim.g.sonokai_style = "andromeda"
+            vim.g.sonokai_transparent_background = TRANSPARENT
+        end
+    },
     -- Treesitter syntax highlighting and text objects.
     {
         "nvim-treesitter/nvim-treesitter",
@@ -392,7 +399,6 @@ local lsp_servers = {
 for server, config in pairs(lsp_servers) do
     require("lspconfig")[server].setup(config)
 end
-vim.lsp.set_log_level(0)
 vim.diagnostic.config { virtual_text = true }
 
 vim.api.nvim_create_autocmd("LspAttach", {
