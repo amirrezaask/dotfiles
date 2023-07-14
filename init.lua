@@ -150,7 +150,7 @@ require "lazy".setup {
     "tpope/vim-surround", -- surrounding text objects
     "tpope/vim-abolish",  -- useful text stuff
     { "numToStr/Comment.nvim",               opts = {} },
-
+    "tpope/vim-fugitive",
     "fladson/vim-kitty", -- Support Kitty terminal config syntax
     "towolf/vim-helm",   -- Support for helm template syntax
     "jansedivy/jai.vim", -- Jai from Jonathan Blow
@@ -456,12 +456,21 @@ require("telescope").setup {
         },
     },
 }
+
 require("telescope").load_extension "fzf"       -- load fzf awesomnes into Telescope
 require("telescope").load_extension "ui-select" -- Use telescope for vim.ui.select
 local telescope_builtin = require "telescope.builtin"
-vim.keymap.set("n", "<C-p>", telescope_builtin.git_files, { desc = "Git Files" })
+
+local smart_file_picker = function()
+    if vim.fn['fugitive#Head']() == "" then
+        return telescope_builtin.find_files()
+    else
+        return telescope_builtin.git_files()
+    end
+end
+vim.keymap.set("n", "<C-p>", smart_file_picker, { desc = "Git Files" })
 vim.keymap.set("n", "<leader>b", telescope_builtin.buffers, { desc = "Telescope Buffers" })
-vim.keymap.set("n", "<leader><leader>", telescope_builtin.find_files, { desc = "Smart File Picker" })
+vim.keymap.set("n", "<leader><leader>", smart_file_picker, { desc = "Smart File Picker" })
 vim.keymap.set("n", ",,", telescope_builtin.current_buffer_fuzzy_find, { desc = "Current File Search" })
 vim.keymap.set("n", "&", telescope_builtin.grep_string, { desc = "Grep for word at point" })
 vim.keymap.set("n", "<leader>o", telescope_builtin.treesitter, { desc = "Search Symbols In Current File" })
