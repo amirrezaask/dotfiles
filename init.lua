@@ -76,12 +76,13 @@ vim.keymap.set("n", "<leader>i", '<cmd>edit ~/.config/nvim/init.lua<CR>', { desc
 local function open_term()
     vim.cmd [[ tabnew | term ]]
 end
+
 -- terminal emulator
 vim.keymap.set('t', '<esc>', [[<C-\><C-n>]])
 vim.keymap.set({ "n", "t" }, "<C-k>", '<cmd>tabnext<CR>')
 vim.keymap.set({ "n", "t" }, "<C-j>", '<cmd>tabprev<CR>')
+vim.keymap.set({ "n", "t" }, "<C-,>", '<cmd>tabnew<CR>')
 vim.keymap.set("n", "<C-`>", open_term)
-vim.keymap.set("n", "<leader>n", "<cmd>tabnew<CR>")
 
 ----------------------------------------------------------
 ---                     Plugins                         --
