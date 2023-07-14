@@ -417,12 +417,6 @@ vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.s
 -- LspInfo window have rounded border
 require("lspconfig.ui.windows").default_options.border = "rounded"
 
-vim.api.nvim_create_autocmd("BufWritePre", {
-    pattern = { "*.rs", "*.lua" },
-    callback = function(_) vim.lsp.buf.format() end,
-})
-
-
 -- Telescope fuzzy finder
 require("telescope").setup {
     defaults = {
@@ -454,9 +448,15 @@ local dropdown = require "telescope.themes".get_dropdown
 
 local smart_file_picker = function()
     if vim.fn['fugitive#Head']() == "" then
-        return telescope_builtin.find_files(dropdown(no_preview))
+        return telescope_builtin.find_files(dropdown {
+            layout_config = { height = 0.5 },
+            previewer = false
+        })
     else
-        return telescope_builtin.git_files(dropdown(no_preview))
+        return telescope_builtin.git_files(dropdown({
+            layout_config = { height = 0.5 },
+            previewer = false,
+        }))
     end
 end
 vim.keymap.set("n", "<C-p>", function() telescope_builtin.git_files(dropdown(no_preview)) end, { desc = "Git Files" })
