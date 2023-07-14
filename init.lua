@@ -81,6 +81,7 @@ end
 vim.keymap.set('t', '<esc>', [[<C-\><C-n>]])
 vim.keymap.set({ "n", "t" }, "<C-k>", '<cmd>tabnext<CR>')
 vim.keymap.set({ "n", "t" }, "<C-j>", '<cmd>tabprev<CR>')
+vim.keymap.set({ "n", "t" }, "<A-w>", "<cmd>tabclose<CR>")
 vim.keymap.set({ "n", "t" }, "<C-,>", '<cmd>tabnew<CR>')
 vim.keymap.set("n", "<C-`>", open_term)
 
