@@ -189,6 +189,7 @@ require "lazy".setup {
                         elements = {
                             {
                                 id = "watches",
+                                size = 1
                             },
                         },
                         position = "bottom",
