@@ -88,6 +88,16 @@ vim.keymap.set("n", "<leader>e", "<cmd>Ex<CR>")
 
 -- Edit this file
 vim.keymap.set("n", "<leader>i", '<cmd>edit ~/.config/nvim/init.lua<CR>', { desc = "Edit init.lua" })
+
+local function open_term()
+    vim.cmd [[ tabnew | term ]]
+end
+-- terminal emulator
+vim.keymap.set('t', '<esc>', [[<C-\><C-n>]])
+vim.keymap.set({ "n", "t" }, "<C-k>", '<cmd>tabnext<CR>')
+vim.keymap.set({ "n", "t" }, "<C-j>", '<cmd>tabprev<CR>')
+vim.keymap.set("n", "<C-`>", open_term)
+
 ----------------------------------------------------------
 ---                     Plugins                         --
 ----------------------------------------------------------
@@ -105,7 +115,7 @@ if not vim.loop.fs_stat(lazypath) then
 end
 
 local function get_path_sep()
-    if vim.fn.has('win32') then
+    if vim.fn.has('win32') == 1 then
         return '\\'
     else
         return "/"
@@ -122,7 +132,6 @@ require "lazy".setup {
     { "folke/tokyonight.nvim", },
     { "ellisonleao/gruvbox.nvim" },
     { "catppuccin/nvim",         name = "catppuccin" },
-
     -- Treesitter syntax highlighting and text objects.
     {
         "nvim-treesitter/nvim-treesitter",
@@ -152,13 +161,6 @@ require "lazy".setup {
             },
         }
     },
-    {
-        'TimUntersberger/neogit',
-        dependencies = 'nvim-lua/plenary.nvim',
-        opts = {
-            disable_commit_confirmation = true,
-        }
-    },
     -- Autocompletion popup
     {
         "hrsh7th/nvim-cmp",
@@ -181,9 +183,20 @@ require "lazy".setup {
     {
         "mfussenegger/nvim-dap",
         config = function()
-            require "dapui".setup {}
+            require "dapui".setup {
+                layouts = {
+                    {
+                        elements = {
+                            {
+                                id = "watches",
+                            },
+                        },
+                        position = "bottom",
+                        size = 10
+                    }
+                }
+            }
             vim.keymap.set("n", "<F2>", ":lua require'dapui'.toggle()<CR>")
-
             vim.keymap.set("n", "<F5>", function() require "dap".continue() end)
             vim.keymap.set("n", "<F10>", ":lua require'dap'.step_over()<CR>")
             vim.keymap.set("n", "<F11>", ":lua require'dap'.step_into()<CR>")
@@ -231,7 +244,6 @@ require "lazy".setup {
     "pbrisbin/vim-mkdir", -- Automatically create directory if not exists
     "tpope/vim-eunuch",   -- Helper commands like :Rename, :Move, :Delete, :Remove, ...
     {
-        -- telescope: Fuzzy finding and searching interface
         "nvim-telescope/telescope.nvim",
         dependencies = {
             "nvim-lua/plenary.nvim",
@@ -239,7 +251,6 @@ require "lazy".setup {
             "nvim-telescope/telescope-ui-select.nvim",
         },
     },
-    "mbbill/undotree",
 }
 
 -- Setting the colorscheme
@@ -422,57 +433,29 @@ require("telescope").setup {
         sorting_strategy = "ascending",
         layout_strategy = 'horizontal',
         layout_config = {
-            preview_cutoff = 180,
-            prompt_position = "top",
-            height = 0.6,
-            width = 0.7,
-            preview_width = 0.7,
+            horizontal = {
+                preview_cutoff = 180,
+                prompt_position = "top",
+                height = 0.6,
+                width = 0.7,
+                preview_width = 0.7,
+            }
         },
 
     },
-
     extensions = {
         ["ui-select"] = {
             require("telescope.themes").get_dropdown {},
         },
     },
-}                                               -- Best fuzzy finder
-
+}
 require("telescope").load_extension "fzf"       -- load fzf awesomnes into Telescope
 require("telescope").load_extension "ui-select" -- Use telescope for vim.ui.select
 local telescope_builtin = require "telescope.builtin"
-local smart_file_picker = function()
-    local is_git_repo = function(path)
-        if vim.fn.isdirectory(path .. "/.git") == 0 then
-            return true
-        else
-            return false
-        end
-    end
-    if is_git_repo(vim.fn.getcwd() .. sep .. ".git") then
-        telescope_builtin.git_files({ prompt_title = "smart_file_picker" })
-    else
-        telescope_builtin.find_files({ prompt_title = "smart_file_picker" })
-    end
-end
-vim.keymap.set("n", "<C-p>", function() smart_file_picker() end,
-    { desc = "Smart File Picker" })
-vim.keymap.set("n", "<leader>b", telescope_builtin.buffers,
-    { desc = "Telescope Buffers" })
-vim.keymap.set("n", "<leader><leader>", smart_file_picker,
-    { desc = "Smart File Picker" })
-vim.keymap.set("n", ",,", telescope_builtin.current_buffer_fuzzy_find,
-    { desc = "Current File Search" })
-vim.keymap.set("n", "&", telescope_builtin.grep_string,
-    { desc = "Grep for word at point" })
-vim.keymap.set(
-    "n",
-    "<leader>o",
-    telescope_builtin.treesitter,
-    { desc = "Search Symbols In Current File" }
-)
-vim.keymap.set("n", "??", telescope_builtin.live_grep,
-    { desc = "Live Grep" })
-
--- Neogit
-vim.keymap.set("n", "<leader>gs", vim.cmd.Neogit)
+vim.keymap.set("n", "<C-p>", telescope_builtin.git_files, { desc = "Git Files" })
+vim.keymap.set("n", "<leader>b", telescope_builtin.buffers, { desc = "Telescope Buffers" })
+vim.keymap.set("n", "<leader><leader>", telescope_builtin.find_files, { desc = "Smart File Picker" })
+vim.keymap.set("n", ",,", telescope_builtin.current_buffer_fuzzy_find, { desc = "Current File Search" })
+vim.keymap.set("n", "&", telescope_builtin.grep_string, { desc = "Grep for word at point" })
+vim.keymap.set("n", "<leader>o", telescope_builtin.treesitter, { desc = "Search Symbols In Current File" })
+vim.keymap.set("n", "??", telescope_builtin.live_grep, { desc = "Live Grep" })
