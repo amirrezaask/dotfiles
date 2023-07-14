@@ -31,20 +31,6 @@ vim.opt.laststatus = 2
 vim.opt.timeoutlen = 300
 vim.opt.laststatus = 3
 vim.g.mapleader = " "
-
-function statusline() -- since this function is called from vimscript world it's simpler if it's global
-    local branch = ""
-    if vim.b.gitsigns_head then
-        local signs = ""
-        if vim.b.gitsigns_status and vim.b.gitsigns_status ~= "" then
-            signs = " " .. vim.b.gitsigns_status
-        end
-        branch = string.format("[%s%s]", vim.b.gitsigns_head, signs)
-    end
-    return branch .. "%=%m%r%h%w%q%F%=L:%l C:%c"
-end
-
-vim.opt.statusline = "%!v:lua.statusline()"
 ----------------------------------------------------------
 ---                     Basic Keymaps                   --
 ----------------------------------------------------------
@@ -61,8 +47,7 @@ vim.keymap.set("n", "<Left>", "<cmd>vertical resize -10<CR>")
 vim.keymap.set("n", "<Right>", "<cmd>vertical resize +10<CR>")
 vim.keymap.set("n", "<C-w>=", "<cmd>wincmd =<CR>")
 -- Simpler exiting insert mode
-vim.keymap.set({ "i" }, "<C-c>", "<esc>")
-vim.keymap.set("t", "<Esc>", "<C-\\><C-n>")
+vim.keymap.set("i", "<C-c>", "<esc>")
 vim.keymap.set("i", "jk", "<ESC>")
 vim.keymap.set("i", "kj", "<ESC>")
 -- Quickfix list
@@ -76,7 +61,6 @@ vim.keymap.set("n", "N", "Nzz")
 -- Move lines
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
-
 vim.keymap.set("n", "Q", "<cmd>q<CR>")
 vim.keymap.set("n", "<CR>", [[ {-> v:hlsearch ? ':nohl<CR>' : '<CR>'}() ]], { expr = true }) -- handy when doing search in a buffer
 
@@ -124,7 +108,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 TRANSPARENT = false
-COLORSCHEME = "sonokai"
+COLORSCHEME = "gruvbox"
 -- Installing and configuring plugins
 require "lazy".setup {
     -- Colorschemes
@@ -139,6 +123,11 @@ require "lazy".setup {
             vim.g.sonokai_transparent_background = TRANSPARENT
         end
     },
+    {
+        'nvim-lualine/lualine.nvim',
+        opts = {},
+        dependencies = { 'nvim-tree/nvim-web-devicons' }
+    },
     -- Treesitter syntax highlighting and text objects.
     {
         "nvim-treesitter/nvim-treesitter",
@@ -146,16 +135,14 @@ require "lazy".setup {
             'nvim-treesitter/nvim-treesitter-context' },
     },
     -- Editor stuff
-    { "lukas-reineke/indent-blankline.nvim", opts = {} },
     "tpope/vim-surround", -- surrounding text objects
     "tpope/vim-abolish",  -- useful text stuff
-    { "numToStr/Comment.nvim",               opts = {} },
+    { "numToStr/Comment.nvim", opts = {} },
     "tpope/vim-fugitive",
     "fladson/vim-kitty", -- Support Kitty terminal config syntax
     "towolf/vim-helm",   -- Support for helm template syntax
     "jansedivy/jai.vim", -- Jai from Jonathan Blow
     "tpope/vim-sleuth",  -- Heuristically set buffer options
-    "mg979/vim-visual-multi",
     {
         "lewis6991/gitsigns.nvim",
         opts = {
@@ -460,18 +447,20 @@ require("telescope").setup {
 require("telescope").load_extension "fzf"       -- load fzf awesomnes into Telescope
 require("telescope").load_extension "ui-select" -- Use telescope for vim.ui.select
 local telescope_builtin = require "telescope.builtin"
+local no_preview = { previewer = false }
+local dropdown = require "telescope.themes".get_dropdown
 
 local smart_file_picker = function()
     if vim.fn['fugitive#Head']() == "" then
-        return telescope_builtin.find_files()
+        return telescope_builtin.find_files(dropdown(no_preview))
     else
-        return telescope_builtin.git_files()
+        return telescope_builtin.git_files(dropdown(no_preview))
     end
 end
-vim.keymap.set("n", "<C-p>", smart_file_picker, { desc = "Git Files" })
-vim.keymap.set("n", "<leader>b", telescope_builtin.buffers, { desc = "Telescope Buffers" })
+vim.keymap.set("n", "<C-p>", function() telescope_builtin.git_files(dropdown(no_preview)) end, { desc = "Git Files" })
+vim.keymap.set("n", "<leader>b", function() telescope_builtin.buffers(dropdown(no_preview)) end,
+    { desc = "Telescope Buffers" })
 vim.keymap.set("n", "<leader><leader>", smart_file_picker, { desc = "Smart File Picker" })
-vim.keymap.set("n", ",,", telescope_builtin.current_buffer_fuzzy_find, { desc = "Current File Search" })
-vim.keymap.set("n", "&", telescope_builtin.grep_string, { desc = "Grep for word at point" })
+vim.keymap.set("n", "<leader>w", telescope_builtin.grep_string, { desc = "Grep for word at point" })
 vim.keymap.set("n", "<leader>o", telescope_builtin.treesitter, { desc = "Search Symbols In Current File" })
 vim.keymap.set("n", "??", telescope_builtin.live_grep, { desc = "Live Grep" })
