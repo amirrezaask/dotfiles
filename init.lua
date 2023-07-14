@@ -463,6 +463,7 @@ vim.keymap.set("n", "<C-p>", function() telescope_builtin.git_files(dropdown(no_
 vim.keymap.set("n", "<leader>b", function() telescope_builtin.buffers(dropdown(no_preview)) end,
     { desc = "Telescope Buffers" })
 vim.keymap.set("n", "<leader><leader>", smart_file_picker, { desc = "Smart File Picker" })
+vim.keymap.set("n", "<leader>ff", smart_file_picker, { desc = "Find Files" })
 vim.keymap.set("n", "<leader>w", telescope_builtin.grep_string, { desc = "Grep for word at point" })
 vim.keymap.set("n", "<leader>o", telescope_builtin.treesitter, { desc = "Search Symbols In Current File" })
 vim.keymap.set("n", "??", telescope_builtin.live_grep, { desc = "Live Grep" })

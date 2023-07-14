@@ -33,7 +33,7 @@ projects() {
     find $HOME/dev $HOME/dev/ocaml $HOME/w -type d -exec sh -c 'cd "{}"; git rev-parse --git-dir 2> /dev/null 1>&2' \; -prune -print
 }
 
-tw() {
+w() {
     dir=$(projects | fzf)
     if [ "$dir" != "" ]; then
         tmux new-window -c $dir -n $(basename $dir)
@@ -56,24 +56,6 @@ gco() {
     branch=$(git branch -l | fzf | sed -e 's/^[[:space:]]*//')
     if [ "$branch" != "" ]; then
         git checkout "$branch"
-    fi
-}
-
-s() {
-    dir=$(projects | fzf)
-    if [ "$dir" = "" ]; then
-       return 
-    fi
-    project=$(basename $dir)
-    if [ "$TMUX" = "" ]; then
-        tmux new-session -A -s $project -c $dir
-    else
-        tmux has-session -t="$project" 2>/dev/null
-        if [ $? != 0 ]; then
-            tmux switchc -t $(tmux new-session -s $project -c $dir -dP)
-        else
-            tmux switchc -t="$project"
-        fi
     fi
 }
 
