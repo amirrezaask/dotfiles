@@ -29,6 +29,7 @@ require("nvim-treesitter.configs").setup({
 		},
 	},
 })
+
 -- Install all treesitter parsers.
 pcall(require("nvim-treesitter.install").update({ with_sync = true }))
 require("treesitter-context").setup({ enable = true })

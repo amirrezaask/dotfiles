@@ -7,5 +7,6 @@ cfg.layout[2].val = vim.split([[
 /_/  |_/_/ /_/ /_/_/_/  /_/   \___/ /___/\__,_/  /_/  |_/____/_/|_|  
                                                                      
 ]], "\n")
+table.remove(cfg.layout, 4)
 require'alpha'.setup(cfg)
 
