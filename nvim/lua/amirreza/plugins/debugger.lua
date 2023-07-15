@@ -1,4 +1,5 @@
-require("dapui").setup({
+local function config()
+	require("dapui").setup({
 	layouts = {
 		{
 			elements = {
@@ -34,3 +35,13 @@ dap.listeners.before.event_exited["dapui_config"] = function()
 end
 
 require"nvim-dap-virtual-text".setup {}
+end
+return {
+		"mfussenegger/nvim-dap",
+		dependencies = {
+			"rcarriga/nvim-dap-ui",
+			"leoluz/nvim-dap-go",
+			"theHamsta/nvim-dap-virtual-text",
+		},
+		config = config
+}

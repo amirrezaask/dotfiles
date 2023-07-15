@@ -1,3 +1,4 @@
+local function config()
 require("telescope").setup({
 	defaults = {
 		sorting_strategy = "ascending",
@@ -57,3 +58,13 @@ vim.keymap.set("n", "??", function()
 		layout_config = { height = 0.7, width = 0.9 },
 	})
 end, { desc = "Live Grep" })
+end
+return 	{
+		"nvim-telescope/telescope.nvim",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+			"nvim-telescope/telescope-ui-select.nvim",
+		},
+		config = config
+	}

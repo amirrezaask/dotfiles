@@ -9,3 +9,29 @@
 -- 1. plugin/*.[lua|vim]
 -- 2. after/plugin/*.[lua|vim]
 
+require"amirreza.options"
+require"amirreza.keymaps"
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable", -- latest stable release
+    lazypath,
+  })
+end
+vim.opt.rtp:prepend(lazypath)
+
+function get_path_sep()
+	if vim.fn.has("win32") == 1 then
+		return "\\"
+	else
+		return "/"
+	end
+end
+
+require"lazy".setup("amirreza.plugins")
+
+vim.cmd.colorscheme "catppuccin-mocha"

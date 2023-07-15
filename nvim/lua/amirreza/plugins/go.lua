@@ -1,3 +1,4 @@
+local function config()
 vim.g["go_gopls_enabled"] = 0
 vim.g["go_code_completion_enabled"] = 0
 vim.g["go_fmt_autosave"] = 0
@@ -43,3 +44,8 @@ require("dap-go").setup({
 		},
 	},
 })
+end
+
+return {
+	"fatih/vim-go",
+}
