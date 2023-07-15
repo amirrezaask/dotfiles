@@ -4,10 +4,9 @@
 --  / ___ |/ / / / / / / /  / /  /  __/ / /_/ /_/ / ___ |(__  ) ,<   
 -- /_/  |_/_/ /_/ /_/_/_/  /_/   \___/ /___/\__,_/_/  |_/____/_/|_|  
 -- AmirrezaAsk neovim configuration
--- There is no need for anything in this file
--- Vim/Neovim has a convention for your .vim/.lua scripts
--- 1. plugin/*.[lua|vim]
--- 2. after/plugin/*.[lua|vim]
+-- First two modules are pretty obvious
+-- requiring lazy will give us access to lazy package manager api
+-- and then we load all submodules in plugins namespace (lua/plugins/*.lua)
 
 require"options"
 require"keymaps"
