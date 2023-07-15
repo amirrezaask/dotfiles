@@ -10,6 +10,8 @@
 
 require"options"
 require"keymaps"
+
+-- lazy installation code
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
@@ -22,14 +24,6 @@ if not vim.loop.fs_stat(lazypath) then
   })
 end
 vim.opt.rtp:prepend(lazypath)
-
-function get_path_sep()
-	if vim.fn.has("win32") == 1 then
-		return "\\"
-	else
-		return "/"
-	end
-end
 
 require"lazy".setup("plugins")
 

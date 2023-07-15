@@ -1,3 +1,12 @@
+local function get_path_sep()
+	if vim.fn.has("win32") == 1 then
+		return "\\"
+	else
+		return "/"
+	end
+end
+
+
 local function config()
 	local sep = get_path_sep()
 	vim.env.PATH = string.format("%s%smason%sbin:", (vim.fn.stdpath("data")), sep, sep) .. vim.env.PATH
