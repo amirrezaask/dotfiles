@@ -1,0 +1,11 @@
+--     ___              _                            ___         __  
+--    /   |  ____ ___  (_)____________  ____  ____ _/   |  _____/ /__
+--   / /| | / __ `__ \/ / ___/ ___/ _ \/_  / / __ `/ /| | / ___/ //_/
+--  / ___ |/ / / / / / / /  / /  /  __/ / /_/ /_/ / ___ |(__  ) ,<   
+-- /_/  |_/_/ /_/ /_/_/_/  /_/   \___/ /___/\__,_/_/  |_/____/_/|_|  
+-- AmirrezaAsk neovim configuration
+-- There is no need for anything in this file
+-- Vim/Neovim has a convention for your .vim/.lua scripts
+-- 1. plugin/*.[lua|vim]
+-- 2. after/plugin/*.[lua|vim]
+

@@ -79,11 +79,11 @@ end
 
 -- terminal emulator and tabs
 vim.keymap.set("t", "<esc>", [[<C-\><C-n>]])
-vim.keymap.set({ "n", "t" }, "<C-k>", "<cmd>tabnext<CR>")
-vim.keymap.set({ "n", "t" }, "<C-j>", "<cmd>tabprev<CR>")
+vim.keymap.set({ "i", "n", "t" }, "<C-k>", "<cmd>tabnext<CR>")
+vim.keymap.set({ "i", "n", "t" }, "<C-j>", "<cmd>tabprev<CR>")
 vim.keymap.set({ "n", "t" }, "<A-w>", "<cmd>tabclose<CR>")
-vim.keymap.set({ "n", "t" }, "<C-,>", "<cmd>tabnew<CR>")
-vim.keymap.set("n", "<C-`>", open_term)
+vim.keymap.set({ "i", "n", "t" }, "<C-,>", "<cmd>tabnew<CR>")
+vim.keymap.set({"i", "n"}, "<C-`>", open_term)
 
 ----------------------------------------------------------
 ---                     Plugins                         --
@@ -120,37 +120,27 @@ require("lazy").setup({
 	{ "ellisonleao/gruvbox.nvim" },
 	{ "catppuccin/nvim", name = "catppuccin" },
 	{
-		"sainnhe/sonokai",
+		'goolord/alpha-nvim',
+		dependencies = { 'nvim-tree/nvim-web-devicons' },
 		config = function()
-			vim.g.sonokai_style = "andromeda"
-			vim.g.sonokai_transparent_background = TRANSPARENT
-		end,
-	},
-	{
-		"folke/noice.nvim",
-		dependencies = {
-			"MunifTanjim/nui.nvim",
-			"rcarriga/nvim-notify",
-		},
-		config = function()
-			require("noice").setup({
-				lsp = {
-					-- override markdown rendering so that **cmp** and other plugins use **Treesitter**
-					override = {
-						["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-						["vim.lsp.util.stylize_markdown"] = true,
-						["cmp.entry.get_documentation"] = true,
-					},
-				},
-				presets = {
-					bottom_search = true, -- use a classic bottom cmdline for search
-					command_palette = true, -- position the cmdline and popupmenu together
-					long_message_to_split = true, -- long messages will be sent to a split
-					inc_rename = false, -- enables an input dialog for inc-rename.nvim
-					lsp_doc_border = false, -- add a border to hover docs and signature help
-				},
-			})
-		end,
+			local cfg = require'alpha.themes.dashboard'.config
+			cfg.layout[2].val = vim.split([[
+
+
+$$\   $$\                               $$\               
+$$$\  $$ |                              \__|              
+$$$$\ $$ | $$$$$$\   $$$$$$\ $$\    $$\ $$\ $$$$$$\$$$$\  
+$$ $$\$$ |$$  __$$\ $$  __$$\\$$\  $$  |$$ |$$  _$$  _$$\ 
+$$ \$$$$ |$$$$$$$$ |$$ /  $$ |\$$\$$  / $$ |$$ / $$ / $$ |
+$$ |\$$$ |$$   ____|$$ |  $$ | \$$$  /  $$ |$$ | $$ | $$ |
+$$ | \$$ |\$$$$$$$\ \$$$$$$  |  \$  /   $$ |$$ | $$ | $$ |
+\__|  \__| \_______| \______/    \_/    \__|\__| \__| \__|
+                                                          
+                                                         
+
+			]], "\n")
+			require'alpha'.setup(cfg)
+		end
 	},
 	{
 		"nvim-lualine/lualine.nvim",
@@ -469,32 +459,34 @@ require("lazy").setup({
 			require("telescope").load_extension("ui-select") -- Use telescope for vim.ui.select
 			local telescope_builtin = require("telescope.builtin")
 			local no_preview = { previewer = false }
-			local dropdown = require("telescope.themes").get_dropdown
-
 			local smart_file_picker = function()
 				if vim.fn["fugitive#Head"]() == "" then
-					return telescope_builtin.find_files(dropdown({
-						layout_config = { height = 0.5 },
+					return telescope_builtin.find_files({
+						layout_config = { height = 0.5, width = 0.9 },
 						previewer = false,
-					}))
+					})
 				else
-					return telescope_builtin.git_files(dropdown({
-						layout_config = { height = 0.5 },
+					return telescope_builtin.git_files({
+						layout_config = { height = 0.5, width = 0.9},
 						previewer = false,
-					}))
+					})
 				end
 			end
 			vim.keymap.set("n", "<C-p>", function()
-				telescope_builtin.git_files(dropdown(no_preview))
+				telescope_builtin.git_files(no_preview)
 			end, { desc = "Git Files" })
 			vim.keymap.set("n", "<leader>b", function()
-				telescope_builtin.buffers(dropdown(no_preview))
+				telescope_builtin.buffers(no_preview)
 			end, { desc = "Telescope Buffers" })
 			vim.keymap.set("n", "<leader><leader>", smart_file_picker, { desc = "Smart File Picker" })
 			vim.keymap.set("n", "<leader>ff", smart_file_picker, { desc = "Find Files" })
-			vim.keymap.set("n", "<leader>w", telescope_builtin.grep_string, { desc = "Grep for word at point" })
-			vim.keymap.set("n", "<leader>o", telescope_builtin.treesitter, { desc = "Search Symbols In Current File" })
-			vim.keymap.set("n", "??", telescope_builtin.live_grep, { desc = "Live Grep" })
+			vim.keymap.set("n", "<leader>w", function() telescope_builtin.grep_string({
+				layout_config = {height = 0.7, width = 0.9}
+			}) end, { desc = "Grep for word at point" })
+			vim.keymap.set("n", "<leader>o", function() telescope_builtin.treesitter(no_preview) end, { desc = "Search Symbols In Current File" })
+			vim.keymap.set("n", "??", function() telescope_builtin.live_grep({
+				layout_config = {height = 0.7, width = 0.9}
+			}) end, { desc = "Live Grep" })
 		end,
 	},
 })
