@@ -10,10 +10,10 @@ vim.opt.hlsearch = false
 vim.opt.incsearch = true
 vim.opt.termguicolors = true
 vim.opt.signcolumn = "yes"
-vim.opt.isfname:append("@-@")
+vim.opt.isfname:append "@-@"
 vim.opt.updatetime = 50
-vim.opt.shortmess:append("c") -- Don't pass messages to |ins-completion-menu|.
-vim.opt.shortmess:append("I") -- No Intro message
+vim.opt.shortmess:append "c" -- Don't pass messages to |ins-completion-menu|.
+vim.opt.shortmess:append "I" -- No Intro message
 vim.opt.guicursor = ""
 vim.opt.splitbelow = true
 vim.opt.splitright = true
@@ -27,4 +27,3 @@ vim.g.netrw_winsize = 25
 vim.opt.laststatus = 2
 vim.opt.timeoutlen = 300
 vim.opt.laststatus = 3
-
