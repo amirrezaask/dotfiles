@@ -1,10 +1,6 @@
 local function config()
-  local cfg = {
-    layout = {
-      { type = "padding", val = 2 },
-      {
-        type = "text",
-        val = vim.split(
+  local cfg = require"alpha.themes.dashboard".config
+  local header = vim.split(
     [[
 	    ___              _                               ___         __  
 	   /   |  ____ ___  (_)____________  ____  ____ _   /   |  _____/ /__
@@ -15,24 +11,12 @@ local function config()
 	]],
     "\n"
   )
-,
-        opts = {
-          position = "center",
-          hl = "Type",
-        },
-      },
-      { type = "padding", val = 2 },
-    },
-    opts = {
-      margin = 5,
-    },
-  }
-
+  cfg.layout[2].val = header
   require("alpha").setup(cfg)
 end
 
 return {
-  "goolord/alpha-nvim",
-  dependencies = { "nvim-tree/nvim-web-devicons" },
-  config = config,
+  -- "goolord/alpha-nvim",
+  -- dependencies = { "nvim-tree/nvim-web-devicons" },
+  -- config = config,
 }
