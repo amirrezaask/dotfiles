@@ -104,4 +104,5 @@
   "workbench.quickOpen.preserveInput": true,
   "workbench.colorTheme": "Panda Syntax",
   "workbench.activityBar.visible": false,
+  "window.zoomLevel": 2,
 }
