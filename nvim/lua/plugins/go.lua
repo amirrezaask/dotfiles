@@ -48,4 +48,5 @@ end
 
 return {
   "fatih/vim-go",
+  config = config
 }
