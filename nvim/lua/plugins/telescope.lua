@@ -39,7 +39,7 @@ local function config()
     telescope_builtin.buffers(no_preview)
   end, { desc = "Telescope Buffers" })
   vim.keymap.set("n", "<leader><leader>", smart_file_picker, { desc = "Smart File Picker" })
-  vim.keymap.set("n", "<leader>ff", smart_file_picker, { desc = "Find Files" })
+  vim.keymap.set("n", "<leader>ff", telescope_builtin.find_files, { desc = "Find Files" })
   vim.keymap.set("n", "<leader>w", function()
     telescope_builtin.grep_string {
       layout_config = { height = 0.7, width = 0.9 },
