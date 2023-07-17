@@ -24,11 +24,9 @@ if not vim.loop.fs_stat(lazypath) then
   }
 end
 vim.opt.rtp:prepend(lazypath)
-
 require("lazy").setup ("plugins", {
   change_detection = {
-    enabled = false
+    enabled = true,
+    notify = false,
   }
 })
-
-vim.cmd.colorscheme "catppuccin-mocha"

@@ -17,7 +17,7 @@ vim.opt.shortmess:append "I" -- No Intro message
 vim.opt.guicursor = ""
 vim.opt.splitbelow = true
 vim.opt.splitright = true
-vim.opt.cursorline = true
+vim.opt.cursorline = false
 vim.opt.sw = 4
 vim.opt.ts = 4
 vim.opt.expandtab = true
@@ -27,3 +27,17 @@ vim.g.netrw_winsize = 25
 vim.opt.laststatus = 2
 vim.opt.timeoutlen = 300
 vim.opt.laststatus = 3
+
+function Statusline() -- since this function is called from vimscript world it's simpler if it's global
+    local branch = ""
+    if vim.b.gitsigns_head then
+        local signs = ""
+        if vim.b.gitsigns_status and vim.b.gitsigns_status ~= "" then
+            signs = " " .. vim.b.gitsigns_status
+        end
+        branch = string.format("[%s%s]", vim.b.gitsigns_head, signs)
+    end
+    return branch .. "%=%m%r%h%w%q%F%=L:%l C:%c"
+end
+
+vim.opt.statusline = "%!v:lua.Statusline()"

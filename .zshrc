@@ -76,7 +76,9 @@ alias shekan-dns='networksetup -setdnsservers Wi-Fi 178.22.122.100 185.51.200.2 
 
 
 # ACME
-alias a="$PLAN9/bin/acme -f /mnt/font/'JetBrainsMono-Regular'/16a/font"
+a() {
+    SHELL='rc' $PLAN9/bin/acme -f /mnt/font/'JetBrainsMono-Regular'/16a/font
+}
 
 if command -v nvim &> /dev/null
 then

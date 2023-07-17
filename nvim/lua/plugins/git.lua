@@ -1,5 +1,5 @@
 return {
-  "lewis6991/gitsigns.nvim",
+  {"lewis6991/gitsigns.nvim",
   opts = {
     signs = {
       add = { text = "+" },
@@ -8,6 +8,6 @@ return {
       topdelete = { text = "‾" },
       changedelete = { text = "~" },
     },
-  },
+  }},
   "tpope/vim-fugitive",
 }
