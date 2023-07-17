@@ -5,7 +5,11 @@ local function config()
         elements = {
           {
             id = "watches",
-            size = 1,
+            size = 0.5,
+          },
+          {
+            id = "console",
+            size = 0.5,
           },
         },
         position = "bottom",

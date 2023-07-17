@@ -2,50 +2,33 @@
   // zoom and font size
   { "key": "ctrl+=", "command": "editor.action.fontZoomIn" },
   { "key": "ctrl+-", "command": "editor.action.fontZoomOut" },
-  { "key": "cmd+=", "command": "editor.action.fontZoomIn" },
-  { "key": "cmd+-", "command": "editor.action.fontZoomOut" },
   { "key": "ctrl+shift+=", "command": "workbench.action.zoomIn" },
   { "key": "ctrl+shift+-", "command": "workbench.action.zoomOut" },
-  { "key": "cmd+shift+=", "command": "workbench.action.zoomIn" },
-  { "key": "cmd+shift+-", "command": "workbench.action.zoomOut" },
   { "key": "ctrl+shift+0", "command": "workbench.action.zoomReset"},
-  { "key": "cmd+shift+0", "command": "workbench.action.zoomReset"},
-  { "key": "cmd+0", "command": "editor.action.fontZoomReset"},
   { "key": "ctrl+0", "command": "editor.action.fontZoomReset"},
-  // Some macOS consistency
-  { "key": "cmd+`", "command": "workbench.action.togglePanel" },
   { "key": "ctrl+`", "command": "workbench.action.togglePanel" },
-  { "key": "cmd+g", "command": "workbench.action.gotoLine" },
+
   // terminal
-  { "key": "cmd+t", "command": "workbench.action.terminal.toggleTerminal"},
   { "key": "ctrl+t", "command": "workbench.action.terminal.toggleTerminal"},
 
-  // multiple cursors (cmd/ctrl + shift + arrow )
+  // multiple cursors (ctrl + shift + arrow )
   { "key": "ctrl+shift+down", "command": "editor.action.insertCursorBelow" },
   { "key": "ctrl+shift+up", "command": "editor.action.insertCursorAbove" },
-  { "key": "cmd+shift+down", "command": "editor.action.insertCursorBelow" },
-  { "key": "cmd+shift+up", "command": "editor.action.insertCursorAbove" },
   // shrink and expand selection based on language semantics
   { "key": "ctrl+]", "command": "editor.action.smartSelect.expand" },
   { "key": "ctrl+[", "command": "editor.action.smartSelect.shrink" },
-  { "key": "cmd+]", "command": "editor.action.smartSelect.expand" },
-  { "key": "cmd+[", "command": "editor.action.smartSelect.shrink" },
   // LSP related stuff
   // Find All Implementations
   { "key": "ctrl+i", "when": "editorTextFocus", "command": "editor.action.goToImplementation" },
-  { "key": "cmd+i", "when": "editorTextFocus", "command": "editor.action.goToImplementation" },
   // Find all references
   { "key": "ctrl+r", "when": "editorTextFocus", "command": "editor.action.goToReferences" },
-  { "key": "cmd+r", "when": "editorTextFocus", "command": "editor.action.goToReferences" },
   // Goto Definition
-  { "key": "cmd+.", "when": "editorTextFocus", "command": "editor.action.revealDefinition" },
   { "key": "ctrl+.", "when": "editorTextFocus", "command": "editor.action.revealDefinition" },
   // Jump back where you were
-  { "key": "cmd+,", "when": "editorTextFocus", "command": "workbench.action.navigateBack" },
   { "key": "ctrl+,", "when": "editorTextFocus", "command": "workbench.action.navigateBack" },
   // Hover
   { "key": "cmd+'", "when": "editorFocus", "command": "editor.action.showHover" },
-  { "key": "ctrl+'", "when": "editorFocus", "command": "editor.action.showHover" },
+  { "key": "ctrl+shift+'", "when": "editorFocus", "command": "editor.action.showHover" },
   // Quick fix
   { "key": "ctrl+shift+a", "command": "editor.action.quickFix" },
   { "key": "cmd+shift+a", "command": "editor.action.quickFix" },
@@ -92,4 +75,15 @@
 
   {"key": "ctrl+[", "command": "workbench.action.terminal.focusPrevious", "when": "terminalFocus"},
   {"key": "ctrl+]", "command": "workbench.action.terminal.focusNext", "when": "terminalFocus"},
+
+
+  // Editor Experiments
+  {"key": "ctrl+[", "command": "cursorHome", "when": "editorFocus" },
+  {"key": "ctrl+]", "command": "cursorEnd", "when": "editorFocus" },
+
+  {"key": "ctrl+;", "command": "cursorWordLeft", "when": "editorFocus" },
+  {"key": "ctrl+'", "command": "cursorWordRight", "when": "editorFocus" },
+  {"key": "ctrl+.", "command": "cursorWordLeft", "when": "editorFocus" },
+  {"key": "ctrl+/", "command": "cursorWordRight", "when": "editorFocus" },
+
 ]
