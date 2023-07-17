@@ -13,9 +13,11 @@ local function my_colors()
     darkblue = "#002375",
     darkblue2 = "#004CFF",
     darkblue3 = "#000C27",
+    darkblue4 = "#00143F",
     white = "#E0E0E0",
     yellow = "#FFFB00",
-    red = "#FE4C3E"
+    red = "#FE4C3E",
+    cyan = "#32DFE8"
 
   }
 
@@ -23,6 +25,9 @@ local function my_colors()
     normal = {
       bg = colors.darkblue3,
       fg = colors.white,
+      float = {
+        bg = colors.darkblue4,
+      }
     },
     visual = {
       bg = colors.darkblue,
@@ -71,6 +76,9 @@ local function my_colors()
     },
     char = {
       fg = colors.lightpurple
+    },
+    type = {
+      fg = colors.cyan,
     }
 
   }
@@ -82,6 +90,7 @@ local function my_colors()
   hl("Normal", { bg = theme.normal.bg, fg = theme.normal.fg })
   hl("Visual", { bg = theme.visual.bg, fg = theme.visual.fg })
   hl("Cursorline", { bg = theme.cursorline.bg })
+  hl("NormalFloat", { bg = theme.normal.float.bg } )
   hl("Pmenu", { bg = theme.pmenu.bg, fg = theme.pmenu.fg })
   hl("PmenuSel", { bg = theme.pmenu.sel.bg, fg = theme.pmenu.fg })
   hl("SignColumn", { bg = theme.statusline.bg, fg = theme.statusline.fg })
@@ -94,6 +103,7 @@ local function my_colors()
   hl("Number", { fg = theme.number.fg })
   hl("Character", { fg = theme.char.fg })
   hl("Boolean", { fg = theme.keyword.fg })
+  hl("Type", { fg = theme.type.fg })
 end
 my_colors()
 
