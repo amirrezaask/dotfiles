@@ -14,6 +14,9 @@ export PATH="/opt/homebrew/bin:$PATH"
 export PATH="$GOPATH/bin:$PATH"
 export PATH="/Users/amirreza/Library/Python/3.10/bin:$PATH"
 export PATH="/Applications/Emacs.app/Contents/MacOS:$PATH"
+PLAN9=/Users/amirreza/plan9
+export PATH=$PATH:$PLAN9/bin
+
 
 if command -v brew &> /dev/null
 then
@@ -69,6 +72,10 @@ alias mabna-dns='networksetup -setdnsservers Wi-Fi 192.168.10.1'
 alias normal-dns='networksetup -setdnsservers Wi-Fi 8.8.8.8 4.2.2.4 '
 alias shekan2-dns='networksetup -setdnsservers Wi-Fi 10.202.10.202 10.202.10.102 192.168.10.1'
 alias shekan-dns='networksetup -setdnsservers Wi-Fi 178.22.122.100 185.51.200.2 192.168.10.1'
+
+
+# ACME
+alias a="acme -f /mnt/font/'JetBrainsMono-Regular'/16a/font"
 
 if command -v nvim &> /dev/null
 then
