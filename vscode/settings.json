@@ -70,6 +70,5 @@
   "workbench.list.scrollByPage": true,
   "workbench.quickOpen.preserveInput": true,
   "workbench.activityBar.visible": false,
-  "window.zoomLevel": 1,
   "workbench.colorTheme": "Dracula",
 }

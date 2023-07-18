@@ -30,3 +30,5 @@ require("lazy").setup ("plugins", {
     notify = false,
   }
 })
+
+vim.cmd.colorscheme "onedark"

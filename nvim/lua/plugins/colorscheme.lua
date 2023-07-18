@@ -3,57 +3,60 @@ local function my_colors()
     vim.api.nvim_set_hl(0, name, opts)
   end
   local colors = {
-    orange = "#FF7509",
-    black = "#000000",
-    grey = "#585858",
-    lightblack = "#001648",
-    lightblue = "#137BD5",
-    lightpurple = "#D24DD7",
-    darkpurple = "#180075",
-    darkblue = "#002375",
-    darkblue2 = "#004CFF",
-    darkblue3 = "#000C27",
-    darkblue4 = "#00143F",
-    white = "#E0E0E0",
-    yellow = "#FFFB00",
-    red = "#FE4C3E",
-    cyan = "#32DFE8"
+    blue1 = "#121b2b",
+    blue2 = "#213554",
+    blue3 = "#1d3872",
+    blue4 = "#80b3d6",
+    blue5 = "#3aa3e9",
+    blue6 = "#56b6c2",
+    blue7 = "#01bfef",
+    white0 = "#f2f2f2",
+    white1 = "#abb2bf",
+    white2 = "#b6bdca",
+    white3 = "#c8ccd4",
+    red = "#f04c75",
+    yellow1 = "#d19a66",
+    yellow2 = "#e5c07b",
+    green  = "#98c379",
+    pink = "#c678dd",
+    orange = "#be5046",
+    grey = "#585858"
 
   }
 
   local theme = {
     normal = {
-      bg = colors.darkblue3,
-      fg = colors.white,
+      bg = colors.blue1,
+      fg = colors.white3,
       float = {
-        bg = colors.darkblue4,
+        bg = colors.blue2,
       }
     },
     visual = {
-      bg = colors.darkblue,
-      fg = colors.white,
+      bg = colors.blue3,
+      fg = colors.white3,
     },
     cursorline = {
-      bg = colors.lightblack,
+      bg = colors.blue2,
       fg = colors.white,
     },
     pmenu = {
-      bg = colors.darkblue,
+      bg = colors.blue2,
       fg = colors.white,
       sel = {
-        bg = colors.darkblue2,
+        bg = colors.blue1,
       },
     },
     tabline = {
-      bg = colors.darkblue,
+      bg = colors.blue1,
       fg = colors.white,
       sel = {
-        bg = colors.darkblue2,
+        bg = colors.blue3,
       },
     },
 
     statusline = {
-      bg = colors.darkblue,
+      bg = colors.blue3,
       fg = colors.white,
     },
 
@@ -62,15 +65,17 @@ local function my_colors()
     },
 
     string = {
-      fg = colors.lightblue
+      fg = colors.green
     },
 
     keyword = {
-      fg = colors.orange
+      fg = colors.red
     },
+
     identifier = {
-      fg = colors.white,
+      fg = colors.white0,
     },
+
     number = {
       fg = colors.red,
     },
@@ -78,7 +83,10 @@ local function my_colors()
       fg = colors.lightpurple
     },
     type = {
-      fg = colors.cyan,
+      fg = colors.blue7,
+    },
+    conditional = {
+      fg = colors.pink
     }
 
   }
@@ -104,7 +112,14 @@ local function my_colors()
   hl("Character", { fg = theme.char.fg })
   hl("Boolean", { fg = theme.keyword.fg })
   hl("Type", { fg = theme.type.fg })
+  hl("Conditional", {fg = theme.conditional.fg})
 end
-my_colors()
+-- my_colors()
 
-return {}
+return {
+  { 'navarasu/onedark.nvim', opts = { style = "darker" }},
+  { 'marko-cerovac/material.nvim' },
+  { 'rose-pine/neovim', name = "rose-pine" },
+  { 'catppuccin/nvim', name = 'catppuccin' },
+  { 'amirrezaask/themes', name = "amirreza-themes" }
+}
