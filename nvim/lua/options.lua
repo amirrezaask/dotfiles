@@ -37,7 +37,7 @@ function Statusline() -- since this function is called from vimscript world it's
         end
         branch = string.format("[%s%s]", vim.b.gitsigns_head, signs)
     end
-    return branch .. "%=%m%r%h%w%q%F%=L:%l C:%c"
+    return branch .. "%=[%m%r%h%w%q%F]%=[L:%l C:%c]"
 end
 
 vim.opt.statusline = "%!v:lua.Statusline()"
