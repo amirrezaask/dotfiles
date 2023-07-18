@@ -28,9 +28,13 @@ local function my_colors()
     normal = {
       bg = colors.blue1,
       fg = colors.white3,
-      float = {
-        bg = colors.blue2,
-      }
+    },
+    overlay = {
+      bg = colors.blue2,
+    },
+    linenr = {
+      bg = colors.blue1,
+      fg = colors.blue5
     },
     visual = {
       bg = colors.blue3,
@@ -98,10 +102,11 @@ local function my_colors()
   hl("Normal", { bg = theme.normal.bg, fg = theme.normal.fg })
   hl("Visual", { bg = theme.visual.bg, fg = theme.visual.fg })
   hl("Cursorline", { bg = theme.cursorline.bg })
-  hl("NormalFloat", { bg = theme.normal.float.bg } )
+  hl("NormalFloat", { bg = theme.overlay.bg } )
   hl("Pmenu", { bg = theme.pmenu.bg, fg = theme.pmenu.fg })
   hl("PmenuSel", { bg = theme.pmenu.sel.bg, fg = theme.pmenu.fg })
-  hl("SignColumn", { bg = theme.statusline.bg, fg = theme.statusline.fg })
+  hl("SignColumn", { bg = theme.normal.bg, fg = theme.statusline.fg })
+  hl("LineNr", { bg = theme.linenr.bg, fg = theme.linenr.fg })
   -- Syntax
   hl("Comment", { fg = theme.comment.fg })
   hl("String", { fg = theme.string.fg })
@@ -113,8 +118,14 @@ local function my_colors()
   hl("Boolean", { fg = theme.keyword.fg })
   hl("Type", { fg = theme.type.fg })
   hl("Conditional", {fg = theme.conditional.fg})
+  -- Fugitive
+  hl('diffAdd', { bg = theme.statusline.bg, fg = theme.string.fg } )
+  hl('diffChange', { bg = theme.statusline.bg, fg = theme.conditional.fg } )
+  hl('diffRemove', { bg = theme.statusline.bg, fg = theme.keyword.fg } )
+  hl("diffAdded", {link = "String"})
+  hl("diffRemoved", { link = "Keyword"})
 end
--- my_colors()
+my_colors()
 
 return {
   { 'navarasu/onedark.nvim', opts = { style = "darker" }},
