@@ -69,6 +69,24 @@
 				  (interactive)
 				  (find-file (expand-file-name "README.org" user-emacs-directory))
 				  ))
+  (setq inhibit-startup-screen t) ;; disable default start screen
+
+  (setq recenter-positions '(middle))
+  (defun jump-up ()
+    (interactive)
+    (next-line (* -1 (/ (window-height) 2)))
+    (recenter-top-bottom))
+
+  (defun jump-down ()
+    (interactive)
+    (next-line (/ (window-height) 2))
+    (recenter-top-bottom))
+
+  (global-set-key (kbd "M-n") 'jump-down)
+  (global-set-key (kbd "M-p") 'jump-up)
+
+  (global-set-key (kbd "C-=") (lambda () (interactive) (text-scale-increase 1)))
+  (global-set-key (kbd "C--") (lambda () (interactive) (text-scale-decrease 1)))
 #+END_SRC
 ** Theme and Font
 #+BEGIN_SRC emacs-lisp
@@ -114,21 +132,55 @@
     (global-corfu-mode)
     )
 #+END_SRC
+** Org
+#+BEGIN_SRC emacs-lisp
+  (use-package org
+    :bind
+    (:map org-src-mode
+	  ("C-c C-c" . 'org-edit-src-exit))
+    :init
+    (setq org-startup-folded t)
+    (setq org-src-window-setup 'current-window)
+    )
+#+END_SRC
+** Start screen
+I use an Org buffer as my start screen.
+#+BEGIN_SRC emacs-lisp
+  (setq initial-buffer-choice "~/start.org")
+  (global-set-key (kbd "<f1>") (lambda () (interactive) (find-file "~/start.org")))
+#+END_SRC
 ** Text manipulation
 #+BEGIN_SRC emacs-lisp
-  (use-package multiple-cursors)
+  (use-package multiple-cursors
+    :bind
+    (("C-S-n" . 'mc/mark-next-like-this)
+     ("C-S-p" . 'mc/mark-previous-like-this)))
 
-  (use-package iedit)
+  (use-package iedit
+    :bind
+    ("C-S-d" . 'iedit-mode))
 #+END_SRC
 ** Git
 #+BEGIN_SRC emacs-lisp
   (use-package magit)
 #+END_SRC
-** Dump code navigation
+** Searching
+*** Dump code navigation
 #+BEGIN_SRC emacs-lisp
   (use-package dumb-jump
     :config
     (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
+#+END_SRC
+*** GREP
+#+BEGIN_SRC emacs-lisp
+  (use-package consult
+    :bind
+    ("C-S-s" . consult-ripgrep))
+
+  (use-package embark
+    :bind
+    (:map minibuffer-mode-map
+    ("C-." . embark-act)))
 #+END_SRC
 ** Languages
 *** Go
@@ -147,7 +199,17 @@
 #+BEGIN_SRC emacs-lisp
   (use-package rust-mode)
 #+END_SRC
-** LSP
+** IDE
+*** Compiling
+#+BEGIN_SRC emacs-lisp
+  (use-package compile :elpaca nil
+    :bind
+    (("<f5>" . compile)
+     :map compilation-mode-map
+     ("<f5>" . recompile)
+     ("k" . kill-compilation)))
+#+END_SRC
+*** LSP
 #+BEGIN_SRC emacs-lisp
   (use-package lsp-mode
     :hook (prog-mode . lsp)
