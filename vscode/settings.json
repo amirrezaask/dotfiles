@@ -30,6 +30,7 @@
     { "before": [ "<leader>", "O" ], "commands": [ "workbench.action.showAllSymbols" ] },
     { "before": [ "<leader>", "h" ], "commands": [ "workbench.action.splitEditorDown" ] },
     { "before": [ "<leader>", "v" ], "commands": [ "workbench.action.splitEditorRight" ] },
+    { "before": [ "<leader>", "<leader>" ], "commands": [ "workbench.action.quickOpen" ] },
     { "before": [ "=" ], "commands": [ "editor.action.smartSelect.expand" ] },
     { "before": [ "-" ], "commands": [ "editor.action.smartSelect.shrink" ] },
     { "before": ["S-a"], "commands": [ "workbench.action.terminal.focusNext"]}
@@ -105,5 +106,6 @@
   "workbench.list.scrollByPage": true,
   "workbench.quickOpen.preserveInput": true,
   "workbench.activityBar.visible": false,
-  "window.zoomLevel": 1,
+  "workbench.colorTheme": "GitHub Dark",
+  "window.zoomLevel": -1,
 }

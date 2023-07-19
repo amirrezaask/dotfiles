@@ -1,0 +1,160 @@
+* Amirreza Emacs
+** Bootstraping a package manager
+*** Elpaca
+#+BEGIN_SRC emacs-lisp
+  (setq package-enable-at-startup nil)
+  (defvar elpaca-installer-version 0.5)
+  (defvar elpaca-directory (expand-file-name "elpaca/" user-emacs-directory))
+  (defvar elpaca-builds-directory (expand-file-name "builds/" elpaca-directory))
+  (defvar elpaca-repos-directory (expand-file-name "repos/" elpaca-directory))
+  (defvar elpaca-order '(elpaca :repo "https://github.com/progfolio/elpaca.git"
+				:ref nil
+				:files (:defaults (:exclude "extensions"))
+				:build (:not elpaca--activate-package)))
+  (let* ((repo  (expand-file-name "elpaca/" elpaca-repos-directory))
+	 (build (expand-file-name "elpaca/" elpaca-builds-directory))
+	 (order (cdr elpaca-order))
+	 (default-directory repo))
+    (add-to-list 'load-path (if (file-exists-p build) build repo))
+    (unless (file-exists-p repo)
+      (make-directory repo t)
+      (when (< emacs-major-version 28) (require 'subr-x))
+      (condition-case-unless-debug err
+	  (if-let ((buffer (pop-to-buffer-same-window "*elpaca-bootstrap*"))
+		   ((zerop (call-process "git" nil buffer t "clone"
+					 (plist-get order :repo) repo)))
+		   ((zerop (call-process "git" nil buffer t "checkout"
+					 (or (plist-get order :ref) "--"))))
+		   (emacs (concat invocation-directory invocation-name))
+		   ((zerop (call-process emacs nil buffer nil "-Q" "-L" "." "--batch"
+					 "--eval" "(byte-recompile-directory \".\" 0 'force)")))
+		   ((require 'elpaca))
+		   ((elpaca-generate-autoloads "elpaca" repo)))
+	      (progn (message "%s" (buffer-string)) (kill-buffer buffer))
+	    (error "%s" (with-current-buffer buffer (buffer-string))))
+	((error) (warn "%s" err) (delete-directory repo 'recursive))))
+    (unless (require 'elpaca-autoloads nil t)
+      (require 'elpaca)
+      (elpaca-generate-autoloads "elpaca" repo)
+      (load "./elpaca-autoloads")))
+  (add-hook 'after-init-hook #'elpaca-process-queues)
+  (elpaca `(,@elpaca-order))
+
+  (elpaca elpaca-use-package
+    (elpaca-use-package-mode)
+    (setq elpaca-use-package-by-default t))
+
+  (elpaca-wait)
+
+#+END_SRC
+** Core and basic packages
+#+BEGIN_SRC emacs-lisp
+  (setq custom-file "~/.custom.el")
+
+  (setq make-backup-files nil)
+  (setq image-types (cons 'svg image-types))
+
+  (use-package general :elpaca t)
+
+  (global-set-key (kbd "C-q") 'set-mark-command)
+  (global-unset-key (kbd "C-SPC"))
+
+  (setq mac-command-modifier 'meta)
+
+  (use-package exec-path-from-shell
+    :init
+    (exec-path-from-shell-initialize)
+    )
+  (global-set-key (kbd "C-c i") (lambda ()
+				  (interactive)
+				  (find-file (expand-file-name "README.org" user-emacs-directory))
+				  ))
+#+END_SRC
+** Theme and Font
+#+BEGIN_SRC emacs-lisp
+  (set-frame-font "Fira Code 18")
+
+  (menu-bar-mode -1)
+  (tool-bar-mode -1)
+  (scroll-bar-mode -1)
+
+  (use-package doom-themes
+    :config
+    (load-theme 'doom-one t))
+
+  (global-hl-line-mode +1)
+
+#+END_SRC
+** Minibuffer
+#+BEGIN_SRC emacs-lisp
+  (use-package vertico
+  :init
+  (vertico-mode))
+
+(use-package consult)
+(use-package orderless
+  :init
+  (setq completion-styles '(orderless basic)
+        completion-category-defaults nil
+        completion-category-overrides '((file (styles partial-completion)))))
+
+(use-package marginalia :config (marginalia-mode +1))
+(use-package embark)
+(use-package embark-consult)
+#+END_SRC
+** Terminal Emulator
+#+BEGIN_SRC emacs-lisp
+  (use-package vterm)
+#+END_SRC
+** Autocompletion
+#+BEGIN_SRC emacs-lisp
+  (use-package corfu
+    :config
+    (setq corfu-auto t)
+    (global-corfu-mode)
+    )
+#+END_SRC
+** Text manipulation
+#+BEGIN_SRC emacs-lisp
+  (use-package multiple-cursors)
+
+  (use-package iedit)
+#+END_SRC
+** Git
+#+BEGIN_SRC emacs-lisp
+  (use-package magit)
+#+END_SRC
+** Dump code navigation
+#+BEGIN_SRC emacs-lisp
+  (use-package dumb-jump
+    :config
+    (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
+#+END_SRC
+** Languages
+*** Go
+#+BEGIN_SRC emacs-lisp
+  (use-package go-mode)
+#+END_SRC
+*** YAML
+#+BEGIN_SRC emacs-lisp
+  (use-package yaml-mode)
+#+END_SRC
+*** JSON
+#+BEGIN_SRC emacs-lisp
+  (use-package json-mode)
+#+END_SRC
+*** Rust
+#+BEGIN_SRC emacs-lisp
+  (use-package rust-mode)
+#+END_SRC
+** LSP
+#+BEGIN_SRC emacs-lisp
+  (use-package lsp-mode
+    :hook (prog-mode . lsp)
+    :init
+    (setq lsp-enable-symbol-highlighting nil)
+    (setq lsp-headerline-breadcrumb-enable nil)
+    (setq lsp-modeline-code-actions-enable nil)
+    (setq lsp-lens-enable nil)
+    )
+#+END_SRC

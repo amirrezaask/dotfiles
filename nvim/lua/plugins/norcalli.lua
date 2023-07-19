@@ -126,5 +126,5 @@ local function norcalli()
   hl("diffAdded", {link = "String"})
   hl("diffRemoved", { link = "Keyword"})
 end
--- norcalli()
+norcalli()
 return {}

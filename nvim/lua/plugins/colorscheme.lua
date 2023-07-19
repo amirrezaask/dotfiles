@@ -1,5 +1,3 @@
-
-
 return {
   { 'navarasu/onedark.nvim', opts = { style = "darker" }},
   { 'marko-cerovac/material.nvim' },
