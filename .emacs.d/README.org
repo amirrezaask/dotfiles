@@ -1,6 +1,5 @@
 * Amirreza Emacs
-** Bootstraping a package manager
-*** Elpaca
+** Bootstraping package manager
 #+BEGIN_SRC emacs-lisp
   (setq package-enable-at-startup nil)
   (defvar elpaca-installer-version 0.5)
@@ -63,8 +62,8 @@
 
   (use-package exec-path-from-shell
     :init
-    (exec-path-from-shell-initialize)
-    )
+    (exec-path-from-shell-initialize))
+  
   (global-set-key (kbd "C-c i") (lambda ()
 				  (interactive)
 				  (find-file (expand-file-name "README.org" user-emacs-directory))
@@ -96,32 +95,57 @@
   (tool-bar-mode -1)
   (scroll-bar-mode -1)
 
-  (use-package doom-themes
-    :config
-    (load-theme 'doom-one t))
+  (defun disable-all-themes ()
+    "disable all active themes."
+    (dolist (i custom-enabled-themes)
+      (disable-theme i)))
+
+  (defadvice load-theme (before disable-themes-first activate)
+    (disable-all-themes))
+
+  (use-package doom-themes :config (load-theme 'doom-dracula t))
+
+  (use-package amirreza-themes
+    ;; :config (load-theme 'naysayer t)
+    :elpaca (amirreza-themes :host github :repo "amirrezaask/themes"))
 
   (global-hl-line-mode +1)
 
 #+END_SRC
 ** Minibuffer
 #+BEGIN_SRC emacs-lisp
-  (use-package vertico
-  :init
-  (vertico-mode))
+    (use-package vertico
+    :init
+    (vertico-mode))
 
-(use-package consult)
-(use-package orderless
-  :init
-  (setq completion-styles '(orderless basic)
-        completion-category-defaults nil
-        completion-category-overrides '((file (styles partial-completion)))))
 
-(use-package marginalia :config (marginalia-mode +1))
-(use-package embark)
-(use-package embark-consult)
+  (use-package consult
+    :bind
+    ("C-S-s" . consult-ripgrep))
+
+  (use-package embark
+    :bind
+    (:map minibuffer-mode-map
+    ("C-." . embark-act)))
+
+  (use-package wgrep)
+
+  (use-package orderless
+    :init
+    (setq completion-styles '(orderless basic)
+	  completion-category-defaults nil
+	  completion-category-overrides '((file (styles partial-completion)))))
+
+  (use-package marginalia :config (marginalia-mode +1))
+
+  (use-package embark-consult)
 #+END_SRC
 ** Terminal Emulator
 #+BEGIN_SRC emacs-lisp
+  (use-package shell :elpaca nil
+    :init
+    (setenv "SHELL" "bash"))
+  (use-package eshell :elpaca nil)
   (use-package vterm)
 #+END_SRC
 ** Autocompletion
@@ -140,8 +164,7 @@
 	  ("C-c C-c" . 'org-edit-src-exit))
     :init
     (setq org-startup-folded t)
-    (setq org-src-window-setup 'current-window)
-    )
+    (setq org-src-window-setup 'current-window))
 #+END_SRC
 ** Start screen
 I use an Org buffer as my start screen.
@@ -162,7 +185,9 @@ I use an Org buffer as my start screen.
 #+END_SRC
 ** Git
 #+BEGIN_SRC emacs-lisp
-  (use-package magit)
+  (use-package magit
+    :bind
+    ("C-x g" . magit))
 #+END_SRC
 ** Searching
 *** Dump code navigation
@@ -170,17 +195,6 @@ I use an Org buffer as my start screen.
   (use-package dumb-jump
     :config
     (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
-#+END_SRC
-*** GREP
-#+BEGIN_SRC emacs-lisp
-  (use-package consult
-    :bind
-    ("C-S-s" . consult-ripgrep))
-
-  (use-package embark
-    :bind
-    (:map minibuffer-mode-map
-    ("C-." . embark-act)))
 #+END_SRC
 ** Languages
 *** Go
@@ -198,6 +212,14 @@ I use an Org buffer as my start screen.
 *** Rust
 #+BEGIN_SRC emacs-lisp
   (use-package rust-mode)
+#+END_SRC
+*** C#
+#+BEGIN_SRC emacs-lisp
+  (use-package csharp-mode)
+#+END_SRC
+** Terminal
+#+BEGIN_SRC emacs-lisp
+  (use-package vterm-toggle)
 #+END_SRC
 ** IDE
 *** Compiling
@@ -218,5 +240,5 @@ I use an Org buffer as my start screen.
     (setq lsp-headerline-breadcrumb-enable nil)
     (setq lsp-modeline-code-actions-enable nil)
     (setq lsp-lens-enable nil)
-    )
+    (setq lsp-auto-guess-root t))
 #+END_SRC
