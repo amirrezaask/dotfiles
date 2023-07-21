@@ -105,7 +105,7 @@
   (defadvice load-theme (before disable-themes-first activate)
     (disable-all-themes))
 
-  (use-package doom-themes :config (load-theme 'doom-dracula t))
+  (use-package doom-themes :config (load-theme 'doom-one t))
 
   (use-package amirreza-themes
     ;; :config (load-theme 'naysayer t)
@@ -113,6 +113,12 @@
 
   (global-hl-line-mode +1)
 
+
+  (use-package doom-modeline
+    :config
+    (setq doom-modeline-height 35)
+    (doom-modeline-mode)
+  )
 #+END_SRC
 ** Minibuffer
 #+BEGIN_SRC emacs-lisp
@@ -216,18 +222,28 @@
     (dolist (loc my-projects-location)
       (project-remember-projects-under loc)))
 
+  (defun project-vterm ()
+    (interactive)
+    (let* ((name (project-root (project-current)))
+	   (buf-name (format "*vterm %s" name))
+	   )
+      (if (get-buffer buf-name)
+	  (switch-to-buffer buf-name)
+	(vterm buf-name))))
+
   (use-package project :elpaca nil
     :commands (project-remember-projects-under)
     :init
     (projects-refresh) ;; refresh projects on start  
     :bind
-    ("C-x p R" . projects-refresh))
+    ("C-x p R" . projects-refresh)
+    ("C-x p ;" . project-vterm))
 
 
   (use-package perspective
     :commands (persp-new persp-switch)
     :init
-    (setq persp-mode-prefix-key "C-x w")
+    (setq persp-suppress-no-prefix-key-warning t)
     (persp-mode)
     :bind
     ("C-x p p" . switch-project))
