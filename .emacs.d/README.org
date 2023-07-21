@@ -53,8 +53,6 @@
   (setq make-backup-files nil)
   (setq image-types (cons 'svg image-types))
 
-  (use-package general :elpaca t)
-
   (global-set-key (kbd "C-q") 'set-mark-command)
   (global-unset-key (kbd "C-SPC"))
 
@@ -142,20 +140,18 @@
 #+END_SRC
 ** Terminal Emulator
 #+BEGIN_SRC emacs-lisp
-  (use-package shell :elpaca nil
-    :init
-    (setenv "SHELL" "bash"))
+  (use-package shell :elpaca nil)
   (use-package eshell :elpaca nil)
+
   (use-package vterm)
-  (use-package vterm-toggle)
+
 #+END_SRC
 ** Autocompletion
 #+BEGIN_SRC emacs-lisp
   (use-package corfu
     :config
     (setq corfu-auto t)
-    (global-corfu-mode)
-    )
+    (global-corfu-mode))
 #+END_SRC
 ** Org
 #+BEGIN_SRC emacs-lisp
@@ -168,13 +164,7 @@
     (setq org-startup-folded t)
     (setq org-src-window-setup 'current-window))
 #+END_SRC
-** Start screen
-I use an Org buffer as my start screen.
-#+BEGIN_SRC emacs-lisp
-  (setq initial-buffer-choice "~/start.org")
-  (global-set-key (kbd "<f1>") (lambda () (interactive) (find-file "~/start.org")))
-#+END_SRC
-** Text manipulation
+** Editing
 #+BEGIN_SRC emacs-lisp
   (use-package multiple-cursors
     :bind
