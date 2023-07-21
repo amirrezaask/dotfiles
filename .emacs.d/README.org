@@ -87,27 +87,29 @@
 #+END_SRC
 ** Theme and Font
 #+BEGIN_SRC emacs-lisp
-  (set-frame-font "Fira Code 18")
+    (set-frame-font "Fira Code 18")
 
-  (menu-bar-mode -1)
-  (tool-bar-mode -1)
-  (scroll-bar-mode -1)
+    (menu-bar-mode -1)
+    (tool-bar-mode -1)
+    (scroll-bar-mode -1)
 
-  (defun disable-all-themes ()
-    "disable all active themes."
-    (dolist (i custom-enabled-themes)
-      (disable-theme i)))
+    (defun disable-all-themes ()
+      "disable all active themes."
+      (dolist (i custom-enabled-themes)
+	(disable-theme i)))
+  
+    (add-to-list 'custom-theme-load-path (expand-file-name "themes" user-emacs-directory))
 
-  (defadvice load-theme (before disable-themes-first activate)
-    (disable-all-themes))
+    (defadvice load-theme (before disable-themes-first activate)
+      (disable-all-themes))
 
-  (use-package doom-themes :config (load-theme 'doom-dracula t))
+    (use-package doom-themes :config (load-theme 'doom-dracula t))
 
-  (use-package amirreza-themes
-    ;; :config (load-theme 'naysayer t)
-    :elpaca (amirreza-themes :host github :repo "amirrezaask/themes"))
+    (use-package amirreza-themes
+      ;; :config (load-theme 'naysayer t)
+      :elpaca (amirreza-themes :host github :repo "amirrezaask/themes"))
 
-  (global-hl-line-mode +1)
+    (global-hl-line-mode +1)
 
 #+END_SRC
 ** Minibuffer
@@ -156,6 +158,7 @@
 ** Org
 #+BEGIN_SRC emacs-lisp
   (use-package org
+    :elpaca nil ;; Use version that was bundled with Emacs
     :hook (org-mode . (lambda () (electric-indent-mode -1)))
     :bind
     (:map org-src-mode
