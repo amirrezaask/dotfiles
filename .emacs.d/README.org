@@ -147,6 +147,7 @@
     (setenv "SHELL" "bash"))
   (use-package eshell :elpaca nil)
   (use-package vterm)
+  (use-package vterm-toggle)
 #+END_SRC
 ** Autocompletion
 #+BEGIN_SRC emacs-lisp
@@ -159,6 +160,7 @@
 ** Org
 #+BEGIN_SRC emacs-lisp
   (use-package org
+    :hook (org-mode . (lambda () (electric-indent-mode -1)))
     :bind
     (:map org-src-mode
 	  ("C-c C-c" . 'org-edit-src-exit))
@@ -189,13 +191,6 @@ I use an Org buffer as my start screen.
     :bind
     ("C-x g" . magit))
 #+END_SRC
-** Searching
-*** Dump code navigation
-#+BEGIN_SRC emacs-lisp
-  (use-package dumb-jump
-    :config
-    (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
-#+END_SRC
 ** Languages
 *** Go
 #+BEGIN_SRC emacs-lisp
@@ -217,11 +212,32 @@ I use an Org buffer as my start screen.
 #+BEGIN_SRC emacs-lisp
   (use-package csharp-mode)
 #+END_SRC
-** Terminal
-#+BEGIN_SRC emacs-lisp
-  (use-package vterm-toggle)
-#+END_SRC
 ** IDE
+*** Projects
+#+BEGIN_SRC emacs-lisp
+  (setq my-projects-location '("~/dev" "~/w"))
+
+  (defun projects-refresh ()
+    (interactive)
+    (dolist (loc my-projects-location)
+      (project-remember-projects-under loc)))
+
+  (use-package project :elpaca nil
+    :bind
+    ("C-x p R" . projects-refresh))
+
+  (defun switch-project ()
+    (interactive)
+    (let* ((proj (completing-read "Project: " project--list))
+	  (default-directory proj))
+      (persp-new proj)
+      (persp-switch proj)))
+
+  (use-package perspective
+    :bind
+    ("C-x p p" . switch-project))
+
+#+END_SRC
 *** Compiling
 #+BEGIN_SRC emacs-lisp
   (use-package compile :elpaca nil
@@ -240,5 +256,6 @@ I use an Org buffer as my start screen.
     (setq lsp-headerline-breadcrumb-enable nil)
     (setq lsp-modeline-code-actions-enable nil)
     (setq lsp-lens-enable nil)
+    (setq lsp-warn-no-matched-clients nil)
     (setq lsp-auto-guess-root t))
 #+END_SRC
