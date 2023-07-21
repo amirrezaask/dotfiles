@@ -14,7 +14,6 @@ vim.opt.isfname:append "@-@"
 vim.opt.updatetime = 50
 vim.opt.shortmess:append "c" -- Don't pass messages to |ins-completion-menu|.
 vim.opt.shortmess:append "I" -- No Intro message
-vim.opt.guicursor = ""
 vim.opt.splitbelow = true
 vim.opt.splitright = true
 vim.opt.cursorline = false

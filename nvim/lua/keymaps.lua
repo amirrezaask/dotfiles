@@ -43,9 +43,4 @@ local function open_term()
   vim.cmd [[ tabnew | term ]]
 end
 
--- terminal emulator and tabs
-vim.keymap.set("t", "<esc>", [[<C-\><C-n>]])
-vim.keymap.set({ "i", "n", "t" }, "<C-k>", "<cmd>tabnext<CR>")
-vim.keymap.set({ "i", "n", "t" }, "<C-j>", "<cmd>tabprev<CR>")
-vim.keymap.set({ "i", "n", "t" }, "<C-,>", "<cmd>tabnew<CR>")
-vim.keymap.set({ "i", "n" }, "<C-`>", open_term)
+
