@@ -31,4 +31,4 @@ require("lazy").setup ("plugins", {
   }
 })
 
-vim.cmd.colorscheme "norcalli"
+vim.cmd.colorscheme "onedark"

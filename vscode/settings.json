@@ -106,6 +106,5 @@
   "workbench.list.scrollByPage": true,
   "workbench.quickOpen.preserveInput": true,
   "workbench.activityBar.visible": false,
-  "workbench.colorTheme": "GitHub Dark",
-  "window.zoomLevel": -1,
+  "workbench.colorTheme": "Default Light Modern",
 }

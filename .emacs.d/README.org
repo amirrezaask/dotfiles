@@ -1,3 +1,4 @@
+#+AUTHOR: Amirrezaask
 * Amirreza Emacs
 ** Bootstraping package manager
 #+BEGIN_SRC emacs-lisp
@@ -62,7 +63,7 @@
     :init
     (exec-path-from-shell-initialize))
   
-  (global-set-key (kbd "C-c i") (lambda ()
+  (global-set-key (kbd "C-x i") (lambda ()
 				  (interactive)
 				  (find-file (expand-file-name "README.org" user-emacs-directory))
 				  ))
@@ -87,13 +88,11 @@
 #+END_SRC
 ** Theme and Font
 #+BEGIN_SRC emacs-lisp
-  (set-frame-font "Fira Code 18")
+  (set-frame-font "Source Code Pro 18")
 
   (menu-bar-mode -1)
   (tool-bar-mode -1)
   (scroll-bar-mode -1)
-
-  (setq-default cursor-type 'bar)
 
   (defun disable-all-themes ()
     "disable all active themes."
@@ -105,25 +104,21 @@
   (defadvice load-theme (before disable-themes-first activate)
     (disable-all-themes))
 
-  (use-package doom-themes :config (load-theme 'doom-one t))
+  (use-package doom-themes :config (load-theme 'doom-dracula t))
+  ;; (use-package ef-themes :config (load-theme 'ef-duo-dark t))
 
-  (use-package amirreza-themes
-    ;; :config (load-theme 'naysayer t)
-    :elpaca (amirreza-themes :host github :repo "amirrezaask/themes"))
+  ;; (use-package amirreza-themes
+  ;;   :config (load-theme 'naysayer t)
+  ;;   :elpaca (amirreza-themes :host github :repo "amirrezaask/themes"))
 
   (global-hl-line-mode +1)
 
-
-  (use-package doom-modeline
-    :config
-    (setq doom-modeline-height 35)
-    (doom-modeline-mode)
-  )
 #+END_SRC
 ** Minibuffer
 #+BEGIN_SRC emacs-lisp
     (use-package vertico
     :init
+    (setq vertico-cycle t)
     (vertico-mode))
 
 
@@ -185,6 +180,7 @@
   (use-package iedit
     :bind
     ("C-S-d" . 'iedit-mode))
+
 #+END_SRC
 ** Git
 #+BEGIN_SRC emacs-lisp
@@ -267,6 +263,7 @@
      ("k" . kill-compilation)))
 #+END_SRC
 *** LSP
+**** LSP mode
 #+BEGIN_SRC emacs-lisp
   (use-package lsp-mode
     :hook (prog-mode . lsp)
