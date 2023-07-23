@@ -14,21 +14,22 @@
   // multiple cursors (ctrl + shift + arrow )
   { "key": "ctrl+shift+down", "command": "editor.action.insertCursorBelow" },
   { "key": "ctrl+shift+up", "command": "editor.action.insertCursorAbove" },
-  // shrink and expand selection based on language semantics
-  { "key": "ctrl+]", "command": "editor.action.smartSelect.expand" },
-  { "key": "ctrl+[", "command": "editor.action.smartSelect.shrink" },
   // LSP related stuff
   // Find All Implementations
   { "key": "ctrl+i", "when": "editorTextFocus", "command": "editor.action.goToImplementation" },
+  { "key": "cmd+i", "when": "editorTextFocus", "command": "editor.action.goToImplementation" },
   // Find all references
   { "key": "ctrl+r", "when": "editorTextFocus", "command": "editor.action.goToReferences" },
+  { "key": "cmd+r", "when": "editorTextFocus", "command": "editor.action.goToReferences" },
   // Goto Definition
   { "key": "ctrl+.", "when": "editorTextFocus", "command": "editor.action.revealDefinition" },
+  { "key": "cmd+.", "when": "editorTextFocus", "command": "editor.action.revealDefinition" },
   // Jump back where you were
   { "key": "ctrl+,", "when": "editorTextFocus", "command": "workbench.action.navigateBack" },
+  { "key": "cmd+,", "when": "editorTextFocus", "command": "workbench.action.navigateBack" },
   // Hover
   { "key": "cmd+'", "when": "editorFocus", "command": "editor.action.showHover" },
-  { "key": "ctrl+shift+'", "when": "editorFocus", "command": "editor.action.showHover" },
+  { "key": "ctrl+'", "when": "editorFocus", "command": "editor.action.showHover" },
   // Quick fix
   { "key": "ctrl+shift+a", "command": "editor.action.quickFix" },
   { "key": "cmd+shift+a", "command": "editor.action.quickFix" },
@@ -68,22 +69,4 @@
   // Rest Client
   { "key": "cmd+enter", "command": "rest-client.request", "when": "resourceLangId == http"},
   { "key": "ctrl+enter", "command": "rest-client.request", "when": "resourceLangId == http"},
-
-  // Switch Terminals
-  {"key": "cmd+[", "command": "workbench.action.terminal.focusPrevious", "when": "terminalFocus"},
-  {"key": "cmd+]", "command": "workbench.action.terminal.focusNext", "when": "terminalFocus"},
-
-  {"key": "ctrl+[", "command": "workbench.action.terminal.focusPrevious", "when": "terminalFocus"},
-  {"key": "ctrl+]", "command": "workbench.action.terminal.focusNext", "when": "terminalFocus"},
-
-
-  // Editor Experiments
-  {"key": "ctrl+[", "command": "cursorHome", "when": "editorFocus" },
-  {"key": "ctrl+]", "command": "cursorEnd", "when": "editorFocus" },
-
-  {"key": "ctrl+;", "command": "cursorWordLeft", "when": "editorFocus" },
-  {"key": "ctrl+'", "command": "cursorWordRight", "when": "editorFocus" },
-  {"key": "ctrl+.", "command": "cursorWordLeft", "when": "editorFocus" },
-  {"key": "ctrl+/", "command": "cursorWordRight", "when": "editorFocus" },
-
 ]

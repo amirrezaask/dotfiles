@@ -1,6 +1,8 @@
 {
   "window.title": "${folderPath}",
   "window.dialogStyle": "custom",
+  "workbench.colorTheme": "GitHub Dark",
+  "editor.fontFamily": "Jetbrains Mono",
   "workbench.statusBar.visible": true,
   "editor.renderWhitespace": "selection",
   "editor.lineNumbers": "on",
@@ -69,7 +71,7 @@
   "workbench.list.defaultFindMode": "filter",
   "workbench.list.scrollByPage": true,
   "workbench.quickOpen.preserveInput": true,
+  "workbench.iconTheme": "material-icon-theme",
   "workbench.activityBar.visible": false,
-  "workbench.colorTheme": "Mayukai Mirage",
-  "editor.fontFamily": "Fira Code",
+
 }
