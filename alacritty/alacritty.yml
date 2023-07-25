@@ -14,7 +14,7 @@ window:
 
 colors:
   primary:
-    background: "#191724" # base
+    background: "#1d2021" # base
     foreground: "#e0def4" # text
 
 key_bindings:

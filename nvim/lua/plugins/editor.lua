@@ -7,5 +7,5 @@ return {
   "jansedivy/jai.vim", -- Jai from Jonathan Blow
   "tpope/vim-sleuth", -- Heuristically set buffer options
   'kevinhwang91/nvim-bqf',
-  { "lukas-reineke/indent-blankline.nvim", opts = {} },
+  -- { "lukas-reineke/indent-blankline.nvim", opts = {} },
 }
