@@ -104,12 +104,12 @@
   (defadvice load-theme (before disable-themes-first activate)
     (disable-all-themes))
 
-  (use-package doom-themes :config (load-theme 'doom-dracula t))
+  ;; (use-package doom-themes :config (load-theme 'doom-dracula t))
   ;; (use-package ef-themes :config (load-theme 'ef-duo-dark t))
 
-  ;; (use-package amirreza-themes
-  ;;   :config (load-theme 'naysayer t)
-  ;;   :elpaca (amirreza-themes :host github :repo "amirrezaask/themes"))
+  (use-package amirreza-themes
+    :config (load-theme 'naysayer t)
+    :elpaca (amirreza-themes :host github :repo "amirrezaask/themes"))
 
   (global-hl-line-mode +1)
 

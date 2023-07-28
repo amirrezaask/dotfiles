@@ -30,7 +30,7 @@
     { "before": [ "<leader>", "h" ], "commands": [ "workbench.action.splitEditorDown" ] },
     { "before": [ "<leader>", "v" ], "commands": [ "workbench.action.splitEditorRight" ] },
     { "before": [ "=" ], "commands": [ "editor.action.smartSelect.expand" ] },
-    { "before": [ "-" ], "commands": [ "editor.action.smartSelect.shrink" ] },
+    { "before": [ "-" ], "commands": [ "editor.action.smartSelect.shrink" ] }
   ],
   "window.title": "${folderPath}",
   "window.dialogStyle": "custom",
@@ -107,6 +107,6 @@
       "editor.background": "#000000"
     }
   },
-  "workbench.colorTheme": "GitHub Dark",
+  "workbench.colorTheme": "Gruvbox Dark Hard",
   "workbench.activityBar.visible": false,
 }
