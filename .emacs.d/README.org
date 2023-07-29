@@ -111,14 +111,13 @@
     :config (load-theme 'naysayer t)
     :elpaca (amirreza-themes :host github :repo "amirrezaask/themes"))
 
-  (global-hl-line-mode +1)
-
 #+END_SRC
 ** Minibuffer
 #+BEGIN_SRC emacs-lisp
     (use-package vertico
     :init
     (setq vertico-cycle t)
+    (setq vertico-count 25)
     (vertico-mode))
 
 
@@ -213,6 +212,23 @@
 *** Projects
 #+BEGIN_SRC emacs-lisp
   (setq my-projects-location '("~/dev" "~/w"))
+
+
+  (setq mabna-projects-root "~/w")
+
+  (defun mabna-text-search ()
+    (interactive)
+    (let ((default-directory mabna-projects-root))
+      (call-interactively 'consult-ripgrep)))
+
+  (defun mabna-file-search ()
+    (interactive)
+    (let ((default-directory mabna-projects-root))
+      (call-interactively 'consult-find)))
+
+  (global-set-key (kbd "C-c m f") 'mabna-file-search)
+  (global-set-key (kbd "C-c m s") 'mabna-text-search)
+
   (defun projects-refresh ()
     (interactive)
     (dolist (loc my-projects-location)
@@ -236,22 +252,6 @@
     ("C-x p ;" . project-vterm))
 
 
-  (use-package perspective
-    :commands (persp-new persp-switch)
-    :init
-    (setq persp-suppress-no-prefix-key-warning t)
-    (persp-mode)
-    :bind
-    ("C-x p p" . switch-project))
-
-  (defun switch-project ()
-    (interactive)
-    (let* ((proj (completing-read "Project: " project--list))
-	   (default-directory proj))
-      (persp-new proj)
-      (persp-switch proj)))
-
-
 #+END_SRC
 *** Compiling
 #+BEGIN_SRC emacs-lisp
@@ -263,10 +263,9 @@
      ("k" . kill-compilation)))
 #+END_SRC
 *** LSP
-**** LSP mode
 #+BEGIN_SRC emacs-lisp
   (use-package lsp-mode
-    :hook (prog-mode . lsp)
+    :hook ((go-mode rust-mode) . lsp)
     :init
     (setq lsp-enable-symbol-highlighting nil)
     (setq lsp-headerline-breadcrumb-enable nil)

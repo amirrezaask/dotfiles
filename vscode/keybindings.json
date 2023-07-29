@@ -36,21 +36,9 @@
   { "key": "ctrl+shift+r", "command": "editor.action.rename" },
   { "key": "cmd+shift+r", "command": "editor.action.rename" },
 
-  // Find symbols in file
-  { "key": "ctrl+o", "command": "workbench.action.gotoSymbol" },
-  { "key": "cmd+o", "command": "workbench.action.gotoSymbol" },
-
-  // Find symbols in project
-  { "key": "cmd+shift+o", "command": "workbench.action.showAllSymbols" },
-  { "key": "ctrl+shift+o", "command": "workbench.action.showAllSymbols" },
-
   // Toggle file explorer
   { "key": "cmd+shift+e", "command": "workbench.action.toggleSidebarVisibility", "when": "view.workbench.explorer.fileView.visible"},
   { "key": "ctrl+shift+e", "command": "workbench.action.toggleSidebarVisibility", "when": "view.workbench.explorer.fileView.visible"},
-
-  // Activity Bar 0
-  { "key": "cmd+0", "command": "workbench.action.toggleActivityBarVisibility" },
-  { "key": "ctrl+0", "command": "workbench.action.toggleActivityBarVisibility" },
 
   // File explorer 1
   { "key": "cmd+1", "command": "workbench.view.explorer" },
@@ -58,13 +46,15 @@
   { "key": "cmd+1", "command": "workbench.action.toggleSidebarVisibility", "when": "view.workbench.explorer.fileView.visible"},
   { "key": "ctrl+1", "command": "workbench.action.toggleSidebarVisibility", "when": "view.workbench.explorer.fileView.visible"},
 
-  // Git 2
-  { "key": "cmd+2", "command": "workbench.view.scm" },
-  { "key": "ctrl+2", "command": "workbench.view.scm" },
-  { "key": "cmd+2", "command": "workbench.action.toggleSidebarVisibility", "when": "view.workbench.explorer.scm.visible"},
-  { "key": "ctrl+2", "command": "workbench.action.toggleSidebarVisibility", "when": "view.workbench.explorer.scm.visible"},
+  // Git cmd + 0
+  { "key": "cmd+0", "command": "workbench.view.scm" },
+  { "key": "ctrl+0", "command": "workbench.view.scm" },
+  { "key": "cmd+0", "command": "workbench.action.toggleSidebarVisibility", "when": "view.workbench.explorer.scm.visible"},
+  { "key": "ctrl+0", "command": "workbench.action.toggleSidebarVisibility", "when": "view.workbench.explorer.scm.visible"},
 
   // Rest Client
   { "key": "cmd+enter", "command": "rest-client.request", "when": "resourceLangId == http"},
   { "key": "ctrl+enter", "command": "rest-client.request", "when": "resourceLangId == http"},
+
+  { "key": "cmd+e", "command": "workbench.action.showAllEditorsByMostRecentlyUsed"}
 ]
