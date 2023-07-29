@@ -94,12 +94,10 @@ alias jvim='vim -c "set syntax=json" -c"setlocal buftype=nofile"'
 [[ ! -r /Users/amirreza/.opam/opam-init/init.zsh ]] || source /Users/amirreza/.opam/opam-init/init.zsh  > /dev/null 2> /dev/null
 
 export ZSH="$HOME/.oh-my-zsh"
-ZSH_THEME="agnoster"
+ZSH_THEME="apple"
 
 plugins=(
     fzf
 )
 
 source $ZSH/oh-my-zsh.sh
-
-eval "$(starship init zsh)"
