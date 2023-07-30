@@ -94,6 +94,8 @@
   (tool-bar-mode -1)
   (scroll-bar-mode -1)
 
+  (set-frame-parameter nil 'fullscreen 'maximized)
+
   (defun disable-all-themes ()
     "disable all active themes."
     (dolist (i custom-enabled-themes)
@@ -265,7 +267,7 @@
 *** LSP
 #+BEGIN_SRC emacs-lisp
   (use-package lsp-mode
-    :hook ((go-mode rust-mode) . lsp)
+    :hook ((go-mode rust-mode) . lsp-defered)
     :init
     (setq lsp-enable-symbol-highlighting nil)
     (setq lsp-headerline-breadcrumb-enable nil)
@@ -273,4 +275,6 @@
     (setq lsp-lens-enable nil)
     (setq lsp-warn-no-matched-clients nil)
     (setq lsp-auto-guess-root t))
+
+
 #+END_SRC
