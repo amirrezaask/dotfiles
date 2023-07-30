@@ -7,19 +7,18 @@
   "editor.fontSize": 14,
   "editor.renderWhitespace": "selection",
   "editor.lineNumbers": "on",
-  "workbench.activityBar.visible": false,
   "editor.wordWrap": "on",
   "workbench.editor.untitled.hint": "hidden",
   "editor.lightbulb.enabled": false,
   "workbench.editor.enablePreview": false,
   "workbench.tips.enabled": false,
+  "workbench.activityBar.visible": false,
   "editor.unicodeHighlight.ambiguousCharacters": false,
   "editor.accessibilitySupport": "off",
   "editor.inlayHints.enabled": "off",
   "editor.minimap.enabled": false,
   "editor.bracketPairColorization.enabled": false,
   "git.openRepositoryInParentFolders": "never",
-  "go.useLanguageServer": true,
   "[jsonc]": { "editor.defaultFormatter": "vscode.json-language-features" },
   "json.format.keepLines": true,
   "diffEditor.ignoreTrimWhitespace": false,
@@ -31,7 +30,6 @@
   "rest-client.showResponseInDifferentTab": true,
   "rest-client.requestNameAsResponseTabTitle": true,
   "rest-client.environmentVariables": {
-    "production": { },
     "beta": {
       "jwtToken": "{{$shared jwtToken}}",
       "baseURL": "http://beta.rahavard365.com"
