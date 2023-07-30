@@ -48,4 +48,5 @@
   "window.nativeTabs": true,
   "files.insertFinalNewline": true,
   "files.trimTrailingWhitespace": true,
+  "workbench.colorTheme": "Visual Studio Dark",
 }
