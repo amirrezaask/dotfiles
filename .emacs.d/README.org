@@ -144,17 +144,11 @@
 
   (use-package embark-consult)
 #+END_SRC
-** Terminal Emulator
-#+BEGIN_SRC emacs-lisp
-  (use-package shell :elpaca nil)
-  (use-package eshell :elpaca nil)
-
-  (use-package vterm)
-
-#+END_SRC
 ** Autocompletion
 #+BEGIN_SRC emacs-lisp
   (use-package corfu
+    :bind
+    ("C-SPC" . 'completion-at-point)
     :config
     (setq corfu-auto t)
     (global-corfu-mode))
@@ -187,7 +181,20 @@
 #+BEGIN_SRC emacs-lisp
   (use-package magit
     :bind
-    ("C-x g" . magit))
+    (:map global-map
+	  ("C-x g" . magit)
+	  ("C-0" . magit)
+     :map magit-mode-map
+     ("C-0" . delete-window)))
+#+END_SRC
+** Dired
+#+BEGIN_SRC emacs-lisp
+  (use-package dired :elpaca nil
+    :bind
+    (:map global-map
+     ("C-1" . (lambda () (interactive) (dired default-directory)))
+    :map dired-mode-map
+	  ("C-1" . 'previous-buffer)))
 #+END_SRC
 ** Languages
 *** Go
@@ -267,8 +274,11 @@
 *** LSP
 #+BEGIN_SRC emacs-lisp
   (use-package lsp-mode
-    :hook ((go-mode rust-mode) . lsp-defered)
+    :hook ((go-mode rust-mode) . lsp-deferred)
     :init
+    (setq read-process-output-max (* 1024 1024)) ;; 1mb
+    (setq lsp-log-io nil)
+    (setq gc-cons-threshold 100000000) ;; 100 MB
     (setq lsp-enable-symbol-highlighting nil)
     (setq lsp-headerline-breadcrumb-enable nil)
     (setq lsp-modeline-code-actions-enable nil)
