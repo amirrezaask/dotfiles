@@ -1,60 +1,34 @@
 [
-  // zoom and font size
-  { "key": "ctrl+=", "command": "editor.action.fontZoomIn" },
-  { "key": "ctrl+-", "command": "editor.action.fontZoomOut" },
-  { "key": "ctrl+shift+=", "command": "workbench.action.zoomIn" },
-  { "key": "ctrl+shift+-", "command": "workbench.action.zoomOut" },
-  { "key": "ctrl+shift+0", "command": "workbench.action.zoomReset"},
-  { "key": "ctrl+0", "command": "editor.action.fontZoomReset"},
-
-  // multiple cursors (ctrl + shift + arrow )
-  { "key": "ctrl+shift+down", "command": "editor.action.insertCursorBelow" },
-  { "key": "ctrl+shift+up", "command": "editor.action.insertCursorAbove" },
-
-  // LSP related stuff
-  // Find All Implementations
-  { "key": "ctrl+i", "when": "editorTextFocus", "command": "editor.action.goToImplementation" },
-  { "key": "cmd+i", "when": "editorTextFocus", "command": "editor.action.goToImplementation" },
-
-  // Find all references
-  { "key": "ctrl+r", "when": "editorTextFocus", "command": "editor.action.goToReferences" },
-  { "key": "cmd+r", "when": "editorTextFocus", "command": "editor.action.goToReferences" },
-
-  // Goto Definition
-  { "key": "ctrl+.", "when": "editorTextFocus", "command": "editor.action.revealDefinition" },
-  { "key": "cmd+.", "when": "editorTextFocus", "command": "editor.action.revealDefinition" },
-
-  // Jump back where you were
-  { "key": "ctrl+,", "when": "editorTextFocus", "command": "workbench.action.navigateBack" },
-  { "key": "cmd+,", "when": "editorTextFocus", "command": "workbench.action.navigateBack" },
-
-  // Quick fix
-  { "key": "ctrl+shift+a", "command": "editor.action.quickFix" },
-  { "key": "cmd+shift+a", "command": "editor.action.quickFix" },
-
-  // Rename
-  { "key": "ctrl+shift+r", "command": "editor.action.rename" },
-  { "key": "cmd+shift+r", "command": "editor.action.rename" },
-
-  // Toggle file explorer
-  { "key": "cmd+shift+e", "command": "workbench.action.toggleSidebarVisibility", "when": "view.workbench.explorer.fileView.visible"},
-  { "key": "ctrl+shift+e", "command": "workbench.action.toggleSidebarVisibility", "when": "view.workbench.explorer.fileView.visible"},
-
-  // File explorer 1
-  { "key": "cmd+1", "command": "workbench.view.explorer" },
-  { "key": "ctrl+1", "command": "workbench.view.explorer" },
-  { "key": "cmd+1", "command": "workbench.action.toggleSidebarVisibility", "when": "view.workbench.explorer.fileView.visible"},
-  { "key": "ctrl+1", "command": "workbench.action.toggleSidebarVisibility", "when": "view.workbench.explorer.fileView.visible"},
-
-  // Git cmd + 0
-  { "key": "cmd+0", "command": "workbench.view.scm" },
-  { "key": "ctrl+0", "command": "workbench.view.scm" },
-  { "key": "cmd+0", "command": "workbench.action.toggleSidebarVisibility", "when": "view.workbench.explorer.scm.visible"},
-  { "key": "ctrl+0", "command": "workbench.action.toggleSidebarVisibility", "when": "view.workbench.explorer.scm.visible"},
-
-  // Rest Client
-  { "key": "cmd+enter", "command": "rest-client.request", "when": "resourceLangId == http"},
-  { "key": "ctrl+enter", "command": "rest-client.request", "when": "resourceLangId == http"},
-
-  { "key": "cmd+e", "command": "workbench.action.showAllEditorsByMostRecentlyUsed"}
+  { "key": "ctrl+=", "command": "editor.action.fontZoomIn" }, // zoom in editor
+  { "key": "ctrl+-", "command": "editor.action.fontZoomOut" }, // zoom out editor
+  { "key": "ctrl+shift+=", "command": "workbench.action.zoomIn" }, // zoom in whole view
+  { "key": "ctrl+shift+-", "command": "workbench.action.zoomOut" }, // zoom out whole view
+  { "key": "ctrl+shift+0", "command": "workbench.action.zoomReset"}, // reset whole view
+  { "key": "ctrl+0", "command": "editor.action.fontZoomReset"}, // reset editor font size
+  { "key": "ctrl+shift+down", "command": "editor.action.insertCursorBelow" }, // insert cursor down
+  { "key": "ctrl+shift+up", "command": "editor.action.insertCursorAbove" }, // insert cursor above
+  { "key": "ctrl+i", "when": "editorTextFocus", "command": "editor.action.goToImplementation" }, // Find All Implementations ( Windows / Linux )
+  { "key": "cmd+i", "when": "editorTextFocus", "command": "editor.action.goToImplementation" }, // Find all implementations ( Mac )
+  { "key": "ctrl+r", "when": "editorTextFocus", "command": "editor.action.goToReferences" }, // Find all references ( Windows / Linux )
+  { "key": "cmd+r", "when": "editorTextFocus", "command": "editor.action.goToReferences" }, // Find all references ( Mac )
+  { "key": "ctrl+.", "when": "editorTextFocus", "command": "editor.action.revealDefinition" }, // Goto Definition ( Windows / Linux )
+  { "key": "cmd+.", "when": "editorTextFocus", "command": "editor.action.revealDefinition" }, // Goto Definition ( Mac )
+  { "key": "ctrl+,", "when": "editorTextFocus", "command": "workbench.action.navigateBack" }, // Jump back where you were ( Windows / Linux )
+  { "key": "cmd+,", "when": "editorTextFocus", "command": "workbench.action.navigateBack" }, // Jump back where you were ( Mac )
+  { "key": "ctrl+shift+a", "command": "editor.action.quickFix" }, // Quick fix ( Windows / Linux )
+  { "key": "cmd+shift+a", "command": "editor.action.quickFix" }, // Quick fix ( Mac )
+  { "key": "ctrl+shift+r", "command": "editor.action.rename" }, // Rename ( Windows / Linux )
+  { "key": "cmd+shift+r", "command": "editor.action.rename" }, // Rename ( Mac )
+  { "key": "cmd+shift+e", "command": "workbench.action.toggleSidebarVisibility", "when": "view.workbench.explorer.fileView.visible"}, // Toggle file explorer
+  { "key": "ctrl+shift+e", "command": "workbench.action.toggleSidebarVisibility", "when": "view.workbench.explorer.fileView.visible"}, // Toggle file explorer
+  { "key": "cmd+1", "command": "workbench.view.explorer" }, // Toggle File explorer
+  { "key": "ctrl+1", "command": "workbench.view.explorer" }, // Toggle File explorer
+  { "key": "cmd+1", "command": "workbench.action.toggleSidebarVisibility", "when": "view.workbench.explorer.fileView.visible"}, // File explorer
+  { "key": "ctrl+1", "command": "workbench.action.toggleSidebarVisibility", "when": "view.workbench.explorer.fileView.visible"}, // File explorer
+  { "key": "cmd+0", "command": "workbench.view.scm" }, // Git
+  { "key": "ctrl+0", "command": "workbench.view.scm" }, // Git
+  { "key": "cmd+0", "command": "workbench.action.toggleSidebarVisibility", "when": "view.workbench.explorer.scm.visible"}, // Git
+  { "key": "ctrl+0", "command": "workbench.action.toggleSidebarVisibility", "when": "view.workbench.explorer.scm.visible"}, // Git
+  { "key": "cmd+enter", "command": "rest-client.request", "when": "resourceLangId == http"}, // Rest Client
+  { "key": "ctrl+enter", "command": "rest-client.request", "when": "resourceLangId == http"}, // Rest Client
 ]
