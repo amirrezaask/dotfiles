@@ -28,3 +28,5 @@
 	fa = fetch --all
 	ft = fetch --tags
 	st = status
+	co = checkout
+	re = rebase

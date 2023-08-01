@@ -23,10 +23,14 @@
   { "key": "ctrl+shift+e", "command": "workbench.action.toggleSidebarVisibility", "when": "view.workbench.explorer.fileView.visible"}, // Toggle file explorer
   { "key": "cmd+1", "command": "workbench.view.explorer" }, // Toggle File explorer
   { "key": "ctrl+1", "command": "workbench.view.explorer" }, // Toggle File explorer
+  { "key": "ctrl+2", "command": "workbench.files.action.collapseExplorerFolders"}, // collapse all folders in explorer view
+  { "key": "cmd+2", "command": "workbench.files.action.collapseExplorerFolders"}, // collapse all folders in explorer view
   { "key": "cmd+1", "command": "workbench.action.toggleSidebarVisibility", "when": "view.workbench.explorer.fileView.visible"}, // File explorer
   { "key": "ctrl+1", "command": "workbench.action.toggleSidebarVisibility", "when": "view.workbench.explorer.fileView.visible"}, // File explorer
   { "key": "cmd+0", "command": "workbench.view.scm" }, // Git
   { "key": "ctrl+0", "command": "workbench.view.scm" }, // Git
+  { "key": "cmd+9", "command": "git-graph.view"},
+  { "key": "ctrl+9", "command": "git-graph.view"},
   { "key": "cmd+0", "command": "workbench.action.toggleSidebarVisibility", "when": "view.workbench.explorer.scm.visible"}, // Git
   { "key": "ctrl+0", "command": "workbench.action.toggleSidebarVisibility", "when": "view.workbench.explorer.scm.visible"}, // Git
   { "key": "cmd+enter", "command": "rest-client.request", "when": "resourceLangId == http"}, // Rest Client

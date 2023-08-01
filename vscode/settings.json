@@ -1,18 +1,18 @@
 {
+
   "workbench.preferredDarkColorTheme": "Visual Studio Dark",
   "workbench.preferredLightColorTheme": "Visual Studio Light",
   "window.autoDetectColorScheme": true,
   "window.title": "${folderPath}",
   "window.dialogStyle": "custom",
   "editor.fontSize": 14,
-  "editor.renderWhitespace": "selection",
   "editor.lineNumbers": "on",
   "editor.wordWrap": "on",
+  "workbench.layoutControl.enabled": false,
   "workbench.editor.untitled.hint": "hidden",
   "editor.lightbulb.enabled": false,
   "workbench.editor.enablePreview": false,
   "workbench.tips.enabled": false,
-  "workbench.activityBar.visible": false,
   "editor.unicodeHighlight.ambiguousCharacters": false,
   "editor.accessibilitySupport": "off",
   "editor.inlayHints.enabled": "off",
@@ -29,24 +29,9 @@
   "go.toolsManagement.autoUpdate": true,
   "rest-client.showResponseInDifferentTab": true,
   "rest-client.requestNameAsResponseTabTitle": true,
-  "rest-client.environmentVariables": {
-    "beta": {
-      "jwtToken": "{{$shared jwtToken}}",
-      "baseURL": "http://beta.rahavard365.com"
-    },
-    "local": {
-      "jwtToken": "{{$shared jwtToken}}",
-      "baseURL": "http://localhost:1323"
-    },
-    "$shared": {
-    "basicAuthDB": "WkJrdXhQNVZtMnBCTjc5UFJvMzJsWHpyMjU3MnZBalk6Cg==",
-    "basicAuthData": "TVh1Zk5HdmpRdzVqS3doa0Y1SDJOSTNnUnpKWkRXZ0s6Cg==",
-      "jwtToken": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2ODg4ODk5NjksImp0aSI6ImU3NzZiZjdhNzI1MTRlODA4ZDU3ZWZlNzEwYmFiOTIzIiwic3ViIjoiMTQ1ODYwNSIsIm5iZiI6MTY4ODg4OTk2OSwiZXhwIjoxNjk2NjY1OTY5LCJpc3MiOiJjb20ubWFibmFkcC5hcGkucmFoYXZhcmQzNjUudjEuYmV0YSJ9.CmY555E1wykjooy8KqMBx6fDw7uYujg5oioUUip60xZoSOu4R8AJr-9hMjhXBbMdyfFXuaxxeGj4S9eQjOjPKQzhUB6ZIZK8owMBvdp8Pu0k9_CthUoskVHDa8McVzR8nKRzgqxYB8vesM_csulg75EjnBJX1IKITZVTQY37gx9jgpYxodUL7Vnga-q58h45nEAE3A4BABza5lAk093sBf62mf6qp1tBbp0Ee9S6AxP5hTQop_siJ_A_8MfuDjudFUuCUk9DP0b6XXU6I9EhPG0Xh6PguTRWYLfaWgR1jC4GKWwjkpHKPNxNURR7yIoakd-S2Iejm5ekaFXmapa6hg"
-    }
-  },
   "gitProjectManager.baseProjectsFolders": [ "~/w", "~/dev" ],
-  "window.nativeTabs": true,
   "files.insertFinalNewline": true,
   "files.trimTrailingWhitespace": true,
-  "workbench.colorTheme": "Visual Studio Dark",
+  "redhat.telemetry.enabled": false,
+  "window.zoomLevel": 1,
 }

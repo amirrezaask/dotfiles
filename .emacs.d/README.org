@@ -62,7 +62,7 @@
   (use-package exec-path-from-shell
     :init
     (exec-path-from-shell-initialize))
-  
+
   (global-set-key (kbd "C-x i") (lambda ()
 				  (interactive)
 				  (find-file (expand-file-name "README.org" user-emacs-directory))
@@ -85,6 +85,8 @@
 
   (global-set-key (kbd "C-=") (lambda () (interactive) (text-scale-increase 1)))
   (global-set-key (kbd "C--") (lambda () (interactive) (text-scale-decrease 1)))
+
+  (setq ring-bell-function (lambda ()))
 #+END_SRC
 ** Theme and Font
 #+BEGIN_SRC emacs-lisp
@@ -173,6 +175,8 @@
      ("C-S-p" . 'mc/mark-previous-like-this)))
 
   (use-package iedit
+    :init
+    (setq iedit-toggle-key-default nil)
     :bind
     ("C-S-d" . 'iedit-mode))
 
@@ -221,22 +225,7 @@
 *** Projects
 #+BEGIN_SRC emacs-lisp
   (setq my-projects-location '("~/dev" "~/w"))
-
-
   (setq mabna-projects-root "~/w")
-
-  (defun mabna-text-search ()
-    (interactive)
-    (let ((default-directory mabna-projects-root))
-      (call-interactively 'consult-ripgrep)))
-
-  (defun mabna-file-search ()
-    (interactive)
-    (let ((default-directory mabna-projects-root))
-      (call-interactively 'consult-find)))
-
-  (global-set-key (kbd "C-c m f") 'mabna-file-search)
-  (global-set-key (kbd "C-c m s") 'mabna-text-search)
 
   (defun projects-refresh ()
     (interactive)
@@ -259,8 +248,6 @@
     :bind
     ("C-x p R" . projects-refresh)
     ("C-x p ;" . project-vterm))
-
-
 #+END_SRC
 *** Compiling
 #+BEGIN_SRC emacs-lisp
@@ -287,4 +274,21 @@
     (setq lsp-auto-guess-root t))
 
 
+#+END_SRC
+
+** Command Pallete
+Emacs has lots and lots of commands but I need a more specific one.
+#+BEGIN_SRC emacs-lisp
+  (setq in-project--commands '(consult-grep consult-find lsp-format-buffer))
+
+  (defun in-project-do ()
+    (interactive)
+    (let ((default-directory (completing-read "Project: " project--list)))
+      (call-interactively (intern (completing-read "Command: " in-project--commands)))))
+
+  (defun execute-command (commands)
+    (interactive)
+    (call-interactively (completing-read "Command: " commands)))
+
+  (global-set-key (kbd "C-;") 'in-project-do)
 #+END_SRC
