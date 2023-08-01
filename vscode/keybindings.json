@@ -4,9 +4,6 @@
   { "key": "ctrl+shift+=", "command": "workbench.action.zoomIn" }, // zoom in whole view
   { "key": "ctrl+shift+-", "command": "workbench.action.zoomOut" }, // zoom out whole view
   { "key": "ctrl+shift+0", "command": "workbench.action.zoomReset"}, // reset whole view
-  { "key": "ctrl+0", "command": "editor.action.fontZoomReset"}, // reset editor font size
-  { "key": "ctrl+shift+down", "command": "editor.action.insertCursorBelow" }, // insert cursor down
-  { "key": "ctrl+shift+up", "command": "editor.action.insertCursorAbove" }, // insert cursor above
   { "key": "ctrl+i", "when": "editorTextFocus", "command": "editor.action.goToImplementation" }, // Find All Implementations ( Windows / Linux )
   { "key": "cmd+i", "when": "editorTextFocus", "command": "editor.action.goToImplementation" }, // Find all implementations ( Mac )
   { "key": "ctrl+r", "when": "editorTextFocus", "command": "editor.action.goToReferences" }, // Find all references ( Windows / Linux )
@@ -19,8 +16,6 @@
   { "key": "cmd+shift+a", "command": "editor.action.quickFix" }, // Quick fix ( Mac )
   { "key": "ctrl+shift+r", "command": "editor.action.rename" }, // Rename ( Windows / Linux )
   { "key": "cmd+shift+r", "command": "editor.action.rename" }, // Rename ( Mac )
-  { "key": "cmd+shift+e", "command": "workbench.action.toggleSidebarVisibility", "when": "view.workbench.explorer.fileView.visible"}, // Toggle file explorer
-  { "key": "ctrl+shift+e", "command": "workbench.action.toggleSidebarVisibility", "when": "view.workbench.explorer.fileView.visible"}, // Toggle file explorer
   { "key": "cmd+1", "command": "workbench.view.explorer" }, // Toggle File explorer
   { "key": "ctrl+1", "command": "workbench.view.explorer" }, // Toggle File explorer
   { "key": "ctrl+2", "command": "workbench.files.action.collapseExplorerFolders"}, // collapse all folders in explorer view
