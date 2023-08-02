@@ -1,5 +1,5 @@
 {
-
+  // go, rest-client, gitprojectmanager,
   "workbench.preferredDarkColorTheme": "Visual Studio Dark",
   "workbench.preferredLightColorTheme": "Visual Studio Light",
   "window.autoDetectColorScheme": true,
@@ -8,6 +8,7 @@
   "editor.fontSize": 14,
   "editor.lineNumbers": "on",
   "editor.wordWrap": "on",
+  "workbench.settings.editor": "json",
   "workbench.layoutControl.enabled": false,
   "workbench.editor.untitled.hint": "hidden",
   "editor.lightbulb.enabled": false,
@@ -32,6 +33,6 @@
   "gitProjectManager.baseProjectsFolders": [ "~/w", "~/dev" ],
   "files.insertFinalNewline": true,
   "files.trimTrailingWhitespace": true,
-  "redhat.telemetry.enabled": false,
   "window.zoomLevel": 1,
+  "workbench.colorTheme": "Visual Studio Light",
 }
