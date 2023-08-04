@@ -89,6 +89,8 @@
 
 (setq ring-bell-function (lambda ()))
 
+(global-hl-line-mode +1)
+
 (setq theme 'gruber-darker)
 
 (set-frame-font "Menlo 18")
