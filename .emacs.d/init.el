@@ -92,13 +92,6 @@
   (setq vertico-count 25)
   (vertico-mode))
 
-(use-package consult)
-
-(use-package embark
-  :bind
-  (:map minibuffer-mode-map
-  ("C-." . embark-act)))
-
 (use-package wgrep)
 
 (use-package orderless
@@ -106,8 +99,6 @@
   (setq completion-styles '(orderless basic)
 	completion-category-defaults nil
 	completion-category-overrides '((file (styles partial-completion)))))
-
-(use-package embark-consult)
 
 (use-package corfu
   :bind
@@ -181,13 +172,17 @@
    ("k" . kill-compilation)))
 
 ;; Grep
-(require 'grep)
-(grep-apply-setting 'grep-use-null-device nil)
-(grep-apply-setting 'grep-command "grep -rn ")
+(defun my-grep ()
+  "Best Grep command of all time"
+  (interactive)
+  (let* ((rg-command "rg -n -H --no-heading -e '%s' %s")
+	 (gnu-grep-command "grep -rn '%s' %s")
+	 (base-command gnu-grep-command)
+	 (pattern (read-string "Pattern: "))
+	 (dir (read-file-name "Dir: " (if (project-root (project-current)) (project-root (project-current)) default-directory))))
+    
+    (when (executable-find "rg") (setq base-command rg-command))
+    (compilation-start (format base-command pattern dir) #'grep-mode)))
 
-(when (executable-find "rg")
-  (grep-apply-setting
-   'grep-command
-   "rg -n -H --no-heading -e "))
+(global-set-key (kbd "C-x C-g") 'my-grep)
 
-(global-set-key (kbd "C-x C-g") 'grep)
