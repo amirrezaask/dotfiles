@@ -38,6 +38,9 @@
 
 (setq recenter-positions '(middle))
 
+(when (< (frame-width) 162)
+  (setq split-width-threshold nil))
+
 (defun jump-up ()
   (interactive)
   (next-line (* -1 (/ (window-height) 2)))
