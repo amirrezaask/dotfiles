@@ -14,7 +14,6 @@
 
 (setq straight-use-package-by-default t)
 
-
 (setq custom-file "~/.custom.el") ;; set custom file to not meddle with init.el
 
 (setq make-backup-files nil) ;; no emacs ~ backup files
@@ -73,8 +72,6 @@
   "disable all active themes."
   (dolist (i custom-enabled-themes)
     (disable-theme i)))
-
-(add-to-list 'custom-theme-load-path (expand-file-name "themes" user-emacs-directory))
 
 (defadvice load-theme (before disable-themes-first activate)
   (disable-all-themes))
@@ -162,7 +159,7 @@
   (dolist (loc my-projects-location)
     (project-remember-projects-under loc)))
 
-(use-package project  ;;; :elpaca nil
+(use-package project
   :commands (project-remember-projects-under)
   :init
   (projects-refresh) ;; refresh projects on start
@@ -171,11 +168,13 @@
   ("C-x p R" . projects-refresh))
 
 
-(use-package compile ;; :elpaca nil
+(use-package compile
   :bind
   (("<f5>" . compile)
+   ("C-x C-x" . compile)
    :map compilation-mode-map
    ("<f5>" . recompile)
+   ("C-x C-x" . recompile)
    ("k" . kill-compilation)))
 
 ;; Grep
