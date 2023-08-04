@@ -26,7 +26,7 @@ tmux:
 vscode:
 ifeq ($(UNAME), Linux)
 	rm -rf $(HOME)/.config/Code/User/keybindings.json
-	ln -s $(THIS_DIR)/vscode/keybdindings.json $(HOME)/.config/Code/User/keybdindings.json
+	ln -s $(THIS_DIR)/vscode/keybindings.json $(HOME)/.config/Code/User/keybindings.json
 
 	rm -rf $(HOME)/.config/Code/User/settings.json
 	ln -s $(THIS_DIR)/vscode/settings.json $(HOME)/.config/Code/User/settings.json
@@ -34,7 +34,7 @@ endif
 
 ifeq ($(UNAME), Darwin)
 	rm -rf "$(HOME)/Library/Application Support/Code/User/keybindings.json"
-	ln -s $(THIS_DIR)/vscode/keybdindings.json "$(HOME)/Library/Application Support/Code/User/keybdindings.json"
+	ln -s $(THIS_DIR)/vscode/keybindings.json "$(HOME)/Library/Application Support/Code/User/keybindings.json"
 	rm -rf "$(HOME)/Library/Application Support/Code/User/settings.json"
 	ln -s $(THIS_DIR)/vscode/settings.json "$(HOME)/Library/Application Support/Code/User/settings.json"
 endif

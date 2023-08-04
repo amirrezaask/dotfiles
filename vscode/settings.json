@@ -35,5 +35,5 @@
   "files.insertFinalNewline": true,
   "files.trimTrailingWhitespace": true,
   "window.zoomLevel": 1,
-  "workbench.colorTheme": "Visual Studio Light",
+  "workbench.colorTheme": "Visual Studio Light"
 }
