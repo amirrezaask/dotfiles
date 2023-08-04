@@ -1,3 +1,4 @@
+(setq gc-cons-threshold 100000000) ;; 100 MB
 (setq package-enable-at-startup nil)
 (defvar bootstrap-version)
 (let ((bootstrap-file
@@ -57,11 +58,9 @@
 (global-set-key (kbd "C-=") (lambda () (interactive) (text-scale-increase 1)))
 (global-set-key (kbd "C--") (lambda () (interactive) (text-scale-decrease 1)))
 
-(setq ring-bell-function (lambda ()))
+(setq ring-bell-function (lambda ())) ;; no stupid sounds
 
 (global-hl-line-mode +1)
-
-(setq theme 'gruber-darker)
 
 (set-frame-font "Menlo 18")
 
@@ -69,22 +68,17 @@
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 
-(set-frame-parameter nil 'fullscreen 'maximized)
-
-(defun disable-all-themes ()
-  "disable all active themes."
+(defadvice load-theme (before disable-themes-first activate)
   (dolist (i custom-enabled-themes)
     (disable-theme i)))
 
-(defadvice load-theme (before disable-themes-first activate)
-  (disable-all-themes))
-
 (use-package doom-themes)
 (use-package ef-themes)
+(use-package modus-themes)
 (use-package amirreza-themes :straight (amirreza-themes :host github :repo "amirrezaask/themes" :local-repo "amirreza-themes"))
 (use-package gruber-darker-theme)
 
-(load-theme theme t)
+(load-theme 'modus-vivendi-tinted t)
 
 (use-package vertico
   :init
@@ -107,6 +101,8 @@
   (setq corfu-auto t)
   (global-corfu-mode))
 
+
+;; text editing
 (use-package multiple-cursors
   :bind
   (("C-S-n" . 'mc/mark-next-like-this)
@@ -118,6 +114,7 @@
   :bind
   ("C-S-d" . 'iedit-mode))
 
+;; Git
 (use-package magit
   :bind
   (:map global-map
@@ -125,32 +122,27 @@
    :map magit-mode-map
    ("C-0" . delete-window)))
 
+;; Dired, file manager
 (use-package dired
   :straight nil
   :bind
   (:map global-map
    ("C-1" . (lambda () (interactive) (dired default-directory)))
   :map dired-mode-map
-	("C-1" . 'previous-buffer)))
+  ("C-1" . 'previous-buffer)))
 
+;; languages
 (use-package go-mode)
-
 (use-package yaml-mode)
-
 (use-package json-mode)
-
 (use-package rust-mode)
-
 (use-package csharp-mode)
-
 (use-package typescript-mode)
 
-(setq my-projects-location '("~/dev" "~/w"))
-(setq mabna-projects-root "~/w")
-
+;; Project
 (defun projects-refresh ()
   (interactive)
-  (dolist (loc my-projects-location)
+  (dolist (loc '("~/dev" "~/w"))
     (project-remember-projects-under loc)))
 
 (use-package project
@@ -161,7 +153,7 @@
   :bind
   ("C-x p R" . projects-refresh))
 
-
+;; Compile
 (use-package compile
   :bind
   (("<f5>" . compile)
@@ -186,3 +178,10 @@
 
 (global-set-key (kbd "C-x C-g") 'my-grep)
 
+;; LSP
+(use-package eglot
+  :hook ((go-mode rust-mode) . eglot)
+  :bind
+  (:map eglot-mode-map
+	("C-x C-l" . eglot-format)
+	("C-c C-c" . eglot-code-actions)))

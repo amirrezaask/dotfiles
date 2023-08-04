@@ -34,6 +34,6 @@
   "gitProjectManager.baseProjectsFolders": [ "~/w", "~/dev" ],
   "files.insertFinalNewline": true,
   "files.trimTrailingWhitespace": true,
-  "window.zoomLevel": 1,
-  "workbench.colorTheme": "Visual Studio Light"
+  "workbench.colorTheme": "Visual Studio Dark",
+  "window.zoomLevel": 3
 }
