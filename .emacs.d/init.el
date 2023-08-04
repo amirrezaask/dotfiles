@@ -1,4 +1,5 @@
 ;; Elpaca Async package manager setup
+;; Copied from https://github.com/progfolio/elpaca#installer
 (setq package-enable-at-startup nil)
 (defvar elpaca-installer-version 0.5)
 (defvar elpaca-directory (expand-file-name "elpaca/" user-emacs-directory))
@@ -48,25 +49,28 @@
 
 (setq custom-file "~/.custom.el") ;; set custom file to not meddle with init.el
 
-(setq make-backup-files nil)
-(setq image-types (cons 'svg image-types))
+(setq make-backup-files nil) ;; no emacs ~ backup files
+(setq image-types (cons 'svg image-types)) ;; macos bug
 
-(global-set-key (kbd "C-q") 'set-mark-command)
+(global-set-key (kbd "C-q") 'set-mark-command) ;; better key to start a selection
 (global-unset-key (kbd "C-SPC"))
 
-(setq mac-command-modifier 'meta)
+(defalias 'y-or-n-p 'yes-or-no-p)
 
-(use-package exec-path-from-shell
+(setq mac-command-modifier 'meta) ;; macos again
+
+(use-package exec-path-from-shell ;; use $PATH from default shell
   :init
   (exec-path-from-shell-initialize))
 
 (global-set-key (kbd "C-x i") (lambda ()
 				(interactive)
-				(find-file (expand-file-name "README.org" user-emacs-directory))
-				))
+				(find-file (expand-file-name "init.el" user-emacs-directory))))
+
 (setq inhibit-startup-screen t) ;; disable default start screen
 
 (setq recenter-positions '(middle))
+
 (defun jump-up ()
   (interactive)
   (next-line (* -1 (/ (window-height) 2)))
@@ -201,14 +205,9 @@
   (dolist (loc my-projects-location)
     (project-remember-projects-under loc)))
 
-(defun project-vterm ()
+(defun my-project-switch ()
   (interactive)
-  (let* ((name (project-root (project-current)))
-	 (buf-name (format "*vterm %s" name))
-	 )
-    (if (get-buffer buf-name)
-	(switch-to-buffer buf-name)
-      (vterm buf-name))))
+  (dired (completing-read "Project: " project--list)))
 
 (use-package project :elpaca nil
   :commands (project-remember-projects-under)
@@ -216,7 +215,8 @@
   (projects-refresh) ;; refresh projects on start  
   :bind
   ("C-x p R" . projects-refresh)
-  ("C-x p ;" . project-vterm))
+  ("C-x p p" . my-project-switch))
+
 
 (use-package compile :elpaca nil
   :bind
@@ -224,3 +224,15 @@
    :map compilation-mode-map
    ("<f5>" . recompile)
    ("k" . kill-compilation)))
+
+;; Grep
+(require 'grep)
+(grep-apply-setting 'grep-use-null-device nil)
+(grep-apply-setting 'grep-command "grep -rn ")
+
+(when (executable-find "rg")
+  (grep-apply-setting
+   'grep-command
+   "rg -n -H --no-heading -e "))
+
+(global-set-key (kbd "C-x C-g") 'grep)
