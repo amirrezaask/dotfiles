@@ -1,8 +1,9 @@
 {
 
-  // go, rest-client, gitprojectmanager,
+  // go, rest-client, rust-analyzer, gitprojectmanager,
   "workbench.preferredDarkColorTheme": "Visual Studio Dark",
   "workbench.preferredLightColorTheme": "Visual Studio Light",
+  "extensions.ignoreRecommendations": true,
   "window.autoDetectColorScheme": true,
   "window.title": "${folderPath}",
   "window.dialogStyle": "custom",
