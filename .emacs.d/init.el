@@ -197,6 +197,8 @@
 
 (use-package csharp-mode)
 
+(use-package typescript-mode)
+
 (setq my-projects-location '("~/dev" "~/w"))
 (setq mabna-projects-root "~/w")
 
@@ -230,9 +232,10 @@
 (grep-apply-setting 'grep-use-null-device nil)
 (grep-apply-setting 'grep-command "grep -rn ")
 
-(when (executable-find "rg")
-  (grep-apply-setting
-   'grep-command
-   "rg -n -H --no-heading -e "))
+(add-hook 'elpaca-after-init-hook (lambda ()
+				    (when (executable-find "rg")
+				      (grep-apply-setting
+				       'grep-command
+				       "rg -n -H --no-heading -e "))))
 
 (global-set-key (kbd "C-x C-g") 'grep)
