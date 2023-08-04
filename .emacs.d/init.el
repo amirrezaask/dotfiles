@@ -1,51 +1,19 @@
-;; Elpaca Async package manager setup
-;; Copied from https://github.com/progfolio/elpaca#installer
 (setq package-enable-at-startup nil)
-(defvar elpaca-installer-version 0.5)
-(defvar elpaca-directory (expand-file-name "elpaca/" user-emacs-directory))
-(defvar elpaca-builds-directory (expand-file-name "builds/" elpaca-directory))
-(defvar elpaca-repos-directory (expand-file-name "repos/" elpaca-directory))
-(defvar elpaca-order '(elpaca :repo "https://github.com/progfolio/elpaca.git"
-			      :ref nil
-			      :files (:defaults (:exclude "extensions"))
-			      :build (:not elpaca--activate-package)))
-(let* ((repo  (expand-file-name "elpaca/" elpaca-repos-directory))
-       (build (expand-file-name "elpaca/" elpaca-builds-directory))
-       (order (cdr elpaca-order))
-       (default-directory repo))
-  (add-to-list 'load-path (if (file-exists-p build) build repo))
-  (unless (file-exists-p repo)
-    (make-directory repo t)
-    (when (< emacs-major-version 28) (require 'subr-x))
-    (condition-case-unless-debug err
-	(if-let ((buffer (pop-to-buffer-same-window "*elpaca-bootstrap*"))
-		 ((zerop (call-process "git" nil buffer t "clone"
-				       (plist-get order :repo) repo)))
-		 ((zerop (call-process "git" nil buffer t "checkout"
-				       (or (plist-get order :ref) "--"))))
-		 (emacs (concat invocation-directory invocation-name))
-		 ((zerop (call-process emacs nil buffer nil "-Q" "-L" "." "--batch"
-				       "--eval" "(byte-recompile-directory \".\" 0 'force)")))
-		 ((require 'elpaca))
-		 ((elpaca-generate-autoloads "elpaca" repo)))
-	    (progn (message "%s" (buffer-string)) (kill-buffer buffer))
-	  (error "%s" (with-current-buffer buffer (buffer-string))))
-      ((error) (warn "%s" err) (delete-directory repo 'recursive))))
-  (unless (require 'elpaca-autoloads nil t)
-    (require 'elpaca)
-    (elpaca-generate-autoloads "elpaca" repo)
-    (load "./elpaca-autoloads")))
-(add-hook 'after-init-hook #'elpaca-process-queues)
-(elpaca `(,@elpaca-order))
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 6))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
 
-(elpaca elpaca-use-package
-  (elpaca-use-package-mode)
-  (setq elpaca-use-package-by-default t))
+(setq straight-use-package-by-default t)
 
-(elpaca-wait)
-
-
-;; Configurations
 
 (setq custom-file "~/.custom.el") ;; set custom file to not meddle with init.el
 
@@ -113,10 +81,10 @@
 
 (use-package doom-themes)
 (use-package ef-themes)
-(use-package amirreza-themes :elpaca (amirreza-themes :host github :repo "amirrezaask/themes"))
+(use-package amirreza-themes :straight (amirreza-themes :host github :repo "amirrezaask/themes" :local-repo "amirreza-themes"))
 (use-package gruber-darker-theme)
 
-(add-hook 'elpaca-after-init-hook (lambda () (load-theme theme t)))
+(load-theme theme t)
 
 (use-package vertico
   :init
@@ -124,10 +92,7 @@
   (setq vertico-count 25)
   (vertico-mode))
 
-
-(use-package consult
-  :bind
-  ("C-S-s" . consult-ripgrep))
+(use-package consult)
 
 (use-package embark
   :bind
@@ -142,8 +107,6 @@
 	completion-category-defaults nil
 	completion-category-overrides '((file (styles partial-completion)))))
 
-(use-package marginalia :config (marginalia-mode +1))
-
 (use-package embark-consult)
 
 (use-package corfu
@@ -152,16 +115,6 @@
   :config
   (setq corfu-auto t)
   (global-corfu-mode))
-
-(use-package org
-  :elpaca nil ;; Use version that was bundled with Emacs
-  :hook (org-mode . (lambda () (electric-indent-mode -1)))
-  :bind
-  (:map org-src-mode
-	("C-c C-c" . 'org-edit-src-exit))
-  :init
-  (setq org-startup-folded t)
-  (setq org-src-window-setup 'current-window))
 
 (use-package multiple-cursors
   :bind
@@ -177,12 +130,12 @@
 (use-package magit
   :bind
   (:map global-map
-	("C-x g" . magit)
 	("C-0" . magit)
    :map magit-mode-map
    ("C-0" . delete-window)))
 
-(use-package dired :elpaca nil
+(use-package dired
+  :straight nil
   :bind
   (:map global-map
    ("C-1" . (lambda () (interactive) (dired default-directory)))
@@ -209,20 +162,16 @@
   (dolist (loc my-projects-location)
     (project-remember-projects-under loc)))
 
-(defun my-project-switch ()
-  (interactive)
-  (dired (completing-read "Project: " project--list)))
-
-(use-package project :elpaca nil
+(use-package project  ;;; :elpaca nil
   :commands (project-remember-projects-under)
   :init
-  (projects-refresh) ;; refresh projects on start  
+  (projects-refresh) ;; refresh projects on start
+  (setq project-switch-commands 'project-dired)
   :bind
-  ("C-x p R" . projects-refresh)
-  ("C-x p p" . my-project-switch))
+  ("C-x p R" . projects-refresh))
 
 
-(use-package compile :elpaca nil
+(use-package compile ;; :elpaca nil
   :bind
   (("<f5>" . compile)
    :map compilation-mode-map
@@ -234,10 +183,9 @@
 (grep-apply-setting 'grep-use-null-device nil)
 (grep-apply-setting 'grep-command "grep -rn ")
 
-(add-hook 'elpaca-after-init-hook (lambda ()
-				    (when (executable-find "rg")
-				      (grep-apply-setting
-				       'grep-command
-				       "rg -n -H --no-heading -e "))))
+(when (executable-find "rg")
+  (grep-apply-setting
+   'grep-command
+   "rg -n -H --no-heading -e "))
 
 (global-set-key (kbd "C-x C-g") 'grep)
