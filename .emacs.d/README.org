@@ -82,13 +82,10 @@
 
 (use-package doom-themes)
 (use-package ef-themes)
-(use-package modus-themes)
 (use-package amirreza-themes :straight (amirreza-themes :host github :repo "amirrezaask/themes" :local-repo "amirreza-themes"))
 (use-package gruber-darker-theme)
 
-(load-theme 'modus-vivendi-tinted t)
-
-
+(load-theme 'ef-duo-light t)
 #+END_SRC
 
 * Minibuffer
