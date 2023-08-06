@@ -1,0 +1,11 @@
+{
+	"font_size": 18,
+	"ignored_packages":
+	[
+		"Vintage",
+	],
+	"color_scheme": "Packages/Iridis Colour Scheme/Iridis Dark Blue.tmTheme",
+	"theme": "Adaptive.sublime-theme",
+	"shell_environment": true,
+
+}

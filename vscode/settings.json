@@ -1,5 +1,5 @@
 {
-  "workbench.preferredDarkColorTheme": "Visual Studio Dark",
+  "workbench.preferredDarkColorTheme": "Default Dark Modern",
   "workbench.preferredLightColorTheme": "Visual Studio Light",
   "extensions.ignoreRecommendations": true,
   "window.autoDetectColorScheme": true,
@@ -32,7 +32,6 @@
   "gitProjectManager.baseProjectsFolders": [ "~/w", "~/dev" ],
   "files.insertFinalNewline": true,
   "files.trimTrailingWhitespace": true,
-  "workbench.colorTheme": "Visual Studio Dark",
   "window.zoomLevel": 1
 }
 // christian-kohler.path-intellisense
@@ -45,4 +44,3 @@
 // rust-lang.rust-analyzer
 // usernamehw.errorlens
 // ziglang.vscode-zig
-// zxh404.vscode-proto3

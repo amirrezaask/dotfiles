@@ -1,0 +1,18 @@
+{
+	"bootstrapped": true,
+	"in_process_packages":
+	[
+	],
+	"installed_packages":
+	[
+		"Iridis Colour Scheme",
+		"LSP",
+		"LSP-gopls",
+		"LSP-rust-analyzer",
+		"Package Control",
+	],
+	"repositories":
+	[
+		"https://sublime.fnando.com/repositories.json"
+	],
+}
