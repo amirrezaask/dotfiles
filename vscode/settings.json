@@ -1,16 +1,4 @@
 {
-  /*
-  felipecaputo.git-project-manager
-  golang.go
-  humao.rest-client
-  ocamllabs.ocaml-platform
-  qcz.text-power-tools
-  redhat.vscode-yaml
-  rust-lang.rust-analyzer
-  usernamehw.errorlens
-  ziglang.vscode-zig
-  zxh404.vscode-proto3
-  */
   "workbench.preferredDarkColorTheme": "Visual Studio Dark",
   "workbench.preferredLightColorTheme": "Visual Studio Light",
   "extensions.ignoreRecommendations": true,
@@ -47,3 +35,14 @@
   "workbench.colorTheme": "Visual Studio Dark",
   "window.zoomLevel": 1
 }
+// christian-kohler.path-intellisense
+// felipecaputo.git-project-manager
+// golang.go
+// humao.rest-client
+// ocamllabs.ocaml-platform
+// qcz.text-power-tools
+// redhat.vscode-yaml
+// rust-lang.rust-analyzer
+// usernamehw.errorlens
+// ziglang.vscode-zig
+// zxh404.vscode-proto3
