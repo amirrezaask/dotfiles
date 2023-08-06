@@ -1,6 +1,16 @@
 {
-
-  // go, rest-client, rust-analyzer, gitprojectmanager,
+  /*
+  felipecaputo.git-project-manager
+  golang.go
+  humao.rest-client
+  ocamllabs.ocaml-platform
+  qcz.text-power-tools
+  redhat.vscode-yaml
+  rust-lang.rust-analyzer
+  usernamehw.errorlens
+  ziglang.vscode-zig
+  zxh404.vscode-proto3
+  */
   "workbench.preferredDarkColorTheme": "Visual Studio Dark",
   "workbench.preferredLightColorTheme": "Visual Studio Light",
   "extensions.ignoreRecommendations": true,
@@ -35,5 +45,5 @@
   "files.insertFinalNewline": true,
   "files.trimTrailingWhitespace": true,
   "workbench.colorTheme": "Visual Studio Dark",
-  "window.zoomLevel": 3
+  "window.zoomLevel": 1
 }
