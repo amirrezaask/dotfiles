@@ -8,6 +8,9 @@
   "editor.fontSize": 14,
   "editor.wordWrap": "on",
   "workbench.settings.editor": "json",
+  "workbench.editor.showIcons": false,
+  "breadcrumbs.enabled": false,
+  "workbench.editor.showTabs": false,
   "workbench.layoutControl.enabled": false,
   "workbench.editor.untitled.hint": "hidden",
   "editor.lightbulb.enabled": false,
@@ -32,7 +35,10 @@
   "gitProjectManager.baseProjectsFolders": [ "~/w", "~/dev" ],
   "files.insertFinalNewline": true,
   "files.trimTrailingWhitespace": true,
-  "window.zoomLevel": 1
+  "workbench.colorTheme": "Visual Studio Light",
+  "workbench.activityBar.visible": false,
+  "workbench.statusBar.visible": false,
+  "window.menuBarVisibility": "toggle"
 }
 // christian-kohler.path-intellisense
 // felipecaputo.git-project-manager

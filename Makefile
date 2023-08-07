@@ -47,5 +47,6 @@ ifeq ($(UNAME), Darwin)
 endif
 
 ifeq ($(UNAME), Linux)
-
+	rm -rf "$(HOME)/.config/sublime-text/Packages/User"
+	ln -s "$(THIS_DIR)/sublimetext" "$(HOME)/.config/sublime-text/Packages/User"
 endif
