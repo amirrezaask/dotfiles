@@ -163,17 +163,15 @@
 
 * Languages
 #+BEGIN_SRC emacs-lisp
-;; languages
-(use-package go-mode)
-(use-package yaml-mode)
-(use-package json-mode)
-(use-package rust-mode)
-(use-package csharp-mode)
-(use-package typescript-mode)
-
-
+  ;; languages
+  (use-package go-mode)
+  (use-package yaml-mode)
+  (use-package json-mode)
+  (use-package rust-mode)
+  (when (< emacs-major-version 29)
+    (use-package csharp-mode))
+  (use-package typescript-mode)
 #+END_SRC
-
 * Projects
 #+BEGIN_SRC emacs-lisp
   ;; Project
