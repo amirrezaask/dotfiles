@@ -38,5 +38,7 @@
   "workbench.colorTheme": "Visual Studio Light",
   "workbench.activityBar.visible": false,
   "workbench.statusBar.visible": true,
-  "window.menuBarVisibility": "toggle"
+  "window.menuBarVisibility": "toggle",
+  "explorer.confirmDragAndDrop": false,
+  "explorer.autoReveal": false
 }
