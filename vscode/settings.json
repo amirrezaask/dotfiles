@@ -37,16 +37,6 @@
   "files.trimTrailingWhitespace": true,
   "workbench.colorTheme": "Visual Studio Light",
   "workbench.activityBar.visible": false,
-  "workbench.statusBar.visible": false,
+  "workbench.statusBar.visible": true,
   "window.menuBarVisibility": "toggle"
 }
-// christian-kohler.path-intellisense
-// felipecaputo.git-project-manager
-// golang.go
-// humao.rest-client
-// ocamllabs.ocaml-platform
-// qcz.text-power-tools
-// redhat.vscode-yaml
-// rust-lang.rust-analyzer
-// usernamehw.errorlens
-// ziglang.vscode-zig
