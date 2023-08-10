@@ -28,8 +28,8 @@
   { "key": "ctrl+9", "command": "git-graph.view"},
   { "key": "cmd+0", "command": "workbench.action.toggleSidebarVisibility", "when": "view.workbench.explorer.scm.visible"}, // Git
   { "key": "ctrl+0", "command": "workbench.action.toggleSidebarVisibility", "when": "view.workbench.explorer.scm.visible"}, // Git
-  { "key": "cmd+enter", "command": "rest-client.request", "when": "resourceLangId == http"}, // Rest Client
-  { "key": "ctrl+enter", "command": "rest-client.request", "when": "resourceLangId == http"}, // Rest Client
+  { "key": "cmd+enter", "command": "rest-client.copy-request-as-curl", "when": "resourceLangId == http"}, // Rest Client
+  { "key": "ctrl+enter", "command": "rest-client.copy-request-as-curl", "when": "resourceLangId == http"}, // Rest Client
   { "key": "ctrl+shift+\\", "command": "workbench.action.splitEditorDown"},
   { "key": "ctrl+h", "command": "workbench.action.navigateLeft"},
   { "key": "ctrl+j", "command": "workbench.action.navigateDown"},
