@@ -28,22 +28,6 @@ local function config()
       vim.lsp.buf.format()
     end,
   })
-  require("dap-go").setup {
-    dap_configurations = {
-      {
-        type = "go",
-        name = "Mabna: API",
-        request = "launch",
-        program = "./cmd/api",
-      },
-      {
-        type = "go",
-        name = "Mabna: Service",
-        request = "launch",
-        program = "./cmd/service",
-      },
-    },
-  }
 end
 
 return {
