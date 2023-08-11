@@ -8,8 +8,10 @@ env:
 
 window:
   option_as_alt: Both
+  opacity: 0.90
 
 colors:
   primary:
-    background: "#1d2021" # base
-    foreground: "#e0def4" # text
+    background: "#000000" # base
+    foreground: "#ffffff" # text
+
