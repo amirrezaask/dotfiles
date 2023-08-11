@@ -27,7 +27,11 @@ then
     eval $(brew shellenv)
 fi
 
-w() {
+projects() {
+    find $HOME/dev $HOME/w -type d -exec sh -c 'cd "{}"; git rev-parse --git-dir 2> /dev/null 1>&2' \; -prune -print
+}
+
+tw() {
     dir=$(projects | fzf)
     if [ "$dir" != "" ]; then
         tmux new-window -c $dir -n $(basename $dir)
@@ -41,23 +45,20 @@ c() {
     fi
 }
 
-alias gd='git diff'
-alias gds='git diff --staged'
-alias gs='git status'
-alias g='git'
+tp() {
+    dir=$(projects | fzf)
+    if [ "$dir" != "" ]; then
+        tmux new-session -t $(basename $dir) -c "$dir" -A -d
+        if [ "$TMUX" != "" ]; then
+            # inside a tmux session
+            tmux switch-client -t $(basename $dir)
+        else
+            # outside tmux
+            tmux attach -t $(basename $dir)
+        fi
 
-projects() {
-    find $HOME/dev $HOME/dev/ocaml $HOME/w -type d -exec sh -c 'cd "{}"; git rev-parse --git-dir 2> /dev/null 1>&2' \; -prune -print
-}
-gco() {
-    branch=$(git branch -l | fzf | sed -e 's/^[[:space:]]*//')
-    if [ "$branch" != "" ]; then
-        git checkout "$branch"
     fi
 }
-
-alias ta='tmux attach -t'
-alias tl='tmux ls'
 
 # Mabna
 alias mabna-up='sudo ipsec up corp'
