@@ -6,4 +6,6 @@ return {
   "towolf/vim-helm", -- Support for helm template syntax
   "jansedivy/jai.vim", -- Jai from Jonathan Blow
   "tpope/vim-sleuth", -- Heuristically set buffer options
+  "pbrisbin/vim-mkdir", -- Automatically create directory if not exists
+  "tpope/vim-eunuch", -- Helper commands like :Rename, :Move, :Delete, :Remove, ...
 }
