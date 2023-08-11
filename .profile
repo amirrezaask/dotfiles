@@ -4,9 +4,7 @@ export FZF_DEFAULT_COMMAND='rg --files'
 
 export GO111MODULE='on'
 export GOPATH="$HOME"
-export GOPRIVATE='gitlab.snapp.ir'
 export GOPROXY='goproxy.io,direct'
-export EDITOR='vim'
 
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
