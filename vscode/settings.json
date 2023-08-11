@@ -1,5 +1,5 @@
 {
-  "workbench.preferredDarkColorTheme": "Default Dark Modern",
+  "workbench.preferredDarkColorTheme": "Visual Studio Dark",
   "workbench.preferredLightColorTheme": "Visual Studio Light",
   "extensions.ignoreRecommendations": true,
   "window.autoDetectColorScheme": true,
@@ -36,9 +36,9 @@
   "gitProjectManager.baseProjectsFolders": [ "~/w", "~/dev" ],
   "files.insertFinalNewline": true,
   "files.trimTrailingWhitespace": true,
-  "workbench.activityBar.visible": false,
   "workbench.statusBar.visible": true,
   "explorer.confirmDragAndDrop": false,
+  "workbench.editor.showTabs": true,
   "explorer.autoReveal": false,
   "vim.useSystemClipboard": true,
   "vim.foldfix": true,
@@ -73,5 +73,6 @@
     { "before": [ "=" ], "commands": [ "editor.action.smartSelect.expand" ] },
     { "before": [ "-" ], "commands": [ "editor.action.smartSelect.shrink" ] }
   ],
+  "workbench.colorTheme": "Visual Studio Dark",
   "window.zoomLevel": 2,
 }

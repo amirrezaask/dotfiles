@@ -5,30 +5,16 @@
   { "key": "ctrl+shift+-", "command": "workbench.action.zoomOut" }, // zoom out whole view
   { "key": "ctrl+shift+0", "command": "workbench.action.zoomReset"}, // reset whole view
   { "key": "ctrl+i", "when": "editorTextFocus", "command": "editor.action.goToImplementation" }, // Find All Implementations ( Windows / Linux )
-  { "key": "cmd+i", "when": "editorTextFocus", "command": "editor.action.goToImplementation" }, // Find all implementations ( Mac )
   { "key": "ctrl+r", "when": "editorTextFocus", "command": "editor.action.goToReferences" }, // Find all references ( Windows / Linux )
-  { "key": "cmd+r", "when": "editorTextFocus", "command": "editor.action.goToReferences" }, // Find all references ( Mac )
   { "key": "ctrl+.", "when": "editorTextFocus", "command": "editor.action.revealDefinition" }, // Goto Definition ( Windows / Linux )
-  { "key": "cmd+.", "when": "editorTextFocus", "command": "editor.action.revealDefinition" }, // Goto Definition ( Mac )
   { "key": "ctrl+,", "when": "editorTextFocus", "command": "workbench.action.navigateBack" }, // Jump back where you were ( Windows / Linux )
-  { "key": "cmd+,", "when": "editorTextFocus", "command": "workbench.action.navigateBack" }, // Jump back where you were ( Mac )
   { "key": "ctrl+shift+a", "command": "editor.action.quickFix" }, // Quick fix ( Windows / Linux )
-  { "key": "cmd+shift+a", "command": "editor.action.quickFix" }, // Quick fix ( Mac )
   { "key": "ctrl+shift+r", "command": "editor.action.rename" }, // Rename ( Windows / Linux )
-  { "key": "cmd+shift+r", "command": "editor.action.rename" }, // Rename ( Mac )
-  { "key": "cmd+1", "command": "workbench.view.explorer" }, // Toggle File explorer
   { "key": "ctrl+1", "command": "workbench.view.explorer" }, // Toggle File explorer
   { "key": "ctrl+2", "command": "workbench.files.action.collapseExplorerFolders"}, // collapse all folders in explorer view
-  { "key": "cmd+2", "command": "workbench.files.action.collapseExplorerFolders"}, // collapse all folders in explorer view
-  { "key": "cmd+1", "command": "workbench.action.toggleSidebarVisibility", "when": "view.workbench.explorer.fileView.visible"}, // File explorer
   { "key": "ctrl+1", "command": "workbench.action.toggleSidebarVisibility", "when": "view.workbench.explorer.fileView.visible"}, // File explorer
-  { "key": "cmd+0", "command": "workbench.view.scm" }, // Git
-  { "key": "ctrl+0", "command": "workbench.view.scm" }, // Git
-  { "key": "cmd+9", "command": "git-graph.view"},
   { "key": "ctrl+9", "command": "git-graph.view"},
-  { "key": "cmd+0", "command": "workbench.action.toggleSidebarVisibility", "when": "view.workbench.explorer.scm.visible"}, // Git
   { "key": "ctrl+0", "command": "workbench.action.toggleSidebarVisibility", "when": "view.workbench.explorer.scm.visible"}, // Git
-  { "key": "cmd+enter", "command": "rest-client.copy-request-as-curl", "when": "resourceLangId == http"}, // Rest Client
   { "key": "ctrl+enter", "command": "rest-client.copy-request-as-curl", "when": "resourceLangId == http"}, // Rest Client
   { "key": "ctrl+shift+\\", "command": "workbench.action.splitEditorDown"},
   { "key": "ctrl+h", "command": "workbench.action.navigateLeft"},
