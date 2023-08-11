@@ -23,8 +23,19 @@ vim.keymap.set("i", "<C-c>", "<esc>")
 vim.keymap.set("i", "jk", "<ESC>")
 vim.keymap.set("i", "kj", "<ESC>")
 -- Quickfix list
-vim.keymap.set({ "n" }, "{", "<cmd>cprev<CR>", { desc = "Previous quick fix list item" })
-vim.keymap.set({ "n" }, "}", "<cmd>cnext<CR>", { desc = "Next quick fix list item" })
+vim.keymap.set({ "n" }, "<C-[>", "<cmd>cprev<CR>", { desc = "Previous quick fix list item" })
+vim.keymap.set({ "n" }, "<C-]>", "<cmd>cnext<CR>", { desc = "Next quick fix list item" })
+local qflist = false
+function ToggleQFList()
+  if qflist == true then
+    qflist = not qflist
+    vim.cmd [[ cclose ]]
+  else
+    qflist = not qflist
+    vim.cmd [[ copen ]]
+  end
+end
+vim.keymap.set({ "n" }, "<C-q>", ToggleQFList, { desc = "Open Quickfix list" })
 -- When moving around always have pointer centered in screen
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
