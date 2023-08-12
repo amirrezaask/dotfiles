@@ -20,5 +20,9 @@
   { "key": "ctrl+h", "command": "workbench.action.navigateLeft"},
   { "key": "ctrl+j", "command": "workbench.action.navigateDown"},
   { "key": "ctrl+k", "command": "workbench.action.navigateUp"},
-  { "key": "ctrl+l", "command": "workbench.action.navigateRight"}
+  { "key": "ctrl+l", "command": "workbench.action.navigateRight"},
+  { "key": "ctrl+w", "command": "workbench.action.closeActiveEditor"},
+  { "key": "ctrl+p", "command": "workbench.action.quickOpen", "when": "textInputFocus"},
+  { "key": "ctrl+w", "command": "workbench.action.closeActiveEditor"},
+
 ]

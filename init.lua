@@ -40,9 +40,9 @@ function Statusline() -- since this function is called from vimscript world it's
         if vim.b.gitsigns_status and vim.b.gitsigns_status ~= "" then
             signs = " " .. vim.b.gitsigns_status
         end
-        branch = string.format("[%s%s]", vim.b.gitsigns_head, signs)
+        branch = string.format("%s%s", vim.b.gitsigns_head, signs)
     end
-    return branch .. "%=[%m%r%h%w%q%F]%=[L:%l C:%c]"
+    return branch .. "%=%m%r%h%w%q%F%=L:%l C:%c"
 end
 
 vim.opt.statusline = "%!v:lua.Statusline()"
@@ -61,12 +61,6 @@ vim.keymap.set("x", "p", '"_dP')
 vim.keymap.set("n", "<Left>", "<cmd>vertical resize -10<CR>")
 vim.keymap.set("n", "<Right>", "<cmd>vertical resize +10<CR>")
 vim.keymap.set("n", "<C-w>=", "<cmd>wincmd =<CR>")
-vim.keymap.set("n", "<leader>v", "<cmd>vs<CR>")
-vim.keymap.set("n", "<leader>s", "<cmd>sp<CR>")
-vim.keymap.set("n", "<C-w>l", "<cmd>wincmd l<CR>")
-vim.keymap.set("n", "<C-w>k", "<cmd>wincmd k<CR>")
-vim.keymap.set("n", "<C-w>j", "<cmd>wincmd j<CR>")
-vim.keymap.set("n", "<C-w>h", "<cmd>wincmd h<CR>")
 -- Simpler exiting insert mode
 vim.keymap.set("i", "<C-c>", "<esc>")
 vim.keymap.set("i", "jk", "<ESC>")

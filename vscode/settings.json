@@ -74,5 +74,4 @@
     { "before": [ "-" ], "commands": [ "editor.action.smartSelect.shrink" ] },
     { "before": [ "<C-w>" ], "commands": [ "workbench.action.closeActiveEditor" ] },
   ],
-  "workbench.colorTheme": "Visual Studio Light",
 }
