@@ -8,9 +8,13 @@ env:
 
 window:
   option_as_alt: Both
+  startup_mode: Maximized 
 
 colors:
   primary:
     background: "#000000" # base
     foreground: "#ffffff" # text
 
+key_bindings:
+  - { key: Equals,         mods: Control,                         action: IncreaseFontSize }
+  - { key: Minus,          mods: Control,                         action: DecreaseFontSize }
