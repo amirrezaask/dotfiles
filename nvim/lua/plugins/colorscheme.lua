@@ -1,6 +1,6 @@
 return {
-	{ "navarasu/onedark.nvim", opts = { style = "darker", transparent = true } },
-	{ "rose-pine/neovim", name = "rose-pine", opts = { disable_italics = true, disable_background = true } },
+	{ "navarasu/onedark.nvim", opts = { style = "darker", transparent = TRANSPARENT } },
+	{ "rose-pine/neovim", name = "rose-pine", opts = { disable_italics = true, disable_background = TRANSPARENT } },
 	{
 		"ellisonleao/gruvbox.nvim",
 		opts = {
@@ -11,7 +11,7 @@ return {
 				operators = false,
 				folds = false,
 			},
-			transparent_mode = true,
+			transparent_mode = TRANSPARENT,
 		},
 	},
 	{ "catppuccin/nvim", name = "catppuccin", opts = {} },

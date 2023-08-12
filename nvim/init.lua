@@ -23,6 +23,8 @@ if not vim.loop.fs_stat(lazypath) then
     lazypath,
   }
 end
+
+TRANSPARENT = false
 vim.opt.rtp:prepend(lazypath)
 require("lazy").setup ("plugins", {
   change_detection = {
@@ -31,4 +33,11 @@ require("lazy").setup ("plugins", {
   }
 })
 
-vim.cmd.colorscheme "rose-pine"
+local light_theme = "rose-pine-dawn"
+local dark_theme =  "rose-pine"
+
+vim.cmd(string.format([[ command! Light colorscheme %s ]], light_theme))
+vim.cmd(string.format([[ command! Dark colorscheme %s ]], dark_theme))
+
+vim.cmd.Light()
+

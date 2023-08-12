@@ -38,7 +38,7 @@
   "files.trimTrailingWhitespace": true,
   "workbench.statusBar.visible": true,
   "explorer.confirmDragAndDrop": false,
-  "workbench.editor.showTabs": true,
+  "workbench.editor.showTabs": false,
   "explorer.autoReveal": false,
   "vim.useSystemClipboard": true,
   "vim.foldfix": true,
@@ -71,8 +71,8 @@
     { "before": [ "<leader>", "h" ], "commands": [ "workbench.action.splitEditorDown" ] },
     { "before": [ "<leader>", "v" ], "commands": [ "workbench.action.splitEditorRight" ] },
     { "before": [ "=" ], "commands": [ "editor.action.smartSelect.expand" ] },
-    { "before": [ "-" ], "commands": [ "editor.action.smartSelect.shrink" ] }
+    { "before": [ "-" ], "commands": [ "editor.action.smartSelect.shrink" ] },
+    { "before": [ "<C-w>" ], "commands": [ "workbench.action.closeActiveEditor" ] },
   ],
-  "workbench.colorTheme": "Visual Studio Dark",
-  "window.zoomLevel": 2,
+  "workbench.colorTheme": "Visual Studio Light",
 }
