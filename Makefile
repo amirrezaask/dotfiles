@@ -9,15 +9,17 @@ zsh:
 
 neovim:
 	rm -rf $(HOME)/.config/nvim
-	ln -s $(THIS_DIR)/nvim/ $(HOME)/.config/nvim
+	mkdir -p $(HOME)/.config/nvim
+	ln -s $(THIS_DIR)/init.lua $(HOME)/.config/nvim/init.lua
 
 alacritty:
 	rm -rf $(HOME)/.config/alacritty/ $(HOME)/.config/alacritty.yml
-	ln -s $(THIS_DIR)/alacritty $(HOME)/.config/alacritty
+	ln -s $(THIS_DIR)/alacritty.yml $(HOME)/.config/alacritty.yml
 
 kitty:
 	rm -rf $(HOME)/.config/kitty
-	ln -s $(THIS_DIR)/kitty $(HOME)/.config/kitty
+	mkdir -p $(HOME)/.config/kitty
+	ln -s $(THIS_DIR)/kitty.conf $(HOME)/.config/kitty/kitty.conf
 
 tmux:
 	rm -rf $(HOME)/.tmux.conf
