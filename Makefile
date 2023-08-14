@@ -40,3 +40,14 @@ ifeq ($(UNAME), Darwin)
 	rm -rf "$(HOME)/Library/Application Support/Code/User/settings.json"
 	ln -s $(THIS_DIR)/vscode/settings.json "$(HOME)/Library/Application Support/Code/User/settings.json"
 endif
+
+sublime:
+ifeq ($(UNAME), Darwin)
+	rm -rf "$(HOME)/Library/Application Support/Sublime Text/Packages/User"
+	ln -s "$(THIS_DIR)/sublimetext" "$(HOME)/Library/Application Support/Sublime Text/Packages/User"
+endif
+
+ifeq ($(UNAME), Linux)
+	rm -rf "$(HOME)/.config/sublime-text/Packages/User"
+	ln -s "$(THIS_DIR)/sublimetext" "$(HOME)/.config/sublime-text/Packages/User"
+endif
