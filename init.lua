@@ -109,7 +109,7 @@ vim.keymap.set({ "i", "n", "t" }, "<C-j>", "<cmd>tabprev<CR>")
 vim.keymap.set({ "i", "n", "t" }, "<C-,>", "<cmd>tabnew<CR>")
 vim.keymap.set({ "i", "n", "t" }, "<C-;>", open_term)
 
-TRANSPARENT = false
+TRANSPARENT = true
 -- lazy installation code
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -449,4 +449,4 @@ use {
 vim.opt.rtp:prepend(lazypath)
 require("lazy").setup(plugins_config)
 
-vim.cmd.colorscheme "gruvbox"
+vim.cmd.colorscheme "rose-pine"
