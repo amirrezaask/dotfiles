@@ -1,3 +1,12 @@
 {
-	"bootstrapped": true
+	"bootstrapped": true,
+	"installed_packages":
+	[
+		"LSP",
+		"LSP-gopls",
+		"Package Control",
+	],
+	"in_process_packages":
+	[
+	],
 }

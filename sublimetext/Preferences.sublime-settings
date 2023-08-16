@@ -1,4 +1,8 @@
 {
-	"font_size": 28,
+	"font_size": 36,
 	"color_scheme": "Celeste.sublime-color-scheme",
+	"ignored_packages":
+	[
+		"Vintage",
+	],
 }
