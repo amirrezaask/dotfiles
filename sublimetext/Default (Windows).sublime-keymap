@@ -1,4 +1,6 @@
 [
+    { "keys": ["primary+,"], "command": "jump_back" },
+
     // Run Code Action
     {
         "keys": ["primary+shift+a"],
