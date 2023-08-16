@@ -1,8 +1,12 @@
 {
-	"font_size": 36,
-	"color_scheme": "Celeste.sublime-color-scheme",
+	"font_size": 16,
+	"color_scheme": "auto",
 	"ignored_packages":
 	[
 		"Vintage",
 	],
+	"dark_color_scheme": "Mariana.sublime-color-scheme",
+	"light_color_scheme": "Breakers.sublime-color-scheme",
+	"minimap": false,
+	"show_full_path": true,
 }
