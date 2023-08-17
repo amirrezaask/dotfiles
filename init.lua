@@ -450,6 +450,6 @@ use {
 }
 
 vim.opt.rtp:prepend(lazypath)
-require("lazy").setup(plugins_config)
+require("lazy").setup(plugins_config) -- setup plugins
 
 vim.cmd.colorscheme "rose-pine"
