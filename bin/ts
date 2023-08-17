@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
-
-PROJECTS=
-
-dir=$( find $HOME/dev $HOME/w -type d -mindepth 1 -maxdepth 1 | fzf)
+dir=$( find $HOME/dev $HOME/w -type d -mindepth 1 -maxdepth 1 | fzf-tmux)
 if [ "$dir" != "" ]; then
     tmux new-session -t $(basename $dir) -c "$dir" -A -d
     if [ "$TMUX" != "" ]; then
