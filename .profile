@@ -17,6 +17,7 @@ export PATH="/Applications/Emacs.app/Contents/MacOS:$PATH"
 export PLAN9=/Users/amirreza/plan9
 export PATH=$PATH:$HOME/dev/dotfiles/bin
 export PATH=$PATH:$PLAN9/bin
+
 [ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
 [[ ! -r /Users/amirreza/.opam/opam-init/init.zsh ]] || source /Users/amirreza/.opam/opam-init/init.zsh  > /dev/null 2> /dev/null
 
@@ -24,39 +25,6 @@ if command -v brew &> /dev/null
 then
     eval $(brew shellenv)
 fi
-
-projects() {
-    find $HOME/dev $HOME/w -type d -exec sh -c 'cd "{}"; git rev-parse --git-dir 2> /dev/null 1>&2' \; -prune -print
-}
-
-tw() {
-    dir=$(projects | fzf)
-    if [ "$dir" != "" ]; then
-        tmux new-window -c $dir -n $(basename $dir)
-    fi
-}
-
-c() {
-    dir=$(projects | fzf)
-    if [ "$dir" != "" ]; then
-        cd $dir
-    fi
-}
-
-tp() {
-    dir=$(projects | fzf)
-    if [ "$dir" != "" ]; then
-        tmux new-session -t $(basename $dir) -c "$dir" -A -d
-        if [ "$TMUX" != "" ]; then
-            # inside a tmux session
-            tmux switch-client -t $(basename $dir)
-        else
-            # outside tmux
-            tmux attach -t $(basename $dir)
-        fi
-
-    fi
-}
 
 # Mabna
 alias mabna-up='sudo ipsec up corp'

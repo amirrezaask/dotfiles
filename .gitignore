@@ -5,7 +5,6 @@ elpaca
 straight
 transient
 custom.el
-bin
 README.el
 fish/completions
 fish/conf.d
