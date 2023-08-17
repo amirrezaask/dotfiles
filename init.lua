@@ -430,6 +430,7 @@ use {
       vim.keymap.set("n", "gr", vim.lsp.buf.references, buffer "Goto References")
       vim.keymap.set("n", "R", vim.lsp.buf.rename, buffer "Rename")
       vim.keymap.set("n", "K", vim.lsp.buf.hover, buffer "Hover")
+      vim.keymap.set("n", "<leader>f", vim.lsp.buf.format, buffer "Format")
       vim.keymap.set("n", "gl", vim.diagnostic.open_float, buffer "")
       vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, buffer "Next Diagnostic")
       vim.keymap.set("n", "]d", vim.diagnostic.goto_next, buffer "Previous Diagnostic")

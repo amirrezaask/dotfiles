@@ -40,6 +40,6 @@
   "explorer.confirmDragAndDrop": false,
   "workbench.editor.showTabs": false,
   "explorer.autoReveal": false,
-  "window.zoomLevel": 1,
-  "workbench.colorTheme": "Visual Studio Light",
+  "workbench.colorTheme": "SynthWave '84",
+  "window.zoomLevel": 2,
 }
