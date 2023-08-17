@@ -147,7 +147,7 @@ use {
     end,
   },
   "tpope/vim-fugitive",
-}
+  }
 
 -- editor
 use {
@@ -260,6 +260,7 @@ use {
         "python",
         "php",
         "ocaml",
+        "sql",
       },
       context_commentstring = { enable = true },
       highlight = { enable = true, additional_vim_regex_highlighting = false },
@@ -310,6 +311,8 @@ use {
     },
   },
   { "catppuccin/nvim", name = "catppuccin", opts = {} },
+  'eemed/sitruuna.vim',
+  'yuttie/hydrangea-vim',
 }
 
 -- telescope
