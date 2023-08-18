@@ -32,20 +32,7 @@ vim.g.netrw_winsize = 25
 vim.opt.laststatus = 2
 vim.opt.timeoutlen = 300
 vim.opt.laststatus = 3
-
-function Statusline() -- since this function is called from vimscript world it's simpler if it's global
-    local branch = ""
-    if vim.b.gitsigns_head then
-        local signs = ""
-        if vim.b.gitsigns_status and vim.b.gitsigns_status ~= "" then
-            signs = " " .. vim.b.gitsigns_status
-        end
-        branch = string.format("%s%s", vim.b.gitsigns_head, signs)
-    end
-    return branch .. "%=%m%r%h%w%q%F%=L:%l C:%c"
-end
-
-vim.opt.statusline = "%!v:lua.Statusline()"
+vim.opt.statusline = "%=%m%r%h%w%q%F%=L:%l C:%c"
 
 vim.g.mapleader = " "
 
@@ -79,7 +66,7 @@ function ToggleQFList()
   end
 end
 vim.keymap.set({ "n" }, "<C-q>", ToggleQFList, { desc = "Open Quickfix list" })
--- When moving around always have pointer centered in screen
+-- When moving around always have cursor centered in screen
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("n", "n", "nzz")
@@ -146,20 +133,15 @@ use {
       vim.keymap.set("n", "<leader>l", "<cmd>Gitsigns blame_line<CR>")
     end,
   },
-  "tpope/vim-fugitive",
-  }
+}
 
 -- editor
 use {
-  "tpope/vim-surround", -- surrounding text objects
   "tpope/vim-abolish", -- useful text stuff
   { "numToStr/Comment.nvim", opts = {} }, -- Comment stuff like a boss
   "fladson/vim-kitty", -- Support Kitty terminal config syntax
   "towolf/vim-helm", -- Support for helm template syntax
   "jansedivy/jai.vim", -- Jai from Jonathan Blow
-  "tpope/vim-sleuth", -- Heuristically set buffer options
-  "pbrisbin/vim-mkdir", -- Automatically create directory if not exists
-  "tpope/vim-eunuch", -- Helper commands like :Rename, :Move, :Delete, :Remove, ...
 }
 
 -- completion
