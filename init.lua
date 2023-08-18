@@ -71,9 +71,6 @@ vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("n", "n", "nzz")
 vim.keymap.set("n", "N", "Nzz")
--- Move lines
-vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
-vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 vim.keymap.set("n", "Q", "<cmd>q<CR>")
 vim.keymap.set("n", "<CR>", [[ {-> v:hlsearch ? ':nohl<CR>' : '<CR>'}() ]], { expr = true }) -- handy when doing search in a buffer
 
@@ -259,9 +256,6 @@ use({
 			transparent_mode = TRANSPARENT,
 		},
 	},
-	{ "catppuccin/nvim", name = "catppuccin", opts = {} },
-	"eemed/sitruuna.vim",
-	"navarasu/onedark.nvim",
 })
 
 -- telescope
