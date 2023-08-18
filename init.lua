@@ -47,6 +47,8 @@ vim.keymap.set("x", "p", '"_dP')
 -- Split windows
 vim.keymap.set("n", "<Left>", "<cmd>vertical resize -10<CR>")
 vim.keymap.set("n", "<Right>", "<cmd>vertical resize +10<CR>")
+vim.keymap.set("n", "<Down>", "<cmd>resize -10<CR>")
+vim.keymap.set("n", "<Up>", "<cmd>resize +10<CR>")
 vim.keymap.set("n", "<C-w>=", "<cmd>wincmd =<CR>")
 -- Simpler exiting insert mode
 vim.keymap.set("i", "<C-c>", "<esc>")
@@ -77,12 +79,8 @@ vim.keymap.set("n", "<CR>", [[ {-> v:hlsearch ? ':nohl<CR>' : '<CR>'}() ]], { ex
 -- Wrapped lines act as normal lines
 vim.keymap.set("n", "j", "gj")
 vim.keymap.set("n", "k", "gk")
--- Netrw
-vim.keymap.set("n", "<leader>e", "<cmd>Ex<CR>")
 
--- Edit this file
-vim.keymap.set("n", "<leader>i", "<cmd>edit ~/.config/nvim/init.lua<CR>", { desc = "Edit init.lua" })
-
+-- Terminal and Tabs
 local function open_term()
 	vim.cmd([[ tabnew | term ]])
 end
