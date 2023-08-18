@@ -410,4 +410,4 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 vim.opt.rtp:prepend(lazypath)
 require("lazy").setup(plugins_config) -- setup plugins
 
-vim.cmd.colorscheme("rose-pine")
+vim.cmd.colorscheme("gruvbox")

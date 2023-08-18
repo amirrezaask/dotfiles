@@ -40,6 +40,6 @@
   "explorer.confirmDragAndDrop": false,
   "workbench.editor.showTabs": false,
   "explorer.autoReveal": false,
-  "workbench.colorTheme": "SynthWave '84",
   "window.zoomLevel": 1,
+  "editor.stickyScroll.enabled": true,
 }
