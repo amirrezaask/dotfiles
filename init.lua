@@ -96,7 +96,7 @@ vim.keymap.set({ "i", "n", "t" }, "<C-j>", "<cmd>tabprev<CR>")
 vim.keymap.set({ "i", "n", "t" }, "<C-,>", "<cmd>tabnew<CR>")
 vim.keymap.set({ "i", "n", "t" }, "<C-;>", open_term)
 
-TRANSPARENT = true
+TRANSPARENT = false
 -- lazy installation code
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -133,6 +133,8 @@ use({
 			vim.keymap.set("n", "<leader>l", "<cmd>Gitsigns blame_line<CR>")
 		end,
 	},
+	'tpope/vim-fugitive',
+	'junegunn/gv.vim'
 })
 
 -- editor
