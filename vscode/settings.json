@@ -34,7 +34,7 @@
   "gitProjectManager.baseProjectsFolders": [ "~/w", "~/dev" ],
   "files.insertFinalNewline": true,
   "files.trimTrailingWhitespace": true,
-  "window.zoomLevel": 1,
+  "window.zoomLevel": 2,
   "workbench.statusBar.visible": true,
   "explorer.confirmDragAndDrop": false,
   "workbench.editor.showTabs": false,
@@ -42,5 +42,6 @@
   "editor.stickyScroll.enabled": true,
   "security.workspace.trust.untrustedFiles": "open",
   "settingsSync.keybindingsPerPlatform": false,
-  "workbench.colorTheme": "Dracula",
+  "workbench.colorTheme": "Visual Studio Dark",
+  "workbench.activityBar.visible": false,
 }
