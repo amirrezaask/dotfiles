@@ -43,4 +43,11 @@ then
     export GIT_EDITOR='nvim'
 fi
 
+if command -v code &> /dev/null
+then
+    export EDITOR='code --wait'
+    export GIT_EDITOR='code --wait'
+fi
+
+
 

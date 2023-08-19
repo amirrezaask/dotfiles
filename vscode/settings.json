@@ -1,6 +1,4 @@
 {
-  "workbench.preferredDarkColorTheme": "Visual Studio Dark",
-  "workbench.preferredLightColorTheme": "Visual Studio Light",
   "extensions.ignoreRecommendations": true,
   "window.autoDetectColorScheme": true,
   "window.title": "${folderPath}",
@@ -36,10 +34,13 @@
   "gitProjectManager.baseProjectsFolders": [ "~/w", "~/dev" ],
   "files.insertFinalNewline": true,
   "files.trimTrailingWhitespace": true,
+  "window.zoomLevel": 1,
   "workbench.statusBar.visible": true,
   "explorer.confirmDragAndDrop": false,
   "workbench.editor.showTabs": false,
   "explorer.autoReveal": false,
-  "window.zoomLevel": 1,
   "editor.stickyScroll.enabled": true,
+  "security.workspace.trust.untrustedFiles": "open",
+  "settingsSync.keybindingsPerPlatform": false,
+  "workbench.colorTheme": "Dracula",
 }
