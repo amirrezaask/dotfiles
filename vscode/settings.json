@@ -42,6 +42,6 @@
   "editor.stickyScroll.enabled": true,
   "security.workspace.trust.untrustedFiles": "open",
   "settingsSync.keybindingsPerPlatform": false,
-  "workbench.colorTheme": "Visual Studio Dark",
   "workbench.activityBar.visible": false,
+  "workbench.colorTheme": "Community Material Theme High Contrast",
 }
