@@ -91,7 +91,7 @@ vim.keymap.set({ "i", "n", "t" }, "<C-j>", "<cmd>tabprev<CR>")
 vim.keymap.set({ "i", "n", "t" }, "<C-,>", "<cmd>tabnew<CR>")
 vim.keymap.set({ "i", "n", "t" }, "<C-;>", open_term)
 
-TRANSPARENT = false
+TRANSPARENT = true
 -- lazy installation code
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -365,9 +365,12 @@ use({
 					return { buffer = bufnr, desc = desc }
 				end
 				vim.keymap.set("n", "gd", vim.lsp.buf.definition, buffer("Goto Definition"))
+				vim.keymap.set("n", "<C-.>", vim.lsp.buf.definition, buffer("Goto Definition"))
 				vim.keymap.set("n", "gD", vim.lsp.buf.declaration, buffer("Goto Declaration"))
 				vim.keymap.set("n", "gi", vim.lsp.buf.implementation, buffer("Goto Implementation"))
+				vim.keymap.set("n", "<C-i>", vim.lsp.buf.implementation, buffer("Goto Implementation"))
 				vim.keymap.set("n", "gr", vim.lsp.buf.references, buffer("Goto References"))
+				vim.keymap.set("n", "<C-r>", vim.lsp.buf.references, buffer("Goto References"))
 				vim.keymap.set("n", "R", vim.lsp.buf.rename, buffer("Rename"))
 				vim.keymap.set("n", "K", vim.lsp.buf.hover, buffer("Hover"))
 				vim.keymap.set("n", "<leader>f", vim.lsp.buf.format, buffer("Format"))
@@ -402,4 +405,4 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 vim.opt.rtp:prepend(lazypath)
 require("lazy").setup(plugins_config) -- setup plugins
 
-vim.cmd.colorscheme("gruvbox")
+vim.cmd.colorscheme("rose-pine")
