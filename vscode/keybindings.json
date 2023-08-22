@@ -18,5 +18,6 @@
   { "key": "ctrl+p", "command": "workbench.action.quickOpen", "when": "textInputFocus"},
   { "key": "ctrl+w", "command": "workbench.action.closeActiveEditor"},
   { "key": "ctrl+`", "command": "workbench.action.terminal.toggleTerminal" },
-  { "key": "ctrl+/", "command": "editor.action.commentLine"}
+  { "key": "ctrl+/", "command": "editor.action.commentLine"},
+  { "key": "ctrl+3", "command": "revealInExplorer"}
 ]
