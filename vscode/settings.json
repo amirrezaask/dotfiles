@@ -1,6 +1,5 @@
 {
   "extensions.ignoreRecommendations": true,
-  "window.autoDetectColorScheme": true,
   "window.title": "${folderPath}",
   "window.dialogStyle": "custom",
   "editor.fontSize": 14,
@@ -43,4 +42,5 @@
   "workbench.activityBar.visible": false,
   "editor.unicodeHighlight.nonBasicASCII": false,
   "window.zoomLevel": 1,
+  "workbench.colorTheme": "Visual Studio Light",
 }
