@@ -91,7 +91,7 @@ vim.keymap.set({ "i", "n", "t" }, "<C-j>", "<cmd>tabprev<CR>")
 vim.keymap.set({ "i", "n", "t" }, "<C-,>", "<cmd>tabnew<CR>")
 vim.keymap.set({ "i", "n", "t" }, "<C-;>", open_term)
 
-TRANSPARENT = true
+TRANSPARENT = false
 -- lazy installation code
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -241,6 +241,7 @@ vim.keymap.set("n", "<f1>", ToggleColor, { desc = "Toggle color mode" })
 
 use({
 	{ "rose-pine/neovim", name = "rose-pine", opts = { disable_italics = true, disable_background = TRANSPARENT } },
+	'Mofiqul/vscode.nvim',
 	{
 		"ellisonleao/gruvbox.nvim",
 		opts = {
@@ -405,4 +406,5 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 vim.opt.rtp:prepend(lazypath)
 require("lazy").setup(plugins_config) -- setup plugins
 
-vim.cmd.colorscheme("rose-pine")
+vim.opt.background='light'
+vim.cmd.colorscheme("vscode")

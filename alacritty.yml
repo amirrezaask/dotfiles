@@ -1,6 +1,8 @@
 live_config_reload: true
 
 font:
+  family:
+    normal: Jetbrains Mono
   size: 18
 
 env:
@@ -8,13 +10,12 @@ env:
 
 window:
   option_as_alt: Both
-  opacity: 0.95
   startup_mode: Maximized 
 
 colors:
   primary:
-    background: "#000000" # base
-    foreground: "#ffffff" # text
+    background: '#FFFFFF'
+    foreground: '#343434'
 
 key_bindings:
   - { key: Equals,         mods: Control,                         action: IncreaseFontSize }
