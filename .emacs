@@ -189,7 +189,7 @@
 
 (use-package eglot
   :hook
-  ((go-mode rust-mode) . eglot-ensure)
+  ((go-mode rust-mode tuareg-mode) . eglot-ensure)
   :bind
   (:map eglot-mode-map
 	("C-x C-l" . eglot-save-with-imports)
