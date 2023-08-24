@@ -63,7 +63,7 @@
 
 (global-hl-line-mode +1)
 
-(set-frame-font "Ubuntu Mono 18")
+(set-frame-font "Jetbrains Mono 18")
 
 (menu-bar-mode -1)
 (tool-bar-mode -1)
@@ -78,7 +78,7 @@
 (use-package amirreza-themes :straight (amirreza-themes :host github :repo "amirrezaask/themes" :local-repo "amirreza-themes"))
 (use-package gruber-darker-theme)
 
-(load-theme 'ef-duo-light t)
+(load-theme 'naysayer t) ;;
 
   (use-package vertico
     :init
@@ -114,7 +114,7 @@
   ("C-S-d" . 'iedit-mode))
 
 
-  ;; Git
+;; Git
 (use-package magit
   :bind
   (:map global-map
@@ -123,7 +123,7 @@
    ("C-0" . delete-window)))
 
 
-  ;; Dired, file manager
+;; Dired, file manager
 (use-package dired
   :straight nil
   :bind
@@ -131,8 +131,6 @@
    ("C-1" . (lambda () (interactive) (dired default-directory)))
   :map dired-mode-map
   ("C-1" . 'previous-buffer)))
-
-
 
 ;; languages
 (use-package go-mode)
@@ -145,7 +143,7 @@
 (use-package tuareg) ;; ocaml
 
 
-  ;; Project
+;; Project
 (defun projects-refresh ()
   (interactive)
   (dolist (loc '("~/dev" "~/w"))
@@ -160,7 +158,7 @@
   ("C-x p R" . projects-refresh))
 
 
-  ;; Compile
+;; Compile
 (use-package compile
   :bind
   (("<f5>" . compile)
@@ -172,6 +170,7 @@
 
 
 (use-package wgrep)
+
 ;; Grep
 (defun my-grep ()
   "Best Grep command of all time"
