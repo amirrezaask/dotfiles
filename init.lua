@@ -242,6 +242,7 @@ vim.keymap.set("n", "<f1>", ToggleColor, { desc = "Toggle color mode" })
 use({
 	{ "rose-pine/neovim", name = "rose-pine", opts = { disable_italics = true, disable_background = TRANSPARENT } },
 	'Mofiqul/vscode.nvim',
+'kvrohit/mellow.nvim',
 	{
 		"ellisonleao/gruvbox.nvim",
 		opts = {
@@ -407,4 +408,4 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup(plugins_config) -- setup plugins
 
 vim.opt.background='light'
-vim.cmd.colorscheme("vscode")
+vim.cmd.colorscheme("mellow")
