@@ -107,13 +107,6 @@
   (("C-S-n" . 'mc/mark-next-like-this)
    ("C-S-p" . 'mc/mark-previous-like-this)))
 
-(use-package iedit
-  :init
-  (setq iedit-toggle-key-default nil)
-  :bind
-  ("C-S-d" . 'iedit-mode))
-
-
 ;; Git
 (use-package magit
   :bind
