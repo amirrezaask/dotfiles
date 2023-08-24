@@ -128,8 +128,8 @@ use({
 			vim.keymap.set("n", "<leader>l", "<cmd>Gitsigns blame_line<CR>")
 		end,
 	},
-	'tpope/vim-fugitive',
-	'junegunn/gv.vim'
+	"tpope/vim-fugitive",
+	"junegunn/gv.vim",
 })
 
 -- editor
@@ -241,8 +241,9 @@ vim.keymap.set("n", "<f1>", ToggleColor, { desc = "Toggle color mode" })
 
 use({
 	{ "rose-pine/neovim", name = "rose-pine", opts = { disable_italics = true, disable_background = TRANSPARENT } },
-	'Mofiqul/vscode.nvim',
-'kvrohit/mellow.nvim',
+	"Mofiqul/vscode.nvim",
+	"kvrohit/mellow.nvim",
+	"folke/tokyonight.nvim",
 	{
 		"ellisonleao/gruvbox.nvim",
 		opts = {
@@ -407,5 +408,5 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 vim.opt.rtp:prepend(lazypath)
 require("lazy").setup(plugins_config) -- setup plugins
 
-vim.opt.background='light'
-vim.cmd.colorscheme("mellow")
+vim.opt.background = "light"
+vim.cmd.colorscheme("vscode")

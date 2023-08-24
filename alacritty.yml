@@ -12,10 +12,10 @@ window:
   option_as_alt: Both
   startup_mode: Maximized 
 
-colors:
-  primary:
-    background: '#FFFFFF'
-    foreground: '#343434'
+# colors:
+#   primary:
+    # background: '#FFFFFF'
+    # foreground: '#343434'
 
 key_bindings:
   - { key: Equals,         mods: Control,                         action: IncreaseFontSize }
