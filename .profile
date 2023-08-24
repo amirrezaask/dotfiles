@@ -26,6 +26,11 @@ then
     eval $(brew shellenv)
 fi
 
+if command -v opam &> /dev/null
+then
+    eval $(opam env)
+fi
+
 # Mabna
 alias mabna-up='sudo ipsec up corp'
 alias mabna-down='sudo ipsec down corp'

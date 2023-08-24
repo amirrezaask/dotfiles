@@ -227,12 +227,23 @@ use({
 	end,
 })
 
+local function light_theme()
+	vim.cmd.colorscheme("vscode")
+end
+
+
+local function dark_theme()
+	vim.cmd.colorscheme("fleet")
+end
+
 -- colorscheme
 function ToggleColor()
 	if vim.o.background == "dark" then
 		vim.o.background = "light"
+		light_theme()
 	else
 		vim.o.background = "dark"
+		dark_theme()
 	end
 end
 
@@ -242,7 +253,9 @@ vim.keymap.set("n", "<f1>", ToggleColor, { desc = "Toggle color mode" })
 use({
 	{ "rose-pine/neovim", name = "rose-pine", opts = { disable_italics = true, disable_background = TRANSPARENT } },
 	"Mofiqul/vscode.nvim",
+	'ishan9299/modus-theme-vim',
 	"kvrohit/mellow.nvim",
+	"felipeagc/fleet-theme-nvim",
 	"folke/tokyonight.nvim",
 	{
 		"ellisonleao/gruvbox.nvim",
@@ -408,5 +421,4 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 vim.opt.rtp:prepend(lazypath)
 require("lazy").setup(plugins_config) -- setup plugins
 
-vim.opt.background = "light"
-vim.cmd.colorscheme("vscode")
+vim.cmd.colorscheme("fleet")
