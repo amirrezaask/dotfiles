@@ -1,4 +1,5 @@
 (setq gc-cons-threshold 100000000) ;; 100 MB
+(setq vc-follow-symlinks t)
 (setq package-enable-at-startup nil)
 (defvar bootstrap-version)
 (let ((bootstrap-file
@@ -133,14 +134,15 @@
 
 
 
-  ;; languages
-  (use-package go-mode)
-  (use-package yaml-mode)
-  (use-package json-mode)
-  (use-package rust-mode)
-  (when (< emacs-major-version 29)
-    (use-package csharp-mode))
-  (use-package typescript-mode)
+;; languages
+(use-package go-mode)
+(use-package yaml-mode)
+(use-package json-mode)
+(use-package rust-mode)
+(when (< emacs-major-version 29)
+  (use-package csharp-mode))
+(use-package typescript-mode)
+(use-package tuareg) ;; ocaml
 
 
   ;; Project
@@ -169,34 +171,34 @@
    ("k" . kill-compilation)))
 
 
-  (use-package wgrep)
-    ;; Grep
-  (defun my-grep ()
-    "Best Grep command of all time"
-    (interactive)
-    (let* ((rg-command "rg -n -H --no-heading -e '%s' %s")
-	   (gnu-grep-command "grep -rn '%s' %s")
-	   (base-command gnu-grep-command)
-	   (pattern (read-string "Pattern: "))
-	   (dir (read-file-name "Dir: " (if (project-root (project-current)) (project-root (project-current)) default-directory))))
+(use-package wgrep)
+;; Grep
+(defun my-grep ()
+  "Best Grep command of all time"
+  (interactive)
+  (let* ((rg-command "rg -n -H --no-heading -e '%s' %s")
+	 (gnu-grep-command "grep -rn '%s' %s")
+	 (base-command gnu-grep-command)
+	 (pattern (read-string "Pattern: "))
+	 (dir (read-file-name "Dir: " (if (project-root (project-current)) (project-root (project-current)) default-directory))))
     
-      (when (executable-find "rg") (setq base-command rg-command))
-      (compilation-start (format base-command pattern dir) #'grep-mode)))
+    (when (executable-find "rg") (setq base-command rg-command))
+    (compilation-start (format base-command pattern dir) #'grep-mode)))
 
-  (global-set-key (kbd "C-x C-g") 'my-grep)
+(global-set-key (kbd "C-x C-g") 'my-grep)
 
 
-  (defun eglot-save-with-imports () (interactive)
-	 (eglot-format-buffer)
-	 (eglot-code-actions nil nil "source.organizeImports" t))
+(defun eglot-save-with-imports () (interactive)
+       (eglot-format-buffer)
+       (eglot-code-actions nil nil "source.organizeImports" t))
 
-  (add-hook 'go-mode-hook (lambda ()
-			    (add-hook 'before-save-hook 'eglot-save-with-imports nil t)))
+(add-hook 'go-mode-hook (lambda ()
+			  (add-hook 'before-save-hook 'eglot-save-with-imports nil t)))
 
-  (use-package eglot
-    :hook
-    ((go-mode rust-mode) . eglot-ensure)
-    :bind
-    (:map eglot-mode-map
-	  ("C-x C-l" . eglot-save-with-imports)
-	  ("C-c C-c" . eglot-code-actions)))
+(use-package eglot
+  :hook
+  ((go-mode rust-mode) . eglot-ensure)
+  :bind
+  (:map eglot-mode-map
+	("C-x C-l" . eglot-save-with-imports)
+	("C-c C-c" . eglot-code-actions)))
