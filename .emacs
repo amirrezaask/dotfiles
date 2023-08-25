@@ -34,6 +34,8 @@
 (global-unset-key (kbd "C-SPC"))
 
 (global-set-key (kbd "C-o") 'other-window)
+(global-set-key (kbd "C-2") 'split-window-below)
+(global-set-key (kbd "C-3") 'split-window-right)
 
 (setq use-short-answers t)
 (setq mac-command-modifier 'meta) ;; macos again
