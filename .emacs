@@ -35,19 +35,19 @@
 (global-set-key (kbd "C-o") 'other-window)
 
 (setq use-short-answers t)
-
 (setq mac-command-modifier 'meta) ;; macos again
 
 ;; PATH
 (defun home (path)
   (expand-file-name path (getenv "HOME")))
-
 (add-to-list 'exec-path (home ".local/bin"))
 (add-to-list 'exec-path (home ".cargo/bin"))
-(when (eq system-type 'darwin) (add-to-list 'exec-path "/opt/homebrew/bin")) ;; homebrew
+(add-to-list 'exec-path "/opt/homebrew/bin")) ;; homebrew
 (add-to-list 'exec-path (home "bin")) ;; GOPATH/bin
-(add-to-list 'exec-path (home ".opam/5.0.0/bin"))
+(add-to-list 'exec-path (home ".opam/5.0.0/bin")) ;; ocaml my caml
 (add-to-list 'exec-path (home ".opam/default/bin"))
+(setenv "PATH" (string-join exec-path ":")) ;; set emacs process PATH
+
 
 (global-set-key (kbd "C-x i") (lambda ()
 				(interactive)
