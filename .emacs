@@ -220,6 +220,10 @@
 (unless has-eglot
   (straight-use-package 'eglot))
 
+(when has-ts
+  (add-hook 'go-ts-mode-hook #'eglot-ensure)
+  (add-hook 'rust-ts-mode-hook #'eglot-ensure))
+
 (use-package eglot
   :straight nil
   :hook
