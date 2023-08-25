@@ -232,7 +232,15 @@
   :bind
   (:map eglot-mode-map
 	("C-x C-l" . eglot-save-with-imports)
+	("M-i" . eglot-find-implementations)
 	("C-c C-c" . eglot-code-actions)))
+
+;; xref
+(use-package xref
+  :straight nil
+  :bind
+  (("M-." . xref-find-definitions)
+   ("M-r" . xref-find-references)))
 
 ;; New Treesitter support in Emacs 29
 (use-package treesit-auto
