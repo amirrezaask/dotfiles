@@ -90,16 +90,19 @@
 (use-package gruber-darker-theme)
 (setq custom-safe-themes t)
 
+(setq amirreza/dark-theme 'naysayer)
+(setq amirreza/light-theme 'ef-light)
+
 (setq amirreza/color-mode 'dark) ;; 'light
 (defun amirreza/light-mode ()
   (interactive)
   (setq amirreza/color-mode 'light)
-  (load-theme 'ef-light))
+  (load-theme amirreza/light-theme))
 
 (defun amirreza/dark-mode ()
   (interactive)
   (setq amirreza/color-mode 'dark)
-  (load-theme 'fleetish))
+  (load-theme amirreza/dark-theme))
 
 (defun amirreza/toggle-color-mode ()
   (interactive)
