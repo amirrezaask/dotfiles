@@ -27,3 +27,4 @@
 	st = status
 	co = checkout
 	re = rebase
+	s = status 

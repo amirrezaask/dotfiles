@@ -42,7 +42,7 @@
   (expand-file-name path (getenv "HOME")))
 (add-to-list 'exec-path (home ".local/bin"))
 (add-to-list 'exec-path (home ".cargo/bin"))
-(add-to-list 'exec-path "/opt/homebrew/bin")) ;; homebrew
+(add-to-list 'exec-path "/opt/homebrew/bin") ;; homebrew
 (add-to-list 'exec-path (home "bin")) ;; GOPATH/bin
 (add-to-list 'exec-path (home ".opam/5.0.0/bin")) ;; ocaml my caml
 (add-to-list 'exec-path (home ".opam/default/bin"))
