@@ -16,6 +16,9 @@
 
 (straight-use-package 'use-package)
 
+(setq has-eglot (>= emacs-major-version 29))
+(setq has-ts (>= emacs-major-version 29))
+
 (setq straight-use-package-by-default t)
 
 (global-set-key (kbd "C-=") (lambda () (interactive) (text-scale-increase 1)))
@@ -29,6 +32,8 @@
 (global-set-key (kbd "C-q") 'set-mark-command) ;; better key to start a selection
 (global-unset-key (kbd "C-SPC"))
 
+(global-set-key (kbd "C-o") 'other-window)
+
 (setq use-short-answers t)
 
 (setq mac-command-modifier 'meta) ;; macos again
@@ -39,7 +44,7 @@
 
 (global-set-key (kbd "C-x i") (lambda ()
 				(interactive)
-				(find-file (expand-file-name "init.el" user-emacs-directory))))
+				(find-file (expand-file-name ".emacs" (getenv "HOME")))))
 
 (setq inhibit-startup-screen t) ;; disable default start screen
 
@@ -207,10 +212,23 @@
 (add-hook 'go-mode-hook (lambda ()
 			  (add-hook 'before-save-hook 'eglot-save-with-imports nil t)))
 
+
+;; Eglot is included in emacs 29
+(unless has-eglot
+  (straight-use-package 'eglot))
+
 (use-package eglot
+  :straight nil
   :hook
   ((go-mode rust-mode tuareg-mode) . eglot-ensure) ;; Go + Rust + Ocaml
   :bind
   (:map eglot-mode-map
 	("C-x C-l" . eglot-save-with-imports)
 	("C-c C-c" . eglot-code-actions)))
+
+;; New Treesitter support in Emacs 29
+(use-package treesit-auto
+  :custom
+  (treesit-auto-install 'prompt)
+  :config
+  (global-treesit-auto-mode))
