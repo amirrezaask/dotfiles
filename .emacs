@@ -38,18 +38,22 @@
 
 (setq mac-command-modifier 'meta) ;; macos again
 
-(use-package exec-path-from-shell ;; use $PATH from default shell
-  :init
-  (exec-path-from-shell-initialize))
+;; PATH
+(defun home (path)
+  (expand-file-name path (getenv "HOME")))
+
+(add-to-list 'exec-path (home ".local/bin"))
+(add-to-list 'exec-path (home ".cargo/bin"))
+(when (eq system-type 'darwin) (add-to-list 'exec-path "/opt/homebrew/bin")) ;; homebrew
+(add-to-list 'exec-path (home "bin")) ;; GOPATH/bin
+(add-to-list 'exec-path (home ".opam/5.0.0/bin"))
+(add-to-list 'exec-path (home ".opam/default/bin"))
 
 (global-set-key (kbd "C-x i") (lambda ()
 				(interactive)
 				(find-file (expand-file-name ".emacs" (getenv "HOME")))))
 
 (setq inhibit-startup-screen t) ;; disable default start screen
-
-(when (< (frame-width) 162)
-  (setq split-width-threshold nil))
 
 (setq recenter-positions '(middle))
 
@@ -83,7 +87,7 @@
 (use-package ef-themes)
 (use-package amirreza-themes :straight (amirreza-themes :host github :repo "amirrezaask/themes" :local-repo "amirreza-themes"))
 (use-package gruber-darker-theme)
-
+(setq custom-safe-themes t)
 
 (setq amirreza/color-mode 'dark) ;; 'light
 (defun amirreza/light-mode ()
@@ -100,7 +104,6 @@
   (interactive)
   (if (eq amirreza/color-mode 'dark) (amirreza/light-mode) (amirreza/dark-mode)))
 (global-set-key (kbd "<f1>") 'amirreza/toggle-color-mode)
-
 
 (amirreza/dark-mode) ;; load dark mode by default
 
