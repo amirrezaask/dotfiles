@@ -25,6 +25,7 @@
 (global-set-key (kbd "C--") (lambda () (interactive) (text-scale-decrease 1)))
 (setq ring-bell-function (lambda ())) ;; no stupid sounds
 
+(set-frame-parameter nil 'fullscreen 'maximized)
 (setq custom-file "~/.custom.el") ;; set custom file to not meddle with init.el
 (setq make-backup-files nil) ;; no emacs ~ backup files
 (setq image-types (cons 'svg image-types)) ;; macos bug
