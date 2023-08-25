@@ -74,17 +74,37 @@
     (disable-theme i)))
 
 (use-package doom-themes)
+(use-package fleetish-theme)
 (use-package ef-themes)
 (use-package amirreza-themes :straight (amirreza-themes :host github :repo "amirrezaask/themes" :local-repo "amirreza-themes"))
 (use-package gruber-darker-theme)
 
-(load-theme 'naysayer t) ;;
 
-  (use-package vertico
-    :init
-    (setq vertico-cycle t)
-    (setq vertico-count 25)
-    (vertico-mode))
+(setq amirreza/color-mode 'dark) ;; 'light
+(defun amirreza/light-mode ()
+  (interactive)
+  (setq amirreza/color-mode 'light)
+  (load-theme 'ef-light))
+
+(defun amirreza/dark-mode ()
+  (interactive)
+  (setq amirreza/color-mode 'dark)
+  (load-theme 'fleetish))
+
+(defun amirreza/toggle-color-mode ()
+  (interactive)
+  (if (eq amirreza/color-mode 'dark) (amirreza/light-mode) (amirreza/dark-mode)))
+(global-set-key (kbd "<f1>") 'amirreza/toggle-color-mode)
+
+
+(amirreza/dark-mode) ;; load dark mode by default
+
+;; vertico minibuffer
+(use-package vertico
+  :init
+  (setq vertico-cycle t)
+  (setq vertico-count 25)
+  (vertico-mode))
 
 (use-package orderless
   :init
@@ -189,7 +209,7 @@
 
 (use-package eglot
   :hook
-  ((go-mode rust-mode tuareg-mode) . eglot-ensure)
+  ((go-mode rust-mode tuareg-mode) . eglot-ensure) ;; Go + Rust + Ocaml
   :bind
   (:map eglot-mode-map
 	("C-x C-l" . eglot-save-with-imports)
