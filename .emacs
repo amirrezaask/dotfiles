@@ -92,7 +92,7 @@
 (use-package gruber-darker-theme)
 (setq custom-safe-themes t)
 
-(setq amirreza/dark-theme 'naysayer)
+(setq amirreza/dark-theme 'doom-dracula)
 (setq amirreza/light-theme 'ef-light)
 
 (setq amirreza/color-mode 'dark) ;; 'light
