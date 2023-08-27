@@ -109,7 +109,7 @@
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "C-x i") (lambda ()
 				(interactive)
-				(find-file (expand-file-name ".emacs" (getenv "HOME")))))
+				(find-file (expand-file-name "README.org" user-emacs-directory))))
 
 #+END_SRC
 * UI
@@ -390,5 +390,5 @@
     (compilation-start (format base-command pattern dir) #'grep-mode)))
 
 (global-set-key (kbd "C-x C-g") 'my-grep)
-
+(global-set-key (kbd "C-.") 'my-grep)
 #+END_SRC
