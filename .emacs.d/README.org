@@ -197,14 +197,14 @@
       (global-treesit-auto-mode)))
 #+END_SRC
 * Font
-*** Change font size
 #+BEGIN_SRC emacs-lisp
-(global-set-key (kbd "C-=") (lambda () (interactive) (text-scale-increase 1)))
-(global-set-key (kbd "C--") (lambda () (interactive) (text-scale-decrease 1)))
-#+END_SRC
-*** Set font
-#+BEGIN_SRC emacs-lisp
-(set-frame-font "Jetbrains Mono 12")
+  (defun amirreza/set-font (family size)
+    (interactive (list (completing-read "Font Family: " '("Jetbrains Mono" "Fira Code")) (read-number "Size: ")))
+    (set-frame-font (format "%s-%d" family size)))
+
+  (global-set-key (kbd "C-=") (lambda () (interactive) (text-scale-increase 1)))
+  (global-set-key (kbd "C--") (lambda () (interactive) (text-scale-decrease 1)))
+  (amirreza/set-font "Jetbrains Mono" 15)
 #+END_SRC
 * Navigation
 *** Fast scrolling around the files
