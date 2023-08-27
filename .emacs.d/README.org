@@ -119,6 +119,10 @@
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 #+END_SRc
+*** Better Frame title
+#+BEGIN_SRC emacs-lisp
+  (setq frame-title-format "%f")
+#+END_SRC
 *** No startup screen
 #+BEGIN_SRC emacs-lisp
 (setq inhibit-startup-screen t) ;; disable default start screen
@@ -246,7 +250,10 @@
 *** Org
 #+BEGIN_SRC emacs-lisp
   (use-package toc-org
-    :hook (org-mode . toc-org))
+    :hook (org-mode . toc-org)
+    :init
+    (setq org-startup-folded t)
+    )
 #+END_SRC
 * File manager
 #+BEGIN_SRC emacs-lisp
