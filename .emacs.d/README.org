@@ -159,7 +159,7 @@
   (use-package gruber-darker-theme)
   (setq custom-safe-themes t)
 
-  (setq amirreza/dark-theme 'modus-vivendi)
+  (setq amirreza/dark-theme 'doom-dracula)
   (setq amirreza/light-theme 'modus-operandi)
 
   (setq amirreza/color-mode 'dark) ;; 'light
@@ -189,11 +189,12 @@
 #+END_SRC
 *** Treesitter ( Emacs >29)
 #+BEGIN_SRC emacs-lisp
-(use-package treesit-auto
-  :custom
-  (treesit-auto-install 'prompt)
-  :config
-  (global-treesit-auto-mode))
+  (when has-ts
+    (use-package treesit-auto
+      :custom
+      (treesit-auto-install 'prompt)
+      :config
+      (global-treesit-auto-mode)))
 #+END_SRC
 * Font
 *** Change font size
@@ -251,9 +252,12 @@
 #+BEGIN_SRC emacs-lisp
   (use-package toc-org
     :hook (org-mode . toc-org)
+    :bind
+    (:map org-src-mode-map
+	  ("C-c C-c" . org-edit-src-exit))
     :init
     (setq org-startup-folded t)
-    )
+    (setq org-src-window-setup 'current-window))
 #+END_SRC
 * File manager
 #+BEGIN_SRC emacs-lisp
@@ -268,8 +272,6 @@
 #+END_SRC
 * Minibuffer
 #+BEGIN_SRC emacs-lisp
-  
-;; vertico minibuffer
 (use-package vertico
   :init
   (setq vertico-cycle t)
