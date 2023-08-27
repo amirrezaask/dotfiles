@@ -288,30 +288,32 @@
 *** LSP
 #+BEGIN_SRC emacs-lisp
   (defun eglot-save-with-imports () (interactive)
-       (eglot-format-buffer)
-       (eglot-code-actions nil nil "source.organizeImports" t))
+	 (eglot-format-buffer)
+	 (eglot-code-actions nil nil "source.organizeImports" t))
 
-(add-hook 'go-mode-hook (lambda ()
-			  (add-hook 'before-save-hook 'eglot-save-with-imports nil t)))
+  (add-hook 'go-mode-hook (lambda ()
+			    (add-hook 'before-save-hook 'eglot-save-with-imports nil t)))
 
+  (add-hook 'go-ts-mode-hook (lambda ()
+			    (add-hook 'before-save-hook 'eglot-save-with-imports nil t)))
 
-;; Eglot is included in emacs 29
-(unless has-eglot
-  (straight-use-package 'eglot))
+  ;; Eglot is included in emacs 29
+  (unless has-eglot
+    (straight-use-package 'eglot))
 
-(when has-ts
-  (add-hook 'go-ts-mode-hook #'eglot-ensure)
-  (add-hook 'rust-ts-mode-hook #'eglot-ensure))
+  (when has-ts
+    (add-hook 'go-ts-mode-hook #'eglot-ensure)
+    (add-hook 'rust-ts-mode-hook #'eglot-ensure))
 
-(use-package eglot
-  :straight nil
-  :hook
-  ((go-mode rust-mode tuareg-mode) . eglot-ensure) ;; Go + Rust + Ocaml
-  :bind
-  (:map eglot-mode-map
-	("C-x C-l" . eglot-save-with-imports)
-	("M-i" . eglot-find-implementations)
-	("C-c C-c" . eglot-code-actions)))
+  (use-package eglot
+    :straight nil
+    :hook
+    ((go-mode rust-mode tuareg-mode) . eglot-ensure) ;; Go + Rust + Ocaml
+    :bind
+    (:map eglot-mode-map
+	  ("C-x C-l" . eglot-save-with-imports)
+	  ("M-i" . eglot-find-implementations)
+	  ("C-c C-c" . eglot-code-actions)))
 #+END_SRC
 *** Autocompletion
 #+BEGIN_SRC emacs-lisp
