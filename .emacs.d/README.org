@@ -123,6 +123,10 @@
 #+BEGIN_SRC emacs-lisp
   (setq frame-title-format "%f")
 #+END_SRC
+*** Cursor
+#+BEGIN_SRC emacs-lisp
+  (setq cursor-type 'bar)
+#+END_SRC
 *** No startup screen
 #+BEGIN_SRC emacs-lisp
 (setq inhibit-startup-screen t) ;; disable default start screen
