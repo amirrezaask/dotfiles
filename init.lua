@@ -235,7 +235,7 @@ end
 
 local function dark_theme()
 	vim.o.background = "dark"
-	vim.cmd.colorscheme("nightfly")
+	vim.cmd.colorscheme("gruvbox")
 end
 
 -- colorscheme

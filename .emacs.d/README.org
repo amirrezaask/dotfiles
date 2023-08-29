@@ -163,7 +163,7 @@
   (use-package gruber-darker-theme)
   (setq custom-safe-themes t)
 
-  (setq amirreza/dark-theme 'doom-dracula)
+  (setq amirreza/dark-theme 'fleetish)
   (setq amirreza/light-theme 'modus-operandi)
 
   (setq amirreza/color-mode 'dark) ;; 'light
@@ -190,15 +190,6 @@
 (global-set-key (kbd "C-o") 'other-window)
 (global-set-key (kbd "C-2") 'split-window-below)
 (global-set-key (kbd "C-3") 'split-window-right)
-#+END_SRC
-*** Treesitter ( Emacs >29)
-#+BEGIN_SRC emacs-lisp
-  (when has-ts
-    (use-package treesit-auto
-      :custom
-      (treesit-auto-install 'prompt)
-      :config
-      (global-treesit-auto-mode)))
 #+END_SRC
 * Font
 #+BEGIN_SRC emacs-lisp
@@ -398,3 +389,4 @@
 (global-set-key (kbd "C-x C-g") 'my-grep)
 (global-set-key (kbd "C-.") 'my-grep)
 #+END_SRC
+* Keybindings
