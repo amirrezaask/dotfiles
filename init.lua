@@ -235,9 +235,8 @@ end
 
 local function dark_theme()
 	vim.o.background = "dark"
-	vim.cmd.colorscheme("gruvbox")
+	vim.cmd.colorscheme("gruvme")
 end
-
 -- colorscheme
 function ToggleColor()
 	if vim.o.background == "dark" then
@@ -253,6 +252,7 @@ vim.keymap.set("n", "<f1>", ToggleColor, { desc = "Toggle color mode" })
 use({
 	{ "rose-pine/neovim", name = "rose-pine", opts = { disable_italics = true, disable_background = TRANSPARENT } },
 	"Mofiqul/vscode.nvim",
+	{ "amirrezaask/themes", name = "amirreza-themes"},
 	{ "bluz71/vim-nightfly-colors", name = "nightfly", lazy = false, priority = 1000 },
 	'ishan9299/modus-theme-vim',
 	"kvrohit/mellow.nvim",
