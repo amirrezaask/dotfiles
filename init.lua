@@ -91,7 +91,6 @@ vim.keymap.set({ "i", "n", "t" }, "<C-j>", "<cmd>tabprev<CR>")
 vim.keymap.set({ "i", "n", "t" }, "<C-,>", "<cmd>tabnew<CR>")
 vim.keymap.set({ "i", "n", "t" }, "<C-;>", open_term)
 
-TRANSPARENT = true
 -- lazy installation code
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -226,54 +225,26 @@ use({
 		pcall(require("nvim-treesitter.install").update({ with_sync = true }))
 	end,
 })
-
-local function light_theme()
-	vim.o.background = "light"
-	vim.cmd.colorscheme("vscode")
+function TransparentMe()
+	vim.cmd([[ 
+		hi Normal guibg=none 
+		hi NormalNC guibg=none 
+		hi NormalFloat guibg=none
+        hi SignColumn guibg=none
+	]])
 end
 
-
-local function dark_theme()
+function ColorMe()
 	vim.o.background = "dark"
 	vim.cmd.colorscheme("rose-pine")
-	vim.cmd [[ hi LineNr guifg=#5eacd3 ]]
-end
-local function transparent()
-	if TRANSPARENT then
-		vim.cmd [[ hi Normal guibg=none ]]
-	end
-end
--- colorscheme
-function ToggleColor()
-	if vim.o.background == "dark" then
-		light_theme()
-	else
-		dark_theme()
-	end
+	vim.cmd([[ hi LineNr guifg=#5eacd3 ]])
 end
 
-vim.cmd([[ command! Toggle lua ToggleColor()]])
-vim.keymap.set("n", "<f1>", ToggleColor, { desc = "Toggle color mode" })
-
+-- colorschemes
 use({
-	{ "rose-pine/neovim", name = "rose-pine", opts = { disable_italics = true, disable_background = TRANSPARENT } },
-	"Mofiqul/vscode.nvim",
-	{ "amirrezaask/themes", name = "amirreza-themes"},
-	"kvrohit/mellow.nvim",
+	{ "rose-pine/neovim", name = "rose-pine", opts = {disable_italics = true} },
 	"felipeagc/fleet-theme-nvim",
-	{
-		"ellisonleao/gruvbox.nvim",
-		opts = {
-			contrast = "hard",
-			italic = {
-				strings = false,
-				comments = false,
-				operators = false,
-				folds = false,
-			},
-			transparent_mode = TRANSPARENT,
-		},
-	},
+	{ "ellisonleao/gruvbox.nvim", opts = { contrast = "hard", italic = { strings = false, comments = false, operators = false, folds = false } } },
 })
 
 -- telescope
@@ -425,6 +396,5 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 vim.opt.rtp:prepend(lazypath)
 require("lazy").setup(plugins_config) -- setup plugins
 
-dark_theme()
-transparent()
-
+ColorMe()
+TransparentMe()
