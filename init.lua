@@ -91,7 +91,7 @@ vim.keymap.set({ "i", "n", "t" }, "<C-j>", "<cmd>tabprev<CR>")
 vim.keymap.set({ "i", "n", "t" }, "<C-,>", "<cmd>tabnew<CR>")
 vim.keymap.set({ "i", "n", "t" }, "<C-;>", open_term)
 
-TRANSPARENT = false
+TRANSPARENT = true
 -- lazy installation code
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -235,7 +235,12 @@ end
 
 local function dark_theme()
 	vim.o.background = "dark"
-	vim.cmd.colorscheme("gruvme")
+	vim.cmd.colorscheme("rose-pine")
+end
+local function transparent()
+	if TRANSPARENT then
+		vim.cmd [[ hi Normal guibg=none ]]
+	end
 end
 -- colorscheme
 function ToggleColor()
@@ -253,11 +258,8 @@ use({
 	{ "rose-pine/neovim", name = "rose-pine", opts = { disable_italics = true, disable_background = TRANSPARENT } },
 	"Mofiqul/vscode.nvim",
 	{ "amirrezaask/themes", name = "amirreza-themes"},
-	{ "bluz71/vim-nightfly-colors", name = "nightfly", lazy = false, priority = 1000 },
-	'ishan9299/modus-theme-vim',
 	"kvrohit/mellow.nvim",
 	"felipeagc/fleet-theme-nvim",
-	"folke/tokyonight.nvim",
 	{
 		"ellisonleao/gruvbox.nvim",
 		opts = {
@@ -423,4 +425,5 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup(plugins_config) -- setup plugins
 
 dark_theme()
+transparent()
 
