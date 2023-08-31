@@ -236,6 +236,7 @@ end
 local function dark_theme()
 	vim.o.background = "dark"
 	vim.cmd.colorscheme("rose-pine")
+	vim.cmd [[ hi LineNr guifg=#5eacd3 ]]
 end
 local function transparent()
 	if TRANSPARENT then
