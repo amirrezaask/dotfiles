@@ -43,6 +43,15 @@
     - [[#compiling][Compiling]]
 - [[#searching][Searching]]
 
+* Installation
+In order to install this config you need:
+- Emacs 25+ (Current emacs version is 29)
+the run commands below:
+#+BEGIN_SRC bash :tangle no
+  mkdir -p ~/.emacs.d/
+  curl 'https://raw.githubusercontent.com/amirrezaask/dotfiles/master/.emacs.d/init.el' > ~/.emacs.d/init.el
+  curl 'https://raw.githubusercontent.com/amirrezaask/dotfiles/master/.emacs.d/README.org' > ~/.emacs.d/README.org
+#+END_SRC
 * Basics and Core Emacs
 *** GC
 #+BEGIN_SRC emacs-lisp
@@ -163,7 +172,7 @@
   (use-package gruber-darker-theme)
   (setq custom-safe-themes t)
 
-  (setq amirreza/dark-theme 'fleetish)
+  (setq amirreza/dark-theme 'ef-winter)
   (setq amirreza/light-theme 'modus-operandi)
 
   (setq amirreza/color-mode 'dark) ;; 'light
