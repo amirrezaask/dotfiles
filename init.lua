@@ -245,7 +245,7 @@ end
 
 function ColorMe()
 	vim.o.background = "dark"
-	vim.cmd.colorscheme("rose-pine")
+	vim.cmd.colorscheme("tokyonight")
 	vim.cmd([[ hi LineNr guifg=#5eacd3 ]])
 end
 
@@ -253,6 +253,7 @@ end
 use({
 	{ "rose-pine/neovim", name = "rose-pine", opts = {disable_italics = true} },
 	"felipeagc/fleet-theme-nvim",
+	"folke/tokyonight.nvim",
 	{ "ellisonleao/gruvbox.nvim", opts = { contrast = "hard", italic = { strings = false, comments = false, operators = false, folds = false } } },
 })
 
