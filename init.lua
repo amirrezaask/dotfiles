@@ -130,6 +130,15 @@ use({
 	"tpope/vim-fugitive",
 	"junegunn/gv.vim",
 })
+-- statusline
+use({
+	'nvim-lualine/lualine.nvim',
+	config = function()
+		require"lualine".setup {
+
+		}
+	end
+})
 
 -- editor
 use({
