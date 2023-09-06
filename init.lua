@@ -234,19 +234,25 @@ use({
 		pcall(require("nvim-treesitter.install").update({ with_sync = true }))
 	end,
 })
-function TransparentMe()
+
+function ColorMeDaddy()
+	math.randomseed(os.time())
+	vim.o.background = "dark"
+	local colorschemes = {
+		'rose-pine',
+		'gruvbox',
+		'fleet',
+		'tokyonight-night'
+	}
+	-- vim.cmd.colorscheme(colorschemes[math.random(#colorschemes)])
+	vim.cmd.colorscheme(colorschemes[1])
+	vim.cmd([[ hi LineNr guifg=#5eacd3 ]])
 	vim.cmd([[ 
 		hi Normal guibg=none 
 		hi NormalNC guibg=none 
 		hi NormalFloat guibg=none
         hi SignColumn guibg=none
 	]])
-end
-
-function ColorMe()
-	vim.o.background = "dark"
-	vim.cmd.colorscheme("tokyonight")
-	vim.cmd([[ hi LineNr guifg=#5eacd3 ]])
 end
 
 -- colorschemes
@@ -406,5 +412,4 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 vim.opt.rtp:prepend(lazypath)
 require("lazy").setup(plugins_config) -- setup plugins
 
-ColorMe()
-TransparentMe()
+ColorMeDaddy()
