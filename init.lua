@@ -22,7 +22,7 @@ vim.opt.shortmess:append("c") -- Don't pass messages to |ins-completion-menu|.
 vim.opt.shortmess:append("I") -- No Intro message
 vim.opt.splitbelow = true
 vim.opt.splitright = true
-vim.opt.cursorline = false
+vim.opt.cursorline = true
 vim.opt.sw = 4
 vim.opt.ts = 4
 vim.opt.expandtab = true
@@ -235,17 +235,16 @@ use({
 	end,
 })
 
-function ColorMeDaddy()
-	math.randomseed(os.time())
+function ColorMeDaddy(color)
+	if color == nil then
+		vim.ui.select({
+			"rose-pine", "tokyonight", "fleet", "gruvbox",
+		}, {prompt = "Colorscheme> "}, function(choice)
+			ColorMeDaddy(choice)
+		end)
+	end
 	vim.o.background = "dark"
-	local colorschemes = {
-		'rose-pine',
-		'gruvbox',
-		'fleet',
-		'tokyonight-night'
-	}
-	-- vim.cmd.colorscheme(colorschemes[math.random(#colorschemes)])
-	vim.cmd.colorscheme(colorschemes[1])
+	vim.cmd.colorscheme(color)
 	vim.cmd([[ hi LineNr guifg=#5eacd3 ]])
 	vim.cmd([[ 
 		hi Normal guibg=none 
@@ -412,4 +411,4 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 vim.opt.rtp:prepend(lazypath)
 require("lazy").setup(plugins_config) -- setup plugins
 
-ColorMeDaddy()
+ColorMeDaddy "rose-pine"
