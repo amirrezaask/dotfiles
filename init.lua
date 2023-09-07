@@ -54,6 +54,9 @@ vim.keymap.set("n", "<C-w>=", "<cmd>wincmd =<CR>")
 vim.keymap.set("i", "<C-c>", "<esc>")
 vim.keymap.set("i", "jk", "<ESC>")
 vim.keymap.set("i", "kj", "<ESC>")
+-- splits
+vim.keymap.set("n", "<leader>k", ":vsplit<cr>")
+vim.keymap.set("n", "<leader>j", ":split<cr>")
 -- Quickfix list
 vim.keymap.set({ "n" }, "<C-[>", "<cmd>cprev<CR>", { desc = "Previous quick fix list item" })
 vim.keymap.set({ "n" }, "<C-]>", "<cmd>cnext<CR>", { desc = "Next quick fix list item" })
