@@ -81,15 +81,11 @@ vim.keymap.set("n", "j", "gj")
 vim.keymap.set("n", "k", "gk")
 
 -- Terminal and Tabs
-local function open_term()
-	vim.cmd([[ tabnew | term ]])
-end
-
 vim.keymap.set("t", "<esc>", [[<C-\><C-n>]])
 vim.keymap.set({ "i", "n", "t" }, "<C-k>", "<cmd>tabnext<CR>")
 vim.keymap.set({ "i", "n", "t" }, "<C-j>", "<cmd>tabprev<CR>")
 vim.keymap.set({ "i", "n", "t" }, "<C-,>", "<cmd>tabnew<CR>")
-vim.keymap.set({ "i", "n", "t" }, "<C-;>", open_term)
+vim.keymap.set({ "i", "n", "t" }, "<C-;>", "<cmd>tabnew | term<CR>")
 
 -- lazy installation code
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
