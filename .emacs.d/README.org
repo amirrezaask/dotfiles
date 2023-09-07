@@ -164,8 +164,6 @@ the run commands below:
       (disable-theme i)))
 
   (use-package doom-themes)
-  (use-package vs-light-theme)
-  (use-package vs-dark-theme)
   (use-package fleetish-theme)
   (use-package ef-themes)
   (use-package amirreza-themes :straight (amirreza-themes :host github :repo "amirrezaask/themes" :local-repo "amirreza-themes"))
@@ -191,8 +189,7 @@ the run commands below:
     (if (eq amirreza/color-mode 'dark) (amirreza/light-mode) (amirreza/dark-mode)))
   (global-set-key (kbd "<f1>") 'amirreza/toggle-color-mode)
 
-  (amirreza/dark-mode) ;; load dark mode by default
-
+(amirreza/dark-mode) ;; load dark mode by default
 #+END_SRC
 *** Window management
 #+BEGIN_SRC emacs-lisp
