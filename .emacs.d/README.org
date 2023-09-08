@@ -163,12 +163,13 @@ the run commands below:
       (dolist (i custom-enabled-themes)
 	(disable-theme i)))
 
+    (use-package doom-themes)
     (use-package ef-themes)
     (use-package amirreza-themes :straight (amirreza-themes :host github :repo "amirrezaask/themes" :local-repo "amirreza-themes"))
     (use-package gruber-darker-theme)
     (setq custom-safe-themes t)
 
-    (setq amirreza/dark-theme 'ef-winter)
+    (setq amirreza/dark-theme 'doom-dracula)
     (setq amirreza/light-theme 'modus-operandi)
 
     (setq amirreza/color-mode 'dark) ;; 'light
@@ -188,6 +189,14 @@ the run commands below:
     (global-set-key (kbd "<f1>") 'amirreza/toggle-color-mode)
 
   (amirreza/dark-mode) ;; load dark mode by default
+#+END_SRC
+*** Modeline
+#+BEGIN_SRC emacs-lisp
+  (use-package doom-modeline
+    :init
+    (setq doom-modeline-height 35)
+    (doom-modeline-mode)
+    )
 #+END_SRC
 *** Window management
 #+BEGIN_SRC emacs-lisp
