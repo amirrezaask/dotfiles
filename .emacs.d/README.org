@@ -132,10 +132,6 @@ the run commands below:
 #+BEGIN_SRC emacs-lisp
   (setq frame-title-format "%f")
 #+END_SRC
-*** Cursor
-#+BEGIN_SRC emacs-lisp
-  (setq-default cursor-type 'bar)
-#+END_SRC
 *** No startup screen
 #+BEGIN_SRC emacs-lisp
 (setq inhibit-startup-screen t) ;; disable default start screen
@@ -189,14 +185,6 @@ the run commands below:
     (global-set-key (kbd "<f1>") 'amirreza/toggle-color-mode)
 
   (amirreza/dark-mode) ;; load dark mode by default
-#+END_SRC
-*** Modeline
-#+BEGIN_SRC emacs-lisp
-  (use-package doom-modeline
-    :init
-    (setq doom-modeline-height 35)
-    (doom-modeline-mode)
-    )
 #+END_SRC
 *** Window management
 #+BEGIN_SRC emacs-lisp
@@ -384,22 +372,21 @@ the run commands below:
 #+END_SRC
 * Searching
 #+BEGIN_SRC emacs-lisp
-(use-package wgrep)
+  (use-package wgrep)
 
-;; Grep
-(defun my-grep ()
-  "Best Grep command of all time"
-  (interactive)
-  (let* ((rg-command "rg -n -H --no-heading -e '%s' %s")
-	 (gnu-grep-command "grep -rn '%s' %s")
-	 (base-command gnu-grep-command)
-	 (pattern (read-string "Pattern: "))
-	 (dir (read-file-name "Dir: " (if (project-root (project-current)) (project-root (project-current)) default-directory))))
-    
-    (when (executable-find "rg") (setq base-command rg-command))
-    (compilation-start (format base-command pattern dir) #'grep-mode)))
+  ;; Grep
+  (defun my-grep ()
+    "Best Grep command of all time"
+    (interactive)
+    (let* ((rg-command "rg -n -H --no-heading -e '%s' %s")
+	   (gnu-grep-command "grep -rn '%s' %s")
+	   (base-command gnu-grep-command)
+	   (pattern (read-string "Pattern: "))
+	   (dir (read-file-name "Dir: " (if (project-root (project-current)) (project-root (project-current)) default-directory))))
 
-(global-set-key (kbd "C-x C-g") 'my-grep)
-(global-set-key (kbd "C-.") 'my-grep)
+      (when (executable-find "rg") (setq base-command rg-command))
+      (compilation-start (format base-command pattern dir) #'grep-mode)))
+  (global-set-key (kbd "C-x C-g") 'my-grep)
+  (global-set-key (kbd "C-.") 'my-grep)
+
 #+END_SRC
-* Keybindings
