@@ -160,36 +160,34 @@ the run commands below:
 *** Themes
 #+BEGIN_SRC emacs-lisp
     (defadvice load-theme (before disable-themes-first activate)
-    (dolist (i custom-enabled-themes)
-      (disable-theme i)))
+      (dolist (i custom-enabled-themes)
+	(disable-theme i)))
 
-  (use-package doom-themes)
-  (use-package fleetish-theme)
-  (use-package ef-themes)
-  (use-package amirreza-themes :straight (amirreza-themes :host github :repo "amirrezaask/themes" :local-repo "amirreza-themes"))
-  (use-package gruber-darker-theme)
-  (setq custom-safe-themes t)
+    (use-package ef-themes)
+    (use-package amirreza-themes :straight (amirreza-themes :host github :repo "amirrezaask/themes" :local-repo "amirreza-themes"))
+    (use-package gruber-darker-theme)
+    (setq custom-safe-themes t)
 
-  (setq amirreza/dark-theme 'ef-winter)
-  (setq amirreza/light-theme 'modus-operandi)
+    (setq amirreza/dark-theme 'ef-winter)
+    (setq amirreza/light-theme 'modus-operandi)
 
-  (setq amirreza/color-mode 'dark) ;; 'light
-  (defun amirreza/light-mode ()
-    (interactive)
-    (setq amirreza/color-mode 'light)
-    (load-theme amirreza/light-theme))
+    (setq amirreza/color-mode 'dark) ;; 'light
+    (defun amirreza/light-mode ()
+      (interactive)
+      (setq amirreza/color-mode 'light)
+      (load-theme amirreza/light-theme))
 
-  (defun amirreza/dark-mode ()
-    (interactive)
-    (setq amirreza/color-mode 'dark)
-    (load-theme amirreza/dark-theme))
+    (defun amirreza/dark-mode ()
+      (interactive)
+      (setq amirreza/color-mode 'dark)
+      (load-theme amirreza/dark-theme))
 
-  (defun amirreza/toggle-color-mode ()
-    (interactive)
-    (if (eq amirreza/color-mode 'dark) (amirreza/light-mode) (amirreza/dark-mode)))
-  (global-set-key (kbd "<f1>") 'amirreza/toggle-color-mode)
+    (defun amirreza/toggle-color-mode ()
+      (interactive)
+      (if (eq amirreza/color-mode 'dark) (amirreza/light-mode) (amirreza/dark-mode)))
+    (global-set-key (kbd "<f1>") 'amirreza/toggle-color-mode)
 
-(amirreza/dark-mode) ;; load dark mode by default
+  (amirreza/dark-mode) ;; load dark mode by default
 #+END_SRC
 *** Window management
 #+BEGIN_SRC emacs-lisp
@@ -205,7 +203,7 @@ the run commands below:
 
   (global-set-key (kbd "C-=") (lambda () (interactive) (text-scale-increase 1)))
   (global-set-key (kbd "C--") (lambda () (interactive) (text-scale-decrease 1)))
-  (amirreza/set-font "Jetbrains Mono" 15)
+  (amirreza/set-font "Fira Code" 15)
 #+END_SRC
 * Navigation
 *** Fast scrolling around the files
