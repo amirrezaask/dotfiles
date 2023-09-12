@@ -1,7 +1,10 @@
-mHIS_DIR := $(dir $(abspath $(firstword $(MAKEFILE_LIST))))
+THIS_DIR := $(dir $(abspath $(firstword $(MAKEFILE_LIST))))
 UNAME := $(shell uname)
 
-all: zsh neovim alacritty kitty tmux 
+all: profile zsh neovim alacritty kitty tmux 
+profile:
+	rm -rf $(HOME)/.profile
+	ln -s $(THIS_DIR)/.profile $(HOME)/.profile
 
 zsh:
 	rm -rf $(HOME)/.zshrc
