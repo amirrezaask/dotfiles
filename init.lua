@@ -253,6 +253,10 @@ function ColorMeDaddy(color)
 	]])
 end
 
+vim.api.nvim_create_user_command("Color", function(opts)
+	ColorMeDaddy(opts.args[1])
+end, {})
+
 -- colorschemes
 use({
 	{ "rose-pine/neovim", name = "rose-pine", opts = {disable_italics = true} },

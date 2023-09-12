@@ -165,7 +165,7 @@ the run commands below:
     (use-package gruber-darker-theme)
     (setq custom-safe-themes t)
 
-    (setq amirreza/dark-theme 'doom-dracula)
+    (setq amirreza/dark-theme 'naysayer)
     (setq amirreza/light-theme 'modus-operandi)
 
     (setq amirreza/color-mode 'dark) ;; 'light
