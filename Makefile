@@ -1,7 +1,7 @@
 mHIS_DIR := $(dir $(abspath $(firstword $(MAKEFILE_LIST))))
 UNAME := $(shell uname)
 
-all: zsh neovim alacritty kitty tmux vscode
+all: zsh neovim alacritty kitty tmux 
 
 zsh:
 	rm -rf $(HOME)/.zshrc
