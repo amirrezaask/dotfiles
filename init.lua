@@ -129,15 +129,6 @@ use({
 	"tpope/vim-fugitive",
 	"junegunn/gv.vim",
 })
--- statusline
-use({
-	'nvim-lualine/lualine.nvim',
-	config = function()
-		require"lualine".setup {
-
-		}
-	end
-})
 
 -- editor
 use({
@@ -245,12 +236,12 @@ function ColorMeDaddy(color)
 	vim.o.background = "dark"
 	vim.cmd.colorscheme(color)
 	vim.cmd([[ hi LineNr guifg=#5eacd3 ]])
-	vim.cmd([[ 
-		hi Normal guibg=none 
-		hi NormalNC guibg=none 
-		hi NormalFloat guibg=none
-        hi SignColumn guibg=none
-	]])
+	-- vim.cmd([[ 
+	-- 	hi Normal guibg=none 
+	-- 	hi NormalNC guibg=none 
+	-- 	hi NormalFloat guibg=none
+ --        hi SignColumn guibg=none
+	-- ]])
 end
 
 vim.api.nvim_create_user_command("Color", function(opts)
