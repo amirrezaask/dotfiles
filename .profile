@@ -48,4 +48,10 @@ then
     export GIT_EDITOR='nvim'
 fi
 
+if command -v code &> /dev/null
+then
+    export EDITOR='code -w'
+    export GIT_EDITOR='code -w'
+fi
+
 
