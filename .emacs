@@ -75,7 +75,7 @@
 
 (global-hl-line-mode +1)
 
-(set-frame-font "Jetbrains Mono 18")
+;; (set-frame-font "Jetbrains Mono 18")
 
 (menu-bar-mode -1)
 (tool-bar-mode -1)
@@ -92,8 +92,8 @@
 (use-package gruber-darker-theme)
 (setq custom-safe-themes t)
 
-(setq amirreza/dark-theme 'doom-dracula)
-(setq amirreza/light-theme 'ef-light)
+(setq amirreza/dark-theme 'naysayer)
+(setq amirreza/light-theme 'ef-maris-light)
 
 (setq amirreza/color-mode 'dark) ;; 'light
 (defun amirreza/light-mode ()
@@ -125,7 +125,6 @@
   (setq completion-styles '(orderless basic)
 	completion-category-defaults nil
 	completion-category-overrides '((file (styles partial-completion)))))
-
 
 (use-package corfu
   :bind
@@ -169,22 +168,6 @@
 (use-package typescript-mode)
 (use-package tuareg) ;; ocaml
 
-
-;; Project
-(defun projects-refresh ()
-  (interactive)
-  (dolist (loc '("~/dev" "~/w"))
-    (project-remember-projects-under loc)))
-
-(use-package project
-  :commands (project-remember-projects-under)
-  :init
-  (projects-refresh) ;; refresh projects on start
-  (setq project-switch-commands 'project-dired)
-  :bind
-  ("C-x p R" . projects-refresh))
-
-
 ;; Compile
 (use-package compile
   :bind
@@ -226,10 +209,6 @@
 (unless has-eglot
   (straight-use-package 'eglot))
 
-(when has-ts
-  (add-hook 'go-ts-mode-hook #'eglot-ensure)
-  (add-hook 'rust-ts-mode-hook #'eglot-ensure))
-
 (use-package eglot
   :straight nil
   :hook
@@ -246,10 +225,3 @@
   :bind
   (("M-." . xref-find-definitions)
    ("M-r" . xref-find-references)))
-
-;; New Treesitter support in Emacs 29
-(use-package treesit-auto
-  :custom
-  (treesit-auto-install 'prompt)
-  :config
-  (global-treesit-auto-mode))

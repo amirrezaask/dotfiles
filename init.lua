@@ -405,4 +405,4 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 vim.opt.rtp:prepend(lazypath)
 require("lazy").setup(plugins_config) -- setup plugins
 
-ColorMeDaddy "tokyonight-night"
+ColorMeDaddy "fleet"
