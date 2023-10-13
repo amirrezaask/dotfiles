@@ -1,7 +1,10 @@
 THIS_DIR := $(dir $(abspath $(firstword $(MAKEFILE_LIST))))
 UNAME := $(shell uname)
 
-all: profile zsh neovim alacritty kitty tmux 
+all: profile zsh neovim alacritty kitty tmux emacs
+emacs:
+	rm -rf $(HOME)/.emacs $(HOME)/.emacs.d/init.el
+	ln -s $(THIS_DIR)/.emacs $(HOME)/.emacs
 profile:
 	rm -rf $(HOME)/.profile
 	ln -s $(THIS_DIR)/.profile $(HOME)/.profile
