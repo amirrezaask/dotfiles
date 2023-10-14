@@ -228,7 +228,7 @@ use({
 function ColorMeDaddy(color)
 	if color == nil then
 		vim.ui.select({
-			"rose-pine", "tokyonight", "fleet", "gruvbox",
+			"rose-pine", "tokyonight", "gruvbox",
 		}, {prompt = "Colorscheme> "}, function(choice)
 			ColorMeDaddy(choice)
 		end)
@@ -240,6 +240,7 @@ function ColorMeDaddy(color)
 		hi Normal guibg=none 
 		hi NormalNC guibg=none 
 		hi NormalFloat guibg=none
+		hi Visual guibg=#49B9C7 guifg=#F6F6F6
         hi SignColumn guibg=none
 	]])
 end
@@ -251,7 +252,6 @@ end, {})
 -- colorschemes
 use({
 	{ "rose-pine/neovim", name = "rose-pine", opts = {disable_italics = true} },
-	"felipeagc/fleet-theme-nvim",
 	"folke/tokyonight.nvim",
 	{ "ellisonleao/gruvbox.nvim", opts = { contrast = "hard", italic = { strings = false, comments = false, operators = false, folds = false } } },
 })
@@ -405,4 +405,4 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 vim.opt.rtp:prepend(lazypath)
 require("lazy").setup(plugins_config) -- setup plugins
 
-ColorMeDaddy "fleet"
+ColorMeDaddy "rose-pine"
