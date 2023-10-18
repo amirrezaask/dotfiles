@@ -40,6 +40,14 @@
 (setq use-short-answers t)
 (setq mac-command-modifier 'meta) ;; macos again
 
+(set-face-attribute 'default nil :font "Fira Code 14")
+(set-frame-font "Fira Code 14" nil t)
+
+(defun amirreza/benq ()
+  (interactive)
+  (set-face-attribute 'default nil :font "Fira Code 19")
+  (set-frame-font "Fira Code 19" nil t))
+
 ;; PATH
 (defun home (path)
   (expand-file-name path (getenv "HOME")))
@@ -225,3 +233,6 @@
   :bind
   (("M-." . xref-find-definitions)
    ("M-r" . xref-find-references)))
+
+
+(server-start)
