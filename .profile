@@ -39,7 +39,7 @@ alias normal-dns='networksetup -setdnsservers Wi-Fi 8.8.8.8 4.2.2.4 '
 alias shekan2-dns='networksetup -setdnsservers Wi-Fi 10.202.10.202 10.202.10.102 192.168.10.1'
 alias shekan-dns='networksetup -setdnsservers Wi-Fi 178.22.122.100 185.51.200.2 192.168.10.1'
 
-alias a="emacsclient -a '' -c"
+alias e="emacsclient -a '' -c"
 export EDITOR='emacsclient -a "" -c'
 export GIT_EDITOR='emacsclient -a "" -c'
 

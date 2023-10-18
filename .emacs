@@ -83,8 +83,6 @@
 
 (global-hl-line-mode +1)
 
-;; (set-frame-font "Jetbrains Mono 18")
-
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
@@ -100,26 +98,8 @@
 (use-package gruber-darker-theme)
 (setq custom-safe-themes t)
 
-(setq amirreza/dark-theme 'naysayer)
-(setq amirreza/light-theme 'ef-maris-light)
+(load-theme 'naysayer)
 
-(setq amirreza/color-mode 'dark) ;; 'light
-(defun amirreza/light-mode ()
-  (interactive)
-  (setq amirreza/color-mode 'light)
-  (load-theme amirreza/light-theme))
-
-(defun amirreza/dark-mode ()
-  (interactive)
-  (setq amirreza/color-mode 'dark)
-  (load-theme amirreza/dark-theme))
-
-(defun amirreza/toggle-color-mode ()
-  (interactive)
-  (if (eq amirreza/color-mode 'dark) (amirreza/light-mode) (amirreza/dark-mode)))
-(global-set-key (kbd "<f1>") 'amirreza/toggle-color-mode)
-
-(amirreza/dark-mode) ;; load dark mode by default
 
 ;; vertico minibuffer
 (use-package vertico
@@ -189,22 +169,6 @@
 
 (use-package wgrep)
 
-;; Grep
-(defun my-grep ()
-  "Best Grep command of all time"
-  (interactive)
-  (let* ((rg-command "rg -n -H --no-heading -e '%s' %s")
-	 (gnu-grep-command "grep -rn '%s' %s")
-	 (base-command gnu-grep-command)
-	 (pattern (read-string "Pattern: "))
-	 (dir (read-file-name "Dir: " (if (project-root (project-current)) (project-root (project-current)) default-directory))))
-    
-    (when (executable-find "rg") (setq base-command rg-command))
-    (compilation-start (format base-command pattern dir) #'grep-mode)))
-
-(global-set-key (kbd "C-x C-g") 'my-grep)
-
-
 (defun eglot-save-with-imports () (interactive)
        (eglot-format-buffer)
        (eglot-code-actions nil nil "source.organizeImports" t))
@@ -234,5 +198,9 @@
   (("M-." . xref-find-definitions)
    ("M-r" . xref-find-references)))
 
+;; Grep
+(when (executable-find "rg")
+  (grep-apply-setting 'grep-command "rg --vimgrep ")
+  (grep-apply-setting 'grep-use-null-device nil))
 
 (server-start)
