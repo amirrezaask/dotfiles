@@ -24,25 +24,29 @@
 (setq straight-use-package-by-default t)
 ;; Package manager END
 
-;; macos
+;; MacOS
 (setq use-short-answers t)
 (setq image-types (cons 'svg image-types)) ;; macos bug
 (setq mac-command-modifier 'meta) ;; macos again
-;; macos END
+;; MacOS END
 
 ;; FONT START
 (global-set-key (kbd "C-=") (lambda () (interactive) (text-scale-increase 1)))
 (global-set-key (kbd "C--") (lambda () (interactive) (text-scale-decrease 1)))
-(set-face-attribute 'default nil :font "Fira Code 14")
-(set-frame-font "Fira Code 14" nil t)
+
+(setq font-family "Jetbrains Mono %s")
+(set-face-attribute 'default nil :font (format font-family 14))
+(set-frame-font (format font-family 14) nil t)
+
 (defun amirreza/default ()
   (interactive)
-  (set-face-attribute 'default nil :font "Fira Code 14")
-  (set-frame-font "Fira Code 14" nil t))
+  (set-face-attribute 'default nil :font (format font-family 14))
+  (set-frame-font (format font-family 14) nil t))
+
 (defun amirreza/benq ()
   (interactive)
-  (set-face-attribute 'default nil :font "Fira Code 19")
-  (set-frame-font "Fira Code 19" nil t))
+  (set-face-attribute 'default nil :font (format font-family 19))
+  (set-frame-font (format font-family 19) nil t))
 ;; FONT END
 
 ;; PATH
@@ -59,16 +63,8 @@
 
 ;; Navigation
 (setq recenter-positions '(middle))
-(defun jump-up ()
-  (interactive)
-  (next-line (* -1 (/ (window-height) 2)))
-  (recenter-top-bottom))
-
-(defun jump-down ()
-  (interactive)
-  (next-line (/ (window-height) 2))
-  (recenter-top-bottom))
-
+(defun jump-up () (interactive) (next-line (* -1 (/ (window-height) 2))) (recenter-top-bottom))
+(defun jump-down () (interactive) (next-line (/ (window-height) 2)) (recenter-top-bottom))
 (global-set-key (kbd "M-n") 'jump-down)
 (global-set-key (kbd "M-p") 'jump-up)
 ;; Navigation END
@@ -82,16 +78,21 @@
 ;; GUI END
 
 ;; Themes
-(defadvice load-theme (before disable-themes-first activate)
-  (dolist (i custom-enabled-themes)
-    (disable-theme i)))
+(defadvice load-theme (before disable-themes-first activate) (dolist (i custom-enabled-themes) (disable-theme i)))
+(setq light-theme 'ef-light)
+(setq dark-theme 'naysayer)
+(setq theme-state 'dark)
+(defun amirreza/light-theme () (interactive) (setq theme-state 'light) (load-theme light-theme))
+(defun amirreza/dark-theme () (interactive) (setq theme-state 'dark) (load-theme dark-theme))
+(defun amirreza/toggle-theme () (interactive) (if (equal theme-state 'light) (amirreza/dark-theme) (amirreza/light-theme)))
+(global-set-key (kbd "<f1>") 'amirreza/toggle-theme)
 (use-package doom-themes)
 (use-package fleetish-theme)
 (use-package ef-themes)
 (use-package amirreza-themes :straight (amirreza-themes :host github :repo "amirrezaask/themes" :local-repo "amirreza-themes"))
 (use-package gruber-darker-theme)
 (setq custom-safe-themes t)
-(load-theme 'naysayer)
+(amirreza/dark-theme)
 ;; Themes END
 
 ;; minibuffer
