@@ -164,8 +164,7 @@
 (add-hook 'go-mode-hook (lambda ()
 			  (add-hook 'before-save-hook 'eglot-save-with-imports nil t)))
 
-(use-package eglot
-  :straight nil
+(use-package eglot :straight nil
   :hook
   ((go-mode rust-mode tuareg-mode) . eglot-ensure) ;; Go + Rust + Ocaml
   :bind
@@ -176,8 +175,7 @@
 ;; Eglot END
 
 ;; xref
-(use-package xref
-  :straight nil
+(use-package xref :straight nil
   :bind
   (("M-." . xref-find-definitions)
    ("M-r" . xref-find-references)))
