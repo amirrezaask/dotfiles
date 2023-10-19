@@ -10,6 +10,7 @@ git:
 emacs:
 	rm -rf $(HOME)/.emacs $(HOME)/.emacs.d/init.el
 	ln -s $(THIS_DIR)/.emacs $(HOME)/.emacs
+	sudo ln -s $(THIS_DIR)/e /usr/bin/e
 
 profile:
 	rm -rf $(HOME)/.profile
