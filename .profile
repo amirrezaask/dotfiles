@@ -12,9 +12,6 @@ export PATH="$GOROOT/bin:$PATH"
 export PATH="$HOME/.config/composer/vendor/bin:$PATH"
 export PATH="/opt/homebrew/bin:$PATH"
 export PATH="$GOPATH/bin:$PATH"
-export PATH="/Users/amirreza/Library/Python/3.10/bin:$PATH"
-export PATH="/Applications/Emacs.app/Contents/MacOS:$PATH"
-export PLAN9=/Users/amirreza/plan9
 export PATH=$PATH:$HOME/dev/dotfiles/bin
 export PATH=$PATH:$PLAN9/bin
 
@@ -36,14 +33,6 @@ if !command -v codium &> /dev/null
 then
     echo "Install vscodium: https://github.com/VSCodium/vscodium/releases"
 fi
-
-# Mabna
-alias mabna-up='sudo ipsec up corp'
-alias mabna-down='sudo ipsec down corp'
-alias mabna-dns='networksetup -setdnsservers Wi-Fi 192.168.10.1'
-alias normal-dns='networksetup -setdnsservers Wi-Fi 8.8.8.8 4.2.2.4 '
-alias shekan2-dns='networksetup -setdnsservers Wi-Fi 10.202.10.202 10.202.10.102 192.168.10.1'
-alias shekan-dns='networksetup -setdnsservers Wi-Fi 178.22.122.100 185.51.200.2 192.168.10.1'
 
 alias code='codium'
 export EDITOR='codium -w'
