@@ -1,0 +1,24 @@
+{
+  "editor.minimap.enabled": false,
+  "window.title": "${dirty}${rootName}${separator}",
+  "window.titleSeparator": "; ",
+  "editor.bracketPairColorization.enabled": false,
+  "gitProjectManager.baseProjectsFolders": [ "~/proj" ],
+  "gitProjectManager.maxDepthRecursion": 2,
+  "security.workspace.trust.untrustedFiles": "open",
+  "workbench.editor.enablePreview": false,
+  "editor.wordWrap": "on",
+  "workbench.editor.showTabs": false,
+  "go.addTags": { "options": "" },
+  "workbench.startupEditor": "newUntitledFile",
+  "extensions.ignoreRecommendations": true,
+  "security.workspace.trust.enabled": false,
+  "[go]": {
+    "editor.formatOnSave": true
+  },
+  "workbench.activityBar.visible": false,
+  "workbench.preferredLightColorTheme": "Visual Studio Light",
+  "window.autoDetectColorScheme": true,
+  "workbench.colorTheme": "Visual Studio Light",
+  "window.zoomLevel": 2
+}
