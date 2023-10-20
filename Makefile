@@ -8,6 +8,10 @@ git:
 	ln -s $(THIS_DIR)/.gitconfig $(HOME)/.gitconfig
 
 codium:
+	rm -rf $(HOME)/.config/VSCodium/User/settings.json
+	rm -rf $(HOME)/.config/VSCodium/User/keybindings.json
+	ln -s $(THIS_DIR)/vscode-settings.json $(HOME)/.config/VSCodium/User/settings.json
+	ln -s $(THIS_DIR)/vscode-keybindings.json $(HOME)/.config/VSCodium/User/keybindings.json
 	echo "Installing/Upgrading extensions"
 	codium --install-extension --force ms-azuretools.vscode-docker
 	codium --install-extension --force usernamehw.errorlens
@@ -17,11 +21,7 @@ codium:
 	codium --install-extension --force golang.go
 	codium --install-extension --force ziglang.vscode-zig
 	codium --install-extension --force rust-lang.rust-analyzer
-	rm -rf $(HOME)/.config/VSCodium/User/settings.json
-	rm -rf $(HOME)/.config/VSCodium/User/keybindings.json
-	ln -s $(THIS_DIR)/vscode-settings.json $(HOME)/.config/VSCodium/User/settings.json
-	ln -s $(THIS_DIR)/vscode-keybindings.json $(HOME)/.config/VSCodium/User/keybindings.json
-
+	
 emacs:
 	rm -rf $(HOME)/.emacs $(HOME)/.emacs.d/init.el
 	ln -s $(THIS_DIR)/.emacs $(HOME)/.emacs
