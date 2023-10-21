@@ -19,6 +19,5 @@
   "workbench.activityBar.visible": false,
   "workbench.preferredLightColorTheme": "Visual Studio Light",
   "window.autoDetectColorScheme": true,
-  "workbench.colorTheme": "Visual Studio Light",
-  "window.zoomLevel": 2
+  "workbench.colorTheme": "Visual Studio Light"
 }
