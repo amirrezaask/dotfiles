@@ -8,19 +8,20 @@ git:
 	ln -s $(THIS_DIR)/.gitconfig $(HOME)/.gitconfig
 
 codium:
+	mkdir -p $(HOME)/.config/VSCodium/User
 	rm -rf $(HOME)/.config/VSCodium/User/settings.json
 	rm -rf $(HOME)/.config/VSCodium/User/keybindings.json
 	ln -s $(THIS_DIR)/vscode-settings.json $(HOME)/.config/VSCodium/User/settings.json
 	ln -s $(THIS_DIR)/vscode-keybindings.json $(HOME)/.config/VSCodium/User/keybindings.json
 	echo "Installing/Upgrading extensions"
-	codium --install-extension --force ms-azuretools.vscode-docker
-	codium --install-extension --force usernamehw.errorlens
-	codium --install-extension --force waderyan.gitblame
-	codium --install-extension --force GitLab.gitlab-workflow
-	codium --install-extension --force qcz.text-power-toolsms-azuretools.vscode-docker
-	codium --install-extension --force golang.go
-	codium --install-extension --force ziglang.vscode-zig
-	codium --install-extension --force rust-lang.rust-analyzer
+	codium --install-extension ms-azuretools.vscode-docker --force 
+	codium --install-extension usernamehw.errorlens --force 
+	codium --install-extension waderyan.gitblame --force 
+	codium --install-extension GitLab.gitlab-workflow --force 
+	codium --install-extension qcz.text-power-toolsms-azuretools.vscode-docker --force 
+	codium --install-extension golang.go --force 
+	codium --install-extension ziglang.vscode-zig --force 
+	codium --install-extension rust-lang.rust-analyzer --force 
 	
 emacs:
 	rm -rf $(HOME)/.emacs $(HOME)/.emacs.d/init.el
