@@ -79,21 +79,10 @@
 
 ;; Themes
 (defadvice load-theme (before disable-themes-first activate) (dolist (i custom-enabled-themes) (disable-theme i)))
-(setq light-theme 'standard-light)
-(setq dark-theme 'standard-dark)
-(setq theme-state 'dark)
-(defun amirreza/light-theme () (interactive) (setq theme-state 'light) (load-theme light-theme))
-(defun amirreza/dark-theme () (interactive) (setq theme-state 'dark) (load-theme dark-theme))
-(defun amirreza/toggle-theme () (interactive) (if (equal theme-state 'light) (amirreza/dark-theme) (amirreza/light-theme)))
-(global-set-key (kbd "<f1>") 'amirreza/toggle-theme)
-(use-package doom-themes)
-(use-package fleetish-theme)
 (use-package ef-themes)
-(use-package standard-themes)
 (use-package amirreza-themes :straight (amirreza-themes :host github :repo "amirrezaask/themes" :local-repo "amirreza-themes"))
-(use-package gruber-darker-theme)
 (setq custom-safe-themes t)
-(amirreza/dark-theme)
+(load-theme 'ef-maris-light)
 ;; Themes END
 
 ;; minibuffer
@@ -139,20 +128,34 @@
 (use-package tuareg) ;; ocaml
 ;; languages END
 
+;; sidebar
+(use-package dired-sidebar
+  :bind ("C-1" . dired-sidebar-toggle-sidebar)
+  :commands (dired-sidebar-toggle-sidebar))
+;; sidebar END
+
 ;; Compile
 (use-package compile
   :bind
   (("<f5>" . compile)
-   ("C-x C-x" . compile)
    :map compilation-mode-map
    ("<f5>" . recompile)
-   ("C-x C-x" . recompile)
    ("k" . kill-compilation)))
 ;; Compile END
 
 ;; Magit
 (use-package magit)
 ;; Magit END
+
+;; formatter
+(use-package format-all)
+;; formatter END
+
+
+;; indent guides
+(use-package highlight-indent-guides
+  :hook (prog-mode . highlight-indent-guides-mode))
+;; indent guides END
 
 ;; Eglot 
 (unless (>= emacs-major-version 29)
@@ -175,12 +178,12 @@
 	("C-c C-c" . eglot-code-actions)))
 ;; Eglot END
 
-;; xref
+;; XRef
 (use-package xref :straight nil
   :bind
   (("M-." . xref-find-definitions)
    ("M-r" . xref-find-references)))
-;; xref END
+;; XRef END
 
 ;; Grep
 (use-package wgrep)
@@ -189,4 +192,8 @@
   (grep-apply-setting 'grep-use-null-device nil))
 ;; Grep END
 
-(server-start)
+;; Emacs daemon server
+(unless (server-running-p)
+  (server-start))
+;; Emacs daemon server END
+
