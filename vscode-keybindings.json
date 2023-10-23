@@ -12,6 +12,4 @@
   {"key": "ctrl+n","command": "workbench.action.quickOpenSelectNext", "when": "inQuickOpen" },
   {"key": "ctrl+p", "command": "workbench.action.quickOpenSelectPrevious", "when": "inQuickOpen" },
   { "key": "ctrl+shift+w", "command": "workbench.action.closeEditorsAndGroup" },
-  { "key": "alt+left", "command": "cursorLineStart"},
-  { "key": "alt+right", "command": "cursorLineEnd"}
 ]
