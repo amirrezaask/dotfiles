@@ -82,6 +82,7 @@
 (use-package ef-themes)
 (use-package amirreza-themes :straight (amirreza-themes :host github :repo "amirrezaask/themes" :local-repo "amirreza-themes"))
 (setq custom-safe-themes t)
+(global-set-key (kbd "<f1>") 'ef-themes-load-random)
 (load-theme 'ef-maris-light)
 ;; Themes END
 
@@ -155,9 +156,7 @@
 ;; indent guides
 (use-package highlight-indent-guides
   :config
-  (setq highlight-indent-guides-method 'character)
-  )
-
+  (setq highlight-indent-guides-method 'character))
 ;; indent guides END
 
 ;; Eglot 
@@ -193,6 +192,7 @@
 (when (executable-find "rg")
   (grep-apply-setting 'grep-command "rg --vimgrep ")
   (grep-apply-setting 'grep-use-null-device nil))
+(global-set-key (kbd "C-S-g") 'grep)
 ;; Grep END
 
 ;; Emacs daemon server
