@@ -35,13 +35,13 @@
 (global-set-key (kbd "C--") (lambda () (interactive) (text-scale-decrease 1)))
 
 (setq font-family "Jetbrains Mono %s")
-(set-face-attribute 'default nil :font (format font-family 14))
-(set-frame-font (format font-family 14) nil t)
+(set-face-attribute 'default nil :font (format font-family 12))
+(set-frame-font (format font-family 12) nil t)
 
 (defun amirreza/default ()
   (interactive)
-  (set-face-attribute 'default nil :font (format font-family 14))
-  (set-frame-font (format font-family 14) nil t))
+  (set-face-attribute 'default nil :font (format font-family 12))
+  (set-frame-font (format font-family 12) nil t))
 
 (defun amirreza/benq ()
   (interactive)
@@ -79,8 +79,8 @@
 
 ;; Themes
 (defadvice load-theme (before disable-themes-first activate) (dolist (i custom-enabled-themes) (disable-theme i)))
-(setq light-theme 'ef-light)
-(setq dark-theme 'naysayer)
+(setq light-theme 'standard-light)
+(setq dark-theme 'standard-dark)
 (setq theme-state 'dark)
 (defun amirreza/light-theme () (interactive) (setq theme-state 'light) (load-theme light-theme))
 (defun amirreza/dark-theme () (interactive) (setq theme-state 'dark) (load-theme dark-theme))
@@ -89,6 +89,7 @@
 (use-package doom-themes)
 (use-package fleetish-theme)
 (use-package ef-themes)
+(use-package standard-themes)
 (use-package amirreza-themes :straight (amirreza-themes :host github :repo "amirrezaask/themes" :local-repo "amirreza-themes"))
 (use-package gruber-darker-theme)
 (setq custom-safe-themes t)
