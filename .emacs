@@ -69,9 +69,18 @@
 (global-set-key (kbd "M-p") 'jump-up)
 ;; Navigation END
 
-;; GUI
+;; modeline
+;; modeline END
+
+;; frame
 (setq inhibit-startup-screen t) ;; disable default start screen
 (set-frame-parameter nil 'fullscreen 'maximized)
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
+(setq frame-title-format (list default-directory " - " "%b"))
+;; frame END
+
+;; GUI
+(global-hl-line-mode)
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
@@ -152,6 +161,7 @@
 (use-package format-all)
 ;; formatter END
 
+(global-set-key (kbd "C-x n") 'find-file-other-frame)
 
 ;; indent guides
 (use-package highlight-indent-guides
