@@ -69,18 +69,25 @@
 (global-set-key (kbd "M-p") 'jump-up)
 ;; Navigation END
 
-;; modeline
-;; modeline END
+;; Modeline
+(setq-default mode-line-format '("%e" mode-line-front-space
+				 mode-line-modified
+				 " "
+				 default-directory "%b"
+				 mode-line-end-spaces
+				 ))
+;; Modeline END
 
-;; frame
+;; Frame
 (setq inhibit-startup-screen t) ;; disable default start screen
 (set-frame-parameter nil 'fullscreen 'maximized)
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
-(setq frame-title-format (list default-directory " - " "%b"))
-;; frame END
+(setq-default frame-title-format '("%e" default-directory))
+;; Frame END
 
 ;; GUI
 (global-hl-line-mode)
+(global-display-line-numbers-mode)
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
