@@ -12,21 +12,13 @@ window:
   option_as_alt: Both
   startup_mode: Maximized 
 
-# colors:
-#   primary:
-    # background: '#FFFFFF'
-    # foreground: '#343434'
-
 key_bindings:
   - { key: Equals,         mods: Control,                         action: IncreaseFontSize }
   - { key: Minus,          mods: Control,                         action: DecreaseFontSize }
 
-
-
 # nightfly
 colors:
   primary:
-    background:        '#011627'
     foreground:        '#bdc1c6'
     bright_foreground: '#eeeeee'
   cursor:
