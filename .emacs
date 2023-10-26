@@ -88,6 +88,7 @@
 ;; GUI
 (global-hl-line-mode)
 (global-display-line-numbers-mode)
+(setq-default cursor-type 'bar)
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
