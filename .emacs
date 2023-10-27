@@ -64,7 +64,10 @@
 (setq-default mode-line-format '("%e" mode-line-front-space
 				 mode-line-modified
 				 " "
+				 "%l:%c "
 				 default-directory "%b"
+				 " "
+				 mode-line-modes
 				 mode-line-end-spaces
 				 ))
 ;; Modeline END
