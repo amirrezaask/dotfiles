@@ -88,7 +88,7 @@
 ;; GUI
 (global-hl-line-mode)
 (global-display-line-numbers-mode)
-(setq-default cursor-type 'bar)
+(setq-default cursor-type 'box)
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
@@ -100,7 +100,7 @@
 (use-package amirreza-themes :straight (amirreza-themes :host github :repo "amirrezaask/themes" :local-repo "amirreza-themes"))
 (setq custom-safe-themes t)
 (global-set-key (kbd "<f1>") 'ef-themes-load-random)
-(load-theme 'ef-maris-light)
+(load-theme 'naysayer)
 ;; Themes END
 
 ;; minibuffer
