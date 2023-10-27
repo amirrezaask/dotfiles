@@ -143,6 +143,7 @@
 (when (< emacs-major-version 29)
   (use-package csharp-mode))
 (use-package typescript-mode)
+(use-package lua-mode)
 (use-package tuareg) ;; ocaml
 ;; languages END
 
