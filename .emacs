@@ -193,7 +193,7 @@
   :bind
   (:map eglot-mode-map
 	("C-x C-l" . eglot-save-with-imports)
-	("M-i" . eglot-find-implementations)
+	("M-<f12>" . eglot-find-implementation)
 	("C-c C-c" . eglot-code-actions)))
 ;; Eglot END
 
@@ -201,6 +201,8 @@
 (use-package xref :straight nil
   :bind
   (("M-." . xref-find-definitions)
+   ("<f12>" . xref-find-definitions)
+   ("S-<f12>" . xref-find-references)
    ("M-r" . xref-find-references)))
 ;; XRef END
 
