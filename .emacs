@@ -1,6 +1,6 @@
 ;; Basic
 (setq gc-cons-threshold 100000000) ;; 100 MB
-(setq vc-follow-symlinks t)
+(setq vc-follow-symlinks t) ;; Follow symlinks with no questions
 (setq ring-bell-function (lambda ())) ;; no stupid sounds
 (setq custom-file "~/.custom.el") ;; set custom file to not meddle with init.el
 (setq make-backup-files nil) ;; no emacs ~ backup files
@@ -100,7 +100,7 @@
 (use-package amirreza-themes :straight (amirreza-themes :host github :repo "amirrezaask/themes" :local-repo "amirreza-themes"))
 (setq custom-safe-themes t)
 (global-set-key (kbd "<f1>") 'ef-themes-load-random)
-(load-theme 'naysayer)
+(load-theme 'ef-light)
 ;; Themes END
 
 ;; minibuffer
@@ -174,8 +174,10 @@
 
 ;; indent guides
 (use-package highlight-indent-guides
+  :hook (yaml-mode . highlight-indent-guides-mode)
   :config
   (setq highlight-indent-guides-method 'character))
+
 ;; indent guides END
 
 ;; Eglot 
@@ -208,6 +210,7 @@
 
 ;; Grep
 (use-package wgrep)
+(grep-apply-setting 'grep-command "grep --exclude-dir='.git' --color=auto -nH --null -r -e ")
 (when (executable-find "rg")
   (grep-apply-setting 'grep-command "rg --vimgrep ")
   (grep-apply-setting 'grep-use-null-device nil))
