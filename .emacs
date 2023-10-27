@@ -33,20 +33,11 @@
 ;; FONT START
 (global-set-key (kbd "C-=") (lambda () (interactive) (text-scale-increase 1)))
 (global-set-key (kbd "C--") (lambda () (interactive) (text-scale-decrease 1)))
-
 (setq font-family "Jetbrains Mono %s")
 (set-face-attribute 'default nil :font (format font-family 12))
 (set-frame-font (format font-family 12) nil t)
-
-(defun amirreza/default ()
-  (interactive)
-  (set-face-attribute 'default nil :font (format font-family 12))
-  (set-frame-font (format font-family 12) nil t))
-
-(defun amirreza/benq ()
-  (interactive)
-  (set-face-attribute 'default nil :font (format font-family 19))
-  (set-frame-font (format font-family 19) nil t))
+(defun amirreza/default () (interactive) (set-face-attribute 'default nil :font (format font-family 12)) (set-frame-font (format font-family 12) nil t))
+(defun amirreza/benq () (interactive) (set-face-attribute 'default nil :font (format font-family 19)) (set-frame-font (format font-family 19) nil t))
 ;; FONT END
 
 ;; PATH
@@ -109,6 +100,8 @@
   (setq vertico-cycle t)
   (setq vertico-count 25)
   (vertico-mode))
+
+(use-package consult)
 
 (use-package orderless
   :init
