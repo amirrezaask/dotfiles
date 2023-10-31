@@ -1,5 +1,4 @@
 {
-  "editor.fontFamily": "'Fira Mono'",
   "editor.minimap.enabled": false,
   "window.title": "${dirty}${rootName}${separator}",
   "window.titleSeparator": "; ",

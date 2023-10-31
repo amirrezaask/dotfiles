@@ -1,5 +1,7 @@
 # AmirrezaAsk Configs
 
+- [VSCode Settings](https://github.com/amirrezaask/dotfiles/blob/master/vscode-settings.json)
+- [VSCode Keybindings](https://github.com/amirrezaask/dotfiles/blob/master/vscode-keybindings.json)
 - [Neovim](https://github.com/amirrezaask/dotfiles/blob/master/init.lua)
 - [Tmux](https://github.com/amirrezaask/dotfiles/blob/master/.tmux.conf)
 - [Zsh](https://github.com/amirrezaask/dotfiles/blob/master/.zshrc)

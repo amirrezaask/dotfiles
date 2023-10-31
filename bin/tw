@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-
-dir=$(find $HOME/dev $HOME/w -type d -mindepth 1 -maxdepth 1 | fzf-tmux)
-if [ "$dir" != "" ]; then
-    tmux new-window -c $dir -n $(basename $dir)
-fi
-
