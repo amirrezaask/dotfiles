@@ -177,7 +177,7 @@
   (:map eglot-mode-map
 	("C-x C-l" . eglot-save-with-imports)
 	("M-<f12>" . eglot-find-implementation)
-	("C-c C-c" . eglot-code-actions)))
+	("C-." . eglot-code-actions)))
 ;; Eglot END
 
 ;; XRef
@@ -197,10 +197,3 @@
   (grep-apply-setting 'grep-use-null-device nil))
 (global-set-key (kbd "C-S-g") 'grep)
 ;; Grep END
-
-;; Emacs daemon server
-(if (and (fboundp 'server-running-p) 
-         (not (server-running-p)))
-    (server-start))
-;; Emacs daemon server END
-
