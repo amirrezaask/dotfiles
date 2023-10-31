@@ -33,6 +33,14 @@
 (defun amirreza/benq () (interactive) (set-face-attribute 'default nil :font (format font-family 19)) (set-frame-font (format font-family 19) nil t))
 ;; FONT END
 
+;; themes
+(defadvice load-theme (before disable-themes-first activate) (dolist (i custom-enabled-themes) (disable-theme i)))
+(use-package ef-themes)
+(use-package amirreza-themes :straight (amirreza-themes :host github :repo "amirrezaask/themes" :local-repo "amirreza-themes"))
+(setq custom-safe-themes t)
+(load-theme 'naysayer)
+;; themes END
+
 ;; PATH
 (defun home (path)
   (expand-file-name path (getenv "HOME")))
@@ -142,50 +150,3 @@
          (not (server-running-p)))
    (server-start))
 ;; Emacs daemon server END
-
-;; Theme
-(let ((background "#042021")
-      (text "#d3b58d")
-      (selection "#0000ff")
-      (keyword "#d4d4d4")
-      (comment "#118a1a")
-      (string "#2ec09c")
-      (variable "#c8d4ec")
-      (warning "#504038")
-      (constant "#7ad0c6")
-      (cursor "green")
-      (mode-line "#d3b58d")
-      (function "#ffffff")
-      (macro "#8cde94")
-      (punctuation "#8cde94")
-      (hl-line "#084040")
-      (builtin "#ffffff")
-
-      )
-
-  (custom-set-faces
-   `(default ((t (:foreground ,text :background ,background))))
-   `(cursor ((t (:background ,cursor))))
-
-   `(font-lock-keyword-face           ((t (:foreground ,keyword))))
-   `(font-lock-type-face              ((t (:foreground ,punctuation))))
-   `(font-lock-constant-face          ((t (:foreground ,constant))))
-   `(font-lock-variable-name-face     ((t (:foreground ,variable))))
-   `(font-lock-builtin-face           ((t (:foreground ,builtin))))
-   `(font-lock-string-face            ((t (:foreground ,string))))
-   `(font-lock-comment-face           ((t (:foreground ,comment))))
-   `(font-lock-comment-delimiter-face ((t (:foreground ,comment))))
-   `(font-lock-doc-face               ((t (:foreground ,comment))))
-   `(font-lock-function-name-face     ((t (:foreground ,function))))
-   `(font-lock-doc-string-face        ((t (:foreground ,string))))
-   `(font-lock-preprocessor-face      ((t (:foreground ,macro))))
-   `(font-lock-warning-face           ((t (:foreground ,warning))))
-
-   `(mode-line ((t (:foreground "black" :background ,mode-line))))
-   `(region ((t (:background ,selection))))
-   `(hl-line ((t :background ,hl-line)))
-   `(highlight ((t :foreground nil :background ,selection)))
-   `(persp-selected-face ((t :foreground "#ffffff")))
-   )
-  )
-;; theme END
