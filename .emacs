@@ -28,9 +28,7 @@
 ;; FONT START
 (global-set-key (kbd "C-=") (lambda () (interactive) (text-scale-increase 1)))
 (global-set-key (kbd "C--") (lambda () (interactive) (text-scale-decrease 1)))
-(setq font-family "Jetbrains Mono %s")
-(set-face-attribute 'default nil :font (format font-family 12))
-(set-frame-font (format font-family 12) nil t)
+(add-to-list 'default-frame-alist '(font . "Jetbrains Mono 12"))
 (defun amirreza/default () (interactive) (set-face-attribute 'default nil :font (format font-family 12)) (set-frame-font (format font-family 12) nil t))
 (defun amirreza/benq () (interactive) (set-face-attribute 'default nil :font (format font-family 19)) (set-frame-font (format font-family 19) nil t))
 ;; FONT END
@@ -140,8 +138,9 @@
 ;; Grep END
 
 ;; Emacs daemon server
-(unless (server-running-p)
-  (server-start))
+(if (and (fboundp 'server-running-p) 
+         (not (server-running-p)))
+   (server-start))
 ;; Emacs daemon server END
 
 ;; Theme

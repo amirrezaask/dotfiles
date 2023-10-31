@@ -39,3 +39,10 @@ export EDITOR='codium -w'
 export GIT_EDITOR='codium -w'
 
 
+if command -v emacsclient &> /dev/null
+then
+    export EDITOR='emacsclient -a "" '
+    export GIT_EDITOR='emacsclient -a ""'
+fi
+
+
