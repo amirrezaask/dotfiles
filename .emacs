@@ -4,6 +4,7 @@
 (setq ring-bell-function (lambda ())) ;; no stupid sounds
 (setq custom-file "~/.custom.el") ;; set custom file to not meddle with init.el
 (setq make-backup-files nil) ;; no emacs ~ backup files
+(global-set-key (kbd "C-q") 'set-mark-command) ;; better key to start a selection
 ;; Basic END
 
 ;; Package manager START
@@ -23,12 +24,6 @@
 (straight-use-package 'use-package)
 (setq straight-use-package-by-default t)
 ;; Package manager END
-
-;; MacOS
-(setq use-short-answers t)
-(setq image-types (cons 'svg image-types)) ;; macos bug
-(setq mac-command-modifier 'meta) ;; macos again
-;; MacOS END
 
 ;; FONT START
 (global-set-key (kbd "C-=") (lambda () (interactive) (text-scale-increase 1)))
@@ -61,57 +56,22 @@
 ;; Navigation END
 
 ;; Modeline
-(setq-default mode-line-format '("%e" mode-line-front-space
-				 mode-line-modified
-				 " "
-				 "%l:%c "
-				 default-directory "%b"
-				 " "
-				 mode-line-modes
-				 mode-line-end-spaces
-				 ))
+(setq-default mode-line-format '("%e" mode-line-front-space mode-line-modified " %l:%c " default-directory "%b " mode-line-modes))
 ;; Modeline END
 
 ;; Frame
 (setq inhibit-startup-screen t) ;; disable default start screen
-(set-frame-parameter nil 'fullscreen 'maximized)
+(set-frame-parameter nil 'fullscreen 'maximized) ;; open emacs in maximized mode
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 (setq-default frame-title-format '("%e" default-directory))
 ;; Frame END
 
 ;; GUI
-(global-hl-line-mode)
 (global-display-line-numbers-mode)
-(setq-default cursor-type 'box)
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 ;; GUI END
-
-;; Themes
-(defadvice load-theme (before disable-themes-first activate) (dolist (i custom-enabled-themes) (disable-theme i)))
-(use-package ef-themes)
-(use-package amirreza-themes :straight (amirreza-themes :host github :repo "amirrezaask/themes" :local-repo "amirreza-themes"))
-(setq custom-safe-themes t)
-(global-set-key (kbd "<f1>") 'ef-themes-load-random)
-(load-theme 'ef-light)
-;; Themes END
-
-;; minibuffer
-(use-package vertico
-  :init
-  (setq vertico-cycle t)
-  (setq vertico-count 25)
-  (vertico-mode))
-
-(use-package consult)
-
-(use-package orderless
-  :init
-  (setq completion-styles '(orderless basic)
-	completion-category-defaults nil
-	completion-category-overrides '((file (styles partial-completion)))))
-;; minibuffer END
 
 ;; Autocomplete
 (global-unset-key (kbd "C-SPC"))
@@ -123,31 +83,12 @@
   (global-corfu-mode))
 ;; Autocomplete END
 
-;; text editing
-(global-set-key (kbd "C-q") 'set-mark-command) ;; better key to start a selection
-(use-package multiple-cursors
-  :bind
-  (("C-S-n" . 'mc/mark-next-like-this)
-   ("C-S-p" . 'mc/mark-previous-like-this)))
-;; text editing END
-
 ;; languages
 (use-package go-mode)
-(use-package yaml-mode)
-(use-package json-mode)
 (use-package rust-mode)
 (when (< emacs-major-version 29)
   (use-package csharp-mode))
-(use-package typescript-mode)
-(use-package lua-mode)
-(use-package tuareg) ;; ocaml
 ;; languages END
-
-;; sidebar
-(use-package dired-sidebar
-  :bind ("C-1" . dired-sidebar-toggle-sidebar)
-  :commands (dired-sidebar-toggle-sidebar))
-;; sidebar END
 
 ;; Compile
 (use-package compile
@@ -158,23 +99,7 @@
    ("k" . kill-compilation)))
 ;; Compile END
 
-;; Magit
-(use-package magit)
-;; Magit END
-
-;; formatter
-(use-package format-all)
-;; formatter END
-
 (global-set-key (kbd "C-x n") 'find-file-other-frame)
-
-;; indent guides
-(use-package highlight-indent-guides
-  :hook (yaml-mode . highlight-indent-guides-mode)
-  :config
-  (setq highlight-indent-guides-method 'character))
-
-;; indent guides END
 
 ;; Eglot 
 (unless (>= emacs-major-version 29)
@@ -184,12 +109,11 @@
        (eglot-format-buffer)
        (eglot-code-actions nil nil "source.organizeImports" t))
 
-(add-hook 'go-mode-hook (lambda ()
-			  (add-hook 'before-save-hook 'eglot-save-with-imports nil t)))
+(add-hook 'go-mode-hook (lambda ()  (add-hook 'before-save-hook 'eglot-save-with-imports nil t)))
 
 (use-package eglot :straight nil
   :hook
-  ((go-mode rust-mode tuareg-mode) . eglot-ensure) ;; Go + Rust + Ocaml
+  ((go-mode rust-mode) . eglot-ensure) ;; Go + Rust
   :bind
   (:map eglot-mode-map
 	("C-x C-l" . eglot-save-with-imports)
@@ -197,14 +121,14 @@
 	("C-c C-c" . eglot-code-actions)))
 ;; Eglot END
 
-;; XRef
+;; xref
 (use-package xref :straight nil
   :bind
   (("M-." . xref-find-definitions)
    ("<f12>" . xref-find-definitions)
    ("S-<f12>" . xref-find-references)
    ("M-r" . xref-find-references)))
-;; XRef END
+;; xref END
 
 ;; Grep
 (use-package wgrep)
@@ -220,3 +144,49 @@
   (server-start))
 ;; Emacs daemon server END
 
+;; Theme
+(let ((background "#042021")
+      (text "#d3b58d")
+      (selection "#0000ff")
+      (keyword "#d4d4d4")
+      (comment "#118a1a")
+      (string "#2ec09c")
+      (variable "#c8d4ec")
+      (warning "#504038")
+      (constant "#7ad0c6")
+      (cursor "green")
+      (mode-line "#d3b58d")
+      (function "#ffffff")
+      (macro "#8cde94")
+      (punctuation "#8cde94")
+      (hl-line "#084040")
+      (builtin "#ffffff")
+
+      )
+
+  (custom-set-faces
+   `(default ((t (:foreground ,text :background ,background))))
+   `(cursor ((t (:background ,cursor))))
+
+   `(font-lock-keyword-face           ((t (:foreground ,keyword))))
+   `(font-lock-type-face              ((t (:foreground ,punctuation))))
+   `(font-lock-constant-face          ((t (:foreground ,constant))))
+   `(font-lock-variable-name-face     ((t (:foreground ,variable))))
+   `(font-lock-builtin-face           ((t (:foreground ,builtin))))
+   `(font-lock-string-face            ((t (:foreground ,string))))
+   `(font-lock-comment-face           ((t (:foreground ,comment))))
+   `(font-lock-comment-delimiter-face ((t (:foreground ,comment))))
+   `(font-lock-doc-face               ((t (:foreground ,comment))))
+   `(font-lock-function-name-face     ((t (:foreground ,function))))
+   `(font-lock-doc-string-face        ((t (:foreground ,string))))
+   `(font-lock-preprocessor-face      ((t (:foreground ,macro))))
+   `(font-lock-warning-face           ((t (:foreground ,warning))))
+
+   `(mode-line ((t (:foreground "black" :background ,mode-line))))
+   `(region ((t (:background ,selection))))
+   `(hl-line ((t :background ,hl-line)))
+   `(highlight ((t :foreground nil :background ,selection)))
+   `(persp-selected-face ((t :foreground "#ffffff")))
+   )
+  )
+;; theme END

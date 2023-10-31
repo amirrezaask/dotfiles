@@ -16,6 +16,5 @@
   "security.workspace.trust.enabled": false,
   "[go]": { "editor.formatOnSave": true },
   "workbench.activityBar.visible": false,
-  "window.menuBarVisibility": "toggle",
-  "workbench.colorTheme": "Visual Studio Light"
+  "window.menuBarVisibility": "toggle"
 }
