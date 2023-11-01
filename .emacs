@@ -49,6 +49,7 @@
 ;; PATH END
 
 ;; Navigation
+(global-set-key (kbd "<C-tab>") 'previous-buffer)
 (setq recenter-positions '(middle))
 (defun jump-up () (interactive) (next-line (* -1 (/ (window-height) 2))) (recenter-top-bottom))
 (defun jump-down () (interactive) (next-line (/ (window-height) 2)) (recenter-top-bottom))
@@ -79,6 +80,7 @@
 ;; Themes
 (defadvice load-theme (before disable-themes-first activate) (dolist (i custom-enabled-themes) (disable-theme i)))
 (use-package ef-themes)
+(use-package doom-themes)
 (use-package amirreza-themes :straight (amirreza-themes :host github :repo "amirrezaask/themes" :local-repo "amirreza-themes"))
 (setq custom-safe-themes t)
 (global-set-key (kbd "<f1>") 'ef-themes-load-random)
