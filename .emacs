@@ -48,7 +48,7 @@
 
 (defun amirreza/benq ()
   (interactive)
-  (amirreza/set-font "Jetbrains Mono" 14))
+  (amirreza/set-font "Jetbrains Mono" 13))
 
 (amirreza/laptop)
 ;; FONT END
@@ -182,7 +182,6 @@
   :hook (yaml-mode . highlight-indent-guides-mode)
   :config
   (setq highlight-indent-guides-method 'character))
-
 ;; indent guides END
 
 ;; Eglot 
