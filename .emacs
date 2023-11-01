@@ -33,7 +33,7 @@
 ;; FONT START
 (global-set-key (kbd "C-=") (lambda () (interactive) (text-scale-increase 1)))
 (global-set-key (kbd "C--") (lambda () (interactive) (text-scale-decrease 1)))
-(add-to-list 'default-frame-alist '(font . "Jetbrains Mono 12"))
+(add-to-list 'default-frame-alist '(font . "Fira Mono 11"))
 ;; FONT END
 
 ;; PATH
