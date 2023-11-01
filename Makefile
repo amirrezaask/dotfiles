@@ -19,7 +19,6 @@ codium:
 	ln -s $(THIS_DIR)/vscode-keybindings.json $(HOME)/.config/VSCodium/User/keybindings.json
 	echo "Installing/Upgrading extensions"
 	codium --install-extension felipecaputo.git-project-manager
-	codium --install-extension ms-azuretools.vscode-docker 
 	codium --install-extension usernamehw.errorlens 
 	codium --install-extension waderyan.gitblame 
 	codium --install-extension GitLab.gitlab-workflow 

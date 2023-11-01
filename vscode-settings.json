@@ -13,8 +13,9 @@
   "workbench.startupEditor": "newUntitledFile",
   "extensions.ignoreRecommendations": true,
   "security.workspace.trust.enabled": false,
-  "[go]": { "editor.formatOnSave": true },
-  "workbench.activityBar.visible": false,
+  "[go]": {
+    "editor.formatOnSave": true
+  },
   "window.menuBarVisibility": "toggle",
   "workbench.colorTheme": "Visual Studio Light"
 }
