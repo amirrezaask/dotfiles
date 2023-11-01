@@ -15,9 +15,3 @@ then
     export EDITOR='codium -w'
     export GIT_EDITOR='codium -w'
 fi
-if command -v emacs &> /dev/null
-then
-    alias e='emacs'
-    export EDITOR='emacs'
-    export GIT_EDITOR='emacs'
-fi
