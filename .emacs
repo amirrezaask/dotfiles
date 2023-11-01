@@ -4,6 +4,7 @@
 (setq ring-bell-function (lambda ())) ;; no stupid sounds
 (setq custom-file "~/.custom.el") ;; set custom file to not meddle with init.el
 (setq make-backup-files nil) ;; no emacs ~ backup files
+(global-unset-key (kbd "C-z"))
 ;; Basic END
 
 ;; Package manager START
@@ -91,7 +92,7 @@
 (use-package amirreza-themes :straight (amirreza-themes :host github :repo "amirrezaask/themes" :local-repo "amirreza-themes"))
 (setq custom-safe-themes t)
 (global-set-key (kbd "<f1>") 'ef-themes-load-random)
-(load-theme 'ef-light)
+(load-theme 'ef-deuteranopia-light)
 ;; Themes END
 
 ;; minibuffer
