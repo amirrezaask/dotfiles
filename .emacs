@@ -95,7 +95,7 @@
 ;; GUI
 (global-hl-line-mode)
 (global-display-line-numbers-mode)
-(setq-default cursor-type 'box)
+(setq-default cursor-type 'bar)
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
@@ -108,7 +108,7 @@
 (use-package amirreza-themes :straight (amirreza-themes :host github :repo "amirrezaask/themes" :local-repo "amirreza-themes"))
 (setq custom-safe-themes t)
 (global-set-key (kbd "<f1>") 'ef-themes-load-random)
-(load-theme 'ef-frost)
+(load-theme 'doom-one)
 ;; Themes END
 
 ;; minibuffer
@@ -129,6 +129,11 @@
   :config
   (setq corfu-auto t)
   (global-corfu-mode))
+
+(use-package cape
+  :bind
+  ("C-i" . cape-file))
+
 ;; Autocomplete END
 
 ;; text editing
@@ -194,6 +199,7 @@
 
 (add-hook 'go-mode-hook (lambda ()
 			  (add-hook 'before-save-hook 'eglot-save-with-imports nil t)))
+
 
 (use-package eglot :straight nil
   :hook
