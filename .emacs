@@ -49,7 +49,14 @@
 ;; PATH END
 
 ;; Navigation
+(defun amirreza/find-file ()
+  (interactive)
+  (if (and (fboundp 'project-current) (fboundp 'project-root) (project-root (project-current)))
+      (project-find-file)
+    (find-file)))
+
 (global-set-key (kbd "<C-tab>") 'previous-buffer)
+(global-set-key (kbd "M-o") 'amirreza/find-file)
 (setq recenter-positions '(middle))
 (defun jump-up () (interactive) (next-line (* -1 (/ (window-height) 2))) (recenter-top-bottom))
 (defun jump-down () (interactive) (next-line (/ (window-height) 2)) (recenter-top-bottom))
@@ -84,7 +91,7 @@
 (use-package amirreza-themes :straight (amirreza-themes :host github :repo "amirrezaask/themes" :local-repo "amirreza-themes"))
 (setq custom-safe-themes t)
 (global-set-key (kbd "<f1>") 'ef-themes-load-random)
-(load-theme 'ef-night)
+(load-theme 'ef-light)
 ;; Themes END
 
 ;; minibuffer
