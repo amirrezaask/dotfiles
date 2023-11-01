@@ -92,7 +92,7 @@
 (use-package amirreza-themes :straight (amirreza-themes :host github :repo "amirrezaask/themes" :local-repo "amirreza-themes"))
 (setq custom-safe-themes t)
 (global-set-key (kbd "<f1>") 'ef-themes-load-random)
-(load-theme 'ef-deuteranopia-light)
+(load-theme 'ef-maris-dark)
 ;; Themes END
 
 ;; minibuffer
@@ -185,7 +185,6 @@
   ((go-mode rust-mode tuareg-mode) . eglot-ensure) ;; Go + Rust + Ocaml
   :bind
   (:map eglot-mode-map
-	("C-x C-l" . eglot-save-with-imports)
 	("M-<f12>" . eglot-find-implementation)
 	("C-." . eglot-code-actions)))
 ;; Eglot END
