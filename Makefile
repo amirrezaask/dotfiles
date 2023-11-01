@@ -10,6 +10,9 @@ profile:
 zsh:
 	rm -rf $(HOME)/.zshrc
 	ln -s $(THIS_DIR)/.zshrc $(HOME)/.zshrc
+font:
+	mkdir -p $(HOME)/.local/share/fonts
+	cp $(THIS_DIR)/JetbrainsMono.ttf $(HOME)/.local/share/fonts/
 
 codium:
 	mkdir -p $(HOME)/.config/VSCodium/User
