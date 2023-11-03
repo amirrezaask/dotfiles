@@ -150,18 +150,17 @@
 (use-package yaml-mode)
 (use-package json-mode)
 (use-package rust-mode)
-(when (< emacs-major-version 29)
-  (use-package csharp-mode))
+(when (< emacs-major-version 29) (use-package csharp-mode))
 (use-package typescript-mode)
 (use-package lua-mode)
 (use-package tuareg) ;; ocaml
 ;; languages END
 
-;; sidebar
+;; dired
 (use-package dired-sidebar
   :bind ("C-1" . dired-sidebar-toggle-sidebar)
   :commands (dired-sidebar-toggle-sidebar))
-;; sidebar END
+;; dired END
 
 ;; Compile
 (use-package compile
@@ -197,9 +196,7 @@
        (eglot-format-buffer)
        (eglot-code-actions nil nil "source.organizeImports" t))
 
-(add-hook 'go-mode-hook (lambda ()
-			  (add-hook 'before-save-hook 'eglot-save-with-imports nil t)))
-
+(add-hook 'go-mode-hook (lambda () (add-hook 'before-save-hook 'eglot-save-with-imports nil t)))
 
 (use-package eglot :straight nil
   :hook
