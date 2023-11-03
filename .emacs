@@ -4,7 +4,6 @@
 (setq ring-bell-function (lambda ())) ;; no stupid sounds
 (setq custom-file "~/.custom.el") ;; set custom file to not meddle with init.el
 (setq make-backup-files nil) ;; no emacs ~ backup files
-(global-unset-key (kbd "C-z"))
 ;; Basic END
 
 ;; Package manager START
@@ -108,7 +107,7 @@
 (use-package amirreza-themes :straight (amirreza-themes :host github :repo "amirrezaask/themes" :local-repo "amirreza-themes"))
 (setq custom-safe-themes t)
 (global-set-key (kbd "<f1>") 'ef-themes-load-random)
-(load-theme 'doom-one)
+(ef-themes-load-random)
 ;; Themes END
 
 ;; minibuffer
@@ -137,6 +136,7 @@
 ;; Autocomplete END
 
 ;; text editing
+(global-set-key (kbd "C-z") 'undo)
 (delete-selection-mode)
 (global-set-key (kbd "C-q") 'set-mark-command) ;; better key to start a selection
 (use-package multiple-cursors
@@ -231,3 +231,4 @@
   (grep-apply-setting 'grep-use-null-device nil))
 (global-set-key (kbd "C-S-g") 'grep)
 ;; Grep END
+
