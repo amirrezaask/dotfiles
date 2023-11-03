@@ -132,7 +132,7 @@
 
 (use-package cape
   :bind
-  ("C-i" . cape-file))
+  ("C-c f" . cape-file))
 
 ;; Autocomplete END
 
@@ -199,6 +199,13 @@
 (add-hook 'go-mode-hook (lambda () (add-hook 'before-save-hook 'eglot-save-with-imports nil t)))
 
 (use-package eglot :straight nil
+  :init
+  (setq eglot-events-buffer-size 0
+        eglot-ignored-server-capabilities '(:hoverProvider :documentHighlightProvider)
+        eglot-autoshutdown t
+        eldoc-idle-delay 0.75
+	eldoc-documentation-strategy 'eldoc-documentation-compose
+        flymake-no-changes-timeout 0.5) ;; eglot performance improvement by doing less work
   :hook
   ((go-mode rust-mode tuareg-mode) . eglot-ensure) ;; Go + Rust + Ocaml
   :bind
