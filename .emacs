@@ -89,13 +89,13 @@
 (defun amirreza/modeline-right () (interactive) (concat (amirreza/modeline-major-mode)))
 (defun amirreza/modeline-format ()
   (let* ((left (amirreza/modeline-left))
-	(center (amirreza/modeline-center))
-	(right (amirreza/modeline-right))
-	(win-len (window-width (get-buffer-window (current-buffer))))
-	(center-right-spaces (make-string (- (/ win-len 2) (+ (/ (length center) 2) (length right))  ) ?\s))
-	(left-center-spaces (make-string (- (/ win-len 2) (+ (length left) (/ (length center) 2))) ?\s))
-	)
-    
+	 (center (amirreza/modeline-center))
+	 (right (amirreza/modeline-right))
+	 (win-len (window-width (get-buffer-window (current-buffer))))
+	 (center-right-spaces (make-string (- (/ win-len 2) (+ (/ (length center) 2) (length right))  ) ?\s))
+	 (left-center-spaces (make-string (- (/ win-len 2) (+ (length left) (/ (length center) 2))) ?\s))
+	 )
+
     (concat left left-center-spaces center center-right-spaces right)))
 
 (setq-default mode-line-format '("%e" (:eval (amirreza/modeline-format))))
@@ -121,57 +121,57 @@
 (use-package ef-themes)
 (setq custom-safe-themes t)
 (setq amirreza/themes-list '(
-				     ;; Modus Light Themes
-				     modus-operandi
-				     modus-operandi-tinted
-				     modus-operandi-deuteranopia
-				     modus-operandi-tritanopia
-				     
-				     ;; Modus Dark Themes
-				     modus-vivendi
-				     modus-vivendi-tinted
-				     modus-vivendi-deuteranopia
-				     modus-vivendi-tritanopia
+			     ;; Modus Light Themes
+			     modus-operandi
+			     modus-operandi-tinted
+			     modus-operandi-deuteranopia
+			     modus-operandi-tritanopia
 
-				     ;; EF Dark Themes
-				     ef-autumn
-				     ef-bio
-				     ef-cherie
-				     ef-dark
-				     ef-deuteranopia-dark
-				     ef-duo-dark
-				     ef-elea-dark
-				     ef-maris-dark
-				     ef-melissa-dark
-				     ef-night
-				     ef-symbiosis
-				     ef-trio-dark
-				     ef-tritanopia-dark
-				     ef-winter
+			     ;; Modus Dark Themes
+			     modus-vivendi
+			     modus-vivendi-tinted
+			     modus-vivendi-deuteranopia
+			     modus-vivendi-tritanopia
 
-				     ;; EF Light Themes
-				     ef-cyprus
-				     ef-day
-				     ef-deuteranopia-light
-				     ef-duo-light
-				     ef-elea-light
-				     ef-frost
-				     ef-kassio
-				     ef-light
-				     ef-maris-light
-				     ef-melissa-light
-				     ef-spring
-				     ef-summer
-				     ef-trio-light
-				     ef-tritanopia-light
-				     ))
+			     ;; EF Dark Themes
+			     ef-autumn
+			     ef-bio
+			     ef-cherie
+			     ef-dark
+			     ef-deuteranopia-dark
+			     ef-duo-dark
+			     ef-elea-dark
+			     ef-maris-dark
+			     ef-melissa-dark
+			     ef-night
+			     ef-symbiosis
+			     ef-trio-dark
+			     ef-tritanopia-dark
+			     ef-winter
+
+			     ;; EF Light Themes
+			     ef-cyprus
+			     ef-day
+			     ef-deuteranopia-light
+			     ef-duo-light
+			     ef-elea-light
+			     ef-frost
+			     ef-kassio
+			     ef-light
+			     ef-maris-light
+			     ef-melissa-light
+			     ef-spring
+			     ef-summer
+			     ef-trio-light
+			     ef-tritanopia-light
+			     ))
 (defun amirreza/random-theme ()
   (interactive)
   (let ((theme (nth (random (length amirreza/themes-list)) amirreza/themes-list)))
     (load-theme theme)
     (message "Loaded %s" (symbol-name theme))
     ))
-      
+
 (global-set-key (kbd "<f1>") 'amirreza/random-theme)
 (load-theme 'modus-vivendi)
 ;; Themes END
@@ -249,7 +249,7 @@
   (setq highlight-indent-guides-method 'character))
 ;; indent guides END
 
-;; Eglot 
+;; Eglot
 (unless (>= emacs-major-version 29)
   (straight-use-package 'eglot))
 
