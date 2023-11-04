@@ -192,7 +192,7 @@
 
 ;; Autocomplete END
 
-;; text editing
+;; Text Editing
 (global-set-key (kbd "C-z") 'undo)
 (delete-selection-mode)
 (global-set-key (kbd "C-q") 'set-mark-command) ;; better key to start a selection
@@ -200,7 +200,7 @@
   :bind
   (("C-S-n" . 'mc/mark-next-like-this)
    ("C-S-p" . 'mc/mark-previous-like-this)))
-;; text editing END
+;; Text Editing END
 
 ;; languages
 (use-package go-mode)
