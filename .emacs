@@ -59,8 +59,6 @@
 (add-to-list 'exec-path (home ".cargo/bin"))
 (add-to-list 'exec-path "/opt/homebrew/bin") ;; homebrew
 (add-to-list 'exec-path (home "bin")) ;; GOPATH/bin
-(add-to-list 'exec-path (home ".opam/5.0.0/bin")) ;; ocaml my caml
-(add-to-list 'exec-path (home ".opam/default/bin"))
 (setenv "PATH" (string-join exec-path ":")) ;; set emacs process PATH
 ;; PATH END
 
@@ -169,8 +167,7 @@
   (interactive)
   (let ((theme (nth (random (length amirreza/themes-list)) amirreza/themes-list)))
     (load-theme theme)
-    (message "Loaded %s" (symbol-name theme))
-    ))
+    (message "Loaded %s" (symbol-name theme))))
 
 (global-set-key (kbd "<f1>") 'amirreza/random-theme)
 (load-theme 'modus-vivendi)
@@ -237,7 +234,10 @@
 ;; Magit END
 
 ;; formatter
-(use-package format-all)
+(defun amirreza/format-dwim () (interactive) (if (use-region-p) (format-all-region) (format-all-buffer)))
+(use-package format-all
+  :bind
+  ("C-c m f" . 'amirreza/format-dwim))
 ;; formatter END
 
 (global-set-key (kbd "C-x n") 'find-file-other-frame)
@@ -272,7 +272,7 @@
   :bind
   (:map eglot-mode-map
 	("M-<f12>" . eglot-find-implementation)
-	("C-." . eglot-code-actions)))
+	("C-c m c" . eglot-code-actions)))
 ;; Eglot END
 
 ;; XRef
@@ -284,11 +284,18 @@
    ("M-r" . xref-find-references)))
 ;; XRef END
 
-;; Grep
+;; Search and Grep
+(use-package isearch :straight nil
+  :bind
+  (("C-." . 'isearch-forward-thing-at-point)
+   :map
+   isearch-mode-map
+   ("C-." . 'isearch-repeat-forward)))
+
 (use-package wgrep)
 (grep-apply-setting 'grep-command "grep --exclude-dir='.git' --color=auto -nH --null -r -e ")
 (when (executable-find "rg")
   (grep-apply-setting 'grep-command "rg --vimgrep ")
   (grep-apply-setting 'grep-use-null-device nil))
-(global-set-key (kbd "C-S-g") 'grep)
-;; Grep END
+(global-set-key (kbd "M-s") 'grep)
+;; Search and Grep END
