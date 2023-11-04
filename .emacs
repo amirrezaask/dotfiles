@@ -71,7 +71,6 @@
       (project-find-file)
     (find-file)))
 
-(global-set-key (kbd "<C-tab>") 'previous-buffer)
 (global-set-key (kbd "M-o") 'amirreza/find-file)
 (setq recenter-positions '(middle))
 (defun jump-up () (interactive) (next-line (* -1 (/ (window-height) 2))) (recenter-top-bottom))
@@ -81,7 +80,7 @@
 ;; Navigation END
 
 ;; Modeline
-(defun amirreza/modeline-vc () (interactive) (propertize (if vc-mode vc-mode "No Version Control") 'face '(:weight light)))
+(defun amirreza/modeline-vc () (interactive) (propertize (if vc-mode vc-mode "") 'face '(:weight light)))
 (defun amirreza/modeline-file () (interactive) (propertize (format "%s%s%s" (if (buffer-modified-p (current-buffer)) " [*] " "") default-directory (buffer-name (current-buffer))) 'face '(:weight light)))
 (defun amirreza/modeline-linecol () (interactive) (propertize "%l:%c"))
 (defun amirreza/modeline-major-mode () (interactive) (propertize (substring (capitalize (symbol-name major-mode)) 0 -5) 'face '(:weight light)))
