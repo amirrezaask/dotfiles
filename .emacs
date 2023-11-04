@@ -82,7 +82,7 @@
 
 ;; Modeline
 (defun amirreza/modeline-vc () (interactive) (propertize (if vc-mode vc-mode "No Version Control") 'face '(:weight light)))
-(defun amirreza/modeline-file () (interactive) (propertize (format "%s%s%s" (if (buffer-modified-p (current-buffer)) " [*] " "") default-directory (buffer-name (current-buffer)))))
+(defun amirreza/modeline-file () (interactive) (propertize (format "%s%s%s" (if (buffer-modified-p (current-buffer)) " [*] " "") default-directory (buffer-name (current-buffer))) 'face '(:weight light)))
 (defun amirreza/modeline-linecol () (interactive) (propertize "%l:%c"))
 (defun amirreza/modeline-major-mode () (interactive) (propertize (substring (capitalize (symbol-name major-mode)) 0 -5) 'face '(:weight light)))
 (defun amirreza/modeline-left () (interactive) (concat (amirreza/modeline-vc)))
@@ -106,7 +106,7 @@
 (setq inhibit-startup-screen t) ;; disable default start screen
 (set-frame-parameter nil 'fullscreen 'maximized)
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
-(setq-default frame-title-format '("%e" default-directory))
+(setq-default frame-title-format '("%e" "%f"))
 ;; Frame END
 
 ;; GUI
@@ -195,11 +195,6 @@
   :config
   (setq corfu-auto t)
   (global-corfu-mode))
-
-(use-package cape
-  :bind
-  ("C-c f" . cape-file))
-
 ;; Autocomplete END
 
 ;; Text Editing
