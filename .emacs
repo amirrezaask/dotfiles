@@ -81,7 +81,13 @@
 ;; Navigation END
 
 ;; Modeline
-(setq-default mode-line-format '("%e" mode-line-front-space mode-line-modified " " "%l:%c " default-directory "%b" " " mode-line-end-spaces))
+(setq-default mode-line-format '("%e"
+				 mode-line-modified
+				 " %l:%c "
+				 " <> "
+				 (:eval (format "%s%s" default-directory (buffer-name (current-buffer))))
+				 " <> "
+				 (:eval (capitalize (symbol-name major-mode)))))
 ;; Modeline END
 
 ;; Frame
@@ -229,4 +235,3 @@
   (grep-apply-setting 'grep-use-null-device nil))
 (global-set-key (kbd "C-S-g") 'grep)
 ;; Grep END
-
