@@ -1,5 +1,5 @@
 ;; Basic
-(setq gc-cons-threshold 100000000) ;; 100 MB
+(setq gc-cons-threshold 200000000) ;; 200 MB
 (setq vc-follow-symlinks t) ;; Follow symlinks with no questions
 (setq ring-bell-function (lambda ())) ;; no stupid sounds
 (setq custom-file "~/.custom.el") ;; set custom file to not meddle with init.el
