@@ -163,14 +163,14 @@
 			     ef-trio-light
 			     ef-tritanopia-light
 			     ))
-(defun amirreza/random-theme ()
+(defun amirreza/load-random-theme ()
   (interactive)
   (let ((theme (nth (random (length amirreza/themes-list)) amirreza/themes-list)))
     (load-theme theme)
     (message "Loaded %s" (symbol-name theme))))
 
-(global-set-key (kbd "<f1>") 'amirreza/random-theme)
-(load-theme 'modus-vivendi)
+(global-set-key (kbd "<f1>") 'amirreza/load-random-theme)
+(amirreza/load-random-theme)
 ;; Themes END
 
 ;; minibuffer
