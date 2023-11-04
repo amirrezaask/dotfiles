@@ -81,7 +81,7 @@
 ;; Navigation END
 
 ;; Modeline
-(setq-default mode-line-format '("%e" mode-line-front-space mode-line-modified " " "%l:%c " default-directory "%b" " " mode-line-modes mode-line-end-spaces))
+(setq-default mode-line-format '("%e" mode-line-front-space mode-line-modified " " "%l:%c " default-directory "%b" " " mode-line-end-spaces))
 ;; Modeline END
 
 ;; Frame
@@ -94,7 +94,6 @@
 ;; GUI
 (global-hl-line-mode)
 (global-display-line-numbers-mode)
-(setq-default cursor-type 'bar)
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
@@ -103,11 +102,10 @@
 ;; Themes
 (defadvice load-theme (before disable-themes-first activate) (dolist (i custom-enabled-themes) (disable-theme i)))
 (use-package ef-themes)
-(use-package doom-themes)
 (use-package amirreza-themes :straight (amirreza-themes :host github :repo "amirrezaask/themes" :local-repo "amirreza-themes"))
 (setq custom-safe-themes t)
 (global-set-key (kbd "<f1>") 'ef-themes-load-random)
-(ef-themes-load-random)
+(load-theme 'modus-operandi)
 ;; Themes END
 
 ;; minibuffer
