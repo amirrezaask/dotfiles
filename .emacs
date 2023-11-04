@@ -194,7 +194,6 @@
 ;; Autocomplete END
 
 ;; Text Editing
-(global-set-key (kbd "C-z") 'undo)
 (delete-selection-mode)
 (global-set-key (kbd "C-q") 'set-mark-command) ;; better key to start a selection
 (use-package multiple-cursors
@@ -240,7 +239,7 @@
   ("C-c m f" . 'amirreza/format-dwim))
 ;; formatter END
 
-(global-set-key (kbd "C-x n") 'find-file-other-frame)
+(global-set-key (kbd "C-C n") 'find-file-other-frame)
 
 ;; indent guides
 (use-package highlight-indent-guides
@@ -297,5 +296,5 @@
 (when (executable-find "rg")
   (grep-apply-setting 'grep-command "rg --vimgrep ")
   (grep-apply-setting 'grep-use-null-device nil))
-(global-set-key (kbd "M-s") 'grep)
+(global-set-key (kbd "C-c s") 'grep)
 ;; Search and Grep END
