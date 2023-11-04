@@ -1,5 +1,6 @@
 # AmirrezaAsk Configs
 
+- [Emacs](https://github.com/amirrezaask/dotfiles/blob/master/.emacs)
 - [VSCode Settings](https://github.com/amirrezaask/dotfiles/blob/master/vscode-settings.json)
 - [VSCode Keybindings](https://github.com/amirrezaask/dotfiles/blob/master/vscode-keybindings.json)
 - [Neovim](https://github.com/amirrezaask/dotfiles/blob/master/init.lua)
