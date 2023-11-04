@@ -106,6 +106,7 @@
 (global-set-key (kbd "M-2") 'dired-jump)
 (global-set-key (kbd "M-[") 'previous-buffer)
 (global-set-key (kbd "M-]") 'next-buffer)
+(global-set-key (kbd "C-;") 'goto-line)
 ;; Navigation END
 
 ;; Window management
