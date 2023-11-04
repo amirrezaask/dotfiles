@@ -82,7 +82,7 @@
 
 ;; Modeline
 (defun amirreza/modeline-vc () (interactive) (propertize (if vc-mode vc-mode "No Version Control") 'face '(:weight bold)))
-(defun amirreza/modeline-file () (interactive) (propertize (format "%s%s" default-directory (buffer-name (current-buffer)))))
+(defun amirreza/modeline-file () (interactive) (propertize (format "%s%s%s" (if (buffer-modified-p (current-buffer)) " [*] " "") default-directory (buffer-name (current-buffer)))))
 (defun amirreza/modeline-linecol () (interactive) (propertize "%l:%c"))
 (defun amirreza/modeline-major-mode () (interactive) (propertize (capitalize (symbol-name major-mode)) 'face '(:weight light)))
 (defun amirreza/modeline-left () (interactive) (concat (amirreza/modeline-vc)))
