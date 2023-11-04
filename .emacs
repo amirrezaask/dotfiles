@@ -81,20 +81,23 @@
 ;; Navigation END
 
 ;; Modeline
-(defun amirreza/modeline-vc () (propertize vc-mode 'face '(:weight bold)))
-(defun amirreza/modeline-file () (propertize (format "%s%s" default-directory (buffer-name (current-buffer)))))
-(defun amirreza/modeline-linecol () (propertize "%l:%c"))
-(defun amirreza/modeline-major-mode ()  (propertize (capitalize (symbol-name major-mode)) 'face '(:weight light)))
-(defun amirreza/modeline-left () (concat (amirreza/modeline-vc)))
-(defun amirreza/modeline-center () (concat (amirreza/modeline-file) " " (amirreza/modeline-linecol)))
-(defun amirreza/modeline-right () (concat (amirreza/modeline-major-mode)))
+(defun amirreza/modeline-vc () (interactive) (propertize (if vc-mode vc-mode "No Version Control") 'face '(:weight bold)))
+(defun amirreza/modeline-file () (interactive) (propertize (format "%s%s" default-directory (buffer-name (current-buffer)))))
+(defun amirreza/modeline-linecol () (interactive) (propertize "%l:%c"))
+(defun amirreza/modeline-major-mode () (interactive) (propertize (capitalize (symbol-name major-mode)) 'face '(:weight light)))
+(defun amirreza/modeline-left () (interactive) (concat (amirreza/modeline-vc)))
+(defun amirreza/modeline-center () (interactive) (concat (amirreza/modeline-file) " " (amirreza/modeline-linecol)))
+(defun amirreza/modeline-right () (interactive) (concat (amirreza/modeline-major-mode)))
 (defun amirreza/modeline-format ()
-  (let ((left (amirreza/modeline-left))
+  (let* ((left (amirreza/modeline-left))
 	(center (amirreza/modeline-center))
-	(right (amirreza/modeline-right)))
-
+	(right (amirreza/modeline-right))
+	(win-len (window-width (get-buffer-window (current-buffer))))
+	(center-right-spaces (make-string (- (/ win-len 2) (+ (/ (length center) 2) (length right))  ) ?\s))
+	(left-center-spaces (make-string (- (/ win-len 2) (+ (length left) (/ (length center) 2))) ?\s))
+	)
     
-    (concat left " " center " " right)))
+    (concat left left-center-spaces center center-right-spaces right)))
 
 (setq-default mode-line-format '("%e" (:eval (amirreza/modeline-format))))
 ;; Modeline END
