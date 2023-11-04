@@ -108,10 +108,61 @@
 ;; Themes
 (defadvice load-theme (before disable-themes-first activate) (dolist (i custom-enabled-themes) (disable-theme i)))
 (use-package ef-themes)
-(use-package amirreza-themes :straight (amirreza-themes :host github :repo "amirrezaask/themes" :local-repo "amirreza-themes"))
 (setq custom-safe-themes t)
-(global-set-key (kbd "<f1>") 'ef-themes-load-random)
-(load-theme 'modus-operandi)
+(setq amirreza/themes-list '(
+				     ;; Modus Light Themes
+				     modus-operandi
+				     modus-operandi-tinted
+				     modus-operandi-deuteranopia
+				     modus-operandi-tritanopia
+				     
+				     ;; Modus Dark Themes
+				     modus-vivendi
+				     modus-vivendi-tinted
+				     modus-vivendi-deuteranopia
+				     modus-vivendi-tritanopia
+
+				     ;; EF Dark Themes
+				     ef-autumn
+				     ef-bio
+				     ef-cherie
+				     ef-dark
+				     ef-deuteranopia-dark
+				     ef-duo-dark
+				     ef-elea-dark
+				     ef-maris-dark
+				     ef-melissa-dark
+				     ef-night
+				     ef-symbiosis
+				     ef-trio-dark
+				     ef-tritanopia-dark
+				     ef-winter
+
+				     ;; EF Light Themes
+				     ef-cyprus
+				     ef-day
+				     ef-deuteranopia-light
+				     ef-duo-light
+				     ef-elea-light
+				     ef-frost
+				     ef-kassio
+				     ef-light
+				     ef-maris-light
+				     ef-melissa-light
+				     ef-spring
+				     ef-summer
+				     ef-trio-light
+				     ef-tritanopia-light
+				     ))
+(defun amirreza/random-theme ()
+  (interactive)
+  (let ((theme (nth (random (length amirreza/themes-list)) amirreza/themes-list)))
+    (load-theme theme)
+    (message "Loaded %s" (symbol-name theme))
+    ))
+      
+(global-set-key (kbd "<f1>") 'amirreza/random-theme)
+(load-theme 'modus-vivendi)
 ;; Themes END
 
 ;; minibuffer
