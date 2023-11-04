@@ -81,15 +81,22 @@
 ;; Navigation END
 
 ;; Modeline
-(setq-default mode-line-format '("%e"
-				 mode-line-front-space
-				 mode-line-modified
-				 " "
-				 (:eval (propertize (format "%s%s" default-directory (buffer-name (current-buffer))) 'face '(:weight bold)))
-				 " %l:%c"
-				 " <> "
-				 (:eval (propertize (capitalize (symbol-name major-mode)) 'face '(:weight light)))
-				 ))
+(defun amirreza/modeline-vc () (propertize vc-mode 'face '(:weight bold)))
+(defun amirreza/modeline-file () (propertize (format "%s%s" default-directory (buffer-name (current-buffer)))))
+(defun amirreza/modeline-linecol () (propertize "%l:%c"))
+(defun amirreza/modeline-major-mode ()  (propertize (capitalize (symbol-name major-mode)) 'face '(:weight light)))
+(defun amirreza/modeline-left () (concat (amirreza/modeline-vc)))
+(defun amirreza/modeline-center () (concat (amirreza/modeline-file) " " (amirreza/modeline-linecol)))
+(defun amirreza/modeline-right () (concat (amirreza/modeline-major-mode)))
+(defun amirreza/modeline-format ()
+  (let ((left (amirreza/modeline-left))
+	(center (amirreza/modeline-center))
+	(right (amirreza/modeline-right)))
+
+    
+    (concat left " " center " " right)))
+
+(setq-default mode-line-format '("%e" (:eval (amirreza/modeline-format))))
 ;; Modeline END
 
 ;; Frame
