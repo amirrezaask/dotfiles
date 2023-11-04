@@ -82,12 +82,14 @@
 
 ;; Modeline
 (setq-default mode-line-format '("%e"
+				 mode-line-front-space
 				 mode-line-modified
-				 " %l:%c "
-				 " <> "
+				 " "
 				 (:eval (format "%s%s" default-directory (buffer-name (current-buffer))))
+				 " %l:%c"
 				 " <> "
-				 (:eval (capitalize (symbol-name major-mode)))))
+				 (:eval (capitalize (symbol-name major-mode)))
+				 ))
 ;; Modeline END
 
 ;; Frame
