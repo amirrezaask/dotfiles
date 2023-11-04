@@ -2,8 +2,6 @@
 ;; <M-1> Load a random theme
 ;; C-= increase font size
 ;; C-- decrease font size
-;; C-Space trigger completion menu
-;; C-q Start region (selection)
 
 ;; M-n Jump down half a page and center cursor
 ;; M-p Jump up half a page and center cursor
@@ -15,18 +13,18 @@
 ;; M-[ previous-buffer
 ;; M-] next-buffer
 
-;; M-9 format dwim (if selected region format region otherwise buffer) ??
+;; <f9> format-dwim (if selected region format region otherwise buffer) ??
 
 ;; <f12> goto definition
 ;; M-<f12> goto references
 ;; C-<f12> goto implementations
 
-;; M-o find-file-dwim ( if in project in project scope otherwise in directory )
-;; C-o Switch window
+;; C-o other-window
 ;; <f5> compile
 ;; C-x C-n create new frame
-;; M-s grep project
-;; C-0 delete this window
+;; M-o find-file-dwim
+;; M-s grep-dwim
+;; C-0 delete-this-window
 
 ;; Basic
 (setq gc-cons-threshold 200000000) ;; 200 MB
@@ -222,10 +220,7 @@
 ;; minibuffer END
 
 ;; Autocomplete
-(global-unset-key (kbd "C-SPC"))
 (use-package corfu
-  :bind
-  ("C-SPC" . 'completion-at-point)
   :config
   (setq corfu-auto t)
   (global-corfu-mode))
@@ -268,7 +263,7 @@
 (defun amirreza/format-dwim () (interactive) (if (use-region-p) (format-all-region) (format-all-buffer)))
 (use-package format-all
   :bind
-  ("M-9" . 'amirreza/format-dwim))
+  ("<f9>" . 'amirreza/format-dwim))
 ;; formatter END
 
 (global-set-key (kbd "C-x C-n") 'find-file-other-frame)
@@ -322,11 +317,19 @@
    isearch-mode-map
    ("C-." . 'isearch-repeat-forward)))
 
+(defun grep-dwim ()
+  "run grep command in either your project root or current directory"
+  (interactive)
+  (if (and (fboundp 'project-current) (fboundp 'project-root) (project-root (project-current)))
+      (let ((default-directory (project-root (project-current))))
+	(call-interactively 'grep))
+    (call-interactively 'grep)))
+
 (use-package wgrep)
 (grep-apply-setting 'grep-command "grep --exclude-dir='.git' --color=auto -nH --null -r -e ")
 (when (executable-find "rg")
   (grep-apply-setting 'grep-command "rg --vimgrep ")
   (grep-apply-setting 'grep-use-null-device nil))
 (global-set-key (kbd "M-s") 'grep)
-;; TODO make this project aware
+
 ;; Search and Grep END
