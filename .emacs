@@ -85,10 +85,10 @@
 				 mode-line-front-space
 				 mode-line-modified
 				 " "
-				 (:eval (format "%s%s" default-directory (buffer-name (current-buffer))))
+				 (:eval (propertize (format "%s%s" default-directory (buffer-name (current-buffer))) 'face '(:weight bold)))
 				 " %l:%c"
 				 " <> "
-				 (:eval (capitalize (symbol-name major-mode)))
+				 (:eval (propertize (capitalize (symbol-name major-mode)) 'face '(:weight light)))
 				 ))
 ;; Modeline END
 
