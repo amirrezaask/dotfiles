@@ -1,3 +1,30 @@
+;; Cheatsheet: C- means ctrl; M- means alt; S- means shift
+;; <M-1> Load a random theme
+;; C-= increase font size
+;; C-- decrease font size
+;; C-Space trigger completion menu
+;; C-q Start region (selection)
+;; M-n Jump down half a page and center cursor
+;; M-p Jump up half a page and center cursor
+;; C-> multi-cursor insert next line
+;; C-< multi-cursor insert previous line
+;; C-. search thing at point(cursor)
+;; M-[ previous-buffer
+;; M-] next-buffer
+;; M-9 format dwim (if selected region format region otherwise buffer) ??
+;; <f12> goto definition
+;; M-<f12> goto references
+;; C-<f12> goto implementations
+;; M-. goto definition
+;; M-i find implementations
+;; M-r find references
+;; M-o find-file-dwim ( if in project in project scope otherwise in directory )
+;; C-o Switch window
+;; <f5> compile
+;; C-x C-n create new frame
+;; M-s grep project
+;; C-0 delete this window
+
 ;; Basic
 (setq gc-cons-threshold 200000000) ;; 200 MB
 (setq vc-follow-symlinks t) ;; Follow symlinks with no questions
@@ -63,23 +90,31 @@
 ;; PATH END
 
 ;; Navigation
-(defun amirreza/find-file ()
+(defun find-file-dwim ()
   (interactive)
   (if (and (fboundp 'project-current) (fboundp 'project-root) (project-root (project-current)))
       (project-find-file)
     (find-file)))
 
-(global-set-key (kbd "C-o") 'amirreza/find-file)
+(global-set-key (kbd "M-o") 'find-file-dwim)
 (setq recenter-positions '(middle))
 (defun jump-up () (interactive) (next-line (* -1 (/ (window-height) 2))) (recenter-top-bottom))
 (defun jump-down () (interactive) (next-line (/ (window-height) 2)) (recenter-top-bottom))
 (global-set-key (kbd "M-n") 'jump-down)
 (global-set-key (kbd "M-p") 'jump-up)
+(global-set-key (kbd "M-2") 'dired-jump)
+(global-set-key (kbd "M-[") 'previous-buffer)
+(global-set-key (kbd "M-]") 'next-buffer)
 ;; Navigation END
+
+;; Window management
+(global-set-key (kbd "C-o") 'other-window)
+(global-set-key (kbd "C-0") 'delete-window)
+;; Window management END
 
 ;; Modeline
 (defun amirreza/modeline-vc () (interactive) (propertize (if vc-mode vc-mode "") 'face '(:weight light)))
-(defun amirreza/modeline-file () (interactive) (propertize (format "%s%s%s" (if (buffer-modified-p (current-buffer)) " [*] " "") default-directory (buffer-name (current-buffer))) 'face '(:weight light)))
+(defun amirreza/modeline-file () (interactive) (propertize (format "%s%s%s" (if (buffer-modified-p (current-buffer)) " [+] " "") default-directory (buffer-name (current-buffer))) 'face '(:weight light)))
 (defun amirreza/modeline-linecol () (interactive) (propertize "%l:%c"))
 (defun amirreza/modeline-major-mode () (interactive) (propertize (substring (capitalize (symbol-name major-mode)) 0 -5) 'face '(:weight light)))
 (defun amirreza/modeline-left () (interactive) (concat (amirreza/modeline-vc)))
@@ -169,7 +204,7 @@
     (load-theme theme)
     (message "Loaded %s" (symbol-name theme))))
 
-(global-set-key (kbd "<f1>") 'amirreza/load-random-theme)
+(global-set-key (kbd "M-1") 'amirreza/load-random-theme)
 (amirreza/load-random-theme)
 ;; Themes END
 
@@ -198,8 +233,8 @@
 (global-set-key (kbd "C-q") 'set-mark-command) ;; better key to start a selection
 (use-package multiple-cursors
   :bind
-  (("C-S-n" . 'mc/mark-next-like-this)
-   ("C-S-p" . 'mc/mark-previous-like-this)))
+  (("C->" . 'mc/mark-next-like-this)
+   ("C-<" . 'mc/mark-previous-like-this)))
 ;; Text Editing END
 
 ;; languages
@@ -212,12 +247,6 @@
 (use-package lua-mode)
 (use-package tuareg) ;; ocaml
 ;; languages END
-
-;; dired
-(use-package dired-sidebar
-  :bind ("C-1" . dired-sidebar-toggle-sidebar)
-  :commands (dired-sidebar-toggle-sidebar))
-;; dired END
 
 ;; Compile
 (use-package compile
@@ -236,10 +265,10 @@
 (defun amirreza/format-dwim () (interactive) (if (use-region-p) (format-all-region) (format-all-buffer)))
 (use-package format-all
   :bind
-  ("C-c m f" . 'amirreza/format-dwim))
+  ("M-9" . 'amirreza/format-dwim))
 ;; formatter END
 
-(global-set-key (kbd "C-C n") 'find-file-other-frame)
+(global-set-key (kbd "C-x C-n") 'find-file-other-frame)
 
 ;; indent guides
 (use-package highlight-indent-guides
@@ -270,7 +299,8 @@
   ((go-mode rust-mode tuareg-mode) . eglot-ensure) ;; Go + Rust + Ocaml
   :bind
   (:map eglot-mode-map
-	("M-<f12>" . eglot-find-implementation)
+	("C-<f12>" . eglot-find-implementation)
+	("M-i" . eglot-find-implementation)
 	("C-c m c" . eglot-code-actions)))
 ;; Eglot END
 
@@ -279,7 +309,7 @@
   :bind
   (("M-." . xref-find-definitions)
    ("<f12>" . xref-find-definitions)
-   ("S-<f12>" . xref-find-references)
+   ("M-<f12>" . xref-find-references)
    ("M-r" . xref-find-references)))
 ;; XRef END
 
@@ -296,5 +326,6 @@
 (when (executable-find "rg")
   (grep-apply-setting 'grep-command "rg --vimgrep ")
   (grep-apply-setting 'grep-use-null-device nil))
-(global-set-key (kbd "C-c s") 'grep)
+(global-set-key (kbd "M-s") 'grep)
+;; TODO make this project aware
 ;; Search and Grep END
