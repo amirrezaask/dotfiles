@@ -69,7 +69,7 @@
       (project-find-file)
     (find-file)))
 
-(global-set-key (kbd "M-o") 'amirreza/find-file)
+(global-set-key (kbd "C-o") 'amirreza/find-file)
 (setq recenter-positions '(middle))
 (defun jump-up () (interactive) (next-line (* -1 (/ (window-height) 2))) (recenter-top-bottom))
 (defun jump-down () (interactive) (next-line (/ (window-height) 2)) (recenter-top-bottom))
