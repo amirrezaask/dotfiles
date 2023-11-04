@@ -4,20 +4,23 @@
 ;; C-- decrease font size
 ;; C-Space trigger completion menu
 ;; C-q Start region (selection)
+
 ;; M-n Jump down half a page and center cursor
 ;; M-p Jump up half a page and center cursor
+
 ;; C-> multi-cursor insert next line
 ;; C-< multi-cursor insert previous line
 ;; C-. search thing at point(cursor)
+
 ;; M-[ previous-buffer
 ;; M-] next-buffer
+
 ;; M-9 format dwim (if selected region format region otherwise buffer) ??
+
 ;; <f12> goto definition
 ;; M-<f12> goto references
 ;; C-<f12> goto implementations
-;; M-. goto definition
-;; M-i find implementations
-;; M-r find references
+
 ;; M-o find-file-dwim ( if in project in project scope otherwise in directory )
 ;; C-o Switch window
 ;; <f5> compile
@@ -300,17 +303,15 @@
   :bind
   (:map eglot-mode-map
 	("C-<f12>" . eglot-find-implementation)
-	("M-i" . eglot-find-implementation)
 	("C-c m c" . eglot-code-actions)))
 ;; Eglot END
 
 ;; XRef
 (use-package xref :straight nil
   :bind
-  (("M-." . xref-find-definitions)
-   ("<f12>" . xref-find-definitions)
-   ("M-<f12>" . xref-find-references)
-   ("M-r" . xref-find-references)))
+  (("<f12>" . xref-find-definitions)
+   ("M-<f12>" . xref-find-references)))
+   
 ;; XRef END
 
 ;; Search and Grep
