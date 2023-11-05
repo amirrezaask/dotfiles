@@ -69,9 +69,8 @@
 ;; Navigation
 (defun find-file-dwim ()
   (interactive)
-  (if (projectile-project-p)
-      (projectile-find-file)
-    (find-file)))
+  (if (projectile-project-p) (projectile-find-file) (call-interactively 'find-file)))
+(global-set-key (kbd "C-x p f") 'find-file-dwim)
 (global-set-key (kbd "M-o") 'find-file-dwim)
 
 (setq recenter-positions '(middle))
@@ -87,10 +86,10 @@
 ;; Window management END
 
 ;; Modeline
-(defun amirreza/modeline-vc () (interactive) (propertize (if vc-mode vc-mode "") 'face '(:weight light)))
-(defun amirreza/modeline-file () (interactive) (propertize (format "%s%s%s" (if (buffer-modified-p (current-buffer)) " [+] " "") default-directory (buffer-name (current-buffer))) 'face '(:weight light)))
+(defun amirreza/modeline-vc () (interactive) (propertize (if vc-mode vc-mode "") 'face '(:weight bold)))
+(defun amirreza/modeline-file () (interactive) (propertize (format "%s%s%s" (if (buffer-modified-p (current-buffer)) " [+] " "") default-directory (buffer-name (current-buffer))) 'face '(:weight bold)))
 (defun amirreza/modeline-linecol () (interactive) (propertize "%l:%c"))
-(defun amirreza/modeline-major-mode () (interactive) (propertize (substring (capitalize (symbol-name major-mode)) 0 -5) 'face '(:weight light)))
+(defun amirreza/modeline-major-mode () (interactive) (propertize (substring (capitalize (symbol-name major-mode)) 0 -5) 'face '(:weight bold)))
 (defun amirreza/modeline-left () (interactive) (concat (amirreza/modeline-vc)))
 (defun amirreza/modeline-center () (interactive) (concat (amirreza/modeline-file)))
 (defun amirreza/modeline-right () (interactive) (concat (amirreza/modeline-major-mode)))
@@ -125,6 +124,7 @@
 ;; Themes
 (defadvice load-theme (before disable-themes-first activate) (dolist (i custom-enabled-themes) (disable-theme i)))
 (use-package ef-themes)
+(use-package amirreza-themes :straight (amirreza-themes :host github :repo "amirrezaask/themes" :local-repo "amirreza-themes"))
 (setq custom-safe-themes t)
 (setq amirreza/themes-list '(
 			     ;; Modus Light Themes
@@ -307,4 +307,5 @@
   (grep-apply-setting 'grep-command "rg --vimgrep ")
   (grep-apply-setting 'grep-use-null-device nil))
 (global-set-key (kbd "C-x p g") 'grep-dwim)
+(global-set-key (kbd "C-S-f") 'grep-dwim)
 ;; Search and Grep END
