@@ -17,5 +17,5 @@
     "editor.formatOnSave": true
   },
   "window.menuBarVisibility": "toggle",
-  "workbench.colorTheme": "Visual Studio Light"
+  "window.zoomLevel": 1
 }

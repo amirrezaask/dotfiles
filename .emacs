@@ -331,6 +331,6 @@
 (when (executable-find "rg")
   (grep-apply-setting 'grep-command "rg --vimgrep ")
   (grep-apply-setting 'grep-use-null-device nil))
-(global-set-key (kbd "M-s") 'grep)
+(global-set-key (kbd "M-s") 'grep-dwim)
 
 ;; Search and Grep END
