@@ -1,31 +1,3 @@
-;; Cheatsheet: C- means ctrl; M- means alt; S- means shift
-;; <M-1> Load a random theme
-;; C-= increase font size
-;; C-- decrease font size
-
-;; M-n Jump down half a page and center cursor
-;; M-p Jump up half a page and center cursor
-
-;; C-> multi-cursor insert next line
-;; C-< multi-cursor insert previous line
-;; C-. search thing at point(cursor)
-
-;; M-[ previous-buffer
-;; M-] next-buffer
-
-;; <f9> format-dwim (if selected region format region otherwise buffer) ??
-
-;; <f12> goto definition
-;; M-<f12> goto references
-;; C-<f12> goto implementations
-
-;; C-o other-window
-;; <f5> compile
-;; C-x C-n create new frame
-;; M-o find-file-dwim
-;; M-s grep-dwim
-;; C-0 delete-this-window
-
 ;; Basic
 (setq gc-cons-threshold 200000000) ;; 200 MB
 (setq vc-follow-symlinks t) ;; Follow symlinks with no questions
@@ -90,20 +62,23 @@
 (setenv "PATH" (string-join exec-path ":")) ;; set emacs process PATH
 ;; PATH END
 
+;; Project commands
+(use-package projectile)
+;; Project commands END
+
 ;; Navigation
 (defun find-file-dwim ()
   (interactive)
-  (if (and (fboundp 'project-current) (fboundp 'project-root) (project-root (project-current)))
-      (project-find-file)
+  (if (projectile-project-p)
+      (projectile-find-file)
     (find-file)))
-
 (global-set-key (kbd "M-o") 'find-file-dwim)
+
 (setq recenter-positions '(middle))
 (defun jump-up () (interactive) (next-line (* -1 (/ (window-height) 2))) (recenter-top-bottom))
 (defun jump-down () (interactive) (next-line (/ (window-height) 2)) (recenter-top-bottom))
 (global-set-key (kbd "M-n") 'jump-down)
 (global-set-key (kbd "M-p") 'jump-up)
-(global-set-key (kbd "M-2") 'dired-jump)
 (global-set-key (kbd "M-[") 'previous-buffer)
 (global-set-key (kbd "M-]") 'next-buffer)
 (global-set-key (kbd "C-;") 'goto-line)
@@ -144,7 +119,6 @@
 ;; Frame END
 
 ;; GUI
-(global-hl-line-mode)
 (global-display-line-numbers-mode)
 (menu-bar-mode -1)
 (tool-bar-mode -1)
@@ -213,6 +187,8 @@
 ;; minibuffer
 (use-package vertico :init (setq vertico-cycle t) (setq vertico-count 25) (vertico-mode))
 (use-package consult)
+(global-set-key (kbd "C-x b") 'consult-buffer)
+
 (use-package orderless
   :init
   (setq completion-styles '(orderless basic)
@@ -250,10 +226,11 @@
 ;; Compile
 (use-package compile
   :bind
-  (("<f5>" . compile)
-   :map compilation-mode-map
+   (:map compilation-mode-map
    ("<f5>" . recompile)
    ("k" . kill-compilation)))
+
+(global-set-key (kbd "<F5>") 'projectile-compile-project)
 ;; Compile END
 
 ;; Magit
@@ -321,16 +298,16 @@
 (defun grep-dwim ()
   "run grep command in either your project root or current directory"
   (interactive)
-  (if (and (fboundp 'project-current) (fboundp 'project-root) (project-root (project-current)))
-      (let ((default-directory (project-root (project-current))))
+  (if (projectile-project-p)
+      (let ((default-directory (projectile-project-p)))
 	(call-interactively 'grep))
-    (call-interactively 'grep)))
+    (let ((default-directory (read-file-name "Directory: ")))
+      (call-interactively 'grep))))
 
 (use-package wgrep)
 (grep-apply-setting 'grep-command "grep --exclude-dir='.git' --color=auto -nH --null -r -e ")
 (when (executable-find "rg")
   (grep-apply-setting 'grep-command "rg --vimgrep ")
   (grep-apply-setting 'grep-use-null-device nil))
-(global-set-key (kbd "M-s") 'grep-dwim)
-
+(global-set-key (kbd "C-x p g") 'grep-dwim)
 ;; Search and Grep END
