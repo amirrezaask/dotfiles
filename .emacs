@@ -1,5 +1,6 @@
 ;; Basic
 (setq gc-cons-threshold 200000000) ;; 200 MB
+(setq debug-on-error t)
 (setq vc-follow-symlinks t) ;; Follow symlinks with no questions
 (setq ring-bell-function (lambda ())) ;; no stupid sounds
 (setq custom-file "~/.custom.el") ;; set custom file to not meddle with init.el
@@ -63,14 +64,11 @@
 (setenv "PATH" (string-join exec-path ":")) ;; set emacs process PATH
 ;; PATH END
 
-;; Project commands
-(use-package projectile)
-;; Project commands END
-
 ;; Navigation
 (defun find-file-dwim ()
   (interactive)
-  (if (projectile-project-p) (projectile-find-file) (call-interactively 'find-file)))
+  (if (git-repo-root) (git-find-files) (call-interactively 'find-file)))
+
 (global-set-key (kbd "C-x p f") 'find-file-dwim)
 (global-set-key (kbd "M-o") 'find-file-dwim)
 
@@ -84,13 +82,44 @@
 ;; Window management
 (global-set-key (kbd "C-o") 'other-window)
 (global-set-key (kbd "C-0") 'delete-window)
+(global-set-key (kbd "C-M-<left>") 'shrink-window-horizontally)
+(global-set-key (kbd "C-M-<right>") 'enlarge-window-horizontally)
+(global-set-key (kbd "C-M-<up>") 'enlarge-window)
+(global-set-key (kbd "C-M-<down>") 'shrink-window)
 ;; Window management END
+(defun amirreza/shell-execute (COMMAND)
+  (interactive (read-string "Command: "))
+  (shell-command-to-string (format "printf \"$(%s)\"" COMMAND)))
+
+;; Git Based Commands
+(defun git-repo-root (&optional DIR)
+  (interactive (list (read-directory-name "Directory: ")))
+  (let* ((default-directory (or DIR default-directory))
+	 (root (amirreza/shell-execute  "git rev-parse --show-toplevel 2>/dev/null")))
+    (if (not (string= root "")) root nil)))
+
+(defun git-compile (&optional DIR)
+  (interactive (list (read-directory-name "Directory: ")))
+  (let* ((default-directory (or DIR default-directory))
+	 (root (amirreza/shell-execute  "git rev-parse --show-toplevel 2>/dev/null"))
+	 (default-directory root))
+    (call-interactively 'compile)))
+
+(defun git-find-files (&optional DIR)
+  (interactive (list (read-directory-name "Directory: ")))
+  (let* ((default-directory (or DIR default-directory))
+	 (files (amirreza/shell-execute "git ls-files"))
+	 (files (string-split files "\n"))
+	 (chosen (completing-read (format "[%s] Git Files: " (git-repo-root)) files)))
+    (find-file chosen)
+    ))
+;; Git Based Commands END
 
 ;; Modeline
-(defun amirreza/modeline-vc () (interactive) (propertize (if vc-mode vc-mode "") 'face '(:weight bold)))
-(defun amirreza/modeline-file () (interactive) (propertize (format "%s%s%s" (if (buffer-modified-p (current-buffer)) " [+] " "") default-directory (buffer-name (current-buffer))) 'face '(:weight bold)))
+(defun amirreza/modeline-vc () (interactive) (propertize (if vc-mode vc-mode "")))
+(defun amirreza/modeline-file () (interactive) (propertize (format "%s%s%s" (if (buffer-modified-p (current-buffer)) " [+] " "") default-directory (buffer-name (current-buffer)))))
 (defun amirreza/modeline-linecol () (interactive) (propertize "%l:%c"))
-(defun amirreza/modeline-major-mode () (interactive) (propertize (substring (capitalize (symbol-name major-mode)) 0 -5) 'face '(:weight bold)))
+(defun amirreza/modeline-major-mode () (interactive) (propertize (substring (capitalize (symbol-name major-mode)) 0 -5)))
 (defun amirreza/modeline-left () (interactive) (concat (amirreza/modeline-vc)))
 (defun amirreza/modeline-center () (interactive) (concat (amirreza/modeline-file)))
 (defun amirreza/modeline-right () (interactive) (concat (amirreza/modeline-major-mode)))
@@ -180,7 +209,7 @@
    ("<f5>" . recompile)
    ("k" . kill-compilation)))
 
-(global-set-key (kbd "<F5>") 'projectile-compile-project)
+(global-set-key (kbd "<F5>") 'git-compile)
 ;; Compile END
 
 ;; Magit
@@ -255,8 +284,8 @@
 (defun grep-dwim ()
   "run grep command in either your project root or current directory"
   (interactive)
-  (if (projectile-project-p)
-      (let ((default-directory (projectile-project-p)))
+  (if (git-repo-root)
+      (let ((default-directory (git-repo-root)))
 	(call-interactively 'grep))
     (let ((default-directory (read-file-name "Directory: ")))
       (call-interactively 'grep))))
