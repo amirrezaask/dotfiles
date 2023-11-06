@@ -111,8 +111,7 @@
 	 (files (amirreza/shell-execute "git ls-files"))
 	 (files (string-split files "\n"))
 	 (chosen (completing-read (format "[%s] Git Files: " (git-repo-root)) files)))
-    (find-file chosen)
-    ))
+    (find-file chosen)))
 ;; Git Based Commands END
 
 ;; Modeline
