@@ -125,11 +125,13 @@
 ;; Themes
 (defadvice load-theme (before disable-themes-first activate) (dolist (i custom-enabled-themes) (disable-theme i)))
 (use-package sweet-theme)
+(use-package spacemacs-theme)
 (use-package doom-themes)
 (use-package ef-themes)
+(use-package gruvbox-theme)
 (setq custom-safe-themes t)
 (global-set-key (kbd "M-1") 'ef-themes-load-random)
-(load-theme 'sweet)
+(load-theme 'spacemacs-dark)
 ;; Themes END
 
 ;; minibuffer
@@ -234,6 +236,15 @@
    ("M-<f12>" . xref-find-references)))
    
 ;; XRef END
+
+;; Diagnostics
+(use-package flymake :straight nil
+  :bind
+  (:map flymake-mode-map
+	("M-[" . flymake-goto-prev-error)
+	("M-]" . flymake-goto-next-error))
+  )
+;; Diagnostics END
 
 ;; Search and Grep
 (use-package isearch :straight nil
