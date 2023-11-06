@@ -44,7 +44,7 @@
 
 (defun amirreza/laptop ()
   (interactive)
-  (amirreza/set-font amirreza/font-family 10))
+  (amirreza/set-font amirreza/font-family 11))
 
 (defun amirreza/benq ()
   (interactive)
@@ -203,38 +203,36 @@
   (setq highlight-indent-guides-method 'character))
 ;; indent guides END
 
-;; Eglot
-(unless (>= emacs-major-version 29)
-  (straight-use-package 'eglot))
-
-(defun eglot-save-with-imports () (interactive)
-       (eglot-format-buffer)
-       (eglot-code-actions nil nil "source.organizeImports" t))
-
-(add-hook 'go-mode-hook (lambda () (add-hook 'before-save-hook 'eglot-save-with-imports nil t)))
-
-(use-package eglot :straight nil
+;; LSPMode
+(setenv "LSP_USE_PLISTS" "true")
+(use-package lsp-mode
+  :hook ((go-mode rust-mode) . #'lsp)
   :init
-  (setq eglot-events-buffer-size 0
-        eglot-ignored-server-capabilities '(:hoverProvider :documentHighlightProvider)
-        eglot-autoshutdown t
-        eldoc-idle-delay 0.75
-	eldoc-documentation-strategy 'eldoc-documentation-compose
-        flymake-no-changes-timeout 0.5) ;; eglot performance improvement by doing less work
-  :hook
-  ((go-mode rust-mode tuareg-mode) . eglot-ensure) ;; Go + Rust + Ocaml
+  (setq read-process-output-max (* 2 1024 1024) ;; 2mb
+	lsp-log-io nil ;; disable logging IO requests/responses
+	lsp-use-plists t)  ;; Performance tweaks
+  (setq lsp-auto-guess-root t) ;; don't ask for project root detection
+  (setq lsp-headerline-breadcrumb-enable nil) ;; Disable UI elements
   :bind
-  (:map eglot-mode-map
-	("C-<f12>" . eglot-find-implementation)
-	("C-c m c" . eglot-code-actions)))
-;; Eglot END
+  (:map lsp-mode-map
+	("<f12>" . lsp-find-definition)
+	("M-<f12>" . lsp-find-references)
+	("C-<f12>" . lsp-find-implementation))
+  )
+;; LSPMode END
+
+;; Eldoc
+(use-package eldoc :straight nil
+  :bind
+  (("C-h ." . eldoc)
+   ("M-h" . eldoc)))
+;; Eldoc END
 
 ;; XRef
 (use-package xref :straight nil
   :bind
   (("<f12>" . xref-find-definitions)
    ("M-<f12>" . xref-find-references)))
-   
 ;; XRef END
 
 ;; Diagnostics
