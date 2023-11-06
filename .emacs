@@ -33,6 +33,7 @@
 ;; FONT START
 (global-set-key (kbd "C-=") (lambda () (interactive) (text-scale-increase 1)))
 (global-set-key (kbd "C--") (lambda () (interactive) (text-scale-decrease 1)))
+(setq amirreza/font-family "Fira Mono")
 
 (defun amirreza/set-font (font fontsize)
   (interactive (list (read-string "Font Family: ") (read-number "Font Size: ")))
@@ -43,11 +44,11 @@
 
 (defun amirreza/laptop ()
   (interactive)
-  (amirreza/set-font "Jetbrains Mono" 10))
+  (amirreza/set-font amirreza/font-family 10))
 
 (defun amirreza/benq ()
   (interactive)
-  (amirreza/set-font "Jetbrains Mono" 13))
+  (amirreza/set-font amirreza/font-family 13))
 
 (amirreza/laptop)
 ;; FONT END
@@ -123,62 +124,12 @@
 
 ;; Themes
 (defadvice load-theme (before disable-themes-first activate) (dolist (i custom-enabled-themes) (disable-theme i)))
+(use-package sweet-theme)
+(use-package doom-themes)
 (use-package ef-themes)
-;; (use-package amirreza-themes :straight (amirreza-themes :host github :repo "amirrezaask/themes" :local-repo "amirreza-themes"))
 (setq custom-safe-themes t)
-(setq amirreza/themes-list '(
-			     ;; Modus Light Themes
-			     modus-operandi
-			     modus-operandi-tinted
-			     modus-operandi-deuteranopia
-			     modus-operandi-tritanopia
-
-			     ;; Modus Dark Themes
-			     modus-vivendi
-			     modus-vivendi-tinted
-			     modus-vivendi-deuteranopia
-			     modus-vivendi-tritanopia
-
-			     ;; EF Dark Themes
-			     ef-autumn
-			     ef-bio
-			     ef-cherie
-			     ef-dark
-			     ef-deuteranopia-dark
-			     ef-duo-dark
-			     ef-elea-dark
-			     ef-maris-dark
-			     ef-melissa-dark
-			     ef-night
-			     ef-symbiosis
-			     ef-trio-dark
-			     ef-tritanopia-dark
-			     ef-winter
-
-			     ;; EF Light Themes
-			     ef-cyprus
-			     ef-day
-			     ef-deuteranopia-light
-			     ef-duo-light
-			     ef-elea-light
-			     ef-frost
-			     ef-kassio
-			     ef-light
-			     ef-maris-light
-			     ef-melissa-light
-			     ef-spring
-			     ef-summer
-			     ef-trio-light
-			     ef-tritanopia-light
-			     ))
-(defun amirreza/load-random-theme ()
-  (interactive)
-  (let ((theme (nth (random (length amirreza/themes-list)) amirreza/themes-list)))
-    (load-theme theme)
-    (message "Loaded %s" (symbol-name theme))))
-
-(global-set-key (kbd "M-1") 'amirreza/load-random-theme)
-(amirreza/load-random-theme)
+(global-set-key (kbd "M-1") 'ef-themes-load-random)
+(load-theme 'sweet)
 ;; Themes END
 
 ;; minibuffer
