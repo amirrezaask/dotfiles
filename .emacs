@@ -1,13 +1,22 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 ;; Basic
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (setq gc-cons-threshold 200000000) ;; 200 MB
 (setq debug-on-error t)
 (setq vc-follow-symlinks t) ;; Follow symlinks with no questions
 (setq ring-bell-function (lambda ())) ;; no stupid sounds
 (setq custom-file "~/.custom.el") ;; set custom file to not meddle with init.el
 (setq make-backup-files nil) ;; no emacs ~ backup files
-;; Basic END
 
-;; Package manager START
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Package Manager
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq package-enable-at-startup nil)
 (defvar bootstrap-version)
 (let ((bootstrap-file
@@ -23,15 +32,25 @@
   (load bootstrap-file nil 'nomessage))
 (straight-use-package 'use-package)
 (setq straight-use-package-by-default t)
-;; Package manager END
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; MacOS
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (setq use-short-answers t)
 (setq image-types (cons 'svg image-types)) ;; macos bug
 (setq mac-command-modifier 'meta) ;; macos again
-;; MacOS END
 
-;; FONT START
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Font
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (global-set-key (kbd "C-=") (lambda () (interactive) (text-scale-increase 1)))
 (global-set-key (kbd "C--") (lambda () (interactive) (text-scale-decrease 1)))
 (setq amirreza/font-family "Fira Code")
@@ -52,9 +71,14 @@
   (amirreza/set-font amirreza/font-family 13))
 
 (amirreza/laptop)
-;; FONT END
 
-;; PATH
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Enviroment Variables
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (defun home (path)
   (expand-file-name path (getenv "HOME")))
 (add-to-list 'exec-path (home ".local/bin"))
@@ -62,9 +86,13 @@
 (add-to-list 'exec-path "/opt/homebrew/bin") ;; homebrew
 (add-to-list 'exec-path (home "bin")) ;; GOPATH/bin
 (setenv "PATH" (string-join exec-path ":")) ;; set emacs process PATH
-;; PATH END
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Navigation
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (defun find-file-dwim ()
   (interactive)
   (if (git-repo-root) (git-find-files) (call-interactively 'find-file)))
@@ -77,21 +105,32 @@
 (defun jump-down () (interactive) (next-line (/ (window-height) 2)) (recenter-top-bottom))
 (global-set-key (kbd "M-n") 'jump-down)
 (global-set-key (kbd "M-p") 'jump-up)
-;; Navigation END
 
-;; Window management
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Window Management
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (global-set-key (kbd "C-o") 'other-window)
 (global-set-key (kbd "C-0") 'delete-window)
 (global-set-key (kbd "C-M-<left>") 'shrink-window-horizontally)
 (global-set-key (kbd "C-M-<right>") 'enlarge-window-horizontally)
 (global-set-key (kbd "C-M-<up>") 'enlarge-window)
 (global-set-key (kbd "C-M-<down>") 'shrink-window)
-;; Window management END
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Git Based Commands
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (defun amirreza/shell-execute (COMMAND)
   (interactive (read-string "Command: "))
   (shell-command-to-string (format "printf \"$(%s)\"" COMMAND)))
 
-;; Git Based Commands
 (defun git-repo-root (&optional DIR)
   (interactive (list (read-directory-name "Directory: ")))
   (let* ((default-directory (or DIR default-directory))
@@ -112,9 +151,14 @@
 	 (files (string-split files "\n"))
 	 (chosen (completing-read (format "[%s] Git Files: " (git-repo-root)) files)))
     (find-file chosen)))
-;; Git Based Commands END
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Modeline
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (defun amirreza/modeline-vc () (interactive) (propertize (if vc-mode vc-mode "")))
 (defun amirreza/modeline-file () (interactive) (propertize (format "%s%s%s" (if (buffer-modified-p (current-buffer)) " [+] " "") default-directory (buffer-name (current-buffer)))))
 (defun amirreza/modeline-linecol () (interactive) (propertize "%l:%c"))
@@ -134,23 +178,38 @@
     (concat left left-center-spaces center center-right-spaces right)))
 
 (setq-default mode-line-format '("%e" (:eval (amirreza/modeline-format))))
-;; Modeline END
 
-;; Frame
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Frame Settings
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(global-set-key (kbd "C-x C-n") 'find-file-other-frame)
 (setq inhibit-startup-screen t) ;; disable default start screen
 (set-frame-parameter nil 'fullscreen 'maximized)
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 (setq-default frame-title-format '("%e" "%f"))
-;; Frame END
 
-;; GUI
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Graphical User Interface Settings
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (global-display-line-numbers-mode)
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
-;; GUI END
 
-;; Themes
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Themes & Colors
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (defadvice load-theme (before disable-themes-first activate) (dolist (i custom-enabled-themes) (disable-theme i)))
 (use-package sweet-theme)
 (use-package spacemacs-theme)
@@ -160,9 +219,14 @@
 (setq custom-safe-themes t)
 (global-set-key (kbd "M-1") 'ef-themes-load-random)
 (load-theme 'ef-maris-dark)
-;; Themes END
 
-;; minibuffer
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Minibuffer Enhancements
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (use-package vertico :init (setq vertico-cycle t) (setq vertico-count 25) (vertico-mode))
 (use-package consult)
 (global-set-key (kbd "C-x b") 'consult-buffer)
@@ -172,33 +236,66 @@
   (setq completion-styles '(orderless basic)
 	completion-category-defaults nil
 	completion-category-overrides '((file (styles partial-completion)))))
-;; minibuffer END
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Autocomplete
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (use-package corfu
   :config
   (setq corfu-auto t)
   (global-corfu-mode))
-;; Autocomplete END
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Text Editing
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (delete-selection-mode)
 (global-set-key (kbd "C-q") 'set-mark-command) ;; better key to start a selection
 (use-package multiple-cursors
   :bind
   (("C->" . 'mc/mark-next-like-this)
    ("C-<" . 'mc/mark-previous-like-this)))
-;; Text Editing END
 
-;; Languages
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 ;; Golang
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (use-package go-mode)
 (defun go-add-tags (FILE STRUCT)
   (interactive (list (read-file-name "Go File: " nil nil nil (buffer-name (current-buffer)) nil)
 		     (read-string "Struct: " (word-at-point))))
   (unless (executable-find "gomodifytags") (error "Install gomodifytags first. https://github.com/fatih/gomodifytags"))
   (shell-command-to-string (format "gomodifytags -file %s -struct %s -add-tags json -transform snakecase -w" FILE STRUCT)))
-;; Golang END
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Emacs Lisp
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun docblock (comment)
+  (interactive (list (read-string "comment: ")))
+  (insert (format ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;\n;; %s\n;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+" comment)))
+
+(with-eval-after-load 'emacs-lisp
+  (define-key emacs-lisp-mode-map "\C-c\ c" 'docblock))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Other Languages
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (use-package yaml-mode)
 (use-package json-mode)
 (use-package rust-mode)
@@ -206,9 +303,14 @@
 (use-package typescript-mode)
 (use-package lua-mode)
 (use-package tuareg) ;; ocaml
-;; Languages END
 
-;; Compile
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Compilation
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (use-package compile
   :bind
    (:map compilation-mode-map
@@ -216,29 +318,34 @@
    ("k" . kill-compilation)))
 
 (global-set-key (kbd "<F5>") 'git-compile)
-;; Compile END
 
-;; Magit
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Magit: Emacs Git Client
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (use-package magit)
-;; Magit END
 
-;; formatter
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Code Formatting
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (defun amirreza/format-dwim () (interactive) (if (use-region-p) (format-all-region) (format-all-buffer)))
 (use-package format-all
   :bind
   ("<f9>" . 'amirreza/format-dwim))
-;; formatter END
 
-(global-set-key (kbd "C-x C-n") 'find-file-other-frame)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; indent guides
-(use-package highlight-indent-guides
-  :hook (yaml-mode . highlight-indent-guides-mode)
-  :config
-  (setq highlight-indent-guides-method 'character))
-;; indent guides END
+;; Language Server Protocol (LSP)
 
-;; LSPMode
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (setenv "LSP_USE_PLISTS" "true")
 (use-package lsp-mode
   :hook ((go-mode rust-mode) . #'lsp)
@@ -254,32 +361,52 @@
 	("M-<f12>" . lsp-find-references)
 	("C-<f12>" . lsp-find-implementation))
   )
-;; LSPMode END
 
-;; Eldoc
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Eldoc: Emacs Documentation Presentation Frontend
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (use-package eldoc :straight nil
   :bind
   (("C-h ." . eldoc)
    ("M-h" . eldoc)))
-;; Eldoc END
 
-;; XRef
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; xref: Emacs Goto Facilities
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (use-package xref :straight nil
   :bind
   (("<f12>" . xref-find-definitions)
    ("M-<f12>" . xref-find-references)))
-;; XRef END
 
-;; Diagnostics
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Flymake: Emacs Diagnostics Facilities
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (use-package flymake :straight nil
   :bind
   (:map flymake-mode-map
 	("M-[" . flymake-goto-prev-error)
 	("M-]" . flymake-goto-next-error))
   )
-;; Diagnostics END
 
-;; Search and Grep
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Searching and Grep
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (use-package isearch :straight nil
   :bind
   (("C-." . 'isearch-forward-thing-at-point)
@@ -302,5 +429,5 @@
   (grep-apply-setting 'grep-command "rg --vimgrep ")
   (grep-apply-setting 'grep-use-null-device nil))
 (global-set-key (kbd "C-x p g") 'grep-dwim)
-(global-set-key (kbd "C-S-f") 'grep-dwim)
-;; Search and Grep END
+(global-set-key (kbd "C-S-f") 'grep-dwim) ;; old habbits, ctrl+shift+f
+
