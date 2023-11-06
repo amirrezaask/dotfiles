@@ -43,7 +43,7 @@
 
 (defun amirreza/laptop ()
   (interactive)
-  (amirreza/set-font "Jetbrains Mono" 11))
+  (amirreza/set-font "Jetbrains Mono" 10))
 
 (defun amirreza/benq ()
   (interactive)
@@ -124,7 +124,7 @@
 ;; Themes
 (defadvice load-theme (before disable-themes-first activate) (dolist (i custom-enabled-themes) (disable-theme i)))
 (use-package ef-themes)
-(use-package amirreza-themes :straight (amirreza-themes :host github :repo "amirrezaask/themes" :local-repo "amirreza-themes"))
+;; (use-package amirreza-themes :straight (amirreza-themes :host github :repo "amirrezaask/themes" :local-repo "amirreza-themes"))
 (setq custom-safe-themes t)
 (setq amirreza/themes-list '(
 			     ;; Modus Light Themes
