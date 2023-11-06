@@ -34,7 +34,7 @@
 ;; FONT START
 (global-set-key (kbd "C-=") (lambda () (interactive) (text-scale-increase 1)))
 (global-set-key (kbd "C--") (lambda () (interactive) (text-scale-decrease 1)))
-(setq amirreza/font-family "Fira Mono")
+(setq amirreza/font-family "Fira Code")
 
 (defun amirreza/set-font (font fontsize)
   (interactive (list (read-string "Font Family: ") (read-number "Font Size: ")))
@@ -190,8 +190,14 @@
    ("C-<" . 'mc/mark-previous-like-this)))
 ;; Text Editing END
 
-;; languages
+;; Golang
 (use-package go-mode)
+(defun go-add-tags (FILE STRUCT)
+  (interactive (list (read-file-name "Go File: " nil nil nil (buffer-name (current-buffer)) nil)
+		     (read-string "Struct: " (word-at-point))))
+  (unless (executable-find "gomodifytags") (error "Install gomodifytags first. https://github.com/fatih/gomodifytags"))
+  (shell-command-to-string (format "gomodifytags -file %s -struct %s -add-tags json -transform snakecase -w" FILE STRUCT)))
+;; Golang END
 (use-package yaml-mode)
 (use-package json-mode)
 (use-package rust-mode)
