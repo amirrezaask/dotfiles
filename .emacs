@@ -190,6 +190,7 @@
    ("C-<" . 'mc/mark-previous-like-this)))
 ;; Text Editing END
 
+;; Languages
 ;; Golang
 (use-package go-mode)
 (defun go-add-tags (FILE STRUCT)
@@ -205,7 +206,7 @@
 (use-package typescript-mode)
 (use-package lua-mode)
 (use-package tuareg) ;; ocaml
-;; languages END
+;; Languages END
 
 ;; Compile
 (use-package compile
