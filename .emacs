@@ -341,7 +341,7 @@
 
 (setenv "LSP_USE_PLISTS" "true")
 (use-package lsp-mode
-  :hook ((go-mode rust-mode) . #'lsp)
+  :hook (((go-mode rust-mode) . #'lsp) (go-mode . #'lsp-format))
   :init
   (setq read-process-output-max (* 2 1024 1024) ;; 2mb
 	lsp-log-io nil ;; disable logging IO requests/responses
