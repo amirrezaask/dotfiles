@@ -176,11 +176,12 @@
 ;; Frame Settings
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(global-set-key (kbd "C-x C-n") 'find-file-other-frame)
+(global-set-key "\C-x\C-n" 'find-file-other-frame)
 (setq inhibit-startup-screen t) ;; disable default start screen
 (set-frame-parameter nil 'fullscreen 'maximized)
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
-(setq-default frame-title-format '("%e" "%f"))
+(setq-default frame-title-format '("%e" (:eval (git-repo-root))))
+(global-set-key "\C-x\C-c" 'delete-frame)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -389,8 +390,7 @@
   :bind
   (:map flymake-mode-map
 	("M-[" . flymake-goto-prev-error)
-	("M-]" . flymake-goto-next-error))
-  )
+	("M-]" . flymake-goto-next-error)))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
