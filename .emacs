@@ -211,7 +211,6 @@
 (global-set-key (kbd "M-1") 'ef-themes-load-random)
 (load-theme 'sweet)
 
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Minibuffer Enhancements
@@ -278,8 +277,10 @@
   (insert (format ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;\n;; %s\n;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 " comment)))
 
-(with-eval-after-load 'emacs-lisp
-  (define-key emacs-lisp-mode-map "\C-c\ c" 'docblock))
+(use-package elisp-mode :straight nil
+  :bind
+  (:map emacs-lisp-mode-map
+	("C-c c" . 'docblock)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -421,4 +422,3 @@
   (grep-apply-setting 'grep-use-null-device nil))
 (global-set-key (kbd "C-x p g") 'grep-dwim)
 (global-set-key (kbd "C-S-f") 'grep-dwim) ;; old habbits, ctrl+shift+f
-
