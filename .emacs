@@ -80,15 +80,27 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; Projectile: Project Based Commands
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(use-package projectile
+  :bind
+  (("C-x p p" . projectile-switch-project)
+   ("C-x p a" . projectile-add-known-project)
+   ("C-x p f" . projectile-find-file)
+   ("C-x p g" . projectile-grep)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 ;; Navigation
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun find-file-dwim ()
   (interactive)
-  (if (git-repo-root) (git-find-files) (call-interactively 'find-file)))
+  (if (projectile-project-p) (projectile-find-file) (call-interactively 'find-file)))
 
-(global-set-key (kbd "C-x p f") 'find-file-dwim)
 (global-set-key (kbd "M-o") 'find-file-dwim)
 
 (setq recenter-positions '(middle))
@@ -110,39 +122,6 @@
 (global-set-key (kbd "C-M-<right>") 'enlarge-window-horizontally)
 (global-set-key (kbd "C-M-<up>") 'enlarge-window)
 (global-set-key (kbd "C-M-<down>") 'shrink-window)
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; Git Based Commands
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(defun amirreza/shell-execute (COMMAND)
-  (interactive (read-string "Command: "))
-  (shell-command-to-string (format "printf \"$(%s)\"" COMMAND)))
-
-(defun git-repo-root (&optional DIR)
-  (interactive (list (read-directory-name "Directory: ")))
-  (let* ((default-directory (or DIR default-directory))
-	 (root (amirreza/shell-execute  "git rev-parse --show-toplevel 2>/dev/null")))
-    (if (not (string= root "")) root nil)))
-
-(defun git-compile (&optional DIR)
-  (interactive (list (read-directory-name "Directory: ")))
-  (let* ((default-directory (or DIR (git-repo-root)))
-	 (root (amirreza/shell-execute  "git rev-parse --show-toplevel 2>/dev/null"))
-	 (default-directory root))
-    (call-interactively 'compile)))
-
-(defun git-find-files (&optional DIR)
-  (interactive (list (read-directory-name "Directory: ")))
-  (let* ((default-directory (or DIR (git-repo-root)))
-	 (files (amirreza/shell-execute "git ls-files"))
-	 (files (string-split files "\n"))
-	 (chosen (completing-read (format "[%s] Git Files: " (git-repo-root)) files)))
-    (find-file chosen)))
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -220,7 +199,7 @@
 
 (use-package vertico :init (setq vertico-cycle t) (setq vertico-count 25) (vertico-mode))
 (use-package consult)
-(global-set-key (kbd "C-x b") 'consult-buffer)
+(global-set-key "\C-xb" 'consult-buffer)
 
 (use-package orderless
   :init
@@ -398,6 +377,10 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(use-package rg) ;; Ripgrep
+
+(use-package wgrep) ;; Writeable Grep Buffers
+
 (use-package isearch :straight nil
   :bind
   (("C-." . 'isearch-forward-thing-at-point)
@@ -406,18 +389,13 @@
    ("C-." . 'isearch-repeat-forward)))
 
 (defun grep-dwim ()
-  "run grep command in either your project root or current directory"
+  "dwim variation of grep command using combination of projectile and emacs grep"
   (interactive)
-  (if (git-repo-root)
-      (let ((default-directory (git-repo-root)))
-	(call-interactively 'grep))
-    (let ((default-directory (read-file-name "Directory: ")))
-      (call-interactively 'grep))))
+  (cond
+   ((and (projectile-project-p) (executable-find "rg")) (call-interactively 'projectile-ripgrep))
+   ((and (projectile-project-p)) (call-interactively 'projectile-grep))
+   ((executable-find "rg") (call-interactively 'rg))
+   (t (call-interactively 'grep))))
 
-(use-package wgrep)
-(grep-apply-setting 'grep-command "grep --exclude-dir='.git' --color=auto -nH --null -r -e ")
-(when (executable-find "rg")
-  (grep-apply-setting 'grep-command "rg --vimgrep ")
-  (grep-apply-setting 'grep-use-null-device nil))
-(global-set-key (kbd "C-x p g") 'grep-dwim)
+(global-set-key "\C-xpg" 'grep-dwim)
 (global-set-key (kbd "C-S-f") 'grep-dwim) ;; old habbits, ctrl+shift+f
