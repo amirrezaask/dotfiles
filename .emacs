@@ -130,14 +130,14 @@
 
 (defun git-compile (&optional DIR)
   (interactive (list (read-directory-name "Directory: ")))
-  (let* ((default-directory (or DIR default-directory))
+  (let* ((default-directory (or DIR (git-repo-root)))
 	 (root (amirreza/shell-execute  "git rev-parse --show-toplevel 2>/dev/null"))
 	 (default-directory root))
     (call-interactively 'compile)))
 
 (defun git-find-files (&optional DIR)
   (interactive (list (read-directory-name "Directory: ")))
-  (let* ((default-directory (or DIR default-directory))
+  (let* ((default-directory (or DIR (git-repo-root)))
 	 (files (amirreza/shell-execute "git ls-files"))
 	 (files (string-split files "\n"))
 	 (chosen (completing-read (format "[%s] Git Files: " (git-repo-root)) files)))
