@@ -248,7 +248,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (delete-selection-mode)
-(global-set-key (kbd "C-q") 'set-mark-command) ;; better key to start a selection
 (use-package multiple-cursors
   :bind
   (("C->" . 'mc/mark-next-like-this)
