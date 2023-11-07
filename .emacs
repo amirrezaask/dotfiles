@@ -159,7 +159,7 @@
 (setq inhibit-startup-screen t) ;; disable default start screen
 (set-frame-parameter nil 'fullscreen 'maximized)
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
-(setq-default frame-title-format '("%e" (:eval (git-repo-root))))
+(setq-default frame-title-format '("%e" (:eval default-directory)))
 (global-set-key "\C-x\C-c" 'delete-frame)
 
 
@@ -319,7 +319,7 @@
 
 (setenv "LSP_USE_PLISTS" "true")
 (use-package lsp-mode
-  :hook (((go-mode rust-mode) . #'lsp) (go-mode . #'lsp-format))
+  :hook (((go-mode rust-mode) . #'lsp))
   :init
   (setq read-process-output-max (* 2 1024 1024) ;; 2mb
 	lsp-log-io nil ;; disable logging IO requests/responses
