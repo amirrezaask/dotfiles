@@ -53,25 +53,16 @@
 
 (global-set-key (kbd "C-=") (lambda () (interactive) (text-scale-increase 1)))
 (global-set-key (kbd "C--") (lambda () (interactive) (text-scale-decrease 1)))
-(setq amirreza/font-family "Fira Code")
+(setq font-families '("Jetbrains Mono" "Fira Code"))
 
-(defun amirreza/set-font (font fontsize)
-  (interactive (list (read-string "Font Family: ") (read-number "Font Size: ")))
+(defun set-font (font fontsize)
+  (interactive (list (completing-read "Font Family: " font-families) (read-number "Font Size: ")))
   (let ((fontstring (format "%s %d" font fontsize)))
     (add-to-list 'default-frame-alist `(font . ,fontstring))
     (set-frame-font fontstring nil t)
     (set-face-attribute 'default t :font fontstring)))
 
-(defun amirreza/laptop ()
-  (interactive)
-  (amirreza/set-font amirreza/font-family 11))
-
-(defun amirreza/benq ()
-  (interactive)
-  (amirreza/set-font amirreza/font-family 13))
-
-(amirreza/laptop)
-
+(set-font "Fira Code" 12)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
