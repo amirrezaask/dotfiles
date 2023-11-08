@@ -18,6 +18,5 @@
   "[go]": { "editor.formatOnSave": true },
   "window.menuBarVisibility": "toggle",
   "workbench.activityBar.location": "top",
-  "window.titleBarStyle": "custom",
-  "workbench.colorTheme": "Visual Studio Light"
+  "window.titleBarStyle": "custom"
 }
