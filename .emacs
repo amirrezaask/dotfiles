@@ -281,6 +281,14 @@
 ;; Compilation
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun compile-dwim ()
+  ""
+  (interactive)
+  (cond
+   ((projectile-project-p) (call-interactively 'projectile-compile-project)
+    t (call-interactively 'compile))
+   )
+  )
 
 (use-package compile
   :bind
@@ -288,7 +296,7 @@
    ("<f5>" . recompile)
    ("k" . kill-compilation)))
 
-(global-set-key (kbd "<F5>") 'git-compile)
+(global-set-key (kbd "<f5>") 'compile-dwim)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
