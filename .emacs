@@ -189,7 +189,7 @@
 (use-package gruvbox-theme)
 (setq custom-safe-themes t)
 (global-set-key (kbd "M-1") 'ef-themes-load-random)
-(load-theme 'sweet)
+(load-theme 'spacemacs-dark)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -355,6 +355,7 @@
 (use-package xref :straight nil
   :bind
   (("<f12>" . xref-find-definitions)
+   ("C-<down-mouse-1>" . xref-find-definitions)
    ("M-<f12>" . xref-find-references)))
 
 
