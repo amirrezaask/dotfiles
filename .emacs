@@ -416,3 +416,4 @@
 
 (global-set-key "\C-xpg" 'grep-dwim)
 (global-set-key (kbd "C-S-f") 'grep-dwim) ;; old habbits, ctrl+shift+f
+(global-set-key [M-j] 'grep-dwim)
