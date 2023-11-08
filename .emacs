@@ -240,6 +240,8 @@
 ;; Keyboard Macro
 (global-set-key (kbd "M-[") 'kmacro-start-macro-or-insert-counter)
 (global-set-key (kbd "M-]") 'kmacro-end-or-call-macro-repeat)
+;; Selection
+(global-set-key (kbd "C-q") 'set-mark-command)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
