@@ -53,7 +53,7 @@
 
 (global-set-key (kbd "C-=") (lambda () (interactive) (text-scale-increase 1)))
 (global-set-key (kbd "C--") (lambda () (interactive) (text-scale-decrease 1)))
-(setq font-families '("Jetbrains Mono" "Fira Code"))
+(setq font-families '("Jetbrains Mono" "Fira Code" "Liberation Mono"))
 
 (defun set-font (font fontsize)
   (interactive (list (completing-read "Font Family: " font-families) (read-number "Font Size: ")))
@@ -110,6 +110,11 @@
 (global-set-key (kbd "M-n") 'jump-down)
 (global-set-key (kbd "M-p") 'jump-up)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Buffer Navigation And Management
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(global-set-key (kbd "C-;") 'previous-buffer)
+(global-set-key (kbd "C-'") 'next-buffer)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -150,7 +155,6 @@
 
 (setq-default mode-line-format '("%e" (:eval (amirreza/modeline-format))))
 
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Frame Settings
@@ -175,7 +179,6 @@
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Themes & Colors
@@ -188,9 +191,10 @@
 (use-package doom-themes)
 (use-package ef-themes)
 (use-package gruvbox-theme)
+(use-package amirreza-themes :straight (amirreza-themes :host github :repo "amirrezaask/themes" :local-repo "amirreza-themes"))
 (setq custom-safe-themes t)
 (global-set-key (kbd "M-1") 'ef-themes-load-random)
-(load-theme 'spacemacs-dark)
+(load-theme 'handmadehero)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -233,6 +237,9 @@
   (("C->" . 'mc/mark-next-like-this)
    ("C-<" . 'mc/mark-previous-like-this)))
 
+;; Keyboard Macro
+(global-set-key (kbd "M-[") 'kmacro-start-macro-or-insert-counter)
+(global-set-key (kbd "M-]") 'kmacro-end-or-call-macro-repeat)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -377,8 +384,8 @@
 (use-package flymake :straight nil
   :bind
   (:map flymake-mode-map
-	("M-[" . flymake-goto-prev-error)
-	("M-]" . flymake-goto-next-error)))
+	("M--" . flymake-goto-prev-error)
+	("M-=" . flymake-goto-next-error)))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
