@@ -85,6 +85,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (use-package projectile
+  :commands (projectile-project-p)
   :bind
   (("C-x p p" . projectile-switch-project)
    ("C-x p a" . projectile-add-known-project)
