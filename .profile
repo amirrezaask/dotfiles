@@ -6,6 +6,6 @@ export PATH="$(go env GOPATH)/bin:$PATH"
 if command -v emacsclient &> /dev/null
 then
     alias e='emacsclient -a "" -c'
-    export EDITOR='e'
-    export GIT_EDITOR='e'
+    export EDITOR='emacsclient -a "" -c'
+    export GIT_EDITOR='emacsclient -a "" -c'
 fi
