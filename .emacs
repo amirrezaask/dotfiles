@@ -175,6 +175,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (global-display-line-numbers-mode)
+(global-hl-line-mode)
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
@@ -419,3 +420,11 @@
 (global-set-key "\C-xpg" 'grep-dwim)
 (global-set-key (kbd "C-S-f") 'grep-dwim) ;; old habbits, ctrl+shift+f
 (global-set-key [M-j] 'grep-dwim)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Emacs Server
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(when (server-running-p)
+  (server-stop))
+
+(server-start)
