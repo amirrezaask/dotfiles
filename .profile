@@ -3,7 +3,9 @@ export PATH="/usr/local/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$(go env GOPATH)/bin:$PATH"
-if command -v codium &> /dev/null
+if command -v emacsclient &> /dev/null
 then
-    alias code='codium'
+    alias e='emacsclient -a "" -c'
+    export EDITOR='e'
+    export GIT_EDITOR='e'
 fi
