@@ -58,13 +58,21 @@
 (global-set-key (kbd "C-=") (lambda () (interactive) (text-scale-increase 1)))
 (global-set-key (kbd "C--") (lambda () (interactive) (text-scale-decrease 1)))
 (setq font-families '("Jetbrains Mono" "Fira Code" "Liberation Mono"))
-
+(setq --font-family "")
 (defun set-font (font fontsize)
   (interactive (list (completing-read "Font Family: " font-families) (read-number "Font Size: ")))
   (let ((fontstring (format "%s %d" font fontsize)))
+    (setq --font-family font)
     (add-to-list 'default-frame-alist `(font . ,fontstring))
     (set-frame-font fontstring nil t)
     (set-face-attribute 'default t :font fontstring)))
+(defun set-font-size (fontsize)
+  (interactive (list (read-number "Font Size: ")))
+  (let ((fontstring (format "%s %d" --font-family fontsize)))
+    (add-to-list 'default-frame-alist `(font . ,fontstring))
+    (set-frame-font fontstring nil t)
+    (set-face-attribute 'default t :font fontstring))
+  )
 
 (set-font "Liberation Mono" 10)
 
@@ -198,7 +206,7 @@
 (use-package amirreza-themes :straight (amirreza-themes :host github :repo "amirrezaask/themes" :local-repo "amirreza-themes"))
 (setq custom-safe-themes t)
 (global-set-key (kbd "M-1") 'ef-themes-load-random)
-(load-theme 'dracula)
+(load-theme 'ef-bio)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
