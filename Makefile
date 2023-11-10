@@ -7,12 +7,13 @@ profile:
 	rm -rf $(HOME)/.profile
 	ln -s $(THIS_DIR)/.profile $(HOME)/.profile
 
+emacs:
+	rm -rf $(HOME)/.emacs
+	ln -s $(THIS_DIR)/.emacs $(HOME)/.emacs
+
 zsh:
 	rm -rf $(HOME)/.zshrc
 	ln -s $(THIS_DIR)/.zshrc $(HOME)/.zshrc
-font:
-	mkdir -p $(HOME)/.local/share/fonts
-	cp $(THIS_DIR)/JetbrainsMono.ttf $(HOME)/.local/share/fonts/
 
 neovim:
 	rm -rf $(HOME)/.config/nvim
