@@ -6,7 +6,7 @@ if wezterm.config_builder then
 end
 
 
-cfg.font = wezterm.font "Jetbrains Mono"
+cfg.font = wezterm.font_with_fallback { "Jetbrains Mono", "Fira Code", "Liberation Mono" }
 
 cfg.colors = {}
 cfg.colors.background = '#111111'
