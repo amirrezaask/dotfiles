@@ -14,5 +14,20 @@ cfg.use_fancy_tab_bar = false
 cfg.tab_bar_at_bottom = true
 cfg.tab_max_width = 35
 
+
+cfg.keys = {
+  {
+    mods = "CTRL|SHIFT",
+    key = "LeftArrow",
+    action = wezterm.action.ActivateTabRelative(-1)
+  },
+  {
+    mods = "CTRL|SHIFT",
+    key = "RightArrow",
+    action = wezterm.action.ActivateTabRelative(1)
+  },
+
+}
+
 return cfg
 
