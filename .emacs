@@ -385,7 +385,6 @@
 (use-package xref :straight nil
   :bind
   (("<f12>" . xref-find-definitions)
-   ("C-<down-mouse-1>" . xref-find-definitions)
    ("M-<f12>" . xref-find-references)))
 
 
