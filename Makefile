@@ -32,3 +32,7 @@ kitty:
 tmux:
 	rm -rf $(HOME)/.tmux.conf
 	ln -s $(THIS_DIR)/.tmux.conf $(HOME)/.tmux.conf
+
+wezterm:
+	rm -rf $(HOME)/.wezterm.lua
+	ln -s $(THIS_DIR)/wezterm.lua $(HOME)/.wezterm.lua
