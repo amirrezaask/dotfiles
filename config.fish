@@ -9,6 +9,8 @@ if ! command -v starship &> /dev/null
 end
 if command -v nvim &> /dev/null
     alias vim='nvim'
+    export EDITOR='nvim'
+    export GIT_EDITOR='nvim'
 end
 
 starship init fish | source
