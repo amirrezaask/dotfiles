@@ -20,6 +20,16 @@ cfg.tab_max_width = 35
 cfg.keys = {
   {
     mods = "CTRL|SHIFT",
+    key = "k",
+    action = wezterm.action.ActivateTabRelative(1),
+  },
+  {
+    mods = "CTRL|SHIFT",
+    key = "j",
+    action = wezterm.action.ActivateTabRelative(-1),
+  },
+  {
+    mods = "CTRL|SHIFT",
     key = "|",
     action = wezterm.action.SplitHorizontal,
   },
