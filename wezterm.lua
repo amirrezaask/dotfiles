@@ -9,7 +9,7 @@ end
 cfg.font = wezterm.font_with_fallback { "Jetbrains Mono", "Fira Code", "Liberation Mono", }
 
 cfg.colors = {}
-cfg.colors.background = '#111111'
+cfg.colors.background = '#000000'
 
 cfg.use_fancy_tab_bar = false
 

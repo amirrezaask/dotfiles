@@ -226,32 +226,10 @@ use({
 	end,
 })
 
-function ColorMeDaddy(color)
-	if color == nil then
-		vim.ui.select({
-			"rose-pine", "tokyonight", "gruvbox",
-		}, { prompt = "Colorscheme> " }, function(choice)
-			ColorMeDaddy(choice)
-		end)
-	end
-	vim.o.background = "dark"
-	vim.cmd.colorscheme(color)
-	vim.cmd([[ hi LineNr guifg=#5eacd3 ]])
-	vim.cmd([[
-		hi Normal guibg=none
-		hi NormalNC guibg=none
-		hi NormalFloat guibg=none
-		hi Visual guibg=#49B9C7 guifg=#F6F6F6
-        hi SignColumn guibg=none
-	]])
-end
-
-vim.api.nvim_create_user_command("Color", function(opts)
-	ColorMeDaddy(opts.args[1])
-end, {})
-
 -- colorscheme
-use({ { "rose-pine/neovim",             name = "rose-pine", opts = { disable_italics = true } } })
+use({ "rose-pine/neovim", name = "rose-pine", opts = { disable_italics = true } })
+use { 'eemed/sitruuna.vim' }
+use { 'Mofiqul/vscode.nvim' }
 -- telescope
 use({
 	"nvim-telescope/telescope.nvim",
@@ -398,4 +376,9 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 vim.opt.rtp:prepend(lazypath)
 require("lazy").setup(plugins) -- setup plugins
 
-ColorMeDaddy "rose-pine"
+vim.cmd.colorscheme("sitruuna")
+vim.cmd [[
+	hi Normal guibg=none
+	hi SignColumn guibg=none
+]]
+
