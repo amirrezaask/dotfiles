@@ -17,7 +17,7 @@ font:
 neovim:
 	rm -rf $(HOME)/.config/nvim
 	mkdir -p $(HOME)/.config/nvim
-	ln -s $(THIS_DIR)/init.lua $(HOME)/.config/nvim/init.lua
+	ln -s $(THIS_DIR)/nvim-init.lua $(HOME)/.config/nvim/init.lua
 
 alacritty:
 	rm -rf $(HOME)/.config/alacritty/ $(HOME)/.config/alacritty.yml
