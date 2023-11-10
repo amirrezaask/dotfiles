@@ -3,6 +3,11 @@ UNAME := $(shell uname)
 
 all: profile zsh neovim alacritty kitty tmux emacs git
 
+fish:
+	rm -rf $(HOME)/.config/fish
+	mkdir -p $(HOME)/.config/fish
+	ln -s $(THIS_DIR)/config.fish $(HOME)/.config/fish/config.fish
+
 profile:
 	rm -rf $(HOME)/.profile
 	ln -s $(THIS_DIR)/.profile $(HOME)/.profile
