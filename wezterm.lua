@@ -1,4 +1,4 @@
-local wezterm = require'wezterm'
+local wezterm = require 'wezterm'
 
 local cfg = {}
 if wezterm.config_builder then
@@ -6,7 +6,7 @@ if wezterm.config_builder then
 end
 
 
-cfg.font = wezterm.font_with_fallback { "Liberation Mono", "Jetbrains Mono", "Fira Code",  }
+cfg.font = wezterm.font_with_fallback { "Jetbrains Mono", "Fira Code", "Liberation Mono", }
 
 cfg.colors = {}
 cfg.colors.background = '#111111'
@@ -47,4 +47,3 @@ cfg.keys = {
 }
 
 return cfg
-

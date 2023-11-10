@@ -250,11 +250,8 @@ vim.api.nvim_create_user_command("Color", function(opts)
 	ColorMeDaddy(opts.args[1])
 end, {})
 
--- colorschemes
-use({
-	{ "rose-pine/neovim",             name = "rose-pine", opts = { disable_italics = true } },
-})
-
+-- colorscheme
+use({ { "rose-pine/neovim",             name = "rose-pine", opts = { disable_italics = true } } })
 -- telescope
 use({
 	"nvim-telescope/telescope.nvim",
