@@ -103,9 +103,9 @@ if not vim.loop.fs_stat(lazypath) then
 	})
 end
 
-local plugins_config = {}
+local plugins = {}
 local function use(opts) -- Adds plugin configs to our plugin specs
-	table.insert(plugins_config, opts)
+	table.insert(plugins, opts)
 end
 
 -- git
@@ -360,17 +360,14 @@ use({
 		vim.api.nvim_create_autocmd("LspAttach", {
 			callback = function(args)
 				local bufnr = args.buf
-				vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
+				vim.api.nvim_set_option_value("omnifunc", "v:lua.vim.lsp.omnifunc", { buf = bufnr })
 				local buffer = function(desc)
 					return { buffer = bufnr, desc = desc }
 				end
 				vim.keymap.set("n", "gd", vim.lsp.buf.definition, buffer("Goto Definition"))
-				vim.keymap.set("n", "<C-.>", vim.lsp.buf.definition, buffer("Goto Definition"))
 				vim.keymap.set("n", "gD", vim.lsp.buf.declaration, buffer("Goto Declaration"))
 				vim.keymap.set("n", "gi", vim.lsp.buf.implementation, buffer("Goto Implementation"))
-				vim.keymap.set("n", "<C-i>", vim.lsp.buf.implementation, buffer("Goto Implementation"))
 				vim.keymap.set("n", "gr", vim.lsp.buf.references, buffer("Goto References"))
-				vim.keymap.set("n", "<C-r>", vim.lsp.buf.references, buffer("Goto References"))
 				vim.keymap.set("n", "R", vim.lsp.buf.rename, buffer("Rename"))
 				vim.keymap.set("n", "K", vim.lsp.buf.hover, buffer("Hover"))
 				vim.keymap.set("n", "<leader>f", vim.lsp.buf.format, buffer("Format"))
@@ -403,6 +400,6 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 })
 
 vim.opt.rtp:prepend(lazypath)
-require("lazy").setup(plugins_config) -- setup plugins
+require("lazy").setup(plugins) -- setup plugins
 
 ColorMeDaddy "rose-pine"
