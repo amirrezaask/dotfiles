@@ -23,6 +23,11 @@ cfg.keys = {
   },
   {
     mods = "CTRL|SHIFT",
+    key = "f",
+    action = wezterm.action.ToggleFullScreen,
+  },
+  {
+    mods = "CTRL|SHIFT",
     key = "RightArrow",
     action = wezterm.action.ActivateTabRelative(1)
   },
