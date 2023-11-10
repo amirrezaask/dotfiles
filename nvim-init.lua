@@ -4,7 +4,7 @@
 --  / ___ |/ / / / / / / /  / /  /  __/ / /_/ /_/ / ___ |(__  ) ,<
 -- /_/  |_/_/ /_/ /_/_/_/  /_/   \___/ /___/\__,_/_/  |_/____/_/|_|
 -- AmirrezaAsk neovim configuration
-vim.opt.number = true -- Line numbers
+vim.opt.number = true         -- Line numbers
 vim.opt.relativenumber = true -- Relative line numbers
 vim.opt.errorbells = false
 vim.opt.smartindent = true
@@ -37,7 +37,7 @@ vim.opt.statusline = "%=%m%r%h%w%q%F%=L:%l C:%c"
 vim.g.mapleader = " "
 
 -- Copy/paste improvements
-vim.keymap.set("n", "Y", "y$", { desc = "Copy line" }) -- Make yanking act like other operations
+vim.keymap.set("n", "Y", "y$", { desc = "Copy line" })                               -- Make yanking act like other operations
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]], { desc = "Copy into clipboard" }) -- Copy to clipboard
 vim.keymap.set("n", "<leader>Y", [["+Y]], { desc = "Copy line into clipboard" })
 vim.keymap.set("n", "<leader>p", [["+p]], { desc = "Paste from clipboard" })
@@ -70,6 +70,7 @@ function ToggleQFList()
 		vim.cmd([[ copen ]])
 	end
 end
+
 vim.keymap.set({ "n" }, "<C-q>", ToggleQFList, { desc = "Open Quickfix list" })
 -- When moving around always have cursor centered in screen
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
@@ -132,11 +133,11 @@ use({
 
 -- editor
 use({
-	"tpope/vim-abolish", -- useful text stuff
+	"tpope/vim-abolish",                 -- useful text stuff
 	{ "numToStr/Comment.nvim", opts = {} }, -- Comment stuff like a boss
-	"fladson/vim-kitty", -- Support Kitty terminal config syntax
-	"towolf/vim-helm", -- Support for helm template syntax
-	"jansedivy/jai.vim", -- Jai from Jonathan Blow
+	"fladson/vim-kitty",                 -- Support Kitty terminal config syntax
+	"towolf/vim-helm",                   -- Support for helm template syntax
+	"jansedivy/jai.vim",                 -- Jai from Jonathan Blow
 	"tpope/vim-sleuth",
 })
 
@@ -229,16 +230,16 @@ function ColorMeDaddy(color)
 	if color == nil then
 		vim.ui.select({
 			"rose-pine", "tokyonight", "gruvbox",
-		}, {prompt = "Colorscheme> "}, function(choice)
+		}, { prompt = "Colorscheme> " }, function(choice)
 			ColorMeDaddy(choice)
 		end)
 	end
 	vim.o.background = "dark"
 	vim.cmd.colorscheme(color)
 	vim.cmd([[ hi LineNr guifg=#5eacd3 ]])
-	vim.cmd([[ 
-		hi Normal guibg=none 
-		hi NormalNC guibg=none 
+	vim.cmd([[
+		hi Normal guibg=none
+		hi NormalNC guibg=none
 		hi NormalFloat guibg=none
 		hi Visual guibg=#49B9C7 guifg=#F6F6F6
         hi SignColumn guibg=none
@@ -251,9 +252,7 @@ end, {})
 
 -- colorschemes
 use({
-	{ "rose-pine/neovim", name = "rose-pine", opts = {disable_italics = true} },
-	"folke/tokyonight.nvim",
-	{ "ellisonleao/gruvbox.nvim", opts = { contrast = "hard", italic = { strings = false, comments = false, operators = false, folds = false } } },
+	{ "rose-pine/neovim",             name = "rose-pine", opts = { disable_italics = true } },
 })
 
 -- telescope
