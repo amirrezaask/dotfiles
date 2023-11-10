@@ -14,22 +14,6 @@ font:
 	mkdir -p $(HOME)/.local/share/fonts
 	cp $(THIS_DIR)/JetbrainsMono.ttf $(HOME)/.local/share/fonts/
 
-codium:
-	mkdir -p $(HOME)/.config/VSCodium/User
-	rm -rf $(HOME)/.config/VSCodium/User/settings.json
-	rm -rf $(HOME)/.config/VSCodium/User/keybindings.json
-	ln -s $(THIS_DIR)/vscode-settings.json $(HOME)/.config/VSCodium/User/settings.json
-	ln -s $(THIS_DIR)/vscode-keybindings.json $(HOME)/.config/VSCodium/User/keybindings.json
-	echo "Installing/Upgrading extensions"
-	codium --install-extension felipecaputo.git-project-manager
-	codium --install-extension usernamehw.errorlens 
-	codium --install-extension waderyan.gitblame 
-	codium --install-extension GitLab.gitlab-workflow 
-	codium --install-extension qcz.text-power-tools 
-	codium --install-extension golang.go 
-	codium --install-extension ziglang.vscode-zig 
-	codium --install-extension rust-lang.rust-analyzer 
-
 neovim:
 	rm -rf $(HOME)/.config/nvim
 	mkdir -p $(HOME)/.config/nvim
