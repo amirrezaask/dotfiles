@@ -200,6 +200,7 @@
 
 (defadvice load-theme (before disable-themes-first activate) (dolist (i custom-enabled-themes) (disable-theme i)))
 (use-package sweet-theme)
+(use-package doom-themes)
 (use-package spacemacs-theme)
 (use-package ef-themes)
 (use-package dracula-theme)

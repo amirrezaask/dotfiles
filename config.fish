@@ -1,4 +1,5 @@
 export GOPROXY='goproxy.io,direct'
+export GOPATH="$HOME/go"
 export PATH="/usr/local/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
@@ -13,6 +14,10 @@ if command -v nvim &> /dev/null
     alias vim='nvim'
     export EDITOR='nvim'
     export GIT_EDITOR='nvim'
+end
+
+if command -v emacsclient &> /dev/null
+    alias e='emacsclient -c -a "" &'
 end
 
 starship init fish | source
