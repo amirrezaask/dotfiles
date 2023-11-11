@@ -376,9 +376,4 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 vim.opt.rtp:prepend(lazypath)
 require("lazy").setup(plugins) -- setup plugins
 
-vim.cmd.colorscheme("sitruuna")
-vim.cmd [[
-	hi Normal guibg=none
-	hi SignColumn guibg=none
-]]
-
+vim.cmd.colorscheme("vscode")
