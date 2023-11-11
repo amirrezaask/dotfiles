@@ -63,14 +63,14 @@
 (global-set-key (kbd "C--") (lambda () (interactive) (text-scale-decrease 1)))
 (setq font-families '("Jetbrains Mono" "Fira Code" "Liberation Mono"))
 (setq --font-family "")
-(defun set-font (font fontsize)
+(defun amirreza/set-font (font fontsize)
   (interactive (list (completing-read "Font Family: " font-families) (read-number "Font Size: ")))
   (let ((fontstring (format "%s %d" font fontsize)))
     (setq --font-family font)
     (add-to-list 'default-frame-alist `(font . ,fontstring))
     (set-frame-font fontstring nil t)
     (set-face-attribute 'default t :font fontstring)))
-(defun set-font-size (fontsize)
+(defun amirreza/set-font-size (fontsize)
   (interactive (list (read-number "Font Size: ")))
   (let ((fontstring (format "%s %d" --font-family fontsize)))
     (add-to-list 'default-frame-alist `(font . ,fontstring))
@@ -78,7 +78,7 @@
     (set-face-attribute 'default t :font fontstring))
   )
 
-(set-font "Jetbrains Mono" 10)
+(amirreza/set-font "Jetbrains Mono" 10)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -195,6 +195,7 @@
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
+(use-package beacon)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
