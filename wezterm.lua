@@ -11,7 +11,7 @@ config.use_fancy_tab_bar = false
 
 config.tab_bar_at_bottom = true
 config.tab_max_width = 35
-config.color_scheme = 'Gruvbox dark, hard (base16)'
+config.color_scheme = 'DoomOne'
 
 
 config.keys = {

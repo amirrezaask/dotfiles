@@ -232,6 +232,7 @@ use { 'eemed/sitruuna.vim' }
 use { "miikanissi/modus-themes.nvim" }
 use { "rockyzhang24/arctic.nvim", branch = "v2", dependencies = { "rktjmp/lush.nvim" } }
 use { "ellisonleao/gruvbox.nvim" , opts = { contrast = 'hard'}}
+use {'NTBBloodbath/doom-one.nvim',}
 -- telescope
 use({
 	"nvim-telescope/telescope.nvim",
@@ -378,4 +379,4 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 vim.opt.rtp:prepend(lazypath)
 require("lazy").setup(plugins) -- setup plugins
 
-vim.cmd.colorscheme("gruvbox")
+vim.cmd.colorscheme("doom-one")
