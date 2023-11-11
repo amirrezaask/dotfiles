@@ -11,7 +11,6 @@ config.use_fancy_tab_bar = false
 
 config.tab_bar_at_bottom = true
 config.tab_max_width = 35
--- config.color_scheme = 'DoomOne'
 
 config.window_padding = {
   left = 0,

@@ -457,17 +457,3 @@
   (server-stop))
 
 (server-start)
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Posix Interop
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun execute-region-as-shell-async ()
-  (interactive)
-  (let* ((cmd (buffer-substring region-begining region-end)))
-    (async-shell-command cmd)
-    )
-  )
-
-
-;; curl -XGET ifconfig.io
