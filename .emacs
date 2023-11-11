@@ -151,11 +151,12 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun amirreza/modeline-vc () (interactive) (propertize (if vc-mode vc-mode "")))
-(defun amirreza/modeline-file () (interactive) (propertize (format "%s%s%s" (if (buffer-modified-p (current-buffer)) " [+] " "") default-directory (buffer-name (current-buffer)))))
+(defun amirreza/modeline-file () (interactive) (propertize (if (buffer-file-name) (buffer-file-name) default-directory)))
+(defun amirreza/modeline-modified () (interactive) (propertize (if (buffer-modified-p (current-buffer)) "[+]" "")))
 (defun amirreza/modeline-linecol () (interactive) (propertize "%l:%c"))
 (defun amirreza/modeline-major-mode () (interactive) (propertize (substring (capitalize (symbol-name major-mode)) 0 -5)))
 (defun amirreza/modeline-left () (interactive) (concat (amirreza/modeline-vc)))
-(defun amirreza/modeline-center () (interactive) (concat (amirreza/modeline-file)))
+(defun amirreza/modeline-center () (interactive) (concat (amirreza/modeline-modified) (amirreza/modeline-file)))
 (defun amirreza/modeline-right () (interactive) (concat (amirreza/modeline-major-mode)))
 (defun amirreza/modeline-format ()
   (let* ((left (amirreza/modeline-left))
