@@ -78,7 +78,7 @@
     (set-face-attribute 'default t :font fontstring))
   )
 
-(set-font "Liberation Mono" 10)
+(set-font "Jetbrains Mono" 10)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
