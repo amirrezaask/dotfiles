@@ -209,7 +209,7 @@
 (use-package amirreza-themes :straight (amirreza-themes :host github :repo "amirrezaask/themes" :local-repo "amirreza-themes"))
 (setq custom-safe-themes t)
 (global-set-key (kbd "M-1") 'ef-themes-load-random)
-(load-theme 'ef-bio)
+(load-theme 'gruvbox-dark-hard)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
