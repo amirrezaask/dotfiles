@@ -183,6 +183,13 @@ use({
 	end,
 })
 
+-- statusline
+use {
+  'nvim-lualine/lualine.nvim',
+  requires = { 'nvim-tree/nvim-web-devicons', opt = true },
+  opts = {}
+}
+
 -- treesitter
 use({
 	"nvim-treesitter/nvim-treesitter",
