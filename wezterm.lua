@@ -1,21 +1,20 @@
 local wezterm = require 'wezterm'
 
-local cfg = {}
+local config = {}
 if wezterm.config_builder then
-  cfg = wezterm.config_builder()
+  config = wezterm.config_builder()
 end
 
-cfg.color_scheme = 'Gruvbox dark, hard (base16)'
+config.font = wezterm.font_with_fallback { "Jetbrains Mono", "Fira Code", "Liberation Mono", }
 
-cfg.font = wezterm.font_with_fallback { "Jetbrains Mono", "Fira Code", "Liberation Mono", }
+config.use_fancy_tab_bar = false
 
-cfg.use_fancy_tab_bar = false
+config.tab_bar_at_bottom = true
+config.tab_max_width = 35
+config.color_scheme = 'Gruvbox dark, hard (base16)'
 
-cfg.tab_bar_at_bottom = true
-cfg.tab_max_width = 35
 
-
-cfg.keys = {
+config.keys = {
   {
     mods = "CTRL|SHIFT",
     key = "k",
@@ -54,4 +53,4 @@ cfg.keys = {
 
 }
 
-return cfg
+return config

@@ -203,10 +203,12 @@
 (use-package spacemacs-theme)
 (use-package ef-themes)
 (use-package dracula-theme)
+(use-package gruvbox-theme)
+(use-package gruber-darker-theme)
 (use-package amirreza-themes :straight (amirreza-themes :host github :repo "amirrezaask/themes" :local-repo "amirreza-themes"))
 (setq custom-safe-themes t)
 (global-set-key (kbd "M-1") 'ef-themes-load-random)
-(load-theme 'ef-bio)
+(load-theme 'gruber-darker)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
