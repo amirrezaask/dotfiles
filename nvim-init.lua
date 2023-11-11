@@ -229,7 +229,9 @@ use({
 -- colorscheme
 use({ "rose-pine/neovim", name = "rose-pine", opts = { disable_italics = true } })
 use { 'eemed/sitruuna.vim' }
-use { 'Mofiqul/vscode.nvim' }
+use { "miikanissi/modus-themes.nvim" }
+use { "rockyzhang24/arctic.nvim", branch = "v2", dependencies = { "rktjmp/lush.nvim" } }
+use { "ellisonleao/gruvbox.nvim" , opts = { contrast = 'hard'}}
 -- telescope
 use({
 	"nvim-telescope/telescope.nvim",
@@ -376,4 +378,4 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 vim.opt.rtp:prepend(lazypath)
 require("lazy").setup(plugins) -- setup plugins
 
-vim.cmd.colorscheme("vscode")
+vim.cmd.colorscheme("gruvbox")

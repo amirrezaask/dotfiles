@@ -5,11 +5,9 @@ if wezterm.config_builder then
   cfg = wezterm.config_builder()
 end
 
+cfg.color_scheme = 'Gruvbox dark, hard (base16)'
 
 cfg.font = wezterm.font_with_fallback { "Jetbrains Mono", "Fira Code", "Liberation Mono", }
-
-cfg.colors = {}
-cfg.colors.background = '#000000'
 
 cfg.use_fancy_tab_bar = false
 
