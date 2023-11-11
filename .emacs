@@ -3,7 +3,7 @@
 ;; Basic
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
+(setq frame-inhibit-implied-resize t) ;; Don't let emacs to resize frame when something inside changes
 (setq gc-cons-threshold 200000000) ;; 200 MB
 ;; (setq debug-on-error t) ;; debug on error
 (setq vc-follow-symlinks t) ;; Follow symlinks with no questions
@@ -113,7 +113,6 @@
 ;; Navigation
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 (defun find-file-dwim ()
   (interactive)
   (if (projectile-project-p) (projectile-find-file) (call-interactively 'find-file)))
@@ -249,7 +248,8 @@
 ;; Text Editing
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
+(setq kill-whole-line t) ;; kill line and newline char
+(global-auto-revert-mode +1) ;; auto refresh buffers from disk
 (delete-selection-mode)
 (use-package multiple-cursors
   :bind
@@ -334,8 +334,16 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(use-package magit)
+(use-package magit
+  :bind
+  ("C-x g" . 'magit-status))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Dired: Emacs file manager
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(setq global-auto-revert-non-file-buffers t)
+(setq auto-revert-verbose nil)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
