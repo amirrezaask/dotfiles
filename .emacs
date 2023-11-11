@@ -150,7 +150,26 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(use-package doom-modeline :config (setq doom-modeline-height 35))
+(defun amirreza/modeline-vc () (interactive) (propertize (if vc-mode vc-mode "")))
+(defun amirreza/modeline-file () (interactive) (propertize (if (buffer-file-name) (buffer-file-name) default-directory)))
+(defun amirreza/modeline-modified () (interactive) (propertize (if (buffer-modified-p (current-buffer)) "[+]" "")))
+(defun amirreza/modeline-linecol () (interactive) (propertize "%l:%c"))
+(defun amirreza/modeline-major-mode () (interactive) (propertize (substring (capitalize (symbol-name major-mode)) 0 -5)))
+(defun amirreza/modeline-left () (interactive) (concat (amirreza/modeline-vc)))
+(defun amirreza/modeline-center () (interactive) (concat (amirreza/modeline-modified) (amirreza/modeline-file)))
+(defun amirreza/modeline-right () (interactive) (concat (amirreza/modeline-major-mode)))
+(defun amirreza/modeline-format ()
+  (let* ((left (amirreza/modeline-left))
+	 (center (amirreza/modeline-center))
+	 (right (amirreza/modeline-right))
+	 (win-len (window-width (get-buffer-window (current-buffer))))
+	 (center-right-spaces (make-string (- (/ win-len 2) (+ (/ (length center) 2) (length right))  ) ?\s))
+	 (left-center-spaces (make-string (- (/ win-len 2) (+ (length left) (/ (length center) 2))) ?\s))
+	 )
+
+    (concat left left-center-spaces center center-right-spaces right)))
+
+(setq-default mode-line-format '("%e" (:eval (amirreza/modeline-format))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -429,7 +448,7 @@
 
 (global-set-key "\C-xpg" 'grep-dwim)
 (global-set-key (kbd "C-S-f") 'grep-dwim) ;; old habbits, ctrl+shift+f
-(global-set-key [M-j] 'grep-dwim)
+(global-set-key (kbd "M-j") 'grep-dwim)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Emacs Server
