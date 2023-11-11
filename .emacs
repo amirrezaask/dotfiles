@@ -209,7 +209,7 @@
 (use-package amirreza-themes :straight (amirreza-themes :host github :repo "amirrezaask/themes" :local-repo "amirreza-themes"))
 (setq custom-safe-themes t)
 (global-set-key (kbd "M-1") 'ef-themes-load-random)
-(load-theme 'gruber-darker)
+(load-theme 'ef-bio)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -359,12 +359,13 @@
 	lsp-use-plists t)  ;; Performance tweaks
   (setq lsp-auto-guess-root t) ;; don't ask for project root detection
   (setq lsp-headerline-breadcrumb-enable nil) ;; Disable UI elements
+  (setq lsp-keymap-prefix "C-c m")
   :bind
   (:map lsp-mode-map
 	("<f12>" . lsp-find-definition)
 	("M-<f12>" . lsp-find-references)
-	("C-<f12>" . lsp-find-implementation))
-  )
+	("C-c C-c" . lsp-execute-code-action)
+	("C-<f12>" . lsp-find-implementation)))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
