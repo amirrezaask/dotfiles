@@ -386,4 +386,4 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 vim.opt.rtp:prepend(lazypath)
 require("lazy").setup(plugins) -- setup plugins
 
-vim.cmd.colorscheme("OceanicNext")
+vim.cmd.colorscheme("gruvbox")
