@@ -11,6 +11,9 @@ fish:
 profile:
 	rm -rf $(HOME)/.profile
 	ln -s $(THIS_DIR)/.profile $(HOME)/.profile
+wezterm:
+	rm -rf $(HOME)/.wezterm.lua
+	ln -s $(THIS_DIR)/wezterm.lua $(HOME)/.wezterm.lua
 
 emacs:
 	rm -rf $(HOME)/.emacs
