@@ -231,8 +231,15 @@ use({ "rose-pine/neovim", name = "rose-pine", opts = { disable_italics = true } 
 use { 'eemed/sitruuna.vim' }
 use { "miikanissi/modus-themes.nvim" }
 use { "rockyzhang24/arctic.nvim", branch = "v2", dependencies = { "rktjmp/lush.nvim" } }
-use { "ellisonleao/gruvbox.nvim" , opts = { contrast = 'hard'}}
-use {'NTBBloodbath/doom-one.nvim',}
+use { "ellisonleao/gruvbox.nvim", opts = { contrast = 'hard' } }
+use { 'NTBBloodbath/doom-one.nvim' }
+use { 'mhartington/oceanic-next' }
+use { "EdenEast/nightfox.nvim" }
+use { 'navarasu/onedark.nvim' }
+use { 'kvrohit/rasmus.nvim' }
+use { 'tanvirtin/monokai.nvim' }
+use { "zootedb0t/citruszest.nvim" }
+use { 'AlexvZyl/nordic.nvim' }
 -- telescope
 use({
 	"nvim-telescope/telescope.nvim",
@@ -379,4 +386,4 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 vim.opt.rtp:prepend(lazypath)
 require("lazy").setup(plugins) -- setup plugins
 
-vim.cmd.colorscheme("doom-one")
+vim.cmd.colorscheme("OceanicNext")
