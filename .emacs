@@ -10,6 +10,10 @@
 (setq ring-bell-function (lambda ())) ;; no stupid sounds
 (setq custom-file "~/.custom.el") ;; set custom file to not meddle with init.el
 (setq make-backup-files nil) ;; no emacs ~ backup files
+(defun edit-config ()
+  (interactive)
+  (find-file "~/.emacs"))
+(global-set-key (kbd "<f1>") 'edit-config)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
