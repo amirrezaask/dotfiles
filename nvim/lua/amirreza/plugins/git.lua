@@ -17,4 +17,18 @@ return {
 	},
 	"tpope/vim-fugitive",
 	"junegunn/gv.vim",
+	{
+		'sindrets/diffview.nvim',
+		opts = {
+
+			keymaps = {
+				view = {
+					["q"] = ":DiffviewClose<CR>"
+				},
+				file_panel = {
+					["q"] = ":DiffviewClose<CR>"
+				}
+			}
+		}
+	}
 }
