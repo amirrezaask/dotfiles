@@ -44,12 +44,6 @@ vim.keymap.set("n", "<leader>p", [["+p]], { desc = "Paste from clipboard" })
 -- If I visually select words and paste from clipboard, don't replace my
 -- clipboard with the selected word, instead keep my old word in the clipboard
 vim.keymap.set("x", "p", '"_dP')
--- Split windows
-vim.keymap.set("n", "<Left>", "<cmd>vertical resize -10<CR>")
-vim.keymap.set("n", "<Right>", "<cmd>vertical resize +10<CR>")
-vim.keymap.set("n", "<Down>", "<cmd>resize -10<CR>")
-vim.keymap.set("n", "<Up>", "<cmd>resize +10<CR>")
-vim.keymap.set("n", "<C-w>=", "<cmd>wincmd =<CR>")
 -- Simpler exiting insert mode
 vim.keymap.set("i", "<C-c>", "<esc>")
 vim.keymap.set("i", "jk", "<ESC>")
@@ -88,8 +82,6 @@ vim.keymap.set("n", "k", "gk")
 vim.keymap.set("t", "<esc>", [[<C-\><C-n>]])
 vim.keymap.set({ "i", "n", "t" }, "<C-k>", "<cmd>tabnext<CR>")
 vim.keymap.set({ "i", "n", "t" }, "<C-j>", "<cmd>tabprev<CR>")
-vim.keymap.set({ "i", "n", "t" }, "<C-,>", "<cmd>tabnew<CR>")
-vim.keymap.set({ "i", "n", "t" }, "<C-;>", "<cmd>tabnew | term<CR>")
 
 -- lazy installation code
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
