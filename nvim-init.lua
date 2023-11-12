@@ -105,11 +105,11 @@ if not vim.loop.fs_stat(lazypath) then
 end
 
 local plugins = {}
-local function use(_, opts) -- Adds plugin configs to our plugin specs
+local function Plugin(_, opts) -- Adds plugin configs to our plugin specs
 	table.insert(plugins, opts)
 end
 
-use(" Git Packages ", {
+Plugin(" Git Packages ", {
 	{
 		"lewis6991/gitsigns.nvim",
 		config = function()
@@ -130,7 +130,7 @@ use(" Git Packages ", {
 	"junegunn/gv.vim",
 })
 
-use(" Editor Packages ", {
+Plugin(" Editor Packages ", {
 	"tpope/vim-abolish",                 -- useful text stuff
 	{ "numToStr/Comment.nvim", opts = {} }, -- Comment stuff like a boss
 	"fladson/vim-kitty",                 -- Support Kitty terminal config syntax
@@ -139,7 +139,7 @@ use(" Editor Packages ", {
 	"tpope/vim-sleuth",
 })
 
-use(" AutoCompletion ", {
+Plugin(" AutoCompletion ", {
 	"hrsh7th/nvim-cmp",
 	dependencies = {
 		"hrsh7th/cmp-nvim-lsp",
@@ -180,13 +180,13 @@ use(" AutoCompletion ", {
 	end,
 })
 
-use (" StatusLine ", {
+Plugin (" StatusLine ", {
   'nvim-lualine/lualine.nvim',
   requires = { 'nvim-tree/nvim-web-devicons', opt = true },
   opts = {}
 })
 
-use(" Treesitter ", {
+Plugin(" Treesitter ", {
 	"nvim-treesitter/nvim-treesitter",
 	dependencies = {
 		"nvim-treesitter/nvim-treesitter-textobjects",
@@ -228,7 +228,7 @@ use(" Treesitter ", {
 	end,
 })
 
-use(" Colorschemes ", {
+Plugin(" Colorschemes ", {
 	{ "rose-pine/neovim", name = "rose-pine", opts = { disable_italics = true } },
 	{ "ellisonleao/gruvbox.nvim", opts = { contrast = 'hard' } },
 	{ 'navarasu/onedark.nvim', opts = { style = 'darker' } },
@@ -238,7 +238,7 @@ use(" Colorschemes ", {
 local dark_colorscheme = 'catppuccin'
 local light_colorscheme = 'rose-pine-dawn'
 
-use( " Telescope Fuzzy Finder ", {
+Plugin( " Telescope Fuzzy Finder ", {
 	"nvim-telescope/telescope.nvim",
 	dependencies = {
 		"nvim-lua/plenary.nvim",
@@ -291,7 +291,7 @@ use( " Telescope Fuzzy Finder ", {
 	end,
 })
 
-use(" Language Server Protocol ", {
+Plugin(" Language Server Protocol ", {
 	"neovim/nvim-lspconfig",
 	dependencies = { "williamboman/mason.nvim" },
 	config = function()
