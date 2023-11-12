@@ -238,7 +238,7 @@ use({ "rose-pine/neovim", name = "rose-pine", opts = { disable_italics = true } 
 use { "miikanissi/modus-themes.nvim" }
 use { "ellisonleao/gruvbox.nvim", opts = { contrast = 'hard' } }
 use { 'NTBBloodbath/doom-one.nvim' }
-use { 'navarasu/onedark.nvim' }
+use { 'navarasu/onedark.nvim', opts = { style = 'darker' } }
 -- telescope
 use({
 	"nvim-telescope/telescope.nvim",
@@ -394,9 +394,8 @@ function ColorMeDaddy(color)
 	hi Normal guibg=none guifg=#F2F2F2 
 	hi NormalNC guibg=none 
 	hi NormalFloat guibg=none
-	hi Visual guibg=#49B9C7 guifg=#FFFFFF
 	hi SignColumn guibg=none
 	]])
 end
 
-ColorMeDaddy("doom-one")
+ColorMeDaddy("onedark")
