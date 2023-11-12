@@ -1,5 +1,5 @@
 local color_state = 'dark'
-local dark_colorscheme = 'catppuccin-macchiato'
+local dark_colorscheme = 'rose-pine'
 local light_colorscheme = 'rose-pine-dawn'
 
 vim.cmd.colorscheme(dark_colorscheme)
