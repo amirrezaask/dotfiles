@@ -44,3 +44,8 @@ tmux:
 wezterm:
 	rm -rf $(HOME)/.wezterm.lua
 	ln -s $(THIS_DIR)/wezterm.lua $(HOME)/.wezterm.lua
+
+awesome:
+	mkdir -p $(HOME)/.config/awesome
+	rm -rf $(HOME)/.config/awesome/rc.lua
+	ln -s $(THIS_DIR)/awesome-rc.lua $(HOME)/.config/awesome/rc.lua
