@@ -78,7 +78,7 @@
     (set-face-attribute 'default t :font fontstring))
   )
 
-(amirreza/set-font "Jetbrains Mono" 10)
+(amirreza/set-font "Liberation Mono" 10)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
