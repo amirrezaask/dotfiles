@@ -49,3 +49,9 @@ awesome:
 	mkdir -p $(HOME)/.config/awesome
 	rm -rf $(HOME)/.config/awesome/rc.lua
 	ln -s $(THIS_DIR)/awesome-rc.lua $(HOME)/.config/awesome/rc.lua
+
+codium:
+	rm -rf $(HOME)/.config/VSCodium/settings.json
+	rm -rf $(HOME)/.config/VSCodium/keybindings.json
+	ln -s $(THIS_DIR)/vscode-settings.json $(HOME)/.config/VSCodium/settings.json
+	ln -s $(THIS_DIR)/vscode-keybindings.json $(HOME)/.config/VSCodium/keybindings.json

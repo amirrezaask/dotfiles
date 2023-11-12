@@ -8,4 +8,9 @@ then
     export EDITOR='nvim'
     export GIT_EDITOR='nvim'
 fi
+if command -v codium &> /dev/null
+then
+    alias code='codium'
+fi
+
 . "$HOME/.cargo/env"
