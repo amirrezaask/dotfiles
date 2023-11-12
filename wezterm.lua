@@ -5,7 +5,7 @@ if wezterm.config_builder then
   config = wezterm.config_builder()
 end
 
-config.font = wezterm.font_with_fallback { "Jetbrains Mono", "Fira Code", "Liberation Mono", }
+config.font = wezterm.font_with_fallback { "Fira Code", "Liberation Mono" }
 
 config.use_fancy_tab_bar = false
 

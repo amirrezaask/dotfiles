@@ -61,22 +61,21 @@
 
 (global-set-key (kbd "C-=") (lambda () (interactive) (text-scale-increase 1)))
 (global-set-key (kbd "C--") (lambda () (interactive) (text-scale-decrease 1)))
-(setq font-families '("Jetbrains Mono" "Liberation Mono" "Fira Mono"))
 (setq --font-family "")
 (defun amirreza/set-font (font fontsize)
-  (interactive (list (completing-read "Font Family: " font-families) (read-number "Font Size: ")))
+  (interactive (list (read-string "Font Family: ") (read-number "Font Size: ")))
   (let ((fontstring (format "%s %d" font fontsize)))
     (setq --font-family font)
     (add-to-list 'default-frame-alist `(font . ,fontstring))
     (set-frame-font fontstring nil t)
     (set-face-attribute 'default t :font fontstring)))
+
 (defun amirreza/set-font-size (fontsize)
   (interactive (list (read-number "Font Size: ")))
   (let ((fontstring (format "%s %d" --font-family fontsize)))
     (add-to-list 'default-frame-alist `(font . ,fontstring))
     (set-frame-font fontstring nil t)
-    (set-face-attribute 'default t :font fontstring))
-  )
+    (set-face-attribute 'default t :font fontstring)))
 
 (amirreza/set-font "Jetbrains Mono" 10)
 
