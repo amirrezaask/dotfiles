@@ -16,8 +16,8 @@ if command -v nvim &> /dev/null
     export GIT_EDITOR='nvim'
 end
 
-if command -v emacsclient &> /dev/null
-    alias e='emacsclient -c -a "" &'
+function e
+    emacsclient -c -a '' $argv &
 end
 
 starship init fish | source
