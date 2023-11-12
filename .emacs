@@ -61,7 +61,7 @@
 
 (global-set-key (kbd "C-=") (lambda () (interactive) (text-scale-increase 1)))
 (global-set-key (kbd "C--") (lambda () (interactive) (text-scale-decrease 1)))
-(setq font-families '("Jetbrains Mono" "Liberation Mono" "Fira Code"))
+(setq font-families '("Jetbrains Mono" "Liberation Mono" "Fira Mono"))
 (setq --font-family "")
 (defun amirreza/set-font (font fontsize)
   (interactive (list (completing-read "Font Family: " font-families) (read-number "Font Size: ")))
@@ -78,7 +78,7 @@
     (set-face-attribute 'default t :font fontstring))
   )
 
-(amirreza/set-font "Liberation Mono" 10)
+(amirreza/set-font "Jetbrains Mono" 10)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
