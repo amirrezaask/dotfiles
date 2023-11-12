@@ -235,8 +235,6 @@ Plugin(" Colorschemes ", {
 	{ "catppuccin/nvim", name = "catppuccin", opts = { flavor = "macchiato"} },
 	{ "EdenEast/nightfox.nvim" }
 })
-local dark_colorscheme = 'catppuccin'
-local light_colorscheme = 'rose-pine-dawn'
 
 Plugin( " Telescope Fuzzy Finder ", {
 	"nvim-telescope/telescope.nvim",
@@ -369,8 +367,9 @@ Plugin(" Language Server Protocol ", {
 	end,
 })
 
--- Golang
--- Auto format and imports
+-- ====================================================
+-- Golang format 
+-- ====================================================
 vim.api.nvim_create_autocmd("BufWritePre", {
 	pattern = "*.go",
 	callback = function()
@@ -383,8 +382,10 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup(plugins) -- setup plugins
 
 local color_state = 'dark'
-vim.cmd.colorscheme(dark_colorscheme)
+local dark_colorscheme = 'rose-pine'
+local light_colorscheme = 'rose-pine-dawn'
 
+vim.cmd.colorscheme(dark_colorscheme)
 function ToggleColorscheme()
 	if color_state == 'dark' then
 		color_state = 'light'
