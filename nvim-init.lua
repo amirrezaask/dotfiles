@@ -235,10 +235,13 @@ use({
 
 -- colorschemes
 use({ "rose-pine/neovim", name = "rose-pine", opts = { disable_italics = true } })
-use { "miikanissi/modus-themes.nvim" }
 use { "ellisonleao/gruvbox.nvim", opts = { contrast = 'hard' } }
-use { 'NTBBloodbath/doom-one.nvim' }
 use { 'navarasu/onedark.nvim', opts = { style = 'darker' } }
+use { "catppuccin/nvim", name = "catppuccin", opts = { flavor = "macchiato"} }
+use { "EdenEast/nightfox.nvim" }
+local dark_colorscheme = 'catppuccin'
+local light_colorscheme = 'rose-pine-dawn'
+
 -- telescope
 use({
 	"nvim-telescope/telescope.nvim",
@@ -385,17 +388,15 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 vim.opt.rtp:prepend(lazypath)
 require("lazy").setup(plugins) -- setup plugins
 
-function ColorMeDaddy(color)
-	vim.o.background = "dark"
-	vim.cmd.colorscheme(color)
-	vim.cmd([[ hi LineNr guifg=#5eacd3 ]])
-	-- transparency or follow whatever background terminal has
-	vim.cmd([[ 
-	hi Normal guibg=none guifg=#F2F2F2 
-	hi NormalNC guibg=none 
-	hi NormalFloat guibg=none
-	hi SignColumn guibg=none
-	]])
-end
+local color_state = 'dark'
+vim.cmd.colorscheme(dark_colorscheme)
 
-ColorMeDaddy("onedark")
+function ToggleColorscheme()
+	if color_state == 'dark' then
+		color_state = 'light'
+		vim.cmd.colorscheme(light_colorscheme)
+	else
+		color_state = 'light'
+		vim.cmd.colorscheme(dark_colorscheme)
+	end
+end
