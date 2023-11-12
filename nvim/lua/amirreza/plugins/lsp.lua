@@ -55,8 +55,7 @@ return {
 				end
 				vim.keymap.set("n", "gd", vim.lsp.buf.definition, buffer("Goto Definition"))
 				vim.keymap.set("n", "gD", vim.lsp.buf.declaration, buffer("Goto Declaration"))
-				vim.keymap.set("n", "gi", vim.lsp.buf.implementation,
-					buffer("Goto Implementation"))
+				vim.keymap.set("n", "gi", vim.lsp.buf.implementation, buffer("Goto Implementation"))
 				vim.keymap.set("n", "gr", vim.lsp.buf.references, buffer("Goto References"))
 				vim.keymap.set("n", "R", vim.lsp.buf.rename, buffer("Rename"))
 				vim.keymap.set("n", "K", vim.lsp.buf.hover, buffer("Hover"))
