@@ -18,7 +18,13 @@ config.window_padding = {
   top = 0,
   bottom = 0,
 }
+
 config.enable_scroll_bar = false
+
+config.colors = {
+  background = "#333333",
+  foreground = "#F2F2F2"
+}
 
 config.keys = {
   {

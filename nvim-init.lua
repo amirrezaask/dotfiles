@@ -394,3 +394,4 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup(plugins) -- setup plugins
 
 vim.cmd.colorscheme("gruvbox")
+vim.cmd [[ hi Normal guibg=none ]]
