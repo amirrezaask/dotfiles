@@ -1,6 +1,7 @@
 {
   "editor.fontFamily": "'Fira Mono'",
   "editor.minimap.enabled": false,
+  "editor.mouseWheelZoom": true,
   "window.title": "${dirty}${rootName}${separator}",
   "window.titleSeparator": "; ",
   "editor.bracketPairColorization.enabled": false,
@@ -15,6 +16,5 @@
   "[go]": { "editor.formatOnSave": true },
   "window.menuBarVisibility": "toggle",
   "workbench.colorTheme": "Visual Studio Light",
-  "window.zoomLevel": 3,
   "workbench.activityBar.location": "hidden"
 }
