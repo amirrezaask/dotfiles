@@ -14,7 +14,7 @@
   (interactive)
   (find-file "~/.emacs"))
 (global-set-key (kbd "<f1>") 'edit-config)
-
+(setq auto-save-file-name-transforms '((".*" "~/.emacs-autosave/" t)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -195,9 +195,6 @@
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
-(use-package beacon
-  :config
-  (beacon-mode))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -215,7 +212,7 @@
 (use-package gruber-darker-theme)
 (use-package amirreza-themes :no-require :straight (:host github :repo "amirrezaask/themes" :local-repo "amirreza-themes"))
 (setq custom-safe-themes t)
-(load-theme 'gruvbox-dark-hard)
+(load-theme 'sweet)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -242,7 +239,7 @@
 
 (use-package corfu
   :config
-  (setq corfu-auto t)
+  ;; (setq corfu-auto t)
   (global-corfu-mode))
 
 
@@ -317,8 +314,8 @@
   ""
   (interactive)
   (cond
-   ((projectile-project-p) (call-interactively 'projectile-compile-project)
-    t (call-interactively 'compile))
+   ((projectile-project-p) (call-interactively 'projectile-compile-project))
+    (t (call-interactively 'compile))
    )
   )
 
@@ -378,6 +375,7 @@
   :bind
   (:map lsp-mode-map
 	("<f12>" . lsp-find-definition)
+	("<f2>" . lsp-rename)
 	("M-<f12>" . lsp-find-references)
 	("C-c C-c" . lsp-execute-code-action)
 	("C-<f12>" . lsp-find-implementation)))
