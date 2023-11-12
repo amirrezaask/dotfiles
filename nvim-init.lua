@@ -4,6 +4,12 @@
 --  / ___ |/ / / / / / / /  / /  /  __/ / /_/ /_/ / ___ |(__  ) ,<
 -- /_/  |_/_/ /_/ /_/_/_/  /_/   \___/ /___/\__,_/_/  |_/____/_/|_|
 -- AmirrezaAsk neovim configuration
+
+
+
+-- ====================================================
+-- Options
+-- ====================================================
 vim.opt.number = true         -- Line numbers
 vim.opt.relativenumber = true -- Relative line numbers
 vim.opt.errorbells = false
@@ -32,12 +38,12 @@ vim.g.netrw_winsize = 25
 vim.opt.laststatus = 2
 vim.opt.timeoutlen = 300
 vim.opt.laststatus = 3
-vim.opt.statusline = "%=%m%r%h%w%q%F%=L:%l C:%c"
 
+-- ====================================================
+-- Keybindings
+-- ====================================================
 vim.g.mapleader = " "
-
--- Copy/paste improvements
-vim.keymap.set("n", "Y", "y$", { desc = "Copy line" })                               -- Make yanking act like other operations
+vim.keymap.set("n", "Y", "y$", { desc = "Copy whole line" })                               -- Make yanking act like other operations
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]], { desc = "Copy into clipboard" }) -- Copy to clipboard
 vim.keymap.set("n", "<leader>Y", [["+Y]], { desc = "Copy line into clipboard" })
 vim.keymap.set("n", "<leader>p", [["+p]], { desc = "Paste from clipboard" })
@@ -83,7 +89,9 @@ vim.keymap.set("t", "<esc>", [[<C-\><C-n>]])
 vim.keymap.set({ "i", "n", "t" }, "<C-k>", "<cmd>tabnext<CR>")
 vim.keymap.set({ "i", "n", "t" }, "<C-j>", "<cmd>tabprev<CR>")
 
--- lazy installation code
+-- ====================================================
+-- Lazy package manager 
+-- ====================================================
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
 	vim.fn.system({
@@ -97,12 +105,11 @@ if not vim.loop.fs_stat(lazypath) then
 end
 
 local plugins = {}
-local function use(opts) -- Adds plugin configs to our plugin specs
+local function use(_, opts) -- Adds plugin configs to our plugin specs
 	table.insert(plugins, opts)
 end
 
--- git
-use({
+use(" Git Packages ", {
 	{
 		"lewis6991/gitsigns.nvim",
 		config = function()
@@ -123,8 +130,7 @@ use({
 	"junegunn/gv.vim",
 })
 
--- editor
-use({
+use(" Editor Packages ", {
 	"tpope/vim-abolish",                 -- useful text stuff
 	{ "numToStr/Comment.nvim", opts = {} }, -- Comment stuff like a boss
 	"fladson/vim-kitty",                 -- Support Kitty terminal config syntax
@@ -133,8 +139,7 @@ use({
 	"tpope/vim-sleuth",
 })
 
--- completion
-use({
+use(" AutoCompletion ", {
 	"hrsh7th/nvim-cmp",
 	dependencies = {
 		"hrsh7th/cmp-nvim-lsp",
@@ -175,15 +180,13 @@ use({
 	end,
 })
 
--- statusline
-use {
+use (" StatusLine ", {
   'nvim-lualine/lualine.nvim',
   requires = { 'nvim-tree/nvim-web-devicons', opt = true },
   opts = {}
-}
+})
 
--- treesitter
-use({
+use(" Treesitter ", {
 	"nvim-treesitter/nvim-treesitter",
 	dependencies = {
 		"nvim-treesitter/nvim-treesitter-textobjects",
@@ -225,17 +228,17 @@ use({
 	end,
 })
 
--- colorschemes
-use({ "rose-pine/neovim", name = "rose-pine", opts = { disable_italics = true } })
-use { "ellisonleao/gruvbox.nvim", opts = { contrast = 'hard' } }
-use { 'navarasu/onedark.nvim', opts = { style = 'darker' } }
-use { "catppuccin/nvim", name = "catppuccin", opts = { flavor = "macchiato"} }
-use { "EdenEast/nightfox.nvim" }
+use(" Colorschemes ", {
+	{ "rose-pine/neovim", name = "rose-pine", opts = { disable_italics = true } },
+	{ "ellisonleao/gruvbox.nvim", opts = { contrast = 'hard' } },
+	{ 'navarasu/onedark.nvim', opts = { style = 'darker' } },
+	{ "catppuccin/nvim", name = "catppuccin", opts = { flavor = "macchiato"} },
+	{ "EdenEast/nightfox.nvim" }
+})
 local dark_colorscheme = 'catppuccin'
 local light_colorscheme = 'rose-pine-dawn'
 
--- telescope
-use({
+use( " Telescope Fuzzy Finder ", {
 	"nvim-telescope/telescope.nvim",
 	dependencies = {
 		"nvim-lua/plenary.nvim",
@@ -288,8 +291,7 @@ use({
 	end,
 })
 
--- lsp
-use({
+use(" Language Server Protocol ", {
 	"neovim/nvim-lspconfig",
 	dependencies = { "williamboman/mason.nvim" },
 	config = function()
