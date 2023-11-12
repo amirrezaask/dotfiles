@@ -233,20 +233,12 @@ use({
 	end,
 })
 
--- colorscheme
+-- colorschemes
 use({ "rose-pine/neovim", name = "rose-pine", opts = { disable_italics = true } })
-use { 'eemed/sitruuna.vim' }
 use { "miikanissi/modus-themes.nvim" }
-use { "rockyzhang24/arctic.nvim", branch = "v2", dependencies = { "rktjmp/lush.nvim" } }
 use { "ellisonleao/gruvbox.nvim", opts = { contrast = 'hard' } }
 use { 'NTBBloodbath/doom-one.nvim' }
-use { 'mhartington/oceanic-next' }
-use { "EdenEast/nightfox.nvim" }
 use { 'navarasu/onedark.nvim' }
-use { 'kvrohit/rasmus.nvim' }
-use { 'tanvirtin/monokai.nvim' }
-use { "zootedb0t/citruszest.nvim" }
-use { 'AlexvZyl/nordic.nvim' }
 -- telescope
 use({
 	"nvim-telescope/telescope.nvim",
@@ -393,5 +385,18 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 vim.opt.rtp:prepend(lazypath)
 require("lazy").setup(plugins) -- setup plugins
 
-vim.cmd.colorscheme("gruvbox")
-vim.cmd [[ hi Normal guibg=none ]]
+function ColorMeDaddy(color)
+	vim.o.background = "dark"
+	vim.cmd.colorscheme(color)
+	vim.cmd([[ hi LineNr guifg=#5eacd3 ]])
+	-- transparency or follow whatever background terminal has
+	vim.cmd([[ 
+	hi Normal guibg=none guifg=#F2F2F2 
+	hi NormalNC guibg=none 
+	hi NormalFloat guibg=none
+	hi Visual guibg=#49B9C7 guifg=#FFFFFF
+	hi SignColumn guibg=none
+	]])
+end
+
+ColorMeDaddy("doom-one")
