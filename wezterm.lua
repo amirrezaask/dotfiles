@@ -21,13 +21,6 @@ config.window_padding = {
 
 config.enable_scroll_bar = false
 
-config.colors = {
-  background = "#111111",
-  foreground = "#F2F2F2",
-  selection_fg = '#FFFFFF',
-  selection_bg = '#48B9C7',
-}
-
 config.keys = {
   {
     mods = "CTRL|SHIFT",
