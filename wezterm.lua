@@ -23,7 +23,9 @@ config.enable_scroll_bar = false
 
 config.colors = {
   background = "#333333",
-  foreground = "#F2F2F2"
+  foreground = "#F2F2F2",
+  selection_fg = '#FFFFFF',
+  selection_bg = '#48B9C7',
 }
 
 config.keys = {
