@@ -42,7 +42,7 @@ vim.opt.laststatus = 3
 -- ====================================================
 -- Keybindings
 -- ====================================================
-vim.g.mapleader = " "
+vim.g.mapleader = " " -- <leader> key for keymaps mapped to <Space>
 vim.keymap.set("n", "Y", "y$", { desc = "Copy whole line" })                         -- Make yanking act like other operations
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]], { desc = "Copy into clipboard" }) -- Copy to clipboard
 vim.keymap.set("n", "<leader>Y", [["+Y]], { desc = "Copy line into clipboard" })
@@ -130,11 +130,11 @@ require "lazy".setup {
 	"tpope/vim-fugitive",
 	"junegunn/gv.vim",
 
-	"tpope/vim-abolish",             -- useful text stuff
+	"tpope/vim-abolish",                    -- useful text stuff
 	{ "numToStr/Comment.nvim",    opts = {} }, -- Comment stuff like a boss
-	"fladson/vim-kitty",             -- Support Kitty terminal config syntax
-	"towolf/vim-helm",               -- Support for helm template syntax
-	"jansedivy/jai.vim",             -- Jai from Jonathan Blow
+	"fladson/vim-kitty",                    -- Support Kitty terminal config syntax
+	"towolf/vim-helm",                      -- Support for helm template syntax
+	"jansedivy/jai.vim",                    -- Jai from Jonathan Blow
 	"tpope/vim-sleuth",
 
 	-- nvim-cmp: autocompletion
@@ -178,10 +178,29 @@ require "lazy".setup {
 		end,
 	},
 
+	-- statusline
 	{
 		'nvim-lualine/lualine.nvim',
 		requires = { 'nvim-tree/nvim-web-devicons', opt = true },
-		opts = {}
+		opts = {
+			sections = {
+				lualine_a = { 'mode' },
+				lualine_b = { 'branch', 'diff', 'diagnostics' },
+				lualine_c = { 'filename' },
+				lualine_x = { 'encoding', 'fileformat', 'filetype' },
+				lualine_y = { 'progress' },
+				lualine_z = { 'location' }
+			},
+			tabline = {},
+			winbar = {
+				lualine_a = {},
+				lualine_b = {},
+				lualine_c = { 'filename' },
+				lualine_x = {},
+				lualine_y = {},
+				lualine_z = {}
+			}
+		}
 	},
 	-- Treesitter
 	{
@@ -288,6 +307,7 @@ require "lazy".setup {
 			end, { desc = "Live Grep" })
 		end,
 	},
+	-- LSP configuration for IDE like features
 	{
 
 		"neovim/nvim-lspconfig",
@@ -304,7 +324,7 @@ require "lazy".setup {
 			local sep = get_path_sep()
 
 			vim.env.PATH = string.format("%s%smason%sbin:", (vim.fn.stdpath("data")), sep, sep) ..
-			vim.env.PATH
+				vim.env.PATH
 			require("mason").setup({})
 			local lsp_servers = {
 				ocamllsp = {
@@ -364,7 +384,7 @@ require "lazy".setup {
 			vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover,
 				{ border = "rounded" })
 			vim.lsp.handlers["textDocument/signatureHelp"] =
-			    vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
+				vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
 
 			-- LspInfo window have rounded border
 			require("lspconfig.ui.windows").default_options.border = "rounded"
@@ -389,7 +409,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 -- ====================================================
 
 local color_state = 'dark'
-local dark_colorscheme = 'rose-pine'
+local dark_colorscheme = 'catppuccin-macchiato'
 local light_colorscheme = 'rose-pine-dawn'
 
 vim.cmd.colorscheme(dark_colorscheme)
