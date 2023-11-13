@@ -60,4 +60,8 @@ config.keys = {
 
 }
 
+config.bidi_enabled = true
+config.bidi_direction = 'AutoLeftToRight'
+
+
 return config
