@@ -26,5 +26,5 @@ vim.g.netrw_winsize = 25
 vim.opt.laststatus = 2
 vim.opt.timeoutlen = 300
 vim.opt.laststatus = 3
-
+vim.opt.guicursor = ''
 

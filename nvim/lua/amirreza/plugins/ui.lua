@@ -5,9 +5,8 @@ return {
 	{ "catppuccin/nvim",          name = "catppuccin",         opts = { flavor = "macchiato" } },
 	{ "EdenEast/nightfox.nvim" },
 	{
-		"folke/edgy.nvim",
-		event = "VeryLazy",
-		opts = {}
+		'stevearc/dressing.nvim',
+		opts = {},
 	},
 	{
 		"folke/noice.nvim",
