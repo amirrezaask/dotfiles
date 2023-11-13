@@ -95,17 +95,16 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; Projectile: Project Based Commands
+;; Project.el: Project Based Commands
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(use-package projectile
-  :commands (projectile-project-p)
+(use-package project
+  :straight nil
   :bind
-  (("C-x p p" . projectile-switch-project)
-   ("C-x p a" . projectile-add-known-project)
-   ("C-x p f" . projectile-find-file)
-   ("C-x p g" . projectile-grep)))
+  (("C-x p p" . project-switch-project)
+   ("C-x p a" . project-add-known-project)
+   ("C-x p f" . project-find-file)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -114,7 +113,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun find-file-dwim ()
   (interactive)
-  (if (projectile-project-p) (projectile-find-file) (call-interactively 'find-file)))
+  (if (project-root (project-current)) (project-find-file) (call-interactively 'find-file)))
 
 (global-set-key (kbd "M-o") 'find-file-dwim)
 
@@ -313,7 +312,7 @@
   ""
   (interactive)
   (cond
-   ((projectile-project-p) (call-interactively 'projectile-compile-project))
+   ((project-current) (call-interactively 'project-compile))
     (t (call-interactively 'compile))
    )
   )
@@ -423,10 +422,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(use-package rg) ;; Ripgrep
-
 (use-package wgrep) ;; Writeable Grep Buffers
-
 (use-package isearch :straight nil
   :bind
   (("C-." . 'isearch-forward-thing-at-point)
@@ -435,7 +431,8 @@
    ("C-." . 'isearch-repeat-forward)))
 
 (grep-apply-setting 'grep-command "grep --exclude-dir='.git' --color=auto -nH --null -r -e ")
-(when (executable-find "rg")
+
+(when (executable-find "rg") ;; use rg if available
   (grep-apply-setting 'grep-command "rg --vimgrep ")
   (grep-apply-setting 'grep-use-null-device nil))
 
@@ -445,12 +442,10 @@
     (call-interactively 'grep)))
 
 (defun grep-dwim ()
-  "dwim variation of grep command using combination of projectile and emacs grep"
+  "if inside a project do grep with project root as cwd otherwise ask for cwd"
   (interactive)
-  (cond
-   ((and (projectile-project-p) (executable-find "rg")) (call-interactively 'projectile-ripgrep))
-   ((and (projectile-project-p)) (call-interactively 'projectile-grep))
-   (t (call-interactively 'grep))))
+  (let ((default-directory (or (when (project-current) (project-root (project-current))) (read-directory-name "Directory: "))))
+    (call-interactively 'grep)))
 
 (global-set-key "\C-xpg" 'grep-dwim)
 (global-set-key (kbd "C-S-f") 'grep-dwim) ;; old habbits, ctrl+shift+f
