@@ -62,6 +62,6 @@ config.keys = {
 
 config.bidi_enabled = true
 config.bidi_direction = 'AutoLeftToRight'
-
+config.window_background_opacity = 0.85
 
 return config

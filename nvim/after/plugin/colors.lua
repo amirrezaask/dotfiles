@@ -26,4 +26,4 @@ function ToggleColorscheme()
 	end
 end
 
-colorscheme(dark_colorscheme, false)
+colorscheme(dark_colorscheme, true)
