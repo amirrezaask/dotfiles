@@ -62,7 +62,7 @@
 (global-set-key (kbd "C-=") (lambda () (interactive) (text-scale-increase 1)))
 (global-set-key (kbd "C--") (lambda () (interactive) (text-scale-decrease 1)))
 (setq --font-family "")
-(defun amirreza/set-font (font fontsize)
+(defun load-font (font fontsize)
   (interactive (list (read-string "Font Family: ") (read-number "Font Size: ")))
   (let ((fontstring (format "%s %d" font fontsize)))
     (setq --font-family font)
@@ -77,7 +77,7 @@
     (set-frame-font fontstring nil t)
     (set-face-attribute 'default t :font fontstring)))
 
-(amirreza/set-font "Jetbrains Mono" 10)
+(load-font "Jetbrains Mono" 10)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -211,7 +211,7 @@
 (use-package gruber-darker-theme)
 (use-package amirreza-themes :no-require :straight (:host github :repo "amirrezaask/themes" :local-repo "amirreza-themes"))
 (setq custom-safe-themes t)
-(load-theme 'sweet)
+(load-theme 'gruber-darker)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -434,13 +434,22 @@
    isearch-mode-map
    ("C-." . 'isearch-repeat-forward)))
 
+(grep-apply-setting 'grep-command "grep --exclude-dir='.git' --color=auto -nH --null -r -e ")
+(when (executable-find "rg")
+  (grep-apply-setting 'grep-command "rg --vimgrep ")
+  (grep-apply-setting 'grep-use-null-device nil))
+
+(defun amirreza/grep (DIR)
+  (interactive (list (read-directory-name "Directory: ")))
+  (let ((default-directory DIR))
+    (call-interactively 'grep)))
+
 (defun grep-dwim ()
   "dwim variation of grep command using combination of projectile and emacs grep"
   (interactive)
   (cond
    ((and (projectile-project-p) (executable-find "rg")) (call-interactively 'projectile-ripgrep))
    ((and (projectile-project-p)) (call-interactively 'projectile-grep))
-   ((executable-find "rg") (call-interactively 'rg))
    (t (call-interactively 'grep))))
 
 (global-set-key "\C-xpg" 'grep-dwim)
