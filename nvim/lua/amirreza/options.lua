@@ -27,4 +27,5 @@ vim.opt.laststatus = 2
 vim.opt.timeoutlen = 300
 vim.opt.laststatus = 3
 vim.opt.guicursor = ''
-
+vim.g.loaded_netrw = 1 -- disabling netrw
+vim.g.loaded_netrwPlugin = 1
