@@ -28,4 +28,9 @@ return {
 		},
 		opts = {},
 	},
+	{
+	  "folke/edgy.nvim",
+	  event = "VeryLazy",
+	  opts = {}
+	}
 }

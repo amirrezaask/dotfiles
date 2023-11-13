@@ -7,6 +7,12 @@ return {
 	"tpope/vim-sleuth",
 	{ 'kevinhwang91/nvim-bqf' },         -- Peek location on quick fix list items
 	{
+	  'stevearc/oil.nvim',
+	  opts = {},
+	  -- Optional dependencies
+	  dependencies = { "nvim-tree/nvim-web-devicons" },
+	},
+	{
 		"lukas-reineke/indent-blankline.nvim",
 		main = "ibl",
 		opts = {
