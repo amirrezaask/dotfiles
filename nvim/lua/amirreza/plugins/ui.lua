@@ -26,11 +26,10 @@ return {
 		dependencies = {
 			"nvim-tree/nvim-web-devicons",
 		},
-		opts = {},
+		config = function()
+			require'nvim-tree'.setup()
+			vim.keymap.set({'n', 'i'}, '<C-1>', '<cmd>NvimTreeToggle<CR>')
+		end
 	},
-	{
-	  "folke/edgy.nvim",
-	  event = "VeryLazy",
-	  opts = {}
-	}
+	{ 'akinsho/toggleterm.nvim', version = "*", opts = {} }
 }
