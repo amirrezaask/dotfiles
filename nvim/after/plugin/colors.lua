@@ -1,5 +1,5 @@
 local color_state = 'dark'
-local dark_colorscheme = 'rose-pine'
+local dark_colorscheme = 'catppuccin'
 local light_colorscheme = 'rose-pine-dawn'
 
 local function colorscheme(name, transparent)
