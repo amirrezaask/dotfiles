@@ -5,7 +5,6 @@ all: profile zsh neovim kitty tmux emacs
 
 fish:
 	rm -rf $(HOME)/.config/fish
-	mkdir -p $(HOME)/.config/fish
 	ln -s $(THIS_DIR)/fish $(HOME)/.config/fish
 
 profile:
