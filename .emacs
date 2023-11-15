@@ -99,20 +99,20 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun git-shell-execute (COMMAND)
+(defun shell-execute (COMMAND)
   (interactive (read-string "Command: "))
   (shell-command-to-string (format "sh -c 'printf \"$(%s)\"'" COMMAND)))
 
 (defun git-repo-root (&optional DIR)
   (interactive (list (read-directory-name "Directory: ")))
   (let* ((default-directory (or DIR default-directory))
-	 (root (git-shell-execute  "git rev-parse --show-toplevel 2>/dev/null")))
+	 (root (shell-execute  "git rev-parse --show-toplevel 2>/dev/null")))
     (if (not (string= root "")) root nil)))
 
 (defun git-ls-files (&optional DIR)
   (interactive)
   (let* ((default-directory (or (git-repo-root) (read-directory-name "Directory: ")))
-	 (files (git-shell-execute "git ls-files"))
+	 (files (shell-execute "git ls-files"))
 	 (files (string-split files "\n"))
 	 (chosen (completing-read (format "[%s] Git Files: " (git-repo-root)) files)))
     (find-file chosen)))
@@ -334,6 +334,7 @@
    ("k" . kill-compilation)))
 
 (global-set-key (kbd "<f5>") 'compile-dwim)
+(global-set-key (kbd "M-c") 'compile-dwim)
 
 
 
