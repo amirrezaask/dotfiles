@@ -95,16 +95,31 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; Project.el: Project Based Commands
+;; Git Integration
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(use-package project
-  :straight nil
+(defun git-shell-execute (COMMAND)
+  (interactive (read-string "Command: "))
+  (shell-command-to-string (format "sh -c 'printf \"$(%s)\"'" COMMAND)))
+
+(defun git-repo-root (&optional DIR)
+  (interactive (list (read-directory-name "Directory: ")))
+  (let* ((default-directory (or DIR default-directory))
+	 (root (git-shell-execute  "git rev-parse --show-toplevel 2>/dev/null")))
+    (if (not (string= root "")) root nil)))
+
+(defun git-ls-files (&optional DIR)
+  (interactive (list (read-directory-name "Directory: ")))
+  (let* ((default-directory (or DIR (git-repo-root)))
+	 (files (git-shell-execute "git ls-files"))
+	 (files (string-split files "\n"))
+	 (chosen (completing-read (format "[%s] Git Files: " (git-repo-root)) files)))
+    (find-file chosen)))
+
+(use-package magit
   :bind
-  (("C-x p p" . project-switch-project)
-   ("C-x p a" . project-add-known-project)
-   ("C-x p f" . project-find-file)))
+  ("C-x g" . 'magit-status))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -113,7 +128,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun find-file-dwim ()
   (interactive)
-  (if (project-root (project-current)) (project-find-file) (call-interactively 'find-file)))
+  (if (git-repo-root) (git-ls-files) (call-interactively 'find-file)))	
 
 (global-set-key (kbd "M-o") 'find-file-dwim)
 
@@ -306,7 +321,7 @@
   ""
   (interactive)
   (cond
-   ((project-current) (call-interactively 'project-compile))
+   ((git-repo-root) (let ((default-directory (git-repo-root))) (call-interactively 'compile)))
     (t (call-interactively 'compile))
    )
   )
@@ -320,15 +335,6 @@
 (global-set-key (kbd "<f5>") 'compile-dwim)
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; Magit: Emacs Git Client
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(use-package magit
-  :bind
-  ("C-x g" . 'magit-status))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Dired: Emacs file manager
@@ -436,9 +442,9 @@
     (call-interactively 'grep)))
 
 (defun grep-dwim ()
-  "if inside a project do grep with project root as cwd otherwise ask for cwd"
+  "if inside a git repo do grep with repo root as cwd otherwise ask for cwd"
   (interactive)
-  (let ((default-directory (or (when (project-current) (project-root (project-current))) (read-directory-name "Directory: "))))
+  (let ((default-directory (or (when (git-repo-root) (git-repo-root)) (read-directory-name "Directory: "))))
     (call-interactively 'grep)))
 
 (global-set-key "\C-xpg" 'grep-dwim)
