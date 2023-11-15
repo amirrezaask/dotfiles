@@ -219,6 +219,7 @@
 (use-package dracula-theme)
 (use-package gruvbox-theme)
 (use-package gruber-darker-theme)
+(use-package solarized-theme)
 (use-package amirreza-themes :no-require :straight (:host github :repo "amirrezaask/themes" :local-repo "amirreza-themes"))
 (setq custom-safe-themes t)
 (load-theme 'gruber-darker)
@@ -324,9 +325,7 @@
   (interactive)
   (cond
    ((git-repo-root) (let ((default-directory (git-repo-root))) (call-interactively 'compile)))
-    (t (call-interactively 'compile))
-   )
-  )
+    (t (call-interactively 'compile))))
 
 (use-package compile
   :bind
@@ -432,13 +431,18 @@
    isearch-mode-map
    ("C-." . 'isearch-repeat-forward)))
 
-(grep-apply-setting 'grep-command "grep --exclude-dir='.git' --color=auto -nH --null -r -e ")
 
-(when (executable-find "rg") ;; use rg if available
-  (grep-apply-setting 'grep-command "rg --vimgrep ")
-  (grep-apply-setting 'grep-use-null-device nil))
+(use-package grep :straight nil
+  :bind
+  (:map grep-mode-map
+	("k" . kill-grep))
+  :config
+  (grep-apply-setting 'grep-command "grep --exclude-dir='.git' --color=auto -nH --null -r -e ")
+  (when (executable-find "rg") ;; use rg if available
+    (grep-apply-setting 'grep-command "rg --vimgrep ")
+    (grep-apply-setting 'grep-use-null-device nil)))
 
-(defun amirreza/grep (DIR)
+(defun grep-directory (DIR)
   (interactive (list (read-directory-name "Directory: ")))
   (let ((default-directory DIR))
     (call-interactively 'grep)))
