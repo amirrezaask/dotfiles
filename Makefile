@@ -10,6 +10,7 @@ fish:
 profile:
 	rm -rf $(HOME)/.profile
 	ln -s $(THIS_DIR)/.profile $(HOME)/.profile
+
 wezterm:
 	rm -rf $(HOME)/.wezterm.lua
 	rm -rf $(HOME)/.config/wezterm
