@@ -325,7 +325,13 @@
   (interactive)
   (cond
    ((git-repo-root) (let ((default-directory (git-repo-root))) (call-interactively 'compile)))
-    (t (call-interactively 'compile))))
+   (t (call-interactively 'compile))))
+
+
+(defun compile-directory (DIR)
+  (interactive (list (read-directory-name "Directory: ")))
+  (let ((default-directory DIR))
+    (call-interactively 'compile)))
 
 (use-package compile
   :bind
@@ -334,6 +340,7 @@
    ("k" . kill-compilation)))
 
 (global-set-key (kbd "<f5>") 'compile-dwim)
+(global-set-key (kbd "C-:") 'compile-directory)
 (global-set-key (kbd "M-c") 'compile-dwim)
 
 
