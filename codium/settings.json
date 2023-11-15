@@ -15,6 +15,6 @@
   "security.workspace.trust.enabled": false,
   "[go]": { "editor.formatOnSave": true },
   "window.menuBarVisibility": "toggle",
-  "workbench.colorTheme": "Solarized Dark",
-  "workbench.activityBar.location": "hidden"
+  "workbench.activityBar.location": "hidden",
+  "window.zoomLevel": 2
 }
