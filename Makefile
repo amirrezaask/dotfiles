@@ -44,5 +44,5 @@ awesome:
 codium:
 	rm -rf $(HOME)/.config/VSCodium/User/settings.json
 	rm -rf $(HOME)/.config/VSCodium/User/keybindings.json
-	ln -s $(THIS_DIR)/vscode-settings.json $(HOME)/.config/VSCodium/User/settings.json
-	ln -s $(THIS_DIR)/vscode-keybindings.json $(HOME)/.config/VSCodium/User/keybindings.json
+	ln -s $(THIS_DIR)/codium/vscode-settings.json $(HOME)/.config/VSCodium/User/settings.json
+	ln -s $(THIS_DIR)/codium/vscode-keybindings.json $(HOME)/.config/VSCodium/User/keybindings.json
