@@ -70,14 +70,14 @@
     (set-frame-font fontstring nil t)
     (set-face-attribute 'default t :font fontstring)))
 
-(defun amirreza/set-font-size (fontsize)
+(defun set-font-size (fontsize)
   (interactive (list (read-number "Font Size: ")))
   (let ((fontstring (format "%s %d" --font-family fontsize)))
     (add-to-list 'default-frame-alist `(font . ,fontstring))
     (set-frame-font fontstring nil t)
     (set-face-attribute 'default t :font fontstring)))
 
-(load-font "Jetbrains Mono" 10)
+(load-font "Fira Code" 11)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -110,12 +110,14 @@
     (if (not (string= root "")) root nil)))
 
 (defun git-ls-files (&optional DIR)
-  (interactive (list (read-directory-name "Directory: ")))
-  (let* ((default-directory (or DIR (git-repo-root)))
+  (interactive)
+  (let* ((default-directory (or (git-repo-root) (read-directory-name "Directory: ")))
 	 (files (git-shell-execute "git ls-files"))
 	 (files (string-split files "\n"))
 	 (chosen (completing-read (format "[%s] Git Files: " (git-repo-root)) files)))
     (find-file chosen)))
+
+(global-set-key (kbd "C-x p f") 'git-ls-files)
 
 (use-package magit
   :bind
