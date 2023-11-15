@@ -441,7 +441,10 @@
   (grep-apply-setting 'grep-command "grep --exclude-dir='.git' --color=auto -nH --null -r -e ")
   (when (executable-find "rg") ;; use rg if available
     (grep-apply-setting 'grep-command "rg --vimgrep ")
-    (grep-apply-setting 'grep-use-null-device nil)))
+    (grep-apply-setting 'grep-use-null-device nil))
+  (when (executable-find "ug")
+    (grep-apply-setting 'grep-command "ug --exclude-dir='.git' --color=auto -nH --null -r -e ")
+    ))
 
 (defun grep-directory (DIR)
   (interactive (list (read-directory-name "Directory: ")))
