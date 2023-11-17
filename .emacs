@@ -462,10 +462,8 @@
   (let ((default-directory (or (when (git-repo-root) (git-repo-root)) (read-directory-name "Directory: "))))
     (call-interactively 'grep)))
 
-(global-set-key "\C-xpg" 'grep-dwim)
-(global-set-key (kbd "C-S-f") 'grep-dwim) ;; old habbits, ctrl+shift+f
-(global-set-key (kbd "M-j") 'grep-dwim)
-
+(global-set-key (kbd "M-s") 'grep-dwim)
+(global-set-key (kbd "C-S-s") 'occur)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Emacs Server
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
