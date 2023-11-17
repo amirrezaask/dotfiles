@@ -220,7 +220,7 @@
 (use-package gruber-darker-theme)
 (use-package amirreza-themes :no-require :straight (:host github :repo "amirrezaask/themes" :local-repo "amirreza-themes"))
 (setq custom-safe-themes t)
-(load-theme 'gruber-darker)
+(load-theme 'naysayer)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 

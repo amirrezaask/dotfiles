@@ -5,5 +5,6 @@
 -- /_/  |_/_/ /_/ /_/_/_/  /_/   \___/ /___/\__,_/_/  |_/____/_/|_|
 -- AmirrezaAsk neovim configuration
 require("amirreza.options") -- Basic vim options
+require("amirreza.commands") -- My custom commands
 require("amirreza.keymaps") -- Basic vim keymaps
 require("amirreza.lazy") -- Plugins loaded using lazy package manager
