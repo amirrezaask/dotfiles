@@ -179,6 +179,9 @@
     (concat left left-center-spaces center center-right-spaces right)))
 
 (setq-default mode-line-format '("%e" (:eval (amirreza/modeline-format))))
+(custom-set-faces
+ '(mode-line ((t (:underline nil))))
+ '(mode-line-inactive ((t (:underline nil)))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
