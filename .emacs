@@ -14,6 +14,7 @@
   (interactive)
   (find-file "~/.emacs"))
 (global-set-key (kbd "<f1>") 'edit-config)
+(global-unset-key (kbd "C-z"))
 (setq auto-save-file-name-transforms '((".*" "~/.emacs-autosave/" t)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -133,11 +134,6 @@
   (if (git-repo-root) (git-ls-files) (call-interactively 'find-file)))	
 
 (global-set-key (kbd "C-c o") 'find-file-dwim)
-
-(defun jump-up () (interactive) (next-line (* -1 (/ (window-height) 2))) (recenter-top-bottom))
-(defun jump-down () (interactive) (next-line (/ (window-height) 2)) (recenter-top-bottom))
-(global-set-key (kbd "M-n") 'jump-down)
-(global-set-key (kbd "M-p") 'jump-up)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
