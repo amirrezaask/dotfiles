@@ -132,9 +132,8 @@
   (interactive)
   (if (git-repo-root) (git-ls-files) (call-interactively 'find-file)))	
 
-(global-set-key (kbd "M-o") 'find-file-dwim)
+(global-set-key (kbd "C-c o") 'find-file-dwim)
 
-(setq recenter-positions '(middle))
 (defun jump-up () (interactive) (next-line (* -1 (/ (window-height) 2))) (recenter-top-bottom))
 (defun jump-down () (interactive) (next-line (/ (window-height) 2)) (recenter-top-bottom))
 (global-set-key (kbd "M-n") 'jump-down)
@@ -146,7 +145,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(global-set-key (kbd "C-o") 'other-window)
+(global-set-key (kbd "M-o") 'other-window)
 (global-set-key (kbd "C-0") 'delete-window)
 (global-set-key (kbd "C-M-<left>") 'shrink-window-horizontally)
 (global-set-key (kbd "C-M-<right>") 'enlarge-window-horizontally)
@@ -178,10 +177,11 @@
 
     (concat left left-center-spaces center center-right-spaces right)))
 
-(setq-default mode-line-format '("%e" (:eval (amirreza/modeline-format))))
 (custom-set-faces
  `(mode-line ((t (:underline nil :box (:color ,(face-foreground 'default))))))
  '(mode-line-inactive ((t (:underline nil)))))
+
+(setq-default mode-line-format '("%e" (:eval (amirreza/modeline-format))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -220,9 +220,10 @@
 (use-package ef-themes)
 (use-package gruvbox-theme)
 (use-package gruber-darker-theme)
+(use-package dracula-theme)
 (use-package amirreza-themes :no-require :straight (:host github :repo "amirrezaask/themes" :local-repo "amirreza-themes"))
 (setq custom-safe-themes t)
-(load-theme 'naysayer)
+(load-theme 'dracula)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
