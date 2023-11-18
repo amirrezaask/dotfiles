@@ -1,8 +1,3 @@
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; Basic
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq frame-inhibit-implied-resize t) ;; Don't let emacs to resize frame when something inside changes
 (setq gc-cons-threshold 200000000) ;; 200 MB
 ;; (setq debug-on-error t) ;; debug on error
@@ -12,11 +7,7 @@
 (setq make-backup-files nil) ;; no emacs ~ backup files
 (global-unset-key (kbd "C-z"))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; Package Manager
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; package manager setup
 (setq package-enable-at-startup nil)
 (defvar bootstrap-version)
 (let ((bootstrap-file
@@ -29,32 +20,15 @@
          'silent 'inhibit-cookies)
       (goto-char (point-max))
       (eval-print-last-sexp)))
-  (load bootstrap-file nil 'nomessage))
+  (load bootstrap-file nil 'nomessage)) ;; package manager setup
 (straight-use-package 'use-package)
 (setq straight-use-package-by-default t)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Native Compilation
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq native-comp-async-report-warnings-errors 'silent)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; MacOS
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(setq use-short-answers t)
+(setq native-comp-async-report-warnings-errors 'silent) ;; silent native compilation warns
+(setq use-short-answers t) ;; 
 (setq image-types (cons 'svg image-types)) ;; macos bug
 (setq mac-command-modifier 'meta) ;; macos again
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; Font
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
+;; Font stuff
 (global-set-key (kbd "C-=") (lambda () (interactive) (text-scale-increase 1)))
 (global-set-key (kbd "C--") (lambda () (interactive) (text-scale-decrease 1)))
 (setq --font-family "")
@@ -74,13 +48,7 @@
     (set-face-attribute 'default t :font fontstring)))
 
 (load-font "Fira Code" 11)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; Enviroment Variables
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
+;; environment variables env
 (defun home (path)
   (expand-file-name path (getenv "HOME")))
 (add-to-list 'exec-path (home ".local/bin"))
@@ -88,13 +56,7 @@
 (add-to-list 'exec-path "/opt/homebrew/bin") ;; homebrew
 (add-to-list 'exec-path (home "bin")) ;; GOPATH/bin
 (setenv "PATH" (string-join exec-path ":")) ;; set emacs process PATH
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; Git Integration
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
+;; git integration
 (defun shell-execute (COMMAND)
   (interactive (read-string "Command: "))
   (shell-command-to-string (format "sh -c 'printf \"$(%s)\"'" COMMAND)))
@@ -119,11 +81,7 @@
   :bind
   ("C-x g" . 'magit-status))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; Navigation
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; better navigation tools
 (defun find-file-dwim ()
   (interactive)
   (if (git-repo-root) (git-ls-files) (call-interactively 'find-file)))	
@@ -135,25 +93,14 @@
 (setq recenter-positions '(middle))
 (global-set-key (kbd "C-v") 'jump-down) ;; better than default scroll up
 (global-set-key (kbd "M-v") 'jump-up)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; Window Management
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
+;; window keys
 (global-set-key (kbd "M-o") 'other-window)
 (global-set-key (kbd "C-0") 'delete-window)
 (global-set-key (kbd "C-M-<left>") 'shrink-window-horizontally)
 (global-set-key (kbd "C-M-<right>") 'enlarge-window-horizontally)
 (global-set-key (kbd "C-M-<up>") 'enlarge-window)
 (global-set-key (kbd "C-M-<down>") 'shrink-window)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; Themes & Colors
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
+;; colors and themes : prettiness of emacs
 (defadvice load-theme (before disable-themes-first activate) (dolist (i custom-enabled-themes) (disable-theme i)))
 (use-package sweet-theme)
 (use-package spacemacs-theme)
@@ -165,13 +112,7 @@
 (use-package amirreza-themes :no-require :straight (:host codeberg :repo "amirrezaask/themes" :local-repo "amirreza-themes"))
 (setq custom-safe-themes t)
 (load-theme 'jonathan-blow)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; Modeline
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
+;; custom modeline
 (defun amirreza/modeline-vc () (interactive) (propertize (if vc-mode vc-mode "")))
 (defun amirreza/modeline-file () (interactive) (propertize (if (buffer-file-name) (buffer-file-name) default-directory)))
 (defun amirreza/modeline-modified () (interactive) (propertize (if (buffer-modified-p (current-buffer)) "[+]" "")))
@@ -193,89 +134,44 @@
 
 (custom-set-faces
  `(mode-line ((t (:underline nil :box (:color ,(face-foreground 'default))))))
- '(mode-line-inactive ((t (:underline nil)))))
+ '(mode-line-inactive ((t (:underline nil))))) ;; make sure our active window is identifiable in a multi window situation
 
 (setq-default mode-line-format '("%e" (:eval (amirreza/modeline-format))))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; Frame Settings
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(global-set-key "\C-x\C-n" 'find-file-other-frame)
 (setq inhibit-startup-screen t) ;; disable default start screen
 (set-frame-parameter nil 'fullscreen 'maximized)
-(add-to-list 'default-frame-alist '(fullscreen . maximized))
+(add-to-list 'default-frame-alist '(fullscreen . maximized)) ;; always start frames maximized
 (setq-default frame-title-format '("%e" (:eval default-directory)))
-(global-set-key "\C-x\C-c" 'delete-frame)
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; Graphical User Interface Settings
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(global-display-line-numbers-mode t)
-(setq display-line-numbers 'relative)
-(global-hl-line-mode)
-(menu-bar-mode -1)
-(tool-bar-mode -1)
-(scroll-bar-mode -1)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; Autocomplete
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(use-package corfu
-  :config
-  (global-corfu-mode))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; Text Editing
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
+(global-set-key "\C-x\C-c" 'delete-frame) ;; rebind exit key to just kill frame if possible
+(global-display-line-numbers-mode t) ;; line numbers
+(setq display-line-numbers 'relative) ;; relative line numbers
+(global-hl-line-mode) ;; highlight my current line
+(menu-bar-mode -1) ;; disable menu bar
+(tool-bar-mode -1) ;; disable tool bar
+(scroll-bar-mode -1) ;; disable scroll bar
+(use-package corfu :config (global-corfu-mode)) ;; autocomplete
 (setq kill-whole-line t) ;; kill line and newline char
 (global-auto-revert-mode +1) ;; auto refresh buffers from disk
-(delete-selection-mode)
-(use-package multiple-cursors
-  :bind
-  (("C->" . 'mc/mark-next-like-this)
-   ("C-<" . 'mc/mark-previous-like-this)))
+(delete-selection-mode) ;; when selected a text and user types delete text
+(use-package multiple-cursors :bind (("C->" . 'mc/mark-next-like-this) ("C-<" . 'mc/mark-previous-like-this))) ;; multi cursors
+(global-set-key (kbd "M-[") 'kmacro-start-macro-or-insert-counter) ;; start recording keyboard macro
+(global-set-key (kbd "M-]") 'kmacro-end-or-call-macro-repeat) ;; end recording keyboard macro
+(global-set-key (kbd "C-q") 'set-mark-command) ;; better selection key
 
-;; Keyboard Macro
-(global-set-key (kbd "M-[") 'kmacro-start-macro-or-insert-counter)
-(global-set-key (kbd "M-]") 'kmacro-end-or-call-macro-repeat)
-;; Selection
-(global-set-key (kbd "C-q") 'set-mark-command)
+(use-package go-mode) ;; Golang
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; Golang
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(use-package go-mode)
 (defun go-add-tags ()
+  "Add Go struct tags using gomodifytags"
   (interactive)
   (unless (executable-find "gomodifytags") (error "Install gomodifytags first. https://github.com/fatih/gomodifytags"))
   (shell-command-to-string (read-string "Command: " (format "gomodifytags -file %s -struct %s -add-tags json -transform snakecase -w" (buffer-name (current-buffer)) (word-at-point)) nil nil nil)))
 
 (defun go-doc (THING)
+  "Go docs THING at point"
   (interactive (list (read-string "Symbol: " nil nil (word-at-point) nil)))
   (unless (executable-find "go") (error "Install go toolchain. https://go.dev/downloads"))
   (compile (read-string "Command: " (format "go doc %s" THING) nil nil nil)))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; Other Languages
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
+;; no need to explain these
 (use-package yaml-mode)
 (use-package json-mode)
 (use-package rust-mode)
@@ -284,20 +180,15 @@
 (use-package lua-mode)
 (use-package tuareg) ;; ocaml
 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; Compilation
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun compile-dwim ()
-  ""
+  "DWIM version of compile"
   (interactive)
   (cond
    ((git-repo-root) (let ((default-directory (git-repo-root))) (call-interactively 'compile)))
    (t (call-interactively 'compile))))
 
 (defun compile-directory (DIR)
+  "Compile in a directory"
   (interactive (list (read-directory-name "Directory: ")))
   (let ((default-directory DIR))
     (call-interactively 'compile)))
@@ -312,18 +203,8 @@
 (global-set-key (kbd "C-:") 'compile-directory)
 (global-set-key (kbd "M-c") 'compile-dwim)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Dired: Emacs file manager
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 (setq global-auto-revert-non-file-buffers t)
 (setq auto-revert-verbose nil)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; Language Server Protocol (LSP)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; I'm trying to move away from using LSPs, they are a lock-in dependencies and lock you in certain environments
 (setenv "LSP_USE_PLISTS" "true")
@@ -345,48 +226,21 @@
 
 (use-package eglot)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; Eldoc: Emacs Documentation Presentation Frontend
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 (use-package eldoc :straight nil
   :bind
   (("C-h ." . eldoc)
    ("M-h" . eldoc)))
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; xref: Emacs Goto Facilities
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (use-package xref :straight nil
   :bind
   (("<f12>" . xref-find-definitions)
    ("M-<f12>" . xref-find-references)))
 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; Flymake: Emacs Diagnostics Facilities
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 (use-package flymake :straight nil
   :bind
   (:map flymake-mode-map
 	("M--" . flymake-goto-prev-error)
 	("M-=" . flymake-goto-next-error)))
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; Searching and Grep
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (use-package wgrep) ;; Writeable Grep Buffers
 (use-package isearch :straight nil
