@@ -216,7 +216,6 @@
 
 (defadvice load-theme (before disable-themes-first activate) (dolist (i custom-enabled-themes) (disable-theme i)))
 (use-package sweet-theme)
-(use-package doom-themes)
 (use-package spacemacs-theme)
 (use-package ef-themes)
 (use-package gruvbox-theme)
@@ -467,10 +466,3 @@
 
 (global-set-key (kbd "M-s") 'grep-dwim)
 (global-set-key (kbd "C-S-s") 'occur)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Emacs Server
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(when (server-running-p)
-  (server-stop))
-
-(server-start)
