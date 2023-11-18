@@ -180,7 +180,7 @@
 
 (setq-default mode-line-format '("%e" (:eval (amirreza/modeline-format))))
 (custom-set-faces
- '(mode-line ((t (:underline nil))))
+ `(mode-line ((t (:underline nil :box (:color ,(face-foreground 'default))))))
  '(mode-line-inactive ((t (:underline nil)))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
