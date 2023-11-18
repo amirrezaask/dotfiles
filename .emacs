@@ -154,6 +154,24 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; Themes & Colors
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defadvice load-theme (before disable-themes-first activate) (dolist (i custom-enabled-themes) (disable-theme i)))
+(use-package sweet-theme)
+(use-package spacemacs-theme)
+(use-package ef-themes)
+(use-package gruvbox-theme)
+(use-package gruber-darker-theme)
+(use-package dracula-theme)
+(use-package solarized-theme)
+(use-package amirreza-themes :no-require :straight (:host github :repo "amirrezaask/themes" :local-repo "amirreza-themes"))
+(setq custom-safe-themes t)
+(load-theme 'dracula)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 ;; Modeline
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -209,22 +227,6 @@
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; Themes & Colors
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(defadvice load-theme (before disable-themes-first activate) (dolist (i custom-enabled-themes) (disable-theme i)))
-(use-package sweet-theme)
-(use-package spacemacs-theme)
-(use-package ef-themes)
-(use-package gruvbox-theme)
-(use-package gruber-darker-theme)
-(use-package dracula-theme)
-(use-package amirreza-themes :no-require :straight (:host github :repo "amirrezaask/themes" :local-repo "amirreza-themes"))
-(setq custom-safe-themes t)
-(load-theme 'dracula)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
