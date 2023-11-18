@@ -202,7 +202,8 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(global-display-line-numbers-mode)
+(global-display-line-numbers-mode t)
+(setq display-line-numbers 'relative)
 (global-hl-line-mode)
 (menu-bar-mode -1)
 (tool-bar-mode -1)
