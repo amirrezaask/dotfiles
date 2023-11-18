@@ -162,9 +162,9 @@
 (use-package gruber-darker-theme)
 (use-package dracula-theme)
 (use-package solarized-theme)
-(use-package amirreza-themes :no-require :straight (:host github :repo "amirrezaask/themes" :local-repo "amirreza-themes"))
+(use-package amirreza-themes :no-require :straight (:host codeberg :repo "amirrezaask/themes" :local-repo "amirreza-themes"))
 (setq custom-safe-themes t)
-(load-theme 'dracula)
+(load-theme 'jonathan-blow)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -260,31 +260,15 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (use-package go-mode)
-(defun go-add-tags (FILE STRUCT)
-  (interactive (list (read-file-name "Go File: " nil nil nil (buffer-name (current-buffer)) nil)
-		     (read-string "Struct: " (word-at-point))))
+(defun go-add-tags ()
+  (interactive)
   (unless (executable-find "gomodifytags") (error "Install gomodifytags first. https://github.com/fatih/gomodifytags"))
-  (shell-command-to-string (format "gomodifytags -file %s -struct %s -add-tags json -transform snakecase -w" FILE STRUCT)))
+  (shell-command-to-string (read-string "Command: " (format "gomodifytags -file %s -struct %s -add-tags json -transform snakecase -w" (buffer-name (current-buffer)) (word-at-point)) nil nil nil)))
 
 (defun go-doc (THING)
   (interactive (list (read-string "Symbol: " nil nil (word-at-point) nil)))
   (unless (executable-find "go") (error "Install go toolchain. https://go.dev/downloads"))
-  (compile (format "go doc %s" THING)))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; Emacs Lisp
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun docblock (comment)
-  (interactive (list (read-string "comment: ")))
-  (insert (format ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;\n;; %s\n;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-" comment)))
-
-(use-package elisp-mode :straight nil
-  :bind
-  (:map emacs-lisp-mode-map
-	("C-c c" . 'docblock)))
+  (compile (read-string "Command: " (format "go doc %s" THING) nil nil nil)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
