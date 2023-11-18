@@ -10,12 +10,7 @@
 (setq ring-bell-function (lambda ())) ;; no stupid sounds
 (setq custom-file "~/.custom.el") ;; set custom file to not meddle with init.el
 (setq make-backup-files nil) ;; no emacs ~ backup files
-(defun edit-config ()
-  (interactive)
-  (find-file "~/.emacs"))
-(global-set-key (kbd "<f1>") 'edit-config)
 (global-unset-key (kbd "C-z"))
-(setq auto-save-file-name-transforms '((".*" "~/.emacs-autosave/" t)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -135,6 +130,11 @@
 
 (global-set-key (kbd "C-c o") 'find-file-dwim)
 
+(defun jump-up () (interactive) (next-line (* -1 (/ (window-height) 2))) (recenter-top-bottom))
+(defun jump-down () (interactive) (next-line (/ (window-height) 2)) (recenter-top-bottom))
+(setq recenter-positions '(middle))
+(global-set-key (kbd "C-v") 'jump-down) ;; better than default scroll up
+(global-set-key (kbd "M-v") 'jump-up)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Window Management
@@ -178,7 +178,7 @@
 (defun amirreza/modeline-linecol () (interactive) (propertize "%l:%c"))
 (defun amirreza/modeline-major-mode () (interactive) (propertize (substring (capitalize (symbol-name major-mode)) 0 -5)))
 (defun amirreza/modeline-left () (interactive) (concat (amirreza/modeline-vc)))
-(defun amirreza/modeline-center () (interactive) (concat (amirreza/modeline-modified) (amirreza/modeline-file)))
+(defun amirreza/modeline-center () (interactive) (concat (amirreza/modeline-modified) (amirreza/modeline-file) " " (amirreza/modeline-linecol)))
 (defun amirreza/modeline-right () (interactive) (concat (amirreza/modeline-major-mode)))
 (defun amirreza/modeline-format ()
   (let* ((left (amirreza/modeline-left))
@@ -223,24 +223,6 @@
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; Minibuffer Enhancements
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(use-package vertico :init (setq vertico-cycle t) (setq vertico-count 25) (vertico-mode))
-(use-package consult)
-(global-set-key "\C-xb" 'consult-buffer)
-
-(use-package orderless
-  :init
-  (setq completion-styles '(orderless basic)
-	completion-category-defaults nil
-	completion-category-overrides '((file (styles partial-completion)))))
-
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Autocomplete
@@ -249,15 +231,14 @@
 
 (use-package corfu
   :config
-  ;; (setq corfu-auto t)
   (global-corfu-mode))
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Text Editing
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (setq kill-whole-line t) ;; kill line and newline char
 (global-auto-revert-mode +1) ;; auto refresh buffers from disk
 (delete-selection-mode)
@@ -284,6 +265,11 @@
 		     (read-string "Struct: " (word-at-point))))
   (unless (executable-find "gomodifytags") (error "Install gomodifytags first. https://github.com/fatih/gomodifytags"))
   (shell-command-to-string (format "gomodifytags -file %s -struct %s -add-tags json -transform snakecase -w" FILE STRUCT)))
+
+(defun go-doc (THING)
+  (interactive (list (read-string "Symbol: " nil nil (word-at-point) nil)))
+  (unless (executable-find "go") (error "Install go toolchain. https://go.dev/downloads"))
+  (compile (format "go doc %s" THING)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -327,7 +313,6 @@
    ((git-repo-root) (let ((default-directory (git-repo-root))) (call-interactively 'compile)))
    (t (call-interactively 'compile))))
 
-
 (defun compile-directory (DIR)
   (interactive (list (read-directory-name "Directory: ")))
   (let ((default-directory DIR))
@@ -343,8 +328,6 @@
 (global-set-key (kbd "C-:") 'compile-directory)
 (global-set-key (kbd "M-c") 'compile-dwim)
 
-
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Dired: Emacs file manager
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -354,24 +337,13 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; Code Formatting
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(defun amirreza/format-dwim () (interactive) (if (use-region-p) (format-all-region) (format-all-buffer)))
-(use-package format-all
-  :bind
-  ("<f9>" . 'amirreza/format-dwim))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 ;; Language Server Protocol (LSP)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; I'm trying to move away from using LSPs, they are a lock-in dependencies and lock you in certain environments
 (setenv "LSP_USE_PLISTS" "true")
 (use-package lsp-mode
-  :hook (((go-mode rust-mode) . #'lsp))
   :init
   (setq read-process-output-max (* 2 1024 1024) ;; 2mb
 	lsp-log-io nil ;; disable logging IO requests/responses
@@ -387,6 +359,7 @@
 	("C-c C-c" . lsp-execute-code-action)
 	("C-<f12>" . lsp-find-implementation)))
 
+(use-package eglot)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
