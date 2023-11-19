@@ -126,7 +126,7 @@
 (defun amirreza/modeline-linecol () (interactive) (propertize "%l:%c"))
 (defun amirreza/modeline-major-mode () (interactive) (propertize (substring (capitalize (symbol-name major-mode)) 0 -5)))
 (defun amirreza/modeline-left () (interactive) (concat (amirreza/modeline-vc)))
-(defun amirreza/modeline-center () (interactive) (concat (amirreza/modeline-modified) (amirreza/modeline-file) " " (amirreza/modeline-linecol)))
+(defun amirreza/modeline-center () (interactive) (concat (amirreza/modeline-modified) (buffer-name (current-buffer))))
 (defun amirreza/modeline-right () (interactive) (concat (amirreza/modeline-major-mode)))
 (defun amirreza/modeline-format ()
   (let* ((left (amirreza/modeline-left))
@@ -143,7 +143,7 @@
  `(mode-line ((t (:underline nil :box (:color ,(face-foreground 'default))))))
  '(mode-line-inactive ((t (:underline nil))))) ;; make sure our active window is identifiable in a multi window situation
 
-(setq-default mode-line-format '("%e" (:eval (amirreza/modeline-format))))
+;; (setq-default mode-line-format '("%e" (:eval (amirreza/modeline-format))))
 (setq inhibit-startup-screen t) ;; disable default start screen
 (set-frame-parameter nil 'fullscreen 'maximized)
 (add-to-list 'default-frame-alist '(fullscreen . maximized)) ;; always start frames maximized
