@@ -244,8 +244,8 @@
 (use-package flymake :straight nil
   :bind
   (:map flymake-mode-map
-	("M--" . flymake-goto-prev-error)
-	("M-=" . flymake-goto-next-error)))
+	("M-p" . flymake-goto-prev-error)
+	("M-n" . flymake-goto-next-error)))
 
 (use-package wgrep) ;; Writeable Grep Buffers
 (use-package isearch :straight nil
