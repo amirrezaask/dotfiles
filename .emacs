@@ -109,15 +109,16 @@
 (global-set-key (kbd "C-0") 'delete-window)
 
 (defadvice load-theme (before disable-themes-first activate) (dolist (i custom-enabled-themes) (disable-theme i))) ;; don't stack themes on each other
-(custom-set-faces 
- '(default ((t (:background "gray15" :foreground "gray85"))))
- '(cursor  ((t (:background "green" :foreground "gray"))))
- '(mode-line ((t (:background "gray85" :foreground "black" :box (:color "black")))))
- '(font-lock-comment-face ((t (:foreground "forest green"))))
- '(hl-line ((t (:background "gray25"))))
- '(vertico-current ((t (:background "gray30"))))
- '(mode-line-inactive ((t (:background "dim gray" :foreground "white")))))
-
+(use-package sweet-theme)
+(use-package spacemacs-theme)
+(use-package ef-themes)
+(use-package gruvbox-theme)
+(use-package gruber-darker-theme)
+(use-package dracula-theme)
+(use-package solarized-theme)
+(use-package amirreza-themes :no-require :straight (:host codeberg :repo "amirrezaask/themes" :local-repo "amirreza-themes"))
+(setq custom-safe-themes t)
+(load-theme 'jonathan-blow)
 (setq inhibit-startup-screen t) ;; disable default start screen
 (set-frame-parameter nil 'fullscreen 'maximized)
 (add-to-list 'default-frame-alist '(fullscreen . maximized)) ;; always start frames maximized
