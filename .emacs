@@ -113,6 +113,7 @@
  '(default ((t (:background "gray15" :foreground "gray85"))))
  '(cursor  ((t (:background "green" :foreground "gray"))))
  '(mode-line ((t (:background "gray85" :foreground "black" :box (:color "black")))))
+ '(font-lock-comment-face ((t (:foreground "forest green"))))
  '(hl-line ((t (:background "gray25"))))
  '(vertico-current ((t (:background "gray30"))))
  '(mode-line-inactive ((t (:background "dim gray" :foreground "white")))))
@@ -216,6 +217,7 @@
   (:map eglot-mode-map
 	("C-c m a" . 'eglot-code-actions)
 	("C-c m o" . 'eglot-code-actions-organize-imports)
+	("C-c m d" . flymake-show-project-diagnostics)
 	("C-c m f" . 'eglot-format)))
 
 (use-package eldoc :straight nil
@@ -229,6 +231,12 @@
    ("M-<f12>" . xref-find-references)))
 
 (use-package flymake :straight nil
+  :config
+  (custom-set-faces
+   '(flymake-error ((t (:background "red"))))
+   '(flymake-warning ((t (:background "gold"))))
+   '(flymake-note ((t (:background "green"))))
+   )
   :bind
   (:map flymake-mode-map
 	("M-p" . flymake-goto-prev-error)
