@@ -110,10 +110,12 @@
 
 (defadvice load-theme (before disable-themes-first activate) (dolist (i custom-enabled-themes) (disable-theme i))) ;; don't stack themes on each other
 (custom-set-faces 
- '(default ((t (:background "gray15" :foreground "gray"))))
+ '(default ((t (:background "gray15" :foreground "gray85"))))
  '(cursor  ((t (:background "green" :foreground "gray"))))
- '(mode-line ((t (:background "DeepSkyBlue" :foreground "black"))))
-) ;; simple is the new sexy
+ '(mode-line ((t (:background "gray85" :foreground "black" :box (:color "black")))))
+ '(hl-line ((t (:background "gray25"))))
+ '(vertico-current ((t (:background "gray30"))))
+ '(mode-line-inactive ((t (:background "dim gray" :foreground "white")))))
 
 (setq inhibit-startup-screen t) ;; disable default start screen
 (set-frame-parameter nil 'fullscreen 'maximized)
@@ -122,7 +124,6 @@
 (global-set-key "\C-x\C-c" 'delete-frame) ;; rebind exit key to just kill frame if possible
 (global-display-line-numbers-mode t) ;; line numbers
 (setq display-line-numbers 'relative) ;; relative line numbers
-(global-hl-line-mode) ;; highlight my current line
 (menu-bar-mode -1) ;; disable menu bar
 (tool-bar-mode -1) ;; disable tool bar
 (scroll-bar-mode -1) ;; disable scroll bar
