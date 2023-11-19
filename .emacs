@@ -107,43 +107,14 @@
 (global-set-key (kbd "<next>") 'jump-down)
 (global-set-key (kbd "M-o") 'other-window)
 (global-set-key (kbd "C-0") 'delete-window)
-;; themes
-(defadvice load-theme (before disable-themes-first activate) (dolist (i custom-enabled-themes) (disable-theme i)))
-(use-package sweet-theme)
-(use-package spacemacs-theme)
-(use-package ef-themes)
-(use-package gruvbox-theme)
-(use-package gruber-darker-theme)
-(use-package dracula-theme)
-(use-package solarized-theme)
-(use-package amirreza-themes :no-require :straight (:host codeberg :repo "amirrezaask/themes" :local-repo "amirreza-themes"))
-(setq custom-safe-themes t)
-(load-theme 'jonathan-blow)
-;; custom modeline
-(defun amirreza/modeline-vc () (interactive) (propertize (if vc-mode vc-mode "")))
-(defun amirreza/modeline-file () (interactive) (propertize (if (buffer-file-name) (buffer-file-name) default-directory)))
-(defun amirreza/modeline-modified () (interactive) (propertize (if (buffer-modified-p (current-buffer)) "[+]" "")))
-(defun amirreza/modeline-linecol () (interactive) (propertize "%l:%c"))
-(defun amirreza/modeline-major-mode () (interactive) (propertize (substring (capitalize (symbol-name major-mode)) 0 -5)))
-(defun amirreza/modeline-left () (interactive) (concat (amirreza/modeline-vc)))
-(defun amirreza/modeline-center () (interactive) (concat (amirreza/modeline-modified) (buffer-name (current-buffer))))
-(defun amirreza/modeline-right () (interactive) (concat (amirreza/modeline-major-mode)))
-(defun amirreza/modeline-format ()
-  (let* ((left (amirreza/modeline-left))
-	 (center (amirreza/modeline-center))
-	 (right (amirreza/modeline-right))
-	 (win-len (window-width (get-buffer-window (current-buffer))))
-	 (center-right-spaces (make-string (- (/ win-len 2) (+ (/ (length center) 2) (length right))  ) ?\s))
-	 (left-center-spaces (make-string (- (/ win-len 2) (+ (length left) (/ (length center) 2))) ?\s))
-	 )
 
-    (concat left left-center-spaces center center-right-spaces right)))
+(defadvice load-theme (before disable-themes-first activate) (dolist (i custom-enabled-themes) (disable-theme i))) ;; don't stack themes on each other
+(custom-set-faces 
+ '(default ((t (:background "gray15" :foreground "gray"))))
+ '(cursor  ((t (:background "green" :foreground "gray"))))
+ '(mode-line ((t (:background "DeepSkyBlue" :foreground "black"))))
+) ;; simple is the new sexy
 
-(custom-set-faces
- `(mode-line ((t (:underline nil :box (:color ,(face-foreground 'default))))))
- '(mode-line-inactive ((t (:underline nil))))) ;; make sure our active window is identifiable in a multi window situation
-
-;; (setq-default mode-line-format '("%e" (:eval (amirreza/modeline-format))))
 (setq inhibit-startup-screen t) ;; disable default start screen
 (set-frame-parameter nil 'fullscreen 'maximized)
 (add-to-list 'default-frame-alist '(fullscreen . maximized)) ;; always start frames maximized
