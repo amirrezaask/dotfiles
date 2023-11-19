@@ -187,7 +187,7 @@
 
 (setenv "LSP_USE_PLISTS" "true")
 (use-package lsp-mode
-  :hook (go-mode . lsp)
+;;  :hook (go-mode . lsp)
   :init
   (setq read-process-output-max (* 2 1024 1024) ;; 2mb
 	lsp-log-io nil ;; disable logging IO requests/responses
@@ -203,7 +203,20 @@
 	("C-c C-c" . lsp-execute-code-action)
 	("C-<f12>" . lsp-find-implementation)))
 
-(use-package eglot)
+
+(use-package eglot
+  :hook (go-mode . eglot-ensure)
+  :init
+  (setq eldoc-idle-delay 0.3)
+  (setq eglot-events-buffer-size 0)
+  (setq eglot-sync-connect nil)
+  (setq eldoc-documentation-strategy 'eldoc-documentation-compose)
+  (setq flymake-no-changes-timeout 0.2)
+  :bind
+  (:map eglot-mode-map
+	("C-c m a" . 'eglot-code-actions)
+	("C-c m o" . 'eglot-code-actions-organize-imports)
+	("C-c m f" . 'eglot-format)))
 
 (use-package eldoc :straight nil
   :bind
