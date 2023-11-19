@@ -6,6 +6,7 @@
 (setq custom-file "~/.custom.el") ;; set custom file to not meddle with init.el
 (setq make-backup-files nil) ;; no emacs ~ backup files
 (global-unset-key (kbd "C-z"))
+(global-unset-key (kbd "C-x C-z"))
 
 ;; package manager setup
 (setq package-enable-at-startup nil)
@@ -81,6 +82,10 @@
   :bind
   ("C-x g" . 'magit-status))
 
+(use-package vertico :init (setq vertico-cycle t) (setq vertico-count 25) (vertico-mode))
+(use-package consult)
+(global-set-key "\C-xb" 'consult-buffer)
+
 (use-package orderless
   :init
   (setq completion-styles '(orderless basic)
@@ -98,14 +103,11 @@
 (setq recenter-positions '(middle))
 (global-set-key (kbd "C-v") 'jump-down) ;; better than default scroll up
 (global-set-key (kbd "M-v") 'jump-up)
-;; window keys
+(global-set-key (kbd "<prior>") 'jump-up)
+(global-set-key (kbd "<next>") 'jump-down)
 (global-set-key (kbd "M-o") 'other-window)
 (global-set-key (kbd "C-0") 'delete-window)
-(global-set-key (kbd "C-M-<left>") 'shrink-window-horizontally)
-(global-set-key (kbd "C-M-<right>") 'enlarge-window-horizontally)
-(global-set-key (kbd "C-M-<up>") 'enlarge-window)
-(global-set-key (kbd "C-M-<down>") 'shrink-window)
-;; colors and themes : prettiness of emacs
+;; themes
 (defadvice load-theme (before disable-themes-first activate) (dolist (i custom-enabled-themes) (disable-theme i)))
 (use-package sweet-theme)
 (use-package spacemacs-theme)
@@ -211,9 +213,9 @@
 (setq global-auto-revert-non-file-buffers t)
 (setq auto-revert-verbose nil)
 
-;; I'm trying to move away from using LSPs, they are a lock-in dependencies and lock you in certain environments
 (setenv "LSP_USE_PLISTS" "true")
 (use-package lsp-mode
+  :hook (go-mode . lsp)
   :init
   (setq read-process-output-max (* 2 1024 1024) ;; 2mb
 	lsp-log-io nil ;; disable logging IO requests/responses
