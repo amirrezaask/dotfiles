@@ -124,7 +124,7 @@
 	 (theme (nth index themes)))
     (load-theme theme)))
 (global-set-key (kbd "M-1") 'random-theme)
-(load-theme 'gruvbox-dark-hard)
+(random-theme)
 (setq inhibit-startup-screen t) ;; disable default start screen
 (set-frame-parameter nil 'fullscreen 'maximized)
 (add-to-list 'default-frame-alist '(fullscreen . maximized)) ;; always start frames maximized
@@ -195,7 +195,6 @@
 
 (setenv "LSP_USE_PLISTS" "true")
 (use-package lsp-mode
-;;  :hook (go-mode . lsp)
   :init
   (setq read-process-output-max (* 2 1024 1024) ;; 2mb
 	lsp-log-io nil ;; disable logging IO requests/responses
@@ -226,7 +225,7 @@
 	("C-c m a" . 'eglot-code-actions)
 	("C-c m r" . 'eglot-rename)
 	("C-c m o" . 'eglot-code-action-organize-imports)
-	("C-c m d" . flymake-show-project-diagnostics)
+	("C-c m d" . 'flymake-show-project-diagnostics)
 	("C-c m f" . 'eglot-format)))
 
 
