@@ -107,6 +107,7 @@
 (global-set-key (kbd "<next>") 'jump-down)
 (global-set-key (kbd "M-o") 'other-window)
 (global-set-key (kbd "C-0") 'delete-window)
+(defadvice load-theme (before disable-themes-first activate) (dolist (i custom-enabled-themes) (disable-theme i))) ;; don't stack themes on each other 
 (use-package sweet-theme)
 (use-package spacemacs-theme)
 (use-package ef-themes)
@@ -215,9 +216,18 @@
   :bind
   (:map eglot-mode-map
 	("C-c m a" . 'eglot-code-actions)
-	("C-c m o" . 'eglot-code-actions-organize-imports)
+	("C-c m o" . 'eglot-code-action-organize-imports)
 	("C-c m d" . flymake-show-project-diagnostics)
 	("C-c m f" . 'eglot-format)))
+
+
+(defun eglot-organize-imports-and-format ()
+  (interactive)
+  (call-interactively 'eglot-format)
+  (call-interactively 'eglot-code-action-organize-imports))
+
+;; (add-hook 'go-mode-hook (lambda ()
+;; 			  (add-hook 'before-save-hook #'eglot-organize-imports-and-format)))
 
 (use-package eldoc :straight nil
   :bind
@@ -230,12 +240,6 @@
    ("M-<f12>" . xref-find-references)))
 
 (use-package flymake :straight nil
-  :config
-  (custom-set-faces
-   '(flymake-error ((t (:background "red"))))
-   '(flymake-warning ((t (:background "gold"))))
-   '(flymake-note ((t (:background "green"))))
-   )
   :bind
   (:map flymake-mode-map
 	("M-p" . flymake-goto-prev-error)
