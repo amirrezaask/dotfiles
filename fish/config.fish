@@ -6,10 +6,6 @@ export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.config/composer/vendor/bin:$PATH"
 export PATH="$GOPATH/bin:$PATH"
 
-if ! command -v starship &> /dev/null
-    curl -sS https://starship.rs/install.sh | sh
-end
-
 if command -v nvim &> /dev/null
     alias vim='nvim'
     export EDITOR='nvim'
@@ -19,5 +15,3 @@ end
 function e
     emacsclient -c -a '' $argv &
 end
-
-starship init fish | source
