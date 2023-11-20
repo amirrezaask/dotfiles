@@ -114,10 +114,12 @@
 (use-package gruvbox-theme)
 (use-package gruber-darker-theme)
 (use-package dracula-theme)
+(use-package doom-themes)
 (use-package solarized-theme)
 (use-package amirreza-themes :no-require :straight (:host codeberg :repo "amirrezaask/themes" :local-repo "amirreza-themes"))
 (setq custom-safe-themes t)
-(load-theme 'jonathan-blow)
+(load-theme 'doom-one)
+(use-package doom-modeline :config (setq doom-modeline-height 35) (doom-modeline-mode +1))
 (setq inhibit-startup-screen t) ;; disable default start screen
 (set-frame-parameter nil 'fullscreen 'maximized)
 (add-to-list 'default-frame-alist '(fullscreen . maximized)) ;; always start frames maximized
