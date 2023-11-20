@@ -34,6 +34,7 @@
 (global-set-key (kbd "C--") (lambda () (interactive) (text-scale-decrease 1)))
 (setq --font-family "")
 (defun load-font (font fontsize)
+  "Loads a font."
   (interactive (list (read-string "Font Family: ") (read-number "Font Size: ")))
   (let ((fontstring (format "%s %d" font fontsize)))
     (setq --font-family font)
@@ -42,6 +43,7 @@
     (set-face-attribute 'default t :font fontstring)))
 
 (defun set-font-size (fontsize)
+  "Set a font size"
   (interactive (list (read-number "Font Size: ")))
   (let ((fontstring (format "%s %d" --font-family fontsize)))
     (add-to-list 'default-frame-alist `(font . ,fontstring))
@@ -84,15 +86,16 @@
 
 (use-package ace-window :bind ("C-x o" . 'ace-window))
 
-;; (use-package vertico :init (setq vertico-cycle t) (setq vertico-count 25) (vertico-mode))
-;; (use-package consult)
-;; (global-set-key "\C-xb" 'consult-buffer)
+(use-package vertico :init (setq vertico-cycle t) (setq vertico-count 25) (vertico-mode))
+(use-package marginalia :config (marginalia-mode))
+(use-package consult)
+(global-set-key "\C-xb" 'consult-buffer)
 
-;; (use-package orderless
-;;   :init
-;;   (setq completion-styles '(orderless basic)
-;; 	completion-category-defaults nil
-;; 	completion-category-overrides '((file (styles partial-completion)))))
+(use-package orderless
+  :init
+  (setq completion-styles '(orderless basic)
+	completion-category-defaults nil
+	completion-category-overrides '((file (styles partial-completion)))))
 ;; better navigation tools
 (defun find-file-dwim ()
   (interactive)
