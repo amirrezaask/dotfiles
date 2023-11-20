@@ -109,6 +109,7 @@
 (global-set-key (kbd "<next>") 'jump-down)
 (global-set-key (kbd "M-o") 'other-window)
 (global-set-key (kbd "C-0") 'delete-window)
+(setq custom-safe-themes t) ;; all themes are safe, don't ask
 (defadvice load-theme (before disable-themes-first activate) (dolist (i custom-enabled-themes) (disable-theme i))) ;; don't stack themes on each other 
 (use-package sweet-theme)
 (use-package spacemacs-theme)
@@ -119,7 +120,12 @@
 (use-package doom-themes)
 (use-package solarized-theme)
 (use-package amirreza-themes :no-require :straight (:host codeberg :repo "amirrezaask/themes" :local-repo "amirreza-themes"))
-(setq custom-safe-themes t)
+(defun random-theme () (interactive)
+  (let* ((themes '(dracula jonathan-blow sweet gruber-darker doom-one solarized-dark))
+	 (index (random (length themes)))
+	 (theme (nth index themes)))
+    (load-theme theme)))
+(global-set-key (kbd "M-1") 'random-theme)
 (load-theme 'dracula)
 (setq inhibit-startup-screen t) ;; disable default start screen
 (set-frame-parameter nil 'fullscreen 'maximized)
