@@ -218,6 +218,7 @@
   :bind
   (:map eglot-mode-map
 	("C-c m a" . 'eglot-code-actions)
+	("C-c m r" . 'eglot-rename)
 	("C-c m o" . 'eglot-code-action-organize-imports)
 	("C-c m d" . flymake-show-project-diagnostics)
 	("C-c m f" . 'eglot-format)))
