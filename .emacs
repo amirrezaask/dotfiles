@@ -122,7 +122,7 @@
 (use-package solarized-theme) ;; 3-rd legendary theme
 (use-package amirreza-themes :no-require :straight (:host codeberg :repo "amirrezaask/themes" :local-repo "amirreza-themes")) ;; two themes from me, not original though, copies of Casey murtari and JonBlow.
 (defun random-theme () (interactive)
-  (let* ((themes '(dracula jonathan-blow handmadehero sweet gruber-darker doom-one solarized-dark))
+  (let* ((themes '(dracula jonathan-blow handmadehero sweet gruber-darker solarized-dark))
 	 (index (random (length themes)))
 	 (theme (nth index themes)))
     (load-theme theme)))
