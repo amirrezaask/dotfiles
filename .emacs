@@ -219,6 +219,7 @@
   (setq eglot-events-buffer-size 0)
   (setq eglot-sync-connect nil)
   (setq eldoc-documentation-strategy 'eldoc-documentation-compose)
+  (setq eglot-ignored-server-capabilities '(:documentHighlightProvider))
   (setq flymake-no-changes-timeout 0.2)
   :bind
   (:map eglot-mode-map
