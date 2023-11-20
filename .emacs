@@ -228,9 +228,6 @@
   (call-interactively 'eglot-format)
   (call-interactively 'eglot-code-action-organize-imports))
 
-;; (add-hook 'go-mode-hook (lambda ()
-;; 			  (add-hook 'before-save-hook #'eglot-organize-imports-and-format)))
-
 (use-package eldoc :straight nil
   :bind
   (("C-h ." . eldoc)
