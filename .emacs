@@ -108,17 +108,28 @@
 (global-set-key (kbd "M-o") 'other-window)
 (global-set-key (kbd "C-0") 'delete-window)
 
-(defadvice load-theme (before disable-themes-first activate) (dolist (i custom-enabled-themes) (disable-theme i))) ;; don't stack themes on each other
-(use-package sweet-theme)
-(use-package spacemacs-theme)
-(use-package ef-themes)
-(use-package gruvbox-theme)
-(use-package gruber-darker-theme)
-(use-package dracula-theme)
-(use-package solarized-theme)
-(use-package amirreza-themes :no-require :straight (:host codeberg :repo "amirrezaask/themes" :local-repo "amirreza-themes"))
-(setq custom-safe-themes t)
-(load-theme 'jonathan-blow)
+;; Colors
+
+(custom-set-faces
+ `(default ((t (:foreground "#d3b58d" :background "#062329"))))
+ `(cursor ((t (:background "green"))))
+ `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
+ `(font-lock-type-face              ((t (:foreground "#8cde94"))))
+ `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
+ `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
+ `(font-lock-builtin-face           ((t (:foreground "white"))))
+ `(font-lock-string-face            ((t (:foreground "#2ec09c"))))
+ `(font-lock-comment-face           ((t (:foreground "#118a1a"))))
+ `(font-lock-comment-delimiter-face ((t (:foreground "#118a1a"))))
+ `(font-lock-doc-face               ((t (:foreground "#118a1a"))))
+ `(font-lock-function-name-face     ((t (:foreground "white"))))
+ `(font-lock-doc-string-face        ((t (:foreground "#2ec09c"))))
+ `(font-lock-warning-face           ((t (:foreground "yellow"))))
+ `(mode-line ((t (:foreground "black" :background "#d3b58d"))))
+ `(mode-line-inactive ((t (:foreground "black" :background "white"))))
+ `(vertico-current ((t (:background "blue3"))))
+ )
+
 (setq inhibit-startup-screen t) ;; disable default start screen
 (set-frame-parameter nil 'fullscreen 'maximized)
 (add-to-list 'default-frame-alist '(fullscreen . maximized)) ;; always start frames maximized
