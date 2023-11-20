@@ -84,15 +84,15 @@
 
 (use-package ace-window :bind ("C-x o" . 'ace-window))
 
-(use-package vertico :init (setq vertico-cycle t) (setq vertico-count 25) (vertico-mode))
-(use-package consult)
-(global-set-key "\C-xb" 'consult-buffer)
+;; (use-package vertico :init (setq vertico-cycle t) (setq vertico-count 25) (vertico-mode))
+;; (use-package consult)
+;; (global-set-key "\C-xb" 'consult-buffer)
 
-(use-package orderless
-  :init
-  (setq completion-styles '(orderless basic)
-	completion-category-defaults nil
-	completion-category-overrides '((file (styles partial-completion)))))
+;; (use-package orderless
+;;   :init
+;;   (setq completion-styles '(orderless basic)
+;; 	completion-category-defaults nil
+;; 	completion-category-overrides '((file (styles partial-completion)))))
 ;; better navigation tools
 (defun find-file-dwim ()
   (interactive)
