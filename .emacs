@@ -82,6 +82,8 @@
   :bind
   ("C-x g" . 'magit-status))
 
+(use-package ace-window :bind ("C-x o" . 'ace-window))
+
 (use-package vertico :init (setq vertico-cycle t) (setq vertico-count 25) (vertico-mode))
 (use-package consult)
 (global-set-key "\C-xb" 'consult-buffer)
@@ -119,7 +121,7 @@
 (use-package amirreza-themes :no-require :straight (:host codeberg :repo "amirrezaask/themes" :local-repo "amirreza-themes"))
 (setq custom-safe-themes t)
 (load-theme 'doom-one)
-(use-package doom-modeline :config (setq doom-modeline-height 35) (doom-modeline-mode +1))
+
 (setq inhibit-startup-screen t) ;; disable default start screen
 (set-frame-parameter nil 'fullscreen 'maximized)
 (add-to-list 'default-frame-alist '(fullscreen . maximized)) ;; always start frames maximized
