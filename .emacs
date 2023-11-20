@@ -119,10 +119,9 @@
 (use-package gruber-darker-theme) ;; nice dark theme by tsoding
 (use-package dracula-theme) ;; another legendary theme
 (use-package doom-themes) ;; DOOM Emacs theme pack
-(use-package solarized-theme) ;; 3-rd legendary theme
 (use-package amirreza-themes :no-require :straight (:host codeberg :repo "amirrezaask/themes" :local-repo "amirreza-themes")) ;; two themes from me, not original though, copies of Casey murtari and JonBlow.
 (defun random-theme () (interactive)
-  (let* ((themes '(dracula jonathan-blow handmadehero sweet gruber-darker solarized-dark))
+  (let* ((themes '(dracula jonathan-blow handmadehero gruber-darker gruvbox-dark-hard))
 	 (index (random (length themes)))
 	 (theme (nth index themes)))
     (load-theme theme)))
@@ -143,9 +142,9 @@
 (global-auto-revert-mode +1) ;; auto refresh buffers from disk
 (delete-selection-mode) ;; when selected a text and user types delete text
 (use-package multiple-cursors :bind (("C->" . 'mc/mark-next-like-this) ("C-<" . 'mc/mark-previous-like-this))) ;; multi cursors
-(global-set-key (kbd "M-[") 'kmacro-start-macro-or-insert-counter) ;; start recording keyboard macro
-(global-set-key (kbd "M-]") 'kmacro-end-or-call-macro-repeat) ;; end recording keyboard macro
-(global-set-key (kbd "C-q") 'set-mark-command) ;; better selection key
+(global-set-key (kbd "M-[") 'kmacro-start-macro-or-insert-counter) ;; start recording keyboard macro.
+(global-set-key (kbd "M-]") 'kmacro-end-or-call-macro-repeat) ;; end recording keyboard macro.
+(global-set-key (kbd "C-q") 'dabbrev-expand) ;; expand current word with suggestions from all buffers.
 
 (use-package go-mode) ;; Golang
 
@@ -195,6 +194,7 @@
 
 (setq global-auto-revert-non-file-buffers t)
 (setq auto-revert-verbose nil)
+
 
 (setenv "LSP_USE_PLISTS" "true")
 (use-package lsp-mode
@@ -260,7 +260,6 @@
    :map
    isearch-mode-map
    ("C-." . 'isearch-repeat-forward)))
-
 
 (use-package grep :straight nil
   :bind
