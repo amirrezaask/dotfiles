@@ -48,7 +48,7 @@
     (set-frame-font fontstring nil t)
     (set-face-attribute 'default t :font fontstring)))
 
-(load-font "Fira Code" 11)
+(load-font "Consolas" 11)
 ;; environment variables env
 (defun home (path)
   (expand-file-name path (getenv "HOME")))
@@ -111,22 +111,20 @@
 (global-set-key (kbd "C-0") 'delete-window)
 (setq custom-safe-themes t) ;; all themes are safe, don't ask
 (defadvice load-theme (before disable-themes-first activate) (dolist (i custom-enabled-themes) (disable-theme i))) ;; don't stack themes on each other 
-(use-package sweet-theme)
-(use-package spacemacs-theme)
-(use-package ef-themes)
-(use-package gruvbox-theme)
-(use-package gruber-darker-theme)
-(use-package dracula-theme)
-(use-package doom-themes)
-(use-package solarized-theme)
-(use-package amirreza-themes :no-require :straight (:host codeberg :repo "amirrezaask/themes" :local-repo "amirreza-themes"))
+(use-package ef-themes) ;; nice themes by protesilas, insipred by nature
+(use-package gruvbox-theme) ;; Legendary color themes
+(use-package gruber-darker-theme) ;; nice dark theme by tsoding
+(use-package dracula-theme) ;; another legendary theme
+(use-package doom-themes) ;; DOOM Emacs theme pack
+(use-package solarized-theme) ;; 3-rd legendary theme
+(use-package amirreza-themes :no-require :straight (:host codeberg :repo "amirrezaask/themes" :local-repo "amirreza-themes")) ;; two themes from me, not original though, copies of Casey murtari and JonBlow.
 (defun random-theme () (interactive)
-  (let* ((themes '(dracula jonathan-blow sweet gruber-darker doom-one solarized-dark))
+  (let* ((themes '(dracula jonathan-blow handmadehero sweet gruber-darker doom-one solarized-dark))
 	 (index (random (length themes)))
 	 (theme (nth index themes)))
     (load-theme theme)))
 (global-set-key (kbd "M-1") 'random-theme)
-(load-theme 'dracula)
+(load-theme 'gruvbox-dark-hard)
 (setq inhibit-startup-screen t) ;; disable default start screen
 (set-frame-parameter nil 'fullscreen 'maximized)
 (add-to-list 'default-frame-alist '(fullscreen . maximized)) ;; always start frames maximized
