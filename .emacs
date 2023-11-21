@@ -24,7 +24,6 @@
   (load bootstrap-file nil 'nomessage)) ;; package manager setup
 (straight-use-package 'use-package)
 (setq straight-use-package-by-default t)
-
 (setq native-comp-async-report-warnings-errors 'silent) ;; silent native compilation warns
 (setq use-short-answers t) ;; 
 (setq image-types (cons 'svg image-types)) ;; macos bug
@@ -139,7 +138,7 @@
 (defun light-colors ()
   (interactive)
   (custom-set-faces
-   '(default ((t (:background "gray70" :foreground "black"))))))
+   '(default ((t (:background "gray60" :foreground "black"))))))
 
 (light-colors)
 (use-package go-mode) ;; Golang
