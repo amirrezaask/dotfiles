@@ -113,16 +113,6 @@
 (global-set-key (kbd "M-o") 'other-window)
 (global-set-key (kbd "C-0") 'delete-window)
 (setq custom-safe-themes t) ;; all themes are safe, don't ask
-(defadvice load-theme (before disable-themes-first activate) (dolist (i custom-enabled-themes) (disable-theme i))) ;; don't stack themes on each other 
-(defun dark-mode ()
-  (interactive)
-  (custom-set-faces
-   '(default ((t (:background "black" :foreground "gray85"))))))
-
-(defun light-mode ()
-    (interactive)
-    (custom-set-faces '(default ((t :background "white" :foreground "black")))))
-
 (setq inhibit-startup-screen t) ;; disable default start screen
 (set-frame-parameter nil 'fullscreen 'maximized)
 (add-to-list 'default-frame-alist '(fullscreen . maximized)) ;; always start frames maximized
@@ -141,7 +131,17 @@
 (global-set-key (kbd "M-[") 'kmacro-start-macro-or-insert-counter) ;; start recording keyboard macro.
 (global-set-key (kbd "M-]") 'kmacro-end-or-call-macro-repeat) ;; end recording keyboard macro.
 (global-set-key (kbd "C-q") 'dabbrev-expand) ;; expand current word with suggestions from all buffers.
+;;colors
+(defun dark-colors ()
+  (interactive)
+  (custom-set-faces
+   '(default ((t (:background "black" :foreground "gray90"))))))
+(defun light-colors ()
+  (interactive)
+  (custom-set-faces
+   '(default ((t (:background "gray70" :foreground "black"))))))
 
+(light-colors)
 (use-package go-mode) ;; Golang
 
 (defun go-add-tags ()
