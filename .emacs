@@ -138,7 +138,7 @@
 (defun light-colors ()
   (interactive)
   (custom-set-faces
-   '(default ((t (:background "gray60" :foreground "black"))))))
+   '(default ((t (:background "white" :foreground "black"))))))
 
 (light-colors)
 (use-package go-mode) ;; Golang
