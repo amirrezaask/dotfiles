@@ -114,19 +114,15 @@
 (global-set-key (kbd "C-0") 'delete-window)
 (setq custom-safe-themes t) ;; all themes are safe, don't ask
 (defadvice load-theme (before disable-themes-first activate) (dolist (i custom-enabled-themes) (disable-theme i))) ;; don't stack themes on each other 
-(use-package ef-themes) ;; nice themes by protesilas, insipred by nature
-(use-package gruvbox-theme) ;; Legendary color themes
-(use-package gruber-darker-theme) ;; nice dark theme by tsoding
-(use-package dracula-theme) ;; another legendary theme
-(use-package doom-themes) ;; DOOM Emacs theme pack
-(use-package amirreza-themes :no-require :straight (:host codeberg :repo "amirrezaask/themes" :local-repo "amirreza-themes")) ;; two themes from me, not original though, copies of Casey murtari and JonBlow.
-(defun random-theme () (interactive)
-  (let* ((themes '(dracula jonathan-blow handmadehero gruber-darker gruvbox-dark-hard))
-	 (index (random (length themes)))
-	 (theme (nth index themes)))
-    (load-theme theme)))
-(global-set-key (kbd "M-1") 'random-theme)
-(random-theme)
+(defun dark-mode ()
+  (interactive)
+  (custom-set-faces
+   '(default ((t (:background "black" :foreground "gray85"))))))
+
+(defun light-mode ()
+    (interactive)
+    (custom-set-faces '(default ((t :background "white" :foreground "black")))))
+
 (setq inhibit-startup-screen t) ;; disable default start screen
 (set-frame-parameter nil 'fullscreen 'maximized)
 (add-to-list 'default-frame-alist '(fullscreen . maximized)) ;; always start frames maximized
