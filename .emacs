@@ -83,7 +83,7 @@
   :bind
   ("C-x g" . 'magit-status))
 
-(use-package ace-window :bind ("C-x o" . 'ace-window))
+(use-package ace-window :bind ("C-x C-o" . 'ace-window))
 
 (use-package vertico :init (setq vertico-cycle t) (setq vertico-count 25) (vertico-mode))
 (use-package marginalia :config (marginalia-mode))
@@ -130,18 +130,36 @@
 (global-set-key (kbd "M-[") 'kmacro-start-macro-or-insert-counter) ;; start recording keyboard macro.
 (global-set-key (kbd "M-]") 'kmacro-end-or-call-macro-repeat) ;; end recording keyboard macro.
 (global-set-key (kbd "C-q") 'dabbrev-expand) ;; expand current word with suggestions from all buffers.
-;;colors
-(defun dark-colors ()
-  (interactive)
-  (custom-set-faces
-   '(default ((t (:background "black" :foreground "gray90"))))))
-(defun light-colors ()
-  (interactive)
-  (custom-set-faces
-   '(default ((t (:background "white" :foreground "black"))))))
-
-(light-colors)
-(use-package go-mode) ;; Golang
+(custom-set-faces
+ `(default ((t (:foreground "#d3b58d" :background "#062329"))))
+ `(cursor ((t (:background "green"))))
+ `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
+ `(font-lock-type-face              ((t (:foreground "#8cde94"))))
+ `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
+ `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
+ `(font-lock-builtin-face           ((t (:foreground "white"))))
+ `(font-lock-string-face            ((t (:foreground "#2ec09c"))))
+ `(font-lock-comment-face           ((t (:foreground "#118a1a"))))
+ `(font-lock-comment-delimiter-face ((t (:foreground "#118a1a"))))
+ `(font-lock-doc-face               ((t (:foreground "#118a1a"))))
+ `(font-lock-function-name-face     ((t (:foreground "white"))))
+ `(font-lock-doc-string-face        ((t (:foreground "#2ec09c"))))
+ `(font-lock-warning-face           ((t (:foreground "yellow"))))
+ `(mode-line ((t (:foreground "black" :background "#d3b58d"))))
+ `(mode-line-inactive ((t (:foreground "black" :background "white"))))
+ `(vertico-current ((t (:background "blue3"))))
+ `(error ((t (:background "black" :foreground "red"))))
+ `(flymake-error ((t (:background "black" :foreground "red"))))
+ `(flymake-warning ((t (:foreground "DarkOrange"))))
+ `(flymake-note ((t (:foreground "DarkOrange"))))
+ )
+(use-package go-mode
+  :bind
+  ("C-c C-c" . (lambda ()
+		 (interactive)
+		 (compile "go run *.go")
+		 ))
+  ) ;; Golang
 
 (defun go-add-tags ()
   "Add Go struct tags using gomodifytags"
@@ -210,7 +228,7 @@
 
 
 (use-package eglot
-  :hook (go-mode . eglot-ensure)
+;;  :hook (go-mode . eglot-ensure)
   :init
   (setq eldoc-idle-delay 0.3)
   (setq eglot-events-buffer-size 0)
