@@ -11,7 +11,3 @@ if command -v nvim &> /dev/null
     export EDITOR='nvim'
     export GIT_EDITOR='nvim'
 end
-
-function e
-    emacsclient -c -a '' $argv &
-end

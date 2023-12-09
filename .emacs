@@ -131,7 +131,7 @@
 (global-set-key (kbd "M-]") 'kmacro-end-or-call-macro-repeat) ;; end recording keyboard macro.
 (global-set-key (kbd "C-q") 'dabbrev-expand) ;; expand current word with suggestions from all buffers.
 (custom-set-faces
- `(default ((t (:foreground "#d3b58d" :background "#062329"))))
+ `(default ((t (:foreground "#a9a9a9" :background "gray3"))))
  `(cursor ((t (:background "green"))))
  `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
  `(font-lock-type-face              ((t (:foreground "#8cde94"))))
@@ -145,7 +145,7 @@
  `(font-lock-function-name-face     ((t (:foreground "white"))))
  `(font-lock-doc-string-face        ((t (:foreground "#2ec09c"))))
  `(font-lock-warning-face           ((t (:foreground "yellow"))))
- `(mode-line ((t (:foreground "black" :background "#d3b58d"))))
+ `(mode-line ((t (:foreground "black" :background "#a9a9a9"))))
  `(mode-line-inactive ((t (:foreground "black" :background "white"))))
  `(vertico-current ((t (:background "blue3"))))
  `(error ((t (:background "black" :foreground "red"))))
