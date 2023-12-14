@@ -5,7 +5,7 @@
 (setq ring-bell-function (lambda ())) ;; no stupid sounds
 (setq custom-file "~/.custom.el") ;; set custom file to not meddle with init.el
 (setq make-backup-files nil) ;; no emacs ~ backup files
-(global-unset-key (kbd "C-z"))
+(global-set-key (kbd "C-z") 'undo)
 (global-unset-key (kbd "C-x C-z"))
 
 ;; package manager setup
@@ -49,11 +49,12 @@
     (set-frame-font fontstring nil t)
     (set-face-attribute 'default t :font fontstring)))
 
-(load-font "Consolas" 11)
+(load-font "Liberation Mono" 11)
 ;; environment variables env
 (defun home (path)
   (expand-file-name path (getenv "HOME")))
 (add-to-list 'exec-path (home ".local/bin"))
+(add-to-list 'exec-path "/usr/local/go/bin")
 (add-to-list 'exec-path (home ".cargo/bin"))
 (add-to-list 'exec-path "/opt/homebrew/bin") ;; homebrew
 (add-to-list 'exec-path (home "bin")) ;; GOPATH/bin
@@ -83,8 +84,6 @@
   :bind
   ("C-x g" . 'magit-status))
 
-(use-package ace-window :bind ("C-x C-o" . 'ace-window))
-
 (use-package vertico :init (setq vertico-cycle t) (setq vertico-count 25) (vertico-mode))
 (use-package marginalia :config (marginalia-mode))
 (use-package consult)
@@ -95,6 +94,7 @@
   (setq completion-styles '(orderless basic)
 	completion-category-defaults nil
 	completion-category-overrides '((file (styles partial-completion)))))
+
 ;; better navigation tools
 (defun find-file-dwim ()
   (interactive)
@@ -109,7 +109,7 @@
 (global-set-key (kbd "M-v") 'jump-up)
 (global-set-key (kbd "<prior>") 'jump-up)
 (global-set-key (kbd "<next>") 'jump-down)
-(global-set-key (kbd "M-o") 'other-window)
+(global-set-key (kbd "M-o") 'find-file-dwim)
 (global-set-key (kbd "C-0") 'delete-window)
 (setq custom-safe-themes t) ;; all themes are safe, don't ask
 (setq inhibit-startup-screen t) ;; disable default start screen
@@ -129,58 +129,29 @@
 (use-package multiple-cursors :bind (("C->" . 'mc/mark-next-like-this) ("C-<" . 'mc/mark-previous-like-this))) ;; multi cursors
 (global-set-key (kbd "M-[") 'kmacro-start-macro-or-insert-counter) ;; start recording keyboard macro.
 (global-set-key (kbd "M-]") 'kmacro-end-or-call-macro-repeat) ;; end recording keyboard macro.
+(global-set-key (kbd "M-\\") 'split-window-horizontally)
+(global-set-key (kbd "M-=") 'split-window-vertically)
+(global-set-key (kbd "C-o") 'other-window)
 (global-set-key (kbd "C-q") 'dabbrev-expand) ;; expand current word with suggestions from all buffers.
-(custom-set-faces
- `(default ((t (:foreground "#a9a9a9" :background "gray3"))))
- `(cursor ((t (:background "green"))))
- `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
- `(font-lock-type-face              ((t (:foreground "#8cde94"))))
- `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
- `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
- `(font-lock-builtin-face           ((t (:foreground "white"))))
- `(font-lock-string-face            ((t (:foreground "#2ec09c"))))
- `(font-lock-comment-face           ((t (:foreground "#118a1a"))))
- `(font-lock-comment-delimiter-face ((t (:foreground "#118a1a"))))
- `(font-lock-doc-face               ((t (:foreground "#118a1a"))))
- `(font-lock-function-name-face     ((t (:foreground "white"))))
- `(font-lock-doc-string-face        ((t (:foreground "#2ec09c"))))
- `(font-lock-warning-face           ((t (:foreground "yellow"))))
- `(mode-line ((t (:foreground "black" :background "#696969"))))
- `(mode-line-inactive ((t (:foreground "black" :background "white"))))
- `(vertico-current ((t (:background "blue3"))))
- `(error ((t (:background "black" :foreground "red"))))
- `(flymake-error ((t (:foreground "red"))))
- `(flymake-warning ((t (:foreground "DarkOrange"))))
- `(flymake-note ((t (:foreground "DarkOrange"))))
- )
-(use-package go-mode
-  :bind
-  ("C-c C-c" . (lambda ()
-		 (interactive)
-		 (compile "go run *.go")
-		 ))
-  ) ;; Golang
 
-(defun go-add-tags ()
-  "Add Go struct tags using gomodifytags"
-  (interactive)
-  (unless (executable-find "gomodifytags") (error "Install gomodifytags first. https://github.com/fatih/gomodifytags"))
-  (shell-command-to-string (read-string "Command: " (format "gomodifytags -file %s -struct %s -add-tags json -transform snakecase -w" (buffer-name (current-buffer)) (word-at-point)) nil nil nil)))
-
-(defun go-doc (THING)
-  "Go docs THING at point"
-  (interactive (list (read-string "Symbol: " nil nil (word-at-point) nil)))
-  (unless (executable-find "go") (error "Install go toolchain. https://go.dev/downloads"))
-  (compile (read-string "Command: " (format "go doc %s" THING) nil nil nil)))
-
-;; no need to explain these
+;; themes
+(defadvice load-theme (before disable-themes-first activate) (dolist (i custom-enabled-themes) (disable-theme i)))
+(use-package sweet-theme)
+(use-package ef-themes)
+(use-package gruvbox-theme)
+(use-package gruber-darker-theme)
+(use-package dracula-theme)
+(use-package solarized-theme)
+(use-package amirreza-themes :no-require :straight (:host codeberg :repo "amirrezaask/themes" :local-repo "amirreza-themes"))
+(load-theme 'gruber-darker)
+;; Language modes
+(use-package go-mode)
 (use-package yaml-mode)
 (use-package json-mode)
 (use-package rust-mode)
 (when (< emacs-major-version 29) (use-package csharp-mode))
 (use-package typescript-mode)
 (use-package lua-mode)
-(use-package tuareg) ;; ocaml
 
 (defun compile-dwim ()
   "DWIM version of compile"
@@ -208,49 +179,7 @@
 (setq global-auto-revert-non-file-buffers t)
 (setq auto-revert-verbose nil)
 
-
-(setenv "LSP_USE_PLISTS" "true")
-(use-package lsp-mode
-  :hook (go-mode . lsp)
-  :init
-  (setq read-process-output-max (* 2 1024 1024) ;; 2mb
-	lsp-log-io nil ;; disable logging IO requests/responses
-	lsp-use-plists t)  ;; Performance tweaks
-  (setq lsp-auto-guess-root t) ;; don't ask for project root detection
-  (setq lsp-headerline-breadcrumb-enable nil) ;; Disable UI elements
-  (setq lsp-keymap-prefix "C-c m")
-  :bind
-  (:map lsp-mode-map
-	("<f12>" . lsp-find-definition)
-	("<f2>" . lsp-rename)
-	("M-<f12>" . lsp-find-references)
-	("C-c C-c" . lsp-execute-code-action)
-	("C-<f12>" . lsp-find-implementation)))
-
-(use-package eldoc :straight nil
-  :bind
-  (("C-h ." . eldoc)
-   ("M-h" . eldoc)))
-
-(use-package xref :straight nil
-  :bind
-  (("<f12>" . xref-find-definitions)
-   ("M-<f12>" . xref-find-references)))
-
-(use-package flymake :straight nil
-  :bind
-  (:map flymake-mode-map
-	("M-p" . flymake-goto-prev-error)
-	("M-n" . flymake-goto-next-error)))
-
 (use-package wgrep) ;; Writeable Grep Buffers
-(use-package isearch :straight nil
-  :bind
-  (("C-." . 'isearch-forward-thing-at-point)
-   :map
-   isearch-mode-map
-   ("C-." . 'isearch-repeat-forward)))
-
 (use-package grep :straight nil
   :bind
   (:map grep-mode-map
@@ -276,4 +205,34 @@
     (call-interactively 'grep)))
 
 (global-set-key (kbd "M-s") 'grep-dwim)
+(global-set-key (kbd "C-S-f") 'grep-dwim)
 (global-set-key (kbd "C-S-s") 'occur)
+
+(setenv "LSP_USE_PLISTS" "true")
+(use-package lsp-mode
+  :hook (go-mode . lsp)
+  :init
+  (setq read-process-output-max (* 2 1024 1024) ;; 2mb
+	lsp-log-io nil ;; disable logging IO requests/responses
+	lsp-use-plists t)  ;; Performance tweaks
+  (setq lsp-auto-guess-root t) ;; don't ask for project root detection
+  (setq lsp-headerline-breadcrumb-enable nil) ;; Disable UI elements
+  (setq lsp-keymap-prefix "C-c m")
+  :bind
+  (:map lsp-mode-map
+	("<f12>" . lsp-find-definition)
+	("<f2>" . lsp-rename)
+	("M-<f12>" . lsp-find-references)
+	("C-c C-c" . lsp-execute-code-action)
+	("C-<f12>" . lsp-find-implementation)))
+
+(use-package xref :straight nil
+  :bind
+  (("<f12>" . xref-find-definitions)
+   ("M-<f12>" . xref-find-references)))
+
+(use-package flymake :straight nil
+  :bind
+  (:map flymake-mode-map
+	("M-p" . flymake-goto-prev-error)
+	("M-n" . flymake-goto-next-error)))
