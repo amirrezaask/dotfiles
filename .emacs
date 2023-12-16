@@ -143,7 +143,7 @@
 (use-package dracula-theme)
 (use-package solarized-theme)
 (use-package amirreza-themes :no-require :straight (:host codeberg :repo "amirrezaask/themes" :local-repo "amirreza-themes"))
-(load-theme 'gruber-darker)
+(load-theme 'jonathan-blow)
 ;; Language modes
 (use-package go-mode)
 (use-package yaml-mode)
