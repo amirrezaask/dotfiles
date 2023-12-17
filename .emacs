@@ -5,9 +5,6 @@
 (setq ring-bell-function (lambda ())) ;; no stupid sounds
 (setq custom-file "~/.custom.el") ;; set custom file to not meddle with init.el
 (setq make-backup-files nil) ;; no emacs ~ backup files
-(global-set-key (kbd "C-z") 'undo)
-(global-unset-key (kbd "C-x C-z"))
-
 ;; package manager setup
 (setq package-enable-at-startup nil)
 (defvar bootstrap-version)
@@ -29,8 +26,6 @@
 (setq image-types (cons 'svg image-types)) ;; macos bug
 (setq mac-command-modifier 'meta) ;; macos again
 ;; Font stuff
-(global-set-key (kbd "C-=") (lambda () (interactive) (text-scale-increase 1)))
-(global-set-key (kbd "C--") (lambda () (interactive) (text-scale-decrease 1)))
 (setq --font-family "")
 (defun load-font (font fontsize)
   "Loads a font."
@@ -59,6 +54,7 @@
 (add-to-list 'exec-path "/opt/homebrew/bin") ;; homebrew
 (add-to-list 'exec-path (home "bin")) ;; GOPATH/bin
 (setenv "PATH" (string-join exec-path ":")) ;; set emacs process PATH
+
 ;; git integration
 (defun shell-execute (COMMAND)
   (interactive (read-string "Command: "))
@@ -78,47 +74,14 @@
 	 (chosen (completing-read (format "[%s] Git Files: " (git-repo-root)) files)))
     (find-file chosen)))
 
-(global-set-key (kbd "C-x p f") 'git-ls-files)
-
-(use-package magit
-  :bind
-  ("C-x g" . 'magit-status))
-
-(use-package vertico :init (setq vertico-cycle t) (setq vertico-count 25) (vertico-mode))
-(use-package marginalia :config (marginalia-mode))
-(use-package consult)
-(global-set-key "\C-xb" 'consult-buffer)
-
-(use-package orderless
-  :init
-  (setq completion-styles '(orderless basic)
-	completion-category-defaults nil
-	completion-category-overrides '((file (styles partial-completion)))))
-
-;; better navigation tools
-(defun find-file-dwim ()
-  (interactive)
-  (if (git-repo-root) (git-ls-files) (call-interactively 'find-file)))	
-
-(global-set-key (kbd "C-c o") 'find-file-dwim)
-
 (defun jump-up () (interactive) (next-line (* -1 (/ (window-height) 2))) (recenter-top-bottom))
 (defun jump-down () (interactive) (next-line (/ (window-height) 2)) (recenter-top-bottom))
 (setq recenter-positions '(middle))
-(global-set-key (kbd "C-v") 'jump-down) ;; better than default scroll up
-(global-set-key (kbd "M-v") 'jump-up)
-(global-set-key (kbd "<prior>") 'jump-up)
-(global-set-key (kbd "<next>") 'jump-down)
-(global-set-key (kbd "M-o") 'find-file-dwim)
-(global-set-key (kbd "C-0") 'delete-window)
 (setq custom-safe-themes t) ;; all themes are safe, don't ask
 (setq inhibit-startup-screen t) ;; disable default start screen
 (set-frame-parameter nil 'fullscreen 'maximized)
 (add-to-list 'default-frame-alist '(fullscreen . maximized)) ;; always start frames maximized
 (setq-default frame-title-format '("%e" (:eval default-directory)))
-(global-set-key "\C-x\C-c" 'delete-frame) ;; rebind exit key to just kill frame if possible
-(global-display-line-numbers-mode t) ;; line numbers
-(setq display-line-numbers 'relative) ;; relative line numbers
 (menu-bar-mode -1) ;; disable menu bar
 (tool-bar-mode -1) ;; disable tool bar
 (scroll-bar-mode -1) ;; disable scroll bar
@@ -127,23 +90,31 @@
 (global-auto-revert-mode +1) ;; auto refresh buffers from disk
 (delete-selection-mode) ;; when selected a text and user types delete text
 (use-package multiple-cursors :bind (("C->" . 'mc/mark-next-like-this) ("C-<" . 'mc/mark-previous-like-this))) ;; multi cursors
-(global-set-key (kbd "M-[") 'kmacro-start-macro-or-insert-counter) ;; start recording keyboard macro.
-(global-set-key (kbd "M-]") 'kmacro-end-or-call-macro-repeat) ;; end recording keyboard macro.
-(global-set-key (kbd "M-\\") 'split-window-horizontally)
-(global-set-key (kbd "M-=") 'split-window-vertically)
-(global-set-key (kbd "C-o") 'other-window)
-(global-set-key (kbd "C-q") 'dabbrev-expand) ;; expand current word with suggestions from all buffers.
 
-;; themes
-(defadvice load-theme (before disable-themes-first activate) (dolist (i custom-enabled-themes) (disable-theme i)))
-(use-package sweet-theme)
-(use-package ef-themes)
-(use-package gruvbox-theme)
-(use-package gruber-darker-theme)
-(use-package dracula-theme)
-(use-package solarized-theme)
-(use-package amirreza-themes :no-require :straight (:host codeberg :repo "amirrezaask/themes" :local-repo "amirreza-themes"))
-(load-theme 'jonathan-blow)
+(custom-set-faces
+ `(default ((t (:foreground "#d3b58d" :background "#072626"))))
+ `(cursor ((t (:background "lightgreen"))))
+ `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
+ `(font-lock-type-face              ((t (:foreground "#8cde94"))))
+ `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
+ `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
+ `(font-lock-builtin-face           ((t (:foreground "white"))))
+ `(font-lock-string-face            ((t (:foreground "#0fdfaf"))))
+ `(font-lock-comment-face           ((t (:foreground "#3fdf1f"))))
+ `(font-lock-comment-delimiter-face ((t (:foreground "#3fdf1f"))))
+ `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
+ `(font-lock-function-name-face     ((t (:foreground "white"))))
+ `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
+ `(font-lock-warning-face           ((t (:foreground "yellow"))))
+ `(mode-line ((t (:foreground "black" :background "#d3b58d"))))
+ `(mode-line-inactive ((t (:foreground "black" :background "white"))))
+ `(vertico-current ((t (:background "blue3"))))
+ `(error ((t (:background "black" :foreground "red"))))
+ `(flymake-error ((t (:background "black" :foreground "red"))))
+ `(flymake-warning ((t (:foreground "DarkOrange"))))
+ `(flymake-note ((t (:foreground "DarkOrange")))))
+
+
 ;; Language modes
 (use-package go-mode)
 (use-package yaml-mode)
@@ -172,9 +143,6 @@
    ("<f5>" . recompile)
    ("k" . kill-compilation)))
 
-(global-set-key (kbd "<f5>") 'compile-dwim)
-(global-set-key (kbd "C-:") 'compile-directory)
-(global-set-key (kbd "M-c") 'compile-dwim)
 
 (setq global-auto-revert-non-file-buffers t)
 (setq auto-revert-verbose nil)
@@ -204,35 +172,24 @@
   (let ((default-directory (or (when (git-repo-root) (git-repo-root)) (read-directory-name "Directory: "))))
     (call-interactively 'grep)))
 
-(global-set-key (kbd "M-s") 'grep-dwim)
-(global-set-key (kbd "C-S-f") 'grep-dwim)
-(global-set-key (kbd "C-S-s") 'occur)
 
-(setenv "LSP_USE_PLISTS" "true")
-(use-package lsp-mode
-  :hook (go-mode . lsp)
-  :init
-  (setq read-process-output-max (* 2 1024 1024) ;; 2mb
-	lsp-log-io nil ;; disable logging IO requests/responses
-	lsp-use-plists t)  ;; Performance tweaks
-  (setq lsp-auto-guess-root t) ;; don't ask for project root detection
-  (setq lsp-headerline-breadcrumb-enable nil) ;; Disable UI elements
-  (setq lsp-keymap-prefix "C-c m")
-  :bind
-  (:map lsp-mode-map
-	("<f12>" . lsp-find-definition)
-	("<f2>" . lsp-rename)
-	("M-<f12>" . lsp-find-references)
-	("C-c C-c" . lsp-execute-code-action)
-	("C-<f12>" . lsp-find-implementation)))
-
-(use-package xref :straight nil
-  :bind
-  (("<f12>" . xref-find-definitions)
-   ("M-<f12>" . xref-find-references)))
-
-(use-package flymake :straight nil
-  :bind
-  (:map flymake-mode-map
-	("M-p" . flymake-goto-prev-error)
-	("M-n" . flymake-goto-next-error)))
+(global-set-key (kbd "C-S-f") 'grep-dwim) ;; Smart grep
+(global-set-key (kbd "C-z") 'undo) ;; sane undo key
+(global-set-key (kbd "C-<return>") 'save-buffer) ;; Save with one combo not C-x C-s shit
+(global-set-key (kbd "<f5>") 'compile-dwim) ;; |> little green button of my IDE
+(global-set-key (kbd "C-:") 'compile-directory) ;; another type of green |> button
+(global-set-key (kbd "C-;") 'compile-dwim)
+(global-set-key (kbd "M-[") 'kmacro-start-macro-or-insert-counter) ;; start recording keyboard macro.
+(global-set-key (kbd "M-]") 'kmacro-end-or-call-macro-repeat) ;; end recording keyboard macro.
+(global-set-key (kbd "C-\\") 'split-window-horizontally)
+(global-set-key (kbd "M-=") 'split-window-vertically)
+(global-set-key (kbd "C-o") 'other-window)
+(global-set-key (kbd "C-q") 'dabbrev-expand) ;; expand current word with suggestions from all buffers.
+(global-set-key (kbd "C-v") 'jump-down) ;; better than default scroll up
+(global-set-key (kbd "M-v") 'jump-up)   
+(global-set-key (kbd "<prior>") 'jump-up)
+(global-set-key (kbd "<next>") 'jump-down)
+(global-set-key (kbd "C-0") 'delete-window)
+(global-set-key "\C-x\C-c" 'delete-frame) ;; rebind exit key to just kill frame if possible
+(global-set-key (kbd "C-=") (lambda () (interactive) (text-scale-increase 1)))
+(global-set-key (kbd "C--") (lambda () (interactive) (text-scale-decrease 1)))
