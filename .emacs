@@ -44,7 +44,7 @@
     (set-frame-font fontstring nil t)
     (set-face-attribute 'default t :font fontstring)))
 
-(load-font "Liberation Mono" 11)
+(load-font "Consolas" 11)
 ;; environment variables env
 (defun home (path)
   (expand-file-name path (getenv "HOME")))
