@@ -53,12 +53,18 @@
 (add-to-list 'exec-path (home ".cargo/bin"))
 (add-to-list 'exec-path "/opt/homebrew/bin") ;; homebrew
 (add-to-list 'exec-path (home "bin")) ;; GOPATH/bin
-(setenv "PATH" (string-join exec-path ":")) ;; set emacs process PATH
+(add-to-list 'exec-path "c:/programs/bin")
+
+(if (eq system-type 'windows-nt)
+	(setenv "PATH" (string-join exec-path ";"))
+	(setenv "PATH" (string-join exec-path ":"))) ;; set emacs process PATH
 
 ;; git integration
 (defun shell-execute (COMMAND)
   (interactive (read-string "Command: "))
-  (shell-command-to-string (format "sh -c 'printf \"$(%s)\"'" COMMAND)))
+  (if (eq system-type 'windows-nt)
+      (shell-command-to-string (format "cmd /c %s" COMMAND))
+      (shell-command-to-string (format "sh -c 'printf \"$(%s)\"'" COMMAND))))
 
 (defun git-repo-root (&optional DIR)
   (interactive (list (read-directory-name "Directory: ")))
@@ -89,7 +95,6 @@
 (setq kill-whole-line t) ;; kill line and newline char
 (global-auto-revert-mode +1) ;; auto refresh buffers from disk
 (delete-selection-mode) ;; when selected a text and user types delete text
-(use-package multiple-cursors :bind (("C->" . 'mc/mark-next-like-this) ("C-<" . 'mc/mark-previous-like-this))) ;; multi cursors
 
 (custom-set-faces
  `(default ((t (:foreground "#d3b58d" :background "#072626"))))
