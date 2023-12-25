@@ -1,6 +1,6 @@
 (setq frame-inhibit-implied-resize t) ;; Don't let emacs to resize frame when something inside changes
 (setq gc-cons-threshold 200000000) ;; 200 MB
-;; (setq debug-on-error t) ;; debug on error
+(setq debug-on-error t) ;; debug on error
 (setq vc-follow-symlinks t) ;; Follow symlinks with no questions
 (setq ring-bell-function (lambda ())) ;; no stupid sounds
 (setq custom-file "~/.custom.el") ;; set custom file to not meddle with init.el
@@ -58,28 +58,6 @@
 (if (eq system-type 'windows-nt)
 	(setenv "PATH" (string-join exec-path ";"))
 	(setenv "PATH" (string-join exec-path ":"))) ;; set emacs process PATH
-
-;; git integration
-(defun shell-execute (COMMAND)
-  (interactive (read-string "Command: "))
-  (if (eq system-type 'windows-nt)
-      (shell-command-to-string (format "cmd /c %s" COMMAND))
-      (shell-command-to-string (format "sh -c 'printf \"$(%s)\"'" COMMAND))))
-
-(defun git-repo-root (&optional DIR)
-  (interactive (list (read-directory-name "Directory: ")))
-  (let* ((default-directory (or DIR default-directory))
-	 (root (shell-execute  "git rev-parse --show-toplevel 2>/dev/null")))
-    (if (not (string= root "")) root nil)))
-
-(defun git-ls-files (&optional DIR)
-  (interactive)
-  (let* ((default-directory (or (git-repo-root) (read-directory-name "Directory: ")))
-	 (files (shell-execute "git ls-files"))
-	 (files (string-split files "\n"))
-	 (chosen (completing-read (format "[%s] Git Files: " (git-repo-root)) files)))
-    (find-file chosen)))
-
 (defun jump-up () (interactive) (next-line (* -1 (/ (window-height) 2))) (recenter-top-bottom))
 (defun jump-down () (interactive) (next-line (/ (window-height) 2)) (recenter-top-bottom))
 (setq recenter-positions '(middle))
@@ -91,14 +69,14 @@
 (menu-bar-mode -1) ;; disable menu bar
 (tool-bar-mode -1) ;; disable tool bar
 (scroll-bar-mode -1) ;; disable scroll bar
-(use-package corfu :config (global-corfu-mode)) ;; autocomplete
 (setq kill-whole-line t) ;; kill line and newline char
 (global-auto-revert-mode +1) ;; auto refresh buffers from disk
 (delete-selection-mode) ;; when selected a text and user types delete text
 
 (custom-set-faces
- `(default ((t (:foreground "#d3b58d" :background "#072626"))))
- `(cursor ((t (:background "lightgreen"))))
+ ;; `(default ((t (:foreground "#d3b58d" :background "#072626"))))
+ `(default ((t (:foreground "#d3b58d" :background "#161616"))))
+  `(cursor ((t (:background "lightgreen"))))
  `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
  `(font-lock-type-face              ((t (:foreground "#8cde94"))))
  `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
@@ -128,13 +106,6 @@
 (when (< emacs-major-version 29) (use-package csharp-mode))
 (use-package typescript-mode)
 (use-package lua-mode)
-
-(defun compile-dwim ()
-  "DWIM version of compile"
-  (interactive)
-  (cond
-   ((git-repo-root) (let ((default-directory (git-repo-root))) (call-interactively 'compile)))
-   (t (call-interactively 'compile))))
 
 (defun compile-directory (DIR)
   "Compile in a directory"
@@ -171,30 +142,21 @@
   (let ((default-directory DIR))
     (call-interactively 'grep)))
 
-(defun grep-dwim ()
-  "if inside a git repo do grep with repo root as cwd otherwise ask for cwd"
-  (interactive)
-  (let ((default-directory (or (when (git-repo-root) (git-repo-root)) (read-directory-name "Directory: "))))
-    (call-interactively 'grep)))
-
-
-(global-set-key (kbd "C-S-f") 'grep-dwim) ;; Smart grep
+(global-set-key (kbd "C-S-f") 'grep-directory)
 (global-set-key (kbd "C-z") 'undo) ;; sane undo key
 (global-set-key (kbd "C-<return>") 'save-buffer) ;; Save with one combo not C-x C-s shit
-(global-set-key (kbd "<f5>") 'compile-dwim) ;; |> little green button of my IDE
+(global-set-key (kbd "<f5>") 'compile-directory) ;; |> little green button of my IDE
 (global-set-key (kbd "C-:") 'compile-directory) ;; another type of green |> button
-(global-set-key (kbd "C-;") 'compile-dwim)
+(global-set-key (kbd "C-;") 'compile-directory)
 (global-set-key (kbd "M-[") 'kmacro-start-macro-or-insert-counter) ;; start recording keyboard macro.
 (global-set-key (kbd "M-]") 'kmacro-end-or-call-macro-repeat) ;; end recording keyboard macro.
 (global-set-key (kbd "C-\\") 'split-window-horizontally)
 (global-set-key (kbd "M-=") 'split-window-vertically)
 (global-set-key (kbd "C-o") 'other-window)
 (global-set-key (kbd "C-q") 'dabbrev-expand) ;; expand current word with suggestions from all buffers.
-(global-set-key (kbd "C-v") 'jump-down) ;; better than default scroll up
-(global-set-key (kbd "M-v") 'jump-up)   
-(global-set-key (kbd "<prior>") 'jump-up)
-(global-set-key (kbd "<next>") 'jump-down)
 (global-set-key (kbd "C-0") 'delete-window)
-(global-set-key "\C-x\C-c" 'delete-frame) ;; rebind exit key to just kill frame if possible
+(global-set-key (kbd "C-x C-c") 'delete-frame) ;; rebind exit key to just kill frame if possible
+(global-set-key (kbd "M-p") 'jump-up)
+(global-set-key (kbd "M-n") 'jump-down)
 (global-set-key (kbd "C-=") (lambda () (interactive) (text-scale-increase 1)))
 (global-set-key (kbd "C--") (lambda () (interactive) (text-scale-decrease 1)))
