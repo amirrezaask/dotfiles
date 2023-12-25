@@ -109,7 +109,7 @@
 
 (defun compile-directory (DIR)
   "Compile in a directory"
-  (interactive (list (read-directory-name "Directory: ")))
+  (interactive (list (read-directory-name "Compile Directory: ")))
   (let ((default-directory DIR))
     (call-interactively 'compile)))
 
@@ -138,11 +138,11 @@
     ))
 
 (defun grep-directory (DIR)
-  (interactive (list (read-directory-name "Directory: ")))
+  (interactive (list (read-directory-name "Grep Directory: ")))
   (let ((default-directory DIR))
     (call-interactively 'grep)))
 
-(global-set-key (kbd "C-S-f") 'grep-directory)
+(global-set-key (kbd "C-/") 'grep-directory)
 (global-set-key (kbd "C-z") 'undo) ;; sane undo key
 (global-set-key (kbd "C-<return>") 'save-buffer) ;; Save with one combo not C-x C-s shit
 (global-set-key (kbd "<f5>") 'compile-directory) ;; |> little green button of my IDE
