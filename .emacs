@@ -76,7 +76,6 @@
 (setq-default frame-title-format '("%e" (:eval default-directory)))
 (menu-bar-mode -1) ;; disable menu bar
 (tool-bar-mode -1) ;; disable tool bar
-(scroll-bar-mode -1) ;; disable scroll bar
 (setq kill-whole-line t) ;; kill line and newline char
 (global-auto-revert-mode +1) ;; auto refresh buffers from disk
 (delete-selection-mode) ;; when selected a text and user types delete text
@@ -110,6 +109,7 @@
 (when (< emacs-major-version 29) (use-package csharp-mode))
 (use-package typescript-mode)
 (use-package lua-mode)
+(use-package php-mode)
 
 
 ;; Compiling stuff
