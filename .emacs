@@ -5,6 +5,13 @@
 (setq ring-bell-function (lambda ())) ;; no stupid sounds
 (setq custom-file "~/.custom.el") ;; set custom file to not meddle with init.el
 (setq make-backup-files nil) ;; no emacs ~ backup files
+(setq is-windows (eq system-type 'windows-nt))
+(setq is-linux (eq system-type 'gnu-linux))
+(setq is-macos (eq system-type 'darwin))
+(defun edit-init ()
+  (interactive)
+  (find-file user-init-file))
+(global-set-key (kbd "C-x i") 'edit-init)
 ;; package manager setup
 (setq package-enable-at-startup nil)
 (defvar bootstrap-version)
@@ -56,8 +63,9 @@
 (add-to-list 'exec-path "c:/programs/bin")
 
 (if (eq system-type 'windows-nt)
-	(setenv "PATH" (string-join exec-path ";"))
-	(setenv "PATH" (string-join exec-path ":"))) ;; set emacs process PATH
+    (setenv "PATH" (string-join exec-path ";"))
+  (setenv "PATH" (string-join exec-path ":"))) ;; set emacs process PATH
+
 (defun jump-up () (interactive) (next-line (* -1 (/ (window-height) 2))) (recenter-top-bottom))
 (defun jump-down () (interactive) (next-line (/ (window-height) 2)) (recenter-top-bottom))
 (setq recenter-positions '(middle))
@@ -76,7 +84,7 @@
 (custom-set-faces
  ;; `(default ((t (:foreground "#d3b58d" :background "#072626"))))
  `(default ((t (:foreground "#d3b58d" :background "#161616"))))
-  `(cursor ((t (:background "lightgreen"))))
+ `(cursor ((t (:background "lightgreen"))))
  `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
  `(font-lock-type-face              ((t (:foreground "#8cde94"))))
  `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
@@ -92,11 +100,7 @@
  `(mode-line ((t (:foreground "black" :background "#d3b58d"))))
  `(mode-line-inactive ((t (:foreground "black" :background "white"))))
  `(vertico-current ((t (:background "blue3"))))
- `(error ((t (:background "black" :foreground "red"))))
- `(flymake-error ((t (:background "black" :foreground "red"))))
- `(flymake-warning ((t (:foreground "DarkOrange"))))
- `(flymake-note ((t (:foreground "DarkOrange")))))
-
+ `(error ((t (:background "black" :foreground "red")))))
 
 ;; Language modes
 (use-package go-mode)
@@ -107,48 +111,61 @@
 (use-package typescript-mode)
 (use-package lua-mode)
 
+
+;; Compiling stuff
 (defun compile-directory (DIR)
   "Compile in a directory"
-  (interactive (list (read-directory-name "Compile Directory: ")))
+  (interactive (list (read-directory-name "[Compile] Directory: ")))
   (let ((default-directory DIR))
     (call-interactively 'compile)))
 
-(use-package compile
-  :bind
-   (:map compilation-mode-map
-   ("<f5>" . recompile)
-   ("k" . kill-compilation)))
-
+(with-eval-after-load 'compile
+  (define-key compilation-mode-map (kbd "<f5>") 'recompile)
+  (define-key compilation-mode-map (kbd "k") 'kill-compilation))
 
 (setq global-auto-revert-non-file-buffers t)
 (setq auto-revert-verbose nil)
 
-(use-package wgrep) ;; Writeable Grep Buffers
-(use-package grep :straight nil
-  :bind
-  (:map grep-mode-map
-	("k" . kill-grep))
-  :config
-  (grep-apply-setting 'grep-command "grep --exclude-dir='.git' --color=auto -nH --null -r -e ")
-  (when (executable-find "rg") ;; use rg if available
-    (grep-apply-setting 'grep-command "rg --vimgrep ")
-    (grep-apply-setting 'grep-use-null-device nil))
-  (when (executable-find "ug")
-    (grep-apply-setting 'grep-command "ug --exclude-dir='.git' --color=auto -nH --null -r -e ")
-    ))
 
-(defun grep-directory (DIR)
-  (interactive (list (read-directory-name "Grep Directory: ")))
-  (let ((default-directory DIR))
-    (call-interactively 'grep)))
+;; Searching stuff
+(defun amirreza/rg (dir pattern)
+  "run Ripgrep"
+  (interactive (list (read-directory-name "[Ripgrep] Directory: ") (read-string "[Ripgrep] Pattern: ")))
+  (let* ((default-directory dir)
+	 (command (format "rg --vimgrep \"%s\" ." pattern)))
+    (compilation-start command 'grep-mode)))
 
-(global-set-key (kbd "C-/") 'grep-directory)
+(defun amirreza/ug (dir pattern)
+  (interactive (list (read-directory-name "[ug] Directory: ") (read-string "[ug] Pattern: ")))
+  (let* ((default-directory dir)
+	 (command (format "ug --exclude-dir=\".git\" --color=auto -nH --null -r -e \"%s\" ." pattern)))
+    (compilation-start command 'grep-mode)))
+
+(defun amirreza/gnu-grep (dir pattern)
+  (interactive (list (read-directory-name "[grep] Directory: ") (read-string "[grep] Pattern: ")))
+  (let* ((default-directory dir)
+	 (command (format "grep --exclude-dir=\".git\" --color=auto -nH --null -r -e \"%s\" ." pattern)))
+    (compilation-start command 'grep-mode)))
+
+(defun amirreza/grep-command ()
+  (interactive)
+  (cond
+   ((or (executable-find "rg") is-windows) (call-interactively 'amirreza/rg))
+   ((executable-find "ug") (call-interactively 'amirreza/ug))
+   (t (call-interactively 'amirreza/gnu-grep))))
+
+(with-eval-after-load 'grep
+  (define-key grep-mode-map (kbd "<f5>") 'recompile)
+  (define-key grep-mode-map (kbd "k") 'kill-compilation))
+
+;; Keymaps
+(global-set-key (kbd "M-o") 'find-file)
+(global-set-key (kbd "C-/") 'amirreza/grep-command) ;; Magical search
+(global-set-key (kbd "<f5>") 'compile-directory) ;; |> little green button of my IDE
+(global-set-key (kbd "C-:") 'compile-directory) ;; |> button
 (global-set-key (kbd "C-z") 'undo) ;; sane undo key
 (global-set-key (kbd "C-<return>") 'save-buffer) ;; Save with one combo not C-x C-s shit
-(global-set-key (kbd "<f5>") 'compile-directory) ;; |> little green button of my IDE
-(global-set-key (kbd "C-:") 'compile-directory) ;; another type of green |> button
-(global-set-key (kbd "C-;") 'compile-directory)
-(global-set-key (kbd "M-[") 'kmacro-start-macro-or-insert-counter) ;; start recording keyboard macro.
+(global-set-key (kbd "M-[") 'kmacro-start-macro-or-insert-counter) ;; start recording keyboard macro..
 (global-set-key (kbd "M-]") 'kmacro-end-or-call-macro-repeat) ;; end recording keyboard macro.
 (global-set-key (kbd "C-\\") 'split-window-horizontally)
 (global-set-key (kbd "M-=") 'split-window-vertically)
