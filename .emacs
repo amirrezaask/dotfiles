@@ -102,15 +102,8 @@
  `(error ((t (:background "black" :foreground "red")))))
 
 ;; Language modes
-(use-package go-mode)
-(use-package yaml-mode)
-(use-package json-mode)
-(use-package rust-mode)
-(when (< emacs-major-version 29) (use-package csharp-mode))
-(use-package typescript-mode)
-(use-package lua-mode)
-(use-package php-mode)
-
+(straight-use-package 'go-mode)
+(straight-use-package 'php-mode)
 
 ;; Compiling stuff
 (defun compile-directory (DIR)
