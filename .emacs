@@ -68,6 +68,7 @@
 
 (defun jump-up () (interactive) (next-line (* -1 (/ (window-height) 2))) (recenter-top-bottom))
 (defun jump-down () (interactive) (next-line (/ (window-height) 2)) (recenter-top-bottom))
+(setq split-window-preferred-function (lambda (window))) ;; Don't change my windows Emacs, please
 (setq recenter-positions '(middle))
 (setq custom-safe-themes t) ;; all themes are safe, don't ask
 (setq inhibit-startup-screen t) ;; disable default start screen
@@ -155,3 +156,5 @@
 (global-set-key (kbd "M-n") 'jump-down)
 (global-set-key (kbd "C-=") (lambda () (interactive) (text-scale-increase 1)))
 (global-set-key (kbd "C--") (lambda () (interactive) (text-scale-decrease 1)))
+(global-set-key (kbd "C->") 'end-of-buffer)
+(global-set-key (kbd "C-<") 'beginning-of-buffer)
