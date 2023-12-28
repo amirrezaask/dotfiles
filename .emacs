@@ -105,31 +105,34 @@
 
 
 ;; Searching stuff
-(defun amirreza/rg (dir pattern)
+(defun rg (dir pattern)
   "run Ripgrep"
   (interactive (list (read-directory-name "[Ripgrep] Directory: ") (read-string "[Ripgrep] Pattern: ")))
+  (unless (executable-find "rg") (error "ripgrep executable not found, install from https://github.com/BurntSushi/ripgrep/releases"))
   (let* ((default-directory dir)
 	 (command (format "rg --vimgrep \"%s\" ." pattern)))
     (compilation-start command 'grep-mode)))
 
-(defun amirreza/ug (dir pattern)
+(defun ug (dir pattern)
   (interactive (list (read-directory-name "[ug] Directory: ") (read-string "[ug] Pattern: ")))
+  (unless (executable-find "ug") (error "ugrep executable not found, install from https://github.com/Genivia/ugrep/releases"))
   (let* ((default-directory dir)
 	 (command (format "ug --exclude-dir=\".git\" --color=auto -nH --null -r -e \"%s\" ." pattern)))
     (compilation-start command 'grep-mode)))
 
-(defun amirreza/gnu-grep (dir pattern)
+(defun gnu-grep (dir pattern)
   (interactive (list (read-directory-name "[grep] Directory: ") (read-string "[grep] Pattern: ")))
+  (unless (executable-find "ug") (error "Gnu Grep executable not found"))
   (let* ((default-directory dir)
 	 (command (format "grep --exclude-dir=\".git\" --color=auto -nH --null -r -e \"%s\" ." pattern)))
     (compilation-start command 'grep-mode)))
 
-(defun amirreza/grep-command ()
+(defun grep-command ()
   (interactive)
   (cond
-   ((or (executable-find "rg") is-windows) (call-interactively 'amirreza/rg))
-   ((executable-find "ug") (call-interactively 'amirreza/ug))
-   (t (call-interactively 'amirreza/gnu-grep))))
+   ((or (executable-find "rg") is-windows) (call-interactively 'rg))
+   ((executable-find "ug") (call-interactively 'ug))
+   (t (call-interactively 'gnu-grep))))
 
 (with-eval-after-load 'grep
   (define-key grep-mode-map (kbd "<f5>") 'recompile)
@@ -137,7 +140,7 @@
 
 ;; Keymaps
 (global-set-key (kbd "M-o") 'find-file)
-(global-set-key (kbd "C-/") 'amirreza/grep-command) ;; Magical search
+(global-set-key (kbd "C-/") 'grep-command) ;; Magical search
 (global-set-key (kbd "<f5>") 'compile-directory) ;; |> little green button of my IDE
 (global-set-key (kbd "C-:") 'compile-directory) ;; |> button
 (global-set-key (kbd "C-;") 'kill-ring-save) ;; Copy
