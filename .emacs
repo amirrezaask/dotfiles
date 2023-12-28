@@ -79,27 +79,10 @@
 (setq kill-whole-line t) ;; kill line and newline char
 (global-auto-revert-mode +1) ;; auto refresh buffers from disk
 (delete-selection-mode) ;; when selected a text and user types delete text
-
-(custom-set-faces
- ;; `(default ((t (:foreground "#d3b58d" :background "#072626"))))
- `(default ((t (:foreground "#d3b58d" :background "#161616"))))
- `(cursor ((t (:background "lightgreen"))))
- `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
- `(font-lock-type-face              ((t (:foreground "#8cde94"))))
- `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
- `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
- `(font-lock-builtin-face           ((t (:foreground "white"))))
- `(font-lock-string-face            ((t (:foreground "#0fdfaf"))))
- `(font-lock-comment-face           ((t (:foreground "#3fdf1f"))))
- `(font-lock-comment-delimiter-face ((t (:foreground "#3fdf1f"))))
- `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
- `(font-lock-function-name-face     ((t (:foreground "white"))))
- `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
- `(font-lock-warning-face           ((t (:foreground "yellow"))))
- `(mode-line ((t (:foreground "black" :background "#d3b58d"))))
- `(mode-line-inactive ((t (:foreground "black" :background "white"))))
- `(vertico-current ((t (:background "blue3"))))
- `(error ((t (:background "black" :foreground "red")))))
+;; Themes
+(defadvice load-theme (before disable-themes-first activate) (dolist (i custom-enabled-themes) (disable-theme i))) ;; don't stack themes on each other
+(use-package amirreza-themes :no-require :straight '(:host github :repo "amirrezaask/themes" :local-repo "amirreza-themes"))
+(load-theme 'jonathan-blow)
 
 ;; Language modes
 (straight-use-package 'go-mode)
@@ -156,7 +139,9 @@
 (global-set-key (kbd "C-/") 'amirreza/grep-command) ;; Magical search
 (global-set-key (kbd "<f5>") 'compile-directory) ;; |> little green button of my IDE
 (global-set-key (kbd "C-:") 'compile-directory) ;; |> button
-(global-set-key (kbd "C-z") 'undo) ;; sane undo key
+(global-set-key (kbd "C-;") 'kill-ring-save) ;; Copy
+(global-set-key (kbd "C-'") 'yank) ;; Paste
+(global-set-key (kbd "C-z") 'undo) ;; Sane undo key
 (global-set-key (kbd "C-<return>") 'save-buffer) ;; Save with one combo not C-x C-s shit
 (global-set-key (kbd "M-[") 'kmacro-start-macro-or-insert-counter) ;; start recording keyboard macro..
 (global-set-key (kbd "M-]") 'kmacro-end-or-call-macro-repeat) ;; end recording keyboard macro.
