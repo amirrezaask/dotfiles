@@ -10,7 +10,9 @@
 (setq is-macos (eq system-type 'darwin))
 (defun edit-init ()
   (interactive)
-  (find-file user-init-file))
+  (if is-windows
+      (find-file "W:\\dotfiles\\.emacs")
+    (find-file "~/w/dotfiles/.emacs")))
 (global-set-key (kbd "C-x i") 'edit-init)
 ;; package manager setup
 (setq package-enable-at-startup nil)
