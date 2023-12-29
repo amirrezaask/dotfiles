@@ -66,7 +66,6 @@
 (delete-selection-mode) ;; when selected a text and user types delete text
 
 ;; Install packages
-(unless package-archive-contents (package-refresh-contents))
 (defun install (PKG) (unless (package-installed-p PKG) (package-install PKG)))
 (install 'go-mode)
 (install 'php-mode)
