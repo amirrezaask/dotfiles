@@ -139,7 +139,7 @@
 (global-set-key (kbd "M-o") 'find-file)
 (global-set-key (kbd "C-/") 'grep-command) ;; Magical search
 (global-set-key (kbd "<f5>") 'compile-directory) ;; |> little green button of my IDE
-(global-set-key (kbd "C-:") 'compile-directory) ;; |> button
+(global-set-key (kbd "M-m") 'compile-directory) ;; |> button
 (global-set-key (kbd "C-;") 'kill-ring-save) ;; Copy
 (global-set-key (kbd "C-'") 'yank) ;; Paste
 (global-set-key (kbd "C-z") 'undo) ;; Sane undo key
