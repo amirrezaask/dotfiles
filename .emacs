@@ -14,24 +14,7 @@
       (find-file "W:\\dotfiles\\.emacs")
     (find-file "~/w/dotfiles/.emacs")))
 (global-set-key (kbd "C-x i") 'edit-init)
-;; package manager setup
-(setq package-enable-at-startup nil)
-(defvar bootstrap-version)
-(let ((bootstrap-file
-       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-      (bootstrap-version 6))
-  (unless (file-exists-p bootstrap-file)
-    (with-current-buffer
-        (url-retrieve-synchronously
-         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
-         'silent 'inhibit-cookies)
-      (goto-char (point-max))
-      (eval-print-last-sexp)))
-  (load bootstrap-file nil 'nomessage)) ;; package manager setup
-(straight-use-package 'use-package)
-(setq straight-use-package-by-default t)
-(setq native-comp-async-report-warnings-errors 'silent) ;; silent native compilation warns
-(setq use-short-answers t) ;; 
+(setq use-short-answers t) ;; Always prefer short answers
 (setq image-types (cons 'svg image-types)) ;; macos bug
 (setq mac-command-modifier 'meta) ;; macos again
 ;; Font stuff
@@ -54,7 +37,7 @@
     (set-face-attribute 'default t :font fontstring)))
 
 (load-font "Consolas" 11)
-;; environment variables env
+
 (defun home (path)
   (expand-file-name path (getenv "HOME")))
 (add-to-list 'exec-path (home ".local/bin"))
@@ -72,7 +55,6 @@
 (defun jump-down () (interactive) (next-line (/ (window-height) 2)) (recenter-top-bottom))
 (setq split-window-preferred-function (lambda (window))) ;; Don't change my windows Emacs, please
 (setq recenter-positions '(middle))
-(setq custom-safe-themes t) ;; all themes are safe, don't ask
 (setq inhibit-startup-screen t) ;; disable default start screen
 (set-frame-parameter nil 'fullscreen 'maximized)
 (add-to-list 'default-frame-alist '(fullscreen . maximized)) ;; always start frames maximized
@@ -82,14 +64,25 @@
 (setq kill-whole-line t) ;; kill line and newline char
 (global-auto-revert-mode +1) ;; auto refresh buffers from disk
 (delete-selection-mode) ;; when selected a text and user types delete text
+
+;; Install packages
+(unless package-archive-contents (package-refresh-contents))
+(defun install (PKG) (unless (package-installed-p PKG) (package-install PKG)))
+(install 'go-mode)
+(install 'php-mode)
+(install 'gruber-darker-theme)
+
 ;; Themes
 (defadvice load-theme (before disable-themes-first activate) (dolist (i custom-enabled-themes) (disable-theme i))) ;; don't stack themes on each other
-(use-package amirreza-themes :no-require :straight '(:host github :repo "amirrezaask/themes" :local-repo "amirreza-themes"))
-(load-theme 'jonathan-blow)
-
-;; Language modes
-(straight-use-package 'go-mode)
-(straight-use-package 'php-mode)
+(setq custom-safe-themes t) ;; all themes are safe, don't ask
+(setq themes-directory (expand-file-name "themes" user-emacs-directory))
+(add-to-list 'custom-theme-load-path themes-directory)
+(defun theme-file (name) (expand-file-name name themes-directory))
+(defun theme-exists (name) (file-exists-p (theme-file name)))
+(unless (file-exists-p themes-directory) (make-directory themes-directory))
+(unless (theme-exists "jonathan-blow-theme.el") (url-copy-file "https://raw.githubusercontent.com/amirrezaask/themes/main/jonathan-blow-theme.el" (theme-file "jonathan-blow-theme.el") t))
+(unless (theme-exists "handmadehero-theme.el") (url-copy-file "https://raw.githubusercontent.com/amirrezaask/themes/main/handmadehero-theme.el" (theme-file "handmadehero-theme.el") t))
+(load-theme 'handmadehero)
 
 ;; Compiling stuff
 (defun compile-directory (DIR)
