@@ -98,6 +98,8 @@
 (setq global-auto-revert-non-file-buffers t)
 (setq auto-revert-verbose nil)
 
+;; C/C++
+(setq-default c-basic-offset 4)
 
 ;; Searching stuff
 (defun rg (dir pattern)
