@@ -147,7 +147,6 @@
 (global-set-key (kbd "M-]") 'kmacro-end-or-call-macro-repeat) ;; end recording keyboard macro.
 (global-set-key (kbd "C-\\") 'split-window-horizontally)
 (global-set-key (kbd "M-=") 'split-window-vertically)
-(global-set-key (kbd "C-o") 'other-window)
 (global-set-key (kbd "C-q") 'dabbrev-expand) ;; expand current word with suggestions from all buffers.
 (global-set-key (kbd "C-0") 'delete-window)
 (global-set-key (kbd "C-x C-c") 'delete-frame) ;; rebind exit key to just kill frame if possible
@@ -157,7 +156,6 @@
 (global-set-key (kbd "C--") (lambda () (interactive) (text-scale-decrease 1)))
 (global-set-key (kbd "C->") 'end-of-buffer)
 (global-set-key (kbd "C-<") 'beginning-of-buffer)
-
 
 ;; Split window since no other code can do it
 (split-window-horizontally)
