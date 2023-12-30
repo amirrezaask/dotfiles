@@ -81,7 +81,7 @@
 (unless (file-exists-p themes-directory) (make-directory themes-directory))
 (unless (theme-exists "jonathan-blow-theme.el") (url-copy-file "https://raw.githubusercontent.com/amirrezaask/themes/main/jonathan-blow-theme.el" (theme-file "jonathan-blow-theme.el") t))
 (unless (theme-exists "handmadehero-theme.el") (url-copy-file "https://raw.githubusercontent.com/amirrezaask/themes/main/handmadehero-theme.el" (theme-file "handmadehero-theme.el") t))
-(load-theme 'handmadehero)
+(load-theme 'modus-vivendi)
 
 ;; Compiling stuff
 (defun compile-directory (DIR)
@@ -157,3 +157,7 @@
 (global-set-key (kbd "C--") (lambda () (interactive) (text-scale-decrease 1)))
 (global-set-key (kbd "C->") 'end-of-buffer)
 (global-set-key (kbd "C-<") 'beginning-of-buffer)
+
+
+;; Split window since no other code can do it
+(split-window-horizontally)
