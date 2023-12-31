@@ -414,12 +414,9 @@ require "lazy".setup({
                     },
                 },
             })
-
-            -- -- Install all treesitter parsers.
-            -- pcall(require("nvim-treesitter.install").update({ with_sync = true }))
         end,
     }
-    }, {
+}, {
     change_detection = {
         -- automatically check for config file changes and reload the ui
         enabled = true,
