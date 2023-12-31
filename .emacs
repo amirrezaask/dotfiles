@@ -61,6 +61,7 @@
 (setq-default frame-title-format '("%e" (:eval default-directory)))
 (menu-bar-mode -1) ;; disable menu bar
 (tool-bar-mode -1) ;; disable tool bar
+(scroll-bar-mode -1) ;; disable scroll bar
 (setq kill-whole-line t) ;; kill line and newline char
 (global-auto-revert-mode +1) ;; auto refresh buffers from disk
 (delete-selection-mode) ;; when selected a text and user types delete text
@@ -139,8 +140,6 @@
 (global-set-key (kbd "C-/") 'grep-command) ;; Magical search
 (global-set-key (kbd "<f5>") 'compile-directory) ;; |> little green button of my IDE
 (global-set-key (kbd "M-m") 'compile-directory) ;; |> button
-(global-set-key (kbd "C-;") 'kill-ring-save) ;; Copy
-(global-set-key (kbd "C-'") 'yank) ;; Paste
 (global-set-key (kbd "C-z") 'undo) ;; Sane undo key
 (global-set-key (kbd "C-<return>") 'save-buffer) ;; Save with one combo not C-x C-s shit
 (global-set-key (kbd "M-[") 'kmacro-start-macro-or-insert-counter) ;; start recording keyboard macro..
