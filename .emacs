@@ -63,6 +63,7 @@
 (tool-bar-mode -1) ;; disable tool bar
 (scroll-bar-mode -1) ;; disable scroll bar
 (setq kill-whole-line t) ;; kill line and newline char
+(pixel-scroll-precision-mode +1) ;; Smooth scrolling
 (global-auto-revert-mode +1) ;; auto refresh buffers from disk
 (delete-selection-mode) ;; when selected a text and user types delete text
 
@@ -70,7 +71,6 @@
 (defun install (PKG) (unless (package-installed-p PKG) (package-install PKG)))
 (install 'go-mode)
 (install 'php-mode)
-(install 'gruber-darker-theme)
 
 ;; Themes
 (defadvice load-theme (before disable-themes-first activate) (dolist (i custom-enabled-themes) (disable-theme i))) ;; don't stack themes on each other
@@ -82,7 +82,7 @@
 (unless (file-exists-p themes-directory) (make-directory themes-directory))
 (unless (theme-exists "jonathan-blow-theme.el") (url-copy-file "https://raw.githubusercontent.com/amirrezaask/themes/main/jonathan-blow-theme.el" (theme-file "jonathan-blow-theme.el") t))
 (unless (theme-exists "handmadehero-theme.el") (url-copy-file "https://raw.githubusercontent.com/amirrezaask/themes/main/handmadehero-theme.el" (theme-file "handmadehero-theme.el") t))
-(load-theme 'modus-vivendi)
+(load-theme 'handmadehero)
 
 ;; Compiling stuff
 (defun compile-directory (DIR)
@@ -90,6 +90,24 @@
   (interactive (list (read-directory-name "[Compile] Directory: ")))
   (let ((default-directory DIR))
     (call-interactively 'compile)))
+
+(defun make-compile-function (dir command)
+  (lambda ()
+    (let ((default-directory dir))
+      (compilation-start command))))
+
+(setq compile-receipes '( ;; Regex pattern as key and value would be (DIR COMMAND) that will be passed into (compilation-start)
+			 ("w:\\/Clockwork\\/.*" . ("w:/Clockwork/" ".\\build.bat"))
+			 ))
+
+(defun compile-dwim ()
+  (interactive)
+  (let* ((dir (file-name-directory (buffer-file-name (current-buffer))))
+	 (args (alist-get dir compile-receipes nil nil 'string-match-p)))
+    (message "Compilation args are '%s'" args)
+    (if args
+	(let ((default-directory (car args))) (compilation-start (car (cdr args))))
+      (call-interactively 'compile-directory))))
 
 (with-eval-after-load 'compile
   (define-key compilation-mode-map (kbd "<f5>") 'recompile)
@@ -102,6 +120,7 @@
 (setq-default c-basic-offset 4)
 
 ;; Searching stuff
+;; TODO(amirreza): C-. to search thing at point
 (defun rg (dir pattern)
   "run Ripgrep"
   (interactive (list (read-directory-name "[Ripgrep] Directory: ") (read-string "[Ripgrep] Pattern: ")))
@@ -138,8 +157,8 @@
 ;; Keymaps
 (global-set-key (kbd "M-o") 'find-file)
 (global-set-key (kbd "C-/") 'grep-command) ;; Magical search
-(global-set-key (kbd "<f5>") 'compile-directory) ;; |> little green button of my IDE
-(global-set-key (kbd "M-m") 'compile-directory) ;; |> button
+(global-set-key (kbd "<f5>") 'compile-dwim) ;; |> little green button of my IDE
+(global-set-key (kbd "M-m") 'compile-dwim) ;; |> button
 (global-set-key (kbd "C-z") 'undo) ;; Sane undo key
 (global-set-key (kbd "C-<return>") 'save-buffer) ;; Save with one combo not C-x C-s shit
 (global-set-key (kbd "M-[") 'kmacro-start-macro-or-insert-counter) ;; start recording keyboard macro..

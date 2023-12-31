@@ -140,6 +140,7 @@ require "lazy".setup({
                         return ftype
                     end,
                 },
+                clangd = {},
                 gopls = {},
                 lua_ls = {
                     settings = {
