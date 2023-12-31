@@ -108,11 +108,14 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 
+-- plugins goes here
 require "lazy".setup({
-    -- plugins goes here
+    -- Colorschemes
     { "rose-pine/neovim",         name = "rose-pine",          opts = { disable_italics = true } },
     { "ellisonleao/gruvbox.nvim", opts = { contrast = 'hard' } },
     { "catppuccin/nvim",          name = "catppuccin",         opts = { flavor = "macchiato" } },
+
+    -- LSP
     {
         "neovim/nvim-lspconfig",
         dependencies = { "williamboman/mason.nvim" },
@@ -193,6 +196,8 @@ require "lazy".setup({
             require("lspconfig.ui.windows").default_options.border = "rounded"
         end,
     },
+
+    -- Git support
     {
         "lewis6991/gitsigns.nvim",
         config = function()
@@ -225,16 +230,8 @@ require "lazy".setup({
             }
         }
     },
-    {
-        "utilyre/barbecue.nvim",
-        name = "barbecue",
-        dependencies = {
-            "SmiteshP/nvim-navic",
-            "nvim-tree/nvim-web-devicons", -- optional dependency
-        },
-        opts = {
-        },
-    },
+
+
     "tpope/vim-abolish",                    -- useful text stuff
     { "numToStr/Comment.nvim", opts = {} }, -- Comment stuff like a boss
     "fladson/vim-kitty",                    -- Support Kitty terminal config syntax
@@ -243,27 +240,14 @@ require "lazy".setup({
     "tpope/vim-sleuth",
     { 'kevinhwang91/nvim-bqf' },            -- Peek location on quick fix list items
     {
-        'stevearc/oil.nvim',
-        opts = {},
-        -- Optional dependencies
-        dependencies = { "nvim-tree/nvim-web-devicons" },
-    },
-    {
         "lukas-reineke/indent-blankline.nvim",
         main = "ibl",
         opts = {
             scope = { enabled = false }
         }
     },
-    {
-        "folke/which-key.nvim",
-        init = function()
-            vim.o.timeout = true
-            vim.o.timeoutlen = 300
-        end,
-        opts = {
-        }
-    },
+
+    -- Autocomplete
     {
         "hrsh7th/nvim-cmp",
         dependencies = {
@@ -304,6 +288,9 @@ require "lazy".setup({
             })
         end,
     },
+
+
+    -- Telescope Fuzzy finder
     {
 
         "nvim-telescope/telescope.nvim",
@@ -311,7 +298,6 @@ require "lazy".setup({
             "nvim-lua/plenary.nvim",
             { "nvim-telescope/telescope-fzf-native.nvim", build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build" },
             "nvim-telescope/telescope-ui-select.nvim",
-            "nvim-tree/nvim-web-devicons", -- optional dependency
         },
         config = function()
             require("telescope").setup({
@@ -359,21 +345,8 @@ require "lazy".setup({
         end,
 
     },
-    {
-        'nvim-lualine/lualine.nvim',
-        requires = { 'nvim-tree/nvim-web-devicons', opt = true },
-        opts = {
-            sections = {
-                lualine_a = { 'mode' },
-                lualine_b = { 'branch', 'diff', 'diagnostics' },
-                lualine_c = { 'filename' },
-                lualine_x = { 'encoding', 'fileformat', 'filetype' },
-                lualine_y = { 'progress' },
-                lualine_z = { 'location' }
-            },
-            tabline = {},
-        }
-    },
+
+    -- Treesitter Syntax Highlighting
     {
         "nvim-treesitter/nvim-treesitter",
         dependencies = {
@@ -387,17 +360,12 @@ require "lazy".setup({
                 ignore_install = {},
                 modules = {},
                 ensure_installed = {
-                    "json",
-                    "yaml",
                     "c",
                     "cpp",
                     "lua",
                     "rust",
                     "go",
-                    "python",
                     "php",
-                    "ocaml",
-                    "sql",
                 },
                 context_commentstring = { enable = true },
                 highlight = { enable = true, additional_vim_regex_highlighting = false },
