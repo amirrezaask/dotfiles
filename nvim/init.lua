@@ -96,6 +96,8 @@ vim.keymap.set({ "i", "n", "t" }, "<C-k>", "<cmd>tabnext<CR>")
 vim.keymap.set({ "i", "n", "t" }, "<C-j>", "<cmd>tabprev<CR>")
 vim.keymap.set("i", "<C-a>", "<C-x><C-o>") -- simpler omnifunc completion
 
+
+vim.cmd("map <LeftDrag> <LeftMouse>")
 -- Plugins
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -199,41 +201,6 @@ require "lazy".setup({
             require("lspconfig.ui.windows").default_options.border = "rounded"
         end,
     },
-
-    -- Git support
-    {
-        "lewis6991/gitsigns.nvim",
-        config = function()
-            require("gitsigns").setup({
-                signs = {
-                    add = { text = "+" },
-                    change = { text = "~" },
-                    delete = { text = "_" },
-                    topdelete = { text = "‾" },
-                    changedelete = { text = "~" },
-                },
-            })
-
-            vim.keymap.set("n", "<leader>l", "<cmd>Gitsigns blame_line<CR>")
-        end,
-    },
-    "tpope/vim-fugitive",
-    "junegunn/gv.vim",
-    {
-        'sindrets/diffview.nvim',
-        opts = {
-
-            keymaps = {
-                view = {
-                    ["q"] = ":DiffviewClose<CR>"
-                },
-                file_panel = {
-                    ["q"] = ":DiffviewClose<CR>"
-                }
-            }
-        }
-    },
-
 
     "tpope/vim-abolish",                    -- useful text stuff
     { "numToStr/Comment.nvim", opts = {} }, -- Comment stuff like a boss
@@ -409,6 +376,7 @@ local function _4coder_fluery_theme()
     vim.cmd("hi! Boolean guifg=#ffa900")
     vim.cmd("hi! LineNr guibg=#101010 guifg=#404040")
     vim.cmd("hi! Identifier guifg=#b99468")
+    vim.cmd("hi! @variable guifg=#b99468")
     vim.cmd("hi! Type guifg=#d8a51d")
     vim.cmd("hi! Constant guifg=#6b8e23 ctermfg=none")
     vim.cmd("hi! StatusLine guifg=#cb9401 guibg=#1f1f27 gui=none ")
