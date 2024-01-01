@@ -38,6 +38,7 @@ vim.opt.guicursor = ''
 vim.g.loaded_netrw = 1 -- disabling netrw
 vim.g.loaded_netrwPlugin = 1
 vim.opt.completeopt = "menu"
+vim.opt.statusline = "%q%w%h%r%m%f %y %l:%c %p%%"
 
 vim.api.nvim_create_user_command("TTerm", function()
     vim.cmd [[ tabnew | term ]]
@@ -395,4 +396,83 @@ vim.api.nvim_create_autocmd("BufWritePre", {
     end,
 })
 
-vim.cmd.colorscheme("gruvbox")
+local function _4coder_fluery_theme()
+    vim.cmd("hi Normal guibg=#020202 guifg=#b99468")
+    vim.cmd("hi NonText guibg=#020202 guifg=#b99468")
+    vim.cmd("hi Visual guibg=#303040")
+    vim.cmd("hi CursorLine guibg=#303040")
+    vim.cmd("hi Comment guifg=#666666")
+    vim.cmd("hi Keyword guifg=#f0c674")
+    vim.cmd("hi String guifg=#ffa900")
+    vim.cmd("hi Character guifg=#ffa900")
+    vim.cmd("hi Number guifg=#ffa900")
+    vim.cmd("hi Boolean guifg=#ffa900")
+    vim.cmd("hi LineNr guibg=#101010 guifg=#404040")
+    vim.cmd("hi Identifier guifg=#b99468")
+
+    vim.cmd("hi SignColumn guibg=#020202 guifg=#b99468")
+    vim.cmd("hi! link DiffText SignColumn")
+    vim.cmd("hi! link DiffAdd SignColumn")
+    vim.cmd("hi! link DiffChange SignColumn")
+    vim.cmd("hi! link DiffDelete SignColumn")
+
+
+    vim.cmd("hi Pmenu guibg=#303040")
+    vim.cmd("hi PmenuSel guibg=#020202")
+end
+
+local function handmadehero_theme()
+    vim.cmd("hi Normal guibg=#161616 guifg=#cdaa7d")
+    vim.cmd("hi Cursor guibg=#00ff00")
+    vim.cmd("hi NonText guifg=#cdaa7d guibg=#161616")
+    vim.cmd("hi Visual guibg=#191970")
+    vim.cmd("hi CursorLine guibg=#2e2d2d")
+    vim.cmd("hi Comment guifg=#7f7f7f")
+    vim.cmd("hi Keyword guifg=#cd950c")
+    vim.cmd("hi String guifg=#6b8e23")
+    vim.cmd("hi Character guifg=#6b8e23")
+    vim.cmd("hi Number guifg=#6b8e23")
+    vim.cmd("hi Boolean guifg=#6b8e23")
+    vim.cmd("hi LineNr guibg=#101010 guifg=#404040")
+    vim.cmd("hi Identifier guifg=#b99468")
+
+    vim.cmd("hi! link SignColumn Normal")
+    vim.cmd("hi! link DiffText SignColumn")
+    vim.cmd("hi! link DiffAdd SignColumn")
+    vim.cmd("hi! link DiffChange SignColumn")
+    vim.cmd("hi! link DiffDelete SignColumn")
+
+    vim.cmd("hi Pmenu guibg=#2e2d2d")
+    vim.cmd("hi PmenuSel guibg=#191970")
+end
+
+
+local function naysayer_theme()
+    vim.cmd("hi Normal guibg=#072626 guifg=#d3b58d")
+    vim.cmd("hi Cursor guibg=#00ff00")
+    vim.cmd("hi NonText guibg=#072626 guifg=#d3b58d")
+    vim.cmd("hi Visual guibg=#0000cd")
+    vim.cmd("hi CursorLine guibg=#0b4040")
+
+    vim.cmd("hi Comment guifg=#3fdf1f")
+    vim.cmd("hi Keyword guifg=#d4d4d4")
+    vim.cmd("hi String guifg=#0fdfaf")
+    vim.cmd("hi Character guifg=#7ad0c6")
+    vim.cmd("hi Number guifg=#7ad0c6")
+    vim.cmd("hi Boolean guifg=#7ad0c6")
+    vim.cmd("hi Identifier guifg=#c8d4ec")
+    vim.cmd("hi Constant guifg=#7ad0c6")
+
+    vim.cmd("hi LineNr guibg=#072626 guifg=#d3b58d")
+
+    vim.cmd("hi! SignColumn guibg=#072626 guifg=#d3b58d")
+    vim.cmd("hi! link DiffText SignColumn")
+    vim.cmd("hi! link DiffAdd SignColumn")
+    vim.cmd("hi! link DiffChange SignColumn")
+    vim.cmd("hi! link DiffDelete SignColumn")
+
+    vim.cmd("hi Pmenu guibg=#2e2d2d")
+    vim.cmd("hi PmenuSel guibg=#191970")
+end
+
+_4coder_fluery_theme()

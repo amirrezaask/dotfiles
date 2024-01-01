@@ -60,6 +60,7 @@
 (add-to-list 'default-frame-alist '(fullscreen . maximized)) ;; always start frames maximized
 (setq-default frame-title-format '("%e" (:eval default-directory)))
 (menu-bar-mode -1) ;; disable menu bar
+(global-hl-line-mode +1) ;; Highlight current line
 (tool-bar-mode -1) ;; disable tool bar
 (scroll-bar-mode -1) ;; disable scroll bar
 (setq kill-whole-line t) ;; kill line and newline char
@@ -82,7 +83,8 @@
 (unless (file-exists-p themes-directory) (make-directory themes-directory))
 (unless (theme-exists "jonathan-blow-theme.el") (url-copy-file "https://raw.githubusercontent.com/amirrezaask/themes/main/jonathan-blow-theme.el" (theme-file "jonathan-blow-theme.el") t))
 (unless (theme-exists "handmadehero-theme.el") (url-copy-file "https://raw.githubusercontent.com/amirrezaask/themes/main/handmadehero-theme.el" (theme-file "handmadehero-theme.el") t))
-(load-theme 'handmadehero)
+(unless (theme-exists "4coder-fleury-theme.el") (url-copy-file "https://raw.githubusercontent.com/amirrezaask/themes/main/4coder-fleury-theme.el" (theme-file "4coder-fleury-theme.el") t))
+(load-theme '4coder-fleury)
 
 ;; Compiling stuff
 (defun compile-directory (DIR)
