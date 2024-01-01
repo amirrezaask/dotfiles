@@ -18,12 +18,12 @@
 (setq image-types (cons 'svg image-types)) ;; macos bug
 (setq mac-command-modifier 'meta) ;; macos again
 ;; Font stuff
-(setq --font-family "")
+(setq font-family "")
 (defun load-font (font fontsize)
   "Loads a font."
   (interactive (list (read-string "Font Family: ") (read-number "Font Size: ")))
   (let ((fontstring (format "%s %d" font fontsize)))
-    (setq --font-family font)
+    (setq font-family font)
     (add-to-list 'default-frame-alist `(font . ,fontstring))
     (set-frame-font fontstring nil t)
     (set-face-attribute 'default t :font fontstring)))
@@ -31,12 +31,12 @@
 (defun set-font-size (fontsize)
   "Set a font size"
   (interactive (list (read-number "Font Size: ")))
-  (let ((fontstring (format "%s %d" --font-family fontsize)))
+  (let ((fontstring (format "%s %d" font-family fontsize)))
     (add-to-list 'default-frame-alist `(font . ,fontstring))
     (set-frame-font fontstring nil t)
     (set-face-attribute 'default t :font fontstring)))
 
-(load-font "Consolas" 11)
+(load-font "Fira Code" 11)
 
 (defun home (path)
   (expand-file-name path (getenv "HOME")))
@@ -93,11 +93,6 @@
   (let ((default-directory DIR))
     (call-interactively 'compile)))
 
-(defun make-compile-function (dir command)
-  (lambda ()
-    (let ((default-directory dir))
-      (compilation-start command))))
-
 (setq compile-receipes '( ;; Regex pattern as key and value would be (DIR COMMAND) that will be passed into (compilation-start)
 			 ("w:\\/Clockwork\\/.*" . ("w:/Clockwork/" ".\\build.bat"))
 			 ))
@@ -106,7 +101,9 @@
   (interactive)
   (let* ((dir (file-name-directory (buffer-file-name (current-buffer))))
 	 (args (alist-get dir compile-receipes nil nil 'string-match-p)))
-    (message "Compilation args are '%s'" args)
+    (when args
+      (message "Compilation Command is '%s'" (car (cdr args)))
+      (message "Compilation Dir is '%s'" (car args)))
     (if args
 	(let ((default-directory (car args))) (compilation-start (car (cdr args))))
       (call-interactively 'compile-directory))))
@@ -122,7 +119,6 @@
 (setq-default c-basic-offset 4)
 
 ;; Searching stuff
-;; TODO(amirreza): C-. to search thing at point
 (defun rg (dir pattern)
   "run Ripgrep"
   (interactive (list (read-directory-name "[Ripgrep] Directory: ") (read-string "[Ripgrep] Pattern: ")))
@@ -157,7 +153,7 @@
   (define-key grep-mode-map (kbd "k") 'kill-compilation))
 
 ;; Keymaps
-(global-set-key (kbd "M-o") 'find-file)
+(global-set-key (kbd "C-.") 'isearch-forward-thing-at-point)
 (global-set-key (kbd "C-/") 'grep-command) ;; Magical search
 (global-set-key (kbd "<f5>") 'compile-dwim) ;; |> little green button of my IDE
 (global-set-key (kbd "M-m") 'compile-dwim) ;; |> button
@@ -165,10 +161,9 @@
 (global-set-key (kbd "C-<return>") 'save-buffer) ;; Save with one combo not C-x C-s shit
 (global-set-key (kbd "M-[") 'kmacro-start-macro-or-insert-counter) ;; start recording keyboard macro..
 (global-set-key (kbd "M-]") 'kmacro-end-or-call-macro-repeat) ;; end recording keyboard macro.
-(global-set-key (kbd "C-\\") 'split-window-horizontally)
-(global-set-key (kbd "M-=") 'split-window-vertically)
+(global-set-key (kbd "C-3") 'split-window-horizontally)
+(global-set-key (kbd "C-2") 'split-window-vertically)
 (global-set-key (kbd "C-q") 'dabbrev-expand) ;; expand current word with suggestions from all buffers.
-(global-set-key (kbd "C-0") 'delete-window)
 (global-set-key (kbd "C-x C-c") 'delete-frame) ;; rebind exit key to just kill frame if possible
 (global-set-key (kbd "M-p") 'jump-up)
 (global-set-key (kbd "M-n") 'jump-down)
