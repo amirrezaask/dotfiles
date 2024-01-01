@@ -37,6 +37,7 @@ vim.opt.laststatus = 3
 vim.opt.guicursor = ''
 vim.g.loaded_netrw = 1 -- disabling netrw
 vim.g.loaded_netrwPlugin = 1
+vim.opt.completeopt = "menu"
 
 vim.api.nvim_create_user_command("TTerm", function()
     vim.cmd [[ tabnew | term ]]
@@ -113,7 +114,6 @@ require "lazy".setup({
     -- Colorschemes
     { "rose-pine/neovim",         name = "rose-pine",          opts = { disable_italics = true } },
     { "ellisonleao/gruvbox.nvim", opts = { contrast = 'hard' } },
-    { "catppuccin/nvim",          name = "catppuccin",         opts = { flavor = "macchiato" } },
 
     -- LSP
     {
@@ -235,20 +235,9 @@ require "lazy".setup({
 
     "tpope/vim-abolish",                    -- useful text stuff
     { "numToStr/Comment.nvim", opts = {} }, -- Comment stuff like a boss
-    "fladson/vim-kitty",                    -- Support Kitty terminal config syntax
-    "towolf/vim-helm",                      -- Support for helm template syntax
     "jansedivy/jai.vim",                    -- Jai from Jonathan Blow
-    "tpope/vim-sleuth",
-    { 'kevinhwang91/nvim-bqf' },            -- Peek location on quick fix list items
-    {
-        "lukas-reineke/indent-blankline.nvim",
-        main = "ibl",
-        opts = {
-            scope = { enabled = false }
-        }
-    },
+    "tpope/vim-sleuth",                     -- set buffer options heuristically
 
-    -- Autocomplete
     {
         "hrsh7th/nvim-cmp",
         dependencies = {
@@ -265,6 +254,9 @@ require "lazy".setup({
             local cmp = require("cmp")
             cmp.setup({
                 preselect = require("cmp.types").cmp.PreselectMode.None,
+                completion = {
+                    autocomplete = false,
+                },
                 window = {
                     completion = cmp.config.window.bordered(),
                     documentation = cmp.config.window.bordered(),
@@ -290,7 +282,7 @@ require "lazy".setup({
         end,
     },
 
-
+    --
     -- Telescope Fuzzy finder
     {
 
