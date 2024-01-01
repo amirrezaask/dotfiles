@@ -93,6 +93,7 @@ vim.keymap.set("n", "k", "gk")
 vim.keymap.set("t", "<esc>", [[<C-\><C-n>]])
 vim.keymap.set({ "i", "n", "t" }, "<C-k>", "<cmd>tabnext<CR>")
 vim.keymap.set({ "i", "n", "t" }, "<C-j>", "<cmd>tabprev<CR>")
+vim.keymap.set("i", "<C-a>", "<C-x><C-o>") -- simpler omnifunc completion
 
 -- Plugins
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
