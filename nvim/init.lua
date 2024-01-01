@@ -5,9 +5,43 @@
 -- /_/  |_/_/ /_/ /_/_/_/  /_/   \___/ /___/\__,_/_/  |_/____/_/|_|
 -- AmirrezaAsk neovim configuration
 
+-- Color theme
+local function _4coder_fluery_theme()
+    vim.cmd("hi! Normal guibg=#020202 guifg=#b99468")
+    vim.cmd("hi! NonText guibg=#020202 guifg=#b99468")
+    vim.cmd("hi! Visual guibg=#303040")
+    vim.cmd("hi! CursorLine guibg=#171616")
+    vim.cmd("hi! Comment guifg=#666666")
+    vim.cmd("hi! Keyword guifg=#f0c674")
+    vim.cmd("hi! String guifg=#ffa900")
+    vim.cmd("hi! Character guifg=#ffa900")
+    vim.cmd("hi! Number guifg=#ffa900")
+    vim.cmd("hi! Boolean guifg=#ffa900")
+    vim.cmd("hi! LineNr guibg=#101010 guifg=#404040")
+    vim.cmd("hi! Identifier guifg=#b99468")
+    vim.cmd("hi! @variable guifg=#b99468")
+    vim.cmd("hi! Macro guifg=#478980")
+    vim.cmd("hi! link Include Macro")
+    vim.cmd("hi! Type guifg=#d8a51d")
+    vim.cmd("hi! Constant guifg=#6b8e23 ctermfg=none")
+    vim.cmd("hi! StatusLine guifg=#cb9401 guibg=#1f1f27 gui=none ")
+    vim.cmd("hi! Function guifg=#cc5735")
+    vim.cmd("hi! Punctuation guifg=#907553")
+
+    vim.cmd("hi SignColumn guibg=#020202 guifg=#b99468")
+    vim.cmd("hi! link DiffText SignColumn")
+    vim.cmd("hi! link DiffAdd SignColumn")
+    vim.cmd("hi! link DiffChange SignColumn")
+    vim.cmd("hi! link DiffDelete SignColumn")
+
+
+    vim.cmd("hi Pmenu guibg=#303040")
+    vim.cmd("hi PmenuSel guibg=#020202")
+end
+
+_4coder_fluery_theme()
+
 -- Options
-vim.opt.number = true         -- Line numbers
-vim.opt.relativenumber = true -- Relative line numbers
 vim.opt.errorbells = false
 vim.opt.smartindent = true
 vim.opt.wrap = true
@@ -39,10 +73,6 @@ vim.g.loaded_netrw = 1 -- disabling netrw
 vim.g.loaded_netrwPlugin = 1
 vim.opt.completeopt = "menu"
 vim.opt.statusline = "%q%w%h%r%m%f %y %l:%c %p%%"
-
-vim.api.nvim_create_user_command("TTerm", function()
-    vim.cmd [[ tabnew | term ]]
-end, {})
 
 -- Keymaps
 vim.g.mapleader =
@@ -168,30 +198,7 @@ require "lazy".setup({
             end
             vim.diagnostic.config({ virtual_text = true })
 
-            vim.api.nvim_create_autocmd("LspAttach", {
-                callback = function(args)
-                    local bufnr = args.buf
-                    vim.api.nvim_set_option_value("omnifunc", "v:lua.vim.lsp.omnifunc",
-                        { buf = bufnr })
-                    local buffer = function(desc)
-                        return { buffer = bufnr, desc = desc }
-                    end
-                    vim.keymap.set("n", "gd", vim.lsp.buf.definition, buffer("Goto Definition"))
-                    vim.keymap.set("n", "gD", vim.lsp.buf.declaration, buffer("Goto Declaration"))
-                    vim.keymap.set("n", "gi", vim.lsp.buf.implementation, buffer("Goto Implementation"))
-                    vim.keymap.set("n", "gr", vim.lsp.buf.references, buffer("Goto References"))
-                    vim.keymap.set("n", "R", vim.lsp.buf.rename, buffer("Rename"))
-                    vim.keymap.set("n", "K", vim.lsp.buf.hover, buffer("Hover"))
-                    vim.keymap.set("n", "<leader>f", vim.lsp.buf.format, buffer("Format"))
-                    vim.keymap.set("n", "gl", vim.diagnostic.open_float, buffer(""))
-                    vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, buffer("Next Diagnostic"))
-                    vim.keymap.set("n", "]d", vim.diagnostic.goto_next, buffer("Previous Diagnostic"))
-                    vim.keymap.set("n", "C", vim.lsp.buf.code_action, buffer("Code Actions"))
-                    vim.keymap.set("n", "<C-s>", vim.lsp.buf.signature_help, buffer("Signature Help"))
-                    vim.keymap.set("i", "<C-s>", vim.lsp.buf.signature_help, buffer("Signature Help"))
-                end,
-            })
-            -- Hover and signature help windows have rounded borders
+           -- Hover and signature help windows have rounded borders
             vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover,
                 { border = "rounded" })
             vim.lsp.handlers["textDocument/signatureHelp"] =
@@ -277,33 +284,6 @@ require "lazy".setup({
                     },
                 },
             })
-
-            -- require("telescope").load_extension("fzf")  -- load fzf awesomnes into Telescope
-            require("telescope").load_extension("ui-select") -- Use telescope for vim.ui.select
-            local telescope_builtin = require("telescope.builtin")
-            local no_preview = { previewer = false }
-
-            vim.keymap.set("n", "<C-p>", function()
-                telescope_builtin.git_files(no_preview)
-            end, { desc = "Git Files" })
-            vim.keymap.set("n", "<leader>b", function()
-                telescope_builtin.buffers(no_preview)
-            end, { desc = "Telescope Buffers" })
-            vim.keymap.set("n", "<leader><leader>", function()
-                telescope_builtin.find_files(no_preview)
-            end, { desc = "Find Files" })
-            vim.keymap.set("n", "<leader>ff", function()
-                telescope_builtin.find_files(no_preview)
-            end, { desc = "Find Files" })
-            vim.keymap.set("n", "<leader>w", function()
-                telescope_builtin.grep_string({ layout_config = { height = 0.7, width = 0.9 } })
-            end, { desc = "Grep for word at point" })
-            vim.keymap.set("n", "<leader>o", function()
-                telescope_builtin.treesitter(no_preview)
-            end, { desc = "Search Symbols In Current File" })
-            vim.keymap.set("n", "??", function()
-                telescope_builtin.live_grep({ layout_config = { height = 0.9, width = 0.9 } })
-            end, { desc = "Live Grep" })
         end,
 
     },
@@ -345,7 +325,7 @@ require "lazy".setup({
                 },
             })
         end,
-    }
+    },
 }, {
     change_detection = {
         -- automatically check for config file changes and reload the ui
@@ -363,89 +343,41 @@ vim.api.nvim_create_autocmd("BufWritePre", {
     end,
 })
 
-local function _4coder_fluery_theme()
-    vim.cmd("hi! Normal guibg=#020202 guifg=#b99468")
-    vim.cmd("hi! NonText guibg=#020202 guifg=#b99468")
-    vim.cmd("hi! Visual guibg=#303040")
-    vim.cmd("hi! CursorLine guibg=#303040")
-    vim.cmd("hi! Comment guifg=#666666")
-    vim.cmd("hi! Keyword guifg=#f0c674")
-    vim.cmd("hi! String guifg=#ffa900")
-    vim.cmd("hi! Character guifg=#ffa900")
-    vim.cmd("hi! Number guifg=#ffa900")
-    vim.cmd("hi! Boolean guifg=#ffa900")
-    vim.cmd("hi! LineNr guibg=#101010 guifg=#404040")
-    vim.cmd("hi! Identifier guifg=#b99468")
-    vim.cmd("hi! @variable guifg=#b99468")
-    vim.cmd("hi! Type guifg=#d8a51d")
-    vim.cmd("hi! Constant guifg=#6b8e23 ctermfg=none")
-    vim.cmd("hi! StatusLine guifg=#cb9401 guibg=#1f1f27 gui=none ")
-    vim.cmd("hi! Function guifg=#cc5735")
-    vim.cmd("hi! Punctuation guifg=#907553")
+-- require("telescope").load_extension("fzf")  -- load fzf awesomnes into Telescope
+require("telescope").load_extension("ui-select") -- Use telescope for vim.ui.select
+local telescope_builtin = require("telescope.builtin")
+local telescope_no_preview = { previewer = false }
 
-    vim.cmd("hi SignColumn guibg=#020202 guifg=#b99468")
-    vim.cmd("hi! link DiffText SignColumn")
-    vim.cmd("hi! link DiffAdd SignColumn")
-    vim.cmd("hi! link DiffChange SignColumn")
-    vim.cmd("hi! link DiffDelete SignColumn")
+vim.keymap.set("n", "<C-p>", function() telescope_builtin.git_files(telescope_no_preview) end)
+vim.keymap.set("n", "<leader>b", function() telescope_builtin.buffers(telescope_no_preview) end)
+vim.keymap.set("n", "<leader><leader>", function() telescope_builtin.find_files(telescope_no_preview) end)
+vim.keymap.set("n", "<leader>ff", function() telescope_builtin.find_files(telescope_no_preview) end)
+vim.keymap.set("n", "<leader>.", function() telescope_builtin.grep_string({ layout_config = { height = 0.7, width = 0.9 } }) end)
+vim.keymap.set("n", "<leader>o", function() telescope_builtin.treesitter(telescope_no_preview) end)
+vim.keymap.set("n", "??", function() telescope_builtin.live_grep({ layout_config = { height = 0.9, width = 0.9 } }) end)
+vim.keymap.set("n", "<leader>w", function() telescope_builtin.lsp_workspace_symbols(telescope_no_preview) end)
 
+vim.api.nvim_create_autocmd("LspAttach", {
+    callback = function(args)
+        local bufnr = args.buf
+        vim.api.nvim_set_option_value("omnifunc", "v:lua.vim.lsp.omnifunc",
+            { buf = bufnr })
+        local buffer = function(desc)
+            return { buffer = bufnr, desc = desc }
+        end
+        vim.keymap.set("n", "gd", vim.lsp.buf.definition, buffer("Goto Definition"))
+        vim.keymap.set("n", "gD", vim.lsp.buf.declaration, buffer("Goto Declaration"))
+        vim.keymap.set("n", "gi", vim.lsp.buf.implementation, buffer("Goto Implementation"))
+        vim.keymap.set("n", "gr", vim.lsp.buf.references, buffer("Goto References"))
+        vim.keymap.set("n", "R", vim.lsp.buf.rename, buffer("Rename"))
+        vim.keymap.set("n", "K", vim.lsp.buf.hover, buffer("Hover"))
+        vim.keymap.set("n", "<leader>f", vim.lsp.buf.format, buffer("Format"))
+        vim.keymap.set("n", "gl", vim.diagnostic.open_float, buffer(""))
+        vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, buffer("Next Diagnostic"))
+        vim.keymap.set("n", "]d", vim.diagnostic.goto_next, buffer("Previous Diagnostic"))
+        vim.keymap.set("n", "C", vim.lsp.buf.code_action, buffer("Code Actions"))
+        vim.keymap.set("n", "<C-s>", vim.lsp.buf.signature_help, buffer("Signature Help"))
+        vim.keymap.set("i", "<C-s>", vim.lsp.buf.signature_help, buffer("Signature Help"))
+    end,
+})
 
-    vim.cmd("hi Pmenu guibg=#303040")
-    vim.cmd("hi PmenuSel guibg=#020202")
-end
-
-local function handmadehero_theme()
-    vim.cmd("hi Normal guibg=#161616 guifg=#cdaa7d")
-    vim.cmd("hi Cursor guibg=#00ff00")
-    vim.cmd("hi NonText guifg=#cdaa7d guibg=#161616")
-    vim.cmd("hi Visual guibg=#191970")
-    vim.cmd("hi CursorLine guibg=#2e2d2d")
-    vim.cmd("hi Comment guifg=#7f7f7f")
-    vim.cmd("hi Keyword guifg=#cd950c")
-    vim.cmd("hi String guifg=#6b8e23")
-    vim.cmd("hi Character guifg=#6b8e23")
-    vim.cmd("hi Number guifg=#6b8e23")
-    vim.cmd("hi Boolean guifg=#6b8e23")
-    vim.cmd("hi LineNr guibg=#101010 guifg=#404040")
-    vim.cmd("hi Identifier guifg=#b99468")
-
-    vim.cmd("hi! link SignColumn Normal")
-    vim.cmd("hi! link DiffText SignColumn")
-    vim.cmd("hi! link DiffAdd SignColumn")
-    vim.cmd("hi! link DiffChange SignColumn")
-    vim.cmd("hi! link DiffDelete SignColumn")
-
-    vim.cmd("hi Pmenu guibg=#2e2d2d")
-    vim.cmd("hi PmenuSel guibg=#191970")
-end
-
-
-local function naysayer_theme()
-    vim.cmd("hi Normal guibg=#072626 guifg=#d3b58d")
-    vim.cmd("hi Cursor guibg=#00ff00")
-    vim.cmd("hi NonText guibg=#072626 guifg=#d3b58d")
-    vim.cmd("hi Visual guibg=#0000cd")
-    vim.cmd("hi CursorLine guibg=#0b4040")
-
-    vim.cmd("hi Comment guifg=#3fdf1f")
-    vim.cmd("hi Keyword guifg=#d4d4d4")
-    vim.cmd("hi String guifg=#0fdfaf")
-    vim.cmd("hi Character guifg=#7ad0c6")
-    vim.cmd("hi Number guifg=#7ad0c6")
-    vim.cmd("hi Boolean guifg=#7ad0c6")
-    vim.cmd("hi Identifier guifg=#c8d4ec")
-    vim.cmd("hi Constant guifg=#7ad0c6")
-
-    vim.cmd("hi LineNr guibg=#072626 guifg=#d3b58d")
-
-    vim.cmd("hi! SignColumn guibg=#072626 guifg=#d3b58d")
-    vim.cmd("hi! link DiffText SignColumn")
-    vim.cmd("hi! link DiffAdd SignColumn")
-    vim.cmd("hi! link DiffChange SignColumn")
-    vim.cmd("hi! link DiffDelete SignColumn")
-
-    vim.cmd("hi Pmenu guibg=#2e2d2d")
-    vim.cmd("hi PmenuSel guibg=#191970")
-end
-
-_4coder_fluery_theme()
