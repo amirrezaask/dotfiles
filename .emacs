@@ -73,6 +73,17 @@
 (install 'go-mode)
 (install 'php-mode)
 (install 'lsp-mode)
+(install 'vertico)
+(install 'orderless)
+
+
+;; Minibuffer improvement
+(setq vertico-cycle t)
+(setq vertico-count 25)
+(vertico-mode)
+(setq completion-styles '(orderless basic)
+	completion-category-defaults nil
+	completion-category-overrides '((file (styles partial-completion))))
 
 ;; Themes
 (defadvice load-theme (before disable-themes-first activate) (dolist (i custom-enabled-themes) (disable-theme i))) ;; don't stack themes on each other
@@ -85,7 +96,7 @@
 (unless (theme-exists "jonathan-blow-theme.el") (url-copy-file "https://raw.githubusercontent.com/amirrezaask/themes/main/jonathan-blow-theme.el" (theme-file "jonathan-blow-theme.el") t))
 (unless (theme-exists "handmadehero-theme.el") (url-copy-file "https://raw.githubusercontent.com/amirrezaask/themes/main/handmadehero-theme.el" (theme-file "handmadehero-theme.el") t))
 (unless (theme-exists "4coder-fleury-theme.el") (url-copy-file "https://raw.githubusercontent.com/amirrezaask/themes/main/4coder-fleury-theme.el" (theme-file "4coder-fleury-theme.el") t))
-(load-theme '4coder-fleury)
+(load-theme 'handmadehero)
 
 ;; Compiling stuff
 (defun compile-directory (DIR)
@@ -117,18 +128,6 @@
 (setq auto-revert-verbose nil)
 
 
-;; Golang
-(setq amirreza-golang-imenu-generic-expression '((nil "^type *\\([^
-]*\\)" 1)
-			     (nil "^func *\\(.*\\) {" 1)))
-
-(with-eval-after-load 'go-mode
-  (add-hook 'go-mode-hook (lambda ()
-			    (setq-local imenu-generic-expression amirreza-golang-imenu-generic-expression))))
-
-;; C/C++
-(setq-default c-default-style "linux"
-	      c-basic-offset 4)
 ;; Searching stuff
 (defun rg (dir pattern)
   "run Ripgrep"
@@ -152,20 +151,55 @@
 	 (command (format "grep --exclude-dir=\".git\" --color=auto -nH --null -r -e \"%s\" ." pattern)))
     (compilation-start command 'grep-mode)))
 
-(defun grep-command ()
-  (interactive)
+(defun grep (dir pattern)
+  (interactive (list (read-directory-name "[Grep] Directory: ") (read-string "[Grep] Pattern: ")))
   (cond
-   ((or (executable-find "rg") is-windows) (call-interactively 'rg))
-   ((executable-find "ug") (call-interactively 'ug))
-   (t (call-interactively 'gnu-grep))))
+   ((or (executable-find "rg") is-windows) (rg dir pattern))
+   ((executable-find "ug") (ug dir pattern))
+   (t (gnu-grep dir pattern))))
 
 (with-eval-after-load 'grep
   (define-key grep-mode-map (kbd "<f5>") 'recompile)
   (define-key grep-mode-map (kbd "k") 'kill-compilation))
 
+
+;; this part contains some regexes that will be defined for each language and let us do search based on language syntax
+(defvar amirreza-find-functions-regex nil)
+(defvar amirreza-find-types-regex nil)
+
+(defun amirreza-find-functions (DIR)
+  (interactive (list (read-directory-name "[Functions] Directory: ")))
+  (when (string-equal amirreza-find-functions-regex "") (error "No regex defined for this mode"))
+  (grep DIR amirreza-find-functions-regex))
+
+(with-eval-after-load 'elisp-mode
+  (add-hook 'emacs-lisp-mode-hook (lambda ()
+				    (setq-local amirreza-find-functions-regex "\\(defun"))))
+
+;; Golang
+(setq amirreza-golang-imenu-generic-expression '((nil "^type *\\([^
+]*\\)" 1)
+						 (nil "^func *\\(.*\\) {" 1)))
+
+(defun amirreza-go-hook ()
+  (message "My Go Hook")
+  (setq-local imenu-generic-expression amirreza-golang-imenu-generic-expression)
+  (setq-local amirreza-find-functions-regex "^func *\\(.*\\) \\{"))
+
+(with-eval-after-load 'go-mode (add-hook 'go-mode-hook 'amirreza-go-hook))
+
+;; C/C++
+(defun amirreza-c++-hook ()
+  (message "My CC Hook"))
+
+(setq-default c-default-style "linux"
+	      c-basic-offset 4)
+
+(add-hook 'c++-mode-hook 'amirreza-c++-hook)
+
 ;; Keymaps
 (global-set-key (kbd "C-.") 'isearch-forward-thing-at-point)
-(global-set-key (kbd "C-/") 'grep-command) ;; Magical search
+(global-set-key (kbd "C-/") 'grep) ;; Magical search
 (global-set-key (kbd "<f5>") 'compile-dwim) ;; |> little green button of my IDE
 (global-set-key (kbd "M-m") 'compile-dwim) ;; |> button
 (global-set-key (kbd "C-z") 'undo) ;; Sane undo key
