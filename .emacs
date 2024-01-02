@@ -36,7 +36,7 @@
     (set-frame-font fontstring nil t)
     (set-face-attribute 'default t :font fontstring)))
 
-(load-font "Fira Code" 11)
+(load-font "Liberation Mono" 11)
 
 (defun home (path)
   (expand-file-name path (getenv "HOME")))
@@ -72,6 +72,7 @@
 (defun install (PKG) (unless (package-installed-p PKG) (package-install PKG)))
 (install 'go-mode)
 (install 'php-mode)
+(install 'lsp-mode)
 
 ;; Themes
 (defadvice load-theme (before disable-themes-first activate) (dolist (i custom-enabled-themes) (disable-theme i))) ;; don't stack themes on each other
@@ -115,9 +116,19 @@
 (setq global-auto-revert-non-file-buffers t)
 (setq auto-revert-verbose nil)
 
-;; C/C++
-(setq-default c-basic-offset 4)
 
+;; Golang
+(setq amirreza-golang-imenu-generic-expression '((nil "^type *\\([^
+]*\\)" 1)
+			     (nil "^func *\\(.*\\) {" 1)))
+
+(with-eval-after-load 'go-mode
+  (add-hook 'go-mode-hook (lambda ()
+			    (setq-local imenu-generic-expression amirreza-golang-imenu-generic-expression))))
+
+;; C/C++
+(setq-default c-default-style "linux"
+	      c-basic-offset 4)
 ;; Searching stuff
 (defun rg (dir pattern)
   "run Ripgrep"
@@ -171,6 +182,6 @@
 (global-set-key (kbd "C--") (lambda () (interactive) (text-scale-decrease 1)))
 (global-set-key (kbd "C->") 'end-of-buffer)
 (global-set-key (kbd "C-<") 'beginning-of-buffer)
-
+(global-set-key (kbd "M-i") 'imenu)
 ;; Split window since no other code can do it
 (split-window-horizontally)
