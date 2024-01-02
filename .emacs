@@ -182,7 +182,7 @@
 						 (nil "^func *\\(.*\\) {" 1)))
 
 (defun amirreza-go-hook ()
-  (message "My Go Hook")
+  (message "Amirreza Go Hook")
   (setq-local imenu-generic-expression amirreza-golang-imenu-generic-expression)
   (setq-local amirreza-find-functions-regex "^func *\\(.*\\) \\{"))
 
@@ -190,12 +190,28 @@
 
 ;; C/C++
 (defun amirreza-c++-hook ()
-  (message "My CC Hook"))
+  (message "Amirreza CC Hook"))
 
 (setq-default c-default-style "linux"
 	      c-basic-offset 4)
 
 (add-hook 'c++-mode-hook 'amirreza-c++-hook)
+
+;; PHP
+(defun amirreza-php-hook ()
+  (message "Amirreza PHP Hook")
+  (setq-local amirreza-find-functions-regex "function\\s+.*\\(.*\\)")
+  (setq-local imenu-generic-expression
+	      '((nil "\\(?:^\\s-*\\(\\(?:\\(?:\\(?:abstract\\|final\\|p\\(?:r\\(?:ivate\\|otected\\)\\|ublic\\)\\|static\\)\\s-+\\)*\\)*function\\s-+\\(?:&\\s-*\\)?\\(\\(?:\\sw\\|\\s_\\)+\\)\\s-*(.*$\\)\\)" 1)
+	       (nil "^\\s-*\\(\\(?:\\(?:p\\(?:r\\(?:ivate\\|otected\\)\\|ublic\\)\\|static\\|var\\)\\s-+\\)+\\(?:\\(?:[?|]?\\(?:\\\\\\|\\sw\\|\\s_\\)\\s-+\\)?\\)*\\$\\(?:\\sw\\|\\s_\\)+\\b\\)" 1)
+	       (nil "^\\s-*\\(\\(?:\\(?:p\\(?:r\\(?:ivate\\|otected\\)\\|ublic\\)\\)\\s-+\\)*const\\s-+\\(?:\\sw\\|\\s_\\)+\\s-*\\(?:=\\s-*.\\{0,40\\}\\)?\\)" 1)
+	       (nil "^\\s-*\\(function\\s-+\\(?:\\sw\\|\\s_\\)+\\s-*(.\\{0,100\\}\\)" 1)
+	       (nil "Classes" "^\\s-*\\(?:\\(?:abstract\\|final\\)\\s-+\\)?\\(?:class\\|interface\\|trait\\|enum\\)\\s-+\\(\\(?:\\sw\\|\\\\\\|\\s_\\)+\\)" 0)
+	       (nil "^\\s-*\\(?:\\(?:abstract\\|final\\)\\s-+\\)?namespace\\s-+\\(\\(?:\\sw\\|\\\\\\|\\s_\\)+\\)" 1))
+
+	      )
+  )
+(with-eval-after-load 'php-mode (add-hook 'php-mode-hook 'amirreza-php-hook))
 
 ;; Keymaps
 (global-set-key (kbd "C-.") 'isearch-forward-thing-at-point)
