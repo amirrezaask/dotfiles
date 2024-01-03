@@ -6,6 +6,49 @@
 -- AmirrezaAsk neovim configuration
 
 -- Color theme
+local function hl(name, bg, fg, link)
+    local cmd = ""
+    if bg == nil and fg == nil and link == nil then return end
+    if bg ~= nil then cmd = string.format("guibg=%s", bg) end
+    if fg ~= nil then cmd = string.format("%s guifg=%s", cmd, fg) end
+    if link == nil then
+        vim.cmd(string.format("hi! %s %s", name, cmd))
+    else
+        vim.cmd(string.format("hi! link %s %s", name, link))
+    end
+end
+local function handmadehero()
+    local colors = {}
+    colors.Normal = { bg = "#161616", guifg = "#cdaa7d" }
+    colors.NonText = colors.Normal
+    colors.Visual = { bg = "#191970" }
+    colors.CursorLine = { bg = "#171616" }
+    colors.Comment = { fg = "#7f7f7f" }
+    colors.Keyword = { fg = "#cd950c" }
+    colors.String = { fg = "#6b8e23" }
+    colors.Character = { fg = "#6b8e23" }
+    colors.Boolean = { fg = "#6b8e23" }
+    -- colors.LineNr = { bg = "#101010", fg = "#404040" }
+    colors.Identifier = { fg = "#cdaa7d" }
+    colors["@variable"] = { link = "Identifier" }
+    colors.Macro = { fg = "#8cde94" }
+    colors.Include = { link = "Macro" }
+    colors.Type = { fg = "#cdaa7d" }
+    colors.Constant = { fg = "#6b8e23" }
+    colors.Function = { fg = "#cdaa7d" }
+    colors.Punctuation = { fg = "#cdaa7d" }
+    colors.SignColumn = { bg = "#020202", fg = "#b99468" }
+    colors.DiffText = { link = "SignColumn" }
+    colors.DiffAdd = { link = "SignColumn" }
+    colors.DiffChange = { link = "SignColumn" }
+    colors.DiffDelete = { link = "SignColumn" }
+    colors.Pmenu = { bg = "#303040"}
+    colors.PmenuSel = { bg = "#020202"}
+    for k,v in pairs(colors) do
+        hl(k, v.bg, v.fg, v.link)
+    end
+end
+
 local function _4coder_fluery_theme()
     vim.cmd("hi! Normal guibg=#020202 guifg=#b99468")
     vim.cmd("hi! NonText guibg=#020202 guifg=#b99468")
@@ -39,7 +82,8 @@ local function _4coder_fluery_theme()
     vim.cmd("hi PmenuSel guibg=#020202")
 end
 
-_4coder_fluery_theme()
+-- _4coder_fluery_theme()
+handmadehero()
 
 -- Options
 vim.opt.errorbells = false
@@ -198,7 +242,7 @@ require "lazy".setup({
             end
             vim.diagnostic.config({ virtual_text = true })
 
-           -- Hover and signature help windows have rounded borders
+            -- Hover and signature help windows have rounded borders
             vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover,
                 { border = "rounded" })
             vim.lsp.handlers["textDocument/signatureHelp"] =
@@ -352,7 +396,8 @@ vim.keymap.set("n", "<C-p>", function() telescope_builtin.git_files(telescope_no
 vim.keymap.set("n", "<leader>b", function() telescope_builtin.buffers(telescope_no_preview) end)
 vim.keymap.set("n", "<leader><leader>", function() telescope_builtin.find_files(telescope_no_preview) end)
 vim.keymap.set("n", "<leader>ff", function() telescope_builtin.find_files(telescope_no_preview) end)
-vim.keymap.set("n", "<leader>.", function() telescope_builtin.grep_string({ layout_config = { height = 0.7, width = 0.9 } }) end)
+vim.keymap.set("n", "<leader>.",
+    function() telescope_builtin.grep_string({ layout_config = { height = 0.7, width = 0.9 } }) end)
 vim.keymap.set("n", "<leader>o", function() telescope_builtin.treesitter(telescope_no_preview) end)
 vim.keymap.set("n", "??", function() telescope_builtin.live_grep({ layout_config = { height = 0.9, width = 0.9 } }) end)
 vim.keymap.set("n", "<leader>w", function() telescope_builtin.lsp_workspace_symbols(telescope_no_preview) end)
@@ -380,4 +425,3 @@ vim.api.nvim_create_autocmd("LspAttach", {
         vim.keymap.set("i", "<C-s>", vim.lsp.buf.signature_help, buffer("Signature Help"))
     end,
 })
-

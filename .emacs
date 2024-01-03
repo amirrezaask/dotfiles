@@ -86,6 +86,8 @@
 (unless (theme-exists "4coder-fleury-theme.el") (url-copy-file "https://raw.githubusercontent.com/amirrezaask/themes/main/4coder-fleury-theme.el" (theme-file "4coder-fleury-theme.el") t))
 (load-theme 'handmadehero)
 
+(fido-mode +1)
+
 ;; Compiling stuff
 (defun compile-directory (DIR)
   "Compile in a directory"
@@ -139,7 +141,7 @@
 	 (command (format "grep --exclude-dir=\".git\" --color=auto -nH --null -r -e \"%s\" ." pattern)))
     (compilation-start command 'grep-mode)))
 
-(defun grep (dir pattern)
+(defun grep-dwim (dir pattern)
   (interactive (list (read-directory-name "[Grep] Directory: ") (read-string "[Grep] Pattern: ")))
   (cond
    ((or (executable-find "rg") is-windows) (rg dir pattern))
@@ -164,6 +166,22 @@
   (add-hook 'emacs-lisp-mode-hook (lambda ()
 				    (setq-local amirreza-find-functions-regex "\\(defun"))))
 
+;; Snippets
+(setq amirreza-snippets '(("TO" . "TODO(amirreza): ")
+			  ("NO" . "NOTE(amirreza): ")))
+
+(defun amirreza-expand ()
+  (interactive)
+  (let* ((word (current-word))
+	(expansion (alist-get word amirreza-snippets nil nil 'string-equal)))
+    (if expansion
+	;; expand snippet
+	(progn
+	  (backward-delete-char (length word))
+	  (insert expansion))
+      (call-interactively 'dabbrev-expand))))
+
+
 ;; Golang
 (setq amirreza-golang-imenu-generic-expression '((nil "^type *\\([^
 ]*\\)" 1)
@@ -172,7 +190,9 @@
 (defun amirreza-go-hook ()
   (message "Amirreza Go Hook")
   (setq-local imenu-generic-expression amirreza-golang-imenu-generic-expression)
-  (setq-local amirreza-find-functions-regex "^func *\\(.*\\) \\{"))
+  (setq-local amirreza-find-functions-regex "^func *\\(.*\\) \\{")
+  (setq-local amirreza-snippets (append '(
+					  ("ifer" . "if err != nil {}")) amirreza-snippets)))
 
 (with-eval-after-load 'go-mode (add-hook 'go-mode-hook 'amirreza-go-hook))
 
@@ -197,13 +217,14 @@
 	       (nil "Classes" "^\\s-*\\(?:\\(?:abstract\\|final\\)\\s-+\\)?\\(?:class\\|interface\\|trait\\|enum\\)\\s-+\\(\\(?:\\sw\\|\\\\\\|\\s_\\)+\\)" 0)
 	       (nil "^\\s-*\\(?:\\(?:abstract\\|final\\)\\s-+\\)?namespace\\s-+\\(\\(?:\\sw\\|\\\\\\|\\s_\\)+\\)" 1))
 
-	      )
-  )
+	      ))
+
 (with-eval-after-load 'php-mode (add-hook 'php-mode-hook 'amirreza-php-hook))
+
 
 ;; Keymaps
 (global-set-key (kbd "C-.") 'isearch-forward-thing-at-point)
-(global-set-key (kbd "C-/") 'grep) ;; Magical search
+(global-set-key (kbd "C-/") 'grep-dwim) ;; Magical search
 (global-set-key (kbd "<f5>") 'compile-dwim) ;; |> little green button of my IDE
 (global-set-key (kbd "M-m") 'compile-dwim) ;; |> button
 (global-set-key (kbd "C-z") 'undo) ;; Sane undo key
@@ -212,7 +233,7 @@
 (global-set-key (kbd "M-]") 'kmacro-end-or-call-macro-repeat) ;; end recording keyboard macro.
 (global-set-key (kbd "C-3") 'split-window-horizontally)
 (global-set-key (kbd "C-2") 'split-window-vertically)
-(global-set-key (kbd "C-q") 'dabbrev-expand) ;; expand current word with suggestions from all buffers.
+(global-set-key (kbd "C-q") 'amirreza-expand) ;; Try snippets and then expand with emacs dabbrev
 (global-set-key (kbd "C-x C-c") 'delete-frame) ;; rebind exit key to just kill frame if possible
 (global-set-key (kbd "M-p") 'jump-up)
 (global-set-key (kbd "M-n") 'jump-down)
