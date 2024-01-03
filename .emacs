@@ -72,18 +72,6 @@
 (defun install (PKG) (unless (package-installed-p PKG) (package-install PKG)))
 (install 'go-mode)
 (install 'php-mode)
-(install 'lsp-mode)
-(install 'vertico)
-(install 'orderless)
-
-
-;; Minibuffer improvement
-(setq vertico-cycle t)
-(setq vertico-count 25)
-(vertico-mode)
-(setq completion-styles '(orderless basic)
-	completion-category-defaults nil
-	completion-category-overrides '((file (styles partial-completion))))
 
 ;; Themes
 (defadvice load-theme (before disable-themes-first activate) (dolist (i custom-enabled-themes) (disable-theme i))) ;; don't stack themes on each other
