@@ -2,7 +2,7 @@
 
 ## Configs
 
-- [Neovim](https://github.com/amirrezaask/dotfiles/blob/master/nvim/init.lua)
+- [Neovim](https://github.com/amirrezaask/nvim)
 - [Emacs](https://github.com/amirrezaask/dotfiles/blob/master/.emacs)
 - [WezTerm](https://github.com/amirrezaask/dotfiles/blob/master/wezterm.lua)
 - [Tmux](https://github.com/amirrezaask/dotfiles/blob/master/.tmux.conf)
