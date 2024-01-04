@@ -44,9 +44,9 @@ local function handmadehero()
     colors.DiffAdd = { link = "SignColumn" }
     colors.DiffChange = { link = "SignColumn" }
     colors.DiffDelete = { link = "SignColumn" }
-    colors.Pmenu = { bg = "#303040"}
-    colors.PmenuSel = { bg = "#020202"}
-    for k,v in pairs(colors) do
+    colors.Pmenu = { bg = "#303040" }
+    colors.PmenuSel = { bg = "#020202" }
+    for k, v in pairs(colors) do
         hl(k, v.bg, v.fg, v.link)
     end
 end
@@ -425,5 +425,61 @@ vim.api.nvim_create_autocmd("LspAttach", {
         vim.keymap.set("n", "C", vim.lsp.buf.code_action, buffer("Code Actions"))
         vim.keymap.set("n", "<C-s>", vim.lsp.buf.signature_help, buffer("Signature Help"))
         vim.keymap.set("i", "<C-s>", vim.lsp.buf.signature_help, buffer("Signature Help"))
+        vim.diagnostic.config({ virtual_text = false })
     end,
 })
+local function make_qf_entry(line)
+    local pattern = "(.-):(.-):(.-): (.+)$" -- Pattern to match "file:line:col: some text"
+    local file, lineNumber, colNumber, text = line:match(pattern)
+
+    if file and lineNumber and colNumber and text then
+        return {
+            filename = file,
+            lnum = tonumber(lineNumber),
+            col = tonumber(colNumber),
+            text = text
+        }
+    else
+        -- Pattern not matched
+        return nil
+    end
+end
+
+function FillQFListFromCommand(command)
+    local stdout = {}
+    local stderr = {}
+    vim.fn.jobstart(command, {
+        on_exit = function(_, data)
+            print("exited, ", data)
+            local entries = {}
+            for _, line in ipairs(stdout) do
+              local entry = make_qf_entry(line)
+              if entry then
+                  table.insert(entries, entry)
+              end
+            end
+            for _, line in ipairs(stderr) do
+              local entry = make_qf_entry(line)
+              if entry then
+                  table.insert(entries, entry)
+              end
+            end
+            vim.fn.setqflist(entries, 'r')
+        end,
+        on_stdout = function(_, data)
+            if data then
+                for _, line in ipairs(data) do
+                    table.insert(stdout, line)
+                end
+            end
+        end,
+        on_stderr = function(_, data)
+            if data then
+                for _, line in ipairs(data) do
+                    table.insert(stderr, line)
+                end
+            end
+        end
+    })
+end
+
