@@ -1,5 +1,6 @@
 (setq frame-inhibit-implied-resize t) ;; Don't let emacs to resize frame when something inside changes
 (setq gc-cons-threshold 200000000) ;; 200 MB
+(setq redisplay-dont-pause t)
 ;; (setq debug-on-error t) ;; debug on error
 (setq vc-follow-symlinks t) ;; Follow symlinks with no questions
 (setq ring-bell-function (lambda ())) ;; no stupid sounds
@@ -8,6 +9,8 @@
 (setq is-windows (eq system-type 'windows-nt))
 (setq is-linux (eq system-type 'gnu-linux))
 (setq is-macos (eq system-type 'darwin))
+(setq has-treesitter (>= emacs-major-version 29))
+
 (defun edit-init ()
   (interactive)
   (if is-windows
@@ -36,7 +39,7 @@
     (set-frame-font fontstring nil t)
     (set-face-attribute 'default t :font fontstring)))
 
-(load-font "Liberation Mono" 11)
+(load-font "Hack" 15)
 
 (defun home (path)
   (expand-file-name path (getenv "HOME")))
@@ -65,13 +68,7 @@
 (scroll-bar-mode -1) ;; disable scroll bar
 (setq kill-whole-line t) ;; kill line and newline char
 (pixel-scroll-precision-mode +1) ;; Smooth scrolling
-(global-auto-revert-mode +1) ;; auto refresh buffers from disk
 (delete-selection-mode) ;; when selected a text and user types delete text
-
-;; Install packages
-(defun install (PKG) (unless (package-installed-p PKG) (package-install PKG)))
-(install 'go-mode)
-(install 'php-mode)
 
 ;; Themes
 (defadvice load-theme (before disable-themes-first activate) (dolist (i custom-enabled-themes) (disable-theme i))) ;; don't stack themes on each other
@@ -85,8 +82,6 @@
 (unless (theme-exists "handmadehero-theme.el") (url-copy-file "https://raw.githubusercontent.com/amirrezaask/themes/main/handmadehero-theme.el" (theme-file "handmadehero-theme.el") t))
 (unless (theme-exists "4coder-fleury-theme.el") (url-copy-file "https://raw.githubusercontent.com/amirrezaask/themes/main/4coder-fleury-theme.el" (theme-file "4coder-fleury-theme.el") t))
 (load-theme 'handmadehero)
-
-(fido-mode +1)
 
 ;; Compiling stuff
 (defun compile-directory (DIR)
@@ -106,6 +101,7 @@
     (when args
       (message "Compilation Command is '%s'" (car (cdr args)))
       (message "Compilation Dir is '%s'" (car args)))
+    (save-some-buffers t nil)
     (if args
 	(let ((default-directory (car args))) (compilation-start (car (cdr args))))
       (call-interactively 'compile-directory))))
@@ -166,14 +162,18 @@
   (add-hook 'emacs-lisp-mode-hook (lambda ()
 				    (setq-local amirreza-find-functions-regex "\\(defun"))))
 
-;; Snippets
-(setq amirreza-snippets '(("TO" . "TODO(amirreza): ")
+;; expansions
+(setq dabbrev-case-replace nil)
+(setq dabbrev-case-fold-search t)
+(setq dabbrev-upcase-means-case-search nil)
+
+(setq amirreza-expansions '(("TO" . "TODO(amirreza): ")
 			  ("NO" . "NOTE(amirreza): ")))
 
 (defun amirreza-expand ()
   (interactive)
   (let* ((word (current-word))
-	(expansion (alist-get word amirreza-snippets nil nil 'string-equal)))
+	(expansion (alist-get word amirreza-expansions nil nil 'string-equal)))
     (if expansion
 	;; expand snippet
 	(progn
@@ -184,43 +184,46 @@
 
 ;; Golang
 (setq amirreza-golang-imenu-generic-expression '((nil "^type *\\([^
-]*\\)" 1)
-						 (nil "^func *\\(.*\\) {" 1)))
+]*\\)" 1) (nil "^func *\\(.*\\) {" 1)))
 
 (defun amirreza-go-hook ()
-  (message "Amirreza Go Hook")
   (setq-local imenu-generic-expression amirreza-golang-imenu-generic-expression)
   (setq-local amirreza-find-functions-regex "^func *\\(.*\\) \\{")
-  (setq-local amirreza-snippets (append '(
-					  ("ifer" . "if err != nil {}")) amirreza-snippets)))
+  (setq-local amirreza-expansions (append '(("ifer" . "if err != nil {}")) amirreza-expansions)))
 
-(with-eval-after-load 'go-mode (add-hook 'go-mode-hook 'amirreza-go-hook))
+(if (and has-treesitter (treesit-language-available-p 'go))
+  (with-eval-after-load 'go-ts-mode (add-hook 'go-ts-mode-hook 'amirreza-go-hook))
+  (with-eval-after-load 'go-mode (add-hook 'go-mode-hook 'amirreza-go-hook)))
 
 ;; C/C++
 (defun amirreza-c++-hook ()
-  (message "Amirreza CC Hook"))
+  (setq-local amirreza-expansions (append '(("for" . "for() {}")) amirreza-expansions)))
 
-(setq-default c-default-style "linux"
-	      c-basic-offset 4)
+(setq-default c-default-style "linux" c-basic-offset 4)
 
 (add-hook 'c++-mode-hook 'amirreza-c++-hook)
+;; Split window since no other code can do it
+(split-window-horizontally)
 
-;; PHP
-(defun amirreza-php-hook ()
-  (message "Amirreza PHP Hook")
-  (setq-local amirreza-find-functions-regex "function\\s+.*\\(.*\\)")
-  (setq-local imenu-generic-expression
-	      '((nil "\\(?:^\\s-*\\(\\(?:\\(?:\\(?:abstract\\|final\\|p\\(?:r\\(?:ivate\\|otected\\)\\|ublic\\)\\|static\\)\\s-+\\)*\\)*function\\s-+\\(?:&\\s-*\\)?\\(\\(?:\\sw\\|\\s_\\)+\\)\\s-*(.*$\\)\\)" 1)
-	       (nil "^\\s-*\\(\\(?:\\(?:p\\(?:r\\(?:ivate\\|otected\\)\\|ublic\\)\\|static\\|var\\)\\s-+\\)+\\(?:\\(?:[?|]?\\(?:\\\\\\|\\sw\\|\\s_\\)\\s-+\\)?\\)*\\$\\(?:\\sw\\|\\s_\\)+\\b\\)" 1)
-	       (nil "^\\s-*\\(\\(?:\\(?:p\\(?:r\\(?:ivate\\|otected\\)\\|ublic\\)\\)\\s-+\\)*const\\s-+\\(?:\\sw\\|\\s_\\)+\\s-*\\(?:=\\s-*.\\{0,40\\}\\)?\\)" 1)
-	       (nil "^\\s-*\\(function\\s-+\\(?:\\sw\\|\\s_\\)+\\s-*(.\\{0,100\\}\\)" 1)
-	       (nil "Classes" "^\\s-*\\(?:\\(?:abstract\\|final\\)\\s-+\\)?\\(?:class\\|interface\\|trait\\|enum\\)\\s-+\\(\\(?:\\sw\\|\\\\\\|\\s_\\)+\\)" 0)
-	       (nil "^\\s-*\\(?:\\(?:abstract\\|final\\)\\s-+\\)?namespace\\s-+\\(\\(?:\\sw\\|\\\\\\|\\s_\\)+\\)" 1))
 
-	      ))
+;; treesitter and languages
+(defun amirreza-install-grammer (lang)
+  (when has-treesitter
+    (unless (treesit-language-available-p lang)
+      (treesit-install-language-grammar lang))))
 
-(with-eval-after-load 'php-mode (add-hook 'php-mode-hook 'amirreza-php-hook))
+(amirreza-install-grammer 'go)
+(amirreza-install-grammer 'gomod)
+(amirreza-install-grammer 'cpp)
+(amirreza-install-grammer 'c)
+(add-to-list 'auto-mode-alist '("\\.cpp\\'" . c-or-c++-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.hpp\\'" . c-or-c++-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.h\\'" . c-or-c++-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.c\\'" . c-or-c++-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.go\\'" . go-ts-mode))
 
+(defun install (PKG) (unless (package-installed-p PKG) (package-install PKG)))
+(install 'php-mode)
 
 ;; Keymaps
 (global-set-key (kbd "C-.") 'isearch-forward-thing-at-point)
@@ -229,18 +232,21 @@
 (global-set-key (kbd "M-m") 'compile-dwim) ;; |> button
 (global-set-key (kbd "C-z") 'undo) ;; Sane undo key
 (global-set-key (kbd "C-<return>") 'save-buffer) ;; Save with one combo not C-x C-s shit
-(global-set-key (kbd "M-[") 'kmacro-start-macro-or-insert-counter) ;; start recording keyboard macro..
-(global-set-key (kbd "M-]") 'kmacro-end-or-call-macro-repeat) ;; end recording keyboard macro.
+(global-set-key (kbd "M-[") 'kmacro-start-macro) ;; start recording keyboard macro.
+(global-set-key (kbd "M-]") 'kmacro-end-macro) ;; end recording keyboard macro.
+(global-set-key (kbd "M-\\") 'kmacro-end-and-call-macro) ;; execute keyboard macro.
 (global-set-key (kbd "C-3") 'split-window-horizontally)
 (global-set-key (kbd "C-2") 'split-window-vertically)
 (global-set-key (kbd "C-q") 'amirreza-expand) ;; Try snippets and then expand with emacs dabbrev
 (global-set-key (kbd "C-x C-c") 'delete-frame) ;; rebind exit key to just kill frame if possible
 (global-set-key (kbd "M-p") 'jump-up)
 (global-set-key (kbd "M-n") 'jump-down)
+(global-set-key (kbd "M-<up>") 'scroll-down-command)
+(global-set-key (kbd "M-<down>") 'scroll-up-command)
 (global-set-key (kbd "C-=") (lambda () (interactive) (text-scale-increase 1)))
 (global-set-key (kbd "C--") (lambda () (interactive) (text-scale-decrease 1)))
 (global-set-key (kbd "C->") 'end-of-buffer)
 (global-set-key (kbd "C-<") 'beginning-of-buffer)
 (global-set-key (kbd "M-i") 'imenu)
-;; Split window since no other code can do it
-(split-window-horizontally)
+(global-set-key (kbd "C-9") 'previous-error)
+(global-set-key (kbd "C-0") 'next-error)
