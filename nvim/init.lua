@@ -12,8 +12,10 @@ local function hl(name, bg, fg, link)
     if bg ~= nil then cmd = string.format("guibg=%s", bg) end
     if fg ~= nil then cmd = string.format("%s guifg=%s", cmd, fg) end
     if link == nil then
+        vim.cmd(string.format("hi clear %s", name))
         vim.cmd(string.format("hi! %s %s", name, cmd))
     else
+        vim.cmd(string.format("hi clear %s", name))
         vim.cmd(string.format("hi! link %s %s", name, link))
     end
 end
@@ -28,7 +30,7 @@ local function handmadehero()
     colors.String = { fg = "#6b8e23" }
     colors.Character = { fg = "#6b8e23" }
     colors.Boolean = { fg = "#6b8e23" }
-    -- colors.LineNr = { bg = "#101010", fg = "#404040" }
+    colors.LineNr = { bg = "#101010", fg = "#404040" }
     colors.Identifier = { fg = "#cdaa7d" }
     colors["@variable"] = { link = "Identifier" }
     colors.Macro = { fg = "#8cde94" }
@@ -37,7 +39,7 @@ local function handmadehero()
     colors.Constant = { fg = "#6b8e23" }
     colors.Function = { fg = "#cdaa7d" }
     colors.Punctuation = { fg = "#cdaa7d" }
-    colors.SignColumn = { bg = "#020202", fg = "#b99468" }
+    colors.SignColumn = { bg = "#161616", fg = "#cdaa7d" }
     colors.DiffText = { link = "SignColumn" }
     colors.DiffAdd = { link = "SignColumn" }
     colors.DiffChange = { link = "SignColumn" }
