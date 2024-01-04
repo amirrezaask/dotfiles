@@ -1,3 +1,6 @@
+;; Amirreza Emacs
+;; NOTE(anyone): This config needs at least emacs 29
+
 (setq frame-inhibit-implied-resize t) ;; Don't let emacs to resize frame when something inside changes
 (setq gc-cons-threshold 200000000) ;; 200 MB
 (setq redisplay-dont-pause t)
@@ -9,7 +12,9 @@
 (setq is-windows (eq system-type 'windows-nt))
 (setq is-linux (eq system-type 'gnu-linux))
 (setq is-macos (eq system-type 'darwin))
-(setq has-treesitter (>= emacs-major-version 29))
+(setq has-treesitter (fboundp 'treesit-language-available-p))
+(when (< emacs-major-version 29) (error "This configuration needs at least emacs 29"))
+(unless has-treesitter (error "This configuration assumes that you have an emacs that is compiled with treesitter enabled."))
 
 (defun edit-init ()
   (interactive)
@@ -149,19 +154,6 @@
   (define-key grep-mode-map (kbd "k") 'kill-compilation))
 
 
-;; this part contains some regexes that will be defined for each language and let us do search based on language syntax
-(defvar amirreza-find-functions-regex nil)
-(defvar amirreza-find-types-regex nil)
-
-(defun amirreza-find-functions (DIR)
-  (interactive (list (read-directory-name "[Functions] Directory: ")))
-  (when (string-equal amirreza-find-functions-regex "") (error "No regex defined for this mode"))
-  (grep DIR amirreza-find-functions-regex))
-
-(with-eval-after-load 'elisp-mode
-  (add-hook 'emacs-lisp-mode-hook (lambda ()
-				    (setq-local amirreza-find-functions-regex "\\(defun"))))
-
 ;; expansions
 (setq dabbrev-case-replace nil)
 (setq dabbrev-case-fold-search t)
@@ -181,36 +173,10 @@
 	  (insert expansion))
       (call-interactively 'dabbrev-expand))))
 
-
-;; Golang
-(setq amirreza-golang-imenu-generic-expression '((nil "^type *\\([^
-]*\\)" 1) (nil "^func *\\(.*\\) {" 1)))
-
-(defun amirreza-go-hook ()
-  (setq-local imenu-generic-expression amirreza-golang-imenu-generic-expression)
-  (setq-local amirreza-find-functions-regex "^func *\\(.*\\) \\{")
-  (setq-local amirreza-expansions (append '(("ifer" . "if err != nil {}")) amirreza-expansions)))
-
-(if (and has-treesitter (treesit-language-available-p 'go))
-  (with-eval-after-load 'go-ts-mode (add-hook 'go-ts-mode-hook 'amirreza-go-hook))
-  (with-eval-after-load 'go-mode (add-hook 'go-mode-hook 'amirreza-go-hook)))
-
-;; C/C++
-(defun amirreza-c++-hook ()
-  (setq-local amirreza-expansions (append '(("for" . "for() {}")) amirreza-expansions)))
-
-(setq-default c-default-style "linux" c-basic-offset 4)
-
-(add-hook 'c++-mode-hook 'amirreza-c++-hook)
-;; Split window since no other code can do it
-(split-window-horizontally)
-
-
 ;; treesitter and languages
 (defun amirreza-install-grammer (lang)
-  (when has-treesitter
-    (unless (treesit-language-available-p lang)
-      (treesit-install-language-grammar lang))))
+  (unless (treesit-language-available-p lang)
+    (treesit-install-language-grammar lang)))
 
 (amirreza-install-grammer 'go)
 (amirreza-install-grammer 'gomod)
@@ -222,8 +188,42 @@
 (add-to-list 'auto-mode-alist '("\\.c\\'" . c-or-c++-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.go\\'" . go-ts-mode))
 
+;; C/C++
+(defun amirreza-c++-hook ()
+  (setq-local treesit-simple-imenu-settings '((nil "\\`enum_specifier\\'" c-ts-mode--defun-valid-p . #1=(nil))
+					     (nil "\\`struct_specifier\\'" c-ts-mode--defun-valid-p . #1#)
+					     (nil "\\`union_specifier\\'" c-ts-mode--defun-valid-p . #1#)
+					     (nil "\\`declaration\\'" c-ts-mode--defun-valid-p . #1#)
+					     (nil "\\`function_definition\\'" c-ts-mode--defun-valid-p . #1#)
+					     (nil "\\`\\(?:class_specifier\\|function_definition\\)\\'" c-ts-mode--defun-for-class-in-imenu-p nil)))
+  (setq-local amirreza-expansions (append '(("for" . "for() {}")) amirreza-expansions)))
+
+(setq-default c-default-style "linux" c-basic-offset 4)
+(add-hook 'c++-mode-hook 'amirreza-c++-hook)
+(add-hook 'cpp-ts-mode-hook 'amirreza-c++-hook)
+(add-hook 'c-ts-mode-hook 'amirreza-c++-hook)
+
+;; Golang
+(defun amirreza-go-hook ()
+  (setq-local treesit-simple-imenu-settings '((nil "\\`function_declaration\\'" nil nil)
+					      (nil "\\`method_declaration\\'" nil nil)
+					      (nil "\\`type_declaration\\'" go-ts-mode--struct-node-p nil)
+					      (nil "\\`type_declaration\\'" go-ts-mode--interface-node-p nil)
+					      (nil "\\`type_declaration\\'" go-ts-mode--other-type-node-p nil)
+					      (nil "\\`type_declaration\\'" go-ts-mode--alias-node-p nil)))
+  
+  
+  (setq-local amirreza-expansions (append '(("ifer" . "if err != nil {}")) amirreza-expansions)))
+
+(with-eval-after-load 'go-ts-mode (add-hook 'go-ts-mode-hook 'amirreza-go-hook))
+
 (defun install (PKG) (unless (package-installed-p PKG) (package-install PKG)))
 (install 'php-mode)
+
+
+;; Split window since no other code can do it
+(split-window-horizontally)
+
 
 ;; Keymaps
 (global-set-key (kbd "C-.") 'isearch-forward-thing-at-point)
