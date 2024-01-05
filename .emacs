@@ -25,7 +25,10 @@
 (setq use-short-answers t) ;; Always prefer short answers
 (setq image-types (cons 'svg image-types)) ;; macos bug
 (setq mac-command-modifier 'meta) ;; macos again
-;; Font stuff
+
+;;;;;;;;;;
+;; Font ;;
+;;;;;;;;;;
 (setq font-family "")
 (defun load-font (font fontsize)
   "Loads a font."
@@ -46,6 +49,9 @@
 
 (load-font "Hack" 15)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Environment Variables ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun home (path)
   (expand-file-name path (getenv "HOME")))
 (add-to-list 'exec-path (home ".local/bin"))
@@ -59,6 +65,20 @@
     (setenv "PATH" (string-join exec-path ";"))
   (setenv "PATH" (string-join exec-path ":"))) ;; set emacs process PATH
 
+;;;;;;;;;;;;;;;
+;; Packages ;;;
+;;;;;;;;;;;;;;;
+(package-initialize)
+(defun install (PKG) (unless (package-installed-p PKG) (package-install PKG)))
+(unless package-archive-contents (package-refresh-contents))
+(install 'gruvbox-theme)
+(install 'gruber-darker-theme)
+(install 'php-mode)
+(install 'go-mode)
+
+;;;;;;;;;;
+;; MISC ;;
+;;;;;;;;;;
 (defun jump-up () (interactive) (next-line (* -1 (/ (window-height) 2))) (recenter-top-bottom))
 (defun jump-down () (interactive) (next-line (/ (window-height) 2)) (recenter-top-bottom))
 (setq split-window-preferred-function (lambda (window))) ;; Don't change my windows Emacs, please
@@ -75,7 +95,9 @@
 (pixel-scroll-precision-mode +1) ;; Smooth scrolling
 (delete-selection-mode) ;; when selected a text and user types delete text
 
-;; Themes
+;;;;;;;;;;;;
+;; Themes ;;
+;;;;;;;;;;;;
 (defadvice load-theme (before disable-themes-first activate) (dolist (i custom-enabled-themes) (disable-theme i))) ;; don't stack themes on each other
 (setq custom-safe-themes t) ;; all themes are safe, don't ask
 (setq themes-directory (expand-file-name "themes" user-emacs-directory))
@@ -88,7 +110,9 @@
 (unless (theme-exists "4coder-fleury-theme.el") (url-copy-file "https://raw.githubusercontent.com/amirrezaask/themes/main/4coder-fleury-theme.el" (theme-file "4coder-fleury-theme.el") t))
 (load-theme 'handmadehero)
 
-;; Compiling stuff
+;;;;;;;;;;;;;;;
+;; Compiling ;;
+;;;;;;;;;;;;;;;
 (defun compile-directory (DIR)
   "Compile in a directory"
   (interactive (list (read-directory-name "[Compile] Directory: ")))
@@ -118,8 +142,9 @@
 (setq global-auto-revert-non-file-buffers t)
 (setq auto-revert-verbose nil)
 
-
-;; Searching stuff
+;;;;;;;;;;
+;; GREP ;;
+;;;;;;;;;;
 (defun rg (dir pattern)
   "run Ripgrep"
   (interactive (list (read-directory-name "[Ripgrep] Directory: ") (read-string "[Ripgrep] Pattern: ")))
@@ -154,7 +179,9 @@
   (define-key grep-mode-map (kbd "k") 'kill-compilation))
 
 
-;; expansions
+;;;;;;;;;;;;;;;;
+;; EXPANSIONS ;;
+;;;;;;;;;;;;;;;;
 (setq dabbrev-case-replace nil)
 (setq dabbrev-case-fold-search t)
 (setq dabbrev-upcase-means-case-search nil)
@@ -173,59 +200,32 @@
 	  (insert expansion))
       (call-interactively 'dabbrev-expand))))
 
-;; treesitter and languages
-(defun amirreza-install-grammer (lang)
-  (unless (treesit-language-available-p lang)
-    (treesit-install-language-grammar lang)))
+;;;;;;;;;;;
+;; C/C++ ;;
+;;;;;;;;;;;
+(defun amirreza-c++-hook () (setq-local amirreza-expansions (append '(("for" . "for() {}")) amirreza-expansions)))
 
-(amirreza-install-grammer 'go)
-(amirreza-install-grammer 'gomod)
-(amirreza-install-grammer 'cpp)
-(amirreza-install-grammer 'c)
-(add-to-list 'auto-mode-alist '("\\.cpp\\'" . c-or-c++-ts-mode))
-(add-to-list 'auto-mode-alist '("\\.hpp\\'" . c-or-c++-ts-mode))
-(add-to-list 'auto-mode-alist '("\\.h\\'" . c-or-c++-ts-mode))
-(add-to-list 'auto-mode-alist '("\\.c\\'" . c-or-c++-ts-mode))
-(add-to-list 'auto-mode-alist '("\\.go\\'" . go-ts-mode))
+(setq-default c-default-style "linux"
+	      c-basic-offset 4)
 
-;; C/C++
-(defun amirreza-c++-hook ()
-  (setq-local treesit-simple-imenu-settings '((nil "\\`enum_specifier\\'" c-ts-mode--defun-valid-p . #1=(nil))
-					     (nil "\\`struct_specifier\\'" c-ts-mode--defun-valid-p . #1#)
-					     (nil "\\`union_specifier\\'" c-ts-mode--defun-valid-p . #1#)
-					     (nil "\\`declaration\\'" c-ts-mode--defun-valid-p . #1#)
-					     (nil "\\`function_definition\\'" c-ts-mode--defun-valid-p . #1#)
-					     (nil "\\`\\(?:class_specifier\\|function_definition\\)\\'" c-ts-mode--defun-for-class-in-imenu-p nil)))
-  (setq-local amirreza-expansions (append '(("for" . "for() {}")) amirreza-expansions)))
-
-(setq-default c-default-style "linux" c-basic-offset 4)
 (add-hook 'c++-mode-hook 'amirreza-c++-hook)
-(add-hook 'cpp-ts-mode-hook 'amirreza-c++-hook)
-(add-hook 'c-ts-mode-hook 'amirreza-c++-hook)
+(add-hook 'c-mode-hook 'amirreza-c++-hook)
 
-;; Golang
+;;;;;;;;;;;;
+;; Golang ;;
+;;;;;;;;;;;;
 (defun amirreza-go-hook ()
-  (setq-local treesit-simple-imenu-settings '((nil "\\`function_declaration\\'" nil nil)
-					      (nil "\\`method_declaration\\'" nil nil)
-					      (nil "\\`type_declaration\\'" go-ts-mode--struct-node-p nil)
-					      (nil "\\`type_declaration\\'" go-ts-mode--interface-node-p nil)
-					      (nil "\\`type_declaration\\'" go-ts-mode--other-type-node-p nil)
-					      (nil "\\`type_declaration\\'" go-ts-mode--alias-node-p nil)))
-  
-  
+  (setq-local imenu-generic-expression '((nil "^type *\\([^ 	
+]*\\)" 1)
+					(nil "^func *\\(.*\\) {" 1)))
+
   (setq-local amirreza-expansions (append '(("ifer" . "if err != nil {}")) amirreza-expansions)))
 
-(with-eval-after-load 'go-ts-mode (add-hook 'go-ts-mode-hook 'amirreza-go-hook))
+(with-eval-after-load 'go-mode (add-hook 'go-mode-hook 'amirreza-go-hook))
 
-(defun install (PKG) (unless (package-installed-p PKG) (package-install PKG)))
-(install 'php-mode)
-
-
-;; Split window since no other code can do it
-(split-window-horizontally)
-
-
-;; Keymaps
+;;;;;;;;;;;;;
+;; Keymaps ;;
+;;;;;;;;;;;;;
 (global-set-key (kbd "C-.") 'isearch-forward-thing-at-point)
 (global-set-key (kbd "C-/") 'grep-dwim) ;; Magical search
 (global-set-key (kbd "<f5>") 'compile-dwim) ;; |> little green button of my IDE
