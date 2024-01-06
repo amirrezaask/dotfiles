@@ -97,8 +97,8 @@
 (setq hl-todo-modes '(c-mode c++-mode go-mode emacs-lisp))
 (make-face 'font-lock-todo-face)
 (make-face 'font-lock-note-face)
-(set-face-attribute 'font-lock-todo-face nil :foreground "Red")
-(set-face-attribute 'font-lock-note-face nil :foreground "Yellow")
+(set-face-attribute 'font-lock-todo-face nil :foreground "Red" :underline t)
+(set-face-attribute 'font-lock-note-face nil :foreground "Yellow" :underline t)
 (defun amirreza-add-todo/note-highlight ()
   (font-lock-add-keywords
    major-mode
@@ -244,6 +244,7 @@
 ;;;;;;;;;;;;;
 ;; Keymaps ;;
 ;;;;;;;;;;;;;
+(global-set-key (kbd "M-o") 'find-file)
 (global-set-key (kbd "C-.") 'isearch-forward-thing-at-point)
 (global-set-key (kbd "C-/") 'grep-dwim) ;; Magical search
 (global-set-key (kbd "<f5>") 'compile-dwim) ;; |> little green button of my IDE
