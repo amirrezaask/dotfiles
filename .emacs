@@ -115,10 +115,11 @@
   (let ((default-directory DIR))
     (call-interactively 'compile)))
 
-(setq compile-receipes '( ;; Regex pattern as key and value would be (DIR COMMAND) that will be passed into (compilation-start)
-			 ("w:\\/Clockwork\\/.*" . ("w:/Clockwork/" ".\\build.bat"))
-			 ("w:\\/snappdoctor\\/metric-collector\\/.*" . ("w:/snappdoctor/metric-collector" ".\\build-server.bat"))
-			 ))
+(if is-windows
+    (setq compile-receipes '( ;; Regex pattern as key and value would be (DIR COMMAND) that will be passed into (compilation-start)
+			     ("w:\\/HandmadeHero\\/.*" . ("w:/HandmadeHero/" ".\\build.bat"))
+			     ("w:\\/snappdoctor\\/metric-collector\\/.*" . ("w:/snappdoctor/metric-collector" ".\\build-server.bat"))))
+)
 
 (defun compile-dwim ()
   (interactive)
@@ -148,10 +149,11 @@
   (let ((default-directory DIR))
     (call-interactively 'compile)))
 
-(setq run-receipes '( ;; Regex pattern as key and value would be (DIR COMMAND) that will be passed into (compilation-start)
-		     ("w:\\/Clockwork\\/.*" . ("w:/Clockwork/" ".\\run.bat"))
-		     ("w:\\/snappdoctor\\/metric-collector\\/.*" . ("w:/snappdoctor/metric-collector" ".\\run-server.bat"))
-		     ))
+(if is-windows 
+    (setq run-receipes '( ;; Regex pattern as key and value would be (DIR COMMAND) that will be passed into (compilation-start)
+			 ("w:\\/HandmadeHero\\/.*" . ("w:/HandmadeHero/" ".\\run.bat"))
+			 ("w:\\/snappdoctor\\/metric-collector\\/.*" . ("w:/snappdoctor/metric-collector" ".\\run-server.bat"))))
+  )
 
 (defun run-dwim ()
   (interactive)
