@@ -43,7 +43,7 @@
     (set-frame-font fontstring nil t)
     (set-face-attribute 'default t :font fontstring)))
 
-(load-font "Liberation Mono" 15)
+(load-font "Hack" 15)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Environment Variables ;;
@@ -91,23 +91,23 @@
 (setq kill-whole-line t) ;; kill line and newline char
 (delete-selection-mode) ;; when selected a text and user types delete text
 
-;;;;;;;;;;;;
-;; Themes ;;
-;;;;;;;;;;;;
-(defadvice load-theme (before disable-themes-first activate) (dolist (i custom-enabled-themes) (disable-theme i))) ;; don't stack themes on each other
-(setq custom-safe-themes t) ;; all themes are safe, don't ask
-(setq themes-directory (expand-file-name "themes" user-emacs-directory))
-(add-to-list 'custom-theme-load-path themes-directory)
-(defun theme-file (name) (expand-file-name name themes-directory))
-(defun theme-exists (name) (file-exists-p (theme-file name)))
-(unless (file-exists-p themes-directory) (make-directory themes-directory))
-(unless (theme-exists "jonathan-blow-theme.el") (url-copy-file "https://raw.githubusercontent.com/amirrezaask/themes/main/jonathan-blow-theme.el" (theme-file "jonathan-blow-theme.el") t))
-(unless (theme-exists "handmadehero-theme.el") (url-copy-file "https://raw.githubusercontent.com/amirrezaask/themes/main/handmadehero-theme.el" (theme-file "handmadehero-theme.el") t))
-(unless (theme-exists "cmuratori-theme.el") (url-copy-file "https://raw.githubusercontent.com/amirrezaask/themes/main/cmuratori-theme.el" (theme-file "cmuratori-theme.el") t))
-(load-theme 'cmuratori)
+;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Highlight TODO/NOTE  ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq hl-todo-modes '(c-mode c++-mode go-mode emacs-lisp))
+(make-face 'font-lock-todo-face)
+(make-face 'font-lock-note-face)
+(set-face-attribute 'font-lock-todo-face nil :foreground "Red")
+(set-face-attribute 'font-lock-note-face nil :foreground "Yellow")
+(defun amirreza-add-todo/note-highlight ()
+  (font-lock-add-keywords
+   major-mode
+   '(("\\<\\(TODO\\)" 1 'font-lock-todo-face t)
+     ("\\<\\(NOTE\\)" 1 'font-lock-note-face t))))
+(add-hook 'prog-mode-hook 'amirreza-add-todo/note-highlight)
 
 ;;;;;;;;;;;;;;;;;;;;;;
-;; Compiling ;;;;;;;;;
+;;   Compiling    ;;;;
 ;;;;;;;;;;;;;;;;;;;;;;
 (defun compile-directory (DIR)
   "Compile in a directory"
@@ -227,13 +227,8 @@
 ;;;;;;;;;;;
 ;; C/C++ ;;
 ;;;;;;;;;;;
-(defun amirreza-c++-hook () (setq-local amirreza-expansions (append '(("for" . "for() {}")) amirreza-expansions)))
-
 (setq-default c-default-style "linux"
 	      c-basic-offset 4)
-
-(add-hook 'c++-mode-hook 'amirreza-c++-hook)
-(add-hook 'c-mode-hook 'amirreza-c++-hook)
 
 ;;;;;;;;;;;;
 ;; Golang ;;
@@ -246,7 +241,6 @@
   (setq-local amirreza-expansions (append '(("ifer" . "if err != nil {}")) amirreza-expansions)))
 
 (with-eval-after-load 'go-mode (add-hook 'go-mode-hook 'amirreza-go-hook))
-
 ;;;;;;;;;;;;;
 ;; Keymaps ;;
 ;;;;;;;;;;;;;
@@ -276,3 +270,119 @@
 (global-set-key (kbd "M-i") 'imenu)
 (global-set-key (kbd "M-;") 'previous-error)
 (global-set-key (kbd "M-'") 'next-error)
+
+
+;; Color My Emacs
+(defun handmadehero-theme ()
+  (interactive)
+  (let ((background "#161616")
+	(highlight "midnight blue")
+	(region "medium blue")
+	(text "#cdaa7d")
+	(keyword "DarkGoldenrod3")
+	(comment "gray50")
+	(string "olive drab")
+	(variable "burlywood3")
+	(warning "#504038")
+	(constant "olive drab")
+	(cursor "green")
+	(function "burlywood3")
+	(macro "#8cde94")
+	(punctuation "burlywood3")
+	(builtin "#DAB98F"))
+
+    (custom-set-faces
+     `(default ((t (:foreground ,text :background ,background))))
+     `(cursor ((t (:background ,cursor))))
+     `(font-lock-keyword-face           ((t (:foreground ,keyword))))
+     `(font-lock-type-face              ((t (:foreground ,punctuation))))
+     `(font-lock-constant-face          ((t (:foreground ,constant))))
+     `(font-lock-variable-name-face     ((t (:foreground ,variable))))
+     `(font-lock-builtin-face           ((t (:foreground ,builtin))))
+     `(font-lock-string-face            ((t (:foreground ,string))))
+     `(font-lock-comment-face           ((t (:foreground ,comment))))
+     `(font-lock-comment-delimiter-face ((t (:foreground ,comment))))
+     `(font-lock-doc-face               ((t (:foreground ,comment))))
+     `(font-lock-function-name-face     ((t (:foreground ,function))))
+     `(font-lock-doc-string-face        ((t (:foreground ,string))))
+     `(font-lock-preprocessor-face      ((t (:foreground ,macro))))
+     `(font-lock-warning-face           ((t (:foreground ,warning))))
+     `(region                           ((t (:background ,region))))
+     `(hl-line                          ((t :background ,highlight)))
+     `(highlight                        ((t :foreground nil :background ,region))))))
+
+
+(defun jonathan-blow-theme ()
+  (interactive)
+  (custom-set-faces
+   `(default ((t (:foreground "#d3b58d" :background "#072626"))))
+   `(cursor ((t (:background "lightgreen"))))
+   `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
+   `(font-lock-type-face              ((t (:foreground "#8cde94"))))
+   `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
+   `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
+   `(font-lock-builtin-face           ((t (:foreground "white"))))
+   `(font-lock-string-face            ((t (:foreground "#0fdfaf"))))
+   `(font-lock-comment-face           ((t (:foreground "#3fdf1f"))))
+   `(font-lock-comment-delimiter-face ((t (:foreground "#3fdf1f"))))
+   `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
+   `(font-lock-function-name-face     ((t (:foreground "white"))))
+   `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
+   `(font-lock-warning-face           ((t (:foreground "yellow"))))
+   `(mode-line ((t (:foreground "black" :background "#d3b58d"))))
+   `(mode-line-inactive ((t (:foreground "black" :background "white"))))
+   `(hl-line ((t (:foreground "#d3b58d" :background "#0b4040"))))))
+
+
+(defun casey-muratori-theme ()
+  (interactive)
+  (let ((background "#0C0C0C")
+	(highlight "#171616")
+	(region "#2f2f37")
+	(text "#a08563")
+	(keyword "#f0c674")
+	(comment "#686868")
+	(string "#6b8e23")
+	(variable "#b99468")
+	(warning "#504038")
+	(constant "#6b8e23")
+	(cursor "#EE7700")
+	(function "#cc5735")
+	(macro "#dab98f")
+	(type "#d8a51d")
+	(operator "#907553")
+	(punctuation "#907553") ;; 
+	(bracket "#907553") ;; [] {} ()
+	(delimiter "#907553") ;; ; :
+	(builtin "#DAB98F"))
+
+    (custom-set-faces
+     `(default ((t (:foreground ,text :background ,background))))
+     `(cursor ((t (:background ,cursor))))
+     `(font-lock-keyword-face           ((t (:foreground ,keyword))))
+     `(font-lock-operator-face          ((t (:foreground ,operator))))
+     `(font-lock-punctuation-face       ((t (:foreground ,punctuation))))
+     `(font-lock-bracket-face           ((t (:foreground ,bracket))))
+     `(font-lock-delimiter-face         ((t (:foreground ,delimiter))))
+     `(font-lock-type-face              ((t (:foreground ,type))))
+     `(font-lock-constant-face          ((t (:foreground ,constant))))
+     `(font-lock-variable-name-face     ((t (:foreground ,variable))))
+     `(font-lock-builtin-face           ((t (:foreground ,builtin))))
+     `(font-lock-string-face            ((t (:foreground ,string))))
+     `(font-lock-comment-face           ((t (:foreground ,comment))))
+     `(font-lock-comment-delimiter-face ((t (:foreground ,comment))))
+     `(font-lock-doc-face               ((t (:foreground ,comment))))
+     `(font-lock-function-name-face     ((t (:foreground ,function))))
+     `(font-lock-doc-string-face        ((t (:foreground ,string))))
+     `(font-lock-preprocessor-face      ((t (:foreground ,macro))))
+     `(font-lock-warning-face           ((t (:foreground ,warning))))
+     `(region ((t (:background ,region))))
+     `(hl-line ((t :background ,highlight)))
+     `(highlight ((t :foreground nil :background ,region)))
+     `(mode-line ((t (:foreground "#cb9401" :background "#1f1f27"))))
+     `(mode-line-inactive ((t (:foreground "#cb9401" :background "#1f1f27"))))
+     `(minibuffer-prompt ((t (:foreground ,text) :bold t)))
+     `(show-paren-match ((t (:background "#e0741b" :foreground "#000000")))))))
+
+
+(handmadehero-theme)
