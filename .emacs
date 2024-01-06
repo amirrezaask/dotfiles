@@ -47,7 +47,7 @@
     (set-frame-font fontstring nil t)
     (set-face-attribute 'default t :font fontstring)))
 
-(load-font "Hack" 15)
+(load-font "Liberation Mono" 15)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Environment Variables ;;
@@ -71,8 +71,8 @@
 (package-initialize)
 (defun install (PKG) (unless (package-installed-p PKG) (package-install PKG)))
 (unless package-archive-contents (package-refresh-contents))
-(install 'gruvbox-theme)
 (install 'gruber-darker-theme)
+(install 'ef-themes)
 (install 'php-mode)
 (install 'go-mode)
 
@@ -81,18 +81,18 @@
 ;;;;;;;;;;
 (defun jump-up () (interactive) (next-line (* -1 (/ (window-height) 2))) (recenter-top-bottom))
 (defun jump-down () (interactive) (next-line (/ (window-height) 2)) (recenter-top-bottom))
+
 (setq split-window-preferred-function (lambda (window))) ;; Don't change my windows Emacs, please
 (setq recenter-positions '(middle))
 (setq inhibit-startup-screen t) ;; disable default start screen
 (set-frame-parameter nil 'fullscreen 'maximized)
 (add-to-list 'default-frame-alist '(fullscreen . maximized)) ;; always start frames maximized
-(setq-default frame-title-format '("%e" (:eval default-directory)))
+(setq-default frame-title-format '("emacs: %e" (:eval default-directory)))
 (menu-bar-mode -1) ;; disable menu bar
 (global-hl-line-mode +1) ;; Highlight current line
 (tool-bar-mode -1) ;; disable tool bar
 (scroll-bar-mode -1) ;; disable scroll bar
 (setq kill-whole-line t) ;; kill line and newline char
-(pixel-scroll-precision-mode +1) ;; Smooth scrolling
 (delete-selection-mode) ;; when selected a text and user types delete text
 
 ;;;;;;;;;;;;
@@ -107,8 +107,8 @@
 (unless (file-exists-p themes-directory) (make-directory themes-directory))
 (unless (theme-exists "jonathan-blow-theme.el") (url-copy-file "https://raw.githubusercontent.com/amirrezaask/themes/main/jonathan-blow-theme.el" (theme-file "jonathan-blow-theme.el") t))
 (unless (theme-exists "handmadehero-theme.el") (url-copy-file "https://raw.githubusercontent.com/amirrezaask/themes/main/handmadehero-theme.el" (theme-file "handmadehero-theme.el") t))
-(unless (theme-exists "4coder-fleury-theme.el") (url-copy-file "https://raw.githubusercontent.com/amirrezaask/themes/main/4coder-fleury-theme.el" (theme-file "4coder-fleury-theme.el") t))
-(load-theme 'handmadehero)
+(unless (theme-exists "cmuratori-theme.el") (url-copy-file "https://raw.githubusercontent.com/amirrezaask/themes/main/cmuratori-theme.el" (theme-file "cmuratori-theme.el") t))
+(load-theme 'cmuratori)
 
 ;;;;;;;;;;;;;;;
 ;; Compiling ;;
@@ -168,7 +168,7 @@
     (compilation-start command 'grep-mode)))
 
 (defun grep-dwim (dir pattern)
-  (interactive (list (read-directory-name "[Grep] Directory: ") (read-string "[Grep] Pattern: ")))
+  (interactive (list (read-directory-name "[Grep] Directory: ") (read-string "[Grep] Pattern: " nil nil (word-at-point))))
   (cond
    ((or (executable-find "rg") is-windows) (rg dir pattern))
    ((executable-find "ug") (ug dir pattern))
@@ -235,8 +235,9 @@
 (global-set-key (kbd "M-[") 'kmacro-start-macro) ;; start recording keyboard macro.
 (global-set-key (kbd "M-]") 'kmacro-end-macro) ;; end recording keyboard macro.
 (global-set-key (kbd "M-\\") 'kmacro-end-and-call-macro) ;; execute keyboard macro.
-(global-set-key (kbd "C-3") 'split-window-horizontally)
-(global-set-key (kbd "C-2") 'split-window-vertically)
+(global-set-key (kbd "C-3") 'split-window-horizontally) ;; | split
+(global-set-key (kbd "C-2") 'split-window-vertically) ;; - split
+(global-set-key (kbd "C-o") 'other-window) ;; Switch window
 (global-set-key (kbd "C-q") 'amirreza-expand) ;; Try snippets and then expand with emacs dabbrev
 (global-set-key (kbd "C-x C-c") 'delete-frame) ;; rebind exit key to just kill frame if possible
 (global-set-key (kbd "M-p") 'jump-up)
@@ -248,5 +249,5 @@
 (global-set-key (kbd "C->") 'end-of-buffer)
 (global-set-key (kbd "C-<") 'beginning-of-buffer)
 (global-set-key (kbd "M-i") 'imenu)
-(global-set-key (kbd "C-9") 'previous-error)
-(global-set-key (kbd "C-0") 'next-error)
+(global-set-key (kbd "M-;") 'previous-error)
+(global-set-key (kbd "M-'") 'next-error)
