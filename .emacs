@@ -1,5 +1,4 @@
 ;; Amirreza Emacs
-;; NOTE(anyone): This config needs at least emacs 29
 
 (setq frame-inhibit-implied-resize t) ;; Don't let emacs to resize frame when something inside changes
 (setq gc-cons-threshold 200000000) ;; 200 MB
@@ -12,9 +11,6 @@
 (setq is-windows (eq system-type 'windows-nt))
 (setq is-linux (eq system-type 'gnu-linux))
 (setq is-macos (eq system-type 'darwin))
-(setq has-treesitter (fboundp 'treesit-language-available-p))
-(when (< emacs-major-version 29) (error "This configuration needs at least emacs 29"))
-(unless has-treesitter (error "This configuration assumes that you have an emacs that is compiled with treesitter enabled."))
 
 (defun edit-init ()
   (interactive)
