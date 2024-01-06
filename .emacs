@@ -119,6 +119,11 @@
     (setq compile-receipes '( ;; Regex pattern as key and value would be (DIR COMMAND) that will be passed into (compilation-start)
 			     ("w:\\/HandmadeHero\\/.*" . ("w:/HandmadeHero/" ".\\build.bat"))
 			     ("w:\\/snappdoctor\\/metric-collector\\/.*" . ("w:/snappdoctor/metric-collector" ".\\build-server.bat"))))
+
+  (setq compile-receipes '( ;; Regex pattern as key and value would be (DIR COMMAND) that will be passed into (compilation-start)
+			   ("~\\/w\\/HandmadeHero\\/.*" . ("~/w/HandmadeHero/" "./build.sh"))
+			   ("~\\/w\\/snappdoctor\\/metric-collector\\/.*" . ("~/w/snappdoctor/metric-collector" "./build-server.sh"))))
+
 )
 
 (defun compile-dwim ()
@@ -153,6 +158,10 @@
     (setq run-receipes '( ;; Regex pattern as key and value would be (DIR COMMAND) that will be passed into (compilation-start)
 			 ("w:\\/HandmadeHero\\/.*" . ("w:/HandmadeHero/" ".\\run.bat"))
 			 ("w:\\/snappdoctor\\/metric-collector\\/.*" . ("w:/snappdoctor/metric-collector" ".\\run-server.bat"))))
+
+  (setq run-receipes '( ;; Regex pattern as key and value would be (DIR COMMAND) that will be passed into (compilation-start)
+		       ("~\\/w\\/HandmadeHero\\/.*" . ("~/w/HandmadeHero/" ".\\run.bat"))
+		       ("~\\/w\\/snappdoctor\\/metric-collector\\/.*" . ("~/w/snappdoctor/metric-collector" "./run-server.sh"))))
   )
 
 (defun run-dwim ()
