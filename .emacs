@@ -106,9 +106,9 @@
 (unless (theme-exists "cmuratori-theme.el") (url-copy-file "https://raw.githubusercontent.com/amirrezaask/themes/main/cmuratori-theme.el" (theme-file "cmuratori-theme.el") t))
 (load-theme 'cmuratori)
 
-;;;;;;;;;;;;;;;
-;; Compiling ;;
-;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;
+;; Compiling ;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;
 (defun compile-directory (DIR)
   "Compile in a directory"
   (interactive (list (read-directory-name "[Compile] Directory: ")))
@@ -117,6 +117,7 @@
 
 (setq compile-receipes '( ;; Regex pattern as key and value would be (DIR COMMAND) that will be passed into (compilation-start)
 			 ("w:\\/Clockwork\\/.*" . ("w:/Clockwork/" ".\\build.bat"))
+			 ("w:\\/snappdoctor\\/metric-collector\\/.*" . ("w:/snappdoctor/metric-collector" ".\\build-server.bat"))
 			 ))
 
 (defun compile-dwim ()
@@ -137,6 +138,33 @@
 
 (setq global-auto-revert-non-file-buffers t)
 (setq auto-revert-verbose nil)
+
+;;;;;;;;;;;;;
+;; Running ;;
+;;;;;;;;;;;;;
+(defun run-directory (DIR)
+  "Compile in a directory"
+  (interactive (list (read-directory-name "[Run] Directory: ")))
+  (let ((default-directory DIR))
+    (call-interactively 'compile)))
+
+(setq run-receipes '( ;; Regex pattern as key and value would be (DIR COMMAND) that will be passed into (compilation-start)
+		     ("w:\\/Clockwork\\/.*" . ("w:/Clockwork/" ".\\run.bat"))
+		     ("w:\\/snappdoctor\\/metric-collector\\/.*" . ("w:/snappdoctor/metric-collector" ".\\run-server.bat"))
+		     ))
+
+(defun run-dwim ()
+  (interactive)
+  (let* ((dir (file-name-directory (buffer-file-name (current-buffer))))
+	 (args (alist-get dir run-receipes nil nil 'string-match-p)))
+    (when args
+      (message "Run Command is '%s'" (car (cdr args)))
+      (message "Run Dir is '%s'" (car args)))
+    (save-some-buffers t nil)
+    (if args
+	(let ((default-directory (car args))) (compilation-start (car (cdr args))))
+      (call-interactively 'run-directory))))
+
 
 ;;;;;;;;;;
 ;; GREP ;;
@@ -226,6 +254,7 @@
 (global-set-key (kbd "C-/") 'grep-dwim) ;; Magical search
 (global-set-key (kbd "<f5>") 'compile-dwim) ;; |> little green button of my IDE
 (global-set-key (kbd "M-m") 'compile-dwim) ;; |> button
+(global-set-key (kbd "C-M-m") 'run-dwim) ;; |> button
 (global-set-key (kbd "C-z") 'undo) ;; Sane undo key
 (global-set-key (kbd "C-<return>") 'save-buffer) ;; Save with one combo not C-x C-s shit
 (global-set-key (kbd "M-[") 'kmacro-start-macro) ;; start recording keyboard macro.
