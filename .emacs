@@ -3,7 +3,7 @@
 (setq frame-inhibit-implied-resize t) ;; Don't let emacs to resize frame when something inside changes
 (setq gc-cons-threshold 200000000) ;; 200 MB
 (setq redisplay-dont-pause t)
-;; (setq debug-on-error t) ;; debug on error
+(setq debug-on-error t) ;; debug on error
 (setq vc-follow-symlinks t) ;; Follow symlinks with no questions
 (setq ring-bell-function (lambda ())) ;; no stupid sounds
 (setq custom-file "~/.custom.el") ;; set custom file to not meddle with init.el
@@ -64,12 +64,15 @@
 ;;;;;;;;;;;;;;;
 ;; Packages ;;;
 ;;;;;;;;;;;;;;;
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)
 (defun install (PKG) (unless (package-installed-p PKG) (package-install PKG)))
 (unless package-archive-contents (package-refresh-contents))
 (install 'gruber-darker-theme)
 (install 'ef-themes)
 (install 'php-mode)
+(install 'yaml-mode)
+(install 'json-mode)
 (install 'go-mode)
 
 ;;;;;;;;;;
@@ -122,7 +125,7 @@
 
   (setq compile-receipes '( ;; Regex pattern as key and value would be (DIR COMMAND) that will be passed into (compilation-start)
 			   ("~\\/w\\/HandmadeHero\\/.*" . ("~/w/HandmadeHero/" "./build.sh"))
-			   ("~\\/w\\/snappdoctor\\/metric-collector\\/.*" . ("~/w/snappdoctor/metric-collector" "./build-server.sh"))))
+			   ("~\\/w\\/metric-collector\\/.*" . ("~/w/snappdoctor/metric-collector" "./build-server.sh"))))
 
 )
 
@@ -161,7 +164,7 @@
 
   (setq run-receipes '( ;; Regex pattern as key and value would be (DIR COMMAND) that will be passed into (compilation-start)
 		       ("~\\/w\\/HandmadeHero\\/.*" . ("~/w/HandmadeHero/" ".\\run.bat"))
-		       ("~\\/w\\/snappdoctor\\/metric-collector\\/.*" . ("~/w/snappdoctor/metric-collector" "./run-server.sh"))))
+		       ("~\\/w\\/metric-collector\\/.*" . ("~/w/snappdoctor/metric-collector" "./run-server.sh"))))
   )
 
 (defun run-dwim ()
@@ -203,7 +206,7 @@
     (compilation-start command 'grep-mode)))
 
 (defun grep-dwim (dir pattern)
-  (interactive (list (read-directory-name "[Grep] Directory: ") (read-string "[Grep] Pattern: " nil nil (word-at-point))))
+  (interactive (list (read-directory-name "[Grep] Directory: ") (read-string "[Grep] Pattern: ")))
   (cond
    ((or (executable-find "rg") is-windows) (rg dir pattern))
    ((executable-find "ug") (ug dir pattern))
