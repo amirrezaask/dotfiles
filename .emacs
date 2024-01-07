@@ -1,9 +1,17 @@
-;; Amirreza Emacs
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;     ___              _                            ___         __         ;;
+;;    /   |  ____ ___  (_)____________  ____  ____ _/   |  _____/ /__       ;;
+;;   / /| | / __ `__ \/ / ___/ ___/ _ \/_  / / __ `/ /| | / ___/ //_/       ;;
+;;  / ___ |/ / / / / / / /  / /  /  __/ / /_/ /_/ / ___ |(__  ) ,<          ;;
+;; /_/  |_/_/ /_/ /_/_/_/  /_/   \___/ /___/\__,_/_/  |_/____/_/|_|         ;;
+;;                                                                          ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(setq amirreza-emacs-starting-time (float-time)) ;; Store current time for further analysis.
 (setq frame-inhibit-implied-resize t) ;; Don't let emacs to resize frame when something inside changes
-(setq gc-cons-threshold 200000000) ;; 200 MB
+(setq gc-cons-threshold 200000000) ;; 200 MB for the GC threshold
 (setq redisplay-dont-pause t)
-(setq debug-on-error t) ;; debug on error
+;; (setq debug-on-error t) ;; debug on error
 (setq vc-follow-symlinks t) ;; Follow symlinks with no questions
 (setq ring-bell-function (lambda ())) ;; no stupid sounds
 (setq custom-file "~/.custom.el") ;; set custom file to not meddle with init.el
@@ -14,9 +22,10 @@
 
 (defun edit-init ()
   (interactive)
-  (if is-windows
-      (find-file "W:\\dotfiles\\.emacs")
-    (find-file "~/w/dotfiles/.emacs")))
+  (cond
+   (is-windows (find-file "W:\\dotfiles\\.emacs"))
+   (t  (find-file "~/w/dotfiles/.emacs"))))
+
 (global-set-key (kbd "C-x i") 'edit-init)
 (setq use-short-answers t) ;; Always prefer short answers
 (setq image-types (cons 'svg image-types)) ;; macos bug
@@ -43,7 +52,7 @@
     (set-frame-font fontstring nil t)
     (set-face-attribute 'default t :font fontstring)))
 
-(load-font "Hack" 15)
+(load-font "Consolas" 15)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Environment Variables ;;
@@ -68,12 +77,17 @@
 (package-initialize)
 (defun install (PKG) (unless (package-installed-p PKG) (package-install PKG)))
 (unless package-archive-contents (package-refresh-contents))
-(install 'gruber-darker-theme)
-(install 'ef-themes)
 (install 'php-mode)
 (install 'yaml-mode)
 (install 'json-mode)
 (install 'go-mode)
+(install 'vertico)
+
+;;;;;;;;;;;;;;;;;
+;; Minibuffer  ;;
+;;;;;;;;;;;;;;;;;
+(vertico-mode +1)
+(setq vertico-cycle t)
 
 ;;;;;;;;;;
 ;; MISC ;;
@@ -86,13 +100,18 @@
 (setq inhibit-startup-screen t) ;; disable default start screen
 (set-frame-parameter nil 'fullscreen 'maximized)
 (add-to-list 'default-frame-alist '(fullscreen . maximized)) ;; always start frames maximized
-(setq-default frame-title-format '("emacs: %e" (:eval default-directory)))
+(setq-default frame-title-format '("eMACS: %e" (:eval default-directory)))
 (menu-bar-mode -1) ;; disable menu bar
 (global-hl-line-mode +1) ;; Highlight current line
 (tool-bar-mode -1) ;; disable tool bar
 (scroll-bar-mode -1) ;; disable scroll bar
 (setq kill-whole-line t) ;; kill line and newline char
 (delete-selection-mode) ;; when selected a text and user types delete text
+(setq amirreza-notes-file (expand-file-name "NOTES.txt" (getenv "HOME")))
+
+(defun amirreza-open-notes ()
+  (interactive)
+  (find-file amirreza-notes-file))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Highlight TODO/NOTE  ;;
@@ -109,37 +128,20 @@
      ("\\<\\(NOTE\\)" 1 'font-lock-note-face t))))
 (add-hook 'prog-mode-hook 'amirreza-add-todo/note-highlight)
 
-;;;;;;;;;;;;;;;;;;;;;;
-;;   Compiling    ;;;;
-;;;;;;;;;;;;;;;;;;;;;;
-(defun compile-directory (DIR)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;   Compiling and Running    ;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun amirreza-compile-directory (DIR)
   "Compile in a directory"
   (interactive (list (read-directory-name "[Compile] Directory: ")))
   (let ((default-directory DIR))
     (call-interactively 'compile)))
 
-(if is-windows
-    (setq compile-receipes '( ;; Regex pattern as key and value would be (DIR COMMAND) that will be passed into (compilation-start)
-			     ("w:\\/HandmadeHero\\/.*" . ("w:/HandmadeHero/" ".\\build.bat"))
-			     ("w:\\/snappdoctor\\/metric-collector\\/.*" . ("w:/snappdoctor/metric-collector" ".\\build-server.bat"))))
-
-  (setq compile-receipes '( ;; Regex pattern as key and value would be (DIR COMMAND) that will be passed into (compilation-start)
-			   ("~\\/w\\/HandmadeHero\\/.*" . ("~/w/HandmadeHero/" "./build.sh"))
-			   ("~\\/w\\/metric-collector\\/.*" . ("~/w/snappdoctor/metric-collector" "./build-server.sh"))))
-
-)
-
-(defun compile-dwim ()
-  (interactive)
-  (let* ((dir (file-name-directory (buffer-file-name (current-buffer))))
-	 (args (alist-get dir compile-receipes nil nil 'string-match-p)))
-    (when args
-      (message "Compilation Command is '%s'" (car (cdr args)))
-      (message "Compilation Dir is '%s'" (car args)))
-    (save-some-buffers t nil)
-    (if args
-	(let ((default-directory (car args))) (compilation-start (car (cdr args))))
-      (call-interactively 'compile-directory))))
+(defun amirreza-run-directory (DIR)
+  "Compile in a directory"
+  (interactive (list (read-directory-name "[Run] Directory: ")))
+  (let ((default-directory DIR))
+    (call-interactively 'compile)))
 
 (with-eval-after-load 'compile
   (define-key compilation-mode-map (kbd "<f5>") 'recompile)
@@ -148,41 +150,54 @@
 (setq global-auto-revert-non-file-buffers t)
 (setq auto-revert-verbose nil)
 
-;;;;;;;;;;;;;
-;; Running ;;
-;;;;;;;;;;;;;
-(defun run-directory (DIR)
-  "Compile in a directory"
-  (interactive (list (read-directory-name "[Run] Directory: ")))
-  (let ((default-directory DIR))
-    (call-interactively 'compile)))
+(if is-windows
+    (setq amirreza-compile-receipes '( ;; Regex pattern as key and value would be (DIR COMMAND) that will be passed into (compilation-start)
+			     ("w:\\/HandmadeHero\\/.*" . ("w:/HandmadeHero/" ".\\build.bat"))
+			     ("w:\\/snappdoctor\\/metric-collector\\/.*" . ("w:/snappdoctor/metric-collector" ".\\build-server.bat"))))
 
+  ;; Linux and macos
+  (setq amirreza-compile-receipes '( ;; Regex pattern as key and value would be (DIR COMMAND) that will be passed into (compilation-start)
+			   ("~\\/w\\/HandmadeHero\\/.*" . ("~/w/HandmadeHero/" "./build.sh"))
+			   ("~\\/w\\/metric-collector\\/.*" . ("~/w/snappdoctor/metric-collector" "./build-server.sh")))))
+
+    
 (if is-windows 
-    (setq run-receipes '( ;; Regex pattern as key and value would be (DIR COMMAND) that will be passed into (compilation-start)
+    (setq amirreza-run-receipes '( ;; Regex pattern as key and value would be (DIR COMMAND) that will be passed into (compilation-start)
 			 ("w:\\/HandmadeHero\\/.*" . ("w:/HandmadeHero/" ".\\run.bat"))
 			 ("w:\\/snappdoctor\\/metric-collector\\/.*" . ("w:/snappdoctor/metric-collector" ".\\run-server.bat"))))
 
-  (setq run-receipes '( ;; Regex pattern as key and value would be (DIR COMMAND) that will be passed into (compilation-start)
+  ;; Linux and macos
+  (setq amirreza-run-receipes '( ;; Regex pattern as key and value would be (DIR COMMAND) that will be passed into (compilation-start)
 		       ("~\\/w\\/HandmadeHero\\/.*" . ("~/w/HandmadeHero/" ".\\run.bat"))
-		       ("~\\/w\\/metric-collector\\/.*" . ("~/w/snappdoctor/metric-collector" "./run-server.sh"))))
-  )
+		       ("~\\/w\\/metric-collector\\/.*" . ("~/w/snappdoctor/metric-collector" "./run-server.sh")))))
 
-(defun run-dwim ()
+(defun amirreza-compile ()
   (interactive)
   (let* ((dir (file-name-directory (buffer-file-name (current-buffer))))
-	 (args (alist-get dir run-receipes nil nil 'string-match-p)))
+	 (args (alist-get dir amirreza-compile-receipes nil nil 'string-match-p)))
+    (when args
+      (message "Compilation Command is '%s'" (car (cdr args)))
+      (message "Compilation Dir is '%s'" (car args)))
+    (save-some-buffers t nil)
+    (if args
+	(let ((default-directory (car args))) (compilation-start (car (cdr args))))
+      (call-interactively 'amirreza-compile-directory))))
+
+(defun amirreza-run ()
+  (interactive)
+  (let* ((dir (file-name-directory (buffer-file-name (current-buffer))))
+	 (args (alist-get dir amirreza-run-receipes nil nil 'string-match-p)))
     (when args
       (message "Run Command is '%s'" (car (cdr args)))
       (message "Run Dir is '%s'" (car args)))
     (save-some-buffers t nil)
     (if args
 	(let ((default-directory (car args))) (compilation-start (car (cdr args))))
-      (call-interactively 'run-directory))))
+      (call-interactively 'amirreza-run-directory))))
 
-
-;;;;;;;;;;
-;; GREP ;;
-;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;
+;; G/RE/P aka GREP;;
+;;;;;;;;;;;;;;;;;;;;
 (defun rg (dir pattern)
   "run Ripgrep"
   (interactive (list (read-directory-name "[Ripgrep] Directory: ") (read-string "[Ripgrep] Pattern: ")))
@@ -205,7 +220,7 @@
 	 (command (format "grep --exclude-dir=\".git\" --color=auto -nH --null -r -e \"%s\" ." pattern)))
     (compilation-start command 'grep-mode)))
 
-(defun grep-dwim (dir pattern)
+(defun amirreza-grep (dir pattern)
   (interactive (list (read-directory-name "[Grep] Directory: ") (read-string "[Grep] Pattern: ")))
   (cond
    ((or (executable-find "rg") is-windows) (rg dir pattern))
@@ -241,8 +256,7 @@
 ;;;;;;;;;;;
 ;; C/C++ ;;
 ;;;;;;;;;;;
-(setq-default c-default-style "linux"
-	      c-basic-offset 4)
+(setq-default c-default-style "linux" c-basic-offset 4)
 
 ;;;;;;;;;;;;
 ;; Golang ;;
@@ -255,15 +269,16 @@
   (setq-local amirreza-expansions (append '(("ifer" . "if err != nil {}")) amirreza-expansions)))
 
 (with-eval-after-load 'go-mode (add-hook 'go-mode-hook 'amirreza-go-hook))
+
 ;;;;;;;;;;;;;
 ;; Keymaps ;;
 ;;;;;;;;;;;;;
 (global-set-key (kbd "M-o") 'find-file)
 (global-set-key (kbd "C-.") 'isearch-forward-thing-at-point)
-(global-set-key (kbd "C-/") 'grep-dwim) ;; Magical search
-(global-set-key (kbd "<f5>") 'compile-dwim) ;; |> little green button of my IDE
-(global-set-key (kbd "M-m") 'compile-dwim) ;; |> button
-(global-set-key (kbd "C-M-m") 'run-dwim) ;; |> button
+(global-set-key (kbd "C-/") 'amirreza-grep) ;; Magical search
+(global-set-key (kbd "<f5>") 'amirreza-compile) ;; |> little green button of my IDE
+(global-set-key (kbd "M-m") 'amirreza-compile) ;; |> button
+(global-set-key (kbd "C-M-m") 'amirreza-run) ;; |> button
 (global-set-key (kbd "C-z") 'undo) ;; Sane undo key
 (global-set-key (kbd "C-<return>") 'save-buffer) ;; Save with one combo not C-x C-s shit
 (global-set-key (kbd "M-[") 'kmacro-start-macro) ;; start recording keyboard macro.
@@ -272,43 +287,51 @@
 (global-set-key (kbd "C-3") 'split-window-horizontally) ;; | split
 (global-set-key (kbd "C-2") 'split-window-vertically) ;; - split
 (global-set-key (kbd "C-o") 'other-window) ;; Switch window
-(global-set-key (kbd "C-q") 'amirreza-expand) ;; Try snippets and then expand with emacs dabbrev
+(global-set-key (kbd "C-q") 'amirreza-expand) ;; Try pre defined expansions and if nothing was found expand with emacs dabbrev
 (global-set-key (kbd "C-x C-c") 'delete-frame) ;; rebind exit key to just kill frame if possible
-(global-set-key (kbd "M-p") 'jump-up)
-(global-set-key (kbd "M-n") 'jump-down)
+(global-set-key (kbd "M-p") 'jump-up) ;; Jump through the buffer with preserving the cursor position in the center
+(global-set-key (kbd "M-n") 'jump-down) ;; Jump through the buffer with preserving the cursor position in the center
+(global-set-key (kbd "M-r") 'query-replace) ;; Replace pattern with a string
 (global-set-key (kbd "M-<up>") 'scroll-down-command)
 (global-set-key (kbd "M-<down>") 'scroll-up-command)
 (global-set-key (kbd "C-=") (lambda () (interactive) (text-scale-increase 1)))
 (global-set-key (kbd "C--") (lambda () (interactive) (text-scale-decrease 1)))
 (global-set-key (kbd "C->") 'end-of-buffer)
 (global-set-key (kbd "C-<") 'beginning-of-buffer)
-(global-set-key (kbd "M-i") 'imenu)
-(global-set-key (kbd "M-;") 'previous-error)
-(global-set-key (kbd "M-'") 'next-error)
+(global-set-key (kbd "M-i") 'imenu) ;; Symbols
+(global-set-key (kbd "M--") 'previous-error) ;; Move to previous error in compilation buffer
+(global-set-key (kbd "M-=") 'next-error) ;; Move to next error in compilation buffer
+(global-set-key (kbd "M-1") 'amirreza-open-notes) ;; Open my local notes file
+;; NOTE(amirreza): Rectangles are emacs way of doing multi cursor editing (some scenarios).
+(global-set-key (kbd "C-S-SPC") 'rectangle-mark-mode) ;; Toggle rectangle mode
+(global-set-key (kbd "C-x r i") 'string-insert-rectangle) ;; Rectangle insert
+(global-set-key (kbd "C-x r r") 'string-rectangle) ;; Rectangle replace
 
-
-;; Color My Emacs
+;;;;;;;;;;;;;;;;;;;;
+;; Color My Emacs ;;
+;;;;;;;;;;;;;;;;;;;;
 (defun handmadehero-theme ()
   (interactive)
-  (let ((background "#161616")
-	(highlight "midnight blue")
-	(region "medium blue")
-	(text "#cdaa7d")
-	(keyword "DarkGoldenrod3")
-	(comment "gray50")
-	(string "olive drab")
-	(variable "burlywood3")
-	(warning "#504038")
-	(constant "olive drab")
-	(cursor "green")
-	(function "burlywood3")
-	(macro "#8cde94")
-	(punctuation "burlywood3")
-	(builtin "#DAB98F"))
+  (global-hl-line-mode +1)
+  (let ((background          "#161616")
+	(highlight           "midnight blue")
+	(region              "medium blue")
+	(text                "#cdaa7d")
+	(keyword             "DarkGoldenrod3")
+	(comment             "gray50")
+	(string              "olive drab")
+	(variable            "burlywood3")
+	(warning             "#504038")
+	(constant            "olive drab")
+	(cursor              "green")
+	(function            "burlywood3")
+	(macro               "#8cde94")
+	(punctuation         "burlywood3")
+	(builtin             "#DAB98F"))
 
     (custom-set-faces
-     `(default ((t (:foreground ,text :background ,background))))
-     `(cursor ((t (:background ,cursor))))
+     `(default                          ((t (:foreground ,text :background ,background))))
+     `(cursor                           ((t (:background ,cursor))))
      `(font-lock-keyword-face           ((t (:foreground ,keyword))))
      `(font-lock-type-face              ((t (:foreground ,punctuation))))
      `(font-lock-constant-face          ((t (:foreground ,constant))))
@@ -323,15 +346,19 @@
      `(font-lock-preprocessor-face      ((t (:foreground ,macro))))
      `(font-lock-warning-face           ((t (:foreground ,warning))))
      `(region                           ((t (:background ,region))))
-     `(hl-line                          ((t :background ,highlight)))
+     `(hl-line                          ((t (:background ,highlight))))
+     `(mode-line                        ((t (:background "#ffffff" :foreground "#000000"))))
+     `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
+     `(show-paren-match                 ((t (:background "burlywood3" :foreground "black"))))
      `(highlight                        ((t :foreground nil :background ,region))))))
 
 
 (defun jonathan-blow-theme ()
   (interactive)
+  (global-hl-line-mode -1)
   (custom-set-faces
-   `(default ((t (:foreground "#d3b58d" :background "#072626"))))
-   `(cursor ((t (:background "lightgreen"))))
+   `(default                          ((t (:foreground "#d3b58d" :background "#072626"))))
+   `(cursor                           ((t (:background "lightgreen"))))
    `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
    `(font-lock-type-face              ((t (:foreground "#8cde94"))))
    `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
@@ -344,36 +371,38 @@
    `(font-lock-function-name-face     ((t (:foreground "white"))))
    `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
    `(font-lock-warning-face           ((t (:foreground "yellow"))))
-   `(mode-line ((t (:foreground "black" :background "#d3b58d"))))
-   `(mode-line-inactive ((t (:foreground "black" :background "white"))))
-   `(hl-line ((t (:foreground "#d3b58d" :background "#0b4040"))))))
+   `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
+   `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
+   `(show-paren-match                 ((t (:background "mediumseagreen"))))
+   `(hl-line                          ((t (:background "midnight blue"))))))
 
 
 (defun casey-muratori-theme ()
   (interactive)
-  (let ((background "#0C0C0C")
-	(highlight "#171616")
-	(region "#2f2f37")
-	(text "#a08563")
-	(keyword "#f0c674")
-	(comment "#686868")
-	(string "#6b8e23")
-	(variable "#b99468")
-	(warning "#504038")
-	(constant "#6b8e23")
-	(cursor "#EE7700")
-	(function "#cc5735")
-	(macro "#dab98f")
-	(type "#d8a51d")
-	(operator "#907553")
+  (global-hl-line-mode +1)
+  (let ((background  "#0C0C0C")
+	(highlight   "#171616")
+	(region      "#2f2f37")
+	(text        "#a08563")
+	(keyword     "#f0c674")
+	(comment     "#686868")
+	(string      "#6b8e23")
+	(variable    "#b99468")
+	(warning     "#504038")
+	(constant    "#6b8e23")
+	(cursor      "#EE7700")
+	(function    "#cc5735")
+	(macro       "#dab98f")
+	(type        "#d8a51d")
+	(operator    "#907553")
 	(punctuation "#907553") ;; 
-	(bracket "#907553") ;; [] {} ()
-	(delimiter "#907553") ;; ; :
-	(builtin "#DAB98F"))
+	(bracket     "#907553") ;; [] {} ()
+	(delimiter   "#907553") ;; ; :
+	(builtin     "#DAB98F"))
 
     (custom-set-faces
-     `(default ((t (:foreground ,text :background ,background))))
-     `(cursor ((t (:background ,cursor))))
+     `(default                          ((t (:foreground ,text :background ,background))))
+     `(cursor                           ((t (:background ,cursor))))
      `(font-lock-keyword-face           ((t (:foreground ,keyword))))
      `(font-lock-operator-face          ((t (:foreground ,operator))))
      `(font-lock-punctuation-face       ((t (:foreground ,punctuation))))
@@ -391,13 +420,16 @@
      `(font-lock-doc-string-face        ((t (:foreground ,string))))
      `(font-lock-preprocessor-face      ((t (:foreground ,macro))))
      `(font-lock-warning-face           ((t (:foreground ,warning))))
-     `(region ((t (:background ,region))))
-     `(hl-line ((t :background ,highlight)))
-     `(highlight ((t :foreground nil :background ,region)))
-     `(mode-line ((t (:foreground "#cb9401" :background "#1f1f27"))))
-     `(mode-line-inactive ((t (:foreground "#cb9401" :background "#1f1f27"))))
-     `(minibuffer-prompt ((t (:foreground ,text) :bold t)))
-     `(show-paren-match ((t (:background "#e0741b" :foreground "#000000")))))))
+     `(region                           ((t (:background ,region))))
+     `(hl-line                          ((t :background ,highlight)))
+     `(highlight                        ((t :foreground nil :background ,region)))
+     `(mode-line                        ((t (:foreground "#cb9401" :background "#1f1f27"))))
+     `(mode-line-inactive               ((t (:foreground "#cb9401" :background "#1f1f27"))))
+     `(minibuffer-prompt                ((t (:foreground ,text) :bold t)))
+     `(show-paren-match                 ((t (:background "#e0741b" :foreground "#000000")))))))
 
 
-(handmadehero-theme)
+(jonathan-blow-theme) ;; Theme from great jonathan blow
+
+(setq amirreza-emacs-init-took (* (float-time (time-subtract (float-time) amirreza-emacs-starting-time)) 1000))
+(message "Amirreza init took: %sms, Emacs took: %s" amirreza-emacs-init-took (emacs-init-time))
