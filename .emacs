@@ -86,8 +86,8 @@
 ;;;;;;;;;;;;;;;;;
 ;; Minibuffer  ;;
 ;;;;;;;;;;;;;;;;;
-(vertico-mode +1)
-(setq vertico-cycle t)
+;; (vertico-mode +1)
+;; (setq vertico-cycle t)
 
 ;;;;;;;;;;
 ;; MISC ;;
@@ -273,40 +273,41 @@
 ;;;;;;;;;;;;;
 ;; Keymaps ;;
 ;;;;;;;;;;;;;
-(global-set-key (kbd "M-o") 'find-file)
-(global-set-key (kbd "C-.") 'isearch-forward-thing-at-point)
-(global-set-key (kbd "C-/") 'amirreza-grep) ;; Magical search
-(global-set-key (kbd "<f5>") 'amirreza-compile) ;; |> little green button of my IDE
-(global-set-key (kbd "M-m") 'amirreza-compile) ;; |> button
-(global-set-key (kbd "C-M-m") 'amirreza-run) ;; |> button
-(global-set-key (kbd "C-z") 'undo) ;; Sane undo key
-(global-set-key (kbd "C-<return>") 'save-buffer) ;; Save with one combo not C-x C-s shit
-(global-set-key (kbd "M-[") 'kmacro-start-macro) ;; start recording keyboard macro.
-(global-set-key (kbd "M-]") 'kmacro-end-macro) ;; end recording keyboard macro.
-(global-set-key (kbd "M-\\") 'kmacro-end-and-call-macro) ;; execute keyboard macro.
-(global-set-key (kbd "C-3") 'split-window-horizontally) ;; | split
-(global-set-key (kbd "C-2") 'split-window-vertically) ;; - split
-(global-set-key (kbd "C-o") 'other-window) ;; Switch window
-(global-set-key (kbd "C-q") 'amirreza-expand) ;; Try pre defined expansions and if nothing was found expand with emacs dabbrev
-(global-set-key (kbd "C-x C-c") 'delete-frame) ;; rebind exit key to just kill frame if possible
-(global-set-key (kbd "M-p") 'jump-up) ;; Jump through the buffer with preserving the cursor position in the center
-(global-set-key (kbd "M-n") 'jump-down) ;; Jump through the buffer with preserving the cursor position in the center
-(global-set-key (kbd "M-r") 'query-replace) ;; Replace pattern with a string
-(global-set-key (kbd "M-<up>") 'scroll-down-command)
-(global-set-key (kbd "M-<down>") 'scroll-up-command)
-(global-set-key (kbd "C-=") (lambda () (interactive) (text-scale-increase 1)))
-(global-set-key (kbd "C--") (lambda () (interactive) (text-scale-decrease 1)))
-(global-set-key (kbd "C->") 'end-of-buffer)
-(global-set-key (kbd "C-<") 'beginning-of-buffer)
-(global-set-key (kbd "M-i") 'imenu) ;; Symbols
-(global-set-key (kbd "M--") 'previous-error) ;; Move to previous error in compilation buffer
-(global-set-key (kbd "M-=") 'next-error) ;; Move to next error in compilation buffer
-(global-set-key (kbd "M-1") 'amirreza-open-notes) ;; Open my local notes file
-;; NOTE(amirreza): Rectangles are emacs way of doing multi cursor editing (some scenarios).
-(global-set-key (kbd "C-S-SPC") 'rectangle-mark-mode) ;; Toggle rectangle mode
-(global-set-key (kbd "C-x r i") 'string-insert-rectangle) ;; Rectangle insert
-(global-set-key (kbd "C-x r r") 'string-rectangle) ;; Rectangle replace
-
+(global-set-key (kbd "M-o")                      'find-file)
+(global-set-key (kbd "C-.")                      'isearch-forward-thing-at-point)
+(global-set-key (kbd "C-/")                      'amirreza-grep) ;; Magical search
+(global-set-key (kbd "<f5>")                     'amirreza-compile) ;; |> little green button of my IDE
+(global-set-key (kbd "M-m")                      'amirreza-compile) ;; |> button
+(global-set-key (kbd "C-M-m")                    'amirreza-run) ;; |> button
+(global-set-key (kbd "C-z")                      'undo) ;; Sane undo key
+(global-set-key (kbd "C-<return>")               'save-buffer) ;; Save with one combo not C-x C-s shit
+(global-set-key (kbd "M-[")                      'kmacro-start-macro) ;; start recording keyboard macro.
+(global-set-key (kbd "M-]")                      'kmacro-end-macro) ;; end recording keyboard macro.
+(global-set-key (kbd "M-\\")                     'kmacro-end-and-call-macro) ;; execute keyboard macro.
+(global-set-key (kbd "C-3")                      'split-window-horizontally) ;; | split
+(global-set-key (kbd "C-2")                      'split-window-vertically) ;; - split
+(global-set-key (kbd "C-o")                      'other-window) ;; Switch window
+(global-set-key (kbd "C-q")                      'amirreza-expand) ;; Try pre defined expansions and if nothing was found expand with emacs dabbrev
+(global-set-key (kbd "C-x C-c")                  'delete-frame) ;; rebind exit key to just kill frame if possible
+(global-set-key (kbd "M-p")                      'jump-up) ;; Jump through the buffer with preserving the cursor position in the center
+(global-set-key (kbd "M-n")                      'jump-down) ;; Jump through the buffer with preserving the cursor position in the center
+(global-set-key (kbd "M-r")                      'query-replace) ;; Replace pattern with a string
+(global-set-key (kbd "M-<up>")                   'scroll-down-command)
+(global-set-key (kbd "M-<down>")                 'scroll-up-command)
+(global-set-key (kbd "C-=")                      (lambda () (interactive) (text-scale-increase 1)))
+(global-set-key (kbd "C--")                      (lambda () (interactive) (text-scale-decrease 1)))
+(global-set-key (kbd "C->")                      'end-of-buffer)
+(global-set-key (kbd "C-<")                      'beginning-of-buffer)
+(global-set-key (kbd "M-i")                      'imenu) ;; Symbols
+(global-set-key (kbd "M--")                      'previous-error) ;; Move to previous error in compilation buffer
+(global-set-key (kbd "M-=")                      'next-error) ;; Move to next error in compilation buffer
+(global-set-key (kbd "M-1")                      'amirreza-open-notes) ;; Open my local notes file
+(global-set-key (kbd "C-S-SPC")                  'rectangle-mark-mode) ;; Toggle rectangle mode
+(global-set-key (kbd "C-x r i")                  'string-insert-rectangle) ;; Rectangle insert
+(global-set-key (kbd "C-x r r")                  'string-rectangle) ;; Rectangle replace
+(global-set-key (kbd "C-{")                      'previous-buffer)
+(global-set-key (kbd "C-}")                      'next-buffer)
+(global-set-key (kbd "C-;")                      'goto-line)
 ;;;;;;;;;;;;;;;;;;;;
 ;; Color My Emacs ;;
 ;;;;;;;;;;;;;;;;;;;;
@@ -429,7 +430,7 @@
      `(show-paren-match                 ((t (:background "#e0741b" :foreground "#000000")))))))
 
 
-(jonathan-blow-theme) ;; Theme from great jonathan blow
+(handmadehero-theme) ;; Theme from great jonathan blow
 
 (setq amirreza-emacs-init-took (* (float-time (time-subtract (float-time) amirreza-emacs-starting-time)) 1000))
 (message "Amirreza init took: %sms, Emacs took: %s" amirreza-emacs-init-took (emacs-init-time))
