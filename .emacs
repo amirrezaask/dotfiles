@@ -11,7 +11,7 @@
 (setq frame-inhibit-implied-resize t) ;; Don't let emacs to resize frame when something inside changes
 (setq gc-cons-threshold 200000000) ;; 200 MB for the GC threshold
 (setq redisplay-dont-pause t)
-;; (setq debug-on-error t) ;; debug on error
+(setq debug-on-error t) ;; debug on error
 (setq vc-follow-symlinks t) ;; Follow symlinks with no questions
 (setq ring-bell-function (lambda ())) ;; no stupid sounds
 (setq custom-file "~/.custom.el") ;; set custom file to not meddle with init.el
@@ -59,12 +59,17 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun home (path)
   (expand-file-name path (getenv "HOME")))
-(add-to-list 'exec-path (home ".local/bin"))
-(add-to-list 'exec-path "/usr/local/go/bin")
-(add-to-list 'exec-path (home ".cargo/bin"))
-(add-to-list 'exec-path "/opt/homebrew/bin") ;; homebrew
+
+(unless is-windows
+  (add-to-list 'exec-path (home ".local/bin"))
+  (add-to-list 'exec-path "/usr/local/go/bin")
+  (add-to-list 'exec-path (home ".cargo/bin"))
+  (add-to-list 'exec-path "/opt/homebrew/bin"))
+
 (add-to-list 'exec-path (home "bin")) ;; GOPATH/bin
-(add-to-list 'exec-path "c:/programs/bin")
+(when is-windows
+      (add-to-list 'exec-path "w:/bin")
+      (add-to-list 'exec-path "c:/programs/bin"))
 
 (if (eq system-type 'windows-nt)
     (setenv "PATH" (string-join exec-path ";"))
@@ -81,13 +86,6 @@
 (install 'yaml-mode)
 (install 'json-mode)
 (install 'go-mode)
-(install 'vertico)
-
-;;;;;;;;;;;;;;;;;
-;; Minibuffer  ;;
-;;;;;;;;;;;;;;;;;
-;; (vertico-mode +1)
-;; (setq vertico-cycle t)
 
 ;;;;;;;;;;
 ;; MISC ;;
@@ -113,19 +111,25 @@
   (interactive)
   (find-file amirreza-notes-file))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Highlight TODO/NOTE  ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq hl-todo-modes '(c-mode c++-mode go-mode emacs-lisp))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Highlight TODO/NOTE/SPEED/FIX  ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (make-face 'font-lock-todo-face)
 (make-face 'font-lock-note-face)
-(set-face-attribute 'font-lock-todo-face nil :foreground "Red" :underline t)
-(set-face-attribute 'font-lock-note-face nil :foreground "Yellow" :underline t)
+(make-face 'font-lock-fix-face)
+(make-face 'font-lock-speed-face)
+(set-face-attribute 'font-lock-todo-face nil  :foreground  "Red"    :underline t)
+(set-face-attribute 'font-lock-note-face nil  :foreground  "Yellow" :underline t)
+(set-face-attribute 'font-lock-speed-face nil :foreground  "Green"  :underline t)
+(set-face-attribute 'font-lock-fix-face  nil  :foreground  "Red"    :underline t)
 (defun amirreza-add-todo/note-highlight ()
   (font-lock-add-keywords
    major-mode
-   '(("\\<\\(TODO\\)" 1 'font-lock-todo-face t)
-     ("\\<\\(NOTE\\)" 1 'font-lock-note-face t))))
+   '(("\\<\\(TODO\\)" 1  'font-lock-todo-face t)
+     ("\\<\\(FIX\\)" 1   'font-lock-fix-face t)
+     ("\\<\\(SPEED\\)" 1 'font-lock-speed-face t)
+     ("\\<\\(NOTE\\)" 1  'font-lock-note-face t)
+     )))
 (add-hook 'prog-mode-hook 'amirreza-add-todo/note-highlight)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -351,7 +355,7 @@
      `(mode-line                        ((t (:background "#ffffff" :foreground "#000000"))))
      `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
      `(show-paren-match                 ((t (:background "burlywood3" :foreground "black"))))
-     `(highlight                        ((t :foreground nil :background ,region))))))
+     `(highlight                        ((t (:foreground nil :background ,region)))))))
 
 
 (defun jonathan-blow-theme ()
@@ -422,15 +426,15 @@
      `(font-lock-preprocessor-face      ((t (:foreground ,macro))))
      `(font-lock-warning-face           ((t (:foreground ,warning))))
      `(region                           ((t (:background ,region))))
-     `(hl-line                          ((t :background ,highlight)))
-     `(highlight                        ((t :foreground nil :background ,region)))
+     `(hl-line                          ((t (:background ,highlight))))
+     `(highlight                        ((t (:foreground nil :background ,region))))
      `(mode-line                        ((t (:foreground "#cb9401" :background "#1f1f27"))))
      `(mode-line-inactive               ((t (:foreground "#cb9401" :background "#1f1f27"))))
      `(minibuffer-prompt                ((t (:foreground ,text) :bold t)))
      `(show-paren-match                 ((t (:background "#e0741b" :foreground "#000000")))))))
 
 
-(handmadehero-theme) ;; Theme from great jonathan blow
+(jonathan-blow-theme) ;; Theme from great jonathan blow
 
 (setq amirreza-emacs-init-took (* (float-time (time-subtract (float-time) amirreza-emacs-starting-time)) 1000))
 (message "Amirreza init took: %sms, Emacs took: %s" amirreza-emacs-init-took (emacs-init-time))
