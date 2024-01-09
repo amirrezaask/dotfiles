@@ -132,6 +132,21 @@
      )))
 (add-hook 'prog-mode-hook 'amirreza-add-todo/note-highlight)
 
+
+
+(setq amirreza-split-window-horizontal-vertical-threshold 250)
+
+(defun amirreza-split-window ()
+  "Split window based on 'amirreza-split-window-horizontal-vertical-threshold'"
+  (interactive)
+  (if (> (frame-width nil) amirreza-split-window-horizontal-vertical-threshold)
+      (progn
+	(delete-other-windows)
+	(split-window-horizontally))
+    (progn
+      (delete-other-windows)
+      (split-window-vertically))))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;   Compiling and Running    ;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -177,24 +192,30 @@
 
 (defun amirreza-compile ()
   (interactive)
-  (let* ((dir (file-name-directory (buffer-file-name (current-buffer))))
+  (let* (
+	 (dir (file-name-directory (buffer-file-name (current-buffer))))
 	 (args (alist-get dir amirreza-compile-receipes nil nil 'string-match-p)))
     (when args
       (message "Compilation Command is '%s'" (car (cdr args)))
       (message "Compilation Dir is '%s'" (car args)))
     (save-some-buffers t nil)
+    (amirreza-split-window)
+
     (if args
 	(let ((default-directory (car args))) (compilation-start (car (cdr args))))
       (call-interactively 'amirreza-compile-directory))))
 
 (defun amirreza-run ()
   (interactive)
-  (let* ((dir (file-name-directory (buffer-file-name (current-buffer))))
+  (let* (
+	 (dir (file-name-directory (buffer-file-name (current-buffer))))
 	 (args (alist-get dir amirreza-run-receipes nil nil 'string-match-p)))
     (when args
       (message "Run Command is '%s'" (car (cdr args)))
       (message "Run Dir is '%s'" (car args)))
     (save-some-buffers t nil)
+    (amirreza-split-window)
+
     (if args
 	(let ((default-directory (car args))) (compilation-start (car (cdr args))))
       (call-interactively 'amirreza-run-directory))))
@@ -206,21 +227,29 @@
   "run Ripgrep"
   (interactive (list (read-directory-name "[Ripgrep] Directory: ") (read-string "[Ripgrep] Pattern: ")))
   (unless (executable-find "rg") (error "ripgrep executable not found, install from https://github.com/BurntSushi/ripgrep/releases"))
-  (let* ((default-directory dir)
+  (amirreza-split-window)
+
+  (let* (
+	 (default-directory dir)
 	 (command (format "rg --vimgrep \"%s\" ." pattern)))
     (compilation-start command 'grep-mode)))
 
 (defun ug (dir pattern)
   (interactive (list (read-directory-name "[ug] Directory: ") (read-string "[ug] Pattern: ")))
   (unless (executable-find "ug") (error "ugrep executable not found, install from https://github.com/Genivia/ugrep/releases"))
-  (let* ((default-directory dir)
+  (amirreza-split-window)
+
+  (let* (
+	 (default-directory dir)
 	 (command (format "ug --exclude-dir=\".git\" --color=auto -nH --null -r -e \"%s\" ." pattern)))
     (compilation-start command 'grep-mode)))
 
 (defun gnu-grep (dir pattern)
   (interactive (list (read-directory-name "[grep] Directory: ") (read-string "[grep] Pattern: ")))
   (unless (executable-find "ug") (error "Gnu Grep executable not found"))
-  (let* ((default-directory dir)
+  (amirreza-split-window)
+  (let* (
+	 (default-directory dir)
 	 (command (format "grep --exclude-dir=\".git\" --color=auto -nH --null -r -e \"%s\" ." pattern)))
     (compilation-start command 'grep-mode)))
 
@@ -284,12 +313,12 @@
 (global-set-key (kbd "M-m")                      'amirreza-compile) ;; |> button
 (global-set-key (kbd "C-M-m")                    'amirreza-run) ;; |> button
 (global-set-key (kbd "C-z")                      'undo) ;; Sane undo key
+(global-set-key (kbd "C-0")                      'delete-other-windows)
+(global-set-key (kbd "C-9")                      'amirreza-split-window)
 (global-set-key (kbd "C-<return>")               'save-buffer) ;; Save with one combo not C-x C-s shit
 (global-set-key (kbd "M-[")                      'kmacro-start-macro) ;; start recording keyboard macro.
 (global-set-key (kbd "M-]")                      'kmacro-end-macro) ;; end recording keyboard macro.
 (global-set-key (kbd "M-\\")                     'kmacro-end-and-call-macro) ;; execute keyboard macro.
-(global-set-key (kbd "C-3")                      'split-window-horizontally) ;; | split
-(global-set-key (kbd "C-2")                      'split-window-vertically) ;; - split
 (global-set-key (kbd "C-o")                      'other-window) ;; Switch window
 (global-set-key (kbd "C-q")                      'amirreza-expand) ;; Try pre defined expansions and if nothing was found expand with emacs dabbrev
 (global-set-key (kbd "C-x C-c")                  'delete-frame) ;; rebind exit key to just kill frame if possible
@@ -312,6 +341,7 @@
 (global-set-key (kbd "C-{")                      'previous-buffer)
 (global-set-key (kbd "C-}")                      'next-buffer)
 (global-set-key (kbd "C-;")                      'goto-line)
+(global-set-key (kbd "C-x C-SPC")                'rectangle-mark-mode)
 ;;;;;;;;;;;;;;;;;;;;
 ;; Color My Emacs ;;
 ;;;;;;;;;;;;;;;;;;;;
@@ -360,9 +390,10 @@
 
 (defun jonathan-blow-theme ()
   (interactive)
-  (global-hl-line-mode -1)
+  (global-hl-line-mode +1)
   (custom-set-faces
    `(default                          ((t (:foreground "#d3b58d" :background "#072626"))))
+   `(hl-line                          ((t (:background "#0c4141"))))
    `(cursor                           ((t (:background "lightgreen"))))
    `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
    `(font-lock-type-face              ((t (:foreground "#8cde94"))))
@@ -378,8 +409,7 @@
    `(font-lock-warning-face           ((t (:foreground "yellow"))))
    `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
    `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
-   `(show-paren-match                 ((t (:background "mediumseagreen"))))
-   `(hl-line                          ((t (:background "midnight blue"))))))
+   `(show-paren-match                 ((t (:background "mediumseagreen"))))))
 
 
 (defun casey-muratori-theme ()
