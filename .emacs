@@ -9,6 +9,7 @@
 
 (setq amirreza-emacs-starting-time (float-time)) ;; Store current time for further analysis.
 (setq frame-inhibit-implied-resize t) ;; Don't let emacs to resize frame when something inside changes
+(setq initial-scratch-message "") ;; No starting text in *scratch* buffer.
 (setq gc-cons-threshold 200000000) ;; 200 MB for the GC threshold
 (setq redisplay-dont-pause t)
 (setq debug-on-error t) ;; debug on error
@@ -113,17 +114,21 @@
 (setq kill-whole-line t) ;; kill line and newline char
 (delete-selection-mode) ;; when selected a text and user types delete text
 
-(defun amirreza-compile-directory (DIR)
+(defun amirreza-build (DIR &optional SPLIT)
   "Compile in a directory"
-  (interactive (list (read-directory-name "[Compile] Directory: ")))
-  (let ((default-directory DIR))
-    (call-interactively 'compile)))
+  (interactive (list (read-directory-name "[Build] Directory: ")))
+  (let ((default-directory DIR)
+	(command (read-string "[Build] Command:")))
+    (if SPLIT (amirreza-split-window))
+    (compilation-start command)))
 
-(defun amirreza-run-directory (DIR)
+(defun amirreza-run (DIR &optional SPLIT)
   "Compile in a directory"
   (interactive (list (read-directory-name "[Run] Directory: ")))
-  (let ((default-directory DIR))
-    (call-interactively 'compile)))
+  (let ((default-directory DIR)
+	(command (read-string "[Run] Command:")))
+    (if SPLIT (amirreza-split-window))
+    (compilation-start command)))
 
 (with-eval-after-load 'compile
   (define-key compilation-mode-map (kbd "<f5>") 'recompile)
@@ -136,7 +141,7 @@
 ;;; Workspace Layer ;;;
 (defvar amirreza-workspaces '() "Workspace objects.")
 (defvar amirreza-workspaces-file "~/emacs-workspaces" "Path to the workspace file.")
-(defun amirreza-reload-workspaces ()
+(defun amirreza-workspace-reload-workspaces ()
   (interactive)
   (if (file-readable-p amirreza-workspaces-file)
       (progn
@@ -148,8 +153,7 @@
 (defun amirreza-list-workspaces ()
   (let* ((workspaces '()))
     (mapc (lambda (workspace-obj)
-	    (add-to-list 'workspaces (plist-get (cdr workspace-obj) :name))
-	    ) amirreza-workspaces)
+	    (add-to-list 'workspaces (plist-get (cdr workspace-obj) :name))) amirreza-workspaces)
 
     workspaces))
 
@@ -163,14 +167,14 @@
 
     workspace))
 
-(defun amirreza-open-workspace (NAME)
+(defun amirreza-workspace-jump-to-workspace (NAME)
   (interactive (list (completing-read "[Workspace]: " (amirreza-list-workspaces))))
   (let* ((workspace (amirreza-get-workspace-by-name NAME))
 	 (workspace (if workspace (cdr workspace))))
     (if workspace
 	(find-file (plist-get workspace :cwd)))))
 
-(defun amirreza-open-workspaces-file ()
+(defun amirreza-workspace-open-workspaces-file ()
   (interactive)
   (find-file amirreza-workspaces-file))
 
@@ -183,48 +187,47 @@
 	:cwd     CWD for building and running
 	:pattern regex pattern to match files in the workspace
 )
-
 "
   (let ((name (plist-get kargs     :name))
 	(cwd  (plist-get kargs     :cwd))
 	(build  (plist-get kargs   :build))
 	(run  (plist-get kargs     :run))
 	(pattern  (plist-get kargs :pattern)))
-    
     (add-to-list 'amirreza-workspaces `(,pattern   :name ,name :build ,build :run ,run :cwd ,cwd))))
 
+(defun amirreza-workspace-build ()
+  "Runs :build command of workspace inside :cwd."
+  (interactive)
+  (let* ((file default-directory)
+	 (workspace (amirreza-get-workspace-for-path file)))
+    (save-some-buffers t nil)
+    (if workspace
+	(let ((default-directory (plist-get workspace :cwd))) (amirreza-split-window) (compilation-start (plist-get workspace :build)))
+      (amirreza-build (read-directory-name "[Build] Directory: ") t))))
 
-(defun amirreza-build ()
+(defun amirreza-workspace-run ()
+  "Runs :run command of workspace inside :cwd."
   (interactive)
   (let* (
 	 (file default-directory)
 	 (workspace (amirreza-get-workspace-for-path file)))
-    (when workspace
-      (message "[%s] Build Command is '%s'" (plist-get workspace :name) (plist-get workspace :build))
-      (message "[%s] Dir is '%s'" (plist-get workspace :name) (plist-get workspace :cwd)))
     (save-some-buffers t nil)
-    (amirreza-split-window)
     (if workspace
-	(let ((default-directory (plist-get workspace :cwd))) (compilation-start (plist-get workspace :build)))
-      (call-interactively 'amirreza-compile-directory))))
+	(let ((default-directory (plist-get workspace :cwd))) (amirreza-split-window) (compilation-start (plist-get workspace :run)))
+      (amirreza-run (read-directory-name "[Run] Directory: ") t))))
 
-(defun amirreza-run ()
+(defun amirreza-workspace-grep ()
+  "Runs amirreza-grep inside workspace :cwd"
   (interactive)
   (let* (
 	 (file default-directory)
 	 (workspace (amirreza-get-workspace-for-path file)))
-    (when workspace
-      (message "[%s] Run Command is '%s'" (plist-get workspace :name) (plist-get workspace :run))
-      (message "[%s] Dir is '%s'" (plist-get workspace :name) (plist-get workspace :cwd)))
     (save-some-buffers t nil)
-    (amirreza-split-window)
     (if workspace
-	(let ((default-directory (plist-get workspace :cwd))) (compilation-start (plist-get workspace :run)))
-      (call-interactively 'amirreza-run-directory))))
+	(let ((default-directory (plist-get workspace :cwd))) (amirreza-grep default-directory (read-string "[Workspace] Search: ") t))
+      (call-interactively 'amirreza-grep))))
 
-
-
-(amirreza-reload-workspaces)
+(amirreza-workspace-reload-workspaces)
 
 ;; G/RE/P aka GREP
 (defun rg (dir pattern)
@@ -247,9 +250,10 @@
 	 (command (format "grep --exclude-dir=\".git\" --color=auto -nH --null -r -e \"%s\" ." pattern)))
     (compilation-start command 'grep-mode)))
 
-(defun amirreza-grep (dir pattern)
+(defun amirreza-grep (dir pattern &optional SPLIT)
   ""
   (interactive (list (read-directory-name "[Grep] Directory: ") (read-string "[Grep] Pattern: ")))
+  (if SPLIT (amirreza-split-window))
   (cond
    ((or (executable-find "rg") is-windows) (rg dir pattern))
    (t (gnu-grep dir pattern))))
@@ -398,17 +402,18 @@
      `(show-paren-match                 ((t (:background "#e0741b" :foreground "#000000")))))))
 
 
-(jonathan-blow-theme)
+(handmadehero-theme)
 
 ;; Keybindings section
-(global-set-key (kbd "M-o")                      'find-file)
-(global-set-key (kbd "C-x w o")                  'amirreza-open-workspace)
-(global-set-key (kbd "C-x w f")                  'amirreza-open-workspaces-file)
-(global-set-key (kbd "C-x w r")                  'amirreza-reload-workspaces)
+;; Workspace keys
+(global-set-key (kbd "C-c j")                    'amirreza-workspace-jump-to-workspace)
+(global-set-key (kbd "C-c O")                    'amirreza-workspace-open-workspaces-file)
+(global-set-key (kbd "C-c R")                    'amirreza-workspace-reload-workspaces)
+(global-set-key (kbd "C-c m")                    'amirreza-workspace-grep)
+(global-set-key (kbd "C-c b")                    'amirreza-workspace-build)
+(global-set-key (kbd "C-c B")                    'amirreza-workspace-run)
+;; 
 (global-set-key (kbd "C-.")                      'isearch-forward-thing-at-point)
-(global-set-key (kbd "C-/")                      'amirreza-grep) ;; Magical search
-(global-set-key (kbd "M-m")                      'amirreza-build) ;; |> button
-(global-set-key (kbd "C-M-m")                    'amirreza-run) ;; |> button
 (global-set-key (kbd "C-z")                      'undo) ;; Sane undo key
 (global-set-key (kbd "C-0")                      'delete-other-windows)
 (global-set-key (kbd "C-9")                      'amirreza-split-window)
@@ -416,7 +421,6 @@
 (global-set-key (kbd "M-[")                      'kmacro-start-macro) ;; start recording keyboard macro.
 (global-set-key (kbd "M-]")                      'kmacro-end-macro) ;; end recording keyboard macro.
 (global-set-key (kbd "M-\\")                     'kmacro-end-and-call-macro) ;; execute keyboard macro.
-(global-set-key (kbd "C-o")                      'other-window) ;; Switch window
 (global-set-key (kbd "C-q")                      'amirreza-expand) ;; Try pre defined expansions and if nothing was found expand with emacs dabbrev
 (global-set-key (kbd "C-x C-c")                  'delete-frame) ;; rebind exit key to just kill frame if possible
 (global-set-key (kbd "M-p")                      'jump-up) ;; Jump through the buffer with preserving the cursor position in the center
@@ -437,20 +441,11 @@
 (global-set-key (kbd "C-x r r")                  'string-rectangle) ;; Rectangle replace
 (global-set-key (kbd "C-{")                      'previous-buffer)
 (global-set-key (kbd "C-}")                      'next-buffer)
-(global-set-key (kbd "C-;")                      'goto-line)
-(global-set-key (kbd "C-x C-SPC")                'rectangle-mark-mode)
+(global-set-key (kbd "C-c o")                    'goto-line)
+(global-set-key (kbd "C-c C-SPC")                'rectangle-mark-mode)
 
+;; Performance benchmark
 (setq amirreza-emacs-init-took (* (float-time (time-subtract (float-time) amirreza-emacs-starting-time)) 1000))
 (setq emacs-init-time-took (* (string-to-number (emacs-init-time "%f")) 1000))
-(setq amirreza-emacs-init-log-message (format "Amirreza emacs init took %fms\nEmacs init took: %fms" amirreza-emacs-init-took emacs-init-time-took))
-(setq amirreza-ascii-art "
-     ___              _                            ___         __         
-    /   |  ____ ___  (_)____________  ____  ____ _/   |  _____/ /__       
-   / /| | / __ `__ \\/ / ___/ ___/ _ \\/_  / / __ `/ /| | / ___/ //_/     
-  / ___ |/ / / / / / / /  / /  /  __/ / /_/ /_/ / ___ |(__  ) ,<          
- /_/  |_/_/ /_/ /_/_/_/  /_/   \\___/ /___/\\__,_/_/  |_/____/_/|_|       
-                                                                          
-"
-)
-
-(setq initial-scratch-message (format "%s\n\n\n\n%s\n" amirreza-ascii-art amirreza-emacs-init-log-message))
+(setq amirreza-emacs-init-log-message (format "Amirreza emacs init took %fms, Emacs init took: %fms" amirreza-emacs-init-took emacs-init-time-took))
+(message amirreza-emacs-init-log-message)
