@@ -139,14 +139,14 @@
 (defun amirreza-get-workspace-for-path (PATH) (alist-get PATH amirreza-workspaces nil nil 'string-match-p))
 
 (defun defworkspace (&rest kargs)
-  (let ((name (plist-get kargs    :name))
-	(windows (plist-get kargs :windows))
-	(linux (plist-get kargs   :linxu))
-	(macos (plist-get kargs   :macos)))
-    (cond
-     (is-windows (add-to-list 'amirreza-workspaces   `(,(plist-get windows :pattern)   :name ,name :build ,(plist-get windows :build) :run ,(plist-get windows :run) :cwd ,(plist-get windows :cwd))))
-     (is-macos (add-to-list   'amirreza-workspaces   `(,(plist-get macos :pattern)     :name ,name :build ,(plist-get macos :build) :run ,(plist-get macos :run) :cwd ,(plist-get macos :cwd))))
-     (is-linux (add-to-list   'amirreza-workspaces   `(,(plist-get linux :pattern)     :name ,name :build ,(plist-get linux :build) :run ,(plist-get linux :run) :cwd ,(plist-get linux :cwd)))))))
+  (let ((name (plist-get kargs     :name))
+	(cwd  (plist-get kargs     :cwd))
+	(build  (plist-get kargs   :build))
+	(run  (plist-get kargs     :run))
+	(pattern  (plist-get kargs :pattern)))
+    
+    (add-to-list 'amirreza-workspaces `(,pattern   :name ,name :build ,build :run ,run :cwd ,cwd))
+    ))
 
 
 (defun amirreza-build ()
