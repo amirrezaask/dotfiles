@@ -68,7 +68,7 @@
     (set-frame-font fontstring nil t)
     (set-face-attribute 'default t :font fontstring)))
 
-(load-font "Hack" 11)
+(load-font "Consolas" 13)
 
 (defun home (path)
   (expand-file-name path (getenv "HOME")))
@@ -134,19 +134,64 @@
 
 
 ;;; Workspace Layer ;;;
-(setq amirreza-workspaces '())
+(defvar amirreza-workspaces '() "Workspace objects.")
+(defvar amirreza-workspaces-file "~/emacs-workspaces" "Path to the workspace file.")
+(defun amirreza-reload-workspaces ()
+  (interactive)
+  (if (file-readable-p amirreza-workspaces-file)
+      (progn
+	(setq amirreza-workspaces '())
+	(load-file amirreza-workspaces-file)
+	(message "#%d workspaces loaded." (length amirreza-workspaces)))
+    (error "Workspace file %s is not readable." amirreza-workspaces-file)))
+
+(defun amirreza-list-workspaces ()
+  (let* ((workspaces '()))
+    (mapc (lambda (workspace-obj)
+	    (add-to-list 'workspaces (plist-get (cdr workspace-obj) :name))
+	    ) amirreza-workspaces)
+
+    workspaces))
 
 (defun amirreza-get-workspace-for-path (PATH) (alist-get PATH amirreza-workspaces nil nil 'string-match-p))
 
+(defun amirreza-get-workspace-by-name (NAME)
+  (let* ((workspace nil))
+    (mapc (lambda (workspace-obj)
+	    (if (string-equal (plist-get (cdr workspace-obj) :name) NAME) (setq workspace workspace-obj))
+	    ) amirreza-workspaces)
+
+    workspace))
+
+(defun amirreza-open-workspace (NAME)
+  (interactive (list (completing-read "[Workspace]: " (amirreza-list-workspaces))))
+  (let* ((workspace (amirreza-get-workspace-by-name NAME))
+	 (workspace (if workspace (cdr workspace))))
+    (if workspace
+	(find-file (plist-get workspace :cwd)))))
+
+(defun amirreza-open-workspaces-file ()
+  (interactive)
+  (find-file amirreza-workspaces-file))
+
 (defun defworkspace (&rest kargs)
+  "Defines a workspace, designed to be called from a seperate file, use it in `amirreza-workspaces-file`
+  (defworkspace
+	:name    Name of the workspace
+	:build   Command to be called for building, it will be called in :cwd
+	:run     Command to be called for running, it will be called in :cwd
+	:cwd     CWD for building and running
+	:pattern regex pattern to match files in the workspace
+)
+
+"
   (let ((name (plist-get kargs     :name))
 	(cwd  (plist-get kargs     :cwd))
 	(build  (plist-get kargs   :build))
 	(run  (plist-get kargs     :run))
 	(pattern  (plist-get kargs :pattern)))
     
-    (add-to-list 'amirreza-workspaces `(,pattern   :name ,name :build ,build :run ,run :cwd ,cwd))
-    ))
+    (add-to-list 'amirreza-workspaces `(,pattern   :name ,name :build ,build :run ,run :cwd ,cwd))))
 
 
 (defun amirreza-build ()
@@ -178,15 +223,8 @@
       (call-interactively 'amirreza-run-directory))))
 
 
-;; Load workspaces
-(setq amirreza-workspaces-file "~/emacs-workspaces")
-(if (file-readable-p amirreza-workspaces-file)
-    (load-file amirreza-workspaces-file)
-  (error "Workspace file %s is not readable." amirreza-workspaces-file))
 
-;;;;;;;;;;;;;;;;;;;;;
-
-
+(amirreza-reload-workspaces)
 
 ;; G/RE/P aka GREP
 (defun rg (dir pattern)
@@ -364,6 +402,9 @@
 
 ;; Keybindings section
 (global-set-key (kbd "M-o")                      'find-file)
+(global-set-key (kbd "C-x w o")                  'amirreza-open-workspace)
+(global-set-key (kbd "C-x w f")                  'amirreza-open-workspaces-file)
+(global-set-key (kbd "C-x w r")                  'amirreza-reload-workspaces)
 (global-set-key (kbd "C-.")                      'isearch-forward-thing-at-point)
 (global-set-key (kbd "C-/")                      'amirreza-grep) ;; Magical search
 (global-set-key (kbd "M-m")                      'amirreza-build) ;; |> button
