@@ -11,7 +11,7 @@
 (setq frame-inhibit-implied-resize t) ;; Don't let emacs to resize frame when something inside changes
 (setq gc-cons-threshold 200000000) ;; 200 MB for the GC threshold
 (setq redisplay-dont-pause t)
-;; (setq debug-on-error t) ;; debug on error
+(setq debug-on-error t) ;; debug on error
 (setq vc-follow-symlinks t) ;; Follow symlinks with no questions
 (setq ring-bell-function (lambda ())) ;; no stupid sounds
 (setq custom-file "~/.custom.el") ;; set custom file to not meddle with init.el
@@ -135,18 +135,29 @@
 
 (defun amirreza-get-workspace-for-path (PATH) (alist-get PATH amirreza-workspaces nil nil 'string-match-p))
 
-(defun amirreza-compile ()
+(defun defworkspace (&rest kargs)
+  (let ((name (plist-get kargs    :name))
+	(windows (plist-get kargs :windows))
+	(linux (plist-get kargs   :linxu))
+	(macos (plist-get kargs   :macos)))
+    (cond
+     (is-windows (add-to-list 'amirreza-workspaces   `(,(plist-get windows :pattern)   :name ,name :build ,(plist-get windows :build) :run ,(plist-get windows :run) :cwd ,(plist-get windows :cwd))))
+     (is-macos (add-to-list   'amirreza-workspaces   `(,(plist-get macos :pattern)     :name ,name :build ,(plist-get macos :build) :run ,(plist-get macos :run) :cwd ,(plist-get macos :cwd))))
+     (is-linux (add-to-list   'amirreza-workspaces   `(,(plist-get linux :pattern)     :name ,name :build ,(plist-get linux :build) :run ,(plist-get linux :run) :cwd ,(plist-get linux :cwd)))))))
+
+
+(defun amirreza-build ()
   (interactive)
   (let* (
 	 (file (buffer-file-name (current-buffer)))
 	 (workspace (amirreza-get-workspace-for-path file)))
     (when workspace
-      (message "[Compile] Command is '%s'" (plist-get workspace :compile))
-      (message "[Compile] Dir is '%s'" (plist-get workspace :cwd)))
+      (message "[%s] Build Command is '%s'" (plist-get workspace :name) (plist-get workspace :build))
+      (message "[%s] Dir is '%s'" (plist-get workspace :name) (plist-get workspace :cwd)))
     (save-some-buffers t nil)
     (amirreza-split-window)
     (if workspace
-	(let ((default-directory (plist-get workspace :cwd))) (compilation-start (plist-get workspace :compile)))
+	(let ((default-directory (plist-get workspace :cwd))) (compilation-start (plist-get workspace :build)))
       (call-interactively 'amirreza-compile-directory))))
 
 (defun amirreza-run ()
@@ -155,16 +166,13 @@
 	 (file (buffer-file-name (current-buffer)))
 	 (workspace (amirreza-get-workspace-for-path file)))
     (when workspace
-      (message "[Run] Command is '%s'" (plist-get workspace :run))
-      (message "[Run] Dir is '%s'" (plist-get workspace :cwd)))
+      (message "[%s] Run Command is '%s'" (plist-get workspace :name) (plist-get workspace :run))
+      (message "[%s] Dir is '%s'" (plist-get workspace :name) (plist-get workspace :cwd)))
     (save-some-buffers t nil)
     (amirreza-split-window)
     (if workspace
 	(let ((default-directory (plist-get workspace :cwd))) (compilation-start (plist-get workspace :run)))
       (call-interactively 'amirreza-run-directory))))
-
-(defun defworkspace (PATTERN PATH COMPILE RUN)
-  (add-to-list 'amirreza-workspaces `(,PATTERN . (:cwd ,PATH :compile ,COMPILE :run ,RUN))))
 
 ;; G/RE/P aka GREP
 (defun rg (dir pattern)
@@ -344,7 +352,7 @@
 (global-set-key (kbd "M-o")                      'find-file)
 (global-set-key (kbd "C-.")                      'isearch-forward-thing-at-point)
 (global-set-key (kbd "C-/")                      'amirreza-grep) ;; Magical search
-(global-set-key (kbd "M-m")                      'amirreza-compile) ;; |> button
+(global-set-key (kbd "M-m")                      'amirreza-build) ;; |> button
 (global-set-key (kbd "C-M-m")                    'amirreza-run) ;; |> button
 (global-set-key (kbd "C-z")                      'undo) ;; Sane undo key
 (global-set-key (kbd "C-0")                      'delete-other-windows)
@@ -377,14 +385,21 @@
 (global-set-key (kbd "C-;")                      'goto-line)
 (global-set-key (kbd "C-x C-SPC")                'rectangle-mark-mode)
 
-;; Workspaces
-(ifwindows
-  (defworkspace "W:/handmadehero/.*" "W:/handmadehero" "build.bat" "run.bat")
-  (defworkspace "W:/snappdoctor/metric-collector/.*" "W:/snappdoctor/metric-collector" "go build ./cmd/server" "go run ./cmd/server"))
 
-(ifunix
-  (defworkspace "~/w/handmadehero/.*" "~/w/handmadehero" "make build" "make run")
-  (defworkspace "~/w/snappdoctor/metric-collector/.*" "~/w/snappdoctor/metric-collector" "go build ./cmd/server" "go run ./cmd/server"))
+
+
+;; Workspaces
+(defworkspace
+ :name "HandmadeHero"
+ :windows '(:build "build.bat" :run "run.bat" :cwd "w:/handmadehero"  :pattern "w:/handmadehero/.*")
+ :linux   '(:build "build.sh"  :run "run.sh"  :cwd "~/w/handmadehero" :pattern "~/w/handmadehero/.*")
+ :macos   '(:build "build.sh"  :run "run.sh"  :cwd "~/w/handmadehero" :pattern "~/w/handmadehero/.*"))
+
+(defworkspace
+ :name "SnappDoctor/Metric-Collector"
+ :windows '(:build "build.bat" :run "run.bat" :cwd "w:/snappdoctor/metric-collector"  :pattern "w:/snappdoctor/metric-collector/.*")
+ :linux   '(:build "build.sh"  :run "run.sh"  :cwd "~/w/snappdoctor/metric-collector" :pattern "~/w/snappdoctor/metric-collector/.*")
+ :macos   '(:build "build.sh"  :run "run.sh"  :cwd "~/w/snappdoctor/metric-collector" :pattern "~/w/snappdoctor/metric-collector/.*"))
 
 
 (setq amirreza-emacs-init-took (* (float-time (time-subtract (float-time) amirreza-emacs-starting-time)) 1000))
