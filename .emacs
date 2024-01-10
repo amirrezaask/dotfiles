@@ -11,7 +11,7 @@
 (setq frame-inhibit-implied-resize t) ;; Don't let emacs to resize frame when something inside changes
 (setq gc-cons-threshold 200000000) ;; 200 MB for the GC threshold
 (setq redisplay-dont-pause t)
-(setq debug-on-error t) ;; debug on error
+;; (setq debug-on-error t) ;; debug on error
 (setq vc-follow-symlinks t) ;; Follow symlinks with no questions
 (setq ring-bell-function (lambda ())) ;; no stupid sounds
 (setq custom-file "~/.custom.el") ;; set custom file to not meddle with init.el
@@ -19,6 +19,12 @@
 (setq is-windows (eq system-type 'windows-nt))
 (setq is-linux (eq system-type 'gnu-linux))
 (setq is-macos (eq system-type 'darwin))
+(defalias 'ifnot 'unless)
+(defmacro ifwindows (&rest BODY)
+  `(when is-windows ,@BODY))
+
+(defmacro ifunix (&rest BODY)
+  `(unless is-windows ,@BODY))
 
 (defun edit-init ()
   (interactive)
@@ -31,9 +37,19 @@
 (setq image-types (cons 'svg image-types)) ;; macos bug
 (setq mac-command-modifier 'meta) ;; macos again
 
-;;;;;;;;;;
-;; Font ;;
-;;;;;;;;;;
+(setq amirreza-split-window-horizontal-vertical-threshold 250)
+
+(defun amirreza-split-window ()
+  "Split window based on 'amirreza-split-window-horizontal-vertical-threshold'"
+  (interactive)
+  (if (> (frame-width nil) amirreza-split-window-horizontal-vertical-threshold)
+      (progn
+	(delete-other-windows)
+	(split-window-horizontally))
+    (progn
+      (delete-other-windows)
+      (split-window-vertically))))
+
 (setq font-family "")
 (defun load-font (font fontsize)
   "Loads a font."
@@ -52,11 +68,8 @@
     (set-frame-font fontstring nil t)
     (set-face-attribute 'default t :font fontstring)))
 
-(load-font "Consolas" 15)
+(load-font "Hack" 11)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Environment Variables ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun home (path)
   (expand-file-name path (getenv "HOME")))
 
@@ -75,9 +88,6 @@
     (setenv "PATH" (string-join exec-path ";"))
   (setenv "PATH" (string-join exec-path ":"))) ;; set emacs process PATH
 
-;;;;;;;;;;;;;;;
-;; Packages ;;;
-;;;;;;;;;;;;;;;
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)
 (defun install (PKG) (unless (package-installed-p PKG) (package-install PKG)))
@@ -87,69 +97,22 @@
 (install 'json-mode)
 (install 'go-mode)
 
-;;;;;;;;;;
-;; MISC ;;
-;;;;;;;;;;
 (defun jump-up () (interactive) (next-line (* -1 (/ (window-height) 2))) (recenter-top-bottom))
 (defun jump-down () (interactive) (next-line (/ (window-height) 2)) (recenter-top-bottom))
 
-(setq split-window-preferred-function (lambda (window))) ;; Don't change my windows Emacs, please
+(setq split-window-preferred-function (lambda ())) ;; Don't change my windows Emacs, please
 (setq recenter-positions '(middle))
 (setq inhibit-startup-screen t) ;; disable default start screen
 (set-frame-parameter nil 'fullscreen 'maximized)
 (add-to-list 'default-frame-alist '(fullscreen . maximized)) ;; always start frames maximized
-(setq-default frame-title-format '("eMACS: %e" (:eval default-directory)))
+(setq-default frame-title-format '("Emacs: %e" (:eval default-directory)))
 (menu-bar-mode -1) ;; disable menu bar
 (global-hl-line-mode +1) ;; Highlight current line
 (tool-bar-mode -1) ;; disable tool bar
 (scroll-bar-mode -1) ;; disable scroll bar
 (setq kill-whole-line t) ;; kill line and newline char
 (delete-selection-mode) ;; when selected a text and user types delete text
-(setq amirreza-notes-file (expand-file-name "NOTES.txt" (getenv "HOME")))
 
-(defun amirreza-open-notes ()
-  (interactive)
-  (find-file amirreza-notes-file))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Highlight TODO/NOTE/SPEED/FIX  ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(make-face 'font-lock-todo-face)
-(make-face 'font-lock-note-face)
-(make-face 'font-lock-fix-face)
-(make-face 'font-lock-speed-face)
-(set-face-attribute 'font-lock-todo-face nil  :foreground  "Red"    :underline t)
-(set-face-attribute 'font-lock-note-face nil  :foreground  "Yellow" :underline t)
-(set-face-attribute 'font-lock-speed-face nil :foreground  "Green"  :underline t)
-(set-face-attribute 'font-lock-fix-face  nil  :foreground  "Red"    :underline t)
-(defun amirreza-add-todo/note-highlight ()
-  (font-lock-add-keywords
-   major-mode
-   '(("\\<\\(TODO\\)" 1  'font-lock-todo-face t)
-     ("\\<\\(FIX\\)" 1   'font-lock-fix-face t)
-     ("\\<\\(SPEED\\)" 1 'font-lock-speed-face t)
-     ("\\<\\(NOTE\\)" 1  'font-lock-note-face t)
-     )))
-(add-hook 'prog-mode-hook 'amirreza-add-todo/note-highlight)
-
-
-
-(setq amirreza-split-window-horizontal-vertical-threshold 250)
-
-(defun amirreza-split-window ()
-  "Split window based on 'amirreza-split-window-horizontal-vertical-threshold'"
-  (interactive)
-  (if (> (frame-width nil) amirreza-split-window-horizontal-vertical-threshold)
-      (progn
-	(delete-other-windows)
-	(split-window-horizontally))
-    (progn
-      (delete-other-windows)
-      (split-window-vertically))))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;   Compiling and Running    ;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun amirreza-compile-directory (DIR)
   "Compile in a directory"
   (interactive (list (read-directory-name "[Compile] Directory: ")))
@@ -168,61 +131,42 @@
 
 (setq global-auto-revert-non-file-buffers t)
 (setq auto-revert-verbose nil)
+(setq amirreza-workspaces '())
 
-(if is-windows
-    (setq amirreza-compile-receipes '( ;; Regex pattern as key and value would be (DIR COMMAND) that will be passed into (compilation-start)
-			     ("w:\\/HandmadeHero\\/.*" . ("w:/HandmadeHero/" ".\\build.bat"))
-			     ("w:\\/snappdoctor\\/metric-collector\\/.*" . ("w:/snappdoctor/metric-collector" ".\\build-server.bat"))))
-
-  ;; Linux and macos
-  (setq amirreza-compile-receipes '( ;; Regex pattern as key and value would be (DIR COMMAND) that will be passed into (compilation-start)
-			   ("~\\/w\\/HandmadeHero\\/.*" . ("~/w/HandmadeHero/" "./build.sh"))
-			   ("~\\/w\\/metric-collector\\/.*" . ("~/w/snappdoctor/metric-collector" "./build-server.sh")))))
-
-    
-(if is-windows 
-    (setq amirreza-run-receipes '( ;; Regex pattern as key and value would be (DIR COMMAND) that will be passed into (compilation-start)
-			 ("w:\\/HandmadeHero\\/.*" . ("w:/HandmadeHero/" ".\\run.bat"))
-			 ("w:\\/snappdoctor\\/metric-collector\\/.*" . ("w:/snappdoctor/metric-collector" ".\\run-server.bat"))))
-
-  ;; Linux and macos
-  (setq amirreza-run-receipes '( ;; Regex pattern as key and value would be (DIR COMMAND) that will be passed into (compilation-start)
-		       ("~\\/w\\/HandmadeHero\\/.*" . ("~/w/HandmadeHero/" ".\\run.bat"))
-		       ("~\\/w\\/metric-collector\\/.*" . ("~/w/snappdoctor/metric-collector" "./run-server.sh")))))
+(defun amirreza-get-workspace-for-path (PATH) (alist-get PATH amirreza-workspaces nil nil 'string-match-p))
 
 (defun amirreza-compile ()
   (interactive)
   (let* (
-	 (dir (file-name-directory (buffer-file-name (current-buffer))))
-	 (args (alist-get dir amirreza-compile-receipes nil nil 'string-match-p)))
-    (when args
-      (message "Compilation Command is '%s'" (car (cdr args)))
-      (message "Compilation Dir is '%s'" (car args)))
+	 (file (buffer-file-name (current-buffer)))
+	 (workspace (amirreza-get-workspace-for-path file)))
+    (when workspace
+      (message "[Compile] Command is '%s'" (plist-get workspace :compile))
+      (message "[Compile] Dir is '%s'" (plist-get workspace :cwd)))
     (save-some-buffers t nil)
     (amirreza-split-window)
-
-    (if args
-	(let ((default-directory (car args))) (compilation-start (car (cdr args))))
+    (if workspace
+	(let ((default-directory (plist-get workspace :cwd))) (compilation-start (plist-get workspace :compile)))
       (call-interactively 'amirreza-compile-directory))))
 
 (defun amirreza-run ()
   (interactive)
   (let* (
-	 (dir (file-name-directory (buffer-file-name (current-buffer))))
-	 (args (alist-get dir amirreza-run-receipes nil nil 'string-match-p)))
-    (when args
-      (message "Run Command is '%s'" (car (cdr args)))
-      (message "Run Dir is '%s'" (car args)))
+	 (file (buffer-file-name (current-buffer)))
+	 (workspace (amirreza-get-workspace-for-path file)))
+    (when workspace
+      (message "[Run] Command is '%s'" (plist-get workspace :run))
+      (message "[Run] Dir is '%s'" (plist-get workspace :cwd)))
     (save-some-buffers t nil)
     (amirreza-split-window)
-
-    (if args
-	(let ((default-directory (car args))) (compilation-start (car (cdr args))))
+    (if workspace
+	(let ((default-directory (plist-get workspace :cwd))) (compilation-start (plist-get workspace :run)))
       (call-interactively 'amirreza-run-directory))))
 
-;;;;;;;;;;;;;;;;;;;;
-;; G/RE/P aka GREP;;
-;;;;;;;;;;;;;;;;;;;;
+(defun defworkspace (PATTERN PATH COMPILE RUN)
+  (add-to-list 'amirreza-workspaces `(,PATTERN . (:cwd ,PATH :compile ,COMPILE :run ,RUN))))
+
+;; G/RE/P aka GREP
 (defun rg (dir pattern)
   "run Ripgrep"
   (interactive (list (read-directory-name "[Ripgrep] Directory: ") (read-string "[Ripgrep] Pattern: ")))
@@ -232,16 +176,6 @@
   (let* (
 	 (default-directory dir)
 	 (command (format "rg --vimgrep \"%s\" ." pattern)))
-    (compilation-start command 'grep-mode)))
-
-(defun ug (dir pattern)
-  (interactive (list (read-directory-name "[ug] Directory: ") (read-string "[ug] Pattern: ")))
-  (unless (executable-find "ug") (error "ugrep executable not found, install from https://github.com/Genivia/ugrep/releases"))
-  (amirreza-split-window)
-
-  (let* (
-	 (default-directory dir)
-	 (command (format "ug --exclude-dir=\".git\" --color=auto -nH --null -r -e \"%s\" ." pattern)))
     (compilation-start command 'grep-mode)))
 
 (defun gnu-grep (dir pattern)
@@ -254,24 +188,20 @@
     (compilation-start command 'grep-mode)))
 
 (defun amirreza-grep (dir pattern)
+  ""
   (interactive (list (read-directory-name "[Grep] Directory: ") (read-string "[Grep] Pattern: ")))
   (cond
    ((or (executable-find "rg") is-windows) (rg dir pattern))
-   ((executable-find "ug") (ug dir pattern))
    (t (gnu-grep dir pattern))))
 
 (with-eval-after-load 'grep
   (define-key grep-mode-map (kbd "<f5>") 'recompile)
   (define-key grep-mode-map (kbd "k") 'kill-compilation))
 
-
-;;;;;;;;;;;;;;;;
-;; EXPANSIONS ;;
-;;;;;;;;;;;;;;;;
+;; EXPANSIONS aka Snippets
 (setq dabbrev-case-replace nil)
 (setq dabbrev-case-fold-search t)
 (setq dabbrev-upcase-means-case-search nil)
-
 (setq amirreza-expansions '(("TO" . "TODO(amirreza): ")
 			  ("NO" . "NOTE(amirreza): ")))
 
@@ -286,65 +216,9 @@
 	  (insert expansion))
       (call-interactively 'dabbrev-expand))))
 
-;;;;;;;;;;;
-;; C/C++ ;;
-;;;;;;;;;;;
-(setq-default c-default-style "linux" c-basic-offset 4)
+(setq-default c-default-style "linux" c-basic-offset 4) ;; C/C++
 
-;;;;;;;;;;;;
-;; Golang ;;
-;;;;;;;;;;;;
-(defun amirreza-go-hook ()
-  (setq-local imenu-generic-expression '((nil "^type *\\([^ 	
-]*\\)" 1)
-					(nil "^func *\\(.*\\) {" 1)))
-
-  (setq-local amirreza-expansions (append '(("ifer" . "if err != nil {}")) amirreza-expansions)))
-
-(with-eval-after-load 'go-mode (add-hook 'go-mode-hook 'amirreza-go-hook))
-
-;;;;;;;;;;;;;
-;; Keymaps ;;
-;;;;;;;;;;;;;
-(global-set-key (kbd "M-o")                      'find-file)
-(global-set-key (kbd "C-.")                      'isearch-forward-thing-at-point)
-(global-set-key (kbd "C-/")                      'amirreza-grep) ;; Magical search
-(global-set-key (kbd "<f5>")                     'amirreza-compile) ;; |> little green button of my IDE
-(global-set-key (kbd "M-m")                      'amirreza-compile) ;; |> button
-(global-set-key (kbd "C-M-m")                    'amirreza-run) ;; |> button
-(global-set-key (kbd "C-z")                      'undo) ;; Sane undo key
-(global-set-key (kbd "C-0")                      'delete-other-windows)
-(global-set-key (kbd "C-9")                      'amirreza-split-window)
-(global-set-key (kbd "C-<return>")               'save-buffer) ;; Save with one combo not C-x C-s shit
-(global-set-key (kbd "M-[")                      'kmacro-start-macro) ;; start recording keyboard macro.
-(global-set-key (kbd "M-]")                      'kmacro-end-macro) ;; end recording keyboard macro.
-(global-set-key (kbd "M-\\")                     'kmacro-end-and-call-macro) ;; execute keyboard macro.
-(global-set-key (kbd "C-o")                      'other-window) ;; Switch window
-(global-set-key (kbd "C-q")                      'amirreza-expand) ;; Try pre defined expansions and if nothing was found expand with emacs dabbrev
-(global-set-key (kbd "C-x C-c")                  'delete-frame) ;; rebind exit key to just kill frame if possible
-(global-set-key (kbd "M-p")                      'jump-up) ;; Jump through the buffer with preserving the cursor position in the center
-(global-set-key (kbd "M-n")                      'jump-down) ;; Jump through the buffer with preserving the cursor position in the center
-(global-set-key (kbd "M-r")                      'query-replace) ;; Replace pattern with a string
-(global-set-key (kbd "M-<up>")                   'scroll-down-command)
-(global-set-key (kbd "M-<down>")                 'scroll-up-command)
-(global-set-key (kbd "C-=")                      (lambda () (interactive) (text-scale-increase 1)))
-(global-set-key (kbd "C--")                      (lambda () (interactive) (text-scale-decrease 1)))
-(global-set-key (kbd "C->")                      'end-of-buffer)
-(global-set-key (kbd "C-<")                      'beginning-of-buffer)
-(global-set-key (kbd "M-i")                      'imenu) ;; Symbols
-(global-set-key (kbd "M--")                      'previous-error) ;; Move to previous error in compilation buffer
-(global-set-key (kbd "M-=")                      'next-error) ;; Move to next error in compilation buffer
-(global-set-key (kbd "M-1")                      'amirreza-open-notes) ;; Open my local notes file
-(global-set-key (kbd "C-S-SPC")                  'rectangle-mark-mode) ;; Toggle rectangle mode
-(global-set-key (kbd "C-x r i")                  'string-insert-rectangle) ;; Rectangle insert
-(global-set-key (kbd "C-x r r")                  'string-rectangle) ;; Rectangle replace
-(global-set-key (kbd "C-{")                      'previous-buffer)
-(global-set-key (kbd "C-}")                      'next-buffer)
-(global-set-key (kbd "C-;")                      'goto-line)
-(global-set-key (kbd "C-x C-SPC")                'rectangle-mark-mode)
-;;;;;;;;;;;;;;;;;;;;
-;; Color My Emacs ;;
-;;;;;;;;;;;;;;;;;;;;
+;; Color My Emacs
 (defun handmadehero-theme ()
   (interactive)
   (global-hl-line-mode +1)
@@ -464,7 +338,66 @@
      `(show-paren-match                 ((t (:background "#e0741b" :foreground "#000000")))))))
 
 
-(jonathan-blow-theme) ;; Theme from great jonathan blow
+(jonathan-blow-theme)
+
+;; Keybindings section
+(global-set-key (kbd "M-o")                      'find-file)
+(global-set-key (kbd "C-.")                      'isearch-forward-thing-at-point)
+(global-set-key (kbd "C-/")                      'amirreza-grep) ;; Magical search
+(global-set-key (kbd "M-m")                      'amirreza-compile) ;; |> button
+(global-set-key (kbd "C-M-m")                    'amirreza-run) ;; |> button
+(global-set-key (kbd "C-z")                      'undo) ;; Sane undo key
+(global-set-key (kbd "C-0")                      'delete-other-windows)
+(global-set-key (kbd "C-9")                      'amirreza-split-window)
+(global-set-key (kbd "C-<return>")               'save-buffer) ;; Save with one combo not C-x C-s shit
+(global-set-key (kbd "M-[")                      'kmacro-start-macro) ;; start recording keyboard macro.
+(global-set-key (kbd "M-]")                      'kmacro-end-macro) ;; end recording keyboard macro.
+(global-set-key (kbd "M-\\")                     'kmacro-end-and-call-macro) ;; execute keyboard macro.
+(global-set-key (kbd "C-o")                      'other-window) ;; Switch window
+(global-set-key (kbd "C-q")                      'amirreza-expand) ;; Try pre defined expansions and if nothing was found expand with emacs dabbrev
+(global-set-key (kbd "C-x C-c")                  'delete-frame) ;; rebind exit key to just kill frame if possible
+(global-set-key (kbd "M-p")                      'jump-up) ;; Jump through the buffer with preserving the cursor position in the center
+(global-set-key (kbd "M-n")                      'jump-down) ;; Jump through the buffer with preserving the cursor position in the center
+(global-set-key (kbd "M-r")                      'query-replace) ;; Replace pattern with a string
+(global-set-key (kbd "M-<up>")                   'scroll-down-command)
+(global-set-key (kbd "M-<down>")                 'scroll-up-command)
+(global-set-key (kbd "C-=")                      (lambda () (interactive) (text-scale-increase 1)))
+(global-set-key (kbd "C--")                      (lambda () (interactive) (text-scale-decrease 1)))
+(global-set-key (kbd "C->")                      'end-of-buffer)
+(global-set-key (kbd "C-<")                      'beginning-of-buffer)
+(global-set-key (kbd "M-i")                      'imenu) ;; Symbols
+(global-set-key (kbd "M--")                      'previous-error) ;; Move to previous error in compilation buffer
+(global-set-key (kbd "M-=")                      'next-error) ;; Move to next error in compilation buffer
+(global-set-key (kbd "M-1")                      'amirreza-open-notes) ;; Open my local notes file
+(global-set-key (kbd "C-S-SPC")                  'rectangle-mark-mode) ;; Toggle rectangle mode
+(global-set-key (kbd "C-x r i")                  'string-insert-rectangle) ;; Rectangle insert
+(global-set-key (kbd "C-x r r")                  'string-rectangle) ;; Rectangle replace
+(global-set-key (kbd "C-{")                      'previous-buffer)
+(global-set-key (kbd "C-}")                      'next-buffer)
+(global-set-key (kbd "C-;")                      'goto-line)
+(global-set-key (kbd "C-x C-SPC")                'rectangle-mark-mode)
+
+;; Workspaces
+(ifwindows
+  (defworkspace "W:/handmadehero/.*" "W:/handmadehero" "build.bat" "run.bat")
+  (defworkspace "W:/snappdoctor/metric-collector/.*" "W:/snappdoctor/metric-collector" "go build ./cmd/server" "go run ./cmd/server"))
+
+(ifunix
+  (defworkspace "~/w/handmadehero/.*" "~/w/handmadehero" "make build" "make run")
+  (defworkspace "~/w/snappdoctor/metric-collector/.*" "~/w/snappdoctor/metric-collector" "go build ./cmd/server" "go run ./cmd/server"))
+
 
 (setq amirreza-emacs-init-took (* (float-time (time-subtract (float-time) amirreza-emacs-starting-time)) 1000))
-(message "Amirreza init took: %sms, Emacs took: %s" amirreza-emacs-init-took (emacs-init-time))
+(setq emacs-init-time-took (* (string-to-number (emacs-init-time "%f")) 1000))
+(setq amirreza-emacs-init-log-message (format "Amirreza emacs init took %fms\nEmacs init took: %fms" amirreza-emacs-init-took emacs-init-time-took))
+(setq amirreza-ascii-art "
+     ___              _                            ___         __         
+    /   |  ____ ___  (_)____________  ____  ____ _/   |  _____/ /__       
+   / /| | / __ `__ \\/ / ___/ ___/ _ \\/_  / / __ `/ /| | / ___/ //_/     
+  / ___ |/ / / / / / / /  / /  /  __/ / /_/ /_/ / ___ |(__  ) ,<          
+ /_/  |_/_/ /_/ /_/_/_/  /_/   \\___/ /___/\\__,_/_/  |_/____/_/|_|       
+                                                                          
+"
+)
+
+(setq initial-scratch-message (format "%s\n\n\n\n%s\n" amirreza-ascii-art amirreza-emacs-init-log-message))
