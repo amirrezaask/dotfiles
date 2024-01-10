@@ -131,6 +131,9 @@
 
 (setq global-auto-revert-non-file-buffers t)
 (setq auto-revert-verbose nil)
+
+
+;;; Workspace Layer ;;;
 (setq amirreza-workspaces '())
 
 (defun amirreza-get-workspace-for-path (PATH) (alist-get PATH amirreza-workspaces nil nil 'string-match-p))
@@ -149,7 +152,7 @@
 (defun amirreza-build ()
   (interactive)
   (let* (
-	 (file (buffer-file-name (current-buffer)))
+	 (file default-directory)
 	 (workspace (amirreza-get-workspace-for-path file)))
     (when workspace
       (message "[%s] Build Command is '%s'" (plist-get workspace :name) (plist-get workspace :build))
@@ -163,7 +166,7 @@
 (defun amirreza-run ()
   (interactive)
   (let* (
-	 (file (buffer-file-name (current-buffer)))
+	 (file default-directory)
 	 (workspace (amirreza-get-workspace-for-path file)))
     (when workspace
       (message "[%s] Run Command is '%s'" (plist-get workspace :name) (plist-get workspace :run))
@@ -173,6 +176,17 @@
     (if workspace
 	(let ((default-directory (plist-get workspace :cwd))) (compilation-start (plist-get workspace :run)))
       (call-interactively 'amirreza-run-directory))))
+
+
+;; Load workspaces
+(setq amirreza-workspaces-file "~/emacs-workspaces")
+(if (file-readable-p amirreza-workspaces-file)
+    (load-file amirreza-workspaces-file)
+  (error "Workspace file %s is not readable." amirreza-workspaces-file))
+
+;;;;;;;;;;;;;;;;;;;;;
+
+
 
 ;; G/RE/P aka GREP
 (defun rg (dir pattern)
@@ -384,23 +398,6 @@
 (global-set-key (kbd "C-}")                      'next-buffer)
 (global-set-key (kbd "C-;")                      'goto-line)
 (global-set-key (kbd "C-x C-SPC")                'rectangle-mark-mode)
-
-
-
-
-;; Workspaces
-(defworkspace
- :name "HandmadeHero"
- :windows '(:build "build.bat" :run "run.bat" :cwd "w:/handmadehero"  :pattern "w:/handmadehero/.*")
- :linux   '(:build "build.sh"  :run "run.sh"  :cwd "~/w/handmadehero" :pattern "~/w/handmadehero/.*")
- :macos   '(:build "build.sh"  :run "run.sh"  :cwd "~/w/handmadehero" :pattern "~/w/handmadehero/.*"))
-
-(defworkspace
- :name "SnappDoctor/Metric-Collector"
- :windows '(:build "build.bat" :run "run.bat" :cwd "w:/snappdoctor/metric-collector"  :pattern "w:/snappdoctor/metric-collector/.*")
- :linux   '(:build "build.sh"  :run "run.sh"  :cwd "~/w/snappdoctor/metric-collector" :pattern "~/w/snappdoctor/metric-collector/.*")
- :macos   '(:build "build.sh"  :run "run.sh"  :cwd "~/w/snappdoctor/metric-collector" :pattern "~/w/snappdoctor/metric-collector/.*"))
-
 
 (setq amirreza-emacs-init-took (* (float-time (time-subtract (float-time) amirreza-emacs-starting-time)) 1000))
 (setq emacs-init-time-took (* (string-to-number (emacs-init-time "%f")) 1000))
