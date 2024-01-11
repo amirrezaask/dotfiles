@@ -17,6 +17,7 @@
 (setq ring-bell-function (lambda ())) ;; no stupid sounds
 (setq custom-file "~/.custom.el") ;; set custom file to not meddle with init.el
 (setq make-backup-files nil) ;; no emacs ~ backup files
+(global-unset-key (kbd "C-x C-c"))
 (setq is-windows (eq system-type 'windows-nt))
 (setq is-linux (eq system-type 'gnu-linux))
 (setq is-macos (eq system-type 'darwin))
@@ -435,11 +436,11 @@
 (global-set-key (kbd "M-[")                      'kmacro-start-macro) ;; start recording keyboard macro.
 (global-set-key (kbd "M-]")                      'kmacro-end-macro) ;; end recording keyboard macro.
 (global-set-key (kbd "M-\\")                     'kmacro-end-and-call-macro) ;; execute keyboard macro.
+
 (global-set-key (kbd "C-.")                      'isearch-forward-thing-at-point)
 (global-set-key (kbd "C-z")                      'undo) ;; Sane undo key
 (global-set-key (kbd "C-<return>")               'save-buffer) ;; Save with one combo not C-x C-s shit
 (global-set-key (kbd "C-q")                      'amirreza-expand) ;; Try pre defined expansions and if nothing was found expand with emacs dabbrev
-(global-set-key (kbd "C-x C-c")                  'delete-frame) ;; rebind exit key to just kill frame if possible
 (global-set-key (kbd "M-r")                      'query-replace) ;; Replace pattern with a string
 (global-set-key (kbd "C-=")                      (lambda () (interactive) (text-scale-increase 1)))
 (global-set-key (kbd "C--")                      (lambda () (interactive) (text-scale-decrease 1)))
