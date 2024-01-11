@@ -405,44 +405,44 @@
 (handmadehero-theme)
 
 ;; Keybindings section
-;; Workspace keys
+;; Workspaces
 (global-set-key (kbd "C-c j")                    'amirreza-workspace-jump-to-workspace)
 (global-set-key (kbd "C-c O")                    'amirreza-workspace-open-workspaces-file)
 (global-set-key (kbd "C-c R")                    'amirreza-workspace-reload-workspaces)
 (global-set-key (kbd "C-c m")                    'amirreza-workspace-grep)
 (global-set-key (kbd "C-c b")                    'amirreza-workspace-build)
 (global-set-key (kbd "C-c B")                    'amirreza-workspace-run)
-;; 
-(global-set-key (kbd "C-.")                      'isearch-forward-thing-at-point)
-(global-set-key (kbd "C-z")                      'undo) ;; Sane undo key
+;; Jump around
+(global-set-key (kbd "C-c o")                    'goto-line)
+(global-set-key (kbd "C-c p")                    'previous-error) ;; Move to previous error in compilation buffer
+(global-set-key (kbd "C-c n")                    'next-error)     ;; Move to next error in compilation buffer
+(global-set-key (kbd "C->")                      'end-of-buffer)
+(global-set-key (kbd "C-<")                      'beginning-of-buffer)
+(global-set-key (kbd "M-p")                      'jump-up) ;; Jump through the buffer with preserving the cursor position in the center
+(global-set-key (kbd "M-n")                      'jump-down) ;; Jump through the buffer with preserving the cursor position in the center
+(global-set-key (kbd "M-i")                      'imenu) ;; Symbols
+;; Rectangle mode
+(global-set-key (kbd "C-c c")                    'rectangle-mark-mode)
+(global-set-key (kbd "C-x r i")                  'string-insert-rectangle) ;; Rectangle insert
+(global-set-key (kbd "C-x r r")                  'string-rectangle) ;; Rectangle replace
+;; Buffer
+(global-set-key (kbd "C-c h")                    'previous-buffer)
+(global-set-key (kbd "C-c l")                    'next-buffer)
+;; Window stuff
 (global-set-key (kbd "C-0")                      'delete-other-windows)
 (global-set-key (kbd "C-9")                      'amirreza-split-window)
-(global-set-key (kbd "C-<return>")               'save-buffer) ;; Save with one combo not C-x C-s shit
+;; Macros
 (global-set-key (kbd "M-[")                      'kmacro-start-macro) ;; start recording keyboard macro.
 (global-set-key (kbd "M-]")                      'kmacro-end-macro) ;; end recording keyboard macro.
 (global-set-key (kbd "M-\\")                     'kmacro-end-and-call-macro) ;; execute keyboard macro.
+(global-set-key (kbd "C-.")                      'isearch-forward-thing-at-point)
+(global-set-key (kbd "C-z")                      'undo) ;; Sane undo key
+(global-set-key (kbd "C-<return>")               'save-buffer) ;; Save with one combo not C-x C-s shit
 (global-set-key (kbd "C-q")                      'amirreza-expand) ;; Try pre defined expansions and if nothing was found expand with emacs dabbrev
 (global-set-key (kbd "C-x C-c")                  'delete-frame) ;; rebind exit key to just kill frame if possible
-(global-set-key (kbd "M-p")                      'jump-up) ;; Jump through the buffer with preserving the cursor position in the center
-(global-set-key (kbd "M-n")                      'jump-down) ;; Jump through the buffer with preserving the cursor position in the center
 (global-set-key (kbd "M-r")                      'query-replace) ;; Replace pattern with a string
-(global-set-key (kbd "M-<up>")                   'scroll-down-command)
-(global-set-key (kbd "M-<down>")                 'scroll-up-command)
 (global-set-key (kbd "C-=")                      (lambda () (interactive) (text-scale-increase 1)))
 (global-set-key (kbd "C--")                      (lambda () (interactive) (text-scale-decrease 1)))
-(global-set-key (kbd "C->")                      'end-of-buffer)
-(global-set-key (kbd "C-<")                      'beginning-of-buffer)
-(global-set-key (kbd "M-i")                      'imenu) ;; Symbols
-(global-set-key (kbd "M--")                      'previous-error) ;; Move to previous error in compilation buffer
-(global-set-key (kbd "M-=")                      'next-error) ;; Move to next error in compilation buffer
-(global-set-key (kbd "M-1")                      'amirreza-open-notes) ;; Open my local notes file
-(global-set-key (kbd "C-S-SPC")                  'rectangle-mark-mode) ;; Toggle rectangle mode
-(global-set-key (kbd "C-x r i")                  'string-insert-rectangle) ;; Rectangle insert
-(global-set-key (kbd "C-x r r")                  'string-rectangle) ;; Rectangle replace
-(global-set-key (kbd "C-{")                      'previous-buffer)
-(global-set-key (kbd "C-}")                      'next-buffer)
-(global-set-key (kbd "C-c o")                    'goto-line)
-(global-set-key (kbd "C-c C-SPC")                'rectangle-mark-mode)
 
 ;; Performance benchmark
 (setq amirreza-emacs-init-took (* (float-time (time-subtract (float-time) amirreza-emacs-starting-time)) 1000))
