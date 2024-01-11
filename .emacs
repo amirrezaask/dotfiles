@@ -1,12 +1,3 @@
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;     ___              _                            ___         __         ;;
-;;    /   |  ____ ___  (_)____________  ____  ____ _/   |  _____/ /__       ;;
-;;   / /| | / __ `__ \/ / ___/ ___/ _ \/_  / / __ `/ /| | / ___/ //_/       ;;
-;;  / ___ |/ / / / / / / /  / /  /  __/ / /_/ /_/ / ___ |(__  ) ,<          ;;
-;; /_/  |_/_/ /_/ /_/_/_/  /_/   \___/ /___/\__,_/_/  |_/____/_/|_|         ;;
-;;                                                                          ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 (setq amirreza-emacs-starting-time (float-time)) ;; Store current time for further analysis.
 (setq frame-inhibit-implied-resize t) ;; Don't let emacs to resize frame when something inside changes
 (setq initial-scratch-message "") ;; No starting text in *scratch* buffer.
@@ -21,12 +12,6 @@
 (setq is-windows (eq system-type 'windows-nt))
 (setq is-linux (eq system-type 'gnu-linux))
 (setq is-macos (eq system-type 'darwin))
-(defalias 'ifnot 'unless)
-(defmacro ifwindows (&rest BODY)
-  `(when is-windows ,@BODY))
-
-(defmacro ifunix (&rest BODY)
-  `(unless is-windows ,@BODY))
 
 (defun edit-init ()
   (interactive)
@@ -444,6 +429,9 @@
 (global-set-key (kbd "M-r")                      'query-replace) ;; Replace pattern with a string
 (global-set-key (kbd "C-=")                      (lambda () (interactive) (text-scale-increase 1)))
 (global-set-key (kbd "C--")                      (lambda () (interactive) (text-scale-decrease 1)))
+
+
+
 
 ;; Performance benchmark
 (setq amirreza-emacs-init-took (* (float-time (time-subtract (float-time) amirreza-emacs-starting-time)) 1000))
