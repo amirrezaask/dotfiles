@@ -55,6 +55,7 @@
     (set-frame-font fontstring nil t)
     (set-face-attribute 'default t :font fontstring)))
 
+
 (load-font "Consolas" 13)
 
 (defun home (path)
@@ -66,7 +67,7 @@
   (add-to-list 'exec-path (home ".cargo/bin"))
   (add-to-list 'exec-path "/opt/homebrew/bin"))
 
-(add-to-list 'exec-path (home "bin")) ;; GOPATH/bin
+(add-to-list 'exec-path (home "bin"))
 (when is-windows
       (add-to-list 'exec-path "w:/bin")
       (add-to-list 'exec-path "c:/programs/bin"))
@@ -272,9 +273,12 @@
 (setq dabbrev-case-fold-search t)
 (setq dabbrev-upcase-means-case-search nil)
 (setq amirreza-expansions '(("TO" . "TODO(amirreza): ")
-			  ("NO" . "NOTE(amirreza): ")))
+			    ("IM" . "IMPORTANT(amirreza): ")
+			    ("ST" . "STUDY(amirreza): ")
+			    ("NO"   . "NOTE(amirreza): ")))
 
 (defun amirreza-expand ()
+  "First try with amirreza-expansions and then try emacs dabbrev-expand."
   (interactive)
   (let* ((word (current-word))
 	(expansion (alist-get word amirreza-expansions nil nil 'string-equal)))
@@ -285,6 +289,7 @@
 	  (insert expansion))
       (call-interactively 'dabbrev-expand))))
 
+;; Programming
 (setq-default c-default-style "linux" c-basic-offset 4) ;; C/C++
 
 ;; Color My Emacs
@@ -305,8 +310,7 @@
 	(function            "burlywood3")
 	(macro               "#8cde94")
 	(punctuation         "burlywood3")
-	(builtin             "#DAB98F")
-	)
+	(builtin             "#DAB98F"))
 
     (custom-set-faces
      `(default                          ((t (:foreground ,text :background ,background))))
@@ -411,61 +415,69 @@
      `(show-paren-match                 ((t (:background ,paren-match-background :foreground ,paren-match-foreground)))))))
 
 
-(handmadehero-theme)
+(jonathan-blow-theme)
+
+
+(defun amirreza-copy ()
+  "Either copy region or the current line."
+  (interactive)
+  (if (use-region-p)
+      (kill-ring-save (region-beginning) (region-end)) ;; copy active region contents
+    (kill-ring-save (line-beginning-position) (line-end-position)))) ;; copy current line
+
+(defun amirreza-cut ()
+  "Either cut region or the current line."
+  (interactive)
+  (if (use-region-p)
+      (kill-region (region-beginning) (region-end)) ;; copy active region contents
+    (kill-region (line-beginning-position) (line-end-position)))) ;; copy current line
 
 ;; Keybindings section
 ;; NOTE(amirreza): All keys preferably should be prefixed on C-c
 ;; Copy/Cut/Paste
-;; C-c n available
-(global-set-key (kbd "C-c C-c")                  'kill-ring-save)
-(global-set-key (kbd "C-c C-x")                  'kill-region)
-(global-set-key (kbd "C-c C-v")                  'yank)
-(global-set-key (kbd "C-c c")                    'kill-ring-save)
-(global-set-key (kbd "C-c x")                    'kill-region)
-(global-set-key (kbd "C-c v")                    'yank)
-;; Workspaces
-(global-set-key (kbd "C-c J")                    'amirreza-workspace-jump-to-workspace)
-(global-set-key (kbd "C-c O")                    'amirreza-workspace-open-workspaces-file)
-(global-set-key (kbd "C-c R")                    'amirreza-workspace-reload-workspaces)
-(global-set-key (kbd "C-c m")                    'amirreza-workspace-grep)
-(global-set-key (kbd "C-c b")                    'amirreza-workspace-build)
-(global-set-key (kbd "C-c B")                    'amirreza-workspace-run)
-;; Jump around
-(global-set-key (kbd "C-c ;")                    'goto-line)
-(global-set-key (kbd "C-c p")                    'previous-error) ;; Move to previous error in compilation buffer
-(global-set-key (kbd "C-c n")                    'next-error)     ;; Move to next error in compilation buffer
-(global-set-key (kbd "C->")                      'end-of-buffer)
-(global-set-key (kbd "C-<")                      'beginning-of-buffer)
-(global-set-key (kbd "M-p")                      'jump-up) ;; Jump through the buffer with preserving the cursor position in the center
-(global-set-key (kbd "M-n")                      'jump-down) ;; Jump through the buffer with preserving the cursor position in the center
-(global-set-key (kbd "M-i")                      'imenu) ;; Symbols
+(global-set-key (kbd "C-c c")                                        'amirreza-copy)
+(global-set-key (kbd "C-c x")                                        'amirreza-cut)
+(global-set-key (kbd "C-c v")                                        'yank)
+;; Workspaces					               
+(global-set-key (kbd "C-c J")                                        'amirreza-workspace-jump-to-workspace)
+(global-set-key (kbd "C-c O")                                        'amirreza-workspace-open-workspaces-file)
+(global-set-key (kbd "C-c R")                                        'amirreza-workspace-reload-workspaces)
+(global-set-key (kbd "C-c m")                                        'amirreza-workspace-grep)
+(global-set-key (kbd "C-c b")                                        'amirreza-workspace-build)
+(global-set-key (kbd "C-c B")                                        'amirreza-workspace-run)
+;; Jump around					               
+(global-set-key (kbd "C-c ;")                                        'goto-line)
+(global-set-key (kbd "C-c p")                                        'previous-error) ;; Move to previous error in compilation buffer
+(global-set-key (kbd "C-c n")                                        'next-error)     ;; Move to next error in compilation buffer
+(global-set-key (kbd "C->")                                          'end-of-buffer)
+(global-set-key (kbd "C-<")                                          'beginning-of-buffer)
+(global-set-key (kbd "M-p")                                          'jump-up) ;; Jump through the buffer with preserving the cursor position in the center
+(global-set-key (kbd "M-n")                                          'jump-down) ;; Jump through the buffer with preserving the cursor position in the center
+(global-set-key (kbd "M-i")                                          'imenu) ;; Symbols
 ;; Rectangle mode
-(global-set-key (kbd "C-c C-SPC")                'rectangle-mark-mode)
+(global-set-key (kbd "C-c C-SPC")                                    'rectangle-mark-mode)
 (with-eval-after-load 'rect
-  (define-key rectangle-mark-mode-map (kbd "C-c i")                  'string-insert-rectangle) ;; Rectangle insert
-  (define-key rectangle-mark-mode-map (kbd "C-c r")                  'string-rectangle) ;; Rectangle replace
-  )
+  (define-key rectangle-mark-mode-map (kbd "C-c i")                  'string-insert-rectangle)
+  (define-key rectangle-mark-mode-map (kbd "C-c r")                  'string-rectangle))
 ;; Buffer
-(global-set-key (kbd "C-c h")                    'previous-buffer)
-(global-set-key (kbd "C-c l")                    'next-buffer)
-;; Window stuff
-(global-set-key (kbd "C-0")                      'delete-other-windows)
-(global-set-key (kbd "M-o")                      'other-window)                     
-(global-set-key (kbd "C-9")                      'amirreza-split-window)
-;; Macros
-(global-set-key (kbd "M-[")                      'kmacro-start-macro) ;; start recording keyboard macro.
-(global-set-key (kbd "M-]")                      'kmacro-end-macro) ;; end recording keyboard macro.
-(global-set-key (kbd "M-\\")                     'kmacro-end-and-call-macro) ;; execute keyboard macro.
-
-(global-set-key (kbd "C-.")                      'isearch-forward-thing-at-point)
-(global-set-key (kbd "C-z")                      'undo) ;; Sane undo key
-(global-set-key (kbd "C-<return>")               'save-buffer) ;; Save with one combo not C-x C-s shit
-(global-set-key (kbd "C-q")                      'amirreza-expand) ;; Try pre defined expansions and if nothing was found expand with emacs dabbrev
-(global-set-key (kbd "M-r")                      'query-replace) ;; Replace pattern with a string
-(global-set-key (kbd "C-=")                      (lambda () (interactive) (text-scale-increase 1)))
-(global-set-key (kbd "C--")                      (lambda () (interactive) (text-scale-decrease 1)))
-
-
+(global-set-key (kbd "C-c h")                                        'previous-buffer)
+(global-set-key (kbd "C-c l")                                        'next-buffer)
+;; Window stuff					                     
+(global-set-key (kbd "C-0")                                          'delete-other-windows)
+(global-set-key (kbd "M-o")                                          'other-window)                     
+(global-set-key (kbd "C-9")                                          'amirreza-split-window)
+;; Macros					                     
+(global-set-key (kbd "M-[")                                          'kmacro-start-macro) ;; start recording keyboard macro.
+(global-set-key (kbd "M-]")                                          'kmacro-end-macro) ;; end recording keyboard macro.
+(global-set-key (kbd "M-\\")                                         'kmacro-end-and-call-macro) ;; execute keyboard macro.
+						                     
+(global-set-key (kbd "C-S")                                          'isearch-forward-thing-at-point)
+(global-set-key (kbd "C-z")                                          'undo) ;; Sane undo key
+(global-set-key (kbd "C-<return>")                                   'save-buffer) ;; Save with one combo not C-x C-s shit
+(global-set-key (kbd "C-q")                                          'amirreza-expand) ;; Try pre defined expansions and if nothing was found expand with emacs dabbrev
+(global-set-key (kbd "M-r")                                          'query-replace) ;; Replace pattern with a string
+(global-set-key (kbd "C-=")                                          (lambda () (interactive) (text-scale-increase 1)))
+(global-set-key (kbd "C--")                                          (lambda () (interactive) (text-scale-decrease 1)))
 
 
 ;; Performance benchmark
