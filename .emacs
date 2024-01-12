@@ -3,7 +3,7 @@
 (setq initial-scratch-message "") ;; No starting text in *scratch* buffer.
 (setq gc-cons-threshold 200000000) ;; 200 MB for the GC threshold
 (setq redisplay-dont-pause t)
-(setq debug-on-error t) ;; debug on error
+;; (setq debug-on-error t) ;; debug on error
 (setq vc-follow-symlinks t) ;; Follow symlinks with no questions
 (setq ring-bell-function (lambda ())) ;; no stupid sounds
 (setq custom-file "~/.custom.el") ;; set custom file to not meddle with init.el
@@ -83,6 +83,25 @@
 (install 'yaml-mode)
 (install 'json-mode)
 (install 'go-mode)
+
+(setq hl-todo-modes '(c-mode c++-mode go-mode emacs-lisp))
+(make-face 'font-lock-todo-face)
+(make-face 'font-lock-note-face)
+(make-face 'font-lock-important-face)
+(make-face 'font-lock-study-face)
+(set-face-attribute 'font-lock-todo-face nil :foreground "Red" :underline t)
+(set-face-attribute 'font-lock-note-face nil :foreground "Green" :underline t)
+(set-face-attribute 'font-lock-important-face nil :foreground "Yellow" :underline t)
+(set-face-attribute 'font-lock-study-face nil :foreground "cyan1" :underline t)
+
+(defun amirreza-add-todo/note-highlight ()
+  (font-lock-add-keywords
+   major-mode
+   '(("\\<\\(TODO\\)" 1 'font-lock-todo-face t)
+     ("\\<\\(IMPORTANT\\)" 1 'font-lock-important-face t)
+     ("\\<\\(STUDY\\)" 1 'font-lock-study-face t)
+     ("\\<\\(NOTE\\)" 1 'font-lock-note-face t))))
+(add-hook 'prog-mode-hook 'amirreza-add-todo/note-highlight)
 
 (defun jump-up () (interactive) (next-line (* -1 (/ (window-height) 2))) (recenter-top-bottom))
 (defun jump-down () (interactive) (next-line (/ (window-height) 2)) (recenter-top-bottom))
@@ -286,7 +305,8 @@
 	(function            "burlywood3")
 	(macro               "#8cde94")
 	(punctuation         "burlywood3")
-	(builtin             "#DAB98F"))
+	(builtin             "#DAB98F")
+	)
 
     (custom-set-faces
      `(default                          ((t (:foreground ,text :background ,background))))
@@ -310,7 +330,6 @@
      `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
      `(show-paren-match                 ((t (:background "burlywood3" :foreground "black"))))
      `(highlight                        ((t (:foreground nil :background ,region)))))))
-
 
 (defun jonathan-blow-theme ()
   (interactive)
@@ -354,6 +373,10 @@
 	(macro       "#dab98f")
 	(type        "#d8a51d")
 	(operator    "#907553")
+	(modeline-foreground "#cb9401")
+	(modeline-background "#1f1f27")
+	(paren-match-foreground "#000000")
+	(paren-match-background "#e0741b")
 	(punctuation "#907553") ;; 
 	(bracket     "#907553") ;; [] {} ()
 	(delimiter   "#907553") ;; ; :
@@ -382,24 +405,33 @@
      `(region                           ((t (:background ,region))))
      `(hl-line                          ((t (:background ,highlight))))
      `(highlight                        ((t (:foreground nil :background ,region))))
-     `(mode-line                        ((t (:foreground "#cb9401" :background "#1f1f27"))))
-     `(mode-line-inactive               ((t (:foreground "#cb9401" :background "#1f1f27"))))
+     `(mode-line                        ((t (:foreground ,modeline-foreground :background ,modeline-background))))
+     `(mode-line-inactive               ((t (:foreground ,modeline-foreground :background ,modeline-background))))
      `(minibuffer-prompt                ((t (:foreground ,text) :bold t)))
-     `(show-paren-match                 ((t (:background "#e0741b" :foreground "#000000")))))))
+     `(show-paren-match                 ((t (:background ,paren-match-background :foreground ,paren-match-foreground)))))))
 
 
 (handmadehero-theme)
 
 ;; Keybindings section
+;; NOTE(amirreza): All keys preferably should be prefixed on C-c
+;; Copy/Cut/Paste
+;; C-c n available
+(global-set-key (kbd "C-c C-c")                  'kill-ring-save)
+(global-set-key (kbd "C-c C-x")                  'kill-region)
+(global-set-key (kbd "C-c C-v")                  'yank)
+(global-set-key (kbd "C-c c")                    'kill-ring-save)
+(global-set-key (kbd "C-c x")                    'kill-region)
+(global-set-key (kbd "C-c v")                    'yank)
 ;; Workspaces
-(global-set-key (kbd "C-c j")                    'amirreza-workspace-jump-to-workspace)
+(global-set-key (kbd "C-c J")                    'amirreza-workspace-jump-to-workspace)
 (global-set-key (kbd "C-c O")                    'amirreza-workspace-open-workspaces-file)
 (global-set-key (kbd "C-c R")                    'amirreza-workspace-reload-workspaces)
 (global-set-key (kbd "C-c m")                    'amirreza-workspace-grep)
 (global-set-key (kbd "C-c b")                    'amirreza-workspace-build)
 (global-set-key (kbd "C-c B")                    'amirreza-workspace-run)
 ;; Jump around
-(global-set-key (kbd "C-c o")                    'goto-line)
+(global-set-key (kbd "C-c ;")                    'goto-line)
 (global-set-key (kbd "C-c p")                    'previous-error) ;; Move to previous error in compilation buffer
 (global-set-key (kbd "C-c n")                    'next-error)     ;; Move to next error in compilation buffer
 (global-set-key (kbd "C->")                      'end-of-buffer)
@@ -408,14 +440,17 @@
 (global-set-key (kbd "M-n")                      'jump-down) ;; Jump through the buffer with preserving the cursor position in the center
 (global-set-key (kbd "M-i")                      'imenu) ;; Symbols
 ;; Rectangle mode
-(global-set-key (kbd "C-c c")                    'rectangle-mark-mode)
-(global-set-key (kbd "C-x r i")                  'string-insert-rectangle) ;; Rectangle insert
-(global-set-key (kbd "C-x r r")                  'string-rectangle) ;; Rectangle replace
+(global-set-key (kbd "C-c C-SPC")                'rectangle-mark-mode)
+(with-eval-after-load 'rect
+  (define-key rectangle-mark-mode-map (kbd "C-c i")                  'string-insert-rectangle) ;; Rectangle insert
+  (define-key rectangle-mark-mode-map (kbd "C-c r")                  'string-rectangle) ;; Rectangle replace
+  )
 ;; Buffer
 (global-set-key (kbd "C-c h")                    'previous-buffer)
 (global-set-key (kbd "C-c l")                    'next-buffer)
 ;; Window stuff
 (global-set-key (kbd "C-0")                      'delete-other-windows)
+(global-set-key (kbd "M-o")                      'other-window)                     
 (global-set-key (kbd "C-9")                      'amirreza-split-window)
 ;; Macros
 (global-set-key (kbd "M-[")                      'kmacro-start-macro) ;; start recording keyboard macro.
