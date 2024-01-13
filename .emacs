@@ -1,3 +1,4 @@
+(message "load file name: %s" (file-name-directory load-file-name))
 (setq amirreza-emacs-starting-time (float-time)) ;; Store current time for further analysis.
 (setq frame-inhibit-implied-resize t) ;; Don't let emacs to resize frame when something inside changes
 (setq initial-scratch-message "") ;; No starting text in *scratch* buffer.
@@ -438,14 +439,17 @@
 ;; Copy/Cut/Paste
 (global-set-key (kbd "C-c c")                                        'amirreza-copy)
 (global-set-key (kbd "C-c x")                                        'amirreza-cut)
-(global-set-key (kbd "C-c v")                                        'yank)
+(global-set-key (kbd "C-c v")                                       'yank)
+(global-set-key (kbd "M-w")                                          'amirreza-copy)
+(global-set-key (kbd "C-w")                                          'amirreza-cut)
 ;; Workspaces					               
 (global-set-key (kbd "C-c J")                                        'amirreza-workspace-jump-to-workspace)
 (global-set-key (kbd "C-c O")                                        'amirreza-workspace-open-workspaces-file)
 (global-set-key (kbd "C-c R")                                        'amirreza-workspace-reload-workspaces)
 (global-set-key (kbd "C-c m")                                        'amirreza-workspace-grep)
 (global-set-key (kbd "C-c b")                                        'amirreza-workspace-build)
-(global-set-key (kbd "C-c B")                                        'amirreza-workspace-run)
+(global-set-key (kbd "M-m")                                          'amirreza-workspace-build)
+(global-set-key (kbd "C-M-m")                                        'amirreza-workspace-run)
 ;; Jump around					               
 (global-set-key (kbd "C-c ;")                                        'goto-line)
 (global-set-key (kbd "C-c p")                                        'previous-error) ;; Move to previous error in compilation buffer
@@ -472,15 +476,12 @@
 (global-set-key (kbd "M-]")                                          'kmacro-end-macro) ;; end recording keyboard macro.
 (global-set-key (kbd "M-\\")                                         'kmacro-end-and-call-macro) ;; execute keyboard macro.
 						                     
-(global-set-key (kbd "C-S")                                          'isearch-forward-thing-at-point)
 (global-set-key (kbd "C-z")                                          'undo) ;; Sane undo key
 (global-set-key (kbd "C-<return>")                                   'save-buffer) ;; Save with one combo not C-x C-s shit
 (global-set-key (kbd "C-q")                                          'amirreza-expand) ;; Try pre defined expansions and if nothing was found expand with emacs dabbrev
 (global-set-key (kbd "M-r")                                          'query-replace) ;; Replace pattern with a string
 (global-set-key (kbd "C-=")                                          (lambda () (interactive) (text-scale-increase 1)))
 (global-set-key (kbd "C--")                                          (lambda () (interactive) (text-scale-decrease 1)))
-
-
 
 ;; Treesitter Layer
 ;; Emacs >29
@@ -508,8 +509,7 @@
 
   ;; C/C++ syntax style
   (setq c-ts-mode-indent-offset 4)                                                                                        
-  (setq c-ts-mode-indent-style 'linux)
-)
+  (setq c-ts-mode-indent-style 'linux))
 
 ;; Performance benchmark
 (setq amirreza-emacs-init-took (* (float-time (time-subtract (float-time) amirreza-emacs-starting-time)) 1000))
