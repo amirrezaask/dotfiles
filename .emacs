@@ -1,4 +1,3 @@
-(message "load file name: %s" (file-name-directory load-file-name))
 (setq amirreza-emacs-starting-time (float-time)) ;; Store current time for further analysis.
 (setq frame-inhibit-implied-resize t) ;; Don't let emacs to resize frame when something inside changes
 (setq initial-scratch-message "") ;; No starting text in *scratch* buffer.
@@ -58,7 +57,7 @@
     (set-face-attribute 'default t :font fontstring)))
 
 
-(load-font "Consolas" 13)
+(load-font "Go Mono" 13)
 
 (defun home (path)
   (expand-file-name path (getenv "HOME")))
@@ -343,6 +342,7 @@
   (custom-set-faces
    `(default                          ((t (:foreground "#d3b58d" :background "#072626"))))
    `(hl-line                          ((t (:background "#0c4141"))))
+   `(region                           ((t (:background  "medium blue"))))
    `(cursor                           ((t (:background "lightgreen"))))
    `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
    `(font-lock-type-face              ((t (:foreground "#8cde94"))))
@@ -439,7 +439,7 @@
 ;; Copy/Cut/Paste
 (global-set-key (kbd "C-c c")                                        'amirreza-copy)
 (global-set-key (kbd "C-c x")                                        'amirreza-cut)
-(global-set-key (kbd "C-c v")                                       'yank)
+(global-set-key (kbd "C-c v")                                        'yank)
 (global-set-key (kbd "M-w")                                          'amirreza-copy)
 (global-set-key (kbd "C-w")                                          'amirreza-cut)
 ;; Workspaces					               
