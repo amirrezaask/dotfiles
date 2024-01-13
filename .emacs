@@ -12,6 +12,7 @@
 (setq is-windows (eq system-type 'windows-nt))
 (setq is-linux (eq system-type 'gnu-linux))
 (setq is-macos (eq system-type 'darwin))
+(setq has-treesitter (>= emacs-major-version 29))
 
 (defun edit-init ()
   (interactive)
@@ -354,10 +355,10 @@
    `(font-lock-function-name-face     ((t (:foreground "white"))))
    `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
    `(font-lock-warning-face           ((t (:foreground "yellow"))))
+   `(font-lock-note-face              ((t (:foreground "khaki2" ))))
    `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
    `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
    `(show-paren-match                 ((t (:background "mediumseagreen"))))))
-
 
 (defun casey-muratori-theme ()
   (interactive)
@@ -479,6 +480,36 @@
 (global-set-key (kbd "C-=")                                          (lambda () (interactive) (text-scale-increase 1)))
 (global-set-key (kbd "C--")                                          (lambda () (interactive) (text-scale-decrease 1)))
 
+
+
+;; Treesitter Layer
+;; Emacs >29
+(when has-treesitter
+  ;; IMPORTANT(amirreza): This sections needs both Emacs >29 and also a CC compiler. 
+  (setq treesit-language-source-alist
+	'((go "https://github.com/tree-sitter/tree-sitter-go")
+	  (json "https://github.com/tree-sitter/tree-sitter-json")
+	  (cpp "https://github.com/tree-sitter/tree-sitter-cpp")
+          (c "https://github.com/tree-sitter/tree-sitter-c")
+	  (yaml "https://github.com/ikatyang/tree-sitter-yaml")
+	  (toml "https://github.com/tree-sitter/tree-sitter-toml")))
+
+  (mapc (lambda (LANG) (unless (treesit-language-available-p LANG) (treesit-install-language-grammar LANG))) (mapcar #'car treesit-language-source-alist))
+  (setq major-mode-remap-alist '())
+
+  (setq major-mode-remap-alist
+	'((yaml-mode . yaml-ts-mode)
+	  ;; TODO(amirreza): Fix indentation style of C.
+	  ;; (c++-mode  . c++-ts-mode)
+	  ;; (c-mode    . c-ts-mode)
+	  (go-mode   . go-ts-mode)
+	  (json-mode . json-ts-mode)))
+
+
+  ;; C/C++ syntax style
+  (setq c-ts-mode-indent-offset 4)                                                                                        
+  (setq c-ts-mode-indent-style 'linux)
+)
 
 ;; Performance benchmark
 (setq amirreza-emacs-init-took (* (float-time (time-subtract (float-time) amirreza-emacs-starting-time)) 1000))
