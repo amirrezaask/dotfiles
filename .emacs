@@ -3,7 +3,7 @@
 (setq initial-scratch-message "") ;; No starting text in *scratch* buffer.
 (setq gc-cons-threshold 200000000) ;; 200 MB for the GC threshold
 (setq redisplay-dont-pause t)
-;; (setq debug-on-error t) ;; debug on error
+(setq debug-on-error t) ;; debug on error
 (setq vc-follow-symlinks t) ;; Follow symlinks with no questions
 (setq ring-bell-function (lambda ())) ;; no stupid sounds
 (setq custom-file "~/.custom.el") ;; set custom file to not meddle with init.el
@@ -13,6 +13,7 @@
 (setq is-linux (eq system-type 'gnu-linux))
 (setq is-macos (eq system-type 'darwin))
 (setq has-treesitter (>= emacs-major-version 29))
+(unless (executable-find "rg") (error "Install rigprep, this configuration relies heavy on it's features."))
 
 (defun edit-init ()
   (interactive)
@@ -85,7 +86,22 @@
 (install 'yaml-mode)
 (install 'json-mode)
 (install 'go-mode)
+(install 'vertico)
+(install 'orderless)
 
+
+;; Minibuffer completion
+(vertico-mode +1)
+(setq
+ vertico-resize nil
+ vertico-cycle t
+ vertico-count 5)
+
+(setq completion-styles '(orderless basic)
+        completion-category-defaults nil
+        completion-category-overrides '((file (styles partial-completion))))
+
+;; Highlight todos
 (setq hl-todo-modes '(c-mode c++-mode go-mode emacs-lisp))
 (make-face 'font-lock-todo-face)
 (make-face 'font-lock-note-face)
@@ -143,6 +159,39 @@
 
 (setq global-auto-revert-non-file-buffers t)
 (setq auto-revert-verbose nil)
+
+;; G/RE/P aka GREP
+(defun rg (dir pattern)
+  "run Ripgrep"
+  (interactive (list (read-directory-name "[Ripgrep] Directory: ") (read-string "[Ripgrep] Pattern: ")))
+  (unless (executable-find "rg") (error "ripgrep executable not found, install from https://github.com/BurntSushi/ripgrep/releases"))
+  (amirreza-split-window)
+
+  (let* (
+	 (default-directory dir)
+	 (command (format "rg --vimgrep \"%s\" ." pattern)))
+    (compilation-start command 'grep-mode)))
+
+(defun gnu-grep (dir pattern)
+  (interactive (list (read-directory-name "[grep] Directory: ") (read-string "[grep] Pattern: ")))
+  (unless (executable-find "ug") (error "Gnu Grep executable not found"))
+  (amirreza-split-window)
+  (let* (
+	 (default-directory dir)
+	 (command (format "grep --exclude-dir=\".git\" --color=auto -nH --null -r -e \"%s\" ." pattern)))
+    (compilation-start command 'grep-mode)))
+
+(defun amirreza-grep (dir pattern &optional SPLIT)
+  ""
+  (interactive (list (read-directory-name "[Grep] Directory: ") (read-string "[Grep] Pattern: ")))
+  (if SPLIT (amirreza-split-window))
+  (cond
+   ((or (executable-find "rg") is-windows) (rg dir pattern))
+   (t (gnu-grep dir pattern))))
+
+(with-eval-after-load 'grep
+  (define-key grep-mode-map (kbd "<f5>") 'recompile)
+  (define-key grep-mode-map (kbd "k") 'kill-compilation))
 
 
 ;;; Workspace Layer ;;;
@@ -234,40 +283,19 @@
 	(let ((default-directory (plist-get workspace :cwd))) (amirreza-grep default-directory (read-string "[Workspace] Search: ") t))
       (call-interactively 'amirreza-grep))))
 
+(defun amirreza-workspace-find-files ()
+  (interactive)
+  (unless (executable-find "rg") (error "amirreza-workspace-find-files needs ripgrep."))
+  (let* (
+	 (file default-directory)
+	 (workspace (amirreza-get-workspace-for-path file))
+	 (default-directory (plist-get workspace :cwd))
+	 (relfile (completing-read (format "[%s] Files: " (or (plist-get workspace :name) "Workspace")) (string-split (string-trim (shell-command-to-string "rg --files") "\n" "\n") "\n")))
+	 (absfile (expand-file-name relfile default-directory)))
+    (find-file absfile)))
+
+
 (amirreza-workspace-reload-workspaces)
-
-;; G/RE/P aka GREP
-(defun rg (dir pattern)
-  "run Ripgrep"
-  (interactive (list (read-directory-name "[Ripgrep] Directory: ") (read-string "[Ripgrep] Pattern: ")))
-  (unless (executable-find "rg") (error "ripgrep executable not found, install from https://github.com/BurntSushi/ripgrep/releases"))
-  (amirreza-split-window)
-
-  (let* (
-	 (default-directory dir)
-	 (command (format "rg --vimgrep \"%s\" ." pattern)))
-    (compilation-start command 'grep-mode)))
-
-(defun gnu-grep (dir pattern)
-  (interactive (list (read-directory-name "[grep] Directory: ") (read-string "[grep] Pattern: ")))
-  (unless (executable-find "ug") (error "Gnu Grep executable not found"))
-  (amirreza-split-window)
-  (let* (
-	 (default-directory dir)
-	 (command (format "grep --exclude-dir=\".git\" --color=auto -nH --null -r -e \"%s\" ." pattern)))
-    (compilation-start command 'grep-mode)))
-
-(defun amirreza-grep (dir pattern &optional SPLIT)
-  ""
-  (interactive (list (read-directory-name "[Grep] Directory: ") (read-string "[Grep] Pattern: ")))
-  (if SPLIT (amirreza-split-window))
-  (cond
-   ((or (executable-find "rg") is-windows) (rg dir pattern))
-   (t (gnu-grep dir pattern))))
-
-(with-eval-after-load 'grep
-  (define-key grep-mode-map (kbd "<f5>") 'recompile)
-  (define-key grep-mode-map (kbd "k") 'kill-compilation))
 
 ;; EXPANSIONS aka Snippets
 (setq dabbrev-case-replace nil)
@@ -331,6 +359,7 @@
      `(font-lock-warning-face           ((t (:foreground ,warning))))
      `(region                           ((t (:background ,region))))
      `(hl-line                          ((t (:background ,highlight))))
+     `(vertico-current                  ((t (:inherit hl-line))))
      `(mode-line                        ((t (:background "#ffffff" :foreground "#000000"))))
      `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
      `(show-paren-match                 ((t (:background "burlywood3" :foreground "black"))))
@@ -338,10 +367,11 @@
 
 (defun jonathan-blow-theme ()
   (interactive)
-  (global-hl-line-mode +1)
+  (global-hl-line-mode -1)
   (custom-set-faces
    `(default                          ((t (:foreground "#d3b58d" :background "#072626"))))
    `(hl-line                          ((t (:background "#0c4141"))))
+   `(vertico-current                  ((t (:inherit hl-line))))
    `(region                           ((t (:background  "medium blue"))))
    `(cursor                           ((t (:background "lightgreen"))))
    `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
@@ -410,6 +440,7 @@
      `(font-lock-warning-face           ((t (:foreground ,warning))))
      `(region                           ((t (:background ,region))))
      `(hl-line                          ((t (:background ,highlight))))
+     `(vertico-current                  ((t (:inherit hl-line))))
      `(highlight                        ((t (:foreground nil :background ,region))))
      `(mode-line                        ((t (:foreground ,modeline-foreground :background ,modeline-background))))
      `(mode-line-inactive               ((t (:foreground ,modeline-foreground :background ,modeline-background))))
@@ -448,6 +479,7 @@
 (global-set-key (kbd "C-c R")                                        'amirreza-workspace-reload-workspaces)
 (global-set-key (kbd "C-c m")                                        'amirreza-workspace-grep)
 (global-set-key (kbd "C-c b")                                        'amirreza-workspace-build)
+(global-set-key (kbd "C-c f")                                        'amirreza-workspace-find-files)
 (global-set-key (kbd "M-m")                                          'amirreza-workspace-build)
 (global-set-key (kbd "C-M-m")                                        'amirreza-workspace-run)
 ;; Jump around					               
