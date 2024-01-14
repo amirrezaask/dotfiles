@@ -3,7 +3,7 @@
 (setq initial-scratch-message "") ;; No starting text in *scratch* buffer.
 (setq gc-cons-threshold 200000000) ;; 200 MB for the GC threshold
 (setq redisplay-dont-pause t)
-(setq debug-on-error t) ;; debug on error
+;; (setq debug-on-error t) ;; debug on error
 (setq vc-follow-symlinks t) ;; Follow symlinks with no questions
 (setq ring-bell-function (lambda ())) ;; no stupid sounds
 (setq custom-file "~/.custom.el") ;; set custom file to not meddle with init.el
@@ -88,17 +88,25 @@
 (install 'yaml-mode)
 (install 'json-mode)
 (install 'go-mode)
-(install 'orderless)
 
 ;; Minibuffer completion
+(if (> emacs-major-version 28)
+    (fido-mode +1)
+  (progn
+    (icomplete-mode +1)
+    (setq icomplete-tidy-shadowed-file-names t
+	  icomplete-show-matches-on-no-input t
+	  icomplete-hide-common-prefix nil
+	  completion-styles '(flex basic)
+	  completion-flex-nospace nil
+	  completion-ignore-case t
+	  read-buffer-completion-ignore-case t
+	  read-file-name-completion-ignore-case t)))
+
+
 (setq completion-cycle-threshold 5)
 (with-eval-after-load 'minibuffer
   (define-key minibuffer-mode-map (kbd "C-o") 'switch-to-completions))
-
-;; Smarter completion strategy
-(setq completion-styles '(orderless basic)
-        completion-category-defaults nil
-        completion-category-overrides '((file (styles partial-completion))))
 
 ;; Highlight todos
 (setq hl-todo-modes '(c-mode c++-mode go-mode emacs-lisp))
@@ -250,7 +258,7 @@
   (let* ((file default-directory)
 	 (workspace (amirreza-get-workspace-for-path file)))
     (save-some-buffers t nil)
-    (if workspace
+    (if (and workspace (plist-get workspace :build))
 	(let ((default-directory (plist-get workspace :cwd))) (compilation-start (plist-get workspace :build)))
       (amirreza-build (read-directory-name "[Build] Directory: ") t))))
 
@@ -261,7 +269,7 @@
 	 (file default-directory)
 	 (workspace (amirreza-get-workspace-for-path file)))
     (save-some-buffers t nil)
-    (if workspace
+    (if (and workspace (plist-get workspace :run))
 	(let ((default-directory (plist-get workspace :cwd))) (compilation-start (plist-get workspace :run)))
       (amirreza-run (read-directory-name "[Run] Directory: ") t))))
 
@@ -272,7 +280,7 @@
 	 (file default-directory)
 	 (workspace (amirreza-get-workspace-for-path file)))
     (save-some-buffers t nil)
-    (if workspace
+    (if (and workspace (plist-get workspace :cwd))
 	(let ((default-directory (plist-get workspace :cwd))) (amirreza-grep default-directory (read-string "[Workspace] Search: ") t))
       (call-interactively 'amirreza-grep))))
 
@@ -343,7 +351,7 @@
 
 ;; Programming
 (setq-default c-default-style "linux" c-basic-offset 4) ;; C/C++
-
+;;Golang
 (defun amirreza-go-fmt (&optional BUFFER)
   (interactive (list (current-buffer)))
   (let* ((BUFFER (or BUFFER (current-buffer)))
@@ -357,14 +365,13 @@
 	(erase-buffer)
 	(insert-buffer-substring TEMP)
 	(goto-char oldpoint)
-	(set-buffer-modified-p nil)
-	))))
+	(set-buffer-modified-p nil)))))
 
 (defun amirreza-go-hook ()
   (interactive)
   (add-hook 'after-save-hook 'amirreza-go-fmt 0 t))
 
-(with-eval-after-load 'go-modeo
+(with-eval-after-load 'go-mode
   (add-hook 'go-mode-hook 'amirreza-go-hook))
 
 (with-eval-after-load 'go-ts-mode
@@ -418,7 +425,7 @@
   (interactive)
   (global-hl-line-mode -1)
   (custom-set-faces
-   `(default                          ((t (:foreground "#debe95" :background "#181818"))))
+   `(default                          ((t (:foreground "#debe95" :background "#161616"))))
    `(hl-line                          ((t (:background "#0c4141"))))
    `(vertico-current                  ((t (:inherit hl-line))))
    `(region                           ((t (:background  "medium blue"))))
