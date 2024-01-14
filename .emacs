@@ -430,7 +430,33 @@
      `(show-paren-match                 ((t (:background "burlywood3" :foreground "black"))))
      `(highlight                        ((t (:foreground nil :background ,region)))))))
 
-(defun jonathan-blow-theme ()
+(defun brown-theme ()
+  (interactive)
+  (global-hl-line-mode -1)
+  (custom-set-faces
+   `(default                          ((t (:foreground "#debe95" :background "#181818"))))
+   `(hl-line                          ((t (:background "#0c4141"))))
+   `(vertico-current                  ((t (:inherit hl-line))))
+   `(region                           ((t (:background  "medium blue"))))
+   `(cursor                           ((t (:background "lightgreen"))))
+   `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
+   `(font-lock-type-face              ((t (:foreground "#8cde94"))))
+   `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
+   `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
+   `(font-lock-builtin-face           ((t (:foreground "white"))))
+   `(font-lock-string-face            ((t (:foreground "#0fdfaf"))))
+   `(font-lock-comment-face           ((t (:foreground "#3fdf1f"))))
+   `(font-lock-comment-delimiter-face ((t (:foreground "#3fdf1f"))))
+   `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
+   `(font-lock-function-name-face     ((t (:foreground "white"))))
+   `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
+   `(font-lock-warning-face           ((t (:foreground "yellow"))))
+   `(font-lock-note-face              ((t (:foreground "khaki2" ))))
+   `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
+   `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
+   `(show-paren-match                 ((t (:background "mediumseagreen"))))))
+
+(defun mint-theme ()
   (interactive)
   (global-hl-line-mode -1)
   (custom-set-faces
@@ -513,7 +539,7 @@
      `(show-paren-match                 ((t (:background ,paren-match-background :foreground ,paren-match-foreground)))))))
 
 
-(jonathan-blow-theme)
+(brown-theme)
 
 
 (defun amirreza-copy ()
