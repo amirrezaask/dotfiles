@@ -86,17 +86,14 @@
 (install 'yaml-mode)
 (install 'json-mode)
 (install 'go-mode)
-(install 'vertico)
 (install 'orderless)
 
-
 ;; Minibuffer completion
-(vertico-mode +1)
-(setq
- vertico-resize nil
- vertico-cycle t
- vertico-count 5)
+(setq completion-cycle-threshold 5)
+(with-eval-after-load 'minibuffer
+  (define-key minibuffer-mode-map (kbd "C-o") 'switch-to-completions))
 
+;; Smarter completion strategy
 (setq completion-styles '(orderless basic)
         completion-category-defaults nil
         completion-category-overrides '((file (styles partial-completion))))
