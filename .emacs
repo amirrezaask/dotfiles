@@ -1,3 +1,4 @@
+;; TODO(amirreza): instead of compilation-start we should use our own function like we did on amirreza-git-* so we can control window stuff.
 (setq amirreza-emacs-starting-time (float-time)) ;; Store current time for further analysis.
 (setq frame-inhibit-implied-resize t) ;; Don't let emacs to resize frame when something inside changes
 (setq initial-scratch-message "") ;; No starting text in *scratch* buffer.
@@ -61,7 +62,7 @@
     (set-face-attribute 'default t :font fontstring)))
 
 
-(load-font "Go Mono" 13)
+(load-font "Consolas" 13)
 
 (defun home (path)
   (expand-file-name path (getenv "HOME")))
@@ -293,7 +294,6 @@
 	 (absfile (expand-file-name relfile default-directory)))
     (find-file absfile)))
 
-
 (amirreza-workspace-reload-workspaces)
 
 (defun amirreza-git-status ()
@@ -360,6 +360,31 @@
 
 ;; Programming
 (setq-default c-default-style "linux" c-basic-offset 4) ;; C/C++
+
+(defun amirreza-go-fmt (&optional BUFFER)
+  (interactive (list (current-buffer)))
+  (let* ((BUFFER (or BUFFER (current-buffer)))
+	 (TEMP (get-buffer-create "*gofmt-temp*"))
+	 (_ (with-current-buffer TEMP (erase-buffer)))
+	 (exitstatus (call-process "gofmt" nil `(,TEMP nil) nil (buffer-file-name BUFFER)))
+	 (oldpoint (point))
+	 )
+    (when (= exitstatus 0)
+      (with-current-buffer BUFFER
+	(erase-buffer)
+	(insert-buffer-substring TEMP)
+	(goto-char oldpoint))))
+      )
+
+(defun amirreza-go-hook ()
+  (interactive)
+  (add-hook 'before-save-hook 'amirreza-go-fmt 0 t))
+
+(with-eval-after-load 'go-modeo
+  (add-hook 'go-mode-hook 'amirreza-go-hook))
+
+(with-eval-after-load 'go-ts-mode
+  (add-hook 'go-ts-mode-hook 'amirreza-go-hook))
 
 ;; Color My Emacs
 (defun handmadehero-theme ()
@@ -562,6 +587,7 @@
 	  (json "https://github.com/tree-sitter/tree-sitter-json")
 	  (cpp "https://github.com/tree-sitter/tree-sitter-cpp")
           (c "https://github.com/tree-sitter/tree-sitter-c")
+	  (gomod "https://github.com/camdencheek/tree-sitter-go-mod")
 	  (yaml "https://github.com/ikatyang/tree-sitter-yaml")
 	  (toml "https://github.com/tree-sitter/tree-sitter-toml")))
 
