@@ -553,6 +553,7 @@
 (global-set-key (kbd "C-c v")                                        'yank)
 (global-set-key (kbd "M-w")                                          'amirreza-copy)
 (global-set-key (kbd "C-w")                                          'amirreza-cut)
+(global-set-key (kbd "M-k")                                          'kill-buffer)
 (global-set-key (kbd "C-c J")                                        'amirreza-workspace-jump-to-workspace)
 (global-set-key (kbd "C-c O")                                        'amirreza-workspace-open-workspaces-file)
 (global-set-key (kbd "C-c R")                                        'amirreza-workspace-reload-workspaces)
