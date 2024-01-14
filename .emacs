@@ -373,12 +373,14 @@
       (with-current-buffer BUFFER
 	(erase-buffer)
 	(insert-buffer-substring TEMP)
-	(goto-char oldpoint))))
+	(goto-char oldpoint)
+	(set-buffer-modified-p nil)
+	)))
       )
 
 (defun amirreza-go-hook ()
   (interactive)
-  (add-hook 'before-save-hook 'amirreza-go-fmt 0 t))
+  (add-hook 'after-save-hook 'amirreza-go-fmt 0 t))
 
 (with-eval-after-load 'go-modeo
   (add-hook 'go-mode-hook 'amirreza-go-hook))
@@ -444,7 +446,7 @@
    `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
    `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
    `(font-lock-builtin-face           ((t (:foreground "white"))))
-   `(font-lock-string-face            ((t (:foreground "#0fdfaf"))))
+   `(font-lock-string-face            ((t (:foreground "gray70"))))
    `(font-lock-comment-face           ((t (:foreground "#3fdf1f"))))
    `(font-lock-comment-delimiter-face ((t (:foreground "#3fdf1f"))))
    `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
