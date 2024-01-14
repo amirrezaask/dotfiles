@@ -1,4 +1,3 @@
-;; TODO(amirreza): instead of compilation-start we should use our own function like we did on amirreza-git-* so we can control window stuff.
 (setq amirreza-emacs-starting-time (float-time)) ;; Store current time for further analysis.
 (setq frame-inhibit-implied-resize t) ;; Don't let emacs to resize frame when something inside changes
 (setq initial-scratch-message "") ;; No starting text in *scratch* buffer.
@@ -29,15 +28,14 @@
 
 (setq amirreza-split-window-horizontal-vertical-threshold 250)
 
-(defun amirreza-split-window (&optional SWITCH-TO)
+(defun amirreza-split-window (WINDOW &optional SWITCH-TO)
   "Split window based on 'amirreza-split-window-horizontal-vertical-threshold'"
   (interactive)
   (if (> (frame-width nil) amirreza-split-window-horizontal-vertical-threshold)
       (progn
 	(delete-other-windows)
 	(split-window-horizontally)
-	(if SWITCH-TO (other-window 1))
-	)
+	(if SWITCH-TO (other-window 1)))
     (progn
       (delete-other-windows)
       (split-window-vertically)
@@ -125,7 +123,7 @@
 (defun jump-up () (interactive) (next-line (* -1 (/ (window-height) 2))) (recenter-top-bottom))
 (defun jump-down () (interactive) (next-line (/ (window-height) 2)) (recenter-top-bottom))
 
-(setq split-window-preferred-function (lambda ())) ;; Don't change my windows Emacs, please
+(setq split-window-preferred-function 'amirreza-split-window) ;; Don't change my windows Emacs, please
 (setq recenter-positions '(middle))
 (setq inhibit-startup-screen t) ;; disable default start screen
 (set-frame-parameter nil 'fullscreen 'maximized)
@@ -143,7 +141,6 @@
   (interactive (list (read-directory-name "[Build] Directory: ")))
   (let ((default-directory DIR)
 	(command (read-string "[Build] Command:")))
-    (if SPLIT (amirreza-split-window))
     (compilation-start command)))
 
 (defun amirreza-run (DIR &optional SPLIT)
@@ -151,7 +148,6 @@
   (interactive (list (read-directory-name "[Run] Directory: ")))
   (let ((default-directory DIR)
 	(command (read-string "[Run] Command:")))
-    (if SPLIT (amirreza-split-window))
     (compilation-start command)))
 
 (with-eval-after-load 'compile
@@ -166,7 +162,6 @@
   "run Ripgrep"
   (interactive (list (read-directory-name "[Ripgrep] Directory: ") (read-string "[Ripgrep] Pattern: ")))
   (unless (executable-find "rg") (error "ripgrep executable not found, install from https://github.com/BurntSushi/ripgrep/releases"))
-  (amirreza-split-window)
 
   (let* (
 	 (default-directory dir)
@@ -176,7 +171,6 @@
 (defun gnu-grep (dir pattern)
   (interactive (list (read-directory-name "[grep] Directory: ") (read-string "[grep] Pattern: ")))
   (unless (executable-find "ug") (error "Gnu Grep executable not found"))
-  (amirreza-split-window)
   (let* (
 	 (default-directory dir)
 	 (command (format "grep --exclude-dir=\".git\" --color=auto -nH --null -r -e \"%s\" ." pattern)))
@@ -185,7 +179,6 @@
 (defun amirreza-grep (dir pattern &optional SPLIT)
   ""
   (interactive (list (read-directory-name "[Grep] Directory: ") (read-string "[Grep] Pattern: ")))
-  (if SPLIT (amirreza-split-window))
   (cond
    ((or (executable-find "rg") is-windows) (rg dir pattern))
    (t (gnu-grep dir pattern))))
@@ -258,7 +251,7 @@
 	 (workspace (amirreza-get-workspace-for-path file)))
     (save-some-buffers t nil)
     (if workspace
-	(let ((default-directory (plist-get workspace :cwd))) (amirreza-split-window) (compilation-start (plist-get workspace :build)))
+	(let ((default-directory (plist-get workspace :cwd))) (compilation-start (plist-get workspace :build)))
       (amirreza-build (read-directory-name "[Build] Directory: ") t))))
 
 (defun amirreza-workspace-run ()
@@ -269,7 +262,7 @@
 	 (workspace (amirreza-get-workspace-for-path file)))
     (save-some-buffers t nil)
     (if workspace
-	(let ((default-directory (plist-get workspace :cwd))) (amirreza-split-window) (compilation-start (plist-get workspace :run)))
+	(let ((default-directory (plist-get workspace :cwd))) (compilation-start (plist-get workspace :run)))
       (amirreza-run (read-directory-name "[Run] Directory: ") t))))
 
 (defun amirreza-workspace-grep ()
@@ -299,38 +292,28 @@
 (defun amirreza-git-status ()
   "Runs git status"
   (interactive)
-  (let* ((buffer (get-buffer-create "*gitstatus*")))
-    (amirreza-split-window t)
-    (start-process "git status" buffer "git" "status")
-    (set-window-buffer nil buffer)
-    (with-current-buffer buffer (diff-mode))))
+  (amirreza-split-window t)
+  (compilation-start "git status"))
 
 (defun amirreza-git-diff ()
   "Runs git diff"
   (interactive)
-  (let* ((buffer (get-buffer-create "*diff*")))
-    (amirreza-split-window t)
-    (start-process "git diff" buffer "git" "diff")
-    (set-window-buffer nil buffer)
-    (with-current-buffer buffer (diff-mode))))
+  (amirreza-split-window t)
+
+  (compilation-start "git diff" 'diff-mode))
 
 (defun amirreza-git-diff-staged ()
-  "Runs git diff"
+  "Runs git diff --staged"
   (interactive)
-  (let* ((buffer (get-buffer-create "*diff*")))
-    (amirreza-split-window t)
-    (start-process "git diff staged" buffer "git" "diff" "--staged")
-    (set-window-buffer nil buffer)
-    (with-current-buffer buffer (diff-mode))))
+  (amirreza-split-window t)
+
+  (compilation-start "git diff --staged" 'diff-mode))
 
 (defun amirreza-git-diff-HEAD ()
-  "Runs git diff"
+  "Runs git diff HEAD"
   (interactive)
-  (let* ((buffer (get-buffer-create "*diff*")))
-    (amirreza-split-window t)
-    (start-process "git diff staged" buffer "git" "diff" "HEAD")
-    (set-window-buffer nil buffer)
-    (with-current-buffer buffer (diff-mode))))
+  (amirreza-split-window t)
+  (compilation-start "git diff HEAD"))
 
 (defalias 'gdiff 'amirreza-git-diff)
 (defalias 'gdiffh 'amirreza-git-diff-HEAD)
@@ -375,8 +358,7 @@
 	(insert-buffer-substring TEMP)
 	(goto-char oldpoint)
 	(set-buffer-modified-p nil)
-	)))
-      )
+	))))
 
 (defun amirreza-go-hook ()
   (interactive)
@@ -389,7 +371,7 @@
   (add-hook 'go-ts-mode-hook 'amirreza-go-hook))
 
 ;; Color My Emacs
-(defun handmadehero-theme ()
+(defun theme-handmadehero ()
   (interactive)
   (global-hl-line-mode +1)
   (let ((background          "#161616")
@@ -432,7 +414,7 @@
      `(show-paren-match                 ((t (:background "burlywood3" :foreground "black"))))
      `(highlight                        ((t (:foreground nil :background ,region)))))))
 
-(defun brown-theme ()
+(defun theme-brownaysayer ()
   (interactive)
   (global-hl-line-mode -1)
   (custom-set-faces
@@ -458,7 +440,7 @@
    `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
    `(show-paren-match                 ((t (:background "mediumseagreen"))))))
 
-(defun mint-theme ()
+(defun theme-naysayer ()
   (interactive)
   (global-hl-line-mode -1)
   (custom-set-faces
@@ -484,7 +466,7 @@
    `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
    `(show-paren-match                 ((t (:background "mediumseagreen"))))))
 
-(defun casey-muratori-theme ()
+(defun theme-casey-muratori ()
   (interactive)
   (global-hl-line-mode +1)
   (let ((background  "#0C0C0C")
@@ -541,9 +523,9 @@
      `(show-paren-match                 ((t (:background ,paren-match-background :foreground ,paren-match-foreground)))))))
 
 
-(brown-theme)
+(theme-brownaysayer)
 
-
+;; Sane Copy/Cut
 (defun amirreza-copy ()
   "Either copy region or the current line."
   (interactive)
@@ -559,7 +541,6 @@
     (kill-region (line-beginning-position) (line-end-position)))) ;; copy current line
 
 ;; Keybindings section
-;; NOTE(amirreza): All keys preferably should be prefixed on C-c
 (global-set-key (kbd "C-c c")                                        'amirreza-copy)
 (global-set-key (kbd "C-c x")                                        'amirreza-cut)
 (global-set-key (kbd "C-c v")                                        'yank)
@@ -573,7 +554,6 @@
 (global-set-key (kbd "C-c f")                                        'amirreza-workspace-find-files)
 (global-set-key (kbd "M-m")                                          'amirreza-workspace-build)
 (global-set-key (kbd "C-M-m")                                        'amirreza-workspace-run)
-;; Jump around					               
 (global-set-key (kbd "C-c ;")                                        'goto-line)
 (global-set-key (kbd "C-c p")                                        'previous-error) ;; Move to previous error in compilation buffer
 (global-set-key (kbd "C-c n")                                        'next-error)     ;; Move to next error in compilation buffer
@@ -582,23 +562,18 @@
 (global-set-key (kbd "M-p")                                          'jump-up) ;; Jump through the buffer with preserving the cursor position in the center
 (global-set-key (kbd "M-n")                                          'jump-down) ;; Jump through the buffer with preserving the cursor position in the center
 (global-set-key (kbd "M-i")                                          'imenu) ;; Symbols
-;; Rectangle mode
 (global-set-key (kbd "C-c C-SPC")                                    'rectangle-mark-mode)
 (with-eval-after-load 'rect
   (define-key rectangle-mark-mode-map (kbd "C-c i")                  'string-insert-rectangle)
   (define-key rectangle-mark-mode-map (kbd "C-c r")                  'string-rectangle))
-;; Buffer
 (global-set-key (kbd "C-c h")                                        'previous-buffer)
 (global-set-key (kbd "C-c l")                                        'next-buffer)
-;; Window stuff					                     
 (global-set-key (kbd "C-0")                                          'delete-other-windows)
 (global-set-key (kbd "M-o")                                          'other-window)                     
 (global-set-key (kbd "C-9")                                          'amirreza-split-window)
-;; Macros					                     
 (global-set-key (kbd "M-[")                                          'kmacro-start-macro) ;; start recording keyboard macro.
 (global-set-key (kbd "M-]")                                          'kmacro-end-macro) ;; end recording keyboard macro.
 (global-set-key (kbd "M-\\")                                         'kmacro-end-and-call-macro) ;; execute keyboard macro.
-						                     
 (global-set-key (kbd "C-z")                                          'undo) ;; Sane undo key
 (global-set-key (kbd "C-<return>")                                   'save-buffer) ;; Save with one combo not C-x C-s shit
 (global-set-key (kbd "C-q")                                          'amirreza-expand) ;; Try pre defined expansions and if nothing was found expand with emacs dabbrev
