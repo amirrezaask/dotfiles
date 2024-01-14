@@ -28,16 +28,19 @@
 
 (setq amirreza-split-window-horizontal-vertical-threshold 250)
 
-(defun amirreza-split-window ()
+(defun amirreza-split-window (&optional SWITCH-TO)
   "Split window based on 'amirreza-split-window-horizontal-vertical-threshold'"
   (interactive)
   (if (> (frame-width nil) amirreza-split-window-horizontal-vertical-threshold)
       (progn
 	(delete-other-windows)
-	(split-window-horizontally))
+	(split-window-horizontally)
+	(if SWITCH-TO (other-window 1))
+	)
     (progn
       (delete-other-windows)
-      (split-window-vertically))))
+      (split-window-vertically)
+      (if SWITCH-TO (other-window 1)))))
 
 (setq font-family "")
 (defun load-font (font fontsize)
@@ -190,7 +193,6 @@
   (define-key grep-mode-map (kbd "<f5>") 'recompile)
   (define-key grep-mode-map (kbd "k") 'kill-compilation))
 
-
 ;;; Workspace Layer ;;;
 (defvar amirreza-workspaces '() "Workspace objects.")
 (defvar amirreza-workspaces-file "~/emacs-workspaces" "Path to the workspace file.")
@@ -293,6 +295,47 @@
 
 
 (amirreza-workspace-reload-workspaces)
+
+(defun amirreza-git-status ()
+  "Runs git status"
+  (interactive)
+  (let* ((buffer (get-buffer-create "*gitstatus*")))
+    (amirreza-split-window t)
+    (start-process "git status" buffer "git" "status")
+    (set-window-buffer nil buffer)
+    (with-current-buffer buffer (diff-mode))))
+
+(defun amirreza-git-diff ()
+  "Runs git diff"
+  (interactive)
+  (let* ((buffer (get-buffer-create "*diff*")))
+    (amirreza-split-window t)
+    (start-process "git diff" buffer "git" "diff")
+    (set-window-buffer nil buffer)
+    (with-current-buffer buffer (diff-mode))))
+
+(defun amirreza-git-diff-staged ()
+  "Runs git diff"
+  (interactive)
+  (let* ((buffer (get-buffer-create "*diff*")))
+    (amirreza-split-window t)
+    (start-process "git diff staged" buffer "git" "diff" "--staged")
+    (set-window-buffer nil buffer)
+    (with-current-buffer buffer (diff-mode))))
+
+(defun amirreza-git-diff-HEAD ()
+  "Runs git diff"
+  (interactive)
+  (let* ((buffer (get-buffer-create "*diff*")))
+    (amirreza-split-window t)
+    (start-process "git diff staged" buffer "git" "diff" "HEAD")
+    (set-window-buffer nil buffer)
+    (with-current-buffer buffer (diff-mode))))
+
+(defalias 'gdiff 'amirreza-git-diff)
+(defalias 'gdiffh 'amirreza-git-diff-HEAD)
+(defalias 'gdiffs 'amirreza-git-diff-staged)
+(defalias 'gstatus 'amirreza-git-status)
 
 ;; EXPANSIONS aka Snippets
 (setq dabbrev-case-replace nil)
@@ -464,13 +507,11 @@
 
 ;; Keybindings section
 ;; NOTE(amirreza): All keys preferably should be prefixed on C-c
-;; Copy/Cut/Paste
 (global-set-key (kbd "C-c c")                                        'amirreza-copy)
 (global-set-key (kbd "C-c x")                                        'amirreza-cut)
 (global-set-key (kbd "C-c v")                                        'yank)
 (global-set-key (kbd "M-w")                                          'amirreza-copy)
 (global-set-key (kbd "C-w")                                          'amirreza-cut)
-;; Workspaces					               
 (global-set-key (kbd "C-c J")                                        'amirreza-workspace-jump-to-workspace)
 (global-set-key (kbd "C-c O")                                        'amirreza-workspace-open-workspaces-file)
 (global-set-key (kbd "C-c R")                                        'amirreza-workspace-reload-workspaces)
