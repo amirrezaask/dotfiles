@@ -13,7 +13,7 @@
 (setq is-linux (eq system-type 'gnu-linux))
 (setq is-macos (eq system-type 'darwin))
 (setq has-treesitter (>= emacs-major-version 29))
-(unless (executable-find "rg") (error "Install rigprep, this configuration relies heavy on it's features."))
+(unless (executable-find "rg") (error "Install ripgrep, this configuration relies heavy on it's features."))
 
 (defun edit-init ()
   (interactive)
@@ -30,7 +30,7 @@
 
 (defun amirreza-split-window (WINDOW &optional SWITCH-TO)
   "Split window based on 'amirreza-split-window-horizontal-vertical-threshold'"
-  (interactive)
+  (interactive (list nil))
   (if (> (frame-width nil) amirreza-split-window-horizontal-vertical-threshold)
       (progn
 	(delete-other-windows)
@@ -426,7 +426,7 @@
   (global-hl-line-mode -1)
   (custom-set-faces
    `(default                          ((t (:foreground "#debe95" :background "#161616"))))
-   `(hl-line                          ((t (:background "#0c4141"))))
+   `(hl-line                          ((t (:background "#252525"))))
    `(vertico-current                  ((t (:inherit hl-line))))
    `(region                           ((t (:background  "medium blue"))))
    `(cursor                           ((t (:background "lightgreen"))))
@@ -577,6 +577,7 @@
 (global-set-key (kbd "C-c h")                                        'previous-buffer)
 (global-set-key (kbd "C-c l")                                        'next-buffer)
 (global-set-key (kbd "C-0")                                          'delete-other-windows)
+(global-set-key (kbd "M-0")                                          'delete-window)
 (global-set-key (kbd "M-o")                                          'other-window)                     
 (global-set-key (kbd "C-9")                                          'amirreza-split-window)
 (global-set-key (kbd "M-[")                                          'kmacro-start-macro) ;; start recording keyboard macro.
