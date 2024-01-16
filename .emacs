@@ -1,4 +1,5 @@
 (setq amirreza-emacs-starting-time (float-time)) ;; Store current time for further analysis.
+(setq INIT_FILE load-file-name)
 (setq frame-inhibit-implied-resize t) ;; Don't let emacs to resize frame when something inside changes
 (setq initial-scratch-message "") ;; No starting text in *scratch* buffer.
 (setq gc-cons-threshold 200000000) ;; 200 MB for the GC threshold
@@ -17,9 +18,7 @@
 
 (defun edit-init ()
   (interactive)
-  (cond
-   (is-windows (find-file "W:\\dotfiles\\.emacs"))
-   (t  (find-file "~/w/dotfiles/.emacs"))))
+  (find-file INIT_FILE))
 
 (global-set-key (kbd "C-x i") 'edit-init)
 (setq use-short-answers t) ;; Always prefer short answers
@@ -473,7 +472,7 @@
    `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
    `(show-paren-match                 ((t (:background "mediumseagreen"))))))
 
-(defun theme-casey-muratori ()
+(defun theme-cmuratori ()
   (interactive)
   (global-hl-line-mode +1)
   (let ((background  "#0C0C0C")
