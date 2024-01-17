@@ -1,29 +1,59 @@
-(setq amirreza-emacs-starting-time (float-time)) ;; Store current time for further analysis.
-(setq INIT_FILE load-file-name)
-(setq frame-inhibit-implied-resize t) ;; Don't let emacs to resize frame when something inside changes
-(setq initial-scratch-message "") ;; No starting text in *scratch* buffer.
-(setq gc-cons-threshold 200000000) ;; 200 MB for the GC threshold
-(setq redisplay-dont-pause t)
-;; (setq debug-on-error t) ;; debug on error
-(setq vc-follow-symlinks t) ;; Follow symlinks with no questions
-(setq ring-bell-function (lambda ())) ;; no stupid sounds
-(setq custom-file "~/.custom.el") ;; set custom file to not meddle with init.el
-(setq make-backup-files nil) ;; no emacs ~ backup files
-(global-unset-key (kbd "C-x C-c"))
-(setq is-windows (eq system-type 'windows-nt))
-(setq is-linux (eq system-type 'gnu-linux))
-(setq is-macos (eq system-type 'darwin))
-(setq has-treesitter (>= emacs-major-version 29))
-(unless (executable-find "rg") (error "Install ripgrep, this configuration relies heavy on it's features."))
+(setq custom-safe-themes t)
+  (setq frame-inhibit-implied-resize t) ;; Don't let emacs to resize frame when something inside changes
+  (setq initial-scratch-message "") ;; No starting text in *scratch* buffer.
+  (setq gc-cons-threshold 200000000) ;; 200 MB for the GC threshold
+  (setq redisplay-dont-pause t)
+  ;; (setq debug-on-error t) ;; debug on error
+  (setq vc-follow-symlinks t) ;; Follow symlinks with no questions
+  (setq ring-bell-function (lambda ())) ;; no stupid sounds
+  (setq custom-file "~/.custom.el") ;; set custom file to not meddle with init.el
+  (setq make-backup-files nil) ;; no emacs ~ backup files
+  (global-unset-key (kbd "C-x C-c"))
+  (setq is-windows (eq system-type 'windows-nt))
+  (setq is-linux (eq system-type 'gnu-linux))
+  (setq is-macos (eq system-type 'darwin))
+  (setq has-treesitter (>= emacs-major-version 29))
+  (unless (executable-find "rg") (error "Install ripgrep, this configuration relies heavy on it's features."))
 
 (defun edit-init ()
   (interactive)
-  (find-file INIT_FILE))
+  (find-file CONFIG_FILE))
 
 (global-set-key (kbd "C-x i") 'edit-init)
 (setq use-short-answers t) ;; Always prefer short answers
 (setq image-types (cons 'svg image-types)) ;; macos bug
 (setq mac-command-modifier 'meta) ;; macos again
+(setq recenter-positions '(middle))
+(setq inhibit-startup-screen t) ;; disable default start screen
+(set-frame-parameter nil 'fullscreen 'maximized)
+(add-to-list 'default-frame-alist '(fullscreen . maximized)) ;; always start frames maximized
+(setq-default frame-title-format '("Emacs: %e" (:eval default-directory)))
+(menu-bar-mode -1) ;; disable menu bar
+(global-hl-line-mode +1) ;; Highlight current line
+(tool-bar-mode -1) ;; disable tool bar
+(scroll-bar-mode -1) ;; disable scroll bar
+(setq kill-whole-line t) ;; kill line and newline char
+(delete-selection-mode) ;; when selected a text and user types delete text
+(setq global-auto-revert-non-file-buffers t)
+(setq auto-revert-verbose nil)
+
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+(package-initialize)
+(defun install (PKG) (unless (package-installed-p PKG) (package-install PKG)))
+(unless package-archive-contents (package-refresh-contents))
+
+(install 'catppuccin-theme)
+(install 'dracula-theme)
+(install 'ef-themes)
+(defadvice load-theme (before disable-themes activate)
+  (mapc #'disable-theme custom-enabled-themes))
+(load-theme 'catppuccin)
+
+(install 'vertico)
+(vertico-mode +1)
+(setq vertico-count 5)
+(setq vertico-cycle t)
+(setq vertico-resize nil)
 
 (setq amirreza-split-window-horizontal-vertical-threshold 250)
 
@@ -39,6 +69,7 @@
       (delete-other-windows)
       (split-window-vertically)
       (if SWITCH-TO (other-window 1)))))
+(setq split-window-preferred-function 'amirreza-split-window) ;; Don't change my windows Emacs, please
 
 (setq font-family "")
 (defun load-font (font fontsize)
@@ -79,15 +110,6 @@
     (setenv "PATH" (string-join exec-path ";"))
   (setenv "PATH" (string-join exec-path ":"))) ;; set emacs process PATH
 
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
-(package-initialize)
-(defun install (PKG) (unless (package-installed-p PKG) (package-install PKG)))
-(unless package-archive-contents (package-refresh-contents))
-(install 'php-mode)
-(install 'yaml-mode)
-(install 'json-mode)
-(install 'go-mode)
-
 ;; Highlight todos
 (setq hl-todo-modes '(c-mode c++-mode go-mode emacs-lisp))
 (make-face 'font-lock-todo-face)
@@ -108,22 +130,6 @@
      ("\\<\\(NOTE\\)" 1 'font-lock-note-face t))))
 (add-hook 'prog-mode-hook 'amirreza-add-todo/note-highlight)
 
-(defun jump-up () (interactive) (next-line (* -1 (/ (window-height) 2))) (recenter-top-bottom))
-(defun jump-down () (interactive) (next-line (/ (window-height) 2)) (recenter-top-bottom))
-
-(setq split-window-preferred-function 'amirreza-split-window) ;; Don't change my windows Emacs, please
-(setq recenter-positions '(middle))
-(setq inhibit-startup-screen t) ;; disable default start screen
-(set-frame-parameter nil 'fullscreen 'maximized)
-(add-to-list 'default-frame-alist '(fullscreen . maximized)) ;; always start frames maximized
-(setq-default frame-title-format '("Emacs: %e" (:eval default-directory)))
-(menu-bar-mode -1) ;; disable menu bar
-(global-hl-line-mode +1) ;; Highlight current line
-(tool-bar-mode -1) ;; disable tool bar
-(scroll-bar-mode -1) ;; disable scroll bar
-(setq kill-whole-line t) ;; kill line and newline char
-(delete-selection-mode) ;; when selected a text and user types delete text
-
 (defun amirreza-build (DIR &optional SPLIT)
   "Compile in a directory"
   (interactive (list (read-directory-name "[Build] Directory: ")))
@@ -142,8 +148,8 @@
   (define-key compilation-mode-map (kbd "<f5>") 'recompile)
   (define-key compilation-mode-map (kbd "k") 'kill-compilation))
 
-(setq global-auto-revert-non-file-buffers t)
-(setq auto-revert-verbose nil)
+(defun jump-up () (interactive) (next-line (* -1 (/ (window-height) 2))) (recenter-top-bottom))
+(defun jump-down () (interactive) (next-line (/ (window-height) 2)) (recenter-top-bottom))
 
 ;; G/RE/P aka GREP
 (defun rg (dir pattern)
@@ -175,7 +181,6 @@
   (define-key grep-mode-map (kbd "<f5>") 'recompile)
   (define-key grep-mode-map (kbd "k") 'kill-compilation))
 
-;;; Workspace Layer ;;;
 (defvar amirreza-workspaces '() "Workspace objects.")
 (defvar amirreza-workspaces-file "~/emacs-workspaces" "Path to the workspace file.")
 (defun amirreza-workspace-reload-workspaces ()
@@ -308,7 +313,6 @@
 (defalias 'gdiffs 'amirreza-git-diff-staged)
 (defalias 'gstatus 'amirreza-git-status)
 
-;; EXPANSIONS aka Snippets
 (setq dabbrev-case-replace nil)
 (setq dabbrev-case-fold-search t)
 (setq dabbrev-upcase-means-case-search nil)
@@ -329,9 +333,7 @@
 	  (insert expansion))
       (call-interactively 'dabbrev-expand))))
 
-;; Programming
-(setq-default c-default-style "linux" c-basic-offset 4) ;; C/C++
-;;Golang
+(install 'go-mode)
 (defun amirreza-go-fmt (&optional BUFFER)
   (interactive (list (current-buffer)))
   (let* ((BUFFER (or BUFFER (current-buffer)))
@@ -357,162 +359,12 @@
 (with-eval-after-load 'go-ts-mode
   (add-hook 'go-ts-mode-hook 'amirreza-go-hook))
 
-;; Color My Emacs
-(defun theme-handmadehero ()
-  (interactive)
-  (global-hl-line-mode +1)
-  (let ((background          "#161616")
-	(highlight           "midnight blue")
-	(region              "medium blue")
-	(text                "#cdaa7d")
-	(keyword             "DarkGoldenrod3")
-	(comment             "gray50")
-	(string              "olive drab")
-	(variable            "burlywood3")
-	(warning             "#504038")
-	(constant            "olive drab")
-	(cursor              "green")
-	(function            "burlywood3")
-	(macro               "#8cde94")
-	(punctuation         "burlywood3")
-	(builtin             "#DAB98F"))
+(setq-default c-default-style "linux" c-basic-offset 4) ;; C/C++
 
-    (custom-set-faces
-     `(default                          ((t (:foreground ,text :background ,background))))
-     `(cursor                           ((t (:background ,cursor))))
-     `(font-lock-keyword-face           ((t (:foreground ,keyword))))
-     `(font-lock-type-face              ((t (:foreground ,punctuation))))
-     `(font-lock-constant-face          ((t (:foreground ,constant))))
-     `(font-lock-variable-name-face     ((t (:foreground ,variable))))
-     `(font-lock-builtin-face           ((t (:foreground ,builtin))))
-     `(font-lock-string-face            ((t (:foreground ,string))))
-     `(font-lock-comment-face           ((t (:foreground ,comment))))
-     `(font-lock-comment-delimiter-face ((t (:foreground ,comment))))
-     `(font-lock-doc-face               ((t (:foreground ,comment))))
-     `(font-lock-function-name-face     ((t (:foreground ,function))))
-     `(font-lock-doc-string-face        ((t (:foreground ,string))))
-     `(font-lock-preprocessor-face      ((t (:foreground ,macro))))
-     `(font-lock-warning-face           ((t (:foreground ,warning))))
-     `(region                           ((t (:background ,region))))
-     `(hl-line                          ((t (:background ,highlight))))
-     `(vertico-current                  ((t (:inherit hl-line))))
-     `(mode-line                        ((t (:background "#ffffff" :foreground "#000000"))))
-     `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
-     `(show-paren-match                 ((t (:background "burlywood3" :foreground "black"))))
-     `(highlight                        ((t (:foreground nil :background ,region)))))))
+(install 'php-mode)
+(install 'yaml-mode)
+(install 'json-mode)
 
-(defun theme-brownaysayer ()
-  (interactive)
-  (global-hl-line-mode -1)
-  (custom-set-faces
-   `(default                          ((t (:foreground "#debe95" :background "#161616"))))
-   `(hl-line                          ((t (:background "#252525"))))
-   `(vertico-current                  ((t (:inherit hl-line))))
-   `(region                           ((t (:background  "medium blue"))))
-   `(cursor                           ((t (:background "lightgreen"))))
-   `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
-   `(font-lock-type-face              ((t (:foreground "#8cde94"))))
-   `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
-   `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
-   `(font-lock-builtin-face           ((t (:foreground "white"))))
-   `(font-lock-string-face            ((t (:foreground "gray70"))))
-   `(font-lock-comment-face           ((t (:foreground "#3fdf1f"))))
-   `(font-lock-comment-delimiter-face ((t (:foreground "#3fdf1f"))))
-   `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
-   `(font-lock-function-name-face     ((t (:foreground "white"))))
-   `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
-   `(font-lock-warning-face           ((t (:foreground "yellow"))))
-   `(font-lock-note-face              ((t (:foreground "khaki2" ))))
-   `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
-   `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
-   `(show-paren-match                 ((t (:background "mediumseagreen"))))))
-
-(defun theme-naysayer ()
-  (interactive)
-  (global-hl-line-mode -1)
-  (custom-set-faces
-   `(default                          ((t (:foreground "#d3b58d" :background "#072626"))))
-   `(hl-line                          ((t (:background "#0c4141"))))
-   `(vertico-current                  ((t (:inherit hl-line))))
-   `(region                           ((t (:background  "medium blue"))))
-   `(cursor                           ((t (:background "lightgreen"))))
-   `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
-   `(font-lock-type-face              ((t (:foreground "#8cde94"))))
-   `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
-   `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
-   `(font-lock-builtin-face           ((t (:foreground "white"))))
-   `(font-lock-string-face            ((t (:foreground "#0fdfaf"))))
-   `(font-lock-comment-face           ((t (:foreground "#3fdf1f"))))
-   `(font-lock-comment-delimiter-face ((t (:foreground "#3fdf1f"))))
-   `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
-   `(font-lock-function-name-face     ((t (:foreground "white"))))
-   `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
-   `(font-lock-warning-face           ((t (:foreground "yellow"))))
-   `(font-lock-note-face              ((t (:foreground "khaki2" ))))
-   `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
-   `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
-   `(show-paren-match                 ((t (:background "mediumseagreen"))))))
-
-(defun theme-cmuratori ()
-  (interactive)
-  (global-hl-line-mode +1)
-  (let ((background  "#0C0C0C")
-	(highlight   "#171616")
-	(region      "#2f2f37")
-	(text        "#a08563")
-	(keyword     "#f0c674")
-	(comment     "#686868")
-	(string      "#6b8e23")
-	(variable    "#b99468")
-	(warning     "#504038")
-	(constant    "#6b8e23")
-	(cursor      "#EE7700")
-	(function    "#cc5735")
-	(macro       "#dab98f")
-	(type        "#d8a51d")
-	(operator    "#907553")
-	(modeline-foreground "#cb9401")
-	(modeline-background "#1f1f27")
-	(paren-match-foreground "#000000")
-	(paren-match-background "#e0741b")
-	(punctuation "#907553") ;; 
-	(bracket     "#907553") ;; [] {} ()
-	(delimiter   "#907553") ;; ; :
-	(builtin     "#DAB98F"))
-
-    (custom-set-faces
-     `(default                          ((t (:foreground ,text :background ,background))))
-     `(cursor                           ((t (:background ,cursor))))
-     `(font-lock-keyword-face           ((t (:foreground ,keyword))))
-     `(font-lock-operator-face          ((t (:foreground ,operator))))
-     `(font-lock-punctuation-face       ((t (:foreground ,punctuation))))
-     `(font-lock-bracket-face           ((t (:foreground ,bracket))))
-     `(font-lock-delimiter-face         ((t (:foreground ,delimiter))))
-     `(font-lock-type-face              ((t (:foreground ,type))))
-     `(font-lock-constant-face          ((t (:foreground ,constant))))
-     `(font-lock-variable-name-face     ((t (:foreground ,variable))))
-     `(font-lock-builtin-face           ((t (:foreground ,builtin))))
-     `(font-lock-string-face            ((t (:foreground ,string))))
-     `(font-lock-comment-face           ((t (:foreground ,comment))))
-     `(font-lock-comment-delimiter-face ((t (:foreground ,comment))))
-     `(font-lock-doc-face               ((t (:foreground ,comment))))
-     `(font-lock-function-name-face     ((t (:foreground ,function))))
-     `(font-lock-doc-string-face        ((t (:foreground ,string))))
-     `(font-lock-preprocessor-face      ((t (:foreground ,macro))))
-     `(font-lock-warning-face           ((t (:foreground ,warning))))
-     `(region                           ((t (:background ,region))))
-     `(hl-line                          ((t (:background ,highlight))))
-     `(vertico-current                  ((t (:inherit hl-line))))
-     `(highlight                        ((t (:foreground nil :background ,region))))
-     `(mode-line                        ((t (:foreground ,modeline-foreground :background ,modeline-background))))
-     `(mode-line-inactive               ((t (:foreground ,modeline-foreground :background ,modeline-background))))
-     `(minibuffer-prompt                ((t (:foreground ,text) :bold t)))
-     `(show-paren-match                 ((t (:background ,paren-match-background :foreground ,paren-match-foreground)))))))
-
-
-(theme-brownaysayer)
-
-;; Sane Copy/Cut
 (defun amirreza-copy ()
   "Either copy region or the current line."
   (interactive)
@@ -527,7 +379,33 @@
       (kill-region (region-beginning) (region-end)) ;; copy active region contents
     (kill-region (line-beginning-position) (line-end-position)))) ;; copy current line
 
-;; Keybindings section
+(when has-treesitter
+;; IMPORTANT(amirreza): This sections needs both Emacs >29 and also a CC compiler. 
+(setq treesit-language-source-alist
+      '((go "https://github.com/tree-sitter/tree-sitter-go")
+	(json "https://github.com/tree-sitter/tree-sitter-json")
+	(cpp "https://github.com/tree-sitter/tree-sitter-cpp")
+        (c "https://github.com/tree-sitter/tree-sitter-c")
+	(gomod "https://github.com/camdencheek/tree-sitter-go-mod")
+	(yaml "https://github.com/ikatyang/tree-sitter-yaml")
+	(toml "https://github.com/tree-sitter/tree-sitter-toml")))
+
+(mapc (lambda (LANG) (unless (treesit-language-available-p LANG) (treesit-install-language-grammar LANG))) (mapcar #'car treesit-language-source-alist))
+(setq major-mode-remap-alist '())
+
+(setq major-mode-remap-alist
+      '((yaml-mode . yaml-ts-mode)
+	;; TODO(amirreza): Fix indentation style of C.
+	;; (c++-mode  . c++-ts-mode)
+	;; (c-mode    . c-ts-mode)
+	(go-mode   . go-ts-mode)
+	(json-mode . json-ts-mode)))
+
+
+;; C/C++ syntax style
+(setq c-ts-mode-indent-offset 4)                                                                                        
+(setq c-ts-mode-indent-style 'linux))
+
 (global-set-key (kbd "C-c c")                                        'amirreza-copy)
 (global-set-key (kbd "C-c x")                                        'amirreza-cut)
 (global-set-key (kbd "C-c v")                                        'yank)
@@ -569,38 +447,3 @@
 (global-set-key (kbd "C-=")                                          (lambda () (interactive) (text-scale-increase 1)))
 (global-set-key (kbd "C--")                                          (lambda () (interactive) (text-scale-decrease 1)))
 (global-set-key (kbd "C-.")                                          'isearch-forward-thing-at-point)
-
-;; Treesitter Layer
-;; Emacs >29
-(when has-treesitter
-  ;; IMPORTANT(amirreza): This sections needs both Emacs >29 and also a CC compiler. 
-  (setq treesit-language-source-alist
-	'((go "https://github.com/tree-sitter/tree-sitter-go")
-	  (json "https://github.com/tree-sitter/tree-sitter-json")
-	  (cpp "https://github.com/tree-sitter/tree-sitter-cpp")
-          (c "https://github.com/tree-sitter/tree-sitter-c")
-	  (gomod "https://github.com/camdencheek/tree-sitter-go-mod")
-	  (yaml "https://github.com/ikatyang/tree-sitter-yaml")
-	  (toml "https://github.com/tree-sitter/tree-sitter-toml")))
-
-  (mapc (lambda (LANG) (unless (treesit-language-available-p LANG) (treesit-install-language-grammar LANG))) (mapcar #'car treesit-language-source-alist))
-  (setq major-mode-remap-alist '())
-
-  (setq major-mode-remap-alist
-	'((yaml-mode . yaml-ts-mode)
-	  ;; TODO(amirreza): Fix indentation style of C.
-	  ;; (c++-mode  . c++-ts-mode)
-	  ;; (c-mode    . c-ts-mode)
-	  (go-mode   . go-ts-mode)
-	  (json-mode . json-ts-mode)))
-
-
-  ;; C/C++ syntax style
-  (setq c-ts-mode-indent-offset 4)                                                                                        
-  (setq c-ts-mode-indent-style 'linux))
-
-;; Performance benchmark
-(setq amirreza-emacs-init-took (* (float-time (time-subtract (float-time) amirreza-emacs-starting-time)) 1000))
-(setq emacs-init-time-took (* (string-to-number (emacs-init-time "%f")) 1000))
-(setq amirreza-emacs-init-log-message (format "Amirreza emacs init took %fms, Emacs init took: %fms" amirreza-emacs-init-took emacs-init-time-took))
-(message amirreza-emacs-init-log-message)
