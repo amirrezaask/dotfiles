@@ -59,7 +59,7 @@
     (set-face-attribute 'default t :font fontstring)))
 
 
-(load-font "Consolas" 13)
+(load-font "Hack" 13)
 
 (defun home (path)
   (expand-file-name path (getenv "HOME")))
@@ -87,25 +87,6 @@
 (install 'yaml-mode)
 (install 'json-mode)
 (install 'go-mode)
-
-;; Minibuffer completion
-(if (> emacs-major-version 28)
-    (fido-mode +1)
-  (progn
-    (icomplete-mode +1)
-    (setq icomplete-tidy-shadowed-file-names t
-	  icomplete-show-matches-on-no-input t
-	  icomplete-hide-common-prefix nil
-	  completion-styles '(flex basic)
-	  completion-flex-nospace nil
-	  completion-ignore-case t
-	  read-buffer-completion-ignore-case t
-	  read-file-name-completion-ignore-case t)))
-
-
-(setq completion-cycle-threshold 5)
-(with-eval-after-load 'minibuffer
-  (define-key minibuffer-mode-map (kbd "C-o") 'switch-to-completions))
 
 ;; Highlight todos
 (setq hl-todo-modes '(c-mode c++-mode go-mode emacs-lisp))
@@ -557,7 +538,6 @@
 (global-set-key (kbd "C-c O")                                        'amirreza-workspace-open-workspaces-file)
 (global-set-key (kbd "C-c R")                                        'amirreza-workspace-reload-workspaces)
 (global-set-key (kbd "C-c m")                                        'amirreza-workspace-grep)
-(global-set-key (kbd "C-c b")                                        'amirreza-workspace-build)
 (global-set-key (kbd "C-c f")                                        'amirreza-workspace-find-files)
 (global-set-key (kbd "M-m")                                          'amirreza-workspace-build)
 (global-set-key (kbd "C-M-m")                                        'amirreza-workspace-run)
@@ -588,6 +568,7 @@
 (global-set-key (kbd "M-r")                                          'query-replace) ;; Replace pattern with a string
 (global-set-key (kbd "C-=")                                          (lambda () (interactive) (text-scale-increase 1)))
 (global-set-key (kbd "C--")                                          (lambda () (interactive) (text-scale-decrease 1)))
+(global-set-key (kbd "C-.")                                          'isearch-forward-thing-at-point)
 
 ;; Treesitter Layer
 ;; Emacs >29
