@@ -178,13 +178,6 @@ require("lazy").setup({
         },
         config = function()
             local lsp_servers = {
-                ocamllsp = {
-                    cmd = { string.format("%s/.opam/default/bin/%s", os.getenv("HOME"), "ocamllsp") },
-                    get_language_id = function(_, ftype)
-                        return ftype
-                    end,
-                },
-                clangd = {},
                 gopls = {},
                 lua_ls = {
                     settings = {
