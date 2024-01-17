@@ -1,15 +1,11 @@
 (setq amirreza-emacs-starting-time (float-time)) ;; Store current time for further analysis.
-(setq BASE_PATH (file-name-directory load-file-name)) ;; $CWD where this file is.
-(setq INIT_FILE load-file-name)
-(add-to-list 'load-path (expand-file-name "lisp" BASE_PATH))
-(add-to-list 'custom-theme-load-path (expand-file-name "themes" BASE_PATH))
-
-(setq custom-safe-themes t)
+(when load-file-name
+  (setq BASE_PATH (file-name-directory load-file-name)) ;; $CWD where this file is.
+  (setq INIT_FILE load-file-name))
 (setq frame-inhibit-implied-resize t) ;; Don't let emacs to resize frame when something inside changes
 (setq initial-scratch-message "") ;; No starting text in *scratch* buffer.
 (setq gc-cons-threshold 200000000) ;; 200 MB for the GC threshold
 (setq redisplay-dont-pause t)
-;; (setq debug-on-error t) ;; debug on error
 (setq vc-follow-symlinks t) ;; Follow symlinks with no questions
 (setq ring-bell-function (lambda ())) ;; no stupid sounds
 (setq custom-file "~/.custom.el") ;; set custom file to not meddle with init.el
@@ -22,8 +18,16 @@
 (unless (executable-find "rg") (error "Install ripgrep, this configuration relies heavy on it's features."))
 
 (defun edit-init ()
+  "Edit this file."
   (interactive)
   (find-file INIT_FILE))
+
+(defun toggle-debug-mode ()
+  "Toggle Emacs debug mode." 
+  (interactive)
+  (if debug-on-error
+      (setq debug-on-error nil)
+    (setq debug-on-error t)))
 
 (global-set-key (kbd "C-x i") 'edit-init)
 (setq use-short-answers t) ;; Always prefer short answers
@@ -33,16 +37,12 @@
 (setq inhibit-startup-screen t) ;; disable default start screen
 (set-frame-parameter nil 'fullscreen 'maximized)
 (add-to-list 'default-frame-alist '(fullscreen . maximized)) ;; always start frames maximized
-(setq-default frame-title-format '("Emacs: %e" (:eval default-directory)))
+(setq-default frame-title-format '("Emacs:%e" (:eval default-directory))) ;; OS window title
 (menu-bar-mode -1) ;; disable menu bar
-(global-hl-line-mode +1) ;; Highlight current line
 (tool-bar-mode -1) ;; disable tool bar
 (scroll-bar-mode -1) ;; disable scroll bar
 (setq kill-whole-line t) ;; kill line and newline char
 (delete-selection-mode) ;; when selected a text and user types delete text
-(setq global-auto-revert-non-file-buffers t)
-(setq auto-revert-verbose nil)
-
 
 ;;;; Package manager
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
@@ -51,21 +51,167 @@
 ;; (unless package-archive-contents (package-refresh-contents))
 
 ;;;; Themes
-(install 'catppuccin-theme)
-(install 'gruber-darker-theme)
-(install 'dracula-theme)
-(install 'ef-themes)
-(defadvice load-theme (before disable-themes activate)
-  (mapc #'disable-theme custom-enabled-themes))
-(load-theme 'catppuccin)
+(defun theme-handmadehero ()
+  (interactive)
+  (global-hl-line-mode +1)
+  (let ((background          "#161616")
+	(highlight           "midnight blue")
+	(region              "medium blue")
+	(text                "#cdaa7d")
+	(keyword             "DarkGoldenrod3")
+	(comment             "gray50")
+	(string              "olive drab")
+	(variable            "burlywood3")
+	(warning             "#504038")
+	(constant            "olive drab")
+	(cursor              "green")
+	(function            "burlywood3")
+	(macro               "#8cde94")
+	(punctuation         "burlywood3")
+	(builtin             "#DAB98F"))
+
+    (custom-set-faces
+     `(default                          ((t (:foreground ,text :background ,background))))
+     `(cursor                           ((t (:background ,cursor))))
+     `(font-lock-keyword-face           ((t (:foreground ,keyword))))
+     `(font-lock-type-face              ((t (:foreground ,punctuation))))
+     `(font-lock-constant-face          ((t (:foreground ,constant))))
+     `(font-lock-variable-name-face     ((t (:foreground ,variable))))
+     `(font-lock-builtin-face           ((t (:foreground ,builtin))))
+     `(font-lock-string-face            ((t (:foreground ,string))))
+     `(font-lock-comment-face           ((t (:foreground ,comment))))
+     `(font-lock-comment-delimiter-face ((t (:foreground ,comment))))
+     `(font-lock-doc-face               ((t (:foreground ,comment))))
+     `(font-lock-function-name-face     ((t (:foreground ,function))))
+     `(font-lock-doc-string-face        ((t (:foreground ,string))))
+     `(font-lock-preprocessor-face      ((t (:foreground ,macro))))
+     `(font-lock-warning-face           ((t (:foreground ,warning))))
+     `(region                           ((t (:background ,region))))
+     `(hl-line                          ((t (:background ,highlight))))
+     `(vertico-current                  ((t (:inherit hl-line))))
+     `(mode-line                        ((t (:background "#ffffff" :foreground "#000000"))))
+     `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
+     `(show-paren-match                 ((t (:background "burlywood3" :foreground "black"))))
+     `(highlight                        ((t (:foreground nil :background ,region)))))))
+
+(defun theme-brownaysayer ()
+  (interactive)
+  (global-hl-line-mode -1)
+  (custom-set-faces
+   `(default                          ((t (:foreground "#debe95" :background "#161616"))))
+   `(hl-line                          ((t (:background "#252525"))))
+   `(vertico-current                  ((t (:inherit hl-line))))
+   `(region                           ((t (:background  "medium blue"))))
+   `(cursor                           ((t (:background "lightgreen"))))
+   `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
+   `(font-lock-type-face              ((t (:foreground "#8cde94"))))
+   `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
+   `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
+   `(font-lock-builtin-face           ((t (:foreground "white"))))
+   `(font-lock-string-face            ((t (:foreground "gray70"))))
+   `(font-lock-comment-face           ((t (:foreground "#3fdf1f"))))
+   `(font-lock-comment-delimiter-face ((t (:foreground "#3fdf1f"))))
+   `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
+   `(font-lock-function-name-face     ((t (:foreground "white"))))
+   `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
+   `(font-lock-warning-face           ((t (:foreground "yellow"))))
+   `(font-lock-note-face              ((t (:foreground "khaki2" ))))
+   `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
+   `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
+   `(show-paren-match                 ((t (:background "mediumseagreen"))))))
+
+(defun theme-naysayer ()
+  (interactive)
+  (global-hl-line-mode -1)
+  (custom-set-faces
+   `(default                          ((t (:foreground "#d3b58d" :background "#072626"))))
+   `(hl-line                          ((t (:background "#0c4141"))))
+   `(vertico-current                  ((t (:inherit hl-line))))
+   `(region                           ((t (:background  "medium blue"))))
+   `(cursor                           ((t (:background "lightgreen"))))
+   `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
+   `(font-lock-type-face              ((t (:foreground "#8cde94"))))
+   `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
+   `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
+   `(font-lock-builtin-face           ((t (:foreground "white"))))
+   `(font-lock-string-face            ((t (:foreground "#0fdfaf"))))
+   `(font-lock-comment-face           ((t (:foreground "#3fdf1f"))))
+   `(font-lock-comment-delimiter-face ((t (:foreground "#3fdf1f"))))
+   `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
+   `(font-lock-function-name-face     ((t (:foreground "white"))))
+   `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
+   `(font-lock-warning-face           ((t (:foreground "yellow"))))
+   `(font-lock-note-face              ((t (:foreground "khaki2" ))))
+   `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
+   `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
+   `(show-paren-match                 ((t (:background "mediumseagreen"))))))
+
+(defun theme-cmuratori ()
+  (interactive)
+  (global-hl-line-mode +1)
+  (let ((background  "#0C0C0C")
+	(highlight   "#171616")
+	(region      "#2f2f37")
+	(text        "#a08563")
+	(keyword     "#f0c674")
+	(comment     "#686868")
+	(string      "#6b8e23")
+	(variable    "#b99468")
+	(warning     "#504038")
+	(constant    "#6b8e23")
+	(cursor      "#EE7700")
+	(function    "#cc5735")
+	(macro       "#dab98f")
+	(type        "#d8a51d")
+	(operator    "#907553")
+	(modeline-foreground "#cb9401")
+	(modeline-background "#1f1f27")
+	(paren-match-foreground "#000000")
+	(paren-match-background "#e0741b")
+	(punctuation "#907553") ;; 
+	(bracket     "#907553") ;; [] {} ()
+	(delimiter   "#907553") ;; ; :
+	(builtin     "#DAB98F"))
+
+    (custom-set-faces
+     `(default                          ((t (:foreground ,text :background ,background))))
+     `(cursor                           ((t (:background ,cursor))))
+     `(font-lock-keyword-face           ((t (:foreground ,keyword))))
+     `(font-lock-operator-face          ((t (:foreground ,operator))))
+     `(font-lock-punctuation-face       ((t (:foreground ,punctuation))))
+     `(font-lock-bracket-face           ((t (:foreground ,bracket))))
+     `(font-lock-delimiter-face         ((t (:foreground ,delimiter))))
+     `(font-lock-type-face              ((t (:foreground ,type))))
+     `(font-lock-constant-face          ((t (:foreground ,constant))))
+     `(font-lock-variable-name-face     ((t (:foreground ,variable))))
+     `(font-lock-builtin-face           ((t (:foreground ,builtin))))
+     `(font-lock-string-face            ((t (:foreground ,string))))
+     `(font-lock-comment-face           ((t (:foreground ,comment))))
+     `(font-lock-comment-delimiter-face ((t (:foreground ,comment))))
+     `(font-lock-doc-face               ((t (:foreground ,comment))))
+     `(font-lock-function-name-face     ((t (:foreground ,function))))
+     `(font-lock-doc-string-face        ((t (:foreground ,string))))
+     `(font-lock-preprocessor-face      ((t (:foreground ,macro))))
+     `(font-lock-warning-face           ((t (:foreground ,warning))))
+     `(region                           ((t (:background ,region))))
+     `(hl-line                          ((t (:background ,highlight))))
+     `(vertico-current                  ((t (:inherit hl-line))))
+     `(highlight                        ((t (:foreground nil :background ,region))))
+     `(mode-line                        ((t (:foreground ,modeline-foreground :background ,modeline-background))))
+     `(mode-line-inactive               ((t (:foreground ,modeline-foreground :background ,modeline-background))))
+     `(minibuffer-prompt                ((t (:foreground ,text) :bold t)))
+     `(show-paren-match                 ((t (:background ,paren-match-background :foreground ,paren-match-foreground)))))))
 
 
-;;;; Minibuffer
-(install 'vertico)
-(vertico-mode +1)
-(setq vertico-count 5)
-(setq vertico-cycle t)
-(setq vertico-resize nil)
+(theme-naysayer)
+
+
+
+;;;; Minibuffer completion style
+(install 'orderless)
+(setq completion-styles '(orderless basic)
+      completion-category-defaults nil
+      completion-category-overrides '((file (styles partial-completion))))
 
 ;;;; Window stuff
 (setq amirreza-split-window-horizontal-vertical-threshold 250)
@@ -103,7 +249,7 @@
     (set-frame-font fontstring nil t)
     (set-face-attribute 'default t :font fontstring)))
 
-(load-font "Hack" 13)
+(load-font "Consolas" 13)
 
 ;;;; Env and PATH
 (defun home (path)
@@ -209,6 +355,7 @@
 	(load-file amirreza-workspaces-file)
 	(message "#%d workspaces loaded." (length amirreza-workspaces)))
     (error "Workspace file %s is not readable." amirreza-workspaces-file)))
+(defalias 'wreload 'amirreza-workspace-reload-workspaces)
 
 (defun amirreza-list-workspaces ()
   (let* ((workspaces '()))
@@ -234,9 +381,13 @@
     (if workspace
 	(find-file (plist-get workspace :cwd)))))
 
+(defalias 'wjump 'amirreza-workspace-jump-to-workspace)
+
 (defun amirreza-workspace-open-workspaces-file ()
   (interactive)
   (find-file amirreza-workspaces-file))
+
+(defalias 'wopen 'amirreza-workspace-open-workspaces-file)
 
 (defun defworkspace (&rest kargs)
   "Defines a workspace, designed to be called from a seperate file, use it in `amirreza-workspaces-file`
@@ -443,44 +594,47 @@
 (global-set-key (kbd "M-w")                                          'amirreza-copy)
 (global-set-key (kbd "C-w")                                          'amirreza-cut)
 (global-set-key (kbd "M-k")                                          'kill-buffer)
-(global-set-key (kbd "C-c J")                                        'amirreza-workspace-jump-to-workspace)
-(global-set-key (kbd "C-c O")                                        'amirreza-workspace-open-workspaces-file)
 (global-set-key (kbd "C-c R")                                        'amirreza-workspace-reload-workspaces)
 (global-set-key (kbd "C-c m")                                        'amirreza-workspace-grep)
 (global-set-key (kbd "C-c f")                                        'amirreza-workspace-find-files)
+;; Building and running
 (global-set-key (kbd "M-m")                                          'amirreza-workspace-build)
 (global-set-key (kbd "C-M-m")                                        'amirreza-workspace-run)
-(global-set-key (kbd "C-c ;")                                        'goto-line)
-(global-set-key (kbd "C-c p")                                        'previous-error) ;; Move to previous error in compilation buffer
-(global-set-key (kbd "C-c n")                                        'next-error)     ;; Move to next error in compilation buffer
+;; Search and replace
+(global-set-key (kbd "M-s")                                          'amirreza-workspace-grep)
+(global-set-key (kbd "C-.")                                          'isearch-forward-thing-at-point)
+(global-set-key (kbd "M-r")                                          'query-replace) ;; Replace pattern with a string
+;; Jumping around
+(global-set-key (kbd "C-;")                                          'goto-line)
 (global-set-key (kbd "C->")                                          'end-of-buffer)
 (global-set-key (kbd "C-<")                                          'beginning-of-buffer)
+(global-set-key (kbd "C-<up>")                                       'jump-up) ;; Jump through the buffer with preserving the cursor position in the center
+(global-set-key (kbd "C-<down>")                                     'jump-down) ;; Jump through the buffer with preserving the cursor position in the center
 (global-set-key (kbd "M-p")                                          'jump-up) ;; Jump through the buffer with preserving the cursor position in the center
 (global-set-key (kbd "M-n")                                          'jump-down) ;; Jump through the buffer with preserving the cursor position in the center
 (global-set-key (kbd "M-i")                                          'imenu) ;; Symbols
+;; Editing
 (global-set-key (kbd "C-c C-SPC")                                    'rectangle-mark-mode)
 (with-eval-after-load 'rect
   (define-key rectangle-mark-mode-map (kbd "C-c i")                  'string-insert-rectangle)
   (define-key rectangle-mark-mode-map (kbd "C-c r")                  'string-rectangle))
-(global-set-key (kbd "C-c h")                                        'previous-buffer)
-(global-set-key (kbd "C-c l")                                        'next-buffer)
+(global-set-key (kbd "M-[")                                          'kmacro-start-macro) ;; start recording keyboard macro.
+(global-set-key (kbd "M-]")                                          'kmacro-end-macro) ;; end recording keyboard macro.
+;; Window management
 (global-set-key (kbd "C-0")                                          'delete-other-windows)
 (global-set-key (kbd "M-0")                                          'delete-window)
 (global-set-key (kbd "M-o")                                          'other-window)                     
 (global-set-key (kbd "C-9")                                          'amirreza-split-window)
-(global-set-key (kbd "M-[")                                          'kmacro-start-macro) ;; start recording keyboard macro.
-(global-set-key (kbd "M-]")                                          'kmacro-end-macro) ;; end recording keyboard macro.
 (global-set-key (kbd "M-\\")                                         'kmacro-end-and-call-macro) ;; execute keyboard macro.
 (global-set-key (kbd "C-z")                                          'undo) ;; Sane undo key
 (global-set-key (kbd "C-<return>")                                   'save-buffer) ;; Save with one combo not C-x C-s shit
 (global-set-key (kbd "C-q")                                          'amirreza-expand) ;; Try pre defined expansions and if nothing was found expand with emacs dabbrev
-(global-set-key (kbd "M-r")                                          'query-replace) ;; Replace pattern with a string
 (global-set-key (kbd "C-=")                                          (lambda () (interactive) (text-scale-increase 1)))
 (global-set-key (kbd "C--")                                          (lambda () (interactive) (text-scale-decrease 1)))
-(global-set-key (kbd "C-.")                                          'isearch-forward-thing-at-point)
 
 ;;;; Record times
 (setq amirreza-emacs-init-took (* (float-time (time-subtract (float-time) amirreza-emacs-starting-time)) 1000))
 (setq emacs-init-time-took (* (string-to-number (emacs-init-time "%f")) 1000))
 (setq amirreza-emacs-init-log-message (format "Amirreza emacs init took %fms, Emacs init took: %fms" amirreza-emacs-init-took emacs-init-time-took))
 (message amirreza-emacs-init-log-message)
+
