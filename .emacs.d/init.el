@@ -67,14 +67,6 @@
 (setq vertico-cycle t)
 (setq vertico-resize nil)
 
-
-;;;; Modeline
-(install 'doom-modeline)
-(setq doom-modeline-icon nil)
-(setq doom-modeline-height 45)
-(doom-modeline-mode +1)
-
-
 ;;;; Window stuff
 (setq amirreza-split-window-horizontal-vertical-threshold 250)
 (defun amirreza-split-window (WINDOW &optional SWITCH-TO)
