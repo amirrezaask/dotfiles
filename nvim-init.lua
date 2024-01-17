@@ -317,5 +317,8 @@ vim.api.nvim_create_autocmd("BufWritePre", {
     end,
 })
 
+-- Edit this configuration file
+THIS_FILE = debug.getinfo(1,'S').short_src
+vim.keymap.set("n", "<leader>i", string.format(":e %s<cr>", THIS_FILE))
 
 vim.cmd.colorscheme("gruvbox")
