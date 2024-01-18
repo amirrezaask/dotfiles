@@ -14,7 +14,7 @@ vim.opt.shortmess:append("c") -- Don't pass messages to |ins-completion-menu|.
 vim.opt.shortmess:append("I") -- No Intro message
 vim.opt.splitbelow = true
 vim.opt.splitright = true
-vim.opt.cursorline = true
+vim.opt.cursorline = false
 vim.opt.sw = 4
 vim.opt.ts = 4
 vim.opt.expandtab = true

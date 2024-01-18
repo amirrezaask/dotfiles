@@ -16,6 +16,20 @@
 (setq is-macos (eq system-type 'darwin))
 (setq has-treesitter (>= emacs-major-version 29))
 (unless (executable-find "rg") (error "Install ripgrep, this configuration relies heavy on it's features."))
+(global-set-key (kbd "C-x i") 'edit-init)
+(setq use-short-answers t) ;; Always prefer short answers
+(setq image-types (cons 'svg image-types)) ;; macos bug
+(setq mac-command-modifier 'meta) ;; macos again
+(setq recenter-positions '(middle))
+(setq inhibit-startup-screen t) ;; disable default start screen
+(set-frame-parameter nil 'fullscreen 'maximized)
+(add-to-list 'default-frame-alist '(fullscreen . maximized)) ;; always start frames maximized
+(setq-default frame-title-format '("%e" (:eval (format "%s @ %s" default-directory system-name)))) ;; OS window title
+(menu-bar-mode -1) ;; disable menu bar
+(tool-bar-mode -1) ;; disable tool bar
+(scroll-bar-mode -1) ;; disable scroll bar
+(setq kill-whole-line t) ;; kill line and newline char
+(delete-selection-mode) ;; when selected a text and user types delete text
 
 (defun edit-init ()
   "Edit this file."
@@ -29,20 +43,6 @@
       (setq debug-on-error nil)
     (setq debug-on-error t)))
 
-(global-set-key (kbd "C-x i") 'edit-init)
-(setq use-short-answers t) ;; Always prefer short answers
-(setq image-types (cons 'svg image-types)) ;; macos bug
-(setq mac-command-modifier 'meta) ;; macos again
-(setq recenter-positions '(middle))
-(setq inhibit-startup-screen t) ;; disable default start screen
-(set-frame-parameter nil 'fullscreen 'maximized)
-(add-to-list 'default-frame-alist '(fullscreen . maximized)) ;; always start frames maximized
-(setq-default frame-title-format '("Emacs:%e" (:eval default-directory))) ;; OS window title
-(menu-bar-mode -1) ;; disable menu bar
-(tool-bar-mode -1) ;; disable tool bar
-(scroll-bar-mode -1) ;; disable scroll bar
-(setq kill-whole-line t) ;; kill line and newline char
-(delete-selection-mode) ;; when selected a text and user types delete text
 
 ;;;; Package manager
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
@@ -202,10 +202,7 @@
      `(minibuffer-prompt                ((t (:foreground ,text) :bold t)))
      `(show-paren-match                 ((t (:background ,paren-match-background :foreground ,paren-match-foreground)))))))
 
-
 (theme-naysayer)
-
-
 
 ;;;; Minibuffer completion style
 (install 'orderless)
@@ -355,7 +352,6 @@
 	(load-file amirreza-workspaces-file)
 	(message "#%d workspaces loaded." (length amirreza-workspaces)))
     (error "Workspace file %s is not readable." amirreza-workspaces-file)))
-(defalias 'wreload 'amirreza-workspace-reload-workspaces)
 
 (defun amirreza-list-workspaces ()
   (let* ((workspaces '()))
@@ -381,13 +377,11 @@
     (if workspace
 	(find-file (plist-get workspace :cwd)))))
 
-(defalias 'wjump 'amirreza-workspace-jump-to-workspace)
+(defalias 'workspace 'amirreza-workspace-jump-to-workspace)
 
 (defun amirreza-workspace-open-workspaces-file ()
   (interactive)
   (find-file amirreza-workspaces-file))
-
-(defalias 'wopen 'amirreza-workspace-open-workspaces-file)
 
 (defun defworkspace (&rest kargs)
   "Defines a workspace, designed to be called from a seperate file, use it in `amirreza-workspaces-file`
@@ -416,6 +410,8 @@
 	(let ((default-directory (plist-get workspace :cwd))) (compilation-start (plist-get workspace :build)))
       (amirreza-build (read-directory-name "[Build] Directory: ") t))))
 
+(defalias 'build 'amirreza-workspace-build)
+
 (defun amirreza-workspace-run ()
   "Runs :run command of workspace inside :cwd."
   (interactive)
@@ -426,6 +422,8 @@
     (if (and workspace (plist-get workspace :run))
 	(let ((default-directory (plist-get workspace :cwd))) (compilation-start (plist-get workspace :run)))
       (amirreza-run (read-directory-name "[Run] Directory: ") t))))
+
+(defalias 'run 'amirreza-workspace-run)
 
 (defun amirreza-workspace-grep ()
   "Runs amirreza-grep inside workspace :cwd"
@@ -438,19 +436,27 @@
 	(let ((default-directory (plist-get workspace :cwd))) (amirreza-grep default-directory (read-string "[Workspace] Search: ") t))
       (call-interactively 'amirreza-grep))))
 
+(defalias 'grep 'amirreza-workspace-grep)
+
 (defun amirreza-workspace-find-files ()
   (interactive)
   (unless (executable-find "rg") (error "amirreza-workspace-find-files needs ripgrep."))
   (let* (
 	 (file default-directory)
-	 (workspace (amirreza-get-workspace-for-path file))
-	 (default-directory (plist-get workspace :cwd))
-	 (relfile (completing-read (format "[%s] Files: " (or (plist-get workspace :name) "Workspace")) (string-split (string-trim (shell-command-to-string "rg --files") "\n" "\n") "\n")))
-	 (absfile (expand-file-name relfile default-directory)))
-    (find-file absfile)))
+	 (workspace (amirreza-get-workspace-for-path file)))
+    (if workspace
+	(let* ((default-directory (plist-get workspace :cwd))
+	       (relfile (completing-read (format "[%s] Files: " (or (plist-get workspace :name) "Workspace")) (string-split (string-trim (shell-command-to-string "rg --files") "\n" "\n") "\n")))
+	       (absfile (expand-file-name relfile default-directory)))
+	  (find-file absfile)
+	  )
+      (call-interactively 'find-file)
+	)))
+	 
+
+(defalias 'open 'amirreza-workspace-find-files)
 
 (amirreza-workspace-reload-workspaces)
-
 
 ;;;; Git
 (defun amirreza-git-status ()
@@ -524,6 +530,8 @@
 	(goto-char oldpoint)
 	(set-buffer-modified-p nil)))))
 
+(defalias 'gofmt 'amirreza-go-fmt)
+
 (defun amirreza-go-hook ()
   (interactive)
   (add-hook 'after-save-hook 'amirreza-go-fmt 0 t))
@@ -536,8 +544,7 @@
 
 (setq-default c-default-style "linux" c-basic-offset 4) ;; C/C++
 
-
-;;; THINGS I HATE
+;;; THINGS I HATE BUT FORCED TO USE.
 (install 'php-mode)
 (install 'yaml-mode)
 (install 'json-mode)
@@ -558,43 +565,13 @@
       (kill-region (region-beginning) (region-end)) ;; copy active region contents
     (kill-region (line-beginning-position) (line-end-position)))) ;; copy current line
 
-;;;; Treesitter
-(when has-treesitter
-  ;; IMPORTANT(amirreza): This sections needs both Emacs >29 and also a CC compiler. 
-  (setq treesit-language-source-alist
-	'((go "https://github.com/tree-sitter/tree-sitter-go")
-	  (json "https://github.com/tree-sitter/tree-sitter-json")
-	  (cpp "https://github.com/tree-sitter/tree-sitter-cpp")
-          (c "https://github.com/tree-sitter/tree-sitter-c")
-	  (gomod "https://github.com/camdencheek/tree-sitter-go-mod")
-	  (yaml "https://github.com/ikatyang/tree-sitter-yaml")
-	  (toml "https://github.com/tree-sitter/tree-sitter-toml")))
-
-  (mapc (lambda (LANG) (unless (treesit-language-available-p LANG) (treesit-install-language-grammar LANG))) (mapcar #'car treesit-language-source-alist))
-  (setq major-mode-remap-alist '())
-
-  (setq major-mode-remap-alist
-	'((yaml-mode . yaml-ts-mode)
-	  ;; TODO(amirreza): Fix indentation style of C.
-	  ;; (c++-mode  . c++-ts-mode)
-	  ;; (c-mode    . c-ts-mode)
-	  (go-mode   . go-ts-mode)
-	  (json-mode . json-ts-mode)))
-
-
-  ;; C/C++ syntax style
-  (setq c-ts-mode-indent-offset 4)                                                                                        
-  (setq c-ts-mode-indent-style 'linux))
-
-
 ;;; Keybindings
-(global-set-key (kbd "C-c c")                                        'amirreza-copy)
-(global-set-key (kbd "C-c x")                                        'amirreza-cut)
-(global-set-key (kbd "C-c v")                                        'yank)
-(global-set-key (kbd "M-w")                                          'amirreza-copy)
-(global-set-key (kbd "C-w")                                          'amirreza-cut)
-(global-set-key (kbd "M-k")                                          'kill-buffer)
-(global-set-key (kbd "C-c R")                                        'amirreza-workspace-reload-workspaces)
+(global-set-key (kbd "C-:")                                          'amirreza-command-pallete) ;; M-x
+(global-set-key (kbd "M-c")                                          'amirreza-copy) ;; Copy
+(global-set-key (kbd "C-w")                                          'amirreza-cut) ;; Cut
+(global-set-key (kbd "M-v")                                          'yank) ;; Paste
+(global-set-key (kbd "M-w")                                          'save-buffer) ;; Save
+(global-set-key (kbd "M-k")                                          'kill-buffer) ;; Kill buffer
 (global-set-key (kbd "C-c m")                                        'amirreza-workspace-grep)
 (global-set-key (kbd "C-c f")                                        'amirreza-workspace-find-files)
 ;; Building and running
@@ -608,16 +585,17 @@
 (global-set-key (kbd "C-;")                                          'goto-line)
 (global-set-key (kbd "C->")                                          'end-of-buffer)
 (global-set-key (kbd "C-<")                                          'beginning-of-buffer)
-(global-set-key (kbd "C-<up>")                                       'jump-up) ;; Jump through the buffer with preserving the cursor position in the center
-(global-set-key (kbd "C-<down>")                                     'jump-down) ;; Jump through the buffer with preserving the cursor position in the center
-(global-set-key (kbd "M-p")                                          'jump-up) ;; Jump through the buffer with preserving the cursor position in the center
-(global-set-key (kbd "M-n")                                          'jump-down) ;; Jump through the buffer with preserving the cursor position in the center
-(global-set-key (kbd "M-i")                                          'imenu) ;; Symbols
+(global-set-key (kbd "C-<up>")                                       'jump-up)             ;; Jump through the buffer with preserving the cursor position in the center
+(global-set-key (kbd "C-<down>")                                     'jump-down)           ;; Jump through the buffer with preserving the cursor position in the center
+(global-set-key (kbd "M-p")                                          'jump-up)             ;; Jump through the buffer with preserving the cursor position in the center
+(global-set-key (kbd "M-n")                                          'jump-down)           ;; Jump through the buffer with preserving the cursor position in the center
+(global-set-key (kbd "M-i")                                          'imenu)               ;; Symbols
 ;; Editing
-(global-set-key (kbd "C-c C-SPC")                                    'rectangle-mark-mode)
+(global-set-key (kbd "M-SPC")                                        'rectangle-mark-mode)
 (with-eval-after-load 'rect
-  (define-key rectangle-mark-mode-map (kbd "C-c i")                  'string-insert-rectangle)
-  (define-key rectangle-mark-mode-map (kbd "C-c r")                  'string-rectangle))
+  (define-key rectangle-mark-mode-map (kbd "C-i")                    'string-insert-rectangle)
+  (define-key rectangle-mark-mode-map (kbd "C-r")                    'string-rectangle))
+;; Macros
 (global-set-key (kbd "M-[")                                          'kmacro-start-macro) ;; start recording keyboard macro.
 (global-set-key (kbd "M-]")                                          'kmacro-end-macro) ;; end recording keyboard macro.
 ;; Window management
