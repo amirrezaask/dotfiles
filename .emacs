@@ -4,7 +4,7 @@
   (setq INIT_FILE load-file-name))
 (setq frame-inhibit-implied-resize t) ;; Don't let emacs to resize frame when something inside changes
 (setq initial-scratch-message "") ;; No starting text in *scratch* buffer.
-(setq gc-cons-threshold 200000000) ;; 200 MB for the GC threshold
+(setq gc-cons-threshold (* 1024 1024 10)) ;; Default emacs garbage collection threshold is 800KB which is low for today standards, memory is cheap, so we make a bit higher, remember if you set it to high it would cause major pauses.
 (setq redisplay-dont-pause t)
 (setq vc-follow-symlinks t) ;; Follow symlinks with no questions
 (setq ring-bell-function (lambda ())) ;; no stupid sounds
@@ -30,11 +30,17 @@
 (scroll-bar-mode -1) ;; disable scroll bar
 (setq kill-whole-line t) ;; kill line and newline char
 (delete-selection-mode) ;; when selected a text and user types delete text
+(setq notes-file "~/notes.txt")
 
 (defun edit-init ()
   "Edit this file."
   (interactive)
   (find-file INIT_FILE))
+
+(defun edit-notes ()
+  "Edit notes file."
+  (interactive)
+  (find-file notes-file))
 
 (defun toggle-debug-mode ()
   "Toggle Emacs debug mode." 
@@ -45,6 +51,7 @@
 
 
 ;;;; Package manager
+(require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (when (< emacs-major-version 27) (package-initialize))
 (defun install (PKG) (unless (package-installed-p PKG) (package-install PKG)))
@@ -341,6 +348,8 @@
   (define-key grep-mode-map (kbd "<f5>") 'recompile)
   (define-key grep-mode-map (kbd "k") 'kill-compilation))
 
+;; TODO(amirreza): Here we should have some functions to do replace string for us, like sed.
+
 ;;;; Workspaces
 (defvar amirreza-workspaces '() "Workspace objects.")
 (defvar amirreza-workspaces-file "~/emacs-workspaces" "Path to the workspace file.")
@@ -450,11 +459,8 @@
 	       (absfile (expand-file-name relfile default-directory)))
 	  (find-file absfile)
 	  )
-      (call-interactively 'find-file)
-	)))
+      (call-interactively 'find-file))))
 	 
-
-(defalias 'open 'amirreza-workspace-find-files)
 
 (amirreza-workspace-reload-workspaces)
 
@@ -485,10 +491,10 @@
   (amirreza-split-window t)
   (compilation-start "git diff HEAD"))
 
-(defalias 'gdiff 'amirreza-git-diff)
-(defalias 'gdiffh 'amirreza-git-diff-HEAD)
-(defalias 'gdiffs 'amirreza-git-diff-staged)
-(defalias 'gstatus 'amirreza-git-status)
+(defalias 'gitdiff 'amirreza-git-diff)
+(defalias 'gitdiffh 'amirreza-git-diff-HEAD)
+(defalias 'gitdiffs 'amirreza-git-diff-staged)
+(defalias 'gitstatus 'amirreza-git-status)
 
 
 ;;;; Expansions
@@ -566,6 +572,7 @@
     (kill-region (line-beginning-position) (line-end-position)))) ;; copy current line
 
 ;;; Keybindings
+(global-set-key (kbd "C-o")                                          'find-file)
 (global-set-key (kbd "C-:")                                          'amirreza-command-pallete) ;; M-x
 (global-set-key (kbd "M-c")                                          'amirreza-copy) ;; Copy
 (global-set-key (kbd "C-w")                                          'amirreza-cut) ;; Cut
@@ -599,20 +606,20 @@
 (global-set-key (kbd "M-[")                                          'kmacro-start-macro) ;; start recording keyboard macro.
 (global-set-key (kbd "M-]")                                          'kmacro-end-macro) ;; end recording keyboard macro.
 ;; Window management
-(global-set-key (kbd "C-0")                                          'delete-other-windows)
-(global-set-key (kbd "M-0")                                          'delete-window)
+(global-set-key (kbd "C-1")                                          'delete-other-windows)
+(global-set-key (kbd "C-0")                                          'delete-window)
 (global-set-key (kbd "M-o")                                          'other-window)                     
-(global-set-key (kbd "C-9")                                          'amirreza-split-window)
+(global-set-key (kbd "C-\\")                                         'amirreza-split-window)
 (global-set-key (kbd "M-\\")                                         'kmacro-end-and-call-macro) ;; execute keyboard macro.
-(global-set-key (kbd "C-z")                                          'undo) ;; Sane undo key
-(global-set-key (kbd "C-<return>")                                   'save-buffer) ;; Save with one combo not C-x C-s shit
-(global-set-key (kbd "C-q")                                          'amirreza-expand) ;; Try pre defined expansions and if nothing was found expand with emacs dabbrev
+(global-set-key (kbd "C-z")                                          'undo)                      ;; Sane undo key
+(global-set-key (kbd "C-<return>")                                   'save-buffer)               ;; Save with one combo not C-x C-s shit
+(global-set-key (kbd "C-q")                                          'amirreza-expand)           ;; Try pre defined expansions and if nothing was found expand with emacs dabbrev
 (global-set-key (kbd "C-=")                                          (lambda () (interactive) (text-scale-increase 1)))
 (global-set-key (kbd "C--")                                          (lambda () (interactive) (text-scale-decrease 1)))
 
 ;;;; Record times
-(setq amirreza-emacs-init-took (* (float-time (time-subtract (float-time) amirreza-emacs-starting-time)) 1000))
-(setq emacs-init-time-took (* (string-to-number (emacs-init-time "%f")) 1000))
+(defvar amirreza-emacs-init-took (* (float-time (time-subtract (float-time) amirreza-emacs-starting-time)) 1000) "Time took to load my init file, value is in milliseconds.")
+(defvar emacs-init-time-took (* (string-to-number (emacs-init-time "%f")) 1000) "Time took Emacs to boot, value is in milliseconds.")
 (setq amirreza-emacs-init-log-message (format "Amirreza emacs init took %fms, Emacs init took: %fms" amirreza-emacs-init-took emacs-init-time-took))
 (message amirreza-emacs-init-log-message)
 

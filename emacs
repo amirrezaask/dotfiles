@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-emacs -l ${HOME}/w/dotfiles/.emacs $@
+emacs -Q -l ${HOME}/w/dotfiles/.emacs $@
