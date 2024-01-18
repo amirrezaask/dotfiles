@@ -30,13 +30,14 @@
 (scroll-bar-mode -1) ;; disable scroll bar
 (setq kill-whole-line t) ;; kill line and newline char
 (delete-selection-mode) ;; when selected a text and user types delete text
-(setq notes-file "~/notes.txt")
-
+(defun jump-up () (interactive) (next-line (* -1 (/ (window-height) 2))) (recenter-top-bottom))
+(defun jump-down () (interactive) (next-line (/ (window-height) 2)) (recenter-top-bottom))
 (defun edit-init ()
   "Edit this file."
   (interactive)
   (find-file INIT_FILE))
 
+(setq notes-file "~/notes.txt")
 (defun edit-notes ()
   "Edit notes file."
   (interactive)
@@ -53,7 +54,7 @@
 ;;;; Package manager
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
-(when (< emacs-major-version 27) (package-initialize))
+(package-initialize)
 (defun install (PKG) (unless (package-installed-p PKG) (package-install PKG)))
 ;; (unless package-archive-contents (package-refresh-contents))
 
@@ -219,19 +220,18 @@
 
 ;;;; Window stuff
 (setq amirreza-split-window-horizontal-vertical-threshold 250)
-(defun amirreza-split-window (WINDOW &optional SWITCH-TO)
+(defun amirreza-split-window (WINDOW)
   "Split window based on 'amirreza-split-window-horizontal-vertical-threshold'"
   (interactive (list nil))
   (if (> (frame-width nil) amirreza-split-window-horizontal-vertical-threshold)
       (progn
 	(delete-other-windows)
-	(split-window-horizontally)
-	(if SWITCH-TO (other-window 1)))
+	(split-window-horizontally))
     (progn
       (delete-other-windows)
-      (split-window-vertically)
-      (if SWITCH-TO (other-window 1)))))
-(setq split-window-preferred-function 'amirreza-split-window) ;; Don't change my windows Emacs, please
+      (split-window-vertically))))
+
+(setq split-window-preferred-function 'amirreza-split-window)
 
 
 ;;;; Font
@@ -274,8 +274,6 @@
     (setenv "PATH" (string-join exec-path ";"))
   (setenv "PATH" (string-join exec-path ":"))) ;; set emacs process PATH
 
-
-
 ;;;; Highlight todos
 (make-face 'font-lock-todo-face)
 (make-face 'font-lock-note-face)
@@ -295,42 +293,56 @@
      ("\\<\\(NOTE\\)" 1 'font-lock-note-face t))))
 (add-hook 'prog-mode-hook 'amirreza-add-todo/note-highlight)
 
+(defun find-project-root ()
+  "Try to find project root based on deterministic predicates"
+  (cond
+   ((eq major-mode 'go-mode)                                (locate-dominating-file default-directory "go.mod"))
+   ((or (eq major-mode 'c-mode) (eq major-mode 'c++-mode))  (locate-dominating-file default-directory "build.bat"))
+   (t                                                       (locate-dominating-file default-directory ".git"))))
+
+(defun find-project-root-or-default-directory ()
+  (or (find-project-root) default-directory))
 
 ;;;; Building And Running
-(defun amirreza-build (DIR &optional SPLIT)
+(setq amirreza-build-history '())
+(setq amirreza-run-history '())
+(defun amirreza-build (DIR)
   "Compile in a directory"
-  (interactive (list (read-directory-name "[Build] Directory: ")))
+  (interactive (list (read-directory-name "[Build] Directory: " (find-project-root-or-default-directory))))
   (let ((default-directory DIR)
-	(command (read-string "[Build] Command:")))
+	(command (read-shell-command "[Build] Command: " nil amirreza-build-history)))
     (compilation-start command)))
 
-(defun amirreza-run (DIR &optional SPLIT)
+(defalias 'build 'amirreza-build)
+
+(defun amirreza-run (DIR)
   "Compile in a directory"
-  (interactive (list (read-directory-name "[Run] Directory: ")))
+  (interactive (list (read-directory-name "[Run] Directory: " (find-project-root-or-default-directory))))
   (let ((default-directory DIR)
-	(command (read-string "[Run] Command:")))
+	(command (read-shell-command "[Run] Command: " nil amirreza-run-history)))
     (compilation-start command)))
+
+(defalias 'run 'amirreza-run)
 
 (with-eval-after-load 'compile
   (define-key compilation-mode-map (kbd "<f5>") 'recompile)
   (define-key compilation-mode-map (kbd "k") 'kill-compilation))
 
-(defun jump-up () (interactive) (next-line (* -1 (/ (window-height) 2))) (recenter-top-bottom))
-(defun jump-down () (interactive) (next-line (/ (window-height) 2)) (recenter-top-bottom))
-
 ;;;; G/RE/P aka GREP
+(setq amirreza-grep-query-history '())
 (defun rg (dir pattern)
   "run Ripgrep"
-  (interactive (list (read-directory-name "[Ripgrep] Directory: ") (read-string "[Ripgrep] Pattern: ")))
+  (interactive (list (read-directory-name "[Ripgrep] Directory: " (find-project-root-or-default-directory))
+		     (read-string "[Ripgrep] Pattern: " nil amirreza-grep-query-history)))
   (unless (executable-find "rg") (error "ripgrep executable not found, install from https://github.com/BurntSushi/ripgrep/releases"))
 
-  (let* (
-	 (default-directory dir)
+  (let* ((default-directory dir)
 	 (command (format "rg --vimgrep \"%s\" ." pattern)))
     (compilation-start command 'grep-mode)))
 
 (defun gnu-grep (dir pattern)
-  (interactive (list (read-directory-name "[grep] Directory: ") (read-string "[grep] Pattern: ")))
+  (interactive (list (read-directory-name "[grep] Directory: " (find-project-root-or-default-directory))
+		     (read-string "[grep] Pattern: " nil amirreza-grep-query-history)))
   (unless (executable-find "ug") (error "Gnu Grep executable not found"))
   (let* (
 	 (default-directory dir)
@@ -339,157 +351,55 @@
 
 (defun amirreza-grep (dir pattern &optional SPLIT)
   ""
-  (interactive (list (read-directory-name "[Grep] Directory: ") (read-string "[Grep] Pattern: ")))
+  (interactive (list (read-directory-name "[Grep] Directory: " (find-project-root-or-default-directory))
+		     (read-string "[Grep] Pattern: " nil amirreza-grep-query-history)))
   (cond
    ((or (executable-find "rg") is-windows) (rg dir pattern))
    (t (gnu-grep dir pattern))))
+
+(defalias 'grep 'amirreza-grep)
 
 (with-eval-after-load 'grep
   (define-key grep-mode-map (kbd "<f5>") 'recompile)
   (define-key grep-mode-map (kbd "k") 'kill-compilation))
 
-;; TODO(amirreza): Here we should have some functions to do replace string for us, like sed.
-
-;;;; Workspaces
-(defvar amirreza-workspaces '() "Workspace objects.")
-(defvar amirreza-workspaces-file "~/emacs-workspaces" "Path to the workspace file.")
-(defun amirreza-workspace-reload-workspaces ()
+;; TODO(amirreza): We should have some functions to do replace string for us, like sed.
+  
+(defun rg-find-files ()
   (interactive)
-  (if (file-readable-p amirreza-workspaces-file)
-      (progn
-	(setq amirreza-workspaces '())
-	(load-file amirreza-workspaces-file)
-	(message "#%d workspaces loaded." (length amirreza-workspaces)))
-    (error "Workspace file %s is not readable." amirreza-workspaces-file)))
+  (unless (executable-find "rg") (error "rg-find-files needs ripgrep."))
+  (let* ((default-directory (or (find-project-root) default-directory))
+	 (results (string-split (string-trim (shell-command-to-string "rg --files") "\n" "\n") "\n"))
+	 (relfile (completing-read "Files: " results))
+	 (absfile (expand-file-name relfile default-directory)))
+    (find-file absfile)))
 
-(defun amirreza-list-workspaces ()
-  (let* ((workspaces '()))
-    (mapc (lambda (workspace-obj)
-	    (add-to-list 'workspaces (plist-get (cdr workspace-obj) :name))) amirreza-workspaces)
-
-    workspaces))
-
-(defun amirreza-get-workspace-for-path (PATH) (alist-get PATH amirreza-workspaces nil nil 'string-match-p))
-
-(defun amirreza-get-workspace-by-name (NAME)
-  (let* ((workspace nil))
-    (mapc (lambda (workspace-obj)
-	    (if (string-equal (plist-get (cdr workspace-obj) :name) NAME) (setq workspace workspace-obj))
-	    ) amirreza-workspaces)
-
-    workspace))
-
-(defun amirreza-workspace-jump-to-workspace (NAME)
-  (interactive (list (completing-read "[Workspace]: " (amirreza-list-workspaces))))
-  (let* ((workspace (amirreza-get-workspace-by-name NAME))
-	 (workspace (if workspace (cdr workspace))))
-    (if workspace
-	(find-file (plist-get workspace :cwd)))))
-
-(defalias 'workspace 'amirreza-workspace-jump-to-workspace)
-
-(defun amirreza-workspace-open-workspaces-file ()
-  (interactive)
-  (find-file amirreza-workspaces-file))
-
-(defun defworkspace (&rest kargs)
-  "Defines a workspace, designed to be called from a seperate file, use it in `amirreza-workspaces-file`
-  (defworkspace
-	:name    Name of the workspace
-	:build   Command to be called for building, it will be called in :cwd
-	:run     Command to be called for running, it will be called in :cwd
-	:cwd     CWD for building and running
-	:pattern regex pattern to match files in the workspace
-)
-"
-  (let ((name (plist-get kargs     :name))
-	(cwd  (plist-get kargs     :cwd))
-	(build  (plist-get kargs   :build))
-	(run  (plist-get kargs     :run))
-	(pattern  (plist-get kargs :pattern)))
-    (add-to-list 'amirreza-workspaces `(,pattern   :name ,name :build ,build :run ,run :cwd ,cwd))))
-
-(defun amirreza-workspace-build ()
-  "Runs :build command of workspace inside :cwd."
-  (interactive)
-  (let* ((file default-directory)
-	 (workspace (amirreza-get-workspace-for-path file)))
-    (save-some-buffers t nil)
-    (if (and workspace (plist-get workspace :build))
-	(let ((default-directory (plist-get workspace :cwd))) (compilation-start (plist-get workspace :build)))
-      (amirreza-build (read-directory-name "[Build] Directory: ") t))))
-
-(defalias 'build 'amirreza-workspace-build)
-
-(defun amirreza-workspace-run ()
-  "Runs :run command of workspace inside :cwd."
-  (interactive)
-  (let* (
-	 (file default-directory)
-	 (workspace (amirreza-get-workspace-for-path file)))
-    (save-some-buffers t nil)
-    (if (and workspace (plist-get workspace :run))
-	(let ((default-directory (plist-get workspace :cwd))) (compilation-start (plist-get workspace :run)))
-      (amirreza-run (read-directory-name "[Run] Directory: ") t))))
-
-(defalias 'run 'amirreza-workspace-run)
-
-(defun amirreza-workspace-grep ()
-  "Runs amirreza-grep inside workspace :cwd"
-  (interactive)
-  (let* (
-	 (file default-directory)
-	 (workspace (amirreza-get-workspace-for-path file)))
-    (save-some-buffers t nil)
-    (if (and workspace (plist-get workspace :cwd))
-	(let ((default-directory (plist-get workspace :cwd))) (amirreza-grep default-directory (read-string "[Workspace] Search: ") t))
-      (call-interactively 'amirreza-grep))))
-
-(defalias 'grep 'amirreza-workspace-grep)
-
-(defun amirreza-workspace-find-files ()
-  (interactive)
-  (unless (executable-find "rg") (error "amirreza-workspace-find-files needs ripgrep."))
-  (let* (
-	 (file default-directory)
-	 (workspace (amirreza-get-workspace-for-path file)))
-    (if workspace
-	(let* ((default-directory (plist-get workspace :cwd))
-	       (relfile (completing-read (format "[%s] Files: " (or (plist-get workspace :name) "Workspace")) (string-split (string-trim (shell-command-to-string "rg --files") "\n" "\n") "\n")))
-	       (absfile (expand-file-name relfile default-directory)))
-	  (find-file absfile)
-	  )
-      (call-interactively 'find-file))))
-	 
-
-(amirreza-workspace-reload-workspaces)
+(defalias 'find 'rg-find-files)
 
 ;;;; Git
 (defun amirreza-git-status ()
   "Runs git status"
   (interactive)
-  (amirreza-split-window t)
-  (compilation-start "git status"))
+  (let ((default-directory (find-project-root-or-default-directory)))
+    (compilation-start "git status")))
 
 (defun amirreza-git-diff ()
   "Runs git diff"
   (interactive)
-  (amirreza-split-window t)
-
-  (compilation-start "git diff" 'diff-mode))
+  (let ((default-directory (find-project-root-or-default-directory)))
+    (compilation-start "git diff")))
 
 (defun amirreza-git-diff-staged ()
   "Runs git diff --staged"
   (interactive)
-  (amirreza-split-window t)
-
-  (compilation-start "git diff --staged" 'diff-mode))
+  (let ((default-directory (find-project-root-or-default-directory)))
+    (compilation-start "git diff --staged")))
 
 (defun amirreza-git-diff-HEAD ()
   "Runs git diff HEAD"
   (interactive)
-  (amirreza-split-window t)
-  (compilation-start "git diff HEAD"))
+  (let ((default-directory (find-project-root-or-default-directory)))
+    (compilation-start "git diff HEAD")))
 
 (defalias 'gitdiff 'amirreza-git-diff)
 (defalias 'gitdiffh 'amirreza-git-diff-HEAD)
@@ -572,23 +482,19 @@
     (kill-region (line-beginning-position) (line-end-position)))) ;; copy current line
 
 ;;; Keybindings
+(global-set-key (kbd "C-x n")                                        'edit-notes)
 (global-set-key (kbd "C-o")                                          'find-file)
 (global-set-key (kbd "C-:")                                          'amirreza-command-pallete) ;; M-x
 (global-set-key (kbd "M-c")                                          'amirreza-copy) ;; Copy
 (global-set-key (kbd "C-w")                                          'amirreza-cut) ;; Cut
 (global-set-key (kbd "M-v")                                          'yank) ;; Paste
-(global-set-key (kbd "M-w")                                          'save-buffer) ;; Save
+(global-set-key (kbd "M-w")                                          'amirreza-copy)
 (global-set-key (kbd "M-k")                                          'kill-buffer) ;; Kill buffer
-(global-set-key (kbd "C-c m")                                        'amirreza-workspace-grep)
-(global-set-key (kbd "C-c f")                                        'amirreza-workspace-find-files)
-;; Building and running
-(global-set-key (kbd "M-m")                                          'amirreza-workspace-build)
-(global-set-key (kbd "C-M-m")                                        'amirreza-workspace-run)
-;; Search and replace
-(global-set-key (kbd "M-s")                                          'amirreza-workspace-grep)
+(global-set-key (kbd "M-m")                                          'amirreza-build)
+(global-set-key (kbd "C-M-m")                                        'amirreza-run)
+(global-set-key (kbd "M-s")                                          'amirreza-grep)
 (global-set-key (kbd "C-.")                                          'isearch-forward-thing-at-point)
 (global-set-key (kbd "M-r")                                          'query-replace) ;; Replace pattern with a string
-;; Jumping around
 (global-set-key (kbd "C-;")                                          'goto-line)
 (global-set-key (kbd "C->")                                          'end-of-buffer)
 (global-set-key (kbd "C-<")                                          'beginning-of-buffer)
