@@ -210,7 +210,7 @@
      `(minibuffer-prompt                ((t (:foreground ,text) :bold t)))
      `(show-paren-match                 ((t (:background ,paren-match-background :foreground ,paren-match-foreground)))))))
 
-(theme-naysayer)
+(theme-cmuratori)
 
 ;;;; Minibuffer completion style
 (install 'orderless)
@@ -303,6 +303,18 @@
 (defun find-project-root-or-default-directory ()
   (or (find-project-root) default-directory))
 
+(defun guess-build-command (DIR)
+  (let ((default-directory DIR))
+    (cond
+     ((file-exists-p "build.bat") "build.bat")
+     ((file-exists-p "go.mod")    "go build -v "))))
+
+(defun guess-run-command (DIR)
+  (let ((default-directory DIR))
+    (cond
+     ((file-exists-p "run.bat") "run.bat")
+     ((file-exists-p "go.mod")  "go run "))))
+
 ;;;; Building And Running
 (setq amirreza-build-history '())
 (setq amirreza-run-history '())
@@ -310,7 +322,7 @@
   "Compile in a directory"
   (interactive (list (read-directory-name "[Build] Directory: " (find-project-root-or-default-directory))))
   (let ((default-directory DIR)
-	(command (read-shell-command "[Build] Command: " nil amirreza-build-history)))
+	(command (read-shell-command "[Build] Command: " (guess-build-command DIR) amirreza-build-history)))
     (compilation-start command)))
 
 (defalias 'build 'amirreza-build)
@@ -319,7 +331,7 @@
   "Compile in a directory"
   (interactive (list (read-directory-name "[Run] Directory: " (find-project-root-or-default-directory))))
   (let ((default-directory DIR)
-	(command (read-shell-command "[Run] Command: " nil amirreza-run-history)))
+	(command (read-shell-command "[Run] Command: " (guess-run-command DIR) amirreza-run-history)))
     (compilation-start command)))
 
 (defalias 'run 'amirreza-run)
@@ -485,10 +497,8 @@
 (global-set-key (kbd "C-x n")                                        'edit-notes)
 (global-set-key (kbd "C-o")                                          'find-file)
 (global-set-key (kbd "C-:")                                          'amirreza-command-pallete) ;; M-x
-(global-set-key (kbd "M-c")                                          'amirreza-copy) ;; Copy
 (global-set-key (kbd "C-w")                                          'amirreza-cut) ;; Cut
-(global-set-key (kbd "M-v")                                          'yank) ;; Paste
-(global-set-key (kbd "M-w")                                          'amirreza-copy)
+(global-set-key (kbd "M-w")                                          'amirreza-copy) ;; Copy
 (global-set-key (kbd "M-k")                                          'kill-buffer) ;; Kill buffer
 (global-set-key (kbd "M-m")                                          'amirreza-build)
 (global-set-key (kbd "C-M-m")                                        'amirreza-run)
@@ -512,10 +522,8 @@
 (global-set-key (kbd "M-[")                                          'kmacro-start-macro) ;; start recording keyboard macro.
 (global-set-key (kbd "M-]")                                          'kmacro-end-macro) ;; end recording keyboard macro.
 ;; Window management
-(global-set-key (kbd "C-1")                                          'delete-other-windows)
-(global-set-key (kbd "C-0")                                          'delete-window)
-(global-set-key (kbd "M-o")                                          'other-window)                     
-(global-set-key (kbd "C-\\")                                         'amirreza-split-window)
+(global-set-key (kbd "C-3")                                          'amirreza-split-window)
+(global-set-key (kbd "C-2")                                          'amirreza-split-window)
 (global-set-key (kbd "M-\\")                                         'kmacro-end-and-call-macro) ;; execute keyboard macro.
 (global-set-key (kbd "C-z")                                          'undo)                      ;; Sane undo key
 (global-set-key (kbd "C-<return>")                                   'save-buffer)               ;; Save with one combo not C-x C-s shit
