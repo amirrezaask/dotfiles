@@ -493,6 +493,14 @@
       (kill-region (region-beginning) (region-end)) ;; copy active region contents
     (kill-region (line-beginning-position) (line-end-position)))) ;; copy current line
 
+(defun amirreza-text-scale-increase ()
+  (interactive)
+  (text-scale-increase 1))
+
+(defun amirreza-text-scale-decrease ()
+  (interactive)
+  (text-scale-decrease 1))
+
 ;;; Keybindings
 (global-set-key (kbd "C-x n")                                        'edit-notes)
 (global-set-key (kbd "C-o")                                          'find-file)
@@ -528,8 +536,8 @@
 (global-set-key (kbd "C-z")                                          'undo)                      ;; Sane undo key
 (global-set-key (kbd "C-<return>")                                   'save-buffer)               ;; Save with one combo not C-x C-s shit
 (global-set-key (kbd "C-q")                                          'amirreza-expand)           ;; Try pre defined expansions and if nothing was found expand with emacs dabbrev
-(global-set-key (kbd "C-=")                                          (lambda () (interactive) (text-scale-increase 1)))
-(global-set-key (kbd "C--")                                          (lambda () (interactive) (text-scale-decrease 1)))
+(global-set-key (kbd "C-=")                                          'amirreza-text-scale-increase)
+(global-set-key (kbd "C--")                                          'amirreza-text-scale-decrease)
 
 ;;;; Record times
 (defvar amirreza-emacs-init-took (* (float-time (time-subtract (float-time) amirreza-emacs-starting-time)) 1000) "Time took to load my init file, value is in milliseconds.")
