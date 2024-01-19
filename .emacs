@@ -501,6 +501,7 @@
   (interactive)
   (text-scale-decrease 1))
 
+
 ;;; Keybindings
 (global-set-key (kbd "C-x n")                                        'edit-notes)
 (global-set-key (kbd "C-o")                                          'find-file)

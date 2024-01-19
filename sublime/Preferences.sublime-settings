@@ -1,0 +1,9 @@
+{
+	"font_face": "Hack",
+	"hot_exit": "disabled",
+	"show_errors_inline": false,
+	"index_files": true,
+	"font_size": 13,
+	"color_scheme": "Mariana.sublime-color-scheme",
+	"theme": "Adaptive.sublime-theme",
+}
