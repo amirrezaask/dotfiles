@@ -479,6 +479,7 @@
 (global-set-key (kbd "M-w")                                          'amirreza-copy) ;; Copy
 (global-set-key (kbd "M-k")                                          'kill-buffer) ;; Kill buffer
 (global-set-key (kbd "M-m")                                          'amirreza-build)
+(global-set-key (kbd "C-x p f")                                      'rg-find-files)
 (global-set-key (kbd "C-M-m")                                        'amirreza-run)
 (global-set-key (kbd "M-s")                                          'amirreza-grep)
 (global-set-key (kbd "C-.")                                          'isearch-forward-thing-at-point)
