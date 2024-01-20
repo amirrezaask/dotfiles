@@ -1,4 +1,0 @@
-[
-    { "caption": "Project: Quick Switch", "command": "prompt_select_workspace" },
-    { "caption": "Project: Open", "command": "prompt_open_project_or_workspace" },
-]

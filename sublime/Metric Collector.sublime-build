@@ -1,7 +1,0 @@
-{
-	"windows": {
-		"shell_cmd": "go build -v .\\cmd\\server",
-		"working_dir": "$folder",
-		"file_regex": "^\\s*(.+\\.go):([0-9]+):(?:([0-9]+):)?\\s*(.*)"
-	}
-}

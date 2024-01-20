@@ -51,58 +51,49 @@
     (setq debug-on-error t)))
 
 
-;;;; Package manager
+;; Package manager
+;; With emacs package manager, You should always be careful with what you install
+;; because even if you don't use it in your init file at all, it will be semi-loaded with emacs at startup.
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)
 (defun install (PKG) (unless (package-installed-p PKG) (package-install PKG)))
 ;; (unless package-archive-contents (package-refresh-contents))
 
-;;;; Themes
+;; Themes
+;; I don't use emacs default theme system because honestly it sucks, You are forced to define themes in seperate files
+;; and by default they will get stacked on each other unless you disable one before enabling other one, so I write these simple
+;; functions that will simply be in this file and no other file bullshit is needed.
 (defun theme-handmadehero ()
+  "Theme from Casey Muratori HandmadeHero Series."
   (interactive)
   (global-hl-line-mode +1)
-  (let ((background          "#161616")
-	(highlight           "midnight blue")
-	(region              "medium blue")
-	(text                "#cdaa7d")
-	(keyword             "DarkGoldenrod3")
-	(comment             "gray50")
-	(string              "olive drab")
-	(variable            "burlywood3")
-	(warning             "#504038")
-	(constant            "olive drab")
-	(cursor              "green")
-	(function            "burlywood3")
-	(macro               "#8cde94")
-	(punctuation         "burlywood3")
-	(builtin             "#DAB98F"))
-
-    (custom-set-faces
-     `(default                          ((t (:foreground ,text :background ,background))))
-     `(cursor                           ((t (:background ,cursor))))
-     `(font-lock-keyword-face           ((t (:foreground ,keyword))))
-     `(font-lock-type-face              ((t (:foreground ,punctuation))))
-     `(font-lock-constant-face          ((t (:foreground ,constant))))
-     `(font-lock-variable-name-face     ((t (:foreground ,variable))))
-     `(font-lock-builtin-face           ((t (:foreground ,builtin))))
-     `(font-lock-string-face            ((t (:foreground ,string))))
-     `(font-lock-comment-face           ((t (:foreground ,comment))))
-     `(font-lock-comment-delimiter-face ((t (:foreground ,comment))))
-     `(font-lock-doc-face               ((t (:foreground ,comment))))
-     `(font-lock-function-name-face     ((t (:foreground ,function))))
-     `(font-lock-doc-string-face        ((t (:foreground ,string))))
-     `(font-lock-preprocessor-face      ((t (:foreground ,macro))))
-     `(font-lock-warning-face           ((t (:foreground ,warning))))
-     `(region                           ((t (:background ,region))))
-     `(hl-line                          ((t (:background ,highlight))))
-     `(vertico-current                  ((t (:inherit hl-line))))
-     `(mode-line                        ((t (:background "#ffffff" :foreground "#000000"))))
-     `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
-     `(show-paren-match                 ((t (:background "burlywood3" :foreground "black"))))
-     `(highlight                        ((t (:foreground nil :background ,region)))))))
+  (custom-set-faces
+   `(default                          ((t (:foreground "#cdaa7d" :background "#161616"))))
+   `(cursor                           ((t (:background "green"))))
+   `(font-lock-keyword-face           ((t (:foreground "DarkGoldenrod3"))))
+   `(font-lock-type-face              ((t (:foreground "burlywood3"))))
+   `(font-lock-constant-face          ((t (:foreground "#olive drab"))))
+   `(font-lock-variable-name-face     ((t (:foreground "burlywood3"))))
+   `(font-lock-builtin-face           ((t (:foreground "#DAB98F"))))
+   `(font-lock-string-face            ((t (:foreground "olive drab"))))
+   `(font-lock-comment-face           ((t (:foreground "gray50"))))
+   `(font-lock-comment-delimiter-face ((t (:foreground "gray50"))))
+   `(font-lock-doc-face               ((t (:foreground "gray50"))))
+   `(font-lock-function-name-face     ((t (:foreground "burlywood3"))))
+   `(font-lock-doc-string-face        ((t (:foreground "olive drab"))))
+   `(font-lock-preprocessor-face      ((t (:foreground "#8cde94"))))
+   `(font-lock-warning-face           ((t (:foreground "#504038"))))
+   `(region                           ((t (:background "medium blue"))))
+   `(hl-line                          ((t (:background "midnight blue"))))
+   `(vertico-current                  ((t (:inherit hl-line))))
+   `(mode-line                        ((t (:background "#ffffff" :foreground "#000000"))))
+   `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
+   `(show-paren-match                 ((t (:background "burlywood3" :foreground "black"))))
+   `(highlight                        ((t (:foreground nil :background "medium blue"))))))
 
 (defun theme-brownaysayer ()
+  "Brownish version of Naysayer theme."
   (interactive)
   (global-hl-line-mode -1)
   (custom-set-faces
@@ -129,6 +120,7 @@
    `(show-paren-match                 ((t (:background "mediumseagreen"))))))
 
 (defun theme-naysayer ()
+  "Theme copied from Jonathan Blow Emacs theme."
   (interactive)
   (global-hl-line-mode -1)
   (custom-set-faces
@@ -154,63 +146,40 @@
    `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
    `(show-paren-match                 ((t (:background "mediumseagreen"))))))
 
-(defun theme-cmuratori ()
+(defun theme-4coder-fleury ()
+  "Theme from 4coder fleury configuration."
   (interactive)
   (global-hl-line-mode +1)
-  (let ((background  "#0C0C0C")
-	(highlight   "#171616")
-	(region      "#2f2f37")
-	(text        "#a08563")
-	(keyword     "#f0c674")
-	(comment     "#686868")
-	(string      "#6b8e23")
-	(variable    "#b99468")
-	(warning     "#504038")
-	(constant    "#6b8e23")
-	(cursor      "#EE7700")
-	(function    "#cc5735")
-	(macro       "#dab98f")
-	(type        "#d8a51d")
-	(operator    "#907553")
-	(modeline-foreground "#cb9401")
-	(modeline-background "#1f1f27")
-	(paren-match-foreground "#000000")
-	(paren-match-background "#e0741b")
-	(punctuation "#907553") ;; 
-	(bracket     "#907553") ;; [] {} ()
-	(delimiter   "#907553") ;; ; :
-	(builtin     "#DAB98F"))
+  (custom-set-faces
+   `(default                          ((t (:foreground "#a08563" :background "#0c0c0c"))))
+   `(cursor                           ((t (:background "#EE7700"))))
+   `(font-lock-keyword-face           ((t (:foreground "#f0c674"))))
+   `(font-lock-operator-face          ((t (:foreground "#907553"))))
+   `(font-lock-punctuation-face       ((t (:foreground "#907553"))))
+   `(font-lock-bracket-face           ((t (:foreground "#907553"))))
+   `(font-lock-delimiter-face         ((t (:foreground "#907553"))))
+   `(font-lock-type-face              ((t (:foreground "#d8a51d"))))
+   `(font-lock-constant-face          ((t (:foreground "#6b8e23"))))
+   `(font-lock-variable-name-face     ((t (:foreground "#b99468"))))
+   `(font-lock-builtin-face           ((t (:foreground "#DAB98F"))))
+   `(font-lock-string-face            ((t (:foreground "#6b8e23"))))
+   `(font-lock-comment-face           ((t (:foreground "#686868"))))
+   `(font-lock-comment-delimiter-face ((t (:foreground "#686868"))))
+   `(font-lock-doc-face               ((t (:foreground "#686868"))))
+   `(font-lock-function-name-face     ((t (:foreground "#cc5735"))))
+   `(font-lock-doc-string-face        ((t (:foreground "#6b8e23"))))
+   `(font-lock-preprocessor-face      ((t (:foreground "#DAB98F"))))
+   `(font-lock-warning-face           ((t (:foreground "#504038"))))
+   `(region                           ((t (:background "#2f2f37"))))
+   `(hl-line                          ((t (:background "#171616"))))
+   `(vertico-current                  ((t (:inherit hl-line))))
+   `(highlight                        ((t (:foreground nil :background "#2f2f37"))))
+   `(mode-line                        ((t (:foreground "#cb9401" :background "#1f1f27"))))
+   `(mode-line-inactive               ((t (:foreground "#cb9401" :background "#1f1f27"))))
+   `(minibuffer-prompt                ((t (:foreground "#a08563") :bold t)))
+   `(show-paren-match                 ((t (:background "#e0741b" :foreground "#000000"))))))
 
-    (custom-set-faces
-     `(default                          ((t (:foreground ,text :background ,background))))
-     `(cursor                           ((t (:background ,cursor))))
-     `(font-lock-keyword-face           ((t (:foreground ,keyword))))
-     `(font-lock-operator-face          ((t (:foreground ,operator))))
-     `(font-lock-punctuation-face       ((t (:foreground ,punctuation))))
-     `(font-lock-bracket-face           ((t (:foreground ,bracket))))
-     `(font-lock-delimiter-face         ((t (:foreground ,delimiter))))
-     `(font-lock-type-face              ((t (:foreground ,type))))
-     `(font-lock-constant-face          ((t (:foreground ,constant))))
-     `(font-lock-variable-name-face     ((t (:foreground ,variable))))
-     `(font-lock-builtin-face           ((t (:foreground ,builtin))))
-     `(font-lock-string-face            ((t (:foreground ,string))))
-     `(font-lock-comment-face           ((t (:foreground ,comment))))
-     `(font-lock-comment-delimiter-face ((t (:foreground ,comment))))
-     `(font-lock-doc-face               ((t (:foreground ,comment))))
-     `(font-lock-function-name-face     ((t (:foreground ,function))))
-     `(font-lock-doc-string-face        ((t (:foreground ,string))))
-     `(font-lock-preprocessor-face      ((t (:foreground ,macro))))
-     `(font-lock-warning-face           ((t (:foreground ,warning))))
-     `(region                           ((t (:background ,region))))
-     `(hl-line                          ((t (:background ,highlight))))
-     `(vertico-current                  ((t (:inherit hl-line))))
-     `(highlight                        ((t (:foreground nil :background ,region))))
-     `(mode-line                        ((t (:foreground ,modeline-foreground :background ,modeline-background))))
-     `(mode-line-inactive               ((t (:foreground ,modeline-foreground :background ,modeline-background))))
-     `(minibuffer-prompt                ((t (:foreground ,text) :bold t)))
-     `(show-paren-match                 ((t (:background ,paren-match-background :foreground ,paren-match-foreground)))))))
-
-(theme-cmuratori)
+(theme-naysayer)
 
 ;;;; Minibuffer completion style
 (install 'orderless)
@@ -218,7 +187,7 @@
       completion-category-defaults nil
       completion-category-overrides '((file (styles partial-completion))))
 
-;;;; Window stuff
+;; Window stuff
 (setq amirreza-split-window-horizontal-vertical-threshold 250)
 (defun amirreza-split-window (WINDOW)
   "Split window based on 'amirreza-split-window-horizontal-vertical-threshold'"
@@ -234,7 +203,7 @@
 (setq split-window-preferred-function 'amirreza-split-window)
 
 
-;;;; Font
+;; Font
 (setq font-family "")
 (defun load-font (font fontsize)
   "Loads a font."
@@ -255,7 +224,7 @@
 
 (load-font "Consolas" 13)
 
-;;;; Env and PATH
+;; Env and PATH
 (defun home (path)
   (expand-file-name path (getenv "HOME")))
 
@@ -343,7 +312,7 @@
 ;;;; G/RE/P aka GREP
 (setq amirreza-grep-query-history '())
 (defun rg (dir pattern)
-  "run Ripgrep"
+  "runs Ripgrep program in a compilation buffer."
   (interactive (list (read-directory-name "[Ripgrep] Directory: " (find-project-root-or-default-directory))
 		     (read-string "[Ripgrep] Pattern: " nil amirreza-grep-query-history)))
   (unless (executable-find "rg") (error "ripgrep executable not found, install from https://github.com/BurntSushi/ripgrep/releases"))
