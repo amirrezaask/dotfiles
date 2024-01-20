@@ -397,7 +397,11 @@
 			    ("ST" . "STUDY(amirreza): ")
 			    ("NO"   . "NOTE(amirreza): ")))
 
-(defun amirreza-expand ()
+;; Autocomplete menu
+(install 'corfu)
+(global-corfu-mode +1)
+
+(defun amirreza-complete ()
   "First try with amirreza-expansions and then try emacs dabbrev-expand."
   (interactive)
   (let* ((word (current-word))
@@ -407,7 +411,7 @@
 	(progn
 	  (backward-delete-char (length word))
 	  (insert expansion))
-      (call-interactively 'dabbrev-expand))))
+      (call-interactively 'completion-at-point))))
 
 
 ;;;; Programming
@@ -440,6 +444,12 @@
   (add-hook 'go-ts-mode-hook 'amirreza-go-hook))
 
 (setq-default c-default-style "linux" c-basic-offset 4) ;; C/C++
+
+;; LSP(eglot): The only LSP that is viable for now is Gopls/Rust-analyzer.
+(install 'eglot)
+(setq eldoc-echo-area-use-multiline-p nil)
+(add-hook 'go-mode-hook #'eglot-ensure)
+(add-hook 'go-ts-mode-hook #'eglot-ensure)
 
 ;;; THINGS I HATE BUT FORCED TO USE.
 (install 'php-mode)
@@ -506,7 +516,7 @@
 (global-set-key (kbd "M-\\")                                         'kmacro-end-and-call-macro) ;; execute keyboard macro.
 (global-set-key (kbd "C-z")                                          'undo)                      ;; Sane undo key
 (global-set-key (kbd "C-<return>")                                   'save-buffer)               ;; Save with one combo not C-x C-s shit
-(global-set-key (kbd "C-q")                                          'amirreza-expand)           ;; Try pre defined expansions and if nothing was found expand with emacs dabbrev
+(global-set-key (kbd "C-q")                                          'amirreza-complete)           ;; Try pre defined expansions and if nothing was found expand with emacs dabbrev
 (global-set-key (kbd "C-=")                                          'amirreza-text-scale-increase)
 (global-set-key (kbd "C--")                                          'amirreza-text-scale-decrease)
 
