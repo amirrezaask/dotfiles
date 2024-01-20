@@ -1,9 +1,18 @@
 {
-	"font_face": "Hack",
+	"font_face": "Consolas",
 	"hot_exit": "disabled",
 	"show_errors_inline": false,
 	"index_files": true,
-	"font_size": 13,
-	"color_scheme": "Mariana.sublime-color-scheme",
+	"font_size": 16,
+	"color_scheme": "Monokai.sublime-color-scheme",
 	"theme": "Adaptive.sublime-theme",
+	"hardware_acceleration": true,
+	"highlight_line": true,
+	"auto_complete": false,
+	"drag_text": false,
+	"show_definitions": false,
+	"ignored_packages":
+	[
+		"Vintage",
+	],
 }
