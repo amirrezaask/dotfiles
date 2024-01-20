@@ -481,19 +481,23 @@
 (global-set-key (kbd "M-i")                                          'imenu)               ;; Symbols
 (global-set-key (kbd "M-j")                                          'amirreza-grep)
 ;; Editing
+(global-set-key (kbd "C-z")                                          'undo)                      ;; Sane undo key
+(global-set-key (kbd "M-\\")                                         'kmacro-end-and-call-macro) ;; execute keyboard macro.
 (global-set-key (kbd "M-SPC")                                        'rectangle-mark-mode)
 (with-eval-after-load 'rect
   (define-key rectangle-mark-mode-map (kbd "C-i")                    'string-insert-rectangle)
   (define-key rectangle-mark-mode-map (kbd "C-r")                    'string-rectangle))
 ;; Macros
-(global-set-key (kbd "M-[")                                          'kmacro-start-macro) ;; start recording keyboard macro.
-(global-set-key (kbd "M-]")                                          'kmacro-end-macro) ;; end recording keyboard macro.
+(global-set-key (kbd "M-[")                                          'kmacro-start-macro)         ;; start recording keyboard macro.
+(global-set-key (kbd "M-]")                                          'kmacro-end-macro)           ;; end recording keyboard macro.
 ;; Window management
 (global-set-key (kbd "C-3")                                          'split-window-horizontally)
+(global-set-key (kbd "C-,")                                          'other-window)
 (global-set-key (kbd "C-2")                                          'split-window-vertically)
-(global-set-key (kbd "M-\\")                                         'kmacro-end-and-call-macro) ;; execute keyboard macro.
-(global-set-key (kbd "C-z")                                          'undo)                      ;; Sane undo key
-(global-set-key (kbd "C-<return>")                                   'save-buffer)               ;; Save with one combo not C-x C-s shit
+;; don't delete any window accidentally
+(global-unset-key (kbd "C-x 1"))
+(global-unset-key (kbd "C-x 0"))
+(global-set-key (kbd "C-<return>")                                   'save-buffer)                 ;; Save with one combo not C-x C-s shit
 (global-set-key (kbd "C-q")                                          'amirreza-complete)           ;; Try pre defined expansions and if nothing was found expand with emacs dabbrev
 (global-set-key (kbd "C-=")                                          'amirreza-text-scale-increase)
 (global-set-key (kbd "C--")                                          'amirreza-text-scale-decrease)
@@ -503,4 +507,3 @@
 (defvar emacs-init-time-took (* (string-to-number (emacs-init-time "%f")) 1000) "Time took Emacs to boot, value is in milliseconds.")
 (setq amirreza-emacs-init-log-message (format "Amirreza emacs init took %fms, Emacs init took: %fms" amirreza-emacs-init-took emacs-init-time-took))
 (message amirreza-emacs-init-log-message)
-
