@@ -188,21 +188,9 @@
       completion-category-overrides '((file (styles partial-completion))))
 
 ;; Window stuff
-(setq amirreza-split-window-horizontal-vertical-threshold 250)
-(defun amirreza-split-window (WINDOW)
-  "Split window based on 'amirreza-split-window-horizontal-vertical-threshold'"
-  (interactive (list nil))
-  (if (> (frame-width nil) amirreza-split-window-horizontal-vertical-threshold)
-      (progn
-	(delete-other-windows)
-	(split-window-horizontally))
-    (progn
-      (delete-other-windows)
-      (split-window-vertically))))
-
-(setq split-window-preferred-function 'amirreza-split-window)
-
-
+(defun amirreza-never-split-window () nil)
+(setq split-window-preferred-function 'amirreza-never-split-window)
+(split-window-horizontally)
 ;; Font
 (setq font-family "")
 (defun load-font (font fontsize)
@@ -368,19 +356,19 @@
   "Runs git diff"
   (interactive)
   (let ((default-directory (find-project-root-or-default-directory)))
-    (compilation-start "git diff")))
+    (compilation-start "git diff" 'diff-mode)))
 
 (defun amirreza-git-diff-staged ()
   "Runs git diff --staged"
   (interactive)
   (let ((default-directory (find-project-root-or-default-directory)))
-    (compilation-start "git diff --staged")))
+    (compilation-start "git diff --staged" 'diff-mode)))
 
 (defun amirreza-git-diff-HEAD ()
   "Runs git diff HEAD"
   (interactive)
   (let ((default-directory (find-project-root-or-default-directory)))
-    (compilation-start "git diff HEAD")))
+    (compilation-start "git diff HEAD" 'diff-mode)))
 
 (defalias 'gitdiff 'amirreza-git-diff)
 (defalias 'gitdiffh 'amirreza-git-diff-HEAD)
@@ -397,10 +385,6 @@
 			    ("ST" . "STUDY(amirreza): ")
 			    ("NO"   . "NOTE(amirreza): ")))
 
-;; Autocomplete menu
-(install 'corfu)
-(global-corfu-mode +1)
-
 (defun amirreza-complete ()
   "First try with amirreza-expansions and then try emacs dabbrev-expand."
   (interactive)
@@ -411,7 +395,7 @@
 	(progn
 	  (backward-delete-char (length word))
 	  (insert expansion))
-      (call-interactively 'completion-at-point))))
+      (call-interactively 'dabbrev-expand))))
 
 
 ;;;; Programming
@@ -440,18 +424,12 @@
 (with-eval-after-load 'go-mode
   (add-hook 'go-mode-hook 'amirreza-go-hook))
 
-(with-eval-after-load 'go-ts-mode
-  (add-hook 'go-ts-mode-hook 'amirreza-go-hook))
+;; (with-eval-after-load 'go-ts-mode
+;;   (add-hook 'go-ts-mode-hook 'amirreza-go-hook))
 
-(setq-default c-default-style "linux" c-basic-offset 4) ;; C/C++
+(setq-default c-default-style "linux" c-basic-offset 4) ;; C/C++ code style
 
-;; LSP(eglot): The only LSP that is viable for now is Gopls/Rust-analyzer.
-(install 'eglot)
-(setq eldoc-echo-area-use-multiline-p nil)
-(add-hook 'go-mode-hook #'eglot-ensure)
-(add-hook 'go-ts-mode-hook #'eglot-ensure)
-
-;;; THINGS I HATE BUT FORCED TO USE.
+;;; THINGS I HATE
 (install 'php-mode)
 (install 'yaml-mode)
 (install 'json-mode)
@@ -480,7 +458,6 @@
   (interactive)
   (text-scale-decrease 1))
 
-
 ;;; Keybindings
 (global-set-key (kbd "C-x n")                                        'edit-notes)
 (global-set-key (kbd "C-o")                                          'find-file)
@@ -502,6 +479,7 @@
 (global-set-key (kbd "M-p")                                          'jump-up)             ;; Jump through the buffer with preserving the cursor position in the center
 (global-set-key (kbd "M-n")                                          'jump-down)           ;; Jump through the buffer with preserving the cursor position in the center
 (global-set-key (kbd "M-i")                                          'imenu)               ;; Symbols
+(global-set-key (kbd "M-j")                                          'amirreza-grep)
 ;; Editing
 (global-set-key (kbd "M-SPC")                                        'rectangle-mark-mode)
 (with-eval-after-load 'rect
@@ -511,8 +489,8 @@
 (global-set-key (kbd "M-[")                                          'kmacro-start-macro) ;; start recording keyboard macro.
 (global-set-key (kbd "M-]")                                          'kmacro-end-macro) ;; end recording keyboard macro.
 ;; Window management
-(global-set-key (kbd "C-3")                                          'amirreza-split-window)
-(global-set-key (kbd "C-2")                                          'amirreza-split-window)
+(global-set-key (kbd "C-3")                                          'split-window-horizontally)
+(global-set-key (kbd "C-2")                                          'split-window-vertically)
 (global-set-key (kbd "M-\\")                                         'kmacro-end-and-call-macro) ;; execute keyboard macro.
 (global-set-key (kbd "C-z")                                          'undo)                      ;; Sane undo key
 (global-set-key (kbd "C-<return>")                                   'save-buffer)               ;; Save with one combo not C-x C-s shit
