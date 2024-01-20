@@ -37,12 +37,6 @@
   (interactive)
   (find-file INIT_FILE))
 
-(setq notes-file "~/notes.txt")
-(defun edit-notes ()
-  "Edit notes file."
-  (interactive)
-  (find-file notes-file))
-
 (defun toggle-debug-mode ()
   "Toggle Emacs debug mode." 
   (interactive)
@@ -101,7 +95,7 @@
    `(hl-line                          ((t (:background "#252525"))))
    `(vertico-current                  ((t (:inherit hl-line))))
    `(region                           ((t (:background  "medium blue"))))
-   `(cursor                           ((t (:background "lightgreen"))))
+   `(cursor                           ((t (:background "green"))))
    `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
    `(font-lock-type-face              ((t (:foreground "#8cde94"))))
    `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
@@ -188,8 +182,11 @@
       completion-category-overrides '((file (styles partial-completion))))
 
 ;; Window stuff
+;; I hate it when emacs just suddenly decides to split my window and fuck with my setup,
+;; I use a simple two split setup most of the times unless the screen is so small.
 (defun amirreza-never-split-window () nil)
-(setq split-window-preferred-function 'amirreza-never-split-window)
+(setq split-window-preferred-function 'amirreza-never-split-window) ;; This will not allow emacs to split my window anymore
+(defalias 'dw 'delete-window)
 (split-window-horizontally)
 ;; Font
 (setq font-family "")
@@ -458,32 +455,32 @@
   (interactive)
   (text-scale-decrease 1))
 
-;;; Keybindings
-(global-set-key (kbd "C-x n")                                        'edit-notes)
-(global-set-key (kbd "C-o")                                          'find-file)
+;; Keybindings
+;; Available Keys:
+;; M-i M-p M-h M-; M-'
+;; C-u C-j C-' C-m
+(global-set-key (kbd "C-o")                                          'find-file) ;; open files
 (global-set-key (kbd "C-:")                                          'amirreza-command-pallete) ;; M-x
 (global-set-key (kbd "C-w")                                          'amirreza-cut) ;; Cut
 (global-set-key (kbd "M-w")                                          'amirreza-copy) ;; Copy
 (global-set-key (kbd "M-k")                                          'kill-buffer) ;; Kill buffer
-(global-set-key (kbd "M-m")                                          'amirreza-build)
-(global-set-key (kbd "C-x p f")                                      'rg-find-files)
-(global-set-key (kbd "C-M-m")                                        'amirreza-run)
-(global-set-key (kbd "M-s")                                          'amirreza-grep)
+(global-set-key (kbd "M-m")                                          'amirreza-build) ;; Interactive Build
+(global-set-key (kbd "C-M-m")                                        'amirreza-run) ;; Interactive Run
+(global-set-key (kbd "M-o")                                          'rg-find-files) ;; Find files in project
 (global-set-key (kbd "C-.")                                          'isearch-forward-thing-at-point)
-(global-set-key (kbd "M-r")                                          'query-replace) ;; Replace pattern with a string
+(global-set-key (kbd "M-0")                                          'query-replace) ;; Replace pattern with a string
 (global-set-key (kbd "C-;")                                          'goto-line)
 (global-set-key (kbd "C->")                                          'end-of-buffer)
 (global-set-key (kbd "C-<")                                          'beginning-of-buffer)
-(global-set-key (kbd "C-<up>")                                       'jump-up)             ;; Jump through the buffer with preserving the cursor position in the center
-(global-set-key (kbd "C-<down>")                                     'jump-down)           ;; Jump through the buffer with preserving the cursor position in the center
-(global-set-key (kbd "M-p")                                          'jump-up)             ;; Jump through the buffer with preserving the cursor position in the center
-(global-set-key (kbd "M-n")                                          'jump-down)           ;; Jump through the buffer with preserving the cursor position in the center
-(global-set-key (kbd "M-i")                                          'imenu)               ;; Symbols
+(global-set-key (kbd "C-S-p")                                        'jump-up)             ;; Jump through the buffer with preserving the cursor position in the center
+(global-set-key (kbd "C-S-n")                                        'jump-down)           ;; Jump through the buffer with preserving the cursor position in the center
 (global-set-key (kbd "M-j")                                          'amirreza-grep)
 ;; Editing
 (global-set-key (kbd "C-z")                                          'undo)                      ;; Sane undo key
 (global-set-key (kbd "M-\\")                                         'kmacro-end-and-call-macro) ;; execute keyboard macro.
 (global-set-key (kbd "M-SPC")                                        'rectangle-mark-mode)
+(global-set-key (kbd "M-u")                                          'upcase-dwim)
+(global-set-key (kbd "M-l")                                          'downcase-dwim)
 (with-eval-after-load 'rect
   (define-key rectangle-mark-mode-map (kbd "C-i")                    'string-insert-rectangle)
   (define-key rectangle-mark-mode-map (kbd "C-r")                    'string-rectangle))
