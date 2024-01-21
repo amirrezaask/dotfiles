@@ -382,7 +382,7 @@
 			    ("ST" . "STUDY(amirreza): ")
 			    ("NO"   . "NOTE(amirreza): ")))
 
-(defun amirreza-complete ()
+(defun amirreza-expand ()
   "First try with amirreza-expansions and then try emacs dabbrev-expand."
   (interactive)
   (let* ((word (current-word))
@@ -421,9 +421,6 @@
 (with-eval-after-load 'go-mode
   (add-hook 'go-mode-hook 'amirreza-go-hook))
 
-;; (with-eval-after-load 'go-ts-mode
-;;   (add-hook 'go-ts-mode-hook 'amirreza-go-hook))
-
 (setq-default c-default-style "linux" c-basic-offset 4) ;; C/C++ code style
 
 ;;; THINGS I HATE
@@ -455,6 +452,39 @@
   (interactive)
   (text-scale-decrease 1))
 
+
+;; Autocompletion popup
+;; Sometimes having an autocomplete helps, but enabled manually.
+(install 'corfu)
+(setq corfu-auto nil)
+(global-corfu-mode +1)
+
+
+;; LSP (although I hate them cause running another program on my system to just find where something is defined seems crazy)
+;; Eglot is now shipped with Emacs 29, but we make sure to have it.
+(unless (>= emacs-major-version 29) (install 'eglot))
+
+(setq eglot-ignored-server-capabilities '(
+					  :hoverProvider
+					  :documentHighlightProvider
+					  :documentSymbolProvider
+					  :workspaceSymbolProvider
+					  :codeActionProvider
+					  :codeLensProvider
+					  :documentFormattingProvider
+					  :documentRangeFormattingProvider
+					  :documentOnTypeFormattingProvider
+					  :renameProvider
+					  :documentLinkProvider
+					  :colorProvider
+					  :foldingRangeProvider
+					  :executeCommandProvider
+					  :inlayHintProvider
+					  ))
+(setq eglot-stay-out-of '(flymake))
+					  
+(add-hook 'go-mode-hook #'eglot-ensure) ;; Enable eglot by default in Go.
+
 ;; Keybindings
 ;; Available Keys:
 ;; M-i M-p M-h M-; M-'
@@ -476,6 +506,8 @@
 (global-set-key (kbd "C-S-n")                                        'jump-down)           ;; Jump through the buffer with preserving the cursor position in the center
 (global-set-key (kbd "M-j")                                          'amirreza-grep)
 ;; Editing
+(global-set-key (kbd "C-q")                                          'amirreza-expand)           ;; Try pre defined expansions and if nothing was found expand with emacs dabbrev
+(global-set-key (kbd "C-j")                                          'completion-at-point)       ;; Manual trigger for completion popup.
 (global-set-key (kbd "C-z")                                          'undo)                      ;; Sane undo key
 (global-set-key (kbd "M-\\")                                         'kmacro-end-and-call-macro) ;; execute keyboard macro.
 (global-set-key (kbd "M-SPC")                                        'rectangle-mark-mode)
@@ -494,8 +526,7 @@
 ;; don't delete any window accidentally
 (global-unset-key (kbd "C-x 1"))
 (global-unset-key (kbd "C-x 0"))
-(global-set-key (kbd "C-<return>")                                   'save-buffer)                 ;; Save with one combo not C-x C-s shit
-(global-set-key (kbd "C-q")                                          'amirreza-complete)           ;; Try pre defined expansions and if nothing was found expand with emacs dabbrev
+(global-set-key (kbd "C-<return>")                                   'save-buffer)               ;; Save with one combo not C-x C-s shit
 (global-set-key (kbd "C-=")                                          'amirreza-text-scale-increase)
 (global-set-key (kbd "C--")                                          'amirreza-text-scale-decrease)
 
