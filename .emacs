@@ -175,6 +175,28 @@
 
 (theme-naysayer)
 
+
+;; Custom Modeline
+(defun amirreza-modeline-vc () (interactive) (propertize (if vc-mode vc-mode "")))
+(defun amirreza-modeline-file () (interactive) (propertize (if (buffer-file-name) (buffer-file-name) (format "%%b @ %s" default-directory))))
+(defun amirreza-modeline-modified () (interactive) (propertize (if (buffer-modified-p (current-buffer)) "[+]" "")))
+(defun amirreza-modeline-linecol () (interactive) (propertize "%l:%c"))
+(defun amirreza-modeline-major-mode () (interactive) (propertize (substring (capitalize (symbol-name major-mode)) 0 -5)))
+(defun amirreza-modeline-left () (interactive) (concat (amirreza-modeline-vc)))
+(defun amirreza-modeline-center () (interactive) (concat (amirreza-modeline-modified) (amirreza-modeline-file) " " (amirreza-modeline-linecol)))
+(defun amirreza-modeline-right () (interactive) (concat (amirreza-modeline-major-mode)))
+(defun amirreza-modeline-format ()
+  (let* ((left (amirreza-modeline-left))
+	 (center (amirreza-modeline-center))
+	 (right (amirreza-modeline-right))
+	 (win-len (window-width (get-buffer-window (current-buffer))))
+	 (center-right-spaces (make-string (- (/ win-len 2) (+ (/ (length center) 2) (length right))  ) ?\s))
+	 (left-center-spaces (make-string (- (/ win-len 2) (+ (length left) (/ (length center) 2))) ?\s))
+	 )
+
+    (concat left left-center-spaces center center-right-spaces right)))
+(setq-default mode-line-format '("%e" (:eval (amirreza-modeline-format))))
+
 ;;;; Minibuffer completion style
 (install 'orderless)
 (setq completion-styles '(orderless basic)
@@ -272,20 +294,28 @@
 ;;;; Building And Running
 (setq amirreza-build-history '())
 (setq amirreza-run-history '())
-(defun amirreza-build (DIR)
+(setq amirreza-last-build nil)
+(setq amirreza-last-run nil)
+(defun amirreza-build ()
   "Compile in a directory"
-  (interactive (list (read-directory-name "[Build] Directory: " (find-project-root-or-default-directory))))
-  (let ((default-directory DIR)
-	(command (read-shell-command "[Build] Command: " (guess-build-command DIR) amirreza-build-history)))
+  (interactive)
+  (when amirreza-last-build
+    (unless (y-or-n-p "Use last build configuration?") (setq amirreza-last-build nil)))
+  (let* ((default-directory (or (car amirreza-last-build) (read-directory-name "[Build] Directory: " (find-project-root-or-default-directory))))
+	(command (or (car (cdr amirreza-last-build)) (read-shell-command "[Build] Command: " (guess-build-command default-directory) amirreza-build-history))))
+    (setq amirreza-last-build `(,default-directory ,command))
     (compilation-start command)))
 
 (defalias 'build 'amirreza-build)
 
-(defun amirreza-run (DIR)
-  "Compile in a directory"
-  (interactive (list (read-directory-name "[Run] Directory: " (find-project-root-or-default-directory))))
-  (let ((default-directory DIR)
-	(command (read-shell-command "[Run] Command: " (guess-run-command DIR) amirreza-run-history)))
+(defun amirreza-run ()
+  "Run in a directory"
+  (interactive)
+  (when amirreza-last-run
+    (unless (y-or-n-p "Use last run configuration?") (setq amirreza-last-run nil)))
+  (let* ((default-directory (or (car amirreza-last-run) (read-directory-name "[Run] Directory: " (find-project-root-or-default-directory))))
+	(command (or (car (cdr amirreza-last-run)) (read-shell-command "[Run] Command: " (guess-run-command default-directory) amirreza-run-history))))
+    (setq amirreza-last-run `(,default-directory ,command))
     (compilation-start command)))
 
 (defalias 'run 'amirreza-run)
@@ -373,27 +403,15 @@
 (defalias 'gitstatus 'amirreza-git-status)
 
 
-;;;; Expansions
+;; QueryReplace
+;; NOTE: This will also effect y-or-n-p questions, basically pressing <enter> now is considered to be yes.
+(with-eval-after-load 'replace
+  (define-key query-replace-map (kbd "<return>") 'act))
+
+;;;; Dabbrev
 (setq dabbrev-case-replace nil)
 (setq dabbrev-case-fold-search t)
 (setq dabbrev-upcase-means-case-search nil)
-(setq amirreza-expansions '(("TO" . "TODO(amirreza): ")
-			    ("IM" . "IMPORTANT(amirreza): ")
-			    ("ST" . "STUDY(amirreza): ")
-			    ("NO"   . "NOTE(amirreza): ")))
-
-(defun amirreza-expand ()
-  "First try with amirreza-expansions and then try emacs dabbrev-expand."
-  (interactive)
-  (let* ((word (current-word))
-	(expansion (alist-get word amirreza-expansions nil nil 'string-equal)))
-    (if expansion
-	;; expand snippet
-	(progn
-	  (backward-delete-char (length word))
-	  (insert expansion))
-      (call-interactively 'dabbrev-expand))))
-
 
 ;;;; Programming
 (install 'go-mode)
@@ -453,6 +471,7 @@
   (text-scale-decrease 1))
 
 
+
 ;; Autocompletion popup
 ;; Sometimes having an autocomplete helps, but enabled manually.
 (install 'corfu)
@@ -487,8 +506,10 @@
 
 ;; Keybindings
 ;; Available Keys:
-;; M-i M-p M-h M-; M-'
+;; M-i M-h M-; M-'
 ;; C-u C-j C-' C-m
+(global-set-key (kbd "M-n")                                          'next-buffer)
+(global-set-key (kbd "M-p")                                          'previous-buffer)
 (global-set-key (kbd "C-o")                                          'find-file) ;; open files
 (global-set-key (kbd "C-:")                                          'amirreza-command-pallete) ;; M-x
 (global-set-key (kbd "C-w")                                          'amirreza-cut) ;; Cut
@@ -506,7 +527,7 @@
 (global-set-key (kbd "C-S-n")                                        'jump-down)           ;; Jump through the buffer with preserving the cursor position in the center
 (global-set-key (kbd "M-j")                                          'amirreza-grep)
 ;; Editing
-(global-set-key (kbd "C-q")                                          'amirreza-expand)           ;; Try pre defined expansions and if nothing was found expand with emacs dabbrev
+(global-set-key (kbd "C-q")                                          'dabbrev-expand)           ;; Try pre defined expansions and if nothing was found expand with emacs dabbrev
 (global-set-key (kbd "C-j")                                          'completion-at-point)       ;; Manual trigger for completion popup.
 (global-set-key (kbd "C-z")                                          'undo)                      ;; Sane undo key
 (global-set-key (kbd "M-\\")                                         'kmacro-end-and-call-macro) ;; execute keyboard macro.
