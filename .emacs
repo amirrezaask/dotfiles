@@ -176,41 +176,11 @@
 
 (theme-naysayer)
 
-
-;; Custom Modeline
-(defun amirreza-modeline-vc () (interactive) (propertize (if vc-mode vc-mode "")))
-(defun amirreza-modeline-file () (interactive) (propertize (if (buffer-file-name) (buffer-file-name) (format "%%b @ %s" default-directory))))
-(defun amirreza-modeline-modified () (interactive) (propertize (if (buffer-modified-p (current-buffer)) "[+]" "")))
-(defun amirreza-modeline-linecol () (interactive) (propertize "%l:%c"))
-(defun amirreza-modeline-major-mode () (interactive) (propertize (substring (capitalize (symbol-name major-mode)) 0 -5)))
-(defun amirreza-modeline-left () (interactive) (concat (amirreza-modeline-vc)))
-(defun amirreza-modeline-center () (interactive) (concat (amirreza-modeline-modified) (amirreza-modeline-file) " " (amirreza-modeline-linecol)))
-(defun amirreza-modeline-right () (interactive) (concat (amirreza-modeline-major-mode)))
-(defun amirreza-modeline-format ()
-  (let* ((left (amirreza-modeline-left))
-	 (center (amirreza-modeline-center))
-	 (right (amirreza-modeline-right))
-	 (win-len (window-width (get-buffer-window (current-buffer))))
-	 (center-right-spaces (make-string (- (/ win-len 2) (+ (/ (length center) 2) (length right))  ) ?\s))
-	 (left-center-spaces (make-string (- (/ win-len 2) (+ (length left) (/ (length center) 2))) ?\s))
-	 )
-
-    (concat left left-center-spaces center center-right-spaces right)))
-(setq-default mode-line-format '("%e" (:eval (amirreza-modeline-format))))
-
 ;;;; Minibuffer completion style
 (install 'orderless)
 (setq completion-styles '(orderless basic)
       completion-category-defaults nil
       completion-category-overrides '((file (styles partial-completion))))
-
-;; Window stuff
-;; I hate it when emacs just suddenly decides to split my window and fuck with my setup,
-;; I use a simple two split setup most of the times unless the screen is so small.
-(defun amirreza-never-split-window () nil)
-(setq split-window-preferred-function 'amirreza-never-split-window) ;; This will not allow emacs to split my window anymore
-(defalias 'dw 'delete-window)
-(split-window-horizontally)
 
 ;; Font
 (setq font-family "")
@@ -231,7 +201,7 @@
     (set-frame-font fontstring nil t)
     (set-face-attribute 'default t :font fontstring)))
 
-(load-font "Jetbrains Mono" 13)
+(load-font "Consolas" 13)
 
 ;; Env and PATH
 (defun home (path)
@@ -251,25 +221,6 @@
 (if (eq system-type 'windows-nt)
     (setenv "PATH" (string-join exec-path ";"))
   (setenv "PATH" (string-join exec-path ":"))) ;; set emacs process PATH
-
-;;;; Highlight todos
-(make-face 'font-lock-todo-face)
-(make-face 'font-lock-note-face)
-(make-face 'font-lock-important-face)
-(make-face 'font-lock-study-face)
-(set-face-attribute 'font-lock-todo-face nil :foreground "Red" :underline t)
-(set-face-attribute 'font-lock-note-face nil :foreground "Green" :underline t)
-(set-face-attribute 'font-lock-important-face nil :foreground "Yellow" :underline t)
-(set-face-attribute 'font-lock-study-face nil :foreground "cyan1" :underline t)
-
-(defun amirreza-add-todo/note-highlight ()
-  (font-lock-add-keywords
-   major-mode
-   '(("\\<\\(TODO\\)" 1 'font-lock-todo-face t)
-     ("\\<\\(IMPORTANT\\)" 1 'font-lock-important-face t)
-     ("\\<\\(STUDY\\)" 1 'font-lock-study-face t)
-     ("\\<\\(NOTE\\)" 1 'font-lock-note-face t))))
-(add-hook 'prog-mode-hook 'amirreza-add-todo/note-highlight)
 
 (defun find-project-root ()
   "Try to find project root based on deterministic predicates"
@@ -361,8 +312,6 @@
   (define-key grep-mode-map (kbd "<f5>") 'recompile)
   (define-key grep-mode-map (kbd "k") 'kill-compilation))
 
-;; TODO(amirreza): We should have some functions to do replace string for us, like sed.
-  
 (defun rg-find-files ()
   (interactive)
   (unless (executable-find "rg") (error "rg-find-files needs ripgrep."))
@@ -373,37 +322,6 @@
     (find-file absfile)))
 
 (defalias 'find 'rg-find-files)
-
-;;;; Git
-(defun amirreza-git-status ()
-  "Runs git status"
-  (interactive)
-  (let ((default-directory (find-project-root-or-default-directory)))
-    (compilation-start "git status")))
-
-(defun amirreza-git-diff ()
-  "Runs git diff"
-  (interactive)
-  (let ((default-directory (find-project-root-or-default-directory)))
-    (compilation-start "git diff" 'diff-mode)))
-
-(defun amirreza-git-diff-staged ()
-  "Runs git diff --staged"
-  (interactive)
-  (let ((default-directory (find-project-root-or-default-directory)))
-    (compilation-start "git diff --staged" 'diff-mode)))
-
-(defun amirreza-git-diff-HEAD ()
-  "Runs git diff HEAD"
-  (interactive)
-  (let ((default-directory (find-project-root-or-default-directory)))
-    (compilation-start "git diff HEAD" 'diff-mode)))
-
-(defalias 'gitdiff 'amirreza-git-diff)
-(defalias 'gitdiffh 'amirreza-git-diff-HEAD)
-(defalias 'gitdiffs 'amirreza-git-diff-staged)
-(defalias 'gitstatus 'amirreza-git-status)
-
 
 ;; QueryReplace
 ;; NOTE: This will also effect y-or-n-p questions, basically pressing <enter> now is considered to be yes.
@@ -475,7 +393,7 @@
 
 
 ;; Autocompletion popup
-;; Sometimes having an autocomplete helps, but enabled manually.
+;; Sometimes having an autocomplete helps, but enabled manually I don't want a popup always screaming to my face of my options.
 (install 'corfu)
 (setq corfu-auto nil)
 (global-corfu-mode +1)
@@ -485,6 +403,7 @@
 ;; Eglot is now shipped with Emacs 29, but we make sure to have it.
 (unless (>= emacs-major-version 29) (install 'eglot))
 
+;; @Speed: We will disable most features from LSP, they make Emacs slow and probably make you a bad programmer.
 (setq eglot-ignored-server-capabilities '(
 					  :hoverProvider
 					  :documentHighlightProvider
@@ -504,14 +423,11 @@
 					  ))
 (setq eglot-stay-out-of '(flymake))
 					  
-(add-hook 'go-mode-hook #'eglot-ensure) ;; Enable eglot by default in Go.
+(add-hook 'go-mode-hook #'eglot-ensure) ;; Enable eglot by default in Go
 
 ;; Keybindings
-;; Available Keys:
-;; M-i M-h M-; M-'
-;; C-u C-j C-' C-m
-(global-set-key (kbd "M-n")                                          'next-buffer)
-(global-set-key (kbd "M-p")                                          'previous-buffer)
+(global-set-key (kbd "M-n")                                          'compilation-next-error)
+(global-set-key (kbd "M-p")                                          'compilation-previous-error)
 (global-set-key (kbd "C-o")                                          'find-file) ;; open files
 (global-set-key (kbd "C-:")                                          'amirreza-command-pallete) ;; M-x
 (global-set-key (kbd "C-w")                                          'amirreza-cut) ;; Cut
@@ -528,7 +444,6 @@
 (global-set-key (kbd "C-S-p")                                        'jump-up)             ;; Jump through the buffer with preserving the cursor position in the center
 (global-set-key (kbd "C-S-n")                                        'jump-down)           ;; Jump through the buffer with preserving the cursor position in the center
 (global-set-key (kbd "M-j")                                          'amirreza-grep)
-;; Editing
 (global-set-key (kbd "C-q")                                          'dabbrev-expand)           ;; Try pre defined expansions and if nothing was found expand with emacs dabbrev
 (global-set-key (kbd "C-j")                                          'completion-at-point)       ;; Manual trigger for completion popup.
 (global-set-key (kbd "C-z")                                          'undo)                      ;; Sane undo key
@@ -539,16 +454,11 @@
 (with-eval-after-load 'rect
   (define-key rectangle-mark-mode-map (kbd "C-i")                    'string-insert-rectangle)
   (define-key rectangle-mark-mode-map (kbd "C-r")                    'string-rectangle))
-;; Macros
 (global-set-key (kbd "M-[")                                          'kmacro-start-macro)         ;; start recording keyboard macro.
 (global-set-key (kbd "M-]")                                          'kmacro-end-macro)           ;; end recording keyboard macro.
-;; Window management
 (global-set-key (kbd "C-3")                                          'split-window-horizontally)
 (global-set-key (kbd "C-,")                                          'other-window)
 (global-set-key (kbd "C-2")                                          'split-window-vertically)
-;; don't delete any window accidentally
-(global-unset-key (kbd "C-x 1"))
-(global-unset-key (kbd "C-x 0"))
 (global-set-key (kbd "C-<return>")                                   'save-buffer)               ;; Save with one combo not C-x C-s shit
 (global-set-key (kbd "C-=")                                          'amirreza-text-scale-increase)
 (global-set-key (kbd "C--")                                          'amirreza-text-scale-decrease)
