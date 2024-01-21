@@ -426,8 +426,6 @@
 (add-hook 'go-mode-hook #'eglot-ensure) ;; Enable eglot by default in Go
 
 ;; Keybindings
-(global-set-key (kbd "M-n")                                          'compilation-next-error)
-(global-set-key (kbd "M-p")                                          'compilation-previous-error)
 (global-set-key (kbd "C-o")                                          'find-file) ;; open files
 (global-set-key (kbd "C-:")                                          'amirreza-command-pallete) ;; M-x
 (global-set-key (kbd "C-w")                                          'amirreza-cut) ;; Cut
@@ -441,8 +439,8 @@
 (global-set-key (kbd "C-;")                                          'goto-line)
 (global-set-key (kbd "C->")                                          'end-of-buffer)
 (global-set-key (kbd "C-<")                                          'beginning-of-buffer)
-(global-set-key (kbd "C-S-p")                                        'jump-up)             ;; Jump through the buffer with preserving the cursor position in the center
-(global-set-key (kbd "C-S-n")                                        'jump-down)           ;; Jump through the buffer with preserving the cursor position in the center
+(global-set-key (kbd "M-n")                                          'jump-down)
+(global-set-key (kbd "M-p")                                          'jump-up)
 (global-set-key (kbd "M-j")                                          'amirreza-grep)
 (global-set-key (kbd "C-q")                                          'dabbrev-expand)           ;; Try pre defined expansions and if nothing was found expand with emacs dabbrev
 (global-set-key (kbd "C-j")                                          'completion-at-point)       ;; Manual trigger for completion popup.
