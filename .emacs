@@ -29,6 +29,7 @@
 (tool-bar-mode -1) ;; disable tool bar
 (scroll-bar-mode -1) ;; disable scroll bar
 (setq kill-whole-line t) ;; kill line and newline char
+(global-auto-revert-mode +1) ;; Revert buffer to disk state when disk changes under our foot.
 (delete-selection-mode) ;; when selected a text and user types delete text
 (defun jump-up () (interactive) (next-line (* -1 (/ (window-height) 2))) (recenter-top-bottom))
 (defun jump-down () (interactive) (next-line (/ (window-height) 2)) (recenter-top-bottom))
@@ -210,6 +211,7 @@
 (setq split-window-preferred-function 'amirreza-never-split-window) ;; This will not allow emacs to split my window anymore
 (defalias 'dw 'delete-window)
 (split-window-horizontally)
+
 ;; Font
 (setq font-family "")
 (defun load-font (font fontsize)
@@ -229,7 +231,7 @@
     (set-frame-font fontstring nil t)
     (set-face-attribute 'default t :font fontstring)))
 
-(load-font "Consolas" 13)
+(load-font "Jetbrains Mono" 13)
 
 ;; Env and PATH
 (defun home (path)
