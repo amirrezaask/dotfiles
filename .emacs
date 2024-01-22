@@ -16,7 +16,6 @@
 (setq is-macos (eq system-type 'darwin))
 (setq has-treesitter (>= emacs-major-version 29))
 (unless (executable-find "rg") (error "Install ripgrep, this configuration relies heavy on it's features."))
-(global-set-key (kbd "C-x i") 'edit-init)
 (setq use-short-answers t) ;; Always prefer short answers
 (setq image-types (cons 'svg image-types)) ;; macos bug
 (setq mac-command-modifier 'meta) ;; macos again
@@ -37,6 +36,7 @@
   "Edit this file."
   (interactive)
   (find-file INIT_FILE))
+(global-set-key (kbd "<f1>") 'edit-init)
 
 (defun toggle-debug-mode ()
   "Toggle Emacs debug mode." 
@@ -174,7 +174,7 @@
    `(minibuffer-prompt                ((t (:foreground "#a08563") :bold t)))
    `(show-paren-match                 ((t (:background "#e0741b" :foreground "#000000"))))))
 
-(theme-naysayer)
+(theme-brownaysayer)
 
 ;;;; Minibuffer completion style
 (install 'orderless)
@@ -201,7 +201,7 @@
     (set-frame-font fontstring nil t)
     (set-face-attribute 'default t :font fontstring)))
 
-(load-font "Consolas" 13)
+(load-font "Droid Sans Mono" 13)
 
 ;; Env and PATH
 (defun home (path)
