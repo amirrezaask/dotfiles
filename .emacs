@@ -177,6 +177,11 @@
 (theme-brownaysayer)
 
 ;;;; Minibuffer completion style
+(install 'vertico)
+(vertico-mode +1)
+(setq vertico-count 5)
+(setq vertico-resize nil)
+
 (install 'orderless)
 (setq completion-styles '(orderless basic)
       completion-category-defaults nil
