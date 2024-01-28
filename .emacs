@@ -119,7 +119,7 @@
   (interactive)
   (global-hl-line-mode -1)
   (custom-set-faces
-   `(default                          ((t (:foreground "#d3b58d" :background "#072626"))))
+   `(default                          ((t (:foreground "#d3b58d" :background "#072629"))))
    `(hl-line                          ((t (:background "#0c4141"))))
    `(vertico-current                  ((t (:inherit hl-line))))
    `(region                           ((t (:background  "medium blue"))))
@@ -174,13 +174,13 @@
    `(minibuffer-prompt                ((t (:foreground "#a08563") :bold t)))
    `(show-paren-match                 ((t (:background "#e0741b" :foreground "#000000"))))))
 
-(theme-brownaysayer)
+(theme-naysayer)
 
 ;;;; Minibuffer completion style
-(install 'vertico)
-(vertico-mode +1)
-(setq vertico-count 5)
-(setq vertico-resize nil)
+;; (install 'vertico)
+;; (vertico-mode +1)
+;; (setq vertico-count 5)
+;; (setq vertico-resize nil)
 
 (install 'orderless)
 (setq completion-styles '(orderless basic)
@@ -206,7 +206,7 @@
     (set-frame-font fontstring nil t)
     (set-face-attribute 'default t :font fontstring)))
 
-(load-font "Droid Sans Mono" 13)
+(load-font "Consolas" 13)
 
 ;; Env and PATH
 (defun home (path)
@@ -340,29 +340,11 @@
 
 ;;;; Programming
 (install 'go-mode)
-(defun amirreza-go-fmt (&optional BUFFER)
-  (interactive (list (current-buffer)))
-  (let* ((BUFFER (or BUFFER (current-buffer)))
-	 (TEMP (get-buffer-create "*gofmt-temp*"))
-	 (_ (with-current-buffer TEMP (erase-buffer)))
-	 (exitstatus (call-process "gofmt" nil `(,TEMP nil) nil (buffer-file-name BUFFER)))
-	 (oldpoint (point))
-	 )
-    (when (= exitstatus 0)
-      (with-current-buffer BUFFER
-	(erase-buffer)
-	(insert-buffer-substring TEMP)
-	(goto-char oldpoint)
-	(set-buffer-modified-p nil)))))
-
-(defalias 'gofmt 'amirreza-go-fmt)
 
 (defun amirreza-go-hook ()
   (interactive)
-  (add-hook 'after-save-hook 'amirreza-go-fmt 0 t))
-
-(with-eval-after-load 'go-mode
-  (add-hook 'go-mode-hook 'amirreza-go-hook))
+  (add-hook 'before-save-hook 'gofmt-before-save 0 t))
+(add-hook 'go-mode-hook 'amirreza-go-hook)
 
 (setq-default c-default-style "linux" c-basic-offset 4) ;; C/C++ code style
 
@@ -395,14 +377,11 @@
   (interactive)
   (text-scale-decrease 1))
 
-
-
 ;; Autocompletion popup
 ;; Sometimes having an autocomplete helps, but enabled manually I don't want a popup always screaming to my face of my options.
 (install 'corfu)
 (setq corfu-auto nil)
 (global-corfu-mode +1)
-
 
 ;; LSP (although I hate them cause running another program on my system to just find where something is defined seems crazy)
 ;; Eglot is now shipped with Emacs 29, but we make sure to have it.
@@ -432,7 +411,6 @@
 
 ;; Keybindings
 (global-set-key (kbd "C-o")                                          'find-file) ;; open files
-(global-set-key (kbd "C-:")                                          'amirreza-command-pallete) ;; M-x
 (global-set-key (kbd "C-w")                                          'amirreza-cut) ;; Cut
 (global-set-key (kbd "M-w")                                          'amirreza-copy) ;; Copy
 (global-set-key (kbd "M-k")                                          'kill-buffer) ;; Kill buffer

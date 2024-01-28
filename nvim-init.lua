@@ -22,7 +22,6 @@ vim.g.netrw_browse_split = 0
 vim.g.netrw_banner = 0
 vim.g.netrw_winsize = 25
 vim.opt.timeoutlen = 300
-vim.opt.guicursor = ''
 vim.opt.completeopt = "menu"
 vim.opt.statusline = "%q%w%h%r%m%f %y %l:%c %p%%"
 
