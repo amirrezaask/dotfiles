@@ -174,14 +174,9 @@
    `(minibuffer-prompt                ((t (:foreground "#a08563") :bold t)))
    `(show-paren-match                 ((t (:background "#e0741b" :foreground "#000000"))))))
 
-(theme-naysayer)
+(theme-handmadehero)
 
 ;;;; Minibuffer completion style
-;; (install 'vertico)
-;; (vertico-mode +1)
-;; (setq vertico-count 5)
-;; (setq vertico-resize nil)
-
 (install 'orderless)
 (setq completion-styles '(orderless basic)
       completion-category-defaults nil
@@ -206,7 +201,7 @@
     (set-frame-font fontstring nil t)
     (set-face-attribute 'default t :font fontstring)))
 
-(load-font "Consolas" 13)
+(load-font "Liberation Mono" 13)
 
 ;; Env and PATH
 (defun home (path)
@@ -254,7 +249,8 @@
 (setq amirreza-run-history '())
 (setq amirreza-last-build nil)
 (setq amirreza-last-run nil)
-(defun amirreza-build ()
+
+(defun build ()
   "Compile in a directory"
   (interactive)
   (when amirreza-last-build
@@ -264,9 +260,7 @@
     (setq amirreza-last-build `(,default-directory ,command))
     (compilation-start command)))
 
-(defalias 'build 'amirreza-build)
-
-(defun amirreza-run ()
+(defun run ()
   "Run in a directory"
   (interactive)
   (when amirreza-last-run
@@ -275,8 +269,6 @@
 	(command (or (car (cdr amirreza-last-run)) (read-shell-command "[Run] Command: " (guess-run-command default-directory) amirreza-run-history))))
     (setq amirreza-last-run `(,default-directory ,command))
     (compilation-start command)))
-
-(defalias 'run 'amirreza-run)
 
 (with-eval-after-load 'compile
   (define-key compilation-mode-map (kbd "<f5>") 'recompile)
@@ -414,8 +406,10 @@
 (global-set-key (kbd "C-w")                                          'amirreza-cut) ;; Cut
 (global-set-key (kbd "M-w")                                          'amirreza-copy) ;; Copy
 (global-set-key (kbd "M-k")                                          'kill-buffer) ;; Kill buffer
-(global-set-key (kbd "M-m")                                          'amirreza-build) ;; Interactive Build
-(global-set-key (kbd "C-M-m")                                        'amirreza-run) ;; Interactive Run
+(global-set-key (kbd "M-m")                                          'build) ;; Interactive Build
+(global-set-key (kbd "<f5>")                                         'build) ;; Interactive Build
+(global-set-key (kbd "<f10>")                                        'run)
+(global-set-key (kbd "C-M-m")                                        'run) ;; Interactive Run
 (global-set-key (kbd "M-o")                                          'rg-find-files) ;; Find files in project
 (global-set-key (kbd "C-.")                                          'isearch-forward-thing-at-point)
 (global-set-key (kbd "M-0")                                          'query-replace) ;; Replace pattern with a string
