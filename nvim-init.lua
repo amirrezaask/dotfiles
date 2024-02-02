@@ -92,6 +92,7 @@ vim.opt.rtp:prepend(lazypath)
 
 
 require("lazy").setup({
+    {'equalsraf/neovim-gui-shim'},
     { "rose-pine/neovim",         name = "rose-pine",          opts = { disable_italics = true } },
     { "ellisonleao/gruvbox.nvim", opts = { contrast = 'hard' } },
     { "folke/tokyonight.nvim", opts = { style = "night"} },

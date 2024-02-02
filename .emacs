@@ -390,7 +390,6 @@
 					  :documentFormattingProvider
 					  :documentRangeFormattingProvider
 					  :documentOnTypeFormattingProvider
-					  :renameProvider
 					  :documentLinkProvider
 					  :colorProvider
 					  :foldingRangeProvider
