@@ -201,7 +201,7 @@
     (set-frame-font fontstring nil t)
     (set-face-attribute 'default t :font fontstring)))
 
-(load-font "Liberation Mono" 13)
+(load-font "Consolas" 13)
 
 ;; Env and PATH
 (defun home (path)
@@ -423,8 +423,6 @@
 (global-set-key (kbd "C-z")                                          'undo)                      ;; Sane undo key
 (global-set-key (kbd "M-\\")                                         'kmacro-end-and-call-macro) ;; execute keyboard macro.
 (global-set-key (kbd "M-SPC")                                        'rectangle-mark-mode)
-(global-set-key (kbd "M-u")                                          'upcase-dwim)
-(global-set-key (kbd "M-l")                                          'downcase-dwim)
 (with-eval-after-load 'rect
   (define-key rectangle-mark-mode-map (kbd "C-i")                    'string-insert-rectangle)
   (define-key rectangle-mark-mode-map (kbd "C-r")                    'string-rectangle))

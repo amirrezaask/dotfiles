@@ -24,6 +24,7 @@ vim.g.netrw_winsize = 25
 vim.opt.timeoutlen = 300
 vim.opt.completeopt = "menu"
 vim.opt.statusline = "%q%w%h%r%m%f %y %l:%c %p%%"
+vim.opt.ignorecase = true
 
 -- Keymaps
 vim.g.mapleader = " "                                                                                  -- <leader> key for keymaps mapped to <Space>
@@ -56,6 +57,7 @@ function ToggleQFList()
 end
 
 vim.keymap.set({ "n" }, "<C-q>", ToggleQFList, { desc = "Open Quickfix list" })
+vim.keymap.set({"i"}, "<C-Space>", "<C-x><C-o>")
 -- When moving around always have cursor centered in screen
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
@@ -93,8 +95,22 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
     { "rose-pine/neovim",         name = "rose-pine",          opts = { disable_italics = true } },
-    { "ellisonleao/gruvbox.nvim", opts = { contrast = 'hard' } },
+    { 'shaunsingh/nord.nvim', config = function()
+        vim.g.nord_italic = false
+    end},
+    { "ellisonleao/gruvbox.nvim", 
+        opts = { contrast = 'hard', 
+            italic = {
+                strings = false,
+                emphasis = false,
+                comments = false,
+                operators = false,
+                folds = false,
+            }} 
+        },
     { "folke/tokyonight.nvim", opts = { style = "night"} },
+    { "rebelot/kanagawa.nvim" },
+    { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
 
     "tpope/vim-abolish",                    -- useful text stuff
     { "numToStr/Comment.nvim", opts = {} }, -- Comment stuff like a boss
@@ -102,16 +118,6 @@ require("lazy").setup({
     "tpope/vim-sleuth",                     -- set buffer options heuristically
 
     "tpope/vim-fugitive",
-    { "folke/trouble.nvim",
-        dependencies = { "nvim-tree/nvim-web-devicons" },
-        config = function()
-            require "trouble".setup {
-                icons = false,
-            }
-
-            vim.keymap.set("n", "<leader>tt", ":TroubleToggle<CR>")
-        end
-    },
     {
         "hrsh7th/nvim-cmp",
         dependencies = {
@@ -126,9 +132,6 @@ require("lazy").setup({
             local cmp = require("cmp")
             cmp.setup({
                 preselect = require("cmp.types").cmp.PreselectMode.None,
-                completion = {
-                    autocomplete = false,
-                },
                 window = {
                     completion = cmp.config.window.bordered(),
                     documentation = cmp.config.window.bordered(),
@@ -265,45 +268,36 @@ require("lazy").setup({
         end,
     },
     {
-        "nvim-treesitter/nvim-treesitter",
-        dependencies = {
-            "nvim-treesitter/nvim-treesitter-textobjects",
-            "nvim-treesitter/playground",
-        },
-        config = function()
-            require("nvim-treesitter.configs").setup({
-                sync_install = false,
-                auto_install = true,
-                ignore_install = {},
-                modules = {},
-                ensure_installed = {
-                    "c",
-                    "cpp",
-                    "lua",
-                    "rust",
-                    "go",
-                    "php",
-                },
-                context_commentstring = { enable = true },
-                highlight = { enable = true, additional_vim_regex_highlighting = false },
-                textobjects = {
-                    select = {
-                        enable = true,
-                        lookahead = true,
-                        keymaps = {
-                            ["af"] = "@function.outer",
-                            ["if"] = "@function.inner",
-                            ["ac"] = "@class.outer",
-                            ["ic"] = "@class.inner",
+            "nvim-treesitter/nvim-treesitter",
+            dependencies = {
+                "nvim-treesitter/nvim-treesitter-textobjects",
+                "nvim-treesitter/playground",
+            },
+            config = function()
+                require("nvim-treesitter.configs").setup({
+                    sync_install = false,
+                    auto_install = true,
+                    ignore_install = {},
+                    modules = {},
+                    context_commentstring = { enable = true },
+                    highlight = { enable = true, additional_vim_regex_highlighting = false },
+                    textobjects = {
+                        select = {
+                            enable = true,
+                            lookahead = true,
+                            keymaps = {
+                                ["af"] = "@function.outer",
+                                ["if"] = "@function.inner",
+                                ["ac"] = "@class.outer",
+                                ["ic"] = "@class.inner",
+                            },
                         },
                     },
-                },
-            })
-        end,
-    },
-
-
-}, {
+                })
+            end,
+        }
+    }, 
+    {
     change_detection = {
         enabled = true,
         notify = false, -- get a notification when changes are found
@@ -319,8 +313,19 @@ vim.api.nvim_create_autocmd("BufWritePre", {
     end,
 })
 
+
+local function transparent()
+    vim.cmd [[
+        hi Normal guibg=none
+        hi LineNr guibg=none
+        hi SignColumn guibg=none
+    ]]
+end
+
+vim.api.nvim_create_user_command("Transparent", transparent, {})
+
 -- Edit this configuration file
 THIS_FILE = debug.getinfo(1,'S').short_src
 vim.keymap.set("n", "<leader>i", string.format(":e %s<cr>", THIS_FILE))
 
-vim.cmd.colorscheme("gruvbox")
+vim.cmd.colorscheme("nord")
