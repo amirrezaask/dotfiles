@@ -92,7 +92,6 @@ vim.opt.rtp:prepend(lazypath)
 
 
 require("lazy").setup({
-    {'equalsraf/neovim-gui-shim'},
     { "rose-pine/neovim",         name = "rose-pine",          opts = { disable_italics = true } },
     { "ellisonleao/gruvbox.nvim", opts = { contrast = 'hard' } },
     { "folke/tokyonight.nvim", opts = { style = "night"} },
@@ -170,8 +169,11 @@ require("lazy").setup({
 
                     local sep = get_path_sep()
 
-                    vim.env.PATH = string.format("%s%smason%sbin:", (vim.fn.stdpath("data")), sep, sep) ..
-                        vim.env.PATH
+                    if vim.fn.has("win32") == 1 then
+                        vim.env.PATH = string.format("%s%smason%sbin;", (vim.fn.stdpath("data")), sep, sep) .. vim.env.PATH
+                    else
+                        vim.env.PATH = string.format("%s%smason%sbin:", (vim.fn.stdpath("data")), sep, sep) .. vim.env.PATH
+                    end
                     require("mason").setup({})
                 end
             }
