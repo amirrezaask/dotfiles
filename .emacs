@@ -1,37 +1,38 @@
-(setq amirreza-emacs-starting-time (float-time)) ;; Store current time for further analysis.
+(setq amirreza-emacs-starting-time (float-time))                                                              ;; Store current time for further analysis.
 (when load-file-name
-  (setq BASE_PATH (file-name-directory load-file-name)) ;; $CWD where this file is.
+  (setq BASE_PATH (file-name-directory load-file-name))                                                       ;; Store this file location.
   (setq INIT_FILE load-file-name))
-(setq frame-inhibit-implied-resize t) ;; Don't let emacs to resize frame when something inside changes
-(setq initial-scratch-message "") ;; No starting text in *scratch* buffer.
-(setq gc-cons-threshold (* 1024 1024 10)) ;; Default emacs garbage collection threshold is 800KB which is low for today standards, memory is cheap, so we make a bit higher, remember if you set it to high it would cause major pauses.
+(setq frame-inhibit-implied-resize t)                                                                         ;; Don't let emacs to resize frame when something inside changes
+(setq initial-scratch-message "")                                                                             ;; No starting text in *scratch* buffer.
+(setq gc-cons-threshold (* 1024 1024 10))                                                                     ;; Default emacs garbage collection threshold is 800KB which is low for today standards, memory is cheap, so we make a bit higher, remember if you set it to high it would cause major pauses.
 (setq redisplay-dont-pause t)
-(setq vc-follow-symlinks t) ;; Follow symlinks with no questions
-(setq ring-bell-function (lambda ())) ;; no stupid sounds
-(setq custom-file "~/.custom.el") ;; set custom file to not meddle with init.el
-(setq make-backup-files nil) ;; no emacs ~ backup files
+(setq vc-follow-symlinks t)                                                                                   ;; Follow symlinks with no questions
+(setq ring-bell-function (lambda ()))                                                                         ;; no stupid sounds
+(setq custom-file "~/.custom.el")                                                                             ;; set custom file to not meddle with init.el
+(setq make-backup-files nil)                                                                                  ;; no emacs ~ backup files
 (global-unset-key (kbd "C-x C-c"))
-(setq is-windows (eq system-type 'windows-nt))
+(setq is-windows (eq system-type 'windows-nt))                                         
 (setq is-linux (eq system-type 'gnu-linux))
 (setq is-macos (eq system-type 'darwin))
 (setq has-treesitter (>= emacs-major-version 29))
 (unless (executable-find "rg") (error "Install ripgrep, this configuration relies heavy on it's features."))
-(setq use-short-answers t) ;; Always prefer short answers
-(setq image-types (cons 'svg image-types)) ;; macos bug
-(setq mac-command-modifier 'meta) ;; macos again
+(setq use-short-answers t)                                                                                    ;; Always prefer short answers
+(setq image-types (cons 'svg image-types))                                                                    ;; macos issue.
+(setq mac-command-modifier 'meta)                                                                             ;; macos issue.
 (setq recenter-positions '(middle))
-(setq inhibit-startup-screen t) ;; disable default start screen
+(setq inhibit-startup-screen t)                                                                               ;; disable default start screen
 (set-frame-parameter nil 'fullscreen 'maximized)
-(add-to-list 'default-frame-alist '(fullscreen . maximized)) ;; always start frames maximized
-(setq-default frame-title-format '("%e" (:eval (format "%s @ %s" default-directory system-name)))) ;; OS window title
-(menu-bar-mode -1) ;; disable menu bar
-(tool-bar-mode -1) ;; disable tool bar
-(scroll-bar-mode -1) ;; disable scroll bar
-(setq kill-whole-line t) ;; kill line and newline char
-(global-auto-revert-mode +1) ;; Revert buffer to disk state when disk changes under our foot.
-(delete-selection-mode) ;; when selected a text and user types delete text
-(defun jump-up () (interactive) (next-line (* -1 (/ (window-height) 2))) (recenter-top-bottom))
-(defun jump-down () (interactive) (next-line (/ (window-height) 2)) (recenter-top-bottom))
+(add-to-list 'default-frame-alist '(fullscreen . maximized))                                                  ;; always start frames maximized
+(setq-default frame-title-format '("%e" (:eval (format "%s @ %s" default-directory system-name))))            ;; OS window title
+(menu-bar-mode -1)                                                                                            ;; disable menu bar
+(tool-bar-mode -1)                                                                                            ;; disable tool bar
+(scroll-bar-mode -1)                                                                                          ;; disable scroll bar
+(setq kill-whole-line t)                                                                                      ;; kill line and newline char
+(global-auto-revert-mode +1)                                                                                  ;; Revert buffer to disk state when disk changes under our foot.
+(delete-selection-mode)                                                                                       ;; when selected a text and user types delete text
+(defun jump-up () (interactive) (next-line (* -1 (/ (window-height) 2))) (recenter-top-bottom))               ;; Jump up half of window size.
+(defun jump-down () (interactive) (next-line (/ (window-height) 2)) (recenter-top-bottom))                    ;; Jump down half of window size.
+
 (defun edit-init ()
   "Edit this file."
   (interactive)
@@ -45,136 +46,50 @@
       (setq debug-on-error nil)
     (setq debug-on-error t)))
 
-
 ;; Package manager
 ;; With emacs package manager, You should always be careful with what you install
 ;; because even if you don't use it in your init file at all, it will be semi-loaded with emacs at startup.
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)
-(defun install (PKG) (unless (package-installed-p PKG) (package-install PKG)))
-;; (unless package-archive-contents (package-refresh-contents))
+(defun install (PKG)
+  (if (listp PKG)
+      (unless (package-installed-p (car PKG))
+	(if (fboundp 'package-vc-install)
+	    (package-vc-install PKG)
+	(warn "package-vc-install is available from Emacs 29, ignoring this install statement.")))
+      (unless (package-installed-p PKG)
+	(package-install PKG))))
+(unless package-archive-contents  (package-refresh-contents))
 
 ;; Themes
-;; I don't use emacs default theme system because honestly it sucks, You are forced to define themes in seperate files
-;; and by default they will get stacked on each other unless you disable one before enabling other one, so I write these simple
-;; functions that will simply be in this file and no other file bullshit is needed.
-(defun theme-handmadehero ()
-  "Theme from Casey Muratori HandmadeHero Series."
-  (interactive)
-  (global-hl-line-mode +1)
-  (custom-set-faces
-   `(default                          ((t (:foreground "#cdaa7d" :background "#161616"))))
-   `(cursor                           ((t (:background "green"))))
-   `(font-lock-keyword-face           ((t (:foreground "DarkGoldenrod3"))))
-   `(font-lock-type-face              ((t (:foreground "burlywood3"))))
-   `(font-lock-constant-face          ((t (:foreground "#olive drab"))))
-   `(font-lock-variable-name-face     ((t (:foreground "burlywood3"))))
-   `(font-lock-builtin-face           ((t (:foreground "#DAB98F"))))
-   `(font-lock-string-face            ((t (:foreground "olive drab"))))
-   `(font-lock-comment-face           ((t (:foreground "gray50"))))
-   `(font-lock-comment-delimiter-face ((t (:foreground "gray50"))))
-   `(font-lock-doc-face               ((t (:foreground "gray50"))))
-   `(font-lock-function-name-face     ((t (:foreground "burlywood3"))))
-   `(font-lock-doc-string-face        ((t (:foreground "olive drab"))))
-   `(font-lock-preprocessor-face      ((t (:foreground "#8cde94"))))
-   `(font-lock-warning-face           ((t (:foreground "#504038"))))
-   `(region                           ((t (:background "medium blue"))))
-   `(hl-line                          ((t (:background "midnight blue"))))
-   `(vertico-current                  ((t (:inherit hl-line))))
-   `(mode-line                        ((t (:background "#ffffff" :foreground "#000000"))))
-   `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
-   `(show-paren-match                 ((t (:background "burlywood3" :foreground "black"))))
-   `(highlight                        ((t (:foreground nil :background "medium blue"))))))
+(install 'ef-themes)
+(install 'gruber-darker-theme)
+(setq custom-safe-themes t)
 
-(defun theme-brownaysayer ()
-  "Brownish version of Naysayer theme."
-  (interactive)
-  (global-hl-line-mode -1)
-  (custom-set-faces
-   `(default                          ((t (:foreground "#debe95" :background "#161616"))))
-   `(hl-line                          ((t (:background "#252525"))))
-   `(vertico-current                  ((t (:inherit hl-line))))
-   `(region                           ((t (:background  "medium blue"))))
-   `(cursor                           ((t (:background "green"))))
-   `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
-   `(font-lock-type-face              ((t (:foreground "#8cde94"))))
-   `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
-   `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
-   `(font-lock-builtin-face           ((t (:foreground "white"))))
-   `(font-lock-string-face            ((t (:foreground "gray70"))))
-   `(font-lock-comment-face           ((t (:foreground "#3fdf1f"))))
-   `(font-lock-comment-delimiter-face ((t (:foreground "#3fdf1f"))))
-   `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
-   `(font-lock-function-name-face     ((t (:foreground "white"))))
-   `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
-   `(font-lock-warning-face           ((t (:foreground "yellow"))))
-   `(font-lock-note-face              ((t (:foreground "khaki2" ))))
-   `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
-   `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
-   `(show-paren-match                 ((t (:background "mediumseagreen"))))))
+(defun load-theme! (theme)
+  "disable all active themes and then load-theme"
+  (interactive
+   (list
+    (intern (completing-read "Load Theme!: "
+                             (mapcar #'symbol-name
+				     (custom-available-themes))))))
+  (dolist (i custom-enabled-themes)
+    (disable-theme i))
+  (load-theme theme t))
 
-(defun theme-naysayer ()
-  "Theme copied from Jonathan Blow Emacs theme."
-  (interactive)
-  (global-hl-line-mode -1)
-  (custom-set-faces
-   `(default                          ((t (:foreground "#d3b58d" :background "#072629"))))
-   `(hl-line                          ((t (:background "#0c4141"))))
-   `(vertico-current                  ((t (:inherit hl-line))))
-   `(region                           ((t (:background  "medium blue"))))
-   `(cursor                           ((t (:background "lightgreen"))))
-   `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
-   `(font-lock-type-face              ((t (:foreground "#8cde94"))))
-   `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
-   `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
-   `(font-lock-builtin-face           ((t (:foreground "white"))))
-   `(font-lock-string-face            ((t (:foreground "#0fdfaf"))))
-   `(font-lock-comment-face           ((t (:foreground "#3fdf1f"))))
-   `(font-lock-comment-delimiter-face ((t (:foreground "#3fdf1f"))))
-   `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
-   `(font-lock-function-name-face     ((t (:foreground "white"))))
-   `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
-   `(font-lock-warning-face           ((t (:foreground "yellow"))))
-   `(font-lock-note-face              ((t (:foreground "khaki2" ))))
-   `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
-   `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
-   `(show-paren-match                 ((t (:background "mediumseagreen"))))))
+(defun theme-available-p (theme)
+  (member theme (custom-available-themes)))
 
-(defun theme-4coder-fleury ()
-  "Theme from 4coder fleury configuration."
-  (interactive)
-  (global-hl-line-mode +1)
-  (custom-set-faces
-   `(default                          ((t (:foreground "#a08563" :background "#0c0c0c"))))
-   `(cursor                           ((t (:background "#EE7700"))))
-   `(font-lock-keyword-face           ((t (:foreground "#f0c674"))))
-   `(font-lock-operator-face          ((t (:foreground "#907553"))))
-   `(font-lock-punctuation-face       ((t (:foreground "#907553"))))
-   `(font-lock-bracket-face           ((t (:foreground "#907553"))))
-   `(font-lock-delimiter-face         ((t (:foreground "#907553"))))
-   `(font-lock-type-face              ((t (:foreground "#d8a51d"))))
-   `(font-lock-constant-face          ((t (:foreground "#6b8e23"))))
-   `(font-lock-variable-name-face     ((t (:foreground "#b99468"))))
-   `(font-lock-builtin-face           ((t (:foreground "#DAB98F"))))
-   `(font-lock-string-face            ((t (:foreground "#6b8e23"))))
-   `(font-lock-comment-face           ((t (:foreground "#686868"))))
-   `(font-lock-comment-delimiter-face ((t (:foreground "#686868"))))
-   `(font-lock-doc-face               ((t (:foreground "#686868"))))
-   `(font-lock-function-name-face     ((t (:foreground "#cc5735"))))
-   `(font-lock-doc-string-face        ((t (:foreground "#6b8e23"))))
-   `(font-lock-preprocessor-face      ((t (:foreground "#DAB98F"))))
-   `(font-lock-warning-face           ((t (:foreground "#504038"))))
-   `(region                           ((t (:background "#2f2f37"))))
-   `(hl-line                          ((t (:background "#171616"))))
-   `(vertico-current                  ((t (:inherit hl-line))))
-   `(highlight                        ((t (:foreground nil :background "#2f2f37"))))
-   `(mode-line                        ((t (:foreground "#cb9401" :background "#1f1f27"))))
-   `(mode-line-inactive               ((t (:foreground "#cb9401" :background "#1f1f27"))))
-   `(minibuffer-prompt                ((t (:foreground "#a08563") :bold t)))
-   `(show-paren-match                 ((t (:background "#e0741b" :foreground "#000000"))))))
+(if (fboundp 'package-vc-install)
+    (install '(amirreza-themes :vc-backend Git :url "https://github.com/amirrezaask/themes.git"))
+  (warn "Install Emacs 29 to access package-vc-install."))
 
-(theme-handmadehero)
+(cond
+ ((theme-available-p 'naysayer)       (load-theme! 'naysayer))
+ ((theme-available-p 'gruber-darker)  (load-theme! 'gruber-darker))
+ ((theme-available-p 'ef-dark)        (load-theme! 'ef-dark))
+ ((theme-available-p 'modus-vivendi)  (load-theme! 'modus-vivendi)))
 
 ;;;; Minibuffer completion style
 (install 'orderless)
@@ -246,11 +161,9 @@
 
 ;;;; Building And Running
 (setq amirreza-build-history '())
-(setq amirreza-run-history '())
 (setq amirreza-last-build nil)
-(setq amirreza-last-run nil)
 
-(defun build ()
+(defun amirreza-build ()
   "Compile in a directory"
   (interactive)
   (when amirreza-last-build
@@ -258,16 +171,6 @@
   (let* ((default-directory (or (car amirreza-last-build) (read-directory-name "[Build] Directory: " (find-project-root-or-default-directory))))
 	(command (or (car (cdr amirreza-last-build)) (read-shell-command "[Build] Command: " (guess-build-command default-directory) amirreza-build-history))))
     (setq amirreza-last-build `(,default-directory ,command))
-    (compilation-start command)))
-
-(defun run ()
-  "Run in a directory"
-  (interactive)
-  (when amirreza-last-run
-    (unless (y-or-n-p "Use last run configuration?") (setq amirreza-last-run nil)))
-  (let* ((default-directory (or (car amirreza-last-run) (read-directory-name "[Run] Directory: " (find-project-root-or-default-directory))))
-	(command (or (car (cdr amirreza-last-run)) (read-shell-command "[Run] Command: " (guess-run-command default-directory) amirreza-run-history))))
-    (setq amirreza-last-run `(,default-directory ,command))
     (compilation-start command)))
 
 (with-eval-after-load 'compile
@@ -396,19 +299,18 @@
 					  :executeCommandProvider
 					  :inlayHintProvider
 					  ))
-(setq eglot-stay-out-of '(flymake))
+(setq eglot-stay-out-of '(flymake project))
 					  
 (add-hook 'go-mode-hook #'eglot-ensure) ;; Enable eglot by default in Go
 
 ;; Keybindings
+(global-set-key (kbd "<f12>")                                        'xref-find-definitions)
 (global-set-key (kbd "C-o")                                          'find-file) ;; open files
 (global-set-key (kbd "C-w")                                          'amirreza-cut) ;; Cut
 (global-set-key (kbd "M-w")                                          'amirreza-copy) ;; Copy
 (global-set-key (kbd "M-k")                                          'kill-buffer) ;; Kill buffer
-(global-set-key (kbd "M-m")                                          'build) ;; Interactive Build
-(global-set-key (kbd "<f5>")                                         'build) ;; Interactive Build
-(global-set-key (kbd "<f10>")                                        'run)
-(global-set-key (kbd "C-M-m")                                        'run) ;; Interactive Run
+(global-set-key (kbd "M-m")                                          'amirreza-build) ;; Interactive Build
+(global-set-key (kbd "<f5>")                                         'amirreza-build) ;; Interactive Build
 (global-set-key (kbd "M-o")                                          'rg-find-files) ;; Find files in project
 (global-set-key (kbd "C-.")                                          'isearch-forward-thing-at-point)
 (global-set-key (kbd "M-0")                                          'query-replace) ;; Replace pattern with a string

@@ -94,6 +94,7 @@ vim.opt.rtp:prepend(lazypath)
 
 
 require("lazy").setup({
+    "kyazdani42/blue-moon",
     { "rose-pine/neovim",         name = "rose-pine",          opts = { disable_italics = true } },
     { 'shaunsingh/nord.nvim', config = function()
         vim.g.nord_italic = false
@@ -114,7 +115,6 @@ require("lazy").setup({
 
     "tpope/vim-abolish",                    -- useful text stuff
     { "numToStr/Comment.nvim", opts = {} }, -- Comment stuff like a boss
-    "jansedivy/jai.vim",                    -- Jai from Jonathan Blow
     "tpope/vim-sleuth",                     -- set buffer options heuristically
 
     "tpope/vim-fugitive",
@@ -328,4 +328,4 @@ vim.api.nvim_create_user_command("Transparent", transparent, {})
 THIS_FILE = debug.getinfo(1,'S').short_src
 vim.keymap.set("n", "<leader>i", string.format(":e %s<cr>", THIS_FILE))
 
-vim.cmd.colorscheme("nord")
+vim.cmd.colorscheme("gruvbox")
