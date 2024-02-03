@@ -65,6 +65,7 @@
 ;; Themes
 (install 'ef-themes)
 (install 'gruber-darker-theme)
+(install 'doom-themes)
 (setq custom-safe-themes t)
 
 (defun load-theme! (theme)
@@ -86,16 +87,27 @@
   (warn "Install Emacs 29 to access package-vc-install."))
 
 (cond
+ ((theme-available-p 'doom-one)       (load-theme! 'doom-one))
  ((theme-available-p 'naysayer)       (load-theme! 'naysayer))
  ((theme-available-p 'gruber-darker)  (load-theme! 'gruber-darker))
  ((theme-available-p 'ef-dark)        (load-theme! 'ef-dark))
  ((theme-available-p 'modus-vivendi)  (load-theme! 'modus-vivendi)))
 
 ;;;; Minibuffer completion style
+(install 'vertico)
+(install 'consult)
 (install 'orderless)
+(vertico-mode +1)
 (setq completion-styles '(orderless basic)
       completion-category-defaults nil
       completion-category-overrides '((file (styles partial-completion))))
+
+
+;; Modeline
+(install 'doom-modeline)
+(setq doom-modeline-height 40
+      doom-modeline-icon nil)
+(doom-modeline-mode)
 
 ;; Font
 (setq font-family "")
@@ -172,6 +184,7 @@
 	(command (or (car (cdr amirreza-last-build)) (read-shell-command "[Build] Command: " (guess-build-command default-directory) amirreza-build-history))))
     (setq amirreza-last-build `(,default-directory ,command))
     (compilation-start command)))
+
 
 (with-eval-after-load 'compile
   (define-key compilation-mode-map (kbd "<f5>") 'recompile)
@@ -308,18 +321,20 @@
 (global-set-key (kbd "C-o")                                          'find-file) ;; open files
 (global-set-key (kbd "C-w")                                          'amirreza-cut) ;; Cut
 (global-set-key (kbd "M-w")                                          'amirreza-copy) ;; Copy
+(global-set-key (kbd "M-y")                                          'consult-yank-pop)
 (global-set-key (kbd "M-k")                                          'kill-buffer) ;; Kill buffer
 (global-set-key (kbd "M-m")                                          'amirreza-build) ;; Interactive Build
 (global-set-key (kbd "<f5>")                                         'amirreza-build) ;; Interactive Build
 (global-set-key (kbd "M-o")                                          'rg-find-files) ;; Find files in project
 (global-set-key (kbd "C-.")                                          'isearch-forward-thing-at-point)
 (global-set-key (kbd "M-0")                                          'query-replace) ;; Replace pattern with a string
-(global-set-key (kbd "C-;")                                          'goto-line)
+(global-set-key (kbd "C-;")                                          'consult-goto-line)
 (global-set-key (kbd "C->")                                          'end-of-buffer)
 (global-set-key (kbd "C-<")                                          'beginning-of-buffer)
 (global-set-key (kbd "M-n")                                          'jump-down)
 (global-set-key (kbd "M-p")                                          'jump-up)
-(global-set-key (kbd "M-j")                                          'amirreza-grep)
+(global-set-key (kbd "M-j")                                          'consult-ripgrep)
+(global-set-key (kbd "C-M-j")                                        'amirreza-grep)
 (global-set-key (kbd "C-q")                                          'dabbrev-expand)           ;; Try pre defined expansions and if nothing was found expand with emacs dabbrev
 (global-set-key (kbd "C-j")                                          'completion-at-point)       ;; Manual trigger for completion popup.
 (global-set-key (kbd "C-z")                                          'undo)                      ;; Sane undo key
