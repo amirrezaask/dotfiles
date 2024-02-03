@@ -162,6 +162,11 @@ so we make a bit higher, remember if you set it to high it would cause major pau
 #+BEGIN_SRC emacs-lisp :tangle yes
   (global-hl-line-mode +1)
 #+END_SRC
+** Doom Themes
+Awesome theme collection from doom-emacs project.
+#+BEGIN_SRC emacs-lisp :tangle yes
+(install 'doom-themes)
+#+END_SRC
 ** Naysayer
 #+BEGIN_SRC emacs-lisp :tangle yes
 (deftheme naysayer "Inspired by Jonathan Blow (naysayer).")
@@ -285,16 +290,30 @@ so we make a bit higher, remember if you set it to high it would cause major pau
 #+END_SRC
 ** Random theme at startup :winky
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (setq amirreza/themes (append (custom-available-themes) '(4coder-fleury naysayer brownaysayer handmadehero)))
+  (setq amirreza/vendored-themes '(4coder-fleury naysayer brownaysayer handmadehero))
+
+  (defadvice load-theme (before disable-themes-first activate)
+    (dolist (i custom-enabled-themes)
+      (disable-theme i)))
 
   (defun amirreza/set-theme (THEME)
-    (interactive (list (completing-read "Theme: " amirreza/themes)))
-    (enable-theme (completing-read "Theme: " amirreza/themes)))
+    (interactive (list (intern (completing-read "Theme: " (append (custom-available-themes) amirreza/vendored-themes)))))
+    (condition-case nil
+	(enable-theme THEME)
+      (t (load-theme THEME t nil))
+	))
 
 
-  (enable-theme '4coder-fleury)
+  (amirreza/set-theme '4coder-fleury)
 #+END_SRC
 
+** Modeline
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (install 'doom-modeline)
+  (setq doom-modeline-height 35
+	doom-modeline-icon nil)
+  (doom-modeline-mode +1)
+#+END_SRC
 
 * Minibuffer
 ** Algorithm
