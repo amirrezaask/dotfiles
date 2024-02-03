@@ -196,9 +196,6 @@ TODO: Fix indentation in source blocks, it's really annoying.
 
 
 * Theme And UI
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (global-hl-line-mode +1)
-#+END_SRC
 ** Doom Themes
 Awesome theme collection from doom-emacs project.
 #+BEGIN_SRC emacs-lisp :tangle yes
@@ -325,16 +322,16 @@ Awesome theme collection from doom-emacs project.
  `(minibuffer-prompt                ((t (:foreground "#a08563") :bold t)))
  `(show-paren-match                 ((t (:background "#e0741b" :foreground "#000000")))))
 #+END_SRC
+** Abyss
+Coming soon!
 ** Load theme
 #+BEGIN_SRC emacs-lisp :tangle yes
-  (setq amirreza/vendored-themes '(4coder-fleury naysayer brownaysayer handmadehero))
-
-  (defadvice load-theme (before disable-themes-first activate)
-    (dolist (i custom-enabled-themes)
-      (disable-theme i)))
+  (setq amirreza/vendored-themes '(4coder-fleury naysayer brownaysayer handmadehero midnight))
 
   (defun amirreza/set-theme (THEME)
     (interactive (list (intern (completing-read "Theme: " (append (custom-available-themes) amirreza/vendored-themes)))))
+    (dolist (i custom-enabled-themes)
+      (disable-theme i))
     (condition-case nil
 	(enable-theme THEME)
       (t (load-theme THEME t nil))))
