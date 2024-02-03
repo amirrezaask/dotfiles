@@ -66,32 +66,25 @@
 (install 'ef-themes)
 (install 'gruber-darker-theme)
 (install 'doom-themes)
+(if (fboundp 'package-vc-install)
+    (install '(amirreza-themes :vc-backend Git :url "https://github.com/amirrezaask/themes.git"))
+  (warn "Install Emacs 29 to access package-vc-install."))
 (setq custom-safe-themes t)
 
-(defun amirreza/load-theme (theme)
-  "disable all active themes and then load-theme"
-  (interactive
-   (list
-    (intern (completing-read "Load Theme!: "
-                             (mapcar #'symbol-name
-				     (custom-available-themes))))))
+(defadvice load-theme (before disable-themes-first activate)
   (dolist (i custom-enabled-themes)
-    (disable-theme i))
-  (load-theme theme t))
+    (disable-theme i)))
 
 (defun theme-available-p (theme)
   (member theme (custom-available-themes)))
 
-(if (fboundp 'package-vc-install)
-    (install '(amirreza-themes :vc-backend Git :url "https://github.com/amirrezaask/themes.git"))
-  (warn "Install Emacs 29 to access package-vc-install."))
 
 (cond
- ((theme-available-p 'naysayer)       (amirreza/load-theme 'naysayer))
- ((theme-available-p 'doom-one)       (amirreza/load-theme 'doom-one))
- ((theme-available-p 'gruber-darker)  (amirreza/load-theme 'gruber-darker))
- ((theme-available-p 'ef-dark)        (amirreza/load-theme 'ef-dark))
- ((theme-available-p 'modus-vivendi)  (amirreza/load-theme 'modus-vivendi)))
+ ((theme-available-p 'naysayer)       (load-theme 'naysayer))
+ ((theme-available-p 'doom-one)       (load-theme 'doom-one))
+ ((theme-available-p 'gruber-darker)  (load-theme 'gruber-darker))
+ ((theme-available-p 'ef-dark)        (load-theme 'ef-dark))
+ ((theme-available-p 'modus-vivendi)  (load-theme 'modus-vivendi)))
 
 ;;;; Minibuffer (Vertico)
 (install 'vertico)
