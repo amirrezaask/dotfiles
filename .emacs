@@ -63,11 +63,10 @@
 
 ;;;; @Themes
 (install 'ef-themes "Theme pack by protesilas.")
+(install 'fleetish-theme "Theme from fleet editor by Jetbrains.")
 (install 'gruber-darker-theme "Theme from tsoding.")
 (install 'doom-themes "Amazing theme pack from doom-emacs project.")
-(if (fboundp 'package-vc-install)
-    (install '(amirreza-themes :vc-backend Git :url "https://github.com/amirrezaask/themes.git"))
-  (warn "Install Emacs 29 to access package-vc-install."))
+(install '(amirreza-themes :vc-backend Git :url "https://github.com/amirrezaask/themes.git"))
 (setq custom-safe-themes t)
 
 (defadvice load-theme (before disable-themes-first activate)
@@ -88,12 +87,9 @@
 (install 'vertico "Provide a richer minibuffer completion facility, cool thing is that it does not need any hooking up and it will work for everything in the minibuffer.")
 (install 'consult "Set of helper commands that are powered by vertico completion but they are not dependant on it.")
 (install 'orderless "Orderless Completion strategy, sort of like fuzzy but different.")
-(install 'vertico-posframe "Show vertico in a posframe at center of frame instead of minibuffer.") ;; I have mixed feelings about this.
 (vertico-mode +1)
-(vertico-posframe-mode +1)
-
-(setq vertico-count 100
-      vertico-posframe-height (truncate (* (frame-height) 0.5)))
+(setq vertico-count 15
+      vertico-cycle t)
 
 (setq completion-styles '(orderless basic)
       completion-category-defaults nil
@@ -126,7 +122,7 @@
   (interactive)
   (text-scale-decrease 1))
 
-(load-font "Consolas" 13)
+(load-font "Liberation Mono" 13)
 
 ;;;; @DevDocs
 (install 'devdocs "Local index of documents for different tech.")
@@ -164,7 +160,7 @@
   (setenv "PATH" (string-join exec-path ":"))) ;; set emacs process PATH
 
 
-;;;; @Projects
+;;;; @Projects @Git
 (defun find-project-root ()
   "Try to find project root based on deterministic predicates"
   (cond
@@ -172,11 +168,14 @@
    ((or (eq major-mode 'c-mode) (eq major-mode 'c++-mode))  (locate-dominating-file default-directory "build.bat"))
    (t                                                       (locate-dominating-file default-directory ".git"))))
 
+(defun git-repo-p ()
+  (locate-dominating-file default-directory ".git"))
+
 (defun find-project-root-or-default-directory ()
   (or (find-project-root) default-directory))
 
-
 ;;;; @Build
+;; NOTE: maybe we can use compilation-buffer-name-function to have same deterministic behaviour like eshell-buffer-name.
 (defun guess-build-command (DIR)
   (let ((default-directory DIR))
     (cond
@@ -221,7 +220,7 @@
 	 (command (format "grep --exclude-dir=\".git\" --color=auto -nH --null -r -e \"%s\" ." pattern)))
     (compilation-start command 'grep-mode)))
 
-(defun amirreza/grep (dir pattern &optional SPLIT)
+(defun amirreza/grep (dir pattern)
   ""
   (interactive (list (read-directory-name "[Grep] Directory: " (find-project-root-or-default-directory))
 		     (read-string "[Grep] Pattern: " nil amirreza/grep-query-history)))
@@ -229,7 +228,18 @@
    ((or (executable-find "rg") is-windows) (rg dir pattern))
    (t (gnu-grep dir pattern))))
 
+(defun amirreza/igrep ()
+  ""
+  (interactive)
+  (unless (package-installed-p 'consult) (error "consult package is needed for this function."))
+  (let ((dir (find-project-root-or-default-directory)))
+    (cond
+     ((or (executable-find "rg") is-windows) (consult-ripgrep dir ""))
+     ((git-repo-p)                           (consult-git-grep dir ""))
+     (t (consult-grep dir "")))))
+
 (defalias 'grep 'amirreza/grep)
+(defalias 'igrep 'amirreza/igrep)
 
 (with-eval-after-load 'grep
   (define-key grep-mode-map (kbd "<f5>") 'recompile)
@@ -244,8 +254,6 @@
 	 (absfile (expand-file-name relfile default-directory)))
     (find-file absfile)))
 
-(defalias 'find 'rg-find-files)
-
 ;; @QueryReplace
 ;; NOTE: This will also effect y-or-n-p questions, basically pressing <enter> now is considered to be yes.
 (with-eval-after-load 'replace
@@ -259,6 +267,10 @@
 
 ;;;; @Programming
 (install 'go-mode)
+(install 'php-mode)
+(install 'yaml-mode)
+(install 'json-mode)
+(install 'dockerfile-mode)
 
 (defun amirreza/go-hook ()
   (interactive)
@@ -268,13 +280,6 @@
 (add-hook 'go-mode-hook 'amirreza/go-hook)
 
 (setq-default c-default-style "linux" c-basic-offset 4) ;; C/C++ code style
-
-;;; THINGS I HATE
-(install 'php-mode)
-(install 'yaml-mode)
-(install 'json-mode)
-;;; THINGS I HATE ENDED
-
 ;;;; @Copy @Cut
 (defun amirreza/copy ()
   "Either copy region or the current line."
@@ -325,10 +330,15 @@
 (defun amirreza/eshell ()
   (interactive)
   (let* ((dir (find-project-root-or-default-directory))
-	(eshell-buffer-name (format "<*Eshell-%s*>" dir)))
-    (eshell)))
-(global-set-key (kbd "<f2>") 'amirreza/eshell)
+	 (eshell-buffer-name (format "<*Eshell-%s*>" dir))
+	 (existing-buffer (get-buffer eshell-buffer-name)))
 
+    (if existing-buffer
+	(switch-to-buffer existing-buffer)
+      (eshell))))
+
+(global-set-key (kbd "<f2>") 'amirreza/eshell)
+(global-set-key (kbd "C-`") 'amirreza/eshell)
 ;;;; @Keybindings
 (global-unset-key (kbd "C-x C-c"))
 (global-set-key (kbd "C-h d")                                        'devdocs-lookup)
@@ -341,6 +351,7 @@
 (global-set-key (kbd "M-m")                                          'amirreza/build) ;; Interactive Build
 (global-set-key (kbd "<f5>")                                         'amirreza/build) ;; Interactive Build
 (global-set-key (kbd "M-o")                                          'rg-find-files) ;; Find files in project
+(global-set-key (kbd "C-x p f")                                      'rg-find-files) ;; Find files in project
 (global-set-key (kbd "C-.")                                          'isearch-forward-thing-at-point)
 (global-set-key (kbd "M-0")                                          'query-replace) ;; Replace pattern with a string
 (global-set-key (kbd "C-;")                                          'consult-goto-line)
@@ -348,8 +359,8 @@
 (global-set-key (kbd "C-<")                                          'beginning-of-buffer)
 (global-set-key (kbd "M-n")                                          'jump-down)
 (global-set-key (kbd "M-p")                                          'jump-up)
-(global-set-key (kbd "M-j")                                          'consult-ripgrep)
-(global-set-key (kbd "C-M-j")                                        'amirreza/grep)
+(global-set-key (kbd "M-j")                                          'amirreza/igrep) ;; Interactive grep
+(global-set-key (kbd "C-M-j")                                        'amirreza/grep)  ;; Persistent grep
 (global-set-key (kbd "C-q")                                          'dabbrev-expand)           ;; Try pre defined expansions and if nothing was found expand with emacs dabbrev
 (global-set-key (kbd "C-j")                                          'completion-at-point)       ;; Manual trigger for completion popup.
 (global-set-key (kbd "C-z")                                          'undo)                      ;; Sane undo key
