@@ -62,6 +62,42 @@ so we make a bit higher, remember if you set it to high it would cause major pau
 #+END_SRC
 
 
+* Font
+#+BEGIN_SRC emacs-lisp :tangle yes
+(setq font-family "")
+(defun load-font (font fontsize)
+  "Loads a font."
+  (interactive (list (read-string "Font Family: ") (read-number "Font Size: ")))
+  (let ((fontstring (format "%s %d" font fontsize)))
+    (setq font-family font)
+    (add-to-list 'default-frame-alist `(font . ,fontstring))
+    (set-frame-font fontstring nil t)
+    (set-face-attribute 'default t :font fontstring)))
+
+(defun set-font-size (fontsize)
+  "Set a font size"
+  (interactive (list (read-number "Font Size: ")))
+  (let ((fontstring (format "%s %d" font-family fontsize)))
+    (add-to-list 'default-frame-alist `(font . ,fontstring))
+    (set-frame-font fontstring nil t)
+    (set-face-attribute 'default t :font fontstring)))
+
+(defun amirreza/text-scale-increase ()
+  (interactive)
+  (text-scale-increase 1))
+
+(defun amirreza/text-scale-decrease ()
+  (interactive)
+  (text-scale-decrease 1))
+
+(load-font "Consolas" 13)
+
+(global-set-key (kbd "C-=")                                          'amirreza/text-scale-increase)
+(global-set-key (kbd "C--")                                          'amirreza/text-scale-decrease)
+  
+#+END_SRC
+
+
 * Environment variables
 #+BEGIN_SRC emacs-lisp :tangle yes
 (defun home (path)
@@ -153,6 +189,7 @@ so we make a bit higher, remember if you set it to high it would cause major pau
 
 
 * Org mode
+TODO: Fix indentation in source blocks, it's really annoying.
 #+BEGIN_SRC emacs-lisp :tangle yes
 (setq org-startup-folded t)
 #+END_SRC
@@ -288,7 +325,7 @@ Awesome theme collection from doom-emacs project.
  `(minibuffer-prompt                ((t (:foreground "#a08563") :bold t)))
  `(show-paren-match                 ((t (:background "#e0741b" :foreground "#000000")))))
 #+END_SRC
-** Random theme at startup :winky
+** Load theme
 #+BEGIN_SRC emacs-lisp :tangle yes
   (setq amirreza/vendored-themes '(4coder-fleury naysayer brownaysayer handmadehero))
 
@@ -300,20 +337,11 @@ Awesome theme collection from doom-emacs project.
     (interactive (list (intern (completing-read "Theme: " (append (custom-available-themes) amirreza/vendored-themes)))))
     (condition-case nil
 	(enable-theme THEME)
-      (t (load-theme THEME t nil))
-	))
+      (t (load-theme THEME t nil))))
 
-
-  (amirreza/set-theme '4coder-fleury)
+  (amirreza/set-theme 'naysayer)
 #+END_SRC
 
-** Modeline
-#+BEGIN_SRC emacs-lisp :tangle yes
-  (install 'doom-modeline)
-  (setq doom-modeline-height 35
-	doom-modeline-icon nil)
-  (doom-modeline-mode +1)
-#+END_SRC
 
 * Minibuffer
 ** Algorithm
@@ -334,42 +362,6 @@ Awesome theme collection from doom-emacs project.
 ** handy minibuffer functions
 #+BEGIN_SRC emacs-lisp :tangle yes
 (install 'consult "Set of helper commands that are powered by vertico completion but they are not dependant on it.")
-#+END_SRC
-
-
-* Font
-#+BEGIN_SRC emacs-lisp :tangle yes
-(setq font-family "")
-(defun load-font (font fontsize)
-  "Loads a font."
-  (interactive (list (read-string "Font Family: ") (read-number "Font Size: ")))
-  (let ((fontstring (format "%s %d" font fontsize)))
-    (setq font-family font)
-    (add-to-list 'default-frame-alist `(font . ,fontstring))
-    (set-frame-font fontstring nil t)
-    (set-face-attribute 'default t :font fontstring)))
-
-(defun set-font-size (fontsize)
-  "Set a font size"
-  (interactive (list (read-number "Font Size: ")))
-  (let ((fontstring (format "%s %d" font-family fontsize)))
-    (add-to-list 'default-frame-alist `(font . ,fontstring))
-    (set-frame-font fontstring nil t)
-    (set-face-attribute 'default t :font fontstring)))
-
-(defun amirreza/text-scale-increase ()
-  (interactive)
-  (text-scale-increase 1))
-
-(defun amirreza/text-scale-decrease ()
-  (interactive)
-  (text-scale-decrease 1))
-
-(load-font "Liberation Mono" 13)
-
-(global-set-key (kbd "C-=")                                          'amirreza/text-scale-increase)
-(global-set-key (kbd "C--")                                          'amirreza/text-scale-decrease)
-  
 #+END_SRC
 
 
