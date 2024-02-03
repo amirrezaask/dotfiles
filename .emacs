@@ -21,15 +21,15 @@
       recenter-positions '(middle)
       inhibit-startup-screen t              ;; disable default start screen
       )
-
+(set-default-coding-systems 'utf-8) ;; always use UTF8
 (set-frame-parameter nil 'fullscreen 'maximized) ;; Start emacs in maximized state.
-(add-to-list 'default-frame-alist '(fullscreen . maximized))                                                  ;; always start frames maximized
+(add-to-list 'default-frame-alist '(fullscreen . maximized)) ;; always start frames maximized
 
-(setq-default frame-title-format '("%e" (:eval (format "%s @ %s" default-directory system-name))))            ;; OS window title
+(setq-default frame-title-format '("%e" (:eval (format "%s @ %s" default-directory system-name)))) ;; OS window title
 
-(menu-bar-mode -1)                                                                                            ;; disable menu bar
-(tool-bar-mode -1)                                                                                            ;; disable tool bar
-(scroll-bar-mode -1)                                                                                          ;; disable scroll bar
+(menu-bar-mode -1) ;; disable menu bar
+(tool-bar-mode -1) ;; disable tool bar
+(scroll-bar-mode -1) ;; disable scroll bar
 (unless (executable-find "rg") (error "Install ripgrep, this configuration relies heavy on it's features."))
 
 ;;;; @Package_Manager
@@ -63,7 +63,6 @@
 
 ;;;; @Themes
 (install 'ef-themes "Theme pack by protesilas.")
-(install 'fleetish-theme "Theme from fleet editor by Jetbrains.")
 (install 'gruber-darker-theme "Theme from tsoding.")
 (install 'doom-themes "Amazing theme pack from doom-emacs project.")
 (install '(amirreza-themes :vc-backend Git :url "https://github.com/amirrezaask/themes.git"))
@@ -174,26 +173,39 @@
 (defun find-project-root-or-default-directory ()
   (or (find-project-root) default-directory))
 
-;;;; @Build
+;;;; @Compile
 ;; NOTE: maybe we can use compilation-buffer-name-function to have same deterministic behaviour like eshell-buffer-name.
-(defun guess-build-command (DIR)
+(defun amirreza/compile-buffer-name-function (MODE)
+  (let ((dir (find-project-root-or-default-directory)))
+    (format "<*Compile-%s*>" dir)))
+
+(setq-default compilation-buffer-name-function 'amirreza/compile-buffer-name-function)
+
+(defun guess-compile-command (DIR)
   (let ((default-directory DIR))
     (cond
      ((file-exists-p "build.bat") "build.bat")
      ((file-exists-p "go.mod")    "go build -v "))))
 
-(setq amirreza/build-history '())
-(setq amirreza/last-build nil)
+(setq amirreza/compile-history '())
+(setq amirreza/last-compile nil)
 
-(defun amirreza/build ()
+(defun amirreza/compile ()
   "Compile in a directory"
   (interactive)
-  (when amirreza/last-build
-    (unless (y-or-n-p "Use last build configuration?") (setq amirreza/last-build nil)))
-  (let* ((default-directory (or (car amirreza/last-build) (read-directory-name "[Build] Directory: " (find-project-root-or-default-directory))))
-	(command (or (car (cdr amirreza/last-build)) (read-shell-command "[Build] Command: " (guess-build-command default-directory) amirreza/build-history))))
-    (setq amirreza/last-build `(,default-directory ,command))
+  (when amirreza/last-compile
+    (unless (y-or-n-p "Use last build configuration?") (setq amirreza/last-compile nil)))
+  (let* ((default-directory (or (car amirreza/last-compile) (read-directory-name "[Build] Directory: " (find-project-root-or-default-directory))))
+	(command (or (car (cdr amirreza/last-compile)) (read-shell-command "[Build] Command: " (guess-compile-command default-directory) amirreza/compile-history))))
+    (setq amirreza/last-compile `(,default-directory ,command))
     (compilation-start command)))
+
+(defun amirreza/jump-to-compilation-or-compile ()
+  (interactive)
+  (let ((buf (get-buffer (amirreza/compile-buffer-name-function nil))))
+  (if buf
+      (switch-to-buffer buf)
+    (amirreza/compile))))
 
 (with-eval-after-load 'compile
   (define-key compilation-mode-map (kbd "<f5>") 'recompile)
@@ -296,7 +308,7 @@
     (kill-region (line-beginning-position) (line-end-position)))) ;; copy current line
 
 
-;;;; Autocomplete @Corfu
+;;;; @Autocomplete @Corfu
 (install 'corfu)
 (setq corfu-auto nil)
 (global-corfu-mode +1)
@@ -327,6 +339,7 @@
 
 
 ;;;; @Eshell
+(setq eshell-visual-subcommands '("git" "diff" "log" "show"))
 (defun amirreza/eshell ()
   (interactive)
   (let* ((dir (find-project-root-or-default-directory))
@@ -339,17 +352,21 @@
 
 (global-set-key (kbd "<f2>") 'amirreza/eshell)
 (global-set-key (kbd "C-`") 'amirreza/eshell)
+
 ;;;; @Keybindings
 (global-unset-key (kbd "C-x C-c"))
+(global-set-key (kbd "M-h")                                          'previous-buffer)
+(global-set-key (kbd "M-l")                                          'next-buffer)
 (global-set-key (kbd "C-h d")                                        'devdocs-lookup)
 (global-set-key (kbd "<f12>")                                        'xref-find-definitions)
+(global-set-key (kbd "C-<f12>")                                      'xref-find-references)
 (global-set-key (kbd "C-o")                                          'find-file) ;; open files
 (global-set-key (kbd "C-w")                                          'amirreza/cut) ;; Cut
 (global-set-key (kbd "M-w")                                          'amirreza/copy) ;; Copy
 (global-set-key (kbd "M-y")                                          'consult-yank-pop)
 (global-set-key (kbd "M-k")                                          'kill-buffer) ;; Kill buffer
-(global-set-key (kbd "M-m")                                          'amirreza/build) ;; Interactive Build
-(global-set-key (kbd "<f5>")                                         'amirreza/build) ;; Interactive Build
+(global-set-key (kbd "M-m")                                          'amirreza/jump-to-compilation-or-compile) ;; Interactive Build
+(global-set-key (kbd "<f5>")                                         'amirreza/jump-to-compilation-or-compile) ;; Interactive Build
 (global-set-key (kbd "M-o")                                          'rg-find-files) ;; Find files in project
 (global-set-key (kbd "C-x p f")                                      'rg-find-files) ;; Find files in project
 (global-set-key (kbd "C-.")                                          'isearch-forward-thing-at-point)
