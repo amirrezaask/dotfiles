@@ -68,7 +68,7 @@
 (install 'doom-themes)
 (setq custom-safe-themes t)
 
-(defun load-theme! (theme)
+(defun amirreza/load-theme (theme)
   "disable all active themes and then load-theme"
   (interactive
    (list
@@ -87,27 +87,26 @@
   (warn "Install Emacs 29 to access package-vc-install."))
 
 (cond
- ((theme-available-p 'doom-one)       (load-theme! 'doom-one))
- ((theme-available-p 'naysayer)       (load-theme! 'naysayer))
- ((theme-available-p 'gruber-darker)  (load-theme! 'gruber-darker))
- ((theme-available-p 'ef-dark)        (load-theme! 'ef-dark))
- ((theme-available-p 'modus-vivendi)  (load-theme! 'modus-vivendi)))
+ ((theme-available-p 'naysayer)       (amirreza/load-theme 'naysayer))
+ ((theme-available-p 'doom-one)       (amirreza/load-theme 'doom-one))
+ ((theme-available-p 'gruber-darker)  (amirreza/load-theme 'gruber-darker))
+ ((theme-available-p 'ef-dark)        (amirreza/load-theme 'ef-dark))
+ ((theme-available-p 'modus-vivendi)  (amirreza/load-theme 'modus-vivendi)))
 
-;;;; Minibuffer completion style
+;;;; Minibuffer (Vertico)
 (install 'vertico)
 (install 'consult)
 (install 'orderless)
+(install 'vertico-posframe)
 (vertico-mode +1)
+(vertico-posframe-mode +1)
+
+(setq vertico-count 100
+      vertico-posframe-height (truncate (* (frame-height) 0.5)))
+
 (setq completion-styles '(orderless basic)
       completion-category-defaults nil
       completion-category-overrides '((file (styles partial-completion))))
-
-
-;; Modeline
-(install 'doom-modeline)
-(setq doom-modeline-height 40
-      doom-modeline-icon nil)
-(doom-modeline-mode)
 
 ;; Font
 (setq font-family "")
@@ -130,6 +129,13 @@
 
 (load-font "Consolas" 13)
 
+;; DevDocs, locally install documents and then query on them.
+(install 'devdocs)
+
+;; DumbJump
+(install 'dumb-jump)
+(add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
+
 ;; Env and PATH
 (defun home (path)
   (expand-file-name path (getenv "HOME")))
@@ -139,6 +145,7 @@
   (add-to-list 'exec-path "/usr/local/go/bin")
   (add-to-list 'exec-path (home ".cargo/bin"))
   (add-to-list 'exec-path "/opt/homebrew/bin"))
+
 
 (add-to-list 'exec-path (home "bin"))
 (when is-windows
@@ -242,16 +249,24 @@
   (define-key query-replace-map (kbd "<return>") 'act))
 
 ;;;; Dabbrev
-(setq dabbrev-case-replace nil)
-(setq dabbrev-case-fold-search t)
-(setq dabbrev-upcase-means-case-search nil)
+(setq dabbrev-upcase-means-case-search t
+      dabbrev-case-replace nil
+      dabbrev-case-fold-search t
+      dabbrev-upcase-means-case-search nil)
 
 ;;;; Programming
 (install 'go-mode)
 
+
+;; So long mode
+(install 'so-long)
+(global-so-long-mode +1)
+
 (defun amirreza-go-hook ()
   (interactive)
+  (setq-local devdocs-current-docs '(go))
   (add-hook 'before-save-hook 'gofmt-before-save 0 t))
+
 (add-hook 'go-mode-hook 'amirreza-go-hook)
 
 (setq-default c-default-style "linux" c-basic-offset 4) ;; C/C++ code style
@@ -317,6 +332,7 @@
 (add-hook 'go-mode-hook #'eglot-ensure) ;; Enable eglot by default in Go
 
 ;; Keybindings
+(global-set-key (kbd "C-h d")                                        'devdocs-lookup)
 (global-set-key (kbd "<f12>")                                        'xref-find-definitions)
 (global-set-key (kbd "C-o")                                          'find-file) ;; open files
 (global-set-key (kbd "C-w")                                          'amirreza-cut) ;; Cut
