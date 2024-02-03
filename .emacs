@@ -1,6 +1,6 @@
-(setq amirreza/emacs-starting-time (float-time))                                                              ;; Store current time for further analysis.
+(setq amirreza/emacs-starting-time (float-time)) ;; Store current time for further analysis.
 (when load-file-name
-  (setq BASE_PATH (file-name-directory load-file-name))                                                       ;; Store this file location.
+  (setq BASE_PATH (file-name-directory load-file-name)) ;; Store this file location.
   (setq INIT_FILE load-file-name))
 
 (setq frame-inhibit-implied-resize t     ;; Don't let emacs to resize frame when something inside changes
@@ -388,9 +388,6 @@
   (define-key rectangle-mark-mode-map (kbd "C-r")                    'string-rectangle))
 (global-set-key (kbd "M-[")                                          'kmacro-start-macro)         ;; start recording keyboard macro.
 (global-set-key (kbd "M-]")                                          'kmacro-end-macro)           ;; end recording keyboard macro.
-(global-set-key (kbd "C-3")                                          'split-window-horizontally)
-(global-set-key (kbd "C-,")                                          'other-window)
-(global-set-key (kbd "C-2")                                          'split-window-vertically)
 (global-set-key (kbd "C-<return>")                                   'save-buffer)               ;; Save with one combo not C-x C-s shit
 (global-set-key (kbd "C-=")                                          'amirreza/text-scale-increase)
 (global-set-key (kbd "C--")                                          'amirreza/text-scale-decrease)
