@@ -4,7 +4,7 @@ Simple configurations for Neovim and Emacs, I tend to use both, I like them both
 ## Configs
 
 - [Neovim](https://github.com/amirrezaask/dotfiles/blob/master/nvim-init.lua)
-- [Emacs](https://github.com/amirrezaask/dotfiles/blob/master/.emacs)
+- [Emacs](https://github.com/amirrezaask/dotfiles/blob/master/emacs.org)
 
 ## Resources
 
