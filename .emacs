@@ -106,16 +106,18 @@
       (unless (package-installed-p PKG)
 	(package-install PKG))))
 
-;; Text Editing
-(setq kill-whole-line t)                                                                                      ;; kill line and newline char
-(global-auto-revert-mode +1)                                                                                  ;; Revert buffer to disk state when disk changes under our foot.
-(delete-selection-mode)                                                                                       ;; when selected a text and user types delete text
+;; @Section Editing
+(setq kill-whole-line t) ;; kill line and newline char
+(global-auto-revert-mode +1) ;; Revert buffer to disk state when disk changes under our foot.
+(delete-selection-mode) ;; when selected a text and user types delete text
 
-;; Help Emacs not choke on long lines.
 (install 'so-long "So emacs can handle long lines :))")
 (global-so-long-mode +1)
 (with-eval-after-load 'replace
   (define-key query-replace-map (kbd "<return>") 'act))
+
+(install 'vlf "Special handling of very large files")
+(require 'vlf-setup)
 
 (setq dabbrev-upcase-means-case-search t
       dabbrev-case-replace nil
@@ -153,7 +155,7 @@
 (global-set-key (kbd "M-SPC")                                        'rectangle-mark-mode)
 
 
-;; Themes
+;; @Section Themes
 (install 'doom-themes)
 
 (deftheme naysayer "Inspired by Jonathan Blow (naysayer).")
@@ -181,9 +183,9 @@
  `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
  `(show-paren-match                 ((t (:background "mediumseagreen")))))
 
-(deftheme Chocolate "Browm theme inspired by Jonathan Blow (naysayer)")
+(deftheme Dirt "Browm theme inspired by Jonathan Blow (naysayer)")
 (custom-theme-set-faces
- 'Chocolate
+ 'Dirt
  `(default                          ((t (:foreground "#debe95" :background "#161616"))))
  `(hl-line                          ((t (:background "#252525"))))
  `(vertico-current                  ((t (:background "#252525"))))
@@ -263,7 +265,7 @@
  `(minibuffer-prompt                ((t (:foreground "#a08563") :bold t)))
  `(show-paren-match                 ((t (:background "#e0741b" :foreground "#000000")))))
 
-(setq amirreza/vendored-themes '(4coder-fleury naysayer Chocolate handmadehero))
+(setq amirreza/vendored-themes '(4coder-fleury naysayer Dirt handmadehero))
 
 (defun amirreza/set-theme (THEME)
   (interactive (list (intern (completing-read "Theme: " (append (custom-available-themes) amirreza/vendored-themes)))))
@@ -273,28 +275,27 @@
       (enable-theme THEME)
     (t (load-theme THEME t nil))))
 
-(amirreza/set-theme 'brownaysayer)
+(amirreza/set-theme 'Dirt)
 
-;; Minibuffer enhancement
+;; @Section: Minibuffer enhancement
 (install 'orderless "Orderless Completion strategy, sort of like fuzzy but different.")
 (setq completion-styles '(orderless basic)
       completion-category-defaults nil
       completion-category-overrides '((file (styles partial-completion))))
 
-(install 'vertico "Provide a richer minibuffer completion facility, cool thing is that it does not need any hooking up and it will work for everything in the minibuffer.")
+(install 'vertico "Provides a richer minibuffer completion facility, cool thing is that it does not need any hooking up and it will work for everything in the minibuffer.")
 (vertico-mode +1)
-(setq vertico-count 15
+(setq vertico-count 10
       vertico-cycle t)
 
 (install 'consult "Set of helper commands that are powered by vertico completion but they are not dependant on it.")
-
-;; XRef stuff.
+;; @Section XRef stuff.
 (install 'dumb-jump "Poor's man Jump to def/dec/ref. (using grep)")
 (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
 (global-set-key (kbd "<f12>")   'xref-find-definitions)
 (global-set-key (kbd "C-<f12>") 'xref-find-references)
 
-;; Buffer stuff
+;; @Section Buffer stuff
 (defun jump-up () (interactive) (next-line (* -1 (/ (window-height) 2))) (recenter-top-bottom))
 (defun jump-down () (interactive) (next-line (/ (window-height) 2)) (recenter-top-bottom))
 (global-set-key (kbd "C->") 'end-of-buffer)
@@ -303,7 +304,7 @@
 (global-set-key (kbd "M-p") 'jump-up)
 (global-set-key (kbd "C-;") 'consult-goto-line)
 
-;; File stuff
+;; @Section File stuff
 (global-set-key (kbd "C-o") 'find-file) ;; open files
 (global-set-key (kbd "M-o") 'rg-find-files) ;; Find files in project
 (global-set-key (kbd "C-x p f") 'rg-find-files) ;; Find files in project
@@ -323,10 +324,10 @@
 
 (global-set-key (kbd "<f1>") 'edit-init)
 
-;; ISearch
+;; @Section ISearch
 (global-set-key (kbd "C-.") 'isearch-forward-thing-at-point)
 
-;; Project based commands
+;; @Section Project based commands
 (defun find-project-root ()
   "Try to find project root based on deterministic predicates"
   (cond
@@ -346,7 +347,7 @@
 
 (setq-default compilation-buffer-name-function 'amirreza/compile-buffer-name-function)
 
-;; Compilation stuff
+;; @Section Compilation
 (defun guess-compile-command (DIR)
   (let ((default-directory DIR))
     (cond
@@ -374,7 +375,7 @@
 (global-set-key (kbd "<f5>") 'amirreza/compile)
 
 
-;; GREP stuff
+;; @Section Grep
 (setq amirreza/grep-query-history '())
 (defun rg (dir pattern)
   "runs Ripgrep program in a compilation buffer."
@@ -424,9 +425,8 @@
   (define-key grep-mode-map (kbd "k") 'kill-compilation))
 
 
-;; Programming Modes
-
-;;; Golang
+;; @Section Programming
+;;; @Golang
 (install 'go-mode)
 (defun amirreza/go-hook ()
   (interactive)
@@ -434,10 +434,10 @@
   (add-hook 'before-save-hook 'gofmt-before-save 0 t))
 (add-hook 'go-mode-hook 'amirreza/go-hook)
 
-;; C/C++
+;; @C/C++
 (setq-default c-default-style "linux" c-basic-offset 4) ;; C/C++ code style
 
-;; Elisp
+;; @Elisp
 (defun toggle-debug-mode ()
   "Toggle Emacs debug mode." 
   (interactive)
@@ -452,12 +452,12 @@
 (install 'json-mode)
 (install 'dockerfile-mode)
 
-;; Autocomplete popup in buffer
+;; @Section Autocomplete
 (install 'corfu)
 (setq corfu-auto nil)
 (global-corfu-mode +1)
 
-;; Eglot (LSP client)
+;; @Section Eglot (LSP client)
 (unless (>= emacs-major-version 29) (install 'eglot))
 (setq eglot-ignored-server-capabilities '(
 					  :hoverProvider
@@ -478,7 +478,7 @@
 
 (add-hook 'go-mode-hook #'eglot-ensure)
 
-;; EShell
+;; @Section EShell
 (setq eshell-visual-subcommands '("git" "diff" "log" "show"))
 (defun amirreza/eshell ()
   (interactive)
@@ -494,7 +494,7 @@
 (global-set-key (kbd "<f2>") 'amirreza/eshell)
 (global-set-key (kbd "C-`") 'amirreza/eshell)
 
-;; Benchmark startup and report
+;; @Section Benchmark startup and report
 (defvar amirreza/emacs-init-took (* (float-time (time-subtract (float-time) amirreza/emacs-starting-time)) 1000) "Time took to load my init file, value is in milliseconds.")
 (defvar emacs-init-time-took (* (string-to-number (emacs-init-time "%f")) 1000) "Time took Emacs to boot, value is in milliseconds.")
 (setq amirreza/emacs-init-log-message (format "Amirreza emacs init took %fms, Emacs init took: %fms" amirreza/emacs-init-took emacs-init-time-took))
