@@ -182,7 +182,7 @@
  `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
  `(show-paren-match                 ((t (:background "mediumseagreen")))))
 
-(deftheme Dirt "Browm theme inspired by Jonathan Blow (naysayer)")
+(deftheme Dirt "Brown theme inspired by Jonathan Blow (naysayer)")
 (custom-theme-set-faces
  'Dirt
  `(default                          ((t (:foreground "#debe95" :background "#161616"))))
@@ -302,6 +302,12 @@
 (global-set-key (kbd "M-n") 'jump-down)
 (global-set-key (kbd "M-p") 'jump-up)
 (global-set-key (kbd "C-;") 'consult-goto-line)
+
+;; @Section Window
+(defun amirreza/--split-window-preferred-function ())
+(setq split-window-preferred-function 'amirreza/--split-window-preferred-function) ;; No splitting windows
+(split-window-horizontally)
+
 
 ;; @Section File stuff
 (global-set-key (kbd "C-o") 'find-file) ;; open files
