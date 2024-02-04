@@ -141,19 +141,18 @@
 (global-set-key (kbd "C-w")                                          'amirreza/cut) ;; Cut
 (global-set-key (kbd "M-w")                                          'amirreza/copy) ;; Copy
 (global-set-key (kbd "M-y")                                          'consult-yank-pop)
-(global-set-key (kbd "M-[")                                          'kmacro-start-macro)         ;; start recording keyboard macro.
-(global-set-key (kbd "M-]")                                          'kmacro-end-macro)           ;; end recording keyboard macro.
+(global-set-key (kbd "M-[")                                          'kmacro-start-macro)
+(global-set-key (kbd "M-]")                                          'kmacro-end-macro)  
 (with-eval-after-load 'rect
   (define-key rectangle-mark-mode-map (kbd "C-i")                    'string-insert-rectangle)
   (define-key rectangle-mark-mode-map (kbd "C-r")                    'string-rectangle))
-(global-set-key (kbd "C-<return>")                                   'save-buffer)               ;; Save with one combo not C-x C-s shit
-(global-set-key (kbd "C-q")                                          'dabbrev-expand)           ;; Try pre defined expansions and if nothing was found expand with emacs dabbrev
-(global-set-key (kbd "C-j")                                          'completion-at-point)       ;; Manual trigger for completion popup.
-(global-set-key (kbd "C-z")                                          'undo)                      ;; Sane undo key
+(global-set-key (kbd "C-<return>")                                   'save-buffer) ;; Save with one combo not C-x C-s shit
+(global-set-key (kbd "C-q")                                          'dabbrev-expand) ;; Try pre defined expansions and if nothing was found expand with emacs dabbrev
+(global-set-key (kbd "C-j")                                          'completion-at-point) ;; Manual trigger for completion popup.
+(global-set-key (kbd "C-z")                                          'undo) ;; Sane undo key
 (global-set-key (kbd "M-0")                                          'query-replace) ;; Replace pattern with a string
 (global-set-key (kbd "M-\\")                                         'kmacro-end-and-call-macro) ;; execute keyboard macro.
 (global-set-key (kbd "M-SPC")                                        'rectangle-mark-mode)
-
 
 ;; @Section Themes
 (install 'doom-themes)
@@ -415,7 +414,7 @@
     (cond
      ((or (executable-find "rg") is-windows) (consult-ripgrep dir ""))
      ((git-repo-p)                           (consult-git-grep dir ""))
-     (t (consult-grep dir "")))))
+     (t                                      (consult-grep dir "")))))
 
 (global-set-key (kbd "M-j") 'amirreza/igrep)
 (global-set-key (kbd "C-M-j") 'amirreza/grep)
@@ -492,7 +491,6 @@
       (eshell))))
 
 (global-set-key (kbd "<f2>") 'amirreza/eshell)
-(global-set-key (kbd "C-`") 'amirreza/eshell)
 
 ;; @Section Benchmark startup and report
 (defvar amirreza/emacs-init-took (* (float-time (time-subtract (float-time) amirreza/emacs-starting-time)) 1000) "Time took to load my init file, value is in milliseconds.")
