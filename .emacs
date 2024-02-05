@@ -69,7 +69,7 @@
   (interactive)
   (text-scale-decrease 1))
 
-(amirreza/set-font "Iosevka" 13)
+(amirreza/set-font "Consolas" 13)
 
 (global-set-key (kbd "C-=")  'amirreza/text-scale-increase)
 (global-set-key (kbd "C--")  'amirreza/text-scale-decrease)
@@ -298,8 +298,6 @@
 				 "    "
 				 (vc-mode vc-mode)
 				 ))
-
-
 ;; @Section Window stuff
 (setq display-buffer-alist '(("\\*compile.*\\*"
 			      (display-buffer-in-side-window)
@@ -401,21 +399,19 @@
 
 
 ;; @Section Grep
-(setq amirreza/grep-query-history '())
 (defun rg (dir pattern)
   "runs Ripgrep program in a compilation buffer."
   (interactive (list (read-directory-name "[Ripgrep] Directory: " (find-project-root-or-default-directory))
-		     (read-string "[Ripgrep] Pattern: " nil amirreza/grep-query-history)))
+		     (read-string "[Ripgrep] Pattern: " nil)))
   (unless (executable-find "rg") (error "ripgrep executable not found, install from https://github.com/BurntSushi/ripgrep/releases"))
 
-  (add-to-list 'amirreza/grep-query-history pattern)
   (let* ((default-directory dir)
 	 (command (format "rg --vimgrep \"%s\" ." pattern)))
     (compilation-start command 'grep-mode)))
 
 (defun gnu-grep (dir pattern)
   (interactive (list (read-directory-name "[grep] Directory: " (find-project-root-or-default-directory))
-		     (read-string "[grep] Pattern: " nil amirreza/grep-query-history)))
+		     (read-string "[grep] Pattern: " nil)))
   (unless (executable-find "grep") (error "Gnu Grep executable not found"))
   (add-to-list 'amirreza/grep-query-history pattern)
 
@@ -427,7 +423,7 @@
 (defun amirreza/grep (dir pattern)
   ""
   (interactive (list (read-directory-name "[Grep] Directory: " (find-project-root-or-default-directory))
-		     (read-string "[Grep] Pattern: " nil amirreza/grep-query-history)))
+		     (read-string "[Grep] Pattern: " nil)))
   (cond
    ((or (executable-find "rg") is-windows) (rg dir pattern))
    (t (gnu-grep dir pattern))))
@@ -507,6 +503,11 @@
 
 ;; @Section EShell
 (setq eshell-visual-subcommands '("git" "diff" "log" "show"))
+
+(defun amirreza/eshell-hook ()
+  (define-key eshell-mode-map (kbd "M-;") 'delete-window))
+
+(add-hook 'eshell-mode-hook 'amirreza/eshell-hook)
 (defun amirreza/eshell ()
   (interactive)
   (let* ((dir (find-project-root-or-default-directory))
@@ -515,10 +516,9 @@
 	 (existing-buffer (get-buffer eshell-buffer-name)))
 
     (if existing-buffer
-	(switch-to-buffer existing-buffer)
+	(select-window (display-buffer existing-buffer)) ;; NOTE: we have to use display-buffer so our display-buffer-alist configs are used.
       (eshell))))
 
-(global-set-key (kbd "<f2>") 'amirreza/eshell)
 (global-set-key (kbd "M-;") 'amirreza/eshell)
 
 ;; @Section Benchmark startup and report
