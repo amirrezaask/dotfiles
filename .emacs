@@ -69,7 +69,7 @@
   (interactive)
   (text-scale-decrease 1))
 
-(amirreza/set-font "Consolas" 13)
+(amirreza/set-font "Iosevka" 13)
 
 (global-set-key (kbd "C-=")  'amirreza/text-scale-increase)
 (global-set-key (kbd "C--")  'amirreza/text-scale-decrease)
@@ -274,7 +274,7 @@
       (enable-theme THEME)
     (t (load-theme THEME t nil))))
 
-(amirreza/set-theme 'Dirt)
+(amirreza/set-theme 'modus-vivendi)
 
 ;; @Section: Minibuffer enhancement
 (install 'orderless "Orderless Completion strategy, sort of like fuzzy but different.")
@@ -293,6 +293,37 @@
 (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
 (global-set-key (kbd "<f12>")   'xref-find-definitions)
 (global-set-key (kbd "C-<f12>") 'xref-find-references)
+
+;; @Section Modeline
+(setq-default mode-line-format '("%e"
+				 mode-line-front-space
+				 mode-line-mule-info
+				 mode-line-client
+				 mode-line-modified
+				 mode-line-remote
+				 " "
+				 (:eval (or (buffer-file-name) (buffer-name)))
+				 "    "
+				 mode-line-percent-position
+				 " "
+				 "(%l, %C)"
+				 "    "
+				 (vc-mode vc-mode)
+				 ))
+
+
+;; @Section Window stuff
+(setq display-buffer-alist '(("\\*compile.*\\*"
+			      (display-buffer-in-side-window)
+			      (side . right)
+			      (window-width . 0.4)
+			      (slot . 0))
+
+			     ("\\*eshell.*\\*"
+			      (display-buffer-in-side-window)
+			      ((side . bottom)
+			       (window-height . 0.25)
+			       (slot . 0)))))
 
 ;; @Section Buffer stuff
 (defun jump-up () (interactive) (next-line (* -1 (/ (window-height) 2))) (recenter-top-bottom))
@@ -343,7 +374,7 @@
 
 (defun amirreza/compile-buffer-name-function (MODE)
   (let ((dir (find-project-root-or-default-directory)))
-    (format "<*Compile-%s*>" dir)))
+    (format "*compile-%s*" dir)))
 
 (setq-default compilation-buffer-name-function 'amirreza/compile-buffer-name-function)
 
@@ -430,6 +461,8 @@
 (install 'go-mode)
 (defun amirreza/go-hook ()
   (interactive)
+  (setq gofmt-args '("-s"))
+  (setq gofmt-command "gofmt")
   (setq-local devdocs-current-docs '(go))
   (add-hook 'before-save-hook 'gofmt-before-save 0 t))
 (add-hook 'go-mode-hook 'amirreza/go-hook)
@@ -483,7 +516,7 @@
 (defun amirreza/eshell ()
   (interactive)
   (let* ((dir (find-project-root-or-default-directory))
-	 (eshell-buffer-name (format "<*Eshell-%s*>" dir))
+	 (eshell-buffer-name (format "*eshell-%s*" dir))
 	 (default-directory dir)
 	 (existing-buffer (get-buffer eshell-buffer-name)))
 
