@@ -302,17 +302,12 @@
 (global-set-key (kbd "M-n") 'jump-down)
 (global-set-key (kbd "M-p") 'jump-up)
 (global-set-key (kbd "C-;") 'consult-goto-line)
-
-;; @Section Window
-(defun amirreza/--split-window-preferred-function ())
-(setq split-window-preferred-function 'amirreza/--split-window-preferred-function) ;; No splitting windows
-(split-window-horizontally)
-
+(global-set-key (kbd "C-c n") 'next-buffer)
+(global-set-key (kbd "C-c p") 'previous-buffer)
 
 ;; @Section File stuff
 (global-set-key (kbd "C-o") 'find-file) ;; open files
 (global-set-key (kbd "M-o") 'rg-find-files) ;; Find files in project
-(global-set-key (kbd "C-x p f") 'rg-find-files) ;; Find files in project
 (defun edit-init ()
   "Edit this file."
   (interactive)
@@ -497,6 +492,7 @@
       (eshell))))
 
 (global-set-key (kbd "<f2>") 'amirreza/eshell)
+(global-set-key (kbd "M-;") 'amirreza/eshell)
 
 ;; @Section Benchmark startup and report
 (defvar amirreza/emacs-init-took (* (float-time (time-subtract (float-time) amirreza/emacs-starting-time)) 1000) "Time took to load my init file, value is in milliseconds.")
