@@ -138,11 +138,11 @@
       (kill-region (region-beginning) (region-end)) ;; copy active region contents
     (kill-region (line-beginning-position) (line-end-position)))) ;; copy current line
 
-(global-set-key (kbd "C-w")                                          'amirreza/cut) ;; Cut
-(global-set-key (kbd "M-w")                                          'amirreza/copy) ;; Copy
+(global-set-key (kbd "C-w")                                          'amirreza/cut)
+(global-set-key (kbd "M-w")                                          'amirreza/copy)
 (global-set-key (kbd "M-y")                                          'consult-yank-pop)
 (global-set-key (kbd "M-[")                                          'kmacro-start-macro)
-(global-set-key (kbd "M-]")                                          'kmacro-end-macro)  
+(global-set-key (kbd "M-]")                                          'kmacro-end-or-call-macro)
 (with-eval-after-load 'rect
   (define-key rectangle-mark-mode-map (kbd "C-i")                    'string-insert-rectangle)
   (define-key rectangle-mark-mode-map (kbd "C-r")                    'string-rectangle))
@@ -155,8 +155,6 @@
 (global-set-key (kbd "M-SPC")                                        'rectangle-mark-mode)
 
 ;; @Section Themes
-(install 'doom-themes)
-
 (deftheme naysayer "Inspired by Jonathan Blow (naysayer).")
 (custom-theme-set-faces
  'naysayer
@@ -264,17 +262,7 @@
  `(minibuffer-prompt                ((t (:foreground "#a08563") :bold t)))
  `(show-paren-match                 ((t (:background "#e0741b" :foreground "#000000")))))
 
-(setq amirreza/vendored-themes '(4coder-fleury naysayer Dirt handmadehero))
-
-(defun amirreza/set-theme (THEME)
-  (interactive (list (intern (completing-read "Theme: " (append (custom-available-themes) amirreza/vendored-themes)))))
-  (dolist (i custom-enabled-themes)
-    (disable-theme i))
-  (condition-case nil
-      (enable-theme THEME)
-    (t (load-theme THEME t nil))))
-
-(amirreza/set-theme 'modus-vivendi)
+(enable-theme 'Dirt)
 
 ;; @Section: Minibuffer enhancement
 (install 'orderless "Orderless Completion strategy, sort of like fuzzy but different.")
@@ -314,6 +302,12 @@
 
 ;; @Section Window stuff
 (setq display-buffer-alist '(("\\*compile.*\\*"
+			      (display-buffer-in-side-window)
+			      (side . right)
+			      (window-width . 0.4)
+			      (slot . 0))
+
+			     ("\\*(Help|Backtrace|Messages)\\*"
 			      (display-buffer-in-side-window)
 			      (side . right)
 			      (window-width . 0.4)
