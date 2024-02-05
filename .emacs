@@ -53,6 +53,8 @@
     (set-frame-font fontstring nil t)
     (set-face-attribute 'default t :font fontstring)))
 
+(defalias 'Font 'amirreza/set-font)
+
 (defun amirreza/set-font-size (fontsize)
   "Set a font size"
   (interactive (list (read-number "Font Size: ")))
@@ -60,6 +62,8 @@
     (add-to-list 'default-frame-alist `(font . ,fontstring))
     (set-frame-font fontstring nil t)
     (set-face-attribute 'default t :font fontstring)))
+
+(defalias 'FontSize 'amirreza/set-font-size)
 
 (defun amirreza/text-scale-increase ()
   (interactive)
@@ -69,7 +73,7 @@
   (interactive)
   (text-scale-decrease 1))
 
-(amirreza/set-font "Consolas" 13)
+(amirreza/set-font "Jetbrains Mono" 13)
 
 (global-set-key (kbd "C-=")  'amirreza/text-scale-increase)
 (global-set-key (kbd "C--")  'amirreza/text-scale-decrease)
@@ -155,7 +159,7 @@
 (global-set-key (kbd "M-SPC")                                        'rectangle-mark-mode)
 
 ;; @Section Themes
-(deftheme naysayer "Inspired by Jonathan Blow (naysayer).")
+(deftheme Naysayer "Inspired by Jonathan Blow (naysayer).")
 (custom-theme-set-faces
  'naysayer
  `(default                          ((t (:foreground "#d3b58d" :background "#072629"))))
@@ -205,7 +209,7 @@
  `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
  `(show-paren-match                 ((t (:background "mediumseagreen")))))
 
-(deftheme handmadehero "Theme from popular handmadehero.")
+(deftheme Handmadehero "Theme from popular handmadehero.")
 (custom-theme-set-faces
  'handmadehero
  `(default                          ((t (:foreground "#cdaa7d" :background "#161616"))))
@@ -336,6 +340,8 @@
   (interactive)
   (find-file INIT_FILE))
 
+(defalias 'Config 'edit-init)
+
 (defun rg-find-files ()
   (interactive)
   (unless (executable-find "rg") (error "rg-find-files needs ripgrep."))
@@ -390,6 +396,8 @@
     (setq amirreza/last-compile `(,default-directory ,command))
     (compilation-start command)))
 
+(defalias 'Compile 'amirreza/compile)
+
 (with-eval-after-load 'compile
   (define-key compilation-mode-map (kbd "<f5>") 'recompile)
   (define-key compilation-mode-map (kbd "k") 'kill-compilation))
@@ -428,6 +436,8 @@
    ((or (executable-find "rg") is-windows) (rg dir pattern))
    (t (gnu-grep dir pattern))))
 
+(defalias 'Grep 'amirreza/grep)
+
 (defun amirreza/igrep ()
   ""
   (interactive)
@@ -437,6 +447,8 @@
      ((or (executable-find "rg") is-windows) (consult-ripgrep dir ""))
      ((git-repo-p)                           (consult-git-grep dir ""))
      (t                                      (consult-grep dir "")))))
+
+(defalias 'IGrep 'amirreza/igrep)
 
 (global-set-key (kbd "M-j") 'amirreza/igrep)
 (global-set-key (kbd "C-M-j") 'amirreza/grep)
@@ -467,7 +479,6 @@
   (if debug-on-error
       (setq debug-on-error nil)
     (setq debug-on-error t)))
-
 
 ;; Things that don't deserve a name :)
 (install 'php-mode)
@@ -518,6 +529,9 @@
     (if existing-buffer
 	(select-window (display-buffer existing-buffer)) ;; NOTE: we have to use display-buffer so our display-buffer-alist configs are used.
       (eshell))))
+
+(defalias 'Sh 'amirreza/eshell)
+(defalias 'EShell 'amirreza/eshell)
 
 (global-set-key (kbd "M-;") 'amirreza/eshell)
 
