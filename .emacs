@@ -161,7 +161,7 @@
 ;; @Section Themes
 (deftheme Naysayer "Inspired by Jonathan Blow (naysayer).")
 (custom-theme-set-faces
- 'naysayer
+ 'Naysayer
  `(default                          ((t (:foreground "#d3b58d" :background "#072629"))))
  `(hl-line                          ((t (:background "#0c4141"))))
  `(vertico-current                  ((t (:background "#0c4141"))))
@@ -211,7 +211,7 @@
 
 (deftheme Handmadehero "Theme from popular handmadehero.")
 (custom-theme-set-faces
- 'handmadehero
+ 'Handmadehero
  `(default                          ((t (:foreground "#cdaa7d" :background "#161616"))))
  `(cursor                           ((t (:background "green"))))
  `(font-lock-keyword-face           ((t (:foreground "DarkGoldenrod3"))))
@@ -266,6 +266,7 @@
  `(minibuffer-prompt                ((t (:foreground "#a08563") :bold t)))
  `(show-paren-match                 ((t (:background "#e0741b" :foreground "#000000")))))
 
+(defalias 'Theme 'enable-theme)
 (enable-theme 'Dirt)
 
 ;; @Section: Minibuffer enhancement

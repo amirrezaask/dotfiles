@@ -27,7 +27,7 @@ vim.opt.statusline = "%q%w%h%r%m%f %y %l:%c %p%%"
 vim.opt.ignorecase = true
 
 -- Keymaps
-vim.g.mapleader = " "                                                                                  -- <leader> key for keymaps mapped to <Space>
+vim.g.mapleader = " " -- <leader> key for keymaps mapped to <Space>
 vim.keymap.set("n", "Y", "y$", { desc = "Copy whole line" })                         -- Make yanking act like other operations
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]], { desc = "Copy into clipboard" }) -- Copy to clipboard
 vim.keymap.set("n", "<leader>Y", [["+Y]], { desc = "Copy line into clipboard" })
