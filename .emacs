@@ -290,8 +290,6 @@
 ;; @Section Modeline
 (setq-default mode-line-format '("%e"
 				 mode-line-front-space
-				 mode-line-mule-info
-				 mode-line-client
 				 mode-line-modified
 				 mode-line-remote
 				 " "
