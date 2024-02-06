@@ -73,7 +73,7 @@
   (interactive)
   (text-scale-decrease 1))
 
-(amirreza/set-font "Jetbrains Mono" 13)
+(amirreza/set-font "Consolas" 13)
 
 (global-set-key (kbd "C-=")  'amirreza/text-scale-increase)
 (global-set-key (kbd "C--")  'amirreza/text-scale-decrease)
@@ -302,6 +302,9 @@
 				 "(%l, %C)"
 				 "    "
 				 (vc-mode vc-mode)
+				 " "
+				 (text-scale-mode
+				  (" " text-scale-mode-lighter))
 				 ))
 ;; @Section Window stuff
 (setq display-buffer-alist '(("\\*compile.*\\*"
