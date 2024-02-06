@@ -77,7 +77,12 @@ vim.keymap.set("t", "<esc>", [[<C-\><C-n>]])
 vim.keymap.set({ "i", "n", "t" }, "<C-k>", "<cmd>tabnext<CR>")
 vim.keymap.set({ "i", "n", "t" }, "<C-j>", "<cmd>tabprev<CR>")
 vim.keymap.set("i", "<C-a>", "<C-x><C-o>") -- simpler omnifunc completion
-vim.cmd("map <LeftDrag> <LeftMouse>")
+
+-- Neovide
+if vim.g.neovide then -- we have amazing neovide installed.
+    vim.g.neovide_cursor_animation_length = 0.00
+    vim.opt.guifont = "Iosevka:h15"
+end
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -94,7 +99,7 @@ vim.opt.rtp:prepend(lazypath)
 
 
 require("lazy").setup({
-    "kyazdani42/blue-moon",
+    { "kyazdani42/blue-moon" },
     { "rose-pine/neovim",         name = "rose-pine",          opts = { disable_italics = true } },
     { 'shaunsingh/nord.nvim', config = function()
         vim.g.nord_italic = false
