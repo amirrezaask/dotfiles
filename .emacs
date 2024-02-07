@@ -73,7 +73,7 @@
   (interactive)
   (text-scale-decrease 1))
 
-(amirreza/set-font "Iosevka" 13)
+(amirreza/set-font "Consolas" 13)
 
 (global-set-key (kbd "C-=")  'amirreza/text-scale-increase)
 (global-set-key (kbd "C--")  'amirreza/text-scale-decrease)
@@ -109,8 +109,6 @@
 	(warn "package-vc-install is available from Emacs 29, ignoring this install statement.")))
       (unless (package-installed-p PKG)
 	(package-install PKG))))
-
-(install 'use-package)
 
 ;; @Section Editing
 (setq kill-whole-line t) ;; kill line and newline char
@@ -162,8 +160,7 @@
 
 
 ;; @Section Themes
-(install 'doom-themes)
-(install 'gruber-darker-theme)
+(install 'ef-themes)
 (defvar amirreza/--themes '())
 (defmacro amirreza/deftheme (NAME DOC)
   `(progn
@@ -286,57 +283,25 @@
     (load-theme NAME t)))
 
 (defalias 'Theme 'amirreza/set-theme)
-(amirreza/set-theme 'modus-vivendi)
+(amirreza/set-theme 'ef-bio)
 
 ;; @Section: Minibuffer enhancement
-(use-package orderless
-  :ensure t
-  :init
-  (setq completion-styles '(orderless basic)
-	completion-category-defaults nil
-	completion-category-overrides '((file (styles partial-completion)))))
+(install 'orderless "Orderless Completion strategy, sort of like fuzzy but different.")
+(setq completion-styles '(orderless basic)
+      completion-category-defaults nil
+      completion-category-overrides '((file (styles partial-completion))))
 
-(use-package vertico
-  :ensure t
-  :config
-  (setq vertico-count 10
-	vertico-cycle t)
-  (vertico-mode +1))
+(install 'vertico "Provides a richer minibuffer completion facility, cool thing is that it does not need any hooking up and it will work for everything in the minibuffer.")
+(vertico-mode +1)
+(setq vertico-count 10
+      vertico-cycle t)
 
-(use-package consult :ensure t)
-
-;; @Section Xref stuff.
-(use-package dumb-jump :ensure t
-  :defer t
-  :init
-  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
-
-(use-package xref
-  :bind
-  (("<f12>" . xref-find-definitions)
-   ("C-<f12>" . xref-find-references)))
-
-;; @Section Dired
-(use-package dired
-  :config
-  (setq dired-kill-when-opening-new-dired-buffer t)
-  (defun amirreza/side-tree ()
-    (interactive)
-    (let* ((dir (find-project-root-or-default-directory))
-	   (dired-buffer (dired-noselect dir)))
-      (select-window (display-buffer-in-side-window dired-buffer '((side . left)
-						    (slot . 0)
-						    (window-width . 0.2)
-						    (window-parameters . ((no-delete-other-window . t)))
-						    )))
-      (with-current-buffer dired-buffer
-	(rename-buffer (format "*Dired-%s*" dir))
-	(dired-hide-details-mode +1))))
-  :bind
-  ((:map global-map
-	 ("C-0" . amirreza/side-tree))
-   :map dired-mode-map
-   ("C-0" . 'kill-current-buffer)))
+(install 'consult "Set of helper commands that are powered by vertico completion but they are not dependant on it.")
+;; @Section XRef stuff.
+(install 'dumb-jump "Poor's man Jump to def/dec/ref. (using grep)")
+(add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
+(global-set-key (kbd "<f12>")   'xref-find-definitions)
+(global-set-key (kbd "C-<f12>") 'xref-find-references)
 
 ;; @Section Modeline
 (setq-default mode-line-format '("%e"
@@ -353,7 +318,8 @@
 				 (vc-mode vc-mode)
 				 " "
 				 (text-scale-mode
-				  (" " text-scale-mode-lighter))))
+				  (" " text-scale-mode-lighter))
+				 ))
 ;; @Section Window stuff
 (setq display-buffer-alist '(("\\*compile.*\\*"
 			      (display-buffer-in-side-window)
@@ -429,36 +395,33 @@
 (setq-default compilation-buffer-name-function 'amirreza/compile-buffer-name-function)
 
 ;; @Section Compilation
-(use-package compile
-  :config
-  (defun guess-compile-command (DIR)
-    (let ((default-directory DIR))
-      (cond
-       ((file-exists-p "build.bat") "build.bat")
-       ((file-exists-p "go.mod")    "go build -v "))))
+(defun guess-compile-command (DIR)
+  (let ((default-directory DIR))
+    (cond
+     ((file-exists-p "build.bat") "build.bat")
+     ((file-exists-p "go.mod")    "go build -v "))))
 
-  (setq amirreza/compile-history '())
-  (setq amirreza/last-compile nil)
+(setq amirreza/compile-history '())
+(setq amirreza/last-compile nil)
 
-  (defun amirreza/compile ()
-    "Compile in a directory"
-    (interactive)
-    (when amirreza/last-compile
-      (unless (y-or-n-p "Use last compile values?") (setq amirreza/last-compile nil)))
-    (let* ((default-directory (or (car amirreza/last-compile) (read-directory-name "[Compile] Directory: " (find-project-root-or-default-directory))))
-	   (command (or (car (cdr amirreza/last-compile)) (read-shell-command "[Compile] Command: " (guess-compile-command default-directory) amirreza/compile-history))))
-      (setq amirreza/last-compile `(,default-directory ,command))
-      (compilation-start command)))
+(defun amirreza/compile ()
+  "Compile in a directory"
+  (interactive)
+  (when amirreza/last-compile
+    (unless (y-or-n-p "Use last compile values?") (setq amirreza/last-compile nil)))
+  (let* ((default-directory (or (car amirreza/last-compile) (read-directory-name "[Compile] Directory: " (find-project-root-or-default-directory))))
+	(command (or (car (cdr amirreza/last-compile)) (read-shell-command "[Compile] Command: " (guess-compile-command default-directory) amirreza/compile-history))))
+    (setq amirreza/last-compile `(,default-directory ,command))
+    (compilation-start command)))
 
-  (defalias 'Compile 'amirreza/compile)
-  :bind
-  ((:map compilation-mode-map
-	 ("<f5>" . 'recompile)
-	 ("<k>" . 'kill-compilation)
-	 )
-   (:map global-map
-	 ("M-m" . 'amirreza/compile)
-	 ("<f5>" . 'amirreza/compile))))
+(defalias 'Compile 'amirreza/compile)
+
+(with-eval-after-load 'compile
+  (define-key compilation-mode-map (kbd "<f5>") 'recompile)
+  (define-key compilation-mode-map (kbd "k") 'kill-compilation))
+
+(global-set-key (kbd "M-m") 'amirreza/compile)
+(global-set-key (kbd "<f5>") 'amirreza/compile)
 
 
 ;; @Section Grep
@@ -561,6 +524,7 @@
 					  :colorProvider
 					  :foldingRangeProvider
 					  :executeCommandProvider
+					  :inlayHintProvider
 					  ))
 (setq eglot-stay-out-of '(flymake project))
 
