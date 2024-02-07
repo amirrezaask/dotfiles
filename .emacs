@@ -73,7 +73,7 @@
   (interactive)
   (text-scale-decrease 1))
 
-(amirreza/set-font "IntelOne Mono" 13)
+(amirreza/set-font "Iosevka" 13)
 
 (global-set-key (kbd "C-=")  'amirreza/text-scale-increase)
 (global-set-key (kbd "C--")  'amirreza/text-scale-decrease)
@@ -553,7 +553,6 @@
 					  :colorProvider
 					  :foldingRangeProvider
 					  :executeCommandProvider
-					  :inlayHintProvider
 					  ))
 (setq eglot-stay-out-of '(flymake project))
 
