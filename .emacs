@@ -1,3 +1,5 @@
+;; TODO: add vendor to all go projects and then do go mod vendor so we have vendored libraries and we can search in them.
+
 (when load-file-name
   (setq BASE_PATH (file-name-directory load-file-name)) ;; Store this file location.
   (setq INIT_FILE load-file-name))
@@ -73,7 +75,7 @@
   (interactive)
   (text-scale-decrease 1))
 
-(amirreza/set-font "Consolas" 13)
+(amirreza/set-font "Iosevka" 13)
 
 (global-set-key (kbd "C-=")  'amirreza/text-scale-increase)
 (global-set-key (kbd "C--")  'amirreza/text-scale-decrease)
@@ -274,6 +276,30 @@
  `(minibuffer-prompt                ((t (:foreground "#a08563") :bold t)))
  `(show-paren-match                 ((t (:background "#e0741b" :foreground "#000000")))))
 
+(amirreza/deftheme Abyss "Dark void. My custom simple, minimal dark theme.")
+(custom-theme-set-faces
+ 'Abyss
+ `(default                          ((t (:foreground "grey89" :background "grey0"))))
+ `(cursor                           ((t (:background "grey99"))))
+ `(font-lock-keyword-face           ((t (:foreground "cyan3"))))
+ `(font-lock-type-face              ((t (:foreground "lightblue3"))))
+ `(font-lock-variable-name-face     ((t (:foreground "grey89"))))
+ `(font-lock-string-face            ((t (:foreground "lightgreen"))))
+ `(font-lock-comment-face           ((t (:foreground "grey50"))))
+ `(font-lock-comment-delimiter-face ((t (:foreground "grey50"))))
+ `(font-lock-doc-face               ((t (:foreground "grey50"))))
+ `(font-lock-function-name-face     ((t (:foreground "lightblue2"))))
+ `(font-lock-doc-string-face        ((t (:foreground "grey50"))))
+ `(region                           ((t (:background "grey23"))))
+ `(hl-line                          ((t (:background "grey10"))))
+ `(vertico-current                  ((t (:background "grey10"))))
+ `(mode-line                        ((t (:background "grey10" :foreground "grey89" :box t))))
+ `(mode-line-inactive               ((t (:background "grey3" :foreground "grey89" :box t))))
+ `(highlight                        ((t (:foreground nil :background "cyan")))))
+
+
+(global-hl-line-mode +1)
+
 (defun amirreza/set-theme (NAME)
   (interactive (list (intern (completing-read "Theme: " (append (mapcar #'symbol-name amirreza/--themes) (mapcar #'symbol-name (custom-available-themes)))))))
   (dolist (theme custom-enabled-themes)
@@ -283,7 +309,7 @@
     (load-theme NAME t)))
 
 (defalias 'Theme 'amirreza/set-theme)
-(amirreza/set-theme 'ef-night)
+(amirreza/set-theme 'Abyss)
 
 ;; @Section: Minibuffer enhancement
 (install 'orderless "Orderless Completion strategy, sort of like fuzzy but different.")
@@ -351,24 +377,11 @@
 (global-set-key (kbd "C-c p") 'previous-buffer)
 
 ;; @Section File stuff
-(global-set-key (kbd "C-o") 'find-file) ;; open files
-(global-set-key (kbd "M-o") 'rg-find-files) ;; Find files in project
 (defun edit-init ()
   "Edit this file."
   (interactive)
   (find-file INIT_FILE))
-
 (defalias 'Config 'edit-init)
-
-(defun rg-find-files ()
-  (interactive)
-  (unless (executable-find "rg") (error "rg-find-files needs ripgrep."))
-  (let* ((default-directory (or (find-project-root) default-directory))
-	 (results (string-split (string-trim (shell-command-to-string "rg --files") "\n" "\n") "\n"))
-	 (relfile (completing-read "Files: " results))
-	 (absfile (expand-file-name relfile default-directory)))
-    (find-file absfile)))
-
 (global-set-key (kbd "<f1>") 'edit-init)
 
 ;; @Section ISearch
@@ -422,6 +435,7 @@
 
 (global-set-key (kbd "M-m") 'amirreza/compile)
 (global-set-key (kbd "<f5>") 'amirreza/compile)
+
 ;; @Section Dired
 (setq dired-kill-when-opening-new-dired-buffer t)
 (defun amirreza/side-tree ()
@@ -439,8 +453,7 @@
 
 (global-set-key (kbd "C-0") 'amirreza/side-tree)
 (with-eval-after-load 'dired
-  (define-key dired-mode-map (kbd "C-0") 'kill-current-buffer)
-  )
+  (define-key dired-mode-map (kbd "C-0") 'kill-current-buffer))
 
 ;; @Section Grep
 (defun rg (dir pattern)
@@ -501,7 +514,6 @@
   (interactive)
   (setq gofmt-args '("-s"))
   (setq gofmt-command "gofmt")
-  (setq-local devdocs-current-docs '(go))
   (add-hook 'before-save-hook 'gofmt-before-save 0 t))
 (add-hook 'go-mode-hook 'amirreza/go-hook)
 
