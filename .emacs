@@ -422,7 +422,25 @@
 
 (global-set-key (kbd "M-m") 'amirreza/compile)
 (global-set-key (kbd "<f5>") 'amirreza/compile)
+;; @Section Dired
+(setq dired-kill-when-opening-new-dired-buffer t)
+(defun amirreza/side-tree ()
+  (interactive)
+  (let* ((dir (find-project-root-or-default-directory))
+	 (dired-buffer (dired-noselect dir)))
+    (select-window (display-buffer-in-side-window dired-buffer '((side . left)
+								 (slot . 0)
+								 (window-width . 0.2)
+								 (window-parameters . ((no-delete-other-window . t)))
+								 )))
+    (with-current-buffer dired-buffer
+      (rename-buffer (format "*Dired-%s*" dir))
+      (dired-hide-details-mode +1))))
 
+(global-set-key (kbd "C-0") 'amirreza/side-tree)
+(with-eval-after-load 'dired
+  (define-key dired-mode-map (kbd "C-0") 'kill-current-buffer)
+  )
 
 ;; @Section Grep
 (defun rg (dir pattern)
