@@ -1,0 +1,38 @@
+{
+    "name": "Black",
+    "globals":
+    {
+        "background": "#000000",
+        "foreground": "#e3e3e3",
+        "caret": "green",
+        "line_highlight": "#1a1a1a",
+        "selection": "#3b3b3b",
+    },
+    "rules":
+    [
+        {
+            "name": "Comment",
+            "scope": "comment, punctuation.definition.comment",
+            "foreground": "#7f7f7f"
+        },
+        {
+            "name": "String",
+            "scope": "string",
+            "foreground": "#90ee90"
+        },
+        {
+            "name": "Punctuation",
+            "scope": "punctuation.definition - punctuation.definition.numeric.base",
+        },
+        {
+            "name": "Function Name",
+            "scope": "entity.name.function, variable.function",
+            "foreground": "#b2dfee"
+        },
+        {
+            "name": "Keyword",
+            "scope": "keyword - keyword.operator",
+            "foreground": "#00cdcd"
+        },
+    ]
+}
