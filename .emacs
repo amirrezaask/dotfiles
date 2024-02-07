@@ -421,33 +421,36 @@
 (setq-default compilation-buffer-name-function 'amirreza/compile-buffer-name-function)
 
 ;; @Section Compilation
-(defun guess-compile-command (DIR)
-  (let ((default-directory DIR))
-    (cond
-     ((file-exists-p "build.bat") "build.bat")
-     ((file-exists-p "go.mod")    "go build -v "))))
+(use-package compile
+  :config
+  (defun guess-compile-command (DIR)
+    (let ((default-directory DIR))
+      (cond
+       ((file-exists-p "build.bat") "build.bat")
+       ((file-exists-p "go.mod")    "go build -v "))))
 
-(setq amirreza/compile-history '())
-(setq amirreza/last-compile nil)
+  (setq amirreza/compile-history '())
+  (setq amirreza/last-compile nil)
 
-(defun amirreza/compile ()
-  "Compile in a directory"
-  (interactive)
-  (when amirreza/last-compile
-    (unless (y-or-n-p "Use last compile values?") (setq amirreza/last-compile nil)))
-  (let* ((default-directory (or (car amirreza/last-compile) (read-directory-name "[Compile] Directory: " (find-project-root-or-default-directory))))
-	(command (or (car (cdr amirreza/last-compile)) (read-shell-command "[Compile] Command: " (guess-compile-command default-directory) amirreza/compile-history))))
-    (setq amirreza/last-compile `(,default-directory ,command))
-    (compilation-start command)))
+  (defun amirreza/compile ()
+    "Compile in a directory"
+    (interactive)
+    (when amirreza/last-compile
+      (unless (y-or-n-p "Use last compile values?") (setq amirreza/last-compile nil)))
+    (let* ((default-directory (or (car amirreza/last-compile) (read-directory-name "[Compile] Directory: " (find-project-root-or-default-directory))))
+	   (command (or (car (cdr amirreza/last-compile)) (read-shell-command "[Compile] Command: " (guess-compile-command default-directory) amirreza/compile-history))))
+      (setq amirreza/last-compile `(,default-directory ,command))
+      (compilation-start command)))
 
-(defalias 'Compile 'amirreza/compile)
-
-(with-eval-after-load 'compile
-  (define-key compilation-mode-map (kbd "<f5>") 'recompile)
-  (define-key compilation-mode-map (kbd "k") 'kill-compilation))
-
-(global-set-key (kbd "M-m") 'amirreza/compile)
-(global-set-key (kbd "<f5>") 'amirreza/compile)
+  (defalias 'Compile 'amirreza/compile)
+  :bind
+  ((:map compilation-mode-map
+	 ("<f5>" . 'recompile)
+	 ("<k>" . 'kill-compilation)
+	 )
+   (:map global-map
+	 ("M-m" . 'amirreza/compile)
+	 ("<f5>" . 'amirreza/compile))))
 
 
 ;; @Section Grep
