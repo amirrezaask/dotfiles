@@ -158,8 +158,16 @@
 (global-set-key (kbd "M-\\")                                         'kmacro-end-and-call-macro) ;; execute keyboard macro.
 (global-set-key (kbd "M-SPC")                                        'rectangle-mark-mode)
 
+
 ;; @Section Themes
-(deftheme Naysayer "Inspired by Jonathan Blow (naysayer).")
+(install 'doom-themes)
+(defvar amirreza/--themes '())
+(defmacro amirreza/deftheme (NAME DOC)
+  `(progn
+     (deftheme ,NAME ,DOC)
+     (add-to-list 'amirreza/--themes (quote ,NAME))))
+
+(amirreza/deftheme Naysayer "Inspired by Jonathan Blow (naysayer).")
 (custom-theme-set-faces
  'Naysayer
  `(default                          ((t (:foreground "#d3b58d" :background "#072629"))))
@@ -209,7 +217,7 @@
  `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
  `(show-paren-match                 ((t (:background "mediumseagreen")))))
 
-(deftheme Handmadehero "Theme from popular handmadehero.")
+(amirreza/deftheme Handmadehero "Theme from popular handmadehero.")
 (custom-theme-set-faces
  'Handmadehero
  `(default                          ((t (:foreground "#cdaa7d" :background "#161616"))))
@@ -235,7 +243,7 @@
  `(show-paren-match                 ((t (:background "burlywood3" :foreground "black"))))
  `(highlight                        ((t (:foreground nil :background "medium blue")))))
 
-(deftheme 4coder-fleury "Theme from 4coder setup of ryan fleury")
+(amirreza/deftheme 4coder-fleury "Theme from 4coder setup of ryan fleury")
 (custom-theme-set-faces
  '4coder-fleury
  `(default                          ((t (:foreground "#a08563" :background "#0c0c0c"))))
@@ -266,8 +274,16 @@
  `(minibuffer-prompt                ((t (:foreground "#a08563") :bold t)))
  `(show-paren-match                 ((t (:background "#e0741b" :foreground "#000000")))))
 
-(defalias 'Theme 'enable-theme)
-(enable-theme 'Dirt)
+(defun amirreza/set-theme (NAME)
+  (interactive (list (intern (completing-read "Theme: " (append (mapcar #'symbol-name amirreza/--themes) (mapcar #'symbol-name (custom-available-themes)))))))
+  (dolist (theme custom-enabled-themes)
+    (disable-theme theme))
+  (if (member NAME amirreza/--themes)
+      (enable-theme NAME)
+    (load-theme NAME t)))
+
+(defalias 'Theme 'amirreza/set-theme)
+(amirreza/set-theme 'Naysayer)
 
 ;; @Section: Minibuffer enhancement
 (install 'orderless "Orderless Completion strategy, sort of like fuzzy but different.")
