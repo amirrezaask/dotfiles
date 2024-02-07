@@ -276,9 +276,9 @@
  `(minibuffer-prompt                ((t (:foreground "#a08563") :bold t)))
  `(show-paren-match                 ((t (:background "#e0741b" :foreground "#000000")))))
 
-(amirreza/deftheme Abyss "Dark void. My custom simple, minimal dark theme.")
+(amirreza/deftheme Black "Black: My custom minimal dark theme.")
 (custom-theme-set-faces
- 'Abyss
+ 'Black
  `(default                          ((t (:foreground "grey89" :background "grey0"))))
  `(cursor                           ((t (:background "grey99"))))
  `(font-lock-keyword-face           ((t (:foreground "cyan3"))))
@@ -297,7 +297,6 @@
  `(mode-line-inactive               ((t (:background "grey3" :foreground "grey89" :box t))))
  `(highlight                        ((t (:foreground nil :background "cyan")))))
 
-
 (global-hl-line-mode +1)
 
 (defun amirreza/set-theme (NAME)
@@ -309,7 +308,7 @@
     (load-theme NAME t)))
 
 (defalias 'Theme 'amirreza/set-theme)
-(amirreza/set-theme 'Abyss)
+(amirreza/set-theme 'Black)
 
 ;; @Section: Minibuffer enhancement
 (install 'orderless "Orderless Completion strategy, sort of like fuzzy but different.")
