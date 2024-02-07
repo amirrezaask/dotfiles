@@ -290,23 +290,32 @@
 (amirreza/set-theme 'modus-vivendi)
 
 ;; @Section: Minibuffer enhancement
-(install 'orderless "Orderless Completion strategy, sort of like fuzzy but different.")
-(setq completion-styles '(orderless basic)
-      completion-category-defaults nil
-      completion-category-overrides '((file (styles partial-completion))))
+(use-package orderless
+  :ensure t
+  :init
+  (setq completion-styles '(orderless basic)
+	completion-category-defaults nil
+	completion-category-overrides '((file (styles partial-completion)))))
 
-(install 'vertico "Provides a richer minibuffer completion facility, cool thing is that it does not need any hooking up and it will work for everything in the minibuffer.")
-(vertico-mode +1)
-(setq vertico-count 10
-      vertico-cycle t)
+(use-package vertico
+  :ensure t
+  :config
+  (setq vertico-count 10
+	vertico-cycle t)
+  (vertico-mode +1))
 
-(install 'consult "Set of helper commands that are powered by vertico completion but they are not dependant on it.")
-;; @Section XRef stuff.
-(install 'dumb-jump "Poor's man Jump to def/dec/ref. (using grep)")
-(add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
-(global-set-key (kbd "<f12>")   'xref-find-definitions)
-(global-set-key (kbd "C-<f12>") 'xref-find-references)
+(use-package consult :ensure t)
 
+;; @Section Xref stuff.
+(use-package dumb-jump :ensure t
+  :defer t
+  :init
+  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
+
+(use-package xref
+  :bind
+  (("<f12>" . xref-find-definitions)
+   ("C-<f12>" . xref-find-references)))
 
 ;; @Section Dired
 (use-package dired
