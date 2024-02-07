@@ -73,7 +73,7 @@
   (interactive)
   (text-scale-decrease 1))
 
-(amirreza/set-font "Consolas" 13)
+(amirreza/set-font "IntelOne Mono" 13)
 
 (global-set-key (kbd "C-=")  'amirreza/text-scale-increase)
 (global-set-key (kbd "C--")  'amirreza/text-scale-decrease)
@@ -109,6 +109,8 @@
 	(warn "package-vc-install is available from Emacs 29, ignoring this install statement.")))
       (unless (package-installed-p PKG)
 	(package-install PKG))))
+
+(install 'use-package)
 
 ;; @Section Editing
 (setq kill-whole-line t) ;; kill line and newline char
@@ -160,7 +162,9 @@
 
 
 ;; @Section Themes
+(global-hl-line-mode +1)
 (install 'doom-themes)
+(install 'gruber-darker-theme)
 (defvar amirreza/--themes '())
 (defmacro amirreza/deftheme (NAME DOC)
   `(progn
@@ -283,7 +287,7 @@
     (load-theme NAME t)))
 
 (defalias 'Theme 'amirreza/set-theme)
-(amirreza/set-theme 'Naysayer)
+(amirreza/set-theme 'modus-vivendi)
 
 ;; @Section: Minibuffer enhancement
 (install 'orderless "Orderless Completion strategy, sort of like fuzzy but different.")
@@ -303,6 +307,29 @@
 (global-set-key (kbd "<f12>")   'xref-find-definitions)
 (global-set-key (kbd "C-<f12>") 'xref-find-references)
 
+
+;; @Section Dired
+(use-package dired
+  :config
+  (setq dired-kill-when-opening-new-dired-buffer t)
+  (defun amirreza/side-tree ()
+    (interactive)
+    (let* ((dir (find-project-root-or-default-directory))
+	   (dired-buffer (dired-noselect dir)))
+      (select-window (display-buffer-in-side-window dired-buffer '((side . left)
+						    (slot . 0)
+						    (window-width . 0.2)
+						    (window-parameters . ((no-delete-other-window . t)))
+						    )))
+      (with-current-buffer dired-buffer
+	(rename-buffer (format "*Dired-%s*" dir))
+	(dired-hide-details-mode +1))))
+  :bind
+  ((:map global-map
+	 ("C-0" . amirreza/side-tree))
+   :map dired-mode-map
+   ("C-0" . 'kill-current-buffer)))
+
 ;; @Section Modeline
 (setq-default mode-line-format '("%e"
 				 mode-line-front-space
@@ -318,8 +345,7 @@
 				 (vc-mode vc-mode)
 				 " "
 				 (text-scale-mode
-				  (" " text-scale-mode-lighter))
-				 ))
+				  (" " text-scale-mode-lighter))))
 ;; @Section Window stuff
 (setq display-buffer-alist '(("\\*compile.*\\*"
 			      (display-buffer-in-side-window)
