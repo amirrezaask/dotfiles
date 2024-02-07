@@ -162,7 +162,6 @@
 
 
 ;; @Section Themes
-(global-hl-line-mode +1)
 (install 'doom-themes)
 (install 'gruber-darker-theme)
 (defvar amirreza/--themes '())
@@ -196,7 +195,7 @@
  `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
  `(show-paren-match                 ((t (:background "mediumseagreen")))))
 
-(deftheme Dirt "Brown theme inspired by Jonathan Blow (naysayer)")
+(amirreza/deftheme Dirt "Brown theme inspired by Jonathan Blow (naysayer)")
 (custom-theme-set-faces
  'Dirt
  `(default                          ((t (:foreground "#debe95" :background "#161616"))))
