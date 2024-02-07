@@ -1,6 +1,12 @@
 {
 	"installed_packages":
 	[
-		"Package Control"
-	]
+		"Gofmt",
+		"LSP",
+		"LSP-gopls",
+		"Package Control",
+	],
+	"in_process_packages":
+	[
+	],
 }

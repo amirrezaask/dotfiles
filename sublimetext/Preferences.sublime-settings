@@ -1,4 +1,14 @@
 {
 	"color_scheme": "Black.sublime-color-scheme",
-	"font_size": 14,
+	"font_size": 16,
+	"font_face": "Iosevka",
+	"highlight_line": true,
+	"hot_exit": "disabled",
+
+	"ignored_packages":
+	[
+		"Vintage",
+	],
+	"index_files": true,
+	"theme": "Adaptive.sublime-theme",
 }
