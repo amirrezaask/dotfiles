@@ -1,0 +1,7 @@
+{
+	"windows": {
+		"shell_cmd": "build.bat",
+		"working_dir": "${folder}",
+	},
+
+}

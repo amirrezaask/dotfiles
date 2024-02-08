@@ -1,7 +1,6 @@
 {
 	"installed_packages":
 	[
-		"Gofmt",
 		"LSP",
 		"LSP-gopls",
 		"Package Control",
