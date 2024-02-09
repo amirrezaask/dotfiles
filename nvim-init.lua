@@ -104,6 +104,7 @@ require("lazy").setup({
     { 'shaunsingh/nord.nvim', config = function()
         vim.g.nord_italic = false
     end},
+    { "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} },
     { "ellisonleao/gruvbox.nvim", 
         opts = { contrast = 'hard', 
             italic = {
@@ -300,9 +301,9 @@ require("lazy").setup({
                     },
                 })
             end,
-        }
-    }, 
-    {
+    }
+}, 
+{
     change_detection = {
         enabled = true,
         notify = false, -- get a notification when changes are found
@@ -319,18 +320,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 })
 
 
-local function transparent()
-    vim.cmd [[
-        hi Normal guibg=none
-        hi LineNr guibg=none
-        hi SignColumn guibg=none
-    ]]
-end
-
-vim.api.nvim_create_user_command("Transparent", transparent, {})
-
 -- Edit this configuration file
 THIS_FILE = debug.getinfo(1,'S').short_src
 vim.keymap.set("n", "<leader>i", string.format(":e %s<cr>", THIS_FILE))
 
-vim.cmd.colorscheme("gruvbox")

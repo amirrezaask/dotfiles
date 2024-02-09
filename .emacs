@@ -276,9 +276,30 @@
  `(minibuffer-prompt                ((t (:foreground "#a08563") :bold t)))
  `(show-paren-match                 ((t (:background "#e0741b" :foreground "#000000")))))
 
-(amirreza/deftheme Black "Black: My custom minimal dark theme.")
+(amirreza/deftheme Dark "Dark: My custom minimal dark theme.")
 (custom-theme-set-faces
- 'Black
+ 'Dark
+ `(default                          ((t (:foreground "grey89" :background "grey0"))))
+ `(cursor                           ((t (:background "grey99"))))
+ `(font-lock-keyword-face           ((t (:foreground "cyan3"))))
+ `(font-lock-type-face              ((t (:foreground "lightblue3"))))
+ `(font-lock-variable-name-face     ((t (:foreground "grey89"))))
+ `(font-lock-string-face            ((t (:foreground "lightgreen"))))
+ `(font-lock-comment-face           ((t (:foreground "grey50"))))
+ `(font-lock-comment-delimiter-face ((t (:foreground "grey50"))))
+ `(font-lock-doc-face               ((t (:foreground "grey50"))))
+ `(font-lock-function-name-face     ((t (:foreground "lightblue2"))))
+ `(font-lock-doc-string-face        ((t (:foreground "grey50"))))
+ `(region                           ((t (:background "grey23"))))
+ `(hl-line                          ((t (:background "grey10"))))
+ `(vertico-current                  ((t (:background "grey10"))))
+ `(mode-line                        ((t (:background "grey10" :foreground "grey89" :box t))))
+ `(mode-line-inactive               ((t (:background "grey3" :foreground "grey89" :box t))))
+ `(highlight                        ((t (:foreground nil :background "cyan")))))
+
+(amirreza/deftheme Light "Light: My custom minimal light theme.")
+(custom-theme-set-faces
+ 'Light
  `(default                          ((t (:foreground "grey89" :background "grey0"))))
  `(cursor                           ((t (:background "grey99"))))
  `(font-lock-keyword-face           ((t (:foreground "cyan3"))))
@@ -322,6 +343,7 @@
       vertico-cycle t)
 
 (install 'consult "Set of helper commands that are powered by vertico completion but they are not dependant on it.")
+
 ;; @Section XRef stuff.
 (install 'dumb-jump "Poor's man Jump to def/dec/ref. (using grep)")
 (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
@@ -447,11 +469,15 @@
 								 (window-parameters . ((no-delete-other-window . t)))
 								 )))
     (with-current-buffer dired-buffer
-      (rename-buffer (format "*Dired-%s*" dir))
-      (dired-hide-details-mode +1))))
+      (rename-buffer (format "*Dired-%s*" dir)))))
 
 (global-set-key (kbd "C-0") 'amirreza/side-tree)
+
+(defun amirreza/dired-hook ()
+  (dired-hide-details-mode +1))
+
 (with-eval-after-load 'dired
+  (add-hook 'dired-mode-hook 'amirreza/dired-hook)
   (define-key dired-mode-map (kbd "C-0") 'kill-current-buffer))
 
 ;; @Section Grep
