@@ -1,4 +1,5 @@
 [
+    { "keys": ["primary+shift+o"], "command": "prompt_open_folder" },
     {
         "keys": ["alt+enter"],
         "command": "lsp_code_actions",
