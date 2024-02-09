@@ -162,6 +162,7 @@
 
 
 ;; @Section Themes
+(global-hl-line-mode +1)
 (install 'ef-themes)
 (defvar amirreza/--themes '())
 (defmacro amirreza/deftheme (NAME DOC)
@@ -297,29 +298,6 @@
  `(mode-line-inactive               ((t (:background "grey3" :foreground "grey89" :box t))))
  `(highlight                        ((t (:foreground nil :background "cyan")))))
 
-(amirreza/deftheme Light "Light: My custom minimal light theme.")
-(custom-theme-set-faces
- 'Light
- `(default                          ((t (:foreground "grey89" :background "grey0"))))
- `(cursor                           ((t (:background "grey99"))))
- `(font-lock-keyword-face           ((t (:foreground "cyan3"))))
- `(font-lock-type-face              ((t (:foreground "lightblue3"))))
- `(font-lock-variable-name-face     ((t (:foreground "grey89"))))
- `(font-lock-string-face            ((t (:foreground "lightgreen"))))
- `(font-lock-comment-face           ((t (:foreground "grey50"))))
- `(font-lock-comment-delimiter-face ((t (:foreground "grey50"))))
- `(font-lock-doc-face               ((t (:foreground "grey50"))))
- `(font-lock-function-name-face     ((t (:foreground "lightblue2"))))
- `(font-lock-doc-string-face        ((t (:foreground "grey50"))))
- `(region                           ((t (:background "grey23"))))
- `(hl-line                          ((t (:background "grey10"))))
- `(vertico-current                  ((t (:background "grey10"))))
- `(mode-line                        ((t (:background "grey10" :foreground "grey89" :box t))))
- `(mode-line-inactive               ((t (:background "grey3" :foreground "grey89" :box t))))
- `(highlight                        ((t (:foreground nil :background "cyan")))))
-
-(global-hl-line-mode +1)
-
 (defun amirreza/set-theme (NAME)
   (interactive (list (intern (completing-read "Theme: " (append (mapcar #'symbol-name amirreza/--themes) (mapcar #'symbol-name (custom-available-themes)))))))
   (dolist (theme custom-enabled-themes)
@@ -329,7 +307,7 @@
     (load-theme NAME t)))
 
 (defalias 'Theme 'amirreza/set-theme)
-(amirreza/set-theme 'Black)
+(amirreza/set-theme 'Dark)
 
 ;; @Section: Minibuffer enhancement
 (install 'orderless "Orderless Completion strategy, sort of like fuzzy but different.")
@@ -603,7 +581,6 @@
 	(select-window (display-buffer existing-buffer)) ;; NOTE: we have to use display-buffer so our display-buffer-alist configs are used.
       (eshell))))
 
-(defalias 'Sh 'amirreza/eshell)
 (defalias 'EShell 'amirreza/eshell)
 
 (global-set-key (kbd "M-;") 'amirreza/eshell)

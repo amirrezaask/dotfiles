@@ -25,6 +25,8 @@ vim.opt.timeoutlen = 300
 vim.opt.completeopt = "menu"
 vim.opt.statusline = "%q%w%h%r%m%f %y %l:%c %p%%"
 vim.opt.ignorecase = true
+vim.opt.title = true
+vim.opt.titlestring = '%F'
 
 -- Keymaps
 vim.g.mapleader = " " -- <leader> key for keymaps mapped to <Space>
@@ -78,10 +80,12 @@ vim.keymap.set({ "i", "n", "t" }, "<C-k>", "<cmd>tabnext<CR>")
 vim.keymap.set({ "i", "n", "t" }, "<C-j>", "<cmd>tabprev<CR>")
 vim.keymap.set("i", "<C-a>", "<C-x><C-o>") -- simpler omnifunc completion
 
--- Neovide
+-- Neovide GUI
+-- recommended especially in windows environment, much better than windows terminal.
 if vim.g.neovide then -- we have amazing neovide installed.
     vim.g.neovide_cursor_animation_length = 0.00
-    vim.opt.guifont = "Iosevka:h15"
+    vim.opt.guifont = "Consolas:h15"
+    vim.g.neovide_cursor_vfx_mode = "sonicboom"
 end
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -104,7 +108,14 @@ require("lazy").setup({
     { 'shaunsingh/nord.nvim', config = function()
         vim.g.nord_italic = false
     end},
-    { "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} },
+    { "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {
+        indent = {
+            char = "|"
+        },
+        scope = {
+            enabled = false
+        }
+    } },
     { "ellisonleao/gruvbox.nvim", 
         opts = { contrast = 'hard', 
             italic = {
@@ -324,3 +335,4 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 THIS_FILE = debug.getinfo(1,'S').short_src
 vim.keymap.set("n", "<leader>i", string.format(":e %s<cr>", THIS_FILE))
 
+vim.cmd.colorscheme("gruvbox")
