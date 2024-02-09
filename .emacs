@@ -75,7 +75,7 @@
   (interactive)
   (text-scale-decrease 1))
 
-(amirreza/set-font "Iosevka" 13)
+(amirreza/set-font "Consolas" 13)
 
 (global-set-key (kbd "C-=")  'amirreza/text-scale-increase)
 (global-set-key (kbd "C--")  'amirreza/text-scale-decrease)
