@@ -2,27 +2,20 @@
 #+TITLE: Amirreza Emacs Configuration
 #+STARTUP: fold
 
-This here is my literate configuration of GNU Emacs that I use for all development and writing, basically I do everything except web browsing inside Emacs. Typical way of doing lieterate configuration in Emacs is that you have =init.el= file that will load your literate configuration using =(org-babel-load-file)= on each startup, the problem with this approach is that it's super slow because it does unnecessary compuation on each startup.
-The way I do it is that I have this file and also I have configured emacs using =after-save-hook= to tangle this file everytime I make an edit inside it, You also need to have symlinks in =~/.emacs.d= for the generated =init.el= and =early-init.el= files.
-*** Windows
-#+BEGIN_SRC cmd
-mklink %APPDATA%/.emacs.d/init.el %DOTFILES%/init.el
-mklink %APPDATA%/.emacs.d/early-init.el %DOTFILES%/early-init.el
+Literate configuration is one of many powers of =org-mode= but it has a serious performance effect on emacs startup time. How I do it is a bit different from popular way of doing it, this document is my whole Emacs configuration and there is no =init.el= file to bootstrap emacs and load this file, but tangling is manual so every time I make changes to this file I update generated output with =C-c C-v t= or =org-babel-tangle-file=.
+#+BEGIN_SRC emacs-lisp
+  (org-babel-tangle)
 #+END_SRC
 
-*** Linux/macOS
-#+BEGIN_SRC bash
-  ln -s $DOTFILES/init.el ~/.emacs.d/init.el
-  ln -s $DOTFILES/early-init.el ~/.emacs.d/early-init.el
-#+END_SRC
-
-** The =early-init.el= sets up timer for further benchamrking.
-#+BEGIN_SRC emacs-lisp :tangle early-init.el
+** The =early-init.el= Sets up timer for further benchamrking.
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/early-init.el
 (setq amirreza/emacs-starting-time (float-time)) ;; Store current time for further analysis.
 #+END_SRC
+
+
 ** The =early-init.el= Tunes Emacs Garbage Collector
 Emacs runs Emacs-Lisp which is a interpreted and garbage collected language so GC performance affects UX of Emacs and GC parameters of Emacs are rather old so we should update them with today's standards.
-#+BEGIN_SRC emacs-lisp :tangle early-init.el
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/early-init.el
   (setq gc-cons-threshold most-positive-fixnum)
   ;; Lower threshold back to 8 MiB (default is 800kB)
   (add-hook 'emacs-startup-hook
@@ -31,13 +24,15 @@ Emacs runs Emacs-Lisp which is a interpreted and garbage collected language so G
 		    gc-cons-percentage 0.2)))
 #+END_SRC
 
+
 ** The =early-init.el= initializes package cache.
-#+BEGIN_SRC emacs-lisp :tangle early-init.el
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/early-init.el
 (setq package-enable-at-startup t)
 #+END_SRC
 
+
 ** The =early-init.el= configures basic frame settings.
-#+BEGIN_SRC emacs-lisp :tangle early-init.el
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/early-init.el
   (setq frame-resize-pixelwise t
 	frame-inhibit-implied-resize t
 	frame-title-format '("%b")
@@ -61,38 +56,24 @@ Emacs runs Emacs-Lisp which is a interpreted and garbage collected language so G
 
 ** The =init.el= sets up configuration related functions and variables.
 This part I define some variables and functions to help me with configuring Emacs.
-#+BEGIN_SRC emacs-lisp :tangle init.el
-  (when load-file-name
-    (setq BASE_PATH (file-name-directory load-file-name)) ;; Store this file location.
-    (setq CONFIG_FILE (expand-file-name "amirreza-emacs.org" BASE_PATH))
-    (setq INIT_FILE load-file-name))
-
-  (defun edit-config ()
-    (interactive)
-    (find-file CONFIG_FILE))
-  (global-set-key (kbd "<f1>") 'edit-config)
-
-  (defun amirreza/org-tangle-config ()
-    (when (string-equal (buffer-file-name (current-buffer)) CONFIG_FILE)
-      (org-babel-tangle-file CONFIG_FILE)))
-
-  (add-hook 'after-save-hook 'amirreza/org-tangle-config)
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el
   (setq is-windows (eq system-type 'windows-nt)                                      
 	is-linux (eq system-type 'gnu-linux)
 	is-macos (eq system-type 'darwin)
 	has-treesitter (>= emacs-major-version 29))
-
 #+END_SRC
 
+
 ** The =init.el= configures some variables to make emacs be less intrusive and not edit certain files automatically.
-#+BEGIN_SRC emacs-lisp :tangle init.el
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el
   (setq custom-file "~/.custom.el"         ;; set custom file to not meddle with init.el
 	make-backup-files nil)              ;; no emacs ~ backup files
 
 #+END_SRC
 
+
 ** The =init.el= some macOS fixes.
-#+BEGIN_SRC emacs-lisp :tangle init.el
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el
   (setq image-types (cons 'svg image-types)   ;; macos issue.
 	mac-command-modifier 'meta)            ;; macos issue.
 #+END_SRC
@@ -100,7 +81,7 @@ This part I define some variables and functions to help me with configuring Emac
 
 
 ** The =init.el= Basic editing experience.
-#+BEGIN_SRC emacs-lisp :tangle init.el
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el
   (setq vc-follow-symlinks t               ;; Follow symlinks with no questions
 	recenter-positions '(middle))
   (set-default-coding-systems 'utf-8) ;; always use UTF8
@@ -154,19 +135,22 @@ This part I define some variables and functions to help me with configuring Emac
 
 #+END_SRC
 
+
 ** The =init.el= checks for system dependencies
-#+BEGIN_SRC emacs-lisp :tangle init.el
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el
   (unless (executable-find "rg") (error "Install ripgrep, this configuration relies heavy on it's features."))
 #+END_SRC
 
+
 ** The =init.el= disables Emacs exit keybinding
 Emacs by default launches =kill-emacs= command which exits emacs on =C-x C-c= key, since i press this accidentally I disable it.
-#+BEGIN_SRC emacs-lisp :tangle init.el
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el
   (global-unset-key (kbd "C-x C-c"))
 #+END_SRC
 
+
 ** The =init.el= Font
-#+BEGIN_SRC emacs-lisp :tangle init.el
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el
   (setq font-family "")
   (defun amirreza/set-font (font fontsize)
     "Loads a font."
@@ -204,8 +188,9 @@ Emacs by default launches =kill-emacs= command which exits emacs on =C-x C-c= ke
 
 #+END_SRC
 
+
 ** The =init.el= Environment Variables
-#+BEGIN_SRC emacs-lisp :tangle init.el
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el
   ;; Environment Variables
   (defun home (path)
     (expand-file-name path (getenv "HOME")))
@@ -226,8 +211,9 @@ Emacs by default launches =kill-emacs= command which exits emacs on =C-x C-c= ke
     (setenv "PATH" (string-join exec-path ":"))) ;; set emacs process PATH
 #+END_SRC
 
+
 ** The =init.el= Package.el
-#+BEGIN_SRC emacs-lisp :tangle init.el
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el
   (require 'package)
   (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
   (package-initialize)
@@ -241,8 +227,9 @@ Emacs by default launches =kill-emacs= command which exits emacs on =C-x C-c= ke
 	  (package-install PKG))))
 #+END_SRC
 
+
 ** The =init.el= Handling large files and lines
-#+BEGIN_SRC emacs-lisp :tangle init.el
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el
   (install 'so-long "So emacs can handle long lines :))")
   (global-so-long-mode +1)
   (with-eval-after-load 'replace
@@ -252,8 +239,9 @@ Emacs by default launches =kill-emacs= command which exits emacs on =C-x C-c= ke
   (require 'vlf-setup)
 #+END_SRC
 
+
 ** The =init.el= Themes
-#+BEGIN_SRC emacs-lisp :tangle init.el
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el
     (global-hl-line-mode +1)
   (install 'ef-themes)
   (install 'dracula-theme)
@@ -407,7 +395,7 @@ Emacs by default launches =kill-emacs= command which exits emacs on =C-x C-c= ke
 
 
 ** The =init.el= Minibuffer completion and enhancements
-#+BEGIN_SRC emacs-lisp :tangle init.el
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el
   (install 'orderless "Orderless Completion strategy, sort of like fuzzy but different.")
   (setq completion-styles '(orderless basic)
 	completion-category-defaults nil
@@ -423,17 +411,19 @@ Emacs by default launches =kill-emacs= command which exits emacs on =C-x C-c= ke
 
 #+END_SRC
 
+
 ** The =init.el= Xref: Emacs builtin mechanism for jumping into definition and references.
 Here I also install =dumb-jump= package which enables emacs to jump to definition using just =grep=
-#+BEGIN_SRC emacs-lisp :tangle init.el
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el
   (install 'dumb-jump "Poor's man Jump to def/dec/ref. (using grep)")
   (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
   (global-set-key (kbd "<f12>")   'xref-find-definitions)
   (global-set-key (kbd "C-<f12>") 'xref-find-references)
 #+END_SRC
 
+
 ** The =init.el= Modeline
-#+BEGIN_SRC emacs-lisp :tangle init.el
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el
   (setq-default mode-line-format '("%e"
 				   mode-line-front-space
 				   mode-line-modified
@@ -460,7 +450,7 @@ Here I also install =dumb-jump= package which enables emacs to jump to definitio
 
 
 ** The =init.el= display-buffer-alist controlls where certain buffers are displayed.
-#+BEGIN_SRC emacs-lisp :tangle init.el
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el
   (setq display-buffer-alist '(("\\*compile.*\\*"
 				(display-buffer-in-side-window)
 				(side . right)
@@ -481,8 +471,9 @@ Here I also install =dumb-jump= package which enables emacs to jump to definitio
 
 #+END_SRC
 
+
 ** The =init.el= helper functions for finding root of the project.
-#+BEGIN_SRC emacs-lisp :tangle init.el
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el
   (defun find-project-root ()
     "Try to find project root based on deterministic predicates"
     (cond
@@ -500,7 +491,7 @@ Here I also install =dumb-jump= package which enables emacs to jump to definitio
 
 
 ** The =init.el= compilation-mode
-#+BEGIN_SRC emacs-lisp :tangle init.el
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el
   (defun amirreza/compile-buffer-name-function (MODE)
     (let ((dir (find-project-root-or-default-directory)))
       (format "*compile-%s*" dir)))
@@ -536,8 +527,9 @@ Here I also install =dumb-jump= package which enables emacs to jump to definitio
 
 #+END_SRC
 
+
 ** The =init.el= frame helpers
-#+BEGIN_SRC emacs-lisp :tangle init.el
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el
   (defun amirreza/open-directory-in-frame (DIR)
     (interactive (list (read-directory-name "Directory: " default-directory)))
     (let* ((dired-buffer (dired-noselect DIR)))
@@ -547,8 +539,9 @@ Here I also install =dumb-jump= package which enables emacs to jump to definitio
   
 #+END_SRC
 
+
 ** The =init.el= Dired
-#+BEGIN_SRC emacs-lisp :tangle init.el
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el
   (setq dired-kill-when-opening-new-dired-buffer t)
   (defun amirreza/side-tree ()
     (interactive)
@@ -576,7 +569,7 @@ Here I also install =dumb-jump= package which enables emacs to jump to definitio
 
 
 ** The =init.el= Grep
-#+BEGIN_SRC emacs-lisp :tangle init.el
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el
   (defun rg (dir pattern)
     "runs Ripgrep program in a compilation buffer."
     (interactive (list (read-directory-name "[Ripgrep] Directory: " (find-project-root-or-default-directory))
@@ -630,8 +623,9 @@ Here I also install =dumb-jump= package which enables emacs to jump to definitio
   
 #+END_SRC
 
+
 ** The =init.el= Golang programming
-#+BEGIN_SRC emacs-lisp :tangle init.el
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el
   (install 'go-mode)
   (defun amirreza/go-hook ()
     (interactive)
@@ -641,13 +635,15 @@ Here I also install =dumb-jump= package which enables emacs to jump to definitio
   (add-hook 'go-mode-hook 'amirreza/go-hook)
 #+END_SRC
 
+
 ** The =init.el= C/C++ programming
-#+BEGIN_SRC emacs-lisp :tangle init.el
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el
   (setq-default c-default-style "linux" c-basic-offset 4) ;; C/C++ code style
 #+END_SRC
 
+
 ** The =init.el= Elisp Programming
-#+BEGIN_SRC emacs-lisp :tangle init.el
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el
   (defun toggle-debug-mode ()
     "Toggle Emacs debug mode." 
     (interactive)
@@ -665,16 +661,18 @@ Here I also install =dumb-jump= package which enables emacs to jump to definitio
 (install 'dockerfile-mode)
 #+END_SRC
 
+
 ** The =init.el= Corfu enables autocompletion in buffers
-#+BEGIN_SRC emacs-lisp :tangle init.el
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el
   (install 'corfu)
   (setq corfu-auto nil)
   (global-corfu-mode +1)
 
 #+END_SRC
 
+
 ** The =init.el= Eglot LSP client
-#+BEGIN_SRC emacs-lisp :tangle init.el
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el
  (unless (>= emacs-major-version 29) (install 'eglot))
   (setq eglot-ignored-server-capabilities '(
 					    :hoverProvider
@@ -696,8 +694,9 @@ Here I also install =dumb-jump= package which enables emacs to jump to definitio
   (add-hook 'go-mode-hook #'eglot-ensure)
 #+END_SRC
 
+
 ** The =init.el= EShell: Emacs cross platform shell
-#+BEGIN_SRC emacs-lisp :tangle init.el
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el
   (setq eshell-visual-subcommands '("git" "diff" "log" "show"))
 
   (defun amirreza/eshell-hook ()
@@ -721,8 +720,9 @@ Here I also install =dumb-jump= package which enables emacs to jump to definitio
 
 #+END_SRC
 
+
 ** The =init.el= reporting startup performance
-#+BEGIN_SRC emacs-lisp :tangle init.el
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el
   (defvar amirreza/emacs-init-took (* (float-time (time-subtract (float-time) amirreza/emacs-starting-time)) 1000) "Time took to load my init file, value is in milliseconds.")
   (defvar emacs-init-time-took (* (string-to-number (emacs-init-time "%f")) 1000) "Time took Emacs to boot, value is in milliseconds.")
   (setq amirreza/emacs-init-log-message (format "Amirreza emacs init took %fms, Emacs init took: %fms" amirreza/emacs-init-took emacs-init-time-took))
