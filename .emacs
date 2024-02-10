@@ -336,16 +336,15 @@
 				 " "
 				 "["
 				 (:eval (if (buffer-file-name) (buffer-file-name) (buffer-name)))
-				 "]"
-				 " "
-				 (:eval (when vc-mode (format "[%s]" (string-trim vc-mode))))
-				 " "
-				 (:eval (format "[%s]" (capitalize (string-remove-suffix "-mode" (symbol-name major-mode)))))
-				 " "
+				 "] "
+				 "["
 				 mode-line-percent-position
 				 " "
 				 "(%l, %C)"
+				 "] "
+				 (:eval (when vc-mode (format "[%s]" (string-trim vc-mode))))
 				 " "
+				 (:eval (format "[%s]" (capitalize (string-remove-suffix "-mode" (symbol-name major-mode)))))
 				 (text-scale-mode
 				  (" " text-scale-mode-lighter))
 				 ))
