@@ -247,10 +247,12 @@ Emacs by default launches =kill-emacs= command which exits emacs on =C-x C-c= ke
 
 
 ** The =init.el= Themes
-I have some custom themes that I defined but also I install =ef-themes= from protesilas which are have a great minimal color pallet.
+I have some custom themes that I defined but also I install =ef-themes= from protesilas which are have a great minimal color pallet. I have a custom command =amirreza/set-theme= which wraps both =load-theme= and =enable-theme= commands to have a unified interface for setting emacs theme, also it removes stacking of thems inside Emacs since it's useless at least in my experience and just messes up when switching themes.
 #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el
-    (global-hl-line-mode +1)
+  (global-hl-line-mode +1)
   (install 'ef-themes)
+  (install 'doom-themes)
+  (install 'modus-themes)
   (defvar amirreza/--themes '())
   (defmacro amirreza/deftheme (NAME DOC)
     `(progn
@@ -394,9 +396,7 @@ I have some custom themes that I defined but also I install =ef-themes= from pro
       (load-theme NAME t)))
 
   (defalias 'Theme 'amirreza/set-theme)
-  (amirreza/set-theme 'Dirt)
-
-
+  (amirreza/set-theme 'modus-vivendi)
 #+END_SRC
 
 
