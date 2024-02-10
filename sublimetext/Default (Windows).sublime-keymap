@@ -19,6 +19,8 @@
     // { "keys": ["ctrl+r"], "command": "show_panel", "args": { "panel": "incremental_find", "reverse": true } },
     // { "keys": ["ctrl+x", "ctrl+s"], "command": "save", "args": { "async": "true" } },
     // { "keys": ["alt+x"], "command": "show_overlay", "args": { "overlay": "command_palette" } },
+    
+    { "keys": ["alt+,"], "command": "jump_back"},
     // LSP related Keys...
     {
         "keys": ["alt+enter"],

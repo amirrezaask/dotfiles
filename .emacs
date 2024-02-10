@@ -277,9 +277,9 @@
  `(minibuffer-prompt                ((t (:foreground "#a08563") :bold t)))
  `(show-paren-match                 ((t (:background "#e0741b" :foreground "#000000")))))
 
-(amirreza/deftheme Dark "Dark: My custom minimal dark theme.")
+(amirreza/deftheme Black "")
 (custom-theme-set-faces
- 'Dark
+ 'Black
  `(default                          ((t (:foreground "grey89" :background "grey0"))))
  `(cursor                           ((t (:background "grey99"))))
  `(font-lock-keyword-face           ((t (:foreground "cyan3"))))
@@ -307,7 +307,7 @@
     (load-theme NAME t)))
 
 (defalias 'Theme 'amirreza/set-theme)
-(amirreza/set-theme 'Dark)
+(amirreza/set-theme 'Black)
 
 ;; @Section: Minibuffer enhancement
 (install 'orderless "Orderless Completion strategy, sort of like fuzzy but different.")
@@ -334,13 +334,19 @@
 				 mode-line-modified
 				 mode-line-remote
 				 " "
-				 (:eval (or (buffer-file-name) (buffer-name)))
-				 "    "
+				 "["
+				 (:eval (if (buffer-file-name) (buffer-file-name) (buffer-name)))
+				 "]"
+				 " "
+				 (:eval (when vc-mode (format "[%s]" (string-trim vc-mode))))
+				 " "
+				 (:eval (format "[%s]" (capitalize (string-remove-suffix "-mode" (symbol-name major-mode)))))
+				 " "
+				 "["
 				 mode-line-percent-position
 				 " "
 				 "(%l, %C)"
-				 "    "
-				 (vc-mode vc-mode)
+				 "]"
 				 " "
 				 (text-scale-mode
 				  (" " text-scale-mode-lighter))
