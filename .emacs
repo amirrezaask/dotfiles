@@ -342,11 +342,9 @@
 				 " "
 				 (:eval (format "[%s]" (capitalize (string-remove-suffix "-mode" (symbol-name major-mode)))))
 				 " "
-				 "["
 				 mode-line-percent-position
 				 " "
 				 "(%l, %C)"
-				 "]"
 				 " "
 				 (text-scale-mode
 				  (" " text-scale-mode-lighter))
