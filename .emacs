@@ -1,5 +1,3 @@
-;; TODO: add vendor to all go projects and then do go mod vendor so we have vendored libraries and we can search in them.
-
 (when load-file-name
   (setq BASE_PATH (file-name-directory load-file-name)) ;; Store this file location.
   (setq INIT_FILE load-file-name))
@@ -36,7 +34,7 @@
 (set-frame-parameter nil 'fullscreen 'maximized) ;; Start emacs in maximized state.
 (add-to-list 'default-frame-alist '(fullscreen . maximized)) ;; always start frames maximized
 
-(setq-default frame-title-format '("%e" (:eval (format "%s @ %s" default-directory system-name)))) ;; OS window title
+(setq-default frame-title-format '("%e" (:eval (format "%s" default-directory)))) ;; OS window title
 (unless (executable-find "rg") (error "Install ripgrep, this configuration relies heavy on it's features."))
 (global-unset-key (kbd "C-x C-c"))
 
@@ -75,7 +73,7 @@
   (interactive)
   (text-scale-decrease 1))
 
-(amirreza/set-font "Consolas" 13)
+(amirreza/set-font "Source Code Pro" 13)
 
 (global-set-key (kbd "C-=")  'amirreza/text-scale-increase)
 (global-set-key (kbd "C--")  'amirreza/text-scale-decrease)
@@ -116,6 +114,7 @@
 (setq kill-whole-line t) ;; kill line and newline char
 (global-auto-revert-mode +1) ;; Revert buffer to disk state when disk changes under our foot.
 (delete-selection-mode) ;; when selected a text and user types delete text
+(global-display-line-numbers-mode +1) ;; Display line numbers.
 
 (install 'so-long "So emacs can handle long lines :))")
 (global-so-long-mode +1)
@@ -164,6 +163,7 @@
 ;; @Section Themes
 (global-hl-line-mode +1)
 (install 'ef-themes)
+(install 'dracula-theme)
 (defvar amirreza/--themes '())
 (defmacro amirreza/deftheme (NAME DOC)
   `(progn
@@ -403,6 +403,13 @@
 (defun amirreza/compile-buffer-name-function (MODE)
   (let ((dir (find-project-root-or-default-directory)))
     (format "*compile-%s*" dir)))
+
+(defun amirreza/open-directory-in-frame (DIR)
+  (interactive (list (read-directory-name "Directory: " default-directory)))
+  (let* ((dired-buffer (dired-noselect DIR)))
+    (with-current-buffer dired-buffer
+      (make-frame))))
+(global-set-key (kbd "C-c o") 'amirreza/open-directory-in-frame)
 
 (setq-default compilation-buffer-name-function 'amirreza/compile-buffer-name-function)
 

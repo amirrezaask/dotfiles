@@ -1,6 +1,6 @@
 {
 	"color_scheme": "Black.sublime-color-scheme",
-	"font_size": 14,
+	"font_size": 17,
 	"font_face": "Jetbrains Mono",
 	"highlight_line": true,
 	"hot_exit": "disabled",
@@ -12,6 +12,5 @@
 	"index_files": true,
 	"theme": "Adaptive.sublime-theme",
 	"word_wrap": "true",
-	"auto_complete": false,
 
 }
