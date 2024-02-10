@@ -2,7 +2,7 @@
 #+TITLE: Amirreza Emacs Configuration
 #+STARTUP: fold
 
-Literate configuration is one of many powers of =org-mode= but it has a serious performance effect on emacs startup time. How I do it is a bit different from popular way of doing it, this document is my whole Emacs configuration and there is no =init.el= file to bootstrap emacs and load this file, but tangling is manual so every time I make changes to this file I update generated output with =C-c C-v t= or =org-babel-tangle-file=.
+Literate configuration is one of many powers of =org-mode= but it has a serious performance effect on emacs startup time. How I do it is a bit different from popular way of doing it, this document is my whole Emacs configuration and there is no =init.el= file to bootstrap emacs and load this file, but tangling is manual so every time I make changes to this file I update generated output with =C-c C-v t= or I just evaluate following elisp expression.
 #+BEGIN_SRC emacs-lisp
   (org-babel-tangle)
 #+END_SRC
@@ -651,6 +651,7 @@ For searching in text I mostly recommend =ripgrep= which is available for all ma
 
 
 ** The =init.el= Elisp Programming
+Nothing fancy here, just a simple function to toggle emacs debug mode when certain things crash and I want to see the stack trace.
 #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el
   (defun toggle-debug-mode ()
     "Toggle Emacs debug mode." 
@@ -662,6 +663,7 @@ For searching in text I mostly recommend =ripgrep= which is available for all ma
 
 
 ** The =init.el= Misc programming modes
+I hope the day would come that I don't need to install any of the following anymore, but in the mean time it's nice especially for PHP to have some syntax highlighting.
 #+BEGIN_SRC emacs-lisp
 (install 'php-mode)
 (install 'yaml-mode)

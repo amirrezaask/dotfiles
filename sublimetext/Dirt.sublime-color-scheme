@@ -1,0 +1,38 @@
+{
+	"name": "Dirt",
+    "globals":
+    {
+        "background": "#161616",
+        "foreground": "#debe95",
+        "caret": "lightgreen",
+        "line_highlight": "#252525",
+        "selection": "medium blue",
+    },
+    "rules":
+    [
+        {
+            "name": "Comment",
+            "scope": "comment, punctuation.definition.comment",
+            "foreground": "#3fdf1f"
+        },
+        {
+            "name": "String",
+            "scope": "string",
+            "foreground": "#0fdfaf"
+        },
+        {
+            "name": "Punctuation",
+            "scope": "punctuation.definition - punctuation.definition.numeric.base",
+        },
+        {
+            "name": "Function Name",
+            "scope": "entity.name.function, variable.function",
+            "foreground": "white"
+        },
+        {
+            "name": "Keyword",
+            "scope": "keyword - keyword.operator",
+            "foreground": "#d4d4d4"
+        },
+    ]
+}

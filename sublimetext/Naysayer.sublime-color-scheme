@@ -1,0 +1,38 @@
+{
+	"name": "Naysayer",
+    "globals":
+    {
+        "background": "#072629",
+        "foreground": "#d3b58d",
+        "caret": "lightgreen",
+        "line_highlight": "#0c4141",
+        "selection": "medium blue",
+    },
+    "rules":
+    [
+        {
+            "name": "Comment",
+            "scope": "comment, punctuation.definition.comment",
+            "foreground": "#3fdf1f"
+        },
+        {
+            "name": "String",
+            "scope": "string",
+            "foreground": "#0fdfaf"
+        },
+        {
+            "name": "Punctuation",
+            "scope": "punctuation.definition - punctuation.definition.numeric.base",
+        },
+        {
+            "name": "Function Name",
+            "scope": "entity.name.function, variable.function",
+            "foreground": "white"
+        },
+        {
+            "name": "Keyword",
+            "scope": "keyword - keyword.operator",
+            "foreground": "#d4d4d4"
+        },
+    ]
+}
