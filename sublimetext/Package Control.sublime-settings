@@ -3,7 +3,6 @@
 	[
 		"LSP",
 		"LSP-gopls",
-		"Materialize",
 		"Package Control",
 	],
 	"in_process_packages":

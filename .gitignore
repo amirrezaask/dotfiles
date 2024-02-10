@@ -4,14 +4,11 @@ elpa
 elpaca
 straight
 transient
-custom.el
-README.el
 fish/completions
 fish/conf.d
 fish/functions
 fish/fish_variables
 helix/runtime
-emacs.el
-
-
+init.el
+early-init.el
 
