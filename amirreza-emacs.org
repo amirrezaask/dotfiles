@@ -8,7 +8,7 @@ The way I do it is that I have this file and also I have configured emacs using 
 #+BEGIN_SRC cmd
 mklink %APPDATA%/.emacs.d/init.el %DOTFILES%/init.el
 mklink %APPDATA%/.emacs.d/early-init.el %DOTFILES%/early-init.el
-#+END
+#+END_SRC
 
 *** Linux/macOS
 #+BEGIN_SRC bash
