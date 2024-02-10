@@ -80,6 +80,12 @@ This part I define some variables and functions to help me with configuring Emac
 
 
 
+** The =init.el= On Windows change drive to W
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el
+(cd "W:")
+#+END_SRC
+
+
 ** The =init.el= Basic editing experience.
 #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el
   (setq vc-follow-symlinks t               ;; Follow symlinks with no questions
@@ -241,10 +247,10 @@ Emacs by default launches =kill-emacs= command which exits emacs on =C-x C-c= ke
 
 
 ** The =init.el= Themes
+I have some custom themes that I defined but also I install =ef-themes= from protesilas which are have a great minimal color pallet.
 #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el
     (global-hl-line-mode +1)
   (install 'ef-themes)
-  (install 'dracula-theme)
   (defvar amirreza/--themes '())
   (defmacro amirreza/deftheme (NAME DOC)
     `(progn
@@ -491,6 +497,7 @@ Here I also install =dumb-jump= package which enables emacs to jump to definitio
 
 
 ** The =init.el= compilation-mode
+Emacs complation mode is really useful since it's async and also can parse output from the command and find file patterns and make them links to jump to, I have a simple wrapper function that uses my find repo root helper to provide a default value for =amirreza/compile= command directory prompt. By default emacs uses =default-directory= which is your current buffer location, and in projects that I work that's wrong almost always.
 #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el
   (defun amirreza/compile-buffer-name-function (MODE)
     (let ((dir (find-project-root-or-default-directory)))
@@ -569,6 +576,7 @@ Here I also install =dumb-jump= package which enables emacs to jump to definitio
 
 
 ** The =init.el= Grep
+For searching in text I mostly recommend =ripgrep= which is available for all major platforms and is super fast, but for sake of compatibility I have functions and configurations for default =gnu-grep= which is installed on most GNU/linux systems as well. I also do the same logic of guessing which directory it should use as the =working directory= for grep program.
 #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el
   (defun rg (dir pattern)
     "runs Ripgrep program in a compilation buffer."
