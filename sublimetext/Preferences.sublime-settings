@@ -1,5 +1,5 @@
 {
-	"color_scheme": "Monokai.sublime-color-scheme",
+	"color_scheme": "Packages/User/aura-theme.tmTheme",
 	"font_size": 14,
 	"font_face": "Fira Code",
 	"highlight_line": true,

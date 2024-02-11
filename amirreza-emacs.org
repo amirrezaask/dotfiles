@@ -221,7 +221,15 @@ Emacs by default launches =kill-emacs= command which exits emacs on =C-x C-c= ke
 ** The =init.el= Package.el
 #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el
   (require 'package)
-  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+  (setq package-archives
+	'(("gnu-elpa" . "https://elpa.gnu.org/packages/")
+	  ("nongnu" . "https://elpa.nongnu.org/nongnu/")
+	  ("melpa" . "https://melpa.org/packages/")))
+  (setq package-archive-priorities
+	'(("gnu-elpa" . 2)
+	  ("melpa" . 1)
+	  ("nongnu" . 0)))
+
   (package-initialize)
   (defun install (PKG &optional DOC)
     (if (listp PKG)
@@ -246,10 +254,16 @@ Emacs by default launches =kill-emacs= command which exits emacs on =C-x C-c= ke
 #+END_SRC
 
 
+** The =init.el= Treat all themes as safe
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el
+(setq custom-safe-themes t)
+#+END_SRC
+
+
 ** The =init.el= Themes
 I have some custom themes that I defined but also I install =ef-themes= from protesilas which are have a great minimal color pallet. I have a custom command =amirreza/set-theme= which wraps both =load-theme= and =enable-theme= commands to have a unified interface for setting emacs theme, also it removes stacking of thems inside Emacs since it's useless at least in my experience and just messes up when switching themes.
 #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el
-  (global-hl-line-mode +1)
+  (global-hl-line-mode -1)
   (install 'ef-themes)
   (install 'doom-themes)
   (install 'modus-themes)
@@ -428,7 +442,7 @@ Here I also install =dumb-jump= package which enables emacs to jump to definitio
 #+END_SRC
 
 
-** The =init.el= Modeline
+** The =init.el= Customizes modeline to be a simpler and yet more informative.
 #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el
   (setq-default mode-line-format '("%e"
 				   mode-line-front-space
@@ -451,8 +465,6 @@ Here I also install =dumb-jump= package which enables emacs to jump to definitio
 				   ))
 
 #+END_SRC
-
-
 
 
 ** The =init.el= display-buffer-alist controlls where certain buffers are displayed.
