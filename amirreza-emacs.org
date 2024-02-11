@@ -421,6 +421,7 @@ Black is a custom, minimal, dark colorscheme by me.
   (install 'ef-themes)
   (install 'doom-themes)
   (install 'modus-themes)
+  (install 'dracula-theme)
 #+END_SRC
 
 *** Customizing =load-theme=
