@@ -422,6 +422,7 @@ Black is a custom, minimal, dark colorscheme by me.
   (install 'doom-themes)
   (install 'modus-themes)
   (install 'dracula-theme)
+  (install 'gruber-darker-theme)
 #+END_SRC
 
 *** Customizing =load-theme=
@@ -483,10 +484,10 @@ Here I also install =dumb-jump= package which enables emacs to jump to definitio
 				   mode-line-remote
 				   " "
 				   (:eval (if (buffer-file-name) (buffer-file-name) (buffer-name)))
-				   " | "
-				   (:eval (when vc-mode (format "%s" (string-trim vc-mode))))
-				   " | "
-				   (:eval (format "%s" (capitalize (string-remove-suffix "-mode" (symbol-name major-mode)))))
+				   " "
+				   (:eval (when vc-mode (format "| %s |" (string-trim vc-mode))))
+				   " "
+				   (:eval (format "%s" (capitalize (symbol-name major-mode))))
 				   " | "
 				   mode-line-percent-position
 				   " "
