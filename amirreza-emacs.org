@@ -432,10 +432,14 @@ Black is a custom, minimal, dark colorscheme by me.
     (load-theme 'modus-vivendi)
 #+END_SRC
 
-*** Default Theme
+*** Add personal custom themes to theme-load-path
 #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el
   (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
-  (load-theme 'black)
+#+END_SRC
+
+*** Default Theme
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el
+  (load-theme 'dirt)
 #+END_SRC
 
 
