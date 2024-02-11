@@ -261,46 +261,47 @@ Emacs by default launches =kill-emacs= command which exits emacs on =C-x C-c= ke
 
 
 ** The =init.el= Themes
-I have some custom themes that I defined but also I install =ef-themes= from protesilas which are have a great minimal color pallet. I have a custom command =amirreza/set-theme= which wraps both =load-theme= and =enable-theme= commands to have a unified interface for setting emacs theme, also it removes stacking of thems inside Emacs since it's useless at least in my experience and just messes up when switching themes.
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el
-  (global-hl-line-mode -1)
-  (install 'ef-themes)
-  (install 'doom-themes)
-  (install 'modus-themes)
-  (defvar amirreza/--themes '())
-  (defmacro amirreza/deftheme (NAME DOC)
-    `(progn
-       (deftheme ,NAME ,DOC)
-       (add-to-list 'amirreza/--themes (quote ,NAME))))
+In Emacs there is =face= concept that is used by different elisp programs when drawing on the screen. Themes are basically a set of instructions that tell emacs when that theme is applied what values should be applied to what face.
+Themes are typically loaded from =-theme.el= files that are located in =custom-theme-load-path=.
+*** Naysayer Theme 
+I am a fan of Jonathan Blow and I follow his work and I am really interested in =Jai= programming language. I created this theme by copying from his Emacs configuration.
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/themes/naysayer-theme.el
+    (deftheme naysayer "Inspired by Jonathan Blow (naysayer).")
+    (custom-theme-set-faces
+       'naysayer
+       `(default                          ((t (:foreground "#d3b58d" :background "#072629"))))
+       `(hl-line                          ((t (:background "#0c4141"))))
+       `(vertico-current                  ((t (:background "#0c4141"))))
+       `(region                           ((t (:background  "medium blue"))))
+       `(cursor                           ((t (:background "lightgreen"))))
+       `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
+       `(font-lock-type-face              ((t (:foreground "#8cde94"))))
+       `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
+       `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
+       `(font-lock-builtin-face           ((t (:foreground "white"))))
+       `(font-lock-string-face            ((t (:foreground "#0fdfaf"))))
+       `(font-lock-comment-face           ((t (:foreground "#3fdf1f"))))
+       `(font-lock-comment-delimiter-face ((t (:foreground "#3fdf1f"))))
+       `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
+       `(font-lock-function-name-face     ((t (:foreground "white"))))
+       `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
+       `(font-lock-warning-face           ((t (:foreground "yellow"))))
+       `(font-lock-note-face              ((t (:foreground "khaki2" ))))
+       `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
+       `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
+       `(show-paren-match                 ((t (:background "mediumseagreen")))))
 
-  (amirreza/deftheme Naysayer "Inspired by Jonathan Blow (naysayer).")
-  (custom-theme-set-faces
-   'Naysayer
-   `(default                          ((t (:foreground "#d3b58d" :background "#072629"))))
-   `(hl-line                          ((t (:background "#0c4141"))))
-   `(vertico-current                  ((t (:background "#0c4141"))))
-   `(region                           ((t (:background  "medium blue"))))
-   `(cursor                           ((t (:background "lightgreen"))))
-   `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
-   `(font-lock-type-face              ((t (:foreground "#8cde94"))))
-   `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
-   `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
-   `(font-lock-builtin-face           ((t (:foreground "white"))))
-   `(font-lock-string-face            ((t (:foreground "#0fdfaf"))))
-   `(font-lock-comment-face           ((t (:foreground "#3fdf1f"))))
-   `(font-lock-comment-delimiter-face ((t (:foreground "#3fdf1f"))))
-   `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
-   `(font-lock-function-name-face     ((t (:foreground "white"))))
-   `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
-   `(font-lock-warning-face           ((t (:foreground "yellow"))))
-   `(font-lock-note-face              ((t (:foreground "khaki2" ))))
-   `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
-   `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
-   `(show-paren-match                 ((t (:background "mediumseagreen")))))
+  (when load-file-name
+    (add-to-list 'custom-theme-load-path
+		 (file-name-as-directory (file-name-directory load-file-name))))
+#+END_SRC
 
-  (amirreza/deftheme Dirt "Brown theme inspired by Jonathan Blow (naysayer)")
+*** Dirt Theme
+Another theme inspired by Jonathan blow Emacs configurations, this one is older than =Naysayer= theme.
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/themes/dirt-theme.el
+  (deftheme dirt "Brown theme inspired by Jonathan Blow (naysayer)")
   (custom-theme-set-faces
-   'Dirt
+   'dirt
    `(default                          ((t (:foreground "#debe95" :background "#161616"))))
    `(hl-line                          ((t (:background "#252525"))))
    `(vertico-current                  ((t (:background "#252525"))))
@@ -322,10 +323,16 @@ I have some custom themes that I defined but also I install =ef-themes= from pro
    `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
    `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
    `(show-paren-match                 ((t (:background "mediumseagreen")))))
-
-  (amirreza/deftheme Handmadehero "Theme from popular handmadehero.")
+  (when load-file-name
+    (add-to-list 'custom-theme-load-path
+		 (file-name-as-directory (file-name-directory load-file-name))))
+#+END_SRC
+*** HandmadeHero Theme
+This theme is taken from Casey Muratori's HandmadeHero series.
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/themes/handmadehero-theme.el
+  (deftheme handmadehero "Theme from popular handmadehero.")
   (custom-theme-set-faces
-   'Handmadehero
+   'handmadehero
    `(default                          ((t (:foreground "#cdaa7d" :background "#161616"))))
    `(cursor                           ((t (:background "green"))))
    `(font-lock-keyword-face           ((t (:foreground "DarkGoldenrod3"))))
@@ -348,8 +355,10 @@ I have some custom themes that I defined but also I install =ef-themes= from pro
    `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
    `(show-paren-match                 ((t (:background "burlywood3" :foreground "black"))))
    `(highlight                        ((t (:foreground nil :background "medium blue")))))
-
-  (amirreza/deftheme 4coder-fleury "Theme from 4coder setup of ryan fleury")
+#+END_SRC
+*** 4Coder-Fleury Theme
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/themes/4coder-fleury-theme.el
+  (deftheme 4coder-fleury "Theme from 4coder setup of ryan fleury")
   (custom-theme-set-faces
    '4coder-fleury
    `(default                          ((t (:foreground "#a08563" :background "#0c0c0c"))))
@@ -379,38 +388,54 @@ I have some custom themes that I defined but also I install =ef-themes= from pro
    `(mode-line-inactive               ((t (:foreground "#cb9401" :background "#1f1f27"))))
    `(minibuffer-prompt                ((t (:foreground "#a08563") :bold t)))
    `(show-paren-match                 ((t (:background "#e0741b" :foreground "#000000")))))
+#+END_SRC
 
-  (amirreza/deftheme Black "")
+*** Black Theme
+Black is a custom, minimal, dark colorscheme by me.
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/themes/black-theme.el
+  (deftheme black "")
   (custom-theme-set-faces
-   'Black
-   `(default                          ((t (:foreground "grey89" :background "grey0"))))
-   `(cursor                           ((t (:background "grey99"))))
-   `(font-lock-keyword-face           ((t (:foreground "cyan3"))))
-   `(font-lock-type-face              ((t (:foreground "lightblue3"))))
-   `(font-lock-variable-name-face     ((t (:foreground "grey89"))))
-   `(font-lock-string-face            ((t (:foreground "lightgreen"))))
-   `(font-lock-comment-face           ((t (:foreground "grey50"))))
-   `(font-lock-comment-delimiter-face ((t (:foreground "grey50"))))
-   `(font-lock-doc-face               ((t (:foreground "grey50"))))
-   `(font-lock-function-name-face     ((t (:foreground "lightblue2"))))
-   `(font-lock-doc-string-face        ((t (:foreground "grey50"))))
-   `(region                           ((t (:background "grey23"))))
-   `(hl-line                          ((t (:background "grey10"))))
-   `(vertico-current                  ((t (:background "grey10"))))
-   `(mode-line                        ((t (:background "grey10" :foreground "grey89" :box t))))
-   `(mode-line-inactive               ((t (:background "grey3" :foreground "grey89" :box t))))
-   `(highlight                        ((t (:foreground nil :background "cyan")))))
+     'black
+     `(default                          ((t (:foreground "grey89" :background "grey0"))))
+     `(cursor                           ((t (:background "grey99"))))
+     `(font-lock-keyword-face           ((t (:foreground "cyan3"))))
+     `(font-lock-type-face              ((t (:foreground "lightblue3"))))
+     `(font-lock-variable-name-face     ((t (:foreground "grey89"))))
+     `(font-lock-string-face            ((t (:foreground "lightgreen"))))
+     `(font-lock-comment-face           ((t (:foreground "grey50"))))
+     `(font-lock-comment-delimiter-face ((t (:foreground "grey50"))))
+     `(font-lock-doc-face               ((t (:foreground "grey50"))))
+     `(font-lock-function-name-face     ((t (:foreground "lightblue2"))))
+     `(font-lock-doc-string-face        ((t (:foreground "grey50"))))
+     `(region                           ((t (:background "grey23"))))
+     `(hl-line                          ((t (:background "grey10"))))
+     `(vertico-current                  ((t (:background "grey10"))))
+     `(mode-line                        ((t (:background "grey10" :foreground "grey89" :box t))))
+     `(mode-line-inactive               ((t (:background "grey3" :foreground "grey89" :box t))))
+     `(highlight                        ((t (:foreground nil :background "cyan")))))
 
-  (defun amirreza/set-theme (NAME)
-    (interactive (list (intern (completing-read "Theme: " (append (mapcar #'symbol-name amirreza/--themes) (mapcar #'symbol-name (custom-available-themes)))))))
-    (dolist (theme custom-enabled-themes)
-      (disable-theme theme))
-    (if (member NAME amirreza/--themes)
-	(enable-theme NAME)
-      (load-theme NAME t)))
+#+END_SRC
 
-  (defalias 'Theme 'amirreza/set-theme)
-  (amirreza/set-theme 'modus-vivendi)
+*** Third party theme packages
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el
+  (install 'ef-themes)
+  (install 'doom-themes)
+  (install 'modus-themes)
+#+END_SRC
+
+*** Customizing =load-theme=
+=load-theme= by default does not disable previously loaded themes because it wants to enable stacking themes up.
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el
+    (defadvice load-theme (before disable-themes-first activate)
+      (dolist (i custom-enabled-themes)
+	(disable-theme i)))
+    (load-theme 'modus-vivendi)
+#+END_SRC
+
+*** Default Theme
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el
+  (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
+  (load-theme 'black)
 #+END_SRC
 
 
@@ -449,17 +474,15 @@ Here I also install =dumb-jump= package which enables emacs to jump to definitio
 				   mode-line-modified
 				   mode-line-remote
 				   " "
-				   "["
 				   (:eval (if (buffer-file-name) (buffer-file-name) (buffer-name)))
-				   "] "
-				   "["
+				   " "
 				   mode-line-percent-position
 				   " "
 				   "(%l, %C)"
-				   "] "
-				   (:eval (when vc-mode (format "[%s]" (string-trim vc-mode))))
 				   " "
-				   (:eval (format "[%s]" (capitalize (string-remove-suffix "-mode" (symbol-name major-mode)))))
+				   (:eval (when vc-mode (format "%s" (string-trim vc-mode))))
+				   " "
+				   (:eval (format "%s" (capitalize (string-remove-suffix "-mode" (symbol-name major-mode)))))
 				   (text-scale-mode
 				    (" " text-scale-mode-lighter))
 				   ))
