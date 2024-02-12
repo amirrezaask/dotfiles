@@ -206,7 +206,7 @@
  `(hl-line                          ((t (:background "#252525"))))
  `(vertico-current                  ((t (:background "#252525"))))
  `(region                           ((t (:background  "medium blue"))))
- `(cursor                           ((t (:background "green"))))
+ `(cursor                           ((t (:background "lightgreen"))))
  `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
  `(font-lock-type-face              ((t (:foreground "#8cde94"))))
  `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
