@@ -156,42 +156,48 @@ Emacs by default launches =kill-emacs= command which exits emacs on =C-x C-c= ke
 
 
 ** The =init.el= Font
+*** Font Helpers
 #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el
-  (setq font-family "")
-  (defun amirreza/set-font (font fontsize)
-    "Loads a font."
-    (interactive (list (read-string "Font Family: ") (read-number "Font Size: ")))
-    (let ((fontstring (format "%s %d" font fontsize)))
-      (setq font-family font)
-      (add-to-list 'default-frame-alist `(font . ,fontstring))
-      (set-frame-font fontstring nil t)
-      (set-face-attribute 'default t :font fontstring)))
+   (setq font-family "")
+   (defun amirreza/set-font (font fontsize)
+     "Loads a font."
+     (interactive (list (read-string "Font Family: ") (read-number "Font Size: ")))
+     (let ((fontstring (format "%s %d" font fontsize)))
+       (setq font-family font)
+       (add-to-list 'default-frame-alist `(font . ,fontstring))
+       (set-frame-font fontstring nil t)
+       (set-face-attribute 'default t :font fontstring)))
+
 
   (defalias 'Font 'amirreza/set-font)
+  (defalias 'load-font 'amirreza/set-font)
 
-  (defun amirreza/set-font-size (fontsize)
-    "Set a font size"
-    (interactive (list (read-number "Font Size: ")))
-    (let ((fontstring (format "%s %d" font-family fontsize)))
-      (add-to-list 'default-frame-alist `(font . ,fontstring))
-      (set-frame-font fontstring nil t)
-      (set-face-attribute 'default t :font fontstring)))
+   (defun amirreza/set-font-size (fontsize)
+     "Set a font size"
+     (interactive (list (read-number "Font Size: ")))
+     (let ((fontstring (format "%s %d" font-family fontsize)))
+       (add-to-list 'default-frame-alist `(font . ,fontstring))
+       (set-frame-font fontstring nil t)
+       (set-face-attribute 'default t :font fontstring)))
 
-  (defalias 'FontSize 'amirreza/set-font-size)
+   (defalias 'FontSize 'amirreza/set-font-size)
 
-  (defun amirreza/text-scale-increase ()
-    (interactive)
-    (text-scale-increase 1))
+   (defun amirreza/text-scale-increase ()
+     (interactive)
+     (text-scale-increase 1))
 
-  (defun amirreza/text-scale-decrease ()
-    (interactive)
-    (text-scale-decrease 1))
+   (defun amirreza/text-scale-decrease ()
+     (interactive)
+     (text-scale-decrease 1))
 
-  (amirreza/set-font "Source Code Pro" 13)
+   (global-set-key (kbd "C-=")  'amirreza/text-scale-increase)
+   (global-set-key (kbd "C--")  'amirreza/text-scale-decrease)
 
-  (global-set-key (kbd "C-=")  'amirreza/text-scale-increase)
-  (global-set-key (kbd "C--")  'amirreza/text-scale-decrease)
+#+END_SRC
 
+*** Load default font
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el
+(load-font "Source Code Pro" 13)
 #+END_SRC
 
 
