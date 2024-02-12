@@ -124,6 +124,7 @@
     (set-face-attribute 'default t :font fontstring)))
 
 (defalias 'Font 'amirreza/set-font)
+(defalias 'load-font 'amirreza/set-font)
 
 (defun amirreza/set-font-size (fontsize)
   "Set a font size"
@@ -143,7 +144,7 @@
   (interactive)
   (text-scale-decrease 1))
 
-(amirreza/set-font "Source Code Pro" 13)
+(amirreza/set-font "Consolas" 13)
 
 (global-set-key (kbd "C-=")  'amirreza/text-scale-increase)
 (global-set-key (kbd "C--")  'amirreza/text-scale-decrease)
