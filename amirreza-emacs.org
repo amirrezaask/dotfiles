@@ -476,7 +476,7 @@ Here I also install =dumb-jump= package which enables emacs to jump to definitio
 #+END_SRC
 
 
-** The =init.el= Customizes modeline to be a simpler and yet more informative.
+** The =init.el= Modeline: Customizes modeline to be a simpler and yet more informative.
 #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el
   (setq-default mode-line-format '("%e"
 				   mode-line-front-space
@@ -487,12 +487,12 @@ Here I also install =dumb-jump= package which enables emacs to jump to definitio
 				   " "
 				   (:eval (when vc-mode (format "| %s |" (string-trim vc-mode))))
 				   " "
-				   (:eval (format "%s" (capitalize (symbol-name major-mode))))
+				   (:eval (format "(%s)" (capitalize (string-remove-suffix "-mode" (symbol-name major-mode)))))
 				   " | "
 				   mode-line-percent-position
 				   " "
 				   "(%l, %C)"
-
+				   " | "
 				   (text-scale-mode
 				    (" " text-scale-mode-lighter))
 				   ))
