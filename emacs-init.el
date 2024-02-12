@@ -102,7 +102,7 @@
 (global-set-key (kbd "C-<")                                          'beginning-of-buffer)
 (global-set-key (kbd "M-n")                                          'jump-down)
 (global-set-key (kbd "M-p")                                          'jump-up)
-(global-set-key (kbd "C-;")                                          'consult-goto-line)
+(global-set-key (kbd "C-;")                                          'goto-line)
 (global-set-key (kbd "C-c n")                                        'next-buffer)
 (global-set-key (kbd "C-c p")                                        'previous-buffer)
 (global-set-key (kbd "C-.")                                          'isearch-forward-thing-at-point)
@@ -334,6 +334,8 @@
 
 (with-eval-after-load 'compile
   (define-key compilation-mode-map (kbd "<f5>") 'recompile)
+  (define-key compilation-mode-map (kbd "n") 'next-line)
+  (define-key compilation-mode-map (kbd "p") 'previous-line)
   (define-key compilation-mode-map (kbd "k") 'kill-compilation))
 
 (global-set-key (kbd "M-m") 'amirreza/compile)
@@ -404,33 +406,21 @@
 
 (defalias 'Grep 'amirreza/grep)
 
-(defun amirreza/igrep ()
-  ""
-  (interactive)
-  (unless (package-installed-p 'consult) (error "consult package is needed for this function."))
-  (let ((dir (find-project-root-or-default-directory)))
-    (cond
-     ((or (executable-find "rg") is-windows) (consult-ripgrep dir ""))
-     ((git-repo-p)                           (consult-git-grep dir ""))
-     (t                                      (consult-grep dir "")))))
-
-(defalias 'IGrep 'amirreza/igrep)
-
-(global-set-key (kbd "M-j") 'amirreza/igrep)
-(global-set-key (kbd "C-M-j") 'amirreza/grep)
+(global-set-key (kbd "M-j") 'amirreza/grep)
 
 (with-eval-after-load 'grep
   (define-key grep-mode-map (kbd "<f5>") 'recompile)
   (define-key grep-mode-map (kbd "k") 'kill-compilation))
 
-
 ;; Golang
 (install 'go-mode)
+
 (defun amirreza/go-hook ()
   (interactive)
-  (setq gofmt-args '("-s"))
-  (setq gofmt-command "gofmt")
+  (setq-local gofmt-args '("-s"))
+  (setq-local gofmt-command "gofmt")
   (add-hook 'before-save-hook 'gofmt-before-save 0 t))
+
 (add-hook 'go-mode-hook 'amirreza/go-hook)
 
 ;; C/C++

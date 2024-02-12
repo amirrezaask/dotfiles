@@ -27,6 +27,7 @@ vim.opt.statusline = "%q%w%h%r%m%f %y %l:%c %p%%"
 vim.opt.ignorecase = true
 vim.opt.title = true
 vim.opt.titlestring = '%F'
+vim.opt.cursorline = true
 
 -- Keymaps
 vim.g.mapleader = " " -- <leader> key for keymaps mapped to <Space>
@@ -86,6 +87,9 @@ if vim.g.neovide then -- we have amazing neovide installed.
     vim.g.neovide_cursor_animation_length = 0.00
     vim.opt.guifont = "Consolas:h15"
     vim.g.neovide_cursor_vfx_mode = "sonicboom"
+    function Font(font, size)
+        vim.opt.guifont = string.format("%s:h%d", font, size)
+    end
 end
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -104,27 +108,20 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
     { "kyazdani42/blue-moon" },
-    { "rose-pine/neovim",         name = "rose-pine",          opts = { disable_italics = true } },
+    { "rose-pine/neovim", name = "rose-pine", opts = { styles = { italic = false } } },
     { 'shaunsingh/nord.nvim', config = function()
         vim.g.nord_italic = false
     end},
-    { "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {
-        indent = {
-            char = "|"
-        },
-        scope = {
-            enabled = false
-        }
-    } },
-    { "ellisonleao/gruvbox.nvim", 
-        opts = { contrast = 'hard', 
+
+    { "ellisonleao/gruvbox.nvim",
+        opts = { contrast = 'hard',
             italic = {
                 strings = false,
                 emphasis = false,
                 comments = false,
                 operators = false,
                 folds = false,
-            }} 
+            }}
         },
     { "folke/tokyonight.nvim", opts = { style = "night"} },
     { "rebelot/kanagawa.nvim" },
@@ -155,7 +152,6 @@ require("lazy").setup({
                 },
                 snippet = {
                     expand = function(args)
-                        vim.fn["vsnip#anonymous"](args.body)
                     end,
                 },
                 mapping = cmp.mapping.preset.insert({
@@ -335,4 +331,25 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 THIS_FILE = debug.getinfo(1,'S').short_src
 vim.keymap.set("n", "<leader>i", string.format(":e %s<cr>", THIS_FILE))
 
-vim.cmd.colorscheme("gruvbox")
+-- vim.cmd.colorscheme("gruvbox")
+vim.cmd.colorscheme("rose-pine")
+
+-- Dirt Colorscheme ported from Emacs
+-- vim.cmd [[
+--     hi Normal guibg=#161616 guifg=#debe95
+--     hi Visual guibg=#0000cd
+--     hi Cursor guibg=#90ee90
+--     hi CursorLine guibg=#252525
+--     hi Keyword guifg=#d4d4d4
+--     hi Type guifg=#8cde94
+--     hi Constant guifg=#7ad0c6
+--     hi Identifier guifg=#c8d4ec
+--     hi Constant guifg=#ffffff
+--     hi String guifg=#b3b3b3
+--     hi Comment guifg=#ffff00
+--     hi NonText guifg=none guibg=none
+--     hi SignColumn guibg=#161616
+--     hi LineNr guibg=#161616 guifg=#debe95
+--     hi Pmenu guibg=#232323
+--     hi WildMenu guibg=#252525
+-- ]]

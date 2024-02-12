@@ -1,8 +1,8 @@
 {
-	"auto_complete": false,
-	"color_scheme": "Packages/User/Black.sublime-color-scheme",
-	"font_face": "Source Code Pro",
-	"font_size": 15,
+	"auto_complete": true,
+	"color_scheme": "Dirt.sublime-color-scheme",
+	"font_face": "Consolas",
+	"font_size": 21,
 	"hardware_acceleration": "opengl",
 	"highlight_line": true,
 	"hot_exit": "disabled",
@@ -12,5 +12,5 @@
 	],
 	"index_files": true,
 	"theme": "Adaptive.sublime-theme",
-	"word_wrap": "true"
+	"word_wrap": "true",
 }
