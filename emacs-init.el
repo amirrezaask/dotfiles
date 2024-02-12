@@ -206,7 +206,7 @@
 (require 'vlf-setup)
 
 
-;; Colors
+;; Dirt Theme (default)
 (custom-set-faces
  `(default                          ((t (:foreground "#debe95" :background "#161616"))))
  `(hl-line                          ((t (:background "#252525"))))
@@ -230,6 +230,60 @@
  `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
  `(show-paren-match                 ((t (:background "mediumseagreen")))))
 
+;; Handmadehero Theme
+;; (custom-set-faces
+;;  `(default                          ((t (:foreground "#cdaa7d" :background "#161616"))))
+;;  `(cursor                           ((t (:background "green"))))
+;;  `(font-lock-keyword-face           ((t (:foreground "DarkGoldenrod3"))))
+;;  `(font-lock-type-face              ((t (:foreground "burlywood3"))))
+;;  `(font-lock-constant-face          ((t (:foreground "#olive drab"))))
+;;  `(font-lock-variable-name-face     ((t (:foreground "burlywood3"))))
+;;  `(font-lock-builtin-face           ((t (:foreground "#DAB98F"))))
+;;  `(font-lock-string-face            ((t (:foreground "olive drab"))))
+;;  `(font-lock-comment-face           ((t (:foreground "gray50"))))
+;;  `(font-lock-comment-delimiter-face ((t (:foreground "gray50"))))
+;;  `(font-lock-doc-face               ((t (:foreground "gray50"))))
+;;  `(font-lock-function-name-face     ((t (:foreground "burlywood3"))))
+;;  `(font-lock-doc-string-face        ((t (:foreground "olive drab"))))
+;;  `(font-lock-preprocessor-face      ((t (:foreground "#8cde94"))))
+;;  `(font-lock-warning-face           ((t (:foreground "#504038"))))
+;;  `(region                           ((t (:background "medium blue"))))
+;;  `(hl-line                          ((t (:background "midnight blue"))))
+;;  `(vertico-current                  ((t (:background "midnight blue"))))
+;;  `(mode-line                        ((t (:background "#ffffff" :foreground "#000000"))))
+;;  `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
+;;  `(show-paren-match                 ((t (:background "burlywood3" :foreground "black"))))
+;;  `(highlight                        ((t (:foreground nil :background "medium blue")))))
+
+;; 4coder fleury theme
+;; (custom-set-faces
+;;  `(default                          ((t (:foreground "#a08563" :background "#0c0c0c"))))
+;;  `(cursor                           ((t (:background "#EE7700"))))
+;;  `(font-lock-keyword-face           ((t (:foreground "#f0c674"))))
+;;  `(font-lock-operator-face          ((t (:foreground "#907553"))))
+;;  `(font-lock-punctuation-face       ((t (:foreground "#907553"))))
+;;  `(font-lock-bracket-face           ((t (:foreground "#907553"))))
+;;  `(font-lock-delimiter-face         ((t (:foreground "#907553"))))
+;;  `(font-lock-type-face              ((t (:foreground "#d8a51d"))))
+;;  `(font-lock-constant-face          ((t (:foreground "#6b8e23"))))
+;;  `(font-lock-variable-name-face     ((t (:foreground "#b99468"))))
+;;  `(font-lock-builtin-face           ((t (:foreground "#DAB98F"))))
+;;  `(font-lock-string-face            ((t (:foreground "#6b8e23"))))
+;;  `(font-lock-comment-face           ((t (:foreground "#686868"))))
+;;  `(font-lock-comment-delimiter-face ((t (:foreground "#686868"))))
+;;  `(font-lock-doc-face               ((t (:foreground "#686868"))))
+;;  `(font-lock-function-name-face     ((t (:foreground "#cc5735"))))
+;;  `(font-lock-doc-string-face        ((t (:foreground "#6b8e23"))))
+;;  `(font-lock-preprocessor-face      ((t (:foreground "#DAB98F"))))
+;;  `(font-lock-warning-face           ((t (:foreground "#504038"))))
+;;  `(region                           ((t (:background "#2f2f37"))))
+;;  `(hl-line                          ((t (:background "#171616"))))
+;;  `(vertico-current                  ((t (:background "#171616"))))
+;;  `(highlight                        ((t (:foreground nil :background "#2f2f37"))))
+;;  `(mode-line                        ((t (:foreground "#cb9401" :background "#1f1f27"))))
+;;  `(mode-line-inactive               ((t (:foreground "#cb9401" :background "#1f1f27"))))
+;;  `(minibuffer-prompt                ((t (:foreground "#a08563") :bold t)))
+;;  `(show-paren-match                 ((t (:background "#e0741b" :foreground "#000000")))))
 
 ;; Black Theme
 ;; (custom-set-faces
