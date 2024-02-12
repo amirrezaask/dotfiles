@@ -258,7 +258,7 @@
 				 " "
 				 (:eval (if (buffer-file-name) (buffer-file-name) (buffer-name)))
 				 " "
-				 (:eval (when vc-mode (format "| %s |" (string-trim vc-mode))))
+				 (:eval (when vc-mode (format "| %s |" (string-replace "-" ": " (string-trim vc-mode) ))))
 				 " "
 				 (:eval (format "(%s)" (capitalize (string-remove-suffix "-mode" (symbol-name major-mode)))))
 				 " | "
@@ -269,6 +269,7 @@
 				 (text-scale-mode
 				  (" " text-scale-mode-lighter))
 				 ))
+
 
 (setq display-buffer-alist '(("\\*compile.*\\*"
 			      (display-buffer-in-side-window)

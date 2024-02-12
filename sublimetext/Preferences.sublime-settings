@@ -1,18 +1,16 @@
 {
-	"color_scheme": "Monokai.sublime-color-scheme",
-	"font_size": 22,
-	"font_face": "Fira Code",
+	"auto_complete": false,
+	"color_scheme": "Packages/User/Black.sublime-color-scheme",
+	"font_face": "Source Code Pro",
+	"font_size": 15,
+	"hardware_acceleration": "opengl",
 	"highlight_line": true,
 	"hot_exit": "disabled",
-	"hardware_acceleration": "opengl",
-
 	"ignored_packages":
 	[
-		"Vintage",
+		"Vintage"
 	],
 	"index_files": true,
 	"theme": "Adaptive.sublime-theme",
-	"word_wrap": "true",
-	"auto_complete": false,
-
+	"word_wrap": "true"
 }

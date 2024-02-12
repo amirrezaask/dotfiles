@@ -1,11 +1,11 @@
 {
+	"in_process_packages":
+	[
+	],
 	"installed_packages":
 	[
 		"LSP",
 		"LSP-gopls",
-		"Package Control",
-	],
-	"in_process_packages":
-	[
-	],
+		"Package Control"
+	]
 }
