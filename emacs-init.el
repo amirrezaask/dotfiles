@@ -112,6 +112,11 @@
 (global-unset-key (kbd "C-x C-c"))
 
 
+;; Window related settings
+(global-set-key (kbd "C-3") 'split-window-horizontally)
+(global-set-key (kbd "C-2") 'split-window-vertically)
+(global-set-key (kbd "M-o") 'other-window)
+
 ;; Font
 (setq font-family "")
 (defun amirreza/set-font (font fontsize)
@@ -144,7 +149,7 @@
   (interactive)
   (text-scale-decrease 1))
 
-(amirreza/set-font "Consolas" 13)
+(amirreza/set-font "Consolas" 15)
 
 (global-set-key (kbd "C-=")  'amirreza/text-scale-increase)
 (global-set-key (kbd "C--")  'amirreza/text-scale-decrease)
@@ -224,6 +229,27 @@
  `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
  `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
  `(show-paren-match                 ((t (:background "mediumseagreen")))))
+
+
+;; Black Theme
+;; (custom-set-faces
+;;  `(default                          ((t (:foreground "grey89" :background "grey0"))))
+;;  `(cursor                           ((t (:background "grey99"))))
+;;  `(font-lock-keyword-face           ((t (:foreground "cyan3"))))
+;;  `(font-lock-type-face              ((t (:foreground "lightblue3"))))
+;;  `(font-lock-variable-name-face     ((t (:foreground "grey89"))))
+;;  `(font-lock-string-face            ((t (:foreground "lightgreen"))))
+;;  `(font-lock-comment-face           ((t (:foreground "grey50"))))
+;;  `(font-lock-comment-delimiter-face ((t (:foreground "grey50"))))
+;;  `(font-lock-doc-face               ((t (:foreground "grey50"))))
+;;  `(font-lock-function-name-face     ((t (:foreground "lightblue2"))))
+;;  `(font-lock-doc-string-face        ((t (:foreground "grey50"))))
+;;  `(region                           ((t (:background "grey23"))))
+;;  `(hl-line                          ((t (:background "grey10"))))
+;;  `(vertico-current                  ((t (:background "grey10"))))
+;;  `(mode-line                        ((t (:background "grey10" :foreground "grey89" :box t))))
+;;  `(mode-line-inactive               ((t (:background "grey3" :foreground "grey89" :box t))))
+;;  `(highlight                        ((t (:foreground nil     :background "cyan")))))
 
 ;; Minibuffer
 (install 'orderless "Orderless Completion strategy, sort of like fuzzy but different.")
