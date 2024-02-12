@@ -1,8 +1,8 @@
 {
 	"auto_complete": true,
-	"color_scheme": "Dirt.sublime-color-scheme",
+	"color_scheme": "Black.sublime-color-scheme",
 	"font_face": "Consolas",
-	"font_size": 21,
+	"font_size": 16,
 	"hardware_acceleration": "opengl",
 	"highlight_line": true,
 	"hot_exit": "disabled",
