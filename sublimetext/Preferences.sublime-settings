@@ -1,14 +1,14 @@
 {
 	"auto_complete": true,
-	"font_face": "Consolas",
-	"font_size": 15,
+	"font_face": "Source Code Pro",
+	"font_size": 13,
 	"hardware_acceleration": "opengl",
 	"highlight_line": true,
 	"hot_exit": "disabled",
 	"caret_style": "smooth",
 	"ignored_packages":
 	[
-		"Vintage"
+		"Vintage",
 	],
 	"index_files": true,
 	"theme": "Adaptive.sublime-theme",

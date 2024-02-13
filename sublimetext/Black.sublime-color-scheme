@@ -32,7 +32,7 @@
         {
             "name": "Constant",
             "scope": "constant.language",
-            "foreground": "#00cdcd"
+            "foreground": "#00c5cd"
         },
     ]
 }
