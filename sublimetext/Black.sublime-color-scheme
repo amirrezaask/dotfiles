@@ -24,21 +24,15 @@
             "name": "Punctuation",
             "scope": "punctuation.definition - punctuation.definition.numeric.base",
         },
-        // {
-        //     "name": "Function Name",
-        //     "scope": "entity.name.function, variable.function",
-        //     "foreground": "#b2dfee"
-        // },
         {
             "name": "Keyword",
             "scope": "keyword - keyword.operator",
-            "foreground": "#00cdcd"
+            "foreground": "#027bb3"
         },
         {
             "name": "Constant",
             "scope": "constant.language",
-            "foreground": "#027bb3"
-
-        }
+            "foreground": "#00cdcd"
+        },
     ]
 }
