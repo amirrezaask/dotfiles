@@ -4,9 +4,9 @@
 	],
 	"installed_packages":
 	[
-		"Iridis Colour Scheme",
 		"LSP",
 		"LSP-gopls",
+		"Odin",
 		"Package Control",
 	],
 }
