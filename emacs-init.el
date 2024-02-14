@@ -93,7 +93,6 @@
   (define-key rectangle-mark-mode-map (kbd "C-r")                    'string-rectangle))
 (global-set-key (kbd "C-<return>")                                   'save-buffer) ;; Save with one combo not C-x C-s shit
 (global-set-key (kbd "C-q")                                          'dabbrev-expand) ;; Try pre defined expansions and if nothing was found expand with emacs dabbrev
-(global-set-key (kbd "C-j")                                          'completion-at-point) ;; Manual trigger for completion popup.
 (global-set-key (kbd "C-z")                                          'undo) ;; Sane undo key
 (global-set-key (kbd "M-0")                                          'query-replace) ;; Replace pattern with a string
 (global-set-key (kbd "M-\\")                                         'kmacro-end-and-call-macro) ;; execute keyboard macro.
@@ -207,28 +206,28 @@
 
 
 ;; Dirt Theme (default)
-;; (custom-set-faces
-;;  `(default                          ((t (:foreground "#debe95" :background "#161616"))))
-;;  `(hl-line                          ((t (:background "#252525"))))
-;;  `(vertico-current                  ((t (:background "#252525"))))
-;;  `(region                           ((t (:background  "medium blue"))))
-;;  `(cursor                           ((t (:background "lightgreen"))))
-;;  `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
-;;  `(font-lock-type-face              ((t (:foreground "#8cde94"))))
-;;  `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
-;;  `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
-;;  `(font-lock-builtin-face           ((t (:foreground "white"))))
-;;  `(font-lock-string-face            ((t (:foreground "gray70"))))
-;;  `(font-lock-comment-face           ((t (:foreground "yellow"))))
-;;  `(font-lock-comment-delimiter-face ((t (:foreground "yellow"))))
-;;  `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
-;;  `(font-lock-function-name-face     ((t (:foreground "white"))))
-;;  `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
-;;  `(font-lock-warning-face           ((t (:foreground "yellow"))))
-;;  `(font-lock-note-face              ((t (:foreground "khaki2" ))))
-;;  `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
-;;  `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
-;;  `(show-paren-match                 ((t (:background "mediumseagreen")))))
+(custom-set-faces
+ `(default                          ((t (:foreground "#debe95" :background "#161616"))))
+ `(hl-line                          ((t (:background "#252525"))))
+ `(vertico-current                  ((t (:background "#252525"))))
+ `(region                           ((t (:background  "medium blue"))))
+ `(cursor                           ((t (:background "lightgreen"))))
+ `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
+ `(font-lock-type-face              ((t (:foreground "#8cde94"))))
+ `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
+ `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
+ `(font-lock-builtin-face           ((t (:foreground "white"))))
+ `(font-lock-string-face            ((t (:foreground "gray70"))))
+ `(font-lock-comment-face           ((t (:foreground "yellow"))))
+ `(font-lock-comment-delimiter-face ((t (:foreground "yellow"))))
+ `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
+ `(font-lock-function-name-face     ((t (:foreground "white"))))
+ `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
+ `(font-lock-warning-face           ((t (:foreground "yellow"))))
+ `(font-lock-note-face              ((t (:foreground "khaki2" ))))
+ `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
+ `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
+ `(show-paren-match                 ((t (:background "mediumseagreen")))))
 
 ;; Handmadehero Theme
 ;; (custom-set-faces
@@ -286,24 +285,24 @@
 ;;  `(show-paren-match                 ((t (:background "#e0741b" :foreground "#000000")))))
 
 ;; Black Theme
-(custom-set-faces
- `(default                          ((t (:foreground "grey89" :background "grey0"))))
- `(cursor                           ((t (:background "grey99"))))
- `(font-lock-keyword-face           ((t (:foreground "cyan3"))))
- `(font-lock-type-face              ((t (:foreground "lightblue3"))))
- `(font-lock-variable-name-face     ((t (:foreground "grey89"))))
- `(font-lock-string-face            ((t (:foreground "lightgreen"))))
- `(font-lock-comment-face           ((t (:foreground "grey50"))))
- `(font-lock-comment-delimiter-face ((t (:foreground "grey50"))))
- `(font-lock-doc-face               ((t (:foreground "grey50"))))
- `(font-lock-function-name-face     ((t (:foreground "lightblue2"))))
- `(font-lock-doc-string-face        ((t (:foreground "grey50"))))
- `(region                           ((t (:background "grey23"))))
- `(hl-line                          ((t (:background "grey10"))))
- `(vertico-current                  ((t (:background "grey10"))))
- `(mode-line                        ((t (:background "grey10" :foreground "grey89" :box t))))
- `(mode-line-inactive               ((t (:background "grey3" :foreground "grey89" :box t))))
- `(highlight                        ((t (:foreground nil     :background "cyan")))))
+;; (custom-set-faces
+;;  `(default                          ((t (:foreground "grey89" :background "grey0"))))
+;;  `(cursor                           ((t (:background "grey99"))))
+;;  `(font-lock-keyword-face           ((t (:foreground "cyan3"))))
+;;  `(font-lock-type-face              ((t (:foreground "lightblue3"))))
+;;  `(font-lock-variable-name-face     ((t (:foreground "grey89"))))
+;;  `(font-lock-string-face            ((t (:foreground "lightgreen"))))
+;;  `(font-lock-comment-face           ((t (:foreground "grey50"))))
+;;  `(font-lock-comment-delimiter-face ((t (:foreground "grey50"))))
+;;  `(font-lock-doc-face               ((t (:foreground "grey50"))))
+;;  `(font-lock-function-name-face     ((t (:foreground "lightblue2"))))
+;;  `(font-lock-doc-string-face        ((t (:foreground "grey50"))))
+;;  `(region                           ((t (:background "grey23"))))
+;;  `(hl-line                          ((t (:background "grey10"))))
+;;  `(vertico-current                  ((t (:background "grey10"))))
+;;  `(mode-line                        ((t (:background "grey10" :foreground "grey89" :box t))))
+;;  `(mode-line-inactive               ((t (:background "grey3" :foreground "grey89" :box t))))
+;;  `(highlight                        ((t (:foreground nil     :background "cyan")))))
 
 ;; Minibuffer
 (install 'orderless "Orderless Completion strategy, sort of like fuzzy but different.")
@@ -524,6 +523,7 @@
 (install 'corfu)
 (setq corfu-auto nil)
 (global-corfu-mode +1)
+(global-set-key (kbd "C-j") 'completion-at-point) ;; Manual trigger for completion popup.
 
 
 ;; Eglot: LSP
