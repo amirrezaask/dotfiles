@@ -1,0 +1,1218 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"Max",
+				"MaxDiscountAmount"
+			],
+			[
+				"Fi",
+				"IsFirstUse"
+			],
+			[
+				"Order",
+				"OrderCategroyID"
+			],
+			[
+				"patter",
+				"voucherPattern"
+			],
+			[
+				"Cor",
+				"CorporationShare"
+			],
+			[
+				"Pattern",
+				"PatternUseCount"
+			],
+			[
+				"Min",
+				"MinOrderValue"
+			],
+			[
+				"Disc",
+				"DiscountValue"
+			],
+			[
+				"Get",
+				"GetUserPermissionIDs"
+			],
+			[
+				"Pa",
+				"ParseLevel"
+			],
+			[
+				"New",
+				"NewTracerProvider"
+			],
+			[
+				"Hanl",
+				"HandleFunc"
+			],
+			[
+				"handl",
+				"HandleFunc"
+			],
+			[
+				"trac",
+				"tracingServiceName"
+			],
+			[
+				"get",
+				"GetTracerProvider"
+			],
+			[
+				"fun",
+				"func(...) {}"
+			],
+			[
+				"rea",
+				"readFileIntoABuffer"
+			],
+			[
+				"message",
+				"messageHandler"
+			],
+			[
+				"De",
+				"Delivery"
+			],
+			[
+				"Ex",
+				"ExchangeType"
+			],
+			[
+				"rabbi",
+				"RabbitConsumerConfig"
+			],
+			[
+				"Err",
+				"Error"
+			],
+			[
+				"Consumer",
+				"RabbitConsumer"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "/W/doctor/config/cmd/server/config.go",
+			"settings":
+			{
+				"buffer_size": 855,
+				"line_ending": "Unix"
+			},
+			"undo_stack":
+			[
+				[
+					3,
+					1,
+					"revert",
+					null,
+					"AgAAAAAAAAAAAAAAAAAAAAAAAABXAwAAcGFja2FnZSBtYWluCgppbXBvcnQgKAoJImdpdGh1Yi5jb20vcnMvemVyb2xvZyIKCSJvcyIKCSJzdHJjb252IgopCgpmdW5jIGdldEVudihrZXkgc3RyaW5nLCBfZGVmYXVsdCBzdHJpbmcpIHN0cmluZyB7Cgl2IDo9IG9zLkdldGVudihrZXkpCglpZiB2ID09ICIiIHsKCQlyZXR1cm4gX2RlZmF1bHQKCX0KCXJldHVybiB2Cn0KCnZhciAoCglMSVNURU5fQUREUiAgICAgICAgICAgICAgICA9IGdldEVudigiTElTVEVOX0FERFIiLCAiOjgwODAiKQoJTE9HX0xFVkVMICAgICAgICAgICAgICAgICAgemVyb2xvZy5MZXZlbAoJREFUQUJBU0VfQ09OTkVDVElPTl9TVFJJTkcgPSBnZXRFbnYoIkRBVEFCQVNFX0NPTk5FQ1RJT05fU1RSSU5HIiwgImFwcF9jb25maWc6YmF6SnRLekt0U3pqbm83QHRjcChsb2NhbGhvc3Q6MzMzNikvdGVsZXlhcmUiKQoJUkVESVNfQ09OTkVDVElPTl9TVFJJTkcgICAgPSBnZXRFbnYoIlJFRElTX0NPTk5FQ1RJT05fU1RSSU5HIiwgImxvY2FsaG9zdDo2Mzc5IikKCVJFRElTX0RCICAgICAgICAgICAgICAgICAgIGludAoJSldUX1NFQ1JFVCAgICAgICAgICAgICAgICAgPSBbXWJ5dGUoZ2V0RW52KCJKV1RfU0VDUkVUIiwgIjE4ekhuR0pmODZnNTFtNnlLVDNGeENhUzBsU3BNVFJiIikpCikKCmZ1bmMgaW5pdCgpIHsKCXZhciBlcnIgZXJyb3IKCUxPR19MRVZFTCwgZXJyID0gemVyb2xvZy5QYXJzZUxldmVsKGdldEVudigiTE9HX0xFVkVMIiwgImRlYnVnIikpCglpZiBlcnIgIT0gbmlsIHsKCQlwYW5pYyhlcnIpCgl9CgoJUkVESVNfREIsIGVyciA9IHN0cmNvbnYuQXRvaShnZXRFbnYoIlJFRElTX0RCIiwgIjAiKSkKCWlmIGVyciAhPSBuaWwgewoJCXBhbmljKGVycikKCX0KCn0KAAAAAAAAAABXAwAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAqgAAAAAAAACqAAAAAAAAAAAAAAAAAPC/"
+				]
+			]
+		},
+		{
+			"file": "/W/doctor/config/tracing/tracing.go",
+			"settings":
+			{
+				"buffer_size": 1339,
+				"line_ending": "Unix"
+			},
+			"undo_stack":
+			[
+				[
+					1,
+					1,
+					"revert",
+					null,
+					"AgAAAAAAAAAAAAAAAAAAAAAAAAA7BQAAcGFja2FnZSB0cmFjaW5nCgppbXBvcnQgKAoJImNvbnRleHQiCgkidGltZSIKCgkiZ28ub3BlbnRlbGVtZXRyeS5pby9vdGVsIgoJImdvLm9wZW50ZWxlbWV0cnkuaW8vb3RlbC9leHBvcnRlcnMvc3Rkb3V0L3N0ZG91dHRyYWNlIgoJImdvLm9wZW50ZWxlbWV0cnkuaW8vb3RlbC9wcm9wYWdhdGlvbiIKCSJnby5vcGVudGVsZW1ldHJ5LmlvL290ZWwvc2RrL3RyYWNlIgopCgpjb25zdCAoCglNRVRSSUNfUEVSSU9EX1JFQURFUl9JTlRFUlZBTCA9IHRpbWUuU2Vjb25kICogMwopCgpmdW5jIEluaXQoKSAoc2h1dGRvd24gZnVuYyhjdHggY29udGV4dC5Db250ZXh0KSBlcnJvciwgZXJyIGVycm9yKSB7Cgl2YXIgc2h1dGRvd25GdW5jcyBbXWZ1bmMoY29udGV4dC5Db250ZXh0KSBlcnJvcgoJcHJvcCA6PSBuZXdQcm9wYWdhdG9yKCkKCW90ZWwuU2V0VGV4dE1hcFByb3BhZ2F0b3IocHJvcCkKCgl0cmFjZXJQcm92aWRlciwgZXJyIDo9IG5ld1RyYWNlUHJvdmlkZXIoKQoJaWYgZXJyICE9IG5pbCB7CgkJcmV0dXJuIG5pbCwgZXJyCgl9CglzaHV0ZG93bkZ1bmNzID0gYXBwZW5kKHNodXRkb3duRnVuY3MsIHRyYWNlclByb3ZpZGVyLlNodXRkb3duKQoJb3RlbC5TZXRUcmFjZXJQcm92aWRlcih0cmFjZXJQcm92aWRlcikKCglyZXR1cm4gZnVuYyhjdHggY29udGV4dC5Db250ZXh0KSBlcnJvciB7CgkJZm9yIF8sIGYgOj0gcmFuZ2Ugc2h1dGRvd25GdW5jcyB7CgkJCWlmIGVyciA6PSBmKGN0eCk7IGVyciAhPSBuaWwgewoJCQkJcmV0dXJuIGVycgoJCQl9CgkJfQoJCXJldHVybiBuaWwKCX0sIG5pbAoKfQoKZnVuYyBuZXdUcmFjZVByb3ZpZGVyKCkgKCp0cmFjZS5UcmFjZXJQcm92aWRlciwgZXJyb3IpIHsKCXRyYWNlRXhwb3J0ZXIsIGVyciA6PSBzdGRvdXR0cmFjZS5OZXcoCgkJc3Rkb3V0dHJhY2UuV2l0aFByZXR0eVByaW50KCkpCglpZiBlcnIgIT0gbmlsIHsKCQlyZXR1cm4gbmlsLCBlcnIKCX0KCgl0cmFjZVByb3ZpZGVyIDo9IHRyYWNlLk5ld1RyYWNlclByb3ZpZGVyKAoJCXRyYWNlLldpdGhCYXRjaGVyKHRyYWNlRXhwb3J0ZXIsCgkJCS8vIERlZmF1bHQgaXMgNXMuIFNldCB0byAxcyBmb3IgZGVtb25zdHJhdGl2ZSBwdXJwb3Nlcy4KCQkJdHJhY2UuV2l0aEJhdGNoVGltZW91dCh0aW1lLlNlY29uZCkpLAoJKQoJcmV0dXJuIHRyYWNlUHJvdmlkZXIsIG5pbAp9CgpmdW5jIG5ld1Byb3BhZ2F0b3IoKSBwcm9wYWdhdGlvbi5UZXh0TWFwUHJvcGFnYXRvciB7CglyZXR1cm4gcHJvcGFnYXRpb24uTmV3Q29tcG9zaXRlVGV4dE1hcFByb3BhZ2F0b3IoCgkJcHJvcGFnYXRpb24uVHJhY2VDb250ZXh0e30sCgkJcHJvcGFnYXRpb24uQmFnZ2FnZXt9LAoJKQp9CgAAAAAAAAAAOwUAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/"
+				]
+			]
+		}
+	],
+	"build_system": "Packages/User/Build Script.sublime-build",
+	"build_system_choices":
+	[
+		[
+			[
+				[
+					"Build",
+					""
+				],
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					""
+				],
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					"Run"
+				]
+			],
+			[
+				"Build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Build",
+					""
+				],
+				[
+					"Packages/Makefile/Make.sublime-build",
+					""
+				],
+				[
+					"Packages/Makefile/Make.sublime-build",
+					"Clean"
+				]
+			],
+			[
+				"Build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Build",
+					""
+				],
+				[
+					"Packages/Makefile/Make.sublime-build",
+					""
+				],
+				[
+					"Packages/Makefile/Make.sublime-build",
+					"Clean"
+				],
+				[
+					"Packages/User/snappdoctor-metric-collector.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/User/snappdoctor-metric-collector.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Build Handmadehero",
+					""
+				],
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					""
+				],
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					"Run"
+				]
+			],
+			[
+				"Build Handmadehero",
+				""
+			]
+		],
+		[
+			[
+				[
+					"HandmadeHero: Build",
+					""
+				],
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					""
+				],
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					"Run"
+				]
+			],
+			[
+				"HandmadeHero: Build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Metric Collector: Build",
+					""
+				],
+				[
+					"Packages/Makefile/Make.sublime-build",
+					""
+				],
+				[
+					"Packages/Makefile/Make.sublime-build",
+					"Clean"
+				]
+			],
+			[
+				"Metric Collector: Build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/Makefile/Make.sublime-build",
+					""
+				],
+				[
+					"Packages/Makefile/Make.sublime-build",
+					"Clean"
+				],
+				[
+					"Packages/User/Amirreza - Build - Go.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/User/Amirreza - Build - Go.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/Makefile/Make.sublime-build",
+					""
+				],
+				[
+					"Packages/Makefile/Make.sublime-build",
+					"Clean"
+				],
+				[
+					"Packages/User/Amirreza - Build.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/User/Amirreza - Build.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/Makefile/Make.sublime-build",
+					""
+				],
+				[
+					"Packages/Makefile/Make.sublime-build",
+					"Clean"
+				],
+				[
+					"Packages/User/Build Script.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/User/Build Script.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/Makefile/Make.sublime-build",
+					""
+				],
+				[
+					"Packages/Makefile/Make.sublime-build",
+					"Clean"
+				],
+				[
+					"Packages/User/Metric Collector.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/User/Metric Collector.sublime-build",
+				""
+			]
+		]
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"gofmt",
+				"Build With: gofmt"
+			],
+			[
+				"Build",
+				"Build With: Go BuildAll"
+			],
+			[
+				"Format",
+				"Build With: Format"
+			],
+			[
+				"proj",
+				"Project: Edit Project"
+			],
+			[
+				"save project",
+				"Project: Save As"
+			],
+			[
+				"change ",
+				"Help: Changelog"
+			],
+			[
+				"remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"theme",
+				"UI: Select Theme"
+			],
+			[
+				"color",
+				"UI: Select Color Scheme"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"save as",
+				"Project: Save As"
+			],
+			[
+				"Go build",
+				"Build With: Go BuildAll"
+			],
+			[
+				"Go lint",
+				"Build With: Go Lint"
+			],
+			[
+				"pref",
+				"Preferences: Settings"
+			],
+			[
+				"pre",
+				"Preferences: Settings"
+			],
+			[
+				"package install",
+				"Package Control: Install Package"
+			],
+			[
+				"settings",
+				"Preferences: Settings"
+			],
+			[
+				"ke",
+				"Preferences: Key Bindings"
+			],
+			[
+				"lsp sett",
+				"Preferences: LSP Settings"
+			],
+			[
+				"cust",
+				"UI: Customize Color Scheme"
+			],
+			[
+				"key",
+				"Preferences: Key Bindings"
+			],
+			[
+				"Toggle Termina",
+				"Terminus: Toggle Panel"
+			],
+			[
+				"install pa",
+				"Package Control: Install Package"
+			],
+			[
+				"brow",
+				"Preferences: Browse Packages"
+			],
+			[
+				"pref\\",
+				"Preferences: Settings"
+			],
+			[
+				"custom",
+				"UI: Customize Theme"
+			],
+			[
+				"prefere",
+				"Preferences: Settings"
+			],
+			[
+				"package",
+				"Package Control: Remove Package"
+			],
+			[
+				"instlal",
+				"Package Control: Install Package"
+			],
+			[
+				"terminus",
+				"Terminus: Toggle Panel"
+			],
+			[
+				"keyb",
+				"Preferences: Key Bindings"
+			],
+			[
+				"lsp pref",
+				"Preferences: LSP Settings"
+			],
+			[
+				"remove ",
+				"Package Control: Remove Package"
+			],
+			[
+				"file brow",
+				"Browse Mode: Current file or project"
+			],
+			[
+				"install ",
+				"Package Control: Install Package"
+			],
+			[
+				"restart ",
+				"LSP: Restart Server"
+			],
+			[
+				"key\\",
+				"Preferences: Key Bindings"
+			],
+			[
+				"pref go",
+				"Preferences: LSP-gopls Settings"
+			],
+			[
+				"split",
+				"File: Split View"
+			],
+			[
+				"lsp restart",
+				"LSP: Restart Server"
+			],
+			[
+				"package remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"brows",
+				"Preferences: Browse Packages"
+			],
+			[
+				"build",
+				"Build: New Build System"
+			],
+			[
+				"lsp key",
+				"Preferences: LSP Key Bindings"
+			],
+			[
+				"lsp settings",
+				"Preferences: LSP Settings"
+			],
+			[
+				"lsp go",
+				"Preferences: LSP-gopls Settings"
+			],
+			[
+				"lsp",
+				"LSP: Enable Language Server Globally"
+			],
+			[
+				"install package",
+				"Package Control: Install Package"
+			],
+			[
+				"cus",
+				"UI: Customize Color Scheme"
+			],
+			[
+				"colorscheme",
+				"UI: Select Color Scheme"
+			],
+			[
+				"colors",
+				"UI: Select Color Scheme"
+			],
+			[
+				"customize",
+				"UI: Customize Color Scheme"
+			],
+			[
+				"install packa",
+				"Package Control: Install Package"
+			],
+			[
+				"open project",
+				"Project: Open"
+			],
+			[
+				"switch",
+				"Project: Quick Switch"
+			],
+			[
+				"save ",
+				"Project: Save As"
+			],
+			[
+				"Build New",
+				"Build: New Build System"
+			],
+			[
+				"pref settings",
+				"Preferences: Settings"
+			],
+			[
+				"project ",
+				"Project: Save As"
+			],
+			[
+				"add",
+				"Project: Add Folder"
+			],
+			[
+				"project",
+				"Project: Save As"
+			],
+			[
+				"install pac",
+				"Install Package Control"
+			],
+			[
+				"Project",
+				"Project: Save As"
+			],
+			[
+				"them",
+				"UI: Select Theme"
+			]
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/W/doctor/config"
+	],
+	"file_history":
+	[
+		"/W/dotfiles/sublimetext/doctor-config.sublime-project",
+		"/W/bin/s.bat",
+		"/W/doctor/config/logger/logger.go",
+		"/W/doctor/config/storage/storage.go",
+		"/C/Program Files/Go/src/database/sql/sql.go",
+		"/W/dotfiles/sublimetext/Default.sublime-keymap",
+		"/W/dotfiles/sublimetext/Preferences.sublime-settings",
+		"/C/Users/amirreza/go/pkg/mod/github.com/rs/zerolog@v1.32.0/log.go",
+		"/W/doctor/core/server.php",
+		"/W/doctor/core/app/Http/Api/MobileApi/v1/ApplicationClass.php",
+		"/W/doctor/core/app/Http/Classes/twilio-php-master/Twilio/Rest/Chat/V1/ServiceOptions.php",
+		"/W/doctor/core/vendor/monolog/monolog/src/Monolog/Processor/GitProcessor.php",
+		"/W/doctor/core/app/ValueObjects/CallStatus.php",
+		"/W/doctor/core/core.sublime-project",
+		"/W/doctor/voucher/storage/db.go",
+		"/W/doctor/voucher/api/api_voucher.go",
+		"/W/doctor/voucher/api/api.go",
+		"/W/doctor/voucher/cmd/server/main.go",
+		"/W/doctor/voucher/cmd/server/config.go",
+		"/W/doctor/voucher/storage/minio.go",
+		"/C/Users/amirreza/Downloads/21566d89-c90b-4482-aa16-774102d2ebdf.csv",
+		"/C/Users/amirreza/Downloads/de6b7340-2d63-4b31-b473-ff53c0df545a",
+		"/W/doctor/voucher/.golangci.yml",
+		"/W/doctor/voucher/minio-deploy-helm.sh",
+		"/W/editor/main.go",
+		"/W/doctor/config/api/api_get_config.go",
+		"/C/Users/amirreza/go/pkg/mod/github.com/labstack/echo/v4@v4.11.4/context.go",
+		"/C/Program Files/Go/src/net/http/status.go",
+		"/W/dotfiles/sublimetext/Black.sublime-color-scheme",
+		"/W/doctor/config/cmd/server/config.go",
+		"/W/dotfiles/sublimetext/White.sublime-color-scheme",
+		"/W/doctor/config/cmd/server/main.go",
+		"/W/doctor/config/build.bat",
+		"/W/doctor/config/api/authenticate.go",
+		"/W/doctor/config/run.bat",
+		"/W/doctor/config/api/api.go",
+		"/C/Program Files/Go/src/net/http/request.go",
+		"/C/Users/amirreza/go/pkg/mod/github.com/rs/zerolog@v1.31.0/context.go",
+		"/C/Users/amirreza/go/pkg/mod/github.com/labstack/echo-contrib@v0.15.0/echoprometheus/prometheus.go",
+		"/C/Program Files/Go/src/strconv/atoi.go",
+		"/W/doctor/go-service-template/cmd/server/main.go",
+		"/W/doctor/go-service-template/storage/redis.go",
+		"/W/doctor/go-service-template/storage/db.go",
+		"/W/doctor/go-service-template/logger/logger.go",
+		"/C/Users/amirreza/go/pkg/mod/github.com/rs/zerolog@v1.31.0/log.go",
+		"/W/doctor/go-service-template/api/api.go",
+		"/C/Users/amirreza/AppData/Roaming/Sublime Text/Packages/User/Dirt.sublime-color-scheme",
+		"/C/Users/amirreza/go/pkg/mod/github.com/swaggo/echo-swagger@v1.4.1/swagger.go",
+		"/C/Users/amirreza/go/pkg/mod/github.com/labstack/echo/v4@v4.11.4/echo.go",
+		"/C/Users/amirreza/AppData/Roaming/.emacs.d/init.el",
+		"/C/Users/amirreza/AppData/Roaming/Sublime Text/Packages/User/Naysayer.sublime-color-scheme",
+		"/C/Users/amirreza/AppData/Roaming/Sublime Text/Packages/User/Black.sublime-color-scheme",
+		"/C/Users/amirreza/AppData/Roaming/Sublime Text/Packages/User/Default.sublime-mousemap",
+		"/W/doctor/go-service-template/cmd/server/config.go",
+		"/C/Users/amirreza/AppData/Roaming/Sublime Text/Packages/User/Default.sublime-keymap",
+		"/C/Users/amirreza/AppData/Roaming/Sublime Text/Packages/User/aura-soft-theme.tmTheme",
+		"/C/Users/amirreza/AppData/Roaming/Sublime Text/Packages/User/aura-theme.tmTheme",
+		"/W/doctor/go-service-template/tracing/tracing.go",
+		"/C/Users/amirreza/go/pkg/mod/go.opentelemetry.io/otel/sdk@v1.23.1/trace/provider.go",
+		"/C/Users/amirreza/Desktop/output-today.csv",
+		"/C/Users/amirreza/Downloads/Discount for implementation-2024-02-08-Tech-V2 (1).csv",
+		"/W/go1.22/main.go",
+		"/C/Program Files/Go/src/net/http/server.go",
+		"/W/dotfiles/emacs",
+		"/W/doctor/go-service-template/grafana-dashboard.json",
+		"/W/doctor/go-service-template/.golangci.yml",
+		"/W/doctor/go-service-template/Makefile",
+		"/C/Users/amirreza/go/pkg/mod/go.opentelemetry.io/contrib/instrumentation/github.com/labstack/echo/otelecho@v0.47.0/echo.go",
+		"/W/doctor/templates/cicd/Build_PHP.yml",
+		"/W/doctor/core/app/Helpers/ControllerPresenter.php",
+		"/W/doctor/core/vendor/symfony/http-kernel/HttpKernel.php",
+		"/C/Users/amirreza/go/pkg/mod/go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp@v0.48.0/handler.go",
+		"/W/doctor/voucher/generate.py",
+		"/C/Users/amirreza/AppData/Roaming/Sublime Text/Packages/User/Default (Windows).sublime-keymap",
+		"/C/Users/amirreza/AppData/Roaming/Sublime Text/Packages/Default/Default (Windows).sublime-keymap",
+		"/W/editor/editor.go",
+		"/C/Users/amirreza/AppData/Roaming/Sublime Text/Packages/User/Preferences.sublime-settings",
+		"/C/Users/amirreza/AppData/Roaming/Sublime Text/Packages/Default/Preferences.sublime-settings",
+		"/W/editor/editor_test.go",
+		"/W/dotfiles/sublimetext/Amirreza - Build Script.sublime-build",
+		"/W/dotfiles/.emacs",
+		"/W/doctor/go-service-template/storage/rabbitmq.go",
+		"/C/Program Files/Go/src/fmt/errors.go",
+		"/W/doctor/voucher/build.bat",
+		"/W/doctor/go-service-template/lint.bat",
+		"/W/doctor/go-service-template/go.mod",
+		"/W/Hazel/Sandbox/src/Application.cpp",
+		"/W/doctor/go-service-template/.gitignore",
+		"/W/doctor/go-service-template/build.bat",
+		"/C/Users/amirreza/go/pkg/mod/github.com/minio/minio-go/v7@v7.0.66/api-stat.go",
+		"/W/dotfiles/README.md",
+		"/C/Users/amirreza/AppData/Roaming/Sublime Text/Packages/User/Amirreza - Build - Go.sublime-build",
+		"/W/doctor/voucher/level=error msg=\"[linters_context] typechecking error: : # gitlab.snappcloud.io/doctor/backend/voucher/cmd/server/ncmd/server/main.go",
+		"/C/Users/amirreza/AppData/Roaming/Sublime Text/Packages/User/Amirreza - Build.sublime-build",
+		"/C/Users/amirreza/AppData/Roaming/Sublime Text/Packages/User/AmirrezaBuild.sublime-build",
+		"/C/Users/amirreza/AppData/Roaming/Sublime Text/Packages/User/amirreza.sublime-build",
+		"/W/doctor/voucher/logger/logger.go",
+		"/C/Users/amirreza/AppData/Roaming/Sublime Text/Packages/User/Black.sublime-colors-cheme",
+		"/C/Users/amirreza/Desktop/f419a685-5e1f-4f2c-898e-de9633f31228.csv",
+		"/C/Users/amirreza/Desktop/39cc32ea-f755-45bc-9218-e65beeaead8a",
+		"/C/Users/amirreza/Desktop/2317393d-9dc6-4a4b-80e1-24566a1a7783",
+		"/C/Users/amirreza/Desktop/d0e62afa-6bbd-46ef-b53a-db60883b9778",
+		"/W/odin/examples/demo/demo.odin",
+		"/W/snappdoctor/metric-collector/database/queries.go",
+		"/W/snappdoctor/metric-collector/logger/logger.go",
+		"/W/snappdoctor/metric-collector/cmd/server/main.go",
+		"/W/snappdoctor/metric-collector/go.mod",
+		"/W/dotfiles/sublime/Metric Collector.sublime-project",
+		"/C/Users/amirreza/AppData/Roaming/Sublime Text/Packages/User/snappdoctor-metric-collector.sublime-build",
+		"/W/snappdoctor/metric-collector/metrics/metrics.go",
+		"/W/snappdoctor/metric-collector/metric-collector.sublime-project",
+		"/C/Users/amirreza/AppData/Roaming/Sublime Text/Packages/User/cl.sublime-build",
+		"/W/handmadehero/src/handmade.h",
+		"/W/handmadehero/handmadehero.sublime-project",
+		"/W/handmadehero/src/handmade.cpp",
+		"/W/handmadehero/src/win32_handmadehero.h",
+		"/C/Users/amirreza/AppData/Roaming/Sublime Text/Packages/User/handmadehero-build"
+	],
+	"find":
+	{
+		"height": 53.0
+	},
+	"find_in_files":
+	{
+		"height": 520.0,
+		"where_history":
+		[
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"snappdoctor-prod"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"scrollbar_highlights": true,
+		"show_context": true,
+		"use_buffer2": true,
+		"use_gitignore": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "/W/doctor/config/cmd/server/config.go",
+					"selected": true,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 855,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								183,
+								183
+							]
+						],
+						"settings":
+						{
+							"auto_complete_triggers":
+							[
+								{
+									"characters": "<",
+									"selector": "text.html, text.xml"
+								},
+								{
+									"rhs_empty": true,
+									"selector": "punctuation.accessor"
+								},
+								{
+									"characters": ".",
+									"selector": "meta.tag, source - comment - string.quoted.double.block - string.quoted.single.block - string.unquoted.heredoc",
+									"server": "gopls"
+								}
+							],
+							"lsp_active": true,
+							"lsp_hover_provider_count": 1,
+							"lsp_uri": "file:///W:/doctor/config/cmd/server/config.go",
+							"show_definitions": false,
+							"syntax": "Packages/Go/Go.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"stack_multiselect": false,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/W/doctor/config/tracing/tracing.go",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1339,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"auto_complete_triggers":
+							[
+								{
+									"characters": "<",
+									"selector": "text.html, text.xml"
+								},
+								{
+									"rhs_empty": true,
+									"selector": "punctuation.accessor"
+								},
+								{
+									"characters": ".",
+									"selector": "meta.tag, source - comment - string.quoted.double.block - string.quoted.single.block - string.unquoted.heredoc",
+									"server": "gopls"
+								}
+							],
+							"lsp_active": true,
+							"lsp_hover_provider_count": 1,
+							"lsp_uri": "file:///W:/doctor/config/tracing/tracing.go",
+							"show_definitions": false,
+							"syntax": "Packages/Go/Go.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"stack_multiselect": false,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 53.0
+	},
+	"input":
+	{
+		"height": 176.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.LSP Log Panel":
+	{
+		"height": 0.0
+	},
+	"output.diagnostics":
+	{
+		"height": 192.0
+	},
+	"output.exec":
+	{
+		"height": 302.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.mdpopups":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "doctor-config.sublime-project",
+	"replace":
+	{
+		"height": 102.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"trac",
+				"tracing\\tracing.go"
+			],
+			[
+				"config",
+				"cmd\\server\\config.go"
+			],
+			[
+				"logger",
+				"logger\\logger.go"
+			],
+			[
+				"storage",
+				"storage\\storage.go"
+			],
+			[
+				"Defaul",
+				"sublimetext\\Default.sublime-keymap"
+			],
+			[
+				"sublime",
+				"sublimetext\\Preferences.sublime-settings"
+			],
+			[
+				"server",
+				"server.php"
+			],
+			[
+				"ApplicationCl",
+				"app\\Http\\Api\\MobileApi\\v1\\ApplicationClass.php"
+			],
+			[
+				"git",
+				"vendor\\monolog\\monolog\\src\\Monolog\\Processor\\GitProcessor.php"
+			],
+			[
+				"ApplicationClass",
+				"app\\Http\\Api\\MobileApi\\v1\\ApplicationClass.php"
+			],
+			[
+				"storage/db",
+				"storage\\db.go"
+			],
+			[
+				"api",
+				"api\\api_voucher.go"
+			],
+			[
+				"golang",
+				".golangci.yml"
+			],
+			[
+				"min",
+				"storage\\minio.go"
+			],
+			[
+				"main",
+				"main.go"
+			],
+			[
+				"main.",
+				"cmd\\server\\main.go"
+			],
+			[
+				"run",
+				"run.bat"
+			],
+			[
+				"buil",
+				"build.bat"
+			],
+			[
+				"cmd",
+				"cmd\\server\\main.go"
+			],
+			[
+				"cmd/",
+				"cmd\\server\\main.go"
+			],
+			[
+				"api_get",
+				"config\\api\\api_get_config.go"
+			],
+			[
+				"emacs",
+				"emacs"
+			],
+			[
+				"golan",
+				".golangci.yml"
+			],
+			[
+				"Make",
+				"Makefile"
+			],
+			[
+				"gra",
+				"grafana-dashboard.json"
+			],
+			[
+				"Build",
+				"cicd\\Build_PHP.yml"
+			],
+			[
+				"Http",
+				"vendor\\symfony\\http-kernel\\HttpKernel.php"
+			],
+			[
+				"controller",
+				"app\\Helpers\\ControllerPresenter.php"
+			],
+			[
+				"api.",
+				"api\\api.go"
+			],
+			[
+				"gene",
+				"generate.py"
+			],
+			[
+				"voucher",
+				"api\\api_voucher.go"
+			],
+			[
+				"edi",
+				"editor.go"
+			],
+			[
+				".emacs",
+				".emacs"
+			],
+			[
+				"rabbi",
+				"storage\\rabbitmq.go"
+			],
+			[
+				"b uild",
+				"build.bat"
+			],
+			[
+				"lin",
+				"lint.bat"
+			],
+			[
+				"go.mod",
+				"go.mod"
+			],
+			[
+				"tra",
+				"tracing\\tracing.go"
+			],
+			[
+				"cpp",
+				"Sandbox\\src\\Application.cpp"
+			],
+			[
+				".git",
+				".gitignore"
+			],
+			[
+				"build",
+				"build.bat"
+			],
+			[
+				"READ",
+				"README.md"
+			],
+			[
+				"pref",
+				"sublimetext\\Preferences.sublime-settings"
+			],
+			[
+				"subl",
+				"sublimetext\\Preferences.sublime-settings"
+			],
+			[
+				"storage/mino",
+				"storage\\minio.go"
+			],
+			[
+				"databs",
+				"database\\queries.go"
+			],
+			[
+				"cmd/main",
+				"cmd\\server\\main.go"
+			],
+			[
+				"metrics",
+				"metrics\\metrics.go"
+			],
+			[
+				"databas",
+				"database\\queries.go"
+			],
+			[
+				"datab",
+				"database\\queries.go"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 499.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"",
+				"W:\\dotfiles\\sublime\\Metric Collector.sublime-project"
+			]
+		],
+		"width": 378.0
+	},
+	"select_symbol":
+	{
+		"height": 323.0,
+		"last_filter": "where",
+		"selected_items":
+		[
+			[
+				"where",
+				"setWebhooksOnChannelDestroyedUrl"
+			],
+			[
+				"getEx",
+				"getExpert"
+			],
+			[
+				"@",
+				"@"
+			],
+			[
+				"getConfig",
+				"getConfig"
+			]
+		],
+		"width": 592.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": false,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 228.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

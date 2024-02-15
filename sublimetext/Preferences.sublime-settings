@@ -1,7 +1,7 @@
 {
 	"auto_complete": true,
-	"font_face": "Source Code Pro",
-	"font_size": 15,
+	"font_face": "Fira Code",
+	"font_size": 17,
 	"hardware_acceleration": "opengl",
 	"highlight_line": true,
 	"hot_exit": "disabled",

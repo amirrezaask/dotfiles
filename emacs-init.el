@@ -18,12 +18,12 @@
       use-dialog-box t ; only for mouse events, which I seldom use
       use-file-dialog nil
       use-short-answers t
+
       inhibit-splash-screen t
       inhibit-startup-screen t
       inhibit-x-resources t
       inhibit-startup-buffer-menu t
       )
-(setq-default frame-title-format '(\"%e\" (:eval (format \"%s\" default-directory))))
 (set-frame-parameter nil 'fullscreen 'maximized) ;; Start emacs in maximized state.
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
@@ -35,7 +35,8 @@
   (write-region amirreza/early-init nil "~/.emacs.d/early-init.el"))
 
 
-;;
+;; Frame Title
+(setq-default frame-title-format '(\"%e\" (:eval (format \"%s\" default-directory))))
 
 (when load-file-name
   (setq INIT-FILE load-file-name))
@@ -310,17 +311,13 @@
       completion-category-defaults nil
       completion-category-overrides '((file (styles partial-completion))))
 
-(install 'vertico "Provides a richer minibuffer completion facility, cool thing is that it does not need any hooking up and it will work for everything in the minibuffer.")
+(install 'vertico)
 (vertico-mode +1)
 (setq vertico-count 10
       vertico-cycle t)
 
-(install 'consult "Set of helper commands that are powered by vertico completion but they are not dependant on it.")
+(install 'consult)
 (global-set-key (kbd "M-y") 'consult-yank-pop)
-
-(install 'marginalia)
-(marginalia-mode +1)
-
 
 ;; Dumb way to find things
 (install 'dumb-jump "Poor's man Jump to def/dec/ref. (using grep)")
@@ -546,7 +543,6 @@
 (setq eglot-stay-out-of '(flymake project))
 
 (add-hook 'go-mode-hook #'eglot-ensure)
-
 
 ;; Eshell: Emacs cross platform shell
 (setq eshell-visual-subcommands '("git" "diff" "log" "show"))
