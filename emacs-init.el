@@ -33,7 +33,7 @@
   (write-region amirreza/early-init nil "~/.emacs.d/early-init.el"))
 
 ;; Frame
-(setq-default frame-title-format '(\"%e\" (:eval (format \"%s\" default-directory))))
+(setq-default frame-title-format '("%e" (:eval (format "Emacs @ %s" default-directory))))
 (set-frame-parameter nil 'fullscreen 'maximized) 
 
 (when load-file-name
