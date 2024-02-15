@@ -311,13 +311,18 @@
       completion-category-defaults nil
       completion-category-overrides '((file (styles partial-completion))))
 
-(install 'vertico)
-(vertico-mode +1)
-(setq vertico-count 10
-      vertico-cycle t)
 
-(install 'consult)
-(global-set-key (kbd "M-y") 'consult-yank-pop)
+(with-eval-after-load 'minibuffer
+  (define-key minibuffer-mode-map (kbd "C-n") 'minibuffer-next-completion)
+  (define-key minibuffer-mode-map (kbd "C-p") 'minibuffer-previous-completion))
+
+;; (install 'vertico)
+;; (vertico-mode +1)
+;; (setq vertico-count 10
+;;       vertico-cycle t)
+
+;; (install 'consult)
+;; (global-set-key (kbd "M-y") 'consult-yank-pop)
 
 ;; Dumb way to find things
 (install 'dumb-jump "Poor's man Jump to def/dec/ref. (using grep)")
@@ -341,10 +346,8 @@
 				 mode-line-percent-position
 				 " "
 				 "(%l, %C)"
-				 " | "
-				 (text-scale-mode
-				  (" " text-scale-mode-lighter))
-				 ))
+				 " "
+				 (:eval (format "| (Zoom: %s)" text-scale-mode-lighter))))
 
 
 (setq display-buffer-alist '(("\\*compile.*\\*"
