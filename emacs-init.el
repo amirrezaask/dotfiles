@@ -13,7 +13,6 @@
 
 (setq frame-resize-pixelwise t
       frame-inhibit-implied-resize t
-      frame-title-format '(\"%b\")
       ring-bell-function 'ignore
       use-dialog-box t ; only for mouse events, which I seldom use
       use-file-dialog nil
@@ -24,7 +23,6 @@
       inhibit-x-resources t
       inhibit-startup-buffer-menu t
       )
-(set-frame-parameter nil 'fullscreen 'maximized) ;; Start emacs in maximized state.
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
@@ -34,9 +32,9 @@
 (unless (file-exists-p "~/.emacs.d/early-init.el")
   (write-region amirreza/early-init nil "~/.emacs.d/early-init.el"))
 
-
-;; Frame Title
+;; Frame
 (setq-default frame-title-format '(\"%e\" (:eval (format \"%s\" default-directory))))
+(set-frame-parameter nil 'fullscreen 'maximized) 
 
 (when load-file-name
   (setq INIT-FILE load-file-name))
