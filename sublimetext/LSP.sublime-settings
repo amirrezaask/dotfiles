@@ -2,8 +2,8 @@
 {
 	"lsp_format_on_save": true,
 	"document_highlight_style": "",
-	"show_diagnostics_severity_level": 2,
-  	"show_diagnostics_annotations_severity_level": 2,
+	"show_diagnostics_severity_level": 0,
+  	"show_diagnostics_annotations_severity_level": 0,
   	"show_diagnostics_panel_on_save": 1,
   	"completion_insert_mode": "replace",
 

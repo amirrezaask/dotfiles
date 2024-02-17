@@ -114,6 +114,7 @@
 (global-set-key (kbd "C-3") 'split-window-horizontally)
 (global-set-key (kbd "C-2") 'split-window-vertically)
 (global-set-key (kbd "M-o") 'other-window)
+(global-set-key (kbd "C-\\") 'split-window-horizontally)
 
 ;; Font
 (setq font-family "")
@@ -304,10 +305,10 @@
 ;;  `(highlight                        ((t (:foreground nil     :background "cyan")))))
 
 ;; Minibuffer
-(install 'orderless "Orderless Completion strategy, sort of like fuzzy but different.")
-(setq completion-styles '(orderless basic)
-      completion-category-defaults nil
-      completion-category-overrides '((file (styles partial-completion))))
+;; (install 'orderless "Orderless Completion strategy, sort of like fuzzy but different.")
+;; (setq completion-styles '(orderless basic)
+;;       completion-category-defaults nil
+;;       completion-category-overrides '((file (styles partial-completion))))
 
 
 (with-eval-after-load 'minibuffer
@@ -327,6 +328,8 @@
 (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
 (global-set-key (kbd "<f12>")   'xref-find-definitions)
 (global-set-key (kbd "C-<f12>") 'xref-find-references)
+(global-set-key (kbd "C-<down-mouse-1>") 'xref-find-definitions)
+(global-set-key (kbd "M-<down-mouse-1>") 'xref-find-references)
 
 
 ;; Modeline
@@ -337,10 +340,10 @@
 				 " "
 				 (:eval (if (buffer-file-name) (buffer-file-name) (buffer-name)))
 				 " "
+				 (:eval (format "(%s)" (capitalize (string-remove-suffix "-mode" (symbol-name major-mode)))))
+				 " "
 				 (:eval (when vc-mode (format "| %s |" (string-replace "-" ": " (string-trim vc-mode) ))))
 				 " "
-				 (:eval (format "(%s)" (capitalize (string-remove-suffix "-mode" (symbol-name major-mode)))))
-				 " | "
 				 mode-line-percent-position
 				 " "
 				 "(%l, %C)"
@@ -348,6 +351,7 @@
 				 (:eval (format "| (Zoom: %s)" text-scale-mode-lighter))))
 
 
+;; Buffer
 (setq display-buffer-alist '(("\\*compile.*\\*"
 			      (display-buffer-in-side-window)
 			      (side . right)
@@ -571,3 +575,4 @@
 (defvar emacs-init-time-took (* (string-to-number (emacs-init-time "%f")) 1000) "Time took Emacs to boot, value is in milliseconds.")
 (setq amirreza/emacs-init-log-message (format "Amirreza emacs init took %fms, Emacs init took: %fms" amirreza/emacs-init-took emacs-init-time-took))
 (message amirreza/emacs-init-log-message)
+
