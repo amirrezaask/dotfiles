@@ -36,6 +36,7 @@
 (setq-default frame-title-format '("%e" (:eval (format "Emacs @ %s" default-directory))))
 (set-frame-parameter nil 'fullscreen 'maximized) 
 
+;; Basic variables
 (when load-file-name
   (setq INIT-FILE load-file-name))
 
@@ -44,25 +45,22 @@
       is-macos (eq system-type 'darwin)
       has-treesitter (>= emacs-major-version 29))
 
-(setq custom-file "~/.custom.el"          ;; set custom file to not meddle with init.el
-      make-backup-files nil)              ;; no emacs ~ backup files
-
 ;; MacOS issues
 (setq image-types (cons 'svg image-types)
-      mac-command-modifier 'meta)        
-
-(setq vc-follow-symlinks t)              ;; Follow symlinks with no questions
-
-(setq recenter-positions '(middle))
+      mac-command-modifier 'meta)
 
 ;; General Text Editing
+(setq recenter-positions '(middle))
+(setq custom-file "~/.custom.el"          ;; set custom file to not meddle with init.el
+      make-backup-files nil)              ;; no emacs ~ backup files
+(setq vc-follow-symlinks t)
 (set-default-coding-systems 'utf-8) ;; always use UTF8
 (setq kill-whole-line t) ;; kill line and newline char
 (global-auto-revert-mode +1) ;; Revert buffer to disk state when disk changes under our foot.
 (delete-selection-mode) ;; when selected a text and user types delete text
 (global-display-line-numbers-mode +1) ;; Display line numbers.
 
-(setq dabbrev-upcase-means-case-search t
+(setq dabbrev-upcase-means-case-search t ;; dabbrev mode: emacs basic word completion based on current buffer words, using C-q, see keybindings section.
       dabbrev-case-replace nil
       dabbrev-case-fold-search t
       dabbrev-upcase-means-case-search nil)
