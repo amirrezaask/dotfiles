@@ -83,6 +83,8 @@
   (if (use-region-p)
       (kill-region (region-beginning) (region-end)) ;; copy active region contents
     (kill-region (line-beginning-position) (line-end-position)))) ;; copy current line
+
+(global-set-key (kbd "C-/")                                          'comment-line)
 (global-set-key (kbd "C-w")                                          'amirreza/cut)
 (global-set-key (kbd "M-w")                                          'amirreza/copy)
 (global-set-key (kbd "M-[")                                          'kmacro-start-macro)
@@ -206,12 +208,13 @@
 (require 'vlf-setup)
 
 
+(global-hl-line-mode +1)
 ;; Dirt Theme (default)
 (custom-set-faces
  `(default                          ((t (:foreground "#debe95" :background "#161616"))))
  `(hl-line                          ((t (:background "#252525"))))
  `(vertico-current                  ((t (:background "#252525"))))
- `(region                           ((t (:background  "medium blue"))))
+ `(region                           ((t (:background "medium blue"))))
  `(cursor                           ((t (:background "lightgreen"))))
  `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
  `(font-lock-type-face              ((t (:foreground "#8cde94"))))
@@ -290,22 +293,22 @@
 
 
 ;; Modeline
-(setq-default mode-line-format '("%e"
-				 mode-line-front-space
-				 mode-line-modified
-				 mode-line-remote
-				 " "
-				 (:eval (if (buffer-file-name) (buffer-file-name) (buffer-name)))
-				 " "
-				 (:eval (format "(%s)" (capitalize (string-remove-suffix "-mode" (symbol-name major-mode)))))
-				 " "
-				 (:eval (when vc-mode (format "| %s |" (string-replace "-" ": " (string-trim vc-mode) ))))
-				 " "
-				 mode-line-percent-position
-				 " "
-				 "(%l, %C)"
-				 " "
-				 (:eval (format "| (Zoom: %s)" text-scale-mode-lighter))))
+;; (setq-default mode-line-format '("%e"
+;; 				 mode-line-front-space
+;; 				 mode-line-modified
+;; 				 mode-line-remote
+;; 				 " "
+;; 				 (:eval (if (buffer-file-name) (buffer-file-name) (buffer-name)))
+;; 				 " "
+;; 				 (:eval (format "(%s)" (capitalize (string-remove-suffix "-mode" (symbol-name major-mode)))))
+;; 				 " "
+;; 				 (:eval (when vc-mode (format "| %s |" (string-replace "-" ": " (string-trim vc-mode) ))))
+;; 				 " "
+;; 				 mode-line-percent-position
+;; 				 " "
+;; 				 "(%l, %C)"
+;; 				 " "
+;; 				 (:eval (format "| (Zoom: %s)" text-scale-mode-lighter))))
 
 
 ;; Buffer
