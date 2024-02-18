@@ -114,6 +114,7 @@
 (global-set-key (kbd "C-3") 'split-window-horizontally)
 (global-set-key (kbd "C-2") 'split-window-vertically)
 (global-set-key (kbd "M-o") 'other-window)
+(global-set-key (kbd "C-o") 'other-window)
 (global-set-key (kbd "C-\\") 'split-window-horizontally)
 
 ;; Font
@@ -389,7 +390,7 @@
 ;; Compile
 (defun amirreza/compile-buffer-name-function (MODE)
   (let ((dir (find-project-root-or-default-directory)))
-    (format "*compile-%s*" dir)))
+    (format "*Compile-%s*" dir)))
 (setq-default compilation-buffer-name-function 'amirreza/compile-buffer-name-function)
 
 (defun guess-compile-command (DIR)
@@ -472,12 +473,11 @@
   (unless (executable-find "grep") (error "Gnu Grep executable not found"))
   (add-to-list 'amirreza/grep-query-history pattern)
 
-  (let* (
-	 (default-directory dir)
+  (let* ((default-directory dir)
 	 (command (format "grep --exclude-dir=\".git\" --color=auto -nH --null -r -e \"%s\" ." pattern)))
     (compilation-start command 'grep-mode)))
 
-(defun amirreza/grep (dir pattern)
+(defun amirreza/grep-in-directory (dir pattern)
   ""
   (interactive (list (read-directory-name "[Grep] Directory: " (find-project-root-or-default-directory))
 		     (read-string "[Grep] Pattern: " nil)))
@@ -485,9 +485,10 @@
    ((or (executable-find "rg") is-windows) (rg dir pattern))
    (t (gnu-grep dir pattern))))
 
-(defalias 'Grep 'amirreza/grep)
+(defalias 'Grep 'amirreza/grep-in-directory)
+(defalias 'grep 'amirreza/grep-in-directory)
 
-(global-set-key (kbd "M-j") 'amirreza/grep)
+(global-set-key (kbd "M-j") 'amirreza/grep-in-directory)
 
 (with-eval-after-load 'grep
   (define-key grep-mode-map (kbd "<f5>") 'recompile)
@@ -498,8 +499,7 @@
 
 (defun amirreza/go-hook ()
   (interactive)
-  (setq-local gofmt-args '("-s"))
-  (setq-local gofmt-command "gofmt")
+  (setq-local gofmt-command "goimports")
   (add-hook 'before-save-hook 'gofmt-before-save 0 t))
 
 (add-hook 'go-mode-hook 'amirreza/go-hook)
