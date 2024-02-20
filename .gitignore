@@ -9,6 +9,5 @@ fish/conf.d
 fish/functions
 fish/fish_variables
 helix/runtime
-init.el
 early-init.el
 
