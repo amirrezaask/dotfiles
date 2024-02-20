@@ -206,47 +206,22 @@
 (require 'vlf-setup)
 
 
-(global-hl-line-mode +1)
+(global-hl-line-mode -1)
 ;; Dirt Theme (default)
-;; (custom-set-faces
-;;  `(default                          ((t (:foreground "#debe95" :background "#161616"))))
-;;  `(hl-line                          ((t (:background "#252525"))))
-;;  `(vertico-current                  ((t (:background "#252525"))))
-;;  `(region                           ((t (:background "medium blue"))))
-;;  `(cursor                           ((t (:background "lightgreen"))))
-;;  `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
-;;  `(font-lock-type-face              ((t (:foreground "#8cde94"))))
-;;  `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
-;;  `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
-;;  `(font-lock-builtin-face           ((t (:foreground "white"))))
-;;  `(font-lock-string-face            ((t (:foreground "gray70"))))
-;;  `(font-lock-comment-face           ((t (:foreground "yellow"))))
-;;  `(font-lock-comment-delimiter-face ((t (:foreground "yellow"))))
-;;  `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
-;;  `(font-lock-function-name-face     ((t (:foreground "white"))))
-;;  `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
-;;  `(font-lock-warning-face           ((t (:foreground "yellow"))))
-;;  `(font-lock-note-face              ((t (:foreground "khaki2" ))))
-;;  `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
-;;  `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
-;;  `(show-paren-match                 ((t (:background "mediumseagreen")))))
-
-
-;; Naysayer Theme
 (custom-set-faces
- `(default                          ((t (:foreground "#d3b58d" :background "#072629"))))
- `(hl-line                          ((t (:background "#0c4141"))))
- `(vertico-current                  ((t (:inherit hl-line))))
- `(region                           ((t (:background  "medium blue"))))
+ `(default                          ((t (:foreground "#debe95" :background "#161616"))))
+ `(hl-line                          ((t (:background "#252525"))))
+ `(vertico-current                  ((t (:background "#252525"))))
+ `(region                           ((t (:background "medium blue"))))
  `(cursor                           ((t (:background "lightgreen"))))
  `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
  `(font-lock-type-face              ((t (:foreground "#8cde94"))))
  `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
  `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
  `(font-lock-builtin-face           ((t (:foreground "white"))))
- `(font-lock-string-face            ((t (:foreground "#0fdfaf"))))
- `(font-lock-comment-face           ((t (:foreground "#3fdf1f"))))
- `(font-lock-comment-delimiter-face ((t (:foreground "#3fdf1f"))))
+ `(font-lock-string-face            ((t (:foreground "gray70"))))
+ `(font-lock-comment-face           ((t (:foreground "yellow"))))
+ `(font-lock-comment-delimiter-face ((t (:foreground "yellow"))))
  `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
  `(font-lock-function-name-face     ((t (:foreground "white"))))
  `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
@@ -255,6 +230,31 @@
  `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
  `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
  `(show-paren-match                 ((t (:background "mediumseagreen")))))
+
+
+;; Naysayer Theme
+;; (custom-set-faces
+;;  `(default                          ((t (:foreground "#d3b58d" :background "#072629"))))
+;;  `(hl-line                          ((t (:background "#0c4141"))))
+;;  `(vertico-current                  ((t (:inherit hl-line))))
+;;  `(region                           ((t (:background  "medium blue"))))
+;;  `(cursor                           ((t (:background "lightgreen"))))
+;;  `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
+;;  `(font-lock-type-face              ((t (:foreground "#8cde94"))))
+;;  `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
+;;  `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
+;;  `(font-lock-builtin-face           ((t (:foreground "white"))))
+;;  `(font-lock-string-face            ((t (:foreground "#0fdfaf"))))
+;;  `(font-lock-comment-face           ((t (:foreground "#3fdf1f"))))
+;;  `(font-lock-comment-delimiter-face ((t (:foreground "#3fdf1f"))))
+;;  `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
+;;  `(font-lock-function-name-face     ((t (:foreground "white"))))
+;;  `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
+;;  `(font-lock-warning-face           ((t (:foreground "yellow"))))
+;;  `(font-lock-note-face              ((t (:foreground "khaki2" ))))
+;;  `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
+;;  `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
+;;  `(show-paren-match                 ((t (:background "mediumseagreen")))))
 
 ;; Black Theme
 ;; (custom-set-faces
@@ -310,12 +310,12 @@
 
 
 ;; Buffer
-(setq display-buffer-alist '(("\\*compile.*\\*"
-			      (display-buffer-in-side-window)
-			      (side . right)
-			      (window-width . 0.4)
-			      (slot . 0))
-
+(setq display-buffer-alist '(("\\*compilation.*\\*"
+			      (display-buffer-same-window))
+			     
+			     ("\\*grep.*\\*"
+			      (display-buffer-same-window))
+			     
 			     ("\\*(Help|Backtrace|Messages)\\*"
 			      (display-buffer-in-side-window)
 			      (side . right)
@@ -323,13 +323,9 @@
 			      (slot . 0))
 
 			     ("\\*eshell.*\\*"
-			      (display-buffer-in-side-window)
-			      ((side . bottom)
-			       (window-height . 0.25)
-			       (slot . 0)))))
+			      (display-buffer-same-window))))
 
 
-;; Finding project root based on determinestic patterns.
 (defun find-project-root ()
   "Try to find project root based on deterministic predicates"
   (cond
@@ -345,9 +341,10 @@
 
 
 ;; Compile
-(defun amirreza/compile-buffer-name-function (MODE)
+(defun amirreza/compile-buffer-name-function (MODESTR)
   (let ((dir (find-project-root-or-default-directory)))
-    (format "*Compile-%s*" dir)))
+    (format "*%s-%s*" MODESTR dir)))
+
 (setq-default compilation-buffer-name-function 'amirreza/compile-buffer-name-function)
 
 (defun guess-compile-command (DIR)
@@ -356,38 +353,79 @@
      ((file-exists-p "build.bat") "build.bat")
      ((file-exists-p "go.mod")    "go build -v "))))
 
-(setq amirreza/compile-history '())
-(setq amirreza/last-compile nil)
-
-(defun amirreza/compile ()
-  "Compile in a directory"
+(defun amirreza/compile-in-directory ()
   (interactive)
-  (when amirreza/last-compile
-    (unless (y-or-n-p "Use last compile values?") (setq amirreza/last-compile nil)))
-  (let* ((default-directory (or (car amirreza/last-compile) (read-directory-name "[Compile] Directory: " (find-project-root-or-default-directory))))
-	 (command (or (car (cdr amirreza/last-compile)) (read-shell-command "[Compile] Command: " (guess-compile-command default-directory) amirreza/compile-history))))
+  (let* ((default-directory (read-directory-name "[Compile] Directory: " (find-project-root-or-default-directory)))
+	 (command (read-shell-command "[Compile] Command: " (guess-compile-command default-directory))))
     (setq amirreza/last-compile `(,default-directory ,command))
     (compilation-start command)))
 
-(defalias 'Compile 'amirreza/compile)
+(defun amirreza/switch-to-compile-buffer-or-compile-in-directory ()
+  "Compile in a directory"
+  (interactive)
+  (let ((existing-buffer (get-buffer (amirreza/compile-buffer-name-function 'compilation)))) ;; check if we already have a buffer just switch to it, otherwise ask for options.
+    (if existing-buffer
+	(switch-to-buffer existing-buffer)
+      (amirreza/compile-in-directory))))
 
 (with-eval-after-load 'compile
   (define-key compilation-mode-map (kbd "<f5>") 'recompile)
-  (define-key compilation-mode-map (kbd "n") 'next-line)
-  (define-key compilation-mode-map (kbd "p") 'previous-line)
-  (define-key compilation-mode-map (kbd "k") 'kill-compilation))
+  (define-key compilation-mode-map (kbd "M-m")  'previous-buffer)
+  (define-key compilation-mode-map (kbd "G")    'amirreza/compile-in-directory)
+  (define-key compilation-mode-map (kbd "n")    'next-line)
+  (define-key compilation-mode-map (kbd "p")    'previous-line)
+  (define-key compilation-mode-map (kbd "k")    'kill-compilation))
 
-(global-set-key (kbd "M-m") 'amirreza/compile)
-(global-set-key (kbd "<f5>") 'amirreza/compile)
+(global-set-key (kbd "M-m") 'amirreza/switch-to-compile-buffer-or-compile-in-directory)
+(global-set-key (kbd "<f5>") 'amirreza/switch-to-compile-buffer-or-compile-in-directory)
 
-(defun amirreza/open-directory-in-frame (DIR)
-  "open a new frame with directory set to DIR."
-  (interactive (list (read-directory-name "Directory: " default-directory)))
-  (let* ((dired-buffer (dired-noselect DIR)))
-    (with-current-buffer dired-buffer
-      (make-frame))))
-(global-set-key (kbd "C-c o") 'amirreza/open-directory-in-frame)
+;; Grep + Ripgrep stuff.
+(defun rg (dir pattern)
+  "runs Ripgrep program in a compilation buffer."
+  (interactive (list (read-directory-name "[Ripgrep] Directory: " (find-project-root-or-default-directory))
+		     (read-string "[Ripgrep] Pattern: " nil)))
+  (unless (executable-find "rg") (error "ripgrep executable not found, install from https://github.com/BurntSushi/ripgrep/releases"))
 
+  (let* ((default-directory dir)
+	 (command (format "rg --vimgrep \"%s\" ." pattern)))
+    (compilation-start command 'grep-mode)))
+
+(defun gnu-grep (dir pattern)
+  (interactive (list (read-directory-name "[grep] Directory: " (find-project-root-or-default-directory))
+		     (read-string "[grep] Pattern: " nil)))
+  (unless (executable-find "grep") (error "Gnu Grep executable not found"))
+  (add-to-list 'amirreza/grep-query-history pattern)
+
+  (let* ((default-directory dir)
+	 (command (format "grep --exclude-dir=\".git\" --color=auto -nH --null -r -e \"%s\" ." pattern)))
+    (compilation-start command 'grep-mode)))
+
+(defun amirreza/grep-in-directory ()
+  (interactive)
+  (let ((dir (read-directory-name "[Grep] Directory: " (find-project-root-or-default-directory)))
+	(pattern (read-string "[Grep] Pattern: " nil)))
+    
+    (cond
+     ((or (executable-find "rg") is-windows) (rg dir pattern))
+     (t (gnu-grep dir pattern)))))
+  
+
+(defun amirreza/switch-to-grep-buffer-or-grep-in-directory ()
+  ""
+  (interactive)
+  (let ((existing-buffer (get-buffer (amirreza/compile-buffer-name-function 'grep)))) ;; check if we already have a buffer just switch to it, otherwise ask for options.
+    (if existing-buffer
+	(switch-to-buffer existing-buffer)
+      (amirreza/grep-in-directory))))
+  
+(global-set-key (kbd "M-j") 'amirreza/switch-to-grep-buffer-or-grep-in-directory)
+
+(with-eval-after-load 'grep
+  (define-key grep-mode-map (kbd "<f5>") 'recompile)
+  (define-key grep-mode-map (kbd "g")    'recompile)
+  (define-key grep-mode-map (kbd "G")    'amirreza/grep-in-directory)
+  (define-key grep-mode-map (kbd "M-j")  'previous-buffer)
+  (define-key grep-mode-map (kbd "k")    'kill-compilation))
 
 ;; Dired.
 (setq dired-kill-when-opening-new-dired-buffer t)
@@ -413,43 +451,6 @@
   (define-key dired-mode-map (kbd "C-0") 'kill-current-buffer))
 
 
-;; Grep + Ripgrep stuff.
-(defun rg (dir pattern)
-  "runs Ripgrep program in a compilation buffer."
-  (interactive (list (read-directory-name "[Ripgrep] Directory: " (find-project-root-or-default-directory))
-		     (read-string "[Ripgrep] Pattern: " nil)))
-  (unless (executable-find "rg") (error "ripgrep executable not found, install from https://github.com/BurntSushi/ripgrep/releases"))
-
-  (let* ((default-directory dir)
-	 (command (format "rg --vimgrep \"%s\" ." pattern)))
-    (compilation-start command 'grep-mode)))
-
-(defun gnu-grep (dir pattern)
-  (interactive (list (read-directory-name "[grep] Directory: " (find-project-root-or-default-directory))
-		     (read-string "[grep] Pattern: " nil)))
-  (unless (executable-find "grep") (error "Gnu Grep executable not found"))
-  (add-to-list 'amirreza/grep-query-history pattern)
-
-  (let* ((default-directory dir)
-	 (command (format "grep --exclude-dir=\".git\" --color=auto -nH --null -r -e \"%s\" ." pattern)))
-    (compilation-start command 'grep-mode)))
-
-(defun amirreza/grep-in-directory (dir pattern)
-  ""
-  (interactive (list (read-directory-name "[Grep] Directory: " (find-project-root-or-default-directory))
-		     (read-string "[Grep] Pattern: " nil)))
-  (cond
-   ((or (executable-find "rg") is-windows) (rg dir pattern))
-   (t (gnu-grep dir pattern))))
-
-(defalias 'Grep 'amirreza/grep-in-directory)
-(defalias 'grep 'amirreza/grep-in-directory)
-
-(global-set-key (kbd "M-j") 'amirreza/grep-in-directory)
-
-(with-eval-after-load 'grep
-  (define-key grep-mode-map (kbd "<f5>") 'recompile)
-  (define-key grep-mode-map (kbd "k") 'kill-compilation))
 
 ;; Golang
 (install 'go-mode)
@@ -510,7 +511,7 @@
 (setq eshell-visual-subcommands '("git" "diff" "log" "show"))
 
 (defun amirreza/eshell-hook ()
-  (define-key eshell-mode-map (kbd "M-;") 'delete-window))
+  (define-key eshell-mode-map (kbd "M-;") 'previous-buffer))
 
 (add-hook 'eshell-mode-hook 'amirreza/eshell-hook)
 (defun amirreza/eshell ()
@@ -521,7 +522,7 @@
 	 (existing-buffer (get-buffer eshell-buffer-name)))
 
     (if existing-buffer
-	(select-window (display-buffer existing-buffer)) ;; NOTE: we have to use display-buffer so our display-buffer-alist configs are used.
+	(switch-to-buffer existing-buffer) ;; we switch to buffer.
       (eshell))))
 
 (defalias 'EShell 'amirreza/eshell)
