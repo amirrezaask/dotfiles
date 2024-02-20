@@ -291,22 +291,22 @@
 
 
 ;; Modeline
-;; (setq-default mode-line-format '("%e"
-;; 				 mode-line-front-space
-;; 				 mode-line-modified
-;; 				 mode-line-remote
-;; 				 " "
-;; 				 (:eval (if (buffer-file-name) (buffer-file-name) (buffer-name)))
-;; 				 " "
-;; 				 (:eval (format "(%s)" (capitalize (string-remove-suffix "-mode" (symbol-name major-mode)))))
-;; 				 " "
-;; 				 (:eval (when vc-mode (format "| %s |" (string-replace "-" ": " (string-trim vc-mode) ))))
-;; 				 " "
-;; 				 mode-line-percent-position
-;; 				 " "
-;; 				 "(%l, %C)"
-;; 				 " "
-;; 				 (:eval (format "| (Zoom: %s)" text-scale-mode-lighter))))
+(setq-default mode-line-format '("%e"
+				 mode-line-front-space
+				 mode-line-modified
+				 mode-line-remote
+				 " "
+				 (:eval (if (buffer-file-name) (buffer-file-name) (buffer-name)))
+				 " "
+				 (:eval (format "(%s)" (capitalize (string-remove-suffix "-mode" (symbol-name major-mode)))))
+				 " "
+				 (:eval (when vc-mode (format "| %s |" (string-replace "-" ": " (string-trim vc-mode) ))))
+				 " "
+				 mode-line-percent-position
+				 " "
+				 "(%l, %C)"
+				 " "
+				 (:eval (format "| (Zoom: %s)" text-scale-mode-lighter))))
 
 
 ;; Buffer
@@ -325,7 +325,9 @@
 			     ("\\*eshell.*\\*"
 			      (display-buffer-same-window))))
 
-
+;; Project based commands
+;; I have 3 functionalities that I want per-project and by project I mean each directory that we can find a root for, look into `find-project-root` function.
+;; These functionalities are `Grep`, `Compile`, `EShell`, I want a buffer for each one per project and by just pressing a key I either create one interactively or jump to it.
 (defun find-project-root ()
   "Try to find project root based on deterministic predicates"
   (cond
@@ -338,7 +340,6 @@
 
 (defun find-project-root-or-default-directory ()
   (or (find-project-root) default-directory))
-
 
 ;; Compile
 (defun amirreza/compile-buffer-name-function (MODESTR)
@@ -354,6 +355,7 @@
      ((file-exists-p "go.mod")    "go build -v "))))
 
 (defun amirreza/compile-in-directory ()
+  "Compile in a directory"
   (interactive)
   (let* ((default-directory (read-directory-name "[Compile] Directory: " (find-project-root-or-default-directory)))
 	 (command (read-shell-command "[Compile] Command: " (guess-compile-command default-directory))))
@@ -361,7 +363,7 @@
     (compilation-start command)))
 
 (defun amirreza/switch-to-compile-buffer-or-compile-in-directory ()
-  "Compile in a directory"
+  "If there is already a compilation buffer for current project switch to it otherwise run `amirreza/compile-in-directory`."
   (interactive)
   (let ((existing-buffer (get-buffer (amirreza/compile-buffer-name-function 'compilation)))) ;; check if we already have a buffer just switch to it, otherwise ask for options.
     (if existing-buffer
@@ -401,6 +403,7 @@
     (compilation-start command 'grep-mode)))
 
 (defun amirreza/grep-in-directory ()
+  "Run appropriate grep program in directory."
   (interactive)
   (let ((dir (read-directory-name "[Grep] Directory: " (find-project-root-or-default-directory)))
 	(pattern (read-string "[Grep] Pattern: " nil)))
@@ -411,7 +414,7 @@
   
 
 (defun amirreza/switch-to-grep-buffer-or-grep-in-directory ()
-  ""
+  "If there is already a grep buffer for current project switch to it otherwise run `amirreza/grep-in-directory`."
   (interactive)
   (let ((existing-buffer (get-buffer (amirreza/compile-buffer-name-function 'grep)))) ;; check if we already have a buffer just switch to it, otherwise ask for options.
     (if existing-buffer
@@ -427,30 +430,28 @@
   (define-key grep-mode-map (kbd "M-j")  'previous-buffer)
   (define-key grep-mode-map (kbd "k")    'kill-compilation))
 
-;; Dired.
-(setq dired-kill-when-opening-new-dired-buffer t)
-(defun amirreza/side-tree ()
+;; Eshell: Emacs cross platform shell
+(setq eshell-visual-subcommands '("git" "diff" "log" "show"))
+
+(defun amirreza/eshell-hook ()
+  (define-key eshell-mode-map (kbd "M-;") 'previous-buffer))
+
+(add-hook 'eshell-mode-hook 'amirreza/eshell-hook)
+(defun amirreza/eshell ()
+  "If there is already an eshell buffer for current project jump to it, otherwise create a new one for current project."
   (interactive)
   (let* ((dir (find-project-root-or-default-directory))
-	 (dired-buffer (dired-noselect dir)))
-    (select-window (display-buffer-in-side-window dired-buffer '((side . left)
-								 (slot . 0)
-								 (window-width . 0.2)
-								 (window-parameters . ((no-delete-other-window . t)))
-								 )))
-    (with-current-buffer dired-buffer
-      (rename-buffer (format "*Dired-%s*" dir)))))
+	 (eshell-buffer-name (format "*eshell-%s*" dir))
+	 (default-directory dir)
+	 (existing-buffer (get-buffer eshell-buffer-name)))
 
-(global-set-key (kbd "C-0") 'amirreza/side-tree)
+    (if existing-buffer
+	(switch-to-buffer existing-buffer) ;; we switch to buffer.
+      (eshell))))
 
-(defun amirreza/dired-hook ()
-  (dired-hide-details-mode +1))
+(defalias 'EShell 'amirreza/eshell)
 
-(with-eval-after-load 'dired
-  (add-hook 'dired-mode-hook 'amirreza/dired-hook)
-  (define-key dired-mode-map (kbd "C-0") 'kill-current-buffer))
-
-
+(global-set-key (kbd "M-;") 'amirreza/eshell)
 
 ;; Golang
 (install 'go-mode)
@@ -507,27 +508,6 @@
 
 (add-hook 'go-mode-hook #'eglot-ensure)
 
-;; Eshell: Emacs cross platform shell
-(setq eshell-visual-subcommands '("git" "diff" "log" "show"))
-
-(defun amirreza/eshell-hook ()
-  (define-key eshell-mode-map (kbd "M-;") 'previous-buffer))
-
-(add-hook 'eshell-mode-hook 'amirreza/eshell-hook)
-(defun amirreza/eshell ()
-  (interactive)
-  (let* ((dir (find-project-root-or-default-directory))
-	 (eshell-buffer-name (format "*eshell-%s*" dir))
-	 (default-directory dir)
-	 (existing-buffer (get-buffer eshell-buffer-name)))
-
-    (if existing-buffer
-	(switch-to-buffer existing-buffer) ;; we switch to buffer.
-      (eshell))))
-
-(defalias 'EShell 'amirreza/eshell)
-
-(global-set-key (kbd "M-;") 'amirreza/eshell)
 
 (defvar amirreza/emacs-init-took (* (float-time (time-subtract (float-time) amirreza/emacs-starting-time)) 1000) "Time took to load my init file, value is in milliseconds.")
 (defvar emacs-init-time-took (* (string-to-number (emacs-init-time "%f")) 1000) "Time took Emacs to boot, value is in milliseconds.")
