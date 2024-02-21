@@ -208,45 +208,20 @@
 
 (global-hl-line-mode -1)
 ;; Dirt Theme (default)
-(custom-set-faces
- `(default                          ((t (:foreground "#debe95" :background "#161616"))))
- `(hl-line                          ((t (:background "#252525"))))
- `(vertico-current                  ((t (:background "#252525"))))
- `(region                           ((t (:background "medium blue"))))
- `(cursor                           ((t (:background "lightgreen"))))
- `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
- `(font-lock-type-face              ((t (:foreground "#8cde94"))))
- `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
- `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
- `(font-lock-builtin-face           ((t (:foreground "white"))))
- `(font-lock-string-face            ((t (:foreground "gray70"))))
- `(font-lock-comment-face           ((t (:foreground "yellow"))))
- `(font-lock-comment-delimiter-face ((t (:foreground "yellow"))))
- `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
- `(font-lock-function-name-face     ((t (:foreground "white"))))
- `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
- `(font-lock-warning-face           ((t (:foreground "yellow"))))
- `(font-lock-note-face              ((t (:foreground "khaki2" ))))
- `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
- `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
- `(show-paren-match                 ((t (:background "mediumseagreen")))))
-
-
-;; Naysayer Theme
 ;; (custom-set-faces
-;;  `(default                          ((t (:foreground "#d3b58d" :background "#072629"))))
-;;  `(hl-line                          ((t (:background "#0c4141"))))
-;;  `(vertico-current                  ((t (:inherit hl-line))))
-;;  `(region                           ((t (:background  "medium blue"))))
+;;  `(default                          ((t (:foreground "#debe95" :background "#161616"))))
+;;  `(hl-line                          ((t (:background "#252525"))))
+;;  `(vertico-current                  ((t (:background "#252525"))))
+;;  `(region                           ((t (:background "medium blue"))))
 ;;  `(cursor                           ((t (:background "lightgreen"))))
 ;;  `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
 ;;  `(font-lock-type-face              ((t (:foreground "#8cde94"))))
 ;;  `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
 ;;  `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
 ;;  `(font-lock-builtin-face           ((t (:foreground "white"))))
-;;  `(font-lock-string-face            ((t (:foreground "#0fdfaf"))))
-;;  `(font-lock-comment-face           ((t (:foreground "#3fdf1f"))))
-;;  `(font-lock-comment-delimiter-face ((t (:foreground "#3fdf1f"))))
+;;  `(font-lock-string-face            ((t (:foreground "gray70"))))
+;;  `(font-lock-comment-face           ((t (:foreground "yellow"))))
+;;  `(font-lock-comment-delimiter-face ((t (:foreground "yellow"))))
 ;;  `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
 ;;  `(font-lock-function-name-face     ((t (:foreground "white"))))
 ;;  `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
@@ -255,6 +230,31 @@
 ;;  `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
 ;;  `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
 ;;  `(show-paren-match                 ((t (:background "mediumseagreen")))))
+
+
+;; Naysayer Theme
+(custom-set-faces
+ `(default                          ((t (:foreground "#d3b58d" :background "#072629"))))
+ `(hl-line                          ((t (:background "#0c4141"))))
+ `(vertico-current                  ((t (:inherit hl-line))))
+ `(region                           ((t (:background  "medium blue"))))
+ `(cursor                           ((t (:background "lightgreen"))))
+ `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
+ `(font-lock-type-face              ((t (:foreground "#8cde94"))))
+ `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
+ `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
+ `(font-lock-builtin-face           ((t (:foreground "white"))))
+ `(font-lock-string-face            ((t (:foreground "#0fdfaf"))))
+ `(font-lock-comment-face           ((t (:foreground "#3fdf1f"))))
+ `(font-lock-comment-delimiter-face ((t (:foreground "#3fdf1f"))))
+ `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
+ `(font-lock-function-name-face     ((t (:foreground "white"))))
+ `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
+ `(font-lock-warning-face           ((t (:foreground "yellow"))))
+ `(font-lock-note-face              ((t (:foreground "khaki2" ))))
+ `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
+ `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
+ `(show-paren-match                 ((t (:background "mediumseagreen")))))
 
 ;; Black Theme
 ;; (custom-set-faces
@@ -291,22 +291,22 @@
 
 
 ;; Modeline
-(setq-default mode-line-format '("%e"
-				 mode-line-front-space
-				 mode-line-modified
-				 mode-line-remote
-				 " "
-				 (:eval (if (buffer-file-name) (buffer-file-name) (buffer-name)))
-				 " "
-				 (:eval (format "(%s)" (capitalize (string-remove-suffix "-mode" (symbol-name major-mode)))))
-				 " "
-				 (:eval (when vc-mode (format "| %s |" (string-replace "-" ": " (string-trim vc-mode) ))))
-				 " "
-				 mode-line-percent-position
-				 " "
-				 "(%l, %C)"
-				 " "
-				 (:eval (format "| (Zoom: %s)" text-scale-mode-lighter))))
+;; (setq-default mode-line-format '("%e"
+;; 				 mode-line-front-space
+;; 				 mode-line-modified
+;; 				 mode-line-remote
+;; 				 " "
+;; 				 (:eval (if (buffer-file-name) (buffer-file-name) (buffer-name)))
+;; 				 " "
+;; 				 (:eval (format "(%s)" (capitalize (string-remove-suffix "-mode" (symbol-name major-mode)))))
+;; 				 " "
+;; 				 (:eval (when vc-mode (format "| %s |" (string-replace "-" ": " (string-trim vc-mode) ))))
+;; 				 " "
+;; 				 mode-line-percent-position
+;; 				 " "
+;; 				 "(%l, %C)"
+;; 				 " "
+;; 				 (:eval (format "| (Zoom: %s)" text-scale-mode-lighter))))
 
 
 ;; Buffer
@@ -523,8 +523,6 @@
 ;; Journal files:
 ;; Name format: journal-[timestamp].md
 ;; eg: journal-20240220.md
-;; Project files:
-;; Name format: prj-[name].md
 (defvar amirreza/notebook-local-path "W:/notebook")
 
 (defun open-current-journal-entry ()
@@ -541,18 +539,14 @@
 	 (date (completing-read "Journal Date: " options nil t)))
     (find-file (expand-file-name (format "journal-%s.md" date) amirreza/notebook-local-path))))
 
-(defun open-project-file ()
-  "Open project file."
+(defun open-work-file ()
   (interactive)
-  (let* ((files (directory-files amirreza/notebook-local-path t "prj-.*\\.md"))
-	(options (mapcar (lambda (s) (string-trim s (format "%s/prj-" amirreza/notebook-local-path) ".md")) files))
-	(name (completing-read "Project: " options nil t)))
-    (find-file (expand-file-name (format "prj-%s.md" name) amirreza/notebook-local-path))))
+  (find-file (expand-file-name "Snapp Doctor.md" amirreza/notebook-local-path)))
 
 (global-set-key (kbd "C-c j j") 'open-current-journal-entry)
 (global-set-key (kbd "C-c j d") 'open-journal-entry-for-date)
-(global-set-key (kbd "C-c j p") 'open-project-file)
-(global-set-key (kbd "C-c j s") 'sync-notebook)
+(global-set-key (kbd "C-c j s") 'sync-journal)
+(global-set-key (kbd "C-c j w") 'open-work-file)
 
 (defun sync-journal ()
   (interactive)

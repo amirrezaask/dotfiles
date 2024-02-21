@@ -81,15 +81,56 @@ vim.keymap.set({ "i", "n", "t" }, "<C-k>", "<cmd>tabnext<CR>")
 vim.keymap.set({ "i", "n", "t" }, "<C-j>", "<cmd>tabprev<CR>")
 vim.keymap.set("i", "<C-a>", "<C-x><C-o>") -- simpler omnifunc completion
 
+local is_windows = vim.fn.has("win32") == 1
+
 -- Neovide GUI
 -- recommended especially in windows environment, much better than windows terminal.
-if vim.g.neovide then -- we have amazing neovide installed.
+if vim.g.neovide then
+
+    local font_family = "Jetbrains Mono"
+    local font_size = 15
+
+
+    vim.g.neovide_scroll_animation_length = 0.1
     vim.g.neovide_cursor_animation_length = 0.00
-    vim.opt.guifont = "Consolas:h15"
-    vim.g.neovide_cursor_vfx_mode = "sonicboom"
+    vim.g.neovide_cursor_vfx_mode = ""
+
     function Font(font, size)
+        font_family = font
+        font_size = size
         vim.opt.guifont = string.format("%s:h%d", font, size)
     end
+
+    function FontSizeInc()
+        font_size = 1+font_size
+        Font(font_family, font_size)
+    end
+
+    function FontSizeDec()
+        font_size = font_size - 1
+        Font(font_family, font_size)
+    end
+
+    vim.api.nvim_create_user_command("FontSizeInc", function(opts)
+        FontSizeInc()
+    end, {})
+
+    vim.api.nvim_create_user_command("FontSizeDec", function(opts)
+        FontSizeDec()
+    end, {})
+
+    vim.keymap.set({"n", "i", "v", "x", "t"}, "<C-=>", FontSizeInc, {})
+    vim.keymap.set({"n", "i", "v", "x", "t"}, "<C-->", FontSizeDec, {})
+
+    vim.api.nvim_create_user_command("Font", function(opts)
+        local splitted = vim.split(opts.args, ":")
+        if #splitted < 2 then
+            error("Font command input should be in [FontName]:[FontSize] format")
+        end
+        Font(splitted[1], splitted[2])
+    end, {nargs = "*"})
+
+    Font("Jetbrains Mono", 16)
 end
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -107,12 +148,6 @@ vim.opt.rtp:prepend(lazypath)
 
 
 require("lazy").setup({
-    { "kyazdani42/blue-moon" },
-    { "rose-pine/neovim", name = "rose-pine", opts = { styles = { italic = false } } },
-    { 'shaunsingh/nord.nvim', config = function()
-        vim.g.nord_italic = false
-    end},
-
     { "ellisonleao/gruvbox.nvim",
         opts = { contrast = 'hard',
             italic = {
@@ -121,11 +156,9 @@ require("lazy").setup({
                 comments = false,
                 operators = false,
                 folds = false,
-            }}
-        },
-    { "folke/tokyonight.nvim", opts = { style = "night"} },
-    { "rebelot/kanagawa.nvim" },
-    { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
+            }
+        }
+    },
 
     "tpope/vim-abolish",                    -- useful text stuff
     { "numToStr/Comment.nvim", opts = {} }, -- Comment stuff like a boss
@@ -135,6 +168,8 @@ require("lazy").setup({
     {
         "hrsh7th/nvim-cmp",
         dependencies = {
+            'L3MON4D3/LuaSnip',
+            'saadparwaiz1/cmp_luasnip',
             "hrsh7th/cmp-nvim-lsp",
             "hrsh7th/cmp-path",
             "hrsh7th/cmp-buffer",
@@ -152,6 +187,7 @@ require("lazy").setup({
                 },
                 snippet = {
                     expand = function(args)
+                        require('luasnip').lsp_expand(args.body)
                     end,
                 },
                 mapping = cmp.mapping.preset.insert({
@@ -176,7 +212,7 @@ require("lazy").setup({
                 "williamboman/mason.nvim",
                 config = function()
                     local function get_path_sep()
-                        if vim.fn.has("win32") == 1 then
+                        if is_windows then
                             return "\\"
                         else
                             return "/"
@@ -185,7 +221,7 @@ require("lazy").setup({
 
                     local sep = get_path_sep()
 
-                    if vim.fn.has("win32") == 1 then
+                    if is_windows then
                         vim.env.PATH = string.format("%s%smason%sbin;", (vim.fn.stdpath("data")), sep, sep) .. vim.env.PATH
                     else
                         vim.env.PATH = string.format("%s%smason%sbin:", (vim.fn.stdpath("data")), sep, sep) .. vim.env.PATH
@@ -318,6 +354,7 @@ require("lazy").setup({
 
 })
 
+-- Golang autoformat
 vim.api.nvim_create_autocmd("BufWritePre", {
     pattern = "*.go",
     callback = function()
@@ -326,30 +363,8 @@ vim.api.nvim_create_autocmd("BufWritePre", {
     end,
 })
 
-
 -- Edit this configuration file
 THIS_FILE = debug.getinfo(1,'S').short_src
 vim.keymap.set("n", "<leader>i", string.format(":e %s<cr>", THIS_FILE))
 
--- vim.cmd.colorscheme("gruvbox")
-vim.cmd.colorscheme("rose-pine")
-
--- Dirt Colorscheme ported from Emacs
--- vim.cmd [[
---     hi Normal guibg=#161616 guifg=#debe95
---     hi Visual guibg=#0000cd
---     hi Cursor guibg=#90ee90
---     hi CursorLine guibg=#252525
---     hi Keyword guifg=#d4d4d4
---     hi Type guifg=#8cde94
---     hi Constant guifg=#7ad0c6
---     hi Identifier guifg=#c8d4ec
---     hi Constant guifg=#ffffff
---     hi String guifg=#b3b3b3
---     hi Comment guifg=#ffff00
---     hi NonText guifg=none guibg=none
---     hi SignColumn guibg=#161616
---     hi LineNr guibg=#161616 guifg=#debe95
---     hi Pmenu guibg=#232323
---     hi WildMenu guibg=#252525
--- ]]
+vim.cmd.colorscheme("gruvbox")

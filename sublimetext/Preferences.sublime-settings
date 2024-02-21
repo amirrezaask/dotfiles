@@ -3,7 +3,7 @@
 	"font_options": [
 		"no_italic"	
 	],
-	"font_size": 16,
+	"font_size": 14,
 	"hardware_acceleration": "opengl",
 	"highlight_line": true,
 	"hot_exit": "disabled",
@@ -15,5 +15,5 @@
 	"index_files": true,
 	"theme": "Adaptive.sublime-theme",
 	"word_wrap": "true",
-	"color_scheme": "Catppuccin-Mocha.sublime-color-scheme",
+	"color_scheme": "Black.sublime-color-scheme",
 }
