@@ -9,8 +9,8 @@ config.font = wezterm.font_with_fallback {
 config.font_size = 16
 
 config.window_padding = {
-  left = 1,
-  right = 1,
+  left = 0,
+  right = 0,
   top = 0,
   bottom = 0,
 }
@@ -18,5 +18,6 @@ config.window_padding = {
 
 config.bidi_enabled = true
 config.default_prog = { 'cmd.exe', '/k', '%cmder_root%/vendor/init.bat' }
+config.tab_bar_at_bottom = true
 
 return config
