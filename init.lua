@@ -28,9 +28,11 @@ vim.opt.ignorecase = true
 vim.opt.title = true
 vim.opt.titlestring = '%F'
 vim.opt.cursorline = true
+vim.opt.breakindent = true
 
 -- Keymaps
-vim.g.mapleader = " " -- <leader> key for keymaps mapped to <Space>
+vim.g.mapleader =
+" "                                                                                  -- <leader> key for keymaps mapped to <Space>
 vim.keymap.set("n", "Y", "y$", { desc = "Copy whole line" })                         -- Make yanking act like other operations
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]], { desc = "Copy into clipboard" }) -- Copy to clipboard
 vim.keymap.set("n", "<leader>Y", [["+Y]], { desc = "Copy line into clipboard" })
@@ -60,7 +62,7 @@ function ToggleQFList()
 end
 
 vim.keymap.set({ "n" }, "<C-q>", ToggleQFList, { desc = "Open Quickfix list" })
-vim.keymap.set({"i"}, "<C-Space>", "<C-x><C-o>")
+vim.keymap.set({ "i" }, "<C-Space>", "<C-x><C-o>")
 -- When moving around always have cursor centered in screen
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
@@ -86,11 +88,8 @@ local is_windows = vim.fn.has("win32") == 1
 -- Neovide GUI
 -- recommended especially in windows environment, much better than windows terminal.
 if vim.g.neovide then
-
     local font_family = "Jetbrains Mono"
     local font_size = 15
-
-
     vim.g.neovide_scroll_animation_length = 0.1
     vim.g.neovide_cursor_animation_length = 0.00
     vim.g.neovide_cursor_vfx_mode = ""
@@ -102,12 +101,17 @@ if vim.g.neovide then
     end
 
     function FontSizeInc()
-        font_size = 1+font_size
+        font_size = 1 + font_size
         Font(font_family, font_size)
     end
 
     function FontSizeDec()
         font_size = font_size - 1
+        Font(font_family, font_size)
+    end
+
+    function FontSize(size)
+        font_size = size
         Font(font_family, font_size)
     end
 
@@ -119,8 +123,13 @@ if vim.g.neovide then
         FontSizeDec()
     end, {})
 
-    vim.keymap.set({"n", "i", "v", "x", "t"}, "<C-=>", FontSizeInc, {})
-    vim.keymap.set({"n", "i", "v", "x", "t"}, "<C-->", FontSizeDec, {})
+    vim.api.nvim_create_user_command("FontSize", function(opts)
+        FontSize(tonumber(opts.fargs[1]))
+    end, {nargs = 1})
+
+
+    vim.keymap.set({ "n", "i", "v", "x", "t" }, "<C-=>", FontSizeInc, {})
+    vim.keymap.set({ "n", "i", "v", "x", "t" }, "<C-->", FontSizeDec, {})
 
     vim.api.nvim_create_user_command("Font", function(opts)
         local splitted = vim.split(opts.args, ":")
@@ -128,7 +137,7 @@ if vim.g.neovide then
             error("Font command input should be in [FontName]:[FontSize] format")
         end
         Font(splitted[1], splitted[2])
-    end, {nargs = "*"})
+    end, { nargs = "*" })
 
     Font("Jetbrains Mono", 16)
 end
@@ -148,175 +157,198 @@ vim.opt.rtp:prepend(lazypath)
 
 
 require("lazy").setup({
-    { "ellisonleao/gruvbox.nvim",
-        opts = { contrast = 'hard',
-            italic = {
-                strings = false,
-                emphasis = false,
-                comments = false,
-                operators = false,
-                folds = false,
-            }
-        }
-    },
-
-    "tpope/vim-abolish",                    -- useful text stuff
-    { "numToStr/Comment.nvim", opts = {} }, -- Comment stuff like a boss
-    "tpope/vim-sleuth",                     -- set buffer options heuristically
-
-    "tpope/vim-fugitive",
-    {
-        "hrsh7th/nvim-cmp",
-        dependencies = {
-            'L3MON4D3/LuaSnip',
-            'saadparwaiz1/cmp_luasnip',
-            "hrsh7th/cmp-nvim-lsp",
-            "hrsh7th/cmp-path",
-            "hrsh7th/cmp-buffer",
+        -- Colorschemes
+        {
+            'folke/tokyonight.nvim'
         },
-        config = function()
-            local cmp_select = { behavior = require("cmp").SelectBehavior.Select }
-            local capabilities = vim.lsp.protocol.make_client_capabilities()
-            capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
-            local cmp = require("cmp")
-            cmp.setup({
-                preselect = require("cmp.types").cmp.PreselectMode.None,
-                window = {
-                    completion = cmp.config.window.bordered(),
-                    documentation = cmp.config.window.bordered(),
-                },
-                snippet = {
-                    expand = function(args)
-                        require('luasnip').lsp_expand(args.body)
-                    end,
-                },
-                mapping = cmp.mapping.preset.insert({
-                    ["<C-p>"] = cmp.mapping.select_prev_item(cmp_select),
-                    ["<C-n>"] = cmp.mapping.select_next_item(cmp_select),
-                    ["<C-y>"] = cmp.mapping.confirm({ select = true }),
-                    ["<C-Space>"] = cmp.mapping.complete(),
-                    ["<CR>"] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-                }),
-                sources = {
-                    { name = "nvim_lsp" },
-                    { name = "buffer" },
-                    { name = "path" },
-                },
-            })
-        end,
-    },
-    {
-        "neovim/nvim-lspconfig",
-        dependencies = {
-            {
-                "williamboman/mason.nvim",
-                config = function()
-                    local function get_path_sep()
-                        if is_windows then
-                            return "\\"
-                        else
-                            return "/"
+        {
+            "ellisonleao/gruvbox.nvim",
+            opts = {
+                contrast = 'hard',
+                italic = {
+                    strings = false,
+                    emphasis = false,
+                    comments = false,
+                    operators = false,
+                    folds = false,
+                }
+            }
+        },
+        { -- Theme inspired by Atom
+            'navarasu/onedark.nvim',
+            config = function()
+                require('onedark').setup {
+                    -- Set a style preset. 'dark' is default.
+                    style = 'dark', -- dark, darker, cool, deep, warm, warmer, light
+                }
+            end,
+        },
+        { "tpope/vim-abolish" },                    -- useful text stuff
+        { "numToStr/Comment.nvim", opts = {} }, -- Comment stuff like a boss
+        { "tpope/vim-sleuth" },                     -- set buffer options heuristically
+        {
+            'lukas-reineke/indent-blankline.nvim',
+            main = 'ibl',
+            opts = {},
+        },
+
+        { "tpope/vim-fugitive" }, -- Git
+
+        {
+            "hrsh7th/nvim-cmp",
+            dependencies = {
+                'L3MON4D3/LuaSnip',
+                'saadparwaiz1/cmp_luasnip',
+                "hrsh7th/cmp-nvim-lsp",
+                "hrsh7th/cmp-path",
+                "hrsh7th/cmp-buffer",
+            },
+            config = function()
+                local cmp_select = { behavior = require("cmp").SelectBehavior.Select }
+                local capabilities = vim.lsp.protocol.make_client_capabilities()
+                capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+                local cmp = require("cmp")
+                cmp.setup({
+                    preselect = require("cmp.types").cmp.PreselectMode.None,
+                    window = {
+                        completion = cmp.config.window.bordered(),
+                        documentation = cmp.config.window.bordered(),
+                    },
+                    snippet = {
+                        expand = function(args)
+                            require('luasnip').lsp_expand(args.body)
+                        end,
+                    },
+                    mapping = cmp.mapping.preset.insert({
+                        ["<C-p>"] = cmp.mapping.select_prev_item(cmp_select),
+                        ["<C-n>"] = cmp.mapping.select_next_item(cmp_select),
+                        ["<C-y>"] = cmp.mapping.confirm({ select = true }),
+                        ["<C-Space>"] = cmp.mapping.complete(),
+                        ["<CR>"] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+                    }),
+                    sources = {
+                        { name = "nvim_lsp" },
+                        { name = "buffer" },
+                        { name = "path" },
+                    },
+                })
+            end,
+        },
+        {
+            "neovim/nvim-lspconfig",
+            dependencies = {
+                {
+                    "williamboman/mason.nvim",
+                    config = function()
+                        local function get_path_sep()
+                            if is_windows then
+                                return "\\"
+                            else
+                                return "/"
+                            end
                         end
-                    end
 
-                    local sep = get_path_sep()
+                        local sep = get_path_sep()
 
-                    if is_windows then
-                        vim.env.PATH = string.format("%s%smason%sbin;", (vim.fn.stdpath("data")), sep, sep) .. vim.env.PATH
-                    else
-                        vim.env.PATH = string.format("%s%smason%sbin:", (vim.fn.stdpath("data")), sep, sep) .. vim.env.PATH
+                        if is_windows then
+                            vim.env.PATH = string.format("%s%smason%sbin;", (vim.fn.stdpath("data")), sep, sep) ..
+                                vim.env.PATH
+                        else
+                            vim.env.PATH = string.format("%s%smason%sbin:", (vim.fn.stdpath("data")), sep, sep) ..
+                                vim.env.PATH
+                        end
+                        require("mason").setup({})
                     end
-                    require("mason").setup({})
-                end
-            }
-        },
-        config = function()
-            local lsp_servers = {
-                gopls = {},
-                lua_ls = {
-                    settings = {
-                        Lua = {
-                            telemetry = { enable = false },
-                            diagnostics = {
-                                globals = { "vim" },
-                            },
-                            workspace = {
-                                checkThirdParty = false,
-                                library = vim.api.nvim_get_runtime_file("", true),
+                }
+            },
+            config = function()
+                local lsp_servers = {
+                    gopls = {},
+                    lua_ls = {
+                        settings = {
+                            Lua = {
+                                telemetry = { enable = false },
+                                diagnostics = {
+                                    globals = { "vim" },
+                                },
+                                workspace = {
+                                    checkThirdParty = false,
+                                    library = vim.api.nvim_get_runtime_file("", true),
+                                },
                             },
                         },
                     },
-                },
-                rust_analyzer = {},
-                zls = {},
-            }
-            for server, config in pairs(lsp_servers) do
-                require("lspconfig")[server].setup(config)
-            end
+                    rust_analyzer = {},
+                    zls = {},
+                }
+                for server, config in pairs(lsp_servers) do
+                    require("lspconfig")[server].setup(config)
+                end
 
-            -- Hover and signature help windows have rounded borders
-            vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
-            vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
-            -- LspInfo window have rounded border
-            require("lspconfig.ui.windows").default_options.border = "rounded"
+                -- Hover and signature help windows have rounded borders
+                vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
+                vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help,
+                    { border = "rounded" })
+                -- LspInfo window have rounded border
+                require("lspconfig.ui.windows").default_options.border = "rounded"
 
-            vim.api.nvim_create_autocmd("LspAttach", {
-                callback = function(args)
-                    local bufnr = args.buf
-                    vim.api.nvim_set_option_value("omnifunc", "v:lua.vim.lsp.omnifunc",
-                        { buf = bufnr })
-                    local buffer = function(desc)
-                        return { buffer = bufnr, desc = desc }
-                    end
-                    vim.keymap.set("n", "gd", vim.lsp.buf.definition, buffer("Goto Definition"))
-                    vim.keymap.set("n", "gD", vim.lsp.buf.declaration, buffer("Goto Declaration"))
-                    vim.keymap.set("n", "gi", vim.lsp.buf.implementation, buffer("Goto Implementation"))
-                    vim.keymap.set("n", "gr", vim.lsp.buf.references, buffer("Goto References"))
-                    vim.keymap.set("n", "R", vim.lsp.buf.rename, buffer("Rename"))
-                    vim.keymap.set("n", "K", vim.lsp.buf.hover, buffer("Hover"))
-                    vim.keymap.set("n", "<leader>f", vim.lsp.buf.format, buffer("Format"))
-                    vim.keymap.set("n", "gl", vim.diagnostic.open_float, buffer(""))
-                    vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, buffer("Next Diagnostic"))
-                    vim.keymap.set("n", "]d", vim.diagnostic.goto_next, buffer("Previous Diagnostic"))
-                    vim.keymap.set("n", "C", vim.lsp.buf.code_action, buffer("Code Actions"))
-                    vim.keymap.set("n", "<C-s>", vim.lsp.buf.signature_help, buffer("Signature Help"))
-                    vim.keymap.set("i", "<C-s>", vim.lsp.buf.signature_help, buffer("Signature Help"))
-                    vim.diagnostic.config({ virtual_text = false })
-                end,
-            })
-        end,
+                vim.api.nvim_create_autocmd("LspAttach", {
+                    callback = function(args)
+                        local bufnr = args.buf
+                        vim.api.nvim_set_option_value("omnifunc", "v:lua.vim.lsp.omnifunc",
+                            { buf = bufnr })
+                        local buffer = function(desc)
+                            return { buffer = bufnr, desc = desc }
+                        end
+                        vim.keymap.set("n", "gd", vim.lsp.buf.definition, buffer("Goto Definition"))
+                        vim.keymap.set("n", "gD", vim.lsp.buf.declaration, buffer("Goto Declaration"))
+                        vim.keymap.set("n", "gi", vim.lsp.buf.implementation, buffer("Goto Implementation"))
+                        vim.keymap.set("n", "gr", vim.lsp.buf.references, buffer("Goto References"))
+                        vim.keymap.set("n", "R", vim.lsp.buf.rename, buffer("Rename"))
+                        vim.keymap.set("n", "K", vim.lsp.buf.hover, buffer("Hover"))
+                        vim.keymap.set("n", "<leader>f", vim.lsp.buf.format, buffer("Format"))
+                        vim.keymap.set("n", "gl", vim.diagnostic.open_float, buffer(""))
+                        vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, buffer("Next Diagnostic"))
+                        vim.keymap.set("n", "]d", vim.diagnostic.goto_next, buffer("Previous Diagnostic"))
+                        vim.keymap.set("n", "C", vim.lsp.buf.code_action, buffer("Code Actions"))
+                        vim.keymap.set("n", "<C-s>", vim.lsp.buf.signature_help, buffer("Signature Help"))
+                        vim.keymap.set("i", "<C-s>", vim.lsp.buf.signature_help, buffer("Signature Help"))
+                        vim.diagnostic.config({ virtual_text = false })
+                    end,
+                })
+            end,
 
-    },
-    {
-        "nvim-telescope/telescope.nvim",
-        dependencies = {
-            "nvim-lua/plenary.nvim",
-            { "nvim-telescope/telescope-fzf-native.nvim", build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build" },
-            "nvim-telescope/telescope-ui-select.nvim",
         },
-        config = function()
-            require("telescope").load_extension("ui-select") -- Use telescope for vim.ui.select
-            local builtin = require("telescope.builtin")
-            local no_preview = { previewer = false }
-            local config_cwd = "~/.config/nvim/"
-            if vim.fn.has("win32") == 1 then
-                config_cwd = "~/AppData/Local/nvim/"
-            end
-            vim.keymap.set("n", "<C-p>", function() builtin.git_files(no_preview) end)
-            vim.keymap.set("n", "<leader>b", function() builtin.buffers(no_preview) end)
-            vim.keymap.set("n", "<leader><leader>", function() builtin.find_files(no_preview) end)
-            vim.keymap.set("n", "<leader>ff", function() builtin.find_files(no_preview) end)
-            vim.keymap.set("n", "<leader>fc",
-                function() builtin.find_files({ cwd = config_cwd, previewer = false }) end)
-            vim.keymap.set("n", "<leader>.",
-                function() builtin.grep_string({ layout_config = { height = 0.7, width = 0.9 } }) end)
-            vim.keymap.set("n", "<leader>o", function() builtin.treesitter(no_preview) end)
-            vim.keymap.set("n", "??",
-                function() builtin.live_grep({ layout_config = { height = 0.9, width = 0.9 } }) end)
-            vim.keymap.set("n", "<leader>w", function() builtin.lsp_workspace_symbols(no_preview) end)
-        end,
-    },
-    {
+        {
+            "nvim-telescope/telescope.nvim",
+            dependencies = {
+                "nvim-lua/plenary.nvim",
+                { "nvim-telescope/telescope-fzf-native.nvim", build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build" },
+                "nvim-telescope/telescope-ui-select.nvim",
+            },
+            config = function()
+                require("telescope").load_extension("ui-select") -- Use telescope for vim.ui.select
+                local builtin = require("telescope.builtin")
+                local no_preview = { previewer = false }
+                local config_cwd = "~/.config/nvim/"
+                if vim.fn.has("win32") == 1 then
+                    config_cwd = "~/AppData/Local/nvim/"
+                end
+                vim.keymap.set("n", "<C-p>", function() builtin.git_files(no_preview) end)
+                vim.keymap.set("n", "<leader>b", function() builtin.buffers(no_preview) end)
+                vim.keymap.set("n", "<leader><leader>", function() builtin.find_files(no_preview) end)
+                vim.keymap.set("n", "<leader>ff", function() builtin.find_files(no_preview) end)
+                vim.keymap.set("n", "<leader>fc",
+                    function() builtin.find_files({ cwd = config_cwd, previewer = false }) end)
+                vim.keymap.set("n", "<leader>.",
+                    function() builtin.grep_string({ layout_config = { height = 0.7, width = 0.9 } }) end)
+                vim.keymap.set("n", "<leader>o", function() builtin.treesitter(no_preview) end)
+                vim.keymap.set("n", "??",
+                    function() builtin.live_grep({ layout_config = { height = 0.9, width = 0.9 } }) end)
+                vim.keymap.set("n", "<leader>w", function() builtin.lsp_workspace_symbols(no_preview) end)
+            end,
+        },
+        {
             "nvim-treesitter/nvim-treesitter",
             dependencies = {
                 "nvim-treesitter/nvim-treesitter-textobjects",
@@ -344,15 +376,15 @@ require("lazy").setup({
                     },
                 })
             end,
-    }
-}, 
-{
-    change_detection = {
-        enabled = true,
-        notify = false, -- get a notification when changes are found
+        }
     },
+    {
+        change_detection = {
+            enabled = true,
+            notify = false, -- get a notification when changes are found
+        },
 
-})
+    })
 
 -- Golang autoformat
 vim.api.nvim_create_autocmd("BufWritePre", {
@@ -364,7 +396,8 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 })
 
 -- Edit this configuration file
-THIS_FILE = debug.getinfo(1,'S').short_src
+THIS_FILE = debug.getinfo(1, 'S').short_src
 vim.keymap.set("n", "<leader>i", string.format(":e %s<cr>", THIS_FILE))
 
-vim.cmd.colorscheme("gruvbox")
+-- vim.cmd.colorscheme("gruvbox")
+vim.cmd.colorscheme("onedark")

@@ -15,6 +15,8 @@ config.window_padding = {
   bottom = 0,
 }
 
+
+config.bidi_enabled = true
 config.default_prog = { 'cmd.exe', '/k', '%cmder_root%/vendor/init.bat' }
 
 return config
