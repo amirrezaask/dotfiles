@@ -326,12 +326,7 @@
 			      (display-buffer-same-window))
 
 			     ("\\*journalsync\\*"
-			      (display-buffer-no-window)
-			      )
-
-
-			     (t (display-buffer-same-window))
-			     ))
+			      (display-buffer-no-window))))
 
 ;; Project based commands
 ;; I have 3 functionalities that I want per-project and by project I mean each directory that we can find a root for, look into `find-project-root` function.
@@ -539,11 +534,17 @@
 	 (date (completing-read "Journal Date: " options nil t)))
     (find-file (expand-file-name (format "journal-%s.md" date) amirreza/notebook-local-path))))
 
-(defun open-work-file ()
+(defun open-snapp-doctor-notes ()
   (interactive)
   (find-file (expand-file-name "Snapp Doctor.md" amirreza/notebook-local-path)))
 
+(defun open-note-file ()
+  (interactive)
+  (let ((files (directory-files amirreza/notebook-local-path t "\\.md")))
+    (find-file (expand-file-name (completing-read "Note: " files) amirreza/notebook-local-path))))
+
 (global-set-key (kbd "C-c j j") 'open-current-journal-entry)
+(global-set-key (kbd "C-c j o") 'open-note-file)
 (global-set-key (kbd "C-c j d") 'open-journal-entry-for-date)
 (global-set-key (kbd "C-c j s") 'sync-journal)
 (global-set-key (kbd "C-c j w") 'open-work-file)
