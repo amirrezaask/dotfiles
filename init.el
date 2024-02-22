@@ -87,23 +87,23 @@
 (global-set-key (kbd "M-w")                                          'amirreza/copy)
 (global-set-key (kbd "M-[")                                          'kmacro-start-macro)
 (global-set-key (kbd "M-]")                                          'kmacro-end-or-call-macro)
-(with-eval-after-load 'rect
-  (define-key rectangle-mark-mode-map (kbd "C-i")                    'string-insert-rectangle)
-  (define-key rectangle-mark-mode-map (kbd "C-r")                    'string-rectangle))
 (global-set-key (kbd "C-q")                                          'dabbrev-expand) ;; Try pre defined expansions and if nothing was found expand with emacs dabbrev
 (global-set-key (kbd "C-z")                                          'undo) ;; Sane undo key
-(global-set-key (kbd "M-0")                                          'query-replace) ;; Replace pattern with a string
+(global-set-key (kbd "C-0")                                          'delete-window)
 (global-set-key (kbd "M-\\")                                         'kmacro-end-and-call-macro) ;; execute keyboard macro.
-(global-set-key (kbd "M-SPC")                                        'rectangle-mark-mode)
-(global-set-key (kbd "C-<return>")                                   'rectangle-mark-mode)
 (global-set-key (kbd "C->")                                          'end-of-buffer)
 (global-set-key (kbd "C-<")                                          'beginning-of-buffer)
 (global-set-key (kbd "M-n")                                          'jump-down)
 (global-set-key (kbd "M-p")                                          'jump-up)
 (global-set-key (kbd "C-;")                                          'goto-line)
-(global-set-key (kbd "C-c n")                                        'next-buffer)
-(global-set-key (kbd "C-c p")                                        'previous-buffer)
 (global-set-key (kbd "C-.")                                          'isearch-forward-thing-at-point)
+;; Rectangle Mode (Almost multi cursors)
+(global-set-key (kbd "M-SPC")                                        'rectangle-mark-mode)
+(global-set-key (kbd "C-<return>")                                   'rectangle-mark-mode)
+(with-eval-after-load 'rect
+  (define-key rectangle-mark-mode-map (kbd "C-i")                    'string-insert-rectangle)
+  (define-key rectangle-mark-mode-map (kbd "C-r")                    'string-rectangle))
+
 
 (unless (executable-find "rg") (error "Install ripgrep, this configuration relies heavy on it's features."))
 
@@ -518,7 +518,7 @@
 ;; Journal files:
 ;; Name format: journal-[timestamp].md
 ;; eg: journal-20240220.md
-(defvar amirreza/notebook-local-path "W:/notebook")
+(setq amirreza/notebook-local-path "W:/notebook/")
 
 (defun open-current-journal-entry ()
   "Open journal entry for today."
@@ -540,11 +540,12 @@
 
 (defun open-note-file ()
   (interactive)
-  (let ((files (directory-files amirreza/notebook-local-path t "\\.md")))
+  (let ((files (mapcar (lambda (s) (string-trim s amirreza/notebook-local-path)) (directory-files amirreza/notebook-local-path t "\\.md"))))
     (find-file (expand-file-name (completing-read "Note: " files) amirreza/notebook-local-path))))
 
 (global-set-key (kbd "C-c j j") 'open-current-journal-entry)
 (global-set-key (kbd "C-c j o") 'open-note-file)
+(global-set-key (kbd "C-c n")   'open-note-file)
 (global-set-key (kbd "C-c j d") 'open-journal-entry-for-date)
 (global-set-key (kbd "C-c j s") 'sync-journal)
 (global-set-key (kbd "C-c j w") 'open-work-file)
