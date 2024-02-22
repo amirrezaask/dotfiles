@@ -44,9 +44,6 @@ vim.keymap.set("x", "p", '"_dP')
 vim.keymap.set("i", "<C-c>", "<esc>")
 vim.keymap.set("i", "jk", "<ESC>")
 vim.keymap.set("i", "kj", "<ESC>")
--- splits
-vim.keymap.set("n", "<leader>k", ":vsplit<cr>")
-vim.keymap.set("n", "<leader>j", ":split<cr>")
 -- Quickfix list
 vim.keymap.set({ "n" }, "<C-[>", "<cmd>cprev<CR>", { desc = "Previous quick fix list item" })
 vim.keymap.set({ "n" }, "<C-]>", "<cmd>cnext<CR>", { desc = "Next quick fix list item" })
@@ -125,7 +122,7 @@ if vim.g.neovide then
 
     vim.api.nvim_create_user_command("FontSize", function(opts)
         FontSize(tonumber(opts.fargs[1]))
-    end, {nargs = 1})
+    end, { nargs = 1 })
 
 
     vim.keymap.set({ "n", "i", "v", "x", "t" }, "<C-=>", FontSizeInc, {})
@@ -141,6 +138,18 @@ if vim.g.neovide then
 
     Font("Jetbrains Mono", 16)
 end
+
+-- Highlight on Yank
+vim.api.nvim_create_autocmd('TextYankPost', {
+    group = vim.api.nvim_create_augroup('YankHighlight', { clear = true }),
+    callback = function()
+        vim.highlight.on_yank()
+    end,
+})
+
+-- Edit this configuration file
+THIS_FILE = debug.getinfo(1, 'S').short_src
+vim.keymap.set("n", "<leader>i", string.format(":e %s<cr>", THIS_FILE))
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -158,6 +167,27 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
         -- Colorschemes
+        {
+            "rose-pine/neovim",
+            name = "rose-pine",
+            opts = {
+                styles = {
+                    bold = false,
+                    italic = false,
+                    transparency = false,
+                },
+
+            }
+        },
+        {
+            "catppuccin/nvim",
+            name = "catppuccin",
+            opts = {
+                no_italic = false,    -- Force no italic
+                no_bold = false,      -- Force no bold
+                no_underline = false, -- Force no underline
+            }
+        },
         {
             'folke/tokyonight.nvim'
         },
@@ -183,17 +213,32 @@ require("lazy").setup({
                 }
             end,
         },
-        { "tpope/vim-abolish" },                    -- useful text stuff
+        { "tpope/vim-abolish" },                -- useful text stuff
         { "numToStr/Comment.nvim", opts = {} }, -- Comment stuff like a boss
-        { "tpope/vim-sleuth" },                     -- set buffer options heuristically
+        { "tpope/vim-sleuth" },                 -- set buffer options heuristically
         {
-            'lukas-reineke/indent-blankline.nvim',
-            main = 'ibl',
-            opts = {},
+            'nvim-lualine/lualine.nvim',
+            dependencies = { 'nvim-tree/nvim-web-devicons' },
+            opts = {
+                options = {
+                    icons_enabled = false,
+                }
+            }
         },
-
         { "tpope/vim-fugitive" }, -- Git
-
+        { -- Git Signs
+            'lewis6991/gitsigns.nvim',
+            opts = {
+                -- See `:help gitsigns.txt`
+                signs = {
+                    add = { text = '+' },
+                    change = { text = '~' },
+                    delete = { text = '_' },
+                    topdelete = { text = '‾' },
+                    changedelete = { text = '~' },
+                },
+            },
+        },
         {
             "hrsh7th/nvim-cmp",
             dependencies = {
@@ -306,6 +351,8 @@ require("lazy").setup({
                         vim.keymap.set("n", "gr", vim.lsp.buf.references, buffer("Goto References"))
                         vim.keymap.set("n", "R", vim.lsp.buf.rename, buffer("Rename"))
                         vim.keymap.set("n", "K", vim.lsp.buf.hover, buffer("Hover"))
+                        vim.keymap.set("n", "<leader>l", vim.diagnostic.open_float, buffer("Floating Diagnostics"))
+                        vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, buffer("Set Loclist"))
                         vim.keymap.set("n", "<leader>f", vim.lsp.buf.format, buffer("Format"))
                         vim.keymap.set("n", "gl", vim.diagnostic.open_float, buffer(""))
                         vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, buffer("Next Diagnostic"))
@@ -316,8 +363,15 @@ require("lazy").setup({
                         vim.diagnostic.config({ virtual_text = false })
                     end,
                 })
+                -- Autoformat for golang
+                vim.api.nvim_create_autocmd("BufWritePre", {
+                    pattern = "*.go",
+                    callback = function()
+                        vim.lsp.buf.code_action({ context = { only = { "source.organizeImports" } }, apply = true })
+                        vim.lsp.buf.format()
+                    end,
+                })
             end,
-
         },
         {
             "nvim-telescope/telescope.nvim",
@@ -356,6 +410,7 @@ require("lazy").setup({
             },
             config = function()
                 require("nvim-treesitter.configs").setup({
+                    ensure_installed = {},
                     sync_install = false,
                     auto_install = true,
                     ignore_install = {},
@@ -386,18 +441,4 @@ require("lazy").setup({
 
     })
 
--- Golang autoformat
-vim.api.nvim_create_autocmd("BufWritePre", {
-    pattern = "*.go",
-    callback = function()
-        vim.lsp.buf.code_action({ context = { only = { "source.organizeImports" } }, apply = true })
-        vim.lsp.buf.format()
-    end,
-})
-
--- Edit this configuration file
-THIS_FILE = debug.getinfo(1, 'S').short_src
-vim.keymap.set("n", "<leader>i", string.format(":e %s<cr>", THIS_FILE))
-
--- vim.cmd.colorscheme("gruvbox")
-vim.cmd.colorscheme("onedark")
+vim.cmd.colorscheme("catppuccin-macchiato")

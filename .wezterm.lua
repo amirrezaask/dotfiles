@@ -17,7 +17,8 @@ config.window_padding = {
 
 
 config.bidi_enabled = true
-config.default_prog = { 'cmd.exe', '/k', '%cmder_root%/vendor/init.bat' }
+-- config.default_prog = { 'cmd.exe', '/k', '%cmder_root%/vendor/init.bat' }
+config.default_prog = { 'powershell.exe' }
 config.tab_bar_at_bottom = true
 
 return config
