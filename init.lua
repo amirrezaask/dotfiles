@@ -90,7 +90,7 @@ local is_windows = vim.fn.has("win32") == 1
 if vim.g.neovide then
     local font_family = "Jetbrains Mono"
     local font_size = 15
-    vim.g.neovide_scroll_animation_length = 0.1
+    vim.g.neovide_scroll_animation_length = 0.00
     vim.g.neovide_cursor_animation_length = 0.00
     vim.g.neovide_cursor_vfx_mode = ""
 
@@ -115,11 +115,11 @@ if vim.g.neovide then
         Font(font_family, font_size)
     end
 
-    vim.api.nvim_create_user_command("FontSizeInc", function(opts)
+    vim.api.nvim_create_user_command("FontSizeInc", function(_)
         FontSizeInc()
     end, {})
 
-    vim.api.nvim_create_user_command("FontSizeDec", function(opts)
+    vim.api.nvim_create_user_command("FontSizeDec", function(_)
         FontSizeDec()
     end, {})
 
