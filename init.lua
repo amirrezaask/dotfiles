@@ -213,9 +213,13 @@ require("lazy").setup({
                 }
             end,
         },
-        { "tpope/vim-abolish" },                -- useful text stuff
+
         { "numToStr/Comment.nvim", opts = {} }, -- Comment stuff like a boss
+
         { "tpope/vim-sleuth" },                 -- set buffer options heuristically
+
+
+        -- Statusline
         {
             'nvim-lualine/lualine.nvim',
             dependencies = { 'nvim-tree/nvim-web-devicons' },
@@ -225,8 +229,11 @@ require("lazy").setup({
                 }
             }
         },
-        { "tpope/vim-fugitive" }, -- Git
-        { -- Git Signs
+
+
+        -- Git
+        { "tpope/vim-fugitive" },
+        {
             'lewis6991/gitsigns.nvim',
             opts = {
                 -- See `:help gitsigns.txt`
@@ -239,6 +246,9 @@ require("lazy").setup({
                 },
             },
         },
+
+
+        -- Autocompletion
         {
             "hrsh7th/nvim-cmp",
             dependencies = {
@@ -279,6 +289,9 @@ require("lazy").setup({
                 })
             end,
         },
+
+
+        -- LSP: Language Server Protocol
         {
             "neovim/nvim-lspconfig",
             dependencies = {
@@ -304,7 +317,8 @@ require("lazy").setup({
                         end
                         require("mason").setup({})
                     end
-                }
+                },
+                { 'j-hui/fidget.nvim', opts = {} },
             },
             config = function()
                 local lsp_servers = {
