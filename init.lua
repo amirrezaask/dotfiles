@@ -373,6 +373,9 @@ require("lazy").setup({
                 })
             end,
         },
+
+
+        -- Fuzzy finder
         {
             "nvim-telescope/telescope.nvim",
             dependencies = {
@@ -390,6 +393,7 @@ require("lazy").setup({
                 end
                 vim.keymap.set("n", "<C-p>", function() builtin.git_files(no_preview) end)
                 vim.keymap.set("n", "<leader>b", function() builtin.buffers(no_preview) end)
+                vim.keymap.set("n", "<leader>/", function() builtin.current_buffer_fuzzy_find(no_preview) end)
                 vim.keymap.set("n", "<leader><leader>", function() builtin.find_files(no_preview) end)
                 vim.keymap.set("n", "<leader>ff", function() builtin.find_files(no_preview) end)
                 vim.keymap.set("n", "<leader>fc",
@@ -441,4 +445,4 @@ require("lazy").setup({
 
     })
 
-vim.cmd.colorscheme("catppuccin-macchiato")
+vim.cmd.colorscheme("tokyonight-night")
