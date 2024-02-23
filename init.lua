@@ -85,7 +85,7 @@ local is_windows = vim.fn.has("win32") == 1
 -- Neovide GUI
 -- recommended especially in windows environment, much better than windows terminal.
 if vim.g.neovide then
-    local font_family = "Jetbrains Mono"
+    local font_family = "Fira Code"
     local font_size = 15
     vim.g.neovide_scroll_animation_length = 0.00
     vim.g.neovide_cursor_animation_length = 0.00
