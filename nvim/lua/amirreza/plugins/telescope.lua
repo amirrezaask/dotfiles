@@ -15,6 +15,8 @@ return { -- Fuzzy finder
             end
             bind("n", "<C-p>", function() builtin.git_files(no_preview) end, "Git Files")
 
+            bind("n", "<leader>i", function() builtin.find_files { cwd = vim.fn.stdpath("config")} end, "Edit Neovim Config")
+
             bind("n", "<leader>b", function() builtin.buffers(no_preview) end, "Buffers")
 
             bind("n", "<leader>/", function() builtin.current_buffer_fuzzy_find(no_preview) end,

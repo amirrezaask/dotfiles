@@ -12,10 +12,6 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     end,
 })
 
--- Edit this configuration file
-THIS_FILE = debug.getinfo(1, 'S').short_src
-vim.keymap.set("n", "<leader>i", string.format(":e %s<cr>", THIS_FILE), { desc = "Edit Neovim configuration" })
-
 -- Transparency Control
 TRANSPARENT = true
 
