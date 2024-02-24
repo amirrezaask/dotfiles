@@ -31,8 +31,7 @@ vim.opt.cursorline = true
 vim.opt.breakindent = true
 
 -- Keymaps
-vim.g.mapleader =
-" "                                                                                  -- <leader> key for keymaps mapped to <Space>
+vim.g.mapleader = " "                                                                                  -- <leader> key for keymaps mapped to <Space>
 vim.keymap.set("n", "Y", "y$", { desc = "Copy whole line" })                         -- Make yanking act like other operations
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]], { desc = "Copy into clipboard" }) -- Copy to clipboard
 vim.keymap.set("n", "<leader>Y", [["+Y]], { desc = "Copy line into clipboard" })
@@ -60,6 +59,7 @@ end
 
 vim.keymap.set({ "n" }, "<C-q>", ToggleQFList, { desc = "Open Quickfix list" })
 vim.keymap.set({ "i" }, "<C-Space>", "<C-x><C-o>")
+
 -- When moving around always have cursor centered in screen
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
@@ -400,9 +400,6 @@ require("lazy").setup({
                         local bufnr = args.buf
                         vim.api.nvim_set_option_value("omnifunc", "v:lua.vim.lsp.omnifunc",
                             { buf = bufnr })
-                        local buffer = function(desc)
-                            return { buffer = bufnr, desc = "LSP: " .. desc }
-                        end
 
                         local bind = function(mode, key, fn, desc)
                             vim.keymap.set(mode, key, fn, { buffer = bufnr, desc = desc })
