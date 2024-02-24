@@ -149,7 +149,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 
 -- Edit this configuration file
 THIS_FILE = debug.getinfo(1, 'S').short_src
-vim.keymap.set("n", "<leader>i", string.format(":e %s<cr>", THIS_FILE))
+vim.keymap.set("n", "<leader>i", string.format(":e %s<cr>", THIS_FILE), { desc = "Edit Neovim configuration" })
 
 -- Transparency Control
 local transparent = true
@@ -237,14 +237,6 @@ require("lazy").setup({
                 }
             }
         },
-        {
-            "folke/trouble.nvim",
-            dependencies = { "nvim-tree/nvim-web-devicons" },
-            config = function()
-                require"trouble".setup({})
-                vim.keymap.set("n", "<leader>j", ":TroubleToggle<CR>")
-            end,
-        },
 
         { -- Highlight TODOs in code
             "folke/todo-comments.nvim",
@@ -252,6 +244,22 @@ require("lazy").setup({
             opts = {
             }
         },
+
+
+        {
+            "folke/which-key.nvim",
+            event = "VeryLazy",
+            init = function()
+                vim.o.timeout = true
+                vim.o.timeoutlen = 300
+            end,
+            opts = {
+                -- your configuration comes here
+                -- or leave it empty to use the default settings
+                -- refer to the configuration section below
+            }
+        },
+
 
         -- Git
         { "tpope/vim-fugitive" },
@@ -317,7 +325,15 @@ require("lazy").setup({
         {
             "neovim/nvim-lspconfig",
             dependencies = {
-                {
+                { -- Like the panel in vscode, shows you errors and warnings from LSP
+                    "folke/trouble.nvim",
+                    dependencies = { "nvim-tree/nvim-web-devicons" },
+                    config = function()
+                        require "trouble".setup({})
+                        vim.keymap.set("n", "<leader>j", ":TroubleToggle<CR>")
+                    end,
+                },
+                { -- Package manager for neovim install lsp servers in neovim path.
                     "williamboman/mason.nvim",
                     config = function()
                         local function get_path_sep()
@@ -380,23 +396,30 @@ require("lazy").setup({
                         vim.api.nvim_set_option_value("omnifunc", "v:lua.vim.lsp.omnifunc",
                             { buf = bufnr })
                         local buffer = function(desc)
-                            return { buffer = bufnr, desc = desc }
+                            return { buffer = bufnr, desc = "LSP: " .. desc }
                         end
-                        vim.keymap.set("n", "gd", vim.lsp.buf.definition, buffer("Goto Definition"))
-                        vim.keymap.set("n", "gD", vim.lsp.buf.declaration, buffer("Goto Declaration"))
-                        vim.keymap.set("n", "gi", vim.lsp.buf.implementation, buffer("Goto Implementation"))
-                        vim.keymap.set("n", "gr", vim.lsp.buf.references, buffer("Goto References"))
-                        vim.keymap.set("n", "R", vim.lsp.buf.rename, buffer("Rename"))
-                        vim.keymap.set("n", "K", vim.lsp.buf.hover, buffer("Hover"))
-                        vim.keymap.set("n", "<leader>l", vim.diagnostic.open_float, buffer("Floating Diagnostics"))
-                        vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, buffer("Set Loclist"))
-                        vim.keymap.set("n", "<leader>f", vim.lsp.buf.format, buffer("Format"))
-                        vim.keymap.set("n", "gl", vim.diagnostic.open_float, buffer(""))
-                        vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, buffer("Next Diagnostic"))
-                        vim.keymap.set("n", "]d", vim.diagnostic.goto_next, buffer("Previous Diagnostic"))
-                        vim.keymap.set("n", "C", vim.lsp.buf.code_action, buffer("Code Actions"))
-                        vim.keymap.set("n", "<C-s>", vim.lsp.buf.signature_help, buffer("Signature Help"))
-                        vim.keymap.set("i", "<C-s>", vim.lsp.buf.signature_help, buffer("Signature Help"))
+
+                        local bind = function(mode, key, fn, desc)
+                            vim.keymap.set(mode, key, fn, { buffer = bufnr, desc = desc })
+                        end
+
+                        bind("n", "gd", vim.lsp.buf.definition, "Goto Definition")
+                        bind("n", "gD", vim.lsp.buf.declaration, "Goto Declaration")
+                        bind("n", "gi", vim.lsp.buf.implementation, "Goto Implementation")
+                        bind("n", "gr", vim.lsp.buf.references, "Goto References")
+                        bind("n", "R", vim.lsp.buf.rename, "Rename")
+                        bind("n", "K", vim.lsp.buf.hover, "Hover")
+                        bind("n", "<leader>l", vim.diagnostic.open_float, "Floating Diagnostics")
+                        bind("n", "<leader>q", vim.diagnostic.setloclist, "Set Loclist")
+                        bind("n", "<leader>f", vim.lsp.buf.format, "Format")
+                        bind("n", "gl", vim.diagnostic.open_float, "")
+                        bind("n", "[d", vim.diagnostic.goto_prev, "Next Diagnostic")
+                        bind("n", "]d", vim.diagnostic.goto_next, "Previous Diagnostic")
+                        bind("n", "C", vim.lsp.buf.code_action, "Code Actions")
+                        bind("n", "<C-s>", vim.lsp.buf.signature_help, "Signature Help")
+                        bind("i", "<C-s>", vim.lsp.buf.signature_help, "Signature Help")
+
+                        -- I hate it when I am writing a piece of code that things start to get all red.
                         vim.diagnostic.config({ virtual_text = false })
                     end,
                 })
@@ -428,19 +451,29 @@ require("lazy").setup({
                 if vim.fn.has("win32") == 1 then
                     config_cwd = "~/AppData/Local/nvim/"
                 end
-                vim.keymap.set("n", "<C-p>", function() builtin.git_files(no_preview) end)
-                vim.keymap.set("n", "<leader>b", function() builtin.buffers(no_preview) end)
-                vim.keymap.set("n", "<leader>/", function() builtin.current_buffer_fuzzy_find(no_preview) end)
-                vim.keymap.set("n", "<leader><leader>", function() builtin.find_files(no_preview) end)
-                vim.keymap.set("n", "<leader>ff", function() builtin.find_files(no_preview) end)
-                vim.keymap.set("n", "<leader>fc",
-                    function() builtin.find_files({ cwd = config_cwd, previewer = false }) end)
-                vim.keymap.set("n", "<leader>.",
-                    function() builtin.grep_string({ layout_config = { height = 0.7, width = 0.9 } }) end)
-                vim.keymap.set("n", "<leader>o", function() builtin.treesitter(no_preview) end)
-                vim.keymap.set("n", "??",
-                    function() builtin.live_grep({ layout_config = { height = 0.9, width = 0.9 } }) end)
-                vim.keymap.set("n", "<leader>w", function() builtin.lsp_workspace_symbols(no_preview) end)
+                local bind = function(mode, key, fn, desc)
+                    vim.keymap.set(mode, key, fn, { desc = "Telescope: " .. desc })
+                end
+                bind("n", "<C-p>", function() builtin.git_files(no_preview) end, "Git Files")
+
+                bind("n", "<leader>b", function() builtin.buffers(no_preview) end, "Buffers")
+
+                bind("n", "<leader>/", function() builtin.current_buffer_fuzzy_find(no_preview) end,
+                    "Fuzzy find in current buffer")
+
+                bind("n", "<leader><leader>", function() builtin.find_files(no_preview) end, "Fuzzy find")
+
+                bind("n", "<leader>.",
+                    function() builtin.grep_string({ layout_config = { height = 0.7, width = 0.9 } }) end,
+                    "Grep current word")
+
+                bind("n", "<leader>o", function() builtin.treesitter(no_preview) end, "Treesitter symbols")
+
+                bind("n", "??",
+                    function() builtin.live_grep({ layout_config = { height = 0.9, width = 0.9 } }) end,
+                    "Grep in project")
+
+                bind("n", "<leader>w", function() builtin.lsp_workspace_symbols(no_preview) end, "LSP workspace symbols")
             end,
         },
 
