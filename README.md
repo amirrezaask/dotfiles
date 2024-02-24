@@ -1,10 +1,9 @@
 # AmirrezaAsk Configs
-Simple configurations for Neovim and Emacs, I tend to use both, I like them both and they both have their own pros/cons, in short Emacs is easier to extend but neovim is much much faster. 
 
 ## Configs
 
-- [Neovim](https://github.com/amirrezaask/dotfiles/blob/master/nvim-init.lua)
-- [Emacs](https://github.com/amirrezaask/dotfiles/blob/master/.emacs)
+- [Neovim](https://github.com/amirrezaask/dotfiles/blob/master/nvim)
+- [Emacs](https://github.com/amirrezaask/dotfiles/blob/master/init.el)
 - [Sublime](https://github.com/amirrezaask/dotfiles/blob/master/sublimetext)
 
 ## Resources
