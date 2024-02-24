@@ -31,7 +31,8 @@ vim.opt.cursorline = true
 vim.opt.breakindent = true
 
 -- Keymaps
-vim.g.mapleader = " "                                                                                  -- <leader> key for keymaps mapped to <Space>
+vim.g.mapleader =
+" "                                                                                  -- <leader> key for keymaps mapped to <Space>
 vim.keymap.set("n", "Y", "y$", { desc = "Copy whole line" })                         -- Make yanking act like other operations
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]], { desc = "Copy into clipboard" }) -- Copy to clipboard
 vim.keymap.set("n", "<leader>Y", [["+Y]], { desc = "Copy line into clipboard" })
@@ -236,7 +237,21 @@ require("lazy").setup({
                 }
             }
         },
+        {
+            "folke/trouble.nvim",
+            dependencies = { "nvim-tree/nvim-web-devicons" },
+            config = function()
+                require"trouble".setup({})
+                vim.keymap.set("n", "<leader>j", ":TroubleToggle<CR>")
+            end,
+        },
 
+        { -- Highlight TODOs in code
+            "folke/todo-comments.nvim",
+            dependencies = { "nvim-lua/plenary.nvim" },
+            opts = {
+            }
+        },
 
         -- Git
         { "tpope/vim-fugitive" },
