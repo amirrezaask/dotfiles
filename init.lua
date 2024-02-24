@@ -168,19 +168,23 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 
+
+-- Setup plugins
 require("lazy").setup({
         -- Colorschemes
         {
             "rose-pine/neovim",
             name = "rose-pine",
-            opts = {
-                styles = {
-                    bold = false,
-                    italic = false,
-                    transparency = transparent,
-                },
-
-            }
+            config = function()
+                require "rose-pine".setup({
+                    styles = {
+                        bold = false,
+                        italic = false,
+                        transparency = transparent,
+                    },
+                })
+                vim.cmd.colorscheme("rose-pine")
+            end,
         },
         {
             "catppuccin/nvim",
@@ -518,12 +522,3 @@ require("lazy").setup({
         },
 
     })
-
-vim.cmd.colorscheme("rose-pine")
-
-if transparent then
-    vim.cmd [[
-        hi Normal guibg=none
-        hi NormalFloat guibg=none
-    ]]
-end
