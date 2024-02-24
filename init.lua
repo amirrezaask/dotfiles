@@ -31,8 +31,7 @@ vim.opt.cursorline = true
 vim.opt.breakindent = true
 
 -- Keymaps
-vim.g.mapleader =
-" "                                                                                  -- <leader> key for keymaps mapped to <Space>
+vim.g.mapleader = " "                                                                                  -- <leader> key for keymaps mapped to <Space>
 vim.keymap.set("n", "Y", "y$", { desc = "Copy whole line" })                         -- Make yanking act like other operations
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]], { desc = "Copy into clipboard" }) -- Copy to clipboard
 vim.keymap.set("n", "<leader>Y", [["+Y]], { desc = "Copy line into clipboard" })
@@ -151,6 +150,12 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 THIS_FILE = debug.getinfo(1, 'S').short_src
 vim.keymap.set("n", "<leader>i", string.format(":e %s<cr>", THIS_FILE))
 
+
+
+
+-- Transparency Control
+local transparent = true
+
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
     vim.fn.system({
@@ -174,7 +179,7 @@ require("lazy").setup({
                 styles = {
                     bold = false,
                     italic = false,
-                    transparency = false,
+                    transparency = transparent,
                 },
 
             }
@@ -186,14 +191,19 @@ require("lazy").setup({
                 no_italic = false,    -- Force no italic
                 no_bold = false,      -- Force no bold
                 no_underline = false, -- Force no underline
+                transparent_background = transparent,
             }
         },
         {
-            'folke/tokyonight.nvim'
+            'folke/tokyonight.nvim',
+            opts = {
+                transparent = transparent,
+            }
         },
         {
             "ellisonleao/gruvbox.nvim",
             opts = {
+                transparent_mode = transparent,
                 contrast = 'hard',
                 italic = {
                     strings = false,
@@ -420,6 +430,9 @@ require("lazy").setup({
                 vim.keymap.set("n", "<leader>w", function() builtin.lsp_workspace_symbols(no_preview) end)
             end,
         },
+
+
+        -- Treesitter
         {
             "nvim-treesitter/nvim-treesitter",
             dependencies = {
@@ -459,4 +472,11 @@ require("lazy").setup({
 
     })
 
-vim.cmd.colorscheme("tokyonight-night")
+vim.cmd.colorscheme("rose-pine")
+
+if true then
+    vim.cmd [[
+        hi Normal guibg=none
+        hi NormalFloat guibg=none
+    ]]
+end

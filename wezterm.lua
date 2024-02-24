@@ -18,9 +18,9 @@ config.window_padding = {
 
 config.use_fancy_tab_bar = false
 config.bidi_enabled = true
--- config.default_prog = { 'cmd.exe', '/k', '%cmder_root%/vendor/init.bat' }
--- config.default_prog = { 'powershell.exe' }
 config.tab_bar_at_bottom = true
+
+config.window_background_opacity = 0.9
 
 config.keys = {
   { key = 'j', mods = 'CTRL|SHIFT', action = wezterm.action.ActivateTabRelative(-1) },
