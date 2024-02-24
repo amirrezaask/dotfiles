@@ -150,9 +150,6 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 THIS_FILE = debug.getinfo(1, 'S').short_src
 vim.keymap.set("n", "<leader>i", string.format(":e %s<cr>", THIS_FILE))
 
-
-
-
 -- Transparency Control
 local transparent = true
 
