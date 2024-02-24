@@ -27,7 +27,6 @@ vim.opt.statusline = "%q%w%h%r%m%f %y %l:%c %p%%"
 vim.opt.ignorecase = true
 vim.opt.title = true
 vim.opt.titlestring = '%F'
-vim.opt.cursorline = true
 vim.opt.breakindent = true
 
 -- Keymaps
@@ -220,8 +219,8 @@ require("lazy").setup({
             'navarasu/onedark.nvim',
             config = function()
                 require('onedark').setup {
-                    -- Set a style preset. 'dark' is default.
-                    style = 'dark', -- dark, darker, cool, deep, warm, warmer, light
+                    transparent = transparent,
+                    style = 'dark',
                 }
             end,
         },
@@ -229,18 +228,6 @@ require("lazy").setup({
         { "numToStr/Comment.nvim", opts = {} }, -- Comment stuff like a boss
 
         { "tpope/vim-sleuth" },                 -- set buffer options heuristically
-
-
-        -- Statusline
-        {
-            'nvim-lualine/lualine.nvim',
-            dependencies = { 'nvim-tree/nvim-web-devicons' },
-            opts = {
-                options = {
-                    icons_enabled = true,
-                }
-            }
-        },
 
         { -- Highlight TODOs in code
             "folke/todo-comments.nvim",
