@@ -521,7 +521,7 @@ require("lazy").setup({
 
 vim.cmd.colorscheme("rose-pine")
 
-if true then
+if transparent then
     vim.cmd [[
         hi Normal guibg=none
         hi NormalFloat guibg=none
