@@ -1,15 +1,10 @@
 return {
-    -- Colorschemes
     {
         "rose-pine/neovim",
         name = "rose-pine",
         config = function()
             require "rose-pine".setup({
                 disable_background = true,
-                styles = {
-                    bold = false,
-                    italic = false,
-                },
             })
             vim.cmd.colorscheme("rose-pine")
         end,
@@ -21,19 +16,19 @@ return {
             no_italic = false,        -- Force no italic
             no_bold = false,          -- Force no bold
             no_underline = false,     -- Force no underline
-            TRANSPARENT_background = TRANSPARENT,
+            transparent_background = TRANSPARENT,
         }
     },
     {
         'folke/tokyonight.nvim',
         opts = {
-            TRANSPARENT = TRANSPARENT,
+            transparent = TRANSPARENT,
         }
     },
     {
         "ellisonleao/gruvbox.nvim",
         opts = {
-            TRANSPARENT_mode = TRANSPARENT,
+            transparent_mode = TRANSPARENT,
             contrast = 'hard',
             italic = {
                 strings = false,
@@ -48,7 +43,7 @@ return {
         'navarasu/onedark.nvim',
         config = function()
             require('onedark').setup {
-                TRANSPARENT = TRANSPARENT,
+                transparent = TRANSPARENT,
                 style = 'dark',
             }
         end,
