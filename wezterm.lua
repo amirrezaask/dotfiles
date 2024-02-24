@@ -29,4 +29,7 @@ config.keys = {
   { key = 'k', mods = 'CTRL|SHIFT', action = wezterm.action.ActivateTabRelative(1) },
 }
 
+
+config.adjust_window_size_when_changing_font_size = false
+
 return config

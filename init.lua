@@ -347,6 +347,7 @@ require("lazy").setup({
                     rust_analyzer = {},
                     zls = {},
                 }
+
                 for server, config in pairs(lsp_servers) do
                     require("lspconfig")[server].setup(config)
                 end
