@@ -7,7 +7,7 @@ return {    -- Treesitter
         },
         config = function()
             require("nvim-treesitter.configs").setup({
-                ensure_installed = {},
+                ensure_installed = { "go", "gomod", "lua" },
                 sync_install = false,
                 auto_install = true,
                 ignore_install = {},
