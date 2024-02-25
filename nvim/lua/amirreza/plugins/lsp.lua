@@ -1,4 +1,4 @@
-return { -- LSP: Language Server Protocol
+return {
     {
         "neovim/nvim-lspconfig",
         dependencies = {

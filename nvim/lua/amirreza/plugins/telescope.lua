@@ -19,20 +19,15 @@ return { -- Fuzzy finder
 
             bind("n", "<leader>b", function() builtin.buffers(no_preview) end, "Buffers")
 
-            bind("n", "<leader>/", function() builtin.current_buffer_fuzzy_find(no_preview) end,
-                "Fuzzy find in current buffer")
+            bind("n", "<leader>/", function() builtin.current_buffer_fuzzy_find(no_preview) end, "Fuzzy find in current buffer")
 
             bind("n", "<leader><leader>", function() builtin.find_files(no_preview) end, "Fuzzy find")
 
-            bind("n", "<leader>.",
-                function() builtin.grep_string({ layout_config = { height = 0.7, width = 0.9 } }) end,
-                "Grep current word")
+            bind("n", "<leader>.", function() builtin.grep_string({ layout_config = { height = 0.7, width = 0.9 } }) end, "Grep current word")
 
             bind("n", "<leader>o", function() builtin.treesitter(no_preview) end, "Treesitter symbols")
 
-            bind("n", "??",
-                function() builtin.live_grep({ layout_config = { height = 0.9, width = 0.9 } }) end,
-                "Grep in project")
+            bind("n", "??", function() builtin.live_grep({ layout_config = { height = 0.9, width = 0.9 } }) end, "Grep in project")
 
             bind("n", "<leader>w", function() builtin.lsp_workspace_symbols(no_preview) end, "LSP workspace symbols")
         end,
