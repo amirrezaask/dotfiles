@@ -4,13 +4,12 @@ return {
         name = "rose-pine",
         config = function()
             require "rose-pine".setup({
-                disable_background = true,
                 styles = {
                     italic = false,
-                    transparency = true
+                    transparency = TRANSPARENT
                 }
             })
-            vim.cmd.colorscheme("rose-pine")
+            -- vim.cmd.colorscheme("rose-pine")
         end,
     },
     {
@@ -25,9 +24,13 @@ return {
     },
     {
         'folke/tokyonight.nvim',
-        opts = {
-            transparent = TRANSPARENT,
-        }
+        config = function()
+            require"tokyonight".setup({
+                transparent = TRANSPARENT,
+            })
+
+            vim.cmd.colorscheme("tokyonight-night")
+        end,
     },
     {
         "ellisonleao/gruvbox.nvim",
@@ -52,8 +55,5 @@ return {
             }
         end,
     },
-
-
-
 
 }
