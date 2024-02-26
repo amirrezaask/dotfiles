@@ -23,3 +23,8 @@ if TRANSPARENT then
         hi! NormalFloat guibg=none
     ]]
 end
+
+
+vim.cmd [[
+    command! W :w
+]]

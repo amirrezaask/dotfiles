@@ -97,6 +97,8 @@
 (global-set-key (kbd "C-<")                                          'beginning-of-buffer)
 (global-set-key (kbd "M-n")                                          'jump-down)
 (global-set-key (kbd "M-p")                                          'jump-up)
+(global-set-key (kbd "C-<up>")                                       'jump-up)
+(global-set-key (kbd "C-<down>")                                     'jump-down)
 (global-set-key (kbd "C-;")                                          'goto-line)
 (global-set-key (kbd "C-.")                                          'isearch-forward-thing-at-point)
 ;; Rectangle Mode (Almost multi cursors)
@@ -292,26 +294,6 @@
 (global-set-key (kbd "C-<f12>") 'xref-find-references)
 (global-set-key (kbd "C-<down-mouse-1>") 'xref-find-definitions)
 (global-set-key (kbd "M-<down-mouse-1>") 'xref-find-references)
-
-
-;; Modeline
-;; (setq-default mode-line-format '("%e"
-;; 				 mode-line-front-space
-;; 				 mode-line-modified
-;; 				 mode-line-remote
-;; 				 " "
-;; 				 (:eval (if (buffer-file-name) (buffer-file-name) (buffer-name)))
-;; 				 " "
-;; 				 (:eval (format "(%s)" (capitalize (string-remove-suffix "-mode" (symbol-name major-mode)))))
-;; 				 " "
-;; 				 (:eval (when vc-mode (format "| %s |" (string-replace "-" ": " (string-trim vc-mode) ))))
-;; 				 " "
-;; 				 mode-line-percent-position
-;; 				 " "
-;; 				 "(%l, %C)"
-;; 				 " "
-;; 				 (:eval (format "| (Zoom: %s)" text-scale-mode-lighter))))
-
 
 ;; Buffer
 (setq display-buffer-alist '(("\\*compilation.*\\*"
@@ -514,52 +496,9 @@
 					  :inlayHintProvider
 					  ))
 (setq eglot-stay-out-of '(flymake project))
-
 (add-hook 'go-mode-hook #'eglot-ensure)
 
-;; Note taking
-;; Simple text based note taking based on text files and deterministic naming scheme.
-;; Inspired by `Denote` by protesilas.
-;;
-;; Journal files:
-;; Name format: journal-[timestamp].md
-;; eg: journal-20240220.md
-(setq amirreza/notebook-local-path "W:/notebook/")
 
-(defun open-current-journal-entry ()
-  "Open journal entry for today."
-  (interactive)
-  (let ((date (format-time-string "%Y-%m-%d")))
-    (find-file (expand-file-name (format "journal-%s.md" date) amirreza/notebook-local-path))))
-
-(defun open-journal-entry-for-date ()
-  "Open journal file for date you specify."
-  (interactive)
-  (let* ((files (directory-files amirreza/notebook-local-path t "journal-.*\\.md"))
-	 (options (mapcar (lambda (s) (string-trim s (format "%s/journal-" amirreza/notebook-local-path) ".md")) files))
-	 (date (completing-read "Journal Date: " options nil t)))
-    (find-file (expand-file-name (format "journal-%s.md" date) amirreza/notebook-local-path))))
-
-(defun open-snapp-doctor-notes ()
-  (interactive)
-  (find-file (expand-file-name "Snapp Doctor.md" amirreza/notebook-local-path)))
-
-(defun open-note-file ()
-  (interactive)
-  (let ((files (mapcar (lambda (s) (string-trim s amirreza/notebook-local-path)) (directory-files amirreza/notebook-local-path t "\\.md"))))
-    (find-file (expand-file-name (completing-read "Note: " files) amirreza/notebook-local-path))))
-
-(global-set-key (kbd "C-c j j") 'open-current-journal-entry)
-(global-set-key (kbd "C-c j o") 'open-note-file)
-(global-set-key (kbd "C-c n")   'open-note-file)
-(global-set-key (kbd "C-c j d") 'open-journal-entry-for-date)
-(global-set-key (kbd "C-c j s") 'sync-journal)
-(global-set-key (kbd "C-c j w") 'open-work-file)
-
-(defun sync-journal ()
-  (interactive)
-  (let ((default-directory amirreza/notebook-local-path))
-    (compilation-start (format "git add . && git commit -m \"Update %s\" && git push origin master" (format-time-string "%Y-%m-%d")) 'compilation-mode (lambda (mode) "" "*journalsync*"))))
 
 ;;; Final benchmarking
 (defvar amirreza/emacs-init-took (* (float-time (time-subtract (float-time) amirreza/emacs-starting-time)) 1000) "Time took to load my init file, value is in milliseconds.")
