@@ -28,5 +28,7 @@ vim.opt.ignorecase = true
 vim.opt.title = true
 vim.opt.titlestring = '%F'
 vim.opt.breakindent = true
+vim.opt.number = true
+vim.opt.relativenumber = true
 
 IS_WINDOWS = vim.fn.has("win32") == 1

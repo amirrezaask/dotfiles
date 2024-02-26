@@ -19,11 +19,13 @@ config.use_fancy_tab_bar = false
 config.bidi_enabled = true
 config.tab_bar_at_bottom = true
 
-config.window_background_opacity = 0.90
+-- config.window_background_opacity = 0.90
 
 config.keys = {
   { key = 'j', mods = 'CTRL|SHIFT', action = wezterm.action.ActivateTabRelative(-1) },
   { key = 'k', mods = 'CTRL|SHIFT', action = wezterm.action.ActivateTabRelative(1) },
+  { key = '(', mods = 'CTRL|SHIFT', action =  wezterm.action.MoveTabRelative(-1) },
+  { key = ')', mods = 'CTRL|SHIFT', action =  wezterm.action.MoveTabRelative(1) },
 }
 
 
