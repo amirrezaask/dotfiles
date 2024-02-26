@@ -6,6 +6,13 @@ plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 
+
+if ! command -v starship &> /dev/null
+then
+    curl -sS https://starship.rs/install.sh | sh
+fi
+
+eval "$(starship init zsh)"
 export PATH="/usr/local/go/bin:$PATH"
 export PATH="$HOME/go/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"

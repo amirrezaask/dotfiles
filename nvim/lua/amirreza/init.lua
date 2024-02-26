@@ -13,7 +13,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 })
 
 -- Transparency Control
-TRANSPARENT = false
+TRANSPARENT = true
 
 require "amirreza.plugin_manager"
 

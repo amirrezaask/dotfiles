@@ -15,21 +15,24 @@ return {
     {
         "catppuccin/nvim",
         name = "catppuccin",
-        opts = {
-            no_italic = false,        -- Force no italic
-            no_bold = false,          -- Force no bold
-            no_underline = false,     -- Force no underline
-            transparent_background = TRANSPARENT,
-        }
+        config = function()
+            require "catppuccin".setup({
+                no_italic = false, -- Force no italic
+                no_bold = false,  -- Force no bold
+                no_underline = false, -- Force no underline
+                transparent_background = TRANSPARENT,
+            })
+            vim.cmd.colorscheme("catppuccin")
+        end,
     },
     {
         'folke/tokyonight.nvim',
         config = function()
-            require"tokyonight".setup({
+            require "tokyonight".setup({
                 transparent = TRANSPARENT,
             })
 
-            vim.cmd.colorscheme("tokyonight-night")
+            -- vim.cmd.colorscheme("tokyonight-night")
         end,
     },
     {
@@ -46,7 +49,7 @@ return {
             }
         }
     },
-    {     -- Theme inspired by Atom
+    { -- Theme inspired by Atom
         'navarasu/onedark.nvim',
         config = function()
             require('onedark').setup {

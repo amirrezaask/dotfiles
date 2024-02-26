@@ -3,8 +3,8 @@ local config = {}
 
 config.font = wezterm.font_with_fallback {
   "JetBrains Mono Nerd Font Mono",
-  "Fira Code",
   "Ubuntu Mono",
+  "Fira Code",
 }
 config.font_size = 16
 
