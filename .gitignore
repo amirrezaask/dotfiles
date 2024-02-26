@@ -10,4 +10,6 @@ fish/functions
 fish/fish_variables
 helix/runtime
 early-init.el
+emacs/eln-cache
+emacs/eshell
 
