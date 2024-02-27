@@ -208,6 +208,8 @@ require "lazy".setup({
             }
         end,
     },
+
+    'kevinhwang91/nvim-bqf',
     { -- Autocomplete popup
         "hrsh7th/nvim-cmp",
         dependencies = {
