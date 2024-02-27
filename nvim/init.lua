@@ -1,4 +1,3 @@
-vim.opt.errorbells = false
 vim.opt.smartindent = true
 vim.opt.wrap = true
 vim.opt.swapfile = false
@@ -7,9 +6,6 @@ vim.opt.undofile = true
 vim.opt.hlsearch = false
 vim.opt.incsearch = true
 vim.opt.signcolumn = "yes"
-vim.opt.isfname:append("@-@")
-vim.opt.shortmess:append("c") -- Don't pass messages to |ins-completion-menu|.
-vim.opt.shortmess:append("I") -- No Intro message
 -- How new splits are created
 vim.opt.splitbelow = true
 vim.opt.splitright = true
@@ -25,7 +21,6 @@ vim.g.netrw_winsize = 25
 -- vim update time
 vim.opt.timeoutlen = 300
 vim.opt.updatetime = 250
-
 vim.opt.completeopt = "menu"
 vim.opt.statusline = "%q%w%h%r%m%f %y %l:%c %p%%"
 vim.opt.title = true
