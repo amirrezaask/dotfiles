@@ -40,12 +40,14 @@ vim.opt.smartcase = true
 vim.opt.inccommand = 'split'
 vim.opt.scrolloff = 10
 
+
 IS_WINDOWS = vim.fn.has("win32") == 1
 
 -- Keymaps
-vim.g.mapleader = " "                                                                                  -- <leader> key for keymaps mapped to <Space>
+vim.g.mapleader =
+" "                                                                                  -- <leader> key for keymaps mapped to <Space>
 vim.keymap.set("n", "Y", "y$", { desc = "Copy whole line" })                         -- Make yanking act like other operations
-vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>') -- Esc should remove incsearch highlights
+vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')                                  -- Esc should remove incsearch highlights
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]], { desc = "Copy into clipboard" }) -- Copy to clipboard
 vim.keymap.set("n", "<leader>Y", [["+Y]], { desc = "Copy line into clipboard" })
 vim.keymap.set("n", "<leader>p", [["+p]], { desc = "Paste from clipboard" })
@@ -106,6 +108,25 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     end,
 })
 
+
+-- statusline
+local mode_texts = {
+    n = "Normal",
+    i = "Insert",
+    v = "Visual",
+    c = "Complete"
+}
+function AmirrezaStatusLine()
+    local mode = vim.api.nvim_get_mode().mode
+    if mode_texts[mode] ~= nil then
+        mode = mode_texts[mode]
+    end
+
+    return mode .. " " .. "%r%h%w%q%m%f %y %l:%c %p%%"
+end
+
+vim.opt.statusline = '%!v:lua.AmirrezaStatusLine()'
+
 -- Transparency Control
 TRANSPARENT = true
 
@@ -125,14 +146,6 @@ vim.opt.rtp:prepend(lazypath)
 require "lazy".setup({
     { "numToStr/Comment.nvim", opts = {} }, -- [gc] to comment region/line.
     { "tpope/vim-sleuth" },                 -- Detect tabstop and shiftwidth automatically.
-
-    {                                       -- Highlight TODOs in code
-        "folke/todo-comments.nvim",
-        dependencies = { "nvim-lua/plenary.nvim" },
-        opts = {
-            signs = false
-        }
-    },
     {
         'lewis6991/gitsigns.nvim', -- Show git changed signs next to line numbers.
         opts = {
@@ -168,7 +181,7 @@ require "lazy".setup({
                 no_underline = false, -- Force no underline
                 transparent_background = TRANSPARENT,
             })
-            vim.cmd.colorscheme("catppuccin")
+            -- vim.cmd.colorscheme("catppuccin")
         end,
     },
     {
@@ -178,34 +191,10 @@ require "lazy".setup({
                 transparent = TRANSPARENT,
             })
 
-            -- vim.cmd.colorscheme("tokyonight-night")
+            vim.cmd.colorscheme("tokyonight-night")
         end,
     },
-    {
-        "ellisonleao/gruvbox.nvim",
-        opts = {
-            transparent_mode = TRANSPARENT,
-            contrast = 'hard',
-            italic = {
-                strings = false,
-                emphasis = false,
-                comments = false,
-                operators = false,
-                folds = false,
-            }
-        }
-    },
-    {
-        'nvim-lualine/lualine.nvim',
-        dependencies = { 'nvim-tree/nvim-web-devicons' },
-
-        opts = {
-            options = {
-                icons_enabled = false,
-            }
-        }
-    },
-    { -- Highlight, edit, and navigate code
+    { -- Treesitter parsers.
         'nvim-treesitter/nvim-treesitter',
         build = ':TSUpdate',
         config = function()
@@ -217,7 +206,7 @@ require "lazy".setup({
             }
         end,
     },
-    {
+    { -- Autocomplete popup
         "hrsh7th/nvim-cmp",
         dependencies = {
             'L3MON4D3/LuaSnip',
@@ -257,7 +246,7 @@ require "lazy".setup({
             })
         end,
     },
-    {
+    { -- Language server protocol client
         "neovim/nvim-lspconfig",
         dependencies = {
             { -- Like the panel in vscode, shows you errors and warnings from LSP
@@ -305,7 +294,10 @@ require "lazy".setup({
                             },
                             workspace = {
                                 checkThirdParty = false,
-                                library = vim.api.nvim_get_runtime_file("", true),
+                                library = {
+                                    '${3rd}/luv/library',
+                                    unpack(vim.api.nvim_get_runtime_file('', true)),
+                                }
                             },
                         },
                     },
@@ -364,7 +356,7 @@ require "lazy".setup({
             })
         end,
     },
-    {
+    { -- Fuzzy finder
         "nvim-telescope/telescope.nvim",
         dependencies = {
             "nvim-lua/plenary.nvim",
@@ -412,5 +404,3 @@ if TRANSPARENT then
         hi! NormalFloat guibg=none
     ]]
 end
-
-
