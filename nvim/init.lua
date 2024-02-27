@@ -118,7 +118,7 @@ function AmirrezaStatusLine()
         mode = mode_texts[mode]
     end
 
-    return mode .. " " .. "%r%h%w%q%m%f %y %l:%c %p%%"
+    return mode .. " | " .. "%r%h%w%q%m%f | %y %l:%c %p%%"
 end
 
 vim.opt.statusline = '%!v:lua.AmirrezaStatusLine()'
@@ -396,6 +396,7 @@ require "lazy".setup({
                 "Grep in project")
 
             bind("n", "<leader>w", function() builtin.lsp_workspace_symbols(no_preview) end, "LSP workspace symbols")
+            bind("n", "<leader>h", function() builtin.help_tags() end, "Help Tags")
         end,
     },
 
