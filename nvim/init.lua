@@ -39,7 +39,8 @@ vim.opt.scrolloff = 10
 IS_WINDOWS = vim.fn.has("win32") == 1
 
 -- Keymaps
-vim.g.mapleader = " "                                                                -- <leader> key for keymaps mapped to <Space>
+vim.g.mapleader =
+" "                                                                                  -- <leader> key for keymaps mapped to <Space>
 vim.keymap.set("n", "Y", "y$", { desc = "Copy whole line" })                         -- Make yanking act like other operations
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')                                  -- Esc should remove incsearch highlights
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]], { desc = "Copy into clipboard" }) -- Copy to clipboard
@@ -110,6 +111,7 @@ local mode_texts = {
     v = "Visual",
     c = "Complete"
 }
+
 function AmirrezaStatusLine()
     local mode = vim.api.nvim_get_mode().mode
     if mode_texts[mode] ~= nil then
@@ -143,8 +145,9 @@ require "lazy".setup({
 
     { "tpope/vim-sleuth" },                 -- Detect tabstop and shiftwidth automatically.
 
+    -- Show git changed signs next to line numbers.
     {
-        'lewis6991/gitsigns.nvim',          -- Show git changed signs next to line numbers.
+        'lewis6991/gitsigns.nvim',
         opts = {
             signs = {
                 add = { text = '+' },
