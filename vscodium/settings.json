@@ -1,0 +1,84 @@
+{
+  // Extensions: Golang, GPM, Vim
+  // Font
+  "editor.fontFamily": "Consolas, Jetbrains Mono, Source Code Pro, Fira Code, Hack, Jetbrains Mono, Consolas",
+  "editor.fontWeight": "normal",
+  "editor.fontSize": 14,
+
+  "window.titleBarStyle": "native",
+  "window.dialogStyle": "custom",
+
+  // Cursor
+  "editor.cursorBlinking": "smooth",
+  "editor.cursorStyle": "line",
+
+  "window.title": "${dirty} ${rootName} ${activeEditorMedium}",
+
+  // Useless UI
+  "editor.stickyScroll.enabled": false,
+  "editor.minimap.enabled": false,
+  "window.menuBarVisibility": "toggle",
+  "workbench.editor.showTabs": "none",
+  "editor.bracketPairColorization.enabled": false,
+  "workbench.activityBar.location": "hidden",
+  "breadcrumbs.enabled": false,
+  "workbench.layoutControl.enabled": false,
+  "workbench.editor.editorActionsLocation": "hidden",
+  "window.commandCenter": false,
+  "workbench.editor.enablePreview": false,
+  "extensions.ignoreRecommendations": true,
+  "window.customTitleBarVisibility": "auto",
+  "workbench.startupEditor": "newUntitledFile",
+
+  "window.restoreWindows": "none", // do not reopen everything when I launch.
+
+  // MISC
+  "editor.mouseWheelZoom": true,
+  "security.workspace.trust.untrustedFiles": "open",
+  "editor.wordWrap": "on",
+  "editor.unicodeHighlight.ambiguousCharacters": false,
+  "security.workspace.trust.enabled": false,
+
+  // Git project manager
+  "gitProjectManager.baseProjectsFolders": ["~/w", "~/p"],
+
+  // Golang
+  "[go]": {
+    "editor.formatOnSave": true
+  },
+  "go.lintTool": "golangci-lint",
+  "go.lintFlags": [
+    "--fast"
+  ],
+  "go.addTags": {
+    "options": ""
+  },
+  "go.toolsManagement.autoUpdate": true,
+
+  
+  // Vim
+  "vim.leader": " ",
+  "vim.insertModeKeyBindings": [
+    {
+      "before": ["j", "k"],
+      "after": ["<esc>"],
+    },
+    {
+      "before": ["k", "j"],
+      "after": ["<esc>"],
+    },
+  ],
+  "vim.normalModeKeyBindings": [
+    {
+      "before": ["K"],
+      "commands": ["editor.action.showHover"]
+    },
+    {
+      "before": ["<leader>", "<leader>"],
+      "commands": [ "workbench.action.quickOpen"],
+    }
+  ],
+
+  // Terminal & Tasks
+  "task.autoDetect": "off",
+}

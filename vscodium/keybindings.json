@@ -1,0 +1,16 @@
+// Place your key bindings in this file to override the defaults
+[
+    // font zoom
+    { "key": "ctrl+=", "command": "editor.action.fontZoomIn" }, // zoom in editor
+    { "key": "ctrl+-", "command": "editor.action.fontZoomOut" }, // zoom out editor
+    // view zoom
+    { "key": "ctrl+shift+=", "command": "workbench.action.zoomIn" }, // zoom in whole view
+    { "key": "ctrl+shift+-", "command": "workbench.action.zoomOut" }, // zoom out whole view
+    { "key": "ctrl+shift+0", "command": "workbench.action.zoomReset" }, // reset whole view
+
+    // consisten ctrl+n/ctrl+p
+    { "key": "ctrl+n", "command": "selectNextSuggestion", "when": "suggestWidgetMultipleSuggestions && suggestWidgetVisible && textInputFocus || suggestWidgetVisible && textInputFocus && !suggestWidgetHasFocusedSuggestion" },
+    { "key": "ctrl+p", "command": "selectPrevSuggestion", "when": "suggestWidgetMultipleSuggestions && suggestWidgetVisible && textInputFocus || suggestWidgetVisible && textInputFocus && !suggestWidgetHasFocusedSuggestion" },
+    { "key": "ctrl+n","command": "workbench.action.quickOpenSelectNext", "when": "inQuickOpen" },
+    { "key": "ctrl+p", "command": "workbench.action.quickOpenSelectPrevious", "when": "inQuickOpen" },
+]
