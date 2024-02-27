@@ -69,6 +69,7 @@
     },
   ],
   "vim.normalModeKeyBindings": [
+    //TODO: toggle problems view <Leader>j
     {
       "before": ["K"],
       "commands": ["editor.action.showHover"]
