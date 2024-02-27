@@ -34,6 +34,8 @@ vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.inccommand = 'split'
 vim.opt.scrolloff = 10
+vim.opt.list = true
+vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 
 IS_WINDOWS = vim.fn.has("win32") == 1
 
@@ -241,6 +243,8 @@ require "lazy".setup({
                 end,
             },
             { "folke/neodev.nvim", opts = {} },
+
+
             { -- Package manager for neovim install lsp servers in neovim path.
                 "williamboman/mason.nvim",
                 config = function()
@@ -331,15 +335,24 @@ require "lazy".setup({
                     vim.diagnostic.config({ virtual_text = false })
                 end,
             })
-            -- Autoformat for golang
-            vim.api.nvim_create_autocmd("BufWritePre", {
-                pattern = "*.go",
-                callback = function()
-                    vim.lsp.buf.format()
-                end,
-            })
         end,
     },
+
+    { -- Autoformat
+        'stevearc/conform.nvim',
+        opts = {
+            notify_on_error = false,
+            format_on_save = {
+                timeout_ms = 500,
+                lsp_fallback = true,
+            },
+            formatters_by_ft = {
+                lua = { 'stylua' },
+                go = { 'gofmt' }
+            },
+        },
+    },
+
     { -- Fuzzy finder
         "nvim-telescope/telescope.nvim",
         dependencies = {
@@ -380,4 +393,3 @@ require "lazy".setup({
     },
 
 }, {})
-
