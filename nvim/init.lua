@@ -259,6 +259,7 @@ require "lazy".setup({
                     vim.keymap.set("n", "<leader>j", ":TroubleToggle<CR>")
                 end,
             },
+            { "folke/neodev.nvim", opts = {} },
             { -- Package manager for neovim install lsp servers in neovim path.
                 "williamboman/mason.nvim",
                 config = function()
