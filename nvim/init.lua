@@ -35,7 +35,6 @@ vim.opt.smartcase = true
 vim.opt.inccommand = 'split'
 vim.opt.scrolloff = 10
 
-
 IS_WINDOWS = vim.fn.has("win32") == 1
 
 -- Keymaps
@@ -103,7 +102,6 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     end,
 })
 
-
 -- statusline
 local mode_texts = {
     n = "Normal",
@@ -118,7 +116,12 @@ function AmirrezaStatusLine()
         mode = mode_texts[mode]
     end
 
-    return mode .. " | " .. "%r%h%w%q%m%f | %y %l:%c %p%%"
+    local branch = ""
+    if vim.b.gitsigns_head ~= nil then
+        branch = "Git:" .. vim.b.gitsigns_head
+    end
+
+    return mode .. " | " .. branch .. " | " .. "%r%h%w%q%m%f | %y %l:%c %p%%"
 end
 
 vim.opt.statusline = '%!v:lua.AmirrezaStatusLine()'
@@ -159,43 +162,17 @@ require "lazy".setup({
         },
     },
 
-    -- Some colorschemes
-    {
-        "rose-pine/neovim",
-        name = "rose-pine",
-        config = function()
-            require "rose-pine".setup({
-                styles = {
-                    italic = false,
-                    transparency = TRANSPARENT
-                }
-            })
-            -- vim.cmd.colorscheme("rose-pine")
-        end,
-    },
-    {
-        "catppuccin/nvim",
-        name = "catppuccin",
-        config = function()
-            require "catppuccin".setup({
-                no_italic = false,    -- Force no italic
-                no_bold = false,      -- Force no bold
-                no_underline = false, -- Force no underline
-                transparent_background = TRANSPARENT,
-            })
-            vim.cmd.colorscheme("catppuccin")
-        end,
-    },
-    {
+    { -- My favorite colorscheme
         'folke/tokyonight.nvim',
         config = function()
             require "tokyonight".setup({
                 transparent = TRANSPARENT,
             })
 
-            -- vim.cmd.colorscheme("tokyonight-night")
+            vim.cmd.colorscheme("tokyonight-night")
         end,
     },
+
     { -- Treesitter parsers.
         'nvim-treesitter/nvim-treesitter',
         build = ':TSUpdate',
@@ -209,7 +186,9 @@ require "lazy".setup({
         end,
     },
 
-    'kevinhwang91/nvim-bqf',
+    'kevinhwang91/nvim-bqf', -- Improved quick fix list experience
+
+
     { -- Autocomplete popup
         "hrsh7th/nvim-cmp",
         dependencies = {
@@ -240,7 +219,7 @@ require "lazy".setup({
                     ["<C-n>"] = cmp.mapping.select_next_item(cmp_select),
                     ["<C-y>"] = cmp.mapping.confirm({ select = true }),
                     ["<C-Space>"] = cmp.mapping.complete(),
-                    ["<CR>"] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+                    -- ["<CR>"] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
                 }),
                 sources = {
                     { name = "nvim_lsp" },
@@ -400,13 +379,5 @@ require "lazy".setup({
         end,
     },
 
-
-
 }, {})
 
-if TRANSPARENT then
-    vim.cmd [[
-        hi! Normal guibg=none
-        hi! NormalFloat guibg=none
-    ]]
-end
