@@ -124,6 +124,7 @@ vim.opt.statusline = '%!v:lua.AmirrezaStatusLine()'
 -- Transparency Control
 TRANSPARENT = false
 
+-- Lazy package manager
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
     vim.fn.system({
@@ -139,7 +140,9 @@ vim.opt.rtp:prepend(lazypath)
 
 require "lazy".setup({
     { "numToStr/Comment.nvim", opts = {} }, -- [gc] to comment region/line.
+
     { "tpope/vim-sleuth" },                 -- Detect tabstop and shiftwidth automatically.
+
     {
         'lewis6991/gitsigns.nvim',          -- Show git changed signs next to line numbers.
         opts = {
@@ -152,6 +155,8 @@ require "lazy".setup({
             },
         },
     },
+
+    -- Some colorschemes
     {
         "rose-pine/neovim",
         name = "rose-pine",
@@ -175,7 +180,7 @@ require "lazy".setup({
                 no_underline = false, -- Force no underline
                 transparent_background = TRANSPARENT,
             })
-            -- vim.cmd.colorscheme("catppuccin")
+            vim.cmd.colorscheme("catppuccin")
         end,
     },
     {
@@ -185,7 +190,7 @@ require "lazy".setup({
                 transparent = TRANSPARENT,
             })
 
-            vim.cmd.colorscheme("tokyonight-night")
+            -- vim.cmd.colorscheme("tokyonight-night")
         end,
     },
     { -- Treesitter parsers.
