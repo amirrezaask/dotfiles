@@ -34,8 +34,6 @@ vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.inccommand = 'split'
 vim.opt.scrolloff = 10
--- vim.opt.list = true
--- vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 
 IS_WINDOWS = vim.fn.has("win32") == 1
 
@@ -236,17 +234,30 @@ require "lazy".setup({
     --         vim.cmd.colorscheme("gruvbox")
     --     end,
     -- },
-
-    { -- My favorite colorscheme
-        'folke/tokyonight.nvim',
+    {
+        "rose-pine/neovim",
+        name = "rose-pine",
         config = function()
-            require "tokyonight".setup({
-                transparent = TRANSPARENT,
+            require("rose-pine").setup({
+                styles = {
+                    italic = false,
+                    transparency = TRANSPARENT,
+                }
             })
 
-            vim.cmd.colorscheme("tokyonight-night")
+            vim.cmd.colorscheme("rose-pine")
         end,
     },
+    -- {
+    --     'folke/tokyonight.nvim',
+    --     config = function()
+    --         require "tokyonight".setup({
+    --             transparent = TRANSPARENT,
+    --         })
+    --
+    --         vim.cmd.colorscheme("tokyonight-night")
+    --     end,
+    -- },
 
     { -- Treesitter parsers.
         'nvim-treesitter/nvim-treesitter',
@@ -465,8 +476,8 @@ require "lazy".setup({
             local bind = function(mode, key, fn, desc)
                 vim.keymap.set(mode, key, fn, { desc = "Telescope: " .. desc })
             end
-            bind("n", "<C-p>", function() builtin.git_files(dropdown_no_preview) end, "Git Files")
-            bind("n", "<leader><leader>", function() builtin.find_files(dropdown_no_preview) end, "Fuzzy find")
+            bind("n", "<C-p>", function() builtin.git_files(no_preview) end, "Git Files")
+            bind("n", "<leader><leader>", function() builtin.find_files(no_preview) end, "Fuzzy find")
 
             bind("n", "<leader>i", function() builtin.find_files { cwd = vim.fn.stdpath("config") } end,
                 "Edit Neovim Config")
