@@ -17,8 +17,7 @@
   // Useless UI
   "editor.stickyScroll.enabled": false,
   "editor.minimap.enabled": false,
-  "window.menuBarVisibility": "toggle",
-  "workbench.editor.showTabs": "none",
+  "workbench.editor.showTabs": "single",
   "editor.bracketPairColorization.enabled": false,
   "workbench.activityBar.location": "hidden",
   "breadcrumbs.enabled": false,
@@ -82,4 +81,5 @@
 
   // Terminal & Tasks
   "task.autoDetect": "off",
+  "window.menuBarVisibility": "toggle",
 }

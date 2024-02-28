@@ -100,7 +100,6 @@
 (global-set-key (kbd "C-<up>")                                       'jump-up)
 (global-set-key (kbd "C-<down>")                                     'jump-down)
 (global-set-key (kbd "C-;")                                          'goto-line)
-(global-set-key (kbd "C-.")                                          'isearch-forward-thing-at-point)
 ;; Rectangle Mode (Almost multi cursors)
 (global-set-key (kbd "M-SPC")                                        'rectangle-mark-mode)
 (global-set-key (kbd "C-<return>")                                   'rectangle-mark-mode)
@@ -153,7 +152,7 @@
   (interactive)
   (text-scale-decrease 1))
 
-(amirreza/set-font "JetBrains Mono Nerd Font Mono" 15)
+(amirreza/set-font "Consolas" 15)
 
 (global-set-key (kbd "C-=")  'amirreza/text-scale-increase)
 (global-set-key (kbd "C--")  'amirreza/text-scale-decrease)
@@ -294,6 +293,8 @@
 (global-set-key (kbd "C-<f12>") 'xref-find-references)
 (global-set-key (kbd "C-<down-mouse-1>") 'xref-find-definitions)
 (global-set-key (kbd "M-<down-mouse-1>") 'xref-find-references)
+(global-set-key (kbd "C-.")              'xref-find-definitions)
+(global-set-key (kbd "C-,")              'xref-go-back)
 
 ;; Buffer
 (setq display-buffer-alist '(("\\*compilation.*\\*"
@@ -449,7 +450,6 @@
 
 (defun amirreza/go-hook ()
   (interactive)
-  (setq-local gofmt-command "goimports")
   (add-hook 'before-save-hook 'gofmt-before-save 0 t))
 
 (add-hook 'go-mode-hook 'amirreza/go-hook)

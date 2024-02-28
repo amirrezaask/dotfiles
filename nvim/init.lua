@@ -34,8 +34,8 @@ vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.inccommand = 'split'
 vim.opt.scrolloff = 10
-vim.opt.list = true
-vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
+-- vim.opt.list = true
+-- vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 
 IS_WINDOWS = vim.fn.has("win32") == 1
 
@@ -113,23 +113,85 @@ local mode_texts = {
 }
 
 function AmirrezaStatusLine()
+    local statusline = ""
     local mode = vim.api.nvim_get_mode().mode
     if mode_texts[mode] ~= nil then
         mode = mode_texts[mode]
     end
 
+    statusline = statusline .. mode
+
     local branch = ""
     if vim.b.gitsigns_head ~= nil then
         branch = "Git:" .. vim.b.gitsigns_head
+        statusline = statusline .. " | " .. branch .. " |"
     end
 
-    return mode .. " | " .. branch .. " | " .. "%r%h%w%q%m%f | %y %l:%c %p%%"
+
+    return statusline .. " %r%h%w%q%m%f | %y %l:%c %p%%"
 end
 
 vim.opt.statusline = '%!v:lua.AmirrezaStatusLine()'
 
 -- Transparency Control
 TRANSPARENT = false
+
+
+-- Neovide GUI
+if vim.g.neovide then
+    local font_family = "Fira Code"
+    local font_size = 15
+    vim.g.neovide_scroll_animation_length = 0.00
+    vim.g.neovide_cursor_animation_length = 0.00
+    vim.g.neovide_cursor_vfx_mode = ""
+
+    function Font(font, size)
+        font_family = font
+        font_size = size
+        vim.opt.guifont = string.format("%s:h%d", font, size)
+    end
+
+    function FontSizeInc()
+        font_size = 1 + font_size
+        Font(font_family, font_size)
+    end
+
+    function FontSizeDec()
+        font_size = font_size - 1
+        Font(font_family, font_size)
+    end
+
+    function FontSize(size)
+        font_size = size
+        Font(font_family, font_size)
+    end
+
+    vim.api.nvim_create_user_command("FontSizeInc", function(_)
+        FontSizeInc()
+    end, {})
+
+    vim.api.nvim_create_user_command("FontSizeDec", function(_)
+        FontSizeDec()
+    end, {})
+
+    vim.api.nvim_create_user_command("FontSize", function(opts)
+        FontSize(tonumber(opts.fargs[1]))
+    end, { nargs = 1 })
+
+
+    vim.keymap.set({ "n", "i", "v", "x", "t" }, "<C-=>", FontSizeInc, {})
+    vim.keymap.set({ "n", "i", "v", "x", "t" }, "<C-->", FontSizeDec, {})
+
+    vim.api.nvim_create_user_command("Font", function(opts)
+        local splitted = vim.split(opts.args, ":")
+        if #splitted < 2 then
+            error("Font command input should be in [FontName]:[FontSize] format")
+        end
+        Font(splitted[1], splitted[2])
+    end, { nargs = "*" })
+
+    Font("Consolas", 16)
+end
 
 -- Lazy package manager
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -163,7 +225,16 @@ require "lazy".setup({
             },
         },
     },
-
+    -- {
+    --     "ellisonleao/gruvbox.nvim",
+    --     config = function()
+    --         require "gruvbox".setup({
+    --             transparent_mode = TRANSPARENT,
+    --             contrast = "hard",
+    --         })
+    --         vim.cmd.colorscheme("gruvbox")
+    --     end,
+    -- },
     { -- My favorite colorscheme
         'folke/tokyonight.nvim',
         config = function()
@@ -229,6 +300,17 @@ require "lazy".setup({
                     { name = "path" },
                 },
             })
+        end,
+    },
+
+
+    -- Harpoon
+    {
+        "ThePrimeagen/harpoon",
+        branch = "harpoon2",
+        dependencies = { "nvim-lua/plenary.nvim" },
+        config = function()
+
         end,
     },
     { -- Language server protocol client
@@ -364,10 +446,12 @@ require "lazy".setup({
             require("telescope").load_extension("ui-select") -- Use telescope for vim.ui.select
             local builtin = require("telescope.builtin")
             local no_preview = { previewer = false }
+            local dropdown_no_preview = require "telescope.themes".get_dropdown(no_preview)
             local bind = function(mode, key, fn, desc)
                 vim.keymap.set(mode, key, fn, { desc = "Telescope: " .. desc })
             end
-            bind("n", "<C-p>", function() builtin.git_files(no_preview) end, "Git Files")
+            bind("n", "<C-p>", function() builtin.git_files(dropdown_no_preview) end, "Git Files")
+            bind("n", "<leader><leader>", function() builtin.find_files(dropdown_no_preview) end, "Fuzzy find")
 
             bind("n", "<leader>i", function() builtin.find_files { cwd = vim.fn.stdpath("config") } end,
                 "Edit Neovim Config")
@@ -377,7 +461,6 @@ require "lazy".setup({
             bind("n", "<leader>/", function() builtin.current_buffer_fuzzy_find(no_preview) end,
                 "Fuzzy find in current buffer")
 
-            bind("n", "<leader><leader>", function() builtin.find_files(no_preview) end, "Fuzzy find")
 
             bind("n", "<leader>.", function() builtin.grep_string({ layout_config = { height = 0.7, width = 0.9 } }) end,
                 "Grep current word")
