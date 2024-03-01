@@ -344,7 +344,7 @@ require "lazy".setup({
         dependencies = {
             { -- Like the panel in vscode, shows you errors and warnings from LSP
                 "folke/trouble.nvim",
-                dependencies = { "nvim-tree/nvim-web-devicons" },
+                -- dependencies = { "nvim-tree/nvim-web-devicons" },
                 config = function()
                     require "trouble".setup({})
                     vim.keymap.set("n", "<leader>j", ":TroubleToggle<CR>")
