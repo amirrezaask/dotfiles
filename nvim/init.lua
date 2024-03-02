@@ -191,6 +191,10 @@ if vim.g.neovide then
     Font("Consolas", 16)
 end
 
+
+
+
+
 -- Lazy package manager
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -271,8 +275,8 @@ require "lazy".setup({
             }
         end,
     },
-
-    'kevinhwang91/nvim-bqf', -- Improved quick fix list experience
+    'equalsraf/neovim-gui-shim', -- NeovimQT commands
+    'kevinhwang91/nvim-bqf',     -- Improved quick fix list experience
 
 
     { -- Autocomplete popup
