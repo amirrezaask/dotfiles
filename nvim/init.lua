@@ -132,7 +132,7 @@ end
 vim.opt.statusline = '%!v:lua.AmirrezaStatusLine()'
 
 -- Transparency Control
-TRANSPARENT = true
+TRANSPARENT = false
 
 
 -- Neovide GUI
@@ -234,30 +234,30 @@ require "lazy".setup({
     --         vim.cmd.colorscheme("gruvbox")
     --     end,
     -- },
-    {
-        "rose-pine/neovim",
-        name = "rose-pine",
-        config = function()
-            require("rose-pine").setup({
-                styles = {
-                    italic = false,
-                    transparency = TRANSPARENT,
-                }
-            })
-
-            vim.cmd.colorscheme("rose-pine")
-        end,
-    },
     -- {
-    --     'folke/tokyonight.nvim',
+    --     "rose-pine/neovim",
+    --     name = "rose-pine",
     --     config = function()
-    --         require "tokyonight".setup({
-    --             transparent = TRANSPARENT,
+    --         require("rose-pine").setup({
+    --             styles = {
+    --                 italic = false,
+    --                 transparency = TRANSPARENT,
+    --             }
     --         })
     --
-    --         vim.cmd.colorscheme("tokyonight-night")
+    --         vim.cmd.colorscheme("rose-pine")
     --     end,
     -- },
+    {
+        'folke/tokyonight.nvim',
+        config = function()
+            require "tokyonight".setup({
+                transparent = TRANSPARENT,
+            })
+
+            vim.cmd.colorscheme("tokyonight-night")
+        end,
+    },
 
     { -- Treesitter parsers.
         'nvim-treesitter/nvim-treesitter',
