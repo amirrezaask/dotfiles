@@ -1,0 +1,17 @@
+{
+	"auto_complete": true,
+	"font_face": "Fira Code",
+	"font_size": 17,
+	"hardware_acceleration": "opengl",
+	"highlight_line": true,
+	"hot_exit": "disabled",
+	"caret_style": "smooth",
+	"ignored_packages":
+	[
+		"Vintage",
+	],
+	"index_files": true,
+	"theme": "Adaptive.sublime-theme",
+	"word_wrap": "true",
+	"color_scheme": "Black.sublime-color-scheme",
+}

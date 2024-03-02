@@ -1,0 +1,4 @@
+{
+	"cmd": ["go", "build", "-v", "./..."],
+	"working_dir": "${folder}",
+}
