@@ -51,6 +51,9 @@
 (setq image-types (cons 'svg image-types)
       mac-command-modifier 'meta)
 
+(when is-windows
+  (cd "W:/"))
+
 ;; General Text Editing
 (setq recenter-positions '(middle))
 (setq custom-file "~/.custom.el"          ;; set custom file to not meddle with init.el
