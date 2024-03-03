@@ -79,6 +79,9 @@ vim.keymap.set("n", "N", "Nzz")
 vim.keymap.set("n", "Q", "<cmd>q<CR>")
 vim.keymap.set("n", "<CR>", [[ {-> v:hlsearch ? ':nohl<CR>' : '<CR>'}() ]], { expr = true }) -- handy when doing search in a buffer
 
+-- Edit config file
+vim.keymap.set("n", "<leader>i", "<cmd>edit $MYVIMRC<CR>")
+
 -- Wrapped lines act as normal lines
 vim.keymap.set("n", "j", "gj")
 vim.keymap.set("n", "k", "gk")
@@ -134,7 +137,7 @@ vim.opt.statusline = '%!v:lua.AmirrezaStatusLine()'
 TRANSPARENT = false
 
 
-local font_family = "Fira Code"
+local font_family = ""
 local font_size = 15
 vim.g.neovide_scroll_animation_length = 0.00
 vim.g.neovide_cursor_animation_length = 0.00
@@ -173,7 +176,7 @@ vim.api.nvim_create_user_command("Font", function(opts)
     Font(splitted[1], splitted[2])
 end, { nargs = "*" })
 
-Font("Consolas", 16)
+Font("JetBrainsMono Nerd Font Mono", 16)
 
 
 -- Lazy package manager
@@ -243,6 +246,14 @@ require "lazy".setup({
             vim.cmd.colorscheme("tokyonight-night")
         end,
     },
+
+    -- UI
+    {
+        "nvim-lualine/lualine.nvim",
+        opts = {},
+    },
+
+    { "nvim-tree/nvim-web-devicons" },
 
     { -- Treesitter parsers.
         'nvim-treesitter/nvim-treesitter',
