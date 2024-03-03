@@ -213,6 +213,8 @@ require "lazy".setup({
         },
     },
 
+    { "tpope/vim-fugitive" },
+
     -- UI
     -- {
     --     "ellisonleao/gruvbox.nvim",
@@ -265,7 +267,9 @@ require "lazy".setup({
             }
         end,
     },
-    'equalsraf/neovim-gui-shim', -- NeovimQT commands
+
+    'equalsraf/neovim-gui-shim', -- NeovimQt commands
+
     'kevinhwang91/nvim-bqf',     -- Improved quick fix list experience
 
 
@@ -310,29 +314,6 @@ require "lazy".setup({
         end,
     },
 
-
-    -- Harpoon
-    {
-        "ThePrimeagen/harpoon",
-        branch = "harpoon2",
-        dependencies = { "nvim-lua/plenary.nvim" },
-        config = function()
-            local harpoon = require "harpoon"
-            harpoon:setup({})
-            local bind = function(mode, key, fn, desc)
-                vim.keymap.set(mode, key, fn, { desc = desc })
-            end
-
-            bind("n", "<leader>a", function() harpoon:list():append() end, "Harpoon: Append Current File")
-            bind("n", "<c-e>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end, "Harpoon: Toggle List")
-            bind("n", "<leader>1", function() harpoon:list():select(1) end, "Harpoon: Navigate to file 1")
-            bind("n", "<leader>2", function() harpoon:list():select(2) end, "Harpoon: Navigate to file 2")
-            bind("n", "<leader>3", function() harpoon:list():select(3) end, "Harpoon: Navigate to file 3")
-
-            bind("n", "<leader>q", function() harpoon:list():prev() end, "Harpoon: Navigate to prev file")
-            bind("n", "<leader>w", function() harpoon:list():next() end, "Harpoon: Navigate to next file")
-        end,
-    },
     { -- Language server protocol client
         "neovim/nvim-lspconfig",
         dependencies = {
