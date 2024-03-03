@@ -8,9 +8,10 @@
 	"caret_style": "smooth",
 	"ignored_packages":
 	[
+		"Package Control",
 		"Vintage",
 	],
-	"index_files": true,
+	"index_files": false,
 	"theme": "Adaptive.sublime-theme",
 	"word_wrap": "true",
 	"color_scheme": "Black.sublime-color-scheme",

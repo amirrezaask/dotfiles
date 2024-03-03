@@ -125,7 +125,6 @@ function AmirrezaStatusLine()
         statusline = statusline .. " | " .. branch .. " |"
     end
 
-
     return statusline .. " %r%h%w%q%m%f | %y %l:%c %p%%"
 end
 
@@ -135,64 +134,58 @@ vim.opt.statusline = '%!v:lua.AmirrezaStatusLine()'
 TRANSPARENT = false
 
 
--- Neovide GUI
-if vim.g.neovide then
-    local font_family = "Fira Code"
-    local font_size = 15
-    vim.g.neovide_scroll_animation_length = 0.00
-    vim.g.neovide_cursor_animation_length = 0.00
-    vim.g.neovide_cursor_vfx_mode = ""
+local font_family = "Fira Code"
+local font_size = 15
+vim.g.neovide_scroll_animation_length = 0.00
+vim.g.neovide_cursor_animation_length = 0.00
+vim.g.neovide_cursor_vfx_mode = ""
 
-    function Font(font, size)
-        font_family = font
-        font_size = size
-        vim.opt.guifont = string.format("%s:h%d", font, size)
-    end
-
-    function FontSizeInc()
-        font_size = 1 + font_size
-        Font(font_family, font_size)
-    end
-
-    function FontSizeDec()
-        font_size = font_size - 1
-        Font(font_family, font_size)
-    end
-
-    function FontSize(size)
-        font_size = size
-        Font(font_family, font_size)
-    end
-
-    vim.api.nvim_create_user_command("FontSizeInc", function(_)
-        FontSizeInc()
-    end, {})
-
-    vim.api.nvim_create_user_command("FontSizeDec", function(_)
-        FontSizeDec()
-    end, {})
-
-    vim.api.nvim_create_user_command("FontSize", function(opts)
-        FontSize(tonumber(opts.fargs[1]))
-    end, { nargs = 1 })
-
-
-    vim.keymap.set({ "n", "i", "v", "x", "t" }, "<C-=>", FontSizeInc, {})
-    vim.keymap.set({ "n", "i", "v", "x", "t" }, "<C-->", FontSizeDec, {})
-
-    vim.api.nvim_create_user_command("Font", function(opts)
-        local splitted = vim.split(opts.args, ":")
-        if #splitted < 2 then
-            error("Font command input should be in [FontName]:[FontSize] format")
-        end
-        Font(splitted[1], splitted[2])
-    end, { nargs = "*" })
-
-    Font("Consolas", 16)
+function Font(font, size)
+    font_family = font
+    font_size = size
+    vim.opt.guifont = string.format("%s:h%d", font, size)
 end
 
+function FontSizeInc()
+    font_size = 1 + font_size
+    Font(font_family, font_size)
+end
+
+function FontSizeDec()
+    font_size = font_size - 1
+    Font(font_family, font_size)
+end
+
+function FontSize(size)
+    font_size = size
+    Font(font_family, font_size)
+end
+
+vim.api.nvim_create_user_command("FontSizeInc", function(_)
+    FontSizeInc()
+end, {})
+
+vim.api.nvim_create_user_command("FontSizeDec", function(_)
+    FontSizeDec()
+end, {})
+
+vim.api.nvim_create_user_command("FontSize", function(opts)
+    FontSize(tonumber(opts.fargs[1]))
+end, { nargs = 1 })
 
 
+vim.keymap.set({ "n", "i", "v", "x", "t" }, "<C-=>", FontSizeInc, {})
+vim.keymap.set({ "n", "i", "v", "x", "t" }, "<C-->", FontSizeDec, {})
+
+vim.api.nvim_create_user_command("Font", function(opts)
+    local splitted = vim.split(opts.args, ":")
+    if #splitted < 2 then
+        error("Font command input should be in [FontName]:[FontSize] format")
+    end
+    Font(splitted[1], splitted[2])
+end, { nargs = "*" })
+
+Font("Consolas", 16)
 
 
 -- Lazy package manager
@@ -480,11 +473,55 @@ require "lazy".setup({
             local bind = function(mode, key, fn, desc)
                 vim.keymap.set(mode, key, fn, { desc = "Telescope: " .. desc })
             end
-            bind("n", "<C-p>", function() builtin.git_files(no_preview) end, "Git Files")
-            bind("n", "<leader><leader>", function() builtin.find_files(no_preview) end, "Fuzzy find")
 
-            bind("n", "<leader>i", function() builtin.find_files { cwd = vim.fn.stdpath("config") } end,
-                "Edit Neovim Config")
+            local function get_current_buffer_project_root()
+                local buf = vim.api.nvim_get_current_buf()
+                local filename = vim.api.nvim_buf_get_name(buf)
+                local start_from = vim.fs.dirname(filename)
+
+                local root = vim.fs.dirname(vim.fs.find({ ".git", "go.mod", "package.json", "cargo.toml" },
+                    { upward = true, path = start_from })[1])
+
+                return require "plenary.path".new(root or vim.fn.getcwd()):absolute()
+            end
+
+
+            local projects_root = "~/w"
+            if IS_WINDOWS then
+                projects_root = "W:/"
+            end
+
+            local function find_projects()
+                local repos = vim.fs.find({ ".git" }, { limit = math.huge, path = projects_root })
+                local paths = {}
+                for _, repo in ipairs(repos) do
+                    table.insert(paths, vim.fs.dirname(repo))
+                end
+
+                return paths
+            end
+
+            bind("n", "<C-p>",
+                function()
+                    local root = get_current_buffer_project_root()
+                    builtin.git_files({ prompt_title = string.format("Git Files: %s", root), cwd = root })
+                end, "Git Files")
+
+            bind("n", "<leader><CR>", function()
+                vim.ui.select(find_projects(), {
+                    prompt = "Select Project:",
+
+                }, function(proj)
+                    builtin.find_files({ cwd = proj })
+                end)
+            end, "Find File in project")
+
+            bind("n", "<leader><leader>",
+                function()
+                    local root = get_current_buffer_project_root()
+                    builtin.find_files({ prompt_title = string.format("Find Files: %s", root), cwd = root })
+                end,
+                "Fuzzy Find in current buffer project")
 
             bind("n", "<leader>b", function() builtin.buffers(no_preview) end, "Buffers")
 
@@ -492,15 +529,22 @@ require "lazy".setup({
                 "Fuzzy find in current buffer")
 
 
-            bind("n", "<leader>.", function() builtin.grep_string({ layout_config = { height = 0.7, width = 0.9 } }) end,
+            bind("n", "<leader>.",
+                function()
+                    local root = get_current_buffer_project_root()
+                    builtin.grep_string({ cwd = root, layout_config = { height = 0.7, width = 0.9 } })
+                end,
                 "Grep current word")
 
             bind("n", "<leader>o", function() builtin.treesitter(no_preview) end, "Treesitter symbols")
 
-            bind("n", "??", function() builtin.live_grep({ layout_config = { height = 0.9, width = 0.9 } }) end,
+            bind("n", "??",
+                function()
+                    local root = get_current_buffer_project_root()
+                    builtin.live_grep({ prompt_title = string.format("Grep: %s", root), cwd = root, layout_config = { height = 0.9, width = 0.9 } })
+                end,
                 "Grep in project")
 
-            bind("n", "<leader>w", function() builtin.lsp_workspace_symbols(no_preview) end, "LSP workspace symbols")
             bind("n", "<leader>h", function() builtin.help_tags() end, "Help Tags")
         end,
     },
