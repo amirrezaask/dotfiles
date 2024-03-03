@@ -22,7 +22,6 @@ vim.g.netrw_winsize = 25
 vim.opt.timeoutlen = 300
 vim.opt.updatetime = 250
 vim.opt.completeopt = "menu"
-vim.opt.statusline = "%q%w%h%r%m%f %y %l:%c %p%%"
 vim.opt.title = true
 vim.opt.titlestring = '%F'
 vim.opt.breakindent = true
@@ -251,8 +250,19 @@ require "lazy".setup({
         end,
     },
 
-    { "folke/todo-comments.nvim",    opts = {} },
-    { 'echasnovski/mini.statusline', opts = {} },
+    { "folke/todo-comments.nvim", opts = {} },
+    {
+        'echasnovski/mini.statusline',
+        version = '*',
+        config = function()
+            local stl = require "mini.statusline"
+            stl.setup({
+                set_vim_settings = true
+            })
+            stl.section_location = function()
+            end
+        end,
+    },
     { "nvim-tree/nvim-web-devicons" },
 
     { -- Treesitter parsers.
