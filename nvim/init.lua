@@ -584,6 +584,8 @@ require "lazy".setup({
                 "Grep in project")
 
             bind("n", "<leader>h", function() builtin.help_tags() end, "Help Tags")
+
+            bind("n", "<leader>w", function() builtin.lsp_dynamic_workspace_symbols() end, "LSP workspace symbols")
         end,
     },
 
