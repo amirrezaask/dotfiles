@@ -161,21 +161,9 @@ function FontSize(size)
     Font(font_family, font_size)
 end
 
-vim.api.nvim_create_user_command("FontSizeInc", function(_)
-    FontSizeInc()
-end, {})
-
-vim.api.nvim_create_user_command("FontSizeDec", function(_)
-    FontSizeDec()
-end, {})
-
 vim.api.nvim_create_user_command("FontSize", function(opts)
     FontSize(tonumber(opts.fargs[1]))
 end, { nargs = 1 })
-
-
-vim.keymap.set({ "n", "i", "v", "x", "t" }, "<C-=>", FontSizeInc, {})
-vim.keymap.set({ "n", "i", "v", "x", "t" }, "<C-->", FontSizeDec, {})
 
 vim.api.nvim_create_user_command("Font", function(opts)
     local splitted = vim.split(opts.args, ":")
