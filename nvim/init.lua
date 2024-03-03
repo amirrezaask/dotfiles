@@ -1,56 +1,93 @@
-vim.opt.smartindent = true
+-- Wrap long lines
 vim.opt.wrap = true
+
+-- Wrapped lines have same indentation as the actual line.
+vim.opt.breakindent = true
+
+-- No annoying swapfiles
 vim.opt.swapfile = false
+
+-- Disable Vim backups, we have Git :)
 vim.opt.backup = false
+
+-- Save undo history
 vim.opt.undofile = true
+
+-- Highlight all matches of a search pattern.
 vim.opt.hlsearch = false
+
+-- Match pattern while typing.
 vim.opt.incsearch = true
+
+-- Keep signcolumn always visible
 vim.opt.signcolumn = "yes"
+
 -- How new splits are created
 vim.opt.splitbelow = true
 vim.opt.splitright = true
-vim.opt.cursorline = true -- Current line highlight
+
+-- Highlight current line which cursor is on.
+vim.opt.cursorline = true
+
 -- TABs and indentation
 vim.opt.sw = 4
 vim.opt.ts = 4
 vim.opt.expandtab = true
--- minimal netrw
+
+-- minimal netrw (vim default file manager)
 vim.g.netrw_browse_split = 0
 vim.g.netrw_banner = 0
 vim.g.netrw_winsize = 25
+
 -- vim update time
 vim.opt.timeoutlen = 300
 vim.opt.updatetime = 250
-vim.opt.completeopt = "menu"
-vim.opt.title = true
-vim.opt.titlestring = '%F'
-vim.opt.breakindent = true
+
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.mouse = 'a'
+-- No need to show the mode, we have it in statusline
 vim.opt.showmode = false
+
+-- Case-insensitive searching UNLESS \C or capital in search
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
+
+-- Preview all substitutions(replacements).
 vim.opt.inccommand = 'split'
+
+-- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
 
 IS_WINDOWS = vim.fn.has("win32") == 1
 
--- Keymaps
-vim.g.mapleader =
-" "                                                                                  -- <leader> key for keymaps mapped to <Space>
-vim.keymap.set("n", "Y", "y$", { desc = "Copy whole line" })                         -- Make yanking act like other operations
-vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')                                  -- Esc should remove incsearch highlights
-vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]], { desc = "Copy into clipboard" }) -- Copy to clipboard
+-- <leader> key for keymaps mapped to <Space>
+vim.g.mapleader = " "
+
+-- Make yanking act like other operations
+vim.keymap.set("n", "Y", "y$", { desc = "Copy whole line" })
+
+-- Esc should remove incsearch highlights
+vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
+
+-- Copy to system clipboard
+vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]], { desc = "Copy into clipboard" })
+
+-- Copy current line into system clipboard
 vim.keymap.set("n", "<leader>Y", [["+Y]], { desc = "Copy line into clipboard" })
+
+-- Paste clipboard content
 vim.keymap.set("n", "<leader>p", [["+p]], { desc = "Paste from clipboard" })
+
 -- If I visually select words and paste from clipboard, don't replace my
 -- clipboard with the selected word, instead keep my old word in the clipboard
 vim.keymap.set("x", "p", '"_dP')
+
 -- Simpler exiting insert mode
 vim.keymap.set("i", "<C-c>", "<esc>")
 vim.keymap.set("i", "jk", "<ESC>")
 vim.keymap.set("i", "kj", "<ESC>")
+
 -- Quickfix list
 vim.keymap.set({ "n" }, "<C-[>", "<cmd>cprev<CR>", { desc = "Previous quick fix list item" })
 vim.keymap.set({ "n" }, "<C-]>", "<cmd>cnext<CR>", { desc = "Next quick fix list item" })
@@ -75,8 +112,13 @@ vim.keymap.set("n", "<C-o>", "<C-o>zz")
 vim.keymap.set("n", "<C-i>", "<C-i>zz")
 vim.keymap.set("n", "n", "nzz")
 vim.keymap.set("n", "N", "Nzz")
+
+
+-- Disable annoying Q mode
 vim.keymap.set("n", "Q", "<cmd>q<CR>")
-vim.keymap.set("n", "<CR>", [[ {-> v:hlsearch ? ':nohl<CR>' : '<CR>'}() ]], { expr = true }) -- handy when doing search in a buffer
+
+-- Pressing <CR> will disable current highlights from last search
+vim.keymap.set("n", "<CR>", [[ {-> v:hlsearch ? ':nohl<CR>' : '<CR>'}() ]], { expr = true })
 
 -- Edit config file
 vim.keymap.set("n", "<leader>i", "<cmd>edit $MYVIMRC<CR>")
@@ -134,7 +176,6 @@ vim.opt.statusline = '%!v:lua.AmirrezaStatusLine()'
 
 -- Transparency Control
 TRANSPARENT = false
-
 
 local font_family = ""
 local font_size = 15
@@ -251,6 +292,7 @@ require "lazy".setup({
     },
 
     { "folke/todo-comments.nvim", opts = {} },
+
     {
         'echasnovski/mini.statusline',
         version = '*',
@@ -265,7 +307,7 @@ require "lazy".setup({
     },
     { "nvim-tree/nvim-web-devicons" },
 
-    { -- Treesitter parsers.
+    { -- Treesitter
         'nvim-treesitter/nvim-treesitter',
         build = ':TSUpdate',
         config = function()
@@ -282,8 +324,8 @@ require "lazy".setup({
 
     'kevinhwang91/nvim-bqf',     -- Improved quick fix list experience
 
-
-    { -- Autocomplete popup
+    -- Autocomplete popup
+    {
         "hrsh7th/nvim-cmp",
         dependencies = {
             'L3MON4D3/LuaSnip',
@@ -324,7 +366,7 @@ require "lazy".setup({
         end,
     },
 
-    { -- Language server protocol client
+    { -- Language server protocol client (LSP)
         "neovim/nvim-lspconfig",
         dependencies = {
             { -- Like the panel in vscode, shows you errors and warnings from LSP
