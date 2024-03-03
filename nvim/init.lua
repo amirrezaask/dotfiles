@@ -89,7 +89,7 @@ vim.keymap.set("n", "k", "gk")
 vim.keymap.set("t", "<esc>", [[<C-\><C-n>]])
 vim.keymap.set({ "i", "n", "t" }, "<C-k>", "<cmd>tabnext<CR>")
 vim.keymap.set({ "i", "n", "t" }, "<C-j>", "<cmd>tabprev<CR>")
-vim.keymap.set("i", "<C-a>", "<C-x><C-o>") -- simpler omnifunc completion
+vim.keymap.set({ "i" }, "<C-a>", "<C-x><C-o>") -- simpler omnifunc completion
 
 -- W is alias for w
 vim.cmd [[
@@ -246,7 +246,7 @@ require "lazy".setup({
                 transparent = TRANSPARENT,
             })
 
-            vim.cmd.colorscheme("tokyonight-night")
+            vim.cmd.colorscheme("tokyonight-moon")
         end,
     },
 
@@ -492,7 +492,11 @@ require "lazy".setup({
             bind("n", "<C-p>",
                 function()
                     local root = get_current_buffer_project_root()
-                    builtin.git_files({ prompt_title = string.format("Git Files: %s", root), cwd = root })
+                    builtin.git_files({
+                        previewer = false,
+                        prompt_title = string.format("Git Files: %s", root),
+                        cwd = root
+                    })
                 end, "Git Files")
 
             bind("n", "<leader><CR>", function()
@@ -500,27 +504,31 @@ require "lazy".setup({
                     prompt = "Select Project:",
 
                 }, function(proj)
-                    builtin.find_files({ cwd = proj })
+                    builtin.find_files({ previewer = false, cwd = proj })
                 end)
             end, "Find File in project")
 
             bind("n", "<leader><leader>",
                 function()
                     local root = get_current_buffer_project_root()
-                    builtin.find_files({ prompt_title = string.format("Find Files: %s", root), cwd = root })
+                    builtin.find_files({
+                        previewer = false,
+                        prompt_title = string.format("Find Files: %s", root),
+                        cwd = root
+                    })
                 end,
                 "Fuzzy Find in current buffer project")
 
-            bind("n", "<leader>b", function() builtin.buffers(no_preview) end, "Buffers")
+            bind("n", "<leader>b", function() builtin.buffers({ previewer = false }) end, "Buffers")
 
-            bind("n", "<leader>/", function() builtin.current_buffer_fuzzy_find(no_preview) end,
+            bind("n", "<leader>/", function() builtin.current_buffer_fuzzy_find({ previewer = false }) end,
                 "Fuzzy find in current buffer")
 
 
             bind("n", "<leader>.",
                 function()
                     local root = get_current_buffer_project_root()
-                    builtin.grep_string({ cwd = root, layout_config = { height = 0.7, width = 0.9 } })
+                    builtin.grep_string({ previewer = false, cwd = root, layout_config = { height = 0.7, width = 0.9 } })
                 end,
                 "Grep current word")
 
@@ -529,7 +537,7 @@ require "lazy".setup({
             bind("n", "??",
                 function()
                     local root = get_current_buffer_project_root()
-                    builtin.live_grep({ prompt_title = string.format("Grep: %s", root), cwd = root, layout_config = { height = 0.9, width = 0.9 } })
+                    builtin.live_grep({ previewer = false, prompt_title = string.format("Grep: %s", root), cwd = root, layout_config = { height = 0.9, width = 0.9 } })
                 end,
                 "Grep in project")
 
