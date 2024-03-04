@@ -133,6 +133,12 @@ vim.keymap.set({ "i", "n", "t" }, "<C-k>", "<cmd>tabnext<CR>")
 vim.keymap.set({ "i", "n", "t" }, "<C-j>", "<cmd>tabprev<CR>")
 vim.keymap.set({ "i" }, "<C-a>", "<C-x><C-o>") -- simpler omnifunc completion
 
+-- Diagnostics
+vim.keymap.set("n", "<leader>l", vim.diagnostic.open_float, { desc = "Diagnostics: Open float window" })
+vim.keymap.set("n", "[[", vim.diagnostic.goto_prev, { desc = "Diagnostics: Next" })
+vim.keymap.set("n", "]]", vim.diagnostic.goto_next, { desc = "Diagnostics: Previous" })
+vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Set Local list" })
+
 -- W is alias for w
 vim.cmd [[
     command! W :w
@@ -169,7 +175,7 @@ function AmirrezaStatusLine()
         statusline = statusline .. " | " .. branch .. " |"
     end
 
-    return statusline .. " %r%h%w%q%m%f | %y %l:%c %p%%"
+    return statusline .. " %r%h%w%q%m%f | %y"
 end
 
 vim.opt.statusline = '%!v:lua.AmirrezaStatusLine()'
@@ -374,7 +380,7 @@ require "lazy".setup({
                 -- dependencies = { "nvim-tree/nvim-web-devicons" },
                 config = function()
                     require "trouble".setup({})
-                    vim.keymap.set("n", "<leader>j", ":TroubleToggle<CR>")
+                    vim.keymap.set("n", "<leader>e", ":TroubleToggle<CR>")
                 end,
             },
             { "folke/neodev.nvim", opts = {} },
@@ -446,25 +452,19 @@ require "lazy".setup({
                     vim.api.nvim_set_option_value("omnifunc", "v:lua.vim.lsp.omnifunc",
                         { buf = bufnr })
 
-                    local bind = function(mode, key, fn, desc)
-                        vim.keymap.set(mode, key, fn, { buffer = bufnr, desc = desc })
+                    local map = function(mode, key, fn, desc)
+                        vim.keymap.set(mode, key, fn, { buffer = bufnr, desc = "LSP: " .. desc })
                     end
 
-                    bind("n", "gd", vim.lsp.buf.definition, "Goto Definition")
-                    bind("n", "gD", vim.lsp.buf.declaration, "Goto Declaration")
-                    bind("n", "gi", vim.lsp.buf.implementation, "Goto Implementation")
-                    bind("n", "gr", vim.lsp.buf.references, "Goto References")
-                    bind("n", "R", vim.lsp.buf.rename, "Rename")
-                    bind("n", "K", vim.lsp.buf.hover, "Hover")
-                    bind("n", "<leader>l", vim.diagnostic.open_float, "Floating Diagnostics")
-                    bind("n", "<leader>q", vim.diagnostic.setloclist, "Set Loclist")
-                    bind("n", "<leader>f", vim.lsp.buf.format, "Format")
-                    bind("n", "gl", vim.diagnostic.open_float, "")
-                    bind("n", "[d", vim.diagnostic.goto_prev, "Next Diagnostic")
-                    bind("n", "]d", vim.diagnostic.goto_next, "Previous Diagnostic")
-                    bind("n", "C", vim.lsp.buf.code_action, "Code Actions")
-                    bind("n", "<C-s>", vim.lsp.buf.signature_help, "Signature Help")
-                    bind("i", "<C-s>", vim.lsp.buf.signature_help, "Signature Help")
+                    map("n", "gd", vim.lsp.buf.definition, "[g]oto [d]efinition")
+                    map("n", "gD", vim.lsp.buf.declaration, "[g]oto [D]eclaration")
+                    map("n", "gi", vim.lsp.buf.implementation, "[g]oto [i]mplementation")
+                    map("n", "gr", vim.lsp.buf.references, "[g]oto [r]eferences")
+                    map("n", "R", vim.lsp.buf.rename, "Rename")
+                    map("n", "K", vim.lsp.buf.hover, "Hover")
+                    map("n", "C", vim.lsp.buf.code_action, "Code Actions")
+                    map("n", "<leader>f", vim.lsp.buf.format, "Format")
+                    map({ "n", "i" }, "<C-s>", vim.lsp.buf.signature_help, "Signature Help")
 
                     -- I hate it when I am writing a piece of code that things start to get all red.
                     vim.diagnostic.config({ virtual_text = false })
@@ -500,7 +500,7 @@ require "lazy".setup({
             local builtin = require("telescope.builtin")
             local no_preview = { previewer = false }
             local dropdown_no_preview = require "telescope.themes".get_dropdown(no_preview)
-            local bind = function(mode, key, fn, desc)
+            local map = function(mode, key, fn, desc)
                 vim.keymap.set(mode, key, fn, { desc = "Telescope: " .. desc })
             end
 
@@ -531,7 +531,7 @@ require "lazy".setup({
                 return paths
             end
 
-            bind("n", "<C-p>",
+            map("n", "<C-p>",
                 function()
                     local root = get_current_buffer_project_root()
                     builtin.git_files({
@@ -541,7 +541,7 @@ require "lazy".setup({
                     })
                 end, "Git Files")
 
-            bind("n", "<leader><CR>", function()
+            map("n", "<leader><CR>", function()
                 vim.ui.select(find_projects(), {
                     prompt = "Select Project:",
 
@@ -550,7 +550,7 @@ require "lazy".setup({
                 end)
             end, "Find File in project")
 
-            bind("n", "<leader><leader>",
+            map("n", "<leader><leader>",
                 function()
                     local root = get_current_buffer_project_root()
                     builtin.find_files({
@@ -561,31 +561,33 @@ require "lazy".setup({
                 end,
                 "Fuzzy Find in current buffer project")
 
-            bind("n", "<leader>b", function() builtin.buffers({ previewer = false }) end, "Buffers")
+            map("n", "<leader>b", function() builtin.buffers({ previewer = false }) end, "Buffers")
 
-            bind("n", "<leader>/", function() builtin.current_buffer_fuzzy_find({ previewer = false }) end,
+            map("n", "<leader>/", function() builtin.current_buffer_fuzzy_find({ previewer = false }) end,
                 "Fuzzy find in current buffer")
 
 
-            bind("n", "<leader>.",
+            map("n", "<leader>.",
                 function()
                     local root = get_current_buffer_project_root()
                     builtin.grep_string({ previewer = false, cwd = root, layout_config = { height = 0.7, width = 0.9 } })
                 end,
                 "Grep current word")
 
-            bind("n", "<leader>o", function() builtin.treesitter(no_preview) end, "Treesitter symbols")
+            map("n", "<leader>o", function() builtin.treesitter(no_preview) end, "Treesitter symbols")
 
-            bind("n", "??",
+            map("n", "??",
                 function()
                     local root = get_current_buffer_project_root()
                     builtin.live_grep({ previewer = false, prompt_title = string.format("Grep: %s", root), cwd = root, layout_config = { height = 0.9, width = 0.9 } })
                 end,
                 "Grep in project")
 
-            bind("n", "<leader>h", function() builtin.help_tags() end, "Help Tags")
+            map("n", "<leader>h", function() builtin.help_tags() end, "Help Tags")
 
-            bind("n", "<leader>w", function() builtin.lsp_dynamic_workspace_symbols() end, "LSP workspace symbols")
+            map("n", "<leader>w", function() builtin.lsp_dynamic_workspace_symbols() end, "LSP workspace symbols")
+
+            map("n", "<leader>i", function() builtin.find_files { cwd = vim.fn.stdpath('config') } end, "Neovim Config")
         end,
     },
 
