@@ -239,19 +239,9 @@ if not vim.loop.fs_stat(lazypath) then
 end
 
 
-vim.api.nvim_create_user_command("Term", function()
-    if IS_WINDOWS then
-        vim.cmd [[ tabnew |term nu.exe]]
-    else
-        vim.cmd [[ tabnew |term]]
-    end
-end, {})
-
-
 vim.opt.rtp:prepend(lazypath)
 
 require "lazy".setup({
-
     { "numToStr/Comment.nvim", opts = {} }, -- [gc] to comment region/line.
 
     { "tpope/vim-sleuth" },                 -- Detect tabstop and shiftwidth automatically.
