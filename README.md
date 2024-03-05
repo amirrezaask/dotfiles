@@ -2,7 +2,7 @@
 
 ## Configs
 
-- [Neovim](https://github.com/amirrezaask/dotfiles/blob/master/nvim/init.el)
+- [Neovim](https://github.com/amirrezaask/dotfiles/blob/master/nvim/init.lua)
 - [Emacs](https://github.com/amirrezaask/dotfiles/blob/master/init.el)
 - [Sublime](https://github.com/amirrezaask/dotfiles/blob/master/sublimetext)
 - [VSCodium](https://github.com/amirrezaask/dotfiles/blob/master/vscodium)
