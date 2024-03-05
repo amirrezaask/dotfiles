@@ -504,21 +504,9 @@ require "lazy".setup({
                 vim.keymap.set(mode, key, fn, { desc = "Telescope: " .. desc })
             end
 
-            local function get_current_buffer_project_root()
-                local buf = vim.api.nvim_get_current_buf()
-                local filename = vim.api.nvim_buf_get_name(buf)
-                local start_from = vim.fs.dirname(filename)
-
-                local root = vim.fs.dirname(vim.fs.find({ ".git", "go.mod", "package.json", "cargo.toml" },
-                    { upward = true, path = start_from })[1])
-
-                return require "plenary.path".new(root or vim.fn.getcwd()):absolute()
-            end
-
-
             local projects_root = "~/w"
             if IS_WINDOWS then
-                projects_root = "W:/"
+                projects_root = "C:/w"
             end
 
             local function find_projects()
@@ -533,11 +521,9 @@ require "lazy".setup({
 
             map("n", "<C-p>",
                 function()
-                    local root = get_current_buffer_project_root()
                     builtin.git_files({
                         previewer = false,
                         prompt_title = string.format("Git Files: %s", root),
-                        cwd = root
                     })
                 end, "Git Files")
 
@@ -552,11 +538,9 @@ require "lazy".setup({
 
             map("n", "<leader><leader>",
                 function()
-                    local root = get_current_buffer_project_root()
                     builtin.find_files({
                         previewer = false,
                         prompt_title = string.format("Find Files: %s", root),
-                        cwd = root
                     })
                 end,
                 "Fuzzy Find in current buffer project")
@@ -569,8 +553,7 @@ require "lazy".setup({
 
             map("n", "<leader>.",
                 function()
-                    local root = get_current_buffer_project_root()
-                    builtin.grep_string({ previewer = false, cwd = root, layout_config = { height = 0.7, width = 0.9 } })
+                    builtin.grep_string({ previewer = false, layout_config = { height = 0.7, width = 0.9 } })
                 end,
                 "Grep current word")
 
@@ -578,8 +561,7 @@ require "lazy".setup({
 
             map("n", "??",
                 function()
-                    local root = get_current_buffer_project_root()
-                    builtin.live_grep({ previewer = false, prompt_title = string.format("Grep: %s", root), cwd = root, layout_config = { height = 0.9, width = 0.9 } })
+                    builtin.live_grep({ previewer = false, prompt_title = string.format("Grep: %s", vim.fn.getcwd()), layout_config = { height = 0.9, width = 0.9 } })
                 end,
                 "Grep in project")
 
@@ -592,3 +574,21 @@ require "lazy".setup({
     },
 
 }, {})
+
+
+local augroup = vim.api.nvim_create_augroup("amirreza-chcwd", {})
+vim.api.nvim_create_autocmd('BufEnter', {
+    callback = function(ev)
+        local buf = vim.api.nvim_get_current_buf()
+        local filename = vim.api.nvim_buf_get_name(buf)
+        local start_from = vim.fs.dirname(filename)
+
+        local root = vim.fs.dirname(vim.fs.find({ ".git", "go.mod", "package.json", "cargo.toml" },
+            { upward = true, path = start_from })[1])
+        if root ~= nil and root ~= "" then
+            local abs_path = require "plenary.path".new(root or vim.fn.getcwd()):absolute()
+            vim.fn.chdir(abs_path)
+        end
+    end,
+    group = augroup,
+})
