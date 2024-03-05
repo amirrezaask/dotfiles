@@ -2,8 +2,8 @@ local wezterm = require "wezterm"
 local config = {}
 
 config.font = wezterm.font_with_fallback {
+  "JetBrainsMono Nerd Font Mono",
   "Fira Code",
-  "Jetbrains Mono",
   "Consolas",
   "Ubuntu Mono",
 }
@@ -36,6 +36,22 @@ config.hide_tab_bar_if_only_one_tab = true
 if wezterm.target_triple == 'x86_64-pc-windows-msvc' then -- if windows
   config.default_prog = { 'cmd.exe', '/k', '%cmder_root%/vendor/init.bat' }
 end
+
+config.tab_max_width = 20
+
+wezterm.on(
+  'format-tab-title',
+  function(tab, tabs, panes, config, hover, max_width)
+    local path = tab.active_pane.current_working_dir.file_path
+    local title = path:gsub("^([\\/])", "")
+    title = title:gsub("C:/Users/amirreza", "~")
+    title = title:gsub("C:/w", "w")
+    title = string.format("%d: %s", tab.tab_index, title)
+    return {
+      { Text = title }
+    }
+  end
+)
 
 
 return config
