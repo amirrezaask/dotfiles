@@ -237,6 +237,17 @@ if not vim.loop.fs_stat(lazypath) then
         lazypath,
     })
 end
+
+
+vim.api.nvim_create_user_command("Term", function()
+    if IS_WINDOWS then
+        vim.cmd [[ tabnew |term nu.exe]]
+    else
+        vim.cmd [[ tabnew |term]]
+    end
+end, {})
+
+
 vim.opt.rtp:prepend(lazypath)
 
 require "lazy".setup({
