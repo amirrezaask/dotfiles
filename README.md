@@ -7,6 +7,8 @@
 - [Sublime](https://github.com/amirrezaask/dotfiles/blob/master/sublimetext)
 - [VSCodium](https://github.com/amirrezaask/dotfiles/blob/master/vscodium)
 - [Wezterm: Cross platform, blazingly fast terminal](https://github.com/amirrezaask/dotfiles/blob/master/wezterm.lua)
+- [Tmux](https://github.com/amirrezaask/dotfiles/blob/master/tmux)
+- [Zshrc](https://github.com/amirrezaask/dotfiles/blob/master/zshrc)
 
 ## Resources
 
