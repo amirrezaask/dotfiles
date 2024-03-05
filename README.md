@@ -2,9 +2,11 @@
 
 ## Configs
 
-- [Neovim](https://github.com/amirrezaask/dotfiles/blob/master/nvim)
+- [Neovim](https://github.com/amirrezaask/dotfiles/blob/master/nvim/init.el)
 - [Emacs](https://github.com/amirrezaask/dotfiles/blob/master/init.el)
 - [Sublime](https://github.com/amirrezaask/dotfiles/blob/master/sublimetext)
+- [VSCodium](https://github.com/amirrezaask/dotfiles/blob/master/vscodium)
+- [Wezterm: Cross platform, blazingly fast terminal](https://github.com/amirrezaask/dotfiles/blob/master/wezterm.lua)
 
 ## Resources
 

@@ -262,38 +262,33 @@ require "lazy".setup({
     { "tpope/vim-fugitive" },
 
     -- UI
-    -- {
-    --     "ellisonleao/gruvbox.nvim",
-    --     config = function()
-    --         require "gruvbox".setup({
-    --             transparent_mode = TRANSPARENT,
-    --             contrast = "hard",
-    --         })
-    --         vim.cmd.colorscheme("gruvbox")
-    --     end,
-    -- },
-    -- {
-    --     "rose-pine/neovim",
-    --     name = "rose-pine",
-    --     config = function()
-    --         require("rose-pine").setup({
-    --             styles = {
-    --                 italic = false,
-    --                 transparency = TRANSPARENT,
-    --             }
-    --         })
-    --
-    --         vim.cmd.colorscheme("rose-pine")
-    --     end,
-    -- },
+    {
+        "ellisonleao/gruvbox.nvim",
+        config = function()
+            require "gruvbox".setup({
+                transparent_mode = TRANSPARENT,
+                contrast = "hard",
+            })
+        end,
+    },
+    {
+        "rose-pine/neovim",
+        name = "rose-pine",
+        config = function()
+            require("rose-pine").setup({
+                styles = {
+                    italic = false,
+                    transparency = TRANSPARENT,
+                }
+            })
+        end,
+    },
     {
         'folke/tokyonight.nvim',
         config = function()
             require "tokyonight".setup({
                 transparent = TRANSPARENT,
             })
-
-            vim.cmd.colorscheme("tokyonight-moon")
         end,
     },
 
@@ -523,7 +518,7 @@ require "lazy".setup({
                 function()
                     builtin.git_files({
                         previewer = false,
-                        prompt_title = string.format("Git Files: %s", root),
+                        prompt_title = string.format("Git Files: %s", vim.fn.getcwd()),
                     })
                 end, "Git Files")
 
@@ -540,7 +535,7 @@ require "lazy".setup({
                 function()
                     builtin.find_files({
                         previewer = false,
-                        prompt_title = string.format("Find Files: %s", root),
+                        prompt_title = string.format("Find Files: %s", vim.fn.getcwd()),
                     })
                 end,
                 "Fuzzy Find in current buffer project")
@@ -576,6 +571,7 @@ require "lazy".setup({
 }, {})
 
 
+-- Change current working directory based on the buffer project root.
 local augroup = vim.api.nvim_create_augroup("amirreza-chcwd", {})
 vim.api.nvim_create_autocmd('BufEnter', {
     callback = function(ev)
@@ -592,3 +588,6 @@ vim.api.nvim_create_autocmd('BufEnter', {
     end,
     group = augroup,
 })
+
+-- Set the colorscheme
+vim.cmd.colorscheme("tokyonight-moon")
