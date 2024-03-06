@@ -592,7 +592,7 @@ vim.api.nvim_create_autocmd('BufEnter', {
 })
 
 -- Set the colorscheme
-vim.cmd.colorscheme("tokyonight-moon")
+vim.cmd.colorscheme("tokyonight-night")
 
 -- Term command to launch terminal
 if IS_WINDOWS then
