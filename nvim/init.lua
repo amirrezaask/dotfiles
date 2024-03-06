@@ -181,7 +181,7 @@ end
 vim.opt.statusline = '%!v:lua.AmirrezaStatusLine()'
 
 -- Transparency Control
-TRANSPARENT = false
+TRANSPARENT = true
 
 local font_family = ""
 local font_size = 15
@@ -410,6 +410,7 @@ require "lazy".setup({
         config = function()
             local lsp_servers = {
                 gopls = {},
+                intelephense = {},
                 lua_ls = {
                     settings = {
                         Lua = {

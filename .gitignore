@@ -13,4 +13,5 @@ early-init.el
 emacs/eln-cache
 emacs/eshell
 emacs/projects
+PowerShell/Scripts
 
