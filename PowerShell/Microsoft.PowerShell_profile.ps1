@@ -12,6 +12,9 @@ if((Get-Module -ListAvailable -Name posh-git) -eq $null) {
 
 Import-Module PSReadLine
 Set-PSReadLineOption -EditMode Emacs
+function Invoke-Starship-PreCommand {
+  $host.ui.RawUI.WindowTitle = "$pwd"
+}
 Invoke-Expression (&starship init powershell)
 Import-Module -Name Terminal-Icons
 Set-PSReadLineOption -PredictionSource History
