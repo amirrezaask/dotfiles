@@ -51,9 +51,6 @@
 (setq image-types (cons 'svg image-types)
       mac-command-modifier 'meta)
 
-(when is-windows
-  (cd "W:/"))
-
 ;; General Text Editing
 (setq recenter-positions '(middle))
 (setq custom-file "~/.custom.el"          ;; set custom file to not meddle with init.el
@@ -155,7 +152,7 @@
   (interactive)
   (text-scale-decrease 1))
 
-(amirreza/set-font "Consolas" 15)
+(amirreza/set-font "Jetbrains Mono" 15)
 
 (global-set-key (kbd "C-=")  'amirreza/text-scale-increase)
 (global-set-key (kbd "C--")  'amirreza/text-scale-decrease)

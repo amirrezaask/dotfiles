@@ -592,3 +592,14 @@ vim.api.nvim_create_autocmd('BufEnter', {
 
 -- Set the colorscheme
 vim.cmd.colorscheme("tokyonight-moon")
+
+-- Term command to launch terminal
+if IS_WINDOWS then
+    vim.api.nvim_create_user_command("Term", function()
+        vim.cmd [[ tabnew | term pwsh.exe]]
+    end, {})
+else
+    vim.api.nvim_create_user_command("Term", function()
+        vim.cmd [[ tabnew | term ]]
+    end, {})
+end
