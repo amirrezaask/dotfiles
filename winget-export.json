@@ -7,6 +7,9 @@
 			"Packages" : 
 			[
 				{
+					"PackageIdentifier": "OBSProject.OBSStudio",
+				},
+				{
 					"PackageIdentifier": "Microsoft.Edge.Beta"
 				},
 				{
