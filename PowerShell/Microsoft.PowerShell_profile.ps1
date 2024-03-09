@@ -32,9 +32,9 @@ Set-PSReadLineKeyHandler -Key Tab -Function Complete
 Set-Alias vim nvim
 
 
-# Setup prompt using starship and also set tab title to cwd in windows terminal
 function Invoke-Starship-PreCommand {
   $host.ui.RawUI.WindowTitle = "$pwd"
 }
+
 
 Invoke-Expression (&starship init powershell)

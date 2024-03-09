@@ -181,7 +181,7 @@ end
 vim.opt.statusline = '%!v:lua.AmirrezaStatusLine()'
 
 -- Transparency Control
-TRANSPARENT = false
+TRANSPARENT = true
 
 local font_family = ""
 local font_size = 15
@@ -593,7 +593,7 @@ vim.api.nvim_create_autocmd('BufEnter', {
 })
 
 -- Set the colorscheme
-vim.cmd.colorscheme("rose-pine")
+vim.cmd.colorscheme("tokyonight-night")
 
 -- Term command to launch terminal
 if IS_WINDOWS then

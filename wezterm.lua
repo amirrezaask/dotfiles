@@ -35,6 +35,7 @@ config.hide_tab_bar_if_only_one_tab = true
 
 if wezterm.target_triple == 'x86_64-pc-windows-msvc' then -- if windows
   config.default_prog = { [[C:\Program Files\PowerShell\7\pwsh.exe]] }
+  config.default_cwd = "C:\\w"
 end
 
 config.tab_max_width = 20
