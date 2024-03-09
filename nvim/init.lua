@@ -529,6 +529,7 @@ require "lazy".setup({
                     prompt = "Select Project:",
 
                 }, function(proj)
+                    if proj == "" then return end
                     builtin.find_files({ previewer = false, cwd = proj })
                 end)
             end, "Find File in project")
@@ -592,7 +593,7 @@ vim.api.nvim_create_autocmd('BufEnter', {
 })
 
 -- Set the colorscheme
-vim.cmd.colorscheme("tokyonight-night")
+vim.cmd.colorscheme("rose-pine")
 
 -- Term command to launch terminal
 if IS_WINDOWS then
