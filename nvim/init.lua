@@ -27,7 +27,7 @@ vim.opt.splitbelow = true
 vim.opt.splitright = true
 
 -- Highlight current line which cursor is on.
-vim.opt.cursorline = true
+vim.opt.cursorline = false
 
 -- TABs and indentation
 vim.opt.sw = 4
@@ -181,7 +181,7 @@ end
 vim.opt.statusline = '%!v:lua.AmirrezaStatusLine()'
 
 -- Transparency Control
-TRANSPARENT = true
+TRANSPARENT = false
 
 local font_family = ""
 local font_size = 15
