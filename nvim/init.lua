@@ -181,12 +181,12 @@ end
 vim.opt.statusline = '%!v:lua.AmirrezaStatusLine()'
 
 -- Transparency Control
-TRANSPARENT = true
+TRANSPARENT = false
 
 local font_family = ""
 local font_size = 15
-vim.g.neovide_scroll_animation_length = 0.00
-vim.g.neovide_cursor_animation_length = 0.00
+vim.g.neovide_scroll_animation_length = 0.10
+vim.g.neovide_cursor_animation_length = 0.03
 vim.g.neovide_cursor_vfx_mode = ""
 
 function Font(font, size)
@@ -260,9 +260,10 @@ require "lazy".setup({
         },
     },
 
+    -- Git Client
     { "tpope/vim-fugitive" },
 
-    -- UI
+    -- Colorschemes
     {
         "ellisonleao/gruvbox.nvim",
         config = function()
@@ -293,8 +294,10 @@ require "lazy".setup({
         end,
     },
 
+    -- Highlight TODO in comments
     { "folke/todo-comments.nvim", opts = {} },
 
+    -- Statusline
     {
         'echasnovski/mini.statusline',
         version = '*',
@@ -309,7 +312,7 @@ require "lazy".setup({
     },
     { "nvim-tree/nvim-web-devicons" },
 
-    { -- Treesitter
+    { -- Treesitter, see :help treesitter
         'nvim-treesitter/nvim-treesitter',
         build = ':TSUpdate',
         config = function()
@@ -436,10 +439,6 @@ require "lazy".setup({
                 require("lspconfig")[server].setup(config)
             end
 
-            -- Hover and signature help windows have rounded borders
-            vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
-            vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help,
-                { border = "rounded" })
             -- LspInfo window have rounded border
             require("lspconfig.ui.windows").default_options.border = "rounded"
 
@@ -593,7 +592,7 @@ vim.api.nvim_create_autocmd('BufEnter', {
 })
 
 -- Set the colorscheme
-vim.cmd.colorscheme("tokyonight-night")
+vim.cmd.colorscheme("tokyonight-moon")
 
 -- Term command to launch terminal
 if IS_WINDOWS then
