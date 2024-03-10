@@ -2,18 +2,9 @@ if((Get-Module -ListAvailable -Name PSReadLine) -eq $null) {
     Install-Module -Scope CurrentUser PSReadLine
 }
 
-if((Get-Module -ListAvailable -Name Terminal-Icons) -eq $null) {
-    Install-Module -Scope CurrentUser Terminal-Icons
-}
-
-if((Get-Module -ListAvailable -Name posh-git) -eq $null) {
-    Install-Module -Scope CurrentUser posh-git
-}
-
 Import-Module PSReadLine
 Set-PSReadLineOption -EditMode Emacs
 
-Import-Module -Name Terminal-Icons
 Set-PSReadLineOption -PredictionSource History
 Set-PSReadLineOption -PredictionViewStyle ListView
 Set-PSReadLineOption -EditMode Emacs
@@ -29,12 +20,18 @@ Set-PSReadLineKeyHandler -Key Ctrl+LeftArrow ShellBackwardWord
 Set-PSReadLineKeyHandler -Key Ctrl+RightArrow ShellForwardWord
 
 Set-PSReadLineKeyHandler -Key Tab -Function Complete
+
+# Aliases
 Set-Alias vim nvim
 
-
-function Invoke-Starship-PreCommand {
-  $host.ui.RawUI.WindowTitle = "$pwd"
+function g {
+    rg --vimgrep $args
 }
 
+function gs {
+    git status
+}
 
-# Invoke-Expression (&starship init powershell)
+function reload {
+    . $PROFILE
+}

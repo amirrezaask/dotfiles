@@ -181,7 +181,8 @@ end
 vim.opt.statusline = '%!v:lua.AmirrezaStatusLine()'
 
 -- Transparency Control
-TRANSPARENT = false
+-- To control this set NVIM_TRANSPARENT to true in your environment
+TRANSPARENT = os.getenv("NVIM_TRANSPARENT") == "true"
 
 local font_family = ""
 local font_size = 15
@@ -292,6 +293,13 @@ require "lazy".setup({
                 transparent = TRANSPARENT,
             })
         end,
+    },
+    {
+        "catppuccin/nvim",
+        name = "catppuccin",
+        opts = {
+            transparent_background = TRANSPARENT
+        },
     },
 
     -- Highlight TODO in comments
@@ -495,7 +503,6 @@ require "lazy".setup({
             require("telescope").load_extension("ui-select") -- Use telescope for vim.ui.select
             local builtin = require("telescope.builtin")
             local no_preview = { previewer = false }
-            local dropdown_no_preview = require "telescope.themes".get_dropdown(no_preview)
             local map = function(mode, key, fn, desc)
                 vim.keymap.set(mode, key, fn, { desc = "Telescope: " .. desc })
             end
@@ -592,7 +599,7 @@ vim.api.nvim_create_autocmd('BufEnter', {
 })
 
 -- Set the colorscheme
-vim.cmd.colorscheme("tokyonight-moon")
+vim.cmd.colorscheme("catppuccin-macchiato")
 
 -- Term command to launch terminal
 if IS_WINDOWS then
