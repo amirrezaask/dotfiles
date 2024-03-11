@@ -1,7 +1,7 @@
 {
 	"auto_complete": true,
-	"font_face": "Fira Code",
-	"font_size": 17,
+	"font_face": "JetBrains Mono",
+	"font_size": 14,
 	"hardware_acceleration": "opengl",
 	"highlight_line": true,
 	"hot_exit": "disabled",

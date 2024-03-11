@@ -21,6 +21,7 @@ Set-PSReadLineKeyHandler -Key Tab -Function Complete
 
 # Aliases
 Set-Alias vim nvim
+Set-Alias subl 'C:\Program Files\Sublime Text\subl.exe'
 
 function rgg {
     rg --vimgrep $args
