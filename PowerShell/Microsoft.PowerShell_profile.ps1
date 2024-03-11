@@ -1,7 +1,6 @@
 if((Get-Module -ListAvailable -Name PSReadLine) -eq $null) {
     Install-Module -Scope CurrentUser PSReadLine
 }
-
 Import-Module PSReadLine
 Set-PSReadLineOption -EditMode Emacs
 
@@ -18,18 +17,25 @@ Set-PSReadLineKeyHandler -Key Alt+B -Function SelectShellBackwardWord
 Set-PSReadLineKeyHandler -Key Alt+F -Function SelectShellForwardWord
 Set-PSReadLineKeyHandler -Key Ctrl+LeftArrow ShellBackwardWord
 Set-PSReadLineKeyHandler -Key Ctrl+RightArrow ShellForwardWord
-
 Set-PSReadLineKeyHandler -Key Tab -Function Complete
 
 # Aliases
 Set-Alias vim nvim
 
-function g {
+function rgg {
     rg --vimgrep $args
 }
 
 function gs {
     git status
+}
+
+function ga {
+    git add .
+}
+
+function gc {
+    git commit
 }
 
 function reload {
