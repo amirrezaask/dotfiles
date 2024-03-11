@@ -27,7 +27,7 @@ vim.opt.splitbelow = true
 vim.opt.splitright = true
 
 -- Highlight current line which cursor is on.
-vim.opt.cursorline = false
+vim.opt.cursorline = true
 
 -- TABs and indentation
 vim.opt.sw = 4
@@ -43,9 +43,11 @@ vim.g.netrw_winsize = 25
 vim.opt.timeoutlen = 300
 vim.opt.updatetime = 250
 
+-- Line numbers
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.mouse = 'a'
+
 -- No need to show the mode, we have it in statusline
 vim.opt.showmode = false
 
