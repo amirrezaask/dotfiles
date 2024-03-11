@@ -8,11 +8,10 @@
 	"caret_style": "smooth",
 	"ignored_packages":
 	[
-		"Package Control",
 		"Vintage",
 	],
-	"index_files": false,
+	"index_files": true,
 	"theme": "Adaptive.sublime-theme",
 	"word_wrap": "true",
-	"color_scheme": "Black.sublime-color-scheme",
+	"color_scheme": "Packages/User/aura-theme.tmTheme",
 }
