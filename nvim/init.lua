@@ -617,7 +617,7 @@ vim.api.nvim_create_autocmd('BufEnter', {
 
 
 -- Set the colorscheme
-vim.cmd.colorscheme("catppuccin-macchiato")
+vim.cmd.colorscheme("rose-pine")
 
 -- Term command to launch terminal
 if IS_WINDOWS then
