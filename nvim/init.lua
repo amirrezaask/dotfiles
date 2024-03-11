@@ -243,9 +243,11 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require "lazy".setup({
-    { "numToStr/Comment.nvim", opts = {} }, -- [gc] to comment region/line.
+    -- [gc] to comment region/line.
+    { "numToStr/Comment.nvim", opts = {} },
 
-    { "tpope/vim-sleuth" },                 -- Detect tabstop and shiftwidth automatically.
+    -- Detect tabstop and shiftwidth automatically.
+    { "tpope/vim-sleuth" },
 
     -- Show git changed signs next to line numbers.
     {
@@ -294,30 +296,10 @@ require "lazy".setup({
             })
         end,
     },
-    {
-        "catppuccin/nvim",
-        name = "catppuccin",
-        opts = {
-            transparent_background = TRANSPARENT
-        },
-    },
 
     -- Highlight TODO in comments
-    { "folke/todo-comments.nvim", opts = {} },
+    { "folke/todo-comments.nvim",   opts = {} },
 
-    -- Statusline
-    {
-        'echasnovski/mini.statusline',
-        version = '*',
-        config = function()
-            local stl = require "mini.statusline"
-            stl.setup({
-                set_vim_settings = true
-            })
-            stl.section_location = function()
-            end
-        end,
-    },
     { "nvim-tree/nvim-web-devicons" },
 
     { -- Treesitter, see :help treesitter
@@ -617,7 +599,7 @@ vim.api.nvim_create_autocmd('BufEnter', {
 
 
 -- Set the colorscheme
-vim.cmd.colorscheme("rose-pine")
+vim.cmd.colorscheme("tokyonight-moon")
 
 -- Term command to launch terminal
 if IS_WINDOWS then
