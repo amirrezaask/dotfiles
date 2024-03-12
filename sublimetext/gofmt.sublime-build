@@ -1,4 +1,0 @@
-{
-	"cmd": ["gofmt", "-w", "-s", "."],
-	"working_dir": "${folder}"
-}

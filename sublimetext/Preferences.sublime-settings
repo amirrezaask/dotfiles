@@ -13,5 +13,5 @@
 	"index_files": true,
 	"theme": "Adaptive.sublime-theme",
 	"word_wrap": "true",
-	"color_scheme": "Packages/User/aura-theme.tmTheme",
+	"color_scheme": "Night Owl.sublime-color-scheme",
 }

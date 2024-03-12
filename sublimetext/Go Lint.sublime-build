@@ -1,4 +1,0 @@
-{
-	"cmd": ["golangci-lint ", "run", "./..."],
-	"working_dir": "${folder}",
-}

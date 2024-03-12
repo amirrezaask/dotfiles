@@ -20,8 +20,6 @@ config.use_fancy_tab_bar = false
 config.bidi_enabled = true
 config.tab_bar_at_bottom = true
 
-config.window_background_opacity = 0.93
-
 config.keys = {
   { key = 'j', mods = 'CTRL|SHIFT', action = wezterm.action.ActivateTabRelative(-1) },
   { key = 'k', mods = 'CTRL|SHIFT', action = wezterm.action.ActivateTabRelative(1) },
@@ -53,6 +51,5 @@ wezterm.on(
     }
   end
 )
-
 
 return config
