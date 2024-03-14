@@ -13,5 +13,7 @@
 	"index_files": true,
 	"theme": "Adaptive.sublime-theme",
 	"word_wrap": "true",
-	"color_scheme": "Night Owl.sublime-color-scheme",
+	"color_scheme": "Monokai.sublime-color-scheme",
+	"dark_color_scheme": "Mariana.sublime-color-scheme",
+	"light_color_scheme": "Breakers.sublime-color-scheme",
 }
