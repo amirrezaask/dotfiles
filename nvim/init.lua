@@ -485,6 +485,7 @@ require("lazy").setup({
 			require("telescope").load_extension("ui-select") -- Use telescope for vim.ui.select
 			local builtin = require("telescope.builtin")
 			local no_preview = { previewer = false }
+			local dropdown = require("telescope.themes").get_dropdown
 			local map = function(mode, key, fn, desc)
 				vim.keymap.set(mode, key, fn, { desc = "Telescope: " .. desc })
 			end
@@ -505,10 +506,10 @@ require("lazy").setup({
 			end
 
 			map("n", "<C-p>", function()
-				builtin.git_files({
+				builtin.git_files(dropdown({
 					previewer = false,
 					prompt_title = string.format("Git Files: %s", vim.fn.getcwd()),
-				})
+				}))
 			end, "Git Files")
 
 			map("n", "<leader><CR>", function()
@@ -518,23 +519,23 @@ require("lazy").setup({
 					if proj == "" or proj == nil then
 						return
 					end
-					builtin.find_files({ previewer = false, cwd = proj })
+					builtin.find_files(dropdown({ previewer = false, cwd = proj }))
 				end)
 			end, "Find File in project")
 
 			map("n", "<leader><leader>", function()
-				builtin.find_files({
+				builtin.find_files(dropdown({
 					previewer = false,
 					prompt_title = string.format("Find Files: %s", vim.fn.getcwd()),
-				})
+				}))
 			end, "Fuzzy Find in current buffer project")
 
 			map("n", "<leader>b", function()
-				builtin.buffers({ previewer = false })
+				builtin.buffers(dropdown({ previewer = false }))
 			end, "Buffers")
 
 			map("n", "<leader>/", function()
-				builtin.current_buffer_fuzzy_find({ previewer = false })
+				builtin.current_buffer_fuzzy_find(dropdown({ previewer = false }))
 			end, "Fuzzy find in current buffer")
 
 			map("n", "<leader>.", function()
@@ -542,7 +543,7 @@ require("lazy").setup({
 			end, "Grep current word")
 
 			map("n", "<leader>o", function()
-				builtin.treesitter(no_preview)
+				builtin.treesitter(dropdown(no_preview))
 			end, "Treesitter symbols")
 
 			map("n", "??", function()
@@ -562,7 +563,7 @@ require("lazy").setup({
 			end, "LSP workspace symbols")
 
 			map("n", "<leader>i", function()
-				builtin.find_files({ cwd = vim.fn.stdpath("config") })
+				builtin.find_files(dropdown({ previewer = false, cwd = vim.fn.stdpath("config") }))
 			end, "Neovim Config")
 		end,
 	},
