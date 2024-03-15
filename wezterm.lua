@@ -3,7 +3,6 @@ local config = {}
 
 config.font = wezterm.font_with_fallback({
 	"Hermit",
-	"B Nazanin",
 	"CaskaydiaMono Nerd Font",
 	"JetBrainsMono Nerd Font Mono",
 	"Fira Code",
