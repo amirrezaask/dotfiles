@@ -184,48 +184,48 @@ vim.opt.statusline = "%!v:lua.AmirrezaStatusLine()"
 -- Transparency Control
 -- To control this set NVIM_TRANSPARENT to true in your environment
 TRANSPARENT = os.getenv("NVIM_TRANSPARENT") == "true"
-
-local font_family = ""
-local font_size = 15
-vim.g.neovide_scroll_animation_length = 0.10
-vim.g.neovide_cursor_animation_length = 0.03
-vim.g.neovide_cursor_vfx_mode = ""
-
-function Font(font, size)
-	font_family = font
-	font_size = size
-	vim.opt.guifont = string.format("%s:h%d", font, size)
-end
-
-function FontSizeInc()
-	font_size = 1 + font_size
-	Font(font_family, font_size)
-end
-
-function FontSizeDec()
-	font_size = font_size - 1
-	Font(font_family, font_size)
-end
-
-function FontSize(size)
-	font_size = size
-	Font(font_family, font_size)
-end
-
-vim.api.nvim_create_user_command("FontSize", function(opts)
-	FontSize(tonumber(opts.fargs[1]))
-end, { nargs = 1 })
-
-vim.api.nvim_create_user_command("Font", function(opts)
-	local splitted = vim.split(opts.args, ":")
-	if #splitted < 2 then
-		error("Font command input should be in [FontName]:[FontSize] format")
-	end
-	Font(splitted[1], splitted[2])
-end, { nargs = "*" })
-
-Font("JetBrainsMono Nerd Font Mono", 16)
-
+--
+-- local font_family = ""
+-- local font_size = 15
+-- vim.g.neovide_scroll_animation_length = 0.10
+-- vim.g.neovide_cursor_animation_length = 0.03
+-- vim.g.neovide_cursor_vfx_mode = ""
+--
+-- function Font(font, size)
+-- 	font_family = font
+-- 	font_size = size
+-- 	vim.opt.guifont = string.format("%s:h%d", font, size)
+-- end
+--
+-- function FontSizeInc()
+-- 	font_size = 1 + font_size
+-- 	Font(font_family, font_size)
+-- end
+--
+-- function FontSizeDec()
+-- 	font_size = font_size - 1
+-- 	Font(font_family, font_size)
+-- end
+--
+-- function FontSize(size)
+-- 	font_size = size
+-- 	Font(font_family, font_size)
+-- end
+--
+-- vim.api.nvim_create_user_command("FontSize", function(opts)
+-- 	FontSize(tonumber(opts.fargs[1]))
+-- end, { nargs = 1 })
+--
+-- vim.api.nvim_create_user_command("Font", function(opts)
+-- 	local splitted = vim.split(opts.args, ":")
+-- 	if #splitted < 2 then
+-- 		error("Font command input should be in [FontName]:[FontSize] format")
+-- 	end
+-- 	Font(splitted[1], splitted[2])
+-- end, { nargs = "*" })
+--
+-- Font("JetBrainsMono Nerd Font Mono", 16)
+--
 -- Lazy package manager
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -603,6 +603,15 @@ vim.api.nvim_create_autocmd("BufEnter", {
 	end,
 	group = notebook_augroup,
 })
+if IS_WINDOWS then
+	vim.keymap.set("n", "<leader>n", function()
+		require("telescope.builtin").find_files({ cwd = "C:\\w\\notebook" })
+	end, { desc = "Find Note" })
+else
+	vim.keymap.set("n", "<leader>n", function()
+		require("telescope.builtin").find_files({ cwd = "~/w/notebook" })
+	end, { desc = "Find Note" })
+end
 
 -- Set the colorscheme
 vim.cmd.colorscheme("tokyonight")
