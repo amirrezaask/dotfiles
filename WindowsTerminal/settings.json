@@ -31,7 +31,12 @@
             "keys": "ctrl+shift+k"
         },
         {
-            "command": { "action": "newWindow", "profile": "PowerShell" }, "keys" : "ctrl+shift+enter"
+            "command": 
+            {
+                "action": "newWindow",
+                "profile": "PowerShell"
+            },
+            "keys": "ctrl+shift+enter"
         }
     ],
     "alwaysShowTabs": true,
@@ -73,7 +78,7 @@
             "cursorShape": "filledBox",
             "font": 
             {
-                "face": "Comic Mono"
+                "face": "CaskaydiaMono Nerd Font Mono"
             },
             "opacity": 100,
             "padding": "0",
