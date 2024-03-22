@@ -454,6 +454,9 @@
 
 (add-hook 'go-mode-hook 'amirreza/go-hook)
 
+;; Rust
+(install 'rust-mode)
+
 ;; C/C++
 (setq-default c-default-style "linux" c-basic-offset 4) ;; C/C++ code style
 

@@ -6,6 +6,7 @@
 	[
 		"LSP",
 		"LSP-gopls",
+		"LSP-rust-analyzer",
 		"Odin",
 		"Package Control",
 	],
