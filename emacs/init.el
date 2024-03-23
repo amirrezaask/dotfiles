@@ -455,6 +455,7 @@
 (add-hook 'go-mode-hook 'amirreza/go-hook)
 
 ;; Rust
+;; $ rustup component add rust-analyzer
 (install 'rust-mode)
 
 ;; C/C++
@@ -500,6 +501,7 @@
 					  ))
 (setq eglot-stay-out-of '(flymake project))
 (add-hook 'go-mode-hook #'eglot-ensure)
+(add-hook 'rust-mode-hook #'eglot-ensure)
 
 
 
