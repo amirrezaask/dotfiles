@@ -43,8 +43,8 @@ function reload {
     . $PROFILE
 }
 
-function Invoke-Starship-PreCommand {
-  $host.ui.RawUI.WindowTitle = "$pwd"
-}
+# function Invoke-Starship-PreCommand {
+#   $host.ui.RawUI.WindowTitle = "$pwd"
+# }
 
-Invoke-Expression (&starship init powershell)
+# Invoke-Expression (&starship init powershell)
