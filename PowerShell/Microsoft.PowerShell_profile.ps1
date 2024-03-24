@@ -43,8 +43,6 @@ function reload {
     . $PROFILE
 }
 
-# function Invoke-Starship-PreCommand {
-#   $host.ui.RawUI.WindowTitle = "$pwd"
-# }
-
-# Invoke-Expression (&starship init powershell)
+function prompt {
+    "$(Get-Date -Format "yyyy/MM/dd-HH:mm")-$(Get-Location)> "
+}
