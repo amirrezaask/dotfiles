@@ -80,11 +80,11 @@
             {
                 "face": "Fira Code"
             },
-            "opacity": 80,
+            "opacity": 100,
             "padding": "0",
             "scrollbarState": "hidden",
             "startingDirectory": "C:\\w",
-            "useAcrylic": true
+            "useAcrylic": false
         },
         "list": 
         [
