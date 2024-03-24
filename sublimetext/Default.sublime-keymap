@@ -1,6 +1,8 @@
 [
     { "keys": ["primary+shift+o"], "command": "prompt_open_folder" },
-    { "keys": ["ctrl+enter"], "command": "save",         "args": { "async": "true" } },
+    { "keys": ["ctrl+enter"],      "command": "save",         "args": { "async": "true" } },
+    { "keys": ["ctrl+`"],          "command": "toggle_terminus_panel" },
+
 
     // LSP related Keys...
     { "keys": ["primary+,"], "command": "jump_back"},

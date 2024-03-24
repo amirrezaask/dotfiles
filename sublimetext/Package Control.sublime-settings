@@ -9,6 +9,7 @@
 		"LSP-rust-analyzer",
 		"Odin",
 		"Package Control",
+		"Terminus",
 	],
 	"bootstrapped": true,
 }
