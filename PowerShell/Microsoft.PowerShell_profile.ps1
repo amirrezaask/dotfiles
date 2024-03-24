@@ -44,5 +44,5 @@ function reload {
 }
 
 function prompt {
-    "$(Get-Date -Format "yyyy/MM/dd-HH:mm")-$(Get-Location)> "
+    "$(Get-Location)> "
 }
