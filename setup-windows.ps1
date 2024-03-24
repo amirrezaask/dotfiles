@@ -48,6 +48,7 @@ winget install -e --accept-package-agreements --accept-source-agreements --id="G
 Remove-Item -Force -Recurse $HOME\Documents\PowerShell
 Remove-Item -Force -Recurse $Env:APPDATA\.emacs.d
 Remove-Item -Force -Recurse $Env:LOCALAPPDATA\nvim
+
 New-Item -Type SymbolicLink $HOME\Documents\PowerShell -Value C:\w\dotfiles\PowerShell\
 New-Item -Type SymbolicLink $Env:APPDATA\.emacs.d -Value C:\w\dotfiles\emacs\
 New-Item -Type SymbolicLink '$Env:APPDATA\Sublime Text\Packages\User' -Value C:\w\dotfiles\sublimetext\
