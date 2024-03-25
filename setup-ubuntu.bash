@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-# apt update && apt upgrade
+apt update && apt upgrade
 
 # Installing VSCode
 sudo apt-get install wget gpg
@@ -34,6 +34,6 @@ git clone --depth 1 git@github.com:neovim/neovim $HOME/w/neovim
 
 cd $HOME/w/neovim && make -j8 CMAKE_BUILD_TYPE=Release && sudo make install
 
-# sh -c "$(wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"
+sh -c "$(wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"
 rm -rf $HOME/.zshrc
 ln -s $HOME/w/dotfiles/zshrc $HOME/.zshrc
