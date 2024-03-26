@@ -23,10 +23,12 @@ config.use_fancy_tab_bar = false
 config.tab_bar_at_bottom = true
 
 config.keys = {
-	{ key = "j", mods = "CTRL|SHIFT", action = wezterm.action.ActivateTabRelative(-1) },
-	{ key = "k", mods = "CTRL|SHIFT", action = wezterm.action.ActivateTabRelative(1) },
-	{ key = "(", mods = "CTRL|SHIFT", action = wezterm.action.MoveTabRelative(-1) },
-	{ key = ")", mods = "CTRL|SHIFT", action = wezterm.action.MoveTabRelative(1) },
+	{ key = "j",          mods = "CTRL|SHIFT", action = wezterm.action.ActivateTabRelative(-1) },
+	{ key = "k",          mods = "CTRL|SHIFT", action = wezterm.action.ActivateTabRelative(1) },
+	{ key = "LeftArrow",  mods = "CTRL|SHIFT", action = wezterm.action.ActivateTabRelative(-1) },
+	{ key = "RightArrow", mods = "CTRL|SHIFT", action = wezterm.action.ActivateTabRelative(1) },
+	{ key = "(",          mods = "CTRL|SHIFT", action = wezterm.action.MoveTabRelative(-1) },
+	{ key = ")",          mods = "CTRL|SHIFT", action = wezterm.action.MoveTabRelative(1) },
 }
 
 config.adjust_window_size_when_changing_font_size = false
