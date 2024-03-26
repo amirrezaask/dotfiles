@@ -2,9 +2,9 @@ local wezterm = require("wezterm")
 local config = {}
 
 config.font = wezterm.font_with_fallback({
+	"Jetbrains Mono",
 	"Comic Mono",
 	"Hermit",
-	"JetBrainsMono Nerd Font Mono",
 	"CaskaydiaMono Nerd Font",
 	"Fira Code",
 	"Consolas",
