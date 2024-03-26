@@ -41,13 +41,8 @@ end
 config.tab_max_width = 20
 
 wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
-	local path = tab.active_pane.current_working_dir.file_path
-	local title = path:gsub("^([\\/])", "")
-	title = title:gsub("C:/Users/amirreza", "~")
-	title = title:gsub("C:/w", "w")
-	title = string.format("%d: %s", tab.tab_index, title)
 	return {
-		{ Text = title },
+		{ Text = " " .. tab.tab_index .. ": wezterm " },
 	}
 end)
 
