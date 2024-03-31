@@ -1,7 +1,7 @@
 {
 	"auto_complete": true,
 	"font_face": "JetBrains Mono",
-	"font_size": 15,
+	"font_size": 19,
 	"hardware_acceleration": "opengl",
 	"highlight_line": true,
 	"hot_exit": "disabled",
@@ -13,7 +13,7 @@
 	"index_files": true,
 	"theme": "Adaptive.sublime-theme",
 	"word_wrap": "true",
-	"color_scheme": "Mariana.sublime-color-scheme",
+	"color_scheme": "Monokai.sublime-color-scheme",
 	"dark_color_scheme": "Mariana.sublime-color-scheme",
 	"light_color_scheme": "Breakers.sublime-color-scheme",
 }
