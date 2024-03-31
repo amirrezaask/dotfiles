@@ -2,9 +2,9 @@ local wezterm = require("wezterm")
 local config = {}
 
 config.font = wezterm.font_with_fallback({
+	"Jetbrains Mono",
 	"Comic Mono",
 	"Hermit",
-	"JetBrainsMono Nerd Font Mono",
 	"CaskaydiaMono Nerd Font",
 	"Fira Code",
 	"Consolas",
@@ -23,10 +23,12 @@ config.use_fancy_tab_bar = false
 config.tab_bar_at_bottom = true
 
 config.keys = {
-	{ key = "j", mods = "CTRL|SHIFT", action = wezterm.action.ActivateTabRelative(-1) },
-	{ key = "k", mods = "CTRL|SHIFT", action = wezterm.action.ActivateTabRelative(1) },
-	{ key = "(", mods = "CTRL|SHIFT", action = wezterm.action.MoveTabRelative(-1) },
-	{ key = ")", mods = "CTRL|SHIFT", action = wezterm.action.MoveTabRelative(1) },
+	{ key = "j",          mods = "CTRL|SHIFT", action = wezterm.action.ActivateTabRelative(-1) },
+	{ key = "k",          mods = "CTRL|SHIFT", action = wezterm.action.ActivateTabRelative(1) },
+	{ key = "LeftArrow",  mods = "CTRL|SHIFT", action = wezterm.action.ActivateTabRelative(-1) },
+	{ key = "RightArrow", mods = "CTRL|SHIFT", action = wezterm.action.ActivateTabRelative(1) },
+	{ key = "(",          mods = "CTRL|SHIFT", action = wezterm.action.MoveTabRelative(-1) },
+	{ key = ")",          mods = "CTRL|SHIFT", action = wezterm.action.MoveTabRelative(1) },
 }
 
 config.adjust_window_size_when_changing_font_size = false
@@ -41,13 +43,8 @@ end
 config.tab_max_width = 20
 
 wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
-	local path = tab.active_pane.current_working_dir.file_path
-	local title = path:gsub("^([\\/])", "")
-	title = title:gsub("C:/Users/amirreza", "~")
-	title = title:gsub("C:/w", "w")
-	title = string.format("%d: %s", tab.tab_index, title)
 	return {
-		{ Text = title },
+		{ Text = " " .. tab.tab_index .. ": wezterm " },
 	}
 end)
 
