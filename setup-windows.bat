@@ -1,5 +1,4 @@
 winget install -e --accept-package-agreements --accept-source-agreements --id="Brave.Brave"
-winget install -e --accept-package-agreements --accept-source-agreements --id="wez.wezterm"
 winget install -e --accept-package-agreements --accept-source-agreements --id="Canonical.Ubuntu.2204"
 winget install -e --accept-package-agreements --accept-source-agreements --id="Discord.Discord"
 winget install -e --accept-package-agreements --accept-source-agreements --id="Docker.DockerDesktop"
@@ -20,7 +19,6 @@ winget install -e --accept-package-agreements --accept-source-agreements --id="M
 winget install -e --accept-package-agreements --accept-source-agreements --id="Microsoft.PowerShell.Preview"
 winget install -e --accept-package-agreements --accept-source-agreements --id="Microsoft.VCRedist.2005.x86"
 winget install -e --accept-package-agreements --accept-source-agreements --id="Microsoft.VisualStudioCode"
-winget install -e --accept-package-agreements --accept-source-agreements --id="Starship.Starship"
 winget install -e --accept-package-agreements --accept-source-agreements --id="Microsoft.VCRedist.2008.x86"
 winget install -e --accept-package-agreements --accept-source-agreements --id="GoLang.Go"
 winget install -e --accept-package-agreements --accept-source-agreements --id="Microsoft.PowerShell"
