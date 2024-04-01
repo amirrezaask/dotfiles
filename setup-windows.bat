@@ -24,3 +24,4 @@ winget install -e --accept-package-agreements --accept-source-agreements --id="G
 winget install -e --accept-package-agreements --accept-source-agreements --id="Microsoft.PowerShell"
 winget install -e --accept-package-agreements --accept-source-agreements --id="Fortinet.FortiClientVPN"
 winget install -e --accept-package-agreements --accept-source-agreements --id="Microsoft.VCRedist.2010.x86"
+winget install -e --accept-package-agreements --accept-source-agreements --id="Microsoft.VisualStudioCode"
