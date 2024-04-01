@@ -1,5 +1,3 @@
-echo "You should run this in Administrator powershell."
-
 winget install -e --accept-package-agreements --accept-source-agreements --id="Brave.Brave"
 winget install -e --accept-package-agreements --accept-source-agreements --id="wez.wezterm"
 winget install -e --accept-package-agreements --accept-source-agreements --id="Canonical.Ubuntu.2204"
