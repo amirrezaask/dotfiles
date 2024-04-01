@@ -1,7 +1,5 @@
 winget install -e --accept-package-agreements --accept-source-agreements --id="Brave.Brave"
-winget install -e --accept-package-agreements --accept-source-agreements --id="Canonical.Ubuntu.2204"
 winget install -e --accept-package-agreements --accept-source-agreements --id="Discord.Discord"
-winget install -e --accept-package-agreements --accept-source-agreements --id="Docker.DockerDesktop"
 winget install -e --accept-package-agreements --accept-source-agreements --id="Git.Git"
 winget install -e --accept-package-agreements --accept-source-agreements --id="Google.Chrome"
 winget install -e --accept-package-agreements --accept-source-agreements --id="Tonec.InternetDownloadManager"
@@ -25,3 +23,5 @@ winget install -e --accept-package-agreements --accept-source-agreements --id="M
 winget install -e --accept-package-agreements --accept-source-agreements --id="Fortinet.FortiClientVPN"
 winget install -e --accept-package-agreements --accept-source-agreements --id="Microsoft.VCRedist.2010.x86"
 winget install -e --accept-package-agreements --accept-source-agreements --id="Microsoft.VisualStudioCode"
+winget install -e --accept-package-agreements --accept-source-agreements --id="Canonical.Ubuntu.2204"
+winget install -e --accept-package-agreements --accept-source-agreements --id="Docker.DockerDesktop"
