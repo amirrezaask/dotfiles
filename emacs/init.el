@@ -152,7 +152,7 @@
   (interactive)
   (text-scale-decrease 1))
 
-(amirreza/set-font "Jetbrains Mono" 15)
+;; (amirreza/set-font "" 15)
 
 (global-set-key (kbd "C-=")  'amirreza/text-scale-increase)
 (global-set-key (kbd "C--")  'amirreza/text-scale-decrease)
@@ -282,9 +282,9 @@
 ;;  `(highlight                        ((t (:foreground nil     :background "cyan")))))
 
 ;; Minibuffer
-(with-eval-after-load 'minibuffer
-  (define-key minibuffer-mode-map (kbd "C-n") 'minibuffer-next-completion)
-  (define-key minibuffer-mode-map (kbd "C-p") 'minibuffer-previous-completion))
+;; (with-eval-after-load 'minibuffer
+;;   (define-key minibuffer-mode-map (kbd "C-n") 'minibuffer-next-completion)
+;;   (define-key minibuffer-mode-map (kbd "C-p") 'minibuffer-previous-completion))
 
 ;; Dumb way to find things
 (install 'dumb-jump "Poor's man Jump to def/dec/ref. (using grep)")
