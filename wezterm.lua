@@ -1,15 +1,6 @@
 local wezterm = require("wezterm")
 local config = {}
 
-config.font = wezterm.font_with_fallback({
-	"Jetbrains Mono",
-	"Comic Mono",
-	"Hermit",
-	"CaskaydiaMono Nerd Font",
-	"Fira Code",
-	"Consolas",
-	"Ubuntu Mono",
-})
 config.font_size = 16
 
 config.window_padding = {
