@@ -26,3 +26,4 @@ alias svpn="sudo openfortivpn -c $HOME/snappdc.conf"
 alias vim='nvim'
 [ -f "$HOME/cargo/env" ] && . "$HOME/.cargo/env"
 
+export PATH="/home/amirreza/jetbrains/DataGrip-2024.1.2/bin:$PATH"
