@@ -1,101 +1,183 @@
 {
-    // Font
-    "editor.fontFamily": "Comic Mono, Jetbrains Mono, Fira Code",
-    "terminal.integrated.fontFamily": "Jetbrains Mono",
-    "editor.fontWeight": "normal",
-    "editor.fontSize": 14,
-    "window.titleBarStyle": "custom",
-    "window.dialogStyle": "custom",
-    // Cursor
-    "editor.cursorStyle": "line",
-    "editor.cursorWidth": 5,
-    "window.title": "${dirty} ${rootPath}",
-    "editor.stickyScroll.enabled": false,
-    "workbench.statusBar.visible": true,
-    "workbench.settings.editor": "json",
-    "editor.minimap.enabled": false,
-    "workbench.editor.showTabs": "single",
-    "editor.bracketPairColorization.enabled": false,
-    "workbench.activityBar.location": "hidden",
-    "breadcrumbs.enabled": false,
-    "editor.renderWhitespace": "",
-    "workbench.layoutControl.enabled": false,
-    "workbench.editor.editorActionsLocation": "hidden",
-    "window.commandCenter": false,
-    "workbench.editor.enablePreview": false,
-    "extensions.ignoreRecommendations": true,
-    "workbench.startupEditor": "newUntitledFile",
-    "window.density.editorTabHeight": "compact",
-    "window.menuBarVisibility": "toggle",
-    "editor.renderLineHighlight": "none",
-    "window.restoreWindows": "none", // do not reopen everything when I launch.
-    // MISC
-    "editor.mouseWheelZoom": true,
-    "security.workspace.trust.untrustedFiles": "open",
-    "editor.wordWrap": "on",
-    "editor.unicodeHighlight.ambiguousCharacters": false,
-    "security.workspace.trust.enabled": false,
-    // Golang
-    "[go]": {
-      "editor.formatOnSave": true
+  // Font
+  "editor.fontFamily": "Cascadia Code",
+  "editor.fontWeight": "normal",
+  "editor.fontSize": 14,
+  "window.titleBarStyle": "custom",
+  "window.dialogStyle": "custom",
+  // Cursor
+  "editor.cursorStyle": "line",
+  "window.title": "${dirty} ${rootPath}",
+  "editor.stickyScroll.enabled": false,
+  "workbench.statusBar.visible": true,
+  "workbench.settings.editor": "json",
+  "editor.minimap.enabled": false,
+  "workbench.editor.showTabs": "none",
+  "editor.bracketPairColorization.enabled": false,
+  "breadcrumbs.enabled": false,
+  "editor.renderWhitespace": "all",
+  "workbench.layoutControl.enabled": false,
+  "workbench.editor.editorActionsLocation": "hidden",
+  "window.commandCenter": false,
+  "workbench.editor.enablePreview": false,
+  "extensions.ignoreRecommendations": true,
+  "workbench.startupEditor": "newUntitledFile",
+  "window.density.editorTabHeight": "compact",
+  "window.menuBarVisibility": "toggle",
+  "editor.renderLineHighlight": "none",
+  "window.restoreWindows": "none", // do not reopen everything when I launch.
+  // MISC
+  "editor.mouseWheelZoom": true,
+  "security.workspace.trust.untrustedFiles": "open",
+  "editor.wordWrap": "on",
+  "editor.unicodeHighlight.ambiguousCharacters": false,
+  "security.workspace.trust.enabled": false,
+  // Golang
+  "[go]": {
+    "editor.formatOnSave": true
+  },
+  // "go.lintTool": "golangci-lint",
+  // "go.lintFlags": [
+  //   "--fast"
+  // ],
+  "go.addTags": {
+    "options": ""
+  },
+  "go.toolsManagement.autoUpdate": true,
+  "gitProjectManager.baseProjectsFolders": [
+    "~/w",
+    "C:\\w\\"
+  ],
+  // Rust
+  "[rust]": {
+    "editor.formatOnSave": true
+  },
+  "rust-analyzer.inlayHints.parameterHints.enable": false,
+  "rust-analyzer.inlayHints.typeHints.enable": false,
+  "rust-analyzer.inlayHints.typeHints.hideClosureInitialization": false,
+  "rust-analyzer.inlayHints.typeHints.hideNamedConstructor": false,
+  "rust-analyzer.inlayHints.lifetimeElisionHints.useParameterNames": false,
+  "rust-analyzer.inlayHints.reborrowHints.enable": "never",
+  "rust-analyzer.inlayHints.chainingHints.enable": false,
+  "rust-analyzer.inlayHints.bindingModeHints.enable": false,
+  "rust-analyzer.inlayHints.renderColons": false,
+  "rust-analyzer.inlayHints.lifetimeElisionHints.enable": "never",
+  "rust-analyzer.inlayHints.closingBraceHints.enable": false,
+  "rust-analyzer.inlayHints.closureReturnTypeHints.enable": "never",
+  "rust-analyzer.inlayHints.closingBraceHints.minLines": 0,
+  "rust-analyzer.completion.callable.snippets": "none",
+  "rust-analyzer.semanticHighlighting.doc.comment.inject.enable": false,
+  // Vim
+  "vim.leader": "<space>",
+  "vim.handleKeys": {
+    "<C-a>": false,
+    "<C-f>": false
+  },
+  "vim.useSystemClipboard": true,
+  "vim.insertModeKeyBindingsNonRecursive": [
+    {
+      "before": [
+        "j",
+        "k"
+      ],
+      "after": [
+        "<esc>"
+      ]
     },
-    "go.lintTool": "golangci-lint",
-    "go.lintFlags": [
-      "--fast"
-    ],
-    "go.addTags": {
-      "options": ""
+    {
+      "before": [
+        "k",
+        "j"
+      ],
+      "after": [
+        "<esc>"
+      ]
     },
-    "go.toolsManagement.autoUpdate": true,
-  
-    "gitProjectManager.baseProjectsFolders": [ "~/w", "C:\\w\\"],
-  
-    // Rust
-    "[rust]": {
-      "editor.formatOnSave": true
+  ],
+  "vim.normalModeKeyBindingsNonRecursive": [
+    {
+      "before": [
+        "<C-d>"
+      ],
+      "after": [
+        "<C-d>",
+        "z",
+        "z"
+      ]
     },
-    "rust-analyzer.inlayHints.parameterHints.enable": false,
-    "rust-analyzer.inlayHints.typeHints.enable": false,
-    "rust-analyzer.inlayHints.typeHints.hideClosureInitialization": false,
-    "rust-analyzer.inlayHints.typeHints.hideNamedConstructor": false,
-    "rust-analyzer.inlayHints.lifetimeElisionHints.useParameterNames": false,
-    "rust-analyzer.inlayHints.reborrowHints.enable": "never",
-    "rust-analyzer.inlayHints.chainingHints.enable": false,
-    "rust-analyzer.inlayHints.bindingModeHints.enable": false,
-    "rust-analyzer.inlayHints.renderColons": false,
-    "rust-analyzer.inlayHints.lifetimeElisionHints.enable": "never",
-    "rust-analyzer.inlayHints.closingBraceHints.enable": false,
-    "rust-analyzer.inlayHints.closureReturnTypeHints.enable": "never",
-    "rust-analyzer.inlayHints.closingBraceHints.minLines": 0,
-    "rust-analyzer.completion.callable.snippets": "none",
-    "rust-analyzer.semanticHighlighting.doc.comment.inject.enable": false,
-  
-    // Vim
-    "vim.leader": "<space>",
-    "vim.useSystemClipboard": true,
-    "vim.insertModeKeyBindings": [
-      {
-        "before": ["j", "k"],
-        "after": [ "<esc>" ]
-      },
-      {
-        "before": ["k", "j"],
-        "after": [ "<esc>" ]
-      },
-    ],
-  
-    "vim.normalModeKeyBindings": [
-      {
-        "before": [ "<leader>", "j" ],
-        "commands": ["workbench.action.terminal.focus"]
-      },
-      {
-        "before": [ "<leader>", "<leader>" ],
-        "commands": ["workbench.action.quickOpen"]
-      },
-      {
-        "before": ["K"],
-        "commands": [ "editor.action.showHover"]
-      }
-    ],
-  }
+    {
+      "before": [
+        "<C-u>"
+      ],
+      "after": [
+        "<C-u>",
+        "z",
+        "z"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "n"
+      ],
+      "commands": [
+        "editor.action.marker.next"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "p"
+      ],
+      "commands": [
+        "editor.action.marker.previous"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "r"
+      ],
+      "commands": [
+        "editor.action.rename"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "j"
+      ],
+      "commands": [
+        "workbench.action.terminal.focus"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "<leader>"
+      ],
+      "commands": [
+        "workbench.action.quickOpen"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "k"
+      ],
+      "commands": [
+        "workbench.action.toggleSidebarVisibility"
+      ]
+    },
+    {
+      "before": [
+        "K"
+      ],
+      "commands": [
+        "editor.action.showHover"
+      ]
+    }
+  ],
+  "workbench.activityBar.location": "top",
+  "window.customTitleBarVisibility": "auto",
+}

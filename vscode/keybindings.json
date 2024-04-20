@@ -1,26 +1,26 @@
 [
-    // Font & Zoom
-    { "key": "ctrl+=", "command": "editor.action.fontZoomIn" },
-    { "key": "ctrl+-", "command": "editor.action.fontZoomOut" },
-
-    { "key": "ctrl+shift+=", "command": "workbench.action.zoomIn" },
-    { "key": "ctrl+shift+-", "command": "workbench.action.zoomOut" },
-
-    // Editing
-    { "key": "ctrl+r", "command": "editor.action.startFindReplaceAction"},
-
-    // LSP
-    { "key": "ctrl+.",        "command": "editor.action.revealDefinition" },
-    { "key": "shift+ctrl+.",  "command": "editor.action.goToReferences" },
-    { "key": "alt+ctrl+.",    "command": "editor.action.goToImplementation" },
-    { "key": "ctrl+,",        "command": "workbench.action.navigateBack", "when": "canNavigateBack" },
-    { "key": "alt+enter",     "command": "editor.action.quickFix" },
-    { "key": "ctrl+h",        "command": "editor.action.showHover" },
-    { "key": "ctrl+l",        "command": "editor.action.triggerParameterHints" },
-   
-    // Consistent Ctrl+n/Ctrl+p experience.
-    { "key": "ctrl+n",       "command": "workbench.action.quickOpenSelectNext",     "when": "inQuickOpen" },
-    { "key": "ctrl+p",       "command": "workbench.action.quickOpenSelectPrevious", "when": "inQuickOpen" },
-    { "key": "ctrl+n",       "command": "selectNextSuggestion",                     "when": "suggestWidgetMultipleSuggestions && suggestWidgetVisible && textInputFocus || suggestWidgetVisible && textInputFocus && !suggestWidgetHasFocusedSuggestion" },
-    { "key": "ctrl+p",       "command": "selectPrevSuggestion",                     "when": "suggestWidgetMultipleSuggestions && suggestWidgetVisible && textInputFocus || suggestWidgetVisible && textInputFocus && !suggestWidgetHasFocusedSuggestion" },
-]
+    { "key": "ctrl+=", "command": "editor.action.fontZoomIn" }, // zoom in editor
+    { "key": "ctrl+-", "command": "editor.action.fontZoomOut" }, // zoom out editor
+    { "key": "ctrl+shift+=", "command": "workbench.action.zoomIn" }, // zoom in whole view
+    { "key": "ctrl+shift+-", "command": "workbench.action.zoomOut" }, // zoom out whole view
+    
+    { "key": "ctrl+shift+0", "command": "workbench.action.zoomReset" }, // reset whole view
+    { "key": "ctrl+0", "command": "workbench.action.toggleSidebarVisibility" },
+    
+    { "key": "ctrl+1", "command": "workbench.files.action.focusFilesExplorer" }, // File explorer
+    { "key": "ctrl+1", "command": "workbench.action.toggleSidebarVisibility", "when": "explorerViewletVisible" }, // File explorer
+    
+    { "key": "ctrl+n", "command": "selectNextSuggestion", "when": "suggestWidgetMultipleSuggestions && suggestWidgetVisible && textInputFocus || suggestWidgetVisible && textInputFocus && !suggestWidgetHasFocusedSuggestion" },
+    { "key": "ctrl+p", "command": "selectPrevSuggestion", "when": "suggestWidgetMultipleSuggestions && suggestWidgetVisible && textInputFocus || suggestWidgetVisible && textInputFocus && !suggestWidgetHasFocusedSuggestion" },
+    { "key": "ctrl+n","command": "workbench.action.quickOpenSelectNext", "when": "inQuickOpen" },
+    { "key": "ctrl+p", "command": "workbench.action.quickOpenSelectPrevious", "when": "inQuickOpen" },
+    { "key": "ctrl+shift+w", "command": "workbench.action.closeEditorsAndGroup" },
+    
+    { "key": "ctrl+.",          "command": "editor.action.revealDefinition", "when": "editorHasDefinitionProvider && editorTextFocus"},
+    { "key": "ctrl+,",          "command": "workbench.action.navigateBack"},
+    { "key": "ctrl+shift+r",    "command": "editor.action.goToReferences" },
+    { "key": "ctrl+shift+i",    "command": "editor.action.goToImplementation" },
+  
+    { "key": "ctrl+;",          "command": "workbench.action.terminal.toggleTerminal"}
+    
+  ]
