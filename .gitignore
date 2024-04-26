@@ -15,4 +15,5 @@ emacs/eshell
 emacs/projects
 PowerShell/Scripts
 PowerShell/Modules
+nvim/lazy-lock.json
 
