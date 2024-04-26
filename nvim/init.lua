@@ -240,7 +240,7 @@ require("lazy").setup({
             })
         end,
     },
-    { "blazkowolf/gruber-darker.nvim" },
+
     -- Show git changed signs next to line numbers.
     {
         "lewis6991/gitsigns.nvim",
@@ -254,7 +254,7 @@ require("lazy").setup({
             },
         },
     },
-
+    -- Terminal Emulator inside neovim inside terminal :))
     {
         'akinsho/toggleterm.nvim',
         version = "*",
@@ -292,8 +292,6 @@ require("lazy").setup({
         },
         config = function()
             local cmp_select = { behavior = require("cmp").SelectBehavior.Select }
-            local capabilities = vim.lsp.protocol.make_client_capabilities()
-            capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
             local cmp = require("cmp")
             cmp.setup({
                 preselect = require("cmp.types").cmp.PreselectMode.None,
@@ -311,7 +309,6 @@ require("lazy").setup({
                     ["<C-n>"] = cmp.mapping.select_next_item(cmp_select),
                     ["<C-y>"] = cmp.mapping.confirm({ select = true }),
                     ["<C-Space>"] = cmp.mapping.complete(),
-                    -- ["<CR>"] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
                 }),
                 sources = {
                     { name = "nvim_lsp" },
@@ -321,6 +318,7 @@ require("lazy").setup({
             })
         end,
     },
+
     { -- Autoformat
         "stevearc/conform.nvim",
         opts = {
@@ -335,6 +333,7 @@ require("lazy").setup({
             },
         },
     },
+
     { -- Fuzzy finder
         "nvim-telescope/telescope.nvim",
         dependencies = {
@@ -409,7 +408,9 @@ require("lazy").setup({
 
             map("n", "<leader>fw", function()
                 vim.ui.input({ prompt = "Grep> " }, function(s)
-                    builtin.grep_string({ search = s, previewer = false, layout_config = { height = 0.7, width = 0.9 } })
+                    if s ~= "" then
+                        builtin.grep_string({ search = s, previewer = false, layout_config = { height = 0.7, width = 0.9 } })
+                    end
                 end)
             end, "Grep Word")
 
@@ -439,6 +440,7 @@ require("lazy").setup({
             end, "Neovim Config")
         end,
     },
+
     { -- Language server protocol client (LSP)
         "neovim/nvim-lspconfig",
         dependencies = {
