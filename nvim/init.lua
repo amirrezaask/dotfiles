@@ -237,8 +237,12 @@ require("lazy").setup({
             })
         end,
     },
+    { "blazkowolf/gruber-darker.nvim" },
+    { "gbprod/nord.nvim" },
+    { 'ishan9299/nvim-solarized-lua' },
+    { 'rockerBOO/boo-colorscheme-nvim' },
     { "NTBBloodbath/sweetie.nvim" },
-    { "catppuccin/nvim",          name = "catppucin" },
+    { "catppuccin/nvim",               name = "catppucin" },
     {
         "rose-pine/nvim",
         name = "rose-pine",
@@ -598,4 +602,4 @@ vim.api.nvim_create_autocmd("BufEnter", {
     group = augroup,
 })
 
-vim.cmd.colorscheme("gruvbox")
+vim.cmd.colorscheme("gruber-darker")
