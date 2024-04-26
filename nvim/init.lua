@@ -227,6 +227,9 @@ require("lazy").setup({
         config = function()
             require("gruvbox").setup({
                 contrast = "hard",
+                overrides = {
+                    Comment = { fg = "#2ea542" }
+                },
                 italic = {
                     strings = false,
                     emphasis = false,
@@ -238,18 +241,6 @@ require("lazy").setup({
         end,
     },
     { "blazkowolf/gruber-darker.nvim" },
-    { "gbprod/nord.nvim" },
-    { 'ishan9299/nvim-solarized-lua' },
-    { 'rockerBOO/boo-colorscheme-nvim' },
-    { "NTBBloodbath/sweetie.nvim" },
-    { "catppuccin/nvim",               name = "catppucin" },
-    {
-        "rose-pine/nvim",
-        name = "rose-pine",
-        opts = {
-            disable_italics = true,
-        }
-    },
     -- Show git changed signs next to line numbers.
     {
         "lewis6991/gitsigns.nvim",
@@ -602,4 +593,4 @@ vim.api.nvim_create_autocmd("BufEnter", {
     group = augroup,
 })
 
-vim.cmd.colorscheme("gruber-darker")
+vim.cmd.colorscheme("gruvbox")
