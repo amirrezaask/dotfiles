@@ -26,17 +26,6 @@ config.adjust_window_size_when_changing_font_size = false
 
 config.hide_tab_bar_if_only_one_tab = true
 
-if wezterm.target_triple == "x86_64-pc-windows-msvc" then -- if windows
-	config.default_prog = { [[C:\Program Files\PowerShell\7\pwsh.exe]] }
-	config.default_cwd = "C:\\w"
-end
-
 config.tab_max_width = 20
-
-wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
-	return {
-		{ Text = " " .. tab.tab_index .. ": wezterm " },
-	}
-end)
 
 return config

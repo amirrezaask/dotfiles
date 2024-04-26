@@ -556,11 +556,10 @@ require("lazy").setup({
     { -- Treesitter, see :help treesitter
         "nvim-treesitter/nvim-treesitter",
         build = ":TSUpdate",
-        branch = 'main',
         config = function()
-            require 'nvim-treesitter'.setup {
+            require 'nvim-treesitter.configs'.setup {
                 -- A list of parser names or tiers ('stable', 'core', 'community', 'unsupported')
-                ensure_install = { 'go', 'gomod', "markdown", "php", "c", "cpp" },
+                ensure_installed = { 'go', 'gomod', "markdown", "php", "c", "cpp" },
 
                 -- List of parsers to ignore installing
                 ignore_install = { 'unsupported' },
