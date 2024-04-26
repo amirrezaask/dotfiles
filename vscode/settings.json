@@ -1,6 +1,6 @@
 {
   // Font
-  "editor.fontFamily": "Cascadia Code",
+  "editor.fontFamily": "Consolas",
   "editor.fontWeight": "normal",
   "editor.fontSize": 14,
   "window.titleBarStyle": "custom",
@@ -14,7 +14,6 @@
   "editor.minimap.enabled": false,
   "workbench.editor.showTabs": "none",
   "editor.bracketPairColorization.enabled": false,
-  "breadcrumbs.enabled": false,
   "editor.renderWhitespace": "all",
   "workbench.layoutControl.enabled": false,
   "workbench.editor.editorActionsLocation": "hidden",
@@ -71,9 +70,11 @@
   "vim.leader": "<space>",
   "vim.handleKeys": {
     "<C-a>": false,
-    "<C-f>": false
+    "<C-f>": false,
+    "<C-d>": false,
   },
   "vim.useSystemClipboard": true,
+  "vim.useCtrlKeys": false,
   "vim.insertModeKeyBindingsNonRecursive": [
     {
       "before": [
@@ -97,26 +98,6 @@
   "vim.normalModeKeyBindingsNonRecursive": [
     {
       "before": [
-        "<C-d>"
-      ],
-      "after": [
-        "<C-d>",
-        "z",
-        "z"
-      ]
-    },
-    {
-      "before": [
-        "<C-u>"
-      ],
-      "after": [
-        "<C-u>",
-        "z",
-        "z"
-      ]
-    },
-    {
-      "before": [
         "<leader>",
         "n"
       ],
@@ -135,20 +116,10 @@
     },
     {
       "before": [
-        "<leader>",
-        "r"
+        "R"
       ],
       "commands": [
         "editor.action.rename"
-      ]
-    },
-    {
-      "before": [
-        "<leader>",
-        "j"
-      ],
-      "commands": [
-        "workbench.action.terminal.focus"
       ]
     },
     {
@@ -176,8 +147,8 @@
       "commands": [
         "editor.action.showHover"
       ]
-    }
+    },
   ],
-  "workbench.activityBar.location": "top",
-  "window.customTitleBarVisibility": "auto",
+  "vim.visualModeKeyBindings": [],
+  "window.customTitleBarVisibility": "auto"
 }
