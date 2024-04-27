@@ -107,11 +107,9 @@
   (define-key rectangle-mark-mode-map (kbd "C-i")                    'string-insert-rectangle)
   (define-key rectangle-mark-mode-map (kbd "C-r")                    'string-rectangle))
 
-
 (unless (executable-find "rg") (error "Install ripgrep, this configuration relies heavy on it's features."))
 
 (global-unset-key (kbd "C-x C-c"))
-
 
 ;; Window related settings
 (global-set-key (kbd "C-3") 'split-window-horizontally)
@@ -236,7 +234,6 @@
 ;;  `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
 ;;  `(show-paren-match                 ((t (:background "mediumseagreen")))))
 
-
 ;; Naysayer Theme
 (custom-set-faces
  `(default                          ((t (:foreground "#d3b58d" :background "#072629"))))
@@ -288,9 +285,9 @@
 
 ;; Dumb way to find things
 (install 'dumb-jump "Poor's man Jump to def/dec/ref. (using grep)")
-(add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
-(global-set-key (kbd "<f12>")   'xref-find-definitions)
-(global-set-key (kbd "C-<f12>") 'xref-find-references)
+(add-hook 'xref-backend-functions        #'dumb-jump-xref-activate)
+(global-set-key (kbd "<f12>")            'xref-find-definitions)
+(global-set-key (kbd "C-<f12>")          'xref-find-references)
 (global-set-key (kbd "C-<down-mouse-1>") 'xref-find-definitions)
 (global-set-key (kbd "M-<down-mouse-1>") 'xref-find-references)
 (global-set-key (kbd "C-.")              'xref-find-definitions)
@@ -503,7 +500,8 @@
 (add-hook 'go-mode-hook #'eglot-ensure)
 (add-hook 'rust-mode-hook #'eglot-ensure)
 
-
+;; Magit
+(install 'magit)
 
 ;;; Final benchmarking
 (defvar amirreza/emacs-init-took (* (float-time (time-subtract (float-time) amirreza/emacs-starting-time)) 1000) "Time took to load my init file, value is in milliseconds.")
