@@ -10,8 +10,8 @@
   { "key": "ctrl+0", "command": "workbench.action.toggleSidebarVisibility" },
   
   // Toggle FileExplorer
-  { "key": "ctrl+1", "command": "workbench.files.action.focusFilesExplorer" }, // File explorer
-  { "key": "ctrl+1", "command": "workbench.action.toggleSidebarVisibility", "when": "explorerViewletVisible" }, // File explorer
+  { "key": "ctrl+shift+e", "command": "workbench.action.toggleSidebarVisibility", "when": "explorerViewletVisible" }, // File explorer
+
   
   // Consistent Ctrl+n/p
   { "key": "ctrl+n", "command": "selectNextSuggestion", "when": "suggestWidgetMultipleSuggestions && suggestWidgetVisible && textInputFocus || suggestWidgetVisible && textInputFocus && !suggestWidgetHasFocusedSuggestion" },
@@ -28,7 +28,7 @@
   { "key": "ctrl+shift+i",    "command": "editor.action.goToImplementation" },
   { "key": "ctrl+enter",      "command": "editor.action.autoFix"},
 
-  { "key": "ctrl+;",          "command": "workbench.action.terminal.toggleTerminal" }
+  { "key": "ctrl+;",          "command": "workbench.action.terminal.toggleTerminal" },
 
   
 ]
