@@ -474,7 +474,7 @@
 
 ;; Autocomplete
 (install 'corfu)
-(setq corfu-auto nil)
+(setq corfu-auto t)
 (global-corfu-mode +1)
 (global-set-key (kbd "C-j") 'completion-at-point) ;; Manual trigger for completion popup.
 
