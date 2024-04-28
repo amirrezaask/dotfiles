@@ -1,6 +1,6 @@
 {
   // Font
-  "editor.fontFamily": "Consolas",
+  "editor.fontFamily": "Jetbrains Mono",
   "editor.fontWeight": "normal",
   "editor.fontSize": 14,
   "window.titleBarStyle": "custom",
@@ -74,7 +74,7 @@
     "<C-d>": false,
   },
   "vim.useSystemClipboard": true,
-  "vim.useCtrlKeys": false,
+  "vim.useCtrlKeys": true,
   "vim.insertModeKeyBindingsNonRecursive": [
     {
       "before": [
@@ -116,7 +116,7 @@
     },
     {
       "before": [
-        "R"
+        "R" 
       ],
       "commands": [
         "editor.action.rename"
@@ -150,5 +150,6 @@
     },
   ],
   "vim.visualModeKeyBindings": [],
-  "window.customTitleBarVisibility": "auto"
+  "window.customTitleBarVisibility": "auto",
+  "workbench.activityBar.location": "top",
 }
