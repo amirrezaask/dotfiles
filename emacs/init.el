@@ -1,4 +1,3 @@
-;; Early-init.el
 (setq amirreza/early-init "
 (setq amirreza/emacs-starting-time (float-time)) ;; Store current time for further analysis.
 
@@ -34,11 +33,10 @@
 
 (setq native-comp-async-report-warnings-errors nil)
 
-;; Frame
 (setq-default frame-title-format '("%e" (:eval (format "Emacs @ %s" default-directory))))
 (set-frame-parameter nil 'fullscreen 'maximized) 
 
-;; Basic variables
+;; Emacs: Basic
 (when load-file-name
   (setq INIT-FILE load-file-name))
 
@@ -47,11 +45,11 @@
       is-macos (eq system-type 'darwin)
       has-treesitter (>= emacs-major-version 29))
 
-;; MacOS issues
+;; Emacs: fix macOS issues
 (setq image-types (cons 'svg image-types)
       mac-command-modifier 'meta)
 
-;; General Text Editing
+;; Emacs: Editing
 (setq recenter-positions '(middle))
 (setq custom-file "~/.custom.el"          ;; set custom file to not meddle with init.el
       make-backup-files nil)              ;; no emacs ~ backup files
@@ -70,57 +68,18 @@
 (defun jump-up () (interactive) (next-line (* -1 (/ (window-height) 2))) (recenter-top-bottom))
 (defun jump-down () (interactive) (next-line (/ (window-height) 2)) (recenter-top-bottom))
 
-(defun amirreza/copy ()
-  "Either copy region or the current line."
-  (interactive)
-  (if (use-region-p)
-      (kill-ring-save (region-beginning) (region-end)) ;; copy active region contents
-    (kill-ring-save (line-beginning-position) (line-end-position)))) ;; copy current line
-
-(defun amirreza/cut ()
-  "Either cut region or the current line."
-  (interactive)
-  (if (use-region-p)
-      (kill-region (region-beginning) (region-end)) ;; copy active region contents
-    (kill-region (line-beginning-position) (line-end-position)))) ;; copy current line
-
-(global-set-key (kbd "C-/")                                          'comment-line)
-(global-set-key (kbd "C-w")                                          'amirreza/cut)
-(global-set-key (kbd "M-w")                                          'amirreza/copy)
-(global-set-key (kbd "M-[")                                          'kmacro-start-macro)
-(global-set-key (kbd "M-]")                                          'kmacro-end-or-call-macro)
-(global-set-key (kbd "C-q")                                          'dabbrev-expand) ;; Try pre defined expansions and if nothing was found expand with emacs dabbrev
-(global-set-key (kbd "C-z")                                          'undo) ;; Sane undo key
-(global-set-key (kbd "C-0")                                          'delete-window)
-(global-set-key (kbd "M-\\")                                         'kmacro-end-and-call-macro) ;; execute keyboard macro.
-(global-set-key (kbd "C->")                                          'end-of-buffer)
-(global-set-key (kbd "C-<")                                          'beginning-of-buffer)
-(global-set-key (kbd "M-n")                                          'jump-down)
-(global-set-key (kbd "M-p")                                          'jump-up)
-(global-set-key (kbd "C-<up>")                                       'jump-up)
-(global-set-key (kbd "C-<down>")                                     'jump-down)
-(global-set-key (kbd "C-;")                                          'goto-line)
-;; Rectangle Mode (Almost multi cursors)
-(global-set-key (kbd "M-SPC")                                        'rectangle-mark-mode)
-(global-set-key (kbd "C-<return>")                                   'rectangle-mark-mode)
-(with-eval-after-load 'rect
-  (define-key rectangle-mark-mode-map (kbd "C-i")                    'string-insert-rectangle)
-  (define-key rectangle-mark-mode-map (kbd "C-r")                    'string-rectangle))
-
 (unless (executable-find "rg") (error "Install ripgrep, this configuration relies heavy on it's features."))
 
 (global-unset-key (kbd "C-x C-c"))
 
-;; Window related settings
+;; Emacs: Window
 (global-set-key (kbd "C-3") 'split-window-horizontally)
 (global-set-key (kbd "C-2") 'split-window-vertically)
-(global-set-key (kbd "M-o") 'other-window)
-(global-set-key (kbd "C-o") 'other-window)
 (global-set-key (kbd "C-\\") 'split-window-horizontally)
 
-;; Font
+;; Emacs: Font
 (setq font-family "")
-(defun amirreza/set-font (font fontsize)
+(defun set-font (font fontsize)
   "Loads a font."
   (interactive (list (read-string "Font Family: ") (read-number "Font Size: ")))
   (let ((fontstring (format "%s %d" font fontsize)))
@@ -129,10 +88,10 @@
     (set-frame-font fontstring nil t)
     (set-face-attribute 'default t :font fontstring)))
 
-(defalias 'Font 'amirreza/set-font)
-(defalias 'load-font 'amirreza/set-font)
+(defalias 'Font 'set-font)
+(defalias 'load-font 'set-font)
 
-(defun amirreza/set-font-size (fontsize)
+(defun set-font-size (fontsize)
   "Set a font size"
   (interactive (list (read-number "Font Size: ")))
   (let ((fontstring (format "%s %d" font-family fontsize)))
@@ -140,20 +99,18 @@
     (set-frame-font fontstring nil t)
     (set-face-attribute 'default t :font fontstring)))
 
-(defalias 'FontSize 'amirreza/set-font-size)
+(defalias 'FontSize 'set-font-size)
 
-(defun amirreza/text-scale-increase ()
+(defun font-zoom-in ()
   (interactive)
   (text-scale-increase 1))
 
-(defun amirreza/text-scale-decrease ()
+(defun font-zoom-out ()
   (interactive)
   (text-scale-decrease 1))
 
-;; (amirreza/set-font "" 15)
-
-(global-set-key (kbd "C-=")  'amirreza/text-scale-increase)
-(global-set-key (kbd "C--")  'amirreza/text-scale-decrease)
+(global-set-key (kbd "C-=")  'font-zoom-in)
+(global-set-key (kbd "C--")  'font-zoom-out)
 
 ;; Environment Variables
 (defun home (path)
@@ -208,47 +165,30 @@
 (install 'vlf "Special handling of very large files")
 (require 'vlf-setup)
 
+;; Vertico
+(install 'orderless)
+(setq completion-styles '(orderless basic)
+      completion-category-overrides '((file (styles basic partial-completion))))
+(with-eval-after-load 'minibuffer
+  (define-key minibuffer-mode-map (kbd "C-n") 'minibuffer-next-completion)
+  (define-key minibuffer-mode-map (kbd "C-p") 'minibuffer-previous-completion))
 
-(global-hl-line-mode -1)
 ;; Dirt Theme (default)
-;; (custom-set-faces
-;;  `(default                          ((t (:foreground "#debe95" :background "#161616"))))
-;;  `(hl-line                          ((t (:background "#252525"))))
-;;  `(vertico-current                  ((t (:background "#252525"))))
-;;  `(region                           ((t (:background "medium blue"))))
-;;  `(cursor                           ((t (:background "lightgreen"))))
-;;  `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
-;;  `(font-lock-type-face              ((t (:foreground "#8cde94"))))
-;;  `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
-;;  `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
-;;  `(font-lock-builtin-face           ((t (:foreground "white"))))
-;;  `(font-lock-string-face            ((t (:foreground "gray70"))))
-;;  `(font-lock-comment-face           ((t (:foreground "yellow"))))
-;;  `(font-lock-comment-delimiter-face ((t (:foreground "yellow"))))
-;;  `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
-;;  `(font-lock-function-name-face     ((t (:foreground "white"))))
-;;  `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
-;;  `(font-lock-warning-face           ((t (:foreground "yellow"))))
-;;  `(font-lock-note-face              ((t (:foreground "khaki2" ))))
-;;  `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
-;;  `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
-;;  `(show-paren-match                 ((t (:background "mediumseagreen")))))
-
-;; Naysayer Theme
+(global-hl-line-mode -1)
 (custom-set-faces
- `(default                          ((t (:foreground "#d3b58d" :background "#072629"))))
- `(hl-line                          ((t (:background "#0c4141"))))
- `(vertico-current                  ((t (:inherit hl-line))))
- `(region                           ((t (:background  "medium blue"))))
+ `(default                          ((t (:foreground "#debe95" :background "#161616"))))
+ `(hl-line                          ((t (:background "#252525"))))
+ `(vertico-current                  ((t (:background "#252525"))))
+ `(region                           ((t (:background "medium blue"))))
  `(cursor                           ((t (:background "lightgreen"))))
  `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
  `(font-lock-type-face              ((t (:foreground "#8cde94"))))
  `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
  `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
  `(font-lock-builtin-face           ((t (:foreground "white"))))
- `(font-lock-string-face            ((t (:foreground "#0fdfaf"))))
- `(font-lock-comment-face           ((t (:foreground "#3fdf1f"))))
- `(font-lock-comment-delimiter-face ((t (:foreground "#3fdf1f"))))
+ `(font-lock-string-face            ((t (:foreground "gray70"))))
+ `(font-lock-comment-face           ((t (:foreground "yellow"))))
+ `(font-lock-comment-delimiter-face ((t (:foreground "yellow"))))
  `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
  `(font-lock-function-name-face     ((t (:foreground "white"))))
  `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
@@ -257,6 +197,30 @@
  `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
  `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
  `(show-paren-match                 ((t (:background "mediumseagreen")))))
+
+;; Naysayer Theme
+;; (custom-set-faces
+;;  `(default                          ((t (:foreground "#d3b58d" :background "#072629"))))
+;;  `(hl-line                          ((t (:background "#0c4141"))))
+;;  `(vertico-current                  ((t (:inherit hl-line))))
+;;  `(region                           ((t (:background  "medium blue"))))
+;;  `(cursor                           ((t (:background "lightgreen"))))
+;;  `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
+;;  `(font-lock-type-face              ((t (:foreground "#8cde94"))))
+;;  `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
+;;  `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
+;;  `(font-lock-builtin-face           ((t (:foreground "white"))))
+;;  `(font-lock-string-face            ((t (:foreground "#0fdfaf"))))
+;;  `(font-lock-comment-face           ((t (:foreground "#3fdf1f"))))
+;;  `(font-lock-comment-delimiter-face ((t (:foreground "#3fdf1f"))))
+;;  `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
+;;  `(font-lock-function-name-face     ((t (:foreground "white"))))
+;;  `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
+;;  `(font-lock-warning-face           ((t (:foreground "yellow"))))
+;;  `(font-lock-note-face              ((t (:foreground "khaki2" ))))
+;;  `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
+;;  `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
+;;  `(show-paren-match                 ((t (:background "mediumseagreen")))))
 
 ;; Black Theme
 ;; (custom-set-faces
@@ -277,11 +241,6 @@
 ;;  `(mode-line                        ((t (:background "grey10" :foreground "grey89" :box t))))
 ;;  `(mode-line-inactive               ((t (:background "grey3" :foreground "grey89" :box t))))
 ;;  `(highlight                        ((t (:foreground nil     :background "cyan")))))
-
-;; Minibuffer
-;; (with-eval-after-load 'minibuffer
-;;   (define-key minibuffer-mode-map (kbd "C-n") 'minibuffer-next-completion)
-;;   (define-key minibuffer-mode-map (kbd "C-p") 'minibuffer-previous-completion))
 
 ;; Dumb way to find things
 (install 'dumb-jump "Poor's man Jump to def/dec/ref. (using grep)")
@@ -312,9 +271,95 @@
 			     ("\\*journalsync\\*"
 			      (display-buffer-no-window))))
 
-;; Project based commands
-;; I have 3 functionalities that I want per-project and by project I mean each directory that we can find a root for, look into `find-project-root` function.
-;; These functionalities are `Grep`, `Compile`, `EShell`, I want a buffer for each one per project and by just pressing a key I either create one interactively or jump to it.
+;; Compile
+(with-eval-after-load 'compile
+  (define-key compilation-mode-map (kbd "<f5>") 'recompile)
+  (define-key compilation-mode-map (kbd "M-m")  'previous-buffer)
+  (define-key compilation-mode-map (kbd "G")    'amirreza/compile-in-directory)
+  (define-key compilation-mode-map (kbd "n")    'next-line)
+  (define-key compilation-mode-map (kbd "p")    'previous-line)
+  (define-key compilation-mode-map (kbd "k")    'kill-compilation))
+
+;; Golang
+(install 'go-mode)
+
+(defun amirreza/go-hook ()
+  (interactive)
+  (add-hook 'before-save-hook 'gofmt-before-save 0 t))
+
+(add-hook 'go-mode-hook 'amirreza/go-hook)
+
+;; Rust
+;; $ rustup component add rust-analyzer
+(install 'rust-mode)
+
+;; C/C++
+(setq-default c-default-style "linux" c-basic-offset 4) ;; C/C++ code style
+
+;; Elisp
+(defun toggle-debug-mode ()
+  "Toggle Emacs debug mode." 
+  (interactive)
+  (if debug-on-error
+      (setq debug-on-error nil)
+    (setq debug-on-error t)))
+
+(defun amirreza/edit-init ()
+  (interactive)
+  (find-file INIT-FILE))
+
+;; PHP
+(install 'php-mode)
+
+(global-set-key (kbd "C-x i") 'amirreza/edit-init)
+
+;; Autocomplete
+(install 'corfu)
+(setq corfu-auto t)
+(global-corfu-mode +1)
+(global-set-key (kbd "C-j") 'completion-at-point) ;; Manual trigger for completion popup.
+
+
+;; Eglot: LSP
+(unless (>= emacs-major-version 29) (install 'eglot))
+(setq eglot-ignored-server-capabilities '(
+					  :hoverProvider
+					  :documentHighlightProvider
+					  :documentSymbolProvider
+					  :workspaceSymbolProvider
+					  :codeLensProvider
+					  :documentFormattingProvider
+					  :documentRangeFormattingProvider
+					  :documentOnTypeFormattingProvider
+					  :documentLinkProvider
+					  :colorProvider
+					  :foldingRangeProvider
+					  :executeCommandProvider
+					  :inlayHintProvider
+					  ))
+(setq eglot-stay-out-of '(flymake project))
+(add-hook 'go-mode-hook #'eglot-ensure)
+(add-hook 'rust-mode-hook #'eglot-ensure)
+
+;; Magit
+(install 'magit)
+
+
+;; Amirreza layer on top of emacs.
+(defun amirreza/copy ()
+  "Either copy region or the current line."
+  (interactive)
+  (if (use-region-p)
+      (kill-ring-save (region-beginning) (region-end)) ;; copy active region contents
+    (kill-ring-save (line-beginning-position) (line-end-position)))) ;; copy current line
+
+(defun amirreza/cut ()
+  "Either cut region or the current line."
+  (interactive)
+  (if (use-region-p)
+      (kill-region (region-beginning) (region-end)) ;; copy active region contents
+    (kill-region (line-beginning-position) (line-end-position)))) ;; copy current line
+
 (defun find-project-root ()
   "Try to find project root based on deterministic predicates"
   (cond
@@ -328,9 +373,6 @@
 (defun find-project-root-or-default-directory ()
   (or (find-project-root) default-directory))
 
-;; TOOD: Switch to a buffer in project
-
-;; Compile
 (defun amirreza/compile-buffer-name-function (MODESTR)
   (let ((dir (find-project-root-or-default-directory)))
     (format "*%s-%s*" MODESTR dir)))
@@ -359,18 +401,7 @@
 	(switch-to-buffer existing-buffer)
       (amirreza/compile-in-directory))))
 
-(with-eval-after-load 'compile
-  (define-key compilation-mode-map (kbd "<f5>") 'recompile)
-  (define-key compilation-mode-map (kbd "M-m")  'previous-buffer)
-  (define-key compilation-mode-map (kbd "G")    'amirreza/compile-in-directory)
-  (define-key compilation-mode-map (kbd "n")    'next-line)
-  (define-key compilation-mode-map (kbd "p")    'previous-line)
-  (define-key compilation-mode-map (kbd "k")    'kill-compilation))
 
-(global-set-key (kbd "M-m") 'amirreza/switch-to-compile-buffer-or-compile-in-directory)
-(global-set-key (kbd "<f5>") 'amirreza/switch-to-compile-buffer-or-compile-in-directory)
-
-;; Grep + Ripgrep stuff.
 (defun rg (dir pattern)
   "runs Ripgrep program in a compilation buffer."
   (interactive (list (read-directory-name "[Ripgrep] Directory: " (find-project-root-or-default-directory))
@@ -409,8 +440,8 @@
     (if existing-buffer
 	(switch-to-buffer existing-buffer)
       (amirreza/grep-in-directory))))
-  
-(global-set-key (kbd "M-j") 'amirreza/switch-to-grep-buffer-or-grep-in-directory)
+
+(defalias 'Grep 'amirreza/switch-to-grep-buffer-or-grep-in-directory)
 
 (with-eval-after-load 'grep
   (define-key grep-mode-map (kbd "<f5>") 'recompile)
@@ -419,13 +450,13 @@
   (define-key grep-mode-map (kbd "M-j")  'previous-buffer)
   (define-key grep-mode-map (kbd "k")    'kill-compilation))
 
-;; Eshell: Emacs cross platform shell
 (setq eshell-visual-subcommands '("git" "diff" "log" "show"))
 
 (defun amirreza/eshell-hook ()
   (define-key eshell-mode-map (kbd "M-;") 'previous-buffer))
 
 (add-hook 'eshell-mode-hook 'amirreza/eshell-hook)
+
 (defun amirreza/eshell ()
   "If there is already an eshell buffer for current project jump to it, otherwise create a new one for current project."
   (interactive)
@@ -437,71 +468,53 @@
     (if existing-buffer
 	(switch-to-buffer existing-buffer) ;; we switch to buffer.
       (eshell))))
+(defalias 'Shell 'amirreza/eshell)
 
-(defalias 'EShell 'amirreza/eshell)
+(defun amirreza/git-files (DIR)
+  (interactive (list (read-directory-name "[Git Files] Directory: " (find-project-root-or-default-directory))))
+  (unless (executable-find "git") (error "git executable not found."))
 
+  (let* ((default-directory DIR)
+	 (command (format "git ls-files"))
+	 (file (completing-read "Git Files:" (string-split (shell-command-to-string command) "\n" t))))
+    (find-file file)))
+
+(defun amirreza/find-file ()
+  (interactive)
+  (cond
+   ((git-repo-p) (amirreza/git-files (git-repo-p)))
+   (t (find-file))))
+
+;; Project aware keys
+(global-set-key (kbd "M-o") 'amirreza/find-file)
 (global-set-key (kbd "M-;") 'amirreza/eshell)
+(global-set-key (kbd "M-j") 'amirreza/switch-to-grep-buffer-or-grep-in-directory)
+(global-set-key (kbd "M-m") 'amirreza/switch-to-compile-buffer-or-compile-in-directory)
+(global-set-key (kbd "<f5>") 'amirreza/switch-to-compile-buffer-or-compile-in-directory)
+;; Basic emacs keys
+(global-set-key (kbd "C-/")                                          'comment-line)
+(global-set-key (kbd "C-w")                                          'amirreza/cut)
+(global-set-key (kbd "M-w")                                          'amirreza/copy)
+(global-set-key (kbd "M-[")                                          'kmacro-start-macro)
+(global-set-key (kbd "M-]")                                          'kmacro-end-or-call-macro)
+(global-set-key (kbd "C-q")                                          'dabbrev-expand) ;; Try pre defined expansions and if nothing was found expand with emacs dabbrev
+(global-set-key (kbd "C-z")                                          'undo) ;; Sane undo key
+(global-set-key (kbd "C-0")                                          'delete-window)
+(global-set-key (kbd "M-\\")                                         'kmacro-end-and-call-macro) ;; execute keyboard macro.
+(global-set-key (kbd "C->")                                          'end-of-buffer)
+(global-set-key (kbd "C-<")                                          'beginning-of-buffer)
+(global-set-key (kbd "M-n")                                          'jump-down)
+(global-set-key (kbd "M-p")                                          'jump-up)
+(global-set-key (kbd "C-<up>")                                       'jump-up)
+(global-set-key (kbd "C-<down>")                                     'jump-down)
+(global-set-key (kbd "C-;")                                          'goto-line)
+;; Rectangle Mode (Almost multi cursors)
+(global-set-key (kbd "M-SPC")                                        'rectangle-mark-mode)
+(global-set-key (kbd "C-<return>")                                   'rectangle-mark-mode)
+(with-eval-after-load 'rect
+  (define-key rectangle-mark-mode-map (kbd "C-i")                    'string-insert-rectangle)
+  (define-key rectangle-mark-mode-map (kbd "C-r")                    'string-rectangle))
 
-;; Golang
-(install 'go-mode)
-
-(defun amirreza/go-hook ()
-  (interactive)
-  (add-hook 'before-save-hook 'gofmt-before-save 0 t))
-
-(add-hook 'go-mode-hook 'amirreza/go-hook)
-
-;; Rust
-;; $ rustup component add rust-analyzer
-(install 'rust-mode)
-
-;; C/C++
-(setq-default c-default-style "linux" c-basic-offset 4) ;; C/C++ code style
-
-;; Elisp
-(defun toggle-debug-mode ()
-  "Toggle Emacs debug mode." 
-  (interactive)
-  (if debug-on-error
-      (setq debug-on-error nil)
-    (setq debug-on-error t)))
-
-(defun amirreza/edit-init ()
-  (interactive)
-  (find-file INIT-FILE))
-
-(global-set-key (kbd "C-x i") 'amirreza/edit-init)
-
-;; Autocomplete
-(install 'corfu)
-(setq corfu-auto t)
-(global-corfu-mode +1)
-(global-set-key (kbd "C-j") 'completion-at-point) ;; Manual trigger for completion popup.
-
-
-;; Eglot: LSP
-(unless (>= emacs-major-version 29) (install 'eglot))
-(setq eglot-ignored-server-capabilities '(
-					  :hoverProvider
-					  :documentHighlightProvider
-					  :documentSymbolProvider
-					  :workspaceSymbolProvider
-					  :codeLensProvider
-					  :documentFormattingProvider
-					  :documentRangeFormattingProvider
-					  :documentOnTypeFormattingProvider
-					  :documentLinkProvider
-					  :colorProvider
-					  :foldingRangeProvider
-					  :executeCommandProvider
-					  :inlayHintProvider
-					  ))
-(setq eglot-stay-out-of '(flymake project))
-(add-hook 'go-mode-hook #'eglot-ensure)
-(add-hook 'rust-mode-hook #'eglot-ensure)
-
-;; Magit
-(install 'magit)
 
 ;;; Final benchmarking
 (defvar amirreza/emacs-init-took (* (float-time (time-subtract (float-time) amirreza/emacs-starting-time)) 1000) "Time took to load my init file, value is in milliseconds.")
