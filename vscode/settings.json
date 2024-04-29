@@ -12,7 +12,7 @@
   "workbench.statusBar.visible": true,
   "workbench.settings.editor": "json",
   "editor.minimap.enabled": false,
-  "workbench.editor.showTabs": "none",
+  "workbench.editor.showTabs": "multiple",
   "editor.bracketPairColorization.enabled": false,
   "editor.renderWhitespace": "all",
   "workbench.layoutControl.enabled": false,
@@ -147,7 +147,7 @@
       "commands": [
         "editor.action.showHover"
       ]
-    },
+    }
   ],
   "vim.visualModeKeyBindings": [],
   "window.customTitleBarVisibility": "auto",

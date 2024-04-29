@@ -6,11 +6,11 @@
   { "key": "ctrl+shift+-", "command": "workbench.action.zoomOut" }, // zoom out whole view
   { "key": "ctrl+shift+0", "command": "workbench.action.zoomReset" }, // reset whole view
   
-  // Toggle Sidebar Visibility
+  // Toggle Stuff
   { "key": "ctrl+0", "command": "workbench.action.toggleSidebarVisibility" },
-  
-  // Toggle FileExplorer
-  { "key": "ctrl+shift+e", "command": "workbench.action.toggleSidebarVisibility", "when": "explorerViewletVisible" }, // File explorer
+  { "key": "ctrl+shift+e", "command": "workbench.action.toggleSidebarVisibility", "when": "activeViewlet == workbench.view.explorer" },
+  { "key": "ctrl+shift+g", "command": "workbench.action.toggleSidebarVisibility", "when": "activeViewlet == workbench.view.scm" },
+  { "key": "ctrl+shift+f", "command": "workbench.action.togglePanel",             "when": "searchViewletFocus" },
 
   
   // Consistent Ctrl+n/p
