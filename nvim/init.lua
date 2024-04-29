@@ -222,6 +222,10 @@ require("lazy").setup({
     { "folke/todo-comments.nvim", opts = {} },
 
     -- Colorschemes
+    { "catppuccin/nvim",          name = "catppuccin" },
+    {
+        'olivercederborg/poimandres.nvim',
+    },
     {
         "ellisonleao/gruvbox.nvim",
         config = function()
@@ -599,4 +603,4 @@ vim.api.nvim_create_autocmd("BufEnter", {
     group = augroup,
 })
 
-vim.cmd.colorscheme("gruvbox")
+vim.cmd.colorscheme("poimandres")
