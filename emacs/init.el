@@ -165,7 +165,7 @@
 (install 'vlf "Special handling of very large files")
 (require 'vlf-setup)
 
-;; Vertico
+;; Minibuffer
 (install 'orderless)
 (setq completion-styles '(orderless basic)
       completion-category-overrides '((file (styles basic partial-completion))))
@@ -251,25 +251,6 @@
 (global-set-key (kbd "M-<down-mouse-1>") 'xref-find-references)
 (global-set-key (kbd "C-.")              'xref-find-definitions)
 (global-set-key (kbd "C-,")              'xref-go-back)
-
-;; Buffer
-(setq display-buffer-alist '(("\\*compilation.*\\*"
-			      (display-buffer-same-window))
-			     
-			     ("\\*grep.*\\*"
-			      (display-buffer-same-window))
-			     
-			     ("\\*(Help|Backtrace|Messages)\\*"
-			      (display-buffer-in-side-window)
-			      (side . right)
-			      (window-width . 0.4)
-			      (slot . 0))
-
-			     ("\\*eshell.*\\*"
-			      (display-buffer-same-window))
-
-			     ("\\*journalsync\\*"
-			      (display-buffer-no-window))))
 
 ;; Compile
 (with-eval-after-load 'compile
