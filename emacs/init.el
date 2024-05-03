@@ -27,13 +27,13 @@
 (tool-bar-mode -1)
 
 ")
-
+(setq debug-on-error t)
 (unless (file-exists-p "~/.emacs.d/early-init.el")
   (write-region amirreza/early-init nil "~/.emacs.d/early-init.el"))
 
 (setq native-comp-async-report-warnings-errors nil)
 
-(setq-default frame-title-format '("%e" (:eval (format "Emacs @ %s" default-directory))))
+(setq-default frame-title-format '("%e" (:eval (format "Emacs %s" default-directory))))
 (set-frame-parameter nil 'fullscreen 'maximized) 
 
 ;; Emacs: Basic
@@ -129,9 +129,9 @@
   (add-to-list 'exec-path "w:/bin")
   (add-to-list 'exec-path "c:/programs/bin"))
 
-(if (eq system-type 'windows-nt)
-    (setenv "PATH" (string-join exec-path ";"))
-  (setenv "PATH" (string-join exec-path ":"))) ;; set emacs process PATH
+;; (if (eq system-type 'windows-nt)
+;;     (setenv "PATH" (string-join exec-path ";"))
+;;   (setenv "PATH" (string-join exec-path ":"))) ;; set emacs process PATH
 
 
 ;; Package manager
