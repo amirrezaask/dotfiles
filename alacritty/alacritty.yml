@@ -1,7 +1,5 @@
 font:
   size: 14.0
-  normal:
-    family: Ubuntu Mono
 
 live_config_reload: true
 
