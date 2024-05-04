@@ -88,15 +88,15 @@ function AmirrezaStatusLine()
         mode = mode_texts[mode]
     end
 
-    statusline = statusline .. mode .. ' | '
+    statusline = statusline .. string.format("[%s]", mode) .. " "
 
     local branch = ""
     if vim.b.gitsigns_head ~= nil then
-        branch = "Git:" .. vim.b.gitsigns_head
-        statusline = statusline .. branch .. " |"
+        branch = "[Git:" .. vim.b.gitsigns_head .. "]"
+        statusline = statusline .. branch
     end
 
-    return statusline .. " %r%h%w%q%m%f %l:%c | %y"
+    return statusline .. " %r%h%w%q%m[%f] %l:%c %y"
 end
 
 vim.opt.statusline = "%!v:lua.AmirrezaStatusLine()"
