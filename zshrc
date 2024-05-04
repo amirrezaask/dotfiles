@@ -1,3 +1,7 @@
+if ! test -d $HOME/.oh-my-zsh 
+then
+    git clone https://github.com/ohmyzsh/ohmyzsh.git ~/.oh-my-zsh
+fi
 export ZSH="$HOME/.oh-my-zsh"
 
 ZSH_THEME="robbyrussell"
@@ -5,14 +9,6 @@ ZSH_THEME="robbyrussell"
 plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
-
-
-if ! command -v starship &> /dev/null
-then
-    curl -sS https://starship.rs/install.sh | sh
-fi
-
-eval "$(starship init zsh)"
 
 if command -v codium &> /dev/null
 then
