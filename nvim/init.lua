@@ -96,7 +96,7 @@ function AmirrezaStatusLine()
         statusline = statusline .. branch
     end
 
-    return statusline .. " %r%h%w%q%m[%f] %l:%c %y"
+    return statusline .. " %r%h%w%q%m%f %l:%c %y"
 end
 
 vim.opt.statusline = "%!v:lua.AmirrezaStatusLine()"
@@ -222,7 +222,9 @@ require("lazy").setup({
     { "folke/todo-comments.nvim", opts = {} },
 
     -- Colorschemes
-    { "catppuccin/nvim",          name = "catppuccin" },
+    'luisiacc/gruvbox-baby',
+    { "wahyuwiyoko/dark-moon.nvim" },
+    { "catppuccin/nvim",           name = "catppuccin" },
     {
         "ellisonleao/gruvbox.nvim",
         config = function()
@@ -600,4 +602,4 @@ vim.api.nvim_create_autocmd("BufEnter", {
     group = augroup,
 })
 
-vim.cmd.colorscheme("gruvbox")
+vim.cmd.colorscheme("dark-moon")
