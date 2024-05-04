@@ -1,7 +1,0 @@
-font:
-  size: 14.0
-  normal:
-    family: Jetbrains Mono
-
-live_config_reload: true
-
