@@ -602,4 +602,4 @@ vim.api.nvim_create_autocmd("BufEnter", {
     group = augroup,
 })
 
-vim.cmd.colorscheme("dark-moon")
+vim.cmd.colorscheme("gruvbox")
