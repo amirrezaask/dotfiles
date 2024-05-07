@@ -1,3 +1,4 @@
+{
   "window.restoreWindows": "none", // do not reopen everything when I launch.
   "editor.fontSize": 14,
   "window.titleBarStyle": "custom",
@@ -33,6 +34,7 @@
     "<C-f>": false,
     "<C-p>": false,
     "<C-w>": false,
+    "<C-j>": false,
   },
   "vim.useSystemClipboard": true,
   "vim.useCtrlKeys": true,
@@ -45,7 +47,6 @@
     { "before": [">"], "commands": ["editor.action.indentLines"] },
     { "before": ["J"], "commands": ["editor.action.moveLinesDownAction"] },
     { "before": ["K"], "commands": ["editor.action.moveLinesUpAction"] },
-    { "before": ["leader", "c"], "commands": ["editor.action.commentLine"] }
   ],
   "vim.normalModeKeyBindingsNonRecursive": [
     { "before": [ "R" ], "commands": [ "editor.action.rename" ] },
@@ -53,4 +54,6 @@
     { "before": [ "P" ], "commands": [ "workbench.action.showCommands" ] },
     { "before": [ "<leader>", "k" ], "commands": [ "workbench.action.toggleSidebarVisibility" ] },
     { "before": [ "K" ], "commands": [ "editor.action.showHover" ] },
+    { "before": [ "<leader>", "c" ], "commands": [ "editor.action.quickFix" ] },
   ],
+}
