@@ -6,13 +6,14 @@
   "window.title": "${dirty} ${rootPath}",
   "workbench.settings.editor": "json",
 
-  // Disable useless UI
+  // Disable/hide useless UI
   "editor.minimap.enabled": false,
   "workbench.layoutControl.enabled": false,
   "workbench.editor.editorActionsLocation": "hidden",
   "window.commandCenter": false,
   "workbench.startupEditor": "none",
   "workbench.editor.showTabs": "multiple",
+  "workbench.activityBar.location": "top",
 
   // Golang
   "[go]": { "editor.formatOnSave": true },
