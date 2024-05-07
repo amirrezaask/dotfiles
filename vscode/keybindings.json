@@ -1,34 +1,19 @@
 [
-  // Font & Zoom
-  { "key": "ctrl+=", "command": "editor.action.fontZoomIn" }, // zoom in editor
-  { "key": "ctrl+-", "command": "editor.action.fontZoomOut" }, // zoom out editor
-  { "key": "ctrl+shift+=", "command": "workbench.action.zoomIn" }, // zoom in whole view
-  { "key": "ctrl+shift+-", "command": "workbench.action.zoomOut" }, // zoom out whole view
-  { "key": "ctrl+shift+0", "command": "workbench.action.zoomReset" }, // reset whole view
-  
-  // Toggle Stuff
-  { "key": "ctrl+0", "command": "workbench.action.toggleSidebarVisibility" },
-  { "key": "ctrl+shift+e", "command": "workbench.action.toggleSidebarVisibility", "when": "activeViewlet == workbench.view.explorer" },
-  { "key": "ctrl+shift+g", "command": "workbench.action.toggleSidebarVisibility", "when": "activeViewlet == workbench.view.scm" },
-  { "key": "ctrl+shift+f", "command": "workbench.action.togglePanel",             "when": "searchViewletFocus" },
-
-  
-  // Consistent Ctrl+n/p
-  { "key": "ctrl+n", "command": "selectNextSuggestion", "when": "suggestWidgetMultipleSuggestions && suggestWidgetVisible && textInputFocus || suggestWidgetVisible && textInputFocus && !suggestWidgetHasFocusedSuggestion" },
-  { "key": "ctrl+p", "command": "selectPrevSuggestion", "when": "suggestWidgetMultipleSuggestions && suggestWidgetVisible && textInputFocus || suggestWidgetVisible && textInputFocus && !suggestWidgetHasFocusedSuggestion" },
-  { "key": "ctrl+n","command": "workbench.action.quickOpenSelectNext", "when": "inQuickOpen" },
-  { "key": "ctrl+p", "command": "workbench.action.quickOpenSelectPrevious", "when": "inQuickOpen" },
-
-  { "key": "ctrl+shift+w", "command": "workbench.action.closeAllEditors" },
-  
-  // LSP
-  { "key": "ctrl+.",          "command": "editor.action.revealDefinition", "when": "editorHasDefinitionProvider && editorTextFocus"},
-  { "key": "ctrl+,",          "command": "workbench.action.navigateBack"},
-  { "key": "ctrl+shift+r",    "command": "editor.action.goToReferences" },
-  { "key": "ctrl+shift+i",    "command": "editor.action.goToImplementation" },
-  { "key": "ctrl+enter",      "command": "editor.action.autoFix"},
-
-  { "key": "ctrl+;",          "command": "workbench.action.terminal.toggleTerminal" },
-
-  
+    { "key": "ctrl+=", "command": "editor.action.fontZoomIn" },
+    { "key": "ctrl+-", "command": "editor.action.fontZoomOut" },
+    { "key": "ctrl+shift+=", "command": "workbench.action.zoomIn" },
+    { "key": "ctrl+shift+-", "command": "workbench.action.zoomOut" },
+    // Consistent C-n/C-p
+    { "key": "ctrl+n",       "command": "workbench.action.quickOpenSelectNext",     "when": "inQuickOpen" },
+    { "key": "ctrl+p",       "command": "workbench.action.quickOpenSelectPrevious", "when": "inQuickOpen" },
+    { "key": "ctrl+n",       "command": "selectNextSuggestion",                     "when": "suggestWidgetMultipleSuggestions && suggestWidgetVisible && textInputFocus || suggestWidgetVisible && textInputFocus && !suggestWidgetHasFocusedSuggestion" },
+    { "key": "ctrl+p",       "command": "selectPrevSuggestion",                     "when": "suggestWidgetMultipleSuggestions && suggestWidgetVisible && textInputFocus || suggestWidgetVisible && textInputFocus && !suggestWidgetHasFocusedSuggestion" },
+    { "key": "ctrl+j",       "command": "workbench.action.terminal.toggleTerminal" },
+    // Toggles
+    { "key": "ctrl+r", "command": "editor.action.startFindReplaceAction"},
+    { "key": "ctrl+0", "command": "workbench.action.toggleSidebarVisibility" },
+    { "key": "ctrl+shift+e", "command": "workbench.action.toggleSidebarVisibility", "when": "activeViewlet == workbench.view.explorer" },
+    { "key": "ctrl+shift+g", "command": "workbench.action.toggleSidebarVisibility", "when": "activeViewlet == workbench.view.scm" },
+    { "key": "ctrl+shift+d", "command": "workbench.action.toggleSidebarVisibility", "when": "activeViewlet == workbench.view.debug" },
+    { "key": "ctrl+shift+f", "command": "workbench.action.togglePanel",             "when": "searchViewletFocus" },
 ]
