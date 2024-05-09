@@ -1,9 +1,10 @@
 {
   "window.restoreWindows": "none", // do not reopen everything when I launch.
   "editor.fontSize": 14,
+  "editor.fontFamily": "Comic Mono, Cascadia Code, Jetbrains Mono, Consolas",
   "window.titleBarStyle": "custom",
   "window.dialogStyle": "custom",
-  "window.title": "${dirty} ${rootPath}",
+  "window.title": "${dirty}${rootPath} @ ${activeRepositoryBranchName}",
   "workbench.settings.editor": "json",
 
   // Disable/hide useless UI
@@ -12,18 +13,13 @@
   "workbench.editor.editorActionsLocation": "hidden",
   "window.commandCenter": false,
   "workbench.startupEditor": "none",
-  "workbench.editor.showTabs": "multiple",
-  "workbench.activityBar.location": "top",
 
   // Golang
   "[go]": { "editor.formatOnSave": true },
   "go.addTags": { "options": "" },
 
   // Git project manager
-  "gitProjectManager.baseProjectsFolders": [
-    "~/w",
-    "C:\\w\\"
-  ],
+  "gitProjectManager.baseProjectsFolders": [ "~/w", "C:\\w\\" ],
 
   // Rust
   "[rust]": { "editor.formatOnSave": true },
@@ -55,6 +51,7 @@
     { "before": [ "P" ], "commands": [ "workbench.action.showCommands" ] },
     { "before": [ "<leader>", "k" ], "commands": [ "workbench.action.toggleSidebarVisibility" ] },
     { "before": [ "K" ], "commands": [ "editor.action.showHover" ] },
-    { "before": [ "<leader>", "c" ], "commands": [ "editor.action.quickFix" ] },
+    { "before": [ "C" ], "commands": [ "editor.action.quickFix" ] },
   ],
+  "security.workspace.trust.untrustedFiles": "open",
 }
