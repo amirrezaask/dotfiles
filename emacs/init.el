@@ -295,9 +295,9 @@
 
 ;; Autocomplete
 (install 'corfu)
-(setq corfu-auto t)
+(setq corfu-auto nil)
 (global-corfu-mode +1)
-(global-set-key (kbd "C-j") 'completion-at-point) ;; Manual trigger for completion popup.
+(global-set-key (kbd "C-j") 'completion-at-point)
 
 
 ;; Eglot: LSP
@@ -428,6 +428,7 @@
     (if existing-buffer
 	(switch-to-buffer existing-buffer) ;; we switch to buffer.
       (eshell))))
+
 (defalias 'Shell 'amirreza/eshell)
 
 (defun amirreza/git-files (DIR)
@@ -448,9 +449,9 @@
 ;; Project aware keys
 (global-set-key (kbd "M-o")                                          'amirreza/find-file)
 (global-set-key (kbd "M-;")                                          'amirreza/eshell)
-(global-set-key (kbd "M-j")                                          'amirreza/switch-to-grep-buffer-or-grep-in-directory)
-(global-set-key (kbd "M-m")                                          'amirreza/switch-to-compile-buffer-or-compile-in-directory)
-(global-set-key (kbd "<f5>")                                         'amirreza/switch-to-compile-buffer-or-compile-in-directory)
+(global-set-key (kbd "M-j")                                          'amirreza/grep-in-directory)
+(global-set-key (kbd "M-m")                                          'amirreza/compile-in-directory)
+(global-set-key (kbd "<f5>")                                         'amirreza/compile-in-directory)
 ;; Basic emacs keys
 (global-set-key (kbd "C-/")                                          'comment-line)
 (global-set-key (kbd "C-w")                                          'amirreza/cut)
