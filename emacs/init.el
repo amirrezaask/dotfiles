@@ -72,11 +72,6 @@
 
 (global-unset-key (kbd "C-x C-c"))
 
-;; Emacs: Window
-(global-set-key (kbd "C-3") 'split-window-horizontally)
-(global-set-key (kbd "C-2") 'split-window-vertically)
-(global-set-key (kbd "C-\\") 'split-window-horizontally)
-
 ;; Emacs: Font
 (setq font-family "")
 (defun set-font (font fontsize)
@@ -100,6 +95,9 @@
     (set-face-attribute 'default t :font fontstring)))
 
 (defalias 'FontSize 'set-font-size)
+
+(if is-windows 
+    (set-font "Consolas" 16))
 
 (defun font-zoom-in ()
   (interactive)
@@ -129,10 +127,9 @@
   (add-to-list 'exec-path "w:/bin")
   (add-to-list 'exec-path "c:/programs/bin"))
 
-;; (if (eq system-type 'windows-nt)
-;;     (setenv "PATH" (string-join exec-path ";"))
-;;   (setenv "PATH" (string-join exec-path ":"))) ;; set emacs process PATH
-
+(if (eq system-type 'windows-nt)
+    (setenv "PATH" (string-join exec-path ";"))
+  (setenv "PATH" (string-join exec-path ":"))) ;; set emacs process PATH
 
 ;; Package manager
 (require 'package)
@@ -174,45 +171,20 @@
   (define-key minibuffer-mode-map (kbd "C-p") 'minibuffer-previous-completion))
 
 ;; Dirt Theme (default)
-(global-hl-line-mode -1)
-(custom-set-faces
- `(default                          ((t (:foreground "#debe95" :background "#161616"))))
- `(hl-line                          ((t (:background "#252525"))))
- `(vertico-current                  ((t (:background "#252525"))))
- `(region                           ((t (:background "medium blue"))))
- `(cursor                           ((t (:background "lightgreen"))))
- `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
- `(font-lock-type-face              ((t (:foreground "#8cde94"))))
- `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
- `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
- `(font-lock-builtin-face           ((t (:foreground "white"))))
- `(font-lock-string-face            ((t (:foreground "gray70"))))
- `(font-lock-comment-face           ((t (:foreground "yellow"))))
- `(font-lock-comment-delimiter-face ((t (:foreground "yellow"))))
- `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
- `(font-lock-function-name-face     ((t (:foreground "white"))))
- `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
- `(font-lock-warning-face           ((t (:foreground "yellow"))))
- `(font-lock-note-face              ((t (:foreground "khaki2" ))))
- `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
- `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
- `(show-paren-match                 ((t (:background "mediumseagreen")))))
-
-;; Naysayer Theme
 ;; (custom-set-faces
-;;  `(default                          ((t (:foreground "#d3b58d" :background "#072629"))))
-;;  `(hl-line                          ((t (:background "#0c4141"))))
-;;  `(vertico-current                  ((t (:inherit hl-line))))
-;;  `(region                           ((t (:background  "medium blue"))))
+;;  `(default                          ((t (:foreground "#debe95" :background "#161616"))))
+;;  `(hl-line                          ((t (:background "#252525"))))
+;;  `(vertico-current                  ((t (:background "#252525"))))
+;;  `(region                           ((t (:background "medium blue"))))
 ;;  `(cursor                           ((t (:background "lightgreen"))))
 ;;  `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
 ;;  `(font-lock-type-face              ((t (:foreground "#8cde94"))))
 ;;  `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
 ;;  `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
 ;;  `(font-lock-builtin-face           ((t (:foreground "white"))))
-;;  `(font-lock-string-face            ((t (:foreground "#0fdfaf"))))
-;;  `(font-lock-comment-face           ((t (:foreground "#3fdf1f"))))
-;;  `(font-lock-comment-delimiter-face ((t (:foreground "#3fdf1f"))))
+;;  `(font-lock-string-face            ((t (:foreground "gray70"))))
+;;  `(font-lock-comment-face           ((t (:foreground "yellow"))))
+;;  `(font-lock-comment-delimiter-face ((t (:foreground "yellow"))))
 ;;  `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
 ;;  `(font-lock-function-name-face     ((t (:foreground "white"))))
 ;;  `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
@@ -221,6 +193,30 @@
 ;;  `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
 ;;  `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
 ;;  `(show-paren-match                 ((t (:background "mediumseagreen")))))
+
+;; Naysayer Theme
+(custom-set-faces
+ `(default                          ((t (:foreground "#d3b58d" :background "#072629"))))
+ `(hl-line                          ((t (:background "#0c4141"))))
+ `(vertico-current                  ((t (:inherit hl-line))))
+ `(region                           ((t (:background  "medium blue"))))
+ `(cursor                           ((t (:background "lightgreen"))))
+ `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
+ `(font-lock-type-face              ((t (:foreground "#8cde94"))))
+ `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
+ `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
+ `(font-lock-builtin-face           ((t (:foreground "white"))))
+ `(font-lock-string-face            ((t (:foreground "#0fdfaf"))))
+ `(font-lock-comment-face           ((t (:foreground "#3fdf1f"))))
+ `(font-lock-comment-delimiter-face ((t (:foreground "#3fdf1f"))))
+ `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
+ `(font-lock-function-name-face     ((t (:foreground "white"))))
+ `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
+ `(font-lock-warning-face           ((t (:foreground "yellow"))))
+ `(font-lock-note-face              ((t (:foreground "khaki2" ))))
+ `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
+ `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
+ `(show-paren-match                 ((t (:background "mediumseagreen")))))
 
 ;; Black Theme
 ;; (custom-set-faces
@@ -245,6 +241,9 @@
 ;; Dumb way to find things
 (install 'dumb-jump "Poor's man Jump to def/dec/ref. (using grep)")
 (add-hook 'xref-backend-functions        #'dumb-jump-xref-activate)
+
+
+;; xref
 (global-set-key (kbd "<f12>")            'xref-find-definitions)
 (global-set-key (kbd "C-<f12>")          'xref-find-references)
 (global-set-key (kbd "C-<down-mouse-1>") 'xref-find-definitions)
@@ -271,7 +270,7 @@
 (add-hook 'go-mode-hook 'amirreza/go-hook)
 
 ;; Rust
-;; $ rustup component add rust-analyzer
+;; rustup component add rust-analyzer
 (install 'rust-mode)
 
 ;; C/C++
@@ -325,8 +324,6 @@
 ;; Magit
 (install 'magit)
 
-
-;; Amirreza layer on top of emacs.
 (defun amirreza/copy ()
   "Either copy region or the current line."
   (interactive)
@@ -374,15 +371,6 @@
     (setq amirreza/last-compile `(,default-directory ,command))
     (compilation-start command)))
 
-(defun amirreza/switch-to-compile-buffer-or-compile-in-directory ()
-  "If there is already a compilation buffer for current project switch to it otherwise run `amirreza/compile-in-directory`."
-  (interactive)
-  (let ((existing-buffer (get-buffer (amirreza/compile-buffer-name-function 'compilation)))) ;; check if we already have a buffer just switch to it, otherwise ask for options.
-    (if existing-buffer
-	(switch-to-buffer existing-buffer)
-      (amirreza/compile-in-directory))))
-
-
 (defun rg (dir pattern)
   "runs Ripgrep program in a compilation buffer."
   (interactive (list (read-directory-name "[Ripgrep] Directory: " (find-project-root-or-default-directory))
@@ -413,16 +401,7 @@
      ((or (executable-find "rg") is-windows) (rg dir pattern))
      (t (gnu-grep dir pattern)))))
   
-
-(defun amirreza/switch-to-grep-buffer-or-grep-in-directory ()
-  "If there is already a grep buffer for current project switch to it otherwise run `amirreza/grep-in-directory`."
-  (interactive)
-  (let ((existing-buffer (get-buffer (amirreza/compile-buffer-name-function 'grep)))) ;; check if we already have a buffer just switch to it, otherwise ask for options.
-    (if existing-buffer
-	(switch-to-buffer existing-buffer)
-      (amirreza/grep-in-directory))))
-
-(defalias 'Grep 'amirreza/switch-to-grep-buffer-or-grep-in-directory)
+(defalias 'Grep 'amirreza/grep-in-directory)
 
 (with-eval-after-load 'grep
   (define-key grep-mode-map (kbd "<f5>") 'recompile)
@@ -467,11 +446,11 @@
    (t (find-file))))
 
 ;; Project aware keys
-(global-set-key (kbd "M-o") 'amirreza/find-file)
-(global-set-key (kbd "M-;") 'amirreza/eshell)
-(global-set-key (kbd "M-j") 'amirreza/switch-to-grep-buffer-or-grep-in-directory)
-(global-set-key (kbd "M-m") 'amirreza/switch-to-compile-buffer-or-compile-in-directory)
-(global-set-key (kbd "<f5>") 'amirreza/switch-to-compile-buffer-or-compile-in-directory)
+(global-set-key (kbd "M-o")                                          'amirreza/find-file)
+(global-set-key (kbd "M-;")                                          'amirreza/eshell)
+(global-set-key (kbd "M-j")                                          'amirreza/switch-to-grep-buffer-or-grep-in-directory)
+(global-set-key (kbd "M-m")                                          'amirreza/switch-to-compile-buffer-or-compile-in-directory)
+(global-set-key (kbd "<f5>")                                         'amirreza/switch-to-compile-buffer-or-compile-in-directory)
 ;; Basic emacs keys
 (global-set-key (kbd "C-/")                                          'comment-line)
 (global-set-key (kbd "C-w")                                          'amirreza/cut)
@@ -496,10 +475,8 @@
   (define-key rectangle-mark-mode-map (kbd "C-i")                    'string-insert-rectangle)
   (define-key rectangle-mark-mode-map (kbd "C-r")                    'string-rectangle))
 
-
 ;;; Final benchmarking
 (defvar amirreza/emacs-init-took (* (float-time (time-subtract (float-time) amirreza/emacs-starting-time)) 1000) "Time took to load my init file, value is in milliseconds.")
 (defvar emacs-init-time-took (* (string-to-number (emacs-init-time "%f")) 1000) "Time took Emacs to boot, value is in milliseconds.")
 (setq amirreza/emacs-init-log-message (format "Amirreza emacs init took %fms, Emacs init took: %fms" amirreza/emacs-init-took emacs-init-time-took))
 (message amirreza/emacs-init-log-message)
-
