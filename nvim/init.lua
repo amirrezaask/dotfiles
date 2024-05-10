@@ -209,6 +209,8 @@ if not vim.loop.fs_stat(lazypath) then
     })
 end
 
+local TRANSPARENT = true
+
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
@@ -222,9 +224,28 @@ require("lazy").setup({
     { "folke/todo-comments.nvim", opts = {} },
 
     -- Colorschemes
-    'luisiacc/gruvbox-baby',
-    { "wahyuwiyoko/dark-moon.nvim" },
-    { "catppuccin/nvim",           name = "catppuccin" },
+    {
+        "rose-pine/neovim",
+        name = "rose-pine",
+        opts = {
+            styles = {
+                transparency = TRANSPARENT,
+            }
+        }
+    },
+    {
+        "folke/tokyonight.nvim",
+        opts = {
+            transparent = TRANSPARENT
+        }
+    },
+    {
+        "catppuccin/nvim",
+        name = "catppuccin",
+        opts = {
+            transparent_background = TRANSPARENT,
+        }
+    },
     {
         "ellisonleao/gruvbox.nvim",
         config = function()
@@ -602,4 +623,12 @@ vim.api.nvim_create_autocmd("BufEnter", {
     group = augroup,
 })
 
-vim.cmd.colorscheme("gruvbox")
+
+function Transparent()
+    vim.cmd [[
+        hi! Normal guibg=none
+        hi! NormalFloat guibg=none
+    ]]
+end
+
+vim.cmd.colorscheme("tokyonight")
