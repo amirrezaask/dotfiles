@@ -623,12 +623,4 @@ vim.api.nvim_create_autocmd("BufEnter", {
     group = augroup,
 })
 
-
-function Transparent()
-    vim.cmd [[
-        hi! Normal guibg=none
-        hi! NormalFloat guibg=none
-    ]]
-end
-
 vim.cmd.colorscheme("tokyonight")
