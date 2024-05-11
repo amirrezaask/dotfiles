@@ -153,7 +153,6 @@
     (unless (package-installed-p PKG)
       (package-install PKG))))
 
-
 ;; Let emacs handle large files and lines.
 (install 'so-long "So emacs can handle long lines :))")
 (global-so-long-mode +1)
@@ -172,44 +171,20 @@
   (define-key minibuffer-mode-map (kbd "C-p") 'minibuffer-previous-completion))
 
 ;; Dirt Theme (default)
-(custom-set-faces
- `(default                          ((t (:foreground "#debe95" :background "#161616"))))
- `(hl-line                          ((t (:background "#252525"))))
- `(vertico-current                  ((t (:background "#252525"))))
- `(region                           ((t (:background "medium blue"))))
- `(cursor                           ((t (:background "lightgreen"))))
- `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
- `(font-lock-type-face              ((t (:foreground "#8cde94"))))
- `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
- `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
- `(font-lock-builtin-face           ((t (:foreground "white"))))
- `(font-lock-string-face            ((t (:foreground "gray70"))))
- `(font-lock-comment-face           ((t (:foreground "yellow"))))
- `(font-lock-comment-delimiter-face ((t (:foreground "yellow"))))
- `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
- `(font-lock-function-name-face     ((t (:foreground "white"))))
- `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
- `(font-lock-warning-face           ((t (:foreground "yellow"))))
- `(font-lock-note-face              ((t (:foreground "khaki2" ))))
- `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
- `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
- `(show-paren-match                 ((t (:background "mediumseagreen")))))
-
-;; Naysayer Theme
 ;; (custom-set-faces
-;;  `(default                          ((t (:foreground "#d3b58d" :background "#072629"))))
-;;  `(hl-line                          ((t (:background "#0c4141"))))
-;;  `(vertico-current                  ((t (:inherit hl-line))))
-;;  `(region                           ((t (:background  "medium blue"))))
+;;  `(default                          ((t (:foreground "#debe95" :background "#161616"))))
+;;  `(hl-line                          ((t (:background "#252525"))))
+;;  `(vertico-current                  ((t (:background "#252525"))))
+;;  `(region                           ((t (:background "medium blue"))))
 ;;  `(cursor                           ((t (:background "lightgreen"))))
 ;;  `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
 ;;  `(font-lock-type-face              ((t (:foreground "#8cde94"))))
 ;;  `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
 ;;  `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
 ;;  `(font-lock-builtin-face           ((t (:foreground "white"))))
-;;  `(font-lock-string-face            ((t (:foreground "#0fdfaf"))))
-;;  `(font-lock-comment-face           ((t (:foreground "#3fdf1f"))))
-;;  `(font-lock-comment-delimiter-face ((t (:foreground "#3fdf1f"))))
+;;  `(font-lock-string-face            ((t (:foreground "gray70"))))
+;;  `(font-lock-comment-face           ((t (:foreground "yellow"))))
+;;  `(font-lock-comment-delimiter-face ((t (:foreground "yellow"))))
 ;;  `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
 ;;  `(font-lock-function-name-face     ((t (:foreground "white"))))
 ;;  `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
@@ -218,6 +193,30 @@
 ;;  `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
 ;;  `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
 ;;  `(show-paren-match                 ((t (:background "mediumseagreen")))))
+
+;; Naysayer Theme
+(custom-set-faces
+ `(default                          ((t (:foreground "#d3b58d" :background "#072629"))))
+ `(hl-line                          ((t (:background "#0c4141"))))
+ `(vertico-current                  ((t (:inherit hl-line))))
+ `(region                           ((t (:background  "medium blue"))))
+ `(cursor                           ((t (:background "lightgreen"))))
+ `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
+ `(font-lock-type-face              ((t (:foreground "#8cde94"))))
+ `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
+ `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
+ `(font-lock-builtin-face           ((t (:foreground "white"))))
+ `(font-lock-string-face            ((t (:foreground "#0fdfaf"))))
+ `(font-lock-comment-face           ((t (:foreground "#3fdf1f"))))
+ `(font-lock-comment-delimiter-face ((t (:foreground "#3fdf1f"))))
+ `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
+ `(font-lock-function-name-face     ((t (:foreground "white"))))
+ `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
+ `(font-lock-warning-face           ((t (:foreground "yellow"))))
+ `(font-lock-note-face              ((t (:foreground "khaki2" ))))
+ `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
+ `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
+ `(show-paren-match                 ((t (:background "mediumseagreen")))))
 
 ;; Black Theme
 ;; (custom-set-faces
@@ -242,7 +241,6 @@
 ;; Dumb way to find things
 (install 'dumb-jump "Poor's man Jump to def/dec/ref. (using grep)")
 (add-hook 'xref-backend-functions        #'dumb-jump-xref-activate)
-
 
 ;; xref
 (global-set-key (kbd "<f12>")            'xref-find-definitions)
@@ -413,25 +411,6 @@
 
 (setq eshell-visual-subcommands '("git" "diff" "log" "show"))
 
-(defun amirreza/eshell-hook ()
-  (define-key eshell-mode-map (kbd "M-;") 'previous-buffer))
-
-(add-hook 'eshell-mode-hook 'amirreza/eshell-hook)
-
-(defun amirreza/eshell ()
-  "If there is already an eshell buffer for current project jump to it, otherwise create a new one for current project."
-  (interactive)
-  (let* ((dir (find-project-root-or-default-directory))
-	 (eshell-buffer-name (format "*eshell-%s*" dir))
-	 (default-directory dir)
-	 (existing-buffer (get-buffer eshell-buffer-name)))
-
-    (if existing-buffer
-	(switch-to-buffer existing-buffer) ;; we switch to buffer.
-      (eshell))))
-
-(defalias 'Shell 'amirreza/eshell)
-
 (defun amirreza/git-files (DIR)
   (interactive (list (read-directory-name "[Git Files] Directory: " (find-project-root-or-default-directory))))
   (unless (executable-find "git") (error "git executable not found."))
@@ -445,11 +424,10 @@
   (interactive)
   (cond
    ((git-repo-p) (amirreza/git-files (git-repo-p)))
-   (t (find-file))))
+   (t (call-interactively 'find-file))))
 
 ;; Project aware keys
 (global-set-key (kbd "M-o")                                          'amirreza/find-file)
-(global-set-key (kbd "M-;")                                          'amirreza/eshell)
 (global-set-key (kbd "M-j")                                          'amirreza/grep-in-directory)
 (global-set-key (kbd "M-m")                                          'amirreza/compile-in-directory)
 (global-set-key (kbd "<f5>")                                         'amirreza/compile-in-directory)
