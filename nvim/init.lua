@@ -531,9 +531,7 @@ require("lazy").setup({
             }
 
             for server, config in pairs(lsp_servers) do
-                if vim.fn.executable(require "lspconfig".intelephense.document_config.default_config.cmd[1]) ~= 0 then
-                    require("lspconfig")[server].setup(config)
-                end
+                require("lspconfig")[server].setup(config)
             end
 
             -- LspInfo window have rounded border
