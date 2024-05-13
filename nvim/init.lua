@@ -459,10 +459,6 @@ require("lazy").setup({
             map("n", "<leader>w", function()
                 builtin.lsp_dynamic_workspace_symbols()
             end, "LSP workspace symbols")
-
-            map("n", "<leader>i", function()
-                builtin.find_files({ previewer = false, cwd = vim.fn.stdpath("config") })
-            end, "Neovim Config")
         end,
     },
 
