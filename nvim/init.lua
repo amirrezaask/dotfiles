@@ -229,6 +229,7 @@ require("lazy").setup({
         name = "rose-pine",
         opts = {
             styles = {
+                italic = false,
                 transparency = TRANSPARENT,
             }
         }
@@ -623,4 +624,4 @@ vim.api.nvim_create_autocmd("BufEnter", {
     group = augroup,
 })
 
-vim.cmd.colorscheme("tokyonight")
+vim.cmd.colorscheme("tokyonight-night")
