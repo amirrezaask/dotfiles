@@ -9,7 +9,8 @@ sudo apt install -y \
 	build-essential pkg-config autoconf \
 	openfortivpn \
 	i3 \
-	i3lock
+	i3lock \
+	xautolock
   
 echo "Installing Postman"
 if command -v snap &>/dev/null
