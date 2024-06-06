@@ -8,6 +8,7 @@ sudo apt install -y \
 	libu2f-udev \
 	build-essential pkg-config autoconf \
 	openfortivpn \
+	kitty \
 	i3 \
 	i3lock \
 	xautolock
@@ -125,3 +126,6 @@ mkdir -p ~/w
 cd ~/w
 git clone --depth 1 https://github.com/amirrezaask/dotfiles 
 make -f ~/w/dotfiles/Makefile install
+
+echo "Make kitty x-terminal-emulator"
+sudo update-alternatives --set x-terminal-emulator /usr/bin/kitty
