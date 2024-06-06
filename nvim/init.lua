@@ -209,7 +209,7 @@ if not vim.loop.fs_stat(lazypath) then
     })
 end
 
-local TRANSPARENT = true
+local TRANSPARENT = false
 
 vim.opt.rtp:prepend(lazypath)
 
