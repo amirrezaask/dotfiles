@@ -2,7 +2,14 @@ keybinds {
     normal {
         unbind "Ctrl n"
         unbind "Ctrl p"
+        unbind "Ctrl s"
+        unbind "Ctrl o"
+        unbind "Ctrl h"
+        unbind "Ctrl t"
+        unbind "Ctrl g"
+        unbind "Ctrl q"
         bind "Alt t" { NewTab ;}
+        bind "Alt s" { SwitchToMode "search" ;}
         bind "Alt l" { MoveFocusOrTab "Right" ;}
         bind "Alt h" { MoveFocusOrTab "Left" ;}
         bind "Alt n" { NewPane ;}
@@ -10,5 +17,35 @@ keybinds {
         bind "Alt f" { ToggleFocusFullscreen ; }
     }
 }
-default_layout "compact"
+themes {
+    rose-pine {
+		bg "#faf4ed"
+		fg "#575279"
+		red "#b4637a"
+		green "#286983"
+		blue "#56949f"
+		yellow "#ea9d34"
+		magenta "#907aa9"
+		orange "#fe640b"
+		cyan "#d7827e"
+		black "#f2e9e1"
+		white "#575279"
+	}
+    tokyo-night {
+        fg 169 177 214
+        bg 26 27 38
+        black 56 62 90
+        red 249 51 87
+        green 158 206 106
+        yellow 224 175 104
+        blue 122 162 247
+        magenta 187 154 247
+        cyan 42 195 222
+        white 192 202 245
+        orange 255 158 100
+    }
+}
+
+theme "tokyo-night"
+// default_layout "compact"
 
