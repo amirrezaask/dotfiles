@@ -15,4 +15,5 @@ install:
 	ln -s $(DOTFILES_DIR)/nvim $(XDG_CONFIG)/
 	ln -s $(DOTFILES_DIR)/zellij $(XDG_CONFIG)/
 	ln -s $(DOTFILES_DIR)/fish $(XDG_CONFIG)/
+	ln -s $(DOTFILES_DIR)/kitty $(XDG_CONFIG)/
 	$(DOTFILES_DIR)/vscode/extensions.sh
