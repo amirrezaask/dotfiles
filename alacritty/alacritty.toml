@@ -6,6 +6,9 @@ bindings = [
     { key = "F11", action = "ToggleFullscreen" }
 ]
 
+[font]
+normal = { family = 'JetBrainsMonoNerdFontMono' }
+
 [colors]
 [colors.primary]
 background = '#000000'

@@ -7,7 +7,9 @@ sudo apt install -y \
 	docker.io \
 	libu2f-udev \
 	build-essential pkg-config autoconf \
-	openfortivpn
+	openfortivpn \
+	i3 \
+	i3lock
   
 echo "Installing Postman"
 if command -v snap &>/dev/null
@@ -84,6 +86,31 @@ chmod +x ./zellij
 mv zellij ~/.local/bin
 cd ~
 
+echo "Installing Fonts"
+mkdir -p ~/.local/share/fonts
+
+cd ~/Downloads
+wget https://github.com/ryanoasis/nerd-fonts/releases/latest/download/CascadiaMono.zip
+unzip CascadiaMono.zip -d CascadiaFont
+cp CascadiaFont/*.ttf ~/.local/share/fonts
+rm -rf CascadiaMono.zip CascadiaFont
+
+wget https://github.com/ryanoasis/nerd-fonts/releases/latest/download/FiraMono.zip
+unzip FiraMono.zip -d FiraMono
+cp FiraMono/*.otf ~/.local/share/fonts
+rm -rf FiraMono.zip FiraMono
+
+wget https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.zip
+unzip JetBrainsMono.zip -d JetBrainsMono
+cp JetBrainsMono/*.ttf ~/.local/share/fonts
+rm -rf JetBrainsMono.zip JetBrainsMono
+
+wget https://github.com/ryanoasis/nerd-fonts/releases/latest/download/Meslo.zip
+unzip Meslo.zip -d Meslo
+cp Meslo/*.ttf ~/.local/share/fonts
+rm -rf Meslo.zip Meslo
+
+echo "Linking Dotfiles"
 mkdir -p ~/w
 cd ~/w
 git clone --depth 1 https://github.com/amirrezaask/dotfiles 
