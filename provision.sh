@@ -86,6 +86,15 @@ chmod +x ./zellij
 mv zellij ~/.local/bin
 cd ~
 
+echo "Installing kubectl/openshift client"
+cd ~/Downloads
+wget -O oc.tar.gz -c 'https://github.com/okd-project/okd/releases/download/4.15.0-0.okd-2024-03-10-010116/openshift-client-linux-4.15.0-0.okd-2024-03-10-010116.tar.gz'
+mkdir oc
+tar -xf oc.tar.gz -C ./oc/
+mv ./oc/oc $HOME/.local/bin/oc
+mv ./oc/kubectl $HOME/.local/bin/kubectl
+rm -rf oc
+
 echo "Installing Fonts"
 mkdir -p ~/.local/share/fonts
 
