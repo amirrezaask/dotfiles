@@ -1,18 +1,24 @@
 {
   "window.restoreWindows": "none", // do not reopen everything when I launch.
   "editor.fontSize": 14,
-  "editor.fontFamily": "Comic Mono, Cascadia Code, Jetbrains Mono, Consolas",
+  "editor.fontFamily": "Cascadia Code, Fira Code, Consolas",
   "window.titleBarStyle": "custom",
   "window.dialogStyle": "custom",
-  "window.title": "${dirty}${rootPath} @ ${activeRepositoryBranchName}",
   "workbench.settings.editor": "json",
+  "window.title": "${dirty}${separator}${folderName}",
 
   // Disable/hide useless UI
   "editor.minimap.enabled": false,
   "workbench.layoutControl.enabled": false,
+  "window.menuBarVisibility": "toggle",
   "workbench.editor.editorActionsLocation": "hidden",
   "window.commandCenter": false,
-  "workbench.startupEditor": "none",
+"workbench.startupEditor": "newUntitledFile",
+  "security.workspace.trust.untrustedFiles": "open",
+  "workbench.editor.showTabs": "single",
+  "workbench.editor.enablePreview": false,
+  "editor.bracketPairColorization.enabled": false,
+  "workbench.activityBar.location": "top",
 
   // Golang
   "[go]": { "editor.formatOnSave": true },
@@ -22,36 +28,13 @@
   "gitProjectManager.baseProjectsFolders": [ "~/w", "C:\\w\\" ],
 
   // Rust
-  "[rust]": { "editor.formatOnSave": true },
-
-  // Vim
-  "vim.leader": "<space>",
-  "vim.handleKeys": {
-    "<C-a>": false,
-    "<C-f>": false,
-    "<C-p>": false,
-    "<C-w>": false,
-    "<C-j>": false,
+  "[rust]": {
+    "editor.formatOnSave": true
   },
-  "vim.useSystemClipboard": true,
-  "vim.useCtrlKeys": true,
-  "vim.insertModeKeyBindingsNonRecursive": [
-    { "before": [ "j", "k" ], "after": [ "<esc>" ] },
-    { "before": [ "k", "j" ], "after": [ "<esc>" ] },
-  ],
-  "vim.visualModeKeyBindings": [
-    { "before": ["<"], "commands": ["editor.action.outdentLines"] },
-    { "before": [">"], "commands": ["editor.action.indentLines"] },
-    { "before": ["J"], "commands": ["editor.action.moveLinesDownAction"] },
-    { "before": ["K"], "commands": ["editor.action.moveLinesUpAction"] },
-  ],
-  "vim.normalModeKeyBindingsNonRecursive": [
-    { "before": [ "R" ], "commands": [ "editor.action.rename" ] },
-    { "before": [ "<leader>", "p" ], "commands": [ "workbench.action.quickOpen" ] },
-    { "before": [ "P" ], "commands": [ "workbench.action.showCommands" ] },
-    { "before": [ "<leader>", "k" ], "commands": [ "workbench.action.toggleSidebarVisibility" ] },
-    { "before": [ "K" ], "commands": [ "editor.action.showHover" ] },
-    { "before": [ "C" ], "commands": [ "editor.action.quickFix" ] },
-  ],
-  "security.workspace.trust.untrustedFiles": "open",
+  "extensions.experimental.affinity": {
+    "asvetliakov.vscode-neovim": 1
+  },
+  "window.customTitleBarVisibility": "auto",
+  "workbench.colorTheme": "Dracula",
+
 }

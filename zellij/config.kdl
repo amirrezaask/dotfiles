@@ -1,0 +1,14 @@
+keybinds {
+    normal {
+        unbind "Ctrl n"
+        unbind "Ctrl p"
+        bind "Alt t" { NewTab ;}
+        bind "Alt l" { MoveFocusOrTab "Right" ;}
+        bind "Alt h" { MoveFocusOrTab "Left" ;}
+        bind "Alt n" { NewPane ;}
+        bind "Alt w" { ToggleFloatingPanes ; }
+        bind "Alt f" { ToggleFocusFullscreen ; }
+    }
+}
+default_layout "compact"
+
