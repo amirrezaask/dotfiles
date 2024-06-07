@@ -35,6 +35,6 @@
     "asvetliakov.vscode-neovim": 1
   },
   "window.customTitleBarVisibility": "auto",
-  "workbench.colorTheme": "Dracula",
+  "workbench.colorTheme": "GitHub Dark",
 
 }
