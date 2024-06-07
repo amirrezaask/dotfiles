@@ -51,6 +51,8 @@ mkdir -p ~/.local/bin
 
 # Setup git aliases
 echo "Setting up git"
+git config --global user.email 'raskarpour@gmail.com'
+git config --global user.name 'amirrezaask'
 git config --global alias.co checkout
 git config --global alias.br branch
 git config --global alias.ci commit
