@@ -11,7 +11,8 @@ sudo apt install -y \
 	kitty \
 	i3 \
 	i3lock \
-	xautolock
+	xautolock \
+	gnome-shell-extension-manager
   
 echo "Installing Postman"
 if command -v snap &>/dev/null
