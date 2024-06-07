@@ -8,9 +8,6 @@ sudo apt install -y \
 	libu2f-udev \
 	build-essential pkg-config autoconf \
 	openfortivpn \
-	kitty \
-	i3 \
-	i3lock \
 	xautolock \
 	gnome-shell-extension-manager
   
@@ -33,13 +30,13 @@ fi
 echo "Installing google-chrome"
 cd ~/Downloads
 wget -nc https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-sudo dpkg -i google-chrome-stable_current_amd64.deb
+sudo apt install -y ./google-chrome-stable_current_amd64.deb
 cd -
 
 echo "Installing Code"
 cd ~/Downloads
 wget -nc -O vscode.deb -c 'https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64'
-sudo apt install ./vscode.deb
+sudo apt install -y ./vscode.deb
 
 echo "Installing Go Compiler"
 sudo add-apt-repository -y ppa:longsleep/golang-backports
@@ -119,16 +116,8 @@ unzip JetBrainsMono.zip -d JetBrainsMono
 cp JetBrainsMono/*.ttf ~/.local/share/fonts
 rm -rf JetBrainsMono.zip JetBrainsMono
 
-wget https://github.com/ryanoasis/nerd-fonts/releases/latest/download/Meslo.zip
-unzip Meslo.zip -d Meslo
-cp Meslo/*.ttf ~/.local/share/fonts
-rm -rf Meslo.zip Meslo
-
 echo "Linking Dotfiles"
 mkdir -p ~/w
 cd ~/w
 git clone --depth 1 https://github.com/amirrezaask/dotfiles 
 make -f ~/w/dotfiles/Makefile install
-
-echo "Make kitty x-terminal-emulator"
-sudo update-alternatives --set x-terminal-emulator /usr/bin/kitty
