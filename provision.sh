@@ -122,8 +122,6 @@ cd ~/w
 git clone --depth 1 https://github.com/amirrezaask/dotfiles 
 make -f ~/w/dotfiles/Makefile install
 
-cat << EOF >> ~/.bashrc
-export GOPATH="$HOME/go"
-export PATH="$PATH:$GOPATH/bin"
-export PATH="$PATH:$HOME/.local/bin"
-EOF
+echo 'export GOPATH="$HOME/go"' >> ~/.bashrc
+echo 'export PATH="$PATH:$GOPATH/bin"' >> ~/.bashrc
+echo 'export PATH="$PATH:$HOME/.local/bin"' >> ~/.bashrc 
