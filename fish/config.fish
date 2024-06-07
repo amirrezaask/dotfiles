@@ -7,3 +7,4 @@ function fish_prompt -d "Write out the prompt"
 end
 export EDITOR='nvim'
 export GIT_EDITOR='nvim'
+alias rn='zellij action rename-tab '
