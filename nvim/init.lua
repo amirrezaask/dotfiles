@@ -302,6 +302,7 @@ require("lazy").setup({
 		"rcarriga/nvim-notify",
 		opts = {},
 	},
+	{ "akinsho/bufferline.nvim", version = "*", dependencies = "nvim-tree/nvim-web-devicons", opts = {} },
 
 	-- indent guides for Neovim
 	{
@@ -559,7 +560,6 @@ require("lazy").setup({
 					require("mason").setup({})
 				end,
 			},
-			{ "j-hui/fidget.nvim", opts = {} },
 		},
 		config = function()
 			local lsp_servers = {
