@@ -17,6 +17,7 @@ install:
 	ln -s $(DOTFILES_DIR)/zellij $(XDG_CONFIG)/
 	ln -s $(DOTFILES_DIR)/fish $(XDG_CONFIG)/
 	ln -s $(DOTFILES_DIR)/kitty $(XDG_CONFIG)/
+	mkdir -p $(XDG_CONFIG)/Code/User
 	ln -s $(DOTFILES_DIR)/vscode/settings.json $(XDG_CONFIG)/Code/User/settings.json
 	ln -s $(DOTFILES_DIR)/vscode/keybindings.json $(XDG_CONFIG)/Code/User/keybindings.json
 	$(DOTFILES_DIR)/vscode/extensions.sh
