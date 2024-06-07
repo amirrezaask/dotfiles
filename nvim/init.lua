@@ -234,6 +234,7 @@ require("lazy").setup({
 	-- Highlight TODO in comments
 	{ "folke/todo-comments.nvim", opts = {} },
 
+	-- Search and replace in files
 	{
 		"nvim-pack/nvim-spectre",
 		config = function()
@@ -286,6 +287,7 @@ require("lazy").setup({
 		end,
 	},
 
+	-- Icons
 	{ "nvim-tree/nvim-web-devicons", lazy = true },
 
 	-- ui components
@@ -342,19 +344,13 @@ require("lazy").setup({
 			},
 		},
 	},
+
 	-- Terminal Emulator inside neovim inside terminal :))
 	{
 		"akinsho/toggleterm.nvim",
 		version = "*",
 		opts = {
 			open_mapping = "<C-l>",
-		},
-	},
-	{
-		"kristijanhusak/vim-dadbod-ui",
-		dependencies = {
-			{ "tpope/vim-dadbod" },
-			{ "kristijanhusak/vim-dadbod-completion" },
 		},
 	},
 
@@ -395,6 +391,7 @@ require("lazy").setup({
 					["<C-p>"] = cmp.mapping.select_prev_item(cmp_select),
 					["<C-n>"] = cmp.mapping.select_next_item(cmp_select),
 					["<C-y>"] = cmp.mapping.confirm({ select = true }),
+					["<CR>"] = cmp.mapping.confirm({ select = true }),
 					["<C-Space>"] = cmp.mapping.complete(),
 				}),
 				sources = {
@@ -657,21 +654,21 @@ require("lazy").setup({
 }, {})
 
 -- Change current working directory based on the buffer project root.
-local augroup = vim.api.nvim_create_augroup("amirreza-chcwd", {})
-vim.api.nvim_create_autocmd("BufEnter", {
-	callback = function(ev)
-		local filename = ev.file
-		local start_from = vim.fs.dirname(filename)
-
-		local root = vim.fs.dirname(
-			vim.fs.find({ ".git", "go.mod", "package.json", "cargo.toml" }, { upward = true, path = start_from })[1]
-		)
-		if root ~= nil and root ~= "" then
-			local abs_path = require("plenary.path").new(root or vim.fn.getcwd()):absolute()
-			vim.fn.chdir(abs_path)
-		end
-	end,
-	group = augroup,
-})
+-- local augroup = vim.api.nvim_create_augroup("amirreza-chcwd", {})
+-- vim.api.nvim_create_autocmd("BufEnter", {
+-- 	callback = function(ev)
+-- 		local filename = ev.file
+-- 		local start_from = vim.fs.dirname(filename)
+--
+-- 		local root = vim.fs.dirname(
+-- 			vim.fs.find({ ".git", "go.mod", "package.json", "cargo.toml" }, { upward = true, path = start_from })[1]
+-- 		)
+-- 		if root ~= nil and root ~= "" then
+-- 			local abs_path = require("plenary.path").new(root or vim.fn.getcwd()):absolute()
+-- 			vim.fn.chdir(abs_path)
+-- 		end
+-- 	end,
+-- 	group = augroup,
+-- })
 
 vim.cmd.colorscheme("tokyonight-night")
