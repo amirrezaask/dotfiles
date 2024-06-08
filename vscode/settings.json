@@ -1,7 +1,7 @@
 {
   "window.restoreWindows": "none", // do not reopen everything when I launch.
   "editor.fontSize": 14,
-  "editor.fontFamily": "Cascadia Code, Fira Code, Consolas",
+  "editor.fontFamily": "Cascadia Code",
   "window.titleBarStyle": "custom",
   "window.dialogStyle": "custom",
   "workbench.settings.editor": "json",
@@ -31,10 +31,6 @@
   "[rust]": {
     "editor.formatOnSave": true
   },
-  "extensions.experimental.affinity": {
-    "asvetliakov.vscode-neovim": 1
-  },
   "window.customTitleBarVisibility": "auto",
-  "workbench.colorTheme": "GitHub Dark",
-
+  "workbench.colorTheme": "Visual Studio Light",
 }
