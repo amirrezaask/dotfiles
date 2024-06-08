@@ -101,10 +101,10 @@ echo "Installing Fonts"
 mkdir -p ~/.local/share/fonts
 
 cd ~/Downloads
-wget https://github.com/ryanoasis/nerd-fonts/releases/latest/download/CascadiaMono.zip
-unzip CascadiaMono.zip -d CascadiaFont
+wget -O CascadiaCode.zip 'https://github.com/microsoft/cascadia-code/releases/download/v2404.23/CascadiaCode-2404.23.zip'
+unzip CascadiaCode.zip -d CascadiaFont
 cp CascadiaFont/*.ttf ~/.local/share/fonts
-rm -rf CascadiaMono.zip CascadiaFont
+rm -rf CascadiaCode.zip CascadiaFont
 
 wget https://github.com/ryanoasis/nerd-fonts/releases/latest/download/FiraMono.zip
 unzip FiraMono.zip -d FiraMono
