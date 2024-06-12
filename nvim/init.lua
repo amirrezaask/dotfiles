@@ -222,15 +222,7 @@ require("lazy").setup({
 		event = "VeryLazy",
 		opts = {},
 	},
-	{
-		"folke/noice.nvim",
-		event = "VeryLazy",
-		opts = {},
-		dependencies = {
-			"MunifTanjim/nui.nvim",
-			"rcarriga/nvim-notify",
-		},
-	},
+	
 	-- Highlight TODO in comments
 	{ "folke/todo-comments.nvim", opts = {} },
 
