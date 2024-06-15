@@ -1,36 +1,34 @@
 {
+  // Basics
   "window.restoreWindows": "none", // do not reopen everything when I launch.
   "editor.fontSize": 14,
-  "editor.fontFamily": "Cascadia Code",
+  "editor.fontFamily": "JetBrains Mono",
+  "editor.fontLigatures": false,
   "window.titleBarStyle": "custom",
   "window.dialogStyle": "custom",
   "workbench.settings.editor": "json",
-  "window.title": "${dirty}${separator}${folderName}",
-  
+  "window.title": "${dirty}${activeEditorLong}",
   // Disable/hide useless UI
   "editor.minimap.enabled": false,
   "workbench.layoutControl.enabled": false,
-  "window.menuBarVisibility": "toggle",
-  "workbench.editor.editorActionsLocation": "hidden",
   "window.commandCenter": false,
   "workbench.startupEditor": "newUntitledFile",
   "security.workspace.trust.untrustedFiles": "open",
   "workbench.editor.showTabs": "single",
+  "settingsSync.keybindingsPerPlatform": true,
+  "editor.stickyScroll.enabled": false,
+  "workbench.statusBar.visible": false,
   "workbench.editor.enablePreview": false,
+  "breadcrumbs.enabled": false,
   "editor.bracketPairColorization.enabled": false,
   "workbench.activityBar.location": "top",
-
-  // Golang
+  "window.customTitleBarVisibility": "auto",
+  "workbench.editor.editorActionsLocation": "hidden",
+  
   "[go]": { "editor.formatOnSave": true },
   "go.addTags": { "options": "" },
-
-  // Git project manager
   "gitProjectManager.baseProjectsFolders": [ "~/w", "C:\\w\\" ],
-
-  // Rust
-  "[rust]": {
-    "editor.formatOnSave": true
-  },
-  "window.customTitleBarVisibility": "auto",
-  "workbench.colorTheme": "Visual Studio Light",
+  "[rust]": { "editor.formatOnSave": true },
+  "workbench.colorTheme": "Dracula",
+  "window.density.editorTabHeight": "compact",
 }
