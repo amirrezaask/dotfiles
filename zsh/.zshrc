@@ -26,6 +26,10 @@ then
     export EDITOR='code -w'
     export GIT_EDITOR='code -w'
 fi
+if command -v fzf &>/dev/null
+then
+    source <(fzf --zsh)
+fi
 export PATH="/usr/local/go/bin:$PATH"
 export PATH="$HOME/go/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
