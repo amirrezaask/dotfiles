@@ -21,18 +21,15 @@ plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
 
-if ! command -v starship &>/dev/null
+if command -v code &>/dev/null
 then
-    curl -sS https://starship.rs/install.sh | sh
+    export EDITOR='code -w'
+    export GIT_EDITOR='code -w'
 fi
-
-# eval "$(starship init zsh)"
-
-
 export PATH="/usr/local/go/bin:$PATH"
 export PATH="$HOME/go/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
-alias svpn="sudo openfortivpn -c $HOME/snappdc.conf"
+alias svpn="sudo openfortivpn"
 alias vim='nvim'
 [ -f "$HOME/cargo/env" ] && . "$HOME/.cargo/env"
 
