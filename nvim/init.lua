@@ -222,7 +222,7 @@ require("lazy").setup({
 		event = "VeryLazy",
 		opts = {},
 	},
-	
+
 	-- Highlight TODO in comments
 	{ "folke/todo-comments.nvim", opts = {} },
 
@@ -283,7 +283,7 @@ require("lazy").setup({
 	{ "nvim-tree/nvim-web-devicons", lazy = true },
 
 	-- ui components
-	{ "MunifTanjim/nui.nvim", lazy = true },
+	{ "MunifTanjim/nui.nvim",        lazy = true },
 
 	{
 		"nvim-lualine/lualine.nvim",
@@ -294,7 +294,6 @@ require("lazy").setup({
 		"rcarriga/nvim-notify",
 		opts = {},
 	},
-	{ "akinsho/bufferline.nvim", version = "*", dependencies = "nvim-tree/nvim-web-devicons", opts = {} },
 
 	-- indent guides for Neovim
 	{
@@ -543,11 +542,13 @@ require("lazy").setup({
 					local sep = get_path_sep()
 
 					if IS_WINDOWS then
-						vim.env.PATH = string.format("%s%smason%sbin;", (vim.fn.stdpath("data")), sep, sep)
-							.. vim.env.PATH
+						vim.env.PATH = string.format("%s%smason%sbin;", (vim.fn.stdpath("data")),
+							    sep, sep)
+						    .. vim.env.PATH
 					else
-						vim.env.PATH = string.format("%s%smason%sbin:", (vim.fn.stdpath("data")), sep, sep)
-							.. vim.env.PATH
+						vim.env.PATH = string.format("%s%smason%sbin:", (vim.fn.stdpath("data")),
+							    sep, sep)
+						    .. vim.env.PATH
 					end
 					require("mason").setup({})
 				end,
@@ -584,13 +585,15 @@ require("lazy").setup({
 
 			-- LspInfo window have rounded border
 			require("lspconfig.ui.windows").default_options.border = "single"
-			vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
+			vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover,
+				{ border = "rounded" })
 			vim.lsp.handlers["textDocument/signatureHelp"] =
-				vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
+			    vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
 			vim.api.nvim_create_autocmd("LspAttach", {
 				callback = function(args)
 					local bufnr = args.buf
-					vim.api.nvim_set_option_value("omnifunc", "v:lua.vim.lsp.omnifunc", { buf = bufnr })
+					vim.api.nvim_set_option_value("omnifunc", "v:lua.vim.lsp.omnifunc",
+						{ buf = bufnr })
 
 					local map = function(mode, key, fn, desc)
 						vim.keymap.set(mode, key, fn, { buffer = bufnr, desc = "LSP: " .. desc })
