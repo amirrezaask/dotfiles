@@ -2,6 +2,11 @@ local wezterm = require("wezterm")
 local config = {}
 
 config.font_size = 16
+config.font = wezterm.font_with_fallback {
+	'Cascadia Mono NF',
+	'Jetbrains Mono',
+	'Meslo',
+}
 
 config.window_padding = {
 	left = 0,
