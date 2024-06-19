@@ -208,7 +208,7 @@ if not vim.loop.fs_stat(lazypath) then
 	})
 end
 
-local TRANSPARENT = false
+local TRANSPARENT = true
 
 vim.opt.rtp:prepend(lazypath)
 
@@ -674,4 +674,4 @@ require("lazy").setup({
 -- 	group = augroup,
 -- })
 
-vim.cmd.colorscheme("tokyonight-night")
+vim.cmd.colorscheme("onedark")
