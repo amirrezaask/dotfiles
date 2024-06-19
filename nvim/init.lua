@@ -279,6 +279,14 @@ require("lazy").setup({
 		end,
 	},
 
+	{
+		'navarasu/onedark.nvim',
+		opts = {
+			transparent = TRANSPARENT,
+			style = 'darker',
+		}
+	},
+
 	-- Icons
 	{ "nvim-tree/nvim-web-devicons", lazy = true },
 
