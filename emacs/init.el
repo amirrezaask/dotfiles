@@ -100,6 +100,9 @@
 (if is-windows 
     (set-font "Consolas" 16))
 
+(if is-macos
+    (set-font "Jetbrains Mono" 15))
+
 (defun font-zoom-in ()
   (interactive)
   (text-scale-increase 1))
@@ -432,6 +435,8 @@
 (global-set-key (kbd "M-m")                                          'amirreza/compile-in-directory)
 (global-set-key (kbd "<f5>")                                         'amirreza/compile-in-directory)
 ;; Basic emacs keys
+(if is-macos
+    (global-set-key (kbd "C-q") 'set-mark-command))
 (global-set-key (kbd "C-/")                                          'comment-line)
 (global-set-key (kbd "C-w")                                          'amirreza/cut)
 (global-set-key (kbd "M-w")                                          'amirreza/copy)
