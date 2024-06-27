@@ -2,33 +2,39 @@
   // Basics
   "window.restoreWindows": "none", // do not reopen everything when I launch.
   "editor.fontSize": 14,
-  "editor.fontFamily": "JetBrains Mono",
+  "editor.fontFamily": "Jetbrains Mono",
   "editor.fontLigatures": false,
-  "window.titleBarStyle": "custom",
-  "window.dialogStyle": "custom",
   "workbench.settings.editor": "json",
-  "window.title": "${dirty}${activeEditorLong}",
-  // Disable/hide useless UI
+  "window.title": "${dirty}${activeEditorMedium}",
+
+  // Minimal UI
   "editor.minimap.enabled": false,
   "workbench.layoutControl.enabled": false,
   "window.commandCenter": false,
+  "breadcrumbs.enabled": false,
   "workbench.startupEditor": "newUntitledFile",
   "security.workspace.trust.untrustedFiles": "open",
-  "workbench.editor.showTabs": "single",
-  "settingsSync.keybindingsPerPlatform": true,
+  "workbench.editor.showTabs": "multiple",
   "editor.stickyScroll.enabled": false,
-  "workbench.statusBar.visible": false,
   "workbench.editor.enablePreview": false,
-  "breadcrumbs.enabled": false,
   "editor.bracketPairColorization.enabled": false,
   "workbench.activityBar.location": "top",
-  "window.customTitleBarVisibility": "auto",
   "workbench.editor.editorActionsLocation": "hidden",
-  
+  "window.density.editorTabHeight": "compact",
+
   "[go]": { "editor.formatOnSave": true },
   "go.addTags": { "options": "" },
   "gitProjectManager.baseProjectsFolders": [ "~/w", "C:\\w\\" ],
-  "[rust]": { "editor.formatOnSave": true },
-  "workbench.colorTheme": "Dracula",
-  "window.density.editorTabHeight": "compact",
+  "[rust]": {
+    "editor.formatOnSave": true
+  },
+  "git.openRepositoryInParentFolders": "never",
+  "workbench.statusBar.visible": false,
+  "window.nativeTabs": true,
+  "window.customTitleBarVisibility": "never",
+  "go.toolsManagement.autoUpdate": true,
+  "git.confirmSync": false,
+  "window.autoDetectColorScheme": true,
+  "workbench.preferredDarkColorTheme": "Default Dark Modern",
+  "workbench.preferredLightColorTheme": "Default Light Modern"
 }
