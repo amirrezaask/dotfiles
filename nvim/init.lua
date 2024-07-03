@@ -291,11 +291,6 @@ require("lazy").setup({
 	{ "MunifTanjim/nui.nvim", lazy = true },
 
 	{
-		"nvim-lualine/lualine.nvim",
-		opts = {},
-	},
-
-	{
 		"rcarriga/nvim-notify",
 		opts = {},
 	},
