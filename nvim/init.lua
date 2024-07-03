@@ -287,11 +287,8 @@ require("lazy").setup({
 		}
 	},
 
-	-- Icons
-	{ "nvim-tree/nvim-web-devicons", lazy = true },
-
 	-- ui components
-	{ "MunifTanjim/nui.nvim",        lazy = true },
+	{ "MunifTanjim/nui.nvim", lazy = true },
 
 	{
 		"nvim-lualine/lualine.nvim",
@@ -528,7 +525,6 @@ require("lazy").setup({
 		dependencies = {
 			{ -- Like the panel in vscode, shows you errors and warnings from LSP
 				"folke/trouble.nvim",
-				-- dependencies = { "nvim-tree/nvim-web-devicons" },
 				config = function()
 					require("trouble").setup({})
 					vim.keymap.set("n", "<leader>e", ":TroubleToggle<CR>")
