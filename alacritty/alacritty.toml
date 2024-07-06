@@ -10,5 +10,5 @@ bindings = [
 ]
 
 [font]
-normal = { family = 'Cascadia Code NF' }
+normal = { family = 'Menlo' }
 
