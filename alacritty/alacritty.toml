@@ -1,7 +1,7 @@
 import = [ 
     # "~/.config/alacritty/themes/simple.toml" ,
     # "~/.config/alacritty/themes/nightfly.toml" ,
-    # "~/.config/alacritty/themes/coolnight.toml" ,
+    "~/.config/alacritty/themes/coolnight.toml" ,
     # "~/.config/alacritty/themes/gruvbox.toml" ,
     # "~/.config/alacritty/themes/tokyonight.toml" ,
     # "~/.config/alacritty/themes/catppuccin.toml",

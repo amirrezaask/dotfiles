@@ -5,7 +5,7 @@
 ;; Lower threshold back to 8 MiB (default is 800kB)
 (add-hook 'emacs-startup-hook
 	  (lambda ()
-	    (setq gc-cons-threshold (* 1024 1024 20) ;; 20 Megabytes
+	    (setq gc-cons-threshold (* 1024 1024 200) ;; 20 Megabytes
 		  gc-cons-percentage 0.2)))
 
 (setq package-enable-at-startup t)
@@ -169,9 +169,13 @@
 (install 'orderless)
 (setq completion-styles '(orderless basic)
       completion-category-overrides '((file (styles basic partial-completion))))
-(with-eval-after-load 'minibuffer
-  (define-key minibuffer-mode-map (kbd "C-n") 'minibuffer-next-completion)
-  (define-key minibuffer-mode-map (kbd "C-p") 'minibuffer-previous-completion))
+;; (with-eval-after-load 'minibuffer
+;;   (define-key minibuffer-mode-map (kbd "C-n") 'minibuffer-next-completion)
+;;   (define-key minibuffer-mode-map (kbd "C-p") 'minibuffer-previous-completion))
+
+(install 'vertico)
+(vertico-mode +1)
+(install 'consult)
 
 ;; Dirt Theme (default)
 ;; (custom-set-faces
@@ -198,28 +202,28 @@
 ;;  `(show-paren-match                 ((t (:background "mediumseagreen")))))
 
 ;; Naysayer Theme
-;; (custom-set-faces
-;;  `(default                          ((t (:foreground "#d3b58d" :background "#072629"))))
-;;  `(hl-line                          ((t (:background "#0c4141"))))
-;;  `(vertico-current                  ((t (:inherit hl-line))))
-;;  `(region                           ((t (:background  "medium blue"))))
-;;  `(cursor                           ((t (:background "lightgreen"))))
-;;  `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
-;;  `(font-lock-type-face              ((t (:foreground "#8cde94"))))
-;;  `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
-;;  `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
-;;  `(font-lock-builtin-face           ((t (:foreground "white"))))
-;;  `(font-lock-string-face            ((t (:foreground "#0fdfaf"))))
-;;  `(font-lock-comment-face           ((t (:foreground "#3fdf1f"))))
-;;  `(font-lock-comment-delimiter-face ((t (:foreground "#3fdf1f"))))
-;;  `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
-;;  `(font-lock-function-name-face     ((t (:foreground "white"))))
-;;  `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
-;;  `(font-lock-warning-face           ((t (:foreground "yellow"))))
-;;  `(font-lock-note-face              ((t (:foreground "khaki2" ))))
-;;  `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
-;;  `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
-;;  `(show-paren-match                 ((t (:background "mediumseagreen")))))
+(custom-set-faces
+ `(default                          ((t (:foreground "#d3b58d" :background "#072629"))))
+ `(hl-line                          ((t (:background "#0c4141"))))
+ `(vertico-current                  ((t (:inherit hl-line))))
+ `(region                           ((t (:background  "medium blue"))))
+ `(cursor                           ((t (:background "lightgreen"))))
+ `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
+ `(font-lock-type-face              ((t (:foreground "#8cde94"))))
+ `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
+ `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
+ `(font-lock-builtin-face           ((t (:foreground "white"))))
+ `(font-lock-string-face            ((t (:foreground "#0fdfaf"))))
+ `(font-lock-comment-face           ((t (:foreground "#3fdf1f"))))
+ `(font-lock-comment-delimiter-face ((t (:foreground "#3fdf1f"))))
+ `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
+ `(font-lock-function-name-face     ((t (:foreground "white"))))
+ `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
+ `(font-lock-warning-face           ((t (:foreground "yellow"))))
+ `(font-lock-note-face              ((t (:foreground "khaki2" ))))
+ `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
+ `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
+ `(show-paren-match                 ((t (:background "mediumseagreen")))))
 
 ;; Black Theme
 ;; (custom-set-faces
