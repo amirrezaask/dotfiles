@@ -28,6 +28,10 @@ config.window_padding = {
 	top = 0,
 	bottom = 0,
 }
+local is_windows = function()
+	return wezterm.target_triple:find("windows") ~= nil
+end
+
 local is_linux = function()
 	return wezterm.target_triple:find("linux") ~= nil
 end
@@ -46,6 +50,7 @@ config.use_fancy_tab_bar = false
 config.tab_bar_at_bottom = true
 
 config.keys = {
+	{ key = "t",          mods = MOD, action = wezterm.action.SpawnTab('CurrentPaneDomain') },
 	{ key = "j",          mods = MOD, action = wezterm.action.ActivateTabRelative(-1) },
 	{ key = "k",          mods = MOD, action = wezterm.action.ActivateTabRelative(1) },
 	{ key = "LeftArrow",  mods = MOD, action = wezterm.action.ActivateTabRelative(-1) },
