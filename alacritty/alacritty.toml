@@ -21,6 +21,6 @@ normal = { family = 'JetBrainsMono Nerd Font Mono'}
 size = 15
 
 [window]
-opacity = 0.90
+opacity = 0.95
 
 option_as_alt="Both"
