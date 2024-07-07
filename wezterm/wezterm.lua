@@ -42,9 +42,9 @@ end
 
 local MOD = 'CTRL|SHIFT'
 
-if is_darwin() then
-	MOD = 'CMD|SHIFT'
-end
+-- if is_darwin() then
+-- 	MOD = 'CMD|SHIFT'
+-- end
 
 config.use_fancy_tab_bar = false
 config.tab_bar_at_bottom = true
