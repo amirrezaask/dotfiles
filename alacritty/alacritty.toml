@@ -5,7 +5,7 @@ import = [
     # "~/.config/alacritty/themes/gruvbox.toml" ,
     # "~/.config/alacritty/themes/tokyonight.toml" ,
     # "~/.config/alacritty/themes/catppuccin.toml",
-    # "~/.config/alacritty/themes/rosepine.toml" 
+    "~/.config/alacritty/themes/rosepine.toml" 
 ]
 
 [env]
