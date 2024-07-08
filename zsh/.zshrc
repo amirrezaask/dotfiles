@@ -30,6 +30,13 @@ if command -v fzf &>/dev/null
 then
     source <(fzf --zsh)
 fi
+
+p() {
+    proj=$(find ~/w/d ~/w -mindepth 1 -maxdepth 1 -type d | fzf)
+    cd $proj
+}
+
+
 export PATH="/usr/local/go/bin:$PATH"
 export PATH="$HOME/go/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
