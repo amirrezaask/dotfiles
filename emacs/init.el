@@ -69,8 +69,6 @@
 (defun jump-up () (interactive) (next-line (* -1 (/ (window-height) 2))) (recenter-top-bottom))
 (defun jump-down () (interactive) (next-line (/ (window-height) 2)) (recenter-top-bottom))
 
-
-
 (global-unset-key (kbd "C-x C-c"))
 
 ;; Emacs: Font
@@ -122,8 +120,6 @@
   (add-to-list 'exec-path (home ".cargo/bin"))
   (add-to-list 'exec-path "/opt/homebrew/bin"))
 
-
-
 (add-to-list 'exec-path (home "bin"))
 (add-to-list 'exec-path (home "go/bin"))
 
@@ -163,8 +159,6 @@
 (install 'so-long "So emacs can handle long lines :))")
 (global-so-long-mode +1)
 
-(with-eval-after-load 'replace
-  (define-key query-replace-map (kbd "<return>") 'act))
 
 (install 'vlf "Special handling of very large files")
 (require 'vlf-setup)
@@ -174,17 +168,18 @@
 (setq completion-styles '(orderless basic)
       completion-category-overrides '((file (styles basic partial-completion))))
 
-;; (with-eval-after-load 'minibuffer
-;;   (define-key minibuffer-mode-map (kbd "C-n") 'minibuffer-next-completion)
-;;   (define-key minibuffer-mode-map (kbd "C-p") 'minibuffer-previous-completion))
-
 (install 'vertico)
 (vertico-mode +1)
+
+;; Consult + Embark
+(install 'consult)
+(install 'embark)
+(install 'embark-consult)
 
 ;; Dirt Theme (default)
 (custom-set-faces
  `(default                          ((t (:foreground "#debe95" :background "#202020"))))
- `(hl-line                          ((t (:background "#252525"))))
+ `(hl-line                          ((t (:background "#353535"))))
  `(vertico-current                  ((t (:background "#252525"))))
  `(region                           ((t (:background "medium blue"))))
  `(cursor                           ((t (:background "lightgreen"))))
@@ -229,37 +224,12 @@
 ;;  `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
 ;;  `(show-paren-match                 ((t (:background "mediumseagreen")))))
 
-;; Black Theme
-;; (custom-set-faces
-;;  `(default                          ((t (:foreground "grey89" :background "grey0"))))
-;;  `(cursor                           ((t (:background "grey99"))))
-;;  `(font-lock-keyword-face           ((t (:foreground "cyan3"))))
-;;  `(font-lock-type-face              ((t (:foreground "lightblue3"))))
-;;  `(font-lock-variable-name-face     ((t (:foreground "grey89"))))
-;;  `(font-lock-string-face            ((t (:foreground "lightgreen"))))
-;;  `(font-lock-comment-face           ((t (:foreground "grey50"))))
-;;  `(font-lock-comment-delimiter-face ((t (:foreground "grey50"))))
-;;  `(font-lock-doc-face               ((t (:foreground "grey50"))))
-;;  `(font-lock-function-name-face     ((t (:foreground "lightblue2"))))
-;;  `(font-lock-doc-string-face        ((t (:foreground "grey50"))))
-;;  `(region                           ((t (:background "grey23"))))
-;;  `(hl-line                          ((t (:background "grey10"))))
-;;  `(vertico-current                  ((t (:background "grey10"))))
-;;  `(mode-line                        ((t (:background "grey10" :foreground "grey89" :box t))))
-;;  `(mode-line-inactive               ((t (:background "grey3" :foreground "grey89" :box t))))
-;;  `(highlight                        ((t (:foreground nil     :background "cyan")))))
-
-;; Dumb way to find things
-(install 'dumb-jump "Poor's man Jump to def/dec/ref. (using grep)")
-(add-hook 'xref-backend-functions        #'dumb-jump-xref-activate)
+(global-hl-line-mode +1)
 
 ;; xref
-(global-set-key (kbd "<f12>")            'xref-find-definitions)
-(global-set-key (kbd "C-<f12>")          'xref-find-references)
-(global-set-key (kbd "C-<down-mouse-1>") 'xref-find-definitions)
-(global-set-key (kbd "M-<down-mouse-1>") 'xref-find-references)
-(global-set-key (kbd "C-.")              'xref-find-definitions)
-(global-set-key (kbd "C-,")              'xref-go-back)
+(global-set-key (kbd "M-.")              'xref-find-definitions)
+(global-set-key (kbd "C-M-.")            'xref-find-references)
+(global-set-key (kbd "M-,")              'xref-go-back)
 
 ;; Compile
 (with-eval-after-load 'compile
@@ -271,6 +241,7 @@
   (define-key compilation-mode-map (kbd "k")    'kill-compilation))
 
 ;; Golang
+;; $ go install golang.org/x/tools/gopls@latest
 (install 'go-mode)
 
 (defun amirreza/go-hook ()
@@ -280,7 +251,7 @@
 (add-hook 'go-mode-hook 'amirreza/go-hook)
 
 ;; Rust
-;; rustup component add rust-analyzer
+;; $ rustup component add rust-analyzer
 (install 'rust-mode)
 
 ;; C/C++
@@ -300,7 +271,6 @@
 
 ;; PHP
 (install 'php-mode)
-
 (global-set-key (kbd "C-x i") 'amirreza/edit-init)
 
 ;; Autocomplete
@@ -411,22 +381,23 @@
 	 (command (format "grep --exclude-dir=\".git\" --color=auto -nH --null -r -e \"%s\" ." pattern)))
     (compilation-start command 'grep-mode)))
 
-(defun amirreza/grep-in-directory (DIR PAT)
+(defun amirreza/grep-in-directory (DIR)
   "Run appropriate grep program in directory."
   (interactive (list
-		(read-directory-name "[Grep] Directory: " (find-project-root-or-default-directory))
-		(read-string "[Grep] Pattern: " nil)
-		))
-    (cond
-     ((or (executable-find "rg") is-windows) (rg DIR PAT))
-     (t (gnu-grep DIR PAT))))
+		(read-directory-name "[Grep] Directory: " (find-project-root-or-default-directory))))
+  
+  (cond
+     ((fboundp 'consult-ripgrep)             (consult-ripgrep DIR))
+     ((or (executable-find "rg") is-windows) (rg DIR (read-string "[Ripgrep] Pattern: " nil)))
+     (t                                      (gnu-grep DIR (read-string "[Ripgrep] Pattern: " nil)))))
 
 (defun amirreza/grep-dwim ()
   "DWIM version of amirreza/grep-in-directory"
   (interactive)
   (cond
    ((equal (length (find-project-root)) 0) (call-interactively 'amirreza/grep-in-directory)) ;; we are not inside a project so we should ask user for directory.
-   (t (amirreza/grep-in-directory (find-project-root) (read-string "[Grep] Pattern: " nil)))))
+   (t (amirreza/grep-in-directory (find-project-root)))))
+
   
 (with-eval-after-load 'grep
   (define-key grep-mode-map (kbd "<f5>") 'recompile)
@@ -476,7 +447,14 @@
 (global-set-key (kbd "M-j")                                          'amirreza/grep-dwim)
 (global-set-key (kbd "M-J")                                          'amirreza/grep-in-directory)
 (global-set-key (kbd "M-m")                                          'amirreza/compile-dwim)
+
+(with-eval-after-load 'minibuffer
+  (define-key minibuffer-mode-map (kbd "C-;")                        'embark-act)
+  (define-key minibuffer-mode-map (kbd "M-;")                        'embark-export))
+
 ;; Basic emacs keys
+(with-eval-after-load 'replace
+  (define-key query-replace-map (kbd "<return>") 'act))
 (global-set-key (kbd "C-<return>")                                   'save-buffer)
 (global-set-key (kbd "C-/")                                          'comment-line)
 (global-set-key (kbd "C-w")                                          'amirreza/cut)
