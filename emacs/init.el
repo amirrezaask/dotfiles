@@ -69,7 +69,7 @@
 (defun jump-up () (interactive) (next-line (* -1 (/ (window-height) 2))) (recenter-top-bottom))
 (defun jump-down () (interactive) (next-line (/ (window-height) 2)) (recenter-top-bottom))
 
-(unless (executable-find "rg") (error "Install ripgrep, this configuration relies heavy on it's features."))
+
 
 (global-unset-key (kbd "C-x C-c"))
 
@@ -122,6 +122,8 @@
   (add-to-list 'exec-path (home ".cargo/bin"))
   (add-to-list 'exec-path "/opt/homebrew/bin"))
 
+
+
 (add-to-list 'exec-path (home "bin"))
 (add-to-list 'exec-path (home "go/bin"))
 
@@ -132,6 +134,9 @@
 (if (eq system-type 'windows-nt)
     (setenv "PATH" (string-join exec-path ";"))
   (setenv "PATH" (string-join exec-path ":"))) ;; set emacs process PATH
+
+
+(unless (executable-find "rg") (warn "Install ripgrep, this configuration relies heavy on it's features."))
 
 ;; Package manager
 (require 'package)
@@ -265,11 +270,6 @@
   (define-key compilation-mode-map (kbd "p")    'previous-line)
   (define-key compilation-mode-map (kbd "k")    'kill-compilation))
 
-
-;; Wgrep
-;; (install 'wgrep)
-;; (require 'wgrep)
-
 ;; Golang
 (install 'go-mode)
 
@@ -305,7 +305,7 @@
 
 ;; Autocomplete
 (install 'corfu)
-(setq corfu-auto nil)
+(setq corfu-auto t)
 (global-corfu-mode +1)
 (global-set-key (kbd "C-j") 'completion-at-point)
 
@@ -389,7 +389,7 @@
   (interactive)
   (cond
    ((equal (length (find-project-root)) 0) (call-interactively 'amirreza/compile-in-directory)) ;; we are not inside a project so we should ask user for directory.
-   (t (amirreza/grep-in-directory (find-project-root) (read-shell-command "[Compile] Command: " (guess-compile-command (find-project-root-or-default-directory)))))))
+   (t (amirreza/compile-in-directory (find-project-root) (read-shell-command "[Compile] Command: " (guess-compile-command (find-project-root-or-default-directory)))))))
 
 (defun rg (dir pattern)
   "runs Ripgrep program in a compilation buffer."
