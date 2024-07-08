@@ -111,8 +111,6 @@
   (interactive)
   (text-scale-decrease 1))
 
-(global-set-key (kbd "C-=")  'font-zoom-in)
-(global-set-key (kbd "C--")  'font-zoom-out)
 
 ;; Environment Variables
 (defun home (path)
@@ -159,6 +157,7 @@
 ;; Let emacs handle large files and lines.
 (install 'so-long "So emacs can handle long lines :))")
 (global-so-long-mode +1)
+
 (with-eval-after-load 'replace
   (define-key query-replace-map (kbd "<return>") 'act))
 
@@ -375,13 +374,22 @@
      ((file-exists-p "build.bat") "build.bat")
      ((file-exists-p "go.mod")    "go build -v "))))
 
-(defun amirreza/compile-in-directory ()
+(defun amirreza/compile-in-directory (DIR COMMAND)
   "Compile in a directory"
-  (interactive)
-  (let* ((default-directory (read-directory-name "[Compile] Directory: " (find-project-root-or-default-directory)))
-	 (command (read-shell-command "[Compile] Command: " (guess-compile-command default-directory))))
+  (interactive (list
+		(read-directory-name "[Compile] Directory: " (find-project-root-or-default-directory))
+		(read-shell-command "[Compile] Command: " (guess-compile-command default-directory))))
+  
+  (let* ((default-directory DIR)
+	 (command COMMAND))
     (setq amirreza/last-compile `(,default-directory ,command))
     (compilation-start command)))
+
+(defun amirreza/compile-dwim ()
+  (interactive)
+  (cond
+   ((equal (length (find-project-root)) 0) (call-interactively 'amirreza/compile-in-directory)) ;; we are not inside a project so we should ask user for directory.
+   (t (amirreza/grep-in-directory (find-project-root) (read-shell-command "[Compile] Command: " (guess-compile-command (find-project-root-or-default-directory)))))))
 
 (defun rg (dir pattern)
   "runs Ripgrep program in a compilation buffer."
@@ -467,30 +475,28 @@
 (global-set-key (kbd "M-O")                                          'amirreza/find-file-in-directory)
 (global-set-key (kbd "M-j")                                          'amirreza/grep-dwim)
 (global-set-key (kbd "M-J")                                          'amirreza/grep-in-directory)
-(global-set-key (kbd "M-m")                                          'amirreza/compile-in-directory)
-(global-set-key (kbd "<f5>")                                         'amirreza/compile-in-directory)
+(global-set-key (kbd "M-m")                                          'amirreza/compile-dwim)
 ;; Basic emacs keys
-(if is-macos
-    (global-set-key (kbd "C-q") 'set-mark-command))
+(global-set-key (kbd "C-<return>")                                   'save-buffer)
 (global-set-key (kbd "C-/")                                          'comment-line)
 (global-set-key (kbd "C-w")                                          'amirreza/cut)
 (global-set-key (kbd "M-w")                                          'amirreza/copy)
 (global-set-key (kbd "M-[")                                          'kmacro-start-macro)
 (global-set-key (kbd "M-]")                                          'kmacro-end-or-call-macro)
 (global-set-key (kbd "C-q")                                          'dabbrev-expand) ;; Try pre defined expansions and if nothing was found expand with emacs dabbrev
-(global-set-key (kbd "C-z")                                          'undo) ;; Sane undo key
+(global-set-key (kbd "C-z")                                          'undo)           ;; Sane undo key
 (global-set-key (kbd "C-0")                                          'delete-window)
 (global-set-key (kbd "M-\\")                                         'kmacro-end-and-call-macro) ;; execute keyboard macro.
 (global-set-key (kbd "C->")                                          'end-of-buffer)
 (global-set-key (kbd "C-<")                                          'beginning-of-buffer)
 (global-set-key (kbd "M-n")                                          'jump-down)
 (global-set-key (kbd "M-p")                                          'jump-up)
-(global-set-key (kbd "C-<up>")                                       'jump-up)
-(global-set-key (kbd "C-<down>")                                     'jump-down)
 (global-set-key (kbd "C-;")                                          'goto-line)
+(global-set-key (kbd "C-\\")                                         'split-window-right)
+(global-set-key (kbd "C-=")                                          'font-zoom-in)
+(global-set-key (kbd "C--")                                          'font-zoom-out)
+
 ;; Rectangle Mode (Almost multi cursors)
-(global-set-key (kbd "M-SPC")                                        'rectangle-mark-mode)
-(global-set-key (kbd "C-<return>")                                   'rectangle-mark-mode)
 (with-eval-after-load 'rect
   (define-key rectangle-mark-mode-map (kbd "C-i")                    'string-insert-rectangle)
   (define-key rectangle-mark-mode-map (kbd "C-r")                    'string-rectangle))
