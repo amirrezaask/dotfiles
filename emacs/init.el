@@ -5,7 +5,7 @@
 ;; Lower threshold back to 8 MiB (default is 800kB)
 (add-hook 'emacs-startup-hook
 	  (lambda ()
-	    (setq gc-cons-threshold (* 1024 1024 200) ;; 20 Megabytes
+	    (setq gc-cons-threshold (* 1024 1024 200) ;; 200 Megabytes
 		  gc-cons-percentage 0.2)))
 
 (setq package-enable-at-startup t)
@@ -101,7 +101,7 @@
     (set-font "Consolas" 16))
 
 (if is-macos
-    (set-font "Jetbrains Mono" 15))
+    (set-font "Menlo" 15))
 
 (defun font-zoom-in ()
   (interactive)
@@ -169,53 +169,29 @@
 (install 'orderless)
 (setq completion-styles '(orderless basic)
       completion-category-overrides '((file (styles basic partial-completion))))
+
 ;; (with-eval-after-load 'minibuffer
 ;;   (define-key minibuffer-mode-map (kbd "C-n") 'minibuffer-next-completion)
 ;;   (define-key minibuffer-mode-map (kbd "C-p") 'minibuffer-previous-completion))
 
 (install 'vertico)
 (vertico-mode +1)
-(install 'consult)
 
 ;; Dirt Theme (default)
-;; (custom-set-faces
-;;  `(default                          ((t (:foreground "#debe95" :background "#161616"))))
-;;  `(hl-line                          ((t (:background "#252525"))))
-;;  `(vertico-current                  ((t (:background "#252525"))))
-;;  `(region                           ((t (:background "medium blue"))))
-;;  `(cursor                           ((t (:background "lightgreen"))))
-;;  `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
-;;  `(font-lock-type-face              ((t (:foreground "#8cde94"))))
-;;  `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
-;;  `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
-;;  `(font-lock-builtin-face           ((t (:foreground "white"))))
-;;  `(font-lock-string-face            ((t (:foreground "gray70"))))
-;;  `(font-lock-comment-face           ((t (:foreground "yellow"))))
-;;  `(font-lock-comment-delimiter-face ((t (:foreground "yellow"))))
-;;  `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
-;;  `(font-lock-function-name-face     ((t (:foreground "white"))))
-;;  `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
-;;  `(font-lock-warning-face           ((t (:foreground "yellow"))))
-;;  `(font-lock-note-face              ((t (:foreground "khaki2" ))))
-;;  `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
-;;  `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
-;;  `(show-paren-match                 ((t (:background "mediumseagreen")))))
-
-;; Naysayer Theme
 (custom-set-faces
- `(default                          ((t (:foreground "#d3b58d" :background "#072629"))))
- `(hl-line                          ((t (:background "#0c4141"))))
- `(vertico-current                  ((t (:inherit hl-line))))
- `(region                           ((t (:background  "medium blue"))))
+ `(default                          ((t (:foreground "#debe95" :background "#202020"))))
+ `(hl-line                          ((t (:background "#252525"))))
+ `(vertico-current                  ((t (:background "#252525"))))
+ `(region                           ((t (:background "medium blue"))))
  `(cursor                           ((t (:background "lightgreen"))))
  `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
  `(font-lock-type-face              ((t (:foreground "#8cde94"))))
  `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
  `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
  `(font-lock-builtin-face           ((t (:foreground "white"))))
- `(font-lock-string-face            ((t (:foreground "#0fdfaf"))))
- `(font-lock-comment-face           ((t (:foreground "#3fdf1f"))))
- `(font-lock-comment-delimiter-face ((t (:foreground "#3fdf1f"))))
+ `(font-lock-string-face            ((t (:foreground "gray70"))))
+ `(font-lock-comment-face           ((t (:foreground "yellow"))))
+ `(font-lock-comment-delimiter-face ((t (:foreground "yellow"))))
  `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
  `(font-lock-function-name-face     ((t (:foreground "white"))))
  `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
@@ -224,6 +200,30 @@
  `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
  `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
  `(show-paren-match                 ((t (:background "mediumseagreen")))))
+
+;; Naysayer Theme
+;; (custom-set-faces
+;;  `(default                          ((t (:foreground "#d3b58d" :background "#072629"))))
+;;  `(hl-line                          ((t (:background "#0c4141"))))
+;;  `(vertico-current                  ((t (:inherit hl-line))))
+;;  `(region                           ((t (:background  "medium blue"))))
+;;  `(cursor                           ((t (:background "lightgreen"))))
+;;  `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
+;;  `(font-lock-type-face              ((t (:foreground "#8cde94"))))
+;;  `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
+;;  `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
+;;  `(font-lock-builtin-face           ((t (:foreground "white"))))
+;;  `(font-lock-string-face            ((t (:foreground "#0fdfaf"))))
+;;  `(font-lock-comment-face           ((t (:foreground "#3fdf1f"))))
+;;  `(font-lock-comment-delimiter-face ((t (:foreground "#3fdf1f"))))
+;;  `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
+;;  `(font-lock-function-name-face     ((t (:foreground "white"))))
+;;  `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
+;;  `(font-lock-warning-face           ((t (:foreground "yellow"))))
+;;  `(font-lock-note-face              ((t (:foreground "khaki2" ))))
+;;  `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
+;;  `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
+;;  `(show-paren-match                 ((t (:background "mediumseagreen")))))
 
 ;; Black Theme
 ;; (custom-set-faces
@@ -266,6 +266,11 @@
   (define-key compilation-mode-map (kbd "p")    'previous-line)
   (define-key compilation-mode-map (kbd "k")    'kill-compilation))
 
+
+;; Wgrep
+;; (install 'wgrep)
+;; (require 'wgrep)
+
 ;; Golang
 (install 'go-mode)
 
@@ -301,7 +306,7 @@
 
 ;; Autocomplete
 (install 'corfu)
-(setq corfu-auto t)
+(setq corfu-auto nil)
 (global-corfu-mode +1)
 (global-set-key (kbd "C-j") 'completion-at-point)
 
@@ -324,11 +329,12 @@
 					  :inlayHintProvider
 					  ))
 (setq eglot-stay-out-of '(flymake project))
+(setq eglot-sync-connect 0)
 (add-hook 'go-mode-hook #'eglot-ensure)
 (add-hook 'rust-mode-hook #'eglot-ensure)
 
 ;; Magit
-(install 'magit)
+;; (install 'magit)
 
 (defun amirreza/copy ()
   "Either copy region or the current line."
@@ -397,18 +403,23 @@
 	 (command (format "grep --exclude-dir=\".git\" --color=auto -nH --null -r -e \"%s\" ." pattern)))
     (compilation-start command 'grep-mode)))
 
-(defun amirreza/grep-in-directory ()
+(defun amirreza/grep-in-directory (DIR PAT)
   "Run appropriate grep program in directory."
-  (interactive)
-  (let ((dir (read-directory-name "[Grep] Directory: " (find-project-root-or-default-directory)))
-	(pattern (read-string "[Grep] Pattern: " nil)))
-    
+  (interactive (list
+		(read-directory-name "[Grep] Directory: " (find-project-root-or-default-directory))
+		(read-string "[Grep] Pattern: " nil)
+		))
     (cond
-     ((or (executable-find "rg") is-windows) (rg dir pattern))
-     (t (gnu-grep dir pattern)))))
-  
-(defalias 'Grep 'amirreza/grep-in-directory)
+     ((or (executable-find "rg") is-windows) (rg DIR PAT))
+     (t (gnu-grep DIR PAT))))
 
+(defun amirreza/grep-dwim ()
+  "DWIM version of amirreza/grep-in-directory"
+  (interactive)
+  (cond
+   ((equal (length (find-project-root)) 0) (call-interactively 'amirreza/grep-in-directory)) ;; we are not inside a project so we should ask user for directory.
+   (t (amirreza/grep-in-directory (find-project-root) (read-string "[Grep] Pattern: " nil)))))
+  
 (with-eval-after-load 'grep
   (define-key grep-mode-map (kbd "<f5>") 'recompile)
   (define-key grep-mode-map (kbd "g")    'recompile)
@@ -427,15 +438,35 @@
 	 (file (completing-read "Git Files:" (string-split (shell-command-to-string command) "\n" t))))
     (find-file file)))
 
-(defun amirreza/find-file ()
-  (interactive)
+(defun amirreza/rg-files (DIR)
+  (interactive (list (read-directory-name "[Ripgrep Files] Directory: " (find-project-root-or-default-directory))))
+  (unless (executable-find "rg") (error "rg executable not found."))
+
+  (let* ((default-directory DIR)
+	 (command (format "rg --files"))
+	 (file (completing-read "Ripgrep Files:" (string-split (shell-command-to-string command) "\n" t)))
+	 )
+    (find-file file)))
+
+
+(defun amirreza/find-file-in-directory (DIR)
+  (interactive (read-directory-name "DIR: " (find-project-root-or-default-directory)))
   (cond
-   ((git-repo-p) (amirreza/git-files (git-repo-p)))
+   ((git-repo-p) (amirreza/git-files DIR))
+   ((executable-find "rg") (amirreza/rg-files DIR))
    (t (call-interactively 'find-file))))
 
+(defun amirreza/find-file-dwim ()
+  (interactive)
+  (cond
+   ((equal (length (find-project-root)) 0) (call-interactively 'amirreza/find-file-in-directory)) ;; we are not inside a project so we should ask user for directory.
+   (t (amirreza/find-file-in-directory (find-project-root)))))
+
 ;; Project aware keys
-(global-set-key (kbd "M-o")                                          'amirreza/find-file)
-(global-set-key (kbd "M-j")                                          'amirreza/grep-in-directory)
+(global-set-key (kbd "M-o")                                          'amirreza/find-file-dwim)
+(global-set-key (kbd "M-O")                                          'amirreza/find-file-in-directory)
+(global-set-key (kbd "M-j")                                          'amirreza/grep-dwim)
+(global-set-key (kbd "M-J")                                          'amirreza/grep-in-directory)
 (global-set-key (kbd "M-m")                                          'amirreza/compile-in-directory)
 (global-set-key (kbd "<f5>")                                         'amirreza/compile-in-directory)
 ;; Basic emacs keys
