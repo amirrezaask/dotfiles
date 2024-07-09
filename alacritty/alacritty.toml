@@ -3,7 +3,7 @@ import = [
     # "~/.config/alacritty/themes/nightfly.toml" ,
     # "~/.config/alacritty/themes/coolnight.toml" ,
     # "~/.config/alacritty/themes/gruvbox.toml" ,
-    # "~/.config/alacritty/themes/tokyonight.toml" ,
+    "~/.config/alacritty/themes/tokyonight.toml" ,
     # "~/.config/alacritty/themes/catppuccin.toml",
     # "~/.config/alacritty/themes/rosepine.toml" 
 ]
@@ -12,14 +12,11 @@ import = [
 TERM = "xterm-256color"
 
 [keyboard]
-bindings = [
-    { key = "F11", action = "ToggleFullscreen" }
-]
 
 [font]
 normal = { family = 'MesloLGL Nerd Font Mono'}
 size = 15
 
 [window]
-# opacity = 0.99
+# opacity = 0.93
 option_as_alt="Both"

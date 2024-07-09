@@ -180,7 +180,7 @@
 (custom-set-faces
  `(default                          ((t (:foreground "#debe95" :background "#202020"))))
  `(hl-line                          ((t (:background "#353535"))))
- `(vertico-current                  ((t (:background "#252525"))))
+ `(vertico-current                  ((t (:background "#353535"))))
  `(region                           ((t (:background "medium blue"))))
  `(cursor                           ((t (:background "lightgreen"))))
  `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
@@ -223,6 +223,29 @@
 ;;  `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
 ;;  `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
 ;;  `(show-paren-match                 ((t (:background "mediumseagreen")))))
+
+;; HandmadeHero
+;; (custom-set-faces
+;;  `(default                          ((t (:foreground "burlywood3" :background "#161616"))))
+;;  `(hl-line                          ((t (:background "midnight blue"))))
+;;  `(vertico-current                  ((t (:inherit    hl-line))))
+;;  `(region                           ((t (:background "medium blue"))))
+;;  `(cursor                           ((t (:background "#40FF40"))))
+;;  `(font-lock-keyword-face           ((t (:foreground "DarkGoldenrod3"))))
+;;  `(font-lock-type-face              ((t (:foreground "burlywood3"))))
+;;  `(font-lock-constant-face          ((t (:foreground "olive drab"))))
+;;  `(font-lock-variable-name-face     ((t (:foreground "burlywood3"))))
+;;  `(font-lock-builtin-face           ((t (:foreground "white"))))
+;;  `(font-lock-string-face            ((t (:foreground "olive drab"))))
+;;  `(font-lock-comment-face           ((t (:foreground "gray50"))))
+;;  `(font-lock-comment-delimiter-face ((t (:foreground "gray50"))))
+;;  `(font-lock-doc-face               ((t (:foreground "gray50"))))
+;;  `(font-lock-function-name-face     ((t (:foreground "burlywood3"))))
+;;  `(font-lock-doc-string-face        ((t (:foreground "gray50"))))
+;;  `(font-lock-warning-face           ((t (:foreground "yellow"))))
+;;  `(font-lock-note-face              ((t (:foreground "khaki2" ))))
+;;  `(show-paren-match                 ((t (:background "mediumseagreen")))))
+
 
 (global-hl-line-mode +1)
 
