@@ -320,10 +320,18 @@
 					  :executeCommandProvider
 					  :inlayHintProvider
 					  ))
-(setq eglot-stay-out-of '(flymake project))
+
+(with-eval-after-load 'eglot
+  (add-to-list 'eglot-server-programs
+	       '(php-mode . ("intelephense" "--stdio"))) ;; Only viable php langauge server
+  )
+
+(setq eglot-stay-out-of '(project))
 (setq eglot-sync-connect 0)
+
 (add-hook 'go-mode-hook #'eglot-ensure)
 (add-hook 'rust-mode-hook #'eglot-ensure)
+(add-hook 'php-mode-hook #'eglot-ensure)
 
 ;; Magit
 ;; (install 'magit)
