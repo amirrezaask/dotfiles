@@ -110,6 +110,8 @@
   (text-scale-decrease 1))
 
 
+(global-hl-line-mode +1)
+
 ;; Environment Variables
 (defun home (path)
   (expand-file-name path (getenv "HOME")))
@@ -249,23 +251,6 @@
 ;;  `(font-lock-warning-face           ((t (:foreground "yellow"))))
 ;;  `(font-lock-note-face              ((t (:foreground "khaki2" ))))
 ;;  `(show-paren-match                 ((t (:background "mediumseagreen")))))
-
-
-(global-hl-line-mode +1)
-
-;; xref
-(global-set-key (kbd "M-.")              'xref-find-definitions)
-(global-set-key (kbd "C-M-.")            'xref-find-references)
-(global-set-key (kbd "M-,")              'xref-go-back)
-
-;; Compile
-(with-eval-after-load 'compile
-  (define-key compilation-mode-map (kbd "<f5>") 'recompile)
-  (define-key compilation-mode-map (kbd "M-m")  'previous-buffer)
-  (define-key compilation-mode-map (kbd "G")    'amirreza/compile-in-directory)
-  (define-key compilation-mode-map (kbd "n")    'next-line)
-  (define-key compilation-mode-map (kbd "p")    'previous-line)
-  (define-key compilation-mode-map (kbd "k")    'kill-compilation))
 
 ;; Golang
 ;; $ go install golang.org/x/tools/gopls@latest
@@ -433,12 +418,6 @@
    (t (amirreza/grep-in-directory (find-project-root)))))
 
   
-(with-eval-after-load 'grep
-  (define-key grep-mode-map (kbd "<f5>") 'recompile)
-  (define-key grep-mode-map (kbd "g")    'recompile)
-  (define-key grep-mode-map (kbd "G")    'amirreza/grep-in-directory)
-  (define-key grep-mode-map (kbd "M-q")  'previous-buffer)
-  (define-key grep-mode-map (kbd "k")    'kill-compilation))
 
 (setq eshell-visual-subcommands '("git" "diff" "log" "show"))
 
@@ -483,49 +462,81 @@
 	 (eshell-buffer-name (format "*eshell-%s*" root)))
     (if (get-buffer eshell-buffer-name)
 	(switch-to-buffer eshell-buffer-name)
-      (eshell)
-	)))
+      (eshell))))
 
-;; Project aware keys
+
+;; Finding
+(global-set-key (kbd "C-o")                                          'find-file)
+(global-set-key (kbd "C-S-o")                                        'amirreza/grep-dwim)
+(global-set-key (kbd "C-M-o")                                        'amirreza/grep-in-directory)
 (global-set-key (kbd "M-o")                                          'amirreza/find-file-dwim)
-(global-set-key (kbd "M-O")                                          'amirreza/find-file-in-directory)
-(global-set-key (kbd "C-q")                                          'amirreza/grep-dwim)
-(global-set-key (kbd "M-q")                                          'amirreza/grep-in-directory)
+
+(with-eval-after-load 'grep
+  (define-key grep-mode-map (kbd "<f5>") 'recompile)
+  (define-key grep-mode-map (kbd "g")    'recompile)
+  (define-key grep-mode-map (kbd "G")    'amirreza/grep-in-directory)
+  (define-key grep-mode-map (kbd "M-q")  'previous-buffer)
+  (define-key grep-mode-map (kbd "k")    'kill-compilation))
+
+;; Compiling / Building
 (global-set-key (kbd "M-m")                                          'amirreza/compile-dwim)
+(with-eval-after-load 'compile
+  (define-key compilation-mode-map (kbd "<f5>")                      'recompile)
+  (define-key compilation-mode-map (kbd "M-m")                       'previous-buffer)
+  (define-key compilation-mode-map (kbd "G")                         'amirreza/compile-in-directory)
+  (define-key compilation-mode-map (kbd "n")                         'next-line)
+  (define-key compilation-mode-map (kbd "p")                         'previous-line)
+  (define-key compilation-mode-map (kbd "k")                         'kill-compilation))
+
+;; Emacs Shell (Eshell)
 (global-set-key (kbd "M-j")                                          'amirreza/eshell-dwim)
+(with-eval-after-load 'eshell
+  (define-key eshell-mode-map (kbd "M-j") 'previous-buffer))
 
-(with-eval-after-load 'minibuffer
-  (define-key minibuffer-mode-map (kbd "C-;")                        'embark-act)
-  (define-key minibuffer-mode-map (kbd "M-;")                        'embark-export))
+;; Buffers
+(global-set-key (kbd "C-.")                                          'next-buffer)
+(global-set-key (kbd "C-,")                                          'previous-buffer)
 
-;; Basic emacs keys
+;; Text Editing
 (with-eval-after-load 'replace
   (define-key query-replace-map (kbd "<return>") 'act))
 (global-set-key (kbd "C-<return>")                                   'save-buffer)
-(global-set-key (kbd "C-o")                                          'find-file)
 (global-set-key (kbd "C-/")                                          'comment-line)
 (global-set-key (kbd "C-w")                                          'amirreza/cut)
 (global-set-key (kbd "M-w")                                          'amirreza/copy)
 (global-set-key (kbd "M-[")                                          'kmacro-start-macro)
 (global-set-key (kbd "M-]")                                          'kmacro-end-or-call-macro)
-(global-set-key (kbd "C-3")                                          'split-window-right)
-(global-set-key (kbd "C-j")                                          'completion-at-point)
-(global-set-key (kbd "C-z")                                          'undo)           ;; Sane undo key
-(global-set-key (kbd "C-0")                                          'delete-window)
 (global-set-key (kbd "M-\\")                                         'kmacro-end-and-call-macro) ;; execute keyboard macro.
+(global-set-key (kbd "C-z")                                          'undo)           ;; Sane undo key
+
+;; Jumping around in buffer
 (global-set-key (kbd "C->")                                          'end-of-buffer)
 (global-set-key (kbd "C-<")                                          'beginning-of-buffer)
 (global-set-key (kbd "M-n")                                          'jump-down)
 (global-set-key (kbd "M-p")                                          'jump-up)
 (global-set-key (kbd "C-;")                                          'goto-line)
+;; Splits
+(global-set-key (kbd "C-3")                                          'split-window-right)
+(global-set-key (kbd "C-0")                                          'delete-window)
 (global-set-key (kbd "C-\\")                                         'split-window-right)
+;; Font
 (global-set-key (kbd "C-=")                                          'font-zoom-in)
 (global-set-key (kbd "C--")                                          'font-zoom-out)
-(global-set-key (kbd "C-c m m")                                      'eglot-code-actions)
+
+(global-set-key (kbd "C-j")                                          'completion-at-point)
+
+;; Eglot (LSP)
+(global-set-key (kbd "M-.")                                          'xref-find-definitions)
+(global-set-key (kbd "C-M-.")                                        'xref-find-references)
+(global-set-key (kbd "M-,")                                          'xref-go-back)
+
+(with-eval-after-load 'eglot
+  (define-key eglot-mode-map (kbd "C-c m m")                         'eglot-code-actions))
+
+;; Error navigation
 (with-eval-after-load 'flymake
-  (global-set-key (kbd "M-;") 'flymake-goto-prev-error)
-  (global-set-key (kbd "M-'") 'flymake-goto-next-error)
-  )
+  (define-key flymake-mode-map (kbd "M-;")                           'flymake-goto-prev-error)
+  (define-key flymake-mode-map (kbd "M-'")                           'flymake-goto-next-error))
 
 ;; Rectangle Mode (Almost multi cursors)
 (with-eval-after-load 'rect
