@@ -322,7 +322,8 @@
 (add-hook 'php-mode-hook #'eglot-ensure)
 
 ;; Magit
-;; (install 'magit)
+;; Git client
+(install 'magit)
 
 (defun amirreza/copy ()
   "Either copy region or the current line."
@@ -422,6 +423,7 @@
 (setq eshell-visual-subcommands '("git" "diff" "log" "show"))
 
 (defun amirreza/git-files (DIR)
+  "run git ls-files to get list of files indexed in git."
   (interactive (list (read-directory-name "[Git Files] Directory: " (find-project-root-or-default-directory))))
   (unless (executable-find "git") (error "git executable not found."))
 
@@ -431,6 +433,7 @@
     (find-file file)))
 
 (defun amirreza/rg-files (DIR)
+  "run rg --files to get list of files in current project."
   (interactive (list (read-directory-name "[Ripgrep Files] Directory: " (find-project-root-or-default-directory))))
   (unless (executable-find "rg") (error "rg executable not found."))
 
@@ -442,6 +445,7 @@
 
 
 (defun amirreza/find-file-in-directory (DIR)
+  "Recursive file find starting from 'DIR'."
   (interactive (read-directory-name "DIR: " (find-project-root-or-default-directory)))
   (cond
    ((git-repo-p) (amirreza/git-files DIR))
@@ -449,6 +453,7 @@
    (t (call-interactively 'find-file))))
 
 (defun amirreza/find-file-dwim ()
+  "DWIM version of 'amirreza/find-file-in-directory'."
   (interactive)
   (cond
    ((equal (length (find-project-root)) 0) (call-interactively 'amirreza/find-file-in-directory)) ;; we are not inside a project so we should ask user for directory.
@@ -456,6 +461,7 @@
 
 
 (defun amirreza/eshell-dwim ()
+  "Jump to eshell buffer associated with current project or create a new."
   (interactive)
   (let* ((root (find-project-root-or-default-directory))
 	 (default-directory root)
@@ -472,11 +478,11 @@
 (global-set-key (kbd "M-o")                                          'amirreza/find-file-dwim)
 
 (with-eval-after-load 'grep
-  (define-key grep-mode-map (kbd "<f5>") 'recompile)
-  (define-key grep-mode-map (kbd "g")    'recompile)
-  (define-key grep-mode-map (kbd "G")    'amirreza/grep-in-directory)
-  (define-key grep-mode-map (kbd "M-q")  'previous-buffer)
-  (define-key grep-mode-map (kbd "k")    'kill-compilation))
+  (define-key grep-mode-map (kbd "<f5>")                             'recompile)
+  (define-key grep-mode-map (kbd "g")                                'recompile)
+  (define-key grep-mode-map (kbd "G")                                'amirreza/grep-in-directory)
+  (define-key grep-mode-map (kbd "M-q")                              'previous-buffer)
+  (define-key grep-mode-map (kbd "k")                                'kill-compilation))
 
 ;; Compiling / Building
 (global-set-key (kbd "M-m")                                          'amirreza/compile-dwim)
@@ -491,7 +497,7 @@
 ;; Emacs Shell (Eshell)
 (global-set-key (kbd "M-j")                                          'amirreza/eshell-dwim)
 (with-eval-after-load 'eshell
-  (define-key eshell-mode-map (kbd "M-j") 'previous-buffer))
+  (define-key eshell-mode-map (kbd "M-j")                            'previous-buffer))
 
 ;; Buffers
 (global-set-key (kbd "C-.")                                          'next-buffer)
@@ -499,7 +505,7 @@
 
 ;; Text Editing
 (with-eval-after-load 'replace
-  (define-key query-replace-map (kbd "<return>") 'act))
+  (define-key query-replace-map (kbd "<return>")                     'act))
 (global-set-key (kbd "C-<return>")                                   'save-buffer)
 (global-set-key (kbd "C-/")                                          'comment-line)
 (global-set-key (kbd "C-w")                                          'amirreza/cut)
