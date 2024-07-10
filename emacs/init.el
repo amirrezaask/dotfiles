@@ -168,53 +168,33 @@
 (setq completion-styles '(orderless basic)
       completion-category-overrides '((file (styles basic partial-completion))))
 
-(install 'vertico)
-(vertico-mode +1)
+(with-eval-after-load 'minibuffer ;; This way we don't need a seperate package for completion
+  (define-key minibuffer-mode-map (kbd "C-n") 'minibuffer-next-completion)
+  (define-key minibuffer-mode-map (kbd "C-p") 'minibuffer-previous-completion))
 
-;; Consult + Embark
-(install 'consult)
-(install 'embark)
-(install 'embark-consult)
+;; (install 'vertico)
+;; (vertico-mode +1)
+
+;; ;; Consult + Embark
+;; (install 'consult)
+;; (install 'embark)
+;; (install 'embark-consult)
 
 ;; Dirt Theme (default)
-(custom-set-faces
- `(default                          ((t (:foreground "#debe95" :background "#202020"))))
- `(hl-line                          ((t (:background "#353535"))))
- `(vertico-current                  ((t (:background "#353535"))))
- `(region                           ((t (:background "medium blue"))))
- `(cursor                           ((t (:background "lightgreen"))))
- `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
- `(font-lock-type-face              ((t (:foreground "#8cde94"))))
- `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
- `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
- `(font-lock-builtin-face           ((t (:foreground "white"))))
- `(font-lock-string-face            ((t (:foreground "gray70"))))
- `(font-lock-comment-face           ((t (:foreground "yellow"))))
- `(font-lock-comment-delimiter-face ((t (:foreground "yellow"))))
- `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
- `(font-lock-function-name-face     ((t (:foreground "white"))))
- `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
- `(font-lock-warning-face           ((t (:foreground "yellow"))))
- `(font-lock-note-face              ((t (:foreground "khaki2" ))))
- `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
- `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
- `(show-paren-match                 ((t (:background "mediumseagreen")))))
-
-;; Naysayer Theme
 ;; (custom-set-faces
-;;  `(default                          ((t (:foreground "#d3b58d" :background "#072629"))))
-;;  `(hl-line                          ((t (:background "#0c4141"))))
-;;  `(vertico-current                  ((t (:inherit hl-line))))
-;;  `(region                           ((t (:background  "medium blue"))))
+;;  `(default                          ((t (:foreground "#debe95" :background "#202020"))))
+;;  `(hl-line                          ((t (:background "#353535"))))
+;;  `(vertico-current                  ((t (:background "#353535"))))
+;;  `(region                           ((t (:background "medium blue"))))
 ;;  `(cursor                           ((t (:background "lightgreen"))))
 ;;  `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
 ;;  `(font-lock-type-face              ((t (:foreground "#8cde94"))))
 ;;  `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
 ;;  `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
 ;;  `(font-lock-builtin-face           ((t (:foreground "white"))))
-;;  `(font-lock-string-face            ((t (:foreground "#0fdfaf"))))
-;;  `(font-lock-comment-face           ((t (:foreground "#3fdf1f"))))
-;;  `(font-lock-comment-delimiter-face ((t (:foreground "#3fdf1f"))))
+;;  `(font-lock-string-face            ((t (:foreground "gray70"))))
+;;  `(font-lock-comment-face           ((t (:foreground "yellow"))))
+;;  `(font-lock-comment-delimiter-face ((t (:foreground "yellow"))))
 ;;  `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
 ;;  `(font-lock-function-name-face     ((t (:foreground "white"))))
 ;;  `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
@@ -223,6 +203,30 @@
 ;;  `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
 ;;  `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
 ;;  `(show-paren-match                 ((t (:background "mediumseagreen")))))
+
+;; Naysayer Theme
+(custom-set-faces
+ `(default                          ((t (:foreground "#d3b58d" :background "#072629"))))
+ `(hl-line                          ((t (:background "#0c4141"))))
+ `(vertico-current                  ((t (:inherit hl-line))))
+ `(region                           ((t (:background  "medium blue"))))
+ `(cursor                           ((t (:background "lightgreen"))))
+ `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
+ `(font-lock-type-face              ((t (:foreground "#8cde94"))))
+ `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
+ `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
+ `(font-lock-builtin-face           ((t (:foreground "white"))))
+ `(font-lock-string-face            ((t (:foreground "#0fdfaf"))))
+ `(font-lock-comment-face           ((t (:foreground "#3fdf1f"))))
+ `(font-lock-comment-delimiter-face ((t (:foreground "#3fdf1f"))))
+ `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
+ `(font-lock-function-name-face     ((t (:foreground "white"))))
+ `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
+ `(font-lock-warning-face           ((t (:foreground "yellow"))))
+ `(font-lock-note-face              ((t (:foreground "khaki2" ))))
+ `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
+ `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
+ `(show-paren-match                 ((t (:background "mediumseagreen")))))
 
 ;; HandmadeHero
 ;; (custom-set-faces
@@ -298,9 +302,8 @@
 
 ;; Autocomplete
 (install 'corfu)
-(setq corfu-auto t)
+(setq corfu-auto nil)
 (global-corfu-mode +1)
-(global-set-key (kbd "C-j") 'completion-at-point)
 
 
 ;; Eglot: LSP
@@ -418,7 +421,7 @@
 		(read-directory-name "[Grep] Directory: " (find-project-root-or-default-directory))))
   
   (cond
-     ((fboundp 'consult-ripgrep)             (consult-ripgrep DIR))
+     ;; ((fboundp 'consult-ripgrep)             (consult-ripgrep DIR))
      ((or (executable-find "rg") is-windows) (rg DIR (read-string "[Ripgrep] Pattern: " nil)))
      (t                                      (gnu-grep DIR (read-string "[Ripgrep] Pattern: " nil)))))
 
@@ -434,7 +437,7 @@
   (define-key grep-mode-map (kbd "<f5>") 'recompile)
   (define-key grep-mode-map (kbd "g")    'recompile)
   (define-key grep-mode-map (kbd "G")    'amirreza/grep-in-directory)
-  (define-key grep-mode-map (kbd "M-j")  'previous-buffer)
+  (define-key grep-mode-map (kbd "M-q")  'previous-buffer)
   (define-key grep-mode-map (kbd "k")    'kill-compilation))
 
 (setq eshell-visual-subcommands '("git" "diff" "log" "show"))
@@ -472,12 +475,24 @@
    ((equal (length (find-project-root)) 0) (call-interactively 'amirreza/find-file-in-directory)) ;; we are not inside a project so we should ask user for directory.
    (t (amirreza/find-file-in-directory (find-project-root)))))
 
+
+(defun amirreza/eshell-dwim ()
+  (interactive)
+  (let* ((root (find-project-root-or-default-directory))
+	 (default-directory root)
+	 (eshell-buffer-name (format "*eshell-%s*" root)))
+    (if (get-buffer eshell-buffer-name)
+	(switch-to-buffer eshell-buffer-name)
+      (eshell)
+	)))
+
 ;; Project aware keys
 (global-set-key (kbd "M-o")                                          'amirreza/find-file-dwim)
 (global-set-key (kbd "M-O")                                          'amirreza/find-file-in-directory)
-(global-set-key (kbd "M-j")                                          'amirreza/grep-dwim)
-(global-set-key (kbd "M-J")                                          'amirreza/grep-in-directory)
+(global-set-key (kbd "C-q")                                          'amirreza/grep-dwim)
+(global-set-key (kbd "M-q")                                          'amirreza/grep-in-directory)
 (global-set-key (kbd "M-m")                                          'amirreza/compile-dwim)
+(global-set-key (kbd "M-j")                                          'amirreza/eshell-dwim)
 
 (with-eval-after-load 'minibuffer
   (define-key minibuffer-mode-map (kbd "C-;")                        'embark-act)
@@ -487,12 +502,15 @@
 (with-eval-after-load 'replace
   (define-key query-replace-map (kbd "<return>") 'act))
 (global-set-key (kbd "C-<return>")                                   'save-buffer)
+(global-set-key (kbd "C-o")                                          'find-file)
 (global-set-key (kbd "C-/")                                          'comment-line)
 (global-set-key (kbd "C-w")                                          'amirreza/cut)
 (global-set-key (kbd "M-w")                                          'amirreza/copy)
 (global-set-key (kbd "M-[")                                          'kmacro-start-macro)
 (global-set-key (kbd "M-]")                                          'kmacro-end-or-call-macro)
+(global-set-key (kbd "C-3")                                          'split-window-right)
 (global-set-key (kbd "C-q")                                          'dabbrev-expand) ;; Try pre defined expansions and if nothing was found expand with emacs dabbrev
+(global-set-key (kbd "C-j")                                          'completion-at-point)
 (global-set-key (kbd "C-z")                                          'undo)           ;; Sane undo key
 (global-set-key (kbd "C-0")                                          'delete-window)
 (global-set-key (kbd "M-\\")                                         'kmacro-end-and-call-macro) ;; execute keyboard macro.
@@ -504,6 +522,11 @@
 (global-set-key (kbd "C-\\")                                         'split-window-right)
 (global-set-key (kbd "C-=")                                          'font-zoom-in)
 (global-set-key (kbd "C--")                                          'font-zoom-out)
+(global-set-key (kbd "C-c m m")                                      'eglot-code-actions)
+(with-eval-after-load 'flymake
+  (global-set-key (kbd "M-;") 'flymake-goto-prev-error)
+  (global-set-key (kbd "M-'") 'flymake-goto-next-error)
+  )
 
 ;; Rectangle Mode (Almost multi cursors)
 (with-eval-after-load 'rect
