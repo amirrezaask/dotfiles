@@ -509,7 +509,6 @@
 (global-set-key (kbd "M-[")                                          'kmacro-start-macro)
 (global-set-key (kbd "M-]")                                          'kmacro-end-or-call-macro)
 (global-set-key (kbd "C-3")                                          'split-window-right)
-(global-set-key (kbd "C-q")                                          'dabbrev-expand) ;; Try pre defined expansions and if nothing was found expand with emacs dabbrev
 (global-set-key (kbd "C-j")                                          'completion-at-point)
 (global-set-key (kbd "C-z")                                          'undo)           ;; Sane undo key
 (global-set-key (kbd "C-0")                                          'delete-window)
