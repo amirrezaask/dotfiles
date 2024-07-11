@@ -33,7 +33,6 @@
 
 (setq native-comp-async-report-warnings-errors nil)
 
-(setq-default frame-title-format '("%e" (:eval (format "Emacs %s" default-directory))))
 (set-frame-parameter nil 'fullscreen 'maximized) 
 
 ;; Emacs: Basic
@@ -95,11 +94,14 @@
 
 (defalias 'FontSize 'set-font-size)
 
-(if is-windows 
-    (set-font "Consolas" 16))
+(defun font-exists-p (font) "check if font exists" (if (null (x-list-fonts font)) nil t))
 
-(if is-macos
-    (set-font "Menlo" 15))
+;; Load fonts
+(when (font-exists-p "Cascadia Code") (set-font "Cascadia Code" 15))
+(when (font-exists-p "Hack") (set-font "Hack" 15))
+(when (font-exists-p "Jetbrains Mono") (set-font "Jetbrains Mono" 15))
+(when (font-exists-p "Consolas") (set-font "Consolas" 15))
+(when (font-exists-p "Menlo") (set-font "Menlo" 15))
 
 (defun font-zoom-in ()
   (interactive)
@@ -482,6 +484,8 @@
   (define-key grep-mode-map (kbd "g")                                'recompile)
   (define-key grep-mode-map (kbd "G")                                'amirreza/grep-in-directory)
   (define-key grep-mode-map (kbd "M-q")                              'previous-buffer)
+  (define-key grep-mode-map (kbd "M-n")                              'jump-down)
+  (define-key grep-mode-map (kbd "M-p")                              'jump-up)
   (define-key grep-mode-map (kbd "k")                                'kill-compilation))
 
 ;; Compiling / Building
@@ -492,6 +496,8 @@
   (define-key compilation-mode-map (kbd "G")                         'amirreza/compile-in-directory)
   (define-key compilation-mode-map (kbd "n")                         'next-line)
   (define-key compilation-mode-map (kbd "p")                         'previous-line)
+  (define-key compilation-mode-map (kbd "M-n")                       'jump-down)
+  (define-key compilation-mode-map (kbd "M-p")                       'jump-up)
   (define-key compilation-mode-map (kbd "k")                         'kill-compilation))
 
 ;; Emacs Shell (Eshell)

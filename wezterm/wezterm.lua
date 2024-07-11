@@ -10,7 +10,7 @@ config.font = wezterm.font_with_fallback {
 }
 
 -- config.color_scheme = 'OneHalfDark'
-config.color_scheme = 'rose-pine'
+-- config.color_scheme = 'rose-pine'
 
 config.window_padding = {
 	left = 0,
