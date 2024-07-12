@@ -506,8 +506,6 @@
 
 ;; Emacs Shell (Eshell)
 (global-set-key (kbd "M-j")                                          'amirreza/eshell-dwim)
-(with-eval-after-load 'eshell
-  (define-key eshell-mode-map (kbd "M-j")                            'previous-buffer))
 
 ;; Buffers
 (global-set-key (kbd "C-.")                                          'next-buffer)
@@ -515,14 +513,12 @@
 
 ;; Text Editing
 (with-eval-after-load 'replace
-  (define-key query-replace-map (kbd "<return>")                     'act))
-(global-set-key (kbd "C-<return>")                                   'save-buffer)
-(global-set-key (kbd "C-/")                                          'comment-line)
-(global-set-key (kbd "C-w")                                          'amirreza/cut)
-(global-set-key (kbd "M-w")                                          'amirreza/copy)
-(global-set-key (kbd "M-[")                                          'kmacro-start-macro)
-(global-set-key (kbd "M-]")                                          'kmacro-end-or-call-macro)
-(global-set-key (kbd "M-\\")                                         'kmacro-end-and-call-macro) ;; execute keyboard macro.
+  (define-key query-replace-map (kbd "<return>")                     'act)) ;; in replace mode <return> applies.
+(global-set-key (kbd "C-w")                                          'amirreza/cut) ;; sane cut/kill
+(global-set-key (kbd "M-w")                                          'amirreza/copy) ;; sane copy
+(global-set-key (kbd "M-[")                                          'kmacro-start-macro) ;; start macro
+(global-set-key (kbd "M-]")                                          'kmacro-end-or-call-macro) ;; end macro
+(global-set-key (kbd "M-\\")                                         'kmacro-end-and-call-macro) ;; call keyboard macro.
 (global-set-key (kbd "C-z")                                          'undo)           ;; Sane undo key
 
 ;; Multiple Cursors
@@ -533,15 +529,15 @@
 (global-set-key (kbd "C-c m a")                                      'mc/mark-all-like-this-dwim)
 
 ;; Jumping around in buffer
-(global-set-key (kbd "C->")                                          'end-of-buffer)
-(global-set-key (kbd "C-<")                                          'beginning-of-buffer)
+(global-set-key (kbd "M->")                                          'end-of-buffer)
+(global-set-key (kbd "M-<")                                          'beginning-of-buffer)
 (global-set-key (kbd "M-n")                                          'jump-down)
 (global-set-key (kbd "M-p")                                          'jump-up)
 (global-set-key (kbd "C-;")                                          'goto-line)
 ;; Splits
-(global-set-key (kbd "C-3")                                          'split-window-right)
 (global-set-key (kbd "C-0")                                          'delete-window)
-(global-set-key (kbd "C-\\")                                         'split-window-right)
+(global-set-key (kbd "C-3")                                          'split-window-right)
+(global-set-key (kbd "C-2")                                          'split-window-below)
 ;; Font
 (global-set-key (kbd "C-=")                                          'font-zoom-in)
 (global-set-key (kbd "C--")                                          'font-zoom-out)
