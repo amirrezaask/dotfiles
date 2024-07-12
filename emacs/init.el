@@ -164,6 +164,10 @@
 (global-so-long-mode +1)
 
 
+;; Multiple Cursors
+(install 'multiple-cursors)
+
+
 (install 'vlf "Special handling of very large files")
 (require 'vlf-setup)
 
@@ -185,44 +189,20 @@
 ;; (install 'embark-consult)
 
 ;; Dirt Theme (default)
-;; (custom-set-faces
-;;  `(default                          ((t (:foreground "#debe95" :background "#202020"))))
-;;  `(hl-line                          ((t (:background "#353535"))))
-;;  `(vertico-current                  ((t (:background "#353535"))))
-;;  `(region                           ((t (:background "medium blue"))))
-;;  `(cursor                           ((t (:background "lightgreen"))))
-;;  `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
-;;  `(font-lock-type-face              ((t (:foreground "#8cde94"))))
-;;  `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
-;;  `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
-;;  `(font-lock-builtin-face           ((t (:foreground "white"))))
-;;  `(font-lock-string-face            ((t (:foreground "gray70"))))
-;;  `(font-lock-comment-face           ((t (:foreground "yellow"))))
-;;  `(font-lock-comment-delimiter-face ((t (:foreground "yellow"))))
-;;  `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
-;;  `(font-lock-function-name-face     ((t (:foreground "white"))))
-;;  `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
-;;  `(font-lock-warning-face           ((t (:foreground "yellow"))))
-;;  `(font-lock-note-face              ((t (:foreground "khaki2" ))))
-;;  `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
-;;  `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
-;;  `(show-paren-match                 ((t (:background "mediumseagreen")))))
-
-;; Naysayer Theme
 (custom-set-faces
- `(default                          ((t (:foreground "#d3b58d" :background "#072629"))))
- `(hl-line                          ((t (:background "#0c4141"))))
- `(vertico-current                  ((t (:inherit hl-line))))
- `(region                           ((t (:background  "medium blue"))))
+ `(default                          ((t (:foreground "#debe95" :background "#202020"))))
+ `(hl-line                          ((t (:background "#353535"))))
+ `(vertico-current                  ((t (:background "#353535"))))
+ `(region                           ((t (:background "medium blue"))))
  `(cursor                           ((t (:background "lightgreen"))))
  `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
  `(font-lock-type-face              ((t (:foreground "#8cde94"))))
  `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
  `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
  `(font-lock-builtin-face           ((t (:foreground "white"))))
- `(font-lock-string-face            ((t (:foreground "#0fdfaf"))))
- `(font-lock-comment-face           ((t (:foreground "#3fdf1f"))))
- `(font-lock-comment-delimiter-face ((t (:foreground "#3fdf1f"))))
+ `(font-lock-string-face            ((t (:foreground "gray70"))))
+ `(font-lock-comment-face           ((t (:foreground "yellow"))))
+ `(font-lock-comment-delimiter-face ((t (:foreground "yellow"))))
  `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
  `(font-lock-function-name-face     ((t (:foreground "white"))))
  `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
@@ -231,6 +211,30 @@
  `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
  `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
  `(show-paren-match                 ((t (:background "mediumseagreen")))))
+
+;; Naysayer Theme
+;; (custom-set-faces
+;;  `(default                          ((t (:foreground "#d3b58d" :background "#072629"))))
+;;  `(hl-line                          ((t (:background "#0c4141"))))
+;;  `(vertico-current                  ((t (:inherit hl-line))))
+;;  `(region                           ((t (:background  "medium blue"))))
+;;  `(cursor                           ((t (:background "lightgreen"))))
+;;  `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
+;;  `(font-lock-type-face              ((t (:foreground "#8cde94"))))
+;;  `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
+;;  `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
+;;  `(font-lock-builtin-face           ((t (:foreground "white"))))
+;;  `(font-lock-string-face            ((t (:foreground "#0fdfaf"))))
+;;  `(font-lock-comment-face           ((t (:foreground "#3fdf1f"))))
+;;  `(font-lock-comment-delimiter-face ((t (:foreground "#3fdf1f"))))
+;;  `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
+;;  `(font-lock-function-name-face     ((t (:foreground "white"))))
+;;  `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
+;;  `(font-lock-warning-face           ((t (:foreground "yellow"))))
+;;  `(font-lock-note-face              ((t (:foreground "khaki2" ))))
+;;  `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
+;;  `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
+;;  `(show-paren-match                 ((t (:background "mediumseagreen")))))
 
 ;; HandmadeHero
 ;; (custom-set-faces
@@ -289,7 +293,7 @@
 
 ;; Autocomplete
 (install 'corfu)
-(setq corfu-auto nil)
+(setq corfu-auto t)
 (global-corfu-mode +1)
 
 
@@ -317,7 +321,7 @@
   )
 
 (setq eglot-stay-out-of '(project))
-(setq eglot-sync-connect 0)
+(setq eglot-sync-connect nil)
 
 (add-hook 'go-mode-hook #'eglot-ensure)
 (add-hook 'rust-mode-hook #'eglot-ensure)
@@ -448,7 +452,7 @@
 
 (defun amirreza/find-file-in-directory (DIR)
   "Recursive file find starting from 'DIR'."
-  (interactive (read-directory-name "DIR: " (find-project-root-or-default-directory)))
+  (interactive (list (read-directory-name "DIR: " (find-project-root-or-default-directory))))
   (cond
    ((git-repo-p) (amirreza/git-files DIR))
    ((executable-find "rg") (amirreza/rg-files DIR))
@@ -520,6 +524,13 @@
 (global-set-key (kbd "M-]")                                          'kmacro-end-or-call-macro)
 (global-set-key (kbd "M-\\")                                         'kmacro-end-and-call-macro) ;; execute keyboard macro.
 (global-set-key (kbd "C-z")                                          'undo)           ;; Sane undo key
+
+;; Multiple Cursors
+(global-set-key (kbd "C-M-n")                                        'mc/mark-next-like-this-word)
+(global-set-key (kbd "C-M-p")                                        'mc/mark-previous-like-this-word)
+(global-set-key (kbd "C-S-n")                                        'mc/mark-next-like-this)
+(global-set-key (kbd "C-S-p")                                        'mc/mark-previous-like-this)
+(global-set-key (kbd "C-c m a")                                      'mc/mark-all-like-this-dwim)
 
 ;; Jumping around in buffer
 (global-set-key (kbd "C->")                                          'end-of-buffer)
