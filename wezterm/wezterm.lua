@@ -13,10 +13,10 @@ config.font = wezterm.font_with_fallback {
 -- config.color_scheme = 'rose-pine'
 
 config.window_padding = {
-	left = 0,
-	right = 0,
-	top = 0,
-	bottom = 0,
+	left = 10,
+	right = 10,
+	top = 10,
+	bottom = 10,
 }
 local is_windows = function()
 	return wezterm.target_triple:find("windows") ~= nil
@@ -55,6 +55,6 @@ config.hide_tab_bar_if_only_one_tab = true
 
 config.tab_max_width = 20
 
-config.window_background_opacity = 0.80
+config.window_background_opacity = 0.89
 
 return config
