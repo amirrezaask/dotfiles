@@ -144,6 +144,7 @@
       '(("gnu-elpa" . "https://elpa.gnu.org/packages/")
 	("nongnu" . "https://elpa.nongnu.org/nongnu/")
 	("melpa" . "https://melpa.org/packages/")))
+
 (setq package-archive-priorities
       '(("gnu-elpa" . 2)
 	("melpa" . 1)
@@ -190,52 +191,52 @@
 
 
 ;; Dirt Theme (default)
-(custom-set-faces
-  `(default                          ((t (:foreground "#debe95" :background "#202020"))))
-  `(hl-line                          ((t (:background "#353535"))))
-  `(vertico-current                  ((t (:background "#353535"))))
-  `(region                           ((t (:background "medium blue"))))
-  `(cursor                           ((t (:background "lightgreen"))))
-  `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
-  `(font-lock-type-face              ((t (:foreground "#8cde94"))))
-  `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
-  `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
-  `(font-lock-builtin-face           ((t (:foreground "white"))))
-  `(font-lock-string-face            ((t (:foreground "gray70"))))
-  `(font-lock-comment-face           ((t (:foreground "yellow"))))
-  `(font-lock-comment-delimiter-face ((t (:foreground "yellow"))))
-  `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
-  `(font-lock-function-name-face     ((t (:foreground "white"))))
-  `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
-  `(font-lock-warning-face           ((t (:foreground "yellow"))))
-  `(font-lock-note-face              ((t (:foreground "khaki2" ))))
-  `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
-  `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
-  `(show-paren-match                 ((t (:background "mediumseagreen")))))
+;; (custom-set-faces
+;;   `(default                          ((t (:foreground "#debe95" :background "#202020"))))
+;;   `(hl-line                          ((t (:background "#353535"))))
+;;   `(vertico-current                  ((t (:background "#353535"))))
+;;   `(region                           ((t (:background "medium blue"))))
+;;   `(cursor                           ((t (:background "lightgreen"))))
+;;   `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
+;;   `(font-lock-type-face              ((t (:foreground "#8cde94"))))
+;;   `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
+;;   `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
+;;   `(font-lock-builtin-face           ((t (:foreground "white"))))
+;;   `(font-lock-string-face            ((t (:foreground "gray70"))))
+;;   `(font-lock-comment-face           ((t (:foreground "yellow"))))
+;;   `(font-lock-comment-delimiter-face ((t (:foreground "yellow"))))
+;;   `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
+;;   `(font-lock-function-name-face     ((t (:foreground "white"))))
+;;   `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
+;;   `(font-lock-warning-face           ((t (:foreground "yellow"))))
+;;   `(font-lock-note-face              ((t (:foreground "khaki2" ))))
+;;   `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
+;;   `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
+;;   `(show-paren-match                 ((t (:background "mediumseagreen")))))
 
 ;; Naysayer Theme
-;; (custom-set-faces
-;;  `(default                          ((t (:foreground "#d3b58d" :background "#072629"))))
-;;  `(hl-line                          ((t (:background "#0c4141"))))
-;;  `(vertico-current                  ((t (:inherit hl-line))))
-;;  `(region                           ((t (:background  "medium blue"))))
-;;  `(cursor                           ((t (:background "lightgreen"))))
-;;  `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
-;;  `(font-lock-type-face              ((t (:foreground "#8cde94"))))
-;;  `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
-;;  `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
-;;  `(font-lock-builtin-face           ((t (:foreground "white"))))
-;;  `(font-lock-string-face            ((t (:foreground "#0fdfaf"))))
-;;  `(font-lock-comment-face           ((t (:foreground "#3fdf1f"))))
-;;  `(font-lock-comment-delimiter-face ((t (:foreground "#3fdf1f"))))
-;;  `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
-;;  `(font-lock-function-name-face     ((t (:foreground "white"))))
-;;  `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
-;;  `(font-lock-warning-face           ((t (:foreground "yellow"))))
-;;  `(font-lock-note-face              ((t (:foreground "khaki2" ))))
-;;  `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
-;;  `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
-;;  `(show-paren-match                 ((t (:background "mediumseagreen")))))
+(custom-set-faces
+ `(default                          ((t (:foreground "#d3b58d" :background "#072629"))))
+ `(hl-line                          ((t (:background "#0c4141"))))
+ `(vertico-current                  ((t (:inherit hl-line))))
+ `(region                           ((t (:background  "medium blue"))))
+ `(cursor                           ((t (:background "lightgreen"))))
+ `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
+ `(font-lock-type-face              ((t (:foreground "#8cde94"))))
+ `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
+ `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
+ `(font-lock-builtin-face           ((t (:foreground "white"))))
+ `(font-lock-string-face            ((t (:foreground "#0fdfaf"))))
+ `(font-lock-comment-face           ((t (:foreground "#3fdf1f"))))
+ `(font-lock-comment-delimiter-face ((t (:foreground "#3fdf1f"))))
+ `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
+ `(font-lock-function-name-face     ((t (:foreground "white"))))
+ `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
+ `(font-lock-warning-face           ((t (:foreground "yellow"))))
+ `(font-lock-note-face              ((t (:foreground "khaki2" ))))
+ `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
+ `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
+ `(show-paren-match                 ((t (:background "mediumseagreen")))))
 
 ;; HandmadeHero
 ;; (custom-set-faces
@@ -258,12 +259,6 @@
 ;;  `(font-lock-warning-face           ((t (:foreground "yellow"))))
 ;;  `(font-lock-note-face              ((t (:foreground "khaki2" ))))
 ;;  `(show-paren-match                 ((t (:background "mediumseagreen")))))
-
-(defun theme (THEME)
-  (interactive (list (intern (completing-read "Theme: " (append (custom-available-themes) '(jbrown jgreen handmadehero))))))
-  (if (custom-theme-p THEME)
-      (enable-theme THEME)
-    (load-theme THEME)))
 
 ;; Golang
 ;; $ go install golang.org/x/tools/gopls@latest
@@ -295,6 +290,7 @@
   (find-file INIT-FILE))
 
 ;; PHP
+;; $ npm install -g intelephense
 (install 'php-mode)
 (global-set-key (kbd "C-x i") 'amirreza/edit-init)
 
@@ -302,7 +298,6 @@
 (install 'corfu)
 (setq corfu-auto t)
 (global-corfu-mode +1)
-
 
 ;; Eglot: LSP
 (unless (>= emacs-major-version 29) (install 'eglot))
@@ -330,13 +325,8 @@
 (setq eglot-stay-out-of '(project))
 (setq eglot-sync-connect nil)
 
-(add-hook 'go-mode-hook #'eglot-ensure)
-(add-hook 'rust-mode-hook #'eglot-ensure)
-(add-hook 'php-mode-hook #'eglot-ensure)
-
-;; Magit
-;; Git client
-(install 'magit)
+(dolist (mode '(go rust php)) ;; Enable LSP for these languages
+  (add-hook (intern (concat (symbol-name mode) "-mode-hook")) #'eglot-ensure))
 
 (defun amirreza/copy ()
   "Either copy region or the current line."
@@ -489,6 +479,7 @@
 (global-set-key (kbd "C-M-o")                                        'amirreza/grep-in-directory)
 (global-set-key (kbd "M-o")                                          'amirreza/find-file-dwim)
 
+;; Grep Mode
 (with-eval-after-load 'grep
   (define-key grep-mode-map (kbd "<f5>")                             'recompile)
   (define-key grep-mode-map (kbd "g")                                'recompile)
