@@ -4,6 +4,8 @@
 (setq mc/cmds-to-run-for-all
       '(
 	comment-line
+	completion-at-point
+	corfu-next
 	))
 
 (setq mc/cmds-to-run-once
