@@ -193,8 +193,6 @@
   (define-key minibuffer-mode-map (kbd "C-n") 'minibuffer-next-completion)
   (define-key minibuffer-mode-map (kbd "C-p") 'minibuffer-previous-completion))
 
-
-
 ;; Since emacs has worst APIs for defining themes we need to write them in files so emacs can load them.
 (install 'sweet-theme)
 (install 'dracula-theme)
@@ -549,15 +547,16 @@
 
 ;; Text Editing
 (with-eval-after-load 'replace
-  (define-key query-replace-map (kbd "<return>")                     'act)) ;; in replace mode <return> applies.
-(global-set-key (kbd "C-w")                                          'amirreza/cut) ;; sane cut/kill
-(global-set-key (kbd "M-w")                                          'amirreza/copy) ;; sane copy
-(global-set-key (kbd "M-[")                                          'kmacro-start-macro) ;; start macro
-(global-set-key (kbd "M-]")                                          'kmacro-end-or-call-macro) ;; end macro
+  (define-key query-replace-map (kbd "<return>")                     'act))                      ;; in replace mode <return> applies.
+(global-set-key (kbd "C-q")                                          'set-mark-command)          ;; select
+(global-set-key (kbd "C-w")                                          'amirreza/cut)              ;; sane cut/kill
+(global-set-key (kbd "M-w")                                          'amirreza/copy)             ;; sane copy
+(global-set-key (kbd "M-[")                                          'kmacro-start-macro)        ;; start macro
+(global-set-key (kbd "M-]")                                          'kmacro-end-or-call-macro)  ;; end macro
 (global-set-key (kbd "M-\\")                                         'kmacro-end-and-call-macro) ;; call keyboard macro.
-(global-set-key (kbd "C-z")                                          'undo)           ;; Sane undo key
-(global-set-key (kbd "M-r")                                          'string-replace)
-(global-set-key (kbd "C-M-r")                                        'query-replace)
+(global-set-key (kbd "C-z")                                          'undo)                      ;; Sane undo key
+(global-set-key (kbd "M-r")                                          'replace-string)            ;; replace strings ( no regex )
+(global-set-key (kbd "C-M-r")                                        'query-replace)             ;; replace using regex
 
 ;; Multiple Cursors
 (global-set-key (kbd "C-M-n")                                        'mc/mark-next-like-this-word)
@@ -587,6 +586,7 @@
 (global-set-key (kbd "C-M-.")                                        'xref-find-references)
 (global-set-key (kbd "M-,")                                          'xref-go-back)
 (with-eval-after-load 'eglot
+  (define-key eglot-mode-map (kbd "C-c r")                           'eglot-rename)
   (define-key eglot-mode-map (kbd "C-c C-c")                         'eglot-code-actions))
 
 ;; Error navigation
@@ -595,6 +595,7 @@
   (define-key flymake-mode-map (kbd "M-'")                           'flymake-goto-next-error))
 
 ;; Rectangle Mode (Almost multi cursors)
+(global-set-key (kbd "C-x SPC")                                      'rectangle-mark-mode)
 (with-eval-after-load 'rect
   (define-key rectangle-mark-mode-map (kbd "C-i")                    'string-insert-rectangle)
   (define-key rectangle-mark-mode-map (kbd "C-r")                    'string-rectangle))
