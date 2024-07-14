@@ -3,8 +3,8 @@ local config = {}
 
 config.font_size = 16
 config.font = wezterm.font_with_fallback {
-	'Cascadia Mono NF',
 	'Jetbrains Mono',
+	'Cascadia Mono NF',
 	'MesloLGL Nerd Font Mono',
 	'Meslo',
 	"Consolas",
@@ -56,6 +56,6 @@ config.hide_tab_bar_if_only_one_tab = true
 
 config.tab_max_width = 20
 
--- config.window_background_opacity = 0.89
+config.window_background_opacity = 0.89
 
 return config

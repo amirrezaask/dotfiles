@@ -112,8 +112,6 @@
   (text-scale-decrease 1))
 
 
-(global-hl-line-mode +1)
-
 ;; Environment Variables
 (defun home (path)
   (expand-file-name path (getenv "HOME")))
@@ -171,6 +169,20 @@
 
 (install 'vlf "Special handling of very large files")
 (require 'vlf-setup)
+
+;; VTerm
+(install 'vterm)
+
+(defun amirreza/vterm-dwim ()
+  "Jump to vterm buffer associated with current project or create a new."
+  (interactive)
+  (let* ((root (find-project-root-or-default-directory))
+	 (default-directory root)
+	 (buffer-name (format "*vterm-%s*" root)))
+    (if (get-buffer buffer-name)
+	(switch-to-buffer buffer-name)
+      (vterm buffer-name))))
+
 
 ;; Minibuffer
 (install 'orderless)
