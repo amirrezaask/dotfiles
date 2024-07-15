@@ -167,7 +167,6 @@
 ;; Multiple Cursors
 (install 'multiple-cursors)
 
-
 (install 'vlf "Special handling of very large files")
 (require 'vlf-setup)
 
@@ -410,8 +409,8 @@
    ((or (eq major-mode 'c-mode) (eq major-mode 'c++-mode))  (locate-dominating-file default-directory "build.bat"))
    (t                                                       (locate-dominating-file default-directory ".git"))))
 
-(defun git-repo-p ()
-  (locate-dominating-file default-directory ".git"))
+(defun git-repo-p (DIR)
+  (locate-dominating-file DIR ".git"))
 
 (defun find-project-root-or-default-directory ()
   (or (find-project-root) default-directory))
@@ -445,43 +444,32 @@
    ((equal (length (find-project-root)) 0) (call-interactively 'amirreza/compile-in-directory)) ;; we are not inside a project so we should ask user for directory.
    (t (amirreza/compile-in-directory (find-project-root) (read-shell-command "[Compile] Command: " (guess-compile-command (find-project-root-or-default-directory)))))))
 
-(defun rg (dir pattern)
-  "runs Ripgrep program in a compilation buffer."
-  (interactive (list (read-directory-name "[Ripgrep] Directory: " (find-project-root-or-default-directory))
-		     (read-string "[Ripgrep] Pattern: " nil)))
-  (unless (executable-find "rg") (error "ripgrep executable not found, install from https://github.com/BurntSushi/ripgrep/releases"))
 
-  (let* ((default-directory dir)
-	 (command (format "rg --vimgrep \"%s\" ." pattern)))
-    (compilation-start command 'grep-mode)))
+;; Grep and Searching
+(install 'wgrep) ;; writable grep buffers.
 
-(defun gnu-grep (dir pattern)
-  (interactive (list (read-directory-name "[GNU Grep] Directory: " (find-project-root-or-default-directory))
-		     (read-string "[GNU Grep] Pattern: " nil)))
-  (unless (executable-find "grep") (error "Gnu Grep executable not found"))
-  (add-to-list 'amirreza/grep-query-history pattern)
-
-  (let* ((default-directory dir)
-	 (command (format "grep --exclude-dir=\".git\" --color=auto -nH --null -r -e \"%s\" ." pattern)))
-    (compilation-start command 'grep-mode)))
+(with-eval-after-load 'grep
+  (when (executable-find "rg")
+    (grep-apply-setting 'grep-command "rg --no-heading --color='never'")
+    (grep-apply-setting 'grep-use-null-device nil)))
 
 (defun amirreza/grep-in-directory (DIR)
   "Run appropriate grep program in directory."
   (interactive (list
 		(read-directory-name "[Grep] Directory: " (find-project-root-or-default-directory))))
-  
-  (cond
-     ((or (executable-find "rg") is-windows) (rg DIR (read-string "[Ripgrep] Pattern: " nil)))
-     (t                                      (gnu-grep DIR (read-string "[GNU Grep] Pattern: " nil)))))
 
+  (let ((default-directory DIR))
+  (cond
+   ((executable-find "rg") (grep (format "rg --no-heading --color='never' %s" (read-string "Ripgrep: "))))
+   ((git-repo-p DIR) (grep (format "git grep --no-color -n %s" (read-string "Git Grep: "))))
+   )))
+  
 (defun amirreza/grep-dwim ()
   "DWIM version of amirreza/grep-in-directory"
   (interactive)
   (cond
    ((equal (length (find-project-root)) 0) (call-interactively 'amirreza/grep-in-directory)) ;; we are not inside a project so we should ask user for directory.
    (t (amirreza/grep-in-directory (find-project-root)))))
-
-  
 
 (setq eshell-visual-subcommands '("git" "diff" "log" "show"))
 
@@ -511,7 +499,7 @@
   "Recursive file find starting from 'DIR'."
   (interactive (list (read-directory-name "DIR: " (find-project-root-or-default-directory))))
   (cond
-   ((git-repo-p) (amirreza/git-files DIR))
+   ((git-repo-p DIR) (amirreza/git-files DIR))
    ((executable-find "rg") (amirreza/rg-files DIR))
    (t (call-interactively 'find-file))))
 
@@ -534,7 +522,7 @@
       (eshell))))
 
 ;; Color mode
-(global-set-key (kbd "M-t")                                          'amirreza/color-mode)
+(global-set-key (kbd "M-t")                                          'load-theme)
 (global-set-key (kbd "C-M-t")                                        'amirreza/random-theme)
 ;; Finding
 (global-set-key (kbd "C-o")                                          'find-file)
@@ -544,6 +532,7 @@
 
 ;; Grep Mode
 (with-eval-after-load 'grep
+  (define-key grep-mode-map (kbd "C-c C-p")                          'wgrep-toggle-readonly-area)
   (define-key grep-mode-map (kbd "<f5>")                             'recompile)
   (define-key grep-mode-map (kbd "g")                                'recompile)
   (define-key grep-mode-map (kbd "G")                                'amirreza/grep-in-directory)
