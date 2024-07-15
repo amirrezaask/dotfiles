@@ -27,9 +27,10 @@
 (tool-bar-mode -1)
 
 ")
+(setq early-init-file (expand-file-name "early-init.el" user-emacs-directory))
 (setq debug-on-error t)
-(unless (file-exists-p "~/.emacs.d/early-init.el")
-  (write-region amirreza/early-init nil "~/.emacs.d/early-init.el"))
+(unless (file-exists-p early-init-file)
+  (write-region amirreza/early-init nil early-init-file))
 
 (setq native-comp-async-report-warnings-errors nil)
 
@@ -195,19 +196,19 @@
 
 ;; Since emacs has worst APIs for defining themes we need to write them in files so emacs can load them.
 (install 'sweet-theme)
-(install 'dracula-theme)
 (install 'modus-themes)
 (install 'ef-themes)
-(install 'doom-themes)
 
 (defadvice load-theme (before disable-themes-first activate)
   (dolist (i custom-enabled-themes)
     (disable-theme i)))
 
-(unless (directory-name-p "~/.emacs.d/themes/")
-  (make-directory "~/.emacs.d/themes/"))
+(setq themes-directory (expand-file-name "themes" user-emacs-directory))
 
-(unless (file-exists-p "~/.emacs.d/themes/naysayer-theme.el")
+(unless (file-exists-p themes-directory)
+  (make-directory themes-directory))
+
+(unless (file-exists-p (expand-file-name "naysayer-theme.el" themes-directory))
   (write-region "
 (deftheme naysayer)
 (custom-theme-set-faces
@@ -235,9 +236,9 @@
  `(show-paren-match                 ((t (:background \"mediumseagreen\")))))
 
 (provide 'naysayer-theme)
-" nil "~/.emacs.d/themes/naysayer-theme.el"))
+" nil (expand-file-name "naysayer-theme.el" themes-directory)))
 
-(unless (file-exists-p "~/.emacs.d/themes/old-naysayer-theme.el")
+(unless (file-exists-p (expand-file-name "old-naysayer-theme.el" themes-directory))
   (write-region "
 (deftheme old-naysayer)
 (custom-theme-set-faces
@@ -265,9 +266,9 @@
   `(show-paren-match                 ((t (:background \"mediumseagreen\")))))
 
 (provide 'old-naysayer-theme)
-" nil "~/.emacs.d/themes/old-naysayer-theme.el"))
+" nil (expand-file-name "old-naysayer-theme.el" themes-directory)))
 
-(unless (file-exists-p "~/.emacs.d/themes/handmadehero-theme.el")
+(unless (file-exists-p (expand-file-name "handmadehero-theme.el" themes-directory))
   (write-region "
 (deftheme handmadehero)
 (custom-theme-set-faces
@@ -293,7 +294,7 @@
  `(show-paren-match                 ((t (:background \"mediumseagreen\")))))
 
 (provide 'handmadehero-theme)
-" nil "~/.emacs.d/themes/handmadehero-theme.el"))
+" nil (expand-file-name "handmadehero-theme.el" themes-directory)))
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (setq custom-safe-themes t)
@@ -301,7 +302,15 @@
 (defvar amirreza/dark-theme 'ef-night)
 (defvar amirreza/light-theme 'ef-light)
 
+(defun amirreza/random-theme ()
+  "Apply a random theme."
+  (interactive)
+  (let* ((count (length (custom-available-themes)))
+	(theme (nth (random count) (custom-available-themes))))
+    (load-theme theme)))
+
 (defun amirreza/color-mode ()
+  "Toggle between color modes."
   (interactive)
   (let ((theme (car custom-enabled-themes)))
     (if (null theme) (load-theme amirreza/dark-theme))
@@ -526,6 +535,7 @@
 
 ;; Color mode
 (global-set-key (kbd "M-t")                                          'amirreza/color-mode)
+(global-set-key (kbd "C-M-t")                                        'amirreza/random-theme)
 ;; Finding
 (global-set-key (kbd "C-o")                                          'find-file)
 (global-set-key (kbd "C-S-o")                                        'amirreza/grep-dwim)
