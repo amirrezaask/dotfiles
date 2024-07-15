@@ -196,6 +196,9 @@
 ;; Since emacs has worst APIs for defining themes we need to write them in files so emacs can load them.
 (install 'sweet-theme)
 (install 'dracula-theme)
+(install 'modus-themes)
+(install 'ef-themes)
+(install 'doom-themes)
 
 (defadvice load-theme (before disable-themes-first activate)
   (dolist (i custom-enabled-themes)
@@ -295,7 +298,19 @@
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (setq custom-safe-themes t)
 
-(load-theme 'naysayer)
+(defvar amirreza/dark-theme 'ef-night)
+(defvar amirreza/light-theme 'ef-light)
+
+(defun amirreza/color-mode ()
+  (interactive)
+  (let ((theme (car custom-enabled-themes)))
+    (if (null theme) (load-theme amirreza/dark-theme))
+    (if (equal theme amirreza/dark-theme) (load-theme amirreza/light-theme) (load-theme amirreza/dark-theme))))
+
+(amirreza/color-mode)
+
+;; Git Client ( Magit )
+(install 'magit)
 
 ;; Golang
 ;; $ go install golang.org/x/tools/gopls@latest
@@ -333,7 +348,7 @@
 
 ;; Autocomplete
 (install 'corfu)
-(setq corfu-auto t)
+(setq corfu-auto nil)
 (global-corfu-mode +1)
 
 ;; Eglot: LSP
@@ -402,7 +417,7 @@
   (let ((default-directory DIR))
     (cond
      ((file-exists-p "build.bat") "build.bat")
-     ((file-exists-p "go.mod")    "go build -v "))))
+     ((file-exists-p "go.mod")    "go build -v ./..."))))
 
 (defun amirreza/compile-in-directory (DIR COMMAND)
   "Compile in a directory"
@@ -432,8 +447,8 @@
     (compilation-start command 'grep-mode)))
 
 (defun gnu-grep (dir pattern)
-  (interactive (list (read-directory-name "[grep] Directory: " (find-project-root-or-default-directory))
-		     (read-string "[grep] Pattern: " nil)))
+  (interactive (list (read-directory-name "[GNU Grep] Directory: " (find-project-root-or-default-directory))
+		     (read-string "[GNU Grep] Pattern: " nil)))
   (unless (executable-find "grep") (error "Gnu Grep executable not found"))
   (add-to-list 'amirreza/grep-query-history pattern)
 
@@ -447,9 +462,8 @@
 		(read-directory-name "[Grep] Directory: " (find-project-root-or-default-directory))))
   
   (cond
-     ;; ((fboundp 'consult-ripgrep)             (consult-ripgrep DIR))
      ((or (executable-find "rg") is-windows) (rg DIR (read-string "[Ripgrep] Pattern: " nil)))
-     (t                                      (gnu-grep DIR (read-string "[Ripgrep] Pattern: " nil)))))
+     (t                                      (gnu-grep DIR (read-string "[GNU Grep] Pattern: " nil)))))
 
 (defun amirreza/grep-dwim ()
   "DWIM version of amirreza/grep-in-directory"
@@ -469,7 +483,7 @@
 
   (let* ((default-directory DIR)
 	 (command (format "git ls-files"))
-	 (file (completing-read "Git Files:" (string-split (shell-command-to-string command) "\n" t))))
+	 (file (completing-read "Git Files: " (string-split (shell-command-to-string command) "\n" t))))
     (find-file file)))
 
 (defun amirreza/rg-files (DIR)
@@ -510,6 +524,8 @@
 	(switch-to-buffer eshell-buffer-name)
       (eshell))))
 
+;; Color mode
+(global-set-key (kbd "M-t")                                          'amirreza/color-mode)
 ;; Finding
 (global-set-key (kbd "C-o")                                          'find-file)
 (global-set-key (kbd "C-S-o")                                        'amirreza/grep-dwim)
@@ -544,6 +560,9 @@
 ;; Buffers
 (global-set-key (kbd "C-.")                                          'next-buffer)
 (global-set-key (kbd "C-,")                                          'previous-buffer)
+
+;; Git
+(global-set-key (kbd "C-x g")                                        'magit)                     ;; Git Client
 
 ;; Text Editing
 (with-eval-after-load 'replace
