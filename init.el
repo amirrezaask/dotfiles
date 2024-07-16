@@ -111,6 +111,7 @@
   (interactive (list (read-string "Font Family: ") (read-number "Font Size: ")))
   (let ((fontstring (format "%s %d" font fontsize)))
     (setq font-family font)
+    (setq font-size fontsize)
     (add-to-list 'default-frame-alist `(font . ,fontstring))
     (set-frame-font fontstring nil t)
     (set-face-attribute 'default t :font fontstring)))
@@ -125,6 +126,9 @@
     (add-to-list 'default-frame-alist `(font . ,fontstring))
     (set-frame-font fontstring nil t)
     (set-face-attribute 'default t :font fontstring)))
+
+(defun increase-font-size () (interactive) (setq font-size (+ font-size 1)) (set-font-size font-size))
+(defun decrease-font-size () (interactive) (setq font-size (- font-size 1)) (set-font-size font-size))
 
 (defalias 'FontSize 'set-font-size)
 
@@ -583,6 +587,8 @@
 ;; Font
 (global-set-key (kbd "C-=")                                          'font-zoom-in)
 (global-set-key (kbd "C--")                                          'font-zoom-out)
+(global-set-key (kbd "M-=")                                          'increase-font-size)
+(global-set-key (kbd "M--")                                          'decrease-font-size)
 
 (global-set-key (kbd "C-j")                                          'completion-at-point)
 
