@@ -148,6 +148,7 @@
   (add-to-list 'exec-path "/opt/homebrew/bin"))
 
 (add-to-list 'exec-path (home "bin"))
+(add-to-list 'exec-path "/usr/local/bin")
 (add-to-list 'exec-path (home "go/bin"))
 
 (when is-windows
@@ -301,8 +302,8 @@
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (setq custom-safe-themes t)
 
-(defvar amirreza/dark-theme 'ef-night)
-(defvar amirreza/light-theme 'ef-light)
+(defvar amirreza/dark-theme 'old-naysayer)
+(defvar amirreza/light-theme 'modus-operandi)
 
 (defun amirreza/random-theme ()
   "Apply a random theme."
