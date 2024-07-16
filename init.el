@@ -34,6 +34,8 @@
 (unless (file-exists-p early-init-file)
   (write-region amirreza/early-init nil early-init-file))
 
+(when load-file-name ;; since windows is a bit funky I prefer to store this file path in a variable to be used when C-x i
+  (setq INIT-FILE load-file-name))
 
 (setq native-comp-async-report-warnings-errors nil)
 (set-frame-parameter nil 'fullscreen 'maximized) 
