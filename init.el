@@ -534,8 +534,9 @@
   (define-key compilation-mode-map (kbd "M-p")                       'jump-up)
   (define-key compilation-mode-map (kbd "k")                         'kill-compilation))
 
-;; emacs shell (Eshell)
+;; Terminal/Shell
 (global-set-key (kbd "M-j")                                          'amirreza/eshell-dwim)
+(global-set-key (kbd "C-M-j")                                        'amirreza/vterm-dwim)
 
 ;; buffers
 (global-set-key (kbd "C-.")                                          'next-buffer)
