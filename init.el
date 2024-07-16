@@ -129,11 +129,14 @@
 (defalias 'FontSize 'set-font-size)
 
 (defun font-exists-p (font) "check if font exists" (if (null (x-list-fonts font)) nil t))
-(when (font-exists-p "Cascadia Code") (set-font "Cascadia Code" 15))
-(when (font-exists-p "Hack") (set-font "Hack" 15))
-(when (font-exists-p "Jetbrains Mono") (set-font "Jetbrains Mono" 15))
-(when (font-exists-p "Consolas") (set-font "Consolas" 15))
-(when (font-exists-p "Menlo") (set-font "Menlo" 15))
+(cond
+ ((font-exists-p "Cascadia Code") (set-font "Cascadia Code" 15))
+ ((font-exists-p "Jetbrains Mono") (set-font "Jetbrains Mono" 15))
+ ((font-exists-p "Hack") (set-font "Hack" 15))
+ ((font-exists-p "Consolas") (set-font "Consolas" 15))
+ ((font-exists-p "Menlo") (set-font "Menlo" 15))
+ )
+
 (defun font-zoom-in () (interactive) (text-scale-increase 1))
 (defun font-zoom-out () (interactive) (text-scale-decrease 1))
 
