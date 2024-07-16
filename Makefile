@@ -6,18 +6,15 @@ install:
 	rm -rf $(XDG_CONFIG)/i3
 	rm -rf $(XDG_CONFIG)/alacritty
 	rm -rf $(XDG_CONFIG)/nvim
-	rm -rf $(XDG_CONFIG)/zellij
 	rm -rf $(XDG_CONFIG)/fish
-	rm -rf $(XDG_CONFIG)/kitty
-	rm -rf $(XDG_CONFIG)/Code/User/settings.json
-	rm -rf $(XDG_CONFIG)/Code/User/keybindings.json
-	ln -s $(DOTFILES_DIR)/i3 $(XDG_CONFIG)/
-	ln -s $(DOTFILES_DIR)/alacritty $(XDG_CONFIG)/
-	ln -s $(DOTFILES_DIR)/nvim $(XDG_CONFIG)/
-	ln -s $(DOTFILES_DIR)/zellij $(XDG_CONFIG)/
-	ln -s $(DOTFILES_DIR)/fish $(XDG_CONFIG)/
-	ln -s $(DOTFILES_DIR)/kitty $(XDG_CONFIG)/
-	mkdir -p $(XDG_CONFIG)/Code/User
-	ln -s $(DOTFILES_DIR)/vscode/settings.json $(XDG_CONFIG)/Code/User/settings.json
-	ln -s $(DOTFILES_DIR)/vscode/keybindings.json $(XDG_CONFIG)/Code/User/keybindings.json
-	$(DOTFILES_DIR)/vscode/extensions.sh
+	rm -rf $(HOME)/.zshrc
+	rm -rf $(HOME)/.tmux.conf
+	mkdir -p $(XDG_CONFIG)/i3
+	mkdir -p $(XDG_CONFIG)/alacritty
+	mkdir -p $(XDG_CONFIG)/nvim
+	mkdir -p $(XDG_CONFIG)/fish
+	ln -s $(DOTFILES_DIR)/i3-config $(XDG_CONFIG)/i3/config
+	ln -s $(DOTFILES_DIR)/alacritty.toml $(XDG_CONFIG)/alacritty/alacritty.toml
+	ln -s $(DOTFILES_DIR)/config.fish $(XDG_CONFIG)/fish/config.fish
+	ln -s $(DOTFILES_DIR)/init.lua $(XDG_CONFIG)/nvim/init.lua
+	ln -s $(DOTFILES_DIR)/init.el $(HOME)/.emacs
