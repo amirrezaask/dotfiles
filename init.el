@@ -148,8 +148,7 @@
 (setq corfu-auto nil) ;; No autocomplete popup
 (global-corfu-mode +1) ;;
 
-(setq eglot-ignored-server-capabilities '(
-					  :hoverProvider
+(setq eglot-ignored-server-capabilities '(:hoverProvider
 					  :documentHighlightProvider
 					  :codeLensProvider
 					  :documentFormattingProvider
@@ -236,7 +235,7 @@
   (define-key grep-mode-map (kbd "M-p")                              'jump-up)
   (define-key grep-mode-map (kbd "k")                                'kill-compilation))
 
-(global-set-key (kbd "M-m")                                          'compile-dwim)
+(global-set-key (kbd "M-m")                                          'run-compile)
 (with-eval-after-load 'compile
   (define-key compilation-mode-map (kbd "<f5>")                      'recompile)
   (define-key compilation-mode-map (kbd "M-m")                       'previous-buffer)
@@ -280,6 +279,7 @@
 (global-set-key (kbd "M-p")                                          'jump-up)
 (global-set-key (kbd "C-;")                                          'goto-line)
 (global-set-key (kbd "C-0")                                          'delete-window)
+(global-set-key (kbd "C-1")                                          'delete-other-windows)
 (global-set-key (kbd "C-3")                                          'split-window-right)
 (global-set-key (kbd "C-2")                                          'split-window-below)
 (global-set-key (kbd "C-j")                                          'completion-at-point)

@@ -21,14 +21,15 @@ plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
 
-if command -v code &>/dev/null
-then
-    export EDITOR='code -w'
-    export GIT_EDITOR='code -w'
-fi
 if command -v fzf &>/dev/null
 then
     source <(fzf --zsh)
+fi
+
+if command -v emacsclient &>/dev/null # use emacs as editor
+then
+    export EDITOR='emacsclient -a"vim"'
+    export GIT_EDITOR='emacsclient -a"vim"'
 fi
 
 p() {
