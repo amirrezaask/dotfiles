@@ -21,6 +21,19 @@
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
 
+(setq initial-scratch-message "
+
+ _   _      _ _        ______    _                _ 
+| | | |    | | |       |  ___|  (_)              | |
+| |_| | ___| | | ___   | |_ _ __ _  ___ _ __   __| |
+|  _  |/ _ \\ | |/ _ \\  |  _| '__| |/ _ \\ '_ \\ / _` |
+| | | |  __/ | | (_) | | | | |  | |  __/ | | | (_| |
+\\_| |_/\\___|_|_|\\___/  \\_| |_|  |_|\\___|_| |_|\\__,_|
+                                                    
+                                                    
+                                      
+")
+
 (when load-file-name ;; since windows is a bit funky I prefer to store this file path in a variable to be used when C-x i
   (setq INIT-FILE load-file-name))
 
@@ -69,7 +82,7 @@
 
 
 (if is-macos (set-face-attribute 'default nil :font "Menlo-15"))
-(if is-windows (set-face-attribute 'default nil :font "Consolas-20"))
+(if is-windows (set-face-attribute 'default nil :font "Consolas-15"))
 (defun Font () "Set font interactively" (interactive) (set-face-attribute 'default nil :font (format "%s-%d" (read-string "Font: ") (read-number "Size: "))))
 
 (defun home (path) (expand-file-name path (getenv "HOME")))
