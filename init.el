@@ -59,8 +59,10 @@
 	("melpa" . 1)
 	("nongnu" . 0)))
 
+(setq num-packages 0)
 (package-initialize)
 (defun install (PKG &optional DOC)
+  (setq num-packages (+ 1 num-packages))
   (if (listp PKG)
       (unless (package-installed-p (car PKG))
 	(if (fboundp 'package-vc-install)
@@ -68,7 +70,6 @@
 	  (warn "package-vc-install is available from Emacs 29, ignoring this install statement.")))
     (unless (package-installed-p PKG)
       (package-install PKG))))
-
 
 ;; @MacOS
 (setq image-types (cons 'svg image-types)
@@ -103,6 +104,7 @@
   (if (use-region-p)
       (kill-region (region-beginning) (region-end)) ;; copy active region contents
     (kill-region (line-beginning-position) (line-end-position)))) ;; copy current line
+
 
 ;; @Font
 (setq font-family "")
@@ -196,10 +198,7 @@
 
 
 ;; Minibuffer
-(install 'orderless)
-(setq completion-styles '(orderless basic)
-      completion-category-overrides '((file (styles basic partial-completion))))
-
+(setq completion-styles '(flex basic))
 (with-eval-after-load 'minibuffer ;; This way we don't need a seperate package for completion
   (define-key minibuffer-mode-map (kbd "C-n") 'minibuffer-next-completion)
   (define-key minibuffer-mode-map (kbd "C-p") 'minibuffer-previous-completion))
@@ -349,7 +348,10 @@
 
 (defun amirreza/go-hook ()
   (interactive)
-  (add-hook 'before-save-hook 'gofmt-before-save 0 t))
+  (add-hook 'before-save-hook 'gofmt-before-save 0 t)
+  (setq-local imenu-generic-expression
+        '((nil "^type *\\([^ \t\n\r\f]*\\)" 1)
+          (nil "^func *\\(.*\\) {" 1))))
 
 (add-hook 'go-mode-hook 'amirreza/go-hook)
 
@@ -575,6 +577,7 @@
 ;; Jumping around in buffer
 (defun jump-up () (interactive) (next-line (* -1 (/ (window-height) 2))) (recenter-top-bottom))
 (defun jump-down () (interactive) (next-line (/ (window-height) 2)) (recenter-top-bottom))
+(global-set-key (kbd "M-i")                                          'imenu)
 (global-set-key (kbd "M->")                                          'end-of-buffer)
 (global-set-key (kbd "M-<")                                          'beginning-of-buffer)
 (global-set-key (kbd "M-n")                                          'jump-down)
@@ -614,5 +617,5 @@
 ;;; Final benchmarking
 (defvar amirreza/emacs-init-took (* (float-time (time-subtract (float-time) amirreza/emacs-starting-time)) 1000) "Time took to load my init file, value is in milliseconds.")
 (defvar emacs-init-time-took (* (string-to-number (emacs-init-time "%f")) 1000) "Time took Emacs to boot, value is in milliseconds.")
-(setq amirreza/emacs-init-log-message (format "Amirreza emacs init took %fms, Emacs init took: %fms" amirreza/emacs-init-took emacs-init-time-took))
+(setq amirreza/emacs-init-log-message (format "Amirreza emacs init took %fms, Emacs init took: %fms, Third party packages: %d" amirreza/emacs-init-took emacs-init-time-took num-packages))
 (message amirreza/emacs-init-log-message)
