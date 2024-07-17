@@ -69,7 +69,7 @@
 
 
 (if is-macos (set-face-attribute 'default nil :font "Menlo-15"))
-(if is-windows (set-face-attribute 'default nil :font "Consolas-15"))
+(if is-windows (set-face-attribute 'default nil :font "Consolas-20"))
 (defun Font () "Set font interactively" (interactive) (set-face-attribute 'default nil :font (format "%s-%d" (read-string "Font: ") (read-number "Size: "))))
 
 (defun home (path) (expand-file-name path (getenv "HOME")))
