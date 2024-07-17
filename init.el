@@ -88,7 +88,7 @@
 
 
 (defun vterm-dwim () "Jump to vterm buffer associated with current project or create a new." (interactive)
-  (let* ((root (find-project-root-or-default-directory))
+  (let* ((root (find-root-or-default-directory))
 	 (default-directory root)
 	 (buffer-name (format "*vterm-%s*" root)))
     (if (get-buffer buffer-name)
@@ -97,7 +97,7 @@
 
 (setq eshell-visual-subcommands '("git" "diff" "log" "show"))
 (defun eshell-dwim () "Jump to eshell buffer associated with current project or create a new." (interactive)
-  (let* ((root (find-project-root-or-default-directory))
+  (let* ((root (find-root-or-default-directory))
 	 (default-directory root)
 	 (eshell-buffer-name (format "*eshell-%s*" root)))
     (if (get-buffer eshell-buffer-name)
