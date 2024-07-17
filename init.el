@@ -176,8 +176,6 @@
 (setq eglot-ignored-server-capabilities '(:hoverProvider
 					  :documentHighlightProvider
 					  :codeLensProvider
-					  :documentFormattingProvider
-					  :documentRangeFormattingProvider
 					  :documentOnTypeFormattingProvider
 					  :documentLinkProvider
 					  :colorProvider
