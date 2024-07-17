@@ -55,6 +55,7 @@
 (toggle-truncate-lines +1)
 (global-so-long-mode +1)
 (require 'vlf-setup)
+(require 'multiple-cursors)
 
 (defun copy () "Either copy region or the current line." (interactive)
   (if (use-region-p)
@@ -150,8 +151,6 @@
 (setq eglot-ignored-server-capabilities '(
 					  :hoverProvider
 					  :documentHighlightProvider
-					  :documentSymbolProvider
-					  :workspaceSymbolProvider
 					  :codeLensProvider
 					  :documentFormattingProvider
 					  :documentRangeFormattingProvider
@@ -188,9 +187,7 @@
     (grep-apply-setting 'grep-command "rg --no-heading --color='never'")
     (grep-apply-setting 'grep-use-null-device nil)))
 
-(defun run-grep ()
-  "Recursive grep in `find-root` result or C-u to choose directory interactively."
-  (interactive)
+(defun run-grep () "Recursive grep in `find-root` result or C-u to choose directory interactively." (interactive)
   (if (null current-prefix-arg)
       (setq --grep-dir (find-root-or-default-directory))
     (setq --grep-dir (read-directory-name "Directory: " default-directory)))
@@ -199,11 +196,9 @@
     (cond
      ((executable-find "rg") (grep (format "rg --no-heading --color='never' %s" (read-string "Ripgrep: "))))
      ((git-repo-p DIR)       (grep (format "git grep --no-color -n %s" (read-string "Git Grep: "))))
-     (t                      (grep (format "grep --color=auto -nH --null -e %s" (read-string "Grep: ")))))))
+     (t                      (grep (format "grep --color=auto -R -nH -e %s ." (read-string "Grep: ")))))))
 
-(defun file-finder ()
-  "Recursive file find starting from `find-root` result or C-u to choose directory interactively."
-  (interactive)
+(defun file-finder () "Recursive file find starting from `find-root` result or C-u to choose directory interactively." (interactive)
   (if (null current-prefix-arg)
       (setq --open-file-dir (find-root-or-default-directory))
     (setq --open-file-dir (read-directory-name "Directory: " default-directory)))
@@ -221,6 +216,10 @@
 				   (find-file file)))
    (t (error "you don't have rg installed and it's not a git repo."))))
 
+
+
+
+;; Keybindings
 (global-unset-key (kbd "C-x C-c"))
 (global-set-key (kbd "C-o")                                          'other-window)
 (global-set-key (kbd "C-q")                                          'file-finder) ;; quick file find.
@@ -285,13 +284,15 @@
 (global-set-key (kbd "C-2")                                          'split-window-below)
 (global-set-key (kbd "C-j")                                          'completion-at-point)
 
+(with-eval-after-load 'eglot
+  (define-key eglot-mode-map (kbd "M-S-r")                           'eglot-rename)
+  (define-key eglot-mode-map (kbd "M-S-o")                           'eglot-organize-imports)
+  (define-key eglot-mode-map (kbd "M-S-c")                           'eglot-code-actions))
+
+(global-set-key (kbd "M-a")                                          'xref-find-apropos)
 (global-set-key (kbd "M-.")                                          'xref-find-definitions)
 (global-set-key (kbd "C-M-.")                                        'xref-find-references)
 (global-set-key (kbd "M-,")                                          'xref-go-back)
-(with-eval-after-load 'eglot
-  (define-key eglot-mode-map (kbd "C-c C-r")                         'eglot-rename)
-  (define-key eglot-mode-map (kbd "C-c C-o")                         'eglot-organize-imports)
-  (define-key eglot-mode-map (kbd "C-c C-c")                         'eglot-code-actions))
 
 (with-eval-after-load 'flymake
   (define-key flymake-mode-map (kbd "M-;")                           'flymake-goto-prev-error)
