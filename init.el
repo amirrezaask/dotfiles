@@ -70,6 +70,7 @@
 
 (if is-macos (set-face-attribute 'default nil :font "Menlo-15"))
 (if is-windows (set-face-attribute 'default nil :font "Consolas-15"))
+(defun Font () "Set font interactively" (interactive) (set-face-attribute 'default nil :font (format "%s-%d" (read-string "Font: ") (read-number "Size: "))))
 
 (defun home (path) (expand-file-name path (getenv "HOME")))
 (add-to-list 'exec-path (home ".local/bin"))
@@ -109,6 +110,29 @@
   (define-key minibuffer-mode-map (kbd "C-n") 'minibuffer-next-completion)
   (define-key minibuffer-mode-map (kbd "C-p") 'minibuffer-previous-completion))
 
+;; (custom-set-faces
+;;   `(default                          ((t (:foreground "#debe95" :background "#202020"))))
+;;   `(hl-line                          ((t (:background "#353535"))))
+;;   `(vertico-current                  ((t (:background "#353535"))))
+;;   `(region                           ((t (:background "medium blue"))))
+;;   `(cursor                           ((t (:background "lightgreen"))))
+;;   `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
+;;   `(font-lock-type-face              ((t (:foreground "#8cde94"))))
+;;   `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
+;;   `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
+;;   `(font-lock-builtin-face           ((t (:foreground "white"))))
+;;   `(font-lock-string-face            ((t (:foreground "gray70"))))
+;;   `(font-lock-comment-face           ((t (:foreground "yellow"))))
+;;   `(font-lock-comment-delimiter-face ((t (:foreground "yellow"))))
+;;   `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
+;;   `(font-lock-function-name-face     ((t (:foreground "white"))))
+;;   `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
+;;   `(font-lock-warning-face           ((t (:foreground "yellow"))))
+;;   `(font-lock-note-face              ((t (:foreground "khaki2" ))))
+;;   `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
+;;   `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
+;;   `(show-paren-match                 ((t (:background "mediumseagreen")))))
+
 (custom-set-faces
  `(default                          ((t (:foreground "#d3b58d" :background "#072626"))))
  `(hl-line                          ((t (:background "#0c4141"))))
@@ -131,6 +155,7 @@
  `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
  `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
  `(show-paren-match                 ((t (:background "mediumseagreen")))))
+
 
 (defun find-root ()
   "Try to find project root based on deterministic predicates"
@@ -285,9 +310,9 @@
 (global-set-key (kbd "C-j")                                          'completion-at-point)
 
 (with-eval-after-load 'eglot
-  (define-key eglot-mode-map (kbd "M-S-r")                           'eglot-rename)
-  (define-key eglot-mode-map (kbd "M-S-o")                           'eglot-organize-imports)
-  (define-key eglot-mode-map (kbd "M-S-c")                           'eglot-code-actions))
+  (define-key eglot-mode-map (kbd "C-c C-r")                         'eglot-rename)
+  (define-key eglot-mode-map (kbd "C-c C-o")                         'eglot-organize-imports)
+  (define-key eglot-mode-map (kbd "C-c C-c")                         'eglot-code-actions))
 
 (global-set-key (kbd "M-a")                                          'xref-find-apropos)
 (global-set-key (kbd "M-.")                                          'xref-find-definitions)
