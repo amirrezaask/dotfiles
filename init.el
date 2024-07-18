@@ -3,7 +3,7 @@
 (setq gc-cons-threshold most-positive-fixnum)
 (add-hook 'emacs-startup-hook
 	  (lambda ()
-	    (setq gc-cons-threshold (* 1024 1024 200) ;; 200 Megabytes
+	    (setq gc-cons-threshold (* 1024 1024 20) ;; 20 Megabytes
 		  gc-cons-percentage 0.2)))
 
 (setq frame-resize-pixelwise t
@@ -199,7 +199,8 @@
 (with-eval-after-load 'eglot (add-to-list 'eglot-server-programs '(php-mode . ("intelephense" "--stdio"))))
 (defun eglot-organize-imports () (interactive) (eglot-code-actions nil nil "source.organizeImports" t))
 (setq eglot-stay-out-of '(project))
-(setq eglot-sync-connect nil)
+(setq eglot-sync-connect nil) ;; no blocking on waiting for the server to start.
+(setq eglot-events-buffer-size 0) ;; no logging of LSP events.
 (dolist (mode '(go rust php)) (add-hook (intern (concat (symbol-name mode) "-mode-hook")) #'eglot-ensure))
 
 (defun amirreza-compile-buffer-name-function (MODESTR) (let ((dir (find-root-or-default-directory))) (format "*%s-%s*" MODESTR dir)))
