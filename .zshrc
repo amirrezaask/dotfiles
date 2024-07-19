@@ -32,11 +32,6 @@ then
     export GIT_EDITOR='emacsclient -a"vim"'
 fi
 
-p() {
-    proj=$(find ~/w/d ~/w -mindepth 1 -maxdepth 1 -type d | fzf)
-    cd $proj
-}
-
 if ! command -v starship &> /dev/null
 then
     curl -sS https://starship.rs/install.sh | sh

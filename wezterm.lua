@@ -56,6 +56,6 @@ config.hide_tab_bar_if_only_one_tab = true
 
 config.tab_max_width = 20
 
-config.window_background_opacity = 0.89
+-- config.window_background_opacity = 0.89
 
 return config
