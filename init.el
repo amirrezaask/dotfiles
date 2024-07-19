@@ -52,7 +52,7 @@
       '(("gnu-elpa" . "https://elpa.gnu.org/packages/")
 	("nongnu" . "https://elpa.nongnu.org/nongnu/")
 	("melpa" . "https://melpa.org/packages/")))
-(dolist (pkg '(so-long multiple-cursors vlf vterm magit go-mode php-mode rust-mode corfu eglot wgrep)) (package-install pkg)) ;; Install packages.
+(dolist (pkg '(so-long multiple-cursors vlf go-mode php-mode rust-mode corfu eglot wgrep)) (package-install pkg)) ;; Install packages.
 
 (setq image-types (cons 'svg image-types) mac-command-modifier 'meta) ;; Fix macos fucked up bugs.
 
@@ -101,13 +101,13 @@
   (setenv "PATH" (string-join exec-path ":"))) ;; set emacs process PATH
 
 
-(defun vterm-dwim () "Jump to vterm buffer associated with current project or create a new." (interactive)
-  (let* ((root (find-root-or-default-directory))
-	 (default-directory root)
-	 (buffer-name (format "*vterm-%s*" root)))
-    (if (get-buffer buffer-name)
-	(switch-to-buffer buffer-name)
-      (vterm buffer-name))))
+;; (defun vterm-dwim () "Jump to vterm buffer associated with current project or create a new." (interactive)
+;;   (let* ((root (find-root-or-default-directory))
+;; 	 (default-directory root)
+;; 	 (buffer-name (format "*vterm-%s*" root)))
+;;     (if (get-buffer buffer-name)
+;; 	(switch-to-buffer buffer-name)
+;;       (vterm buffer-name))))
 
 (setq eshell-visual-subcommands '("git" "diff" "log" "show"))
 (defun eshell-dwim () "Jump to eshell buffer associated with current project or create a new." (interactive)
@@ -123,55 +123,54 @@
   (define-key minibuffer-mode-map (kbd "C-n") 'minibuffer-next-completion)
   (define-key minibuffer-mode-map (kbd "C-p") 'minibuffer-previous-completion))
 
-;; (custom-set-faces
-;;   `(default                          ((t (:foreground "#debe95" :background "#202020"))))
-;;   `(hl-line                          ((t (:background "#353535"))))
-;;   `(vertico-current                  ((t (:background "#353535"))))
-;;   `(region                           ((t (:background "medium blue"))))
-;;   `(cursor                           ((t (:background "lightgreen"))))
-;;   `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
-;;   `(font-lock-type-face              ((t (:foreground "#8cde94"))))
-;;   `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
-;;   `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
-;;   `(font-lock-builtin-face           ((t (:foreground "white"))))
-;;   `(font-lock-string-face            ((t (:foreground "gray70"))))
-;;   `(font-lock-comment-face           ((t (:foreground "yellow"))))
-;;   `(font-lock-comment-delimiter-face ((t (:foreground "yellow"))))
-;;   `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
-;;   `(font-lock-function-name-face     ((t (:foreground "white"))))
-;;   `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
-;;   `(font-lock-warning-face           ((t (:foreground "yellow"))))
-;;   `(font-lock-note-face              ((t (:foreground "khaki2" ))))
-;;   `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
-;;   `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
-;;   `(show-paren-match                 ((t (:background "mediumseagreen")))))
-
 (custom-set-faces
- `(default                          ((t (:foreground "#d3b58d" :background "#072626"))))
- `(hl-line                          ((t (:background "#0c4141"))))
- `(region                           ((t (:background  "medium blue"))))
- `(cursor                           ((t (:background "lightgreen"))))
- `(font-lock-keyword-face           ((t (:foreground "white"))))
- `(font-lock-type-face              ((t (:foreground "#8cde94"))))
- `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
- `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
- `(font-lock-builtin-face           ((t (:foreground "lightgreen"))))
- `(font-lock-string-face            ((t (:foreground "#0fdfaf"))))
- `(font-lock-comment-face           ((t (:foreground "#3fdf1f"))))
- `(font-lock-comment-delimiter-face ((t (:foreground "#3fdf1f"))))
- `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
- `(font-lock-function-name-face     ((t (:foreground "white"))))
- `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
- `(hightlight                       ((t (:foreground "navyblue" :background "darkseegreen2"))))
- `(font-lock-warning-face           ((t (:foreground "#504038"))))
- `(font-lock-note-face              ((t (:foreground "khaki2" ))))
- `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
- `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
- `(show-paren-match                 ((t (:background "mediumseagreen")))))
+  `(default                          ((t (:foreground "#debe95" :background "#202020"))))
+  `(hl-line                          ((t (:background "#353535"))))
+  `(vertico-current                  ((t (:background "#353535"))))
+  `(region                           ((t (:background "medium blue"))))
+  `(cursor                           ((t (:background "lightgreen"))))
+  `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
+  `(font-lock-type-face              ((t (:foreground "#8cde94"))))
+  `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
+  `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
+  `(font-lock-builtin-face           ((t (:foreground "white"))))
+  `(font-lock-string-face            ((t (:foreground "gray70"))))
+  `(font-lock-comment-face           ((t (:foreground "yellow"))))
+  `(font-lock-comment-delimiter-face ((t (:foreground "yellow"))))
+  `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
+  `(font-lock-function-name-face     ((t (:foreground "white"))))
+  `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
+  `(font-lock-warning-face           ((t (:foreground "yellow"))))
+  `(font-lock-note-face              ((t (:foreground "khaki2" ))))
+  `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
+  `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
+  `(show-paren-match                 ((t (:background "mediumseagreen")))))
+
+;; (custom-set-faces
+;;  `(default                          ((t (:foreground "#d3b58d" :background "#072626"))))
+;;  `(hl-line                          ((t (:background "#0c4141"))))
+;;  `(region                           ((t (:background  "medium blue"))))
+;;  `(cursor                           ((t (:background "lightgreen"))))
+;;  `(font-lock-keyword-face           ((t (:foreground "white"))))
+;;  `(font-lock-type-face              ((t (:foreground "#8cde94"))))
+;;  `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
+;;  `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
+;;  `(font-lock-builtin-face           ((t (:foreground "lightgreen"))))
+;;  `(font-lock-string-face            ((t (:foreground "#0fdfaf"))))
+;;  `(font-lock-comment-face           ((t (:foreground "#3fdf1f"))))
+;;  `(font-lock-comment-delimiter-face ((t (:foreground "#3fdf1f"))))
+;;  `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
+;;  `(font-lock-function-name-face     ((t (:foreground "white"))))
+;;  `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
+;;  `(hightlight                       ((t (:foreground "navyblue" :background "darkseegreen2"))))
+;;  `(font-lock-warning-face           ((t (:foreground "#504038"))))
+;;  `(font-lock-note-face              ((t (:foreground "khaki2" ))))
+;;  `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
+;;  `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
+;;  `(show-paren-match                 ((t (:background "mediumseagreen")))))
 
 
-(defun find-root ()
-  "Try to find project root based on deterministic predicates"
+(defun find-root () "Try to find project root based on deterministic predicates"
   (cond
    ((eq major-mode 'go-mode)                                (locate-dominating-file default-directory "go.mod"))
    ((or (eq major-mode 'c-mode) (eq major-mode 'c++-mode))  (locate-dominating-file default-directory "build.bat"))
@@ -202,6 +201,7 @@
 (setq eglot-sync-connect nil) ;; no blocking on waiting for the server to start.
 (setq eglot-events-buffer-size 0) ;; no logging of LSP events.
 (dolist (mode '(go rust php)) (add-hook (intern (concat (symbol-name mode) "-mode-hook")) #'eglot-ensure))
+(defun eglot-organize-imports-format () (interactive) (eglot-format) (eglot-organize-imports))
 
 (defun amirreza-compile-buffer-name-function (MODESTR) (let ((dir (find-root-or-default-directory))) (format "*%s-%s*" MODESTR dir)))
 (setq-default compilation-buffer-name-function 'amirreza-compile-buffer-name-function)
@@ -282,13 +282,13 @@
   (define-key compilation-mode-map (kbd "M-n")                       'jump-down)
   (define-key compilation-mode-map (kbd "M-p")                       'jump-up)
   (define-key compilation-mode-map (kbd "k")                         'kill-compilation))
+
 (global-set-key (kbd "M-j")                                          'eshell-dwim)
-(global-set-key (kbd "C-M-j")                                        'vterm-dwim)
+(with-eval-after-load 'eshell
+  (define-key eshell-mode-map (kbd "M-j")                            'previous-buffer))
 
 (global-set-key (kbd "C-.")                                          'next-buffer)
 (global-set-key (kbd "C-,")                                          'previous-buffer)
-
-(global-set-key (kbd "C-x g")                                        'magit)            
 
 (with-eval-after-load 'replace
   (define-key query-replace-map (kbd "<return>")                     'act))             
@@ -323,7 +323,7 @@
 
 (with-eval-after-load 'eglot
   (define-key eglot-mode-map (kbd "C-c C-r")                         'eglot-rename)
-  (define-key eglot-mode-map (kbd "C-c C-o")                         'eglot-organize-imports)
+  (define-key eglot-mode-map (kbd "C-c C-f")                         'eglot-organize-imports-format)
   (define-key eglot-mode-map (kbd "C-c C-c")                         'eglot-code-actions))
 
 (global-set-key (kbd "M-a")                                          'xref-find-apropos)
