@@ -21,18 +21,9 @@
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
 
-(setq initial-scratch-message "
-
- _   _      _ _        ______    _                _ 
-| | | |    | | |       |  ___|  (_)              | |
-| |_| | ___| | | ___   | |_ _ __ _  ___ _ __   __| |
-|  _  |/ _ \\ | |/ _ \\  |  _| '__| |/ _ \\ '_ \\ / _` |
-| | | |  __/ | | (_) | | | | |  | |  __/ | | | (_| |
-\\_| |_/\\___|_|_|\\___/  \\_| |_|  |_|\\___|_| |_|\\__,_|
-                                                    
-                                                    
-                                      
-")
+(setq initial-scratch-message "1. Don't use OOP
+2. When in need write bad code, we can refactor it later.
+3. Sometimes it might feel that we can use a design pattern, but believe me, you'll regret it later.")
 
 (when load-file-name ;; since windows is a bit funky I prefer to store this file path in a variable to be used when C-x i
   (setq INIT-FILE load-file-name))
