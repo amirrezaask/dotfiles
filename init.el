@@ -43,7 +43,9 @@
       '(("gnu-elpa" . "https://elpa.gnu.org/packages/")
 	("nongnu" . "https://elpa.nongnu.org/nongnu/")
 	("melpa" . "https://melpa.org/packages/")))
-(dolist (pkg '(so-long multiple-cursors vlf go-mode php-mode rust-mode corfu eglot wgrep)) (package-install pkg)) ;; Install packages.
+
+;; Install packages.
+(dolist (pkg '(vertico consult embark embark-consult so-long multiple-cursors vlf go-mode php-mode rust-mode corfu eglot wgrep)) (package-install pkg))
 
 (setq image-types (cons 'svg image-types) mac-command-modifier 'meta) ;; Fix macos fucked up bugs.
 
@@ -110,55 +112,61 @@
       (eshell))))
 
 (setq completion-styles '(flex initials shorthand substring basic))
-(with-eval-after-load 'minibuffer
-  (define-key minibuffer-mode-map (kbd "C-n") 'minibuffer-next-completion)
-  (define-key minibuffer-mode-map (kbd "C-p") 'minibuffer-previous-completion))
+(unless (package-installed-p 'vertico)
+ (with-eval-after-load 'minibuffer
+   (define-key minibuffer-mode-map (kbd "C-n") 'minibuffer-next-completion)
+   (define-key minibuffer-mode-map (kbd "C-p") 'minibuffer-previous-completion)))
 
-(custom-set-faces
-  `(default                          ((t (:foreground "#debe95" :background "#202020"))))
-  `(hl-line                          ((t (:background "#353535"))))
-  `(vertico-current                  ((t (:background "#353535"))))
-  `(region                           ((t (:background "medium blue"))))
-  `(cursor                           ((t (:background "lightgreen"))))
-  `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
-  `(font-lock-type-face              ((t (:foreground "#8cde94"))))
-  `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
-  `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
-  `(font-lock-builtin-face           ((t (:foreground "white"))))
-  `(font-lock-string-face            ((t (:foreground "gray70"))))
-  `(font-lock-comment-face           ((t (:foreground "yellow"))))
-  `(font-lock-comment-delimiter-face ((t (:foreground "yellow"))))
-  `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
-  `(font-lock-function-name-face     ((t (:foreground "white"))))
-  `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
-  `(font-lock-warning-face           ((t (:foreground "yellow"))))
-  `(font-lock-note-face              ((t (:foreground "khaki2" ))))
-  `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
-  `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
-  `(show-paren-match                 ((t (:background "mediumseagreen")))))
+;; Vertico ( MODERN EMACS COMPLETION )
+(vertico-mode +1)
+(setq vertico-cycle t
+      vertico-resize nil)
 
 ;; (custom-set-faces
-;;  `(default                          ((t (:foreground "#d3b58d" :background "#072626"))))
-;;  `(hl-line                          ((t (:background "#0c4141"))))
-;;  `(region                           ((t (:background  "medium blue"))))
-;;  `(cursor                           ((t (:background "lightgreen"))))
-;;  `(font-lock-keyword-face           ((t (:foreground "white"))))
-;;  `(font-lock-type-face              ((t (:foreground "#8cde94"))))
-;;  `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
-;;  `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
-;;  `(font-lock-builtin-face           ((t (:foreground "lightgreen"))))
-;;  `(font-lock-string-face            ((t (:foreground "#0fdfaf"))))
-;;  `(font-lock-comment-face           ((t (:foreground "#3fdf1f"))))
-;;  `(font-lock-comment-delimiter-face ((t (:foreground "#3fdf1f"))))
-;;  `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
-;;  `(font-lock-function-name-face     ((t (:foreground "white"))))
-;;  `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
-;;  `(hightlight                       ((t (:foreground "navyblue" :background "darkseegreen2"))))
-;;  `(font-lock-warning-face           ((t (:foreground "#504038"))))
-;;  `(font-lock-note-face              ((t (:foreground "khaki2" ))))
-;;  `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
-;;  `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
-;;  `(show-paren-match                 ((t (:background "mediumseagreen")))))
+;;   `(default                          ((t (:foreground "#debe95" :background "#202020"))))
+;;   `(hl-line                          ((t (:background "#353535"))))
+;;   `(vertico-current                  ((t (:background "medium blue"))))
+;;   `(region                           ((t (:background "medium blue"))))
+;;   `(cursor                           ((t (:background "lightgreen"))))
+;;   `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
+;;   `(font-lock-type-face              ((t (:foreground "#8cde94"))))
+;;   `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
+;;   `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
+;;   `(font-lock-builtin-face           ((t (:foreground "white"))))
+;;   `(font-lock-string-face            ((t (:foreground "gray70"))))
+;;   `(font-lock-comment-face           ((t (:foreground "yellow"))))
+;;   `(font-lock-comment-delimiter-face ((t (:foreground "yellow"))))
+;;   `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
+;;   `(font-lock-function-name-face     ((t (:foreground "white"))))
+;;   `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
+;;   `(font-lock-warning-face           ((t (:foreground "yellow"))))
+;;   `(font-lock-note-face              ((t (:foreground "khaki2" ))))
+;;   `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
+;;   `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
+;;   `(show-paren-match                 ((t (:background "mediumseagreen")))))
+
+(custom-set-faces
+ `(default                          ((t (:foreground "#d3b58d" :background "#072626"))))
+ `(hl-line                          ((t (:background "#0c4141"))))
+ `(region                           ((t (:background  "medium blue"))))
+ `(cursor                           ((t (:background "lightgreen"))))
+ `(font-lock-keyword-face           ((t (:foreground "white"))))
+ `(font-lock-type-face              ((t (:foreground "#8cde94"))))
+ `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
+ `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
+ `(font-lock-builtin-face           ((t (:foreground "lightgreen"))))
+ `(font-lock-string-face            ((t (:foreground "#0fdfaf"))))
+ `(font-lock-comment-face           ((t (:foreground "#3fdf1f"))))
+ `(font-lock-comment-delimiter-face ((t (:foreground "#3fdf1f"))))
+ `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
+ `(font-lock-function-name-face     ((t (:foreground "white"))))
+ `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
+ `(hightlight                       ((t (:foreground "navyblue" :background "darkseegreen2"))))
+ `(font-lock-warning-face           ((t (:foreground "#504038"))))
+ `(font-lock-note-face              ((t (:foreground "khaki2" ))))
+ `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
+ `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
+ `(show-paren-match                 ((t (:background "mediumseagreen")))))
 
 
 (defun find-root () "Try to find project root based on deterministic predicates"
@@ -221,6 +229,10 @@
 
   (let ((default-directory --grep-dir))
     (cond
+     ;; when we have consult installed.
+     ((and (fboundp 'consult-ripgrep) (executable-find "rg"))  (consult-ripgrep --grep-dir))
+     ((and (fboundp 'consult-grep)    (executable-find "grep"))  (consult-grep --grep-dir))
+     ;; legacy approach.
      ((executable-find "rg") (grep (format "rg --no-heading --color='never' %s" (read-string "Ripgrep: "))))
      ((git-repo-p DIR)       (grep (format "git grep --no-color -n %s" (read-string "Git Grep: "))))
      (t                      (grep (format "grep --color=auto -R -nH -e %s ." (read-string "Grep: ")))))))
@@ -243,12 +255,9 @@
 				   (find-file file)))
    (t (error "you don't have rg installed and it's not a git repo."))))
 
-
-
-
 ;; Keybindings
 (global-unset-key (kbd "C-x C-c"))
-(global-set-key (kbd "C-o")                                          'other-window)
+;; (global-set-key (kbd "C-o")                                          'other-window)
 (global-set-key (kbd "C-q")                                          'file-finder) ;; quick file find.
 (global-set-key (kbd "M-q")                                          'run-grep)    ;; quick grep.
 (global-set-key (kbd "M-o")                                          'find-file)
@@ -262,6 +271,10 @@
   (define-key grep-mode-map (kbd "M-n")                              'jump-down)
   (define-key grep-mode-map (kbd "M-p")                              'jump-up)
   (define-key grep-mode-map (kbd "k")                                'kill-compilation))
+
+(when (package-installed-p 'embark)
+  (with-eval-after-load 'minibuffer
+    (define-key minibuffer-mode-map (kbd "C-q")                      'embark-export)))
 
 (global-set-key (kbd "M-m")                                          'run-compile)
 (with-eval-after-load 'compile
@@ -282,7 +295,7 @@
 (global-set-key (kbd "C-,")                                          'previous-buffer)
 
 (with-eval-after-load 'replace
-  (define-key query-replace-map (kbd "<return>")                     'act))             
+  (define-key query-replace-map (kbd "<return>")                     'act))
 (global-set-key (kbd "C-w")                                          'cut)              
 (global-set-key (kbd "M-w")                                          'copy)             
 (global-set-key (kbd "M-[")                                          'kmacro-start-macro)       
