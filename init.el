@@ -242,7 +242,7 @@
   (cond
    ((executable-find "rg") (let* ((default-directory --open-file-dir)
 				  (command (format "rg --files"))
-				  (file (completing-read "Ripgrep Files: " (string-split (shell-command-to-string command) "\n" t))))
+				  (file (completing-read "Ripgrep Files: " (string-split (shell-command-to-string command) "\n" t) nil t)))
 			     (find-file file)))
    
    ((git-repo-p --open-file-dir) (let*
@@ -284,8 +284,8 @@
   (define-key compilation-mode-map (kbd "k")                         'kill-compilation))
 
 (global-set-key (kbd "M-j")                                          'eshell-dwim)
-(with-eval-after-load 'eshell
-  (define-key eshell-mode-map (kbd "M-j")                            'previous-buffer))
+(add-hook 'eshell-mode-hook
+  (lambda () (define-key eshell-mode-map (kbd "M-j")                 'previous-buffer)))
 
 (global-set-key (kbd "C-.")                                          'next-buffer)
 (global-set-key (kbd "C-,")                                          'previous-buffer)
