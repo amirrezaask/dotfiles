@@ -45,7 +45,7 @@
 	("melpa" . "https://melpa.org/packages/")))
 
 ;; Install packages.
-(dolist (pkg '(;; vertico consult embark embark-consult
+(dolist (pkg '(vertico consult embark embark-consult
 		       so-long multiple-cursors vlf go-mode php-mode rust-mode corfu eglot wgrep)) (package-install pkg))
 
 (setq image-types (cons 'svg image-types) mac-command-modifier 'meta) ;; Fix macos fucked up bugs.
@@ -96,15 +96,6 @@
 (if (eq system-type 'windows-nt)
     (setenv "PATH" (string-join exec-path ";"))
   (setenv "PATH" (string-join exec-path ":"))) ;; set emacs process PATH
-
-
-;; (defun vterm-dwim () "Jump to vterm buffer associated with current project or create a new." (interactive)
-;;   (let* ((root (find-root-or-default-directory))
-;; 	 (default-directory root)
-;; 	 (buffer-name (format "*vterm-%s*" root)))
-;;     (if (get-buffer buffer-name)
-;; 	(switch-to-buffer buffer-name)
-;;       (vterm buffer-name))))
 
 (setq eshell-visual-subcommands '("git" "diff" "log" "show"))
 (defun eshell-dwim () "Jump to eshell buffer associated with current project or create a new." (interactive)
@@ -173,6 +164,27 @@
 ;;  `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
 ;;  `(show-paren-match                 ((t (:background "mediumseagreen")))))
 
+;; HandmadeHero
+;; (custom-set-faces
+;;  `(default                          ((t (:foreground "burlywood3" :background "#161616"))))
+;;  `(hl-line                          ((t (:background "midnight blue"))))
+;;  `(vertico-current                  ((t (:inherit    hl-line))))
+;;  `(region                           ((t (:background "medium blue"))))
+;;  `(cursor                           ((t (:background "#40FF40"))))
+;;  `(font-lock-keyword-face           ((t (:foreground "DarkGoldenrod3"))))
+;;  `(font-lock-type-face              ((t (:foreground "burlywood3"))))
+;;  `(font-lock-constant-face          ((t (:foreground "olive drab"))))
+;;  `(font-lock-variable-name-face     ((t (:foreground "burlywood3"))))
+;;  `(font-lock-builtin-face           ((t (:foreground "white"))))
+;;  `(font-lock-string-face            ((t (:foreground "olive drab"))))
+;;  `(font-lock-comment-face           ((t (:foreground "gray50"))))
+;;  `(font-lock-comment-delimiter-face ((t (:foreground "gray50"))))
+;;  `(font-lock-doc-face               ((t (:foreground "gray50"))))
+;;  `(font-lock-function-name-face     ((t (:foreground "burlywood3"))))
+;;  `(font-lock-doc-string-face        ((t (:foreground "gray50"))))
+;;  `(font-lock-warning-face           ((t (:foreground "yellow"))))
+;;  `(font-lock-note-face              ((t (:foreground "khaki2" ))))
+;;  `(show-paren-match                 ((t (:background "mediumseagreen")))))
 
 (defun find-root () "Try to find project root based on deterministic predicates"
   (cond
