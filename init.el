@@ -45,7 +45,8 @@
 	("melpa" . "https://melpa.org/packages/")))
 
 ;; Install packages.
-(dolist (pkg '(vertico consult embark embark-consult so-long multiple-cursors vlf go-mode php-mode rust-mode corfu eglot wgrep)) (package-install pkg))
+(dolist (pkg '(;; vertico consult embark embark-consult
+		       so-long multiple-cursors vlf go-mode php-mode rust-mode corfu eglot wgrep)) (package-install pkg))
 
 (setq image-types (cons 'svg image-types) mac-command-modifier 'meta) ;; Fix macos fucked up bugs.
 
@@ -118,9 +119,10 @@
    (define-key minibuffer-mode-map (kbd "C-p") 'minibuffer-previous-completion)))
 
 ;; Vertico ( MODERN EMACS COMPLETION )
-(vertico-mode +1)
-(setq vertico-cycle t
-      vertico-resize nil)
+(when (package-installed-p 'vertico)
+  (vertico-mode +1)
+  (setq vertico-cycle t
+	vertico-resize nil))
 
 ;; (custom-set-faces
 ;;   `(default                          ((t (:foreground "#debe95" :background "#202020"))))
