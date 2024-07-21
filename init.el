@@ -230,6 +230,7 @@
 (setq eglot-events-buffer-size 0) ;; no logging of LSP events.
 (dolist (mode '(go rust php)) (add-hook (intern (concat (symbol-name mode) "-mode-hook")) #'eglot-ensure))
 (defun eglot-organize-imports-format () (interactive) (eglot-format) (eglot-organize-imports))
+(defalias 'eglot-symbols 'consult-eglot-symbols)
 
 (defun amirreza-compile-buffer-name-function (MODESTR) (let ((dir (find-root-or-default-directory))) (format "*%s-%s*" MODESTR dir)))
 (setq-default compilation-buffer-name-function 'amirreza-compile-buffer-name-function)
@@ -295,9 +296,9 @@
 
 ;; Keybindings
 (global-unset-key (kbd "C-x C-c"))
-(global-set-key (kbd "C-q")                                          'file-finder) ;; quick file find.
-(global-set-key (kbd "M-q")                                          'run-grep)    ;; quick grep.
-(global-set-key (kbd "M-o")                                          'find-file)
+(global-set-key (kbd "C-o")                                          'find-file)
+(global-set-key (kbd "C-S-o")                                        'file-finder)
+(global-set-key (kbd "M-q")                                          'run-grep)
 (global-set-key (kbd "C-x i")                                        'edit-init)
 (with-eval-after-load 'grep
   (define-key grep-mode-map (kbd "C-c C-p")                          'wgrep-toggle-readonly-area)
