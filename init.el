@@ -148,28 +148,28 @@
   `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
   `(show-paren-match                 ((t (:background "mediumseagreen")))))
 
-;; (custom-set-faces
-;;  `(default                          ((t (:foreground "#d3b58d" :background "#072626"))))
-;;  `(hl-line                          ((t (:background "#0c4141"))))
-;;  `(region                           ((t (:background  "medium blue"))))
-;;  `(cursor                           ((t (:background "lightgreen"))))
-;;  `(font-lock-keyword-face           ((t (:foreground "white"))))
-;;  `(font-lock-type-face              ((t (:foreground "#8cde94"))))
-;;  `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
-;;  `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
-;;  `(font-lock-builtin-face           ((t (:foreground "lightgreen"))))
-;;  `(font-lock-string-face            ((t (:foreground "#0fdfaf"))))
-;;  `(font-lock-comment-face           ((t (:foreground "#3fdf1f"))))
-;;  `(font-lock-comment-delimiter-face ((t (:foreground "#3fdf1f"))))
-;;  `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
-;;  `(font-lock-function-name-face     ((t (:foreground "white"))))
-;;  `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
-;;  `(hightlight                       ((t (:foreground "navyblue" :background "darkseegreen2"))))
-;;  `(font-lock-warning-face           ((t (:foreground "#504038"))))
-;;  `(font-lock-note-face              ((t (:foreground "khaki2" ))))
-;;  `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
-;;  `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
-;;  `(show-paren-match                 ((t (:background "mediumseagreen")))))
+(custom-set-faces
+ `(default                          ((t (:foreground "#d3b58d" :background "#072626"))))
+ `(hl-line                          ((t (:background "#0c4141"))))
+ `(region                           ((t (:background  "medium blue"))))
+ `(cursor                           ((t (:background "lightgreen"))))
+ `(font-lock-keyword-face           ((t (:foreground "white"))))
+ `(font-lock-type-face              ((t (:foreground "#8cde94"))))
+ `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
+ `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
+ `(font-lock-builtin-face           ((t (:foreground "lightgreen"))))
+ `(font-lock-string-face            ((t (:foreground "#0fdfaf"))))
+ `(font-lock-comment-face           ((t (:foreground "#3fdf1f"))))
+ `(font-lock-comment-delimiter-face ((t (:foreground "#3fdf1f"))))
+ `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
+ `(font-lock-function-name-face     ((t (:foreground "white"))))
+ `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
+ `(hightlight                       ((t (:foreground "navyblue" :background "darkseegreen2"))))
+ `(font-lock-warning-face           ((t (:foreground "#504038"))))
+ `(font-lock-note-face              ((t (:foreground "khaki2" ))))
+ `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
+ `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
+ `(show-paren-match                 ((t (:background "mediumseagreen")))))
 
 ;; HandmadeHero
 ;; (custom-set-faces
@@ -296,9 +296,10 @@
 
 ;; Keybindings
 (global-unset-key (kbd "C-x C-c"))
-(global-set-key (kbd "C-o")                                          'find-file)
-(global-set-key (kbd "C-S-o")                                        'file-finder)
-(global-set-key (kbd "M-q")                                          'run-grep)
+(global-set-key (kbd "C-o")                                          'file-finder)
+(global-set-key (kbd "M-o")                                          'file-finder)
+(global-set-key (kbd "C-S-o")                                        'run-grep)
+(global-set-key (kbd "M-s")                                          'run-grep)
 (global-set-key (kbd "C-x i")                                        'edit-init)
 (with-eval-after-load 'grep
   (define-key grep-mode-map (kbd "C-c C-p")                          'wgrep-toggle-readonly-area)
@@ -314,6 +315,7 @@
   (with-eval-after-load 'minibuffer
     (define-key minibuffer-mode-map (kbd "C-q")                      'embark-export)))
 
+;; Compile
 (global-set-key (kbd "M-m")                                          'run-compile)
 (with-eval-after-load 'compile
   (define-key compilation-mode-map (kbd "<f5>")                      'recompile)
@@ -341,11 +343,12 @@
 
 (global-set-key (kbd "C-w")                                          'cut)              
 (global-set-key (kbd "M-w")                                          'copy)             
-
 (global-set-key (kbd "M-[")                                          'kmacro-start-macro)       
 (global-set-key (kbd "M-]")                                          'kmacro-end-or-call-macro) 
 (global-set-key (kbd "M-\\")                                         'kmacro-end-and-call-macro)
-(global-set-key (kbd "C-z")                                          'undo)                     
+(global-set-key (kbd "C-z")                                          'undo)
+
+(global-set-key (kbd "C-q")                                          'set-mark-command)
 
 (global-set-key (kbd "C-M-n")                                        'mc/mark-next-like-this-word)
 (global-set-key (kbd "C-M-p")                                        'mc/mark-previous-like-this-word)
@@ -365,12 +368,13 @@
 (global-set-key (kbd "C-1")                                          'delete-other-windows)
 (global-set-key (kbd "C-3")                                          'split-window-right)
 (global-set-key (kbd "C-2")                                          'split-window-below)
-(global-set-key (kbd "C-j")                                          'completion-at-point)
+(global-set-key (kbd "C-SPC")                                        'completion-at-point)
 (global-set-key (kbd "M-g")                                          'run-git-diff)
 
 (with-eval-after-load 'eglot
+  (define-key eglot-mode-map (kbd "C-c C-s")                         'eglot-symbols)
   (define-key eglot-mode-map (kbd "C-c C-r")                         'eglot-rename)
-  (define-key eglot-mode-map (kbd "C-c C-f")                         'eglot-organize-imports-format)
+  (define-key eglot-mode-map (kbd "M-l")                             'eglot-organize-imports-format)
   (define-key eglot-mode-map (kbd "C-c C-c")                         'eglot-code-actions))
 
 (global-set-key (kbd "M-a")                                          'xref-find-apropos)
