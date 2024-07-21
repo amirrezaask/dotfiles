@@ -21,10 +21,12 @@
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
 
-
-(setq initial-scratch-message "1. Don't use OOP
+(setq initial-scratch-message "
+1. Don't use OOP
 2. When in need write bad code, we can refactor it later.
-3. Sometimes it might feel that we can use a design pattern, but believe me, you'll regret it later.")
+3. Sometimes it might feel that we can use a design pattern, but believe me, you'll regret it later.
+4. Simple code is ALWAYS better even if it does not handle all cases at the start.
+")
 
 (when load-file-name ;; since windows is a bit funky I prefer to store this file path in a variable to be used when C-x i
   (setq INIT-FILE load-file-name))
@@ -46,10 +48,12 @@
 	("melpa" . "https://melpa.org/packages/")))
 
 ;; Install packages.
-(dolist (pkg '(vertico consult embark embark-consult
-		       so-long multiple-cursors vlf
-		       go-mode php-mode rust-mode json-mode yaml-mode
-		       corfu eglot wgrep)) (package-install pkg))
+(dolist (pkg '(
+	       vertico consult embark embark-consult consult-eglot
+	       so-long multiple-cursors vlf
+	       go-mode php-mode rust-mode json-mode yaml-mode ;; language modes
+	       eglot wgrep))
+  (package-install pkg))
 
 (setq image-types (cons 'svg image-types) mac-command-modifier 'meta) ;; Fix macos fucked up bugs.
 
@@ -121,51 +125,51 @@
   (setq vertico-cycle t
 	vertico-resize nil))
 
-;; (custom-set-faces
-;;   `(default                          ((t (:foreground "#debe95" :background "#202020"))))
-;;   `(hl-line                          ((t (:background "#353535"))))
-;;   `(vertico-current                  ((t (:background "medium blue"))))
-;;   `(region                           ((t (:background "medium blue"))))
-;;   `(cursor                           ((t (:background "lightgreen"))))
-;;   `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
-;;   `(font-lock-type-face              ((t (:foreground "#8cde94"))))
-;;   `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
-;;   `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
-;;   `(font-lock-builtin-face           ((t (:foreground "white"))))
-;;   `(font-lock-string-face            ((t (:foreground "gray70"))))
-;;   `(font-lock-comment-face           ((t (:foreground "yellow"))))
-;;   `(font-lock-comment-delimiter-face ((t (:foreground "yellow"))))
-;;   `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
-;;   `(font-lock-function-name-face     ((t (:foreground "white"))))
-;;   `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
-;;   `(font-lock-warning-face           ((t (:foreground "yellow"))))
-;;   `(font-lock-note-face              ((t (:foreground "khaki2" ))))
-;;   `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
-;;   `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
-;;   `(show-paren-match                 ((t (:background "mediumseagreen")))))
-
 (custom-set-faces
- `(default                          ((t (:foreground "#d3b58d" :background "#072626"))))
- `(hl-line                          ((t (:background "#0c4141"))))
- `(region                           ((t (:background  "medium blue"))))
- `(cursor                           ((t (:background "lightgreen"))))
- `(font-lock-keyword-face           ((t (:foreground "white"))))
- `(font-lock-type-face              ((t (:foreground "#8cde94"))))
- `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
- `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
- `(font-lock-builtin-face           ((t (:foreground "lightgreen"))))
- `(font-lock-string-face            ((t (:foreground "#0fdfaf"))))
- `(font-lock-comment-face           ((t (:foreground "#3fdf1f"))))
- `(font-lock-comment-delimiter-face ((t (:foreground "#3fdf1f"))))
- `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
- `(font-lock-function-name-face     ((t (:foreground "white"))))
- `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
- `(hightlight                       ((t (:foreground "navyblue" :background "darkseegreen2"))))
- `(font-lock-warning-face           ((t (:foreground "#504038"))))
- `(font-lock-note-face              ((t (:foreground "khaki2" ))))
- `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
- `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
- `(show-paren-match                 ((t (:background "mediumseagreen")))))
+  `(default                          ((t (:foreground "#debe95" :background "#202020"))))
+  `(hl-line                          ((t (:background "#353535"))))
+  `(vertico-current                  ((t (:background "medium blue"))))
+  `(region                           ((t (:background "medium blue"))))
+  `(cursor                           ((t (:background "lightgreen"))))
+  `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
+  `(font-lock-type-face              ((t (:foreground "#8cde94"))))
+  `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
+  `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
+  `(font-lock-builtin-face           ((t (:foreground "white"))))
+  `(font-lock-string-face            ((t (:foreground "gray70"))))
+  `(font-lock-comment-face           ((t (:foreground "yellow"))))
+  `(font-lock-comment-delimiter-face ((t (:foreground "yellow"))))
+  `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
+  `(font-lock-function-name-face     ((t (:foreground "white"))))
+  `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
+  `(font-lock-warning-face           ((t (:foreground "yellow"))))
+  `(font-lock-note-face              ((t (:foreground "khaki2" ))))
+  `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
+  `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
+  `(show-paren-match                 ((t (:background "mediumseagreen")))))
+
+;; (custom-set-faces
+;;  `(default                          ((t (:foreground "#d3b58d" :background "#072626"))))
+;;  `(hl-line                          ((t (:background "#0c4141"))))
+;;  `(region                           ((t (:background  "medium blue"))))
+;;  `(cursor                           ((t (:background "lightgreen"))))
+;;  `(font-lock-keyword-face           ((t (:foreground "white"))))
+;;  `(font-lock-type-face              ((t (:foreground "#8cde94"))))
+;;  `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
+;;  `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
+;;  `(font-lock-builtin-face           ((t (:foreground "lightgreen"))))
+;;  `(font-lock-string-face            ((t (:foreground "#0fdfaf"))))
+;;  `(font-lock-comment-face           ((t (:foreground "#3fdf1f"))))
+;;  `(font-lock-comment-delimiter-face ((t (:foreground "#3fdf1f"))))
+;;  `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
+;;  `(font-lock-function-name-face     ((t (:foreground "white"))))
+;;  `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
+;;  `(hightlight                       ((t (:foreground "navyblue" :background "darkseegreen2"))))
+;;  `(font-lock-warning-face           ((t (:foreground "#504038"))))
+;;  `(font-lock-note-face              ((t (:foreground "khaki2" ))))
+;;  `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
+;;  `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
+;;  `(show-paren-match                 ((t (:background "mediumseagreen")))))
 
 ;; HandmadeHero
 ;; (custom-set-faces
@@ -201,8 +205,13 @@
 
 (setq-default c-default-style "linux" c-basic-offset 4) ;; C/C++ code style
 
-(setq corfu-auto nil) ;; No autocomplete popup
-(global-corfu-mode +1) ;;
+;; Autocomplete using Emacs internal completion system.
+(setq completion-in-region-function
+      (lambda (&rest args)
+        (apply (if vertico-mode
+                   #'consult-completion-in-region
+                 #'completion--in-region)
+               args)))
 
 (setq eglot-ignored-server-capabilities '(:hoverProvider
 					  :documentHighlightProvider
@@ -322,16 +331,20 @@
 (global-set-key (kbd "C-.")                                          'next-buffer)
 (global-set-key (kbd "C-,")                                          'previous-buffer)
 
+;; Replace
+(global-set-key (kbd "C-r")                                          'replace-string)
+(global-set-key (kbd "M-r")                                          'query-replace)
+(global-set-key (kbd "C-M-r")                                        'replace-regexp)            
 (with-eval-after-load 'replace
   (define-key query-replace-map (kbd "<return>")                     'act))
+
 (global-set-key (kbd "C-w")                                          'cut)              
 (global-set-key (kbd "M-w")                                          'copy)             
+
 (global-set-key (kbd "M-[")                                          'kmacro-start-macro)       
 (global-set-key (kbd "M-]")                                          'kmacro-end-or-call-macro) 
 (global-set-key (kbd "M-\\")                                         'kmacro-end-and-call-macro)
 (global-set-key (kbd "C-z")                                          'undo)                     
-(global-set-key (kbd "M-r")                                          'query-replace)           
-(global-set-key (kbd "C-M-r")                                        'replace-regexp)            
 
 (global-set-key (kbd "C-M-n")                                        'mc/mark-next-like-this-word)
 (global-set-key (kbd "C-M-p")                                        'mc/mark-previous-like-this-word)
