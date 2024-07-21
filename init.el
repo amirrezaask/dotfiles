@@ -21,6 +21,7 @@
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
 
+
 (setq initial-scratch-message "1. Don't use OOP
 2. When in need write bad code, we can refactor it later.
 3. Sometimes it might feel that we can use a design pattern, but believe me, you'll regret it later.")
@@ -46,7 +47,9 @@
 
 ;; Install packages.
 (dolist (pkg '(vertico consult embark embark-consult
-		       so-long multiple-cursors vlf go-mode php-mode rust-mode corfu eglot wgrep)) (package-install pkg))
+		       so-long multiple-cursors vlf
+		       go-mode php-mode rust-mode json-mode yaml-mode
+		       corfu eglot wgrep)) (package-install pkg))
 
 (setq image-types (cons 'svg image-types) mac-command-modifier 'meta) ;; Fix macos fucked up bugs.
 
@@ -118,51 +121,51 @@
   (setq vertico-cycle t
 	vertico-resize nil))
 
-(custom-set-faces
-  `(default                          ((t (:foreground "#debe95" :background "#202020"))))
-  `(hl-line                          ((t (:background "#353535"))))
-  `(vertico-current                  ((t (:background "medium blue"))))
-  `(region                           ((t (:background "medium blue"))))
-  `(cursor                           ((t (:background "lightgreen"))))
-  `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
-  `(font-lock-type-face              ((t (:foreground "#8cde94"))))
-  `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
-  `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
-  `(font-lock-builtin-face           ((t (:foreground "white"))))
-  `(font-lock-string-face            ((t (:foreground "gray70"))))
-  `(font-lock-comment-face           ((t (:foreground "yellow"))))
-  `(font-lock-comment-delimiter-face ((t (:foreground "yellow"))))
-  `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
-  `(font-lock-function-name-face     ((t (:foreground "white"))))
-  `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
-  `(font-lock-warning-face           ((t (:foreground "yellow"))))
-  `(font-lock-note-face              ((t (:foreground "khaki2" ))))
-  `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
-  `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
-  `(show-paren-match                 ((t (:background "mediumseagreen")))))
-
 ;; (custom-set-faces
-;;  `(default                          ((t (:foreground "#d3b58d" :background "#072626"))))
-;;  `(hl-line                          ((t (:background "#0c4141"))))
-;;  `(region                           ((t (:background  "medium blue"))))
-;;  `(cursor                           ((t (:background "lightgreen"))))
-;;  `(font-lock-keyword-face           ((t (:foreground "white"))))
-;;  `(font-lock-type-face              ((t (:foreground "#8cde94"))))
-;;  `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
-;;  `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
-;;  `(font-lock-builtin-face           ((t (:foreground "lightgreen"))))
-;;  `(font-lock-string-face            ((t (:foreground "#0fdfaf"))))
-;;  `(font-lock-comment-face           ((t (:foreground "#3fdf1f"))))
-;;  `(font-lock-comment-delimiter-face ((t (:foreground "#3fdf1f"))))
-;;  `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
-;;  `(font-lock-function-name-face     ((t (:foreground "white"))))
-;;  `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
-;;  `(hightlight                       ((t (:foreground "navyblue" :background "darkseegreen2"))))
-;;  `(font-lock-warning-face           ((t (:foreground "#504038"))))
-;;  `(font-lock-note-face              ((t (:foreground "khaki2" ))))
-;;  `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
-;;  `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
-;;  `(show-paren-match                 ((t (:background "mediumseagreen")))))
+;;   `(default                          ((t (:foreground "#debe95" :background "#202020"))))
+;;   `(hl-line                          ((t (:background "#353535"))))
+;;   `(vertico-current                  ((t (:background "medium blue"))))
+;;   `(region                           ((t (:background "medium blue"))))
+;;   `(cursor                           ((t (:background "lightgreen"))))
+;;   `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
+;;   `(font-lock-type-face              ((t (:foreground "#8cde94"))))
+;;   `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
+;;   `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
+;;   `(font-lock-builtin-face           ((t (:foreground "white"))))
+;;   `(font-lock-string-face            ((t (:foreground "gray70"))))
+;;   `(font-lock-comment-face           ((t (:foreground "yellow"))))
+;;   `(font-lock-comment-delimiter-face ((t (:foreground "yellow"))))
+;;   `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
+;;   `(font-lock-function-name-face     ((t (:foreground "white"))))
+;;   `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
+;;   `(font-lock-warning-face           ((t (:foreground "yellow"))))
+;;   `(font-lock-note-face              ((t (:foreground "khaki2" ))))
+;;   `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
+;;   `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
+;;   `(show-paren-match                 ((t (:background "mediumseagreen")))))
+
+(custom-set-faces
+ `(default                          ((t (:foreground "#d3b58d" :background "#072626"))))
+ `(hl-line                          ((t (:background "#0c4141"))))
+ `(region                           ((t (:background  "medium blue"))))
+ `(cursor                           ((t (:background "lightgreen"))))
+ `(font-lock-keyword-face           ((t (:foreground "white"))))
+ `(font-lock-type-face              ((t (:foreground "#8cde94"))))
+ `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
+ `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
+ `(font-lock-builtin-face           ((t (:foreground "lightgreen"))))
+ `(font-lock-string-face            ((t (:foreground "#0fdfaf"))))
+ `(font-lock-comment-face           ((t (:foreground "#3fdf1f"))))
+ `(font-lock-comment-delimiter-face ((t (:foreground "#3fdf1f"))))
+ `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
+ `(font-lock-function-name-face     ((t (:foreground "white"))))
+ `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
+ `(hightlight                       ((t (:foreground "navyblue" :background "darkseegreen2"))))
+ `(font-lock-warning-face           ((t (:foreground "#504038"))))
+ `(font-lock-note-face              ((t (:foreground "khaki2" ))))
+ `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
+ `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
+ `(show-paren-match                 ((t (:background "mediumseagreen")))))
 
 ;; HandmadeHero
 ;; (custom-set-faces
@@ -272,9 +275,17 @@
 				   (find-file file)))
    (t (error "you don't have rg installed and it's not a git repo."))))
 
+
+(defun run-git-diff () "run git diff command in `find-root` result or C-u to choose directory interactively." (interactive)
+  (if (null current-prefix-arg)
+      (setq --git-diff-dir (find-root-or-default-directory))
+    (setq --git-diff-dir (read-directory-name "Directory: " default-directory)))
+
+  (let ((default-directory --git-diff-dir))
+    (compilation-start "git diff HEAD" 'diff-mode)))
+
 ;; Keybindings
 (global-unset-key (kbd "C-x C-c"))
-;; (global-set-key (kbd "C-o")                                          'other-window)
 (global-set-key (kbd "C-q")                                          'file-finder) ;; quick file find.
 (global-set-key (kbd "M-q")                                          'run-grep)    ;; quick grep.
 (global-set-key (kbd "M-o")                                          'find-file)
@@ -319,8 +330,8 @@
 (global-set-key (kbd "M-]")                                          'kmacro-end-or-call-macro) 
 (global-set-key (kbd "M-\\")                                         'kmacro-end-and-call-macro)
 (global-set-key (kbd "C-z")                                          'undo)                     
-(global-set-key (kbd "M-r")                                          'replace-string)           
-(global-set-key (kbd "C-M-r")                                        'query-replace)            
+(global-set-key (kbd "M-r")                                          'query-replace)           
+(global-set-key (kbd "C-M-r")                                        'replace-regexp)            
 
 (global-set-key (kbd "C-M-n")                                        'mc/mark-next-like-this-word)
 (global-set-key (kbd "C-M-p")                                        'mc/mark-previous-like-this-word)
@@ -341,6 +352,7 @@
 (global-set-key (kbd "C-3")                                          'split-window-right)
 (global-set-key (kbd "C-2")                                          'split-window-below)
 (global-set-key (kbd "C-j")                                          'completion-at-point)
+(global-set-key (kbd "M-g")                                          'run-git-diff)
 
 (with-eval-after-load 'eglot
   (define-key eglot-mode-map (kbd "C-c C-r")                         'eglot-rename)
@@ -360,3 +372,4 @@
 (with-eval-after-load 'rect
   (define-key rectangle-mark-mode-map (kbd "C-i")                    'string-insert-rectangle)
   (define-key rectangle-mark-mode-map (kbd "C-r")                    'string-rectangle))
+
