@@ -51,7 +51,7 @@
 (dolist (pkg '(
 	       vertico consult embark embark-consult consult-eglot
 		       so-long multiple-cursors vlf
-		       sweet-theme dracula-theme exotica-theme kuronami-theme kanagawa-theme
+		       sweet-theme dracula-theme spacemacs-theme
 		       go-mode php-mode rust-mode json-mode yaml-mode ;; language modes
 		       eglot wgrep))
   (package-install pkg))
@@ -87,8 +87,9 @@
        (if (x-list-fonts font)
 	   (set-face-attribute 'default nil :font (format "%s-%d" font size))))
 
-(if is-macos (Font "Menlo" 15))
-(if is-windows (Font "Consolas" 15))
+(if is-macos (set-font "Menlo" 15))
+(if is-windows (set-font "Consolas" 15))
+(set-font "Iosevka" 15)
 
 (defun home (path) (expand-file-name path (getenv "HOME")))
 (add-to-list 'exec-path (home ".local/bin"))
@@ -286,7 +287,6 @@
 (defun find-root () "Try to find project root based on deterministic predicates"
   (cond
    ((eq major-mode 'go-mode)                                (locate-dominating-file default-directory "go.mod"))
-   ((or (eq major-mode 'c-mode) (eq major-mode 'c++-mode))  (locate-dominating-file default-directory "build.bat"))
    (t                                                       (locate-dominating-file default-directory ".git"))))
 
 (defun git-repo-p (DIR) (locate-dominating-file DIR ".git"))
@@ -428,8 +428,8 @@
 (defun jump-up () (interactive) (next-line (* -1 (/ (window-height) 2))) (recenter-top-bottom))
 (defun jump-down () (interactive) (next-line (/ (window-height) 2)) (recenter-top-bottom))
 (global-set-key (kbd "M-i")                                          'imenu)
-(global-set-key (kbd "M->")                                          'end-of-buffer)
-(global-set-key (kbd "M-<")                                          'beginning-of-buffer)
+(global-set-key (kbd "C->")                                          'end-of-buffer)
+(global-set-key (kbd "C-<")                                          'beginning-of-buffer)
 (global-set-key (kbd "M-n")                                          'jump-down)
 (global-set-key (kbd "M-p")                                          'jump-up)
 (global-set-key (kbd "C-;")                                          'goto-line)
