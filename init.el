@@ -21,11 +21,29 @@
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
 
-(setq initial-scratch-message "
-1. Don't use OOP
-2. When in need write bad code, we can refactor it later.
-3. Sometimes it might feel that we can use a design pattern, but believe me, you'll regret it later.
-4. Simple code is ALWAYS better even if it does not handle all cases at the start.
+(setq initial-scratch-message
+      "
+                   __ooooooooo__
+              oOOOOOOOOOOOOOOOOOOOOOo
+          oOOOOOOOOOOOOOOOOOOOOOOOOOOOOOo
+       oOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOo
+     oOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOo
+   oOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOo
+  oOOOOOOOOOOO*  *OOOOOOOOOOOOOO*  *OOOOOOOOOOOOo
+ oOOOOOOOOOOO      OOOOOOOOOOOO      OOOOOOOOOOOOo
+ oOOOOOOOOOOOOo  oOOOOOOOOOOOOOOo  oOOOOOOOOOOOOOo
+oOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOo
+oOOOO     OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO     OOOOo
+oOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOo
+ *OOOOO  OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO  OOOOO*
+ *OOOOOO  *OOOOOOOOOOOOOOOOOOOOOOOOOOOOO*  OOOOOO*
+  *OOOOOO  *OOOOOOOOOOOOOOOOOOOOOOOOOOO*  OOOOOO*
+   *OOOOOOo  *OOOOOOOOOOOOOOOOOOOOOOO*  oOOOOOO*
+     *OOOOOOOo  *OOOOOOOOOOOOOOOOO*  oOOOOOOO*
+       *OOOOOOOOo  *OOOOOOOOOOO*  oOOOOOOOO*
+          *OOOOOOOOo           oOOOOOOOO*
+              *OOOOOOOOOOOOOOOOOOOOO*
+                   \"\"ooooooooo\"\"
 ")
 
 (when load-file-name ;; since windows is a bit funky I prefer to store this file path in a variable to be used when C-x i
@@ -82,14 +100,17 @@
       (kill-region (region-beginning) (region-end)) ;; copy active region contents
     (kill-region (line-beginning-position) (line-end-position)))) ;; copy current line
 
+(setq font-families (font-family-list))
 (defun set-font (font size) "Set font interactively"
-       (interactive (list (completing-read "Font: " (font-family-list)) (read-number "Size: ")))
+       (interactive (list (completing-read "Font: " font-families) (read-number "Size: ")))
        (if (x-list-fonts font)
 	   (set-face-attribute 'default nil :font (format "%s-%d" font size))))
 
-(if is-macos (set-font "Menlo" 15))
-(if is-windows (set-font "Consolas" 15))
-(set-font "Iosevka" 15)
+(cond
+ ((member "Iosevka" font-families) (set-font "Iosevka" 15))
+ (is-macos (set-font "Iosevka" 15))
+ (is-windows (set-font "Iosevka" 15))
+ )
 
 (defun home (path) (expand-file-name path (getenv "HOME")))
 (add-to-list 'exec-path (home ".local/bin"))
