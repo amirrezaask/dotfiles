@@ -186,7 +186,7 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-TRANSPARENT = true
+TRANSPARENT = false
 require "lazy".setup({
     {
         "lukas-reineke/indent-blankline.nvim",
@@ -592,7 +592,7 @@ require "lazy".setup({
 })
 
 
-vim.cmd.colorscheme("rose-pine")
+vim.cmd.colorscheme("tokyonight")
 
 local augroup = vim.api.nvim_create_augroup("amirreza-chcwd", {})
 vim.api.nvim_create_autocmd("BufEnter", {

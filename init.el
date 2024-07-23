@@ -21,7 +21,34 @@
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
 
-(setq initial-scratch-message
+(setq smilies '("
+                          oooo$$$$$$$$$$$$oooo
+                      oo$$$$$$$$$$$$$$$$$$$$$$$$o
+                   oo$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$o         o$   $$ o$
+   o $ oo        o$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$o       $$ $$ $$o$
+oo $ $ \"$      o$$$$$$$$$    $$$$$$$$$$$$$    $$$$$$$$$o       $$$o$$o$
+\"$$$$$$o$     o$$$$$$$$$      $$$$$$$$$$$      $$$$$$$$$$o    $$$$$$$$
+  $$$$$$$    $$$$$$$$$$$      $$$$$$$$$$$      $$$$$$$$$$$$$$$$$$$$$$$
+  $$$$$$$$$$$$$$$$$$$$$$$    $$$$$$$$$$$$$    $$$$$$$$$$$$$$  \"\"\"$$$
+   \"$$$\"\"\"\"$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$     \"$$$
+    $$$   o$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$     \"$$$o
+   o$$\"   $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$       $$$o
+   $$$    $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$\" \"$$$$$$ooooo$$$$o
+  o$$$oooo$$$$$  $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$   o$$$$$$$$$$$$$$$$$
+  $$$$$$$$\"$$$$   $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$     $$$$\"\"\"\"\"\"\"\"
+ \"\"\"\"       $$$$    \"$$$$$$$$$$$$$$$$$$$$$$$$$$$$\"      o$$$
+            \"$$$o     \"\"\"$$$$$$$$$$$$$$$$$$\"$$\"         $$$
+              $$$o          \"$$\"\"$$$$$$\"\"\"\"           o$$$
+               $$$$o                 oo             o$$$\"
+                \"$$$$o      o$$$$$$o\"$$$$o        o$$$$
+                  \"$$$$$oo     \"\"$$$$o$$$$$o   o$$$$\"\"  
+                     \"\"$$$$$oooo  \"$$$o$$$$$$$$$\"\"\"
+                        \"\"$$$$$$$oo $$$$$$$$$$       
+                                \"\"\"\"$$$$$$$$$$$        
+                                    $$$$$$$$$$$$       
+                                     $$$$$$$$$$\"      
+                                      \"$$$\"\"\"\"
+"
       "
                    __ooooooooo__
               oOOOOOOOOOOOOOOOOOOOOOo
@@ -44,7 +71,11 @@ oOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOo
           *OOOOOOOOo           oOOOOOOOO*
               *OOOOOOOOOOOOOOOOOOOOO*
                    \"\"ooooooooo\"\"
-")
+"))
+
+(setq initial-scratch-message
+
+      (nth (random 2) smilies))
 
 (when load-file-name ;; since windows is a bit funky I prefer to store this file path in a variable to be used when C-x i
   (setq INIT-FILE load-file-name))
@@ -73,6 +104,9 @@ oOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOo
 		       go-mode php-mode rust-mode json-mode yaml-mode ;; language modes
 		       eglot wgrep))
   (package-install pkg))
+
+(unless is-windows
+  (package-install 'vterm))
 
 (setq image-types (cons 'svg image-types) mac-command-modifier 'meta) ;; Fix macos fucked up bugs.
 
@@ -107,10 +141,8 @@ oOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOo
 	   (set-face-attribute 'default nil :font (format "%s-%d" font size))))
 
 (cond
- ((member "Iosevka" font-families) (set-font "Iosevka" 15))
- (is-macos (set-font "Iosevka" 15))
- (is-windows (set-font "Iosevka" 15))
- )
+ (is-macos (set-font "Menlo" 15))
+ (is-windows (set-font "Consolas" 15)))
 
 (defun home (path) (expand-file-name path (getenv "HOME")))
 (add-to-list 'exec-path (home ".local/bin"))
@@ -128,16 +160,21 @@ oOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOo
   (setenv "PATH" (string-join exec-path ":"))) ;; set emacs process PATH
 
 (setq completion-styles '(flex initials shorthand substring basic))
-(unless (package-installed-p 'vertico)
- (with-eval-after-load 'minibuffer
-   (define-key minibuffer-mode-map (kbd "C-n") 'minibuffer-next-completion)
-   (define-key minibuffer-mode-map (kbd "C-p") 'minibuffer-previous-completion)))
 
-;; Vertico ( MODERN EMACS COMPLETION )
-(when (package-installed-p 'vertico)
-  (vertico-mode +1)
-  (setq vertico-cycle t
-	vertico-resize nil))
+(setq my-completion-framework 'vertico) ;; choices are 'builtin | 'vertico
+
+(when (eq my-completion-framework 'builtin)
+      (with-eval-after-load 'minibuffer
+	(define-key minibuffer-mode-map (kbd "C-n") 'minibuffer-next-completion)
+	(define-key minibuffer-mode-map (kbd "C-p") 'minibuffer-previous-completion)
+	(define-key completion-in-region-mode-map (kbd "C-n") 'minibuffer-next-completion)
+	(define-key completion-in-region-mode-map (kbd "C-p") 'minibuffer-previous-completion)
+	(define-key completion-in-region-mode-map (kbd "RET") 'minibuffer-choose-completion)))
+
+(when my-completion-framework 'vertico
+      (vertico-mode +1)
+      (setq vertico-cycle t
+	    vertico-resize nil))
 
 
 ;; Making Emacs beautiful
@@ -172,6 +209,7 @@ oOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOo
   `(mode-line                        ((t (:foreground \"black\" :background \"#d3b58d\"))))
   `(mode-line-inactive               ((t (:background \"gray20\" :foreground \"#ffffff\"))))
   `(show-paren-match                 ((t (:background \"mediumseagreen\")))))
+(global-hl-line-mode -1)
 ")
 
 
@@ -199,6 +237,7 @@ oOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOo
  `(mode-line                        ((t (:foreground \"black\" :background \"#d3b58d\"))))
  `(mode-line-inactive               ((t (:background \"gray20\" :foreground \"#ffffff\"))))
  `(show-paren-match                 ((t (:background \"mediumseagreen\")))))
+(global-hl-line-mode -1)
 ")
 
 
@@ -258,6 +297,8 @@ oOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOo
  `(mode-line-inactive               ((t (:foreground \"#cb9401\" :background \"#1f1f27\"))))
  `(minibuffer-prompt                ((t (:foreground \"#a08563\") :bold t)))
  `(show-paren-match                 ((t (:background \"#e0741b\" :foreground \"#000000\")))))
+
+(global-hl-line-mode +1)
 ")
 
 (defadvice load-theme (before disable-themes-first activate)
