@@ -240,25 +240,24 @@ oOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOo
 (global-hl-line-mode -1)
 ")
 
-
 (save-theme "handmadehero" "
 (custom-theme-set-faces
   'handmadehero
- `(default                          ((t (:foreground \"burlywood3\" :background \"#161616\"))))
+ `(default                          ((t (:foreground \"burlywood2\" :background \"#161616\"))))
  `(hl-line                          ((t (:background \"midnight blue\"))))
  `(vertico-current                  ((t (:background \"midnight blue\"))))
  `(region                           ((t (:background \"medium blue\"))))
  `(cursor                           ((t (:background \"#40FF40\"))))
- `(font-lock-keyword-face           ((t (:foreground \"DarkGoldenrod3\"))))
+ `(font-lock-keyword-face           ((t (:foreground \"DarkGoldenrod2\"))))
  `(font-lock-type-face              ((t (:foreground \"burlywood3\"))))
  `(font-lock-constant-face          ((t (:foreground \"olive drab\"))))
  `(font-lock-variable-name-face     ((t (:foreground \"burlywood3\"))))
- `(font-lock-builtin-face           ((t (:foreground \"white\"))))
+ `(font-lock-builtin-face           ((t (:foreground \"gray80\"))))
  `(font-lock-string-face            ((t (:foreground \"olive drab\"))))
  `(font-lock-comment-face           ((t (:foreground \"gray50\"))))
  `(font-lock-comment-delimiter-face ((t (:foreground \"gray50\"))))
  `(font-lock-doc-face               ((t (:foreground \"gray50\"))))
- `(font-lock-function-name-face     ((t (:foreground \"burlywood3\"))))
+ `(font-lock-function-name-face     ((t (:foreground \"burlywood2\"))))
  `(font-lock-doc-string-face        ((t (:foreground \"gray50\"))))
  `(font-lock-warning-face           ((t (:foreground \"yellow\"))))
  `(font-lock-note-face              ((t (:foreground \"khaki2\" ))))
