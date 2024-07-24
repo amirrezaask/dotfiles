@@ -45,3 +45,6 @@ alias svpn="sudo openfortivpn"
 alias vim='nvim'
 [ -f "$HOME/cargo/env" ] && . "$HOME/.cargo/env"
 
+oclogs() {
+    oc logs --prefix -f --selector "app.kubernetes.io/instance=snappdoctor-$1-prod, app.kubernetes.io/name=$1"
+}

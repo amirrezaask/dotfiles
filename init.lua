@@ -107,6 +107,11 @@ vim.keymap.set("n", "Y", "y$", { desc = "Copy whole line" })
 -- Esc should remove incsearch highlights
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 
+-- Tabs
+vim.keymap.set({ "n", "t" }, "<C-t>", "<cmd>tabnew | term<CR>")
+vim.keymap.set({ "n", "t" }, "<C-j>", "<cmd>tabnext<CR>")
+vim.keymap.set({ "n", "t" }, "<C-k>", "<cmd>tabprev<CR>")
+
 -- Simpler exiting insert mode
 vim.keymap.set("i", "<C-c>", "<esc>")
 vim.keymap.set("i", "jk", "<ESC>")

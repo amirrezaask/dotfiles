@@ -1,4 +1,4 @@
-;; (setq debug-on-error t) ;; Uncomment when you debug your emacs lisp code.
+(setq debug-on-error t) ;; Uncomment when you debug your emacs lisp code.
 
 (setq gc-cons-threshold most-positive-fixnum)
 (add-hook 'emacs-startup-hook
@@ -74,7 +74,6 @@ oOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOo
 "))
 
 (setq initial-scratch-message
-
       (nth (random 2) smilies))
 
 (when load-file-name ;; since windows is a bit funky I prefer to store this file path in a variable to be used when C-x i
@@ -141,6 +140,7 @@ oOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOo
 	   (set-face-attribute 'default nil :font (format "%s-%d" font size))))
 
 (cond
+ ((member "Liberation Mono" font-families) (set-font "Liberation Mono" 15))
  (is-macos (set-font "Menlo" 15))
  (is-windows (set-font "Consolas" 15)))
 
@@ -171,10 +171,22 @@ oOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOo
 	(define-key completion-in-region-mode-map (kbd "C-p") 'minibuffer-previous-completion)
 	(define-key completion-in-region-mode-map (kbd "RET") 'minibuffer-choose-completion)))
 
+
 (when my-completion-framework 'vertico
-      (vertico-mode +1)
-      (setq vertico-cycle t
-	    vertico-resize nil))
+      (use-package vertico
+	:ensure t
+	:config
+	(vertico-mode +1)
+	(setq vertico-cycle t
+	      vertico-resize nil))
+
+      (use-package marginalia
+	:ensure t
+	:after vertico
+	:config
+	(marginalia-mode +1)
+	)
+      )
 
 
 ;; Making Emacs beautiful
@@ -184,130 +196,119 @@ oOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOo
 %s
 " name definition) nil (expand-file-name (format "%s-theme.el" name) (expand-file-name "themes" user-emacs-directory))))
 
-
-(save-theme "braid" "
+(deftheme braid)
 (custom-theme-set-faces
    'braid
-  `(default                          ((t (:foreground \"#debe95\" :background \"#202020\"))))
-  `(hl-line                          ((t (:background \"#353535\"))))
-  `(vertico-current                  ((t (:background \"medium blue\"))))
-  `(region                           ((t (:background \"medium blue\"))))
-  `(cursor                           ((t (:background \"lightgreen\"))))
-  `(font-lock-keyword-face           ((t (:foreground \"#d4d4d4\"))))
-  `(font-lock-type-face              ((t (:foreground \"#8cde94\"))))
-  `(font-lock-constant-face          ((t (:foreground \"#7ad0c6\"))))
-  `(font-lock-variable-name-face     ((t (:foreground \"#c8d4ec\"))))
-  `(font-lock-builtin-face           ((t (:foreground \"white\"))))
-  `(font-lock-string-face            ((t (:foreground \"gray70\"))))
-  `(font-lock-comment-face           ((t (:foreground \"yellow\"))))
-  `(font-lock-comment-delimiter-face ((t (:foreground \"yellow\"))))
-  `(font-lock-doc-face               ((t (:foreground \"#3fdf1f\"))))
-  `(font-lock-function-name-face     ((t (:foreground \"white\"))))
-  `(font-lock-doc-string-face        ((t (:foreground \"#3fdf1f\"))))
-  `(font-lock-warning-face           ((t (:foreground \"yellow\"))))
-  `(font-lock-note-face              ((t (:foreground \"khaki2\" ))))
-  `(mode-line                        ((t (:foreground \"black\" :background \"#d3b58d\"))))
-  `(mode-line-inactive               ((t (:background \"gray20\" :foreground \"#ffffff\"))))
-  `(show-paren-match                 ((t (:background \"mediumseagreen\")))))
-(global-hl-line-mode -1)
-")
+  `(default                          ((t (:foreground "#debe95" :background "#202020"))))
+  `(hl-line                          ((t (:background "#353535"))))
+  `(vertico-current                  ((t (:background "medium blue"))))
+  `(region                           ((t (:background "medium blue"))))
+  `(cursor                           ((t (:background "lightgreen"))))
+  `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
+  `(font-lock-type-face              ((t (:foreground "#8cde94"))))
+  `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
+  `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
+  `(font-lock-builtin-face           ((t (:foreground "white"))))
+  `(font-lock-string-face            ((t (:foreground "gray70"))))
+  `(font-lock-comment-face           ((t (:foreground "yellow"))))
+  `(font-lock-comment-delimiter-face ((t (:foreground "yellow"))))
+  `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
+  `(font-lock-function-name-face     ((t (:foreground "white"))))
+  `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
+  `(font-lock-warning-face           ((t (:foreground "yellow"))))
+  `(font-lock-note-face              ((t (:foreground "khaki2" ))))
+  `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
+  `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
+  `(show-paren-match                 ((t (:background "mediumseagreen")))))
 
-
-(save-theme "witness" "
+(deftheme witness)
 (custom-theme-set-faces
   'witness
- `(default                          ((t (:foreground \"#d3b58d\" :background \"#072626\"))))
- `(hl-line                          ((t (:background \"#0c4141\"))))
- `(region                           ((t (:background  \"medium blue\"))))
- `(cursor                           ((t (:background \"lightgreen\"))))
- `(font-lock-keyword-face           ((t (:foreground \"white\"))))
- `(font-lock-type-face              ((t (:foreground \"#8cde94\"))))
- `(font-lock-constant-face          ((t (:foreground \"#7ad0c6\"))))
- `(font-lock-variable-name-face     ((t (:foreground \"#c8d4ec\"))))
- `(font-lock-builtin-face           ((t (:foreground \"lightgreen\"))))
- `(font-lock-string-face            ((t (:foreground \"#0fdfaf\"))))
- `(font-lock-comment-face           ((t (:foreground \"#3fdf1f\"))))
- `(font-lock-comment-delimiter-face ((t (:foreground \"#3fdf1f\"))))
- `(font-lock-doc-face               ((t (:foreground \"#3fdf1f\"))))
- `(font-lock-function-name-face     ((t (:foreground \"white\"))))
- `(font-lock-doc-string-face        ((t (:foreground \"#3fdf1f\"))))
- `(hightlight                       ((t (:foreground \"navyblue\" :background \"darkseegreen2\"))))
- `(font-lock-warning-face           ((t (:foreground \"#504038\"))))
- `(font-lock-note-face              ((t (:foreground \"khaki2\" ))))
- `(mode-line                        ((t (:foreground \"black\" :background \"#d3b58d\"))))
- `(mode-line-inactive               ((t (:background \"gray20\" :foreground \"#ffffff\"))))
- `(show-paren-match                 ((t (:background \"mediumseagreen\")))))
-(global-hl-line-mode -1)
-")
+ `(default                          ((t (:foreground "#d3b58d" :background "#072626"))))
+ `(hl-line                          ((t (:background "#0c4141"))))
+ `(region                           ((t (:background  "medium blue"))))
+ `(cursor                           ((t (:background "lightgreen"))))
+ `(font-lock-keyword-face           ((t (:foreground "white"))))
+ `(font-lock-type-face              ((t (:foreground "#8cde94"))))
+ `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
+ `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
+ `(font-lock-builtin-face           ((t (:foreground "lightgreen"))))
+ `(font-lock-string-face            ((t (:foreground "#0fdfaf"))))
+ `(font-lock-comment-face           ((t (:foreground "#3fdf1f"))))
+ `(font-lock-comment-delimiter-face ((t (:foreground "#3fdf1f"))))
+ `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
+ `(font-lock-function-name-face     ((t (:foreground "white"))))
+ `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
+ `(hightlight                       ((t (:foreground "navyblue" :background "darkseegreen2"))))
+ `(font-lock-warning-face           ((t (:foreground "#504038"))))
+ `(font-lock-note-face              ((t (:foreground "khaki2" ))))
+ `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
+ `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
+ `(show-paren-match                 ((t (:background "mediumseagreen")))))
 
-(save-theme "handmadehero" "
-(custom-theme-set-faces
-  'handmadehero
- `(default                          ((t (:foreground \"burlywood2\" :background \"#161616\"))))
- `(hl-line                          ((t (:background \"midnight blue\"))))
- `(vertico-current                  ((t (:background \"midnight blue\"))))
- `(region                           ((t (:background \"medium blue\"))))
- `(cursor                           ((t (:background \"#40FF40\"))))
- `(font-lock-keyword-face           ((t (:foreground \"DarkGoldenrod2\"))))
- `(font-lock-type-face              ((t (:foreground \"burlywood3\"))))
- `(font-lock-constant-face          ((t (:foreground \"olive drab\"))))
- `(font-lock-variable-name-face     ((t (:foreground \"burlywood3\"))))
- `(font-lock-builtin-face           ((t (:foreground \"gray80\"))))
- `(font-lock-string-face            ((t (:foreground \"olive drab\"))))
- `(font-lock-comment-face           ((t (:foreground \"gray50\"))))
- `(font-lock-comment-delimiter-face ((t (:foreground \"gray50\"))))
- `(font-lock-doc-face               ((t (:foreground \"gray50\"))))
- `(font-lock-function-name-face     ((t (:foreground \"burlywood2\"))))
- `(font-lock-doc-string-face        ((t (:foreground \"gray50\"))))
- `(font-lock-warning-face           ((t (:foreground \"yellow\"))))
- `(font-lock-note-face              ((t (:foreground \"khaki2\" ))))
- `(show-paren-match                 ((t (:background \"mediumseagreen\")))))
-
-(global-hl-line-mode +1)
-")
-
-(save-theme "4coder-fleury" "
+(deftheme 4coder-fleury)
 (custom-theme-set-faces
  '4coder-fleury
- `(default                          ((t (:foreground \"#a08563\" :background \"#0c0c0c\"))))
- `(cursor                           ((t (:background \"#EE7700\"))))
- `(font-lock-keyword-face           ((t (:foreground \"#f0c674\"))))
- `(font-lock-operator-face          ((t (:foreground \"#907553\"))))
- `(font-lock-punctuation-face       ((t (:foreground \"#907553\"))))
- `(font-lock-bracket-face           ((t (:foreground \"#907553\"))))
- `(font-lock-delimiter-face         ((t (:foreground \"#907553\"))))
- `(font-lock-type-face              ((t (:foreground \"#d8a51d\"))))
- `(font-lock-constant-face          ((t (:foreground \"#6b8e23\"))))
- `(font-lock-variable-name-face     ((t (:foreground \"#b99468\"))))
- `(font-lock-builtin-face           ((t (:foreground \"#DAB98F\"))))
- `(font-lock-string-face            ((t (:foreground \"#6b8e23\"))))
- `(font-lock-comment-face           ((t (:foreground \"#686868\"))))
- `(font-lock-comment-delimiter-face ((t (:foreground \"#686868\"))))
- `(font-lock-doc-face               ((t (:foreground \"#686868\"))))
- `(font-lock-function-name-face     ((t (:foreground \"#cc5735\"))))
- `(font-lock-doc-string-face        ((t (:foreground \"#6b8e23\"))))
- `(font-lock-preprocessor-face      ((t (:foreground \"#DAB98F\"))))
- `(font-lock-warning-face           ((t (:foreground \"#504038\"))))
- `(region                           ((t (:background \"#2f2f37\"))))
- `(hl-line                          ((t (:background \"#171616\"))))
+ `(default                          ((t (:foreground "#a08563" :background "#0c0c0c"))))
+ `(cursor                           ((t (:background "#EE7700"))))
+ `(font-lock-keyword-face           ((t (:foreground "#f0c674"))))
+ `(font-lock-operator-face          ((t (:foreground "#907553"))))
+ `(font-lock-punctuation-face       ((t (:foreground "#907553"))))
+ `(font-lock-bracket-face           ((t (:foreground "#907553"))))
+ `(font-lock-delimiter-face         ((t (:foreground "#907553"))))
+ `(font-lock-type-face              ((t (:foreground "#d8a51d"))))
+ `(font-lock-constant-face          ((t (:foreground "#6b8e23"))))
+ `(font-lock-variable-name-face     ((t (:foreground "#b99468"))))
+ `(font-lock-builtin-face           ((t (:foreground "#DAB98F"))))
+ `(font-lock-string-face            ((t (:foreground "#6b8e23"))))
+ `(font-lock-comment-face           ((t (:foreground "#686868"))))
+ `(font-lock-comment-delimiter-face ((t (:foreground "#686868"))))
+ `(font-lock-doc-face               ((t (:foreground "#686868"))))
+ `(font-lock-function-name-face     ((t (:foreground "#cc5735"))))
+ `(font-lock-doc-string-face        ((t (:foreground "#6b8e23"))))
+ `(font-lock-preprocessor-face      ((t (:foreground "#DAB98F"))))
+ `(font-lock-warning-face           ((t (:foreground "#504038"))))
+ `(region                           ((t (:background "#2f2f37"))))
+ `(hl-line                          ((t (:background "#171616"))))
  `(vertico-current                  ((t (:inherit hl-line))))
- `(highlight                        ((t (:foreground nil :background \"#2f2f37\"))))
- `(mode-line                        ((t (:foreground \"#cb9401\" :background \"#1f1f27\"))))
- `(mode-line-inactive               ((t (:foreground \"#cb9401\" :background \"#1f1f27\"))))
- `(minibuffer-prompt                ((t (:foreground \"#a08563\") :bold t)))
- `(show-paren-match                 ((t (:background \"#e0741b\" :foreground \"#000000\")))))
+ `(highlight                        ((t (:foreground nil :background "#2f2f37"))))
+ `(mode-line                        ((t (:foreground "#cb9401" :background "#1f1f27"))))
+ `(mode-line-inactive               ((t (:foreground "#cb9401" :background "#1f1f27"))))
+ `(minibuffer-prompt                ((t (:foreground "#a08563") :bold t)))
+ `(show-paren-match                 ((t (:background "#e0741b" :foreground "#000000")))))
 
-(global-hl-line-mode +1)
-")
+(deftheme handmadehero)
+(custom-theme-set-faces
+  'handmadehero
+ `(default                          ((t (:foreground "burlywood2" :background "#161616"))))
+ `(hl-line                          ((t (:background "midnight blue"))))
+ `(vertico-current                  ((t (:background "midnight blue"))))
+ `(region                           ((t (:background "medium blue"))))
+ `(cursor                           ((t (:background "#40FF40"))))
+ `(font-lock-keyword-face           ((t (:foreground "DarkGoldenrod2"))))
+ `(font-lock-type-face              ((t (:foreground "burlywood3"))))
+ `(font-lock-constant-face          ((t (:foreground "olive drab"))))
+ `(font-lock-variable-name-face     ((t (:foreground "burlywood3"))))
+ `(font-lock-builtin-face           ((t (:foreground "gray80"))))
+ `(font-lock-string-face            ((t (:foreground "olive drab"))))
+ `(font-lock-comment-face           ((t (:foreground "gray50"))))
+ `(font-lock-comment-delimiter-face ((t (:foreground "gray50"))))
+ `(font-lock-doc-face               ((t (:foreground "gray50"))))
+ `(font-lock-function-name-face     ((t (:foreground "burlywood2"))))
+ `(font-lock-doc-string-face        ((t (:foreground "gray50"))))
+ `(font-lock-warning-face           ((t (:foreground "yellow"))))
+ `(font-lock-note-face              ((t (:foreground "khaki2" ))))
+ `(show-paren-match                 ((t (:background "mediumseagreen")))))
 
-(defadvice load-theme (before disable-themes-first activate)
+(defadvice load-theme (before disable-themes-first (THEME &rest args) activate)
   (dolist (i custom-enabled-themes)
-    (disable-theme i)))
+    (disable-theme i))
+  (when (custom-theme-p THEME)
+      (enable-theme THEME)))
 
 (add-to-list 'custom-theme-load-path (expand-file-name "themes" user-emacs-directory))
 (setq custom-safe-themes t)
 (load-theme 'handmadehero)
-
 
 ;; C/C++ code style
 (setq-default c-default-style "linux" c-basic-offset 4) 
@@ -329,7 +330,6 @@ oOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOo
 					  :foldingRangeProvider
 					  :executeCommandProvider
 					  :inlayHintProvider))
-
 (with-eval-after-load 'eglot (add-to-list 'eglot-server-programs '(php-mode . ("intelephense" "--stdio"))))
 (defun eglot-organize-imports () (interactive) (eglot-code-actions nil nil "source.organizeImports" t))
 (setq eglot-stay-out-of '(project))
@@ -355,17 +355,21 @@ oOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOo
 (defun find-root-or-default-directory () (or (find-root) default-directory))
 
 
-(defun run-compile () "run `compile`." (interactive)
-       (if (null current-prefix-arg)
-	   (setq --compile-dir (find-root-or-default-directory))
-	 (setq --compile-dir (read-directory-name "Directory: " default-directory)))
 
-       (let* ((default-directory --compile-dir)
-	      (command (read-shell-command "Command: "  (cond ;; guess a command based on the context.
-							 ((file-exists-p "build.bat") "build.bat")
-							 ((file-exists-p "go.mod")    "go build -v ./...")
-							 ((file-exists-p "Makefile")  "make")))))
-	 (compilation-start command)))
+(use-package compile
+  :init
+  (defun run-compile () "run `compile`." (interactive)
+	 (if (null current-prefix-arg)
+	     (setq --compile-dir (find-root-or-default-directory))
+	   (setq --compile-dir (read-directory-name "Directory: " default-directory)))
+
+	 (let* ((default-directory --compile-dir)
+		(command (read-shell-command "Command: "  (cond ;; guess a command based on the context.
+							   ((file-exists-p "build.bat") "build.bat")
+							   ((file-exists-p "go.mod")    "go build -v ./...")
+							   ((file-exists-p "Makefile")  "make")))))
+	   (compilation-start command))))
+
 
 (with-eval-after-load 'grep
   (when (executable-find "rg")
@@ -374,6 +378,7 @@ oOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOo
 
 
 (setq eshell-visual-subcommands '("git" "diff" "log" "show"))
+
 (defun eshell-dwim () "Jump to eshell buffer associated with current project or create a new." (interactive)
   (let* ((root (find-root-or-default-directory))
 	 (default-directory root)
@@ -381,6 +386,20 @@ oOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOo
     (if (get-buffer eshell-buffer-name)
 	(switch-to-buffer eshell-buffer-name)
       (eshell))))
+
+
+(add-hook 'vterm-mode-hook (lambda ()
+			     (hl-line-mode -1)
+			     ))
+(defun vterm-dwim ()
+  "Jump to vterm buffer associated with current project or create a new."
+  (interactive)
+  (let* ((root (find-root-or-default-directory))
+	 (default-directory root)
+	 (buffer-name (format "*vterm-%s*" root)))
+    (if (get-buffer buffer-name)
+	(switch-to-buffer buffer-name)
+      (vterm buffer-name))))
 
 (defun run-grep () "Recursive grep in `find-root` result or C-u to choose directory interactively." (interactive)
   (if (null current-prefix-arg)
@@ -457,9 +476,14 @@ oOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOo
   (define-key compilation-mode-map (kbd "M-p")                       'jump-up)
   (define-key compilation-mode-map (kbd "k")                         'kill-compilation))
 
-(global-set-key (kbd "M-j")                                          'eshell-dwim)
+(if (package-installed-p 'vterm) (global-set-key (kbd "C-M-j")       'vterm-dwim))
+  (global-set-key (kbd "M-j")                                        'eshell-dwim)
+
 (add-hook 'eshell-mode-hook
   (lambda () (define-key eshell-mode-map (kbd "M-j")                 'previous-buffer)))
+
+(add-hook 'vterm-mode-hook
+  (lambda () (define-key vterm-mode-map (kbd "M-j")                  'previous-buffer)))
 
 (global-set-key (kbd "C-.")                                          'next-buffer)
 (global-set-key (kbd "C-,")                                          'previous-buffer)
