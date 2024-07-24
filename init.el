@@ -6,20 +6,22 @@
 	    (setq gc-cons-threshold (* 1024 1024 20) ;; 20 Megabytes
 		  gc-cons-percentage 0.2)))
 
-(setq frame-resize-pixelwise t
-      frame-inhibit-implied-resize t
-      ring-bell-function 'ignore
-      use-dialog-box t ; only for mouse events, which I seldom use
-      use-file-dialog nil
-      use-short-answers t
-      inhibit-splash-screen t
-      inhibit-startup-screen t
-      inhibit-x-resources t
-      inhibit-startup-buffer-menu t)
-
-(menu-bar-mode -1)
-(scroll-bar-mode -1)
-(tool-bar-mode -1)
+(use-package emacs
+  :config
+  (setq frame-resize-pixelwise t
+	frame-inhibit-implied-resize t
+	ring-bell-function 'ignore
+	use-dialog-box t ; only for mouse events, which I seldom use
+	use-file-dialog nil
+	use-short-answers t
+	inhibit-splash-screen t
+	inhibit-startup-screen t
+	inhibit-x-resources t
+	inhibit-startup-buffer-menu t)
+  (setq image-types (cons 'svg image-types) mac-command-modifier 'meta) ;; Fix macos fucked up bugs.
+  (menu-bar-mode -1)
+  (scroll-bar-mode -1)
+  (tool-bar-mode -1))
 
 (setq smilies '("
                           oooo$$$$$$$$$$$$oooo
@@ -87,29 +89,25 @@ oOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOo
       is-macos (eq system-type 'darwin)
       has-treesitter (>= emacs-major-version 29))
 
+(setq use-package-always-defer t)
 (defun edit-init () "Edit this file." (interactive) (find-file INIT-FILE))
 
-(require 'package)
+(setq package-quickstart t)
 (setq package-archives
       '(("gnu-elpa" . "https://elpa.gnu.org/packages/")
 	("nongnu" . "https://elpa.nongnu.org/nongnu/")
 	("melpa" . "https://melpa.org/packages/")))
 
 ;; Install packages.
-(dolist (pkg '(
-	       vertico consult embark embark-consult consult-eglot
-		       so-long multiple-cursors vlf
-		       sweet-theme dracula-theme spacemacs-theme
-		       go-mode php-mode rust-mode json-mode yaml-mode ;; language modes
-		       eglot wgrep))
-  (package-install pkg))
+(when has-treesitter
+  (use-package treesit-auto
+    :ensure t
+    :custom
+    (treesit-auto-install 'prompt)
+    :config
+    (treesit-auto-add-to-auto-mode-alist 'all)
+    (global-treesit-auto-mode)))
 
-(when has-treesitter (package-install 'treesit-auto))
-
-(unless is-windows
-  (package-install 'vterm))
-
-(setq image-types (cons 'svg image-types) mac-command-modifier 'meta) ;; Fix macos fucked up bugs.
 
 (setq recenter-positions '(middle))       ;; When doing C-l always recenter.
 (setq custom-file "~/.custom.el")         ;; set custom file to not meddle with init.el
@@ -121,11 +119,22 @@ oOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOo
 (delete-selection-mode)                   ;; when selected a text and user types delete text
 (global-display-line-numbers-mode +1)     ;; Display line numbers.
 (toggle-truncate-lines +1)
-(global-so-long-mode +1)
-(require 'vlf-setup)
-(require 'multiple-cursors)
 
-;; (global-treesit-auto-mode +1)
+(use-package so-long :ensure t
+  :init
+  (global-so-long-mode +1))
+
+(use-package vlf :ensure t
+  :init
+  (require 'vlf-setup))
+
+(use-package multiple-cursors
+  :bind
+  (("C-M-n"   . 'mc/mark-next-like-this-word)
+   ("C-M-p"   . 'mc/mark-previous-like-this-word)
+   ("C-S-n"   . 'mc/mark-next-like-this)
+   ("C-S-p"   . 'mc/mark-previous-like-this)
+   ("C-c m a" . 'mc/mark-all-like-this-dwim)))
 
 (defun copy () "Either copy region or the current line." (interactive)
   (if (use-region-p)
@@ -174,13 +183,14 @@ oOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOo
 
 (use-package vertico
   :ensure t
-  :config
+  :init
   (vertico-mode +1)
   (setq vertico-cycle t
 	vertico-resize nil))
 
 (use-package consult
   :ensure t
+  :commands (consult-ripgrep consult-grep)
   :after vertico)
 
 (use-package marginalia
@@ -189,13 +199,13 @@ oOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOo
   :config
   (marginalia-mode +1))
 
+(use-package embark :ensure t)
+(use-package embark-consult :ensure t)
 
 ;; Making Emacs beautiful
-(defun save-theme (name definition)
-  (mkdir (expand-file-name "themes" user-emacs-directory) t)
-  (write-region (format "(deftheme %s)
-%s
-" name definition) nil (expand-file-name (format "%s-theme.el" name) (expand-file-name "themes" user-emacs-directory))))
+(use-package ef-themes :ensure t
+  :bind
+  ("M-t" . ef-themes-load-random))
 
 (deftheme braid)
 (custom-theme-set-faces
@@ -309,10 +319,13 @@ oOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOo
 
 (add-to-list 'custom-theme-load-path (expand-file-name "themes" user-emacs-directory))
 (setq custom-safe-themes t)
-(load-theme 'handmadehero)
+;;(load-theme 'handmadehero)
+(load-theme 'ef-light)
 
 ;; C/C++ code style
-(setq-default c-default-style "linux" c-basic-offset 4) 
+(use-package cc-vars
+  :init
+  (setq-default c-default-style "linux" c-basic-offset 4))
 
 ;; Autocomplete using Emacs internal completion system.
 (setq completion-in-region-function
@@ -322,7 +335,20 @@ oOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOo
                  #'completion--in-region)
                args)))
 
-(setq eglot-ignored-server-capabilities '(:hoverProvider
+
+(use-package go-mode :ensure t)
+(use-package rust-mode :ensure t)
+(use-package php-mode :ensure t)
+(use-package json-mode :ensure t)
+(use-package yaml-mode :ensure t)
+
+(use-package eglot
+  :ensure t
+  :defer t
+  :init
+  (dolist (mode '(go rust php)) (add-hook (intern (concat (symbol-name mode) "-mode-hook")) #'eglot-ensure))
+  :config
+  (setq eglot-ignored-server-capabilities '(:hoverProvider
 					  :documentHighlightProvider
 					  :codeLensProvider
 					  :documentOnTypeFormattingProvider
@@ -331,34 +357,52 @@ oOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOo
 					  :foldingRangeProvider
 					  :executeCommandProvider
 					  :inlayHintProvider))
-(with-eval-after-load 'eglot (add-to-list 'eglot-server-programs '(php-mode . ("intelephense" "--stdio"))))
-(defun eglot-organize-imports () (interactive) (eglot-code-actions nil nil "source.organizeImports" t))
-(setq eglot-stay-out-of '(project))
-(setq eglot-sync-connect nil) ;; no blocking on waiting for the server to start.
-(setq eglot-events-buffer-size 0) ;; no logging of LSP events.
-(dolist (mode '(go rust php)) (add-hook (intern (concat (symbol-name mode) "-mode-hook")) #'eglot-ensure))
-(defun eglot-organize-imports-format () (interactive) (eglot-format) (eglot-organize-imports))
-(defalias 'eglot-symbols 'consult-eglot-symbols)
+  (with-eval-after-load 'eglot (add-to-list 'eglot-server-programs '(php-mode . ("intelephense" "--stdio"))))
+  (defun eglot-organize-imports () (interactive) (eglot-code-actions nil nil "source.organizeImports" t))
+  (setq eglot-stay-out-of '(project))
+  (setq eglot-sync-connect nil) ;; no blocking on waiting for the server to start.
+  (setq eglot-events-buffer-size 0) ;; no logging of LSP events.
+  (defun eglot-organize-imports-format () (interactive) (eglot-format) (eglot-organize-imports)))
+
+(use-package consult-eglot :ensure t :after consult)
 
 (defun amirreza-compile-buffer-name-function (MODESTR) (let ((dir (find-root-or-default-directory))) (format "*%s-%s*" MODESTR dir)))
 (setq-default compilation-buffer-name-function 'amirreza-compile-buffer-name-function)
 
-
 ;; *Project aware commands*
-
 (defun find-root () "Try to find project root based on deterministic predicates"
   (cond
    ((eq major-mode 'go-mode)                                (locate-dominating-file default-directory "go.mod"))
    (t                                                       (locate-dominating-file default-directory ".git"))))
 
 (defun git-repo-p (DIR) (locate-dominating-file DIR ".git"))
-
 (defun find-root-or-default-directory () (or (find-root) default-directory))
 
-
-
 (use-package compile
+  :commands (run-git-diff run-compile)
+  :bind
+  (
+   ("M-m" . run-compile)
+   ("M-g" . run-git-diff)
+   :map compilation-mode-map
+   ("<f5>". 'recompile)
+   ("M-m" . 'previous-buffer)
+   ("G"   . 'compile-in-directory)
+   ("n"   . 'next-line)
+   ("p"   . 'previous-line)
+   ("M-n" . 'jump-down)
+   ("M-p" . 'jump-up)
+   ("k"   . 'kill-compilation))
+   
   :init
+  (defun run-git-diff () "run git diff command in `find-root` result or C-u to choose directory interactively." (interactive)
+	 (if (null current-prefix-arg)
+	     (setq --git-diff-dir (find-root-or-default-directory))
+	   (setq --git-diff-dir (read-directory-name "Directory: " default-directory)))
+
+	 (let ((default-directory --git-diff-dir))
+	   (compilation-start "git diff HEAD" 'diff-mode)))
+
   (defun run-compile () "run `compile`." (interactive)
 	 (if (null current-prefix-arg)
 	     (setq --compile-dir (find-root-or-default-directory))
@@ -372,50 +416,60 @@ oOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOo
 	   (compilation-start command))))
 
 
-(with-eval-after-load 'grep
-  (when (executable-find "rg")
-    (grep-apply-setting 'grep-command "rg --no-heading --color='never'")
-    (grep-apply-setting 'grep-use-null-device nil)))
+
+(use-package grep
+  :commands (run-grep)
+  :config
+  (with-eval-after-load 'grep
+    (when (executable-find "rg")
+      (grep-apply-setting 'grep-command "rg --no-heading --color='never'")
+      (grep-apply-setting 'grep-use-null-device nil)))
+  (defun run-grep () "Recursive grep in `find-root` result or C-u to choose directory interactively." (interactive)
+	 (if (null current-prefix-arg)
+	     (setq --grep-dir (find-root-or-default-directory))
+	   (setq --grep-dir (read-directory-name "Directory: " default-directory)))
+
+	 (let ((default-directory --grep-dir))
+	   (cond
+	    ;; when we have consult installed.
+	    ((and (fboundp 'consult-ripgrep) (executable-find "rg"))  (consult-ripgrep --grep-dir))
+	    ((and (fboundp 'consult-grep)    (executable-find "grep"))  (consult-grep --grep-dir))
+	    ;; legacy approach.
+	    ((executable-find "rg") (grep (format "rg --no-heading --color='never' %s" (read-string "Ripgrep: "))))
+	    ((git-repo-p DIR)       (grep (format "git grep --no-color -n %s" (read-string "Git Grep: "))))
+	    (t                      (grep (format "grep --color=auto -R -nH -e %s ." (read-string "Grep: "))))))))
 
 
-(setq eshell-visual-subcommands '("git" "diff" "log" "show"))
+(use-package eshell
+  :commands (eshell-dwim)
+  :config
+  (setq eshell-visual-subcommands '("git" "diff" "log" "show"))
+  (defun eshell-dwim () "Jump to eshell buffer associated with current project or create a new." (interactive)
+	 (let* ((root (find-root-or-default-directory))
+		(default-directory root)
+		(eshell-buffer-name (format "*eshell-%s*" root)))
+	   (if (get-buffer eshell-buffer-name)
+	       (switch-to-buffer eshell-buffer-name)
+	     (eshell)))))
 
-(defun eshell-dwim () "Jump to eshell buffer associated with current project or create a new." (interactive)
-  (let* ((root (find-root-or-default-directory))
-	 (default-directory root)
-	 (eshell-buffer-name (format "*eshell-%s*" root)))
-    (if (get-buffer eshell-buffer-name)
-	(switch-to-buffer eshell-buffer-name)
-      (eshell))))
+(use-package vterm
+  :ensure t
+  :commands (vterm-dwim)
+  :if (if is-windows nil t)
+  :init
+  (add-hook 'vterm-mode-hook (lambda ()
+			       (hl-line-mode -1)))
+  (defun vterm-dwim ()
+    "Jump to vterm buffer associated with current project or create a new."
+    (interactive)
+    (let* ((root (find-root-or-default-directory))
+	   (default-directory root)
+	   (buffer-name (format "*vterm-%s*" root)))
+      (if (get-buffer buffer-name)
+	  (switch-to-buffer buffer-name)
+	(vterm buffer-name)))))
 
 
-(add-hook 'vterm-mode-hook (lambda ()
-			     (hl-line-mode -1)
-			     ))
-(defun vterm-dwim ()
-  "Jump to vterm buffer associated with current project or create a new."
-  (interactive)
-  (let* ((root (find-root-or-default-directory))
-	 (default-directory root)
-	 (buffer-name (format "*vterm-%s*" root)))
-    (if (get-buffer buffer-name)
-	(switch-to-buffer buffer-name)
-      (vterm buffer-name))))
-
-(defun run-grep () "Recursive grep in `find-root` result or C-u to choose directory interactively." (interactive)
-  (if (null current-prefix-arg)
-      (setq --grep-dir (find-root-or-default-directory))
-    (setq --grep-dir (read-directory-name "Directory: " default-directory)))
-
-  (let ((default-directory --grep-dir))
-    (cond
-     ;; when we have consult installed.
-     ((and (fboundp 'consult-ripgrep) (executable-find "rg"))  (consult-ripgrep --grep-dir))
-     ((and (fboundp 'consult-grep)    (executable-find "grep"))  (consult-grep --grep-dir))
-     ;; legacy approach.
-     ((executable-find "rg") (grep (format "rg --no-heading --color='never' %s" (read-string "Ripgrep: "))))
-     ((git-repo-p DIR)       (grep (format "git grep --no-color -n %s" (read-string "Git Grep: "))))
-     (t                      (grep (format "grep --color=auto -R -nH -e %s ." (read-string "Grep: ")))))))
 
 (defun file-finder () "Recursive file find starting from `find-root` result or C-u to choose directory interactively." (interactive)
   (if (null current-prefix-arg)
@@ -435,14 +489,13 @@ oOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOo
 				   (find-file file)))
    (t (error "you don't have rg installed and it's not a git repo."))))
 
-
-(defun run-git-diff () "run git diff command in `find-root` result or C-u to choose directory interactively." (interactive)
-  (if (null current-prefix-arg)
-      (setq --git-diff-dir (find-root-or-default-directory))
-    (setq --git-diff-dir (read-directory-name "Directory: " default-directory)))
-
-  (let ((default-directory --git-diff-dir))
-    (compilation-start "git diff HEAD" 'diff-mode)))
+(use-package replace
+  :bind
+  (("C-r"   . 'replace-string)
+   ("M-r"   . 'query-replace)
+   ("C-M-r" . 'replace-regexp)            
+   :map query-replace-map
+   ("<return>" . 'act)))
 
 ;; Keybindings
 (global-unset-key (kbd "C-x C-c"))
@@ -465,18 +518,6 @@ oOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOo
   (with-eval-after-load 'minibuffer
     (define-key minibuffer-mode-map (kbd "C-q")                      'embark-export)))
 
-;; Compile
-(global-set-key (kbd "M-m")                                          'run-compile)
-(with-eval-after-load 'compile
-  (define-key compilation-mode-map (kbd "<f5>")                      'recompile)
-  (define-key compilation-mode-map (kbd "M-m")                       'previous-buffer)
-  (define-key compilation-mode-map (kbd "G")                         'compile-in-directory)
-  (define-key compilation-mode-map (kbd "n")                         'next-line)
-  (define-key compilation-mode-map (kbd "p")                         'previous-line)
-  (define-key compilation-mode-map (kbd "M-n")                       'jump-down)
-  (define-key compilation-mode-map (kbd "M-p")                       'jump-up)
-  (define-key compilation-mode-map (kbd "k")                         'kill-compilation))
-
 (if (package-installed-p 'vterm) (global-set-key (kbd "C-M-j")       'vterm-dwim))
   (global-set-key (kbd "M-j")                                        'eshell-dwim)
 
@@ -489,13 +530,6 @@ oOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOo
 (global-set-key (kbd "C-.")                                          'next-buffer)
 (global-set-key (kbd "C-,")                                          'previous-buffer)
 
-;; Replace
-(global-set-key (kbd "C-r")                                          'replace-string)
-(global-set-key (kbd "M-r")                                          'query-replace)
-(global-set-key (kbd "C-M-r")                                        'replace-regexp)            
-(with-eval-after-load 'replace
-  (define-key query-replace-map (kbd "<return>")                     'act))
-
 (global-set-key (kbd "C-w")                                          'cut)              
 (global-set-key (kbd "M-w")                                          'copy)             
 (global-set-key (kbd "M-[")                                          'kmacro-start-macro)       
@@ -505,11 +539,6 @@ oOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOo
 
 (global-set-key (kbd "C-SPC")                                        'set-mark-command)
 
-(global-set-key (kbd "C-M-n")                                        'mc/mark-next-like-this-word)
-(global-set-key (kbd "C-M-p")                                        'mc/mark-previous-like-this-word)
-(global-set-key (kbd "C-S-n")                                        'mc/mark-next-like-this)
-(global-set-key (kbd "C-S-p")                                        'mc/mark-previous-like-this)
-(global-set-key (kbd "C-c m a")                                      'mc/mark-all-like-this-dwim)
 
 (defun jump-up () (interactive) (next-line (* -1 (/ (window-height) 2))) (recenter-top-bottom))
 (defun jump-down () (interactive) (next-line (/ (window-height) 2)) (recenter-top-bottom))
