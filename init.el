@@ -319,8 +319,8 @@ oOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOo
 
 (add-to-list 'custom-theme-load-path (expand-file-name "themes" user-emacs-directory))
 (setq custom-safe-themes t)
-;;(load-theme 'handmadehero)
-(load-theme 'ef-light)
+(load-theme 'handmadehero)
+;; (load-theme 'ef-light)
 
 ;; C/C++ code style
 (use-package cc-vars
@@ -345,6 +345,13 @@ oOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOo
 (use-package eglot
   :ensure t
   :defer t
+  :bind
+  (
+   :map eglot-mode-map
+	("C-c C-s" . 'eglot-symbols)
+	("C-c C-r" . 'eglot-rename)
+	("M-l"     . 'eglot-organize-imports-format)
+	("C-c C-c" . 'eglot-code-actions))
   :init
   (dolist (mode '(go rust php)) (add-hook (intern (concat (symbol-name mode) "-mode-hook")) #'eglot-ensure))
   :config
@@ -357,17 +364,17 @@ oOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOo
 					  :foldingRangeProvider
 					  :executeCommandProvider
 					  :inlayHintProvider))
-  (with-eval-after-load 'eglot (add-to-list 'eglot-server-programs '(php-mode . ("intelephense" "--stdio"))))
+  (with-eval-after-load
+      'eglot (add-to-list 'eglot-server-programs '(php-mode . ("intelephense" "--stdio"))))
   (defun eglot-organize-imports () (interactive) (eglot-code-actions nil nil "source.organizeImports" t))
   (setq eglot-stay-out-of '(project))
   (setq eglot-sync-connect nil) ;; no blocking on waiting for the server to start.
   (setq eglot-events-buffer-size 0) ;; no logging of LSP events.
   (defun eglot-organize-imports-format () (interactive) (eglot-format) (eglot-organize-imports)))
 
+
 (use-package consult-eglot :ensure t :after consult)
 
-(defun amirreza-compile-buffer-name-function (MODESTR) (let ((dir (find-root-or-default-directory))) (format "*%s-%s*" MODESTR dir)))
-(setq-default compilation-buffer-name-function 'amirreza-compile-buffer-name-function)
 
 ;; *Project aware commands*
 (defun find-root () "Try to find project root based on deterministic predicates"
@@ -394,7 +401,9 @@ oOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOo
    ("M-p" . 'jump-up)
    ("k"   . 'kill-compilation))
    
-  :init
+  :config
+  (defun amirreza-compile-buffer-name-function (MODESTR) (let ((dir (find-root-or-default-directory))) (format "*%s-%s*" MODESTR dir)))
+  (setq-default compilation-buffer-name-function 'amirreza-compile-buffer-name-function)
   (defun run-git-diff () "run git diff command in `find-root` result or C-u to choose directory interactively." (interactive)
 	 (if (null current-prefix-arg)
 	     (setq --git-diff-dir (find-root-or-default-directory))
@@ -555,11 +564,6 @@ oOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOo
 (global-set-key (kbd "C-j")                                          'completion-at-point)
 (global-set-key (kbd "M-g")                                          'run-git-diff)
 
-(with-eval-after-load 'eglot
-  (define-key eglot-mode-map (kbd "C-c C-s")                         'eglot-symbols)
-  (define-key eglot-mode-map (kbd "C-c C-r")                         'eglot-rename)
-  (define-key eglot-mode-map (kbd "M-l")                             'eglot-organize-imports-format)
-  (define-key eglot-mode-map (kbd "C-c C-c")                         'eglot-code-actions))
 
 (global-set-key (kbd "M-a")                                          'xref-find-apropos)
 (global-set-key (kbd "M-.")                                          'xref-find-definitions)
