@@ -104,6 +104,8 @@ oOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOo
 		       eglot wgrep))
   (package-install pkg))
 
+(when has-treesitter (package-install 'treesit-auto))
+
 (unless is-windows
   (package-install 'vterm))
 
@@ -122,6 +124,8 @@ oOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOo
 (global-so-long-mode +1)
 (require 'vlf-setup)
 (require 'multiple-cursors)
+
+;; (global-treesit-auto-mode +1)
 
 (defun copy () "Either copy region or the current line." (interactive)
   (if (use-region-p)
@@ -160,33 +164,30 @@ oOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOo
   (setenv "PATH" (string-join exec-path ":"))) ;; set emacs process PATH
 
 (setq completion-styles '(flex initials shorthand substring basic))
-
-(setq my-completion-framework 'vertico) ;; choices are 'builtin | 'vertico
-
-(when (eq my-completion-framework 'builtin)
-      (with-eval-after-load 'minibuffer
-	(define-key minibuffer-mode-map (kbd "C-n") 'minibuffer-next-completion)
-	(define-key minibuffer-mode-map (kbd "C-p") 'minibuffer-previous-completion)
-	(define-key completion-in-region-mode-map (kbd "C-n") 'minibuffer-next-completion)
-	(define-key completion-in-region-mode-map (kbd "C-p") 'minibuffer-previous-completion)
-	(define-key completion-in-region-mode-map (kbd "RET") 'minibuffer-choose-completion)))
+;; (with-eval-after-load 'minibuffer
+;;   (define-key minibuffer-mode-map (kbd "C-n") 'minibuffer-next-completion)
+;;   (define-key minibuffer-mode-map (kbd "C-p") 'minibuffer-previous-completion)
+;;   (define-key completion-in-region-mode-map (kbd "C-n") 'minibuffer-next-completion)
+;;   (define-key completion-in-region-mode-map (kbd "C-p") 'minibuffer-previous-completion)
+;;   (define-key completion-in-region-mode-map (kbd "RET") 'minibuffer-choose-completion))
 
 
-(when my-completion-framework 'vertico
-      (use-package vertico
-	:ensure t
-	:config
-	(vertico-mode +1)
-	(setq vertico-cycle t
-	      vertico-resize nil))
+(use-package vertico
+  :ensure t
+  :config
+  (vertico-mode +1)
+  (setq vertico-cycle t
+	vertico-resize nil))
 
-      (use-package marginalia
-	:ensure t
-	:after vertico
-	:config
-	(marginalia-mode +1)
-	)
-      )
+(use-package consult
+  :ensure t
+  :after vertico)
+
+(use-package marginalia
+  :ensure t
+  :after vertico
+  :config
+  (marginalia-mode +1))
 
 
 ;; Making Emacs beautiful
