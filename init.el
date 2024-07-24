@@ -120,11 +120,13 @@ oOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOo
 (global-display-line-numbers-mode +1)     ;; Display line numbers.
 (toggle-truncate-lines +1)
 
-(use-package so-long :ensure t
+(use-package so-long
+  :ensure t
   :init
   (global-so-long-mode +1))
 
-(use-package vlf :ensure t
+(use-package vlf
+  :ensure t
   :init
   (require 'vlf-setup))
 
@@ -336,6 +338,14 @@ oOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOo
                args)))
 
 
+(use-package xref
+  :bind
+  (
+   ("M-a"   . 'xref-find-apropos)
+   ("M-."   . 'xref-find-definitions)
+   ("C-M-." . 'xref-find-references)
+   ("M-,"   . 'xref-go-back)))
+
 (use-package go-mode :ensure t)
 (use-package rust-mode :ensure t)
 (use-package php-mode :ensure t)
@@ -428,6 +438,20 @@ oOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOo
 
 (use-package grep
   :commands (run-grep)
+  :bind
+  (
+   ("C-S-o" . 'run-grep)
+   ("M-s"   . 'run-grep)
+   :map grep-mode-map
+   ("C-c C-p" . 'wgrep-toggle-readonly-area)
+   ("<f5>"    . 'recompile)
+   ("g"       . 'recompile)
+   ("G"       . 'grep-in-directory)
+   ("M-q"     . 'previous-buffer)
+   ("M-n"     . 'jump-down)
+   ("M-p"     . 'jump-up)
+   ("k"       . 'kill-compilation))
+  
   :config
   (with-eval-after-load 'grep
     (when (executable-find "rg")
@@ -510,18 +534,7 @@ oOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOo
 (global-unset-key (kbd "C-x C-c"))
 (global-set-key (kbd "C-o")                                          'file-finder)
 (global-set-key (kbd "M-o")                                          'file-finder)
-(global-set-key (kbd "C-S-o")                                        'run-grep)
-(global-set-key (kbd "M-s")                                          'run-grep)
 (global-set-key (kbd "C-x i")                                        'edit-init)
-(with-eval-after-load 'grep
-  (define-key grep-mode-map (kbd "C-c C-p")                          'wgrep-toggle-readonly-area)
-  (define-key grep-mode-map (kbd "<f5>")                             'recompile)
-  (define-key grep-mode-map (kbd "g")                                'recompile)
-  (define-key grep-mode-map (kbd "G")                                'grep-in-directory)
-  (define-key grep-mode-map (kbd "M-q")                              'previous-buffer)
-  (define-key grep-mode-map (kbd "M-n")                              'jump-down)
-  (define-key grep-mode-map (kbd "M-p")                              'jump-up)
-  (define-key grep-mode-map (kbd "k")                                'kill-compilation))
 
 (when (package-installed-p 'embark)
   (with-eval-after-load 'minibuffer
@@ -564,11 +577,6 @@ oOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOo
 (global-set-key (kbd "C-j")                                          'completion-at-point)
 (global-set-key (kbd "M-g")                                          'run-git-diff)
 
-
-(global-set-key (kbd "M-a")                                          'xref-find-apropos)
-(global-set-key (kbd "M-.")                                          'xref-find-definitions)
-(global-set-key (kbd "C-M-.")                                        'xref-find-references)
-(global-set-key (kbd "M-,")                                          'xref-go-back)
 
 (with-eval-after-load 'flymake
   (define-key flymake-mode-map (kbd "M-;")                           'flymake-goto-prev-error)
