@@ -7,7 +7,29 @@
 		  gc-cons-percentage 0.2)))
 
 (use-package emacs
+  :bind
+  (
+  ("C-x i" . edit-init))
   :config
+  (setq is-windows (eq system-type 'windows-nt)                                      
+	is-linux (eq system-type 'gnu-linux)
+	is-macos (eq system-type 'darwin)
+	has-treesitter (>= emacs-major-version 29))
+  (defun home (path) (expand-file-name path (getenv "HOME")))
+  (add-to-list 'exec-path (home ".local/bin"))
+  (add-to-list 'exec-path (home "go/bin"))
+  (add-to-list 'exec-path (home ".cargo/bin"))
+  (add-to-list 'exec-path (home "bin"))
+  (add-to-list 'exec-path "/usr/local/go/bin")
+  (add-to-list 'exec-path "/opt/homebrew/bin")
+  (add-to-list 'exec-path "/usr/local/bin")
+  (add-to-list 'exec-path "w:/bin")
+  (add-to-list 'exec-path "c:/programs/bin")
+
+  (if (eq system-type 'windows-nt)
+      (setenv "PATH" (string-join exec-path ";"))
+    (setenv "PATH" (string-join exec-path ":"))) ;; set emacs process PATH
+
   (setq frame-resize-pixelwise t
 	frame-inhibit-implied-resize t
 	ring-bell-function 'ignore
@@ -21,7 +43,25 @@
   (setq image-types (cons 'svg image-types) mac-command-modifier 'meta) ;; Fix macos fucked up bugs.
   (menu-bar-mode -1)
   (scroll-bar-mode -1)
-  (tool-bar-mode -1))
+  (tool-bar-mode -1)
+  (defun edit-init () "Edit this file." (interactive) (find-file INIT-FILE))
+
+  (setq font-families (font-family-list))
+  (defun set-font (font size) "Set font interactively"
+	 (interactive (list (completing-read "Font: " font-families) (read-number "Size: ")))
+	 (if (x-list-fonts font)
+	     (set-face-attribute 'default nil :font (format "%s-%d" font size))))
+
+  (cond
+   ((member "Liberation Mono" font-families) (set-font "Liberation Mono" 15))
+   (is-macos (set-font "Menlo" 15))
+   (is-windows (set-font "Consolas" 15)))
+
+  (when load-file-name ;; since windows is a bit funky I prefer to store this file path in a variable to be used when C-x i
+    (setq INIT-FILE load-file-name)))
+
+
+(global-unset-key (kbd "C-x C-c"))
 
 (setq smilies '("
                           oooo$$$$$$$$$$$$oooo
@@ -51,7 +91,7 @@ oo $ $ \"$      o$$$$$$$$$    $$$$$$$$$$$$$    $$$$$$$$$o       $$$o$$o$
                                      $$$$$$$$$$\"      
                                       \"$$$\"\"\"\"
 "
-      "
+		  "
                    __ooooooooo__
               oOOOOOOOOOOOOOOOOOOOOOo
           oOOOOOOOOOOOOOOOOOOOOOOOOOOOOOo
@@ -78,25 +118,26 @@ oOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOo
 (setq initial-scratch-message
       (nth (random 2) smilies))
 
-(when load-file-name ;; since windows is a bit funky I prefer to store this file path in a variable to be used when C-x i
-  (setq INIT-FILE load-file-name))
+(use-package comp
+  :config
+  (setq native-comp-async-report-warnings-errors nil))
 
-(setq native-comp-async-report-warnings-errors nil)
-(set-frame-parameter nil 'fullscreen 'maximized) ;; Always start emacs window in maximized mode.
-
-(setq is-windows (eq system-type 'windows-nt)                                      
-      is-linux (eq system-type 'gnu-linux)
-      is-macos (eq system-type 'darwin)
-      has-treesitter (>= emacs-major-version 29))
-
-(setq use-package-always-defer t)
-(defun edit-init () "Edit this file." (interactive) (find-file INIT-FILE))
+(use-package frame
+  :config
+  (set-frame-parameter nil 'fullscreen 'maximized)) ;; Always start emacs window in maximized mode.
 
 (setq package-quickstart t)
 (setq package-archives
       '(("gnu-elpa" . "https://elpa.gnu.org/packages/")
 	("nongnu" . "https://elpa.nongnu.org/nongnu/")
 	("melpa" . "https://melpa.org/packages/")))
+
+
+(unless (fboundp 'use-package)
+  (package-install 'use-package))
+
+(setq use-package-always-defer t)
+
 
 ;; Install packages.
 (when has-treesitter
@@ -109,16 +150,65 @@ oOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOo
     (global-treesit-auto-mode)))
 
 
-(setq recenter-positions '(middle))       ;; When doing C-l always recenter.
+(use-package window
+  :bind
+  (
+   ("C-." . next-buffer)
+   ("C-," . previous-buffer)
+   ("C->" . end-of-buffer)
+   ("C-<" . beginning-of-buffer)
+   ("M-n" . jump-down)
+   ("M-p" . jump-up)
+   ("C-0" . delete-window)
+   ("C-1" . delete-other-windows)
+   ("C-3" . split-window-right)
+   ("C-2" . split-window-below))
+  :commands (jump-up jump-down)
+  :config
+  (defun jump-up () (interactive) (next-line (* -1 (/ (window-height) 2))) (recenter-top-bottom))
+  (defun jump-down () (interactive) (next-line (/ (window-height) 2)) (recenter-top-bottom))
+  (setq recenter-positions '(middle)))
+
 (setq custom-file "~/.custom.el")         ;; set custom file to not meddle with init.el
 (setq make-backup-files nil)              ;; no emacs ~ backup files
 (setq vc-follow-symlinks t)               ;; Don't prompt if encounter a symlink file, just follow the link.
 (set-default-coding-systems 'utf-8)       ;; always use UTF8
 (setq kill-whole-line t)                  ;; kill line and newline char
-(global-auto-revert-mode +1)              ;; Revert buffer to disk state when disk changes under our foot.
-(delete-selection-mode)                   ;; when selected a text and user types delete text
-(global-display-line-numbers-mode +1)     ;; Display line numbers.
-(toggle-truncate-lines +1)
+
+(use-package autorevert ;; Revert buffer to disk state when disk changes under our foot.
+  :config
+  (global-auto-revert-mode +1))
+
+(use-package delsel ;; when some text is selected and user types delete text
+  :config
+  (delete-selection-mode)) 
+
+(use-package display-line-numbers ;; Display line numbers.
+  :config
+  (global-display-line-numbers-mode +1))
+
+
+(use-package simple
+  :demand t
+  :bind
+  (
+   ("C-;" .   goto-line)
+   ("C-w"   . cut)
+   ("C-z"   . undo)
+   ("C-SPC" . set-mark-command)
+   ("M-w"   . copy))
+  :config
+  (defun copy () "Either copy region or the current line." (interactive)
+	 (if (use-region-p)
+	     (kill-ring-save (region-beginning) (region-end)) ;; copy active region contents
+	   (kill-ring-save (line-beginning-position) (line-end-position)))) ;; copy current line
+
+  (defun cut () "Either cut region or the current line." (interactive)
+	 (if (use-region-p)
+	     (kill-region (region-beginning) (region-end)) ;; copy active region contents
+	   (kill-region (line-beginning-position) (line-end-position)))) ;; copy current line
+
+  (toggle-truncate-lines +1))
 
 (use-package so-long
   :ensure t
@@ -132,61 +222,17 @@ oOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOo
 
 (use-package multiple-cursors
   :bind
-  (("C-M-n"   . 'mc/mark-next-like-this-word)
-   ("C-M-p"   . 'mc/mark-previous-like-this-word)
-   ("C-S-n"   . 'mc/mark-next-like-this)
-   ("C-S-p"   . 'mc/mark-previous-like-this)
-   ("C-c m a" . 'mc/mark-all-like-this-dwim)))
-
-(defun copy () "Either copy region or the current line." (interactive)
-  (if (use-region-p)
-      (kill-ring-save (region-beginning) (region-end)) ;; copy active region contents
-    (kill-ring-save (line-beginning-position) (line-end-position)))) ;; copy current line
-
-(defun cut () "Either cut region or the current line." (interactive)
-  (if (use-region-p)
-      (kill-region (region-beginning) (region-end)) ;; copy active region contents
-    (kill-region (line-beginning-position) (line-end-position)))) ;; copy current line
-
-(setq font-families (font-family-list))
-(defun set-font (font size) "Set font interactively"
-       (interactive (list (completing-read "Font: " font-families) (read-number "Size: ")))
-       (if (x-list-fonts font)
-	   (set-face-attribute 'default nil :font (format "%s-%d" font size))))
-
-(cond
- ((member "Liberation Mono" font-families) (set-font "Liberation Mono" 15))
- (is-macos (set-font "Menlo" 15))
- (is-windows (set-font "Consolas" 15)))
-
-(defun home (path) (expand-file-name path (getenv "HOME")))
-(add-to-list 'exec-path (home ".local/bin"))
-(add-to-list 'exec-path (home "go/bin"))
-(add-to-list 'exec-path (home ".cargo/bin"))
-(add-to-list 'exec-path (home "bin"))
-(add-to-list 'exec-path "/usr/local/go/bin")
-(add-to-list 'exec-path "/opt/homebrew/bin")
-(add-to-list 'exec-path "/usr/local/bin")
-(add-to-list 'exec-path "w:/bin")
-(add-to-list 'exec-path "c:/programs/bin")
-
-(if (eq system-type 'windows-nt)
-    (setenv "PATH" (string-join exec-path ";"))
-  (setenv "PATH" (string-join exec-path ":"))) ;; set emacs process PATH
-
-(setq completion-styles '(flex initials shorthand substring basic))
-;; (with-eval-after-load 'minibuffer
-;;   (define-key minibuffer-mode-map (kbd "C-n") 'minibuffer-next-completion)
-;;   (define-key minibuffer-mode-map (kbd "C-p") 'minibuffer-previous-completion)
-;;   (define-key completion-in-region-mode-map (kbd "C-n") 'minibuffer-next-completion)
-;;   (define-key completion-in-region-mode-map (kbd "C-p") 'minibuffer-previous-completion)
-;;   (define-key completion-in-region-mode-map (kbd "RET") 'minibuffer-choose-completion))
-
+  (("C-M-n"   . mc/mark-next-like-this-word)
+   ("C-M-p"   . mc/mark-previous-like-this-word)
+   ("C-S-n"   . mc/mark-next-like-this)
+   ("C-S-p"   . mc/mark-previous-like-this)
+   ("C-c m a" . mc/mark-all-like-this-dwim)))
 
 (use-package vertico
   :ensure t
-  :init
-  (vertico-mode +1)
+  :hook (after-init . vertico-mode)
+  :config
+  (setq completion-styles '(flex initials shorthand substring basic))
   (setq vertico-cycle t
 	vertico-resize nil))
 
@@ -201,7 +247,23 @@ oOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOo
   :config
   (marginalia-mode +1))
 
-(use-package embark :ensure t)
+(use-package embark :ensure t
+  :after vertico
+  :bind
+  (:map minibuffer-mode-map
+	("C-q" . embark-export)))
+
+(use-package minibuffer
+  :bind
+  ("C-j" . completion-at-point)
+  :config
+  (setq completion-in-region-function
+	(lambda (&rest args)
+          (apply (if vertico-mode
+                     #'consult-completion-in-region
+                   #'completion--in-region)
+		 args))))
+  
 (use-package embark-consult :ensure t)
 
 ;; Making Emacs beautiful
@@ -209,119 +271,141 @@ oOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOo
   :bind
   ("M-t" . ef-themes-load-random))
 
-(deftheme braid)
+(use-package dracula-theme :ensure t)
+(use-package sweet-theme :ensure t)
+(use-package zenburn-theme :ensure t)
+
+
+(defun save-theme (name definition)
+  (mkdir (expand-file-name "themes" user-emacs-directory) t)
+  (write-region (format "(deftheme %s)
+%s
+" name definition) nil (expand-file-name (format "%s-theme.el" name) (expand-file-name "themes" user-emacs-directory))))
+
+(save-theme "braid" "
 (custom-theme-set-faces
    'braid
-  `(default                          ((t (:foreground "#debe95" :background "#202020"))))
-  `(hl-line                          ((t (:background "#353535"))))
-  `(vertico-current                  ((t (:background "medium blue"))))
-  `(region                           ((t (:background "medium blue"))))
-  `(cursor                           ((t (:background "lightgreen"))))
-  `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
-  `(font-lock-type-face              ((t (:foreground "#8cde94"))))
-  `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
-  `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
-  `(font-lock-builtin-face           ((t (:foreground "white"))))
-  `(font-lock-string-face            ((t (:foreground "gray70"))))
-  `(font-lock-comment-face           ((t (:foreground "yellow"))))
-  `(font-lock-comment-delimiter-face ((t (:foreground "yellow"))))
-  `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
-  `(font-lock-function-name-face     ((t (:foreground "white"))))
-  `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
-  `(font-lock-warning-face           ((t (:foreground "yellow"))))
-  `(font-lock-note-face              ((t (:foreground "khaki2" ))))
-  `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
-  `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
-  `(show-paren-match                 ((t (:background "mediumseagreen")))))
+  `(default                          ((t (:foreground \"#debe95\" :background \"#202020\"))))
+  `(hl-line                          ((t (:background \"#353535\"))))
+  `(vertico-current                  ((t (:background \"medium blue\"))))
+  `(region                           ((t (:background \"medium blue\"))))
+  `(cursor                           ((t (:background \"lightgreen\"))))
+  `(font-lock-keyword-face           ((t (:foreground \"#d4d4d4\"))))
+  `(font-lock-type-face              ((t (:foreground \"#8cde94\"))))
+  `(font-lock-constant-face          ((t (:foreground \"#7ad0c6\"))))
+  `(font-lock-variable-name-face     ((t (:foreground \"#c8d4ec\"))))
+  `(font-lock-builtin-face           ((t (:foreground \"white\"))))
+  `(font-lock-string-face            ((t (:foreground \"gray70\"))))
+  `(font-lock-comment-face           ((t (:foreground \"yellow\"))))
+  `(font-lock-comment-delimiter-face ((t (:foreground \"yellow\"))))
+  `(font-lock-doc-face               ((t (:foreground \"#3fdf1f\"))))
+  `(font-lock-function-name-face     ((t (:foreground \"white\"))))
+  `(font-lock-doc-string-face        ((t (:foreground \"#3fdf1f\"))))
+  `(font-lock-warning-face           ((t (:foreground \"yellow\"))))
+  `(font-lock-note-face              ((t (:foreground \"khaki2\" ))))
+  `(mode-line                        ((t (:foreground \"black\" :background \"#d3b58d\"))))
+  `(mode-line-inactive               ((t (:background \"gray20\" :foreground \"#ffffff\"))))
+  `(show-paren-match                 ((t (:background \"mediumseagreen\")))))
+(global-hl-line-mode -1)
+")
 
-(deftheme witness)
+
+(save-theme "witness" "
 (custom-theme-set-faces
   'witness
- `(default                          ((t (:foreground "#d3b58d" :background "#072626"))))
- `(hl-line                          ((t (:background "#0c4141"))))
- `(region                           ((t (:background  "medium blue"))))
- `(cursor                           ((t (:background "lightgreen"))))
- `(font-lock-keyword-face           ((t (:foreground "white"))))
- `(font-lock-type-face              ((t (:foreground "#8cde94"))))
- `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
- `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
- `(font-lock-builtin-face           ((t (:foreground "lightgreen"))))
- `(font-lock-string-face            ((t (:foreground "#0fdfaf"))))
- `(font-lock-comment-face           ((t (:foreground "#3fdf1f"))))
- `(font-lock-comment-delimiter-face ((t (:foreground "#3fdf1f"))))
- `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
- `(font-lock-function-name-face     ((t (:foreground "white"))))
- `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
- `(hightlight                       ((t (:foreground "navyblue" :background "darkseegreen2"))))
- `(font-lock-warning-face           ((t (:foreground "#504038"))))
- `(font-lock-note-face              ((t (:foreground "khaki2" ))))
- `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
- `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
- `(show-paren-match                 ((t (:background "mediumseagreen")))))
+ `(default                          ((t (:foreground \"#d3b58d\" :background \"#072626\"))))
+ `(hl-line                          ((t (:background \"#0c4141\"))))
+ `(region                           ((t (:background  \"medium blue\"))))
+ `(cursor                           ((t (:background \"lightgreen\"))))
+ `(font-lock-keyword-face           ((t (:foreground \"white\"))))
+ `(font-lock-type-face              ((t (:foreground \"#8cde94\"))))
+ `(font-lock-constant-face          ((t (:foreground \"#7ad0c6\"))))
+ `(font-lock-variable-name-face     ((t (:foreground \"#c8d4ec\"))))
+ `(font-lock-builtin-face           ((t (:foreground \"lightgreen\"))))
+ `(font-lock-string-face            ((t (:foreground \"#0fdfaf\"))))
+ `(font-lock-comment-face           ((t (:foreground \"#3fdf1f\"))))
+ `(font-lock-comment-delimiter-face ((t (:foreground \"#3fdf1f\"))))
+ `(font-lock-doc-face               ((t (:foreground \"#3fdf1f\"))))
+ `(font-lock-function-name-face     ((t (:foreground \"white\"))))
+ `(font-lock-doc-string-face        ((t (:foreground \"#3fdf1f\"))))
+ `(hightlight                       ((t (:foreground \"navyblue\" :background \"darkseegreen2\"))))
+ `(font-lock-warning-face           ((t (:foreground \"#504038\"))))
+ `(font-lock-note-face              ((t (:foreground \"khaki2\" ))))
+ `(mode-line                        ((t (:foreground \"black\" :background \"#d3b58d\"))))
+ `(mode-line-inactive               ((t (:background \"gray20\" :foreground \"#ffffff\"))))
+ `(show-paren-match                 ((t (:background \"mediumseagreen\")))))
+(global-hl-line-mode -1)
+")
 
-(deftheme 4coder-fleury)
-(custom-theme-set-faces
- '4coder-fleury
- `(default                          ((t (:foreground "#a08563" :background "#0c0c0c"))))
- `(cursor                           ((t (:background "#EE7700"))))
- `(font-lock-keyword-face           ((t (:foreground "#f0c674"))))
- `(font-lock-operator-face          ((t (:foreground "#907553"))))
- `(font-lock-punctuation-face       ((t (:foreground "#907553"))))
- `(font-lock-bracket-face           ((t (:foreground "#907553"))))
- `(font-lock-delimiter-face         ((t (:foreground "#907553"))))
- `(font-lock-type-face              ((t (:foreground "#d8a51d"))))
- `(font-lock-constant-face          ((t (:foreground "#6b8e23"))))
- `(font-lock-variable-name-face     ((t (:foreground "#b99468"))))
- `(font-lock-builtin-face           ((t (:foreground "#DAB98F"))))
- `(font-lock-string-face            ((t (:foreground "#6b8e23"))))
- `(font-lock-comment-face           ((t (:foreground "#686868"))))
- `(font-lock-comment-delimiter-face ((t (:foreground "#686868"))))
- `(font-lock-doc-face               ((t (:foreground "#686868"))))
- `(font-lock-function-name-face     ((t (:foreground "#cc5735"))))
- `(font-lock-doc-string-face        ((t (:foreground "#6b8e23"))))
- `(font-lock-preprocessor-face      ((t (:foreground "#DAB98F"))))
- `(font-lock-warning-face           ((t (:foreground "#504038"))))
- `(region                           ((t (:background "#2f2f37"))))
- `(hl-line                          ((t (:background "#171616"))))
- `(vertico-current                  ((t (:inherit hl-line))))
- `(highlight                        ((t (:foreground nil :background "#2f2f37"))))
- `(mode-line                        ((t (:foreground "#cb9401" :background "#1f1f27"))))
- `(mode-line-inactive               ((t (:foreground "#cb9401" :background "#1f1f27"))))
- `(minibuffer-prompt                ((t (:foreground "#a08563") :bold t)))
- `(show-paren-match                 ((t (:background "#e0741b" :foreground "#000000")))))
-
-(deftheme handmadehero)
+(save-theme "handmadehero" "
 (custom-theme-set-faces
   'handmadehero
- `(default                          ((t (:foreground "burlywood2" :background "#161616"))))
- `(hl-line                          ((t (:background "midnight blue"))))
- `(vertico-current                  ((t (:background "midnight blue"))))
- `(region                           ((t (:background "medium blue"))))
- `(cursor                           ((t (:background "#40FF40"))))
- `(font-lock-keyword-face           ((t (:foreground "DarkGoldenrod2"))))
- `(font-lock-type-face              ((t (:foreground "burlywood3"))))
- `(font-lock-constant-face          ((t (:foreground "olive drab"))))
- `(font-lock-variable-name-face     ((t (:foreground "burlywood3"))))
- `(font-lock-builtin-face           ((t (:foreground "gray80"))))
- `(font-lock-string-face            ((t (:foreground "olive drab"))))
- `(font-lock-comment-face           ((t (:foreground "gray50"))))
- `(font-lock-comment-delimiter-face ((t (:foreground "gray50"))))
- `(font-lock-doc-face               ((t (:foreground "gray50"))))
- `(font-lock-function-name-face     ((t (:foreground "burlywood2"))))
- `(font-lock-doc-string-face        ((t (:foreground "gray50"))))
- `(font-lock-warning-face           ((t (:foreground "yellow"))))
- `(font-lock-note-face              ((t (:foreground "khaki2" ))))
- `(show-paren-match                 ((t (:background "mediumseagreen")))))
+ `(default                          ((t (:foreground \"burlywood2\" :background \"#161616\"))))
+ `(hl-line                          ((t (:background \"midnight blue\"))))
+ `(vertico-current                  ((t (:background \"midnight blue\"))))
+ `(region                           ((t (:background \"medium blue\"))))
+ `(cursor                           ((t (:background \"#40FF40\"))))
+ `(font-lock-keyword-face           ((t (:foreground \"DarkGoldenrod2\"))))
+ `(font-lock-type-face              ((t (:foreground \"burlywood3\"))))
+ `(font-lock-constant-face          ((t (:foreground \"olive drab\"))))
+ `(font-lock-variable-name-face     ((t (:foreground \"burlywood3\"))))
+ `(font-lock-builtin-face           ((t (:foreground \"gray80\"))))
+ `(font-lock-string-face            ((t (:foreground \"olive drab\"))))
+ `(font-lock-comment-face           ((t (:foreground \"gray50\"))))
+ `(font-lock-comment-delimiter-face ((t (:foreground \"gray50\"))))
+ `(font-lock-doc-face               ((t (:foreground \"gray50\"))))
+ `(font-lock-function-name-face     ((t (:foreground \"burlywood2\"))))
+ `(font-lock-doc-string-face        ((t (:foreground \"gray50\"))))
+ `(font-lock-warning-face           ((t (:foreground \"yellow\"))))
+ `(font-lock-note-face              ((t (:foreground \"khaki2\" ))))
+ `(show-paren-match                 ((t (:background \"mediumseagreen\")))))
+
+(global-hl-line-mode +1)
+")
+
+(save-theme "4coder-fleury" "
+(custom-theme-set-faces
+ '4coder-fleury
+ `(default                          ((t (:foreground \"#a08563\" :background \"#0c0c0c\"))))
+ `(cursor                           ((t (:background \"#EE7700\"))))
+ `(font-lock-keyword-face           ((t (:foreground \"#f0c674\"))))
+ `(font-lock-operator-face          ((t (:foreground \"#907553\"))))
+ `(font-lock-punctuation-face       ((t (:foreground \"#907553\"))))
+ `(font-lock-bracket-face           ((t (:foreground \"#907553\"))))
+ `(font-lock-delimiter-face         ((t (:foreground \"#907553\"))))
+ `(font-lock-type-face              ((t (:foreground \"#d8a51d\"))))
+ `(font-lock-constant-face          ((t (:foreground \"#6b8e23\"))))
+ `(font-lock-variable-name-face     ((t (:foreground \"#b99468\"))))
+ `(font-lock-builtin-face           ((t (:foreground \"#DAB98F\"))))
+ `(font-lock-string-face            ((t (:foreground \"#6b8e23\"))))
+ `(font-lock-comment-face           ((t (:foreground \"#686868\"))))
+ `(font-lock-comment-delimiter-face ((t (:foreground \"#686868\"))))
+ `(font-lock-doc-face               ((t (:foreground \"#686868\"))))
+ `(font-lock-function-name-face     ((t (:foreground \"#cc5735\"))))
+ `(font-lock-doc-string-face        ((t (:foreground \"#6b8e23\"))))
+ `(font-lock-preprocessor-face      ((t (:foreground \"#DAB98F\"))))
+ `(font-lock-warning-face           ((t (:foreground \"#504038\"))))
+ `(region                           ((t (:background \"#2f2f37\"))))
+ `(hl-line                          ((t (:background \"#171616\"))))
+ `(vertico-current                  ((t (:inherit hl-line))))
+ `(highlight                        ((t (:foreground nil :background \"#2f2f37\"))))
+ `(mode-line                        ((t (:foreground \"#cb9401\" :background \"#1f1f27\"))))
+ `(mode-line-inactive               ((t (:foreground \"#cb9401\" :background \"#1f1f27\"))))
+ `(minibuffer-prompt                ((t (:foreground \"#a08563\") :bold t)))
+ `(show-paren-match                 ((t (:background \"#e0741b\" :foreground \"#000000\")))))
+
+(global-hl-line-mode +1)
+")
+
+(add-to-list 'custom-theme-load-path (expand-file-name "themes" user-emacs-directory))
 
 (defadvice load-theme (before disable-themes-first (THEME &rest args) activate)
   (dolist (i custom-enabled-themes)
-    (disable-theme i))
-  (when (custom-theme-p THEME)
-      (enable-theme THEME)))
+    (disable-theme i)))
 
-(add-to-list 'custom-theme-load-path (expand-file-name "themes" user-emacs-directory))
 (setq custom-safe-themes t)
-(load-theme 'handmadehero)
+(load-theme 'witness)
+;; (load-theme 'handmadehero)
 ;; (load-theme 'ef-light)
 
 ;; C/C++ code style
@@ -330,21 +414,14 @@ oOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOo
   (setq-default c-default-style "linux" c-basic-offset 4))
 
 ;; Autocomplete using Emacs internal completion system.
-(setq completion-in-region-function
-      (lambda (&rest args)
-        (apply (if vertico-mode
-                   #'consult-completion-in-region
-                 #'completion--in-region)
-               args)))
-
 
 (use-package xref
   :bind
   (
-   ("M-a"   . 'xref-find-apropos)
-   ("M-."   . 'xref-find-definitions)
-   ("C-M-." . 'xref-find-references)
-   ("M-,"   . 'xref-go-back)))
+   ("M-a"   . xref-find-apropos)
+   ("M-."   . xref-find-definitions)
+   ("C-M-." . xref-find-references)
+   ("M-,"   . xref-go-back)))
 
 (use-package go-mode :ensure t)
 (use-package rust-mode :ensure t)
@@ -358,10 +435,10 @@ oOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOo
   :bind
   (
    :map eglot-mode-map
-	("C-c C-s" . 'eglot-symbols)
-	("C-c C-r" . 'eglot-rename)
-	("M-l"     . 'eglot-organize-imports-format)
-	("C-c C-c" . 'eglot-code-actions))
+	("C-c C-s" . eglot-symbols)
+	("C-c C-r" . eglot-rename)
+	("M-l"     . eglot-organize-imports-format)
+	("C-c C-c" . eglot-code-actions))
   :init
   (dolist (mode '(go rust php)) (add-hook (intern (concat (symbol-name mode) "-mode-hook")) #'eglot-ensure))
   :config
@@ -385,11 +462,10 @@ oOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOo
 
 (use-package consult-eglot :ensure t :after consult)
 
-
-;; *Project aware commands*
 (defun find-root () "Try to find project root based on deterministic predicates"
   (cond
    ((eq major-mode 'go-mode)                                (locate-dominating-file default-directory "go.mod"))
+   ((eq major-mode 'php-mode)                               (locate-dominating-file default-directory "composer.json"))
    (t                                                       (locate-dominating-file default-directory ".git"))))
 
 (defun git-repo-p (DIR) (locate-dominating-file DIR ".git"))
@@ -402,14 +478,14 @@ oOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOo
    ("M-m" . run-compile)
    ("M-g" . run-git-diff)
    :map compilation-mode-map
-   ("<f5>". 'recompile)
-   ("M-m" . 'previous-buffer)
-   ("G"   . 'compile-in-directory)
-   ("n"   . 'next-line)
-   ("p"   . 'previous-line)
-   ("M-n" . 'jump-down)
-   ("M-p" . 'jump-up)
-   ("k"   . 'kill-compilation))
+   ("<f5>". recompile)
+   ("M-m" . previous-buffer)
+   ("G"   . compile-in-directory)
+   ("n"   . next-line)
+   ("p"   . previous-line)
+   ("M-n" . jump-down)
+   ("M-p" . jump-up)
+   ("k"   . kill-compilation))
    
   :config
   (defun amirreza-compile-buffer-name-function (MODESTR) (let ((dir (find-root-or-default-directory))) (format "*%s-%s*" MODESTR dir)))
@@ -440,17 +516,17 @@ oOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOo
   :commands (run-grep)
   :bind
   (
-   ("C-S-o" . 'run-grep)
-   ("M-s"   . 'run-grep)
+   ("C-S-o" . run-grep)
+   ("M-s"   . run-grep)
    :map grep-mode-map
-   ("C-c C-p" . 'wgrep-toggle-readonly-area)
-   ("<f5>"    . 'recompile)
-   ("g"       . 'recompile)
-   ("G"       . 'grep-in-directory)
-   ("M-q"     . 'previous-buffer)
-   ("M-n"     . 'jump-down)
-   ("M-p"     . 'jump-up)
-   ("k"       . 'kill-compilation))
+   ("C-c C-p" . wgrep-toggle-readonly-area)
+   ("<f5>"    . recompile)
+   ("g"       . recompile)
+   ("G"       . grep-in-directory)
+   ("M-q"     . previous-buffer)
+   ("M-n"     . jump-down)
+   ("M-p"     . jump-up)
+   ("k"       . kill-compilation))
   
   :config
   (with-eval-after-load 'grep
@@ -473,8 +549,12 @@ oOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOo
 	    (t                      (grep (format "grep --color=auto -R -nH -e %s ." (read-string "Grep: "))))))))
 
 
-(use-package eshell
+(use-package esh-mode
   :commands (eshell-dwim)
+  :bind
+  (("M-j" . eshell-dwim)
+   :map eshell-mode-map
+   ("M-j" . previous-buffer))
   :config
   (setq eshell-visual-subcommands '("git" "diff" "log" "show"))
   (defun eshell-dwim () "Jump to eshell buffer associated with current project or create a new." (interactive)
@@ -504,7 +584,14 @@ oOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOo
 
 
 
-(defun file-finder () "Recursive file find starting from `find-root` result or C-u to choose directory interactively." (interactive)
+(use-package files
+  :bind
+  (
+   ("C-o" . file-finder)
+   ("M-o" . file-finder))
+  :commands (file-finder)
+  :config
+  (defun file-finder () "Recursive file find starting from `find-root` result or C-u to choose directory interactively." (interactive)
   (if (null current-prefix-arg)
       (setq --open-file-dir (find-root-or-default-directory))
     (setq --open-file-dir (read-directory-name "Directory: " default-directory)))
@@ -520,70 +607,34 @@ oOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOo
 				      (command (format "git ls-files"))
 				      (file (completing-read "Git Files: " (string-split (shell-command-to-string command) "\n" t))))
 				   (find-file file)))
-   (t (error "you don't have rg installed and it's not a git repo."))))
+   (t (error "you don't have rg installed and it's not a git repo.")))))
 
 (use-package replace
   :bind
   (("C-r"   . 'replace-string)
    ("M-r"   . 'query-replace)
-   ("C-M-r" . 'replace-regexp)            
+   ("C-M-r" . 'replace-regexp)
+   
    :map query-replace-map
    ("<return>" . 'act)))
 
-;; Keybindings
-(global-unset-key (kbd "C-x C-c"))
-(global-set-key (kbd "C-o")                                          'file-finder)
-(global-set-key (kbd "M-o")                                          'file-finder)
-(global-set-key (kbd "C-x i")                                        'edit-init)
+(use-package flymake
+  :bind
+  (:map flymake-mode-map
+  ("M-;" . flymake-goto-prev-error)
+  ("M-'" . flymake-goto-next-error)))
 
-(when (package-installed-p 'embark)
-  (with-eval-after-load 'minibuffer
-    (define-key minibuffer-mode-map (kbd "C-q")                      'embark-export)))
-
-(if (package-installed-p 'vterm) (global-set-key (kbd "C-M-j")       'vterm-dwim))
-  (global-set-key (kbd "M-j")                                        'eshell-dwim)
-
-(add-hook 'eshell-mode-hook
-  (lambda () (define-key eshell-mode-map (kbd "M-j")                 'previous-buffer)))
-
-(add-hook 'vterm-mode-hook
-  (lambda () (define-key vterm-mode-map (kbd "M-j")                  'previous-buffer)))
-
-(global-set-key (kbd "C-.")                                          'next-buffer)
-(global-set-key (kbd "C-,")                                          'previous-buffer)
-
-(global-set-key (kbd "C-w")                                          'cut)              
-(global-set-key (kbd "M-w")                                          'copy)             
-(global-set-key (kbd "M-[")                                          'kmacro-start-macro)       
-(global-set-key (kbd "M-]")                                          'kmacro-end-or-call-macro) 
-(global-set-key (kbd "M-\\")                                         'kmacro-end-and-call-macro)
-(global-set-key (kbd "C-z")                                          'undo)
-
-(global-set-key (kbd "C-SPC")                                        'set-mark-command)
+(use-package rect
+  :bind
+  (("C-x SPC" . rectangle-mark-mode)
+   :map rectangle-mark-mode-map
+   ("C-i" . string-insert-rectangle)
+   ("C-r" . string-rectangle)))
 
 
-(defun jump-up () (interactive) (next-line (* -1 (/ (window-height) 2))) (recenter-top-bottom))
-(defun jump-down () (interactive) (next-line (/ (window-height) 2)) (recenter-top-bottom))
-(global-set-key (kbd "M-i")                                          'imenu)
-(global-set-key (kbd "C->")                                          'end-of-buffer)
-(global-set-key (kbd "C-<")                                          'beginning-of-buffer)
-(global-set-key (kbd "M-n")                                          'jump-down)
-(global-set-key (kbd "M-p")                                          'jump-up)
-(global-set-key (kbd "C-;")                                          'goto-line)
-(global-set-key (kbd "C-0")                                          'delete-window)
-(global-set-key (kbd "C-1")                                          'delete-other-windows)
-(global-set-key (kbd "C-3")                                          'split-window-right)
-(global-set-key (kbd "C-2")                                          'split-window-below)
-(global-set-key (kbd "C-j")                                          'completion-at-point)
-(global-set-key (kbd "M-g")                                          'run-git-diff)
-
-
-(with-eval-after-load 'flymake
-  (define-key flymake-mode-map (kbd "M-;")                           'flymake-goto-prev-error)
-  (define-key flymake-mode-map (kbd "M-'")                           'flymake-goto-next-error))
-
-(global-set-key (kbd "C-x SPC")                                      'rectangle-mark-mode)
-(with-eval-after-load 'rect
-  (define-key rectangle-mark-mode-map (kbd "C-i")                    'string-insert-rectangle)
-  (define-key rectangle-mark-mode-map (kbd "C-r")                    'string-rectangle))
-
+(use-package kmacro
+  :bind
+  (
+   ("M-["  . kmacro-start-macro)       
+   ("M-]"  . kmacro-end-or-call-macro) 
+   ("M-\\" . kmacro-end-and-call-macro)))
