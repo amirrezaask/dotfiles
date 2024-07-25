@@ -1,4 +1,4 @@
-(setq debug-on-error t) ;; Uncomment when you debug your emacs lisp code.
+;; (setq debug-on-error t) ;; Uncomment when you debug your emacs lisp code.
 
 (setq gc-cons-threshold most-positive-fixnum)
 (add-hook 'emacs-startup-hook
@@ -62,61 +62,6 @@
 
 
 (global-unset-key (kbd "C-x C-c"))
-
-(setq smilies '("
-                          oooo$$$$$$$$$$$$oooo
-                      oo$$$$$$$$$$$$$$$$$$$$$$$$o
-                   oo$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$o         o$   $$ o$
-   o $ oo        o$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$o       $$ $$ $$o$
-oo $ $ \"$      o$$$$$$$$$    $$$$$$$$$$$$$    $$$$$$$$$o       $$$o$$o$
-\"$$$$$$o$     o$$$$$$$$$      $$$$$$$$$$$      $$$$$$$$$$o    $$$$$$$$
-  $$$$$$$    $$$$$$$$$$$      $$$$$$$$$$$      $$$$$$$$$$$$$$$$$$$$$$$
-  $$$$$$$$$$$$$$$$$$$$$$$    $$$$$$$$$$$$$    $$$$$$$$$$$$$$  \"\"\"$$$
-   \"$$$\"\"\"\"$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$     \"$$$
-    $$$   o$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$     \"$$$o
-   o$$\"   $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$       $$$o
-   $$$    $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$\" \"$$$$$$ooooo$$$$o
-  o$$$oooo$$$$$  $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$   o$$$$$$$$$$$$$$$$$
-  $$$$$$$$\"$$$$   $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$     $$$$\"\"\"\"\"\"\"\"
- \"\"\"\"       $$$$    \"$$$$$$$$$$$$$$$$$$$$$$$$$$$$\"      o$$$
-            \"$$$o     \"\"\"$$$$$$$$$$$$$$$$$$\"$$\"         $$$
-              $$$o          \"$$\"\"$$$$$$\"\"\"\"           o$$$
-               $$$$o                 oo             o$$$\"
-                \"$$$$o      o$$$$$$o\"$$$$o        o$$$$
-                  \"$$$$$oo     \"\"$$$$o$$$$$o   o$$$$\"\"  
-                     \"\"$$$$$oooo  \"$$$o$$$$$$$$$\"\"\"
-                        \"\"$$$$$$$oo $$$$$$$$$$       
-                                \"\"\"\"$$$$$$$$$$$        
-                                    $$$$$$$$$$$$       
-                                     $$$$$$$$$$\"      
-                                      \"$$$\"\"\"\"
-"
-		  "
-                   __ooooooooo__
-              oOOOOOOOOOOOOOOOOOOOOOo
-          oOOOOOOOOOOOOOOOOOOOOOOOOOOOOOo
-       oOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOo
-     oOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOo
-   oOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOo
-  oOOOOOOOOOOO*  *OOOOOOOOOOOOOO*  *OOOOOOOOOOOOo
- oOOOOOOOOOOO      OOOOOOOOOOOO      OOOOOOOOOOOOo
- oOOOOOOOOOOOOo  oOOOOOOOOOOOOOOo  oOOOOOOOOOOOOOo
-oOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOo
-oOOOO     OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO     OOOOo
-oOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOo
- *OOOOO  OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO  OOOOO*
- *OOOOOO  *OOOOOOOOOOOOOOOOOOOOOOOOOOOOO*  OOOOOO*
-  *OOOOOO  *OOOOOOOOOOOOOOOOOOOOOOOOOOO*  OOOOOO*
-   *OOOOOOo  *OOOOOOOOOOOOOOOOOOOOOOO*  oOOOOOO*
-     *OOOOOOOo  *OOOOOOOOOOOOOOOOO*  oOOOOOOO*
-       *OOOOOOOOo  *OOOOOOOOOOO*  oOOOOOOOO*
-          *OOOOOOOOo           oOOOOOOOO*
-              *OOOOOOOOOOOOOOOOOOOOO*
-                   \"\"ooooooooo\"\"
-"))
-
-(setq initial-scratch-message
-      (nth (random 2) smilies))
 
 (use-package comp
   :config
@@ -275,14 +220,15 @@ oOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOo
 (use-package sweet-theme :ensure t)
 (use-package zenburn-theme :ensure t)
 
-
-(defun save-theme (name definition)
-  (mkdir (expand-file-name "themes" user-emacs-directory) t)
-  (write-region (format "(deftheme %s)
+(use-package custom ;; Customization and themes
+  :config
+  (defun save-theme (name definition)
+    (mkdir (expand-file-name "themes" user-emacs-directory) t)
+    (write-region (format "(deftheme %s)
 %s
 " name definition) nil (expand-file-name (format "%s-theme.el" name) (expand-file-name "themes" user-emacs-directory))))
 
-(save-theme "braid" "
+  (save-theme "braid" "
 (custom-theme-set-faces
    'braid
   `(default                          ((t (:foreground \"#debe95\" :background \"#202020\"))))
@@ -310,7 +256,7 @@ oOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOo
 ")
 
 
-(save-theme "witness" "
+  (save-theme "witness" "
 (custom-theme-set-faces
   'witness
  `(default                          ((t (:foreground \"#d3b58d\" :background \"#072626\"))))
@@ -337,7 +283,7 @@ oOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOo
 (global-hl-line-mode -1)
 ")
 
-(save-theme "handmadehero" "
+  (save-theme "handmadehero" "
 (custom-theme-set-faces
   'handmadehero
  `(default                          ((t (:foreground \"burlywood2\" :background \"#161616\"))))
@@ -363,7 +309,7 @@ oOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOo
 (global-hl-line-mode +1)
 ")
 
-(save-theme "4coder-fleury" "
+  (save-theme "4coder-fleury" "
 (custom-theme-set-faces
  '4coder-fleury
  `(default                          ((t (:foreground \"#a08563\" :background \"#0c0c0c\"))))
@@ -397,16 +343,23 @@ oOOOOOO OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOo
 (global-hl-line-mode +1)
 ")
 
-(add-to-list 'custom-theme-load-path (expand-file-name "themes" user-emacs-directory))
+  (add-to-list 'custom-theme-load-path (expand-file-name "themes" user-emacs-directory))
 
-(defadvice load-theme (before disable-themes-first (THEME &rest args) activate)
-  (dolist (i custom-enabled-themes)
-    (disable-theme i)))
+  (defadvice load-theme (before disable-themes-first (THEME &rest args) activate)
+    (dolist (i custom-enabled-themes)
+      (disable-theme i)))
 
-(setq custom-safe-themes t)
-(load-theme 'witness)
-;; (load-theme 'handmadehero)
-;; (load-theme 'ef-light)
+  (setq custom-safe-themes t))
+
+(load-theme 'ef-bio)
+
+(use-package nerd-icons
+  :ensure t)
+
+(use-package nerd-icons-completion
+  :ensure t
+  :hook (marginalia-mode . nerd-icons-completion-marginalia-setup))
+
 
 ;; C/C++ code style
 (use-package cc-vars
