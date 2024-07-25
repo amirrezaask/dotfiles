@@ -129,6 +129,7 @@
   (delete-selection-mode)) 
 
 (use-package display-line-numbers ;; Display line numbers.
+  :demand t
   :config
   (global-display-line-numbers-mode +1))
 
@@ -353,20 +354,11 @@
 
 (load-theme 'ef-bio)
 
-(use-package nerd-icons
-  :ensure t)
-
-(use-package nerd-icons-completion
-  :ensure t
-  :hook (marginalia-mode . nerd-icons-completion-marginalia-setup))
-
-
 ;; C/C++ code style
 (use-package cc-vars
   :init
   (setq-default c-default-style "linux" c-basic-offset 4))
 
-;; Autocomplete using Emacs internal completion system.
 
 (use-package xref
   :bind
