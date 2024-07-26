@@ -112,7 +112,9 @@
    ("C-," . previous-buffer)
    ("C->" . end-of-buffer)
    ("C-<" . beginning-of-buffer)
-   ("M-n" . jump-down)
+   ("M-<down>". jump-down)
+   ("M-<up>" . jump-up)
+   ("M-n". jump-down)
    ("M-p" . jump-up)
    ("C-0" . delete-window)
    ("C-1" . delete-other-windows)
@@ -151,10 +153,10 @@
   (setq kill-whole-line t)
   :bind
   (
-   ("C-;" .   goto-line)
+   ("C-;"   . goto-line)
    ("C-w"   . cut)
    ("C-z"   . undo)
-   ("C-SPC" . set-mark-command)
+   ("C-SPC"   . set-mark-command)
    ("M-w"   . copy))
   :config
   (defun copy () "Either copy region or the current line." (interactive)
@@ -178,14 +180,6 @@
   :ensure t
   :init
   (require 'vlf-setup))
-
-(use-package multiple-cursors
-  :bind
-  (("C-M-n"   . mc/mark-next-like-this-word)
-   ("C-M-p"   . mc/mark-previous-like-this-word)
-   ("C-S-n"   . mc/mark-next-like-this)
-   ("C-S-p"   . mc/mark-previous-like-this)
-   ("C-c m a" . mc/mark-all-like-this-dwim)))
 
 ;; ;; Modeline Helpers
 (defun modeline-vc () (interactive) (propertize (if vc-mode vc-mode "")))
@@ -240,7 +234,7 @@
 
 (use-package minibuffer
   :bind
-  ("C-j" . completion-at-point)
+  ("C-q" . completion-at-point)
   :config
   (setq completion-in-region-function
 	(lambda (&rest args)
@@ -252,9 +246,7 @@
 (use-package embark-consult :ensure t)
 
 ;; Making Emacs beautiful
-(use-package ef-themes :ensure t
-  :bind
-  ("M-t" . ef-themes-load-random))
+(use-package ef-themes :ensure t)
 
 (use-package custom ;; Customization and themes
   :config
@@ -392,7 +384,7 @@
       (disable-theme i)))
 
   (setq custom-safe-themes t)
-  (load-theme '4coder-fleury))
+  (load-theme 'handmadehero))
 
 
 ;; C/C++ code style
@@ -404,7 +396,6 @@
 (use-package xref ;; Xref: jumping to definitions and stuff.
   :bind
   (
-   ("M-a"   . xref-find-apropos)
    ("M-."   . xref-find-definitions)
    ("C-M-." . xref-find-references)
    ("M-,"   . xref-go-back)))
@@ -498,11 +489,10 @@
 
 
 (use-package grep
-  :commands (run-grep)
+  :commands (pgrep)
   :bind
   (
-   ("C-S-o" . run-grep)
-   ("M-s"   . run-grep)
+   ("M-j"   . pgrep)
    :map grep-mode-map
    ("C-c C-p" . wgrep-toggle-readonly-area)
    ("<f5>"    . recompile)
@@ -517,7 +507,7 @@
     (when (executable-find "rg")
       (grep-apply-setting 'grep-command "rg --no-heading --color='never'")
       (grep-apply-setting 'grep-use-null-device nil)))
-  (defun run-grep () "Recursive grep in `find-root` result or C-u to choose directory interactively." (interactive)
+  (defun pgrep () "Recursive grep in `find-root` result or C-u to choose directory interactively." (interactive)
 	 (if (null current-prefix-arg)
 	     (setq --grep-dir (find-root-or-default-directory))
 	   (setq --grep-dir (read-directory-name "Directory: " default-directory)))
@@ -536,9 +526,9 @@
 (use-package esh-mode
   :commands (eshell-dwim)
   :bind
-  (("M-j" . eshell-dwim)
+  (("M-;" . eshell-dwim)
    :map eshell-mode-map
-   ("M-j" . previous-buffer))
+   ("M-;" . previous-buffer))
   :config
   (setq eshell-visual-subcommands '("git" "diff" "log" "show"))
   (defun eshell-dwim () "Jump to eshell buffer associated with current project or create a new." (interactive)
@@ -570,34 +560,33 @@
 
 (use-package files
   :bind
-  (
-   ("C-o" . file-finder)
-   ("M-o" . file-finder))
-  :commands (file-finder)
+  (("M-o"   . find-file)
+   ("C-j"   . pfind-file)
+   )
+  :commands (pfind-file)
   :config
-  (defun file-finder () "Recursive file find starting from `find-root` result or C-u to choose directory interactively." (interactive)
-  (if (null current-prefix-arg)
-      (setq --open-file-dir (find-root-or-default-directory))
-    (setq --open-file-dir (read-directory-name "Directory: " default-directory)))
-  
-  (cond
-   ((executable-find "rg") (let* ((default-directory --open-file-dir)
-				  (command (format "rg --files"))
-				  (file (completing-read "Ripgrep Files: " (string-split (shell-command-to-string command) "\n" t) nil t)))
-			     (find-file file)))
-   
-   ((git-repo-p --open-file-dir) (let*
-				     ((default-directory --open-file-dir)
-				      (command (format "git ls-files"))
-				      (file (completing-read "Git Files: " (string-split (shell-command-to-string command) "\n" t))))
-				   (find-file file)))
-   (t (error "you don't have rg installed and it's not a git repo.")))))
+  (defun pfind-file () "Recursive file find starting from `find-root` result or C-u to choose directory interactively." (interactive)
+	 (if (null current-prefix-arg)
+	     (setq --open-file-dir (find-root-or-default-directory))
+	   (setq --open-file-dir (read-directory-name "Directory: " default-directory)))
+	 
+	 (cond
+	  ((executable-find "rg") (let* ((default-directory --open-file-dir)
+					 (command (format "rg --files"))
+					 (file (completing-read "Ripgrep Files: " (string-split (shell-command-to-string command) "\n" t) nil t)))
+				    (find-file file)))
+	  
+	  ((git-repo-p --open-file-dir) (let*
+					    ((default-directory --open-file-dir)
+					     (command (format "git ls-files"))
+					     (file (completing-read "Git Files: " (string-split (shell-command-to-string command) "\n" t))))
+					  (find-file file)))
+	  (t (error "you don't have rg installed and it's not a git repo.")))))
 
 (use-package replace
   :bind
   (("C-r"   . 'replace-string)
    ("M-r"   . 'replace-regexp)
-   ("C-M-r" . 'replace-regexp)
    
    :map query-replace-map
    ("<return>" . 'act)))
@@ -605,8 +594,8 @@
 (use-package flymake
   :bind
   (:map flymake-mode-map
-  ("M-;" . flymake-goto-prev-error)
-  ("M-'" . flymake-goto-next-error)))
+  ("M-9" . flymake-goto-prev-error)
+  ("M-0" . flymake-goto-next-error)))
 
 (use-package rect
   :bind
@@ -625,8 +614,6 @@
 
 
 
-
-;; My Command mode for modal editing with ease.
 
 ;; (defmacro amirreza/modal-command (&rest BODY)
 ;;   `(lambda () (interactive)
@@ -662,3 +649,82 @@
 ;;   )
 
 ;; (global-set-key (kbd "C-q") 'amirreza-command-mode)
+
+
+
+(defun cheatsheet () "Show cheatsheet of my emacs" (interactive)
+       (setq my-emacs-cheatsheet '(
+				   "ALT-Q         ???????????"
+				   "ALT-E         ???????????"
+				   "ALT-U         ???????????"
+				   "ALT-I         ???????????"
+				   "ALT-A         ???????????"
+				   "ALT-S         ???????????"
+				   "ALT-H         ???????????"
+				   "ALT-K         ???????????"
+				   "ALT-L         ???????????"
+				   "ALT-Z         ???????????"
+				   "ALT-C         ???????????"
+				   "ALT-V         ???????????"
+				   "ALT-T         ???????????"
+				   "ALT-'         ???????????"
+				   "CTRL-W        Cut"
+				   "ALT-W         Copy"
+				   "CTRL-Y        Paste"
+				   "ALT-Y         Paste from clipboard"
+				   "CTRL-z        Undo"
+				   ""
+				   "CTRL-S        Search in buffer"
+				   "CTRL-R        Replace"
+				   "ALT-R         Replace using regexp"
+				   ""
+				   "CTRL-SHIFT-,  Begining Of Buffer"
+				   "CTRL-SHIFT-.  End of Buffer"
+				   ""
+				   "CTRL-.        Next Buffer"
+				   "CTRL-,        Previous Buffer"
+				   ""
+				   "CTRL-0        Delete Current Window"
+				   "CTRL-1        Delete Other Windows"
+				   "CTRL-2        Split Window Horizontally"
+				   "CTRL-3        Split Window Vertically"
+				   ""
+				   "CTRL-;        Goto Line"
+
+				   ""				   
+				   "CTRL-SPC      Set Mark"
+				   ""
+				   "ALT-O         Find-File"
+				   "CTRL-J        (Project) File-Finder"
+				   "ALT-J         (Project) Grep"
+				   "ALT-;         (Project) Emacs Shell"
+				   "ALT-M         (Project) Compile"
+				   "ALT-G         (Project) Git Diff"
+				   ""
+				   "CTRL-Q        Trigger Complete at point (Autocomplete)"
+				   "ALT-.         Goto Definition"
+				   "ALT-SHIFT-/   Find References"
+				   "ALT-,         Jump back"
+				   ""
+				   "ALT-9         Previous Error"
+				   "ALT-0         Next Error"
+				   ""
+				   "ALT-[         Start Recording Macro"
+				   "ALT-]         End Recording/Execute Macro"
+				   "ALT-\\        Execute Macro"
+				   ""
+				   ))
+
+       (let ((buf (get-buffer-create "*Cheatsheet*")))
+	 (with-current-buffer buf
+	   (setq-local buffer-read-only nil)
+	   (erase-buffer)
+	   (mapcar (lambda (entry)
+		     (insert entry)
+		     (insert "\n")
+		     ) my-emacs-cheatsheet)
+	   (setq-local buffer-read-only t))
+	 (display-buffer buf)))
+
+
+(global-set-key (kbd "<f1>") 'cheatsheet)
