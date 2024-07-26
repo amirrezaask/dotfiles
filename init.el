@@ -1,10 +1,28 @@
 ;; (setq debug-on-error t) ;; Uncomment when you debug your emacs lisp code.
+(unless (file-exists-p (expand-file-name "early-init.el" user-emacs-directory))
+  (write-region "
+(defvar amirreza-emacs--file-name-handler-alist file-name-handler-alist)
+(defvar amirreza-emacs--vc-handled-backends vc-handled-backends)
 
-(setq gc-cons-threshold most-positive-fixnum)
+(setq file-name-handler-alist nil
+      vc-handled-backends nil)
+
 (add-hook 'emacs-startup-hook
-	  (lambda ()
-	    (setq gc-cons-threshold (* 1024 1024 20) ;; 20 Megabytes
-		  gc-cons-percentage 0.2)))
+          (lambda ()
+            (setq gc-cons-threshold (* 1000 1000 20)
+                  gc-cons-percentage 0.1
+                  file-name-handler-alist amirreza-emacs--file-name-handler-alist
+                  vc-handled-backends     amirreza-emacs--vc-handled-backends)))
+
+(setq gc-cons-threshold most-positive-fixnum
+      gc-cons-percentage 0.5)
+;; Enable packages index at startup
+(setq package-enable-at-startup t)
+
+
+" nil (expand-file-name "early-init.el" user-emacs-directory))
+		
+  )
 
 (use-package emacs
   :bind
@@ -25,6 +43,8 @@
   (add-to-list 'exec-path "/usr/local/bin")
   (add-to-list 'exec-path "w:/bin")
   (add-to-list 'exec-path "c:/programs/bin")
+
+  (setq-default cursor-type 'bar)
 
   (if (eq system-type 'windows-nt)
       (setenv "PATH" (string-join exec-path ";"))
@@ -83,18 +103,6 @@
 
 (setq use-package-always-defer t)
 
-
-;; Install packages.
-(when has-treesitter
-  (use-package treesit-auto
-    :ensure t
-    :custom
-    (treesit-auto-install 'prompt)
-    :config
-    (treesit-auto-add-to-auto-mode-alist 'all)
-    (global-treesit-auto-mode)))
-
-
 (use-package window
   :bind
   (
@@ -118,24 +126,27 @@
 (setq make-backup-files nil)              ;; no emacs ~ backup files
 (setq vc-follow-symlinks t)               ;; Don't prompt if encounter a symlink file, just follow the link.
 (set-default-coding-systems 'utf-8)       ;; always use UTF8
-(setq kill-whole-line t)                  ;; kill line and newline char
 
 (use-package autorevert ;; Revert buffer to disk state when disk changes under our foot.
+  :demand t
   :config
   (global-auto-revert-mode +1))
 
 (use-package delsel ;; when some text is selected and user types delete text
+  :demand t
   :config
   (delete-selection-mode)) 
 
-(use-package display-line-numbers ;; Display line numbers.
-  :demand t
-  :config
-  (global-display-line-numbers-mode +1))
+;; (use-package display-line-numbers ;; Display line numbers.
+;;   :demand t
+;;   :config
+;;   (global-display-line-numbers-mode +1))
 
 
 (use-package simple
   :demand t
+  :init
+  (setq kill-whole-line t)
   :bind
   (
    ("C-;" .   goto-line)
@@ -182,6 +193,7 @@
   (setq vertico-cycle t
 	vertico-resize nil))
 
+
 (use-package consult
   :ensure t
   :commands (consult-ripgrep consult-grep)
@@ -217,10 +229,6 @@
   :bind
   ("M-t" . ef-themes-load-random))
 
-(use-package dracula-theme :ensure t)
-(use-package sweet-theme :ensure t)
-(use-package zenburn-theme :ensure t)
-
 (use-package custom ;; Customization and themes
   :config
   (defun save-theme (name definition)
@@ -255,7 +263,6 @@
   `(show-paren-match                 ((t (:background \"mediumseagreen\")))))
 (global-hl-line-mode -1)
 ")
-
 
   (save-theme "witness" "
 (custom-theme-set-faces
@@ -314,7 +321,7 @@
 (custom-theme-set-faces
  '4coder-fleury
  `(default                          ((t (:foreground \"#a08563\" :background \"#0c0c0c\"))))
- `(cursor                           ((t (:background \"#EE7700\"))))
+ `(cursor                           ((t (:background \"green\"))))
  `(font-lock-keyword-face           ((t (:foreground \"#f0c674\"))))
  `(font-lock-operator-face          ((t (:foreground \"#907553\"))))
  `(font-lock-punctuation-face       ((t (:foreground \"#907553\"))))
@@ -350,9 +357,9 @@
     (dolist (i custom-enabled-themes)
       (disable-theme i)))
 
-  (setq custom-safe-themes t))
+  (setq custom-safe-themes t)
+  (load-theme '4coder-fleury))
 
-(load-theme 'ef-bio)
 
 ;; C/C++ code style
 (use-package cc-vars
@@ -360,7 +367,7 @@
   (setq-default c-default-style "linux" c-basic-offset 4))
 
 
-(use-package xref
+(use-package xref ;; Xref: jumping to definitions and stuff.
   :bind
   (
    ("M-a"   . xref-find-apropos)
@@ -374,7 +381,7 @@
 (use-package json-mode :ensure t)
 (use-package yaml-mode :ensure t)
 
-(use-package eglot
+(use-package eglot ;; LSP
   :ensure t
   :defer t
   :bind
@@ -557,7 +564,7 @@
 (use-package replace
   :bind
   (("C-r"   . 'replace-string)
-   ("M-r"   . 'query-replace)
+   ("M-r"   . 'replace-regexp)
    ("C-M-r" . 'replace-regexp)
    
    :map query-replace-map
