@@ -187,6 +187,28 @@
    ("C-S-p"   . mc/mark-previous-like-this)
    ("C-c m a" . mc/mark-all-like-this-dwim)))
 
+;; Modeline Helpers
+(defun modeline-vc () (interactive) (propertize (if vc-mode vc-mode "")))
+(defun modeline-file () (interactive) (propertize (if (buffer-file-name) (buffer-file-name) "%b")))
+(defun modeline-modified () (interactive) (propertize (if (and (buffer-file-name) (buffer-modified-p (current-buffer))) "[+]" "")))
+(defun modeline-linecol () (interactive) (propertize "%l:%c"))
+(defun modeline-major-mode () (interactive) (propertize (substring (capitalize (symbol-name major-mode)) 0 -5)))
+
+;; Modeline Sections
+(defun modeline-left () (interactive) (concat (modeline-vc)))
+(defun modeline-center () (interactive) (concat (modeline-modified) (modeline-file)))
+(defun modeline-right () (interactive) (concat  (modeline-linecol)))
+(defun modeline-format ()
+  (let* ((left (modeline-left))
+	 (center (modeline-center))
+	 (right (modeline-right))
+	 (win-len (window-width (get-buffer-window (current-buffer))))
+	 (center-right-spaces (make-string (- (/ win-len 2) (+ (/ (length center) 2) (length right))  ) ?\s))
+	 (left-center-spaces (make-string (- (/ win-len 2) (+ (length left) (/ (length center) 2))) ?\s)))
+    (concat left left-center-spaces center center-right-spaces right)))
+
+(setq-default mode-line-format '("%e" (:eval (modeline-format))))
+
 (use-package vertico
   :ensure t
   :hook (after-init . vertico-mode)
