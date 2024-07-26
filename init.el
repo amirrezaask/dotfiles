@@ -187,27 +187,30 @@
    ("C-S-p"   . mc/mark-previous-like-this)
    ("C-c m a" . mc/mark-all-like-this-dwim)))
 
-;; Modeline Helpers
+;; ;; Modeline Helpers
 (defun modeline-vc () (interactive) (propertize (if vc-mode vc-mode "")))
-(defun modeline-file () (interactive) (propertize (if (buffer-file-name) (buffer-file-name) "%b")))
-(defun modeline-modified () (interactive) (propertize (if (and (buffer-file-name) (buffer-modified-p (current-buffer))) "[+]" "")))
+(defun modeline-file () (interactive)
+       (propertize
+	(if (buffer-file-name) ;; If it's a file show path to the file else just ask emacs to do it's best
+	    (buffer-file-name)
+	  "%b")))
+
+(defun modeline-modified () (interactive) (propertize (if (and (buffer-file-name) (buffer-modified-p (current-buffer))) "**" "--")))
 (defun modeline-linecol () (interactive) (propertize "%l:%c"))
 (defun modeline-major-mode () (interactive) (propertize (substring (capitalize (symbol-name major-mode)) 0 -5)))
+(defun modeline-eglot () (interactive) (propertize (if (eglot-managed-p) "[Eglot]" "")))
+(defun modeline-spacify (val) (interactive) (if val
+						(format " %s" val)
+					      ""))
+(setq-default mode-line-format '("%e"
+				 mode-line-mule-info
+				 (:eval (modeline-modified))
+				 (:eval (modeline-spacify (modeline-file)))
+				 (:eval (modeline-spacify (modeline-linecol)))
+				 (:eval (modeline-spacify (modeline-eglot)))
+				 (:eval (modeline-spacify (modeline-vc)))
+				 ))
 
-;; Modeline Sections
-(defun modeline-left () (interactive) (concat (modeline-vc)))
-(defun modeline-center () (interactive) (concat (modeline-modified) (modeline-file)))
-(defun modeline-right () (interactive) (concat  (modeline-linecol)))
-(defun modeline-format ()
-  (let* ((left (modeline-left))
-	 (center (modeline-center))
-	 (right (modeline-right))
-	 (win-len (window-width (get-buffer-window (current-buffer))))
-	 (center-right-spaces (make-string (- (/ win-len 2) (+ (/ (length center) 2) (length right))  ) ?\s))
-	 (left-center-spaces (make-string (- (/ win-len 2) (+ (length left) (/ (length center) 2))) ?\s)))
-    (concat left left-center-spaces center center-right-spaces right)))
-
-(setq-default mode-line-format '("%e" (:eval (modeline-format))))
 
 (use-package vertico
   :ensure t
@@ -286,6 +289,8 @@
   `(mode-line-inactive               ((t (:background \"gray20\" :foreground \"#ffffff\"))))
   `(show-paren-match                 ((t (:background \"mediumseagreen\")))))
 (global-hl-line-mode -1)
+(setq-default cursor-type 'box)
+
 ")
 
   (save-theme "witness" "
@@ -313,6 +318,8 @@
  `(mode-line-inactive               ((t (:background \"gray20\" :foreground \"#ffffff\"))))
  `(show-paren-match                 ((t (:background \"mediumseagreen\")))))
 (global-hl-line-mode -1)
+(setq-default cursor-type 'box)
+
 ")
 
   (save-theme "handmadehero" "
@@ -339,6 +346,8 @@
  `(show-paren-match                 ((t (:background \"mediumseagreen\")))))
 
 (global-hl-line-mode +1)
+(setq-default cursor-type 'box)
+
 ")
 
   (save-theme "4coder-fleury" "
@@ -373,6 +382,7 @@
  `(show-paren-match                 ((t (:background \"#e0741b\" :foreground \"#000000\")))))
 
 (global-hl-line-mode +1)
+(setq-default cursor-type 'bar)
 ")
 
   (add-to-list 'custom-theme-load-path (expand-file-name "themes" user-emacs-directory))
@@ -456,7 +466,6 @@
    :map compilation-mode-map
    ("<f5>". recompile)
    ("M-m" . previous-buffer)
-   ("G"   . compile-in-directory)
    ("n"   . next-line)
    ("p"   . previous-line)
    ("M-n" . jump-down)
@@ -498,7 +507,6 @@
    ("C-c C-p" . wgrep-toggle-readonly-area)
    ("<f5>"    . recompile)
    ("g"       . recompile)
-   ("G"       . grep-in-directory)
    ("M-q"     . previous-buffer)
    ("M-n"     . jump-down)
    ("M-p"     . jump-up)
