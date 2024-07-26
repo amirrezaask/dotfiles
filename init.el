@@ -88,7 +88,9 @@
   (setq native-comp-async-report-warnings-errors nil))
 
 (use-package frame
+  :demand t
   :config
+  (blink-cursor-mode -1)
   (set-frame-parameter nil 'fullscreen 'maximized)) ;; Always start emacs window in maximized mode.
 
 (setq package-quickstart t)
@@ -590,3 +592,43 @@
    ("M-["  . kmacro-start-macro)       
    ("M-]"  . kmacro-end-or-call-macro) 
    ("M-\\" . kmacro-end-and-call-macro)))
+
+
+
+
+;; My Command mode for modal editing with ease.
+
+;; (defmacro amirreza/modal-command (&rest BODY)
+;;   `(lambda () (interactive)
+;;      ,@BODY))
+
+;; (define-minor-mode amirreza-command-mode "My command mode."
+;;   :global t
+;;   :lighter " Amirreza Command Mode"
+;;   :keymap `(((kbd "C-q") . ,(amirreza/modal-command (amirreza-command-mode -1)))
+;; 	    ;; Char movement
+;; 	    ((kbd "d") . ,(amirreza/modal-command (forward-char)))
+;; 	    ((kbd "s") . ,(amirreza/modal-command (next-line)))
+;; 	    ((kbd "a") . ,(amirreza/modal-command (backward-char)))
+;; 	    ((kbd "w") . ,(amirreza/modal-command (previous-line)))
+;; 	    ;; Vim like
+;; 	    ((kbd "l") . ,(amirreza/modal-command (forward-char)))
+;; 	    ((kbd "j") . ,(amirreza/modal-command (next-line)))
+;; 	    ((kbd "h") . ,(amirreza/modal-command (backward-char)))
+;; 	    ((kbd "k") . ,(amirreza/modal-command (previous-line)))
+;; 	    ;; Word movement
+;; 	    ((kbd "e") . ,(amirreza/modal-command (forward-word)))
+;; 	    ((kbd "q") . ,(amirreza/modal-command (backward-word)))
+;; 	    ;; Errors
+;; 	    ((kbd "9") . ,(amirreza/modal-command (flymake-goto-prev-error)))
+;; 	    ((kbd "0") . ,(amirreza/modal-command (flymake-goto-next-error)))
+;; 	    ;; Jump by half a page
+;; 	    ((kbd "p") . ,(amirreza/modal-command (jump-up)))
+;; 	    ((kbd "n") . ,(amirreza/modal-command (jump-down)))
+;; 	    ;; Finding
+;; 	    ((kbd "o") . ,(amirreza/modal-command (file-finder)))
+;; 	    ((kbd "f") . ,(amirreza/modal-command (run-grep)))
+;; 	   )
+;;   )
+
+;; (global-set-key (kbd "C-q") 'amirreza-command-mode)
