@@ -21,18 +21,18 @@
 
 
 " nil (expand-file-name "early-init.el" user-emacs-directory))
-		
+
   )
 
 (use-package emacs
   :bind
   (
-  ("C-x i" . edit-init))
+   ("C-x i" . edit-init))
   :config
-  (setq is-windows (eq system-type 'windows-nt)                                      
-	is-linux (eq system-type 'gnu-linux)
-	is-macos (eq system-type 'darwin)
-	has-treesitter (>= emacs-major-version 29))
+  (setq is-windows (eq system-type 'windows-nt)
+        is-linux (eq system-type 'gnu-linux)
+        is-macos (eq system-type 'darwin)
+        has-treesitter (>= emacs-major-version 29))
   (defun home (path) (expand-file-name path (getenv "HOME")))
   (add-to-list 'exec-path (home ".local/bin"))
   (add-to-list 'exec-path (home "go/bin"))
@@ -44,22 +44,20 @@
   (add-to-list 'exec-path "w:/bin")
   (add-to-list 'exec-path "c:/programs/bin")
 
-  (setq-default cursor-type 'bar)
-
   (if (eq system-type 'windows-nt)
       (setenv "PATH" (string-join exec-path ";"))
     (setenv "PATH" (string-join exec-path ":"))) ;; set emacs process PATH
 
   (setq frame-resize-pixelwise t
-	frame-inhibit-implied-resize t
-	ring-bell-function 'ignore
-	use-dialog-box t ; only for mouse events, which I seldom use
-	use-file-dialog nil
-	use-short-answers t
-	inhibit-splash-screen t
-	inhibit-startup-screen t
-	inhibit-x-resources t
-	inhibit-startup-buffer-menu t)
+        frame-inhibit-implied-resize t
+        ring-bell-function 'ignore
+        use-dialog-box t ; only for mouse events, which I seldom use
+        use-file-dialog nil
+        use-short-answers t
+        inhibit-splash-screen t
+        inhibit-startup-screen t
+        inhibit-x-resources t
+        inhibit-startup-buffer-menu t)
   (setq image-types (cons 'svg image-types) mac-command-modifier 'meta) ;; Fix macos fucked up bugs.
   (menu-bar-mode -1)
   (scroll-bar-mode -1)
@@ -68,9 +66,9 @@
 
   (setq font-families (font-family-list))
   (defun set-font (font size) "Set font interactively"
-	 (interactive (list (completing-read "Font: " font-families) (read-number "Size: ")))
-	 (if (x-list-fonts font)
-	     (set-face-attribute 'default nil :font (format "%s-%d" font size))))
+         (interactive (list (completing-read "Font: " font-families) (read-number "Size: ")))
+         (if (x-list-fonts font)
+             (set-face-attribute 'default nil :font (format "%s-%d" font size))))
 
   (cond
    ((member "Liberation Mono" font-families) (set-font "Liberation Mono" 15))
@@ -96,8 +94,8 @@
 (setq package-quickstart t)
 (setq package-archives
       '(("gnu-elpa" . "https://elpa.gnu.org/packages/")
-	("nongnu" . "https://elpa.nongnu.org/nongnu/")
-	("melpa" . "https://melpa.org/packages/")))
+        ("nongnu" . "https://elpa.nongnu.org/nongnu/")
+        ("melpa" . "https://melpa.org/packages/")))
 
 
 (unless (fboundp 'use-package)
@@ -139,13 +137,25 @@
 (use-package delsel ;; when some text is selected and user types delete text
   :demand t
   :config
-  (delete-selection-mode)) 
+  (delete-selection-mode))
 
 ;; (use-package display-line-numbers ;; Display line numbers.
 ;;   :demand t
 ;;   :config
 ;;   (global-display-line-numbers-mode +1))
 
+(defun indent-buffer ()
+  "Indents an entire buffer using the default intenting scheme."
+  (interactive)
+  (save-excursion
+    (delete-trailing-whitespace)
+    (indent-region (point-min) (point-max) nil)
+    (untabify (point-min) (point-max))))
+
+(use-package indent
+  :commands (indent-region)
+  :bind
+  (("M-l" . indent-buffer)))
 
 (use-package simple
   :demand t
@@ -160,14 +170,14 @@
    ("M-w"   . copy))
   :config
   (defun copy () "Either copy region or the current line." (interactive)
-	 (if (use-region-p)
-	     (kill-ring-save (region-beginning) (region-end)) ;; copy active region contents
-	   (kill-ring-save (line-beginning-position) (line-end-position)))) ;; copy current line
+         (if (use-region-p)
+             (kill-ring-save (region-beginning) (region-end)) ;; copy active region contents
+           (kill-ring-save (line-beginning-position) (line-end-position)))) ;; copy current line
 
   (defun cut () "Either cut region or the current line." (interactive)
-	 (if (use-region-p)
-	     (kill-region (region-beginning) (region-end)) ;; copy active region contents
-	   (kill-region (line-beginning-position) (line-end-position)))) ;; copy current line
+         (if (use-region-p)
+             (kill-region (region-beginning) (region-end)) ;; copy active region contents
+           (kill-region (line-beginning-position) (line-end-position)))) ;; copy current line
 
   (toggle-truncate-lines +1))
 
@@ -185,25 +195,25 @@
 (defun modeline-vc () (interactive) (propertize (if vc-mode vc-mode "")))
 (defun modeline-file () (interactive)
        (propertize
-	(if (buffer-file-name) ;; If it's a file show path to the file else just ask emacs to do it's best
-	    (buffer-file-name)
-	  "%b")))
+        (if (buffer-file-name) ;; If it's a file show path to the file else just ask emacs to do it's best
+            (buffer-file-name)
+          "%b")))
 
 (defun modeline-modified () (interactive) (propertize (if (and (buffer-file-name) (buffer-modified-p (current-buffer))) "**" "--")))
 (defun modeline-linecol () (interactive) (propertize "%l:%c"))
 (defun modeline-major-mode () (interactive) (propertize (substring (capitalize (symbol-name major-mode)) 0 -5)))
 (defun modeline-eglot () (interactive) (propertize (if (eglot-managed-p) "[Eglot]" "")))
 (defun modeline-spacify (val) (interactive) (if val
-						(format " %s" val)
-					      ""))
+                                                (format " %s" val)
+                                              ""))
 (setq-default mode-line-format '("%e"
-				 mode-line-mule-info
-				 (:eval (modeline-modified))
-				 (:eval (modeline-spacify (modeline-file)))
-				 (:eval (modeline-spacify (modeline-linecol)))
-				 (:eval (modeline-spacify (modeline-eglot)))
-				 (:eval (modeline-spacify (modeline-vc)))
-				 ))
+                                 mode-line-mule-info
+                                 (:eval (modeline-modified))
+                                 (:eval (modeline-spacify (modeline-file)))
+                                 (:eval (modeline-spacify (modeline-linecol)))
+                                 (:eval (modeline-spacify (modeline-eglot)))
+                                 (:eval (modeline-spacify (modeline-vc)))
+                                 ))
 
 
 (use-package vertico
@@ -212,7 +222,7 @@
   :config
   (setq completion-styles '(flex initials shorthand substring basic))
   (setq vertico-cycle t
-	vertico-resize nil))
+        vertico-resize nil))
 
 
 (use-package consult
@@ -230,19 +240,19 @@
   :after vertico
   :bind
   (:map minibuffer-mode-map
-	("C-q" . embark-export)))
+        ("C-q" . embark-export)))
 
 (use-package minibuffer
   :bind
   ("C-q" . completion-at-point)
   :config
   (setq completion-in-region-function
-	(lambda (&rest args)
+        (lambda (&rest args)
           (apply (if vertico-mode
                      #'consult-completion-in-region
                    #'completion--in-region)
-		 args))))
-  
+                 args))))
+
 (use-package embark-consult :ensure t)
 
 ;; Making Emacs beautiful
@@ -412,22 +422,21 @@
   :bind
   (
    :map eglot-mode-map
-	("C-c C-s" . eglot-symbols)
-	("C-c C-r" . eglot-rename)
-	("M-l"     . eglot-organize-imports-format)
-	("C-c C-c" . eglot-code-actions))
+   ("C-c C-r" . eglot-rename)
+   ("M-l"     . eglot-organize-imports-format)
+   ("C-c C-c" . eglot-code-actions))
   :init
   (dolist (mode '(go rust php)) (add-hook (intern (concat (symbol-name mode) "-mode-hook")) #'eglot-ensure))
   :config
   (setq eglot-ignored-server-capabilities '(:hoverProvider
-					  :documentHighlightProvider
-					  :codeLensProvider
-					  :documentOnTypeFormattingProvider
-					  :documentLinkProvider
-					  :colorProvider
-					  :foldingRangeProvider
-					  :executeCommandProvider
-					  :inlayHintProvider))
+                                            :documentHighlightProvider
+                                            :codeLensProvider
+                                            :documentOnTypeFormattingProvider
+                                            :documentLinkProvider
+                                            :colorProvider
+                                            :foldingRangeProvider
+                                            :executeCommandProvider
+                                            :inlayHintProvider))
   (with-eval-after-load
       'eglot (add-to-list 'eglot-server-programs '(php-mode . ("intelephense" "--stdio"))))
   (defun eglot-organize-imports () (interactive) (eglot-code-actions nil nil "source.organizeImports" t))
@@ -437,13 +446,14 @@
   (defun eglot-organize-imports-format () (interactive) (eglot-format) (eglot-organize-imports)))
 
 
-(use-package consult-eglot :ensure t :after consult)
+(use-package consult-eglot :ensure t
+  :after consult)
 
 (defun find-root () "Try to find project root based on deterministic predicates"
-  (cond
-   ((eq major-mode 'go-mode)                                (locate-dominating-file default-directory "go.mod"))
-   ((eq major-mode 'php-mode)                               (locate-dominating-file default-directory "composer.json"))
-   (t                                                       (locate-dominating-file default-directory ".git"))))
+       (cond
+        ((eq major-mode 'go-mode)                                (locate-dominating-file default-directory "go.mod"))
+        ((eq major-mode 'php-mode)                               (locate-dominating-file default-directory "composer.json"))
+        (t                                                       (locate-dominating-file default-directory ".git"))))
 
 (defun git-repo-p (DIR) (locate-dominating-file DIR ".git"))
 (defun find-root-or-default-directory () (or (find-root) default-directory))
@@ -462,29 +472,29 @@
    ("M-n" . jump-down)
    ("M-p" . jump-up)
    ("k"   . kill-compilation))
-   
+
   :config
   (defun amirreza-compile-buffer-name-function (MODESTR) (let ((dir (find-root-or-default-directory))) (format "*%s-%s*" MODESTR dir)))
   (setq-default compilation-buffer-name-function 'amirreza-compile-buffer-name-function)
   (defun run-git-diff () "run git diff command in `find-root` result or C-u to choose directory interactively." (interactive)
-	 (if (null current-prefix-arg)
-	     (setq --git-diff-dir (find-root-or-default-directory))
-	   (setq --git-diff-dir (read-directory-name "Directory: " default-directory)))
+         (if (null current-prefix-arg)
+             (setq --git-diff-dir (find-root-or-default-directory))
+           (setq --git-diff-dir (read-directory-name "Directory: " default-directory)))
 
-	 (let ((default-directory --git-diff-dir))
-	   (compilation-start "git diff HEAD" 'diff-mode)))
+         (let ((default-directory --git-diff-dir))
+           (compilation-start "git diff HEAD" 'diff-mode)))
 
   (defun run-compile () "run `compile`." (interactive)
-	 (if (null current-prefix-arg)
-	     (setq --compile-dir (find-root-or-default-directory))
-	   (setq --compile-dir (read-directory-name "Directory: " default-directory)))
+         (if (null current-prefix-arg)
+             (setq --compile-dir (find-root-or-default-directory))
+           (setq --compile-dir (read-directory-name "Directory: " default-directory)))
 
-	 (let* ((default-directory --compile-dir)
-		(command (read-shell-command "Command: "  (cond ;; guess a command based on the context.
-							   ((file-exists-p "build.bat") "build.bat")
-							   ((file-exists-p "go.mod")    "go build -v ./...")
-							   ((file-exists-p "Makefile")  "make")))))
-	   (compilation-start command))))
+         (let* ((default-directory --compile-dir)
+                (command (read-shell-command "Command: "  (cond ;; guess a command based on the context.
+                                                           ((file-exists-p "build.bat") "build.bat")
+                                                           ((file-exists-p "go.mod")    "go build -v ./...")
+                                                           ((file-exists-p "Makefile")  "make")))))
+           (compilation-start command))))
 
 
 
@@ -501,26 +511,26 @@
    ("M-n"     . jump-down)
    ("M-p"     . jump-up)
    ("k"       . kill-compilation))
-  
+
   :config
   (with-eval-after-load 'grep
     (when (executable-find "rg")
       (grep-apply-setting 'grep-command "rg --no-heading --color='never'")
       (grep-apply-setting 'grep-use-null-device nil)))
   (defun pgrep () "Recursive grep in `find-root` result or C-u to choose directory interactively." (interactive)
-	 (if (null current-prefix-arg)
-	     (setq --grep-dir (find-root-or-default-directory))
-	   (setq --grep-dir (read-directory-name "Directory: " default-directory)))
+         (if (null current-prefix-arg)
+             (setq --grep-dir (find-root-or-default-directory))
+           (setq --grep-dir (read-directory-name "Directory: " default-directory)))
 
-	 (let ((default-directory --grep-dir))
-	   (cond
-	    ;; when we have consult installed.
-	    ((and (fboundp 'consult-ripgrep) (executable-find "rg"))  (consult-ripgrep --grep-dir))
-	    ((and (fboundp 'consult-grep)    (executable-find "grep"))  (consult-grep --grep-dir))
-	    ;; legacy approach.
-	    ((executable-find "rg") (grep (format "rg --no-heading --color='never' %s" (read-string "Ripgrep: "))))
-	    ((git-repo-p DIR)       (grep (format "git grep --no-color -n %s" (read-string "Git Grep: "))))
-	    (t                      (grep (format "grep --color=auto -R -nH -e %s ." (read-string "Grep: "))))))))
+         (let ((default-directory --grep-dir))
+           (cond
+            ;; when we have consult installed.
+            ((and (fboundp 'consult-ripgrep) (executable-find "rg"))  (consult-ripgrep --grep-dir))
+            ((and (fboundp 'consult-grep)    (executable-find "grep"))  (consult-grep --grep-dir))
+            ;; legacy approach.
+            ((executable-find "rg") (grep (format "rg --no-heading --color='never' %s" (read-string "Ripgrep: "))))
+            ((git-repo-p DIR)       (grep (format "git grep --no-color -n %s" (read-string "Git Grep: "))))
+            (t                      (grep (format "grep --color=auto -R -nH -e %s ." (read-string "Grep: "))))))))
 
 
 (use-package esh-mode
@@ -532,12 +542,12 @@
   :config
   (setq eshell-visual-subcommands '("git" "diff" "log" "show"))
   (defun eshell-dwim () "Jump to eshell buffer associated with current project or create a new." (interactive)
-	 (let* ((root (find-root-or-default-directory))
-		(default-directory root)
-		(eshell-buffer-name (format "*eshell-%s*" root)))
-	   (if (get-buffer eshell-buffer-name)
-	       (switch-to-buffer eshell-buffer-name)
-	     (eshell)))))
+         (let* ((root (find-root-or-default-directory))
+                (default-directory root)
+                (eshell-buffer-name (format "*eshell-%s*" root)))
+           (if (get-buffer eshell-buffer-name)
+               (switch-to-buffer eshell-buffer-name)
+             (eshell)))))
 
 (use-package vterm
   :ensure t
@@ -545,16 +555,16 @@
   :if (if is-windows nil t)
   :init
   (add-hook 'vterm-mode-hook (lambda ()
-			       (hl-line-mode -1)))
+                               (hl-line-mode -1)))
   (defun vterm-dwim ()
     "Jump to vterm buffer associated with current project or create a new."
     (interactive)
     (let* ((root (find-root-or-default-directory))
-	   (default-directory root)
-	   (buffer-name (format "*vterm-%s*" root)))
+           (default-directory root)
+           (buffer-name (format "*vterm-%s*" root)))
       (if (get-buffer buffer-name)
-	  (switch-to-buffer buffer-name)
-	(vterm buffer-name)))))
+          (switch-to-buffer buffer-name)
+        (vterm buffer-name)))))
 
 
 
@@ -566,165 +576,119 @@
   :commands (pfind-file)
   :config
   (defun pfind-file () "Recursive file find starting from `find-root` result or C-u to choose directory interactively." (interactive)
-	 (if (null current-prefix-arg)
-	     (setq --open-file-dir (find-root-or-default-directory))
-	   (setq --open-file-dir (read-directory-name "Directory: " default-directory)))
-	 
-	 (cond
-	  ((executable-find "rg") (let* ((default-directory --open-file-dir)
-					 (command (format "rg --files"))
-					 (file (completing-read "Ripgrep Files: " (string-split (shell-command-to-string command) "\n" t) nil t)))
-				    (find-file file)))
-	  
-	  ((git-repo-p --open-file-dir) (let*
-					    ((default-directory --open-file-dir)
-					     (command (format "git ls-files"))
-					     (file (completing-read "Git Files: " (string-split (shell-command-to-string command) "\n" t))))
-					  (find-file file)))
-	  (t (error "you don't have rg installed and it's not a git repo.")))))
+         (if (null current-prefix-arg)
+             (setq --open-file-dir (find-root-or-default-directory))
+           (setq --open-file-dir (read-directory-name "Directory: " default-directory)))
+
+         (cond
+          ((executable-find "rg") (let* ((default-directory --open-file-dir)
+                                         (command (format "rg --files"))
+                                         (file (completing-read "Ripgrep Files: " (string-split (shell-command-to-string command) "\n" t) nil t)))
+                                    (find-file file)))
+
+          ((git-repo-p --open-file-dir) (let*
+                                            ((default-directory --open-file-dir)
+                                             (command (format "git ls-files"))
+                                             (file (completing-read "Git Files: " (string-split (shell-command-to-string command) "\n" t))))
+                                          (find-file file)))
+          (t (error "you don't have rg installed and it's not a git repo.")))))
 
 (use-package replace
   :bind
   (("C-r"   . 'replace-string)
    ("M-r"   . 'replace-regexp)
-   
+
    :map query-replace-map
    ("<return>" . 'act)))
 
 (use-package flymake
   :bind
   (:map flymake-mode-map
-  ("M-9" . flymake-goto-prev-error)
-  ("M-0" . flymake-goto-next-error)))
-
-(use-package rect
-  :bind
-  (("C-x SPC" . rectangle-mark-mode)
-   :map rectangle-mark-mode-map
-   ("C-i" . string-insert-rectangle)
-   ("C-r" . string-rectangle)))
-
+        ("M-9" . flymake-goto-prev-error)
+        ("M-0" . flymake-goto-next-error)))
 
 (use-package kmacro
   :bind
   (
-   ("M-["  . kmacro-start-macro)       
-   ("M-]"  . kmacro-end-or-call-macro) 
+   ("M-["  . kmacro-start-macro)
+   ("M-]"  . kmacro-end-or-call-macro)
    ("M-\\" . kmacro-end-and-call-macro)))
-
-
-
-
-;; (defmacro amirreza/modal-command (&rest BODY)
-;;   `(lambda () (interactive)
-;;      ,@BODY))
-
-;; (define-minor-mode amirreza-command-mode "My command mode."
-;;   :global t
-;;   :lighter " Amirreza Command Mode"
-;;   :keymap `(((kbd "C-q") . ,(amirreza/modal-command (amirreza-command-mode -1)))
-;; 	    ;; Char movement
-;; 	    ((kbd "d") . ,(amirreza/modal-command (forward-char)))
-;; 	    ((kbd "s") . ,(amirreza/modal-command (next-line)))
-;; 	    ((kbd "a") . ,(amirreza/modal-command (backward-char)))
-;; 	    ((kbd "w") . ,(amirreza/modal-command (previous-line)))
-;; 	    ;; Vim like
-;; 	    ((kbd "l") . ,(amirreza/modal-command (forward-char)))
-;; 	    ((kbd "j") . ,(amirreza/modal-command (next-line)))
-;; 	    ((kbd "h") . ,(amirreza/modal-command (backward-char)))
-;; 	    ((kbd "k") . ,(amirreza/modal-command (previous-line)))
-;; 	    ;; Word movement
-;; 	    ((kbd "e") . ,(amirreza/modal-command (forward-word)))
-;; 	    ((kbd "q") . ,(amirreza/modal-command (backward-word)))
-;; 	    ;; Errors
-;; 	    ((kbd "9") . ,(amirreza/modal-command (flymake-goto-prev-error)))
-;; 	    ((kbd "0") . ,(amirreza/modal-command (flymake-goto-next-error)))
-;; 	    ;; Jump by half a page
-;; 	    ((kbd "p") . ,(amirreza/modal-command (jump-up)))
-;; 	    ((kbd "n") . ,(amirreza/modal-command (jump-down)))
-;; 	    ;; Finding
-;; 	    ((kbd "o") . ,(amirreza/modal-command (file-finder)))
-;; 	    ((kbd "f") . ,(amirreza/modal-command (run-grep)))
-;; 	   )
-;;   )
-
-;; (global-set-key (kbd "C-q") 'amirreza-command-mode)
-
-
 
 (defun cheatsheet () "Show cheatsheet of my emacs" (interactive)
        (setq my-emacs-cheatsheet '(
-				   "ALT-Q         ???????????"
-				   "ALT-E         ???????????"
-				   "ALT-U         ???????????"
-				   "ALT-I         ???????????"
-				   "ALT-A         ???????????"
-				   "ALT-S         ???????????"
-				   "ALT-H         ???????????"
-				   "ALT-K         ???????????"
-				   "ALT-L         ???????????"
-				   "ALT-Z         ???????????"
-				   "ALT-C         ???????????"
-				   "ALT-V         ???????????"
-				   "ALT-T         ???????????"
-				   "ALT-'         ???????????"
-				   "CTRL-W        Cut"
-				   "ALT-W         Copy"
-				   "CTRL-Y        Paste"
-				   "ALT-Y         Paste from clipboard"
-				   "CTRL-z        Undo"
-				   ""
-				   "CTRL-S        Search in buffer"
-				   "CTRL-R        Replace"
-				   "ALT-R         Replace using regexp"
-				   ""
-				   "CTRL-SHIFT-,  Begining Of Buffer"
-				   "CTRL-SHIFT-.  End of Buffer"
-				   ""
-				   "CTRL-.        Next Buffer"
-				   "CTRL-,        Previous Buffer"
-				   ""
-				   "CTRL-0        Delete Current Window"
-				   "CTRL-1        Delete Other Windows"
-				   "CTRL-2        Split Window Horizontally"
-				   "CTRL-3        Split Window Vertically"
-				   ""
-				   "CTRL-;        Goto Line"
-
-				   ""				   
-				   "CTRL-SPC      Set Mark"
-				   ""
-				   "ALT-O         Find-File"
-				   "CTRL-J        (Project) File-Finder"
-				   "ALT-J         (Project) Grep"
-				   "ALT-;         (Project) Emacs Shell"
-				   "ALT-M         (Project) Compile"
-				   "ALT-G         (Project) Git Diff"
-				   ""
-				   "CTRL-Q        Trigger Complete at point (Autocomplete)"
-				   "ALT-.         Goto Definition"
-				   "ALT-SHIFT-/   Find References"
-				   "ALT-,         Jump back"
-				   ""
-				   "ALT-9         Previous Error"
-				   "ALT-0         Next Error"
-				   ""
-				   "ALT-[         Start Recording Macro"
-				   "ALT-]         End Recording/Execute Macro"
-				   "ALT-\\        Execute Macro"
-				   ""
-				   ))
+                                   "ALT-Q         ???????????"
+                                   "ALT-E         ???????????"
+                                   "ALT-U         ???????????"
+                                   "ALT-I         ???????????"
+                                   "ALT-A         ???????????"
+                                   "ALT-S         ???????????"
+                                   "ALT-H         ???????????"
+                                   "ALT-K         ???????????"
+                                   "ALT-Z         ???????????"
+                                   "ALT-C         ???????????"
+                                   "ALT-V         ???????????"
+                                   "ALT-T         ???????????"
+                                   "ALT-'         ???????????"
+                                   "CTRL-W        Cut"
+                                   "ALT-W         Copy"
+                                   "CTRL-Y        Paste"
+                                   "ALT-Y         Paste from clipboard"
+                                   "CTRL-z        Undo"
+                                   ""
+                                   "CTRL-S        Search in buffer"
+                                   "CTRL-R        Replace"
+                                   "ALT-R         Replace using regexp"
+                                   ""
+                                   "CTRL-SHIFT-,  Begining Of Buffer"
+                                   "CTRL-SHIFT-.  End of Buffer"
+                                   ""
+                                   "CTRL-.        Next Buffer"
+                                   "CTRL-,        Previous Buffer"
+                                   ""
+                                   "CTRL-0        Delete Current Window"
+                                   "CTRL-1        Delete Other Windows"
+                                   "CTRL-2        Split Window Horizontally"
+                                   "CTRL-3        Split Window Vertically"
+                                   ""
+                                   "CTRL-;        Goto Line"
+                                   ""
+                                   "CTRL-SPC      Set Mark"
+                                   ""
+                                   "ALT-L         Format Buffer"
+                                   ""
+                                   "ALT-O         Find-File"
+                                   "CTRL-J        (Project) File-Finder"
+                                   "ALT-J         (Project) Grep"
+                                   "ALT-;         (Project) Emacs Shell"
+                                   "ALT-M         (Project) Compile"
+                                   "ALT-G         (Project) Git Diff"
+                                   ""
+                                   "CTRL-Q        Trigger Complete at point (Autocomplete)"
+                                   "ALT-.         Goto Definition"
+                                   "ALT-SHIFT-/   Find References"
+                                   "ALT-,         Jump back"
+                                   ""
+                                   "ALT-9         Previous Error"
+                                   "ALT-0         Next Error"
+                                   ""
+                                   "ALT-[         Start Recording Macro"
+                                   "ALT-]         End Recording/Execute Macro"
+                                   "ALT-\\        Execute Macro"
+                                   ""
+                                   ))
 
        (let ((buf (get-buffer-create "*Cheatsheet*")))
-	 (with-current-buffer buf
-	   (setq-local buffer-read-only nil)
-	   (erase-buffer)
-	   (mapcar (lambda (entry)
-		     (insert entry)
-		     (insert "\n")
-		     ) my-emacs-cheatsheet)
-	   (setq-local buffer-read-only t))
-	 (display-buffer buf)))
+         (with-current-buffer buf
+           (setq-local buffer-read-only nil)
+           (erase-buffer)
+           (mapcar (lambda (entry)
+                     (insert entry)
+                     (insert "\n")
+                     ) my-emacs-cheatsheet)
+           (setq-local buffer-read-only t))
+         (display-buffer buf)))
 
 
 (global-set-key (kbd "<f1>") 'cheatsheet)
+
+(defun totpgen () (interactive) (async-shell-command "totpgen"))
