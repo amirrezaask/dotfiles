@@ -157,6 +157,10 @@
   :bind
   (("M-l" . indent-buffer)))
 
+(use-package newcomment
+  :bind
+  (("C-/" . comment-line)))
+
 (use-package simple
   :demand t
   :init
@@ -635,6 +639,8 @@
                                    "ALT-Y         Paste from clipboard"
                                    "CTRL-z        Undo"
                                    ""
+				   "CTRL-/        Un/Comment"
+				   ""
                                    "CTRL-S        Search in buffer"
                                    "CTRL-R        Replace"
                                    "ALT-R         Replace using regexp"
@@ -645,6 +651,7 @@
                                    "CTRL-.        Next Buffer"
                                    "CTRL-,        Previous Buffer"
                                    ""
+				   "CTRL-X CTRL-O Switch To Other Window"
                                    "CTRL-0        Delete Current Window"
                                    "CTRL-1        Delete Other Windows"
                                    "CTRL-2        Split Window Horizontally"
