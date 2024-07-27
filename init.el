@@ -39,10 +39,11 @@
       is-macos (eq system-type 'darwin)
       has-treesitter (>= emacs-major-version 29))
 
-(set-frame-parameter nil 'fullscreen 'maximized) ;; Always start emacs window in maximized mode.
 
 
 " nil (expand-file-name "early-init.el" user-emacs-directory)))
+
+(set-frame-parameter nil 'fullscreen 'maximized) ;; Always start emacs window in maximized mode.
 
 
 (defun home (path) (expand-file-name path (getenv "HOME")))
@@ -108,6 +109,7 @@
 ;; #Window #Buffer
 (defun jump-up () (interactive) (next-line (* -1 (/ (window-height) 2))) (recenter-top-bottom))
 (defun jump-down () (interactive) (next-line (/ (window-height) 2)) (recenter-top-bottom))
+
 (setq recenter-positions '(middle))
 
 (global-set-key (kbd "C-.")      'next-buffer)
@@ -165,31 +167,29 @@
 
 (require 'vlf-setup)
 
-;; ;; Modeline Helpers
-(defun modeline-vc () (interactive) (propertize (if vc-mode vc-mode "")))
-(defun modeline-file () (interactive)
-       (propertize
-        (if (buffer-file-name) ;; If it's a file show path to the file else just ask emacs to do it's best
-            (buffer-file-name)
-          "%b")))
+(defun flymake-count (type) ""
+  (let ((count 0))
+    (dolist (d (flymake-diagnostics))
+      (when (= (flymake--severity type)
+               (flymake--severity (flymake-diagnostic-type d)))
+	(cl-incf count)))
+    count))
 
-(defun modeline-modified () (interactive) (propertize (if (and (buffer-file-name) (buffer-modified-p (current-buffer))) "**" "--")))
-(defun modeline-linecol () (interactive) (propertize "%l:%c"))
-(defun modeline-major-mode () (interactive) (propertize (substring (capitalize (symbol-name major-mode)) 0 -5)))
-(defun modeline-eglot () (interactive) (propertize (if (eglot-managed-p) "[Eglot]" "")))
-(defun modeline-spacify (val) (interactive) (if val
-                                                (format " %s" val)
-                                              ""))
+
+;; Modeline
 (setq-default mode-line-format '("%e"
-                                 mode-line-mule-info
-                                 (:eval (modeline-modified))
-                                 (:eval (modeline-spacify (modeline-file)))
-                                 (:eval (modeline-spacify "L%l"))
+                                 (:eval (if (and (buffer-file-name) (buffer-modified-p)) "**" "--"))
+				 " "
+				 (:eval (if (buffer-file-name) "%f" "%b"))
+                                 " L%l"
 				 " %o"
-                                 (:eval (modeline-spacify (modeline-eglot)))
-                                 (:eval (modeline-spacify (modeline-vc)))
-                                 ))
-
+                                 (:eval (if (eglot-managed-p) " [LSP]" ""))
+				 " ["
+				 "E:" (:eval (format "%d" (flymake-count :error)))
+				 " W:" (:eval (format "%d" (flymake-count :warning)))
+				 " N:" (:eval (format "%d" (flymake-count :note)))
+				 "]"
+                                 (:eval (if vc-mode vc-mode ""))))
 
 
 ;; Minibuffer and Completions
