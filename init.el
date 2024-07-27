@@ -99,7 +99,8 @@
 	       ef-themes ;; Nice themes
 	       vlf   ;; handle [V]ery [L]arge [F]iles
 	       wgrep ;; Editable Grep Buffers
-
+	       gruber-darker-theme
+	       
 	       go-mode
                rust-mode
                php-mode
@@ -107,8 +108,8 @@
                yaml-mode)) (package-install pkg))
 
 ;; #Window #Buffer
-(defun jump-up () (interactive) (next-line (* -1 (/ (window-height) 2))) (recenter-top-bottom))
-(defun jump-down () (interactive) (next-line (/ (window-height) 2)) (recenter-top-bottom))
+(defun jump-up () (interactive) (forward-line (* -1 (/ (window-height) 2))) (recenter-top-bottom))
+(defun jump-down () (interactive) (forward-line (/ (window-height) 2)) (recenter-top-bottom))
 
 (setq recenter-positions '(middle))
 
@@ -132,7 +133,7 @@
 (global-auto-revert-mode +1)              ;; Auto revert to disk changes, do we really want this ??
 (delete-selection-mode +1)                ;; Delete selected region before inserting.
 
-(defun indent-buffer () "Indents an entire buffer using the default intenting scheme." (interactive)
+(defun indent-buffer () "Indent an entire buffer using the default intenting scheme." (interactive)
        (save-excursion
          (delete-trailing-whitespace)
          (indent-region (point-min) (point-max) nil)
@@ -167,7 +168,7 @@
 
 (require 'vlf-setup)
 
-(defun flymake-count (type) ""
+(defun flymake-count (type) "Return count of given flymake TYPE."
   (let ((count 0))
     (dolist (d (flymake-diagnostics))
       (when (= (flymake--severity type)
@@ -198,15 +199,18 @@
 (setq completions-header-format nil)
 (setq completions-max-height 15)
 (setq completions-auto-select nil)
+(setq completion-styles '(basic partial-completion emacs22))
 
 (with-eval-after-load 'minibuffer
   (define-key global-map                    (kbd "C-q") 'completion-at-point)
-  
+  (define-key minibuffer-mode-map           (kbd "RET") 'minibuffer-choose-completion)
+  (define-key completion-in-region-mode-map (kbd "RET") 'minibuffer-choose-completion)
   (define-key minibuffer-mode-map           (kbd "C-n") 'minibuffer-next-completion)
   (define-key minibuffer-mode-map           (kbd "C-p") 'minibuffer-previous-completion)
   (define-key completion-in-region-mode-map (kbd "C-n") 'minibuffer-next-completion)
   (define-key completion-in-region-mode-map (kbd "C-p") 'minibuffer-previous-completion))
 
+;; Themes
 (defun save-theme (name definition)
   (mkdir (expand-file-name "themes" user-emacs-directory) t)
   (write-region (format "(deftheme %s)
@@ -445,9 +449,9 @@
 
        (let ((default-directory --grep-dir))
          (cond
-          ((executable-find "rg") (grep (format "rg --no-heading --color='never' %s" (read-string "Ripgrep: "))))
-          ((git-repo-p DIR)       (grep (format "git grep --no-color -n %s" (read-string "Git Grep: "))))
-          (t                      (grep (format "grep --color=auto -R -nH -e %s ." (read-string "Grep: ")))))))
+          ((executable-find "rg") (grep (format "rg --no-heading --color='never' '%s'" (read-string "Ripgrep: "))))
+          ((git-repo-p DIR)       (grep (format "git grep --no-color -n '%s'" (read-string "Git Grep: "))))
+          (t                      (grep (format "grep --color=auto -R -nH -e '%s' ." (read-string "Grep: ")))))))
 
 
 
