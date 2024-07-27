@@ -100,7 +100,8 @@
 	       vlf   ;; handle [V]ery [L]arge [F]iles
 	       wgrep ;; Editable Grep Buffers
 	       gruber-darker-theme
-	       
+	       vertico
+	       consult
 	       go-mode
                rust-mode
                php-mode
@@ -193,22 +194,15 @@
                                  (:eval (if vc-mode vc-mode ""))))
 
 
-;; Minibuffer and Completions
-;; We don't need extra packages for completion.
-(setq completions-format 'one-column)
-(setq completions-header-format nil)
-(setq completions-max-height 15)
-(setq completions-auto-select nil)
-(setq completion-styles '(basic partial-completion emacs22))
+;; Minibuffer and Completions (Vertico)
+(vertico-mode +1)
+(setq completion-in-region-function
+      (lambda (&rest args)
+        (apply (if vertico-mode
+                   #'consult-completion-in-region
+                 #'completion--in-region)
+               args)))
 
-(with-eval-after-load 'minibuffer
-  (define-key global-map                    (kbd "C-q") 'completion-at-point)
-  (define-key minibuffer-mode-map           (kbd "RET") 'minibuffer-choose-completion)
-  (define-key completion-in-region-mode-map (kbd "RET") 'minibuffer-choose-completion)
-  (define-key minibuffer-mode-map           (kbd "C-n") 'minibuffer-next-completion)
-  (define-key minibuffer-mode-map           (kbd "C-p") 'minibuffer-previous-completion)
-  (define-key completion-in-region-mode-map (kbd "C-n") 'minibuffer-next-completion)
-  (define-key completion-in-region-mode-map (kbd "C-p") 'minibuffer-previous-completion))
 
 ;; Themes
 (defun save-theme (name definition)
