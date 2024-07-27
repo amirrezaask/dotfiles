@@ -96,13 +96,13 @@
 
 ;; Install packages
 (dolist (pkg '(
-	       ef-themes ;; Nice themes
-	       vlf   ;; handle [V]ery [L]arge [F]iles
-	       wgrep ;; Editable Grep Buffers
-	       gruber-darker-theme
-	       vertico
-	       consult
-	       go-mode
+               ef-themes ;; Nice themes
+               vlf   ;; handle [V]ery [L]arge [F]iles
+               wgrep ;; Editable Grep Buffers
+               gruber-darker-theme
+               vertico
+               consult
+               go-mode
                rust-mode
                php-mode
                json-mode
@@ -170,31 +170,32 @@
 (require 'vlf-setup)
 
 (defun flymake-count (type) "Return count of given flymake TYPE."
-  (let ((count 0))
-    (dolist (d (flymake-diagnostics))
-      (when (= (flymake--severity type)
-               (flymake--severity (flymake-diagnostic-type d)))
-	(cl-incf count)))
-    count))
+       (let ((count 0))
+         (dolist (d (flymake-diagnostics))
+           (when (= (flymake--severity type)
+                    (flymake--severity (flymake-diagnostic-type d)))
+             (cl-incf count)))
+         count))
 
 
 ;; Modeline
 (setq-default mode-line-format '("%e"
                                  (:eval (if (and (buffer-file-name) (buffer-modified-p)) "**" "--"))
-				 " "
-				 (:eval (if (buffer-file-name) "%f" "%b"))
+                                 " "
+                                 (:eval (if (buffer-file-name) "%f" "%b"))
                                  " L%l"
-				 " %o"
+                                 " %o"
                                  (:eval (if (eglot-managed-p) " [LSP]" ""))
-				 " ["
-				 "E:" (:eval (format "%d" (flymake-count :error)))
-				 " W:" (:eval (format "%d" (flymake-count :warning)))
-				 " N:" (:eval (format "%d" (flymake-count :note)))
-				 "]"
+                                 " ["
+                                 "E:" (:eval (format "%d" (flymake-count :error)))
+                                 " W:" (:eval (format "%d" (flymake-count :warning)))
+                                 " N:" (:eval (format "%d" (flymake-count :note)))
+                                 "]"
                                  (:eval (if vc-mode vc-mode ""))))
 
 
 ;; Minibuffer and Completions (Vertico)
+(global-set-key (kbd "C-q") 'completion-at-point)
 (vertico-mode +1)
 (setq completion-in-region-function
       (lambda (&rest args)
@@ -332,6 +333,76 @@
 (setq-default cursor-type 'bar)
 ")
 
+
+(save-theme "solarized-dark" "
+(custom-theme-set-faces
+   'solarized-dark
+   `(default ((t (:foreground \"#839496\" :background \"#002b36\"))))
+   `(cursor ((t (:foreground \"#002b36\" :background \"#839496\"))))
+   `(font-lock-keyword-face ((t (:foreground \"#859900\" :background \"unspecified\"))))
+   `(font-lock-operator-face ((t (:foreground \"unspecified\" :background \"unspecified\"))))
+   `(font-lock-punctuation-face ((t (:foreground \"unspecified\" :background \"unspecified\"))))
+   `(font-lock-bracket-face ((t (:foreground \"unspecified\" :background \"unspecified\"))))
+   `(font-lock-delimiter-face ((t (:foreground \"unspecified\" :background \"unspecified\"))))
+   `(font-lock-type-face ((t (:foreground \"#b58900\" :background \"unspecified\"))))
+   `(font-lock-constant-face ((t (:foreground \"#268bd2\" :background \"unspecified\"))))
+   `(font-lock-variable-name-face ((t (:foreground \"#268bd2\" :background \"unspecified\"))))
+   `(font-lock-builtin-face ((t (:foreground \"#839496\" :background \"unspecified\"))))
+   `(font-lock-string-face ((t (:foreground \"#2aa198\" :background \"unspecified\"))))
+   `(font-lock-comment-face ((t (:foreground \"#586e75\" :background \"unspecified\"))))
+   `(font-lock-comment-delimiter-face ((t (:foreground \"#586e75\" :background \"unspecified\"))))
+   `(font-lock-doc-face ((t (:foreground \"#2aa198\" :background \"unspecified\"))))
+   `(font-lock-function-name-face ((t (:foreground \"#268bd2\" :background \"unspecified\"))))
+   `(font-lock-preprocessor-face ((t (:foreground \"#268bd2\" :background \"unspecified\"))))
+   `(font-lock-warning-face ((t (:foreground \"unspecified\" :background \"unspecified\"))))
+   `(region ((t (:foreground \"#002b36\" :background \"#93a1a1\"))))
+   `(hl-line ((t (:foreground \"unspecified\" :background \"#073642\"))))
+   `(vertico-current ((t (:background \"#073642\"))))
+   `(highlight ((t (:foreground \"unspecified\" :background \"#073642\"))))
+   `(mode-line ((t (:foreground \"#839496\" :background \"#073642\"))))
+   `(mode-line-inactive ((t (:foreground \"#586e75\" :background \"#002b36\"))))
+   `(minibuffer-prompt ((t (:foreground \"#839496\" :background \"unspecified\"))))
+   `(show-paren-match ((t (:foreground \"#d33682\" :background \"unspecified\")))))
+(global-hl-line-mode +1)
+(setq-default cursor-type 'box)
+
+")
+
+(save-theme "solarized-light" "
+(custom-theme-set-faces
+   'solarized-light
+  `(default ((t (:foreground \"#657b83\" :background \"#fdf6e3\"))))
+  `(cursor ((t (:foreground \"#fdf6e3\" :background \"#657b83\"))))
+  `(font-lock-keyword-face ((t (:foreground \"#859900\" :background \"unspecified\"))))
+  `(font-lock-operator-face ((t (:foreground \"unspecified\" :background \"unspecified\"))))
+  `(font-lock-punctuation-face ((t (:foreground \"unspecified\" :background \"unspecified\"))))
+  `(font-lock-bracket-face ((t (:foreground \"unspecified\" :background \"unspecified\"))))
+  `(font-lock-delimiter-face ((t (:foreground \"unspecified\" :background \"unspecified\"))))
+  `(font-lock-type-face ((t (:foreground \"#b58900\" :background \"unspecified\"))))
+  `(font-lock-constant-face ((t (:foreground \"#268bd2\" :background \"unspecified\"))))
+  `(font-lock-variable-name-face ((t (:foreground \"#268bd2\" :background \"unspecified\"))))
+  `(font-lock-builtin-face ((t (:foreground \"#657b83\" :background \"unspecified\"))))
+  `(font-lock-string-face ((t (:foreground \"#2aa198\" :background \"unspecified\"))))
+  `(font-lock-comment-face ((t (:foreground \"#93a1a1\" :background \"unspecified\"))))
+  `(font-lock-comment-delimiter-face ((t (:foreground \"#93a1a1\" :background \"unspecified\"))))
+  `(font-lock-doc-face ((t (:foreground \"#2aa198\" :background \"unspecified\"))))
+  `(font-lock-function-name-face ((t (:foreground \"#268bd2\" :background \"unspecified\"))))
+  `(font-lock-preprocessor-face ((t (:foreground \"#268bd2\" :background \"unspecified\"))))
+  `(font-lock-warning-face ((t (:foreground \"unspecified\" :background \"unspecified\"))))
+  `(region ((t (:foreground \"#fdf6e3\" :background \"#586e75\"))))
+  `(hl-line ((t (:foreground \"unspecified\" :background \"#eee8d5\"))))
+  `(vertico-current ((t (:background \"#eee8d5\"))))
+  `(highlight ((t (:foreground \"unspecified\" :background \"#eee8d5\"))))
+  `(mode-line ((t (:foreground \"#657b83\" :background \"#eee8d5\"))))
+  `(mode-line-inactive ((t (:foreground \"#93a1a1\" :background \"#fdf6e3\"))))
+  `(minibuffer-prompt ((t (:foreground \"#657b83\" :background \"unspecified\"))))
+  `(show-paren-match ((t (:foreground \"#d33682\" :background \"unspecified\")))))
+(global-hl-line-mode +1)
+(setq-default cursor-type 'box)
+
+")
+
+
 (add-to-list 'custom-theme-load-path (expand-file-name "themes" user-emacs-directory))
 
 (defadvice load-theme (before disable-themes-first (THEME &rest args) activate)
@@ -339,7 +410,7 @@
     (disable-theme i)))
 
 (setq custom-safe-themes t)
-(load-theme 'handmadehero)
+(load-theme 'solarized-dark)
 
 (setq-default c-default-style "linux" c-basic-offset 4)
 
@@ -393,9 +464,9 @@
 (with-eval-after-load 'compile
   (define-key compilation-mode-map (kbd "<f5>") 'recompile)
   (define-key compilation-mode-map (kbd "M-m")  'recompile)
-  (define-key compilation-mode-map (kbd "M-n")    'jump-down)
-  (define-key compilation-mode-map (kbd "M-p") 'jump-up)
-  (define-key compilation-mode-map (kbd "k") 'kill-compilation))
+  (define-key compilation-mode-map (kbd "M-n")  'jump-down)
+  (define-key compilation-mode-map (kbd "M-p")  'jump-up)
+  (define-key compilation-mode-map (kbd "k")    'kill-compilation))
 
 (defun amirreza-compile-buffer-name-function (MODESTR) (let ((dir (find-root-or-default-directory))) (format "*%s-%s*" MODESTR dir)))
 (setq-default compilation-buffer-name-function 'amirreza-compile-buffer-name-function)
@@ -421,7 +492,6 @@
 
 
 ;; Grep
-
 (global-set-key (kbd "M-j") 'pgrep)
 (with-eval-after-load 'grep
   (define-key grep-mode-map (kbd "C-c C-p") 'wgrep-toggle-readonly-area)
@@ -488,11 +558,10 @@
 
 ;; Replace
 (global-set-key (kbd "C-r") 'replace-string)
-(global-set-key (kbd "C-r") 'replace-regexp)
+(global-set-key (kbd "M-r") 'replace-regexp)
 
 (with-eval-after-load 'replace
-  (define-key query-replace-map (kbd "<return>") 'act)
-  )
+  (define-key query-replace-map (kbd "<return>") 'act))
 
 ;; Flymake
 (with-eval-after-load 'flymake
@@ -503,6 +572,12 @@
 (global-set-key (kbd "M-[") 'kmacro-start-macro)
 (global-set-key (kbd "M-]") 'kmacro-end-or-call-macro)
 (global-set-key (kbd "M-\\") 'kmacro-end-and-call-macro)
+
+;; Rectangle Mode
+(global-set-key (kbd "C-x SPC") 'rectangle-mark-mode)
+(with-eval-after-load 'rect
+  (define-key rectangle-mark-mode-map (kbd "C-x r i") 'string-insert-rectangle))
+
 
 (defun cheatsheet () "Show cheatsheet of my emacs" (interactive)
        (setq my-emacs-cheatsheet '(
@@ -519,6 +594,7 @@
                                    "ALT-V         ???????????"
                                    "ALT-T         ???????????"
                                    "ALT-'         ???????????"
+				   ""
                                    "CTRL-W        Cut"
                                    "ALT-W         Copy"
                                    "CTRL-Y        Paste"
@@ -530,44 +606,50 @@
                                    "CTRL-S        Search in buffer"
                                    "CTRL-R        Replace"
                                    "ALT-R         Replace using regexp"
-                                   ""
+
+				   ""
                                    "CTRL-SHIFT-,  Begining Of Buffer"
                                    "CTRL-SHIFT-.  End of Buffer"
-                                   ""
                                    "CTRL-.        Next Buffer"
                                    "CTRL-,        Previous Buffer"
-                                   ""
+
+				   ""
                                    "CTRL-X CTRL-O Switch To Other Window"
                                    "CTRL-0        Delete Current Window"
                                    "CTRL-1        Delete Other Windows"
                                    "CTRL-2        Split Window Horizontally"
                                    "CTRL-3        Split Window Vertically"
-                                   ""
                                    "CTRL-;        Goto Line"
-                                   ""
                                    "CTRL-SPC      Set Mark"
-                                   ""
                                    "ALT-L         Format Buffer"
-                                   ""
+				   ""
                                    "ALT-O         Find-File"
                                    "CTRL-J        (Project) File-Finder"
                                    "ALT-J         (Project) Grep"
                                    "ALT-;         (Project) Emacs Shell"
                                    "ALT-M         (Project) Compile"
                                    "ALT-G         (Project) Git Diff"
+				   
                                    ""
                                    "CTRL-Q        Trigger Complete at point (Autocomplete)"
                                    "ALT-.         Goto Definition"
                                    "ALT-SHIFT-/   Find References"
                                    "ALT-,         Jump back"
+
                                    ""
                                    "ALT-9         Previous Error"
                                    "ALT-0         Next Error"
+
                                    ""
                                    "ALT-[         Start Recording Macro"
                                    "ALT-]         End Recording/Execute Macro"
-                                   "ALT-\\        Execute Macro"
-                                   ""
+                                   "ALT-\\         Execute Macro"
+
+				   ""
+				   "CTRL-X SPACE  Rectangle mark mode"
+				   "CTRL-x r i    Insert into rectangle"
+				   "CTRL-x r t    Replace rectangle"
+				   "CTRL-x r k    Kill rectangle"
                                    ))
 
        (let ((buf (get-buffer-create "*Cheatsheet*")))
