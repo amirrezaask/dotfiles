@@ -594,7 +594,7 @@
                                    "ALT-V         ???????????"
                                    "ALT-T         ???????????"
                                    "ALT-'         ???????????"
-				   ""
+                                   ""
                                    "CTRL-W        Cut"
                                    "ALT-W         Copy"
                                    "CTRL-Y        Paste"
@@ -607,13 +607,13 @@
                                    "CTRL-R        Replace"
                                    "ALT-R         Replace using regexp"
 
-				   ""
+                                   ""
                                    "CTRL-SHIFT-,  Begining Of Buffer"
                                    "CTRL-SHIFT-.  End of Buffer"
                                    "CTRL-.        Next Buffer"
                                    "CTRL-,        Previous Buffer"
 
-				   ""
+                                   ""
                                    "CTRL-X CTRL-O Switch To Other Window"
                                    "CTRL-0        Delete Current Window"
                                    "CTRL-1        Delete Other Windows"
@@ -622,14 +622,14 @@
                                    "CTRL-;        Goto Line"
                                    "CTRL-SPC      Set Mark"
                                    "ALT-L         Format Buffer"
-				   ""
+                                   ""
                                    "ALT-O         Find-File"
                                    "CTRL-J        (Project) File-Finder"
                                    "ALT-J         (Project) Grep"
                                    "ALT-;         (Project) Emacs Shell"
                                    "ALT-M         (Project) Compile"
                                    "ALT-G         (Project) Git Diff"
-				   
+
                                    ""
                                    "CTRL-Q        Trigger Complete at point (Autocomplete)"
                                    "ALT-.         Goto Definition"
@@ -645,11 +645,11 @@
                                    "ALT-]         End Recording/Execute Macro"
                                    "ALT-\\         Execute Macro"
 
-				   ""
-				   "CTRL-X SPACE  Rectangle mark mode"
-				   "CTRL-x r i    Insert into rectangle"
-				   "CTRL-x r t    Replace rectangle"
-				   "CTRL-x r k    Kill rectangle"
+                                   ""
+                                   "CTRL-X SPACE  Rectangle mark mode"
+                                   "CTRL-x r i    Insert into rectangle"
+                                   "CTRL-x r t    Replace rectangle"
+                                   "CTRL-x r k    Kill rectangle"
                                    ))
 
        (let ((buf (get-buffer-create "*Cheatsheet*")))
