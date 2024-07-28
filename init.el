@@ -74,13 +74,14 @@
 (setq font-families (font-family-list))
 (defun set-font (font size) "Set font interactively"
        (interactive (list (completing-read "Font: " font-families) (read-number "Size: ")))
-       (if (x-list-fonts font)
+       (if (has-font font)
            (set-face-attribute 'default nil :font (format "%s-%d" font size))))
+(defun has-font (font) (member font font-families))
 
 (cond
- ((member "Liberation Mono" font-families) (set-font "Liberation Mono" 18))
- (is-macos (set-font "Menlo" 18))
- (is-windows (set-font "Consolas" 18)))
+ ((has-font "Liberation Mono") (set-font "Liberation Mono" 17))
+ (is-macos (set-font "Menlo" 17))
+ (is-windows (set-font "Consolas" 17)))
 
 
 (global-unset-key (kbd "C-x C-c"))
@@ -96,13 +97,11 @@
 
 ;; Install packages
 (dolist (pkg '(
+	       gruber-darker-theme ;; thanks to @tsoding
                ef-themes ;; Nice themes
-               vlf   ;; handle [V]ery [L]arge [F]iles
-               wgrep ;; Editable Grep Buffers
-               gruber-darker-theme
-               vertico
-               consult
-               go-mode
+               vlf       ;; handle [V]ery [L]arge [F]iles
+               wgrep     ;; Editable Grep Buffers
+	       go-mode
                rust-mode
                php-mode
                json-mode
@@ -157,15 +156,15 @@
          (kill-region (line-beginning-position) (line-end-position)))) ;; copy current line
 
 (global-set-key (kbd "C-;")   'goto-line)
-(global-set-key (kbd "C-w")   'cut)
+(global-set-key (kbd "C-w")   'cut) ;; modern cut
 (global-set-key (kbd "C-z")   'undo)
-(global-set-key (kbd "C-SPC") 'set-mark-command)
-(global-set-key (kbd "M-w")   'copy)
+(global-set-key (kbd "C-SPC") 'set-mark-command) ;; Visual selection
+(global-set-key (kbd "M-w")   'copy) ;; modern copy
 
 
-(toggle-truncate-lines +1)
+(toggle-truncate-lines +1) ;; wrap long lines
 
-(global-so-long-mode +1)
+(global-so-long-mode +1) ;; don't choke on minified code.
 
 (require 'vlf-setup)
 
@@ -196,14 +195,18 @@
 
 ;; Minibuffer and Completions (Vertico)
 (global-set-key (kbd "C-q") 'completion-at-point)
-(vertico-mode +1)
-(setq completion-in-region-function
-      (lambda (&rest args)
-        (apply (if vertico-mode
-                   #'consult-completion-in-region
-                 #'completion--in-region)
-               args)))
+(setq completions-format 'one-column)
+(setq completions-header-format nil)
+(setq completions-max-height 15)
+(setq completions-auto-select nil)
+(add-to-list 'completion-styles 'flex)
 
+(with-eval-after-load 'minibuffer
+  (define-key minibuffer-mode-map           (kbd "C-n") 'minibuffer-next-completion)
+  (define-key minibuffer-mode-map           (kbd "C-p") 'minibuffer-previous-completion)
+  (define-key completion-in-region-mode-map (kbd "RET") 'minibuffer-choose-completion)
+  (define-key completion-in-region-mode-map (kbd "C-n") 'minibuffer-next-completion)
+  (define-key completion-in-region-mode-map (kbd "C-p") 'minibuffer-previous-completion))
 
 ;; Themes
 (defun save-theme (name definition)
