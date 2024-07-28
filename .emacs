@@ -38,28 +38,13 @@
       is-linux (eq system-type 'gnu-linux)
       is-macos (eq system-type 'darwin)
       has-treesitter (>= emacs-major-version 29))
-
-
-
 " nil (expand-file-name "early-init.el" user-emacs-directory)))
 
-
-(setq amirrezaask/completion-framework 'builtin)
-;; (setq amirrezaask/completion-framework 'vertico)
-
-(setq amirrezaask/autocomplete 'builtin)
-;; (setq amirrezaask/autocomplete 'corfu)
-
-(setq amirrezaask/font '("Liberation Mono-17"
-			 "Menlo-16"
-			 "Consolas-16"))
-
-(require 'cl-lib)
 (set-frame-parameter nil 'fullscreen 'maximized) ;; Always start emacs window in maximized mode.
 
-(setq frame-title-format "Midra")
+(setq frame-title-format "GNU Emacs")
 
-;; Setting up PATH
+;; @PATH
 (defun home (path) (expand-file-name path (getenv "HOME")))
 (add-to-list 'exec-path (home ".local/bin"))
 (add-to-list 'exec-path (home "go/bin"))
@@ -84,27 +69,25 @@
 
 (global-set-key (kbd "C-x i") 'edit-init) ;; Edit this file.
 
-;; Font
+;; @Font
 (setq font-families (font-family-list))
+(require 'cl-lib)
+(cl-loop for font in '("Liberation Mono-17"
+                       "Menlo-16"
+                       "Consolas-16")
+         do
+         (let* ((font-family (car (string-split font "-"))))
+           (when (member font-family font-families)
+             (set-face-attribute 'default nil :font (format "%s" font))
+             (cl-return))))
 
-(defun set-font-with-fallback (fonts) "Set first font that was available"
-       (cl-loop for font in fonts
-                do
-                (let* ((font-family (car (string-split font "-"))))
-                  (when (member font-family font-families)
-                    (set-face-attribute 'default nil :font (format "%s" font))
-                    (cl-return)))))
 
 (defun set-font (font) "Set font" (interactive (list (read-string "Font: ")))
        (set-face-attribute 'default nil :font (format "%s" font)))
 
-(set-font-with-fallback amirrezaask/font)
-
 (global-unset-key (kbd "C-x C-c"))
 
 (setq native-comp-async-report-warnings-errors nil) ;; silently do jit compiling.
-
-(blink-cursor-mode -1) ;; No cursor blinking, distacting
 
 (setq package-archives
       '(("gnu-elpa" . "https://elpa.gnu.org/packages/")
@@ -115,7 +98,7 @@
   (unless (package-installed-p pkg)
     (package-install pkg)))
 
-;; Install packages
+;; @Packages
 (dolist (pkg '(
                vlf       ;; handle [V]ery [L]arge [F]iles
                wgrep     ;; Editable Grep Buffers
@@ -125,7 +108,7 @@
                json-mode
                yaml-mode)) (install pkg))
 
-;; Window
+;; @Window @Buffer
 (defun jump-up () (interactive) (forward-line (* -1 (/ (window-height) 2))) (recenter-top-bottom))
 (defun jump-down () (interactive) (forward-line (/ (window-height) 2)) (recenter-top-bottom))
 
@@ -186,79 +169,23 @@
 
 (require 'vlf-setup)
 
-(defun flymake-count (type) "Return count of given flymake TYPE."
-       (let ((count 0))
-         (dolist (d (flymake-diagnostics))
-           (when (= (flymake--severity type)
-                    (flymake--severity (flymake-diagnostic-type d)))
-             (cl-incf count)))
-         count))
-
-;; Modeline
-(setq-default mode-line-format '("%e"
-                                 (:eval (if (and (buffer-file-name) (buffer-modified-p)) "**" "--"))
-                                 " "
-                                 (:eval (if (buffer-file-name) "%f" "%b"))
-                                 " L%l"
-                                 " %o"
-                                 (:eval (if (and (fboundp 'eglot-managed-p) (eglot-managed-p)) " [LSP]" ""))
-                                 " ["
-                                 "E:"  (:eval  (format "%d" (flymake-count :error)))
-                                 " W:" (:eval (format "%d" (flymake-count :warning)))
-                                 " N:" (:eval (format "%d" (flymake-count :note)))
-                                 "]"
-                                 (:eval (if vc-mode vc-mode ""))))
-
-
-;; Minibuffer and Completions
+;; @Minibuffer
 (global-set-key (kbd "C-q") 'completion-at-point)
 
-(when (eq amirrezaask/completion-framework 'vertico)
-  (dolist (pkg '(vertico
-                 consult
-                 marginalia
-                 embark
-                 embark-consult)) (install pkg))
+(setq completions-format 'one-column)
+(setq completions-header-format nil)
+(setq completions-max-height 15)
+(setq completions-auto-select nil)
+(add-to-list 'completion-styles 'flex)
 
-  (vertico-mode +1)
-  (marginalia-mode +1)
-  (setq vertico-count 10)
-  (setq vertico-cycle t)
+(with-eval-after-load 'minibuffer
+  (define-key minibuffer-mode-map           (kbd "C-n") 'minibuffer-next-completion)
+  (define-key minibuffer-mode-map           (kbd "C-p") 'minibuffer-previous-completion)
+  (define-key completion-in-region-mode-map (kbd "RET") 'minibuffer-choose-completion)
+  (define-key completion-in-region-mode-map (kbd "C-n") 'minibuffer-next-completion)
+  (define-key completion-in-region-mode-map (kbd "C-p") 'minibuffer-previous-completion))
 
-  (global-set-key (kbd "C-x b") 'consult-buffer)
-  (global-set-key (kbd "M-i")   'consult-imenu)
-  (global-set-key (kbd "M-y")   'consult-yank-from-kill-ring)
-  (global-set-key (kbd "C-;")   'consult-goto-line)
-  (global-set-key (kbd "M--")   'consult-flymake)
-  (if (executable-find "rg") (global-set-key (kbd "M-j") 'consult-ripgrep) (global-set-key (kbd "M-j") 'consult-grep))
-
-  (with-eval-after-load 'minibuffer
-    (define-key minibuffer-mode-map (kbd "C-q") 'embark-export))
-
-  (when (eq amirrezaask/autocomplete 'builtin)
-    (setq completion-in-region-function #'consult-completion-in-region)))
-
-
-(when (eq amirrezaask/completion-framework 'builtin)
-  (setq completions-format 'one-column)
-  (setq completions-header-format nil)
-  (setq completions-max-height 15)
-  (setq completions-auto-select nil)
-  (add-to-list 'completion-styles 'flex)
-
-  (with-eval-after-load 'minibuffer
-    (define-key minibuffer-mode-map           (kbd "C-n") 'minibuffer-next-completion)
-    (define-key minibuffer-mode-map           (kbd "C-p") 'minibuffer-previous-completion)
-    (define-key completion-in-region-mode-map (kbd "RET") 'minibuffer-choose-completion)
-    (define-key completion-in-region-mode-map (kbd "C-n") 'minibuffer-next-completion)
-    (define-key completion-in-region-mode-map (kbd "C-p") 'minibuffer-previous-completion)))
-
-(when (eq amirrezaask/autocomplete 'corfu)
-  (install 'corfu)
-  (global-corfu-mode +1)
-  (setq corfu-auto nil))
-
-;; Themes
+;; @Themes
 (install 'ef-themes)
 (defun save-theme (name definition)
   (mkdir (expand-file-name "themes" user-emacs-directory) t)
@@ -291,8 +218,8 @@
   `(mode-line-inactive               ((t (:background \"gray20\" :foreground \"#ffffff\"))))
   `(show-paren-match                 ((t (:background \"mediumseagreen\")))))
 (global-hl-line-mode -1)
+(blink-cursor-mode +1)
 (setq-default cursor-type 'box)
-
 ")
 
 (save-theme "witness" "
@@ -321,7 +248,7 @@
  `(show-paren-match                 ((t (:background \"mediumseagreen\")))))
 (global-hl-line-mode -1)
 (setq-default cursor-type 'box)
-
+(blink-cursor-mode +1)
 ")
 
 (save-theme "handmadehero" "
@@ -349,7 +276,7 @@
 
 (global-hl-line-mode +1)
 (setq-default cursor-type 'box)
-
+(blink-cursor-mode -1)
 ")
 
 (save-theme "4coder-fleury" "
@@ -383,6 +310,7 @@
  `(minibuffer-prompt                ((t (:foreground \"#a08563\") :bold t)))
  `(show-paren-match                 ((t (:background \"#e0741b\" :foreground \"#000000\")))))
 
+(blink-cursor-mode -1)
 (global-hl-line-mode +1)
 (setq-default cursor-type 'bar)
 ")
@@ -414,7 +342,7 @@
    `(show-paren-match ((t (:foreground \"#d33682\")))))
 (global-hl-line-mode +1)
 (setq-default cursor-type 'box)
-
+(blink-cursor-mode +1)
 ")
 
 (save-theme "solarized-light" "
@@ -443,14 +371,15 @@
   `(show-paren-match ((t (:foreground \"#d33682\")))))
 (global-hl-line-mode +1)
 (setq-default cursor-type 'box)
-
+(blink-cursor-mode +1)
 ")
 
 (save-theme "default-dark" "
 (custom-theme-set-faces
 'default-dark
-`(default ((t (:foreground \"grey85\" :background \"grey10\")))))")
-
+`(default ((t (:foreground \"grey85\" :background \"grey10\")))))
+(blink-cursor-mode +1)
+")
 
 (add-to-list 'custom-theme-load-path (expand-file-name "themes" user-emacs-directory))
 (install 'ef-themes)
@@ -464,12 +393,12 @@
 
 (setq-default c-default-style "linux" c-basic-offset 4)
 
-;; Xref: Jump to definitions
+;; @xref: Jump to definitions
 (global-set-key (kbd "M-.") 'xref-find-definitions)
 (global-set-key (kbd "M-,") 'xref-go-back)
 (global-set-key (kbd "M-?") 'xref-find-references)
 
-;; LSP (Eglot)
+;; @LSP (@Eglot)
 (with-eval-after-load 'eglot
   (define-key eglot-mode-map (kbd "C-c C-r") 'eglot-rename)
   (define-key eglot-mode-map (kbd "M-l")     'eglot-organize-imports-format)
@@ -511,7 +440,7 @@
 (defun git-repo-p (DIR) (locate-dominating-file DIR ".git"))
 (defun find-root-or-default-directory () (or (find-root) default-directory))
 
-;; Compile
+;; @Compile
 (global-set-key (kbd "M-m") 'run-compile)
 (global-set-key (kbd "M-g") 'run-git-diff)
 
@@ -547,58 +476,58 @@
          (compilation-start command)))
 
 
-;; Grep
-(when (eq amirrezaask/completion-framework 'builtin)
-  (global-set-key (kbd "M-j") 'pgrep)
-  (with-eval-after-load 'grep
-    (define-key grep-mode-map (kbd "C-c C-p") 'wgrep-toggle-readonly-area)
-    (define-key grep-mode-map (kbd "<f5>")    'recompile)
-    (define-key grep-mode-map (kbd "g")       'recompile)
-    (define-key grep-mode-map (kbd "M-n")     'jump-down)
-    (define-key grep-mode-map (kbd "M-p")     'jump-up)
-    (define-key grep-mode-map (kbd "k")       'kill-compilation))
+;; @Grep
+(global-set-key (kbd "M-j") 'pgrep)
+(with-eval-after-load 'grep
+  (define-key grep-mode-map (kbd "C-c C-p") 'wgrep-toggle-readonly-area)
+  (define-key grep-mode-map (kbd "<f5>")    'recompile)
+  (define-key grep-mode-map (kbd "g")       'recompile)
+  (define-key grep-mode-map (kbd "M-n")     'jump-down)
+  (define-key grep-mode-map (kbd "M-p")     'jump-up)
+  (define-key grep-mode-map (kbd "k")       'kill-compilation))
 
-  (with-eval-after-load 'grep
-    (when (executable-find "rg")
-      (grep-apply-setting 'grep-command "rg --no-heading --color='never'")
-      (grep-apply-setting 'grep-use-null-device nil)))
+(with-eval-after-load 'grep
+  (when (executable-find "rg")
+    (grep-apply-setting 'grep-command "rg --no-heading --color='never'")
+    (grep-apply-setting 'grep-use-null-device nil)))
 
-  (defun pgrep () "Recursive grep in `find-root` result or C-u to choose directory interactively." (interactive)
-         (if (null current-prefix-arg)
-             (setq --grep-dir (find-root-or-default-directory))
-           (setq --grep-dir (read-directory-name "Directory: " default-directory)))
+(defun pgrep () "Recursive grep in `find-root` result or C-u to choose directory interactively." (interactive)
+       (if (null current-prefix-arg)
+           (setq --grep-dir (find-root-or-default-directory))
+         (setq --grep-dir (read-directory-name "Directory: " default-directory)))
 
-         (let ((default-directory --grep-dir))
-           (cond
-            ((executable-find "rg") (grep (format "rg --no-heading --color='never' '%s'" (read-string "Ripgrep: "))))
-            ((git-repo-p DIR)       (grep (format "git grep --no-color -n '%s'" (read-string "Git Grep: "))))
-            (t                      (grep (format "grep --color=auto -R -nH -e '%s' ." (read-string "Grep: "))))))))
-
-
-;; Find File
-(when (eq amirrezaask/completion-framework 'builtin)
-  (global-set-key (kbd "C-j") 'pfind-file)
-  (defun pfind-file () "Recursive file find starting from `find-root` result or C-u to choose directory interactively." (interactive)
-         (if (null current-prefix-arg)
-             (setq --open-file-dir (find-root-or-default-directory))
-           (setq --open-file-dir (read-directory-name "Directory: " default-directory)))
-
+       (let ((default-directory --grep-dir))
          (cond
-          ((executable-find "rg") (let* ((default-directory --open-file-dir)
-                                         (command (format "rg --files"))
-                                         (file (completing-read "Ripgrep Files: " (string-split (shell-command-to-string command) "\n" t) nil t)))
-                                    (find-file file)))
-
-          ((git-repo-p --open-file-dir) (let*
-                                            ((default-directory --open-file-dir)
-                                             (command (format "git ls-files"))
-                                             (file (completing-read "Git Files: " (string-split (shell-command-to-string command) "\n" t))))
-                                          (find-file file)))
-          (t (error "you don't have rg installed and it's not a git repo.")))))
+          ((executable-find "rg") (grep (format "rg --no-heading --color='never' '%s'" (read-string "Ripgrep: "))))
+          ((git-repo-p DIR)       (grep (format "git grep --no-color -n '%s'" (read-string "Git Grep: "))))
+          (t                      (grep (format "grep --color=auto -R -nH -e '%s' ." (read-string "Grep: ")))))))
 
 
+;; @Find File
+(global-set-key (kbd "C-j") 'pfind-file)
 
-;; Eshell
+;; @TODO: Add gnu find backend for this function.
+(defun pfind-file () "Recursive file find starting from `find-root` result or C-u to choose directory interactively." (interactive)
+       (if (null current-prefix-arg)
+           (setq --open-file-dir (find-root-or-default-directory))
+         (setq --open-file-dir (read-directory-name "Directory: " default-directory)))
+
+       (cond
+        ((executable-find "rg") (let* ((default-directory --open-file-dir)
+                                       (command (format "rg --files"))
+                                       (file (completing-read "Ripgrep Files: " (string-split (shell-command-to-string command) "\n" t) nil t)))
+                                  (find-file file)))
+
+        ((git-repo-p --open-file-dir) (let*
+                                          ((default-directory --open-file-dir)
+                                           (command (format "git ls-files"))
+                                           (file (completing-read "Git Files: " (string-split (shell-command-to-string command) "\n" t))))
+                                        (find-file file)))
+        (t (error "you don't have rg installed and it's not a git repo."))))
+
+
+
+;; @Eshell
 (global-set-key (kbd "M-;") 'peshell)
 (with-eval-after-load 'esh-mode
   (define-key eshell-mode-map (kbd "M-;") 'previous-buffer))
@@ -612,26 +541,24 @@
              (switch-to-buffer eshell-buffer-name)
            (eshell))))
 
-;; Replace
+;; @Replace
 (global-set-key (kbd "C-r") 'replace-string)
 (global-set-key (kbd "M-r") 'replace-regexp)
 
 (with-eval-after-load 'replace
   (define-key query-replace-map (kbd "<return>") 'act))
 
-;; Flymake
+;; @Flymake
 (with-eval-after-load 'flymake
   (define-key flymake-mode-map (kbd "M-9") 'flymake-goto-prev-error)
   (define-key flymake-mode-map (kbd "M-0") 'flymake-goto-next-error))
 
-;; Macros
+;; @Macros
 (global-set-key (kbd "M-[") 'kmacro-start-macro)
 (global-set-key (kbd "M-]") 'kmacro-end-or-call-macro)
 (global-set-key (kbd "M-\\") 'kmacro-end-and-call-macro)
 
-;; Rectangle Mode
+;; @Rectangle Mode
 (global-set-key (kbd "C-x C-SPC") 'rectangle-mark-mode)
 (with-eval-after-load 'rect
   (define-key rectangle-mark-mode-map (kbd "C-x r i") 'string-insert-rectangle))
-
-(defun totpgen () (interactive) (async-shell-command "totpgen"))
