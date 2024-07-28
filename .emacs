@@ -44,35 +44,22 @@
 " nil (expand-file-name "early-init.el" user-emacs-directory)))
 
 
-;;;;;;;;;;;;;;; Customization Variables ;;;;;;;;;;;
-(defcustom emacs/custom
-  (expand-file-name "custom.el" user-emacs-directory)
-  "File to set custom variables in."
-  :type 'string)
+(setq amirrezaask/completion-framework 'builtin)
+;; (setq amirrezaask/completion-framework 'vertico)
 
-(defcustom emacs/completion-framework
-  'builtin
-  "Which completion system should we use ?"
-  :type 'symbol
-  :options '(vertico builtin))
+(setq amirrezaask/autocomplete 'builtin)
+;; (setq amirrezaask/autocomplete 'corfu)
 
-(defcustom emacs/code-completion
-  'builtin
-  "Which code completion UI should we use ?"
-  :type 'symbol
-  :options '(builtin corfu))
+(setq amirrezaask/font '("Liberation Mono-17"
+			 "Menlo-16"
+			 "Consolas-16"))
 
-(defcustom emacs/font
-  '("Liberation Mono-17" "Menlo-16" "Consolas-16")
-  "Which font to use with fallbacks."
-  :type 'list)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'cl-lib)
 (set-frame-parameter nil 'fullscreen 'maximized) ;; Always start emacs window in maximized mode.
 
-(setq custom-file emacs/custom) ;; set custom file to not meddle with init.el
+(setq frame-title-format "Midra")
 
+;; Setting up PATH
 (defun home (path) (expand-file-name path (getenv "HOME")))
 (add-to-list 'exec-path (home ".local/bin"))
 (add-to-list 'exec-path (home "go/bin"))
@@ -102,16 +89,16 @@
 
 (defun set-font-with-fallback (fonts) "Set first font that was available"
        (cl-loop for font in fonts
-		do
-		(let* ((font-family (car (string-split font "-"))))
-		  (when (member font-family font-families)
-		    (set-face-attribute 'default nil :font (format "%s" font))
-		    (cl-return)))))
+                do
+                (let* ((font-family (car (string-split font "-"))))
+                  (when (member font-family font-families)
+                    (set-face-attribute 'default nil :font (format "%s" font))
+                    (cl-return)))))
 
 (defun set-font (font) "Set font" (interactive (list (read-string "Font: ")))
        (set-face-attribute 'default nil :font (format "%s" font)))
 
-(set-font-with-fallback emacs/font)
+(set-font-with-fallback amirrezaask/font)
 
 (global-unset-key (kbd "C-x C-c"))
 
@@ -226,7 +213,7 @@
 ;; Minibuffer and Completions
 (global-set-key (kbd "C-q") 'completion-at-point)
 
-(when (eq emacs/completion-framework 'vertico)
+(when (eq amirrezaask/completion-framework 'vertico)
   (dolist (pkg '(vertico
                  consult
                  marginalia
@@ -248,11 +235,11 @@
   (with-eval-after-load 'minibuffer
     (define-key minibuffer-mode-map (kbd "C-q") 'embark-export))
 
-  (when (eq emacs/code-completion 'builtin)
+  (when (eq amirrezaask/autocomplete 'builtin)
     (setq completion-in-region-function #'consult-completion-in-region)))
 
 
-(when (eq emacs/completion-framework 'builtin)
+(when (eq amirrezaask/completion-framework 'builtin)
   (setq completions-format 'one-column)
   (setq completions-header-format nil)
   (setq completions-max-height 15)
@@ -266,7 +253,7 @@
     (define-key completion-in-region-mode-map (kbd "C-n") 'minibuffer-next-completion)
     (define-key completion-in-region-mode-map (kbd "C-p") 'minibuffer-previous-completion)))
 
-(when (eq emacs/code-completion 'corfu)
+(when (eq amirrezaask/autocomplete 'corfu)
   (install 'corfu)
   (global-corfu-mode +1)
   (setq corfu-auto nil))
@@ -473,7 +460,7 @@
     (disable-theme i)))
 
 (setq custom-safe-themes t)
-(load-theme 'ef-light)
+(load-theme 'braid)
 
 (setq-default c-default-style "linux" c-basic-offset 4)
 
@@ -561,7 +548,7 @@
 
 
 ;; Grep
-(unless (eq emacs/completion-framework 'vertico)
+(when (eq amirrezaask/completion-framework 'builtin)
   (global-set-key (kbd "M-j") 'pgrep)
   (with-eval-after-load 'grep
     (define-key grep-mode-map (kbd "C-c C-p") 'wgrep-toggle-readonly-area)
@@ -577,11 +564,11 @@
       (grep-apply-setting 'grep-use-null-device nil)))
 
   (defun pgrep () "Recursive grep in `find-root` result or C-u to choose directory interactively." (interactive)
-	 (if (null current-prefix-arg)
+         (if (null current-prefix-arg)
              (setq --grep-dir (find-root-or-default-directory))
            (setq --grep-dir (read-directory-name "Directory: " default-directory)))
 
-	 (let ((default-directory --grep-dir))
+         (let ((default-directory --grep-dir))
            (cond
             ((executable-find "rg") (grep (format "rg --no-heading --color='never' '%s'" (read-string "Ripgrep: "))))
             ((git-repo-p DIR)       (grep (format "git grep --no-color -n '%s'" (read-string "Git Grep: "))))
@@ -589,17 +576,17 @@
 
 
 ;; Find File
-(when (eq emacs/completion-framework 'vertico)
+(when (eq amirrezaask/completion-framework 'builtin)
   (global-set-key (kbd "C-j") 'pfind-file)
   (defun pfind-file () "Recursive file find starting from `find-root` result or C-u to choose directory interactively." (interactive)
-	 (if (null current-prefix-arg)
+         (if (null current-prefix-arg)
              (setq --open-file-dir (find-root-or-default-directory))
            (setq --open-file-dir (read-directory-name "Directory: " default-directory)))
 
-	 (cond
+         (cond
           ((executable-find "rg") (let* ((default-directory --open-file-dir)
-					 (command (format "rg --files"))
-					 (file (completing-read "Ripgrep Files: " (string-split (shell-command-to-string command) "\n" t) nil t)))
+                                         (command (format "rg --files"))
+                                         (file (completing-read "Ripgrep Files: " (string-split (shell-command-to-string command) "\n" t) nil t)))
                                     (find-file file)))
 
           ((git-repo-p --open-file-dir) (let*
