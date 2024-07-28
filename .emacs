@@ -97,11 +97,11 @@
 
 ;; Install packages
 (dolist (pkg '(
-	       gruber-darker-theme ;; thanks to @tsoding
+               gruber-darker-theme ;; thanks to @tsoding
                ef-themes ;; Nice themes
                vlf       ;; handle [V]ery [L]arge [F]iles
                wgrep     ;; Editable Grep Buffers
-	       go-mode
+               go-mode
                rust-mode
                php-mode
                json-mode
@@ -193,20 +193,52 @@
                                  (:eval (if vc-mode vc-mode ""))))
 
 
-;; Minibuffer and Completions (Vertico)
+;; Minibuffer and Completions
 (global-set-key (kbd "C-q") 'completion-at-point)
-(setq completions-format 'one-column)
-(setq completions-header-format nil)
-(setq completions-max-height 15)
-(setq completions-auto-select nil)
-(add-to-list 'completion-styles 'flex)
 
-(with-eval-after-load 'minibuffer
-  (define-key minibuffer-mode-map           (kbd "C-n") 'minibuffer-next-completion)
-  (define-key minibuffer-mode-map           (kbd "C-p") 'minibuffer-previous-completion)
-  (define-key completion-in-region-mode-map (kbd "RET") 'minibuffer-choose-completion)
-  (define-key completion-in-region-mode-map (kbd "C-n") 'minibuffer-next-completion)
-  (define-key completion-in-region-mode-map (kbd "C-p") 'minibuffer-previous-completion))
+(setq completion-system 'std) ;; can be 'vertico | 'std
+
+
+(when (eq completion-system 'std)
+  (setq completions-format 'one-column)
+  (setq completions-header-format nil)
+  (setq completions-max-height 15)
+  (setq completions-auto-select nil)
+  (add-to-list 'completion-styles 'flex)
+
+  (with-eval-after-load 'minibuffer
+    (define-key minibuffer-mode-map           (kbd "C-n") 'minibuffer-next-completion)
+    (define-key minibuffer-mode-map           (kbd "C-p") 'minibuffer-previous-completion)
+    (define-key completion-in-region-mode-map (kbd "RET") 'minibuffer-choose-completion)
+    (define-key completion-in-region-mode-map (kbd "C-n") 'minibuffer-next-completion)
+    (define-key completion-in-region-mode-map (kbd "C-p") 'minibuffer-previous-completion)))
+
+
+;; Vertico
+(when (eq completion-system 'vertico)
+  (dolist (pkg '(vertico
+                 consult
+                 marginalia
+                 embark
+                 embark-consult
+                 )) (package-install pkg))
+  (vertico-mode +1)
+  (marginalia-mode +1)
+  (setq vertico-count 10)
+
+  (global-set-key (kbd "C-x b") 'consult-buffer)
+  (global-set-key (kbd "M-i")   'consult-imenu)
+  (global-set-key (kbd "M-y")   'consult-yank-from-kill-ring)
+  (global-set-key (kbd "C-;")   'consult-goto-line)
+  (global-set-key (kbd "M--")   'consult-flymake)
+  (with-eval-after-load 'minibuffer
+    (define-key minibuffer-mode-map (kbd "C-q") 'embark-export))
+  (setq completion-in-region-function
+        (lambda (&rest args)
+          (apply (if vertico-mode
+                     #'consult-completion-in-region
+                   #'completion--in-region)
+                 args))))
 
 ;; Themes
 (defun save-theme (name definition)
@@ -357,7 +389,7 @@
    `(hl-line ((t (:background \"#073642\"))))
    `(vertico-current ((t (:background \"#073642\"))))
    `(highlight ((t (:background \"#073642\"))))
-   `(mode-line ((t (:foreground \"#839496\" :background \"#073642\"))))
+   `(mode-line ((t (:foreground \"#839496\" :background \"#174652\"))))
    `(mode-line-inactive ((t (:foreground \"#586e75\" :background \"#002b36\"))))
    `(minibuffer-prompt ((t (:foreground \"#839496\"))))
    `(show-paren-match ((t (:foreground \"#d33682\")))))
@@ -444,9 +476,9 @@
 
 (defun find-root () "Try to find project root based on deterministic predicates"
        (cond
-        ((eq major-mode 'go-mode)                                (locate-dominating-file default-directory "go.mod"))
-        ((eq major-mode 'php-mode)                               (locate-dominating-file default-directory "composer.json"))
-        (t                                                       (locate-dominating-file default-directory ".git"))))
+        ((eq major-mode 'go-mode)   (locate-dominating-file default-directory "go.mod"))
+        ((eq major-mode 'php-mode)  (locate-dominating-file default-directory "composer.json"))
+        (t                          (locate-dominating-file default-directory ".git"))))
 
 (defun git-repo-p (DIR) (locate-dominating-file DIR ".git"))
 (defun find-root-or-default-directory () (or (find-root) default-directory))
