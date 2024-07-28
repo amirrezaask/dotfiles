@@ -220,25 +220,24 @@
                  consult
                  marginalia
                  embark
-                 embark-consult
-                 )) (package-install pkg))
+                 embark-consult)) (package-install pkg))
+
   (vertico-mode +1)
   (marginalia-mode +1)
   (setq vertico-count 10)
+  (setq vertico-cycle t)
 
   (global-set-key (kbd "C-x b") 'consult-buffer)
   (global-set-key (kbd "M-i")   'consult-imenu)
   (global-set-key (kbd "M-y")   'consult-yank-from-kill-ring)
   (global-set-key (kbd "C-;")   'consult-goto-line)
   (global-set-key (kbd "M--")   'consult-flymake)
+
   (with-eval-after-load 'minibuffer
     (define-key minibuffer-mode-map (kbd "C-q") 'embark-export))
-  (setq completion-in-region-function
-        (lambda (&rest args)
-          (apply (if vertico-mode
-                     #'consult-completion-in-region
-                   #'completion--in-region)
-                 args))))
+
+  (setq completion-in-region-function #'consult-completion-in-region))
+
 
 ;; Themes
 (defun save-theme (name definition)
@@ -427,6 +426,11 @@
 
 ")
 
+(save-theme "default-dark" "
+(custom-theme-set-faces
+'default-dark
+`(default ((t (:foreground \"grey85\" :background \"grey10\")))))")
+
 
 (add-to-list 'custom-theme-load-path (expand-file-name "themes" user-emacs-directory))
 
@@ -436,6 +440,7 @@
 
 (setq custom-safe-themes t)
 (load-theme 'solarized-dark)
+;; (load-theme 'default-dark)
 
 (setq-default c-default-style "linux" c-basic-offset 4)
 

@@ -26,10 +26,10 @@ then
     source <(fzf --zsh)
 fi
 
-if command -v emacsclient &>/dev/null # use emacs as editor
+if command -v emacs &>/dev/null # use emacs as editor
 then
-    export EDITOR='emacsclient -a"vim"'
-    export GIT_EDITOR='emacsclient -a"vim"'
+    export EDITOR='emacs'
+    export GIT_EDITOR='emacs'
 fi
 
 if ! command -v starship &> /dev/null
