@@ -103,6 +103,7 @@
                vlf       ;; handle [V]ery [L]arge [F]iles
                wgrep     ;; Editable Grep Buffers
                go-mode
+	       helpful
                rust-mode
                php-mode
                json-mode
@@ -184,6 +185,14 @@
   (define-key completion-in-region-mode-map (kbd "RET") 'minibuffer-choose-completion)
   (define-key completion-in-region-mode-map (kbd "C-n") 'minibuffer-next-completion)
   (define-key completion-in-region-mode-map (kbd "C-p") 'minibuffer-previous-completion))
+
+;; @Helpful: the way help pages should be.
+(global-set-key (kbd "C-h f") 'helpful-callable)
+(global-set-key (kbd "C-h v") 'helpful-variable)
+(global-set-key (kbd "C-h k") 'helpful-key)
+(global-set-key (kbd "C-h x") 'helpful-command)
+(global-set-key (kbd "C-h .") 'helpful-at-point)
+(global-set-key (kbd "C-h F") 'helpful-function)
 
 ;; @Themes
 (install 'ef-themes)
@@ -312,7 +321,6 @@
 
 (blink-cursor-mode -1)
 (global-hl-line-mode +1)
-(setq-default cursor-type 'bar)
 ")
 
 
@@ -379,6 +387,11 @@
 'default-dark
 `(default ((t (:foreground \"grey85\" :background \"grey10\")))))
 (blink-cursor-mode +1)
+")
+
+(save-theme "default-light" "
+(dolist (i custom-enabled-themes)
+  (disable-theme i))
 ")
 
 (add-to-list 'custom-theme-load-path (expand-file-name "themes" user-emacs-directory))
@@ -562,3 +575,16 @@
 (global-set-key (kbd "C-x C-SPC") 'rectangle-mark-mode)
 (with-eval-after-load 'rect
   (define-key rectangle-mark-mode-map (kbd "C-x r i") 'string-insert-rectangle))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   '(helpful eat yaml-mode wgrep vlf vertico rust-mode php-mode marginalia json-mode gruber-darker-theme go-mode embark-consult ef-themes corfu consult-eglot amirrezathemes)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
