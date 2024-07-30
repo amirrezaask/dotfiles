@@ -43,6 +43,7 @@
 (set-frame-parameter nil 'fullscreen 'maximized) ;; Always start emacs window in maximized mode.
 
 (setq frame-title-format "GNU Emacs")
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 
 ;; @PATH
 (defun home (path) (expand-file-name path (getenv "HOME")))
@@ -176,6 +177,7 @@
 (setq completions-header-format nil)
 (setq completions-max-height 15)
 (setq completions-auto-select nil)
+(setq completion-show-help nil)
 (add-to-list 'completion-styles 'flex)
 
 (defun minibuffer-choose-completion-and-exit () "" (interactive)
