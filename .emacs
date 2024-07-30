@@ -103,7 +103,6 @@
                vlf       ;; handle [V]ery [L]arge [F]iles
                wgrep     ;; Editable Grep Buffers
                go-mode
-	       helpful
                rust-mode
                php-mode
                json-mode
@@ -179,14 +178,19 @@
 (setq completions-auto-select nil)
 (add-to-list 'completion-styles 'flex)
 
+(defun minibuffer-choose-completion-and-exit () "" (interactive)
+       (minibuffer-choose-completion t nil)
+       (catch 'exit (exit-minibuffer)))
+
 (with-eval-after-load 'minibuffer
   (define-key minibuffer-mode-map           (kbd "C-n") 'minibuffer-next-completion)
   (define-key minibuffer-mode-map           (kbd "C-p") 'minibuffer-previous-completion)
-  (define-key completion-in-region-mode-map (kbd "RET") 'minibuffer-choose-completion)
+  (define-key completion-in-region-mode-map (kbd "RET") 'minibuffer-choose-completion-and-exit)
   (define-key completion-in-region-mode-map (kbd "C-n") 'minibuffer-next-completion)
   (define-key completion-in-region-mode-map (kbd "C-p") 'minibuffer-previous-completion))
 
 ;; @Helpful: the way help pages should be.
+(install 'helpful)
 (global-set-key (kbd "C-h f") 'helpful-callable)
 (global-set-key (kbd "C-h v") 'helpful-variable)
 (global-set-key (kbd "C-h k") 'helpful-key)
