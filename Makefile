@@ -9,6 +9,7 @@ install:
 	rm -rf $(XDG_CONFIG)/fish
 	rm -rf $(HOME)/.zshrc
 	rm -rf $(HOME)/.tmux.conf
+	rm -rf $(HOME)/.emacs
 	mkdir -p $(XDG_CONFIG)/i3
 	mkdir -p $(XDG_CONFIG)/alacritty
 	mkdir -p $(XDG_CONFIG)/nvim
@@ -17,4 +18,4 @@ install:
 	ln -s $(DOTFILES_DIR)/alacritty.toml $(XDG_CONFIG)/alacritty/alacritty.toml
 	ln -s $(DOTFILES_DIR)/config.fish $(XDG_CONFIG)/fish/config.fish
 	ln -s $(DOTFILES_DIR)/init.lua $(XDG_CONFIG)/nvim/init.lua
-	ln -s $(DOTFILES_DIR)/init.el $(HOME)/.emacs
+	ln -s $(DOTFILES_DIR)/.emacs $(HOME)/.emacs
