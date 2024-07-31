@@ -555,12 +555,24 @@
 
 
 
-;; @Eshell
+;; @Eshell @Eat @Terminal
 (global-set-key (kbd "M-;") 'eshell-dwim)
 (with-eval-after-load 'esh-mode
   (define-key eshell-mode-map (kbd "M-;") 'previous-buffer))
 
 (setq eshell-visual-subcommands '("git" "diff" "log" "show"))
+(add-hook 'eshell-load-hook #'eat-eshell-visual-command-mode)
+(install 'eat)
+(defun eat-dwim () "" (interactive)
+       (if (null current-prefix-arg)
+           (setq --eat-dir (find-root-or-default-directory))
+         (setq --eat-dir (read-directory-name "Directory: " default-directory)))
+       (let ((default-directory --eat-dir)
+	     (eat-buffer-name (format "*eat-%s*" --eat-dir)))
+	 (eat)))
+
+(when (executable-find "fish") (setenv "SHELL" "fish"))
+
 (defun eshell-dwim () "Jump to eshell buffer associated with current project or create a new." (interactive)
        (let* ((root (find-root-or-default-directory))
               (default-directory root)
@@ -592,14 +604,3 @@
   (define-key rectangle-mark-mode-map (kbd "C-x r i") 'string-insert-rectangle))
 
 
-;; @Terminal
-(install 'eat)
-(defun eat-dwim () "" (interactive)
-       (if (null current-prefix-arg)
-           (setq --eat-dir (find-root-or-default-directory))
-         (setq --eat-dir (read-directory-name "Directory: " default-directory)))
-       (let ((default-directory --eat-dir)
-	     (eat-buffer-name (format "*eat-%s*" --eat-dir)))
-	 (eat)
-	 ))
-(global-set-key (kbd "M-;") 'eat-dwim)
