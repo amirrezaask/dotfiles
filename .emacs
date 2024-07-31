@@ -469,7 +469,7 @@
 (defun find-root-or-default-directory () (or (find-root) default-directory))
 
 ;; @Compile
-(global-set-key (kbd "M-m") 'run-compile)
+(global-set-key (kbd "M-m") 'compile-dwim)
 (global-set-key (kbd "M-g") 'run-git-diff)
 
 (with-eval-after-load 'compile
@@ -491,7 +491,7 @@
        (let ((default-directory --git-diff-dir))
          (compilation-start "git diff HEAD" 'diff-mode)))
 
-(defun run-compile () "run `compile`. If prefixed it wil ask for compile directory." (interactive)
+(defun compile-dwim () "run `compile`. If prefixed it wil ask for compile directory." (interactive)
        (if (null current-prefix-arg)
            (setq --compile-dir (find-root-or-default-directory))
          (setq --compile-dir (read-directory-name "Directory: " default-directory)))
@@ -505,7 +505,7 @@
 
 
 ;; @Grep
-(global-set-key (kbd "M-j") 'pgrep)
+(global-set-key (kbd "M-j") 'grep-dwim)
 (with-eval-after-load 'grep
   (define-key grep-mode-map (kbd "C-c C-p") 'wgrep-toggle-readonly-area)
   (define-key grep-mode-map (kbd "<f5>")    'recompile)
@@ -519,7 +519,7 @@
     (grep-apply-setting 'grep-command "rg --no-heading --color='never'")
     (grep-apply-setting 'grep-use-null-device nil)))
 
-(defun pgrep () "Recursive grep in `find-root` result or C-u to choose directory interactively." (interactive)
+(defun grep-dwim () "Recursive grep in `find-root` result or C-u to choose directory interactively." (interactive)
        (if (null current-prefix-arg)
            (setq --grep-dir (find-root-or-default-directory))
          (setq --grep-dir (read-directory-name "Directory: " default-directory)))
@@ -532,10 +532,10 @@
 
 
 ;; @Find File
-(global-set-key (kbd "C-j") 'pfind-file)
+(global-set-key (kbd "C-j") 'find-file-dwim)
 
 ;; @TODO: Add gnu find backend for this function.
-(defun pfind-file () "Recursive file find starting from `find-root` result or C-u to choose directory interactively." (interactive)
+(defun find-file-dwim () "Recursive file find starting from `find-root` result or C-u to choose directory interactively." (interactive)
        (if (null current-prefix-arg)
            (setq --open-file-dir (find-root-or-default-directory))
          (setq --open-file-dir (read-directory-name "Directory: " default-directory)))
@@ -556,12 +556,12 @@
 
 
 ;; @Eshell
-(global-set-key (kbd "M-;") 'peshell)
+(global-set-key (kbd "M-;") 'eshell-dwim)
 (with-eval-after-load 'esh-mode
   (define-key eshell-mode-map (kbd "M-;") 'previous-buffer))
 
 (setq eshell-visual-subcommands '("git" "diff" "log" "show"))
-(defun peshell () "Jump to eshell buffer associated with current project or create a new." (interactive)
+(defun eshell-dwim () "Jump to eshell buffer associated with current project or create a new." (interactive)
        (let* ((root (find-root-or-default-directory))
               (default-directory root)
               (eshell-buffer-name (format "*eshell-%s*" root)))
@@ -590,3 +590,15 @@
 (global-set-key (kbd "C-x C-SPC") 'rectangle-mark-mode)
 (with-eval-after-load 'rect
   (define-key rectangle-mark-mode-map (kbd "C-x r i") 'string-insert-rectangle))
+
+
+;; @Terminal
+(install 'eat)
+(defun eat-dwim () "" (interactive)
+       (if (null current-prefix-arg)
+           (setq --eat-dir (find-root-or-default-directory))
+         (setq --eat-dir (read-directory-name "Directory: " default-directory)))
+       (let ((default-directory --eat-dir))
+	 (eat)
+	 ))
+(global-set-key (kbd "M-;") 'eat-dwim)
