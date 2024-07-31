@@ -210,6 +210,7 @@
 
 ;; @Themes
 (install 'ef-themes)
+(install 'gruvbox-theme)
 (defun save-theme (name definition)
   (mkdir (expand-file-name "themes" user-emacs-directory) t)
   (write-region (format "(deftheme %s)
@@ -416,8 +417,7 @@
     (disable-theme i)))
 
 (setq custom-safe-themes t)
-;; (load-theme 'braid)
-(load-theme 'ef-maris-light)
+(load-theme 'handmadehero)
 
 (setq-default c-default-style "linux" c-basic-offset 4)
 

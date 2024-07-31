@@ -17,8 +17,8 @@ export ZSH="$HOME/.oh-my-zsh"
 
 ZSH_THEME="robbyrussell"
 
-# plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
 plugins=(git)
+
 source $ZSH/oh-my-zsh.sh
 
 if command -v fzf &>/dev/null
@@ -32,12 +32,13 @@ then
     export GIT_EDITOR='emacs'
 fi
 
-if ! command -v starship &> /dev/null
-then
-    curl -sS https://starship.rs/install.sh | sh
-fi
+# if ! command -v starship &> /dev/null
+# then
+#     curl -sS https://starship.rs/install.sh | sh
+# fi
 
-eval "$(starship init zsh)"
+# eval "$(starship init zsh)"
+
 export PATH="/usr/local/go/bin:$PATH"
 export PATH="$HOME/go/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
