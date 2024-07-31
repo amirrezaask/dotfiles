@@ -42,6 +42,7 @@
 
 (set-frame-parameter nil 'fullscreen 'maximized) ;; Always start emacs window in maximized mode.
 
+
 (setq frame-title-format "GNU Emacs")
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 
@@ -173,23 +174,30 @@
 ;; @Minibuffer
 (global-set-key (kbd "C-q") 'completion-at-point)
 
-(setq completions-format 'one-column)
-(setq completions-header-format nil)
-(setq completions-max-height 15)
-(setq completions-auto-select nil)
-(setq completion-show-help nil)
-(add-to-list 'completion-styles 'flex)
+(dolist (pkg '(vertico
+               consult
+               marginalia
+               embark
+               embark-consult)) (install pkg))
 
-(defun minibuffer-choose-completion-and-exit () "" (interactive)
-       (minibuffer-choose-completion t nil)
-       (catch 'exit (exit-minibuffer)))
+(vertico-mode +1)
+(marginalia-mode +1)
+(setq vertico-count 10)
+(setq vertico-cycle t)
+
+(global-set-key (kbd "C-x b") 'consult-buffer)
+(global-set-key (kbd "M-i")   'consult-imenu)
+(global-set-key (kbd "M-y")   'consult-yank-from-kill-ring)
+(global-set-key (kbd "C-;")   'consult-goto-line)
+(global-set-key (kbd "M--")   'consult-flymake)
+(if (executable-find "rg")
+    (global-set-key (kbd "M-j") 'consult-ripgrep)
+  (global-set-key (kbd "M-j") 'consult-grep))
 
 (with-eval-after-load 'minibuffer
-  (define-key minibuffer-mode-map           (kbd "C-n") 'minibuffer-next-completion)
-  (define-key minibuffer-mode-map           (kbd "C-p") 'minibuffer-previous-completion)
-  (define-key completion-in-region-mode-map (kbd "RET") 'minibuffer-choose-completion-and-exit)
-  (define-key completion-in-region-mode-map (kbd "C-n") 'minibuffer-next-completion)
-  (define-key completion-in-region-mode-map (kbd "C-p") 'minibuffer-previous-completion))
+  (define-key minibuffer-mode-map (kbd "C-q") 'embark-export))
+
+(setq completion-in-region-function #'consult-completion-in-region)
 
 ;; @Helpful: the way help pages should be.
 (install 'helpful)
@@ -408,7 +416,8 @@
     (disable-theme i)))
 
 (setq custom-safe-themes t)
-(load-theme 'braid)
+;; (load-theme 'braid)
+(load-theme 'ef-maris-light)
 
 (setq-default c-default-style "linux" c-basic-offset 4)
 
@@ -581,16 +590,3 @@
 (global-set-key (kbd "C-x C-SPC") 'rectangle-mark-mode)
 (with-eval-after-load 'rect
   (define-key rectangle-mark-mode-map (kbd "C-x r i") 'string-insert-rectangle))
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(helpful eat yaml-mode wgrep vlf vertico rust-mode php-mode marginalia json-mode gruber-darker-theme go-mode embark-consult ef-themes corfu consult-eglot amirrezathemes)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )

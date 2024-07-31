@@ -19,3 +19,4 @@ install:
 	ln -s $(DOTFILES_DIR)/config.fish $(XDG_CONFIG)/fish/config.fish
 	ln -s $(DOTFILES_DIR)/init.lua $(XDG_CONFIG)/nvim/init.lua
 	ln -s $(DOTFILES_DIR)/.emacs $(HOME)/.emacs
+	ln -s $(DOTFILES_DIR)/.zshrc $(HOME)/.zshrc
