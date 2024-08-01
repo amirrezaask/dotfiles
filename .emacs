@@ -74,7 +74,9 @@
 ;; @Font
 (setq font-families (font-family-list))
 (require 'cl-lib)
-(cl-loop for font in '("Liberation Mono-17"
+(cl-loop for font in '(
+                       "Intel One Mono-16"
+                       "Liberation Mono-17"
                        "Menlo-16"
                        "Consolas-16")
          do
@@ -172,32 +174,53 @@
 (require 'vlf-setup)
 
 ;; @Minibuffer
-(global-set-key (kbd "C-q") 'completion-at-point)
+(setq completions-format 'one-column)
+(setq completions-header-format nil)
+(setq completions-max-height 15)
+(setq completions-auto-select nil)
+(setq completion-show-help nil)
+(add-to-list 'completion-styles 'flex)
 
-(dolist (pkg '(vertico
-               consult
-               marginalia
-               embark
-               embark-consult)) (install pkg))
-
-(vertico-mode +1)
-(marginalia-mode +1)
-(setq vertico-count 10)
-(setq vertico-cycle t)
-
-(global-set-key (kbd "C-x b") 'consult-buffer)
-(global-set-key (kbd "M-i")   'consult-imenu)
-(global-set-key (kbd "M-y")   'consult-yank-from-kill-ring)
-(global-set-key (kbd "C-;")   'consult-goto-line)
-(global-set-key (kbd "M--")   'consult-flymake)
-(if (executable-find "rg")
-    (global-set-key (kbd "M-j") 'consult-ripgrep)
-  (global-set-key (kbd "M-j") 'consult-grep))
+(defun minibuffer-choose-completion-and-exit () "" (interactive)
+       (minibuffer-choose-completion t nil)
+       (catch 'exit (exit-minibuffer)))
 
 (with-eval-after-load 'minibuffer
-  (define-key minibuffer-mode-map (kbd "C-q") 'embark-export))
+  (define-key minibuffer-mode-map           (kbd "C-n") 'minibuffer-next-completion)
+  (define-key minibuffer-mode-map           (kbd "C-p") 'minibuffer-previous-completion))
 
-(setq completion-in-region-function #'consult-completion-in-region)
+;; @Completion
+(global-set-key (kbd "C-q") 'completion-at-point)
+(install 'corfu)
+(global-corfu-mode +1)
+(setq corfu-auto nil)
+
+;; @Vertico
+
+;; (dolist (pkg '(vertico
+;;                consult
+;;                marginalia
+;;                embark
+;;                embark-consult)) (install pkg))
+
+;; (vertico-mode +1)
+;; (marginalia-mode +1)
+;; (setq vertico-count 10)
+;; (setq vertico-cycle t)
+
+;; (global-set-key (kbd "C-x b") 'consult-buffer)
+;; (global-set-key (kbd "M-i")   'consult-imenu)
+;; (global-set-key (kbd "M-y")   'consult-yank-from-kill-ring)
+;; (global-set-key (kbd "C-;")   'consult-goto-line)
+;; (global-set-key (kbd "M--")   'consult-flymake)
+;; (if (executable-find "rg")
+;;     (global-set-key (kbd "M-j") 'consult-ripgrep)
+;;   (global-set-key (kbd "M-j") 'consult-grep))
+
+;; (with-eval-after-load 'minibuffer
+;;   (define-key minibuffer-mode-map (kbd "C-q") 'embark-export))
+
+;; (setq completion-in-region-function #'consult-completion-in-region)
 
 ;; @Helpful: the way help pages should be.
 (install 'helpful)
@@ -210,7 +233,6 @@
 
 ;; @Themes
 (install 'ef-themes)
-(install 'gruvbox-theme)
 (defun save-theme (name definition)
   (mkdir (expand-file-name "themes" user-emacs-directory) t)
   (write-region (format "(deftheme %s)
@@ -417,7 +439,7 @@
     (disable-theme i)))
 
 (setq custom-safe-themes t)
-(load-theme 'handmadehero)
+(load-theme 'witness)
 
 (setq-default c-default-style "linux" c-basic-offset 4)
 
@@ -433,7 +455,7 @@
   (define-key eglot-mode-map (kbd "C-c C-c") 'eglot-code-actions))
 
 (dolist (mode '(go rust php)) (add-hook (intern (concat (symbol-name mode) "-mode-hook")) #'eglot-ensure))
-(setq eglot-ignored-server-capabilities '(:hoverProvider
+(setq eglot-ignored-server-capabilities '(
                                           :documentHighlightProvider
                                           :codeLensProvider
                                           :documentOnTypeFormattingProvider
@@ -473,15 +495,16 @@
 (global-set-key (kbd "M-g") 'run-git-diff)
 
 (with-eval-after-load 'compile
+  (define-key compilation-mode-map (kbd "g")    'recompile) ;; g as always just does the same thing.
+  (define-key compilation-mode-map (kbd "G")    (lambda () (interactive) (recompile t)))
   (define-key compilation-mode-map (kbd "<f5>") 'recompile)
-  (define-key compilation-mode-map (kbd "M-m")  'recompile)
+  (define-key compilation-mode-map (kbd "M-m")  'previous-buffer)
   (define-key compilation-mode-map (kbd "M-n")  'jump-down)
   (define-key compilation-mode-map (kbd "M-p")  'jump-up)
   (define-key compilation-mode-map (kbd "k")    'kill-compilation))
 
-(defun amirreza-compile-buffer-name-function (MODESTR) (let ((dir (find-root-or-default-directory))) (format "*%s-%s*" MODESTR dir)))
-
-(setq-default compilation-buffer-name-function 'amirreza-compile-buffer-name-function)
+(defun amirreza-compile-buffer-name-function (MODESTR) (format "*Compile-%s*" --compile-dir))
+(defun amirreza-grep-buffer-name-function (MODESTR)    (format "*Grep-%s*" --grep-dir))
 
 (defun run-git-diff () "run git diff command in `find-root` result or C-u to choose directory interactively." (interactive)
        (if (null current-prefix-arg)
@@ -492,24 +515,30 @@
          (compilation-start "git diff HEAD" 'diff-mode)))
 
 (defun compile-dwim () "run `compile`. If prefixed it wil ask for compile directory." (interactive)
+       (setq compilation-buffer-name-function 'amirreza-compile-buffer-name-function)
        (if (null current-prefix-arg)
            (setq --compile-dir (find-root-or-default-directory))
          (setq --compile-dir (read-directory-name "Directory: " default-directory)))
 
-       (let* ((default-directory --compile-dir)
-              (command (read-shell-command "Command: "  (cond ;; guess a command based on the context.
-                                                         ((file-exists-p "build.bat") "build.bat")
-                                                         ((file-exists-p "go.mod")    "go build -v ./...")
-                                                         ((file-exists-p "Makefile")  "make")))))
-         (compilation-start command)))
+       (if (get-buffer (format "*Compile-%s*" --compile-dir))
+           (switch-to-buffer (format "*Compile-%s*" --compile-dir)) ;; we have a compile buffer associated with this project.
+         ;; we need to create a new compile buffer for this
 
+         (let* ((default-directory --compile-dir)
+                (command (read-shell-command "Command: "  (cond ;; guess a command based on the context.
+                                                           ((file-exists-p "build.bat") "build.bat")
+                                                           ((file-exists-p "go.mod")    "go build -v ./...")
+                                                           ((file-exists-p "Makefile")  "make")))))
+           (compilation-start command))))
 
 ;; @Grep
 (global-set-key (kbd "M-j") 'grep-dwim)
 (with-eval-after-load 'grep
+  (define-key grep-mode-map (kbd "M-j")     'previous-buffer)
+  (define-key grep-mode-map (kbd "g")       'recompile)
+  (define-key grep-mode-map (kbd "G")       (lambda () (interactive) (grep-dwim)))
   (define-key grep-mode-map (kbd "C-c C-p") 'wgrep-toggle-readonly-area)
   (define-key grep-mode-map (kbd "<f5>")    'recompile)
-  (define-key grep-mode-map (kbd "g")       'recompile)
   (define-key grep-mode-map (kbd "M-n")     'jump-down)
   (define-key grep-mode-map (kbd "M-p")     'jump-up)
   (define-key grep-mode-map (kbd "k")       'kill-compilation))
@@ -520,16 +549,30 @@
     (grep-apply-setting 'grep-use-null-device nil)))
 
 (defun grep-dwim () "Recursive grep in `find-root` result or C-u to choose directory interactively." (interactive)
+       ;; Set correct compilation buffer name function
+       (setq compilation-buffer-name-function 'amirreza-grep-buffer-name-function)
+
+       ;; Set directory for grep.
        (if (null current-prefix-arg)
            (setq --grep-dir (find-root-or-default-directory))
          (setq --grep-dir (read-directory-name "Directory: " default-directory)))
 
-       (let ((default-directory --grep-dir))
-         (cond
-          ((executable-find "rg") (grep (format "rg --no-heading --color='never' '%s'" (read-string "Ripgrep: "))))
-          ((git-repo-p DIR)       (grep (format "git grep --no-color -n '%s'" (read-string "Git Grep: "))))
-          (t                      (grep (format "grep --color=auto -R -nH -e '%s' ." (read-string "Grep: ")))))))
 
+       (if (and
+	    (get-buffer (format "*Grep-%s*" --grep-dir))
+	    (not (eq (get-buffer (format "*Grep-%s*" --grep-dir)) (current-buffer)))
+	    )
+           (switch-to-buffer (format "*Grep-%s*" --grep-dir)) ;; we have a compile buffer associated with this project.
+
+         (progn
+           (setq --last-grep-command-format
+                 (cond
+                  ((executable-find "rg") "rg --no-heading --color='never' '%s'")
+                  ((git-repo-p DIR)       "git grep --no-color -n '%s'")
+                  (t                      "grep --color=auto -R -nH -e '%s' .")))
+           (setq --last-grep-string (read-string "Grep: "))
+           (let ((default-directory --grep-dir))
+             (grep (format --last-grep-command-format --last-grep-string))))))
 
 ;; @Find File
 (global-set-key (kbd "C-j") 'find-file-dwim)
@@ -568,8 +611,8 @@
            (setq --eat-dir (find-root-or-default-directory))
          (setq --eat-dir (read-directory-name "Directory: " default-directory)))
        (let ((default-directory --eat-dir)
-	     (eat-buffer-name (format "*eat-%s*" --eat-dir)))
-	 (eat)))
+             (eat-buffer-name (format "*eat-%s*" --eat-dir)))
+         (eat)))
 
 (when (executable-find "fish") (setenv "SHELL" "fish"))
 
@@ -602,5 +645,3 @@
 (global-set-key (kbd "C-x C-SPC") 'rectangle-mark-mode)
 (with-eval-after-load 'rect
   (define-key rectangle-mark-mode-map (kbd "C-x r i") 'string-insert-rectangle))
-
-
