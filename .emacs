@@ -490,6 +490,10 @@
 (defun git-repo-p (DIR) (locate-dominating-file DIR ".git"))
 (defun find-root-or-default-directory () (or (find-root) default-directory))
 
+
+(defun amirreza-never-split-window () nil)
+(setq-default split-window-preferred-function 'amirreza-never-split)
+
 ;; @Compile
 (global-set-key (kbd "M-m") 'compile-dwim)
 (global-set-key (kbd "M-g") 'run-git-diff)
