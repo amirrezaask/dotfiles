@@ -28,16 +28,9 @@ fi
 
 if command -v emacs &>/dev/null # use emacs as editor
 then
-    export EDITOR='emacs'
-    export GIT_EDITOR='emacs'
+    export EDITOR='emacsclient -r -a"nano"'
+    export GIT_EDITOR='emacsclient -r -a"nano"'
 fi
-
-# if ! command -v starship &> /dev/null
-# then
-#     curl -sS https://starship.rs/install.sh | sh
-# fi
-
-# eval "$(starship init zsh)"
 
 export PATH="/usr/local/go/bin:$PATH"
 export PATH="$HOME/go/bin:$PATH"

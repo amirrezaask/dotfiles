@@ -75,21 +75,19 @@
 (setq font-families (font-family-list))
 (require 'cl-lib)
 (cl-loop for font in '(
+                       "Consolas-16"
+		       "Liberation Mono-17"
+		       "JetBrains Mono-16"
                        "Intel One Mono-16"
-                       "Liberation Mono-17"
-                       "Menlo-16"
-                       "Consolas-16")
+                       "Menlo-16")
          do
          (let* ((font-family (car (string-split font "-"))))
            (when (member font-family font-families)
              (set-face-attribute 'default nil :font (format "%s" font))
              (cl-return))))
 
-
 (defun set-font (font) "Set font" (interactive (list (read-string "Font: ")))
        (set-face-attribute 'default nil :font (format "%s" font)))
-
-(global-unset-key (kbd "C-x C-c"))
 
 (setq native-comp-async-report-warnings-errors nil) ;; silently do jit compiling.
 
@@ -130,6 +128,8 @@
 (global-set-key (kbd "C-1")      'delete-other-windows)
 (global-set-key (kbd "C-3")      'split-window-right)
 (global-set-key (kbd "C-2")      'split-window-below)
+(global-set-key (kbd "C--")      'text-scale-decrease)
+(global-set-key (kbd "C-=")      'text-scale-increase)
 
 
 (setq make-backup-files nil)              ;; no emacs ~ backup files
@@ -166,12 +166,22 @@
 (global-set-key (kbd "C-SPC") 'set-mark-command) ;; Visual selection
 (global-set-key (kbd "M-w")   'copy) ;; modern copy
 
+;; Unset keys that I dont use
+(dolist (key '(
+	       "M-z"
+	       ))
+  (global-unset-key (kbd key)))
 
 (toggle-truncate-lines +1) ;; wrap long lines
 
 (global-so-long-mode +1) ;; don't choke on minified code.
 
 (require 'vlf-setup)
+
+(global-set-key (kbd "M-o") 'other-window)
+
+;; Display buffer rules
+;; (setq display-buffer-alist )
 
 ;; @Minibuffer
 (setq completions-format 'one-column)
@@ -190,7 +200,7 @@
   (define-key minibuffer-mode-map           (kbd "C-p") 'minibuffer-previous-completion))
 
 ;; @Completion
-(global-set-key (kbd "C-q") 'completion-at-point)
+(global-set-key (kbd "C-j") 'completion-at-point)
 (install 'corfu)
 (global-corfu-mode +1)
 (setq corfu-auto nil)
@@ -431,6 +441,37 @@
   (disable-theme i))
 ")
 
+(save-theme "gruber-darker" "
+(custom-theme-set-faces
+   'gruber-darker
+   `(default ((t (:foreground \"#e4e4ef\" :background \"#181818\"))))
+   `(cursor ((t (:foreground \"unspecified\" :background \"#ffdd33\"))))
+   `(font-lock-keyword-face ((t (:foreground \"#ffdd33\" :background \"unspecified\"))))
+   `(font-lock-operator-face ((t (:foreground \"unspecified\" :background \"unspecified\"))))
+   `(font-lock-punctuation-face ((t (:foreground \"unspecified\" :background \"unspecified\"))))
+   `(font-lock-bracket-face ((t (:foreground \"unspecified\" :background \"unspecified\"))))
+   `(font-lock-delimiter-face ((t (:foreground \"unspecified\" :background \"unspecified\"))))
+   `(font-lock-type-face ((t (:foreground \"#95a99f\" :background \"unspecified\"))))
+   `(font-lock-constant-face ((t (:foreground \"#95a99f\" :background \"unspecified\"))))
+   `(font-lock-variable-name-face ((t (:foreground \"#f4f4ff\" :background \"unspecified\"))))
+   `(font-lock-builtin-face ((t (:foreground \"#ffdd33\" :background \"unspecified\"))))
+   `(font-lock-string-face ((t (:foreground \"#73c936\" :background \"unspecified\"))))
+   `(font-lock-comment-face ((t (:foreground \"#cc8c3c\" :background \"unspecified\"))))
+   `(font-lock-comment-delimiter-face ((t (:foreground \"#cc8c3c\" :background \"unspecified\"))))
+   `(font-lock-doc-face ((t (:foreground \"#73c936\" :background \"unspecified\"))))
+   `(font-lock-function-name-face ((t (:foreground \"#96a6c8\" :background \"unspecified\"))))
+   `(font-lock-preprocessor-face ((t (:foreground \"#95a99f\" :background \"unspecified\"))))
+   `(font-lock-warning-face ((t (:foreground \"#f43841\" :background \"unspecified\"))))
+   `(region ((t (:foreground \"unspecified\" :background \"#484848\"))))
+   `(hl-line ((t (:foreground \"unspecified\" :background \"unspecified\"))))
+   `(highlight ((t (:foreground \"unspecified\" :background \"#282828\"))))
+   `(mode-line ((t (:foreground \"#ffffff\" :background \"#282828\"))))
+   `(mode-line-inactive ((t (:foreground \"#95a99f\" :background \"#282828\"))))
+   `(minibuffer-prompt ((t (:foreground \"#96a6c8\" :background \"unspecified\"))))
+   `(show-paren-match ((t (:foreground \"unspecified\" :background \"steelblue3\")))))
+"
+)
+
 (add-to-list 'custom-theme-load-path (expand-file-name "themes" user-emacs-directory))
 (install 'ef-themes)
 
@@ -491,8 +532,8 @@
 (defun find-root-or-default-directory () (or (find-root) default-directory))
 
 
-(defun amirreza-never-split-window () nil)
-(setq-default split-window-preferred-function 'amirreza-never-split)
+;; (defun amirreza-never-split-window () nil)
+;; (setq-default split-window-preferred-function 'amirreza-never-split)
 
 ;; @Compile
 (global-set-key (kbd "M-m") 'compile-dwim)
@@ -579,7 +620,7 @@
              (grep (format --last-grep-command-format --last-grep-string))))))
 
 ;; @Find File
-(global-set-key (kbd "C-j") 'find-file-dwim)
+(global-set-key (kbd "C-q") 'find-file-dwim)
 
 ;; @TODO: Add gnu find backend for this function.
 (defun find-file-dwim () "Recursive file find starting from `find-root` result or C-u to choose directory interactively." (interactive)
@@ -605,7 +646,10 @@
 ;; @Eshell @Eat @Terminal
 (global-set-key (kbd "M-;") 'eshell-dwim)
 (with-eval-after-load 'esh-mode
-  (define-key eshell-mode-map (kbd "M-;") 'previous-buffer))
+  (define-key eshell-mode-map (kbd "M-;") 'previous-buffer)
+
+  (add-hook 'eshell-mode-hook (lambda () (setq cursor-type 'hbar)))
+  )
 
 (setq eshell-visual-subcommands '("git" "diff" "log" "show"))
 (add-hook 'eshell-load-hook #'eat-eshell-visual-command-mode)
@@ -649,3 +693,4 @@
 (global-set-key (kbd "C-x C-SPC") 'rectangle-mark-mode)
 (with-eval-after-load 'rect
   (define-key rectangle-mark-mode-map (kbd "C-x r i") 'string-insert-rectangle))
+
