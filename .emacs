@@ -136,6 +136,9 @@
        (delete-window)
        (balance-windows))
 
+(defun jump-up () (interactive) (next-line (* -1 (/ (window-height) 2))) (recenter-top-bottom))
+(defun jump-down () (interactive) (next-line (/ (window-height) 2)) (recenter-top-bottom))
+
 (setq recenter-positions '(middle))
 (global-set-key (kbd "C-.")      'next-buffer)
 (global-set-key (kbd "C-,")      'previous-buffer)
@@ -148,6 +151,8 @@
 (global-set-key (kbd "C--")      'text-scale-decrease)
 (global-set-key (kbd "C-=")      'text-scale-increase)
 (GLOBAL         (kbd "C-o")      'other-window)
+(GLOBAL         (kbd "M-n")      'jump-down)
+(GLOBAL         (kbd "M-p")      'jump-up)
 
 (setq make-backup-files nil)              ;; no emacs ~ backup files
 (setq vc-follow-symlinks t)               ;; Don't prompt if encounter a symlink file, just follow the link.
@@ -191,8 +196,6 @@
 (global-so-long-mode +1) ;; don't choke on minified code.
 
 (require 'vlf-setup)
-
-;; (global-set-key (kbd "C-o") 'other-window)
 
 ;; @Minibuffer
 (setq completions-format 'one-column)
@@ -524,9 +527,11 @@
   (define-key compilation-mode-map (kbd "G")    (lambda () (interactive) (recompile t)))
   (define-key compilation-mode-map (kbd "<f5>") 'recompile)
   (define-key compilation-mode-map (kbd "M-m")  'previous-buffer)
-  (define-key compilation-mode-map (kbd "M-n")  'jump-down)
-  (define-key compilation-mode-map (kbd "M-p")  'jump-up)
   (define-key compilation-mode-map (kbd "k")    'kill-compilation))
+
+;; Diff Mode
+(with-eval-after-load 'diff-mode
+  (define-key diff-mode-map (kbd "g") 'recompile))
 
 (defun amirreza-compile-buffer-name-function (MODESTR) (format "*Compile-%s*" --compile-dir))
 (defun amirreza-grep-buffer-name-function (MODESTR)    (format "*Grep-%s*" --grep-dir))
@@ -559,14 +564,21 @@
 ;; @Grep
 (global-set-key (kbd "M-s") 'grep-dwim)
 (with-eval-after-load 'grep
-  (define-key grep-mode-map (kbd "M-j")     'previous-buffer)
+  (define-key grep-mode-map (kbd "M-s")     'previous-buffer)
   (define-key grep-mode-map (kbd "g")       'recompile)
   (define-key grep-mode-map (kbd "G")       (lambda () (interactive) (grep-dwim)))
-  (define-key grep-mode-map (kbd "C-c C-p") 'wgrep-toggle-readonly-area)
+  (define-key grep-mode-map (kbd "C-r")     'wgrep-change-to-wgrep-mode)
   (define-key grep-mode-map (kbd "<f5>")    'recompile)
-  (define-key grep-mode-map (kbd "M-n")     'jump-down)
-  (define-key grep-mode-map (kbd "M-p")     'jump-up)
   (define-key grep-mode-map (kbd "k")       'kill-compilation))
+
+(defun wgrep-finish-edit-and-save () (interactive)
+       (wgrep-finish-edit)
+       (wgrep-save-all-buffers))
+
+(with-eval-after-load 'wgrep
+  (define-key wgrep-mode-map (kbd "C-c C-c")  'wgrep-finish-edit)
+  (define-key wgrep-mode-map (kbd "C-x C-s")  'wgrep-finish-edit-and-save)
+  (define-key wgrep-mode-map (kbd "C-c C-k")  'wgrep-abort-changes))
 
 (with-eval-after-load 'grep
   (when (executable-find "rg")
@@ -690,6 +702,9 @@
 				   "ALT-S         Search in project"
 				   "CTRL-R        Replace"
 				   "ALT-R         Replace using regexp"
+				   "In Grep Buffers:"
+				   "C-r           Start Wgrep mode"
+				   "C-x C-s       Saves all changes"
 				   ""
 				   "CTRL-SHIFT-,  Begining Of Buffer"
 				   "CTRL-SHIFT-.  End of Buffer"
