@@ -71,15 +71,26 @@
 
 (global-set-key (kbd "C-x i") 'edit-init) ;; Edit this file.
 
+;; @Key overrides
+(defvar global-overrides (make-sparse-keymap))
+(define-minor-mode amirreza-overrides ""
+  :global t
+  :lighter " Overrides"
+  :init-value t
+  :keymap global-overrides)
+(amirreza-overrides +1)
+(defun GLOBAL (KBD ACTION) (define-key global-overrides KBD ACTION))
+
 ;; @Font
 (setq font-families (font-family-list))
 (require 'cl-lib)
 (cl-loop for font in '(
                        "Consolas-16"
-		       "Liberation Mono-17"
-		       "JetBrains Mono-16"
+                       "Liberation Mono-17"
+                       "Menlo-16"
+                       "JetBrains Mono-16"
                        "Intel One Mono-16"
-                       "Menlo-16")
+		       )
          do
          (let* ((font-family (car (string-split font "-"))))
            (when (member font-family font-families)
@@ -111,26 +122,32 @@
                yaml-mode)) (install pkg))
 
 ;; @Window @Buffer
-(defun jump-up () (interactive) (forward-line (* -1 (/ (window-height) 2))) (recenter-top-bottom))
-(defun jump-down () (interactive) (forward-line (/ (window-height) 2)) (recenter-top-bottom))
+(defun split-window-right-balance-and-switch () (interactive)
+       (split-window-right)
+       (balance-windows)
+       (other-window 1))
+
+(defun split-window-below-balance-and-switch () (interactive)
+       (spli-window-below)
+       (balance-windows)
+       (other-window 1))
+
+(defun delete-window-and-balance () (interactive)
+       (delete-window)
+       (balance-windows))
 
 (setq recenter-positions '(middle))
-
 (global-set-key (kbd "C-.")      'next-buffer)
 (global-set-key (kbd "C-,")      'previous-buffer)
 (global-set-key (kbd "C->")      'end-of-buffer)
 (global-set-key (kbd "C-<" )     'beginning-of-buffer)
-(global-set-key (kbd "M-<down>") 'jump-down)
-(global-set-key (kbd "M-<up>")   'jump-up)
-(global-set-key (kbd "M-n")      'jump-down)
-(global-set-key (kbd "M-p")      'jump-up)
-(global-set-key (kbd "C-0")      'delete-window)
+(global-set-key (kbd "C-0")      'delete-window-and-balance)
 (global-set-key (kbd "C-1")      'delete-other-windows)
-(global-set-key (kbd "C-3")      'split-window-right)
-(global-set-key (kbd "C-2")      'split-window-below)
+(global-set-key (kbd "C-3")      'split-window-right-balance-and-switch)
+(global-set-key (kbd "C-2")      'split-window-below-balance-and-switch)
 (global-set-key (kbd "C--")      'text-scale-decrease)
 (global-set-key (kbd "C-=")      'text-scale-increase)
-
+(GLOBAL         (kbd "C-o")      'other-window)
 
 (setq make-backup-files nil)              ;; no emacs ~ backup files
 (setq vc-follow-symlinks t)               ;; Don't prompt if encounter a symlink file, just follow the link.
@@ -167,10 +184,7 @@
 (global-set-key (kbd "M-w")   'copy) ;; modern copy
 
 ;; Unset keys that I dont use
-(dolist (key '(
-	       "M-z"
-	       ))
-  (global-unset-key (kbd key)))
+(global-unset-key (kbd "M-z"))
 
 (toggle-truncate-lines +1) ;; wrap long lines
 
@@ -178,10 +192,7 @@
 
 (require 'vlf-setup)
 
-(global-set-key (kbd "M-o") 'other-window)
-
-;; Display buffer rules
-;; (setq display-buffer-alist )
+;; (global-set-key (kbd "C-o") 'other-window)
 
 ;; @Minibuffer
 (setq completions-format 'one-column)
@@ -204,33 +215,6 @@
 (install 'corfu)
 (global-corfu-mode +1)
 (setq corfu-auto nil)
-
-;; @Vertico
-
-;; (dolist (pkg '(vertico
-;;                consult
-;;                marginalia
-;;                embark
-;;                embark-consult)) (install pkg))
-
-;; (vertico-mode +1)
-;; (marginalia-mode +1)
-;; (setq vertico-count 10)
-;; (setq vertico-cycle t)
-
-;; (global-set-key (kbd "C-x b") 'consult-buffer)
-;; (global-set-key (kbd "M-i")   'consult-imenu)
-;; (global-set-key (kbd "M-y")   'consult-yank-from-kill-ring)
-;; (global-set-key (kbd "C-;")   'consult-goto-line)
-;; (global-set-key (kbd "M--")   'consult-flymake)
-;; (if (executable-find "rg")
-;;     (global-set-key (kbd "M-j") 'consult-ripgrep)
-;;   (global-set-key (kbd "M-j") 'consult-grep))
-
-;; (with-eval-after-load 'minibuffer
-;;   (define-key minibuffer-mode-map (kbd "C-q") 'embark-export))
-
-;; (setq completion-in-region-function #'consult-completion-in-region)
 
 ;; @Helpful: the way help pages should be.
 (install 'helpful)
@@ -470,7 +454,7 @@
    `(minibuffer-prompt ((t (:foreground \"#96a6c8\" :background \"unspecified\"))))
    `(show-paren-match ((t (:foreground \"unspecified\" :background \"steelblue3\")))))
 "
-)
+            )
 
 (add-to-list 'custom-theme-load-path (expand-file-name "themes" user-emacs-directory))
 (install 'ef-themes)
@@ -480,7 +464,7 @@
     (disable-theme i)))
 
 (setq custom-safe-themes t)
-(load-theme 'witness)
+(load-theme 'braid)
 
 (setq-default c-default-style "linux" c-basic-offset 4)
 
@@ -531,10 +515,6 @@
 (defun git-repo-p (DIR) (locate-dominating-file DIR ".git"))
 (defun find-root-or-default-directory () (or (find-root) default-directory))
 
-
-;; (defun amirreza-never-split-window () nil)
-;; (setq-default split-window-preferred-function 'amirreza-never-split)
-
 ;; @Compile
 (global-set-key (kbd "M-m") 'compile-dwim)
 (global-set-key (kbd "M-g") 'run-git-diff)
@@ -577,7 +557,7 @@
            (compilation-start command))))
 
 ;; @Grep
-(global-set-key (kbd "M-j") 'grep-dwim)
+(global-set-key (kbd "M-s") 'grep-dwim)
 (with-eval-after-load 'grep
   (define-key grep-mode-map (kbd "M-j")     'previous-buffer)
   (define-key grep-mode-map (kbd "g")       'recompile)
@@ -604,9 +584,9 @@
 
 
        (if (and
-	    (get-buffer (format "*Grep-%s*" --grep-dir))
-	    (not (eq (get-buffer (format "*Grep-%s*" --grep-dir)) (current-buffer)))
-	    )
+            (get-buffer (format "*Grep-%s*" --grep-dir))
+            (not (eq (get-buffer (format "*Grep-%s*" --grep-dir)) (current-buffer)))
+            )
            (switch-to-buffer (format "*Grep-%s*" --grep-dir)) ;; we have a compile buffer associated with this project.
 
          (progn
@@ -620,7 +600,8 @@
              (grep (format --last-grep-command-format --last-grep-string))))))
 
 ;; @Find File
-(global-set-key (kbd "C-q") 'find-file-dwim)
+;; (global-set-key (kbd "C-q") 'find-file-dwim)
+(global-set-key (kbd "M-o") 'find-file-dwim)
 
 ;; @TODO: Add gnu find backend for this function.
 (defun find-file-dwim () "Recursive file find starting from `find-root` result or C-u to choose directory interactively." (interactive)
@@ -693,4 +674,75 @@
 (global-set-key (kbd "C-x C-SPC") 'rectangle-mark-mode)
 (with-eval-after-load 'rect
   (define-key rectangle-mark-mode-map (kbd "C-x r i") 'string-insert-rectangle))
+
+
+
+;; @Cheatsheet
+(defun cheatsheet () "Show cheatsheet of my emacs" (interactive)
+       (setq my-emacs-cheatsheet '(
+				   "CTRL-W        Cut"
+				   "ALT-W         Copy"
+				   "CTRL-Y        Paste"
+				   "ALT-Y         Paste from clipboard"
+				   "CTRL-z        Undo"
+				   ""
+				   "CTRL-S        Search in buffer"
+				   "ALT-S         Search in project"
+				   "CTRL-R        Replace"
+				   "ALT-R         Replace using regexp"
+				   ""
+				   "CTRL-SHIFT-,  Begining Of Buffer"
+				   "CTRL-SHIFT-.  End of Buffer"
+				   ""
+				   "CTRL-.        Next Buffer"
+				   "CTRL-,        Previous Buffer"
+				   ""
+				   "CTRL-O        Other Window"
+				   "CTRL-0        Delete Current Window"
+				   "CTRL-1        Delete Other Windows"
+				   "CTRL-2        Split Window Horizontally"
+				   "CTRL-3        Split Window Vertically"
+				   ""
+				   "CTRL-;        Goto Line"
+
+				   ""				   
+				   "CTRL-SPC      Set Mark"
+				   ""
+				   "ALT-O         (Project) Find-File"
+				   "ALT-S         (Project) Grep"
+				   "ALT-;         (Project) Emacs Shell"
+				   "ALT-M         (Project) Compile"
+				   "ALT-G         (Project) Git Diff"
+				   ""
+				   "CTRL-J        Trigger Complete at point (Autocomplete)"
+				   "ALT-.         Goto Definition"
+				   "ALT-SHIFT-/   Find References"
+				   "ALT-,         Jump back"
+				   ""
+				   "ALT-9         Previous Error"
+				   "ALT-0         Next Error"
+				   ""
+				   "ALT-[         Start Recording Macro"
+				   "ALT-]         End Recording/Execute Macro"
+				   "ALT-\\        Execute Macro"
+				   ""
+				   ))
+
+       (let ((buf (get-buffer-create "*Cheatsheet*")))
+	 (with-current-buffer buf
+	   (setq-local buffer-read-only nil)
+	   (erase-buffer)
+	   (mapcar (lambda (entry)
+		     (insert entry)
+		     (insert "\n")
+		     ) my-emacs-cheatsheet)
+	   (setq-local buffer-read-only t))
+	 (display-buffer buf)))
+(global-set-key (kbd "<f1>") 'cheatsheet)
+
+
+
+
+
+
 

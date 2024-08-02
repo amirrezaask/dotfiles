@@ -28,8 +28,8 @@ fi
 
 if command -v emacs &>/dev/null # use emacs as editor
 then
-    export EDITOR='emacsclient -r -a"nano"'
-    export GIT_EDITOR='emacsclient -r -a"nano"'
+    export EDITOR='emacs -nw'
+    export GIT_EDITOR='emacs -nw'
 fi
 
 export PATH="/usr/local/go/bin:$PATH"
