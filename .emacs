@@ -45,6 +45,7 @@
 
 (setq frame-title-format "GNU Emacs")
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(setq redisplay-dont-pause t)
 
 ;; @PATH
 (defun home (path) (expand-file-name path (getenv "HOME")))
@@ -90,7 +91,7 @@
                        "Menlo-16"
                        "JetBrains Mono-16"
                        "Intel One Mono-16"
-		       )
+                       )
          do
          (let* ((font-family (car (string-split font "-"))))
            (when (member font-family font-families)
@@ -128,7 +129,7 @@
        (other-window 1))
 
 (defun split-window-below-balance-and-switch () (interactive)
-       (spli-window-below)
+       (split-window-below)
        (balance-windows)
        (other-window 1))
 
@@ -136,24 +137,24 @@
        (delete-window)
        (balance-windows))
 
-(defun jump-up () (interactive) (next-line (* -1 (/ (window-height) 2))) (recenter-top-bottom))
+(defun jump-up () (interactive)   (next-line (* -1 (/ (window-height) 2))) (recenter-top-bottom))
 (defun jump-down () (interactive) (next-line (/ (window-height) 2)) (recenter-top-bottom))
 
 (setq recenter-positions '(middle))
-(global-set-key (kbd "C-.")      'next-buffer)
-(global-set-key (kbd "C-,")      'previous-buffer)
-(global-set-key (kbd "C->")      'end-of-buffer)
-(global-set-key (kbd "C-<" )     'beginning-of-buffer)
-(global-set-key (kbd "C-0")      'delete-window-and-balance)
-(global-set-key (kbd "C-1")      'delete-other-windows)
-(global-set-key (kbd "C-3")      'split-window-right-balance-and-switch)
-(global-set-key (kbd "C-2")      'split-window-below-balance-and-switch)
-(global-set-key (kbd "C--")      'text-scale-decrease)
-(global-set-key (kbd "C-=")      'text-scale-increase)
-(GLOBAL         (kbd "C-o")      'other-window)
-(GLOBAL         (kbd "M-n")      'jump-down)
-(GLOBAL         (kbd "M-p")      'jump-up)
+(GLOBAL          (kbd "C-<return>")  'save-buffer)
+(GLOBAL          (kbd "C-0")         'delete-window-and-balance)
+(GLOBAL          (kbd "C-1")         'delete-other-windows)
+(GLOBAL          (kbd "C-3")         'split-window-right-balance-and-switch)
+(GLOBAL          (kbd "C-\\")        'split-window-right-balance-and-switch)
+(GLOBAL          (kbd "C-2")         'split-window-below-balance-and-switch)
+(GLOBAL          (kbd "C--")         'text-scale-decrease)
+(GLOBAL          (kbd "C-=")         'text-scale-increase)
+(GLOBAL          (kbd "C-o")         'other-window)
+(GLOBAL          (kbd "M-n")         'jump-down)
+(GLOBAL          (kbd "M-p")         'jump-up)
 
+
+(blink-cursor-mode -1)
 (setq make-backup-files nil)              ;; no emacs ~ backup files
 (setq vc-follow-symlinks t)               ;; Don't prompt if encounter a symlink file, just follow the link.
 (set-default-coding-systems 'utf-8)       ;; always use UTF8
@@ -166,7 +167,7 @@
          (indent-region (point-min) (point-max) nil)
          (untabify (point-min) (point-max))))
 
-(global-set-key (kbd "M-l") 'indent-buffer) ;; Format buffer
+(global-set-key (kbd "M-RET") 'indent-buffer) ;; Format buffer
 
 (global-set-key (kbd "C-/") 'comment-line) ;; Comment
 
@@ -190,6 +191,7 @@
 
 ;; Unset keys that I dont use
 (global-unset-key (kbd "M-z"))
+(global-unset-key (kbd "M-l"))
 
 (toggle-truncate-lines +1) ;; wrap long lines
 
@@ -203,7 +205,7 @@
 (setq completions-max-height 15)
 (setq completions-auto-select nil)
 (setq completion-show-help nil)
-(add-to-list 'completion-styles 'flex)
+(setq completion-styles '(basic flex partial-completion emacs22))
 
 (defun minibuffer-choose-completion-and-exit () "" (interactive)
        (minibuffer-choose-completion t nil)
@@ -213,8 +215,10 @@
   (define-key minibuffer-mode-map           (kbd "C-n") 'minibuffer-next-completion)
   (define-key minibuffer-mode-map           (kbd "C-p") 'minibuffer-previous-completion))
 
+
 ;; @Completion
-(global-set-key (kbd "C-j") 'completion-at-point)
+(global-set-key (kbd "C-j") 'dabbrev-expand)
+(global-set-key (kbd "M-j") 'completion-at-point)
 (install 'corfu)
 (global-corfu-mode +1)
 (setq corfu-auto nil)
@@ -260,8 +264,6 @@
   `(mode-line                        ((t (:foreground \"black\" :background \"#d3b58d\"))))
   `(mode-line-inactive               ((t (:background \"gray20\" :foreground \"#ffffff\"))))
   `(show-paren-match                 ((t (:background \"mediumseagreen\")))))
-(global-hl-line-mode -1)
-(blink-cursor-mode +1)
 (setq-default cursor-type 'box)
 ")
 
@@ -289,9 +291,7 @@
  `(mode-line                        ((t (:foreground \"black\" :background \"#d3b58d\"))))
  `(mode-line-inactive               ((t (:background \"gray20\" :foreground \"#ffffff\"))))
  `(show-paren-match                 ((t (:background \"mediumseagreen\")))))
-(global-hl-line-mode -1)
 (setq-default cursor-type 'box)
-(blink-cursor-mode +1)
 ")
 
 (save-theme "handmadehero" "
@@ -317,9 +317,7 @@
  `(font-lock-note-face              ((t (:foreground \"khaki2\" ))))
  `(show-paren-match                 ((t (:background \"mediumseagreen\")))))
 
-(global-hl-line-mode +1)
 (setq-default cursor-type 'box)
-(blink-cursor-mode -1)
 ")
 
 (save-theme "4coder-fleury" "
@@ -353,8 +351,6 @@
  `(minibuffer-prompt                ((t (:foreground \"#a08563\") :bold t)))
  `(show-paren-match                 ((t (:background \"#e0741b\" :foreground \"#000000\")))))
 
-(blink-cursor-mode -1)
-(global-hl-line-mode +1)
 ")
 
 
@@ -382,9 +378,7 @@
    `(mode-line-inactive ((t (:foreground \"#586e75\" :background \"#002b36\"))))
    `(minibuffer-prompt ((t (:foreground \"#839496\"))))
    `(show-paren-match ((t (:foreground \"#d33682\")))))
-(global-hl-line-mode +1)
 (setq-default cursor-type 'box)
-(blink-cursor-mode +1)
 ")
 
 (save-theme "solarized-light" "
@@ -411,16 +405,13 @@
   `(mode-line-inactive ((t (:foreground \"#93a1a1\" :background \"#fdf6e3\"))))
   `(minibuffer-prompt ((t (:foreground \"#657b83\"))))
   `(show-paren-match ((t (:foreground \"#d33682\")))))
-(global-hl-line-mode +1)
 (setq-default cursor-type 'box)
-(blink-cursor-mode +1)
 ")
 
 (save-theme "default-dark" "
 (custom-theme-set-faces
 'default-dark
 `(default ((t (:foreground \"grey85\" :background \"grey10\")))))
-(blink-cursor-mode +1)
 ")
 
 (save-theme "default-light" "
@@ -456,8 +447,20 @@
    `(mode-line-inactive ((t (:foreground \"#95a99f\" :background \"#282828\"))))
    `(minibuffer-prompt ((t (:foreground \"#96a6c8\" :background \"unspecified\"))))
    `(show-paren-match ((t (:foreground \"unspecified\" :background \"steelblue3\")))))
-"
-            )
+")
+
+(setq theme-toggle-variant
+      '((default-dark . default-light)
+        (default-light . default-dark)
+        (solarized-dark . solarized-light)
+        (solarized-light . solarized-dark)
+        (ef-night . ef-day)
+        (ef-day . ef-night)
+        (ef-dark . ef-light)
+        (ef-light . ef-dark)
+        ))
+
+(defun toggle-color-mode () (interactive) (load-theme (alist-get (car custom-enabled-themes) theme-toggle-variant 'default-dark)))
 
 (add-to-list 'custom-theme-load-path (expand-file-name "themes" user-emacs-directory))
 (install 'ef-themes)
@@ -467,7 +470,9 @@
     (disable-theme i)))
 
 (setq custom-safe-themes t)
-(load-theme 'braid)
+(load-theme 'tango-dark)
+
+(global-set-key (kbd "M-t") 'toggle-color-mode)
 
 (setq-default c-default-style "linux" c-basic-offset 4)
 
@@ -479,7 +484,7 @@
 ;; @LSP (@Eglot)
 (with-eval-after-load 'eglot
   (define-key eglot-mode-map (kbd "C-c C-r") 'eglot-rename)
-  (define-key eglot-mode-map (kbd "M-l")     'eglot-organize-imports-format)
+  (define-key eglot-mode-map (kbd "M-RET")     'eglot-organize-imports-format)
   (define-key eglot-mode-map (kbd "C-c C-c") 'eglot-code-actions))
 
 (dolist (mode '(go rust php)) (add-hook (intern (concat (symbol-name mode) "-mode-hook")) #'eglot-ensure))
@@ -519,8 +524,11 @@
 (defun find-root-or-default-directory () (or (find-root) default-directory))
 
 ;; @Compile
-(global-set-key (kbd "M-m") 'compile-dwim)
+(GLOBAL (kbd "M-m") 'compile-dwim)
 (global-set-key (kbd "M-g") 'run-git-diff)
+
+(setq compilation-ask-about-save nil)
+(setq compilation-always-kill t)
 
 (with-eval-after-load 'compile
   (define-key compilation-mode-map (kbd "g")    'recompile) ;; g as always just does the same thing.
@@ -550,18 +558,22 @@
            (setq --compile-dir (find-root-or-default-directory))
          (setq --compile-dir (read-directory-name "Directory: " default-directory)))
 
-       (if (get-buffer (format "*Compile-%s*" --compile-dir))
-           (switch-to-buffer (format "*Compile-%s*" --compile-dir)) ;; we have a compile buffer associated with this project.
-         ;; we need to create a new compile buffer for this
+         (if (get-buffer (format "*Compile-%s*" --compile-dir))
+             (switch-to-buffer (format "*Compile-%s*" --compile-dir)) ;; we have a compile buffer associated with this project.
+           ;; we need to create a new compile buffer for this
 
-         (let* ((default-directory --compile-dir)
-                (command (read-shell-command "Command: "  (cond ;; guess a command based on the context.
-                                                           ((file-exists-p "build.bat") "build.bat")
-                                                           ((file-exists-p "go.mod")    "go build -v ./...")
-                                                           ((file-exists-p "Makefile")  "make")))))
-           (compilation-start command))))
+           (let* ((default-directory --compile-dir)
+                  (command (read-shell-command "Command: "  (cond ;; guess a command based on the context.
+                                                             ((file-exists-p "build.bat") "build.bat")
+                                                             ((file-exists-p "go.mod")    "go build -v ./...")
+                                                             ((file-exists-p "Makefile")  "make")))))
+             (compilation-start command)
+             (delete-window)
+             (switch-to-buffer (format "*Compile-%s*" --compile-dir))
+             )))
 
 ;; @Grep
+(setq-default case-fold-search t)
 (global-set-key (kbd "M-s") 'grep-dwim)
 (with-eval-after-load 'grep
   (define-key grep-mode-map (kbd "M-s")     'previous-buffer)
@@ -594,11 +606,9 @@
            (setq --grep-dir (find-root-or-default-directory))
          (setq --grep-dir (read-directory-name "Directory: " default-directory)))
 
-
        (if (and
             (get-buffer (format "*Grep-%s*" --grep-dir))
-            (not (eq (get-buffer (format "*Grep-%s*" --grep-dir)) (current-buffer)))
-            )
+            (not (eq (get-buffer (format "*Grep-%s*" --grep-dir)) (current-buffer))))
            (switch-to-buffer (format "*Grep-%s*" --grep-dir)) ;; we have a compile buffer associated with this project.
 
          (progn
@@ -609,11 +619,12 @@
                   (t                      "grep --color=auto -R -nH -e '%s' .")))
            (setq --last-grep-string (read-string "Grep: "))
            (let ((default-directory --grep-dir))
-             (grep (format --last-grep-command-format --last-grep-string))))))
+             (grep (format --last-grep-command-format --last-grep-string))
+             (delete-window)
+             (switch-to-buffer (format "*Grep-%s*" --grep-dir))))))
 
 ;; @Find File
-;; (global-set-key (kbd "C-q") 'find-file-dwim)
-(global-set-key (kbd "M-o") 'find-file-dwim)
+(GLOBAL (kbd "M-o") 'find-file-dwim)
 
 ;; @TODO: Add gnu find backend for this function.
 (defun find-file-dwim () "Recursive file find starting from `find-root` result or C-u to choose directory interactively." (interactive)
@@ -637,16 +648,15 @@
 
 
 ;; @Eshell @Eat @Terminal
-(global-set-key (kbd "M-;") 'eshell-dwim)
+(GLOBAL (kbd "M-;") 'eshell-dwim)
 (with-eval-after-load 'esh-mode
   (define-key eshell-mode-map (kbd "M-;") 'previous-buffer)
-
-  (add-hook 'eshell-mode-hook (lambda () (setq cursor-type 'hbar)))
-  )
+  (add-hook 'eshell-mode-hook (lambda () (setq cursor-type 'hbar))))
 
 (setq eshell-visual-subcommands '("git" "diff" "log" "show"))
 (add-hook 'eshell-load-hook #'eat-eshell-visual-command-mode)
 (install 'eat)
+(eat-eshell-mode +1) ;; Enable it in eshell mode.
 (defun eat-dwim () "" (interactive)
        (if (null current-prefix-arg)
            (setq --eat-dir (find-root-or-default-directory))
@@ -692,72 +702,65 @@
 ;; @Cheatsheet
 (defun cheatsheet () "Show cheatsheet of my emacs" (interactive)
        (setq my-emacs-cheatsheet '(
-				   "CTRL-W        Cut"
-				   "ALT-W         Copy"
-				   "CTRL-Y        Paste"
-				   "ALT-Y         Paste from clipboard"
-				   "CTRL-z        Undo"
-				   ""
-				   "CTRL-S        Search in buffer"
-				   "ALT-S         Search in project"
-				   "CTRL-R        Replace"
-				   "ALT-R         Replace using regexp"
-				   "In Grep Buffers:"
-				   "C-r           Start Wgrep mode"
-				   "C-x C-s       Saves all changes"
-				   ""
-				   "CTRL-SHIFT-,  Begining Of Buffer"
-				   "CTRL-SHIFT-.  End of Buffer"
-				   ""
-				   "CTRL-.        Next Buffer"
-				   "CTRL-,        Previous Buffer"
-				   ""
-				   "CTRL-O        Other Window"
-				   "CTRL-0        Delete Current Window"
-				   "CTRL-1        Delete Other Windows"
-				   "CTRL-2        Split Window Horizontally"
-				   "CTRL-3        Split Window Vertically"
-				   ""
-				   "CTRL-;        Goto Line"
+                                   "CTRL-W        Cut"
+                                   "ALT-W         Copy"
+                                   "CTRL-Y        Paste"
+                                   "ALT-Y         Paste from clipboard"
+                                   "CTRL-z        Undo"
+                                   ""
+                                   "CTRL-S        Search in buffer"
+                                   "ALT-S         Search in project"
+                                   "CTRL-R        Replace"
+                                   "ALT-R         Replace using regexp"
+                                   "In Grep Buffers:"
+                                   "C-r           Start Wgrep mode"
+                                   "C-x C-s       Saves all changes"
+                                   ""
+                                   "CTRL-SHIFT-,  Begining Of Buffer"
+                                   "CTRL-SHIFT-.  End of Buffer"
+                                   ""
+                                   "CTRL-.        Next Buffer"
+                                   "CTRL-,        Previous Buffer"
+                                   ""
+                                   "CTRL-O        Other Window"
+                                   "CTRL-0        Delete Current Window"
+                                   "CTRL-1        Delete Other Windows"
+                                   "CTRL-2        Split Window Horizontally"
+                                   "CTRL-3        Split Window Vertically"
+                                   ""
+                                   "CTRL-;        Goto Line"
 
-				   ""				   
-				   "CTRL-SPC      Set Mark"
-				   ""
-				   "ALT-O         (Project) Find-File"
-				   "ALT-S         (Project) Grep"
-				   "ALT-;         (Project) Emacs Shell"
-				   "ALT-M         (Project) Compile"
-				   "ALT-G         (Project) Git Diff"
-				   ""
-				   "CTRL-J        Trigger Complete at point (Autocomplete)"
-				   "ALT-.         Goto Definition"
-				   "ALT-SHIFT-/   Find References"
-				   "ALT-,         Jump back"
-				   ""
-				   "ALT-9         Previous Error"
-				   "ALT-0         Next Error"
-				   ""
-				   "ALT-[         Start Recording Macro"
-				   "ALT-]         End Recording/Execute Macro"
-				   "ALT-\\        Execute Macro"
-				   ""
-				   ))
+                                   ""
+                                   "CTRL-SPC      Set Mark"
+                                   ""
+                                   "ALT-O         (Project) Find-File"
+                                   "ALT-S         (Project) Grep"
+                                   "ALT-;         (Project) Emacs Shell"
+                                   "ALT-M         (Project) Compile"
+                                   "ALT-G         (Project) Git Diff"
+                                   ""
+                                   "CTRL-J        Trigger Complete at point (Autocomplete)"
+                                   "ALT-.         Goto Definition"
+                                   "ALT-SHIFT-/   Find References"
+                                   "ALT-,         Jump back"
+                                   ""
+                                   "ALT-9         Previous Error"
+                                   "ALT-0         Next Error"
+                                   ""
+                                   "ALT-[         Start Recording Macro"
+                                   "ALT-]         End Recording/Execute Macro"
+                                   "ALT-\\        Execute Macro"
+                                   ""
+                                   ))
 
        (let ((buf (get-buffer-create "*Cheatsheet*")))
-	 (with-current-buffer buf
-	   (setq-local buffer-read-only nil)
-	   (erase-buffer)
-	   (mapcar (lambda (entry)
-		     (insert entry)
-		     (insert "\n")
-		     ) my-emacs-cheatsheet)
-	   (setq-local buffer-read-only t))
-	 (display-buffer buf)))
+         (with-current-buffer buf
+           (setq-local buffer-read-only nil)
+           (erase-buffer)
+           (mapcar (lambda (entry)
+                     (insert entry)
+                     (insert "\n")
+                     ) my-emacs-cheatsheet)
+           (setq-local buffer-read-only t))
+         (display-buffer buf)))
 (global-set-key (kbd "<f1>") 'cheatsheet)
-
-
-
-
-
-
-

@@ -35,7 +35,7 @@ fi
 export PATH="/usr/local/go/bin:$PATH"
 export PATH="$HOME/go/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
-alias svpn="sudo openfortivpn"
+alias svpn='sudo openfortivpn  --otp $(totpgen ADS)'
 alias vim='nvim'
 [ -f "$HOME/cargo/env" ] && . "$HOME/.cargo/env"
 
