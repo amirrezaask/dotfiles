@@ -449,18 +449,6 @@
    `(show-paren-match ((t (:foreground \"unspecified\" :background \"steelblue3\")))))
 ")
 
-(setq theme-toggle-variant
-      '((default-dark . default-light)
-        (default-light . default-dark)
-        (solarized-dark . solarized-light)
-        (solarized-light . solarized-dark)
-        (ef-night . ef-day)
-        (ef-day . ef-night)
-        (ef-dark . ef-light)
-        (ef-light . ef-dark)
-        ))
-
-(defun toggle-color-mode () (interactive) (load-theme (alist-get (car custom-enabled-themes) theme-toggle-variant 'default-dark)))
 
 (add-to-list 'custom-theme-load-path (expand-file-name "themes" user-emacs-directory))
 (install 'ef-themes)
@@ -470,9 +458,7 @@
     (disable-theme i)))
 
 (setq custom-safe-themes t)
-(load-theme 'tango-dark)
-
-(global-set-key (kbd "M-t") 'toggle-color-mode)
+(load-theme 'braid)
 
 (setq-default c-default-style "linux" c-basic-offset 4)
 
@@ -645,35 +631,6 @@
                                         (find-file file)))
         (t (error "you don't have rg installed and it's not a git repo."))))
 
-
-
-;; @Eshell @Eat @Terminal
-(GLOBAL (kbd "M-;") 'eshell-dwim)
-(with-eval-after-load 'esh-mode
-  (define-key eshell-mode-map (kbd "M-;") 'previous-buffer)
-  (add-hook 'eshell-mode-hook (lambda () (setq cursor-type 'hbar))))
-
-(setq eshell-visual-subcommands '("git" "diff" "log" "show"))
-(add-hook 'eshell-load-hook #'eat-eshell-visual-command-mode)
-(install 'eat)
-(eat-eshell-mode +1) ;; Enable it in eshell mode.
-(defun eat-dwim () "" (interactive)
-       (if (null current-prefix-arg)
-           (setq --eat-dir (find-root-or-default-directory))
-         (setq --eat-dir (read-directory-name "Directory: " default-directory)))
-       (let ((default-directory --eat-dir)
-             (eat-buffer-name (format "*eat-%s*" --eat-dir)))
-         (eat)))
-
-(when (executable-find "fish") (setenv "SHELL" "fish"))
-
-(defun eshell-dwim () "Jump to eshell buffer associated with current project or create a new." (interactive)
-       (let* ((root (find-root-or-default-directory))
-              (default-directory root)
-              (eshell-buffer-name (format "*eshell-%s*" root)))
-         (if (get-buffer eshell-buffer-name)
-             (switch-to-buffer eshell-buffer-name)
-           (eshell))))
 
 ;; @Replace
 (global-set-key (kbd "C-r") 'replace-string)
