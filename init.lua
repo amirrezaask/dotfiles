@@ -191,7 +191,7 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-TRANSPARENT = true
+TRANSPARENT = false
 require "lazy".setup({
     -- {
     --     "lukas-reineke/indent-blankline.nvim",
@@ -271,10 +271,6 @@ require "lazy".setup({
             style = 'darker',
         }
     },
-    {
-        'creaturephil/vim-handmade-hero',
-    },
-
     { -- Autoformat
         "stevearc/conform.nvim",
         opts = {
@@ -601,7 +597,7 @@ require "lazy".setup({
 })
 
 
-vim.cmd.colorscheme("tokyonight")
+vim.cmd.colorscheme("onedark")
 
 local augroup = vim.api.nvim_create_augroup("amirreza-chcwd", {})
 vim.api.nvim_create_autocmd("BufEnter", {

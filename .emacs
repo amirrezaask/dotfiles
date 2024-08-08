@@ -72,6 +72,17 @@
 
 (global-set-key (kbd "C-x i") 'edit-init) ;; Edit this file.
 
+;; Use header-line instead of modeline
+(setq-default header-line-format '("%e"
+		      (:eval (if (and (buffer-file-name) (buffer-modified-p (current-buffer))) "**" ""))
+		      " "
+		      (:eval (if (buffer-file-name) (buffer-file-name) "%b"))
+		      " "
+		      "Row%l Col%c"
+		      vc-mode))
+
+(setq-default mode-line-format nil)
+
 ;; @Key overrides
 (defvar global-overrides (make-sparse-keymap))
 (define-minor-mode amirreza-overrides ""
@@ -137,7 +148,7 @@
        (delete-window)
        (balance-windows))
 
-(defun jump-up () (interactive)   (next-line (* -1 (/ (window-height) 2))) (recenter-top-bottom))
+(defun jump-up ()   (interactive)   (next-line (* -1 (/ (window-height) 2))) (recenter-top-bottom))
 (defun jump-down () (interactive) (next-line (/ (window-height) 2)) (recenter-top-bottom))
 
 (setq recenter-positions '(middle))
@@ -234,6 +245,9 @@
 
 ;; @Themes
 (install 'ef-themes)
+(install 'catppuccin-theme)
+(install 'sweet-theme)
+
 (defun save-theme (name definition)
   (mkdir (expand-file-name "themes" user-emacs-directory) t)
   (write-region (format "(deftheme %s)
@@ -347,6 +361,7 @@
  `(vertico-current                  ((t (:inherit hl-line))))
  `(highlight                        ((t (:foreground nil :background \"#2f2f37\"))))
  `(mode-line                        ((t (:foreground \"#cb9401\" :background \"#1f1f27\"))))
+ `(header-line                      ((t (:foreground \"#cb9401\" :background \"#1f1f27\"))))
  `(mode-line-inactive               ((t (:foreground \"#cb9401\" :background \"#1f1f27\"))))
  `(minibuffer-prompt                ((t (:foreground \"#a08563\") :bold t)))
  `(show-paren-match                 ((t (:background \"#e0741b\" :foreground \"#000000\")))))
@@ -470,7 +485,7 @@
 ;; @LSP (@Eglot)
 (with-eval-after-load 'eglot
   (define-key eglot-mode-map (kbd "C-c C-r") 'eglot-rename)
-  (define-key eglot-mode-map (kbd "M-RET")     'eglot-organize-imports-format)
+  (define-key eglot-mode-map (kbd "M-RET")   'eglot-organize-imports-format)
   (define-key eglot-mode-map (kbd "C-c C-c") 'eglot-code-actions))
 
 (dolist (mode '(go rust php)) (add-hook (intern (concat (symbol-name mode) "-mode-hook")) #'eglot-ensure))
@@ -560,7 +575,7 @@
 
 ;; @Grep
 (setq-default case-fold-search t)
-(global-set-key (kbd "M-s") 'grep-dwim)
+(GLOBAL (kbd "M-s") 'grep-dwim)
 (with-eval-after-load 'grep
   (define-key grep-mode-map (kbd "M-s")     'previous-buffer)
   (define-key grep-mode-map (kbd "g")       'recompile)
@@ -641,8 +656,8 @@
 
 ;; @Flymake
 (with-eval-after-load 'flymake
-  (define-key flymake-mode-map (kbd "M-9") 'flymake-goto-prev-error)
-  (define-key flymake-mode-map (kbd "M-0") 'flymake-goto-next-error))
+  (define-key flymake-mode-map (kbd "M-;") 'flymake-goto-prev-error)
+  (define-key flymake-mode-map (kbd "M-'") 'flymake-goto-next-error))
 
 ;; @Macros
 (global-set-key (kbd "M-[") 'kmacro-start-macro)
