@@ -192,11 +192,7 @@ require "lazy".setup({
             vim.keymap.set({ 'n', 'i', 't' }, "<C-j>", "<cmd>ToggleTerm<CR>")
         end
     },
-    {
-        'nvim-lualine/lualine.nvim',
-        dependencies = { 'nvim-tree/nvim-web-devicons' },
-        opts = {},
-    },
+
     {
         "lukas-reineke/indent-blankline.nvim",
         opts = {
@@ -338,16 +334,6 @@ require "lazy".setup({
                 projects_root = "C:/w"
             end
 
-            local function find_projects()
-                local repos = vim.fs.find({ ".git" }, { limit = math.huge, path = projects_root })
-                local paths = {}
-                for _, repo in ipairs(repos) do
-                    table.insert(paths, vim.fs.dirname(repo))
-                end
-
-                return paths
-            end
-
             map("n", "<C-p>", function()
                 builtin.git_files({
                     use_file_path = true,
@@ -356,17 +342,6 @@ require "lazy".setup({
                 })
             end, "Git Files")
 
-            -- map("n", "<leader><CR>", function()
-            --     vim.ui.select(find_projects(), {
-            --         prompt = "Select Project:",
-            --     }, function(proj)
-            --         if proj == "" or proj == nil then
-            --             return
-            --         end
-            --         builtin.find_files({ previewer = false, cwd = proj })
-            --     end)
-            -- end, "Find File in project")
-            --
             map("n", "<leader><leader>", function()
                 builtin.find_files({
                     previewer = false,
@@ -422,16 +397,13 @@ require "lazy".setup({
             end, "LSP workspace symbols")
         end,
     },
-    {
-        'stevearc/dressing.nvim',
-        opts = {},
-    },
 
     {
         "folke/ts-comments.nvim",
         event = "VeryLazy",
         opts = {},
     },
+
     { "tpope/vim-sleuth" },
 
     -- Search and replace in files
@@ -443,8 +415,9 @@ require "lazy".setup({
             end)
         end,
     },
-    -- 'christoomey/vim-tmux-navigator',
+
     { "tpope/vim-fugitive" },
+
     { -- Language server protocol client (LSP)
         "neovim/nvim-lspconfig",
         dependencies = {
@@ -601,22 +574,8 @@ require "lazy".setup({
 })
 
 
-vim.cmd.colorscheme("onedark")
+vim.cmd.colorscheme("rose-pine")
 
-local augroup = vim.api.nvim_create_augroup("amirreza-chcwd", {})
-vim.api.nvim_create_autocmd("BufEnter", {
-    callback = function(ev)
-        local filename = ev.file
-        local start_from = vim.fs.dirname(filename)
-
-        local root = vim.fs.dirname(
-            vim.fs.find({ ".git", "go.mod", "package.json", "cargo.toml" },
-                { upward = true, path = start_from })[1]
-        )
-        if root ~= nil and root ~= "" then
-            local abs_path = require("plenary.path").new(root or vim.fn.getcwd()):absolute()
-            vim.fn.chdir(abs_path)
-        end
-    end,
-    group = augroup,
-})
+vim.cmd [[
+    hi Normal guibg=none
+]]
