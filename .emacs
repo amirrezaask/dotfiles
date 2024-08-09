@@ -84,8 +84,6 @@
 
 (setq-default mode-line-format nil)
 
-(setq-default cursor-type 'bar)
-
 ;; @Key overrides
 (defvar global-overrides (make-sparse-keymap))
 (define-minor-mode amirreza-overrides ""
@@ -247,7 +245,9 @@
 (global-set-key (kbd "C-h F") 'helpful-function)
 
 ;; @Themes
+(install 'modus-themes)
 (install 'ef-themes)
+(install 'doom-themes)
 
 (defun save-theme (name definition)
   (mkdir (expand-file-name "themes" user-emacs-directory) t)
@@ -279,7 +279,6 @@
   `(mode-line                        ((t (:foreground \"black\" :background \"#d3b58d\"))))
   `(mode-line-inactive               ((t (:background \"gray20\" :foreground \"#ffffff\"))))
   `(show-paren-match                 ((t (:background \"mediumseagreen\")))))
-(setq-default cursor-type 'box)
 ")
 
 (save-theme "witness" "
@@ -306,7 +305,6 @@
  `(mode-line                        ((t (:foreground \"black\" :background \"#d3b58d\"))))
  `(mode-line-inactive               ((t (:background \"gray20\" :foreground \"#ffffff\"))))
  `(show-paren-match                 ((t (:background \"mediumseagreen\")))))
-(setq-default cursor-type 'box)
 ")
 
 (save-theme "handmadehero" "
@@ -332,7 +330,6 @@
  `(font-lock-note-face              ((t (:foreground \"khaki2\" ))))
  `(show-paren-match                 ((t (:background \"mediumseagreen\")))))
 
-(setq-default cursor-type 'box)
 ")
 
 (save-theme "4coder-fleury" "
@@ -394,7 +391,6 @@
    `(mode-line-inactive ((t (:foreground \"#586e75\" :background \"#002b36\"))))
    `(minibuffer-prompt ((t (:foreground \"#839496\"))))
    `(show-paren-match ((t (:foreground \"#d33682\")))))
-(setq-default cursor-type 'box)
 ")
 
 (save-theme "solarized-light" "
@@ -421,7 +417,6 @@
   `(mode-line-inactive ((t (:foreground \"#93a1a1\" :background \"#fdf6e3\"))))
   `(minibuffer-prompt ((t (:foreground \"#657b83\"))))
   `(show-paren-match ((t (:foreground \"#d33682\")))))
-(setq-default cursor-type 'box)
 ")
 
 (save-theme "default-dark" "
@@ -474,7 +469,7 @@
     (disable-theme i)))
 
 (setq custom-safe-themes t)
-(load-theme 'braid)
+(load-theme 'doom-tomorrow-night)
 
 (setq-default c-default-style "linux" c-basic-offset 4)
 

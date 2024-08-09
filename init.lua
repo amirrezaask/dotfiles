@@ -574,8 +574,4 @@ require "lazy".setup({
 })
 
 
-vim.cmd.colorscheme("rose-pine")
-
-vim.cmd [[
-    hi Normal guibg=none
-]]
+vim.cmd.colorscheme("tokyonight-night")
