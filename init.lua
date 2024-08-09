@@ -220,7 +220,6 @@ require "lazy".setup({
         },
         main = "ibl",
     },
-    'marko-cerovac/material.nvim',
     {
         "rose-pine/neovim",
         name = "rose-pine",
@@ -233,11 +232,47 @@ require "lazy".setup({
     },
     {
         "folke/tokyonight.nvim",
-        opts = {
-            style = "night",
-            transparent = TRANSPARENT,
-            cache = false,
-        },
+        priority = 1000,
+        config = function()
+            local transparent = false -- set to true if you would like to enable transparency
+
+            local bg = "#011628"
+            local bg_dark = "#011423"
+            local bg_highlight = "#143652"
+            local bg_search = "#0A64AC"
+            local bg_visual = "#275378"
+            local fg = "#CBE0F0"
+            local fg_dark = "#B4D0E9"
+            local fg_gutter = "#627E97"
+            local border = "#547998"
+
+            -- From https://github.com/josean-dev/dev-environment-files/blob/main/.config/nvim/lua/josean/plugins/colorscheme.lua
+            require("tokyonight").setup({
+                style = "night",
+                transparent = transparent,
+                styles = {
+                    sidebars = transparent and "transparent" or "dark",
+                    floats = transparent and "transparent" or "dark",
+                },
+                on_colors = function(colors)
+                    colors.bg = bg
+                    colors.bg_dark = transparent and colors.none or bg_dark
+                    colors.bg_float = transparent and colors.none or bg_dark
+                    colors.bg_highlight = bg_highlight
+                    colors.bg_popup = bg_dark
+                    colors.bg_search = bg_search
+                    colors.bg_sidebar = transparent and colors.none or bg_dark
+                    colors.bg_statusline = transparent and colors.none or bg_dark
+                    colors.bg_visual = bg_visual
+                    colors.border = border
+                    colors.fg = fg
+                    colors.fg_dark = fg_dark
+                    colors.fg_float = fg
+                    colors.fg_gutter = fg_gutter
+                    colors.fg_sidebar = fg_dark
+                end,
+            })
+        end
     },
     {
         "catppuccin/nvim",
@@ -329,11 +364,6 @@ require "lazy".setup({
             local no_preview = { previewer = false }
             local map = function(mode, key, fn, desc)
                 vim.keymap.set(mode, key, fn, { desc = "Telescope: " .. desc })
-            end
-
-            local projects_root = "~/w"
-            if IS_WINDOWS then
-                projects_root = "C:/w"
             end
 
             map("n", "<C-p>", function()
@@ -576,4 +606,4 @@ require "lazy".setup({
 })
 
 
-vim.cmd.colorscheme("catppuccin-mocha")
+vim.cmd.colorscheme("tokyonight")
