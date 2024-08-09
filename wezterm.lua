@@ -24,6 +24,7 @@ config.use_fancy_tab_bar = false
 
 config.keys = {
 	{ key = "t",          mods = MOD, action = wezterm.action.SpawnTab('CurrentPaneDomain') },
+	{ key = "n",          mods = MOD, action = wezterm.action.SpawnTab('CurrentPaneDomain') },
 	{ key = "j",          mods = MOD, action = wezterm.action.ActivateTabRelative(-1) },
 	{ key = "k",          mods = MOD, action = wezterm.action.ActivateTabRelative(1) },
 	{ key = "LeftArrow",  mods = MOD, action = wezterm.action.ActivateTabRelative(-1) },
