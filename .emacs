@@ -74,14 +74,17 @@
 
 ;; Use header-line instead of modeline
 (setq-default header-line-format '("%e"
-		      (:eval (if (and (buffer-file-name) (buffer-modified-p (current-buffer))) "**" ""))
-		      " "
-		      (:eval (if (buffer-file-name) (buffer-file-name) "%b"))
-		      " "
-		      "Row%l Col%c"
-		      vc-mode))
+                                   (:eval (if (and (buffer-file-name) (buffer-modified-p (current-buffer))) "**" ""))
+                                   " "
+                                   (:eval (if (buffer-file-name) (buffer-file-name) "%b"))
+                                   " - "
+                                   "Row: %l Col: %c"
+                                   " -"
+                                   vc-mode))
 
 (setq-default mode-line-format nil)
+
+(setq-default cursor-type 'bar)
 
 ;; @Key overrides
 (defvar global-overrides (make-sparse-keymap))
@@ -245,8 +248,6 @@
 
 ;; @Themes
 (install 'ef-themes)
-(install 'catppuccin-theme)
-(install 'sweet-theme)
 
 (defun save-theme (name definition)
   (mkdir (expand-file-name "themes" user-emacs-directory) t)
@@ -559,19 +560,18 @@
            (setq --compile-dir (find-root-or-default-directory))
          (setq --compile-dir (read-directory-name "Directory: " default-directory)))
 
-         (if (get-buffer (format "*Compile-%s*" --compile-dir))
-             (switch-to-buffer (format "*Compile-%s*" --compile-dir)) ;; we have a compile buffer associated with this project.
-           ;; we need to create a new compile buffer for this
+       (if (get-buffer (format "*Compile-%s*" --compile-dir))
+           (switch-to-buffer (format "*Compile-%s*" --compile-dir)) ;; we have a compile buffer associated with this project.
+         ;; we need to create a new compile buffer for this
 
-           (let* ((default-directory --compile-dir)
-                  (command (read-shell-command "Command: "  (cond ;; guess a command based on the context.
-                                                             ((file-exists-p "build.bat") "build.bat")
-                                                             ((file-exists-p "go.mod")    "go build -v ./...")
-                                                             ((file-exists-p "Makefile")  "make")))))
-             (compilation-start command)
-             (delete-window)
-             (switch-to-buffer (format "*Compile-%s*" --compile-dir))
-             )))
+         (let* ((default-directory --compile-dir)
+                (command (read-shell-command "Command: "  (cond ;; guess a command based on the context.
+                                                           ((file-exists-p "build.bat") "build.bat")
+                                                           ((file-exists-p "go.mod")    "go build -v ./...")
+                                                           ((file-exists-p "Makefile")  "make")))))
+           (compilation-start command)
+           (delete-window)
+           (switch-to-buffer (format "*Compile-%s*" --compile-dir)))))
 
 ;; @Grep
 (setq-default case-fold-search t)
