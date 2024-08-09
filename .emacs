@@ -73,18 +73,18 @@
 (global-set-key (kbd "C-x i") 'edit-init) ;; Edit this file.
 
 ;; Use header-line instead of modeline
-(setq-default header-line-format '("%e"
-                                   (:eval (if (and (buffer-file-name) (buffer-modified-p (current-buffer))) "**" ""))
-                                   " "
-                                   (:eval (if (buffer-file-name) (buffer-file-name) "%b"))
-                                   " - "
-                                   "Row: %l Col: %c"
-                                   " -"
-                                   vc-mode))
+;; (setq-default header-line-format '("%e"
+;;                                    (:eval (if (and (buffer-file-name) (buffer-modified-p (current-buffer))) "**" ""))
+;;                                    " "
+;;                                    (:eval (if (buffer-file-name) (buffer-file-name) "%b"))
+;;                                    " - "
+;;                                    "Row: %l Col: %c"
+;;                                    " -"
+;;                                    vc-mode))
 
-(setq-default mode-line-format nil)
+;; (setq-default mode-line-format nil)
 
-;; @Key overrides
+;; overrides
 (defvar global-overrides (make-sparse-keymap))
 (define-minor-mode amirreza-overrides ""
   :global t
@@ -94,24 +94,29 @@
 (amirreza-overrides +1)
 (defun GLOBAL (KBD ACTION) (define-key global-overrides KBD ACTION))
 
-;; @Font
+;; Font
+(setq font-size 16)
+(setq current-font-family "")
 (setq font-families (font-family-list))
 (require 'cl-lib)
 (cl-loop for font in '(
-                       "Consolas-16"
-                       "Liberation Mono-17"
-                       "Menlo-16"
-                       "JetBrains Mono-16"
-                       "Intel One Mono-16"
+                       "Consolas"
+                       "Liberation Mono"
+                       "Menlo"
+                       "JetBrains Mono"
+                       "Intel One Mono"
                        )
          do
          (let* ((font-family (car (string-split font "-"))))
            (when (member font-family font-families)
-             (set-face-attribute 'default nil :font (format "%s" font))
+	     (setq current-font-family font)
+             (set-face-attribute 'default nil :font (format "%s-%d" font font-size))
              (cl-return))))
 
-(defun set-font (font) "Set font" (interactive (list (read-string "Font: ")))
-       (set-face-attribute 'default nil :font (format "%s" font)))
+(defun set-font (font size) "Set font" (interactive (list (read-string "Font: ") (read-number "Size: ")))
+       (setq current-font-family font)
+       (setq font-size size)
+       (set-face-attribute 'default nil :font (format "%s-%d" font size)))
 
 (setq native-comp-async-report-warnings-errors nil) ;; silently do jit compiling.
 
@@ -124,7 +129,6 @@
   (unless (package-installed-p pkg)
     (package-install pkg)))
 
-;; @Packages
 (dolist (pkg '(
                vlf       ;; handle [V]ery [L]arge [F]iles
                wgrep     ;; Editable Grep Buffers
@@ -134,7 +138,6 @@
                json-mode
                yaml-mode)) (install pkg))
 
-;; @Window @Buffer
 (defun split-window-right-balance-and-switch () (interactive)
        (split-window-right)
        (balance-windows)
@@ -244,241 +247,85 @@
 (global-set-key (kbd "C-h .") 'helpful-at-point)
 (global-set-key (kbd "C-h F") 'helpful-function)
 
-;; @Themes
-(install 'modus-themes)
-(install 'ef-themes)
-(install 'doom-themes)
+;; Colors
+;; braid
+(custom-set-faces
+  `(default                          ((t (:foreground "#debe95" :background "#202020"))))
+  `(hl-line                          ((t (:background "#353535"))))
+  `(vertico-current                  ((t (:background "medium blue"))))
+  `(region                           ((t (:background "medium blue"))))
+  `(cursor                           ((t (:background "lightgreen"))))
+  `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
+  `(font-lock-type-face              ((t (:foreground "#8cde94"))))
+  `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
+  `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
+  `(font-lock-builtin-face           ((t (:foreground "white"))))
+  `(font-lock-string-face            ((t (:foreground "gray70"))))
+  `(font-lock-comment-face           ((t (:foreground "yellow"))))
+  `(font-lock-comment-delimiter-face ((t (:foreground "yellow"))))
+  `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
+  `(font-lock-function-name-face     ((t (:foreground "white"))))
+  `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
+  `(font-lock-warning-face           ((t (:foreground "yellow"))))
+  `(font-lock-note-face              ((t (:foreground "khaki2" ))))
+  `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
+  `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
+  `(show-paren-match                 ((t (:background "mediumseagreen")))))
 
-(defun save-theme (name definition)
-  (mkdir (expand-file-name "themes" user-emacs-directory) t)
-  (write-region (format "(deftheme %s)
-%s
-" name definition) nil (expand-file-name (format "%s-theme.el" name) (expand-file-name "themes" user-emacs-directory))))
+;; Witness
+;; (custom-set-faces
+;;  `(default                          ((t (:foreground "#d3b58d" :background "#072626"))))
+;;  `(hl-line                          ((t (:background "#0c4141"))))
+;;  `(region                           ((t (:background  "medium blue"))))
+;;  `(cursor                           ((t (:background "lightgreen"))))
+;;  `(font-lock-keyword-face           ((t (:foreground "white"))))
+;;  `(font-lock-type-face              ((t (:foreground "#8cde94"))))
+;;  `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
+;;  `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
+;;  `(font-lock-builtin-face           ((t (:foreground "lightgreen"))))
+;;  `(font-lock-string-face            ((t (:foreground "#0fdfaf"))))
+;;  `(font-lock-comment-face           ((t (:foreground "#3fdf1f"))))
+;;  `(font-lock-comment-delimiter-face ((t (:foreground "#3fdf1f"))))
+;;  `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
+;;  `(font-lock-function-name-face     ((t (:foreground "white"))))
+;;  `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
+;;  `(hightlight                       ((t (:foreground "navyblue" :background "darkseegreen2"))))
+;;  `(font-lock-warning-face           ((t (:foreground "#504038"))))
+;;  `(font-lock-note-face              ((t (:foreground "khaki2" ))))
+;;  `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
+;;  `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
+;;  `(show-paren-match                 ((t (:background "mediumseagreen")))))
 
-(save-theme "braid" "
-(custom-theme-set-faces
-   'braid
-  `(default                          ((t (:foreground \"#debe95\" :background \"#202020\"))))
-  `(hl-line                          ((t (:background \"#353535\"))))
-  `(vertico-current                  ((t (:background \"medium blue\"))))
-  `(region                           ((t (:background \"medium blue\"))))
-  `(cursor                           ((t (:background \"lightgreen\"))))
-  `(font-lock-keyword-face           ((t (:foreground \"#d4d4d4\"))))
-  `(font-lock-type-face              ((t (:foreground \"#8cde94\"))))
-  `(font-lock-constant-face          ((t (:foreground \"#7ad0c6\"))))
-  `(font-lock-variable-name-face     ((t (:foreground \"#c8d4ec\"))))
-  `(font-lock-builtin-face           ((t (:foreground \"white\"))))
-  `(font-lock-string-face            ((t (:foreground \"gray70\"))))
-  `(font-lock-comment-face           ((t (:foreground \"yellow\"))))
-  `(font-lock-comment-delimiter-face ((t (:foreground \"yellow\"))))
-  `(font-lock-doc-face               ((t (:foreground \"#3fdf1f\"))))
-  `(font-lock-function-name-face     ((t (:foreground \"white\"))))
-  `(font-lock-doc-string-face        ((t (:foreground \"#3fdf1f\"))))
-  `(font-lock-warning-face           ((t (:foreground \"yellow\"))))
-  `(font-lock-note-face              ((t (:foreground \"khaki2\" ))))
-  `(mode-line                        ((t (:foreground \"black\" :background \"#d3b58d\"))))
-  `(mode-line-inactive               ((t (:background \"gray20\" :foreground \"#ffffff\"))))
-  `(show-paren-match                 ((t (:background \"mediumseagreen\")))))
-")
-
-(save-theme "witness" "
-(custom-theme-set-faces
-  'witness
- `(default                          ((t (:foreground \"#d3b58d\" :background \"#072626\"))))
- `(hl-line                          ((t (:background \"#0c4141\"))))
- `(region                           ((t (:background  \"medium blue\"))))
- `(cursor                           ((t (:background \"lightgreen\"))))
- `(font-lock-keyword-face           ((t (:foreground \"white\"))))
- `(font-lock-type-face              ((t (:foreground \"#8cde94\"))))
- `(font-lock-constant-face          ((t (:foreground \"#7ad0c6\"))))
- `(font-lock-variable-name-face     ((t (:foreground \"#c8d4ec\"))))
- `(font-lock-builtin-face           ((t (:foreground \"lightgreen\"))))
- `(font-lock-string-face            ((t (:foreground \"#0fdfaf\"))))
- `(font-lock-comment-face           ((t (:foreground \"#3fdf1f\"))))
- `(font-lock-comment-delimiter-face ((t (:foreground \"#3fdf1f\"))))
- `(font-lock-doc-face               ((t (:foreground \"#3fdf1f\"))))
- `(font-lock-function-name-face     ((t (:foreground \"white\"))))
- `(font-lock-doc-string-face        ((t (:foreground \"#3fdf1f\"))))
- `(hightlight                       ((t (:foreground \"navyblue\" :background \"darkseegreen2\"))))
- `(font-lock-warning-face           ((t (:foreground \"#504038\"))))
- `(font-lock-note-face              ((t (:foreground \"khaki2\" ))))
- `(mode-line                        ((t (:foreground \"black\" :background \"#d3b58d\"))))
- `(mode-line-inactive               ((t (:background \"gray20\" :foreground \"#ffffff\"))))
- `(show-paren-match                 ((t (:background \"mediumseagreen\")))))
-")
-
-(save-theme "handmadehero" "
-(custom-theme-set-faces
-  'handmadehero
- `(default                          ((t (:foreground \"burlywood2\" :background \"#161616\"))))
- `(hl-line                          ((t (:background \"midnight blue\"))))
- `(vertico-current                  ((t (:background \"midnight blue\"))))
- `(region                           ((t (:background \"medium blue\"))))
- `(cursor                           ((t (:background \"#40FF40\"))))
- `(font-lock-keyword-face           ((t (:foreground \"DarkGoldenrod2\"))))
- `(font-lock-type-face              ((t (:foreground \"burlywood3\"))))
- `(font-lock-constant-face          ((t (:foreground \"olive drab\"))))
- `(font-lock-variable-name-face     ((t (:foreground \"burlywood3\"))))
- `(font-lock-builtin-face           ((t (:foreground \"gray80\"))))
- `(font-lock-string-face            ((t (:foreground \"olive drab\"))))
- `(font-lock-comment-face           ((t (:foreground \"gray50\"))))
- `(font-lock-comment-delimiter-face ((t (:foreground \"gray50\"))))
- `(font-lock-doc-face               ((t (:foreground \"gray50\"))))
- `(font-lock-function-name-face     ((t (:foreground \"burlywood2\"))))
- `(font-lock-doc-string-face        ((t (:foreground \"gray50\"))))
- `(font-lock-warning-face           ((t (:foreground \"yellow\"))))
- `(font-lock-note-face              ((t (:foreground \"khaki2\" ))))
- `(show-paren-match                 ((t (:background \"mediumseagreen\")))))
-
-")
-
-(save-theme "4coder-fleury" "
-(custom-theme-set-faces
- '4coder-fleury
- `(default                          ((t (:foreground \"#a08563\" :background \"#0c0c0c\"))))
- `(cursor                           ((t (:background \"green\"))))
- `(font-lock-keyword-face           ((t (:foreground \"#f0c674\"))))
- `(font-lock-operator-face          ((t (:foreground \"#907553\"))))
- `(font-lock-punctuation-face       ((t (:foreground \"#907553\"))))
- `(font-lock-bracket-face           ((t (:foreground \"#907553\"))))
- `(font-lock-delimiter-face         ((t (:foreground \"#907553\"))))
- `(font-lock-type-face              ((t (:foreground \"#d8a51d\"))))
- `(font-lock-constant-face          ((t (:foreground \"#6b8e23\"))))
- `(font-lock-variable-name-face     ((t (:foreground \"#b99468\"))))
- `(font-lock-builtin-face           ((t (:foreground \"#DAB98F\"))))
- `(font-lock-string-face            ((t (:foreground \"#6b8e23\"))))
- `(font-lock-comment-face           ((t (:foreground \"#686868\"))))
- `(font-lock-comment-delimiter-face ((t (:foreground \"#686868\"))))
- `(font-lock-doc-face               ((t (:foreground \"#686868\"))))
- `(font-lock-function-name-face     ((t (:foreground \"#cc5735\"))))
- `(font-lock-doc-string-face        ((t (:foreground \"#6b8e23\"))))
- `(font-lock-preprocessor-face      ((t (:foreground \"#DAB98F\"))))
- `(font-lock-warning-face           ((t (:foreground \"#504038\"))))
- `(region                           ((t (:background \"#2f2f37\"))))
- `(hl-line                          ((t (:background \"#171616\"))))
- `(vertico-current                  ((t (:inherit hl-line))))
- `(highlight                        ((t (:foreground nil :background \"#2f2f37\"))))
- `(mode-line                        ((t (:foreground \"#cb9401\" :background \"#1f1f27\"))))
- `(header-line                      ((t (:foreground \"#cb9401\" :background \"#1f1f27\"))))
- `(mode-line-inactive               ((t (:foreground \"#cb9401\" :background \"#1f1f27\"))))
- `(minibuffer-prompt                ((t (:foreground \"#a08563\") :bold t)))
- `(show-paren-match                 ((t (:background \"#e0741b\" :foreground \"#000000\")))))
-
-")
-
-
-(save-theme "solarized-dark" "
-(custom-theme-set-faces
-   'solarized-dark
-   `(default ((t (:foreground \"#839496\" :background \"#002b36\"))))
-   `(cursor ((t (:foreground \"#002b36\" :background \"#839496\"))))
-   `(font-lock-keyword-face ((t (:foreground \"#859900\"))))
-   `(font-lock-type-face ((t (:foreground \"#b58900\"))))
-   `(font-lock-constant-face ((t (:foreground \"#268bd2\"))))
-   `(font-lock-variable-name-face ((t (:foreground \"#268bd2\"))))
-   `(font-lock-builtin-face ((t (:foreground \"#839496\"))))
-   `(font-lock-string-face ((t (:foreground \"#2aa198\"))))
-   `(font-lock-comment-face ((t (:foreground \"#586e75\"))))
-   `(font-lock-comment-delimiter-face ((t (:foreground \"#586e75\"))))
-   `(font-lock-doc-face ((t (:foreground \"#2aa198\"))))
-   `(font-lock-function-name-face ((t (:foreground \"#268bd2\"))))
-   `(font-lock-preprocessor-face ((t (:foreground \"#268bd2\"))))
-   `(region ((t (:foreground \"#002b36\" :background \"#93a1a1\"))))
-   `(hl-line ((t (:background \"#073642\"))))
-   `(vertico-current ((t (:background \"#073642\"))))
-   `(highlight ((t (:background \"#073642\"))))
-   `(mode-line ((t (:foreground \"#839496\" :background \"#174652\"))))
-   `(mode-line-inactive ((t (:foreground \"#586e75\" :background \"#002b36\"))))
-   `(minibuffer-prompt ((t (:foreground \"#839496\"))))
-   `(show-paren-match ((t (:foreground \"#d33682\")))))
-")
-
-(save-theme "solarized-light" "
-(custom-theme-set-faces
-   'solarized-light
-  `(default ((t (:foreground \"#657b83\" :background \"#fdf6e3\"))))
-  `(cursor ((t (:foreground \"#fdf6e3\" :background \"#657b83\"))))
-  `(font-lock-keyword-face ((t (:foreground \"#859900\"))))
-  `(font-lock-type-face ((t (:foreground \"#b58900\"))))
-  `(font-lock-constant-face ((t (:foreground \"#268bd2\"))))
-  `(font-lock-variable-name-face ((t (:foreground \"#268bd2\"))))
-  `(font-lock-builtin-face ((t (:foreground \"#657b83\"))))
-  `(font-lock-string-face ((t (:foreground \"#2aa198\"))))
-  `(font-lock-comment-face ((t (:foreground \"#93a1a1\"))))
-  `(font-lock-comment-delimiter-face ((t (:foreground \"#93a1a1\"))))
-  `(font-lock-doc-face ((t (:foreground \"#2aa198\"))))
-  `(font-lock-function-name-face ((t (:foreground \"#268bd2\"))))
-  `(font-lock-preprocessor-face ((t (:foreground \"#268bd2\"))))
-  `(region ((t (:foreground \"#fdf6e3\" :background \"#586e75\"))))
-  `(hl-line ((t (:background \"#eee8d5\"))))
-  `(vertico-current ((t (:background \"#eee8d5\"))))
-  `(highlight ((t (:background \"#eee8d5\"))))
-  `(mode-line ((t (:foreground \"#657b83\" :background \"#eee8d5\"))))
-  `(mode-line-inactive ((t (:foreground \"#93a1a1\" :background \"#fdf6e3\"))))
-  `(minibuffer-prompt ((t (:foreground \"#657b83\"))))
-  `(show-paren-match ((t (:foreground \"#d33682\")))))
-")
-
-(save-theme "default-dark" "
-(custom-theme-set-faces
-'default-dark
-`(default ((t (:foreground \"grey85\" :background \"grey10\")))))
-")
-
-(save-theme "default-light" "
-(dolist (i custom-enabled-themes)
-  (disable-theme i))
-")
-
-(save-theme "gruber-darker" "
-(custom-theme-set-faces
-   'gruber-darker
-   `(default ((t (:foreground \"#e4e4ef\" :background \"#181818\"))))
-   `(cursor ((t (:foreground \"unspecified\" :background \"#ffdd33\"))))
-   `(font-lock-keyword-face ((t (:foreground \"#ffdd33\" :background \"unspecified\"))))
-   `(font-lock-operator-face ((t (:foreground \"unspecified\" :background \"unspecified\"))))
-   `(font-lock-punctuation-face ((t (:foreground \"unspecified\" :background \"unspecified\"))))
-   `(font-lock-bracket-face ((t (:foreground \"unspecified\" :background \"unspecified\"))))
-   `(font-lock-delimiter-face ((t (:foreground \"unspecified\" :background \"unspecified\"))))
-   `(font-lock-type-face ((t (:foreground \"#95a99f\" :background \"unspecified\"))))
-   `(font-lock-constant-face ((t (:foreground \"#95a99f\" :background \"unspecified\"))))
-   `(font-lock-variable-name-face ((t (:foreground \"#f4f4ff\" :background \"unspecified\"))))
-   `(font-lock-builtin-face ((t (:foreground \"#ffdd33\" :background \"unspecified\"))))
-   `(font-lock-string-face ((t (:foreground \"#73c936\" :background \"unspecified\"))))
-   `(font-lock-comment-face ((t (:foreground \"#cc8c3c\" :background \"unspecified\"))))
-   `(font-lock-comment-delimiter-face ((t (:foreground \"#cc8c3c\" :background \"unspecified\"))))
-   `(font-lock-doc-face ((t (:foreground \"#73c936\" :background \"unspecified\"))))
-   `(font-lock-function-name-face ((t (:foreground \"#96a6c8\" :background \"unspecified\"))))
-   `(font-lock-preprocessor-face ((t (:foreground \"#95a99f\" :background \"unspecified\"))))
-   `(font-lock-warning-face ((t (:foreground \"#f43841\" :background \"unspecified\"))))
-   `(region ((t (:foreground \"unspecified\" :background \"#484848\"))))
-   `(hl-line ((t (:foreground \"unspecified\" :background \"unspecified\"))))
-   `(highlight ((t (:foreground \"unspecified\" :background \"#282828\"))))
-   `(mode-line ((t (:foreground \"#ffffff\" :background \"#282828\"))))
-   `(mode-line-inactive ((t (:foreground \"#95a99f\" :background \"#282828\"))))
-   `(minibuffer-prompt ((t (:foreground \"#96a6c8\" :background \"unspecified\"))))
-   `(show-paren-match ((t (:foreground \"unspecified\" :background \"steelblue3\")))))
-")
-
-
-(add-to-list 'custom-theme-load-path (expand-file-name "themes" user-emacs-directory))
-(install 'ef-themes)
-
-(defadvice load-theme (before disable-themes-first (THEME &rest args) activate)
-  (dolist (i custom-enabled-themes)
-    (disable-theme i)))
-
-(setq custom-safe-themes t)
-(load-theme 'doom-tomorrow-night)
+;; Handmadehero
+;; (custom-set-faces
+;;  `(default                          ((t (:foreground "burlywood2" :background "#161616"))))
+;;  `(hl-line                          ((t (:background "midnight blue"))))
+;;  `(vertico-current                  ((t (:background "midnight blue"))))
+;;  `(region                           ((t (:background "medium blue"))))
+;;  `(cursor                           ((t (:background "#40FF40"))))
+;;  `(font-lock-keyword-face           ((t (:foreground "DarkGoldenrod2"))))
+;;  `(font-lock-type-face              ((t (:foreground "burlywood3"))))
+;;  `(font-lock-constant-face          ((t (:foreground "olive drab"))))
+;;  `(font-lock-variable-name-face     ((t (:foreground "burlywood3"))))
+;;  `(font-lock-builtin-face           ((t (:foreground "gray80"))))
+;;  `(font-lock-string-face            ((t (:foreground "olive drab"))))
+;;  `(font-lock-comment-face           ((t (:foreground "gray50"))))
+;;  `(font-lock-comment-delimiter-face ((t (:foreground "gray50"))))
+;;  `(font-lock-doc-face               ((t (:foreground "gray50"))))
+;;  `(font-lock-function-name-face     ((t (:foreground "burlywood2"))))
+;;  `(font-lock-doc-string-face        ((t (:foreground "gray50"))))
+;;  `(font-lock-warning-face           ((t (:foreground "yellow"))))
+;;  `(font-lock-note-face              ((t (:foreground "khaki2" ))))
+;;  `(show-paren-match                 ((t (:background "mediumseagreen")))))
 
 (setq-default c-default-style "linux" c-basic-offset 4)
 
-;; @xref: Jump to definitions
+;; Xref
 (global-set-key (kbd "M-.") 'xref-find-definitions)
 (global-set-key (kbd "M-,") 'xref-go-back)
 (global-set-key (kbd "M-?") 'xref-find-references)
 
-;; @LSP (@Eglot)
+;; LSP (Eglot)
 (with-eval-after-load 'eglot
   (define-key eglot-mode-map (kbd "C-c C-r") 'eglot-rename)
   (define-key eglot-mode-map (kbd "M-RET")   'eglot-organize-imports-format)
@@ -520,7 +367,7 @@
 (defun git-repo-p (DIR) (locate-dominating-file DIR ".git"))
 (defun find-root-or-default-directory () (or (find-root) default-directory))
 
-;; @Compile
+;; Compile Mode
 (GLOBAL (kbd "M-m") 'compile-dwim)
 (global-set-key (kbd "M-g") 'run-git-diff)
 
@@ -568,7 +415,7 @@
            (delete-window)
            (switch-to-buffer (format "*Compile-%s*" --compile-dir)))))
 
-;; @Grep
+;; Grep Mode
 (setq-default case-fold-search t)
 (GLOBAL (kbd "M-s") 'grep-dwim)
 (with-eval-after-load 'grep
@@ -619,7 +466,7 @@
              (delete-window)
              (switch-to-buffer (format "*Grep-%s*" --grep-dir))))))
 
-;; @Find File
+;; Find File
 (GLOBAL (kbd "M-o") 'find-file-dwim)
 
 ;; @TODO: Add gnu find backend for this function.
@@ -642,24 +489,24 @@
         (t (error "you don't have rg installed and it's not a git repo."))))
 
 
-;; @Replace
+;; Replace
 (global-set-key (kbd "C-r") 'replace-string)
 (global-set-key (kbd "M-r") 'replace-regexp)
 
 (with-eval-after-load 'replace
   (define-key query-replace-map (kbd "<return>") 'act))
 
-;; @Flymake
+;; Flymake
 (with-eval-after-load 'flymake
   (define-key flymake-mode-map (kbd "M-;") 'flymake-goto-prev-error)
   (define-key flymake-mode-map (kbd "M-'") 'flymake-goto-next-error))
 
-;; @Macros
+;; Macros
 (global-set-key (kbd "M-[") 'kmacro-start-macro)
 (global-set-key (kbd "M-]") 'kmacro-end-or-call-macro)
 (global-set-key (kbd "M-\\") 'kmacro-end-and-call-macro)
 
-;; @Rectangle Mode
+;; Rectangle Mode
 (global-set-key (kbd "C-x C-SPC") 'rectangle-mark-mode)
 (with-eval-after-load 'rect
   (define-key rectangle-mark-mode-map (kbd "C-x r i") 'string-insert-rectangle))

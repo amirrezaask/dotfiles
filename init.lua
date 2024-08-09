@@ -219,6 +219,7 @@ require "lazy".setup({
         },
         main = "ibl",
     },
+    'marko-cerovac/material.nvim',
     {
         "rose-pine/neovim",
         name = "rose-pine",
