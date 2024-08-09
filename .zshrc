@@ -32,6 +32,11 @@ then
     source <(fzf --zsh)
 fi
 
+if command -v bat &>/dev/null
+then
+    alias cat='bat'
+fi
+
 if command -v nvim &>/dev/null
 then
     export EDITOR='nvim'
