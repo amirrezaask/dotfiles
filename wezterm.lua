@@ -13,14 +13,14 @@ config.font = wezterm.font_with_fallback {
 
 -- config.color_scheme = 'OneHalfDark'
 -- config.color_scheme = 'rose-pine'
-config.color_scheme = 'Apple Classic'
+-- config.color_scheme = 'Apple Classic'
 -- config.color_scheme = 'Tokyo Night'
 
 config.window_padding = {
-	left = 10,
-	right = 10,
-	top = 10,
-	bottom = 10,
+	left = 0,
+	right = 0,
+	top = 0,
+	bottom = 0,
 }
 local is_windows = function()
 	return wezterm.target_triple:find("windows") ~= nil
