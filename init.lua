@@ -182,6 +182,7 @@ vim.opt.rtp:prepend(lazypath)
 
 TRANSPARENT = false
 require "lazy".setup({
+    'nvim-tree/nvim-web-devicons',
     {
         'akinsho/toggleterm.nvim',
         version = "*",

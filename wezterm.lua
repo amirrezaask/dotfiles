@@ -3,12 +3,12 @@ local config = {}
 
 config.font_size = 16
 config.font = wezterm.font_with_fallback {
-	'Intel One Mono',
-	'Jetbrains Mono',
-	'Cascadia Mono NF',
 	'MesloLGL Nerd Font Mono',
 	'Meslo',
 	"Consolas",
+	'Cascadia Mono NF',
+	'Intel One Mono',
+	'Jetbrains Mono',
 }
 
 -- config.color_scheme = 'OneHalfDark'
