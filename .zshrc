@@ -26,17 +26,22 @@ then
     source <(fzf --zsh)
 fi
 
-if command -v emacs &>/dev/null # use emacs as editor
+# if command -v emacs &>/dev/null # use emacs as editor
+# then
+#     export EDITOR='emacs -nw'
+#     export GIT_EDITOR='emacs -nw'
+# fi
+if command -v nvim &>/dev/null
 then
-    export EDITOR='emacs -nw'
-    export GIT_EDITOR='emacs -nw'
+    export EDITOR='nvim'
+    export GIT_EDITOR='nvim'
+    alias vim='nvim'
 fi
 
 export PATH="/usr/local/go/bin:$PATH"
 export PATH="$HOME/go/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 alias svpn='sudo openfortivpn  --otp $(totpgen ADS)'
-alias vim='nvim'
 [ -f "$HOME/cargo/env" ] && . "$HOME/.cargo/env"
 
 oclogs() {
