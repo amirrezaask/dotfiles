@@ -33,8 +33,6 @@ vim.opt.signcolumn = "yes"
 vim.opt.splitbelow = true
 vim.opt.splitright = true
 
-vim.opt.guicursor = ""
-
 -- TABs and indentation
 vim.opt.sw = 4
 vim.opt.ts = 4
@@ -107,11 +105,6 @@ vim.keymap.set("n", "Y", "y$", { desc = "Copy whole line" })
 -- Esc should remove incsearch highlights
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 
--- Tabs
-vim.keymap.set({ "n", "t" }, "<C-t>", "<cmd>tabnew | term<CR>")
-vim.keymap.set({ "n", "t" }, "<C-j>", "<cmd>tabnext<CR>")
-vim.keymap.set({ "n", "t" }, "<C-k>", "<cmd>tabprev<CR>")
-
 -- Simpler exiting insert mode
 vim.keymap.set("i", "<C-c>", "<esc>")
 vim.keymap.set("i", "jk", "<ESC>")
@@ -131,10 +124,6 @@ end
 
 vim.keymap.set({ "n" }, "{", "<cmd>cprev<CR>")
 vim.keymap.set({ "n" }, "}", "<cmd>cnext<CR>")
-
--- Tab
-vim.keymap.set({ "n" }, "<leader>j", "<cmd>tabprev<CR>")
-vim.keymap.set({ "n" }, "<leader>k", "<cmd>tabnext<CR>")
 
 vim.keymap.set({ "n" }, "<C-q>", ToggleQFList, { desc = "Open Quickfix list" })
 vim.keymap.set({ "i" }, "<C-Space>", "<C-x><C-o>")
@@ -193,32 +182,47 @@ vim.opt.rtp:prepend(lazypath)
 
 TRANSPARENT = false
 require "lazy".setup({
-    -- {
-    --     "lukas-reineke/indent-blankline.nvim",
-    --     opts = {
-    --         scope = { enabled = false },
-    --         indent = {
-    --             char = "│",
-    --             tab_char = "│",
-    --         },
-    --         exclude = {
-    --             filetypes = {
-    --                 "help",
-    --                 "alpha",
-    --                 "dashboard",
-    --                 "neo-tree",
-    --                 "Trouble",
-    --                 "trouble",
-    --                 "lazy",
-    --                 "mason",
-    --                 "notify",
-    --                 "toggleterm",
-    --                 "lazyterm",
-    --             },
-    --         },
-    --     },
-    --     main = "ibl",
-    -- },
+    {
+        'akinsho/toggleterm.nvim',
+        version = "*",
+        config = function()
+            require("toggleterm").setup({
+                direction = 'float',
+            })
+            vim.keymap.set({ 'n', 'i', 't' }, "<C-j>", "<cmd>ToggleTerm<CR>")
+        end
+    },
+    {
+        'nvim-lualine/lualine.nvim',
+        dependencies = { 'nvim-tree/nvim-web-devicons' },
+        opts = {},
+    },
+    {
+        "lukas-reineke/indent-blankline.nvim",
+        opts = {
+            scope = { enabled = false },
+            indent = {
+                char = "│",
+                tab_char = "│",
+            },
+            exclude = {
+                filetypes = {
+                    "help",
+                    "alpha",
+                    "dashboard",
+                    "neo-tree",
+                    "Trouble",
+                    "trouble",
+                    "lazy",
+                    "mason",
+                    "notify",
+                    "toggleterm",
+                    "lazyterm",
+                },
+            },
+        },
+        main = "ibl",
+    },
     {
         "rose-pine/neovim",
         name = "rose-pine",
@@ -439,7 +443,7 @@ require "lazy".setup({
             end)
         end,
     },
-    'christoomey/vim-tmux-navigator',
+    -- 'christoomey/vim-tmux-navigator',
     { "tpope/vim-fugitive" },
     { -- Language server protocol client (LSP)
         "neovim/nvim-lspconfig",

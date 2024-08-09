@@ -26,3 +26,4 @@ install:
 	ln -s $(DOTFILES_DIR)/.zshrc $(HOME)/.zshrc
 	ln -s $(DOTFILES_DIR)/wezterm.lua $(XDG_CONFIG)/wezterm/wezterm.lua
 	ln -s $(DOTFILES_DIR)/kitty.conf $(XDG_CONFIG)/kitty/kitty.conf
+	ln -s $(DOTFILES_DIR)/tmux.conf $(HOME)/.tmux.conf
