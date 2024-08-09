@@ -168,7 +168,6 @@
 (GLOBAL          (kbd "M-n")         'jump-down)
 (GLOBAL          (kbd "M-p")         'jump-up)
 
-
 (blink-cursor-mode -1)
 (setq make-backup-files nil)              ;; no emacs ~ backup files
 (setq vc-follow-symlinks t)               ;; Don't prompt if encounter a symlink file, just follow the link.
@@ -248,7 +247,7 @@
 (global-set-key (kbd "C-h F") 'helpful-function)
 
 ;; Colors
-;; braid
+;; Braid
 (custom-set-faces
   `(default                          ((t (:foreground "#debe95" :background "#202020"))))
   `(hl-line                          ((t (:background "#353535"))))
