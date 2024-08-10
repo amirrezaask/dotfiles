@@ -368,8 +368,11 @@
 (defun git-repo-p (DIR) (locate-dominating-file DIR ".git"))
 (defun find-root-or-default-directory () (or (find-root) default-directory))
 
+(require 'project)
+
 ;; Compile Mode
-(GLOBAL (kbd "M-m") 'compile-dwim)
+;; (GLOBAL (kbd "M-m") 'compile-dwim)
+(GLOBAL (kbd "M-m") 'project-compile)
 (global-set-key (kbd "M-g") 'run-git-diff)
 
 (setq compilation-ask-about-save nil)
@@ -397,28 +400,34 @@
        (let ((default-directory --git-diff-dir))
          (compilation-start "git diff HEAD" 'diff-mode)))
 
-(defun compile-dwim () "run `compile`. If prefixed it wil ask for compile directory." (interactive)
-       (setq compilation-buffer-name-function 'amirreza-compile-buffer-name-function)
-       (if (null current-prefix-arg)
-           (setq --compile-dir (find-root-or-default-directory))
-         (setq --compile-dir (read-directory-name "Directory: " default-directory)))
+;; (defun compile-dwim () "run `compile`. If prefixed it wil ask for compile directory." (interactive)
+;;        (setq compilation-buffer-name-function 'amirreza-compile-buffer-name-function)
+;;        (if (null current-prefix-arg)
+;;            (setq --compile-dir (find-root-or-default-directory))
+;;          (setq --compile-dir (read-directory-name "Directory: " default-directory)))
 
-       (if (get-buffer (format "*Compile-%s*" --compile-dir))
-           (switch-to-buffer (format "*Compile-%s*" --compile-dir)) ;; we have a compile buffer associated with this project.
-         ;; we need to create a new compile buffer for this
+;;        (if (get-buffer (format "*Compile-%s*" --compile-dir))
+;;            (switch-to-buffer (format "*Compile-%s*" --compile-dir)) ;; we have a compile buffer associated with this project.
+;;          ;; we need to create a new compile buffer for this
 
-         (let* ((default-directory --compile-dir)
-                (command (read-shell-command "Command: "  (cond ;; guess a command based on the context.
-                                                           ((file-exists-p "build.bat") "build.bat")
-                                                           ((file-exists-p "go.mod")    "go build -v ./...")
-                                                           ((file-exists-p "Makefile")  "make")))))
-           (compilation-start command)
-           (delete-window)
-           (switch-to-buffer (format "*Compile-%s*" --compile-dir)))))
+;;          (let* ((default-directory --compile-dir)
+;;                 (command (read-shell-command "Command: "  (cond ;; guess a command based on the context.
+;;                                                            ((file-exists-p "build.bat") "build.bat")
+;;                                                            ((file-exists-p "go.mod")    "go build -v ./...")
+;;                                                            ((file-exists-p "Makefile")  "make")))))
+;;            (compilation-start command)
+;;            (delete-window)
+;;            (switch-to-buffer (format "*Compile-%s*" --compile-dir)))))
 
 ;; Grep Mode
 (setq-default case-fold-search t)
-(GLOBAL (kbd "M-s") 'grep-dwim)
+;; (GLOBAL (kbd "M-s") 'grep-dwim)
+(GLOBAL (kbd "M-s") 'project-grep)
+
+(defun project-grep () (interactive)
+       (let ((default-directory (project-root (project-current t))))
+	 (call-interactively 'grep)))
+
 (with-eval-after-load 'grep
   (define-key grep-mode-map (kbd "M-s")     'previous-buffer)
   (define-key grep-mode-map (kbd "g")       'recompile)
@@ -438,56 +447,57 @@
 
 (with-eval-after-load 'grep
   (when (executable-find "rg")
-    (grep-apply-setting 'grep-command "rg --no-heading --color='never'")
+    (grep-apply-setting 'grep-command "rg --no-heading --color='never' ")
     (grep-apply-setting 'grep-use-null-device nil)))
 
-(defun grep-dwim () "Recursive grep in `find-root` result or C-u to choose directory interactively." (interactive)
-       ;; Set correct compilation buffer name function
-       (setq compilation-buffer-name-function 'amirreza-grep-buffer-name-function)
+;; (defun grep-dwim () "Recursive grep in `find-root` result or C-u to choose directory interactively." (interactive)
+;;        ;; Set correct compilation buffer name function
+;;        (setq compilation-buffer-name-function 'amirreza-grep-buffer-name-function)
 
-       ;; Set directory for grep.
-       (if (null current-prefix-arg)
-           (setq --grep-dir (find-root-or-default-directory))
-         (setq --grep-dir (read-directory-name "Directory: " default-directory)))
+;;        ;; Set directory for grep.
+;;        (if (null current-prefix-arg)
+;;            (setq --grep-dir (find-root-or-default-directory))
+;;          (setq --grep-dir (read-directory-name "Directory: " default-directory)))
 
-       (if (and
-            (get-buffer (format "*Grep-%s*" --grep-dir))
-            (not (eq (get-buffer (format "*Grep-%s*" --grep-dir)) (current-buffer))))
-           (switch-to-buffer (format "*Grep-%s*" --grep-dir)) ;; we have a compile buffer associated with this project.
+;;        (if (and
+;;             (get-buffer (format "*Grep-%s*" --grep-dir))
+;;             (not (eq (get-buffer (format "*Grep-%s*" --grep-dir)) (current-buffer))))
+;;            (switch-to-buffer (format "*Grep-%s*" --grep-dir)) ;; we have a compile buffer associated with this project.
 
-         (progn
-           (setq --last-grep-command-format
-                 (cond
-                  ((executable-find "rg") "rg --no-heading --color='never' '%s'")
-                  ((git-repo-p DIR)       "git grep --no-color -n '%s'")
-                  (t                      "grep --color=auto -R -nH -e '%s' .")))
-           (setq --last-grep-string (read-string "Grep: "))
-           (let ((default-directory --grep-dir))
-             (grep (format --last-grep-command-format --last-grep-string))
-             (delete-window)
-             (switch-to-buffer (format "*Grep-%s*" --grep-dir))))))
+;;          (progn
+;;            (setq --last-grep-command-format
+;;                  (cond
+;;                   ((executable-find "rg") "rg --no-heading --color='never' '%s'")
+;;                   ((git-repo-p DIR)       "git grep --no-color -n '%s'")
+;;                   (t                      "grep --color=auto -R -nH -e '%s' .")))
+;;            (setq --last-grep-string (read-string "Grep: "))
+;;            (let ((default-directory --grep-dir))
+;;              (grep (format --last-grep-command-format --last-grep-string))
+;;              (delete-window)
+;;              (switch-to-buffer (format "*Grep-%s*" --grep-dir))))))
 
 ;; Find File
-(GLOBAL (kbd "M-o") 'find-file-dwim)
+;; (GLOBAL (kbd "M-o") 'find-file-dwim)
+(GLOBAL (kbd "M-o") 'project-find-file)
 
 ;; @TODO: Add gnu find backend for this function.
-(defun find-file-dwim () "Recursive file find starting from `find-root` result or C-u to choose directory interactively." (interactive)
-       (if (null current-prefix-arg)
-           (setq --open-file-dir (find-root-or-default-directory))
-         (setq --open-file-dir (read-directory-name "Directory: " default-directory)))
+;; (defun find-file-dwim () "Recursive file find starting from `find-root` result or C-u to choose directory interactively." (interactive)
+;;        (if (null current-prefix-arg)
+;;            (setq --open-file-dir (find-root-or-default-directory))
+;;          (setq --open-file-dir (read-directory-name "Directory: " default-directory)))
 
-       (cond
-        ((executable-find "rg") (let* ((default-directory --open-file-dir)
-                                       (command (format "rg --files"))
-                                       (file (completing-read "Ripgrep Files: " (string-split (shell-command-to-string command) "\n" t) nil t)))
-                                  (find-file file)))
+;;        (cond
+;;         ((executable-find "rg") (let* ((default-directory --open-file-dir)
+;;                                        (command (format "rg --files"))
+;;                                        (file (completing-read "Ripgrep Files: " (string-split (shell-command-to-string command) "\n" t) nil t)))
+;;                                   (find-file file)))
 
-        ((git-repo-p --open-file-dir) (let*
-                                          ((default-directory --open-file-dir)
-                                           (command (format "git ls-files"))
-                                           (file (completing-read "Git Files: " (string-split (shell-command-to-string command) "\n" t))))
-                                        (find-file file)))
-        (t (error "you don't have rg installed and it's not a git repo."))))
+;;         ((git-repo-p --open-file-dir) (let*
+;;                                           ((default-directory --open-file-dir)
+;;                                            (command (format "git ls-files"))
+;;                                            (file (completing-read "Git Files: " (string-split (shell-command-to-string command) "\n" t))))
+;;                                         (find-file file)))
+;;         (t (error "you don't have rg installed and it's not a git repo."))))
 
 
 ;; Replace
@@ -517,6 +527,7 @@
 (require 'treesit-auto)
 (global-treesit-auto-mode)
 (treesit-auto-add-to-auto-mode-alist 'all)
+(setq switch-to-buffer-obey-display-actions t)
 
 ;; YAML editing
 (with-eval-after-load 'yaml
