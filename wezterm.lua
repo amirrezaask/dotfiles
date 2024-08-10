@@ -3,6 +3,12 @@ local config = {}
 
 config.font_size = 16
 
+config.colors = {
+	cursor_bg = "#47FF9C",
+	cursor_border = "#47FF9C",
+	cursor_fg = "#011423",
+}
+
 config.font = wezterm.font_with_fallback {
 	'MesloLGL Nerd Font Mono',
 	'Meslo',

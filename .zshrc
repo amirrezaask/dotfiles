@@ -32,11 +32,6 @@ then
     source <(fzf --zsh)
 fi
 
-if command -v bat &>/dev/null
-then
-    alias cat='bat'
-fi
-
 if command -v nvim &>/dev/null
 then
     export EDITOR='nvim'
@@ -55,3 +50,21 @@ oclogs() {
 }
 
 eval "$(starship init zsh)"
+
+# Nicer programs
+if command -v eza &>/dev/null
+then
+    alias ls='eza'
+fi
+
+if command -v atuin &>/dev/null
+then
+    eval "$(atuin init zsh)"
+fi
+
+if command -v bat &>/dev/null
+then
+    alias cat='bat'
+fi
+
+

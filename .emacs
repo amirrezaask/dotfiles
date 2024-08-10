@@ -109,7 +109,7 @@
          do
          (let* ((font-family (car (string-split font "-"))))
            (when (member font-family font-families)
-	     (setq current-font-family font)
+             (setq current-font-family font)
              (set-face-attribute 'default nil :font (format "%s-%d" font font-size))
              (cl-return))))
 
@@ -136,7 +136,9 @@
                rust-mode
                php-mode
                json-mode
-               yaml-mode)) (install pkg))
+               yaml-pro
+               ;; yaml-mode
+               )) (install pkg))
 
 (defun split-window-right-balance-and-switch () (interactive)
        (split-window-right)
@@ -249,27 +251,27 @@
 ;; Colors
 ;; Braid
 (custom-set-faces
-  `(default                          ((t (:foreground "#debe95" :background "#202020"))))
-  `(hl-line                          ((t (:background "#353535"))))
-  `(vertico-current                  ((t (:background "medium blue"))))
-  `(region                           ((t (:background "medium blue"))))
-  `(cursor                           ((t (:background "lightgreen"))))
-  `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
-  `(font-lock-type-face              ((t (:foreground "#8cde94"))))
-  `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
-  `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
-  `(font-lock-builtin-face           ((t (:foreground "white"))))
-  `(font-lock-string-face            ((t (:foreground "gray70"))))
-  `(font-lock-comment-face           ((t (:foreground "yellow"))))
-  `(font-lock-comment-delimiter-face ((t (:foreground "yellow"))))
-  `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
-  `(font-lock-function-name-face     ((t (:foreground "white"))))
-  `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
-  `(font-lock-warning-face           ((t (:foreground "yellow"))))
-  `(font-lock-note-face              ((t (:foreground "khaki2" ))))
-  `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
-  `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
-  `(show-paren-match                 ((t (:background "mediumseagreen")))))
+ `(default                          ((t (:foreground "#eecea5" :background "#202020"))))
+ `(hl-line                          ((t (:background "#353535"))))
+ `(vertico-current                  ((t (:background "medium blue"))))
+ `(region                           ((t (:background "medium blue"))))
+ `(cursor                           ((t (:background "lightgreen"))))
+ `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
+ `(font-lock-type-face              ((t (:foreground "#8cde94"))))
+ `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
+ `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
+ `(font-lock-builtin-face           ((t (:foreground "white"))))
+ `(font-lock-string-face            ((t (:foreground "gray70"))))
+ `(font-lock-comment-face           ((t (:foreground "yellow"))))
+ `(font-lock-comment-delimiter-face ((t (:foreground "yellow"))))
+ `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
+ `(font-lock-function-name-face     ((t (:foreground "white"))))
+ `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
+ `(font-lock-warning-face           ((t (:foreground "yellow"))))
+ `(font-lock-note-face              ((t (:foreground "khaki2" ))))
+ `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
+ `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
+ `(show-paren-match                 ((t (:background "mediumseagreen")))))
 
 ;; Witness
 ;; (custom-set-faces
@@ -509,3 +511,17 @@
 (global-set-key (kbd "C-x C-SPC") 'rectangle-mark-mode)
 (with-eval-after-load 'rect
   (define-key rectangle-mark-mode-map (kbd "C-x r i") 'string-insert-rectangle))
+
+;; Treesitter
+(install 'treesit-auto)
+(require 'treesit-auto)
+(global-treesit-auto-mode)
+(treesit-auto-add-to-auto-mode-alist 'all)
+
+;; YAML editing
+(with-eval-after-load 'yaml
+  (setq yaml-pro-format-features '(reduce-newlines document-separator-own-line oneline-flow block-formatting reduce-spaces bm-fn-next-line clean-doc-end remove-spaces-before-comments expand-long-flow indent))
+  
+  (define-key yaml-ts-mode-map (kbd "C-c .")      'yaml-pro-indent-subtree)
+  (define-key yaml-ts-mode-map (kbd "C-c ,")      'yaml-pro-unindent-subtree)
+  (define-key yaml-ts-mode-map (kbd "M-RET")      'yaml-pro-format))
