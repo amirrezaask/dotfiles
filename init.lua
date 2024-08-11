@@ -62,7 +62,7 @@ vim.opt.inccommand = "split"
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
 
-vim.opt.cursorline = true
+vim.opt.cursorline = false
 
 -- Global statusline
 vim.opt.laststatus = 3
@@ -167,8 +167,9 @@ vim.opt.rtp:prepend(lazypath)
 
 TRANSPARENT = false
 require "lazy".setup({
-    'nvim-tree/nvim-web-devicons',
-    {
+    'nvim-tree/nvim-web-devicons', -- Nice icons
+
+    {                              -- Terminal
         'akinsho/toggleterm.nvim',
         version = "*",
         config = function()
@@ -178,37 +179,14 @@ require "lazy".setup({
             vim.keymap.set({ 'n', 'i', 't' }, "<C-j>", "<cmd>ToggleTerm<CR>")
         end
     },
-    {
+
+    { -- StatusLine
         'nvim-lualine/lualine.nvim',
         dependencies = { 'nvim-tree/nvim-web-devicons' },
         opts = {},
     },
-    {
-        "lukas-reineke/indent-blankline.nvim",
-        opts = {
-            scope = { enabled = false },
-            indent = {
-                char = "│",
-                tab_char = "│",
-            },
-            exclude = {
-                filetypes = {
-                    "help",
-                    "alpha",
-                    "dashboard",
-                    "neo-tree",
-                    "Trouble",
-                    "trouble",
-                    "lazy",
-                    "mason",
-                    "notify",
-                    "toggleterm",
-                    "lazyterm",
-                },
-            },
-        },
-        main = "ibl",
-    },
+
+    -- Colorschemes
     {
         "rose-pine/neovim",
         name = "rose-pine",
@@ -258,44 +236,12 @@ require "lazy".setup({
         }
     },
 
-    { -- Autoformat
-        "stevearc/conform.nvim",
-        opts = {
-            notify_on_error = false,
-            format_on_save = {
-                timeout_ms = 500,
-                lsp_fallback = true,
-            },
-            formatters_by_ft = {
-                lua = { "stylua" },
-                go = { "goimports" },
-            },
-        },
-    },
-
     { -- Treesitter, see :help treesitter
         "nvim-treesitter/nvim-treesitter",
         build = ":TSUpdate",
-        config = function()
-            require("nvim-treesitter.configs").setup({
-                -- A list of parser names or tiers ('stable', 'core', 'community', 'unsupported')
-                ensure_installed = { "lua", "go", "gomod", "markdown", "php", "c", "cpp" },
-
-                -- List of parsers to ignore installing
-                ignore_install = { "unsupported" },
-
-                -- Automatically install missing parsers when entering buffer
-                auto_install = false,
-
-                -- Directory to install parsers and queries to
-                install_dir = vim.fn.stdpath("data") .. "/site",
-            })
-            vim.api.nvim_create_autocmd("FileType", {
-                callback = function()
-                    pcall(vim.treesitter.start)
-                end,
-            })
-        end,
+        opts = {
+            ensure_installed = { "lua", "go", "gomod", "markdown", "php", "c", "cpp" },
+        },
     },
     { -- Fuzzy finder
         "nvim-telescope/telescope.nvim",
@@ -311,7 +257,6 @@ require "lazy".setup({
             require("telescope").load_extension("ui-select") -- Use telescope for vim.ui.select
             require('telescope').load_extension('fzf')
             local builtin = require("telescope.builtin")
-            local no_preview = { previewer = false }
             local map = function(mode, key, fn, desc)
                 vim.keymap.set(mode, key, fn, { desc = "Telescope: " .. desc })
             end
@@ -336,7 +281,7 @@ require "lazy".setup({
             end, "Buffers")
 
             map("n", "<leader>/", function()
-                builtin.current_buffer_fuzzy_find({ previewer = false })
+                builtin.current_buffer_fuzzy_find(dropdown { previewer = false })
             end, "Fuzzy find in current buffer")
 
             map("n", "<leader>.", function()
@@ -359,7 +304,7 @@ require "lazy".setup({
             end, "Grep Word")
 
             map("n", "<leader>o", function()
-                builtin.treesitter(no_preview)
+                builtin.treesitter({ previewer = false })
             end, "Treesitter symbols")
 
             map("n", "??", function()
@@ -386,7 +331,6 @@ require "lazy".setup({
         opts = {},
     },
 
-    { "tpope/vim-sleuth" },
 
     -- Search and replace in files
     {
@@ -398,6 +342,7 @@ require "lazy".setup({
         end,
     },
 
+    -- Git Client
     { "tpope/vim-fugitive" },
 
     { -- Language server protocol client (LSP)
@@ -412,14 +357,11 @@ require "lazy".setup({
                     vim.keymap.set("n", "<C-e>", ":Trouble diagnostics toggle<CR>")
                 end,
             },
-            { "folke/neodev.nvim", opts = {} },
-
             { -- Package manager for neovim install lsp servers in neovim path.
                 "williamboman/mason.nvim",
                 opts = {},
             },
             {
-
                 "williamboman/mason-lspconfig.nvim",
                 opts = {
                     ensure_installed = {
@@ -448,13 +390,6 @@ require "lazy".setup({
                             diagnostics = {
                                 globals = { "vim" },
                             },
-                            workspace = {
-                                checkThirdParty = false,
-                                library = {
-                                    "${3rd}/luv/library",
-                                    unpack(vim.api.nvim_get_runtime_file("", true)),
-                                },
-                            },
                         },
                     },
                 },
@@ -470,8 +405,10 @@ require "lazy".setup({
             require("lspconfig.ui.windows").default_options.border = "single"
             vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover,
                 { border = "rounded" })
+
             vim.lsp.handlers["textDocument/signatureHelp"] =
                 vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
+
             vim.api.nvim_create_autocmd("LspAttach", {
                 callback = function(args)
                     local bufnr = args.buf
@@ -503,19 +440,6 @@ require "lazy".setup({
                 end,
             })
         end,
-    },
-
-    {
-        "lewis6991/gitsigns.nvim",
-        opts = {
-            signs = {
-                add = { text = "+" },
-                change = { text = "~" },
-                delete = { text = "_" },
-                topdelete = { text = "‾" },
-                changedelete = { text = "~" },
-            },
-        },
     },
 
     {
