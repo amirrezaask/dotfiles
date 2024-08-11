@@ -1,6 +1,7 @@
 ;; (setq debug-on-error t) ;; Uncomment when you debug your emacs lisp code.
-(unless (file-exists-p (expand-file-name "early-init.el" user-emacs-directory))
-  (write-region "
+
+
+;; Startup hacks to make emacs boot faster.
 (defvar amirreza-emacs--file-name-handler-alist file-name-handler-alist)
 (defvar amirreza-emacs--vc-handled-backends vc-handled-backends)
 
@@ -16,6 +17,7 @@
 
 (setq gc-cons-threshold most-positive-fixnum
       gc-cons-percentage 0.5)
+
 ;; Enable packages index at startup
 (setq package-enable-at-startup t)
 (setq package-quickstart t)
@@ -38,7 +40,6 @@
       is-linux (eq system-type 'gnu-linux)
       is-macos (eq system-type 'darwin)
       has-treesitter (>= emacs-major-version 29))
-" nil (expand-file-name "early-init.el" user-emacs-directory)))
 
 (set-frame-parameter nil 'fullscreen 'maximized) ;; Always start emacs window in maximized mode.
 
@@ -84,7 +85,7 @@
 
 ;; (setq-default mode-line-format nil)
 
-;; overrides
+;; overrides: minor mode to register keys that I want to override in all other modes.
 (defvar global-overrides (make-sparse-keymap))
 (define-minor-mode amirreza-overrides ""
   :global t
@@ -136,8 +137,7 @@
                rust-mode
                php-mode
                json-mode
-               yaml-pro
-               ;; yaml-mode
+               yaml-mode
                )) (install pkg))
 
 (defun split-window-right-balance-and-switch () (interactive)
@@ -169,6 +169,10 @@
 (GLOBAL          (kbd "C-o")         'other-window)
 (GLOBAL          (kbd "M-n")         'jump-down)
 (GLOBAL          (kbd "M-p")         'jump-up)
+(GLOBAL          (kbd "M-k")         'kill-current-buffer)
+
+(defun kill-current-buffer () (interactive)
+       (kill-buffer (current-buffer)))
 
 (blink-cursor-mode -1)
 (setq make-backup-files nil)              ;; no emacs ~ backup files
@@ -215,7 +219,7 @@
 
 (require 'vlf-setup)
 
-;; @Minibuffer
+;; Minibuffer
 (setq completions-format 'one-column)
 (setq completions-header-format nil)
 (setq completions-max-height 15)
@@ -232,14 +236,14 @@
   (define-key minibuffer-mode-map           (kbd "C-p") 'minibuffer-previous-completion))
 
 
-;; @Completion
+;; Completion
 (global-set-key (kbd "C-j") 'dabbrev-expand)
 (global-set-key (kbd "M-j") 'completion-at-point)
 (install 'corfu)
 (global-corfu-mode +1)
 (setq corfu-auto nil)
 
-;; @Helpful: the way help pages should be.
+;; Helpful: the way help pages should be.
 (install 'helpful)
 (global-set-key (kbd "C-h f") 'helpful-callable)
 (global-set-key (kbd "C-h v") 'helpful-variable)
@@ -250,74 +254,82 @@
 
 ;; Colors
 ;; Braid
-(custom-set-faces
- `(default                          ((t (:foreground "#eecea5" :background "#202020"))))
- `(hl-line                          ((t (:background "#353535"))))
- `(vertico-current                  ((t (:background "medium blue"))))
- `(region                           ((t (:background "medium blue"))))
- `(cursor                           ((t (:background "lightgreen"))))
- `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
- `(font-lock-type-face              ((t (:foreground "#8cde94"))))
- `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
- `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
- `(font-lock-builtin-face           ((t (:foreground "white"))))
- `(font-lock-string-face            ((t (:foreground "gray70"))))
- `(font-lock-comment-face           ((t (:foreground "yellow"))))
- `(font-lock-comment-delimiter-face ((t (:foreground "yellow"))))
- `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
- `(font-lock-function-name-face     ((t (:foreground "white"))))
- `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
- `(font-lock-warning-face           ((t (:foreground "yellow"))))
- `(font-lock-note-face              ((t (:foreground "khaki2" ))))
- `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
- `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
- `(show-paren-match                 ((t (:background "mediumseagreen")))))
+(defun braid-theme ()
+  (custom-set-faces
+   `(default                          ((t (:foreground "#eecea5" :background "#202020"))))
+   `(hl-line                          ((t (:background "#353535"))))
+   `(vertico-current                  ((t (:background "medium blue"))))
+   `(region                           ((t (:background "medium blue"))))
+   `(cursor                           ((t (:background "lightgreen"))))
+   `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
+   `(font-lock-type-face              ((t (:foreground "#8cde94"))))
+   `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
+   `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
+   `(font-lock-builtin-face           ((t (:foreground "white"))))
+   `(font-lock-string-face            ((t (:foreground "gray70"))))
+   `(font-lock-comment-face           ((t (:foreground "yellow"))))
+   `(font-lock-comment-delimiter-face ((t (:foreground "yellow"))))
+   `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
+   `(font-lock-function-name-face     ((t (:foreground "white"))))
+   `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
+   `(font-lock-warning-face           ((t (:foreground "yellow"))))
+   `(font-lock-note-face              ((t (:foreground "khaki2" ))))
+   `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
+   `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
+   `(show-paren-match                 ((t (:background "mediumseagreen"))))))
 
 ;; Witness
-;; (custom-set-faces
-;;  `(default                          ((t (:foreground "#d3b58d" :background "#072626"))))
-;;  `(hl-line                          ((t (:background "#0c4141"))))
-;;  `(region                           ((t (:background  "medium blue"))))
-;;  `(cursor                           ((t (:background "lightgreen"))))
-;;  `(font-lock-keyword-face           ((t (:foreground "white"))))
-;;  `(font-lock-type-face              ((t (:foreground "#8cde94"))))
-;;  `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
-;;  `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
-;;  `(font-lock-builtin-face           ((t (:foreground "lightgreen"))))
-;;  `(font-lock-string-face            ((t (:foreground "#0fdfaf"))))
-;;  `(font-lock-comment-face           ((t (:foreground "#3fdf1f"))))
-;;  `(font-lock-comment-delimiter-face ((t (:foreground "#3fdf1f"))))
-;;  `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
-;;  `(font-lock-function-name-face     ((t (:foreground "white"))))
-;;  `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
-;;  `(hightlight                       ((t (:foreground "navyblue" :background "darkseegreen2"))))
-;;  `(font-lock-warning-face           ((t (:foreground "#504038"))))
-;;  `(font-lock-note-face              ((t (:foreground "khaki2" ))))
-;;  `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
-;;  `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
-;;  `(show-paren-match                 ((t (:background "mediumseagreen")))))
+(defun witness-theme ()
+  (custom-set-faces
+   `(default                          ((t (:foreground "#d3b58d" :background "#072626"))))
+   `(hl-line                          ((t (:background "#0c4141"))))
+   `(region                           ((t (:background  "medium blue"))))
+   `(cursor                           ((t (:background "lightgreen"))))
+   `(font-lock-keyword-face           ((t (:foreground "white"))))
+   `(font-lock-type-face              ((t (:foreground "#8cde94"))))
+   `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
+   `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
+   `(font-lock-builtin-face           ((t (:foreground "lightgreen"))))
+   `(font-lock-string-face            ((t (:foreground "#0fdfaf"))))
+   `(font-lock-comment-face           ((t (:foreground "#3fdf1f"))))
+   `(font-lock-comment-delimiter-face ((t (:foreground "#3fdf1f"))))
+   `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
+   `(font-lock-function-name-face     ((t (:foreground "white"))))
+   `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
+   `(hightlight                       ((t (:foreground "navyblue" :background "darkseegreen2"))))
+   `(font-lock-warning-face           ((t (:foreground "#504038"))))
+   `(font-lock-note-face              ((t (:foreground "khaki2" ))))
+   `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
+   `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
+   `(show-paren-match                 ((t (:background "mediumseagreen")))))
+
+  )
+
 
 ;; Handmadehero
-;; (custom-set-faces
-;;  `(default                          ((t (:foreground "burlywood2" :background "#161616"))))
-;;  `(hl-line                          ((t (:background "midnight blue"))))
-;;  `(vertico-current                  ((t (:background "midnight blue"))))
-;;  `(region                           ((t (:background "medium blue"))))
-;;  `(cursor                           ((t (:background "#40FF40"))))
-;;  `(font-lock-keyword-face           ((t (:foreground "DarkGoldenrod2"))))
-;;  `(font-lock-type-face              ((t (:foreground "burlywood3"))))
-;;  `(font-lock-constant-face          ((t (:foreground "olive drab"))))
-;;  `(font-lock-variable-name-face     ((t (:foreground "burlywood3"))))
-;;  `(font-lock-builtin-face           ((t (:foreground "gray80"))))
-;;  `(font-lock-string-face            ((t (:foreground "olive drab"))))
-;;  `(font-lock-comment-face           ((t (:foreground "gray50"))))
-;;  `(font-lock-comment-delimiter-face ((t (:foreground "gray50"))))
-;;  `(font-lock-doc-face               ((t (:foreground "gray50"))))
-;;  `(font-lock-function-name-face     ((t (:foreground "burlywood2"))))
-;;  `(font-lock-doc-string-face        ((t (:foreground "gray50"))))
-;;  `(font-lock-warning-face           ((t (:foreground "yellow"))))
-;;  `(font-lock-note-face              ((t (:foreground "khaki2" ))))
-;;  `(show-paren-match                 ((t (:background "mediumseagreen")))))
+(defun handmadehero-theme ()
+  (custom-set-faces
+   `(default                          ((t (:foreground "burlywood2" :background "#161616"))))
+   `(hl-line                          ((t (:background "midnight blue"))))
+   `(vertico-current                  ((t (:background "midnight blue"))))
+   `(region                           ((t (:background "medium blue"))))
+   `(cursor                           ((t (:background "#40FF40"))))
+   `(font-lock-keyword-face           ((t (:foreground "DarkGoldenrod2"))))
+   `(font-lock-type-face              ((t (:foreground "burlywood3"))))
+   `(font-lock-constant-face          ((t (:foreground "olive drab"))))
+   `(font-lock-variable-name-face     ((t (:foreground "burlywood3"))))
+   `(font-lock-builtin-face           ((t (:foreground "gray80"))))
+   `(font-lock-string-face            ((t (:foreground "olive drab"))))
+   `(font-lock-comment-face           ((t (:foreground "gray50"))))
+   `(font-lock-comment-delimiter-face ((t (:foreground "gray50"))))
+   `(font-lock-doc-face               ((t (:foreground "gray50"))))
+   `(font-lock-function-name-face     ((t (:foreground "burlywood2"))))
+   `(font-lock-doc-string-face        ((t (:foreground "gray50"))))
+   `(font-lock-warning-face           ((t (:foreground "yellow"))))
+   `(font-lock-note-face              ((t (:foreground "khaki2" ))))
+   `(show-paren-match                 ((t (:background "mediumseagreen"))))))
+
+(witness-theme)
 
 (setq-default c-default-style "linux" c-basic-offset 4)
 
@@ -332,7 +344,11 @@
   (define-key eglot-mode-map (kbd "M-RET")   'eglot-organize-imports-format)
   (define-key eglot-mode-map (kbd "C-c C-c") 'eglot-code-actions))
 
-(dolist (mode '(go rust php)) (add-hook (intern (concat (symbol-name mode) "-mode-hook")) #'eglot-ensure))
+(dolist (mode '(go rust php))
+  (add-hook (intern (concat (symbol-name mode) "-mode-hook")) #'eglot-ensure)
+  )
+
+
 (setq eglot-ignored-server-capabilities '(
                                           :documentHighlightProvider
                                           :codeLensProvider
@@ -359,20 +375,22 @@
   (install 'consult-eglot)
   (defalias 'eglot-symbols 'consult-eglot-symbols))
 
-(defun find-root () "Try to find project root based on deterministic predicates"
+(defun find-project-root () "Try to find project root based on deterministic predicates"
        (cond
+	((git-repo-p default-directory) (locate-dominating-file default-directory ".git"))
         ((eq major-mode 'go-mode)   (locate-dominating-file default-directory "go.mod"))
         ((eq major-mode 'php-mode)  (locate-dominating-file default-directory "composer.json"))
-        (t                          (locate-dominating-file default-directory ".git"))))
+	(t                          default-directory)
+	))
+
 
 (defun git-repo-p (DIR) (locate-dominating-file DIR ".git"))
-(defun find-root-or-default-directory () (or (find-root) default-directory))
+(defun find-project-root-or-default-directory () (or (find-project-root) default-directory))
 
 (require 'project)
 
 ;; Compile Mode
-;; (GLOBAL (kbd "M-m") 'compile-dwim)
-(GLOBAL (kbd "M-m") 'project-compile)
+(GLOBAL (kbd "M-m") 'compile-dwim)
 (global-set-key (kbd "M-g") 'run-git-diff)
 
 (setq compilation-ask-about-save nil)
@@ -392,41 +410,36 @@
 (defun amirreza-compile-buffer-name-function (MODESTR) (format "*Compile-%s*" --compile-dir))
 (defun amirreza-grep-buffer-name-function (MODESTR)    (format "*Grep-%s*" --grep-dir))
 
-(defun run-git-diff () "run git diff command in `find-root` result or C-u to choose directory interactively." (interactive)
+(defun run-git-diff () "run git diff command in `find-project-root` result or C-u to choose directory interactively." (interactive)
        (if (null current-prefix-arg)
-           (setq --git-diff-dir (find-root-or-default-directory))
+           (setq --git-diff-dir (find-project-root-or-default-directory))
          (setq --git-diff-dir (read-directory-name "Directory: " default-directory)))
 
        (let ((default-directory --git-diff-dir))
          (compilation-start "git diff HEAD" 'diff-mode)))
 
-;; (defun compile-dwim () "run `compile`. If prefixed it wil ask for compile directory." (interactive)
-;;        (setq compilation-buffer-name-function 'amirreza-compile-buffer-name-function)
-;;        (if (null current-prefix-arg)
-;;            (setq --compile-dir (find-root-or-default-directory))
-;;          (setq --compile-dir (read-directory-name "Directory: " default-directory)))
+(defun compile-dwim () "run `compile`. If prefixed it wil ask for compile directory." (interactive)
+       (setq compilation-buffer-name-function 'amirreza-compile-buffer-name-function)
+       (if (null current-prefix-arg)
+           (setq --compile-dir (find-project-root-or-default-directory))
+         (setq --compile-dir (read-directory-name "Directory: " default-directory)))
 
-;;        (if (get-buffer (format "*Compile-%s*" --compile-dir))
-;;            (switch-to-buffer (format "*Compile-%s*" --compile-dir)) ;; we have a compile buffer associated with this project.
-;;          ;; we need to create a new compile buffer for this
+       (if (get-buffer (format "*Compile-%s*" --compile-dir))
+           (switch-to-buffer (format "*Compile-%s*" --compile-dir)) ;; we have a compile buffer associated with this project.
+         ;; we need to create a new compile buffer for this
 
-;;          (let* ((default-directory --compile-dir)
-;;                 (command (read-shell-command "Command: "  (cond ;; guess a command based on the context.
-;;                                                            ((file-exists-p "build.bat") "build.bat")
-;;                                                            ((file-exists-p "go.mod")    "go build -v ./...")
-;;                                                            ((file-exists-p "Makefile")  "make")))))
-;;            (compilation-start command)
-;;            (delete-window)
-;;            (switch-to-buffer (format "*Compile-%s*" --compile-dir)))))
+         (let* ((default-directory --compile-dir)
+                (command (read-shell-command "Command: "  (cond ;; guess a command based on the context.
+                                                           ((file-exists-p "build.bat") "build.bat")
+                                                           ((file-exists-p "go.mod")    "go build -v ./...")
+                                                           ((file-exists-p "Makefile")  "make")))))
+           (compilation-start command)
+           (delete-window)
+           (switch-to-buffer (format "*Compile-%s*" --compile-dir)))))
 
 ;; Grep Mode
 (setq-default case-fold-search t)
-;; (GLOBAL (kbd "M-s") 'grep-dwim)
-(GLOBAL (kbd "M-s") 'project-grep)
-
-(defun project-grep () (interactive)
-       (let ((default-directory (project-root (project-current t))))
-	 (call-interactively 'grep)))
+(GLOBAL (kbd "M-s") 'grep-dwim)
 
 (with-eval-after-load 'grep
   (define-key grep-mode-map (kbd "M-s")     'previous-buffer)
@@ -450,55 +463,54 @@
     (grep-apply-setting 'grep-command "rg --no-heading --color='never' ")
     (grep-apply-setting 'grep-use-null-device nil)))
 
-;; (defun grep-dwim () "Recursive grep in `find-root` result or C-u to choose directory interactively." (interactive)
-;;        ;; Set correct compilation buffer name function
-;;        (setq compilation-buffer-name-function 'amirreza-grep-buffer-name-function)
+(defun grep-dwim () "Recursive grep in `find-project-root` result or C-u to choose directory interactively." (interactive)
+       ;; Set correct compilation buffer name function
+       (setq compilation-buffer-name-function 'amirreza-grep-buffer-name-function)
 
-;;        ;; Set directory for grep.
-;;        (if (null current-prefix-arg)
-;;            (setq --grep-dir (find-root-or-default-directory))
-;;          (setq --grep-dir (read-directory-name "Directory: " default-directory)))
+       ;; Set directory for grep.
+       (if (null current-prefix-arg)
+           (setq --grep-dir (find-project-root-or-default-directory))
+         (setq --grep-dir (read-directory-name "Directory: " default-directory)))
 
-;;        (if (and
-;;             (get-buffer (format "*Grep-%s*" --grep-dir))
-;;             (not (eq (get-buffer (format "*Grep-%s*" --grep-dir)) (current-buffer))))
-;;            (switch-to-buffer (format "*Grep-%s*" --grep-dir)) ;; we have a compile buffer associated with this project.
+       (if (and
+            (get-buffer (format "*Grep-%s*" --grep-dir))
+            (not (eq (get-buffer (format "*Grep-%s*" --grep-dir)) (current-buffer))))
+           (switch-to-buffer (format "*Grep-%s*" --grep-dir)) ;; we have a compile buffer associated with this project.
 
-;;          (progn
-;;            (setq --last-grep-command-format
-;;                  (cond
-;;                   ((executable-find "rg") "rg --no-heading --color='never' '%s'")
-;;                   ((git-repo-p DIR)       "git grep --no-color -n '%s'")
-;;                   (t                      "grep --color=auto -R -nH -e '%s' .")))
-;;            (setq --last-grep-string (read-string "Grep: "))
-;;            (let ((default-directory --grep-dir))
-;;              (grep (format --last-grep-command-format --last-grep-string))
-;;              (delete-window)
-;;              (switch-to-buffer (format "*Grep-%s*" --grep-dir))))))
+         (progn
+           (setq --last-grep-command-format
+                 (cond
+                  ((executable-find "rg") "rg --no-heading --color='never' '%s'")
+                  ((git-repo-p DIR)       "git grep --no-color -n '%s'")
+                  (t                      "grep --color=auto -R -nH -e '%s' .")))
+           (setq --last-grep-string (read-string "Grep: "))
+           (let ((default-directory --grep-dir))
+             (grep (format --last-grep-command-format --last-grep-string))
+             (delete-window)
+             (switch-to-buffer (format "*Grep-%s*" --grep-dir))))))
 
 ;; Find File
-;; (GLOBAL (kbd "M-o") 'find-file-dwim)
-(GLOBAL (kbd "M-o") 'project-find-file)
+ (GLOBAL (kbd "M-o") 'find-file-dwim)
 
 ;; @TODO: Add gnu find backend for this function.
-;; (defun find-file-dwim () "Recursive file find starting from `find-root` result or C-u to choose directory interactively." (interactive)
-;;        (if (null current-prefix-arg)
-;;            (setq --open-file-dir (find-root-or-default-directory))
-;;          (setq --open-file-dir (read-directory-name "Directory: " default-directory)))
+(defun find-file-dwim () "Recursive file find starting from `find-project-root` result or C-u to choose directory interactively." (interactive)
+       (if (null current-prefix-arg)
+           (setq --open-file-dir (find-project-root-or-default-directory))
+         (setq --open-file-dir (read-directory-name "Directory: " default-directory)))
 
-;;        (cond
-;;         ((executable-find "rg") (let* ((default-directory --open-file-dir)
-;;                                        (command (format "rg --files"))
-;;                                        (file (completing-read "Ripgrep Files: " (string-split (shell-command-to-string command) "\n" t) nil t)))
-;;                                   (find-file file)))
+       (cond
+	((git-repo-p --open-file-dir) (let*
+                                          ((default-directory --open-file-dir)
+                                           (command (format "git ls-files"))
+                                           (file (completing-read "Git Files: " (string-split (shell-command-to-string command) "\n" t))))
+                                        (find-file file)))
+	
+        ((executable-find "rg") (let* ((default-directory --open-file-dir)
+                                       (command (format "rg --files"))
+                                       (file (completing-read "Ripgrep Files: " (string-split (shell-command-to-string command) "\n" t) nil t)))
+                                  (find-file file)))
 
-;;         ((git-repo-p --open-file-dir) (let*
-;;                                           ((default-directory --open-file-dir)
-;;                                            (command (format "git ls-files"))
-;;                                            (file (completing-read "Git Files: " (string-split (shell-command-to-string command) "\n" t))))
-;;                                         (find-file file)))
-;;         (t (error "you don't have rg installed and it's not a git repo."))))
-
+        (t (error "you don't have rg installed and it's not a git repo."))))
 
 ;; Replace
 (global-set-key (kbd "C-r") 'replace-string)
@@ -521,18 +533,3 @@
 (global-set-key (kbd "C-x C-SPC") 'rectangle-mark-mode)
 (with-eval-after-load 'rect
   (define-key rectangle-mark-mode-map (kbd "C-x r i") 'string-insert-rectangle))
-
-;; Treesitter
-(install 'treesit-auto)
-(require 'treesit-auto)
-(global-treesit-auto-mode)
-(treesit-auto-add-to-auto-mode-alist 'all)
-(setq switch-to-buffer-obey-display-actions t)
-
-;; YAML editing
-(with-eval-after-load 'yaml
-  (setq yaml-pro-format-features '(reduce-newlines document-separator-own-line oneline-flow block-formatting reduce-spaces bm-fn-next-line clean-doc-end remove-spaces-before-comments expand-long-flow indent))
-  
-  (define-key yaml-ts-mode-map (kbd "C-c .")      'yaml-pro-indent-subtree)
-  (define-key yaml-ts-mode-map (kbd "C-c ,")      'yaml-pro-unindent-subtree)
-  (define-key yaml-ts-mode-map (kbd "M-RET")      'yaml-pro-format))
