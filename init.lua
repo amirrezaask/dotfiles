@@ -62,13 +62,6 @@ vim.opt.inccommand = "split"
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
 
--- Diagnostics
-vim.diagnostic.config({
-    float = {
-        border = "rounded",
-    },
-})
-
 vim.opt.cursorline = true
 
 -- Global statusline
@@ -84,14 +77,6 @@ vim.api.nvim_create_autocmd("TextYankPost", {
         vim.highlight.on_yank()
     end,
 })
-
-vim.api.nvim_create_user_command("Term", function()
-    vim.cmd([[ tabnew | term ]])
-end, {})
-
-vim.api.nvim_create_user_command("VTerm", function()
-    vim.cmd([[ vnew | term ]])
-end, {})
 
 -- <leader> key for keymaps mapped to <Space>
 vim.g.mapleader = " "
@@ -446,6 +431,13 @@ require "lazy".setup({
             }
         },
         config = function()
+            -- Diagnostics
+            vim.diagnostic.config({
+                float = {
+                    border = "rounded",
+                },
+            })
+
             local lsp_servers = {
                 gopls = {},
                 intelephense = {},
