@@ -509,7 +509,6 @@
 
 ;; Compile Mode
 (GLOBAL (kbd "M-m") 'compile-dwim)
-(global-set-key (kbd "M-g") 'run-git-diff)
 
 (setq compilation-ask-about-save nil)
 (setq compilation-always-kill t)
@@ -528,7 +527,10 @@
 (defun amirreza-compile-buffer-name-function (MODESTR) (format "*Compile-%s*" --compile-dir))
 (defun amirreza-grep-buffer-name-function (MODESTR)    (format "*Grep-%s*" --grep-dir))
 
-(defun run-git-diff () "run git diff command in `find-project-root` result or C-u to choose directory interactively." (interactive)
+(defun git-add (file) (interactive (list (read-file-name "Git Add: ")))
+       (shell-command-to-string (format "git add %s" file)))
+
+(defun git-diff () "run git diff command in `find-project-root` result or C-u to choose directory interactively." (interactive)
        (if (null current-prefix-arg)
            (setq --git-diff-dir (find-project-root-or-default-directory))
          (setq --git-diff-dir (read-directory-name "Directory: " default-directory)))
@@ -651,3 +653,7 @@
 (global-set-key (kbd "C-x C-SPC") 'rectangle-mark-mode)
 (with-eval-after-load 'rect
   (define-key rectangle-mark-mode-map (kbd "C-x r i") 'string-insert-rectangle))
+
+
+;; Magit: Git client
+(install 'magit)
