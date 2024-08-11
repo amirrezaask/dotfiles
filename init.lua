@@ -272,6 +272,7 @@ require "lazy".setup({
             style = 'darker',
         }
     },
+
     { -- Autoformat
         "stevearc/conform.nvim",
         opts = {
@@ -422,6 +423,8 @@ require "lazy".setup({
                 config = function()
                     require("trouble").setup({})
                     vim.keymap.set("n", "<leader>e", ":Trouble diagnostics toggle<CR>")
+                    vim.keymap.set("n", "<M-e>", ":Trouble diagnostics toggle<CR>")
+                    vim.keymap.set("n", "<C-e>", ":Trouble diagnostics toggle<CR>")
                 end,
             },
             { "folke/neodev.nvim", opts = {} },
