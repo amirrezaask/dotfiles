@@ -10,6 +10,7 @@ config.colors = {
 }
 
 config.font = wezterm.font_with_fallback {
+	'Monaspace Neon',
 	'MesloLGL Nerd Font Mono',
 	'Meslo',
 	"Consolas",
@@ -27,6 +28,7 @@ config.window_padding = {
 local MOD = 'CTRL|SHIFT'
 
 config.use_fancy_tab_bar = false
+config.tab_bar_at_bottom = true
 
 config.keys = {
 	{ key = "t",          mods = MOD, action = wezterm.action.SpawnTab('CurrentPaneDomain') },

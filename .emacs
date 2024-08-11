@@ -101,6 +101,7 @@
 (setq font-families (font-family-list))
 (require 'cl-lib)
 (cl-loop for font in '(
+		       "Monaspace Neon"
                        "Consolas"
                        "Liberation Mono"
                        "Menlo"
@@ -114,7 +115,7 @@
              (set-face-attribute 'default nil :font (format "%s-%d" font font-size))
              (cl-return))))
 
-(defun set-font (font size) "Set font" (interactive (list (read-string "Font: ") (read-number "Size: ")))
+(defun set-font (font size) "Set font" (interactive (list (completing-read "Font: " font-families) (read-number "Size: ")))
        (setq current-font-family font)
        (setq font-size size)
        (set-face-attribute 'default nil :font (format "%s-%d" font size)))
@@ -254,6 +255,7 @@
 
 ;; Colors
 (install 'ef-themes)
+(install 'fleetish-theme)
 (defun save-theme (name definition)
   (mkdir (expand-file-name "themes" user-emacs-directory) t)
   (write-region (format "(deftheme %s)
@@ -441,14 +443,12 @@
 
 
 (add-to-list 'custom-theme-load-path (expand-file-name "themes" user-emacs-directory))
-(install 'ef-themes)
-
 (defadvice load-theme (before disable-themes-first (THEME &rest args) activate)
   (dolist (i custom-enabled-themes)
     (disable-theme i)))
 
 (setq custom-safe-themes t)
-(load-theme 'tango-dark)
+(load-theme 'witness)
 
 (setq-default c-default-style "linux" c-basic-offset 4)
 
