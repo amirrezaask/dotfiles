@@ -73,18 +73,6 @@
 
 (global-set-key (kbd "C-x i") 'edit-init) ;; Edit this file.
 
-;; Use header-line instead of modeline
-;; (setq-default header-line-format '("%e"
-;;                                    (:eval (if (and (buffer-file-name) (buffer-modified-p (current-buffer))) "**" ""))
-;;                                    " "
-;;                                    (:eval (if (buffer-file-name) (buffer-file-name) "%b"))
-;;                                    " - "
-;;                                    "Row: %l Col: %c"
-;;                                    " -"
-;;                                    vc-mode))
-
-;; (setq-default mode-line-format nil)
-
 ;; overrides: minor mode to register keys that I want to override in all other modes.
 (defvar global-overrides (make-sparse-keymap))
 (define-minor-mode amirreza-overrides ""
@@ -101,7 +89,7 @@
 (setq font-families (font-family-list))
 (require 'cl-lib)
 (cl-loop for font in '(
-		       "Monaspace Neon"
+		       ;; "Monaspace Neon"
                        "Consolas"
                        "Liberation Mono"
                        "Menlo"
@@ -243,15 +231,6 @@
 (install 'corfu)
 (global-corfu-mode +1)
 (setq corfu-auto nil)
-
-;; Helpful: the way help pages should be.
-(install 'helpful)
-(global-set-key (kbd "C-h f") 'helpful-callable)
-(global-set-key (kbd "C-h v") 'helpful-variable)
-(global-set-key (kbd "C-h k") 'helpful-key)
-(global-set-key (kbd "C-h x") 'helpful-command)
-(global-set-key (kbd "C-h .") 'helpful-at-point)
-(global-set-key (kbd "C-h F") 'helpful-function)
 
 ;; Colors
 (install 'ef-themes)
@@ -448,7 +427,7 @@
     (disable-theme i)))
 
 (setq custom-safe-themes t)
-(load-theme 'witness)
+(load-theme 'braid)
 
 (setq-default c-default-style "linux" c-basic-offset 4)
 
@@ -481,11 +460,9 @@
 
 (defun eglot-organize-imports () (interactive) (eglot-code-actions nil nil "source.organizeImports" t))
 
-(setq eglot-stay-out-of '(project))
-
-(setq eglot-sync-connect nil) ;; no blocking on waiting for the server to start.
-
-(setq eglot-events-buffer-size 0) ;; no logging of LSP events.
+(setq eglot-stay-out-of '(project)) ;; 
+(setq eglot-sync-connect nil)       ;; no blocking on waiting for the server to start.
+(setq eglot-events-buffer-size 0)   ;; no logging of LSP events.
 
 (defun eglot-organize-imports-format () (interactive) (eglot-format) (eglot-organize-imports))
 
@@ -612,13 +589,18 @@
 ;; Find File
 (GLOBAL (kbd "M-o") 'find-file-dwim)
 
-;; @TODO: Add gnu find backend for this function.
 (defun find-file-dwim () "Recursive file find starting from `find-project-root` result or C-u to choose directory interactively." (interactive)
        (if (null current-prefix-arg)
            (setq --open-file-dir (find-project-root-or-default-directory))
          (setq --open-file-dir (read-directory-name "Directory: " default-directory)))
 
        (cond
+	((executable-find "find") (let*
+                                          ((default-directory --open-file-dir)
+                                           (command (format "find . -type f -not -path \"*/.git/*\""))
+                                           (file (completing-read "Find: " (string-split (shell-command-to-string command) "\n" t))))
+                                        (find-file file)))
+
         ((git-repo-p --open-file-dir) (let*
                                           ((default-directory --open-file-dir)
                                            (command (format "git ls-files"))
@@ -631,6 +613,9 @@
                                   (find-file file)))
 
         (t (error "you don't have rg installed and it's not a git repo."))))
+
+;; ISearch
+(GLOBAL (kbd "C-.") 'isearch-forward-thing-at-point)
 
 ;; Replace
 (global-set-key (kbd "C-r") 'replace-string)
@@ -645,15 +630,19 @@
   (define-key flymake-mode-map (kbd "M-'") 'flymake-goto-next-error))
 
 ;; Macros
-(global-set-key (kbd "M-[") 'kmacro-start-macro)
-(global-set-key (kbd "M-]") 'kmacro-end-or-call-macro)
+(global-set-key (kbd "M-[")  'kmacro-start-macro)
+(global-set-key (kbd "M-]")  'kmacro-end-or-call-macro)
 (global-set-key (kbd "M-\\") 'kmacro-end-and-call-macro)
 
 ;; Rectangle Mode
 (global-set-key (kbd "C-x C-SPC") 'rectangle-mark-mode)
 (with-eval-after-load 'rect
-  (define-key rectangle-mark-mode-map (kbd "C-x r i") 'string-insert-rectangle))
-
+  (define-key rectangle-mark-mode-map (kbd "C-i")     'string-insert-rectangle)
+  (define-key rectangle-mark-mode-map (kbd "C-k")     'kill-rectangle)
+  (define-key rectangle-mark-mode-map (kbd "C-w")     'copy-rectangle-as-kill)
+  (define-key rectangle-mark-mode-map (kbd "M-w")     'yank-rectangle)
+  (define-key rectangle-mark-mode-map (kbd "C-r")     'string-rectangle))
 
 ;; Magit: Git client
 (install 'magit)
+(global-set-key (kbd "C-x g") 'magit)
