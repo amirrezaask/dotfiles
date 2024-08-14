@@ -73,6 +73,10 @@
 
 (global-set-key (kbd "C-x i") 'edit-init) ;; Edit this file.
 
+(if is-windows
+    (cd "C:\\w")
+  (cd "~/w"))
+
 ;; overrides: minor mode to register keys that I want to override in all other modes.
 (defvar global-overrides (make-sparse-keymap))
 (define-minor-mode amirreza-overrides ""
@@ -89,7 +93,7 @@
 (setq font-families (font-family-list))
 (require 'cl-lib)
 (cl-loop for font in '(
-		       ;; "Monaspace Neon"
+		       "Monaspace Neon"
                        "Consolas"
                        "Liberation Mono"
                        "Menlo"
@@ -195,6 +199,7 @@
 (global-set-key (kbd "C-;")   'goto-line)
 (global-set-key (kbd "C-w")   'cut) ;; modern cut
 (global-set-key (kbd "C-z")   'undo)
+(global-set-key (kbd "M-z")   'undo)
 (global-set-key (kbd "C-SPC") 'set-mark-command) ;; Visual selection
 (global-set-key (kbd "M-w")   'copy) ;; modern copy
 
@@ -320,7 +325,6 @@
 
 (setq-default cursor-type 'box)
 ")
-
 (save-theme "4coder-fleury" "
 (custom-theme-set-faces
  '4coder-fleury
@@ -427,7 +431,7 @@
     (disable-theme i)))
 
 (setq custom-safe-themes t)
-(load-theme 'braid)
+(load-theme 'witness)
 
 (setq-default c-default-style "linux" c-basic-offset 4)
 
@@ -441,6 +445,8 @@
   (define-key eglot-mode-map (kbd "C-c C-r") 'eglot-rename)
   (define-key eglot-mode-map (kbd "M-RET")   'eglot-organize-imports-format)
   (define-key eglot-mode-map (kbd "C-c C-c") 'eglot-code-actions))
+
+(setq eldoc-echo-area-use-multiline-p nil)
 
 (dolist (mode '(go rust php))
   (add-hook (intern (concat (symbol-name mode) "-mode-hook")) #'eglot-ensure))
@@ -466,17 +472,12 @@
 
 (defun eglot-organize-imports-format () (interactive) (eglot-format) (eglot-organize-imports))
 
-(when (package-installed-p 'consult)
-  (install 'consult-eglot)
-  (defalias 'eglot-symbols 'consult-eglot-symbols))
-
 (defun find-project-root () "Try to find project root based on deterministic predicates"
        (cond
         ((git-repo-p default-directory) (locate-dominating-file default-directory ".git"))
         ((eq major-mode 'go-mode)   (locate-dominating-file default-directory "go.mod"))
         ((eq major-mode 'php-mode)  (locate-dominating-file default-directory "composer.json"))
-        (t                          default-directory)
-        ))
+        (t                          default-directory)))
 
 
 (defun git-repo-p (DIR) (locate-dominating-file DIR ".git"))
