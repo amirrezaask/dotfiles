@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+tmux_running=$(pgrep tmux)
+
+# create session if not exists
+if ! tmux has-session -t=0 2>/dev/null; then
+    tmux new-session -ds 0 
+    tmux rename-window "SVPN"
+    tmux neww -c "$HOME/w/ipg" -n "IPG"
+    tmux neww -c "$HOME/w/tweety" -n "Tweety"
+    tmux neww -c "$HOME/w/neofinancial/" -n "Neofinancial"
+    tmux neww -c "$HOME/w/dotfiles" -n "Dotfiles"
+fi
+
+tmux attach -t0

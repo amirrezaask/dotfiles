@@ -121,6 +121,11 @@ vim.keymap.set("n", "<C-i>", "<C-i>zz")
 vim.keymap.set("n", "n", "nzz")
 vim.keymap.set("n", "N", "Nzz")
 
+
+-- Splits
+vim.keymap.set("n", "<leader>v", "<cmd>vs<CR>")
+vim.keymap.set("n", "<leader>s", "<cmd>sp<CR>")
+
 -- Disable annoying Q mode
 vim.keymap.set("n", "Q", "<cmd>q<CR>")
 
@@ -241,9 +246,12 @@ require "lazy".setup({
     { -- Treesitter, see :help treesitter
         "nvim-treesitter/nvim-treesitter",
         build = ":TSUpdate",
-        opts = {
-            ensure_installed = { "lua", "go", "gomod", "markdown", "php", "c", "cpp" },
-        },
+        config = function()
+            require("nvim-treesitter.configs").setup({
+                ensure_installed = { "lua", "go", "gomod", "markdown", "php", "c", "cpp" },
+                highlight = { enable = true },
+            })
+        end,
     },
     { -- Fuzzy finder
         "nvim-telescope/telescope.nvim",
