@@ -320,6 +320,9 @@ require "lazy".setup({
             map("n", "<leader>h", function()
                 builtin.help_tags()
             end, "Help Tags")
+            map("n", "<leader>d", function()
+                builtin.lsp_document_symbols()
+            end, "LSP Document Symbols")
 
             map("n", "<leader>w", function()
                 builtin.lsp_dynamic_workspace_symbols()
