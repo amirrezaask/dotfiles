@@ -165,7 +165,8 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-TRANSPARENT = false
+TRANSPARENT = true
+
 require "lazy".setup({
     'nvim-tree/nvim-web-devicons', -- Nice icons
 
@@ -511,7 +512,4 @@ require "lazy".setup({
     }
 })
 
-vim.cmd.colorscheme("rose-pine")
-vim.cmd [[
-    hi! Normal guibg=none
-]]
+vim.cmd.colorscheme("catppuccin")
