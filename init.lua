@@ -179,12 +179,7 @@ require "lazy".setup({
             vim.keymap.set({ 'n', 'i', 't' }, "<C-j>", "<cmd>ToggleTerm<CR>")
         end
     },
-    --
-    -- { -- StatusLine
-    --     'nvim-lualine/lualine.nvim',
-    --     dependencies = { 'nvim-tree/nvim-web-devicons' },
-    --     opts = {},
-    -- },
+
     {
         'stevearc/oil.nvim',
         opts = {},
@@ -193,7 +188,6 @@ require "lazy".setup({
         dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if prefer nvim-web-devicons
     },
     -- Colorschemes
-    --
     {
         "rose-pine/neovim",
         name = "rose-pine",
@@ -288,7 +282,7 @@ require "lazy".setup({
             end, "Buffers")
 
             map("n", "<leader>/", function()
-                builtin.current_buffer_fuzzy_find(dropdown { previewer = false })
+                builtin.current_buffer_fuzzy_find({ previewer = false })
             end, "Fuzzy find in current buffer")
 
             map("n", "<leader>.", function()
