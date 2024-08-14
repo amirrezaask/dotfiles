@@ -68,3 +68,5 @@ then
 fi
 
 
+alias tabtitle='wezterm cli set-tab-title'
+

@@ -179,12 +179,12 @@ require "lazy".setup({
             vim.keymap.set({ 'n', 'i', 't' }, "<C-j>", "<cmd>ToggleTerm<CR>")
         end
     },
-
-    { -- StatusLine
-        'nvim-lualine/lualine.nvim',
-        dependencies = { 'nvim-tree/nvim-web-devicons' },
-        opts = {},
-    },
+    --
+    -- { -- StatusLine
+    --     'nvim-lualine/lualine.nvim',
+    --     dependencies = { 'nvim-tree/nvim-web-devicons' },
+    --     opts = {},
+    -- },
 
     -- Colorschemes
     {
@@ -445,11 +445,11 @@ require "lazy".setup({
         "stevearc/conform.nvim",
         opts = function()
             local opts = {
-            format_on_save = {
-                -- These options will be passed to conform.format()
-                timeout_ms = 500,
-                lsp_format = "fallback",
-              },
+                format_on_save = {
+                    -- These options will be passed to conform.format()
+                    timeout_ms = 500,
+                    lsp_format = "fallback",
+                },
                 formatters_by_ft = {
                     lua = { "stylua", lsp_format = "fallback" },
                     fish = { "fish_indent" },
@@ -510,5 +510,7 @@ require "lazy".setup({
     }
 })
 
-
-vim.cmd.colorscheme("tokyonight-night")
+vim.cmd.colorscheme("rose-pine")
+vim.cmd [[
+    hi! Normal guibg=none
+]]

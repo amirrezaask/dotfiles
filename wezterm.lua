@@ -10,11 +10,11 @@ config.colors = {
 }
 
 config.font = wezterm.font_with_fallback {
-    -- 'Monaspace Neon',
+    'Monaspace Neon',
     -- 'Monaspace Xenon',
-    'Monaspace Krypton',
+    -- 'Monaspace Krypton',
     -- 'Monaspace Argon',
-    'Monaspace Radon',
+    -- 'Monaspace Radon',
     'MesloLGL Nerd Font Mono',
     'Meslo',
     "Consolas",
