@@ -1,6 +1,4 @@
 ;; (setq debug-on-error t) ;; Uncomment when you debug your emacs lisp code.
-
-
 ;; Startup hacks to make emacs boot faster.
 (defvar amirreza-emacs--file-name-handler-alist file-name-handler-alist)
 (defvar amirreza-emacs--vc-handled-backends vc-handled-backends)
@@ -36,10 +34,7 @@
       inhibit-startup-screen t
       inhibit-x-resources t
       inhibit-startup-buffer-menu t
-      is-windows (eq system-type 'windows-nt)
-      is-linux (eq system-type 'gnu-linux)
-      is-macos (eq system-type 'darwin)
-      has-treesitter (>= emacs-major-version 29))
+      is-windows (eq system-type 'windows-nt))
 
 (set-frame-parameter nil 'fullscreen 'maximized) ;; Always start emacs window in maximized mode.
 
@@ -166,6 +161,7 @@
 (GLOBAL          (kbd "C-S-n")       'jump-down)
 (GLOBAL          (kbd "C-S-p")       'jump-up)
 (GLOBAL          (kbd "M-k")         'kill-current-buffer)
+(GLOBAL          (kbd "M-j")         'switch-to-buffer)
 
 (defun kill-current-buffer () (interactive)
        (kill-buffer (current-buffer)))
@@ -247,53 +243,53 @@
 " name definition) nil (expand-file-name (format "%s-theme.el" name) (expand-file-name "themes" user-emacs-directory))))
 
 ;; Brownish
-;; (custom-set-faces
-;;   `(default                          ((t (:foreground "#debe95" :background "#282828"))))
-;;   `(hl-line                          ((t (:background "#353535"))))
-;;   `(vertico-current                  ((t (:background "medium blue"))))
-;;   `(region                           ((t (:background "medium blue"))))
-;;   `(cursor                           ((t (:background "lightgreen"))))
-;;   `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
-;;   `(font-lock-type-face              ((t (:foreground "#8cde94"))))
-;;   `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
-;;   `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
-;;   `(font-lock-builtin-face           ((t (:foreground "white"))))
-;;   `(font-lock-string-face            ((t (:foreground "gray70"))))
-;;   `(font-lock-comment-face           ((t (:foreground "yellow"))))
-;;   `(font-lock-comment-delimiter-face ((t (:foreground "yellow"))))
-;;   `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
-;;   `(font-lock-function-name-face     ((t (:foreground "white"))))
-;;   `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
-;;   `(font-lock-warning-face           ((t (:foreground "yellow"))))
-;;   `(font-lock-note-face              ((t (:foreground "khaki2" ))))
-;;   `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
-;;   `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
-;;   `(show-paren-match                 ((t (:background "mediumseagreen")))))
-
-
-;; Greenish
 (custom-set-faces
- `(default                          ((t (:foreground "#d3b58d" :background "#072626"))))
- `(hl-line                          ((t (:background "#0c4141"))))
- `(region                           ((t (:background  "medium blue"))))
+ `(default                          ((t (:foreground "#debe95" :background "#252525"))))
+ `(hl-line                          ((t (:background "#353535"))))
+ `(vertico-current                  ((t (:background "medium blue"))))
+ `(region                           ((t (:background "medium blue"))))
  `(cursor                           ((t (:background "lightgreen"))))
- `(font-lock-keyword-face           ((t (:foreground "white"))))
+ `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
  `(font-lock-type-face              ((t (:foreground "#8cde94"))))
  `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
  `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
- `(font-lock-builtin-face           ((t (:foreground "lightgreen"))))
- `(font-lock-string-face            ((t (:foreground "#0fdfaf"))))
- `(font-lock-comment-face           ((t (:foreground "#3fdf1f"))))
- `(font-lock-comment-delimiter-face ((t (:foreground "#3fdf1f"))))
+ `(font-lock-builtin-face           ((t (:foreground "white"))))
+ `(font-lock-string-face            ((t (:foreground "gray70"))))
+ `(font-lock-comment-face           ((t (:foreground "yellow"))))
+ `(font-lock-comment-delimiter-face ((t (:foreground "yellow"))))
  `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
  `(font-lock-function-name-face     ((t (:foreground "white"))))
  `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
- `(hightlight                       ((t (:foreground "navyblue" :background "darkseegreen2"))))
- `(font-lock-warning-face           ((t (:foreground "#504038"))))
+ `(font-lock-warning-face           ((t (:foreground "yellow"))))
  `(font-lock-note-face              ((t (:foreground "khaki2" ))))
  `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
  `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
  `(show-paren-match                 ((t (:background "mediumseagreen")))))
+
+
+;; Greenish
+;; (custom-set-faces
+;;  `(default                          ((t (:foreground "#d3b58d" :background "#072626"))))
+;;  `(hl-line                          ((t (:background "#0c4141"))))
+;;  `(region                           ((t (:background  "medium blue"))))
+;;  `(cursor                           ((t (:background "lightgreen"))))
+;;  `(font-lock-keyword-face           ((t (:foreground "white"))))
+;;  `(font-lock-type-face              ((t (:foreground "#8cde94"))))
+;;  `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
+;;  `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
+;;  `(font-lock-builtin-face           ((t (:foreground "lightgreen"))))
+;;  `(font-lock-string-face            ((t (:foreground "#0fdfaf"))))
+;;  `(font-lock-comment-face           ((t (:foreground "#3fdf1f"))))
+;;  `(font-lock-comment-delimiter-face ((t (:foreground "#3fdf1f"))))
+;;  `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
+;;  `(font-lock-function-name-face     ((t (:foreground "white"))))
+;;  `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
+;;  `(hightlight                       ((t (:foreground "navyblue" :background "darkseegreen2"))))
+;;  `(font-lock-warning-face           ((t (:foreground "#504038"))))
+;;  `(font-lock-note-face              ((t (:foreground "khaki2" ))))
+;;  `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
+;;  `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
+;;  `(show-paren-match                 ((t (:background "mediumseagreen")))))
 
 ;; Handmadehero
 ;; (custom-set-faces
@@ -320,10 +316,6 @@
 (setq-default c-default-style "linux" c-basic-offset 4)
 
 ;; Xref
-(global-set-key (kbd "M-.") 'xref-find-definitions)
-(global-set-key (kbd "M-,") 'xref-go-back)
-(global-set-key (kbd "M-?") 'xref-find-references)
-
 (global-set-key (kbd "C-.") 'xref-find-definitions)
 (global-set-key (kbd "C-,") 'xref-go-back)
 (global-set-key (kbd "C-?") 'xref-find-references)
@@ -355,7 +347,7 @@
 
 (defun eglot-organize-imports () (interactive) (eglot-code-actions nil nil "source.organizeImports" t))
 
-(setq eglot-stay-out-of '(project)) ;;
+(setq eglot-stay-out-of '(project flymake)) ;;
 (setq eglot-sync-connect nil)       ;; no blocking on waiting for the server to start.
 (setq eglot-events-buffer-size 0)   ;; no logging of LSP events.
 
@@ -371,8 +363,6 @@
 
 (defun git-repo-p (DIR) (locate-dominating-file DIR ".git"))
 (defun find-project-root-or-default-directory () (or (find-project-root) default-directory))
-
-(require 'project)
 
 ;; Compile Mode
 (GLOBAL (kbd "M-m") 'compile-dwim)
@@ -406,23 +396,32 @@
          (compilation-start "git diff HEAD" 'diff-mode)))
 
 (defun compile-dwim () "run `compile`. If prefixed it wil ask for compile directory." (interactive)
-       (setq compilation-buffer-name-function 'amirreza-compile-buffer-name-function)
-       (if (null current-prefix-arg)
-           (setq --compile-dir (find-project-root-or-default-directory))
-         (setq --compile-dir (read-directory-name "Directory: " default-directory)))
+       (if (string-match "\\\\*Compile\\\\*" (buffer-name))
+           (switch-to-buffer --compile-previous-buffer-before-compile)
 
-       (if (get-buffer (format "*Compile-%s*" --compile-dir))
-           (switch-to-buffer (format "*Compile-%s*" --compile-dir)) ;; we have a compile buffer associated with this project.
-         ;; we need to create a new compile buffer for this
+         (progn
+           (setq compilation-buffer-name-function 'amirreza-compile-buffer-name-function)
+           (if (null current-prefix-arg)
+               (setq --compile-dir (find-project-root-or-default-directory))
+             (setq --compile-dir (read-directory-name "Directory: " default-directory)))
 
-         (let* ((default-directory --compile-dir)
-                (command (read-shell-command "Command: "  (cond ;; guess a command based on the context.
-                                                           ((file-exists-p "build.bat") "build.bat")
-                                                           ((file-exists-p "go.mod")    "go build -v ./...")
-                                                           ((file-exists-p "Makefile")  "make")))))
-           (compilation-start command)
-           (delete-window)
-           (switch-to-buffer (format "*Compile-%s*" --compile-dir)))))
+           (setq --compile-previous-buffer-before-compile (current-buffer))
+
+           (if (get-buffer (format "*Compile-%s*" --compile-dir))
+               (switch-to-buffer (format "*Compile-%s*" --compile-dir)) ;; we have a compile buffer associated with this project.
+             ;; we need to create a new compile buffer for this
+
+             (let* ((default-directory --compile-dir)
+                    (command (read-shell-command "Command: "  (cond ;; guess a command based on the context.
+                                                               ((file-exists-p "build.bat") "build.bat")
+                                                               ((file-exists-p "go.mod")    "go build -v ./...")
+                                                               ((file-exists-p "Makefile")  "make")))))
+               (compilation-start command)
+               (delete-window)
+               (switch-to-buffer (format "*Compile-%s*" --compile-dir)))))
+         )
+       )
+
 
 ;; Grep Mode
 (setq-default case-fold-search t)
@@ -451,30 +450,35 @@
     (grep-apply-setting 'grep-use-null-device nil)))
 
 (defun grep-dwim () "Recursive grep in `find-project-root` result or C-u to choose directory interactively." (interactive)
-       ;; Set correct compilation buffer name function
-       (setq compilation-buffer-name-function 'amirreza-grep-buffer-name-function)
-
-       ;; Set directory for grep.
-       (if (null current-prefix-arg)
-           (setq --grep-dir (find-project-root-or-default-directory))
-         (setq --grep-dir (read-directory-name "Directory: " default-directory)))
-
-       (if (and
-            (get-buffer (format "*Grep-%s*" --grep-dir))
-            (not (eq (get-buffer (format "*Grep-%s*" --grep-dir)) (current-buffer))))
-           (switch-to-buffer (format "*Grep-%s*" --grep-dir)) ;; we have a compile buffer associated with this project.
+       (if (string-match "\\\\*Grep\\\\*" (buffer-name))
+           (switch-to-buffer --compile-previous-buffer-before-compile)
 
          (progn
-           (setq --last-grep-command-format
-                 (cond
-                  ((executable-find "rg") "rg --no-heading --color='never' '%s'")
-                  ((git-repo-p DIR)       "git grep --no-color -n '%s'")
-                  (t                      "grep --color=auto -R -nH -e '%s' .")))
-           (setq --last-grep-string (read-string "Grep: "))
-           (let ((default-directory --grep-dir))
-             (grep (format --last-grep-command-format --last-grep-string))
-             (delete-window)
-             (switch-to-buffer (format "*Grep-%s*" --grep-dir))))))
+
+           ;; Set correct compilation buffer name function
+           (setq compilation-buffer-name-function 'amirreza-grep-buffer-name-function)
+
+           ;; Set directory for grep.
+           (if (null current-prefix-arg)
+               (setq --grep-dir (find-project-root-or-default-directory))
+             (setq --grep-dir (read-directory-name "Directory: " default-directory)))
+
+           (if (and
+                (get-buffer (format "*Grep-%s*" --grep-dir))
+                (not (eq (get-buffer (format "*Grep-%s*" --grep-dir)) (current-buffer))))
+               (switch-to-buffer (format "*Grep-%s*" --grep-dir)) ;; we have a compile buffer associated with this project.
+
+             (progn
+               (setq --last-grep-command-format
+                     (cond
+                      ((executable-find "rg") "rg --no-heading --color='never' '%s'")
+                      ((git-repo-p DIR)       "git grep --no-color -n '%s'")
+                      (t                      "grep --color=auto -R -nH -e '%s' .")))
+               (setq --last-grep-string (read-string "Grep: "))
+               (let ((default-directory --grep-dir))
+                 (grep (format --last-grep-command-format --last-grep-string))
+                 (delete-window)
+                 (switch-to-buffer (format "*Grep-%s*" --grep-dir))))))))
 
 ;; Find File
 (GLOBAL (kbd "M-o") 'find-file-dwim)
@@ -514,11 +518,6 @@
 (with-eval-after-load 'replace
   (define-key query-replace-map (kbd "<return>") 'act))
 
-;; Flymake
-(with-eval-after-load 'flymake
-  (define-key flymake-mode-map (kbd "M-;") 'flymake-goto-prev-error)
-  (define-key flymake-mode-map (kbd "M-'") 'flymake-goto-next-error))
-
 ;; Macros
 (global-set-key (kbd "M-[")  'kmacro-start-macro)
 (global-set-key (kbd "M-]")  'kmacro-end-or-call-macro)
@@ -536,6 +535,3 @@
 ;; Magit: Git client
 (install 'magit)
 (global-set-key (kbd "C-x g") 'magit)
-
-
-
