@@ -69,4 +69,45 @@ config.hide_tab_bar_if_only_one_tab = true
 
 config.tab_max_width = 20
 
+
+
+-- Remove all path components and return only the last value
+
+-- Return the pretty path of the tab's current working directory
+--
+local function get_display_cwd(tab)
+    local function get_cwd(tab)
+        return tab.active_pane.current_working_dir.file_path or ""
+    end
+    local function remove_abs_path(path) return path:gsub("(.*[/\\])(.*)", "%2") end
+    local current_dir = get_cwd(tab)
+    local HOME_DIR = string.format("file://%s", os.getenv("HOME"))
+    return current_dir == HOME_DIR and "~/" or remove_abs_path(current_dir)
+end
+
+-- Return the concise name or icon of the running process for display
+local function get_process(tab)
+    if not tab.active_pane or tab.active_pane.foreground_process_name == "" then return "[?]" end
+    local function remove_abs_path(path) return path:gsub("(.*[/\\])(.*)", "%2") end
+    local process_name = remove_abs_path(tab.active_pane.foreground_process_name)
+    if process_name:find("kubectl") then process_name = "kubectl" end
+
+    return string.format("%s", process_name)
+end
+
+
+wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
+    local title = get_display_cwd(tab)
+    local process = get_process(tab)
+
+    if tab.is_active then
+        return {
+            { Attribute = { Intensity = "Bold" } },
+            { Text = ' ' .. string.format("%s@%s", process, title) .. ' ' }
+        }
+    else
+        return ' ' .. string.format("%s@%s", process, title) .. ' '
+    end
+end)
+
 return config
