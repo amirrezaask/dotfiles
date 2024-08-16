@@ -11,5 +11,3 @@ size = 15
 # opacity = 0.93
 option_as_alt="Both"
 
-[colors.primary]
-background = "#000000"

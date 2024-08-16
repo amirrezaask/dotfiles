@@ -20,9 +20,20 @@ if command -v brew &>/dev/null
    brew shellenv fish | source
 end
 
+if command -v nvim &>/dev/null
+    alias vim='nvim'
+    alias v='nvim'
+    alias vi='nvim'
+    export GIT_EDITOR='nvim'
+    export EDITOR='nvim'
+end
+
+
 function oclogs -d "Read logs for given app name"
     oc logs --prefix -f --selector "app.kubernetes.io/instance=snappdoctor-$1-prod, app.kubernetes.io/name=$1"
 end
 
 function fish_greeting
 end
+
+alias svpn='sudo openfortivpn  --otp (totpgen ADS)'

@@ -7,6 +7,24 @@ config.colors = {
     cursor_bg = "#47FF9C",
     cursor_border = "#47FF9C",
     cursor_fg = "#011423",
+    tab_bar = {
+        background = 'none',
+
+        active_tab = {
+            bg_color = 'none',
+            fg_color = '#89b4fa',
+        },
+        inactive_tab = {
+            bg_color = 'none',
+            fg_color = '#465c80'
+        },
+        new_tab = { -- no new tab button
+            bg_color = 'none',
+            fg_color = 'none'
+        },
+
+
+    }
 }
 
 config.font = wezterm.font_with_fallback {
