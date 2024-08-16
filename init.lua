@@ -217,33 +217,6 @@ require "lazy".setup({
             transparent_background = TRANSPARENT,
         },
     },
-    {
-        "ellisonleao/gruvbox.nvim",
-        config = function()
-            require("gruvbox").setup({
-                contrast = "hard",
-                overrides = {
-                    Comment = { fg = "#2ea542" },
-                },
-                transparent_mode = TRANSPARENT,
-                italic = {
-                    strings = false,
-                    emphasis = false,
-                    comments = false,
-                    operators = false,
-                    folds = false,
-                },
-            })
-        end,
-    },
-
-    {
-        'navarasu/onedark.nvim',
-        opts = {
-            transparent = TRANSPARENT,
-            style = 'darker',
-        }
-    },
 
     { -- Treesitter, see :help treesitter
         "nvim-treesitter/nvim-treesitter",
@@ -273,7 +246,7 @@ require "lazy".setup({
                 vim.keymap.set(mode, key, fn, { desc = "Telescope: " .. desc })
             end
 
-            map("n", "<C-p>", function()
+            map("n", "<leader>p", function()
                 builtin.git_files({
                     use_file_path = true,
                     previewer = false,
@@ -315,10 +288,6 @@ require "lazy".setup({
                 end)
             end, "Grep Word")
 
-            map("n", "<leader>o", function()
-                builtin.treesitter({ previewer = false })
-            end, "Treesitter symbols")
-
             map("n", "??", function()
                 builtin.live_grep({
                     previewer = false,
@@ -330,6 +299,7 @@ require "lazy".setup({
             map("n", "<leader>h", function()
                 builtin.help_tags()
             end, "Help Tags")
+
             map("n", "<leader>d", function()
                 builtin.lsp_document_symbols()
             end, "LSP Document Symbols")
@@ -467,13 +437,7 @@ require "lazy".setup({
                 },
                 formatters_by_ft = {
                     lua = { "stylua", lsp_format = "fallback" },
-                    fish = { "fish_indent" },
-                    sh = { "shfmt" },
                     go = { "goimports", "gofmt" },
-                    templ = { "templ" },
-                    html = { "prettier" },
-                    svelte = { "prettier" },
-                    eruby = { "erb_format" },
                 },
             }
             return opts
