@@ -180,7 +180,9 @@ require "lazy".setup({
         version = "*",
         config = function()
             require("toggleterm").setup({
+                -- size = 0.4 * vim.o.lines,
                 direction = 'float',
+                -- direction = 'horizontal',
             })
             vim.keymap.set({ 'n', 'i', 't' }, "<C-j>", "<cmd>ToggleTerm<CR>")
         end
