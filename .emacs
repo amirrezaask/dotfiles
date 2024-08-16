@@ -232,7 +232,6 @@
   (define-key minibuffer-mode-map           (kbd "C-n") 'minibuffer-next-completion)
   (define-key minibuffer-mode-map           (kbd "C-p") 'minibuffer-previous-completion))
 
-
 ;; Completion
 (global-set-key (kbd "C-j") 'completion-at-point)
 (install 'corfu)
@@ -241,7 +240,6 @@
 
 ;; Colors
 (install 'ef-themes)
-(install 'fleetish-theme)
 (defun save-theme (name definition)
   (mkdir (expand-file-name "themes" user-emacs-directory) t)
   (write-region (format "(deftheme %s)
@@ -538,3 +536,6 @@
 ;; Magit: Git client
 (install 'magit)
 (global-set-key (kbd "C-x g") 'magit)
+
+
+
