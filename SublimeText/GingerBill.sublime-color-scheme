@@ -17,7 +17,7 @@
         },
         {
           "name": "Keywords",
-          "scope": "keyword, keyword.control",
+          "scope": "keyword - keyword.operator, variable.function",
           "foreground": "#6cbab2"
         },
         {
