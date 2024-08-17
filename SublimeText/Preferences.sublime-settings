@@ -1,0 +1,12 @@
+{
+	"font_size": 19,
+	"font_family": "Menlo",
+	"ignored_packages":
+	[
+		"Vintage",
+	],
+	"hot_exit": "disabled",
+	"index_files": true,
+	"theme": "Adaptive.sublime-theme",
+	"color_scheme": "GingerBill.sublime-color-scheme",
+}

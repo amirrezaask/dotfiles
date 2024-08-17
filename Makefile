@@ -27,3 +27,6 @@ install:
 	ln -s $(DOTFILES_DIR)/wezterm.lua $(XDG_CONFIG)/wezterm/wezterm.lua
 	ln -s $(DOTFILES_DIR)/kitty.conf $(XDG_CONFIG)/kitty/kitty.conf
 	ln -s $(DOTFILES_DIR)/tmux.conf $(HOME)/.tmux.conf
+
+sublime-mac:
+	ln -s "$(DOTFILES_DIR)/SublimeText" "$(HOME)/Library/Application Support/Sublime Text 3/Packages/User"

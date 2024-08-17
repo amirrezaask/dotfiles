@@ -1,0 +1,34 @@
+{
+    "name": "Black",
+    "globals":
+    {
+        "background": "#000000",
+        "foreground": "#b3b3b3",
+        "caret": "white",
+        "line_highlight": "#1a1a1a",
+        "selection": "#3b3b3b",
+    },
+    "rules":
+    [
+        {
+          "name": "Identifiers",
+          "scope": "entity.name",
+          "foreground": "#8dbd4f"
+        },
+        {
+          "name": "Keywords",
+          "scope": "keyword, keyword.control",
+          "foreground": "#6cbab2"
+        },
+        {
+          "name": "Comment",
+          "scope": "comment",
+          "foreground": "#60636A"
+        },
+        {
+          "name": "String",
+          "scope": "string",
+          "foreground": "#b9bd53"
+        }
+    ]
+}
