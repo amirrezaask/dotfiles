@@ -68,5 +68,10 @@ then
 fi
 
 
+gdoc() {
+    godoc -http=":$1"
+}
+
+
 alias tabtitle='wezterm cli set-tab-title'
 

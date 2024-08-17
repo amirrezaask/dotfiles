@@ -1,9 +1,6 @@
 [
-    // CTRL Based
+    // Command Based
     { "keys": ["ctrl+r"], "command": "show_panel", "args": {"panel": "replace", "reverse": false} },
-    { "keys": ["ctrl+shift+2"], "command": "goto_symbol_in_project" },
-    { "keys": ["ctrl+2"], "command": "show_overlay", "args": {"overlay": "goto", "text": "@"} },
-    
     { "keys": ["ctrl+shift+j"], "command": "goto_symbol_in_project" },
     { "keys": ["ctrl+j"], "command": "show_overlay", "args": {"overlay": "goto", "text": "@"} },
     
@@ -18,26 +15,8 @@
     },
     { "keys": ["ctrl+,"], "command": "jump_back" },
 
-    
-    { // Find References
-        "keys": ["ctrl+shift+."],
-        "command": "lsp_symbol_references",
-        "args": {"side_by_side": true, "force_group": true, "fallback": false, "group": -1, "include_declaration": false},
-        "context": [{"key": "lsp.session_with_capability", "operand": "referencesProvider"}]
-    },
-    { "keys": ["ctrl+m"], "command": "build" },
-    { "keys": ["ctrl+shift+m"], "command": "build", "args": {"select": true} },
 
-    { "keys": ["primary+m"], "command": "build" },
-    { "keys": ["primary+shift+m"], "command": "build", "args": {"select": true} },
-
-
-
-    // Command Based
     { "keys": ["super+r"], "command": "show_panel", "args": {"panel": "replace", "reverse": false} },
-    { "keys": ["super+shift+2"], "command": "goto_symbol_in_project" },
-    { "keys": ["super+2"], "command": "show_overlay", "args": {"overlay": "goto", "text": "@"} },
-    
     { "keys": ["super+shift+j"], "command": "goto_symbol_in_project" },
     { "keys": ["super+j"], "command": "show_overlay", "args": {"overlay": "goto", "text": "@"} },
     
@@ -52,11 +31,40 @@
     },
     { "keys": ["super+,"], "command": "jump_back" },
 
+
+
+    { "keys": ["ctrl+1"], "command": "toggle_side_bar" },
     
     { // Find References
-        "keys": ["super+shift+."],
+        "keys": ["ctrl+shift+."],
         "command": "lsp_symbol_references",
         "args": {"side_by_side": true, "force_group": true, "fallback": false, "group": -1, "include_declaration": false},
         "context": [{"key": "lsp.session_with_capability", "operand": "referencesProvider"}]
+    },
+    { 
+        "keys": ["ctrl+tab"], 
+        "command": "focus_neighboring_group", 
+        "args": {"forward": false} 
+    },
+    
+    {
+        "keys": ["primary+shift+\\"],
+        "command": "set_layout",
+        "args":
+        {
+            "cols": [0.0, 1.0],
+            "rows": [0.0, 1.0],
+            "cells": [[0, 0, 1, 1]]
+        }
+    },
+    {
+        "keys": ["primary+\\"],
+        "command": "set_layout",
+        "args":
+        {
+            "cols": [0.0, 0.5, 1.0],
+            "rows": [0.0, 1.0],
+            "cells": [[0, 0, 1, 1], [1, 0, 2, 1]]
+        }
     },
 ]
