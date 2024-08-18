@@ -1,5 +1,5 @@
 {
-	"font_size": 17,
+	"font_size": 16,
 	"ignored_packages":
 	[
 		"Vintage",
@@ -9,4 +9,8 @@
 	"theme": "Adaptive.sublime-theme",
 	"show_errors_inline": false,
 	"color_scheme": "GingerBill.sublime-color-scheme",
+	"word_wrap": true,
+	"auto_complete": false,
+	"auto_complete_include_snippets": false,
+
 }

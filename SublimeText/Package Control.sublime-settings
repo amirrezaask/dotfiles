@@ -7,7 +7,6 @@
 	[
 		"LSP",
 		"LSP-gopls",
-		"LSP-intelephense",
 		"Package Control",
 	],
 }

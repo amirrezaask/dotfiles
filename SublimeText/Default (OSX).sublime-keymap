@@ -1,10 +1,24 @@
 [
-    // Command Based
-    { "keys": ["ctrl+r"], "command": "show_panel", "args": {"panel": "replace", "reverse": false} },
-    { "keys": ["ctrl+shift+j"], "command": "goto_symbol_in_project" },
-    { "keys": ["ctrl+j"], "command": "show_overlay", "args": {"overlay": "goto", "text": "@"} },
+    { 
+        "keys": ["ctrl+shift+j"],
+        "command": "goto_symbol_in_project" 
+    },
+    { 
+        "keys": ["ctrl+j"], 
+        "command": "show_overlay", 
+        "args": {"overlay": "goto", "text": "@"} 
+    },
     
-    { // LSP: Find defintions
+    { 
+        "keys": ["command+shift+j"],
+        "command": "goto_symbol_in_project" 
+    },
+    { 
+        "keys": ["command+j"], 
+        "command": "show_overlay", 
+        "args": {"overlay": "goto", "text": "@"} 
+    },
+    { 
         "keys": ["ctrl+."],
         "command": "lsp_symbol_definition",
         "args": {"side_by_side": false, "force_group": true, "fallback": false, "group": -1},
@@ -13,15 +27,8 @@
             {"key": "auto_complete_visible", "operand": false}
         ]
     },
-    { "keys": ["ctrl+,"], "command": "jump_back" },
-
-
-    { "keys": ["super+r"], "command": "show_panel", "args": {"panel": "replace", "reverse": false} },
-    { "keys": ["super+shift+j"], "command": "goto_symbol_in_project" },
-    { "keys": ["super+j"], "command": "show_overlay", "args": {"overlay": "goto", "text": "@"} },
-    
-    { // LSP: Find defintions
-        "keys": ["super+."],
+    { 
+        "keys": ["command+."],
         "command": "lsp_symbol_definition",
         "args": {"side_by_side": false, "force_group": true, "fallback": false, "group": -1},
         "context": [
@@ -29,26 +36,19 @@
             {"key": "auto_complete_visible", "operand": false}
         ]
     },
-    { "keys": ["super+,"], "command": "jump_back" },
-
-
+    { "keys": ["ctrl+,"], "command": "jump_back" },
+    { "keys": ["command+,"], "command": "jump_back" },
 
     { "keys": ["ctrl+1"], "command": "toggle_side_bar" },
+    { "keys": ["command+1"], "command": "toggle_side_bar" },
     
-    { // Find References
-        "keys": ["ctrl+shift+."],
-        "command": "lsp_symbol_references",
-        "args": {"side_by_side": true, "force_group": true, "fallback": false, "group": -1, "include_declaration": false},
-        "context": [{"key": "lsp.session_with_capability", "operand": "referencesProvider"}]
-    },
     { 
         "keys": ["ctrl+tab"], 
         "command": "focus_neighboring_group", 
         "args": {"forward": false} 
     },
-    
     {
-        "keys": ["primary+shift+\\"],
+        "keys": ["command+shift+\\"],
         "command": "set_layout",
         "args":
         {
@@ -58,7 +58,27 @@
         }
     },
     {
-        "keys": ["primary+\\"],
+        "keys": ["command+\\"],
+        "command": "set_layout",
+        "args":
+        {
+            "cols": [0.0, 0.5, 1.0],
+            "rows": [0.0, 1.0],
+            "cells": [[0, 0, 1, 1], [1, 0, 2, 1]]
+        }
+    },
+    {
+        "keys": ["ctrl+shift+\\"],
+        "command": "set_layout",
+        "args":
+        {
+            "cols": [0.0, 1.0],
+            "rows": [0.0, 1.0],
+            "cells": [[0, 0, 1, 1]]
+        }
+    },
+    {
+        "keys": ["ctrl+\\"],
         "command": "set_layout",
         "args":
         {
