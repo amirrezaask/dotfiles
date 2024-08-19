@@ -57,19 +57,30 @@ then
     alias ls='eza'
 fi
 
-# if command -v atuin &>/dev/null
-# then
-#     eval "$(atuin init zsh)"
-# fi
-#
-if command -v bat &>/dev/null
-then
-    alias cat='bat'
-fi
-
 
 gdoc() {
-    godoc -http=":$1"
+
+    if [[ $# -eq 1 ]]; then
+        selected=$1
+    else
+        selected=$(find ~/w -mindepth 1 -maxdepth 1 -type d | fzf)
+    fi
+
+    if [[ -z $selected ]]; then
+        exit 0
+    fi
+
+    PORT=$2
+
+    if [[ -z $PORT ]]; then
+        PORT=$(python3 -c 'import socket; s=socket.socket(); s.bind(("", 0)); print(s.getsockname()[1]); s.close()');
+    fi
+    printf "Listening on http://localhost:%d\n" $PORT
+    pushd $selected
+
+    godoc -http=":$PORT"&
+    
+    popd
 }
 
 

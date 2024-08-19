@@ -11,6 +11,6 @@
 	"color_scheme": "GingerBill.sublime-color-scheme",
 	"word_wrap": true,
 	"auto_complete": false,
-	"auto_complete_include_snippets": false,
-
+	"highlight_line": true,
+	"caret_style": "smooth",
 }
