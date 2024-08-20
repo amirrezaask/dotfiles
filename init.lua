@@ -174,30 +174,34 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-
-local hterminal_open = false
-
-
-local hterminal_size_scale = 0.4
-local term_buffer = 0
-
-local function ToggleHTerm()
-    if hterminal_open then
-        hterminal_open = not hterminal_open
+-- Toggle a terminal emulator like a boss
+local toggle_term_size_scale = 0.4
+local toggle_term_buffer = 0
+local toggle_term_direction = 'h'
+local toggle_term_is_open = false
+local function toggle_term()
+    if toggle_term_is_open then
+        toggle_term_is_open = not toggle_term_is_open
         vim.cmd [[ close ]]
     else
-        hterminal_open = not hterminal_open
-        vim.cmd(string.format([[ split %d]], vim.o.lines * hterminal_size_scale))
-        if term_buffer == 0 then
-            vim.cmd [[ term ]]
-            term_buffer = vim.api.nvim_get_current_buf()
-        else
-            vim.api.nvim_win_set_buf(0, term_buffer)
+        toggle_term_is_open = not toggle_term_is_open
+        if toggle_term_direction == 'h' then
+            vim.cmd(string.format([[ split %d]], vim.o.lines * toggle_term_size_scale))
+        elseif toggle_term_direction == 'v' then
+            vim.cmd(string.format([[ vsplit %d]], vim.o.columns * toggle_term_size_scale))
         end
+        if toggle_term_buffer == 0 then
+            vim.cmd [[ term ]]
+            toggle_term_buffer = vim.api.nvim_get_current_buf()
+        else
+            vim.api.nvim_win_set_buf(0, toggle_term_buffer)
+        end
+
+        vim.cmd [[ startinsert ]]
     end
 end
 
-vim.keymap.set({ "n", 'i', 't' }, '<C-j>', ToggleHTerm)
+vim.keymap.set({ "n", 'i', 't' }, '<C-j>', toggle_term)
 
 
 TRANSPARENT = true
