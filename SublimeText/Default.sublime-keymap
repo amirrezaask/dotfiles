@@ -1,26 +1,5 @@
 [
 
-    // Jump to symbols
-    { 
-        "keys": ["ctrl+shift+j"],
-        "command": "goto_symbol_in_project" 
-    },
-    { 
-        "keys": ["ctrl+j"], 
-        "command": "show_overlay", 
-        "args": {"overlay": "goto", "text": "@"} 
-    },
-    
-    { 
-        "keys": ["command+shift+j"],
-        "command": "goto_symbol_in_project" 
-    },
-    { 
-        "keys": ["command+j"], 
-        "command": "show_overlay", 
-        "args": {"overlay": "goto", "text": "@"} 
-    },
-
     // Building
     {
         "keys": ["command+m"],
@@ -29,27 +8,6 @@
     {
         "keys": ["ctrl+m"],
         "command": "build"
-    },
-    // Multicursors
-    {
-        "keys": ["alt+up"],
-        "command": "select_lines",
-        "args": { "forward": false }
-    },
-    {
-        "keys": ["alt+down"],
-        "command": "select_lines",
-        "args": { "forward": true }
-    },
-    {
-        "keys": ["command+up"],
-        "command": "select_lines",
-        "args": { "forward": false }
-    },
-    {
-        "keys": ["command+down"],
-        "command": "select_lines",
-        "args": { "forward": true }
     },
 
     // Terminus

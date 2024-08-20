@@ -457,6 +457,9 @@ require "lazy".setup({
             local cmp = require("cmp")
             cmp.setup({
                 preselect = require("cmp.types").cmp.PreselectMode.None,
+                completion = {
+                    autocomplete = false,
+                },
                 window = {
                     completion = cmp.config.window.bordered(),
                     documentation = cmp.config.window.bordered(),
