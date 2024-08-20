@@ -174,23 +174,36 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+
+local hterminal_open = false
+
+
+local hterminal_size_scale = 0.4
+local term_buffer = 0
+
+local function ToggleHTerm()
+    if hterminal_open then
+        hterminal_open = not hterminal_open
+        vim.cmd [[ close ]]
+    else
+        hterminal_open = not hterminal_open
+        vim.cmd(string.format([[ split %d]], vim.o.lines * hterminal_size_scale))
+        if term_buffer == 0 then
+            vim.cmd [[ term ]]
+            term_buffer = vim.api.nvim_get_current_buf()
+        else
+            vim.api.nvim_win_set_buf(0, term_buffer)
+        end
+    end
+end
+
+vim.keymap.set({ "n", 'i', 't' }, '<C-j>', ToggleHTerm)
+
+
 TRANSPARENT = true
 
 require "lazy".setup({
-    'nvim-tree/nvim-web-devicons', -- Nice icons
-
-    {
-        'akinsho/toggleterm.nvim',
-        version = "*",
-        config = function()
-            require("toggleterm").setup({
-                size = 0.4 * vim.o.lines,
-                -- direction = 'float',
-                direction = 'horizontal',
-            })
-            vim.keymap.set({ 'n', 'i', 't' }, "<C-j>", "<cmd>ToggleTerm<CR>")
-        end
-    },
+    'nvim-tree/nvim-web-devicons',                                                             -- Nice icons
 
     { 'stevearc/oil.nvim',      opts = {}, dependencies = { "nvim-tree/nvim-web-devicons" } }, -- File Manager
 
