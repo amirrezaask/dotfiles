@@ -179,7 +179,7 @@ TRANSPARENT = true
 require "lazy".setup({
     'nvim-tree/nvim-web-devicons', -- Nice icons
 
-    {                              -- Terminal
+    {
         'akinsho/toggleterm.nvim',
         version = "*",
         config = function()
@@ -192,27 +192,19 @@ require "lazy".setup({
         end
     },
 
-    {
-        'stevearc/oil.nvim',
+    { 'stevearc/oil.nvim',      opts = {}, dependencies = { "nvim-tree/nvim-web-devicons" } }, -- File Manager
+
+    {                                                                                          -- Comments
+        "folke/ts-comments.nvim",
+        event = "VeryLazy",
         opts = {},
-        -- Optional dependencies
-        -- dependencies = { { "echasnovski/mini.icons", opts = {} } },
-        dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if prefer nvim-web-devicons
-    },
-    -- Colorschemes
-    {
-        "rose-pine/neovim",
-        name = "rose-pine",
-        opts = {
-            styles = {
-                italic = false,
-                transparency = TRANSPARENT,
-            },
-        },
     },
     {
         "folke/tokyonight.nvim",
-        priority = 1000,
+        opts = {
+            transparent = TRANSPARENT,
+        }
+
     },
     {
         "catppuccin/nvim",
@@ -314,27 +306,10 @@ require "lazy".setup({
         end,
     },
 
-    {
-        "folke/ts-comments.nvim",
-        event = "VeryLazy",
-        opts = {},
-    },
 
+    { "nvim-pack/nvim-spectre", }, -- Replace in all files
 
-    -- Search and replace in files
-    {
-        "nvim-pack/nvim-spectre",
-        config = function()
-            vim.keymap.set("n", "<leader>sr", function()
-                require("spectre").open()
-            end)
-        end,
-    },
-
-    -- Git Client
-    { "tpope/vim-fugitive" },
-
-    { -- Language server protocol client (LSP)
+    {                              -- Language server protocol client (LSP)
         "neovim/nvim-lspconfig",
         dependencies = {
             { -- Like the panel in vscode, shows you errors and warnings from LSP
@@ -496,4 +471,4 @@ require "lazy".setup({
     }
 })
 
-vim.cmd.colorscheme("catppuccin")
+vim.cmd.colorscheme("catppuccin-macchiato")
