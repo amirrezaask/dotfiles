@@ -56,6 +56,10 @@ vim.opt.mouse = "a"
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 
+-- Cursor blinking
+
+vim.opt.guicursor:append('a:blinkon100')
+
 -- Preview all substitutions(replacements).
 vim.opt.inccommand = "split"
 
