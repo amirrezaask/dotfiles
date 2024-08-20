@@ -12,6 +12,7 @@ install:
 	rm -rf $(HOME)/.tmux.conf
 	rm -rf $(HOME)/.emacs
 	rm -rf $(XDG_CONFIG)/wezterm
+	rm -rf $(XDG_CONFIG)/starship.toml
 	mkdir -p $(XDG_CONFIG)/i3
 	mkdir -p $(XDG_CONFIG)/alacritty
 	mkdir -p $(XDG_CONFIG)/nvim
@@ -27,6 +28,7 @@ install:
 	ln -s $(DOTFILES_DIR)/wezterm.lua $(XDG_CONFIG)/wezterm/wezterm.lua
 	ln -s $(DOTFILES_DIR)/kitty.conf $(XDG_CONFIG)/kitty/kitty.conf
 	ln -s $(DOTFILES_DIR)/tmux.conf $(HOME)/.tmux.conf
+	ln -s $(DOTFILES_DIR)/starship.toml $(XDG_CONFIG)/starship.toml
 
 sublime-mac:
 	ln -s "$(DOTFILES_DIR)/SublimeText" "$(HOME)/Library/Application Support/Sublime Text 3/Packages/User"
