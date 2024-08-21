@@ -8,20 +8,20 @@ config.colors = {
     cursor_border = "#47FF9C",
     cursor_fg = "#011423",
     tab_bar = {
-        background = 'none',
+        -- background = 'none',
 
-        active_tab = {
-            bg_color = 'none',
-            fg_color = '#89b4fa',
-        },
-        inactive_tab = {
-            bg_color = 'none',
-            fg_color = '#465c80'
-        },
-        new_tab = { -- no new tab button
-            bg_color = 'none',
-            fg_color = 'none'
-        },
+        -- active_tab = {
+        --     bg_color = 'none',
+        --     fg_color = '#89b4fa',
+        -- },
+        -- inactive_tab = {
+        --     bg_color = 'none',
+        --     fg_color = '#465c80'
+        -- },
+        -- new_tab = { -- no new tab button
+        --     bg_color = 'none',
+        --     fg_color = 'none'
+        -- },
 
 
     }
@@ -91,8 +91,10 @@ local function get_process(tab)
     local function remove_abs_path(path) return path:gsub("(.*[/\\])(.*)", "%2") end
     local process_name = remove_abs_path(tab.active_pane.foreground_process_name)
     if process_name:find("kubectl") then process_name = "kubectl" end
-
-    return string.format("%s", process_name)
+    if process_name == "zsh" then
+        return ""
+    end
+    return process_name
 end
 
 
@@ -100,13 +102,20 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_wid
     local title = get_display_cwd(tab)
     local process = get_process(tab)
 
+    local tab_title = ''
+    if process ~= "" then
+        tab_title = string.format("%s %s", process, title)
+    else
+        tab_title = string.format("%s", title)
+    end
+
     if tab.is_active then
         return {
             { Attribute = { Intensity = "Bold" } },
-            { Text = ' ' .. string.format("%s@%s", process, title) .. ' ' }
+            { Text = ' ' .. tab_title .. ' ' }
         }
     else
-        return ' ' .. string.format("%s@%s", process, title) .. ' '
+        return ' ' .. tab_title .. ' '
     end
 end)
 
