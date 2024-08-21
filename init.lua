@@ -127,7 +127,6 @@ vim.keymap.set("n", "<C-i>", "<C-i>zz")
 vim.keymap.set("n", "n", "nzz")
 vim.keymap.set("n", "N", "Nzz")
 
-
 -- Splits
 vim.keymap.set("n", "<leader>v", "<cmd>vs<CR>")
 vim.keymap.set("n", "<leader>s", "<cmd>sp<CR>")
@@ -205,14 +204,14 @@ end
 vim.keymap.set({ "n", 'i', 't' }, '<C-j>', toggle_term)
 
 
-TRANSPARENT = true
+TRANSPARENT = false
 
 require "lazy".setup({
-    'nvim-tree/nvim-web-devicons',                                                             -- Nice icons
+    'nvim-tree/nvim-web-devicons',                                                                -- Nice icons
+    { 'nvim-lualine/lualine.nvim', opts = {} },
+    { 'stevearc/oil.nvim',         opts = {}, dependencies = { "nvim-tree/nvim-web-devicons" } }, -- File Manager
 
-    { 'stevearc/oil.nvim',      opts = {}, dependencies = { "nvim-tree/nvim-web-devicons" } }, -- File Manager
-
-    {                                                                                          -- Comments
+    {                                                                                             -- Comments
         "folke/ts-comments.nvim",
         event = "VeryLazy",
         opts = {},
@@ -222,6 +221,12 @@ require "lazy".setup({
         opts = {
             transparent = TRANSPARENT,
         }
+    },
+    {
+        'navarasu/onedark.nvim',
+        opts = {
+            style = 'dark',
+        },
     },
     {
         "catppuccin/nvim",
@@ -380,4 +385,4 @@ require "lazy".setup({
     }
 })
 
-vim.cmd.colorscheme("catppuccin-macchiato")
+vim.cmd.colorscheme("onedark")
