@@ -221,7 +221,6 @@ require "lazy".setup({
         opts = {
             transparent = TRANSPARENT,
         }
-
     },
     {
         "catppuccin/nvim",
@@ -254,72 +253,18 @@ require "lazy".setup({
         config = function()
             require("telescope").load_extension("ui-select") -- Use telescope for vim.ui.select
             require('telescope').load_extension('fzf')
-            local builtin = require("telescope.builtin")
-            local map = function(mode, key, fn, desc)
-                vim.keymap.set(mode, key, fn, { desc = "Telescope: " .. desc })
+            local telescope_keys = {
+                ["<leader>p"] = "git_files",
+                ["<leader><leader>"] = "find_files",
+                ["??"] = "live_grep",
+                ["<leader>h"] = "help_tags",
+                ["<leader>b"] = "buffers",
+                ["<leader>fs"] = "lsp_dynamic_workspace_symbols",
+
+            }
+            for k, v in pairs(telescope_keys) do
+                vim.keymap.set("n", k, require "telescope.builtin"[v], { desc = string.format("Telescope %s", v) })
             end
-
-            map("n", "<leader>p", function()
-                builtin.git_files({
-                    use_file_path = true,
-                    previewer = false,
-                    prompt_title = string.format("Git Files: %s", vim.fn.getcwd()),
-                })
-            end, "Git Files")
-
-            map("n", "<leader><leader>", function()
-                builtin.find_files({
-                    previewer = false,
-                    prompt_title = string.format("Find Files: %s", vim.fn.getcwd()),
-                })
-            end, "Fuzzy Find in current buffer project")
-
-            map("n", "<leader>b", function()
-                builtin.buffers({ previewer = false })
-            end, "Buffers")
-
-            map("n", "<leader>/", function()
-                builtin.current_buffer_fuzzy_find({ previewer = false })
-            end, "Fuzzy find in current buffer")
-
-            map("n", "<leader>.", function()
-                builtin.grep_string({
-                    previewer = false,
-                    layout_config = { height = 0.7, width = 0.9 }
-                })
-            end, "Grep current word")
-
-            map("n", "<leader>fw", function()
-                vim.ui.input({ prompt = "Grep> " }, function(s)
-                    if s ~= "" then
-                        builtin.grep_string({
-                            search = s,
-                            previewer = false,
-                            layout_config = { height = 0.7, width = 0.9 },
-                        })
-                    end
-                end)
-            end, "Grep Word")
-
-            map("n", "??", function()
-                builtin.live_grep({
-                    previewer = false,
-                    prompt_title = string.format("Grep: %s", vim.fn.getcwd()),
-                    layout_config = { height = 0.9, width = 0.9 },
-                })
-            end, "Grep in project")
-
-            map("n", "<leader>h", function()
-                builtin.help_tags()
-            end, "Help Tags")
-
-            map("n", "<leader>d", function()
-                builtin.lsp_document_symbols()
-            end, "LSP Document Symbols")
-
-            map("n", "<leader>w", function()
-                builtin.lsp_dynamic_workspace_symbols()
-            end, "LSP workspace symbols")
         end,
     },
 
@@ -331,12 +276,7 @@ require "lazy".setup({
         dependencies = {
             { -- Like the panel in vscode, shows you errors and warnings from LSP
                 "folke/trouble.nvim",
-                config = function()
-                    require("trouble").setup({})
-                    vim.keymap.set("n", "<leader>e", ":Trouble diagnostics toggle<CR>")
-                    vim.keymap.set("n", "<M-e>", ":Trouble diagnostics toggle<CR>")
-                    vim.keymap.set("n", "<C-e>", ":Trouble diagnostics toggle<CR>")
-                end,
+                opts = {},
             },
             { -- Package manager for neovim install lsp servers in neovim path.
                 "williamboman/mason.nvim",
@@ -406,6 +346,9 @@ require "lazy".setup({
                         references = tele.lsp_references
                         implementation = tele.lsp_implementations
                     end
+                    map("n", "<leader>e", ":Trouble diagnostics toggle<CR>", "Trouble Toggle")
+                    map("n", "<C-e>", ":Trouble diagnostics toggle<CR>", "Trouble Toggle")
+
                     map("n", "gd", vim.lsp.buf.definition, "[g]oto [d]efinition")
                     map("n", "gD", vim.lsp.buf.declaration, "[g]oto [D]eclaration")
                     map("n", "gI", implementation, "[g]oto [i]mplementation")
