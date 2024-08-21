@@ -4,99 +4,42 @@
 -- /_/ |_/_/_/_/_/_/ /_/  \__//__/\_,_/_/ |_/___/_/\_\
 -- Minimal, fast configuration for neovim.
 
-
--- Wrap long lines
-vim.opt.wrap = true
-
--- Wrapped lines have same indentation as the actual line.
-vim.opt.breakindent = true
-
--- No annoying swapfiles
-vim.opt.swapfile = false
-
--- Disable Vim backups, we have Git :)
-vim.opt.backup = false
-
--- Save undo history
-vim.opt.undofile = true
-
--- Highlight all matches of a search pattern.
-vim.opt.hlsearch = false
-
--- Match pattern while typing.
-vim.opt.incsearch = true
-
--- Keep signcolumn always visible
-vim.opt.signcolumn = "yes"
-
--- How new splits are created
-vim.opt.splitbelow = true
+vim.opt.wrap = true        -- Wrap long lines
+vim.opt.breakindent = true -- Wrapped lines have same indentation as the actual line.
+vim.opt.swapfile = false   -- No annoying swapfiles
+vim.opt.backup = false     -- Disable Vim backups, we have Git :)
+vim.opt.undofile = true    -- Save undo history
+vim.opt.hlsearch = false   -- Highlight all matches of a search pattern.
+vim.opt.incsearch = true   -- Match pattern while typing.
+vim.opt.signcolumn = "yes" -- Keep signcolumn always visible
+vim.opt.splitbelow = true  -- How new splits are created
 vim.opt.splitright = true
-
--- TABs and indentation
-vim.opt.sw = 4
+vim.opt.sw = 4             -- TABs and indentation
 vim.opt.ts = 4
 vim.opt.expandtab = true
-
--- minimal netrw (vim default file manager)
-vim.g.netrw_browse_split = 0
+vim.g.netrw_browse_split = 0 -- minimal netrw (vim default file manager)
 vim.g.netrw_banner = 0
 vim.g.netrw_winsize = 25
-
--- vim update time
-vim.opt.timeoutlen = 300
+vim.opt.timeoutlen = 300 -- vim update time
 vim.opt.updatetime = 250
-
--- Line numbers
-vim.opt.number = true
+vim.opt.termsync = false
+vim.opt.number = true -- Line numbers
 vim.opt.relativenumber = true
 vim.opt.mouse = "a"
-
--- Case-insensitive searching UNLESS \C or capital in search
-vim.opt.ignorecase = true
+vim.opt.clipboard = "unnamedplus" -- Clipboard
+vim.opt.ignorecase = true         -- Case-insensitive searching UNLESS \C or capital in search
 vim.opt.smartcase = true
-
 vim.opt.completeopt = { 'menu', 'noinsert' }
-
--- Cursor blinking
-
--- vim.opt.guicursor:append('a:blinkon100')
-
--- Preview all substitutions(replacements).
-vim.opt.inccommand = "split"
-
--- Minimal number of screen lines to keep above and below the cursor.
-vim.opt.scrolloff = 10
-
-vim.opt.cursorline = false
-
--- Global statusline
-vim.opt.laststatus = 3
-vim.opt.statusline = '%q%w%h%r%m%F%=%l:%c'
-
+vim.opt.inccommand = "split" -- Preview all substitutions(replacements).
+vim.opt.scrolloff = 10       -- Minimal number of screen lines to keep above and below the cursor.
+vim.opt.cursorline = true
+vim.opt.laststatus = 3       -- Global statusline
 IS_WINDOWS = vim.fn.has("win32") == 1
 
--- Highlight on Yank
-vim.api.nvim_create_autocmd("TextYankPost", {
-    group = vim.api.nvim_create_augroup("YankHighlight", { clear = true }),
-    callback = function()
-        vim.highlight.on_yank()
-    end,
-})
-
--- <leader> key for keymaps mapped to <Space>
-vim.g.mapleader = " "
-
--- Clipboard
-vim.opt.clipboard = "unnamedplus"
-
--- Make yanking act like other operations
+-- Keymaps
+vim.g.mapleader = " " -- <leader> key for keymaps mapped to <Space>
 vim.keymap.set("n", "Y", "y$", { desc = "Copy whole line" })
-
--- Esc should remove incsearch highlights
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
-
--- Simpler exiting insert mode
 vim.keymap.set("i", "<C-c>", "<esc>")
 vim.keymap.set("i", "jk", "<ESC>")
 vim.keymap.set("i", "kj", "<ESC>")
@@ -113,12 +56,11 @@ function ToggleQFList()
     end
 end
 
-vim.keymap.set("n", "{", "<cmd>cprev<CR>")
-vim.keymap.set("n", "}", "<cmd>cnext<CR>")
+vim.keymap.set("n", "{", "<cmd>cprev<CR>") -- Quick fix list
+vim.keymap.set("n", "}", "<cmd>cnext<CR>") -- Quickfix list
 
 vim.keymap.set("n", "<C-q>", ToggleQFList, { desc = "Open Quickfix list" })
 vim.keymap.set("i", "<C-Space>", "<C-x><C-o>")
-
 -- When moving around always have cursor centered in screen
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
@@ -386,3 +328,46 @@ require "lazy".setup({
 })
 
 vim.cmd.colorscheme("onedark")
+
+-- Highlight on Yank
+vim.api.nvim_create_autocmd("TextYankPost", {
+    group = vim.api.nvim_create_augroup("YankHighlight", { clear = true }),
+    callback = function()
+        vim.highlight.on_yank()
+    end,
+})
+
+-- now comes the neovide, the best neovim GUI ever.
+local font = 'Monaspace Neon'
+local font_size = 17
+vim.o.guifont = string.format('%s:h%d', font, font_size)
+
+function SetFont()
+    local fontfamily = ""
+    local fontsize = ''
+
+    vim.ui.input({
+        prompt = "Font: ",
+    }, function(selected_font)
+        fontfamily = selected_font
+    end)
+
+    vim.ui.input({
+        prompt = "Size: ",
+    }, function(size)
+        fontsize = size
+    end)
+
+    if fontfamily ~= "" and fontsize ~= "" then
+        vim.o.guifont = string.format('%s:h%d', fontfamily, fontsize)
+    end
+end
+
+vim.cmd [[
+    command! Font :lua SetFont()<cr>
+]]
+
+vim.g.neovide_cursor_animation_length = 0.02
+vim.g.neovide_cursor_trail_size = 0.0
+vim.g.neovide_scroll_animation_length = 0.1
+vim.g.neovide_input_macos_option_key_is_meta = 'both'
