@@ -263,7 +263,11 @@ require "lazy".setup({
 
             }
             for k, v in pairs(telescope_keys) do
-                vim.keymap.set("n", k, require "telescope.builtin"[v], { desc = string.format("Telescope %s", v) })
+                vim.keymap.set("n", k, function()
+                    require "telescope.builtin"[v]({
+                        previewer = false
+                    })
+                end, { desc = string.format("Telescope %s", v) })
             end
         end,
     },
