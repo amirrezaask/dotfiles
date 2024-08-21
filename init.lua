@@ -113,11 +113,11 @@ function ToggleQFList()
     end
 end
 
-vim.keymap.set({ "n" }, "{", "<cmd>cprev<CR>")
-vim.keymap.set({ "n" }, "}", "<cmd>cnext<CR>")
+vim.keymap.set("n", "{", "<cmd>cprev<CR>")
+vim.keymap.set("n", "}", "<cmd>cnext<CR>")
 
-vim.keymap.set({ "n" }, "<C-q>", ToggleQFList, { desc = "Open Quickfix list" })
-vim.keymap.set({ "i" }, "<C-Space>", "<C-x><C-o>")
+vim.keymap.set("n", "<C-q>", ToggleQFList, { desc = "Open Quickfix list" })
+vim.keymap.set("i", "<C-Space>", "<C-x><C-o>")
 
 -- When moving around always have cursor centered in screen
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
@@ -150,6 +150,7 @@ vim.keymap.set("t", "<esc>", [[<C-\><C-n>]])
 vim.keymap.set("t", "<C-w><C-w>", function()
     vim.cmd([[ wincmd w ]])
 end)
+
 vim.keymap.set({ "i" }, "<C-a>", "<C-x><C-o>") -- simpler omnifunc completion
 
 -- Diagnostics
@@ -159,9 +160,7 @@ vim.keymap.set("n", "]]", vim.diagnostic.goto_next, { desc = "Diagnostics: Previ
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Set Local list" })
 
 -- W is alias for w
-vim.cmd([[
-    command! W :w
-]])
+vim.cmd([[ command! W :w ]])
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
