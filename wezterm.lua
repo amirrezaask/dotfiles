@@ -3,7 +3,7 @@ local config = {}
 
 config.font_size = 16
 config.font = wezterm.font_with_fallback {
-    'Monaspace Neon',
+    -- 'Monaspace Neon',
     -- 'Monaspace Xenon',
     -- 'Monaspace Krypton',
     -- 'Monaspace Argon',
@@ -12,7 +12,7 @@ config.font = wezterm.font_with_fallback {
     -- 'Meslo',
     -- "Consolas",
     -- 'Cascadia Mono NF',
-    'Intel One Mono',
+    -- 'Intel One Mono',
     'Jetbrains Mono',
 }
 

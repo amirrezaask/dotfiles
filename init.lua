@@ -5,91 +5,27 @@
 -- Minimal, fast configuration for neovim.
 
 -- Plugins Installer
-local plugins_path = vim.fn.stdpath("data") .. "/plugins"
-plugins_report = {}
-local installed_count = 0
-local function install_plugins(plugins)
-    for i, plugin in ipairs(plugins) do
-        local spec = {}
-        if type(plugin) == "table" then
-            local segs = vim.split(plugin[1], "/")
-            local name = segs[#segs]
 
-            if plugin.as ~= nil then
-                name = plugin.as
-            end
-            spec.name = name
-            spec.repo = plugin[1]
-        elseif type(plugin) == "string" then
-            local segs = vim.split(plugin, "/")
-            local name = segs[#segs]
-            spec.name = name
-            spec.repo = plugin
-        else
-            vim.fn.error("unsupported type for plugin")
-        end
-
-        if string.find(spec.name, ".nvim") then
-            spec.name = string.sub(spec.name, 1, -6)
-        end
-
-        plugins[i] = {
-            name = spec.name,
-            repo = spec.repo,
-            rtp = plugins_path .. "/" .. spec.name,
-        }
-
-        if not vim.loop.fs_stat(plugins[i].rtp) then
-            local stdout = vim.uv.new_pipe()
-            local stderr = vim.uv.new_pipe()
-            vim.uv.spawn("git", {
-                args = { "clone", "https://github.com/" .. spec.repo, spec.rtp },
-                stdio = { nil, stdout, stderr },
-            }, function(code, _)
-                plugins[i].installed = code == 0
-                if plugins[i].installed then
-                    installed_count = installed_count + 1
-                    print("Plugin " .. plugins[i].name .. " installed.")
-                    if installed_count == #plugins then
-                        print(string.format("[%d/%d] plugins installed", installed_count, #plugins))
-                    end
-                end
-            end)
-            print("Installing " .. spec.name .. " !")
-            plugins_report[spec.repo] = { stdout = "", stderr = "" }
-
-
-            vim.uv.read_start(stdout, function(_, data)
-                if data then
-                    plugins_report[spec.repo].stdout = plugins_report[spec.repo].stdout .. data
-                end
-            end)
-            vim.uv.read_start(stderr, function(_, data)
-                if data then
-                    plugins_report[spec.repo].stderr = plugins_report[spec.repo].stderr .. data
-                end
-            end)
-        else
-            plugins[i].installed = true
-            installed_count = installed_count + 1
-            if installed_count == #plugins then
-                print(string.format("[%d/%d] plugins installed", installed_count, #plugins))
-            end
-        end
-    end
-
-
-    for _, plugin in ipairs(plugins) do
-        if plugin.installed then
-            vim.opt.rtp:prepend(plugin.rtp)
-        end
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not (vim.uv or vim.loop).fs_stat(lazypath) then
+    local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+    local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
+    if vim.v.shell_error ~= 0 then
+        vim.api.nvim_echo({
+            { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
+            { out,                            "WarningMsg" },
+            { "\nPress any key to exit..." },
+        }, true, {})
+        vim.fn.getchar()
+        os.exit(1)
     end
 end
+vim.opt.rtp:prepend(lazypath)
 
-install_plugins({
+require("lazy").setup({
     -- UI
     'nvim-tree/nvim-web-devicons', -- Nice icons
-    "catppuccin/nvim",
+    { "catppuccin/nvim",                          name = 'catppuccin' },
     "folke/tokyonight.nvim",
     'navarasu/onedark.nvim',
     'nvim-lualine/lualine.nvim',
@@ -100,13 +36,19 @@ install_plugins({
     -- Telescope
     "nvim-lua/plenary.nvim",
     "nvim-telescope/telescope.nvim",
-    "nvim-telescope/telescope-fzf-native.nvim",
+    { "nvim-telescope/telescope-fzf-native.nvim", build = 'make' },
     "nvim-telescope/telescope-ui-select.nvim",
+    "stevearc/conform.nvim", -- formatting
     -- LSP
     "neovim/nvim-lspconfig",
     "folke/trouble.nvim",
     "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
+
+    -- Completion popup ( I rarely use this since it affects your performance as an engineer )
+    'hrsh7th/nvim-cmp',
+    'hrsh7th/cmp-nvim-lsp',
+    'hrsh7th/cmp-buffer',
 })
 
 vim.opt.wrap = true        -- Wrap long lines
@@ -140,7 +82,7 @@ vim.opt.scrolloff = 10       -- Minimal number of screen lines to keep above and
 vim.opt.cursorline = true
 vim.opt.laststatus = 3       -- Global statusline
 IS_WINDOWS = vim.fn.has("win32") == 1
-TRANSPARENT = false
+TRANSPARENT = true
 vim.g.mapleader = " " -- <leader> key for keymaps mapped to <Space>
 vim.keymap.set("n", "Y", "y$", { desc = "Copy whole line" })
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
@@ -216,13 +158,30 @@ function SetFont()
     end)
 
     if fontfamily ~= "" and fontsize ~= "" then
+        font = fontfamily
+        font_size = tonumber(fontsize)
         vim.o.guifont = string.format('%s:h%d', fontfamily, fontsize)
     end
 end
 
+function IncFontSize()
+    font_size = font_size + 1
+    vim.o.guifont = string.format('%s:h%d', font, font_size)
+end
+
+function DecFontSize()
+    font_size = font_size - 1
+    vim.o.guifont = string.format('%s:h%d', font, font_size)
+end
+
 vim.cmd [[
     command! Font :lua SetFont()<cr>
+    command! IncFont :lua IncFontSize()<CR>
+    command! IncFont :lua DecFontSize()<CR>
 ]]
+
+vim.keymap.set({ 'n', 'i', 't', 'v' }, '<C-=>', IncFontSize)
+vim.keymap.set({ 'n', 'i', 't', 'v' }, '<C-->', DecFontSize)
 
 vim.g.neovide_cursor_animation_length = 0.02
 vim.g.neovide_cursor_trail_size = 0.0
@@ -261,10 +220,10 @@ vim.keymap.set({ "n", 'i', 't' }, '<C-j>', toggle_term)
 -- Colors and UI setup
 require("tokyonight").setup({ transparent = TRANSPARENT })
 require("catppuccin").setup({ transparent_background = TRANSPARENT })
-require("onedark").setup({ style = 'dark' })
+require("onedark").setup({ style = 'dark', transparent = TRANSPARENT })
 require("lualine").setup()
 
-vim.cmd.colorscheme("onedark")
+vim.cmd.colorscheme("catppuccin")
 
 -- Treesitter
 require("nvim-treesitter.configs").setup({
@@ -296,7 +255,7 @@ end
 
 -- LSP
 require("mason").setup()
-require("mason-lspconfig").setup({ ensure_installed = { "gopls", "rustـanalyzer", "lua_ls" } })
+require("mason-lspconfig").setup({ ensure_installed = { "gopls" } })
 local lsp_servers = {
     gopls = {},
     intelephense = {},
@@ -331,6 +290,8 @@ vim.diagnostic.config({
     },
 })
 
+require("trouble").setup()
+
 vim.api.nvim_create_autocmd("LspAttach", {
     callback = function(args)
         local bufnr = args.buf
@@ -360,20 +321,44 @@ vim.api.nvim_create_autocmd("LspAttach", {
         map("n", "<leader>f", vim.lsp.buf.format, "Format")
         map({ "n", "i" }, "<C-s>", vim.lsp.buf.signature_help, "Signature Help")
         vim.diagnostic.config({ virtual_text = false })
-
-        vim.api.nvim_create_autocmd("BufWritePre", {
-            buffer = bufnr,
-            callback = function()
-                local original_notify = vim.notify
-                vim.notify = function(msg, log_level, opts)
-                    if msg ~= "No code actions available" then
-                        original_notify(msg, log_level, opts)
-                    end
-                end
-                vim.lsp.buf.code_action({ context = { only = { "source.organizeImports" } }, apply = true })
-                vim.notify = original_notify
-                vim.lsp.buf.format()
-            end
-        })
     end,
+})
+
+-- Completion
+local cmp_select = { behavior = require("cmp").SelectBehavior.Select }
+local cmp = require("cmp")
+cmp.setup({
+    preselect = require("cmp.types").cmp.PreselectMode.None,
+    window = {
+        completion = cmp.config.window.bordered(),
+        documentation = cmp.config.window.bordered(),
+    },
+    snippet = {
+        expand = function(args)
+            vim.snippet.expand(args.body)
+        end,
+    },
+    mapping = cmp.mapping.preset.insert({
+        ["<C-p>"] = cmp.mapping.select_prev_item(cmp_select),
+        ["<C-n>"] = cmp.mapping.select_next_item(cmp_select),
+        ["<C-y>"] = cmp.mapping.confirm({ select = true }),
+        ["<CR>"] = cmp.mapping.confirm({ select = true }),
+        ["<C-Space>"] = cmp.mapping.complete(),
+    }),
+    sources = {
+        -- { name = "nvim_lsp" },
+        { name = "buffer" }
+    },
+})
+
+require("conform").setup({
+    format_on_save = {
+        -- These options will be passed to conform.format()
+        timeout_ms = 500,
+        lsp_format = "fallback",
+    },
+    formatters_by_ft = {
+        lua = { "stylua", lsp_format = "fallback" },
+        go = { "goimports", "gofmt" },
+    },
 })
