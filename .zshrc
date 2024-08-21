@@ -38,7 +38,12 @@ then
     export GIT_EDITOR='nvim'
     alias vim='nvim'
 fi
-
+if command -v neovide &>/dev/null
+then
+    alias nv='neovide'
+fi
+export NEOVIDE_FORK=1
+export NEOVIDE_TABS=0
 export PATH="/usr/local/go/bin:$PATH"
 export PATH="$HOME/go/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
