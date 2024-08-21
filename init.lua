@@ -299,13 +299,6 @@ require "lazy".setup({
             }
         },
         config = function()
-            -- Diagnostics
-            vim.diagnostic.config({
-                float = {
-                    border = "rounded",
-                },
-            })
-
             local lsp_servers = {
                 gopls = {},
                 intelephense = {},
@@ -334,6 +327,11 @@ require "lazy".setup({
 
             vim.lsp.handlers["textDocument/signatureHelp"] =
                 vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
+            vim.diagnostic.config({
+                float = {
+                    border = "rounded",
+                },
+            })
 
             vim.api.nvim_create_autocmd("LspAttach", {
                 callback = function(args)
@@ -363,9 +361,15 @@ require "lazy".setup({
                     map("n", "C", vim.lsp.buf.code_action, "Code Actions")
                     map("n", "<leader>f", vim.lsp.buf.format, "Format")
                     map({ "n", "i" }, "<C-s>", vim.lsp.buf.signature_help, "Signature Help")
-
-                    -- I hate it when I am writing a piece of code that things start to get all red.
                     vim.diagnostic.config({ virtual_text = false })
+
+                    vim.api.nvim_create_autocmd("BufWritePre", {
+                        buffer = bufnr,
+                        callback = function()
+                            vim.lsp.buf.code_action({ context = { only = { "source.organizeImports" } }, apply = true })
+                            vim.lsp.buf.format()
+                        end
+                    })
                 end,
             })
         end,
