@@ -56,6 +56,8 @@ vim.opt.mouse = "a"
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 
+vim.opt.completeopt = { 'menu', 'noinsert' }
+
 -- Cursor blinking
 
 -- vim.opt.guicursor:append('a:blinkon100')
@@ -369,66 +371,6 @@ require "lazy".setup({
             })
         end,
     },
-    { -- Formatting
-        "stevearc/conform.nvim",
-        opts = function()
-            local opts = {
-                format_on_save = {
-                    -- These options will be passed to conform.format()
-                    timeout_ms = 500,
-                    lsp_format = "fallback",
-                },
-                formatters_by_ft = {
-                    lua = { "stylua", lsp_format = "fallback" },
-                    go = { "goimports", "gofmt" },
-                },
-            }
-            return opts
-        end,
-    },
-    {
-        "hrsh7th/nvim-cmp",
-        dependencies = {
-            "hrsh7th/cmp-nvim-lsp",
-            "hrsh7th/cmp-path",
-            "hrsh7th/cmp-buffer",
-            "hrsh7th/cmp-vsnip",
-            "hrsh7th/vim-vsnip",
-        },
-        config = function()
-            local cmp_select = { behavior = require("cmp").SelectBehavior.Select }
-            local cmp = require("cmp")
-            cmp.setup({
-                preselect = require("cmp.types").cmp.PreselectMode.None,
-                completion = {
-                    autocomplete = false,
-                },
-                window = {
-                    completion = cmp.config.window.bordered(),
-                    documentation = cmp.config.window.bordered(),
-                },
-                snippet = {
-                    expand = function(args)
-                        vim.fn["vsnip#anonymous"](args.body)
-                    end,
-                },
-                mapping = cmp.mapping.preset.insert({
-                    ["<C-p>"] = cmp.mapping.select_prev_item(cmp_select),
-                    ["<C-n>"] = cmp.mapping.select_next_item(cmp_select),
-                    ["<C-y>"] = cmp.mapping.confirm({ select = true }),
-                    ["<CR>"] = cmp.mapping.confirm({ select = true }),
-                    ["<C-Space>"] = cmp.mapping.complete(),
-                }),
-                sources = {
-                    { name = "nvim_lsp" },
-                    { name = "buffer" },
-                    { name = "path" },
-                },
-            })
-        end,
-    },
-
-
 }, {
     change_detection = {
         notify = false
