@@ -8,7 +8,7 @@
 	"index_files": true,
 	"theme": "Adaptive.sublime-theme",
 	"show_errors_inline": false,
-	"color_scheme": "GingerBill.sublime-color-scheme",
+	"color_scheme": "Packages/User/aura.tmTheme",
 	"word_wrap": true,
 	"auto_complete": false,
 	"highlight_line": true,
