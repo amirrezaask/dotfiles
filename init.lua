@@ -26,6 +26,8 @@ require("lazy").setup({
     'nvim-tree/nvim-web-devicons',
     { "catppuccin/nvim",  name = 'catppuccin' },
     { "rose-pine/neovim", name = 'rose-pine' },
+    'danilo-augusto/vim-afterglow',
+    'juanedi/predawn.vim',
     "folke/tokyonight.nvim",
     'navarasu/onedark.nvim',
     'nvim-lualine/lualine.nvim',

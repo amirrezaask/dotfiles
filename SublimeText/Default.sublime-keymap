@@ -30,6 +30,12 @@
             {"key": "auto_complete_visible", "operand": false}
         ]
     },
+    // Hover Popup
+    {
+        "keys": ["ctrl+."],
+        "command": "lsp_hover",
+        "context": [{"key": "lsp.session_with_capability", "operand": "hoverProvider"}]
+    },
     { 
         "keys": ["command+."],
         "command": "lsp_symbol_definition",
