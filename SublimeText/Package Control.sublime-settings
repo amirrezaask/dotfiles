@@ -7,9 +7,11 @@
 	[
 		"LSP",
 		"LSP-gopls",
+		"LSP-intelephense",
 		"Odin",
 		"Package Control",
 		"SideBarEnhancements",
 		"Terminus",
+		"Theme - Spacegray",
 	],
 }
