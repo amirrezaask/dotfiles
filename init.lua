@@ -23,34 +23,29 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-    -- UI
-    'nvim-tree/nvim-web-devicons', -- Nice icons
-    { "catppuccin/nvim",                          name = 'catppuccin' },
+    'nvim-tree/nvim-web-devicons',
+    { "catppuccin/nvim",  name = 'catppuccin' },
+    { "rose-pine/neovim", name = 'rose-pine' },
     "folke/tokyonight.nvim",
     'navarasu/onedark.nvim',
     'nvim-lualine/lualine.nvim',
     'stevearc/oil.nvim',
     "folke/ts-comments.nvim",
     "nvim-pack/nvim-spectre",
-    "nvim-treesitter/nvim-treesitter", -- Treesitter
-    -- Telescope
+    "nvim-treesitter/nvim-treesitter",
     "nvim-lua/plenary.nvim",
     "nvim-telescope/telescope.nvim",
     { "nvim-telescope/telescope-fzf-native.nvim", build = 'make' },
     "nvim-telescope/telescope-ui-select.nvim",
-    "stevearc/conform.nvim", -- formatting
-    -- LSP
+    "stevearc/conform.nvim",
     "neovim/nvim-lspconfig",
     "folke/trouble.nvim",
     "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
-
-    -- Completion popup ( I rarely use this since it affects your performance as an engineer )
     'hrsh7th/nvim-cmp',
     'hrsh7th/cmp-nvim-lsp',
     'hrsh7th/cmp-buffer',
 
-    "kdheepak/lazygit.nvim",
 })
 
 vim.opt.wrap = true        -- Wrap long lines
@@ -140,56 +135,58 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 })
 
 -- Neovide
-local font = 'Monaspace Neon'
-local font_size = 17
-vim.o.guifont = string.format('%s:h%d', font, font_size)
+if vim.g.neovide then
+    local font = 'JetBrainsMono Nerd Font Mono'
+    local font_size = 17
+    vim.o.guifont = string.format('%s:h%d', font, font_size)
 
-function SetFont()
-    local fontfamily = ""
-    local fontsize = ''
+    function SetFont()
+        local fontfamily = ""
+        local fontsize = ''
 
-    vim.ui.input({
-        prompt = "Font: ",
-    }, function(selected_font)
-        fontfamily = selected_font
-    end)
+        vim.ui.input({
+            prompt = "Font: ",
+        }, function(selected_font)
+            fontfamily = selected_font
+        end)
 
-    vim.ui.input({
-        prompt = "Size: ",
-    }, function(size)
-        fontsize = size
-    end)
+        vim.ui.input({
+            prompt = "Size: ",
+        }, function(size)
+            fontsize = size
+        end)
 
-    if fontfamily ~= "" and fontsize ~= "" then
-        font = fontfamily
-        font_size = tonumber(fontsize)
-        vim.o.guifont = string.format('%s:h%d', fontfamily, fontsize)
+        if fontfamily ~= "" and fontsize ~= "" then
+            font = fontfamily
+            font_size = tonumber(fontsize)
+            vim.o.guifont = string.format('%s:h%d', fontfamily, fontsize)
+        end
     end
+
+    function IncFontSize()
+        font_size = font_size + 1
+        vim.o.guifont = string.format('%s:h%d', font, font_size)
+    end
+
+    function DecFontSize()
+        font_size = font_size - 1
+        vim.o.guifont = string.format('%s:h%d', font, font_size)
+    end
+
+    vim.cmd [[
+        command! Font :lua SetFont()<cr>
+        command! IncFont :lua IncFontSize()<CR>
+        command! IncFont :lua DecFontSize()<CR>
+    ]]
+
+    vim.keymap.set({ 'n', 'i', 't', 'v' }, '<C-=>', IncFontSize)
+    vim.keymap.set({ 'n', 'i', 't', 'v' }, '<C-->', DecFontSize)
+
+    vim.g.neovide_cursor_animation_length = 0.02
+    vim.g.neovide_cursor_trail_size = 0.0
+    vim.g.neovide_scroll_animation_length = 0.1
+    vim.g.neovide_input_macos_option_key_is_meta = 'both'
 end
-
-function IncFontSize()
-    font_size = font_size + 1
-    vim.o.guifont = string.format('%s:h%d', font, font_size)
-end
-
-function DecFontSize()
-    font_size = font_size - 1
-    vim.o.guifont = string.format('%s:h%d', font, font_size)
-end
-
-vim.cmd [[
-    command! Font :lua SetFont()<cr>
-    command! IncFont :lua IncFontSize()<CR>
-    command! IncFont :lua DecFontSize()<CR>
-]]
-
-vim.keymap.set({ 'n', 'i', 't', 'v' }, '<C-=>', IncFontSize)
-vim.keymap.set({ 'n', 'i', 't', 'v' }, '<C-->', DecFontSize)
-
-vim.g.neovide_cursor_animation_length = 0.02
-vim.g.neovide_cursor_trail_size = 0.0
-vim.g.neovide_scroll_animation_length = 0.1
-vim.g.neovide_input_macos_option_key_is_meta = 'both'
 
 -- Terminal Emulator
 local toggle_term_size_scale = 0.4
@@ -224,16 +221,28 @@ vim.keymap.set({ "n", 'i', 't' }, '<C-j>', toggle_term)
 require("tokyonight").setup({ transparent = TRANSPARENT })
 require("catppuccin").setup({ transparent_background = TRANSPARENT })
 require("onedark").setup({ style = 'dark', transparent = TRANSPARENT })
+require("rose-pine").setup({
+    styles = {
+        bold = true,
+        italic = false,
+        transparency = false,
+    }
+})
 require("lualine").setup()
 
-vim.cmd.colorscheme("catppuccin")
+vim.cmd.colorscheme("rose-pine")
+
+if TRANSPARENT then
+    vim.cmd [[
+        hi! Normal guibg=none
+    ]]
+end
 
 -- Treesitter
 require("nvim-treesitter.configs").setup({
     ensure_installed = { "lua", "go", "gomod", "markdown", "php", "c", "cpp" },
     highlight = { enable = true },
 })
-
 
 -- Telescope
 require('telescope').load_extension('fzf')
@@ -280,19 +289,6 @@ for server, config in pairs(lsp_servers) do
     require("lspconfig")[server].setup(config)
 end
 
--- LspInfo window have rounded border
-require("lspconfig.ui.windows").default_options.border = "single"
-vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover,
-    { border = "rounded" })
-
-vim.lsp.handlers["textDocument/signatureHelp"] =
-    vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
-vim.diagnostic.config({
-    float = {
-        border = "rounded",
-    },
-})
-
 require("trouble").setup()
 
 vim.api.nvim_create_autocmd("LspAttach", {
@@ -327,15 +323,12 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end,
 })
 
+
 -- Completion
 local cmp_select = { behavior = require("cmp").SelectBehavior.Select }
 local cmp = require("cmp")
 cmp.setup({
     preselect = require("cmp.types").cmp.PreselectMode.None,
-    window = {
-        completion = cmp.config.window.bordered(),
-        documentation = cmp.config.window.bordered(),
-    },
     snippet = {
         expand = function(args)
             vim.snippet.expand(args.body)
