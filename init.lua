@@ -114,6 +114,7 @@ vim.keymap.set("n", "<leader>l", vim.diagnostic.open_float, { desc = "Diagnostic
 vim.keymap.set("n", "[[", vim.diagnostic.goto_prev, { desc = "Diagnostics: Next" })
 vim.keymap.set("n", "]]", vim.diagnostic.goto_next, { desc = "Diagnostics: Previous" })
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Set Local list" })
+vim.keymap.set("n", "<leader>g", "<cmd>LazyGit<CR>", { desc = "Lazy Git" })
 vim.cmd([[ command! W :w ]])
 
 -- Quickfix list
