@@ -23,7 +23,6 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-    'nvim-tree/nvim-web-devicons',
     { "catppuccin/nvim",  name = 'catppuccin' },
     { "rose-pine/neovim", name = 'rose-pine' },
     'danilo-augusto/vim-afterglow',
@@ -230,7 +229,11 @@ require("rose-pine").setup({
         transparency = false,
     }
 })
-require("lualine").setup()
+require("lualine").setup({
+    options = {
+        icons_enabled = false,
+    }
+})
 
 vim.cmd.colorscheme("rose-pine")
 

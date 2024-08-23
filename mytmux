@@ -9,7 +9,7 @@ if ! tmux has-session -t=0 2>/dev/null; then
     tmux neww -c "$HOME/w/ipg" -n "IPG"
     tmux neww -c "$HOME/w/tweety" -n "Tweety"
     tmux neww -c "$HOME/w/neofinancial/" -n "Neofinancial"
-    tmux neww -c "$HOME/w/sif/" -n "TheCompiler"
+    tmux neww -c "$HOME/w/doctorcli/" -n "DoctorCLI"
     tmux neww -c "$HOME/w/dotfiles" -n "Dotfiles"
 fi
 
