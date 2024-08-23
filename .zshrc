@@ -91,3 +91,4 @@ gdoc() {
 
 alias tabtitle='wezterm cli set-tab-title'
 
+export PATH="/opt/homebrew/opt/mysql-client/bin:$PATH"

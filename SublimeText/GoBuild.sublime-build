@@ -1,5 +1,5 @@
 {
-	"cmd": ["go", "build", "./..."],
+	"cmd": ["go", "build", "-o", "$folder", "."],
 	"file_patterns": ["*.go"],
 	"file_regex": "^(...*?):([0-9]*):([0-9]*)",
 	// "quiet": true,
