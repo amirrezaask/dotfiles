@@ -28,6 +28,7 @@ require("lazy").setup({
     'danilo-augusto/vim-afterglow',
     'juanedi/predawn.vim',
     "folke/tokyonight.nvim",
+    "ellisonleao/gruvbox.nvim",
     'navarasu/onedark.nvim',
     'nvim-lualine/lualine.nvim',
     'stevearc/oil.nvim',
@@ -80,7 +81,7 @@ vim.opt.scrolloff = 10       -- Minimal number of screen lines to keep above and
 vim.opt.cursorline = true
 vim.opt.laststatus = 3       -- Global statusline
 IS_WINDOWS = vim.fn.has("win32") == 1
-TRANSPARENT = true
+TRANSPARENT = false
 vim.g.mapleader = " " -- <leader> key for keymaps mapped to <Space>
 vim.keymap.set("n", "Y", "y$", { desc = "Copy whole line" })
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
@@ -229,19 +230,30 @@ require("rose-pine").setup({
         transparency = false,
     }
 })
+require("gruvbox").setup({
+    italic = {
+        strings = false,
+        emphasis = false,
+        comments = false,
+        operators = false,
+        folds = false,
+    },
+    transparent_mode = TRANSPARENT,
+})
+
 require("lualine").setup({
     options = {
         icons_enabled = false,
     }
 })
 
-vim.cmd.colorscheme("rose-pine")
+vim.cmd.colorscheme("gruvbox")
 
-if TRANSPARENT then
-    vim.cmd [[
-        hi! Normal guibg=none
-    ]]
-end
+-- if TRANSPARENT then
+--     vim.cmd [[
+--         hi! Normal guibg=none
+--     ]]
+-- end
 
 -- Treesitter
 require("nvim-treesitter.configs").setup({
