@@ -239,6 +239,7 @@ require("gruvbox").setup({
         folds = false,
     },
     transparent_mode = TRANSPARENT,
+    contrast = 'hard'
 })
 
 require("lualine").setup({
