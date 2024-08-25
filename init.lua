@@ -261,9 +261,53 @@ require("nvim-treesitter.configs").setup({
     highlight = { enable = true },
 })
 
+local augroup = vim.api.nvim_create_augroup("amirreza-chcwd", {})
+vim.api.nvim_create_autocmd("BufEnter", {
+    callback = function(ev)
+        local filename = ev.file
+        local start_from = vim.fs.dirname(filename)
+
+        local root = vim.fs.dirname(
+            vim.fs.find({ ".git", "go.mod", "package.json", "cargo.toml" },
+                { upward = true, path = start_from })[1]
+        )
+        if root ~= nil and root ~= "" then
+            local abs_path = require("plenary.path").new(root or vim.fn.getcwd()):absolute()
+            vim.fn.chdir(abs_path)
+        end
+    end,
+    group = augroup,
+})
+
 -- Telescope
 require('telescope').load_extension('fzf')
 require("telescope").load_extension("ui-select")
+
+local projects_root = "~/w"
+if IS_WINDOWS then
+    projects_root = "C:/w"
+end
+
+local function find_projects()
+    local repos = vim.fs.find({ ".git" }, { limit = math.huge, path = projects_root })
+    local paths = {}
+    for _, repo in ipairs(repos) do
+        table.insert(paths, vim.fs.dirname(repo))
+    end
+
+    return paths
+end
+local function telescope_find_project()
+    vim.ui.select(find_projects(), {
+        prompt = "Select Project:",
+    }, function(proj)
+        if proj == "" or proj == nil then
+            return
+        end
+        require("telescope.builtin").find_files({ previewer = false, cwd = proj })
+    end)
+end
+
 local telescope_keys = {
     ["<leader>p"] = "git_files",
     ["<leader><leader>"] = "find_files",
@@ -271,14 +315,20 @@ local telescope_keys = {
     ["<leader>h"] = "help_tags",
     ["<leader>b"] = "buffers",
     ["<leader>fs"] = "lsp_dynamic_workspace_symbols",
-
+    ["<leader>fp"] = telescope_find_project,
 }
+
+
 for k, v in pairs(telescope_keys) do
-    vim.keymap.set("n", k, function()
-        require "telescope.builtin"[v]({
-            previewer = false
-        })
-    end, { desc = string.format("Telescope %s", v) })
+    if type(v) == "string" then
+        vim.keymap.set("n", k, function()
+            require "telescope.builtin"[v]({
+                previewer = false
+            })
+        end, {})
+    elseif type(v) == "function" then
+        vim.keymap.set("n", k, v)
+    end
 end
 
 
