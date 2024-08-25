@@ -44,24 +44,35 @@ local tmux_prefix = { key = 'a', mods = 'CTRL' }
 -- end
 
 local function tmux_with_prefix_key_action(tmux_key)
-    return Multiple {
-        SendKey(tmux_prefix),
-        SendKey({ key = tmux_key })
-    }
+    if type(tmux_key) == "string" then
+        return Multiple {
+            SendKey(tmux_prefix),
+            SendKey({ key = tmux_key })
+        }
+    elseif type(tmux_key) == "table" then
+        return Multiple {
+            SendKey(tmux_prefix),
+            SendKey(tmux_key)
+        }
+    end
 end
 
 config.keys = {
-    { mods = 'CMD',       key = 't',          action = tmux_with_prefix_key_action('c') }, -- Command+T new tmux window
+    { mods = 'CMD',       key = 't',          action = tmux_with_prefix_key_action('c') },                          -- Command+T new tmux window
 
-    { mods = 'CMD',       key = 'p',          action = tmux_with_prefix_key_action('p') }, -- Command+P  previous window
-    { mods = 'CMD',       key = 'n',          action = tmux_with_prefix_key_action('n') }, -- Command+N  next window
-    { mods = 'CMD',       key = 'LeftArrow',  action = tmux_with_prefix_key_action('p') }, -- Command+<- previous window
-    { mods = 'CMD',       key = 'RightArrow', action = tmux_with_prefix_key_action('n') }, -- Command+-> next window
+    { mods = 'CMD|SHIFT', key = 'p',          action = tmux_with_prefix_key_action('s') },                          -- Command+Shift+P  switch session
+    { mods = 'CMD',       key = 'o',          action = tmux_with_prefix_key_action({ key = 'w', mods = 'CTRL' }) }, -- Command+o  tmux-windowizer
+    { mods = 'CMD|SHIFT', key = 'o',          action = tmux_with_prefix_key_action({ key = 's', mods = 'CTRL' }) }, -- Command+Shift+o  tmux-sessionizer
 
-    { mods = 'CMD',       key = 'w',          action = tmux_with_prefix_key_action('x') }, -- Command+W close window
+    { mods = 'CMD',       key = 'p',          action = tmux_with_prefix_key_action('p') },                          -- Command+P  previous window
+    { mods = 'CMD',       key = 'n',          action = tmux_with_prefix_key_action('n') },                          -- Command+N  next window
+    { mods = 'CMD',       key = 'LeftArrow',  action = tmux_with_prefix_key_action('p') },                          -- Command+<- previous window
+    { mods = 'CMD',       key = 'RightArrow', action = tmux_with_prefix_key_action('n') },                          -- Command+-> next window
 
-    { mods = 'CMD',       key = 'd',          action = tmux_with_prefix_key_action('%') }, -- Command+d split window vertically
-    { mods = 'CMD|SHIFT', key = 'D',          action = tmux_with_prefix_key_action('"') }, -- Command+Shift+d split window horizontally
+    { mods = 'CMD',       key = 'w',          action = tmux_with_prefix_key_action('x') },                          -- Command+W close window
+
+    { mods = 'CMD',       key = 'd',          action = tmux_with_prefix_key_action('%') },                          -- Command+d split window vertically
+    { mods = 'CMD|SHIFT', key = 'D',          action = tmux_with_prefix_key_action('"') },                          -- Command+Shift+d split window horizontally
 }
 
 config.adjust_window_size_when_changing_font_size = false
