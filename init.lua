@@ -47,7 +47,6 @@ require("lazy").setup({
     'hrsh7th/nvim-cmp',
     'hrsh7th/cmp-nvim-lsp',
     'hrsh7th/cmp-buffer',
-
 })
 
 vim.opt.wrap = true        -- Wrap long lines
@@ -248,7 +247,7 @@ require("lualine").setup({
     }
 })
 
-vim.cmd.colorscheme("gruvbox")
+vim.cmd.colorscheme("tokyonight-night")
 
 -- if TRANSPARENT then
 --     vim.cmd [[
