@@ -32,6 +32,9 @@ config.window_padding = {
 config.use_fancy_tab_bar = false
 config.tab_bar_at_bottom = true
 
+
+local tmux_enabled = true
+
 local tmux_prefix = { key = 'a', mods = 'CTRL' }
 
 -- local function tmux_command_action(command) -- BROKEN

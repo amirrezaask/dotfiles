@@ -13,8 +13,9 @@ install:
 	rm -rf $(HOME)/.emacs
 	rm -rf $(XDG_CONFIG)/wezterm
 	rm -rf $(XDG_CONFIG)/starship.toml
-	rm  $(HOME)/go/bin/tmux-windowizer
-	rm $(HOME)/go/bin/tmux-sessionizer
+	rm -rf $(HOME)/go/bin/tmux-windowizer
+	rm -rf $(HOME)/go/bin/tmux-sessionizer
+	rm -rf $(HOME)/go/bin/tmux-switch
 	mkdir -p $(XDG_CONFIG)/i3
 	mkdir -p $(XDG_CONFIG)/alacritty
 	mkdir -p $(XDG_CONFIG)/nvim
@@ -34,6 +35,7 @@ install:
 	ln -s $(DOTFILES_DIR)/starship.toml $(XDG_CONFIG)/starship.toml
 	ln -s $(DOTFILES_DIR)/tmux-sessionizer $(HOME)/go/bin/
 	ln -s $(DOTFILES_DIR)/tmux-windowizer $(HOME)/go/bin/
+	ln -s $(DOTFILES_DIR)/tmux-switch $(HOME)/go/bin/
 
 sublime-mac:
 	ln -s "$(DOTFILES_DIR)/SublimeText" "$(HOME)/Library/Application Support/Sublime Text 3/Packages/User"

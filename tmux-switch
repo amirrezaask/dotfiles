@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+selected=$(tmux ls | fzf | cut -f1 -d':')
+echo $selected
+if [[ -z $TMUX ]]; then # if we are not inside tmux session, attach to tmux session otherwise switch.
+    tmux attach -t "$selected"
+    exit 0
+else
+    tmux switch-client -t "$selected"
+fi
+
