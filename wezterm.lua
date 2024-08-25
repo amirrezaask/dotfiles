@@ -30,35 +30,28 @@ local config = {
     use_fancy_tab_bar = false,
     tab_bar_at_bottom = true,
 }
-
-local TMUX_ENABLED = false
-
-local tmux_prefix = { key = 'a', mods = 'CTRL' }
-local function tmux_with_prefix_key_action(tmux_key)
-    if type(tmux_key) == "string" then
-        return Multiple {
-            SendKey(tmux_prefix),
-            SendKey({ key = tmux_key })
-        }
-    elseif type(tmux_key) == "table" then
-        return Multiple {
-            SendKey(tmux_prefix),
-            SendKey(tmux_key)
-        }
-    end
-end
-
 local function wt_key(spec)
     if config.keys == nil then config.keys = {} end
     table.insert(config.keys, spec)
 end
 
-wt_key({ mods = 'CMD', key = 'p', action = action.ActivateTabRelative(-1) })
-wt_key({ mods = 'CMD', key = 'n', action = action.ActivateTabRelative(1) })
-wt_key({ mods = 'CMD', key = 't', action = action.SpawnTab('CurrentPaneDomain') })
-wt_key({ mods = 'CMD', key = 'w', action = action.CloseCurrentTab({ confirm = false }) })
 
+local TMUX_ENABLED = false
 if TMUX_ENABLED then
+    local tmux_prefix = { key = 'a', mods = 'CTRL' }
+    local function tmux_with_prefix_key_action(tmux_key)
+        if type(tmux_key) == "string" then
+            return Multiple {
+                SendKey(tmux_prefix),
+                SendKey({ key = tmux_key })
+            }
+        elseif type(tmux_key) == "table" then
+            return Multiple {
+                SendKey(tmux_prefix),
+                SendKey(tmux_key)
+            }
+        end
+    end
     wt_key({ mods = 'CMD', key = 't', action = tmux_with_prefix_key_action('c') })                                -- Command+T new tmux window
     wt_key({ mods = 'CMD|SHIFT', key = 'p', action = tmux_with_prefix_key_action('s') })                          -- Command+Shift+P  switch session
     wt_key({ mods = 'CMD', key = 'o', action = tmux_with_prefix_key_action({ key = 'w', mods = 'CTRL' }) })       -- Command+o  tmux-windowizer
@@ -72,6 +65,14 @@ if TMUX_ENABLED then
     wt_key({ mods = 'CMD|SHIFT', key = 'D', action = tmux_with_prefix_key_action('"') })                          -- Command+Shift+d split window horizontally
 end
 
+
+wt_key({ mods = 'CMD', key = 'p', action = action.ActivateTabRelative(-1) })
+wt_key({ mods = 'CMD', key = 'n', action = action.ActivateTabRelative(1) })
+wt_key({ mods = 'CMD', key = 't', action = action.SpawnTab('CurrentPaneDomain') })
+wt_key({ mods = 'CMD', key = 'w', action = action.CloseCurrentTab({ confirm = false }) })
+wt_key({ mods = 'CMD', key = 'd', action = action.SplitHorizontal({ domain = 'CurrentPaneDomain' }) })
+wt_key({ mods = 'CMD|SHIFT', key = 'd', action = action.SplitVertical({ domain = 'CurrentPaneDomain' }) })
+wt_key({ key = 'r', mods = 'CMD|SHIFT', action = wezterm.action.ReloadConfiguration, })
 wt_key({
     mods = "CMD",
     key = "Enter",
