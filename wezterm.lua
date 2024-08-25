@@ -14,7 +14,7 @@ local config = {
         -- 'Monaspace Krypton',
         -- 'Monaspace Argon',
         -- 'Monaspace Radon',
-        'MesloLGL Nerd Font Mono',
+        -- 'MesloLGL Nerd Font Mono',
         'JetBrainsMono Nerd Font Mono',
         'Jetbrains Mono',
         'Cascadia Mono NF',
@@ -29,7 +29,7 @@ local config = {
     },
     use_fancy_tab_bar = false,
     tab_bar_at_bottom = true,
-    color_scheme = 'Tokyo Night (Gogh)',
+    color_scheme = 'tokyonight_night',
 }
 local function wt_key(spec)
     if config.keys == nil then config.keys = {} end
