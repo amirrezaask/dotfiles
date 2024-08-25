@@ -428,3 +428,7 @@ require("conform").setup({
         go = { "goimports", "gofmt" },
     },
 })
+
+function Test()
+    print("Test")
+end
