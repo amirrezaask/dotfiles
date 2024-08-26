@@ -1,0 +1,16 @@
+{
+	"font_size": 17,
+	"ignored_packages":
+	[
+		"Vintage",
+	],
+	"hot_exit": "disabled",
+	"index_files": true,
+	"theme": "Adaptive.sublime-theme",
+	"show_errors_inline": false,
+	"color_scheme": "Packages/Material Theme/schemes/Material-Theme-Darker.tmTheme",
+	"word_wrap": true,
+	"auto_complete": false,
+	"highlight_line": true,
+	"caret_style": "smooth",
+}
