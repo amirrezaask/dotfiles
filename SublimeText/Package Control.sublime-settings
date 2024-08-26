@@ -8,10 +8,13 @@
 		"LSP",
 		"LSP-gopls",
 		"LSP-intelephense",
+		"Materialize",
 		"Odin",
 		"Package Control",
+		"Pastery",
 		"SideBarEnhancements",
 		"Terminus",
+		"Text Pastry",
 		"Theme - Spacegray",
 	],
 }
