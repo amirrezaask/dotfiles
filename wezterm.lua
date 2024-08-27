@@ -9,12 +9,6 @@ local config = {
     tab_max_width = 20,
     font_size = 16,
     font = wezterm.font_with_fallback {
-        -- 'Monaspace Neon',
-        -- 'Monaspace Xenon',
-        -- 'Monaspace Krypton',
-        -- 'Monaspace Argon',
-        -- 'Monaspace Radon',
-        -- 'MesloLGL Nerd Font Mono',
         'JetBrainsMono Nerd Font Mono',
         'Jetbrains Mono',
         'Cascadia Mono NF',
@@ -29,7 +23,7 @@ local config = {
     },
     use_fancy_tab_bar = false,
     tab_bar_at_bottom = true,
-    color_scheme = 'Catppuccin Macchiato',
+    -- color_scheme = 'Catppuccin Macchiato',
 }
 local function wt_key(spec)
     if config.keys == nil then config.keys = {} end
@@ -81,7 +75,5 @@ wt_key({
         args = { "/opt/homebrew/bin/fish", "-ic", "~/go/bin/cd-project" }
     })
 })
-
-
 
 return config
