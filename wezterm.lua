@@ -29,7 +29,7 @@ local config = {
     },
     use_fancy_tab_bar = false,
     tab_bar_at_bottom = true,
-    color_scheme = 'tokyonight_night',
+    color_scheme = 'Catppuccin Macchiato',
 }
 local function wt_key(spec)
     if config.keys == nil then config.keys = {} end
