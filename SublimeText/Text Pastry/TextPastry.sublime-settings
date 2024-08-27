@@ -1,0 +1,28 @@
+{
+    "clipboard_strip_newline": true,
+    "repeat_words": true,
+    "repeat_clipboard": false,
+    "history_enabled": false,
+    "keep_selection": true,
+    "history_max_entries": 100,
+    "repeat_preset": true,
+    "insert_text_threshold": 3,
+
+    "date_format": "%x",
+    "parse_date_formats": ["%x", "%d.%m.%Y", "%Y-%m-%d"],
+
+    "tracker_enabled": true,
+    "tracker_autostart": false,
+    "tracker_log_enabled": true,
+    "tracker_interval": 0.5,
+
+    "paste_gun_append_clipboard_to_ammo": true,
+    "paste_gun_keep_selection": false,
+    "paste_gun_ammo_xarg": 100,
+
+    "path": {
+        "linux": [],
+        "osx": [ "/usr/local/bin" ],
+        "windows": []
+    }
+}

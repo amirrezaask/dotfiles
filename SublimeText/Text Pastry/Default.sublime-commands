@@ -1,0 +1,86 @@
+[{
+    "caption": "Text Pastry: From 0 To X",
+    "command": "text_pastry_range",
+    "args": {"start": 0, "step": 1, "padding": 1}
+}, {
+    "caption": "Text Pastry: From 1 To X",
+    "command": "text_pastry_range",
+    "args": {"start": 1, "step": 1, "padding": 1}
+}, {
+    "caption": "Text Pastry: From X To 0",
+    "command": "text_pastry_range",
+    "args": {"stop": 0, "step": -1, "padding": 1}
+}, {
+    "caption": "Text Pastry: From X To 1",
+    "command": "text_pastry_range",
+    "args": {"stop": 1, "step": -1, "padding": 1}
+}, {
+    "caption": "Text Pastry: Generate a list of numbers from 1 to 100",
+    "command": "text_pastry_number_generator",
+    "args": {"start": 1, "stop": 100, "step": 1}
+}, {
+    "caption": "Text Pastry: Range (numeric)",
+    "command": "text_pastry_show_command_line",
+    "args": {"text": "range "}
+}, {
+    "caption": "Text Pastry: Paste Lines",
+    "command": "text_pastry_insert_text",
+    "args": {"text": "", "clipboard": true, "separator": "\\n"}
+}, {
+    "caption": "Text Pastry: Paste",
+    "command": "text_pastry_insert_text",
+    "args": {"text": "", "clipboard": true}
+}, {
+    "caption": "Text Pastry: uuid (lower-case)",
+    "command": "text_pastry_uuid"
+}, {
+    "caption": "Text Pastry: UUID",
+    "command": "text_pastry_uuid",
+    "args": {"uppercase": true}
+}, {
+    "caption": "Text Pastry: Find",
+    "command": "text_pastry_show_command_line",
+    "args": {"text": "find "}
+}, {
+    "caption": "Text Pastry: Add selection",
+    "command": "text_pastry_show_command_line",
+    "args": {"text": "add "}
+}, {
+    "caption": "Text Pastry: Reduce selection",
+    "command": "text_pastry_show_command_line",
+    "args": {"text": "reduce "}
+}, {
+    "caption": "Text Pastry: Filter selection",
+    "command": "text_pastry_show_command_line",
+    "args": {"text": "filter "}
+}, {
+    "caption": "Text Pastry: Split selection",
+    "command": "text_pastry_show_command_line",
+    "args": {"text": "filter "}
+}, {
+    "caption": "Text Pastry: Command-Line",
+    "command": "text_pastry_show_command_line",
+    "args": {"text": ""}
+}, {
+    "caption": "Text Pastry: Show Piping Bag",
+    "command": "text_pastry_open_clipboard_ammo"
+}, {
+    "caption": "Text Pastry: Pipe into selection",
+    "command": "text_pastry_paste_gun_multi_select"
+}, {
+    "caption": "Text Pastry: Reset the Piping Bag",
+    "command": "text_pastry_reset_ammo_position"
+}, {
+    "caption": "Text Pastry: Show Clipboard Viewer",
+    "command": "text_pastry_open_clipboard"
+}, {
+    "caption": "Text Pastry: Menu",
+    "command": "text_pastry_show_menu"
+}, {
+    "caption": "Text Pastry: Settings",
+    "command": "text_pastry_show_menu",
+    "args": {"settings": true, "back": false}
+}, {
+    "caption": "Text Pastry: Focus",
+    "command": "text_pastry_focus"
+}]
