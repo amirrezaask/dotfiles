@@ -17,6 +17,7 @@
         "command": "lsp_hover",
         "context": [{"key": "lsp.session_with_capability", "operand": "hoverProvider"}]
     },
+    { "keys": ["command+."], "command": "goto_definition" },
     { 
         "keys": ["command+."],
         "command": "lsp_symbol_definition",

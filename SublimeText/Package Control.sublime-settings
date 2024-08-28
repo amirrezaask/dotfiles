@@ -5,6 +5,7 @@
 	],
 	"installed_packages":
 	[
+		"Inspired GitHub Color Scheme",
 		"LSP",
 		"LSP-gopls",
 		"LSP-intelephense",
@@ -13,5 +14,6 @@
 		"Package Control",
 		"Terminus",
 		"Text Pastry",
+		"TOML",
 	],
 }

@@ -1,18 +1,23 @@
 {
-	"font_size": 13,
+	"font_face": "Intel One Mono",
+	"font_size": 16,
 	"ignored_packages":
 	[
+		"LSP",
+		"LSP-gopls",
+		"LSP-intelephense",
 		"Vintage",
 	],
 	"hot_exit": "disabled",
 	"index_files": true,
 	"theme": "Adaptive.sublime-theme",
 	"show_errors_inline": false,
-	"color_scheme": "GingerBill.sublime-color-scheme",
+	"color_scheme": "Packages/Inspired GitHub Color Scheme/InspiredGitHub.tmTheme",
 	"word_wrap": true,
-	// "auto_complete": false,
+	"auto_complete": false,
 	"highlight_line": true,
 	"caret_style": "phase",
 	"line_padding_top": 5,
 	"line_padding_bottom": 5,
+
 }
