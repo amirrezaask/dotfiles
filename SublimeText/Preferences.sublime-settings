@@ -1,6 +1,6 @@
 {
-	"font_face": "Intel One Mono",
-	"font_size": 16,
+	"font_face": "Fira Code",
+	"font_size": 15,
 	"ignored_packages":
 	[
 		"LSP",
@@ -12,7 +12,7 @@
 	"index_files": true,
 	"theme": "Adaptive.sublime-theme",
 	"show_errors_inline": false,
-	"color_scheme": "Packages/Inspired GitHub Color Scheme/InspiredGitHub.tmTheme",
+	"color_scheme": "Night Owl.sublime-color-scheme",
 	"word_wrap": true,
 	"auto_complete": false,
 	"highlight_line": true,

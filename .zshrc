@@ -13,11 +13,6 @@ then
     git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 fi
 
-# if ! command -v starship &>/dev/null
-# then
-#    curl -sS https://starship.rs/install.sh | sh
-# fi
-
 export ZSH="$HOME/.oh-my-zsh"
 
 ZSH_THEME="robbyrussell"
@@ -37,10 +32,18 @@ then
     export GIT_EDITOR='nvim'
     alias vim='nvim'
 fi
+
 if command -v neovide &>/dev/null
 then
     alias nv='neovide'
 fi
+
+if command -v subl &>/dev/null
+then
+    export EDITOR='subl -w'
+    export GIT_EDITOR='subl -w'
+fi
+
 export NEOVIDE_FORK=1
 export NEOVIDE_TABS=0
 export PATH="/usr/local/go/bin:$PATH"
@@ -53,10 +56,10 @@ oclogs() {
     oc logs --prefix -f --selector "app.kubernetes.io/instance=snappdoctor-$1-prod, app.kubernetes.io/name=$1"
 }
 
-if command -v nvim &>/dev/null
-then
-    eval "$(starship init zsh)"
-fi
+# if command -v starship &>/dev/null
+# then
+#     eval "$(starship init zsh)"
+# fi
 
 # Nicer programs
 if command -v eza &>/dev/null
