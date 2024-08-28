@@ -40,6 +40,9 @@ install:
 	ln -s $(DOTFILES_DIR)/cd-project $(HOME)/go/bin/
 
 sublime-mac:
+	rm -rf "$(HOME)/Library/Application Support/Sublime Text/Packages/User"
+	mkdir -p "$(HOME)/Library/Application Support/Sublime Text/Packages"
 	rm -rf "$(HOME)/Library/Application Support/Sublime Text 3/Packages/User"
 	mkdir -p "$(HOME)/Library/Application Support/Sublime Text 3/Packages"
+	ln -s "$(DOTFILES_DIR)/SublimeText" "$(HOME)/Library/Application Support/Sublime Text/Packages/User"
 	ln -s "$(DOTFILES_DIR)/SublimeText" "$(HOME)/Library/Application Support/Sublime Text 3/Packages/User"
