@@ -23,6 +23,8 @@ local config = {
     },
     use_fancy_tab_bar = false,
     tab_bar_at_bottom = true,
+
+    window_background_opacity = 0.75
     -- color_scheme = 'Catppuccin Macchiato',
 }
 local function wt_key(spec)

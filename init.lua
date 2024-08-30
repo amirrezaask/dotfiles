@@ -226,7 +226,7 @@ require("rose-pine").setup({
     styles = {
         bold = true,
         italic = false,
-        transparency = false,
+        transparency = TRANSPARENT,
     }
 })
 require("gruvbox").setup({
@@ -247,11 +247,15 @@ require("lualine").setup({
     }
 })
 
-vim.cmd.colorscheme("tokyonight-night")
+vim.cmd.colorscheme("catppuccin")
 
 if TRANSPARENT then
     vim.cmd [[
         hi! Normal guibg=none
+        hi! NormalFloat guibg=none
+        hi! SignColumn guibg=none
+        hi! TelescopeNormal guibg=none
+        hi! TelescopeBorder guibg=none
     ]]
 end
 
