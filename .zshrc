@@ -42,6 +42,7 @@ if command -v subl &>/dev/null
 then
     export EDITOR='subl -w'
     export GIT_EDITOR='subl -w'
+    alias s='subl .'
 fi
 
 export NEOVIDE_FORK=1

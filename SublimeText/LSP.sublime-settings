@@ -1,14 +1,13 @@
 // Settings in here override those in "LSP/LSP.sublime-settings"
 {
-  "show_diagnostics_severity_level": 0,
-  "show_diagnostics_panel_on_save": 0,
-  "diagnostics_panel_include_severity_level": 0,
-  "show_multiline_diagnostics_highlights": false,
-  "show_code_actions": "",
-  "document_highlight_style": "",
-  "lsp_format_on_save": true,
-  "lsp_code_actions_on_save": {
-    "source.organizeImports": true,
-  },
-
+	"show_diagnostics_severity_level": 0,
+    "show_diagnostics_panel_on_save": 0,
+    "diagnostics_panel_include_severity_level": 0,
+    "show_multiline_diagnostics_highlights": false,
+    "show_code_actions": "",
+    "document_highlight_style": "",
+    "lsp_format_on_save": true,
+    "lsp_code_actions_on_save": {
+      "source.organizeImports": true,
+    },
 }

@@ -1,23 +1,22 @@
 {
-	"font_face": "Fira Code",
-	"font_size": 15,
+	"font_face": "Consolas",
+	"font_size": 18,
 	"ignored_packages":
 	[
-		"LSP",
-		"LSP-gopls",
-		"LSP-intelephense",
 		"Vintage",
 	],
 	"hot_exit": "disabled",
 	"index_files": true,
 	"theme": "Adaptive.sublime-theme",
 	"show_errors_inline": false,
-	"color_scheme": "Night Owl.sublime-color-scheme",
+	"color_scheme": "GingerBill.sublime-color-scheme",
 	"word_wrap": true,
 	"auto_complete": false,
-	"highlight_line": true,
+	"highlight_line": false,
 	"caret_style": "phase",
 	"line_padding_top": 5,
 	"line_padding_bottom": 5,
-
+	"light_color_scheme": "InspiredGithubTheme.tmTheme",
+	"dark_color_scheme": "GingerBill.sublime-color-scheme",
+	"color_scheme": "auto",
 }
