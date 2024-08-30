@@ -21,8 +21,6 @@ if command -v emacs &>/dev/null # use emacs as editor
     export GIT_EDITOR='emacs'
 end
 
-
-
 if command -v fzf &>/dev/null
     fzf --fish | source
 end
@@ -45,6 +43,10 @@ function oclogs -d "Read logs for given app name"
 end
 
 function fish_greeting
+end
+
+function fish_prompt
+    printf '%s' (set_color green) (PWD) (set_color white) (fish_git_prompt) ' $ '
 end
 
 alias svpn='sudo openfortivpn  --otp (totpgen ADS)'
