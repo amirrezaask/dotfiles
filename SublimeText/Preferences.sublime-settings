@@ -15,7 +15,7 @@
 	"caret_style": "phase",
 	"line_padding_top": 5,
 	"line_padding_bottom": 5,
-	"light_color_scheme": "InspiredGithubTheme.tmTheme",
+	"light_color_scheme": "Packages/User/InspiredGithub.tmTheme",
 	"dark_color_scheme": "Night Owl.sublime-color-scheme",
 	"color_scheme": "auto",
 }
