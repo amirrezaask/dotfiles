@@ -5,6 +5,9 @@
 	[
 		"Vintage",
 	],
+	"show_tab_close_buttons": false,
+	"show_line_endings": true,
+	"bold_folder_labels": true,
 	"hot_exit": "disabled",
 	"index_files": true,
 	"theme": "Adaptive.sublime-theme",
@@ -18,4 +21,5 @@
 	"light_color_scheme": "Packages/User/InspiredGithub.tmTheme",
 	"dark_color_scheme": "Night Owl.sublime-color-scheme",
 	"color_scheme": "auto",
+
 }
