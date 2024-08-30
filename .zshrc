@@ -18,6 +18,7 @@ fi
 if command -v nvim &>/dev/null
 then
     alias vim='nvim'
+    alias v='nvim'
 fi
 
 if command -v subl &>/dev/null
@@ -45,3 +46,9 @@ oclogs() {
 }
 
 export PATH="/opt/homebrew/opt/mysql-client/bin:$PATH"
+
+
+if command -v starship &>/dev/null
+then
+    eval "$(starship init zsh)"
+fi

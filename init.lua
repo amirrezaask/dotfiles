@@ -413,7 +413,7 @@ cmp.setup({
         ["<C-Space>"] = cmp.mapping.complete(),
     }),
     sources = {
-        -- { name = "nvim_lsp" },
+        { name = "nvim_lsp" },
         { name = "buffer" }
     },
 })
@@ -432,7 +432,3 @@ require("conform").setup({
         go = { "goimports", "gofmt" },
     },
 })
-
-function Test()
-    print("Test")
-end

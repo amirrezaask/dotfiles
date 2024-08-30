@@ -9,6 +9,7 @@ local config = {
     tab_max_width = 20,
     font_size = 16,
     font = wezterm.font_with_fallback {
+        "Monaspace Neon",
         'JetBrainsMono Nerd Font Mono',
         'Jetbrains Mono',
         'Cascadia Mono NF',
@@ -16,15 +17,16 @@ local config = {
         "Consolas",
     },
     window_padding = {
-        left = 0,
-        right = 0.0,
-        top = 0.0,
-        bottom = '0.0cell',
+        left = 5,
+        right = 5.0,
+        top = 5.0,
+        bottom = 5.0,
     },
+    line_height = 1.5,
     use_fancy_tab_bar = false,
     tab_bar_at_bottom = true,
 
-    window_background_opacity = 0.75
+    window_background_opacity = 1.0
     -- color_scheme = 'Catppuccin Macchiato',
 }
 local function wt_key(spec)
