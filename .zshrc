@@ -27,6 +27,11 @@ then
     alias s='subl .'
 fi
 
+if command -v brew &>/dev/null
+then
+    eval $(brew shellenv)
+fi
+
 export NEOVIDE_FORK=1
 export NEOVIDE_TABS=0
 export PATH="/usr/local/go/bin:$PATH"
