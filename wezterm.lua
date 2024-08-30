@@ -68,12 +68,5 @@ wt_key({ mods = 'CMD', key = 'w', action = action.CloseCurrentTab({ confirm = fa
 wt_key({ mods = 'CMD', key = 'd', action = action.SplitHorizontal({ domain = 'CurrentPaneDomain' }) })
 wt_key({ mods = 'CMD|SHIFT', key = 'd', action = action.SplitVertical({ domain = 'CurrentPaneDomain' }) })
 wt_key({ key = 'r', mods = 'CMD|SHIFT', action = wezterm.action.ReloadConfiguration, })
-wt_key({
-    mods = "CMD",
-    key = "Enter",
-    action = action.SpawnCommandInNewTab({
-        args = { "/opt/homebrew/bin/fish", "-ic", "~/go/bin/cd-project" }
-    })
-})
 
 return config
