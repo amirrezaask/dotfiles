@@ -65,12 +65,16 @@ if TMUX_ENABLED then
 end
 
 
+
+-- macOS keys
 wt_key({ mods = 'CMD', key = 'p', action = action.ActivateTabRelative(-1) })
 wt_key({ mods = 'CMD', key = 'n', action = action.ActivateTabRelative(1) })
 wt_key({ mods = 'CMD', key = 't', action = action.SpawnTab('CurrentPaneDomain') })
-wt_key({ mods = 'CMD', key = 'w', action = action.CloseCurrentTab({ confirm = false }) })
+wt_key({ mods = 'CMD', key = 'w', action = action.CloseCurrentPane({ confirm = false }) })
 wt_key({ mods = 'CMD', key = 'd', action = action.SplitHorizontal({ domain = 'CurrentPaneDomain' }) })
 wt_key({ mods = 'CMD|SHIFT', key = 'd', action = action.SplitVertical({ domain = 'CurrentPaneDomain' }) })
 wt_key({ key = 'r', mods = 'CMD|SHIFT', action = wezterm.action.ReloadConfiguration, })
+wt_key({ key = 'j', mods = 'CMD', action = wezterm.action.ActivatePaneDirection "Prev", })
+wt_key({ key = 'k', mods = 'CMD', action = wezterm.action.ActivatePaneDirection "Next", })
 
 return config
