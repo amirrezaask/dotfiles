@@ -26,8 +26,6 @@ require("lazy").setup({
     'nvim-tree/nvim-web-devicons',
     { "catppuccin/nvim",  name = 'catppuccin' },
     { "rose-pine/neovim", name = 'rose-pine' },
-    'danilo-augusto/vim-afterglow',
-    'juanedi/predawn.vim',
     "folke/tokyonight.nvim",
     "ellisonleao/gruvbox.nvim",
     'navarasu/onedark.nvim',
@@ -81,7 +79,7 @@ vim.opt.scrolloff = 10       -- Minimal number of screen lines to keep above and
 vim.opt.cursorline = true
 vim.opt.laststatus = 3       -- Global statusline
 IS_WINDOWS = vim.fn.has("win32") == 1
-TRANSPARENT = true
+TRANSPARENT = false
 vim.g.mapleader = " " -- <leader> key for keymaps mapped to <Space>
 vim.keymap.set("n", "Y", "y$", { desc = "Copy whole line" })
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
@@ -220,7 +218,7 @@ end
 vim.keymap.set({ "n", 'i', 't' }, '<C-j>', toggle_term)
 
 -- Colors and UI setup
-require("tokyonight").setup({ transparent = TRANSPARENT })
+require("tokyonight").setup({ transparent = false })
 require("catppuccin").setup({ transparent_background = TRANSPARENT })
 require("onedark").setup({ style = 'dark', transparent = TRANSPARENT })
 require("rose-pine").setup({
@@ -248,17 +246,17 @@ require("gruvbox").setup({
 --     }
 -- })
 
-vim.cmd.colorscheme("catppuccin")
+vim.cmd.colorscheme("tokyonight")
 
-if TRANSPARENT then
-    vim.cmd [[
-        hi! Normal guibg=none
-        hi! NormalFloat guibg=none
-        hi! SignColumn guibg=none
-        hi! TelescopeNormal guibg=none
-        hi! TelescopeBorder guibg=none
-    ]]
-end
+-- if TRANSPARENT then
+--     vim.cmd [[
+--         hi! Normal guibg=none
+--         hi! NormalFloat guibg=none
+--         hi! SignColumn guibg=none
+--         hi! TelescopeNormal guibg=none
+--         hi! TelescopeBorder guibg=none
+--     ]]
+-- end
 
 -- Treesitter
 require("nvim-treesitter.configs").setup({
@@ -440,3 +438,16 @@ require("conform").setup({
         go = { "goimports", "gofmt" },
     },
 })
+
+local function toggle_color_mode()
+    if vim.o.background == 'light' then
+        vim.o.background = 'dark'
+    else
+        vim.o.background = 'light'
+    end
+    print("switching color mode to " .. vim.o.background)
+end
+
+
+
+vim.keymap.set({ 'n', 'i', 't', 'v' }, '<M-t>', toggle_color_mode, { desc = "Toggle Color Mode" })

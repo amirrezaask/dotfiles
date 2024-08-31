@@ -26,7 +26,6 @@ local config = {
     tab_bar_at_bottom = true,
 
     window_background_opacity = 1.0,
-    -- color_scheme = 'Catppuccin Mocha',
 }
 local function wt_key(spec)
     if config.keys == nil then config.keys = {} end
@@ -78,5 +77,37 @@ wt_key({ mods = 'CMD|SHIFT', key = 'd', action = action.SplitVertical({ domain =
 wt_key({ key = 'r', mods = 'CMD|SHIFT', action = wezterm.action.ReloadConfiguration, })
 wt_key({ key = 'j', mods = 'CMD', action = wezterm.action.ActivatePaneDirection "Prev", })
 wt_key({ key = 'k', mods = 'CMD', action = wezterm.action.ActivatePaneDirection "Next", })
+
+
+local color_mode = 'dark'
+
+local function toggle_color_mode(win, _)
+    local cfg = win:get_config_overrides() or {}
+    if color_mode == 'light' then
+        color_mode = 'dark'
+        cfg.colors = {
+            background = '#000000',
+            foreground = '#eeeeee'
+        }
+        cfg.color_scheme = nil
+    else
+        color_mode = 'light'
+        cfg.colors = {
+            background = '#eeeeee',
+            foreground = '#000000',
+        }
+    end
+
+    win:set_config_overrides(cfg)
+end
+
+wt_key({
+    key = '\r',
+    mods = 'CMD',
+    action = wezterm.action.Multiple {
+        wezterm.action_callback(toggle_color_mode),
+        wezterm.action.SendKey({ key = 't', mods = 'ALT' })
+    }
+})
 
 return config
