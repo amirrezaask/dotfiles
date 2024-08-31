@@ -79,8 +79,8 @@ wt_key({ key = 'j', mods = 'CMD', action = wezterm.action.ActivatePaneDirection 
 wt_key({ key = 'k', mods = 'CMD', action = wezterm.action.ActivatePaneDirection "Next", })
 
 
-local light_theme = 'GruvboxLight'
-local dark_theme = 'GruvboxDarkHard'
+local light_theme = 'Night Owlish Light'
+local dark_theme = 'Night Owl (Gogh)'
 local color_mode = 'dark'
 config.color_scheme = dark_theme
 

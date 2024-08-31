@@ -28,6 +28,8 @@ require("lazy").setup({
     { "rose-pine/neovim",                name = 'rose-pine' },
     { dir = "~/w/neovim-colors",         dev = true },
     { 'olivercederborg/poimandres.nvim', opts = {} },
+
+    "oxfist/night-owl.nvim",
     "folke/tokyonight.nvim",
     "ellisonleao/gruvbox.nvim",
     'navarasu/onedark.nvim',
@@ -243,6 +245,8 @@ require("gruvbox").setup({
     contrast = 'hard'
 })
 
+require("night-owl").setup({})
+
 
 -- if TRANSPARENT then
 --     vim.cmd [[
@@ -435,7 +439,7 @@ require("conform").setup({
     },
 })
 
-local dark_theme = 'gruvbox'
+local dark_theme = 'night-owl'
 local light_theme = 'gruvbox'
 
 local function toggle_color_mode()
@@ -449,10 +453,6 @@ local function toggle_color_mode()
     print("switching color mode to " .. vim.o.background)
 end
 
-if vim.o.background == 'light' then
-    vim.cmd.colorscheme(light_theme)
-else
-    vim.cmd.colorscheme(dark_theme)
-end
+vim.cmd.colorscheme("night-owl")
 
 vim.keymap.set({ 'n', 'i', 't', 'v' }, '<M-t>', toggle_color_mode, { desc = "Toggle Color Mode" })
