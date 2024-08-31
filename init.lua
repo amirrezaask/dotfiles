@@ -24,8 +24,10 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
     'nvim-tree/nvim-web-devicons',
-    { "catppuccin/nvim",  name = 'catppuccin' },
-    { "rose-pine/neovim", name = 'rose-pine' },
+    { "catppuccin/nvim",              name = 'catppuccin' },
+    { "rose-pine/neovim",             name = 'rose-pine' },
+    { dir = "~/w/neovim-colors",      dev = true },
+    { "zenbones-theme/zenbones.nvim", dependencies = "rktjmp/lush.nvim", },
     "folke/tokyonight.nvim",
     "ellisonleao/gruvbox.nvim",
     'navarasu/onedark.nvim',
@@ -239,14 +241,8 @@ require("gruvbox").setup({
     transparent_mode = TRANSPARENT,
     contrast = 'hard'
 })
---
--- require("lualine").setup({
---     options = {
---         icons_enabled = false,
---     }
--- })
 
-vim.cmd.colorscheme("tokyonight")
+vim.cmd.colorscheme("gruvbox")
 
 -- if TRANSPARENT then
 --     vim.cmd [[

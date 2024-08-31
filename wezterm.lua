@@ -21,7 +21,7 @@ local config = {
         top = 5.0,
         bottom = 5.0,
     },
-    -- line_height = 1.3,
+    line_height = 1.3,
     use_fancy_tab_bar = false,
     tab_bar_at_bottom = true,
 
@@ -79,27 +79,24 @@ wt_key({ key = 'j', mods = 'CMD', action = wezterm.action.ActivatePaneDirection 
 wt_key({ key = 'k', mods = 'CMD', action = wezterm.action.ActivatePaneDirection "Next", })
 
 
+local light_theme = 'GruvboxLight'
+local dark_theme = 'GruvboxDarkHard'
 local color_mode = 'dark'
+config.color_scheme = dark_theme
 
 local function toggle_color_mode(win, _)
     local cfg = win:get_config_overrides() or {}
     if color_mode == 'light' then
         color_mode = 'dark'
-        cfg.colors = {
-            background = '#000000',
-            foreground = '#eeeeee'
-        }
-        cfg.color_scheme = nil
+        cfg.color_scheme = dark_theme
     else
         color_mode = 'light'
-        cfg.colors = {
-            background = '#eeeeee',
-            foreground = '#000000',
-        }
+        cfg.color_scheme = light_theme
     end
 
     win:set_config_overrides(cfg)
 end
+
 
 wt_key({
     key = '\r',
@@ -109,5 +106,6 @@ wt_key({
         wezterm.action.SendKey({ key = 't', mods = 'ALT' })
     }
 })
+
 
 return config
