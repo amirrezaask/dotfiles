@@ -21,12 +21,12 @@ local config = {
         top = 5.0,
         bottom = 5.0,
     },
-    line_height = 1.5,
+    line_height = 1.3,
     use_fancy_tab_bar = false,
     tab_bar_at_bottom = true,
 
     window_background_opacity = 1.0,
-    color_scheme = 'Catppuccin Mocha',
+    -- color_scheme = 'Catppuccin Mocha',
 }
 local function wt_key(spec)
     if config.keys == nil then config.keys = {} end

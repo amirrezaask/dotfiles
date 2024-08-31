@@ -81,7 +81,7 @@ vim.opt.scrolloff = 10       -- Minimal number of screen lines to keep above and
 vim.opt.cursorline = true
 vim.opt.laststatus = 3       -- Global statusline
 IS_WINDOWS = vim.fn.has("win32") == 1
-TRANSPARENT = false
+TRANSPARENT = true
 vim.g.mapleader = " " -- <leader> key for keymaps mapped to <Space>
 vim.keymap.set("n", "Y", "y$", { desc = "Copy whole line" })
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
@@ -241,12 +241,12 @@ require("gruvbox").setup({
     transparent_mode = TRANSPARENT,
     contrast = 'hard'
 })
-
-require("lualine").setup({
-    options = {
-        icons_enabled = false,
-    }
-})
+--
+-- require("lualine").setup({
+--     options = {
+--         icons_enabled = false,
+--     }
+-- })
 
 vim.cmd.colorscheme("catppuccin")
 
