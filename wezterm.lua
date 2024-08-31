@@ -9,10 +9,9 @@ local config = {
     tab_max_width = 20,
     font_size = 16,
     font = wezterm.font_with_fallback {
-        "Monaspace Neon",
         'JetBrainsMono Nerd Font Mono',
-        'Jetbrains Mono',
         'Cascadia Mono NF',
+        'Jetbrains Mono',
         'Meslo',
         "Consolas",
     },
@@ -26,8 +25,8 @@ local config = {
     use_fancy_tab_bar = false,
     tab_bar_at_bottom = true,
 
-    window_background_opacity = 1.0
-    -- color_scheme = 'Catppuccin Macchiato',
+    window_background_opacity = 1.0,
+    color_scheme = 'Catppuccin Mocha',
 }
 local function wt_key(spec)
     if config.keys == nil then config.keys = {} end
