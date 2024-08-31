@@ -338,6 +338,13 @@ end
 
 
 -- LSP
+require("lspconfig.ui.windows").default_options.border = "single"
+vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover,
+    { border = "rounded" })
+
+vim.lsp.handlers["textDocument/signatureHelp"] =
+    vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
+
 require("mason").setup()
 require("mason-lspconfig").setup({ ensure_installed = { "gopls" } })
 local lsp_servers = {

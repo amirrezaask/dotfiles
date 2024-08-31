@@ -21,7 +21,7 @@ local config = {
         top = 5.0,
         bottom = 5.0,
     },
-    line_height = 1.3,
+    -- line_height = 1.3,
     use_fancy_tab_bar = false,
     tab_bar_at_bottom = true,
 
@@ -35,6 +35,7 @@ end
 
 
 local TMUX_ENABLED = false
+
 if TMUX_ENABLED then
     local tmux_prefix = { key = 'a', mods = 'CTRL' }
     local function tmux_with_prefix_key_action(tmux_key)
@@ -68,6 +69,8 @@ end
 -- macOS keys
 wt_key({ mods = 'CMD', key = 'p', action = action.ActivateTabRelative(-1) })
 wt_key({ mods = 'CMD', key = 'n', action = action.ActivateTabRelative(1) })
+wt_key({ mods = 'CMD|SHIFT', key = '9', action = action.MoveTabRelative(-1) })
+wt_key({ mods = 'CMD|SHIFT', key = '0', action = action.MoveTabRelative(-1) })
 wt_key({ mods = 'CMD', key = 't', action = action.SpawnTab('CurrentPaneDomain') })
 wt_key({ mods = 'CMD', key = 'w', action = action.CloseCurrentPane({ confirm = false }) })
 wt_key({ mods = 'CMD', key = 'd', action = action.SplitHorizontal({ domain = 'CurrentPaneDomain' }) })

@@ -1,6 +1,6 @@
 {
 	"font_face": "Consolas",
-	"font_size": 20,
+	"font_size": 14,
 	"ignored_packages":
 	[
 		"Vintage",
@@ -18,5 +18,5 @@
 	"auto_match_enabled": false,
 	"show_definitions": false,
 	"close_windows_when_empty": false,
-	"color_scheme": "GingerBill.sublime-color-scheme",
+	"color_scheme": "Packages/User/InspiredGithub.tmTheme",
 }
