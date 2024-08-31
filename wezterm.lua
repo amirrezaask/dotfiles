@@ -108,7 +108,7 @@ wt_key({
 })
 
 
-config.color_scheme = 'Poimandres'
+config.color_scheme = dark_theme
 
 
 return config
