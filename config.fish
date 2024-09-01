@@ -17,26 +17,22 @@ if command -v brew &>/dev/null
     eval (brew shellenv)
 end
 
-if command -v emacs &>/dev/null # use emacs as editor
-    export EDITOR='emacs'
-    export GIT_EDITOR='emacs'
-end
-
 if command -v fzf &>/dev/null
     fzf --fish | source
 end
+
 if command -v brew &>/dev/null
    brew shellenv fish | source
 end
 
 if command -v nvim &>/dev/null
     alias vim='nvim'
+    export EDITOR='nvim'
+    export GIT_EDITOR='nvim'
 end
 
 if command -v subl &>/dev/null
-    export EDITOR='subl -w'
-    export GIT_EDITOR='subl -w'
-    alias s='subl .'
+   alias s='subl .'
 end
 
 function oclogs -d "Read logs for given app name"
