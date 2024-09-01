@@ -3,6 +3,7 @@ export PATH="$PATH:$GOPATH/bin"
 export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:/opt/homebrew/bin:/opt/homebrew/sbin"
 export PATH="$PATH:$HOME/prg/bin"
+export PATH="$PATH:/usr/local/bin"
 
 function fish_prompt -d "Write out the prompt"
     printf '%s %s%s%s > ' $USER \
