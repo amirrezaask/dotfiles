@@ -2,6 +2,7 @@ export GOPATH="$HOME/go"
 export PATH="$PATH:$GOPATH/bin"
 export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:/opt/homebrew/bin:/opt/homebrew/sbin"
+export PATH="$PATH:$HOME/prg/bin"
 
 function fish_prompt -d "Write out the prompt"
     printf '%s %s%s%s > ' $USER \
@@ -46,7 +47,7 @@ function fish_greeting
 end
 
 function fish_prompt
-    printf '%s' (set_color green) (PWD) (set_color white) (fish_git_prompt) ' $ '
+    printf '%s' (set_color green) (prompt_pwd) (set_color white) (fish_git_prompt) ' > '
 end
 
 alias svpn='sudo openfortivpn  --otp (totpgen ADS)'

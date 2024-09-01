@@ -45,6 +45,7 @@ export NEOVIDE_TABS=0
 export PATH="/usr/local/go/bin:$PATH"
 export PATH="$HOME/go/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
+export PATH="$PATH:$HOME/prg/bin"
 alias svpn='sudo openfortivpn  --otp $(totpgen ADS)'
 [ -f "$HOME/cargo/env" ] && . "$HOME/.cargo/env"
 

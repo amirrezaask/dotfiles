@@ -4,8 +4,9 @@
 -- /_/ |_/_/_/_/_/_/ /_/  \__//__/\_,_/_/ |_/___/_/\_\
 -- Minimal, fast configuration for neovim.
 
-TRANSPARENT = os.getenv('NVIM_TRANSPARENT') or true
-COLORSCEHEME = os.getenv('NVIM_COLORSCHEME') or "catppuccin"
+TRANSPARENT = os.getenv('NVIM_TRANSPARENT') or false
+COLORSCEHEME = os.getenv('NVIM_COLORSCHEME') or "sitruuna"
+IS_WINDOWS = vim.fn.has("win32") == 1
 
 -- Lazy: Plugin manager
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -26,7 +27,11 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
     'nvim-tree/nvim-web-devicons',
-    { "catppuccin/nvim",       name = 'catppuccin',                                  opts = { transparent_background = TRANSPARENT } },
+    {
+        "catppuccin/nvim",
+        name = 'catppuccin',
+        opts = { transparent_background = TRANSPARENT }
+    },
     {
         "rose-pine/neovim",
         name = 'rose-pine',
@@ -39,7 +44,10 @@ require("lazy").setup({
         }
     },
     "scottmckendry/cyberdream.nvim",
-    { "folke/tokyonight.nvim", opts = { style = 'night', transparent = TRANSPARENT } },
+    {
+        "folke/tokyonight.nvim",
+        opts = { style = 'night', transparent = TRANSPARENT }
+    },
     {
         "ellisonleao/gruvbox.nvim",
         opts = {
@@ -54,8 +62,12 @@ require("lazy").setup({
             contrast = 'hard'
         }
     },
-    { 'navarasu/onedark.nvim',                    opts = { style = 'dark', transparent = TRANSPARENT } },
-    'nvim-lualine/lualine.nvim',
+    {
+        'navarasu/onedark.nvim',
+        opts = { style = 'dark', transparent = TRANSPARENT }
+    },
+    -- 'eemed/sitruuna.vim',
+    { dir = "~/w/sitruuna.nvim" },
     'stevearc/oil.nvim',
     "folke/ts-comments.nvim",
     "nvim-pack/nvim-spectre",
@@ -104,7 +116,6 @@ vim.opt.inccommand = "split" -- Preview all substitutions(replacements).
 vim.opt.scrolloff = 10       -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.cursorline = true
 vim.opt.laststatus = 3       -- Global statusline
-IS_WINDOWS = vim.fn.has("win32") == 1
 vim.g.mapleader = " "        -- <leader> key for keymaps mapped to <Space>
 vim.keymap.set("n", "Y", "y$", { desc = "Copy whole line" })
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
@@ -383,7 +394,7 @@ cmp.setup({
         ["<C-p>"] = cmp.mapping.select_prev_item(cmp_select),
         ["<C-n>"] = cmp.mapping.select_next_item(cmp_select),
         ["<C-y>"] = cmp.mapping.confirm({ select = true }),
-        ["<CR>"] = cmp.mapping.confirm({ select = true }),
+        ["<CR>"] = cmp.mapping.confirm({ select = false }),
         ["<C-Space>"] = cmp.mapping.complete(),
     }),
     sources = {
@@ -392,9 +403,10 @@ cmp.setup({
     },
 })
 
--- Oil.nvim: Files as text
+-- Oil.nvim: File management in text
 require("oil").setup()
 
+-- Autoformatting
 require("conform").setup({
     format_on_save = {
         -- These options will be passed to conform.format()
