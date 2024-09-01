@@ -4,6 +4,7 @@
 	],
 	"installed_packages":
 	[
+		"AdvancedNewFile",
 		"LSP",
 		"LSP-gopls",
 		"LSP-intelephense",

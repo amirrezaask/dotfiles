@@ -1,5 +1,5 @@
 [
-    // { "keys": ["super+r"], "command": "show_panel", "args": {"panel": "replace", "reverse": false} },
+    { "keys": ["command+shift+n"], "command": "advanced_new_file_new" },
     { "keys": ["command+."], "command": "goto_definition" },
     { 
         "keys": ["command+."],

@@ -28,6 +28,13 @@ then
     alias s='subl .'
 fi
 
+if command -v code &>/dev/null
+then
+    # export EDITOR='subl -w'
+    # export GIT_EDITOR='subl -w'
+    alias c='code .'
+fi
+
 if command -v brew &>/dev/null
 then
     eval $(brew shellenv)

@@ -1,6 +1,5 @@
 {
-	"font_face": "Consolas",
-	"font_size": 21,
+	"font_size": 19,
 	"ignored_packages":
 	[
 		"Vintage",
@@ -10,7 +9,7 @@
 	"theme": "Adaptive.sublime-theme",
 	"show_errors_inline": false,
 	"word_wrap": true,
-	"auto_complete": true,
+	"auto_complete": false,
 	"caret_style": "phase",
 	"line_padding_top": 5,
 	"line_padding_bottom": 5,
@@ -18,5 +17,7 @@
 	"auto_match_enabled": false,
 	"show_definitions": false,
 	"close_windows_when_empty": false,
-	"color_scheme": "Night Owl.sublime-color-scheme",
+	"color_scheme": "auto",
+	"dark_color_scheme": "Night Owl.sublime-color-scheme",
+	"light_color_scheme": "Packages/User/InspiredGithub.tmTheme",
 }
