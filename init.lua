@@ -4,8 +4,10 @@
 -- /_/ |_/_/_/_/_/_/ /_/  \__//__/\_,_/_/ |_/___/_/\_\
 -- Minimal, fast configuration for neovim.
 
--- Plugins Installer
+TRANSPARENT = os.getenv('NVIM_TRANSPARENT') or true
+COLORSCEHEME = os.getenv('NVIM_COLORSCHEME') or "catppuccin"
 
+-- Lazy: Plugin manager
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
     local lazyrepo = "https://github.com/folke/lazy.nvim.git"
@@ -24,12 +26,35 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
     'nvim-tree/nvim-web-devicons',
-    { "catppuccin/nvim",  name = 'catppuccin' },
-    { "rose-pine/neovim", name = 'rose-pine' },
+    { "catppuccin/nvim",       name = 'catppuccin',                                  opts = { transparent_background = TRANSPARENT } },
+    {
+        "rose-pine/neovim",
+        name = 'rose-pine',
+        opts = {
+            styles = {
+                bold = true,
+                italic = false,
+                transparency = TRANSPARENT,
+            }
+        }
+    },
     "scottmckendry/cyberdream.nvim",
-    "folke/tokyonight.nvim",
-    "ellisonleao/gruvbox.nvim",
-    'navarasu/onedark.nvim',
+    { "folke/tokyonight.nvim", opts = { style = 'night', transparent = TRANSPARENT } },
+    {
+        "ellisonleao/gruvbox.nvim",
+        opts = {
+            italic = {
+                strings = false,
+                emphasis = false,
+                comments = false,
+                operators = false,
+                folds = false,
+            },
+            transparent_mode = TRANSPARENT,
+            contrast = 'hard'
+        }
+    },
+    { 'navarasu/onedark.nvim',                    opts = { style = 'dark', transparent = TRANSPARENT } },
     'nvim-lualine/lualine.nvim',
     'stevearc/oil.nvim',
     "folke/ts-comments.nvim",
@@ -80,8 +105,7 @@ vim.opt.scrolloff = 10       -- Minimal number of screen lines to keep above and
 vim.opt.cursorline = true
 vim.opt.laststatus = 3       -- Global statusline
 IS_WINDOWS = vim.fn.has("win32") == 1
-TRANSPARENT = false
-vim.g.mapleader = " " -- <leader> key for keymaps mapped to <Space>
+vim.g.mapleader = " "        -- <leader> key for keymaps mapped to <Space>
 vim.keymap.set("n", "Y", "y$", { desc = "Copy whole line" })
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 vim.keymap.set("i", "<C-c>", "<esc>")
@@ -218,39 +242,15 @@ end
 
 vim.keymap.set({ "n", 'i', 't' }, '<C-j>', toggle_term)
 
--- Colors and UI setup
-require("tokyonight").setup({ transparent = false })
-require("catppuccin").setup({ transparent_background = TRANSPARENT })
-require("onedark").setup({ style = 'dark', transparent = TRANSPARENT })
-require("rose-pine").setup({
-    styles = {
-        bold = true,
-        italic = false,
-        transparency = TRANSPARENT,
-    }
-})
-require("gruvbox").setup({
-    italic = {
-        strings = false,
-        emphasis = false,
-        comments = false,
-        operators = false,
-        folds = false,
-    },
-    transparent_mode = TRANSPARENT,
-    contrast = 'hard'
-})
+-- Color scheme
 
+vim.cmd.colorscheme(COLORSCEHEME)
 
--- if TRANSPARENT then
---     vim.cmd [[
---         hi! Normal guibg=none
---         hi! NormalFloat guibg=none
---         hi! SignColumn guibg=none
---         hi! TelescopeNormal guibg=none
---         hi! TelescopeBorder guibg=none
---     ]]
--- end
+if TRANSPARENT then
+    vim.cmd [[
+        hi! Normal guibg=none
+    ]]
+end
 
 -- Treesitter
 require("nvim-treesitter.configs").setup({
@@ -280,39 +280,13 @@ vim.api.nvim_create_autocmd("BufEnter", {
 require('telescope').load_extension('fzf')
 require("telescope").load_extension("ui-select")
 
-local projects_root = "~/w"
-if IS_WINDOWS then
-    projects_root = "C:/w"
-end
-
-local function find_projects()
-    local repos = vim.fs.find({ ".git" }, { limit = math.huge, path = projects_root })
-    local paths = {}
-    for _, repo in ipairs(repos) do
-        table.insert(paths, vim.fs.dirname(repo))
-    end
-
-    return paths
-end
-local function telescope_find_project()
-    vim.ui.select(find_projects(), {
-        prompt = "Select Project:",
-    }, function(proj)
-        if proj == "" or proj == nil then
-            return
-        end
-        require("telescope.builtin").find_files({ previewer = false, cwd = proj })
-    end)
-end
-
 local telescope_keys = {
     ["<leader>p"] = "git_files",
     ["<leader><leader>"] = "find_files",
     ["??"] = "live_grep",
     ["<leader>h"] = "help_tags",
     ["<leader>b"] = "buffers",
-    ["<leader>fs"] = "lsp_dynamic_workspace_symbols",
-    ["<leader>fp"] = telescope_find_project,
+    ["<leader>w"] = "lsp_dynamic_workspace_symbols",
 }
 
 
@@ -432,6 +406,3 @@ require("conform").setup({
         go = { "goimports", "gofmt" },
     },
 })
-
-
-vim.cmd.colorscheme("cyberdream")
