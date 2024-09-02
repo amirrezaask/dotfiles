@@ -1,4 +1,6 @@
 ;; (setq debug-on-error t) ;; Uncomment when you debug your emacs lisp code.
+
+
 ;; Startup hacks to make emacs boot faster.
 (defvar amirreza-emacs--file-name-handler-alist file-name-handler-alist)
 (defvar amirreza-emacs--vc-handled-backends vc-handled-backends)
@@ -87,8 +89,7 @@
 (setq font-families (font-family-list))
 (require 'cl-lib)
 (cl-loop for font in '(
-                       "Monaspace Neon"
-                       "Consolas"
+		       "Consolas"
                        "Liberation Mono"
                        "Menlo"
                        "JetBrains Mono"

@@ -4,12 +4,10 @@
 	],
 	"installed_packages":
 	[
-		"AdvancedNewFile",
 		"LSP",
 		"LSP-gopls",
 		"LSP-intelephense",
 		"Package Control",
-		"Terminus",
 		"Text Pastry",
 	],
 }
