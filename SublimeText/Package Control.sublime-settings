@@ -9,6 +9,7 @@
 		"LSP-gopls",
 		"LSP-intelephense",
 		"Package Control",
+		"Terminus",
 		"Text Pastry",
 	],
 }

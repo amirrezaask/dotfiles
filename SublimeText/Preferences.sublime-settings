@@ -1,6 +1,6 @@
 {
 	"font_face": "Jetbrains Mono",
-	"font_size": 18,
+	"font_size": 19,
 	"ignored_packages":
 	[
 		"Vintage",
@@ -19,7 +19,7 @@
 	"show_definitions": false,
 	"close_windows_when_empty": false,
 	"show_rel_path": true,
-	"color_scheme": "auto",
+	"color_scheme": "Packages/User/InspiredGithub.tmTheme",
 	"dark_color_scheme": "Night Owl.sublime-color-scheme",
 	"light_color_scheme": "Packages/User/InspiredGithub.tmTheme",
 }

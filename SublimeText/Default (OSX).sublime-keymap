@@ -1,4 +1,6 @@
 [
+    { "keys": ["command+0"], "command": "sublime_merge_open_repo" },
+    { "keys": ["command+j"], "command": "toggle_terminus_panel" },
     { "keys": ["command+shift+n"], "command": "advanced_new_file_new" },
     { "keys": ["command+,"], "command": "jump_back" },
     {  // Goto Definition
@@ -40,6 +42,18 @@
         "keys": ["command+ctrl+r"],
         "command": "lsp_symbol_rename",
         "context": [{"key": "lsp.session_with_capability", "operand": "renameProvider"}]
+    },
+    // Jump to next Diagnostic in Tab
+    {
+        "keys": ["command+shift+]"],
+        "command": "lsp_next_diagnostic",
+        "context": [{"key": "setting.lsp_active"}]
+    },
+    // Jump to previous Diagnostic in Tab
+    {
+        "keys": ["command+shift+["],
+        "command": "lsp_prev_diagnostic",
+        "context": [{"key": "setting.lsp_active"}]
     },
     // }}}
     
