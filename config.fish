@@ -33,7 +33,9 @@ if command -v nvim &>/dev/null
 end
 
 if command -v subl &>/dev/null
-   alias s='subl .'
+    alias s='subl .'
+    export EDITOR='subl -w'
+    export GIT_EDITOR='subl -w'
 end
 
 function oclogs -d "Read logs for given app name"
