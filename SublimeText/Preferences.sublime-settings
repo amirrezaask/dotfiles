@@ -1,5 +1,6 @@
 {
-	"font_size": 19,
+	"font_face": "Jetbrains Mono",
+	"font_size": 18,
 	"ignored_packages":
 	[
 		"Vintage",
@@ -7,7 +8,7 @@
 	"hot_exit": "disabled",
 	"index_files": true,
 	"theme": "Adaptive.sublime-theme",
-	"show_errors_inline": false,
+	"show_errors_inline": true,
 	"word_wrap": true,
 	"auto_complete": false,
 	"caret_style": "phase",
@@ -17,6 +18,7 @@
 	"auto_match_enabled": false,
 	"show_definitions": false,
 	"close_windows_when_empty": false,
+	"show_rel_path": true,
 	"color_scheme": "auto",
 	"dark_color_scheme": "Night Owl.sublime-color-scheme",
 	"light_color_scheme": "Packages/User/InspiredGithub.tmTheme",
