@@ -16,7 +16,6 @@ install:
 	rm -rf $(HOME)/go/bin/tmux-windowizer
 	rm -rf $(HOME)/go/bin/tmux-sessionizer
 	rm -rf $(HOME)/go/bin/tmux-switch
-	rm -rf $(HOME)/go/bin/cd-project
 	mkdir -p $(XDG_CONFIG)/i3
 	mkdir -p $(XDG_CONFIG)/alacritty
 	mkdir -p $(XDG_CONFIG)/nvim
@@ -37,7 +36,6 @@ install:
 	ln -s $(DOTFILES_DIR)/tmux-sessionizer $(HOME)/go/bin/
 	ln -s $(DOTFILES_DIR)/tmux-windowizer $(HOME)/go/bin/
 	ln -s $(DOTFILES_DIR)/tmux-switch $(HOME)/go/bin/
-	ln -s $(DOTFILES_DIR)/cd-project $(HOME)/go/bin/
 
 sublime-mac:
 	rm -rf "$(HOME)/Library/Application Support/Sublime Text/Packages"
