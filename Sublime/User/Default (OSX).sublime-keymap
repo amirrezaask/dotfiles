@@ -1,6 +1,6 @@
 [
     { "keys": ["command+0"], "command": "sublime_merge_open_repo" },
-    { "keys": ["command+j"], "command": "toggle_terminus_panel" },
+    { "keys": ["ctrl+`"], "command": "toggle_terminus_panel" },
     { "keys": ["command+shift+n"], "command": "advanced_new_file_new" },
     { "keys": ["command+,"], "command": "jump_back" },
     {  // Goto Definition
