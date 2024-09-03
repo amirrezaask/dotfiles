@@ -1,0 +1,253 @@
+[
+    // To enable or change an existing key binding, copy it to the right view and uncomment, if needed.
+    // To change the associated key press, edit the "keys" value.
+
+    // Show a list of available LSP commands
+    // {
+    //     "keys": ["f1"],
+    //     "command": "show_overlay",
+    //     "args": {"overlay": "command_palette", "text": "LSP: "}
+    // },
+    // Insert/Replace Completions
+    {
+        "keys": ["alt+enter"],
+        "command": "lsp_commit_completion_with_opposite_insert_mode",
+        "context": [
+            {"key": "lsp.session_with_capability", "operand": "completionProvider"},
+            {"key": "auto_complete_visible"}
+        ]
+    },
+    // Save all open files that have a language server attached with lsp_save
+    // {
+    //     "keys": ["UNBOUND"],
+    //     "command": "lsp_save_all",
+    //     "args": {"only_files": false}
+    // },
+    // Run Code Action
+    // {
+    //     "keys": ["UNBOUND"],
+    //     "command": "lsp_code_actions",
+    //     "context": [{"key": "lsp.session_with_capability", "operand": "codeActionProvider"}]
+    // },
+    // Run Source Actions
+    // {
+    //     "keys": ["UNBOUND"],
+    //     "command": "lsp_code_actions",
+    //     "args": {"only_kinds": ["source"]},
+    //     "context": [{"key": "lsp.session_with_capability", "operand": "codeActionProvider.codeActionKinds"}]
+    // },
+    // Run Code Lens
+    // {
+    //     "keys": ["UNBOUND"],
+    //     "command": "lsp_code_lens",
+    //     "context": [{"key": "lsp.session_with_capability", "operand": "codeLensProvider"}]
+    // },
+    // Toggle Diagnostics Panel
+    {
+        "keys": ["primary+alt+m"],
+        "command": "lsp_show_diagnostics_panel",
+        "context": [{"key": "setting.lsp_active"}]
+    },
+    // Toggle Language Server Logs Panel
+    // {
+    //     "keys": ["UNBOUND"],
+    //     "command": "lsp_toggle_server_panel",
+    //     "context": [{"key": "setting.lsp_active"}]
+    // },
+    // Trigger Signature Help
+    {
+        "keys": ["primary+alt+space"],
+        "command": "lsp_signature_help_show",
+        "context": [{"key": "lsp.signature_help_available"}]
+    },
+    // Find References
+    {
+        "keys": ["shift+f12"],
+        "command": "lsp_symbol_references",
+        "args": {"side_by_side": false, "force_group": true, "fallback": false, "group": -1, "include_declaration": false},
+        "context": [{"key": "lsp.session_with_capability", "operand": "referencesProvider"}]
+    },
+    // Find References (side-by-side)
+    // {
+    //     "keys": ["primary+shift+f12"],
+    //     "command": "lsp_symbol_references",
+    //     "args": {"side_by_side": true, "force_group": true, "fallback": false, "group": -1},
+    //     "context": [{"key": "lsp.session_with_capability", "operand": "referencesProvider"}]
+    // },
+    // Goto Definition
+    // {
+    //     "keys": ["f12"],
+    //     "command": "lsp_symbol_definition",
+    //     "args": {"side_by_side": false, "force_group": true, "fallback": false, "group": -1},
+    //     "context": [
+    //         {"key": "lsp.session_with_capability", "operand": "definitionProvider"},
+    //         {"key": "auto_complete_visible", "operand": false}
+    //     ]
+    // },
+    // Goto Definition (side-by-side)
+    // {
+    //     "keys": ["primary+f12"],
+    //     "command": "lsp_symbol_definition",
+    //     "args": {"side_by_side": true, "force_group": true, "fallback": false, "group": -1},
+    //     "context": [
+    //         {"key": "lsp.session_with_capability", "operand": "definitionProvider"},
+    //         {"key": "auto_complete_visible", "operand": false}
+    //     ]
+    // },
+    // Goto Type Definition
+    // {
+    //     "keys": ["UNBOUND"],
+    //     "command": "lsp_symbol_type_definition",
+    //     "args": {"side_by_side": false, "force_group": true, "group": -1},
+    //     "context": [
+    //         {"key": "lsp.session_with_capability", "operand": "typeDefinitionProvider"},
+    //         {"key": "auto_complete_visible", "operand": false}
+    //     ]
+    // },
+    // Goto Declaration
+    // {
+    //     "keys": ["UNBOUND"],
+    //     "command": "lsp_symbol_declaration",
+    //     "args": {"side_by_side": false, "force_group": true, "group": -1},
+    //     "context": [
+    //         {"key": "lsp.session_with_capability", "operand": "declarationProvider"},
+    //         {"key": "auto_complete_visible", "operand": false}
+    //     ]
+    // },
+    // Goto Implementation
+    // {
+    //     "keys": ["UNBOUND"],
+    //     "command": "lsp_symbol_implementation",
+    //     "args": {"side_by_side": false, "force_group": true, "group": -1},
+    //     "context": [
+    //         {"key": "lsp.session_with_capability", "operand": "implementationProvider"},
+    //         {"key": "auto_complete_visible", "operand": false}
+    //     ]
+    // },
+    // Goto Diagnostic
+    // {
+    //     "keys": ["f8"],
+    //     "command": "lsp_goto_diagnostic",
+    //     "args": {"uri": "$view_uri"}
+    // },
+    // Goto Diagnostic in Project
+    // {
+    //     "keys": ["shift+f8"],
+    //     "command": "lsp_goto_diagnostic"
+    // },
+    // Jump to next Diagnostic in Tab
+    // {
+    //     "keys": ["UNBOUND"],
+    //     "command": "lsp_next_diagnostic",
+    //     "context": [{"key": "setting.lsp_active"}]
+    // },
+    // Jump to previous Diagnostic in Tab
+    // {
+    //     "keys": ["UNBOUND"],
+    //     "command": "lsp_prev_diagnostic",
+    //     "context": [{"key": "setting.lsp_active"}]
+    // },
+    // Rename
+    // {
+    //     "keys": ["UNBOUND"],
+    //     "command": "lsp_symbol_rename",
+    //     "context": [{"key": "lsp.session_with_capability", "operand": "renameProvider"}]
+    // },
+    // Format File
+    // {
+    //     "keys": ["UNBOUND"],
+    //     "command": "lsp_format_document",
+    //     "context": [{"key": "lsp.session_with_capability", "operand": "documentFormattingProvider | documentRangeFormattingProvider"}]
+    // },
+    // Format Selection
+    // {
+    //     "keys": ["UNBOUND"],
+    //     "command": "lsp_format_document_range",
+    //     "context": [{"key": "lsp.session_with_capability", "operand": "documentRangeFormattingProvider"}]
+    // },
+    // Document Symbols (a replacement for ST's "Goto Symbol")
+    // {
+    //     "keys": ["primary+r"],
+    //     "command": "lsp_document_symbols",
+    //     "context": [{"key": "lsp.session_with_capability", "operand": "documentSymbolProvider"}]
+    // },
+    // Workspace Symbols (a replacement for ST's "Goto Symbol In Project")
+    // {
+    //     "keys": ["primary+shift+r"],
+    //     "command": "lsp_workspace_symbols",
+    //     "context": [{"key": "lsp.session_with_capability", "operand": "workspaceSymbolProvider"}]
+    // },
+    // Hover Popup
+    // {
+    //     "keys": ["UNBOUND"],
+    //     "command": "lsp_hover",
+    //     "context": [{"key": "lsp.session_with_capability", "operand": "hoverProvider"}]
+    // },
+    // Follow Link
+    // {
+    //     "keys": ["UNBOUND"],
+    //     "command": "lsp_open_link",
+    //     "context": [{"key": "lsp.link_available"}]
+    // },
+    // Show Call Hierarchy
+    // {
+    //     "keys": ["UNBOUND"],
+    //     "command": "lsp_call_hierarchy",
+    //     "context": [{"key": "lsp.session_with_capability", "operand": "callHierarchyProvider"}]
+    // },
+    // Show Type Hierarchy
+    // {
+    //     "keys": ["UNBOUND"],
+    //     "command": "lsp_type_hierarchy",
+    //     "context": [{"key": "lsp.session_with_capability", "operand": "typeHierarchyProvider"}]
+    // },
+    // Toggle inlay hints
+    // Accepts optional "enable" argument to specify the expected state instead of toggling.
+    // {
+    //     "command": "lsp_toggle_inlay_hints",
+    //     "keys": ["UNBOUND"],
+    //     "context": [{"key": "lsp.session_with_capability", "operand": "inlayHintProvider"}]
+    // },
+    // Expand Selection (a replacement for ST's "Expand Selection")
+    // {
+    //     "keys": ["primary+shift+a"],
+    //     "command": "lsp_expand_selection",
+    //     "args": {"fallback": false},
+    //     "context": [{"key": "lsp.session_with_capability", "operand": "selectionRangeProvider"}]
+    // },
+    // Fold around caret position - an optional "strict" argument can be used to configure whether
+    // to fold only when the caret is contained within the folded region (true), or even when it is
+    // anywhere on the starting line (false).
+    // {
+    //     "keys": ["UNBOUND"],
+    //     "command": "lsp_fold",
+    //     "args": {"strict": true},
+    //     "context": [{"key": "lsp.session_with_capability", "operand": "foldingRangeProvider"}]
+    // },
+    //==== Internal key-bindings ====
+    {
+        "keys": ["<character>"],
+        "command": "noop",
+        "context": [{"key": "setting.lsp_suppress_input"}]
+    },
+    // Move Up/Down in Signature Help
+    {
+        "keys": ["up"],
+        "command": "lsp_signature_help_navigate",
+        "args": {"forward": false},
+        "context": [{"key": "lsp.signature_help_multiple_choices_available"}]
+    },
+    {
+        "keys": ["down"],
+        "command": "lsp_signature_help_navigate",
+        "args": {"forward": true},
+        "context": [{"key": "lsp.signature_help_multiple_choices_available"}]
+    },
+    // Override native save to handle Code-Actions-On-Save
+    {
+        "keys": ["primary+s"],
+        "command": "lsp_save",
+        "args": {"async": true},
+        "context": [{"key": "lsp.session_with_capability", "operand": "textDocumentSync.willSave | textDocumentSync.willSaveWaitUntil | codeActionProvider.codeActionKinds | documentFormattingProvider | documentRangeFormattingProvider"}]
+    },
+]
