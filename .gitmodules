@@ -1,0 +1,3 @@
+[submodule "Sublime/LSP"]
+	path = Sublime/LSP
+	url = git@github.com:sublimelsp/LSP.git

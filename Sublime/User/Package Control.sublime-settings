@@ -4,12 +4,6 @@
 	],
 	"installed_packages":
 	[
-		"LSP",
-		"LSP-gopls",
-		"LSP-intelephense",
 		"Package Control",
-		"SideBarEnhancements",
-		"Terminus",
-		"Text Pastry",
 	],
 }
