@@ -3,6 +3,8 @@
 	"font_size": 17,
 	"ignored_packages":
 	[
+		"LSP",
+		"LSP-gopls",
 		"Vintage",
 	],
 	"show_git_status": false,

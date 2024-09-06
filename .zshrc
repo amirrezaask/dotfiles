@@ -56,7 +56,7 @@ oclogs() {
 export PATH="/opt/homebrew/opt/mysql-client/bin:$PATH"
 
 
-if command -v starship &>/dev/null
-then
-    eval "$(starship init zsh)"
-fi
+# if command -v starship &>/dev/null
+# then
+#     eval "$(starship init zsh)"
+# fi
