@@ -8,6 +8,9 @@ ZSH_THEME="robbyrussell"
 
 plugins=(git)
 
+alias gs='git status'
+alias gdd='git diff HEAD'
+
 source $ZSH/oh-my-zsh.sh
 
 if command -v fzf &>/dev/null
@@ -25,7 +28,8 @@ if command -v subl &>/dev/null
 then
     export EDITOR='subl -w'
     export GIT_EDITOR='subl -w'
-    alias s='subl .'
+    alias s='subl'
+    alias ss='subl .'
 fi
 
 if command -v code &>/dev/null
