@@ -32,6 +32,13 @@ then
     alias ss='subl .'
 fi
 
+if command -v go &>/dev/null
+then
+    alias gt='go test'
+    alias gb='go build'
+    alias gd='go doc'
+fi
+
 if command -v code &>/dev/null
 then
     # export EDITOR='subl -w'
@@ -57,6 +64,9 @@ oclogs() {
     oc logs --prefix -f --selector "app.kubernetes.io/instance=snappdoctor-$1-prod, app.kubernetes.io/name=$1"
 }
 
+
+alias gg='git status HEAD'
+export GOPRIVATE=gitlab.snappcloud.io
 export PATH="/opt/homebrew/opt/mysql-client/bin:$PATH"
 
 

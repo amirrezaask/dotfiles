@@ -1,6 +1,6 @@
 {
-	"font_face": "Fira Code",
-	"font_size": 19,
+	"font_face": "Operator Mono Book",
+	"font_size": 17,
 	"ignored_packages":
 	[
 		"Vintage",
@@ -10,7 +10,7 @@
 	"save_on_focus_lost": true,
 	"hot_exit": "disabled",
 	"index_files": true,
-	"theme": "Adaptive.sublime-theme",
+	"theme": "Material Oceanic Next.sublime-theme",
 	"show_errors_inline": false,
 	"word_wrap": true,
 	"auto_complete": false,
@@ -22,5 +22,5 @@
 	"show_definitions": false,
 	"close_windows_when_empty": false,
 	"show_rel_path": true,
-	"color_scheme": "Night Owl.sublime-color-scheme",
+	"color_scheme": "Packages/Materialize/schemes/Material Oceanic Next.tmTheme",
 }
