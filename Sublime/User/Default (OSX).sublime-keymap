@@ -1,4 +1,5 @@
 [
+    { "keys": ["command+shift+o"], "command": "sesame_open" },
     { "keys": ["command+0"], "command": "sublime_merge_open_repo" },
     { "keys": ["ctrl+`"], "command": "toggle_terminus_panel" },
     { "keys": ["command+shift+n"], "command": "advanced_new_file_new" },

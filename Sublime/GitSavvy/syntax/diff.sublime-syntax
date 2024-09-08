@@ -1,0 +1,147 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: GitSavvy Diff
+hidden: true
+scope: git-savvy.diff
+first_line_match: |-
+  (?x)^
+      (===\ modified\ file
+      |==== \s* // .+ \s - \s .+ \s+ ====
+      |Index:[ ]
+      |---\ [^%]
+      |\*\*\*.*\d{4}\s*$
+      |\d+(,\d+)* (a|d|c) \d+(,\d+)* $
+      |diff\ --git[ ]
+      )
+contexts:
+  main:
+    # diff --git a/path/file.ext b/path/file.ext
+    - match: ^(diff)\s+(--git)\s+(a/.+?)\s+(b/.+?)$\n?
+      scope: meta.diff.header.git-output.command
+      captures:
+        1: keyword.other.command.diff
+        3: string.unquoted.from-file.diff
+        4: string.unquoted.to-file.diff
+
+    - match: ^(diff)\s+(--cc)\s+(.+?)$\n?
+      scope: meta.diff.header.git-output.command
+      captures:
+        1: keyword.other.command.diff
+        3: string.unquoted.to-file.diff
+
+    # index 00000000..1861c677
+    # index 1861c677..00000000
+    # index 3de5387c..a8dab191 100644
+    - match: ^(index)\s+(.+)(\.\.)(.+?)(?:\s+(\d+))?$\n?
+      scope: meta.diff.header.git-output.index
+      captures:
+        1: keyword.other.index.diff
+        2: constant.numeric.hex.from-commit.diff
+        3: punctuation.separator.sequence.diff
+        4: constant.numeric.hex.to-commit.diff
+        5: constant.numeric.integer.file-mode.diff
+
+    # similarity index 57%
+    - match: ^(similarity index)\s+(.+)$\n?
+      scope: meta.diff.header.git-output.similarity-index
+      captures:
+        1: keyword.other.similarity-index.diff
+        2: constant.numeric.integer.similarity-index.diff
+
+    # rename from path/file.ext
+    - match: ^(rename from)\s+(.+)$\n?
+      scope: meta.diff.header.git-output.rename-from
+      captures:
+        1: keyword.other.rename-from.diff
+        2: string.unquoted.from-file.diff
+
+    # rename to path/file.ext
+    - match: ^(rename to)\s+(.+)$\n?
+      scope: meta.diff.header.git-output.rename-to
+      captures:
+        1: keyword.other.rename-to.diff
+        2: string.unquoted.to-file.diff
+
+    # new file mode 100644
+    - match: ^(new file mode)\s+(\d+)$\n?
+      scope: meta.diff.header.git-output.new-file-mode
+      captures:
+        1: keyword.other.new-file-mode.diff
+        2: constant.numeric.integer.file-mode.diff
+
+    # deleted file mode 100644
+    - match: ^(deleted file mode)\s+(\d+)$\n?
+      scope: meta.diff.header.git-output.deleted-file-mode
+      captures:
+        1: keyword.other.deleted-file-mode.diff
+        2: constant.numeric.integer.file-mode.diff
+
+    - match: ^(-{3}) (a/)?(.+)$\n?
+      comment: |
+        Header the tells the user which file that the diff is for.
+        The header part needs to be before the Add/Delete block/sections since
+        both start on + or -. We dont want the header lines to be marked
+        green or read.
+      scope: meta.diff.header.from-file
+      captures:
+        1: punctuation.definition.from-file.diff
+        2: punctuation.definition.from-file.file-alias.diff
+        3: meta.filename.diff
+
+    - match: ^(\+{3}) (b/)?(.+)$\n?
+      scope: meta.diff.header.to-file
+      captures:
+        1: punctuation.definition.to-file.diff
+        2: punctuation.definition.to-file.file-alias.diff
+        3: meta.filename.diff gitsavvy.gotosymbol
+
+    - match: ^(@@)\s*(.+?)\s*(@@)\s(.*)$\n?
+      scope: meta.diff.range.unified
+      captures:
+        1: punctuation.definition.range.diff
+        2: meta.range.unified.line-numbers.diff
+        3: punctuation.definition.range.diff
+        4: meta.range.content-begin.diff
+
+    - match: ^(>)( .*)?$\n?
+      scope: markup.inserted.diff
+      captures:
+        1: punctuation.definition.inserted.diff
+        2: markup.inserted.diff.content
+
+    - match: ^(<)( .*)?$\n?
+      scope: markup.deleted.diff
+      captures:
+        1: punctuation.definition.deleted.diff
+        2: markup.deleted.diff.content
+
+    - match: ^(\+)(.*)$\n?
+      scope: markup.inserted.diff
+      captures:
+        1: punctuation.definition.inserted.diff
+        2: markup.inserted.diff.content
+
+    - match: ^(-)(.*)$\n?
+      scope: markup.deleted.diff
+      captures:
+        1: punctuation.definition.deleted.diff
+        2: markup.deleted.diff.content
+
+    - match: (\{\+)(.+?)(\+\})
+      comment: Add block/sections
+      scope: markup.inserted.git-savvy.add-block
+      captures:
+        1: punctuation.definition.inserted.diff
+        2: markup.inserted.git-savvy.add-block.content
+        3: punctuation.definition.inserted.diff
+
+    - match: (\[\-)(.+?)(\-\])
+      comment: Delete block/sections
+      scope: markup.deleted.git-savvy.delete-block
+      captures:
+        1: punctuation.definition.deleted.diff
+        2: markup.deleted.git-savvy.delete-block.content
+        3: punctuation.definition.deleted.diff
+
+    - include: "scope:git-savvy.commit-diffstat"

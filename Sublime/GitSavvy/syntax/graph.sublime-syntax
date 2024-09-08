@@ -1,0 +1,178 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: GitSavvy Graph
+file_extensions: []
+hidden: true
+scope: git-savvy.graph
+variables:
+  sha: '[0-9a-f]{6,40}'
+  ascii_art: (?:[| \\/_.])+
+  dot: '[●*⌂]'
+
+contexts:
+  main:
+    - match: '^$\n'
+      set: prelude
+
+  prelude:
+    - meta_scope: meta.prelude.git_savvy.graph
+    - match: .*
+      scope: comment.prelude.git_savvy.graph
+    - match: '^$\n'
+      set: prelude_end
+
+  prelude_end:
+    - meta_scope: meta.prelude.git_savvy.graph
+    - match: '^(?=\S)'
+      set: graph
+
+  graph:
+    - meta_scope: meta.content.git_savvy.graph
+    - match: (?=^.*{{sha}} +\(HEAD\*?( ->|\)|,))
+      push:
+        - meta_scope: meta.graph.graph-line.head.git-savvy
+        - include: content
+        - match: $
+          pop: true
+
+    - match: ^
+      push:
+        - include: content
+        - match: $
+          pop: true
+
+  content:
+    - match: '^({{ascii_art}})?({{dot}})([ -]+{{ascii_art}})?( *)'
+      comment: graph lines
+      scope: meta.graph.branch-art
+      captures:
+        1: punctuation.other.git-savvy.graph.graph-line
+        2: keyword.graph.commit.git-savvy
+        3: punctuation.other.git-savvy.graph.graph-line
+      push: commit-line
+
+    - match: '^({{ascii_art}})?( *)'
+      scope: meta.graph.branch-art
+      captures:
+        1: punctuation.other.git-savvy.graph.graph-line
+      push:
+        - match: .*$
+          scope: text.inline-diff.git-savvy
+        - match: $
+          pop: true
+
+  commit-line:
+    - include: commit-hash
+    - include: decoration
+    - match: (?=\S)
+      push: message
+    - match: $
+      pop: true
+
+  commit-hash:
+    - match: ({{sha}})\b
+      comment: SHA
+      scope: constant.numeric.graph.commit-hash.git-savvy
+
+  decoration:
+    - match: \((?=.*\))
+      comment: branch-name
+      scope: punctuation.expression.begin.git-savvy
+      push:
+        - match: (?=[^)]*\w \w)
+          pop: true
+        - meta_scope: meta.graph.branch.git-savvy
+        - match: \)
+          scope: punctuation.expression.end.git-savvy
+          pop: true
+        - match: (tag)(:) ([^ ,)]+)
+          scope: meta.graph.tag.git-savvy gitsavvy.gotosymbol
+          captures:
+            1: storage.type.git-savvy.graph
+            2: punctuation.separator.other.git-savvy
+            3: entity.name.tag.branch-name.git-savvy
+        - match: ','
+          scope: punctuation.separator.other.git-savvy
+        - match: '->'
+          scope: punctuation.separator.key-value.branch.git-savvy
+        - match: (HEAD)(\*)?
+          captures:
+            1: constant.other.git.head.git-savvy gitsavvy.gotosymbol
+            2: punctuation.expression.dirty.git-savvy
+        - match: (master|main|dev|trunk)\b
+          scope: constant.other.git.branch.special.git-savvy gitsavvy.gotosymbol
+        - match: (\d+)?([^ ,#/)]*)?/?(#?\d+)?([^ ,)]+)
+          scope: constant.other.git.branch.git-savvy gitsavvy.gotosymbol
+          captures:
+            1: meta.git-savvy.issue-reference
+            3: meta.git-savvy.issue-reference
+
+  message:
+    - meta_scope: meta.graph.message.git-savvy
+    - match: (fixup|squash)(!)
+      captures:
+        1: string.other.rebase-hint.git-savvy
+        2: punctuation.string.end.git-savvy
+    - match: (`[^`]*`)
+      comment: by name
+      scope: keyword.by-name.git-savvy.
+
+    - match: '(?:[Ff]ix(?:e[ds])?|[Rr]esolve[ds]?|[Cc]lose[ds]?)?\s*(?:(#\d+)|\[.+?\])'
+      comment: issue numbers
+      scope: string.other.issue.git-savvy
+      captures:
+        1: meta.git-savvy.issue-reference
+
+    - match: Merge branch (')(.*?)(')(?:\s+(?:of|into)\s+(\S*))?
+      comment: merges
+      scope: meta.git-savvy.grph.merge
+      captures:
+        1: punctuation.string.begin.git-savvy
+        2: string.other.merge.branch-name.git-savvy
+        3: punctuation.string.end.git-savvy
+        4: string.other.merge.remote.git-savvy
+
+    - match: Merge branches\b
+      comment: merges
+      scope: meta.git-savvy.grph.merge
+      push:
+        - match: (')(.*?)(')(?:,| and)?
+          captures:
+            1: punctuation.string.begin.git-savvy
+            2: string.other.merge.branch-name.git-savvy
+            3: punctuation.string.end.git-savvy
+        - match: (?:of|into)\s*(\S*)
+          captures:
+            1: string.other.merge.remote.git-savvy
+          pop: true
+        - match: (?=\S)
+          pop: true
+
+    - match: Merge pull request (#\d+) from (\S*)
+      scope: meta.git-savvy.grph.merge
+      captures:
+        0: meta.git-savvy.grph.merge.pull-request
+        1: string.other.issue.git-savvy meta.git-savvy.issue-reference
+        2: string.other.merge.remote.git-savvy
+
+    - match: ':'
+      scope: punctuation.separator.key-value.git-savvy
+
+
+    - match: '(?=\s*(\||\x{200b}) ([^,]+), ([^|]+)$\n?)'
+      set: date-author-info
+
+    - match: $
+      pop: true
+
+  date-author-info:
+    - match: '\s*(\||\x{200b}) ([^,]+), ([^|]+)$\n?'
+      scope: meta.git-savvy.grph.info
+      captures:
+        1: punctuation.separator.git-savvy
+        2: storage.type.time.git-savvy
+        3: entity.name.tag.author.git-savvy
+
+    - match: $
+      pop: true

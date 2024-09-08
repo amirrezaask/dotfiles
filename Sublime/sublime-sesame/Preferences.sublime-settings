@@ -1,0 +1,38 @@
+{
+    // Set the default projects path for Sesame.
+    // You can specify multiple paths using ':' for POSIX or ';' for Windows.
+    // Examples:
+    // "sesame.path": "~/projects:~/work:~/src"
+    // "sesame.path": "~/projects"
+    // "sesame.path": "~/projects:~/work:~/src"
+    // "sesame.path": ["~/projects", "~/work", "~/src"]
+    // "sesame.path": [
+    //     {
+    //         "path": "~/projects",
+    //         "depth": 1
+    //     }
+    //     {
+    //         "path": "~/work",
+    //         "vcs": true
+    //     }
+    // ]
+
+    /*
+
+    "sesame.path": "",
+
+     */
+
+    // Set the depth for organizing projects. Default is 2.
+    // For a single directory level, set "sesame.depth": 1.
+    "sesame.depth": 2,
+
+    // Set whether to use version control system (VCS) integration for projects.
+    // - null: Include version controlled and non-version controlled projects.
+    // - true: Include only version controlled projects.
+    // - false: Exclude version controlled projects.
+    "sesame.vcs": null,
+
+    // Enable the default keymaps.
+    "sesame.keymaps": true
+}

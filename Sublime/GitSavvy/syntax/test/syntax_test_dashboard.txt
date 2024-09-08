@@ -1,0 +1,94 @@
+# SYNTAX TEST "Packages/GitSavvy/syntax/dashboard.sublime-syntax"
+
+  ROOT:    ~/.config/sublime-text-3/Packages/GitSavvy
+#  ^ comment
+#              ^ comment.git-savvy.summary-header.root.info
+#  ^ comment.git-savvy.summary-header.title.root
+  BRANCH:  On branch `master` tracking `origin/master`.
+#  <- meta.git-savvy.summary-header
+#  ^ comment
+#           ^ -comment
+#                    ^ punctuation.definition.git-savvy.branch.start
+#                     ^^^^^^ constant.other.git-savvy.summary-header.branch-name
+#                           ^ punctuation.definition.git-savvy.branch.end
+#                                      ^ punctuation.definition.git-savvy.branch.start
+#                                       ^^^^^^^^^^^^^ constant.other.git-savvy.summary-header.branch-name
+#                                                    ^ punctuation.definition.git-savvy.branch.end
+#
+           You're ahead by 3.
+#                 ^^^^^ keyword.other.git-savvy.summary-header.ahead-behind
+           You're behind by 3.
+#                 ^^^^^^ keyword.other.git-savvy.summary-header.ahead-behind
+  HEAD:    aaf90ba improve blame syntax
+# <- comment.git-savvy.summary-header.head-summary
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.git-savvy.summary-header.head-summary
+# ^^^^^ comment.git-savvy.summary-header.title.head
+#          ^^^^^^^ constant.other
+              `  ​(tag: 4.20.0, origin/master)
+#             ^^^ punctuation.other.commit-decoration.git-savvy
+#                   ^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.other.git.branch.git-savvy
+#                  ! shift to the right because of the invisible whitespace markers !
+           70740e43 ​commit message
+#          ^^^^^^^^ constant.other.git-savvy.sha1
+           ​ ⋮
+#            ^ punctuation.other.dropped-commits.git-savvy
+#           ! shift to the right because of the invisible whitespace markers !
+           70740e43 ​(iter-stashes)
+#          ^^^^^^^^ constant.other.git-savvy.sha1
+
+  ** Press [e] to toggle display of remote branches. **
+# <- - meta.git-savvy.status
+#   ^ support.type
+
+  ###################                   ###############
+#  ^ punctuation.definition.git-savvy.section
+#                                                     ^ punctuation.definition.git-savvy.section
+  ## SELECTED FILE ##                   ## ALL FILES ##
+#  ^ punctuation.definition.git-savvy.section
+#      ^ support.type.git-savvy.key-bindings-header-text
+  ###################                   ###############
+#  ^ punctuation.definition.git-savvy.section
+#                                        ^ punctuation.definition.git-savvy.section
+  [o] open file                         [a] stage all unstaged files
+# ^ punctuation.definition.git-savvy.key-bindings-key-stroke
+#  ^ constant.character.git-savvy-key-binding-key
+#   ^ punctuation.definition.git-savvy.key-bindings-key-stroke
+#       ^ comment.git-savvy.key-bindings-menu.key-binding-description
+#                                       ^ punctuation.definition.git-savvy.key-bindings-key-stroke
+#                                        ^ constant.character.git-savvy-key-binding-key
+#                                         ^ punctuation.definition.git-savvy.key-bindings-key-stroke
+#                                             ^ comment.git-savvy.key-bindings-menu.key-binding-description
+  [t][a] apply stash
+# ^ punctuation.definition.git-savvy.key-bindings-key-stroke
+#  ^ constant.character.git-savvy-key-binding-key
+#   ^ punctuation.definition.git-savvy.key-bindings-key-stroke
+#    ^ punctuation.definition.git-savvy.key-bindings-key-stroke
+#     ^ constant.character.git-savvy-key-binding-key
+#      ^ punctuation.definition.git-savvy.key-bindings-key-stroke
+#            ^ comment.git-savvy.key-bindings-menu.key-binding-description
+
+  [SHIFT-tab] transition to previous dashboard
+# ^ punctuation.definition.git-savvy.key-bindings-key-stroke
+#     ^ constant.character.git-savvy-key-binding-key
+#           ^ punctuation.definition.git-savvy.key-bindings-key-stroke
+#                ^ comment.git-savvy.key-bindings-menu.key-binding-description
+  [.]         move cursor to next file
+# ^ punctuation.definition.git-savvy.key-bindings-key-stroke
+#  ^ constant.character.git-savvy-key-binding-key
+#   ^ punctuation.definition.git-savvy.key-bindings-key-stroke
+#                ^ comment.git-savvy.key-bindings-menu.key-binding-description
+  [,]         move cursor to previous file
+# ^ punctuation.definition.git-savvy.key-bindings-key-stroke
+#  ^ constant.character.git-savvy-key-binding-key
+#   ^ punctuation.definition.git-savvy.key-bindings-key-stroke
+#                 ^ comment.git-savvy.key-bindings-menu.key-binding-description
+  [D] delete (force)
+# ^ punctuation.definition.git-savvy.key-bindings-key-stroke
+#  ^ constant.character.git-savvy-key-binding-key
+#   ^ punctuation.definition.git-savvy.key-bindings-key-stroke
+#               ^ comment.git-savvy.key-bindings-menu.key-binding-description
+  [?] toggle this help menu
+# ^ punctuation.definition.git-savvy.key-bindings-key-stroke
+#  ^ constant.character.git-savvy-key-binding-key
+#   ^ punctuation.definition.git-savvy.key-bindings-key-stroke
+#               ^ comment.git-savvy.key-bindings-menu.key-binding-description

@@ -1,0 +1,18 @@
+[
+    {
+        "caption": "Sesame: Add",
+        "command": "sesame_add"
+    },
+    {
+        "caption": "Sesame: Open",
+        "command": "sesame_open"
+    },
+    {
+        "caption": "Sesame: Remove",
+        "command": "sesame_remove"
+    },
+    {
+        "caption": "Sesame: Switch",
+        "command": "sesame_switch"
+    }
+]

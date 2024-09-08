@@ -1,0 +1,114 @@
+# SYNTAX TEST "Packages/GitSavvy/syntax/graph.sublime-syntax"
+
+# <-  meta.prelude
+  REPO: C:\Users\c-flo\AppData\Roaming\Sublime Text\Packages\SublimeLinter
+  [a]ll: true
+
+# <-  meta.prelude
+* 2b17192 (HEAD -> develop, origin/master, origin/HEAD, master) replace all references to .tmLanguage to .sublime-syntax
+# <-  meta.content
+# <-  keyword.graph.commit
+#  ^ constant.numeric.graph.commit-hash
+#          ^^^^ constant.other.git.head
+#                     ^ constant.other.git.branch
+#               ^ punctuation.separator.key-value.branch
+#         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.graph.branch.git-savvy
+#         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.graph.message
+#                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^  meta.graph.message.git-savvy
+# <- meta.graph.graph-line.head.git-savvy
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.graph.graph-line.head.git-savvy
+* f483ab7 (HEAD) update blame syntax format
+# <- meta.graph.graph-line.head.git-savvy
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.graph.graph-line.head.git-savvy
+#          ^^^^ constant.other.git.head
+#        ^^^^^^^^ - meta.graph.message
+* 7b3c5089 (Really sorry, I didn't not.. ​ Dec 9 2014, calculuswhiz
+#          ^^^^^^^^^^^^^^ - meta.graph.branch constant.other.git.branch
+#                                                 ^^^^^^^^^^^^ meta.git-savvy.grph.info
+* 7b3c5089 (Really sorry) I didn't not.. ​ Dec 9 2014, calculuswhiz
+#          ^^^^^^^^^^^^^^ - meta.graph.branch constant.other.git.branch
+#                                                 ^^^^^^^^^^^^ meta.git-savvy.grph.info
+
+* 6929182 update (HEAD) make_commit syntax format
+#         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ git-savvy.graph meta.graph.message.git-savvy
+* ede734e update diff syntax format
+# <- keyword.graph.commit
+#  ^ constant.numeric.graph.commit-hash
+
+| | ● 46652a2 Remove old "abort", "continue", and "skip" commands                | Fri 13:23, herr kaste
+# <- meta.graph.branch-art
+#^^^^^ meta.graph.branch-art
+#   ^ meta.graph.branch-art keyword.graph.commit
+#                                                                                ^ meta.git-savvy.grph.info punctuation.separator.git-savvy
+#                                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.git-savvy.grph.info
+#                                                                                  ^^^^^^^^^ meta.git-savvy.grph.info storage.type.time.git-savvy
+#                                                                                             ^^^^^^^^^^ entity.name.tag.author.git-savvy
+
+| | ● 49116e9 Fix some WS                                                        | Fri 13:22, herr kaste
+| | ● e697d93 Implement rebase commands for the graph view                       | Fri 13:03, herr kaste
+| ● |   ea2fe1c Merge branches 'graph-f-help' and 'iterate-commit-view' into m.. | Fri 17:06, herr kaste
+#                                                                               ^^^^^^^^^^^^^^^^^^^^^^^^ meta.git-savvy.grph.info
+#                                                                                ^ meta.git-savvy.grph.info punctuation.separator.git-savvy
+#                                                                                  ^^^^^^^^^ meta.git-savvy.grph.info storage.type.time.git-savvy
+#                                                                                             ^^^^^^^^^^ entity.name.tag.author.git-savvy
+● 995f6170c7 gh-88863: Clear asyncio.open_connect.. | Nov 23 2022, Dong Uk, Kang
+#                                                     ^^^^^^^^^^^ meta.git-savvy.grph.info storage.type.time.git-savvy
+#                                                                  ^^^^^^^^^^^^^^ entity.name.tag.author.git-savvy
+
+| ● |   ea2fe1c Merge branches 'graph-f-help' and 'iterate-commit-view' into.. | Fri 17:06, herr kaste
+#                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^ meta.git-savvy.grph.info
+| ● |   ea2fe1c Merge branches 'graph-f-help' and 'iterate-commit-view' in.. | Fri 17:06, herr kaste
+#                                                                           ^^^^^^^^^^^^^^^^^^^^^^^^ meta.git-savvy.grph.info
+| ● |   ea2fe1c Merge branches 'graph-f-help' and 'iterate-commit-vie.. | Fri 17:06, herr kaste
+#                                                                      ^^^^^^^^^^^^^^^^^^^^^^^^ meta.git-savvy.grph.info
+
+| |\ \
+# <- meta.graph.branch-art punctuation.other.git-savvy.graph.graph-line
+#^^^^^ meta.graph.branch-art punctuation.other.git-savvy.graph.graph-line
+
+| | ● | ffc45b7 (origin/#125-iterate-commit-view) Adjust commit message help text     | Thu 21:54, herr kaste
+#                       ^^^^ meta.git-savvy.issue-reference
+#                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.other.git.branch.git-savvy gitsavvy.gotosymbol
+| | ● | ffc45b7 (origin/125-iterate-commit-view) Adjust commit message help text     | Thu 21:54, herr kaste
+#                       ^^^ meta.git-savvy.issue-reference
+| | ● | ffc45b7 (125-iterate-commit-view) Adjust commit message help text     | Thu 21:54, herr kaste
+#                ^^^ meta.git-savvy.issue-reference
+* c39b5de (divmain/master) Fix: plugin_host would crash when navigating past end of graph view
+* 1bca3e0 Fix: When amending, prepopulated commit message would include two extra spaces.
+* 76ceacf Fix: When amending with show_commit_diff enabled, unstaged changes were displayed.
+*   83a486e Merge branch 'master' of github.com:divmain/GitSavvy
+#           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.git-savvy.grph.merge
+#                                         ^ string.other.merge.remote
+
+*   b7f8e07 Merge pull request #359 from dnicolson/blame-commit-lengths
+#           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.git-savvy.grph.merge
+#           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.git-savvy.grph.merge.pull-request
+#                              ^^^^ string.other.issue
+#                              ^^^^ meta.git-savvy.issue-reference
+#                             ^      - string.other.issue
+#                             ^      - meta.git-savvy.issue-reference
+#                                  ^ - string.other.issue
+#                                  ^ - meta.git-savvy.issue-reference
+#                                         ^ string.other.merge.remote
+
+*   b7f8e07 Fix #359 from dnicolson/blame-commit-lengths
+#           ^^^^^^^^ string.other.issue
+#               ^^^^ meta.git-savvy.issue-reference
+*   b7f8e07 Look #359 'ma
+#                ^^^^ string.other.issue
+#                ^^^^ meta.git-savvy.issue-reference
+
+|\
+# <- punctuation.other.git-savvy.graph.graph-line
+#^ punctuation.other.git-savvy.graph.graph-line
+| * 160f645 Support 40-48 character commit messages
+|/
+#^ punctuation.other.git-savvy.graph.graph-line
+* 40cdf58 Feature: (not a branch name)
+#                ^ punctuation.separator.key-value
+#                    ^ - constant.other.git.branch
+* 6da4bec Change `get_read_only_view` to more broad `get_scratch_view`.
+* 66b5d4e (tag: 2.9.1) Fix: User was unable to view tag commit when remotes were not displayed in tags dashboard.
+#           ^ storage.type
+#               ^ entity.name.tag
+#          ^^^^^^^^^^ meta.graph.tag.git-savvy

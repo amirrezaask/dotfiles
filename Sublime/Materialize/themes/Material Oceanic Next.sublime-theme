@@ -365,7 +365,7 @@
       "fg": [84, 110, 122, 255],
       "shadow_color": [255, 255, 255, 0],
       "shadow_offset": [0, 0],
-      "font.size": 11,
+      "font.size": 15,
       "font.italic": false,
       "font.bold": false
     },
