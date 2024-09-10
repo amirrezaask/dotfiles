@@ -1,0 +1,49 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: GitSavvy Blame
+hidden: true
+scope: git-savvy.blame
+contexts:
+  main:
+    - match: ^(\-+ )(\|)( \-+)$
+      comment: separator
+      scope: comment.block.git-savvy.splitter
+      captures:
+        1: comment.block.git-savvy.splitter.horizontal.commit-info
+        2: comment.block.git-savvy.splitter.vertical
+        3: comment.block.git-savvy.splitter.horizontal.source
+
+    - match: ^Not committed yet.+?\s+
+      scope: meta.not-committed.blame.git-savvy
+      push: right-column
+
+    - match: ^([0-9a-f]{12})\s+ (\(CURRENT COMMIT\))?
+      comment: SHA
+      scope: meta.blame-line.git-savvy
+      captures:
+        1: constant.numeric.commit-hash.git-savvy
+        2: meta.current-commit.blame.git-savvy
+      push: right-column
+
+    - match: ^([^|]+) (<)(\S*?)(>|\.{3})\s+
+      comment: name + email
+      scope: meta.blame-line.git-savvy
+      captures:
+        1: entity.name.tag.git-savvy
+        2: punctuation.definition.other.begin.git-savvy
+        3: string.other.mail.git-savvy
+        4: punctuation.definition.other.end.git-savvy
+      push: right-column
+
+    - match: ^.+?(?=\s\|\s)
+      scope: comment.block.git-savvy.commit-info
+      push: right-column
+
+  right-column:
+    - match: (\|)\s+(\d*).*$
+      captures:
+        1: comment.block.git-savvy.splitter.vertical
+        2: constant.numeric.line-number.blame.git-savvy
+    - match: $
+      pop: true
