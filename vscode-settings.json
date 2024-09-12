@@ -2,7 +2,7 @@
   "editor.fontSize": 14,
   "editor.lineHeight": 30,
   "window.title": "${activeEditorMedium}${separator}${rootName}${separator}${profileName}",
-  // "window.titleBarStyle": "custom",
+  "window.titleBarStyle": "custom",
   "workbench.startupEditor": "none", // Start with an empty screen
   "editor.fontFamily": "MonoLisa, Dank Mono, MonoLisa, Operator Mono Book, Fira Code, Menlo, Consolas",
   "window.restoreWindows": "none", // do not reopen everything when I launch.
@@ -23,7 +23,7 @@
   "files.simpleDialog.enable": true, // Use vscode ui to open files instead of OS.
   "workbench.editor.enablePreview": false,
   "editor.bracketPairColorization.enabled": false,
-  "workbench.editor.editorActionsLocation": "hidden",
+  "workbench.editor.editorActionsLocation": "titleBar",
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,
   "workbench.sideBar.location": "right", // Sidebar to right so it does not move our code.
@@ -50,5 +50,5 @@
   "go.addTags": { "options": "" },
   "go.toolsManagement.autoUpdate": true,
   "git.confirmSync": false,
-"workbench.colorTheme": "Dracula Theme",
+  "workbench.colorTheme": "Dracula Theme",
 }
