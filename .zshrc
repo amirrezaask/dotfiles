@@ -6,10 +6,13 @@ export ZSH="$HOME/.oh-my-zsh"
 
 ZSH_THEME="robbyrussell"
 
-plugins=(git)
+plugins=()
 
+# Git stuff
 alias gs='git status'
+alias gst='git status'
 alias gdd='git diff HEAD'
+alias gg='git push origin $(git_current_branch)'
 
 source $ZSH/oh-my-zsh.sh
 
@@ -32,18 +35,10 @@ then
     alias ss='subl .'
 fi
 
-if command -v go &>/dev/null
-then
-    alias gt='go test'
-    alias gb='go build'
-    alias gd='go doc'
-fi
-
 if command -v code &>/dev/null
 then
-    # export EDITOR='subl -w'
-    # export GIT_EDITOR='subl -w'
-    alias c='code .'
+    alias c='code'
+    alias cc='code .'
 fi
 
 if command -v brew &>/dev/null
@@ -64,8 +59,11 @@ oclogs() {
     oc logs --prefix -f --selector "app.kubernetes.io/instance=snappdoctor-$1-prod, app.kubernetes.io/name=$1"
 }
 
+reload() {
+    source ~/.zshrc
+}
 
-alias gg='git status HEAD'
+
 export GOPRIVATE=gitlab.snappcloud.io
 export PATH="/opt/homebrew/opt/mysql-client/bin:$PATH"
 

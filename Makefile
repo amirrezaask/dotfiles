@@ -40,3 +40,7 @@ install:
 sublime-mac:
 	rm -rf "$(HOME)/Library/Application Support/Sublime Text/Packages"
 	ln -s "$(DOTFILES_DIR)/Sublime" "$(HOME)/Library/Application Support/Sublime Text/Packages"
+
+sync-vscode-macos:
+	cp "$(HOME)/Library/Application Support/Code/User/settings.json" ./vscode-settings.json
+	cp "$(HOME)/Library/Application Support/Code/User/keybindings.json" ./vscode-keybindings.json

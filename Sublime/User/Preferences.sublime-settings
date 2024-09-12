@@ -1,6 +1,7 @@
 {
 	"font_face": "Operator Mono Book",
-	"font_size": 23,
+	"font_size": 20,
+	"font_options": ["no_italic"],
 	"ignored_packages":
 	[
 		"Vintage",
@@ -13,7 +14,7 @@
 	"theme": "Adaptive.sublime-theme",
 	"show_errors_inline": false,
 	"word_wrap": false,
-	"auto_complete": false,
+	"auto_complete": true,
 	"caret_style": "phase",
 	"line_padding_top": 10,
 	"line_padding_bottom": 10,
@@ -22,7 +23,7 @@
 	"show_definitions": false,
 	"close_windows_when_empty": false,
 	"show_rel_path": true,
-	"color_scheme": "Packages/Aura Theme/aura-theme.tmTheme",
+	"color_scheme": "Packages/Inspired Github Theme/InspiredGithub.tmTheme",
 	"sesame.path": "~/w",
 	"sesame.depth": 1,
 	"sesame.vcs": true,
