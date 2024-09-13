@@ -1,10 +1,10 @@
 {
   "editor.fontSize": 14,
-  "editor.lineHeight": 30,
+  "editor.lineHeight": 40,
   "window.title": "${activeEditorMedium}${separator}${rootName}${separator}${profileName}",
   "window.titleBarStyle": "custom",
   "workbench.startupEditor": "none", // Start with an empty screen
-  "editor.fontFamily": "MonoLisa, Dank Mono, MonoLisa, Operator Mono Book, Fira Code, Menlo, Consolas",
+  "editor.fontFamily": "Dank Mono, MonoLisa, Operator Mono Book, Fira Code, Menlo, Consolas",
   "window.restoreWindows": "none", // do not reopen everything when I launch.
   "workbench.settings.editor": "json", // Who uses that shitty slow UI ?
   "workbench.panel.defaultLocation": "top",
@@ -13,17 +13,19 @@
   "security.workspace.trust.untrustedFiles": "open",
   "editor.minimap.enabled": false, // Disable minimap
   "workbench.layoutControl.enabled": false, // Disable layout control buttons
-  "window.commandCenter": false, // Disable Command Center
+  "window.commandCenter": true, // Disable Command Center
   "breadcrumbs.enabled": false, // Disable breadcrumbs
   "editor.scrollbar.horizontal": "hidden", // No scroll bars
   "editor.scrollbar.vertical": "hidden", // No scroll bars
   "editor.cursorSmoothCaretAnimation": "on", // Sexy caret animation, really nice when typing.
+  "editor.cursorBlinking": "phase",
   "outline.icons": false,
   "editor.stickyScroll.enabled": false,
   "files.simpleDialog.enable": true, // Use vscode ui to open files instead of OS.
   "workbench.editor.enablePreview": false,
   "editor.bracketPairColorization.enabled": false,
   "workbench.editor.editorActionsLocation": "titleBar",
+  "editor.wordWrap": "on",
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,
   "workbench.sideBar.location": "right", // Sidebar to right so it does not move our code.
@@ -40,15 +42,23 @@
   "editor.autoClosingBrackets": "never", // No fucking auto pairs
   "editor.autoClosingComments": "never", // No fucking auto pairs
   "diffEditor.renderSideBySide": false, // Render diffs inline, side by side is awful on this tiny laptop
-  "editor.quickSuggestions": { "other": false, "comments": false, "strings": false }, // No Autocomplete bullshit
+  "editor.quickSuggestions": {
+    "other": false,
+    "comments": false,
+    "strings": false
+  }, // No Autocomplete bullshit
   "editor.suggestOnTriggerCharacters": false, // No Autocomplete bullshit
   "editor.parameterHints.enabled": false,
   "editor.semanticHighlighting.enabled": false,
   "editor.occurrencesHighlight": "off",
   "problems.visibility": false, // Disable annoying squiggles throughout the editor.
-  "[go]": { "editor.formatOnSave": true },
-  "go.addTags": { "options": "" },
+  "[go]": {
+    "editor.formatOnSave": true
+  },
+  "go.addTags": {
+    "options": ""
+  },
   "go.toolsManagement.autoUpdate": true,
   "git.confirmSync": false,
-  "workbench.colorTheme": "Dracula Theme",
+  "workbench.colorTheme": "poimandres",
 }

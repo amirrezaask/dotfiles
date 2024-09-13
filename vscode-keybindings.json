@@ -29,22 +29,32 @@
     "key": "cmd+2",
     "command": "workbench.action.terminal.toggleTerminal"
   },
-  // Toggle Git
-  {
-    "key": "cmd+0",
-    "command": "workbench.view.scm",
-    "when": "!view.workbench.scm.visible"
-  },
-  {
-    "key": "cmd+0",
-    "command": "workbench.action.toggleSidebarVisibility",
-    "when": "view.workbench.scm.visible"
-  },
   // Toggle Search
+  {
+    "key": "cmd+3",
+    "command": "workbench.view.search",
+    "when": "!activeViewlet == 'workbench.view.search'"
+  },
+  {
+    "key": "cmd+3",
+    "command": "workbench.action.toggleSidebarVisibility",
+    "when": "activeViewlet == 'workbench.view.search'"
+  },
   {
     "key": "cmd+shift+f",
     "command": "workbench.action.toggleSidebarVisibility",
     "when": "view.workbench.view.search.visible"
+  },
+  // Toggle Git
+  {
+    "key": "cmd+4",
+    "command": "workbench.view.scm",
+    "when": "!view.workbench.scm.visible"
+  },
+  {
+    "key": "cmd+4",
+    "command": "workbench.action.toggleSidebarVisibility",
+    "when": "view.workbench.scm.visible"
   },
   // LSP
   {
@@ -61,7 +71,6 @@
     "key": "cmd+,",
     "command": "workbench.action.navigateBack"
   },
-
   // Goto references
   {
     "key": "cmd+shift+.",

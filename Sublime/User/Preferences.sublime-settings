@@ -1,6 +1,6 @@
 {
-	"font_face": "Operator Mono Book",
-	"font_size": 20,
+	"font_face": "Dank Mono",
+	"font_size": 23,
 	"font_options": ["no_italic"],
 	"ignored_packages":
 	[
@@ -23,7 +23,7 @@
 	"show_definitions": false,
 	"close_windows_when_empty": false,
 	"show_rel_path": true,
-	"color_scheme": "Packages/Inspired Github Theme/InspiredGithub.tmTheme",
+	"color_scheme": "Packages/Materialize/schemes/Material One Dark.tmTheme",
 	"sesame.path": "~/w",
 	"sesame.depth": 1,
 	"sesame.vcs": true,

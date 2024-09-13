@@ -4,6 +4,7 @@
 	],
 	"installed_packages":
 	[
+		"LSP-typescript",
 		"Package Control",
 	],
 }
