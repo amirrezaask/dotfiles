@@ -1,6 +1,10 @@
 [
+    // Command + Num
+    { "keys": ["command+1"], "command": "toggle_side_bar" },
+    { "keys": ["command+2"], "command": "toggle_terminus_panel" },
+    { "keys": ["command+3"], "command": "gs_show_status"},
+
     { "keys": ["command+shift+o"], "command": "sesame_open" },
-    { "keys": ["command+0"], "command": "sublime_merge_open_repo" },
     { "keys": ["ctrl+`"], "command": "toggle_terminus_panel" },
     { "keys": ["command+shift+n"], "command": "advanced_new_file_new" },
     { "keys": ["command+,"], "command": "jump_back" },
@@ -58,15 +62,13 @@
     },
     // }}}
     
-    // Sidebar
-    { "keys": ["command+1"], "command": "toggle_side_bar" },
-    
+
     // Splits
-    { 
-        "keys": ["ctrl+tab"], 
-        "command": "focus_neighboring_group", 
-        "args": {"forward": false} 
-    },
+    // { 
+    //     "keys": ["ctrl+tab"], 
+    //     "command": "focus_neighboring_group", 
+    //     "args": {"forward": false} 
+    // },
 
     {
         "keys": ["command+shift+\\"],

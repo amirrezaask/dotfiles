@@ -67,7 +67,7 @@ require("lazy").setup({
         opts = { style = 'dark', transparent = TRANSPARENT }
     },
     -- 'eemed/sitruuna.vim',
-    { dir = "~/w/sitruuna.nvim" },
+    { 'amirrezaask/sitruuna.nvim' },
     'stevearc/oil.nvim',
     "folke/ts-comments.nvim",
     "nvim-pack/nvim-spectre",
