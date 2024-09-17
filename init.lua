@@ -241,30 +241,28 @@ require('telescope').load_extension('fzf')
 require("telescope").load_extension("ui-select")
 
 local telescope_keys = {
-    ["<leader>p"] = "git_files",
-    ["<leader><leader>"] = "find_files",
+    ["<leader>p"] = { "git_files", theme = require("telescope.themes").get_dropdown, previewer = false },
+    ["<leader><leader>"] = { "find_files", theme = require("telescope.themes").get_dropdown, previewer = false },
     ["??"] = "live_grep",
-    ["<leader>h"] = "help_tags",
-    ["<leader>b"] = "buffers",
+    ["<leader>h"] = { "help_tags", previewer = false },
+    ["<leader>b"] = { "buffers", theme = require("telescope.themes").get_dropdown, previewer = false },
     ["<leader>w"] = "lsp_dynamic_workspace_symbols",
-    ["<leader>o"] = { "lsp_document_symbols", require("telescope.themes").get_dropdown },
+    ["<leader>o"] = { "lsp_document_symbols", theme = require("telescope.themes").get_dropdown, previewer = false },
 }
 
 
 for k, v in pairs(telescope_keys) do
     if type(v) == "string" then
         vim.keymap.set("n", k, function()
-            require "telescope.builtin"[v]({
-                previewer = false
-            })
+            require "telescope.builtin"[v]({})
         end, {})
     elseif type(v) == "function" then
         vim.keymap.set("n", k, v)
     elseif type(v) == "table" then
         vim.keymap.set("n", k, function()
-            local theme = v[2]
+            local theme = v['theme'] or function(opts) return opts end
             require "telescope.builtin"[v[1]](theme({
-                previewer = false
+                previewer = v['previewer']
             }))
         end)
     end
