@@ -5,7 +5,7 @@
 -- Minimal, fast configuration for neovim.
 
 TRANSPARENT = os.getenv('NVIM_TRANSPARENT') or false
-COLORSCEHEME = os.getenv('NVIM_COLORSCHEME') or "sitruuna"
+COLORSCEHEME = os.getenv('NVIM_COLORSCHEME') or "night-owl"
 IS_WINDOWS = vim.fn.has("win32") == 1
 
 -- Lazy: Plugin manager
@@ -43,6 +43,7 @@ require("lazy").setup({
             }
         }
     },
+    "oxfist/night-owl.nvim",
     "scottmckendry/cyberdream.nvim",
     {
         "folke/tokyonight.nvim",
@@ -66,8 +67,8 @@ require("lazy").setup({
         'navarasu/onedark.nvim',
         opts = { style = 'dark', transparent = TRANSPARENT }
     },
-    -- 'eemed/sitruuna.vim',
     { 'amirrezaask/sitruuna.nvim' },
+
     'stevearc/oil.nvim',
     "folke/ts-comments.nvim",
     "nvim-pack/nvim-spectre",
@@ -116,6 +117,7 @@ vim.opt.inccommand = "split" -- Preview all substitutions(replacements).
 vim.opt.scrolloff = 10       -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.cursorline = true
 vim.opt.laststatus = 3       -- Global statusline
+vim.opt.guicursor = ''
 vim.g.mapleader = " "        -- <leader> key for keymaps mapped to <Space>
 vim.keymap.set("n", "Y", "y$", { desc = "Copy whole line" })
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
@@ -170,60 +172,6 @@ vim.api.nvim_create_autocmd("TextYankPost", {
     end,
 })
 
--- Neovide
-if vim.g.neovide then
-    local font = 'JetBrainsMono Nerd Font Mono'
-    local font_size = 17
-    vim.o.guifont = string.format('%s:h%d', font, font_size)
-
-    function SetFont()
-        local fontfamily = ""
-        local fontsize = ''
-
-        vim.ui.input({
-            prompt = "Font: ",
-        }, function(selected_font)
-            fontfamily = selected_font
-        end)
-
-        vim.ui.input({
-            prompt = "Size: ",
-        }, function(size)
-            fontsize = size
-        end)
-
-        if fontfamily ~= "" and fontsize ~= "" then
-            font = fontfamily
-            font_size = tonumber(fontsize)
-            vim.o.guifont = string.format('%s:h%d', fontfamily, fontsize)
-        end
-    end
-
-    function IncFontSize()
-        font_size = font_size + 1
-        vim.o.guifont = string.format('%s:h%d', font, font_size)
-    end
-
-    function DecFontSize()
-        font_size = font_size - 1
-        vim.o.guifont = string.format('%s:h%d', font, font_size)
-    end
-
-    vim.cmd [[
-        command! Font :lua SetFont()<cr>
-        command! IncFont :lua IncFontSize()<CR>
-        command! IncFont :lua DecFontSize()<CR>
-    ]]
-
-    vim.keymap.set({ 'n', 'i', 't', 'v' }, '<C-=>', IncFontSize)
-    vim.keymap.set({ 'n', 'i', 't', 'v' }, '<C-->', DecFontSize)
-
-    vim.g.neovide_cursor_animation_length = 0.02
-    vim.g.neovide_cursor_trail_size = 0.0
-    vim.g.neovide_scroll_animation_length = 0.1
-    vim.g.neovide_input_macos_option_key_is_meta = 'both'
-end
-
 -- Terminal Emulator
 local toggle_term_size_scale = 0.4
 local toggle_term_buffer = 0
@@ -264,6 +212,9 @@ if TRANSPARENT then
 end
 
 -- Treesitter
+-- vim.o.foldmethod = 'expr'                     -- Use expression for folding
+-- vim.o.foldexpr = 'nvim_treesitter#foldexpr()' -- Set Tree-sitter folding expression
+-- vim.o.foldenable = false                      -- Start with all folds open
 require("nvim-treesitter.configs").setup({
     ensure_installed = { "lua", "go", "gomod", "markdown", "php", "c", "cpp" },
     highlight = { enable = true },
@@ -298,6 +249,7 @@ local telescope_keys = {
     ["<leader>h"] = "help_tags",
     ["<leader>b"] = "buffers",
     ["<leader>w"] = "lsp_dynamic_workspace_symbols",
+    ["<leader>o"] = { "lsp_document_symbols", require("telescope.themes").get_dropdown },
 }
 
 
@@ -310,6 +262,13 @@ for k, v in pairs(telescope_keys) do
         end, {})
     elseif type(v) == "function" then
         vim.keymap.set("n", k, v)
+    elseif type(v) == "table" then
+        vim.keymap.set("n", k, function()
+            local theme = v[2]
+            require "telescope.builtin"[v[1]](theme({
+                previewer = false
+            }))
+        end)
     end
 end
 

@@ -203,6 +203,7 @@
 (global-set-key (kbd "C-SPC") 'set-mark-command) ;; Visual selection
 (global-set-key (kbd "M-w")   'copy) ;; modern copy
 
+
 ;; Unset keys that I dont use
 (global-unset-key (kbd "M-z"))
 (global-unset-key (kbd "M-l"))
@@ -243,33 +244,36 @@
 %s
 " name definition) nil (expand-file-name (format "%s-theme.el" name) (expand-file-name "themes" user-emacs-directory))))
 
-;; Brownish
-;; (custom-set-faces
-;;  `(default                          ((t (:foreground "#debe95" :background "#252525"))))
-;;  `(hl-line                          ((t (:background "#353535"))))
-;;  `(vertico-current                  ((t (:background "medium blue"))))
-;;  `(region                           ((t (:background "medium blue"))))
-;;  `(cursor                           ((t (:background "lightgreen"))))
-;;  `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
-;;  `(font-lock-type-face              ((t (:foreground "#8cde94"))))
-;;  `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
-;;  `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
-;;  `(font-lock-builtin-face           ((t (:foreground "white"))))
-;;  `(font-lock-string-face            ((t (:foreground "gray70"))))
-;;  `(font-lock-comment-face           ((t (:foreground "yellow"))))
-;;  `(font-lock-comment-delimiter-face ((t (:foreground "yellow"))))
-;;  `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
-;;  `(font-lock-function-name-face     ((t (:foreground "white"))))
-;;  `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
-;;  `(font-lock-warning-face           ((t (:foreground "yellow"))))
-;;  `(font-lock-note-face              ((t (:foreground "khaki2" ))))
-;;  `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
-;;  `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
-;;  `(show-paren-match                 ((t (:background "mediumseagreen")))))
+
+(deftheme brownish)
+(custom-theme-set-faces
+  'brownish
+ `(default                          ((t (:foreground "#debe95" :background "#252525"))))
+ `(hl-line                          ((t (:background "#353535"))))
+ `(vertico-current                  ((t (:background "medium blue"))))
+ `(region                           ((t (:background "medium blue"))))
+ `(cursor                           ((t (:background "lightgreen"))))
+ `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
+ `(font-lock-type-face              ((t (:foreground "#8cde94"))))
+ `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
+ `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
+ `(font-lock-builtin-face           ((t (:foreground "white"))))
+ `(font-lock-string-face            ((t (:foreground "gray70"))))
+ `(font-lock-comment-face           ((t (:foreground "yellow"))))
+ `(font-lock-comment-delimiter-face ((t (:foreground "yellow"))))
+ `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
+ `(font-lock-function-name-face     ((t (:foreground "white"))))
+ `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
+ `(font-lock-warning-face           ((t (:foreground "yellow"))))
+ `(font-lock-note-face              ((t (:foreground "khaki2" ))))
+ `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
+ `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
+ `(show-paren-match                 ((t (:background "mediumseagreen")))))
 
 
-;; Greenish
-(custom-set-faces
+(deftheme greenish)
+(custom-theme-set-faces
+  'greenish
  `(default                          ((t (:foreground "#d3b58d" :background "#072626"))))
  `(hl-line                          ((t (:background "#0c4141"))))
  `(region                           ((t (:background  "medium blue"))))
@@ -292,27 +296,32 @@
  `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
  `(show-paren-match                 ((t (:background "mediumseagreen")))))
 
-;; Handmadehero
-;; (custom-set-faces
-;;  `(default                          ((t (:foreground "burlywood2" :background "#161616"))))
-;;  `(hl-line                          ((t (:background "midnight blue"))))
-;;  `(vertico-current                  ((t (:background "midnight blue"))))
-;;  `(region                           ((t (:background "medium blue"))))
-;;  `(cursor                           ((t (:background "#40FF40"))))
-;;  `(font-lock-keyword-face           ((t (:foreground "DarkGoldenrod2"))))
-;;  `(font-lock-type-face              ((t (:foreground "burlywood3"))))
-;;  `(font-lock-constant-face          ((t (:foreground "olive drab"))))
-;;  `(font-lock-variable-name-face     ((t (:foreground "burlywood3"))))
-;;  `(font-lock-builtin-face           ((t (:foreground "gray80"))))
-;;  `(font-lock-string-face            ((t (:foreground "olive drab"))))
-;;  `(font-lock-comment-face           ((t (:foreground "gray50"))))
-;;  `(font-lock-comment-delimiter-face ((t (:foreground "gray50"))))
-;;  `(font-lock-doc-face               ((t (:foreground "gray50"))))
-;;  `(font-lock-function-name-face     ((t (:foreground "burlywood2"))))
-;;  `(font-lock-doc-string-face        ((t (:foreground "gray50"))))
-;;  `(font-lock-warning-face           ((t (:foreground "yellow"))))
-;;  `(font-lock-note-face              ((t (:foreground "khaki2" ))))
-;;  `(show-paren-match                 ((t (:background "mediumseagreen")))))
+
+(deftheme handmadehero)
+(custom-theme-set-faces
+ 'handmadehero
+ `(default                          ((t (:foreground "burlywood2" :background "#161616"))))
+ `(hl-line                          ((t (:background "midnight blue"))))
+ `(vertico-current                  ((t (:background "midnight blue"))))
+ `(region                           ((t (:background "medium blue"))))
+ `(cursor                           ((t (:background "#40FF40"))))
+ `(font-lock-keyword-face           ((t (:foreground "DarkGoldenrod2"))))
+ `(font-lock-type-face              ((t (:foreground "burlywood3"))))
+ `(font-lock-constant-face          ((t (:foreground "olive drab"))))
+ `(font-lock-variable-name-face     ((t (:foreground "burlywood3"))))
+ `(font-lock-builtin-face           ((t (:foreground "gray80"))))
+ `(font-lock-string-face            ((t (:foreground "olive drab"))))
+ `(font-lock-comment-face           ((t (:foreground "gray50"))))
+ `(font-lock-comment-delimiter-face ((t (:foreground "gray50"))))
+ `(font-lock-doc-face               ((t (:foreground "gray50"))))
+ `(font-lock-function-name-face     ((t (:foreground "burlywood2"))))
+ `(font-lock-doc-string-face        ((t (:foreground "gray50"))))
+ `(font-lock-warning-face           ((t (:foreground "yellow"))))
+ `(font-lock-note-face              ((t (:foreground "khaki2" ))))
+ `(show-paren-match                 ((t (:background "mediumseagreen"))))
+ )
+
+(enable-theme 'greenish)
 
 (setq-default c-default-style "linux" c-basic-offset 4)
 
