@@ -4,8 +4,8 @@
 -- /_/ |_/_/_/_/_/_/ /_/  \__//__/\_,_/_/ |_/___/_/\_\
 -- Minimal, fast configuration for neovim.
 
-TRANSPARENT = os.getenv('NVIM_TRANSPARENT') or false
-COLORSCEHEME = os.getenv('NVIM_COLORSCHEME') or "night-owl"
+TRANSPARENT = os.getenv('NVIM_TRANSPARENT') or true
+COLORSCEHEME = os.getenv('NVIM_COLORSCHEME') or "catppuccin"
 IS_WINDOWS = vim.fn.has("win32") == 1
 
 -- Lazy: Plugin manager
@@ -144,8 +144,6 @@ vim.keymap.set("t", "<esc>", [[<C-\><C-n>]])
 vim.keymap.set("t", "<C-w><C-w>", function() vim.cmd([[ wincmd w ]]) end)
 vim.keymap.set({ "i" }, "<C-a>", "<C-x><C-o>") -- simpler omnifunc completion
 vim.keymap.set("n", "<leader>l", vim.diagnostic.open_float, { desc = "Diagnostics: Open float window" })
-vim.keymap.set("n", "[[", vim.diagnostic.goto_prev, { desc = "Diagnostics: Next" })
-vim.keymap.set("n", "]]", vim.diagnostic.goto_next, { desc = "Diagnostics: Previous" })
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Set Local list" })
 vim.keymap.set("n", "<leader>g", "<cmd>LazyGit<CR>", { desc = "Lazy Git" })
 vim.cmd([[ command! W :w ]])
@@ -274,7 +272,9 @@ end
 
 
 -- LSP
+
 require("lspconfig.ui.windows").default_options.border = "single"
+
 vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover,
     { border = "rounded" })
 
@@ -325,6 +325,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
         map("n", "<leader>e", ":Trouble diagnostics toggle<CR>", "Trouble Toggle")
         map("n", "<C-e>", ":Trouble diagnostics toggle<CR>", "Trouble Toggle")
 
+        map("n", "[[", vim.diagnostic.goto_prev, "Diagnostics: Next")
+        map("n", "]]", vim.diagnostic.goto_next, "Diagnostics: Previous")
         map("n", "gd", vim.lsp.buf.definition, "[g]oto [d]efinition")
         map("n", "gD", vim.lsp.buf.declaration, "[g]oto [D]eclaration")
         map("n", "gI", implementation, "[g]oto [i]mplementation")
@@ -363,7 +365,12 @@ cmp.setup({
 })
 
 -- Oil.nvim: File management in text
-require("oil").setup()
+require("oil").setup({
+    buf_options = {
+        buflisted = true,
+        bufhidden = "show",
+    },
+})
 
 -- Autoformatting
 require("conform").setup({
