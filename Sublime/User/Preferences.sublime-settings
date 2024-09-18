@@ -1,6 +1,6 @@
 {
 	"font_face": "MonoLisa",
-	"font_size": 19,
+	"font_size": 14,
 	"font_options": ["no_italic", "no_liga"],
 	"line_padding_top": 15,
 	"line_padding_bottom": 15,
@@ -23,7 +23,7 @@
 	"show_definitions": false,
 	"close_windows_when_empty": false,
 	"show_rel_path": true,
-	"color_scheme": "Packages/Materialize/schemes/Material Monokai Soda.tmTheme",
+	"color_scheme": "Packages/Inspired Github Theme/InspiredGithub.tmTheme",
 	"sesame.path": "~/w",
 	"sesame.depth": 1,
 	"sesame.vcs": true,

@@ -4,7 +4,7 @@ TERM = "xterm-256color"
 [keyboard]
 
 [font]
-normal = { family = 'JetBrainsMono Nerd Font Mono'}
+normal = { family = 'MonoLisa-Regular'}
 size = 15
 
 [window]

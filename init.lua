@@ -5,7 +5,7 @@
 -- Minimal, fast configuration for neovim.
 
 TRANSPARENT = os.getenv('NVIM_TRANSPARENT') or true
-COLORSCEHEME = os.getenv('NVIM_COLORSCHEME') or "catppuccin"
+COLORSCEHEME = os.getenv('NVIM_COLORSCHEME') or "rose-pine"
 IS_WINDOWS = vim.fn.has("win32") == 1
 
 -- Lazy: Plugin manager
@@ -140,6 +140,8 @@ vim.keymap.set("n", "<CR>", [[ {-> v:hlsearch ? ':nohl<CR>' : '<CR>'}() ]], { ex
 vim.keymap.set("n", "<leader>i", "<cmd>edit $MYVIMRC<CR>")
 vim.keymap.set("n", "j", "gj")
 vim.keymap.set("n", "k", "gk")
+vim.keymap.set({ "n", "t", "i" }, "<C-j>", "<cmd>tabprev<CR>")
+vim.keymap.set({ "n", "t", "i" }, "<C-k>", "<cmd>tabnext<CR>")
 vim.keymap.set("t", "<esc>", [[<C-\><C-n>]])
 vim.keymap.set("t", "<C-w><C-w>", function() vim.cmd([[ wincmd w ]]) end)
 vim.keymap.set({ "i" }, "<C-a>", "<C-x><C-o>") -- simpler omnifunc completion
@@ -170,37 +172,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
     end,
 })
 
--- Terminal Emulator
-local toggle_term_size_scale = 0.4
-local toggle_term_buffer = 0
-local toggle_term_direction = 'h'
-local toggle_term_is_open = false
-local function toggle_term()
-    if toggle_term_is_open then
-        toggle_term_is_open = not toggle_term_is_open
-        vim.cmd [[ close ]]
-    else
-        toggle_term_is_open = not toggle_term_is_open
-        if toggle_term_direction == 'h' then
-            vim.cmd(string.format([[ split %d]], vim.o.lines * toggle_term_size_scale))
-        elseif toggle_term_direction == 'v' then
-            vim.cmd(string.format([[ vsplit %d]], vim.o.columns * toggle_term_size_scale))
-        end
-        if toggle_term_buffer == 0 then
-            vim.cmd [[ term ]]
-            toggle_term_buffer = vim.api.nvim_get_current_buf()
-        else
-            vim.api.nvim_win_set_buf(0, toggle_term_buffer)
-        end
-
-        vim.cmd [[ startinsert ]]
-    end
-end
-
-vim.keymap.set({ "n", 'i', 't' }, '<C-j>', toggle_term)
-
 -- Color scheme
-
 vim.cmd.colorscheme(COLORSCEHEME)
 
 if TRANSPARENT then
