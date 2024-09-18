@@ -13,6 +13,14 @@
     "key": "cmd+shift+o",
     "command": "workbench.action.files.openFileFolderInNewWindow",
   },
+  {
+    "key": "cmd+ctrl+p",
+    "command": "gitProjectManager.openProject",
+  },
+  {
+    "key": "cmd+alt+p",
+    "command": "gitProjectManager.openProjectNewWindow",
+  },
   // Toggle Explorer
   {
     "key": "cmd+1",

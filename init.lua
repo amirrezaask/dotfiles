@@ -30,7 +30,10 @@ require("lazy").setup({
     {
         "catppuccin/nvim",
         name = 'catppuccin',
-        opts = { transparent_background = TRANSPARENT }
+        opts = {
+            transparent_background = TRANSPARENT,
+            no_italic = true,
+        }
     },
     {
         "rose-pine/neovim",
@@ -43,8 +46,6 @@ require("lazy").setup({
             }
         }
     },
-    "oxfist/night-owl.nvim",
-    "scottmckendry/cyberdream.nvim",
     {
         "folke/tokyonight.nvim",
         opts = { style = 'night', transparent = TRANSPARENT }
@@ -117,7 +118,6 @@ vim.opt.inccommand = "split" -- Preview all substitutions(replacements).
 vim.opt.scrolloff = 10       -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.cursorline = true
 vim.opt.laststatus = 3       -- Global statusline
-vim.opt.guicursor = ''
 vim.g.mapleader = " "        -- <leader> key for keymaps mapped to <Space>
 vim.keymap.set("n", "Y", "y$", { desc = "Copy whole line" })
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
@@ -210,9 +210,9 @@ if TRANSPARENT then
 end
 
 -- Treesitter
--- vim.o.foldmethod = 'expr'                     -- Use expression for folding
--- vim.o.foldexpr = 'nvim_treesitter#foldexpr()' -- Set Tree-sitter folding expression
--- vim.o.foldenable = false                      -- Start with all folds open
+vim.o.foldmethod = 'expr'                     -- Use expression for folding
+vim.o.foldexpr = 'nvim_treesitter#foldexpr()' -- Set Tree-sitter folding expression
+vim.o.foldenable = false                      -- Start with all folds open
 require("nvim-treesitter.configs").setup({
     ensure_installed = { "lua", "go", "gomod", "markdown", "php", "c", "cpp" },
     highlight = { enable = true },
@@ -340,10 +340,28 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 
 -- Completion
+local border = {
+    { "╭", "CmpBorder" },
+    { "─", "CmpBorder" },
+    { "╮", "CmpBorder" },
+    { "│", "CmpBorder" },
+    { "╯", "CmpBorder" },
+    { "─", "CmpBorder" },
+    { "╰", "CmpBorder" },
+    { "│", "CmpBorder" },
+}
 local cmp_select = { behavior = require("cmp").SelectBehavior.Select }
 local cmp = require("cmp")
 cmp.setup({
     preselect = require("cmp.types").cmp.PreselectMode.None,
+    window = {
+        completion = {
+            border = border,
+        },
+        documentation = {
+            border = border,
+        },
+    },
     snippet = {
         expand = function(args)
             vim.snippet.expand(args.body)
@@ -366,7 +384,7 @@ cmp.setup({
 require("oil").setup({
     buf_options = {
         buflisted = true,
-        bufhidden = "show",
+        bufhidden = "hide",
     },
 })
 
