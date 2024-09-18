@@ -68,7 +68,6 @@ require("lazy").setup({
         'navarasu/onedark.nvim',
         opts = { style = 'dark', transparent = TRANSPARENT }
     },
-    { 'amirrezaask/sitruuna.nvim' },
 
     'stevearc/oil.nvim',
     "folke/ts-comments.nvim",
@@ -213,13 +212,13 @@ require('telescope').load_extension('fzf')
 require("telescope").load_extension("ui-select")
 
 local telescope_keys = {
-    ["<leader>p"] = { "git_files", theme = require("telescope.themes").get_dropdown, previewer = false },
-    ["<leader><leader>"] = { "find_files", theme = require("telescope.themes").get_dropdown, previewer = false },
+    ["<leader>p"] = { "git_files", previewer = false },
+    ["<leader><leader>"] = { "find_files", previewer = false },
     ["??"] = "live_grep",
     ["<leader>h"] = { "help_tags", previewer = false },
-    ["<leader>b"] = { "buffers", theme = require("telescope.themes").get_dropdown, previewer = false },
+    ["<leader>b"] = { "buffers", previewer = false },
     ["<leader>w"] = "lsp_dynamic_workspace_symbols",
-    ["<leader>o"] = { "lsp_document_symbols", theme = require("telescope.themes").get_dropdown, previewer = false },
+    ["<leader>o"] = { "lsp_document_symbols", previewer = false },
 }
 
 
