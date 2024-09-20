@@ -5,6 +5,7 @@ TERM = "xterm-256color"
 
 [font]
 normal = { family = 'MonoLisa-Regular'}
+offset = { y = 10 }
 size = 15
 
 [window]

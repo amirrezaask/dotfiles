@@ -52,6 +52,8 @@ export PATH="/usr/local/go/bin:$PATH"
 export PATH="$HOME/go/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$PATH:$HOME/prg/bin"
+export PLAN9=/Users/amirrezaask/plan9 
+export PATH=$PATH:$PLAN9/bin 
 alias svpn='sudo openfortivpn  --otp $(totpgen ADS)'
 [ -f "$HOME/cargo/env" ] && . "$HOME/.cargo/env"
 

@@ -4,8 +4,8 @@
 -- /_/ |_/_/_/_/_/_/ /_/  \__//__/\_,_/_/ |_/___/_/\_\
 -- Minimal, fast configuration for neovim.
 
-TRANSPARENT = os.getenv('NVIM_TRANSPARENT') or true
-COLORSCEHEME = os.getenv('NVIM_COLORSCHEME') or "rose-pine"
+TRANSPARENT = os.getenv('NVIM_TRANSPARENT') or false
+COLORSCEHEME = os.getenv('NVIM_COLORSCHEME') or "tokyonight"
 IS_WINDOWS = vim.fn.has("win32") == 1
 
 -- Lazy: Plugin manager
@@ -26,7 +26,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-    'nvim-tree/nvim-web-devicons',
+    -- 'nvim-tree/nvim-web-devicons',
     {
         "catppuccin/nvim",
         name = 'catppuccin',
@@ -48,7 +48,10 @@ require("lazy").setup({
     },
     {
         "folke/tokyonight.nvim",
-        opts = { style = 'night', transparent = TRANSPARENT }
+        opts = {
+            style = 'moon',
+            transparent = TRANSPARENT,
+        }
     },
     {
         "ellisonleao/gruvbox.nvim",
@@ -68,7 +71,7 @@ require("lazy").setup({
         'navarasu/onedark.nvim',
         opts = { style = 'dark', transparent = TRANSPARENT }
     },
-
+    'nvim-lualine/lualine.nvim',
     'stevearc/oil.nvim',
     "folke/ts-comments.nvim",
     "nvim-pack/nvim-spectre",
@@ -179,6 +182,14 @@ if TRANSPARENT then
         hi! Normal guibg=none
     ]]
 end
+
+
+-- Statusline
+require("lualine").setup({
+    options = {
+        icons_enabled = false,
+    }
+})
 
 -- Treesitter
 vim.o.foldmethod = 'expr'                     -- Use expression for folding

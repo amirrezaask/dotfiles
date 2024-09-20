@@ -89,6 +89,7 @@
 (setq font-families (font-family-list))
 (require 'cl-lib)
 (cl-loop for font in '(
+		       "MonoLisa"
 		       "Consolas"
                        "Liberation Mono"
                        "Menlo"
