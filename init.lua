@@ -458,9 +458,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
         map("n", "[[", vim.diagnostic.goto_prev, "Diagnostics: Next")
         map("n", "]]", vim.diagnostic.goto_next, "Diagnostics: Previous")
-        -- removed in favor of vim's default C-] which LSP will hook into.
         map("n", "C-]", vim.lsp.buf.definition, "[g]oto definition")
-        -- map("n", "gd", vim.lsp.buf.definition, "[g]oto [d]efinition")
+        map("n", "gd", vim.lsp.buf.definition, "[g]oto [d]efinition")
         map("n", "gD", vim.lsp.buf.declaration, "[g]oto [D]eclaration")
         map("n", "gI", implementation, "[g]oto [i]mplementation")
         map("n", "gr", references, "[g]oto [r]eferences")
