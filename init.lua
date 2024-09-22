@@ -27,6 +27,18 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
     {
+        "utilyre/barbecue.nvim",
+        name = "barbecue",
+        version = "*",
+        dependencies = {
+            "SmiteshP/nvim-navic",
+            "nvim-tree/nvim-web-devicons", -- optional dependency
+        },
+        opts = {
+            -- configurations go here
+        },
+    },
+    {
         "catppuccin/nvim",
         name = 'catppuccin',
         opts = {
