@@ -53,7 +53,7 @@
 
   // Titlebar
   "workbench.editor.showTabs": "none",
-  "window.titleBarStyle": "cusomt",
+  "window.titleBarStyle": "custom",
 
   // Disable Autocomplete
   // "editor.quickSuggestions": {
@@ -66,15 +66,11 @@
   "editor.parameterHints.enabled": false,
   "editor.semanticHighlighting.enabled": false,
   "editor.occurrencesHighlight": "off",
-  "problems.visibility": false, // Disable annoying squiggles throughout the editor.
+  "problems.visibility": true, // Disable annoying squiggles throughout the editor.
 
   // Golang
-  "[go]": {
-    "editor.formatOnSave": true
-  },
-  "go.addTags": {
-    "options": ""
-  },
+  "[go]": { "editor.formatOnSave": true },
+  "go.addTags": { "options": "" },
   "go.toolsManagement.autoUpdate": true,
   //Git
   "git.confirmSync": false,
@@ -90,5 +86,5 @@
     }
   },
   "extensions.ignoreRecommendations": true,
-  "workbench.colorTheme": "Visual Studio Light"
+  "workbench.colorTheme": "Kanagawa"
 }
