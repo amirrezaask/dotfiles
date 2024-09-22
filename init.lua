@@ -5,7 +5,7 @@
 -- Minimal, fast configuration for neovim.
 
 TRANSPARENT = os.getenv('NVIM_TRANSPARENT') or false
-COLORSCEHEME = os.getenv('NVIM_COLORSCHEME') or "tokyonight"
+COLORSCEHEME = os.getenv('NVIM_COLORSCHEME') or "gruvbox-material"
 IS_WINDOWS = vim.fn.has("win32") == 1
 
 -- Lazy: Plugin manager
@@ -26,7 +26,6 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-    -- 'nvim-tree/nvim-web-devicons',
     {
         "catppuccin/nvim",
         name = 'catppuccin',
@@ -54,6 +53,13 @@ require("lazy").setup({
         }
     },
     {
+        'sainnhe/gruvbox-material',
+        config = function()
+            vim.g.gruvbox_material_foreground = 'mix'
+            vim.g.gruvbox_material_background = 'hard'
+        end
+    },
+    {
         "ellisonleao/gruvbox.nvim",
         opts = {
             italic = {
@@ -72,22 +78,40 @@ require("lazy").setup({
         opts = { style = 'dark', transparent = TRANSPARENT }
     },
     'nvim-lualine/lualine.nvim',
-    'stevearc/oil.nvim',
+    'stevearc/oil.nvim',      -- File management as text
     "folke/ts-comments.nvim",
-    "nvim-pack/nvim-spectre",
+    "nvim-pack/nvim-spectre", -- Search and replace in all project files
     "nvim-treesitter/nvim-treesitter",
-    "nvim-lua/plenary.nvim",
-    "nvim-telescope/telescope.nvim",
-    { "nvim-telescope/telescope-fzf-native.nvim", build = 'make' },
-    "nvim-telescope/telescope-ui-select.nvim",
-    "stevearc/conform.nvim",
-    "neovim/nvim-lspconfig",
-    "folke/trouble.nvim",
-    "williamboman/mason.nvim",
-    "williamboman/mason-lspconfig.nvim",
-    'hrsh7th/nvim-cmp',
-    'hrsh7th/cmp-nvim-lsp',
-    'hrsh7th/cmp-buffer',
+
+    {
+
+        "nvim-telescope/telescope.nvim",
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+            { "nvim-telescope/telescope-fzf-native.nvim", build = 'make' },
+            "nvim-telescope/telescope-ui-select.nvim",
+        }
+    },
+
+
+    "stevearc/conform.nvim", -- Auto format
+
+    {
+        "neovim/nvim-lspconfig",
+        dependencies = {
+            "folke/trouble.nvim",
+            "williamboman/mason.nvim",
+            "williamboman/mason-lspconfig.nvim",
+        }
+    },
+    {
+        'hrsh7th/nvim-cmp',
+        dependencies = {
+            'hrsh7th/cmp-nvim-lsp',
+            'hrsh7th/cmp-buffer',
+
+        }
+    }
 })
 
 vim.opt.wrap = true        -- Wrap long lines
@@ -166,6 +190,59 @@ end
 
 vim.keymap.set("n", "<C-q>", ToggleQFList, { desc = "Open Quickfix list" })
 
+-- Neovide
+if vim.g.neovide then
+    local font = 'JetBrainsMono Nerd Font Mono'
+    local font_size = 17
+    vim.o.guifont = string.format('%s:h%d', font, font_size)
+
+    function SetFont()
+        local fontfamily = ""
+        local fontsize = ''
+
+        vim.ui.input({
+            prompt = "Font: ",
+        }, function(selected_font)
+            fontfamily = selected_font
+        end)
+
+        vim.ui.input({
+            prompt = "Size: ",
+        }, function(size)
+            fontsize = size
+        end)
+
+        if fontfamily ~= "" and fontsize ~= "" then
+            font = fontfamily
+            font_size = tonumber(fontsize)
+            vim.o.guifont = string.format('%s:h%d', fontfamily, fontsize)
+        end
+    end
+
+    function IncFontSize()
+        font_size = font_size + 1
+        vim.o.guifont = string.format('%s:h%d', font, font_size)
+    end
+
+    function DecFontSize()
+        font_size = font_size - 1
+        vim.o.guifont = string.format('%s:h%d', font, font_size)
+    end
+
+    vim.cmd [[
+        command! Font :lua SetFont()<cr>
+        command! IncFont :lua IncFontSize()<CR>
+        command! IncFont :lua DecFontSize()<CR>
+    ]]
+
+    vim.keymap.set({ 'n', 'i', 't', 'v' }, '<C-=>', IncFontSize)
+    vim.keymap.set({ 'n', 'i', 't', 'v' }, '<C-->', DecFontSize)
+
+    vim.g.neovide_cursor_animation_length = 0.02
+    vim.g.neovide_cursor_trail_size = 0.0
+    vim.g.neovide_scroll_animation_length = 0.1
+    vim.g.neovide_input_macos_option_key_is_meta = 'both'
+end
 -- Highlight on Yank
 vim.api.nvim_create_autocmd("TextYankPost", {
     group = vim.api.nvim_create_augroup("YankHighlight", { clear = true }),
@@ -307,7 +384,9 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
         map("n", "[[", vim.diagnostic.goto_prev, "Diagnostics: Next")
         map("n", "]]", vim.diagnostic.goto_next, "Diagnostics: Previous")
-        map("n", "gd", vim.lsp.buf.definition, "[g]oto [d]efinition")
+        -- removed in favor of vim's default C-] which LSP will hook into.
+        map("n", "C-]", vim.lsp.buf.definition, "[g]oto definition")
+        -- map("n", "gd", vim.lsp.buf.definition, "[g]oto [d]efinition")
         map("n", "gD", vim.lsp.buf.declaration, "[g]oto [D]eclaration")
         map("n", "gI", implementation, "[g]oto [i]mplementation")
         map("n", "gr", references, "[g]oto [r]eferences")
