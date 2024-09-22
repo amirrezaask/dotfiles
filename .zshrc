@@ -70,6 +70,16 @@ export GOPRIVATE=gitlab.snappcloud.io
 export PATH="/opt/homebrew/opt/mysql-client/bin:$PATH"
 
 
+tns() {
+    if [[ ! -z $1 ]]; then
+        tmux new-session -d -s"$1"
+        tmux switch-client -t"$1"
+    fi
+}
+
+
+
+
 # if command -v starship &>/dev/null
 # then
 #     eval "$(starship init zsh)"
