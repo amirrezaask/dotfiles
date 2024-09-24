@@ -80,7 +80,7 @@ tns() {
 
 
 
-# if command -v starship &>/dev/null
-# then
-#     eval "$(starship init zsh)"
-# fi
+if command -v starship &>/dev/null
+then
+    eval "$(starship init zsh)"
+fi
