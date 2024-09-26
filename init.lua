@@ -27,18 +27,6 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
     {
-        "utilyre/barbecue.nvim",
-        name = "barbecue",
-        version = "*",
-        dependencies = {
-            "SmiteshP/nvim-navic",
-            "nvim-tree/nvim-web-devicons", -- optional dependency
-        },
-        opts = {
-            -- configurations go here
-        },
-    },
-    {
         "catppuccin/nvim",
         name = 'catppuccin',
         opts = {
@@ -132,20 +120,6 @@ require("lazy").setup({
             vim.g.gruvbox_material_foreground = 'material'
             vim.g.gruvbox_material_background = 'hard'
         end
-    },
-    {
-        "ellisonleao/gruvbox.nvim",
-        opts = {
-            italic = {
-                strings = false,
-                emphasis = false,
-                comments = false,
-                operators = false,
-                folds = false,
-            },
-            transparent_mode = TRANSPARENT,
-            contrast = 'hard'
-        }
     },
     {
         'navarasu/onedark.nvim',
@@ -277,59 +251,6 @@ end
 
 vim.keymap.set("n", "<C-q>", ToggleQFList, { desc = "Open Quickfix list" })
 
--- Neovide
-if vim.g.neovide then
-    local font = 'JetBrainsMono Nerd Font Mono'
-    local font_size = 17
-    vim.o.guifont = string.format('%s:h%d', font, font_size)
-
-    function SetFont()
-        local fontfamily = ""
-        local fontsize = ''
-
-        vim.ui.input({
-            prompt = "Font: ",
-        }, function(selected_font)
-            fontfamily = selected_font
-        end)
-
-        vim.ui.input({
-            prompt = "Size: ",
-        }, function(size)
-            fontsize = size
-        end)
-
-        if fontfamily ~= "" and fontsize ~= "" then
-            font = fontfamily
-            font_size = tonumber(fontsize)
-            vim.o.guifont = string.format('%s:h%d', fontfamily, fontsize)
-        end
-    end
-
-    function IncFontSize()
-        font_size = font_size + 1
-        vim.o.guifont = string.format('%s:h%d', font, font_size)
-    end
-
-    function DecFontSize()
-        font_size = font_size - 1
-        vim.o.guifont = string.format('%s:h%d', font, font_size)
-    end
-
-    vim.cmd [[
-        command! Font :lua SetFont()<cr>
-        command! IncFont :lua IncFontSize()<CR>
-        command! IncFont :lua DecFontSize()<CR>
-    ]]
-
-    vim.keymap.set({ 'n', 'i', 't', 'v' }, '<C-=>', IncFontSize)
-    vim.keymap.set({ 'n', 'i', 't', 'v' }, '<C-->', DecFontSize)
-
-    vim.g.neovide_cursor_animation_length = 0.02
-    vim.g.neovide_cursor_trail_size = 0.0
-    vim.g.neovide_scroll_animation_length = 0.1
-    vim.g.neovide_input_macos_option_key_is_meta = 'both'
-end
 -- Highlight on Yank
 vim.api.nvim_create_autocmd("TextYankPost", {
     group = vim.api.nvim_create_augroup("YankHighlight", { clear = true }),
