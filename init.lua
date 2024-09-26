@@ -5,7 +5,7 @@
 -- Minimal, fast configuration for neovim.
 
 TRANSPARENT = os.getenv('NVIM_TRANSPARENT') or false
-COLORSCEHEME = os.getenv('NVIM_COLORSCHEME') or "catppuccin-mocha"
+COLORSCEHEME = os.getenv('NVIM_COLORSCHEME') or "tokyonight-moon"
 IS_WINDOWS = vim.fn.has("win32") == 1
 
 -- Lazy: Plugin manager
