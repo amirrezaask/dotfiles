@@ -129,7 +129,7 @@ require("lazy").setup({
     {
         'sainnhe/gruvbox-material',
         config = function()
-            vim.g.gruvbox_material_foreground = 'mix'
+            vim.g.gruvbox_material_foreground = 'material'
             vim.g.gruvbox_material_background = 'hard'
         end
     },
@@ -150,6 +150,15 @@ require("lazy").setup({
     {
         'navarasu/onedark.nvim',
         opts = { style = 'dark', transparent = TRANSPARENT }
+    },
+
+    {
+        'akinsho/toggleterm.nvim',
+        version = "*",
+        opts = {
+            open_mapping = [[<c-j>]],
+            direction = 'float',
+        }
     },
     'nvim-lualine/lualine.nvim',
     'stevearc/oil.nvim',      -- File management as text
@@ -240,8 +249,12 @@ vim.keymap.set("n", "<CR>", [[ {-> v:hlsearch ? ':nohl<CR>' : '<CR>'}() ]], { ex
 vim.keymap.set("n", "<leader>i", "<cmd>edit $MYVIMRC<CR>")
 vim.keymap.set("n", "j", "gj")
 vim.keymap.set("n", "k", "gk")
-vim.keymap.set({ "n", "t", "i" }, "<C-j>", "<cmd>tabprev<CR>")
-vim.keymap.set({ "n", "t", "i" }, "<C-k>", "<cmd>tabnext<CR>")
+vim.keymap.set("n", "<M-Left>", "<c-w>5>")
+vim.keymap.set("n", "<M-Right>", "<c-w>5<")
+vim.keymap.set("n", "<M-Up>", "<C-W>+")
+vim.keymap.set("n", "<M-Down>", "<C-W>-")
+-- vim.keymap.set({ "n", "t", "i" }, "<C-j>", "<cmd>tabprev<CR>")
+-- vim.keymap.set({ "n", "t", "i" }, "<C-k>", "<cmd>tabnext<CR>")
 vim.keymap.set("t", "<esc>", [[<C-\><C-n>]])
 vim.keymap.set("t", "<C-w><C-w>", function() vim.cmd([[ wincmd w ]]) end)
 vim.keymap.set({ "i" }, "<C-a>", "<C-x><C-o>") -- simpler omnifunc completion

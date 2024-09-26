@@ -1,9 +1,9 @@
 {
 	"font_face": "MonoLisa",
-	"font_size": 16,
+	"font_size": 17,
 	"font_options": ["no_italic", "no_liga"],
-	"line_padding_top": 20,
-	"line_padding_bottom": 20,
+	"line_padding_top": 10,
+	"line_padding_bottom": 10,
 	"ignored_packages":
 	[
 		"Vintage",
@@ -24,7 +24,7 @@
 	"show_definitions": false,
 	/*"close_windows_when_empty": false,*/
 	"show_rel_path": true,
-	"color_scheme": "Night Owl.sublime-color-scheme",
+	"color_scheme": "Packages/Themes/Poimandres.tmTheme",
 	"sesame.path": "~/w",
 	"sesame.depth": 1,
 	"sesame.vcs": true,
