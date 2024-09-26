@@ -75,7 +75,7 @@ vim.keymap.set("n", "<leader>g", "<cmd>LazyGit<CR>", { desc = "Lazy Git" })
 vim.cmd([[ command! W :w ]])
 
 
--- Lazy: Plugin manager
+-- Lazy: Installing Plugin manager
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
     local lazyrepo = "https://github.com/folke/lazy.nvim.git"
@@ -93,9 +93,41 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-    -- Colorschemes {{{
-    {
+    { -- colorschemes
         "catppuccin/nvim",
+        dependencies = {
+            {
+                "rose-pine/neovim",
+                name = 'rose-pine',
+                opts = {
+                    styles = {
+                        bold = true,
+                        italic = false,
+                        transparency = TRANSPARENT,
+                    }
+                }
+            },
+            {
+                "folke/tokyonight.nvim",
+                opts = {
+                    style = 'moon',
+                    transparent = TRANSPARENT,
+                }
+            },
+            {
+                'sainnhe/gruvbox-material',
+                config = function()
+                    vim.g.gruvbox_material_foreground = 'material'
+                    vim.g.gruvbox_material_background = 'hard'
+                end
+            },
+            {
+                'navarasu/onedark.nvim',
+                opts = { style = 'dark', transparent = TRANSPARENT }
+            },
+
+
+        },
         name = 'catppuccin',
         opts = {
             transparent_background = TRANSPARENT,
@@ -162,36 +194,17 @@ require("lazy").setup({
                     crust = "#141617",
                 },
             },
-        }
-    },
-    {
-        "rose-pine/neovim",
-        name = 'rose-pine',
-        opts = {
-            styles = {
-                bold = true,
-                italic = false,
-                transparency = TRANSPARENT,
-            }
-        }
-    },
-    {
-        "folke/tokyonight.nvim",
-        opts = {
-            style = 'moon',
-            transparent = TRANSPARENT,
-        }
-    },
-    {
-        'sainnhe/gruvbox-material',
+        },
+
         config = function()
-            vim.g.gruvbox_material_foreground = 'material'
-            vim.g.gruvbox_material_background = 'hard'
+            -- Color scheme
+            vim.cmd.colorscheme(COLORSCEHEME)
+            if TRANSPARENT then
+                vim.cmd [[
+                    hi! Normal guibg=none
+                ]]
+            end
         end
-    },
-    {
-        'navarasu/onedark.nvim',
-        opts = { style = 'dark', transparent = TRANSPARENT }
     },
 
 
@@ -451,6 +464,7 @@ require("lazy").setup({
         end
     }
 })
+
 -- Quickfix list
 local qflist = false
 function ToggleQFList()
@@ -472,11 +486,3 @@ vim.api.nvim_create_autocmd("TextYankPost", {
         vim.highlight.on_yank()
     end,
 })
-
--- Color scheme
-vim.cmd.colorscheme(COLORSCEHEME)
-if TRANSPARENT then
-    vim.cmd [[
-        hi! Normal guibg=none
-    ]]
-end
