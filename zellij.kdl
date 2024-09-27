@@ -1,0 +1,20 @@
+theme "tokyo-night"
+default_layout "compact"
+
+copy_on_select false
+
+// Keybindings
+keybinds {
+    normal {
+        unbind "Ctrl p" "Ctrl t" "Ctrl n" "Ctrl s" "Ctrl o" "Ctrl q" "Ctrl h" "Ctrl g"
+        bind "Alt p" { SwitchToMode "pane"; }
+        bind "Alt t" { SwitchToMode "tab"; }
+        bind "Alt n" { NewTab; }
+        bind "Alt s" { SwitchToMode "search"; }
+        bind "Alt d" { NewPane; }
+        bind "Alt m" { SwitchToMode "move"; }
+        bind "Alt o" { SwitchToMode "session"; }
+        bind "Alt q" { CloseFocus; }
+        bind "Alt g" { SwitchToMode "locked"; }
+    }
+}

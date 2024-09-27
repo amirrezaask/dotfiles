@@ -16,26 +16,27 @@ install:
 	rm -rf $(HOME)/go/bin/tmux-windowizer
 	rm -rf $(HOME)/go/bin/tmux-sessionizer
 	rm -rf $(HOME)/go/bin/tmux-switch
+	rm -rf $(XDG_CONFIG)/zellij/
 	mkdir -p $(XDG_CONFIG)/i3
-	mkdir -p $(XDG_CONFIG)/alacritty
 	mkdir -p $(XDG_CONFIG)/nvim
 	mkdir -p $(XDG_CONFIG)/fish
 	mkdir -p $(XDG_CONFIG)/wezterm
-	mkdir -p $(XDG_CONFIG)/kitty
+	mkdir -p $(XDG_CONFIG)/zellij
 	mkdir -p $(HOME)/go/bin
 	ln -s $(DOTFILES_DIR)/i3-config $(XDG_CONFIG)/i3/config
-	ln -s $(DOTFILES_DIR)/alacritty.toml $(XDG_CONFIG)/alacritty/alacritty.toml
 	ln -s $(DOTFILES_DIR)/config.fish $(XDG_CONFIG)/fish/config.fish
 	ln -s $(DOTFILES_DIR)/init.lua $(XDG_CONFIG)/nvim/init.lua
 	ln -s $(DOTFILES_DIR)/.emacs $(HOME)/.emacs
 	ln -s $(DOTFILES_DIR)/.zshrc $(HOME)/.zshrc
 	ln -s $(DOTFILES_DIR)/wezterm.lua $(XDG_CONFIG)/wezterm/wezterm.lua
-	ln -s $(DOTFILES_DIR)/kitty.conf $(XDG_CONFIG)/kitty/kitty.conf
+	ln -s $(DOTFILES_DIR)/kitty $(XDG_CONFIG)/
+	ln -s $(DOTFILES_DIR)/alacritty $(XDG_CONFIG)/
 	ln -s $(DOTFILES_DIR)/.tmux.conf $(HOME)/.tmux.conf
 	ln -s $(DOTFILES_DIR)/starship.toml $(XDG_CONFIG)/starship.toml
 	ln -s $(DOTFILES_DIR)/tmux-sessionizer $(HOME)/go/bin/
 	ln -s $(DOTFILES_DIR)/tmux-windowizer $(HOME)/go/bin/
 	ln -s $(DOTFILES_DIR)/tmux-switch $(HOME)/go/bin/
+	ln -s $(DOTFILES_DIR)/zellij.kdl $(XDG_CONFIG)/zellij/config.kdl
 
 sublime-mac:
 	rm -rf "$(HOME)/Library/Application Support/Sublime Text/Packages"

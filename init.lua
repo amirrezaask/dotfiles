@@ -38,6 +38,7 @@ vim.opt.inccommand = "split" -- Preview all substitutions(replacements).
 vim.opt.scrolloff = 10       -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.cursorline = true
 vim.opt.laststatus = 3       -- Global statusline
+
 vim.g.mapleader = " "        -- <leader> key for keymaps mapped to <Space>
 vim.keymap.set("n", "Y", "y$", { desc = "Copy whole line" })
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
@@ -195,16 +196,6 @@ require("lazy").setup({
                 },
             },
         },
-
-        config = function()
-            -- Color scheme
-            vim.cmd.colorscheme(COLORSCEHEME)
-            if TRANSPARENT then
-                vim.cmd [[
-                    hi! Normal guibg=none
-                ]]
-            end
-        end
     },
 
 
@@ -486,3 +477,11 @@ vim.api.nvim_create_autocmd("TextYankPost", {
         vim.highlight.on_yank()
     end,
 })
+
+-- Color scheme
+vim.cmd.colorscheme(COLORSCEHEME)
+if TRANSPARENT then
+    vim.cmd [[
+                    hi! Normal guibg=none
+                ]]
+end

@@ -21,12 +21,6 @@ then
     source <(fzf --zsh)
 fi
 
-if command -v nvim &>/dev/null
-then
-    alias vim='nvim'
-    alias v='nvim'
-fi
-
 if command -v subl &>/dev/null
 then
     export EDITOR='subl -w'
@@ -44,6 +38,12 @@ fi
 if command -v brew &>/dev/null
 then
     eval $(brew shellenv)
+fi
+
+if command -v nvim &>/dev/null
+then
+    alias vim='nvim'
+    alias v='nvim'
 fi
 
 export NEOVIDE_FORK=1
@@ -76,9 +76,6 @@ tns() {
         tmux switch-client -t"$1"
     fi
 }
-
-
-
 
 if command -v starship &>/dev/null
 then
