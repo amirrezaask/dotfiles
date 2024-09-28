@@ -21,6 +21,7 @@ keybinds {
         bind "Alt g" { SwitchToMode "locked"; }
         bind "Alt w" { ToggleFloatingPanes; SwitchToMode "Normal"; }
         bind "Alt f" { ToggleFocusFullscreen; SwitchToMode "normal"; }
+        bind "Alt r" { SwitchToMode "resize"; }
     }
 
     tab {
