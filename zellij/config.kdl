@@ -3,7 +3,8 @@ theme "tokyo-night"
 default_layout "compact"
 // layout_dir "~/.config/zellij/layouts"
 
-copy_on_select false
+// copy_on_select false
+mouse_mode false
 
 // Keybindings
 keybinds {
