@@ -23,7 +23,6 @@ install:
 	ln -s $(DOTFILES_DIR)/i3-config $(XDG_CONFIG)/i3/config
 	ln -s $(DOTFILES_DIR)/fish $(XDG_CONFIG)/fish
 	ln -s $(DOTFILES_DIR)/.emacs $(HOME)/.emacs
-	ln -s $(DOTFILES_DIR)/.zshrc $(HOME)/.zshrc
 	ln -s $(DOTFILES_DIR)/wezterm $(XDG_CONFIG)/wezterm
 	ln -s $(DOTFILES_DIR)/kitty $(XDG_CONFIG)/
 	ln -s $(DOTFILES_DIR)/alacritty $(XDG_CONFIG)/
@@ -31,6 +30,7 @@ install:
 	ln -s $(DOTFILES_DIR)/starship.toml $(XDG_CONFIG)/starship.toml
 	ln -s $(DOTFILES_DIR)/zellij $(XDG_CONFIG)/
 	ln -s $(DOTFILES_DIR)/nvim $(XDG_CONFIG)/
+	ln -s $(DOTFILES_DIR)/zsh/zshrc $(HOME)/.zshrc
 
 install-sublime-mac:
 	rm -rf "$(HOME)/Library/Application Support/Sublime Text/Packages"
