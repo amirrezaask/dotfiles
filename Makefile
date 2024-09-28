@@ -21,7 +21,6 @@ install:
 	mkdir -p $(XDG_CONFIG)/nvim
 	mkdir -p $(XDG_CONFIG)/fish
 	mkdir -p $(XDG_CONFIG)/wezterm
-	mkdir -p $(XDG_CONFIG)/zellij
 	mkdir -p $(HOME)/go/bin
 	ln -s $(DOTFILES_DIR)/i3-config $(XDG_CONFIG)/i3/config
 	ln -s $(DOTFILES_DIR)/config.fish $(XDG_CONFIG)/fish/config.fish
@@ -36,7 +35,7 @@ install:
 	ln -s $(DOTFILES_DIR)/tmux-sessionizer $(HOME)/go/bin/
 	ln -s $(DOTFILES_DIR)/tmux-windowizer $(HOME)/go/bin/
 	ln -s $(DOTFILES_DIR)/tmux-switch $(HOME)/go/bin/
-	ln -s $(DOTFILES_DIR)/zellij.kdl $(XDG_CONFIG)/zellij/config.kdl
+	ln -s $(DOTFILES_DIR)/zellij $(XDG_CONFIG)/zellij
 
 sublime-mac:
 	rm -rf "$(HOME)/Library/Application Support/Sublime Text/Packages"

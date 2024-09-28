@@ -1,5 +1,7 @@
 theme "tokyo-night"
-default_layout "compact"
+
+// default_layout "compact"
+// layout_dir "~/.config/zellij/layouts"
 
 copy_on_select false
 
@@ -10,11 +12,13 @@ keybinds {
         bind "Alt p" { SwitchToMode "pane"; }
         bind "Alt t" { SwitchToMode "tab"; }
         bind "Alt n" { NewTab; }
-        bind "Alt s" { SwitchToMode "search"; }
+        bind "Alt s" { SwitchToMode "scroll"; }
         bind "Alt d" { NewPane; }
         bind "Alt m" { SwitchToMode "move"; }
         bind "Alt o" { SwitchToMode "session"; }
         bind "Alt q" { CloseFocus; }
         bind "Alt g" { SwitchToMode "locked"; }
+        bind "Alt w" { ToggleFloatingPanes; SwitchToMode "Normal"; }
+        bind "Alt f" { ToggleFocusFullscreen; SwitchToMode "normal"; }
     }
 }

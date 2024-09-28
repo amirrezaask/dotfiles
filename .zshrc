@@ -23,8 +23,6 @@ fi
 
 if command -v subl &>/dev/null
 then
-    export EDITOR='subl -w'
-    export GIT_EDITOR='subl -w'
     alias s='subl'
     alias ss='subl .'
 fi
@@ -44,6 +42,9 @@ if command -v nvim &>/dev/null
 then
     alias vim='nvim'
     alias v='nvim'
+    alias n='nvim'
+    export EDITOR='nvim'
+    export GIT_EDITOR='nvim'
 fi
 
 export NEOVIDE_FORK=1
