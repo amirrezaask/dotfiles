@@ -24,7 +24,7 @@
 	"show_definitions": false,
 	/*"close_windows_when_empty": false,*/
 	"show_rel_path": true,
-	"color_scheme": "Packages/Themes/Darcula.tmTheme",
+	"color_scheme": "Night Owl.sublime-color-scheme",
 	"sesame.path": "~/w",
 	"sesame.depth": 1,
 	"sesame.vcs": true,
