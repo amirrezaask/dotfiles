@@ -123,6 +123,7 @@
                vlf       ;; handle [V]ery [L]arge [F]iles
                wgrep     ;; Editable Grep Buffers
                go-mode
+	       gruber-darker-theme
                rust-mode
                php-mode
                json-mode
@@ -322,7 +323,9 @@
  `(show-paren-match                 ((t (:background "mediumseagreen"))))
  )
 
-(enable-theme 'greenish)
+(setq custom-safe-themes t)
+;; (enable-theme 'greenish)
+(load-theme 'gruber-darker)
 
 (setq-default c-default-style "linux" c-basic-offset 4)
 
