@@ -89,6 +89,7 @@
 (setq font-families (font-family-list))
 (require 'cl-lib)
 (cl-loop for font in '(
+		       "Iosevka"
 		       "MonoLisa"
 		       "Consolas"
                        "Liberation Mono"
@@ -124,6 +125,7 @@
                wgrep     ;; Editable Grep Buffers
                go-mode
 	       gruber-darker-theme
+	       multiple-cursors
                rust-mode
                php-mode
                json-mode
@@ -161,8 +163,6 @@
 (GLOBAL          (kbd "C-o")         'other-window)
 (GLOBAL          (kbd "M-n")         'jump-down)
 (GLOBAL          (kbd "M-p")         'jump-up)
-(GLOBAL          (kbd "C-S-n")       'jump-down)
-(GLOBAL          (kbd "C-S-p")       'jump-up)
 (GLOBAL          (kbd "M-k")         'kill-current-buffer)
 (GLOBAL          (kbd "M-j")         'switch-to-buffer)
 
@@ -240,12 +240,6 @@
 
 ;; Colors
 (install 'ef-themes)
-(defun save-theme (name definition)
-  (mkdir (expand-file-name "themes" user-emacs-directory) t)
-  (write-region (format "(deftheme %s)
-%s
-" name definition) nil (expand-file-name (format "%s-theme.el" name) (expand-file-name "themes" user-emacs-directory))))
-
 
 (deftheme brownish)
 (custom-theme-set-faces
@@ -545,6 +539,14 @@
   (define-key rectangle-mark-mode-map (kbd "C-w")     'copy-rectangle-as-kill)
   (define-key rectangle-mark-mode-map (kbd "M-w")     'yank-rectangle)
   (define-key rectangle-mark-mode-map (kbd "C-r")     'string-rectangle))
+
+;; Multicursors
+(require 'multiple-cursors)
+(GLOBAL (kbd "C-M-n") 'mc/mark-next-like-this-symbol)
+(GLOBAL (kbd "C-M-p") 'mc/mark-previous-like-this-symbol)
+(GLOBAL (kbd "C-S-n") 'mc/mark-next-like-this)
+(GLOBAL (kbd "C-S-p") 'mc/mark-previous-like-this)
+(GLOBAL (kbd "C-M->") 'mc/mark-all-like-this-dwim)
 
 ;; Magit: Git client
 (install 'magit)
