@@ -80,7 +80,7 @@
 (defun GLOBAL (KBD ACTION) (define-key global-overrides KBD ACTION))
 
 ;; Font
-(setq font-size 16)
+(setq font-size 13)
 (setq current-font-family "")
 (setq font-families (font-family-list))
 (require 'cl-lib)
@@ -114,6 +114,9 @@
 (defun install (pkg)
   (unless (package-installed-p pkg)
     (package-install pkg)))
+
+
+(if is-windows (cd "d:/w"))
 
 (dolist (pkg '(
                vlf       ;; handle [V]ery [L]arge [F]iles
