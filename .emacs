@@ -69,10 +69,6 @@
 
 (global-set-key (kbd "C-x i") 'edit-init) ;; Edit this file.
 
-(if is-windows
-    (cd "C:\\w")
-  (cd "~/w"))
-
 ;; overrides: minor mode to register keys that I want to override in all other modes.
 (defvar global-overrides (make-sparse-keymap))
 (define-minor-mode amirreza-overrides ""
@@ -163,7 +159,6 @@
 (GLOBAL          (kbd "M-n")         'jump-down)
 (GLOBAL          (kbd "M-p")         'jump-up)
 (GLOBAL          (kbd "M-k")         'kill-current-buffer)
-(GLOBAL          (kbd "M-j")         'switch-to-buffer)
 
 (defun kill-current-buffer () (interactive)
        (kill-buffer (current-buffer)))
@@ -380,42 +375,31 @@
   (grep-apply-setting 'grep-command (grep-default-command))
   (grep-apply-setting 'grep-use-null-device nil))
 
-(defun run-in-project (fn &rest args) "Run given function at project root."
-       (let ((default-directory (find-project-root-or-default-directory))) (apply fn args)))
+(defun run (fn &rest args) "Run given function at project root, if you want to choose directory use C-u."
+       (let ((default-directory
+	      (if (null current-prefix-arg)
+		       (find-project-root-or-default-directory)
+		     (read-directory-name "Directory: " default-directory))))
+	 (apply fn args)))
 
-(defun ask-for-directory (fn &rest args) "Ask for directory and run function at given directory"
-       (let ((default-directory (read-directory-name "Dir: "))) (apply fn args)))
-
-(GLOBAL (kbd "M-m") (lambda () (interactive) (run-in-project 'compile (read-shell-command "Command: "))))
-(GLOBAL (kbd "M-s") (lambda () (interactive)  (run-in-project 'grep (read-shell-command "Grep: " (grep-default-command)))))
+(GLOBAL (kbd "M-m") (lambda () (interactive)  (run 'compile (read-shell-command "Command: "))))
+(GLOBAL (kbd "M-s") (lambda () (interactive)  (run 'grep (read-shell-command "Grep: " (grep-default-command)))))
 
 ;; Find File
 (GLOBAL (kbd "M-o") 'find-file-dwim)
 
 (defun find-file-dwim () "Recursive file find starting from `find-project-root` result or C-u to choose directory interactively." (interactive)
-       (if (null current-prefix-arg)
-           (setq --open-file-dir (find-project-root-or-default-directory))
-         (setq --open-file-dir (read-directory-name "Directory: " default-directory)))
-
-       (cond
-        ((executable-find "find") (let*
-                                      ((default-directory --open-file-dir)
-                                       (command (format "find . -type f -not -path \"*/.git/*\""))
-                                       (file (completing-read "Find: " (string-split (shell-command-to-string command) "\n" t))))
-                                    (find-file file)))
-
-        ((git-repo-p --open-file-dir) (let*
-                                          ((default-directory --open-file-dir)
-                                           (command (format "git ls-files"))
-                                           (file (completing-read "Git Files: " (string-split (shell-command-to-string command) "\n" t))))
-                                        (find-file file)))
-
-        ((executable-find "rg") (let* ((default-directory --open-file-dir)
-                                       (command (format "rg --files"))
-                                       (file (completing-read "Ripgrep Files: " (string-split (shell-command-to-string command) "\n" t) nil t)))
-                                  (find-file file)))
-
-        (t (error "you don't have rg installed and it's not a git repo."))))
+       (let ((default-directory (if (null current-prefix-arg)
+		       (find-project-root-or-default-directory)
+		       (read-directory-name "Directory: " default-directory)))
+	     
+	     (command
+	      (cond
+               ((executable-find "find") (format "find . -type f -not -path \"*/.git/*\""))
+               ((git-repo-p --open-file-dir) (format "git ls-files"))
+               ((executable-find "rg") (format "rg --files")))))
+	 
+	 (completing-read "File: " (string-split (shell-command-to-string command) "\n" t))))
 
 ;; ISearch
 (GLOBAL (kbd "C-S-s") 'isearch-forward-thing-at-point)
