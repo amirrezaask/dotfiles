@@ -1,4 +1,4 @@
-;; (setq debug-on-error t) ;; Uncomment when you debug your emacs lisp code.
+(setq debug-on-error t) ;; Uncomment when you debug your emacs lisp code.
 
 
 ;; Startup hacks to make emacs boot faster.
@@ -89,7 +89,6 @@
 (setq font-families (font-family-list))
 (require 'cl-lib)
 (cl-loop for font in '(
-		       "Iosevka"
 		       "MonoLisa"
 		       "Consolas"
                        "Liberation Mono"
@@ -323,11 +322,6 @@
 
 (setq-default c-default-style "linux" c-basic-offset 4)
 
-;; Xref
-(global-set-key (kbd "C-.") 'xref-find-definitions)
-(global-set-key (kbd "C-,") 'xref-go-back)
-(global-set-key (kbd "C-?") 'xref-find-references)
-
 ;; LSP (Eglot)
 (with-eval-after-load 'eglot
   (define-key eglot-mode-map (kbd "M-i")     'consult-eglot-symbols)
@@ -337,7 +331,7 @@
 
 (setq eldoc-echo-area-use-multiline-p nil)
 
-(dolist (mode '(go rust php))
+(dolist (mode '(go rust php)) ;; Enable LSP automatically.
   (add-hook (intern (concat (symbol-name mode) "-mode-hook")) #'eglot-ensure))
 
 
@@ -354,12 +348,17 @@
     'eglot (add-to-list 'eglot-server-programs '(php-mode . ("intelephense" "--stdio"))))
 
 (defun eglot-organize-imports () (interactive) (eglot-code-actions nil nil "source.organizeImports" t))
-
-(setq eglot-stay-out-of '(project flymake)) ;;
+(setq eglot-stay-out-of '(project flymake)) ;; Don't polute buffer with flymake diganostics.
 (setq eglot-sync-connect nil)       ;; no blocking on waiting for the server to start.
 (setq eglot-events-buffer-size 0)   ;; no logging of LSP events.
-
 (defun eglot-organize-imports-format () (interactive) (eglot-format) (eglot-organize-imports))
+
+
+;; Compile/Grep
+(setq compilation-ask-about-save nil)
+(setq compilation-always-kill t)
+
+(with-eval-after-load 'compile (define-key compilation-mode-map (kbd "G")    (lambda () (interactive) (recompile t))))
 
 (defun find-project-root () "Try to find project root based on deterministic predicates"
        (cond
@@ -368,125 +367,27 @@
         ((eq major-mode 'php-mode)  (locate-dominating-file default-directory "composer.json"))
         (t                          default-directory)))
 
-
 (defun git-repo-p (DIR) (locate-dominating-file DIR ".git"))
 (defun find-project-root-or-default-directory () (or (find-project-root) default-directory))
 
-;; Compile Mode
-(GLOBAL (kbd "M-m") 'compile-dwim)
-
-(setq compilation-ask-about-save nil)
-(setq compilation-always-kill t)
-
-(with-eval-after-load 'compile
-  (define-key compilation-mode-map (kbd "g")    'recompile) ;; g as always just does the same thing.
-  (define-key compilation-mode-map (kbd "G")    (lambda () (interactive) (recompile t)))
-  (define-key compilation-mode-map (kbd "<f5>") 'recompile)
-  (define-key compilation-mode-map (kbd "M-m")  'previous-buffer)
-  (define-key compilation-mode-map (kbd "k")    'kill-compilation))
-
-;; Diff Mode
-(with-eval-after-load 'diff-mode
-  (define-key diff-mode-map (kbd "g") 'recompile))
-
-(defun amirreza-compile-buffer-name-function (MODESTR) (format "*Compile-%s*" --compile-dir))
-(defun amirreza-grep-buffer-name-function (MODESTR)    (format "*Grep-%s*" --grep-dir))
-
-(defun git-add (file) (interactive (list (read-file-name "Git Add: ")))
-       (shell-command-to-string (format "git add %s" file)))
-
-(defun git-diff () "run git diff command in `find-project-root` result or C-u to choose directory interactively." (interactive)
-       (if (null current-prefix-arg)
-           (setq --git-diff-dir (find-project-root-or-default-directory))
-         (setq --git-diff-dir (read-directory-name "Directory: " default-directory)))
-
-       (let ((default-directory --git-diff-dir))
-         (compilation-start "git diff HEAD" 'diff-mode)))
-
-(defun compile-dwim () "run `compile`. If prefixed it wil ask for compile directory." (interactive)
-       (if (string-match "\\\\*Compile\\\\*" (buffer-name))
-           (switch-to-buffer --compile-previous-buffer-before-compile)
-
-         (progn
-           (setq compilation-buffer-name-function 'amirreza-compile-buffer-name-function)
-           (if (null current-prefix-arg)
-               (setq --compile-dir (find-project-root-or-default-directory))
-             (setq --compile-dir (read-directory-name "Directory: " default-directory)))
-
-           (setq --compile-previous-buffer-before-compile (current-buffer))
-
-           (if (get-buffer (format "*Compile-%s*" --compile-dir))
-               (switch-to-buffer (format "*Compile-%s*" --compile-dir)) ;; we have a compile buffer associated with this project.
-             ;; we need to create a new compile buffer for this
-
-             (let* ((default-directory --compile-dir)
-                    (command (read-shell-command "Command: "  (cond ;; guess a command based on the context.
-                                                               ((file-exists-p "build.bat") "build.bat")
-                                                               ((file-exists-p "go.mod")    "go build -v ./...")
-                                                               ((file-exists-p "Makefile")  "make")))))
-               (compilation-start command)
-               (delete-window)
-               (switch-to-buffer (format "*Compile-%s*" --compile-dir)))))
-         )
-       )
-
-
-;; Grep Mode
-(setq-default case-fold-search t)
-(GLOBAL (kbd "M-s") 'grep-dwim)
+(defun grep-default-command ()
+  (cond
+   ((executable-find "rg") "rg --no-heading --color='never' ")
+   ((git-repo-p DIR)       "git grep --no-color -n ")
+   (t                      "grep -rn ")))
 
 (with-eval-after-load 'grep
-  (define-key grep-mode-map (kbd "M-s")     'previous-buffer)
-  (define-key grep-mode-map (kbd "g")       'recompile)
-  (define-key grep-mode-map (kbd "G")       (lambda () (interactive) (grep-dwim)))
-  (define-key grep-mode-map (kbd "C-r")     'wgrep-change-to-wgrep-mode)
-  (define-key grep-mode-map (kbd "<f5>")    'recompile)
-  (define-key grep-mode-map (kbd "k")       'kill-compilation))
+  (grep-apply-setting 'grep-command (grep-default-command))
+  (grep-apply-setting 'grep-use-null-device nil))
 
-(defun wgrep-finish-edit-and-save () (interactive)
-       (wgrep-finish-edit)
-       (wgrep-save-all-buffers))
+(defun run-in-project (fn &rest args) "Run given function at project root."
+       (let ((default-directory (find-project-root-or-default-directory))) (apply fn args)))
 
-(with-eval-after-load 'wgrep
-  (define-key wgrep-mode-map (kbd "C-c C-c")  'wgrep-finish-edit)
-  (define-key wgrep-mode-map (kbd "C-x C-s")  'wgrep-finish-edit-and-save)
-  (define-key wgrep-mode-map (kbd "C-c C-k")  'wgrep-abort-changes))
+(defun ask-for-directory (fn &rest args) "Ask for directory and run function at given directory"
+       (let ((default-directory (read-directory-name "Dir: "))) (apply fn args)))
 
-(with-eval-after-load 'grep
-  (when (executable-find "rg")
-    (grep-apply-setting 'grep-command "rg --no-heading --color='never' ")
-    (grep-apply-setting 'grep-use-null-device nil)))
-
-(defun grep-dwim () "Recursive grep in `find-project-root` result or C-u to choose directory interactively." (interactive)
-       (if (string-match "\\\\*Grep\\\\*" (buffer-name))
-           (switch-to-buffer --compile-previous-buffer-before-compile)
-
-         (progn
-
-           ;; Set correct compilation buffer name function
-           (setq compilation-buffer-name-function 'amirreza-grep-buffer-name-function)
-
-           ;; Set directory for grep.
-           (if (null current-prefix-arg)
-               (setq --grep-dir (find-project-root-or-default-directory))
-             (setq --grep-dir (read-directory-name "Directory: " default-directory)))
-
-           (if (and
-                (get-buffer (format "*Grep-%s*" --grep-dir))
-                (not (eq (get-buffer (format "*Grep-%s*" --grep-dir)) (current-buffer))))
-               (switch-to-buffer (format "*Grep-%s*" --grep-dir)) ;; we have a compile buffer associated with this project.
-
-             (progn
-               (setq --last-grep-command-format
-                     (cond
-                      ((executable-find "rg") "rg --no-heading --color='never' '%s'")
-                      ((git-repo-p DIR)       "git grep --no-color -n '%s'")
-                      (t                      "grep --color=auto -R -nH -e '%s' .")))
-               (setq --last-grep-string (read-string "Grep: "))
-               (let ((default-directory --grep-dir))
-                 (grep (format --last-grep-command-format --last-grep-string))
-                 (delete-window)
-                 (switch-to-buffer (format "*Grep-%s*" --grep-dir))))))))
+(GLOBAL (kbd "M-m") (lambda () (interactive) (run-in-project 'compile (read-shell-command "Command: "))))
+(GLOBAL (kbd "M-s") (lambda () (interactive)  (run-in-project 'grep (read-shell-command "Grep: " (grep-default-command)))))
 
 ;; Find File
 (GLOBAL (kbd "M-o") 'find-file-dwim)
@@ -518,6 +419,7 @@
 
 ;; ISearch
 (GLOBAL (kbd "C-S-s") 'isearch-forward-thing-at-point)
+(setq-default case-fold-search t)
 
 ;; Replace
 (global-set-key (kbd "C-r") 'replace-string)
@@ -530,15 +432,6 @@
 (global-set-key (kbd "M-[")  'kmacro-start-macro)
 (global-set-key (kbd "M-]")  'kmacro-end-or-call-macro)
 (global-set-key (kbd "M-\\") 'kmacro-end-and-call-macro)
-
-;; Rectangle Mode
-(global-set-key (kbd "C-x C-SPC") 'rectangle-mark-mode)
-(with-eval-after-load 'rect
-  (define-key rectangle-mark-mode-map (kbd "C-i")     'string-insert-rectangle)
-  (define-key rectangle-mark-mode-map (kbd "C-k")     'kill-rectangle)
-  (define-key rectangle-mark-mode-map (kbd "C-w")     'copy-rectangle-as-kill)
-  (define-key rectangle-mark-mode-map (kbd "M-w")     'yank-rectangle)
-  (define-key rectangle-mark-mode-map (kbd "C-r")     'string-rectangle))
 
 ;; Multicursors
 (require 'multiple-cursors)
