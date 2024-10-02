@@ -12,7 +12,7 @@
   { "key": "cmd+b", "command": "workbench.action.tasks.reRunTask", },
   { "key": "cmd+shift+b", "command": "workbench.action.tasks.runTask" },
   // Open new window
-  { "key": "cmd+shift+o", "command": "workbench.action.files.openFileFolderInNewWindow", },
+  { "key": "cmd+shift+o", "command": "workbench.action.files.openFileFolderInNewWindow" },
   // Toggle Explorer
   { "key": "cmd+k cmd+e", "command": "workbench.view.explorer", "when": "!explorerViewletVisible" },
   { "key": "cmd+k cmd+e", "command": "workbench.action.toggleSidebarVisibility", "when": "explorerViewletVisible" },
