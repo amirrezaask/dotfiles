@@ -85,6 +85,7 @@
 (setq font-families (font-family-list))
 (require 'cl-lib)
 (cl-loop for font in '(
+		       "MonoLisa"
                        "Consolas"
                        "Liberation Mono"
                        "Menlo"
@@ -226,11 +227,8 @@
 
 ;; Completion
 (global-set-key (kbd "C-j") 'completion-at-point)
-
 (install 'corfu)
-
 (global-corfu-mode +1)
-
 (setq corfu-auto nil)
 
 
@@ -241,8 +239,7 @@
 
 (setq custom-safe-themes t)
 (add-to-list 'custom-theme-load-path (expand-file-name "themes" user-emacs-directory))
-
-(load-theme 'gruber-darker)
+(load-theme 'handmadehero)
 
 (setq-default c-default-style "linux" c-basic-offset 4)
 
