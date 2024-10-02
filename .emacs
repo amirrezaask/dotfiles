@@ -85,8 +85,8 @@
 (setq font-families (font-family-list))
 (require 'cl-lib)
 (cl-loop for font in '(
-		       "MonoLisa"
-		       "Consolas"
+                       "MonoLisa"
+                       "Consolas"
                        "Liberation Mono"
                        "Menlo"
                        "JetBrains Mono"
@@ -122,8 +122,8 @@
                vlf       ;; handle [V]ery [L]arge [F]iles
                wgrep     ;; Editable Grep Buffers
                go-mode
-	       gruber-darker-theme
-	       multiple-cursors
+               gruber-darker-theme
+               multiple-cursors
                rust-mode
                php-mode
                json-mode
@@ -240,7 +240,7 @@
 
 (deftheme brownish)
 (custom-theme-set-faces
-  'brownish
+ 'brownish
  `(default                          ((t (:foreground "#debe95" :background "#252525"))))
  `(hl-line                          ((t (:background "#353535"))))
  `(vertico-current                  ((t (:background "medium blue"))))
@@ -266,7 +266,7 @@
 
 (deftheme greenish)
 (custom-theme-set-faces
-  'greenish
+ 'greenish
  `(default                          ((t (:foreground "#d3b58d" :background "#072626"))))
  `(hl-line                          ((t (:background "#0c4141"))))
  `(region                           ((t (:background  "medium blue"))))
@@ -380,10 +380,10 @@
 
 (defun run (fn &rest args) "Run given function at project root, if you want to choose directory use C-u."
        (let ((default-directory
-	      (if (null current-prefix-arg)
-		       (find-project-root-or-default-directory)
-		     (read-directory-name "Directory: " default-directory))))
-	 (apply fn args)))
+              (if (null current-prefix-arg)
+                  (find-project-root-or-default-directory)
+                (read-directory-name "Directory: " default-directory))))
+         (apply fn args)))
 
 (GLOBAL (kbd "M-m") (lambda () (interactive)  (run 'compile (read-shell-command "Command: "))))
 (GLOBAL (kbd "M-s") (lambda () (interactive)  (run 'grep (read-shell-command "Grep: " (grep-default-command)))))
@@ -392,17 +392,18 @@
 (GLOBAL (kbd "M-o") 'find-file-dwim)
 
 (defun find-file-dwim () "Recursive file find starting from `find-project-root` result or C-u to choose directory interactively." (interactive)
-       (let ((default-directory (if (null current-prefix-arg)
-		       (find-project-root-or-default-directory)
-		       (read-directory-name "Directory: " default-directory)))
-	     
-	     (command
-	      (cond
+       (let (
+	     (default-directory (if (null current-prefix-arg)
+                  (find-project-root-or-default-directory)
+                (read-directory-name "Directory: " default-directory)))
+
+             (command
+              (cond
                ((executable-find "find") (format "find . -type f -not -path \"*/.git/*\""))
                ((git-repo-p --open-file-dir) (format "git ls-files"))
                ((executable-find "rg") (format "rg --files")))))
-	 
-	 (completing-read "File: " (string-split (shell-command-to-string command) "\n" t))))
+
+         (find-file (completing-read "File: " (string-split (shell-command-to-string command) "\n" t)))))
 
 ;; ISearch
 (GLOBAL (kbd "C-S-s") 'isearch-forward-thing-at-point)
