@@ -13,7 +13,6 @@ early-init.el
 emacs/eln-cache
 emacs/eshell
 emacs/projects
-emacs/themes
 PowerShell/Scripts
 PowerShell/Modules
 nvim/lazy-lock.json
