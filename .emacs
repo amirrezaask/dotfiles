@@ -53,7 +53,7 @@
 (add-to-list 'exec-path "/usr/local/go/bin")
 (add-to-list 'exec-path "/opt/homebrew/bin")
 (add-to-list 'exec-path "/usr/local/bin")
-(add-to-list 'exec-path "w:/bin")
+(add-to-list 'exec-path "d:/bin")
 (add-to-list 'exec-path "c:/programs/bin")
 
 (if (eq system-type 'windows-nt)
@@ -80,7 +80,7 @@
 (defun GLOBAL (KBD ACTION) (define-key global-overrides KBD ACTION))
 
 ;; Font
-(setq font-size 16)
+(setq font-size 13)
 (setq current-font-family "")
 (setq font-families (font-family-list))
 (require 'cl-lib)
@@ -114,6 +114,9 @@
 (defun install (pkg)
   (unless (package-installed-p pkg)
     (package-install pkg)))
+
+
+(if is-windows (cd "d:/w"))
 
 (dolist (pkg '(
                vlf       ;; handle [V]ery [L]arge [F]iles
@@ -308,12 +311,12 @@
  `(font-lock-doc-string-face        ((t (:foreground "gray50"))))
  `(font-lock-warning-face           ((t (:foreground "yellow"))))
  `(font-lock-note-face              ((t (:foreground "khaki2" ))))
- `(show-paren-match                 ((t (:background "mediumseagreen"))))
- )
+ `(show-paren-match                 ((t (:background "mediumseagreen")))))
+
 
 (setq custom-safe-themes t)
-;; (enable-theme 'greenish)
-(load-theme 'gruber-darker)
+(enable-theme 'greenish)
+;; (load-theme 'gruber-darker)
 
 (setq-default c-default-style "linux" c-basic-offset 4)
 
@@ -368,7 +371,7 @@
 (defun grep-default-command ()
   (cond
    ((executable-find "rg") "rg --no-heading --color='never' ")
-   ((git-repo-p DIR)       "git grep --no-color -n ")
+   ((git-repo-p default-directory)       "git grep --no-color -n ")
    (t                      "grep -rn ")))
 
 (with-eval-after-load 'grep
