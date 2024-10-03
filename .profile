@@ -38,3 +38,8 @@ oclogs() {
     oc logs --prefix -f --selector "app.kubernetes.io/instance=snappdoctor-$1-prod, app.kubernetes.io/name=$1"
 }
 
+export color_prompt='yes'
+
+if [ -n "$BASH" ]; then
+    export PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+fi
