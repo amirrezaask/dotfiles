@@ -5,7 +5,7 @@
 -- Minimal, fast configuration for neovim.
 
 TRANSPARENT = os.getenv('NVIM_TRANSPARENT') or true
-COLORSCEHEME = os.getenv('NVIM_COLORSCHEME') or "tokyonight-night"
+COLORSCEHEME = os.getenv('NVIM_COLORSCHEME') or "rose-pine"
 IS_WINDOWS = vim.fn.has("win32") == 1
 
 vim.opt.wrap = true        -- Wrap long lines
@@ -497,6 +497,6 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 vim.cmd.colorscheme(COLORSCEHEME)
 if TRANSPARENT then
     vim.cmd [[
-                    hi! Normal guibg=none
-                ]]
+        hi! Normal guibg=none
+    ]]
 end

@@ -29,6 +29,7 @@ export PLAN9=/Users/amirrezaask/plan9
 export PATH=$PATH:$PLAN9/bin 
 export DOTFILES="$HOME/w/dotfiles"
 export PATH="$PATH:$DOTFILES/bin"
+export PATH="$PATH:$HOME/.zig"
 
 alias svpn='sudo openfortivpn  --otp $(totpgen ADS)'
 
