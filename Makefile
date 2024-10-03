@@ -18,6 +18,7 @@ install:
 	rm -rf $(XDG_CONFIG)/zellij
 	rm -rf $(XDG_CONFIG)/wezterm
 	rm -rf $(HOME)/.emacs.d
+	rm -rf $(HOME)/.profile
 	mkdir -p $(XDG_CONFIG)/i3
 	mkdir -p $(HOME)/go/bin
 	ln -s $(DOTFILES_DIR)/i3-config $(XDG_CONFIG)/i3/config
@@ -31,6 +32,7 @@ install:
 	ln -s $(DOTFILES_DIR)/nvim $(XDG_CONFIG)/
 	ln -s $(DOTFILES_DIR)/zsh/zshrc $(HOME)/.zshrc
 	ln -s $(DOTFILES_DIR)/emacs $(HOME)/.emacs.d
+	ln -s $(DOTFILES_DIR)/.profile $(HOME)/.profile
 
 install-sublime-mac:
 	rm -rf "$(HOME)/Library/Application Support/Sublime Text/Packages"

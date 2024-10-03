@@ -355,3 +355,4 @@
 ;; Magit: Git client
 (install 'magit)
 (global-set-key (kbd "C-x g") 'magit)
+
