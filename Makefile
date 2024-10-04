@@ -22,17 +22,17 @@ install:
 	mkdir -p $(XDG_CONFIG)/i3
 	mkdir -p $(HOME)/go/bin
 	ln -s $(DOTFILES_DIR)/i3-config $(XDG_CONFIG)/i3/config
-	ln -s $(DOTFILES_DIR)/fish $(XDG_CONFIG)/fish
-	ln -s $(DOTFILES_DIR)/wezterm $(XDG_CONFIG)/wezterm
-	ln -s $(DOTFILES_DIR)/kitty $(XDG_CONFIG)/
-	ln -s $(DOTFILES_DIR)/alacritty $(XDG_CONFIG)/
-	ln -s $(DOTFILES_DIR)/tmux/tmux.conf $(HOME)/.tmux.conf
-	ln -s $(DOTFILES_DIR)/starship.toml $(XDG_CONFIG)/starship.toml
-	ln -s $(DOTFILES_DIR)/zellij $(XDG_CONFIG)/
-	ln -s $(DOTFILES_DIR)/nvim $(XDG_CONFIG)/
-	ln -s $(DOTFILES_DIR)/zsh/zshrc $(HOME)/.zshrc
-	ln -s $(DOTFILES_DIR)/emacs $(HOME)/.emacs.d
-	ln -s $(DOTFILES_DIR)/.profile $(HOME)/.profile
+	ln -s $(DOTFILES_DIR)/shell/fish $(XDG_CONFIG)/fish
+	ln -s $(DOTFILES_DIR)/terminal/wezterm $(XDG_CONFIG)/wezterm
+	ln -s $(DOTFILES_DIR)/terminal/kitty $(XDG_CONFIG)/
+	ln -s $(DOTFILES_DIR)/terminal/alacritty $(XDG_CONFIG)/
+	ln -s $(DOTFILES_DIR)/mux/tmux/tmux.conf $(HOME)/.tmux.conf
+	ln -s $(DOTFILES_DIR)/shell/starship/starship.toml $(XDG_CONFIG)/starship.toml
+	ln -s $(DOTFILES_DIR)/mux/zellij $(XDG_CONFIG)/
+	ln -s $(DOTFILES_DIR)/editor/nvim $(XDG_CONFIG)/
+	ln -s $(DOTFILES_DIR)/shell/zsh/zshrc $(HOME)/.zshrc
+	ln -s $(DOTFILES_DIR)/editor/emacs $(HOME)/.emacs.d
+	ln -s $(DOTFILES_DIR)/shell/profile $(HOME)/.profile
 
 install-sublime-mac:
 	rm -rf "$(HOME)/Library/Application Support/Sublime Text/Packages"

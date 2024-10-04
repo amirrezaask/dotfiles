@@ -5,7 +5,7 @@
 -- Minimal, fast configuration for neovim.
 
 TRANSPARENT = os.getenv('NVIM_TRANSPARENT') or true
-COLORSCEHEME = os.getenv('NVIM_COLORSCHEME') or "rose-pine"
+COLORSCEHEME = os.getenv('NVIM_COLORSCHEME') or "tokyonight-night"
 IS_WINDOWS = vim.fn.has("win32") == 1
 
 vim.opt.wrap = true        -- Wrap long lines
@@ -400,7 +400,6 @@ require("lazy").setup({
                         implementation = tele.lsp_implementations
                     end
                     map("n", "<leader>e", ":Trouble diagnostics toggle<CR>", "Trouble Toggle")
-                    map("n", "<C-e>", ":Trouble diagnostics toggle<CR>", "Trouble Toggle")
 
                     map("n", "[[", vim.diagnostic.goto_prev, "Diagnostics: Next")
                     map("n", "]]", vim.diagnostic.goto_next, "Diagnostics: Previous")
@@ -468,7 +467,20 @@ require("lazy").setup({
                 },
             })
         end
+    },
+    {
+        "nvim-neo-tree/neo-tree.nvim",
+        branch = "v3.x",
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+            "nvim-tree/nvim-web-devicons",
+            "MunifTanjim/nui.nvim",
+        },
+        config = function()
+            vim.keymap.set({ "n", 'i' }, "<C-e>", "<cmd>Neotree toggle<CR>", { desc = "Neotree Toggle" })
+        end
     }
+
 })
 
 -- Quickfix list
