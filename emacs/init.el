@@ -85,7 +85,6 @@
 (setq font-families (font-family-list))
 (require 'cl-lib)
 (cl-loop for font in '(
-		       "MonoLisa"
                        "Consolas"
                        "Liberation Mono"
                        "Menlo"
@@ -239,7 +238,7 @@
 
 (setq custom-safe-themes t)
 (add-to-list 'custom-theme-load-path (expand-file-name "themes" user-emacs-directory))
-(load-theme 'handmadehero)
+(load-theme 'witness)
 
 (setq-default c-default-style "linux" c-basic-offset 4)
 

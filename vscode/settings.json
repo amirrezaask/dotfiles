@@ -1,24 +1,18 @@
-{ 
+{
   "editor.fontFamily": "MonoLisa, Dank Mono, Operator Mono Book, Fira Code, Menlo, Consolas",
   "editor.fontSize": 14,
   "terminal.integrated.fontSize": 15,
-
   "editor.lineHeight": 22, // increase vertical space between lines for more code readability.
-
   // Startup options
   "workbench.startupEditor": "none", // Start with an empty screen
   "window.restoreWindows": "none", // do not reopen everything when I launch.
   "workbench.settings.editor": "json", // Who uses that shitty slow UI ?
-
   "terminal.integrated.macOptionIsMeta": true,
-  "security.workspace.trust.untrustedFiles": "open", 
-  
+  "security.workspace.trust.untrustedFiles": "open",
   // Cursor settings
   "editor.cursorBlinking": "phase",
   "editor.cursorStyle": "block",
-
   "files.simpleDialog.enable": true, // Use vscode ui to open files instead of OS native one ( weird but vscode one is much faster).
-
   "workbench.editor.editorActionsLocation": "titleBar",
   "editor.wordWrap": "on", // Wrap long lines.
   "files.insertFinalNewline": true,
@@ -43,18 +37,14 @@
   "editor.autoClosingComments": "never", // No fucking auto pairs
   "diffEditor.renderSideBySide": false,
   "workbench.activityBar.location": "bottom",
-
   "editor.multiCursorModifier": "ctrlCmd", // Sublime text habbits
-
   // No confirmation for explorer actions.
   "explorer.confirmDelete": false,
   "explorer.confirmDragAndDrop": false,
   "explorer.confirmPasteNative": false,
-
   // Titlebar
   "workbench.editor.showTabs": "none",
   "window.titleBarStyle": "custom",
-
   // Disable Autocomplete
   // "editor.quickSuggestions": {
   //   "other": false,
@@ -62,15 +52,17 @@
   //   "strings": false
   // },
   // "editor.suggestOnTriggerCharacters": false,
-
   "editor.parameterHints.enabled": false,
   "editor.semanticHighlighting.enabled": false,
   "editor.occurrencesHighlight": "off",
   "problems.visibility": true, // Disable annoying squiggles throughout the editor.
-
   // Golang
-  "[go]": { "editor.formatOnSave": true },
-  "go.addTags": { "options": "" },
+  "[go]": {
+    "editor.formatOnSave": true
+  },
+  "go.addTags": {
+    "options": ""
+  },
   "go.toolsManagement.autoUpdate": true,
   //Git
   "git.confirmSync": false,
@@ -86,5 +78,92 @@
     }
   },
   "extensions.ignoreRecommendations": true,
-  "workbench.colorTheme": "Kanagawa"
+  "workbench.colorTheme": "Kanagawa",
+  // Vim
+  "vim.leader": " ",
+  "vim.useSystemClipboard": true,
+  "vim.normalModeKeyBindings": [
+    { // File Switcher
+      "before": [
+        "<leader>",
+        "<leader>"
+      ],
+      "commands": [
+        "workbench.action.quickOpen"
+      ]
+    }, // File Switcher
+    {
+      "before": [
+        "<leader>",
+        "p"
+      ],
+      "commands": [
+        "workbench.action.quickOpen"
+      ]
+    },
+    { // References
+      "before": [
+        "g",
+        "r"
+      ],
+      "commands": [
+        "editor.action.goToReferences"
+      ]
+    },
+    { // Hover
+      "before": [
+        "K"
+      ],
+      "commands": [
+        "editor.action.showHover"
+      ]
+    },
+    // Diagnostics
+    {
+      "before": [
+        "[",
+        "["
+      ],
+      "commands": [
+        "editor.action.marker.prev"
+      ]
+    },
+    {
+      "before": [
+        "]",
+        "]"
+      ],
+      "commands": [
+        "editor.action.marker.next"
+      ]
+    },
+    { // Code Actions
+      "before": [
+        "C"
+      ],
+      "commands": [
+        "editor.action.quickFix"
+      ]
+    }
+  ],
+  "vim.insertModeKeyBindings": [
+    {
+      "before": [
+        "j",
+        "k"
+      ],
+      "after": [
+        "<esc>"
+      ]
+    },
+    {
+      "before": [
+        "k",
+        "j"
+      ],
+      "after": [
+        "<esc>"
+      ]
+    }
+  ]
 }
