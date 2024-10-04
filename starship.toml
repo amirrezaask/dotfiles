@@ -1,6 +1,8 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 add_newline = true
 
+format = "$all"
+
 [character] 
 
 success_symbol = '[;](green)'
@@ -8,3 +10,4 @@ success_symbol = '[;](green)'
 [package]
 
 disabled = true
+
