@@ -41,7 +41,7 @@
 (set-frame-parameter nil 'fullscreen 'maximized) ;; Always start emacs window in maximized mode.
 
 
-(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+
 (setq redisplay-dont-pause t)
 
 ;; @PATH
@@ -65,7 +65,11 @@
 (defun edit-init () "Edit this file." (interactive) (find-file INIT-FILE))
 
 (when load-file-name ;; since windows is a bit funky I prefer to store this file path in a variable to be used when C-x i
-  (setq INIT-FILE load-file-name))
+  (setq INIT-FILE load-file-name)
+  (setq amirreza-emacs-directory (file-name-directory INIT-FILE))
+  (setq custom-file (expand-file-name "custom.el" amirreza-emacs-directory))
+  )
+
 
 (global-set-key (kbd "C-x i") 'edit-init) ;; Edit this file.
 
@@ -115,7 +119,7 @@
     (package-install pkg)))
 
 
-(if is-windows (cd "d:/w"))
+(if is-windows (cd "d:/src"))
 
 (dolist (pkg '(
                vlf       ;; handle [V]ery [L]arge [F]iles
@@ -237,7 +241,7 @@
     (disable-theme i)))
 
 (setq custom-safe-themes t)
-(add-to-list 'custom-theme-load-path (expand-file-name "themes" user-emacs-directory))
+(add-to-list 'custom-theme-load-path (expand-file-name "themes" amirreza-emacs-directory))
 (load-theme 'witness)
 
 (setq-default c-default-style "linux" c-basic-offset 4)
@@ -321,9 +325,10 @@
 
              (command
               (cond
+	       ((executable-find "rg") (format "rg --files"))
                ((executable-find "find") (format "find . -type f -not -path \"*/.git/*\""))
-               ((git-repo-p --open-file-dir) (format "git ls-files"))
-               ((executable-find "rg") (format "rg --files")))))
+               ((git-repo-p --open-file-dir) (format "git ls-files")))))
+               
 
          (find-file (completing-read "File: " (string-split (shell-command-to-string command) "\n" t)))))
 
