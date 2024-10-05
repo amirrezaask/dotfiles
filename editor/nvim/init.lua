@@ -5,7 +5,7 @@
 -- Minimal, fast configuration for neovim.
 
 TRANSPARENT = os.getenv('NVIM_TRANSPARENT') or false
-COLORSCEHEME = os.getenv('NVIM_COLORSCHEME') or "tokyonight-night"
+COLORSCEHEME = os.getenv('NVIM_COLORSCHEME') or "vague"
 IS_WINDOWS = vim.fn.has("win32") == 1
 
 vim.opt.wrap = true        -- Wrap long lines
@@ -34,12 +34,12 @@ vim.opt.clipboard = "unnamedplus" -- Clipboard
 vim.opt.ignorecase = true         -- Case-insensitive searching UNLESS \C or capital in search
 vim.opt.smartcase = true
 vim.opt.completeopt = { 'menu', 'noinsert' }
-vim.opt.inccommand = "split" -- Preview all substitutions(replacements).
-vim.opt.scrolloff = 10       -- Minimal number of screen lines to keep above and below the cursor.
+vim.opt.inccommand = "" -- Preview all substitutions(replacements).
+vim.opt.scrolloff = 10  -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.cursorline = true
-vim.opt.laststatus = 3       -- Global statusline
+vim.opt.laststatus = 3  -- Global statusline
 
-vim.g.mapleader = " "        -- <leader> key for keymaps mapped to <Space>
+vim.g.mapleader = " "   -- <leader> key for keymaps mapped to <Space>
 vim.keymap.set("n", "Y", "y$", { desc = "Copy whole line" })
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 vim.keymap.set("i", "<C-c>", "<esc>")
@@ -111,6 +111,9 @@ require("lazy").setup({
     { -- colorschemes
         "catppuccin/nvim",
         dependencies = {
+            {
+                "vague2k/vague.nvim"
+            },
             {
                 "rose-pine/neovim",
                 name = 'rose-pine',
@@ -441,9 +444,9 @@ require("lazy").setup({
             local cmp = require("cmp")
             cmp.setup({
                 preselect = require("cmp.types").cmp.PreselectMode.None,
-                completion = {
-                    autocomplete = false,
-                },
+                -- completion = {
+                --     autocomplete = true,
+                -- },
                 window = {
                     completion = {
                         border = border,
@@ -514,4 +517,57 @@ if TRANSPARENT then
     vim.cmd [[
         hi! Normal guibg=none
     ]]
+end
+
+if vim.g.neovide then
+    local font = 'JetBrainsMono Nerd Font Mono'
+    local font_size = 17
+    vim.o.guifont = string.format('%s:h%d', font, font_size)
+
+    function SetFont()
+        local fontfamily = ""
+        local fontsize = ''
+
+        vim.ui.input({
+            prompt = "Font: ",
+        }, function(selected_font)
+            fontfamily = selected_font
+        end)
+
+        vim.ui.input({
+            prompt = "Size: ",
+        }, function(size)
+            fontsize = size
+        end)
+
+        if fontfamily ~= "" and fontsize ~= "" then
+            font = fontfamily
+            font_size = tonumber(fontsize)
+            vim.o.guifont = string.format('%s:h%d', fontfamily, fontsize)
+        end
+    end
+
+    function IncFontSize()
+        font_size = font_size + 1
+        vim.o.guifont = string.format('%s:h%d', font, font_size)
+    end
+
+    function DecFontSize()
+        font_size = font_size - 1
+        vim.o.guifont = string.format('%s:h%d', font, font_size)
+    end
+
+    vim.cmd [[
+        command! Font :lua SetFont()<cr>
+        command! IncFont :lua IncFontSize()<CR>
+        command! IncFont :lua DecFontSize()<CR>
+    ]]
+
+    vim.keymap.set({ 'n', 'i', 't', 'v' }, '<C-=>', IncFontSize)
+    vim.keymap.set({ 'n', 'i', 't', 'v' }, '<C-->', DecFontSize)
+
+    vim.g.neovide_cursor_animation_length = 0.02
+    vim.g.neovide_cursor_trail_size = 0.0
+    vim.g.neovide_scroll_animation_length = 0.1
+    vim.g.neovide_input_macos_option_key_is_meta = 'both'
 end

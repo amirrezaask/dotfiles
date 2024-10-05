@@ -55,5 +55,5 @@ ascii_art=$(cat << 'EOF'
 EOF
 )
 
-echo "$ascii_art"
+# echo "$ascii_art"
 
