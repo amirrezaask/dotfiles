@@ -224,15 +224,15 @@ require("lazy").setup({
         }
     },
 
-    { -- StatusLine
-        'nvim-lualine/lualine.nvim',
-        opts = {
-
-            options = {
-                icons_enabled = false,
-            }
-        }
-    },
+    -- { -- StatusLine
+    --     'nvim-lualine/lualine.nvim',
+    --     opts = {
+    --
+    --         options = {
+    --             icons_enabled = false,
+    --         }
+    --     }
+    -- },
     { -- File manager
         'stevearc/oil.nvim',
         opts = {
