@@ -4,7 +4,7 @@
 -- /_/ |_/_/_/_/_/_/ /_/  \__//__/\_,_/_/ |_/___/_/\_\
 -- Minimal, fast configuration for neovim.
 
-TRANSPARENT = os.getenv('NVIM_TRANSPARENT') or true
+TRANSPARENT = os.getenv('NVIM_TRANSPARENT') or false
 COLORSCEHEME = os.getenv('NVIM_COLORSCHEME') or "tokyonight-night"
 IS_WINDOWS = vim.fn.has("win32") == 1
 
@@ -441,6 +441,9 @@ require("lazy").setup({
             local cmp = require("cmp")
             cmp.setup({
                 preselect = require("cmp.types").cmp.PreselectMode.None,
+                completion = {
+                    autocomplete = false,
+                },
                 window = {
                     completion = {
                         border = border,

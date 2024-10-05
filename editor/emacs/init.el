@@ -294,14 +294,14 @@
 (defun git-repo-p (DIR) (locate-dominating-file DIR ".git"))
 (defun find-project-root-or-default-directory () (or (find-project-root) default-directory))
 
-(defun grep-default-command ()
+(defun get-grep-default-command ()
   (cond
    ((executable-find "rg") "rg --no-heading --color='never' ")
    ((git-repo-p default-directory)       "git grep --no-color -n ")
    (t                      "grep -rn ")))
 
 (with-eval-after-load 'grep
-  (grep-apply-setting 'grep-command (grep-default-command))
+  (grep-apply-setting 'grep-command (get-grep-default-command))
   (grep-apply-setting 'grep-use-null-device nil))
 
 (defun run (fn &rest args) "Run given function at project root, if you want to choose directory use C-u."
@@ -312,7 +312,7 @@
          (apply fn args)))
 
 (GLOBAL (kbd "M-m") (lambda () (interactive)  (run 'compile (read-shell-command "Command: "))))
-(GLOBAL (kbd "M-s") (lambda () (interactive)  (run 'grep (read-shell-command "Grep: " (grep-default-command)))))
+(GLOBAL (kbd "M-s") (lambda () (interactive)  (run 'grep (read-shell-command "Grep: " (get-grep-default-command)))))
 
 ;; Find File
 (GLOBAL (kbd "M-o") 'find-file-dwim)
