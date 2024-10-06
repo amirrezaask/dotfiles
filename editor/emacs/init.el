@@ -273,7 +273,11 @@
 (setq compilation-ask-about-save nil)
 (setq compilation-always-kill t)
 
-(with-eval-after-load 'compile (define-key compilation-mode-map (kbd "G")    (lambda () (interactive) (recompile t))))
+(with-eval-after-load 'compile
+  (define-key compilation-mode-map (kbd "G")    (lambda () (interactive) (recompile t))))
+
+(with-eval-after-load 'grep
+  (define-key grep-mode-map (kbd "G")    (lambda () (interactive) (recompile t))))
 
 (defun find-project-root () "Try to find project root based on deterministic predicates"
        (cond
@@ -287,23 +291,23 @@
 
 (defun get-grep-default-command ()
   (cond
-   ((executable-find "rg") "rg --no-heading --color='never' ")
-   ((git-repo-p default-directory)       "git grep --no-color -n ")
-   (t                      "grep -rn ")))
+   ((executable-find "rg") "rg --no-heading --color='never' '%s'")
+   ((git-repo-p default-directory)       "git grep --no-color -n '%s'")
+   (t                      "grep -rn '%s'")))
 
 (with-eval-after-load 'grep
   (grep-apply-setting 'grep-command (get-grep-default-command))
   (grep-apply-setting 'grep-use-null-device nil))
 
-(defun run (fn &rest args) "Run given function at project root, if you want to choose directory use C-u."
+(defun run-in-project (fn &rest args) "Run given function at project root, if you want to choose directory use C-u."
        (let ((default-directory
               (if (null current-prefix-arg)
                   (find-project-root-or-default-directory)
                 (read-directory-name "Directory: " default-directory))))
          (apply fn args)))
 
-(GLOBAL (kbd "M-m") (lambda () (interactive)  (run 'compile (read-shell-command "Command: "))))
-(GLOBAL (kbd "M-s") (lambda () (interactive)  (run 'grep (read-shell-command "Grep: " (get-grep-default-command)))))
+(GLOBAL (kbd "M-m") (lambda () (interactive)  (run-in-project 'compile (read-shell-command "Command: "))))
+(GLOBAL (kbd "M-s") (lambda () (interactive)  (run-in-project 'grep (format (get-grep-default-command) (read-string "Grep: ")))))
 
 ;; Find File
 (GLOBAL (kbd "M-o") 'find-file-dwim)
@@ -353,7 +357,7 @@
 
 
 ;; Colors
-(custom-set-faces ;; Witness
+(custom-set-faces
  `(default                          ((t (:foreground "#d3b58d" :background "#072626"))))
  `(hl-line                          ((t (:background "#0c4141"))))
  `(region                           ((t (:background "#0000cd"))))
@@ -375,47 +379,3 @@
  `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
  `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
  `(show-paren-match                 ((t (:background "mediumseagreen")))))
-
-;; (custom-set-faces ;; Handmadehero
-;;  `(default                          ((t (:foreground "burlywood2" :background "#161616"))))
-;;  `(hl-line                          ((t (:background "midnight blue"))))
-;;  `(vertico-current                  ((t (:background "midnight blue"))))
-;;  `(region                           ((t (:background "medium blue"))))
-;;  `(cursor                           ((t (:background "#40FF40"))))
-;;  `(font-lock-keyword-face           ((t (:foreground "DarkGoldenrod2"))))
-;;  `(font-lock-type-face              ((t (:foreground "burlywood3"))))
-;;  `(font-lock-constant-face          ((t (:foreground "olive drab"))))
-;;  `(font-lock-variable-name-face     ((t (:foreground "burlywood3"))))
-;;  `(font-lock-builtin-face           ((t (:foreground "gray80"))))
-;;  `(font-lock-string-face            ((t (:foreground "olive drab"))))
-;;  `(font-lock-comment-face           ((t (:foreground "gray50"))))
-;;  `(font-lock-comment-delimiter-face ((t (:foreground "gray50"))))
-;;  `(font-lock-doc-face               ((t (:foreground "gray50"))))
-;;  `(font-lock-function-name-face     ((t (:foreground "burlywood2"))))
-;;  `(font-lock-doc-string-face        ((t (:foreground "gray50"))))
-;;  `(font-lock-warning-face           ((t (:foreground "yellow"))))
-;;  `(font-lock-note-face              ((t (:foreground "khaki2" ))))
-;;  `(show-paren-match                 ((t (:background "mediumseagreen")))))
-
-;; (custom-set-faces ;; Braid
-;;  `(default                          ((t (:foreground "#debe95" :background "#252525"))))
-;;  `(hl-line                          ((t (:background "#353535"))))
-;;  `(vertico-current                  ((t (:background "medium blue"))))
-;;  `(region                           ((t (:background "medium blue"))))
-;;  `(cursor                           ((t (:background "lightgreen"))))
-;;  `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
-;;  `(font-lock-type-face              ((t (:foreground "#8cde94"))))
-;;  `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
-;;  `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
-;;  `(font-lock-builtin-face           ((t (:foreground "white"))))
-;;  `(font-lock-string-face            ((t (:foreground "gray70"))))
-;;  `(font-lock-comment-face           ((t (:foreground "yellow"))))
-;;  `(font-lock-comment-delimiter-face ((t (:foreground "yellow"))))
-;;  `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
-;;  `(font-lock-function-name-face     ((t (:foreground "white"))))
-;;  `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
-;;  `(font-lock-warning-face           ((t (:foreground "yellow"))))
-;;  `(font-lock-note-face              ((t (:foreground "khaki2" ))))
-;;  `(mode-line                        ((t (:foreground "black" :background "#d3b58d"))))
-;;  `(mode-line-inactive               ((t (:background "gray20" :foreground "#ffffff"))))
-;;  `(show-paren-match                 ((t (:background "mediumseagreen")))))

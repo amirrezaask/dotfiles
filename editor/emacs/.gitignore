@@ -3,3 +3,4 @@ package-quickstart.el
 *.eln
 elpa
 custom.el
+.mc-lists.el
