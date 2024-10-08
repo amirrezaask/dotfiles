@@ -1,5 +1,4 @@
-(setq debug-on-error t) ;; Uncomment when you debug your emacs lisp code.
-
+;; (setq debug-on-error t) ;; Uncomment when you debug your emacs lisp code.
 
 ;; Startup hacks to make emacs boot faster.
 (defvar amirreza-emacs--file-name-handler-alist file-name-handler-alist)
@@ -36,13 +35,13 @@
       inhibit-startup-screen t
       inhibit-x-resources t
       inhibit-startup-buffer-menu t
-      is-windows (eq system-type 'windows-nt))
+      redisplay-dont-pause t
+      native-comp-async-report-warnings-errors nil ;; silently do jit compiling.
+      is-windows (eq system-type 'windows-nt)
+      is-linux (eq system-type 'gnu/linux)
+      is-macos (eq system-type 'darwin))
 
 (set-frame-parameter nil 'fullscreen 'maximized) ;; Always start emacs window in maximized mode.
-
-
-
-(setq redisplay-dont-pause t)
 
 ;; @PATH
 (defun home (path) (expand-file-name path (getenv "HOME")))
@@ -87,27 +86,17 @@
 (setq font-size 21)
 (setq current-font-family "")
 (setq font-families (font-family-list))
-(require 'cl-lib)
-(cl-loop for font in '(
-                       "Consolas"
-                       "Liberation Mono"
-                       "Menlo"
-                       "JetBrains Mono"
-                       "Intel One Mono"
-                       )
-         do
-         (let* ((font-family (car (string-split font "-"))))
-           (when (member font-family font-families)
-             (setq current-font-family font)
-             (set-face-attribute 'default nil :font (format "%s-%d" font font-size))
-             (cl-return))))
 
 (defun set-font (font size) "Set font" (interactive (list (completing-read "Font: " font-families) (read-number "Size: ")))
        (setq current-font-family font)
        (setq font-size size)
        (set-face-attribute 'default nil :font (format "%s-%d" font size)))
 
-(setq native-comp-async-report-warnings-errors nil) ;; silently do jit compiling.
+(cond
+ (is-windows     (set-font "Consolas"  14))
+ (is-linux       (set-font "Fira Code" 14))
+ (is-macos       (set-font "Menlo"     14)))
+
 
 (setq package-archives
       '(("gnu-elpa" . "https://elpa.gnu.org/packages/")
@@ -234,7 +223,6 @@
 (global-corfu-mode +1)
 (setq corfu-auto nil)
 
-
 (setq-default c-default-style "linux" c-basic-offset 4)
 
 ;; LSP (Eglot)
@@ -354,7 +342,6 @@
 ;; Magit: Git client
 (install 'magit)
 (global-set-key (kbd "C-x g") 'magit)
-
 
 ;; Colors
 (custom-set-faces
