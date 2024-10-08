@@ -7,4 +7,5 @@
 		"LSP-typescript",
 		"Package Control",
 	],
+	"bootstrapped": true,
 }
