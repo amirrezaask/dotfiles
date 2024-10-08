@@ -4,3 +4,4 @@ package-quickstart.el
 elpa
 custom.el
 .mc-lists.el
+server
