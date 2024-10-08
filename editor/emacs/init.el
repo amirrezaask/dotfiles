@@ -107,20 +107,8 @@
   (unless (package-installed-p pkg)
     (package-install pkg)))
 
-
-(if is-windows (cd "d:/src"))
-
-(dolist (pkg '(
-               vlf       ;; handle [V]ery [L]arge [F]iles
-               wgrep     ;; Editable Grep Buffers
-               go-mode
-               gruber-darker-theme
-               multiple-cursors
-               rust-mode
-               php-mode
-               json-mode
-               yaml-mode
-               )) (install pkg))
+(install 'vlf)
+(install 'wgrep)
 
 (defun split-window-right-balance-and-switch () (interactive)
        (split-window-right)
@@ -225,6 +213,14 @@
 
 (setq-default c-default-style "linux" c-basic-offset 4)
 
+;; Languages
+(install 'go-mode)
+(install 'rust-mode)
+(install 'php-mode)
+(install 'json-mode)
+(install 'yaml-mode)
+
+
 ;; LSP (Eglot)
 (with-eval-after-load 'eglot
   (define-key eglot-mode-map (kbd "M-i")     'consult-eglot-symbols)
@@ -262,9 +258,11 @@
 (setq compilation-always-kill t)
 
 (with-eval-after-load 'compile
+  (define-key compilation-mode-map (kbd "k")    'kill-compilation)
   (define-key compilation-mode-map (kbd "G")    (lambda () (interactive) (recompile t))))
 
 (with-eval-after-load 'grep
+  (define-key grep-mode-map (kbd "k")    'kill-compilation)
   (define-key grep-mode-map (kbd "G")    (lambda () (interactive) (recompile t))))
 
 (defun find-project-root () "Try to find project root based on deterministic predicates"
@@ -279,9 +277,10 @@
 
 (defun get-grep-default-command ()
   (cond
-   ((executable-find "rg") "rg --no-heading --color='never' '%s'")
-   ((git-repo-p default-directory)       "git grep --no-color -n '%s'")
-   (t                      "grep -rn '%s'")))
+   ((executable-find "ugrep")            "ugrep -nr \"%s\"")
+   ((executable-find "rg")               "rg --no-heading --color=\"never\" %s")
+   ((git-repo-p default-directory)       "git grep --no-color -n \"%s\"")
+   (t                                    "grep -rn \"%s\"")))
 
 (with-eval-after-load 'grep
   (grep-apply-setting 'grep-command (get-grep-default-command))
@@ -308,8 +307,8 @@
 
              (command
               (cond
-	       ((executable-find "rg") (format "rg --files"))
-               ((executable-find "find") (format "find . -type f -not -path \"*/.git/*\""))
+	       ((executable-find "rg")       (format "rg --files"))
+               ((executable-find "find")     (format "find . -type f -not -path \"*/.git/*\""))
                ((git-repo-p --open-file-dir) (format "git ls-files")))))
                
 
@@ -332,6 +331,7 @@
 (global-set-key (kbd "M-\\") 'kmacro-end-and-call-macro)
 
 ;; Multicursors
+(install 'multiple-cursors)
 (require 'multiple-cursors)
 (GLOBAL (kbd "C-M-n") 'mc/mark-next-like-this-symbol)
 (GLOBAL (kbd "C-M-p") 'mc/mark-previous-like-this-symbol)
@@ -344,7 +344,7 @@
 (global-set-key (kbd "C-x g") 'magit)
 
 ;; Colors
-(custom-set-faces
+(custom-set-faces ;; Witness
  `(default                          ((t (:foreground "#d3b58d" :background "#072626"))))
  `(hl-line                          ((t (:background "#0c4141"))))
  `(region                           ((t (:background "#0000cd"))))
