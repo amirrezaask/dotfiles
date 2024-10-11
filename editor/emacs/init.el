@@ -277,10 +277,11 @@
 
 (defun get-grep-default-command ()
   (cond
-   ((executable-find "ugrep")            "ugrep -nr \"%s\"")
-   ((executable-find "rg")               "rg --no-heading --color=\"never\" %s")
-   ((git-repo-p default-directory)       "git grep --no-color -n \"%s\"")
-   (t                                    "grep -rn \"%s\"")))
+   ((executable-find "ugrep")                       "ugrep --include=\"*.*\" -rne ")
+   ((executable-find "rg")                          "rg --no-heading --color=\"never\" -g *.* ")
+   ((and (executable-find "grep") is-linux)         "grep --include=\"*.*\" -ren ")
+   ((and (executable-find "findstr") is-windows)    "findstr /SN /C: *.*") ;; Windows only
+   (t                                    (error "No valid grep programs found, install ugrep or ripgrep or gnu-grep to use this function."))))
 
 (with-eval-after-load 'grep
   (grep-apply-setting 'grep-command (get-grep-default-command))
@@ -297,8 +298,8 @@
   (let ((default-directory (read-directory-name "Directory: " (find-project-root-or-default-directory))))
     (apply fn args)))
 
-(GLOBAL (kbd "M-m") (lambda () (interactive)  (run-in-project 'compile (read-shell-command "Command: "))))
-(GLOBAL (kbd "M-s") (lambda () (interactive)  (run-in-dir 'grep (format (get-grep-default-command) (read-string "Grep: ")))))
+(GLOBAL (kbd "M-m")    (lambda () (interactive)  (run-in-project 'compile (read-shell-command "Compile Command: "))))
+(GLOBAL (kbd "M-s")    (lambda () (interactive)  (run-in-project 'grep (read-string-with-cursor "Grep Command: " (get-grep-default-command) 0))))
 
 ;; Find File
 (GLOBAL (kbd "M-o") 'find-file-dwim)
