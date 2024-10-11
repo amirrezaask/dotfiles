@@ -79,6 +79,7 @@
   :lighter " Overrides"
   :init-value t
   :keymap global-overrides)
+
 (amirreza-overrides +1)
 (defun GLOBAL (KBD ACTION) (define-key global-overrides KBD ACTION))
 
@@ -93,9 +94,9 @@
        (set-face-attribute 'default nil :font (format "%s-%d" font size)))
 
 (cond
- (is-windows     (set-font "Consolas"  14))
- (is-linux       (set-font "Fira Code" 14))
- (is-macos       (set-font "Menlo"     14)))
+ (is-windows     (set-font "Consolas"    14))
+ (is-linux       (set-font "Ubuntu Mono" 14))
+ (is-macos       (set-font "Menlo"       14)))
 
 
 (setq package-archives
@@ -131,13 +132,10 @@
 (GLOBAL          (kbd "C-<return>")  'save-buffer)
 (GLOBAL          (kbd "C-0")         'delete-window-and-balance)
 (GLOBAL          (kbd "C-1")         'delete-other-windows)
-(GLOBAL          (kbd "C-3")         'split-window-right-balance-and-switch)
-(GLOBAL          (kbd "C-\\")        'split-window-right-balance-and-switch)
 (GLOBAL          (kbd "C-2")         'split-window-below-balance-and-switch)
+(GLOBAL          (kbd "C-3")         'split-window-right-balance-and-switch)
 (GLOBAL          (kbd "C--")         'text-scale-decrease)
 (GLOBAL          (kbd "C-=")         'text-scale-increase)
-(GLOBAL          (kbd "M--")         'text-scale-decrease)
-(GLOBAL          (kbd "M-=")         'text-scale-increase)
 (GLOBAL          (kbd "C-o")         'other-window)
 (GLOBAL          (kbd "M-n")         'jump-down)
 (GLOBAL          (kbd "M-p")         'jump-up)
@@ -312,9 +310,9 @@
 
              (command
               (cond
-	       ((executable-find "rg")       (format "rg --files"))
-               ((executable-find "find")     (format "find . -type f -not -path \"*/.git/*\""))
-               ((git-repo-p --open-file-dir) (format "git ls-files")))))
+	       ((executable-find "rg")   "rg --files")
+	       ((and is-windows          "dir /S /B"))
+	       ((executable-find "find") "find . -type f -not -path \"*/.git/*\""))))
                
 
          (find-file (completing-read "File: " (string-split (shell-command-to-string command) "\n" t)))))
