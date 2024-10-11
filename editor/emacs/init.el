@@ -66,9 +66,7 @@
 (when load-file-name ;; since windows is a bit funky I prefer to store this file path in a variable to be used when C-x i
   (setq INIT-FILE load-file-name)
   (setq amirreza-emacs-directory (file-name-directory INIT-FILE))
-  (setq custom-file (expand-file-name "custom.el" amirreza-emacs-directory))
-  )
-
+  (setq custom-file (expand-file-name "custom.el" amirreza-emacs-directory)))
 
 (global-set-key (kbd "C-x i") 'edit-init) ;; Edit this file.
 
@@ -345,7 +343,6 @@
 (unless is-windows
   (install 'magit))
 
-
 ;; Colors
 (custom-set-faces                   ;; Witness
  `(default                          ((t (:foreground "#d3b58d" :background "#072626"))))
@@ -368,7 +365,10 @@
  `(font-lock-note-face              ((t (:foreground "#eee685" ))))
  `(mode-line                        ((t (:foreground "#000000" :background "#d3b58d"))))
  `(mode-line-inactive               ((t (:background "#333333" :foreground "#ffffff"))))
- `(show-paren-match                 ((t (:background "#3cb371")))))
+ `(show-paren-match                 ((t (:background "#3cb371"))))
+ `(corfu-default                    ((t (:inherit 'background))))
+ `(corfu-border                     ((t (:inherit 'hl-line)))))
+
 
 ;; (custom-set-faces ;; Braid
 ;;  `(default                          ((t (:foreground "#debe95" :background "#252525"))))
@@ -391,7 +391,10 @@
 ;;  `(font-lock-note-face              ((t (:foreground "#eee685" ))))
 ;;  `(mode-line                        ((t (:foreground "#000000" :background "#d3b58d"))))
 ;;  `(mode-line-inactive               ((t (:background "#333333" :foreground "#ffffff"))))
-;;  `(show-paren-match                 ((t (:background "#3cb371")))))
+;;  `(show-paren-match                 ((t (:background "#3cb371"))))
+;;  `(corfu-default                    ((t (:inherit 'background))))
+;;  `(corfu-border                     ((t (:inherit 'hl-line)))))
+
 
 ;; (custom-set-faces ;; HandmadeHero
 ;;  `(default                          ((t (:foreground "#eec591" :background "#161616"))))
@@ -412,4 +415,6 @@
 ;;  `(font-lock-doc-string-face        ((t (:foreground "#7f7f7f"))))
 ;;  `(font-lock-warning-face           ((t (:foreground "#ffff00"))))
 ;;  `(font-lock-note-face              ((t (:foreground "#eee685" ))))
-;;  `(show-paren-match                 ((t (:background "#3cb371")))))
+;;  `(show-paren-match                 ((t (:background "#3cb371"))))
+;;  `(corfu-default                    ((t (:inherit 'background))))
+;;  `(corfu-border                     ((t (:inherit 'hl-line)))))
