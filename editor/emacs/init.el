@@ -293,8 +293,12 @@
                 (read-directory-name "Directory: " default-directory))))
          (apply fn args)))
 
+(defun run-in-dir (fn &rest args)
+  (let ((default-directory (read-directory-name "Directory: " (find-project-root-or-default-directory))))
+    (apply fn args)))
+
 (GLOBAL (kbd "M-m") (lambda () (interactive)  (run-in-project 'compile (read-shell-command "Command: "))))
-(GLOBAL (kbd "M-s") (lambda () (interactive)  (run-in-project 'grep (format (get-grep-default-command) (read-string "Grep: ")))))
+(GLOBAL (kbd "M-s") (lambda () (interactive)  (run-in-dir 'grep (format (get-grep-default-command) (read-string "Grep: ")))))
 
 ;; Find File
 (GLOBAL (kbd "M-o") 'find-file-dwim)
