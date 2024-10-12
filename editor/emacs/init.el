@@ -216,7 +216,6 @@
 (install 'json-mode)
 (install 'yaml-mode)
 
-
 ;; LSP (Eglot)
 (with-eval-after-load 'eglot
   (define-key eglot-mode-map (kbd "M-i")     'consult-eglot-symbols)
@@ -231,26 +230,47 @@
 
 
 (setq eglot-ignored-server-capabilities '(
-                                          :documentHighlightProvider
-                                          :codeLensProvider
-                                          :documentOnTypeFormattingProvider
-                                          :documentLinkProvider
-                                          :colorProvider
-                                          :foldingRangeProvider
-                                          :executeCommandProvider
-                                          :inlayHintProvider))
-(with-eval-after-load
-    'eglot (add-to-list 'eglot-server-programs '(php-mode . ("intelephense" "--stdio"))))
+					  ;; Enabled features
+					  
+					  ;; :completionProvider               ;; "Code completion" 
+					  ;; :definitionProvider               ;; "Go to definition" 
+					  ;; :typeDefinitionProvider           ;; "Go to type definition" 
+					  ;; :implementationProvider           ;; "Go to implementation" 
+					  ;; :declarationProvider              ;; "Go to declaration" 
+					  ;; :referencesProvider               ;; "Find references" 
+					  ;; :renameProvider                   ;; "Rename symbol"
+
+					  ;; Disabled features
+					  :signatureHelpProvider               ;; "Function signature help" 
+					  :hoverProvider                       ;; "Documentation on hover"
+					  :documentHighlightProvider           ;; "Highlight symbols automatically" 
+					  :documentSymbolProvider              ;; "List symbols in buffer" 
+					  :workspaceSymbolProvider             ;; "List symbols in workspace" 
+					  :codeActionProvider                  ;; "Execute code actions" 
+					  :codeLensProvider                    ;; "Code lens" 
+					  :documentFormattingProvider          ;; "Format buffer" 
+					  :documentRangeFormattingProvider     ;; "Format portion of buffer" 
+					  :documentOnTypeFormattingProvider    ;; "On-type formatting" 
+
+					  :documentLinkProvider                ;; "Highlight links in document" 
+					  :colorProvider                       ;; "Decorate color references" 
+					  :foldingRangeProvider                ;; "Fold regions of buffer" 
+					  :executeCommandProvider              ;; "Execute custom commands" 
+					  :inlayHintProvider                   ;; "Inlay hints" 
+					  ))   
+
+
+(with-eval-after-load 'eglot (add-to-list 'eglot-server-programs '(php-mode . ("intelephense" "--stdio")))) ;; PHP language server intelephense
 
 (defun eglot-organize-imports () (interactive) (eglot-code-actions nil nil "source.organizeImports" t))
-(setq eglot-stay-out-of '(project flymake)) ;; Don't polute buffer with flymake diganostics.
-(setq eglot-sync-connect nil)       ;; no blocking on waiting for the server to start.
-(setq eglot-events-buffer-size 0)   ;; no logging of LSP events.
 (defun eglot-organize-imports-format () (interactive) (eglot-format) (eglot-organize-imports))
 
+(setq eglot-stay-out-of '(project flymake) ;; Don't polute buffer with flymake diganostics.
+      eglot-sync-connect nil               ;; no blocking on waiting for the server to start.
+      eglot-events-buffer-size 0)          ;; no logging of LSP events.
 
 ;; Compile/Grep
-(setq compilation-ask-about-save nil)
+(setq compilation-ask-about-save nil) ;; Don't ask about saving unsaved buffers before compile command.
 (setq compilation-always-kill t)
 
 (with-eval-after-load 'compile
@@ -295,7 +315,7 @@
     (apply fn args)))
 
 (GLOBAL (kbd "M-m")    (lambda () (interactive)  (run-in-project 'compile (read-shell-command "Compile Command: "))))
-(GLOBAL (kbd "M-s")    (lambda () (interactive)  (run-in-project 'grep (read-string-with-cursor "Grep Command: " (get-grep-default-command) 0))))
+(GLOBAL (kbd "M-s")    (lambda () (interactive)  (run-in-project 'grep (concat (get-grep-default-command) (format "\"%s\"" (read-string (format "%s: " (get-grep-default-command))))))))
 
 ;; Find File
 (GLOBAL (kbd "M-o") 'find-file-dwim)
@@ -320,11 +340,9 @@
 (setq-default case-fold-search t)
 
 ;; Replace
-(global-set-key (kbd "C-r") 'replace-string)
-(global-set-key (kbd "M-r") 'replace-regexp)
-
-(with-eval-after-load 'replace
-  (define-key query-replace-map (kbd "<return>") 'act))
+(GLOBAL (kbd "C-r") 'replace-string)
+(GLOBAL (kbd "M-r") 'replace-regexp)
+(with-eval-after-load 'replace (define-key query-replace-map (kbd "<return>") 'act))
 
 ;; Macros
 (global-set-key (kbd "M-[")  'kmacro-start-macro)
@@ -339,9 +357,6 @@
 (GLOBAL (kbd "C-S-n") 'mc/mark-next-like-this)
 (GLOBAL (kbd "C-S-p") 'mc/mark-previous-like-this)
 (GLOBAL (kbd "C-M->") 'mc/mark-all-like-this-dwim)
-
-(unless is-windows
-  (install 'magit))
 
 ;; Colors
 (custom-set-faces                   ;; Witness

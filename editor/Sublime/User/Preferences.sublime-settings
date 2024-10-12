@@ -1,5 +1,5 @@
 {
-	"font_face": "MonoLisa",
+	"font_face": "Dank Mono",
 	"font_size": 17,
 	"font_options": ["no_italic", "no_liga"],
 	"line_padding_top": 15,
@@ -24,7 +24,7 @@
 	"show_definitions": false,
 	/*"close_windows_when_empty": false,*/
 	"show_rel_path": true,
-	"color_scheme": "GingerBill.sublime-color-scheme",
+	"color_scheme": "Night Owl.sublime-color-scheme",
 	"sesame.path": "D:\\src",
 	"sesame.depth": 1,
 	"sesame.vcs": true,
