@@ -17,6 +17,9 @@
 (setq gc-cons-threshold most-positive-fixnum
       gc-cons-percentage 0.5)
 
+
+(unless (executable-find "rg") (warn "Install ripgrep for better support for file finding."))
+
 ;; Enable packages index at startup
 (setq package-enable-at-startup t)
 (setq package-quickstart t)
@@ -53,6 +56,7 @@
 (add-to-list 'exec-path "/opt/homebrew/bin")
 (add-to-list 'exec-path "/usr/local/bin")
 (add-to-list 'exec-path "d:/bin")
+(add-to-list 'exec-path "d:/Go/bin")
 (add-to-list 'exec-path "c:/programs/bin")
 
 (if (eq system-type 'windows-nt)
