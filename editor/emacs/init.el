@@ -103,15 +103,12 @@
 
 (setq package-archives
       '(("gnu-elpa" . "https://elpa.gnu.org/packages/")
-        ("nongnu" . "https://elpa.nongnu.org/nongnu/")
-        ("melpa" . "https://melpa.org/packages/")))
+        ("nongnu"   . "https://elpa.nongnu.org/nongnu/")
+        ("melpa"    . "https://melpa.org/packages/")))
 
 (defun install (pkg)
   (unless (package-installed-p pkg)
     (package-install pkg)))
-
-(install 'vlf)
-(install 'wgrep)
 
 (defun split-window-right-balance-and-switch () (interactive)
        (split-window-right)
@@ -191,9 +188,7 @@
 
 (global-so-long-mode +1) ;; don't choke on minified code.
 
-(require 'vlf-setup)
-
-;; Minibuffer
+;; Minibuffer/Completion:
 (setq completions-format 'one-column)
 (setq completions-header-format nil)
 (setq completions-max-height 15)
@@ -202,14 +197,14 @@
 (setq completion-styles '(basic flex partial-completion emacs22))
 
 (with-eval-after-load 'minibuffer
-  (define-key minibuffer-mode-map           (kbd "C-n") 'minibuffer-next-completion)
-  (define-key minibuffer-mode-map           (kbd "C-p") 'minibuffer-previous-completion))
+  (define-key minibuffer-mode-map (kbd "C-n") 'minibuffer-next-completion)
+  (define-key minibuffer-mode-map (kbd "C-p") 'minibuffer-previous-completion)
+  (define-key completion-in-region-mode-map (kbd "C-n") 'minibuffer-next-completion)
+  (define-key completion-in-region-mode-map (kbd "C-p") 'minibuffer-previous-completion)
+  (define-key completion-in-region-mode-map (kbd "RET") 'minibuffer-choose-completion))
 
 ;; Completion
 (global-set-key (kbd "C-j") 'completion-at-point)
-(install 'corfu)
-(global-corfu-mode +1)
-(setq corfu-auto nil)
 
 (setq-default c-default-style "linux" c-basic-offset 4)
 
@@ -319,7 +314,9 @@
     (apply fn args)))
 
 (GLOBAL (kbd "M-m")    (lambda () (interactive)  (run-in-project 'compile (read-shell-command "Compile Command: "))))
-(GLOBAL (kbd "M-s")    (lambda () (interactive)  (run-in-project 'grep (concat (get-grep-default-command) (format "\"%s\"" (read-string (format "%s: " (get-grep-default-command))))))))
+(GLOBAL (kbd "M-s")    (lambda () (interactive)  (run-in-project 'grep (concat (get-grep-default-command)
+									       (format "\"%s\""
+										       (read-string (format "%s: " (get-grep-default-command))))))))
 
 ;; Find File
 (GLOBAL (kbd "M-o") 'find-file-dwim)
@@ -385,9 +382,8 @@
  `(mode-line                        ((t (:foreground "#000000" :background "#d3b58d"))))
  `(mode-line-inactive               ((t (:background "#333333" :foreground "#ffffff"))))
  `(show-paren-match                 ((t (:background "#3cb371"))))
- `(corfu-default                    ((t (:inherit 'background))))
- `(corfu-border                     ((t (:inherit 'hl-line)))))
-
+ `(corfu-default                    ((t (:background "#072626"))))
+ `(corfu-border                     ((t (:background "#0c4141")))))
 
 ;; (custom-set-faces ;; Braid
 ;;  `(default                          ((t (:foreground "#debe95" :background "#252525"))))
@@ -411,8 +407,8 @@
 ;;  `(mode-line                        ((t (:foreground "#000000" :background "#d3b58d"))))
 ;;  `(mode-line-inactive               ((t (:background "#333333" :foreground "#ffffff"))))
 ;;  `(show-paren-match                 ((t (:background "#3cb371"))))
-;;  `(corfu-default                    ((t (:inherit 'background))))
-;;  `(corfu-border                     ((t (:inherit 'hl-line)))))
+;;  `(corfu-default                    ((t (:background "#252525"))))
+;;  `(corfu-border                     ((t (:background "#353535")))))
 
 
 ;; (custom-set-faces ;; HandmadeHero
@@ -435,5 +431,5 @@
 ;;  `(font-lock-warning-face           ((t (:foreground "#ffff00"))))
 ;;  `(font-lock-note-face              ((t (:foreground "#eee685" ))))
 ;;  `(show-paren-match                 ((t (:background "#3cb371"))))
-;;  `(corfu-default                    ((t (:inherit 'background))))
-;;  `(corfu-border                     ((t (:inherit 'hl-line)))))
+;;  `(corfu-default                    ((t (:background "#161616"))))
+;;  `(corfu-border                     ((t (:background "#191970")))))
