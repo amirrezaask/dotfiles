@@ -23,7 +23,7 @@
         {
           "name": "Keywords2",
           "scope": "keyword - keyword.operator",
-          "foreground": "#9babbf"
+          "foreground": "#aaafb2"
         },
         {
           "name": "Comment",
