@@ -57,7 +57,6 @@
 (add-to-list 'exec-path "/usr/local/bin")
 (add-to-list 'exec-path "d:/bin")
 (add-to-list 'exec-path "d:/Go/bin")
-(add-to-list 'exec-path "c:/programs/bin")
 
 (if (eq system-type 'windows-nt)
     (setenv "PATH" (string-join exec-path ";"))
@@ -184,7 +183,7 @@
 (global-unset-key (kbd "M-z"))
 (global-unset-key (kbd "M-l"))
 
-(toggle-truncate-lines +1) ;; wrap long lines
+(toggle-truncate-lines -1) ;; wrap long lines
 
 (global-so-long-mode +1) ;; don't choke on minified code.
 
@@ -296,7 +295,7 @@
    ((executable-find "rg")                          "rg --no-heading --color=\"never\" -g *.* ")
    ((and (executable-find "grep") is-linux)         "grep --include=\"*.*\" -ren ")
    ((and (executable-find "findstr") is-windows)    "findstr /SN /C: *.*") ;; Windows only
-   (t                                    (error "No valid grep programs found, install ugrep or ripgrep or gnu-grep to use this function."))))
+   (t                                               (error "No valid grep programs found, install ugrep or ripgrep or gnu-grep to use this function."))))
 
 (with-eval-after-load 'grep
   (grep-apply-setting 'grep-command (get-grep-default-command))
