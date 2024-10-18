@@ -18,7 +18,8 @@
       gc-cons-percentage 0.5)
 
 
-(unless (executable-find "rg") (warn "Install ripgrep for better support for file finding."))
+(unless (executable-find "fd")    (warn "Install fd for better support for file finding."))
+(unless (executable-find "ugrep") (warn "Install ugrep for better grep support."))
 
 ;; Enable packages index at startup
 (setq package-enable-at-startup t)
@@ -127,17 +128,17 @@
 (defun jump-down () (interactive) (next-line (/ (window-height) 2)) (recenter-top-bottom))
 
 (setq recenter-positions '(middle))
-(GLOBAL          (kbd "C-<return>")  'save-buffer)
-(GLOBAL          (kbd "C-0")         'delete-window-and-balance)
-(GLOBAL          (kbd "C-1")         'delete-other-windows)
-(GLOBAL          (kbd "C-2")         'split-window-below-balance-and-switch)
-(GLOBAL          (kbd "C-3")         'split-window-right-balance-and-switch)
-(GLOBAL          (kbd "C--")         'text-scale-decrease)
-(GLOBAL          (kbd "C-=")         'text-scale-increase)
-(GLOBAL          (kbd "C-o")         'other-window)
-(GLOBAL          (kbd "M-n")         'jump-down)
-(GLOBAL          (kbd "M-p")         'jump-up)
-(GLOBAL          (kbd "M-k")         'kill-current-buffer)
+(GLOBAL (kbd "C-<return>")  'save-buffer)
+(GLOBAL (kbd "C-0")         'delete-window-and-balance)
+(GLOBAL (kbd "C-1")         'delete-other-windows)
+(GLOBAL (kbd "C-2")         'split-window-below-balance-and-switch)
+(GLOBAL (kbd "C-3")         'split-window-right-balance-and-switch)
+(GLOBAL (kbd "C--")         'text-scale-decrease)
+(GLOBAL (kbd "C-=")         'text-scale-increase)
+(GLOBAL (kbd "C-o")         'other-window)
+(GLOBAL (kbd "M-n")         'jump-down)
+(GLOBAL (kbd "M-p")         'jump-up)
+(GLOBAL (kbd "M-k")         'kill-current-buffer)
 
 (defun kill-current-buffer () (interactive)
        (kill-buffer (current-buffer)))
@@ -196,8 +197,8 @@
 (setq completion-styles '(basic flex partial-completion emacs22))
 
 (with-eval-after-load 'minibuffer
-  (define-key minibuffer-mode-map (kbd "C-n") 'minibuffer-next-completion)
-  (define-key minibuffer-mode-map (kbd "C-p") 'minibuffer-previous-completion)
+  (define-key minibuffer-mode-map           (kbd "C-n") 'minibuffer-next-completion)
+  (define-key minibuffer-mode-map           (kbd "C-p") 'minibuffer-previous-completion)
   (define-key completion-in-region-mode-map (kbd "C-n") 'minibuffer-next-completion)
   (define-key completion-in-region-mode-map (kbd "C-p") 'minibuffer-previous-completion)
   (define-key completion-in-region-mode-map (kbd "RET") 'minibuffer-choose-completion))
@@ -312,10 +313,10 @@
   (let ((default-directory (read-directory-name "Directory: " (find-project-root-or-default-directory))))
     (apply fn args)))
 
-(GLOBAL (kbd "M-m")    (lambda () (interactive)  (run-in-project 'compile (read-shell-command "Compile Command: "))))
-(GLOBAL (kbd "M-s")    (lambda () (interactive)  (run-in-project 'grep (concat (get-grep-default-command)
-									       (format "\"%s\""
-										       (read-string (format "%s: " (get-grep-default-command))))))))
+(GLOBAL (kbd "M-m") (lambda () (interactive)  (run-in-project 'compile (read-shell-command "Compile Command: "))))
+(GLOBAL (kbd "M-s") (lambda () (interactive)  (run-in-project 'grep (concat (get-grep-default-command)
+									    (format "\"%s\""
+										    (read-string (format "%s: " (get-grep-default-command))))))))
 
 ;; Find File
 (GLOBAL (kbd "M-o") 'find-file-dwim)
@@ -328,6 +329,7 @@
 
              (command
               (cond
+	       ((executable-find "fd")   "fd -c never")
 	       ((executable-find "rg")   "rg --files")
 	       ((and is-windows          "dir /S /B"))
 	       ((executable-find "find") "find . -type f -not -path \"*/.git/*\""))))
@@ -432,3 +434,27 @@
 ;;  `(show-paren-match                 ((t (:background "#3cb371"))))
 ;;  `(corfu-default                    ((t (:background "#161616"))))
 ;;  `(corfu-border                     ((t (:background "#191970")))))
+
+
+;; (custom-set-faces ;; Solarized Dark
+;;  `(default ((t (:foreground "#93A4A6" :background "#002b36"))))
+;;  `(cursor ((t (:foreground "#002b36" :background "#839496"))))
+;;  `(font-lock-keyword-face ((t (:foreground "#859900"))))
+;;  `(font-lock-type-face ((t (:foreground "#b58900"))))
+;;  `(font-lock-constant-face ((t (:foreground "#268bd2"))))
+;;  `(font-lock-variable-name-face ((t (:foreground "#268bd2"))))
+;;  `(font-lock-builtin-face ((t (:foreground "#839496"))))
+;;  `(font-lock-string-face ((t (:foreground "#2aa198"))))
+;;  `(font-lock-comment-face ((t (:foreground "#586e75"))))
+;;  `(font-lock-comment-delimiter-face ((t (:foreground "#586e75"))))
+;;  `(font-lock-doc-face ((t (:foreground "#2aa198"))))
+;;  `(font-lock-function-name-face ((t (:foreground "#268bd2"))))
+;;  `(font-lock-preprocessor-face ((t (:foreground "#268bd2"))))
+;;  `(region ((t (:foreground "#002b36" :background "#93a1a1"))))
+;;  `(hl-line ((t (:background "#073642"))))
+;;  `(vertico-current ((t (:background "#073642"))))
+;;  `(highlight ((t (:background "#073642"))))
+;;  `(mode-line ((t (:foreground "#839496" :background "#174652"))))
+;;  `(mode-line-inactive ((t (:foreground "#586e75" :background "#002b36"))))
+;;  `(minibuffer-prompt ((t (:foreground "#839496"))))
+;;  `(show-paren-match ((t (:foreground "#d33682")))))
