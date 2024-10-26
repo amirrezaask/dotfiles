@@ -216,57 +216,58 @@
 (install 'yaml-mode)
 
 ;; LSP (Eglot)
-(with-eval-after-load 'eglot
-  (define-key eglot-mode-map (kbd "M-i")     'consult-eglot-symbols)
-  (define-key eglot-mode-map (kbd "C-c C-r") 'eglot-rename)
-  (define-key eglot-mode-map (kbd "M-RET")   'eglot-organize-imports-format)
-  (define-key eglot-mode-map (kbd "C-c C-c") 'eglot-code-actions))
 
-(setq eldoc-echo-area-use-multiline-p nil)
+;; (with-eval-after-load 'eglot
+;;   (define-key eglot-mode-map (kbd "M-i")     'consult-eglot-symbols)
+;;   (define-key eglot-mode-map (kbd "C-c C-r") 'eglot-rename)
+;;   (define-key eglot-mode-map (kbd "M-RET")   'eglot-organize-imports-format)
+;;   (define-key eglot-mode-map (kbd "C-c C-c") 'eglot-code-actions))
 
-(dolist (mode '(go rust php)) ;; Enable LSP automatically.
-  (add-hook (intern (concat (symbol-name mode) "-mode-hook")) #'eglot-ensure))
+;; (setq eldoc-echo-area-use-multiline-p nil)
+
+;; (dolist (mode '(go rust php)) ;; Enable LSP automatically.
+;;   (add-hook (intern (concat (symbol-name mode) "-mode-hook")) #'eglot-ensure))
 
 
-(setq eglot-ignored-server-capabilities '(
-					  ;; Enabled features
+;; (setq eglot-ignored-server-capabilities '(
+;; 					  ;; Enabled features
 					  
-					  ;; :completionProvider               ;; "Code completion" 
-					  ;; :definitionProvider               ;; "Go to definition" 
-					  ;; :typeDefinitionProvider           ;; "Go to type definition" 
-					  ;; :implementationProvider           ;; "Go to implementation" 
-					  ;; :declarationProvider              ;; "Go to declaration" 
-					  ;; :referencesProvider               ;; "Find references" 
-					  ;; :renameProvider                   ;; "Rename symbol"
+;; 					  ;; :completionProvider               ;; "Code completion" 
+;; 					  ;; :definitionProvider               ;; "Go to definition" 
+;; 					  ;; :typeDefinitionProvider           ;; "Go to type definition" 
+;; 					  ;; :implementationProvider           ;; "Go to implementation" 
+;; 					  ;; :declarationProvider              ;; "Go to declaration" 
+;; 					  ;; :referencesProvider               ;; "Find references" 
+;; 					  ;; :renameProvider                   ;; "Rename symbol"
 
-					  ;; Disabled features
-					  :signatureHelpProvider               ;; "Function signature help" 
-					  :hoverProvider                       ;; "Documentation on hover"
-					  :documentHighlightProvider           ;; "Highlight symbols automatically" 
-					  :documentSymbolProvider              ;; "List symbols in buffer" 
-					  :workspaceSymbolProvider             ;; "List symbols in workspace" 
-					  :codeActionProvider                  ;; "Execute code actions" 
-					  :codeLensProvider                    ;; "Code lens" 
-					  :documentFormattingProvider          ;; "Format buffer" 
-					  :documentRangeFormattingProvider     ;; "Format portion of buffer" 
-					  :documentOnTypeFormattingProvider    ;; "On-type formatting" 
+;; 					  ;; Disabled features
+;; 					  :signatureHelpProvider               ;; "Function signature help" 
+;; 					  :hoverProvider                       ;; "Documentation on hover"
+;; 					  :documentHighlightProvider           ;; "Highlight symbols automatically" 
+;; 					  :documentSymbolProvider              ;; "List symbols in buffer" 
+;; 					  :workspaceSymbolProvider             ;; "List symbols in workspace" 
+;; 					  :codeActionProvider                  ;; "Execute code actions" 
+;; 					  :codeLensProvider                    ;; "Code lens" 
+;; 					  :documentFormattingProvider          ;; "Format buffer" 
+;; 					  :documentRangeFormattingProvider     ;; "Format portion of buffer" 
+;; 					  :documentOnTypeFormattingProvider    ;; "On-type formatting" 
 
-					  :documentLinkProvider                ;; "Highlight links in document" 
-					  :colorProvider                       ;; "Decorate color references" 
-					  :foldingRangeProvider                ;; "Fold regions of buffer" 
-					  :executeCommandProvider              ;; "Execute custom commands" 
-					  :inlayHintProvider                   ;; "Inlay hints" 
-					  ))   
+;; 					  :documentLinkProvider                ;; "Highlight links in document" 
+;; 					  :colorProvider                       ;; "Decorate color references" 
+;; 					  :foldingRangeProvider                ;; "Fold regions of buffer" 
+;; 					  :executeCommandProvider              ;; "Execute custom commands" 
+;; 					  :inlayHintProvider                   ;; "Inlay hints" 
+;; 					  ))   
 
 
-(with-eval-after-load 'eglot (add-to-list 'eglot-server-programs '(php-mode . ("intelephense" "--stdio")))) ;; PHP language server intelephense
+;; (with-eval-after-load 'eglot (add-to-list 'eglot-server-programs '(php-mode . ("intelephense" "--stdio")))) ;; PHP language server intelephense
 
-(defun eglot-organize-imports () (interactive) (eglot-code-actions nil nil "source.organizeImports" t))
-(defun eglot-organize-imports-format () (interactive) (eglot-format) (eglot-organize-imports))
+;; (defun eglot-organize-imports () (interactive) (eglot-code-actions nil nil "source.organizeImports" t))
+;; (defun eglot-organize-imports-format () (interactive) (eglot-format) (eglot-organize-imports))
 
-(setq eglot-stay-out-of '(project flymake) ;; Don't polute buffer with flymake diganostics.
-      eglot-sync-connect nil               ;; no blocking on waiting for the server to start.
-      eglot-events-buffer-size 0)          ;; no logging of LSP events.
+;; (setq eglot-stay-out-of '(project flymake) ;; Don't polute buffer with flymake diganostics.
+;;       eglot-sync-connect nil               ;; no blocking on waiting for the server to start.
+;;       eglot-events-buffer-size 0)          ;; no logging of LSP events.
 
 ;; Compile/Grep
 (setq compilation-ask-about-save nil) ;; Don't ask about saving unsaved buffers before compile command.
@@ -412,49 +413,3 @@
 ;;  `(corfu-border                     ((t (:background "#353535")))))
 
 
-;; (custom-set-faces ;; HandmadeHero
-;;  `(default                          ((t (:foreground "#eec591" :background "#161616"))))
-;;  `(hl-line                          ((t (:background "#191970"))))
-;;  `(vertico-current                  ((t (:background "#191970"))))
-;;  `(region                           ((t (:background "#191970"))))
-;;  `(cursor                           ((t (:background "#40FF40"))))
-;;  `(font-lock-keyword-face           ((t (:foreground "#eead0e"))))
-;;  `(font-lock-type-face              ((t (:foreground "#cdaa7d"))))
-;;  `(font-lock-constant-face          ((t (:foreground "#6b8e23"))))
-;;  `(font-lock-variable-name-face     ((t (:foreground "#cdaa7d"))))
-;;  `(font-lock-builtin-face           ((t (:foreground "#cccccc"))))
-;;  `(font-lock-string-face            ((t (:foreground "#6b8e23"))))
-;;  `(font-lock-comment-face           ((t (:foreground "#7f7f7f"))))
-;;  `(font-lock-comment-delimiter-face ((t (:foreground "#7f7f7f"))))
-;;  `(font-lock-doc-face               ((t (:foreground "#7f7f7f"))))
-;;  `(font-lock-function-name-face     ((t (:foreground "#eec591"))))
-;;  `(font-lock-doc-string-face        ((t (:foreground "#7f7f7f"))))
-;;  `(font-lock-warning-face           ((t (:foreground "#ffff00"))))
-;;  `(font-lock-note-face              ((t (:foreground "#eee685" ))))
-;;  `(show-paren-match                 ((t (:background "#3cb371"))))
-;;  `(corfu-default                    ((t (:background "#161616"))))
-;;  `(corfu-border                     ((t (:background "#191970")))))
-
-
-;; (custom-set-faces ;; Solarized Dark
-;;  `(default ((t (:foreground "#93A4A6" :background "#002b36"))))
-;;  `(cursor ((t (:foreground "#002b36" :background "#839496"))))
-;;  `(font-lock-keyword-face ((t (:foreground "#859900"))))
-;;  `(font-lock-type-face ((t (:foreground "#b58900"))))
-;;  `(font-lock-constant-face ((t (:foreground "#268bd2"))))
-;;  `(font-lock-variable-name-face ((t (:foreground "#268bd2"))))
-;;  `(font-lock-builtin-face ((t (:foreground "#839496"))))
-;;  `(font-lock-string-face ((t (:foreground "#2aa198"))))
-;;  `(font-lock-comment-face ((t (:foreground "#586e75"))))
-;;  `(font-lock-comment-delimiter-face ((t (:foreground "#586e75"))))
-;;  `(font-lock-doc-face ((t (:foreground "#2aa198"))))
-;;  `(font-lock-function-name-face ((t (:foreground "#268bd2"))))
-;;  `(font-lock-preprocessor-face ((t (:foreground "#268bd2"))))
-;;  `(region ((t (:foreground "#002b36" :background "#93a1a1"))))
-;;  `(hl-line ((t (:background "#073642"))))
-;;  `(vertico-current ((t (:background "#073642"))))
-;;  `(highlight ((t (:background "#073642"))))
-;;  `(mode-line ((t (:foreground "#839496" :background "#174652"))))
-;;  `(mode-line-inactive ((t (:foreground "#586e75" :background "#002b36"))))
-;;  `(minibuffer-prompt ((t (:foreground "#839496"))))
-;;  `(show-paren-match ((t (:foreground "#d33682")))))
