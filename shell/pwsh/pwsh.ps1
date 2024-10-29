@@ -1,7 +1,9 @@
 Invoke-Expression (&starship init powershell)
 
 Import-Module PSReadLine
+Import-Module Terminal-Icons
 # Import-Module posh-git
+
 
 Set-PSReadLineOption -EditMode Emacs
 
