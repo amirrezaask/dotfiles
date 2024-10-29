@@ -1,23 +1,4 @@
 ;; (setq debug-on-error t) ;; Uncomment when you debug your emacs lisp code.
-
-;; Startup hacks to make emacs boot faster.
-(defvar amirreza-emacs--file-name-handler-alist file-name-handler-alist)
-(defvar amirreza-emacs--vc-handled-backends vc-handled-backends)
-
-(setq file-name-handler-alist nil
-      vc-handled-backends nil)
-
-(add-hook 'emacs-startup-hook
-          (lambda ()
-            (setq gc-cons-threshold (* 1000 1000 20)
-                  gc-cons-percentage 0.1
-                  file-name-handler-alist amirreza-emacs--file-name-handler-alist
-                  vc-handled-backends     amirreza-emacs--vc-handled-backends)))
-
-(setq gc-cons-threshold most-positive-fixnum
-      gc-cons-percentage 0.5)
-
-
 (unless (executable-find "fd")    (warn "Install fd for better support for file finding."))
 (unless (executable-find "ugrep") (warn "Install ugrep for better grep support."))
 
@@ -63,8 +44,6 @@
     (setenv "PATH" (string-join exec-path ";"))
   (setenv "PATH" (string-join exec-path ":"))) ;; set emacs process PATH
 
-(setq image-types (cons 'svg image-types) mac-command-modifier 'meta) ;; Fix macos fucked up bugs.
-
 (defun edit-init () "Edit this file." (interactive) (find-file INIT-FILE))
 
 (when load-file-name ;; since windows is a bit funky I prefer to store this file path in a variable to be used when C-x i
@@ -74,7 +53,7 @@
 
 (global-set-key (kbd "C-x i") 'edit-init) ;; Edit this file.
 
-;; overrides: minor mode to register keys that I want to override in all other modes.
+;; Overrides: minor mode to register keys that I want to override in all other modes.
 (defvar global-overrides (make-sparse-keymap))
 (define-minor-mode amirreza-overrides ""
   :global t
@@ -140,8 +119,7 @@
 (GLOBAL (kbd "M-p")         'jump-up)
 (GLOBAL (kbd "M-k")         'kill-current-buffer)
 
-(defun kill-current-buffer () (interactive)
-       (kill-buffer (current-buffer)))
+(defun kill-current-buffer () (interactive) (kill-buffer (current-buffer)))
 
 (blink-cursor-mode -1)
 (setq make-backup-files nil)              ;; no emacs ~ backup files
@@ -179,7 +157,6 @@
 (global-set-key (kbd "C-SPC") 'set-mark-command) ;; Visual selection
 (global-set-key (kbd "M-w")   'copy) ;; modern copy
 
-
 ;; Unset keys that I dont use
 (global-unset-key (kbd "M-z"))
 (global-unset-key (kbd "M-l"))
@@ -208,66 +185,12 @@
 
 (setq-default c-default-style "linux" c-basic-offset 4)
 
-;; Languages
+;; Major modes
 (install 'go-mode)
 (install 'rust-mode)
 (install 'php-mode)
 (install 'json-mode)
 (install 'yaml-mode)
-
-;; LSP (Eglot)
-
-;; (with-eval-after-load 'eglot
-;;   (define-key eglot-mode-map (kbd "M-i")     'consult-eglot-symbols)
-;;   (define-key eglot-mode-map (kbd "C-c C-r") 'eglot-rename)
-;;   (define-key eglot-mode-map (kbd "M-RET")   'eglot-organize-imports-format)
-;;   (define-key eglot-mode-map (kbd "C-c C-c") 'eglot-code-actions))
-
-;; (setq eldoc-echo-area-use-multiline-p nil)
-
-;; (dolist (mode '(go rust php)) ;; Enable LSP automatically.
-;;   (add-hook (intern (concat (symbol-name mode) "-mode-hook")) #'eglot-ensure))
-
-
-;; (setq eglot-ignored-server-capabilities '(
-;; 					  ;; Enabled features
-					  
-;; 					  ;; :completionProvider               ;; "Code completion" 
-;; 					  ;; :definitionProvider               ;; "Go to definition" 
-;; 					  ;; :typeDefinitionProvider           ;; "Go to type definition" 
-;; 					  ;; :implementationProvider           ;; "Go to implementation" 
-;; 					  ;; :declarationProvider              ;; "Go to declaration" 
-;; 					  ;; :referencesProvider               ;; "Find references" 
-;; 					  ;; :renameProvider                   ;; "Rename symbol"
-
-;; 					  ;; Disabled features
-;; 					  :signatureHelpProvider               ;; "Function signature help" 
-;; 					  :hoverProvider                       ;; "Documentation on hover"
-;; 					  :documentHighlightProvider           ;; "Highlight symbols automatically" 
-;; 					  :documentSymbolProvider              ;; "List symbols in buffer" 
-;; 					  :workspaceSymbolProvider             ;; "List symbols in workspace" 
-;; 					  :codeActionProvider                  ;; "Execute code actions" 
-;; 					  :codeLensProvider                    ;; "Code lens" 
-;; 					  :documentFormattingProvider          ;; "Format buffer" 
-;; 					  :documentRangeFormattingProvider     ;; "Format portion of buffer" 
-;; 					  :documentOnTypeFormattingProvider    ;; "On-type formatting" 
-
-;; 					  :documentLinkProvider                ;; "Highlight links in document" 
-;; 					  :colorProvider                       ;; "Decorate color references" 
-;; 					  :foldingRangeProvider                ;; "Fold regions of buffer" 
-;; 					  :executeCommandProvider              ;; "Execute custom commands" 
-;; 					  :inlayHintProvider                   ;; "Inlay hints" 
-;; 					  ))   
-
-
-;; (with-eval-after-load 'eglot (add-to-list 'eglot-server-programs '(php-mode . ("intelephense" "--stdio")))) ;; PHP language server intelephense
-
-;; (defun eglot-organize-imports () (interactive) (eglot-code-actions nil nil "source.organizeImports" t))
-;; (defun eglot-organize-imports-format () (interactive) (eglot-format) (eglot-organize-imports))
-
-;; (setq eglot-stay-out-of '(project flymake) ;; Don't polute buffer with flymake diganostics.
-;;       eglot-sync-connect nil               ;; no blocking on waiting for the server to start.
-;;       eglot-events-buffer-size 0)          ;; no logging of LSP events.
 
 ;; Compile/Grep
 (setq compilation-ask-about-save nil) ;; Don't ask about saving unsaved buffers before compile command.
@@ -314,29 +237,38 @@
   (let ((default-directory (read-directory-name "Directory: " (find-project-root-or-default-directory))))
     (apply fn args)))
 
-(GLOBAL (kbd "M-m") (lambda () (interactive)  (run-in-project 'compile (read-shell-command "Compile Command: "))))
-(GLOBAL (kbd "M-s") (lambda () (interactive)  (run-in-project 'grep (concat (get-grep-default-command)
-									    (format "\"%s\""
-										    (read-string (format "%s: " (get-grep-default-command))))))))
+(defun compile-dwim () (interactive)
+       (run-in-project 'compile (read-shell-command "Compile Command: ")))
+
+
+(defun grep-dwim () (interactive)
+       (run-in-project 'grep (concat (get-grep-default-command)
+				     (format "\"%s\""
+					     (read-string (format "%s: " (get-grep-default-command)))))))
+   
+
+(GLOBAL (kbd "M-m") 'compile-dwim)
+(GLOBAL (kbd "M-s") 'grep-dwim)
 
 ;; Find File
 (GLOBAL (kbd "M-o") 'find-file-dwim)
 
-(defun find-file-dwim () "Recursive file find starting from `find-project-root` result or C-u to choose directory interactively." (interactive)
-       (let (
-	     (default-directory (if (null current-prefix-arg)
-                  (find-project-root-or-default-directory)
-                (read-directory-name "Directory: " default-directory)))
+(defun find-file-dwim ()
+  "Recursive file find starting from `find-project-root` result or C-u to choose directory interactively."
+  (interactive)
+  (let ((default-directory (if (null current-prefix-arg)
+			       (find-project-root-or-default-directory)
+			     (read-directory-name "Directory: " default-directory)))
 
-             (command
-              (cond
-	       ((executable-find "fd")   "fd -c never")
-	       ((executable-find "rg")   "rg --files")
-	       ((and is-windows          "dir /S /B"))
-	       ((executable-find "find") "find . -type f -not -path \"*/.git/*\""))))
-               
+        (command
+         (cond
+	  ((executable-find "fd")   "fd -c never")
+	  ((executable-find "rg")   "rg --files")
+	  ((and is-windows          "dir /S /B"))
+	  ((executable-find "find") "find . -type f -not -path \"*/.git/*\""))))
+    
 
-         (find-file (completing-read "File: " (string-split (shell-command-to-string command) "\n" t)))))
+    (find-file (completing-read "File: " (string-split (shell-command-to-string command) "\n" t)))))
 
 ;; ISearch
 (GLOBAL (kbd "C-S-s") 'isearch-forward-thing-at-point)
