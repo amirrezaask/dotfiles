@@ -1,9 +1,8 @@
+$ENV:STARSHIP_CONFIG = "D:\projects\dotfiles\shell\starship\starship.toml"
 Invoke-Expression (&starship init powershell)
 
 Import-Module PSReadLine
 Import-Module Terminal-Icons
-# Import-Module posh-git
-
 
 Set-PSReadLineOption -EditMode Emacs
 
