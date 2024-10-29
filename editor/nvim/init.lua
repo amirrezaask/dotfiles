@@ -295,7 +295,9 @@ require("lazy").setup({
         },
 
         config = function()
-            require('telescope').load_extension('fzf')
+            if IS_WINDOWS == false then
+                require('telescope').load_extension('fzf')
+            end
             require("telescope").load_extension("ui-select")
 
             local telescope_keys = {
