@@ -240,12 +240,10 @@
 (defun compile-dwim () (interactive)
        (run-in-project 'compile (read-shell-command "Compile Command: ")))
 
-
 (defun grep-dwim () (interactive)
        (run-in-project 'grep (concat (get-grep-default-command)
 				     (format "\"%s\""
 					     (read-string (format "%s: " (get-grep-default-command)))))))
-   
 
 (GLOBAL (kbd "M-m") 'compile-dwim)
 (GLOBAL (kbd "M-s") 'grep-dwim)
