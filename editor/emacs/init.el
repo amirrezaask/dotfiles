@@ -270,8 +270,7 @@
 
 ;; ISearch
 (GLOBAL (kbd "C-S-s") 'isearch-forward-thing-at-point)
-(GLOBAL (kbd "C-.")   'isearch-forward-thing-at-point)
-(GLOBAL (kbd "C->")   (lambda () (interactive) (grep-dwim (thing-at-point 'symbol))))
+(GLOBAL (kbd "C-M-s")   (lambda () (interactive) (grep-dwim (thing-at-point 'symbol))))
 (setq-default case-fold-search t)
 
 ;; Replace
@@ -295,7 +294,9 @@
 
 ;; Colors
 (custom-set-faces                   ;; Witness
- `(default                          ((t (:foreground "#d3b58d" :background "#072626"))))
+ ;; `(default                          ((t (:foreground "#d3b58d" :background "#072626"))))
+ ;; `(default                          ((t (:foreground "#d3b58d" :background "#02212a"))))
+ `(default                          ((t (:foreground "#d3b58d" :background "#042428"))))
  `(hl-line                          ((t (:background "#0c4141"))))
  `(region                           ((t (:background "#0000cd"))))
  `(cursor                           ((t (:background "#90ee90"))))
