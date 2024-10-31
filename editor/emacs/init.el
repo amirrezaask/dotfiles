@@ -240,10 +240,13 @@
 (defun compile-dwim () (interactive)
        (run-in-project 'compile (read-shell-command "Compile Command: ")))
 
-(defun grep-dwim () (interactive)
-       (run-in-project 'grep (concat (get-grep-default-command)
-				     (format "\"%s\""
-					     (read-string (format "%s: " (get-grep-default-command)))))))
+(defun grep-dwim (PAT)
+  (interactive (list (read-string (format "%s: " (get-grep-default-command)))))
+  (run-in-project 'grep
+		  (concat
+		   (get-grep-default-command)
+		   (format "\"%s\"" PAT))))
+			   
 
 (GLOBAL (kbd "M-m") 'compile-dwim)
 (GLOBAL (kbd "M-s") 'grep-dwim)
@@ -262,14 +265,13 @@
          (cond
 	  ((executable-find "fd")   "fd -c never")
 	  ((executable-find "rg")   "rg --files")
-	  ((and is-windows          "dir /S /B"))
 	  ((executable-find "find") "find . -type f -not -path \"*/.git/*\""))))
-    
-
     (find-file (completing-read "File: " (string-split (shell-command-to-string command) "\n" t)))))
 
 ;; ISearch
 (GLOBAL (kbd "C-S-s") 'isearch-forward-thing-at-point)
+(GLOBAL (kbd "C-.")   'isearch-forward-thing-at-point)
+(GLOBAL (kbd "C->")   (lambda () (interactive) (grep-dwim (thing-at-point 'symbol))))
 (setq-default case-fold-search t)
 
 ;; Replace
