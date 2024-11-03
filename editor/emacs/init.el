@@ -7,7 +7,7 @@
 (setq package-quickstart t)
 
 (menu-bar-mode -1)
-(scroll-bar-mode -1)
+;; (scroll-bar-mode -1)
 (tool-bar-mode -1)
 
 (setq frame-resize-pixelwise t
@@ -292,10 +292,64 @@
 (GLOBAL (kbd "C-S-p") 'mc/mark-previous-like-this)
 (GLOBAL (kbd "C-M->") 'mc/mark-all-like-this-dwim)
 
+
+;; LSP
+
+(with-eval-after-load 'eglot
+  (define-key eglot-mode-map (kbd "M-i")     'consult-eglot-symbols)
+  (define-key eglot-mode-map (kbd "C-c C-r") 'eglot-rename)
+  (define-key eglot-mode-map (kbd "M-RET")   'eglot-organize-imports-format)
+  (define-key eglot-mode-map (kbd "C-c C-c") 'eglot-code-actions))
+
+(setq eldoc-echo-area-use-multiline-p nil)
+
+(dolist (mode '(go rust php)) ;; Enable LSP automatically.
+  (add-hook (intern (concat (symbol-name mode) "-mode-hook")) #'eglot-ensure))
+
+
+(setq eglot-ignored-server-capabilities '(
+					  ;; Enabled features
+					  
+					  ;; :completionProvider               ;; "Code completion" 
+					  ;; :definitionProvider               ;; "Go to definition" 
+					  ;; :typeDefinitionProvider           ;; "Go to type definition" 
+					  ;; :implementationProvider           ;; "Go to implementation" 
+					  ;; :declarationProvider              ;; "Go to declaration" 
+					  ;; :referencesProvider               ;; "Find references" 
+					  ;; :renameProvider                   ;; "Rename symbol"
+
+					  ;; Disabled features
+					  :signatureHelpProvider               ;; "Function signature help" 
+					  :hoverProvider                       ;; "Documentation on hover"
+					  :documentHighlightProvider           ;; "Highlight symbols automatically" 
+					  :documentSymbolProvider              ;; "List symbols in buffer" 
+					  :workspaceSymbolProvider             ;; "List symbols in workspace" 
+					  :codeActionProvider                  ;; "Execute code actions" 
+					  :codeLensProvider                    ;; "Code lens" 
+					  :documentFormattingProvider          ;; "Format buffer" 
+					  :documentRangeFormattingProvider     ;; "Format portion of buffer" 
+					  :documentOnTypeFormattingProvider    ;; "On-type formatting" 
+
+					  :documentLinkProvider                ;; "Highlight links in document" 
+					  :colorProvider                       ;; "Decorate color references" 
+					  :foldingRangeProvider                ;; "Fold regions of buffer" 
+					  :executeCommandProvider              ;; "Execute custom commands" 
+					  :inlayHintProvider                   ;; "Inlay hints" 
+					  ))   
+
+
+(with-eval-after-load 'eglot (add-to-list 'eglot-server-programs '(php-mode . ("intelephense" "--stdio")))) ;; PHP language server intelephense
+
+(defun eglot-organize-imports () (interactive) (eglot-code-actions nil nil "source.organizeImports" t))
+(defun eglot-organize-imports-format () (interactive) (eglot-format) (eglot-organize-imports))
+
+(setq eglot-stay-out-of '(project flymake) ;; Don't polute buffer with flymake diganostics.
+      eglot-sync-connect nil               ;; no blocking on waiting for the server to start.
+      eglot-events-buffer-size 0)          ;; no logging of LSP events.
+
+
 ;; Colors
 (custom-set-faces                   ;; Witness
- ;; `(default                          ((t (:foreground "#d3b58d" :background "#072626"))))
- ;; `(default                          ((t (:foreground "#d3b58d" :background "#02212a"))))
  `(default                          ((t (:foreground "#d3b58d" :background "#042428"))))
  `(hl-line                          ((t (:background "#0c4141"))))
  `(region                           ((t (:background "#0000cd"))))
