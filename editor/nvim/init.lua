@@ -4,8 +4,8 @@
 -- /_/ |_/_/_/_/_/_/ /_/  \__//__/\_,_/_/ |_/___/_/\_\
 -- Minimal, fast configuration for neovim.
 
-TRANSPARENT = os.getenv('NVIM_TRANSPARENT') or false
-COLORSCEHEME = os.getenv('NVIM_COLORSCHEME') or "tokyonight-night"
+TRANSPARENT = os.getenv('NVIM_TRANSPARENT') or true
+COLORSCEHEME = os.getenv('NVIM_COLORSCHEME') or "catppuccin-mocha"
 IS_WINDOWS = vim.fn.has("win32") == 1
 
 vim.opt.wrap = true        -- Wrap long lines
@@ -112,9 +112,6 @@ require("lazy").setup({
         "catppuccin/nvim",
         dependencies = {
             {
-                "vague2k/vague.nvim"
-            },
-            {
                 "rose-pine/neovim",
                 name = 'rose-pine',
                 opts = {
@@ -132,19 +129,6 @@ require("lazy").setup({
                     transparent = TRANSPARENT,
                 }
             },
-            {
-                'sainnhe/gruvbox-material',
-                config = function()
-                    vim.g.gruvbox_material_foreground = 'material'
-                    vim.g.gruvbox_material_background = 'hard'
-                end
-            },
-            {
-                'navarasu/onedark.nvim',
-                opts = { style = 'dark', transparent = TRANSPARENT }
-            },
-
-
         },
         name = 'catppuccin',
         opts = {
@@ -227,15 +211,15 @@ require("lazy").setup({
         }
     },
 
-    -- { -- StatusLine
-    --     'nvim-lualine/lualine.nvim',
-    --     opts = {
-    --
-    --         options = {
-    --             icons_enabled = false,
-    --         }
-    --     }
-    -- },
+    { -- StatusLine
+        'nvim-lualine/lualine.nvim',
+        opts = {
+
+            options = {
+                icons_enabled = false,
+            }
+        }
+    },
     { -- File manager
         'stevearc/oil.nvim',
         opts = {
