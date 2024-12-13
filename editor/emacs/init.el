@@ -75,7 +75,7 @@
        (set-face-attribute 'default nil :font (format "%s-%d" font size)))
 
 (cond
- (is-windows     (set-font "Consolas"    14))
+ (is-windows     (set-font "Consolas"    12))
  (is-linux       (set-font "Ubuntu Mono" 14))
  (is-macos       (set-font "Menlo"       14)))
 
