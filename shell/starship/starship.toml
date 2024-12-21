@@ -1,7 +1,7 @@
 
 add_newline = false
 command_timeout = 1000
-format = """$os$username$directory$git_branch$git_status"""
+format = """$username$directory$git_branch$git_status"""
 
 # Drop ugly default prompt characters
 [character]
