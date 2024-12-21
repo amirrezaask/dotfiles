@@ -1,7 +1,7 @@
 
 add_newline = false
 command_timeout = 1000
-format = """$username$directory$git_branch$git_status"""
+format = """$directory$git_branch$git_status"""
 
 # Drop ugly default prompt characters
 [character]
@@ -33,11 +33,11 @@ show_always = true
 home_symbol = '󰋜 ~'
 read_only_style = '197'
 read_only = '  '
-format = 'at [$path]($style)[$read_only]($read_only_style) '
+format = '[$path]($style)[$read_only]($read_only_style) '
 
 [git_branch]
 symbol = ' '
-format = 'via [$symbol$branch]($style)'
+format = '[$symbol$branch]($style)'
 # truncation_length = 4
 truncation_symbol = '…/'
 style = 'bold green'
