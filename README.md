@@ -15,7 +15,6 @@ TBA
 make
 ```
 
-
 # Sublime Text Settings Installation
 ## MacOS
 ```bash

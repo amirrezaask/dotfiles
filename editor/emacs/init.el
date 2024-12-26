@@ -7,7 +7,7 @@
 (setq package-quickstart t)
 
 (menu-bar-mode -1)
-;; (scroll-bar-mode -1)
+(scroll-bar-mode -1)
 (tool-bar-mode -1)
 
 (setq frame-resize-pixelwise t
@@ -28,7 +28,7 @@
 
 (set-frame-parameter nil 'fullscreen 'maximized) ;; Always start emacs window in maximized mode.
 
-;; @PATH
+;; env: PATH
 (defun home (path) (expand-file-name path (getenv "HOME")))
 (add-to-list 'exec-path (home ".local/bin"))
 (add-to-list 'exec-path (home "go/bin"))
@@ -64,6 +64,13 @@
 (amirreza-overrides +1)
 (defun GLOBAL (KBD ACTION) (define-key global-overrides KBD ACTION))
 
+;; Cursor
+(setq-default cursor-type 'bar)
+(blink-cursor-mode +1)
+
+;; Highlight Current line
+(global-hl-line-mode)
+
 ;; Font
 (setq font-size 21)
 (setq current-font-family "")
@@ -75,11 +82,13 @@
        (set-face-attribute 'default nil :font (format "%s-%d" font size)))
 
 (cond
- (is-windows     (set-font "Consolas"    12))
- (is-linux       (set-font "Ubuntu Mono" 14))
- (is-macos       (set-font "Menlo"       14)))
+ ((member "JetBrains Mono" font-families) (set-font "JetBrains Mono" 13))
+ (is-windows                              (set-font "Consolas"    11))
+ (is-linux                                (set-font "Ubuntu Mono" 11))
+ (is-macos                                (set-font "Menlo"       11)))
 
 
+;; Package archives
 (setq package-archives
       '(("gnu-elpa" . "https://elpa.gnu.org/packages/")
         ("nongnu"   . "https://elpa.nongnu.org/nongnu/")
@@ -89,6 +98,8 @@
   (unless (package-installed-p pkg)
     (package-install pkg)))
 
+
+;; Splits
 (defun split-window-right-balance-and-switch () (interactive)
        (split-window-right)
        (balance-windows)
@@ -121,7 +132,6 @@
 
 (defun kill-current-buffer () (interactive) (kill-buffer (current-buffer)))
 
-(blink-cursor-mode -1)
 (setq make-backup-files nil)              ;; no emacs ~ backup files
 (setq vc-follow-symlinks t)               ;; Don't prompt if encounter a symlink file, just follow the link.
 (set-default-coding-systems 'utf-8)       ;; always use UTF8
@@ -166,24 +176,38 @@
 (global-so-long-mode +1) ;; don't choke on minified code.
 
 ;; Minibuffer/Completion:
-(setq completions-format 'one-column)
-(setq completions-header-format nil)
-(setq completions-max-height 15)
-(setq completions-auto-select nil)
-(setq completion-show-help nil)
-(setq completion-styles '(basic flex partial-completion emacs22))
+;; (setq completions-format 'one-column)
+;; (setq completions-header-format nil)
+;; (setq completions-max-height 15)
+;; (setq completions-auto-select nil)
+;; (setq completion-show-help nil)
+;; (setq completion-styles '(basic flex partial-completion emacs22))
 
-(with-eval-after-load 'minibuffer
-  (define-key minibuffer-mode-map           (kbd "C-n") 'minibuffer-next-completion)
-  (define-key minibuffer-mode-map           (kbd "C-p") 'minibuffer-previous-completion)
-  (define-key completion-in-region-mode-map (kbd "C-n") 'minibuffer-next-completion)
-  (define-key completion-in-region-mode-map (kbd "C-p") 'minibuffer-previous-completion)
-  (define-key completion-in-region-mode-map (kbd "RET") 'minibuffer-choose-completion))
+;; (with-eval-after-load 'minibuffer
+;;   (define-key minibuffer-mode-map           (kbd "C-n") 'minibuffer-next-completion)
+;;   (define-key minibuffer-mode-map           (kbd "C-p") 'minibuffer-previous-completion)
+;;   (define-key completion-in-region-mode-map (kbd "C-n") 'minibuffer-next-completion)
+;;   (define-key completion-in-region-mode-map (kbd "C-p") 'minibuffer-previous-completion)
+;;   (define-key completion-in-region-mode-map (kbd "RET") 'minibuffer-choose-completion))
+
+;; Minibuffer
+(install 'vertico)
+(install 'consult)
+(install 'marginalia)
+(install 'orderless)
+(setq vertico-count 10)
+(setq vertico-cycle t)
+(setq completion-styles '(orderless basic)
+        completion-category-defaults nil
+        completion-category-overrides '((file (styles partial-completion))))
+(vertico-mode +1)
+(marginalia-mode +1)
 
 ;; Completion
+(install 'corfu)
+(setq corfu-auto t)
+(global-corfu-mode +1)
 (global-set-key (kbd "C-j") 'completion-at-point)
-
-(setq-default c-default-style "linux" c-basic-offset 4)
 
 ;; Major modes
 (install 'go-mode)
@@ -191,8 +215,9 @@
 (install 'php-mode)
 (install 'json-mode)
 (install 'yaml-mode)
+(setq-default c-default-style "linux" c-basic-offset 4)
 
-;; Compile/Grep
+;; Compile/Grep Project Based
 (setq compilation-ask-about-save nil) ;; Don't ask about saving unsaved buffers before compile command.
 (setq compilation-always-kill t)
 
@@ -252,8 +277,6 @@
 (GLOBAL (kbd "M-s") 'grep-dwim)
 
 ;; Find File
-(GLOBAL (kbd "M-o") 'find-file-dwim)
-
 (defun find-file-dwim ()
   "Recursive file find starting from `find-project-root` result or C-u to choose directory interactively."
   (interactive)
@@ -267,6 +290,8 @@
 	  ((executable-find "rg")   "rg --files")
 	  ((executable-find "find") "find . -type f -not -path \"*/.git/*\""))))
     (find-file (completing-read "File: " (string-split (shell-command-to-string command) "\n" t)))))
+(GLOBAL (kbd "M-o") 'find-file-dwim)
+
 
 ;; ISearch
 (GLOBAL (kbd "C-S-s") 'isearch-forward-thing-at-point)
@@ -292,8 +317,7 @@
 (GLOBAL (kbd "C-S-p") 'mc/mark-previous-like-this)
 (GLOBAL (kbd "C-M->") 'mc/mark-all-like-this-dwim)
 
-
-;; LSP
+;; Eglot (LSP)
 
 (with-eval-after-load 'eglot
   (define-key eglot-mode-map (kbd "M-i")     'consult-eglot-symbols)
@@ -305,7 +329,6 @@
 
 (dolist (mode '(go rust php)) ;; Enable LSP automatically.
   (add-hook (intern (concat (symbol-name mode) "-mode-hook")) #'eglot-ensure))
-
 
 (setq eglot-ignored-server-capabilities '(
 					  ;; Enabled features
@@ -347,6 +370,12 @@
       eglot-sync-connect nil               ;; no blocking on waiting for the server to start.
       eglot-events-buffer-size 0)          ;; no logging of LSP events.
 
+
+(install 'base16-theme)
+(setq custom-safe-themes t)
+(defadvice load-theme (before disable-themes-first activate) ;; Disable theme stacking
+  (dolist (i custom-enabled-themes)
+    (disable-theme i)))
 
 ;; Colors
 (custom-set-faces                   ;; Witness
@@ -399,4 +428,23 @@
 ;;  `(corfu-default                    ((t (:background "#252525"))))
 ;;  `(corfu-border                     ((t (:background "#353535")))))
 
-
+;; (custom-set-faces ;; HandmadeHero
+;;  `(default                          ((t (:foreground "burlywood2" :background "#161616"))))
+;;  `(hl-line                          ((t (:background "midnight blue"))))
+;;  `(vertico-current                  ((t (:background "midnight blue"))))
+;;  `(region                           ((t (:background "medium blue"))))
+;;  `(cursor                           ((t (:background "#40FF40"))))
+;;  `(font-lock-keyword-face           ((t (:foreground "DarkGoldenrod2"))))
+;;  `(font-lock-type-face              ((t (:foreground "burlywood3"))))
+;;  `(font-lock-constant-face          ((t (:foreground "olive drab"))))
+;;  `(font-lock-variable-name-face     ((t (:foreground "burlywood3"))))
+;;  `(font-lock-builtin-face           ((t (:foreground "gray80"))))
+;;  `(font-lock-string-face            ((t (:foreground "olive drab"))))
+;;  `(font-lock-comment-face           ((t (:foreground "gray50"))))
+;;  `(font-lock-comment-delimiter-face ((t (:foreground "gray50"))))
+;;  `(font-lock-doc-face               ((t (:foreground "gray50"))))
+;;  `(font-lock-function-name-face     ((t (:foreground "burlywood2"))))
+;;  `(font-lock-doc-string-face        ((t (:foreground "gray50"))))
+;;  `(font-lock-warning-face           ((t (:foreground "yellow"))))
+;;  `(font-lock-note-face              ((t (:foreground "khaki2" ))))
+;;  `(show-paren-match                 ((t (:background "mediumseagreen")))))
