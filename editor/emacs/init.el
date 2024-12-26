@@ -28,6 +28,8 @@
 
 (set-frame-parameter nil 'fullscreen 'maximized) ;; Always start emacs window in maximized mode.
 
+(setq-default frame-title-format "Emacs: Amirreza Edition")
+
 ;; env: PATH
 (defun home (path) (expand-file-name path (getenv "HOME")))
 (add-to-list 'exec-path (home ".local/bin"))
@@ -372,12 +374,14 @@
 
 
 (install 'base16-theme)
+(install 'dracula-theme)
+(install 'doom-themes)
 (setq custom-safe-themes t)
 (defadvice load-theme (before disable-themes-first activate) ;; Disable theme stacking
   (dolist (i custom-enabled-themes)
     (disable-theme i)))
 
-(load-theme 'base16-dracula)
+(load-theme 'doom-one)
 
 ;; Colors
 ;; (custom-set-faces                   ;; Witness
