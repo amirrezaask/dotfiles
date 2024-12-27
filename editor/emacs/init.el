@@ -297,8 +297,12 @@
 (GLOBAL (kbd "C-S-p") 'mc/mark-previous-like-this)
 (GLOBAL (kbd "C-M->") 'mc/mark-all-like-this-dwim)
 
-;; Eglot (LSP)
+;; Origami ( Code folding )
+(install 'origami)
+(with-eval-after-load 'origami
+  (define-key origami-mode-map (kbd "C-=") 'origami-toggle-node))
 
+;; Eglot (LSP)
 (with-eval-after-load 'eglot
   (define-key eglot-mode-map (kbd "M-i")     'consult-eglot-symbols)
   (define-key eglot-mode-map (kbd "C-c C-r") 'eglot-rename)
@@ -466,7 +470,7 @@
 		       ))
 
 (load-theme 'ef-bio t)
-
+(set-background-color "#052525")
 
 ;; String conversions
 (install 'string-inflection)
