@@ -1,3 +1,5 @@
+
+
 (defun write-forms-to-file (FILE forms)
   (with-temp-file FILE
     (mapcar (lambda (form)
@@ -92,15 +94,15 @@
 (global-set-key (kbd "C-x i") 'edit-init) ;; Edit this file.
 
 ;; Overrides: minor mode to register keys that I want to override in all other modes.
-(defvar global-overrides (make-sparse-keymap))
-(define-minor-mode amirreza-overrides ""
+(defvar amirreza-keys (make-sparse-keymap))
+(define-minor-mode amirreza-mode ""
   :global t
-  :lighter " Overrides"
+  :lighter " AmirrezaMode"
   :init-value t
-  :keymap global-overrides)
+  :keymap amirreza-keys)
 
-(amirreza-overrides +1)
-(defun GLOBAL (KBD ACTION) (define-key global-overrides KBD ACTION))
+(amirreza-mode +1)
+(defun GLOBAL (KBD ACTION) (define-key amirreza-keys KBD ACTION))
 
 ;; Cursor
 (setq-default cursor-type 'bar)
@@ -214,27 +216,30 @@
 
 
 ;; Helpful ( replacement for help buffers )
-(global-set-key (kbd "C-h f") #'helpful-callable)
+(global-set-key (kbd "C-h f")   #'helpful-callable)
 (global-set-key (kbd "C-c C-d") #'helpful-at-point)
-(global-set-key (kbd "C-h v") #'helpful-variable)
-(global-set-key (kbd "C-h k") #'helpful-key)
-(global-set-key (kbd "C-h x") #'helpful-command)
+(global-set-key (kbd "C-h v")   #'helpful-variable)
+(global-set-key (kbd "C-h k")   #'helpful-key)
+(global-set-key (kbd "C-h x")   #'helpful-command)
 
 ;; Minibuffer (vertico + consult)
 (install 'vertico)
-(install 'consult)
 (install 'marginalia)
 (install 'orderless)
-(setq vertico-count 10)
+(install 'consult)
+(install 'embark)
+(install 'embark-consult)
+
+(setq vertico-count 20)
 (setq vertico-cycle t)
 (setq completion-styles '(orderless basic)
         completion-category-defaults nil
         completion-category-overrides '((file (styles partial-completion))))
 (vertico-mode +1)
 (marginalia-mode +1)
+(define-key minibuffer-mode-map (kbd "C->") 'embark-export)
 
-(GLOBAL (kbd "C-x b") 'consult-buffer)
-(GLOBAL (kbd "M-s p") 'consult-ripgrep)
+(GLOBAL (kbd "M-s") 'consult-ripgrep)
 
 ;; Completion
 (install 'corfu)
@@ -250,7 +255,7 @@
 (install 'yaml-mode)
 (setq-default c-default-style "linux" c-basic-offset 4)
 
-;; Compile/Grep Project Based
+;; Projects and utils
 (setq compilation-ask-about-save nil) ;; Don't ask about saving unsaved buffers before compile command.
 (setq compilation-always-kill t)
 
@@ -295,19 +300,12 @@
   (let ((default-directory (read-directory-name "Directory: " (find-project-root-or-default-directory))))
     (apply fn args)))
 
-(defun compile-dwim () (interactive)
-       (run-in-project 'compile (read-shell-command "Compile Command: ")))
-
 (defun grep-dwim (PAT)
   (interactive (list (read-string (format "%s: " (get-grep-default-command)))))
   (run-in-project 'grep
 		  (concat
 		   (get-grep-default-command)
 		   (format "\"%s\"" PAT))))
-			   
-
-(GLOBAL (kbd "M-m") 'compile-dwim)
-(GLOBAL (kbd "M-s") 'grep-dwim)
 
 ;; Find File
 (defun find-file-dwim ()
@@ -323,6 +321,7 @@
 	  ((executable-find "rg")   "rg --files")
 	  ((executable-find "find") "find . -type f -not -path \"*/.git/*\""))))
     (find-file (completing-read "File: " (string-split (shell-command-to-string command) "\n" t)))))
+
 (GLOBAL (kbd "M-o") 'find-file-dwim)
 
 ;; Pixel scrolling
@@ -411,6 +410,8 @@
 (install 'dracula-theme)
 (install 'doom-themes)
 (install 'sweet-theme)
+(install 'modus-themes)
+(install 'ef-themes)
 
 (setq custom-safe-themes t)
 
@@ -532,3 +533,6 @@
 (unless is-windows
   (install 'treesit-auto)
   (global-treesit-auto-mode))
+
+
+
