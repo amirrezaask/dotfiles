@@ -1,5 +1,3 @@
-
-
 (defun write-forms-to-file (FILE forms)
   (with-temp-file FILE
     (mapcar (lambda (form)
@@ -105,7 +103,7 @@
 (defun GLOBAL (KBD ACTION) (define-key amirreza-keys KBD ACTION))
 
 ;; Cursor
-(setq-default cursor-type 'bar)
+(setq-default cursor-type 'box)
 (blink-cursor-mode +1)
 
 ;; Highlight Current line
@@ -227,8 +225,6 @@
 (install 'marginalia)
 (install 'orderless)
 (install 'consult)
-(install 'embark)
-(install 'embark-consult)
 
 (setq vertico-count 20)
 (setq vertico-cycle t)
@@ -237,9 +233,6 @@
         completion-category-overrides '((file (styles partial-completion))))
 (vertico-mode +1)
 (marginalia-mode +1)
-(define-key minibuffer-mode-map (kbd "C->") 'embark-export)
-
-(GLOBAL (kbd "M-s") 'consult-ripgrep)
 
 ;; Completion
 (install 'corfu)
@@ -255,17 +248,13 @@
 (install 'yaml-mode)
 (setq-default c-default-style "linux" c-basic-offset 4)
 
-;; Projects and utils
+;; Project utils
 (setq compilation-ask-about-save nil) ;; Don't ask about saving unsaved buffers before compile command.
 (setq compilation-always-kill t)
 
 (with-eval-after-load 'compile
   (define-key compilation-mode-map (kbd "k")    'kill-compilation)
   (define-key compilation-mode-map (kbd "G")    (lambda () (interactive) (recompile t))))
-
-(with-eval-after-load 'grep
-  (define-key grep-mode-map (kbd "k")    'kill-compilation)
-  (define-key grep-mode-map (kbd "G")    (lambda () (interactive) (recompile t))))
 
 (defun find-project-root () "Try to find project root based on deterministic predicates"
        (cond
@@ -276,18 +265,6 @@
 
 (defun git-repo-p (DIR) (locate-dominating-file DIR ".git"))
 (defun find-project-root-or-default-directory () (or (find-project-root) default-directory))
-
-(defun get-grep-default-command ()
-  (cond
-   ((executable-find "ugrep")                       "ugrep --include=\"*.*\" -rne ")
-   ((executable-find "rg")                          "rg --no-heading --color=\"never\" -g *.* ")
-   ((and (executable-find "grep") is-linux)         "grep --include=\"*.*\" -ren ")
-   ((and (executable-find "findstr") is-windows)    "findstr /SN /C: *.*") ;; Windows only
-   (t                                               (error "No valid grep programs found, install ugrep or ripgrep or gnu-grep to use this function."))))
-
-(with-eval-after-load 'grep
-  (grep-apply-setting 'grep-command (get-grep-default-command))
-  (grep-apply-setting 'grep-use-null-device nil))
 
 (defun run-in-project (fn &rest args) "Run given function at project root, if you want to choose directory use C-u."
        (let ((default-directory
@@ -300,12 +277,38 @@
   (let ((default-directory (read-directory-name "Directory: " (find-project-root-or-default-directory))))
     (apply fn args)))
 
-(defun grep-dwim (PAT)
-  (interactive (list (read-string (format "%s: " (get-grep-default-command)))))
-  (run-in-project 'grep
-		  (concat
-		   (get-grep-default-command)
-		   (format "\"%s\"" PAT))))
+;; (defun get-grep-default-command ()
+;;   (cond
+;;    ((executable-find "ugrep")                       "ugrep --include=\"*.*\" -rne ")
+;;    ((executable-find "rg")                          "rg --no-heading --color=\"never\" -g *.* ")
+;;    ((and (executable-find "grep") is-linux)         "grep --include=\"*.*\" -ren ")
+;;    ((and (executable-find "findstr") is-windows)    "findstr /SN /C: *.*") ;; Windows only
+;;    (t                                               (error "No valid grep programs found, install ugrep or ripgrep or gnu-grep to use this function."))))
+
+;; (with-eval-after-load 'grep
+;;   (grep-apply-setting 'grep-command (get-grep-default-command))
+;;   (grep-apply-setting 'grep-use-null-device nil))
+
+;; (setq --last-grep-term "")
+
+;; (with-eval-after-load 'grep
+;;   (define-key grep-mode-map (kbd "k")    'kill-compilation)
+;;   (define-key grep-mode-map (kbd "G")    (lambda () (interactive)
+;; 					   (setq --last-grep-term (read-string "Grep: " --last-grep-term))
+;; 					   (grep (concat (get-grep-default-command) --last-grep-term)))))
+
+;; (defun grep-dwim (PAT)
+;;   (interactive (list (read-string (format "%s: " (get-grep-default-command)))))
+;;   (setq --last-grep-term PAT)
+;;   (run-in-project 'grep
+;; 		  (concat
+;; 		   (get-grep-default-command)
+;; 		   (format "\"%s\"" PAT))))
+
+(defun compile-dwim () (interactive) (run-in-project 'compile (read-shell-command "Compile Command: ")))
+
+(GLOBAL (kbd "M-m") 'compile-dwim)
+(GLOBAL (kbd "M-s") #'deadgrep)
 
 ;; Find File
 (defun find-file-dwim ()
@@ -522,7 +525,7 @@
 			 )
 		       ))
 
-(load-theme 'base16-default-dark)
+(load-theme 'ef-bio t)
 
 
 ;; String conversions
