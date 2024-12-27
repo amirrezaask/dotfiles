@@ -265,9 +265,12 @@
     (message "%d directories indexed as projects."
              (seq-reduce '+ (mapcar #'project-remember-projects-under project-roots) 0))))
 
-(GLOBAL (kbd "M-o") 'project-find-file)
-(GLOBAL (kbd "M-m") 'project-compile)
-(GLOBAL (kbd "M-s") #'deadgrep)
+(GLOBAL (kbd "C-x p")   project-prefix-map) ;; project.el does the rest.
+(GLOBAL (kbd "C-x p e") 'project-eshell)
+(GLOBAL (kbd "C-x p c") 'project-compile)
+(GLOBAL (kbd "M-o")     'project-find-file)
+(GLOBAL (kbd "M-m")     'project-compile)
+(GLOBAL (kbd "M-s")     #'deadgrep)
 
 ;; Pixel scrolling
 (pixel-scroll-precision-mode +1)
