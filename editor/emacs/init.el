@@ -66,7 +66,6 @@
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
 
-
 ;; env: PATH
 (defun home (path) (expand-file-name path (getenv "HOME")))
 (add-to-list 'exec-path (home ".local/bin"))
@@ -242,6 +241,7 @@
 (marginalia-mode +1)
 
 (GLOBAL (kbd "M-s l") 'consult-line)
+(GLOBAL (kbd "M-l") 'consult-line)
 (GLOBAL (kbd "C-x b") 'consult-buffer)
 (GLOBAL (kbd "M-s p") 'consult-ripgrep)
 
@@ -334,14 +334,17 @@
     (find-file (completing-read "File: " (string-split (shell-command-to-string command) "\n" t)))))
 (GLOBAL (kbd "M-o") 'find-file-dwim)
 
+;; Pixel scrolling
+(pixel-scroll-precision-mode +1)
 
 ;; ISearch
-(GLOBAL (kbd "C-S-s") 'isearch-forward-thing-at-point)
-(GLOBAL (kbd "C-M-s")   (lambda () (interactive) (grep-dwim (thing-at-point 'symbol))))
-(setq-default case-fold-search t)
+;; (GLOBAL (kbd "C-S-s") 'isearch-forward-thing-at-point)
+;; (GLOBAL (kbd "C-M-s")   (lambda () (interactive) (grep-dwim (thing-at-point 'symbol))))
+;; (setq-default case-fold-search t)
+(install 'ctrlf)
+(ctrlf-mode)
 
 ;; Replace
-(GLOBAL (kbd "C-r") 'replace-string)
 (GLOBAL (kbd "M-r") 'replace-regexp)
 (with-eval-after-load 'replace (define-key query-replace-map (kbd "<return>") 'act))
 
@@ -412,6 +415,7 @@
       eglot-events-buffer-size 0)          ;; no logging of LSP events.
 
 ;; Themes
+(install 'adwaita-dark-theme)
 (install 'base16-theme)
 (install 'dracula-theme)
 (install 'doom-themes)
@@ -434,6 +438,7 @@
 (unless (file-exists-p (expand-file-name "witness-theme.el" themes-dir))
   (write-forms-to-file (expand-file-name "witness-theme.el" themes-dir)
 		       `(
+			 (global-hl-line-mode -1)
 			 (deftheme witness)
 			 (custom-theme-set-faces                   ;; Witness
 			  'witness
@@ -466,6 +471,7 @@
 (unless (file-exists-p (expand-file-name "braid-theme.el" themes-dir))
   (write-forms-to-file (expand-file-name "braid-theme.el" themes-dir)
 		       `(
+			 (global-hl-line-mode -1)
 			 (deftheme braid)
 			 (custom-theme-set-faces ;; Braid
 			  'braid
@@ -524,11 +530,7 @@
 			 )
 		       ))
 
-(load-theme 'sweet)
-
-;; Modeline
-(install 'mood-line)
-(mood-line-mode)
+(load-theme 'doom-one)
 
 
 ;; String conversions
