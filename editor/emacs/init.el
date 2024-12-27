@@ -233,8 +233,6 @@
 (vertico-mode +1)
 (marginalia-mode +1)
 
-(GLOBAL (kbd "M-s l") 'consult-line)
-(GLOBAL (kbd "M-l") 'consult-line)
 (GLOBAL (kbd "C-x b") 'consult-buffer)
 (GLOBAL (kbd "M-s p") 'consult-ripgrep)
 
@@ -309,7 +307,7 @@
 			   
 
 (GLOBAL (kbd "M-m") 'compile-dwim)
-(GLOBAL (kbd "M-s s") 'grep-dwim)
+(GLOBAL (kbd "M-s") 'grep-dwim)
 
 ;; Find File
 (defun find-file-dwim ()
