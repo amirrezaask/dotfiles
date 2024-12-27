@@ -120,7 +120,7 @@
        (set-face-attribute 'default nil :font (format "%s-%d" font size)))
 
 (cond
- ((member "JetBrains Mono" font-families) (set-font "JetBrains Mono" 13))
+ ((member "JetBrains Mono" font-families) (set-font "JetBrains Mono" 11))
  (is-windows                              (set-font "Consolas"    11))
  (is-linux                                (set-font "Ubuntu Mono" 11))
  (is-macos                                (set-font "Menlo"       11)))
@@ -212,20 +212,13 @@
 
 (global-so-long-mode +1) ;; don't choke on minified code.
 
-;; Minibuffer/Completion:
-;; (setq completions-format 'one-column)
-;; (setq completions-header-format nil)
-;; (setq completions-max-height 15)
-;; (setq completions-auto-select nil)
-;; (setq completion-show-help nil)
-;; (setq completion-styles '(basic flex partial-completion emacs22))
 
-;; (with-eval-after-load 'minibuffer
-;;   (define-key minibuffer-mode-map           (kbd "C-n") 'minibuffer-next-completion)
-;;   (define-key minibuffer-mode-map           (kbd "C-p") 'minibuffer-previous-completion)
-;;   (define-key completion-in-region-mode-map (kbd "C-n") 'minibuffer-next-completion)
-;;   (define-key completion-in-region-mode-map (kbd "C-p") 'minibuffer-previous-completion)
-;;   (define-key completion-in-region-mode-map (kbd "RET") 'minibuffer-choose-completion))
+;; Helpful ( replacement for help buffers )
+(global-set-key (kbd "C-h f") #'helpful-callable)
+(global-set-key (kbd "C-c C-d") #'helpful-at-point)
+(global-set-key (kbd "C-h v") #'helpful-variable)
+(global-set-key (kbd "C-h k") #'helpful-key)
+(global-set-key (kbd "C-h x") #'helpful-command)
 
 ;; Minibuffer (vertico + consult)
 (install 'vertico)
@@ -337,10 +330,7 @@
 ;; Pixel scrolling
 (pixel-scroll-precision-mode +1)
 
-;; ISearch
-;; (GLOBAL (kbd "C-S-s") 'isearch-forward-thing-at-point)
-;; (GLOBAL (kbd "C-M-s")   (lambda () (interactive) (grep-dwim (thing-at-point 'symbol))))
-;; (setq-default case-fold-search t)
+;; Better ISearch
 (install 'ctrlf)
 (ctrlf-mode)
 
@@ -369,6 +359,9 @@
   (define-key eglot-mode-map (kbd "C-c C-r") 'eglot-rename)
   (define-key eglot-mode-map (kbd "M-RET")   'eglot-organize-imports-format)
   (define-key eglot-mode-map (kbd "C-c C-c") 'eglot-code-actions))
+
+(install 'eldoc-box)
+(add-hook 'eldoc-mode-hook 'eldoc-box-hover-mode)
 
 (setq eldoc-echo-area-use-multiline-p nil)
 
@@ -530,7 +523,7 @@
 			 )
 		       ))
 
-(load-theme 'doom-one)
+(load-theme 'base16-default-dark)
 
 
 ;; String conversions
