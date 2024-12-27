@@ -248,7 +248,7 @@
 (install 'yaml-mode)
 (setq-default c-default-style "linux" c-basic-offset 4)
 
-;; Project utils
+;; Compilation
 (setq compilation-ask-about-save nil) ;; Don't ask about saving unsaved buffers before compile command.
 (setq compilation-always-kill t)
 
@@ -256,76 +256,18 @@
   (define-key compilation-mode-map (kbd "k")    'kill-compilation)
   (define-key compilation-mode-map (kbd "G")    (lambda () (interactive) (recompile t))))
 
-(defun find-project-root () "Try to find project root based on deterministic predicates"
-       (cond
-        ((git-repo-p default-directory) (locate-dominating-file default-directory ".git"))
-        ((eq major-mode 'go-mode)   (locate-dominating-file default-directory "go.mod"))
-        ((eq major-mode 'php-mode)  (locate-dominating-file default-directory "composer.json"))
-        (t                          default-directory)))
+;; Projects
+(defun index-projects (dir)
+  "Recursively scan for and index any project roots within DIR."
+  (interactive
+   (list (read-directory-name "Look for projects in: ")))
+  (when-let (project-roots (directory-files-recursively dir "\\.git$" #'project--find-in-directory t))
+    (message "%d directories indexed as projects."
+             (seq-reduce '+ (mapcar #'project-remember-projects-under project-roots) 0))))
 
-(defun git-repo-p (DIR) (locate-dominating-file DIR ".git"))
-(defun find-project-root-or-default-directory () (or (find-project-root) default-directory))
-
-(defun run-in-project (fn &rest args) "Run given function at project root, if you want to choose directory use C-u."
-       (let ((default-directory
-              (if (null current-prefix-arg)
-                  (find-project-root-or-default-directory)
-                (read-directory-name "Directory: " default-directory))))
-         (apply fn args)))
-
-(defun run-in-dir (fn &rest args)
-  (let ((default-directory (read-directory-name "Directory: " (find-project-root-or-default-directory))))
-    (apply fn args)))
-
-;; (defun get-grep-default-command ()
-;;   (cond
-;;    ((executable-find "ugrep")                       "ugrep --include=\"*.*\" -rne ")
-;;    ((executable-find "rg")                          "rg --no-heading --color=\"never\" -g *.* ")
-;;    ((and (executable-find "grep") is-linux)         "grep --include=\"*.*\" -ren ")
-;;    ((and (executable-find "findstr") is-windows)    "findstr /SN /C: *.*") ;; Windows only
-;;    (t                                               (error "No valid grep programs found, install ugrep or ripgrep or gnu-grep to use this function."))))
-
-;; (with-eval-after-load 'grep
-;;   (grep-apply-setting 'grep-command (get-grep-default-command))
-;;   (grep-apply-setting 'grep-use-null-device nil))
-
-;; (setq --last-grep-term "")
-
-;; (with-eval-after-load 'grep
-;;   (define-key grep-mode-map (kbd "k")    'kill-compilation)
-;;   (define-key grep-mode-map (kbd "G")    (lambda () (interactive)
-;; 					   (setq --last-grep-term (read-string "Grep: " --last-grep-term))
-;; 					   (grep (concat (get-grep-default-command) --last-grep-term)))))
-
-;; (defun grep-dwim (PAT)
-;;   (interactive (list (read-string (format "%s: " (get-grep-default-command)))))
-;;   (setq --last-grep-term PAT)
-;;   (run-in-project 'grep
-;; 		  (concat
-;; 		   (get-grep-default-command)
-;; 		   (format "\"%s\"" PAT))))
-
-(defun compile-dwim () (interactive) (run-in-project 'compile (read-shell-command "Compile Command: ")))
-
-(GLOBAL (kbd "M-m") 'compile-dwim)
+(GLOBAL (kbd "M-o") 'project-find-file)
+(GLOBAL (kbd "M-m") 'project-compile)
 (GLOBAL (kbd "M-s") #'deadgrep)
-
-;; Find File
-(defun find-file-dwim ()
-  "Recursive file find starting from `find-project-root` result or C-u to choose directory interactively."
-  (interactive)
-  (let ((default-directory (if (null current-prefix-arg)
-			       (find-project-root-or-default-directory)
-			     (read-directory-name "Directory: " default-directory)))
-
-        (command
-         (cond
-	  ((executable-find "fd")   "fd -c never")
-	  ((executable-find "rg")   "rg --files")
-	  ((executable-find "find") "find . -type f -not -path \"*/.git/*\""))))
-    (find-file (completing-read "File: " (string-split (shell-command-to-string command) "\n" t)))))
-
-(GLOBAL (kbd "M-o") 'find-file-dwim)
 
 ;; Pixel scrolling
 (pixel-scroll-precision-mode +1)
