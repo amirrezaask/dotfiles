@@ -355,9 +355,6 @@
 ;; Themes
 (install 'adwaita-dark-theme)
 (install 'base16-theme)
-(install 'dracula-theme)
-(install 'doom-themes)
-(install 'sweet-theme)
 (install 'modus-themes)
 (install 'ef-themes)
 
@@ -378,7 +375,6 @@
 (unless (file-exists-p (expand-file-name "witness-theme.el" themes-dir))
   (write-forms-to-file (expand-file-name "witness-theme.el" themes-dir)
 		       `(
-			 (global-hl-line-mode -1)
 			 (deftheme witness)
 			 (custom-theme-set-faces                   ;; Witness
 			  'witness
@@ -411,7 +407,6 @@
 (unless (file-exists-p (expand-file-name "braid-theme.el" themes-dir))
   (write-forms-to-file (expand-file-name "braid-theme.el" themes-dir)
 		       `(
-			 (global-hl-line-mode -1)
 			 (deftheme braid)
 			 (custom-theme-set-faces ;; Braid
 			  'braid
