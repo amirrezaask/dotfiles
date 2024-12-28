@@ -105,8 +105,8 @@
 (defun GLOBAL (KBD ACTION) (define-key amirreza-keys KBD ACTION))
 
 ;; Cursor
-(setq-default cursor-type 'box)
-(blink-cursor-mode +1)
+(setq-default cursor-type 'bar)
+(blink-cursor-mode -1)
 
 ;; Highlight Current line
 (global-hl-line-mode)
@@ -228,6 +228,9 @@
 (install 'marginalia)
 (install 'orderless)
 (install 'consult)
+(install 'nerd-icons-completion)
+(with-eval-after-load 'vertico
+  (nerd-icons-completion-mode))
 
 (setq vertico-count 20)
 (setq vertico-cycle t)
@@ -237,10 +240,20 @@
 (vertico-mode +1)
 (marginalia-mode +1)
 
+;; Nerd Icons
+(install 'nerd-icons)
+
+;; Dired
+(install 'nerd-icons-dired)
+(add-hook 'dired-mode-hook #'nerd-icons-dired-mode)
+
+
 ;; Completion
 (install 'corfu)
 (setq corfu-auto t)
 (global-corfu-mode +1)
+(install 'nerd-icons-corfu)
+(add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter)
 (global-set-key (kbd "C-j") 'completion-at-point)
 
 ;; Major modes
@@ -473,7 +486,7 @@
 		       ))
 
 (load-theme 'ef-bio t)
-(set-background-color "#052525")
+;; (set-background-color "#052525")
 
 ;; String conversions
 (install 'string-inflection)
