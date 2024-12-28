@@ -164,7 +164,6 @@
 (GLOBAL (kbd "C-3")         'split-window-right-balance-and-switch)
 (GLOBAL (kbd "C--")         'text-scale-decrease)
 (GLOBAL (kbd "C-=")         'text-scale-increase)
-(GLOBAL (kbd "C-o")         'other-window)
 (GLOBAL (kbd "M-n")         'jump-down)
 (GLOBAL (kbd "M-p")         'jump-up)
 (GLOBAL (kbd "M-k")         'kill-current-buffer)
@@ -223,6 +222,9 @@
 (global-set-key (kbd "C-h k")   #'helpful-key)
 (global-set-key (kbd "C-h x")   #'helpful-command)
 
+;; Nerd Icons
+(install 'nerd-icons)
+
 ;; Minibuffer (vertico + consult)
 (install 'vertico)
 (install 'marginalia)
@@ -239,9 +241,6 @@
         completion-category-overrides '((file (styles partial-completion))))
 (vertico-mode +1)
 (marginalia-mode +1)
-
-;; Nerd Icons
-(install 'nerd-icons)
 
 ;; Dired
 (install 'nerd-icons-dired)
@@ -326,7 +325,8 @@
   (define-key eglot-mode-map (kbd "C-c C-c") 'eglot-code-actions))
 
 (install 'eldoc-box)
-(add-hook 'eldoc-mode-hook 'eldoc-box-hover-mode)
+(with-eval-after-load 'eldoc
+  (define-key prog-mode-map (kbd "C-o") 'eldoc-box-help-at-point))
 
 (setq eldoc-echo-area-use-multiline-p nil)
 
@@ -486,7 +486,7 @@
 		       ))
 
 (load-theme 'ef-bio t)
-;; (set-background-color "#052525")
+(set-background-color "#052525")
 
 ;; String conversions
 (install 'string-inflection)
