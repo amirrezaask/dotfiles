@@ -15,14 +15,13 @@ TBA
 make
 ```
 
-
 # Sublime Text Settings Installation
 ## MacOS
 ```bash
-ln -s ./SublimeText "$HOME/Library/Application Support/Sublime Text 3/Packages/User"
+ln -s ./SublimeText "$HOME/Library/Application Support/Sublime Text 3/Packages"
 ```
 ## Windows
 ```cmd
-cd "$env:appdata\Sublime Text 3\Packages\"
-cmd /c mklink /D User $DOTFILES_DIR\SublimeText
+cd "$env:appdata\Sublime Text 3\"
+cmd /c mklink /D Packages $DOTFILES_DIR\Sublime
 ```
