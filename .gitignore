@@ -16,4 +16,4 @@ editor/emacs/projects
 PowerShell/Scripts
 PowerShell/Modules
 nvim/lazy-lock.json
-
+**/emacs/themes

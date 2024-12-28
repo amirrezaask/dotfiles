@@ -56,7 +56,6 @@
 
 ;; (setq debug-on-error t) ;; Uncomment when you debug your emacs lisp code.
 (unless (executable-find "fd")    (warn "Install fd for better support for file finding."))
-(unless (executable-find "ugrep") (warn "Install ugrep for better grep support."))
 
 ;; Enable packages index at startup
 (setq package-enable-at-startup t)
@@ -65,6 +64,9 @@
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
+
+;; MacOS
+(setq mac-command-modifier 'meta)
 
 ;; env: PATH
 (defun home (path) (expand-file-name path (getenv "HOME")))
@@ -214,6 +216,7 @@
 
 
 ;; Helpful ( replacement for help buffers )
+(install 'helpful)
 (global-set-key (kbd "C-h f")   #'helpful-callable)
 (global-set-key (kbd "C-c C-d") #'helpful-at-point)
 (global-set-key (kbd "C-h v")   #'helpful-variable)
@@ -477,9 +480,9 @@
 
 
 ;; Treesitter
-(unless is-windows
-  (install 'treesit-auto)
-  (global-treesit-auto-mode))
+;; (unless is-windows
+;;   (install 'treesit-auto)
+;;   (global-treesit-auto-mode))
 
 
 
