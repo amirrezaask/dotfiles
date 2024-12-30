@@ -298,6 +298,14 @@ require("lazy").setup({
         },
 
         config = function()
+            require "telescope".setup({
+                defaults = {
+                    file_ignore_patterns = {
+                        "node_modules",
+                        -- "vendor"
+                    }
+                }
+            })
             if IS_WINDOWS == false then
                 require('telescope').load_extension('fzf')
             end
@@ -526,7 +534,7 @@ end
 
 if vim.g.neovide then
     local font = 'JetBrainsMono Nerd Font Mono'
-    local font_size = 17
+    local font_size = 12
     vim.o.guifont = string.format('%s:h%d', font, font_size)
 
     function SetFont()

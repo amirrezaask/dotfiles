@@ -22,3 +22,6 @@ if (Get-Command "starship" -ErrorAction SilentlyContinue)
   $ENV:STARSHIP_DISTRO = "者 Windows"
   Invoke-Expression (&starship init powershell)
 }
+
+New-Alias -Name gvim -Value neovide
+New-Alias -Name vim -Value nvim

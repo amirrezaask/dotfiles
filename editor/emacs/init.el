@@ -230,9 +230,10 @@
 (install 'marginalia)
 (install 'orderless)
 (install 'consult)
-(install 'nerd-icons-completion)
-(with-eval-after-load 'vertico
-  (nerd-icons-completion-mode))
+(unless is-windows
+  (install 'nerd-icons-completion)
+  (with-eval-after-load 'vertico
+    (nerd-icons-completion-mode)))
 
 (setq vertico-count 20)
 (setq vertico-cycle t)
@@ -244,15 +245,17 @@
 
 ;; Dired
 (install 'nerd-icons-dired)
-(add-hook 'dired-mode-hook #'nerd-icons-dired-mode)
+(unless is-windows
+  (add-hook 'dired-mode-hook #'nerd-icons-dired-mode))
 
 
 ;; Completion
 (install 'corfu)
 (setq corfu-auto t)
 (global-corfu-mode +1)
-(install 'nerd-icons-corfu)
-(add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter)
+(unless is-windows
+  (install 'nerd-icons-corfu)
+  (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
 (global-set-key (kbd "C-j") 'completion-at-point)
 
 ;; Major modes
