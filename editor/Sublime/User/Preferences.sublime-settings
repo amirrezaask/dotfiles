@@ -1,6 +1,6 @@
 {
-	"font_family": "Fira Code",
-	"font_size": 19,
+	"font_family": "JetBrains Mono",
+	"font_size": 17,
 	"font_options": ["no_italic", "no_liga"],
 	"ignored_packages":
 	[
@@ -21,7 +21,7 @@
 	"auto_match_enabled": false,
 	"show_definitions": false,
 	"show_rel_path": true,
-	"color_scheme": "GingerBill.sublime-color-scheme",
+	"color_scheme": "Packages/Themes/InspiredGithub.tmTheme",
 	"sesame.path": "D:\\projects",
 	"sesame.depth": 1,
 	"sesame.vcs": true,
