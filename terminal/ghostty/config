@@ -1,4 +1,4 @@
-theme = Raycast_dark
+theme = tokyonight_night
 keybind = cmd+n=next_tab
 keybind = cmd+p=previous_tab
 
