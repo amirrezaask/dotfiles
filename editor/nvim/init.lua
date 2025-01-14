@@ -4,7 +4,7 @@
 -- /_/ |_/_/_/_/_/_/ /_/  \__//__/\_,_/_/ |_/___/_/\_\
 -- Minimal, fast configuration for neovim.
 
-TRANSPARENT = os.getenv('NVIM_TRANSPARENT') or false
+TRANSPARENT = os.getenv('NVIM_TRANSPARENT') or true
 COLORSCEHEME = os.getenv('NVIM_COLORSCHEME') or "tokyonight"
 IS_WINDOWS = vim.fn.has("win32") == 1
 

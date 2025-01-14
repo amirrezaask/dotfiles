@@ -25,9 +25,13 @@ tns() {
 
 source ~/.profile
 
-# if command -v starship &>/dev/null
-# then
-#     eval "$(starship init zsh)"
-# fi
+if command -v starship &>/dev/null
+then
+    eval "$(starship init zsh)"
+fi
+
+sync-repos () {
+    find . -type d -name '.git' -execdir sh -c 'echo "Pulling in $PWD"; git pull' \;
+}
 
 
