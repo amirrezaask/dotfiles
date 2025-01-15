@@ -4,8 +4,8 @@
 -- /_/ |_/_/_/_/_/_/ /_/  \__//__/\_,_/_/ |_/___/_/\_\
 -- Minimal, fast configuration for neovim.
 
-TRANSPARENT = os.getenv('NVIM_TRANSPARENT') or true
-COLORSCEHEME = os.getenv('NVIM_COLORSCHEME') or "rose-pine"
+TRANSPARENT = os.getenv('NVIM_TRANSPARENT') or false
+COLORSCEHEME = os.getenv('NVIM_COLORSCHEME') or "cyberdream"
 IS_WINDOWS = vim.fn.has("win32") == 1
 
 vim.opt.wrap = true        -- Wrap long lines
@@ -121,6 +121,20 @@ require("lazy").setup({
                         transparency = TRANSPARENT,
                     }
                 }
+            },
+            {
+                "scottmckendry/cyberdream.nvim",
+                lazy = false,
+                priority = 1000,
+            },
+            {
+                "baliestri/aura-theme",
+                lazy = false,
+                priority = 1000,
+                config = function(plugin)
+                    vim.opt.rtp:append(plugin.dir .. "/packages/neovim")
+                    vim.cmd([[colorscheme aura-dark]])
+                end
             },
             {
                 "sainnhe/gruvbox-material",
