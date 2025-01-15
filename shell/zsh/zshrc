@@ -30,8 +30,11 @@ then
     eval "$(starship init zsh)"
 fi
 
+
 sync-repos () {
     find . -type d -name '.git' -execdir sh -c 'echo "Pulling in $PWD"; git pull' \;
 }
+
+alias v='neovide.exe --wsl'
 
 
