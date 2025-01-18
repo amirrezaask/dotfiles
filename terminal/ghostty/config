@@ -1,0 +1,4 @@
+theme = Aura
+keybind = cmd+n=next_tab
+keybind = cmd+p=previous_tab
+

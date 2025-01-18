@@ -8,6 +8,7 @@ install:
 	rm -rf $(XDG_CONFIG)/nvim
 	rm -rf $(XDG_CONFIG)/fish
 	rm -rf $(XDG_CONFIG)/kitty
+	rm -rf $(XDG_CONFIG)/ghostty
 	rm -rf $(HOME)/.zshrc
 	rm -rf $(HOME)/.tmux.conf
 	rm -rf $(XDG_CONFIG)/wezterm
@@ -26,6 +27,7 @@ install:
 	ln -s $(DOTFILES_DIR)/terminal/wezterm $(XDG_CONFIG)/wezterm
 	ln -s $(DOTFILES_DIR)/terminal/kitty $(XDG_CONFIG)/
 	ln -s $(DOTFILES_DIR)/terminal/alacritty $(XDG_CONFIG)/
+	ln -s $(DOTFILES_DIR)/terminal/ghostty $(XDG_CONFIG)/
 	ln -s $(DOTFILES_DIR)/mux/tmux/tmux.conf $(HOME)/.tmux.conf
 	ln -s $(DOTFILES_DIR)/shell/starship/starship.toml $(XDG_CONFIG)/starship.toml
 	ln -s $(DOTFILES_DIR)/mux/zellij $(XDG_CONFIG)/
