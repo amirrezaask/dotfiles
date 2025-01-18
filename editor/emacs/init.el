@@ -105,7 +105,7 @@
 (defun GLOBAL (KBD ACTION) (define-key amirreza-keys KBD ACTION))
 
 ;; Cursor
-(setq-default cursor-type 'bar)
+(setq-default cursor-type 'box)
 (blink-cursor-mode -1)
 
 ;; Highlight Current line
@@ -204,6 +204,7 @@
 (global-set-key (kbd "M-z")   'undo)
 (global-set-key (kbd "C-SPC") 'set-mark-command) ;; Visual selection
 (global-set-key (kbd "M-w")   'copy) ;; modern copy
+
 
 ;; Unset keys that I dont use
 (global-unset-key (kbd "M-z"))
