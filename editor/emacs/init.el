@@ -122,7 +122,7 @@
        (set-face-attribute 'default nil :font (format "%s-%d" font size)))
 
 (cond
- ((member "JetBrains Mono" font-families) (set-font "JetBrains Mono" 11))
+ ((member "Fira Code" font-families)      (set-font "Fira Code" 11))
  (is-windows                              (set-font "Consolas"    11))
  (is-linux                                (set-font "Ubuntu Mono" 11))
  (is-macos                                (set-font "Menlo"       11)))
@@ -288,7 +288,8 @@
 (GLOBAL (kbd "C-x p c") 'project-compile)
 (GLOBAL (kbd "M-o")     'project-find-file)
 (GLOBAL (kbd "M-m")     'project-compile)
-(GLOBAL (kbd "M-s")     #'deadgrep)
+(GLOBAL (kbd "M-s")     'consult-ripgrep)
+(GLOBAL (kbd "C-M-s")   #'deadgrep)
 
 ;; Pixel scrolling
 (pixel-scroll-precision-mode +1)
