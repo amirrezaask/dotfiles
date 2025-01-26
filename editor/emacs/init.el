@@ -9,46 +9,46 @@
 
 (setq early-init-forms
       `(
-	(setq frame-resize-pixelwise t
-	      frame-inhibit-implied-resize t
-	      ring-bell-function 'ignore
-	      use-dialog-box t ; only for mouse events, which I seldom use
-	      use-file-dialog nil
-	      use-short-answers t
-	      inhibit-splash-screen t
-	      inhibit-startup-screen t
-	      inhibit-x-resources t
-	      inhibit-startup-buffer-menu t
-	      redisplay-dont-pause t
-	      native-comp-async-report-warnings-errors nil ;; silently do jit compiling.
-	      is-windows (eq system-type 'windows-nt)
-	      is-linux (eq system-type 'gnu/linux)
-	      is-macos (eq system-type 'darwin))
+        (setq frame-resize-pixelwise t
+              frame-inhibit-implied-resize t
+              ring-bell-function 'ignore
+              use-dialog-box t ; only for mouse events, which I seldom use
+              use-file-dialog nil
+              use-short-answers t
+              inhibit-splash-screen t
+              inhibit-startup-screen t
+              inhibit-x-resources t
+              inhibit-startup-buffer-menu t
+              redisplay-dont-pause t
+              native-comp-async-report-warnings-errors nil ;; silently do jit compiling.
+              is-windows (eq system-type 'windows-nt)
+              is-linux (eq system-type 'gnu/linux)
+              is-macos (eq system-type 'darwin))
 
-	(set-frame-parameter nil 'fullscreen 'maximized) ;; Always start emacs window in maximized mode.
+        (set-frame-parameter nil 'fullscreen 'maximized) ;; Always start emacs window in maximized mode.
 
-	(setq-default frame-title-format "Emacs: Amirreza Edition")
+        (setq-default frame-title-format "Emacs: Amirreza Edition")
 
-	(defconst user/default-gc-cons-threshold gc-cons-threshold)
-	(defconst user/default-gc-cons-percentage gc-cons-percentage)
+        (defconst user/default-gc-cons-threshold gc-cons-threshold)
+        (defconst user/default-gc-cons-percentage gc-cons-percentage)
 
-	(defun user/defer-garbage-collection ()
-	  "Defer garbage collection by maximizing the collection threshold."
-	  (setq gc-cons-threshold most-positive-fixnum
-		gc-cons-percentage 1.0))
-	(defun user/restore-garbage-collection ()
-	  "Restore the garbage collection threshold parameters to their default values."
-	  (setq gc-cons-threshold user/default-gc-cons-threshold
-		gc-cons-percentage user/default-gc-cons-percentage))
+        (defun user/defer-garbage-collection ()
+          "Defer garbage collection by maximizing the collection threshold."
+          (setq gc-cons-threshold most-positive-fixnum
+                gc-cons-percentage 1.0))
+        (defun user/restore-garbage-collection ()
+          "Restore the garbage collection threshold parameters to their default values."
+          (setq gc-cons-threshold user/default-gc-cons-threshold
+                gc-cons-percentage user/default-gc-cons-percentage))
 
-	";; Defer garbage collection until after initialization"
-	(user/defer-garbage-collection)
-	(add-hook 'emacs-startup-hook #'user/restore-garbage-collection)
+        ";; Defer garbage collection until after initialization"
+        (user/defer-garbage-collection)
+        (add-hook 'emacs-startup-hook #'user/restore-garbage-collection)
 
-	";; Clear `file-name-handler-alist' until after initialization"
-	(setq user/file-name-handler-alist file-name-handler-alist)
-	(setq file-name-handler-alist nil)
-	(add-hook 'emacs-startup-hook (lambda () (setq file-name-handler-alist user/file-name-handler-alist)))))
+        ";; Clear `file-name-handler-alist' until after initialization"
+        (setq user/file-name-handler-alist file-name-handler-alist)
+        (setq file-name-handler-alist nil)
+        (add-hook 'emacs-startup-hook (lambda () (setq file-name-handler-alist user/file-name-handler-alist)))))
 
 (unless (file-exists-p early-init-file)
   (write-forms-to-file early-init-file early-init-forms))
@@ -214,7 +214,6 @@
 
 (global-so-long-mode +1) ;; don't choke on minified code.
 
-
 ;; Helpful ( replacement for help buffers )
 (install 'helpful)
 (global-set-key (kbd "C-h f")   #'helpful-callable)
@@ -239,8 +238,8 @@
 (setq vertico-count 20)
 (setq vertico-cycle t)
 (setq completion-styles '(orderless basic)
-        completion-category-defaults nil
-        completion-category-overrides '((file (styles partial-completion))))
+      completion-category-defaults nil
+      completion-category-overrides '((file (styles partial-completion))))
 (vertico-mode +1)
 (marginalia-mode +1)
 
@@ -338,33 +337,33 @@
   (add-hook (intern (concat (symbol-name mode) "-mode-hook")) #'eglot-ensure))
 
 (setq eglot-ignored-server-capabilities '(
-					  ;; Enabled features
-					  ;; :completionProvider               ;; "Code completion" 
-					  ;; :definitionProvider               ;; "Go to definition" 
-					  ;; :typeDefinitionProvider           ;; "Go to type definition" 
-					  ;; :implementationProvider           ;; "Go to implementation" 
-					  ;; :declarationProvider              ;; "Go to declaration" 
-					  ;; :referencesProvider               ;; "Find references" 
-					  ;; :renameProvider                   ;; "Rename symbol"
+                                          ;; Enabled features
+                                          ;; :completionProvider               ;; "Code completion"
+                                          ;; :definitionProvider               ;; "Go to definition"
+                                          ;; :typeDefinitionProvider           ;; "Go to type definition"
+                                          ;; :implementationProvider           ;; "Go to implementation"
+                                          ;; :declarationProvider              ;; "Go to declaration"
+                                          ;; :referencesProvider               ;; "Find references"
+                                          ;; :renameProvider                   ;; "Rename symbol"
 
-					  ;; Disabled features
-					  ;; :signatureHelpProvider               ;; "Function signature help" 
-					  ;; :hoverProvider                       ;; "Documentation on hover"
-					  :documentHighlightProvider           ;; "Highlight symbols automatically" 
-					  :documentSymbolProvider              ;; "List symbols in buffer" 
-					  :workspaceSymbolProvider             ;; "List symbols in workspace" 
-					  ;; :codeActionProvider                  ;; "Execute code actions" 
-					  ;; :codeLensProvider                    ;; "Code lens" 
-					  ;; :documentFormattingProvider          ;; "Format buffer" 
-					  ;; :documentRangeFormattingProvider     ;; "Format portion of buffer" 
-					  :documentOnTypeFormattingProvider    ;; "On-type formatting" 
+                                          ;; Disabled features
+                                          ;; :signatureHelpProvider               ;; "Function signature help"
+                                          ;; :hoverProvider                       ;; "Documentation on hover"
+                                          :documentHighlightProvider           ;; "Highlight symbols automatically"
+                                          :documentSymbolProvider              ;; "List symbols in buffer"
+                                          :workspaceSymbolProvider             ;; "List symbols in workspace"
+                                          ;; :codeActionProvider                  ;; "Execute code actions"
+                                          ;; :codeLensProvider                    ;; "Code lens"
+                                          ;; :documentFormattingProvider          ;; "Format buffer"
+                                          ;; :documentRangeFormattingProvider     ;; "Format portion of buffer"
+                                          :documentOnTypeFormattingProvider    ;; "On-type formatting"
 
-					  :documentLinkProvider                ;; "Highlight links in document" 
-					  :colorProvider                       ;; "Decorate color references" 
-					  :foldingRangeProvider                ;; "Fold regions of buffer" 
-					  :executeCommandProvider              ;; "Execute custom commands" 
-					  :inlayHintProvider                   ;; "Inlay hints" 
-					  ))   
+                                          :documentLinkProvider                ;; "Highlight links in document"
+                                          :colorProvider                       ;; "Decorate color references"
+                                          :foldingRangeProvider                ;; "Fold regions of buffer"
+                                          :executeCommandProvider              ;; "Execute custom commands"
+                                          :inlayHintProvider                   ;; "Inlay hints"
+                                          ))
 
 
 (with-eval-after-load 'eglot (add-to-list 'eglot-server-programs '(php-mode . ("intelephense" "--stdio")))) ;; PHP language server intelephense
@@ -398,108 +397,99 @@
 ;; Colors
 (unless (file-exists-p (expand-file-name "witness-theme.el" themes-dir))
   (write-forms-to-file (expand-file-name "witness-theme.el" themes-dir)
-		       `(
-			 (deftheme witness)
-			 (custom-theme-set-faces                   ;; Witness
-			  'witness
-			  `(default                          ((t (:foreground "#d3b58d" :background "#042428"))))
-			  `(hl-line                          ((t (:background "#0c4141"))))
-			  `(region                           ((t (:background "#0000cd"))))
-			  `(cursor                           ((t (:background "#90ee90"))))
-			  `(font-lock-keyword-face           ((t (:foreground "#ffffff"))))
-			  `(font-lock-type-face              ((t (:foreground "#8cde94"))))
-			  `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
-			  `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
-			  `(font-lock-builtin-face           ((t (:foreground "#90ee90"))))
-			  `(font-lock-string-face            ((t (:foreground "#0fdfaf"))))
-			  `(font-lock-comment-face           ((t (:foreground "#3fdf1f"))))
-			  `(font-lock-comment-delimiter-face ((t (:foreground "#3fdf1f"))))
-			  `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
-			  `(font-lock-function-name-face     ((t (:foreground "#ffffff"))))
-			  `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
-			  `(hightlight                       ((t (:foreground "#000080" :background "#b4eeb4"))))
-			  `(font-lock-warning-face           ((t (:foreground "#504038"))))
-			  `(font-lock-note-face              ((t (:foreground "#eee685" ))))
-			  `(mode-line                        ((t (:foreground "#000000" :background "#d3b58d"))))
-			  `(mode-line-inactive               ((t (:background "#333333" :foreground "#ffffff"))))
-			  `(show-paren-match                 ((t (:background "#3cb371"))))
-			  `(corfu-default                    ((t (:background "#072626"))))
-			  `(corfu-border                     ((t (:background "#0c4141")))))
-			 (provide 'witness-theme))))
+                       `(
+                         (deftheme witness)
+                         (custom-theme-set-faces                   ;; Witness
+                          'witness
+                          `(default                          ((t (:foreground "#d3b58d" :background "#042428"))))
+                          `(hl-line                          ((t (:background "#0c4141"))))
+                          `(region                           ((t (:background "#0000cd"))))
+                          `(cursor                           ((t (:background "#90ee90"))))
+                          `(font-lock-keyword-face           ((t (:foreground "#ffffff"))))
+                          `(font-lock-type-face              ((t (:foreground "#8cde94"))))
+                          `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
+                          `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
+                          `(font-lock-builtin-face           ((t (:foreground "#90ee90"))))
+                          `(font-lock-string-face            ((t (:foreground "#0fdfaf"))))
+                          `(font-lock-comment-face           ((t (:foreground "#3fdf1f"))))
+                          `(font-lock-comment-delimiter-face ((t (:foreground "#3fdf1f"))))
+                          `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
+                          `(font-lock-function-name-face     ((t (:foreground "#ffffff"))))
+                          `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
+                          `(hightlight                       ((t (:foreground "#000080" :background "#b4eeb4"))))
+                          `(font-lock-warning-face           ((t (:foreground "#504038"))))
+                          `(font-lock-note-face              ((t (:foreground "#eee685" ))))
+                          `(mode-line                        ((t (:foreground "#000000" :background "#d3b58d"))))
+                          `(mode-line-inactive               ((t (:background "#333333" :foreground "#ffffff"))))
+                          `(show-paren-match                 ((t (:background "#3cb371"))))
+                          `(corfu-default                    ((t (:background "#072626"))))
+                          `(corfu-border                     ((t (:background "#0c4141")))))
+                         (provide 'witness-theme))))
 
 
 (unless (file-exists-p (expand-file-name "braid-theme.el" themes-dir))
   (write-forms-to-file (expand-file-name "braid-theme.el" themes-dir)
-		       `(
-			 (deftheme braid)
-			 (custom-theme-set-faces ;; Braid
-			  'braid
-			  `(default                          ((t (:foreground "#debe95" :background "#252525"))))
-			  `(hl-line                          ((t (:background "#353535"))))
-			  `(vertico-current                  ((t (:background "#0000cd"))))
-			  `(region                           ((t (:background "#0000cd"))))
-			  `(cursor                           ((t (:background "#90ee90"))))
-			  `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
-			  `(font-lock-type-face              ((t (:foreground "#8cde94"))))
-			  `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
-			  `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
-			  `(font-lock-builtin-face           ((t (:foreground "#ffffff"))))
-			  `(font-lock-string-face            ((t (:foreground "#b3b3b3"))))
-			  `(font-lock-comment-face           ((t (:foreground "#ffff00"))))
-			  `(font-lock-comment-delimiter-face ((t (:foreground "#ffff00"))))
-			  `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
-			  `(font-lock-function-name-face     ((t (:foreground "#ffffff"))))
-			  `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
-			  `(font-lock-warning-face           ((t (:foreground "#ffff00"))))
-			  `(font-lock-note-face              ((t (:foreground "#eee685" ))))
-			  `(mode-line                        ((t (:foreground "#000000" :background "#d3b58d"))))
-			  `(mode-line-inactive               ((t (:background "#333333" :foreground "#ffffff"))))
-			  `(show-paren-match                 ((t (:background "#3cb371"))))
-			  `(corfu-default                    ((t (:background "#252525"))))
-			  `(corfu-border                     ((t (:background "#353535")))))
-			 (provide 'braid-theme))))
+                       `(
+                         (deftheme braid)
+                         (custom-theme-set-faces ;; Braid
+                          'braid
+                          `(default                          ((t (:foreground "#debe95" :background "#252525"))))
+                          `(hl-line                          ((t (:background "#353535"))))
+                          `(vertico-current                  ((t (:background "#0000cd"))))
+                          `(region                           ((t (:background "#0000cd"))))
+                          `(cursor                           ((t (:background "#90ee90"))))
+                          `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
+                          `(font-lock-type-face              ((t (:foreground "#8cde94"))))
+                          `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
+                          `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
+                          `(font-lock-builtin-face           ((t (:foreground "#ffffff"))))
+                          `(font-lock-string-face            ((t (:foreground "#b3b3b3"))))
+                          `(font-lock-comment-face           ((t (:foreground "#ffff00"))))
+                          `(font-lock-comment-delimiter-face ((t (:foreground "#ffff00"))))
+                          `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
+                          `(font-lock-function-name-face     ((t (:foreground "#ffffff"))))
+                          `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
+                          `(font-lock-warning-face           ((t (:foreground "#ffff00"))))
+                          `(font-lock-note-face              ((t (:foreground "#eee685" ))))
+                          `(mode-line                        ((t (:foreground "#000000" :background "#d3b58d"))))
+                          `(mode-line-inactive               ((t (:background "#333333" :foreground "#ffffff"))))
+                          `(show-paren-match                 ((t (:background "#3cb371"))))
+                          `(corfu-default                    ((t (:background "#252525"))))
+                          `(corfu-border                     ((t (:background "#353535")))))
+                         (provide 'braid-theme))))
 
 (unless (file-exists-p (expand-file-name "handmadehero-theme.el" themes-dir))
   (write-forms-to-file (expand-file-name "handmadehero-theme.el" themes-dir)
-		       `(
-			 (deftheme handmadehero)
-			 (custom-theme-set-faces ;; HandmadeHero
-			  'handmadehero
-			  `(default                          ((t (:foreground "burlywood2" :background "#161616"))))
-			  `(hl-line                          ((t (:background "midnight blue"))))
-			  `(vertico-current                  ((t (:background "midnight blue"))))
-			  `(region                           ((t (:background "medium blue"))))
-			  `(cursor                           ((t (:background "#40FF40"))))
-			  `(font-lock-keyword-face           ((t (:foreground "DarkGoldenrod2"))))
-			  `(font-lock-type-face              ((t (:foreground "burlywood3"))))
-			  `(font-lock-constant-face          ((t (:foreground "olive drab"))))
-			  `(font-lock-variable-name-face     ((t (:foreground "burlywood3"))))
-			  `(font-lock-builtin-face           ((t (:foreground "gray80"))))
-			  `(font-lock-string-face            ((t (:foreground "olive drab"))))
-			  `(font-lock-comment-face           ((t (:foreground "gray50"))))
-			  `(font-lock-comment-delimiter-face ((t (:foreground "gray50"))))
-			  `(font-lock-doc-face               ((t (:foreground "gray50"))))
-			  `(font-lock-function-name-face     ((t (:foreground "burlywood2"))))
-			  `(font-lock-doc-string-face        ((t (:foreground "gray50"))))
-			  `(font-lock-warning-face           ((t (:foreground "yellow"))))
-			  `(font-lock-note-face              ((t (:foreground "khaki2" ))))
-			  `(show-paren-match                 ((t (:background "mediumseagreen")))))
+                       `(
+                         (deftheme handmadehero)
+                         (custom-theme-set-faces ;; HandmadeHero
+                          'handmadehero
+                          `(default                          ((t (:foreground "burlywood2" :background "#161616"))))
+                          `(hl-line                          ((t (:background "midnight blue"))))
+                          `(vertico-current                  ((t (:background "midnight blue"))))
+                          `(region                           ((t (:background "medium blue"))))
+                          `(cursor                           ((t (:background "#40FF40"))))
+                          `(font-lock-keyword-face           ((t (:foreground "DarkGoldenrod2"))))
+                          `(font-lock-type-face              ((t (:foreground "burlywood3"))))
+                          `(font-lock-constant-face          ((t (:foreground "olive drab"))))
+                          `(font-lock-variable-name-face     ((t (:foreground "burlywood3"))))
+                          `(font-lock-builtin-face           ((t (:foreground "gray80"))))
+                          `(font-lock-string-face            ((t (:foreground "olive drab"))))
+                          `(font-lock-comment-face           ((t (:foreground "gray50"))))
+                          `(font-lock-comment-delimiter-face ((t (:foreground "gray50"))))
+                          `(font-lock-doc-face               ((t (:foreground "gray50"))))
+                          `(font-lock-function-name-face     ((t (:foreground "burlywood2"))))
+                          `(font-lock-doc-string-face        ((t (:foreground "gray50"))))
+                          `(font-lock-warning-face           ((t (:foreground "yellow"))))
+                          `(font-lock-note-face              ((t (:foreground "khaki2" ))))
+                          `(show-paren-match                 ((t (:background "mediumseagreen")))))
 
-			 (provide 'handmadehero-theme)
-			 )
-		       ))
+                         (provide 'handmadehero-theme)
+                         )
+                       ))
 
 (load-theme 'ef-bio t)
 (set-background-color "#052525")
 
 ;; String conversions
 (install 'string-inflection)
-
-
-;; Treesitter
-;; (unless is-windows
-;;   (install 'treesit-auto)
-;;   (global-treesit-auto-mode))
-
-
-
