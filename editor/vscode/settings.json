@@ -32,11 +32,15 @@
   "editor.autoClosingBrackets": "never", 
   "editor.autoClosingComments": "never", 
   "diffEditor.renderSideBySide": false,
+  "window.titleBarStyle": "custom",
+  "window.title": "${folderName} - ${dirty}${activeEditorMedium}",
   "terminal.integrated.cwd": "${fileDirname}",  
   "explorer.confirmDelete": false,
   "explorer.confirmDragAndDrop": false,
   "explorer.confirmPasteNative": false,
   "workbench.navigationControl.enabled": false,
+  "window.commandCenter": false,
+  "workbench.editor.showTabs": "none",
   // Disable Autocomplete
   // "editor.quickSuggestions": {
   //   "other": false,
