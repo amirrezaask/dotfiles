@@ -1,50 +1,42 @@
 {
-  "editor.fontFamily": "MonoLisa, Dank Mono, Operator Mono Book, Fira Code, Menlo, Consolas",
+  "editor.fontFamily": "Fira Code, Menlo, Monaco, 'Courier New', monospace",
   "editor.fontSize": 14,
   "terminal.integrated.fontSize": 15,
-  "editor.lineHeight": 22, // increase vertical space between lines for more code readability.
-  // Startup options
-  "workbench.startupEditor": "none", // Start with an empty screen
-  "window.restoreWindows": "none", // do not reopen everything when I launch.
-  "workbench.settings.editor": "json", // Who uses that shitty slow UI ?
+  "workbench.startupEditor": "none", 
+  "window.restoreWindows": "none", 
+  "workbench.settings.editor": "json", 
+  "window.menuBarVisibility": "toggle",
   "terminal.integrated.macOptionIsMeta": true,
-  "security.workspace.trust.untrustedFiles": "open",
-  // Cursor settings
-  "editor.cursorBlinking": "phase",
-  "editor.cursorStyle": "block",
-  "files.simpleDialog.enable": true, // Use vscode ui to open files instead of OS native one ( weird but vscode one is much faster).
-  "workbench.editor.editorActionsLocation": "titleBar",
-  "editor.wordWrap": "on", // Wrap long lines.
+  "security.workspace.trust.untrustedFiles": "open", 
+  "editor.mouseWheelScrollSensitivity": 4,
+  "explorer.autoReveal": false,
+  "editor.cursorBlinking": "solid",
+  "editor.cursorStyle": "line",
+  "files.simpleDialog.enable": true, 
+  "workbench.editor.editorActionsLocation": "hidden",
+  "editor.wordWrap": "on", 
   "files.insertFinalNewline": true,
-  "files.trimFinalNewlines": true, // Sidebar to right so it does not move our code.
-  // Disable useless ui elements
+  "files.trimFinalNewlines": true, 
   "outline.icons": false,
   "workbench.editor.enablePreview": false,
   "editor.bracketPairColorization.enabled": false,
-  "editor.stickyScroll.enabled": false,
-  "workbench.layoutControl.enabled": false, // Disable layout control buttons
-  "window.commandCenter": false, // Disable breadcrumbs
-  "git.decorations.enabled": false, // No git GUI shenanigans in vscode UI.
-  "workbench.tips.enabled": false, // No Tips
-  "editor.lightbulb.enabled": "off", // No lightbulbs for fixes
-  "workbench.statusBar.visible": false, // No statusbar
-  "editor.guides.indentation": false, // No indentation guides
-  "editor.minimap.enabled": false, // no minimap
-  "breadcrumbs.enabled": false, // no breadcrumbs
-  "workbench.editor.wrapTabs": true, // Who uses tabs other than NOOBS ?
-  "editor.autoClosingQuotes": "never", // No fucking auto pairs
-  "editor.autoClosingBrackets": "never", // No fucking auto pairs
-  "editor.autoClosingComments": "never", // No fucking auto pairs
+  "editor.stickyScroll.enabled": false, 
+  "git.decorations.enabled": false, 
+  "workbench.tips.enabled": false, 
+  "editor.lightbulb.enabled": "off", 
+  "editor.guides.indentation": false, 
+  "editor.minimap.enabled": false, 
+  "breadcrumbs.enabled": false, 
+  "workbench.editor.wrapTabs": true, 
+  "editor.autoClosingQuotes": "never", 
+  "editor.autoClosingBrackets": "never", 
+  "editor.autoClosingComments": "never", 
   "diffEditor.renderSideBySide": false,
-  "workbench.activityBar.location": "bottom",
-  "editor.multiCursorModifier": "ctrlCmd", // Sublime text habbits
-  // No confirmation for explorer actions.
+  "terminal.integrated.cwd": "${fileDirname}",  
   "explorer.confirmDelete": false,
   "explorer.confirmDragAndDrop": false,
   "explorer.confirmPasteNative": false,
-  // Titlebar
-  "workbench.editor.showTabs": "none",
-  "window.titleBarStyle": "custom",
+  "workbench.navigationControl.enabled": false,
   // Disable Autocomplete
   // "editor.quickSuggestions": {
   //   "other": false,
@@ -55,115 +47,82 @@
   "editor.parameterHints.enabled": false,
   "editor.semanticHighlighting.enabled": false,
   "editor.occurrencesHighlight": "off",
-  "problems.visibility": true, // Disable annoying squiggles throughout the editor.
-  // Golang
-  "[go]": {
-    "editor.formatOnSave": true
-  },
-  "go.addTags": {
-    "options": ""
-  },
+  "problems.visibility": true, 
+  "[go]": { "editor.formatOnSave": true },
+  "go.addTags": { "options": "" },
   "go.toolsManagement.autoUpdate": true,
-  //Git
   "git.confirmSync": false,
-  "scm.diffDecorations": "none", // Don't pollute my editor with git change log.
+  "scm.diffDecorations": "none", 
   "git.openRepositoryInParentFolders": "never",
-  "workbench.iconTheme": null,
-  "update.mode": "manual",
-  "workbench.colorCustomizations": {
-    "[Visual Studio Dark]": {
-      "editor.background": "#1e1e1e",
-      "titleBar.activeBackground": "#1e1e1e",
-      "sideBar.background": "#181818"
-    }
-  },
   "extensions.ignoreRecommendations": true,
-  "workbench.colorTheme": "Kanagawa",
-  // Vim
+  "remote.autoForwardPortsSource": "hybrid",
+  "redhat.telemetry.enabled": true,
+  "files.autoSave": "afterDelay",
+  "workbench.activityBar.location": "bottom",
+  "settingsSync.keybindingsPerPlatform": false,
   "vim.leader": " ",
   "vim.useSystemClipboard": true,
   "vim.normalModeKeyBindings": [
-    { // File Switcher
-      "before": [
-        "<leader>",
-        "<leader>"
-      ],
-      "commands": [
-        "workbench.action.quickOpen"
-      ]
-    }, // File Switcher
     {
-      "before": [
-        "<leader>",
-        "p"
-      ],
-      "commands": [
-        "workbench.action.quickOpen"
-      ]
-    },
-    { // References
-      "before": [
-        "g",
-        "r"
-      ],
-      "commands": [
-        "editor.action.goToReferences"
-      ]
-    },
-    { // Hover
-      "before": [
-        "K"
-      ],
-      "commands": [
-        "editor.action.showHover"
-      ]
-    },
-    // Diagnostics
-    {
-      "before": [
-        "[",
-        "["
-      ],
-      "commands": [
-        "editor.action.marker.prev"
-      ]
+      "before": ["<C-p>"],
+      "commands": ["workbench.action.quickOpen"]
     },
     {
-      "before": [
-        "]",
-        "]"
-      ],
-      "commands": [
-        "editor.action.marker.next"
-      ]
+      "before": [ "<C-f>" ],
+      "commands": ["actions.find"],
     },
-    { // Code Actions
-      "before": [
-        "C"
-      ],
-      "commands": [
-        "editor.action.quickFix"
-      ]
+    { 
+      "before": [ "<leader>", "p" ],
+      "commands": ["workbench.action.quickOpen"],
+    },
+    { 
+      "before": [ "<leader>", "o" ],
+      "commands": ["workbench.action.showAllSymbols"],
+    },
+    { 
+      "before": [ "g", "r" ],
+      "commands": [ "editor.action.goToReferences" ],
+    },
+    { 
+      "before": [ "K" ],
+      "commands": [ "editor.action.showHover" ],
+    },
+    
+    { 
+      "before": [ "[", "[" ],
+      "commands": [ "editor.action.marker.prev" ],
+    },
+    { 
+      "before": [ "]", "]" ],
+      "commands": [ "editor.action.marker.next" ],
+    },
+    { 
+      "before": [ "C"],
+      "commands": ["editor.action.quickFix"]
+    },
+    { 
+      "before": [ "R" ],
+      "commands": [ "editor.action.rename" ]
+    },
+    
+    {
+      "before": [ "J" ],
+      "commands": [ "workbench.action.terminal.toggleTerminal" ],  
+    },
+
+    {
+        "before": ["<C-w>"],
+        "commands": [ "workbench.action.closeActiveEditor" ],
     }
   ],
   "vim.insertModeKeyBindings": [
     {
-      "before": [
-        "j",
-        "k"
-      ],
-      "after": [
-        "<esc>"
-      ]
+      "before": ["j", "k"],
+      "after": [ "<esc>" ],
     },
     {
-      "before": [
-        "k",
-        "j"
-      ],
-      "after": [
-        "<esc>"
-      ]
-    }
-  ]
+      "before": ["k", "j"],
+      "after": [ "<esc>" ],
+    },
+  ],
 }
