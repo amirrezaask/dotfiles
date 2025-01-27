@@ -1,8 +1,8 @@
 Import-Module PSReadLine
 Import-Module posh-git
 Set-PSReadLineOption -EditMode Emacs
-Set-PSReadLineOption -PredictionSource History
-Set-PSReadLineOption -PredictionViewStyle ListView
+# Set-PSReadLineOption -PredictionSource History
+# Set-PSReadLineOption -PredictionViewStyle ListView
 $PSStyle.FileInfo.Directory = ""
 
 # if (Get-Command "starship" -ErrorAction SilentlyContinue) 
