@@ -1,5 +1,4 @@
 Import-Module PSReadLine
-Import-Module Terminal-Icons
 Set-PSReadLineOption -EditMode Emacs
 Set-PSReadlineOption -BellStyle None
 
