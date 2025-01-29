@@ -5,5 +5,6 @@ Set-PSReadlineOption -BellStyle None
 $PSStyle.FileInfo.Directory = ""
 
 function prompt {
-  "$($executionContext.SessionState.Path.CurrentLocation)> ";
+  Write-Host -NoNewLine -ForegroundColor cyan "$($executionContext.SessionState.Path.CurrentLocation)>";
+  return " "
 }
