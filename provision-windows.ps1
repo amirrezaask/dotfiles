@@ -1,9 +1,14 @@
-# Compiler
-winget install --accept-package-agreements -h GoLang.Go
-winget install --accept-package-agreements -h Postman.Postman
-# CLI Tools
-winget install --accept-package-agreements -h Git.Git
-winget install --accept-package-agreements -h ajeetdsouza.zoxide
-winget install --accept-package-agreements -h XAMPPRocky.tokei
-winget install --accept-package-agreements -h bootandy.dust
-winget install --accept-package-agreements -h dalance.procs
+install ($name) {
+    winget install --accept-package-agreements -h -e $name
+}
+
+install "Mozilla.Firefox"
+install "XPDM1ZW6815MQM"
+install "Fortinet.FortiClientVPN"
+install "GoLang.Go"
+install "Postman.Postman"
+install "Git.Git"
+install "Microsoft.PowerShell"
+install "Obsidian.Obsidian"
+install "sharkdp.fd"
+install "AlDanial.Cloc"
