@@ -2,7 +2,9 @@ Import-Module PSReadLine
 Set-PSReadLineOption -EditMode Emacs
 Set-PSReadlineOption -BellStyle None
 
-$PSStyle.FileInfo.Directory = ""
+if ($PSVersionTable.PSVersion.Major -gt 5) {
+  $PSStyle.FileInfo.Directory = ""
+}
 function reload() {
   . $PROFILE
 }
