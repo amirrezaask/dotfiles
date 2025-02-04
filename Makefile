@@ -10,6 +10,7 @@ install:
 	rm -rf $(XDG_CONFIG)/kitty
 	rm -rf $(XDG_CONFIG)/ghostty
 	rm -rf $(HOME)/.zshrc
+	rm -rf $(HOME)/.gitconfig
 	rm -rf $(HOME)/.tmux.conf
 	rm -rf $(XDG_CONFIG)/wezterm
 	rm -rf $(XDG_CONFIG)/starship.toml
@@ -35,6 +36,7 @@ install:
 	ln -s $(DOTFILES_DIR)/shell/zsh/zshrc $(HOME)/.zshrc
 	ln -s $(DOTFILES_DIR)/editor/emacs $(HOME)/.emacs.d
 	ln -s $(DOTFILES_DIR)/shell/profile $(HOME)/.profile
+	ln -s $(DOTFILES_DIR)/.gitconfig $(HOME)/.gitconfig
 
 install-sublime-mac:
 	rm -rf "$(HOME)/Library/Application Support/Sublime Text/Packages"
