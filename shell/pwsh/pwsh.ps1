@@ -2,6 +2,8 @@ Import-Module PSReadLine
 Import-Module posh-git 
 Set-PSReadLineOption -EditMode Windows
 Set-PSReadlineOption -BellStyle None
+Set-PSReadLineOption -PredictionSource History
+Set-PSReadLineOption -PredictionViewStyle ListView
 
 if ($PSVersionTable.PSVersion.Major -gt 5) {
   $PSStyle.FileInfo.Directory = ""
