@@ -36,5 +36,14 @@ sync-repos () {
 }
 
 alias v='neovide.exe --wsl'
+alias ss='subl .'
 
+if command -v code &> /dev/null
+then
+    alias jj='code .'
+fi
 
+if command -v cursor &>/dev/null
+then
+    alias jj='cursor .'
+fi
