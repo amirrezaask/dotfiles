@@ -1,11 +1,18 @@
 [
+  // Font Size
+  { "key": "ctrl+-", "command": "editor.action.fontZoomOut" },
+  { "key": "ctrl+=", "command": "editor.action.fontZoomIn" },
+
+  { "key": "ctrl+k ctrl+k", "command": "workbench.panel.chat" },
+  { "key": "cmd+k cmd+k", "command": "workbench.panel.chat" },
+  
   // Next/Prev Error
   { "key": "alt+[", "command": "editor.action.marker.prev" },
   { "key": "alt+]", "command": "editor.action.marker.next" },
   { "key": "cmd+[", "command": "editor.action.marker.prev" },
   { "key": "cmd+]", "command": "editor.action.marker.next" },
-
-    // Consisten Ctrl n / p
+  
+  // Consisten Ctrl n / p
   { "key": "ctrl+n", "command": "selectNextSuggestion", "when": "suggestWidgetMultipleSuggestions && suggestWidgetVisible && textInputFocus || suggestWidgetVisible && textInputFocus && !suggestWidgetHasFocusedSuggestion" },
   { "key": "ctrl+p", "command": "selectPrevSuggestion", "when": "suggestWidgetMultipleSuggestions && suggestWidgetVisible && textInputFocus || suggestWidgetVisible && textInputFocus && !suggestWidgetHasFocusedSuggestion" },
   { "key": "ctrl+n", "command": "workbench.action.quickOpenSelectNext", "when": "inQuickOpen" },
@@ -14,6 +21,10 @@
   // Open new window
   { "key": "cmd+shift+o", "command": "workbench.action.files.openFileFolderInNewWindow", },
   { "key": "ctrl+shift+o", "command": "workbench.action.files.openFileFolderInNewWindow", },
+
+  // Open in current window
+  { "key": "cmd+o", "command": "workbench.action.files.openFileFolder", },
+  { "key": "ctrl+o", "command": "workbench.action.files.openFileFolder", },
 
   // Toggle Explorer
   { "key": "cmd+shift+e", "command": "workbench.view.explorer",                  "when": "!view.workbench.explorer.fileView.visible" },
@@ -42,10 +53,11 @@
   // Goto Definition
   { "key": "cmd+.", "command": "editor.action.revealDefinition", "when": "editorHasDefinitionProvider && editorTextFocus" },
   { "key": "cmd+,", "command": "workbench.action.navigateBack" },
-  { "key": "cmd+shift+.", "command": "editor.action.goToReferences" },
   { "key": "alt+.", "command": "editor.action.revealDefinition", "when": "editorHasDefinitionProvider && editorTextFocus" },
   { "key": "alt+,", "command": "workbench.action.navigateBack" },
+  { "key": "cmd+shift+.", "command": "editor.action.goToReferences" },
   { "key": "alt+shift+.", "command": "editor.action.goToReferences" },
+
 
 
 ]

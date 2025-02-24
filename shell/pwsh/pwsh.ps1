@@ -1,8 +1,20 @@
 Import-Module PSReadLine
-Set-PSReadLineOption -EditMode Emacs
+Import-Module posh-git 
+Set-PSReadLineOption -EditMode Windows
 Set-PSReadlineOption -BellStyle None
+# Set-PSReadLineOption -PredictionSource History
+# Set-PSReadLineOption -PredictionViewStyle ListView
+Set-PSReadLineOption -PredictionSource None
 
-$PSStyle.FileInfo.Directory = ""
+if ($PSVersionTable.PSVersion.Major -gt 5) {
+  $PSStyle.FileInfo.Directory = ""
+}
+
+
+function Prompt {
+  return "$(Get-Location)> "
+}
+$GitPromptSettings.EnablePromptStatus = $false
 function reload() {
   . $PROFILE
 }
@@ -14,5 +26,5 @@ function battery() {
 
 if (Get-Command oh-my-posh -ErrorAction SilentlyContinue) {
   # oh-my-posh init pwsh --config "$env:POSH_THEMES_PATH/amro.omp.json" | Invoke-Expression
-  oh-my-posh init pwsh --config "$env:POSH_THEMES_PATH/craver.omp.json" | Invoke-Expression
+  # oh-my-posh init pwsh --config "$env:POSH_THEMES_PATH/craver.omp.json" | Invoke-Expression
 }

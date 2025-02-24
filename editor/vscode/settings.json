@@ -1,7 +1,8 @@
 {
-  "editor.fontFamily": "Fira Code, Menlo, Monaco, 'Courier New', monospace",
+  "editor.fontFamily": "Cascadia Code NF, Fira Code, Menlo, Monaco, 'Courier New', monospace",
   "editor.fontSize": 14,
   "terminal.integrated.fontSize": 15,
+  "editor.lineHeight": 30,
   "workbench.startupEditor": "none", 
   "window.restoreWindows": "none", 
   "workbench.settings.editor": "json", 
@@ -10,8 +11,6 @@
   "security.workspace.trust.untrustedFiles": "open", 
   "editor.mouseWheelScrollSensitivity": 4,
   "explorer.autoReveal": false,
-  "editor.cursorBlinking": "solid",
-  "editor.cursorStyle": "line",
   "files.simpleDialog.enable": true, 
   "workbench.editor.editorActionsLocation": "hidden",
   "editor.wordWrap": "on", 
@@ -23,110 +22,88 @@
   "editor.stickyScroll.enabled": false, 
   "git.decorations.enabled": false, 
   "workbench.tips.enabled": false, 
-  "editor.lightbulb.enabled": "off", 
-  "editor.guides.indentation": false, 
   "editor.minimap.enabled": false, 
-  "breadcrumbs.enabled": false, 
   "workbench.editor.wrapTabs": true, 
-  "editor.autoClosingQuotes": "never", 
-  "editor.autoClosingBrackets": "never", 
-  "editor.autoClosingComments": "never", 
   "diffEditor.renderSideBySide": false,
-  "window.titleBarStyle": "custom",
-  "window.title": "${folderName} - ${dirty}${activeEditorMedium}",
-  "terminal.integrated.cwd": "${fileDirname}",  
-  "explorer.confirmDelete": false,
-  "explorer.confirmDragAndDrop": false,
   "explorer.confirmPasteNative": false,
   "workbench.navigationControl.enabled": false,
-  "window.commandCenter": false,
-  "workbench.editor.showTabs": "none",
-  // Disable Autocomplete
-  // "editor.quickSuggestions": {
-  //   "other": false,
-  //   "comments": false,
-  //   "strings": false
-  // },
-  // "editor.suggestOnTriggerCharacters": false,
-  "editor.parameterHints.enabled": false,
-  "editor.semanticHighlighting.enabled": false,
-  "editor.occurrencesHighlight": "off",
-  "problems.visibility": true, 
+  // "http.proxy": "http://localhost:2081",
   "[go]": { "editor.formatOnSave": true },
   "go.addTags": { "options": "" },
   "go.toolsManagement.autoUpdate": true,
   "git.confirmSync": false,
   "scm.diffDecorations": "none", 
-  "git.openRepositoryInParentFolders": "never",
-  "extensions.ignoreRecommendations": true,
   "remote.autoForwardPortsSource": "hybrid",
-  "redhat.telemetry.enabled": true,
-  "files.autoSave": "afterDelay",
-  "workbench.activityBar.location": "bottom",
   "settingsSync.keybindingsPerPlatform": false,
-  "vim.leader": " ",
-  "vim.useSystemClipboard": true,
-  "vim.normalModeKeyBindings": [
-    {
-      "before": ["<C-p>"],
-      "commands": ["workbench.action.quickOpen"]
-    },
-    {
-      "before": [ "<C-f>" ],
-      "commands": ["actions.find"],
-    },
-    { 
-      "before": [ "<leader>", "p" ],
-      "commands": ["workbench.action.quickOpen"],
-    },
-    { 
-      "before": [ "<leader>", "o" ],
-      "commands": ["workbench.action.showAllSymbols"],
-    },
-    { 
-      "before": [ "g", "r" ],
-      "commands": [ "editor.action.goToReferences" ],
-    },
-    { 
-      "before": [ "K" ],
-      "commands": [ "editor.action.showHover" ],
-    },
+  "github.copilot.enable": {
+    "*": true,
+    "plaintext": false,
+    "markdown": false,
+    "scminput": false
+  },
+  // "vim.leader": " ",
+  // "vim.useSystemClipboard": true,
+  // "vim.normalModeKeyBindings": [
+  //   {
+  //     "before": ["<C-p>"],
+  //     "commands": ["workbench.action.quickOpen"]
+  //   },
+  //   {
+  //     "before": [ "<C-f>" ],
+  //     "commands": ["actions.find"],
+  //   },
+  //   { 
+  //     "before": [ "<leader>", "p" ],
+  //     "commands": ["workbench.action.quickOpen"],
+  //   },
+  //   { 
+  //     "before": [ "<leader>", "o" ],
+  //     "commands": ["workbench.action.showAllSymbols"],
+  //   },
+  //   { 
+  //     "before": [ "g", "r" ],
+  //     "commands": [ "editor.action.goToReferences" ],
+  //   },
+  //   { 
+  //     "before": [ "K" ],
+  //     "commands": [ "editor.action.showHover" ],
+  //   },
     
-    { 
-      "before": [ "[", "[" ],
-      "commands": [ "editor.action.marker.prev" ],
-    },
-    { 
-      "before": [ "]", "]" ],
-      "commands": [ "editor.action.marker.next" ],
-    },
-    { 
-      "before": [ "C"],
-      "commands": ["editor.action.quickFix"]
-    },
-    { 
-      "before": [ "R" ],
-      "commands": [ "editor.action.rename" ]
-    },
+  //   { 
+  //     "before": [ "[", "[" ],
+  //     "commands": [ "editor.action.marker.prev" ],
+  //   },
+  //   { 
+  //     "before": [ "]", "]" ],
+  //     "commands": [ "editor.action.marker.next" ],
+  //   },
+  //   { 
+  //     "before": [ "C"],
+  //     "commands": ["editor.action.quickFix"]
+  //   },
+  //   { 
+  //     "before": [ "R" ],
+  //     "commands": [ "editor.action.rename" ]
+  //   },
     
-    {
-      "before": [ "J" ],
-      "commands": [ "workbench.action.terminal.toggleTerminal" ],  
-    },
+  //   {
+  //     "before": [ "J" ],
+  //     "commands": [ "workbench.action.terminal.toggleTerminal" ],  
+  //   },
 
-    {
-        "before": ["<C-w>"],
-        "commands": [ "workbench.action.closeActiveEditor" ],
-    }
-  ],
-  "vim.insertModeKeyBindings": [
-    {
-      "before": ["j", "k"],
-      "after": [ "<esc>" ],
-    },
-    {
-      "before": ["k", "j"],
-      "after": [ "<esc>" ],
-    },
-  ],
+  //   {
+  //       "before": ["<C-w>"],
+  //       "commands": [ "workbench.action.closeActiveEditor" ],
+  //   }
+  // ],
+  // "vim.insertModeKeyBindings": [
+  //   {
+  //     "before": ["j", "k"],
+  //     "after": [ "<esc>" ],
+  //   },
+  //   {
+  //     "before": ["k", "j"],
+  //     "after": [ "<esc>" ],
+  //   },
+  // ],
 }
