@@ -1,4 +1,6 @@
-theme = Aura
+theme = OneHalfDark
+font-family = "Fira Code"
 keybind = cmd+n=next_tab
 keybind = cmd+p=previous_tab
-
+keybind = cmd+left=previous_tab
+keybind = cmd+right=next_tab

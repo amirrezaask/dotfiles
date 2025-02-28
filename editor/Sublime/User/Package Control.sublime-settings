@@ -4,6 +4,8 @@
 	],
 	"installed_packages":
 	[
+		"LSP",
+		"LSP-copilot",
 		"LSP-typescript",
 		"Package Control",
 	],

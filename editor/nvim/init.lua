@@ -5,7 +5,7 @@
 -- Minimal, fast configuration for neovim.
 
 TRANSPARENT = os.getenv('NVIM_TRANSPARENT') or false
-COLORSCEHEME = os.getenv('NVIM_COLORSCHEME') or "cyberdream"
+COLORSCEHEME = os.getenv('NVIM_COLORSCHEME') or "onedark"
 IS_WINDOWS = vim.fn.has("win32") == 1
 
 vim.opt.wrap = true        -- Wrap long lines
@@ -111,6 +111,12 @@ require("lazy").setup({
     { -- colorschemes
         "catppuccin/nvim",
         dependencies = {
+            {
+                'navarasu/onedark.nvim',
+                opts = {
+                    style = 'darker'
+                }
+            },
             {
                 "rose-pine/neovim",
                 name = 'rose-pine',
