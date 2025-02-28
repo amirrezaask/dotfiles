@@ -114,7 +114,7 @@ require("lazy").setup({
             {
                 'navarasu/onedark.nvim',
                 opts = {
-                    -- style = 'darker'
+                    style = 'darker'
                 }
             },
             {
@@ -197,6 +197,8 @@ require("lazy").setup({
             },
         }
     },
+
+
 
     "nvim-pack/nvim-spectre", -- Search and replace in all project files
 
@@ -312,6 +314,12 @@ require("lazy").setup({
             "folke/trouble.nvim",
             "williamboman/mason.nvim",
             "williamboman/mason-lspconfig.nvim",
+            {
+                "j-hui/fidget.nvim",
+                opts = {
+                    -- options
+                },
+            }
         },
         config = function()
             require("lspconfig.ui.windows").default_options.border = "single"
