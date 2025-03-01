@@ -2,9 +2,11 @@
 	"bootstrapped": true,
 	"installed_packages":
 	[
+		"Inspired GitHub Color Scheme",
 		"LSP",
 		"LSP-gopls",
 		"Materialize",
+		"Night Owl",
 		"Package Control",
 		"Text Pastry",
 	],

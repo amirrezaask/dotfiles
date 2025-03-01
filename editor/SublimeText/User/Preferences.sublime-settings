@@ -1,6 +1,6 @@
 {
 	"font_face": "Operator Mono Book",
-	"font_size": 17,
+	"font_size": 16,
 	"ignored_packages":
 	[
 		"Vintage",
@@ -11,7 +11,7 @@
 	"save_on_focus_lost": true,
 	"hot_exit": "disabled",
 	"index_files": true,
-	"theme": "Material Oceanic Next.sublime-theme",
+	"theme": "Adaptive.sublime-theme",
 	"show_errors_inline": false,
 	"word_wrap": true,
 	"auto_complete": true,
@@ -23,5 +23,5 @@
 	"line_padding_top": 10,
 	"line_padding_bottom": 10,
 	"scroll_speed": 0.7,
-	"color_scheme": "Packages/Materialize/schemes/Material Oceanic Next.tmTheme",
+	"color_scheme": "Night Owl.sublime-color-scheme",
 }
