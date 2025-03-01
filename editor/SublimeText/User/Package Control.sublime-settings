@@ -1,0 +1,14 @@
+{
+	"bootstrapped": true,
+	"installed_packages":
+	[
+		"LSP",
+		"LSP-gopls",
+		"Materialize",
+		"Package Control",
+		"Text Pastry",
+	],
+	"in_process_packages":
+	[
+	],
+}

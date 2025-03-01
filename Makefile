@@ -39,8 +39,8 @@ install:
 	ln -s $(DOTFILES_DIR)/.gitconfig $(HOME)/.gitconfig
 
 install-sublime-mac:
-	rm -rf "$(HOME)/Library/Application Support/Sublime Text/Packages"
-	ln -s "$(DOTFILES_DIR)/editor/Sublime" "$(HOME)/Library/Application Support/Sublime Text/Packages"
+	rm -rf "$(HOME)/Library/Application Support/Sublime Text/Packages/User"
+	ln -s "$(DOTFILES_DIR)/editor/SublimeText/User" "$(HOME)/Library/Application Support/Sublime Text/Packages/User"
 
 sync-vscode-macos:
 	cp "$(HOME)/Library/Application Support/Code/User/settings.json" ./vscode/settings.json
