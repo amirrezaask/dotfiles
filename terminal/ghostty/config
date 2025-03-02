@@ -1,4 +1,5 @@
-theme = ChallengerDeep
+theme = dark:tokyonight-storm,light:tokyonight-day
+
 font-family = "Fira Code"
 keybind = cmd+n=next_tab
 keybind = cmd+p=previous_tab
