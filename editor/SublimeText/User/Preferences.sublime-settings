@@ -1,6 +1,6 @@
 {
-	"font_face": "Fira Code",
-	"font_size": 18,
+	"font_face": "Operator Mono Book",
+	"font_size": 19,
 	"ignored_packages":
 	[
 		"Vintage",
@@ -11,7 +11,6 @@
 	"save_on_focus_lost": true,
 	"hot_exit": "disabled",
 	"index_files": true,
-	"theme": "Adaptive.sublime-theme",
 	"show_errors_inline": false,
 	"word_wrap": true,
 	"auto_complete": true,
@@ -20,8 +19,11 @@
 	"auto_match_enabled": false,
 	"show_definitions": false,
 	"show_rel_path": true,
-	"line_padding_top": 10,
-	"line_padding_bottom": 10,
+	"line_padding_top": 15,
+	"line_padding_bottom": 15,
 	"scroll_speed": 0.7,
-	"color_scheme": "Packages/Inspired GitHub Color Scheme/InspiredGitHub.tmTheme",
+	"color_scheme": "auto",
+	"theme": "Adaptive.sublime-theme",
+	"dark_color_scheme": "Night Owl.sublime-color-scheme",
+	"light_color_scheme": "Packages/Inspired GitHub Color Scheme/InspiredGitHub.tmTheme",
 }
