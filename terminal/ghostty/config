@@ -1,4 +1,4 @@
-theme = dark:tokyonight-storm,light:tokyonight-day
+theme = dark:carbonfox,light:AtomOneLight
 
 font-family = "Fira Code"
 keybind = cmd+n=next_tab

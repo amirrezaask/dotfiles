@@ -1,6 +1,6 @@
 {
-	"font_face": "Operator Mono Book",
-	"font_size": 16,
+	"font_face": "Fira Code",
+	"font_size": 18,
 	"ignored_packages":
 	[
 		"Vintage",
@@ -23,5 +23,5 @@
 	"line_padding_top": 10,
 	"line_padding_bottom": 10,
 	"scroll_speed": 0.7,
-	"color_scheme": "Night Owl.sublime-color-scheme",
+	"color_scheme": "Packages/Inspired GitHub Color Scheme/InspiredGitHub.tmTheme",
 }
