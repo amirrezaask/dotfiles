@@ -4,8 +4,7 @@
      {"keys": ["command+2"], "command": "set_layout", "args": {"cols": [0.0, 0.5, 1.0], "rows": [0.0, 1.0], "cells": [[0, 0, 1, 1], [1, 0, 2, 1]] } },
     {"keys": ["command+3"], "command": "set_layout", "args": {"cols": [0.0, 0.33, 0.66, 1.0], "rows": [0.0, 1.0], "cells": [[0, 0, 1, 1], [1, 0, 2, 1], [2, 0, 3, 1]] } },
     {"keys": ["command+4"], "command": "set_layout", "args": {"cols": [0.0, 0.25, 0.5, 0.75, 1.0], "rows": [0.0, 1.0], "cells": [[0, 0, 1, 1], [1, 0, 2, 1], [2, 0, 3, 1], [3, 0, 4, 1]] } },
-
-    { "keys": ["command+shift+o"], "command": "sesame_open" },
+    { "keys": ["super+b"], "command": "toggle_side_bar" },
     { "keys": ["command+,"], "command": "jump_back" },
     {  // Goto Definition
         "keys": ["command+."],
@@ -61,13 +60,6 @@
     },
     // }}}
     
-
-    // Splits
-    // { 
-    //     "keys": ["ctrl+tab"], 
-    //     "command": "focus_neighboring_group", 
-    //     "args": {"forward": false} 
-    // },
 
     {
         "keys": ["command+shift+\\"],

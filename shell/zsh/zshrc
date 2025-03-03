@@ -47,3 +47,5 @@ if command -v cursor &>/dev/null
 then
     alias jj='cursor .'
 fi
+
+alias wip='git add . && git commit -m "wip" && git push'
