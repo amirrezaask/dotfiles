@@ -1,6 +1,6 @@
 {
 	"font_face": "Operator Mono Book",
-	"font_size": 21,
+	"font_size": 17,
 	"ignored_packages":
 	[
 		"Vintage",
@@ -10,7 +10,7 @@
 	"highlight_line": true,
 	"save_on_focus_lost": true,
 	"hot_exit": "disabled",
-	"index_files": true,
+	"index_files": false,
 	"show_errors_inline": false,
 	"word_wrap": true,
 	"auto_complete": true,
