@@ -48,4 +48,4 @@ then
     alias jj='cursor .'
 fi
 
-alias wip='git add . && git commit -m "wip" && git push'
+alias wip='git add . && git commit -m "wip" && git push origin $(git_current_branch)'
