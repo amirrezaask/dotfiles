@@ -5,7 +5,7 @@
 -- Minimal, fast configuration for neovim.
 
 TRANSPARENT = os.getenv('NVIM_TRANSPARENT') or false
-COLORSCEHEME = os.getenv('NVIM_COLORSCHEME') or "rose-pine"
+COLORSCEHEME = os.getenv('NVIM_COLORSCHEME') or "tokyonight"
 IS_WINDOWS = vim.fn.has("win32") == 1
 
 vim.opt.wrap = true        -- Wrap long lines
@@ -108,53 +108,29 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-    { -- colorschemes
+    {
+        "folke/tokyonight.nvim",
+        opts = {
+            style = 'moon',
+            transparent = TRANSPARENT,
+        }
+    },
+
+    {
+        "rose-pine/neovim",
+        name = 'rose-pine',
+        opts = {
+            styles = {
+                bold = true,
+                italic = false,
+                transparency = TRANSPARENT,
+            }
+        }
+    },
+    --
+    {
+
         "catppuccin/nvim",
-        dependencies = {
-            {
-                'navarasu/onedark.nvim',
-                opts = {
-                    style = 'darker'
-                }
-            },
-            {
-                "rose-pine/neovim",
-                name = 'rose-pine',
-                opts = {
-                    styles = {
-                        bold = true,
-                        italic = false,
-                        transparency = TRANSPARENT,
-                    }
-                }
-            },
-            {
-                "sainnhe/gruvbox-material",
-                enabled = true,
-                priority = 1000,
-                config = function()
-                    vim.g.gruvbox_material_transparent_background = 0
-                    vim.g.gruvbox_material_foreground = "mix"
-                    vim.g.gruvbox_material_background = "hard"
-                    vim.g.gruvbox_material_ui_contrast = "high"
-                    vim.g.gruvbox_material_float_style = "bright"
-                    vim.g.gruvbox_material_statusline_style = "material"
-                    vim.g.gruvbox_material_cursor = "auto"
-
-                    -- vim.g.gruvbox_material_colors_override = { bg0 = '#16181A' } -- #0e1010
-                    -- vim.g.gruvbox_material_better_performance = 1
-
-                    vim.cmd.colorscheme("gruvbox-material")
-                end,
-            },
-            {
-                "folke/tokyonight.nvim",
-                opts = {
-                    style = 'moon',
-                    transparent = TRANSPARENT,
-                }
-            },
-        },
         name = 'catppuccin',
         opts = {
             transparent_background = TRANSPARENT,
