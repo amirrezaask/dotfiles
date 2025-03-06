@@ -3,6 +3,7 @@ keybind = cmd+p=previous_tab
 keybind = cmd+left=previous_tab
 keybind = cmd+right=next_tab
 
+font-family = Operator Mono Book
 theme = rose-pine
 cursor-style=block
 shell-integration-features = no-cursor
