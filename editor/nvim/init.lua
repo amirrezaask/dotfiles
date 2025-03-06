@@ -4,8 +4,8 @@
 -- /_/ |_/_/_/_/_/_/ /_/  \__//__/\_,_/_/ |_/___/_/\_\
 -- Minimal, fast configuration for neovim.
 
-TRANSPARENT = os.getenv('NVIM_TRANSPARENT') or false
-COLORSCEHEME = os.getenv('NVIM_COLORSCHEME') or "tokyonight"
+TRANSPARENT = os.getenv('NVIM_TRANSPARENT') or true
+COLORSCEHEME = os.getenv('NVIM_COLORSCHEME') or "rose-pine-moon"
 IS_WINDOWS = vim.fn.has("win32") == 1
 
 vim.opt.wrap = true        -- Wrap long lines
@@ -121,29 +121,21 @@ require("lazy").setup({
         name = 'rose-pine',
         opts = {
             styles = {
-                bold = true,
                 italic = false,
                 transparency = TRANSPARENT,
             }
         }
     },
-    --
-    {
 
-        "catppuccin/nvim",
-        name = 'catppuccin',
-        opts = {
-            transparent_background = TRANSPARENT,
-            no_italic = true,
-            background = {
-                light = "latte",
-                dark = "mocha",
-            },
-        },
-    },
-
-
-    -- }}}
+    -- {
+    --     "zbirenbaum/copilot.lua",
+    --     cmd = "Copilot",
+    --     event = "InsertEnter",
+    --     config = function()
+    --         require("copilot").setup({
+    --         })
+    --     end,
+    -- },
 
     { -- Floating Terminal
         'akinsho/toggleterm.nvim',
@@ -154,15 +146,6 @@ require("lazy").setup({
         }
     },
 
-    { -- StatusLine
-        'nvim-lualine/lualine.nvim',
-        opts = {
-
-            options = {
-                icons_enabled = false,
-            }
-        }
-    },
     { -- File manager
         'stevearc/oil.nvim',
         opts = {
@@ -173,8 +156,6 @@ require("lazy").setup({
             },
         }
     },
-
-
 
     "nvim-pack/nvim-spectre", -- Search and replace in all project files
 
