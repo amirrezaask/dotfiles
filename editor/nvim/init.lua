@@ -5,7 +5,7 @@
 -- Minimal, fast configuration for neovim.
 
 TRANSPARENT = os.getenv('NVIM_TRANSPARENT') or true
-COLORSCEHEME = os.getenv('NVIM_COLORSCHEME') or "rose-pine-moon"
+COLORSCEHEME = os.getenv('NVIM_COLORSCHEME') or "catppuccin-mocha"
 IS_WINDOWS = vim.fn.has("win32") == 1
 
 vim.opt.wrap = true        -- Wrap long lines
@@ -126,6 +126,8 @@ require("lazy").setup({
             }
         }
     },
+
+    { "catppuccin/nvim", name = "catppuccin", opts = { transparent_background = TRANSPARENT } },
 
     -- {
     --     "zbirenbaum/copilot.lua",
@@ -439,61 +441,8 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 
 -- Color scheme
 vim.cmd.colorscheme(COLORSCEHEME)
-if TRANSPARENT then
-    vim.cmd [[
-        hi! Normal guibg=none
-    ]]
-end
-
-if vim.g.neovide then
-    local font = 'JetBrainsMono Nerd Font Mono'
-    local font_size = 12
-    vim.o.guifont = string.format('%s:h%d', font, font_size)
-
-    function SetFont()
-        local fontfamily = ""
-        local fontsize = ''
-
-        vim.ui.input({
-            prompt = "Font: ",
-        }, function(selected_font)
-            fontfamily = selected_font
-        end)
-
-        vim.ui.input({
-            prompt = "Size: ",
-        }, function(size)
-            fontsize = size
-        end)
-
-        if fontfamily ~= "" and fontsize ~= "" then
-            font = fontfamily
-            font_size = tonumber(fontsize)
-            vim.o.guifont = string.format('%s:h%d', fontfamily, fontsize)
-        end
-    end
-
-    function IncFontSize()
-        font_size = font_size + 1
-        vim.o.guifont = string.format('%s:h%d', font, font_size)
-    end
-
-    function DecFontSize()
-        font_size = font_size - 1
-        vim.o.guifont = string.format('%s:h%d', font, font_size)
-    end
-
-    vim.cmd [[
-        command! Font :lua SetFont()<cr>
-        command! IncFont :lua IncFontSize()<CR>
-        command! IncFont :lua DecFontSize()<CR>
-    ]]
-
-    vim.keymap.set({ 'n', 'i', 't', 'v' }, '<C-=>', IncFontSize)
-    vim.keymap.set({ 'n', 'i', 't', 'v' }, '<C-->', DecFontSize)
-
-    vim.g.neovide_cursor_animation_length = 0.02
-    vim.g.neovide_cursor_trail_size = 0.0
-    vim.g.neovide_scroll_animation_length = 0.1
-    vim.g.neovide_input_macos_option_key_is_meta = 'both'
-end
+-- if TRANSPARENT then
+--     vim.cmd [[
+--         hi! Normal guibg=none
+--     ]]
+-- end
