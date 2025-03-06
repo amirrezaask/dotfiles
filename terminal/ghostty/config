@@ -4,7 +4,7 @@ keybind = cmd+left=previous_tab
 keybind = cmd+right=next_tab
 
 font-family = Operator Mono Book
-theme = rose-pine
+# theme = rose-pine
 cursor-style=block
 shell-integration-features = no-cursor
 
@@ -30,3 +30,4 @@ shell-integration-features = no-cursor
 # cursor-color = 7e57c2
 # selection-background = 5f7e97
 # selection-foreground = dfe5ee
+background = 000000
