@@ -49,3 +49,4 @@ then
 fi
 
 alias wip='git add . && git commit -m "wip" && git push origin $(git_current_branch)'
+alias gs='git status'
