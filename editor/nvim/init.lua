@@ -1,11 +1,5 @@
---    ___         _                      ___       __
---   / _ | __ _  (_)__________ ___ ___ _/ _ | ___ / /__
---  / __ |/  ' \/ / __/ __/ -_)_ // _ `/ __ |(_-</  '_/
--- /_/ |_/_/_/_/_/_/ /_/  \__//__/\_,_/_/ |_/___/_/\_\
--- Minimal, fast configuration for neovim.
-
 TRANSPARENT = os.getenv('NVIM_TRANSPARENT') or true
-COLORSCEHEME = os.getenv('NVIM_COLORSCHEME') or "catppuccin-mocha"
+COLORSCEHEME = os.getenv('NVIM_COLORSCHEME') or "rose-pine-moon"
 IS_WINDOWS = vim.fn.has("win32") == 1
 
 vim.opt.wrap = true        -- Wrap long lines
@@ -129,29 +123,19 @@ require("lazy").setup({
 
     { "catppuccin/nvim", name = "catppuccin", opts = { transparent_background = TRANSPARENT } },
 
-    -- {
-    --     "zbirenbaum/copilot.lua",
-    --     cmd = "Copilot",
-    --     event = "InsertEnter",
-    --     config = function()
-    --         require("copilot").setup({
-    --         })
-    --     end,
-    -- },
-
-    { -- Floating Terminal
-        'akinsho/toggleterm.nvim',
-        version = "*",
-        opts = {
-            open_mapping = [[<c-j>]],
-            direction = 'float',
-        }
+    {
+        "zbirenbaum/copilot.lua",
+        cmd = "Copilot",
+        event = "InsertEnter",
+        config = function()
+            -- require("copilot").setup({
+            -- })
+        end,
     },
 
     { -- File manager
         'stevearc/oil.nvim',
         opts = {
-
             buf_options = {
                 buflisted = true,
                 bufhidden = "hide",
@@ -270,7 +254,6 @@ require("lazy").setup({
     {
         "neovim/nvim-lspconfig",
         dependencies = {
-            "folke/trouble.nvim",
             "williamboman/mason.nvim",
             "williamboman/mason-lspconfig.nvim",
             {
@@ -312,8 +295,6 @@ require("lazy").setup({
                 require("lspconfig")[server].setup(config)
             end
 
-            require("trouble").setup()
-
             vim.api.nvim_create_autocmd("LspAttach", {
                 callback = function(args)
                     local bufnr = args.buf
@@ -330,8 +311,6 @@ require("lazy").setup({
                         references = tele.lsp_references
                         implementation = tele.lsp_implementations
                     end
-                    map("n", "<leader>e", ":Trouble diagnostics toggle<CR>", "Trouble Toggle")
-
                     map("n", "[[", vim.diagnostic.goto_prev, "Diagnostics: Next")
                     map("n", "]]", vim.diagnostic.goto_next, "Diagnostics: Previous")
                     map("n", "C-]", vim.lsp.buf.definition, "[g]oto definition")
@@ -358,31 +337,10 @@ require("lazy").setup({
 
         },
         config = function()
-            local border = {
-                { "╭", "CmpBorder" },
-                { "─", "CmpBorder" },
-                { "╮", "CmpBorder" },
-                { "│", "CmpBorder" },
-                { "╯", "CmpBorder" },
-                { "─", "CmpBorder" },
-                { "╰", "CmpBorder" },
-                { "│", "CmpBorder" },
-            }
             local cmp_select = { behavior = require("cmp").SelectBehavior.Select }
             local cmp = require("cmp")
             cmp.setup({
                 preselect = require("cmp.types").cmp.PreselectMode.None,
-                -- completion = {
-                --     autocomplete = true,
-                -- },
-                window = {
-                    completion = {
-                        border = border,
-                    },
-                    documentation = {
-                        border = border,
-                    },
-                },
                 snippet = {
                     expand = function(args)
                         vim.snippet.expand(args.body)
@@ -402,19 +360,6 @@ require("lazy").setup({
             })
         end
     },
-    {
-        "nvim-neo-tree/neo-tree.nvim",
-        branch = "v3.x",
-        dependencies = {
-            "nvim-lua/plenary.nvim",
-            "nvim-tree/nvim-web-devicons",
-            "MunifTanjim/nui.nvim",
-        },
-        config = function()
-            vim.keymap.set({ "n", 'i' }, "<C-e>", "<cmd>Neotree toggle<CR>", { desc = "Neotree Toggle" })
-        end
-    }
-
 })
 
 -- Quickfix list
@@ -441,8 +386,18 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 
 -- Color scheme
 vim.cmd.colorscheme(COLORSCEHEME)
--- if TRANSPARENT then
---     vim.cmd [[
---         hi! Normal guibg=none
---     ]]
--- end
+if TRANSPARENT then
+    vim.cmd [[
+        hi! Normal guibg=none
+    ]]
+end
+
+
+-- Terminal
+vim.keymap.set("n", "<c-j>", function()
+    vim.cmd.new()
+    vim.cmd.wincmd "J"
+    vim.api.nvim_win_set_height(0, 12)
+    vim.wo.winfixheight = true
+    vim.cmd.term()
+end)
