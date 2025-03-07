@@ -121,7 +121,7 @@ require("lazy").setup({
         }
     },
 
-    { "catppuccin/nvim", name = "catppuccin", opts = { transparent_background = TRANSPARENT } },
+    { "catppuccin/nvim",   name = "catppuccin", opts = { transparent_background = TRANSPARENT } },
 
     {
         "zbirenbaum/copilot.lua",
@@ -132,6 +132,7 @@ require("lazy").setup({
             -- })
         end,
     },
+    { "tpope/vim-fugitive" },
 
     { -- File manager
         'stevearc/oil.nvim',
@@ -399,5 +400,6 @@ vim.keymap.set("n", "<c-j>", function()
     vim.cmd.wincmd "J"
     vim.api.nvim_win_set_height(0, 12)
     vim.wo.winfixheight = true
+    vim.cmd [[ startinsert! ]]
     vim.cmd.term()
 end)
