@@ -59,16 +59,14 @@ vim.keymap.set("n", "<M-Left>", "<c-w>5>")
 vim.keymap.set("n", "<M-Right>", "<c-w>5<")
 vim.keymap.set("n", "<M-Up>", "<C-W>+")
 vim.keymap.set("n", "<M-Down>", "<C-W>-")
-vim.keymap.set({ "n", "t", "i" }, "<C-;>", "<cmd>tabprev<CR>")
-vim.keymap.set({ "n", "t", "i" }, "<C-'>", "<cmd>tabnext<CR>")
 vim.keymap.set("t", "<esc>", [[<C-\><C-n>]])
 vim.keymap.set("t", "<C-w><C-w>", function() vim.cmd([[ wincmd w ]]) end)
-vim.keymap.set({ "i" }, "<C-a>", "<C-x><C-o>") -- simpler omnifunc completion
 vim.keymap.set("n", "<leader>l", vim.diagnostic.open_float, { desc = "Diagnostics: Open float window" })
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Set Local list" })
 vim.keymap.set("n", "<leader>g", "<cmd>LazyGit<CR>", { desc = "Lazy Git" })
-vim.keymap.set({ "n", "i" }, "<C-h>", "<cmd>tabprev<CR>", {})
-vim.keymap.set({ "n", "i" }, "<C-l>", function()
+vim.keymap.set({ "n", "i", "t", "v" }, "<C-q>", "<cmd>q!<CR>", {})
+vim.keymap.set({ "n", "i", "t" }, "<C-h>", "<cmd>tabprev<CR>", {})
+vim.keymap.set({ "n", "i", "t" }, "<C-l>", function()
     -- Get current tab number and total number of tabs
     local current_tab = vim.fn.tabpagenr()
     local total_tabs = vim.fn.tabpagenr('$')
@@ -380,7 +378,7 @@ require("lazy").setup({
 
 -- Quickfix list
 local qflist = false
-function ToggleQFList()
+vim.keymap.set("n", "<C-a>", function()
     if qflist == true then
         qflist = not qflist
         vim.cmd([[ cclose ]])
@@ -388,9 +386,7 @@ function ToggleQFList()
         qflist = not qflist
         vim.cmd([[ copen ]])
     end
-end
-
-vim.keymap.set("n", "<C-q>", ToggleQFList, { desc = "Open Quickfix list" })
+end, { desc = "Open Quickfix list" })
 
 -- Highlight on Yank
 vim.api.nvim_create_autocmd("TextYankPost", {
