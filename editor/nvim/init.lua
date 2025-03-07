@@ -1,7 +1,3 @@
-TRANSPARENT = os.getenv('NVIM_TRANSPARENT') or true
-COLORSCEHEME = os.getenv('NVIM_COLORSCHEME') or "rose-pine-moon"
-IS_WINDOWS = vim.fn.has("win32") == 1
-
 vim.opt.wrap = true        -- Wrap long lines
 vim.opt.breakindent = true -- Wrapped lines have same indentation as the actual line.
 vim.opt.swapfile = false   -- No annoying swapfiles
@@ -117,7 +113,7 @@ require("lazy").setup({
         "folke/tokyonight.nvim",
         opts = {
             style = 'moon',
-            transparent = TRANSPARENT,
+            transparent = true,
         }
     },
 
@@ -127,12 +123,12 @@ require("lazy").setup({
         opts = {
             styles = {
                 italic = false,
-                transparency = TRANSPARENT,
+                transparency = true,
             }
         }
     },
 
-    { "catppuccin/nvim",   name = "catppuccin", opts = { transparent_background = TRANSPARENT } },
+    { "catppuccin/nvim",   name = "catppuccin", opts = { transparent_background = true } },
     {
         "supermaven-inc/supermaven-nvim",
         config = function()
@@ -207,9 +203,7 @@ require("lazy").setup({
                     }
                 }
             })
-            if IS_WINDOWS == false then
-                require('telescope').load_extension('fzf')
-            end
+            require('telescope').load_extension('fzf')
             require("telescope").load_extension("ui-select")
 
             local telescope_keys = {
@@ -391,8 +385,8 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 })
 
 -- Color scheme
-vim.cmd.colorscheme(COLORSCEHEME)
-if TRANSPARENT then
+vim.cmd.colorscheme("rose-pine")
+if true then
     vim.cmd [[
         hi! Normal guibg=none
     ]]
