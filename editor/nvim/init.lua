@@ -18,6 +18,7 @@ vim.opt.expandtab = true
 vim.g.netrw_browse_split = 0 -- minimal netrw (vim default file manager)
 vim.g.netrw_banner = 0
 vim.g.netrw_winsize = 25
+vim.opt.guicursor = ''
 vim.opt.timeoutlen = 300 -- vim update time
 vim.opt.updatetime = 250
 vim.opt.termsync = false
@@ -132,17 +133,12 @@ require("lazy").setup({
     },
 
     { "catppuccin/nvim",   name = "catppuccin", opts = { transparent_background = TRANSPARENT } },
-
     {
-        "zbirenbaum/copilot.lua",
-        cmd = "Copilot",
-        event = "InsertEnter",
+        "supermaven-inc/supermaven-nvim",
         config = function()
-            -- require("copilot").setup({
-            -- })
+            require("supermaven-nvim").setup({})
         end,
     },
-
     { "tpope/vim-fugitive" }, -- Git Client
 
     {                         -- File manager
