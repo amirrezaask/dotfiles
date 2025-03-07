@@ -132,9 +132,10 @@ require("lazy").setup({
             -- })
         end,
     },
-    { "tpope/vim-fugitive" },
 
-    { -- File manager
+    { "tpope/vim-fugitive" }, -- Git Client
+
+    {                         -- File manager
         'stevearc/oil.nvim',
         opts = {
             buf_options = {
