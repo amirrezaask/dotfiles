@@ -404,3 +404,7 @@ vim.keymap.set("n", "<c-j>", function()
     vim.cmd [[ startinsert! ]]
     vim.cmd.term()
 end)
+
+vim.keymap.set("t", "<C-j>", function()
+    vim.cmd.quit()
+end)
