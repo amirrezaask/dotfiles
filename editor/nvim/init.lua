@@ -263,9 +263,9 @@ require("lazy").setup({
                 go = { "goimports", "gofmt" },
             },
         }
-    }, -- Auto format
+    },
 
-    {
+    { -- LSP
         "neovim/nvim-lspconfig",
         dependencies = {
             "williamboman/mason.nvim",
