@@ -257,12 +257,6 @@ require("lazy").setup({
         dependencies = {
             "williamboman/mason.nvim",
             "williamboman/mason-lspconfig.nvim",
-            {
-                "j-hui/fidget.nvim",
-                opts = {
-                    -- options
-                },
-            }
         },
         config = function()
             require("lspconfig.ui.windows").default_options.border = "single"
