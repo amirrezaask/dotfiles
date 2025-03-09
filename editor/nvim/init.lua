@@ -203,15 +203,16 @@ require("lazy").setup({
             })
             require('telescope').load_extension('fzf')
             require("telescope").load_extension("ui-select")
+            local dropdown = require("telescope.themes").get_dropdown
 
             local telescope_keys = {
-                ["<leader>p"] = { "git_files", previewer = false },
-                ["<leader><leader>"] = { "find_files", previewer = false },
+                ["<leader>p"] = { "git_files", previewer = false, theme = dropdown },
+                ["<leader><leader>"] = { "find_files", previewer = false, theme = dropdown },
                 ["??"] = "live_grep",
-                ["<leader>h"] = { "help_tags", previewer = false },
-                ["<leader>b"] = { "buffers", previewer = false },
-                ["<leader>w"] = "lsp_dynamic_workspace_symbols",
-                ["<leader>o"] = { "lsp_document_symbols", previewer = false },
+                ["<leader>h"] = { "help_tags", previewer = false, theme = dropdown },
+                ["<leader>b"] = { "buffers", previewer = false, theme = dropdown },
+                ["<leader>w"] = { "lsp_dynamic_workspace_symbols", theme = dropdown },
+                ["<leader>o"] = { "lsp_document_symbols", previewer = false, theme = dropdown },
             }
 
 
