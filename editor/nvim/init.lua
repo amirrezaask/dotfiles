@@ -377,7 +377,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 })
 
 -- Color scheme
-vim.cmd.colorscheme("catppuccin-mocha")
+vim.cmd.colorscheme("rose-pine-moon")
 if true then
     vim.cmd [[
         hi! Normal guibg=none
