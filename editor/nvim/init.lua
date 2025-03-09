@@ -58,7 +58,6 @@ vim.keymap.set("t", "<C-w><C-w>", function() vim.cmd([[ wincmd w ]]) end)
 vim.keymap.set("n", "<leader>l", vim.diagnostic.open_float, { desc = "Diagnostics: Open float window" })
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Set Local list" })
 vim.keymap.set("n", "<leader>g", "<cmd>LazyGit<CR>", { desc = "Lazy Git" })
-vim.keymap.set({ "n", "i", "t", "v" }, "<C-q>", "<cmd>q!<CR>", {})
 vim.keymap.set({ "n", "i", "t" }, "<C-h>", "<cmd>tabprev<CR>", {})
 vim.keymap.set({ "n", "i", "t" }, "<C-l>", function()
     -- Get current tab number and total number of tabs
@@ -358,7 +357,7 @@ require("lazy").setup({
 
 -- Quickfix list
 local qflist = false
-vim.keymap.set("n", "<C-a>", function()
+vim.keymap.set("n", "<C-q>", function()
     if qflist == true then
         qflist = not qflist
         vim.cmd([[ cclose ]])
