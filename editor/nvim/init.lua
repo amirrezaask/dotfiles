@@ -115,7 +115,6 @@ require("lazy").setup({
             transparent = true,
         }
     },
-
     {
         "rose-pine/neovim",
         name = 'rose-pine',
