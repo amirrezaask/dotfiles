@@ -27,7 +27,7 @@ source ~/.profile
 
 if command -v starship &>/dev/null
 then
-    # eval "$(starship init zsh)"
+    eval "$(starship init zsh)"
 fi
 
 
@@ -35,18 +35,6 @@ sync-repos () {
     find . -type d -name '.git' -execdir sh -c 'echo "Pulling in $PWD"; git pull' \;
 }
 
-alias v='neovide.exe --wsl'
-alias ss='subl .'
-
-if command -v code &> /dev/null
-then
-    alias jj='code .'
-fi
-
-if command -v cursor &>/dev/null
-then
-    alias jj='cursor .'
-fi
-
 alias wip='git add . && git commit -m "wip" && git push origin $(git_current_branch)'
+
 alias gs='git status'
