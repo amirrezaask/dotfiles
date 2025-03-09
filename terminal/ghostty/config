@@ -3,7 +3,7 @@ keybind = cmd+p=previous_tab
 keybind = cmd+left=previous_tab
 keybind = cmd+right=next_tab
 
-# theme = dark:rose-pine,light:rose-pine-dawn
+theme = rose-pine
 background = 000000
 foreground = ffffff
 cursor-style=block
