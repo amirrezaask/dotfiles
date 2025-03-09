@@ -393,8 +393,5 @@ vim.keymap.set("n", "<c-j>", function()
     vim.wo.winfixheight = true
     vim.cmd [[ startinsert! ]]
     vim.cmd.term()
-end)
-
-vim.keymap.set("t", "<C-j>", function()
-    vim.cmd.quit()
+    vim.keymap.set({ "n", "i", "t" }, "<C-j>", "<cmd>quit<CR>", { buffer = true })
 end)
