@@ -8,7 +8,7 @@ export PATH="$PATH:/usr/local/bin"
 # if ! command -v starship &>/dev/null
 #   curl -sS https://starship.rs/install.sh | sh
 # end
-#
+
 if command -v brew &>/dev/null
     eval (brew shellenv)
 end
@@ -38,4 +38,3 @@ function fish_prompt
     printf '%s' (set_color green) (prompt_pwd) (set_color white) (fish_git_prompt) ' > '
 end
 
-alias svpn="sudo openfortivpn --otp $(2fa ADS) --trusted-cert='f19a72523e24fff1dd45a1eacfce5dc9f6e5c5c460e4ceb0ac9dfc81c0228b42'"
