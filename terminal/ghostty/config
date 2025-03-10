@@ -3,10 +3,11 @@ keybind = cmd+p=previous_tab
 keybind = cmd+left=previous_tab
 keybind = cmd+right=next_tab
 
-
-theme = rose-pine
-background = 000000
-foreground = ffffff
+font-style-bold = false
+font-style-italic = false
+font-style-bold-italic = false
+background=000000
+foreground=ffffff
 cursor-style=block
 shell-integration-features = no-cursor
 
