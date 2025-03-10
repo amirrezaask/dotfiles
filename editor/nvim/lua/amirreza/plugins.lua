@@ -44,6 +44,13 @@ require("lazy").setup({
     },
     { -- Git Client
         "tpope/vim-fugitive",
+        config = function()
+            vim.api.nvim_create_autocmd("FileType", {
+                pattern = "fugitive*",
+                callback = function()
+                end
+            })
+        end
     },
 
     { -- File manager
@@ -64,9 +71,6 @@ require("lazy").setup({
             { "folke/ts-comments.nvim", opts = {} },
         },
         config = function()
-            vim.o.foldmethod = 'expr'                     -- Use expression for folding
-            vim.o.foldexpr = 'nvim_treesitter#foldexpr()' -- Set Tree-sitter folding expression
-            vim.o.foldenable = false                      -- Start with all folds open
             require("nvim-treesitter.configs").setup({
                 ensure_installed = { "lua", "go", "gomod", "markdown", "php", "c", "cpp" },
                 highlight = { enable = true },
