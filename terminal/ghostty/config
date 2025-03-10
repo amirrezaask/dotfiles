@@ -3,6 +3,7 @@ keybind = cmd+p=previous_tab
 keybind = cmd+left=previous_tab
 keybind = cmd+right=next_tab
 
+background-opacity = 0.90
 font-style-bold = false
 font-style-italic = false
 font-style-bold-italic = false
