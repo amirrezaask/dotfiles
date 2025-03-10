@@ -25,3 +25,9 @@ alias wip='git add . && git commit -m "Work In Progress" && git push origin $(gi
 alias gs='git status'
 export PATH="/Users/amirrezaask/.config/herd-lite/bin:$PATH"
 export PHP_INI_SCAN_DIR="/Users/amirrezaask/.config/herd-lite/bin:$PHP_INI_SCAN_DIR"
+
+
+if command -v cursor &> /dev/null
+then
+    alias code='cursor'
+fi

@@ -26,7 +26,7 @@ vim.opt.smartcase = true
 vim.opt.completeopt = { 'menu', 'noinsert' }
 vim.opt.inccommand = "" -- Preview all substitutions(replacements).
 vim.opt.scrolloff = 10  -- Minimal number of screen lines to keep above and below the cursor.
-vim.opt.cursorline = true
+vim.opt.cursorline = false
 vim.opt.laststatus = 3  -- Global statusline
 
 vim.g.mapleader = " "   -- <leader> key for keymaps mapped to <Space>
@@ -127,7 +127,8 @@ require("lazy").setup({
     },
 
     { "catppuccin/nvim", name = "catppuccin", opts = { transparent_background = true } },
-    {
+
+    { -- AI Assistant
         "supermaven-inc/supermaven-nvim",
         config = function()
             require("supermaven-nvim").setup({})
@@ -170,10 +171,7 @@ require("lazy").setup({
         "nvim-telescope/telescope.nvim",
         dependencies = {
             "nvim-lua/plenary.nvim",
-            { "nvim-telescope/telescope-fzf-native.nvim", build = 'make' },
-            { 'junegunn/fzf',                             build = "./install --all" },
             "nvim-telescope/telescope-ui-select.nvim",
-
         },
 
         config = function()
@@ -185,19 +183,17 @@ require("lazy").setup({
                     }
                 }
             })
-            require('telescope').load_extension('fzf')
             require("telescope").load_extension("ui-select")
             -- local theme = require("telescope.themes").get_dropdown
             local theme = function(opts) return opts end
 
             local telescope_keys = {
                 ["<leader>p"] = { "git_files", previewer = false, theme = theme },
+                ["<c-p>"] = { "git_files", previewer = false, theme = theme },
                 ["<leader><leader>"] = { "find_files", previewer = false, theme = theme },
                 ["??"] = "live_grep",
                 ["<leader>h"] = { "help_tags", previewer = false, theme = theme },
                 ["<leader>b"] = { "buffers", previewer = false, theme = theme },
-                ["<leader>w"] = { "lsp_dynamic_workspace_symbols", theme = theme },
-                ["<leader>o"] = { "lsp_document_symbols", previewer = false, theme = theme },
             }
 
 
@@ -210,8 +206,8 @@ require("lazy").setup({
                     vim.keymap.set("n", k, v)
                 elseif type(v) == "table" then
                     vim.keymap.set("n", k, function()
-                        local theme = v['theme'] or function(opts) return opts end
-                        require "telescope.builtin"[v[1]](theme({
+                        local current_theme = v['theme'] or function(opts) return opts end
+                        require "telescope.builtin"[v[1]](current_theme({
                             previewer = v['previewer']
                         }))
                     end)
