@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+
+neovim() {
+    if ! command -v nvim &> /dev/null; then
+        echo "Neovim is not installed."
+        git clone https://github.com/neovim/neovim.git ~/.neovim/
+        pushd ~/.neovim/
+        make CMAKE_BUILD_TYPE=RelWithDebInfo
+        sudo make install
+        popd
+    else
+        echo "Neovim is already installed."
+    fi
+    
+    rm -rf ~/.config/nvim
+    ln -s $(pwd)/editor/nvim ~/.config/nvim
+}
+
+ghostty() {
+    if ! command -v ghostty &> /dev/null; then
+        case "$(uname -s)" in
+            "Darwin")
+                brew install --cask ghostty
+                ;;
+            "Linux")
+                bash -c "$(curl -fsSL https://raw.githubusercontent.com/mkasberg/ghostty-ubuntu/HEAD/install.sh)"
+                ;;
+            *)
+                echo "Ghostty is not supported on your OS."
+                ;;
+            esac
+    else
+        echo "Ghostty is already installed."
+    fi
+
+    rm -rf ~/.config/ghostty
+    ln -s $(pwd)/terminal/ghostty ~/.config/ghostty
+    echo "configuration linked"
+}
+
+
+echo "Next generation development environment"
+
+case "$1" in
+    "neovim")
+        neovim
+        ;;
+    "ghostty")
+        ghostty
+        ;;
+    *)
+        echo "Usage: $0 [neovim|ghostty]"
+        ;;
+esac

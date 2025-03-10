@@ -1,13 +1,16 @@
 # AmirrezaAsk Configs
+My personal configs for various tools that I use.
 
 # OS Provision
 ## Ubuntu
 ```bash
-sh -c "$(wget -qO- 'https://raw.githubusercontent.com/amirrezaask/dotfiles/master/provision.sh')"
+sh -c "$(wget -qO- 'https://raw.githubusercontent.com/amirrezaask/dotfiles/master/provision-ubuntu.sh')"
 ```
 
 ## MacOS
-TBA
+```bash
+sh -c "$(wget -qO- 'https://raw.githubusercontent.com/amirrezaask/dotfiles/master/provision-macos.sh')"
+```
 
 
 # Installation
