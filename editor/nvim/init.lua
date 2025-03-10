@@ -126,16 +126,18 @@ require("lazy").setup({
         }
     },
 
-    { "catppuccin/nvim",   name = "catppuccin", opts = { transparent_background = true } },
+    { "catppuccin/nvim", name = "catppuccin", opts = { transparent_background = true } },
     {
         "supermaven-inc/supermaven-nvim",
         config = function()
             require("supermaven-nvim").setup({})
         end,
     },
-    { "tpope/vim-fugitive" }, -- Git Client
+    { -- Git Client
+        "tpope/vim-fugitive",
+    },
 
-    {                         -- File manager
+    { -- File manager
         'stevearc/oil.nvim',
         opts = {
             buf_options = {

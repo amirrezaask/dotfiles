@@ -4,7 +4,6 @@ keybind = cmd+left=previous_tab
 keybind = cmd+right=next_tab
 
 
-font-family = Operator Mono Book
 theme = rose-pine
 background = 000000
 foreground = ffffff
