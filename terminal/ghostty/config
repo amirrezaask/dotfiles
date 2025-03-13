@@ -1,4 +1,4 @@
-theme=NightOwl
+theme=dark:NightOwl,light:Github-Light-Default
 keybind = cmd+n=next_tab
 keybind = cmd+p=previous_tab
 keybind = cmd+left=previous_tab
