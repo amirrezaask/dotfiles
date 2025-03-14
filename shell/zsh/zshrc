@@ -22,6 +22,12 @@ then
     export GIT_EDITOR='subl -w'
     export EDITOR='subl -w'
 fi
+if command -v nvim &> /dev/null
+then
+    alias vim='nvim'
+fi
+
+
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
