@@ -32,12 +32,11 @@ source ~/.profile
 
 
 alias artisan='php artisan'
+
 alias wip='git add . && git commit -m "Work In Progress" && git push origin $(git_current_branch)'
 alias gs='git status'
 alias nah='git stash'
-alias save='git add . && git commit'
+alias ok='git add . && git commit'
+
 export PATH="/Users/amirrezaask/.config/herd-lite/bin:$PATH"
 export PHP_INI_SCAN_DIR="/Users/amirrezaask/.config/herd-lite/bin:$PHP_INI_SCAN_DIR"
-
-
-
