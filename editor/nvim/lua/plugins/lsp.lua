@@ -41,7 +41,7 @@ return {
 					local bufnr = args.buf
 					vim.api.nvim_set_option_value("omnifunc", "v:lua.vim.lsp.omnifunc", { buf = bufnr })
 					local map = function(mode, key, fn, desc)
-						local border = "rounded" -- You can use "single", "double", "shadow", "none"
+						local border = "rounded"
 						vim.keymap.set(mode, key, function()
 							fn({ border = border })
 						end, { buffer = bufnr, desc = "LSP: " .. desc })
