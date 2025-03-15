@@ -21,6 +21,13 @@ return {
 		end
 
 		local telescope_keys = {
+			["<leader>i"] = function()
+				require("telescope.builtin").find_files({
+					prompt_title = "Neovim Config",
+					cwd = vim.fn.stdpath("config"),
+					previewer = false,
+				})
+			end,
 			["<leader>p"] = { "git_files", previewer = false, theme = theme },
 			["<c-p>"] = { "git_files", previewer = false, theme = theme },
 			["<leader><leader>"] = { "find_files", previewer = false, theme = theme },
