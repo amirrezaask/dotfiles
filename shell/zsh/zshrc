@@ -17,14 +17,11 @@ reload() {
 
 
 
-if command -v subl &> /dev/null
-then
-    export GIT_EDITOR='subl -w'
-    export EDITOR='subl -w'
-fi
 if command -v nvim &> /dev/null
 then
     alias vim='nvim'
+    export GIT_EDITOR='nvim'
+    export EDITOR='nvim'
 fi
 
 
