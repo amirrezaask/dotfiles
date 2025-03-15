@@ -3,6 +3,7 @@ return {
 	dependencies = {
 		"nvim-lua/plenary.nvim",
 		"nvim-telescope/telescope-ui-select.nvim",
+		{ "nvim-telescope/telescope-fzf-native.nvim", build = "make", enabled = vim.fn.has("unix") == 1 },
 	},
 
 	config = function()
@@ -15,6 +16,9 @@ return {
 			},
 		})
 		require("telescope").load_extension("ui-select")
+		if vim.fn.has("unix") == 1 then
+			require("telescope").load_extension("fzf")
+		end
 		-- local theme = require("telescope.themes").get_dropdown
 		local theme = function(opts)
 			return opts
