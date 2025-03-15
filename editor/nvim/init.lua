@@ -1,3 +1,10 @@
 require("core.sets")
 require("core.keymaps")
-require("load_plugins")
+require("lazy_init")
+
+vim.cmd.colorscheme("rose-pine")
+if true then
+	vim.cmd([[
+        hi! Normal guibg=none
+    ]])
+end
