@@ -1,4 +1,3 @@
-require "amirreza.sets"
-require "amirreza.keymaps"
-require "amirreza.plugins"
-require "amirreza.colors"
+require("core.sets")
+require("core.keymaps")
+require("load_plugins")
