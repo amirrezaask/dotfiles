@@ -5,15 +5,14 @@ return {
 		dependencies = {
 			"williamboman/mason.nvim",
 			"williamboman/mason-lspconfig.nvim",
+			{
+				"j-hui/fidget.nvim",
+				opts = {
+					-- options
+				},
+			},
 		},
 		config = function()
-			require("lspconfig.ui.windows").default_options.border = "single"
-
-			vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
-
-			vim.lsp.handlers["textDocument/signatureHelp"] =
-				vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
-
 			require("mason").setup()
 			require("mason-lspconfig").setup({ ensure_installed = { "gopls" } })
 			local lsp_servers = {
@@ -41,9 +40,11 @@ return {
 				callback = function(args)
 					local bufnr = args.buf
 					vim.api.nvim_set_option_value("omnifunc", "v:lua.vim.lsp.omnifunc", { buf = bufnr })
-
 					local map = function(mode, key, fn, desc)
-						vim.keymap.set(mode, key, fn, { buffer = bufnr, desc = "LSP: " .. desc })
+						local border = "rounded" -- You can use "single", "double", "shadow", "none"
+						vim.keymap.set(mode, key, function()
+							fn({ border = border })
+						end, { buffer = bufnr, desc = "LSP: " .. desc })
 					end
 					local references = vim.lsp.buf.references
 					local implementation = vim.lsp.buf.implementation
@@ -64,7 +65,10 @@ return {
 					map("n", "C", vim.lsp.buf.code_action, "Code Actions")
 					map("n", "<leader>f", vim.lsp.buf.format, "Format")
 					map({ "n", "i" }, "<C-s>", vim.lsp.buf.signature_help, "Signature Help")
-					vim.diagnostic.config({ virtual_text = false })
+					vim.diagnostic.config({
+						virtual_text = false,
+						float = { border = border },
+					})
 				end,
 			})
 		end,

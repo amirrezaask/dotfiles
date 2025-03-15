@@ -1,6 +1,6 @@
 local no_auto_format = { "php" }
 
-return { -- Autoformat
+return {
 	"stevearc/conform.nvim",
 	opts = {
 		format_on_save = function()
