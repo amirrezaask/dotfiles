@@ -17,6 +17,7 @@ return {
 			},
 		},
 	},
+	{ "ellisonleao/gruvbox.nvim", opts = {} },
 
 	{ "catppuccin/nvim", name = "catppuccin", opts = { transparent_background = true } },
 }
