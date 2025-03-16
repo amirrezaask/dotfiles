@@ -66,3 +66,6 @@ local function toggle_bottom_terminal()
 end
 
 vim.keymap.set({ "n", "t" }, "<c-j>", toggle_bottom_terminal)
+
+
+return {}
