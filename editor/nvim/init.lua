@@ -1,5 +1,6 @@
 require("core.sets")
 require("core.keymaps")
+require("core.ide")
 require("lazy_init")
 
 vim.cmd.colorscheme(os.getenv("NVIM_COLORSCHEME") or "rose-pine-moon")

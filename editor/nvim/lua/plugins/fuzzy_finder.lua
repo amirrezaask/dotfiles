@@ -1,5 +1,3 @@
-_G.FuzzyFinder = {}
-
 return {
 	{
 		"nvim-telescope/telescope.nvim",
@@ -20,11 +18,15 @@ return {
 				},
 			})
 			require("telescope").load_extension("ui-select")
-			_G.FuzzyFinder.FindFiles = require("telescope.builtin").find_files
-			_G.FuzzyFinder.Buffers = require("telescope.builtin").buffers
-			_G.FuzzyFinder.HelpTags = require("telescope.builtin").help_tags
-			_G.FuzzyFinder.GitFiles = require("telescope.builtin").git_files
-			_G.FuzzyFinder.Grep = require("telescope.builtin").live_grep
+			_G.IDE.Files = require("telescope.builtin").find_files
+			_G.IDE.Buffers = require("telescope.builtin").buffers
+			_G.IDE.Help = require("telescope.builtin").help_tags
+			_G.IDE.GitFiles = require("telescope.builtin").git_files
+			_G.IDE.GitCommits = require("telescope.builtin").git_commits
+			_G.IDE.Grep = require("telescope.builtin").live_grep
+			_G.IDE.DocumentSymbols = require("telescope.builtin").lsp_document_symbols
+			_G.IDE.WorkspaceSymbols = require("telescope.builtin").lsp_dynamic_workspace_symbols
+			_G.IDE.Commands = require("telescope.builtin").commands
 		end,
 	},
 	{
@@ -39,11 +41,26 @@ return {
 				},
 			})
 
-			_G.FuzzyFinder.FindFiles = fzfLua.files
-			_G.FuzzyFinder.Buffers = fzfLua.buffers
-			_G.FuzzyFinder.HelpTags = fzfLua.help_tags
-			_G.FuzzyFinder.GitFiles = fzfLua.git_files
-			_G.FuzzyFinder.Grep = fzfLua.grep_project
+			_G.IDE.Files = fzfLua.files
+			_G.IDE.Buffers = fzfLua.buffers
+			_G.IDE.Help = fzfLua.help_tags
+			_G.IDE.GitFiles = fzfLua.git_files
+			_G.IDE.GitCommits = fzfLua.git_commits
+			_G.IDE.GitBranches = fzfLua.git_branches
+			_G.IDE.Grep = fzfLua.live_grep
+			_G.IDE.DocumentSymbols = fzfLua.lsp_document_symbols
+			_G.IDE.WorkspaceSymbols = fzfLua.lsp_live_workspace_symbols
+			_G.IDE.Commands = function()
+				local commands = vim.fn.getcompletion("", "command")
+				fzfLua.fzf_exec(commands, {
+					prompt = "Command Palette > ",
+					actions = {
+						["default"] = function(selected)
+							vim.cmd(selected[1])
+						end,
+					},
+				})
+			end
 		end,
 	},
 }
