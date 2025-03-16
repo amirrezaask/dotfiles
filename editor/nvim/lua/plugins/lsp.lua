@@ -41,10 +41,7 @@ return {
 					local bufnr = args.buf
 					vim.api.nvim_set_option_value("omnifunc", "v:lua.vim.lsp.omnifunc", { buf = bufnr })
 					local map = function(mode, key, fn, desc)
-						local border = "rounded"
-						vim.keymap.set(mode, key, function()
-							fn({ border = border })
-						end, { buffer = bufnr, desc = "LSP: " .. desc })
+						vim.keymap.set(mode, key, fn, { buffer = bufnr, desc = "LSP: " .. desc })
 					end
 					local references = vim.lsp.buf.references
 					local implementation = vim.lsp.buf.implementation
@@ -53,6 +50,8 @@ return {
 						references = tele.lsp_references
 						implementation = tele.lsp_implementations
 					end
+
+					local border = "rounded"
 					map("n", "[[", vim.diagnostic.goto_prev, "Diagnostics: Next")
 					map("n", "]]", vim.diagnostic.goto_next, "Diagnostics: Previous")
 					map("n", "C-]", vim.lsp.buf.definition, "[g]oto definition")
@@ -61,10 +60,14 @@ return {
 					map("n", "gI", implementation, "[g]oto [i]mplementation")
 					map("n", "gr", references, "[g]oto [r]eferences")
 					map("n", "R", vim.lsp.buf.rename, "Rename")
-					map("n", "K", vim.lsp.buf.hover, "Hover")
+					map("n", "K", function()
+						vim.lsp.buf.hover({ border = border })
+					end, "Hover")
 					map("n", "C", vim.lsp.buf.code_action, "Code Actions")
 					map("n", "<leader>f", vim.lsp.buf.format, "Format")
-					map({ "n", "i" }, "<C-s>", vim.lsp.buf.signature_help, "Signature Help")
+					map({ "n", "i" }, "<C-s>", function()
+						vim.lsp.buf.signature_help({ border = border })
+					end, "Signature Help")
 					vim.diagnostic.config({
 						virtual_text = false,
 						float = { border = border },
