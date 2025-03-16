@@ -1,10 +1,11 @@
+local transparent = os.getenv("NVIM_TRANSPARENT") or false
 return {
 	{
 		"folke/tokyonight.nvim",
 
 		opts = {
 			style = "moon",
-			transparent = true,
+			transparent = transparent,
 		},
 	},
 	{
@@ -13,11 +14,17 @@ return {
 		opts = {
 			styles = {
 				italic = false,
-				transparency = true,
+				transparency = transparent,
 			},
 		},
 	},
-	{ "ellisonleao/gruvbox.nvim", opts = {} },
+	{
+		"ellisonleao/gruvbox.nvim",
+		opts = {
+			contrast = "hard",
+			transparent_mode = transparent,
+		},
+	},
 
-	{ "catppuccin/nvim", name = "catppuccin", opts = { transparent_background = true } },
+	{ "catppuccin/nvim", name = "catppuccin", opts = { transparent_background = transparent } },
 }
