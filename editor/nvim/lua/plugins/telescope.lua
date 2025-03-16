@@ -1,5 +1,6 @@
 return {
 	"nvim-telescope/telescope.nvim",
+	enabled = vim.fn.has("win32") == 1,
 	dependencies = {
 		"nvim-lua/plenary.nvim",
 		"nvim-telescope/telescope-ui-select.nvim",
