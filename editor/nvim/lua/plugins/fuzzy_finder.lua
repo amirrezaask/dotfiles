@@ -17,16 +17,44 @@ return {
 					},
 				},
 			})
+			local theme = function(opts)
+				return opts
+			end
 			require("telescope").load_extension("ui-select")
-			_G.IDE.Files = require("telescope.builtin").find_files
-			_G.IDE.Buffers = require("telescope.builtin").buffers
-			_G.IDE.Help = require("telescope.builtin").help_tags
-			_G.IDE.GitFiles = require("telescope.builtin").git_files
-			_G.IDE.GitCommits = require("telescope.builtin").git_commits
-			_G.IDE.Grep = require("telescope.builtin").live_grep
-			_G.IDE.DocumentSymbols = require("telescope.builtin").lsp_document_symbols
-			_G.IDE.WorkspaceSymbols = require("telescope.builtin").lsp_dynamic_workspace_symbols
-			_G.IDE.Commands = require("telescope.builtin").commands
+			local telescope_keys = {
+				["<leader>i"] = function()
+					require("telescope.builtin").find_files({
+						prompt_title = "Neovim Config",
+						cwd = vim.fn.stdpath("config"),
+						previewer = false,
+					})
+				end,
+				["<leader>p"] = { "git_files", previewer = false, theme = theme },
+				["<c-p>"] = { "git_files", previewer = false, theme = theme },
+				["<leader><leader>"] = { "find_files", previewer = false, theme = theme },
+				["??"] = "live_grep",
+				["<leader>h"] = { "help_tags", previewer = false, theme = theme },
+				["<leader>b"] = { "buffers", previewer = false, theme = theme },
+			}
+
+			for k, v in pairs(telescope_keys) do
+				if type(v) == "string" then
+					vim.keymap.set("n", k, function()
+						require("telescope.builtin")[v]({})
+					end, {})
+				elseif type(v) == "function" then
+					vim.keymap.set("n", k, v)
+				elseif type(v) == "table" then
+					vim.keymap.set("n", k, function()
+						local current_theme = v["theme"] or function(opts)
+							return opts
+						end
+						require("telescope.builtin")[v[1]](current_theme({
+							previewer = v["previewer"],
+						}))
+					end)
+				end
+			end
 		end,
 	},
 	{
@@ -39,28 +67,22 @@ return {
 				defaults = {
 					previewer = false,
 				},
-			})
-
-			_G.IDE.Files = fzfLua.files
-			_G.IDE.Buffers = fzfLua.buffers
-			_G.IDE.Help = fzfLua.help_tags
-			_G.IDE.GitFiles = fzfLua.git_files
-			_G.IDE.GitCommits = fzfLua.git_commits
-			_G.IDE.GitBranches = fzfLua.git_branches
-			_G.IDE.Grep = fzfLua.live_grep
-			_G.IDE.DocumentSymbols = fzfLua.lsp_document_symbols
-			_G.IDE.WorkspaceSymbols = fzfLua.lsp_live_workspace_symbols
-			_G.IDE.Commands = function()
-				local commands = vim.fn.getcompletion("", "command")
-				fzfLua.fzf_exec(commands, {
-					prompt = "Command Palette > ",
+				commands = {
 					actions = {
-						["default"] = function(selected)
+						["enter"] = function(selected)
 							vim.cmd(selected[1])
 						end,
 					},
-				})
-			end
+				},
+			})
+			vim.keymap.set("n", "<leader><leader>", fzfLua.files)
+			vim.keymap.set("n", "<leader>b", fzfLua.buffers)
+			vim.keymap.set("n", "<leader>h", fzfLua.help_tags)
+			vim.keymap.set("n", "<C-p>", fzfLua.git_files)
+			vim.keymap.set("n", "??", fzfLua.live_grep)
+			vim.keymap.set("n", "<leader>o", fzfLua.lsp_document_symbols)
+			vim.keymap.set("n", "<leader>O", fzfLua.lsp_live_workspace_symbols)
+			vim.keymap.set("n", "<leader>;", fzfLua.commands)
 		end,
 	},
 }
