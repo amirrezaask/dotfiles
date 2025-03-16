@@ -1,5 +1,5 @@
 require("sets")
 require("maps")
-require("lazy_init")
+require("load_plugins")
 
 vim.cmd.colorscheme(os.getenv("NVIM_COLORSCHEME") or "rose-pine-moon")
