@@ -1,4 +1,3 @@
-vim.g.mapleader = " " -- <leader> key for keymaps mapped to <Space>
 vim.keymap.set("n", "Y", "y$", { desc = "Copy whole line" })
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 vim.keymap.set("i", "<C-c>", "<esc>")
@@ -55,13 +54,3 @@ vim.keymap.set("n", "<C-q>", function()
 		vim.cmd([[ copen ]])
 	end
 end, { desc = "Open Quickfix list" })
-
-vim.keymap.set("n", "<c-j>", function()
-	vim.cmd.new()
-	vim.cmd.wincmd("J")
-	vim.api.nvim_win_set_height(0, 12)
-	vim.wo.winfixheight = true
-	vim.cmd([[ startinsert! ]])
-	vim.cmd.term()
-	vim.keymap.set({ "n", "i", "t" }, "<C-j>", "<cmd>quit<CR>", { buffer = true })
-end)
