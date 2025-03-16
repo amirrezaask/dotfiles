@@ -5,7 +5,7 @@ keybind = cmd+right=next_tab
 
 macos-titlebar-style=transparent
 window-colorspace = "display-p3"
-adjust-cell-height = 20%
+adjust-cell-height = 30%
 
 font-family=Fira Code
 font-style-bold = false
