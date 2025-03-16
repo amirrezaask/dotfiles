@@ -2,6 +2,7 @@ return {
 	{
 		"ibhagwan/fzf-lua",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
+		enabled = vim.fn.has("win32") == 0,
 		config = function()
 			local fzfLua = require("fzf-lua")
 			fzfLua.setup({
@@ -49,6 +50,7 @@ return {
 				},
 			})
 			require("telescope").load_extension("ui-select")
+
 			vim.keymap.set("n", "<leader>ff", function()
 				require("telescope.builtin").find_files({ previewer = false })
 			end)
@@ -69,15 +71,19 @@ return {
 			end)
 
 			vim.keymap.set("n", "??", function()
-				require("telescope.builtin").live_grep({})
+				require("telescope.builtin").live_grep({ previewer = false })
 			end)
 
 			vim.keymap.set("n", "<leader>o", function()
-				require("telescope.builtin").lsp_document_symbols({})
+				require("telescope.builtin").lsp_document_symbols({
+					previewer = false,
+				})
 			end)
 
 			vim.keymap.set("n", "<leader>O", function()
-				require("telescope.builtin").lsp_dynamic_workspace_symbols({})
+				require("telescope.builtin").lsp_dynamic_workspace_symbols({
+					previewer = false,
+				})
 			end)
 
 			vim.keymap.set("n", "<leader>h", function()
