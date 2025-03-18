@@ -27,4 +27,5 @@ return {
 	},
 
 	{ "catppuccin/nvim", name = "catppuccin", opts = { transparent_background = transparent } },
+	{ "navarasu/onedark.nvim", opts = { style = "dark", transparent = transparent } },
 }
