@@ -30,6 +30,9 @@ return {
 			vim.keymap.set("n", "<leader>o", fzfLua.lsp_document_symbols)
 			vim.keymap.set("n", "<leader>O", fzfLua.lsp_live_workspace_symbols)
 			vim.keymap.set("n", "<leader>;", fzfLua.commands)
+			vim.keymap.set("n", "<leader>i", function()
+				fzfLua.files({ cwd = "~/.config/nvim" })
+			end)
 		end,
 	},
 	{
