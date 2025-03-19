@@ -216,6 +216,13 @@
 (define-key minibuffer-mode-map (kbd "C-p") 'minibuffer-previous-completion)
 (define-key completion-in-region-mode-map (kbd "C-n") 'minibuffer-next-completion)
 (define-key completion-in-region-mode-map (kbd "C-p") 'minibuffer-previous-completion)
+(defun my/minibuffer-choose-completion (&optional no-exit no-quit)
+  (interactive "P")
+  (with-minibuffer-completions-window
+    (let ((completion-use-base-affixes nil))
+      (choose-completion nil no-exit no-quit))))
+
+(define-key completion-in-region-mode-map (kbd "RET") 'minibuffer-choose-completion)
 
 ;; Major modes
 (install 'go-mode)
