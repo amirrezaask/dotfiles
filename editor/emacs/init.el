@@ -104,13 +104,6 @@
 (amirreza-mode +1)
 (defun GLOBAL (KBD ACTION) (define-key amirreza-keys KBD ACTION))
 
-;; Cursor
-(setq-default cursor-type 'box)
-(blink-cursor-mode -1)
-
-;; Highlight Current line
-(global-hl-line-mode)
-
 ;; Font
 (setq font-size 21)
 (setq current-font-family "")
@@ -122,7 +115,7 @@
        (set-face-attribute 'default nil :font (format "%s-%d" font size)))
 
 (cond
- ((member "Fira Code" font-families)      (set-font "Fira Code" 11))
+ ((member "Fira Code" font-families)      (set-font "Fira Code" 15))
  (is-windows                              (set-font "Consolas"    11))
  (is-linux                                (set-font "Ubuntu Mono" 11))
  (is-macos                                (set-font "Menlo"       11)))
@@ -214,49 +207,15 @@
 
 (global-so-long-mode +1) ;; don't choke on minified code.
 
-;; Helpful ( replacement for help buffers )
-(install 'helpful)
-(global-set-key (kbd "C-h f")   #'helpful-callable)
-(global-set-key (kbd "C-c C-d") #'helpful-at-point)
-(global-set-key (kbd "C-h v")   #'helpful-variable)
-(global-set-key (kbd "C-h k")   #'helpful-key)
-(global-set-key (kbd "C-h x")   #'helpful-command)
-
-;; Nerd Icons
-(install 'nerd-icons)
-
-;; Minibuffer (vertico + consult)
-(install 'vertico)
-(install 'marginalia)
-(install 'orderless)
-(install 'consult)
-(unless is-windows
-  (install 'nerd-icons-completion)
-  (with-eval-after-load 'vertico
-    (nerd-icons-completion-mode)))
-
-(setq vertico-count 20)
-(setq vertico-cycle t)
-(setq completion-styles '(orderless basic)
-      completion-category-defaults nil
-      completion-category-overrides '((file (styles partial-completion))))
-(vertico-mode +1)
-(marginalia-mode +1)
-
-;; Dired
-(install 'nerd-icons-dired)
-(unless is-windows
-  (add-hook 'dired-mode-hook #'nerd-icons-dired-mode))
-
-
 ;; Completion
-(install 'corfu)
-(setq corfu-auto t)
-(global-corfu-mode +1)
-(unless is-windows
-  (install 'nerd-icons-corfu)
-  (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
-(global-set-key (kbd "C-j") 'completion-at-point)
+(setq completions-format 'one-column)
+(setq completions-header-format nil)
+(setq completions-max-height 20)
+(setq completion-auto-select nil)
+(define-key minibuffer-mode-map (kbd "C-n") 'minibuffer-next-completion)
+(define-key minibuffer-mode-map (kbd "C-p") 'minibuffer-previous-completion)
+(define-key completion-in-region-mode-map (kbd "C-n") 'minibuffer-next-completion)
+(define-key completion-in-region-mode-map (kbd "C-p") 'minibuffer-previous-completion)
 
 ;; Major modes
 (install 'go-mode)
@@ -275,28 +234,50 @@
   (define-key compilation-mode-map (kbd "G")    (lambda () (interactive) (recompile t))))
 
 ;; Projects
-(defun index-projects (dir)
-  "Recursively scan for and index any project roots within DIR."
-  (interactive
-   (list (read-directory-name "Look for projects in: ")))
-  (when-let (project-roots (directory-files-recursively dir "\\.git$" #'project--find-in-directory t))
-    (message "%d directories indexed as projects."
-             (seq-reduce '+ (mapcar #'project-remember-projects-under project-roots) 0))))
+(defun find-project-root (DIR) (locate-dominating-file DIR ".git"))
 
-(GLOBAL (kbd "C-x p")   project-prefix-map) ;; project.el does the rest.
-(GLOBAL (kbd "C-x p e") 'project-eshell)
-(GLOBAL (kbd "C-x p c") 'project-compile)
-(GLOBAL (kbd "M-o")     'project-find-file)
-(GLOBAL (kbd "M-m")     'project-compile)
-(GLOBAL (kbd "M-s")     'consult-ripgrep)
-(GLOBAL (kbd "C-M-s")   #'deadgrep)
+(defun find-project-root-or-default-directory () (or (find-project-root default-directory) default-directory))
+
+(defun run-at-project-root (COMMAND)
+  (let ((default-directory (find-project-root-or-default-directory)))
+    (COMMAND)))
+
+(defun run-at-project-root-interactively (COMMAND)
+  (let ((default-directory (find-project-root-or-default-directory)))
+    (funcall-interactively COMMAND)))
+
+(with-eval-after-load 'compile
+  (define-key compilation-mode-map (kbd "k")    'kill-compilation)
+  (define-key compilation-mode-map (kbd "G")    (lambda () (interactive) (recompile t))))
+
+(with-eval-after-load 'grep
+  (define-key grep-mode-map (kbd "k")    'kill-compilation)
+  (define-key grep-mode-map (kbd "G")    (lambda () (interactive) (recompile t))))
+
+(defun get-grep-default-command ()
+  (cond
+   ((executable-find "ugrep")            "ugrep -nr \"%s\"")
+   ((executable-find "rg")               "rg --no-heading --color=\"never\" %s")
+   ((git-repo-p default-directory)       "git grep --no-color -n \"%s\"")
+   (t                                    "grep -rn \"%s\"")))
+
+(with-eval-after-load 'grep
+  (grep-apply-setting 'grep-command (get-grep-default-command))
+  (grep-apply-setting 'grep-use-null-device nil))
+
+(defun run-in-project (fn &rest args) "Run given function at project root, if you want to choose directory use C-u."
+       (let ((default-directory
+              (if (null current-prefix-arg)
+                  (find-project-root-or-default-directory)
+                (read-directory-name "Directory: " default-directory))))
+         (apply fn args)))
+
+(GLOBAL (kbd "M-m") (lambda () (interactive)  (run-in-project 'compile (read-shell-command "Command: "))))
+(GLOBAL (kbd "M-s") (lambda () (interactive)  (run-in-project 'grep (format (get-grep-default-command) (read-string "Grep: ")))))
+
 
 ;; Pixel scrolling
 (pixel-scroll-precision-mode +1)
-
-;; Better ISearch
-(install 'ctrlf)
-(ctrlf-mode)
 
 ;; Replace
 (GLOBAL (kbd "M-r") 'replace-regexp)
@@ -307,30 +288,12 @@
 (global-set-key (kbd "M-]")  'kmacro-end-or-call-macro)
 (global-set-key (kbd "M-\\") 'kmacro-end-and-call-macro)
 
-;; Multicursors
-(install 'multiple-cursors)
-(require 'multiple-cursors)
-(GLOBAL (kbd "C-M-n") 'mc/mark-next-like-this-symbol)
-(GLOBAL (kbd "C-M-p") 'mc/mark-previous-like-this-symbol)
-(GLOBAL (kbd "C-S-n") 'mc/mark-next-like-this)
-(GLOBAL (kbd "C-S-p") 'mc/mark-previous-like-this)
-(GLOBAL (kbd "C-M->") 'mc/mark-all-like-this-dwim)
-
-;; Origami ( Code folding )
-(install 'origami)
-(with-eval-after-load 'origami
-  (define-key origami-mode-map (kbd "C-=") 'origami-toggle-node))
-
 ;; Eglot (LSP)
 (with-eval-after-load 'eglot
   (define-key eglot-mode-map (kbd "M-i")     'consult-eglot-symbols)
   (define-key eglot-mode-map (kbd "C-c C-r") 'eglot-rename)
   (define-key eglot-mode-map (kbd "M-RET")   'eglot-organize-imports-format)
   (define-key eglot-mode-map (kbd "C-c C-c") 'eglot-code-actions))
-
-(install 'eldoc-box)
-(with-eval-after-load 'eldoc
-  (define-key prog-mode-map (kbd "C-o") 'eldoc-box-help-at-point))
 
 (setq eldoc-echo-area-use-multiline-p nil)
 
@@ -377,17 +340,10 @@
       eglot-events-buffer-size 0)          ;; no logging of LSP events.
 
 ;; Themes
-(install 'adwaita-dark-theme)
-(install 'base16-theme)
-(install 'modus-themes)
-(install 'ef-themes)
-
 (setq custom-safe-themes t)
-
 (defadvice load-theme (before disable-themes-first activate) ;; Disable theme stacking
   (dolist (i custom-enabled-themes)
     (disable-theme i)))
-
 
 (setq themes-dir (expand-file-name "themes" user-emacs-directory))
 (add-to-list 'custom-theme-load-path themes-dir)
@@ -489,8 +445,6 @@
                          )
                        ))
 
-(load-theme 'ef-bio t)
-(set-background-color "#052525")
-
+(load-theme 'witness t)
 ;; String conversions
 (install 'string-inflection)
