@@ -1,0 +1,3 @@
+[submodule "editor/nvim"]
+	path = editor/nvim
+	url = git@github.com:amirrezaask/nvim
