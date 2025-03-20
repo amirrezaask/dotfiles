@@ -28,19 +28,7 @@ vim.keymap.set("n", "<leader>l", vim.diagnostic.open_float, { desc = "Diagnostic
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Set Local list" })
 vim.keymap.set("n", "<leader>g", "<cmd>LazyGit<CR>", { desc = "Lazy Git" })
 vim.keymap.set({ "n", "i", "t" }, "<C-h>", "<cmd>tabprev<CR>", {})
-vim.keymap.set({ "n", "i", "t" }, "<C-l>", function()
-	-- Get current tab number and total number of tabs
-	local current_tab = vim.fn.tabpagenr()
-	local total_tabs = vim.fn.tabpagenr("$")
-
-	-- If current tab is the last one, create a new tab
-	if current_tab == total_tabs then
-		vim.cmd("tabnew")
-	else
-		-- Otherwise, go to next tab
-		vim.cmd("tabnext")
-	end
-end, {})
+vim.keymap.set({ "n", "i", "t" }, "<C-l>", "<cmd>tabnext<CR>", {})
 
 vim.cmd([[ command! W :w ]])
 

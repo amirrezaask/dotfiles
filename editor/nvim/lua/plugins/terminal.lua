@@ -37,6 +37,7 @@ local function toggle_floating_terminal()
 end
 
 local bottom_terminal = { win = -1, buf = -1 }
+
 local function toggle_bottom_terminal()
 	if vim.api.nvim_buf_is_valid(bottom_terminal.buf) and vim.api.nvim_win_is_valid(bottom_terminal.win) then
 		vim.api.nvim_win_hide(bottom_terminal.win)
@@ -65,7 +66,32 @@ local function toggle_bottom_terminal()
 	bottom_terminal = { buf = bottom_terminal.buf, win = win }
 end
 
-vim.keymap.set({ "n", "t" }, "<c-j>", toggle_bottom_terminal)
+local tab_terminal = { tab = -1, buf = -1, last_tab = -1 }
+local function toggle_terminal_tab()
+	if vim.api.nvim_get_current_tabpage() == tab_terminal.tab then
+		vim.api.nvim_set_current_tabpage(tab_terminal.last_tab)
+		return
+	end
 
+	tab_terminal.last_tab = vim.api.nvim_get_current_tabpage()
+
+	if vim.api.nvim_tabpage_is_valid(tab_terminal.tab) then
+		vim.api.nvim_set_current_tabpage(tab_terminal.tab)
+		vim.cmd.startinsert()
+	end
+
+	if not vim.api.nvim_tabpage_is_valid(tab_terminal.tab) then
+		vim.cmd.tabnew()
+		tab_terminal.tab = vim.api.nvim_get_current_tabpage()
+	end
+
+	tab_terminal.buf = vim.api.nvim_get_current_buf()
+	if vim.api.nvim_buf_get_option(tab_terminal.buf, "buftype") ~= "terminal" then
+		vim.cmd.term()
+		vim.cmd.startinsert()
+	end
+end
+
+vim.keymap.set({ "n", "t" }, "<c-j>", toggle_terminal_tab)
 
 return {}

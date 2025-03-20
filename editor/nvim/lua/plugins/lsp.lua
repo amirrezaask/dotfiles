@@ -69,6 +69,7 @@ return {
 						vim.lsp.buf.signature_help({ border = border })
 					end, "Signature Help")
 					vim.diagnostic.config({
+						enabled = false,
 						virtual_text = false,
 						float = { border = border },
 					})
