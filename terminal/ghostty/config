@@ -13,8 +13,8 @@ font-style-italic = false
 font-style-bold-italic = false
 font-size = 15
 
-# background = 000000
-# foreground = ffffff
-theme = tokyonight_night
+background = 000000
+foreground = ffffff
+# theme = tokyonight_night
 
 

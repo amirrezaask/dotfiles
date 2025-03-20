@@ -1,4 +1,4 @@
-local transparent = os.getenv("NVIM_TRANSPARENT") or false
+local transparent = os.getenv("NVIM_TRANSPARENT") or true
 return {
 	{
 		"folke/tokyonight.nvim",

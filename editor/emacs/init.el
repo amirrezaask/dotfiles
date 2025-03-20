@@ -77,8 +77,6 @@
 (add-to-list 'exec-path "/usr/local/go/bin")
 (add-to-list 'exec-path "/opt/homebrew/bin")
 (add-to-list 'exec-path "/usr/local/bin")
-(add-to-list 'exec-path "d:/bin")
-(add-to-list 'exec-path "d:/Go/bin")
 
 (if (eq system-type 'windows-nt)
     (setenv "PATH" (string-join exec-path ";"))
@@ -281,6 +279,7 @@
 
 (GLOBAL (kbd "M-m") (lambda () (interactive)  (run-in-project 'compile (read-shell-command "Command: "))))
 (GLOBAL (kbd "M-s") (lambda () (interactive)  (run-in-project 'grep (format (get-grep-default-command) (read-string "Grep: ")))))
+(GLOBAL (kbd "M-o") 'project-find-file)
 
 
 ;; Pixel scrolling
