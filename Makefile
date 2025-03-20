@@ -13,11 +13,13 @@ install:
 	rm -rf $(XDG_CONFIG)/zellij
 	rm -rf $(HOME)/.emacs.d
 	rm -rf $(HOME)/.profile
+	rm -rf $(XDG_CONFIG)/helix
 	ln -s $(DOTFILES_DIR)/shell/fish $(XDG_CONFIG)/fish
 	ln -s $(DOTFILES_DIR)/terminal/ghostty $(XDG_CONFIG)/
 	ln -s $(DOTFILES_DIR)/mux/tmux/tmux.conf $(HOME)/.tmux.conf
 	ln -s $(DOTFILES_DIR)/shell/starship/starship.toml $(XDG_CONFIG)/starship.toml
 	ln -s $(DOTFILES_DIR)/editor/nvim $(XDG_CONFIG)/
+	ln -s $(DOTFILES_DIR)/editor/helix $(XDG_CONFIG)/
 	ln -s $(DOTFILES_DIR)/shell/zsh/zshrc $(HOME)/.zshrc
 	ln -s $(DOTFILES_DIR)/editor/emacs $(HOME)/.emacs.d
 	ln -s $(DOTFILES_DIR)/shell/profile $(HOME)/.profile
