@@ -1,5 +1,5 @@
 {
-    "editor.fontFamily": "Fira Code, Menlo, Monaco, 'Courier New', monospace",
+    "editor.fontFamily": "Operator Mono Book, Fira Code, Menlo, Monaco, 'Courier New', monospace",
     "editor.fontSize": 14,
     "editor.lineHeight": 24,
     "terminal.integrated.fontSize": 15,
@@ -25,7 +25,6 @@
     "editor.bracketPairColorization.enabled": false,
     "editor.stickyScroll.enabled": false,
     "git.decorations.enabled": false,
-    "git.blame.editorDecoration.enabled": true,
     "workbench.tips.enabled": false,
     "editor.minimap.enabled": false,
     "workbench.editor.wrapTabs": true,
@@ -33,7 +32,7 @@
     "explorer.confirmPasteNative": false,
     "workbench.navigationControl.enabled": false,
     "cursor.aipreview.enabled": true,
-    "http.proxy": "http://localhost:2081",
+    // "http.proxy": "http://localhost:2081",
     "[go]": {
         "editor.formatOnSave": true
     },
@@ -44,7 +43,6 @@
     "git.confirmSync": false,
     "scm.diffDecorations": "none",
     "remote.autoForwardPortsSource": "hybrid",
-    "settingsSync.keybindingsPerPlatform": false,
     "cursor.cpp.disabledLanguages": [
         "plaintext",
         "markdown",
@@ -177,5 +175,4 @@
             ],
         },
     ],
-    "workbench.colorTheme": "Vesper",
 }
