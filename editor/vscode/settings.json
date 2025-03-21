@@ -1,0 +1,181 @@
+{
+    "editor.fontFamily": "Fira Code, Menlo, Monaco, 'Courier New', monospace",
+    "editor.fontSize": 14,
+    "editor.lineHeight": 24,
+    "terminal.integrated.fontSize": 15,
+    "workbench.editor.showTabs": "none",
+    "window.restoreWindows": "none",
+    "workbench.settings.editor": "json",
+    "window.density.editorTabHeight": "compact",
+    "editor.cursorBlinking": "expand",
+    "editor.smoothScrolling": true,
+    "editor.cursorSmoothCaretAnimation": "on",
+    "terminal.integrated.macOptionIsMeta": true,
+    "security.workspace.trust.untrustedFiles": "open",
+    "editor.mouseWheelScrollSensitivity": 4,
+    "explorer.autoReveal": false,
+    "breadcrumbs.enabled": false,
+    "files.simpleDialog.enable": true,
+    "workbench.editor.editorActionsLocation": "hidden",
+    "editor.wordWrap": "on",
+    "files.insertFinalNewline": true,
+    "files.trimFinalNewlines": true,
+    "outline.icons": false,
+    "workbench.editor.enablePreview": false,
+    "editor.bracketPairColorization.enabled": false,
+    "editor.stickyScroll.enabled": false,
+    "git.decorations.enabled": false,
+    "git.blame.editorDecoration.enabled": true,
+    "workbench.tips.enabled": false,
+    "editor.minimap.enabled": false,
+    "workbench.editor.wrapTabs": true,
+    "diffEditor.renderSideBySide": false,
+    "explorer.confirmPasteNative": false,
+    "workbench.navigationControl.enabled": false,
+    "cursor.aipreview.enabled": true,
+    "http.proxy": "http://localhost:2081",
+    "[go]": {
+        "editor.formatOnSave": true
+    },
+    "go.addTags": {
+        "options": ""
+    },
+    "go.toolsManagement.autoUpdate": true,
+    "git.confirmSync": false,
+    "scm.diffDecorations": "none",
+    "remote.autoForwardPortsSource": "hybrid",
+    "settingsSync.keybindingsPerPlatform": false,
+    "cursor.cpp.disabledLanguages": [
+        "plaintext",
+        "markdown",
+        "scminput"
+    ],
+    "extensions.ignoreRecommendations": true,
+    "explorer.confirmDelete": false,
+    "vim.leader": " ",
+    "vim.useSystemClipboard": true,
+    "vim.normalModeKeyBindings": [
+        {
+            "before": [
+                "<C-p>"
+            ],
+            "commands": [
+                "workbench.action.quickOpen"
+            ]
+        },
+        {
+            "before": [
+                "<C-f>"
+            ],
+            "commands": [
+                "actions.find"
+            ],
+        },
+        {
+            "before": [
+                "<leader>",
+                "p"
+            ],
+            "commands": [
+                "workbench.action.quickOpen"
+            ],
+        },
+        {
+            "before": [
+                "<leader>",
+                "o"
+            ],
+            "commands": [
+                "workbench.action.showAllSymbols"
+            ],
+        },
+        {
+            "before": [
+                "g",
+                "r"
+            ],
+            "commands": [
+                "editor.action.goToReferences"
+            ],
+        },
+        {
+            "before": [
+                "K"
+            ],
+            "commands": [
+                "editor.action.showHover"
+            ],
+        },
+        {
+            "before": [
+                "[",
+                "["
+            ],
+            "commands": [
+                "editor.action.marker.prev"
+            ],
+        },
+        {
+            "before": [
+                "]",
+                "]"
+            ],
+            "commands": [
+                "editor.action.marker.next"
+            ],
+        },
+        {
+            "before": [
+                "C"
+            ],
+            "commands": [
+                "editor.action.quickFix"
+            ]
+        },
+        {
+            "before": [
+                "R"
+            ],
+            "commands": [
+                "editor.action.rename"
+            ]
+        },
+        {
+            "before": [
+                "J"
+            ],
+            "commands": [
+                "workbench.action.terminal.toggleTerminal"
+            ],
+        },
+        {
+            "before": [
+                "<C-w>"
+            ],
+            "commands": [
+                "workbench.action.closeActiveEditor"
+            ],
+        }
+    ],
+    "vim.insertModeKeyBindings": [
+        {
+            "before": [
+                "j",
+                "k"
+            ],
+            "after": [
+                "<esc>"
+            ],
+        },
+        {
+            "before": [
+                "k",
+                "j"
+            ],
+            "after": [
+                "<esc>"
+            ],
+        },
+    ],
+    "workbench.colorTheme": "Vesper",
+}
