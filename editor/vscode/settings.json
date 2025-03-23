@@ -1,13 +1,13 @@
 {
-    "editor.fontFamily": "Jetbrains Mono, Fira Code, Menlo, Monaco, 'Courier New', monospace",
+    "editor.fontFamily": "Operator Mono Book, Jetbrains Mono, Fira Code, Menlo, Monaco, 'Courier New', monospace",
     "editor.fontSize": 14,
     "editor.lineHeight": 24,
     "terminal.integrated.fontSize": 15,
     "window.restoreWindows": "none",
     "workbench.settings.editor": "json",
     "window.commandCenter": true,
+    "workbench.editor.showTabs": "none",
     "editor.smoothScrolling": true,
-    "editor.cursorSmoothCaretAnimation": "on",
     "terminal.integrated.macOptionIsMeta": true,
     "security.workspace.trust.untrustedFiles": "open",
     "editor.mouseWheelScrollSensitivity": 4,
@@ -30,148 +30,15 @@
     "explorer.confirmPasteNative": false,
     "workbench.navigationControl.enabled": false,
     "http.proxy": "http://localhost:2081",
-    "[go]": {
-        "editor.formatOnSave": true
-    },
-    "go.addTags": {
-        "options": ""
-    },
+    "[go]": { "editor.formatOnSave": true },
+    "go.addTags": { "options": "" },
     "go.toolsManagement.autoUpdate": true,
     "git.confirmSync": false,
     "scm.diffDecorations": "none",
     "remote.autoForwardPortsSource": "hybrid",
-    "cursor.cpp.disabledLanguages": [
-        "plaintext",
-        "markdown",
-        "scminput"
-    ],
-    "extensions.ignoreRecommendations": true,
     "explorer.confirmDelete": false,
     "vim.leader": " ",
     "vim.useSystemClipboard": true,
-    "vim.normalModeKeyBindings": [
-        {
-            "before": [
-                "<C-p>"
-            ],
-            "commands": [
-                "workbench.action.quickOpen"
-            ]
-        },
-        {
-            "before": [
-                "<C-f>"
-            ],
-            "commands": [
-                "actions.find"
-            ],
-        },
-        {
-            "before": [
-                "<leader>",
-                "p"
-            ],
-            "commands": [
-                "workbench.action.quickOpen"
-            ],
-        },
-        {
-            "before": [
-                "<leader>",
-                "o"
-            ],
-            "commands": [
-                "workbench.action.showAllSymbols"
-            ],
-        },
-        {
-            "before": [
-                "g",
-                "r"
-            ],
-            "commands": [
-                "editor.action.goToReferences"
-            ],
-        },
-        {
-            "before": [
-                "K"
-            ],
-            "commands": [
-                "editor.action.showHover"
-            ],
-        },
-        {
-            "before": [
-                "[",
-                "["
-            ],
-            "commands": [
-                "editor.action.marker.prev"
-            ],
-        },
-        {
-            "before": [
-                "]",
-                "]"
-            ],
-            "commands": [
-                "editor.action.marker.next"
-            ],
-        },
-        {
-            "before": [
-                "C"
-            ],
-            "commands": [
-                "editor.action.quickFix"
-            ]
-        },
-        {
-            "before": [
-                "R"
-            ],
-            "commands": [
-                "editor.action.rename"
-            ]
-        },
-        {
-            "before": [
-                "J"
-            ],
-            "commands": [
-                "workbench.action.terminal.toggleTerminal"
-            ],
-        },
-        {
-            "before": [
-                "<C-w>"
-            ],
-            "commands": [
-                "workbench.action.closeActiveEditor"
-            ],
-        }
-    ],
-    "vim.insertModeKeyBindings": [
-        {
-            "before": [
-                "j",
-                "k"
-            ],
-            "after": [
-                "<esc>"
-            ],
-        },
-        {
-            "before": [
-                "k",
-                "j"
-            ],
-            "after": [
-                "<esc>"
-            ],
-        },
-    ],
     "git.openRepositoryInParentFolders": "never",
     "workbench.sideBar.location": "right",
 }
