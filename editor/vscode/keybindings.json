@@ -11,8 +11,6 @@
   { "key": "cmd+o", "command": "workbench.action.files.openFileFolder" },
   { "key": "ctrl+o", "command": "workbench.action.files.openFileFolder", "when": "!vim.active" },
 
-  {"key": "cmd+[", "command": "wor"}
-
   // Toggle Explorer
   { "key": "cmd+shift+e", "command": "workbench.view.explorer", "when": "!view.workbench.explorer.fileView.visible" },
   { "key": "cmd+shift+e", "command": "workbench.action.toggleSidebarVisibility", "when": "view.workbench.explorer.fileView.visible" },
@@ -48,10 +46,11 @@
   { "key": "g r", "command": "references-view.findReferences", "when": "vim.mode == 'Normal' && editorTextFocus" },
   { "key": "shift+[", "when": "vim.mode == 'Normal'", "command": "references-view.prev", },
   { "key": "shift+]", "when": "vim.mode == 'Normal'", "command": "references-view.next", },
-  { "key": "space o", "command": "workbench.action.showAllSymbols", "when": "vim.mode == 'Normal'" },
+  // { "key": "space o", "command": "workbench.action.showAllSymbols", "when": "vim.mode == 'Normal'" },
   { "key": "shift+k", "command": "editor.action.showHover", "when": "vim.mode == 'Normal' && editorTextFocus" },
   { "key": "[ [", "command": "editor.action.marker.prev", "when": "vim.mode == 'Normal' && editorTextFocus" },
   { "key": "] ]", "command": "editor.action.marker.next", "when": "vim.mode == 'Normal' && editorTextFocus" },
   { "key": "shift+c", "command": "editor.action.quickFix", "when": "vim.mode == 'Normal' && editorTextFocus" },
   { "key": "shift+r", "command": "editor.action.rename", "when": "vim.mode == 'Normal' && editorTextFocus" },
+  { "key": "ctrl+q", "command": "references-view.tree.focus", "when": "vim.mode == 'Normal'"},
 ]

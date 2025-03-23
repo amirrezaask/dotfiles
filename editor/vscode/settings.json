@@ -1,5 +1,5 @@
 {
-    "editor.fontFamily": "Operator Mono Book, Jetbrains Mono, Fira Code, Menlo, Monaco, 'Courier New', monospace",
+    "editor.fontFamily": "Monaspace Neon, CommitMono, Jetbrains Mono, Fira Code, Menlo, Monaco, 'Courier New', monospace",
     "editor.fontSize": 14,
     "editor.lineHeight": 24,
     "terminal.integrated.fontSize": 15,
@@ -42,5 +42,4 @@
     "vim.timeout": 200,
     "vim.insertModeKeyBindings": [ {"before": ["j", "k"], "after": ["<esc>"]}, {"before": ["k", "j"], "after": ["<esc>"]}],
     "workbench.sideBar.location": "right",
-    "workbench.colorTheme": "Cursor Dark Midnight",
 }

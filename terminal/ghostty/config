@@ -1,3 +1,10 @@
+font-family=Monaspace Neon
+font-style-bold = false
+font-style-italic = false
+font-style-bold-italic = false
+font-size = 15
+
+
 keybind = cmd+n=next_tab
 keybind = cmd+p=previous_tab
 keybind = cmd+left=previous_tab
@@ -5,13 +12,7 @@ keybind = cmd+right=next_tab
 
 macos-titlebar-style=transparent
 window-colorspace = "display-p3"
-adjust-cell-height = 20%
-
-font-family=Fira Code
-font-style-bold = false
-font-style-italic = false
-font-style-bold-italic = false
-font-size = 15
+adjust-cell-height = 30%
 
 background = 000000
 foreground = ffffff
