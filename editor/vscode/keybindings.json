@@ -42,15 +42,5 @@
   { "key": "alt+,", "command": "workbench.action.navigateBack" },
   { "key": "cmd+shift+.", "command": "references-view.findReferences" },
 
-  // VscodeVim
-  { "key": "g r", "command": "references-view.findReferences", "when": "vim.mode == 'Normal' && editorTextFocus" },
-  { "key": "shift+[", "when": "vim.mode == 'Normal'", "command": "references-view.prev", },
-  { "key": "shift+]", "when": "vim.mode == 'Normal'", "command": "references-view.next", },
-  // { "key": "space o", "command": "workbench.action.showAllSymbols", "when": "vim.mode == 'Normal'" },
-  { "key": "shift+k", "command": "editor.action.showHover", "when": "vim.mode == 'Normal' && editorTextFocus" },
-  { "key": "[ [", "command": "editor.action.marker.prev", "when": "vim.mode == 'Normal' && editorTextFocus" },
-  { "key": "] ]", "command": "editor.action.marker.next", "when": "vim.mode == 'Normal' && editorTextFocus" },
-  { "key": "shift+c", "command": "editor.action.quickFix", "when": "vim.mode == 'Normal' && editorTextFocus" },
-  { "key": "shift+r", "command": "editor.action.rename", "when": "vim.mode == 'Normal' && editorTextFocus" },
-  { "key": "ctrl+q", "command": "references-view.tree.focus", "when": "vim.mode == 'Normal'"},
+  { "key": "ctrl+q", "command": "workbench.action.focusActiveEditorGroup", "when": "references-view.tree.active && references-view.tree.visible && !editorTextFocus" },
 ]
