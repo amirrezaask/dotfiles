@@ -1,11 +1,5 @@
 [
-  // Next/Prev Error
-  { "key": "alt+[", "command": "editor.action.marker.prev" },
-  { "key": "alt+]", "command": "editor.action.marker.next" },
-  { "key": "cmd+[", "command": "editor.action.marker.prev" },
-  { "key": "cmd+]", "command": "editor.action.marker.next" },
- 
-  // Consisten Ctrl n / p
+    // Consisten Ctrl n / p
   { "key": "ctrl+n", "command": "selectNextSuggestion", "when": "suggestWidgetMultipleSuggestions && suggestWidgetVisible && textInputFocus || suggestWidgetVisible && textInputFocus && !suggestWidgetHasFocusedSuggestion" },
   
   { "key": "ctrl+p", "command": "selectPrevSuggestion", "when": "suggestWidgetMultipleSuggestions && suggestWidgetVisible && textInputFocus || suggestWidgetVisible && textInputFocus && !suggestWidgetHasFocusedSuggestion" },
@@ -16,6 +10,8 @@
   { "key": "ctrl+shift+o", "command": "workbench.action.files.openFileFolderInNewWindow", },
   { "key": "cmd+o", "command": "workbench.action.files.openFileFolder" },
   { "key": "ctrl+o", "command": "workbench.action.files.openFileFolder", "when": "!vim.active" },
+
+  {"key": "cmd+[", "command": "wor"}
 
   // Toggle Explorer
   { "key": "cmd+shift+e", "command": "workbench.view.explorer", "when": "!view.workbench.explorer.fileView.visible" },
@@ -58,6 +54,4 @@
   { "key": "] ]", "command": "editor.action.marker.next", "when": "vim.mode == 'Normal' && editorTextFocus" },
   { "key": "shift+c", "command": "editor.action.quickFix", "when": "vim.mode == 'Normal' && editorTextFocus" },
   { "key": "shift+r", "command": "editor.action.rename", "when": "vim.mode == 'Normal' && editorTextFocus" },
-  { "key": "j k", "command": "extension.vim_escape", "when": "editorTextFocus && vim.active && vim.mode == 'Insert'" },
-  { "key": "k j", "command": "extension.vim_escape", "when": "editorTextFocus && vim.active && vim.mode == 'Insert'" }
 ]

@@ -39,6 +39,8 @@
     "explorer.confirmDelete": false,
     "vim.leader": " ",
     "vim.useSystemClipboard": true,
-    "git.openRepositoryInParentFolders": "never",
+    "vim.timeout": 200,
+    "vim.insertModeKeyBindings": [ {"before": ["j", "k"], "after": ["<esc>"]}, {"before": ["k", "j"], "after": ["<esc>"]}],
     "workbench.sideBar.location": "right",
+    "workbench.colorTheme": "Cursor Dark Midnight",
 }
