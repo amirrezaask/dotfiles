@@ -62,4 +62,6 @@
     { "before": ["k", "j"], "after": [ "<esc>" ], },
   ],
   "simpleBrowser.focusLockIndicator.enabled": false,
+  "workbench.activityBar.location": "top",
+  "workbench.colorTheme": "Anysphere dark",
 }
