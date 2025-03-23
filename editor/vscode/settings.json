@@ -1,13 +1,11 @@
 {
-    "editor.fontFamily": "Operator Mono Book, Fira Code, Menlo, Monaco, 'Courier New', monospace",
+    "editor.fontFamily": "Jetbrains Mono, Fira Code, Menlo, Monaco, 'Courier New', monospace",
     "editor.fontSize": 14,
     "editor.lineHeight": 24,
     "terminal.integrated.fontSize": 15,
-    "workbench.editor.showTabs": "none",
     "window.restoreWindows": "none",
     "workbench.settings.editor": "json",
-    "window.density.editorTabHeight": "compact",
-    "editor.cursorBlinking": "expand",
+    "window.commandCenter": true,
     "editor.smoothScrolling": true,
     "editor.cursorSmoothCaretAnimation": "on",
     "terminal.integrated.macOptionIsMeta": true,
@@ -31,8 +29,7 @@
     "diffEditor.renderSideBySide": false,
     "explorer.confirmPasteNative": false,
     "workbench.navigationControl.enabled": false,
-    "cursor.aipreview.enabled": true,
-    // "http.proxy": "http://localhost:2081",
+    "http.proxy": "http://localhost:2081",
     "[go]": {
         "editor.formatOnSave": true
     },
@@ -175,4 +172,6 @@
             ],
         },
     ],
+    "git.openRepositoryInParentFolders": "never",
+    "workbench.sideBar.location": "right",
 }

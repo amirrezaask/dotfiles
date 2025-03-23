@@ -1,7 +1,0 @@
-package-quickstart.el
-*.elc
-*.eln
-elpa
-custom.el
-.mc-lists.el
-server
