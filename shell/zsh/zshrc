@@ -39,8 +39,9 @@ source ~/.profile
 
 
 alias artisan='php artisan'
+alias gwip='echo "$(date)"'
 
-alias wip='git add . && git commit -m "Work In Progress" && git push origin $(git_current_branch)'
+alias wip='git add . && git commit -m "Work In Progress $(date +"%Y-%m-%d %H:%M:%S")" && git push origin $(git_current_branch)'
 alias gs='git status'
 alias nah='git stash'
 alias ok='git add . && git commit'
