@@ -44,7 +44,6 @@
     "vim.leader": " ",
     "vim.useSystemClipboard": true,
     "vim.timeout": 200,
-    "workbench.statusBar.visible": false,
     "vim.normalModeKeyBindings": [
     { "before": [ "<leader>", "o" ], "commands": ["workbench.action.showAllSymbols"], },
     { "before": [ "g", "r" ], "commands": [ "references-view.findReferences" ], },

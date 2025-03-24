@@ -15,20 +15,15 @@ reload() {
     source ~/.zshrc
 }
 
-
-
 if command -v nvim &> /dev/null
 then
     alias vim='nvim'
-    export GIT_EDITOR='nvim'
-    export EDITOR='nvim'
 fi
+
 if command -v cursor &> /dev/null
 then
     alias code='cursor'
 fi
-
-
 
 if ! command -v starship &> /dev/null
 then
@@ -52,3 +47,7 @@ alias ok='git add . && git commit'
 
 export PATH="/Users/amirrezaask/.config/herd-lite/bin:$PATH"
 export PHP_INI_SCAN_DIR="/Users/amirrezaask/.config/herd-lite/bin:$PHP_INI_SCAN_DIR"
+
+export EDITOR='nvim'
+# export EDITOR='code -w'
+export GIT_EDITOR="$EDITOR"
