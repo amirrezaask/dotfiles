@@ -14,8 +14,8 @@ macos-titlebar-style=transparent
 window-colorspace = "display-p3"
 adjust-cell-height = 30%
 
-background = 000000
-foreground = ffffff
-# theme = tokyonight_moon
+# background = 000000
+# foreground = ffffff
+theme = tokyonight_moon
 
 
