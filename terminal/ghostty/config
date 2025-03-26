@@ -1,5 +1,5 @@
 # Font
-font-family=Monaspace Neon
+font-family=Fira Code
 font-style-bold = false
 font-style-italic = false
 font-style-bold-italic = false
@@ -16,6 +16,7 @@ macos-titlebar-style=transparent
 window-colorspace = "display-p3"
 adjust-cell-height = 30%
 
+theme = rose-pine-moon
 # Colors
 background = 000000
 foreground = ffffff
