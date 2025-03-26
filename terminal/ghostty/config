@@ -15,10 +15,8 @@ shell-integration-features = no-cursor
 macos-titlebar-style=transparent
 window-colorspace = "display-p3"
 adjust-cell-height = 35%
-background-opacity=0.8
 
 theme = rose-pine-moon
-# Colors
 background = 000000
 foreground = ffffff
 
