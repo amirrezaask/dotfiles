@@ -14,7 +14,7 @@ keybind = cmd+right=next_tab
 shell-integration-features = no-cursor
 macos-titlebar-style=transparent
 window-colorspace = "display-p3"
-adjust-cell-height = 35%
+# adjust-cell-height = 10%
 
 theme = rose-pine-moon
 background = 000000

@@ -54,7 +54,9 @@
     { "before": [ "R" ], "commands": [ "editor.action.rename" ] },
     { "before": ["{"], "commands": [ "references-view.prev"] },
     { "before": ["}"], "commands": [ "references-view.next"] },
-    { "before": ["<c-q>"], "commands": ["references-view.tree.focus"] }
+    { "before": ["<c-q>"], "commands": ["references-view.tree.focus"] },
+    { "before": ["j"], "after": ["g", "j"]},
+    { "before": ["k"], "after": ["g", "k"]}
   ],
   "vim.insertModeKeyBindings": [
     { "before": ["j", "k"], "after": [ "<esc>" ], },
@@ -63,4 +65,5 @@
   "simpleBrowser.focusLockIndicator.enabled": false,
   "workbench.activityBar.location": "top",
   "git.openRepositoryInParentFolders": "never",
+  "workbench.editor.showTabs": "none",
 }
