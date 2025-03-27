@@ -5,17 +5,15 @@ My setup over the years.
 
 ### Editors
 - [Neovim](https://github.com/amirrezaask/nvim)
-- [Emacs](https://github.com/amirrezaask/.emacs.d)
-- [VSCode/Cursor](https://github.com/amirrezaask/dotfiles/tree/master/editor/vscode)
-- [Helix](https://github.com/amirrezaask/dotfiles/tree/master/editor/helix)
+- [Emacs](https://github.com/amirrezaask/dotfiles/tree/master/emacs-init.el)
+- [VSCode/Cursor](https://github.com/amirrezaask/dotfiles/tree/master/vscode-settings.json)
 
 ### Shells
 
-- [ZSH](https://github.com/amirrezaask/dotfiles/tree/master/shell/zsh)
-- [Fish](https://github.com/amirrezaask/dotfiles/tree/master/shell/fish)
-- [Powershell](https://github.com/amirrezaask/dotfiles/tree/master/shell/pwsh)
+- [ZSH](https://github.com/amirrezaask/dotfiles/tree/master/zshrc)
+- [Fish](https://github.com/amirrezaask/dotfiles/tree/master/fish-config.fish)
+- [Powershell](https://github.com/amirrezaask/dotfiles/tree/master/pwsh.ps1)
 
 ## Terminals
 
-- [Ghostty](https://github.com/amirrezaask/dotfiles/tree/master/terminal/ghostty)
-- [Kitty](https://github.com/amirrezaask/dotfiles/tree/master/terminal/kitty)
+- [Ghostty](https://github.com/amirrezaask/dotfiles/tree/master/ghostty-config)

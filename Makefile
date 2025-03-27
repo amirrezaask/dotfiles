@@ -7,18 +7,13 @@ install:
 	rm -rf $(XDG_CONFIG)/ghostty
 	rm -rf $(HOME)/.zshrc
 	rm -rf $(HOME)/.gitconfig
-	rm -rf $(HOME)/.tmux.conf
 	rm -rf $(XDG_CONFIG)/starship.toml
-	rm -rf $(XDG_CONFIG)/zellij
-	rm -rf $(HOME)/.emacs.d
-	rm -rf $(HOME)/.profile
-	rm -rf $(XDG_CONFIG)/helix
-	ln -s $(DOTFILES_DIR)/shell/fish $(XDG_CONFIG)/fish
-	ln -s $(DOTFILES_DIR)/terminal/ghostty $(XDG_CONFIG)/
-	ln -s $(DOTFILES_DIR)/mux/tmux/tmux.conf $(HOME)/.tmux.conf
-	ln -s $(DOTFILES_DIR)/shell/starship/starship.toml $(XDG_CONFIG)/starship.toml
-	ln -s $(DOTFILES_DIR)/editor/helix $(XDG_CONFIG)/
-	ln -s $(DOTFILES_DIR)/shell/zsh/zshrc $(HOME)/.zshrc
-	ln -s $(DOTFILES_DIR)/editor/emacs $(HOME)/.emacs.d
-	ln -s $(DOTFILES_DIR)/shell/profile $(HOME)/.profile
+	rm -rf $(HOME)/.emacs
+	mkdir -p $(XDG_CONFIG)/fish
+	mkdir -p $(XDG_CONFIG)/ghostty
+	ln -s $(DOTFILES_DIR)/fish-config.fish $(XDG_CONFIG)/fish/config.fish
+	ln -s $(DOTFILES_DIR)/ghostty-config $(XDG_CONFIG)/ghostty/ghostty.conf
+	ln -s $(DOTFILES_DIR)/starship.toml $(XDG_CONFIG)/starship.toml
+	ln -s $(DOTFILES_DIR)/zshrc $(HOME)/.zshrc
+	ln -s $(DOTFILES_DIR)/emacs-init.el $(HOME)/.emacs
 	ln -s $(DOTFILES_DIR)/.gitconfig $(HOME)/.gitconfig
