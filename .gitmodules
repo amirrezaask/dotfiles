@@ -1,6 +1,0 @@
-[submodule "editor/nvim"]
-	path = editor/nvim
-	url = git@github.com:amirrezaask/nvim
-[submodule "editor/emacs"]
-	path = editor/emacs
-	url = git@github.com:amirrezaask/.emacs.d
