@@ -70,8 +70,17 @@
    `(font-lock-doc-string-face		((t       (:foreground "gray50"))))
    `(font-lock-warning-face		((t       (:foreground "yellow"))))
    `(font-lock-note-face		((t       (:foreground "khaki2"))))
-   `(show-paren-match			((t       (:background "mediumseagreen")))))
-)
+   `(show-paren-match			((t       (:background "mediumseagreen"))))))
+(defun edit-init () "Edit this file." (interactive) (find-file INIT-FILE))
+
+(when load-file-name ;; since windows is a bit funky I prefer to store this file path in a variable to be used when C-x i
+  (setq INIT-FILE load-file-name)
+  (setq amirreza-emacs-directory (file-name-directory INIT-FILE))
+  (setq custom-file (expand-file-name "custom.el" amirreza-emacs-directory)))
+
+(defun reload-init ()
+  (interactive)
+  (load-file INIT-FILE))
 
 (grass-colors)
 
@@ -96,12 +105,6 @@
     (setenv "PATH" (string-join exec-path ";"))
   (setenv "PATH" (string-join exec-path ":"))) ;; set emacs process PATH
 
-(defun edit-init () "Edit this file." (interactive) (find-file INIT-FILE))
-
-(when load-file-name ;; since windows is a bit funky I prefer to store this file path in a variable to be used when C-x i
-  (setq INIT-FILE load-file-name)
-  (setq amirreza-emacs-directory (file-name-directory INIT-FILE))
-  (setq custom-file (expand-file-name "custom.el" amirreza-emacs-directory)))
 
 (global-set-key (kbd "C-x i") 'edit-init) ;; Edit this file.
 
@@ -136,7 +139,6 @@
 ;; Package archives
 (setq package-archives
       '(("gnu-elpa" . "https://elpa.gnu.org/packages/")
-        ("nongnu"   . "https://elpa.nongnu.org/nongnu/")
         ("melpa"    . "https://melpa.org/packages/")))
 
 (defun install (pkg)
