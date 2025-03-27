@@ -1,5 +1,5 @@
 {
-    "editor.fontFamily": "Monaspace Neon, CommitMono, Jetbrains Mono, Fira Code, Menlo, Monaco, 'Courier New', monospace",
+    "editor.fontFamily": "CommitMono, Jetbrains Mono, Fira Code, Menlo, Monaco, 'Courier New', monospace",
     "editor.fontSize": 14,
     "editor.lineHeight": 24,
     "terminal.integrated.fontSize": 15,
@@ -62,5 +62,5 @@
   ],
   "simpleBrowser.focusLockIndicator.enabled": false,
   "workbench.activityBar.location": "top",
-  "workbench.colorTheme": "Anysphere dark",
+  "git.openRepositoryInParentFolders": "never",
 }
