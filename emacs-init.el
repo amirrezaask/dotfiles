@@ -358,6 +358,13 @@
 ;; String conversions
 (install 'string-inflection)
 
+;; XREF
+(with-eval-after-load 'xref
+  (global-set-key (kbd "M-.") 'xref-find-definitions)
+  (global-set-key (kbd "M-,") 'xref-pop)
+  (global-set-key (kbd "M-?")  'xref-find-references)
+  (global-set-key (kbd "M-/")  'xref-find-references))
+
 ;; Eglot (LSP)
 (with-eval-after-load 'eglot
   (define-key eglot-mode-map (kbd "M-i")     'consult-eglot-symbols)
