@@ -39,9 +39,7 @@ eval "$(starship init zsh)"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 alias artisan='php artisan'
-alias gwip='echo "$(date)"'
-
-alias gwip='git add . && git commit -m "Work In Progress $(date +"%Y-%m-%d %H:%M:%S")" && git push origin $(git_current_branch)'
+alias gwip='git add . && git commit -m "$(date +"%Y-%m-%d %H:%M:%S")" && git push origin $(git_current_branch)'
 alias gp='git push origin $(git_current_branch)'
 alias gP='git pull --rebase'
 alias gs='git status'
