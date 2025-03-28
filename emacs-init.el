@@ -190,7 +190,7 @@
 
 ;; Package archives
 (setq package-archives
-      '(("gnu-elpa" . "https://elpa.gnu.org/packages/")
+      '(("gnu-elpa"  . "https://elpa.gnu.org/packages/")
          ("melpa"    . "https://melpa.org/packages/")))
 
 (defun install (pkg)
@@ -264,38 +264,46 @@
 (global-set-key (kbd "M-z")   'undo)
 (global-set-key (kbd "C-SPC") 'set-mark-command) ;; Visual selection
 (global-set-key (kbd "M-w")   'copy) ;; modern copy
-
-;; Unset keys that I dont use
-(global-unset-key (kbd "M-z"))
-(global-unset-key (kbd "M-l"))
-
+(global-unset-key (kbd "M-z")) ;; UNUSED
+(global-unset-key (kbd "M-l")) ;; UNUSED
 (toggle-truncate-lines -1) ;; wrap long lines
-
 (global-so-long-mode +1) ;; don't choke on minified code.
 
 ;; Completion
-(setq completions-format 'one-column)
-(setq completions-header-format nil)
-(setq completions-max-height 30)
-(setq completion-auto-select nil)
-(define-key minibuffer-mode-map (kbd "C-n") 'minibuffer-next-completion)
-(define-key minibuffer-mode-map (kbd "C-p") 'minibuffer-previous-completion)
-(define-key completion-in-region-mode-map (kbd "C-n") 'minibuffer-next-completion)
-(define-key completion-in-region-mode-map (kbd "C-p") 'minibuffer-previous-completion)
-(defun my/minibuffer-choose-completion (&optional no-exit no-quit)
-  (interactive "P")
-  (with-minibuffer-completions-window
-    (let ((completion-use-base-affixes nil))
-      (choose-completion nil no-exit no-quit))))
+;; (setq completions-format 'one-column)
+;; (setq completions-header-format nil)
+;; (setq completions-max-height 30)
+;; (setq completion-auto-select nil)
+;; (define-key minibuffer-mode-map (kbd "C-n") 'minibuffer-next-completion)
+;; (define-key minibuffer-mode-map (kbd "C-p") 'minibuffer-previous-completion)
+;; (define-key completion-in-region-mode-map (kbd "C-n") 'minibuffer-next-completion)
+;; (define-key completion-in-region-mode-map (kbd "C-p") 'minibuffer-previous-completion)
+;; (defun my/minibuffer-choose-completion (&optional no-exit no-quit)
+;;   (interactive "P")
+;;   (with-minibuffer-completions-window
+;;     (let ((completion-use-base-affixes nil))
+;;       (choose-completion nil no-exit no-quit))))
 
-(define-key completion-in-region-mode-map (kbd "RET") 'minibuffer-choose-completion)
 
-;; (install 'vertico)
+;; I use vertico package for basic minibuffer completion which is much better that Emacs default,
+;; Consult package adds functionality on top of vertico which I use for in buffer completion (aka Autocomplete),
+;; Embark package is useful for acting on minibuffer completion items, I only use it to export results into a buffer, mostly when grepping in project.
+(install 'vertico)
+(vertico-mode +1)
+(setq vertico-count 20)
+(install 'consult)
+(install 'embark)
+(install 'embark-consult)
+(setq completion-in-region-function #'consult-completion-in-region)
+(with-eval-after-load 'minibuffer
+  (define-key minibuffer-mode-map (kbd "C-;") 'embark-export))
+(GLOBAL (kbd "M-s")
+	(cond
+	 ((executable-find "rg")   'consult-ripgrep)
+	 (t                        'consult-grep)))
 
-;; Git
 (unless is-windows (install 'magit))
 
-;; Major modes
 (install 'go-mode)
 (install 'rust-mode)
 (install 'php-mode)
@@ -303,7 +311,6 @@
 (install 'yaml-mode)
 (setq-default c-default-style "linux" c-basic-offset 4)
 
-;; Compilation
 (setq compilation-ask-about-save nil) ;; Don't ask about saving unsaved buffers before compile command.
 (setq compilation-always-kill t)
 
@@ -311,18 +318,8 @@
   (define-key compilation-mode-map (kbd "k")    'kill-compilation)
   (define-key compilation-mode-map (kbd "G")    (lambda () (interactive) (recompile t))))
 
-;; Projects
-(defun find-project-root (DIR) (locate-dominating-file DIR ".git"))
-
+(defun find-project-root (DIR) (locate-dominating-file DIR ".asdasdasd"))
 (defun find-project-root-or-default-directory () (or (find-project-root default-directory) default-directory))
-
-(defun run-at-project-root (COMMAND)
-  (let ((default-directory (find-project-root-or-default-directory)))
-    (COMMAND)))
-
-(defun run-at-project-root-interactively (COMMAND)
-  (let ((default-directory (find-project-root-or-default-directory)))
-    (funcall-interactively COMMAND)))
 
 (with-eval-after-load 'compile
   (define-key compilation-mode-map (kbd "k")    'kill-compilation)
@@ -351,7 +348,7 @@
          (apply fn args)))
 
 (GLOBAL (kbd "M-m") (lambda () (interactive)  (run-in-project 'compile (read-shell-command "Command: "))))
-(GLOBAL (kbd "M-s") (lambda () (interactive)  (run-in-project 'grep (format (get-grep-default-command) (read-string "Grep: ")))))
+;; (GLOBAL (kbd "M-s") (lambda () (interactive)  (run-in-project 'grep (format (get-grep-default-command) (read-string "Grep: ")))))
 (GLOBAL (kbd "M-}") 'next-error)
 (GLOBAL (kbd "M-{") 'previous-error)
 (GLOBAL (kbd "M-o") 'project-find-file)
@@ -411,7 +408,6 @@
 
 (defun eglot-organize-imports () (interactive) (eglot-code-actions nil nil "source.organizeImports" t))
 (defun eglot-organize-imports-format () (interactive) (eglot-format) (eglot-organize-imports))
-
 (setq eglot-stay-out-of '(project flymake) ;; Don't polute buffer with flymake diganostics.
       eglot-sync-connect nil               ;; no blocking on waiting for the server to start.
       eglot-events-buffer-size 0)          ;; no logging of LSP events.

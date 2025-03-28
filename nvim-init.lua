@@ -1,4 +1,4 @@
-local transparent = os.getenv("NVIM_TRANSPARENT") or true
+local transparent = os.getenv("NVIM_TRANSPARENT") or false
 
 vim.g.mapleader = " "
 
