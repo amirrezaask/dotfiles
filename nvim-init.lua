@@ -420,6 +420,7 @@ require("lazy").setup({
 			"hrsh7th/cmp-nvim-lsp",
 			"hrsh7th/cmp-buffer",
 		},
+		enabled = false,
 		config = function()
 			local cmp_select = { behavior = require("cmp").SelectBehavior.Select }
 			local cmp = require("cmp")
@@ -452,7 +453,6 @@ require("lazy").setup({
 		"saghen/blink.cmp",
 		dependencies = {},
 		version = "*",
-		enabled = false,
 		opts = {
 			keymap = { preset = "enter" },
 			appearance = {
