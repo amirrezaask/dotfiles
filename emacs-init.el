@@ -1,9 +1,18 @@
-(setq frame-resize-pixelwise t frame-inhibit-implied-resize t ring-bell-function 'ignore use-dialog-box t use-file-dialog nil use-short-answers t inhibit-splash-screen t inhibit-startup-screen t inhibit-x-resources t inhibit-startup-buffer-menu t redisplay-dont-pause t native-comp-async-report-warnings-errors nil is-windows
-      (eq system-type 'windows-nt)
-      is-linux
-      (eq system-type 'gnu/linux)
-      is-macos
-      (eq system-type 'darwin))
+(setq frame-resize-pixelwise t
+      frame-inhibit-implied-resize t
+      ring-bell-function 'ignore
+      use-dialog-box t
+      use-file-dialog nil
+      use-short-answers t
+      inhibit-splash-screen t
+      inhibit-startup-screen t
+      inhibit-x-resources t
+      inhibit-startup-buffer-menu t
+      redisplay-dont-pause t
+      native-comp-async-report-warnings-errors nil
+      is-windows (eq system-type 'windows-nt)
+      is-linux (eq system-type 'gnu/linux)
+      is-macos (eq system-type 'darwin))
 
 (set-frame-parameter nil 'fullscreen 'maximized)
 
@@ -261,23 +270,23 @@
 (global-so-long-mode +1) ;; don't choke on minified code.
 
 ;; Completion
-;; (setq completions-format 'one-column)
-;; (setq completions-header-format nil)
-;; (setq completions-max-height 30)
-;; (setq completion-auto-select nil)
-;; (define-key minibuffer-mode-map (kbd "C-n") 'minibuffer-next-completion)
-;; (define-key minibuffer-mode-map (kbd "C-p") 'minibuffer-previous-completion)
-;; (define-key completion-in-region-mode-map (kbd "C-n") 'minibuffer-next-completion)
-;; (define-key completion-in-region-mode-map (kbd "C-p") 'minibuffer-previous-completion)
-;; (defun my/minibuffer-choose-completion (&optional no-exit no-quit)
-;;   (interactive "P")
-;;   (with-minibuffer-completions-window
-;;     (let ((completion-use-base-affixes nil))
-;;       (choose-completion nil no-exit no-quit))))
+(setq completions-format 'one-column)
+(setq completions-header-format nil)
+(setq completions-max-height 30)
+(setq completion-auto-select nil)
+(define-key minibuffer-mode-map (kbd "C-n") 'minibuffer-next-completion)
+(define-key minibuffer-mode-map (kbd "C-p") 'minibuffer-previous-completion)
+(define-key completion-in-region-mode-map (kbd "C-n") 'minibuffer-next-completion)
+(define-key completion-in-region-mode-map (kbd "C-p") 'minibuffer-previous-completion)
+(defun my/minibuffer-choose-completion (&optional no-exit no-quit)
+  (interactive "P")
+  (with-minibuffer-completions-window
+    (let ((completion-use-base-affixes nil))
+      (choose-completion nil no-exit no-quit))))
 
-;; (define-key completion-in-region-mode-map (kbd "RET") 'minibuffer-choose-completion)
+(define-key completion-in-region-mode-map (kbd "RET") 'minibuffer-choose-completion)
 
-(install 'vertico)
+;; (install 'vertico)
 
 ;; Git
 (unless is-windows (install 'magit))
@@ -364,7 +373,7 @@
 ;; XREF
 (with-eval-after-load 'xref
   (global-set-key (kbd "M-.") 'xref-find-definitions)
-  (global-set-key (kbd "M-,") 'xref-pop)
+  (global-set-key (kbd "M-,") 'xref-go-back)
   (global-set-key (kbd "M-?")  'xref-find-references)
   (global-set-key (kbd "M-/")  'xref-find-references))
 
