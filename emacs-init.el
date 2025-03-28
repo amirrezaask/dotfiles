@@ -114,7 +114,7 @@
   (setq amirreza-emacs-directory (file-name-directory INIT-FILE))
   (setq custom-file (expand-file-name "custom.el" amirreza-emacs-directory)))
 
-(defun reload-init ()
+(defun RELOAD ()
   (interactive)
   (load-file INIT-FILE))
 
@@ -336,6 +336,8 @@
 
 (GLOBAL (kbd "M-m") (lambda () (interactive)  (run-in-project 'compile (read-shell-command "Command: "))))
 (GLOBAL (kbd "M-s") (lambda () (interactive)  (run-in-project 'grep (format (get-grep-default-command) (read-string "Grep: ")))))
+(GLOBAL (kbd "M-}") 'next-error)
+(GLOBAL (kbd "M-{") 'previous-error)
 (GLOBAL (kbd "M-o") 'project-find-file)
 
 ;; Pixel scrolling
@@ -390,3 +392,4 @@
 (setq eglot-stay-out-of '(project flymake) ;; Don't polute buffer with flymake diganostics.
       eglot-sync-connect nil               ;; no blocking on waiting for the server to start.
       eglot-events-buffer-size 0)          ;; no logging of LSP events.
+
