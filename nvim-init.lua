@@ -224,7 +224,7 @@ require("lazy").setup({
 				},
 				input = { enabled = true },
 				picker = {
-					enabled = FuzzyFinder == "snacks",
+					enabled = true,
 					layout = {
 						preview = false,
 						layout = {
@@ -345,7 +345,7 @@ require("lazy").setup({
 	},
 	{
 		"nvim-telescope/telescope.nvim",
-		enabled = FuzzyFinder == "telescope",
+		enabled = false,
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"nvim-telescope/telescope-ui-select.nvim",
