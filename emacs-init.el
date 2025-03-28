@@ -172,17 +172,21 @@
 (setq current-font-family "")
 (setq font-families (font-family-list))
 
-(defun set-font (font size) "Set font" (interactive (list (completing-read "Font: " font-families) (read-number "Size: ")))
+(defun load-font (font size) "Set font" (interactive (list (completing-read "Font: " font-families) (read-number "Size: ")))
        (setq current-font-family font)
        (setq font-size size)
        (set-face-attribute 'default nil :font (format "%s-%d" font size)))
 
+(defun set-font-size (size) (interactive (list (read-number "Size: ")))
+       (setq font-size size)
+       (load-font current-font-family font-size))
+
 (cond
- ((member "Fira Code" font-families)      (set-font "Fira Code" 14))
- ((member "JetBrains Mono" font-families) (set-font "JetBrains Mono" 14))
- (is-windows                              (set-font "Consolas"    14))
- (is-linux                                (set-font "Ubuntu Mono" 14))
- (is-macos                                (set-font "Menlo"       14)))
+ ((member "Fira Code" font-families)      (load-font "Fira Code" 14))
+ ((member "JetBrains Mono" font-families) (load-font "JetBrains Mono" 14))
+ (is-windows                              (load-font "Consolas"    14))
+ (is-linux                                (load-font "Ubuntu Mono" 14))
+ (is-macos                                (load-font "Menlo"       14)))
 
 ;; Package archives
 (setq package-archives
