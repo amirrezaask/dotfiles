@@ -5,9 +5,9 @@ export PATH="$PATH:/opt/homebrew/bin:/opt/homebrew/sbin"
 export PATH="$PATH:$HOME/prg/bin"
 export PATH="$PATH:/usr/local/bin"
 
-# if ! command -v starship &>/dev/null
-#   curl -sS https://starship.rs/install.sh | sh
-# end
+if ! command -v starship &>/dev/null
+  curl -sS https://starship.rs/install.sh | sh
+end
 
 if command -v brew &>/dev/null
     eval (brew shellenv)
@@ -36,5 +36,22 @@ end
 
 function fish_prompt
     printf '%s' (set_color green) (prompt_pwd) (set_color white) (fish_git_prompt) ' > '
+end
+
+
+function gwip
+    git add . && git commit -m "Work In Progress $(date +"%Y-%m-%d %H:%M:%S")" && git push origin $(git_current_branch) 
+end
+
+function ok
+    git add . && git commit
+end
+
+
+alias gs='git status'
+
+
+if command -v starship &>/dev/null
+  starship init fish | source
 end
 
