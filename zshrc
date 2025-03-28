@@ -38,9 +38,6 @@ eval "$(starship init zsh)"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-source ~/.profile
-
-
 alias artisan='php artisan'
 alias gwip='echo "$(date)"'
 

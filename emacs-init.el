@@ -176,8 +176,7 @@
 ;; Package archives
 (setq package-archives
       '(("gnu-elpa" . "https://elpa.gnu.org/packages/")
-        ("nongnu"   . "https://elpa.nongnu.org/nongnu/")
-        ("melpa"    . "https://melpa.org/packages/")))
+         ("melpa"    . "https://melpa.org/packages/")))
 
 (defun install (pkg)
   (unless (package-installed-p pkg)
