@@ -41,7 +41,7 @@ end
 
 function gwip
     set -l git_branch (git branch 2>/dev/null | sed -n '/\* /s///p')
-    git add . && git commit -m "Work In Progress $(date +"%Y-%m-%d %H:%M:%S")" && git push origin (git_branch) 
+    git add . && git commit -m "Work In Progress $(date +"%Y-%m-%d %H:%M:%S")" && git push origin $git_branch
 end
 
 function ok
