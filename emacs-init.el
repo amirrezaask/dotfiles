@@ -62,6 +62,7 @@
   (custom-set-faces
    `(default				((t	(:foreground "#d3b58d" :background "#042428"))))
    `(hl-line				((t	(:background "#0c4141"))))
+   `(vertico-current                    ((t     (:background "#0c4141"))))
    `(region				((t	(:background "#0000cd"))))
    `(cursor				((t	(:background "#90ee90"))))
    `(font-lock-keyword-face		((t	(:foreground "#ffffff"))))
@@ -260,21 +261,23 @@
 (global-so-long-mode +1) ;; don't choke on minified code.
 
 ;; Completion
-(setq completions-format 'one-column)
-(setq completions-header-format nil)
-(setq completions-max-height 30)
-(setq completion-auto-select nil)
-(define-key minibuffer-mode-map (kbd "C-n") 'minibuffer-next-completion)
-(define-key minibuffer-mode-map (kbd "C-p") 'minibuffer-previous-completion)
-(define-key completion-in-region-mode-map (kbd "C-n") 'minibuffer-next-completion)
-(define-key completion-in-region-mode-map (kbd "C-p") 'minibuffer-previous-completion)
-(defun my/minibuffer-choose-completion (&optional no-exit no-quit)
-  (interactive "P")
-  (with-minibuffer-completions-window
-    (let ((completion-use-base-affixes nil))
-      (choose-completion nil no-exit no-quit))))
+;; (setq completions-format 'one-column)
+;; (setq completions-header-format nil)
+;; (setq completions-max-height 30)
+;; (setq completion-auto-select nil)
+;; (define-key minibuffer-mode-map (kbd "C-n") 'minibuffer-next-completion)
+;; (define-key minibuffer-mode-map (kbd "C-p") 'minibuffer-previous-completion)
+;; (define-key completion-in-region-mode-map (kbd "C-n") 'minibuffer-next-completion)
+;; (define-key completion-in-region-mode-map (kbd "C-p") 'minibuffer-previous-completion)
+;; (defun my/minibuffer-choose-completion (&optional no-exit no-quit)
+;;   (interactive "P")
+;;   (with-minibuffer-completions-window
+;;     (let ((completion-use-base-affixes nil))
+;;       (choose-completion nil no-exit no-quit))))
 
-(define-key completion-in-region-mode-map (kbd "RET") 'minibuffer-choose-completion)
+;; (define-key completion-in-region-mode-map (kbd "RET") 'minibuffer-choose-completion)
+
+(install 'vertico)
 
 ;; Git
 (unless is-windows (install 'magit))
