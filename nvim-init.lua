@@ -490,8 +490,12 @@ require("lazy").setup({
 		},
 		config = function()
 			require("nvim-treesitter.configs").setup({
-				ensure_installed = { "lua", "go", "gomod", "markdown", "php", "c", "cpp", "odin" },
+				auto_install = false,
+				sync_install = false,
+				ensure_installed = { "lua", "go", "gomod", "markdown", "php", "c", "cpp" },
+				ignore_install = {},
 				highlight = { enable = true },
+				modules = {},
 			})
 		end,
 	},
