@@ -145,6 +145,7 @@
   (setenv "PATH" (string-join exec-path ":"))) ;; set emacs process PATH
 
 
+
 ;; Overrides: minor mode to register keys that I want to override in all other modes.
 (defvar amirreza-keys (make-sparse-keymap))
 (define-minor-mode amirreza-mode ""
@@ -157,7 +158,7 @@
 (defun GLOBAL (KBD ACTION) (define-key amirreza-keys KBD ACTION))
 
 ;; Font
-(setq font-size 21)
+(setq font-size 13)
 (setq current-font-family "")
 (setq font-families (font-family-list))
 
@@ -167,11 +168,11 @@
        (set-face-attribute 'default nil :font (format "%s-%d" font size)))
 
 (cond
- ((member "Fira Code" font-families)      (set-font "Fira Code" 15))
- ((member "JetBrains Mono" font-families) (set-font "JetBrains Mono" 15))
- (is-windows                              (set-font "Consolas"    11))
- (is-linux                                (set-font "Ubuntu Mono" 11))
- (is-macos                                (set-font "Menlo"       11)))
+ ((member "Fira Code" font-families)      (set-font "Fira Code" 14))
+ ((member "JetBrains Mono" font-families) (set-font "JetBrains Mono" 14))
+ (is-windows                              (set-font "Consolas"    14))
+ (is-linux                                (set-font "Ubuntu Mono" 14))
+ (is-macos                                (set-font "Menlo"       14)))
 
 ;; Package archives
 (setq package-archives
@@ -245,7 +246,7 @@
 
 (global-set-key (kbd "C-;")   'goto-line)
 (global-set-key (kbd "C-w")   'cut) ;; modern cut
-(global-set-key (kbd "C-z")   'undo)
+(global-set-key (kbd "C-z")   'undo) ;; undo
 (global-set-key (kbd "M-z")   'undo)
 (global-set-key (kbd "C-SPC") 'set-mark-command) ;; Visual selection
 (global-set-key (kbd "M-w")   'copy) ;; modern copy
@@ -274,6 +275,9 @@
       (choose-completion nil no-exit no-quit))))
 
 (define-key completion-in-region-mode-map (kbd "RET") 'minibuffer-choose-completion)
+
+;; Git
+(unless is-windows (install 'magit))
 
 ;; Major modes
 (install 'go-mode)

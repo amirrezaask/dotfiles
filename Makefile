@@ -2,6 +2,12 @@ DOTFILES_DIR := $(dir $(abspath $(firstword $(MAKEFILE_LIST))))
 XDG_CONFIG := $(HOME)/.config
 NEOVIM_RELEASE="master"
 
+provision:
+	echo "Installing homebrew..."
+	@if ! command -v brew &> /dev/null; then \
+		/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"; \
+	fi
+	brew bundle install $(DOTFILES_DIR)/Brewfile
 
 build-install-neovim:
 	if ! test -d $(HOME)/.neovim; then \
