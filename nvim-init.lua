@@ -204,6 +204,10 @@ require("lazy").setup({
 	},
 	{
 		"folke/snacks.nvim",
+
+		dependencies = {
+			"nvim-tree/nvim-web-devicons",
+		},
 		lazy = false,
 		config = function()
 			Snacks = require("snacks")

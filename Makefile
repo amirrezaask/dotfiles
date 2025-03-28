@@ -1,7 +1,15 @@
 DOTFILES_DIR := $(dir $(abspath $(firstword $(MAKEFILE_LIST))))
 XDG_CONFIG := $(HOME)/.config
+NEOVIM_RELEASE="master"
 
-install:
+
+neovim:
+	if ! test -d $(HOME)/.neovim; then \
+		git clone https://github.com/neovim/neovim.git $(HOME)/.neovim; \
+	fi;
+	cd $(HOME)/.neovim && git pull && git checkout $(NEOVIM_RELEASE) && make CMAKE_BUILD_TYPE=Release && sudo make install
+
+configure:
 	mkdir -p $(XDG_CONFIG)
 	rm -rf $(XDG_CONFIG)/fish
 	rm -rf $(XDG_CONFIG)/ghostty
@@ -20,3 +28,19 @@ install:
 	ln -s $(DOTFILES_DIR)/emacs-init.el $(HOME)/.emacs
 	ln -s $(DOTFILES_DIR)/.gitconfig $(HOME)/.gitconfig
 	ln -s $(DOTFILES_DIR)/nvim-init.lua $(XDG_CONFIG)/nvim/init.lua
+	if [[ "$(OSTYPE)" == "darwin"* ]]; then\
+		if test -d "$(HOME)/Library/Application Support/Cursor"; then\
+			rm -rf "$(HOME)/Library/Application Support/Cursor/User/keybindings.json"; \
+			rm -rf "$(HOME)/Library/Application Support/Cursor/User/settings.json"; \
+			ln -s "$(DOTFILES_DIR)/vscode-keybindings.json" "$(HOME)/Library/Application Support/Cursor/User/keybindings.json"; \
+			ln -s "$(DOTFILES_DIR)/vscode-settings.json" "$(HOME)/Library/Application Support/Cursor/User/settings.json"; \
+		fi \
+		if test -d "$(HOME)/Library/Application Support/Code"; then \
+			rm -rf "$(HOME)/Library/Application Support/Code/User/keybindings.json"; \
+			rm -rf "$(HOME)/Library/Application Support/Code/User/settings.json"; \
+			ln -s "$(DOTFILES_DIR)/vscode-keybindings.json" "$(HOME)/Library/Application Support/Code/User/keybindings.json"; \
+			ln -s "$(DOTFILES_DIR)/vscode-settings.json" "$(HOME)/Library/Application Support/Code/User/settings.json"; \
+		fi \
+	elif [[ "$(OSTYPE)" == "linux-gnu" ]]; then \
+		echo "Not implemented yet"; \
+	fi
