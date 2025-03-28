@@ -22,7 +22,7 @@ configure:
 	mkdir -p $(XDG_CONFIG)/ghostty
 	mkdir -p $(XDG_CONFIG)/nvim
 	ln -s $(DOTFILES_DIR)/fish-config.fish $(XDG_CONFIG)/fish/config.fish
-	ln -s $(DOTFILES_DIR)/ghostty-config $(XDG_CONFIG)/ghostty/ghostty.conf
+	ln -s $(DOTFILES_DIR)/ghostty-config $(XDG_CONFIG)/ghostty/config
 	ln -s $(DOTFILES_DIR)/starship.toml $(XDG_CONFIG)/starship.toml
 	ln -s $(DOTFILES_DIR)/zshrc $(HOME)/.zshrc
 	ln -s $(DOTFILES_DIR)/emacs-init.el $(HOME)/.emacs
