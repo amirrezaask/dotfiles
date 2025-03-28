@@ -3,7 +3,7 @@ XDG_CONFIG := $(HOME)/.config
 NEOVIM_RELEASE="master"
 
 
-neovim:
+build-install-neovim:
 	if ! test -d $(HOME)/.neovim; then \
 		git clone https://github.com/neovim/neovim.git $(HOME)/.neovim; \
 	fi;
