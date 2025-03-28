@@ -269,7 +269,6 @@
 (toggle-truncate-lines -1) ;; wrap long lines
 (global-so-long-mode +1) ;; don't choke on minified code.
 
-;; Completion
 ;; (setq completions-format 'one-column)
 ;; (setq completions-header-format nil)
 ;; (setq completions-max-height 30)
@@ -297,10 +296,6 @@
 (setq completion-in-region-function #'consult-completion-in-region)
 (with-eval-after-load 'minibuffer
   (define-key minibuffer-mode-map (kbd "C-;") 'embark-export))
-(GLOBAL (kbd "M-s")
-	(cond
-	 ((executable-find "rg")   'consult-ripgrep)
-	 (t                        'consult-grep)))
 
 (unless is-windows (install 'magit))
 
@@ -348,7 +343,12 @@
          (apply fn args)))
 
 (GLOBAL (kbd "M-m") (lambda () (interactive)  (run-in-project 'compile (read-shell-command "Command: "))))
-;; (GLOBAL (kbd "M-s") (lambda () (interactive)  (run-in-project 'grep (format (get-grep-default-command) (read-string "Grep: ")))))
+(GLOBAL (kbd "M-s")
+	(cond
+	 ((and (executable-find "rg") (package-installed-p 'consult) (package-installed-p 'vertico))   'consult-ripgrep)
+	 ((and (package-installed-p 'consult) (package-installed-p 'vertico))                          'consult-grep)
+	 (t                                                                                            (lambda () (interactive)  (run-in-project 'grep (format (get-grep-default-command) (read-string "Grep: ")))))))
+
 (GLOBAL (kbd "M-}") 'next-error)
 (GLOBAL (kbd "M-{") 'previous-error)
 (GLOBAL (kbd "M-o") 'project-find-file)
