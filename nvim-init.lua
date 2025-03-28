@@ -204,7 +204,6 @@ require("lazy").setup({
 	},
 	{
 		"folke/snacks.nvim",
-
 		dependencies = {
 			"nvim-tree/nvim-web-devicons",
 		},
@@ -258,7 +257,7 @@ require("lazy").setup({
 
 			vim.keymap.set("n", "<leader>i", function()
 				Snacks.picker.files({
-					prompt = "Neovim configuration",
+					prompt = "Neovim configuration >",
 					cwd = vim.fn.stdpath("config"),
 					preview = "none",
 				})
