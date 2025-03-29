@@ -1,4 +1,5 @@
 local transparent = os.getenv("NVIM_TRANSPARENT") or true
+local fuzzy_finder = "snacks" -- [[ fzf | telescope | snacsk ]]
 
 vim.g.mapleader = " "
 
@@ -32,7 +33,7 @@ require("lazy").setup({
 	{ -- FZF babyyyyy
 		"ibhagwan/fzf-lua",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
-		enabled = true,
+		enabled = fuzzy_finder == "fzf",
 		config = function()
 			local fzfLua = require("fzf-lua")
 			fzfLua.setup({
@@ -128,17 +129,19 @@ require("lazy").setup({
 						vim.keymap.set(mode, key, fn, { buffer = bufnr, desc = "LSP: " .. desc })
 					end
 					local references = vim.lsp.buf.references
-					local implementation = vim.lsp.buf.implementation
-					local has_tele, tele = pcall(require, "telescope.builtin")
-					if has_tele then
+					local implementations = vim.lsp.buf.implementation
+					if fuzzy_finder == "snacks" then
+						local Snacks = require("snacks")
+						references = Snacks.picker.lsp_references
+						implementations = Snacks.picker.lsp_implementations
+					elseif fuzzy_finder == "telescope" then
+						local tele = require("telescope.builtin")
 						references = tele.lsp_references
-						implementation = tele.lsp_implementations
-					end
-
-					local has_fzf, fzfLua = pcall(require, "fzf-lua")
-					if has_fzf then
+						implementations = tele.lsp_implementations
+					elseif fuzzy_finder == "fzf" then
+						local fzfLua = require("fzf-lua")
 						references = fzfLua.lsp_references
-						implementation = fzfLua.lsp_implementations
+						implementations = fzfLua.lsp_implementations
 					end
 
 					local border = "rounded"
@@ -151,7 +154,7 @@ require("lazy").setup({
 					map("n", "C-]", vim.lsp.buf.definition, "[g]oto definition")
 					map("n", "gd", vim.lsp.buf.definition, "[g]oto [d]efinition")
 					map("n", "gD", vim.lsp.buf.declaration, "[g]oto [D]eclaration")
-					map("n", "gI", implementation, "[g]oto [i]mplementation")
+					map("n", "gI", implementations, "[g]oto [i]mplementation")
 					map("n", "gr", references, "[g]oto [r]eferences")
 					map("n", "R", vim.lsp.buf.rename, "Rename")
 					map("n", "K", function()
@@ -254,7 +257,7 @@ require("lazy").setup({
 				quickfile = { enabled = true },
 				scope = { enabled = true },
 			})
-			if false then
+			if fuzzy_finder == "snacks" then
 				vim.keymap.set("n", "<leader><leader>", function()
 					Snacks.picker.files({})
 				end, {})
@@ -349,7 +352,7 @@ require("lazy").setup({
 	},
 	{
 		"nvim-telescope/telescope.nvim",
-		enabled = false,
+		enabled = fuzzy_finder == "telescope",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"nvim-telescope/telescope-ui-select.nvim",
