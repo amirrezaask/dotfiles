@@ -20,6 +20,7 @@ end
 
 vim.opt.rtp:prepend(lazypath)
 
+-- Install plugins and load.
 require("lazy").setup({
 	{ -- AI apocalypse is here !!!!
 		"supermaven-inc/supermaven-nvim",
@@ -132,6 +133,12 @@ require("lazy").setup({
 					if has_tele then
 						references = tele.lsp_references
 						implementation = tele.lsp_implementations
+					end
+
+					local has_fzf, fzfLua = pcall(require, "fzf-lua")
+					if has_fzf then
+						references = fzfLua.lsp_references
+						implementation = fzfLua.lsp_implementations
 					end
 
 					local border = "rounded"
@@ -457,6 +464,7 @@ require("lazy").setup({
 				preset = "enter",
 			},
 			completion = {
+				menu = { auto_show = false },
 				documentation = { auto_show = true },
 			},
 			sources = {
@@ -494,9 +502,6 @@ require("lazy").setup({
 				modules = {},
 			})
 		end,
-	},
-	{
-		"tjdevries/colorbuddy.nvim",
 	},
 	{
 		"folke/tokyonight.nvim",
@@ -554,7 +559,7 @@ vim.opt.cursorline = false
 vim.opt.updatetime = 250
 vim.opt.termsync = false
 vim.opt.number = true -- Line numbers
-vim.opt.mouse = "a"
+vim.opt.mouse = "a" -- Enable mouse in all modes.
 vim.opt.clipboard = "unnamedplus" -- Clipboard
 vim.opt.ignorecase = true -- Case-insensitive searching UNLESS \C or capital in search
 vim.opt.smartcase = true
@@ -562,7 +567,6 @@ vim.opt.completeopt = { "menu", "noinsert" }
 vim.opt.inccommand = "" -- Preview all substitutions(replacements).
 vim.opt.scrolloff = 10 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.laststatus = 3 -- Global statusline
-vim.opt.cursorline = false
 vim.keymap.set("n", "Y", "y$", { desc = "Copy whole line" })
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 vim.keymap.set("i", "<C-c>", "<esc>")
@@ -570,7 +574,6 @@ vim.keymap.set("i", "jk", "<ESC>")
 vim.keymap.set("i", "kj", "<ESC>")
 vim.keymap.set("n", "{", "<cmd>cprev<CR>") -- Quick fix list
 vim.keymap.set("n", "}", "<cmd>cnext<CR>") -- Quickfix list
-vim.keymap.set("i", "<C-Space>", require("blink.cmp").show)
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("n", "<C-o>", "<C-o>zz")
