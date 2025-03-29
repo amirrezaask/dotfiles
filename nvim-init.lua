@@ -532,7 +532,7 @@ vim.opt.mouse = "a" -- Enable mouse in all modes.
 vim.opt.clipboard = "unnamedplus" -- Clipboard
 vim.opt.ignorecase = true -- Case-insensitive searching UNLESS \C or capital in search
 vim.opt.smartcase = true
-vim.opt.completeopt = { "menu", "noinsert", "noselect", "popup" }
+vim.opt.completeopt = { "fuzzy", "menu", "noinsert", "noselect", "popup" }
 vim.opt.inccommand = "" -- Preview all substitutions(replacements).
 vim.opt.scrolloff = 10 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.laststatus = 3 -- Global statusline
@@ -652,6 +652,9 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		vim.keymap.set("i", "<c-space>", function()
 			vim.lsp.completion.get()
 		end)
+		vim.keymap.set("i", "<CR>", function()
+			return vim.fn.pumvisible() == 1 and "<C-y>" or "<CR>"
+		end, { expr = true, noremap = true })
 		vim.lsp.completion.enable(true, args.data.client_id, args.buf, { wutotrigger = false })
 	end,
 })
