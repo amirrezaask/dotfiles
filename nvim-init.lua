@@ -739,4 +739,4 @@ local function toggle_terminal_tab()
 end
 
 vim.keymap.set({ "n", "t" }, "<c-j>", toggle_hsplit_terminal)
-vim.cmd.colorscheme(os.getenv("NVIM_COLORSCHEME") or "rose-pine")
+vim.cmd.colorscheme(os.getenv("NVIM_COLORSCHEME") or "tokyonight-night")
