@@ -1,4 +1,4 @@
-local transparent = os.getenv("NVIM_TRANSPARENT") or false
+local transparent = os.getenv("NVIM_TRANSPARENT") or true
 
 vim.g.mapleader = " "
 
@@ -23,14 +23,15 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
 	{ -- AI apocalypse is here !!!!
 		"supermaven-inc/supermaven-nvim",
+		enabled = false,
 		config = function()
 			require("supermaven-nvim").setup({})
 		end,
 	},
-	{
+	{ -- FZF babyyyyy
 		"ibhagwan/fzf-lua",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
-		enabled = false,
+		enabled = true,
 		config = function()
 			local fzfLua = require("fzf-lua")
 			fzfLua.setup({
@@ -204,6 +205,7 @@ require("lazy").setup({
 	},
 	{
 		"folke/snacks.nvim",
+		enabled = false,
 		dependencies = {
 			"nvim-tree/nvim-web-devicons",
 		},
@@ -246,11 +248,6 @@ require("lazy").setup({
 				quickfile = { enabled = true },
 				scope = { enabled = true },
 			})
-			-- Terminal
-			vim.keymap.set({ "n", "t" }, "<c-j>", function()
-				Snacks.terminal.toggle()
-			end, {})
-
 			vim.keymap.set("n", "<leader><leader>", function()
 				Snacks.picker.files({})
 			end, {})
@@ -424,6 +421,9 @@ require("lazy").setup({
 			local cmp_select = { behavior = require("cmp").SelectBehavior.Select }
 			local cmp = require("cmp")
 			cmp.setup({
+				completion = {
+					autocomplete = false,
+				},
 				preselect = require("cmp.types").cmp.PreselectMode.None,
 				snippet = {
 					expand = function(args)
@@ -453,14 +453,11 @@ require("lazy").setup({
 		dependencies = {},
 		version = "*",
 		opts = {
-			keymap = { preset = "enter" },
-			appearance = {
-				nerd_font_variant = "mono",
+			keymap = {
+				preset = "enter",
 			},
 			completion = {
-				documentation = {
-					auto_show = true,
-				},
+				documentation = { auto_show = true },
 			},
 			sources = {
 				default = { "lazydev", "lsp", "path", "snippets", "buffer" },
@@ -573,7 +570,7 @@ vim.keymap.set("i", "jk", "<ESC>")
 vim.keymap.set("i", "kj", "<ESC>")
 vim.keymap.set("n", "{", "<cmd>cprev<CR>") -- Quick fix list
 vim.keymap.set("n", "}", "<cmd>cnext<CR>") -- Quickfix list
-vim.keymap.set("i", "<C-Space>", "<C-x><C-o>")
+vim.keymap.set("i", "<C-Space>", require("blink.cmp").show)
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("n", "<C-o>", "<C-o>zz")
@@ -667,34 +664,34 @@ local function toggle_floating_terminal()
 	floating_term = { buf = floating_term.buf, win = win }
 end
 
-local bottom_terminal = { win = -1, buf = -1 }
+local hsplit_terminal = { win = -1, buf = -1 }
 
-local function toggle_bottom_terminal()
-	if vim.api.nvim_buf_is_valid(bottom_terminal.buf) and vim.api.nvim_win_is_valid(bottom_terminal.win) then
-		vim.api.nvim_win_hide(bottom_terminal.win)
+local function toggle_hsplit_terminal()
+	if vim.api.nvim_buf_is_valid(hsplit_terminal.buf) and vim.api.nvim_win_is_valid(hsplit_terminal.win) then
+		vim.api.nvim_win_hide(hsplit_terminal.win)
 		return
 	end
 
-	if not vim.api.nvim_buf_is_valid(bottom_terminal.buf) then
-		bottom_terminal.buf = vim.api.nvim_create_buf(false, true)
+	if not vim.api.nvim_buf_is_valid(hsplit_terminal.buf) then
+		hsplit_terminal.buf = vim.api.nvim_create_buf(false, true)
 	end
 
 	local width = vim.o.columns
 	local height = math.floor(vim.o.lines * 0.3)
 
-	local win = vim.api.nvim_open_win(bottom_terminal.buf, true, {
+	local win = vim.api.nvim_open_win(hsplit_terminal.buf, true, {
 		split = "below",
 		width = width,
 		height = height,
 	})
 
-	if vim.api.nvim_get_option_value("buftype", { buf = bottom_terminal.buf }) ~= "terminal" then
+	if vim.api.nvim_get_option_value("buftype", { buf = hsplit_terminal.buf }) ~= "terminal" then
 		vim.cmd.term()
 	end
 
 	vim.cmd.startinsert()
 
-	bottom_terminal = { buf = bottom_terminal.buf, win = win }
+	hsplit_terminal = { buf = hsplit_terminal.buf, win = win }
 end
 
 local tab_terminal_state = { last_tab = -1 }
@@ -724,5 +721,5 @@ local function toggle_terminal_tab()
 	vim.cmd.startinsert()
 end
 
-vim.keymap.set({ "n", "t" }, "<c-j>", toggle_bottom_terminal)
+vim.keymap.set({ "n", "t" }, "<c-j>", toggle_hsplit_terminal)
 vim.cmd.colorscheme(os.getenv("NVIM_COLORSCHEME") or "rose-pine")
