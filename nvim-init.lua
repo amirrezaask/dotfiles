@@ -1,5 +1,4 @@
 local transparent = os.getenv("NVIM_TRANSPARENT") or true
-local fuzzy_finder = "snacks" -- [[ fzf | snacsk ]]
 local DOTFILES_PATH = "~/.dotfiles"
 
 vim.g.mapleader = " "
@@ -30,45 +29,101 @@ require("lazy").setup({
             require("supermaven-nvim").setup({})
         end,
     },
-    { -- FZF babyyyyy
-        "ibhagwan/fzf-lua",
-        dependencies = { "nvim-tree/nvim-web-devicons" },
-        enabled = fuzzy_finder == "fzf",
+    {
+        "folke/snacks.nvim",
+        dependencies = {
+            "nvim-tree/nvim-web-devicons",
+        },
+        lazy = false,
         config = function()
-            local fzfLua = require("fzf-lua")
-            fzfLua.setup({
-                winopts = {
-                    -- split = "belowright new",
-                    -- fullscreen = true,
+            Snacks = require("snacks")
+            Snacks.setup({
+                bigfile = { enabled = true },
+                indent = {
+                    enabled = true,
+                    animate = { enabled = false },
+                    scope = { enabled = false },
+                    filter = function(buf)
+                        return vim.bo[buf].filetype == "yaml"
+                    end,
                 },
-                keymap = {
-                    fzf = {
-                        ["ctrl-q"] = "select-all+accept",
+                input = { enabled = true },
+                picker = {
+                    enabled = true,
+                    layout = {
+                        preview = false,
+                        layout = {
+                            backdrop = false,
+                            width = 0.7,
+                            min_width = 80,
+                            height = 0.8,
+                            min_height = 3,
+                            box = "vertical",
+                            border = "rounded",
+                            title = "{title}",
+                            title_pos = "center",
+                            { win = "input",   height = 1,          border = "bottom" },
+                            { win = "list",    border = "none" },
+                            { win = "preview", title = "{preview}", height = 0.4,     border = "top" },
+                        },
                     },
                 },
-                defaults = {
-                    previewer = false,
-                },
-                commands = {
-                    actions = {
-                        ["enter"] = function(selected)
-                            vim.cmd(selected[1])
-                        end,
-                    },
-                },
+                notifier = { enabled = true },
+                quickfile = { enabled = true },
+                scope = { enabled = true },
             })
-            vim.keymap.set("n", "<leader><leader>", fzfLua.files)
-            vim.keymap.set("n", "<leader>b", fzfLua.buffers)
-            vim.keymap.set("n", "<leader>h", fzfLua.help_tags)
-            vim.keymap.set("n", "<C-p>", fzfLua.git_files)
-            vim.keymap.set("n", "??", fzfLua.live_grep)
-            vim.keymap.set("n", "<leader>o", fzfLua.lsp_document_symbols)
-            vim.keymap.set("n", "<leader>O", fzfLua.lsp_live_workspace_symbols)
-            vim.keymap.set("n", "<leader>;", fzfLua.commands)
+            vim.keymap.set("n", "<leader><leader>", function()
+                Snacks.picker.files({})
+            end, {})
+
             vim.keymap.set("n", "<leader>i", function()
-                fzfLua.files({ cwd = DOTFILES_PATH })
-            end)
-        end,
+                Snacks.picker.files({
+                    prompt = "dotfiles> ",
+                    cwd = DOTFILES_PATH,
+                    preview = "none",
+                })
+            end, {})
+
+            vim.keymap.set("n", "<leader>sd", function()
+                Snacks.picker.files({ cwd = "~/.dotfiles" })
+            end, {})
+
+            vim.keymap.set("n", "<C-p>", function()
+                Snacks.picker.git_files({})
+            end, {})
+
+            vim.keymap.set("n", "??", function()
+                Snacks.picker.grep({ layout = "default" })
+            end, {})
+
+            vim.keymap.set("n", "<leader>o", function()
+                Snacks.picker.lsp_symbols()
+            end, {})
+
+            vim.keymap.set("n", "<leader>O", function()
+                Snacks.picker.lsp_workspace_symbols()
+            end, {})
+
+            vim.keymap.set("n", "<leader>h", function()
+                Snacks.picker.help()
+            end, {})
+
+            vim.keymap.set("n", "<leader>b", function()
+                Snacks.picker.buffers()
+            end, {})
+
+            vim.keymap.set("n", "<leader>d", function()
+                Snacks.picker.diagnostics_buffer()
+            end, {})
+
+            vim.keymap.set("n", "<leader>D", function()
+                Snacks.picker.diagnostics()
+            end, {})
+
+            vim.keymap.set("n", "<leader>e", function()
+                Snacks.explorer()
+            end, {})
+        end
     },
     { -- Git Client
         "tpope/vim-fugitive",
@@ -126,104 +181,6 @@ require("lazy").setup({
         },
     },
     {
-        "folke/snacks.nvim",
-        dependencies = {
-            "nvim-tree/nvim-web-devicons",
-        },
-        lazy = false,
-        config = function()
-            Snacks = require("snacks")
-            Snacks.setup({
-                bigfile = { enabled = true },
-                indent = {
-                    enabled = true,
-                    animate = { enabled = false },
-                    scope = { enabled = false },
-                    filter = function(buf)
-                        return vim.bo[buf].filetype == "yaml"
-                    end,
-                },
-                input = { enabled = true },
-                picker = {
-                    enabled = true,
-                    layout = {
-                        preview = false,
-                        layout = {
-                            backdrop = false,
-                            width = 0.7,
-                            min_width = 80,
-                            height = 0.8,
-                            min_height = 3,
-                            box = "vertical",
-                            border = "rounded",
-                            title = "{title}",
-                            title_pos = "center",
-                            { win = "input",   height = 1,          border = "bottom" },
-                            { win = "list",    border = "none" },
-                            { win = "preview", title = "{preview}", height = 0.4,     border = "top" },
-                        },
-                    },
-                },
-                notifier = { enabled = true },
-                quickfile = { enabled = true },
-                scope = { enabled = true },
-            })
-            if fuzzy_finder == "snacks" then
-                vim.keymap.set("n", "<leader><leader>", function()
-                    Snacks.picker.files({})
-                end, {})
-
-                vim.keymap.set("n", "<leader>i", function()
-                    Snacks.picker.files({
-                        prompt = "dotfiles> ",
-                        cwd = DOTFILES_PATH,
-                        preview = "none",
-                    })
-                end, {})
-
-                vim.keymap.set("n", "<leader>sd", function()
-                    Snacks.picker.files({ cwd = "~/.dotfiles" })
-                end, {})
-
-                vim.keymap.set("n", "<C-p>", function()
-                    Snacks.picker.git_files({})
-                end, {})
-
-                vim.keymap.set("n", "??", function()
-                    Snacks.picker.grep({ layout = "default" })
-                end, {})
-
-                vim.keymap.set("n", "<leader>o", function()
-                    Snacks.picker.lsp_symbols()
-                end, {})
-
-                vim.keymap.set("n", "<leader>O", function()
-                    Snacks.picker.lsp_workspace_symbols()
-                end, {})
-
-                vim.keymap.set("n", "<leader>h", function()
-                    Snacks.picker.help()
-                end, {})
-
-                vim.keymap.set("n", "<leader>b", function()
-                    Snacks.picker.buffers()
-                end, {})
-
-                vim.keymap.set("n", "<leader>d", function()
-                    Snacks.picker.diagnostics_buffer()
-                end, {})
-
-                vim.keymap.set("n", "<leader>D", function()
-                    Snacks.picker.diagnostics()
-                end, {})
-            end
-
-            vim.keymap.set("n", "<leader>e", function()
-                Snacks.explorer()
-            end, {})
-        end,
-    },
-    {
         "nvim-treesitter/nvim-treesitter",
         dependencies = {
             { "folke/ts-comments.nvim", opts = {} },
@@ -241,22 +198,12 @@ require("lazy").setup({
     },
     {
         "folke/tokyonight.nvim",
-
-        opts = {
-            style = "moon",
-            transparent = transparent,
-        },
+        opts = { style = "moon", transparent = transparent, },
     },
     {
         "rose-pine/neovim",
         name = "rose-pine",
-        opts = {
-            dark_variant = "moon",
-            styles = {
-                italic = false,
-                transparency = transparent,
-            },
-        },
+        opts = { dark_variant = "moon", styles = { italic = false, transparency = transparent } },
     },
     { "catppuccin/nvim", name = "catppuccin", opts = { transparent_background = transparent } },
 }, {
@@ -372,14 +319,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
         end
         local references = vim.lsp.buf.references
         local implementations = vim.lsp.buf.implementation
-        if fuzzy_finder == "snacks" then
-            local Snacks = require("snacks")
+        local has_snacks, Snacks = pcall(require, "snacks")
+        if has_snacks then
             references = Snacks.picker.lsp_references
             implementations = Snacks.picker.lsp_implementations
-        elseif fuzzy_finder == "fzf" then
-            local fzfLua = require("fzf-lua")
-            references = fzfLua.lsp_references
-            implementations = fzfLua.lsp_implementations
         end
 
         local border = "rounded"
