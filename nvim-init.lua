@@ -73,6 +73,9 @@ require("lazy").setup({
                 scope = { enabled = true },
             })
             vim.keymap.set("n", "<leader><leader>", function()
+                Snacks.picker.smart({})
+            end, {})
+            vim.keymap.set("n", "<leader>sf", function()
                 Snacks.picker.files({})
             end, {})
 
