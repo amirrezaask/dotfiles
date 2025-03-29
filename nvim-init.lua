@@ -212,7 +212,6 @@ require("lazy").setup({
 	},
 	{
 		"folke/snacks.nvim",
-		enabled = false,
 		dependencies = {
 			"nvim-tree/nvim-web-devicons",
 		},
@@ -255,86 +254,88 @@ require("lazy").setup({
 				quickfile = { enabled = true },
 				scope = { enabled = true },
 			})
-			vim.keymap.set("n", "<leader><leader>", function()
-				Snacks.picker.files({})
-			end, {})
+			if false then
+				vim.keymap.set("n", "<leader><leader>", function()
+					Snacks.picker.files({})
+				end, {})
 
-			vim.keymap.set("n", "<leader>i", function()
-				Snacks.picker.files({
-					prompt = "Neovim configuration >",
-					cwd = vim.fn.stdpath("config"),
-					preview = "none",
-				})
-			end, {})
+				vim.keymap.set("n", "<leader>i", function()
+					Snacks.picker.files({
+						prompt = "Neovim configuration >",
+						cwd = vim.fn.stdpath("config"),
+						preview = "none",
+					})
+				end, {})
 
-			vim.keymap.set("n", "<leader>sd", function()
-				Snacks.picker.files({ cwd = "~/.dotfiles" })
-			end, {})
+				vim.keymap.set("n", "<leader>sd", function()
+					Snacks.picker.files({ cwd = "~/.dotfiles" })
+				end, {})
 
-			vim.keymap.set("n", "<C-p>", function()
-				Snacks.picker.git_files({})
-			end, {})
+				vim.keymap.set("n", "<C-p>", function()
+					Snacks.picker.git_files({})
+				end, {})
 
-			vim.keymap.set("n", "??", function()
-				Snacks.picker.grep({ layout = "default" })
-			end, {})
+				vim.keymap.set("n", "??", function()
+					Snacks.picker.grep({ layout = "default" })
+				end, {})
 
-			vim.keymap.set("n", "<leader>o", function()
-				Snacks.picker.lsp_symbols()
-			end, {})
+				vim.keymap.set("n", "<leader>o", function()
+					Snacks.picker.lsp_symbols()
+				end, {})
 
-			vim.keymap.set("n", "<leader>O", function()
-				Snacks.picker.lsp_workspace_symbols()
-			end, {})
+				vim.keymap.set("n", "<leader>O", function()
+					Snacks.picker.lsp_workspace_symbols()
+				end, {})
 
-			vim.keymap.set("n", "<leader>h", function()
-				Snacks.picker.help()
-			end, {})
+				vim.keymap.set("n", "<leader>h", function()
+					Snacks.picker.help()
+				end, {})
 
-			vim.keymap.set("n", "<leader>b", function()
-				Snacks.picker.buffers()
-			end, {})
+				vim.keymap.set("n", "<leader>b", function()
+					Snacks.picker.buffers()
+				end, {})
 
-			vim.keymap.set("n", "<leader>d", function()
-				Snacks.picker.diagnostics_buffer()
-			end, {})
+				vim.keymap.set("n", "<leader>d", function()
+					Snacks.picker.diagnostics_buffer()
+				end, {})
 
-			vim.keymap.set("n", "<leader>D", function()
-				Snacks.picker.diagnostics()
-			end, {})
+				vim.keymap.set("n", "<leader>D", function()
+					Snacks.picker.diagnostics()
+				end, {})
 
-			vim.keymap.set("n", "<leader>;", function()
-				Snacks.picker.command_history()
-			end, {})
+				vim.keymap.set("n", "<leader>;", function()
+					Snacks.picker.command_history()
+				end, {})
 
-			vim.keymap.set("n", "<leader>sn", function()
-				Snacks.picker.notifications()
-			end, {})
+				vim.keymap.set("n", "<leader>sn", function()
+					Snacks.picker.notifications()
+				end, {})
 
-			vim.keymap.set("n", "<leader>sc", function()
-				Snacks.picker.commands()
-			end, {})
-			vim.keymap.set("n", "<leader>gb", function()
-				Snacks.picker.git_branches()
-			end, {})
-			vim.keymap.set("n", "<leader>gl", function()
-				Snacks.picker.git_log()
-			end, {})
-			vim.keymap.set("n", "<leader>gL", function()
-				Snacks.picker.git_log_line()
-			end, {})
-			vim.keymap.set("n", "<leader>gs", function()
-				Snacks.picker.git_status()
-			end, {})
-			vim.keymap.set("n", "<leader>gS", function()
-				Snacks.picker.git_stash()
-			end, {})
-			vim.keymap.set("n", "<leader>gd", function()
-				Snacks.picker.git_diff()
-			end, {})
-			vim.keymap.set("n", "<leader>gf", function()
-				Snacks.picker.git_log_file()
-			end, {})
+				vim.keymap.set("n", "<leader>sc", function()
+					Snacks.picker.commands()
+				end, {})
+				vim.keymap.set("n", "<leader>gb", function()
+					Snacks.picker.git_branches()
+				end, {})
+				vim.keymap.set("n", "<leader>gl", function()
+					Snacks.picker.git_log()
+				end, {})
+				vim.keymap.set("n", "<leader>gL", function()
+					Snacks.picker.git_log_line()
+				end, {})
+				vim.keymap.set("n", "<leader>gs", function()
+					Snacks.picker.git_status()
+				end, {})
+				vim.keymap.set("n", "<leader>gS", function()
+					Snacks.picker.git_stash()
+				end, {})
+				vim.keymap.set("n", "<leader>gd", function()
+					Snacks.picker.git_diff()
+				end, {})
+				vim.keymap.set("n", "<leader>gf", function()
+					Snacks.picker.git_log_file()
+				end, {})
+			end
 
 			vim.keymap.set("n", "<leader>e", function()
 				Snacks.explorer()
