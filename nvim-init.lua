@@ -85,21 +85,26 @@ require("lazy").setup({
 			})
 		end,
 	},
-	{ -- LSP
-		"neovim/nvim-lspconfig",
+	{ -- Mason: Install lsp servers/formatters/etc.
+		"williamboman/mason-lspconfig.nvim",
+		opts = {},
 		dependencies = {
-			"williamboman/mason.nvim",
-			"williamboman/mason-lspconfig.nvim",
 			{
-				"j-hui/fidget.nvim",
-				opts = {
-					-- options
-				},
+				"williamboman/mason.nvim",
+				opts = { ensure_installed = { "gopls" } },
 			},
 		},
+	},
+	{
+		"j-hui/fidget.nvim",
+		opts = {
+			-- options
+		},
+	},
+
+	{ -- LSP
+		"neovim/nvim-lspconfig",
 		config = function()
-			require("mason").setup()
-			require("mason-lspconfig").setup({ ensure_installed = { "gopls" } })
 			local lsp_servers = {
 				gopls = {},
 				ols = {},
@@ -121,58 +126,6 @@ require("lazy").setup({
 			for server, config in pairs(lsp_servers) do
 				require("lspconfig")[server].setup(config)
 			end
-
-			vim.api.nvim_create_autocmd("LspAttach", {
-				callback = function(args)
-					local bufnr = args.buf
-					vim.api.nvim_set_option_value("omnifunc", "v:lua.vim.lsp.omnifunc", { buf = bufnr })
-					local map = function(mode, key, fn, desc)
-						vim.keymap.set(mode, key, fn, { buffer = bufnr, desc = "LSP: " .. desc })
-					end
-					local references = vim.lsp.buf.references
-					local implementations = vim.lsp.buf.implementation
-					if fuzzy_finder == "snacks" then
-						local Snacks = require("snacks")
-						references = Snacks.picker.lsp_references
-						implementations = Snacks.picker.lsp_implementations
-					elseif fuzzy_finder == "telescope" then
-						local tele = require("telescope.builtin")
-						references = tele.lsp_references
-						implementations = tele.lsp_implementations
-					elseif fuzzy_finder == "fzf" then
-						local fzfLua = require("fzf-lua")
-						references = fzfLua.lsp_references
-						implementations = fzfLua.lsp_implementations
-					end
-
-					local border = "rounded"
-					map("n", "[[", function()
-						vim.diagnostic.jump({ count = -1 })
-					end, "Diagnostics: Next")
-					map("n", "]]", function()
-						vim.diagnostic.jump({ count = 1 })
-					end, "Diagnostics: Previous")
-					map("n", "C-]", vim.lsp.buf.definition, "[g]oto definition")
-					map("n", "gd", vim.lsp.buf.definition, "[g]oto [d]efinition")
-					map("n", "gD", vim.lsp.buf.declaration, "[g]oto [D]eclaration")
-					map("n", "gI", implementations, "[g]oto [i]mplementation")
-					map("n", "gr", references, "[g]oto [r]eferences")
-					map("n", "R", vim.lsp.buf.rename, "Rename")
-					map("n", "K", function()
-						vim.lsp.buf.hover({ border = border })
-					end, "Hover")
-					map("n", "C", vim.lsp.buf.code_action, "Code Actions")
-					map("n", "<leader>f", vim.lsp.buf.format, "Format")
-					map({ "n", "i" }, "<C-s>", function()
-						vim.lsp.buf.signature_help({ border = border })
-					end, "Signature Help")
-					vim.diagnostic.config({
-						enabled = false,
-						virtual_text = false,
-						float = { border = border },
-					})
-				end,
-			})
 		end,
 	},
 	{
@@ -464,6 +417,7 @@ require("lazy").setup({
 		"saghen/blink.cmp",
 		dependencies = {},
 		version = "*",
+		enabled = false,
 		opts = {
 			keymap = {
 				preset = "enter",
@@ -578,7 +532,7 @@ vim.opt.mouse = "a" -- Enable mouse in all modes.
 vim.opt.clipboard = "unnamedplus" -- Clipboard
 vim.opt.ignorecase = true -- Case-insensitive searching UNLESS \C or capital in search
 vim.opt.smartcase = true
-vim.opt.completeopt = { "menu", "noinsert" }
+vim.opt.completeopt = { "menu", "noinsert", "noselect", "popup" }
 vim.opt.inccommand = "" -- Preview all substitutions(replacements).
 vim.opt.scrolloff = 10 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.laststatus = 3 -- Global statusline
@@ -645,6 +599,64 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 		vim.highlight.on_yank()
 	end,
 })
+-- LSP setup
+
+vim.api.nvim_create_autocmd("LspAttach", {
+	callback = function(args)
+		local bufnr = args.buf
+		vim.api.nvim_set_option_value("omnifunc", "v:lua.vim.lsp.omnifunc", { buf = bufnr })
+		local map = function(mode, key, fn, desc)
+			vim.keymap.set(mode, key, fn, { buffer = bufnr, desc = "LSP: " .. desc })
+		end
+		local references = vim.lsp.buf.references
+		local implementations = vim.lsp.buf.implementation
+		if fuzzy_finder == "snacks" then
+			local Snacks = require("snacks")
+			references = Snacks.picker.lsp_references
+			implementations = Snacks.picker.lsp_implementations
+		elseif fuzzy_finder == "telescope" then
+			local tele = require("telescope.builtin")
+			references = tele.lsp_references
+			implementations = tele.lsp_implementations
+		elseif fuzzy_finder == "fzf" then
+			local fzfLua = require("fzf-lua")
+			references = fzfLua.lsp_references
+			implementations = fzfLua.lsp_implementations
+		end
+
+		local border = "rounded"
+		map("n", "[[", function()
+			vim.diagnostic.jump({ count = -1 })
+		end, "Diagnostics: Next")
+		map("n", "]]", function()
+			vim.diagnostic.jump({ count = 1 })
+		end, "Diagnostics: Previous")
+		map("n", "C-]", vim.lsp.buf.definition, "[g]oto definition")
+		map("n", "gd", vim.lsp.buf.definition, "[g]oto [d]efinition")
+		map("n", "gD", vim.lsp.buf.declaration, "[g]oto [D]eclaration")
+		map("n", "gI", implementations, "[g]oto [i]mplementation")
+		map("n", "gr", references, "[g]oto [r]eferences")
+		map("n", "R", vim.lsp.buf.rename, "Rename")
+		map("n", "K", function()
+			vim.lsp.buf.hover({ border = border })
+		end, "Hover")
+		map("n", "C", vim.lsp.buf.code_action, "Code Actions")
+		map("n", "<leader>f", vim.lsp.buf.format, "Format")
+		map({ "n", "i" }, "<C-s>", function()
+			vim.lsp.buf.signature_help({ border = border })
+		end, "Signature Help")
+		vim.diagnostic.config({
+			enabled = false,
+			virtual_text = false,
+			float = { border = border },
+		})
+		vim.keymap.set("i", "<c-space>", function()
+			vim.lsp.completion.get()
+		end)
+		vim.lsp.completion.enable(true, args.data.client_id, args.buf, { wutotrigger = false })
+	end,
+})
+
 local floating_term = { win = -1, buf = -1 }
 
 local function toggle_floating_terminal()

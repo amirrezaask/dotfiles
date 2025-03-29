@@ -43,6 +43,7 @@
 
 (defun dirt-colors () ;; Colors from really old jonathan blow streams, a brownish feel.
   (interactive)
+  (global-hl-line-mode -1)
   (custom-set-faces
    `(default				((t	(:foreground "#debe95" :background "#252525"))))
    `(hl-line				((t	(:background "#353535"))))
@@ -68,6 +69,7 @@
 
 (defun grass-colors () ;; Emacs colors from jonathan blow streams.
   (interactive)
+  (global-hl-line-mode -1)
   (custom-set-faces
    `(default				((t	(:foreground "#d3b58d" :background "#042428"))))
    `(hl-line				((t	(:background "#0c4141"))))
@@ -94,6 +96,7 @@
 
 (defun casey-colors () ;; Emacs colors from handmadehero series by casey muratori.
   (interactive)
+  (global-hl-line-mode +1)
   (custom-set-faces
    `(default				((t       (:foreground "burlywood2" :background "#161616"))))
    `(hl-line				((t       (:background "midnight blue"))))
@@ -115,7 +118,7 @@
    `(font-lock-note-face		((t       (:foreground "khaki2"))))
    `(show-paren-match			((t       (:background "mediumseagreen"))))))
 
-(grass-colors)
+(casey-colors)
 
 (defun edit-init () "Edit this file." (interactive) (find-file INIT-FILE))
 
@@ -213,6 +216,10 @@
        (delete-window)
        (balance-windows))
 
+;; Taken from Casey Muratori.
+(defun casey-never-split-a-window () nil)
+(setq split-window-preferred-function 'casey-never-split-a-window)
+
 (defun jump-up ()   (interactive)   (next-line (* -1 (/ (window-height) 2))) (recenter-top-bottom))
 (defun jump-down () (interactive) (next-line (/ (window-height) 2)) (recenter-top-bottom))
 (defun kill-current-buffer () (interactive) (kill-buffer (current-buffer)))
@@ -269,33 +276,35 @@
 (toggle-truncate-lines -1) ;; wrap long lines
 (global-so-long-mode +1) ;; don't choke on minified code.
 
-;; (setq completions-format 'one-column)
-;; (setq completions-header-format nil)
-;; (setq completions-max-height 30)
-;; (setq completion-auto-select nil)
-;; (define-key minibuffer-mode-map (kbd "C-n") 'minibuffer-next-completion)
-;; (define-key minibuffer-mode-map (kbd "C-p") 'minibuffer-previous-completion)
-;; (define-key completion-in-region-mode-map (kbd "C-n") 'minibuffer-next-completion)
-;; (define-key completion-in-region-mode-map (kbd "C-p") 'minibuffer-previous-completion)
-;; (defun my/minibuffer-choose-completion (&optional no-exit no-quit)
-;;   (interactive "P")
-;;   (with-minibuffer-completions-window
-;;     (let ((completion-use-base-affixes nil))
-;;       (choose-completion nil no-exit no-quit))))
-
-
 ;; I use vertico package for basic minibuffer completion which is much better that Emacs default,
 ;; Consult package adds functionality on top of vertico which I use for in buffer completion (aka Autocomplete),
 ;; Embark package is useful for acting on minibuffer completion items, I only use it to export results into a buffer, mostly when grepping in project.
-(install 'vertico)
-(vertico-mode +1)
-(setq vertico-count 20)
-(install 'consult)
-(install 'embark)
-(install 'embark-consult)
-(setq completion-in-region-function #'consult-completion-in-region)
-(with-eval-after-load 'minibuffer
-  (define-key minibuffer-mode-map (kbd "C-;") 'embark-export))
+;; (install 'vertico)
+;; (vertico-mode +1)
+;; (setq vertico-count 20)
+;; (install 'consult)
+;; (install 'embark)
+;; (install 'embark-consult)
+;; (setq completion-in-region-function #'consult-completion-in-region)
+;; (with-eval-after-load 'minibuffer
+;;   (define-key minibuffer-mode-map (kbd "C-;") 'embark-export))
+
+
+
+(setq completions-format 'one-column)
+(setq completions-header-format nil)
+(setq completions-max-height 30)
+(setq completion-auto-select nil)
+(define-key minibuffer-mode-map (kbd "C-n") 'minibuffer-next-completion)
+(define-key minibuffer-mode-map (kbd "C-p") 'minibuffer-previous-completion)
+(define-key completion-in-region-mode-map (kbd "C-n") 'minibuffer-next-completion)
+(define-key completion-in-region-mode-map (kbd "C-p") 'minibuffer-previous-completion)
+(defun my/minibuffer-choose-completion (&optional no-exit no-quit)
+  (interactive "P")
+  (with-minibuffer-completions-window
+    (let ((completion-use-base-affixes nil))
+      (choose-completion nil no-exit no-quit))))
+
 
 (unless is-windows (install 'magit))
 
@@ -345,9 +354,9 @@
 (GLOBAL (kbd "M-m") (lambda () (interactive)  (run-in-project 'compile (read-shell-command "Command: "))))
 (GLOBAL (kbd "M-s")
 	(cond
-	 ((and (executable-find "rg") (package-installed-p 'consult) (package-installed-p 'vertico))   'consult-ripgrep)
-	 ((and (package-installed-p 'consult) (package-installed-p 'vertico))                          'consult-grep)
-	 (t                                                                                            (lambda () (interactive)  (run-in-project 'grep (format (get-grep-default-command) (read-string "Grep: ")))))))
+	 ((and (executable-find "rg") (package-installed-p 'consult) (package-installed-p 'vertico) vertico-mode)   'consult-ripgrep)
+	 ((and (package-installed-p 'consult) (package-installed-p 'vertico) vertico-mode)                          'consult-grep)
+	 (t                                                                                                         (lambda () (interactive)  (run-in-project 'grep (format (get-grep-default-command) (read-string "Grep: ")))))))
 
 (GLOBAL (kbd "M-}") 'next-error)
 (GLOBAL (kbd "M-{") 'previous-error)
@@ -387,7 +396,7 @@
 
 (setq eldoc-echo-area-use-multiline-p nil)
 
-(dolist (mode '(go rust php)) ;; Enable LSP automatically.
+(dolist (mode '(go go-ts rust php php-ts)) ;; Enable LSP automatically.
   (add-hook (intern (concat (symbol-name mode) "-mode-hook")) #'eglot-ensure))
 
 
@@ -412,3 +421,10 @@
       eglot-sync-connect nil               ;; no blocking on waiting for the server to start.
       eglot-events-buffer-size 0)          ;; no logging of LSP events.
 
+
+;; Treesitter
+(unless is-windows
+  (install 'treesit-auto)
+  (require 'treesit-auto)
+  (setq treesit-auto-install 'prompt)
+  (global-treesit-auto-mode))
