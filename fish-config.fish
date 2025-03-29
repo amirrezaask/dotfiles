@@ -44,8 +44,16 @@ function gwip
     git add . && git commit -m "Work In Progress $(date +"%Y-%m-%d %H:%M:%S")" && git push origin $git_branch
 end
 
+function gd
+    git diff
+end
+
 function ok
     git add . && git commit
+end
+
+function reload
+    source ~/.config/fish/config.fish
 end
 
 

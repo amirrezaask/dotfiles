@@ -600,7 +600,6 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	end,
 })
 -- LSP setup
-
 vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(args)
 		local bufnr = args.buf
