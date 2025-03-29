@@ -1,5 +1,6 @@
 local transparent = os.getenv("NVIM_TRANSPARENT") or true
 local fuzzy_finder = "snacks" -- [[ fzf | telescope | snacsk ]]
+local DOTFILES_PATH = "~/.dotfiles"
 
 vim.g.mapleader = " "
 
@@ -66,7 +67,7 @@ require("lazy").setup({
 			vim.keymap.set("n", "<leader>O", fzfLua.lsp_live_workspace_symbols)
 			vim.keymap.set("n", "<leader>;", fzfLua.commands)
 			vim.keymap.set("n", "<leader>i", function()
-				fzfLua.files({ cwd = "~/.config/nvim" })
+				fzfLua.files({ cwd = DOTFILES_PATH })
 			end)
 		end,
 	},
@@ -264,8 +265,8 @@ require("lazy").setup({
 
 				vim.keymap.set("n", "<leader>i", function()
 					Snacks.picker.files({
-						prompt = "Neovim configuration >",
-						cwd = vim.fn.stdpath("config"),
+						prompt = "dotfiles> ",
+						cwd = DOTFILES_PATH,
 						preview = "none",
 					})
 				end, {})
@@ -387,8 +388,8 @@ require("lazy").setup({
 
 			vim.keymap.set("n", "<leader>i", function()
 				require("telescope.builtin").find_files({
-					prompt_title = "Neovim Config",
-					cwd = vim.fn.stdpath("config"),
+					prompt_title = "Configs",
+					cwd = DOTFILES_PATH,
 					previewer = false,
 				})
 			end)
@@ -739,4 +740,4 @@ local function toggle_terminal_tab()
 end
 
 vim.keymap.set({ "n", "t" }, "<c-j>", toggle_hsplit_terminal)
-vim.cmd.colorscheme(os.getenv("NVIM_COLORSCHEME") or "tokyonight-night")
+vim.cmd.colorscheme(os.getenv("NVIM_COLORSCHEME") or "rose-pine-moon")
