@@ -533,6 +533,16 @@ require("lazy").setup({
 
 	{ "catppuccin/nvim", name = "catppuccin", opts = { transparent_background = transparent } },
 	{ "navarasu/onedark.nvim", opts = { style = "dark", transparent = transparent } },
+	{
+		"AlexvZyl/nordic.nvim",
+		opts = {
+			transparent = {
+				bg = transparent,
+				float = transparent,
+			},
+		},
+	},
+	"rebelot/kanagawa.nvim",
 }, {
 	change_detection = { notify = false },
 })
