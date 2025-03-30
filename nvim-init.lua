@@ -216,13 +216,11 @@ vim.api.nvim_create_autocmd("LspAttach", {
         map("n", "gi", implementations, "[g]oto [i]mplementation")
         map("n", "gr", references, "[g]oto [r]eferences")
         map("n", "R", vim.lsp.buf.rename, "Rename")
-        map("n", "K", function()
-            vim.lsp.buf.hover({ border = border })
-        end, "Hover")
+        map("n", "K", function() vim.lsp.buf.hover({ border = border }) end, "Hover")
         map("n", "C", vim.lsp.buf.code_action, "Code Actions")
         map({ "n", "i" }, "<C-s>", function() vim.lsp.buf.signature_help({ border = border }) end, "Signature Help")
         vim.diagnostic.config({
-            enabled = false,
+            enabled = true,
             virtual_text = false,
             float = { border = border },
         })
