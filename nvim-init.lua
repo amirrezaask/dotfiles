@@ -11,7 +11,6 @@ require("paq")({
 	"stevearc/conform.nvim",
 	"neovim/nvim-lspconfig",
 	"williamboman/mason.nvim",
-	"williamboman/mason-lspconfig.nvim",
 	"supermaven-inc/supermaven-nvim",
 	"nvim-treesitter/nvim-treesitter",
 	"folke/ts-comments.nvim",
@@ -137,8 +136,8 @@ require("ts-comments").setup()
 
 -- mason
 require("mason").setup({ ensure_installed = { "gopls" } })
-
-require("mason-lspconfig").setup({})
+local process_path = os.getenv("PATH")
+vim.fn.setenv("PATH", process_path .. ":" .. vim.fn.stdpath("data") .. "/mason/bin")
 
 -- LSP setup
 local lspconfig = require("lspconfig")
