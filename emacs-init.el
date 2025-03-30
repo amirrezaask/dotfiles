@@ -336,18 +336,14 @@
   (define-key grep-mode-map (kbd "k")    'kill-compilation)
   (define-key grep-mode-map (kbd "G")    (lambda () (interactive) (recompile t))))
 
-(defun get-grep-default-command ()
+(defun get-grep-default-command (PATTERN)
   (cond
-   ((executable-find "ugrep")            "ugrep -nr \"%s\"")
-   ((executable-find "rg")               "rg --no-heading --color=\"never\" %s")
-   ((git-repo-p default-directory)       "git grep --no-color -n \"%s\"")
-   (t                                    "grep -rn \"%s\"")))
+   ((executable-find "ugrep")            (format "ugrep -nr \"%s\"" PATTERN))
+   ((executable-find "rg")               (format "rg --no-heading --color=\"never\" %s" PATTERN))
+   ((git-repo-p default-directory)       (format "git grep --no-color -n \"%s\"" PATTERN))
+   (t                                    (format "grep -rn \"%s\"" PATTERN))))
 
-(with-eval-after-load 'grep
-  (grep-apply-setting 'grep-command (get-grep-default-command))
-  (grep-apply-setting 'grep-use-null-device nil))
-
-(defun recompile-project (&optional EDIT-COMMAND)
+(defun compile-project (&optional EDIT-COMMAND)
   (interactive "P")
   (let ((default-directory (find-project-root-or-default-directory)))
     (recompile EDIT-COMMAND)))
@@ -355,11 +351,11 @@
 (defun grep-project (&optional EDIT)
   (interactive "P")
   (let ((default-directory (find-project-root-or-default-directory)))
-    (grep (format (get-grep-default-command) (read-string "Grep: ")))))
+    (grep (get-grep-default-command (read-string "Grep: ")))))
 
-(GLOBAL (kbd "M-m") 'recompile-project)
+;; Project Based Keybindings ...
+(GLOBAL (kbd "M-m") 'compile-project)
 (GLOBAL (kbd "M-s") 'grep-project)
-
 (GLOBAL (kbd "M-}") 'next-error)
 (GLOBAL (kbd "M-{") 'previous-error)
 (GLOBAL (kbd "M-o") 'project-find-file)
