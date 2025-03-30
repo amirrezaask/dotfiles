@@ -16,7 +16,7 @@ macos-titlebar-style=transparent
 window-colorspace = "display-p3"
 adjust-cell-height = 20%
 
-theme = rose-pine
+# theme = rose-pine
 background = 000000
 foreground = ffffff
 

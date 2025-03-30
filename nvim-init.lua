@@ -1,5 +1,5 @@
 local transparent = os.getenv("NVIM_TRANSPARENT") or true
-local colorscheme = os.getenv("NVIM_COLORSCHEME") or "rose-pine"
+local colorscheme = os.getenv("NVIM_COLORSCHEME") or "gruvbox"
 local DOTFILES_PATH = "~/.dotfiles"
 
 vim.g.mapleader = " "
@@ -195,6 +195,15 @@ require("lazy").setup({
         config = function()
             require("rose-pine").setup({ dark_variant = "moon", styles = { italic = false, transparency = transparent } })
             vim.cmd.colorscheme("rose-pine")
+        end
+    },
+    {
+        "sainnhe/gruvbox-material",
+        enabled = colorscheme == 'gruvbox',
+        config = function()
+            vim.g.gruvbox_material_background = "hard"
+            vim.g.gruvbox_material_transparent = transparent
+            vim.cmd.colorscheme("gruvbox-material")
         end
     },
     {
