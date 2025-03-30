@@ -13,7 +13,7 @@ require "paq" {
     -- mason for installing/updating lsp servers cross platform.
     "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
-    "supermaven-inc/supermaven-nvim", -- AI apocolypse
+    "supermaven-inc/supermaven-nvim", -- AI apocalypse
     -- tressiter
     "nvim-treesitter/nvim-treesitter",
     "folke/ts-comments.nvim",
