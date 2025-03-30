@@ -8,14 +8,16 @@ end
 
 
 require "paq" {
-    "supermaven-inc/supermaven-nvim",
-    "nvim-tree/nvim-web-devicons",
-    "ibhagwan/fzf-lua",
+    "ibhagwan/fzf-lua", -- does not need any explaining
     "neovim/nvim-lspconfig",
+    -- mason for installing/updating lsp servers cross platform.
     "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
+    "supermaven-inc/supermaven-nvim", -- AI apocolypse
+    -- tressiter
     "nvim-treesitter/nvim-treesitter",
     "folke/ts-comments.nvim",
+    -- colorschemes
     "folke/tokyonight.nvim",
     "rose-pine/neovim",
     "catppuccin/nvim",
