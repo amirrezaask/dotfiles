@@ -94,7 +94,6 @@ vim.keymap.set("t", "<C-w><C-w>", function()
 end)
 vim.keymap.set("n", "<leader>l", vim.diagnostic.open_float, { desc = "Diagnostics: Open float window" })
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Set Local list" })
-vim.keymap.set("n", "<leader>g", "<cmd>LazyGit<CR>", { desc = "Lazy Git" })
 vim.keymap.set({ "n", "i", "t" }, "<C-h>", "<cmd>tabprev<CR>", {})
 vim.keymap.set({ "n", "i", "t" }, "<C-l>", "<cmd>tabnext<CR>", {})
 
@@ -133,29 +132,14 @@ vim.api.nvim_create_autocmd("TextYankPost", { -- Highlight yanked text
     end,
 })
 
--- Fzf
-
 local fzfLua = require("fzf-lua")
 fzfLua.setup({
-    winopts = {
-        -- split = "belowright new",
-        -- fullscreen = true,
-    },
     keymap = {
         fzf = {
             ["ctrl-q"] = "select-all+accept",
         },
     },
-    defaults = {
-        previewer = false,
-    },
-    commands = {
-        actions = {
-            ["enter"] = function(selected)
-                vim.cmd(selected[1])
-            end,
-        },
-    },
+    defaults = { previewer = false },
 })
 vim.keymap.set("n", "<leader><leader>", fzfLua.files)
 vim.keymap.set("n", "<leader>b", fzfLua.buffers)
@@ -165,9 +149,7 @@ vim.keymap.set("n", "??", fzfLua.live_grep)
 vim.keymap.set("n", "<leader>o", fzfLua.lsp_document_symbols)
 vim.keymap.set("n", "<leader>O", fzfLua.lsp_live_workspace_symbols)
 vim.keymap.set("n", "<leader>;", fzfLua.commands)
-vim.keymap.set("n", "<leader>i", function()
-    fzfLua.files({ cwd = "~/.dotfiles" })
-end)
+vim.keymap.set("n", "<leader>i", function() fzfLua.files({ cwd = "~/.dotfiles" }) end)
 
 -- treesitter
 require("nvim-treesitter.configs").setup({
