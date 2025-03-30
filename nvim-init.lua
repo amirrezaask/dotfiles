@@ -220,7 +220,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
             vim.lsp.buf.hover({ border = border })
         end, "Hover")
         map("n", "C", vim.lsp.buf.code_action, "Code Actions")
-        map("n", "<leader>f", vim.lsp.buf.format, "Format")
         map({ "n", "i" }, "<C-s>", function() vim.lsp.buf.signature_help({ border = border }) end, "Signature Help")
         vim.diagnostic.config({
             enabled = false,
