@@ -216,10 +216,6 @@
        (delete-window)
        (balance-windows))
 
-;; Taken from Casey Muratori.
-(defun casey-never-split-a-window () nil)
-(setq split-window-preferred-function 'casey-never-split-a-window)
-
 (defun jump-up ()   (interactive)   (next-line (* -1 (/ (window-height) 2))) (recenter-top-bottom))
 (defun jump-down () (interactive) (next-line (/ (window-height) 2)) (recenter-top-bottom))
 (defun kill-current-buffer () (interactive) (kill-buffer (current-buffer)))
@@ -327,7 +323,7 @@
   (define-key compilation-mode-map (kbd "k")    'kill-compilation)
   (define-key compilation-mode-map (kbd "G")    (lambda () (interactive) (recompile t))))
 
-(defun find-project-root (DIR) (locate-dominating-file DIR ".asdasdasd"))
+(defun find-project-root (DIR) (locate-dominating-file DIR ".git"))
 (defun find-project-root-or-default-directory () (or (find-project-root default-directory) default-directory))
 
 (with-eval-after-load 'compile
@@ -349,19 +345,18 @@
   (grep-apply-setting 'grep-command (get-grep-default-command))
   (grep-apply-setting 'grep-use-null-device nil))
 
-(defun run-in-project (fn &rest args) "Run given function at project root, if you want to choose directory use C-u."
-       (let ((default-directory
-              (if (null current-prefix-arg)
-                  (find-project-root-or-default-directory)
-                (read-directory-name "Directory: " default-directory))))
-         (apply fn args)))
+(defun recompile-project (&optional EDIT-COMMAND)
+  (interactive "P")
+  (let ((default-directory (find-project-root-or-default-directory)))
+    (recompile EDIT-COMMAND)))
 
-(GLOBAL (kbd "M-m") (lambda () (interactive)  (run-in-project 'compile (read-shell-command "Command: "))))
-(GLOBAL (kbd "M-s")
-	(cond
-	 ((and (executable-find "rg") (package-installed-p 'consult) (package-installed-p 'vertico) vertico-mode)   'consult-ripgrep)
-	 ((and (package-installed-p 'consult) (package-installed-p 'vertico) vertico-mode)                          'consult-grep)
-	 (t                                                                                                         (lambda () (interactive)  (run-in-project 'grep (format (get-grep-default-command) (read-string "Grep: ")))))))
+(defun grep-project (&optional EDIT)
+  (interactive "P")
+  (let ((default-directory (find-project-root-or-default-directory)))
+    (grep (format (get-grep-default-command) (read-string "Grep: ")))))
+
+(GLOBAL (kbd "M-m") 'recompile-project)
+(GLOBAL (kbd "M-s") 'grep-project)
 
 (GLOBAL (kbd "M-}") 'next-error)
 (GLOBAL (kbd "M-{") 'previous-error)
@@ -433,3 +428,13 @@
   (require 'treesit-auto)
   (setq treesit-auto-install 'prompt)
   (global-treesit-auto-mode))
+
+
+;; Emacs Window configuration
+(setq switch-to-buffer-obey-display-actions nil)
+(setq display-buffer-alist
+      '(("\\*.*\\*" ;; For tools windows like *grep*, *compile* either use window that is currently showing that kind of buffer or create a split in right.
+         (display-buffer-reuse-window display-buffer-pop-up-window)  ; Try reusing, then splitting
+         (direction . right)        ; New window goes to the right (vertical split)
+         (window-width . 0.5))      ; New window takes half the frame width
+      ))
