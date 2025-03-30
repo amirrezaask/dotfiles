@@ -131,6 +131,7 @@ vim.api.nvim_create_autocmd("TextYankPost", { -- Highlight yanked text
         vim.highlight.on_yank()
     end,
 })
+require "supermaven-nvim".setup {}
 
 local fzfLua = require("fzf-lua")
 fzfLua.setup({
