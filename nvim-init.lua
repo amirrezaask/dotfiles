@@ -91,9 +91,7 @@ vim.keymap.set("n", "<M-Right>", "<c-w>5<")
 vim.keymap.set("n", "<M-Up>", "<C-W>+")
 vim.keymap.set("n", "<M-Down>", "<C-W>-")
 vim.keymap.set("t", "<esc>", [[<C-\><C-n>]])
-vim.keymap.set("t", "<C-w><C-w>", function()
-    vim.cmd([[ wincmd w ]])
-end)
+vim.keymap.set("t", "<C-w><C-w>", function() vim.cmd([[ wincmd w ]]) end)
 vim.keymap.set("n", "<leader>l", vim.diagnostic.open_float, { desc = "Diagnostics: Open float window" })
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Set Local list" })
 vim.keymap.set({ "n", "i", "t" }, "<C-h>", "<cmd>tabprev<CR>", {})
@@ -133,6 +131,7 @@ vim.api.nvim_create_autocmd("TextYankPost", { -- Highlight yanked text
         vim.highlight.on_yank()
     end,
 })
+
 require "supermaven-nvim".setup {}
 
 local fzfLua = require("fzf-lua")
