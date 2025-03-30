@@ -1,5 +1,5 @@
 # Font
-font-family=Fira Code
+font-family=Menlo
 font-style-bold = false
 font-style-italic = false
 font-style-bold-italic = false
@@ -14,9 +14,8 @@ keybind = cmd+right=next_tab
 shell-integration-features = no-cursor
 macos-titlebar-style=transparent
 window-colorspace = "display-p3"
-adjust-cell-height = 20%
 
-# theme = rose-pine
+theme = Abernathy
 background = 000000
 foreground = ffffff
 

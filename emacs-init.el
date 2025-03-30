@@ -118,7 +118,7 @@
    `(font-lock-note-face		((t       (:foreground "khaki2"))))
    `(show-paren-match			((t       (:background "mediumseagreen"))))))
 
-(casey-colors)
+(grass-colors)
 
 (defun edit-init () "Edit this file." (interactive) (find-file INIT-FILE))
 
@@ -171,7 +171,7 @@
 (defun GLOBAL (KBD ACTION) (define-key amirreza-keys KBD ACTION))
 
 ;; Font
-(setq font-size 13)
+(setq font-size 11)
 (setq current-font-family "")
 (setq font-families (font-family-list))
 
@@ -185,11 +185,9 @@
        (load-font current-font-family font-size))
 
 (cond
- ((member "Fira Code" font-families)      (load-font "Fira Code" 14))
- ((member "JetBrains Mono" font-families) (load-font "JetBrains Mono" 14))
- (is-windows                              (load-font "Consolas"    14))
- (is-linux                                (load-font "Ubuntu Mono" 14))
- (is-macos                                (load-font "Menlo"       14)))
+ (is-windows                              (load-font "Consolas"    11))
+ (is-linux                                (load-font "Ubuntu Mono" 11))
+ (is-macos                                (load-font "Menlo"       11)))
 
 ;; Package archives
 (setq package-archives
@@ -221,16 +219,20 @@
 (defun kill-current-buffer () (interactive) (kill-buffer (current-buffer)))
 
 (setq recenter-positions '(middle))
-(GLOBAL (kbd "C-<return>")  'save-buffer)
-(GLOBAL (kbd "C-0")         'delete-window-and-balance)
-(GLOBAL (kbd "C-1")         'delete-other-windows)
-(GLOBAL (kbd "C-2")         'split-window-below-balance-and-switch)
-(GLOBAL (kbd "C-3")         'split-window-right-balance-and-switch)
-(GLOBAL (kbd "C--")         'text-scale-decrease)
-(GLOBAL (kbd "C-=")         'text-scale-increase)
-(GLOBAL (kbd "M-n")         'jump-down)
-(GLOBAL (kbd "M-p")         'jump-up)
-(GLOBAL (kbd "M-k")         'kill-current-buffer)
+
+(GLOBAL		(kbd "C-<return>")	'save-buffer)
+(GLOBAL		(kbd "C-0")		'delete-window-and-balance)
+(GLOBAL		(kbd "C-1")		'delete-other-windows)
+(GLOBAL		(kbd "C-2")		'split-window-below-balance-and-switch)
+(GLOBAL		(kbd "C-3")		'split-window-right-balance-and-switch)
+(GLOBAL		(kbd "C--")		'text-scale-decrease)
+(GLOBAL		(kbd "C-=")		'text-scale-increase)
+(GLOBAL		(kbd "M-n")		'jump-down)
+(GLOBAL		(kbd "M-p")		'jump-up)
+(GLOBAL		(kbd "M-k")		'kill-current-buffer)
+(global-set-key (kbd "C-q")             'completion-at-point)
+(global-set-key (kbd "M-q")             'quoted-insert)
+(global-set-key (kbd "C-o")		'other-window)
 
 
 (setq make-backup-files nil)              ;; no emacs ~ backup files
@@ -375,7 +377,6 @@
 (global-set-key (kbd "M-\\") 'kmacro-end-and-call-macro)
 
 
-(global-set-key (kbd "C-o") 'completion-at-point)
 
 ;; String conversions
 (install 'string-inflection)
@@ -421,20 +422,3 @@
       eglot-sync-connect nil               ;; no blocking on waiting for the server to start.
       eglot-events-buffer-size 0)          ;; no logging of LSP events.
 
-
-;; Treesitter
-;; (unless is-windows
-;;   (install 'treesit-auto)
-;;   (require 'treesit-auto)
-;;   (setq treesit-auto-install 'prompt)
-;;   (global-treesit-auto-mode))
-
-
-;; Emacs Window configuration
-(setq switch-to-buffer-obey-display-actions nil)
-;; (setq display-buffer-alist
-;;       '(("\\*.*\\*" ;; For tools windows like *grep*, *compile* either use window that is currently showing that kind of buffer or create a split in right.
-;;          (display-buffer-reuse-window display-buffer-pop-up-window)  ; Try reusing, then splitting
-;;          (direction . right)        ; New window goes to the right (vertical split)
-;;          (window-width . 0.5))      ; New window takes half the frame width
-;;       ))
