@@ -279,34 +279,39 @@
 ;; I use vertico package for basic minibuffer completion which is much better that Emacs default,
 ;; Consult package adds functionality on top of vertico which I use for in buffer completion (aka Autocomplete),
 ;; Embark package is useful for acting on minibuffer completion items, I only use it to export results into a buffer, mostly when grepping in project.
-;; (install 'vertico)
-;; (vertico-mode +1)
-;; (setq vertico-count 20)
-;; (install 'consult)
-;; (install 'embark)
-;; (install 'embark-consult)
-;; (setq completion-in-region-function #'consult-completion-in-region)
-;; (with-eval-after-load 'minibuffer
-;;   (define-key minibuffer-mode-map (kbd "C-;") 'embark-export))
+(install 'vertico)
+(setq vertico-count 5)
+(install 'consult)
+(install 'embark)
+(install 'embark-consult)
+
+
+;; I constantly switch between having vertico and not having that to see which workflow matches my preference.
+(vertico-mode +1)
+(setq completion-in-region-function #'consult-completion-in-region)
+(with-eval-after-load 'minibuffer
+  (define-key minibuffer-mode-map (kbd "C-;") 'embark-export))
 
 
 
-(setq completions-format 'one-column)
-(setq completions-header-format nil)
-(setq completions-max-height 30)
-(setq completion-auto-select nil)
-(define-key minibuffer-mode-map (kbd "C-n") 'minibuffer-next-completion)
-(define-key minibuffer-mode-map (kbd "C-p") 'minibuffer-previous-completion)
-(define-key completion-in-region-mode-map (kbd "C-n") 'minibuffer-next-completion)
-(define-key completion-in-region-mode-map (kbd "C-p") 'minibuffer-previous-completion)
-(defun my/minibuffer-choose-completion (&optional no-exit no-quit)
-  (interactive "P")
-  (with-minibuffer-completions-window
-    (let ((completion-use-base-affixes nil))
-      (choose-completion nil no-exit no-quit))))
+
+(unless vertico-mode ;; Telling emacs to configure default minibuffer in a way that is usable without any package.
+  (setq completions-format 'one-column)
+  (setq completions-header-format nil)
+  (setq completions-max-height 30)
+  (setq completion-auto-select nil)
+  (define-key minibuffer-mode-map (kbd "C-n") 'minibuffer-next-completion)
+  (define-key minibuffer-mode-map (kbd "C-p") 'minibuffer-previous-completion)
+  (define-key completion-in-region-mode-map (kbd "C-n") 'minibuffer-next-completion)
+  (define-key completion-in-region-mode-map (kbd "C-p") 'minibuffer-previous-completion)
+  (defun my/minibuffer-choose-completion (&optional no-exit no-quit)
+    (interactive "P")
+    (with-minibuffer-completions-window
+      (let ((completion-use-base-affixes nil))
+	(choose-completion nil no-exit no-quit)))))
 
 
-(unless is-windows (install 'magit))
+(unless is-windows (install 'magit)) ;; One of the best git clients ever.
 
 (install 'go-mode)
 (install 'rust-mode)
