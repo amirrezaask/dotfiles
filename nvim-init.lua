@@ -7,27 +7,20 @@ if vim.fn.empty(vim.fn.glob(paq_install_path)) > 0 then -- Installing nvim-paq p
 end
 
 require("paq")({
-	"ibhagwan/fzf-lua", -- does not need any explaining
+	"ibhagwan/fzf-lua",
+	"stevearc/conform.nvim",
 	"neovim/nvim-lspconfig",
-	-- mason for installing/updating lsp servers cross platform.
 	"williamboman/mason.nvim",
 	"williamboman/mason-lspconfig.nvim",
-	"supermaven-inc/supermaven-nvim", -- AI apocalypse
-	-- tressiter
+	"supermaven-inc/supermaven-nvim",
 	"nvim-treesitter/nvim-treesitter",
 	"folke/ts-comments.nvim",
-	-- colorschemes
-	"folke/tokyonight.nvim",
-	"rose-pine/neovim",
-	"catppuccin/nvim",
+	{ "rose-pine/neovim", as = "rose-pine" },
+	{ "catppuccin/nvim", as = "catppuccin" },
 })
 
 local TRANSPARENT = true
 -- colors
-require("tokyonight").setup({
-	style = "moon",
-	transparent = TRANSPARENT,
-})
 require("rose-pine").setup({ dark_variant = "moon", styles = { italic = false, transparency = TRANSPARENT } })
 
 require("catppuccin").setup({ transparent_background = TRANSPARENT })
@@ -164,6 +157,22 @@ lspconfig.lua_ls.setup({
 		},
 	},
 })
+require("conform").setup({
+	format_on_save = function()
+		if vim.tbl_contains({ "php" }, vim.bo.filetype) then
+			return false
+		end
+		return {
+			timeout_ms = 500,
+			lsp_format = "fallback",
+		}
+	end,
+
+	formatters_by_ft = {
+		lua = { "stylua", lsp_format = "fallback" },
+		go = { "goimports", "gofmt" },
+	},
+})
 
 vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(args)
@@ -215,36 +224,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		end, { expr = true, noremap = true })
 
 		vim.lsp.completion.enable(true, args.data.client_id, args.buf, { wutotrigger = false }) -- setup completion menu
-
-		local client = vim.lsp.get_client_by_id(args.data.client_id)
-
-		if -- Most lsps do good formatting except luals
-			client:supports_method("textDocument/formatting")
-			and (vim.bo[args.buf].filetype ~= "lua" or vim.fn.executable("stylua") == 0)
-		then
-			vim.api.nvim_create_autocmd("BufWritePre", {
-				buffer = args.buf,
-				callback = function()
-					vim.lsp.buf.format({ async = false, id = args.data.client_id })
-				end,
-			})
-		end
 	end,
 })
-
-if vim.fn.executable("stylua") == 1 then
-	vim.api.nvim_create_autocmd({ "BufWritePost" }, {
-		pattern = "*.lua",
-		callback = function()
-			local file = vim.api.nvim_buf_get_name(0)
-			vim.system({ "stylua", file }, {}, function(_)
-				vim.schedule(function()
-					vim.cmd("e " .. file)
-				end)
-			end)
-		end,
-	})
-end
 
 -- [[ Terminal
 vim.keymap.set("t", "<esc>", [[<C-\><C-n>]])
