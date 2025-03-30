@@ -423,18 +423,18 @@
 
 
 ;; Treesitter
-(unless is-windows
-  (install 'treesit-auto)
-  (require 'treesit-auto)
-  (setq treesit-auto-install 'prompt)
-  (global-treesit-auto-mode))
+;; (unless is-windows
+;;   (install 'treesit-auto)
+;;   (require 'treesit-auto)
+;;   (setq treesit-auto-install 'prompt)
+;;   (global-treesit-auto-mode))
 
 
 ;; Emacs Window configuration
 (setq switch-to-buffer-obey-display-actions nil)
-(setq display-buffer-alist
-      '(("\\*.*\\*" ;; For tools windows like *grep*, *compile* either use window that is currently showing that kind of buffer or create a split in right.
-         (display-buffer-reuse-window display-buffer-pop-up-window)  ; Try reusing, then splitting
-         (direction . right)        ; New window goes to the right (vertical split)
-         (window-width . 0.5))      ; New window takes half the frame width
-      ))
+;; (setq display-buffer-alist
+;;       '(("\\*.*\\*" ;; For tools windows like *grep*, *compile* either use window that is currently showing that kind of buffer or create a split in right.
+;;          (display-buffer-reuse-window display-buffer-pop-up-window)  ; Try reusing, then splitting
+;;          (direction . right)        ; New window goes to the right (vertical split)
+;;          (window-width . 0.5))      ; New window takes half the frame width
+;;       ))
