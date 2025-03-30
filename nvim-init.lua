@@ -23,7 +23,7 @@ require "paq" {
     "catppuccin/nvim",
 }
 
-local TRANSPARENT = os.getenv("NVIM_TRANSPARENT") or true
+local TRANSPARENT = true
 -- colors
 require("tokyonight").setup({
     style = "moon",
