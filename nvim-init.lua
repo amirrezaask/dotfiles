@@ -1,227 +1,40 @@
-local transparent = os.getenv("NVIM_TRANSPARENT") or true
-local colorscheme = os.getenv("NVIM_COLORSCHEME") or "gruvbox"
-local DOTFILES_PATH = "~/.dotfiles"
+local paq_install_path = vim.fn.stdpath('data') .. '/site/pack/paqs/start/paq-nvim'
 
-vim.g.mapleader = " "
-
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-
-if not (vim.uv or vim.loop).fs_stat(lazypath) then
-    local lazyrepo = "https://github.com/folke/lazy.nvim.git"
-    local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
-    if vim.v.shell_error ~= 0 then
-        vim.api.nvim_echo({
-            { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
-            { out,                            "WarningMsg" },
-            { "\nPress any key to exit..." },
-        }, true, {})
-        vim.fn.getchar()
-        os.exit(1)
-    end
+if vim.fn.empty(vim.fn.glob(paq_install_path)) > 0 then
+    print("Installing paq-nvim...")
+    vim.fn.system({ "git", "clone", "--depth=1", "https://github.com/savq/paq-nvim.git", paq_install_path })
+    print("paq-nvim installed! Restart Neovim and run :PaqInstall")
 end
 
-vim.opt.rtp:prepend(lazypath)
 
--- Install plugins and load.
-require("lazy").setup({
-    { -- AI apocalypse is here !!!!
-        "supermaven-inc/supermaven-nvim",
-        config = function()
-            require("supermaven-nvim").setup({})
-        end,
-    },
-    {
-        "folke/snacks.nvim",
-        dependencies = {
-            "nvim-tree/nvim-web-devicons",
-        },
-        lazy = false,
-        config = function()
-            Snacks = require("snacks")
-            Snacks.setup({
-                bigfile = { enabled = true },
-                indent = {
-                    enabled = true,
-                    animate = { enabled = false },
-                    scope = { enabled = false },
-                    filter = function(buf)
-                        return vim.bo[buf].filetype == "yaml"
-                    end,
-                },
-                input = { enabled = true },
-                picker = {
-                    enabled = true,
-                    layout = {
-                        preview = false,
-                        layout = {
-                            backdrop = false,
-                            width = 0.7,
-                            min_width = 80,
-                            height = 0.8,
-                            min_height = 3,
-                            box = "vertical",
-                            border = "rounded",
-                            title = "{title}",
-                            title_pos = "center",
-                            { win = "input",   height = 1,          border = "bottom" },
-                            { win = "list",    border = "none" },
-                            { win = "preview", title = "{preview}", height = 0.4,     border = "top" },
-                        },
-                    },
-                },
-                notifier = { enabled = true },
-                quickfile = { enabled = true },
-                scope = { enabled = true },
-            })
-            vim.keymap.set("n", "<leader><leader>", function()
-                Snacks.picker.files({})
-            end, {})
-            vim.keymap.set("n", "<leader>sf", function()
-                Snacks.picker.files({})
-            end, {})
+require "paq" {
+    "supermaven-inc/supermaven-nvim",
+    "nvim-tree/nvim-web-devicons",
+    "ibhagwan/fzf-lua",
+    "neovim/nvim-lspconfig",
+    "williamboman/mason.nvim",
+    "williamboman/mason-lspconfig.nvim",
+    "nvim-treesitter/nvim-treesitter",
+    "folke/ts-comments.nvim",
+    "folke/tokyonight.nvim",
+    "rose-pine/neovim",
+    "catppuccin/nvim",
+}
 
-            vim.keymap.set("n", "<leader>i", function()
-                Snacks.picker.files({
-                    prompt = "dotfiles> ",
-                    cwd = DOTFILES_PATH,
-                    preview = "none",
-                })
-            end, {})
-
-            vim.keymap.set("n", "<leader>sd", function()
-                Snacks.picker.files({ cwd = "~/.dotfiles" })
-            end, {})
-
-            vim.keymap.set("n", "<C-p>", function()
-                Snacks.picker.git_files({})
-            end, {})
-
-            vim.keymap.set("n", "??", function()
-                Snacks.picker.grep({ layout = "default" })
-            end, {})
-
-            vim.keymap.set("n", "<leader>o", function()
-                Snacks.picker.lsp_symbols()
-            end, {})
-
-            vim.keymap.set("n", "<leader>O", function()
-                Snacks.picker.lsp_workspace_symbols()
-            end, {})
-
-            vim.keymap.set("n", "<leader>h", function()
-                Snacks.picker.help()
-            end, {})
-
-            vim.keymap.set("n", "<leader>b", function()
-                Snacks.picker.buffers()
-            end, {})
-
-            vim.keymap.set("n", "<leader>d", function()
-                Snacks.picker.diagnostics_buffer()
-            end, {})
-
-            vim.keymap.set("n", "<leader>D", function()
-                Snacks.picker.diagnostics()
-            end, {})
-
-            vim.keymap.set("n", "<leader>e", function()
-                Snacks.explorer()
-            end, {})
-        end
-    },
-    { -- Mason: Install lsp servers/formatters/etc.
-        "williamboman/mason-lspconfig.nvim",
-        opts = {},
-        dependencies = {
-            {
-                "williamboman/mason.nvim",
-                opts = { ensure_installed = { "gopls" } },
-            },
-        },
-    },
-    { -- LSP configuration
-        "neovim/nvim-lspconfig",
-        dependecies = {},
-        config = function()
-            local lspconfig = require("lspconfig")
-            lspconfig.gopls.setup({})
-            lspconfig.ols.setup({}) -- odin
-            lspconfig.intelephense.setup({})
-            lspconfig.rust_analyzer.setup({})
-            lspconfig.zls.setup({})
-            lspconfig.lua_ls.setup({
-                settings = {
-                    Lua = {
-                        telemetry = { enable = false },
-                        diagnostics = {
-                            globals = { "vim" },
-                        },
-                    },
-                },
-            })
-        end,
-    },
-    {
-        "nvim-treesitter/nvim-treesitter",
-        dependencies = {
-            { "folke/ts-comments.nvim", opts = {} },
-        },
-        config = function()
-            require("nvim-treesitter.configs").setup({
-                auto_install = false,
-                sync_install = false,
-                ensure_installed = { "lua", "go", "gomod", "markdown", "php", "c", "cpp" },
-                ignore_install = {},
-                highlight = { enable = true },
-                modules = {},
-            })
-        end,
-    },
-    {
-        "folke/tokyonight.nvim",
-        enabled = colorscheme == 'tokyonight',
-        config = function()
-            require("tokyonight").setup({
-                style = "moon",
-                transparent = transparent,
-            })
-            vim.cmd.colorscheme("tokyonight")
-        end
-    },
-    {
-        "rose-pine/neovim",
-        name = "rose-pine",
-        enabled = colorscheme == 'rose-pine',
-        config = function()
-            require("rose-pine").setup({ dark_variant = "moon", styles = { italic = false, transparency = transparent } })
-            vim.cmd.colorscheme("rose-pine")
-        end
-    },
-    {
-        "sainnhe/gruvbox-material",
-        enabled = colorscheme == 'gruvbox',
-        config = function()
-            vim.g.gruvbox_material_background = "hard"
-            vim.g.gruvbox_material_transparent = transparent
-            vim.cmd.colorscheme("gruvbox-material")
-        end
-    },
-    {
-        "catppuccin/nvim",
-        enabled = colorscheme == 'catpuccin',
-        name = "catppuccin",
-        config = function()
-            require("catppuccin").setup({
-                flavour = "mocha",
-                background = { light = "latte", dark = "mocha" },
-                transparent_background = transparent,
-            })
-            vim.cmd.colorscheme("catppuccin")
-        end
-    },
-}, {
-    change_detection = { notify = false },
+local TRANSPARENT = os.getenv("NVIM_TRANSPARENT") or true
+-- colors
+require("tokyonight").setup({
+    style = "moon",
+    transparent = TRANSPARENT,
 })
+require("rose-pine").setup({ dark_variant = "moon", styles = { italic = false, transparency = TRANSPARENT } })
+
+require("catppuccin").setup({
+    flavour = "mocha",
+    background = { light = "latte", dark = "mocha" },
+    transparent_background = TRANSPARENT,
+})
+vim.cmd.colorscheme("rose-pine")
 
 vim.g.mapleader = " "      -- <leader> key for keymaps mapped to <Space>
 vim.opt.wrap = true        -- Wrap long lines
@@ -320,7 +133,77 @@ vim.api.nvim_create_autocmd("TextYankPost", { -- Highlight yanked text
     end,
 })
 
+-- Fzf
+
+local fzfLua = require("fzf-lua")
+fzfLua.setup({
+    winopts = {
+        -- split = "belowright new",
+        -- fullscreen = true,
+    },
+    keymap = {
+        fzf = {
+            ["ctrl-q"] = "select-all+accept",
+        },
+    },
+    defaults = {
+        previewer = false,
+    },
+    commands = {
+        actions = {
+            ["enter"] = function(selected)
+                vim.cmd(selected[1])
+            end,
+        },
+    },
+})
+vim.keymap.set("n", "<leader><leader>", fzfLua.files)
+vim.keymap.set("n", "<leader>b", fzfLua.buffers)
+vim.keymap.set("n", "<leader>h", fzfLua.help_tags)
+vim.keymap.set("n", "<C-p>", fzfLua.git_files)
+vim.keymap.set("n", "??", fzfLua.live_grep)
+vim.keymap.set("n", "<leader>o", fzfLua.lsp_document_symbols)
+vim.keymap.set("n", "<leader>O", fzfLua.lsp_live_workspace_symbols)
+vim.keymap.set("n", "<leader>;", fzfLua.commands)
+vim.keymap.set("n", "<leader>i", function()
+    fzfLua.files({ cwd = "~/.dotfiles" })
+end)
+
+-- treesitter
+require("nvim-treesitter.configs").setup({
+    auto_install = false,
+    sync_install = false,
+    ensure_installed = { "lua", "go", "gomod", "markdown", "php", "c", "cpp" },
+    ignore_install = {},
+    highlight = { enable = true },
+    modules = {},
+})
+
+require("ts-comments").setup()
+
+-- mason
+require("mason").setup { ensure_installed = { "gopls" } }
+
+require("mason-lspconfig").setup {}
+
 -- LSP setup
+local lspconfig = require("lspconfig")
+lspconfig.gopls.setup({})
+lspconfig.ols.setup({}) -- odin
+lspconfig.intelephense.setup({})
+lspconfig.rust_analyzer.setup({})
+lspconfig.zls.setup({})
+lspconfig.lua_ls.setup({
+    settings = {
+        Lua = {
+            telemetry = { enable = false },
+            diagnostics = {
+                globals = { "vim" },
+            },
+        },
+    },
+})
+
 vim.api.nvim_create_autocmd("LspAttach", {
     callback = function(args)
         local bufnr = args.buf
@@ -330,10 +213,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
         end
         local references = vim.lsp.buf.references
         local implementations = vim.lsp.buf.implementation
-        local has_snacks, Snacks = pcall(require, "snacks")
-        if has_snacks then
-            references = Snacks.picker.lsp_references
-            implementations = Snacks.picker.lsp_implementations
+        local has_fzf, fzf = pcall(require, "snacks")
+        if has_fzf then
+            references = fzf.lsp_references
+            implementations = fzf.lsp_implementations
         end
 
         local border = "rounded"
