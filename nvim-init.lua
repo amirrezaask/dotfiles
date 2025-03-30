@@ -73,7 +73,7 @@ require("lazy").setup({
                 scope = { enabled = true },
             })
             vim.keymap.set("n", "<leader><leader>", function()
-                Snacks.picker.smart({})
+                Snacks.picker.files({})
             end, {})
             vim.keymap.set("n", "<leader>sf", function()
                 Snacks.picker.files({})
@@ -361,98 +361,84 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end,
 })
 
-local floating_term = { win = -1, buf = -1 }
 
-local function toggle_floating_terminal()
-    if vim.api.nvim_buf_is_valid(floating_term.buf) and vim.api.nvim_win_is_valid(floating_term.win) then
-        vim.api.nvim_win_hide(floating_term.win)
-        return
-    end
-
-    if not vim.api.nvim_buf_is_valid(floating_term.buf) then
-        print("creating floating term buffer")
-        floating_term.buf = vim.api.nvim_create_buf(false, true)
-    end
-
-    local width = math.floor(vim.o.columns * 0.8)
-    local height = math.floor(vim.o.lines * 0.8)
-    local row = math.floor((vim.o.lines - height) / 2)
-    local col = math.floor((vim.o.columns - width) / 2)
-
-    local win = vim.api.nvim_open_win(floating_term.buf, true, {
-        relative = "editor",
-        width = width,
-        height = height,
-        row = row,
-        col = col,
-        style = "minimal",
-        border = "rounded",
-    })
-
-    if vim.api.nvim_get_option_value("buftype", { buf = floating_term.buf }) ~= "terminal" then
-        vim.cmd.term()
-    end
-
-    vim.cmd.startinsert()
-
-    floating_term = { buf = floating_term.buf, win = win }
-end
-
-local hsplit_terminal = { win = -1, buf = -1 }
-
-local function toggle_hsplit_terminal()
-    if vim.api.nvim_buf_is_valid(hsplit_terminal.buf) and vim.api.nvim_win_is_valid(hsplit_terminal.win) then
-        vim.api.nvim_win_hide(hsplit_terminal.win)
-        return
-    end
-
-    if not vim.api.nvim_buf_is_valid(hsplit_terminal.buf) then
-        hsplit_terminal.buf = vim.api.nvim_create_buf(false, true)
-    end
-
-    local width = vim.o.columns
-    local height = math.floor(vim.o.lines * 0.3)
-
-    local win = vim.api.nvim_open_win(hsplit_terminal.buf, true, {
-        split = "below",
-        width = width,
-        height = height,
-    })
-
-    if vim.api.nvim_get_option_value("buftype", { buf = hsplit_terminal.buf }) ~= "terminal" then
-        vim.cmd.term()
-    end
-
-    vim.cmd.startinsert()
-
-    hsplit_terminal = { buf = hsplit_terminal.buf, win = win }
-end
-
-local tab_terminal_state = { last_tab = -1 }
-
-local function toggle_terminal_tab()
-    local current_win = vim.api.nvim_get_current_win()
-    if vim.wo[current_win].winbar == "Terminal" then
-        vim.api.nvim_set_current_tabpage(tab_terminal_state.last_tab)
-        return
-    end
-    for _, tab_id in ipairs(vim.api.nvim_list_tabpages()) do
-        local win_id = vim.api.nvim_tabpage_get_win(tab_id)
-        local buf_id = vim.api.nvim_win_get_buf(win_id)
-        if vim.wo[win_id].winbar == "Terminal" and vim.bo[buf_id].buftype == "terminal" then
-            tab_terminal_state.last_tab = vim.api.nvim_get_current_tabpage()
-            vim.api.nvim_set_current_tabpage(tab_id)
-            vim.cmd.startinsert()
+local terminal_state = { buf = -1, win = -1, last_tab = -1 }
+---@param location string 'float' | 'bottom' | 'tab'
+local function toggle_terminal(location)
+    location = location or 'float'
+    if location == 'float' or location == 'bottom' then
+        if vim.api.nvim_buf_is_valid(terminal_state.buf) and vim.api.nvim_win_is_valid(terminal_state.win) then
+            vim.api.nvim_win_hide(terminal_state.win)
             return
         end
     end
 
-    tab_terminal_state.last_tab = vim.api.nvim_get_current_tabpage()
-    vim.cmd.tabnew()
-    local win_id = vim.api.nvim_get_current_win()
-    vim.wo[win_id].winbar = "Terminal"
-    vim.cmd.term()
+
+    if location == 'tab' then
+        local current_win = vim.api.nvim_get_current_win()
+        if vim.wo[current_win].winbar == "Terminal" then
+            vim.api.nvim_set_current_tabpage(terminal_state.last_tab)
+            return
+        end
+        for _, tab_id in ipairs(vim.api.nvim_list_tabpages()) do
+            local win_id = vim.api.nvim_tabpage_get_win(tab_id)
+            local buf_id = vim.api.nvim_win_get_buf(win_id)
+            if vim.wo[win_id].winbar == "Terminal" and vim.bo[buf_id].buftype == "terminal" then
+                terminal_state.last_tab = vim.api.nvim_get_current_tabpage()
+                vim.api.nvim_set_current_tabpage(tab_id)
+                vim.cmd.startinsert()
+                return
+            end
+        end
+        terminal_state.last_tab = vim.api.nvim_get_current_tabpage()
+        vim.cmd.tabnew()
+        local win_id = vim.api.nvim_get_current_win()
+        vim.wo[win_id].winbar = "Terminal"
+        vim.cmd.term()
+        vim.cmd.startinsert()
+        return
+    end
+
+    if not vim.api.nvim_buf_is_valid(terminal_state.buf) then
+        print("creating floating term buffer")
+        terminal_state.buf = vim.api.nvim_create_buf(false, true)
+    end
+
+    local win = -1
+    if location == 'float' then
+        local height = math.floor(vim.o.lines * 0.8)
+        local width = math.floor(vim.o.columns * 0.8)
+
+        local row = math.floor((vim.o.lines - height) / 2)
+        local col = math.floor((vim.o.columns - width) / 2)
+
+        terminal_state.win = vim.api.nvim_open_win(terminal_state.buf, true, {
+            relative = "editor",
+            width = width,
+            height = height,
+            row = row,
+            col = col,
+            style = "minimal",
+            border = "rounded",
+        })
+    elseif location == 'bottom' then
+        local width = vim.o.columns
+        local height = math.floor(vim.o.lines * 0.45)
+        terminal_state.win = vim.api.nvim_open_win(terminal_state.buf, true, {
+            split = "below",
+            width = width,
+            height = height,
+        })
+    else
+        vim.error("Invalid location for terminal")
+        return
+    end
+
+    if vim.api.nvim_get_option_value("buftype", { buf = terminal_state.buf }) ~= "terminal" then
+        vim.cmd.term()
+    end
+
     vim.cmd.startinsert()
 end
 
-vim.keymap.set({ "n", "t" }, "<c-j>", toggle_hsplit_terminal)
+vim.keymap.set({ "n", "t" }, "<c-j>", function() toggle_terminal('bottom') end)
