@@ -213,7 +213,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
         map("n", "C-]", vim.lsp.buf.definition, "[g]oto definition")
         map("n", "gd", vim.lsp.buf.definition, "[g]oto [d]efinition")
         map("n", "gD", vim.lsp.buf.declaration, "[g]oto [D]eclaration")
-        map("n", "gI", implementations, "[g]oto [i]mplementation")
+        map("n", "gi", implementations, "[g]oto [i]mplementation")
         map("n", "gr", references, "[g]oto [r]eferences")
         map("n", "R", vim.lsp.buf.rename, "Rename")
         map("n", "K", function()
@@ -221,9 +221,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
         end, "Hover")
         map("n", "C", vim.lsp.buf.code_action, "Code Actions")
         map("n", "<leader>f", vim.lsp.buf.format, "Format")
-        map({ "n", "i" }, "<C-s>", function()
-            vim.lsp.buf.signature_help({ border = border })
-        end, "Signature Help")
+        map({ "n", "i" }, "<C-s>", function() vim.lsp.buf.signature_help({ border = border }) end, "Signature Help")
         vim.diagnostic.config({
             enabled = false,
             virtual_text = false,
@@ -330,4 +328,4 @@ local function toggle_terminal(location)
     vim.cmd.startinsert()
 end
 
-vim.keymap.set({ "n", "t" }, "<c-j>", function() toggle_terminal('bottom') end)
+vim.keymap.set({ "n", "t" }, "<c-j>", function() toggle_terminal('float') end)
