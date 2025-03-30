@@ -1,4 +1,5 @@
 local transparent = os.getenv("NVIM_TRANSPARENT") or true
+local colorscheme = os.getenv("NVIM_COLORSCHEME") or "rose-pine"
 local DOTFILES_PATH = "~/.dotfiles"
 
 vim.g.mapleader = " "
@@ -160,15 +161,6 @@ require("lazy").setup({
             })
         end,
     },
-    { -- File management done right
-        "stevearc/oil.nvim",
-        opts = {
-            buf_options = {
-                buflisted = true,
-                bufhidden = "hide",
-            },
-        },
-    },
     {
         "nvim-treesitter/nvim-treesitter",
         dependencies = {
@@ -187,32 +179,53 @@ require("lazy").setup({
     },
     {
         "folke/tokyonight.nvim",
-        opts = { style = "moon", transparent = transparent, },
+        enabled = colorscheme == 'tokyonight',
+        config = function()
+            require("tokyonight").setup({
+                style = "moon",
+                transparent = transparent,
+            })
+            vim.cmd.colorscheme("tokyonight")
+        end
     },
     {
         "rose-pine/neovim",
         name = "rose-pine",
-        opts = { dark_variant = "moon", styles = { italic = false, transparency = transparent } },
+        enabled = colorscheme == 'rose-pine',
+        config = function()
+            require("rose-pine").setup({ dark_variant = "moon", styles = { italic = false, transparency = transparent } })
+            vim.cmd.colorscheme("rose-pine")
+        end
     },
-    { "catppuccin/nvim", name = "catppuccin", opts = { transparent_background = transparent } },
+    {
+        "catppuccin/nvim",
+        enabled = colorscheme == 'catpuccin',
+        name = "catppuccin",
+        config = function()
+            require("catppuccin").setup({
+                flavour = "mocha",
+                background = { light = "latte", dark = "mocha" },
+                transparent_background = transparent,
+            })
+            vim.cmd.colorscheme("catppuccin")
+        end
+    },
 }, {
     change_detection = { notify = false },
 })
 
-vim.cmd.colorscheme(os.getenv("NVIM_COLORSCHEME") or "rose-pine-moon") -- Colorscheme
-
-vim.g.mapleader = " "                                                  -- <leader> key for keymaps mapped to <Space>
-vim.opt.wrap = true                                                    -- Wrap long lines
-vim.opt.breakindent = true                                             -- Wrapped lines have same indentation as the actual line.
-vim.opt.swapfile = false                                               -- No annoying swapfiles
-vim.opt.backup = false                                                 -- Disable Vim backups, we have Git :)
-vim.opt.undofile = true                                                -- Save undo history
-vim.opt.hlsearch = false                                               -- Highlight all matches of a search pattern.
-vim.opt.incsearch = true                                               -- Match pattern while typing.
-vim.opt.signcolumn = "yes"                                             -- Keep signcolumn always visible
-vim.opt.splitbelow = true                                              -- How new splits are created
+vim.g.mapleader = " "      -- <leader> key for keymaps mapped to <Space>
+vim.opt.wrap = true        -- Wrap long lines
+vim.opt.breakindent = true -- Wrapped lines have same indentation as the actual line.
+vim.opt.swapfile = false   -- No annoying swapfiles
+vim.opt.backup = false     -- Disable Vim backups, we have Git :)
+vim.opt.undofile = true    -- Save undo history
+vim.opt.hlsearch = false   -- Highlight all matches of a search pattern.
+vim.opt.incsearch = true   -- Match pattern while typing.
+vim.opt.signcolumn = "yes" -- Keep signcolumn always visible
+vim.opt.splitbelow = true  -- How new splits are created
 vim.opt.splitright = true
-vim.opt.sw = 4                                                         -- TABs and indentation
+vim.opt.sw = 4             -- TABs and indentation
 vim.opt.ts = 4
 vim.opt.expandtab = true
 vim.g.netrw_browse_split = 0 -- minimal netrw (vim default file manager)
