@@ -23,5 +23,4 @@ window-colorspace = "display-p3"
 theme = Abernathy
 background = 000000
 foreground = ffffff
-
-
+split-divider-color = ff0000
