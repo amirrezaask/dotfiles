@@ -1,7 +1,5 @@
 {
-    "editor.fontFamily": "CommitMono, Jetbrains Mono, Fira Code, Menlo, Monaco, 'Courier New', monospace",
     "editor.fontSize": 14,
-    "editor.lineHeight": 24,
     "terminal.integrated.fontSize": 15,
     "window.restoreWindows": "none",
     "workbench.settings.editor": "json",
@@ -63,7 +61,7 @@
     { "before": ["k", "j"], "after": [ "<esc>" ], },
   ],
   "simpleBrowser.focusLockIndicator.enabled": false,
-  "workbench.activityBar.location": "top",
   "git.openRepositoryInParentFolders": "never",
   "workbench.editor.showTabs": "none",
+  "workbench.colorTheme": "Cursor Dark Midnight",
 }

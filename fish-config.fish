@@ -57,6 +57,16 @@ function reload
 end
 
 
+function code
+    if command -v cursor &>/dev/null
+        cursor $argv
+    else
+        code $argv
+    end
+
+end
+
+
 alias gs='git status'
 
 
