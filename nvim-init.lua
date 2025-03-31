@@ -26,13 +26,13 @@ require("rose-pine").setup({ dark_variant = "moon", styles = { italic = false, t
 require("catppuccin").setup({ transparent_background = TRANSPARENT })
 
 vim.cmd.colorscheme("sitruuna")
-vim.cmd([[ 
-    hi Normal guibg=none
-    hi NormalFloat guibg=none
-    hi StatusLine guibg=none
-    hi LineNr guibg=none
-    hi SignColumn guibg=none
-]])
+-- vim.cmd([[
+--     hi Normal guibg=none
+--     hi NormalFloat guibg=none
+--     hi StatusLine guibg=none
+--     hi LineNr guibg=none
+--     hi SignColumn guibg=none
+-- ]])
 
 vim.g.mapleader = " " -- <leader> key for keymaps mapped to <Space>
 vim.opt.wrap = true -- Wrap long lines

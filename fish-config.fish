@@ -35,7 +35,7 @@ function fish_greeting
 end
 
 function fish_prompt
-    printf '%s' (set_color brblue) (whoami) (set_color white) ' at ' (set_color green) (prompt_pwd) (set_color white) (fish_git_prompt) ' > '
+    printf '%s' (set_color green) (prompt_pwd) (set_color white) (fish_git_prompt) ' > '
 end
 
 
