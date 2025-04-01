@@ -1,15 +1,11 @@
 {
     "editor.fontSize": 14,
     "terminal.integrated.fontSize": 15,
-    "window.restoreWindows": "none",
-    "workbench.settings.editor": "json",
-    "workbench.layoutControl.enabled": true,
-    "editor.dragAndDrop": true,
-    "editor.smoothScrolling": true,
+    "window.restoreWindows": "none", // never re open anything dude
+    "workbench.settings.editor": "json", // Who wants a shitty UI ?
     "terminal.integrated.macOptionIsMeta": true,
     "security.workspace.trust.untrustedFiles": "open",
     "editor.mouseWheelScrollSensitivity": 4,
-    "explorer.autoReveal": false,
     "breadcrumbs.enabled": false,
     "files.simpleDialog.enable": true,
     "editor.wordWrap": "on",
