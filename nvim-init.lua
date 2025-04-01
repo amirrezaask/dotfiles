@@ -13,6 +13,7 @@ require("paq")({
 	"williamboman/mason.nvim",
 	"supermaven-inc/supermaven-nvim",
 	"nvim-treesitter/nvim-treesitter",
+	"tpope/vim-fugitive",
 	"folke/ts-comments.nvim",
 	{ "rose-pine/neovim", as = "rose-pine" },
 	{ "catppuccin/nvim", as = "catppuccin" },
@@ -126,9 +127,16 @@ vim.keymap.set("n", "<leader><leader>", fzfLua.files)
 vim.keymap.set("n", "<leader>b", fzfLua.buffers)
 vim.keymap.set("n", "<leader>h", fzfLua.help_tags)
 vim.keymap.set("n", "<C-p>", fzfLua.git_files)
+vim.keymap.set("n", "<leader>p", fzfLua.commands)
 vim.keymap.set("n", "??", fzfLua.live_grep)
+vim.keymap.set("n", "<leader>.", fzfLua.grep_cWORD)
+vim.keymap.set("n", "<leader>,", fzfLua.blines)
+vim.keymap.set("v", "<leader>.", fzfLua.grep_visual)
 vim.keymap.set("n", "<leader>o", fzfLua.lsp_document_symbols)
 vim.keymap.set("n", "<leader>O", fzfLua.lsp_live_workspace_symbols)
+vim.keymap.set("n", "<leader>d", fzfLua.git_bcommits)
+vim.keymap.set("n", "<leader>s", fzfLua.git_commits)
+vim.keymap.set("n", "<leader>a", ":Git blame<CR>")
 vim.keymap.set("n", "<leader>i", function()
 	fzfLua.files({ cwd = "~/.dotfiles" })
 end)
