@@ -25,7 +25,7 @@ require("rose-pine").setup({ dark_variant = "moon", styles = { italic = false, t
 
 require("catppuccin").setup({ transparent_background = TRANSPARENT })
 
-vim.cmd.colorscheme("sitruuna")
+vim.cmd.colorscheme("rose-pine-moon")
 -- vim.cmd([[
 --     hi Normal guibg=none
 --     hi NormalFloat guibg=none
@@ -58,6 +58,7 @@ vim.opt.cursorline = false
 vim.opt.number = true -- Line numbers
 vim.opt.mouse = "a" -- Enable mouse in all modes.
 vim.opt.clipboard = "unnamedplus" -- Clipboard
+vim.opt.ignorecase = true -- Search has case insensitive by default, but if pattern has some upper case letters, it will be case sensitive.
 vim.opt.smartcase = true -- Search has case insensitive by default, but if pattern has some upper case letters, it will be case sensitive.
 vim.opt.completeopt = { "fuzzy", "menu", "noinsert", "noselect", "popup" }
 vim.opt.inccommand = "" -- Preview all substitutions(replacements).
@@ -113,6 +114,12 @@ require("supermaven-nvim").setup({})
 local fzfLua = require("fzf-lua")
 fzfLua.setup({
 	fzf_opts = { ["--layout"] = "default" },
+	winopts = {
+		height = 0.5,
+		width = 0.8,
+		row = 0.5,
+		col = 0.5,
+	},
 	keymap = {
 		fzf = {
 			["ctrl-q"] = "select-all+accept",
