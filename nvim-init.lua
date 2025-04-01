@@ -25,7 +25,7 @@ require("rose-pine").setup({ dark_variant = "moon", styles = { italic = false, t
 
 require("catppuccin").setup({ transparent_background = TRANSPARENT })
 
-vim.cmd.colorscheme("rose-pine-moon")
+vim.cmd.colorscheme("sitruuna")
 -- vim.cmd([[
 --     hi Normal guibg=none
 --     hi NormalFloat guibg=none
@@ -114,12 +114,7 @@ require("supermaven-nvim").setup({})
 local fzfLua = require("fzf-lua")
 fzfLua.setup({
 	fzf_opts = { ["--layout"] = "default" },
-	winopts = {
-		height = 0.5,
-		width = 0.8,
-		row = 0.5,
-		col = 0.5,
-	},
+	winopts = { height = 0.5, width = 0.8, row = 0.5, col = 0.5 },
 	keymap = {
 		fzf = {
 			["ctrl-q"] = "select-all+accept",
@@ -134,7 +129,6 @@ vim.keymap.set("n", "<C-p>", fzfLua.git_files)
 vim.keymap.set("n", "??", fzfLua.live_grep)
 vim.keymap.set("n", "<leader>o", fzfLua.lsp_document_symbols)
 vim.keymap.set("n", "<leader>O", fzfLua.lsp_live_workspace_symbols)
-vim.keymap.set("n", "<leader>;", fzfLua.commands)
 vim.keymap.set("n", "<leader>i", function()
 	fzfLua.files({ cwd = "~/.dotfiles" })
 end)
