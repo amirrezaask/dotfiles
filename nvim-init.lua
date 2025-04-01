@@ -112,6 +112,7 @@ require("supermaven-nvim").setup({})
 
 local fzfLua = require("fzf-lua")
 fzfLua.setup({
+	fzf_opts = { ["--layout"] = "default" },
 	keymap = {
 		fzf = {
 			["ctrl-q"] = "select-all+accept",
