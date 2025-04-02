@@ -43,6 +43,9 @@
       eglot-events-buffer-size 0           ;; no logging of LSP events.
       c-default-style "linux"
       c-basic-offset 4
+      completion-styles '(orderless basic)
+      completion-category-defaults nil
+      completion-category-overrides '((file (styles partial-completion)))
       )
 
 (set-frame-parameter nil 'fullscreen 'maximized)
@@ -67,18 +70,19 @@
       (package-install pkg))))
 
 (ensure-packages
-  'vertico
-  'consult
-  'embark
-  'embark-consult
-  'consult-eglot
-  'go-mode
-  'rust-mode
-  'php-mode
-  'json-mode
-  'yaml-mode
-  'string-inflection
-  'eglot
+ 'vertico
+ 'orderless
+ 'consult
+ 'embark
+ 'embark-consult
+ 'consult-eglot
+ 'go-mode
+ 'rust-mode
+ 'php-mode
+ 'json-mode
+ 'yaml-mode
+ 'string-inflection
+ 'eglot
  )
 
 
@@ -100,12 +104,12 @@
     (setenv "PATH" (string-join exec-path ";"))
   (setenv "PATH" (string-join exec-path ":"))) ;; set emacs process PATH
 
-(pixel-scroll-precision-mode +1)
-(toggle-truncate-lines -1) ;; wrap long lines
-(global-so-long-mode +1) ;; don't choke on minified code.
-(set-default-coding-systems 'utf-8)       ;; always use UTF8
-(global-auto-revert-mode +1)              ;; Auto revert to disk changes, do we really want this ??
-(delete-selection-mode +1)                ;; Delete selected region before inserting.
+(pixel-scroll-precision-mode +1)        
+(toggle-truncate-lines -1)		;; Wrap long lines
+(global-so-long-mode +1)		;; Don't choke on minified code.
+(set-default-coding-systems 'utf-8)     ;; Always use UTF8
+(global-auto-revert-mode +1)            ;; Auto revert to disk changes, do we really want this ??
+(delete-selection-mode +1)              ;; Delete selected region before inserting.
 
 (defun old-jonathan-blow-colors () ;; Colors from really old jonathan blow streams, a brownish feel.
   (interactive)
@@ -182,6 +186,7 @@
    `(font-lock-doc-string-face		((t       (:foreground "gray50"))))
    `(font-lock-warning-face		((t       (:foreground "yellow"))))
    `(font-lock-note-face		((t       (:foreground "khaki2"))))
+   `(mode-line				((t	  (:foreground "#000000" :background "#d3b58d"))))
    `(show-paren-match			((t       (:background "mediumseagreen"))))))
 
 (defun fleury-colors ()
@@ -293,9 +298,9 @@
        (load-font current-font-family font-size))
 
 (cond
- (is-windows                              (load-font "Consolas"    11))
- (is-linux                                (load-font "Ubuntu Mono" 11))
- (is-macos                                (load-font "Menlo"       11)))
+ (is-windows                              (load-font "Consolas"    13))
+ (is-linux                                (load-font "Ubuntu Mono" 13))
+ (is-macos                                (load-font "Menlo"       13)))
 
 ;; Splits
 (defun split-window-right-balance-and-switch () (interactive)
@@ -382,7 +387,8 @@
 (global-set-key (kbd "M-\\") 'kmacro-end-and-call-macro)
 
 (GLOBAL (kbd "M-m") 'compile-project)
-(GLOBAL (kbd "M-s") 'grep-project)
+(GLOBAL (kbd "M-S-s") 'grep-project)
+(when (fboundp 'consult-ripgrep) (GLOBAL (kbd "M-s") 'consult-ripgrep))
 (GLOBAL (kbd "M-}") 'next-error)
 (GLOBAL (kbd "M-{") 'previous-error)
 (GLOBAL (kbd "M-o") 'project-find-file)
@@ -424,7 +430,7 @@
 (GLOBAL		(kbd "M-n")		'jump-down)
 (GLOBAL		(kbd "M-p")		'jump-up)
 (GLOBAL		(kbd "M-k")		'kill-current-buffer)
-(global-set-key (kbd "C-q")             'completion-at-point)
+(global-set-key (kbd "C-j")             'completion-at-point)
 (global-set-key (kbd "M-q")             'quoted-insert)
 (global-set-key (kbd "C-o")		'other-window)
 
