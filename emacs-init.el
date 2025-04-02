@@ -1,4 +1,4 @@
-(setq frame-resize-pixelwise t
+(setq-default frame-resize-pixelwise t
       frame-inhibit-implied-resize t
       ring-bell-function 'ignore
       use-dialog-box t
@@ -12,34 +12,101 @@
       native-comp-async-report-warnings-errors nil
       is-windows (eq system-type 'windows-nt)
       is-linux (eq system-type 'gnu/linux)
-      is-macos (eq system-type 'darwin))
+      is-macos (eq system-type 'darwin)
+      user/file-name-handler-alist file-name-handler-alist
+      file-name-handler-alist nil
+      package-enable-at-startup t
+      package-quickstart t
+      font-size 11
+      current-font-family ""
+      font-families (font-family-list)
+      make-backup-files nil              ;; no emacs ~ backup files
+      vc-follow-symlinks t               ;; Don't prompt if encounter a symlink file, just follow the link.
+      package-archives '(("gnu-elpa"  . "https://elpa.gnu.org/packages/") ("melpa"    . "https://melpa.org/packages/"))
+      recenter-positions '(middle)
+      kill-whole-line t
+      compilation-ask-about-save nil ;; Don't ask about saving unsaved buffers before compile command.
+      compilation-always-kill t
+      vertico-count 5
+      eldoc-echo-area-use-multiline-p nil
+      eglot-ignored-server-capabilities '( ;; Disable fancy LSP features.
+                                          :documentHighlightProvider           ;; "Highlight symbols automatically"
+                                          :documentSymbolProvider              ;; "List symbols in buffer"
+                                          :workspaceSymbolProvider             ;; "List symbols in workspace"
+                                          :documentOnTypeFormattingProvider    ;; "On-type formatting"
+                                          :documentLinkProvider                ;; "Highlight links in document"
+                                          :colorProvider                       ;; "Decorate color references"
+                                          :foldingRangeProvider                ;; "Fold regions of buffer"
+                                          :executeCommandProvider              ;; "Execute custom commands"
+                                          :inlayHintProvider                   ;; "Inlay hints"
+                                          )
+      eglot-stay-out-of '(project flymake) ;; Don't polute buffer with flymake diganostics.
+      eglot-sync-connect nil               ;; no blocking on waiting for the server to start.
+      eglot-events-buffer-size 0           ;; no logging of LSP events.
+      c-default-style "linux"
+      c-basic-offset 4
+      )
 
 (set-frame-parameter nil 'fullscreen 'maximized)
 
-(defconst user/default-gc-cons-threshold gc-cons-threshold)
+(setq gc-cons-threshold most-positive-fixnum
+      gc-cons-percentage 1.0)
 
-(defconst user/default-gc-cons-percentage gc-cons-percentage)
+(add-hook 'emacs-startup-hook (lambda ()
+				(setq gc-cons-threshold 50 * 1000 * 1000
+				      gc-cons-percentage 0.8
+				      file-name-handler-alist user/file-name-handler-alist
+				      )))
 
-(defun user/defer-garbage-collection nil "Defer garbage collection by maximizing the collection threshold."
-       (setq gc-cons-threshold most-positive-fixnum gc-cons-percentage 1.0))
+(when load-file-name ;; since windows is a bit funky I prefer to store this file path in a variable to be used when C-x i
+  (setq INIT-FILE load-file-name)
+  (setq amirreza-emacs-directory (file-name-directory INIT-FILE))
+  (setq custom-file (expand-file-name "custom.el" amirreza-emacs-directory)))
 
-(defun user/restore-garbage-collection nil "Restore the garbage collection threshold parameters to their default values."
-       (setq gc-cons-threshold user/default-gc-cons-threshold gc-cons-percentage user/default-gc-cons-percentage))
+(defun ensure-packages (&rest pkgs)
+  (dolist (pkg pkgs)
+    (unless (package-installed-p pkg)
+      (package-install pkg))))
 
-;; Defer garbage collection until after initialization
-(user/defer-garbage-collection)
+(ensure-packages
+  'vertico
+  'consult
+  'embark
+  'embark-consult
+  'go-mode
+  'rust-mode
+  'php-mode
+  'json-mode
+  'yaml-mode
+  'string-inflection
+  'eglot
+ )
 
-(add-hook 'emacs-startup-hook #'user/restore-garbage-collection)
 
-;; Clear `file-name-handler-alist' until after initialization
-(setq user/file-name-handler-alist file-name-handler-alist)
+(menu-bar-mode -1)
+(scroll-bar-mode -1)
+(tool-bar-mode -1)
+(setq mac-command-modifier 'meta)
 
-(setq file-name-handler-alist nil)
+(defun home (path) (expand-file-name path (getenv "HOME")))
+(add-to-list 'exec-path (home ".local/bin"))
+(add-to-list 'exec-path (home "go/bin"))
+(add-to-list 'exec-path (home ".cargo/bin"))
+(add-to-list 'exec-path (home "bin"))
+(add-to-list 'exec-path "/usr/local/go/bin")
+(add-to-list 'exec-path "/opt/homebrew/bin")
+(add-to-list 'exec-path "/usr/local/bin")
 
-(add-hook 'emacs-startup-hook
-	  (lambda nil
-	    (setq file-name-handler-alist user/file-name-handler-alist)))
+(if (eq system-type 'windows-nt)
+    (setenv "PATH" (string-join exec-path ";"))
+  (setenv "PATH" (string-join exec-path ":"))) ;; set emacs process PATH
 
+(pixel-scroll-precision-mode +1)
+(toggle-truncate-lines -1) ;; wrap long lines
+(global-so-long-mode +1) ;; don't choke on minified code.
+(set-default-coding-systems 'utf-8)       ;; always use UTF8
+(global-auto-revert-mode +1)              ;; Auto revert to disk changes, do we really want this ??
+(delete-selection-mode +1)                ;; Delete selected region before inserting.
 
 (defun dirt-colors () ;; Colors from really old jonathan blow streams, a brownish feel.
   (interactive)
@@ -118,63 +185,77 @@
    `(font-lock-note-face		((t       (:foreground "khaki2"))))
    `(show-paren-match			((t       (:background "mediumseagreen"))))))
 
-(grass-colors)
-
-(defun edit-init () "Edit this file." (interactive) (find-file INIT-FILE))
-
-(when load-file-name ;; since windows is a bit funky I prefer to store this file path in a variable to be used when C-x i
-  (setq INIT-FILE load-file-name)
-  (setq amirreza-emacs-directory (file-name-directory INIT-FILE))
-  (setq custom-file (expand-file-name "custom.el" amirreza-emacs-directory)))
-
-(defun RELOAD ()
+(defun fleury-colors ()
   (interactive)
+  (global-hl-line-mode +1)
+  (custom-set-faces
+   `(default                          ((t (:foreground "#c0a583" :background "#0c0c0c"))))
+   `(cursor                           ((t (:background "green"))))
+   `(font-lock-keyword-face           ((t (:foreground "#f0c674"))))
+   `(font-lock-operator-face          ((t (:foreground "#907553"))))
+   `(font-lock-punctuation-face       ((t (:foreground "#907553"))))
+   `(font-lock-bracket-face           ((t (:foreground "#907553"))))
+   `(font-lock-delimiter-face         ((t (:foreground "#907553"))))
+   `(font-lock-type-face              ((t (:foreground "#d8a51d"))))
+   `(font-lock-constant-face          ((t (:foreground "#6b8e23"))))
+   `(font-lock-variable-name-face     ((t (:foreground "#b99468"))))
+   `(font-lock-builtin-face           ((t (:foreground "#DAB98F"))))
+   `(font-lock-string-face            ((t (:foreground "#6b8e23"))))
+   `(font-lock-comment-face           ((t (:foreground "#686868"))))
+   `(font-lock-comment-delimiter-face ((t (:foreground "#686868"))))
+   `(font-lock-doc-face               ((t (:foreground "#686868"))))
+   `(font-lock-function-name-face     ((t (:foreground "#cc5735"))))
+   `(font-lock-doc-string-face        ((t (:foreground "#6b8e23"))))
+   `(font-lock-preprocessor-face      ((t (:foreground "#DAB98F"))))
+   `(font-lock-warning-face           ((t (:foreground "#504038"))))
+   `(region                           ((t (:background "#2f2f37"))))
+   `(hl-line                          ((t (:background "#171616"))))
+   `(vertico-current                  ((t (:inherit hl-line))))
+   `(highlight                        ((t (:foreground nil :background "#2f2f37"))))
+   `(mode-line                        ((t (:foreground "#cb9401" :background "#1f1f27"))))
+   `(mode-line-inactive               ((t (:foreground "#cb9401" :background "#1f1f27"))))
+   `(minibuffer-prompt                ((t (:foreground "#a08563") :bold t)))
+   `(show-paren-match                 ((t (:background "#e0741b" :foreground "#000000"))))))
+
+(fleury-colors)
+
+(defun jump-up ()
+  (interactive)
+  (next-line (* -1 (/ (window-height) 2))) (recenter-top-bottom))
+
+(defun jump-down ()
+  (interactive)
+  (next-line (/ (window-height) 2)) (recenter-top-bottom))
+
+(defun copy () "Either copy region or the current line."
+       (interactive)
+       (if (use-region-p)
+           (kill-ring-save (region-beginning) (region-end)) ;; copy active region contents
+         (kill-ring-save (line-beginning-position) (line-end-position)))) ;; copy current line
+
+(defun cut () "Either cut region or the current line."
+       (interactive)
+       (if (use-region-p)
+           (kill-region (region-beginning) (region-end)) ;; copy active region contents
+         (kill-region (line-beginning-position) (line-end-position)))) ;; copy current line
+
+(defun EDIT () "Edit this file." (interactive) (find-file INIT-FILE))
+
+(defun RELOAD ()  (interactive)
   (load-file INIT-FILE))
 
-(global-set-key (kbd "C-x i") 'edit-init) ;; Edit this file.
-
-;; (setq debug-on-error t) ;; Uncomment when you debug your emacs lisp code.
-
-;; Enable packages index at startup
-(setq package-enable-at-startup t)
-(setq package-quickstart t)
-
-(menu-bar-mode -1)
-(scroll-bar-mode -1)
-(tool-bar-mode -1)
-(setq mac-command-modifier 'meta)
-
-(defun home (path) (expand-file-name path (getenv "HOME")))
-(add-to-list 'exec-path (home ".local/bin"))
-(add-to-list 'exec-path (home "go/bin"))
-(add-to-list 'exec-path (home ".cargo/bin"))
-(add-to-list 'exec-path (home "bin"))
-(add-to-list 'exec-path "/usr/local/go/bin")
-(add-to-list 'exec-path "/opt/homebrew/bin")
-(add-to-list 'exec-path "/usr/local/bin")
-
-(if (eq system-type 'windows-nt)
-    (setenv "PATH" (string-join exec-path ";"))
-  (setenv "PATH" (string-join exec-path ":"))) ;; set emacs process PATH
-
-
-
 ;; Overrides: minor mode to register keys that I want to override in all other modes.
-(defvar amirreza-keys (make-sparse-keymap))
-(define-minor-mode amirreza-mode ""
+(defvar global-override-keys (make-sparse-keymap))
+(define-minor-mode global-override-mode ""
   :global t
-  :lighter " AmirrezaMode"
+  :lighter " GlobalOverride"
   :init-value t
-  :keymap amirreza-keys)
+  :keymap global-override-keys)
 
-(amirreza-mode +1)
-(defun GLOBAL (KBD ACTION) (define-key amirreza-keys KBD ACTION))
+(global-override-mode +1)
+(defun GLOBAL (KBD ACTION) (define-key global-override-keys KBD ACTION))
 
 ;; Font
-(setq font-size 11)
-(setq current-font-family "")
-(setq font-families (font-family-list))
-
 (defun load-font (font size) "Set font" (interactive (list (completing-read "Font: " font-families) (read-number "Size: ")))
        (setq current-font-family font)
        (setq font-size size)
@@ -188,16 +269,6 @@
  (is-windows                              (load-font "Consolas"    11))
  (is-linux                                (load-font "Ubuntu Mono" 11))
  (is-macos                                (load-font "Menlo"       11)))
-
-;; Package archives
-(setq package-archives
-      '(("gnu-elpa"  . "https://elpa.gnu.org/packages/")
-         ("melpa"    . "https://melpa.org/packages/")))
-
-(defun install (pkg)
-  (unless (package-installed-p pkg)
-    (package-install pkg)))
-
 
 ;; Splits
 (defun split-window-right-balance-and-switch () (interactive)
@@ -214,127 +285,31 @@
        (delete-window)
        (balance-windows))
 
-(defun jump-up ()   (interactive)   (next-line (* -1 (/ (window-height) 2))) (recenter-top-bottom))
-(defun jump-down () (interactive) (next-line (/ (window-height) 2)) (recenter-top-bottom))
 (defun kill-current-buffer () (interactive) (kill-buffer (current-buffer)))
 
-(setq recenter-positions '(middle))
-
-(GLOBAL		(kbd "C-<return>")	'save-buffer)
-(GLOBAL		(kbd "C-0")		'delete-window-and-balance)
-(GLOBAL		(kbd "C-1")		'delete-other-windows)
-(GLOBAL		(kbd "C-2")		'split-window-below-balance-and-switch)
-(GLOBAL		(kbd "C-3")		'split-window-right-balance-and-switch)
-(GLOBAL		(kbd "C--")		'text-scale-decrease)
-(GLOBAL		(kbd "C-=")		'text-scale-increase)
-(GLOBAL		(kbd "M-n")		'jump-down)
-(GLOBAL		(kbd "M-p")		'jump-up)
-(GLOBAL		(kbd "M-k")		'kill-current-buffer)
-(global-set-key (kbd "C-q")             'completion-at-point)
-(global-set-key (kbd "M-q")             'quoted-insert)
-(global-set-key (kbd "C-o")		'other-window)
-
-
-(setq make-backup-files nil)              ;; no emacs ~ backup files
-(setq vc-follow-symlinks t)               ;; Don't prompt if encounter a symlink file, just follow the link.
-(set-default-coding-systems 'utf-8)       ;; always use UTF8
-(global-auto-revert-mode +1)              ;; Auto revert to disk changes, do we really want this ??
-(delete-selection-mode +1)                ;; Delete selected region before inserting.
-
-(defun indent-buffer () "Indent an entire buffer using the default intenting scheme." (interactive)
+(defun indent-buffer () "Indent an entire buffer using the default intenting scheme."
+       (interactive)
        (save-excursion
          (delete-trailing-whitespace)
          (indent-region (point-min) (point-max) nil)
          (untabify (point-min) (point-max))))
 
-(global-set-key (kbd "M-RET") 'indent-buffer) ;; Format buffer
 
-(global-set-key (kbd "C-/") 'comment-line) ;; Comment
-
-(setq kill-whole-line t)
-
-(defun copy () "Either copy region or the current line." (interactive)
-       (if (use-region-p)
-           (kill-ring-save (region-beginning) (region-end)) ;; copy active region contents
-         (kill-ring-save (line-beginning-position) (line-end-position)))) ;; copy current line
-
-(defun cut () "Either cut region or the current line." (interactive)
-       (if (use-region-p)
-           (kill-region (region-beginning) (region-end)) ;; copy active region contents
-         (kill-region (line-beginning-position) (line-end-position)))) ;; copy current line
-
-(global-set-key (kbd "C-;")   'goto-line)
-(global-set-key (kbd "C-w")   'cut) ;; modern cut
-(global-set-key (kbd "C-z")   'undo) ;; undo
-(global-set-key (kbd "M-z")   'undo)
-(global-set-key (kbd "C-SPC") 'set-mark-command) ;; Visual selection
-(global-set-key (kbd "M-w")   'copy) ;; modern copy
-(global-unset-key (kbd "M-z")) ;; UNUSED
-(global-unset-key (kbd "M-l")) ;; UNUSED
-(toggle-truncate-lines -1) ;; wrap long lines
-(global-so-long-mode +1) ;; don't choke on minified code.
-
-;; I use vertico package for basic minibuffer completion which is much better that Emacs default,
-;; Consult package adds functionality on top of vertico which I use for in buffer completion (aka Autocomplete),
-;; Embark package is useful for acting on minibuffer completion items, I only use it to export results into a buffer, mostly when grepping in project.
-(install 'vertico)
-(setq vertico-count 5)
-(install 'consult)
-(install 'embark)
-(install 'embark-consult)
-
-
-;; I constantly switch between having vertico and not having that to see which workflow matches my preference.
 (vertico-mode +1)
+
 (setq completion-in-region-function #'consult-completion-in-region)
-(with-eval-after-load 'minibuffer
-  (define-key minibuffer-mode-map (kbd "C-;") 'embark-export))
-
-
-
-
 (unless vertico-mode ;; Telling emacs to configure default minibuffer in a way that is usable without any package.
   (setq completions-format 'one-column)
   (setq completions-header-format nil)
   (setq completions-max-height 30)
   (setq completion-auto-select nil)
-  (define-key minibuffer-mode-map (kbd "C-n") 'minibuffer-next-completion)
-  (define-key minibuffer-mode-map (kbd "C-p") 'minibuffer-previous-completion)
-  (define-key completion-in-region-mode-map (kbd "C-n") 'minibuffer-next-completion)
-  (define-key completion-in-region-mode-map (kbd "C-p") 'minibuffer-previous-completion)
   (defun my/minibuffer-choose-completion (&optional no-exit no-quit)
     (interactive "P")
     (with-minibuffer-completions-window
       (let ((completion-use-base-affixes nil))
 	(choose-completion nil no-exit no-quit)))))
 
-
-(unless is-windows (install 'magit)) ;; One of the best git clients ever.
-
-(install 'go-mode)
-(install 'rust-mode)
-(install 'php-mode)
-(install 'json-mode)
-(install 'yaml-mode)
-(setq-default c-default-style "linux" c-basic-offset 4)
-
-(setq compilation-ask-about-save nil) ;; Don't ask about saving unsaved buffers before compile command.
-(setq compilation-always-kill t)
-
-(with-eval-after-load 'compile
-  (define-key compilation-mode-map (kbd "k")    'kill-compilation)
-  (define-key compilation-mode-map (kbd "G")    (lambda () (interactive) (recompile t))))
-
-(defun find-project-root (DIR) (locate-dominating-file DIR ".git"))
-(defun find-project-root-or-default-directory () (or (find-project-root default-directory) default-directory))
-
-(with-eval-after-load 'compile
-  (define-key compilation-mode-map (kbd "k")    'kill-compilation)
-  (define-key compilation-mode-map (kbd "G")    (lambda () (interactive) (recompile t))))
-
-(with-eval-after-load 'grep
-  (define-key grep-mode-map (kbd "k")    'kill-compilation)
-  (define-key grep-mode-map (kbd "G")    (lambda () (interactive) (recompile t))))
+(defun find-project-root-or-default-directory () (or (locate-dominating-file default-directory ".git") default-directory))
 
 (defun get-grep-default-command (PATTERN)
   (cond
@@ -353,31 +328,17 @@
   (let ((default-directory (find-project-root-or-default-directory)))
     (grep (get-grep-default-command (read-string "Grep: ")))))
 
-;; Project Based Keybindings ...
-(GLOBAL (kbd "M-m") 'compile-project)
-(GLOBAL (kbd "M-s") 'grep-project)
-(GLOBAL (kbd "M-}") 'next-error)
-(GLOBAL (kbd "M-{") 'previous-error)
-(GLOBAL (kbd "M-o") 'project-find-file)
+(dolist (mode '(go rust php)) ;; Enable LSP automatically.
+  (add-hook (intern (concat (symbol-name mode) "-mode-hook")) #'eglot-ensure))
 
-;; Pixel scrolling
-(pixel-scroll-precision-mode +1)
+(with-eval-after-load 'eglot (add-to-list 'eglot-server-programs '(php-mode . ("intelephense" "--stdio")))) ;; PHP language server intelephense
 
-;; Replace
-(GLOBAL (kbd "M-r") 'replace-regexp)
-(with-eval-after-load 'replace (define-key query-replace-map (kbd "<return>") 'act))
+(defun eglot-organize-imports () (interactive) (eglot-code-actions nil nil "source.organizeImports" t))
+(defun eglot-organize-imports-format () (interactive) (eglot-format) (eglot-organize-imports))
 
-;; Macros
-(global-set-key (kbd "M-[")  'kmacro-start-macro)
-(global-set-key (kbd "M-]")  'kmacro-end-or-call-macro)
-(global-set-key (kbd "M-\\") 'kmacro-end-and-call-macro)
+;; Keybindings
+(global-set-key (kbd "C-x i") 'EDIT) ;; Edit this file.
 
-
-
-;; String conversions
-(install 'string-inflection)
-
-;; XREF
 (with-eval-after-load 'xref
   (global-set-key (kbd "M-.") 'xref-find-definitions)
   (global-set-key (kbd "M-,") 'xref-go-back)
@@ -391,30 +352,60 @@
   (define-key eglot-mode-map (kbd "M-RET")   'eglot-organize-imports-format)
   (define-key eglot-mode-map (kbd "C-c C-c") 'eglot-code-actions))
 
-(setq eldoc-echo-area-use-multiline-p nil)
+(global-set-key (kbd "M-[")  'kmacro-start-macro)
+(global-set-key (kbd "M-]")  'kmacro-end-or-call-macro)
+(global-set-key (kbd "M-\\") 'kmacro-end-and-call-macro)
 
-(dolist (mode '(go go-ts rust php php-ts)) ;; Enable LSP automatically.
-  (add-hook (intern (concat (symbol-name mode) "-mode-hook")) #'eglot-ensure))
+(GLOBAL (kbd "M-m") 'compile-project)
+(GLOBAL (kbd "M-s") 'grep-project)
+(GLOBAL (kbd "M-}") 'next-error)
+(GLOBAL (kbd "M-{") 'previous-error)
+(GLOBAL (kbd "M-o") 'project-find-file)
+(GLOBAL (kbd "M-r") 'replace-regexp)
+
+(with-eval-after-load 'compile
+  (define-key compilation-mode-map (kbd "k")    'kill-compilation)
+  (define-key compilation-mode-map (kbd "G")    (lambda () (interactive) (recompile t))))
+
+(with-eval-after-load 'grep
+  (define-key grep-mode-map (kbd "k")    'kill-compilation)
+  (define-key grep-mode-map (kbd "G")    (lambda () (interactive) (recompile t))))
+
+(global-set-key (kbd "C-;")   'goto-line)
+(global-set-key (kbd "C-w")   'cut) ;; modern cut
+(global-set-key (kbd "C-z")   'undo) ;; undo
+(global-set-key (kbd "M-z")   'undo)
+(global-set-key (kbd "C-SPC") 'set-mark-command) ;; Visual selection
+(global-set-key (kbd "M-w")   'copy) ;; modern copy
+(global-unset-key (kbd "M-z")) ;; UNUSED
+(global-unset-key (kbd "M-l")) ;; UNUSED
+
+(with-eval-after-load 'minibuffer
+  (define-key minibuffer-mode-map (kbd "C-;") 'embark-export))
 
 
-(setq eglot-ignored-server-capabilities '( ;; Disable fancy LSP features.
-                                          :documentHighlightProvider           ;; "Highlight symbols automatically"
-                                          :documentSymbolProvider              ;; "List symbols in buffer"
-                                          :workspaceSymbolProvider             ;; "List symbols in workspace"
-                                          :documentOnTypeFormattingProvider    ;; "On-type formatting"
-                                          :documentLinkProvider                ;; "Highlight links in document"
-                                          :colorProvider                       ;; "Decorate color references"
-                                          :foldingRangeProvider                ;; "Fold regions of buffer"
-                                          :executeCommandProvider              ;; "Execute custom commands"
-                                          :inlayHintProvider                   ;; "Inlay hints"
-                                          ))
+(unless vertico-mode
+  (define-key minibuffer-mode-map (kbd "C-n") 'minibuffer-next-completion)
+  (define-key minibuffer-mode-map (kbd "C-p") 'minibuffer-previous-completion)
+  (define-key completion-in-region-mode-map (kbd "C-n") 'minibuffer-next-completion)
+  (define-key completion-in-region-mode-map (kbd "C-p") 'minibuffer-previous-completion))
 
+(GLOBAL		(kbd "C-<return>")	'save-buffer)
+(GLOBAL		(kbd "C-0")		'delete-window-and-balance)
+(GLOBAL		(kbd "C-1")		'delete-other-windows)
+(GLOBAL		(kbd "C-2")		'split-window-below-balance-and-switch)
+(GLOBAL		(kbd "C-3")		'split-window-right-balance-and-switch)
+(GLOBAL		(kbd "C--")		'text-scale-decrease)
+(GLOBAL		(kbd "C-=")		'text-scale-increase)
+(GLOBAL		(kbd "M-n")		'jump-down)
+(GLOBAL		(kbd "M-p")		'jump-up)
+(GLOBAL		(kbd "M-k")		'kill-current-buffer)
+(global-set-key (kbd "C-q")             'completion-at-point)
+(global-set-key (kbd "M-q")             'quoted-insert)
+(global-set-key (kbd "C-o")		'other-window)
 
-(with-eval-after-load 'eglot (add-to-list 'eglot-server-programs '(php-mode . ("intelephense" "--stdio")))) ;; PHP language server intelephense
+(global-set-key (kbd "M-RET") 'indent-buffer) ;; Format buffer
+(global-set-key (kbd "C-/") 'comment-line) ;; Comment
 
-(defun eglot-organize-imports () (interactive) (eglot-code-actions nil nil "source.organizeImports" t))
-(defun eglot-organize-imports-format () (interactive) (eglot-format) (eglot-organize-imports))
-(setq eglot-stay-out-of '(project flymake) ;; Don't polute buffer with flymake diganostics.
-      eglot-sync-connect nil               ;; no blocking on waiting for the server to start.
-      eglot-events-buffer-size 0)          ;; no logging of LSP events.
-
+(with-eval-after-load 'replace
+  (define-key query-replace-map (kbd "<return>") 'act))
