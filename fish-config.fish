@@ -4,6 +4,8 @@ export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:/opt/homebrew/bin:/opt/homebrew/sbin"
 export PATH="$PATH:$HOME/prg/bin"
 export PATH="$PATH:/usr/local/bin"
+export PATH="$PATH:/Applications/Emacs.app/Contents/MacOS"
+export PATH="$PATH:/Applications/Emacs.app/Contents/MacOS/bin"
 
 # if ! command -v starship &>/dev/null
 #   curl -sS https://starship.rs/install.sh | sh
@@ -63,7 +65,10 @@ function code
     else
         code $argv
     end
+end
 
+function emacs
+    emacsclient -cn --alternate-editor='' $argv
 end
 
 

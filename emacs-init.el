@@ -250,7 +250,7 @@
    `(minibuffer-prompt                ((t (:foreground "#839496") :bold t)))
    `(show-paren-match                 ((t (:foreground "#d33682"))))))
 
-(solarized-dark-colors)
+(jonathan-blow-colors)
 
 (defun jump-up ()
   (interactive)
@@ -297,10 +297,12 @@
        (setq font-size size)
        (load-font current-font-family font-size))
 
-(cond
- (is-windows                              (load-font "Consolas"    13))
- (is-linux                                (load-font "Ubuntu Mono" 13))
- (is-macos                                (load-font "Menlo"       13)))
+;; (cond
+;;  (is-windows                              (load-font "Consolas"    13))
+;;  (is-linux                                (load-font "Ubuntu Mono" 13))
+;;  (is-macos                                (load-font "Menlo"       13)))
+
+(load-font "Liberation Mono" 15)
 
 ;; Splits
 (defun split-window-right-balance-and-switch () (interactive)
@@ -328,7 +330,8 @@
 
 (vertico-mode +1)
 
-(setq completion-in-region-function #'consult-completion-in-region)
+(setq completion-in-region-function #'consult-completion-in-region) ;; Using vertico power for completion in buffer aka autocomplete.
+
 (unless vertico-mode ;; Telling emacs to configure default minibuffer in a way that is usable without any package.
   (setq completions-format 'one-column)
   (setq completions-header-format nil)
@@ -388,7 +391,7 @@
 
 (GLOBAL (kbd "M-m") 'compile-project)
 (GLOBAL (kbd "M-S-s") 'grep-project)
-(when (fboundp 'consult-ripgrep) (GLOBAL (kbd "M-s") 'consult-ripgrep))
+(if (fboundp 'consult-ripgrep) (GLOBAL (kbd "M-s") 'consult-ripgrep) (GLOBAL (kbd "M-s") 'grep-project))
 (GLOBAL (kbd "M-}") 'next-error)
 (GLOBAL (kbd "M-{") 'previous-error)
 (GLOBAL (kbd "M-o") 'project-find-file)
