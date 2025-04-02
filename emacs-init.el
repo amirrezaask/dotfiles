@@ -31,8 +31,6 @@
       eldoc-echo-area-use-multiline-p nil
       eglot-ignored-server-capabilities '( ;; Disable fancy LSP features.
                                           :documentHighlightProvider           ;; "Highlight symbols automatically"
-                                          :documentSymbolProvider              ;; "List symbols in buffer"
-                                          :workspaceSymbolProvider             ;; "List symbols in workspace"
                                           :documentOnTypeFormattingProvider    ;; "On-type formatting"
                                           :documentLinkProvider                ;; "Highlight links in document"
                                           :colorProvider                       ;; "Decorate color references"
@@ -73,6 +71,7 @@
   'consult
   'embark
   'embark-consult
+  'consult-eglot
   'go-mode
   'rust-mode
   'php-mode
@@ -108,7 +107,7 @@
 (global-auto-revert-mode +1)              ;; Auto revert to disk changes, do we really want this ??
 (delete-selection-mode +1)                ;; Delete selected region before inserting.
 
-(defun dirt-colors () ;; Colors from really old jonathan blow streams, a brownish feel.
+(defun old-jonathan-blow-colors () ;; Colors from really old jonathan blow streams, a brownish feel.
   (interactive)
   (global-hl-line-mode -1)
   (custom-set-faces
@@ -134,7 +133,7 @@
    `(mode-line-inactive			((t 	(:background "#333333" :foreground "#ffffff"))))
    `(show-paren-match			((t 	(:background "#3cb371"))))))
 
-(defun grass-colors () ;; Emacs colors from jonathan blow streams.
+(defun jonathan-blow-colors () ;; Emacs colors from jonathan blow streams.
   (interactive)
   (global-hl-line-mode -1)
   (custom-set-faces
@@ -217,7 +216,36 @@
    `(minibuffer-prompt                ((t (:foreground "#a08563") :bold t)))
    `(show-paren-match                 ((t (:background "#e0741b" :foreground "#000000"))))))
 
-(fleury-colors)
+
+(defun solarized-dark-colors ()
+  (interactive)
+  (global-hl-line-mode +1)
+  (custom-set-faces
+   `(default                          ((t (:foreground "#839496" :background "#002b36"))))
+   `(cursor                           ((t (:foreground "#002b36" :background "#839496"))))
+   `(font-lock-keyword-face           ((t (:foreground "#859900"))))
+   `(font-lock-type-face              ((t (:foreground "#b58900"))))
+   `(font-lock-constant-face          ((t (:foreground "#268bd2"))))
+   `(font-lock-variable-name-face     ((t (:foreground "#268bd2"))))
+   `(font-lock-builtin-face           ((t (:foreground "#839496"))))
+   `(font-lock-string-face            ((t (:foreground "#2aa198"))))
+   `(font-lock-comment-face           ((t (:foreground "#586e75"))))
+   `(font-lock-comment-delimiter-face ((t (:foreground "#586e75"))))
+   `(font-lock-doc-face               ((t (:foreground "#2aa198"))))
+   `(font-lock-function-name-face     ((t (:foreground "#268bd2"))))
+   `(font-lock-preprocessor-face      ((t (:foreground "#268bd2"))))
+   `(font-lock-warning-face           ((t (:foreground "#cb4b16"))))
+   `(error                            ((t (:foreground "#cb4b16"))))
+   `(region                           ((t (:background "#93a1a1" :foreground "#002b36"))))
+   `(hl-line                          ((t (:background "#073642"))))
+   `(vertico-current                  ((t (:inherit hl-line))))
+   `(highlight                        ((t (:foreground nil :background "#073642"))))
+   `(mode-line                        ((t (:foreground "#839496" :background "#073642"))))
+   `(mode-line-inactive               ((t (:foreground "#073642" :background "#073642"))))
+   `(minibuffer-prompt                ((t (:foreground "#839496") :bold t)))
+   `(show-paren-match                 ((t (:foreground "#d33682"))))))
+
+(solarized-dark-colors)
 
 (defun jump-up ()
   (interactive)
@@ -241,8 +269,7 @@
 
 (defun EDIT () "Edit this file." (interactive) (find-file INIT-FILE))
 
-(defun RELOAD ()  (interactive)
-  (load-file INIT-FILE))
+(defun RELOAD ()  (interactive) (load-file INIT-FILE))
 
 ;; Overrides: minor mode to register keys that I want to override in all other modes.
 (defvar global-override-keys (make-sparse-keymap))
@@ -294,7 +321,6 @@
          (indent-region (point-min) (point-max) nil)
          (untabify (point-min) (point-max))))
 
-
 (vertico-mode +1)
 
 (setq completion-in-region-function #'consult-completion-in-region)
@@ -345,7 +371,6 @@
   (global-set-key (kbd "M-?")  'xref-find-references)
   (global-set-key (kbd "M-/")  'xref-find-references))
 
-;; Eglot (LSP)
 (with-eval-after-load 'eglot
   (define-key eglot-mode-map (kbd "M-i")     'consult-eglot-symbols)
   (define-key eglot-mode-map (kbd "C-c C-r") 'eglot-rename)
@@ -374,7 +399,7 @@
 (global-set-key (kbd "C-;")   'goto-line)
 (global-set-key (kbd "C-w")   'cut) ;; modern cut
 (global-set-key (kbd "C-z")   'undo) ;; undo
-(global-set-key (kbd "M-z")   'undo)
+(global-set-key (kbd "M-z")   'undo) ;; undo
 (global-set-key (kbd "C-SPC") 'set-mark-command) ;; Visual selection
 (global-set-key (kbd "M-w")   'copy) ;; modern copy
 (global-unset-key (kbd "M-z")) ;; UNUSED
@@ -382,7 +407,6 @@
 
 (with-eval-after-load 'minibuffer
   (define-key minibuffer-mode-map (kbd "C-;") 'embark-export))
-
 
 (unless vertico-mode
   (define-key minibuffer-mode-map (kbd "C-n") 'minibuffer-next-completion)
