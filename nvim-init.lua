@@ -15,18 +15,12 @@ require("paq")({
 	"nvim-treesitter/nvim-treesitter",
 	"tpope/vim-fugitive",
 	"folke/ts-comments.nvim",
-	{ "rose-pine/neovim", as = "rose-pine" },
-	{ "catppuccin/nvim", as = "catppuccin" },
-	"amirrezaask/sitruuna.nvim",
 	"amirrezaask/nvim-terminal",
+	"amirrezaask/nvim-blue",
+	"amirrezaask/nvim-sitruuna",
 })
 
-local TRANSPARENT = true
--- colors
-require("rose-pine").setup({ dark_variant = "moon", styles = { italic = false, transparency = TRANSPARENT } })
-require("catppuccin").setup({ transparent_background = TRANSPARENT })
-
-vim.cmd.colorscheme("sitruuna")
+vim.cmd.colorscheme("nvim-blue")
 
 vim.g.mapleader = " " -- <leader> key for keymaps mapped to <Space>
 vim.opt.wrap = true -- Wrap long lines
@@ -149,7 +143,7 @@ require("nvim-treesitter.configs").setup({
 
 require("ts-comments").setup()
 
--- mason
+-- Mason
 require("mason").setup({ ensure_installed = { "gopls" } })
 local process_path = os.getenv("PATH")
 vim.fn.setenv("PATH", process_path .. ":" .. vim.fn.stdpath("data") .. "/mason/bin")
