@@ -77,7 +77,7 @@ vim.keymap.set("n", "<M-Up>", "<C-W>+")
 vim.keymap.set("n", "<M-Down>", "<C-W>-")
 vim.keymap.set("t", "<esc>", [[<C-\><C-n>]])
 vim.keymap.set("t", "<C-w><C-w>", "<cmd>wincmd w<cr>")
-vim.keymap.set({ "n", "t" }, "<C-j>", require("nvim-terminal")("bottom"))
+vim.keymap.set({ "n", "t" }, "<C-s>", require("nvim-terminal")("bottom"))
 -- [[ Quick fix list
 local qflist = false
 vim.keymap.set("n", "<C-q>", function()
@@ -226,6 +226,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			float = { border = border },
 		})
 		vim.keymap.set("i", "<c-space>", function()
+			vim.lsp.completion.get()
+		end)
+
+		vim.keymap.set("i", "<c-j>", function()
 			vim.lsp.completion.get()
 		end)
 		vim.keymap.set("i", "<CR>", function()
