@@ -13,6 +13,7 @@ require("paq")({
 	"nvim-treesitter/nvim-treesitter",
 	"folke/ts-comments.nvim",
 	"folke/snacks.nvim",
+	"folke/tokyonight.nvim",
 	"amirrezaask/nvim-terminal",
 	"amirrezaask/nvim-blue",
 	"amirrezaask/nvim-sitruuna",
@@ -73,8 +74,9 @@ function StatusLine()
 		mode = "TERMINAL"
 	end
 
-	return mode .. " | %F"
+	return mode .. "%=%m%r%h%w%F%=%y"
 end
+
 vim.opt.statusline = "%!v:lua.StatusLine()"
 vim.keymap.set("n", "Y", "^v$y", { desc = "Copy whole line" })
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
