@@ -16,6 +16,7 @@ require("paq")({
 	"folke/snacks.nvim", -- Best fuzzy finder, does not need any additional binary.
 	"nvim-tree/nvim-web-devicons",
 	"folke/tokyonight.nvim",
+	"tpope/vim-fugitive",
 	{ "rose-pine/neovim", as = "rose-pine" },
 	{ "catppuccin/nvim", as = "catppuccin" },
 	"amirrezaask/nvim-terminal",
@@ -36,7 +37,7 @@ function Transparent()
     ]]
 end
 
-vim.cmd.colorscheme("rose-pine")
+vim.cmd.colorscheme("nvim-blue")
 
 vim.g.mapleader = " " -- <leader> key for keymaps mapped to <Space>
 vim.opt.wrap = true -- Wrap long lines
@@ -92,7 +93,7 @@ function StatusLine()
 		mode = "TERMINAL"
 	end
 
-	return mode .. "%=%m%r%h%w%F%=%y"
+	return " " .. mode .. "%=%m%r%h%w%F%=%y"
 end
 
 vim.opt.statusline = "%!v:lua.StatusLine()"

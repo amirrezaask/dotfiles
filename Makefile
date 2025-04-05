@@ -34,19 +34,15 @@ configure:
 	ln -s $(DOTFILES_DIR)/emacs-init.el $(HOME)/.emacs
 	ln -s $(DOTFILES_DIR)/.gitconfig $(HOME)/.gitconfig
 	ln -s $(DOTFILES_DIR)/nvim-init.lua $(XDG_CONFIG)/nvim/init.lua
-	if [[ "$(OSTYPE)" == "darwin"* ]]; then \
-		if test -d "$(HOME)/Library/Application Support/Cursor"; then \
-			rm -rf "$(HOME)/Library/Application Support/Cursor/User/keybindings.json"; \
-			rm -rf "$(HOME)/Library/Application Support/Cursor/User/settings.json"; \
-			ln -s "$(DOTFILES_DIR)/vscode-keybindings.json" "$(HOME)/Library/Application Support/Cursor/User/keybindings.json"; \
-			ln -s "$(DOTFILES_DIR)/vscode-settings.json" "$(HOME)/Library/Application Support/Cursor/User/settings.json"; \
-		fi; \
-		if test -d "$(HOME)/Library/Application Support/Code"; then \
-			rm -rf "$(HOME)/Library/Application Support/Code/User/keybindings.json"; \
-			rm -rf "$(HOME)/Library/Application Support/Code/User/settings.json"; \
-			ln -s "$(DOTFILES_DIR)/vscode-keybindings.json" "$(HOME)/Library/Application Support/Code/User/keybindings.json"; \
-			ln -s "$(DOTFILES_DIR)/vscode-settings.json" "$(HOME)/Library/Application Support/Code/User/settings.json"; \
-		fi; \
-	elif [[ "$(OSTYPE)" == "linux-gnu" ]]; then \
-		echo "Not implemented yet"; \
+	if test -d "$(HOME)/Library/Application Support/Cursor"; then \
+		rm -rf "$(HOME)/Library/Application Support/Cursor/User/keybindings.json"; \
+		rm -rf "$(HOME)/Library/Application Support/Cursor/User/settings.json"; \
+		ln -s "$(DOTFILES_DIR)/vscode-keybindings.json" "$(HOME)/Library/Application Support/Cursor/User/keybindings.json"; \
+		ln -s "$(DOTFILES_DIR)/vscode-settings.json" "$(HOME)/Library/Application Support/Cursor/User/settings.json"; \
 	fi
+	if test -d "$(HOME)/Library/Application Support/Code"; then \
+		rm -rf "$(HOME)/Library/Application Support/Code/User/keybindings.json"; \
+		rm -rf "$(HOME)/Library/Application Support/Code/User/settings.json"; \
+		ln -s "$(DOTFILES_DIR)/vscode-keybindings.json" "$(HOME)/Library/Application Support/Code/User/keybindings.json"; \
+		ln -s "$(DOTFILES_DIR)/vscode-settings.json" "$(HOME)/Library/Application Support/Code/User/settings.json"; \
+	fi; \
