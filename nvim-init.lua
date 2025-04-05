@@ -16,12 +16,27 @@ require("paq")({
 	"folke/snacks.nvim", -- Best fuzzy finder, does not need any additional binary.
 	"nvim-tree/nvim-web-devicons",
 	"folke/tokyonight.nvim",
+	{ "rose-pine/neovim", as = "rose-pine" },
+	{ "catppuccin/nvim", as = "catppuccin" },
 	"amirrezaask/nvim-terminal",
 	"amirrezaask/nvim-blue",
 	"amirrezaask/nvim-sitruuna",
 })
 
-vim.cmd.colorscheme("nvim-blue")
+function Transparent()
+	vim.cmd [[ 
+        hi! Normal      guibg=none
+        hi! NormalNC    guibg=none
+        hi! NormalFloat guibg=none
+        hi! FloatBorder guibg=none
+        hi! FloatTitle  guibg=none
+        hi! FloatFooter guibg=none
+        hi! SignColumn  guibg=none
+        hi! LineNr      guibg=none
+    ]]
+end
+
+vim.cmd.colorscheme("rose-pine")
 
 vim.g.mapleader = " " -- <leader> key for keymaps mapped to <Space>
 vim.opt.wrap = true -- Wrap long lines
@@ -106,7 +121,7 @@ vim.keymap.set("n", "<M-Up>", "<C-W>+")
 vim.keymap.set("n", "<M-Down>", "<C-W>-")
 vim.keymap.set("t", "<esc>", [[<C-\><C-n>]])
 vim.keymap.set("t", "<C-w><C-w>", "<cmd>wincmd w<cr>")
-vim.keymap.set({ "n", "t" }, "<C-s>", require("nvim-terminal")("bottom"))
+vim.keymap.set({ "n", "t" }, "<C-j>", require("nvim-terminal")("bottom"))
 
 require("blink.cmp").setup {
 	keymap = { preset = "enter" },
@@ -246,7 +261,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			float = { border = border },
 		})
 
-		vim.keymap.set("i", "<c-j>", function() vim.lsp.completion.get() end)
 		vim.keymap.set("i", "<CR>", function() return vim.fn.pumvisible() == 1 and "<C-y>" or "<CR>" end, { expr = true, noremap = true })
 
 		vim.lsp.completion.enable(true, args.data.client_id, args.buf, { wutotrigger = false }) -- setup completion menu
