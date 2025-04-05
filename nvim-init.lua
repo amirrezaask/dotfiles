@@ -54,6 +54,7 @@ vim.opt.inccommand = "" -- Preview all substitutions(replacements).
 vim.opt.scrolloff = 10 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.laststatus = 3 -- Global statusline
 function StatusLine()
+	---@type string
 	local mode = vim.fn.mode()
 	if mode == "n" then
 		mode = "NORMAL"
