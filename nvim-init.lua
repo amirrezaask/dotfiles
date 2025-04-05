@@ -10,6 +10,7 @@ require("paq")({
 	"stevearc/conform.nvim",
 	"neovim/nvim-lspconfig",
 	"williamboman/mason.nvim",
+	"saghen/blink.cmp",
 	"nvim-treesitter/nvim-treesitter",
 	"folke/ts-comments.nvim",
 	"folke/snacks.nvim", -- Best fuzzy finder, does not need any additional binary.
@@ -106,6 +107,15 @@ vim.keymap.set("n", "<M-Down>", "<C-W>-")
 vim.keymap.set("t", "<esc>", [[<C-\><C-n>]])
 vim.keymap.set("t", "<C-w><C-w>", "<cmd>wincmd w<cr>")
 vim.keymap.set({ "n", "t" }, "<C-s>", require("nvim-terminal")("bottom"))
+
+require("blink.cmp").setup {
+	keymap = { preset = "enter" },
+	fuzzy = {
+		prebuilt_binaries = {
+			force_version = "v1.1.1",
+		},
+	},
+}
 
 -- [[ Quick fix list
 local qflist = false
@@ -235,7 +245,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			virtual_text = false,
 			float = { border = border },
 		})
-		vim.keymap.set("i", "<c-space>", function() vim.lsp.completion.get() end)
 
 		vim.keymap.set("i", "<c-j>", function() vim.lsp.completion.get() end)
 		vim.keymap.set("i", "<CR>", function() return vim.fn.pumvisible() == 1 and "<C-y>" or "<CR>" end, { expr = true, noremap = true })
