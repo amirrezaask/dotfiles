@@ -12,7 +12,8 @@ require("paq")({
 	"williamboman/mason.nvim",
 	"nvim-treesitter/nvim-treesitter",
 	"folke/ts-comments.nvim",
-	"folke/snacks.nvim",
+	"folke/snacks.nvim", -- Best fuzzy finder, does not need any additional binary.
+	"nvim-tree/nvim-web-devicons",
 	"folke/tokyonight.nvim",
 	"amirrezaask/nvim-terminal",
 	"amirrezaask/nvim-blue",
@@ -128,9 +129,13 @@ vim.api.nvim_create_autocmd("TextYankPost", { -- Highlight yanked text
 Snacks = require("snacks")
 Snacks.setup({
 	bigfile = { enabled = true },
-	explorer = { enabled = true },
-	indent = { enabled = true, animate = { enabled = false }, scope = { enabled = false }, filter = function(buf) return vim.bo[buf].filetype == "yaml" end },
-	picker = { enabled = true, layout = "select" },
+	indent = {
+		enabled = true,
+		animate = { enabled = false },
+		scope = { enabled = false },
+		filter = function(buf) return vim.bo[buf].filetype == "yaml" end,
+	},
+	picker = { enabled = true, layout = "select", icons = {} },
 	scope = { enabled = true },
 })
 

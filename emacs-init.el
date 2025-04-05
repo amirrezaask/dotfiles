@@ -250,7 +250,7 @@
    `(minibuffer-prompt                ((t (:foreground "#839496") :bold t)))
    `(show-paren-match                 ((t (:foreground "#d33682"))))))
 
-(jonathan-blow-colors)
+(casey-colors)
 
 (defun jump-up ()
   (interactive)
@@ -437,8 +437,8 @@
 (global-set-key (kbd "M-q")             'quoted-insert)
 (global-set-key (kbd "C-o")		'other-window)
 
-(global-set-key (kbd "M-RET") 'indent-buffer) ;; Format buffer
-(global-set-key (kbd "C-/") 'comment-line) ;; Comment
+(global-set-key (kbd "M-RET")           'indent-buffer) ;; Format buffer
+(global-set-key (kbd "C-/")             'comment-line) ;; Comment
 
 (with-eval-after-load 'replace
   (define-key query-replace-map (kbd "<return>") 'act))
