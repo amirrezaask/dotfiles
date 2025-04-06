@@ -136,13 +136,18 @@ require("blink.cmp").setup {
 }
 
 -- [[ Quick fix list
-local qflist = false
 vim.keymap.set("n", "<C-q>", function()
-    if qflist == true then
-        qflist = not qflist
+    local wins = vim.api.nvim_list_wins()
+    local has_qf_open = false
+    for _, win in ipairs(wins) do
+        local buf = vim.api.nvim_win_get_buf(win)
+        if vim.api.nvim_get_option_value('buftype', { buf = buf }) == 'quickfix' then
+            has_qf_open = true
+        end
+    end
+    if has_qf_open then
         vim.cmd([[ cclose ]])
     else
-        qflist = not qflist
         vim.cmd([[ copen ]])
     end
 end, { desc = "Open Quickfix list" })
@@ -173,29 +178,19 @@ Snacks.setup({
 })
 local finder = require("nvim-finder")
 
-if false then
-    vim.keymap.set("n", "<leader><leader>", function()
-        Snacks.picker.files({})
-    end, {})
-
-    vim.keymap.set("n", "<leader>i", function()
-        Snacks.picker.files({ cwd = "~/.dotfiles" })
-    end, {})
-else
-    vim.keymap.set("n", "<leader><leader>", function()
-        finder.files()
-    end, {})
-    vim.keymap.set("n", "<leader>i", function()
-        finder.files { path = "~/.dotfiles" }
-    end, {})
-end
-
-vim.keymap.set("n", "<C-p>", function()
-    Snacks.picker.git_files({})
+vim.keymap.set("n", "<leader><leader>", function()
+    finder.files()
+end, {})
+vim.keymap.set("n", "<leader>i", function()
+    finder.files { path = "~/.dotfiles" }
 end, {})
 
 vim.keymap.set("n", "??", function()
-    Snacks.picker.grep({ layout = "default" })
+    finder.ripgrep()
+end)
+
+vim.keymap.set("n", "<C-p>", function()
+    Snacks.picker.git_files({})
 end, {})
 
 vim.keymap.set("n", "<leader>o", function()
