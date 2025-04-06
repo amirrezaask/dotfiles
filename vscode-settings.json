@@ -60,4 +60,5 @@
   "git.openRepositoryInParentFolders": "never",
   "workbench.editor.showTabs": "none",
   "workbench.colorTheme": "Cursor Dark Midnight",
+  "cursor.general.disableHttp2": true,
 }

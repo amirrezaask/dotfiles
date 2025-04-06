@@ -1,5 +1,5 @@
 # Font
-font-family=Fira Code
+font-family=Menlo
 font-style-bold = false
 font-style-italic = false
 font-style-bold-italic = false
@@ -20,7 +20,7 @@ shell-integration-features = no-cursor
 macos-titlebar-style=transparent
 window-colorspace = "display-p3"
 
-theme = Abernathy
+theme = rose-pine
 background = 000000
 foreground = ffffff
 split-divider-color = ff0000
