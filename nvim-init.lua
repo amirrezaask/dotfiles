@@ -6,6 +6,7 @@ if vim.fn.empty(vim.fn.glob(paq_install_path)) > 0 then -- Installing nvim-paq p
     print("paq-nvim installed! Restart Neovim and run :PaqInstall")
 end
 
+
 require("paq")({
     "stevearc/conform.nvim",
     "neovim/nvim-lspconfig",
@@ -13,18 +14,17 @@ require("paq")({
     "saghen/blink.cmp",
     "nvim-treesitter/nvim-treesitter",
     "folke/ts-comments.nvim",
-    "folke/snacks.nvim", -- Best fuzzy finder, does not need any additional binary.
     "nvim-tree/nvim-web-devicons",
     "folke/tokyonight.nvim",
     "tpope/vim-fugitive",
     { "rose-pine/neovim", as = "rose-pine" },
     { "catppuccin/nvim",  as = "catppuccin" },
-    "amirrezaask/nvim-terminal",
-    "amirrezaask/nvim-blue",
-    "amirrezaask/nvim-sitruuna",
+    "amirrezaask/nvim-terminal.lua",
+    "amirrezaask/nvim-blue.lua",
+    "amirrezaask/nvim-sitruuna.lua",
 })
 
-vim.opt.runtimepath:append(vim.fn.expand("~/src/nvim-finder"))
+vim.opt.runtimepath:append(vim.fn.expand("~/src/nvim-finder.lua"))
 
 function Transparent()
     vim.cmd [[
@@ -39,7 +39,30 @@ function Transparent()
     ]]
 end
 
-vim.cmd.colorscheme("rose-pine-moon")
+vim.cmd.colorscheme("nvim-blue")
+
+-- local base16 = require("base16")
+--
+-- local norcalli = base16.theme_from_array {
+--     "121b2b",
+--     "213554",
+--     "1d3872",
+--     "80b2d6",
+--     "3aa3e9",
+--     "abb2bf",
+--     "b6bdca",
+--     "c8ccd4",
+--     "f04c75",
+--     "d19a66",
+--     "e5c07b",
+--     "98c379",
+--     "56b6c2",
+--     "01bfef",
+--     "c678dd",
+--     "be5046",
+-- }
+--
+-- base16(norcalli, true)
 
 vim.g.mapleader = " "      -- <leader> key for keymaps mapped to <Space>
 vim.opt.wrap = true        -- Wrap long lines
@@ -71,7 +94,7 @@ vim.opt.smartcase = true          -- Search has case insensitive by default, but
 vim.opt.completeopt = { "fuzzy", "menu", "noinsert", "noselect", "popup" }
 vim.opt.inccommand = ""           -- Preview all substitutions(replacements).
 vim.opt.scrolloff = 10            -- Minimal number of screen lines to keep above and below the cursor.
-vim.opt.laststatus = 3            -- Global statusline
+-- vim.opt.laststatus = 3            -- Global statusline
 function StatusLine()
     ---@type string
     local mode = vim.fn.mode()
@@ -95,7 +118,7 @@ function StatusLine()
         mode = "TERMINAL"
     end
 
-    return " " .. mode .. "%=%m%r%h%w%F%=%y"
+    return "%l:%c %m%r%h%w%F%=" .. mode .. " %y"
 end
 
 vim.opt.statusline = "%!v:lua.StatusLine()"
@@ -125,6 +148,7 @@ vim.keymap.set("n", "<M-Down>", "<C-W>-")
 vim.keymap.set("t", "<esc>", [[<C-\><C-n>]])
 vim.keymap.set("t", "<C-w><C-w>", "<cmd>wincmd w<cr>")
 vim.keymap.set({ "n", "t" }, "<C-j>", require("nvim-terminal")("bottom"))
+vim.keymap.set("n", "<leader>i", ":edit $MYVIMRC<CR>")
 
 require("blink.cmp").setup {
     keymap = { preset = "enter" },
@@ -135,7 +159,7 @@ require("blink.cmp").setup {
     },
 }
 
--- [[ Quick fix list
+-- [[ Toggle Quick fix list
 vim.keymap.set("n", "<C-q>", function()
     local wins = vim.api.nvim_list_wins()
     local has_qf_open = false
@@ -161,66 +185,20 @@ vim.api.nvim_create_autocmd("TextYankPost", { -- Highlight yanked text
         vim.highlight.on_yank()
     end,
 })
+F = require("nvim-finder")
 
-Snacks = require("snacks")
-Snacks.setup({
-    bigfile = { enabled = true },
-    indent = {
-        enabled = true,
-        animate = { enabled = false },
-        scope = { enabled = false },
-        filter = function(buf)
-            return vim.bo[buf].filetype == "yaml"
-        end,
-    },
-    picker = { enabled = true, layout = "select", icons = {} },
-    scope = { enabled = true },
-})
-local finder = require("nvim-finder")
-
-vim.keymap.set("n", "<leader><leader>", function()
-    finder.files()
-end, {})
-vim.keymap.set("n", "<leader>i", function()
-    finder.files { path = "~/.dotfiles" }
-end, {})
-
-vim.keymap.set("n", "??", function()
-    finder.ripgrep()
-end)
-
-vim.keymap.set("n", "<C-p>", function()
-    Snacks.picker.git_files({})
-end, {})
-
-vim.keymap.set("n", "<leader>o", function()
-    Snacks.picker.lsp_symbols()
-end, {})
-
-vim.keymap.set("n", "<leader>O", function()
-    Snacks.picker.lsp_workspace_symbols()
-end, {})
-
-vim.keymap.set("n", "<leader>h", function()
-    Snacks.picker.help()
-end, {})
-
-vim.keymap.set("n", "<leader>b", function()
-    Snacks.picker.buffers()
-end, {})
-
-vim.keymap.set("n", "<leader>d", function()
-    Snacks.picker.diagnostics_buffer()
-end, {})
-vim.keymap.set("n", "<leader>D", function()
-    Snacks.picker.diagnostics()
-end, {})
-vim.keymap.set("n", "<leader>;", function()
-    Snacks.picker.command_history()
-end, {})
-vim.keymap.set("n", "<leader>e", function()
-    Snacks.explorer()
-end, {})
+vim.keymap.set("n", "<leader><leader>", F.files, {})
+vim.keymap.set("n", "<leader>ff", F.files, {})
+vim.keymap.set("n", "<C-p>", F.git_files, {})
+vim.keymap.set("n", "<leader>fg", F.git_files, {})
+vim.keymap.set("n", "<leader>fd", function() F.files { path = "~/.dotfiles" } end, {})
+vim.keymap.set("n", "??", F.ripgrep_fuzzy, {})
+vim.keymap.set("n", "<leader>fb", F.buffers, {})
+vim.keymap.set("n", "<leader>h", F.helptags, {})
+vim.keymap.set("n", "<leader>d", F.diagnostics_buffer, {})
+vim.keymap.set("n", "<leader>D", F.diagnostics, {})
+vim.keymap.set("n", "<leader>o", F.lsp_document_symbols, {})
+vim.keymap.set("n", "<leader>O", F.lsp_workspace_symbols, {})
 
 -- treesitter
 require("nvim-treesitter.configs").setup({
