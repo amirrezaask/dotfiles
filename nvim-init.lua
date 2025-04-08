@@ -22,7 +22,10 @@ require("paq")({
     "amirrezaask/nvim-terminal.lua",
     "amirrezaask/nvim-blue.lua",
     "amirrezaask/nvim-sitruuna.lua",
+    "folke/snacks.nvim"
 })
+
+
 
 vim.opt.runtimepath:append(vim.fn.expand("~/src/nvim-finder.lua"))
 
@@ -39,30 +42,7 @@ function Transparent()
     ]]
 end
 
-vim.cmd.colorscheme("nvim-blue")
-
--- local base16 = require("base16")
---
--- local norcalli = base16.theme_from_array {
---     "121b2b",
---     "213554",
---     "1d3872",
---     "80b2d6",
---     "3aa3e9",
---     "abb2bf",
---     "b6bdca",
---     "c8ccd4",
---     "f04c75",
---     "d19a66",
---     "e5c07b",
---     "98c379",
---     "56b6c2",
---     "01bfef",
---     "c678dd",
---     "be5046",
--- }
---
--- base16(norcalli, true)
+vim.cmd.colorscheme("rose-pine-moon")
 
 vim.g.mapleader = " "      -- <leader> key for keymaps mapped to <Space>
 vim.opt.wrap = true        -- Wrap long lines
@@ -302,3 +282,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
         vim.lsp.completion.enable(true, args.data.client_id, args.buf, { wutotrigger = false }) -- setup completion menu
     end,
 })
+
+
+Snacks = require("snacks")
+Snacks.setup {
+    bigfile = { enabled = true },
+    picker = { enabled = true },
+}
