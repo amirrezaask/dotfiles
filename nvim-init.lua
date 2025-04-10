@@ -1,7 +1,7 @@
-local COLORSCHEME = 'tokyonight-night'
-local TRANSPARENT = false
-local FUZZY_FINDER = 'nvim-find' --: snacks | nvim-find
-local INDENT_LINES = false
+local COLORSCHEME = vim.env.NVIM_COLORSCHEME or 'tokyonight-night'
+local TRANSPARENT = vim.env.NVIM_TRANSPARENT == true or false
+local FUZZY_FINDER = vim.env.NVIM_FUZZY_FINDER or 'nvim-find' --: snacks | nvim-find
+local INDENT_LINES = vim.env.NVIM_INDENT_LINES == true or false
 
 function printf(...)
     local args = { ... }
@@ -225,19 +225,19 @@ vim.opt.undofile = true    -- Save undo history
 vim.opt.hlsearch = false   -- Highlight all matches of a search pattern.
 vim.opt.incsearch = true   -- Match pattern while typing.
 vim.opt.signcolumn = "yes" -- Keep signcolumn always visible
+vim.opt.cursorline = true  -- Highlight current line with hl defined as *hl-CursorLine*
 vim.opt.splitbelow = true  -- How new splits are created
-vim.opt.cursorline = true
-vim.opt.splitright = true
-vim.opt.showmode = false
-vim.opt.sw = 4 -- TABs and indentation
+vim.opt.splitright = true  -- SAME
+vim.opt.showmode = false   -- don't show --INSERT-- in command line.
+vim.opt.sw = 4             -- TABs and indentation
 vim.opt.ts = 4
 vim.opt.expandtab = true
-vim.g.netrw_browse_split = 0 -- minimal netrw (vim default file manager)
-vim.g.netrw_banner = 0
+vim.g.netrw_browse_split = 0      -- minimal netrw (vim default file manager)
+vim.g.netrw_banner = 0            -- no banner for netrw
 vim.g.netrw_winsize = 25
-vim.opt.guicursor = ""
-vim.opt.timeoutlen = 300          -- vim update time
-vim.opt.updatetime = 250
+vim.opt.guicursor = ""            -- I don't want my cursor shape change with mode changes.
+vim.opt.timeoutlen = 300          -- Time vim waits for a key sequence to finish.
+vim.opt.updatetime = 250          -- Milliseconds to wait for CursorHold autocmds to fire.
 vim.opt.number = true             -- Line numbers
 vim.opt.mouse = "a"               -- Enable mouse in all modes.
 vim.opt.clipboard = "unnamedplus" -- Clipboard
@@ -247,7 +247,6 @@ vim.opt.completeopt = { "fuzzy", "menu", "noinsert", "noselect", "popup" }
 vim.opt.inccommand = ""           -- Preview all substitutions(replacements).
 vim.opt.scrolloff = 10            -- Minimal number of screen lines to keep above and below the cursor.
 
-local home = vim.env.HOME or ''
 function StatusLine()
     ---@type string
     local mode = vim.fn.mode()
@@ -304,8 +303,6 @@ vim.keymap.set("t", "<esc>", [[<C-\><C-n>]])
 vim.keymap.set("t", "<C-w><C-w>", "<cmd>wincmd w<cr>")
 vim.keymap.set({ "n", "t" }, "<C-j>", require("nvim-terminal")("bottom"))
 vim.keymap.set("n", "<leader>i", ":edit $MYVIMRC<CR>")
-
--- [[ Toggle Quick fix list
 vim.keymap.set("n", "<C-q>", function()
     local wins = vim.api.nvim_list_wins()
     local has_qf_open = false
@@ -323,7 +320,6 @@ vim.keymap.set("n", "<C-q>", function()
 end, { desc = "Open Quickfix list" })
 vim.keymap.set("n", "{", "<cmd>cprev<CR>")
 vim.keymap.set("n", "}", "<cmd>cnext<CR>")
--- ]]
 
 vim.api.nvim_create_autocmd("TextYankPost", { -- Highlight yanked text
     group = vim.api.nvim_create_augroup("YankHighlight", { clear = true }),
@@ -331,8 +327,3 @@ vim.api.nvim_create_autocmd("TextYankPost", { -- Highlight yanked text
         vim.highlight.on_yank()
     end,
 })
-
-
-
-
--- Mason
