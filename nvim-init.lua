@@ -13,6 +13,76 @@ function RELOAD(module)
     return require(module)
 end
 
+vim.opt.wrap = true               -- Wrap long lines
+vim.opt.breakindent = true        -- Wrapped lines have same indentation as the actual line.
+vim.opt.swapfile = false          -- No annoying swapfiles
+vim.opt.backup = false            -- Disable Vim backups, we have Git :)
+vim.opt.undofile = true           -- Save undo history
+vim.opt.hlsearch = false          -- Highlight all matches of a search pattern.
+vim.opt.incsearch = true          -- Match pattern while typing.
+vim.opt.signcolumn = "yes"        -- Keep signcolumn always visible
+vim.opt.cursorline = true         -- Highlight current line with hl defined as *hl-CursorLine*
+vim.opt.splitbelow = true         -- How new splits are created
+vim.opt.splitright = true         -- SAME
+vim.opt.showmode = false          -- don't show --INSERT-- in command line.
+vim.opt.sw = 4                    -- TABs and indentation
+vim.opt.ts = 4                    -- TABS and indentation
+vim.opt.expandtab = true          -- TABs and indentation
+vim.opt.guicursor = ""            -- I don't want my cursor shape change with mode changes.
+vim.opt.timeoutlen = 300          -- Time vim waits for a key sequence to finish.
+vim.opt.updatetime = 250          -- Milliseconds to wait for CursorHold autocmds to fire.
+vim.opt.number = true             -- Line numbers
+vim.opt.mouse = "a"               -- Enable mouse in all modes.
+vim.opt.clipboard = "unnamedplus" -- Clipboard
+vim.opt.ignorecase = true         -- Search has case insensitive by default, but if pattern has some upper case letters, it will be case sensitive.
+vim.opt.smartcase = true          -- Search has case insensitive by default, but if pattern has some upper case letters, it will be case sensitive.
+vim.opt.completeopt = { "fuzzy", "menu", "noinsert", "noselect", "popup" }
+vim.opt.inccommand = ""           -- Preview all substitutions(replacements).
+vim.opt.scrolloff = 10            -- Minimal number of screen lines to keep above and below the cursor.
+vim.opt.laststatus = 3
+vim.keymap.set("n", "Y", "^v$y", { desc = "Copy whole line" })
+vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
+vim.keymap.set("i", "<C-c>", "<esc>")
+-- [[ Is there a better way to exit out of insert ? I don't think so.
+vim.keymap.set("i", "jk", "<ESC>")
+vim.keymap.set("i", "kj", "<ESC>")
+-- ]]
+-- [[ When jumping around I want cursor to always remain at the center of the screen.
+vim.keymap.set("n", "<C-d>", "<C-d>zz")
+vim.keymap.set("n", "<C-u>", "<C-u>zz")
+vim.keymap.set("n", "<C-o>", "<C-o>zz")
+vim.keymap.set("n", "<C-i>", "<C-i>zz")
+vim.keymap.set("n", "n", "nzz")
+vim.keymap.set("n", "N", "Nzz")
+-- ]]
+vim.keymap.set("n", "Q", "<cmd>q<CR>")
+vim.keymap.set("n", "<CR>", [[ {-> v:hlsearch ? ':nohl<CR>' : '<CR>'}() ]], { expr = true })
+vim.keymap.set("n", "j", "gj")
+vim.keymap.set("n", "k", "gk")
+vim.keymap.set("n", "<M-Left>", "<c-w>5>")
+vim.keymap.set("n", "<M-Right>", "<c-w>5<")
+vim.keymap.set("n", "<M-Up>", "<C-W>+")
+vim.keymap.set("n", "<M-Down>", "<C-W>-")
+vim.keymap.set("t", "<esc>", [[<C-\><C-n>]])
+vim.keymap.set("t", "<C-w><C-w>", "<cmd>wincmd w<cr>")
+vim.keymap.set("n", "<leader>i", ":edit $MYVIMRC<CR>")
+vim.keymap.set("n", "<C-q>", function()
+    local wins = vim.api.nvim_list_wins()
+    local has_qf_open = false
+    for _, win in ipairs(wins) do
+        local buf = vim.api.nvim_win_get_buf(win)
+        if vim.api.nvim_get_option_value('buftype', { buf = buf }) == 'quickfix' then
+            has_qf_open = true
+        end
+    end
+    if has_qf_open then
+        vim.cmd([[ cclose ]])
+    else
+        vim.cmd([[ copen ]])
+    end
+end, { desc = "Open Quickfix list" })
+vim.keymap.set("n", "{", "<cmd>cprev<CR>")
+vim.keymap.set("n", "}", "<cmd>cnext<CR>")
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
     local lazyrepo = "https://github.com/folke/lazy.nvim.git"
@@ -54,6 +124,11 @@ require("lazy").setup {
         dependencies = { 'nvim-tree/nvim-web-devicons' },
         opts = {},
     },
+    {
+        'stevearc/oil.nvim',
+        opts = {},
+        dependencies = { "nvim-tree/nvim-web-devicons" },
+    },
     { "neovim/nvim-lspconfig", config = function()
         -- LSP setup
         local lspconfig = require("lspconfig")
@@ -82,8 +157,8 @@ require("lazy").setup {
                 local references = vim.lsp.buf.references
                 local implementations = vim.lsp.buf.implementation
                 if FUZZY_FINDER == 'snacks' then
-                    references = P.lsp_references
-                    implementations = P.lsp_implementations
+                    references = require("snacks").picker.lsp_references
+                    implementations = require("snacks").picker.lsp_implementations
                 end
 
                 local border = "rounded"
@@ -160,9 +235,11 @@ require("lazy").setup {
             picker = {
                 enabled = true,
             },
-            indent = { enabled = INDENT_LINES }
+            indent = { enabled = INDENT_LINES },
+            explorer = { enabled = true },
         }
         P = require("snacks").picker
+        vim.keymap.set({ "n", "i" }, "<C-e>", function() Snacks.explorer() end, {})
         if FUZZY_FINDER == 'snacks' then
             vim.keymap.set("n", "<leader><leader>", function() P.files { layout = { preview = false } } end, {})
             vim.keymap.set("n", "<leader>ff", function() P.files { layout = { preview = false } } end, {})
@@ -186,7 +263,9 @@ require("lazy").setup {
 
     { "amirrezaask/nvim-blue.lua",     dir = '~/src/nvim-blue.lua' },
     { "amirrezaask/nvim-sitruuna.lua", dir = '~/src/nvim-sitruuna.lua' },
-    { "amirrezaask/nvim-terminal.lua", dir = '~/src/nvim-terminal.lua' },
+    { "amirrezaask/nvim-terminal.lua", dir = '~/src/nvim-terminal.lua', config = function()
+        vim.keymap.set({ "n", "t" }, "<C-j>", require("nvim-terminal")("bottom"))
+    end },
     { "amirrezaask/nvim-find.lua", dir = '~/src/nvim-find.lua', config = function()
         F = require("find")
         if FUZZY_FINDER == 'nvim-find' then
@@ -223,107 +302,3 @@ end
 
 vim.cmd.colorscheme(COLORSCHEME)
 if TRANSPARENT then Transparent() end
-
-vim.opt.wrap = true        -- Wrap long lines
-vim.opt.breakindent = true -- Wrapped lines have same indentation as the actual line.
-vim.opt.swapfile = false   -- No annoying swapfiles
-vim.opt.backup = false     -- Disable Vim backups, we have Git :)
-vim.opt.undofile = true    -- Save undo history
-vim.opt.hlsearch = false   -- Highlight all matches of a search pattern.
-vim.opt.incsearch = true   -- Match pattern while typing.
-vim.opt.signcolumn = "yes" -- Keep signcolumn always visible
-vim.opt.cursorline = true  -- Highlight current line with hl defined as *hl-CursorLine*
-vim.opt.splitbelow = true  -- How new splits are created
-vim.opt.splitright = true  -- SAME
-vim.opt.showmode = false   -- don't show --INSERT-- in command line.
-vim.opt.sw = 4             -- TABs and indentation
-vim.opt.ts = 4
-vim.opt.expandtab = true
-vim.g.netrw_browse_split = 0      -- minimal netrw (vim default file manager)
-vim.g.netrw_banner = 0            -- no banner for netrw
-vim.g.netrw_winsize = 25
-vim.opt.guicursor = ""            -- I don't want my cursor shape change with mode changes.
-vim.opt.timeoutlen = 300          -- Time vim waits for a key sequence to finish.
-vim.opt.updatetime = 250          -- Milliseconds to wait for CursorHold autocmds to fire.
-vim.opt.number = true             -- Line numbers
-vim.opt.mouse = "a"               -- Enable mouse in all modes.
-vim.opt.clipboard = "unnamedplus" -- Clipboard
-vim.opt.ignorecase = true         -- Search has case insensitive by default, but if pattern has some upper case letters, it will be case sensitive.
-vim.opt.smartcase = true          -- Search has case insensitive by default, but if pattern has some upper case letters, it will be case sensitive.
-vim.opt.completeopt = { "fuzzy", "menu", "noinsert", "noselect", "popup" }
-vim.opt.inccommand = ""           -- Preview all substitutions(replacements).
-vim.opt.scrolloff = 10            -- Minimal number of screen lines to keep above and below the cursor.
-
-function StatusLine()
-    ---@type string
-    local mode = vim.fn.mode()
-    if mode == "n" then
-        mode = "NORMAL"
-    elseif mode == "i" then
-        mode = "INSERT"
-    elseif mode == "R" then
-        mode = "REPLACE"
-    elseif mode == "v" then
-        mode = "VISUAL"
-    elseif mode == "V" then
-        mode = "V-LINE"
-    elseif mode == "c" then
-        mode = "COMMAND"
-    elseif mode == "s" then
-        mode = "SELECT"
-    elseif mode == "S" then
-        mode = "S-LINE"
-    elseif mode == "t" then
-        mode = "TERMINAL"
-    end
-
-    return "%l:%c %m%r%h%w%f" .. "%=" .. mode .. " %y"
-end
-
-vim.opt.statusline = "%!v:lua.StatusLine()"
--- vim.opt.winbar = '%!v:lua.StatusLine()'
-vim.opt.laststatus = 3
-vim.keymap.set("n", "Y", "^v$y", { desc = "Copy whole line" })
-vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
-vim.keymap.set("i", "<C-c>", "<esc>")
--- [[ Is there a better way to exit out of insert ? I don't think so.
-vim.keymap.set("i", "jk", "<ESC>")
-vim.keymap.set("i", "kj", "<ESC>")
--- ]]
--- [[ When jumping around I want cursor to always remain at the center of the screen.
-vim.keymap.set("n", "<C-d>", "<C-d>zz")
-vim.keymap.set("n", "<C-u>", "<C-u>zz")
-vim.keymap.set("n", "<C-o>", "<C-o>zz")
-vim.keymap.set("n", "<C-i>", "<C-i>zz")
-vim.keymap.set("n", "n", "nzz")
-vim.keymap.set("n", "N", "Nzz")
--- ]]
-vim.keymap.set("n", "Q", "<cmd>q<CR>")
-vim.keymap.set("n", "<CR>", [[ {-> v:hlsearch ? ':nohl<CR>' : '<CR>'}() ]], { expr = true })
-vim.keymap.set("n", "j", "gj")
-vim.keymap.set("n", "k", "gk")
-vim.keymap.set("n", "<M-Left>", "<c-w>5>")
-vim.keymap.set("n", "<M-Right>", "<c-w>5<")
-vim.keymap.set("n", "<M-Up>", "<C-W>+")
-vim.keymap.set("n", "<M-Down>", "<C-W>-")
-vim.keymap.set("t", "<esc>", [[<C-\><C-n>]])
-vim.keymap.set("t", "<C-w><C-w>", "<cmd>wincmd w<cr>")
-vim.keymap.set({ "n", "t" }, "<C-j>", require("nvim-terminal")("bottom"))
-vim.keymap.set("n", "<leader>i", ":edit $MYVIMRC<CR>")
-vim.keymap.set("n", "<C-q>", function()
-    local wins = vim.api.nvim_list_wins()
-    local has_qf_open = false
-    for _, win in ipairs(wins) do
-        local buf = vim.api.nvim_win_get_buf(win)
-        if vim.api.nvim_get_option_value('buftype', { buf = buf }) == 'quickfix' then
-            has_qf_open = true
-        end
-    end
-    if has_qf_open then
-        vim.cmd([[ cclose ]])
-    else
-        vim.cmd([[ copen ]])
-    end
-end, { desc = "Open Quickfix list" })
-vim.keymap.set("n", "{", "<cmd>cprev<CR>")
-vim.keymap.set("n", "}", "<cmd>cnext<CR>")
