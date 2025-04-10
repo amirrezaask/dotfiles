@@ -1,3 +1,13 @@
+local COLORSCHEME = 'nvim-blue'
+local TRANSPARENT = false
+local FUZZY_FINDER = 'nvim-finder' -- | snacks - nvim-finder
+local INDENT_LINES = false
+
+function printf(...)
+    local args = { ... }
+    print(string.format(...))
+end
+
 local paq_install_path = vim.fn.stdpath("data") .. "/site/pack/paqs/start/paq-nvim"
 
 if vim.fn.empty(vim.fn.glob(paq_install_path)) > 0 then -- Installing nvim-paq package manager if not installed
@@ -22,10 +32,8 @@ require("paq")({
     "amirrezaask/nvim-terminal.lua",
     "amirrezaask/nvim-blue.lua",
     "amirrezaask/nvim-sitruuna.lua",
-    "folke/snacks.nvim"
+    "folke/snacks.nvim",
 })
-
-
 
 vim.opt.runtimepath:append(vim.fn.expand("~/src/nvim-finder.lua"))
 
@@ -42,7 +50,8 @@ function Transparent()
     ]]
 end
 
-vim.cmd.colorscheme("rose-pine-moon")
+vim.cmd.colorscheme(COLORSCHEME)
+if TRANSPARENT then Transparent() end
 
 vim.g.mapleader = " "      -- <leader> key for keymaps mapped to <Space>
 vim.opt.wrap = true        -- Wrap long lines
@@ -74,7 +83,7 @@ vim.opt.smartcase = true          -- Search has case insensitive by default, but
 vim.opt.completeopt = { "fuzzy", "menu", "noinsert", "noselect", "popup" }
 vim.opt.inccommand = ""           -- Preview all substitutions(replacements).
 vim.opt.scrolloff = 10            -- Minimal number of screen lines to keep above and below the cursor.
--- vim.opt.laststatus = 3            -- Global statusline
+-- vim.opt.laststatus = 3         -- Global statusline
 function StatusLine()
     ---@type string
     local mode = vim.fn.mode()
@@ -98,7 +107,7 @@ function StatusLine()
         mode = "TERMINAL"
     end
 
-    return "%l:%c %m%r%h%w%F%=" .. mode .. " %y"
+    return "%l:%c %m%r%h%w%f%=" .. mode .. " %y"
 end
 
 vim.opt.statusline = "%!v:lua.StatusLine()"
@@ -165,22 +174,54 @@ vim.api.nvim_create_autocmd("TextYankPost", { -- Highlight yanked text
         vim.highlight.on_yank()
     end,
 })
+
 F = require("nvim-finder")
 
-vim.keymap.set("n", "<leader><leader>", F.files, {})
-vim.keymap.set("n", "<leader>ff", F.files, {})
-vim.keymap.set("n", "<C-p>", F.git_files, {})
-vim.keymap.set("n", "<leader>fg", F.git_files, {})
-vim.keymap.set("n", "<leader>fd", function() F.files { path = "~/.dotfiles" } end, {})
-vim.keymap.set("n", "??", F.ripgrep_fuzzy, {})
-vim.keymap.set("n", "<leader>fb", F.buffers, {})
-vim.keymap.set("n", "<leader>h", F.helptags, {})
-vim.keymap.set("n", "<leader>d", F.diagnostics_buffer, {})
-vim.keymap.set("n", "<leader>D", F.diagnostics, {})
-vim.keymap.set("n", "<leader>o", F.lsp_document_symbols, {})
-vim.keymap.set("n", "<leader>O", F.lsp_workspace_symbols, {})
+Snacks = require("snacks")
 
--- treesitter
+Snacks.setup {
+    bigfile = { enabled = true },
+    picker = { enabled = true },
+    indent = { enabled = INDENT_LINES }
+}
+
+P = require("snacks").picker
+
+if FUZZY_FINDER == 'nvim-finder' then
+    vim.keymap.set("n", "<leader><leader>", F.files, {})
+    vim.keymap.set("n", "<leader>ff", F.files, {})
+    vim.keymap.set("n", "<C-p>", F.git_files, {})
+    vim.keymap.set("n", "<leader>fg", F.git_files, {})
+    vim.keymap.set("n", "<leader>fd", function() F.files { path = "~/.dotfiles" } end, {})
+    vim.keymap.set("n", "??", F.ripgrep_fuzzy, {})
+    vim.keymap.set("n", "<leader>fb", F.buffers, {})
+    vim.keymap.set("n", "<leader>h", F.helptags, {})
+    vim.keymap.set("n", "<leader>d", function() F.diagnostics(vim.api.nvim_get_current_buf()) end, {})
+    vim.keymap.set("n", "<leader>D", F.diagnostics, {})
+    vim.keymap.set("n", "<leader>o", F.lsp_document_symbols, {})
+    vim.keymap.set("n", "<leader>O", F.lsp_workspace_symbols, {})
+elseif FUZZY_FINDER == 'snacks' then
+    vim.keymap.set("n", "<leader><leader>", P.files, {})
+    vim.keymap.set("n", "<leader>ff", P.files, {})
+    vim.keymap.set("n", "<C-p>", P.git_files, {})
+    vim.keymap.set("n", "<leader>fg", P.git_files, {})
+    vim.keymap.set("n", "<leader>fd", function() P.files { cwd = "~/.dotfiles" } end, {})
+    vim.keymap.set("n", "??", P.grep, {})
+    vim.keymap.set("n", "<leader>fb", P.buffers, {})
+    vim.keymap.set("n", "<leader>h", P.help, {})
+    vim.keymap.set("n", "<leader>d", P.diagnostics_buffer, {})
+    vim.keymap.set("n", "<leader>D", P.diagnostics, {})
+    vim.keymap.set("n", "<leader>o", P.lsp_symbols, {})
+    vim.keymap.set("n", "<leader>O", P.lsp_workspace_symbols, {})
+elseif FUZZY_FINDER == 'fzf' then
+
+end
+
+
+
+
+
+-- Treesitter
 require("nvim-treesitter.configs").setup({
     auto_install = false,
     sync_install = false,
@@ -282,10 +323,3 @@ vim.api.nvim_create_autocmd("LspAttach", {
         vim.lsp.completion.enable(true, args.data.client_id, args.buf, { wutotrigger = false }) -- setup completion menu
     end,
 })
-
-
-Snacks = require("snacks")
-Snacks.setup {
-    bigfile = { enabled = true },
-    picker = { enabled = true },
-}

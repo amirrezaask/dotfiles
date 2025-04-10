@@ -1,4 +1,5 @@
 {
+    "editor.fontFamily": "JetBrainsMono Nerd Font Mono",
     "editor.fontSize": 14,
     "terminal.integrated.fontSize": 15,
     "window.restoreWindows": "none", // never re open anything dude
@@ -59,6 +60,6 @@
   "simpleBrowser.focusLockIndicator.enabled": false,
   "git.openRepositoryInParentFolders": "never",
   "workbench.editor.showTabs": "none",
-  "workbench.colorTheme": "Cursor Dark Midnight",
   "cursor.general.disableHttp2": true,
+  "workbench.colorTheme": "Cursor Dark Midnight",
 }
