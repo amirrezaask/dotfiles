@@ -1,6 +1,6 @@
 local COLORSCHEME = 'tokyonight-night'
 local TRANSPARENT = false
-local FUZZY_FINDER = 'nvim-find' -- | snacks - nvim-find
+local FUZZY_FINDER = 'nvim-find' --: snacks | nvim-find
 local INDENT_LINES = false
 
 function printf(...)
@@ -29,6 +29,7 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+vim.g.mapleader = " " -- <leader> key for keymaps mapped to <Space>
 require("lazy").setup {
     { "stevearc/conform.nvim",
         opts = {
@@ -170,7 +171,8 @@ require("lazy").setup {
             vim.keymap.set("n", "<leader>o", P.lsp_symbols, {})
             vim.keymap.set("n", "<leader>O", P.lsp_workspace_symbols, {})
         end
-    end },
+    end
+    },
     "folke/tokyonight.nvim",
     { "rose-pine/neovim",              name = "rose-pine" },
     { "catppuccin/nvim",               name = "catppuccin" },
@@ -215,7 +217,6 @@ end
 vim.cmd.colorscheme(COLORSCHEME)
 if TRANSPARENT then Transparent() end
 
-vim.g.mapleader = " "      -- <leader> key for keymaps mapped to <Space>
 vim.opt.wrap = true        -- Wrap long lines
 vim.opt.breakindent = true -- Wrapped lines have same indentation as the actual line.
 vim.opt.swapfile = false   -- No annoying swapfiles
