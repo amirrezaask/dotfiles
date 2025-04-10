@@ -254,7 +254,7 @@ require("lazy").setup {
         vim.keymap.set({ "n", "i", "t" }, "<C-j>", Snacks.terminal.toggle, {})
 
         vim.api.nvim_create_autocmd('FileType',
-            {                                     -- Maybe a better way is to have a static key bound to a function that runs some terminal command based on the foreg founding of go.mod.
+            { -- Maybe a better way is to have a static key bound to a function that runs some terminal command based on the foreg founding of go.mod.
                 pattern = "go",
                 callback = function()
                     vim.keymap.set("n", "<M-m>", function()
@@ -263,12 +263,12 @@ require("lazy").setup {
                 end
             })
         if FUZZY_FINDER == 'snacks' then
-            vim.keymap.set("n", "<leader><leader>", function() P.files { layout = { preview = false } } end, {})
-            vim.keymap.set("n", "<leader>ff", function() P.files { layout = { preview = false } } end, {})
-            vim.keymap.set("n", "<C-p>", function() P.git_files { layout = { preview = false } } end, {})
-            vim.keymap.set("n", "<leader>fg", function() P.git_files { layout = { preview = false } } end, {})
+            vim.keymap.set("n", "<leader><leader>", P.files, {})
+            vim.keymap.set("n", "<leader>ff", P.files, {})
+            vim.keymap.set("n", "<C-p>", P.git_files, {})
+            vim.keymap.set("n", "<leader>fg", P.git_files, {})
             vim.keymap.set("n", "<leader>fd",
-                function() P.files { cwd = "~/.dotfiles", layout = { preview = false } } end, {})
+                function() P.files { cwd = "~/.dotfiles" } end, {})
             vim.keymap.set("n", "??", P.grep, {})
             vim.keymap.set("n", "<leader>fb", P.buffers, {})
             vim.keymap.set("n", "<leader>h", P.help, {})
