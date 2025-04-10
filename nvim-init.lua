@@ -1,6 +1,6 @@
 local COLORSCHEME = vim.env.NVIM_COLORSCHEME or 'tokyonight-night'
 local TRANSPARENT = vim.env.NVIM_TRANSPARENT == true or false
-local FUZZY_FINDER = vim.env.NVIM_FUZZY_FINDER or 'nvim-find' --: snacks | nvim-find
+local FUZZY_FINDER = vim.env.NVIM_FUZZY_FINDER or 'snacks' --: snacks | nvim-find
 local INDENT_LINES = vim.env.NVIM_INDENT_LINES == true or false
 
 function printf(...)
@@ -76,10 +76,9 @@ require("lazy").setup {
                 end
                 local references = vim.lsp.buf.references
                 local implementations = vim.lsp.buf.implementation
-                local has_fzf, fzf = pcall(require, "fzf-lua")
-                if has_fzf then
-                    references = fzf.lsp_references
-                    implementations = fzf.lsp_implementations
+                if FUZZY_FINDER == 'snacks' then
+                    references = P.lsp_references
+                    implementations = P.lsp_implementations
                 end
 
                 local border = "rounded"
@@ -153,16 +152,19 @@ require("lazy").setup {
         Snacks = require("snacks")
         Snacks.setup {
             bigfile = { enabled = true },
-            picker = { enabled = true },
+            picker = {
+                enabled = true,
+            },
             indent = { enabled = INDENT_LINES }
         }
         P = require("snacks").picker
         if FUZZY_FINDER == 'snacks' then
-            vim.keymap.set("n", "<leader><leader>", P.files, {})
-            vim.keymap.set("n", "<leader>ff", P.files, {})
-            vim.keymap.set("n", "<C-p>", P.git_files, {})
-            vim.keymap.set("n", "<leader>fg", P.git_files, {})
-            vim.keymap.set("n", "<leader>fd", function() P.files { cwd = "~/.dotfiles" } end, {})
+            vim.keymap.set("n", "<leader><leader>", function() P.files { layout = { preview = false } } end, {})
+            vim.keymap.set("n", "<leader>ff", function() P.files { layout = { preview = false } } end, {})
+            vim.keymap.set("n", "<C-p>", function() P.git_files { layout = { preview = false } } end, {})
+            vim.keymap.set("n", "<leader>fg", function() P.git_files { layout = { preview = false } } end, {})
+            vim.keymap.set("n", "<leader>fd",
+                function() P.files { cwd = "~/.dotfiles", layout = { preview = false } } end, {})
             vim.keymap.set("n", "??", P.grep, {})
             vim.keymap.set("n", "<leader>fb", P.buffers, {})
             vim.keymap.set("n", "<leader>h", P.help, {})
@@ -181,7 +183,7 @@ require("lazy").setup {
     { "amirrezaask/nvim-sitruuna.lua", dir = '~/src/nvim-sitruuna.lua' },
     { "amirrezaask/nvim-terminal.lua", dir = '~/src/nvim-terminal.lua' },
     { "amirrezaask/nvim-find.lua", dir = '~/src/nvim-find.lua', config = function()
-        F = require("nvim-find")
+        F = require("find")
         if FUZZY_FINDER == 'nvim-find' then
             vim.keymap.set("n", "<leader><leader>", F.files, {})
             vim.keymap.set("n", "<leader>ff", F.files, {})
@@ -191,7 +193,7 @@ require("lazy").setup {
             vim.keymap.set("n", "??", F.ripgrep_fuzzy, {})
             vim.keymap.set("n", "<leader>fb", F.buffers, {})
             vim.keymap.set("n", "<leader>h", F.helptags, {})
-            vim.keymap.set("n", "<leader>d", function() F.diagnostics(vim.api.nvim_get_current_buf()) end, {})
+            vim.keymap.set("n", "<leader>d", function() F.diagnostics({ buf = vim.api.nvim_get_current_buf() }) end, {})
             vim.keymap.set("n", "<leader>D", F.diagnostics, {})
             vim.keymap.set("n", "<leader>o", F.lsp_document_symbols, {})
             vim.keymap.set("n", "<leader>O", F.lsp_workspace_symbols, {})
