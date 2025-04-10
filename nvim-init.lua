@@ -49,6 +49,11 @@ require("lazy").setup {
             },
         }
     },
+    {
+        'nvim-lualine/lualine.nvim',
+        dependencies = { 'nvim-tree/nvim-web-devicons' },
+        opts = {},
+    },
     { "neovim/nvim-lspconfig", config = function()
         -- LSP setup
         local lspconfig = require("lspconfig")
@@ -322,10 +327,3 @@ vim.keymap.set("n", "<C-q>", function()
 end, { desc = "Open Quickfix list" })
 vim.keymap.set("n", "{", "<cmd>cprev<CR>")
 vim.keymap.set("n", "}", "<cmd>cnext<CR>")
-
-vim.api.nvim_create_autocmd("TextYankPost", { -- Highlight yanked text
-    group = vim.api.nvim_create_augroup("YankHighlight", { clear = true }),
-    callback = function()
-        vim.highlight.on_yank()
-    end,
-})
