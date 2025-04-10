@@ -1,6 +1,6 @@
-local COLORSCHEME = 'nvim-blue'
+local COLORSCHEME = 'tokyonight-night'
 local TRANSPARENT = false
-local FUZZY_FINDER = 'nvim-finder' -- | snacks - nvim-finder
+local FUZZY_FINDER = 'nvim-find' -- | snacks - nvim-find
 local INDENT_LINES = false
 
 function printf(...)
@@ -8,34 +8,196 @@ function printf(...)
     print(string.format(...))
 end
 
-local paq_install_path = vim.fn.stdpath("data") .. "/site/pack/paqs/start/paq-nvim"
-
-if vim.fn.empty(vim.fn.glob(paq_install_path)) > 0 then -- Installing nvim-paq package manager if not installed
-    print("Installing paq-nvim...")
-    vim.fn.system({ "git", "clone", "--depth=1", "https://github.com/savq/paq-nvim.git", paq_install_path })
-    print("paq-nvim installed! Restart Neovim and run :PaqInstall")
+function RELOAD(module)
+    package.loaded[module] = nil
+    return require(module)
 end
 
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not (vim.uv or vim.loop).fs_stat(lazypath) then
+    local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+    local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
+    if vim.v.shell_error ~= 0 then
+        vim.api.nvim_echo({
+            { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
+            { out,                            "WarningMsg" },
+            { "\nPress any key to exit..." },
+        }, true, {})
+        vim.fn.getchar()
+        os.exit(1)
+    end
+end
+vim.opt.rtp:prepend(lazypath)
 
-require("paq")({
-    "stevearc/conform.nvim",
-    "neovim/nvim-lspconfig",
-    "williamboman/mason.nvim",
-    "saghen/blink.cmp",
-    "nvim-treesitter/nvim-treesitter",
-    "folke/ts-comments.nvim",
-    "nvim-tree/nvim-web-devicons",
+require("lazy").setup {
+    { "stevearc/conform.nvim",
+        opts = {
+            format_on_save = function()
+                if vim.tbl_contains({ "php" }, vim.bo.filetype) then
+                    return false
+                end
+                return {
+                    timeout_ms = 500,
+                    lsp_format = "fallback",
+                }
+            end,
+
+            formatters_by_ft = {
+                -- lua = { "stylua", lsp_format = "fallback" },
+                go = { "goimports", "gofmt" },
+            },
+        }
+    },
+    { "neovim/nvim-lspconfig", config = function()
+        -- LSP setup
+        local lspconfig = require("lspconfig")
+        lspconfig.gopls.setup({})
+        lspconfig.ols.setup({}) -- odin
+        lspconfig.intelephense.setup({})
+        lspconfig.rust_analyzer.setup({})
+        lspconfig.zls.setup({})
+        lspconfig.lua_ls.setup({
+            settings = {
+                Lua = {
+                    telemetry = { enable = false },
+                    diagnostics = {
+                        globals = { "vim" },
+                    },
+                },
+            },
+        })
+        vim.api.nvim_create_autocmd("LspAttach", {
+            callback = function(args)
+                local bufnr = args.buf
+                vim.api.nvim_set_option_value("omnifunc", "v:lua.vim.lsp.omnifunc", { buf = bufnr })
+                local map = function(mode, key, fn, desc)
+                    vim.keymap.set(mode, key, fn, { buffer = bufnr, desc = "LSP: " .. desc })
+                end
+                local references = vim.lsp.buf.references
+                local implementations = vim.lsp.buf.implementation
+                local has_fzf, fzf = pcall(require, "fzf-lua")
+                if has_fzf then
+                    references = fzf.lsp_references
+                    implementations = fzf.lsp_implementations
+                end
+
+                local border = "rounded"
+                map("n", "[[", function()
+                    vim.diagnostic.jump({ count = -1 })
+                end, "Diagnostics: Next")
+                map("n", "]]", function()
+                    vim.diagnostic.jump({ count = 1 })
+                end, "Diagnostics: Previous")
+                map("n", "C-]", vim.lsp.buf.definition, "[g]oto definition")
+                map("n", "gd", vim.lsp.buf.definition, "[g]oto [d]efinition")
+                map("n", "gD", vim.lsp.buf.declaration, "[g]oto [D]eclaration")
+                map("n", "gi", implementations, "[g]oto [i]mplementation")
+                map("n", "gr", references, "[g]oto [r]eferences")
+                map("n", "R", vim.lsp.buf.rename, "Rename")
+                map("n", "K", function()
+                    vim.lsp.buf.hover({ border = border })
+                end, "Hover")
+                map("n", "C", vim.lsp.buf.code_action, "Code Actions")
+                map({ "n", "i" }, "<C-s>", function()
+                    vim.lsp.buf.signature_help({ border = border })
+                end, "Signature Help")
+                map("n", "<leader>l", vim.diagnostic.open_float, "Diagnostics: Open float window")
+                map("n", "<leader>q", vim.diagnostic.setloclist, "Set Local list")
+                vim.diagnostic.config({
+                    enabled = true,
+                    virtual_text = false,
+                    float = { border = border },
+                })
+
+                vim.keymap.set("i", "<CR>", function()
+                    return vim.fn.pumvisible() == 1 and "<C-y>" or "<CR>"
+                end, { expr = true, noremap = true })
+
+                vim.lsp.completion.enable(true, args.data.client_id, args.buf, { wutotrigger = false }) -- setup completion menu
+            end,
+        })
+    end
+    },
+    {
+        "williamboman/mason.nvim",
+        config = function()
+            require("mason").setup({ ensure_installed = { "gopls" } })
+            local process_path = os.getenv("PATH")
+            vim.fn.setenv("PATH", process_path .. ":" .. vim.fn.stdpath("data") .. "/mason/bin")
+        end,
+    },
+    {
+        "saghen/blink.cmp",
+        version = '1.*',
+        opts = {
+            keymap = { preset = "enter" },
+            cmdline = { enabled = false },
+        }
+    },
+    {
+        "nvim-treesitter/nvim-treesitter",
+        config = function()
+            require('nvim-treesitter.configs').setup {
+                auto_install = false,
+                sync_install = false,
+                ensure_installed = { "lua", "go", "gomod", "markdown", "php", "c", "cpp" },
+                ignore_install = {},
+                highlight = { enable = true },
+                modules = {},
+            }
+        end
+    },
+    { "folke/ts-comments.nvim",        opts = {} },
+    { "folke/snacks.nvim", dependencies = { "nvim-tree/nvim-web-devicons" }, config = function()
+        Snacks = require("snacks")
+        Snacks.setup {
+            bigfile = { enabled = true },
+            picker = { enabled = true },
+            indent = { enabled = INDENT_LINES }
+        }
+        P = require("snacks").picker
+        if FUZZY_FINDER == 'snacks' then
+            vim.keymap.set("n", "<leader><leader>", P.files, {})
+            vim.keymap.set("n", "<leader>ff", P.files, {})
+            vim.keymap.set("n", "<C-p>", P.git_files, {})
+            vim.keymap.set("n", "<leader>fg", P.git_files, {})
+            vim.keymap.set("n", "<leader>fd", function() P.files { cwd = "~/.dotfiles" } end, {})
+            vim.keymap.set("n", "??", P.grep, {})
+            vim.keymap.set("n", "<leader>fb", P.buffers, {})
+            vim.keymap.set("n", "<leader>h", P.help, {})
+            vim.keymap.set("n", "<leader>d", P.diagnostics_buffer, {})
+            vim.keymap.set("n", "<leader>D", P.diagnostics, {})
+            vim.keymap.set("n", "<leader>o", P.lsp_symbols, {})
+            vim.keymap.set("n", "<leader>O", P.lsp_workspace_symbols, {})
+        end
+    end },
     "folke/tokyonight.nvim",
-    "tpope/vim-fugitive",
-    { "rose-pine/neovim", as = "rose-pine" },
-    { "catppuccin/nvim",  as = "catppuccin" },
-    "amirrezaask/nvim-terminal.lua",
-    "amirrezaask/nvim-blue.lua",
-    "amirrezaask/nvim-sitruuna.lua",
-    "folke/snacks.nvim",
-})
+    { "rose-pine/neovim",              name = "rose-pine" },
+    { "catppuccin/nvim",               name = "catppuccin" },
 
-vim.opt.runtimepath:append(vim.fn.expand("~/src/nvim-finder.lua"))
+    { "amirrezaask/nvim-blue.lua",     dir = '~/src/nvim-blue.lua' },
+    { "amirrezaask/nvim-sitruuna.lua", dir = '~/src/nvim-sitruuna.lua' },
+    { "amirrezaask/nvim-terminal.lua", dir = '~/src/nvim-terminal.lua' },
+    { "amirrezaask/nvim-find.lua", dir = '~/src/nvim-find.lua', config = function()
+        F = require("nvim-find")
+        if FUZZY_FINDER == 'nvim-find' then
+            vim.keymap.set("n", "<leader><leader>", F.files, {})
+            vim.keymap.set("n", "<leader>ff", F.files, {})
+            vim.keymap.set("n", "<C-p>", F.git_files, {})
+            vim.keymap.set("n", "<leader>fg", F.git_files, {})
+            vim.keymap.set("n", "<leader>fd", function() F.files { path = "~/.dotfiles" } end, {})
+            vim.keymap.set("n", "??", F.ripgrep_fuzzy, {})
+            vim.keymap.set("n", "<leader>fb", F.buffers, {})
+            vim.keymap.set("n", "<leader>h", F.helptags, {})
+            vim.keymap.set("n", "<leader>d", function() F.diagnostics(vim.api.nvim_get_current_buf()) end, {})
+            vim.keymap.set("n", "<leader>D", F.diagnostics, {})
+            vim.keymap.set("n", "<leader>o", F.lsp_document_symbols, {})
+            vim.keymap.set("n", "<leader>O", F.lsp_workspace_symbols, {})
+        end
+    end },
+
+}
+
 
 function Transparent()
     vim.cmd [[
@@ -63,6 +225,7 @@ vim.opt.hlsearch = false   -- Highlight all matches of a search pattern.
 vim.opt.incsearch = true   -- Match pattern while typing.
 vim.opt.signcolumn = "yes" -- Keep signcolumn always visible
 vim.opt.splitbelow = true  -- How new splits are created
+vim.opt.cursorline = true
 vim.opt.splitright = true
 vim.opt.showmode = false
 vim.opt.sw = 4 -- TABs and indentation
@@ -72,9 +235,8 @@ vim.g.netrw_browse_split = 0 -- minimal netrw (vim default file manager)
 vim.g.netrw_banner = 0
 vim.g.netrw_winsize = 25
 vim.opt.guicursor = ""
-vim.opt.timeoutlen = 300 -- vim update time
+vim.opt.timeoutlen = 300          -- vim update time
 vim.opt.updatetime = 250
-vim.opt.cursorline = false
 vim.opt.number = true             -- Line numbers
 vim.opt.mouse = "a"               -- Enable mouse in all modes.
 vim.opt.clipboard = "unnamedplus" -- Clipboard
@@ -83,7 +245,8 @@ vim.opt.smartcase = true          -- Search has case insensitive by default, but
 vim.opt.completeopt = { "fuzzy", "menu", "noinsert", "noselect", "popup" }
 vim.opt.inccommand = ""           -- Preview all substitutions(replacements).
 vim.opt.scrolloff = 10            -- Minimal number of screen lines to keep above and below the cursor.
--- vim.opt.laststatus = 3         -- Global statusline
+
+local home = vim.env.HOME or ''
 function StatusLine()
     ---@type string
     local mode = vim.fn.mode()
@@ -107,10 +270,12 @@ function StatusLine()
         mode = "TERMINAL"
     end
 
-    return "%l:%c %m%r%h%w%f%=" .. mode .. " %y"
+    return "%l:%c %m%r%h%w%f" .. "%=" .. mode .. " %y"
 end
 
 vim.opt.statusline = "%!v:lua.StatusLine()"
+-- vim.opt.winbar = '%!v:lua.StatusLine()'
+vim.opt.laststatus = 3
 vim.keymap.set("n", "Y", "^v$y", { desc = "Copy whole line" })
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 vim.keymap.set("i", "<C-c>", "<esc>")
@@ -139,15 +304,6 @@ vim.keymap.set("t", "<C-w><C-w>", "<cmd>wincmd w<cr>")
 vim.keymap.set({ "n", "t" }, "<C-j>", require("nvim-terminal")("bottom"))
 vim.keymap.set("n", "<leader>i", ":edit $MYVIMRC<CR>")
 
-require("blink.cmp").setup {
-    keymap = { preset = "enter" },
-    fuzzy = {
-        prebuilt_binaries = {
-            force_version = "v1.1.1",
-        },
-    },
-}
-
 -- [[ Toggle Quick fix list
 vim.keymap.set("n", "<C-q>", function()
     local wins = vim.api.nvim_list_wins()
@@ -175,151 +331,7 @@ vim.api.nvim_create_autocmd("TextYankPost", { -- Highlight yanked text
     end,
 })
 
-F = require("nvim-finder")
-
-Snacks = require("snacks")
-
-Snacks.setup {
-    bigfile = { enabled = true },
-    picker = { enabled = true },
-    indent = { enabled = INDENT_LINES }
-}
-
-P = require("snacks").picker
-
-if FUZZY_FINDER == 'nvim-finder' then
-    vim.keymap.set("n", "<leader><leader>", F.files, {})
-    vim.keymap.set("n", "<leader>ff", F.files, {})
-    vim.keymap.set("n", "<C-p>", F.git_files, {})
-    vim.keymap.set("n", "<leader>fg", F.git_files, {})
-    vim.keymap.set("n", "<leader>fd", function() F.files { path = "~/.dotfiles" } end, {})
-    vim.keymap.set("n", "??", F.ripgrep_fuzzy, {})
-    vim.keymap.set("n", "<leader>fb", F.buffers, {})
-    vim.keymap.set("n", "<leader>h", F.helptags, {})
-    vim.keymap.set("n", "<leader>d", function() F.diagnostics(vim.api.nvim_get_current_buf()) end, {})
-    vim.keymap.set("n", "<leader>D", F.diagnostics, {})
-    vim.keymap.set("n", "<leader>o", F.lsp_document_symbols, {})
-    vim.keymap.set("n", "<leader>O", F.lsp_workspace_symbols, {})
-elseif FUZZY_FINDER == 'snacks' then
-    vim.keymap.set("n", "<leader><leader>", P.files, {})
-    vim.keymap.set("n", "<leader>ff", P.files, {})
-    vim.keymap.set("n", "<C-p>", P.git_files, {})
-    vim.keymap.set("n", "<leader>fg", P.git_files, {})
-    vim.keymap.set("n", "<leader>fd", function() P.files { cwd = "~/.dotfiles" } end, {})
-    vim.keymap.set("n", "??", P.grep, {})
-    vim.keymap.set("n", "<leader>fb", P.buffers, {})
-    vim.keymap.set("n", "<leader>h", P.help, {})
-    vim.keymap.set("n", "<leader>d", P.diagnostics_buffer, {})
-    vim.keymap.set("n", "<leader>D", P.diagnostics, {})
-    vim.keymap.set("n", "<leader>o", P.lsp_symbols, {})
-    vim.keymap.set("n", "<leader>O", P.lsp_workspace_symbols, {})
-elseif FUZZY_FINDER == 'fzf' then
-
-end
 
 
-
-
-
--- Treesitter
-require("nvim-treesitter.configs").setup({
-    auto_install = false,
-    sync_install = false,
-    ensure_installed = { "lua", "go", "gomod", "markdown", "php", "c", "cpp" },
-    ignore_install = {},
-    highlight = { enable = true },
-    modules = {},
-})
-
-require("ts-comments").setup()
 
 -- Mason
-require("mason").setup({ ensure_installed = { "gopls" } })
-local process_path = os.getenv("PATH")
-vim.fn.setenv("PATH", process_path .. ":" .. vim.fn.stdpath("data") .. "/mason/bin")
-
--- LSP setup
-local lspconfig = require("lspconfig")
-lspconfig.gopls.setup({})
-lspconfig.ols.setup({}) -- odin
-lspconfig.intelephense.setup({})
-lspconfig.rust_analyzer.setup({})
-lspconfig.zls.setup({})
-lspconfig.lua_ls.setup({
-    settings = {
-        Lua = {
-            telemetry = { enable = false },
-            diagnostics = {
-                globals = { "vim" },
-            },
-        },
-    },
-})
-
-require("conform").setup({
-    format_on_save = function()
-        if vim.tbl_contains({ "php" }, vim.bo.filetype) then
-            return false
-        end
-        return {
-            timeout_ms = 500,
-            lsp_format = "fallback",
-        }
-    end,
-
-    formatters_by_ft = {
-        -- lua = { "stylua", lsp_format = "fallback" },
-        go = { "goimports", "gofmt" },
-    },
-})
-
-vim.api.nvim_create_autocmd("LspAttach", {
-    callback = function(args)
-        local bufnr = args.buf
-        vim.api.nvim_set_option_value("omnifunc", "v:lua.vim.lsp.omnifunc", { buf = bufnr })
-        local map = function(mode, key, fn, desc)
-            vim.keymap.set(mode, key, fn, { buffer = bufnr, desc = "LSP: " .. desc })
-        end
-        local references = vim.lsp.buf.references
-        local implementations = vim.lsp.buf.implementation
-        local has_fzf, fzf = pcall(require, "fzf-lua")
-        if has_fzf then
-            references = fzf.lsp_references
-            implementations = fzf.lsp_implementations
-        end
-
-        local border = "rounded"
-        map("n", "[[", function()
-            vim.diagnostic.jump({ count = -1 })
-        end, "Diagnostics: Next")
-        map("n", "]]", function()
-            vim.diagnostic.jump({ count = 1 })
-        end, "Diagnostics: Previous")
-        map("n", "C-]", vim.lsp.buf.definition, "[g]oto definition")
-        map("n", "gd", vim.lsp.buf.definition, "[g]oto [d]efinition")
-        map("n", "gD", vim.lsp.buf.declaration, "[g]oto [D]eclaration")
-        map("n", "gi", implementations, "[g]oto [i]mplementation")
-        map("n", "gr", references, "[g]oto [r]eferences")
-        map("n", "R", vim.lsp.buf.rename, "Rename")
-        map("n", "K", function()
-            vim.lsp.buf.hover({ border = border })
-        end, "Hover")
-        map("n", "C", vim.lsp.buf.code_action, "Code Actions")
-        map({ "n", "i" }, "<C-s>", function()
-            vim.lsp.buf.signature_help({ border = border })
-        end, "Signature Help")
-        map("n", "<leader>l", vim.diagnostic.open_float, "Diagnostics: Open float window")
-        map("n", "<leader>q", vim.diagnostic.setloclist, "Set Local list")
-        vim.diagnostic.config({
-            enabled = true,
-            virtual_text = false,
-            float = { border = border },
-        })
-
-        vim.keymap.set("i", "<CR>", function()
-            return vim.fn.pumvisible() == 1 and "<C-y>" or "<CR>"
-        end, { expr = true, noremap = true })
-
-        vim.lsp.completion.enable(true, args.data.client_id, args.buf, { wutotrigger = false }) -- setup completion menu
-    end,
-})
