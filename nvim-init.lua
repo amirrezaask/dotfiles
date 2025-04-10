@@ -16,7 +16,7 @@ end
 vim.opt.wrap = true               -- Wrap long lines
 vim.opt.breakindent = true        -- Wrapped lines have same indentation as the actual line.
 vim.opt.swapfile = false          -- No annoying swapfiles
-vim.opt.backup = false            -- Disable Vim backups, we have Git :)
+vim.opt.backup = false            -- Disable Vim backups, we have Git for that :)
 vim.opt.undofile = true           -- Save undo history
 vim.opt.hlsearch = false          -- Highlight all matches of a search pattern.
 vim.opt.incsearch = true          -- Match pattern while typing.
@@ -43,18 +43,14 @@ vim.opt.laststatus = 3
 vim.keymap.set("n", "Y", "^v$y", { desc = "Copy whole line" })
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 vim.keymap.set("i", "<C-c>", "<esc>")
--- [[ Is there a better way to exit out of insert ? I don't think so.
 vim.keymap.set("i", "jk", "<ESC>")
 vim.keymap.set("i", "kj", "<ESC>")
--- ]]
--- [[ When jumping around I want cursor to always remain at the center of the screen.
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("n", "<C-o>", "<C-o>zz")
 vim.keymap.set("n", "<C-i>", "<C-i>zz")
 vim.keymap.set("n", "n", "nzz")
 vim.keymap.set("n", "N", "Nzz")
--- ]]
 vim.keymap.set("n", "Q", "<cmd>q<CR>")
 vim.keymap.set("n", "<CR>", [[ {-> v:hlsearch ? ':nohl<CR>' : '<CR>'}() ]], { expr = true })
 vim.keymap.set("n", "j", "gj")
@@ -80,7 +76,7 @@ vim.keymap.set("n", "<C-q>", function()
     else
         vim.cmd([[ copen ]])
     end
-end, { desc = "Open Quickfix list" })
+end, { desc = "Toggle Quickfix list" })
 vim.keymap.set("n", "{", "<cmd>cprev<CR>")
 vim.keymap.set("n", "}", "<cmd>cnext<CR>")
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -291,23 +287,6 @@ require("lazy").setup {
     { "folke/tokyonight.nvim" },
     { "rose-pine/neovim",       name = "rose-pine" },
     { "catppuccin/nvim",        name = "catppuccin" },
-    { "amirrezaask/nvim-find.lua", dir = '~/src/nvim-find.lua', config = function()
-        F = require("find")
-        if FUZZY_FINDER == 'nvim-find' then
-            vim.keymap.set("n", "<leader><leader>", F.files, {})
-            vim.keymap.set("n", "<leader>ff", F.files, {})
-            vim.keymap.set("n", "<C-p>", F.git_files, {})
-            vim.keymap.set("n", "<leader>fg", F.git_files, {})
-            vim.keymap.set("n", "<leader>fd", function() F.files { path = "~/.dotfiles" } end, {})
-            vim.keymap.set("n", "??", F.ripgrep_fuzzy, {})
-            vim.keymap.set("n", "<leader>fb", F.buffers, {})
-            vim.keymap.set("n", "<leader>h", F.helptags, {})
-            vim.keymap.set("n", "<leader>d", function() F.diagnostics({ buf = vim.api.nvim_get_current_buf() }) end, {})
-            vim.keymap.set("n", "<leader>D", F.diagnostics, {})
-            vim.keymap.set("n", "<leader>o", F.lsp_document_symbols, {})
-            vim.keymap.set("n", "<leader>O", F.lsp_workspace_symbols, {})
-        end
-    end },
 }
 
 function Transparent()
