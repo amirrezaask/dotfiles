@@ -1,62 +1,21 @@
-local COLORSCHEME = vim.env.NVIM_COLORSCHEME or "rose-pine-moon"
-local TRANSPARENT = vim.env.NVIM_TRANSPARENT == true or false
-local INDENT_LINES = vim.env.NVIM_INDENT_LINES == true or false
-
-function printf(...)
-	local args = { ... }
-	print(string.format(...))
-end
-
-function RELOAD(module)
-	package.loaded[module] = nil
-	return require(module)
-end
-
 vim.g.mapleader = " " -- <leader> key for keymaps mapped to <Space>
-vim.o.wrap = true -- Wrap long lines
-vim.o.breakindent = true -- Wrapped lines have same indentation as the actual line.
-vim.o.swapfile = false -- No annoying swapfiles
-vim.o.backup = false -- Disable Vim backups, we have Git for that :)
-vim.o.undofile = true -- Save undo history
-vim.o.hlsearch = false -- Highlight all matches of a search pattern.
-vim.o.incsearch = true -- Match pattern while typing.
-vim.o.signcolumn = "yes" -- Keep signcolumn always visible
-vim.o.cursorline = false -- Highlights current line with hl defined as *hl-CursorLine*
-vim.o.splitbelow = true -- How new splits are created
-vim.o.splitright = true -- SAME
+vim.o.wrap = true; vim.o.breakindent = true -- Line wrapping
+vim.o.swapfile = false; vim.o.backup = false; vim.o.undofile = true 
+vim.o.splitbelow = true; vim.o.splitright = true
 vim.o.showmode = false -- don't show --INSERT-- in command line.
-vim.o.sw = 4 -- TABs and indentation
-vim.o.ts = 4 -- TABS and indentation
-vim.o.expandtab = true -- TABs and indentation
-vim.o.guicursor = "" -- I don't want my cursor shape change with mode changes.
-vim.o.timeoutlen = 300 -- Time vim waits for a key sequence to finish.
-vim.o.updatetime = 250 -- Milliseconds to wait for CursorHold autocmds to fire.
+vim.o.sw = 4; vim.o.ts = 4; vim.o.expandtab = true -- TABs and indentation
+vim.o.timeoutlen = 300; vim.o.updatetime = 250 -- Milliseconds to wait for CursorHold autocmds to fire.
 vim.o.number = true -- Line numbers
-vim.o.mouse = "a" -- Enable mouse in all modes.
 vim.o.clipboard = "unnamedplus" -- Clipboard
-vim.o.ignorecase = true -- Search has case insensitive by default, but if pattern has some upper case letters, it will be case sensitive.
-vim.o.smartcase = true -- Search has case insensitive by default, but if pattern has some upper case letters, it will be case sensitive.
+vim.o.ignorecase = true; vim.o.smartcase = true
 vim.o.completeopt = "fuzzy,menu,noinsert,noselect,popup"
-vim.o.inccommand = "" -- Preview all substitutions(replacements).
-vim.o.scrolloff = 10 -- Minimal number of screen lines to keep above and below the cursor.
-vim.o.laststatus = 3
 vim.o.statusline = "%l:%c %m%r%q%h%f"
+vim.o.winborder = 'rounded'
 vim.keymap.set("n", "Y", "^v$y", { desc = "Copy whole line" })
-vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
-vim.keymap.set("i", "<C-c>", "<esc>")
-vim.keymap.set("i", "jk", "<ESC>")
-vim.keymap.set("i", "kj", "<ESC>")
-vim.keymap.set("n", "<C-d>", "<C-d>zz")
-vim.keymap.set("n", "<C-u>", "<C-u>zz")
-vim.keymap.set("n", "<C-o>", "<C-o>zz")
-vim.keymap.set("n", "<C-i>", "<C-i>zz")
-vim.keymap.set("n", "n", "nzz")
-vim.keymap.set("n", "N", "Nzz")
+vim.keymap.set("t", "<esc>", [[<C-\><C-n>]]); vim.keymap.set("i", "<C-c>", "<esc>"); vim.keymap.set("i", "jk", "<ESC>"); vim.keymap.set("i", "kj", "<ESC>") -- Exiting insert mode
 vim.keymap.set("n", "Q", "<cmd>q<CR>")
 vim.keymap.set("n", "<CR>", [[ {-> v:hlsearch ? ':nohl<CR>' : '<CR>'}() ]], { expr = true })
-vim.keymap.set("n", "j", "gj")
-vim.keymap.set("n", "k", "gk")
-vim.keymap.set("t", "<esc>", [[<C-\><C-n>]])
+vim.keymap.set("n", "j", "gj"); vim.keymap.set("n", "k", "gk")
 vim.keymap.set("t", "<C-w><C-w>", "<cmd>wincmd w<cr>")
 vim.keymap.set("n", "<leader>i", ":edit $MYVIMRC<CR>")
 vim.keymap.set("n", "<C-q>", function()
@@ -93,74 +52,30 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup {
-	{
-		"stevearc/conform.nvim",
-		opts = {
-			format_on_save = function()
-				if vim.tbl_contains({ "php" }, vim.bo.filetype) then
-					return false
-				end
-				return {
-					timeout_ms = 500,
-					lsp_format = "fallback",
-				}
-			end,
-
-			formatters_by_ft = {
-				lua = { "stylua", lsp_format = "fallback" },
-				go = { "goimports", "gofmt" },
-			},
-		},
-	},
-	{
-		"stevearc/oil.nvim",
-		opts = {},
-		dependencies = { "nvim-tree/nvim-web-devicons" },
-	},
+	{ "folke/tokyonight.nvim" },
+	{ "rose-pine/neovim", name = "rose-pine" },
 	{
 		"neovim/nvim-lspconfig",
 		config = function()
-			-- LSP setup
 			local lspconfig = require("lspconfig")
-			for _, lsp in ipairs({ "gopls", "ols", "intelephense", "rust_analyzer", "zls" }) do
-				lspconfig[lsp].setup {}
-			end
-			lspconfig.lua_ls.setup({
-				settings = {
-					Lua = {
-						telemetry = { enable = false },
-						diagnostics = {
-							globals = { "vim" },
-						},
-					},
-				},
-			})
+
+			for _, lsp in ipairs({ "gopls", "ols", "intelephense", "rust_analyzer", "zls", "lua_ls" }) do lspconfig[lsp].setup {} end
+			lspconfig.lua_ls.setup({ settings = { Lua = { diagnostics = { globals = { "vim" } } } } })
+
 			vim.api.nvim_create_autocmd("LspAttach", {
 				callback = function(args)
 					local bufnr = args.buf
 					vim.api.nvim_set_option_value("omnifunc", "v:lua.vim.lsp.omnifunc", { buf = bufnr })
-					local map = function(mode, key, fn, desc)
-						vim.keymap.set(mode, key, fn, { buffer = bufnr, desc = "LSP: " .. desc })
-					end
-					local references = vim.lsp.buf.references
-					local implementations = vim.lsp.buf.implementation
-					local has_snacks, _ = pcall(require, "snacks")
-					if has_snacks then
-						references = require("snacks").picker.lsp_references
-						implementations = require("snacks").picker.lsp_implementations
-					end
 
-					map("n", "[[", function()
-						vim.diagnostic.jump({ count = -1 })
-					end, "Diagnostics: Next")
-					map("n", "]]", function()
-						vim.diagnostic.jump({ count = 1 })
-					end, "Diagnostics: Previous")
+					local map = function(mode, key, fn, desc) vim.keymap.set(mode, key, fn, { buffer = bufnr, desc = "LSP: " .. desc }) end
+
+					map("n", "[[", function() vim.diagnostic.jump({ count = -1 }) end, "Diagnostics: Next")
+					map("n", "]]", function() vim.diagnostic.jump({ count = 1 }) end, "Diagnostics: Previous")
 					map("n", "C-]", vim.lsp.buf.definition, "[g]oto definition")
 					map("n", "gd", vim.lsp.buf.definition, "[g]oto [d]efinition")
 					map("n", "gD", vim.lsp.buf.declaration, "[g]oto [D]eclaration")
-					map("n", "gi", implementations, "[g]oto [i]mplementation")
-					map("n", "gr", references, "[g]oto [r]eferences")
+					map("n", "gi", vim.lsp.buf.references, "[g]oto [i]mplementation")
+					map("n", "gr", vim.lsp.buf.implementation, "[g]oto [r]eferences")
 					map("n", "R", vim.lsp.buf.rename, "Rename")
 					map("n", "K", vim.lsp.buf.hover, "Hover")
 					map("n", "C", vim.lsp.buf.code_action, "Code Actions")
@@ -182,126 +97,34 @@ require("lazy").setup {
 		end,
 	},
 	{
-		"williamboman/mason.nvim",
-		config = function()
-			require("mason").setup({ ensure_installed = { "gopls" } })
+		"williamboman/mason.nvim", config = function()
+            require("mason").setup({ ensure_installed = { "gopls" } })
 			local process_path = os.getenv("PATH")
 			vim.fn.setenv("PATH", process_path .. ":" .. vim.fn.stdpath("data") .. "/mason/bin")
 		end,
 	},
+	{ "saghen/blink.cmp", version = "1.*", opts = { keymap = { preset = "enter" }, cmdline = { enabled = false } } },
+	{ "nvim-treesitter/nvim-treesitter", config = function() require("nvim-treesitter.configs").setup { ensure_installed = { "lua", "go", "gomod", "php" }, highlight = { enable = true } } end },
 	{
-		"saghen/blink.cmp",
-		version = "1.*",
-		opts = {
-			keymap = { preset = "enter" },
-			cmdline = { enabled = false },
-		},
-	},
-	{
-		"nvim-treesitter/nvim-treesitter",
-		config = function()
-			require("nvim-treesitter.configs").setup {
-				auto_install = false,
-				sync_install = false,
-				ensure_installed = { "lua", "go", "gomod", "markdown", "php", "c", "cpp" },
-				ignore_install = {},
-				highlight = { enable = true },
-				modules = {},
-			}
-		end,
-	},
-	{ "folke/ts-comments.nvim", opts = {} },
-	{
-		"folke/snacks.nvim",
+		"ibhagwan/fzf-lua",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 		config = function()
-			snacks = require("snacks")
-			snacks.setup {
-				bigfile = { enabled = true },
-				picker = {
-					enabled = true,
-				},
-				indent = { enabled = INDENT_LINES },
-				explorer = { enabled = true },
-				terminal = { enabled = true },
-			}
-			p = require("snacks").picker
-			vim.keymap.set({ "n", "i" }, "<C-e>", function()
-				snacks.explorer()
-			end, {})
-			vim.keymap.set({ "n", "i", "t" }, "<C-j>", snacks.terminal.toggle, {})
-
-			vim.api.nvim_create_autocmd(
-				"FileType",
-				{ -- Maybe a better way is to have a static key bound to a function that runs some terminal command based on the foreg founding of go.mod.
-					pattern = "go",
-					callback = function()
-						vim.keymap.set("n", "<M-m>", function()
-							snacks.terminal.get("go build -v ./...", { cwd = vim.fn.getcwd(), auto_close = false })
-						end)
-					end,
-				}
-			)
-			vim.keymap.set("n", "<leader><leader>", p.files, {})
-			vim.keymap.set("n", "<leader>ff", p.files, {})
-			vim.keymap.set("n", "<C-p>", p.git_files, {})
-			vim.keymap.set("n", "<leader>fg", p.git_files, {})
+			local fzflua = require "fzf-lua"
+			fzflua.setup { winopts = { preview = { hidden = true } } }
+			vim.keymap.set("n", "<leader><leader>", fzflua.files, {})
+			vim.keymap.set("n", "<C-p>", fzflua.git_files, {})
 			vim.keymap.set("n", "<leader>fd", function()
-				p.files { cwd = "~/.dotfiles" }
+				fzflua.files { cwd = "~/.dotfiles" }
 			end, {})
-			vim.keymap.set("n", "??", p.grep, {})
-			vim.keymap.set("n", "<leader>fb", p.buffers, {})
-			vim.keymap.set("n", "<leader>h", p.help, {})
-			vim.keymap.set("n", "<leader>d", p.diagnostics_buffer, {})
-			vim.keymap.set("n", "<leader>D", p.diagnostics, {})
-			vim.keymap.set("n", "<leader>o", p.lsp_symbols, {})
-			vim.keymap.set("n", "<leader>O", p.lsp_workspace_symbols, {})
+			vim.keymap.set("n", "??", fzflua.grep, {})
+			vim.keymap.set("n", "<leader>fb", fzflua.buffers, {})
+			vim.keymap.set("n", "<leader>h", fzflua.helptags, {})
+			vim.keymap.set("n", "<leader>d", fzflua.diagnostics_document, {})
+			vim.keymap.set("n", "<leader>D", fzflua.diagnostics_workspace, {})
+			vim.keymap.set("n", "<leader>o", fzflua.lsp_document_symbols, {})
+			vim.keymap.set("n", "<leader>O", fzflua.lsp_workspace_symbols, {})
 		end,
 	},
-	{
-		"amirrezaask/nvim-find.lua",
-		enabled = false,
-		dir = "~/src/nvim-find.lua",
-		config = function()
-			F = require("find")
-			vim.keymap.set("n", "<leader><leader>", F.files, {})
-			vim.keymap.set("n", "<leader>ff", F.files, {})
-			vim.keymap.set("n", "<C-p>", F.git_files, {})
-			vim.keymap.set("n", "<leader>fg", F.git_files, {})
-			vim.keymap.set("n", "<leader>fd", function()
-				F.files { path = "~/.dotfiles" }
-			end, {})
-			vim.keymap.set("n", "??", F.ripgrep_fuzzy, {})
-			vim.keymap.set("n", "<leader>fb", F.buffers, {})
-			vim.keymap.set("n", "<leader>h", F.helptags, {})
-			vim.keymap.set("n", "<leader>d", function()
-				F.diagnostics({ buf = vim.api.nvim_get_current_buf() })
-			end, {})
-			vim.keymap.set("n", "<leader>D", F.diagnostics, {})
-			vim.keymap.set("n", "<leader>o", F.lsp_document_symbols, {})
-			vim.keymap.set("n", "<leader>O", F.lsp_workspace_symbols, {})
-		end,
-	},
-	{ "folke/tokyonight.nvim" },
-	{ "rose-pine/neovim", name = "rose-pine" },
-	{ "catppuccin/nvim", name = "catppuccin" },
-	{ "amirrezaask/nvim-blue", dir = "~/src/nvim-blue.lua" },
 }
 
-function Transparent()
-	vim.cmd [[
-        hi! Normal      guibg=none
-        hi! NormalNC    guibg=none
-        hi! NormalFloat guibg=none
-        hi! FloatBorder guibg=none
-        hi! FloatTitle  guibg=none
-        hi! FloatFooter guibg=none
-        hi! SignColumn  guibg=none
-        hi! LineNr      guibg=none
-    ]]
-end
-
-vim.cmd.colorscheme(COLORSCHEME)
-if TRANSPARENT then
-	Transparent()
-end
+vim.cmd.colorscheme("tokyonight-night")
