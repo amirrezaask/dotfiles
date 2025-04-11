@@ -1,5 +1,5 @@
 local COLORSCHEME = vim.env.NVIM_COLORSCHEME or "rose-pine-moon"
-local TRANSPARENT = vim.env.NVIM_TRANSPARENT == true or true
+local TRANSPARENT = vim.env.NVIM_TRANSPARENT == true or false
 local INDENT_LINES = vim.env.NVIM_INDENT_LINES == true or false
 
 function printf(...)
@@ -142,10 +142,14 @@ require("lazy").setup {
 					local map = function(mode, key, fn, desc)
 						vim.keymap.set(mode, key, fn, { buffer = bufnr, desc = "LSP: " .. desc })
 					end
-					local references = require("snacks").picker.lsp_references
-					local implementations = require("snacks").picker.lsp_implementations
+					local references = vim.lsp.buf.references
+					local implementations = vim.lsp.buf.implementation
+					local has_snacks, _ = pcall(require, "snacks")
+					if has_snacks then
+						references = require("snacks").picker.lsp_references
+						implementations = require("snacks").picker.lsp_implementations
+					end
 
-					local border = "rounded"
 					map("n", "[[", function()
 						vim.diagnostic.jump({ count = -1 })
 					end, "Diagnostics: Next")
@@ -158,19 +162,14 @@ require("lazy").setup {
 					map("n", "gi", implementations, "[g]oto [i]mplementation")
 					map("n", "gr", references, "[g]oto [r]eferences")
 					map("n", "R", vim.lsp.buf.rename, "Rename")
-					map("n", "K", function()
-						vim.lsp.buf.hover({ border = border })
-					end, "Hover")
+					map("n", "K", vim.lsp.buf.hover, "Hover")
 					map("n", "C", vim.lsp.buf.code_action, "Code Actions")
-					map({ "n", "i" }, "<C-s>", function()
-						vim.lsp.buf.signature_help({ border = border })
-					end, "Signature Help")
+					map({ "n", "i" }, "<C-s>", vim.lsp.buf.signature_help, "Signature Help")
 					map("n", "<leader>l", vim.diagnostic.open_float, "Diagnostics: Open float window")
 					map("n", "<leader>q", vim.diagnostic.setloclist, "Set Local list")
 					vim.diagnostic.config({
 						enabled = true,
 						virtual_text = false,
-						float = { border = border },
 					})
 
 					vim.keymap.set("i", "<CR>", function()
@@ -259,9 +258,34 @@ require("lazy").setup {
 			vim.keymap.set("n", "<leader>O", p.lsp_workspace_symbols, {})
 		end,
 	},
+	{
+		"amirrezaask/nvim-find.lua",
+		enabled = false,
+		dir = "~/src/nvim-find.lua",
+		config = function()
+			F = require("find")
+			vim.keymap.set("n", "<leader><leader>", F.files, {})
+			vim.keymap.set("n", "<leader>ff", F.files, {})
+			vim.keymap.set("n", "<C-p>", F.git_files, {})
+			vim.keymap.set("n", "<leader>fg", F.git_files, {})
+			vim.keymap.set("n", "<leader>fd", function()
+				F.files { path = "~/.dotfiles" }
+			end, {})
+			vim.keymap.set("n", "??", F.ripgrep_fuzzy, {})
+			vim.keymap.set("n", "<leader>fb", F.buffers, {})
+			vim.keymap.set("n", "<leader>h", F.helptags, {})
+			vim.keymap.set("n", "<leader>d", function()
+				F.diagnostics({ buf = vim.api.nvim_get_current_buf() })
+			end, {})
+			vim.keymap.set("n", "<leader>D", F.diagnostics, {})
+			vim.keymap.set("n", "<leader>o", F.lsp_document_symbols, {})
+			vim.keymap.set("n", "<leader>O", F.lsp_workspace_symbols, {})
+		end,
+	},
 	{ "folke/tokyonight.nvim" },
 	{ "rose-pine/neovim", name = "rose-pine" },
 	{ "catppuccin/nvim", name = "catppuccin" },
+	{ "amirrezaask/nvim-blue", dir = "~/src/nvim-blue.lua" },
 }
 
 function Transparent()
