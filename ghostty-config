@@ -1,9 +1,14 @@
 # Font
+font-family = Operator Mono Book
 font-style-bold = false
 font-style-italic = false
 font-style-bold-italic = false
 font-size = 15
 
+mouse-hide-while-typing = true
+cursor-style-blink = false
+
+shell-integration = fish
 # Keybindings
 keybind = cmd+n=next_tab
 keybind = cmd+p=previous_tab

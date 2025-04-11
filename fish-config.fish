@@ -7,10 +7,10 @@ export PATH="$PATH:/usr/local/bin"
 export PATH="$PATH:/Applications/Emacs.app/Contents/MacOS"
 export PATH="$PATH:/Applications/Emacs.app/Contents/MacOS/bin"
 
-if ! command -v starship &>/dev/null
-  curl -sS https://starship.rs/install.sh | sh
-end
-
+# if ! command -v starship &>/dev/null
+#   curl -sS https://starship.rs/install.sh | sh
+# end
+#
 if command -v brew &>/dev/null
     eval (brew shellenv)
 end
@@ -75,7 +75,7 @@ end
 alias gs='git status'
 
 
-if command -v starship &>/dev/null
-  starship init fish | source
-end
+# if command -v starship &>/dev/null
+#   starship init fish | source
+# end
 
