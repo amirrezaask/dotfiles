@@ -17,7 +17,7 @@ vim.o.number = true
 vim.o.clipboard = "unnamedplus"
 vim.o.ignorecase = true; vim.o.smartcase = true
 vim.o.completeopt = "fuzzy,menu,noinsert,noselect,popup"
-vim.o.statusline = "[%l:%c] %m%r%q%h%f"
+vim.o.statusline = "[%l:%c]%=%m%r%q%h%f%=%y"
 vim.o.winborder = 'rounded'
 local map = vim.keymap.set
 map("n", "Y", "^v$y", { desc = "Copy whole line" })
@@ -29,66 +29,61 @@ map("n", "n", "nzz")
 map("n", "N", "Nzz")
 map("i", "jk", "<ESC>")
 map("i", "kj", "<ESC>")
-map("n", "Q", "<cmd>q<CR>")
 map("n", "<CR>", [[ {-> v:hlsearch ? ':nohl<CR>' : '<CR>'}() ]], { expr = true })
 map("n", "j", "gj"); vim.keymap.set("n", "k", "gk")
 map("t", "<C-w><C-w>", "<cmd>wincmd w<cr>")
 map("n", "<leader>i", ":edit $MYVIMRC<CR>")
 map("n", "<C-q>", function()
-	local wins = vim.api.nvim_list_wins()
-	local has_qf_open = false
-	for _, win in ipairs(wins) do
-		local buf = vim.api.nvim_win_get_buf(win)
-		if vim.api.nvim_get_option_value("buftype", { buf = buf }) == "quickfix" then
-			has_qf_open = true
-		end
-	end
-	if has_qf_open then
-		vim.cmd([[ cclose ]])
-	else
-		vim.cmd([[ copen ]])
-	end
+    local wins = vim.api.nvim_list_wins()
+    local has_qf_open = false
+    for _, win in ipairs(wins) do
+        local buf = vim.api.nvim_win_get_buf(win)
+        if vim.api.nvim_get_option_value("buftype", { buf = buf }) == "quickfix" then
+            has_qf_open = true
+        end
+    end
+    if has_qf_open then
+        vim.cmd([[ cclose ]])
+    else
+        vim.cmd([[ copen ]])
+    end
 end, { desc = "Toggle Quickfix list" })
 vim.keymap.set("n", "{", "<cmd>cprev<CR>")
 vim.keymap.set("n", "}", "<cmd>cnext<CR>")
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
-	local lazyrepo = "https://github.com/folke/lazy.nvim.git"
-	local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
-	if vim.v.shell_error ~= 0 then
-		vim.api.nvim_echo({
-			{ "Failed to clone lazy.nvim:\n", "ErrorMsg" },
-			{ out, "WarningMsg" },
-			{ "\nPress any key to exit..." },
-		}, true, {})
-		vim.fn.getchar()
-		os.exit(1)
-	end
+    local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+    local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
+    if vim.v.shell_error ~= 0 then
+        vim.api.nvim_echo({
+            { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
+            { out,                            "WarningMsg" },
+            { "\nPress any key to exit..." },
+        }, true, {})
+        vim.fn.getchar()
+        os.exit(1)
+    end
 end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup {
-    "folke/tokyonight.nvim",
+    { "folke/snacks.nvim", dependencies = { 'nvim-tree/nvim-web-devicons' }, opts = { picker = { enabled = true, sources = { files = { layout = { preview = false }}, git_files = { layout = { preview = false } } } } } },
+    { "folke/tokyonight.nvim" },
     { "rose-pine/neovim", name = "rose-pine" },
-	"neovim/nvim-lspconfig", "williamboman/mason.nvim" ,
-    { "saghen/blink.cmp", version = "1.*",  },
-    { "nvim-treesitter/nvim-treesitter" },
-	{ "ibhagwan/fzf-lua" },
+    { "neovim/nvim-lspconfig" },
+    { "williamboman/mason.nvim", opts = { ensure_installed = { "gopls" } } },
+    { "saghen/blink.cmp", version = "1.*", opts = { keymap = { preset = "enter" }, cmdline = { enabled = false } } },
+    { "nvim-treesitter/nvim-treesitter", config = function() require("nvim-treesitter.configs").setup{ ensure_installed = { "lua", "go", "gomod", "php" }, highlight = { enable = true } } end },
 }
 
-vim.cmd.colorscheme("tokyonight-night")
+vim.cmd.colorscheme(vim.env.NVIM_COLORSCHEME or "tokyonight-night")
 
-require("blink.cmp").setup  { keymap = { preset = "enter" }, cmdline = { enabled = false } }
+for _, lsp in ipairs({ "gopls", "intelephense", "rust_analyzer", "zls" }) do require("lspconfig")[lsp].setup {} end
+require("lspconfig").lua_ls.setup({ settings = { Lua = { diagnostics = { globals = { "vim" } } } } })
 
-require("nvim-treesitter.configs").setup { ensure_installed = { "lua", "go", "gomod", "php" }, highlight = { enable = true } }
-
-local lspconfig = require("lspconfig")
-
-for _, lsp in ipairs({ "gopls", "ols", "intelephense", "rust_analyzer", "zls" }) do lspconfig[lsp].setup {} end
-lspconfig.lua_ls.setup({ settings = { Lua = { diagnostics = { globals = { "vim" } } } } })
-
-vim.api.nvim_create_autocmd("LspAttach", { callback = function(args)
+vim.api.nvim_create_autocmd("LspAttach", {
+    callback = function(args)
         map("n", "[[", function() vim.diagnostic.jump({ count = -1 }) end, { buffer = args.buf })
         map("n", "]]", function() vim.diagnostic.jump({ count = 1 }) end, { buffer = args.buf })
         map("n", "C-]", vim.lsp.buf.definition, { buffer = args.buf })
@@ -105,17 +100,15 @@ vim.api.nvim_create_autocmd("LspAttach", { callback = function(args)
     end,
 })
 
-local fzflua = require "fzf-lua"
-fzflua.setup { files = { previewer = false } }
-vim.keymap.set("n", "<leader><leader>", fzflua.files, {})
-vim.keymap.set("n", "<C-p>", fzflua.git_files, {})
-vim.keymap.set("n", "<leader>fd", function() fzflua.files { cwd = "~/.dotfiles" } end, {})
-vim.keymap.set("n", "??", fzflua.live_grep, {})
-vim.keymap.set("n", "<leader>h", fzflua.helptags, {})
-vim.keymap.set("n", "<leader>d", fzflua.diagnostics_document, {})
-vim.keymap.set("n", "<leader>D", fzflua.diagnostics_workspace, {})
-vim.keymap.set("n", "<leader>o", fzflua.lsp_document_symbols, {})
-vim.keymap.set("n", "<leader>O", fzflua.lsp_workspace_symbols, {})
-
-require("mason").setup({ ensure_installed = { "gopls" } })
-vim.fn.setenv("PATH", os.getenv("PATH") .. ":" .. vim.fn.stdpath("data") .. "/mason/bin")
+Snacks = require("snacks")
+P = Snacks.picker
+map("n", "<leader><leader>", P.files, {})
+map("n", "<C-p>", P.git_files, {})
+map("n", "<leader>fd", function() P.files { cwd = "~/.dotfiles" } end, {})
+map("n", "??", P.grep, {})
+map("v", "??", P.grep_word, {})
+map("n", "<leader>h", P.help, {})
+map("n", "<leader>d", P.diagnostics_buffer, {})
+map("n", "<leader>D", P.diagnostics, {})
+map("n", "<leader>o", P.lsp_symbols, {})
+map("n", "<leader>O", P.lsp_workspace_symbols, {})
