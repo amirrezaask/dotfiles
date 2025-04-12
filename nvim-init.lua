@@ -75,16 +75,78 @@ require("lazy").setup {
 		"folke/snacks.nvim",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 		opts = {
+			explorer = { true },
 			picker = {
 				enabled = true,
 				sources = { files = { layout = { preview = false } }, git_files = { layout = { preview = false } } },
 			},
 		},
+		config = function()
+			Snacks = require("snacks")
+			P = Snacks.picker
+			map("n", "<leader><leader>", P.files, {})
+			map("n", "<C-p>", P.git_files, {})
+			map("n", "<leader>fd", function()
+				P.files { cwd = "~/.dotfiles" }
+			end, {})
+			map("n", "??", P.grep, {})
+			map("v", "??", P.grep_word, {})
+			map("n", "<leader>h", P.help, {})
+			map("n", "<leader>d", P.diagnostics_buffer, {})
+			map("n", "<leader>D", P.diagnostics, {})
+			map("n", "<leader>o", P.lsp_symbols, {})
+			map("n", "<leader>O", P.lsp_workspace_symbols, {})
+			map({ "n", "t" }, "<C-j>", Snacks.terminal.toggle, {})
+		end,
 	},
 	{ "folke/tokyonight.nvim" },
 	{ "rose-pine/neovim", name = "rose-pine" },
-	{ "neovim/nvim-lspconfig" },
-	{ "stevearc/conform.nvim" },
+	{
+		"neovim/nvim-lspconfig",
+		config = function()
+			for _, lsp in ipairs({ "gopls", "intelephense", "rust_analyzer", "zls" }) do
+				require("lspconfig")[lsp].setup {}
+			end
+			require("lspconfig").lua_ls.setup({ settings = { Lua = { diagnostics = { globals = { "vim" } } } } })
+
+			vim.api.nvim_create_autocmd("LspAttach", {
+				callback = function(args)
+					map("n", "[[", function()
+						vim.diagnostic.jump({ count = -1 })
+					end, { buffer = args.buf })
+					map("n", "]]", function()
+						vim.diagnostic.jump({ count = 1 })
+					end, { buffer = args.buf })
+					map("n", "C-]", vim.lsp.buf.definition, { buffer = args.buf })
+					map("n", "gd", vim.lsp.buf.definition, { buffer = args.buf })
+					map("n", "gD", vim.lsp.buf.declaration, { buffer = args.buf })
+					map("n", "gr", vim.lsp.buf.references, { buffer = args.buf })
+					map("n", "gi", vim.lsp.buf.implementation, { buffer = args.buf })
+					map("n", "R", vim.lsp.buf.rename, { buffer = args.buf })
+					map("n", "K", vim.lsp.buf.hover, { buffer = args.buf })
+					map("n", "C", vim.lsp.buf.code_action, { buffer = args.buf })
+					map({ "n", "i" }, "<C-s>", vim.lsp.buf.signature_help, { buffer = args.buf })
+					map("n", "<leader>l", vim.diagnostic.open_float, { buffer = args.buf })
+					map("n", "<leader>q", vim.diagnostic.setloclist, { buffer = args.buf })
+				end,
+			})
+		end,
+	},
+	{
+		"stevearc/conform.nvim",
+		opts = {
+			format_on_save = function()
+				if vim.tbl_contains({ "php" }, vim.bo.filetype) then
+					return false
+				end
+				return {
+					timeout_ms = 500,
+					lsp_format = "fallback",
+				}
+			end,
+			formatters_by_ft = { lua = { "stylua", lsp_format = "fallback" }, go = { "goimports", "gofmt" } },
+		},
+	},
 	{ "williamboman/mason.nvim", opts = { ensure_installed = { "gopls" } } },
 	{
 		"saghen/blink.cmp",
@@ -102,60 +164,4 @@ require("lazy").setup {
 	},
 }
 
-vim.cmd.colorscheme(vim.env.NVIM_COLORSCHEME or "tokyonight-night")
-
-for _, lsp in ipairs({ "gopls", "intelephense", "rust_analyzer", "zls" }) do
-	require("lspconfig")[lsp].setup {}
-end
-require("lspconfig").lua_ls.setup({ settings = { Lua = { diagnostics = { globals = { "vim" } } } } })
-
-vim.api.nvim_create_autocmd("LspAttach", {
-	callback = function(args)
-		map("n", "[[", function()
-			vim.diagnostic.jump({ count = -1 })
-		end, { buffer = args.buf })
-		map("n", "]]", function()
-			vim.diagnostic.jump({ count = 1 })
-		end, { buffer = args.buf })
-		map("n", "C-]", vim.lsp.buf.definition, { buffer = args.buf })
-		map("n", "gd", vim.lsp.buf.definition, { buffer = args.buf })
-		map("n", "gD", vim.lsp.buf.declaration, { buffer = args.buf })
-		map("n", "gr", vim.lsp.buf.references, { buffer = args.buf })
-		map("n", "gi", vim.lsp.buf.implementation, { buffer = args.buf })
-		map("n", "R", vim.lsp.buf.rename, { buffer = args.buf })
-		map("n", "K", vim.lsp.buf.hover, { buffer = args.buf })
-		map("n", "C", vim.lsp.buf.code_action, { buffer = args.buf })
-		map({ "n", "i" }, "<C-s>", vim.lsp.buf.signature_help, { buffer = args.buf })
-		map("n", "<leader>l", vim.diagnostic.open_float, { buffer = args.buf })
-		map("n", "<leader>q", vim.diagnostic.setloclist, { buffer = args.buf })
-	end,
-})
-
-require("conform").setup({
-	format_on_save = function()
-		if vim.tbl_contains({ "php" }, vim.bo.filetype) then
-			return false
-		end
-		return {
-			timeout_ms = 500,
-			lsp_format = "fallback",
-		}
-	end,
-	formatters_by_ft = { lua = { "stylua", lsp_format = "fallback" }, go = { "goimports", "gofmt" } },
-})
-
-Snacks = require("snacks")
-P = Snacks.picker
-map("n", "<leader><leader>", P.files, {})
-map("n", "<C-p>", P.git_files, {})
-map("n", "<leader>fd", function()
-	P.files { cwd = "~/.dotfiles" }
-end, {})
-map("n", "??", P.grep, {})
-map("v", "??", P.grep_word, {})
-map("n", "<leader>h", P.help, {})
-map("n", "<leader>d", P.diagnostics_buffer, {})
-map("n", "<leader>D", P.diagnostics, {})
-map("n", "<leader>o", P.lsp_symbols, {})
-map("n", "<leader>O", P.lsp_workspace_symbols, {})
-map({ "n", "t" }, "<C-j>", Snacks.terminal.toggle, {})
+vim.cmd.colorscheme(vim.env.NVIM_COLORSCHEME or "tokyonight-moon")
