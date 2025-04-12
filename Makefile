@@ -24,6 +24,7 @@ configure:
 	rm -rf $(XDG_CONFIG)/starship.toml
 	rm -rf $(HOME)/.emacs
 	rm -rf $(XDG_CONFIG)/nvim
+	rm -rf $(HOME)/.wezterm.lua
 	mkdir -p $(XDG_CONFIG)/fish
 	mkdir -p $(XDG_CONFIG)/ghostty
 	mkdir -p $(XDG_CONFIG)/nvim
@@ -34,6 +35,7 @@ configure:
 	ln -s $(DOTFILES_DIR)/emacs-init.el $(HOME)/.emacs
 	ln -s $(DOTFILES_DIR)/.gitconfig $(HOME)/.gitconfig
 	ln -s $(DOTFILES_DIR)/nvim-init.lua $(XDG_CONFIG)/nvim/init.lua
+	ln -s $(DOTFILES_DIR)/.wezterm.lua $(HOME)/.wezterm.lua
 	if test -d "$(HOME)/Library/Application Support/Cursor"; then \
 		rm -rf "$(HOME)/Library/Application Support/Cursor/User/keybindings.json"; \
 		rm -rf "$(HOME)/Library/Application Support/Cursor/User/settings.json"; \
