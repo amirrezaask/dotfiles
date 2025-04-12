@@ -19,6 +19,7 @@ vim.o.ignorecase = true; vim.o.smartcase = true
 vim.o.completeopt = "fuzzy,menu,noinsert,noselect,popup"
 vim.o.statusline = "[%l:%c]%=%m%r%q%h%f%=%y"
 vim.o.winborder = 'rounded'
+vim.o.cursorline = true
 local map = vim.keymap.set
 map("n", "Y", "^v$y", { desc = "Copy whole line" })
 map("t", "<esc>", [[<C-\><C-n>]])
@@ -68,13 +69,15 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup {
-    { "folke/snacks.nvim", dependencies = { 'nvim-tree/nvim-web-devicons' }, opts = { picker = { enabled = true, sources = { files = { layout = { preview = false }}, git_files = { layout = { preview = false } } } } } },
+    { "folke/snacks.nvim", dependencies = { 'nvim-tree/nvim-web-devicons' },
+        opts = { picker = { enabled = true, sources = { files = { layout = { preview = false } }, git_files = { layout = { preview = false } } } } } },
     { "folke/tokyonight.nvim" },
-    { "rose-pine/neovim", name = "rose-pine" },
+    { "rose-pine/neovim",        name = "rose-pine" },
     { "neovim/nvim-lspconfig" },
     { "williamboman/mason.nvim", opts = { ensure_installed = { "gopls" } } },
-    { "saghen/blink.cmp", version = "1.*", opts = { keymap = { preset = "enter" }, cmdline = { enabled = false } } },
-    { "nvim-treesitter/nvim-treesitter", config = function() require("nvim-treesitter.configs").setup{ ensure_installed = { "lua", "go", "gomod", "php" }, highlight = { enable = true } } end },
+    { "saghen/blink.cmp", version = "1.*",
+        opts = { keymap = { preset = "enter" }, cmdline = { enabled = false } } },
+    { "nvim-treesitter/nvim-treesitter", config = function() require("nvim-treesitter.configs").setup { ensure_installed = { "lua", "go", "gomod", "php" }, highlight = { enable = true } } end },
 }
 
 vim.cmd.colorscheme(vim.env.NVIM_COLORSCHEME or "tokyonight-night")
@@ -84,13 +87,29 @@ require("lspconfig").lua_ls.setup({ settings = { Lua = { diagnostics = { globals
 
 vim.api.nvim_create_autocmd("LspAttach", {
     callback = function(args)
+        vim.api.nvim_create_autocmd("BufWritePre", {
+            callback = function()
+                local bufnr = vim.api.nvim_get_current_buf()
+                for _, client in ipairs(vim.lsp.get_clients({ bufnr = bufnr })) do
+                    if client.supports_method("textDocument/formatting") then
+                        vim.lsp.buf.format({ bufnr = bufnr })
+                    end
+                    if client.supports_method("textDocument/codeAction") then
+                        vim.lsp.buf.code_action({
+                            context = { only = { "source.organizeImports" } },
+                            apply = true,
+                        })
+                    end
+                end
+            end,
+        })
         map("n", "[[", function() vim.diagnostic.jump({ count = -1 }) end, { buffer = args.buf })
         map("n", "]]", function() vim.diagnostic.jump({ count = 1 }) end, { buffer = args.buf })
         map("n", "C-]", vim.lsp.buf.definition, { buffer = args.buf })
         map("n", "gd", vim.lsp.buf.definition, { buffer = args.buf })
         map("n", "gD", vim.lsp.buf.declaration, { buffer = args.buf })
-        map("n", "gi", vim.lsp.buf.references, { buffer = args.buf })
-        map("n", "gr", vim.lsp.buf.implementation, { buffer = args.buf })
+        map("n", "gr", vim.lsp.buf.references, { buffer = args.buf })
+        map("n", "gi", vim.lsp.buf.implementation, { buffer = args.buf })
         map("n", "R", vim.lsp.buf.rename, { buffer = args.buf })
         map("n", "K", vim.lsp.buf.hover, { buffer = args.buf })
         map("n", "C", vim.lsp.buf.code_action, { buffer = args.buf })
