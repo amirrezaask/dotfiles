@@ -18,7 +18,6 @@ vim.o.clipboard = "unnamedplus"
 vim.o.ignorecase = true
 vim.o.smartcase = true
 vim.o.statusline = "%l:%c%=%m%r%q%h%f%=%y"
-vim.o.winborder = "rounded"
 local B = vim.keymap.set
 B("n", "Y", "^v$y", { desc = "Copy whole line" })
 B("t", "<esc>", [[<C-\><C-n>]])
