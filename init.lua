@@ -11,7 +11,8 @@ require("paq")({
     'amirrezaask/nvim-blue.lua',
     "ellisonleao/gruvbox.nvim",
     { "rose-pine/neovim", as = "rose-pine" },
-    "folke/snacks.nvim",
+    "ibhagwan/fzf-lua",
+    'amirrezaask/nvim-terminal.lua',
     "williamboman/mason.nvim",
     "nvim-treesitter/nvim-treesitter",
     { "saghen/blink.cmp", branch = "v1.1.1" },
@@ -19,7 +20,7 @@ require("paq")({
 
 require("gruvbox").setup({ contrast = "hard" })
 
-vim.cmd.colorscheme(vim.env.NVIM_COLORSCHEME or "nvim-blue")
+vim.cmd.colorscheme(vim.env.NVIM_COLORSCHEME or "rose-pine-moon")
 function Transparent()
     vim.cmd [[
         hi Normal guibg=none
@@ -31,7 +32,7 @@ function Transparent()
     ]]
 end
 
--- Transparent()
+Transparent()
 vim.g.mapleader = " "
 vim.o.wrap = true
 vim.o.breakindent = true
@@ -98,22 +99,22 @@ configure_lsp("intelephense",
 
 vim.api.nvim_create_autocmd("LspAttach", {
     callback = function(args)
-        local has_snacks, _ = pcall(require, "snacks")
+        local has_fzf, _ = pcall(require, "fzf-lua")
         keymap("n", "[[", function()
             vim.diagnostic.jump({ count = -1 })
         end, { buffer = args.buf })
         keymap("n", "]]", function()
             vim.diagnostic.jump({ count = 1 })
         end, { buffer = args.buf })
-        keymap("n", "C-]", has_snacks and require("snacks").picker.lsp_definition or vim.lsp.buf.definition,
+        keymap("n", "C-]", has_fzf and require("fzf-lua").lsp_definition or vim.lsp.buf.definition,
             { buffer = args.buf })
-        keymap("n", "gd", has_snacks and require("snacks").picker.lsp_definition or vim.lsp.buf.definition,
+        keymap("n", "gd", has_fzf and require("fzf-lua").lsp_definition or vim.lsp.buf.definition,
             { buffer = args.buf })
-        keymap("n", "gD", has_snacks and require("snacks").picker.lsp_declaration or vim.lsp.buf.declaration,
+        keymap("n", "gD", has_fzf and require("fzf-lua").lsp_declaration or vim.lsp.buf.declaration,
             { buffer = args.buf })
-        keymap("n", "gr", has_snacks and require("snacks").picker.lsp_references or vim.lsp.buf.references,
+        keymap("n", "gr", has_fzf and require("fzf-lua").lsp_references or vim.lsp.buf.references,
             { buffer = args.buf })
-        keymap("n", "gi", has_snacks and require("snacks").picker.lsp_implementation or vim.lsp.buf.implementation,
+        keymap("n", "gi", has_fzf and require("fzf-lua").lsp_implementation or vim.lsp.buf.implementation,
             { buffer = args.buf })
         keymap("n", "R", vim.lsp.buf.rename, { buffer = args.buf })
         keymap("n", "K", vim.lsp.buf.hover, { buffer = args.buf })
@@ -135,28 +136,28 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end,
 })
 
-Snacks = require("snacks")
-Snacks.setup { picker = { enabled = true } }
-P = Snacks.picker
 
-keymap("n", "<leader><leader>", P.files)
-keymap("n", "<leader>b", P.buffers)
-keymap("n", "<leader>h", P.help)
-keymap("n", "<C-p>", P.git_files)
-keymap("n", "??", P.grep)
-keymap("v", "??", P.grep_word)
-keymap("n", "<leader>o", P.lsp_symbols)
-keymap("n", "<leader>O", P.lsp_workspace_symbols)
-keymap("n", "<leader>fd", function() P.files({ cwd = "~/.dotfiles" }) end)
-keymap({ "n", "t" }, "<C-j>", Snacks.terminal.toggle, {})
+keymap({ "n", "t" }, "<C-j>", require("nvim-terminal")("bottom"))
+
+Fzf = require("fzf-lua")
+Fzf.setup {
+    files = {
+        previewer = false,
+    }
+}
+
+keymap("n", "<leader><leader>", Fzf.files)
+keymap("n", "<leader>b", Fzf.buffers)
+keymap("n", "<leader>h", Fzf.helptags)
+keymap("n", "<C-p>", Fzf.git_files)
+keymap("n", "??", Fzf.grep)
+keymap("v", "??", Fzf.grep_cword)
+keymap("n", "<leader>o", Fzf.lsp_document_symbols)
+keymap("n", "<leader>O", Fzf.lsp_workspace_symbols)
+keymap("n", "<leader>fd", function() Fzf.files({ cwd = "~/.dotfiles" }) end)
 
 require("mason").setup()
 
 require("blink.cmp").setup { keymap = { preset = "enter" }, cmdline = { enabled = false } }
 
 require("nvim-treesitter.configs").setup { ensure_installed = { "lua", "go", "gomod", "php" }, highlight = { enable = true }, }
-
-
--- vim.opt.rtp:prepend("~/src/nvim-find.lua/")
---
--- F = require("find")
