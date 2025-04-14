@@ -55,14 +55,6 @@ function reload
 end
 
 
-function code
-    if command -v cursor &>/dev/null
-        cursor $argv
-    else
-        code $argv
-    end
-end
-
 function emacs
     emacsclient -cn --alternate-editor='' $argv
 end

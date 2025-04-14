@@ -47,4 +47,14 @@ configure:
 		rm -rf "$(HOME)/Library/Application Support/Code/User/settings.json"; \
 		ln -s "$(DOTFILES_DIR)/vscode-keybindings.json" "$(HOME)/Library/Application Support/Code/User/keybindings.json"; \
 		ln -s "$(DOTFILES_DIR)/vscode-settings.json" "$(HOME)/Library/Application Support/Code/User/settings.json"; \
-	fi; \
+	fi; 
+	code --install-extension bmewburn.vscode-intelephense-client \
+	code --install-extension golang.go \
+	code --install-extension ms-vscode-remote.remote-wsl \
+	code --install-extension raunofreiberg.vesper \
+	code --install-extension redhat.vscode-yaml \
+	code --install-extension rust-lang.rust-analyzer \
+	code --install-extension supermaven.supermaven \
+	code --install-extension usernamehw.errorlens \
+	code --install-extension vscodevim.vim \
+	code --install-extension z4yross.anysphere-dark \
