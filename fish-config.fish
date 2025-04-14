@@ -68,4 +68,9 @@ function emacs
 end
 
 
+if command -v starship &> /dev/null then
+    starship init fish | source
+end
+
+
 alias gs='git status'
