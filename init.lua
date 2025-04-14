@@ -8,6 +8,7 @@ end
 
 require("paq")({
     "folke/tokyonight.nvim",
+    "ellisonleao/gruvbox.nvim",
     { "rose-pine/neovim", as = "rose-pine" },
     "folke/snacks.nvim",
     "williamboman/mason.nvim",
@@ -15,7 +16,9 @@ require("paq")({
     { "saghen/blink.cmp", branch = "v1.1.1" },
 })
 
-vim.cmd.colorscheme(vim.env.NVIM_COLORSCHEME or "rose-pine-moon")
+require("gruvbox").setup({ contrast = "hard" })
+
+vim.cmd.colorscheme(vim.env.NVIM_COLORSCHEME or "tokyonight-night")
 function Transparent()
     vim.cmd [[
         hi Normal guibg=none
@@ -27,7 +30,7 @@ function Transparent()
     ]]
 end
 
-Transparent()
+-- Transparent()
 vim.g.mapleader = " "
 vim.o.wrap = true
 vim.o.breakindent = true

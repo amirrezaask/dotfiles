@@ -34,7 +34,7 @@ configure:
 	ln -s $(DOTFILES_DIR)/zshrc $(HOME)/.zshrc
 	ln -s $(DOTFILES_DIR)/emacs-init.el $(HOME)/.emacs
 	ln -s $(DOTFILES_DIR)/.gitconfig $(HOME)/.gitconfig
-	ln -s $(DOTFILES_DIR)/nvim-init.lua $(XDG_CONFIG)/nvim/init.lua
+	ln -s $(DOTFILES_DIR)/init.lua $(XDG_CONFIG)/nvim/init.lua
 	ln -s $(DOTFILES_DIR)/.wezterm.lua $(HOME)/.wezterm.lua
 	if test -d "$(HOME)/Library/Application Support/Cursor"; then \
 		rm -rf "$(HOME)/Library/Application Support/Cursor/User/keybindings.json"; \
