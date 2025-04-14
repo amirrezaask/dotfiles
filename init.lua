@@ -9,7 +9,6 @@ end
 require("paq")({
     "folke/tokyonight.nvim",
     'amirrezaask/nvim-blue.lua',
-    "ellisonleao/gruvbox.nvim",
     { "rose-pine/neovim", as = "rose-pine" },
     "ibhagwan/fzf-lua",
     'amirrezaask/nvim-terminal.lua',
@@ -141,6 +140,9 @@ keymap({ "n", "t" }, "<C-j>", require("nvim-terminal")("bottom"))
 
 Fzf = require("fzf-lua")
 Fzf.setup {
+    fzf_opts = {
+        ['--layout'] = 'default'
+    },
     files = {
         previewer = false,
     }
@@ -150,7 +152,7 @@ keymap("n", "<leader><leader>", Fzf.files)
 keymap("n", "<leader>b", Fzf.buffers)
 keymap("n", "<leader>h", Fzf.helptags)
 keymap("n", "<C-p>", Fzf.git_files)
-keymap("n", "??", Fzf.grep)
+keymap("n", "??", Fzf.live_grep)
 keymap("v", "??", Fzf.grep_cword)
 keymap("n", "<leader>o", Fzf.lsp_document_symbols)
 keymap("n", "<leader>O", Fzf.lsp_workspace_symbols)
