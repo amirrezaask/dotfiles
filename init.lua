@@ -8,6 +8,7 @@ end
 
 require("paq")({
     "folke/tokyonight.nvim",
+    'amirrezaask/nvim-blue.lua',
     "ellisonleao/gruvbox.nvim",
     { "rose-pine/neovim", as = "rose-pine" },
     "folke/snacks.nvim",
@@ -18,7 +19,7 @@ require("paq")({
 
 require("gruvbox").setup({ contrast = "hard" })
 
-vim.cmd.colorscheme(vim.env.NVIM_COLORSCHEME or "tokyonight-night")
+vim.cmd.colorscheme(vim.env.NVIM_COLORSCHEME or "nvim-blue")
 function Transparent()
     vim.cmd [[
         hi Normal guibg=none
@@ -46,12 +47,11 @@ vim.o.tabstop = 4
 vim.o.expandtab = true
 vim.o.timeoutlen = 300
 vim.o.updatetime = 250
-vim.o.number = true
 vim.o.clipboard = "unnamedplus"
 vim.o.ignorecase = true
 vim.o.smartcase = true
 vim.o.statusline = "%l:%c%=%m%r%q%h%f%=%y"
-vim.o.cursorline = true
+vim.o.signcolumn = 'no'
 local keymap = vim.keymap.set
 keymap("n", "Y", "^v$y", { desc = "Copy whole line" })
 keymap("t", "<esc>", [[<C-\><C-n>]])
@@ -155,3 +155,8 @@ require("mason").setup()
 require("blink.cmp").setup { keymap = { preset = "enter" }, cmdline = { enabled = false } }
 
 require("nvim-treesitter.configs").setup { ensure_installed = { "lua", "go", "gomod", "php" }, highlight = { enable = true }, }
+
+
+-- vim.opt.rtp:prepend("~/src/nvim-find.lua/")
+--
+-- F = require("find")
