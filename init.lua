@@ -17,9 +17,7 @@ require("paq")({
     { "saghen/blink.cmp", branch = "v1.1.1" },
 })
 
-require("gruvbox").setup({ contrast = "hard" })
-
-vim.cmd.colorscheme(vim.env.NVIM_COLORSCHEME or "rose-pine-moon")
+vim.cmd.colorscheme(vim.env.NVIM_COLORSCHEME or "tokyonight-night")
 function Transparent()
     vim.cmd [[
         hi Normal guibg=none
