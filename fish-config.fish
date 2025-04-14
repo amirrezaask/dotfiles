@@ -64,5 +64,9 @@ if command -v starship &> /dev/null then
     starship init fish | source
 end
 
+if command -v cursor &> /dev/null then
+    alias code='cursor'
+end
+
 
 alias gs='git status'

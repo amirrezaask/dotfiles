@@ -42,5 +42,13 @@
   { "key": "alt+,", "command": "workbench.action.navigateBack" },
   { "key": "cmd+shift+.", "command": "references-view.findReferences" },
 
-  { "key": "ctrl+q", "command": "workbench.action.focusActiveEditorGroup", "when": "references-view.tree.active && references-view.tree.visible && !editorTextFocus" },
+  {
+    "key": "ctrl+q",
+    "command": "workbench.action.focusActiveEditorGroup",
+    "when": "references-view.tree.active && references-view.tree.visible && !editorTextFocus"
+  },
+  {
+    "key": "cmd+i",
+    "command": "composerMode.agent"
+  },
 ]
