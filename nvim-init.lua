@@ -8,13 +8,26 @@ end
 
 require("paq")({
     "folke/tokyonight.nvim",
+    { "rose-pine/neovim", as = "rose-pine" },
     "folke/snacks.nvim",
     "williamboman/mason.nvim",
     "nvim-treesitter/nvim-treesitter",
     { "saghen/blink.cmp", branch = "v1.1.1" },
 })
 
-vim.cmd.colorscheme(vim.env.NVIM_COLORSCHEME or "tokyonight-moon")
+vim.cmd.colorscheme(vim.env.NVIM_COLORSCHEME or "rose-pine-moon")
+function Transparent()
+    vim.cmd [[
+        hi Normal guibg=none
+        hi NormalNC guibg=none
+        hi FloatBorder guibg=none
+        hi LineNr guibg=none
+        hi SignColumn guibg=none
+        hi NormalFloat guibg=none
+    ]]
+end
+
+Transparent()
 vim.g.mapleader = " "
 vim.o.wrap = true
 vim.o.breakindent = true
@@ -54,37 +67,25 @@ keymap("n", "{", "<cmd>cprev<CR>")
 keymap("n", "}", "<cmd>cnext<CR>")
 keymap("n", "<C-q>", function()
     local wins = vim.api.nvim_list_wins()
-    local has_qf_open = false
     for _, win in ipairs(wins) do
         local buf = vim.api.nvim_win_get_buf(win)
         if vim.api.nvim_get_option_value("buftype", { buf = buf }) == "quickfix" then
-            has_qf_open = true
+            vim.cmd.cclose()
+            return
         end
     end
-    if has_qf_open then
-        vim.cmd.cclose()
-    else
-        vim.cmd.copen()
-    end
+    vim.cmd.copen()
 end, { desc = "Toggle Quickfix list" })
 
 local function configure_lsp(name, opts)
     vim.lsp.config[name] = opts
     vim.lsp.enable(name)
 end
+
 configure_lsp("lua_ls", {
     cmd = { "lua-language-server" },
     filetypes = { "lua" },
-    root_markers = {
-        ".luarc.json",
-        ".luarc.jsonc",
-        ".luacheckrc",
-        ".stylua.toml",
-        "stylua.toml",
-        "selene.toml",
-        "selene.yml",
-        ".git",
-    },
+    root_markers = { ".git" },
     settings = { Lua = { diagnostics = { globals = { "vim" } } } },
 })
 
@@ -144,7 +145,6 @@ keymap("v", "??", P.grep_word)
 keymap("n", "<leader>o", P.lsp_symbols)
 keymap("n", "<leader>O", P.lsp_workspace_symbols)
 keymap("n", "<leader>fd", function() P.files({ cwd = "~/.dotfiles" }) end)
-
 keymap({ "n", "t" }, "<C-j>", Snacks.terminal.toggle, {})
 
 require("mason").setup()
