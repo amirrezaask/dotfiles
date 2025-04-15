@@ -38,5 +38,5 @@ return {
         dependencies = { "nvim-tree/nvim-web-devicons" },
         config = config("oil"),
     },
-    { 'lewis6991/gitsigns.nvim', }
+    { 'lewis6991/gitsigns.nvim', config = config("gitsigns") }
 }
