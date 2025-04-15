@@ -1,3 +1,1 @@
-return function()
-    require("oil").setup {}
-end
+require("oil").setup {}

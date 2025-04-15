@@ -1,5 +1,10 @@
+local function config(name)
+    return function()
+        require("plugins." .. name)
+    end
+end
+
 return {
-    'amirrezaask/nvim-blue.lua',
     { 'rose-pine/neovim', name = 'rose-pine' },
     { 'catppuccin/nvim',  name = 'catppuccin' },
     'folke/tokyonight.nvim',
@@ -7,7 +12,7 @@ return {
     {
         "saghen/blink.cmp",
         tag = "v1.1.1",
-        config = require("plugins.blinkcmp")
+        config = config("blinkcmp")
     },
 
     {
@@ -21,22 +26,17 @@ return {
             'nvim-tree/nvim-web-devicons',
             { "junegunn/fzf", build = "./install --all" }, -- This is not really a dependency, it just makes sure that fzf is laready installed into my system.
         },
-        config = require("plugins.fzf"),
-    },
-
-
-    {
-        'amirrezaask/nvim-terminal.lua',
-        config = require("plugins.nvim-terminal")
+        config = config("fzf"),
     },
 
     {
         "nvim-treesitter/nvim-treesitter",
-        config = require("plugins.nvim-treesitter")
+        config = config("nvim-treesitter")
     },
     {
         "stevearc/oil.nvim",
         dependencies = { "nvim-tree/nvim-web-devicons" },
-        config = require("plugins.oil"),
+        config = config("oil"),
     },
+    { 'lewis6991/gitsigns.nvim', }
 }
