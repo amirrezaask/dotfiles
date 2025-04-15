@@ -1,5 +1,12 @@
 Fzf = require("fzf-lua")
-Fzf.setup { fzf_colors = true }
+Fzf.setup {
+    fzf_colors = true,
+    keymap = {
+        fzf = {
+            ["ctrl-q"] = "select-all+accept", -- Select all items and send to quickfix
+        },
+    },
+}
 Fzf.register_ui_select()
 vim.keymap.set("n", "<leader><leader>", Fzf.files)
 vim.keymap.set("n", "<leader>b", Fzf.buffers)

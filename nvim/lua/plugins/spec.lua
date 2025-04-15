@@ -16,9 +16,16 @@ return {
     },
 
     {
+        'stevearc/conform.nvim',
+        config = config("conform"),
+    },
+    { "j-hui/fidget.nvim",     opts = {} },
+    {
         "williamboman/mason.nvim",
         opts = {}
     },
+
+    { 'kevinhwang91/nvim-bqf', opts = {} },
 
     {
         "ibhagwan/fzf-lua",
