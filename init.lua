@@ -9,8 +9,8 @@ end
 require("paq")({
     'amirrezaask/nvim-blue.lua',
     'amirrezaask/nvim-gruvbuddy.lua',
-    "ibhagwan/fzf-lua",
     'amirrezaask/nvim-terminal.lua',
+    "ibhagwan/fzf-lua",
     "williamboman/mason.nvim",
     "nvim-treesitter/nvim-treesitter",
     { "saghen/blink.cmp", branch = "v1.1.1" },
