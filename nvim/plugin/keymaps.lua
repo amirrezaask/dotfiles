@@ -14,6 +14,7 @@ keymap("n", "k", "gk")
 keymap("n", "<leader>i", ":edit $MYVIMRC<CR>")
 keymap("n", "{", "<cmd>cprev<CR>")
 keymap("n", "}", "<cmd>cnext<CR>")
+keymap("n", "<M-k>", ":bwipe!<CR>")
 keymap("n", "<C-q>", function()
     local wins = vim.api.nvim_list_wins()
     for _, win in ipairs(wins) do

@@ -40,6 +40,4 @@ return {
         dependencies = { "nvim-tree/nvim-web-devicons" },
         config = require("custom.oil"),
     },
-    { dir = '~/src/nvim-statusline.lua/', config = require("custom.nvim-statusline") }
-
 }

@@ -23,3 +23,4 @@ vim.o.laststatus = 3        -- Single Statusline for all windows
 vim.o.number = true         -- Line numbers
 vim.o.winblend = 10         -- Floating Windows Transparency
 vim.o.termguicolors = true
+require("statusline")       -- Loads lua/statusline/init.lua which is a simple script to create a beautiful statusline
