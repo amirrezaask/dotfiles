@@ -47,9 +47,12 @@ vim.o.updatetime = 250
 vim.o.clipboard = "unnamedplus"
 vim.o.ignorecase = true
 vim.o.smartcase = true
-vim.o.statusline = "%l:%c%=%m%r%q%h%f%=%y"
 vim.o.signcolumn = 'no'
 vim.o.cursorline = true
+vim.o.guicursor = "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20,t:ver25"
+vim.o.winborder = 'rounded'
+vim.o.laststatus = 3
+vim.o.number = true
 local keymap = vim.keymap.set
 keymap("n", "Y", "^v$y", { desc = "Copy whole line" })
 keymap("t", "<esc>", [[<C-\><C-n>]])
@@ -137,8 +140,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
 keymap({ "n", "t" }, "<C-j>", require("nvim-terminal")("bottom"))
 
 Fzf = require("fzf-lua")
-Fzf.setup {}
-
+Fzf.setup {
+    fzf_colors = { true },
+}
+Fzf.register_ui_select()
 keymap("n", "<leader><leader>", Fzf.files)
 keymap("n", "<leader>b", Fzf.buffers)
 keymap("n", "<leader>h", Fzf.helptags)
@@ -154,3 +159,22 @@ require("mason").setup()
 require("blink.cmp").setup { keymap = { preset = "enter" }, cmdline = { enabled = false } }
 
 require("nvim-treesitter.configs").setup { ensure_installed = { "lua", "go", "gomod", "php" }, highlight = { enable = true }, }
+
+
+-- Statusline
+function StatusLine()
+    local mode = vim.api.nvim_get_mode().mode
+    if mode == 'n' then
+        mode = 'Normal'
+    elseif mode == 'i' then
+        mode = 'Insert'
+    elseif mode == 'v' then
+        mode = 'Visual'
+    elseif mode == 'c' then
+        mode = 'Command'
+    end
+    mode = ' ' .. mode .. ' '
+    return '%#DiffText#' .. mode .. '%#Statusline#' .. '%=%f%='
+end
+
+vim.o.statusline = "%!v:lua.StatusLine()"
