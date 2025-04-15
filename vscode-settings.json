@@ -61,4 +61,5 @@
   "git.openRepositoryInParentFolders": "never",
   "workbench.editor.showTabs": "none",
   "workbench.statusBar.visible": false,
+  "workbench.colorTheme": "Material Theme Ocean",
 }

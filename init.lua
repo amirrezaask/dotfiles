@@ -17,18 +17,6 @@ require("paq")({
 })
 
 vim.cmd.colorscheme(vim.env.NVIM_COLORSCHEME or "nvim-gruvbuddy")
-function Transparent()
-    vim.cmd [[
-        hi Normal guibg=none
-        hi NormalNC guibg=none
-        hi FloatBorder guibg=none
-        hi LineNr guibg=none
-        hi SignColumn guibg=none
-        hi NormalFloat guibg=none
-    ]]
-end
-
--- Transparent()
 vim.g.mapleader = " "
 vim.o.wrap = true
 vim.o.breakindent = true
@@ -48,11 +36,12 @@ vim.o.clipboard = "unnamedplus"
 vim.o.ignorecase = true
 vim.o.smartcase = true
 vim.o.signcolumn = 'no'
-vim.o.cursorline = true
+vim.o.cursorline = true     -- Highlight current line
 vim.o.guicursor = "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20,t:ver25"
-vim.o.winborder = 'rounded'
-vim.o.laststatus = 3
-vim.o.number = true
+vim.o.winborder = 'rounded' -- All floating windows should have borders
+vim.o.laststatus = 3        -- Single Statusline for all windows
+vim.o.number = true         -- Line numbers
+vim.o.winblend = 10         -- Floating Windows Transparency
 local keymap = vim.keymap.set
 keymap("n", "Y", "^v$y", { desc = "Copy whole line" })
 keymap("t", "<esc>", [[<C-\><C-n>]])
@@ -140,9 +129,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 keymap({ "n", "t" }, "<C-j>", require("nvim-terminal")("bottom"))
 
 Fzf = require("fzf-lua")
-Fzf.setup {
-    fzf_colors = { true },
-}
+Fzf.setup { fzf_colors = true }
 Fzf.register_ui_select()
 keymap("n", "<leader><leader>", Fzf.files)
 keymap("n", "<leader>b", Fzf.buffers)
@@ -159,22 +146,92 @@ require("mason").setup()
 require("blink.cmp").setup { keymap = { preset = "enter" }, cmdline = { enabled = false } }
 
 require("nvim-treesitter.configs").setup { ensure_installed = { "lua", "go", "gomod", "php" }, highlight = { enable = true }, }
+-- Statusline plugin later...
 
 
--- Statusline
-function StatusLine()
-    local mode = vim.api.nvim_get_mode().mode
-    if mode == 'n' then
-        mode = 'Normal'
-    elseif mode == 'i' then
-        mode = 'Insert'
-    elseif mode == 'v' then
-        mode = 'Visual'
-    elseif mode == 'c' then
-        mode = 'Command'
-    end
-    mode = ' ' .. mode .. ' '
-    return '%#DiffText#' .. mode .. '%#Statusline#' .. '%=%f%='
+
+
+---@class StatusLineSection
+---@field display fun(): string
+
+---@param section StatusLineSection
+local function HighlightedSection(section, hl)
+    return {
+        display = function()
+            return "%#" .. hl .. "#" .. section.display() .. "%#StatusLine#"
+        end
+    }
 end
+
+---@return StatusLineSection
+local ModeSection = {
+    display = function()
+        local mode = vim.api.nvim_get_mode().mode
+        local mode_map = {
+            ['n'] = 'Normal',
+            ['i'] = 'Insert',
+            ['v'] = 'Visual',
+            ['V'] = 'Visual Line',
+            ['\22'] = 'Visual Block', -- \22 is Ctrl-V
+            ['c'] = 'Command',
+            ['R'] = 'Replace',
+            ['s'] = 'Select',
+            ['S'] = 'Select Line',
+            ['\19'] = 'Select Block', -- \19 is Ctrl-S
+            ['t'] = 'Terminal',
+            ['no'] = 'Operator Pending',
+            ['niI'] = 'Normal (Insert)',
+            ['niR'] = 'Normal (Replace)',
+            ['niV'] = 'Normal (Virtual Replace)',
+            ['nt'] = 'Normal (Terminal)',
+            ['rm'] = 'More Prompt',
+            ['r?'] = 'Confirm',
+            ['!'] = 'Shell'
+        }
+        mode = mode_map[mode] or 'Unknown'
+        return '[' .. mode .. ']'
+    end
+}
+local function make_format_section(char)
+    return {
+        display = function()
+            return char
+        end
+    }
+end
+
+local FileSection = '%f'
+local LineSection = '%l'
+local ColumnSection = '%c'
+local SeperatorSection = '%='
+local FileTypeSection = '%y'
+
+---@param sections table<StatusLineSection | string>
+local function make_statusline(sections)
+    return function()
+        local out = ""
+        for _, s in ipairs(sections) do
+            if type(s) == 'table' then
+                out = out .. s.display()
+            elseif type(s) == 'string' then
+                out = out .. make_format_section(s).display()
+            end
+        end
+
+        return out
+    end
+end
+
+StatusLine = make_statusline({
+    HighlightedSection(ModeSection, 'DiffText'),
+    SeperatorSection,
+    FileSection,
+    SeperatorSection,
+    '[',
+    LineSection,
+    ':',
+    ColumnSection,
+    ']',
+})
 
 vim.o.statusline = "%!v:lua.StatusLine()"
