@@ -25,6 +25,6 @@ window-colorspace = "display-p3"
 
 # theme = rose-pine-moon
 theme = Abernathy
-background = 000000
-foreground = ffffff
+background = 282c34
+foreground = e0e0e0
 split-divider-color = ff0000

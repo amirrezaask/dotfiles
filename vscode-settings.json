@@ -60,4 +60,5 @@
   "simpleBrowser.focusLockIndicator.enabled": false,
   "git.openRepositoryInParentFolders": "never",
   "workbench.editor.showTabs": "none",
+  "workbench.statusBar.visible": false,
 }

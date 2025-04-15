@@ -7,9 +7,8 @@ if vim.fn.empty(vim.fn.glob(paq_install_path)) > 0 then -- Installing nvim-paq p
 end
 
 require("paq")({
-    "folke/tokyonight.nvim",
     'amirrezaask/nvim-blue.lua',
-    { "rose-pine/neovim", as = "rose-pine" },
+    'amirrezaask/nvim-gruvbuddy.lua',
     "ibhagwan/fzf-lua",
     'amirrezaask/nvim-terminal.lua',
     "williamboman/mason.nvim",
@@ -17,7 +16,7 @@ require("paq")({
     { "saghen/blink.cmp", branch = "v1.1.1" },
 })
 
-vim.cmd.colorscheme(vim.env.NVIM_COLORSCHEME or "tokyonight-night")
+vim.cmd.colorscheme(vim.env.NVIM_COLORSCHEME or "nvim-gruvbuddy")
 function Transparent()
     vim.cmd [[
         hi Normal guibg=none
@@ -29,7 +28,7 @@ function Transparent()
     ]]
 end
 
-Transparent()
+-- Transparent()
 vim.g.mapleader = " "
 vim.o.wrap = true
 vim.o.breakindent = true
@@ -50,6 +49,7 @@ vim.o.ignorecase = true
 vim.o.smartcase = true
 vim.o.statusline = "%l:%c%=%m%r%q%h%f%=%y"
 vim.o.signcolumn = 'no'
+vim.o.cursorline = true
 local keymap = vim.keymap.set
 keymap("n", "Y", "^v$y", { desc = "Copy whole line" })
 keymap("t", "<esc>", [[<C-\><C-n>]])
