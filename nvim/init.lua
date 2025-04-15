@@ -18,10 +18,10 @@ vim.opt.rtp:prepend(lazypath)
 
 vim.g.mapleader = " " -- We need to have this in case plugins use leader mapping correctly happen.
 
-require("lazy").setup({ import = "custom.plugins" }, {
+require("lazy").setup({ import = "plugins.spec" }, {
     change_detection = {
         notify = false,
     },
 })
 
-vim.cmd.colorscheme(vim.env.NVIM_COLORSCHEME or "nvim-gruvbuddy")
+vim.cmd.colorscheme(vim.env.NVIM_COLORSCHEME or "gruvbuddy")
