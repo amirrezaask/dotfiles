@@ -28,8 +28,7 @@ keybind = cmd+f=toggle_split_zoom
 shell-integration-features = no-cursor
 window-colorspace = "display-p3"
 
-theme = Abernathy
-# background = 000000
+theme = Dark Pastel
 background = 282c34
 foreground = e0e0e0
 split-divider-color = ff0000
