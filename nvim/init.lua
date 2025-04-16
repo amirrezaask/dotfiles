@@ -15,7 +15,7 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
     end
 end
 
-vim.opt.rtp:prepend(lazypath)
+vim.o.rtp = vim.o.rtp .. "," .. lazypath
 
 vim.g.mapleader = " " -- We need to have this in case plugins use leader mapping correctly happen.
 

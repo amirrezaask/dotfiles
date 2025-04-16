@@ -25,6 +25,6 @@ keymap("n", "<C-q>", function()
         end
     end
     vim.cmd.copen()
-end, { desc = "Toggle Quickfix list" })
+end)
 
 vim.keymap.set({ "n", "t" }, "<C-j>", require("terminal")("bottom"))

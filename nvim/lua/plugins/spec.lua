@@ -19,7 +19,9 @@ return {
         'stevearc/conform.nvim',
         config = config("conform"),
     },
+
     { "j-hui/fidget.nvim",     opts = {} },
+
     {
         "williamboman/mason.nvim",
         opts = {}
@@ -41,6 +43,7 @@ return {
         "nvim-treesitter/nvim-treesitter",
         config = config("nvim-treesitter")
     },
+
     {
         "stevearc/oil.nvim",
         dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -50,7 +53,9 @@ return {
     { 'lewis6991/gitsigns.nvim', config = config("gitsigns") },
 
     { "folke/which-key.nvim",    config = config('which-key') },
+
     { "folke/snacks.nvim",       config = config("snacks") },
+
     {
 
         "supermaven-inc/supermaven-nvim",

@@ -1,6 +1,7 @@
 vim.lsp.enable("lua_ls")
 vim.lsp.enable("gopls")
 vim.lsp.enable("intelephense")
+
 local keymap = vim.keymap.set
 vim.api.nvim_create_autocmd("LspAttach", {
     callback = function(args)
