@@ -6,10 +6,10 @@ font-size = 15
 
 mouse-hide-while-typing = true
 cursor-style-blink = false
-
+cursor-style = bar
 macos-option-as-alt = true
+shell-integration-features = no-cursor
 
-shell-integration = fish
 # Keybindings
 keybind = cmd+n=next_tab
 keybind = cmd+p=previous_tab
@@ -26,7 +26,7 @@ macos-titlebar-style=transparent
 window-colorspace = "display-p3"
 
 theme = Abernathy
-background = 000000
-# background = 282c34
-# foreground = e0e0e0
+# background = 000000
+background = 282c34
+foreground = e0e0e0
 split-divider-color = ff0000
