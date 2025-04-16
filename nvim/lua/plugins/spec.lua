@@ -51,4 +51,9 @@ return {
 
     { "folke/which-key.nvim",    config = config('which-key') },
     { "folke/snacks.nvim",       config = config("snacks") },
+    {
+
+        "supermaven-inc/supermaven-nvim",
+        opts = {},
+    },
 }
