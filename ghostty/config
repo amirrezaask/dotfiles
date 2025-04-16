@@ -9,6 +9,7 @@ cursor-style-blink = false
 cursor-style = bar
 macos-option-as-alt = true
 shell-integration-features = no-cursor
+window-inherit-working-directory = false
 
 # Keybindings
 keybind = cmd+n=next_tab
