@@ -21,20 +21,18 @@ configure:
 	rm -rf $(XDG_CONFIG)/ghostty
 	rm -rf $(HOME)/.zshrc
 	rm -rf $(HOME)/.gitconfig
-	rm -rf $(XDG_CONFIG)/starship.toml
-	rm -rf $(HOME)/.emacs
+	rm -rf $(XDG_CONFIG)/starship
+	rm -rf $(XDG_CONFIG)/emacs
 	rm -rf $(XDG_CONFIG)/nvim
-	rm -rf $(HOME)/.wezterm.lua
-	mkdir -p $(XDG_CONFIG)/fish
-	mkdir -p $(XDG_CONFIG)/ghostty
-	ln -s $(DOTFILES_DIR)/fish-config.fish $(XDG_CONFIG)/fish/config.fish
-	ln -s $(DOTFILES_DIR)/ghostty-config $(XDG_CONFIG)/ghostty/config
-	ln -s $(DOTFILES_DIR)/starship.toml $(XDG_CONFIG)/starship.toml
-	ln -s $(DOTFILES_DIR)/zshrc $(HOME)/.zshrc
-	ln -s $(DOTFILES_DIR)/emacs-init.el $(HOME)/.emacs
+	rm -rf $(XDG_CONFIG)/wezterm
+	ln -s $(DOTFILES_DIR)/fish/ $(XDG_CONFIG)/
+	ln -s $(DOTFILES_DIR)/ghostty/ $(XDG_CONFIG)/
+	ln -s $(DOTFILES_DIR)/starship/ $(XDG_CONFIG)/
+	ln -s $(DOTFILES_DIR)/zsh/zshrc $(HOME)/.zshrc
+	ln -s $(DOTFILES_DIR)/emacs $(XDG_CONFIG)/
 	ln -s $(DOTFILES_DIR)/.gitconfig $(HOME)/.gitconfig
 	ln -s $(DOTFILES_DIR)/nvim $(XDG_CONFIG)/
-	ln -s $(DOTFILES_DIR)/.wezterm.lua $(HOME)/.wezterm.lua
+	ln -s $(DOTFILES_DIR)/wezterm/ $(XDG_CONFIG)
 	if test -d "$(HOME)/Library/Application Support/Cursor"; then \
 		rm -rf "$(HOME)/Library/Application Support/Cursor/User/keybindings.json"; \
 		rm -rf "$(HOME)/Library/Application Support/Cursor/User/settings.json"; \
