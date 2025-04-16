@@ -27,16 +27,5 @@ vim.api.nvim_create_autocmd("LspAttach", {
         keymap({ "n", "i" }, "<C-s>", vim.lsp.buf.signature_help, { buffer = args.buf })
         keymap("n", "<leader>l", vim.diagnostic.open_float, { buffer = args.buf })
         keymap("n", "<leader>q", vim.diagnostic.setloclist, { buffer = args.buf })
-        vim.api.nvim_create_autocmd("BufWritePre", {
-            buffer = args.buf,
-            callback = function(args)
-                local old_print = print
-                print = function(...) end
-                vim.lsp.buf.code_action({ context = { only = { "source.organizeImports" } }, apply = true })
-                print = old_print
-                vim.lsp.buf.format({ bufnr = args.buf })
-                vim.cmd.write()
-            end,
-        })
     end,
 })
