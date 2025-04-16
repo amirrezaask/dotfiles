@@ -24,3 +24,10 @@ base16.theme.new(
         RGB.from_hex('#B294BB'), -- base0E
         RGB.from_hex('#E6B3B3'), -- base0F
     }):apply()
+
+-- Fzflua
+vim.api.nvim_set_hl(0, 'FzfLuaFzfMatch', { link = 'Number' })
+vim.api.nvim_set_hl(0, 'FzfLuaFzfPrompt', { link = 'LineNr' })
+
+-- Snacks
+vim.api.nvim_set_hl(0, 'SnacksPickerMatch', { link = 'Number' })

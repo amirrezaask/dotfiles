@@ -95,7 +95,7 @@ function theme.new(name, colors)
         local hl = vim.api.nvim_set_hl
 
         hl(0, "Normal", { fg = base05:to_hex(), bg = base00:to_hex() })
-        hl(0, "NormalFloat", { fg = base05:to_hex(), bg = base01:to_hex() })
+        hl(0, "NormalFloat", { fg = base05:to_hex(), bg = base00:to_hex() })
         hl(0, "LineNr", { fg = base03:to_hex() })
         hl(0, "CursorLineNr", { fg = base0D:to_hex(), bold = true })
         hl(0, "CursorLine", { bg = base01:to_hex() })
@@ -137,10 +137,6 @@ function theme.new(name, colors)
         hl(0, "DiffChange", { fg = base09:to_hex(), bg = base01:to_hex() })
         hl(0, "DiffDelete", { fg = base08:to_hex(), bg = base01:to_hex() })
         hl(0, "DiffText", { fg = base0D:to_hex(), bg = base01:to_hex() })
-
-        -- Fzflua
-        hl(0, 'FzfLuaFzfMatch', { link = 'Number' })
-        hl(0, 'FzfLuaFzfPrompt', { link = 'LineNr' })
     end
 
 

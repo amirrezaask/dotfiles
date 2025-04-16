@@ -16,11 +16,11 @@ vim.o.clipboard = "unnamedplus"
 vim.o.ignorecase = true
 vim.o.smartcase = true
 vim.o.signcolumn = 'no'
-vim.o.cursorline = true     -- Highlight current line
+vim.o.cursorline = true -- Highlight current line
 vim.o.guicursor = "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20,t:ver25"
-vim.o.winborder = 'rounded' -- All floating windows should have borders
-vim.o.laststatus = 3        -- Single Statusline for all windows
-vim.o.number = true         -- Line numbers
-vim.o.winblend = 10         -- Floating Windows Transparency
+-- vim.o.winborder = 'rounded' -- All floating windows should have borders
+vim.o.laststatus = 3  -- Single Statusline for all windows
+vim.o.number = true   -- Line numbers
+vim.o.winblend = 10   -- Floating Windows Transparency
 vim.o.termguicolors = true
-require("statusline")       -- Loads lua/statusline/init.lua which is a simple script to create a beautiful statusline
+require("statusline") -- Loads lua/statusline/init.lua which is a simple script to create a beautiful statusline
