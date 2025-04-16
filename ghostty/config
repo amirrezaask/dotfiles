@@ -4,12 +4,15 @@ font-style-italic = false
 font-style-bold-italic = false
 font-size = 15
 
+macos-titlebar-style=tabs
+macos-icon=blueprint
 mouse-hide-while-typing = true
 cursor-style-blink = false
 cursor-style = bar
 macos-option-as-alt = true
 shell-integration-features = no-cursor
 window-inherit-working-directory = false
+auto-update=download
 
 # Keybindings
 keybind = cmd+n=next_tab
@@ -23,7 +26,6 @@ keybind = cmd+l=goto_split:right
 keybind = cmd+f=toggle_split_zoom
 
 shell-integration-features = no-cursor
-macos-titlebar-style=transparent
 window-colorspace = "display-p3"
 
 theme = Abernathy
