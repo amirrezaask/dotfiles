@@ -24,6 +24,7 @@ macos-titlebar-style=transparent
 window-colorspace = "display-p3"
 
 theme = Abernathy
-background = 282c34
-foreground = e0e0e0
+background = 000000
+# background = 282c34
+# foreground = e0e0e0
 split-divider-color = ff0000
