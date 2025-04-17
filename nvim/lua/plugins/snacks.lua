@@ -6,6 +6,11 @@ require("snacks").setup {
 Picker = require("snacks").picker
 
 if vim.fn.executable("fzf") == 0 then
+    LspDeclaration = Picker.lsp_declarations
+    LspDefinition = Picker.lsp_definitions
+    LspReferences = Picker.lsp_references
+    LspImplementation = Picker.lsp_implementations
+
     vim.keymap.set("n", "<leader><leader>", Picker.files, { desc = "Find Files" })
     vim.keymap.set("n", "<leader>b", Picker.buffers, { desc = "Find Buffers" })
     vim.keymap.set("n", "<leader>h", Picker.help, { desc = "Vim Help Tags" })

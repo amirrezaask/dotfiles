@@ -19,3 +19,9 @@ vim.keymap.set("n", "<leader>o", Fzf.lsp_document_symbols, { desc = "LSP Documen
 vim.keymap.set("n", "<leader>O", Fzf.lsp_live_workspace_symbols, { desc = "LSP Workspace Symbols" })
 vim.keymap.set("n", "<M-o>", Fzf.lsp_live_workspace_symbols, { desc = "LSP Workspace Symbols" })
 vim.keymap.set("n", "<leader>fd", function() Fzf.files({ cwd = "~/.dotfiles" }) end, { desc = "Find Dotfiles" })
+
+
+LspDeclaration = Fzf.lsp_declarations
+LspDefinition = Fzf.lsp_definitions
+LspReferences = Fzf.lsp_references
+LspImplementation = Fzf.lsp_implementations

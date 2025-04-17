@@ -24,4 +24,5 @@ vim.o.termguicolors = true
 vim.o.winborder = 'rounded'
 vim.o.inccommand = 'split'
 vim.o.more = false
+
 require("statusline") -- Loads lua/statusline/init.lua which is a simple script to create a beautiful statusline

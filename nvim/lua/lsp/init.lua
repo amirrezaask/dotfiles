@@ -3,24 +3,28 @@ vim.lsp.enable("gopls")
 vim.lsp.enable("intelephense")
 
 local keymap = vim.keymap.set
+LspDeclaration = vim.lsp.buf.declaration
+LspDefinition = vim.lsp.buf.definition
+LspReferences = vim.lsp.buf.references
+LspImplementation = vim.lsp.buf.implementation
+
 vim.api.nvim_create_autocmd("LspAttach", {
     callback = function(args)
-        local has_fzf, _ = pcall(require, "fzf-lua")
         vim.keymap.set("n", "[[", function()
             vim.diagnostic.jump({ count = -1 })
         end, { buffer = args.buf })
         keymap("n", "]]", function()
             vim.diagnostic.jump({ count = 1 })
         end, { buffer = args.buf })
-        keymap("n", "C-]", has_fzf and require("fzf-lua").lsp_definition or vim.lsp.buf.definition,
+        keymap("n", "C-]", LspDefinition,
             { buffer = args.buf })
-        keymap("n", "gd", has_fzf and require("fzf-lua").lsp_definition or vim.lsp.buf.definition,
+        keymap("n", "gd", LspDefinition,
             { buffer = args.buf })
-        keymap("n", "gD", has_fzf and require("fzf-lua").lsp_declaration or vim.lsp.buf.declaration,
+        keymap("n", "gD", LspDeclaration,
             { buffer = args.buf })
-        keymap("n", "gr", has_fzf and require("fzf-lua").lsp_references or vim.lsp.buf.references,
+        keymap("n", "gr", LspReferences,
             { buffer = args.buf })
-        keymap("n", "gi", has_fzf and require("fzf-lua").lsp_implementation or vim.lsp.buf.implementation,
+        keymap("n", "gi", LspImplementation,
             { buffer = args.buf })
         keymap("n", "R", vim.lsp.buf.rename, { buffer = args.buf })
         keymap("n", "K", vim.lsp.buf.hover, { buffer = args.buf })
