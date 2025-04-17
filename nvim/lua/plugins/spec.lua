@@ -1,3 +1,4 @@
+f = {}
 local function config(name)
     return function()
         require("plugins." .. name)
@@ -5,24 +6,37 @@ local function config(name)
 end
 
 return {
-    { 'rose-pine/neovim', name = 'rose-pine' },
-    { 'catppuccin/nvim',  name = 'catppuccin' },
-    'folke/tokyonight.nvim',
+    -- Colorschemes
+    { 'rose-pine/neovim',     name = 'rose-pine' },
+    { 'catppuccin/nvim',      name = 'catppuccin' },
+    { 'folke/tokyonight.nvim' },
 
-    {
+
+    { -- Help with neovim/lua dev.
+        "folke/lazydev.nvim",
+        ft = "lua",
+        cmd = "LazyDev",
+        opts = {
+            library = {
+                { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+            },
+        },
+    },
+
+    { -- Blazingly fast autocomplete
         "saghen/blink.cmp",
         tag = "v1.1.1",
         config = config("blinkcmp")
     },
 
-    {
+    { -- Autoformat/fixes
         'stevearc/conform.nvim',
         config = config("conform"),
     },
 
     { "j-hui/fidget.nvim",     opts = {} },
 
-    {
+    { -- Package manager for your system inside neovim.
         "williamboman/mason.nvim",
         opts = {}
     },
@@ -52,8 +66,6 @@ return {
 
     { 'lewis6991/gitsigns.nvim', config = config("gitsigns") },
 
-    { "folke/which-key.nvim",    config = config('which-key') },
-
     { "folke/snacks.nvim",       config = config("snacks") },
 
     {
@@ -61,4 +73,9 @@ return {
         "supermaven-inc/supermaven-nvim",
         opts = {},
     },
+
+    {
+        'MagicDuck/grug-far.nvim',
+        config = config("grug-far"),
+    }
 }
