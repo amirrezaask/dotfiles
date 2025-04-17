@@ -5,7 +5,7 @@ font-style-bold-italic = false
 font-size = 15
 
 macos-titlebar-style=tabs
-macos-icon=blueprint
+# macos-icon=blueprint
 mouse-hide-while-typing = true
 cursor-style-blink = false
 cursor-style = bar
