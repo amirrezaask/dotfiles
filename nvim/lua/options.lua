@@ -26,5 +26,7 @@ vim.o.winborder = 'rounded'
 vim.o.inccommand = 'split'
 vim.o.more = false
 vim.o.relativenumber = true
+vim.o.list = true
+vim.o.listchars = "conceal:┊,eol:↲,extends:<,nbsp:␣,precedes:>,tab:» ,trail:·"
 
 require("statusline") -- Loads lua/statusline/init.lua which is a simple script to create a beautiful statusline
