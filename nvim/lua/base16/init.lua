@@ -137,6 +137,8 @@ function theme.new(name, colors)
         hl(0, "DiffChange", { fg = base09:to_hex(), bg = base01:to_hex() })
         hl(0, "DiffDelete", { fg = base08:to_hex(), bg = base01:to_hex() })
         hl(0, "DiffText", { fg = base0D:to_hex(), bg = base01:to_hex() })
+
+        hl(0, "Directory", { fg = base0D:to_hex() })
     end
 
 
