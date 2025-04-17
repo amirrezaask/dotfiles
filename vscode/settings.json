@@ -1,5 +1,5 @@
 {
-    "editor.fontFamily": "JetBrainsMono Nerd Font Mono",
+    "editor.fontFamily": "Monaspace Neon",
     "editor.fontSize": 14,
     "terminal.integrated.fontSize": 15,
     "window.restoreWindows": "none", // never re open anything dude
@@ -59,7 +59,5 @@
   ],
   "simpleBrowser.focusLockIndicator.enabled": false,
   "git.openRepositoryInParentFolders": "never",
-  "workbench.editor.showTabs": "none",
-  "workbench.statusBar.visible": false,
-  "workbench.colorTheme": "Material Theme Ocean",
+  "extensions.ignoreRecommendations": true,
 }

@@ -1,3 +1,4 @@
+vim.g.mapleader = " "
 vim.o.wrap = true
 vim.o.breakindent = true
 vim.o.signcolumn = "yes"

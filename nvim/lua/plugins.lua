@@ -17,8 +17,6 @@ end
 
 vim.o.rtp = vim.o.rtp .. "," .. lazypath
 
-vim.g.mapleader = " " -- We need to have this in case plugins use leader mapping correctly happen.
-
 require("lazy").setup({ import = "plugins.spec" }, {
     change_detection = {
         notify = false,

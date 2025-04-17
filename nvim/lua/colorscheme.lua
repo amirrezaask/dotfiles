@@ -9,4 +9,4 @@ function Transparent()
 end
 
 vim.cmd.colorscheme(vim.env.NVIM_COLORSCHEME or "gruvbuddy")
--- Transparent()
+Transparent()
