@@ -1,3 +1,4 @@
 [character]
-success_symbol = '[I](green)'
+success_symbol = '[\[I\]](green)'
+error_symbol = '[\[I\]](red)'
 
