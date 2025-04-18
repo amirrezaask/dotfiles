@@ -1,4 +1,3 @@
-f = {}
 local function config(name)
     return function()
         require("plugins." .. name)
