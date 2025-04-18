@@ -1,4 +1,4 @@
-local g, o, cmd, keymap = vim.g, vim.o, vim.cmd, vim.keymap.set
+local g, o, keymap = vim.g, vim.o, vim.keymap.set
 
 g.mapleader = " "
 o.wrap = true
