@@ -2,16 +2,19 @@ local base16 = require("base16")
 local RGB = base16.rgb
 
 
+local dark_base = '#282c34'
+
+
 local colors = {
     -- UI
-    RGB.from_hex('#282c34'),               -- base00
-    RGB.from_hex('#282c34'):lighten(0.1),  -- base01
+    RGB.from_hex(dark_base),               -- base00
+    RGB.from_hex(dark_base):lighten(0.1),  -- base01
     RGB.from_hex('#81A2BE'),               -- base02
     RGB.from_hex('#969896'),               -- base03
     RGB.from_hex('#373B41'),               -- base04
     RGB.from_hex('#e0e0e0'),               -- base05
-    RGB.from_hex('#282c34'):lighten(0.15), -- base06
-    RGB.from_hex('#282c34'):lighten(0.20), -- base07
+    RGB.from_hex(dark_base):lighten(0.15), -- base06
+    RGB.from_hex(dark_base):lighten(0.20), -- base07
 
     -- Syntax
     RGB.from_hex('#E0E0E0'), -- base08
