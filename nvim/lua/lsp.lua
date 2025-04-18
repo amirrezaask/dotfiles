@@ -1,6 +1,4 @@
-vim.lsp.enable("lua_ls")
-vim.lsp.enable("gopls")
-vim.lsp.enable("intelephense")
+vim.lsp.enable({ "lua_ls", "gopls", "intelephense" })
 
 local keymap = vim.keymap.set
 LspDeclaration = vim.lsp.buf.declaration
