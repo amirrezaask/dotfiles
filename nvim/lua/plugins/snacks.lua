@@ -4,8 +4,9 @@ require("snacks").setup {
 }
 
 Picker = require("snacks").picker
+vim.api.nvim_set_hl(0, 'SnacksPickerDir', { link = 'Normal' })
 
-if vim.fn.executable("fzf") == 0 then
+if true or vim.fn.executable("fzf") == 0 then
     LspDeclaration = Picker.lsp_declarations
     LspDefinition = Picker.lsp_definitions
     LspReferences = Picker.lsp_references

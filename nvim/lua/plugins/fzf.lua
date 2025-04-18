@@ -8,6 +8,7 @@ Fzf.setup {
     },
 }
 Fzf.register_ui_select()
+if true then return end
 vim.keymap.set("n", "<leader><leader>", Fzf.files, { desc = "Find Files" })
 vim.keymap.set("n", "<leader>b", Fzf.buffers, { desc = "Find Buffers" })
 vim.keymap.set("n", "<leader>h", Fzf.helptags, { desc = "Vim Help Tags" })
