@@ -21,13 +21,13 @@ configure:
 	rm -rf $(XDG_CONFIG)/ghostty
 	rm -rf $(HOME)/.zshrc
 	rm -rf $(HOME)/.gitconfig
-	rm -rf $(XDG_CONFIG)/starship
+	rm -rf $(XDG_CONFIG)/starship.toml
 	rm -rf $(XDG_CONFIG)/emacs
 	rm -rf $(XDG_CONFIG)/nvim
 	rm -rf $(XDG_CONFIG)/wezterm
 	ln -s $(DOTFILES_DIR)/fish/ $(XDG_CONFIG)/
 	ln -s $(DOTFILES_DIR)/ghostty/ $(XDG_CONFIG)/
-	ln -s $(DOTFILES_DIR)/starship/ $(XDG_CONFIG)/
+	ln -s $(DOTFILES_DIR)/starship/starship.toml $(XDG_CONFIG)/
 	ln -s $(DOTFILES_DIR)/zsh/zshrc $(HOME)/.zshrc
 	ln -s $(DOTFILES_DIR)/emacs $(XDG_CONFIG)/
 	ln -s $(DOTFILES_DIR)/.gitconfig $(HOME)/.gitconfig
