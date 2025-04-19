@@ -2,7 +2,6 @@ require("telescope").setup {}
 
 local builtin = require("telescope.builtin")
 
-LspDeclaration = builtin.lsp_declarations
 LspDefinition = builtin.lsp_definitions
 LspReferences = builtin.lsp_references
 LspImplementation = builtin.lsp_implementations
