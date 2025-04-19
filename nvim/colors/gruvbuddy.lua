@@ -29,6 +29,9 @@ local colors = {                           -- Colors are insipired by @tjdevries
 
 base16.theme.new("gruvbuddy", colors):apply()
 
+-- Floating
+vim.api.nvim_set_hl(0, 'NormalFloat', { bg = '#000000' })
+
 -- Fzflua
 vim.api.nvim_set_hl(0, 'FzfLuaFzfMatch', { link = 'Number' })
 vim.api.nvim_set_hl(0, 'FzfLuaFzfPrompt', { link = 'LineNr' })

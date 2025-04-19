@@ -10,6 +10,10 @@ Fzf.setup {
 Fzf.register_ui_select()
 
 if g.fuzzy_finder == 'fzf' then
+    vim.lsp.buf.definition = Fzf.lsp_definitions
+    vim.lsp.buf.references = Fzf.lsp_references
+    vim.lsp.buf.implementation = Fzf.lsp_implementations
+
     vim.keymap.set("n", "<leader><leader>", Fzf.files, { desc = "Find Files" })
     vim.keymap.set("n", "<leader>b", Fzf.buffers, { desc = "Find Buffers" })
     vim.keymap.set("n", "<leader>h", Fzf.helptags, { desc = "Vim Help Tags" })

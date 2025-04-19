@@ -16,10 +16,9 @@ local builtin = require("telescope.builtin")
 
 
 if g.fuzzy_finder == 'telescope' then
-    LspDefinition = builtin.lsp_definitions
-    LspReferences = builtin.lsp_references
-    LspImplementation = builtin.lsp_implementations
-
+    vim.lsp.buf.definition = builtin.lsp_definitions
+    vim.lsp.buf.references = builtin.lsp_references
+    vim.lsp.buf.implementation = builtin.lsp_implementations
 
     vim.keymap.set("n", "<leader><leader>", builtin.find_files, { desc = "Find Files" })
     vim.keymap.set("n", "<leader>b", builtin.buffers, { desc = "Find Buffers" })

@@ -12,7 +12,7 @@
 g, o, keymap = vim.g, vim.o, vim.keymap.set
 
 -- fuzzy_finder can be telescope | fzf | snacks
-g.fuzzy_finder = 'fzf'
+g.fuzzy_finder = 'telescope'
 g.mapleader = " "
 o.wrap = true
 o.breakindent = true
@@ -78,11 +78,6 @@ require("statusline") -- Loads lua/statusline/init.lua which is a simple script 
 
 vim.lsp.enable({ "lua_ls", "gopls", "intelephense" })
 
-LspDeclaration = vim.lsp.buf.declaration
-LspDefinition = vim.lsp.buf.definition
-LspReferences = vim.lsp.buf.references
-LspImplementation = vim.lsp.buf.implementation
-
 vim.api.nvim_create_autocmd("LspAttach", {
     callback = function(args)
         vim.keymap.set("n", "[[", function()
@@ -91,15 +86,15 @@ vim.api.nvim_create_autocmd("LspAttach", {
         keymap("n", "]]", function()
             vim.diagnostic.jump({ count = 1 })
         end, { buffer = args.buf })
-        keymap("n", "C-]", LspDefinition,
+        keymap("n", "C-]", vim.lsp.buf.definition,
             { buffer = args.buf })
-        keymap("n", "gd", LspDefinition,
+        keymap("n", "gd", vim.lsp.buf.definition,
             { buffer = args.buf })
-        keymap("n", "gD", LspDeclaration,
+        keymap("n", "gD", vim.lsp.buf.declaration,
             { buffer = args.buf })
-        keymap("n", "gr", LspReferences,
+        keymap("n", "gr", vim.lsp.buf.references,
             { buffer = args.buf })
-        keymap("n", "gi", LspImplementation,
+        keymap("n", "gi", vim.lsp.buf.implementation,
             { buffer = args.buf })
         keymap("n", "R", vim.lsp.buf.rename, { buffer = args.buf })
         keymap("n", "K", vim.lsp.buf.hover, { buffer = args.buf })

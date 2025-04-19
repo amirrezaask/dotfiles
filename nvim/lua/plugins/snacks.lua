@@ -7,10 +7,9 @@ Picker = require("snacks").picker
 vim.api.nvim_set_hl(0, 'SnacksPickerDir', { link = 'Normal' })
 
 if g.fuzzy_finder == 'snacks' then
-    LspDeclaration = Picker.lsp_declarations
-    LspDefinition = Picker.lsp_definitions
-    LspReferences = Picker.lsp_references
-    LspImplementation = Picker.lsp_implementations
+    vim.lsp.buf.definition = Picker.lsp_definitions
+    vim.lsp.buf.references = Picker.lsp_references
+    vim.lsp.buf.implementation = Picker.lsp_implementations
 
     vim.keymap.set("n", "<leader><leader>", Picker.files, { desc = "Find Files" })
     vim.keymap.set("n", "<leader>b", Picker.buffers, { desc = "Find Buffers" })
