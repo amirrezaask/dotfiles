@@ -5,7 +5,7 @@ local RGB = base16.rgb
 local dark_base = '#282c34'
 
 
-local colors = {
+local colors = {                           -- Colors are insipired by @tjdevries ( https://github.com/tjdevries/colorbuddy.nvim )
     -- UI
     RGB.from_hex(dark_base),               -- base00
     RGB.from_hex(dark_base):lighten(0.1),  -- base01
