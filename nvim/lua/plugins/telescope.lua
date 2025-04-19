@@ -1,4 +1,13 @@
-require("telescope").setup {}
+require("telescope").setup {
+    defaults = {
+        layout_strategy = "flex",
+        sorting_strategy = "ascending",
+        prompt_position = "top",
+        layout_config = {
+            prompt_position = "top",
+        }
+    }
+}
 
 local builtin = require("telescope.builtin")
 
