@@ -76,5 +76,16 @@ return {
     {
         'MagicDuck/grug-far.nvim',
         config = config("grug-far"),
-    }
+    },
+
+
+    {
+        "nvim-telescope/telescope.nvim",
+        dependencies = {
+            'nvim-tree/nvim-web-devicons',
+            { "nvim-lua/plenary.nvim" },
+        },
+        config = config("telescope"),
+    },
+
 }

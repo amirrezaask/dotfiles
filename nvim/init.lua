@@ -1,5 +1,7 @@
-local g, o, keymap = vim.g, vim.o, vim.keymap.set
+g, o, keymap = vim.g, vim.o, vim.keymap.set
 
+-- fuzzy_finder can be telescope | fzf | snacks
+g.fuzzy_finder = 'telescope'
 g.mapleader = " "
 o.wrap = true
 o.breakindent = true
@@ -24,7 +26,7 @@ o.laststatus = 3    -- Single Statusline for all windows
 o.number = true     -- Line numbers
 o.winblend = 10     -- Floating Windows Transparency
 o.termguicolors = true
-o.winborder = 'rounded'
+-- o.winborder = 'rounded'
 o.inccommand = 'split'
 o.more = true
 o.relativenumber = true
@@ -135,3 +137,7 @@ end
 vim.cmd.colorscheme(vim.env.NVIM_COLORSCHEME or "gruvbuddy")
 
 vim.api.nvim_create_user_command("Transparent", Transparent, {})
+
+if vim.env.NVIM_TRANSPARENT then
+    Transparent()
+end
