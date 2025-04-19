@@ -18,8 +18,7 @@ local function floating_terminal_with_command(cmd)
     vim.cmd.term(cmd)
     local close = function() vim.api.nvim_buf_delete(buf, { force = true }) end
 
-    vim.keymap.set("n", "<C-enter>", close, { buffer = buf })
-    vim.keymap.set("n", "<enter>", close, { buffer = buf })
+    vim.keymap.set("n", "q", close, { buffer = buf })
 end
 
 local terminal_state = { buf = -1, win = -1, last_tab = -1 }
