@@ -61,7 +61,7 @@ keymap("n", "<C-q>", function()
     vim.cmd.copen()
 end)
 
-vim.keymap.set({ "n", "t" }, "<C-j>", require("terminal")("bottom"))
+vim.keymap.set({ "n", "t" }, "<C-j>", require("terminal").toggle("bottom"))
 
 require("statusline") -- Loads lua/statusline/init.lua which is a simple script to create a beautiful statusline
 

@@ -5,11 +5,24 @@ local function config(name)
 end
 
 return {
-    -- Colorschemes
-    { 'rose-pine/neovim',     name = 'rose-pine' },
-    { 'catppuccin/nvim',      name = 'catppuccin' },
-    { 'folke/tokyonight.nvim' },
-
+    -- Colorschemes [[
+    { 'rose-pine/neovim',              name = 'rose-pine' },
+    { 'catppuccin/nvim',               name = 'catppuccin' },
+    { 'folke/tokyonight.nvim',         name = 'tokyonight' },
+    { 'embark-theme/vim',              name = 'embark' },
+    { 'dracula/vim',                   name = 'dracula' },
+    { 'ellisonleao/gruvbox.nvim',      name = 'gruvbox' },
+    { 'navarasu/onedark.nvim',         name = 'onedark' },
+    { 'shaunsingh/nord.nvim',          name = 'nord' },
+    { 'sainnhe/edge',                  name = 'edge' },
+    { 'sainnhe/everforest',            name = 'everforest' },
+    { 'sainnhe/sonokai',               name = 'sonokai' },
+    { 'sainnhe/gruvbox-material',      name = 'gruvbox-material' },
+    { "oxfist/night-owl.nvim",         name = 'night-owl' },
+    { "miikanissi/modus-themes.nvim",  name = 'modus-themes' },
+    { "scottmckendry/cyberdream.nvim", name = 'cyberdream' },
+    { "samharju/serene.nvim",          name = 'serene' },
+    -- ]]
 
     { -- Help with neovim/lua dev.
         "folke/lazydev.nvim",
@@ -67,19 +80,17 @@ return {
 
     { "folke/snacks.nvim",       config = config("snacks") },
 
-    {
-
+    { -- AI Apocalypse
         "supermaven-inc/supermaven-nvim",
         opts = {},
     },
 
-    {
+    { -- Find/Replace project wide.
         'MagicDuck/grug-far.nvim',
         config = config("grug-far"),
     },
 
-
-    {
+    { -- Legendary fuzzy finder
         "nvim-telescope/telescope.nvim",
         dependencies = {
             'nvim-tree/nvim-web-devicons',

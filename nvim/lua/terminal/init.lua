@@ -1,9 +1,32 @@
-local terminal_state = { buf = -1, win = -1, last_tab = -1 }
+local function floating_terminal_with_command(cmd)
+    local height = math.floor(vim.o.lines * 0.8)
+    local width = math.floor(vim.o.columns * 0.8)
 
+    local row = math.floor((vim.o.lines - height) / 2)
+    local col = math.floor((vim.o.columns - width) / 2)
+
+    local buf = vim.api.nvim_create_buf(false, true)
+    vim.api.nvim_open_win(buf, true, {
+        relative = "editor",
+        width = width,
+        height = height,
+        row = row,
+        col = col,
+        style = "minimal",
+        border = "rounded",
+    })
+    vim.cmd.term(cmd)
+    local close = function() vim.api.nvim_buf_delete(buf, { force = true }) end
+
+    vim.keymap.set("n", "<C-enter>", close, { buffer = buf })
+    vim.keymap.set("n", "<enter>", close, { buffer = buf })
+end
+
+local terminal_state = { buf = -1, win = -1, last_tab = -1 }
 ---@function returns a function that toggles terminal in specified location
 ---@param terminal_location string float|bottom|tab
 ---@returns function fun() Toggles Terminal in specified location
-return function(terminal_location)
+local function toggle(terminal_location)
     terminal_location = terminal_location or "float"
     return function()
         if terminal_location == "float" or terminal_location == "bottom" then
@@ -78,3 +101,9 @@ return function(terminal_location)
         vim.cmd.startinsert()
     end
 end
+
+
+return {
+    floating_with_command = floating_terminal_with_command,
+    toggle = toggle
+}
