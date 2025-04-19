@@ -12,7 +12,7 @@
 g, o, keymap = vim.g, vim.o, vim.keymap.set
 
 -- fuzzy_finder can be telescope | fzf | snacks
-g.fuzzy_finder = 'telescope'
+g.fuzzy_finder = 'fzf'
 g.mapleader = " "
 o.wrap = true
 o.breakindent = true

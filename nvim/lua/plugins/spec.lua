@@ -57,7 +57,6 @@ return {
 
     {
         "ibhagwan/fzf-lua",
-        enabled = false and vim.fn.executable('fzf') == 1,
         dependencies = {
             'nvim-tree/nvim-web-devicons',
             { "junegunn/fzf", build = "./install --all" }, -- This is not really a dependency, it just makes sure that fzf is laready installed into my system.

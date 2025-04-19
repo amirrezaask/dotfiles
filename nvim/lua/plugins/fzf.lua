@@ -27,4 +27,4 @@ if g.fuzzy_finder == 'fzf' then
     LspDefinition = Fzf.lsp_definitions
     LspReferences = Fzf.lsp_references
     LspImplementation = Fzf.lsp_implementations
-end -- Using snacks for now.
+end
