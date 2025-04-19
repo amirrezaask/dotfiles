@@ -1,62 +1,75 @@
-local function floating_terminal_with_command(cmd)
-    local height = math.floor(vim.o.lines * 0.8)
-    local width = math.floor(vim.o.columns * 0.8)
+local M = {}
 
-    local row = math.floor((vim.o.lines - height) / 2)
-    local col = math.floor((vim.o.columns - width) / 2)
 
-    local buf = vim.api.nvim_create_buf(false, true)
-    vim.api.nvim_open_win(buf, true, {
-        relative = "editor",
-        width = width,
-        height = height,
-        row = row,
-        col = col,
-        style = "minimal",
-        border = "rounded",
-    })
-    vim.cmd.term(cmd)
-    local close = function() vim.api.nvim_buf_delete(buf, { force = true }) end
+---@class TerminalOpts
+---@field cmd? string
+---@field location? string
+---@field buf? number
 
-    vim.keymap.set("n", "q", close, { buffer = buf })
+---@param opts TerminalOpts
+--- If you pass in a buffer, it will be used instead of creating a new one
+function M.get(opts)
+    opts = opts or {}
+    opts.cmd = opts.cmd or nil
+    opts.location = opts.location or "float"
+    opts.buf = opts.buf or -1
+
+    if not vim.api.nvim_buf_is_valid(opts.buf) then
+        opts.buf = vim.api.nvim_create_buf(false, true)
+    end
+
+
+    local win
+    if opts.location == "float" then
+        local height = math.floor(vim.o.lines * 0.8)
+        local width = math.floor(vim.o.columns * 0.8)
+
+        local row = math.floor((vim.o.lines - height) / 2)
+        local col = math.floor((vim.o.columns - width) / 2)
+        win = vim.api.nvim_open_win(opts.buf, true, {
+            relative = "editor",
+            width = width,
+            height = height,
+            row = row,
+            col = col,
+            style = "minimal",
+            border = "rounded",
+        })
+    elseif opts.location == "bottom" then
+        local height = math.floor(vim.o.lines * 0.3)
+        win = vim.api.nvim_open_win(opts.buf, true, {
+            split = "below",
+            height = height,
+        })
+    else
+        vim.error("Invalid location for terminal")
+        return
+    end
+
+    if opts.cmd == "" then opts.cmd = nil end
+
+    if vim.bo[opts.buf].buftype ~= "terminal" then
+        vim.cmd.term(opts.cmd)
+    end
+
+    local close = function() vim.api.nvim_buf_delete(opts.buf, { force = true }) end
+
+    vim.keymap.set("n", "q", close, { buffer = opts.buf })
+
+    vim.cmd.startinsert()
+    return { win = win, buf = opts.buf }
 end
 
-local terminal_state = { buf = -1, win = -1, last_tab = -1 }
----@function returns a function that toggles terminal in specified location
----@param terminal_location string float|bottom|tab
----@returns function fun() Toggles Terminal in specified location
-local function toggle(terminal_location)
-    terminal_location = terminal_location or "float"
-    return function()
-        if terminal_location == "float" or terminal_location == "bottom" then
-            if vim.api.nvim_buf_is_valid(terminal_state.buf) and vim.api.nvim_win_is_valid(terminal_state.win) then
-                vim.api.nvim_win_hide(terminal_state.win)
-                return
-            end
-        end
+local terminal_state = { buf = -1, win = -1 }
 
-        if terminal_location == "tab" then
-            local current_win = vim.api.nvim_get_current_win()
-            if vim.wo[current_win].winbar == "Terminal" then
-                vim.api.nvim_set_current_tabpage(terminal_state.last_tab)
-                return
-            end
-            for _, tab_id in ipairs(vim.api.nvim_list_tabpages()) do
-                local win_id = vim.api.nvim_tabpage_get_win(tab_id)
-                local buf_id = vim.api.nvim_win_get_buf(win_id)
-                if vim.wo[win_id].winbar == "Terminal" and vim.bo[buf_id].buftype == "terminal" then
-                    terminal_state.last_tab = vim.api.nvim_get_current_tabpage()
-                    vim.api.nvim_set_current_tabpage(tab_id)
-                    vim.cmd.startinsert()
-                    return
-                end
-            end
-            terminal_state.last_tab = vim.api.nvim_get_current_tabpage()
-            vim.cmd.tabnew()
-            local win_id = vim.api.nvim_get_current_win()
-            vim.wo[win_id].winbar = "Terminal"
-            vim.cmd.term()
-            vim.cmd.startinsert()
+---@function returns a function that toggles terminal in specified location
+---@param terminal_location string float|bottom
+---@returns function fun() Toggles Terminal in specified location
+function M.toggle(terminal_location)
+    return function()
+        terminal_location = terminal_location or "float"
+        if vim.api.nvim_buf_is_valid(terminal_state.buf) and vim.api.nvim_win_is_valid(terminal_state.win) then
+            vim.api.nvim_win_hide(terminal_state.win)
             return
         end
 
@@ -64,45 +77,12 @@ local function toggle(terminal_location)
             terminal_state.buf = vim.api.nvim_create_buf(false, true)
         end
 
-        if terminal_location == "float" then
-            local height = math.floor(vim.o.lines * 0.8)
-            local width = math.floor(vim.o.columns * 0.8)
 
-            local row = math.floor((vim.o.lines - height) / 2)
-            local col = math.floor((vim.o.columns - width) / 2)
-
-            terminal_state.win = vim.api.nvim_open_win(terminal_state.buf, true, {
-                relative = "editor",
-                width = width,
-                height = height,
-                row = row,
-                col = col,
-                style = "minimal",
-                border = "rounded",
-            })
-        elseif terminal_location == "bottom" then
-            local width = vim.o.columns
-            local height = math.floor(vim.o.lines * 0.45)
-            terminal_state.win = vim.api.nvim_open_win(terminal_state.buf, true, {
-                split = "below",
-                width = width,
-                height = height,
-            })
-        else
-            vim.error("Invalid location for terminal")
-            return
-        end
-
-        if vim.api.nvim_get_option_value("buftype", { buf = terminal_state.buf }) ~= "terminal" then
-            vim.cmd.term()
-        end
-
-        vim.cmd.startinsert()
+        local terminal = M.get({ location = terminal_location, buf = terminal_state.buf })
+        if terminal == nil then return end
+        terminal_state.buf = terminal.buf
+        terminal_state.win = terminal.win
     end
 end
 
-
-return {
-    floating_with_command = floating_terminal_with_command,
-    toggle = toggle
-}
+return M
