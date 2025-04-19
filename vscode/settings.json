@@ -1,5 +1,5 @@
 {
-    "editor.fontFamily": "Monaspace Neon",
+    "editor.fontFamily": "Jetbrains Mono",
     "editor.fontSize": 14,
     "terminal.integrated.fontSize": 15,
     "window.restoreWindows": "none", // never re open anything dude
