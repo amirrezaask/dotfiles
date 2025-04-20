@@ -40,8 +40,10 @@
     "vim.useSystemClipboard": true,
     "vim.timeout": 200,
     "vim.normalModeKeyBindings": [
-    { "before": [ "<leader>", "o" ], "commands": ["workbench.action.showAllSymbols"], },
+    { "before": [ "<leader>", "o" ], "commands": ["workbench.action.gotoSymbol"], },
+    { "before": [ "<leader>", "O" ], "commands": ["workbench.action.showAllSymbols"], },
     { "before": [ "g", "r" ], "commands": [ "references-view.findReferences" ], },
+    { "before": [ "g", "l" ], "commands": [ "editor.action.showHover" ], },
     { "before": [ "K" ], "commands": [ "editor.action.showHover" ], },
     { "before": [ "[", "[" ], "commands": [ "editor.action.marker.prev" ], },
     { "before": [ "]", "]" ], "commands": [ "editor.action.marker.next" ], },
@@ -60,4 +62,5 @@
   "simpleBrowser.focusLockIndicator.enabled": false,
   "git.openRepositoryInParentFolders": "never",
   "extensions.ignoreRecommendations": true,
+  "workbench.sideBar.location": "right",
 }

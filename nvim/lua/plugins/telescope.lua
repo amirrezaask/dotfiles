@@ -38,5 +38,6 @@ if g.fuzzy_finder == 'telescope' then
     vim.keymap.set("n", "<leader>o", builtin.lsp_document_symbols, { desc = "LSP Document Symbols" })
     vim.keymap.set("n", "<leader>O", builtin.lsp_workspace_symbols, { desc = "LSP Workspace Symbols" })
     vim.keymap.set("n", "<M-o>", builtin.lsp_workspace_symbols, { desc = "LSP Workspace Symbols" })
-    vim.keymap.set("n", "<leader>fd", function() builtin.files({ cwd = "~/.dotfiles" }) end, { desc = "Find Dotfiles" })
+    vim.keymap.set("n", "<leader>fd", function() builtin.find_files({ cwd = "~/.dotfiles" }) end,
+        { desc = "Find Dotfiles" })
 end
