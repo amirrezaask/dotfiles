@@ -27,7 +27,7 @@
     "editor.autoClosingDelete": "never",
     "editor.autoClosingComments": "never",
     "editor.autoClosingBrackets": "never",
-    // "http.proxy": "http://localhost:2081",
+    "http.proxy": "http://localhost:2081",
     "[go]": { "editor.formatOnSave": true },
     "[odin]": {"editor.formatOnSave": true },
     "go.addTags": { "options": "" },
@@ -55,12 +55,10 @@
     { "before": ["j"], "after": ["g", "j"]},
     { "before": ["k"], "after": ["g", "k"]}
   ],
-  "vim.insertModeKeyBindings": [
-    { "before": ["j", "k"], "after": [ "<esc>" ], },
-    { "before": ["k", "j"], "after": [ "<esc>" ], },
-  ],
+  "vim.insertModeKeyBindings": [ { "before": ["j", "k"], "after": [ "<esc>" ], }, { "before": ["k", "j"], "after": [ "<esc>" ], }, ],
   "simpleBrowser.focusLockIndicator.enabled": false,
   "git.openRepositoryInParentFolders": "never",
   "extensions.ignoreRecommendations": true,
   "workbench.sideBar.location": "right",
+  "workbench.activityBar.location": "top",
 }
