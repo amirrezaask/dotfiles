@@ -3,8 +3,20 @@
 
 local sections = {}
 
-
 local hi = vim.api.nvim_set_hl
+
+function sections.FileTypeIcon()
+    return {
+        display = function()
+            local filetype = vim.bo.filetype or 'Unknown'
+            local icon
+            pcall(function()
+                icon = require("nvim-web-devicons").get_icon(filetype)
+            end)
+            return icon or ''
+        end
+    }
+end
 
 ---@param section StatusLineSection
 function sections.HighlightedSection(section, hl)
@@ -15,17 +27,18 @@ function sections.HighlightedSection(section, hl)
     }
 end
 
-hi(0, 'StatusLineNormal', { link = 'DiffText' })
-hi(0, 'StatusLineInsert', { link = 'DiffAdd' })
-hi(0, 'StatusLineVisual', { link = 'DiffChange' })
-hi(0, 'StatusLineCommand', { link = 'DiffDelete' })
-hi(0, 'StatusLineTerminal', { link = 'DiffAdd' })
-hi(0, 'StatusLineReplace', { link = 'DiffChange' })
+hi(0, 'StatusLineNormal', { link = 'DiffText', default = true })
+hi(0, 'StatusLineInsert', { link = 'DiffAdd', default = true })
+hi(0, 'StatusLineVisual', { link = 'DiffChange', default = true })
+hi(0, 'StatusLineCommand', { link = 'DiffDelete', default = true })
+hi(0, 'StatusLineTerminal', { link = 'DiffAdd', default = true })
+hi(0, 'StatusLineReplace', { link = 'DiffChange', default = true })
 
 ---@return StatusLineSection
 sections.ModeSection = {
     display = function()
         local mode = vim.api.nvim_get_mode().mode
+        local mode_group = mode:sub(1, 1):lower()
         local mode_map = {
             ['n'] = 'Normal',
             ['i'] = 'Insert',
@@ -50,17 +63,17 @@ sections.ModeSection = {
 
         mode = mode_map[mode] or 'Unknown'
         local hl = 'DiffText'
-        if mode == 'Normal' then
+        if mode_group == 'n' then
             hl = 'StatusLineNormal'
-        elseif mode == 'Visual' then
+        elseif mode_group == 'v' then
             hl = 'StatusLineVisual'
-        elseif mode == 'Insert' then
+        elseif mode_group == 'i' then
             hl = 'StatusLineInsert'
-        elseif mode == 'Command' then
+        elseif mode_group == 'c' then
             hl = 'StatusLineCommand'
-        elseif mode == 'Replace' then
+        elseif mode_group == 'r' then
             hl = 'StatusLineReplace'
-        elseif mode == 'Terminal' then
+        elseif mode_group == 't' then
             hl = 'StatusLineTerminal'
         end
 
@@ -68,6 +81,7 @@ sections.ModeSection = {
         return '%#' .. hl .. '#' .. '[' .. mode .. ']' .. '%#StatusLine#'
     end
 }
+
 local function make_format_section(char)
     return {
         display = function()
@@ -206,6 +220,26 @@ local function fish_shorten_path(path, threshold)
     return shortened
 end
 
+sections.GitBranchSection = {
+    display = function()
+        local branch = vim.b[vim.api.nvim_get_current_buf()].gitsigns_head or ''
+        if branch == '' then
+            return ''
+        else
+            return '' .. ' ' .. branch
+        end
+    end
+}
+
+
+sections.BracesSection = function(section)
+    return {
+        display = function()
+            return '[' .. section.display() .. ']'
+        end
+    }
+end
+
 
 sections.FileSection = function(opts)
     opts = opts or {}
@@ -231,6 +265,7 @@ sections.LineSection = '%l'
 sections.ColumnSection = '%c'
 sections.SeperatorSection = '%='
 sections.FileTypeSection = '%y'
+sections.ModifiedSection = '%m'
 
 ---@param sections table<StatusLineSection | string>
 local function make_statusline(sections)
@@ -251,9 +286,15 @@ end
 
 _G.___NVIM_STATUSLINE = make_statusline {
     sections.ModeSection,
+    ' ',
+    sections.GitBranchSection,
     sections.SeperatorSection,
+    sections.FileTypeIcon(),
+    '  ',
     sections.FileSection { shorten_style = 'elipsis' },
+    sections.ModifiedSection,
     sections.SeperatorSection,
+    sections.FileTypeSection,
     '[',
     sections.LineSection,
     ':',

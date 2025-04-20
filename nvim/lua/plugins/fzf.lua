@@ -1,5 +1,8 @@
 Fzf = require("fzf-lua")
 Fzf.setup {
+    files = {
+        previewer = false
+    },
     fzf_colors = true,
     keymap = {
         fzf = {
