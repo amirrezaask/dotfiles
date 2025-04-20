@@ -1,11 +1,11 @@
 # Font
-font-style-bold = false
-font-style-italic = false
-font-style-bold-italic = false
+# font-family = Fira Code
+font-family = JetBrains Mono
+font-style = Bold
 font-size = 15
 
 macos-titlebar-style=tabs
-# macos-icon=blueprint
+macos-icon=blueprint
 mouse-hide-while-typing = true
 cursor-style-blink = false
 cursor-style = bar
@@ -17,8 +17,6 @@ auto-update=download
 # Keybindings
 keybind = cmd+n=next_tab
 keybind = cmd+p=previous_tab
-keybind = cmd+left=previous_tab
-keybind = cmd+right=next_tab
 keybind = cmd+h=goto_split:left
 keybind = cmd+j=goto_split:down
 keybind = cmd+k=goto_split:up
@@ -29,4 +27,4 @@ shell-integration-features = no-cursor
 window-colorspace = "display-p3"
 
 theme = gruvbuddy
-# background = 000000
+background = 000000
