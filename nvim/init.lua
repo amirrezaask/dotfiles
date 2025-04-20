@@ -41,8 +41,8 @@ o.termguicolors = true
 o.inccommand = 'split'
 o.more = true
 o.relativenumber = true
--- o.list = true
--- o.listchars = o.listchars .. ",eol:↲,tab:,nbsp:␣"
+o.list = true
+o.listchars = 'tab:  ,trail:␣,eol:↲'
 
 keymap("n", "Y", "^v$y", { desc = "Copy whole line" })
 keymap("t", "<esc>", [[<C-\><C-n>]])
