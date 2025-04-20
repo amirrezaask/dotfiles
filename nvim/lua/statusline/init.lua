@@ -16,11 +16,11 @@ function sections.HighlightedSection(section, hl)
 end
 
 hi(0, 'StatusLineNormal', { link = 'DiffText' })
-hi(0, 'StatusLineVisual', { link = 'DiffText' })
-hi(0, 'StatusLineInsert', { link = 'DiffText' })
-hi(0, 'StatusLineCommand', { link = 'DiffText' })
-hi(0, 'StatusLineReplace', { link = 'DiffText' })
-hi(0, 'StatusLineTerminal', { link = 'DiffText' })
+hi(0, 'StatusLineInsert', { link = 'DiffAdd' })
+hi(0, 'StatusLineVisual', { link = 'DiffChange' })
+hi(0, 'StatusLineCommand', { link = 'DiffDelete' })
+hi(0, 'StatusLineTerminal', { link = 'DiffAdd' })
+hi(0, 'StatusLineReplace', { link = 'DiffChange' })
 
 ---@return StatusLineSection
 sections.ModeSection = {
