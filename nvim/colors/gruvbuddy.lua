@@ -29,6 +29,17 @@ local colors = {                           -- Colors are insipired by @tjdevries
 
 base16.theme.new("gruvbuddy", colors):apply()
 
+
+-- Statusline
+vim.api.nvim_set_hl(0, 'StatusLineNormal', { link = 'DiffText' })
+vim.api.nvim_set_hl(0, 'StatusLineInsert', { link = 'DiffAdd' })
+vim.api.nvim_set_hl(0, 'StatusLineVisual', { link = 'DiffChange' })
+vim.api.nvim_set_hl(0, 'StatusLineCommand', { link = 'DiffDelete' })
+vim.api.nvim_set_hl(0, 'StatusLineTerminal', { link = 'DiffAdd' })
+vim.api.nvim_set_hl(0, 'StatusLineReplace', { link = 'DiffChange' })
+
+
+
 -- Floating
 vim.api.nvim_set_hl(0, 'NormalFloat', { bg = '#000000' })
 

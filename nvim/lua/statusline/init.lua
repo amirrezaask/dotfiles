@@ -3,6 +3,9 @@
 
 local sections = {}
 
+
+local hi = vim.api.nvim_set_hl
+
 ---@param section StatusLineSection
 function sections.HighlightedSection(section, hl)
     return {
@@ -11,6 +14,13 @@ function sections.HighlightedSection(section, hl)
         end
     }
 end
+
+hi(0, 'StatusLineNormal', { link = 'DiffText' })
+hi(0, 'StatusLineVisual', { link = 'DiffText' })
+hi(0, 'StatusLineInsert', { link = 'DiffText' })
+hi(0, 'StatusLineCommand', { link = 'DiffText' })
+hi(0, 'StatusLineReplace', { link = 'DiffText' })
+hi(0, 'StatusLineTerminal', { link = 'DiffText' })
 
 ---@return StatusLineSection
 sections.ModeSection = {
@@ -22,7 +32,7 @@ sections.ModeSection = {
             ['v'] = 'Visual',
             ['V'] = 'Visual Line',
             ['\22'] = 'Visual Block', -- \22 is Ctrl-V
-            ['c'] = 'Cmmand',
+            ['c'] = 'Command',
             ['R'] = 'Replace',
             ['s'] = 'Select',
             ['S'] = 'Select Line',
@@ -37,8 +47,25 @@ sections.ModeSection = {
             ['r?'] = 'Confirm',
             ['!'] = 'Shell'
         }
+
         mode = mode_map[mode] or 'Unknown'
-        return '[' .. mode .. ']'
+        local hl = 'DiffText'
+        if mode == 'Normal' then
+            hl = 'StatusLineNormal'
+        elseif mode == 'Visual' then
+            hl = 'StatusLineVisual'
+        elseif mode == 'Insert' then
+            hl = 'StatusLineInsert'
+        elseif mode == 'Command' then
+            hl = 'StatusLineCommand'
+        elseif mode == 'Replace' then
+            hl = 'StatusLineReplace'
+        elseif mode == 'Terminal' then
+            hl = 'StatusLineTerminal'
+        end
+
+
+        return '%#' .. hl .. '#' .. '[' .. mode .. ']' .. '%#StatusLine#'
     end
 }
 local function make_format_section(char)
@@ -223,7 +250,7 @@ end
 
 
 _G.___NVIM_STATUSLINE = make_statusline {
-    sections.HighlightedSection(sections.ModeSection, 'DiffText'),
+    sections.ModeSection,
     sections.SeperatorSection,
     sections.FileSection { shorten_style = 'elipsis' },
     sections.SeperatorSection,
