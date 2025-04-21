@@ -1,98 +1,238 @@
 local M = {}
 
-local last_buffer = -1
-
 ---@class TerminalOpts
 ---@field cmd? string
----@field location? string
 ---@field buf? number
+---@field width_ratio? number
+---@field height_ratio? number
+local terminal_states = {
+  float = { buf = nil, win = nil },
+  bottom = { buf = nil, win = nil },
+  right = { buf = nil, win = nil },
+  tab = { buf = nil, win = nil },
+  buffer = { buf = nil, win = nil, last_buf = nil },
+}
 
----@param opts TerminalOpts
---- If you pass in a buffer, it will be used instead of creating a new one
-function M.get(opts)
-  opts = opts or {}
-  opts.cmd = opts.cmd or nil
-  opts.location = opts.location or "float"
-  opts.buf = opts.buf or -1
-
-  if not vim.api.nvim_buf_is_valid(opts.buf) then
-    opts.buf = vim.api.nvim_create_buf(false, true)
+local function setup_terminal_buffer(buf, cmd)
+  if buf == nil or type(buf) ~= "number" or not vim.api.nvim_buf_is_valid(buf) then
+    buf = vim.api.nvim_create_buf(false, true)
+    if not buf or buf == 0 then
+      vim.notify("Failed to create terminal buffer", vim.log.levels.ERROR)
+      return nil
+    end
   end
+  if vim.bo[buf].buftype ~= "terminal" then
+    vim.api.nvim_buf_call(buf, function()
+      vim.cmd.term(cmd or nil)
+    end)
+  end
+  return buf
+end
 
-  local win
-  if opts.location == "float" then
-    local height = math.floor(vim.o.lines * 1)
-    local width = math.floor(vim.o.columns * 0.95)
+local function setup_close_keymap(buf, state)
+  if not vim.api.nvim_buf_is_valid(buf) then
+    vim.notify("Invalid buffer for keymap setup", vim.log.levels.ERROR)
+    return
+  end
+  local close = function()
+    if vim.api.nvim_buf_is_valid(buf) then
+      vim.api.nvim_buf_delete(buf, { force = true })
+    end
+    state.buf = nil
+    state.win = nil
+    state.last_buf = nil
+  end
+  vim.keymap.set("n", "q", close, { buffer = buf, silent = true })
+end
 
-    local row = math.floor((vim.o.lines - height) / 2)
-    local col = math.floor((vim.o.columns - width) / 2)
-    win = vim.api.nvim_open_win(opts.buf, true, {
-      relative = "editor",
-      width = width,
-      height = height,
-      row = row,
-      col = col,
-      style = "minimal",
-      border = "rounded",
-    })
-  elseif opts.location == "bottom" then
-    local height = math.floor(vim.o.lines * 0.3)
-    win = vim.api.nvim_open_win(opts.buf, true, {
-      split = "below",
-      height = height,
-    })
-  else
-    vim.error("Invalid location for terminal")
+function M.toggle_floating(opts)
+  opts = opts or {}
+  local state = terminal_states.float
+  if
+    state.buf
+    and vim.api.nvim_buf_is_valid(state.buf)
+    and vim.bo[state.buf].buftype == "terminal"
+    and state.win
+    and vim.api.nvim_win_is_valid(state.win)
+  then
+    vim.api.nvim_win_hide(state.win)
     return
   end
 
-  if opts.cmd == "" then
-    opts.cmd = nil
+  local width_ratio = opts.width_ratio or 0.95
+  local height_ratio = opts.height_ratio or 0.8
+  local height = math.floor(vim.o.lines * height_ratio)
+  local width = math.floor(vim.o.columns * width_ratio)
+  local row = math.floor((vim.o.lines - height) / 2)
+  local col = math.floor((vim.o.columns - width) / 2)
+
+  if not state.buf or not vim.api.nvim_buf_is_valid(state.buf) or vim.bo[state.buf].buftype ~= "terminal" then
+    state.buf = setup_terminal_buffer(opts.buf or state.buf, opts.cmd)
+    if not state.buf then
+      return
+    end
   end
 
-  if vim.bo[opts.buf].buftype ~= "terminal" then
+  state.win = vim.api.nvim_open_win(state.buf, true, {
+    relative = "editor",
+    width = width,
+    height = height,
+    row = row,
+    col = col,
+    style = "minimal",
+    border = "rounded",
+  })
+
+  if opts.cmd and opts.cmd ~= "" then
     vim.cmd.term(opts.cmd)
   end
 
-  local close = function()
-    vim.api.nvim_buf_delete(opts.buf, { force = true })
-  end
-
-  vim.keymap.set("n", "q", close, { buffer = opts.buf })
-
+  setup_close_keymap(state.buf, state)
   vim.cmd.startinsert()
-  return { win = win, buf = opts.buf }
 end
 
-local terminal_state = { buf = nil, win = nil }
-
----@function returns a function that toggles terminal in specified location
----@param terminal_location string float|bottom
----@returns function fun() Toggles Terminal in specified location
-function M.toggle(terminal_location)
-  return function()
-    terminal_location = terminal_location or "float"
-    if
-      terminal_state.buf
-      and vim.api.nvim_buf_is_valid(terminal_state.buf)
-      and terminal_state.win
-      and vim.api.nvim_win_is_valid(terminal_state.win)
-    then
-      vim.api.nvim_win_hide(terminal_state.win)
-      return
-    end
-
-    if not terminal_state.buf or not vim.api.nvim_buf_is_valid(terminal_state.buf) then
-      terminal_state.buf = vim.api.nvim_create_buf(false, true)
-    end
-
-    local terminal = M.get({ location = terminal_location, buf = terminal_state.buf })
-    if terminal == nil then
-      return
-    end
-    terminal_state.buf = terminal.buf
-    terminal_state.win = terminal.win
+function M.toggle_bottom(opts)
+  opts = opts or {}
+  local state = terminal_states.bottom
+  if
+    state.buf
+    and vim.api.nvim_buf_is_valid(state.buf)
+    and vim.bo[state.buf].buftype == "terminal"
+    and state.win
+    and vim.api.nvim_win_is_valid(state.win)
+  then
+    vim.api.nvim_win_hide(state.win)
+    return
   end
+
+  local height_ratio = opts.height_ratio or 0.3
+  local height = math.floor(vim.o.lines * height_ratio)
+
+  if not state.buf or not vim.api.nvim_buf_is_valid(state.buf) or vim.bo[state.buf].buftype ~= "terminal" then
+    state.buf = setup_terminal_buffer(opts.buf or state.buf, opts.cmd)
+    if not state.buf then
+      return
+    end
+  end
+
+  vim.cmd("belowright split")
+  state.win = vim.api.nvim_get_current_win()
+  vim.api.nvim_win_set_buf(state.win, state.buf)
+  vim.api.nvim_win_set_height(state.win, height)
+
+  if opts.cmd and opts.cmd ~= "" then
+    vim.cmd.term(opts.cmd)
+  end
+
+  setup_close_keymap(state.buf, state)
+  vim.cmd.startinsert()
+end
+
+function M.toggle_right(opts)
+  opts = opts or {}
+  local state = terminal_states.right
+  if
+    state.buf
+    and vim.api.nvim_buf_is_valid(state.buf)
+    and vim.bo[state.buf].buftype == "terminal"
+    and state.win
+    and vim.api.nvim_win_is_valid(state.win)
+  then
+    vim.api.nvim_win_hide(state.win)
+    return
+  end
+
+  local width_ratio = opts.width_ratio or 0.4
+  local width = math.floor(vim.o.columns * width_ratio)
+
+  if not state.buf or not vim.api.nvim_buf_is_valid(state.buf) or vim.bo[state.buf].buftype ~= "terminal" then
+    state.buf = setup_terminal_buffer(opts.buf or state.buf, opts.cmd)
+    if not state.buf then
+      return
+    end
+  end
+
+  vim.cmd("botright vsplit")
+  state.win = vim.api.nvim_get_current_win()
+  vim.api.nvim_win_set_buf(state.win, state.buf)
+  vim.api.nvim_win_set_width(state.win, width)
+
+  if opts.cmd and opts.cmd ~= "" then
+    vim.cmd.term(opts.cmd)
+  end
+
+  setup_close_keymap(state.buf, state)
+  vim.cmd.startinsert()
+end
+
+function M.toggle_tab(opts)
+  opts = opts or {}
+  local state = terminal_states.tab
+  if state.buf and vim.api.nvim_buf_is_valid(state.buf) and state.win and vim.api.nvim_win_is_valid(state.win) then
+    local tabpage = vim.api.nvim_win_get_tabpage(state.win)
+    vim.api.nvim_set_current_tabpage(tabpage)
+    vim.api.nvim_win_hide(state.win)
+    return
+  end
+
+  if not state.buf or not vim.api.nvim_buf_is_valid(state.buf) or vim.bo[state.buf].buftype ~= "terminal" then
+    state.buf = setup_terminal_buffer(opts.buf or state.buf, opts.cmd)
+    if not state.buf then
+      return
+    end
+  end
+
+  vim.cmd("tabnew")
+  state.win = vim.api.nvim_get_current_win()
+  vim.api.nvim_win_set_buf(state.win, state.buf)
+
+  if opts.cmd and opts.cmd ~= "" then
+    vim.cmd.term(opts.cmd)
+  end
+
+  setup_close_keymap(state.buf, state)
+  vim.cmd.startinsert()
+end
+
+function M.toggle_buffer(opts)
+  opts = opts or {}
+  local state = terminal_states.buffer
+  local current_buf = vim.api.nvim_get_current_buf()
+
+  if
+    state.buf
+    and vim.api.nvim_buf_is_valid(state.buf)
+    and vim.bo[state.buf].buftype == "terminal"
+    and current_buf == state.buf
+  then
+    if state.last_buf and vim.api.nvim_buf_is_valid(state.last_buf) then
+      vim.api.nvim_set_current_buf(state.last_buf)
+    else
+      vim.api.nvim_set_current_buf(vim.api.nvim_create_buf(false, true))
+    end
+    return
+  end
+
+  if vim.bo[current_buf].buftype ~= "terminal" then
+    state.last_buf = current_buf
+  end
+
+  if not state.buf or not vim.api.nvim_buf_is_valid(state.buf) or vim.bo[state.buf].buftype ~= "terminal" then
+    state.buf = setup_terminal_buffer(opts.buf or state.buf, opts.cmd)
+    if not state.buf then
+      return
+    end
+  end
+
+  vim.api.nvim_set_current_buf(state.buf)
+  state.win = vim.api.nvim_get_current_win()
+
+  if opts.cmd and opts.cmd ~= "" then
+    vim.cmd.term(opts.cmd)
+  end
+
+  setup_close_keymap(state.buf, state)
+  vim.cmd.startinsert()
 end
 
 return M

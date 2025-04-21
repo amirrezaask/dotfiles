@@ -35,7 +35,7 @@ o.laststatus = 3 -- Single Statusline for all windows
 o.number = true -- Line numbers
 o.winblend = 15 -- Floating Windows Transparency
 o.termguicolors = true
--- o.winborder = 'rounded'
+o.winborder = "single"
 o.inccommand = "split"
 o.more = true
 o.relativenumber = true
@@ -54,10 +54,10 @@ keymap("i", "kj", "<ESC>")
 keymap("n", "<CR>", [[ {-> v:hlsearch ? ':nohl<CR>' : '<CR>'}() ]], { expr = true })
 keymap("n", "j", "gj")
 keymap("n", "k", "gk")
-keymap("n", "<leader>i", ":edit $MYVIMRC<CR>")
 keymap("n", "{", "<cmd>cprev<CR>")
 keymap("n", "}", "<cmd>cnext<CR>")
 keymap("n", "<M-k>", ":bwipe!<CR>")
+
 keymap("n", "<C-q>", function()
   local wins = vim.api.nvim_list_wins()
   for _, win in ipairs(wins) do
@@ -69,10 +69,33 @@ keymap("n", "<C-q>", function()
   end
   vim.cmd.copen()
 end)
+local terminal = require("terminal")
 
-vim.keymap.set({ "n", "t" }, "<C-j>", require("terminal").toggle("float"))
+vim.keymap.set({ "n", "t" }, "<C-j>", function()
+  terminal.toggle_floating({ height_ratio = 1, width_ratio = 0.95 })
+end)
 
 require("statusline") -- Loads lua/statusline/init.lua which is a simple script to create a beautiful statusline
+
+local statusline = require("statusline")
+local sections = statusline.sections
+statusline.setup {
+  sections.ModeSection,
+  " ",
+  sections.GitBranchSection,
+  sections.SeperatorSection,
+  sections.FileTypeIcon(),
+  "  ",
+  sections.FileSection { shorten_style = "elipsis" },
+  sections.ModifiedSection,
+  sections.SeperatorSection,
+  sections.FileTypeSection,
+  "[",
+  sections.LineSection,
+  ":",
+  sections.ColumnSection,
+  "]",
+}
 
 vim.lsp.enable({ "lua_ls", "gopls", "intelephense" })
 

@@ -279,22 +279,12 @@ local function make_statusline(sections)
   end
 end
 
-_G.___NVIM_STATUSLINE = make_statusline {
-  sections.ModeSection,
-  " ",
-  sections.GitBranchSection,
-  sections.SeperatorSection,
-  sections.FileTypeIcon(),
-  "  ",
-  sections.FileSection { shorten_style = "elipsis" },
-  sections.ModifiedSection,
-  sections.SeperatorSection,
-  sections.FileTypeSection,
-  "[",
-  sections.LineSection,
-  ":",
-  sections.ColumnSection,
-  "]",
+return {
+  sections = sections,
+  setup = function(sections)
+    assert(type(sections) == "table", "Sections must be a table")
+    assert(sections, "Sections must not be empty")
+    _G.___NVIM_STATUSLINE = make_statusline(sections)
+    vim.o.statusline = "%!v:lua.___NVIM_STATUSLINE()"
+  end,
 }
-
-vim.o.statusline = "%!v:lua.___NVIM_STATUSLINE()"
