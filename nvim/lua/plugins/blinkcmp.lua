@@ -1,4 +1,4 @@
 require("blink.cmp").setup {
-    keymap = { preset = "enter" },
-    cmdline = { enabled = false }
+  keymap = { preset = "enter" },
+  cmdline = { enabled = false },
 }

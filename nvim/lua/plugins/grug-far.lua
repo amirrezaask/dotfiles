@@ -1,3 +1,3 @@
-require('grug-far').setup({});
+require("grug-far").setup({})
 
-vim.keymap.set('n', '<M-f>', ':GrugFar<CR>');
+vim.keymap.set("n", "<M-f>", ":GrugFar<CR>")

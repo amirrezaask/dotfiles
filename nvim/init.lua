@@ -9,10 +9,10 @@
 --
 --
 --
-g, o, keymap = vim.g, vim.o, vim.keymap.set
+local g, o, keymap = vim.g, vim.o, vim.keymap.set
 
 -- fuzzy_finder can be telescope | fzf | snacks
-g.fuzzy_finder = 'fzf'
+-- g.fuzzy_finder = 'fzf'
 g.mapleader = " "
 o.wrap = true
 o.breakindent = true
@@ -33,16 +33,16 @@ o.ignorecase = true
 o.smartcase = true
 o.cursorline = true -- Highlight current line
 o.guicursor = o.guicursor .. ",t:ver25"
-o.laststatus = 3    -- Single Statusline for all windows
-o.number = true     -- Line numbers
-o.winblend = 10     -- Floating Windows Transparency
+o.laststatus = 3 -- Single Statusline for all windows
+o.number = true -- Line numbers
+o.winblend = 20 -- Floating Windows Transparency
 o.termguicolors = true
 -- o.winborder = 'rounded'
-o.inccommand = 'split'
+o.inccommand = "split"
 o.more = true
 o.relativenumber = true
 o.list = true
-o.listchars = 'tab:  ,trail:␣,eol:↲'
+o.listchars = "tab:  ,trail:␣,eol:↲"
 
 keymap("n", "Y", "^v$y", { desc = "Copy whole line" })
 keymap("t", "<esc>", [[<C-\><C-n>]])
@@ -61,15 +61,15 @@ keymap("n", "{", "<cmd>cprev<CR>")
 keymap("n", "}", "<cmd>cnext<CR>")
 keymap("n", "<M-k>", ":bwipe!<CR>")
 keymap("n", "<C-q>", function()
-    local wins = vim.api.nvim_list_wins()
-    for _, win in ipairs(wins) do
-        local buf = vim.api.nvim_win_get_buf(win)
-        if vim.api.nvim_get_option_value("buftype", { buf = buf }) == "quickfix" then
-            vim.cmd.cclose()
-            return
-        end
+  local wins = vim.api.nvim_list_wins()
+  for _, win in ipairs(wins) do
+    local buf = vim.api.nvim_win_get_buf(win)
+    if vim.api.nvim_get_option_value("buftype", { buf = buf }) == "quickfix" then
+      vim.cmd.cclose()
+      return
     end
-    vim.cmd.copen()
+  end
+  vim.cmd.copen()
 end)
 
 vim.keymap.set({ "n", "t" }, "<C-j>", require("terminal").toggle("float"))
@@ -79,59 +79,54 @@ require("statusline") -- Loads lua/statusline/init.lua which is a simple script 
 vim.lsp.enable({ "lua_ls", "gopls", "intelephense" })
 
 vim.api.nvim_create_autocmd("LspAttach", {
-    callback = function(args)
-        vim.keymap.set("n", "[[", function()
-            vim.diagnostic.jump({ count = -1 })
-        end, { buffer = args.buf })
-        keymap("n", "]]", function()
-            vim.diagnostic.jump({ count = 1 })
-        end, { buffer = args.buf })
-        keymap("n", "C-]", vim.lsp.buf.definition,
-            { buffer = args.buf })
-        keymap("n", "gd", vim.lsp.buf.definition,
-            { buffer = args.buf })
-        keymap("n", "gD", vim.lsp.buf.declaration,
-            { buffer = args.buf })
-        keymap("n", "gr", vim.lsp.buf.references,
-            { buffer = args.buf })
-        keymap("n", "gi", vim.lsp.buf.implementation,
-            { buffer = args.buf })
-        keymap("n", "R", vim.lsp.buf.rename, { buffer = args.buf })
-        keymap("n", "K", vim.lsp.buf.hover, { buffer = args.buf })
-        keymap("n", "C", vim.lsp.buf.code_action, { buffer = args.buf })
-        keymap({ "n", "i" }, "<C-s>", vim.lsp.buf.signature_help, { buffer = args.buf })
-        keymap("n", "<leader>l", vim.diagnostic.open_float, { buffer = args.buf })
-        keymap("n", "<leader>q", vim.diagnostic.setloclist, { buffer = args.buf })
-    end,
+  callback = function(args)
+    vim.keymap.set("n", "[[", function()
+      vim.diagnostic.jump({ count = -1 })
+    end, { buffer = args.buf })
+    keymap("n", "]]", function()
+      vim.diagnostic.jump({ count = 1 })
+    end, { buffer = args.buf })
+    keymap("n", "C-]", vim.lsp.buf.definition, { buffer = args.buf })
+    keymap("n", "gd", vim.lsp.buf.definition, { buffer = args.buf })
+    keymap("n", "gD", vim.lsp.buf.declaration, { buffer = args.buf })
+    keymap("n", "gr", vim.lsp.buf.references, { buffer = args.buf })
+    keymap("n", "gi", vim.lsp.buf.implementation, { buffer = args.buf })
+    keymap("n", "R", vim.lsp.buf.rename, { buffer = args.buf })
+    keymap("n", "K", vim.lsp.buf.hover, { buffer = args.buf })
+    keymap("n", "C", vim.lsp.buf.code_action, { buffer = args.buf })
+    keymap({ "n", "i" }, "<C-s>", vim.lsp.buf.signature_help, { buffer = args.buf })
+    keymap("n", "<leader>l", vim.diagnostic.open_float, { buffer = args.buf })
+    keymap("n", "<leader>q", vim.diagnostic.setloclist, { buffer = args.buf })
+  end,
 })
 
 -- Initialize Lazy.nvim package manager
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
-    local lazyrepo = "https://github.com/folke/lazy.nvim.git"
-    local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
-    if vim.v.shell_error ~= 0 then
-        vim.api.nvim_echo({
-            { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
-            { out,                            "WarningMsg" },
-            { "\nPress any key to exit..." },
-        }, true, {})
-        vim.fn.getchar()
-        os.exit(1)
-    end
+  local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+  local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
+  if vim.v.shell_error ~= 0 then
+    vim.api.nvim_echo({
+      { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
+      { out, "WarningMsg" },
+      { "\nPress any key to exit..." },
+    }, true, {})
+    vim.fn.getchar()
+    os.exit(1)
+  end
 end
 
 o.rtp = o.rtp .. "," .. lazypath
 
 require("lazy").setup({ import = "plugins.spec" }, {
-    change_detection = {
-        notify = false,
-    },
+  change_detection = {
+    notify = false,
+  },
 })
 
 function Transparent()
-    vim.cmd [[
+  vim.cmd [[
         hi Normal guibg=none
         hi NormalFloat guibg=none
         hi LineNr guibg=none
@@ -145,8 +140,7 @@ vim.cmd.colorscheme(vim.env.NVIM_COLORSCHEME or "gruvbuddy")
 vim.api.nvim_create_user_command("Transparent", Transparent, {})
 
 if vim.env.NVIM_TRANSPARENT then
-    Transparent()
+  Transparent()
 end
 
-
-require('startscreen')
+require("startscreen")

@@ -1,1 +1,1 @@
-vim.o.listchars = vim.o.listchars .. ',lead:·'
+vim.o.listchars = vim.o.listchars .. ",lead:·"
