@@ -147,3 +147,6 @@ vim.api.nvim_create_user_command("Transparent", Transparent, {})
 if vim.env.NVIM_TRANSPARENT then
     Transparent()
 end
+
+
+require('startscreen')
