@@ -62,7 +62,9 @@ return {
     },
 
     {
-        "nvim-treesitter/nvim-treesitter", config = config("nvim-treesitter")
+        "nvim-treesitter/nvim-treesitter",
+        dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
+        config = config("nvim-treesitter")
     },
 
 
