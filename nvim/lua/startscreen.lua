@@ -65,13 +65,6 @@ local function write_start_screen_to_buffer_and_window(buf, win)
 
     vim.bo[buf].modifiable = false
     vim.bo[buf].filetype = "startscreen"
-    vim.api.nvim_create_autocmd("WinResized", {
-        callback = function()
-            if height ~= vim.o.lines or width ~= vim.o.columns then
-                write_start_screen_to_buffer_and_window(buf, win)
-            end
-        end
-    })
 end
 
 vim.api.nvim_create_augroup("StartScreen", { clear = true })
@@ -82,8 +75,18 @@ vim.api.nvim_create_autocmd("VimEnter", {
         if vim.fn.argc() == 0 and vim.fn.line2byte(1) == -1 then
             local buf = vim.api.nvim_create_buf(false, true)
             local win = vim.api.nvim_get_current_win()
+            local width = vim.o.columns
+            local height = vim.o.lines
 
             write_start_screen_to_buffer_and_window(buf, win)
+
+            vim.api.nvim_create_autocmd("WinResized", {
+                callback = function()
+                    if height ~= vim.o.lines or width ~= vim.o.columns then
+                        write_start_screen_to_buffer_and_window(buf, win)
+                    end
+                end
+            })
         end
     end,
 })
