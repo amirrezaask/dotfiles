@@ -1,5 +1,7 @@
 local M = {}
 
+local last_buffer = -1
+
 ---@class TerminalOpts
 ---@field cmd? string
 ---@field location? string
@@ -39,6 +41,13 @@ function M.get(opts)
       split = "below",
       height = height,
     })
+  elseif opts.location == "buffer" then
+    if vim.bo[0].buftype ~= "terminal" then
+      last_buffer = vim.api.nvim_get_current_buf()
+      vim.api.nvim_set_current_buf(opts.buf)
+    else
+      vim.api.nvim_set_current_buf(last_buffer)
+    end
   else
     vim.error("Invalid location for terminal")
     return
@@ -62,7 +71,7 @@ function M.get(opts)
   return { win = win, buf = opts.buf }
 end
 
-local terminal_state = { buf = -1, win = -1 }
+local terminal_state = { buf = nil, win = nil }
 
 ---@function returns a function that toggles terminal in specified location
 ---@param terminal_location string float|bottom
@@ -70,12 +79,17 @@ local terminal_state = { buf = -1, win = -1 }
 function M.toggle(terminal_location)
   return function()
     terminal_location = terminal_location or "float"
-    if vim.api.nvim_buf_is_valid(terminal_state.buf) and vim.api.nvim_win_is_valid(terminal_state.win) then
+    if
+      terminal_state.buf
+      and vim.api.nvim_buf_is_valid(terminal_state.buf)
+      and terminal_state.win
+      and vim.api.nvim_win_is_valid(terminal_state.win)
+    then
       vim.api.nvim_win_hide(terminal_state.win)
       return
     end
 
-    if not vim.api.nvim_buf_is_valid(terminal_state.buf) then
+    if not terminal_state.buf or not vim.api.nvim_buf_is_valid(terminal_state.buf) then
       terminal_state.buf = vim.api.nvim_create_buf(false, true)
     end
 

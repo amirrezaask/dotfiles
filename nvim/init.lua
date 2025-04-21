@@ -11,8 +11,6 @@
 --
 local g, o, keymap = vim.g, vim.o, vim.keymap.set
 
--- fuzzy_finder can be telescope | fzf | snacks
--- g.fuzzy_finder = 'fzf'
 g.mapleader = " "
 o.wrap = true
 o.breakindent = true
@@ -72,7 +70,7 @@ keymap("n", "<C-q>", function()
   vim.cmd.copen()
 end)
 
-vim.keymap.set({ "n", "t" }, "<C-j>", require("terminal").toggle("float"))
+vim.keymap.set({ "n", "t" }, "<C-j>", require("terminal").toggle("buffer"))
 
 require("statusline") -- Loads lua/statusline/init.lua which is a simple script to create a beautiful statusline
 
@@ -143,4 +141,4 @@ if vim.env.NVIM_TRANSPARENT then
   Transparent()
 end
 
-require("startscreen")
+-- require("startscreen")
