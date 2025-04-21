@@ -33,7 +33,7 @@ o.cursorline = true -- Highlight current line
 o.guicursor = o.guicursor .. ",t:ver25"
 o.laststatus = 3 -- Single Statusline for all windows
 o.number = true -- Line numbers
-o.winblend = 20 -- Floating Windows Transparency
+o.winblend = 15 -- Floating Windows Transparency
 o.termguicolors = true
 -- o.winborder = 'rounded'
 o.inccommand = "split"
@@ -70,7 +70,7 @@ keymap("n", "<C-q>", function()
   vim.cmd.copen()
 end)
 
-vim.keymap.set({ "n", "t" }, "<C-j>", require("terminal").toggle("buffer"))
+vim.keymap.set({ "n", "t" }, "<C-j>", require("terminal").toggle("float"))
 
 require("statusline") -- Loads lua/statusline/init.lua which is a simple script to create a beautiful statusline
 

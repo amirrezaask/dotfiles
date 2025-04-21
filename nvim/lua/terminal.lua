@@ -21,8 +21,8 @@ function M.get(opts)
 
   local win
   if opts.location == "float" then
-    local height = math.floor(vim.o.lines * 0.8)
-    local width = math.floor(vim.o.columns * 0.8)
+    local height = math.floor(vim.o.lines * 1)
+    local width = math.floor(vim.o.columns * 0.95)
 
     local row = math.floor((vim.o.lines - height) / 2)
     local col = math.floor((vim.o.columns - width) / 2)
