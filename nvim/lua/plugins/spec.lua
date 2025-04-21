@@ -67,14 +67,13 @@ return {
         config = config("nvim-treesitter")
     },
 
-
     {
         "stevearc/oil.nvim", dependencies = { "nvim-tree/nvim-web-devicons" }, config = config("oil"),
     },
 
     { 'lewis6991/gitsigns.nvim', config = config("gitsigns") },
 
-    { "folke/snacks.nvim",       config = config("snacks") },
+    { "folke/snacks.nvim",       enabled = false,            config = config("snacks") },
 
     { -- AI Apocalypse
         "supermaven-inc/supermaven-nvim", opts = {},
@@ -87,6 +86,7 @@ return {
 
     { -- Legendary fuzzy finder
         "nvim-telescope/telescope.nvim",
+        enabled = false,
         dependencies = {
             { 'nvim-tree/nvim-web-devicons' },
             { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
