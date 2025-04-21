@@ -26,4 +26,4 @@ shell-integration-features = no-cursor
 window-colorspace = "display-p3"
 
 theme = gruvbuddy
-background = 000000
+# background = 000000

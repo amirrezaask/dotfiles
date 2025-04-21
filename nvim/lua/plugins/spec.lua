@@ -36,21 +36,17 @@ return {
     },
 
     { -- Blazingly fast autocomplete
-        "saghen/blink.cmp",
-        tag = "v1.1.1",
-        config = config("blinkcmp")
+        "saghen/blink.cmp", tag = "v1.1.1", config = config("blinkcmp")
     },
 
     { -- Autoformat/fixes
-        'stevearc/conform.nvim',
-        config = config("conform"),
+        'stevearc/conform.nvim', config = config("conform"),
     },
 
     { "j-hui/fidget.nvim",     opts = {} },
 
     { -- Package manager for your system inside neovim.
-        "williamboman/mason.nvim",
-        opts = {}
+        "williamboman/mason.nvim", opts = {}
     },
 
     { 'kevinhwang91/nvim-bqf', opts = {} },
@@ -65,14 +61,11 @@ return {
     },
 
     {
-        "nvim-treesitter/nvim-treesitter",
-        config = config("nvim-treesitter")
+        "nvim-treesitter/nvim-treesitter", config = config("nvim-treesitter")
     },
 
     {
-        "stevearc/oil.nvim",
-        dependencies = { "nvim-tree/nvim-web-devicons" },
-        config = config("oil"),
+        "stevearc/oil.nvim", dependencies = { "nvim-tree/nvim-web-devicons" }, config = config("oil"),
     },
 
     { 'lewis6991/gitsigns.nvim', config = config("gitsigns") },
@@ -80,8 +73,7 @@ return {
     { "folke/snacks.nvim",       config = config("snacks") },
 
     { -- AI Apocalypse
-        "supermaven-inc/supermaven-nvim",
-        opts = {},
+        "supermaven-inc/supermaven-nvim", opts = {},
     },
 
     { -- Find/Replace project wide.
@@ -92,7 +84,7 @@ return {
     { -- Legendary fuzzy finder
         "nvim-telescope/telescope.nvim",
         dependencies = {
-            'nvim-tree/nvim-web-devicons',
+            { 'nvim-tree/nvim-web-devicons' },
             { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
             { "nvim-lua/plenary.nvim" },
             { 'nvim-telescope/telescope-ui-select.nvim' }
