@@ -41,13 +41,6 @@ function M.get(opts)
       split = "below",
       height = height,
     })
-  elseif opts.location == "buffer" then
-    if vim.bo[0].buftype ~= "terminal" then
-      last_buffer = vim.api.nvim_get_current_buf()
-      vim.api.nvim_set_current_buf(opts.buf)
-    else
-      vim.api.nvim_set_current_buf(last_buffer)
-    end
   else
     vim.error("Invalid location for terminal")
     return
