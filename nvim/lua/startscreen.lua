@@ -29,11 +29,14 @@ local function write_start_screen_to_buffer_and_window(buf, win)
     vim.wo[win].relativenumber = false
 
     vim.api.nvim_create_autocmd("BufLeave", {
+        group = "StartScreen",
         buffer = buf,
         callback = function()
             vim.wo[win].list = original_list
             vim.wo[win].number = original_number
             vim.wo[win].relativenumber = original_relativenumber
+
+            vim.api.nvim_clear_autocmds({ group = "StartScreen" })
         end,
     })
 

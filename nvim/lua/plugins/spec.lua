@@ -43,6 +43,7 @@ return {
         'stevearc/conform.nvim', config = config("conform"),
     },
 
+    -- LSP progression status
     { "j-hui/fidget.nvim",     opts = {} },
 
     { -- Package manager for your system inside neovim.
@@ -63,6 +64,7 @@ return {
     {
         "nvim-treesitter/nvim-treesitter", config = config("nvim-treesitter")
     },
+
 
     {
         "stevearc/oil.nvim", dependencies = { "nvim-tree/nvim-web-devicons" }, config = config("oil"),
