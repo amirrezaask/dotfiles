@@ -1,5 +1,8 @@
 Fzf = require("fzf-lua")
 Fzf.setup {
+    hls = {
+        normal = 'NormalFloat',
+    },
     files = {
         previewer = false
     },
@@ -10,6 +13,10 @@ Fzf.setup {
         },
     },
 }
+
+vim.api.nvim_set_hl(0, 'FzfLuaNormal', { link = 'NormalFloat' })
+vim.api.nvim_set_hl(0, 'FzfLuaBorder', { link = 'NormalFloat' })
+
 Fzf.register_ui_select()
 
 if g.fuzzy_finder == 'fzf' then
