@@ -99,6 +99,8 @@ statusline.setup {
 
 vim.lsp.enable({ "lua_ls", "gopls", "intelephense" })
 
+vim.diagnostic.config({ virtual_text = true })
+
 vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(args)
     vim.keymap.set("n", "[[", function()

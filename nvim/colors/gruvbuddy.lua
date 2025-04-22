@@ -15,7 +15,7 @@ local colors = { -- Colors are insipired by @tjdevries ( https://github.com/tjde
   RGB.from_hex(dark_base):lighten(0.20), -- base07
 
   -- Syntax
-  RGB.from_hex("#E0E0E0"), -- base08
+  RGB.from_hex("#cc6666"), -- base08
   RGB.from_hex("#DE935F"), -- base09
   RGB.from_hex("#B294BB"), -- base0A
   RGB.from_hex("#99CC99"), -- base0B
