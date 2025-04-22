@@ -1,5 +1,5 @@
 require("nvim-treesitter.configs").setup {
-  ensure_installed = { "lua", "go", "gomod", "php" },
+  ensure_installed = "all",
   highlight = { enable = true },
   sync_install = false,
   auto_install = true,
