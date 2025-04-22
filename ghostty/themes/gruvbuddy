@@ -3,7 +3,7 @@
 # Base colors
 background = 282c34
 foreground = e0e0e0
-selection-background = 81A2BE
+selection-background = 5a7185
 split-divider-color = ff0000
 
 palette = 0=1c2526

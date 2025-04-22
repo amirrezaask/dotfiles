@@ -1,5 +1,6 @@
 {
     "editor.fontFamily": "Jetbrains Mono",
+    "editor.fontWeight": "bold",
     "editor.fontSize": 14,
     "terminal.integrated.fontSize": 15,
     "window.restoreWindows": "none", // never re open anything dude
@@ -59,6 +60,8 @@
   "simpleBrowser.focusLockIndicator.enabled": false,
   "git.openRepositoryInParentFolders": "never",
   "extensions.ignoreRecommendations": true,
-  "workbench.sideBar.location": "right",
-  "workbench.activityBar.location": "top",
+  "cursor.cpp.enablePartialAccepts": true,
+  "workbench.colorTheme": "GitHub Light",
+  "workbench.statusBar.visible": false,
+  "workbench.editor.showTabs": "none",
 }
