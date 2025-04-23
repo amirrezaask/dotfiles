@@ -1,14 +1,3 @@
---
---
---   ___            _                           ___      _
---  / _ \          (_)                         / _ \    | |
--- / /_\ \_ __ ___  _ _ __ _ __ ___ ______ _  / /_\ \___| | __
--- |  _  | '_ ` _ \| | '__| '__/ _ \_  / _` | |  _  / __| |/ /
--- | | | | | | | | | | |  | | |  __// / (_| | | | | \__ \   <
--- \_| |_/_| |_| |_|_|_|  |_|  \___/___\__,_| \_| |_/___/_|\_\
---
---
---
 local g, o, keymap = vim.g, vim.o, vim.keymap.set
 
 g.mapleader = " "
@@ -21,9 +10,6 @@ o.undofile = true
 o.splitbelow = true
 o.splitright = true
 o.showmode = false
-o.shiftwidth = 4
-o.tabstop = 4
-o.expandtab = true
 o.timeoutlen = 300
 o.updatetime = 250
 o.clipboard = "unnamedplus"
@@ -33,9 +19,9 @@ o.cursorline = true -- Highlight current line
 o.guicursor = o.guicursor .. ",t:ver25"
 o.laststatus = 3 -- Single Statusline for all windows
 o.number = true -- Line numbers
-o.winblend = 15 -- Floating Windows Transparency
+o.winblend = 20 -- Floating Windows Transparency
 o.termguicolors = true
-o.winborder = "single"
+o.winborder = "rounded"
 o.inccommand = "split"
 o.more = true
 o.relativenumber = true
@@ -74,8 +60,6 @@ local terminal = require("terminal")
 vim.keymap.set({ "n", "t" }, "<C-j>", function()
   terminal.toggle_floating({ height_ratio = 1, width_ratio = 0.95 })
 end)
-
-require("statusline") -- Loads lua/statusline/init.lua which is a simple script to create a beautiful statusline
 
 local statusline = require("statusline")
 local sections = statusline.sections

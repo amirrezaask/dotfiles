@@ -6,22 +6,22 @@ end
 
 return {
   -- Colorschemes [[
-  { "rose-pine/neovim", name = "rose-pine" },
-  { "catppuccin/nvim", name = "catppuccin" },
-  { "folke/tokyonight.nvim", name = "tokyonight" },
-  { "embark-theme/vim", name = "embark" },
-  { "dracula/vim", name = "dracula" },
-  { "ellisonleao/gruvbox.nvim", name = "gruvbox" },
-  { "navarasu/onedark.nvim", name = "onedark" },
-  { "shaunsingh/nord.nvim", name = "nord" },
-  { "sainnhe/edge", name = "edge" },
-  { "sainnhe/everforest", name = "everforest" },
-  { "sainnhe/sonokai", name = "sonokai" },
-  { "sainnhe/gruvbox-material", name = "gruvbox-material" },
-  { "oxfist/night-owl.nvim", name = "night-owl" },
-  { "miikanissi/modus-themes.nvim", name = "modus-themes" },
-  { "scottmckendry/cyberdream.nvim", name = "cyberdream" },
-  { "samharju/serene.nvim", name = "serene" },
+  { "rose-pine/neovim", enabled = false, name = "rose-pine" },
+  { "catppuccin/nvim", enabled = false, name = "catppuccin" },
+  { "folke/tokyonight.nvim", enabled = false, name = "tokyonight" },
+  { "embark-theme/vim", enabled = false, name = "embark" },
+  { "dracula/vim", enabled = false, name = "dracula" },
+  { "ellisonleao/gruvbox.nvim", enabled = false, name = "gruvbox" },
+  { "navarasu/onedark.nvim", enabled = false, name = "onedark" },
+  { "shaunsingh/nord.nvim", enabled = false, name = "nord" },
+  { "sainnhe/edge", enabled = false, name = "edge" },
+  { "sainnhe/everforest", enabled = false, name = "everforest" },
+  { "sainnhe/sonokai", enabled = false, name = "sonokai" },
+  { "sainnhe/gruvbox-material", enabled = false, name = "gruvbox-material" },
+  { "oxfist/night-owl.nvim", enabled = false, name = "night-owl" },
+  { "miikanissi/modus-themes.nvim", enabled = false, name = "modus-themes" },
+  { "scottmckendry/cyberdream.nvim", enabled = false, name = "cyberdream" },
+  { "samharju/serene.nvim", enabled = false, name = "serene" },
   -- ]]
 
   { -- Help with neovim/lua dev.
