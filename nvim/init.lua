@@ -19,7 +19,6 @@ o.cursorline = true -- Highlight current line
 o.guicursor = o.guicursor .. ",t:ver25"
 o.laststatus = 3 -- Single Statusline for all windows
 o.number = true -- Line numbers
-o.winblend = 20 -- Floating Windows Transparency
 o.termguicolors = true
 o.winborder = "rounded"
 o.inccommand = "split"
@@ -27,6 +26,7 @@ o.more = true
 o.relativenumber = true
 o.list = true
 o.listchars = "tab:  ,trail:␣,eol:↲"
+o.scrolloff = 10
 
 keymap("n", "Y", "^v$y", { desc = "Copy whole line" })
 keymap("t", "<esc>", [[<C-\><C-n>]])
@@ -153,6 +153,12 @@ end
 o.rtp = o.rtp .. "," .. lazypath
 
 require("lazy").setup({
+  -- Colorschemes
+  { "folke/tokyonight.nvim" },
+  { "rose-pine/neovim", name = "rose-pine" },
+  { "amirrezaask/nvim-gruvbuddy.lua" },
+  { "amirrezaask/nvim-norcalli.lua" },
+
   { -- Help with neovim/lua dev.
     "folke/lazydev.nvim",
     ft = "lua",
@@ -204,7 +210,6 @@ require("lazy").setup({
     "ibhagwan/fzf-lua",
     dependencies = {
       "nvim-tree/nvim-web-devicons",
-      { "junegunn/fzf", build = "./install --all" }, -- This is not really a dependency, it just makes sure that fzf is laready installed into my system.
     },
     config = function()
       Fzf = require("fzf-lua")
@@ -288,7 +293,18 @@ require("lazy").setup({
     opts = {},
   },
 
-  { "lewis6991/gitsigns.nvim", opts = {} },
+  {
+    "lewis6991/gitsigns.nvim",
+    opts = {
+      signs = {
+        add = { text = "+" },
+        change = { text = "~" },
+        delete = { text = "_" },
+        topdelete = { text = "‾" },
+        changedelete = { text = "~" },
+      },
+    },
+  },
 
   { -- AI Apocalypse
     "supermaven-inc/supermaven-nvim",
@@ -301,35 +317,16 @@ require("lazy").setup({
   },
   {
     "amirrezaask/nvim-terminal.lua",
-  },
-  {
-    "amirrezaask/nvim-gruvbuddy.lua",
-  },
-  {
-    "amirrezaask/nvim-norcalli.lua",
-  },
-  {
-    "amirrezaask/nvim-statusline.lua",
     config = function()
-      local statusline = require("statusline")
-      local sections = statusline.sections
-      statusline.setup {
-        sections.ModeSection,
-        " ",
-        sections.GitBranchSection,
-        sections.SeperatorSection,
-        sections.FileTypeIcon(),
-        "  ",
-        sections.FileSection { shorten_style = "elipsis" },
-        sections.ModifiedSection,
-        sections.SeperatorSection,
-        sections.FileTypeSection,
-        "[",
-        sections.LineSection,
-        ":",
-        sections.ColumnSection,
-        "]",
-      }
+      vim.keymap.set({ "n", "t" }, "<C-j>", require("nvim-terminal").toggle_floating)
+    end,
+  },
+  {
+    "echasnovski/mini.nvim",
+    config = function()
+      require("mini.ai").setup { n_lines = 500 }
+      require("mini.surround").setup()
+      require "mini.statusline".setup {}
     end,
   },
 })
@@ -347,4 +344,4 @@ vim.api.nvim_create_autocmd("FileType", { -- Go stuff
   end,
 })
 
-vim.cmd.colorscheme(vim.env.NVIM_COLORSCHEME or "gruvbuddy")
+vim.cmd.colorscheme(vim.env.NVIM_COLORSCHEME or "tokyonight-moon")
