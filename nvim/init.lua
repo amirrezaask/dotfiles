@@ -43,7 +43,6 @@ keymap("n", "k", "gk")
 keymap("n", "{", "<cmd>cprev<CR>")
 keymap("n", "}", "<cmd>cnext<CR>")
 keymap("n", "<M-k>", ":bwipe!<CR>")
-
 keymap("n", "<C-q>", function()
   local wins = vim.api.nvim_list_wins()
   for _, win in ipairs(wins) do
@@ -68,7 +67,7 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "go",
-  callback = function(args)
+  callback = function(_)
     vim.lsp.start({
       cmd = { "gopls" },
       filetypes = { "go" },
@@ -79,7 +78,7 @@ vim.api.nvim_create_autocmd("FileType", {
 
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "lua",
-  callback = function(args)
+  callback = function(_)
     vim.lsp.start({
       cmd = { "lua-language-server" },
       filetypes = { "lua" },
@@ -101,7 +100,7 @@ vim.api.nvim_create_autocmd("FileType", {
 
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "php",
-  callback = function(args)
+  callback = function(_)
     vim.lsp.start({
       cmd = { "intelephense", "--stdio" },
       filetypes = { "php" },
@@ -218,7 +217,7 @@ require("lazy").setup({
           normal = "NormalFloat",
         },
         files = {
-          previewer = false,
+          -- previewer = false,
         },
         fzf_colors = true,
         keymap = {
