@@ -61,7 +61,6 @@
   "git.openRepositoryInParentFolders": "never",
   "extensions.ignoreRecommendations": true,
   "cursor.cpp.enablePartialAccepts": true,
-  "workbench.colorTheme": "GitHub Light",
   "workbench.statusBar.visible": false,
   "workbench.editor.showTabs": "none",
 }
