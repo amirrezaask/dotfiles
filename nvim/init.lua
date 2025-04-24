@@ -27,6 +27,7 @@ o.relativenumber = true
 o.list = true
 o.listchars = "tab:  ,trail:␣,eol:↲"
 o.scrolloff = 10
+o.statusline = "%F [%l:%c]"
 
 keymap("n", "Y", "^v$y", { desc = "Copy whole line" })
 keymap("t", "<esc>", [[<C-\><C-n>]])
@@ -163,6 +164,7 @@ require("lazy").setup({
   { "rose-pine/neovim", name = "rose-pine" },
   { "amirrezaask/nvim-gruvbuddy.lua" },
   { "amirrezaask/nvim-norcalli.lua" },
+  { "vague2k/vague.nvim" },
 
   { -- Help with neovim/lua dev.
     "folke/lazydev.nvim",
@@ -202,9 +204,6 @@ require("lazy").setup({
       })
     end,
   },
-
-  -- LSP progression status
-  { "j-hui/fidget.nvim", opts = {} },
 
   { -- Package manager for your system inside neovim.
     "williamboman/mason.nvim",
@@ -328,14 +327,6 @@ require("lazy").setup({
       vim.keymap.set({ "n", "t" }, "<C-j>", require("nvim-terminal").toggle_floating)
     end,
   },
-  {
-    "echasnovski/mini.nvim",
-    config = function()
-      require("mini.ai").setup { n_lines = 500 }
-      require("mini.surround").setup()
-      require "mini.statusline".setup {}
-    end,
-  },
 })
 
 vim.api.nvim_create_autocmd("FileType", { -- Go stuff
@@ -351,4 +342,17 @@ vim.api.nvim_create_autocmd("FileType", { -- Go stuff
   end,
 })
 
-vim.cmd.colorscheme(vim.env.NVIM_COLORSCHEME or "tokyonight-moon")
+vim.cmd.colorscheme(vim.env.NVIM_COLORSCHEME or "rose-pine-moon")
+
+function Transparent()
+  vim.cmd [[
+    hi Normal guibg=none
+    hi NormalFloat guibg=none
+    hi NormalNC guibg=none
+    hi FloatBorder guibg=none
+    hi SignColumn guibg=none
+    hi LineNr guibg=none
+  ]]
+end
+
+Transparent()

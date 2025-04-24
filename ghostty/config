@@ -27,6 +27,6 @@ keybind = cmd+f=toggle_split_zoom
 shell-integration-features = no-cursor
 window-colorspace = "display-p3"
 
-theme = gruvbuddy
-theme = tokyonight_moon
-# background = 000000
+# theme = gruvbuddy
+# theme = tokyonight_moon
+background = 000000
