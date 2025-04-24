@@ -56,6 +56,21 @@ keymap("n", "<C-q>", function()
 end)
 
 vim.api.nvim_create_autocmd("FileType", {
+  pattern = "go",
+  callback = function(args)
+    vim.bo[args.buf].sw = 4
+    vim.bo[args.buf].ts = 4
+    vim.bo[args.buf].expandtab = false
+    vim.bo[args.buf].shiftwidth = 4
+    vim.lsp.start({
+      cmd = { "gopls" },
+      filetypes = { "go" },
+      root_markers = { "go.mod", "go.sum", ".git" },
+    })
+  end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
   pattern = "lua",
   callback = function(args)
     vim.keymap.set("n", "<C-enter>", ":so %<CR>", { buffer = args.buf })
@@ -63,22 +78,6 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.bo[args.buf].ts = 2
     vim.bo[args.buf].expandtab = true
     vim.bo[args.buf].shiftwidth = 2
-  end,
-})
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = "go",
-  callback = function(_)
-    vim.lsp.start({
-      cmd = { "gopls" },
-      filetypes = { "go" },
-      root_markers = { "go.mod", ".git" },
-    })
-  end,
-})
-
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = "lua",
-  callback = function(_)
     vim.lsp.start({
       cmd = { "lua-language-server" },
       filetypes = { "lua" },
@@ -100,7 +99,14 @@ vim.api.nvim_create_autocmd("FileType", {
 
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "php",
-  callback = function(_)
+  callback = function(args)
+    vim.bo[args.buf].sw = 4
+    vim.bo[args.buf].ts = 4
+    vim.bo[args.buf].expandtab = false
+    vim.bo[args.buf].shiftwidth = 4
+
+    vim.diagnostic.config({ virtual_text = false })
+
     vim.lsp.start({
       cmd = { "intelephense", "--stdio" },
       filetypes = { "php" },
@@ -180,19 +186,21 @@ require("lazy").setup({
 
   { -- Autoformat/fixes
     "stevearc/conform.nvim",
-    opts = {
-
-      format_on_save = {
-        -- These options will be passed to conform.format()
-        timeout_ms = 500,
-        lsp_format = "fallback",
-      },
-      formatters_by_ft = {
-        lua = { "stylua" },
-        go = { "goimports" },
-        php = {},
-      },
-    },
+    config = function()
+      require("conform").setup({
+        formatters_by_ft = {
+          lua = { "stylua" },
+          go = { "goimports" },
+          php = {},
+        },
+      })
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        pattern = { "*.lua", "*.go" },
+        callback = function(args)
+          require("conform").format({ bufnr = args.buf })
+        end,
+      })
+    end,
   },
 
   -- LSP progression status
