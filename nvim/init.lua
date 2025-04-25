@@ -21,21 +21,8 @@ o.rtp = o.rtp .. "," .. lazypath
 
 require("lazy").setup({
   -- Colorschemes
-  { "folke/tokyonight.nvim" },
-  { "rose-pine/neovim", name = "rose-pine" },
   { "amirrezaask/nvim-gruvbuddy.lua" },
   { "amirrezaask/nvim-norcalli.lua" },
-
-  { -- Help with neovim/lua dev.
-    "folke/lazydev.nvim",
-    ft = "lua",
-    cmd = "LazyDev",
-    opts = {
-      library = {
-        { path = "${3rd}/luv/library", words = { "vim%.uv" } },
-      },
-    },
-  },
 
   { -- Blazingly fast autocomplete
     "saghen/blink.cmp",
@@ -45,6 +32,8 @@ require("lazy").setup({
       cmdline = { enabled = false },
     },
   },
+
+  { "tpope/vim-fugitive" },
 
   { -- Autoformat/fixes
     "stevearc/conform.nvim",
@@ -70,8 +59,6 @@ require("lazy").setup({
     opts = {},
   },
 
-  { "kevinhwang91/nvim-bqf", opts = {} },
-
   {
     "ibhagwan/fzf-lua",
     dependencies = {
@@ -81,7 +68,7 @@ require("lazy").setup({
       Fzf = require("fzf-lua")
       Fzf.setup {
         hls = {
-          normal = "NormalFloat",
+          -- normal = "NormalFloat",
         },
         files = {
           -- previewer = false,
@@ -122,10 +109,7 @@ require("lazy").setup({
       require("nvim-treesitter.configs").setup {
         ensure_installed = "all",
         highlight = { enable = true },
-        sync_install = false,
         auto_install = true,
-        ignore_install = {},
-        modules = {},
         textobjects = {
           select = {
             enable = true,
@@ -157,15 +141,17 @@ require("lazy").setup({
 
   {
     "lewis6991/gitsigns.nvim",
-    opts = {
-      signs = {
-        add = { text = "+" },
-        change = { text = "~" },
-        delete = { text = "_" },
-        topdelete = { text = "‾" },
-        changedelete = { text = "~" },
-      },
-    },
+    config = function()
+      require("gitsigns").setup {
+        signs = {
+          add = { text = "+" },
+          change = { text = "~" },
+          delete = { text = "_" },
+          topdelete = { text = "‾" },
+          changedelete = { text = "~" },
+        },
+      }
+    end,
   },
 
   { -- AI Apocalypse
@@ -177,65 +163,41 @@ require("lazy").setup({
     "MagicDuck/grug-far.nvim",
     opts = {},
   },
-  { -- Terminal Emulator helpers.
-    "amirrezaask/nvim-terminal.lua",
-    config = function()
-      vim.keymap.set({ "n", "t" }, "<C-j>", require("nvim-terminal").toggle_floating)
-    end,
-  },
-  { -- My simple statusline.
-    "amirrezaask/nvim-statusline.lua",
-    config = function()
-      local statusline = require("statusline")
-      local sections = statusline.sections
-      statusline.setup {
-        sections.ModeSection,
-        " ",
-        sections.GitBranchSection,
-        sections.SeperatorSection,
-        sections.FileTypeIcon(),
-        "  ",
-        sections.FileSection { shorten_style = "elipsis" },
-        sections.ModifiedSection,
-        sections.SeperatorSection,
-        sections.FileTypeSection,
-        "[",
-        sections.LineSection,
-        ":",
-        sections.ColumnSection,
-        "]",
-      }
-    end,
-  },
 })
 
-o.wrap = true
-o.breakindent = true
-o.signcolumn = "yes"
-o.swapfile = false
-o.backup = false
-o.undofile = true
-o.splitbelow = true
-o.splitright = true
-o.showmode = false
-o.timeoutlen = 300
-o.updatetime = 250
-o.clipboard = "unnamedplus"
-o.ignorecase = true
-o.smartcase = true
+o.wrap = true -- Wrap long lines.
+o.breakindent = true -- Indent wrapped lines.
+o.signcolumn = "yes" -- Show signcolumn.
+o.swapfile = false -- Disable swapfile.
+o.undofile = true -- Store undo history on disk
+o.splitbelow = true -- Split windows below the current windows
+o.splitright = true -- Split windows right to the current windows
+o.showmode = false -- Don't show Vim mode in the command line.
+o.clipboard = "unnamedplus" -- Copy/Cut/Paste to system clipboard
+o.ignorecase = true -- Search case insensitive...
+o.smartcase = true -- ... but not if it contains caps
 o.cursorline = true -- Highlight current line
 o.guicursor = o.guicursor .. ",t:ver25"
 o.laststatus = 3 -- Single Statusline for all windows
 o.number = true -- Line numbers
-o.termguicolors = true
-o.winborder = "rounded"
-o.inccommand = "split"
-o.more = true
-o.relativenumber = true
-o.list = true
-o.listchars = "tab:  ,trail:␣,eol:↲"
-o.scrolloff = 10
--- o.statusline = "%F [%l:%c]"
+o.termguicolors = true -- Enable 24-bit RGB colors
+o.winborder = "rounded" -- All floating windows will have rounded borders
+o.inccommand = "split" -- Show partial commands in the command line
+o.relativenumber = true -- Relative line numbers
+o.list = true -- Show list characters
+o.listchars = "tab:  ,trail:␣,eol:↲" -- Define characters used for displaying
+o.scrolloff = 10 -- Scroll when cursor is 10 lines away from screen edge
+
+_G.filetype_icon = function()
+  local filetype = vim.bo.filetype or "Unknown"
+  local icon
+  pcall(function()
+    icon = require("nvim-web-devicons").get_icon(filetype)
+  end)
+  return icon or ""
+end
+o.statusline =
+  "[%l:%c] [%{get(b:,'gitsigns_head','')}] %= %{v:lua.filetype_icon()} %r%F%m %= [%{get(b:,'gitsigns_status','')}] %y"
 
 keymap("n", "Y", "^v$y", { desc = "Copy whole line" })
 keymap("t", "<esc>", [[<C-\><C-n>]])
@@ -288,7 +250,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
   end,
 })
 
-vim.cmd.colorscheme(vim.env.NVIM_COLORSCHEME or "tokyonight-moon")
+vim.cmd.colorscheme(vim.env.NVIM_COLORSCHEME or "gruvbuddy")
 
 function Transparent()
   vim.cmd [[
@@ -301,7 +263,7 @@ function Transparent()
   ]]
 end
 
-Transparent()
+-- Transparent()
 
 vim.api.nvim_create_user_command("Transparent", Transparent, {})
 
@@ -373,3 +335,30 @@ vim.api.nvim_create_autocmd("FileType", {
     })
   end,
 })
+
+vim.keymap.set({ "n", "t" }, "<C-j>", function()
+  if not vim.g.bottom_terminal_buffer or not vim.api.nvim_buf_is_valid(vim.g.bottom_terminal_buffer) then -- we have a valid buffer showing the terminal
+    vim.g.bottom_terminal_buffer = vim.api.nvim_create_buf(false, true)
+    vim.api.nvim_buf_set_name(vim.g.bottom_terminal_buffer, "[Terminal]")
+  end
+
+  for _, win in ipairs(vim.api.nvim_list_wins()) do
+    local win_buf = vim.api.nvim_win_get_buf(win)
+    if win_buf == vim.g.bottom_terminal_buffer then
+      vim.api.nvim_win_hide(win)
+      return
+    end
+  end
+
+  vim.api.nvim_open_win(vim.g.bottom_terminal_buffer, true, {
+    split = "below",
+    height = math.floor(vim.o.lines * 0.5),
+  })
+
+  if vim.bo[vim.g.bottom_terminal_buffer].buftype ~= "terminal" then
+    vim.cmd.term()
+    vim.g.bottom_terminal_buffer = vim.api.nvim_get_current_buf()
+  end
+
+  vim.cmd.startinsert()
+end)

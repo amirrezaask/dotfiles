@@ -1,6 +1,6 @@
 # Font
 font-family = JetBrains Mono
-font-style = SemiBold
+font-style = normal
 # font-size = 15
 # adjust-cell-height = 25%
 
@@ -28,5 +28,4 @@ shell-integration-features = no-cursor
 window-colorspace = "display-p3"
 
 theme = gruvbuddy
-# theme = tokyonight_moon
 background = 000000
