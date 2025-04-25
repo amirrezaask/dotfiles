@@ -302,10 +302,12 @@ vim.api.nvim_create_autocmd("FileType", {
 
     vim.keymap.set("n", "<C-enter>", function()
       vim.cmd [[ vnew | term go build ./... ]]
+      vim.wo[0].winbar = "go build ./..."
     end, { buffer = args.buf })
 
     vim.keymap.set("n", "<M-enter>", function()
       vim.cmd [[ vnew | term go test ./... ]]
+      vim.wo[0].winbar = "go build ./..."
     end, { buffer = args.buf })
   end,
 })
@@ -358,7 +360,6 @@ vim.api.nvim_create_autocmd("FileType", {
 vim.keymap.set({ "n", "t" }, "<C-j>", function()
   if not vim.g.bottom_terminal_buffer or not vim.api.nvim_buf_is_valid(vim.g.bottom_terminal_buffer) then -- we have a valid buffer showing the terminal
     vim.g.bottom_terminal_buffer = vim.api.nvim_create_buf(false, true)
-    vim.api.nvim_buf_set_name(vim.g.bottom_terminal_buffer, "[Terminal]")
   end
 
   for _, win in ipairs(vim.api.nvim_list_wins()) do
