@@ -27,7 +27,7 @@ o.relativenumber = true
 o.list = true
 o.listchars = "tab:  ,trail:␣,eol:↲"
 o.scrolloff = 10
-o.statusline = "%F [%l:%c]"
+-- o.statusline = "%F [%l:%c]"
 
 keymap("n", "Y", "^v$y", { desc = "Copy whole line" })
 keymap("t", "<esc>", [[<C-\><C-n>]])
@@ -164,7 +164,6 @@ require("lazy").setup({
   { "rose-pine/neovim", name = "rose-pine" },
   { "amirrezaask/nvim-gruvbuddy.lua" },
   { "amirrezaask/nvim-norcalli.lua" },
-  { "vague2k/vague.nvim" },
 
   { -- Help with neovim/lua dev.
     "folke/lazydev.nvim",
@@ -321,10 +320,34 @@ require("lazy").setup({
     "MagicDuck/grug-far.nvim",
     opts = {},
   },
-  {
+  { -- Terminal Emulator helpers.
     "amirrezaask/nvim-terminal.lua",
     config = function()
       vim.keymap.set({ "n", "t" }, "<C-j>", require("nvim-terminal").toggle_floating)
+    end,
+  },
+  { -- My simple statusline.
+    "amirrezaask/nvim-statusline.lua",
+    config = function()
+      local statusline = require("statusline")
+      local sections = statusline.sections
+      statusline.setup {
+        sections.ModeSection,
+        " ",
+        sections.GitBranchSection,
+        sections.SeperatorSection,
+        sections.FileTypeIcon(),
+        "  ",
+        sections.FileSection { shorten_style = "elipsis" },
+        sections.ModifiedSection,
+        sections.SeperatorSection,
+        sections.FileTypeSection,
+        "[",
+        sections.LineSection,
+        ":",
+        sections.ColumnSection,
+        "]",
+      }
     end,
   },
 })
@@ -342,7 +365,7 @@ vim.api.nvim_create_autocmd("FileType", { -- Go stuff
   end,
 })
 
-vim.cmd.colorscheme(vim.env.NVIM_COLORSCHEME or "rose-pine-moon")
+vim.cmd.colorscheme(vim.env.NVIM_COLORSCHEME or "gruvbuddy")
 
 function Transparent()
   vim.cmd [[
