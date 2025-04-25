@@ -188,7 +188,7 @@ o.list = true -- Show list characters
 o.listchars = "tab:  ,trail:␣,eol:↲" -- Define characters used for displaying
 o.scrolloff = 10 -- Scroll when cursor is 10 lines away from screen edge
 
-_G.filetype_icon = function()
+_G.statusline_filetype_icon = function()
   local filetype = vim.bo.filetype or "Unknown"
   local icon
   pcall(function()
@@ -196,8 +196,35 @@ _G.filetype_icon = function()
   end)
   return icon or ""
 end
+function _G.statusline_mode()
+  local mode = vim.api.nvim_get_mode().mode
+  local mode_map = {
+    ["n"] = "Normal",
+    ["i"] = "Insert",
+    ["v"] = "Visual",
+    ["V"] = "Visual Line",
+    ["\22"] = "Visual Block", -- \22 is Ctrl-V
+    ["c"] = "Command",
+    ["R"] = "Replace",
+    ["s"] = "Select",
+    ["S"] = "Select Line",
+    ["\19"] = "Select Block", -- \19 is Ctrl-S
+    ["t"] = "Terminal",
+    ["no"] = "Operator Pending",
+    ["niI"] = "Normal (Insert)",
+    ["niR"] = "Normal (Replace)",
+    ["niV"] = "Normal (Virtual Replace)",
+    ["nt"] = "Normal (Terminal)",
+    ["rm"] = "More Prompt",
+    ["r?"] = "Confirm",
+    ["!"] = "Shell",
+  }
+
+  return mode_map[mode] or "Unknown"
+end
+
 o.statusline =
-  "[%l:%c] [%{get(b:,'gitsigns_head','')}] %= %{v:lua.filetype_icon()} %r%F%m %= [%{get(b:,'gitsigns_status','')}] %y"
+  "[%{v:lua.statusline_mode()}]  %{get(b:,'gitsigns_head','')} %= %{v:lua.filetype_icon()} %r%F%m [%l:%c] %= [%{get(b:,'gitsigns_status','')}] %y"
 
 keymap("n", "Y", "^v$y", { desc = "Copy whole line" })
 keymap("t", "<esc>", [[<C-\><C-n>]])
@@ -282,11 +309,11 @@ vim.api.nvim_create_autocmd("FileType", {
     })
 
     vim.keymap.set("n", "<C-enter>", function()
-      require("terminal").toggle_right({ cmd = "go build ./..." })
+      vim.cmd [[ vnew | term go build ./... ]]
     end, { buffer = args.buf })
 
     vim.keymap.set("n", "<M-enter>", function()
-      require("terminal").get({ cmd = "go test ./..." })
+      vim.cmd [[ vnew | term go test ./... ]]
     end, { buffer = args.buf })
   end,
 })
