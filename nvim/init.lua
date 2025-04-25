@@ -33,8 +33,6 @@ require("lazy").setup({
     },
   },
 
-  { "tpope/vim-fugitive" },
-
   { -- Autoformat/fixes
     "stevearc/conform.nvim",
     config = function()
@@ -224,7 +222,7 @@ function _G.statusline_mode()
 end
 
 o.statusline =
-  "[%{v:lua.statusline_mode()}]  %{get(b:,'gitsigns_head','')} %= %{v:lua.filetype_icon()} %r%F%m [%l:%c] %= [%{get(b:,'gitsigns_status','')}] %y"
+  "%#DiffText#[%{v:lua.statusline_mode()}]%#StatusLine#  %{get(b:,'gitsigns_head','')} %= %{v:lua.statusline_filetype_icon()} %r%F%m %=[%l:%c] [%{get(b:,'gitsigns_status','')}] %y"
 
 keymap("n", "Y", "^v$y", { desc = "Copy whole line" })
 keymap("t", "<esc>", [[<C-\><C-n>]])
