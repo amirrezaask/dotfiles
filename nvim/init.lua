@@ -324,6 +324,9 @@ require("lazy").setup({
     "amirrezaask/nvim-terminal.lua",
     config = function()
       vim.keymap.set({ "n", "t" }, "<C-j>", require("nvim-terminal").toggle_floating)
+      vim.keymap.set({ "n", "t" }, "<leader>gg", function()
+        require("nvim-terminal").toggle_floating { cmd = "lazygit" }
+      end)
     end,
   },
   { -- My simple statusline.
