@@ -65,12 +65,6 @@ require("lazy").setup({
     config = function()
       Fzf = require("fzf-lua")
       Fzf.setup {
-        hls = {
-          -- normal = "NormalFloat",
-        },
-        files = {
-          -- previewer = false,
-        },
         fzf_colors = true,
         keymap = {
           fzf = {
@@ -377,7 +371,7 @@ vim.keymap.set({ "n", "t" }, "<C-j>", function()
 
   vim.api.nvim_open_win(vim.g.bottom_terminal_buffer, true, {
     split = "below",
-    height = math.floor(vim.o.lines * 0.5),
+    height = math.floor(vim.o.lines * 0.45),
   })
 
   if vim.bo[vim.g.bottom_terminal_buffer].buftype ~= "terminal" then
