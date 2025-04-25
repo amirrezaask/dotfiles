@@ -70,3 +70,6 @@ end
 
 
 alias gs='git status'
+
+
+export HOMEBREW_NO_AUTO_UPDATE=1
