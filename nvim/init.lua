@@ -21,7 +21,9 @@ end
 o.rtp = o.rtp .. "," .. lazypath
 
 require("lazy").setup({
-  { "amirrezaask/nvim-gruvbuddy.lua" },
+  { "amirrezaask/nvim-gruvbuddy.lua" }, -- Colorscheme
+  { "folke/tokyonight.nvim" }, -- Colorscheme
+  { "rose-pine/neovim", name = "rose-pine" }, -- Colorscheme
 
   { -- Blazingly fast autocomplete
     "saghen/blink.cmp",
@@ -156,7 +158,7 @@ require("lazy").setup({
   },
 })
 
-vim.cmd("colorscheme gruvbuddy")
+vim.cmd("colorscheme rose-pine")
 
 function Transparent()
   vim.cmd [[
@@ -191,8 +193,6 @@ o.winborder = "rounded" -- All floating windows will have rounded borders
 o.inccommand = "split" -- Show partial commands in the command line
 o.relativenumber = true -- Relative line numbers
 o.list = true -- Show list characters
-o.listchars = "tab:  ,trail:␣,eol:↲" -- Define characters used for displaying
-o.scrolloff = 10 -- Scroll when cursor is 10 lines away from screen edge
 
 _G.statusline_filetype_icon = function()
   local filetype = vim.bo.filetype or "Unknown"
@@ -230,7 +230,7 @@ function _G.statusline_mode()
 end
 
 o.statusline =
-  "%#DiffText#[%{v:lua.statusline_mode()}]%#StatusLine#  %{get(b:,'gitsigns_head','')} %= %{v:lua.statusline_filetype_icon()} %r%F%m %=[%l:%c] [%{get(b:,'gitsigns_status','')}] %y"
+  "[%{v:lua.statusline_mode()}]%#StatusLine#  %{get(b:,'gitsigns_head','')} %= %{v:lua.statusline_filetype_icon()} %r%F%m %=[%l:%c] [%{get(b:,'gitsigns_status','')}] %y"
 
 keymap("n", "Y", "^v$y", { desc = "Copy whole line" })
 keymap("t", "<esc>", [[<C-\><C-n>]])
@@ -307,13 +307,92 @@ do -- Programming languages setup
       })
 
       vim.keymap.set("n", "<C-enter>", function()
-        vim.cmd [[ vnew | term go build ./... ]]
-        vim.wo[0].winbar = "go build ./..."
+        print("Go Building...")
+        local cwd = vim.fn.getcwd()
+
+        vim.system({ "go", "build", "-v", "./..." }, { cwd = cwd }, function(obj)
+          vim.schedule(function()
+            local qf_list = {}
+            local lines = vim.split(obj.stderr or "", "\n", { trimempty = true })
+
+            -- Parse Go compiler errors
+            for _, line in ipairs(lines) do
+              -- Match pattern: file:line:col: message
+              local filename, lnum, col, message = line:match("^([^:]+):(%d+):(%d+):%s*(.+)$")
+              if not filename then
+                -- Match pattern: file:line: message (no column)
+                filename, lnum, message = line:match("^([^:]+):(%d+):%s*(.+)$")
+                col = 0
+              end
+
+              if filename and lnum and message then
+                table.insert(qf_list, {
+                  filename = filename,
+                  lnum = tonumber(lnum),
+                  col = tonumber(col or 0),
+                  text = message,
+                  type = "E",
+                })
+              end
+            end
+
+            -- Update quickfix list
+            vim.fn.setqflist({}, "r", {
+              title = "Go Build",
+              items = qf_list,
+            })
+
+            -- Show notification based on result
+            if obj.code ~= 0 then
+              vim.notify("Go build failed with " .. #qf_list .. " errors", vim.log.levels.ERROR)
+              vim.cmd.copen()
+            else
+              vim.notify("Go build successful", vim.log.levels.INFO)
+              vim.cmd.cclose()
+            end
+          end)
+        end)
       end, { buffer = args.buf })
 
       vim.keymap.set("n", "<M-enter>", function()
-        vim.cmd [[ vnew | term go test ./... ]]
-        vim.wo[0].winbar = "go build ./..."
+        local cwd = vim.fn.getcwd()
+        print("Go Test running ...")
+        vim.system({ "go", "test", "-v", "./..." }, { cwd = cwd }, function(obj)
+          vim.schedule(function()
+            local qf_list = {}
+            local lines = vim.split(obj.stderr or "", "\n", { trimempty = true })
+
+            for _, line in ipairs(lines) do
+              local filename, lnum, message = line:match("^%s*([^:]+):(%d+):%s*(.+)$")
+              if filename and lnum and message then
+                if message:match("FAIL") or message:match("Error") or message:match("panic") then
+                  table.insert(qf_list, {
+                    filename = filename,
+                    lnum = tonumber(lnum),
+                    col = 0, -- Go test output typically doesn't include column
+                    text = message,
+                    type = "E",
+                  })
+                end
+              end
+            end
+
+            -- Update quickfix list
+            vim.fn.setqflist({}, "r", {
+              title = "Go Test",
+              items = qf_list,
+            })
+
+            -- Show notification based on result
+            if obj.code ~= 0 then
+              vim.notify("Go tests failed with " .. #qf_list .. " errors", vim.log.levels.ERROR)
+              vim.cmd.copen()
+            else
+              vim.notify("Go tests passed", vim.log.levels.INFO)
+              vim.cmd.cclose()
+            end
+          end)
+        end)
       end, { buffer = args.buf })
     end,
   })
