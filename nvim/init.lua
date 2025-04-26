@@ -149,7 +149,6 @@ require("lazy").setup({
   },
 })
 
-vim.g.gruvbuddy_transparent = false
 vim.g.gruvbuddy_style = "dark"
 vim.cmd.colorscheme("gruvbuddy")
 
@@ -302,116 +301,114 @@ vim.api.nvim_create_autocmd("LspAttach", {
     keymap("n", "<leader>q", vim.diagnostic.setloclist, { buffer = args.buf })
   end,
 })
+-- Programming languages setup
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "go",
+  callback = function(args)
+    vim.bo[args.buf].sw = 4
+    vim.bo[args.buf].ts = 4
+    vim.bo[args.buf].expandtab = false
+    vim.bo[args.buf].shiftwidth = 4
+    vim.lsp.start({
+      cmd = { "gopls" },
+      filetypes = { "go" },
+      root_markers = { "go.mod", "go.sum", ".git" },
+    })
 
-do -- Programming languages setup
-  vim.api.nvim_create_autocmd("FileType", {
-    pattern = "go",
-    callback = function(args)
-      vim.bo[args.buf].sw = 4
-      vim.bo[args.buf].ts = 4
-      vim.bo[args.buf].expandtab = false
-      vim.bo[args.buf].shiftwidth = 4
-      vim.lsp.start({
-        cmd = { "gopls" },
-        filetypes = { "go" },
-        root_markers = { "go.mod", "go.sum", ".git" },
-      })
+    local function run_go_command_in_split(command_with_opts)
+      return function()
+        print("running " .. table.concat(command_with_opts, " "))
+        local cwd = vim.fn.getcwd()
 
-      local function run_go_command_in_split(command_with_opts)
-        return function()
-          print("running " .. table.concat(command_with_opts, " "))
-          local cwd = vim.fn.getcwd()
+        vim.system(command_with_opts, { cwd = cwd }, function(obj)
+          vim.schedule(function()
+            local msg = ""
+            if obj.code ~= 0 then
+              msg = "Go Build Failed!"
+              vim.notify(msg, vim.log.levels.ERROR)
+            else
+              msg = "Go Build Succeded!"
+              vim.notify(msg, vim.log.levels.INFO)
+            end
 
-          vim.system(command_with_opts, { cwd = cwd }, function(obj)
-            vim.schedule(function()
-              local msg = ""
-              if obj.code ~= 0 then
-                msg = "Go Build Failed!"
-                vim.notify(msg, vim.log.levels.ERROR)
-              else
-                msg = "Go Build Succeded!"
-                vim.notify(msg, vim.log.levels.INFO)
+            if not vim.g.go_build_buffer or not vim.api.nvim_buf_is_valid(vim.g.go_build_buffer) then
+              vim.g.go_build_buffer = vim.api.nvim_create_buf(false, true)
+            end
+
+            vim.api.nvim_buf_set_option(vim.g.go_build_buffer, "modifiable", true)
+            local lines = vim.split(obj.stdout .. obj.stderr, "\n", { trimempty = true })
+            table.insert(lines, 1, "Go Build Output:")
+            table.insert(lines, #lines + 1, msg)
+
+            vim.api.nvim_buf_set_lines(vim.g.go_build_buffer, 0, -1, false, lines)
+            vim.api.nvim_buf_set_option(vim.g.go_build_buffer, "buftype", "nofile")
+            vim.api.nvim_buf_set_option(vim.g.go_build_buffer, "bufhidden", "wipe")
+            vim.api.nvim_buf_set_option(vim.g.go_build_buffer, "swapfile", false)
+            vim.api.nvim_buf_set_option(vim.g.go_build_buffer, "modifiable", false)
+
+            for _, win in ipairs(vim.api.nvim_list_wins()) do -- Toggle if a window showing terminal is open
+              local win_buf = vim.api.nvim_win_get_buf(win)
+              if win_buf == vim.g.go_build_buffer then
+                return
               end
+            end
 
-              if not vim.g.go_build_buffer or not vim.api.nvim_buf_is_valid(vim.g.go_build_buffer) then
-                vim.g.go_build_buffer = vim.api.nvim_create_buf(false, true)
-              end
-
-              vim.api.nvim_buf_set_option(vim.g.go_build_buffer, "modifiable", true)
-              local lines = vim.split(obj.stdout .. obj.stderr, "\n", { trimempty = true })
-              table.insert(lines, 1, "Go Build Output:")
-              table.insert(lines, #lines + 1, msg)
-
-              vim.api.nvim_buf_set_lines(vim.g.go_build_buffer, 0, -1, false, lines)
-              vim.api.nvim_buf_set_option(vim.g.go_build_buffer, "buftype", "nofile")
-              vim.api.nvim_buf_set_option(vim.g.go_build_buffer, "bufhidden", "wipe")
-              vim.api.nvim_buf_set_option(vim.g.go_build_buffer, "swapfile", false)
-              vim.api.nvim_buf_set_option(vim.g.go_build_buffer, "modifiable", false)
-
-              for _, win in ipairs(vim.api.nvim_list_wins()) do -- Toggle if a window showing terminal is open
-                local win_buf = vim.api.nvim_win_get_buf(win)
-                if win_buf == vim.g.go_build_buffer then
-                  return
-                end
-              end
-
-              vim.api.nvim_open_win(vim.g.go_build_buffer, true, {
-                split = "right",
-                width = math.floor(vim.o.columns * 0.3),
-              })
-            end)
+            vim.api.nvim_open_win(vim.g.go_build_buffer, true, {
+              split = "right",
+              width = math.floor(vim.o.columns * 0.3),
+            })
           end)
-        end
+        end)
       end
+    end
 
-      vim.keymap.set("n", "<C-enter>", run_go_command_in_split({ "go", "build", "-v", "./..." }), { buffer = args.buf })
+    vim.keymap.set("n", "<C-enter>", run_go_command_in_split({ "go", "build", "-v", "./..." }), { buffer = args.buf })
 
-      vim.keymap.set("n", "<M-enter>", run_go_command_in_split({ "go", "test", "-v", "./..." }), { buffer = args.buf })
-    end,
-  })
+    vim.keymap.set("n", "<M-enter>", run_go_command_in_split({ "go", "test", "-v", "./..." }), { buffer = args.buf })
+  end,
+})
 
-  vim.api.nvim_create_autocmd("FileType", {
-    pattern = "lua",
-    callback = function(args)
-      vim.keymap.set("n", "<C-enter>", ":so %<CR>", { buffer = args.buf })
-      vim.bo[args.buf].sw = 2
-      vim.bo[args.buf].ts = 2
-      vim.bo[args.buf].expandtab = true
-      vim.bo[args.buf].shiftwidth = 2
-      vim.lsp.start({
-        cmd = { "lua-language-server" },
-        filetypes = { "lua" },
-        root_markers = { ".git" },
-        settings = {
-          Lua = {
-            workspace = {
-              userThirdParty = { os.getenv("HOME") .. ".local/share/LuaAddons" },
-              checkThirdParty = "Apply",
-            },
-            diagnostics = {
-              globals = { "vim" },
-            },
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "lua",
+  callback = function(args)
+    vim.keymap.set("n", "<C-enter>", ":so %<CR>", { buffer = args.buf })
+    vim.bo[args.buf].sw = 2
+    vim.bo[args.buf].ts = 2
+    vim.bo[args.buf].expandtab = true
+    vim.bo[args.buf].shiftwidth = 2
+    vim.lsp.start({
+      cmd = { "lua-language-server" },
+      filetypes = { "lua" },
+      root_markers = { ".git" },
+      settings = {
+        Lua = {
+          workspace = {
+            userThirdParty = { os.getenv("HOME") .. ".local/share/LuaAddons" },
+            checkThirdParty = "Apply",
+          },
+          diagnostics = {
+            globals = { "vim" },
           },
         },
-      })
-    end,
-  })
+      },
+    })
+  end,
+})
 
-  vim.api.nvim_create_autocmd("FileType", {
-    pattern = "php",
-    callback = function(args)
-      vim.bo[args.buf].sw = 4
-      vim.bo[args.buf].ts = 4
-      vim.bo[args.buf].expandtab = false
-      vim.bo[args.buf].shiftwidth = 4
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "php",
+  callback = function(args)
+    vim.bo[args.buf].sw = 4
+    vim.bo[args.buf].ts = 4
+    vim.bo[args.buf].expandtab = false
+    vim.bo[args.buf].shiftwidth = 4
 
-      vim.diagnostic.config({ virtual_text = false })
+    vim.diagnostic.config({ virtual_text = false })
 
-      vim.lsp.start({
-        cmd = { "intelephense", "--stdio" },
-        filetypes = { "php" },
-        root_markers = { "composer.json", ".git" },
-      })
-    end,
-  })
-end
+    vim.lsp.start({
+      cmd = { "intelephense", "--stdio" },
+      filetypes = { "php" },
+      root_markers = { "composer.json", ".git" },
+    })
+  end,
+})
