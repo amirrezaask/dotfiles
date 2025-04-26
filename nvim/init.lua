@@ -223,10 +223,15 @@ keymap("t", "<esc>", [[<C-\><C-n>]])
 keymap("i", "<C-c>", "<esc>")
 keymap("n", "<C-d>", "<C-d>zz")
 keymap("n", "<C-u>", "<C-u>zz")
-keymap({ "n", "t" }, "<C-j>", "<C-w>j") -- Window navigation
-keymap({ "n", "t" }, "<C-k>", "<C-w>k") -- Window navigation
-keymap({ "n", "t" }, "<C-h>", "<C-w>h") -- Window navigation
-keymap({ "n", "t" }, "<C-l>", "<C-w>l") -- Window navigation
+keymap({ "n" }, "<C-j>", "<C-w>j") -- Window navigation
+keymap({ "n" }, "<C-k>", "<C-w>k") -- Window navigation
+keymap({ "n" }, "<C-h>", "<C-w>h") -- Window navigation
+keymap({ "n" }, "<C-l>", "<C-w>l") -- Window navigation
+
+keymap({ "t" }, "<C-j>", "<C-\\><C-n>C-w>j", { noremap = true }) -- Window navigation
+keymap({ "t" }, "<C-k>", "<C-\\><C-n>C-w>k", { noremap = true }) -- Window navigation
+keymap({ "t" }, "<C-h>", "<C-\\><C-n>C-w>h", { noremap = true }) -- Window navigation
+keymap({ "t" }, "<C-l>", "<C-\\><C-n>C-w>l", { noremap = true }) -- Window navigation
 keymap("n", "n", "nzz")
 keymap("n", "N", "Nzz")
 keymap("i", "jk", "<ESC>")
