@@ -21,9 +21,12 @@ end
 o.rtp = o.rtp .. "," .. lazypath
 
 require("lazy").setup({
-  { "amirrezaask/nvim-gruvbuddy.lua" }, -- Colorscheme
-  { "folke/tokyonight.nvim" }, -- Colorscheme
-  { "rose-pine/neovim", name = "rose-pine", opts = { styles = { italic = false } } }, -- Colorscheme
+  { "amirrezaask/nvim-gruvbuddy.lua" }, -- Colorscheme, inspired by great @tjdevries.
+
+  { "supermaven-inc/supermaven-nvim", opts = {} }, -- AI Apocalypse
+  { "MagicDuck/grug-far.nvim", opts = {} }, -- Find/Replace project wide.
+  { "stevearc/oil.nvim", dependencies = { "nvim-tree/nvim-web-devicons" }, opts = {} }, -- File manager done right.
+  { "williamboman/mason.nvim", opts = {} }, -- Package manager for your system inside neovim.
 
   { -- Blazingly fast autocomplete
     "saghen/blink.cmp",
@@ -51,11 +54,6 @@ require("lazy").setup({
         end,
       })
     end,
-  },
-
-  { -- Package manager for your system inside neovim.
-    "williamboman/mason.nvim",
-    opts = {},
   },
 
   {
@@ -127,12 +125,6 @@ require("lazy").setup({
   },
 
   {
-    "stevearc/oil.nvim",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
-    opts = {},
-  },
-
-  {
     "lewis6991/gitsigns.nvim",
     config = function()
       require("gitsigns").setup {
@@ -146,19 +138,10 @@ require("lazy").setup({
       }
     end,
   },
-
-  { -- AI Apocalypse
-    "supermaven-inc/supermaven-nvim",
-    opts = {},
-  },
-
-  { -- Find/Replace project wide.
-    "MagicDuck/grug-far.nvim",
-    opts = {},
-  },
 })
 
-vim.cmd.colorscheme("tokyonight-moon")
+vim.g.gruvbuddy_transparent = true
+vim.cmd.colorscheme("gruvbuddy")
 
 function Transparent()
   vim.cmd [[
@@ -169,6 +152,10 @@ function Transparent()
     hi SignColumn guibg=none
     hi LineNr guibg=none
   ]]
+end
+
+if not vim.env.NVIM_NO_TRANSPARENT then
+  Transparent()
 end
 
 vim.api.nvim_create_user_command("Transparent", Transparent, {})
@@ -290,7 +277,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
     keymap("n", "R", vim.lsp.buf.rename, { buffer = args.buf })
     keymap("n", "K", vim.lsp.buf.hover, { buffer = args.buf })
     keymap("n", "C", vim.lsp.buf.code_action, { buffer = args.buf })
-    keymap({ "n", "i" }, "<C-s>", vim.lsp.buf.signature_help, { buffer = args.buf })
+    keymap("n", "<leader>s", vim.lsp.buf.signature_help, { buffer = args.buf })
     keymap("n", "<leader>l", vim.diagnostic.open_float, { buffer = args.buf })
     keymap("n", "<leader>q", vim.diagnostic.setloclist, { buffer = args.buf })
   end,
@@ -447,12 +434,18 @@ do -- Programming languages setup
   })
 end
 
-keymap({ "n" }, "<leader>j", function() -- Terminal at the bottom
+keymap({ "n", "t" }, "<C-s>", function() -- Terminal at the bottom
   -- We have a valid buffer showing the terminal
   if not vim.g.bottom_terminal_buffer or not vim.api.nvim_buf_is_valid(vim.g.bottom_terminal_buffer) then
     vim.g.bottom_terminal_buffer = vim.api.nvim_create_buf(false, true)
   end
-
+  for _, win in ipairs(vim.api.nvim_list_wins()) do -- Toggle if a window showing terminal is open
+    local win_buf = vim.api.nvim_win_get_buf(win)
+    if win_buf == vim.g.bottom_terminal_buffer then
+      vim.api.nvim_win_hide(win)
+      return
+    end
+  end
   local win = vim.api.nvim_open_win(vim.g.bottom_terminal_buffer, true, {
     win = -1,
     split = "below",
