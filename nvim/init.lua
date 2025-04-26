@@ -357,8 +357,9 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
-vim.keymap.set({ "n", "t" }, "<C-j>", function()
-  if not vim.g.bottom_terminal_buffer or not vim.api.nvim_buf_is_valid(vim.g.bottom_terminal_buffer) then -- we have a valid buffer showing the terminal
+vim.keymap.set({ "n", "t" }, "<C-j>", function() -- Terminal at the bottom
+  -- We have a valid buffer showing the terminal
+  if not vim.g.bottom_terminal_buffer or not vim.api.nvim_buf_is_valid(vim.g.bottom_terminal_buffer) then
     vim.g.bottom_terminal_buffer = vim.api.nvim_create_buf(false, true)
   end
 
@@ -372,7 +373,7 @@ vim.keymap.set({ "n", "t" }, "<C-j>", function()
 
   vim.api.nvim_open_win(vim.g.bottom_terminal_buffer, true, {
     split = "below",
-    height = math.floor(vim.o.lines * 0.45),
+    height = math.floor(vim.o.lines * 0.3),
   })
 
   if vim.bo[vim.g.bottom_terminal_buffer].buftype ~= "terminal" then
