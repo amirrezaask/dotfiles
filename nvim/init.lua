@@ -101,6 +101,15 @@ require("lazy").setup({
         ensure_installed = "all",
         highlight = { enable = true },
         auto_install = true,
+        incremental_selection = {
+          enable = true,
+          keymaps = {
+            init_selection = "<C-space>",
+            node_incremental = "<C-space>",
+            scope_incremental = false,
+            node_decremental = "<bs>",
+          },
+        },
         textobjects = {
           select = {
             enable = true,
@@ -144,23 +153,6 @@ vim.g.gruvbuddy_transparent = false
 vim.g.gruvbuddy_style = "dark"
 vim.cmd.colorscheme("gruvbuddy")
 
-function Transparent()
-  vim.cmd [[
-    hi Normal guibg=none
-    hi NormalFloat guibg=none
-    hi NormalNC guibg=none
-    hi FloatBorder guibg=none
-    hi SignColumn guibg=none
-    hi LineNr guibg=none
-  ]]
-end
-
-if not vim.env.NVIM_NO_TRANSPARENT then
-  Transparent()
-end
-
-vim.api.nvim_create_user_command("Transparent", Transparent, {})
-
 o.wrap = true -- Wrap long lines.
 o.breakindent = true -- Indent wrapped lines.
 o.signcolumn = "yes" -- Show signcolumn.
@@ -182,7 +174,6 @@ o.termguicolors = true -- Enable 24-bit RGB colors
 o.winborder = "rounded" -- All floating windows will have rounded borders
 o.inccommand = "split" -- Show partial commands in the command line
 o.relativenumber = true -- Relative line numbers
-o.list = true -- Show list characters
 
 _G.statusline_filetype_icon = function()
   local filetype = vim.bo.filetype or "Unknown"
@@ -326,94 +317,56 @@ do -- Programming languages setup
         root_markers = { "go.mod", "go.sum", ".git" },
       })
 
-      vim.keymap.set("n", "<C-enter>", function()
-        print("Go Building...")
-        local cwd = vim.fn.getcwd()
+      local function run_go_command_in_split(command_with_opts)
+        return function()
+          print("running " .. table.concat(command_with_opts, " "))
+          local cwd = vim.fn.getcwd()
 
-        vim.system({ "go", "build", "-v", "./..." }, { cwd = cwd }, function(obj)
-          vim.schedule(function()
-            local qf_list = {}
-            local lines = vim.split(obj.stderr or "", "\n", { trimempty = true })
-
-            -- Parse Go compiler errors
-            for _, line in ipairs(lines) do
-              -- Match pattern: file:line:col: message
-              local filename, lnum, col, message = line:match("^([^:]+):(%d+):(%d+):%s*(.+)$")
-              if not filename then
-                -- Match pattern: file:line: message (no column)
-                filename, lnum, message = line:match("^([^:]+):(%d+):%s*(.+)$")
-                col = 0
+          vim.system(command_with_opts, { cwd = cwd }, function(obj)
+            vim.schedule(function()
+              local msg = ""
+              if obj.code ~= 0 then
+                msg = "Go Build Failed!"
+                vim.notify(msg, vim.log.levels.ERROR)
+              else
+                msg = "Go Build Succeded!"
+                vim.notify(msg, vim.log.levels.INFO)
               end
 
-              if filename and lnum and message then
-                table.insert(qf_list, {
-                  filename = filename,
-                  lnum = tonumber(lnum),
-                  col = tonumber(col or 0),
-                  text = message,
-                  type = "E",
-                })
+              if not vim.g.go_build_buffer or not vim.api.nvim_buf_is_valid(vim.g.go_build_buffer) then
+                vim.g.go_build_buffer = vim.api.nvim_create_buf(false, true)
               end
-            end
 
-            -- Update quickfix list
-            vim.fn.setqflist({}, "r", {
-              title = "Go Build",
-              items = qf_list,
-            })
+              vim.api.nvim_buf_set_option(vim.g.go_build_buffer, "modifiable", true)
+              local lines = vim.split(obj.stdout .. obj.stderr, "\n", { trimempty = true })
+              table.insert(lines, 1, "Go Build Output:")
+              table.insert(lines, #lines + 1, msg)
 
-            -- Show notification based on result
-            if obj.code ~= 0 then
-              vim.notify("Go build failed with " .. #qf_list .. " errors", vim.log.levels.ERROR)
-              vim.cmd.copen()
-            else
-              vim.notify("Go build successful", vim.log.levels.INFO)
-              vim.cmd.cclose()
-            end
-          end)
-        end)
-      end, { buffer = args.buf })
+              vim.api.nvim_buf_set_lines(vim.g.go_build_buffer, 0, -1, false, lines)
+              vim.api.nvim_buf_set_option(vim.g.go_build_buffer, "buftype", "nofile")
+              vim.api.nvim_buf_set_option(vim.g.go_build_buffer, "bufhidden", "wipe")
+              vim.api.nvim_buf_set_option(vim.g.go_build_buffer, "swapfile", false)
+              vim.api.nvim_buf_set_option(vim.g.go_build_buffer, "modifiable", false)
 
-      vim.keymap.set("n", "<M-enter>", function()
-        local cwd = vim.fn.getcwd()
-        print("Go Test running ...")
-        vim.system({ "go", "test", "-v", "./..." }, { cwd = cwd }, function(obj)
-          vim.schedule(function()
-            local qf_list = {}
-            local lines = vim.split(obj.stderr or "", "\n", { trimempty = true })
-
-            for _, line in ipairs(lines) do
-              local filename, lnum, message = line:match("^%s*([^:]+):(%d+):%s*(.+)$")
-              if filename and lnum and message then
-                if message:match("FAIL") or message:match("Error") or message:match("panic") then
-                  table.insert(qf_list, {
-                    filename = filename,
-                    lnum = tonumber(lnum),
-                    col = 0, -- Go test output typically doesn't include column
-                    text = message,
-                    type = "E",
-                  })
+              for _, win in ipairs(vim.api.nvim_list_wins()) do -- Toggle if a window showing terminal is open
+                local win_buf = vim.api.nvim_win_get_buf(win)
+                if win_buf == vim.g.go_build_buffer then
+                  return
                 end
               end
-            end
 
-            -- Update quickfix list
-            vim.fn.setqflist({}, "r", {
-              title = "Go Test",
-              items = qf_list,
-            })
-
-            -- Show notification based on result
-            if obj.code ~= 0 then
-              vim.notify("Go tests failed with " .. #qf_list .. " errors", vim.log.levels.ERROR)
-              vim.cmd.copen()
-            else
-              vim.notify("Go tests passed", vim.log.levels.INFO)
-              vim.cmd.cclose()
-            end
+              vim.api.nvim_open_win(vim.g.go_build_buffer, true, {
+                split = "right",
+                width = math.floor(vim.o.columns * 0.3),
+              })
+            end)
           end)
-        end)
-      end, { buffer = args.buf })
+        end
+      end
+
+      vim.keymap.set("n", "<C-enter>", run_go_command_in_split({ "go", "build", "-v", "./..." }), { buffer = args.buf })
+
+      vim.keymap.set("n", "<M-enter>", run_go_command_in_split({ "go", "test", "-v", "./..." }), { buffer = args.buf })
     end,
   })
 
