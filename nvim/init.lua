@@ -23,6 +23,8 @@ require("lazy").setup({
   -- Colorschemes
   { "amirrezaask/nvim-gruvbuddy.lua" },
   { "amirrezaask/nvim-norcalli.lua" },
+  { "folke/tokyonight.nvim" },
+  { "rose-pine/neovim", name = "rose-pine" },
 
   { -- Blazingly fast autocomplete
     "saghen/blink.cmp",
@@ -157,6 +159,18 @@ require("lazy").setup({
   },
 })
 
+vim.cmd.colorscheme(vim.env.NVIM_COLORSCHEME or "gruvbuddy")
+
+function Transparent()
+  vim.cmd [[
+    hi Normal guibg=none
+    hi NormalFloat guibg=none
+    hi NormalNC guibg=none
+    hi FloatBorder guibg=none
+    hi SignColumn guibg=none
+    hi LineNr guibg=none
+  ]]
+end
 o.wrap = true -- Wrap long lines.
 o.breakindent = true -- Indent wrapped lines.
 o.signcolumn = "yes" -- Show signcolumn.
@@ -277,19 +291,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
     keymap("n", "<leader>q", vim.diagnostic.setloclist, { buffer = args.buf })
   end,
 })
-
-vim.cmd.colorscheme(vim.env.NVIM_COLORSCHEME or "gruvbuddy")
-
-function Transparent()
-  vim.cmd [[
-    hi Normal guibg=none
-    hi NormalFloat guibg=none
-    hi NormalNC guibg=none
-    hi FloatBorder guibg=none
-    hi SignColumn guibg=none
-    hi LineNr guibg=none
-  ]]
-end
 
 -- Transparent()
 

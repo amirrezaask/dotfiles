@@ -61,6 +61,5 @@
   "git.openRepositoryInParentFolders": "never",
   "extensions.ignoreRecommendations": true,
   "cursor.cpp.enablePartialAccepts": true,
-  "workbench.statusBar.visible": false,
   "workbench.editor.showTabs": "none",
 }
