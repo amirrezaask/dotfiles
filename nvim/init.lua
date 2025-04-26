@@ -380,12 +380,13 @@ vim.keymap.set({ "n", "t" }, "<C-;>", function() -- Terminal at the bottom
     end
   end
 
-  vim.api.nvim_open_win(vim.g.bottom_terminal_buffer, true, {
+  local win = vim.api.nvim_open_win(vim.g.bottom_terminal_buffer, true, {
     win = -1,
     split = "below",
     height = math.floor(vim.o.lines * 0.3),
     width = vim.o.columns,
   })
+  vim.wo[win].winfixheight = true
 
   if vim.bo[vim.g.bottom_terminal_buffer].buftype ~= "terminal" then
     vim.cmd.term()
