@@ -223,6 +223,10 @@ keymap("t", "<esc>", [[<C-\><C-n>]])
 keymap("i", "<C-c>", "<esc>")
 keymap("n", "<C-d>", "<C-d>zz")
 keymap("n", "<C-u>", "<C-u>zz")
+keymap({ "n", "t" }, "<C-j>", "<C-w>j") -- Window navigation
+keymap({ "n", "t" }, "<C-k>", "<C-w>k") -- Window navigation
+keymap({ "n", "t" }, "<C-h>", "<C-w>h") -- Window navigation
+keymap({ "n", "t" }, "<C-l>", "<C-w>l") -- Window navigation
 keymap("n", "n", "nzz")
 keymap("n", "N", "Nzz")
 keymap("i", "jk", "<ESC>")
@@ -357,7 +361,7 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
-vim.keymap.set({ "n", "t" }, "<C-j>", function() -- Terminal at the bottom
+vim.keymap.set({ "n", "t" }, "<C-;>", function() -- Terminal at the bottom
   -- We have a valid buffer showing the terminal
   if not vim.g.bottom_terminal_buffer or not vim.api.nvim_buf_is_valid(vim.g.bottom_terminal_buffer) then
     vim.g.bottom_terminal_buffer = vim.api.nvim_create_buf(false, true)
@@ -372,8 +376,10 @@ vim.keymap.set({ "n", "t" }, "<C-j>", function() -- Terminal at the bottom
   end
 
   vim.api.nvim_open_win(vim.g.bottom_terminal_buffer, true, {
+    win = -1,
     split = "below",
     height = math.floor(vim.o.lines * 0.3),
+    width = vim.o.columns,
   })
 
   if vim.bo[vim.g.bottom_terminal_buffer].buftype ~= "terminal" then
