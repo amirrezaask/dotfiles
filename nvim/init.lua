@@ -1,6 +1,7 @@
 local g, o, keymap = vim.g, vim.o, vim.keymap.set
 
 g.mapleader = " "
+g.maplocalleader = ","
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
@@ -20,7 +21,6 @@ end
 o.rtp = o.rtp .. "," .. lazypath
 
 require("lazy").setup({
-  -- Colorschemes
   { "amirrezaask/nvim-gruvbuddy.lua" },
 
   { -- Blazingly fast autocomplete
@@ -168,6 +168,9 @@ function Transparent()
     hi LineNr guibg=none
   ]]
 end
+
+vim.api.nvim_create_user_command("Transparent", Transparent, {})
+
 o.wrap = true -- Wrap long lines.
 o.breakindent = true -- Indent wrapped lines.
 o.signcolumn = "yes" -- Show signcolumn.
@@ -288,10 +291,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
     keymap("n", "<leader>q", vim.diagnostic.setloclist, { buffer = args.buf })
   end,
 })
-
--- Transparent()
-
-vim.api.nvim_create_user_command("Transparent", Transparent, {})
 
 do -- Programming languages setup
   vim.api.nvim_create_autocmd("FileType", {
