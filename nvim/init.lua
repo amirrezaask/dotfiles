@@ -23,7 +23,7 @@ o.rtp = o.rtp .. "," .. lazypath
 require("lazy").setup({
   { "amirrezaask/nvim-gruvbuddy.lua" }, -- Colorscheme
   { "folke/tokyonight.nvim" }, -- Colorscheme
-  { "rose-pine/neovim", name = "rose-pine" }, -- Colorscheme
+  { "rose-pine/neovim", name = "rose-pine", opts = { styles = { italic = false } } }, -- Colorscheme
 
   { -- Blazingly fast autocomplete
     "saghen/blink.cmp",
@@ -158,7 +158,7 @@ require("lazy").setup({
   },
 })
 
-vim.cmd("colorscheme rose-pine")
+vim.cmd.colorscheme("tokyonight-moon")
 
 function Transparent()
   vim.cmd [[
@@ -186,7 +186,9 @@ o.ignorecase = true -- Search case insensitive...
 o.smartcase = true -- ... but not if it contains caps
 o.cursorline = true -- Highlight current line
 o.guicursor = o.guicursor .. ",t:ver25"
+o.updatetime = 100 -- Faster completion
 o.laststatus = 3 -- Single Statusline for all windows
+o.timeoutlen = 300 -- Faster completion
 o.number = true -- Line numbers
 o.termguicolors = true -- Enable 24-bit RGB colors
 o.winborder = "rounded" -- All floating windows will have rounded borders
@@ -250,12 +252,14 @@ keymap("n", "n", "nzz")
 keymap("n", "N", "Nzz")
 keymap("i", "jk", "<ESC>")
 keymap("i", "kj", "<ESC>")
+keymap("t", "jk", "<C-\\><C-n>", { noremap = true })
+keymap("t", "kj", "<C-\\><C-n>", { noremap = true })
 keymap("n", "<CR>", [[ {-> v:hlsearch ? ':nohl<CR>' : '<CR>'}() ]], { expr = true })
 keymap("n", "j", "gj")
 keymap("n", "k", "gk")
 keymap("n", "{", "<cmd>cprev<CR>")
 keymap("n", "}", "<cmd>cnext<CR>")
-keymap("n", "<M-k>", ":bwipe!<CR>")
+keymap({ "n", "t" }, "<M-k>", "<cmd>wincmd q<CR>")
 keymap("n", "<C-q>", function()
   local wins = vim.api.nvim_list_wins()
   for _, win in ipairs(wins) do
@@ -443,18 +447,10 @@ do -- Programming languages setup
   })
 end
 
-vim.keymap.set({ "n", "t" }, "<C-;>", function() -- Terminal at the bottom
+keymap({ "n" }, "<leader>j", function() -- Terminal at the bottom
   -- We have a valid buffer showing the terminal
   if not vim.g.bottom_terminal_buffer or not vim.api.nvim_buf_is_valid(vim.g.bottom_terminal_buffer) then
     vim.g.bottom_terminal_buffer = vim.api.nvim_create_buf(false, true)
-  end
-
-  for _, win in ipairs(vim.api.nvim_list_wins()) do
-    local win_buf = vim.api.nvim_win_get_buf(win)
-    if win_buf == vim.g.bottom_terminal_buffer then
-      vim.api.nvim_win_hide(win)
-      return
-    end
   end
 
   local win = vim.api.nvim_open_win(vim.g.bottom_terminal_buffer, true, {

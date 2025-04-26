@@ -1,12 +1,12 @@
 # Font
 font-family = Jetbrains Mono
-font-style = Bold
+font-style = Medium
 # font-size = 15
 # adjust-cell-height = 25%
 
 macos-titlebar-style=tabs
 
-# macos-icon=blueprint
+macos-icon=blueprint
 mouse-hide-while-typing = true
 cursor-style-blink = false
 cursor-style = bar
@@ -27,6 +27,7 @@ keybind = cmd+f=toggle_split_zoom
 shell-integration-features = no-cursor
 window-colorspace = "display-p3"
 
+theme = Abernathy
 # theme = gruvbuddy
-theme = rose-pine
+# theme = rose-pine
 # background = 000000

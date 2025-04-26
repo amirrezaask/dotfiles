@@ -61,5 +61,7 @@
   "git.openRepositoryInParentFolders": "never",
   "extensions.ignoreRecommendations": true,
   "cursor.cpp.enablePartialAccepts": true,
-  "workbench.editor.showTabs": "none",
+  "supermaven.enable": {
+    "*": false
+  },
 }
