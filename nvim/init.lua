@@ -22,9 +22,6 @@ o.rtp = o.rtp .. "," .. lazypath
 require("lazy").setup({
   -- Colorschemes
   { "amirrezaask/nvim-gruvbuddy.lua" },
-  { "amirrezaask/nvim-norcalli.lua" },
-  { "folke/tokyonight.nvim" },
-  { "rose-pine/neovim", name = "rose-pine" },
 
   { -- Blazingly fast autocomplete
     "saghen/blink.cmp",
@@ -159,7 +156,7 @@ require("lazy").setup({
   },
 })
 
-vim.cmd.colorscheme(vim.env.NVIM_COLORSCHEME or "gruvbuddy")
+vim.cmd("colorscheme gruvbuddy")
 
 function Transparent()
   vim.cmd [[
@@ -296,76 +293,77 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 vim.api.nvim_create_user_command("Transparent", Transparent, {})
 
--- Programming languages setup
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = "go",
-  callback = function(args)
-    vim.bo[args.buf].sw = 4
-    vim.bo[args.buf].ts = 4
-    vim.bo[args.buf].expandtab = false
-    vim.bo[args.buf].shiftwidth = 4
-    vim.lsp.start({
-      cmd = { "gopls" },
-      filetypes = { "go" },
-      root_markers = { "go.mod", "go.sum", ".git" },
-    })
+do -- Programming languages setup
+  vim.api.nvim_create_autocmd("FileType", {
+    pattern = "go",
+    callback = function(args)
+      vim.bo[args.buf].sw = 4
+      vim.bo[args.buf].ts = 4
+      vim.bo[args.buf].expandtab = false
+      vim.bo[args.buf].shiftwidth = 4
+      vim.lsp.start({
+        cmd = { "gopls" },
+        filetypes = { "go" },
+        root_markers = { "go.mod", "go.sum", ".git" },
+      })
 
-    vim.keymap.set("n", "<C-enter>", function()
-      vim.cmd [[ vnew | term go build ./... ]]
-      vim.wo[0].winbar = "go build ./..."
-    end, { buffer = args.buf })
+      vim.keymap.set("n", "<C-enter>", function()
+        vim.cmd [[ vnew | term go build ./... ]]
+        vim.wo[0].winbar = "go build ./..."
+      end, { buffer = args.buf })
 
-    vim.keymap.set("n", "<M-enter>", function()
-      vim.cmd [[ vnew | term go test ./... ]]
-      vim.wo[0].winbar = "go build ./..."
-    end, { buffer = args.buf })
-  end,
-})
+      vim.keymap.set("n", "<M-enter>", function()
+        vim.cmd [[ vnew | term go test ./... ]]
+        vim.wo[0].winbar = "go build ./..."
+      end, { buffer = args.buf })
+    end,
+  })
 
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = "lua",
-  callback = function(args)
-    vim.keymap.set("n", "<C-enter>", ":so %<CR>", { buffer = args.buf })
-    vim.bo[args.buf].sw = 2
-    vim.bo[args.buf].ts = 2
-    vim.bo[args.buf].expandtab = true
-    vim.bo[args.buf].shiftwidth = 2
-    vim.lsp.start({
-      cmd = { "lua-language-server" },
-      filetypes = { "lua" },
-      root_markers = { ".git" },
-      settings = {
-        Lua = {
-          workspace = {
-            userThirdParty = { os.getenv("HOME") .. ".local/share/LuaAddons" },
-            checkThirdParty = "Apply",
-          },
-          diagnostics = {
-            globals = { "vim" },
+  vim.api.nvim_create_autocmd("FileType", {
+    pattern = "lua",
+    callback = function(args)
+      vim.keymap.set("n", "<C-enter>", ":so %<CR>", { buffer = args.buf })
+      vim.bo[args.buf].sw = 2
+      vim.bo[args.buf].ts = 2
+      vim.bo[args.buf].expandtab = true
+      vim.bo[args.buf].shiftwidth = 2
+      vim.lsp.start({
+        cmd = { "lua-language-server" },
+        filetypes = { "lua" },
+        root_markers = { ".git" },
+        settings = {
+          Lua = {
+            workspace = {
+              userThirdParty = { os.getenv("HOME") .. ".local/share/LuaAddons" },
+              checkThirdParty = "Apply",
+            },
+            diagnostics = {
+              globals = { "vim" },
+            },
           },
         },
-      },
-    })
-  end,
-})
+      })
+    end,
+  })
 
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = "php",
-  callback = function(args)
-    vim.bo[args.buf].sw = 4
-    vim.bo[args.buf].ts = 4
-    vim.bo[args.buf].expandtab = false
-    vim.bo[args.buf].shiftwidth = 4
+  vim.api.nvim_create_autocmd("FileType", {
+    pattern = "php",
+    callback = function(args)
+      vim.bo[args.buf].sw = 4
+      vim.bo[args.buf].ts = 4
+      vim.bo[args.buf].expandtab = false
+      vim.bo[args.buf].shiftwidth = 4
 
-    vim.diagnostic.config({ virtual_text = false })
+      vim.diagnostic.config({ virtual_text = false })
 
-    vim.lsp.start({
-      cmd = { "intelephense", "--stdio" },
-      filetypes = { "php" },
-      root_markers = { "composer.json", ".git" },
-    })
-  end,
-})
+      vim.lsp.start({
+        cmd = { "intelephense", "--stdio" },
+        filetypes = { "php" },
+        root_markers = { "composer.json", ".git" },
+      })
+    end,
+  })
+end
 
 vim.keymap.set({ "n", "t" }, "<C-;>", function() -- Terminal at the bottom
   -- We have a valid buffer showing the terminal
