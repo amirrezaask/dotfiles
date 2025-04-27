@@ -55,9 +55,44 @@ require("lazy").setup({
       })
     end,
   },
+  {
+    "folke/snacks.nvim",
+    dependencies = {
+      "nvim-tree/nvim-web-devicons",
+    },
+    config = function()
+      require("snacks").setup {
+        picker = { enabled = true },
+      }
+
+      Snacks = require("snacks")
+      SnacksPicker = Snacks.picker
+
+      vim.keymap.set("n", "<leader><leader>", SnacksPicker.files, { desc = "Find Files" })
+      vim.keymap.set("n", "<C-r>", SnacksPicker.files, { desc = "Find Files" })
+      vim.keymap.set("n", "<leader>b", SnacksPicker.buffers, { desc = "Find Buffers" })
+      vim.keymap.set("n", "<leader>h", SnacksPicker.help, { desc = "Vim Help Tags" })
+      vim.keymap.set("n", "<C-p>", SnacksPicker.git_files, { desc = "Git Files" })
+      vim.keymap.set("n", "??", SnacksPicker.grep, { desc = "Live Grep" })
+      vim.keymap.set("n", "<leader>fw", SnacksPicker.grep_word, { desc = "Grep" })
+      vim.keymap.set("v", "??", SnacksPicker.grep_word, { desc = "Grep word under cursor" })
+      vim.keymap.set("n", "<leader>o", SnacksPicker.lsp_symbols, { desc = "LSP Document Symbols" })
+      vim.keymap.set("n", "<leader>O", SnacksPicker.lsp_workspace_symbols, { desc = "LSP Workspace Symbols" })
+      vim.keymap.set("n", "<M-o>", SnacksPicker.lsp_workspace_symbols, { desc = "LSP Workspace Symbols" })
+      vim.keymap.set("n", "<leader>fd", function()
+        SnacksPicker.files({ cwd = "~/.dotfiles" })
+      end, { desc = "Find Dotfiles" })
+
+      vim.lsp.buf.definition = SnacksPicker.lsp_definitions
+      vim.lsp.buf.implementation = SnacksPicker.lsp_implementations
+      vim.lsp.buf.references = SnacksPicker.lsp_references
+      vim.lsp.buf.type_definition = SnacksPicker.lsp_type_definitions
+    end,
+  },
 
   {
     "ibhagwan/fzf-lua",
+    enabled = false,
     dependencies = {
       "nvim-tree/nvim-web-devicons",
     },
@@ -91,6 +126,11 @@ require("lazy").setup({
       vim.keymap.set("n", "<leader>fd", function()
         Fzf.files({ cwd = "~/.dotfiles" })
       end, { desc = "Find Dotfiles" })
+
+      vim.lsp.buf.definition = Fzf.lsp_definitions
+      vim.lsp.buf.implementation = Fzf.lsp_implementations
+      vim.lsp.buf.references = Fzf.lsp_references
+      vim.lsp.buf.type_definition = Fzf.lsp_type_definitions
     end,
   },
 
@@ -213,8 +253,7 @@ function _G.statusline_mode()
   return mode_map[mode] or "Unknown"
 end
 
-o.statusline =
-  "[%{v:lua.statusline_mode()}]%#StatusLine#  %{get(b:,'gitsigns_head','')} [%{get(b:,'gitsigns_status','')}] %= %{v:lua.statusline_filetype_icon()} %F%m %=[%l:%c]%y"
+o.statusline = "[%{v:lua.statusline_mode()}]%#StatusLine#  %{get(b:,'gitsigns_head','')} [%{get(b:,'gitsigns_status','')}] %= %{v:lua.statusline_filetype_icon()} %F%m %=[%l:%c]%y"
 
 keymap("n", "Y", "^v$y", { desc = "Copy whole line" })
 keymap("t", "<esc>", [[<C-\><C-n>]])
@@ -294,10 +333,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
       vim.diagnostic.jump({ count = 1 })
     end, { buffer = args.buf })
     keymap("n", "C-]", vim.lsp.buf.definition, { buffer = args.buf })
-    keymap("n", "gd", Fzf.lsp_definitions or vim.lsp.buf.definition, { buffer = args.buf })
-    keymap("n", "gD", Fzf.lsp_declaration or vim.lsp.buf.declaration, { buffer = args.buf })
-    keymap("n", "gr", Fzf.lsp_references or vim.lsp.buf.references, { buffer = args.buf })
-    keymap("n", "gi", Fzf.lsp_implementation or vim.lsp.buf.implementation, { buffer = args.buf })
+    keymap("n", "gd", vim.lsp.buf.definition, { buffer = args.buf })
+    keymap("n", "gD", vim.lsp.buf.declaration, { buffer = args.buf })
+    keymap("n", "gr", vim.lsp.buf.references, { buffer = args.buf })
+    keymap("n", "gi", vim.lsp.buf.implementation, { buffer = args.buf })
     keymap("n", "R", vim.lsp.buf.rename, { buffer = args.buf })
     keymap("n", "K", vim.lsp.buf.hover, { buffer = args.buf })
     keymap("n", "C", vim.lsp.buf.code_action, { buffer = args.buf })
