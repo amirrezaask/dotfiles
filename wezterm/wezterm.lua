@@ -18,7 +18,7 @@ config.use_fancy_tab_bar = false
 config.tab_max_width = 24
 
 config.font = wezterm.font_with_fallback {
-  "Berkeley Mono",
+  -- "Berkeley Mono",
   "IBM Plex Mono",
   "Jetbrains Mono",
   "Fira Code",
