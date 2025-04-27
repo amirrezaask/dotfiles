@@ -1,5 +1,5 @@
 {
-    "editor.fontFamily": "Jetbrains Mono",
+    "editor.fontFamily": "Berkeley Mono",
     "editor.fontWeight": "bold",
     "editor.fontSize": 14,
     "terminal.integrated.fontSize": 15,
@@ -41,6 +41,12 @@
     "vim.useSystemClipboard": true,
     "vim.timeout": 200,
     "vim.normalModeKeyBindings": [
+    { "before": ["<C-d>"], "after": ["<C-d>", "z", "z"] },
+    { "before": ["<C-u>"], "after": ["<C-u>", "z", "z"] },
+    { "before": ["<leader>", "f"], "commands": [ "workbench.view.search" ], },
+    { "before": [ "<leader>", "e" ], "commands": [ "workbench.view.explorer" ], },
+    { "before": [ "<leader>", "<space>" ], "commands": [ "workbench.action.showCommands" ], },
+    { "before": [ "<leader>", "<tab>" ], "commands": [ "workbench.action.quickOpen" ], },
     { "before": [ "<leader>", "o" ], "commands": ["workbench.action.gotoSymbol"], },
     { "before": [ "<leader>", "O" ], "commands": ["workbench.action.showAllSymbols"], },
     { "before": [ "g", "r" ], "commands": [ "references-view.findReferences" ], },
@@ -61,7 +67,4 @@
   "git.openRepositoryInParentFolders": "never",
   "extensions.ignoreRecommendations": true,
   "cursor.cpp.enablePartialAccepts": true,
-  "supermaven.enable": {
-    "*": false
-  },
 }

@@ -11,21 +11,9 @@
   { "key": "cmd+o", "command": "workbench.action.files.openFileFolder" },
   { "key": "ctrl+o", "command": "workbench.action.files.openFileFolder", "when": "!vim.active" },
 
-  // Toggle Explorer
-  { "key": "cmd+shift+e", "command": "workbench.view.explorer", "when": "!view.workbench.explorer.fileView.visible" },
-  { "key": "cmd+shift+e", "command": "workbench.action.toggleSidebarVisibility", "when": "view.workbench.explorer.fileView.visible" },
-  { "key": "ctrl+shift+e", "command": "workbench.view.explorer", "when": "!view.workbench.explorer.fileView.visible" },
-  { "key": "ctrl+shift+e", "command": "workbench.action.toggleSidebarVisibility", "when": "view.workbench.explorer.fileView.visible" },
-
   // Toggle Terminal
   { "key": "cmd+j", "command": "workbench.action.terminal.toggleTerminal" },
   { "key": "ctrl+j", "command": "workbench.action.terminal.toggleTerminal" },
-
-  // Toggle Git
-  { "key": "cmd+shift+g", "command": "workbench.view.scm", "when": "!view.workbench.scm.visible" },
-  { "key": "cmd+shift+g", "command": "workbench.action.toggleSidebarVisibility", "when": "view.workbench.scm.visible" },
-  { "key": "ctrl+shift+g", "command": "workbench.view.scm", "when": "!view.workbench.scm.visible" },
-  { "key": "ctrl+shift+g", "command": "workbench.action.toggleSidebarVisibility", "when": "view.workbench.scm.visible" },
 
   // Quick Fix
   { "key": "cmd+enter", "command": "editor.action.quickFix", "when": "editorHasCodeActionsProvider && textInputFocus && !editorReadonly" },

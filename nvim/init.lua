@@ -78,6 +78,7 @@ require("lazy").setup({
       Fzf.register_ui_select()
 
       vim.keymap.set("n", "<leader><leader>", Fzf.files, { desc = "Find Files" })
+      vim.keymap.set("n", "<C-r>", Fzf.files, { desc = "Find Files" })
       vim.keymap.set("n", "<leader>b", Fzf.buffers, { desc = "Find Buffers" })
       vim.keymap.set("n", "<leader>h", Fzf.helptags, { desc = "Vim Help Tags" })
       vim.keymap.set("n", "<C-p>", Fzf.git_files, { desc = "Git Files" })
@@ -173,6 +174,7 @@ o.termguicolors = true -- Enable 24-bit RGB colors
 o.winborder = "rounded" -- All floating windows will have rounded borders
 o.inccommand = "split" -- Show partial commands in the command line
 o.relativenumber = true -- Relative line numbers
+o.scrolloff = 10 -- Scroll when cursor is 8 lines away from screen edge
 
 _G.statusline_filetype_icon = function()
   local filetype = vim.bo.filetype or "Unknown"
@@ -230,8 +232,8 @@ keymap("n", "n", "nzz")
 keymap("n", "N", "Nzz")
 keymap("i", "jk", "<ESC>")
 keymap("i", "kj", "<ESC>")
-keymap("t", "jk", "<C-\\><C-n>", { noremap = true })
-keymap("t", "kj", "<C-\\><C-n>", { noremap = true })
+-- keymap("t", "jk", "<C-\\><C-n>", { noremap = true })
+-- keymap("t", "kj", "<C-\\><C-n>", { noremap = true })
 keymap("n", "<CR>", [[ {-> v:hlsearch ? ':nohl<CR>' : '<CR>'}() ]], { expr = true })
 keymap("n", "j", "gj")
 keymap("n", "k", "gk")
@@ -262,6 +264,7 @@ keymap({ "n", "t" }, "<C-s>", function() -- Toggle terminal at the bottom of the
       return
     end
   end
+
   local win = vim.api.nvim_open_win(vim.g.bottom_terminal_buffer, true, {
     win = -1,
     split = "below",
@@ -289,10 +292,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
       vim.diagnostic.jump({ count = 1 })
     end, { buffer = args.buf })
     keymap("n", "C-]", vim.lsp.buf.definition, { buffer = args.buf })
-    keymap("n", "gd", vim.lsp.buf.definition, { buffer = args.buf })
-    keymap("n", "gD", vim.lsp.buf.declaration, { buffer = args.buf })
-    keymap("n", "gr", vim.lsp.buf.references, { buffer = args.buf })
-    keymap("n", "gi", vim.lsp.buf.implementation, { buffer = args.buf })
+    keymap("n", "gd", Fzf.lsp_definitions or vim.lsp.buf.definition, { buffer = args.buf })
+    keymap("n", "gD", Fzf.lsp_declaration or vim.lsp.buf.declaration, { buffer = args.buf })
+    keymap("n", "gr", Fzf.lsp_references or vim.lsp.buf.references, { buffer = args.buf })
+    keymap("n", "gi", Fzf.lsp_implementation or vim.lsp.buf.implementation, { buffer = args.buf })
     keymap("n", "R", vim.lsp.buf.rename, { buffer = args.buf })
     keymap("n", "K", vim.lsp.buf.hover, { buffer = args.buf })
     keymap("n", "C", vim.lsp.buf.code_action, { buffer = args.buf })
@@ -301,6 +304,36 @@ vim.api.nvim_create_autocmd("LspAttach", {
     keymap("n", "<leader>q", vim.diagnostic.setloclist, { buffer = args.buf })
   end,
 })
+
+vim.lsp.config("gopls", {
+  cmd = { "gopls" },
+  filetypes = { "go" },
+  root_markers = { "go.mod", "go.sum", ".git" },
+})
+vim.lsp.config("intelephense", {
+  cmd = { "intelephense", "--stdio" },
+  filetypes = { "php" },
+  root_markers = { "composer.json", ".git" },
+})
+
+vim.lsp.config("lua_ls", {
+  cmd = { "lua-language-server" },
+  filetypes = { "lua" },
+  root_markers = { ".git" },
+  settings = {
+    Lua = {
+      workspace = {
+        userThirdParty = { os.getenv("HOME") .. ".local/share/LuaAddons" },
+        checkThirdParty = "Apply",
+      },
+      diagnostics = {
+        globals = { "vim" },
+      },
+    },
+  },
+})
+vim.lsp.enable({ "gopls", "intelephense", "lua_ls" })
+
 -- Programming languages setup
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "go",
@@ -309,11 +342,6 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.bo[args.buf].ts = 4
     vim.bo[args.buf].expandtab = false
     vim.bo[args.buf].shiftwidth = 4
-    vim.lsp.start({
-      cmd = { "gopls" },
-      filetypes = { "go" },
-      root_markers = { "go.mod", "go.sum", ".git" },
-    })
 
     local function run_go_command_in_split(command_with_opts)
       return function()
@@ -376,22 +404,6 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.bo[args.buf].ts = 2
     vim.bo[args.buf].expandtab = true
     vim.bo[args.buf].shiftwidth = 2
-    vim.lsp.start({
-      cmd = { "lua-language-server" },
-      filetypes = { "lua" },
-      root_markers = { ".git" },
-      settings = {
-        Lua = {
-          workspace = {
-            userThirdParty = { os.getenv("HOME") .. ".local/share/LuaAddons" },
-            checkThirdParty = "Apply",
-          },
-          diagnostics = {
-            globals = { "vim" },
-          },
-        },
-      },
-    })
   end,
 })
 
@@ -404,11 +416,5 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.bo[args.buf].shiftwidth = 4
 
     vim.diagnostic.config({ virtual_text = false })
-
-    vim.lsp.start({
-      cmd = { "intelephense", "--stdio" },
-      filetypes = { "php" },
-      root_markers = { "composer.json", ".git" },
-    })
   end,
 })
