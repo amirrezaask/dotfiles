@@ -214,7 +214,7 @@ function _G.statusline_mode()
 end
 
 o.statusline =
-  "[%{v:lua.statusline_mode()}]%#StatusLine#  %{get(b:,'gitsigns_head','')} %= %{v:lua.statusline_filetype_icon()} %r%F%m %=[%l:%c] [%{get(b:,'gitsigns_status','')}] %y"
+  "[%{v:lua.statusline_mode()}]%#StatusLine#  %{get(b:,'gitsigns_head','')} [%{get(b:,'gitsigns_status','')}] %= %{v:lua.statusline_filetype_icon()} %F%m %=[%l:%c]%y"
 
 keymap("n", "Y", "^v$y", { desc = "Copy whole line" })
 keymap("t", "<esc>", [[<C-\><C-n>]])

@@ -1,18 +1,12 @@
 # Font
-# font-family = Jetbrains Mono
-# font-family = Berkeley Mono
-font-family = IBM Plex Mono
-# font-family = Liberation Mono
+font-family = TX-02
 font-style = Medium
-# font-size = 15
-# adjust-cell-height = 25%
 
 macos-titlebar-style=tabs
 
-macos-icon=retro
+macos-icon=blueprint
 mouse-hide-while-typing = true
 cursor-style-blink = false
-# cursor-style = bar
 macos-option-as-alt = true
 shell-integration-features = no-cursor
 window-inherit-working-directory = false
@@ -31,8 +25,8 @@ shell-integration-features = no-cursor
 window-colorspace = "display-p3"
 
 theme = Abernathy
-# theme = gruvbuddy
+theme = gruvbuddy
 # theme = rose-pine
-# background = 000000
+background = 111416
 cursor-color = 1DA457
 
