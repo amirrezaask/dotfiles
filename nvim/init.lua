@@ -175,6 +175,8 @@ o.winborder = "rounded" -- All floating windows will have rounded borders
 o.inccommand = "split" -- Show partial commands in the command line
 o.relativenumber = true -- Relative line numbers
 o.scrolloff = 10 -- Scroll when cursor is 8 lines away from screen edge
+o.list = true -- Show whitespace
+o.listchars = "tab:» ,trail:·,extends:<,precedes:>,eol:↲,conceal:┊,nbsp:␣"
 
 _G.statusline_filetype_icon = function()
   local filetype = vim.bo.filetype or "Unknown"
