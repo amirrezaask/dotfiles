@@ -75,6 +75,9 @@ require("lazy").setup({
       vim.keymap.set("n", "??", SnacksPicker.grep, { desc = "Live Grep" })
       vim.keymap.set("n", "<leader>fw", function()
         vim.ui.input({ prompt = "Grep word: " }, function(input)
+          if input == "" or input == nil then
+            return
+          end
           SnacksPicker.grep_word({
             search = function(_)
               return input
@@ -145,6 +148,7 @@ require("lazy").setup({
     "nvim-treesitter/nvim-treesitter",
     dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
     config = function()
+      ---@diagnostic disable-next-line: missing-fields
       require("nvim-treesitter.configs").setup {
         ensure_installed = "all",
         highlight = { enable = true },
@@ -194,6 +198,15 @@ require("lazy").setup({
         },
       }
     end,
+  },
+  {
+    -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
+    -- used for completion, annotations and signatures of Neovim apis
+    "folke/lazydev.nvim",
+    ft = "lua",
+    opts = {
+      library = {},
+    },
   },
 })
 
@@ -306,7 +319,15 @@ keymap("i", "jk", "<ESC>")
 keymap("i", "kj", "<ESC>")
 -- keymap("t", "jk", "<C-\\><C-n>", { noremap = true })
 -- keymap("t", "kj", "<C-\\><C-n>", { noremap = true })
-keymap("n", "<CR>", [[ {-> v:hlsearch ? ':nohl<CR>' : '<CR>'}() ]], { expr = true })
+keymap("n", "<CR>", function() -- Taken from https://github.com/tjdevries/config.nvim/blob/master/plugin/keymaps.lua#L16
+  if vim.v.hlsearch == 1 then
+    vim.cmd.nohl()
+    return ""
+  else
+    ---@diagnostic disable-next-line: undefined-field
+    return vim.keycode "<CR>"
+  end
+end, { expr = true })
 keymap("n", "j", "gj")
 keymap("n", "k", "gk")
 keymap("n", "{", "<cmd>cprev<CR>")
