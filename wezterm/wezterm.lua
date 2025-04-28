@@ -13,16 +13,20 @@ config.window_padding = {
   top = 0,
   bottom = 0,
 }
+
+config.adjust_window_size_when_changing_font_size = false
+
 config.use_fancy_tab_bar = false
 
 config.tab_max_width = 24
 
+-- config.font = wezterm.font
 config.font = wezterm.font_with_fallback {
-  "TX-02",
-  "Berkeley Mono",
-  "IBM Plex Mono",
-  "Jetbrains Mono",
-  "Fira Code",
+  { family = "TX-02", weight = "Medium" },
+  { family = "Berkeley Mono", weight = "Medium" },
+  { family = "IBM Plex Mono", weight = "Bold" },
+  { family = "Jetbrains Mono", weight = "Medium" },
+  { family = "Fira Code", weight = "Medium" },
 }
 
 config.font_size = 12
