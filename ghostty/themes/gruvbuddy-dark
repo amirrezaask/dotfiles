@@ -1,8 +1,6 @@
-# Ghostty theme configuration
 
-# Base colors
 cursor-color = 1DA457
-background = 282c34
+background = 111416
 foreground = e0e0e0
 selection-background = 81A2BE
 selection-background = 5a7185

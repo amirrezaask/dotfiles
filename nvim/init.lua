@@ -223,7 +223,7 @@ o.inccommand = "split" -- Show partial commands in the command line
 o.relativenumber = true -- Relative line numbers
 o.scrolloff = 10 -- Scroll when cursor is 8 lines away from screen edge
 o.list = true -- Show whitespace
-o.listchars = "tab:» ,trail:·,extends:<,precedes:>,eol:↲,conceal:┊,nbsp:␣"
+o.listchars = "tab:  ,trail:·,extends: ,precedes: ,eol:↲,conceal:┊,nbsp:␣"
 
 do
   _G._filetype_icon = function()

@@ -4,7 +4,7 @@ font-style = Medium
 
 macos-titlebar-style=tabs
 
-macos-icon=blueprint
+# macos-icon=blueprint
 mouse-hide-while-typing = true
 cursor-style-blink = false
 macos-option-as-alt = true
@@ -24,9 +24,4 @@ keybind = cmd+f=toggle_split_zoom
 shell-integration-features = no-cursor
 window-colorspace = "display-p3"
 
-theme = Abernathy
-theme = gruvbuddy
-# theme = rose-pine
-background = 111416
-cursor-color = 1DA457
-
+theme = gruvbuddy-dark
