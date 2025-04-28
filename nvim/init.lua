@@ -58,9 +58,7 @@ require("lazy").setup({
   },
   {
     "folke/snacks.nvim",
-    dependencies = {
-      "nvim-tree/nvim-web-devicons",
-    },
+    dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
       require("snacks").setup {
         picker = { enabled = true },
