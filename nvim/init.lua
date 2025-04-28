@@ -75,7 +75,15 @@ require("lazy").setup({
       vim.keymap.set("n", "<leader>h", SnacksPicker.help, { desc = "Vim Help Tags" })
       vim.keymap.set("n", "<C-p>", SnacksPicker.git_files, { desc = "Git Files" })
       vim.keymap.set("n", "??", SnacksPicker.grep, { desc = "Live Grep" })
-      vim.keymap.set("n", "<leader>fw", SnacksPicker.grep_word, { desc = "Grep" })
+      vim.keymap.set("n", "<leader>fw", function()
+        vim.ui.input({ prompt = "Grep word: " }, function(input)
+          SnacksPicker.grep_word({
+            search = function(_)
+              return input
+            end,
+          })
+        end)
+      end, { desc = "Grep" })
       vim.keymap.set("v", "??", SnacksPicker.grep_word, { desc = "Grep word under cursor" })
       vim.keymap.set("n", "<leader>o", SnacksPicker.lsp_symbols, { desc = "LSP Document Symbols" })
       vim.keymap.set("n", "<leader>O", SnacksPicker.lsp_workspace_symbols, { desc = "LSP Workspace Symbols" })
