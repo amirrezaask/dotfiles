@@ -36,6 +36,9 @@ function fish_prompt
     printf '%s' (set_color green) (prompt_pwd) (set_color white) (fish_git_prompt) ' > '
 end
 
+function fish_right_prompt
+end
+
 
 function gwip
     set -l git_branch (git branch 2>/dev/null | sed -n '/\* /s///p')
