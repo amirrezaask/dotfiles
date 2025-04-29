@@ -43,6 +43,7 @@ alias gwip='git add .; git commit -m "$(date +"%Y-%m-%d %H:%M:%S")"; git push or
 
 export PATH="/Users/amirrezaask/.config/herd-lite/bin:$PATH"
 export PHP_INI_SCAN_DIR="/Users/amirrezaask/.config/herd-lite/bin:$PHP_INI_SCAN_DIR"
+export PATH="$HOME/go/bin:$PATH"
 
 export EDITOR='nvim'
 export GIT_EDITOR="$EDITOR"
