@@ -45,6 +45,7 @@ require("lazy").setup({
         formatters_by_ft = {
           lua = { "stylua" },
           go = { "goimports" },
+          ocmal = { "ocamlformat" },
           php = {},
         },
       })
@@ -231,7 +232,7 @@ o.laststatus = 3 -- Single Statusline for all windows
 o.timeoutlen = 300 -- Faster completion
 o.number = true -- Line numbers
 o.termguicolors = true -- Enable 24-bit RGB colors
-o.winborder = "rounded" -- All floating windows will have rounded borders
+-- o.winborder = "rounded" -- All floating windows will have rounded borders
 o.inccommand = "split" -- Show partial commands in the command line
 o.relativenumber = true -- Relative line numbers
 o.scrolloff = 10 -- Scroll when cursor is 8 lines away from screen edge
@@ -425,7 +426,13 @@ vim.lsp.config("lua_ls", {
     },
   },
 })
-vim.lsp.enable({ "gopls", "intelephense", "lua_ls" })
+
+vim.lsp.config("ocamllsp", {
+  cmd = { "ocamllsp" },
+  filetypes = { "ocaml" },
+  root_markers = { ".git", "dune-project" },
+})
+vim.lsp.enable({ "gopls", "intelephense", "lua_ls", "ocamllsp" })
 
 -- Programming languages setup
 vim.api.nvim_create_autocmd("FileType", {

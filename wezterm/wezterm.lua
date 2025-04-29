@@ -20,6 +20,9 @@ config.use_fancy_tab_bar = false
 
 config.tab_max_width = 24
 
+config.window_decorations = "RESIZE" -- optional, hides title bar
+-- config.start_maximized = true
+
 -- config.font = wezterm.font
 config.font = wezterm.font_with_fallback {
   { family = "TX-02", weight = "Medium" },
