@@ -55,6 +55,7 @@ vim.lsp.config("ocamllsp", {
   filetypes = { "ocaml" },
   root_markers = { ".git", "dune-project" },
 })
+
 vim.lsp.enable({ "gopls", "intelephense", "lua_ls", "ocamllsp" })
 
 vim.diagnostic.config({ virtual_text = true })
