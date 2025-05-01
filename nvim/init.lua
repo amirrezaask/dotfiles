@@ -1,16 +1,3 @@
-vim.g.mapleader = " "
-vim.g.maplocalleader = ","
-
-function Missing(mod)
-  local ok, _ = pcall(require, mod)
-  return not ok
-end
-
-function Has(mod)
-  local ok, _ = pcall(require, mod)
-  return ok
-end
-
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
