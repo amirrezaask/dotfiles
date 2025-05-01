@@ -29,22 +29,23 @@ o.rtp = o.rtp .. "," .. lazypath
 require("lazy").setup({
   "amirrezaask/nvim-gruvbuddy.lua", -- Colorscheme, inspired by great @tjdevries.
   { "rose-pine/neovim", name = "rose-pine" }, -- Colorscheme.
-  "folke/tokyonight.nvim", -- Colorscheme.
+  { "folke/tokyonight.nvim" }, -- Colorscheme.
   { "catppuccin/nvim", name = "catppuccin" }, -- Colorscheme.
-  "ellisonleao/gruvbox.nvim",
+  { "ellisonleao/gruvbox.nvim" },
+  { "datsfilipe/vesper.nvim" },
 
-  "nvim-tree/nvim-web-devicons", -- Icons in terminal, nice.
+  { "nvim-tree/nvim-web-devicons" }, -- Icons in terminal, nice.
 
-  "supermaven-inc/supermaven-nvim", -- AI Apocalypse
-  "MagicDuck/grug-far.nvim", -- Find/Replace project wide.
-  "stevearc/oil.nvim", -- File manager done right.
-  "williamboman/mason.nvim", -- Package manager for your system inside neovim.
+  { "supermaven-inc/supermaven-nvim" }, -- AI Apocalypse
+  { "MagicDuck/grug-far.nvim" }, -- Find/Replace project wide.
+  { "stevearc/oil.nvim" }, -- File manager done right.
+  { "williamboman/mason.nvim" }, -- Package manager for your system inside neovim.
   { "saghen/blink.cmp", tag = "v1.1.1" }, -- Blazingly fast autocomplete
-  "stevearc/conform.nvim", -- Autoformat/fixes
+  { "stevearc/conform.nvim" }, -- Autoformat/fixes
   { "folke/snacks.nvim", enabled = fuzzy_finder == fuzzy_finders.Snacks }, -- Plugin collection but i use the picker only.
   { "ibhagwan/fzf-lua", enabled = fuzzy_finder == fuzzy_finders.FZF_lua }, -- as a fallback for snacks picker.
 
-  "lewis6991/gitsigns.nvim", -- Git signs
+  { "lewis6991/gitsigns.nvim" }, -- Git signs
   {
     "nvim-treesitter/nvim-treesitter",
     dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },

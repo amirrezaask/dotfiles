@@ -25,4 +25,6 @@ function Transparent()
   ]]
 end
 
+vim.api.nvim_create_user_command("Transparent", Transparent, {})
+
 vim.cmd.colorscheme("gruvbuddy")
