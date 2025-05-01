@@ -1,8 +1,10 @@
-if Missing("blink") then
+if Missing("blink.cmp") then
   return
 end
 
-require("blink").setup {
+print("setting up blink")
+
+require("blink.cmp").setup {
   keymap = { preset = "enter" },
   cmdline = { enabled = false },
 }
