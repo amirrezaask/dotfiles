@@ -1,3 +1,12 @@
+---@enum FuzzyFinders
+local fuzzy_finders = {
+  FZF_lua = 1,
+  Snacks = 2,
+}
+
+-- local fuzzy_finder = fuzzy_finders.FZF_lua
+local fuzzy_finder = fuzzy_finders.Snacks
+
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
@@ -32,8 +41,8 @@ require("lazy").setup({
   "williamboman/mason.nvim", -- Package manager for your system inside neovim.
   { "saghen/blink.cmp", tag = "v1.1.1" }, -- Blazingly fast autocomplete
   "stevearc/conform.nvim", -- Autoformat/fixes
-  { "folke/snacks.nvim", enabled = false }, -- Plugin collection but i use the picker only.
-  { "ibhagwan/fzf-lua", enabled = true }, -- as a fallback for snacks picker.
+  { "folke/snacks.nvim", enabled = fuzzy_finder == fuzzy_finders.Snacks }, -- Plugin collection but i use the picker only.
+  { "ibhagwan/fzf-lua", enabled = fuzzy_finder == fuzzy_finders.FZF_lua }, -- as a fallback for snacks picker.
 
   "lewis6991/gitsigns.nvim", -- Git signs
   {
