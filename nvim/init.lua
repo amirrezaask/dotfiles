@@ -6,6 +6,11 @@ function Missing(mod)
   return not ok
 end
 
+function Has(mod)
+  local ok, _ = pcall(require, mod)
+  return ok
+end
+
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
@@ -27,6 +32,10 @@ o.rtp = o.rtp .. "," .. lazypath
 
 require("lazy").setup({
   "amirrezaask/nvim-gruvbuddy.lua", -- Colorscheme, inspired by great @tjdevries.
+  { "rose-pine/neovim", name = "rose-pine" }, -- Colorscheme.
+  "folke/tokyonight.nvim", -- Colorscheme.
+  { "catppuccin/nvim", name = "catppuccin" }, -- Colorscheme.
+  "ellisonleao/gruvbox.nvim",
   "nvim-tree/nvim-web-devicons", -- Icons in terminal, nice.
 
   "supermaven-inc/supermaven-nvim", -- AI Apocalypse
