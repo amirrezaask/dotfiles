@@ -38,21 +38,37 @@ local space = " "
 local bracket = function(s)
   return "[" .. s .. "]"
 end
-local gitsigns_status = "[%{get(b:,'gitsigns_status','')}]"
--- local branch_icon = ""
-local gitsigns_head = "%{get(b:,'gitsigns_head','')}"
+
+_G.statusline_git_status = function()
+  if not vim.b.gitsigns_status or vim.b.gitsigns_status == "" then
+    return ""
+  else
+    return "[" .. vim.b.gitsigns_status .. "]"
+  end
+end
+
+_G.statusline_git_head = function()
+  local branch_icon = ""
+  if not vim.b.gitsigns_head or vim.b.gitsigns_head == "" then
+    return ""
+  else
+    return branch_icon .. " " .. vim.b.gitsigns_head
+  end
+end
+local git_head = "%{v:lua.statusline_git_head()}"
+local git_status = "%{v:lua.statusline_git_status()}"
 local mode = "[%{v:lua._statusline_mode()}]"
--- local filetype_icon = "%{v:lua._filetype_icon()}"
+local filetype_icon = "%{v:lua._filetype_icon()}"
 local filetype = "%y"
-local file_path = "%F"
+local filename = "%r%h%w%q%F"
 local line = "%l"
 local column = "%c"
-local line_col = line .. ":" .. column
+local line_col = line .. " :" .. column
 local modified = "%m"
 
 local sections = {
-  mode .. space .. gitsigns_head .. space .. gitsigns_status, -- Left
-  file_path .. modified, -- Center
+  mode .. space .. git_head .. space .. git_status, -- Left
+  filetype_icon .. "  " .. filename .. modified, -- Center
   bracket(line_col) .. filetype, -- Right
 }
 

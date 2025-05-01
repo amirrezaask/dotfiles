@@ -1,4 +1,4 @@
-if Missing("fzf") then
+if Missing("fzf-lua") then
   return
 end
 

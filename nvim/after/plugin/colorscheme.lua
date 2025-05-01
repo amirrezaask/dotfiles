@@ -15,4 +15,14 @@ if Has("gruvbox") then
   })
 end
 
+function Transparent()
+  vim.cmd [[
+    hi Normal guibg=none
+    hi NormalFloat guibg=none
+    hi LineNr guibg=none
+    hi SignColumn guibg=none
+    hi FloatBorder guibg=none
+  ]]
+end
+
 vim.cmd.colorscheme("gruvbuddy")

@@ -23,6 +23,7 @@ require("lazy").setup({
   "folke/tokyonight.nvim", -- Colorscheme.
   { "catppuccin/nvim", name = "catppuccin" }, -- Colorscheme.
   "ellisonleao/gruvbox.nvim",
+
   "nvim-tree/nvim-web-devicons", -- Icons in terminal, nice.
 
   "supermaven-inc/supermaven-nvim", -- AI Apocalypse
@@ -31,8 +32,8 @@ require("lazy").setup({
   "williamboman/mason.nvim", -- Package manager for your system inside neovim.
   { "saghen/blink.cmp", tag = "v1.1.1" }, -- Blazingly fast autocomplete
   "stevearc/conform.nvim", -- Autoformat/fixes
-  "folke/snacks.nvim", -- Plugin collection but i use the picker only.
-  { "ibhagwan/fzf-lua", enabled = false }, -- as a fallback for snacks picker.
+  { "folke/snacks.nvim", enabled = false }, -- Plugin collection but i use the picker only.
+  { "ibhagwan/fzf-lua", enabled = true }, -- as a fallback for snacks picker.
 
   "lewis6991/gitsigns.nvim", -- Git signs
   {
