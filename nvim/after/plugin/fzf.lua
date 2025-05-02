@@ -18,7 +18,6 @@ vim.api.nvim_set_hl(0, "FzfLuaBorder", { link = "NormalFloat" })
 Fzf.register_ui_select()
 
 vim.keymap.set("n", "<leader><leader>", Fzf.files, { desc = "Find Files" })
-vim.keymap.set("n", "<C-r>", Fzf.files, { desc = "Find Files" })
 vim.keymap.set("n", "<leader>b", Fzf.buffers, { desc = "Find Buffers" })
 vim.keymap.set("n", "<leader>h", Fzf.helptags, { desc = "Vim Help Tags" })
 vim.keymap.set("n", "<C-p>", Fzf.git_files, { desc = "Git Files" })

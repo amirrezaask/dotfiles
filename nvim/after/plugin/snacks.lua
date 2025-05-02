@@ -4,6 +4,7 @@ end
 
 require("snacks").setup {
   picker = { enabled = true },
+  bigfile = { enabled = true },
 }
 
 Snacks = require("snacks")

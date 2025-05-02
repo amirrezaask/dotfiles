@@ -37,7 +37,11 @@ require("lazy").setup({
   -- Fuzzy Finders
   { "folke/snacks.nvim", enabled = FuzzyFinder == FuzzyFinders.Snacks }, -- Plugin collection but i use the picker only.
   { "ibhagwan/fzf-lua", enabled = FuzzyFinder == FuzzyFinders.FZF }, -- as a fallback for snacks picker.
-  { "nvim-telescope/telescope.nvim", dependencies = { "nvim-lua/plenary.nvim" }, enabled = FuzzyFinder == FuzzyFinders.Telescope }, -- another fallback.
+  {
+    "nvim-telescope/telescope.nvim",
+    dependencies = { "nvim-lua/plenary.nvim", "nvim-telescope/telescope-ui-select.nvim", { "nvim-telescope/telescope-fzf-native.nvim", build = "make" } },
+    enabled = FuzzyFinder == FuzzyFinders.Telescope,
+  }, -- another fallback.
 
   { "lewis6991/gitsigns.nvim" }, -- Git signs
   {

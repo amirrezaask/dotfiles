@@ -2,6 +2,11 @@ if Missing("telescope") then
   return
 end
 
+require("telescope").setup {}
+
+require("telescope").load_extension("ui-select")
+require("telescope").load_extension("fzf")
+
 local builtin = require("telescope.builtin")
 
 vim.keymap.set("n", "<leader><leader>", builtin.find_files, { desc = "Find files" })
