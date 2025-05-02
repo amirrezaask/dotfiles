@@ -23,3 +23,13 @@ o.relativenumber = true -- Relative line numbers
 o.scrolloff = 10 -- Scroll when cursor is 8 lines away from screen edge
 o.list = true -- Show whitespace
 o.listchars = "tab:  ,trail:·,extends: ,precedes: ,eol:↲,conceal:┊,nbsp:␣"
+
+---@enum FuzzyFinders
+FuzzyFinders = {
+  FZF = 1,
+  Snacks = 2,
+  Telescope = 3,
+}
+
+-- local fuzzy_finder = fuzzy_finders.FZF_lua
+FuzzyFinder = FuzzyFinders.Snacks
