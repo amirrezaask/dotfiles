@@ -1,3 +1,5 @@
+Options = {}
+
 local o = vim.o
 o.wrap = true -- Wrap long lines.
 o.breakindent = true -- Indent wrapped lines.
@@ -31,7 +33,6 @@ FuzzyFinders = {
   Telescope = 3,
 }
 
--- local fuzzy_finder = fuzzy_finders.FZF_lua
-FuzzyFinder = FuzzyFinders.Telescope
+Options.FuzzyFinder = FuzzyFinders.Snacks
 
-Colorscheme = "gruvbuddy"
+Options.Colorscheme = "gruvbuddy"

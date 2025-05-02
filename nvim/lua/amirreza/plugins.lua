@@ -35,15 +35,18 @@ require("lazy").setup({
   { "stevearc/conform.nvim" }, -- Autoformat/fixes
 
   -- Fuzzy Finders
-  { "folke/snacks.nvim", enabled = FuzzyFinder == FuzzyFinders.Snacks }, -- Plugin collection but i use the picker only.
-  { "ibhagwan/fzf-lua", enabled = FuzzyFinder == FuzzyFinders.FZF }, -- as a fallback for snacks picker.
+  { "folke/snacks.nvim", enabled = Options.FuzzyFinder == FuzzyFinders.Snacks }, -- Plugin collection but i use the picker only.
+
+  { "ibhagwan/fzf-lua", enabled = Options.FuzzyFinder == FuzzyFinders.FZF }, -- as a fallback for snacks picker.
+
   {
     "nvim-telescope/telescope.nvim",
     dependencies = { "nvim-lua/plenary.nvim", "nvim-telescope/telescope-ui-select.nvim", { "nvim-telescope/telescope-fzf-native.nvim", build = "make" } },
-    enabled = FuzzyFinder == FuzzyFinders.Telescope,
+    enabled = Options.FuzzyFinder == FuzzyFinders.Telescope,
   }, -- another fallback.
 
   { "lewis6991/gitsigns.nvim" }, -- Git signs
+
   {
     "nvim-treesitter/nvim-treesitter",
     dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
@@ -51,13 +54,7 @@ require("lazy").setup({
 
   "folke/lazydev.nvim", -- Better neovim development support.
 
-  {
-    "j-hui/fidget.nvim",
-    opts = {
-      -- options
-    },
-  },
-  {
-    "folke/trouble.nvim",
-  },
+  { "j-hui/fidget.nvim", opts = {} },
+
+  { "folke/trouble.nvim" },
 })

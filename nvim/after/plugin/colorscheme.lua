@@ -28,4 +28,4 @@ end
 
 vim.api.nvim_create_user_command("Transparent", Transparent, {})
 
-vim.cmd.colorscheme(Colorscheme)
+vim.cmd.colorscheme(Options.Colorscheme)
