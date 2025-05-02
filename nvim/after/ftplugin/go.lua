@@ -23,16 +23,17 @@ local function run_go_command_in_split(command_with_opts)
           vim.g.go_build_buffer = vim.api.nvim_create_buf(false, true)
         end
 
-        vim.api.nvim_buf_set_option(vim.g.go_build_buffer, "modifiable", true)
+        vim.api.nvim_set_option_value("modifiable", true, { buf = vim.g.go_build_buffer })
         local lines = vim.split(obj.stdout .. obj.stderr, "\n", { trimempty = true })
         table.insert(lines, 1, "Go Build Output:")
         table.insert(lines, #lines + 1, msg)
 
         vim.api.nvim_buf_set_lines(vim.g.go_build_buffer, 0, -1, false, lines)
-        vim.api.nvim_buf_set_option(vim.g.go_build_buffer, "buftype", "nofile")
-        vim.api.nvim_buf_set_option(vim.g.go_build_buffer, "bufhidden", "wipe")
-        vim.api.nvim_buf_set_option(vim.g.go_build_buffer, "swapfile", false)
-        vim.api.nvim_buf_set_option(vim.g.go_build_buffer, "modifiable", false)
+
+        vim.api.nvim_set_option_value("buftype", "nofile", { buf = vim.g.go_build_buffer })
+        vim.api.nvim_set_option_value("bufhidden", "wipe", { buf = vim.g.go_build_buffer })
+        vim.api.nvim_set_option_value("swapfile", false, { buf = vim.g.go_build_buffer })
+        vim.api.nvim_set_option_value("modifiable", false, { buf = vim.g.go_build_buffer })
 
         for _, win in ipairs(vim.api.nvim_list_wins()) do -- Toggle if a window showing terminal is open
           local win_buf = vim.api.nvim_win_get_buf(win)
