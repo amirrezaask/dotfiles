@@ -22,40 +22,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
   end,
 })
 
-vim.lsp.config("gopls", {
-  cmd = { "gopls" },
-  filetypes = { "go" },
-  root_markers = { "go.mod", "go.sum", ".git" },
-})
-vim.lsp.config("intelephense", {
-  cmd = { "intelephense", "--stdio" },
-  filetypes = { "php" },
-  root_markers = { "composer.json", ".git" },
-})
-
-vim.lsp.config("lua_ls", {
-  cmd = { "lua-language-server" },
-  filetypes = { "lua" },
-  root_markers = { ".git" },
-  settings = {
-    Lua = {
-      workspace = {
-        userThirdParty = { os.getenv("HOME") .. ".local/share/LuaAddons" },
-        checkThirdParty = "Apply",
-      },
-      diagnostics = {
-        globals = { "vim" },
-      },
-    },
-  },
-})
-
-vim.lsp.config("ocamllsp", {
-  cmd = { "ocamllsp" },
-  filetypes = { "ocaml" },
-  root_markers = { ".git", "dune-project" },
-})
-
 vim.lsp.enable({ "gopls", "intelephense", "lua_ls", "ocamllsp" })
 
 vim.diagnostic.config({ virtual_text = true })
