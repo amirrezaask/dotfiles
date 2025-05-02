@@ -5,6 +5,7 @@ if Has("rose-pine") then
   require("rose-pine").setup({
     styles = {
       italic = false,
+      transparency = true,
     },
   })
 end
@@ -27,4 +28,4 @@ end
 
 vim.api.nvim_create_user_command("Transparent", Transparent, {})
 
-vim.cmd.colorscheme("gruvbuddy")
+vim.cmd.colorscheme(Colorscheme)

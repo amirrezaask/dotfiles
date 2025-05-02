@@ -33,3 +33,5 @@ FuzzyFinders = {
 
 -- local fuzzy_finder = fuzzy_finders.FZF_lua
 FuzzyFinder = FuzzyFinders.Snacks
+
+Colorscheme = "gruvbuddy"
