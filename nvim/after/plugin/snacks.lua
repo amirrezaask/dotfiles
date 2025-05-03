@@ -11,7 +11,10 @@ Snacks = require("snacks")
 SnacksPicker = Snacks.picker
 
 vim.keymap.set("n", "<leader><leader>", SnacksPicker.files, { desc = "Find Files" })
-vim.keymap.set("n", "<C-r>", SnacksPicker.files, { desc = "Find Files" })
+vim.keymap.set("n", "<leader>ff", function()
+  local root = vim.fs.find(".git", { upward = true, type = "directory", path = vim.fn.expand("%:h:p") })[1]:sub(1, -5)
+  SnacksPicker.files { cwd = root }
+end, { desc = "Find Files" })
 vim.keymap.set("n", "<leader>b", SnacksPicker.buffers, { desc = "Find Buffers" })
 vim.keymap.set("n", "<leader>h", SnacksPicker.help, { desc = "Vim Help Tags" })
 vim.keymap.set("n", "<C-p>", SnacksPicker.git_files, { desc = "Git Files" })

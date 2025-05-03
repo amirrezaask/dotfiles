@@ -4,6 +4,10 @@ local config = wezterm.config_builder()
 config.colors = {}
 
 config.colors.background = "#111416"
+config.colors.foreground = "#e0e0e0"
+config.colors.cursor_bg = "#1DA457"
+config.colors.selection_bg = "#81A2BE"
+config.colors.selection_fg = "#5a7185"
 
 config.tab_bar_at_bottom = true
 
@@ -11,7 +15,7 @@ config.window_padding = {
   left = 0,
   right = 0,
   top = 10,
-  bottom = 0,
+  bottom = 1,
 }
 
 config.adjust_window_size_when_changing_font_size = false
