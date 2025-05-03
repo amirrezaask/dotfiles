@@ -3,3 +3,5 @@ if Missing("oil") then
 end
 
 require("oil").setup {}
+
+vim.keymap.set("n", "-", "<cmd>Oil<CR>")
