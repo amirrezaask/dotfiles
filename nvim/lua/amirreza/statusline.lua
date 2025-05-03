@@ -34,7 +34,9 @@ function _G._statusline_mode()
 
   return mode_map[mode] or "Unknown"
 end
+
 local space = " "
+
 local bracket = function(s)
   return "[" .. s .. "]"
 end
@@ -52,9 +54,10 @@ _G.statusline_git_head = function()
   if not vim.b.gitsigns_head or vim.b.gitsigns_head == "" then
     return ""
   else
-    return branch_icon .. " " .. vim.b.gitsigns_head
+    return vim.b.gitsigns_head
   end
 end
+
 local git_head = "%{v:lua.statusline_git_head()}"
 local git_status = "%{v:lua.statusline_git_status()}"
 local mode = "[%{v:lua._statusline_mode()}]"
@@ -68,7 +71,7 @@ local modified = "%m"
 
 local sections = {
   mode .. space .. git_head .. space .. git_status, -- Left
-  filetype_icon .. "  " .. filename .. modified, -- Center
+  filename .. modified, -- Center
   bracket(line_col) .. filetype, -- Right
 }
 
