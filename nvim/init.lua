@@ -1,7 +1,0 @@
-require("amirreza.options")
-require("amirreza.keymaps")
-require("amirreza.statusline")
-require("amirreza.terminal")
-require("amirreza.lsp")
-require("amirreza.util")
-require("amirreza.plugins")

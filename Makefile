@@ -25,25 +25,36 @@ configure:
 	rm -rf $(XDG_CONFIG)/emacs
 	rm -rf $(XDG_CONFIG)/nvim
 	rm -rf $(XDG_CONFIG)/wezterm
-	ln -s $(DOTFILES_DIR)/fish/ $(XDG_CONFIG)/
-	ln -s $(DOTFILES_DIR)/ghostty/ $(XDG_CONFIG)/
-	ln -s $(DOTFILES_DIR)/starship/starship.toml $(XDG_CONFIG)/
-	ln -s $(DOTFILES_DIR)/zsh/zshrc $(HOME)/.zshrc
-	ln -s $(DOTFILES_DIR)/emacs $(XDG_CONFIG)/
+
+	mkdir -p $(XDG_CONFIG)/ghostty
+	ln -s $(DOTFILES_DIR)/ghostty-config $(XDG_CONFIG)/ghostty/config
+
+	ln -s $(DOTFILES_DIR)/starship.toml $(XDG_CONFIG)/
+
+	ln -s $(DOTFILES_DIR)/zshrc $(HOME)/.zshrc
+
+	mkdir -p $(XDG_CONFIG)/emacs
+	ln -s $(DOTFILES_DIR)/emacs-init.el $(XDG_CONFIG)/emacs/
+
 	ln -s $(DOTFILES_DIR)/.gitconfig $(HOME)/.gitconfig
-	ln -s $(DOTFILES_DIR)/nvim $(XDG_CONFIG)/
-	ln -s $(DOTFILES_DIR)/wezterm/ $(XDG_CONFIG)
+
+	mkdir -p $(XDG_CONFIG)/nvim
+	ln -s $(DOTFILES_DIR)/nvim-init.lua $(XDG_CONFIG)/nvim/init.lua
+
+	mkdir -p $(XDG_CONFIG)/wezterm
+	ln -s $(DOTFILES_DIR)/wezterm.lua $(XDG_CONFIG)/wezterm/
+
 	if test -d "$(HOME)/Library/Application Support/Cursor"; then \
 		rm -rf "$(HOME)/Library/Application Support/Cursor/User/keybindings.json"; \
 		rm -rf "$(HOME)/Library/Application Support/Cursor/User/settings.json"; \
-		ln -s "$(DOTFILES_DIR)/vscode/keybindings.json" "$(HOME)/Library/Application Support/Cursor/User/keybindings.json"; \
-		ln -s "$(DOTFILES_DIR)/vscode/settings.json" "$(HOME)/Library/Application Support/Cursor/User/settings.json"; \
+		ln -s "$(DOTFILES_DIR)/vscode-keybindings.json" "$(HOME)/Library/Application Support/Cursor/User/keybindings.json"; \
+		ln -s "$(DOTFILES_DIR)/vscode-settings.json" "$(HOME)/Library/Application Support/Cursor/User/settings.json"; \
 	fi
 	if test -d "$(HOME)/Library/Application Support/Code"; then \
 		rm -rf "$(HOME)/Library/Application Support/Code/User/keybindings.json"; \
 		rm -rf "$(HOME)/Library/Application Support/Code/User/settings.json"; \
-		ln -s "$(DOTFILES_DIR)/vscode/keybindings.json" "$(HOME)/Library/Application Support/Code/User/keybindings.json"; \
-		ln -s "$(DOTFILES_DIR)/vscode/settings.json" "$(HOME)/Library/Application Support/Code/User/settings.json"; \
+		ln -s "$(DOTFILES_DIR)/vscode-keybindings.json" "$(HOME)/Library/Application Support/Code/User/keybindings.json"; \
+		ln -s "$(DOTFILES_DIR)/vscode-settings.json" "$(HOME)/Library/Application Support/Code/User/settings.json"; \
 	fi; 
-	./vscode/install-extensions.sh cursor
-	./vscode/install-extensions.sh code
+	./vscode-install-extensions.sh cursor
+	./vscode-install-extensions.sh code
