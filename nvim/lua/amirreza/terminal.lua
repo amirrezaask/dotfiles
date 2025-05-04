@@ -18,6 +18,10 @@ local function toggle_bottom_terminal() -- Toggle terminal at the bottom of the 
     width = vim.o.columns,
   })
   vim.wo[win].winfixheight = true
+  vim.wo[win].list = false
+  vim.wo[win].scrolloff = 0
+  vim.wo[win].number = false
+  vim.wo[win].relativenumber = false
 
   if vim.bo[vim.g.bottom_terminal_buffer].buftype ~= "terminal" then
     vim.cmd.term()
