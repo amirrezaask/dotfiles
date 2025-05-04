@@ -54,7 +54,5 @@ require("lazy").setup({
 
   "folke/lazydev.nvim", -- Better neovim development support.
 
-  { "j-hui/fidget.nvim", opts = {} },
-
   { "folke/trouble.nvim" },
 })
