@@ -134,7 +134,7 @@ require("lazy").setup({
       vim.keymap.set("n", "<leader>h", SnacksPicker.help, { desc = "Vim Help Tags" })
       vim.keymap.set("n", "<C-p>", SnacksPicker.git_files, { desc = "Git Files" })
       vim.keymap.set("n", "??", SnacksPicker.grep, { desc = "Live Grep" })
-      vim.keymap.set("n", "<leader>fs", function()
+      vim.keymap.set("n", "?s", function()
         vim.ui.input({ prompt = "Grep word: " }, function(input)
           if input == "" or input == nil then
             return
