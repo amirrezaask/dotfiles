@@ -18,3 +18,5 @@ function Theme()
     vim.cmd("colorscheme " .. choice)
   end)
 end
+
+vim.api.nvim_create_user_command("Theme", Theme, {})
