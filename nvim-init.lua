@@ -20,12 +20,16 @@ vim.o.rtp = vim.o.rtp .. "," .. lazypath
 
 require("lazy").setup({
   { "amirrezaask/nvim-gruvbuddy.lua" }, -- Colorscheme, inspired by great @tjdevries.
-  { "rose-pine/neovim", name = "rose-pine", opts = {
-    styles = {
-      italic = false,
-      transparency = true,
+  {
+    "rose-pine/neovim",
+    name = "rose-pine",
+    opts = {
+      styles = {
+        italic = false,
+        transparency = true,
+      },
     },
-  } }, -- Colorscheme.
+  }, -- Colorscheme.
   { "folke/tokyonight.nvim" }, -- Colorscheme.
 
   {
@@ -79,10 +83,14 @@ require("lazy").setup({
     end,
   }, -- File manager done right.
   { "williamboman/mason.nvim", opts = {} }, -- Package manager for your system inside neovim.
-  { "saghen/blink.cmp", tag = "v1.1.1", opts = {
-    keymap = { preset = "enter" },
-    cmdline = { enabled = false },
-  } }, -- Blazingly fast autocomplete
+  {
+    "saghen/blink.cmp",
+    tag = "v1.1.1",
+    opts = {
+      keymap = { preset = "enter" },
+      cmdline = { enabled = false },
+    },
+  }, -- Blazingly fast autocomplete
   {
     "stevearc/conform.nvim",
     config = function()
@@ -118,7 +126,8 @@ require("lazy").setup({
 
       vim.keymap.set("n", "<leader><leader>", SnacksPicker.files, { desc = "Find Files" })
       vim.keymap.set("n", "<leader>ff", function()
-        local root = vim.fs.find(".git", { upward = true, type = "directory", path = vim.fn.expand("%:h:p") })[1]:sub(1, -5)
+        local root =
+          vim.fs.find(".git", { upward = true, type = "directory", path = vim.fn.expand("%:h:p") })[1]:sub(1, -5)
         SnacksPicker.files { cwd = root }
       end, { desc = "Find Files" })
       vim.keymap.set("n", "<leader>b", SnacksPicker.buffers, { desc = "Find Buffers" })
@@ -151,76 +160,6 @@ require("lazy").setup({
       vim.lsp.buf.type_definition = SnacksPicker.lsp_type_definitions
     end,
   }, -- Plugin collection but i use the picker only.
-
-  {
-    "ibhagwan/fzf-lua",
-    enabled = false,
-    config = function()
-      Fzf = require("fzf-lua")
-      Fzf.setup {
-        fzf_colors = true,
-        keymap = {
-          fzf = {
-            ["ctrl-q"] = "select-all+accept", -- Select all items and send to quickfix
-          },
-        },
-      }
-
-      vim.api.nvim_set_hl(0, "FzfLuaNormal", { link = "NormalFloat" })
-      vim.api.nvim_set_hl(0, "FzfLuaBorder", { link = "NormalFloat" })
-
-      Fzf.register_ui_select()
-
-      vim.keymap.set("n", "<leader><leader>", Fzf.files, { desc = "Find Files" })
-      vim.keymap.set("n", "<leader>b", Fzf.buffers, { desc = "Find Buffers" })
-      vim.keymap.set("n", "<leader>h", Fzf.helptags, { desc = "Vim Help Tags" })
-      vim.keymap.set("n", "<C-p>", Fzf.git_files, { desc = "Git Files" })
-      vim.keymap.set("n", "??", Fzf.live_grep, { desc = "Live Grep" })
-      vim.keymap.set("n", "<leader>fs", Fzf.grep, { desc = "Grep" })
-      vim.keymap.set("v", "??", Fzf.grep_cword, { desc = "Grep word under cursor" })
-      vim.keymap.set("n", "<leader>o", Fzf.lsp_document_symbols, { desc = "LSP Document Symbols" })
-      vim.keymap.set("n", "<leader>O", Fzf.lsp_live_workspace_symbols, { desc = "LSP Workspace Symbols" })
-      vim.keymap.set("n", "<M-o>", Fzf.lsp_live_workspace_symbols, { desc = "LSP Workspace Symbols" })
-      vim.keymap.set("n", "<leader>fd", function()
-        Fzf.files({ cwd = "~/.dotfiles" })
-      end, { desc = "Find Dotfiles" })
-
-      vim.lsp.buf.definition = Fzf.lsp_definitions
-      vim.lsp.buf.implementation = Fzf.lsp_implementations
-      vim.lsp.buf.references = Fzf.lsp_references
-      vim.lsp.buf.type_definition = Fzf.lsp_type_definitions
-    end,
-  }, -- as a fallback for snacks picker.
-
-  {
-    "nvim-telescope/telescope.nvim",
-    dependencies = { "nvim-lua/plenary.nvim", "nvim-telescope/telescope-ui-select.nvim", { "nvim-telescope/telescope-fzf-native.nvim", build = "make" } },
-    enabled = false,
-    config = function()
-      require("telescope").setup {}
-
-      require("telescope").load_extension("ui-select")
-      require("telescope").load_extension("fzf")
-
-      local builtin = require("telescope.builtin")
-
-      vim.keymap.set("n", "<leader><leader>", builtin.find_files, { desc = "Find files" })
-      vim.keymap.set("n", "??", builtin.live_grep, { desc = "Find in files" })
-      vim.keymap.set("n", "<leader>h", builtin.help_tags, { desc = "Find help" })
-      vim.keymap.set("n", "<leader>fd", function()
-        builtin.find_files { cwd = vim.fn.stdpath "config" }
-      end, { desc = "Find files in config" })
-      vim.keymap.set("v", "??", builtin.grep_string, { desc = "Find word under cursor" })
-      vim.keymap.set("n", "<leader>fs", function()
-        vim.ui.input({ prompt = "Grep word: " }, function(input)
-          if input == "" or input == nil then
-            return
-          end
-          builtin.grep_string { search = input }
-        end)
-      end, { desc = "Grep" })
-    end,
-  }, -- another fallback.
 
   { -- Git signs
     "lewis6991/gitsigns.nvim",
@@ -324,15 +263,20 @@ vim.keymap.set("n", "n", "nzz")
 vim.keymap.set("n", "N", "Nzz")
 vim.keymap.set("i", "jk", "<ESC>")
 vim.keymap.set("i", "kj", "<ESC>")
-vim.keymap.set("n", "<CR>", function() -- Taken from https://github.com/tjdevries/config.nvim/blob/master/plugin/keymaps.lua#L16
-  if vim.v.hlsearch == 1 then
-    vim.cmd.nohl()
-    return ""
-  else
-    ---@diagnostic disable-next-line: undefined-field
-    return vim.keycode "<CR>"
-  end
-end, { expr = true })
+vim.keymap.set(
+  "n",
+  "<CR>",
+  function() -- Taken from https://github.com/tjdevries/config.nvim/blob/master/plugin/keymaps.lua#L16
+    if vim.v.hlsearch == 1 then
+      vim.cmd.nohl()
+      return ""
+    else
+      ---@diagnostic disable-next-line: undefined-field
+      return vim.keycode "<CR>"
+    end
+  end,
+  { expr = true }
+)
 vim.keymap.set("n", "j", "gj")
 vim.keymap.set("n", "k", "gk")
 vim.keymap.set("n", "{", "<cmd>cprev<CR>")
