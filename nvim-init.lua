@@ -242,7 +242,13 @@ vim.o.scrolloff = 10 -- Scroll when cursor is 8 lines away from screen edge
 vim.o.list = true -- Show whitespace
 vim.o.listchars = "tab:  ,trail:·,extends: ,precedes: ,eol:↲,conceal:┊,nbsp:␣"
 vim.o.title = true
-vim.o.titlestring = "nvim %M%F" -- Set title of the terminal.
+function _G.titlestring()
+  local root = vim.fs.root(vim.fn.getcwd(), ".git")
+  root = root or vim.fn.getcwd()
+  return root:match("^.+/(.+)$")
+  -- return vim.fn.fnamemodify(root, ":t")
+end
+vim.o.titlestring = "%M%{v:lua.titlestring()}" -- Set title of the terminal.
 
 vim.keymap.set("n", "Y", "^v$y", { desc = "Copy whole line" })
 vim.keymap.set("t", "<esc>", [[<C-\><C-n>]])
