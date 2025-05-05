@@ -13,7 +13,7 @@ build-install-neovim:
 	if ! test -d $(HOME)/.neovim; then \
 		git clone https://github.com/neovim/neovim.git $(HOME)/.neovim; \
 	fi;
-	cd $(HOME)/.neovim && git pull && git checkout $(NEOVIM_RELEASE) && make distclean && make clean && make CMAKE_BUILD_TYPE=Release && sudo make install
+	cd $(HOME)/.neovim && git pull && git checkout $(NEOVIM_RELEASE) && sudo make distclean && sudo make clean && make CMAKE_BUILD_TYPE=Release && sudo make install
 
 configure:
 	mkdir -p $(XDG_CONFIG)

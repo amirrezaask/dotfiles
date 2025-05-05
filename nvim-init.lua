@@ -74,7 +74,7 @@ require("lazy").setup({
 
   { "supermaven-inc/supermaven-nvim", opts = {} }, -- AI Apocalypse
   { "MagicDuck/grug-far.nvim", opts = {} }, -- Find/Replace project wide.
-  {
+  { -- File management done right.
     "stevearc/oil.nvim",
     config = function()
       require("oil").setup {}
@@ -134,6 +134,7 @@ require("lazy").setup({
       vim.keymap.set("n", "<leader>h", SnacksPicker.help, { desc = "Vim Help Tags" })
       vim.keymap.set("n", "<C-p>", SnacksPicker.git_files, { desc = "Git Files" })
       vim.keymap.set("n", "??", SnacksPicker.grep, { desc = "Live Grep" })
+      vim.keymap.set("v", "??", SnacksPicker.grep_word, { desc = "Grep word under cursor" })
       vim.keymap.set("n", "?s", function()
         vim.ui.input({ prompt = "Grep word: " }, function(input)
           if input == "" or input == nil then
@@ -146,10 +147,8 @@ require("lazy").setup({
           })
         end)
       end, { desc = "Grep" })
-      vim.keymap.set("v", "??", SnacksPicker.grep_word, { desc = "Grep word under cursor" })
       vim.keymap.set("n", "<leader>o", SnacksPicker.lsp_symbols, { desc = "LSP Document Symbols" })
       vim.keymap.set("n", "<leader>O", SnacksPicker.lsp_workspace_symbols, { desc = "LSP Workspace Symbols" })
-      vim.keymap.set("n", "<M-o>", SnacksPicker.lsp_workspace_symbols, { desc = "LSP Workspace Symbols" })
       vim.keymap.set("n", "<leader>fd", function()
         SnacksPicker.files({ cwd = "~/.dotfiles" })
       end, { desc = "Find Dotfiles" })
@@ -340,6 +339,7 @@ local function ftplugin(filetype, callback)
     callback = callback,
   })
 end
+
 ftplugin("go", function()
   vim.bo[0].sw = 4
   vim.bo[0].ts = 4
