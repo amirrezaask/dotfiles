@@ -20,8 +20,8 @@ vim.o.termguicolors = true -- Enable 24-bit RGB colors
 vim.o.inccommand = "split" -- Show partial commands in the command line
 vim.o.relativenumber = true -- Relative line numbers
 vim.o.scrolloff = 10 -- Scroll when cursor is 8 lines away from screen edge
-vim.o.list = true -- Show whitespace
-vim.o.listchars = "tab:  ,trail:·,extends: ,precedes: ,eol:↲,conceal:┊,nbsp:␣"
+-- vim.o.list = true -- Show whitespace
+-- vim.o.listchars = "tab:  ,trail:·,extends: ,precedes: ,eol:↲,conceal:┊,nbsp:␣"
 vim.o.winborder = "rounded"
 vim.o.title = true
 function _G.titlestring()
@@ -84,50 +84,6 @@ vim.keymap.set("n", "<C-q>", function()
   vim.cmd.copen()
 end)
 
-local function ftplugin(filetype, callback)
-  local ft = vim.api.nvim_create_augroup("ftplugin_" .. filetype, {})
-  vim.api.nvim_create_autocmd("FileType", {
-    pattern = filetype,
-    group = ft,
-    callback = callback,
-  })
-end
-
-ftplugin("go", function()
-  vim.bo[0].sw = 4
-  vim.bo[0].ts = 4
-  vim.bo[0].expandtab = false
-  vim.bo[0].shiftwidth = 4
-end)
-
-ftplugin("lua", function()
-  vim.bo[0].sw = 2
-  vim.bo[0].ts = 2
-  vim.bo[0].expandtab = true
-  vim.bo[0].shiftwidth = 2
-end)
-
-ftplugin("ocaml", function()
-  vim.bo[0].sw = 2
-  vim.bo[0].ts = 2
-  vim.bo[0].expandtab = true
-  vim.bo[0].shiftwidth = 2
-end)
-
-ftplugin("php", function()
-  vim.bo[0].sw = 4
-  vim.bo[0].ts = 4
-  vim.bo[0].expandtab = true
-  vim.bo[0].shiftwidth = 4
-end)
-
-ftplugin("sh", function()
-  vim.bo[0].sw = 2
-  vim.bo[0].ts = 2
-  vim.bo[0].expandtab = true
-  vim.bo[0].shiftwidth = 2
-end)
-
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
   local lazyrepo = "https://github.com/folke/lazy.nvim.git"
@@ -167,6 +123,8 @@ require("lazy").setup({
       vim.cmd.colorscheme("tokyonight-night")
     end,
   },
+
+  "tpope/vim-sleuth", -- Configure indentation based on current indentation of the file.
 
   { --TODO: Highlight TODO and FIXMEs.
     "folke/todo-comments.nvim",
