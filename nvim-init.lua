@@ -174,13 +174,18 @@ require("lazy").setup({
     opts = { signs = false },
   },
 
+  { -- My custom crafted statusline plugin
+    "amirrezaask/nvim-statusline.lua",
+    main = "statusline",
+    opts = {},
+  },
+
   {
     "echasnovski/mini.nvim",
     config = function()
       require("mini.ai").setup()
       require("mini.comment").setup()
       require("mini.move").setup() -- M-h M-j M-k M-l move code blocks around.
-      require("mini.statusline").setup()
     end,
   },
 
@@ -337,6 +342,7 @@ require("lazy").setup({
 
   { -- Treesitter
     "nvim-treesitter/nvim-treesitter",
+    build = ":TSUpdate",
     dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
     main = "nvim-treesitter.configs", -- Sets main module to use for opts
     opts = {
