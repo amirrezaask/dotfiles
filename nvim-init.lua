@@ -35,6 +35,7 @@ vim.o.titlestring = "%M%{v:lua.titlestring()}" -- Set title of the terminal.
 
 vim.g.mapleader = " "
 vim.g.maplocalleader = ","
+
 vim.keymap.set("n", "Y", "^v$y", { desc = "Copy whole line" })
 vim.keymap.set("t", "<esc>", [[<C-\><C-n>]])
 vim.keymap.set("i", "<C-c>", "<esc>")
@@ -44,7 +45,6 @@ vim.keymap.set({ "n" }, "<C-j>", "<C-w>j") -- Window navigation
 vim.keymap.set({ "n" }, "<C-k>", "<C-w>k") -- Window navigation
 vim.keymap.set({ "n" }, "<C-h>", "<C-w>h") -- Window navigation
 vim.keymap.set({ "n" }, "<C-l>", "<C-w>l") -- Window navigation
-
 vim.keymap.set({ "t" }, "<C-j>", "<C-\\><C-n><C-w>j", { noremap = true }) -- Window navigation
 vim.keymap.set({ "t" }, "<C-k>", "<C-\\><C-n><C-w>k", { noremap = true }) -- Window navigation
 vim.keymap.set({ "t" }, "<C-h>", "<C-\\><C-n><C-w>h", { noremap = true }) -- Window navigation
@@ -149,7 +149,6 @@ require("lazy").setup({
   {
     "amirrezaask/nvim-gruvbuddy.lua", -- Colorscheme, inspired by great @tjdevries.
     dependencies = {
-
       {
         "rose-pine/neovim",
         name = "rose-pine",
@@ -165,21 +164,18 @@ require("lazy").setup({
 
     config = function()
       vim.g.gruvbuddy_style = "default"
-      vim.cmd.colorscheme("tokyonight-moon")
+      vim.cmd.colorscheme("tokyonight-night")
     end,
   },
 
-  {
-    "amirrezaask/nvim-statusline.lua",
-    enabled = false,
-    config = function()
-      require("statusline").setup()
-    end,
+  { --TODO: Highlight TODO and FIXMEs.
+    "folke/todo-comments.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    opts = { signs = false },
   },
 
   {
     "echasnovski/mini.nvim",
-
     config = function()
       require("mini.ai").setup()
       require("mini.comment").setup()
@@ -188,7 +184,7 @@ require("lazy").setup({
     end,
   },
 
-  {
+  { -- LSP configurations.
     "neovim/nvim-lspconfig",
     config = function()
       vim.api.nvim_create_autocmd("LspAttach", {
@@ -217,12 +213,14 @@ require("lazy").setup({
 
       vim.diagnostic.config({ virtual_text = true })
     end,
-  }, -- LSP configurations.
+  },
 
   { "nvim-tree/nvim-web-devicons" }, -- Icons in terminal, nice.
 
-  { "supermaven-inc/supermaven-nvim", opts = {} }, -- AI Apocalypse
+  { "supermaven-inc/supermaven-nvim", opts = {} }, -- Best usage for AI.
+
   { "MagicDuck/grug-far.nvim", opts = {} }, -- Find/Replace project wide.
+
   { -- File management done right.
     "stevearc/oil.nvim",
     config = function()
@@ -230,9 +228,11 @@ require("lazy").setup({
 
       vim.keymap.set("n", "-", "<cmd>Oil<CR>")
     end,
-  }, -- File manager done right.
+  },
+
   { "williamboman/mason.nvim", opts = {} }, -- Package manager for your system inside neovim.
-  {
+
+  { -- Blazingly fast autocomplete
     "saghen/blink.cmp",
     tag = "v1.1.1",
     dependencies = {
@@ -248,7 +248,8 @@ require("lazy").setup({
         },
       },
     },
-  }, -- Blazingly fast autocomplete
+  },
+
   { -- Autoformat/fixes
     "stevearc/conform.nvim",
     config = function()
@@ -260,9 +261,10 @@ require("lazy").setup({
           php = {},
         },
       })
+      local autoformat_languages = { "*.lua", "*.go", "*.ocmal" }
 
       vim.api.nvim_create_autocmd("BufWritePre", {
-        pattern = { "*.lua", "*.go" },
+        pattern = autoformat_languages,
         callback = function(args)
           require("conform").format({ bufnr = args.buf })
         end,
@@ -333,7 +335,7 @@ require("lazy").setup({
     },
   },
 
-  {
+  { -- Treesitter
     "nvim-treesitter/nvim-treesitter",
     dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
     main = "nvim-treesitter.configs", -- Sets main module to use for opts
