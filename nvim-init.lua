@@ -22,6 +22,7 @@ vim.o.relativenumber = true -- Relative line numbers
 vim.o.scrolloff = 10 -- Scroll when cursor is 8 lines away from screen edge
 vim.o.list = true -- Show whitespace
 vim.o.listchars = "tab:  ,trail:·,extends: ,precedes: ,eol:↲,conceal:┊,nbsp:␣"
+vim.o.winborder = "rounded"
 vim.o.title = true
 function _G.titlestring()
   local root = vim.fs.root(vim.fn.getcwd(), ".git")
@@ -29,6 +30,7 @@ function _G.titlestring()
   return root:match("^.+/(.+)$")
   -- return vim.fn.fnamemodify(root, ":t")
 end
+
 vim.o.titlestring = "%M%{v:lua.titlestring()}" -- Set title of the terminal.
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 

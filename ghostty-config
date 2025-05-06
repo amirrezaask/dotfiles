@@ -24,10 +24,10 @@ keybind = cmd+f=toggle_split_zoom
 shell-integration-features = no-cursor
 window-colorspace = "display-p3"
 
-cursor-color = 1DA457
 
+theme = tokyonight_moon
 
-
+# Gruvbuddy theme
 # for normal background uncomment the following line
 # background = 282c34 
 # for dark background
@@ -36,7 +36,7 @@ cursor-color = 1DA457
 # selection-background = 81A2BE
 # selection-background = 5a7185
 # split-divider-color = ff0000
-#
+# cursor-color = 1DA457
 # palette = 0=1c2526
 # palette = 1=ff5555
 # palette = 2=55ff55
@@ -53,4 +53,3 @@ cursor-color = 1DA457
 # palette = 13=ff80ff
 # palette = 14=80ffff
 # palette = 15=ffffff
-theme = tokyonight_moon
