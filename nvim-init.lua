@@ -235,9 +235,18 @@ require("lazy").setup({
   {
     "saghen/blink.cmp",
     tag = "v1.1.1",
+    dependencies = {
+      { "folke/lazydev.nvim", opts = { library = {} } }, -- Better neovim development support.
+    },
     opts = {
       keymap = { preset = "enter" },
       cmdline = { enabled = false },
+      sources = {
+        default = { "lsp", "path", "snippets", "lazydev" },
+        providers = {
+          lazydev = { module = "lazydev.integrations.blink", score_offset = 100 },
+        },
+      },
     },
   }, -- Blazingly fast autocomplete
   { -- Autoformat/fixes
@@ -335,6 +344,4 @@ require("lazy").setup({
       indent = { enable = true, disable = { "ruby" } },
     },
   },
-
-  { "folke/lazydev.nvim", opts = { library = {} } }, -- Better neovim development support.
 })
