@@ -46,6 +46,9 @@ export PHP_INI_SCAN_DIR="/Users/amirrezaask/.config/herd-lite/bin:$PHP_INI_SCAN_
 export PATH="$HOME/go/bin:$PATH"
 
 export EDITOR='nvim'
+
 export GIT_EDITOR="$EDITOR"
+
+alias z='zed .'
 
 [[ ! -r '/Users/amirrezaask/.opam/opam-init/init.zsh' ]] || source '/Users/amirrezaask/.opam/opam-init/init.zsh' > /dev/null 2> /dev/null

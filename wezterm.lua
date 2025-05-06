@@ -22,6 +22,8 @@ config.adjust_window_size_when_changing_font_size = false
 
 config.use_fancy_tab_bar = false
 
+config.max_fps = 75
+
 config.tab_max_width = 24
 
 config.window_decorations = "RESIZE" -- optional, hides title bar

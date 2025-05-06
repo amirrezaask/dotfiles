@@ -1,3 +1,35 @@
+vim.o.wrap = true -- Wrap long lines.
+vim.o.breakindent = true -- Indent wrapped lines.
+vim.o.signcolumn = "yes" -- Show signcolumn.
+vim.o.swapfile = false -- Disable swapfile.
+vim.o.undofile = true -- Store undo history on disk
+vim.o.splitbelow = true -- Split windows below the current windows
+vim.o.splitright = true -- Split windows right to the current windows
+vim.o.showmode = false -- Don't show Vim mode in the command line.
+vim.o.clipboard = "unnamedplus" -- Copy/Cut/Paste to system clipboard
+vim.o.ignorecase = true -- Search case insensitive...
+vim.o.smartcase = true -- ... but not if it contains caps
+vim.o.cursorline = true -- Highlight current line
+vim.o.guicursor = vim.o.guicursor .. ",t:ver25"
+vim.o.fo = "jcql" -- See :help fo-table
+vim.o.updatetime = 100 -- Faster completion
+vim.o.laststatus = 3 -- Single Statusline for all windows
+vim.o.timeoutlen = 300 -- Faster completion
+vim.o.number = true -- Line numbers
+vim.o.termguicolors = true -- Enable 24-bit RGB colors
+vim.o.inccommand = "split" -- Show partial commands in the command line
+vim.o.relativenumber = true -- Relative line numbers
+vim.o.scrolloff = 10 -- Scroll when cursor is 8 lines away from screen edge
+vim.o.list = true -- Show whitespace
+vim.o.listchars = "tab:  ,trail:·,extends: ,precedes: ,eol:↲,conceal:┊,nbsp:␣"
+vim.o.title = true
+function _G.titlestring()
+  local root = vim.fs.root(vim.fn.getcwd(), ".git")
+  root = root or vim.fn.getcwd()
+  return root:match("^.+/(.+)$")
+  -- return vim.fn.fnamemodify(root, ":t")
+end
+vim.o.titlestring = "%M%{v:lua.titlestring()}" -- Set title of the terminal.
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
@@ -119,6 +151,7 @@ require("lazy").setup({
       require("snacks").setup {
         picker = { enabled = true },
         bigfile = { enabled = true },
+        termainal = { enabled = true },
       }
 
       Snacks = require("snacks")
@@ -152,6 +185,8 @@ require("lazy").setup({
       vim.keymap.set("n", "<leader>fd", function()
         SnacksPicker.files({ cwd = "~/.dotfiles" })
       end, { desc = "Find Dotfiles" })
+
+      vim.keymap.set({ "n", "t" }, "<C-s>", Snacks.terminal.toggle, { desc = "Terminal" })
 
       vim.lsp.buf.definition = SnacksPicker.lsp_definitions
       vim.lsp.buf.implementation = SnacksPicker.lsp_implementations
@@ -217,39 +252,6 @@ require("lazy").setup({
   { "folke/lazydev.nvim", opts = { library = {} } }, -- Better neovim development support.
 })
 
-vim.o.wrap = true -- Wrap long lines.
-vim.o.breakindent = true -- Indent wrapped lines.
-vim.o.signcolumn = "yes" -- Show signcolumn.
-vim.o.swapfile = false -- Disable swapfile.
-vim.o.undofile = true -- Store undo history on disk
-vim.o.splitbelow = true -- Split windows below the current windows
-vim.o.splitright = true -- Split windows right to the current windows
-vim.o.showmode = false -- Don't show Vim mode in the command line.
-vim.o.clipboard = "unnamedplus" -- Copy/Cut/Paste to system clipboard
-vim.o.ignorecase = true -- Search case insensitive...
-vim.o.smartcase = true -- ... but not if it contains caps
-vim.o.cursorline = true -- Highlight current line
-vim.o.guicursor = vim.o.guicursor .. ",t:ver25"
-vim.o.fo = "jcql" -- See :help fo-table
-vim.o.updatetime = 100 -- Faster completion
-vim.o.laststatus = 3 -- Single Statusline for all windows
-vim.o.timeoutlen = 300 -- Faster completion
-vim.o.number = true -- Line numbers
-vim.o.termguicolors = true -- Enable 24-bit RGB colors
-vim.o.inccommand = "split" -- Show partial commands in the command line
-vim.o.relativenumber = true -- Relative line numbers
-vim.o.scrolloff = 10 -- Scroll when cursor is 8 lines away from screen edge
-vim.o.list = true -- Show whitespace
-vim.o.listchars = "tab:  ,trail:·,extends: ,precedes: ,eol:↲,conceal:┊,nbsp:␣"
-vim.o.title = true
-function _G.titlestring()
-  local root = vim.fs.root(vim.fn.getcwd(), ".git")
-  root = root or vim.fn.getcwd()
-  return root:match("^.+/(.+)$")
-  -- return vim.fn.fnamemodify(root, ":t")
-end
-vim.o.titlestring = "%M%{v:lua.titlestring()}" -- Set title of the terminal.
-
 vim.keymap.set("n", "Y", "^v$y", { desc = "Copy whole line" })
 vim.keymap.set("t", "<esc>", [[<C-\><C-n>]])
 vim.keymap.set("i", "<C-c>", "<esc>")
@@ -298,6 +300,7 @@ vim.keymap.set("n", "<C-q>", function()
   end
   vim.cmd.copen()
 end)
+
 local function toggle_bottom_terminal() -- Toggle terminal at the bottom of the screen, why install a plugin for this ?
   -- We have a valid buffer showing the terminal
   if not vim.g.bottom_terminal_buffer or not vim.api.nvim_buf_is_valid(vim.g.bottom_terminal_buffer) then
@@ -332,9 +335,9 @@ local function toggle_bottom_terminal() -- Toggle terminal at the bottom of the 
 end
 vim.keymap.set({ "n", "t" }, "<C-s>", toggle_bottom_terminal, { desc = "Toggle bottom terminal" })
 
-vim.g.gruvbuddy_style = "dark"
+vim.g.gruvbuddy_style = "default"
 
-vim.cmd.colorscheme("gruvbuddy")
+vim.cmd.colorscheme("tokyonight-moon")
 
 -- FileType Settings
 local function ftplugin(filetype, callback)
