@@ -105,7 +105,7 @@ require("lazy").setup({
   },
 
   { -- My custom crafted statusline plugin
-    "amirrezaask/vitaline.lua",
+    "amirrezaask/vitaline.nvim",
     opts = {},
     dependencies = { "nvim-tree/nvim-web-devicons" },
   },
