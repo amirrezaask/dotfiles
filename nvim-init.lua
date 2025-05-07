@@ -92,7 +92,6 @@ require("lazy").setup({
         },
       },
       { "folke/tokyonight.nvim" },
-      { "webhooked/kanso.nvim" },
     },
 
     config = function()
@@ -103,7 +102,6 @@ require("lazy").setup({
   },
 
   "tpope/vim-sleuth", -- Configure indentation based on current indentation of the file.
-  "tpope/vim-fugitive", -- Git integration.
 
   { -- Git signs
     "lewis6991/gitsigns.nvim",
@@ -150,16 +148,16 @@ require("lazy").setup({
             vim.diagnostic.jump({ count = 1 })
           end, { buffer = args.buf })
           vim.keymap.set("n", "C-]", vim.lsp.buf.definition, { buffer = args.buf })
-          vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = args.buf })
-          vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { buffer = args.buf })
-          vim.keymap.set("n", "gr", vim.lsp.buf.references, { buffer = args.buf })
-          vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { buffer = args.buf })
-          vim.keymap.set("n", "R", vim.lsp.buf.rename, { buffer = args.buf })
+          vim.keymap.set("n", "<leader>jd", vim.lsp.buf.definition, { buffer = args.buf })
+          vim.keymap.set("n", "<leader>jD", vim.lsp.buf.declaration, { buffer = args.buf })
+          vim.keymap.set("n", "<leader>jr", vim.lsp.buf.references, { buffer = args.buf })
+          vim.keymap.set("n", "<leader>ji", vim.lsp.buf.implementation, { buffer = args.buf })
+          vim.keymap.set("n", "<leader>er", vim.lsp.buf.rename, { buffer = args.buf })
           vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = args.buf })
-          vim.keymap.set("n", "C", vim.lsp.buf.code_action, { buffer = args.buf })
+          vim.keymap.set("n", "<leader>ec", vim.lsp.buf.code_action, { buffer = args.buf })
           vim.keymap.set("n", "<leader>s", vim.lsp.buf.signature_help, { buffer = args.buf })
           vim.keymap.set("n", "<leader>l", vim.diagnostic.open_float, { buffer = args.buf })
-          vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { buffer = args.buf })
+          vim.keymap.set("n", "<leader>eq", vim.diagnostic.setloclist, { buffer = args.buf })
         end,
       })
 
@@ -247,26 +245,29 @@ require("lazy").setup({
         end)
       end
 
-      -- File Navigation
-      vim.keymap.set("n", "<leader><leader>", SnacksPicker.files)
-      vim.keymap.set("n", "<leader>pf", SnacksPicker.files)
-      vim.keymap.set("n", "<C-p>", SnacksPicker.git_files)
-
-      -- Grep
-      vim.keymap.set("n", "<leader>ps", SnacksPicker.grep)
-      vim.keymap.set({ "n", "v" }, "<leader>pw", SnacksPicker.grep_word)
-      vim.keymap.set("n", "<leader>pW", grep_input)
-
-      -- LSP
-      vim.keymap.set("n", "<leader>j", SnacksPicker.lsp_symbols)
-      vim.keymap.set("n", "<leader>pj", SnacksPicker.lsp_workspace_symbols)
-
-      vim.keymap.set("n", "<leader>b", SnacksPicker.buffers)
-      vim.keymap.set("n", "<leader>h", SnacksPicker.help)
-
-      vim.keymap.set("n", "<leader>jd", function()
+      -- Navigation Keys
+      -- <leader> j f jump to file
+      -- <leader> j s jump to search (grep)
+      -- <leader> j w jump to word
+      -- <leader> j W jump to word with input
+      -- <leader> j . jump to dotfile
+      -- <leader> j g jump to git file
+      -- <leader> j l jump to lsp symbol
+      -- <leader> j L jump to lsp workspace symbol
+      -- <leader> j b jump to buffer
+      -- <leader> j h jump to help
+      vim.keymap.set("n", "<leader>jf", SnacksPicker.files)
+      vim.keymap.set("n", "<leader>jg", SnacksPicker.git_files)
+      vim.keymap.set("n", "<leader>js", SnacksPicker.grep)
+      vim.keymap.set({ "n", "v" }, "<leader>jw", SnacksPicker.grep_word)
+      vim.keymap.set("n", "<leader>jW", grep_input)
+      vim.keymap.set("n", "<leader>j.", function()
         SnacksPicker.files({ cwd = "~/.dotfiles" })
       end)
+      vim.keymap.set("n", "<leader>jl", SnacksPicker.lsp_symbols)
+      vim.keymap.set("n", "<leader>jL", SnacksPicker.lsp_workspace_symbols)
+      vim.keymap.set("n", "<leader>jb", SnacksPicker.buffers)
+      vim.keymap.set("n", "<leader>jh", SnacksPicker.help)
 
       vim.lsp.buf.definition = SnacksPicker.lsp_definitions
       vim.lsp.buf.implementation = SnacksPicker.lsp_implementations
