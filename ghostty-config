@@ -6,7 +6,7 @@ macos-titlebar-style=tabs
 mouse-hide-while-typing = true
 
 cursor-style-blink = false
-cursor-style = bar
+# cursor-style = bar
 macos-option-as-alt = true
 shell-integration-features = no-cursor
 window-inherit-working-directory = false
@@ -27,10 +27,8 @@ window-colorspace = "display-p3"
 
 theme = tokyonight_night
 
-# Gruvbuddy theme
-# for normal background uncomment the following line
+## Gruvbuddy theme
 # background = 282c34 
-# for dark background
 # background = 111416
 # foreground = e0e0e0
 # selection-background = 81A2BE

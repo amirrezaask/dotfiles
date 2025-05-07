@@ -28,7 +28,6 @@ function _G.titlestring()
   local root = vim.fs.root(vim.fn.getcwd(), ".git")
   root = root or vim.fn.getcwd()
   return root:match("^.+/(.+)$")
-  -- return vim.fn.fnamemodify(root, ":t")
 end
 
 vim.o.titlestring = "%M%{v:lua.titlestring()}" -- Set title of the terminal.
@@ -119,14 +118,15 @@ require("lazy").setup({
     },
 
     config = function()
-      vim.g.gruvbuddy_style = "default"
+      vim.g.gruvbuddy_style = "dark"
+
       vim.cmd.colorscheme("tokyonight-night")
     end,
   },
 
   "tpope/vim-sleuth", -- Configure indentation based on current indentation of the file.
 
-  { --TODO: Highlight TODO and FIXMEs.
+  { -- TODO: Highlight TODO and FIXMEs.
     "folke/todo-comments.nvim",
     dependencies = { "nvim-lua/plenary.nvim" },
     opts = { signs = false },
@@ -134,7 +134,7 @@ require("lazy").setup({
 
   { -- My custom crafted statusline plugin
     "amirrezaask/nvim-statusline.lua",
-    main = "statusline",
+    dir = "~/src/nvim-statusline.lua",
     opts = {},
   },
 
@@ -144,6 +144,7 @@ require("lazy").setup({
       require("mini.ai").setup()
       require("mini.comment").setup()
       require("mini.move").setup() -- M-h M-j M-k M-l move code blocks around.
+      require("mini.icons").setup()
     end,
   },
 
@@ -178,7 +179,7 @@ require("lazy").setup({
     end,
   },
 
-  { "nvim-tree/nvim-web-devicons" }, -- Icons in terminal, nice.
+  -- { "nvim-tree/nvim-web-devicons" }, -- Icons in terminal, nice.
 
   { "supermaven-inc/supermaven-nvim", opts = {} }, -- Best usage for AI.
 
@@ -198,9 +199,7 @@ require("lazy").setup({
   { -- Blazingly fast autocomplete
     "saghen/blink.cmp",
     tag = "v1.1.1",
-    dependencies = {
-      { "folke/lazydev.nvim", opts = { library = {} } }, -- Better neovim development support.
-    },
+    dependencies = { { "folke/lazydev.nvim", opts = { library = {} } } }, -- Better neovim development support. },
     opts = {
       keymap = { preset = "enter" },
       cmdline = { enabled = false },
@@ -276,14 +275,53 @@ require("lazy").setup({
         SnacksPicker.files({ cwd = "~/.dotfiles" })
       end, { desc = "Find Dotfiles" })
 
-      vim.keymap.set({ "n", "t" }, "<C-s>", Snacks.terminal.toggle, { desc = "Terminal" })
-
       vim.lsp.buf.definition = SnacksPicker.lsp_definitions
       vim.lsp.buf.implementation = SnacksPicker.lsp_implementations
       vim.lsp.buf.references = SnacksPicker.lsp_references
       vim.lsp.buf.type_definition = SnacksPicker.lsp_type_definitions
+
+      vim.keymap.set({ "n", "t" }, "<C-s>", Snacks.terminal.toggle, { desc = "Terminal" }) -- Terminal
     end,
   },
+  { -- FZF: currently i am using snacks.picker but this will be here just as a fallback.
+    "ibhagwan/fzf-lua",
+    enabled = false,
+    config = function()
+      Fzf = require("fzf-lua")
+      Fzf.setup {
+        fzf_colors = true,
+        keymap = {
+          fzf = {
+            ["ctrl-q"] = "select-all+accept", -- Select all items and send to quickfix
+          },
+        },
+      }
+
+      vim.api.nvim_set_hl(0, "FzfLuaNormal", { link = "NormalFloat" })
+      vim.api.nvim_set_hl(0, "FzfLuaBorder", { link = "NormalFloat" })
+
+      Fzf.register_ui_select()
+
+      vim.keymap.set("n", "<leader><leader>", Fzf.files, { desc = "Find Files" })
+      vim.keymap.set("n", "<leader>b", Fzf.buffers, { desc = "Find Buffers" })
+      vim.keymap.set("n", "<leader>h", Fzf.helptags, { desc = "Vim Help Tags" })
+      vim.keymap.set("n", "<C-p>", Fzf.git_files, { desc = "Git Files" })
+      vim.keymap.set("n", "??", Fzf.live_grep, { desc = "Live Grep" })
+      vim.keymap.set("n", "<leader>fs", Fzf.grep, { desc = "Grep" })
+      vim.keymap.set("v", "??", Fzf.grep_cword, { desc = "Grep word under cursor" })
+      vim.keymap.set("n", "<leader>o", Fzf.lsp_document_symbols, { desc = "LSP Document Symbols" })
+      vim.keymap.set("n", "<leader>O", Fzf.lsp_live_workspace_symbols, { desc = "LSP Workspace Symbols" })
+      vim.keymap.set("n", "<M-o>", Fzf.lsp_live_workspace_symbols, { desc = "LSP Workspace Symbols" })
+      vim.keymap.set("n", "<leader>fd", function()
+        Fzf.files({ cwd = "~/.dotfiles" })
+      end, { desc = "Find Dotfiles" })
+
+      vim.lsp.buf.definition = Fzf.lsp_definitions
+      vim.lsp.buf.implementation = Fzf.lsp_implementations
+      vim.lsp.buf.references = Fzf.lsp_references
+      vim.lsp.buf.type_definition = Fzf.lsp_type_definitions
+    end,
+  }, -- as a fallback for snacks picker.
 
   { -- Git signs
     "lewis6991/gitsigns.nvim",
