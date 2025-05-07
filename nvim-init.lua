@@ -81,25 +81,11 @@ vim.o.rtp = vim.o.rtp .. "," .. lazypath -- Add lazy.nvim to runtimepath
 
 require("lazy").setup({
   {
-    "amirrezaask/nvim-gruvbuddy.lua", -- Colorscheme, inspired by great @tjdevries.
-    dependencies = {
-      {
-        "rose-pine/neovim",
-        name = "rose-pine",
-        opts = {
-          styles = {
-            italic = false,
-            transparency = true,
-          },
-        },
-      },
-      { "folke/tokyonight.nvim" },
-    },
-
+    "amirrezaask/gruvi.nvim", -- Colorscheme, inspired by great @tjdevries's gruvbuddy.nvim
+    dir = "~/src/github/gruvi.nvim",
     config = function()
-      vim.g.gruvbuddy_style = "dark"
-
-      vim.cmd.colorscheme("gruvbuddy")
+      vim.g.gruvi_style = "dark"
+      vim.cmd.colorscheme("gruvi")
     end,
   },
 
@@ -119,12 +105,9 @@ require("lazy").setup({
   },
 
   { -- My custom crafted statusline plugin
-    "amirrezaask/nvim-statusline.lua",
-    dir = "~/src/nvim-statusline.lua",
-    dependencies = {
-      "nvim-tree/nvim-web-devicons",
-    },
+    "amirrezaask/vitaline.lua",
     opts = {},
+    dependencies = { "nvim-tree/nvim-web-devicons" },
   },
 
   { -- LSP configurations.
@@ -164,7 +147,6 @@ require("lazy").setup({
     "stevearc/oil.nvim",
     config = function()
       require("oil").setup {}
-
       vim.keymap.set("n", "-", "<cmd>Oil<CR>")
     end,
   },
