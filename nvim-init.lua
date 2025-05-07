@@ -1,3 +1,25 @@
+-- Amirreza Ask's Neovim
+-- Last IDE you'll ever need.
+-- Keys:
+-- <leader>jf  Jump to file
+-- <leader>jg  Jump to git file
+-- <leader>js  Jump to search (grep)
+-- <leader>jw  Jump to word
+-- <leader>jW  Jump to word with input
+-- <leader>j.  Jump to dotfile
+-- <leader>jl  Jump to lsp symbol
+-- <leader>jL  Jump to lsp workspace symbol
+-- <leader>jd  Jump to definition
+-- <leader>jD  Jump to declaration
+-- <leader>jr  Jump to references
+-- <leader>ji  Jump to implementation
+-- <leader>er  Execute rename
+-- <leader>ec  Execute code action
+-- K           Toggle Hover over symbol
+-- L           Toggle line diagnostic
+-- <leader>jb  Jump to buffer
+-- <leader>jh  Jump to help
+
 vim.o.wrap = true -- Wrap long lines.
 vim.o.breakindent = true -- Indent wrapped lines.
 vim.o.signcolumn = "yes" -- Show signcolumn.
@@ -20,8 +42,8 @@ vim.o.termguicolors = true -- Enable 24-bit RGB colors
 vim.o.inccommand = "split" -- Show partial commands in the command line
 vim.o.relativenumber = true -- Relative line numbers
 vim.o.scrolloff = 10 -- Scroll when cursor is 8 lines away from screen edge
-vim.o.list = true -- Show whitespace
-vim.o.listchars = "tab:  ,trail:·,extends: ,precedes: ,eol:↲,conceal:┊,nbsp:␣"
+-- vim.o.list = true -- Show whitespace
+-- vim.o.listchars = "tab:  ,trail:·,extends: ,precedes: ,eol:↲,conceal:┊,nbsp:␣"
 vim.o.winborder = "rounded"
 vim.o.title = true
 function _G.titlestring()
@@ -128,10 +150,9 @@ require("lazy").setup({
           vim.keymap.set("n", "<leader>ji", vim.lsp.buf.implementation, { buffer = args.buf })
           vim.keymap.set("n", "<leader>er", vim.lsp.buf.rename, { buffer = args.buf })
           vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = args.buf })
-          vim.keymap.set("n", "<leader>ec", vim.lsp.buf.code_action, { buffer = args.buf })
+          vim.keymap.set("n", "L", vim.diagnostic.open_float, { buffer = args.buf })
+          vim.keymap.set("n", "C", vim.lsp.buf.code_action, { buffer = args.buf })
           vim.keymap.set("n", "<leader>s", vim.lsp.buf.signature_help, { buffer = args.buf })
-          vim.keymap.set("n", "<leader>l", vim.diagnostic.open_float, { buffer = args.buf })
-          vim.keymap.set("n", "<leader>eq", vim.diagnostic.setloclist, { buffer = args.buf })
         end,
       })
 
