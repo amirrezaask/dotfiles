@@ -99,7 +99,7 @@ require("lazy").setup({
     config = function()
       vim.g.gruvbuddy_style = "dark"
 
-      vim.cmd.colorscheme("gruvbuddy")
+      vim.cmd.colorscheme("tokyonight-night")
     end,
   },
 
@@ -235,18 +235,6 @@ require("lazy").setup({
       Snacks = require("snacks")
       SnacksPicker = Snacks.picker
 
-      vim.keymap.set("n", "<leader><leader>", SnacksPicker.files, { desc = "Find Files" })
-      vim.keymap.set("n", "<leader>pf", SnacksPicker.files, { desc = "Find Files" })
-      vim.keymap.set("n", "<leader>ff", function()
-        local root =
-          vim.fs.find(".git", { upward = true, type = "directory", path = vim.fn.expand("%:h:p") })[1]:sub(1, -5)
-        SnacksPicker.files { cwd = root }
-      end, { desc = "Find Files" })
-      vim.keymap.set("n", "<leader>b", SnacksPicker.buffers, { desc = "Find Buffers" })
-      vim.keymap.set("n", "<leader>h", SnacksPicker.help, { desc = "Vim Help Tags" })
-      vim.keymap.set("n", "<C-p>", SnacksPicker.git_files, { desc = "Git Files" })
-      vim.keymap.set("n", "??", SnacksPicker.grep, { desc = "Live Grep" })
-      vim.keymap.set("v", "??", SnacksPicker.grep_word, { desc = "Grep word under cursor" })
       local search_string = function()
         vim.ui.input({ prompt = "Grep word: " }, function(input)
           if input == "" or input == nil then
@@ -259,13 +247,27 @@ require("lazy").setup({
           })
         end)
       end
-      vim.keymap.set("n", "?s", search_string, { desc = "Grep" })
-      vim.keymap.set("n", "<leader>ps", search_string, { desc = "Grep" })
-      vim.keymap.set("n", "<leader>o", SnacksPicker.lsp_symbols, { desc = "LSP Document Symbols" })
-      vim.keymap.set("n", "<leader>O", SnacksPicker.lsp_workspace_symbols, { desc = "LSP Workspace Symbols" })
+
+      -- File Navigation
+      vim.keymap.set("n", "<leader><leader>", SnacksPicker.files)
+      vim.keymap.set("n", "<leader>pf", SnacksPicker.files)
+      vim.keymap.set("n", "<leader>pp", SnacksPicker.git_files)
+
+      -- Grep
+      vim.keymap.set("n", "<leader>ps", SnacksPicker.grep)
+      vim.keymap.set("n", "<leader>pw", search_string)
+      vim.keymap.set("v", "<leader>pw", SnacksPicker.grep_word)
+
+      -- LSP
+      vim.keymap.set("n", "<leader>o", SnacksPicker.lsp_symbols)
+      vim.keymap.set("n", "<leader>O", SnacksPicker.lsp_workspace_symbols)
+
+      vim.keymap.set("n", "<leader>b", SnacksPicker.buffers)
+      vim.keymap.set("n", "<leader>h", SnacksPicker.help)
+
       vim.keymap.set("n", "<leader>fd", function()
         SnacksPicker.files({ cwd = "~/.dotfiles" })
-      end, { desc = "Find Dotfiles" })
+      end)
 
       vim.lsp.buf.definition = SnacksPicker.lsp_definitions
       vim.lsp.buf.implementation = SnacksPicker.lsp_implementations
