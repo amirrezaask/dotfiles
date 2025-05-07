@@ -20,8 +20,8 @@ vim.o.termguicolors = true -- Enable 24-bit RGB colors
 vim.o.inccommand = "split" -- Show partial commands in the command line
 vim.o.relativenumber = true -- Relative line numbers
 vim.o.scrolloff = 10 -- Scroll when cursor is 8 lines away from screen edge
--- vim.o.list = true -- Show whitespace
--- vim.o.listchars = "tab:  ,trail:·,extends: ,precedes: ,eol:↲,conceal:┊,nbsp:␣"
+vim.o.list = true -- Show whitespace
+vim.o.listchars = "tab:  ,trail:·,extends: ,precedes: ,eol:↲,conceal:┊,nbsp:␣"
 vim.o.winborder = "rounded"
 vim.o.title = true
 function _G.titlestring()
@@ -58,17 +58,17 @@ vim.keymap.set("n", "k", "gk")
 vim.keymap.set("n", "{", "<cmd>cprev<CR>")
 vim.keymap.set("n", "}", "<cmd>cnext<CR>")
 vim.keymap.set({ "n", "t" }, "<M-k>", "<cmd>wincmd q<CR>")
-vim.keymap.set("n", "<C-q>", function()
-  local wins = vim.api.nvim_list_wins()
-  for _, win in ipairs(wins) do
-    local buf = vim.api.nvim_win_get_buf(win)
-    if vim.api.nvim_get_option_value("buftype", { buf = buf }) == "quickfix" then
-      vim.cmd.cclose()
-      return
-    end
-  end
-  vim.cmd.copen()
-end)
+-- vim.keymap.set("n", "<C-q>", function()
+--   local wins = vim.api.nvim_list_wins()
+--   for _, win in ipairs(wins) do
+--     local buf = vim.api.nvim_win_get_buf(win)
+--     if vim.api.nvim_get_option_value("buftype", { buf = buf }) == "quickfix" then
+--       vim.cmd.cclose()
+--       return
+--     end
+--   end
+--   vim.cmd.copen()
+-- end)
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
@@ -122,6 +122,10 @@ require("lazy").setup({
   { -- My custom crafted statusline plugin
     "amirrezaask/nvim-statusline.lua",
     dir = "~/src/nvim-statusline.lua",
+    dependencies = {
+      "echasnovski/mini.nvim", -- for icons
+      -- "nvim-tree/nvim-web-devicons",
+    },
     opts = {},
   },
 
@@ -165,8 +169,6 @@ require("lazy").setup({
       vim.diagnostic.config({ virtual_text = true })
     end,
   },
-
-  -- { "nvim-tree/nvim-web-devicons" }, -- Icons in terminal, nice.
 
   { "supermaven-inc/supermaven-nvim", opts = {} }, -- Best usage for AI.
 
@@ -270,46 +272,6 @@ require("lazy").setup({
       vim.keymap.set({ "n", "t" }, "<C-s>", Snacks.terminal.toggle, { desc = "Terminal" }) -- Terminal
     end,
   },
-  { -- FZF: currently i am using snacks.picker but this will be here just as a fallback.
-    "ibhagwan/fzf-lua",
-    enabled = false,
-    config = function()
-      Fzf = require("fzf-lua")
-      Fzf.setup {
-        fzf_colors = true,
-        keymap = {
-          fzf = {
-            ["ctrl-q"] = "select-all+accept", -- Select all items and send to quickfix
-          },
-        },
-      }
-
-      vim.api.nvim_set_hl(0, "FzfLuaNormal", { link = "NormalFloat" })
-      vim.api.nvim_set_hl(0, "FzfLuaBorder", { link = "NormalFloat" })
-
-      Fzf.register_ui_select()
-
-      vim.keymap.set("n", "<leader><leader>", Fzf.files, { desc = "Find Files" })
-      vim.keymap.set("n", "<leader>b", Fzf.buffers, { desc = "Find Buffers" })
-      vim.keymap.set("n", "<leader>h", Fzf.helptags, { desc = "Vim Help Tags" })
-      vim.keymap.set("n", "<C-p>", Fzf.git_files, { desc = "Git Files" })
-      vim.keymap.set("n", "??", Fzf.live_grep, { desc = "Live Grep" })
-      vim.keymap.set("n", "<leader>fs", Fzf.grep, { desc = "Grep" })
-      vim.keymap.set("v", "??", Fzf.grep_cword, { desc = "Grep word under cursor" })
-      vim.keymap.set("n", "<leader>o", Fzf.lsp_document_symbols, { desc = "LSP Document Symbols" })
-      vim.keymap.set("n", "<leader>O", Fzf.lsp_live_workspace_symbols, { desc = "LSP Workspace Symbols" })
-      vim.keymap.set("n", "<M-o>", Fzf.lsp_live_workspace_symbols, { desc = "LSP Workspace Symbols" })
-      vim.keymap.set("n", "<leader>fd", function()
-        Fzf.files({ cwd = "~/.dotfiles" })
-      end, { desc = "Find Dotfiles" })
-
-      vim.lsp.buf.definition = Fzf.lsp_definitions
-      vim.lsp.buf.implementation = Fzf.lsp_implementations
-      vim.lsp.buf.references = Fzf.lsp_references
-      vim.lsp.buf.type_definition = Fzf.lsp_type_definitions
-    end,
-  }, -- as a fallback for snacks picker.
-
   { -- Git signs
     "lewis6991/gitsigns.nvim",
     opts = {
