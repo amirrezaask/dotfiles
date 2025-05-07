@@ -52,20 +52,7 @@ vim.keymap.set("n", "n", "nzz")
 vim.keymap.set("n", "N", "Nzz")
 vim.keymap.set("i", "jk", "<ESC>")
 vim.keymap.set("i", "kj", "<ESC>")
-vim.keymap.set(
-  "n",
-  "<CR>",
-  function() -- Taken from https://github.com/tjdevries/config.nvim/blob/master/plugin/keymaps.lua#L16
-    if vim.v.hlsearch == 1 then
-      vim.cmd.nohl()
-      return ""
-    else
-      ---@diagnostic disable-next-line: undefined-field
-      return vim.keycode "<CR>"
-    end
-  end,
-  { expr = true }
-)
+vim.keymap.set("n", "<CR>", "v:hlsearch ? ':nohlsearch<CR>' : '<CR>'", { expr = true, noremap = true })
 vim.keymap.set("n", "j", "gj")
 vim.keymap.set("n", "k", "gk")
 vim.keymap.set("n", "{", "<cmd>cprev<CR>")
