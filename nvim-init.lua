@@ -58,18 +58,8 @@ vim.keymap.set("n", "k", "gk")
 vim.keymap.set("n", "{", "<cmd>cprev<CR>")
 vim.keymap.set("n", "}", "<cmd>cnext<CR>")
 vim.keymap.set({ "n", "t" }, "<M-k>", "<cmd>wincmd q<CR>")
--- vim.keymap.set("n", "<C-q>", function()
---   local wins = vim.api.nvim_list_wins()
---   for _, win in ipairs(wins) do
---     local buf = vim.api.nvim_win_get_buf(win)
---     if vim.api.nvim_get_option_value("buftype", { buf = buf }) == "quickfix" then
---       vim.cmd.cclose()
---       return
---     end
---   end
---   vim.cmd.copen()
--- end)
 
+-- Lazy package manager initialization
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
   local lazyrepo = "https://github.com/folke/lazy.nvim.git"
@@ -85,7 +75,7 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
   end
 end
 
-vim.o.rtp = vim.o.rtp .. "," .. lazypath
+vim.o.rtp = vim.o.rtp .. "," .. lazypath -- Add lazy.nvim to runtimepath
 
 require("lazy").setup({
   {
@@ -107,16 +97,24 @@ require("lazy").setup({
     config = function()
       vim.g.gruvbuddy_style = "dark"
 
-      vim.cmd.colorscheme("tokyonight-night")
+      vim.cmd.colorscheme("gruvbuddy")
     end,
   },
 
   "tpope/vim-sleuth", -- Configure indentation based on current indentation of the file.
+  "tpope/vim-fugitive", -- Git integration.
 
-  { -- TODO: Highlight TODO and FIXMEs.
-    "folke/todo-comments.nvim",
-    dependencies = { "nvim-lua/plenary.nvim" },
-    opts = { signs = false },
+  { -- Git signs
+    "lewis6991/gitsigns.nvim",
+    opts = {
+      signs = {
+        add = { text = "+" },
+        change = { text = "~" },
+        delete = { text = "_" },
+        topdelete = { text = "‾" },
+        changedelete = { text = "~" },
+      },
+    },
   },
 
   { -- My custom crafted statusline plugin
@@ -236,6 +234,7 @@ require("lazy").setup({
       SnacksPicker = Snacks.picker
 
       vim.keymap.set("n", "<leader><leader>", SnacksPicker.files, { desc = "Find Files" })
+      vim.keymap.set("n", "<leader>pf", SnacksPicker.files, { desc = "Find Files" })
       vim.keymap.set("n", "<leader>ff", function()
         local root =
           vim.fs.find(".git", { upward = true, type = "directory", path = vim.fn.expand("%:h:p") })[1]:sub(1, -5)
@@ -246,7 +245,7 @@ require("lazy").setup({
       vim.keymap.set("n", "<C-p>", SnacksPicker.git_files, { desc = "Git Files" })
       vim.keymap.set("n", "??", SnacksPicker.grep, { desc = "Live Grep" })
       vim.keymap.set("v", "??", SnacksPicker.grep_word, { desc = "Grep word under cursor" })
-      vim.keymap.set("n", "?s", function()
+      local search_string = function()
         vim.ui.input({ prompt = "Grep word: " }, function(input)
           if input == "" or input == nil then
             return
@@ -257,7 +256,9 @@ require("lazy").setup({
             end,
           })
         end)
-      end, { desc = "Grep" })
+      end
+      vim.keymap.set("n", "?s", search_string, { desc = "Grep" })
+      vim.keymap.set("n", "<leader>ps", search_string, { desc = "Grep" })
       vim.keymap.set("n", "<leader>o", SnacksPicker.lsp_symbols, { desc = "LSP Document Symbols" })
       vim.keymap.set("n", "<leader>O", SnacksPicker.lsp_workspace_symbols, { desc = "LSP Workspace Symbols" })
       vim.keymap.set("n", "<leader>fd", function()
@@ -271,18 +272,6 @@ require("lazy").setup({
 
       vim.keymap.set({ "n", "t" }, "<C-s>", Snacks.terminal.toggle, { desc = "Terminal" }) -- Terminal
     end,
-  },
-  { -- Git signs
-    "lewis6991/gitsigns.nvim",
-    opts = {
-      signs = {
-        add = { text = "+" },
-        change = { text = "~" },
-        delete = { text = "_" },
-        topdelete = { text = "‾" },
-        changedelete = { text = "~" },
-      },
-    },
   },
 
   { -- Treesitter
