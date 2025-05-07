@@ -31,8 +31,8 @@ window-colorspace = "display-p3"
 # background = 282c34 
 background = 111416
 foreground = e0e0e0
-selection-background = 81A2BE
 selection-background = 5a7185
+selection-foreground = e0e0e0
 split-divider-color = ff0000
 cursor-color = 1DA457
 palette = 0=1c2526

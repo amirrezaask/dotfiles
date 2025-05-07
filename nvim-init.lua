@@ -80,6 +80,7 @@ vim.o.rtp = vim.o.rtp .. "," .. lazypath -- Add lazy.nvim to runtimepath
 require("lazy").setup({
   {
     "amirrezaask/nvim-gruvbuddy.lua", -- Colorscheme, inspired by great @tjdevries.
+    dir = "~/src/nvim-gruvbuddy.lua",
     dependencies = {
       {
         "rose-pine/neovim",
@@ -92,6 +93,7 @@ require("lazy").setup({
         },
       },
       { "folke/tokyonight.nvim" },
+      { "webhooked/kanso.nvim" },
     },
 
     config = function()
