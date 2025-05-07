@@ -80,7 +80,6 @@ vim.o.rtp = vim.o.rtp .. "," .. lazypath -- Add lazy.nvim to runtimepath
 require("lazy").setup({
   {
     "amirrezaask/nvim-gruvbuddy.lua", -- Colorscheme, inspired by great @tjdevries.
-    dir = "~/src/nvim-gruvbuddy.lua",
     dependencies = {
       {
         "rose-pine/neovim",
@@ -99,7 +98,7 @@ require("lazy").setup({
     config = function()
       vim.g.gruvbuddy_style = "dark"
 
-      vim.cmd.colorscheme("tokyonight-night")
+      vim.cmd.colorscheme("gruvbuddy")
     end,
   },
 
@@ -235,8 +234,8 @@ require("lazy").setup({
       Snacks = require("snacks")
       SnacksPicker = Snacks.picker
 
-      local search_string = function()
-        vim.ui.input({ prompt = "Grep word: " }, function(input)
+      local grep_input = function()
+        vim.ui.input({ prompt = "Grep> " }, function(input)
           if input == "" or input == nil then
             return
           end
@@ -251,21 +250,21 @@ require("lazy").setup({
       -- File Navigation
       vim.keymap.set("n", "<leader><leader>", SnacksPicker.files)
       vim.keymap.set("n", "<leader>pf", SnacksPicker.files)
-      vim.keymap.set("n", "<leader>pp", SnacksPicker.git_files)
+      vim.keymap.set("n", "<C-p>", SnacksPicker.git_files)
 
       -- Grep
       vim.keymap.set("n", "<leader>ps", SnacksPicker.grep)
-      vim.keymap.set("n", "<leader>pw", search_string)
-      vim.keymap.set("v", "<leader>pw", SnacksPicker.grep_word)
+      vim.keymap.set({ "n", "v" }, "<leader>pw", SnacksPicker.grep_word)
+      vim.keymap.set("n", "<leader>pW", grep_input)
 
       -- LSP
-      vim.keymap.set("n", "<leader>o", SnacksPicker.lsp_symbols)
-      vim.keymap.set("n", "<leader>O", SnacksPicker.lsp_workspace_symbols)
+      vim.keymap.set("n", "<leader>j", SnacksPicker.lsp_symbols)
+      vim.keymap.set("n", "<leader>pj", SnacksPicker.lsp_workspace_symbols)
 
       vim.keymap.set("n", "<leader>b", SnacksPicker.buffers)
       vim.keymap.set("n", "<leader>h", SnacksPicker.help)
 
-      vim.keymap.set("n", "<leader>fd", function()
+      vim.keymap.set("n", "<leader>jd", function()
         SnacksPicker.files({ cwd = "~/.dotfiles" })
       end)
 
