@@ -58,6 +58,8 @@ vim.keymap.set("n", "k", "gk")
 vim.keymap.set("n", "{", "<cmd>cprev<CR>")
 vim.keymap.set("n", "}", "<cmd>cnext<CR>")
 vim.keymap.set({ "n", "t" }, "<M-k>", "<cmd>wincmd q<CR>")
+vim.keymap.set({ "x" }, "<M-j>", ":move '>+1<CR>gv=gv", { noremap = true, silent = true }) -- Moves ...
+vim.keymap.set({ "x" }, "<M-k>", ":move '<-2<CR>gv=gv", { noremap = true, silent = true }) -- ... code around
 
 -- Lazy package manager initialization
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -120,20 +122,9 @@ require("lazy").setup({
     "amirrezaask/nvim-statusline.lua",
     dir = "~/src/nvim-statusline.lua",
     dependencies = {
-      "echasnovski/mini.nvim", -- for icons
-      -- "nvim-tree/nvim-web-devicons",
+      "nvim-tree/nvim-web-devicons",
     },
     opts = {},
-  },
-
-  {
-    "echasnovski/mini.nvim",
-    config = function()
-      require("mini.ai").setup()
-      require("mini.comment").setup()
-      require("mini.move").setup() -- M-h M-j M-k M-l move code blocks around.
-      require("mini.icons").setup()
-    end,
   },
 
   { -- LSP configurations.
@@ -168,8 +159,6 @@ require("lazy").setup({
   },
 
   { "supermaven-inc/supermaven-nvim", opts = {} }, -- Best usage for AI.
-
-  { "MagicDuck/grug-far.nvim", opts = {} }, -- Find/Replace project wide.
 
   { -- File management done right.
     "stevearc/oil.nvim",
@@ -222,6 +211,9 @@ require("lazy").setup({
 
   { -- Collection of plugins by folkee.
     "folke/snacks.nvim",
+    dependencies = {
+      "nvim-tree/nvim-web-devicons",
+    },
     config = function()
       require("snacks").setup {
         picker = { enabled = true },
