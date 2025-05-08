@@ -10,29 +10,43 @@
 --                                        |   L  -> Toggle line diagnostic
 --  ___________________________________________________________________________
 
-vim.o.wrap = true -- Wrap long lines.
-vim.o.breakindent = true -- Indent wrapped lines.
-vim.o.signcolumn = "yes" -- Always show signcolumn.
-vim.o.swapfile = false -- Disable swapfile.
-vim.o.undofile = true -- Store undo history on disk
-vim.o.splitbelow = true -- Split windows below the current windows
-vim.o.splitright = true -- Split windows right to the current windows
-vim.o.clipboard = "unnamedplus" -- Copy/Cut/Paste to system clipboard
-vim.o.ignorecase = true -- Search case insensitive...
-vim.o.smartcase = true -- ... but not if it contains caps
-vim.o.fo = "jcql" -- See :help fo-table
-vim.o.updatetime = 100 -- Faster completion
-vim.o.laststatus = 3 -- Single Statusline for all windows
-vim.o.cursorline = false -- I know where is my cursor.
-vim.o.guicursor = "" -- Don't dare to touch my cursor.
-vim.o.timeoutlen = 300 -- Faster completion
-vim.o.number = true -- Line numbers
-vim.o.termguicolors = true -- Enable 24-bit RGB colors
-vim.o.inccommand = "split" -- Show partial commands in the command line
-vim.o.relativenumber = true -- Relative line numbers
-vim.o.scrolloff = 10 -- Scroll when cursor is 8 lines away from screen edge
-vim.o.winborder = "rounded"
-vim.api.nvim_create_autocmd({ "ColorScheme" }, { -- Always transparent.
+local map = vim.keymap.set
+local autocmd = vim.api.nvim_create_autocmd
+local o, g = vim.o, vim.g
+
+g.mapleader = " "
+g.maplocalleader = ","
+o.wrap = true -- Wrap long lines.
+o.breakindent = true -- Indent wrapped lines.
+o.signcolumn = "yes" -- Always show signcolumn.
+o.swapfile = false -- Disable swapfile.
+o.undofile = true -- Store undo history on disk
+o.splitbelow = true -- Split windows below the current windows
+o.splitright = true -- Split windows right to the current windows
+o.clipboard = "unnamedplus" -- Copy/Cut/Paste to system clipboard
+o.ignorecase = true -- Search case insensitive...
+o.smartcase = true -- ... but not if it contains caps
+o.fo = "jcql" -- See :help fo-table
+o.updatetime = 100 -- Faster completion
+o.laststatus = 3 -- Single Statusline for all windows
+o.cursorline = false -- I know where is my cursor.
+o.guicursor = "" -- Don't dare to touch my cursor.
+o.timeoutlen = 300 -- Faster completion
+o.number = true -- Line numbers
+o.termguicolors = true -- Enable 24-bit RGB colors
+o.inccommand = "split" -- Show partial commands in the command line
+o.relativenumber = true -- Relative line numbers
+o.scrolloff = 10 -- Scroll when cursor is 8 lines away from screen edge
+o.winborder = "rounded"
+
+o.statusline = "%m%w%q%h%r%f%=[%l :%c]%y"
+
+-- Sets title of the terminal window to current project name.
+o.title = true
+o.titlestring = [[ %{v:lua.vim.fs.basename(finddir(getcwd(),'.git'))} ]]
+
+-- Always transparent.
+autocmd({ "ColorScheme" }, {
   callback = function()
     vim.cmd [[ 
       hi! Normal      guibg=none
@@ -44,17 +58,8 @@ vim.api.nvim_create_autocmd({ "ColorScheme" }, { -- Always transparent.
     ]]
   end,
 })
-vim.o.title = true
-function _G.titlestring()
-  local root = vim.fs.root(vim.fn.getcwd(), ".git")
-  root = root or vim.fn.getcwd()
-  return root:match("^.+/(.+)$")
-end
 
-vim.o.titlestring = "%{v:lua.titlestring()}" -- Set title of the terminal.
-vim.o.statusline = "%m%w%q%h%r%f%=[%l :%c]%y"
-
-vim.api.nvim_create_autocmd("TextYankPost", {
+autocmd("TextYankPost", {
   pattern = "*",
   callback = function()
     vim.highlight.on_yank({
@@ -63,11 +68,8 @@ vim.api.nvim_create_autocmd("TextYankPost", {
     })
   end,
 })
-vim.g.mapleader = " "
-vim.g.maplocalleader = ","
 
-local map = vim.keymap.set
-
+-- Y yanks whole line.
 map("n", "Y", "^v$y", { desc = "Copy whole line" })
 
 -- Ways to escape the INSERT mode
@@ -145,7 +147,7 @@ require("lazy").setup({
 
   { -- LSP configurations.
     "neovim/nvim-lspconfig",
-    dependencies = { { "williamboman/mason.nvim", opts = {} } },
+    dependencies = { { "williamboman/mason.nvim", opts = {} } }, -- package manager for LSPs, formatters, linters, etc.
     config = function()
       vim.api.nvim_create_autocmd("LspAttach", {
         callback = function(args)
@@ -250,17 +252,14 @@ require("lazy").setup({
       end
 
       vim.keymap.set("n", "<C-p>", SnacksPicker.git_files)
-
       vim.keymap.set("n", "<leader>pf", SnacksPicker.files)
       vim.keymap.set("n", "<leader>pg", SnacksPicker.grep)
       vim.keymap.set({ "n", "v" }, "<leader>pw", SnacksPicker.grep_word)
       vim.keymap.set("n", "<leader>pW", grep_input)
       vim.keymap.set("n", "<leader>ps", SnacksPicker.lsp_workspace_symbols)
       vim.keymap.set("n", "<leader>pd", SnacksPicker.diagnostics)
-
       vim.keymap.set("n", "<leader>fh", SnacksPicker.help)
 
-      -- LSP
       vim.lsp.buf.definition = SnacksPicker.lsp_definitions
       vim.lsp.buf.implementation = SnacksPicker.lsp_implementations
       vim.lsp.buf.references = SnacksPicker.lsp_references
@@ -274,7 +273,7 @@ require("lazy").setup({
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
     dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
-    main = "nvim-treesitter.configs", -- Sets main module to use for opts
+    main = "nvim-treesitter.configs",
     opts = {
       ensure_installed = "all",
       auto_install = true,
