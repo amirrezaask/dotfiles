@@ -1,13 +1,18 @@
 --                             Amirreza Ask's Neovim
 
---           *General*                    |         *LSP*
+--           *Project*                    |         *LSP*
 -- <leader>pf -> Project file             |   gd -> Goto to definition
 -- <leader>pg -> Project grep             |   gr -> Goto to references
 -- <leader>pw -> Project word             |   gi -> Goto to implementation
 -- <leader>pW -> Project word with input  |   R  -> Execute rename
 -- <leader>ps -> Project (LSP) symbols    |   C  -> Execute code action
 -- <leader>pd -> Project Diagnostic       |   K  -> Toggle Hover over symbol
--- <leader>fh -> Find Neovim help tag     |   L  -> Toggle line diagnostic
+-- ____________________________________   |   L  -> Toggle line diagnostic
+
+--              *Find*
+-- <leader>fh -> Find Neovim help tag
+-- <leader>ff -> Find file on current buffers directory
+-- <leader>fb -> Find buffer
 
 vim.o.wrap = true -- Wrap long lines.
 vim.o.breakindent = true -- Indent wrapped lines.
@@ -77,6 +82,7 @@ vim.keymap.set({ "n", "t" }, "<M-k>", "<cmd>wincmd q<CR>")
 vim.keymap.set({ "x" }, "<M-j>", ":move '>+1<CR>gv=gv", { noremap = true, silent = true }) -- Moves ...
 vim.keymap.set({ "x" }, "<M-k>", ":move '<-2<CR>gv=gv", { noremap = true, silent = true }) -- ... code around
 vim.cmd [[ command! W w ]]
+vim.cmd [[ command! Q q ]]
 
 -- Lazy package manager initialization
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
