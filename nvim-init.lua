@@ -1,14 +1,15 @@
 --                             Amirreza Ask's Neovim
 
+-- -----------------------------------------------------------------------------
 --           *Project*                    |         *LSP*
 -- <leader>pf -> Project file             |   gd -> Goto to definition
 -- <leader>pg -> Project grep             |   gr -> Goto to references
 -- <leader>pw -> Project word             |   gi -> Goto to implementation
 -- <leader>pW -> Project word with input  |   R  -> Execute rename
 -- <leader>ps -> Project (LSP) symbols    |   C  -> Execute code action
--- <leader>pd -> Project Diagnostic       |   K  -> Toggle Hover over symbol
+-- <leader>pd -> Project Diagnostics      |   K  -> Toggle Hover over symbol
 --                                        |   L  -> Toggle line diagnostic
---  ___________________________________________________________________________
+-- -----------------------------------------------------------------------------
 
 local map = vim.keymap.set
 local autocmd = vim.api.nvim_create_autocmd
