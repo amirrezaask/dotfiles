@@ -234,18 +234,7 @@ require("lazy").setup({
     },
     config = function()
       require("snacks").setup {
-        picker = {
-          enabled = true,
-          layout = {},
-          sources = {
-            files = {
-              layout = {
-                preview = false,
-              },
-            },
-          },
-        },
-
+        picker = { enabled = true },
         bigfile = { enabled = true },
         termainal = { enabled = true },
       }
