@@ -15,7 +15,7 @@ o.splitright = true -- Split windows right to the current windows
 o.clipboard = "unnamedplus" -- Copy/Cut/Paste to system clipboard
 o.ignorecase = true -- Search case insensitive...
 o.smartcase = true -- ... but not if it contains caps
-o.fo = "jcql" -- See :help fo-table
+o.formatoptions = "jcql" -- See :help fo-table
 o.updatetime = 100 -- Faster completion
 o.laststatus = 3 -- Single Statusline for all windows
 o.cursorline = false -- I know where is my cursor.
@@ -241,8 +241,6 @@ require("lazy").setup({
             files = {
               layout = {
                 preview = false,
-
-                prompt_position = "bottom",
               },
             },
           },
