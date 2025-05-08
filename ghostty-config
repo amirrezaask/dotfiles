@@ -1,8 +1,7 @@
-# Font
 font-family = Ubuntu Mono
+
 font-style = Medium
 
-# Why this isn't the default ?
 macos-titlebar-style=tabs
 
 window-colorspace = "display-p3"
@@ -23,7 +22,7 @@ background-opacity = 0.85
 
 background-blur = true
 
-# Keybindings (macosify)
+# Keybindings (cmd)
 keybind = cmd+n=next_tab
 keybind = cmd+p=previous_tab
 keybind = cmd+h=goto_split:left
@@ -32,6 +31,16 @@ keybind = cmd+k=goto_split:up
 keybind = cmd+l=goto_split:right
 keybind = cmd+f=toggle_split_zoom
 
+# Keybindings (ctrl+shift)
+keybind = ctrl+shift+n=next_tab
+keybind = ctrl+shift+p=previous_tab
+keybind = ctrl+shift+h=goto_split:left
+keybind = ctrl+shift+j=goto_split:down
+keybind = ctrl+shift+k=goto_split:up
+keybind = ctrl+shift+l=goto_split:right
+keybind = ctrl+shift+f=toggle_split_zoom
+
 
 theme = rose-pine
+
 background = 000000
