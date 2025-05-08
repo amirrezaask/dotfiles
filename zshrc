@@ -39,7 +39,7 @@ eval "$(starship init zsh)"
 
 alias artisan='php artisan'
 alias wip='git add .; git commit -m "$(date +"%Y-%m-%d %H:%M:%S")"; git push origin $(git_current_branch)'
-alias gwip='git add .; git commit -m "$(date +"%Y-%m-%d %H:%M:%S")"; git push origin $(git_current_branch)'
+alias gwip='wip'
 
 export PATH="/Users/amirrezaask/.config/herd-lite/bin:$PATH"
 export PHP_INI_SCAN_DIR="/Users/amirrezaask/.config/herd-lite/bin:$PHP_INI_SCAN_DIR"
