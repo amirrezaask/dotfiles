@@ -144,6 +144,19 @@ require("lazy").setup({
     end,
   },
 
+  { -- Treesitter
+    "nvim-treesitter/nvim-treesitter",
+    build = ":TSUpdate",
+    dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
+    main = "nvim-treesitter.configs",
+    opts = {
+      ensure_installed = "all",
+      auto_install = true,
+      highlight = { enable = true },
+      indent = { enable = true, disable = { "ruby" } },
+    },
+  },
+
   "tpope/vim-sleuth", -- Configure indentation based on current indentation of the file.
 
   { -- LSP configurations.
@@ -268,18 +281,5 @@ require("lazy").setup({
 
       vim.keymap.set({ "n", "t" }, "<C-s>", Snacks.terminal.toggle, { desc = "Terminal" }) -- Terminal
     end,
-  },
-
-  { -- Treesitter
-    "nvim-treesitter/nvim-treesitter",
-    build = ":TSUpdate",
-    dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
-    main = "nvim-treesitter.configs",
-    opts = {
-      ensure_installed = "all",
-      auto_install = true,
-      highlight = { enable = true },
-      indent = { enable = true, disable = { "ruby" } },
-    },
   },
 })
