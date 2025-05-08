@@ -38,7 +38,7 @@ eval "$(starship init zsh)"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 alias artisan='php artisan'
-alias wip='git add .; git commit -m "$(date +"%Y-%m-%d %H:%M:%S")"; git push origin $(git_current_branch)'
+alias wip='git add .; git commit -m "Automated WIP Commit: $(date +"%Y-%m-%d %H:%M:%S")"; git push origin $(git_current_branch)'
 alias gwip='wip'
 
 export PATH="/Users/amirrezaask/.config/herd-lite/bin:$PATH"
