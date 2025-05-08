@@ -1,10 +1,8 @@
 -- Amirreza Ask's Neovim
--- Last IDE you'll ever need.
 
 -- Project Keys:
 -- <leader>pf  Project file
--- <leader>pg  Project git file
--- <leader>ps  Project search (grep)
+-- <leader>pg  Project grep
 -- <leader>pw  Project word
 -- <leader>pW  Project word with input
 -- <leader>ps  Project (LSP) symbols
@@ -15,18 +13,15 @@
 -- <leader>dd Document diagnostics
 
 -- LSP Keys:
--- <leader>ld  Jump to definition
--- <leader>lD  Jump to declaration
--- <leader>lr  Jump to references
--- <leader>li  Jump to implementation
--- <leader>R   Execute rename
--- <leader>C   Execute code action
---     K       Toggle Hover over symbol
---     L       Toggle line diagnostic
+-- gd  Goto to definition
+-- gr  Goto to references
+-- gi  Goto to implementation
+-- R   Execute rename
+-- C   Execute code action
+-- K   Toggle Hover over symbol
+-- L   Toggle line diagnostic
 
---   Vim:
--- <leader>vb  Find Buffer
--- <leader>vh  Find help tag
+-- <leader>fh  Find Neovim help tag
 
 vim.o.wrap = true -- Wrap long lines.
 vim.o.breakindent = true -- Indent wrapped lines.
@@ -113,9 +108,18 @@ require("lazy").setup({
   {
     "amirrezaask/gruvi.nvim", -- Colorscheme, inspired by great @tjdevries's gruvbuddy.nvim
     dir = "~/src/github/gruvi.nvim",
+    dependencies = { "folke/tokyonight.nvim", { "rose-pine/neovim", name = "rose-pine" } },
     config = function()
+      ---@diagnostic disable-next-line: missing-fields
+      require("rose-pine").setup {
+        styles = {
+          transparency = true,
+          italic = false,
+        },
+      }
       vim.g.gruvi_style = "dark"
-      vim.cmd.colorscheme("gruvi")
+      -- vim.cmd.colorscheme("gruvi")
+      vim.cmd.colorscheme("rose-pine-moon")
     end,
   },
 
@@ -152,15 +156,14 @@ require("lazy").setup({
             vim.diagnostic.jump({ count = 1 })
           end, { buffer = args.buf })
           vim.keymap.set("n", "C-]", vim.lsp.buf.definition, { buffer = args.buf })
-          vim.keymap.set("n", "<leader>ld", vim.lsp.buf.definition, { buffer = args.buf })
-          vim.keymap.set("n", "<leader>lD", vim.lsp.buf.declaration, { buffer = args.buf })
-          vim.keymap.set("n", "<leader>lr", vim.lsp.buf.references, { buffer = args.buf })
-          vim.keymap.set("n", "<leader>li", vim.lsp.buf.implementation, { buffer = args.buf })
+          vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = args.buf })
+          vim.keymap.set("n", "gr", vim.lsp.buf.references, { buffer = args.buf })
+          vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { buffer = args.buf })
           vim.keymap.set("n", "R", vim.lsp.buf.rename, { buffer = args.buf })
           vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = args.buf })
           vim.keymap.set("n", "L", vim.diagnostic.open_float, { buffer = args.buf })
           vim.keymap.set("n", "C", vim.lsp.buf.code_action, { buffer = args.buf })
-          vim.keymap.set("n", "<leader>s", vim.lsp.buf.signature_help, { buffer = args.buf })
+          vim.keymap.set("n", "<C-x>", vim.lsp.buf.signature_help, { buffer = args.buf })
         end,
       })
 
@@ -263,7 +266,6 @@ require("lazy").setup({
       vim.keymap.set("n", "<leader>dd", SnacksPicker.diagnostics_buffer)
 
       -- Vim
-      vim.keymap.set("n", "<leader>vb", SnacksPicker.buffers)
       vim.keymap.set("n", "<leader>vh", SnacksPicker.help)
 
       vim.lsp.buf.definition = SnacksPicker.lsp_definitions
