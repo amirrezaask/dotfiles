@@ -7,7 +7,8 @@
 -- <leader>pW -> Project word with input  |   R  -> Execute rename
 -- <leader>ps -> Project (LSP) symbols    |   C  -> Execute code action
 -- <leader>pd -> Project Diagnostic       |   K  -> Toggle Hover over symbol
--- ____________________________________   |   L  -> Toggle line diagnostic
+--                                        |   L  -> Toggle line diagnostic
+--  ___________________________________________________________________________
 
 --              *Find*
 -- <leader>fh -> Find Neovim help tag
