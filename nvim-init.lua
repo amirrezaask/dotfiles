@@ -171,7 +171,13 @@ require("lazy").setup({
 
   { -- LSP configurations.
     "neovim/nvim-lspconfig",
-    dependencies = { { "williamboman/mason.nvim", opts = {} } }, -- package manager for LSPs, formatters, linters, etc.
+    dependencies = {
+      { "mason-org/mason.nvim", opts = {} },
+      {
+        "mason-org/mason-lspconfig.nvim",
+        opts = { ensure_installed = { "gopls", "intelephense", "lua_ls" } },
+      },
+    },
     config = function()
       vim.api.nvim_create_autocmd("LspAttach", {
         callback = function(args)
@@ -192,9 +198,6 @@ require("lazy").setup({
           vim.keymap.set({ "n", "i" }, "<C-x>", vim.lsp.buf.signature_help, { buffer = args.buf })
         end,
       })
-
-      vim.lsp.enable({ "gopls", "intelephense", "lua_ls", "ocamllsp" })
-
       vim.diagnostic.config({ virtual_text = true })
     end,
   },
