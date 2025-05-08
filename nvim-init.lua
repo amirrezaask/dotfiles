@@ -123,8 +123,8 @@ require("lazy").setup({
   { -- Git signs
     "lewis6991/gitsigns.nvim",
     config = function()
-      vim.o.statusline = "%{get(b:,'gitsigns_head','No Branch')} [%{get(b:,'gitsigns_status','No Change')}]%="
-        .. vim.o.statusline
+      -- vim.o.statusline = "%{get(b:,'gitsigns_head','No Branch')} [%{get(b:,'gitsigns_status','No Change')}]%="
+      --   .. vim.o.statusline
     end,
     opts = {
       signs = {
@@ -139,6 +139,7 @@ require("lazy").setup({
 
   { -- LSP configurations.
     "neovim/nvim-lspconfig",
+    dependencies = { { "williamboman/mason.nvim", opts = {} } },
     config = function()
       vim.api.nvim_create_autocmd("LspAttach", {
         callback = function(args)
@@ -175,8 +176,6 @@ require("lazy").setup({
       vim.keymap.set("n", "-", "<cmd>Oil<CR>")
     end,
   },
-
-  { "williamboman/mason.nvim", opts = {} }, -- Package manager for your system inside neovim.
 
   { -- Blazingly fast autocomplete
     "saghen/blink.cmp",
