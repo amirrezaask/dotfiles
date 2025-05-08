@@ -4,6 +4,7 @@ local o, g = vim.o, vim.g
 
 g.mapleader = " "
 g.maplocalleader = ","
+
 o.wrap = true -- Wrap long lines.
 o.breakindent = true -- Indent wrapped lines.
 o.signcolumn = "yes" -- Always show signcolumn.
@@ -26,6 +27,7 @@ o.inccommand = "split" -- Show partial commands in the command line
 o.relativenumber = true -- Relative line numbers
 o.scrolloff = 10 -- Scroll when cursor is 8 lines away from screen edge
 o.winborder = "rounded" -- Floating window borders.
+o.colorcolumn = "100"
 
 o.statusline = "%m%w%q%h%r%f%=[%l :%c]%y"
 
@@ -233,7 +235,20 @@ require("lazy").setup({
     },
     config = function()
       require("snacks").setup {
-        picker = { enabled = true },
+        picker = {
+          enabled = true,
+          layout = {},
+          sources = {
+            files = {
+              layout = {
+                preview = false,
+
+                prompt_position = "bottom",
+              },
+            },
+          },
+        },
+
         bigfile = { enabled = true },
         termainal = { enabled = true },
       }
@@ -254,6 +269,7 @@ require("lazy").setup({
         end)
       end
 
+      vim.keymap.set("n", "<leader><leader>", SnacksPicker.files)
       vim.keymap.set("n", "<C-p>", SnacksPicker.git_files)
       vim.keymap.set("n", "<leader>pf", SnacksPicker.files)
       vim.keymap.set("n", "<leader>pg", SnacksPicker.grep)
