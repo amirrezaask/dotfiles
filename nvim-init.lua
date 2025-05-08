@@ -10,11 +10,6 @@
 --                                        |   L  -> Toggle line diagnostic
 --  ___________________________________________________________________________
 
---              *Find*
--- <leader>fh -> Find Neovim help tag
--- <leader>ff -> Find file on current buffers directory
--- <leader>fb -> Find buffer
-
 vim.o.wrap = true -- Wrap long lines.
 vim.o.breakindent = true -- Indent wrapped lines.
 vim.o.signcolumn = "yes" -- Always show signcolumn.
@@ -37,6 +32,18 @@ vim.o.inccommand = "split" -- Show partial commands in the command line
 vim.o.relativenumber = true -- Relative line numbers
 vim.o.scrolloff = 10 -- Scroll when cursor is 8 lines away from screen edge
 vim.o.winborder = "rounded"
+vim.api.nvim_create_autocmd({ "ColorScheme" }, { -- Always transparent.
+  callback = function()
+    vim.cmd [[ 
+      hi! Normal      guibg=none
+      hi! NormalFloat guibg=none
+      hi! FloatBorder guibg=none
+      hi! NormalNC    guibg=none
+      hi! LineNr      guibg=none
+      hi! SignColumn  guibg=none
+    ]]
+  end,
+})
 vim.o.title = true
 function _G.titlestring()
   local root = vim.fs.root(vim.fn.getcwd(), ".git")
@@ -131,33 +138,10 @@ require("lazy").setup({
       ---@diagnostic disable-next-line: missing-fields
       vim.g.gruvi_style = "dark"
       vim.cmd.colorscheme("rose-pine")
-
-      -- Make everything transparent.
-      vim.cmd [[ 
-        hi! Normal      guibg=none
-        hi! NormalFloat guibg=none
-        hi! FloatBorder guibg=none
-        hi! NormalNC    guibg=none
-        hi! LineNr      guibg=none
-        hi! SignColumn  guibg=none
-      ]]
     end,
   },
 
   "tpope/vim-sleuth", -- Configure indentation based on current indentation of the file.
-
-  { -- Git signs
-    "lewis6991/gitsigns.nvim",
-    opts = {
-      signs = {
-        add = { text = "+" },
-        change = { text = "~" },
-        delete = { text = "_" },
-        topdelete = { text = "‾" },
-        changedelete = { text = "~" },
-      },
-    },
-  },
 
   { -- LSP configurations.
     "neovim/nvim-lspconfig",
