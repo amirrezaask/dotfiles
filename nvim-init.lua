@@ -1,15 +1,14 @@
---                             Amirreza Ask's Neovim
-
--- -----------------------------------------------------------------------------
---           *Project*                    |         *LSP*
--- <leader>pf -> Project file             |   gd -> Goto to definition
--- <leader>pg -> Project grep             |   gr -> Goto to references
--- <leader>pw -> Project word             |   gi -> Goto to implementation
--- <leader>pW -> Project word with input  |   R  -> Execute rename
--- <leader>ps -> Project (LSP) symbols    |   C  -> Execute code action
--- <leader>pd -> Project Diagnostics      |   K  -> Toggle Hover over symbol
---                                        |   L  -> Toggle line diagnostic
--- -----------------------------------------------------------------------------
+--                                                              *Amirreza Ask's Neovim*
+--                                  ╭-----------------------------------------------------------------------------╮
+--                                  |          *Project*                    |         *LSP*                       |
+--                                  |<leader>pf -> Project file             |   gd -> Goto to definition          |
+--                                  |<leader>pg -> Project grep             |   gr -> Goto to references          |
+--                                  |<leader>pw -> Project word             |   gi -> Goto to implementation      |
+--                                  |<leader>pW -> Project word with input  |   R  -> Execute rename              |
+--                                  |<leader>ps -> Project (LSP) symbols    |   C  -> Execute code action         |
+--                                  |<leader>pd -> Project Diagnostics      |   K  -> Toggle Hover over symbol    |
+--                                  |                                       |   L  -> Toggle line diagnostic      |
+--                                  ╰-----------------------------------------------------------------------------╯
 
 local map = vim.keymap.set
 local autocmd = vim.api.nvim_create_autocmd
@@ -138,7 +137,6 @@ require("lazy").setup({
     config = function()
       ---@diagnostic disable-next-line: missing-fields
       require("rose-pine").setup { styles = { italic = false } }
-      ---@diagnostic disable-next-line: missing-fields
       vim.g.gruvi_style = "dark"
       vim.cmd.colorscheme("rose-pine")
     end,
