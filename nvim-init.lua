@@ -1,41 +1,24 @@
--- Amirreza Ask's Neovim
+--                             Amirreza Ask's Neovim
 
--- Project Keys:
--- <leader>pf  Project file
--- <leader>pg  Project grep
--- <leader>pw  Project word
--- <leader>pW  Project word with input
--- <leader>ps  Project (LSP) symbols
--- <leader>pd  Project Diagnostic
-
--- Docuemnt Keys:
--- <leader>ds Document symbol
--- <leader>dd Document diagnostics
-
--- LSP Keys:
--- gd  Goto to definition
--- gr  Goto to references
--- gi  Goto to implementation
--- R   Execute rename
--- C   Execute code action
--- K   Toggle Hover over symbol
--- L   Toggle line diagnostic
-
--- <leader>fh  Find Neovim help tag
+--           *General*                    |         *LSP*
+-- <leader>pf -> Project file             |   gd -> Goto to definition
+-- <leader>pg -> Project grep             |   gr -> Goto to references
+-- <leader>pw -> Project word             |   gi -> Goto to implementation
+-- <leader>pW -> Project word with input  |   R  -> Execute rename
+-- <leader>ps -> Project (LSP) symbols    |   C  -> Execute code action
+-- <leader>pd -> Project Diagnostic       |   K  -> Toggle Hover over symbol
+-- <leader>fh -> Find Neovim help tag     |   L  -> Toggle line diagnostic
 
 vim.o.wrap = true -- Wrap long lines.
 vim.o.breakindent = true -- Indent wrapped lines.
-vim.o.signcolumn = "yes" -- Show signcolumn.
+vim.o.signcolumn = "yes" -- Always show signcolumn.
 vim.o.swapfile = false -- Disable swapfile.
 vim.o.undofile = true -- Store undo history on disk
 vim.o.splitbelow = true -- Split windows below the current windows
 vim.o.splitright = true -- Split windows right to the current windows
-vim.o.showmode = false -- Don't show Vim mode in the command line.
 vim.o.clipboard = "unnamedplus" -- Copy/Cut/Paste to system clipboard
 vim.o.ignorecase = true -- Search case insensitive...
 vim.o.smartcase = true -- ... but not if it contains caps
-vim.o.cursorline = true -- Highlight current line
-vim.o.guicursor = vim.o.guicursor .. ",t:ver25"
 vim.o.fo = "jcql" -- See :help fo-table
 vim.o.updatetime = 100 -- Faster completion
 vim.o.laststatus = 3 -- Single Statusline for all windows
@@ -45,8 +28,6 @@ vim.o.termguicolors = true -- Enable 24-bit RGB colors
 vim.o.inccommand = "split" -- Show partial commands in the command line
 vim.o.relativenumber = true -- Relative line numbers
 vim.o.scrolloff = 10 -- Scroll when cursor is 8 lines away from screen edge
--- vim.o.list = true -- Show whitespace
--- vim.o.listchars = "tab:  ,trail:·,extends: ,precedes: ,eol:↲,conceal:┊,nbsp:␣"
 vim.o.winborder = "rounded"
 vim.o.title = true
 function _G.titlestring()
@@ -55,8 +36,18 @@ function _G.titlestring()
   return root:match("^.+/(.+)$")
 end
 
-vim.o.titlestring = "%M%{v:lua.titlestring()}" -- Set title of the terminal.
+vim.o.titlestring = "%{v:lua.titlestring()}" -- Set title of the terminal.
+vim.o.statusline = "%m%w%q%h%r%f%=[%l :%c]%y"
 
+vim.api.nvim_create_autocmd("TextYankPost", {
+  pattern = "*",
+  callback = function()
+    vim.highlight.on_yank({
+      higroup = "IncSearch",
+      timeout = 40,
+    })
+  end,
+})
 vim.g.mapleader = " "
 vim.g.maplocalleader = ","
 
@@ -85,6 +76,7 @@ vim.keymap.set("n", "}", "<cmd>cnext<CR>")
 vim.keymap.set({ "n", "t" }, "<M-k>", "<cmd>wincmd q<CR>")
 vim.keymap.set({ "x" }, "<M-j>", ":move '>+1<CR>gv=gv", { noremap = true, silent = true }) -- Moves ...
 vim.keymap.set({ "x" }, "<M-k>", ":move '<-2<CR>gv=gv", { noremap = true, silent = true }) -- ... code around
+vim.cmd [[ command! W w ]]
 
 -- Lazy package manager initialization
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -107,19 +99,22 @@ vim.o.rtp = vim.o.rtp .. "," .. lazypath -- Add lazy.nvim to runtimepath
 require("lazy").setup({
   {
     "amirrezaask/gruvi.nvim", -- Colorscheme, inspired by great @tjdevries's gruvbuddy.nvim
-    dir = "~/src/github/gruvi.nvim",
     dependencies = { "folke/tokyonight.nvim", { "rose-pine/neovim", name = "rose-pine" } },
     config = function()
       ---@diagnostic disable-next-line: missing-fields
       require("rose-pine").setup {
+        disable_background = true,
         styles = {
-          transparency = true,
+          -- transparency = true,
           italic = false,
         },
       }
+      ---@diagnostic disable-next-line: missing-fields
+      require("tokyonight").setup {
+        transparent = true,
+      }
       vim.g.gruvi_style = "dark"
-      -- vim.cmd.colorscheme("gruvi")
-      vim.cmd.colorscheme("rose-pine-moon")
+      vim.cmd.colorscheme("rose-pine")
     end,
   },
 
@@ -127,6 +122,10 @@ require("lazy").setup({
 
   { -- Git signs
     "lewis6991/gitsigns.nvim",
+    config = function()
+      vim.o.statusline = "%{get(b:,'gitsigns_head','No Branch')} [%{get(b:,'gitsigns_status','No Change')}]%="
+        .. vim.o.statusline
+    end,
     opts = {
       signs = {
         add = { text = "+" },
@@ -136,12 +135,6 @@ require("lazy").setup({
         changedelete = { text = "~" },
       },
     },
-  },
-
-  { -- My custom crafted statusline plugin
-    "amirrezaask/vitaline.nvim",
-    opts = {},
-    dependencies = { "nvim-tree/nvim-web-devicons" },
   },
 
   { -- LSP configurations.
@@ -163,7 +156,7 @@ require("lazy").setup({
           vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = args.buf })
           vim.keymap.set("n", "L", vim.diagnostic.open_float, { buffer = args.buf })
           vim.keymap.set("n", "C", vim.lsp.buf.code_action, { buffer = args.buf })
-          vim.keymap.set("n", "<C-x>", vim.lsp.buf.signature_help, { buffer = args.buf })
+          vim.keymap.set({ "n", "i" }, "<C-x>", vim.lsp.buf.signature_help, { buffer = args.buf })
         end,
       })
 
@@ -253,7 +246,6 @@ require("lazy").setup({
 
       vim.keymap.set("n", "<C-p>", SnacksPicker.git_files)
 
-      -- Project Keys
       vim.keymap.set("n", "<leader>pf", SnacksPicker.files)
       vim.keymap.set("n", "<leader>pg", SnacksPicker.grep)
       vim.keymap.set({ "n", "v" }, "<leader>pw", SnacksPicker.grep_word)
@@ -261,13 +253,9 @@ require("lazy").setup({
       vim.keymap.set("n", "<leader>ps", SnacksPicker.lsp_workspace_symbols)
       vim.keymap.set("n", "<leader>pd", SnacksPicker.diagnostics)
 
-      -- Document Keys
-      vim.keymap.set("n", "<leader>ds", SnacksPicker.lsp_symbols)
-      vim.keymap.set("n", "<leader>dd", SnacksPicker.diagnostics_buffer)
+      vim.keymap.set("n", "<leader>fh", SnacksPicker.help)
 
-      -- Vim
-      vim.keymap.set("n", "<leader>vh", SnacksPicker.help)
-
+      -- LSP
       vim.lsp.buf.definition = SnacksPicker.lsp_definitions
       vim.lsp.buf.implementation = SnacksPicker.lsp_implementations
       vim.lsp.buf.references = SnacksPicker.lsp_references
@@ -290,3 +278,10 @@ require("lazy").setup({
     },
   },
 })
+
+if vim.g.colors_name == "rose-pine" or vim.g.colors_name == "rose-pine-moon" then
+  vim.o.guicursor = ""
+  vim.o.cursorline = false
+else
+  vim.o.cursorline = true
+end
