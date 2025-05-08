@@ -3,11 +3,15 @@ local config = wezterm.config_builder()
 
 config.colors = {}
 
-config.colors.background = "#111416"
-config.colors.foreground = "#e0e0e0"
-config.colors.cursor_bg = "#1DA457"
-config.colors.selection_bg = "#81A2BE"
-config.colors.selection_fg = "#5a7185"
+config.color_schemes = {
+  ["gruvi"] = {
+    background = "#111416",
+    foreground = "#e0e0e0",
+    cursor_bg = "#1DA457",
+    selection_bg = "#81A2BE",
+    selection_fg = "#5a7185",
+  },
+}
 
 config.tab_bar_at_bottom = false
 

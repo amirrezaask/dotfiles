@@ -122,10 +122,6 @@ require("lazy").setup({
 
   { -- Git signs
     "lewis6991/gitsigns.nvim",
-    config = function()
-      -- vim.o.statusline = "%{get(b:,'gitsigns_head','No Branch')} [%{get(b:,'gitsigns_status','No Change')}]%="
-      --   .. vim.o.statusline
-    end,
     opts = {
       signs = {
         add = { text = "+" },
@@ -278,9 +274,18 @@ require("lazy").setup({
   },
 })
 
+-- Post ricing
 if vim.g.colors_name == "rose-pine" or vim.g.colors_name == "rose-pine-moon" then
   vim.o.guicursor = ""
   vim.o.cursorline = false
+  vim.cmd [[ 
+    hi! Normal      guibg=none
+    hi! NormalFloat guibg=none
+    hi! FloatBorder guibg=none
+    hi! NormalNC    guibg=none
+    hi! LineNr      guibg=none
+    hi! SignColumn  guibg=none
+  ]]
 else
   vim.o.cursorline = true
 end

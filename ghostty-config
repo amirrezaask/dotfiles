@@ -7,7 +7,7 @@ mouse-hide-while-typing = true
 
 cursor-style-blink = false
 macos-option-as-alt = true
-shell-integration-features = no-cursor
+shell-integration-features = no-cursor,no-sudo,no-title
 window-inherit-working-directory = false
 auto-update=download
 
