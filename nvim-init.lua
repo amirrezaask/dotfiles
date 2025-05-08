@@ -27,6 +27,8 @@ vim.o.smartcase = true -- ... but not if it contains caps
 vim.o.fo = "jcql" -- See :help fo-table
 vim.o.updatetime = 100 -- Faster completion
 vim.o.laststatus = 3 -- Single Statusline for all windows
+vim.o.cursorline = false -- I know where is my cursor.
+vim.o.guicursor = "" -- Don't dare to touch my cursor.
 vim.o.timeoutlen = 300 -- Faster completion
 vim.o.number = true -- Line numbers
 vim.o.termguicolors = true -- Enable 24-bit RGB colors
@@ -56,31 +58,47 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 vim.g.mapleader = " "
 vim.g.maplocalleader = ","
 
-vim.keymap.set("n", "Y", "^v$y", { desc = "Copy whole line" })
-vim.keymap.set("t", "<esc>", [[<C-\><C-n>]])
-vim.keymap.set("i", "<C-c>", "<esc>")
-vim.keymap.set("n", "<C-d>", "<C-d>zz")
-vim.keymap.set("n", "<C-u>", "<C-u>zz")
-vim.keymap.set({ "n" }, "<C-j>", "<C-w>j") -- Window navigation
-vim.keymap.set({ "n" }, "<C-k>", "<C-w>k") -- Window navigation
-vim.keymap.set({ "n" }, "<C-h>", "<C-w>h") -- Window navigation
-vim.keymap.set({ "n" }, "<C-l>", "<C-w>l") -- Window navigation
-vim.keymap.set({ "t" }, "<C-j>", "<C-\\><C-n><C-w>j", { noremap = true }) -- Window navigation
-vim.keymap.set({ "t" }, "<C-k>", "<C-\\><C-n><C-w>k", { noremap = true }) -- Window navigation
-vim.keymap.set({ "t" }, "<C-h>", "<C-\\><C-n><C-w>h", { noremap = true }) -- Window navigation
-vim.keymap.set({ "t" }, "<C-l>", "<C-\\><C-n><C-w>l", { noremap = true }) -- Window navigation
-vim.keymap.set("n", "n", "nzz")
-vim.keymap.set("n", "N", "Nzz")
-vim.keymap.set("i", "jk", "<ESC>")
-vim.keymap.set("i", "kj", "<ESC>")
-vim.keymap.set("n", "<CR>", "v:hlsearch ? ':nohlsearch<CR>' : '<CR>'", { expr = true, noremap = true })
-vim.keymap.set("n", "j", "gj")
-vim.keymap.set("n", "k", "gk")
-vim.keymap.set("n", "{", "<cmd>cprev<CR>")
-vim.keymap.set("n", "}", "<cmd>cnext<CR>")
-vim.keymap.set({ "n", "t" }, "<M-k>", "<cmd>wincmd q<CR>")
-vim.keymap.set({ "x" }, "<M-j>", ":move '>+1<CR>gv=gv", { noremap = true, silent = true }) -- Moves ...
-vim.keymap.set({ "x" }, "<M-k>", ":move '<-2<CR>gv=gv", { noremap = true, silent = true }) -- ... code around
+local map = vim.keymap.set
+
+map("n", "Y", "^v$y", { desc = "Copy whole line" })
+
+-- Ways to escape the INSERT mode
+map("t", "<esc>", [[<C-\><C-n>]])
+map("i", "jk", "<ESC>")
+map("i", "kj", "<ESC>")
+map("i", "<C-c>", "<esc>")
+
+-- Moving around will always keep you at the center.
+map("n", "<C-d>", "<C-d>zz")
+map("n", "<C-u>", "<C-u>zz")
+map("n", "n", "nzz")
+map("n", "N", "Nzz")
+
+-- Split navigation
+map("n", "<C-j>", "<C-w>j")
+map("n", "<C-k>", "<C-w>k")
+map("n", "<C-h>", "<C-w>h")
+map("n", "<C-l>", "<C-w>l")
+map("t", "<C-j>", "<C-\\><C-n><C-w>j", { noremap = true })
+map("t", "<C-k>", "<C-\\><C-n><C-w>k", { noremap = true })
+map("t", "<C-h>", "<C-\\><C-n><C-w>h", { noremap = true })
+map("t", "<C-l>", "<C-\\><C-n><C-w>l", { noremap = true })
+
+map("n", "<CR>", "v:hlsearch ? ':nohlsearch<CR>' : '<CR>'", { expr = true, noremap = true })
+
+-- Wrapped lines are just lines.
+map("n", "j", "gj")
+map("n", "k", "gk")
+
+-- Quickfix list navigation.
+map("n", "{", "<cmd>cprev<CR>")
+map("n", "}", "<cmd>cnext<CR>")
+
+-- Move code around
+map({ "x" }, "<M-j>", ":move '>+1<CR>gv=gv", { noremap = true, silent = true })
+map({ "x" }, "<M-k>", ":move '<-2<CR>gv=gv", { noremap = true, silent = true })
+
+-- Fat finger support
 vim.cmd [[ command! W w ]]
 vim.cmd [[ command! Q q ]]
 
@@ -108,19 +126,20 @@ require("lazy").setup({
     dependencies = { "folke/tokyonight.nvim", { "rose-pine/neovim", name = "rose-pine" } },
     config = function()
       ---@diagnostic disable-next-line: missing-fields
-      require("rose-pine").setup {
-        disable_background = true,
-        styles = {
-          -- transparency = true,
-          italic = false,
-        },
-      }
+      require("rose-pine").setup { styles = { italic = false } }
       ---@diagnostic disable-next-line: missing-fields
-      require("tokyonight").setup {
-        transparent = true,
-      }
       vim.g.gruvi_style = "dark"
       vim.cmd.colorscheme("rose-pine")
+
+      -- Make everything transparent.
+      vim.cmd [[ 
+        hi! Normal      guibg=none
+        hi! NormalFloat guibg=none
+        hi! FloatBorder guibg=none
+        hi! NormalNC    guibg=none
+        hi! LineNr      guibg=none
+        hi! SignColumn  guibg=none
+      ]]
     end,
   },
 
@@ -279,19 +298,3 @@ require("lazy").setup({
     },
   },
 })
-
--- Post ricing
-if vim.g.colors_name == "rose-pine" or vim.g.colors_name == "rose-pine-moon" then
-  vim.o.guicursor = ""
-  vim.o.cursorline = false
-  vim.cmd [[ 
-    hi! Normal      guibg=none
-    hi! NormalFloat guibg=none
-    hi! FloatBorder guibg=none
-    hi! NormalNC    guibg=none
-    hi! LineNr      guibg=none
-    hi! SignColumn  guibg=none
-  ]]
-else
-  vim.o.cursorline = true
-end
