@@ -27,7 +27,6 @@ o.inccommand = "split" -- Show partial commands in the command line
 o.relativenumber = true -- Relative line numbers
 o.scrolloff = 10 -- Scroll when cursor is 8 lines away from screen edge
 o.winborder = "rounded" -- Floating window borders.
-o.colorcolumn = "100"
 
 o.statusline = "%m%w%q%h%r%f%=[%l :%c]%y"
 
