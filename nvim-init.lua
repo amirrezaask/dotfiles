@@ -35,19 +35,6 @@ o.title = true
 o.titlestring = [[ %{v:lua.vim.fs.basename(finddir(getcwd(),'.git'))} ]]
 
 -- Always transparent.
-autocmd({ "ColorScheme" }, {
-  callback = function()
-    vim.cmd [[ 
-      hi! Normal      guibg=none
-      hi! NormalFloat guibg=none
-      hi! FloatBorder guibg=none
-      hi! NormalNC    guibg=none
-      hi! LineNr      guibg=none
-      hi! SignColumn  guibg=none
-      hi! StatusLine  guibg=none
-    ]]
-  end,
-})
 
 autocmd("TextYankPost", {
   pattern = "*",
@@ -124,11 +111,23 @@ require("lazy").setup({
   {
     "amirrezaask/gruvi.nvim", -- Colorscheme, inspired by great @tjdevries's gruvbuddy.nvim
     dependencies = {
-      { "folke/tokyonight.nvim", opts = { transprarent = true } },
       { "rose-pine/neovim", name = "rose-pine", opts = { styles = { italic = false } } },
       { "vague2k/vague.nvim", opts = { transparent = true } },
     },
     config = function()
+      autocmd({ "ColorScheme" }, {
+        callback = function()
+          vim.cmd [[ 
+      hi! Normal      guibg=none
+      hi! NormalFloat guibg=none
+      hi! FloatBorder guibg=none
+      hi! NormalNC    guibg=none
+      hi! LineNr      guibg=none
+      hi! SignColumn  guibg=none
+      hi! StatusLine  guibg=none
+    ]]
+        end,
+      })
       vim.g.gruvi_style = "dark"
       vim.cmd.colorscheme("vague")
     end,
@@ -159,7 +158,7 @@ require("lazy").setup({
       },
     },
     config = function()
-      vim.api.nvim_create_autocmd("LspAttach", {
+      autocmd("LspAttach", {
         callback = function(args)
           vim.keymap.set("n", "[[", function()
             vim.diagnostic.jump({ count = -1 })
@@ -221,7 +220,7 @@ require("lazy").setup({
       })
       local autoformat_languages = { "*.lua", "*.go", "*.ocmal" }
 
-      vim.api.nvim_create_autocmd("BufWritePre", {
+      autocmd("BufWritePre", {
         pattern = autoformat_languages,
         callback = function(args)
           require("conform").format({ bufnr = args.buf })

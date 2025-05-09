@@ -20,9 +20,9 @@ window-inherit-working-directory = false
 
 auto-update=download
 
-background-opacity = 0.85
+# background-opacity = 0.85
 
-background-blur = true
+# background-blur = true
 
 # Keybindings (cmd)
 keybind = cmd+n=next_tab

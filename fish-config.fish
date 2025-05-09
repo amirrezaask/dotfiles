@@ -4,6 +4,7 @@ export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:/usr/local/bin"
 export PATH="$PATH:/Applications/Emacs.app/Contents/MacOS"
 export PATH="$PATH:/Applications/Emacs.app/Contents/MacOS/bin"
+export PATH="$PATH:/opt/homebrew/bin"
 
 if command -v brew &>/dev/null
    brew shellenv fish | source
