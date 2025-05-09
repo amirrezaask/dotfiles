@@ -56,3 +56,58 @@ alias gs='git status'
 
 
 export HOMEBREW_NO_AUTO_UPDATE=1
+
+function set_system_background
+    set wallpaper_dir "$HOME/src/github/ricing-material/"  # Default directory for wallpapers
+    set image_path $argv[1]
+
+    # If no input is provided, use fzf to select an image
+    if test -z "$image_path"
+        if not type -q fzf
+            echo "Error: 'fzf' is not installed. Please install it (e.g., brew install fzf or sudo apt install fzf)"
+            return 1
+        end
+        if not test -d "$wallpaper_dir"
+            echo "Error: Wallpaper directory '$wallpaper_dir' does not exist"
+            return 1
+        end
+        set image_path (find "$wallpaper_dir" -type f \( -iname "*.jpg" -o -iname "*.png" -o -iname "*.jpeg" -o -iname "*.heic" \) | fzf --preview "catimg -w 80 {} 2>/dev/null || echo 'Preview not available'")
+        if test -z "$image_path"
+            echo "Error: No image selected"
+            return 1
+        end
+    end
+
+    # Validate the selected or provided image path
+    if not test -f "$image_path"
+        echo "Error: File '$image_path' does not exist or is not a file"
+        return 1
+    end
+
+    # Check OS and set background
+    set os (uname)
+    if test "$os" = "Darwin"
+        osascript -e "tell application \"System Events\" to tell every desktop to set picture to \"$image_path\""
+        if test $status -eq 0
+            echo "Background set to $image_path (macOS)"
+        else
+            echo "Error: Failed to set background (macOS)"
+            return 1
+        end
+    else if test "$os" = "Linux"
+        if not type -q feh
+            echo "Error: 'feh' is not installed. Please install it (e.g., sudo apt install feh)"
+            return 1
+        end
+        feh --bg-scale "$image_path"
+        if test $status -eq 0
+            echo "Background set to $image_path (Linux)"
+        else
+            echo "Error: Failed to set background (Linux)"
+            return 1
+        end
+    else
+        echo "Error: Unsupported operating system"
+        return 1
+    end
+end
