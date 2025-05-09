@@ -44,6 +44,7 @@ autocmd({ "ColorScheme" }, {
       hi! NormalNC    guibg=none
       hi! LineNr      guibg=none
       hi! SignColumn  guibg=none
+      hi! StatusLine  guibg=none
     ]]
   end,
 })
@@ -122,12 +123,14 @@ vim.o.rtp = vim.o.rtp .. "," .. lazypath -- Add lazy.nvim to runtimepath
 require("lazy").setup({
   {
     "amirrezaask/gruvi.nvim", -- Colorscheme, inspired by great @tjdevries's gruvbuddy.nvim
-    dependencies = { "folke/tokyonight.nvim", { "rose-pine/neovim", name = "rose-pine" } },
+    dependencies = {
+      { "folke/tokyonight.nvim", opts = { transprarent = true } },
+      { "rose-pine/neovim", name = "rose-pine", opts = { styles = { italic = false } } },
+      { "vague2k/vague.nvim", opts = { transparent = true } },
+    },
     config = function()
-      ---@diagnostic disable-next-line: missing-fields
-      require("rose-pine").setup { styles = { italic = false } }
       vim.g.gruvi_style = "dark"
-      vim.cmd.colorscheme("rose-pine")
+      vim.cmd.colorscheme("vague")
     end,
   },
 

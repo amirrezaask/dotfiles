@@ -25,6 +25,7 @@ configure:
 	rm -rf $(XDG_CONFIG)/emacs
 	rm -rf $(XDG_CONFIG)/nvim
 	rm -rf $(XDG_CONFIG)/wezterm
+	rm -rf $(XDG_CONFIG)/fish
 
 	mkdir -p $(XDG_CONFIG)/ghostty
 	ln -s $(DOTFILES_DIR)/ghostty-config $(XDG_CONFIG)/ghostty/config
@@ -43,6 +44,9 @@ configure:
 
 	mkdir -p $(XDG_CONFIG)/wezterm
 	ln -s $(DOTFILES_DIR)/wezterm.lua $(XDG_CONFIG)/wezterm/
+
+	mkdir -p $(XDG_CONFIG)/fish
+	ln -s $(DOTFILES_DIR)/fish-config.fish $(XDG_CONFIG)/fish/config.fish
 
 	if test -d "$(HOME)/Library/Application Support/Cursor"; then \
 		rm -rf "$(HOME)/Library/Application Support/Cursor/User/keybindings.json"; \
