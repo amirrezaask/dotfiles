@@ -20,9 +20,9 @@ window-inherit-working-directory = false
 
 auto-update=download
 
-background-opacity = 0.85
+# background-opacity = 0.85
 
-background-blur = 100
+# background-blur = 100
 
 # Keybindings (cmd)
 keybind = cmd+n=next_tab
@@ -43,6 +43,6 @@ keybind = ctrl+shift+l=goto_split:right
 keybind = ctrl+shift+f=toggle_split_zoom
 
 
-theme = rose-pine
+theme = tokyonight_moon
 
 background = 000000

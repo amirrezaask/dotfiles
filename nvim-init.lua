@@ -118,18 +118,18 @@ require("lazy").setup({
       autocmd({ "ColorScheme" }, {
         callback = function()
           vim.cmd [[ 
-      hi! Normal      guibg=none
-      hi! NormalFloat guibg=none
-      hi! FloatBorder guibg=none
-      hi! NormalNC    guibg=none
-      hi! LineNr      guibg=none
-      hi! SignColumn  guibg=none
-      hi! StatusLine  guibg=none
-    ]]
+            hi! Normal      guibg=none
+            hi! NormalFloat guibg=none
+            hi! FloatBorder guibg=none
+            hi! NormalNC    guibg=none
+            hi! LineNr      guibg=none
+            hi! SignColumn  guibg=none
+            " hi! StatusLine  guibg=none
+        ]]
         end,
       })
       vim.g.gruvi_style = "dark"
-      vim.cmd.colorscheme("vague")
+      vim.cmd.colorscheme("gruvi")
     end,
   },
 
