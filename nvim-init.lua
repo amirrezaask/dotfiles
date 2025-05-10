@@ -123,7 +123,6 @@ require("lazy").setup({
             hi! NormalNC    guibg=none
             hi! LineNr      guibg=none
             hi! SignColumn  guibg=none
-            hi! StatusLine  guibg=none
         ]]
         end,
       })

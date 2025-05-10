@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+
+set -e
+
+DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+XDG_CONFIG="$HOME/.config"
+
+mkdir -p "$XDG_CONFIG"
+
+rm -rf "$XDG_CONFIG/fish" \
+        "$XDG_CONFIG/ghostty" \
+        "$XDG_CONFIG/starship.toml" \
+        "$XDG_CONFIG/emacs" \
+        "$XDG_CONFIG/nvim" \
+        "$XDG_CONFIG/wezterm" \
+        "$HOME/.zshrc" \
+        "$HOME/.gitconfig"
+
+mkdir -p "$XDG_CONFIG/ghostty"
+ln -s "$DOTFILES_DIR/ghostty-config" "$XDG_CONFIG/ghostty/config"
+
+ln -s "$DOTFILES_DIR/starship.toml" "$XDG_CONFIG/"
+
+ln -s "$DOTFILES_DIR/zshrc" "$HOME/.zshrc"
+
+mkdir -p "$XDG_CONFIG/emacs"
+ln -s "$DOTFILES_DIR/emacs-init.el" "$XDG_CONFIG/emacs/"
+
+ln -s "$DOTFILES_DIR/.gitconfig" "$HOME/.gitconfig"
+
+mkdir -p "$XDG_CONFIG/nvim"
+ln -s "$DOTFILES_DIR/nvim-init.lua" "$XDG_CONFIG/nvim/init.lua"
+
+mkdir -p "$XDG_CONFIG/wezterm"
+ln -s "$DOTFILES_DIR/wezterm.lua" "$XDG_CONFIG/wezterm/"
+
+mkdir -p "$XDG_CONFIG/fish"
+ln -s "$DOTFILES_DIR/fish-config.fish" "$XDG_CONFIG/fish/config.fish"
+
+# VSCode (or Cursor) configs
+if [ -d "$HOME/Library/Application Support/Cursor" ]; then
+  rm -rf "$HOME/Library/Application Support/Cursor/User/keybindings.json"
+  rm -rf "$HOME/Library/Application Support/Cursor/User/settings.json"
+  ln -s "$DOTFILES_DIR/vscode-keybindings.json" "$HOME/Library/Application Support/Cursor/User/keybindings.json"
+  ln -s "$DOTFILES_DIR/vscode-settings.json" "$HOME/Library/Application Support/Cursor/User/settings.json"
+fi
+
+if [ -d "$HOME/Library/Application Support/Code" ]; then
+  rm -rf "$HOME/Library/Application Support/Code/User/keybindings.json"
+  rm -rf "$HOME/Library/Application Support/Code/User/settings.json"
+  ln -s "$DOTFILES_DIR/vscode-keybindings.json" "$HOME/Library/Application Support/Code/User/keybindings.json"
+  ln -s "$DOTFILES_DIR/vscode-settings.json" "$HOME/Library/Application Support/Code/User/settings.json"
+fi
+
+"$DOTFILES_DIR/vscode-install-extensions.sh" cursor
+"$DOTFILES_DIR/vscode-install-extensions.sh" code

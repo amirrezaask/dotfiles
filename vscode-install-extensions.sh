@@ -6,8 +6,6 @@ vscode_extensions=(
 	'redhat.vscode-yaml'
 	'rust-lang.rust-analyzer'
 	'supermaven.supermaven'
-	'vscodevim.vim'
-	'anweber.vscode-httpyac'
 )
 
 cursor_extensions=(
@@ -16,8 +14,6 @@ cursor_extensions=(
 	'redhat.vscode-yaml'
 	'rust-lang.rust-analyzer'
 	'supermaven.supermaven'
-	'vscodevim.vim'
-	'anweber.vscode-httpyac'
 )
 echo ">>> Installing code extensions..."
 

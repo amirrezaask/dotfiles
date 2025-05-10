@@ -2,13 +2,13 @@
     "editor.fontFamily": "Berkeley Mono",
     "editor.fontWeight": "bold",
     "editor.fontSize": 14,
+    "editor.cursorBlinking": "solid",
     "terminal.integrated.fontSize": 15,
     "window.restoreWindows": "none", // never re open anything dude
     "workbench.settings.editor": "json", // Who wants a shitty UI ?
     "terminal.integrated.macOptionIsMeta": true,
     "security.workspace.trust.untrustedFiles": "open",
     "editor.mouseWheelScrollSensitivity": 4,
-    "breadcrumbs.enabled": false,
     "files.simpleDialog.enable": true,
     "editor.wordWrap": "on",
     "files.insertFinalNewline": true,
@@ -67,4 +67,5 @@
   "git.openRepositoryInParentFolders": "never",
   "extensions.ignoreRecommendations": true,
   "cursor.cpp.enablePartialAccepts": true,
+  "workbench.editor.showTabs": "none",
 }
