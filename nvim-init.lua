@@ -129,7 +129,7 @@ require("lazy").setup({
         end,
       })
       vim.g.gruvi_style = "dark"
-      vim.cmd.colorscheme("gruvi")
+      vim.cmd.colorscheme("rose-pine")
     end,
   },
 
