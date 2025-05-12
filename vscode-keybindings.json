@@ -1,25 +1,27 @@
 [
     // Consisten Ctrl n / p
-  { "key": "ctrl+n", "command": "selectNextSuggestion", "when": "suggestWidgetMultipleSuggestions && suggestWidgetVisible && textInputFocus || suggestWidgetVisible && textInputFocus && !suggestWidgetHasFocusedSuggestion" },
-  { "key": "ctrl+p", "command": "selectPrevSuggestion", "when": "suggestWidgetMultipleSuggestions && suggestWidgetVisible && textInputFocus || suggestWidgetVisible && textInputFocus && !suggestWidgetHasFocusedSuggestion" },
+  { "key": "ctrl+n", "command": "selectNextSuggestion", 
+    "when": "suggestWidgetMultipleSuggestions && suggestWidgetVisible && textInputFocus || suggestWidgetVisible && textInputFocus && !suggestWidgetHasFocusedSuggestion" },
+  { "key": "ctrl+p", "command": "selectPrevSuggestion", 
+    "when": "suggestWidgetMultipleSuggestions && suggestWidgetVisible && textInputFocus || suggestWidgetVisible && textInputFocus && !suggestWidgetHasFocusedSuggestion" },
   { "key": "ctrl+n", "command": "workbench.action.quickOpenSelectNext", "when": "inQuickOpen" },
   { "key": "ctrl+p", "command": "workbench.action.quickOpenSelectPrevious", "when": "inQuickOpen" },
 
   // Open Folder like a boss.
-  { "key": "cmd+shift+o", "command": "workbench.action.files.openFileFolderInNewWindow", },
+  { "key": "cmd+shift+o",  "command": "workbench.action.files.openFileFolderInNewWindow", },
   { "key": "ctrl+shift+o", "command": "workbench.action.files.openFileFolderInNewWindow", },
-  { "key": "cmd+o", "command": "workbench.action.files.openFileFolder" },
-  { "key": "ctrl+o", "command": "workbench.action.files.openFileFolder", "when": "!vim.active" },
+  { "key": "cmd+o",        "command": "workbench.action.files.openFileFolder" },
+  { "key": "ctrl+o",       "command": "workbench.action.files.openFileFolder", "when": "!vim.active" },
 
   // Toggle Terminal
-  { "key": "cmd+j", "command": "workbench.action.terminal.toggleTerminal" },
-  { "key": "ctrl+j", "command": "workbench.action.terminal.toggleTerminal" },
+  { "key": "cmd+j",      "command": "workbench.action.terminal.toggleTerminal" },
+  { "key": "ctrl+j",     "command": "workbench.action.terminal.toggleTerminal" },
 
   // Sidebar focus
-  { "key": "cmd+1", "command": "workbench.action.focusActiveEditor", "when": "sideBarFocus" },
-  { "key": "ctrl+1", "command": "workbench.action.focusActiveEditor", "when": "sideBarFocus" },
-  { "key": "cmd+1", "command": "workbench.action.focusSideBar", "when": "editorFocus" },
-  { "key": "ctrl+1", "command": "workbench.action.focusSideBar", "when": "editorFocus" },
+  { "key": "cmd+1",      "command": "workbench.action.focusActiveEditor", "when": "sideBarFocus" },
+  { "key": "ctrl+1",     "command": "workbench.action.focusActiveEditor", "when": "sideBarFocus" },
+  { "key": "cmd+1",      "command": "workbench.action.focusSideBar", "when": "editorFocus" },
+  { "key": "ctrl+1",     "command": "workbench.action.focusSideBar", "when": "editorFocus" },
 
   // LSP Actions
   { "key": "cmd+l cmd+d", "command": "editor.action.revealDefinition",   "when": "editorHasDefinitionProvider && editorTextFocus" },
@@ -27,6 +29,6 @@
   { "key": "cmd+l cmd+i", "command": "editor.action.goToImplementation", "when": "editorHasImplementationProvider && editorTextFocus" },
   { "key": "cmd+l cmd+n", "command": "editor.action.rename",             "when": "editorHasRenameProvider && editorTextFocus && !editorReadonly" },
   { "key": "cmd+l cmd+f", "command": "editor.action.quickFix",           "when": "editorHasCodeActionsProvider && textInputFocus && !editorReadonly" },
-
+  { "key": "cmd+,",       "command": "workbench.action.navigateBack",          "when": "editorTextFocus" },
   
 ]

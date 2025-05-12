@@ -3,6 +3,7 @@ font-family = TX-02
 font-style = Medium
 
 macos-titlebar-style=tabs
+macos-icon=blueprint
 
 maximize = true
 
@@ -20,9 +21,9 @@ window-inherit-working-directory = false
 
 auto-update=download
 
-background-opacity = 0.85
+background-opacity = 0.70
 
-background-blur = false
+background-blur = true
 
 # Keybindings (cmd)
 keybind = cmd+n=next_tab
