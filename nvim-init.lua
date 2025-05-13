@@ -112,6 +112,7 @@ require("lazy").setup({
     "amirrezaask/gruvi.nvim", -- Colorscheme, inspired by great @tjdevries's gruvbuddy.nvim
     dependencies = {
       { "rose-pine/neovim", name = "rose-pine", opts = { styles = { italic = false } } },
+      { "vague2k/vague.nvim", opts = {} },
     },
     config = function()
       autocmd({ "ColorScheme" }, {
@@ -123,11 +124,12 @@ require("lazy").setup({
             hi! NormalNC    guibg=none
             hi! LineNr      guibg=none
             hi! SignColumn  guibg=none
+            hi! StatusLine  guibg=none
         ]]
         end,
       })
       vim.g.gruvi_style = "dark"
-      vim.cmd.colorscheme("rose-pine")
+      vim.cmd.colorscheme("vague")
     end,
   },
 

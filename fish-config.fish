@@ -54,9 +54,9 @@ end
 
 alias gs='git status'
 
-if command -v starship &> /dev/null then
-    starship init fish | source
-end
+# if command -v starship &> /dev/null then
+#     starship init fish | source
+# end
 
 
 export HOMEBREW_NO_AUTO_UPDATE=1
