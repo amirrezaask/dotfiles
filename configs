@@ -37,6 +37,11 @@ ln -s "$DOTFILES_DIR/wezterm.lua" "$XDG_CONFIG/wezterm/"
 mkdir -p "$XDG_CONFIG/fish"
 ln -s "$DOTFILES_DIR/fish-config.fish" "$XDG_CONFIG/fish/config.fish"
 
+rm -rf $HOME/.tmux.conf
+ln -s "$DOTFILES_DIR/tmux.conf" "$HOME/.tmux.conf"
+rm -rf $HOME/.tmux-sessionizer
+ln -s "$DOTFILES_DIR/tmux-sessionizer" "$HOME/.tmux-sessionizer"
+
 # VSCode (or Cursor) configs
 if [ -d "$HOME/Library/Application Support/Cursor" ]; then
   rm -rf "$HOME/Library/Application Support/Cursor/User/keybindings.json"
@@ -51,6 +56,9 @@ if [ -d "$HOME/Library/Application Support/Code" ]; then
   ln -s "$DOTFILES_DIR/vscode-keybindings.json" "$HOME/Library/Application Support/Code/User/keybindings.json"
   ln -s "$DOTFILES_DIR/vscode-settings.json" "$HOME/Library/Application Support/Code/User/settings.json"
 fi
+
+
+echo "Done with configs, now doing vscode/cursor extensions"
 
 "$DOTFILES_DIR/vscode-install-extensions.sh" cursor
 "$DOTFILES_DIR/vscode-install-extensions.sh" code
