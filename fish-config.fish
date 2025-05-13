@@ -28,7 +28,7 @@ function fish_greeting
 end
 
 function fish_prompt
-    printf '%s' (set_color green) (prompt_pwd) (set_color white) (fish_git_prompt) ' > '
+    printf '%s' (set_color cyan) (prompt_pwd) (set_color white) (fish_git_prompt) ' > '
 end
 
 function fish_right_prompt

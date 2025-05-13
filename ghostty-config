@@ -4,7 +4,8 @@ font-family = JetBrains Mono
 font-style = Medium
 
 macos-titlebar-style=tabs
-macos-icon=blueprint
+
+# macos-icon=blueprint
 
 maximize = true
 

@@ -247,7 +247,7 @@ require("lazy").setup({
     },
     config = function()
       require("snacks").setup {
-        picker = { enabled = true, layout = { preview = false, preset = "telescope" } },
+        picker = { enabled = true , preview = false },
         bigfile = { enabled = true },
         termainal = { enabled = true },
       }
