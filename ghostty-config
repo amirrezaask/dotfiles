@@ -25,7 +25,7 @@ auto-update=download
 
 background-opacity = 0.90
 
-background-blur = true
+background-blur = 40
 
 # Keybindings (cmd)
 keybind = cmd+n=next_tab

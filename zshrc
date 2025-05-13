@@ -109,3 +109,8 @@ function set_system_background() {
 }
 
 [[ ! -r '/Users/amirrezaask/.opam/opam-init/init.zsh' ]] || source '/Users/amirrezaask/.opam/opam-init/init.zsh' > /dev/null 2> /dev/null
+
+function set-title() {
+  print -Pn "\e]0;${PWD:t}\a"
+}
+precmd_functions+=(set-title)
