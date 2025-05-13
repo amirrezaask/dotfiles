@@ -1,33 +1,18 @@
 # font-family = TX-02
-font-family = JetBrains Mono
-
-font-style = Medium
-
+font-family = Medium
+# font-family = JetBrains Mono
 macos-titlebar-style=tabs
-
-# macos-icon=blueprint
-
 maximize = true
-
 window-colorspace = "display-p3"
-
-mouse-hide-while-typing = true
-
 cursor-style-blink = false
-
+mouse-hide-while-typing = true
 macos-option-as-alt = true
-
 shell-integration-features = no-cursor,no-sudo,no-title
+background-opacity = 0.90
+# background-blur = true
+theme = rose-pine-moon
+background = 000000
 
-window-inherit-working-directory = false
-
-auto-update=download
-
-background-opacity = 0.80
-
-background-blur = 40
-
-# Keybindings (cmd)
 keybind = cmd+n=next_tab
 keybind = cmd+p=previous_tab
 keybind = cmd+h=goto_split:left
@@ -36,7 +21,6 @@ keybind = cmd+k=goto_split:up
 keybind = cmd+l=goto_split:right
 keybind = cmd+f=toggle_split_zoom
 
-# Keybindings (ctrl+shift)
 keybind = ctrl+shift+n=next_tab
 keybind = ctrl+shift+p=previous_tab
 keybind = ctrl+shift+h=goto_split:left
@@ -44,8 +28,3 @@ keybind = ctrl+shift+j=goto_split:down
 keybind = ctrl+shift+k=goto_split:up
 keybind = ctrl+shift+l=goto_split:right
 keybind = ctrl+shift+f=toggle_split_zoom
-
-
-theme = tokyonight_moon
-
-background = 000000
