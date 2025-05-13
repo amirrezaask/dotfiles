@@ -97,7 +97,7 @@ map("n", "}", "<cmd>cnext<CR>")
 map({ "x" }, "<M-j>", ":move '>+1<CR>gv=gv", { noremap = true, silent = true })
 map({ "x" }, "<M-k>", ":move '<-2<CR>gv=gv", { noremap = true, silent = true })
 
-map({ "n", "i" }, "<M-j>", function() -- Zen (focus) mode.
+map("n", "<leader>z", function() -- Zen (focus) mode.
   vim.o.number = not vim.o.number
   vim.o.relativenumber = not vim.o.relativenumber
   if vim.o.signcolumn == "yes" then

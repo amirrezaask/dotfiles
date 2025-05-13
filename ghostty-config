@@ -1,6 +1,5 @@
-# font-family = TX-02
 font-family = Medium
-# font-family = JetBrains Mono
+# font-family = TX-02
 macos-titlebar-style=tabs
 maximize = true
 window-colorspace = "display-p3"
