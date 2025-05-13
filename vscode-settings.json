@@ -1,6 +1,5 @@
 {
-  "editor.fontFamily": "Jetbrains Mono, Fira Code",
-  "editor.fontWeight": "bold",
+  "editor.fontFamily": "Jetbrains Mono",
   "editor.fontSize": 14,
   "editor.cursorBlinking": "solid",
   "window.restoreWindows": "none",

@@ -34,6 +34,20 @@ o.statusline = "%m%w%q%h%r%f%=[%l :%c]%y"
 o.title = true
 o.titlestring = [[ %{v:lua.vim.fs.basename(finddir(getcwd(),'.git'))} ]]
 
+autocmd({ "ColorScheme" }, { -- All colorschemes become transparent no matter what.
+  callback = function()
+    vim.cmd [[ 
+            hi! Normal      guibg=none
+            hi! NormalFloat guibg=none
+            hi! FloatBorder guibg=none
+            hi! NormalNC    guibg=none
+            hi! LineNr      guibg=none
+            hi! SignColumn  guibg=none
+            hi! StatusLine  guibg=none
+        ]]
+  end,
+})
+
 autocmd("TextYankPost", { -- Always transparent.
   pattern = "*",
   callback = function()
@@ -83,6 +97,21 @@ map("n", "}", "<cmd>cnext<CR>")
 map({ "x" }, "<M-j>", ":move '>+1<CR>gv=gv", { noremap = true, silent = true })
 map({ "x" }, "<M-k>", ":move '<-2<CR>gv=gv", { noremap = true, silent = true })
 
+map({ "n", "i" }, "<M-j>", function() -- Zen (focus) mode.
+  vim.o.number = not vim.o.number
+  vim.o.relativenumber = not vim.o.relativenumber
+  if vim.o.signcolumn == "yes" then
+    vim.o.signcolumn = "no"
+  else
+    vim.o.signcolumn = "yes"
+  end
+  if vim.o.laststatus == 0 then
+    vim.o.laststatus = 3
+  else
+    vim.o.laststatus = 0
+  end
+end)
+
 -- Fat finger support
 vim.cmd [[ command! W w ]]
 vim.cmd [[ command! Q q ]]
@@ -106,27 +135,10 @@ end
 vim.o.rtp = vim.o.rtp .. "," .. lazypath -- Add lazy.nvim to runtimepath
 
 require("lazy").setup({
-  {
+  { -- Colorscheme
     "vague2k/vague.nvim",
-    opts = {},
-    dependencies = {
-      -- { "rose-pine/neovim", name = "rose-pine", opts = { styles = { italic = false } } },
-    },
+    opts = { transparent = true },
     config = function()
-      autocmd({ "ColorScheme" }, {
-        callback = function()
-          vim.cmd [[ 
-            hi! Normal      guibg=none
-            hi! NormalFloat guibg=none
-            hi! FloatBorder guibg=none
-            hi! NormalNC    guibg=none
-            hi! LineNr      guibg=none
-            hi! SignColumn  guibg=none
-            hi! StatusLine  guibg=none
-        ]]
-        end,
-      })
-      vim.g.gruvi_style = "dark"
       vim.cmd.colorscheme("vague")
     end,
   },
@@ -185,7 +197,7 @@ require("lazy").setup({
           vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = args.buf })
           vim.keymap.set("n", "L", vim.diagnostic.open_float, { buffer = args.buf })
           vim.keymap.set("n", "C", vim.lsp.buf.code_action, { buffer = args.buf })
-          vim.keymap.set({ "n", "i" }, "<C-x>", vim.lsp.buf.signature_help, { buffer = args.buf })
+          vim.keymap.set({ "n", "i" }, "<C-s>", vim.lsp.buf.signature_help, { buffer = args.buf })
         end,
       })
       vim.diagnostic.config({ virtual_text = true })
@@ -247,6 +259,7 @@ require("lazy").setup({
     },
     config = function()
       require("snacks").setup {
+        ---@diagnostic disable-next-line: assign-type-mismatch
         picker = { enabled = true, layout = { preview = false, preset = "telescope" } },
         bigfile = { enabled = true },
         termainal = { enabled = true },
@@ -268,22 +281,28 @@ require("lazy").setup({
         end)
       end
 
+      -- <leader> [p]ick [s]omething
       vim.keymap.set("n", "<leader><leader>", SnacksPicker.files)
-      vim.keymap.set("n", "<C-p>", SnacksPicker.git_files)
       vim.keymap.set("n", "<leader>pf", SnacksPicker.files)
+      vim.keymap.set("n", "<leader>pF", SnacksPicker.git_files)
       vim.keymap.set("n", "<leader>pg", SnacksPicker.grep)
       vim.keymap.set({ "n", "v" }, "<leader>pw", SnacksPicker.grep_word)
       vim.keymap.set("n", "<leader>pW", grep_input)
-      vim.keymap.set("n", "<leader>ps", SnacksPicker.lsp_workspace_symbols)
+      vim.keymap.set("n", "<leader>ps", SnacksPicker.lsp_symbols)
+      vim.keymap.set("n", "<leader>pS", SnacksPicker.lsp_workspace_symbols)
       vim.keymap.set("n", "<leader>pd", SnacksPicker.diagnostics)
-      vim.keymap.set("n", "<leader>fh", SnacksPicker.help)
+      vim.keymap.set("n", "<leader>ph", SnacksPicker.help)
+      vim.keymap.set("n", "<leader>pc", function()
+        SnacksPicker.files { cwd = "~/src/github/dotfiles" }
+      end)
+      vim.keymap.set("n", "<leader>pp", SnacksPicker.pickers)
 
       vim.lsp.buf.definition = SnacksPicker.lsp_definitions
       vim.lsp.buf.implementation = SnacksPicker.lsp_implementations
       vim.lsp.buf.references = SnacksPicker.lsp_references
       vim.lsp.buf.type_definition = SnacksPicker.lsp_type_definitions
 
-      vim.keymap.set({ "n", "t" }, "<C-s>", Snacks.terminal.toggle, { desc = "Terminal" }) -- Terminal
+      vim.keymap.set({ "n", "t" }, "<C-t>", Snacks.terminal.toggle, { desc = "Terminal" }) -- Terminal
     end,
   },
 })
