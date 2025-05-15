@@ -11,7 +11,6 @@ setopt append_history      # append rather than overwrite history
 setopt hist_ignore_dups    # don't store duplicate commands in history
 setopt share_history       # share history between all sessions
 
-precmd() { vcs_info }
 
 autoload -U colors && colors
 
@@ -29,6 +28,14 @@ _comp_options+=(globdots)		# Include hidden files.
 bindkey -e
 bindkey "\e[A" history-beginning-search-backward
 bindkey "\e[B" history-beginning-search-forward
+
+# Prompt
+precmd() {  ## Always re evaluate prompt
+  vcs_info 
+  PS1="%{$fg[magenta]%}%~ %{$fg[red]%}${vcs_info_msg_0_}%{$reset_color%} "
+}
+
+PS1="%{$fg[magenta]%}%~ %{$fg[red]%}${vcs_info_msg_0_}%{$reset_color%} "
 
 alias l='ls -lah'
 alias la='ls -lAh'
@@ -75,7 +82,6 @@ function git_branch() {
   fi
 }
 
-PS1="%{$fg[magenta]%}%~ %{$fg[red]%}${vcs_info_msg_0_}%{$reset_color%} "
 
 alias gwip='git add .; git commit -m "Automated WIP Commit: $(date +"%Y-%m-%d %H:%M:%S")"; git push origin $vcs_info_msg_0_'
 
