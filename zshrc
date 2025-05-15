@@ -1,26 +1,51 @@
+# Enable persistent history
+HISTFILE=~/.zsh_history
+HISTSIZE=100000
+SAVEHIST=100000
+
+# Options
+setopt autocd              # cd into directories without typing 'cd'
+setopt correct             # auto-correct mistakes in commands
+setopt no_beep             # no beep on errors
+setopt append_history      # append rather than overwrite history
+setopt hist_ignore_dups    # don't store duplicate commands in history
+setopt share_history       # share history between all sessions
+
+# Colors
+autoload -U colors && colors
+
+# Completion
+autoload -U compinit 
+zmodload zsh/complist
+compinit 
+zstyle ':completion:*' menu select                        # Use menu completion when there is a list of choices
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' # Case-insensitive matching
+_comp_options+=(globdots)		# Include hidden files.
+
+# Keybindings
+bindkey -e
+bindkey "\e[A" history-beginning-search-backward
+bindkey "\e[B" history-beginning-search-forward
+
+alias l='ls -lah'
+alias la='ls -lAh'
+alias ll='ls -lh'
+alias ls='ls -G'
+alias lsa='ls -lah'
+alias gs='git status'
+alias gd='git diff'
+alias ga='git add'
+alias gc='git commit'
+alias gp='git push'
+alias gl='git pull'
+alias gll='git pull --all'
+alias glg='git pull --rebase'
+
 export PATH="$HOME/go/bin:$PATH"
 
-if ! test -d $HOME/.oh-my-zsh 
-then
-    git clone https://github.com/ohmyzsh/ohmyzsh.git ~/.oh-my-zsh
-fi
+reload() { source ~/.zshrc }
 
-export ZSH="$HOME/.oh-my-zsh"
-
-ZSH_THEME="robbyrussell"
-
-plugins=(git)
-
-source $ZSH/oh-my-zsh.sh
-
-reload() {
-    source ~/.zshrc
-}
-
-function set-title() {
-  print -Pn "\e]0;${PWD:t}\a"
-}
-
+function set-title() { print -Pn "\e]0;${PWD:t}\a" }
 precmd_functions+=(set-title)
 
 if command -v nvim &> /dev/null
@@ -37,66 +62,21 @@ then
   alias code='cursor'
 fi
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-alias gwip='git add .; git commit -m "Automated WIP Commit: $(date +"%Y-%m-%d %H:%M:%S")"; git push origin $(git_current_branch)'
-
-function set_system_background() {
-  local wallpaper_dir="$HOME/src/github/ricing-material/"  # Default directory for wallpapers
-  local image_path="$1"
-
-  # If no input is provided, use fzf to select an image
-  if [[ -z "$image_path" ]]; then
-    if ! command -v fzf >/dev/null 2>&1; then
-      echo "Error: 'fzf' is not installed. Please install it (e.g., brew install fzf or sudo apt install fzf)"
-      return 1
-    fi
-    if [[ ! -d "$wallpaper_dir" ]]; then
-      echo "Error: Wallpaper directory '$wallpaper_dir' does not exist"
-      return 1
-    fi
-    image_path=$(find "$wallpaper_dir" -type f \( -iname "*.jpg" -o -iname "*.png" -o -iname "*.jpeg" -o -iname "*.heic" \) | fzf --preview "catimg -w 80 {} 2>/dev/null || echo 'Preview not available'")
-    if [[ -z "$image_path" ]]; then
-      echo "Error: No image selected"
-      return 1
-    fi
-  fi
-
-  # Validate the selected or provided image path
-  if [[ ! -f "$image_path" ]]; then
-    echo "Error: File '$image_path' does not exist or is not a file"
-    return 1
-  fi
-
-  # Check if on macOS
-  if [[ "$(uname)" == "Darwin" ]]; then
-    osascript -e "tell application \"System Events\" to tell every desktop to set picture to \"$image_path\""
-    if [[ $? -eq 0 ]]; then
-      echo "Background set to $image_path (macOS)"
-    else
-      echo "Error: Failed to set background (macOS)"
-      return 1
-    fi
-
-  # Check if on Linux
-  elif [[ "$(uname)" == "Linux" ]]; then
-    if ! command -v feh >/dev/null 2>&1; then
-      echo "Error: 'feh' is not installed. Please install it (e.g., sudo apt install feh)"
-      return 1
-    fi
-    feh --bg-scale "$image_path"
-    if [[ $? -eq 0 ]]; then
-      echo "Background set to $image_path (Linux)"
-    else
-      echo "Error: Failed to set background (Linux)"
-      return 1
-    fi
-
+git_branch() {
+  local branch
+  branch=$(git symbolic-ref --short HEAD 2>/dev/null)
+  if [[ -n "$branch" ]]; then
+    echo "$branch"
   else
-    echo "Error: Unsupported operating system"
-    return 1
+    echo ""
   fi
 }
 
-[[ ! -r '/Users/amirrezaask/.opam/opam-init/init.zsh' ]] || source '/Users/amirrezaask/.opam/opam-init/init.zsh' > /dev/null 2> /dev/null
+PS1="%{$fg[magenta]%}%~ %{$fg[red]%}$(git_branch)%{$reset_color%}$ "
 
+alias gwip='git add .; git commit -m "Automated WIP Commit: $(date +"%Y-%m-%d %H:%M:%S")"; git push origin $(git_current_branch)'
+
+if command -v fzf &> /dev/null
+then
+  source <(fzf --zsh)
+fi
