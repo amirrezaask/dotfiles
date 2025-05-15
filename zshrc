@@ -5,7 +5,6 @@ SAVEHIST=100000
 
 # Options
 setopt autocd              # cd into directories without typing 'cd'
-setopt correct             # auto-correct mistakes in commands
 setopt no_beep             # no beep on errors
 setopt append_history      # append rather than overwrite history
 setopt hist_ignore_dups    # don't store duplicate commands in history
@@ -88,3 +87,21 @@ if command -v fzf &> /dev/null
 then
   source <(fzf --zsh)
 fi
+
+ZSH_PLUGINS_DIR="$HOME/.zsh_plugins/"
+mkdir -p $ZSH_PLUGINS_DIR
+
+# Plugins
+if [ ! -d "$ZSH_PLUGINS_DIR/zsh-syntax-highlighting" ]; then
+
+  git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_PLUGINS_DIR}/zsh-syntax-highlighting
+fi
+
+source ${ZSH_PLUGINS_DIR}/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+if [ ! -d "$ZSH_PLUGINS_DIR/zsh-completions" ]; then
+
+git clone https://github.com/zsh-users/zsh-completions ${ZSH_PLUGINS_DIR}/zsh-completions
+fi
+
+source ${ZSH_PLUGINS_DIR}/zsh-completions/zsh-completions.plugin.zsh
