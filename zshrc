@@ -11,15 +11,18 @@ setopt append_history      # append rather than overwrite history
 setopt hist_ignore_dups    # don't store duplicate commands in history
 setopt share_history       # share history between all sessions
 
-# Colors
+precmd() { vcs_info }
+
 autoload -U colors && colors
 
-# Completion
+autoload -Uz vcs_info
+
 autoload -U compinit 
 zmodload zsh/complist
 compinit 
 zstyle ':completion:*' menu select                        # Use menu completion when there is a list of choices
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' # Case-insensitive matching
+zstyle ':vcs_info:git:*' formats '%b'
 _comp_options+=(globdots)		# Include hidden files.
 
 # Keybindings
@@ -62,7 +65,7 @@ then
   alias code='cursor'
 fi
 
-git_branch() {
+function git_branch() {
   local branch
   branch=$(git symbolic-ref --short HEAD 2>/dev/null)
   if [[ -n "$branch" ]]; then
@@ -72,9 +75,9 @@ git_branch() {
   fi
 }
 
-PS1="%{$fg[magenta]%}%~ %{$fg[red]%}$(git_branch)%{$reset_color%} $ "
+PS1="%{$fg[magenta]%}%~ %{$fg[red]%}${vcs_info_msg_0_}%{$reset_color%} "
 
-alias gwip='git add .; git commit -m "Automated WIP Commit: $(date +"%Y-%m-%d %H:%M:%S")"; git push origin $(git_branch)'
+alias gwip='git add .; git commit -m "Automated WIP Commit: $(date +"%Y-%m-%d %H:%M:%S")"; git push origin $(vcs_info_msg_0_)'
 
 if command -v fzf &> /dev/null
 then
