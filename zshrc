@@ -74,7 +74,7 @@ git_branch() {
 
 PS1="%{$fg[magenta]%}%~ %{$fg[red]%}$(git_branch)%{$reset_color%} $ "
 
-alias gwip='git add .; git commit -m "Automated WIP Commit: $(date +"%Y-%m-%d %H:%M:%S")"; git push origin $(git_current_branch)'
+alias gwip='git add .; git commit -m "Automated WIP Commit: $(date +"%Y-%m-%d %H:%M:%S")"; git push origin $(git_branch)'
 
 if command -v fzf &> /dev/null
 then
