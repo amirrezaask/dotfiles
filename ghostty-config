@@ -1,16 +1,18 @@
 font-family = Medium
 # font-family = TX-02
-macos-titlebar-style=tabs
+macos-titlebar-style=hidden
 maximize = true
 window-colorspace = "display-p3"
 cursor-style-blink = false
 mouse-hide-while-typing = true
 macos-option-as-alt = true
 shell-integration-features = no-cursor,no-sudo,no-title
-background-opacity = 0.90
-background-blur = true
+background-opacity = 0.80
+background-blur = 10
 theme = rose-pine-moon
 background = 000000
+window-padding-x = 15
+window-padding-y = 15
 
 keybind = cmd+n=next_tab
 keybind = cmd+p=previous_tab
