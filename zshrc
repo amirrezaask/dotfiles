@@ -1,3 +1,5 @@
+export PATH="$HOME/go/bin:$PATH"
+
 if ! test -d $HOME/.oh-my-zsh 
 then
     git clone https://github.com/ohmyzsh/ohmyzsh.git ~/.oh-my-zsh
@@ -15,41 +17,29 @@ reload() {
     source ~/.zshrc
 }
 
+function set-title() {
+  print -Pn "\e]0;${PWD:t}\a"
+}
+
+precmd_functions+=(set-title)
+
 if command -v nvim &> /dev/null
 then
-    alias vim='nvim'
-    alias vi='nvim'
-    alias v='nvim'
+  alias vim='nvim'
+  alias vi='nvim'
+  alias v='nvim'
+  export EDITOR='nvim'
+  export GIT_EDITOR="$EDITOR"
 fi
 
 if command -v cursor &> /dev/null
 then
-    alias code='cursor'
+  alias code='cursor'
 fi
-
-# if ! command -v starship &> /dev/null
-# then
-#     curl -sS https://starship.rs/install.sh | sh
-# fi
-#
-# eval "$(starship init zsh)"
-
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-alias artisan='php artisan'
-alias wip='git add .; git commit -m "Automated WIP Commit: $(date +"%Y-%m-%d %H:%M:%S")"; git push origin $(git_current_branch)'
-alias gwip='wip'
-
-export PATH="/Users/amirrezaask/.config/herd-lite/bin:$PATH"
-export PHP_INI_SCAN_DIR="/Users/amirrezaask/.config/herd-lite/bin:$PHP_INI_SCAN_DIR"
-export PATH="$HOME/go/bin:$PATH"
-
-export EDITOR='nvim'
-
-export GIT_EDITOR="$EDITOR"
-
-alias z='zed .'
+alias gwip='git add .; git commit -m "Automated WIP Commit: $(date +"%Y-%m-%d %H:%M:%S")"; git push origin $(git_current_branch)'
 
 function set_system_background() {
   local wallpaper_dir="$HOME/src/github/ricing-material/"  # Default directory for wallpapers
@@ -110,7 +100,3 @@ function set_system_background() {
 
 [[ ! -r '/Users/amirrezaask/.opam/opam-init/init.zsh' ]] || source '/Users/amirrezaask/.opam/opam-init/init.zsh' > /dev/null 2> /dev/null
 
-function set-title() {
-  print -Pn "\e]0;${PWD:t}\a"
-}
-precmd_functions+=(set-title)
