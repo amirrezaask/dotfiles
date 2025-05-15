@@ -11,7 +11,6 @@ setopt append_history      # append rather than overwrite history
 setopt hist_ignore_dups    # don't store duplicate commands in history
 setopt share_history       # share history between all sessions
 
-
 autoload -U colors && colors
 
 autoload -Uz vcs_info

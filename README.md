@@ -1,7 +1,5 @@
 # AmirrezaAsk Configs
-My setup over the years.
-
-
+My setup over, mostly macOS.
 
 ## Usage
 ```bash
@@ -15,7 +13,6 @@ git clone https://github.com/amirrezaask/dotfiles.git ~/.dotfiles
 - Neovim
 - Zsh
 - Ghostty
-
 
 ## License
 MIT
