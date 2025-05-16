@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+nerd_fonts=(
+	'FiraCode'
+	'JetBrainsMono'
+	'UbuntuMono'
+)
+
+for file in "${nerd_fonts[@]}"
+do
+    echo "Downloading $file"
+    wget -c "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/$file.zip"
+    unzip -o "$file.zip"
+    rm "$file.zip"
+done
+
+
+mv ./*ttf ~/Library/Fonts/
+rm -rf LICES*
+rm -rf OFL*
