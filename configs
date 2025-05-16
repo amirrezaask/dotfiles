@@ -17,7 +17,7 @@ rm -rf "$XDG_CONFIG/fish" \
         "$HOME/.gitconfig"
 
 mkdir -p "$XDG_CONFIG/ghostty"
-ln -s "$DOTFILES_DIR/ghostty-config" "$XDG_CONFIG/ghostty/config"
+ln -s "$DOTFILES_DIR/ghostty.config" "$XDG_CONFIG/ghostty/config"
 
 mkdir -p "$XDG_CONFIG/alacritty"
 ln -s "$DOTFILES_DIR/alacritty.toml" "$XDG_CONFIG/alacritty/alacritty.toml"
