@@ -9,8 +9,8 @@ mkdir -p "$XDG_CONFIG"
 
 rm -rf "$XDG_CONFIG/fish" \
         "$XDG_CONFIG/ghostty" \
+        "$XDG_CONFIG/alacritty" \
         "$XDG_CONFIG/starship.toml" \
-        "$XDG_CONFIG/emacs" \
         "$XDG_CONFIG/nvim" \
         "$XDG_CONFIG/wezterm" \
         "$HOME/.zshrc" \
@@ -19,17 +19,17 @@ rm -rf "$XDG_CONFIG/fish" \
 mkdir -p "$XDG_CONFIG/ghostty"
 ln -s "$DOTFILES_DIR/ghostty-config" "$XDG_CONFIG/ghostty/config"
 
+mkdir -p "$XDG_CONFIG/alacritty"
+ln -s "$DOTFILES_DIR/alacritty.toml" "$XDG_CONFIG/alacritty/alacritty.toml"
+
 ln -s "$DOTFILES_DIR/starship.toml" "$XDG_CONFIG/"
 
 ln -s "$DOTFILES_DIR/zshrc" "$HOME/.zshrc"
 
-mkdir -p "$XDG_CONFIG/emacs"
-ln -s "$DOTFILES_DIR/emacs-init.el" "$XDG_CONFIG/emacs/"
-
 ln -s "$DOTFILES_DIR/.gitconfig" "$HOME/.gitconfig"
 
 mkdir -p "$XDG_CONFIG/nvim"
-ln -s "$DOTFILES_DIR/nvim-init.lua" "$XDG_CONFIG/nvim/init.lua"
+ln -s "$DOTFILES_DIR/init.lua" "$XDG_CONFIG/nvim/init.lua"
 
 mkdir -p "$XDG_CONFIG/wezterm"
 ln -s "$DOTFILES_DIR/wezterm.lua" "$XDG_CONFIG/wezterm/"
@@ -60,9 +60,3 @@ if [ -d "$HOME/Library/Application Support/Code" ]; then
   ln -s "$DOTFILES_DIR/vscode-keybindings.json" "$HOME/Library/Application Support/Code/User/keybindings.json"
   ln -s "$DOTFILES_DIR/vscode-settings.json" "$HOME/Library/Application Support/Code/User/settings.json"
 fi
-
-
-echo "Done with configs, now doing vscode/cursor extensions"
-
-"$DOTFILES_DIR/vscode-install-extensions.sh" cursor
-"$DOTFILES_DIR/vscode-install-extensions.sh" code

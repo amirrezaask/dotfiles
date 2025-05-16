@@ -252,13 +252,16 @@ require("lazy").setup({
 
   { -- Collection of plugins by folkee.
     "folke/snacks.nvim",
-    dependencies = {
-      "nvim-tree/nvim-web-devicons",
-    },
     config = function()
       require("snacks").setup {
-        ---@diagnostic disable-next-line: assign-type-mismatch
-        picker = { enabled = true, layout = { preview = false, preset = "telescope" } },
+        picker = {
+          prompt = "> ",
+          enabled = true,
+          ---@diagnostic disable-next-line: missing-fields
+          icons = { files = { enabled = false } },
+          ---@diagnostic disable-next-line: assign-type-mismatch
+          layout = { preview = false, preset = "telescope" },
+        },
         bigfile = { enabled = true },
         termainal = { enabled = true },
       }
