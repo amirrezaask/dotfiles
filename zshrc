@@ -29,11 +29,7 @@ bindkey "\e[B" history-beginning-search-forward
 
 
 # Prompt
-precmd() {  ## Always re evaluate prompt
-  vcs_info 
-  PS1=" %{$fg[magenta]%}%~ %{$fg[red]%}${vcs_info_msg_0_}%{$reset_color%} "
-}
-
+precmd() { vcs_info; PS1=" %{$fg[magenta]%}%~ %{$fg[red]%}${vcs_info_msg_0_}%{$reset_color%} " }
 PS1=" %{$fg[magenta]%}%~ %{$fg[red]%}${vcs_info_msg_0_}%{$reset_color%} "
 
 alias l='ls -lah'
