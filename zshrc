@@ -37,17 +37,14 @@ mkdir -p $ZSH_PLUGINS_DIR
 
 # Plugins
 if [ ! -d "$ZSH_PLUGINS_DIR/zsh-syntax-highlighting" ]; then
-
   git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_PLUGINS_DIR}/zsh-syntax-highlighting
 fi
 
-source ${ZSH_PLUGINS_DIR}/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
 if [ ! -d "$ZSH_PLUGINS_DIR/zsh-completions" ]; then
-
-git clone https://github.com/zsh-users/zsh-completions ${ZSH_PLUGINS_DIR}/zsh-completions
+  git clone https://github.com/zsh-users/zsh-completions ${ZSH_PLUGINS_DIR}/zsh-completions
 fi
 
+source ${ZSH_PLUGINS_DIR}/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source ${ZSH_PLUGINS_DIR}/zsh-completions/zsh-completions.plugin.zsh
 
 alias l='ls -lah'
@@ -59,8 +56,8 @@ alias gs='git status'
 alias gd='git diff'
 alias ga='git add'
 alias gc='git commit'
-alias gp='git push'
-alias gl='git pull'
+alias gp='git push origin $vcs_info_msg_0_'
+alias gl='git pull $vcs_info_msg_0_'
 alias gll='git pull --all'
 alias glg='git pull --rebase'
 
