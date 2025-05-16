@@ -32,6 +32,24 @@ bindkey "\e[B" history-beginning-search-forward
 precmd() { vcs_info; PS1=" %{$fg[magenta]%}%~ %{$fg[red]%}${vcs_info_msg_0_}%{$reset_color%} " }
 PS1=" %{$fg[magenta]%}%~ %{$fg[red]%}${vcs_info_msg_0_}%{$reset_color%} "
 
+ZSH_PLUGINS_DIR="$HOME/.zsh_plugins/"
+mkdir -p $ZSH_PLUGINS_DIR
+
+# Plugins
+if [ ! -d "$ZSH_PLUGINS_DIR/zsh-syntax-highlighting" ]; then
+
+  git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_PLUGINS_DIR}/zsh-syntax-highlighting
+fi
+
+source ${ZSH_PLUGINS_DIR}/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+if [ ! -d "$ZSH_PLUGINS_DIR/zsh-completions" ]; then
+
+git clone https://github.com/zsh-users/zsh-completions ${ZSH_PLUGINS_DIR}/zsh-completions
+fi
+
+source ${ZSH_PLUGINS_DIR}/zsh-completions/zsh-completions.plugin.zsh
+
 alias l='ls -lah'
 alias la='ls -lAh'
 alias ll='ls -lh'
@@ -85,20 +103,3 @@ then
   source <(fzf --zsh)
 fi
 
-ZSH_PLUGINS_DIR="$HOME/.zsh_plugins/"
-mkdir -p $ZSH_PLUGINS_DIR
-
-# Plugins
-if [ ! -d "$ZSH_PLUGINS_DIR/zsh-syntax-highlighting" ]; then
-
-  git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_PLUGINS_DIR}/zsh-syntax-highlighting
-fi
-
-source ${ZSH_PLUGINS_DIR}/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
-if [ ! -d "$ZSH_PLUGINS_DIR/zsh-completions" ]; then
-
-git clone https://github.com/zsh-users/zsh-completions ${ZSH_PLUGINS_DIR}/zsh-completions
-fi
-
-source ${ZSH_PLUGINS_DIR}/zsh-completions/zsh-completions.plugin.zsh
