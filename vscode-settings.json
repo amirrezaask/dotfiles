@@ -1,5 +1,5 @@
 {
-  "editor.fontFamily": "Jetbrains Mono",
+  "editor.fontFamily": "TX-02",
   "editor.fontSize": 14,
   "editor.cursorBlinking": "solid",
   "window.restoreWindows": "none",
@@ -23,7 +23,6 @@
   "workbench.navigationControl.enabled": false,
   "http.proxy": "http://localhost:2081",
   "[go]": { "editor.formatOnSave": true },
-  "[odin]": {"editor.formatOnSave": true },
   "go.addTags": { "options": "" },
   "go.toolsManagement.autoUpdate": true,
   "git.confirmSync": false,
@@ -35,6 +34,5 @@
   "extensions.ignoreRecommendations": true,
   "cursor.cpp.enablePartialAccepts": true,
   "workbench.editor.showTabs": "none",
-  "workbench.statusBar.visible": false,
   "breadcrumbs.enabled": false,
 }
