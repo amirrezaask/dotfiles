@@ -17,6 +17,9 @@
   { "key": "cmd+j",      "command": "workbench.action.terminal.toggleTerminal" },
   { "key": "ctrl+j",     "command": "workbench.action.terminal.toggleTerminal" },
 
+  { "key": "cmd+shift+w", "command": "workbench.action.closeAllEditors" },
+  { "key": "ctrl+shift+w", "command": "workbench.action.closeAllEditors" },
+
   // LSP Actions
   { "key": "cmd+l cmd+d",   "command": "editor.action.revealDefinition",     "when": "editorHasDefinitionProvider && editorTextFocus" },
   { "key": "cmd+l cmd+r",   "command": "editor.action.goToReferences",       "when": "editorHasReferenceProvider && editorTextFocus" },
