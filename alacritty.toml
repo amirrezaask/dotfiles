@@ -16,7 +16,8 @@ option_as_alt = "Both"
 padding = { x = 3, y = 3 }
 
 [colors.primary]
-background = '#141415'
+# background = '#141415'
+background = '#1D1D1F'
 foreground = '#cdcdcd'
 
 [colors.normal]
