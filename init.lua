@@ -258,8 +258,6 @@ require("lazy").setup({
         picker = {
           prompt = "> ",
           enabled = true,
-          ---@diagnostic disable-next-line: missing-fields
-          -- icons = { files = { enabled = false } },
           ---@diagnostic disable-next-line: assign-type-mismatch
           layout = { preview = false, preset = "telescope" },
         },
