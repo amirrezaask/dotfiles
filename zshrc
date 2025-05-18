@@ -29,8 +29,10 @@ bindkey "\e[B" history-beginning-search-forward
 
 
 # Prompt
-precmd() { vcs_info; PS1=" %{$fg[magenta]%}%~ %{$fg[red]%}${vcs_info_msg_0_}%{$reset_color%} " }
-PS1=" %{$fg[magenta]%}%~ %{$fg[red]%}${vcs_info_msg_0_}%{$reset_color%} "
+precmd() { vcs_info; PS1="%{$fg[magenta]%}%~ %{$fg[red]%}${vcs_info_msg_0_}%{$reset_color%} $NEWLINE
+$ " }
+PS1="%{$fg[magenta]%}%~ %{$fg[red]%}${vcs_info_msg_0_}%{$reset_color%} 
+$ "
 
 ZSH_PLUGINS_DIR="$HOME/.zsh_plugins/"
 mkdir -p $ZSH_PLUGINS_DIR
