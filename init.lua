@@ -134,9 +134,16 @@ vim.o.rtp = vim.o.rtp .. "," .. lazypath -- Add lazy.nvim to runtimepath
 require("lazy").setup({
   { -- Colorscheme
     "vague2k/vague.nvim",
-    dependencies = { "catppuccin/nvim", name = "catppuccin" },
     config = function()
       vim.cmd.colorscheme("vague")
+      vim.cmd [[ 
+        hi! String gui=none
+        hi! Comment gui=none
+        hi! link @string String 
+        hi! link @comment Comment
+        hi! link @comment.todo Comment
+        hi! link @comment.warning Comment
+      ]]
     end,
   },
 
