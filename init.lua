@@ -30,7 +30,7 @@ o.statusline = "%m%w%q%h%r%f%=[%l :%c]%y"
 -- Sets title of the terminal window to current project name.
 o.title = true
 o.titlestring = [[ %{v:lua.vim.fs.basename(finddir(getcwd(),'.git'))} ]]
---
+
 autocmd({ "ColorScheme" }, { -- All colorschemes become transparent no matter what.
   callback = function()
     vim.cmd [[
