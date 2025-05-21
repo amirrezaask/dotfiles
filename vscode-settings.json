@@ -2,6 +2,7 @@
   "editor.fontFamily": "Jetbrains Mono",
   "editor.fontSize": 14,
   "editor.cursorBlinking": "solid",
+  "http.proxy": "http://127.0.0.1:2081",
   "workbench.layoutControl.enabled": false,
   "workbench.editor.editorActionsLocation": "hidden",
   "editor.minimap.enabled": false,

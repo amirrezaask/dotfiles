@@ -18,7 +18,6 @@ o.smartcase = true -- ... but not if it contains caps
 o.formatoptions = "jcql" -- See :help fo-table
 o.updatetime = 100 -- Faster completion
 o.laststatus = 3 -- Single Statusline for all windows
-o.cursorline = false -- I know where is my cursor.
 o.guicursor = "" -- Don't dare to touch my cursor.
 o.timeoutlen = 300 -- Faster completion
 o.number = true -- Line numbers
@@ -135,6 +134,7 @@ vim.o.rtp = vim.o.rtp .. "," .. lazypath -- Add lazy.nvim to runtimepath
 require("lazy").setup({
   { -- Colorscheme
     "vague2k/vague.nvim",
+    dependencies = { "catppuccin/nvim", name = "catppuccin" },
     config = function()
       vim.cmd.colorscheme("vague")
     end,

@@ -11,13 +11,12 @@ setopt hist_ignore_dups    # don't store duplicate commands in history
 setopt share_history       # share history between all sessions
 
 autoload -U colors && colors
-
 autoload -Uz vcs_info
-
 autoload -U compinit 
 zmodload zsh/complist
+
 compinit 
-zstyle ':completion:*' menu select                        # Use menu completion when there is a list of choices
+zstyle ':completion:*' menu select  # Use menu completion when there is a list of choices
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' # Case-insensitive matching
 zstyle ':vcs_info:git:*' formats '%b'
 _comp_options+=(globdots)		# Include hidden files.
@@ -29,9 +28,9 @@ bindkey "\e[B" history-beginning-search-forward
 
 
 # Prompt
-precmd() { vcs_info; PS1="%{$fg[magenta]%}%~ %{$fg[red]%}${vcs_info_msg_0_}%{$reset_color%} $NEWLINE
+precmd() { vcs_info; PS1="%{$fg_bold[magenta]%}%~ %{$fg_bold[red]%}${vcs_info_msg_0_}%{$reset_color%} $NEWLINE
 $ " }
-PS1="%{$fg[magenta]%}%~ %{$fg[red]%}${vcs_info_msg_0_}%{$reset_color%} 
+PS1="%{$fg_bold[magenta]%}%~ %{$fg_bold[red]%}${vcs_info_msg_0_}%{$reset_color%} 
 $ "
 
 ZSH_PLUGINS_DIR="$HOME/.zsh_plugins/"
