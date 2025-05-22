@@ -1,5 +1,4 @@
 {
-  "editor.fontFamily": "Jetbrains Mono",
   "editor.fontSize": 14,
   "editor.cursorBlinking": "solid",
   "http.proxy": "http://127.0.0.1:2081",
@@ -20,4 +19,5 @@
   "git.openRepositoryInParentFolders": "never",
   "workbench.sideBar.location": "right",
   "workbench.activityBar.location": "top",
+  "workbench.statusBar.visible": false,
 }
