@@ -19,5 +19,4 @@
   "git.openRepositoryInParentFolders": "never",
   "workbench.sideBar.location": "right",
   "workbench.activityBar.location": "top",
-  "workbench.statusBar.visible": false,
 }
