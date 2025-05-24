@@ -79,11 +79,6 @@ then
   export GIT_EDITOR="$EDITOR"
 fi
 
-if command -v cursor &> /dev/null
-then
-  alias code='cursor'
-fi
-
 function git_branch() {
   local branch
   branch=$(git symbolic-ref --short HEAD 2>/dev/null)
@@ -102,3 +97,5 @@ then
   source <(fzf --zsh)
 fi
 
+
+export PROKSI_BLACKLIST='127.0.0.1,[::1],localhost,*.ir,*.snapp.cab,*.snapp.doctor,*.snappcloud.io,filimo.com,*.filimo.com,*.filmnet.ir,*.namava.com,*.mofid.com,*.app.adilar.com,*.adfs.snapp.cab,*.snapp.doctor,*.taaghche.com,*.mabnadp.com,*.live.com,*.darkube.app,*.digikala.com,*.telewebion.com,*.telewebion.com,*.snapp.taxi,meet.google.com,*.meet.google.com,*.donyayeserial.com,dls.iran-gamecenter-host.com,*.snappsec.com,*.tiwall.com,*drsaina.com,*.shab.ir,*mofid.com,*.emofid.com'

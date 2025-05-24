@@ -19,4 +19,5 @@
   "git.openRepositoryInParentFolders": "never",
   "workbench.sideBar.location": "right",
   "workbench.activityBar.location": "top",
+  "explorer.confirmDelete": false,
 }

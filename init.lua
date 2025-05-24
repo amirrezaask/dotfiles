@@ -18,7 +18,6 @@ o.smartcase = true -- ... but not if it contains caps
 o.formatoptions = "jcql" -- See :help fo-table
 o.updatetime = 100 -- Faster completion
 o.laststatus = 3 -- Single Statusline for all windows
-o.guicursor = "" -- Don't dare to touch my cursor.
 o.timeoutlen = 300 -- Faster completion
 o.number = true -- Line numbers
 o.termguicolors = true -- Enable 24-bit RGB colors
@@ -134,12 +133,13 @@ vim.o.rtp = vim.o.rtp .. "," .. lazypath -- Add lazy.nvim to runtimepath
 require("lazy").setup({
   { -- Colorscheme
     "vague2k/vague.nvim",
+    dependencies = { { "ellisonleao/gruvbox.nvim", opts = { contrast = "hard" } } },
     config = function()
       vim.cmd.colorscheme("vague")
-      vim.cmd [[ 
+      vim.cmd [[
         hi! String gui=none
         hi! Comment gui=none
-        hi! link @string String 
+        hi! link @string String
         hi! link @comment Comment
         hi! link @comment.todo Comment
         hi! link @comment.warning Comment
