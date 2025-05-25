@@ -1,6 +1,7 @@
 {
   "editor.fontSize": 14,
-  "editor.cursorBlinking": "solid",
+  "editor.cursorBlinking": "smooth",
+  "editor.cursorStyle": "block",
   "workbench.layoutControl.enabled": false,
   "workbench.editor.editorActionsLocation": "hidden",
   "editor.minimap.enabled": false,
