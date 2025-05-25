@@ -1,41 +1,26 @@
-# Enable persistent history
-HISTFILE=~/.zsh_history
-HISTSIZE=100000
-SAVEHIST=100000
+# Oh My Zsh installation and initialization
+export ZSH="$HOME/.oh-my-zsh"
 
-# Options
-setopt autocd              # cd into directories without typing 'cd'
-setopt no_beep             # no beep on errors
-setopt append_history      # append rather than overwrite history
-setopt hist_ignore_dups    # don't store duplicate commands in history
-setopt share_history       # share history between all sessions
+# Install Oh My Zsh if not already installed
+if [ ! -d "$ZSH" ]; then
+  echo "Installing Oh My Zsh..."
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+fi
 
-autoload -U colors && colors
-autoload -Uz vcs_info
-autoload -U compinit 
-zmodload zsh/complist
+# Oh My Zsh configuration
+ZSH_THEME="robbyrussell"
+plugins=(git)
 
-compinit 
-zstyle ':completion:*' menu select  # Use menu completion when there is a list of choices
-zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' # Case-insensitive matching
-zstyle ':vcs_info:git:*' formats '%b'
-_comp_options+=(globdots)		# Include hidden files.
+# Source Oh My Zsh
+if [ -f "$ZSH/oh-my-zsh.sh" ]; then
+  source "$ZSH/oh-my-zsh.sh"
+fi
 
-# Keybindings
-bindkey -e
-bindkey "\e[A" history-beginning-search-backward
-bindkey "\e[B" history-beginning-search-forward
-
-
-# Prompt
-precmd() { vcs_info; PS1="%{$fg_bold[magenta]%}%~ %{$fg_bold[red]%}${vcs_info_msg_0_} $NEWLINE
-%{$fg_bold[green]%}% \$ %{$reset_color%}" }
-
-PS1="%{$fg_bold[magenta]%}%~ %{$fg_bold[red]%}${vcs_info_msg_0_} $NEWLINE
-%{$fg_bold[green]%}% \$ %{$reset_color%}" 
-
-ZSH_PLUGINS_DIR="$HOME/.zsh_plugins/"
-mkdir -p $ZSH_PLUGINS_DIR
+# Define ZSH_PLUGINS_DIR if not already defined
+if [ -z "$ZSH_PLUGINS_DIR" ]; then
+  export ZSH_PLUGINS_DIR="$HOME/.zsh/plugins"
+  mkdir -p "$ZSH_PLUGINS_DIR"
+fi
 
 # Plugins
 if [ ! -d "$ZSH_PLUGINS_DIR/zsh-syntax-highlighting" ]; then
@@ -98,3 +83,6 @@ then
 fi
 
 
+
+# Added by Windsurf
+export PATH="/Users/amirrezaask/.codeium/windsurf/bin:$PATH"

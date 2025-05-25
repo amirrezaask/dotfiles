@@ -1,11 +1,9 @@
 {
   "editor.fontSize": 14,
   "editor.cursorBlinking": "solid",
-  "http.proxy": "http://127.0.0.1:2081",
   "workbench.layoutControl.enabled": false,
   "workbench.editor.editorActionsLocation": "hidden",
   "editor.minimap.enabled": false,
-  "workbench.editor.showTabs": "none",
   "diffEditor.renderSideBySide": false,
   "breadcrumbs.enabled": false,
   "editor.bracketPairColorization.enabled": false,
@@ -18,6 +16,7 @@
   "git.confirmSync": false,
   "git.openRepositoryInParentFolders": "never",
   "workbench.sideBar.location": "right",
+  "window.customTitleBarVisibility": "never",
   "workbench.activityBar.location": "top",
   "explorer.confirmDelete": false,
 }
