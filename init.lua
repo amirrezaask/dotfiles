@@ -134,15 +134,10 @@ require("lazy").setup({
   { -- Colorscheme
     "vague2k/vague.nvim",
     config = function()
+      require("vague").setup({
+        italic = false,
+      })
       vim.cmd.colorscheme("vague")
-      vim.cmd [[
-        hi! String gui=none
-        hi! Comment gui=none
-        hi! link @string String
-        hi! link @comment Comment
-        hi! link @comment.todo Comment
-        hi! link @comment.warning Comment
-      ]]
     end,
   },
 

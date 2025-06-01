@@ -1,7 +1,6 @@
 {
   "editor.fontSize": 14,
   "editor.cursorBlinking": "smooth",
-  "editor.cursorStyle": "block",
   "workbench.layoutControl.enabled": false,
   "workbench.editor.editorActionsLocation": "hidden",
   "editor.minimap.enabled": false,
@@ -17,7 +16,10 @@
   "git.confirmSync": false,
   "git.openRepositoryInParentFolders": "never",
   "workbench.sideBar.location": "right",
-  "window.customTitleBarVisibility": "never",
   "workbench.activityBar.location": "top",
   "explorer.confirmDelete": false,
+  "editor.stickyScroll.enabled": false,
+  "supermaven.enable": {
+    "*": true
+  },
 }
