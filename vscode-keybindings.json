@@ -16,12 +16,12 @@
   { "key": "cmd+l cmd+i",   "command": "editor.action.goToImplementation",   "when": "editorHasImplementationProvider && editorTextFocus" },
   { "key": "cmd+l cmd+n",   "command": "editor.action.rename",               "when": "editorHasRenameProvider && editorTextFocus && !editorReadonly" },
   { "key": "cmd+l cmd+f",   "command": "editor.action.quickFix",             "when": "editorHasCodeActionsProvider && textInputFocus && !editorReadonly" },
-  { "key": "cmd+,",         "command": "workbench.action.navigateBack",      "when": "editorTextFocus" },
+  { "key": "cmd+,",         "command": "workbench.action.navigateBack",      },
   { "key": "ctrl+l ctrl+d", "command": "editor.action.revealDefinition",     "when": "editorHasDefinitionProvider && editorTextFocus" },
   { "key": "ctrl+l ctrl+r", "command": "editor.action.goToReferences",       "when": "editorHasReferenceProvider && editorTextFocus" },
   { "key": "ctrl+l ctrl+i", "command": "editor.action.goToImplementation",   "when": "editorHasImplementationProvider && editorTextFocus" },
   { "key": "ctrl+l ctrl+n", "command": "editor.action.rename",               "when": "editorHasRenameProvider && editorTextFocus && !editorReadonly" },
   { "key": "ctrl+l ctrl+f", "command": "editor.action.quickFix",             "when": "editorHasCodeActionsProvider && textInputFocus && !editorReadonly" },
-  { "key": "ctrl+,",        "command": "workbench.action.navigateBack",      "when": "editorTextFocus" },
+  { "key": "ctrl+,",        "command": "workbench.action.navigateBack",       },
   { "key": "cmd+2",         "command": "workbench.action.gotoSymbol" }
 ]

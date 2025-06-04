@@ -1,4 +1,5 @@
 {
+  "editor.fontFamily": "TX-02",
   "editor.fontSize": 14,
   "editor.cursorBlinking": "smooth",
   "workbench.layoutControl.enabled": false,
@@ -19,7 +20,5 @@
   "workbench.activityBar.location": "top",
   "explorer.confirmDelete": false,
   "editor.stickyScroll.enabled": false,
-  "supermaven.enable": {
-    "*": true
-  },
+  "workbench.editor.showTabs": "none",
 }
