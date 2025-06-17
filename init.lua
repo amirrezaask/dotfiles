@@ -131,13 +131,20 @@ end
 vim.o.rtp = vim.o.rtp .. "," .. lazypath -- Add lazy.nvim to runtimepath
 
 require("lazy").setup({
-  { -- Colorscheme
+  {
+    "ellisonleao/gruvbox.nvim",
+    config = function()
+      require("gruvbox").setup { contrast = "hard" }
+      vim.cmd.colorscheme("gruvbox")
+    end,
+  },
+  {
     "vague2k/vague.nvim",
     config = function()
       require("vague").setup({
         italic = false,
       })
-      vim.cmd.colorscheme("vague")
+      -- vim.cmd.colorscheme("vague")
     end,
   },
 

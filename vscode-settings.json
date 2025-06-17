@@ -1,8 +1,6 @@
 {
   "http.proxy": "http://localhost:1081",
-  "editor.fontFamily": "Fira Code",
   "editor.fontSize": 14,
-  "editor.cursorSmoothCaretAnimation": "on",
   "workbench.editor.editorActionsLocation": "hidden",
   "editor.minimap.enabled": false,
   "diffEditor.renderSideBySide": false,
@@ -24,6 +22,6 @@
   "window.commandCenter": false,
   "workbench.startupEditor": "none",
   "window.autoDetectColorScheme": true,
-  "workbench.preferredLightColorTheme": "Visual Studio Light",
+  "workbench.preferredLightColorTheme": "Default Dark Modern",
   "workbench.preferredDarkColorTheme": "Default Dark Modern"
 }
