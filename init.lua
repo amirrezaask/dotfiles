@@ -132,19 +132,12 @@ vim.o.rtp = vim.o.rtp .. "," .. lazypath -- Add lazy.nvim to runtimepath
 
 require("lazy").setup({
   {
-    "ellisonleao/gruvbox.nvim",
-    config = function()
-      require("gruvbox").setup { contrast = "hard" }
-      vim.cmd.colorscheme("gruvbox")
-    end,
-  },
-  {
     "vague2k/vague.nvim",
     config = function()
       require("vague").setup({
         italic = false,
       })
-      -- vim.cmd.colorscheme("vague")
+      vim.cmd.colorscheme("vague")
     end,
   },
 
@@ -209,7 +202,7 @@ require("lazy").setup({
     end,
   },
 
-  { "supermaven-inc/supermaven-nvim", opts = {} }, -- Best way to use AI in coding.
+  -- { "supermaven-inc/supermaven-nvim", opts = {} }, -- Best way to use AI in coding.
 
   { -- File management done right.
     "stevearc/oil.nvim",
