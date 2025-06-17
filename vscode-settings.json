@@ -2,7 +2,6 @@
   "http.proxy": "http://localhost:1081",
   "editor.fontFamily": "Fira Code",
   "editor.fontSize": 14,
-  "editor.cursorBlinking": "smooth",
   "editor.cursorSmoothCaretAnimation": "on",
   "workbench.editor.editorActionsLocation": "hidden",
   "editor.minimap.enabled": false,
@@ -22,7 +21,9 @@
   "workbench.layoutControl.enabled": false,
   "breadcrumbs.enabled": false,
   "workbench.editor.showTabs": "none",
-  "workbench.colorTheme": "Dracula Theme",
   "window.commandCenter": false,
   "workbench.startupEditor": "none",
+  "window.autoDetectColorScheme": true,
+  "workbench.preferredLightColorTheme": "Visual Studio Light",
+  "workbench.preferredDarkColorTheme": "Default Dark Modern"
 }
