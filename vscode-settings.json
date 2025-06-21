@@ -1,7 +1,9 @@
 {
   "http.proxy": "http://localhost:1081",
   "editor.fontSize": 14,
+  "editor.fontFamily": "Fira Code",
   "workbench.editor.editorActionsLocation": "hidden",
+  "editor.wordWrap": "on",
   "editor.minimap.enabled": false,
   "diffEditor.renderSideBySide": false,
   "editor.mouseWheelScrollSensitivity": 2,
@@ -12,16 +14,11 @@
   "[go]": { "editor.formatOnSave": true },
   "git.confirmSync": false,
   "git.openRepositoryInParentFolders": "never",
-  "workbench.sideBar.location": "right",
   "workbench.activityBar.location": "top",
   "explorer.confirmDelete": false,
   "editor.stickyScroll.enabled": false,
   "workbench.layoutControl.enabled": false,
   "breadcrumbs.enabled": false,
-  "workbench.editor.showTabs": "none",
   "window.commandCenter": false,
-  "workbench.startupEditor": "none",
-  "window.autoDetectColorScheme": true,
-  "workbench.preferredLightColorTheme": "Default Dark Modern",
-  "workbench.preferredDarkColorTheme": "Default Dark Modern"
+  "workbench.startupEditor": "none"
 }

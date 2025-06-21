@@ -49,6 +49,7 @@ alias gll='git pull --all'
 alias glg='git pull --rebase'
 alias proxyon='networksetup -setsocksfirewallproxystate Wi-Fi on'
 alias proxyoff='networksetup -setsocksfirewallproxystate Wi-Fi off'
+alias w='networksetup -setnetworkserviceenabled Wi-Fi off && networksetup -setnetworkserviceenabled Wi-Fi on'
 
 export PATH="$HOME/go/bin:$PATH"
 
