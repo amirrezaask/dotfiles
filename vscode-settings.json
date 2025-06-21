@@ -20,5 +20,7 @@
   "workbench.layoutControl.enabled": false,
   "breadcrumbs.enabled": false,
   "window.commandCenter": false,
-  "workbench.startupEditor": "none"
+  "workbench.startupEditor": "none",
+  "window.customTitleBarVisibility": "windowed",
+  "go.toolsManagement.autoUpdate": true
 }
