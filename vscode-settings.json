@@ -22,5 +22,6 @@
   "window.commandCenter": false,
   "workbench.startupEditor": "none",
   "window.customTitleBarVisibility": "windowed",
-  "go.toolsManagement.autoUpdate": true
+  "go.toolsManagement.autoUpdate": true,
+  "workbench.colorTheme": "Panda Syntax"
 }
