@@ -250,60 +250,50 @@ require("lazy").setup({
       })
     end,
   },
-
-  { -- Collection of plugins by folkee.
-    "folke/snacks.nvim",
+  {
+    "ibhagwan/fzf-lua",
     dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
-      require("snacks").setup {
-        picker = {
-          prompt = "> ",
-          enabled = true,
-          ---@diagnostic disable-next-line: assign-type-mismatch
-          layout = { preview = false, preset = "telescope" },
+      Fzf = require("fzf-lua")
+      Fzf.setup {
+        fzf_colors = true,
+        keymap = {
+          fzf = {
+            ["ctrl-q"] = "select-all+accept", -- Select all items and send to quickfix
+          },
         },
-        bigfile = { enabled = true },
-        termainal = { enabled = true },
       }
 
-      Snacks = require("snacks")
-      SnacksPicker = Snacks.picker
+      vim.api.nvim_set_hl(0, "FzfLuaNormal", { link = "NormalFloat" })
+      vim.api.nvim_set_hl(0, "FzfLuaBorder", { link = "NormalFloat" })
+
+      Fzf.register_ui_select()
 
       local grep_input = function()
         vim.ui.input({ prompt = "Grep> " }, function(input)
           if input == "" or input == nil then
             return
           end
-          SnacksPicker.grep_word({
-            search = function(_)
-              return input
-            end,
-          })
         end)
       end
 
-      -- <leader> [p]ick [s]omething
-      vim.keymap.set("n", "<leader><leader>", SnacksPicker.files)
-      vim.keymap.set("n", "<leader>pf", SnacksPicker.files)
-      vim.keymap.set("n", "<leader>pF", SnacksPicker.git_files)
-      vim.keymap.set("n", "<leader>pg", SnacksPicker.grep)
-      vim.keymap.set({ "n", "v" }, "<leader>pw", SnacksPicker.grep_word)
-      vim.keymap.set("n", "<leader>pW", grep_input)
-      vim.keymap.set("n", "<leader>ps", SnacksPicker.lsp_symbols)
-      vim.keymap.set("n", "<leader>pS", SnacksPicker.lsp_workspace_symbols)
-      vim.keymap.set("n", "<leader>pd", SnacksPicker.diagnostics)
-      vim.keymap.set("n", "<leader>ph", SnacksPicker.help)
+      vim.keymap.set("n", "<leader><leader>", Fzf.files, { desc = "Find Files" })
+      vim.keymap.set("n", "<leader>pf", Fzf.git_files, { desc = "Find Files" })
+      vim.keymap.set("n", "<leader>ph", Fzf.helptags, { desc = "Vim Help Tags" })
+      vim.keymap.set("n", "<leader>pg", Fzf.live_grep, { desc = "Live Grep" })
+      vim.keymap.set("n", "<leader>fs", Fzf.grep, { desc = "Grep" })
+      vim.keymap.set("v", "<leader>pw", grep_input, { desc = "Grep word" })
+      vim.keymap.set("v", "<leader>pW", Fzf.grep_cword, { desc = "Grep word under cursor" })
+      vim.keymap.set("n", "<leader>ps", Fzf.lsp_document_symbols, { desc = "LSP Document Symbols" })
+      vim.keymap.set("n", "<leader>pS", Fzf.lsp_live_workspace_symbols, { desc = "LSP Workspace Symbols" })
       vim.keymap.set("n", "<leader>pc", function()
-        SnacksPicker.files { cwd = "~/src/github/dotfiles" }
-      end)
-      vim.keymap.set("n", "<leader>pp", SnacksPicker.pickers)
+        Fzf.files({ cwd = "~/.dotfiles" })
+      end, { desc = "Find Dotfiles" })
 
-      vim.lsp.buf.definition = SnacksPicker.lsp_definitions
-      vim.lsp.buf.implementation = SnacksPicker.lsp_implementations
-      vim.lsp.buf.references = SnacksPicker.lsp_references
-      vim.lsp.buf.type_definition = SnacksPicker.lsp_type_definitions
-
-      vim.keymap.set({ "n", "t" }, "<C-t>", Snacks.terminal.toggle, { desc = "Terminal" }) -- Terminal
+      vim.lsp.buf.definition = Fzf.lsp_definitions
+      vim.lsp.buf.implementation = Fzf.lsp_implementations
+      vim.lsp.buf.references = Fzf.lsp_references
+      vim.lsp.buf.type_definition = Fzf.lsp_type_definitions
     end,
   },
 })

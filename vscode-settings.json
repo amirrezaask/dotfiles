@@ -23,5 +23,25 @@
   "workbench.startupEditor": "none",
   "window.customTitleBarVisibility": "windowed",
   "go.toolsManagement.autoUpdate": true,
-  "workbench.colorTheme": "Panda Syntax"
+  "workbench.colorTheme": "Panda Syntax",
+  "vim.leader": " ",
+  "vim.useSystemClipboard": true,
+  "vim.timeout": 200,
+  "vim.normalModeKeyBindings": [
+    { "before": ["<C-d>"], "after": ["<C-d>", "z", "z"] },
+    { "before": ["<C-u>"], "after": ["<C-u>", "z", "z"] },
+    { "before": [ "g", "r" ], "commands": [ "references-view.findReferences" ], },
+    { "before": [ "g", "l" ], "commands": [ "editor.action.showHover" ], },
+    { "before": [ "K" ], "commands": [ "editor.action.showHover" ], },
+    { "before": [ "[", "[" ], "commands": [ "editor.action.marker.prev" ], },
+    { "before": [ "]", "]" ], "commands": [ "editor.action.marker.next" ], },
+    { "before": [ "C"], "commands": ["editor.action.quickFix"] },
+    { "before": [ "R" ], "commands": [ "editor.action.rename" ] },
+    { "before": ["{"], "commands": [ "references-view.prev"] },
+    { "before": ["}"], "commands": [ "references-view.next"] },
+    { "before": ["<c-q>"], "commands": ["references-view.tree.focus"] },
+    { "before": ["j"], "after": ["g", "j"]},
+    { "before": ["k"], "after": ["g", "k"]}
+  ],
+  "vim.insertModeKeyBindings": [ { "before": ["j", "k"], "after": [ "<esc>" ], }, { "before": ["k", "j"], "after": [ "<esc>" ], }, ],
 }
