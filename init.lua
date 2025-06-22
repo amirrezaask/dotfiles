@@ -24,7 +24,7 @@ o.termguicolors = true -- Enable 24-bit RGB colors
 o.inccommand = "split" -- Show partial commands in the command line
 o.relativenumber = true -- Relative line numbers
 o.scrolloff = 10 -- Scroll when cursor is 8 lines away from screen edge
-o.winborder = "rounded" -- Floating window borders.
+-- o.winborder = "rounded" -- Floating window borders.
 o.statusline = "%m%w%q%h%r%f%=[%l :%c]%y"
 o.guicursor = ""
 o.cursorline = true
@@ -134,7 +134,26 @@ vim.o.rtp = vim.o.rtp .. "," .. lazypath -- Add lazy.nvim to runtimepath
 
 require("lazy").setup({
   {
+    "ellisonleao/gruvbox.nvim",
+    priority = 1000,
+    config = function()
+      require("gruvbox").setup {
+        contrast = "hard",
+        italic = {
+          strings = false,
+          emphasis = false,
+          comments = false,
+          operators = false,
+          folds = false,
+        },
+      }
+      vim.cmd.colorscheme("gruvbox")
+    end,
+  },
+
+  {
     "vague2k/vague.nvim",
+    enabled = false,
     config = function()
       require("vague").setup({
         italic = false,
