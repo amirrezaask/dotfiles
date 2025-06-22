@@ -95,21 +95,6 @@ map("n", "}", "<cmd>cnext<CR>")
 map({ "x" }, "<M-j>", ":move '>+1<CR>gv=gv", { noremap = true, silent = true })
 map({ "x" }, "<M-k>", ":move '<-2<CR>gv=gv", { noremap = true, silent = true })
 
-map("n", "<leader>z", function() -- Zen (focus) mode.
-  vim.o.number = not vim.o.number
-  vim.o.relativenumber = not vim.o.relativenumber
-  if vim.o.signcolumn == "yes" then
-    vim.o.signcolumn = "no"
-  else
-    vim.o.signcolumn = "yes"
-  end
-  if vim.o.laststatus == 0 then
-    vim.o.laststatus = 3
-  else
-    vim.o.laststatus = 0
-  end
-end)
-
 -- Fat finger support
 vim.cmd [[ command! W w ]]
 vim.cmd [[ command! Q q ]]
