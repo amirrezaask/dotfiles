@@ -256,27 +256,12 @@ require("lazy").setup({
     dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
       Fzf = require("fzf-lua")
-      Fzf.setup {
-        fzf_colors = true,
-        keymap = {
-          fzf = {
-            ["ctrl-q"] = "select-all+accept", -- Select all items and send to quickfix
-          },
-        },
-      }
+      Fzf.setup { fzf_colors = true, keymap = { fzf = { ["ctrl-q"] = "select-all+accept" } } }
 
       vim.api.nvim_set_hl(0, "FzfLuaNormal", { link = "NormalFloat" })
       vim.api.nvim_set_hl(0, "FzfLuaBorder", { link = "NormalFloat" })
 
       Fzf.register_ui_select()
-
-      local grep_input = function()
-        vim.ui.input({ prompt = "Grep> " }, function(input)
-          if input == "" or input == nil then
-            return
-          end
-        end)
-      end
 
       vim.keymap.set("n", "<leader><leader>", Fzf.files, { desc = "Find Files" })
       vim.keymap.set("n", "<leader>pf", Fzf.git_files, { desc = "Find Files" })
