@@ -151,17 +151,6 @@ require("lazy").setup({
     end,
   },
 
-  {
-    "vague2k/vague.nvim",
-    enabled = false,
-    config = function()
-      require("vague").setup({
-        italic = false,
-      })
-      vim.cmd.colorscheme("vague")
-    end,
-  },
-
   { -- Git
     "lewis6991/gitsigns.nvim",
     opts = {
@@ -238,6 +227,7 @@ require("lazy").setup({
     opts = {
       keymap = { preset = "enter" },
       cmdline = { enabled = false },
+      completion = { list = { selection = { preselect = false } } },
       sources = {
         default = { "lsp", "path", "snippets", "lazydev" },
         providers = {
