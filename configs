@@ -35,7 +35,8 @@ mkdir -p "$XDG_CONFIG/wezterm"
 ln -s "$DOTFILES_DIR/wezterm.lua" "$XDG_CONFIG/wezterm/"
 
 mkdir -p "$XDG_CONFIG/fish"
-ln -s "$DOTFILES_DIR/fish-config.fish" "$XDG_CONFIG/fish/config.fish"
+ln -s "$DOTFILES_DIR/config.fish" "$XDG_CONFIG/fish/config.fish"
+
 
 rm -rf $HOME/.tmux.conf
 ln -s "$DOTFILES_DIR/tmux.conf" "$HOME/.tmux.conf"

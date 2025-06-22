@@ -223,8 +223,6 @@ require("lazy").setup({
     end,
   },
 
-  { "supermaven-inc/supermaven-nvim", opts = {} }, -- Best way to use AI in coding.
-
   { -- File management done right.
     "stevearc/oil.nvim",
     config = function()
