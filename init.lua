@@ -27,6 +27,7 @@ o.scrolloff = 10 -- Scroll when cursor is 8 lines away from screen edge
 o.winborder = "rounded" -- Floating window borders.
 o.statusline = "%m%w%q%h%r%f%=[%l :%c]%y"
 o.guicursor = ""
+o.cursorline = true
 -- Sets title of the terminal window to current project name.
 o.title = true
 o.titlestring = [[ %{v:lua.vim.fs.basename(finddir(getcwd(),'.git'))} ]]
@@ -203,7 +204,7 @@ require("lazy").setup({
     end,
   },
 
-  -- { "supermaven-inc/supermaven-nvim", opts = {} }, -- Best way to use AI in coding.
+  { "supermaven-inc/supermaven-nvim", opts = {} }, -- Best way to use AI in coding.
 
   { -- File management done right.
     "stevearc/oil.nvim",
@@ -282,8 +283,8 @@ require("lazy").setup({
       vim.keymap.set("n", "<leader>ph", Fzf.helptags, { desc = "Vim Help Tags" })
       vim.keymap.set("n", "<leader>pg", Fzf.live_grep, { desc = "Live Grep" })
       vim.keymap.set("n", "<leader>fs", Fzf.grep, { desc = "Grep" })
-      vim.keymap.set("v", "<leader>pw", grep_input, { desc = "Grep word" })
-      vim.keymap.set("v", "<leader>pW", Fzf.grep_cword, { desc = "Grep word under cursor" })
+      vim.keymap.set("n", "<leader>pw", Fzf.grep, { desc = "Grep word" })
+      vim.keymap.set("v", "<leader>pw", Fzf.grep_cword, { desc = "Grep <cword>" })
       vim.keymap.set("n", "<leader>ps", Fzf.lsp_document_symbols, { desc = "LSP Document Symbols" })
       vim.keymap.set("n", "<leader>pS", Fzf.lsp_live_workspace_symbols, { desc = "LSP Workspace Symbols" })
       vim.keymap.set("n", "<leader>pc", function()
