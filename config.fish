@@ -11,9 +11,12 @@ alias gp='git push origin $vcs_info_msg_0_'
 alias gl='git pull $vcs_info_msg_0_'
 alias gll='git pull --all'
 alias glg='git pull --rebase'
-alias proxyon='networksetup -setsocksfirewallproxystate Wi-Fi on'
-alias proxyoff='networksetup -setsocksfirewallproxystate Wi-Fi off'
-alias w='networksetup -setnetworkserviceenabled Wi-Fi off && networksetup -setnetworkserviceenabled Wi-Fi on'
+
+if test (uname) = "Darwin" # on macos
+  alias proxyon='networksetup -setsocksfirewallproxystate Wi-Fi on'
+  alias proxyoff='networksetup -setsocksfirewallproxystate Wi-Fi off'
+  alias w='networksetup -setnetworkserviceenabled Wi-Fi off && networksetup -setnetworkserviceenabled Wi-Fi on'
+end
 
 export PATH="$HOME/go/bin:$PATH"
 export PATH="/opt/homebrew/bin:$PATH"

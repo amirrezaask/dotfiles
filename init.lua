@@ -27,7 +27,7 @@ o.scrolloff = 10 -- Scroll when cursor is 8 lines away from screen edge
 -- o.winborder = "rounded" -- Floating window borders.
 o.statusline = "%m%w%q%h%r%f%=[%l :%c]%y"
 o.guicursor = ""
-o.cursorline = true
+-- o.cursorline = true
 -- Sets title of the terminal window to current project name.
 o.title = true
 o.titlestring = [[ %{v:lua.vim.fs.basename(finddir(getcwd(),'.git'))} ]]
@@ -273,7 +273,11 @@ require("lazy").setup({
     dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
       Fzf = require("fzf-lua")
-      Fzf.setup { fzf_colors = true, keymap = { fzf = { ["ctrl-q"] = "select-all+accept" } } }
+      Fzf.setup {
+        winopts = { split = "belowright new" },
+        fzf_colors = true,
+        keymap = { fzf = { ["ctrl-q"] = "select-all+accept" } },
+      }
 
       vim.api.nvim_set_hl(0, "FzfLuaNormal", { link = "NormalFloat" })
       vim.api.nvim_set_hl(0, "FzfLuaBorder", { link = "NormalFloat" })
