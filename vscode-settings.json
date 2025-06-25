@@ -1,7 +1,7 @@
 {
-  "http.proxy": "http://localhost:1081",
+  // "http.proxy": "http://localhost:1081",
   "editor.fontSize": 14,
-  "editor.fontFamily": "Fira Code",
+  "editor.fontFamily": "JetBrains Mono",
   "workbench.editor.editorActionsLocation": "hidden",
   "editor.wordWrap": "on",
   "editor.minimap.enabled": false,
@@ -23,7 +23,6 @@
   "workbench.startupEditor": "none",
   "window.customTitleBarVisibility": "windowed",
   "go.toolsManagement.autoUpdate": true,
-  "workbench.colorTheme": "Panda Syntax",
   "vim.leader": " ",
   "vim.useSystemClipboard": true,
   "vim.timeout": 200,
