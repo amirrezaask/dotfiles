@@ -1,7 +1,7 @@
 {
-  "http.proxy": "http://localhost:1081",
+  // "http.proxy": "http://localhost:1081",
   "editor.fontSize": 14,
-  "editor.fontFamily": "Fira Code",
+  "editor.fontFamily": "JetBrains Mono",
   "workbench.editor.editorActionsLocation": "hidden",
   "editor.wordWrap": "on",
   "editor.minimap.enabled": false,
