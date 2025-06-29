@@ -32,19 +32,19 @@ o.statusline = "%m%w%q%h%r%f%=[%l :%c]%y"
 o.title = true
 o.titlestring = [[ %{v:lua.vim.fs.basename(finddir(getcwd(),'.git'))} ]]
 
--- autocmd({ "ColorScheme" }, { -- All colorschemes become transparent no matter what.
---   callback = function()
---     vim.cmd [[
---             hi! Normal      guibg=none
---             hi! NormalFloat guibg=none
---             hi! FloatBorder guibg=none
---             hi! NormalNC    guibg=none
---             hi! LineNr      guibg=none
---             hi! SignColumn  guibg=none
---             hi! StatusLine  guibg=none
---         ]]
---   end,
--- })
+autocmd({ "ColorScheme" }, { -- All colorschemes become transparent no matter what.
+  callback = function()
+    vim.cmd [[
+            hi! Normal      guibg=none
+            hi! NormalFloat guibg=none
+            hi! FloatBorder guibg=none
+            hi! NormalNC    guibg=none
+            hi! LineNr      guibg=none
+            hi! SignColumn  guibg=none
+            hi! StatusLine  guibg=none
+        ]]
+  end,
+})
 
 autocmd("TextYankPost", { -- Always transparent.
   pattern = "*",
@@ -119,20 +119,13 @@ vim.o.rtp = vim.o.rtp .. "," .. lazypath -- Add lazy.nvim to runtimepath
 
 require("lazy").setup({
   {
-    "ellisonleao/gruvbox.nvim",
-    priority = 1000,
+    "vague2k/vague.nvim",
     config = function()
-      require("gruvbox").setup {
-        contrast = "hard",
-        italic = {
-          strings = false,
-          emphasis = false,
-          comments = false,
-          operators = false,
-          folds = false,
-        },
+      require("vague").setup {
+        italic = true,
       }
-      vim.cmd.colorscheme("gruvbox")
+
+      vim.cmd.colorscheme("vague")
     end,
   },
 
