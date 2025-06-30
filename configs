@@ -14,7 +14,10 @@ rm -rf "$XDG_CONFIG/fish" \
         "$XDG_CONFIG/nvim" \
         "$XDG_CONFIG/wezterm" \
         "$HOME/.zshrc" \
-        "$HOME/.gitconfig"
+        "$HOME/.gitconfig" \
+        "$HOME/.emacs"
+
+ln -s "$DOTFILES_DIR/init.el" "$HOME/.emacs"
 
 mkdir -p "$XDG_CONFIG/ghostty"
 ln -s "$DOTFILES_DIR/ghostty.config" "$XDG_CONFIG/ghostty/config"

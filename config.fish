@@ -66,3 +66,6 @@ function fish_prompt
   echo -n '| '
   set_color normal
 end
+
+export PATH="/Applications/Emacs.app/Contents/MacOS:$PATH"
+alias emacs='/Applications/Emacs.app/Contents/MacOS/Emacs'

@@ -89,3 +89,5 @@ fi
 
 # Added by Windsurf
 export PATH="/Users/amirrezaask/.codeium/windsurf/bin:$PATH"
+
+alias emacs='/Applications/Emacs.app/Contents/MacOS/Emacs'
