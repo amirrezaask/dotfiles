@@ -1,4 +1,42 @@
-;; Options and variables.
+;; 0. Garbage collector
+(setq gc-cons-threshold most-positive-fixnum
+      gc-cons-percentage 1.0)
+
+(add-hook 'emacs-startup-hook (lambda ()
+                                (setq gc-cons-threshold 50 * 1000 * 1000 ;; 50MB
+                                      gc-cons-percentage 0.8
+                                      file-name-handler-alist user/file-name-handler-alist)))
+
+
+(when load-file-name ;; since windows is a bit funky I prefer to store this file path in a variable to be used when C-x i
+  (setq INIT-FILE load-file-name)
+  (setq amirreza-emacs-directory (file-name-directory INIT-FILE))
+  (setq custom-file (expand-file-name "custom.el" amirreza-emacs-directory)))
+
+;; 1. Package installation
+(setq package-archives '(("gnu-elpa"  . "https://elpa.gnu.org/packages/") ("melpa"    . "https://melpa.org/packages/")))
+(dolist (pkg `(vertico
+               orderless
+               consult
+               embark
+               embark-consult
+               consult-eglot
+               go-mode
+               rust-mode
+               php-mode
+               json-mode
+               yaml-mode
+               string-inflection
+               eglot
+               corfu
+	       doom-themes
+	       doom-modeline
+	       ,(when (eq system-type 'darwin) (quote ns-auto-titlebar))
+               ))
+  (unless (package-installed-p pkg)
+    (package-install pkg)))
+
+;; 2. Options and variables.
 (setq-default frame-resize-pixelwise t
               frame-inhibit-implied-resize t
               ring-bell-function 'ignore
@@ -23,7 +61,6 @@
               font-families (font-family-list)
               make-backup-files nil              ;; no emacs ~ backup files
               vc-follow-symlinks t               ;; Don't prompt if encounter a symlink file, just follow the link.
-              package-archives '(("gnu-elpa"  . "https://elpa.gnu.org/packages/") ("melpa"    . "https://melpa.org/packages/"))
               recenter-positions '(middle)
               kill-whole-line t
               compilation-ask-about-save nil ;; Don't ask about saving unsaved buffers before compile command.
@@ -50,60 +87,9 @@
               cursor-type 'bar
               vertico-count 18
 	      corfu-auto t
-	      doom-modeline-height 35
-              )
-
-(set-frame-parameter nil 'fullscreen 'maximized)
-
-(setq gc-cons-threshold most-positive-fixnum
-      gc-cons-percentage 1.0)
-
-(add-hook 'emacs-startup-hook (lambda ()
-                                (setq gc-cons-threshold 50 * 1000 * 1000 ;; 50MB
-                                      gc-cons-percentage 0.8
-                                      file-name-handler-alist user/file-name-handler-alist)))
-
-(when load-file-name ;; since windows is a bit funky I prefer to store this file path in a variable to be used when C-x i
-  (setq INIT-FILE load-file-name)
-  (setq amirreza-emacs-directory (file-name-directory INIT-FILE))
-  (setq custom-file (expand-file-name "custom.el" amirreza-emacs-directory)))
-
-
-;; Ensure packages are installed
-(dolist (pkg `(vertico
-               orderless
-               consult
-               embark
-               embark-consult
-               consult-eglot
-               go-mode
-               rust-mode
-               php-mode
-               json-mode
-               yaml-mode
-               string-inflection
-               eglot
-               corfu
-	       doom-themes
-	       doom-modeline
-	       ,(when (eq system-type 'darwin) (quote ns-auto-titlebar))
-               ))
-  (unless (package-installed-p pkg)
-    (package-install pkg)))
-
-
-(menu-bar-mode -1)
-(scroll-bar-mode -1)
-(tool-bar-mode -1)
-(blink-cursor-mode -1) ;; Distracting
-(when (eq system-type 'darwin) (ns-auto-titlebar-mode +1))
-
-;; Theme And UI
-(load-theme 'doom-one t)
-(doom-modeline-mode +1)
+	      doom-modeline-height 35)
 
 (setq mac-command-modifier 'meta)
-
 (defun home (path) (expand-file-name path (getenv "HOME")))
 (add-to-list 'exec-path (home ".local/bin"))
 (add-to-list 'exec-path (home "go/bin"))
@@ -114,6 +100,13 @@
 (add-to-list 'exec-path "/usr/local/bin")
 (if (eq system-type 'windows-nt) (setenv "PATH" (string-join exec-path ";")) (setenv "PATH" (string-join exec-path ":"))) ;; set emacs process PATH
 
+;; 3. Modes
+(unless (eq system-type 'darwin) (menu-bar-mode -1))
+(scroll-bar-mode -1)
+(tool-bar-mode -1)
+(blink-cursor-mode -1) ;; Distracting
+(when (eq system-type 'darwin) (ns-auto-titlebar-mode +1))
+(doom-modeline-mode +1)
 (pixel-scroll-precision-mode +1)        ;; better scrolling experience.
 (toggle-truncate-lines -1)              ;; Wrap long lines
 (global-so-long-mode +1)                ;; Don't choke on minified code.
@@ -121,6 +114,9 @@
 (global-auto-revert-mode +1)            ;; Auto revert to disk changes, do we really want this ??
 (global-hl-line-mode +1)                ;; Highlight current line.
 (delete-selection-mode +1)              ;; Delete selected region before inserting.
+
+;; 4. Theme And UI
+(load-theme 'doom-one t)
 
 (defun jump-up ()
   (interactive)
@@ -193,10 +189,8 @@
          (indent-region (point-min) (point-max) nil)
          (untabify (point-min) (point-max))))
 
-
+;; Completion
 (global-corfu-mode +1)
-
-
 (vertico-mode +1)
 
 ;; LSP
@@ -207,6 +201,26 @@
 
 (defun eglot-organize-imports () (interactive) (eglot-code-actions nil nil "source.organizeImports" t))
 (defun eglot-organize-imports-format () (interactive) (eglot-format) (eglot-organize-imports))
+
+;; Compile and grep
+(defun find-project-root-or-default-directory () (or (locate-dominating-file default-directory ".git") default-directory))
+
+(defun get-grep-default-command (PATTERN)
+  (cond
+   ((executable-find "ugrep")            (format "ugrep -nr \"%s\"" PATTERN))
+   ((executable-find "rg")               (format "rg --no-heading --color=\"never\" %s" PATTERN))
+   ((git-repo-p default-directory)       (format "git grep --no-color -n \"%s\"" PATTERN))
+   (t                                    (format "grep -rn \"%s\"" PATTERN))))
+
+(defun compile-project (&optional EDIT-COMMAND)
+  (interactive "P")
+  (let ((default-directory (find-project-root-or-default-directory)))
+    (recompile EDIT-COMMAND)))
+
+(defun grep-project (&optional EDIT)
+  (interactive "P")
+  (let ((default-directory (find-project-root-or-default-directory)))
+    (grep (get-grep-default-command (read-string "Grep: ")))))
 
 ;; Keybindings
 (global-set-key (kbd "C-x i") 'EDIT) ;; Edit this file.
