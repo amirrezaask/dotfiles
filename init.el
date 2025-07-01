@@ -70,7 +70,7 @@
 
 
 ;; Ensure packages are installed
-(dolist (pkg '(vertico
+(dolist (pkg `(vertico
                orderless
                consult
                embark
@@ -86,6 +86,7 @@
                corfu
 	       doom-themes
 	       doom-modeline
+	       ,(when (eq system-type 'darwin) (quote ns-auto-titlebar))
                ))
   (unless (package-installed-p pkg)
     (package-install pkg)))
@@ -94,7 +95,8 @@
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
-(blink-cursor-mode +1)
+(blink-cursor-mode -1) ;; Distracting
+(when (eq system-type 'darwin) (ns-auto-titlebar-mode +1))
 
 ;; Theme And UI
 (load-theme 'doom-one t)
