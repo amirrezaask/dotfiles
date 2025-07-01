@@ -234,7 +234,7 @@ require("lazy").setup({
           prompt = "> ",
           enabled = true,
           ---@diagnostic disable-next-line: assign-type-mismatch
-          layout = { preview = false, preset = "telescope" },
+          layout = { preset = "telescope" },
         },
         bigfile = { enabled = true },
         termainal = { enabled = true },
