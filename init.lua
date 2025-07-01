@@ -26,27 +26,11 @@ o.relativenumber = true -- Relative line numbers
 o.scrolloff = 10 -- Scroll when cursor is 8 lines away from screen edge
 -- o.winborder = "rounded" -- Floating window borders.
 o.statusline = "%m%w%q%h%r%f%=[%l :%c]%y"
--- o.guicursor = ""
--- o.cursorline = true
 -- Sets title of the terminal window to current project name.
 o.title = true
 o.titlestring = [[ %{v:lua.vim.fs.basename(finddir(getcwd(),'.git'))} ]]
 
-autocmd({ "ColorScheme" }, { -- All colorschemes become transparent no matter what.
-  callback = function()
-    vim.cmd [[
-            hi! Normal      guibg=none
-            hi! NormalFloat guibg=none
-            hi! FloatBorder guibg=none
-            hi! NormalNC    guibg=none
-            hi! LineNr      guibg=none
-            hi! SignColumn  guibg=none
-            hi! StatusLine  guibg=none
-        ]]
-  end,
-})
-
-autocmd("TextYankPost", { -- Always transparent.
+autocmd("TextYankPost", { -- Highlight yanked section.
   pattern = "*",
   callback = function()
     vim.highlight.on_yank({
@@ -119,13 +103,18 @@ vim.o.rtp = vim.o.rtp .. "," .. lazypath -- Add lazy.nvim to runtimepath
 
 require("lazy").setup({
   {
-    "vague2k/vague.nvim",
+    "amirrezaask/nvim-statusline.lua",
+    dependencies = {
+      "nvim-tree/nvim-web-devicons", -- either of these two
+      -- "echasnovski/mini.nvim",
+    },
+    opts = {},
+  },
+  {
+    "amirrezaask/gruvi.nvim",
     config = function()
-      require("vague").setup {
-        italic = true,
-      }
-
-      vim.cmd.colorscheme("vague")
+      vim.g.gruvi_style = "dark"
+      vim.cmd.colorscheme("gruvi")
     end,
   },
 

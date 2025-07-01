@@ -86,8 +86,9 @@ then
 fi
 
 
-
-# Added by Windsurf
-export PATH="/Users/amirrezaask/.codeium/windsurf/bin:$PATH"
-
-alias emacs='/Applications/Emacs.app/Contents/MacOS/Emacs'
+# if ! command -v spaceship &> /dev/null
+# then
+#   curl -sS https://starship.rs/install.sh | sh
+# fi
+#
+# eval "$(starship init zsh)"
