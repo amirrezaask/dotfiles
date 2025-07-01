@@ -84,7 +84,7 @@
               completion-styles '(orderless basic)
               completion-category-defaults nil
               completion-category-overrides '((file (styles partial-completion)))
-              cursor-type 'bar
+              cursor-type 'box
               vertico-count 18
 	      corfu-auto t
 	      doom-modeline-height 35)
@@ -226,8 +226,8 @@
 (global-set-key (kbd "C-x i") 'EDIT) ;; Edit this file.
 
 (with-eval-after-load 'xref
-  (global-set-key (kbd "M-.") 'xref-find-definitions)
-  (global-set-key (kbd "M-,") 'xref-go-back)
+  (global-set-key (kbd "M-.")  'xref-find-definitions)
+  (global-set-key (kbd "M-,")  'xref-go-back)
   (global-set-key (kbd "M-?")  'xref-find-references)
   (global-set-key (kbd "M-/")  'xref-find-references))
 
