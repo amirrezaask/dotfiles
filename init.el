@@ -47,7 +47,10 @@
               completion-styles '(orderless basic)
               completion-category-defaults nil
               completion-category-overrides '((file (styles partial-completion)))
-	      cursor-type 'bar
+              cursor-type 'bar
+              vertico-count 18
+	      corfu-auto t
+	      doom-modeline-height 35
               )
 
 (set-frame-parameter nil 'fullscreen 'maximized)
@@ -56,45 +59,47 @@
       gc-cons-percentage 1.0)
 
 (add-hook 'emacs-startup-hook (lambda ()
-                                (setq gc-cons-threshold 50 * 1000 * 1000
+                                (setq gc-cons-threshold 50 * 1000 * 1000 ;; 50MB
                                       gc-cons-percentage 0.8
-                                      file-name-handler-alist user/file-name-handler-alist
-                                      )))
+                                      file-name-handler-alist user/file-name-handler-alist)))
 
 (when load-file-name ;; since windows is a bit funky I prefer to store this file path in a variable to be used when C-x i
   (setq INIT-FILE load-file-name)
   (setq amirreza-emacs-directory (file-name-directory INIT-FILE))
   (setq custom-file (expand-file-name "custom.el" amirreza-emacs-directory)))
 
-(defun ensure-packages (&rest pkgs)
-  (dolist (pkg pkgs)
-    (unless (package-installed-p pkg)
-      (package-install pkg))))
 
-(ensure-packages
- 'vertico
- 'orderless
- 'consult
- 'embark
- 'embark-consult
- 'consult-eglot
- 'go-mode
- 'rust-mode
- 'php-mode
- 'json-mode
- 'yaml-mode
- 'string-inflection
- 'eglot
-;  'corfu
- )
+;; Ensure packages are installed
+(dolist (pkg '(vertico
+               orderless
+               consult
+               embark
+               embark-consult
+               consult-eglot
+               go-mode
+               rust-mode
+               php-mode
+               json-mode
+               yaml-mode
+               string-inflection
+               eglot
+               corfu
+	       doom-themes
+	       doom-modeline
+               ))
+  (unless (package-installed-p pkg)
+    (package-install pkg)))
 
 
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
-(setq mac-command-modifier 'meta)
-
 (blink-cursor-mode +1)
+
+(load-theme 'doom-one t)
+(doom-modeline-mode +1)
+
+(setq mac-command-modifier 'meta)
 
 (defun home (path) (expand-file-name path (getenv "HOME")))
 (add-to-list 'exec-path (home ".local/bin"))
@@ -109,154 +114,15 @@
     (setenv "PATH" (string-join exec-path ";"))
   (setenv "PATH" (string-join exec-path ":"))) ;; set emacs process PATH
 
-(pixel-scroll-precision-mode +1)
+(pixel-scroll-precision-mode +1)        ;; better scrolling experience.
 (toggle-truncate-lines -1)              ;; Wrap long lines
 (global-so-long-mode +1)                ;; Don't choke on minified code.
 (set-default-coding-systems 'utf-8)     ;; Always use UTF8
 (global-auto-revert-mode +1)            ;; Auto revert to disk changes, do we really want this ??
+(global-hl-line-mode +1)                ;; Highlight current line.
 (delete-selection-mode +1)              ;; Delete selected region before inserting.
 
-;; (defun old-jonathan-blow-colors () ;; Colors from really old jonathan blow streams, a brownish feel.
-;;   (interactive)
-;;   (global-hl-line-mode -1)
-;;   (custom-set-faces
-;;    `(default                         ((t     (:foreground "#debe95" :background "#252525"))))
-;;    `(hl-line                         ((t     (:background "#353535"))))
-;;    `(vertico-current                 ((t     (:background "#0000cd"))))
-;;    `(region                          ((t     (:background "#0000cd"))))
-;;    `(cursor                          ((t     (:background "#90ee90"))))
-;;    `(font-lock-keyword-face          ((t     (:foreground "#d4d4d4"))))
-;;    `(font-lock-type-face             ((t     (:foreground "#8cde94"))))
-;;    `(font-lock-constant-face         ((t     (:foreground "#7ad0c6"))))
-;;    `(font-lock-variable-name-face    ((t     (:foreground "#c8d4ec"))))
-;;    `(font-lock-builtin-face          ((t     (:foreground "#ffffff"))))
-;;    `(font-lock-string-face           ((t     (:foreground "#b3b3b3"))))
-;;    `(font-lock-comment-face          ((t     (:foreground "#ffff00"))))
-;;    `(font-lock-comment-delimiter-face        ((t     (:foreground "#ffff00"))))
-;;    `(font-lock-doc-face                      ((t     (:foreground "#3fdf1f"))))
-;;    `(font-lock-function-name-face    ((t     (:foreground "#ffffff"))))
-;;    `(font-lock-doc-string-face               ((t     (:foreground "#3fdf1f"))))
-;;    `(font-lock-warning-face          ((t     (:foreground "#ffff00"))))
-;;    `(font-lock-note-face             ((t     (:foreground "#eee685"))))
-;;    `(mode-line                               ((t     (:foreground "#000000" :background "#d3b58d"))))
-;;    `(mode-line-inactive                      ((t     (:background "#333333" :foreground "#ffffff"))))
-;;    `(show-paren-match                        ((t     (:background "#3cb371"))))))
-
-;; (defun jonathan-blow-colors () ;; Emacs colors from jonathan blow streams.
-;;   (interactive)
-;;   (global-hl-line-mode -1)
-;;   (custom-set-faces
-;;    `(default                         ((t     (:foreground "#d3b58d" :background "#042428"))))
-;;    `(hl-line                         ((t     (:background "#0c4141"))))
-;;    `(vertico-current                    ((t     (:background "#0c4141"))))
-;;    `(region                          ((t     (:background "#0000cd"))))
-;;    `(cursor                          ((t     (:background "#90ee90"))))
-;;    `(font-lock-keyword-face          ((t     (:foreground "#ffffff"))))
-;;    `(font-lock-type-face             ((t     (:foreground "#8cde94"))))
-;;    `(font-lock-constant-face         ((t     (:foreground "#7ad0c6"))))
-;;    `(font-lock-variable-name-face    ((t     (:foreground "#c8d4ec"))))
-;;    `(font-lock-builtin-face          ((t     (:foreground "#90ee90"))))
-;;    `(font-lock-string-face           ((t     (:foreground "#0fdfaf"))))
-;;    `(font-lock-comment-face          ((t     (:foreground "#3fdf1f"))))
-;;    `(font-lock-comment-delimiter-face        ((t     (:foreground "#3fdf1f"))))
-;;    `(font-lock-doc-face                      ((t     (:foreground "#3fdf1f"))))
-;;    `(font-lock-function-name-face    ((t     (:foreground "#ffffff"))))
-;;    `(font-lock-doc-string-face               ((t     (:foreground "#3fdf1f"))))
-;;    `(hightlight                              ((t     (:foreground "#000080" :background "#b4eeb4"))))
-;;    `(font-lock-warning-face          ((t     (:foreground "#504038"))))
-;;    `(font-lock-note-face             ((t     (:foreground "#eee685"))))
-;;    `(mode-line                               ((t     (:foreground "#000000" :background "#d3b58d"))))
-;;    `(mode-line-inactive                      ((t     (:background "#333333" :foreground "#ffffff"))))
-;;    `(show-paren-match                        ((t     (:background "#3cb371"))))))
-
-;; (defun casey-colors () ;; Emacs colors from handmadehero series by casey muratori.
-;;   (interactive)
-;;   (global-hl-line-mode +1)
-;;   (custom-set-faces
-;;    `(default                         ((t       (:foreground "burlywood2" :background "#161616"))))
-;;    `(hl-line                         ((t       (:background "midnight blue"))))
-;;    `(vertico-current                 ((t       (:background "midnight blue"))))
-;;    `(region                          ((t       (:background "medium blue"))))
-;;    `(cursor                          ((t       (:background "#40FF40"))))
-;;    `(font-lock-keyword-face          ((t       (:foreground "DarkGoldenrod2"))))
-;;    `(font-lock-type-face             ((t       (:foreground "burlywood3"))))
-;;    `(font-lock-constant-face         ((t       (:foreground "olive drab"))))
-;;    `(font-lock-variable-name-face    ((t       (:foreground "burlywood3"))))
-;;    `(font-lock-builtin-face          ((t       (:foreground "gray80"))))
-;;    `(font-lock-string-face           ((t       (:foreground "olive drab"))))
-;;    `(font-lock-comment-face          ((t       (:foreground "gray50"))))
-;;    `(font-lock-comment-delimiter-face        ((t       (:foreground "gray50"))))
-;;    `(font-lock-doc-face                      ((t       (:foreground "gray50"))))
-;;    `(font-lock-function-name-face    ((t       (:foreground "burlywood2"))))
-;;    `(font-lock-doc-string-face               ((t       (:foreground "gray50"))))
-;;    `(font-lock-warning-face          ((t       (:foreground "yellow"))))
-;;    `(font-lock-note-face             ((t       (:foreground "khaki2"))))
-;;    `(mode-line                               ((t       (:foreground "#000000" :background "#d3b58d"))))
-;;    `(show-paren-match                        ((t       (:background "mediumseagreen"))))))
-
-;; (defun fleury-colors ()
-;;   (interactive)
-;;   (global-hl-line-mode +1)
-;;   (custom-set-faces
-;;    `(default                          ((t (:foreground "#c0a583" :background "#0c0c0c"))))
-;;    `(cursor                           ((t (:background "green"))))
-;;    `(font-lock-keyword-face           ((t (:foreground "#f0c674"))))
-;;    `(font-lock-operator-face          ((t (:foreground "#907553"))))
-;;    `(font-lock-punctuation-face       ((t (:foreground "#907553"))))
-;;    `(font-lock-bracket-face           ((t (:foreground "#907553"))))
-;;    `(font-lock-delimiter-face         ((t (:foreground "#907553"))))
-;;    `(font-lock-type-face              ((t (:foreground "#d8a51d"))))
-;;    `(font-lock-constant-face          ((t (:foreground "#6b8e23"))))
-;;    `(font-lock-variable-name-face     ((t (:foreground "#b99468"))))
-;;    `(font-lock-builtin-face           ((t (:foreground "#DAB98F"))))
-;;    `(font-lock-string-face            ((t (:foreground "#6b8e23"))))
-;;    `(font-lock-comment-face           ((t (:foreground "#686868"))))
-;;    `(font-lock-comment-delimiter-face ((t (:foreground "#686868"))))
-;;    `(font-lock-doc-face               ((t (:foreground "#686868"))))
-;;    `(font-lock-function-name-face     ((t (:foreground "#cc5735"))))
-;;    `(font-lock-doc-string-face        ((t (:foreground "#6b8e23"))))
-;;    `(font-lock-preprocessor-face      ((t (:foreground "#DAB98F"))))
-;;    `(font-lock-warning-face           ((t (:foreground "#504038"))))
-;;    `(region                           ((t (:background "#2f2f37"))))
-;;    `(hl-line                          ((t (:background "#171616"))))
-;;    `(vertico-current                  ((t (:inherit hl-line))))
-;;    `(highlight                        ((t (:foreground nil :background "#2f2f37"))))
-;;    `(mode-line                        ((t (:foreground "#cb9401" :background "#1f1f27"))))
-;;    `(mode-line-inactive               ((t (:foreground "#cb9401" :background "#1f1f27"))))
-;;    `(minibuffer-prompt                ((t (:foreground "#a08563") :bold t)))
-;;    `(show-paren-match                 ((t (:background "#e0741b" :foreground "#000000"))))))
-
-
-;; (defun solarized-dark-colors ()
-;;   (interactive)
-;;   (global-hl-line-mode +1)
-;;   (custom-set-faces
-;;    `(default                          ((t (:foreground "#839496" :background "#002b36"))))
-;;    `(cursor                           ((t (:foreground "#002b36" :background "#839496"))))
-;;    `(font-lock-keyword-face           ((t (:foreground "#859900"))))
-;;    `(font-lock-type-face              ((t (:foreground "#b58900"))))
-;;    `(font-lock-constant-face          ((t (:foreground "#268bd2"))))
-;;    `(font-lock-variable-name-face     ((t (:foreground "#268bd2"))))
-;;    `(font-lock-builtin-face           ((t (:foreground "#839496"))))
-;;    `(font-lock-string-face            ((t (:foreground "#2aa198"))))
-;;    `(font-lock-comment-face           ((t (:foreground "#586e75"))))
-;;    `(font-lock-comment-delimiter-face ((t (:foreground "#586e75"))))
-;;    `(font-lock-doc-face               ((t (:foreground "#2aa198"))))
-;;    `(font-lock-function-name-face     ((t (:foreground "#268bd2"))))
-;;    `(font-lock-preprocessor-face      ((t (:foreground "#268bd2"))))
-;;    `(font-lock-warning-face           ((t (:foreground "#cb4b16"))))
-;;    `(error                            ((t (:foreground "#cb4b16"))))
-;;    `(region                           ((t (:background "#93a1a1" :foreground "#002b36"))))
-;;    `(hl-line                          ((t (:background "#073642"))))
-;;    `(vertico-current                  ((t (:inherit hl-line))))
-;;    `(highlight                        ((t (:foreground nil :background "#073642"))))
-;;    `(mode-line                        ((t (:foreground "#839496" :background "#073642"))))
-;;    `(mode-line-inactive               ((t (:foreground "#073642" :background "#073642"))))
-;;    `(minibuffer-prompt                ((t (:foreground "#839496") :bold t)))
-;;    `(show-paren-match                 ((t (:foreground "#d33682"))))))
-
-;; (solarized-dark-colors)
-(load-theme 'modus-vivendi t)
+(load-theme 'doom-one t)
 
 (defun jump-up ()
   (interactive)
@@ -329,40 +195,13 @@
          (indent-region (point-min) (point-max) nil)
          (untabify (point-min) (point-max))))
 
+
+(global-corfu-mode +1)
+
+
 (vertico-mode +1)
 
-(setq completion-in-region-function #'consult-completion-in-region) ;; Using vertico power for completion in buffer aka autocomplete.
-
-(unless vertico-mode ;; Telling emacs to configure default minibuffer in a way that is usable without any package.
-  (setq completions-format 'one-column)
-  (setq completions-header-format nil)
-  (setq completions-max-height 30)
-  (setq completion-auto-select nil)
-  (defun my/minibuffer-choose-completion (&optional no-exit no-quit)
-    (interactive "P")
-    (with-minibuffer-completions-window
-      (let ((completion-use-base-affixes nil))
-        (choose-completion nil no-exit no-quit)))))
-
-(defun find-project-root-or-default-directory () (or (locate-dominating-file default-directory ".git") default-directory))
-
-(defun get-grep-default-command (PATTERN)
-  (cond
-   ((executable-find "ugrep")            (format "ugrep -nr \"%s\"" PATTERN))
-   ((executable-find "rg")               (format "rg --no-heading --color=\"never\" %s" PATTERN))
-   ((git-repo-p default-directory)       (format "git grep --no-color -n \"%s\"" PATTERN))
-   (t                                    (format "grep -rn \"%s\"" PATTERN))))
-
-(defun compile-project (&optional EDIT-COMMAND)
-  (interactive "P")
-  (let ((default-directory (find-project-root-or-default-directory)))
-    (recompile EDIT-COMMAND)))
-
-(defun grep-project (&optional EDIT)
-  (interactive "P")
-  (let ((default-directory (find-project-root-or-default-directory)))
-    (grep (get-grep-default-command (read-string "Grep: ")))))
-
+;; LSP
 (dolist (mode '(go rust php)) ;; Enable LSP automatically.
   (add-hook (intern (concat (symbol-name mode) "-mode-hook")) #'eglot-ensure))
 
@@ -381,7 +220,6 @@
   (global-set-key (kbd "M-/")  'xref-find-references))
 
 (with-eval-after-load 'eglot
-  (define-key eglot-mode-map (kbd "M-i")     'consult-eglot-symbols)
   (define-key eglot-mode-map (kbd "C-c C-r") 'eglot-rename)
   (define-key eglot-mode-map (kbd "M-RET")   'eglot-organize-imports-format)
   (define-key eglot-mode-map (kbd "C-c C-c") 'eglot-code-actions))
@@ -392,7 +230,7 @@
 
 (GLOBAL (kbd "M-m") 'compile-project)
 (GLOBAL (kbd "M-S-s") 'grep-project)
-(if (fboundp 'consult-ripgrep) (GLOBAL (kbd "M-s") 'consult-ripgrep) (GLOBAL (kbd "M-s") 'grep-project))
+(GLOBAL (kbd "M-s") 'consult-ripgrep)
 (GLOBAL (kbd "M-}") 'next-error)
 (GLOBAL (kbd "M-{") 'previous-error)
 (GLOBAL (kbd "M-o") 'project-find-file)
