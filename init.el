@@ -1,4 +1,4 @@
-;; 0. Garbage collector
+;; Garbage collector
 (setq gc-cons-threshold most-positive-fixnum
       gc-cons-percentage 1.0)
 
@@ -13,9 +13,9 @@
   (setq amirreza-emacs-directory (file-name-directory INIT-FILE))
   (setq custom-file (expand-file-name "custom.el" amirreza-emacs-directory)))
 
-;; 1. Package installation
+;; Package installation
 (setq package-archives '(("gnu-elpa"  . "https://elpa.gnu.org/packages/") ("melpa"    . "https://melpa.org/packages/")))
-(dolist (pkg `(vertico
+(dolist (pkg `(
                orderless
                consult
                embark
@@ -29,14 +29,14 @@
                string-inflection
                eglot
                corfu
-	       doom-themes
-	       doom-modeline
-	       ,(when (eq system-type 'darwin) (quote ns-auto-titlebar))
+               doom-themes
+               doom-modeline
+               ,(when (eq system-type 'darwin) (quote ns-auto-titlebar))
                ))
   (unless (package-installed-p pkg)
     (package-install pkg)))
 
-;; 2. Options and variables.
+;; Variables.
 (setq-default frame-resize-pixelwise t
               frame-inhibit-implied-resize t
               ring-bell-function 'ignore
@@ -65,29 +65,15 @@
               kill-whole-line t
               compilation-ask-about-save nil ;; Don't ask about saving unsaved buffers before compile command.
               compilation-always-kill t
-              vertico-count 5
-              eldoc-echo-area-use-multiline-p nil
-              eglot-ignored-server-capabilities '( ;; Disable fancy LSP features.
-                                                  :documentHighlightProvider           ;; "Highlight symbols automatically"
-                                                  :documentOnTypeFormattingProvider    ;; "On-type formatting"
-                                                  :documentLinkProvider                ;; "Highlight links in document"
-                                                  :colorProvider                       ;; "Decorate color references"
-                                                  :foldingRangeProvider                ;; "Fold regions of buffer"
-                                                  :executeCommandProvider              ;; "Execute custom commands"
-                                                  :inlayHintProvider                   ;; "Inlay hints"
-                                                  )
-              eglot-stay-out-of '(project flymake) ;; Don't polute buffer with flymake diganostics.
-              eglot-sync-connect nil               ;; no blocking on waiting for the server to start.
-              eglot-events-buffer-size 0           ;; no logging of LSP events.
               c-default-style "linux"
               c-basic-offset 4
-              completion-styles '(orderless basic)
               completion-category-defaults nil
               completion-category-overrides '((file (styles partial-completion)))
               cursor-type 'box
               vertico-count 18
-	      corfu-auto t
-	      doom-modeline-height 35)
+              corfu-auto t
+	      custom-safe-themes t
+              doom-modeline-height 35)
 
 (setq mac-command-modifier 'meta)
 (defun home (path) (expand-file-name path (getenv "HOME")))
@@ -100,7 +86,7 @@
 (add-to-list 'exec-path "/usr/local/bin")
 (if (eq system-type 'windows-nt) (setenv "PATH" (string-join exec-path ";")) (setenv "PATH" (string-join exec-path ":"))) ;; set emacs process PATH
 
-;; 3. Modes
+;; Modes
 (unless (eq system-type 'darwin) (menu-bar-mode -1))
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
@@ -115,8 +101,8 @@
 (global-hl-line-mode +1)                ;; Highlight current line.
 (delete-selection-mode +1)              ;; Delete selected region before inserting.
 
-;; 4. Theme And UI
-(load-theme 'doom-one t)
+;; Theme And UI
+(load-theme 'doom-dracula t)
 
 (defun jump-up ()
   (interactive)
@@ -191,16 +177,48 @@
 
 ;; Completion
 (global-corfu-mode +1)
-(vertico-mode +1)
+
+(use-package orderless
+  :ensure t
+  :config
+  (setq completion-styles '(orderless basic)))
+
+(use-package vertico
+  :ensure t
+  :init
+  (setq vertico-count 15)
+  :config
+  (vertico-mode +1))
 
 ;; LSP
-(dolist (mode '(go rust php)) ;; Enable LSP automatically.
-  (add-hook (intern (concat (symbol-name mode) "-mode-hook")) #'eglot-ensure))
+(use-package eglot
+  :ensure t
+  :init
+  (setq 
+   eldoc-echo-area-use-multiline-p nil
+   eglot-ignored-server-capabilities '( ;; Disable fancy LSP features.
+                                       :documentHighlightProvider           ;; "Highlight symbols automatically"
+                                       :documentOnTypeFormattingProvider    ;; "On-type formatting"
+                                       :documentLinkProvider                ;; "Highlight links in document"
+                                       :colorProvider                       ;; "Decorate color references"
+                                       :foldingRangeProvider                ;; "Fold regions of buffer"
+                                       :executeCommandProvider              ;; "Execute custom commands"
+                                       :inlayHintProvider                   ;; "Inlay hints"
+                                       )
+   eglot-stay-out-of '(project flymake) ;; Don't polute buffer with flymake diganostics.
+   eglot-sync-connect nil               ;; no blocking on waiting for the server to start.
+   eglot-events-buffer-size 0           ;; no logging of LSP events.
+   )
+  (dolist (mode '(go rust php)) ;; Enable LSP automatically.
+    (add-hook (intern (concat (symbol-name mode) "-mode-hook")) #'eglot-ensure))
+  (with-eval-after-load 'eglot (add-to-list 'eglot-server-programs '(php-mode . ("intelephense" "--stdio")))) ;; PHP language server intelephense
+  (defun eglot-organize-imports () (interactive) (eglot-code-actions nil nil "source.organizeImports" t))
+  (defun eglot-organize-imports-format () (interactive) (eglot-format) (eglot-organize-imports))
+  )
 
-(with-eval-after-load 'eglot (add-to-list 'eglot-server-programs '(php-mode . ("intelephense" "--stdio")))) ;; PHP language server intelephense
 
-(defun eglot-organize-imports () (interactive) (eglot-code-actions nil nil "source.organizeImports" t))
-(defun eglot-organize-imports-format () (interactive) (eglot-format) (eglot-organize-imports))
+
+
 
 ;; Compile and grep
 (defun find-project-root-or-default-directory () (or (locate-dominating-file default-directory ".git") default-directory))
@@ -242,8 +260,6 @@
 
 (GLOBAL (kbd "M-m") 'compile-project)
 (GLOBAL (kbd "M-s") 'consult-ripgrep)
-(GLOBAL (kbd "M-}") 'next-error)
-(GLOBAL (kbd "M-{") 'previous-error)
 (GLOBAL (kbd "M-o") 'project-find-file)
 (GLOBAL (kbd "M-r") 'replace-regexp)
 

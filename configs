@@ -50,6 +50,14 @@ rm -rf $HOME/.config/alacritty
 mkdir -p $HOME/.config/alacritty
 ln -s "$DOTFILES_DIR/alacritty.toml" "$HOME/.config/alacritty/alacritty.toml"
 
+mkdir -p "/Users/amirrezaask/Library/Application Support/Sublime Text/Packages/User"
+rm -rf "/Users/amirrezaask/Library/Application Support/Sublime Text/Packages/User/Preferences.sublime-settings"
+rm -rf "/Users/amirrezaask/Library/Application Support/Sublime Text/Packages/User/Package Control.sublime-settings"
+rm -rf "/Users/amirrezaask/Library/Application Support/Sublime Text/Packages/User/Default (OSX).sublime-keymap"
+ln -s "$DOTFILES_DIR/Preferences.sublime-settings" "/Users/amirrezaask/Library/Application Support/Sublime Text/Packages/User/"
+ln -s "$DOTFILES_DIR/Package Control.sublime-settings" "/Users/amirrezaask/Library/Application Support/Sublime Text/Packages/User/"
+ln -s "$DOTFILES_DIR/Default (OSX).sublime-keymap" "/Users/amirrezaask/Library/Application Support/Sublime Text/Packages/User/"
+
 # VSCode (or Cursor) configs
 if [ -d "$HOME/Library/Application Support/Cursor" ]; then
   rm -rf "$HOME/Library/Application Support/Cursor/User/keybindings.json"
