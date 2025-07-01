@@ -96,6 +96,7 @@
 (tool-bar-mode -1)
 (blink-cursor-mode +1)
 
+;; Theme And UI
 (load-theme 'doom-one t)
 (doom-modeline-mode +1)
 
@@ -109,10 +110,7 @@
 (add-to-list 'exec-path "/usr/local/go/bin")
 (add-to-list 'exec-path "/opt/homebrew/bin")
 (add-to-list 'exec-path "/usr/local/bin")
-
-(if (eq system-type 'windows-nt)
-    (setenv "PATH" (string-join exec-path ";"))
-  (setenv "PATH" (string-join exec-path ":"))) ;; set emacs process PATH
+(if (eq system-type 'windows-nt) (setenv "PATH" (string-join exec-path ";")) (setenv "PATH" (string-join exec-path ":"))) ;; set emacs process PATH
 
 (pixel-scroll-precision-mode +1)        ;; better scrolling experience.
 (toggle-truncate-lines -1)              ;; Wrap long lines
@@ -121,8 +119,6 @@
 (global-auto-revert-mode +1)            ;; Auto revert to disk changes, do we really want this ??
 (global-hl-line-mode +1)                ;; Highlight current line.
 (delete-selection-mode +1)              ;; Delete selected region before inserting.
-
-(load-theme 'doom-one t)
 
 (defun jump-up ()
   (interactive)
@@ -229,7 +225,6 @@
 (global-set-key (kbd "M-\\") 'kmacro-end-and-call-macro)
 
 (GLOBAL (kbd "M-m") 'compile-project)
-(GLOBAL (kbd "M-S-s") 'grep-project)
 (GLOBAL (kbd "M-s") 'consult-ripgrep)
 (GLOBAL (kbd "M-}") 'next-error)
 (GLOBAL (kbd "M-{") 'previous-error)
