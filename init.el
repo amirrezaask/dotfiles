@@ -16,25 +16,22 @@
 ;; Package installation
 (setq package-archives '(("gnu-elpa"  . "https://elpa.gnu.org/packages/") ("melpa"    . "https://melpa.org/packages/")))
 (dolist (pkg `(
-               orderless
-               consult
-               embark
-               embark-consult
-               consult-eglot
-               go-mode
-               rust-mode
-               php-mode
-               json-mode
-               yaml-mode
-               string-inflection
-               eglot
-               corfu
-               doom-themes
-               doom-modeline
-               ,(when (eq system-type 'darwin) (quote ns-auto-titlebar))
                ))
-  (unless (package-installed-p pkg)
-    (package-install pkg)))
+  (cond
+   ((symbolp pkg) (unless (package-installed-p pkg) (package-install pkg)))
+   ((listp pkg)   (unless (package-installed-p (plist-get pkg :name)) (package-vc-install '((plist-get pkg :name) :url (plist-get pkg :url)))))))
+
+
+(use-package amirrezathemes
+  :defer t
+  :init (add-to-list 'custom-theme-load-path (expand-file-name "amirrezathemes" (expand-file-name "elpa" user-emacs-directory)))
+
+  :vc (:url "https://github.com/amirrezaask/amirrezathemes"))
+
+(use-package ns-auto-titlebar :ensure t
+  :if (eq system-type 'darwin))
+
+
 
 ;; Variables.
 (setq-default frame-resize-pixelwise t
@@ -71,9 +68,7 @@
               completion-category-overrides '((file (styles partial-completion)))
               cursor-type 'box
               vertico-count 18
-              corfu-auto t
-	      custom-safe-themes t
-              doom-modeline-height 35)
+	      custom-safe-themes t)
 
 (setq mac-command-modifier 'meta)
 (defun home (path) (expand-file-name path (getenv "HOME")))
@@ -89,10 +84,9 @@
 ;; Modes
 (unless (eq system-type 'darwin) (menu-bar-mode -1))
 (scroll-bar-mode -1)
-(tool-bar-mode -1)
-(blink-cursor-mode -1) ;; Distracting
+(tool-bar-mode -1)                      
+(blink-cursor-mode -1)                  ;; Distracting
 (when (eq system-type 'darwin) (ns-auto-titlebar-mode +1))
-(doom-modeline-mode +1)
 (pixel-scroll-precision-mode +1)        ;; better scrolling experience.
 (toggle-truncate-lines -1)              ;; Wrap long lines
 (global-so-long-mode +1)                ;; Don't choke on minified code.
@@ -102,7 +96,13 @@
 (delete-selection-mode +1)              ;; Delete selected region before inserting.
 
 ;; Theme And UI
-(load-theme 'doom-dracula t)
+(use-package ef-themes :ensure t)
+(use-package doom-themes :ensure t)
+(defadvice load-theme (before disable-themes-first activate)
+  (dolist (i custom-enabled-themes)
+    (disable-theme i)))
+
+(load-theme 'ef-bio t)
 
 (defun jump-up ()
   (interactive)
@@ -176,7 +176,11 @@
          (untabify (point-min) (point-max))))
 
 ;; Completion
-(global-corfu-mode +1)
+(use-package corfu :ensure t
+  :init
+  (setq corfu-auto t)
+  :config
+  (global-corfu-mode +1))
 
 (use-package orderless
   :ensure t
@@ -190,9 +194,27 @@
   :config
   (vertico-mode +1))
 
+(use-package consult        :ensure t)
+(use-package embark         :ensure t)
+(use-package embark-consult :ensure t)
+(use-package consult-eglot  :ensure t)
+
+
+(use-package string-inflection :ensure t)
+
+  
+
 ;; LSP
 (use-package eglot
   :ensure t
+  :bind
+  (:map eglot-mode-map
+	
+	(("C-c C-r" . 'eglot-rename)
+	("M-RET"    . 'eglot-organize-imports-format)
+	("C-c C-c"  . 'eglot-code-actions)))
+
+
   :init
   (setq 
    eldoc-echo-area-use-multiline-p nil
@@ -218,6 +240,12 @@
 
 
 
+;; Language modes
+(use-package json-mode :ensure t)
+(use-package yaml-mode :ensure t)
+(use-package go-mode   :ensure t)
+(use-package rust-mode :ensure t)
+(use-package php-mode  :ensure t)
 
 
 ;; Compile and grep
@@ -240,19 +268,20 @@
   (let ((default-directory (find-project-root-or-default-directory)))
     (grep (get-grep-default-command (read-string "Grep: ")))))
 
+
+(use-package xref
+  :bind
+  (
+     (("M-."  .  'xref-find-definitions))
+     (("M-,"  . 'xref-go-back))
+     (("M-?"  . 'xref-find-references))
+     (("M-/"  . 'xref-find-references))
+
+   )
+  )
+
 ;; Keybindings
 (global-set-key (kbd "C-x i") 'EDIT) ;; Edit this file.
-
-(with-eval-after-load 'xref
-  (global-set-key (kbd "M-.")  'xref-find-definitions)
-  (global-set-key (kbd "M-,")  'xref-go-back)
-  (global-set-key (kbd "M-?")  'xref-find-references)
-  (global-set-key (kbd "M-/")  'xref-find-references))
-
-(with-eval-after-load 'eglot
-  (define-key eglot-mode-map (kbd "C-c C-r") 'eglot-rename)
-  (define-key eglot-mode-map (kbd "M-RET")   'eglot-organize-imports-format)
-  (define-key eglot-mode-map (kbd "C-c C-c") 'eglot-code-actions))
 
 (global-set-key (kbd "M-[")  'kmacro-start-macro)
 (global-set-key (kbd "M-]")  'kmacro-end-or-call-macro)
