@@ -1,11 +1,10 @@
 {
-	"font_face": "Fira Code",
-	"font_size": 13,
-	"color_scheme": "Packages/Inspired GitHub Color Scheme/InspiredGitHub.tmTheme",
+	"font_face": "Operator Mono Book",
+	"font_size": 18,
+	"color_scheme": "Mariana.sublime-color-scheme",
 	"line_padding_top": 8,
 	"line_padding_bottom": 8,
 	"highlight_line": true,
-	"caret_style": "phase",
 	"theme": "Adaptive.sublime-theme",
 	"ignored_packages":
 	[
