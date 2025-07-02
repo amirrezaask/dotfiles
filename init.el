@@ -15,12 +15,6 @@
 
 ;; Package installation
 (setq package-archives '(("gnu-elpa"  . "https://elpa.gnu.org/packages/") ("melpa"    . "https://melpa.org/packages/")))
-(dolist (pkg `(
-               ))
-  (cond
-   ((symbolp pkg) (unless (package-installed-p pkg) (package-install pkg)))
-   ((listp pkg)   (unless (package-installed-p (plist-get pkg :name)) (package-vc-install '((plist-get pkg :name) :url (plist-get pkg :url)))))))
-
 
 (use-package amirrezathemes
   :defer t
