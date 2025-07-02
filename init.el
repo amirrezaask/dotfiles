@@ -1,70 +1,16 @@
-;; Garbage collector
-(setq gc-cons-threshold most-positive-fixnum
-      gc-cons-percentage 1.0)
-
-(add-hook 'emacs-startup-hook (lambda ()
-                                (setq gc-cons-threshold 50 * 1000 * 1000 ;; 50MB
-                                      gc-cons-percentage 0.8
-                                      file-name-handler-alist user/file-name-handler-alist)))
-
-
 (when load-file-name ;; since windows is a bit funky I prefer to store this file path in a variable to be used when C-x i
   (setq INIT-FILE load-file-name)
   (setq amirreza-emacs-directory (file-name-directory INIT-FILE))
   (setq custom-file (expand-file-name "custom.el" amirreza-emacs-directory)))
 
-;; Package installation
-(setq package-archives '(("gnu-elpa"  . "https://elpa.gnu.org/packages/") ("melpa"    . "https://melpa.org/packages/")))
-
 (use-package amirrezathemes
   :defer t
   :init (add-to-list 'custom-theme-load-path (expand-file-name "amirrezathemes" (expand-file-name "elpa" user-emacs-directory)))
-
   :vc (:url "https://github.com/amirrezaask/amirrezathemes"))
 
-(use-package ns-auto-titlebar :ensure t
-  :if (eq system-type 'darwin))
-
-
-
-;; Variables.
-(setq-default frame-resize-pixelwise t
-              frame-inhibit-implied-resize t
-              ring-bell-function 'ignore
-              use-dialog-box t
-              use-file-dialog nil
-              use-short-answers t
-              inhibit-splash-screen t
-              inhibit-startup-screen t
-              inhibit-x-resources t
-              inhibit-startup-buffer-menu t
-              redisplay-dont-pause t
-              native-comp-async-report-warnings-errors nil
-              is-windows (eq system-type 'windows-nt)
-              is-linux (eq system-type 'gnu/linux)
-              is-macos (eq system-type 'darwin)
-              user/file-name-handler-alist file-name-handler-alist
-              file-name-handler-alist nil
-              package-enable-at-startup t
-              package-quickstart t
-              font-size 11
-              current-font-family ""
-              font-families (font-family-list)
-              make-backup-files nil              ;; no emacs ~ backup files
-              vc-follow-symlinks t               ;; Don't prompt if encounter a symlink file, just follow the link.
-              recenter-positions '(middle)
-              kill-whole-line t
-              compilation-ask-about-save nil ;; Don't ask about saving unsaved buffers before compile command.
-              compilation-always-kill t
-              c-default-style "linux"
-              c-basic-offset 4
-              completion-category-defaults nil
-              completion-category-overrides '((file (styles partial-completion)))
-              cursor-type 'box
-              vertico-count 18
-	      custom-safe-themes t)
-
 (setq mac-command-modifier 'meta)
+
+;; Path
 (defun home (path) (expand-file-name path (getenv "HOME")))
 (add-to-list 'exec-path (home ".local/bin"))
 (add-to-list 'exec-path (home "go/bin"))
@@ -75,12 +21,22 @@
 (add-to-list 'exec-path "/usr/local/bin")
 (if (eq system-type 'windows-nt) (setenv "PATH" (string-join exec-path ";")) (setenv "PATH" (string-join exec-path ":"))) ;; set emacs process PATH
 
-;; Modes
-(unless (eq system-type 'darwin) (menu-bar-mode -1))
-(scroll-bar-mode -1)
-(tool-bar-mode -1)                      
-(blink-cursor-mode -1)                  ;; Distracting
-(when (eq system-type 'darwin) (ns-auto-titlebar-mode +1))
+
+;; Theme And UI
+(use-package ns-auto-titlebar :ensure t
+  :if (eq system-type 'darwin)
+  :config (ns-auto-titlebar-mode +1))
+
+(use-package ef-themes :ensure t)
+(use-package doom-themes :ensure t)
+(defadvice load-theme (before disable-themes-first activate)
+  (dolist (i custom-enabled-themes)
+    (disable-theme i)))
+
+(load-theme 'ef-bio t)
+
+
+;; Text editing and navigation
 (pixel-scroll-precision-mode +1)        ;; better scrolling experience.
 (toggle-truncate-lines -1)              ;; Wrap long lines
 (global-so-long-mode +1)                ;; Don't choke on minified code.
@@ -89,14 +45,8 @@
 (global-hl-line-mode +1)                ;; Highlight current line.
 (delete-selection-mode +1)              ;; Delete selected region before inserting.
 
-;; Theme And UI
-(use-package ef-themes :ensure t)
-(use-package doom-themes :ensure t)
-(defadvice load-theme (before disable-themes-first activate)
-  (dolist (i custom-enabled-themes)
-    (disable-theme i)))
-
-(load-theme 'ef-bio t)
+(use-package string-inflection :ensure t)
+;; (use-package multiple-cursors :ensure t)
 
 (defun jump-up ()
   (interactive)
@@ -146,6 +96,10 @@
 (load-font "Fira Code" 15)
 
 ;; Splits
+(GLOBAL         (kbd "C-0")             'delete-window-and-balance)
+(GLOBAL         (kbd "C-1")             'delete-other-windows)
+(GLOBAL         (kbd "C-2")             'split-window-below-balance-and-switch)
+(GLOBAL         (kbd "C-3")             'split-window-right-balance-and-switch)
 (defun split-window-right-balance-and-switch () (interactive)
        (split-window-right)
        (balance-windows)
@@ -173,6 +127,7 @@
 (use-package corfu :ensure t
   :init
   (setq corfu-auto t)
+  (setq corfu-preselect 'prompt)
   :config
   (global-corfu-mode +1))
 
@@ -192,11 +147,8 @@
 (use-package embark         :ensure t)
 (use-package embark-consult :ensure t)
 (use-package consult-eglot  :ensure t)
+(use-package minibuffer :after embark :bind (:map minibuffer-mode-map ("C-;" . embark-export)))
 
-
-(use-package string-inflection :ensure t)
-
-  
 
 ;; LSP
 (use-package eglot
@@ -207,8 +159,6 @@
 	(("C-c C-r" . 'eglot-rename)
 	("M-RET"    . 'eglot-organize-imports-format)
 	("C-c C-c"  . 'eglot-code-actions)))
-
-
   :init
   (setq 
    eldoc-echo-area-use-multiline-p nil
@@ -229,10 +179,7 @@
     (add-hook (intern (concat (symbol-name mode) "-mode-hook")) #'eglot-ensure))
   (with-eval-after-load 'eglot (add-to-list 'eglot-server-programs '(php-mode . ("intelephense" "--stdio")))) ;; PHP language server intelephense
   (defun eglot-organize-imports () (interactive) (eglot-code-actions nil nil "source.organizeImports" t))
-  (defun eglot-organize-imports-format () (interactive) (eglot-format) (eglot-organize-imports))
-  )
-
-
+  (defun eglot-organize-imports-format () (interactive) (eglot-format) (eglot-organize-imports)))
 
 ;; Language modes
 (use-package json-mode :ensure t)
@@ -241,46 +188,7 @@
 (use-package rust-mode :ensure t)
 (use-package php-mode  :ensure t)
 
-
 ;; Compile and grep
-(defun find-project-root-or-default-directory () (or (locate-dominating-file default-directory ".git") default-directory))
-
-(defun get-grep-default-command (PATTERN)
-  (cond
-   ((executable-find "ugrep")            (format "ugrep -nr \"%s\"" PATTERN))
-   ((executable-find "rg")               (format "rg --no-heading --color=\"never\" %s" PATTERN))
-   ((git-repo-p default-directory)       (format "git grep --no-color -n \"%s\"" PATTERN))
-   (t                                    (format "grep -rn \"%s\"" PATTERN))))
-
-(defun compile-project (&optional EDIT-COMMAND)
-  (interactive "P")
-  (let ((default-directory (find-project-root-or-default-directory)))
-    (recompile EDIT-COMMAND)))
-
-(defun grep-project (&optional EDIT)
-  (interactive "P")
-  (let ((default-directory (find-project-root-or-default-directory)))
-    (grep (get-grep-default-command (read-string "Grep: ")))))
-
-
-(use-package xref
-  :bind
-  (
-     (("M-."  .  'xref-find-definitions))
-     (("M-,"  . 'xref-go-back))
-     (("M-?"  . 'xref-find-references))
-     (("M-/"  . 'xref-find-references))
-
-   )
-  )
-
-;; Keybindings
-(global-set-key (kbd "C-x i") 'EDIT) ;; Edit this file.
-
-(global-set-key (kbd "M-[")  'kmacro-start-macro)
-(global-set-key (kbd "M-]")  'kmacro-end-or-call-macro)
-(global-set-key (kbd "M-\\") 'kmacro-end-and-call-macro)
-
 (GLOBAL (kbd "M-m") 'compile-project)
 (GLOBAL (kbd "M-s") 'consult-ripgrep)
 (GLOBAL (kbd "M-o") 'project-find-file)
@@ -294,6 +202,31 @@
   (define-key grep-mode-map (kbd "k")    'kill-compilation)
   (define-key grep-mode-map (kbd "G")    (lambda () (interactive) (recompile t))))
 
+(defun find-project-root-or-default-directory () (or (locate-dominating-file default-directory ".git") default-directory))
+(defun compile-project (&optional EDIT-COMMAND)
+  (interactive "P")
+  (let ((default-directory (find-project-root-or-default-directory)))
+    (recompile EDIT-COMMAND)))
+
+(defun grep-project (&optional EDIT)
+  (interactive "P")
+  (let ((default-directory (find-project-root-or-default-directory)))
+    (grep (format "rg --no-heading --color=\"never\" %s" (read-string "Grep: ")))))
+
+(use-package xref
+  :bind
+  ((("M-."  .  'xref-find-definitions))
+     (("M-,"  . 'xref-go-back))
+     (("M-?"  . 'xref-find-references))
+     (("M-/"  . 'xref-find-references))))
+
+;; Keybindings
+(global-set-key (kbd "C-x i") 'EDIT) ;; Edit this file.
+
+(global-set-key (kbd "M-[")  'kmacro-start-macro)
+(global-set-key (kbd "M-]")  'kmacro-end-or-call-macro)
+(global-set-key (kbd "M-\\") 'kmacro-end-and-call-macro)
+
 (global-set-key (kbd "C-;")   'goto-line)
 (global-set-key (kbd "C-w")   'cut) ;; modern cut
 (global-set-key (kbd "C-z")   'undo) ;; undo
@@ -303,20 +236,8 @@
 (global-unset-key (kbd "M-z")) ;; UNUSED
 (global-unset-key (kbd "M-l")) ;; UNUSED
 
-(with-eval-after-load 'minibuffer
-  (define-key minibuffer-mode-map (kbd "C-;") 'embark-export))
-
-(unless vertico-mode
-  (define-key minibuffer-mode-map (kbd "C-n") 'minibuffer-next-completion)
-  (define-key minibuffer-mode-map (kbd "C-p") 'minibuffer-previous-completion)
-  (define-key completion-in-region-mode-map (kbd "C-n") 'minibuffer-next-completion)
-  (define-key completion-in-region-mode-map (kbd "C-p") 'minibuffer-previous-completion))
 
 (GLOBAL         (kbd "C-<return>")      'save-buffer)
-(GLOBAL         (kbd "C-0")             'delete-window-and-balance)
-(GLOBAL         (kbd "C-1")             'delete-other-windows)
-(GLOBAL         (kbd "C-2")             'split-window-below-balance-and-switch)
-(GLOBAL         (kbd "C-3")             'split-window-right-balance-and-switch)
 (GLOBAL         (kbd "C--")             'text-scale-decrease)
 (GLOBAL         (kbd "C-=")             'text-scale-increase)
 (GLOBAL         (kbd "M-n")             'jump-down)
