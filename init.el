@@ -3,14 +3,9 @@
   (setq amirreza-emacs-directory (file-name-directory INIT-FILE))
   (setq custom-file (expand-file-name "custom.el" amirreza-emacs-directory)))
 
-(use-package amirrezathemes
-  :defer t
-  :init (add-to-list 'custom-theme-load-path (expand-file-name "amirrezathemes" (expand-file-name "elpa" user-emacs-directory)))
-  :vc (:url "https://github.com/amirrezaask/amirrezathemes"))
-
 (setq mac-command-modifier 'meta)
 
-;; Path
+;; @Path
 (defun home (path) (expand-file-name path (getenv "HOME")))
 (add-to-list 'exec-path (home ".local/bin"))
 (add-to-list 'exec-path (home "go/bin"))
@@ -22,10 +17,15 @@
 (if (eq system-type 'windows-nt) (setenv "PATH" (string-join exec-path ";")) (setenv "PATH" (string-join exec-path ":"))) ;; set emacs process PATH
 
 
-;; Theme And UI
+;; @Theme @UI
 (use-package ns-auto-titlebar :ensure t
   :if (eq system-type 'darwin)
   :config (ns-auto-titlebar-mode +1))
+
+(use-package amirrezathemes
+  :defer t
+  :init (add-to-list 'custom-theme-load-path (expand-file-name "amirrezathemes" (expand-file-name "elpa" user-emacs-directory)))
+  :vc (:url "https://github.com/amirrezaask/amirrezathemes"))
 
 (use-package ef-themes :ensure t)
 (use-package doom-themes :ensure t)
@@ -36,7 +36,7 @@
 (load-theme 'ef-bio t)
 
 
-;; Text editing and navigation
+;; @Text @editing and @navigation
 (pixel-scroll-precision-mode +1)        ;; better scrolling experience.
 (toggle-truncate-lines -1)              ;; Wrap long lines
 (global-so-long-mode +1)                ;; Don't choke on minified code.
@@ -46,7 +46,7 @@
 (delete-selection-mode +1)              ;; Delete selected region before inserting.
 
 (use-package string-inflection :ensure t)
-;; (use-package multiple-cursors :ensure t)
+(use-package multiple-cursors :ensure t)
 
 (defun jump-up ()
   (interactive)
@@ -68,11 +68,41 @@
            (kill-region (region-beginning) (region-end)) ;; copy active region contents
          (kill-region (line-beginning-position) (line-end-position)))) ;; copy current line
 
+(global-set-key (kbd "C-;")   'goto-line)
+(global-set-key (kbd "C-w")   'cut) ;; modern cut
+(global-set-key (kbd "C-z")   'undo) ;; undo
+(global-set-key (kbd "M-z")   'undo) ;; undo
+(global-set-key (kbd "C-SPC") 'set-mark-command) ;; Visual selection
+(global-set-key (kbd "M-w")   'copy) ;; modern copy
+(global-unset-key (kbd "M-z")) ;; UNUSED
+(global-unset-key (kbd "M-l")) ;; UNUSED
+(global-set-key (kbd "C-x i") 'EDIT) ;; Edit this file.
+(global-set-key (kbd "M-[")  'kmacro-start-macro)
+(global-set-key (kbd "M-]")  'kmacro-end-or-call-macro)
+(global-set-key (kbd "M-\\") 'kmacro-end-and-call-macro)
+(global-set-key (kbd "M-RET")           'indent-buffer) ;; Format buffer
+(global-set-key (kbd "C-/")             'comment-line) ;; Comment
+(GLOBAL         (kbd "C-<return>")      'save-buffer)
+(GLOBAL         (kbd "C--")             'text-scale-decrease)
+(GLOBAL         (kbd "C-=")             'text-scale-increase)
+(GLOBAL         (kbd "M-n")             'jump-down)
+(GLOBAL         (kbd "M-p")             'jump-up)
+(GLOBAL         (kbd "M-k")             'kill-current-buffer)
+(global-set-key (kbd "C-j")             'completion-at-point)
+(global-set-key (kbd "M-q")             'quoted-insert)
+(global-set-key (kbd "C-o")             'other-window)
+
+
+(with-eval-after-load 'replace
+  (define-key query-replace-map (kbd "<return>") 'act))
+
+
 (defun EDIT () "Edit this file." (interactive) (find-file INIT-FILE))
 
 (defun RELOAD ()  (interactive) (load-file INIT-FILE))
 
-;; Overrides: minor mode to register keys that I want to override in all other modes.
+
+;; @Overrides: minor mode to register keys that I want to override in all other modes.
 (defvar global-override-keys (make-sparse-keymap))
 (define-minor-mode global-override-mode ""
   :global t
@@ -83,7 +113,7 @@
 (global-override-mode +1)
 (defun GLOBAL (KBD ACTION) (define-key global-override-keys KBD ACTION))
 
-;; Font
+;; @Font
 (defun load-font (font size) "Set font" (interactive (list (completing-read "Font: " font-families) (read-number "Size: ")))
        (setq current-font-family font)
        (setq font-size size)
@@ -95,7 +125,7 @@
 
 (load-font "Fira Code" 15)
 
-;; Splits
+;; @Splits
 (GLOBAL         (kbd "C-0")             'delete-window-and-balance)
 (GLOBAL         (kbd "C-1")             'delete-other-windows)
 (GLOBAL         (kbd "C-2")             'split-window-below-balance-and-switch)
@@ -123,7 +153,7 @@
          (indent-region (point-min) (point-max) nil)
          (untabify (point-min) (point-max))))
 
-;; Completion
+;; @Completion
 (use-package corfu :ensure t
   :init
   (setq corfu-auto t)
@@ -150,7 +180,14 @@
 (use-package minibuffer :after embark :bind (:map minibuffer-mode-map ("C-;" . embark-export)))
 
 
-;; LSP
+;; @LSP @IDE
+(use-package xref
+  :bind
+  ((("M-."  .  'xref-find-definitions))
+     (("M-,"  . 'xref-go-back))
+     (("M-?"  . 'xref-find-references))
+     (("M-/"  . 'xref-find-references))))
+
 (use-package eglot
   :ensure t
   :bind
@@ -181,14 +218,14 @@
   (defun eglot-organize-imports () (interactive) (eglot-code-actions nil nil "source.organizeImports" t))
   (defun eglot-organize-imports-format () (interactive) (eglot-format) (eglot-organize-imports)))
 
-;; Language modes
+;; @Languages modes
 (use-package json-mode :ensure t)
 (use-package yaml-mode :ensure t)
 (use-package go-mode   :ensure t)
 (use-package rust-mode :ensure t)
 (use-package php-mode  :ensure t)
 
-;; Compile and grep
+;; @Compile and @grep
 (GLOBAL (kbd "M-m") 'compile-project)
 (GLOBAL (kbd "M-s") 'consult-ripgrep)
 (GLOBAL (kbd "M-o") 'project-find-file)
@@ -212,43 +249,3 @@
   (interactive "P")
   (let ((default-directory (find-project-root-or-default-directory)))
     (grep (format "rg --no-heading --color=\"never\" %s" (read-string "Grep: ")))))
-
-(use-package xref
-  :bind
-  ((("M-."  .  'xref-find-definitions))
-     (("M-,"  . 'xref-go-back))
-     (("M-?"  . 'xref-find-references))
-     (("M-/"  . 'xref-find-references))))
-
-;; Keybindings
-(global-set-key (kbd "C-x i") 'EDIT) ;; Edit this file.
-
-(global-set-key (kbd "M-[")  'kmacro-start-macro)
-(global-set-key (kbd "M-]")  'kmacro-end-or-call-macro)
-(global-set-key (kbd "M-\\") 'kmacro-end-and-call-macro)
-
-(global-set-key (kbd "C-;")   'goto-line)
-(global-set-key (kbd "C-w")   'cut) ;; modern cut
-(global-set-key (kbd "C-z")   'undo) ;; undo
-(global-set-key (kbd "M-z")   'undo) ;; undo
-(global-set-key (kbd "C-SPC") 'set-mark-command) ;; Visual selection
-(global-set-key (kbd "M-w")   'copy) ;; modern copy
-(global-unset-key (kbd "M-z")) ;; UNUSED
-(global-unset-key (kbd "M-l")) ;; UNUSED
-
-
-(GLOBAL         (kbd "C-<return>")      'save-buffer)
-(GLOBAL         (kbd "C--")             'text-scale-decrease)
-(GLOBAL         (kbd "C-=")             'text-scale-increase)
-(GLOBAL         (kbd "M-n")             'jump-down)
-(GLOBAL         (kbd "M-p")             'jump-up)
-(GLOBAL         (kbd "M-k")             'kill-current-buffer)
-(global-set-key (kbd "C-j")             'completion-at-point)
-(global-set-key (kbd "M-q")             'quoted-insert)
-(global-set-key (kbd "C-o")             'other-window)
-
-(global-set-key (kbd "M-RET")           'indent-buffer) ;; Format buffer
-(global-set-key (kbd "C-/")             'comment-line) ;; Comment
-
-(with-eval-after-load 'replace
-  (define-key query-replace-map (kbd "<return>") 'act))
