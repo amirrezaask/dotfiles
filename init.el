@@ -116,6 +116,7 @@
 (defun RELOAD ()  (interactive) (load-file INIT-FILE))
 
 ;; @Font
+(setq font-families (font-family-list))
 (defun load-font (font size) "Set font" (interactive (list (completing-read "Font: " font-families) (read-number "Size: ")))
        (setq current-font-family font)
        (setq font-size size)
