@@ -3,9 +3,6 @@
   (setq amirreza-emacs-directory (file-name-directory INIT-FILE))
   (setq custom-file (expand-file-name "custom.el" amirreza-emacs-directory)))
 
-(setq mac-command-modifier 'meta)
-
-
 
 ;; @Overrides: minor mode to register keys that I want to override in all other modes.
 (defvar global-override-keys (make-sparse-keymap))
@@ -48,7 +45,7 @@
     (disable-theme i)))
 
 (load-theme 'ef-bio t)
-
+(set-face-background 'default "#052525")
 
 ;; @Text @editing and @navigation
 (pixel-scroll-precision-mode +1)        ;; better scrolling experience.
