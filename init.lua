@@ -101,21 +101,13 @@ vim.o.rtp = vim.o.rtp .. "," .. lazypath -- Add lazy.nvim to runtimepath
 
 require("lazy").setup({
   {
-    "amirrezaask/nvim-statusline.lua",
-    dependencies = {
-      "nvim-tree/nvim-web-devicons", -- either of these two
-      -- "echasnovski/mini.nvim",
-    },
-    opts = {},
-  },
-  {
-    "amirrezaask/gruvi.nvim",
+    "rose-pine/neovim",
+    name = "rose-pine",
     config = function()
-      vim.g.gruvi_style = "dark"
-      vim.cmd.colorscheme("gruvi")
+      require("rose-pine").setup { styles = { transparency = true } }
+      vim.cmd.colorscheme("rose-pine")
     end,
   },
-
   { -- Git
     "lewis6991/gitsigns.nvim",
     opts = {
