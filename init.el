@@ -5,6 +5,20 @@
 
 (setq mac-command-modifier 'meta)
 
+
+
+;; @Overrides: minor mode to register keys that I want to override in all other modes.
+(defvar global-override-keys (make-sparse-keymap))
+(define-minor-mode global-override-mode ""
+  :global t
+  :lighter " GlobalOverride"
+  :init-value t
+  :keymap global-override-keys)
+
+(global-override-mode +1)
+(defun GLOBAL (KBD ACTION) (define-key global-override-keys KBD ACTION))
+
+
 ;; @Path
 (defun home (path) (expand-file-name path (getenv "HOME")))
 (add-to-list 'exec-path (home ".local/bin"))
@@ -91,6 +105,9 @@
 (global-set-key (kbd "C-j")             'completion-at-point)
 (global-set-key (kbd "M-q")             'quoted-insert)
 (global-set-key (kbd "C-o")             'other-window)
+(GLOBAL         (kbd "M-r")             'replace-regexp)
+(GLOBAL         (kbd "M-s")             'consult-ripgrep)
+(GLOBAL         (kbd "M-o")             'project-find-file)
 
 
 (with-eval-after-load 'replace
@@ -100,18 +117,6 @@
 (defun EDIT () "Edit this file." (interactive) (find-file INIT-FILE))
 
 (defun RELOAD ()  (interactive) (load-file INIT-FILE))
-
-
-;; @Overrides: minor mode to register keys that I want to override in all other modes.
-(defvar global-override-keys (make-sparse-keymap))
-(define-minor-mode global-override-mode ""
-  :global t
-  :lighter " GlobalOverride"
-  :init-value t
-  :keymap global-override-keys)
-
-(global-override-mode +1)
-(defun GLOBAL (KBD ACTION) (define-key global-override-keys KBD ACTION))
 
 ;; @Font
 (defun load-font (font size) "Set font" (interactive (list (completing-read "Font: " font-families) (read-number "Size: ")))
@@ -226,10 +231,8 @@
 (use-package php-mode  :ensure t)
 
 ;; @Compile and @grep
-(GLOBAL (kbd "M-m") 'compile-project)
-(GLOBAL (kbd "M-s") 'consult-ripgrep)
-(GLOBAL (kbd "M-o") 'project-find-file)
-(GLOBAL (kbd "M-r") 'replace-regexp)
+(GLOBAL (kbd "M-m")   'compile-project)
+(GLOBAL (kbd "C-M-s") 'grep-project)
 
 (with-eval-after-load 'compile
   (define-key compilation-mode-map (kbd "k")    'kill-compilation)
