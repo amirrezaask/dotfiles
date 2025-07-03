@@ -22,11 +22,11 @@
 (setq package-archives '(("gnu-elpa"  . "https://elpa.gnu.org/packages/") ("melpa"    . "https://melpa.org/packages/")))
 
 
-(setq-default ring-bell-function 'ignore
-              redisplay-dont-pause t
-              mac-command-modifier 'meta
-              custom-safe-themes t)
+(setq-default ring-bell-function 'ignore)
 
+(setq redisplay-dont-pause t)
+
+(setq mac-command-modifier 'meta)
 
 ;; Setting up variables to help with multi OS codes.
 (setq is-windows (eq system-type 'windows-nt)
@@ -80,6 +80,8 @@
 
 
 ;; @Theme @UI
+(setq custom-safe-themes t)
+
 (use-package nerd-icons :ensure t)
 
 (use-package amirrezathemes
@@ -176,31 +178,31 @@
            (kill-region (region-beginning) (region-end)) ;; copy active region contents
          (kill-region (line-beginning-position) (line-end-position)))) ;; copy current line
 
-(global-set-key (kbd "C-;")   'goto-line)
-(global-set-key (kbd "C-w")   'cut) ;; modern cut
-(global-set-key (kbd "C-z")   'undo) ;; undo
-(global-set-key (kbd "M-z")   'undo) ;; undo
-(global-set-key (kbd "C-SPC") 'set-mark-command) ;; Visual selection
-(global-set-key (kbd "M-w")   'copy) ;; modern copy
-(global-unset-key (kbd "M-z")) ;; UNUSED
-(global-unset-key (kbd "M-l")) ;; UNUSED
-(global-set-key (kbd "C-x i") 'EDIT) ;; Edit this file.
-(global-set-key (kbd "M-[")  'kmacro-start-macro)
-(global-set-key (kbd "M-]")  'kmacro-end-or-call-macro)
-(global-set-key (kbd "M-\\") 'kmacro-end-and-call-macro)
-(global-set-key (kbd "M-RET")           'indent-buffer) ;; Format buffer
-(global-set-key (kbd "C-/")             'comment-line) ;; Comment
-(GLOBAL         (kbd "C-<return>")      'save-buffer)
-(GLOBAL         (kbd "C--")             'text-scale-decrease)
-(GLOBAL         (kbd "C-=")             'text-scale-increase)
-(GLOBAL         (kbd "M-n")             'jump-down)
-(GLOBAL         (kbd "M-p")             'jump-up)
-(GLOBAL         (kbd "M-k")             'kill-current-buffer)
-(global-set-key (kbd "M-q")             'quoted-insert)
-(global-set-key (kbd "C-o")             'other-window)
-(GLOBAL         (kbd "M-r")             'replace-regexp)
-(GLOBAL         (kbd "M-s")             'consult-ripgrep)
-(GLOBAL         (kbd "M-o")             'project-find-file)
+(global-set-key   (kbd "C-;")             'goto-line)
+(global-set-key   (kbd "C-w")             'cut) ;; modern cut
+(global-set-key   (kbd "C-z")             'undo) ;; undo
+(global-set-key   (kbd "M-z")             'undo) ;; undo
+(global-set-key   (kbd "C-SPC")           'set-mark-command) ;; Visual selection
+(global-set-key   (kbd "M-w")             'copy) ;; modern copy
+(global-set-key   (kbd "C-x i")           'EDIT) ;; Edit this file.
+(global-set-key   (kbd "M-[")             'kmacro-start-macro)
+(global-set-key   (kbd "M-]")             'kmacro-end-or-call-macro)
+(global-set-key   (kbd "M-\\")            'kmacro-end-and-call-macro)
+(global-set-key   (kbd "M-RET")           'indent-buffer) ;; Format buffer
+(global-set-key   (kbd "C-/")             'comment-line) ;; Comment
+(global-set-key   (kbd "C-<return>")      'save-buffer)
+(GLOBAL           (kbd "C--")             'text-scale-decrease)
+(GLOBAL           (kbd "C-=")             'text-scale-increase)
+(GLOBAL           (kbd "M-n")             'jump-down)
+(GLOBAL           (kbd "M-p")             'jump-up)
+(GLOBAL           (kbd "M-k")             'kill-current-buffer)
+(global-set-key   (kbd "M-q")             'quoted-insert)
+(global-set-key   (kbd "C-o")             'other-window)
+(GLOBAL           (kbd "M-r")             'replace-regexp)
+(GLOBAL           (kbd "M-s")             'consult-ripgrep)
+(GLOBAL           (kbd "M-o")             'project-find-file)
+(global-unset-key (kbd "M-z")) 
+(global-unset-key (kbd "M-l")) 
 
 
 (with-eval-after-load 'replace
@@ -340,9 +342,10 @@
 (use-package php-mode  :ensure t)
 
 ;; @Compile and @grep
-(setq compilation-always-kill t       ; kill compilation process before starting another
-      compilation-ask-about-save nil  ; save all buffers on `compile'
-      compilation-scroll-output 'first-error)
+(setq compilation-always-kill t              ;; kill compilation process before starting another
+      compilation-ask-about-save nil         ;; save all buffers on `compile'
+      compilation-scroll-output 'first-error ;; scroll to first error in compile buffer.
+      )
 
 (GLOBAL (kbd "M-m")   'compile-project)
 (GLOBAL (kbd "C-M-s") 'grep-project)
