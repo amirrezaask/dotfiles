@@ -1,3 +1,45 @@
+;; Don't resize the frames in steps; it looks weird, especially in tiling window
+;; managers, where it can leave unseemly gaps.
+(setq frame-resize-pixelwise t)
+
+;; But do not resize windows pixelwise, this can cause crashes in some cases
+;; when resizing too many windows at once or rapidly.
+(setq window-resize-pixelwise nil)
+
+;; Never use dialog boxes for questions.
+(setq use-dialog-box nil)
+
+;; Never use dialog boxes for asking about files.
+(setq use-file-dialog nil)
+
+;; Prefer shorter answers.
+(setq use-short-answers t)
+
+;; Don't report warnings and errors when native compiling packages, I don't care about other people's code.
+(setq native-comp-async-report-warnings-errors nil)
+
+;; Set package mirrors.
+(setq package-archives '(("gnu-elpa"  . "https://elpa.gnu.org/packages/") ("melpa"    . "https://melpa.org/packages/")))
+
+
+(setq-default ring-bell-function 'ignore
+              redisplay-dont-pause t
+              mac-command-modifier 'meta
+              custom-safe-themes t)
+
+
+;; Setting up variables to help with multi OS codes.
+(setq is-windows (eq system-type 'windows-nt)
+      is-linux (eq system-type 'gnu/linux)
+      is-macos (eq system-type 'darwin))
+
+
+(unless (eq system-type 'darwin) (menu-bar-mode -1))
+(scroll-bar-mode -1)
+(tool-bar-mode -1)
+(blink-cursor-mode -1)                  ;; Distracting
+
+
 (when load-file-name ;; since windows is a bit funky I prefer to store this file path in a variable to be used when C-x i
   (setq INIT-FILE load-file-name)
   (setq amirreza-emacs-directory (file-name-directory INIT-FILE))
@@ -15,8 +57,17 @@
 (global-override-mode +1)
 (defun GLOBAL (KBD ACTION) (define-key global-override-keys KBD ACTION))
 
+;; Visit files opened outside of Emacs in existing frame, not a new one
+(setq ns-pop-up-frames nil)
 
-;; @Path
+;; In macos set title bar color automatically everytime background color of emacs changes.
+(use-package ns-auto-titlebar :ensure t
+  :if (eq system-type 'darwin)
+  :config (ns-auto-titlebar-mode +1))
+
+
+
+;; Add directory to exec-path and also set emacs process PATH variable.
 (defun home (path) (expand-file-name path (getenv "HOME")))
 (add-to-list 'exec-path (home ".local/bin"))
 (add-to-list 'exec-path (home "go/bin"))
@@ -29,9 +80,7 @@
 
 
 ;; @Theme @UI
-(use-package ns-auto-titlebar :ensure t
-  :if (eq system-type 'darwin)
-  :config (ns-auto-titlebar-mode +1))
+(use-package nerd-icons :ensure t)
 
 (use-package amirrezathemes
   :defer t
@@ -44,20 +93,68 @@
   (dolist (i custom-enabled-themes)
     (disable-theme i)))
 
-(load-theme 'ef-bio t)
-(set-face-background 'default "#052525")
+(load-theme 'doom-one t)
 
-;; @Text @editing and @navigation
-(pixel-scroll-precision-mode +1)        ;; better scrolling experience.
-(toggle-truncate-lines -1)              ;; Wrap long lines
-(global-so-long-mode +1)                ;; Don't choke on minified code.
-(set-default-coding-systems 'utf-8)     ;; Always use UTF8
-(global-auto-revert-mode +1)            ;; Auto revert to disk changes, do we really want this ??
-(global-hl-line-mode +1)                ;; Highlight current line.
-(delete-selection-mode +1)              ;; Delete selected region before inserting.
+;; better scrolling experience.
+(pixel-scroll-precision-mode +1)
+
+;; Wrap long lines
+(toggle-truncate-lines -1)
+
+;; Don't choke on minified code.
+(global-so-long-mode +1)
+
+;; Always use UTF8
+(set-default-coding-systems 'utf-8)
+
+;; Auto revert to disk changes, do we really want this ??
+(global-auto-revert-mode +1)
+
+;; Highlight current line.
+(global-hl-line-mode +1)
+
+;; Delete selected region before inserting.
+(delete-selection-mode +1)
+
+;; Don't blink the paren matching the one at point, it's too distracting.
+(setq blink-matching-paren nil)
+
+;; Don't stretch the cursor to fit wide characters, it is disorienting,
+;; especially for tabs.
+(setq x-stretch-cursor nil)
+
+;; Allow for minibuffer-ception. Sometimes we need another minibuffer command
+;; while we're in the minibuffer.
+(setq enable-recursive-minibuffers t)
+
+;; Show current key-sequence in minibuffer ala 'set showcmd' in vim. Any
+;; feedback after typing is better UX than no feedback at all.
+(setq echo-keystrokes 0.02)
+;; Explicitly define a width to reduce the cost of on-the-fly computation
+(setq-default display-line-numbers-width 3)
+
+;; Show absolute line numbers for narrowed regions to make it easier to tell the
+;; buffer is narrowed, and where you are, exactly.
+(setq-default display-line-numbers-widen t)
+(global-display-line-numbers-mode +1)
+
+;; no emacs ~ backup files
+(setq make-backup-files nil)
+
+;; Don't prompt if encounter a symlink file, just follow the link.
+(setq vc-follow-symlinks t)
+
+;; Using C-l always puts cursor at the middle.
+(setq recenter-positions '(middle))
+
+(setq kill-whole-line t)
+
 
 (use-package string-inflection :ensure t)
-(use-package multiple-cursors :ensure t)
+(use-package multiple-cursors :ensure t
+  :bind
+  (("C-S-n" . mc/mark-next-like-this)
+   ("C-S-p" . mc/mark-previous-like-this)))
 
 (defun jump-up ()
   (interactive)
@@ -99,7 +196,6 @@
 (GLOBAL         (kbd "M-n")             'jump-down)
 (GLOBAL         (kbd "M-p")             'jump-up)
 (GLOBAL         (kbd "M-k")             'kill-current-buffer)
-(global-set-key (kbd "C-j")             'completion-at-point)
 (global-set-key (kbd "M-q")             'quoted-insert)
 (global-set-key (kbd "C-o")             'other-window)
 (GLOBAL         (kbd "M-r")             'replace-regexp)
@@ -116,9 +212,13 @@
 (defun RELOAD ()  (interactive) (load-file INIT-FILE))
 
 ;; @Font
+(setq
+ font-size 11
+ font-family "")
+
 (setq font-families (font-family-list))
 (defun load-font (font size) "Set font" (interactive (list (completing-read "Font: " font-families) (read-number "Size: ")))
-       (setq current-font-family font)
+       (setq font-family font)
        (setq font-size size)
        (set-face-attribute 'default nil :font (format "%s-%d" font size)))
 
@@ -126,9 +226,14 @@
        (setq font-size size)
        (load-font current-font-family font-size))
 
-(load-font "Fira Code" 15)
+(load-font "Hack" 15)
 
 ;; @Splits
+;; UX: Favor vertical splits over horizontal ones. Monitors are trending toward
+;;   wide, rather than tall.
+(setq split-width-threshold 160
+      split-height-threshold nil)
+
 (GLOBAL         (kbd "C-0")             'delete-window-and-balance)
 (GLOBAL         (kbd "C-1")             'delete-other-windows)
 (GLOBAL         (kbd "C-2")             'split-window-below-balance-and-switch)
@@ -157,6 +262,11 @@
          (untabify (point-min) (point-max))))
 
 ;; @Completion
+(setq completion-category-defaults nil
+      completion-category-overrides '((file (styles partial-completion))))
+
+(global-set-key (kbd "C-j")             'completion-at-point)
+
 (use-package corfu :ensure t
   :init
   (setq corfu-auto t)
@@ -180,6 +290,7 @@
 (use-package embark         :ensure t)
 (use-package embark-consult :ensure t)
 (use-package consult-eglot  :ensure t)
+(use-package marginalia     :ensure t :config (marginalia-mode +1))
 (use-package minibuffer :after embark :bind (:map minibuffer-mode-map ("C-;" . embark-export)))
 
 
@@ -187,20 +298,20 @@
 (use-package xref
   :bind
   ((("M-."  .  'xref-find-definitions))
-     (("M-,"  . 'xref-go-back))
-     (("M-?"  . 'xref-find-references))
-     (("M-/"  . 'xref-find-references))))
+   (("M-,"  . 'xref-go-back))
+   (("M-?"  . 'xref-find-references))
+   (("M-/"  . 'xref-find-references))))
 
 (use-package eglot
   :ensure t
   :bind
   (:map eglot-mode-map
-	
-	(("C-c C-r" . 'eglot-rename)
-	("M-RET"    . 'eglot-organize-imports-format)
-	("C-c C-c"  . 'eglot-code-actions)))
+
+        (("C-c C-r" . 'eglot-rename)
+         ("M-RET"    . 'eglot-organize-imports-format)
+         ("C-c C-c"  . 'eglot-code-actions)))
   :init
-  (setq 
+  (setq
    eldoc-echo-area-use-multiline-p nil
    eglot-ignored-server-capabilities '( ;; Disable fancy LSP features.
                                        :documentHighlightProvider           ;; "Highlight symbols automatically"
@@ -229,6 +340,10 @@
 (use-package php-mode  :ensure t)
 
 ;; @Compile and @grep
+(setq compilation-always-kill t       ; kill compilation process before starting another
+      compilation-ask-about-save nil  ; save all buffers on `compile'
+      compilation-scroll-output 'first-error)
+
 (GLOBAL (kbd "M-m")   'compile-project)
 (GLOBAL (kbd "C-M-s") 'grep-project)
 
