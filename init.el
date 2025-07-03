@@ -149,8 +149,8 @@
 
 (setq kill-whole-line t)
 
-
 (use-package string-inflection :ensure t)
+
 (use-package multiple-cursors :ensure t
   :bind
   (("C-S-n" . mc/mark-next-like-this)
