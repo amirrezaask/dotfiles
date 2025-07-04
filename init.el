@@ -88,13 +88,10 @@
 (add-to-list 'exec-path "/usr/local/bin")
 (if is-windows (setenv "PATH" (string-join exec-path ";")) (setenv "PATH" (string-join exec-path ":"))) ;; set emacs process PATH
 
-;; @Theme @UI
+;; Load all themes without asking for permission.
 (setq custom-safe-themes t)
 
-(ensure-package 'all-the-icons)
-
 (ensure-package-vc 'amirrezathemes '(:url "https://github.com/amirrezaask/amirrezathemes"))
-
 (add-to-list 'custom-theme-load-path (expand-file-name "amirrezathemes" (expand-file-name "elpa" user-emacs-directory)))
 
 (ensure-package 'ef-themes)
@@ -195,7 +192,6 @@
 (global-set-key   (kbd "C-;")             'goto-line)
 (global-set-key   (kbd "C-w")             'cut) ;; modern cut
 (global-set-key   (kbd "C-z")             'undo) ;; undo
-(global-set-key   (kbd "M-z")             'undo) ;; undo
 (global-set-key   (kbd "C-SPC")           'set-mark-command) ;; Visual selection
 (global-set-key   (kbd "M-w")             'copy) ;; modern copy
 (global-set-key   (kbd "C-x i")           'EDIT) ;; Edit this file.
@@ -209,7 +205,6 @@
 (GLOBAL           (kbd "C-=")             'text-scale-increase)
 (GLOBAL           (kbd "M-n")             'jump-down)
 (GLOBAL           (kbd "M-p")             'jump-up)
-(GLOBAL           (kbd "M-k")             'kill-current-buffer)
 (global-set-key   (kbd "M-q")             'quoted-insert)
 (global-set-key   (kbd "C-o")             'other-window)
 (GLOBAL           (kbd "M-r")             'replace-regexp)
@@ -227,10 +222,8 @@
 
 (defun RELOAD ()  (interactive) (load-file INIT-FILE))
 
-;; @Font
-(setq
- font-size 11
- font-family "")
+(defvar font-size)
+(defvar font-family)
 
 (setq font-families (font-family-list))
 (defun load-font (font size) "Set font" (interactive (list (completing-read "Font: " font-families) (read-number "Size: ")))
@@ -249,10 +242,10 @@
 (setq split-width-threshold 160
       split-height-threshold nil)
 
-(global-set-key         (kbd "C-0")             'delete-window-and-balance)
-(global-set-key         (kbd "C-1")             'delete-other-windows)
-(global-set-key         (kbd "C-2")             'split-window-below-balance-and-switch)
-(global-set-key         (kbd "C-3")             'split-window-right-balance-and-switch)
+(global-set-key (kbd "C-0") 'delete-window-and-balance)
+(global-set-key (kbd "C-1") 'delete-other-windows)
+(global-set-key (kbd "C-2") 'split-window-below-balance-and-switch)
+(global-set-key (kbd "C-3") 'split-window-right-balance-and-switch)
 
 (defun split-window-right-balance-and-switch () (interactive)
        (split-window-right)
@@ -277,7 +270,6 @@
          (indent-region (point-min) (point-max) nil)
          (untabify (point-min) (point-max))))
 
-;; @Completion
 (setq completion-category-defaults nil
       completion-category-overrides '((file (styles partial-completion))))
 
@@ -374,7 +366,9 @@
   (define-key grep-mode-map (kbd "k")    'kill-compilation)
   (define-key grep-mode-map (kbd "G")    (lambda () (interactive) (recompile t))))
 
-(defun find-project-root-or-default-directory () (or (locate-dominating-file default-directory ".git") default-directory))
+(defun find-project-root-or-default-directory () 
+  (or (locate-dominating-file default-directory ".git") default-directory))
+
 (defun compile-project (&optional EDIT-COMMAND)
   (interactive "P")
   (let ((default-directory (find-project-root-or-default-directory)))
