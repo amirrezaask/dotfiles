@@ -48,23 +48,14 @@
 ;; Distracting
 (blink-cursor-mode -1)                  
 
-
 (when load-file-name ;; since windows is a bit funky I prefer to store this file path in a variable to be used when C-x i
   (setq INIT-FILE load-file-name)
   (setq amirreza-emacs-directory (file-name-directory INIT-FILE))
   (setq custom-file (expand-file-name "custom.el" amirreza-emacs-directory)))
 
+(defun EDIT () "Edit this file." (interactive) (find-file INIT-FILE))
 
-;; @Overrides: minor mode to register keys that I want to override in all other modes.
-(defvar global-override-keys (make-sparse-keymap))
-(define-minor-mode global-override-mode ""
-  :global t
-  :lighter " GlobalOverride"
-  :init-value t
-  :keymap global-override-keys)
-
-(global-override-mode +1)
-(defun GLOBAL (KBD ACTION) (define-key global-override-keys KBD ACTION))
+(global-set-key (kbd "C-x i") 'EDIT) ;; Edit this file.
 
 ;; Visit files opened outside of Emacs in existing frame, not a new one
 (setq ns-pop-up-frames nil)
@@ -187,38 +178,41 @@
            (kill-region (region-beginning) (region-end)) ;; copy active region contents
          (kill-region (line-beginning-position) (line-end-position)))) ;; copy current line
 
-(global-set-key   (kbd "C-;")             'goto-line)
+(global-set-key   (kbd "C-;")             'goto-line) ;; 
 (global-set-key   (kbd "C-w")             'cut) ;; modern cut
 (global-set-key   (kbd "C-z")             'undo) ;; undo
-(global-set-key   (kbd "C-SPC")           'set-mark-command) ;; Visual selection
 (global-set-key   (kbd "M-w")             'copy) ;; modern copy
-(global-set-key   (kbd "C-x i")           'EDIT) ;; Edit this file.
-(global-set-key   (kbd "M-[")             'kmacro-start-macro)
-(global-set-key   (kbd "M-]")             'kmacro-end-or-call-macro)
-(global-set-key   (kbd "M-\\")            'kmacro-end-and-call-macro)
+(global-set-key   (kbd "C-SPC")           'set-mark-command) ;; Visual selection
 (global-set-key   (kbd "M-RET")           'indent-buffer) ;; Format buffer
 (global-set-key   (kbd "C-/")             'comment-line) ;; Comment
 (global-set-key   (kbd "C-<return>")      'save-buffer)
-(GLOBAL           (kbd "C--")             'text-scale-decrease)
-(GLOBAL           (kbd "C-=")             'text-scale-increase)
-(GLOBAL           (kbd "M-n")             'jump-down)
-(GLOBAL           (kbd "M-p")             'jump-up)
+
+(global-set-key   (kbd "M-n")             'jump-down)
+(global-set-key   (kbd "M-p")             'jump-up)
 (global-set-key   (kbd "M-q")             'quoted-insert)
-(global-set-key   (kbd "C-o")             'other-window)
-(GLOBAL           (kbd "M-r")             'replace-regexp)
-(GLOBAL           (kbd "M-s")             'consult-ripgrep)
-(GLOBAL           (kbd "M-o")             'project-find-file)
+(global-set-key   (kbd "M-o")             'project-find-file)
+
 (global-unset-key (kbd "M-z")) 
 (global-unset-key (kbd "M-l")) 
 
 
-(with-eval-after-load 'replace
-  (define-key query-replace-map (kbd "<return>") 'act))
+;; Searching related stuff
+(global-set-key (kbd "M-s") 'consult-line)
+(global-set-key (kbd "C-x p s") 'consult-ripgrep)
+
+;; search/replace
+(with-eval-after-load 'replace (define-key query-replace-map (kbd "<return>") 'act))
+(global-set-key (kbd "M-r") 'replace-regexp)
 
 
-(defun EDIT () "Edit this file." (interactive) (find-file INIT-FILE))
+;; macros, i don't use but let's have better keys 
+(global-set-key   (kbd "M-[")             'kmacro-start-macro)
+(global-set-key   (kbd "M-]")             'kmacro-end-or-call-macro)
+(global-set-key   (kbd "M-\\")            'kmacro-end-and-call-macro)
 
-(defun RELOAD ()  (interactive) (load-file INIT-FILE))
+
+(global-set-key   (kbd "C--")             'text-scale-decrease)
+(global-set-key   (kbd "C-=")             'text-scale-increase)
 
 (defvar font-size)
 (defvar font-family)
@@ -240,6 +234,7 @@
 (setq split-width-threshold 160
       split-height-threshold nil)
 
+(global-set-key (kbd "C-o") 'other-window)
 (global-set-key (kbd "C-0") 'delete-window-and-balance)
 (global-set-key (kbd "C-1") 'delete-other-windows)
 (global-set-key (kbd "C-2") 'split-window-below-balance-and-switch)
@@ -353,8 +348,8 @@
 ;; scroll to first error in compile buffer.
 (setq compilation-scroll-output 'first-error)
 
-(GLOBAL (kbd "M-m")   'compile-project)
-(GLOBAL (kbd "C-M-s") 'grep-project)
+(global-set-key (kbd "M-m")   'compile-project)
+(global-set-key (kbd "C-M-s") 'grep-project)
 
 (with-eval-after-load 'compile
   (define-key compilation-mode-map (kbd "k")    'kill-compilation)
