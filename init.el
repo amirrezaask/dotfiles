@@ -80,7 +80,7 @@
 ;; Load all themes without asking for permission.
 (setq custom-safe-themes t)
 
-(ensure-package-vc 'amirrezathemes '(:url "https://github.com/amirrezaask/amirrezathemes"))
+(ensure-package-vc 'amirrezathemes  '(:url "https://github.com/amirrezaask/amirrezathemes"))
 (add-to-list 'custom-theme-load-path (expand-file-name "amirrezathemes" (expand-file-name "elpa" user-emacs-directory)))
 
 (ensure-package 'ef-themes)
@@ -185,7 +185,8 @@
 (global-set-key (kbd "C-w") 'cut) ;; modern cut
 (global-set-key (kbd "C-z") 'undo) ;; undo
 (global-set-key (kbd "M-w") 'copy) ;; modern copy
-
+(global-set-key (kbd "C-/") 'comment-line) ;; Comment
+(global-set-key (kbd "C-<return>") 'save-buffer)
 
 (global-set-key (kbd "C-;") 'goto-line) ;;
 
@@ -193,21 +194,20 @@
 
 (global-set-key (kbd "M-RET") 'indent-buffer) ;; Format buffer
 
-(global-set-key (kbd "C-/") 'comment-line) ;; Comment
-
-(global-set-key (kbd "C-<return>") 'save-buffer)
-
 (global-set-key   (kbd "M-n") 'jump-down)
 (global-set-key   (kbd "M-p") 'jump-up)
+
 (global-set-key   (kbd "M-q") 'quoted-insert)
-(global-set-key   (kbd "M-o") 'project-find-file)
+
+(global-set-key   (kbd "C-x p f") 'project-find-file)
+(global-set-key   (kbd "M-o")     'project-find-file)
 
 (global-unset-key (kbd "M-z"))
 (global-unset-key (kbd "M-l"))
 
 
 ;; Searching related stuff
-(global-set-key (kbd "M-s") 'consult-line)
+(global-set-key (kbd "M-s")     'consult-line)
 (global-set-key (kbd "C-x p s") 'consult-ripgrep)
 
 ;; search/replace
@@ -273,11 +273,10 @@
          (indent-region (point-min) (point-max) nil)
          (untabify (point-min) (point-max))))
 
-(setq completion-category-defaults nil
-      completion-category-overrides '((file (styles partial-completion))))
 
-(global-set-key (kbd "C-j")             'completion-at-point)
+(global-set-key (kbd "C-j") 'completion-at-point)
 
+;; corfu will help us with autocomplete inline.
 (ensure-package 'corfu)
 (setq corfu-auto t)
 (setq corfu-preselect 'prompt)
@@ -286,9 +285,13 @@
 (ensure-package 'orderless)
 (setq completion-styles '(orderless basic))
 
+;; vertico greatly enhances emacs minibuffer completion facilities but stays compatible with emacs *completion-read-function*.
 (ensure-package 'vertico)
 (setq vertico-count 15)
 (vertico-mode +1)
+
+(setq completion-category-defaults nil
+      completion-category-overrides '((file (styles partial-completion))))
 
 (ensure-package 'consult)
 
@@ -340,7 +343,7 @@
 
 (defun eglot-organize-imports-format () (interactive) (eglot-format) (eglot-organize-imports))
 
-
+;; installing support for languages, hopefuly emacs will start shipping all needed tressitter parsers soon and I can remove these.
 (ensure-package 'json-mode)
 (ensure-package 'yaml-mode)
 (ensure-package 'go-mode)
