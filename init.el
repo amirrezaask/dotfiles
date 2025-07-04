@@ -21,17 +21,15 @@
 (setq native-comp-async-report-warnings-errors nil)
 
 ;; Set package mirrors.
-(setq package-archives '(("gnu-elpa"  . "https://elpa.gnu.org/packages/") ("melpa"    . "https://melpa.org/packages/")))
+(setq package-archives '(("gnu-elpa" . "https://elpa.gnu.org/packages/")
+			 ("melpa"    . "https://melpa.org/packages/")))
 
 (defun ensure-package (package) "Ensures a package is installed through package.el"
        (unless (package-installed-p package) (package-install package)))
 
 (defun ensure-package-vc (package repo) (unless (package-installed-p package) (package-vc-install package repo)))
 
-
 (setq-default ring-bell-function 'ignore)
-
-(setq redisplay-dont-pause t)
 
 (setq mac-command-modifier 'meta)
 
@@ -341,7 +339,7 @@
 
 (ensure-package 'json-mode)
 (ensure-package 'yaml-mode)
-(ensure-package 'go-mode  )
+(ensure-package 'go-mode)
 (ensure-package 'rust-mode)
 (ensure-package 'php-mode )
 
