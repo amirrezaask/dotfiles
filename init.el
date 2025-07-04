@@ -1,3 +1,5 @@
+(setq debug-on-error nil)
+
 ;; Don't resize the frames in steps; it looks weird, especially in tiling window
 ;; managers, where it can leave unseemly gaps.
 (setq frame-resize-pixelwise t)
@@ -21,6 +23,11 @@
 ;; Set package mirrors.
 (setq package-archives '(("gnu-elpa"  . "https://elpa.gnu.org/packages/") ("melpa"    . "https://melpa.org/packages/")))
 
+(defun ensure-package (package) "Ensures a package is installed through package.el"
+       (unless (package-installed-p package) (package-install package)))
+
+(defun ensure-package-vc (package repo) (unless (package-installed-p package) (package-vc-install package repo)))
+
 
 (setq-default ring-bell-function 'ignore)
 
@@ -33,11 +40,15 @@
       is-linux (eq system-type 'gnu/linux)
       is-macos (eq system-type 'darwin))
 
+ 
+(menu-bar-mode -1)
 
-(unless (eq system-type 'darwin) (menu-bar-mode -1))
 (scroll-bar-mode -1)
+
 (tool-bar-mode -1)
-(blink-cursor-mode -1)                  ;; Distracting
+
+;; Distracting
+(blink-cursor-mode -1)                  
 
 
 (when load-file-name ;; since windows is a bit funky I prefer to store this file path in a variable to be used when C-x i
@@ -61,10 +72,9 @@
 (setq ns-pop-up-frames nil)
 
 ;; In macos set title bar color automatically everytime background color of emacs changes.
-(use-package ns-auto-titlebar :ensure t
-  :if (eq system-type 'darwin)
-  :config (ns-auto-titlebar-mode +1))
-
+(when is-macos
+  (ensure-package 'ns-auto-titlebar)
+  (ns-auto-titlebar-mode +1))
 
 
 ;; Add directory to exec-path and also set emacs process PATH variable.
@@ -76,21 +86,21 @@
 (add-to-list 'exec-path "/usr/local/go/bin")
 (add-to-list 'exec-path "/opt/homebrew/bin")
 (add-to-list 'exec-path "/usr/local/bin")
-(if (eq system-type 'windows-nt) (setenv "PATH" (string-join exec-path ";")) (setenv "PATH" (string-join exec-path ":"))) ;; set emacs process PATH
-
+(if is-windows (setenv "PATH" (string-join exec-path ";")) (setenv "PATH" (string-join exec-path ":"))) ;; set emacs process PATH
 
 ;; @Theme @UI
 (setq custom-safe-themes t)
 
-(use-package nerd-icons :ensure t)
+(ensure-package 'all-the-icons)
 
-(use-package amirrezathemes
-  :defer t
-  :init (add-to-list 'custom-theme-load-path (expand-file-name "amirrezathemes" (expand-file-name "elpa" user-emacs-directory)))
-  :vc (:url "https://github.com/amirrezaask/amirrezathemes"))
+(ensure-package-vc 'amirrezathemes '(:url "https://github.com/amirrezaask/amirrezathemes"))
 
-(use-package ef-themes :ensure t)
-(use-package doom-themes :ensure t)
+(add-to-list 'custom-theme-load-path (expand-file-name "amirrezathemes" (expand-file-name "elpa" user-emacs-directory)))
+
+(ensure-package 'ef-themes)
+
+(ensure-package 'doom-themes)
+
 (defadvice load-theme (before disable-themes-first activate)
   (dolist (i custom-enabled-themes)
     (disable-theme i)))
@@ -132,12 +142,15 @@
 ;; Show current key-sequence in minibuffer ala 'set showcmd' in vim. Any
 ;; feedback after typing is better UX than no feedback at all.
 (setq echo-keystrokes 0.02)
+
 ;; Explicitly define a width to reduce the cost of on-the-fly computation
 (setq-default display-line-numbers-width 3)
 
 ;; Show absolute line numbers for narrowed regions to make it easier to tell the
 ;; buffer is narrowed, and where you are, exactly.
 (setq-default display-line-numbers-widen t)
+
+;; Enable line numbers globally.
 (global-display-line-numbers-mode +1)
 
 ;; no emacs ~ backup files
@@ -151,12 +164,13 @@
 
 (setq kill-whole-line t)
 
-(use-package string-inflection :ensure t)
+(ensure-package 'string-inflection)
 
-(use-package multiple-cursors :ensure t
-  :bind
-  (("C-S-n" . mc/mark-next-like-this)
-   ("C-S-p" . mc/mark-previous-like-this)))
+;; Multiple cursor support in Emacs.
+;; TODO: Add keys or alias for matching word under cursor.
+(ensure-package 'multiple-cursors)
+(global-set-key (kbd "C-S-n") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-S-p") 'mc/mark-previous-like-this)
 
 (defun jump-up ()
   (interactive)
@@ -230,16 +244,16 @@
 
 (load-font "Hack" 15)
 
-;; @Splits
 ;; UX: Favor vertical splits over horizontal ones. Monitors are trending toward
 ;;   wide, rather than tall.
 (setq split-width-threshold 160
       split-height-threshold nil)
 
-(GLOBAL         (kbd "C-0")             'delete-window-and-balance)
-(GLOBAL         (kbd "C-1")             'delete-other-windows)
-(GLOBAL         (kbd "C-2")             'split-window-below-balance-and-switch)
-(GLOBAL         (kbd "C-3")             'split-window-right-balance-and-switch)
+(global-set-key         (kbd "C-0")             'delete-window-and-balance)
+(global-set-key         (kbd "C-1")             'delete-other-windows)
+(global-set-key         (kbd "C-2")             'split-window-below-balance-and-switch)
+(global-set-key         (kbd "C-3")             'split-window-right-balance-and-switch)
+
 (defun split-window-right-balance-and-switch () (interactive)
        (split-window-right)
        (balance-windows)
@@ -269,83 +283,85 @@
 
 (global-set-key (kbd "C-j")             'completion-at-point)
 
-(use-package corfu :ensure t
-  :init
-  (setq corfu-auto t)
-  (setq corfu-preselect 'prompt)
-  :config
-  (global-corfu-mode +1))
+(ensure-package 'corfu)
+(setq corfu-auto t)
+(setq corfu-preselect 'prompt)
+(global-corfu-mode +1)
 
-(use-package orderless
-  :ensure t
-  :config
-  (setq completion-styles '(orderless basic)))
+(ensure-package 'orderless)
+(setq completion-styles '(orderless basic))
 
-(use-package vertico
-  :ensure t
-  :init
-  (setq vertico-count 15)
-  :config
-  (vertico-mode +1))
+(ensure-package 'vertico)
+(setq vertico-count 15)
+(vertico-mode +1)
 
-(use-package consult        :ensure t)
-(use-package embark         :ensure t)
-(use-package embark-consult :ensure t)
-(use-package consult-eglot  :ensure t)
-(use-package marginalia     :ensure t :config (marginalia-mode +1))
-(use-package minibuffer :after embark :bind (:map minibuffer-mode-map ("C-;" . embark-export)))
+(ensure-package 'consult)
+
+(ensure-package 'embark)
+(ensure-package 'embark-consult)
+
+(ensure-package 'consult-eglot)
+
+(ensure-package 'marginalia)
+(marginalia-mode +1)
+
+(with-eval-after-load 'minibuffer
+  (define-key minibuffer-mode-map (kbd "C-;") 'embark-export))
 
 
-;; @LSP @IDE
-(use-package xref
-  :bind
-  ((("M-."  .  'xref-find-definitions))
-   (("M-,"  . 'xref-go-back))
-   (("M-?"  . 'xref-find-references))
-   (("M-/"  . 'xref-find-references))))
+;; xref is emacs infrastructure that provides functionality to jump to definition, references, ...
+(global-set-key (kbd "M-.") 'xref-find-definitions)
+(global-set-key (kbd "M-,") 'xref-go-back)
+(global-set-key (kbd "M-?") 'xref-find-references)
+(global-set-key (kbd "M-/") 'xref-find-references)
 
-(use-package eglot
-  :ensure t
-  :bind
-  (:map eglot-mode-map
-
-        (("C-c C-r" . 'eglot-rename)
-         ("M-RET"    . 'eglot-organize-imports-format)
-         ("C-c C-c"  . 'eglot-code-actions)))
-  :init
-  (setq
-   eldoc-echo-area-use-multiline-p nil
-   eglot-ignored-server-capabilities '( ;; Disable fancy LSP features.
-                                       :documentHighlightProvider           ;; "Highlight symbols automatically"
-                                       :documentOnTypeFormattingProvider    ;; "On-type formatting"
-                                       :documentLinkProvider                ;; "Highlight links in document"
-                                       :colorProvider                       ;; "Decorate color references"
-                                       :foldingRangeProvider                ;; "Fold regions of buffer"
-                                       :executeCommandProvider              ;; "Execute custom commands"
-                                       :inlayHintProvider                   ;; "Inlay hints"
-                                       )
-   eglot-stay-out-of '(project flymake) ;; Don't polute buffer with flymake diganostics.
-   eglot-sync-connect nil               ;; no blocking on waiting for the server to start.
-   eglot-events-buffer-size 0           ;; no logging of LSP events.
-   )
-  (dolist (mode '(go rust php)) ;; Enable LSP automatically.
-    (add-hook (intern (concat (symbol-name mode) "-mode-hook")) #'eglot-ensure))
-  (with-eval-after-load 'eglot (add-to-list 'eglot-server-programs '(php-mode . ("intelephense" "--stdio")))) ;; PHP language server intelephense
-  (defun eglot-organize-imports () (interactive) (eglot-code-actions nil nil "source.organizeImports" t))
-  (defun eglot-organize-imports-format () (interactive) (eglot-format) (eglot-organize-imports)))
-
-;; @Languages modes
-(use-package json-mode :ensure t)
-(use-package yaml-mode :ensure t)
-(use-package go-mode   :ensure t)
-(use-package rust-mode :ensure t)
-(use-package php-mode  :ensure t)
-
-;; @Compile and @grep
-(setq compilation-always-kill t              ;; kill compilation process before starting another
-      compilation-ask-about-save nil         ;; save all buffers on `compile'
-      compilation-scroll-output 'first-error ;; scroll to first error in compile buffer.
+;; eglot is Emacs built-in LSP client.
+(ensure-package 'eglot)
+(with-eval-after-load 'eglot
+  (define-key eglot-mode-map (kbd "C-c C-r") 'eglot-rename)
+  (define-key eglot-mode-map (kbd "M-RET")   'eglot-organize-imports-format)
+  (define-key eglot-mode-map (kbd "C-c C-c") 'eglot-code-actions)
+  )
+(setq eldoc-echo-area-use-multiline-p nil
+      eglot-ignored-server-capabilities '( ;; Disable fancy LSP features.
+					  :documentHighlightProvider           ;; "Highlight symbols automatically"
+					  :documentOnTypeFormattingProvider    ;; "On-type formatting"
+					  :documentLinkProvider                ;; "Highlight links in document"
+					  :colorProvider                       ;; "Decorate color references"
+					  :foldingRangeProvider                ;; "Fold regions of buffer"
+					  :executeCommandProvider              ;; "Execute custom commands"
+					  :inlayHintProvider                   ;; "Inlay hints"
+					  )
+      eglot-stay-out-of '(project flymake) ;; Don't polute buffer with flymake diganostics.
+      eglot-sync-connect nil               ;; no blocking on waiting for the server to start.
+      eglot-events-buffer-size 0           ;; no logging of LSP events.
       )
+
+(dolist (mode '(go rust php)) ;; Enable LSP automatically.
+  (add-hook (intern (concat (symbol-name mode) "-mode-hook")) #'eglot-ensure))
+
+(with-eval-after-load 'eglot (add-to-list 'eglot-server-programs '(php-mode . ("intelephense" "--stdio")))) ;; PHP language server intelephense
+
+(defun eglot-organize-imports () (interactive) (eglot-code-actions nil nil "source.organizeImports" t))
+
+(defun eglot-organize-imports-format () (interactive) (eglot-format) (eglot-organize-imports))
+
+
+(ensure-package 'json-mode)
+(ensure-package 'yaml-mode)
+(ensure-package 'go-mode  )
+(ensure-package 'rust-mode)
+(ensure-package 'php-mode )
+
+
+ ;; kill compilation process before starting another
+(setq compilation-always-kill t)
+
+;; save all buffers on `compile'
+(setq compilation-ask-about-save nil)
+
+;; scroll to first error in compile buffer.
+(setq compilation-scroll-output 'first-error)
 
 (GLOBAL (kbd "M-m")   'compile-project)
 (GLOBAL (kbd "C-M-s") 'grep-project)

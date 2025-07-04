@@ -11,8 +11,5 @@
   { "key": "cmd+l cmd+r",         "command": "editor.action.goToReferences",       "when": "editorHasReferenceProvider && editorTextFocus" },
   { "key": "cmd+l cmd+i",         "command": "editor.action.goToImplementation",   "when": "editorHasImplementationProvider && editorTextFocus" },
   { "key": "cmd+l cmd+n",         "command": "editor.action.rename",               "when": "editorHasRenameProvider && editorTextFocus && !editorReadonly" },
-  { "key": "cmd+l cmd+f",         "command": "editor.action.quickFix",             "when": "editorHasCodeActionsProvider && textInputFocus && !editorReadonly" },
   { "key": "cmd+,",               "command": "workbench.action.navigateBack",      },
-  { "key": "cmd+2",               "command": "workbench.action.gotoSymbol" },
-  { "key": "cmd+shift+2",         "command": "workbench.action.showAllSymbols" }
 ]
