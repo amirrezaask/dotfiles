@@ -22,7 +22,7 @@
 
 ;; Set package mirrors.
 (setq package-archives '(("gnu-elpa" . "https://elpa.gnu.org/packages/")
-			 ("melpa"    . "https://melpa.org/packages/")))
+                         ("melpa"    . "https://melpa.org/packages/")))
 
 (defun ensure-package (package) "Ensures a package is installed through package.el"
        (unless (package-installed-p package) (package-install package)))
@@ -38,7 +38,7 @@
       is-linux (eq system-type 'gnu/linux)
       is-macos (eq system-type 'darwin))
 
- 
+
 (menu-bar-mode -1)
 
 (scroll-bar-mode -1)
@@ -46,7 +46,7 @@
 (tool-bar-mode -1)
 
 ;; Distracting
-(blink-cursor-mode -1)                  
+(blink-cursor-mode -1)
 
 (when load-file-name ;; since windows is a bit funky I prefer to store this file path in a variable to be used when C-x i
   (setq INIT-FILE load-file-name)
@@ -91,7 +91,10 @@
   (dolist (i custom-enabled-themes)
     (disable-theme i)))
 
-(load-theme 'doom-one t)
+(setq ef-bio-palette-overrides ;; better color background for ef-bio
+      '((bg-main "#052525")))
+
+(load-theme 'ef-bio t)
 
 ;; better scrolling experience.
 (pixel-scroll-precision-mode +1)
@@ -178,22 +181,29 @@
            (kill-region (region-beginning) (region-end)) ;; copy active region contents
          (kill-region (line-beginning-position) (line-end-position)))) ;; copy current line
 
-(global-set-key   (kbd "C-;")             'goto-line) ;; 
-(global-set-key   (kbd "C-w")             'cut) ;; modern cut
-(global-set-key   (kbd "C-z")             'undo) ;; undo
-(global-set-key   (kbd "M-w")             'copy) ;; modern copy
-(global-set-key   (kbd "C-SPC")           'set-mark-command) ;; Visual selection
-(global-set-key   (kbd "M-RET")           'indent-buffer) ;; Format buffer
-(global-set-key   (kbd "C-/")             'comment-line) ;; Comment
-(global-set-key   (kbd "C-<return>")      'save-buffer)
+;; 2025 cut/copy/paste
+(global-set-key (kbd "C-w") 'cut) ;; modern cut
+(global-set-key (kbd "C-z") 'undo) ;; undo
+(global-set-key (kbd "M-w") 'copy) ;; modern copy
 
-(global-set-key   (kbd "M-n")             'jump-down)
-(global-set-key   (kbd "M-p")             'jump-up)
-(global-set-key   (kbd "M-q")             'quoted-insert)
-(global-set-key   (kbd "M-o")             'project-find-file)
 
-(global-unset-key (kbd "M-z")) 
-(global-unset-key (kbd "M-l")) 
+(global-set-key (kbd "C-;") 'goto-line) ;;
+
+(global-set-key (kbd "C-SPC") 'set-mark-command) ;; Visual selection
+
+(global-set-key (kbd "M-RET") 'indent-buffer) ;; Format buffer
+
+(global-set-key (kbd "C-/") 'comment-line) ;; Comment
+
+(global-set-key (kbd "C-<return>") 'save-buffer)
+
+(global-set-key   (kbd "M-n") 'jump-down)
+(global-set-key   (kbd "M-p") 'jump-up)
+(global-set-key   (kbd "M-q") 'quoted-insert)
+(global-set-key   (kbd "M-o") 'project-find-file)
+
+(global-unset-key (kbd "M-z"))
+(global-unset-key (kbd "M-l"))
 
 
 ;; Searching related stuff
@@ -205,14 +215,14 @@
 (global-set-key (kbd "M-r") 'replace-regexp)
 
 
-;; macros, i don't use but let's have better keys 
-(global-set-key   (kbd "M-[")             'kmacro-start-macro)
-(global-set-key   (kbd "M-]")             'kmacro-end-or-call-macro)
-(global-set-key   (kbd "M-\\")            'kmacro-end-and-call-macro)
+;; macros, i don't use but let's have better keys
+(global-set-key   (kbd "M-[")  'kmacro-start-macro)
+(global-set-key   (kbd "M-]")  'kmacro-end-or-call-macro)
+(global-set-key   (kbd "M-\\") 'kmacro-end-and-call-macro)
 
 
-(global-set-key   (kbd "C--")             'text-scale-decrease)
-(global-set-key   (kbd "C-=")             'text-scale-increase)
+(global-set-key   (kbd "C--") 'text-scale-decrease)
+(global-set-key   (kbd "C-=") 'text-scale-increase)
 
 (defvar font-size)
 (defvar font-family)
@@ -307,20 +317,19 @@
   (define-key eglot-mode-map (kbd "M-RET")   'eglot-organize-imports-format)
   (define-key eglot-mode-map (kbd "C-c C-c") 'eglot-code-actions)
   )
-(setq eldoc-echo-area-use-multiline-p nil
-      eglot-ignored-server-capabilities '( ;; Disable fancy LSP features.
-					  :documentHighlightProvider           ;; "Highlight symbols automatically"
-					  :documentOnTypeFormattingProvider    ;; "On-type formatting"
-					  :documentLinkProvider                ;; "Highlight links in document"
-					  :colorProvider                       ;; "Decorate color references"
-					  :foldingRangeProvider                ;; "Fold regions of buffer"
-					  :executeCommandProvider              ;; "Execute custom commands"
-					  :inlayHintProvider                   ;; "Inlay hints"
-					  )
-      eglot-stay-out-of '(project flymake) ;; Don't polute buffer with flymake diganostics.
-      eglot-sync-connect nil               ;; no blocking on waiting for the server to start.
-      eglot-events-buffer-size 0           ;; no logging of LSP events.
-      )
+(setq eldoc-echo-area-use-multiline-p nil)
+(setq eglot-ignored-server-capabilities '( ;; Disable fancy LSP features.
+                                          :documentHighlightProvider           ;; "Highlight symbols automatically"
+                                          :documentOnTypeFormattingProvider    ;; "On-type formatting"
+                                          :documentLinkProvider                ;; "Highlight links in document"
+                                          :colorProvider                       ;; "Decorate color references"
+                                          :foldingRangeProvider                ;; "Fold regions of buffer"
+                                          :executeCommandProvider              ;; "Execute custom commands"
+                                          :inlayHintProvider                   ;; "Inlay hints"
+                                          ))
+(setq eglot-stay-out-of '(project flymake)) ;; Don't polute buffer with flymake diganostics.
+(setq eglot-sync-connect nil)               ;; no blocking on waiting for the server to start.
+(setq eglot-events-buffer-size 0)           ;; no logging of LSP events.
 
 (dolist (mode '(go rust php)) ;; Enable LSP automatically.
   (add-hook (intern (concat (symbol-name mode) "-mode-hook")) #'eglot-ensure))
@@ -339,7 +348,7 @@
 (ensure-package 'php-mode )
 
 
- ;; kill compilation process before starting another
+;; kill compilation process before starting another
 (setq compilation-always-kill t)
 
 ;; save all buffers on `compile'
@@ -359,7 +368,7 @@
   (define-key grep-mode-map (kbd "k")    'kill-compilation)
   (define-key grep-mode-map (kbd "G")    (lambda () (interactive) (recompile t))))
 
-(defun find-project-root-or-default-directory () 
+(defun find-project-root-or-default-directory ()
   (or (locate-dominating-file default-directory ".git") default-directory))
 
 (defun compile-project (&optional EDIT-COMMAND)
