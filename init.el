@@ -94,7 +94,7 @@
 (setq ef-bio-palette-overrides ;; better color background for ef-bio
       '((bg-main "#052525")))
 
-(load-theme 'ef-bio t)
+(load-theme 'doom-one t)
 
 ;; better scrolling experience.
 (pixel-scroll-precision-mode +1)
@@ -199,6 +199,7 @@
 
 (global-set-key   (kbd "M-q") 'quoted-insert)
 
+;; finding files
 (global-set-key   (kbd "C-x p f") 'project-find-file)
 (global-set-key   (kbd "M-o")     'project-find-file)
 
