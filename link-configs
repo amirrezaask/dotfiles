@@ -27,7 +27,7 @@ ln -s "$DOTFILES_DIR/starship.toml" "$XDG_CONFIG/"
 
 ln -s "$DOTFILES_DIR/home/.zshrc" "$HOME/.zshrc"
 
-ln -s "$DOTFILES_DIR/.gitconfig" "$HOME/.gitconfig"
+ln -s "$DOTFILES_DIR/home/.gitconfig" "$HOME/.gitconfig"
 
 ln -s "$DOTFILES_DIR/xdg_config/nvim" "$XDG_CONFIG/"
 
