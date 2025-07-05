@@ -205,11 +205,18 @@
 ;; Project.el is emacs builtin package to work with projects.
 ;; by default It uses C-x p acs prefix.
 ;; It has functionality to search in project but it's slow, so I use a custom function for that.
-(defun grep-project (&optional EDIT)
+(defun project-grep (&optional EDIT)
   (interactive "P")
   (let ((default-directory (find-project-root-or-default-directory)))
     (grep (format "rg --no-heading --color=\"never\" %s" (read-string "Grep: ")))))
-(define-key project-prefix-map (kbd "g") 'grep-project)
+(define-key project-prefix-map (kbd "C-x p g") 'project-grep)
+
+(setq project-switch-commands
+      '((project-find-file "Find file")
+	(project-find-dir "Find directory")
+	(project-grep "Grep")
+	(project-eshell "Eshell")
+	(magit-project-status "Magit")))
 
 
 ;; kill compilation process before starting another
