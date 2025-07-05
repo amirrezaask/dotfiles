@@ -1,3 +1,5 @@
+;;; Basic configurations
+
 (setq debug-on-error nil)
 
 ;; Don't resize the frames in steps; it looks weird, especially in tiling window
@@ -38,6 +40,7 @@
       is-linux (eq system-type 'gnu/linux)
       is-macos (eq system-type 'darwin))
 
+(blink-cursor-mode -1)
 
 (menu-bar-mode -1)
 
@@ -45,8 +48,9 @@
 
 (tool-bar-mode -1)
 
-;; Distracting
-(blink-cursor-mode -1)
+(fido-vertical-mode +1)
+(keymap-set icomplete-fido-mode-map "TAB" 'icomplete-force-complete)
+
 
 (when load-file-name ;; since windows is a bit funky I prefer to store this file path in a variable to be used when C-x i
   (setq INIT-FILE load-file-name)
@@ -84,17 +88,65 @@
 (add-to-list 'custom-theme-load-path (expand-file-name "amirrezathemes" (expand-file-name "elpa" user-emacs-directory)))
 
 (ensure-package 'ef-themes)
-
 (ensure-package 'doom-themes)
 
 (defadvice load-theme (before disable-themes-first activate)
   (dolist (i custom-enabled-themes)
     (disable-theme i)))
 
+(setopt modus-themes-italic-constructs t
+        modus-themes-bold-constructs t
+        modus-themes-common-palette-overrides
+        `((bg-main "#292D3E")
+          (bg-active bg-main)
+          (fg-main "#EEFFFF")
+          (fg-active fg-main)
+          (fringe unspecified)
+          (border-mode-line-active unspecified)
+          (border-mode-line-inactive unspecified)
+          (fg-mode-line-active "#A6Accd")
+          (bg-mode-line-active "#232635")
+          (fg-mode-line-inactive "#676E95")
+          (bg-mode-line-inactive "#282c3d")
+          (bg-tab-bar      "#242837")
+          (bg-tab-current  bg-main)
+          (bg-tab-other    bg-active)
+          (fg-prompt "#c792ea")
+          (bg-prompt unspecified)
+          (bg-hover-secondary "#676E95")
+          (bg-completion "#2f447f")
+          (fg-completion white)
+          (bg-region "#3C435E")
+          (fg-region white)
+
+          (fg-heading-0 "#82aaff")
+          (fg-heading-1 "#82aaff")
+          (fg-heading-2 "#c792ea")
+          (fg-heading-3 "#bb80b3")
+          (fg-heading-4 "#a1bfff")
+
+          (fg-prose-verbatim "#c3e88d")
+          (bg-prose-block-contents "#232635")
+          (fg-prose-block-delimiter "#676E95")
+          (bg-prose-block-delimiter bg-prose-block-contents)
+
+          (accent-1 "#79a8ff")
+
+          (keyword "#89DDFF")
+          (builtin "#82aaff")
+          (comment "#676E95")
+          (string "#c3e88d")
+          (fnname "#82aaff")
+          (type "#c792ea")
+          (variable "#ffcb6b")
+          (docstring "#8d92af")
+          (constant "#f78c6c")))
+
 (setq ef-bio-palette-overrides ;; better color background for ef-bio
       '((bg-main "#052525")))
 
-(load-theme 'doom-palenight t)
+(load-theme 'modus-vivendi t)
+(custom-set-faces '(highlight ((t (:inherit hl-line)))))
 
 ;; better scrolling experience.
 (pixel-scroll-precision-mode +1)
@@ -161,6 +213,8 @@
 (global-set-key (kbd "C-S-n") 'mc/mark-next-like-this)
 (global-set-key (kbd "C-S-p") 'mc/mark-previous-like-this)
 
+
+;; jump-up/down are utility functions that I use to move around code to emulate C-d/u functionality from vim.
 (defun jump-up ()
   (interactive)
   (next-line (* -1 (/ (window-height) 2))) (recenter-top-bottom))
@@ -200,6 +254,28 @@
 (global-set-key   (kbd "M-q") 'quoted-insert)
 
 (global-set-key (kbd "M-s")  'consult-line)
+
+; Clean up the modeline.
+(setq-default mode-line-format
+              '("%e" "  "
+                (:propertize
+                 ("" mode-line-mule-info mode-line-client mode-line-modified mode-line-remote))
+                mode-line-frame-identification
+                mode-line-buffer-identification
+                "   "
+                mode-line-position
+                mode-line-format-right-align
+                "  "
+                (project-mode-line project-mode-line-format)
+                " "
+                (vc-mode vc-mode)
+                "  "
+                mode-line-modes
+                mode-line-misc-info
+                "  ")
+              project-mode-line t
+              mode-line-buffer-identification '(" %b")
+              mode-line-position-column-line-format '(" %l:%c"))
 
 
 ;; Project.el is emacs builtin package to work with projects.
@@ -311,27 +387,6 @@
 (setq corfu-auto t)
 (setq corfu-preselect 'prompt)
 (global-corfu-mode +1)
-
-(ensure-package 'orderless)
-(setq completion-styles '(orderless basic))
-
-;; vertico greatly enhances emacs minibuffer completion facilities but stays compatible with emacs *completion-read-function*.
-(ensure-package 'vertico)
-(setq vertico-count 15)
-(vertico-mode +1)
-
-(setq completion-category-defaults nil
-      completion-category-overrides '((file (styles partial-completion))))
-
-(ensure-package 'consult)
-
-(ensure-package 'embark)
-(ensure-package 'embark-consult)
-
-(ensure-package 'consult-eglot)
-
-(ensure-package 'marginalia)
-(marginalia-mode +1)
 
 (with-eval-after-load 'minibuffer
   (define-key minibuffer-mode-map (kbd "C-;") 'embark-export))
