@@ -41,21 +41,24 @@ ln -s "$DOTFILES_DIR/tmux-sessionizer" "$HOME/.tmux-sessionizer"
 if [ -d "$HOME/Library/Application Support/Cursor" ]; then
   rm -rf "$HOME/Library/Application Support/Cursor/User/keybindings.json"
   rm -rf "$HOME/Library/Application Support/Cursor/User/settings.json"
-  ln -s "$DOTFILES_DIR/vscode-keybindings.json" "$HOME/Library/Application Support/Cursor/User/keybindings.json"
-  ln -s "$DOTFILES_DIR/vscode-settings.json" "$HOME/Library/Application Support/Cursor/User/settings.json"
+
+  ln -s "$DOTFILES_DIR/xdg_config/Code/vscode-keybindings.json" "$HOME/Library/Application Support/Cursor/User/keybindings.json"
+  ln -s "$DOTFILES_DIR/xdg_config/Code/vscode-settings.json" "$HOME/Library/Application Support/Cursor/User/settings.json"
 fi
 
 if [ -d "$HOME/Library/Application Support/Code" ]; then
   rm -rf "$HOME/Library/Application Support/Code/User/keybindings.json"
   rm -rf "$HOME/Library/Application Support/Code/User/settings.json"
-  ln -s "$DOTFILES_DIR/vscode-keybindings.json" "$HOME/Library/Application Support/Code/User/keybindings.json"
-  ln -s "$DOTFILES_DIR/vscode-settings.json" "$HOME/Library/Application Support/Code/User/settings.json"
+
+  ln -s "$DOTFILES_DIR/xdg_config/Code/vscode-keybindings.json" "$HOME/Library/Application Support/Code/User/keybindings.json"
+  ln -s "$DOTFILES_DIR/xdg_config/Code/vscode-settings.json" "$HOME/Library/Application Support/Code/User/settings.json"
 fi
 
 
 if [ -d "$HOME/.config/Code" ]; then
   rm -rf "$HOME/.config/Code/User/keybindings.json"
   rm -rf "$HOME/.config/Code/User/settings.json"
-  ln -s "$DOTFILES_DIR/vscode-keybindings.json" "$HOME/.config/Code/User/keybindings.json"
-  ln -s "$DOTFILES_DIR/vscode-settings.json" "$HOME/.config/Code/User/settings.json"
+
+  ln -s "$DOTFILES_DIR/xdg_config/Code/vscode-keybindings.json" "$HOME/.config/Code/User/keybindings.json"
+  ln -s "$DOTFILES_DIR/xdg_config/Code/vscode-settings.json" "$HOME/.config/Code/User/settings.json"
 fi

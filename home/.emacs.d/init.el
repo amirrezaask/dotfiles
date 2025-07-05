@@ -146,7 +146,6 @@
       '((bg-main "#052525")))
 
 (load-theme 'modus-vivendi t)
-(custom-set-faces '(highlight ((t (:inherit hl-line)))))
 
 ;; better scrolling experience.
 (pixel-scroll-precision-mode +1)
