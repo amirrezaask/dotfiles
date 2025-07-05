@@ -94,7 +94,7 @@
 (setq ef-bio-palette-overrides ;; better color background for ef-bio
       '((bg-main "#052525")))
 
-(load-theme 'doom-one t)
+(load-theme 'doom-palenight t)
 
 ;; better scrolling experience.
 (pixel-scroll-precision-mode +1)
@@ -199,17 +199,17 @@
 
 (global-set-key   (kbd "M-q") 'quoted-insert)
 
-;; finding files
-(global-set-key   (kbd "C-x p f") 'project-find-file)
-(global-set-key   (kbd "M-o")     'project-find-file)
-
-(global-unset-key (kbd "M-z"))
-(global-unset-key (kbd "M-l"))
+(global-set-key (kbd "M-s")  'consult-line)
 
 
-;; Searching related stuff
-(global-set-key (kbd "M-s")     'consult-line)
-(global-set-key (kbd "C-x p s") 'consult-ripgrep)
+;; Project.el is emacs builtin package to work with projects.
+;; by default It uses C-x p acs prefix.
+;; It has functionality to search in project but it's slow, so I use a custom function for that.
+(defun grep-project (&optional EDIT)
+  (interactive "P")
+  (let ((default-directory (find-project-root-or-default-directory)))
+    (grep (format "rg --no-heading --color=\"never\" %s" (read-string "Grep: ")))))
+(define-key project-prefix-map (kbd "g") 'grep-project)
 
 ;; search/replace
 (with-eval-after-load 'replace (define-key query-replace-map (kbd "<return>") 'act))
@@ -365,22 +365,9 @@
 (global-set-key (kbd "C-M-s") 'grep-project)
 
 (with-eval-after-load 'compile
-  (define-key compilation-mode-map (kbd "k")    'kill-compilation)
-  (define-key compilation-mode-map (kbd "G")    (lambda () (interactive) (recompile t))))
+  (define-key compilation-mode-map (kbd "k") 'kill-compilation)
+  (define-key compilation-mode-map (kbd "G") (lambda () (interactive) (recompile t))))
 
 (with-eval-after-load 'grep
-  (define-key grep-mode-map (kbd "k")    'kill-compilation)
-  (define-key grep-mode-map (kbd "G")    (lambda () (interactive) (recompile t))))
-
-(defun find-project-root-or-default-directory ()
-  (or (locate-dominating-file default-directory ".git") default-directory))
-
-(defun compile-project (&optional EDIT-COMMAND)
-  (interactive "P")
-  (let ((default-directory (find-project-root-or-default-directory)))
-    (recompile EDIT-COMMAND)))
-
-(defun grep-project (&optional EDIT)
-  (interactive "P")
-  (let ((default-directory (find-project-root-or-default-directory)))
-    (grep (format "rg --no-heading --color=\"never\" %s" (read-string "Grep: ")))))
+  (define-key grep-mode-map (kbd "k") 'kill-compilation)
+  (define-key grep-mode-map (kbd "G") (lambda () (interactive) (recompile t))))
