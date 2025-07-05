@@ -211,6 +211,28 @@
     (grep (format "rg --no-heading --color=\"never\" %s" (read-string "Grep: ")))))
 (define-key project-prefix-map (kbd "g") 'grep-project)
 
+
+;; kill compilation process before starting another
+(setq compilation-always-kill t)
+
+;; save all buffers on `compile'
+(setq compilation-ask-about-save nil)
+
+;; scroll to first error in compile buffer.
+(setq compilation-scroll-output 'first-error)
+
+(global-set-key (kbd "M-m")   'compile-project)
+(global-set-key (kbd "C-M-s") 'grep-project)
+
+(with-eval-after-load 'compile
+  (define-key compilation-mode-map (kbd "k") 'kill-compilation)
+  (define-key compilation-mode-map (kbd "G") (lambda () (interactive) (recompile t))))
+
+(with-eval-after-load 'grep
+  (define-key grep-mode-map (kbd "k") 'kill-compilation)
+  (define-key grep-mode-map (kbd "G") (lambda () (interactive) (recompile t))))
+
+
 ;; search/replace
 (with-eval-after-load 'replace (define-key query-replace-map (kbd "<return>") 'act))
 (global-set-key (kbd "M-r") 'replace-regexp)
@@ -350,24 +372,3 @@
 (ensure-package 'go-mode)
 (ensure-package 'rust-mode)
 (ensure-package 'php-mode )
-
-
-;; kill compilation process before starting another
-(setq compilation-always-kill t)
-
-;; save all buffers on `compile'
-(setq compilation-ask-about-save nil)
-
-;; scroll to first error in compile buffer.
-(setq compilation-scroll-output 'first-error)
-
-(global-set-key (kbd "M-m")   'compile-project)
-(global-set-key (kbd "C-M-s") 'grep-project)
-
-(with-eval-after-load 'compile
-  (define-key compilation-mode-map (kbd "k") 'kill-compilation)
-  (define-key compilation-mode-map (kbd "G") (lambda () (interactive) (recompile t))))
-
-(with-eval-after-load 'grep
-  (define-key grep-mode-map (kbd "k") 'kill-compilation)
-  (define-key grep-mode-map (kbd "G") (lambda () (interactive) (recompile t))))
