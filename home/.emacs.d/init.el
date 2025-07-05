@@ -25,6 +25,8 @@
 ;; Set package mirrors.
 (setq package-archives '(("gnu-elpa" . "https://elpa.gnu.org/packages/")
                          ("melpa"    . "https://melpa.org/packages/")))
+;; Update builtin packages as well.
+(setq package-install-upgrade-built-in t)
 
 (defun ensure-package (package) "Ensures a package is installed through package.el"
        (unless (package-installed-p package) (package-install package)))
@@ -88,19 +90,18 @@
 (add-to-list 'custom-theme-load-path (expand-file-name "amirrezathemes" (expand-file-name "elpa" user-emacs-directory)))
 
 (ensure-package 'ef-themes)
-(ensure-package 'doom-themes)
 
 (defadvice load-theme (before disable-themes-first activate)
   (dolist (i custom-enabled-themes)
     (disable-theme i)))
 
-(setopt modus-themes-italic-constructs t
-        modus-themes-bold-constructs t
-        modus-themes-common-palette-overrides
+(setopt modus-vivendi-palette-overrides ;; palenight like colors
         `((bg-main "#292D3E")
           (bg-active bg-main)
           (fg-main "#EEFFFF")
           (fg-active fg-main)
+          (bg-line-number-inactive bg-main)
+          (bg-line-number-active bg-main)
           (fringe unspecified)
           (border-mode-line-active unspecified)
           (border-mode-line-inactive unspecified)
@@ -222,6 +223,9 @@
   (interactive)
   (next-line (/ (window-height) 2)) (recenter-top-bottom))
 
+(global-set-key (kbd "M-n") 'jump-down)
+(global-set-key (kbd "M-p") 'jump-up)
+
 (defun copy () "Either copy region or the current line."
        (interactive)
        (if (use-region-p)
@@ -234,10 +238,10 @@
            (kill-region (region-beginning) (region-end)) ;; copy active region contents
          (kill-region (line-beginning-position) (line-end-position)))) ;; copy current line
 
-;; 2025 cut/copy/paste
-(global-set-key (kbd "C-w") 'cut) ;; modern cut
-(global-set-key (kbd "C-z") 'undo) ;; undo
-(global-set-key (kbd "M-w") 'copy) ;; modern copy
+(global-set-key (kbd "C-w") 'cut)
+(global-set-key (kbd "C-z") 'undo)
+(global-set-key (kbd "M-w") 'copy)
+
 (global-set-key (kbd "C-/") 'comment-line) ;; Comment
 (global-set-key (kbd "C-<return>") 'save-buffer)
 
@@ -247,14 +251,10 @@
 
 (global-set-key (kbd "M-RET") 'indent-buffer) ;; Format buffer
 
-(global-set-key   (kbd "M-n") 'jump-down)
-(global-set-key   (kbd "M-p") 'jump-up)
+(global-set-key (kbd "M-q") 'quoted-insert)
 
-(global-set-key   (kbd "M-q") 'quoted-insert)
 
-(global-set-key (kbd "M-s")  'consult-line)
-
-; Clean up the modeline.
+;; Setting up modeline
 (setq-default mode-line-format
               '("%e" "  "
                 (:propertize
@@ -276,6 +276,8 @@
               mode-line-buffer-identification '(" %b")
               mode-line-position-column-line-format '(" %l:%c"))
 
+(ensure-package 'magit)
+(global-set-key (kbd "C-x g") 'magit)
 
 ;; Project.el is emacs builtin package to work with projects.
 ;; by default It uses C-x p acs prefix.
@@ -288,10 +290,10 @@
 
 (setq project-switch-commands
       '((project-find-file "Find file")
-	(project-find-dir "Find directory")
-	(project-grep "Grep")
-	(project-eshell "Eshell")
-	(magit-project-status "Magit")))
+        (project-find-dir "Find directory")
+        (project-grep "Grep")
+        (project-eshell "Eshell")))
+
 
 
 ;; kill compilation process before starting another
@@ -329,20 +331,7 @@
 (global-set-key   (kbd "C--") 'text-scale-decrease)
 (global-set-key   (kbd "C-=") 'text-scale-increase)
 
-(defvar font-size)
-(defvar font-family)
-
-(setq font-families (font-family-list))
-(defun load-font (font size) "Set font" (interactive (list (completing-read "Font: " font-families) (read-number "Size: ")))
-       (setq font-family font)
-       (setq font-size size)
-       (set-face-attribute 'default nil :font (format "%s-%d" font size)))
-
-(defun set-font-size (size) (interactive (list (read-number "Size: ")))
-       (setq font-size size)
-       (load-font current-font-family font-size))
-
-(load-font "Hack" 15)
+(set-face-attribute 'default nil :font "Hack-15")
 
 ;; UX: Favor vertical splits over horizontal ones. Monitors are trending toward
 ;;   wide, rather than tall.
