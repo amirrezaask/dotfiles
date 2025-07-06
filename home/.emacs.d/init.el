@@ -1,3 +1,5 @@
+;; My init.el file does not install any third party packages, as a rule I only rely on emacs builtin functionality which is more than enough
+;; only exception is language modes which hopefully in near future we can rely on Treesitter.
 
 ;; Setting up variables to help with multi OS codes.
 (setq is-windows (eq system-type 'windows-nt)
@@ -313,8 +315,8 @@
 (global-set-key (kbd "M-\\") 'kmacro-end-and-call-macro)
 
 ;; By default emacs resizes font with C-x -/+ but it's faster this way.
-(global-set-key   (kbd "C--") 'text-scale-decrease)
-(global-set-key   (kbd "C-=") 'text-scale-increase)
+(global-set-key (kbd "C--") 'text-scale-decrease)
+(global-set-key (kbd "C-=") 'text-scale-increase)
 
 ;; Set font.
 (set-face-attribute 'default nil :font "Jetbrains Mono-15")
