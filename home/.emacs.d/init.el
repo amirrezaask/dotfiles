@@ -14,8 +14,7 @@
 (add-to-list 'exec-path "/usr/local/bin")
 (if is-windows (setenv "PATH" (string-join exec-path ";")) (setenv "PATH" (string-join exec-path ":"))) ;; set emacs process PATH
 
-
-;;; Basic configurations
+;;; Stack traces on errors.
 (setq debug-on-error nil)
 
 ;; Don't resize the frames in steps; it looks weird, especially in tiling window
@@ -47,10 +46,13 @@
 (defun ensure-package (package) "Ensures a package is installed through package.el"
        (unless (package-installed-p package) (package-install package)))
 
-(defun ensure-package-vc (package repo) (unless (package-installed-p package) (package-vc-install package repo)))
+(defun ensure-package-vc (package repo) "Same as ensure-package but get's package from a VC backend."
+  (unless (package-installed-p package) (package-vc-install package repo)))
 
+;; No flashing and sounds.
 (setq-default ring-bell-function 'ignore)
 
+;; In macos use CMD key as Meta.
 (setq mac-command-modifier 'meta)
 
 ;; Cursor blinking is both distracting and CPU consuming.
@@ -213,7 +215,6 @@
 (global-set-key (kbd "C-S-n") 'mc/mark-next-like-this)
 (global-set-key (kbd "C-S-p") 'mc/mark-previous-like-this)
 
-
 ;; jump-up/down are utility functions that I use to move around code to emulate C-d/u functionality from vim.
 (defun jump-up ()
   (interactive)
@@ -285,10 +286,11 @@
 ;; It has functionality to search in project but it's slow, so I use a custom function for that.
 (defun project-grep (&optional EDIT)
   (interactive "P")
-  (let ((default-directory (find-project-root-or-default-directory)))
+  (let ((default-directory (if (project-current) (project-root (project-current)) default-directory)))
     (grep (format "rg --no-heading --color=\"never\" %s" (read-string "Grep: ")))))
 
-(define-key project-prefix-map (kbd "C-x p g") 'project-grep)
+(define-key project-prefix-map (kbd "g") 'project-grep)
+(global-set-key (kbd "C-x p g") 'project-grep)
 
 (setq project-switch-commands
       '((project-find-file "Find file")
@@ -316,33 +318,29 @@
   (define-key grep-mode-map (kbd "k") 'kill-compilation)
   (define-key grep-mode-map (kbd "G") (lambda () (interactive) (recompile t))))
 
-
 ;; search/replace
 (with-eval-after-load 'replace (define-key query-replace-map (kbd "<return>") 'act))
 (global-set-key (kbd "M-r") 'replace-regexp)
-
 
 ;; macros, i don't use but let's have better keys
 (global-set-key   (kbd "M-[")  'kmacro-start-macro)
 (global-set-key   (kbd "M-]")  'kmacro-end-or-call-macro)
 (global-set-key   (kbd "M-\\") 'kmacro-end-and-call-macro)
 
-
+;; By default emacs resizes font with C-x -/+ but it's faster this way.
 (global-set-key   (kbd "C--") 'text-scale-decrease)
 (global-set-key   (kbd "C-=") 'text-scale-increase)
 
+;; Set font.
 (set-face-attribute 'default nil :font "Jetbrains Mono-15")
 
+
+;; Splits
 ;; UX: Favor vertical splits over horizontal ones. Monitors are trending toward
 ;;   wide, rather than tall.
 (setq split-width-threshold 160
       split-height-threshold nil)
 
-(global-set-key (kbd "C-o") 'other-window)
-(global-set-key (kbd "C-0") 'delete-window-and-balance)
-(global-set-key (kbd "C-1") 'delete-other-windows)
-(global-set-key (kbd "C-2") 'split-window-below-balance-and-switch)
-(global-set-key (kbd "C-3") 'split-window-right-balance-and-switch)
 
 (defun split-window-right-balance-and-switch () (interactive)
        (split-window-right)
@@ -358,6 +356,11 @@
        (delete-window)
        (balance-windows))
 
+(global-set-key (kbd "C-x 0") 'delete-window-and-balance)
+(global-set-key (kbd "C-x 1") 'delete-other-windows)
+(global-set-key (kbd "C-x 2") 'split-window-below-balance-and-switch)
+(global-set-key (kbd "C-x 3") 'split-window-right-balance-and-switch)
+
 (defun kill-current-buffer () (interactive) (kill-buffer (current-buffer)))
 
 (defun indent-buffer () "Indent an entire buffer using the default intenting scheme."
@@ -367,23 +370,33 @@
          (indent-region (point-min) (point-max) nil)
          (untabify (point-min) (point-max))))
 
+;; which key
+(ensure-package 'which-key)
+(add-hook 'after-init-hook 'which-key-mode)
+
+;; Icons
+;; to install icon compatibe font do M-x nerd-icons-install-fonts
+(ensure-package 'nerd-icons)
+
+(ensure-package 'nerd-icons-completion)
+(add-hook 'after-init-hook 'nerd-icons-completion-mode)
+
+(ensure-package 'nerd-icons-corfu)
+(with-eval-after-load 'corfu
+  (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
 
 ;; Completion
 ;; Orderless provides a searching algorithm to be used in minibuffer completion.
-(use-package orderless
-  :ensure t
-  :config
-  (setq completion-styles '(orderless basic))
-  (setq completion-category-defaults nil)
-  (setq completion-category-overrides nil))
+(ensure-package 'orderless)
+(setq completion-styles '(orderless basic))
+(setq completion-category-defaults nil)
+(setq completion-category-overrides nil)
 
-(use-package vertico
-  :ensure t
-  :hook (after-init . vertico-mode))
+(ensure-package 'vertico)
+(add-hook 'after-init-hook 'vertico-mode)
 
-(use-package marginalia
-  :ensure t
-  :hook (after-init . marginalia-mode))
+(ensure-package 'marginalia)
+(add-hook 'after-init 'marginalia-mode)
 
 (with-eval-after-load 'minibuffer
   (define-key minibuffer-mode-map (kbd "C-;") 'embark-export))
@@ -400,8 +413,8 @@
 (with-eval-after-load 'eglot
   (define-key eglot-mode-map (kbd "C-c C-r") 'eglot-rename)
   (define-key eglot-mode-map (kbd "M-RET")   'eglot-organize-imports-format)
-  (define-key eglot-mode-map (kbd "C-c C-c") 'eglot-code-actions)
-  )
+  (define-key eglot-mode-map (kbd "C-c C-c") 'eglot-code-actions))
+
 (setq eldoc-echo-area-use-multiline-p nil)
 (setq eglot-ignored-server-capabilities '( ;; Disable fancy LSP features.
                                           :documentHighlightProvider           ;; "Highlight symbols automatically"
