@@ -404,4 +404,8 @@
 (global-set-key (kbd "M-?") 'xref-find-references)
 (global-set-key (kbd "M-/") 'xref-find-references)
 
+(unless (treesit-language-available-p 'go)
+  (error "Install golang parser for treesitter."))
 
+(unless (treesit-language-available-p 'php)
+  (error "Install php parser for treesitter."))
