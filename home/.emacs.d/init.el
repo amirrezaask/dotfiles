@@ -291,12 +291,12 @@
 (define-key project-prefix-map (kbd "g") 'project-grep)
 (global-set-key (kbd "C-x p g") 'project-grep)
 
+;; TODO: project-switch-to-buffer is really handy but even better would be to have project-switch-dwim command that supports both files and buffers.
+
 ;; to make project-grep function even better we add keys to grep-mode buffers so we can kill a grep process and restart it.
 (with-eval-after-load 'grep
   (define-key grep-mode-map (kbd "k") 'kill-compilation)
   (define-key grep-mode-map (kbd "G") (lambda () (interactive) (recompile t))))
-
-
 
 (setq project-switch-commands
       '((project-find-file "Find file")
@@ -312,9 +312,6 @@
 
 ;; scroll to first error in compile buffer.
 (setq compilation-scroll-output 'first-error)
-
-(global-set-key (kbd "M-m")   'compile-project)
-(global-set-key (kbd "C-M-s") 'grep-project)
 
 (with-eval-after-load 'compile
   (define-key compilation-mode-map (kbd "k") 'kill-compilation)
@@ -371,10 +368,6 @@
          (delete-trailing-whitespace)
          (indent-region (point-min) (point-max) nil)
          (untabify (point-min) (point-max))))
-
-;; which key
-(ensure-package 'which-key)
-(add-hook 'after-init-hook 'which-key-mode)
 
 ;; Icons
 ;; to install icon compatibe font do M-x nerd-icons-install-fonts
