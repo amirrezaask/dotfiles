@@ -288,9 +288,15 @@
   (interactive "P")
   (let ((default-directory (if (project-current) (project-root (project-current)) default-directory)))
     (grep (format "rg --no-heading --color=\"never\" %s" (read-string "Grep: ")))))
-
 (define-key project-prefix-map (kbd "g") 'project-grep)
 (global-set-key (kbd "C-x p g") 'project-grep)
+
+;; to make project-grep function even better we add keys to grep-mode buffers so we can kill a grep process and restart it.
+(with-eval-after-load 'grep
+  (define-key grep-mode-map (kbd "k") 'kill-compilation)
+  (define-key grep-mode-map (kbd "G") (lambda () (interactive) (recompile t))))
+
+
 
 (setq project-switch-commands
       '((project-find-file "Find file")
@@ -313,10 +319,6 @@
 (with-eval-after-load 'compile
   (define-key compilation-mode-map (kbd "k") 'kill-compilation)
   (define-key compilation-mode-map (kbd "G") (lambda () (interactive) (recompile t))))
-
-(with-eval-after-load 'grep
-  (define-key grep-mode-map (kbd "k") 'kill-compilation)
-  (define-key grep-mode-map (kbd "G") (lambda () (interactive) (recompile t))))
 
 ;; search/replace
 (with-eval-after-load 'replace (define-key query-replace-map (kbd "<return>") 'act))
@@ -429,10 +431,12 @@
 (setq eglot-sync-connect nil)               ;; no blocking on waiting for the server to start.
 (setq eglot-events-buffer-size 0)           ;; no logging of LSP events.
 
-(dolist (mode '(go rust php)) ;; Enable LSP automatically.
-  (add-hook (intern (concat (symbol-name mode) "-mode-hook")) #'eglot-ensure))
+(add-hook 'go-mode-hook #'eglot-ensure)
+(add-hook 'php-mode-hook #'eglot-ensure)
+(add-hook 'rust-mode-hook #'eglot-ensure)
 
-(with-eval-after-load 'eglot (add-to-list 'eglot-server-programs '(php-mode . ("intelephense" "--stdio")))) ;; PHP language server intelephense
+(with-eval-after-load 'eglot
+  (add-to-list 'eglot-server-programs '(php-mode . ("intelephense" "--stdio")))) ;; PHP language server intelephense
 
 (defun eglot-organize-imports () (interactive) (eglot-code-actions nil nil "source.organizeImports" t))
 
