@@ -1,3 +1,4 @@
+
 ;; Setting up variables to help with multi OS codes.
 (setq is-windows (eq system-type 'windows-nt)
       is-linux (eq system-type 'gnu/linux)
@@ -40,6 +41,9 @@
 ;; Set package mirrors.
 (setq package-archives '(("gnu-elpa" . "https://elpa.gnu.org/packages/")
                          ("melpa"    . "https://melpa.org/packages/")))
+
+(defun ensure-package (package) "Ensures a package is installed through package.el"
+       (unless (package-installed-p package) (package-install package)))
 
 ;; Update builtin packages as well.
 (setq package-install-upgrade-built-in t)
@@ -368,6 +372,12 @@
 
 (fido-vertical-mode +1)
 
+;; Languages: Hopefully someday we don't need these anymore when treesitter becomes better.
+(ensure-package 'json-mode)
+(ensure-package 'yaml-mode)
+(ensure-package 'go-mode)
+(ensure-package 'php-mode)
+
 ;; Eglot (LSP Client)
 (with-eval-after-load 'eglot
   (define-key eglot-mode-map (kbd "C-c C-r") 'eglot-rename)
@@ -388,8 +398,8 @@
 (setq eglot-sync-connect nil)               ;; no blocking on waiting for the server to start.
 (setq eglot-events-buffer-size 0)           ;; no logging of LSP events.
 
-(add-hook 'go-ts-mode-hook #'eglot-ensure)
-(add-hook 'php-ts-mode-hook #'eglot-ensure)
+(add-hook 'go-mode-hook #'eglot-ensure)
+(add-hook 'php-mode-hook #'eglot-ensure)
 
 (with-eval-after-load 'eglot
   (add-to-list 'eglot-server-programs '(php-mode . ("intelephense" "--stdio")))) ;; PHP language server intelephense
@@ -404,8 +414,3 @@
 (global-set-key (kbd "M-?") 'xref-find-references)
 (global-set-key (kbd "M-/") 'xref-find-references)
 
-(unless (treesit-language-available-p 'go)
-  (error "Install golang parser for treesitter."))
-
-(unless (treesit-language-available-p 'php)
-  (error "Install php parser for treesitter."))
