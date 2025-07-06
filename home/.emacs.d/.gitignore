@@ -2,3 +2,4 @@ package-quickstart.el*
 custom.el
 projects
 history
+tree-sitter

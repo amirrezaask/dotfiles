@@ -40,14 +40,9 @@
 ;; Set package mirrors.
 (setq package-archives '(("gnu-elpa" . "https://elpa.gnu.org/packages/")
                          ("melpa"    . "https://melpa.org/packages/")))
+
 ;; Update builtin packages as well.
 (setq package-install-upgrade-built-in t)
-
-(defun ensure-package (package) "Ensures a package is installed through package.el"
-       (unless (package-installed-p package) (package-install package)))
-
-(defun ensure-package-vc (package repo) "Same as ensure-package but get's package from a VC backend."
-  (unless (package-installed-p package) (package-vc-install package repo)))
 
 ;; No flashing and sounds.
 (setq-default ring-bell-function 'ignore)
@@ -76,19 +71,18 @@
 (setq ns-pop-up-frames nil)
 
 ;; In macos set title bar color automatically everytime background color of emacs changes.
-(when is-macos
-  (ensure-package 'ns-auto-titlebar)
-  (ns-auto-titlebar-mode +1))
+;; (when is-macos
+;;   (ensure-package 'ns-auto-titlebar)
+
+(when (and is-macos (package-installed-p 'ns-auto-titlebar)
+    (ns-auto-titlebar-mode +1)))
 
 ;; Load all themes without asking for permission.
 (setq custom-safe-themes t)
 
 ;; Set of custom themes that I made from streams of jonathan blow, cmuratori, ryan fleury.
-(ensure-package-vc 'amirrezathemes  '(:url "https://github.com/amirrezaask/amirrezathemes"))
-(add-to-list 'custom-theme-load-path (expand-file-name "amirrezathemes" (expand-file-name "elpa" user-emacs-directory)))
-
-(ensure-package 'ef-themes)
-(ensure-package 'modus-themes)
+;; (ensure-package 'ef-themes)
+;; (ensure-package 'modus-themes)
 
 (defadvice load-theme (before disable-themes-first activate)
   (dolist (i custom-enabled-themes)
@@ -206,15 +200,6 @@
 
 (setq kill-whole-line t)
 
-;; handy string transformation functions.
-(ensure-package 'string-inflection)
-
-;; Multiple cursor support in Emacs.
-;; TODO: Add keys or alias for matching word under cursor.
-(ensure-package 'multiple-cursors)
-(global-set-key (kbd "C-S-n") 'mc/mark-next-like-this)
-(global-set-key (kbd "C-S-p") 'mc/mark-previous-like-this)
-
 ;; jump-up/down are utility functions that I use to move around code to emulate C-d/u functionality from vim.
 (defun jump-up ()
   (interactive)
@@ -277,10 +262,6 @@
               mode-line-buffer-identification '(" %b")
               mode-line-position-column-line-format '(" %l:%c"))
 
-;; magit is emacs git client.
-(ensure-package 'magit)
-(global-set-key (kbd "C-x g") 'magit)
-
 ;; Project.el is emacs builtin package to work with projects.
 ;; by default It uses C-x p acs prefix.
 ;; It has functionality to search in project but it's slow, so I use a custom function for that.
@@ -313,6 +294,7 @@
 ;; scroll to first error in compile buffer.
 (setq compilation-scroll-output 'first-error)
 
+;; same keys as grep buffers.
 (with-eval-after-load 'compile
   (define-key compilation-mode-map (kbd "k") 'kill-compilation)
   (define-key compilation-mode-map (kbd "G") (lambda () (interactive) (recompile t))))
@@ -322,9 +304,9 @@
 (global-set-key (kbd "M-r") 'replace-regexp)
 
 ;; macros, i don't use but let's have better keys
-(global-set-key   (kbd "M-[")  'kmacro-start-macro)
-(global-set-key   (kbd "M-]")  'kmacro-end-or-call-macro)
-(global-set-key   (kbd "M-\\") 'kmacro-end-and-call-macro)
+(global-set-key (kbd "M-[")  'kmacro-start-macro)
+(global-set-key (kbd "M-]")  'kmacro-end-or-call-macro)
+(global-set-key (kbd "M-\\") 'kmacro-end-and-call-macro)
 
 ;; By default emacs resizes font with C-x -/+ but it's faster this way.
 (global-set-key   (kbd "C--") 'text-scale-decrease)
@@ -333,13 +315,10 @@
 ;; Set font.
 (set-face-attribute 'default nil :font "Jetbrains Mono-15")
 
-
 ;; Splits
-;; UX: Favor vertical splits over horizontal ones. Monitors are trending toward
-;;   wide, rather than tall.
+;; UX: Favor vertical splits over horizontal ones. Monitors are trending toward wide, rather than tall.
 (setq split-width-threshold 160
       split-height-threshold nil)
-
 
 (defun split-window-right-balance-and-switch () (interactive)
        (split-window-right)
@@ -369,42 +348,27 @@
          (indent-region (point-min) (point-max) nil)
          (untabify (point-min) (point-max))))
 
-;; Icons
-;; to install icon compatibe font do M-x nerd-icons-install-fonts
-(ensure-package 'nerd-icons)
-
-(ensure-package 'nerd-icons-completion)
-(add-hook 'after-init-hook 'nerd-icons-completion-mode)
-
-(ensure-package 'nerd-icons-corfu)
-(with-eval-after-load 'corfu
-  (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
 
 ;; Completion
-;; Orderless provides a searching algorithm to be used in minibuffer completion.
-(ensure-package 'orderless)
-(setq completion-styles '(orderless basic))
-(setq completion-category-defaults nil)
-(setq completion-category-overrides nil)
+(setq completions-format 'one-column) ;; vertical
+(setq completions-max-height 15)
+(setq completion-auto-select t) ;; automatically switch to completion window.
+(setq completion-auto-help t)
+(setq completion-ignore-case t)
+(setq tab-always-indent 'complete) ;; TAB will first try to indent the line then acts as 'complete-at-point
+(setq completion-styles '(basic partial-completion substring flex))
+(setq read-buffer-completion-ignore-case t) ;; same as completeion-ignore-case but for buffers.
+(setq read-file-name-completion-ignore-case t) ;; same as completeion-ignore-case but for files.
+(setq completion-show-help nil) ;; Don't show help message in *Completions* buffer
+(setq completions-detailed t) ;; display completions with details added as prefix/suffix.
+(setq completions-group t)
+(setq completion-auto-help 'visible)
+(setq completion-auto-select 'second-tab) ;; On first TAB show completion window and on second TAB switch to it.
+(setq completions-header-format nil) ;; 
 
-(ensure-package 'vertico)
-(add-hook 'after-init-hook 'vertico-mode)
+(fido-vertical-mode +1)
 
-(ensure-package 'marginalia)
-(add-hook 'after-init 'marginalia-mode)
-
-(with-eval-after-load 'minibuffer
-  (define-key minibuffer-mode-map (kbd "C-;") 'embark-export))
-
-;; corfu will help us with autocomplete inline.
-(ensure-package 'corfu)
-(setq corfu-auto t)
-(setq corfu-preselect 'prompt)
-(global-corfu-mode +1)
-(global-set-key (kbd "C-j") 'completion-at-point)
-
-;; eglot is Emacs built-in LSP client.
-(ensure-package 'eglot)
+;; Eglot (LSP Client)
 (with-eval-after-load 'eglot
   (define-key eglot-mode-map (kbd "C-c C-r") 'eglot-rename)
   (define-key eglot-mode-map (kbd "M-RET")   'eglot-organize-imports-format)
@@ -424,9 +388,8 @@
 (setq eglot-sync-connect nil)               ;; no blocking on waiting for the server to start.
 (setq eglot-events-buffer-size 0)           ;; no logging of LSP events.
 
-(add-hook 'go-mode-hook #'eglot-ensure)
-(add-hook 'php-mode-hook #'eglot-ensure)
-(add-hook 'rust-mode-hook #'eglot-ensure)
+(add-hook 'go-ts-mode-hook #'eglot-ensure)
+(add-hook 'php-ts-mode-hook #'eglot-ensure)
 
 (with-eval-after-load 'eglot
   (add-to-list 'eglot-server-programs '(php-mode . ("intelephense" "--stdio")))) ;; PHP language server intelephense
@@ -441,9 +404,4 @@
 (global-set-key (kbd "M-?") 'xref-find-references)
 (global-set-key (kbd "M-/") 'xref-find-references)
 
-;; installing support for languages, hopefuly emacs will start shipping all needed tressitter parsers soon and I can remove these.
-(ensure-package 'json-mode)
-(ensure-package 'yaml-mode)
-(ensure-package 'go-mode)
-(ensure-package 'rust-mode)
-(ensure-package 'php-mode )
+
