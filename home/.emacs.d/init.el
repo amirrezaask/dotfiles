@@ -1,5 +1,21 @@
-;;; Basic configurations
+;; Setting up variables to help with multi OS codes.
+(setq is-windows (eq system-type 'windows-nt)
+      is-linux (eq system-type 'gnu/linux)
+      is-macos (eq system-type 'darwin))
 
+;; Add directory to exec-path and also set emacs process PATH variable.
+(defun home (path) (expand-file-name path (getenv "HOME")))
+(add-to-list 'exec-path (home ".local/bin"))
+(add-to-list 'exec-path (home "go/bin"))
+(add-to-list 'exec-path (home ".cargo/bin"))
+(add-to-list 'exec-path (home "bin"))
+(add-to-list 'exec-path "/usr/local/go/bin")
+(add-to-list 'exec-path "/opt/homebrew/bin")
+(add-to-list 'exec-path "/usr/local/bin")
+(if is-windows (setenv "PATH" (string-join exec-path ";")) (setenv "PATH" (string-join exec-path ":"))) ;; set emacs process PATH
+
+
+;;; Basic configurations
 (setq debug-on-error nil)
 
 ;; Don't resize the frames in steps; it looks weird, especially in tiling window
@@ -37,31 +53,22 @@
 
 (setq mac-command-modifier 'meta)
 
-;; Setting up variables to help with multi OS codes.
-(setq is-windows (eq system-type 'windows-nt)
-      is-linux (eq system-type 'gnu/linux)
-      is-macos (eq system-type 'darwin))
-
+;; Cursor blinking is both distracting and CPU consuming.
 (blink-cursor-mode -1)
 
-(menu-bar-mode -1)
+;; Since on macos menubar is a section that is wasted anyway let's just have it.
+(unless is-macos (menu-bar-mode -1))
 
 (scroll-bar-mode -1)
 
 (tool-bar-mode -1)
-
-(fido-vertical-mode +1)
-(keymap-set icomplete-fido-mode-map "TAB" 'icomplete-force-complete)
-
 
 (when load-file-name ;; since windows is a bit funky I prefer to store this file path in a variable to be used when C-x i
   (setq INIT-FILE load-file-name)
   (setq amirreza-emacs-directory (file-name-directory INIT-FILE))
   (setq custom-file (expand-file-name "custom.el" amirreza-emacs-directory)))
 
-(defun EDIT () "Edit this file." (interactive) (find-file INIT-FILE))
-
-(global-set-key (kbd "C-x i") 'EDIT) ;; Edit this file.
+(global-set-key (kbd "C-x i") (lambda () (interactive) (find-file INIT-FILE))) ;; Edit this file.
 
 ;; Visit files opened outside of Emacs in existing frame, not a new one
 (setq ns-pop-up-frames nil)
@@ -71,25 +78,15 @@
   (ensure-package 'ns-auto-titlebar)
   (ns-auto-titlebar-mode +1))
 
-
-;; Add directory to exec-path and also set emacs process PATH variable.
-(defun home (path) (expand-file-name path (getenv "HOME")))
-(add-to-list 'exec-path (home ".local/bin"))
-(add-to-list 'exec-path (home "go/bin"))
-(add-to-list 'exec-path (home ".cargo/bin"))
-(add-to-list 'exec-path (home "bin"))
-(add-to-list 'exec-path "/usr/local/go/bin")
-(add-to-list 'exec-path "/opt/homebrew/bin")
-(add-to-list 'exec-path "/usr/local/bin")
-(if is-windows (setenv "PATH" (string-join exec-path ";")) (setenv "PATH" (string-join exec-path ":"))) ;; set emacs process PATH
-
 ;; Load all themes without asking for permission.
 (setq custom-safe-themes t)
 
+;; Set of custom themes that I made from streams of jonathan blow, cmuratori, ryan fleury.
 (ensure-package-vc 'amirrezathemes  '(:url "https://github.com/amirrezaask/amirrezathemes"))
 (add-to-list 'custom-theme-load-path (expand-file-name "amirrezathemes" (expand-file-name "elpa" user-emacs-directory)))
 
 (ensure-package 'ef-themes)
+(ensure-package 'modus-themes)
 
 (defadvice load-theme (before disable-themes-first activate)
   (dolist (i custom-enabled-themes)
@@ -143,7 +140,9 @@
           (docstring "#8d92af")
           (constant "#f78c6c")))
 
-(setq ef-bio-palette-overrides ;; better color background for ef-bio
+;; better color background for ef-bio
+;; similar in tone with jonathan blow setup.
+(setq ef-bio-palette-overrides
       '((bg-main "#052525")))
 
 (load-theme 'modus-vivendi t)
@@ -205,6 +204,7 @@
 
 (setq kill-whole-line t)
 
+;; handy string transformation functions.
 (ensure-package 'string-inflection)
 
 ;; Multiple cursor support in Emacs.
@@ -276,6 +276,7 @@
               mode-line-buffer-identification '(" %b")
               mode-line-position-column-line-format '(" %l:%c"))
 
+;; magit is emacs git client.
 (ensure-package 'magit)
 (global-set-key (kbd "C-x g") 'magit)
 
@@ -286,6 +287,7 @@
   (interactive "P")
   (let ((default-directory (find-project-root-or-default-directory)))
     (grep (format "rg --no-heading --color=\"never\" %s" (read-string "Grep: ")))))
+
 (define-key project-prefix-map (kbd "C-x p g") 'project-grep)
 
 (setq project-switch-commands
@@ -293,8 +295,6 @@
         (project-find-dir "Find directory")
         (project-grep "Grep")
         (project-eshell "Eshell")))
-
-
 
 ;; kill compilation process before starting another
 (setq compilation-always-kill t)
@@ -331,7 +331,7 @@
 (global-set-key   (kbd "C--") 'text-scale-decrease)
 (global-set-key   (kbd "C-=") 'text-scale-increase)
 
-(set-face-attribute 'default nil :font "Hack-15")
+(set-face-attribute 'default nil :font "Jetbrains Mono-15")
 
 ;; UX: Favor vertical splits over horizontal ones. Monitors are trending toward
 ;;   wide, rather than tall.
@@ -368,23 +368,32 @@
          (untabify (point-min) (point-max))))
 
 
-(global-set-key (kbd "C-j") 'completion-at-point)
+;; Completion
+;; Orderless provides a searching algorithm to be used in minibuffer completion.
+(use-package orderless
+  :ensure t
+  :config
+  (setq completion-styles '(orderless basic))
+  (setq completion-category-defaults nil)
+  (setq completion-category-overrides nil))
+
+(use-package vertico
+  :ensure t
+  :hook (after-init . vertico-mode))
+
+(use-package marginalia
+  :ensure t
+  :hook (after-init . marginalia-mode))
+
+(with-eval-after-load 'minibuffer
+  (define-key minibuffer-mode-map (kbd "C-;") 'embark-export))
 
 ;; corfu will help us with autocomplete inline.
 (ensure-package 'corfu)
 (setq corfu-auto t)
 (setq corfu-preselect 'prompt)
 (global-corfu-mode +1)
-
-(with-eval-after-load 'minibuffer
-  (define-key minibuffer-mode-map (kbd "C-;") 'embark-export))
-
-
-;; xref is emacs infrastructure that provides functionality to jump to definition, references, ...
-(global-set-key (kbd "M-.") 'xref-find-definitions)
-(global-set-key (kbd "M-,") 'xref-go-back)
-(global-set-key (kbd "M-?") 'xref-find-references)
-(global-set-key (kbd "M-/") 'xref-find-references)
+(global-set-key (kbd "C-j") 'completion-at-point)
 
 ;; eglot is Emacs built-in LSP client.
 (ensure-package 'eglot)
@@ -415,6 +424,12 @@
 (defun eglot-organize-imports () (interactive) (eglot-code-actions nil nil "source.organizeImports" t))
 
 (defun eglot-organize-imports-format () (interactive) (eglot-format) (eglot-organize-imports))
+
+;; xref is emacs infrastructure that provides functionality to jump to definition, references, ...
+(global-set-key (kbd "M-.") 'xref-find-definitions)
+(global-set-key (kbd "M-,") 'xref-go-back)
+(global-set-key (kbd "M-?") 'xref-find-references)
+(global-set-key (kbd "M-/") 'xref-find-references)
 
 ;; installing support for languages, hopefuly emacs will start shipping all needed tressitter parsers soon and I can remove these.
 (ensure-package 'json-mode)
