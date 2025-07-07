@@ -390,7 +390,9 @@ Project.el is emacs builtin package to work with projects. by default It uses =C
     (let ((default-directory (if (project-current) (project-root (project-current)) default-directory)))
       (grep (format "rg --no-heading --color=\"never\" %s" (read-string "Grep: ")))))
   (define-key project-prefix-map (kbd "g") 'project-grep)
+  (define-key project-prefix-map (kbd "s") 'project-eshell)
   (global-set-key (kbd "C-x p g") 'project-grep)
+  (global-set-key (kbd "C-x p s") 'project-eshell)
 
   ;; TODO: project-switch-to-buffer is really handy but even better would be to have project-switch-dwim command that supports both files and buffers.
   (setq project-switch-commands
@@ -398,7 +400,7 @@ Project.el is emacs builtin package to work with projects. by default It uses =C
           (project-find-dir "Find directory")
           (project-grep "Grep")
           (project-eshell "Eshell")))
-  
+
 #+end_src
 
 
