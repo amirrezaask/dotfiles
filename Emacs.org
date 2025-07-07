@@ -2,6 +2,18 @@
 #+STARTUP: overview
 #+property: header-args:emacs-lisp :mkdirp yes
 
+* Installation
+** Requirements
+- Emacs 29 or above.
+
+
+
+** Installing only Emacs configuration
+#+begin_src sh
+  curl https://raw.githubusercontent.com/amirrezaask/dotfiles/refs/heads/master/Emacs.org > ~/.emacs.d/Emacs.org
+#+end_src
+
+
 * Startup specific tweaks in =early-init.el=
 ** Startup specific garbage collector options
 #+begin_src emacs-lisp :tangle ~/.emacs.d/early-init.el
@@ -41,10 +53,11 @@
 
 * Environment variables
 #+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
-  ;; Setting up variables to help with multi OS codes.
   (setq is-windows (eq system-type 'windows-nt)
         is-linux (eq system-type 'gnu/linux)
         is-macos (eq system-type 'darwin))
+
+  (setq literate-configuration-location "~/src/github/dotfiles")
 
   ;; Add directory to exec-path and also set emacs process PATH variable.
   (defun home (path) (expand-file-name path (getenv "HOME")))
@@ -139,6 +152,8 @@
   (when (and is-macos (package-installed-p 'ns-auto-titlebar)
   	   (ns-auto-titlebar-mode +1)))
 
+  (setq-default cursor-type 'bar)
+
   ;; Load all themes without asking for permission.
   (setq custom-safe-themes t)
 
@@ -151,7 +166,7 @@
     (dolist (i custom-enabled-themes)
       (disable-theme i)))
 
-  (setopt modus-vivendi-palette-overrides ;; palenight like colors
+  (setopt modus-vivendi-tinted-palette-overrides ;; palenight like colors
           `((bg-main "#292D3E")
             (bg-active bg-main)
             (fg-main "#EEFFFF")
@@ -204,7 +219,7 @@
   (setq ef-bio-palette-overrides
         '((bg-main "#052525")))
 
-  (load-theme 'modus-vivendi t)
+  (load-theme 'modus-vivendi-tinted t)
 
 #+end_src
 
@@ -240,7 +255,7 @@
   (fido-vertical-mode +1)
 
   (keymap-set icomplete-fido-mode-map "TAB" 'icomplete-force-complete)
-  (keymap-set icomplete-fido-mode-map "<backspace>" 'delete-backward-char)
+  (keymap-set icomplete-fido-mode-map "DEL" 'delete-backward-char)
 #+end_src
 
 
@@ -309,7 +324,6 @@
 
   (global-set-key (kbd "M-q") 'quoted-insert)
 
-  
   ;; search/replace
   (with-eval-after-load 'replace (define-key query-replace-map (kbd "<return>") 'act))
   (global-set-key (kbd "M-r") 'replace-regexp)
@@ -391,6 +405,23 @@ Project.el is emacs builtin package to work with projects. by default It uses =C
           (project-find-dir "Find directory")
           (project-grep "Grep")
           (project-eshell "Eshell")))
+
+#+end_src
+
+
+* Configuration Management
+#+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
+  (defun system/configs ()
+    (interactive)
+    (let ((default-directory literate-configuration-location))
+      (call-interactively 'project-find-file)))
+
+  (global-set-key (kbd "C-x i") 'system/configs)
+
+  (defun system/reload-all ()
+    (interactive)
+    (dolist (file (directory-files literate-configuration-location t "\\.org\\'"))
+      (org-babel-tangle-file file)))
 #+end_src
 
 

@@ -5,16 +5,11 @@
 - [[file:ZSH.org][ZSH]]
 - [[file:Tmux.org][Tmux]]
 - [[file:Git.org][Git]]
+- [[file:Fish.org][Fish]]
 
 ** Rebuild my system
 Since I have all my configurations as org files, I can do a refresh with just this simple code block
 #+begin_src emacs-lisp
-  (dolist (file '(
-  	       "Emacs.org"
-  	       "ZSH.org"
-  	       "Tmux.org"
-  	       "Ghostty.org"
-  	       "Git.org"
-  	       ))
+  (dolist (file (directory-files "~/src/github/dotfiles" t "\\.org\\'"))
     (org-babel-tangle-file file))
 #+end_src
