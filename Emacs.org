@@ -275,7 +275,7 @@
   (global-auto-revert-mode +1)
 
   ;; Highlight current line.
-  (global-hl-line-mode +1)
+  ;; (global-hl-line-mode +1)
 
   ;; Delete selected region before inserting.
   (delete-selection-mode +1)
@@ -554,7 +554,7 @@ Hopefully someday we don't need these anymore when treesitter support becomes su
 #+end_src
 
 
-* Eshell ( Emacs Builtin Shell )
+* Eshell (Emacs Builtin Shell)
 #+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
   (defun user/eshell-mode-hook ()
     (setenv "TERM" "xterm-256color"))
@@ -563,13 +563,12 @@ Hopefully someday we don't need these anymore when treesitter support becomes su
 
   (defun user/eshell-prompt-function ()
     (format " %s > "
-  	  (propertize (if (project-current) (project-name (project-current)) default-directory) 'face 'font-lock-warning-face)
-  	  ))
+  	  (propertize (if (project-current) (project-name (project-current)) default-directory) 'face 'font-lock-warning-face)))
 
 
-  ;; (propertize "]\n" 'face `(:foreground "#2aa198"))
   (setq eshell-prompt-function 'user/eshell-prompt-function)
 #+end_src
+
 
 * xref
 xref is emacs infrastructure that provides functionality to jump to definition, references, ...
