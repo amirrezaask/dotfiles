@@ -7,7 +7,6 @@
 - Emacs 29 or above.
 
 
-
 ** Installing only Emacs configuration
 #+begin_src sh
   curl https://raw.githubusercontent.com/amirrezaask/dotfiles/refs/heads/master/Emacs.org > ~/.emacs.d/Emacs.org
@@ -145,11 +144,7 @@
 
 * Theme and UI
 #+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
-  ;; In macos set title bar color automatically everytime background color of emacs changes.
-  (when is-macos
-     (ensure-package 'ns-auto-titlebar))
-
-  (when (and is-macos (package-installed-p 'ns-auto-titlebar)
+  (when (and is-macos (fboundp 'ns-auto-titlebar-mode)
   	   (ns-auto-titlebar-mode +1)))
 
   ;; Load all themes without asking for permission.
@@ -381,7 +376,7 @@
 
 * Font
 #+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
-  (set-face-attribute 'default nil :font "Hack-15")
+  (set-face-attribute 'default nil :font "Jetbrains Mono-15")
 #+end_src
 
 
@@ -544,16 +539,6 @@ Project.el is emacs builtin package to work with projects. by default It uses =C
 #+end_src
 
 
-* Language Modes
-Hopefully someday we don't need these anymore when treesitter support becomes superior.
-#+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
-  (ensure-package 'json-mode)
-  (ensure-package 'yaml-mode)
-  (ensure-package 'go-mode)
-  (ensure-package 'php-mode)
-#+end_src
-
-
 * Eshell (Emacs Builtin Shell)
 #+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
   (defun user/eshell-mode-hook ()
@@ -570,7 +555,7 @@ Hopefully someday we don't need these anymore when treesitter support becomes su
 #+end_src
 
 
-* xref
+* Xref
 xref is emacs infrastructure that provides functionality to jump to definition, references, ...
 #+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
   (global-set-key (kbd "M-.") 'xref-find-definitions)
@@ -578,3 +563,27 @@ xref is emacs infrastructure that provides functionality to jump to definition, 
   (global-set-key (kbd "M-?") 'xref-find-references)
   (global-set-key (kbd "M-/") 'xref-find-references)
 #+end_src
+
+
+* Extras
+In here I add packages that can be installed optionaly to extend functionality of core Emacs
+but are not mandatory for Emacs experience.
+
+** Ns-auto-titlebar
+This package helps with Emacs in macOS and will automatically change titlebar color based on your theme.
+#+begin_src emacs-lisp
+  (ensure-package 'ns-auto-titlebar)
+#+end_src
+
+
+** Language Modes
+Hopefully someday we don't need these anymore when treesitter support becomes superior.
+I don't tangle this block into =init.el= because I have this rule that init.el should work only with what is available in Emacs by default
+and rely on no external packages.
+#+begin_src emacs-lisp
+  (ensure-package 'json-mode)
+  (ensure-package 'yaml-mode)
+  (ensure-package 'go-mode)
+  (ensure-package 'php-mode)
+#+end_src
+
