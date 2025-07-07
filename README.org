@@ -1,4 +1,7 @@
 #+TITLE: Amirreza Computing Environment
 
-* [[file:Emacs.org][Emacs]]
-* [[file:Ghostty.org][Ghostty]]
+- [[file:Emacs.org][Emacs]]
+- [[file:Ghostty.org][Ghostty]]
+- [[file:ZSH.org][ZSH]]
+- [[file:Tmux.org][Tmux]]
+- [[file:Git.org][Git]]
