@@ -92,3 +92,4 @@ then
 fi
 
 eval "$(starship init zsh)"
+alias emacs='/Applications/Emacs.app/Contents/MacOS/Emacs -nw'

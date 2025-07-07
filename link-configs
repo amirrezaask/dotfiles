@@ -15,11 +15,8 @@ rm -rf "$XDG_CONFIG/fish" \
         "$XDG_CONFIG/wezterm" \
         "$HOME/.zshrc" \
         "$HOME/.gitconfig" \
-        "$HOME/.emacs.d" \
 	"$HOME/.tmux.conf" \
 	"$HOME/.tmux-sessionizer"
-
-ln -s "$DOTFILES_DIR/home/.emacs.d" "$HOME/"
 
 ln -s "$DOTFILES_DIR/xdg_config/ghostty" "$XDG_CONFIG/"
 
