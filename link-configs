@@ -8,18 +8,11 @@ XDG_CONFIG="$HOME/.config"
 mkdir -p "$XDG_CONFIG"
 
 rm -rf "$XDG_CONFIG/fish" \
-        "$XDG_CONFIG/alacritty" \
-        "$XDG_CONFIG/starship.toml" \
         "$XDG_CONFIG/nvim" \
-        "$XDG_CONFIG/wezterm" \
 	"$HOME/.tmux-sessionizer"
 
-ln -s "$DOTFILES_DIR/starship.toml" "$XDG_CONFIG/"
-
 ln -s "$DOTFILES_DIR/xdg_config/nvim" "$XDG_CONFIG/"
-
 ln -s "$DOTFILES_DIR/xdg_config/fish" "$XDG_CONFIG/"
-
 ln -s "$DOTFILES_DIR/tmux-sessionizer" "$HOME/.tmux-sessionizer"
 
 # VSCode (or Cursor) configs

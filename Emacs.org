@@ -1,4 +1,5 @@
 #+title: Emacs
+#+STARTUP: overview
 #+property: header-args:emacs-lisp :mkdirp yes
 
 * Startup specific tweaks in =early-init.el=
@@ -505,4 +506,3 @@ xref is emacs infrastructure that provides functionality to jump to definition, 
   (global-set-key (kbd "M-?") 'xref-find-references)
   (global-set-key (kbd "M-/") 'xref-find-references)
 #+end_src
-
