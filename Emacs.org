@@ -150,11 +150,6 @@
   ;; Load all themes without asking for permission.
   (setq custom-safe-themes t)
 
-  ;; Set of custom themes that I made from streams of jonathan blow, cmuratori, ryan fleury.
-  ;; (ensure-package 'ef-themes)
-  ;; (ensure-package 'modus-themes)
-  ;; (ensure-package 'doom-themes)
-
   (defadvice load-theme (before disable-themes-first activate)
     (dolist (i custom-enabled-themes)
       (disable-theme i)))
@@ -568,6 +563,13 @@ xref is emacs infrastructure that provides functionality to jump to definition, 
 * Extras
 In here I add packages that can be installed optionaly to extend functionality of core Emacs
 but are not mandatory for Emacs experience.
+
+** Themes
+#+BEGIN_SRC emacs-lisp
+  (ensure-package 'ef-themes)
+  (ensure-package 'modus-themes)
+  (ensure-package 'doom-themes)
+#+END_SRC
 
 ** Ns-auto-titlebar
 This package helps with Emacs in macOS and will automatically change titlebar color based on your theme.
