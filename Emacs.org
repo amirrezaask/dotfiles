@@ -144,6 +144,9 @@
 
 * Theme and UI
 #+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
+  (add-to-list 'default-frame-alist '(undecorated . t)) ;; Who uses titlabr ?
+  (toggle-frame-maximized) ;; maximize emacs
+
   (when (and is-macos (fboundp 'ns-auto-titlebar-mode)
   	   (ns-auto-titlebar-mode +1)))
 
@@ -570,6 +573,7 @@ but are not mandatory for Emacs experience.
   (ensure-package 'modus-themes)
   (ensure-package 'doom-themes)
 #+END_SRC
+
 
 ** Ns-auto-titlebar
 This package helps with Emacs in macOS and will automatically change titlebar color based on your theme.
