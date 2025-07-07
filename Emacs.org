@@ -152,8 +152,6 @@
   (when (and is-macos (package-installed-p 'ns-auto-titlebar)
   	   (ns-auto-titlebar-mode +1)))
 
-  (setq-default cursor-type 'bar)
-
   ;; Load all themes without asking for permission.
   (setq custom-safe-themes t)
 
