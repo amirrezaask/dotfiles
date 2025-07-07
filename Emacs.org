@@ -120,6 +120,13 @@
 
   (tool-bar-mode -1)
 
+
+  (defun reload-emacs ()
+    (interactive)
+    (org-babel-tangle "~/src/github/dotfiles/Emacs.org")
+    (load-file "~/.emacs.d/init.el")
+    )
+
 #+end_src
 
 
@@ -227,29 +234,13 @@
   (setq completion-auto-help 'visible)
   (setq completion-auto-select 'second-tab) ;; On first TAB show completion window and on second TAB switch to it.
   (setq completions-header-format nil) ;;
-
-  ;; We can survive with builtins.
-  ;; (ensure-package 'orderless)
-  ;; (setq completion-styles '(orderless basic))
-  ;; (setq completion-category-defaults nil)
-  ;; (setq completion-category-overrides nil)
-
-  ;; (ensure-package 'vertico)
-  ;; (add-hook 'after-init-hook 'vertico-mode)
-
-  ;; (ensure-package 'consult)
-  ;; (ensure-package 'marginalia)
-  ;; (add-hook 'after-init 'marginalia-mode)
-
-  ;; (with-eval-after-load 'minibuffer
-  ;;   (define-key minibuffer-mode-map (kbd "C-;") 'embark-export))
-  ;; (setq completion-in-region-function #'consult-completion-in-region)
-
-  (when (fboundp 'completion-preview-mode) (completion-preview-mode +1))
+  (setq icompelete-compute-delay 0.05) ;; Delay before computation and sorting is started.
+  (setq icomplete-max-delay-chars 1) ;; Number of keypresses before compute delay is counted for.
 
   (fido-vertical-mode +1)
 
-
+  (keymap-set icomplete-fido-mode-map "TAB" 'icomplete-force-complete)
+  (keymap-set icomplete-fido-mode-map "<backspace>" 'delete-backward-char)
 #+end_src
 
 
@@ -400,7 +391,6 @@ Project.el is emacs builtin package to work with projects. by default It uses =C
           (project-find-dir "Find directory")
           (project-grep "Grep")
           (project-eshell "Eshell")))
-
 #+end_src
 
 
