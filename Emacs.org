@@ -58,6 +58,7 @@
   (if is-windows (setenv "PATH" (string-join exec-path ";")) (setenv "PATH" (string-join exec-path ":"))) ;; set emacs process PATH
 #+end_src
 
+
 * Configure Package Manager
 #+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
   ;; Set package mirrors.
@@ -71,6 +72,7 @@
   (setq package-install-upgrade-built-in t)
 
 #+end_src
+
 
 * Basic Emacs configurations
 #+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
@@ -120,11 +122,12 @@
 
 #+end_src
 
+
 * Theme and UI
 #+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
   ;; In macos set title bar color automatically everytime background color of emacs changes.
-  ;; (when is-macos
-  ;;   (ensure-package 'ns-auto-titlebar)
+  (when is-macos
+     (ensure-package 'ns-auto-titlebar))
 
   (when (and is-macos (package-installed-p 'ns-auto-titlebar)
   	   (ns-auto-titlebar-mode +1)))
@@ -135,6 +138,7 @@
   ;; Set of custom themes that I made from streams of jonathan blow, cmuratori, ryan fleury.
   ;; (ensure-package 'ef-themes)
   ;; (ensure-package 'modus-themes)
+  ;; (ensure-package 'doom-themes)
 
   (defadvice load-theme (before disable-themes-first activate)
     (dolist (i custom-enabled-themes)
@@ -197,6 +201,7 @@
 
 #+end_src
 
+
 * Completion and Minibuffer
 #+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
   ;; Allow for minibuffer-ception. Sometimes we need another minibuffer command
@@ -221,11 +226,32 @@
   (setq completions-group t)
   (setq completion-auto-help 'visible)
   (setq completion-auto-select 'second-tab) ;; On first TAB show completion window and on second TAB switch to it.
-  (setq completions-header-format nil) ;; 
+  (setq completions-header-format nil) ;;
+
+  ;; We can survive with builtins.
+  ;; (ensure-package 'orderless)
+  ;; (setq completion-styles '(orderless basic))
+  ;; (setq completion-category-defaults nil)
+  ;; (setq completion-category-overrides nil)
+
+  ;; (ensure-package 'vertico)
+  ;; (add-hook 'after-init-hook 'vertico-mode)
+
+  ;; (ensure-package 'consult)
+  ;; (ensure-package 'marginalia)
+  ;; (add-hook 'after-init 'marginalia-mode)
+
+  ;; (with-eval-after-load 'minibuffer
+  ;;   (define-key minibuffer-mode-map (kbd "C-;") 'embark-export))
+  ;; (setq completion-in-region-function #'consult-completion-in-region)
+
+  (when (fboundp 'completion-preview-mode) (completion-preview-mode +1))
 
   (fido-vertical-mode +1)
 
+
 #+end_src
+
 
 * Editing
 #+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
@@ -349,10 +375,12 @@
   (global-set-key (kbd "M-w") 'copy)
 #+end_src
 
+
 * Font
 #+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
   (set-face-attribute 'default nil :font "Hack-15")
 #+end_src
+
 
 * Projects
 Project.el is emacs builtin package to work with projects. by default It uses =C-x p= acts as prefix.
@@ -372,6 +400,7 @@ Project.el is emacs builtin package to work with projects. by default It uses =C
           (project-eshell "Eshell")))
   
 #+end_src
+
 
 * Modeline
 #+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
@@ -397,6 +426,7 @@ Project.el is emacs builtin package to work with projects. by default It uses =C
                 mode-line-position-column-line-format '(" %l:%c"))
 #+end_src
 
+
 * Compile & Grep
 #+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
   ;; to make project-grep function even better we add keys to grep-mode buffers so we can kill a grep process and restart it.
@@ -420,12 +450,14 @@ Project.el is emacs builtin package to work with projects. by default It uses =C
   
 #+end_src
 
+
 * Keyboard Macros
 #+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
   (global-set-key (kbd "M-[")  'kmacro-start-macro)
   (global-set-key (kbd "M-]")  'kmacro-end-or-call-macro)
   (global-set-key (kbd "M-\\") 'kmacro-end-and-call-macro)
 #+end_src
+
 
 * Eglot (LSP client)
 #+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
@@ -461,6 +493,7 @@ Project.el is emacs builtin package to work with projects. by default It uses =C
 
 #+end_src
 
+
 * Splits
 #+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
 
@@ -489,6 +522,7 @@ Project.el is emacs builtin package to work with projects. by default It uses =C
   (global-set-key (kbd "C-x 3") 'split-window-right-balance-and-switch)
 #+end_src
 
+
 * Language Modes
 Hopefully someday we don't need these anymore when treesitter support becomes superior.
 #+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
@@ -497,6 +531,7 @@ Hopefully someday we don't need these anymore when treesitter support becomes su
   (ensure-package 'go-mode)
   (ensure-package 'php-mode)
 #+end_src
+
 
 * xref
 xref is emacs infrastructure that provides functionality to jump to definition, references, ...
