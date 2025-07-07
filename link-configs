@@ -8,7 +8,6 @@ XDG_CONFIG="$HOME/.config"
 mkdir -p "$XDG_CONFIG"
 
 rm -rf "$XDG_CONFIG/fish" \
-        "$XDG_CONFIG/ghostty" \
         "$XDG_CONFIG/alacritty" \
         "$XDG_CONFIG/starship.toml" \
         "$XDG_CONFIG/nvim" \
@@ -17,8 +16,6 @@ rm -rf "$XDG_CONFIG/fish" \
         "$HOME/.gitconfig" \
 	"$HOME/.tmux.conf" \
 	"$HOME/.tmux-sessionizer"
-
-ln -s "$DOTFILES_DIR/xdg_config/ghostty" "$XDG_CONFIG/"
 
 ln -s "$DOTFILES_DIR/starship.toml" "$XDG_CONFIG/"
 
