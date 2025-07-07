@@ -243,10 +243,29 @@
   (setq icompelete-compute-delay 0.05) ;; Delay before computation and sorting is started.
   (setq icomplete-max-delay-chars 1) ;; Number of keypresses before compute delay is counted for.
 
-  (fido-vertical-mode +1)
+  (defun my/fido-vertical-mode-hook ()
+    (setq-local completion-styles '(basic substring partial-completion emacs22)))
 
+  (add-hook 'fido-vertical-mode-hook 'my/fido-vertical-mode-hook)
+  (fido-vertical-mode 1)
   (keymap-set icomplete-fido-mode-map "TAB" 'icomplete-force-complete)
   (keymap-set icomplete-fido-mode-map "DEL" 'delete-backward-char)
+  (keymap-set minibuffer-local-map "C-p" #'minibuffer-previous-completion)
+  (keymap-set minibuffer-local-map "C-n" #'minibuffer-next-completion)
+
+  ;; Inline completions
+  (when (fboundp 'completion-preview-mode) ;; Emacs 30+
+    (completion-preview-mode +1)
+    (add-hook 'prog-mode-hook #'completion-preview-mode)
+    ;; also in text buffers
+    (add-hook 'text-mode-hook #'completion-preview-mode)
+    ;; and in \\[shell] and friends
+    (with-eval-after-load 'comint
+      (add-hook 'comint-mode-hook #'completion-preview-mode))
+
+    (keymap-set completion-preview-active-mode-map "M-n" #'completion-preview-next-candidate)
+
+    (keymap-set completion-preview-active-mode-map "M-p" #'completion-preview-prev-candidate))
 #+end_src
 
 
@@ -291,19 +310,6 @@
 
   (setq kill-whole-line t)
 
-  ;; jump-up/down are utility functions that I use to move around code to emulate C-d/u functionality from vim.
-  (defun jump-up ()
-    (interactive)
-    (next-line (* -1 (/ (window-height) 2))) (recenter-top-bottom))
-
-  (defun jump-down ()
-    (interactive)
-    (next-line (/ (window-height) 2)) (recenter-top-bottom))
-
-  (global-set-key (kbd "M-n") 'jump-down)
-  (global-set-key (kbd "M-p") 'jump-up)
-
-
   (global-set-key (kbd "C-/") 'comment-line) ;; Comment
   (global-set-key (kbd "C-<return>") 'save-buffer)
 
@@ -334,7 +340,18 @@
            (untabify (point-min) (point-max))))
 
 
+  ;; jump-up/down are utility functions that I use to move around code to emulate C-d/u functionality from vim.
+  (defun jump-up ()
+    (interactive)
+    (next-line (* -1 (/ (window-height) 2))) (recenter-top-bottom))
 
+  (defun jump-down ()
+    (interactive)
+    (next-line (/ (window-height) 2)) (recenter-top-bottom))
+
+
+  (keymap-set global-map "C-v" 'jump-down)
+  (keymap-set global-map "M-v" 'jump-up)
 #+end_src
 
 
