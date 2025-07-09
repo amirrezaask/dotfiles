@@ -80,6 +80,8 @@
   (defun ensure-package (package) "Ensures a package is installed through package.el"
          (unless (package-installed-p package) (package-install package)))
 
+  (defun ensure-package-vc (package repo) (unless (package-installed-p package) (package-vc-install package repo)))
+
   ;; Update builtin packages as well.
   (setq package-install-upgrade-built-in t)
 
@@ -147,7 +149,7 @@
   ;; (add-to-list 'default-frame-alist '(undecorated . t)) ;; Who uses titlabr ?
 
   (when (and is-macos (fboundp 'ns-auto-titlebar-mode)
-  	   (ns-auto-titlebar-mode +1)))
+             (ns-auto-titlebar-mode +1)))
 
   ;; Load all themes without asking for permission.
   (setq custom-safe-themes t)
@@ -155,6 +157,7 @@
   (defadvice load-theme (before disable-themes-first activate)
     (dolist (i custom-enabled-themes)
       (disable-theme i)))
+
 
   (setopt modus-vivendi-tinted-palette-overrides ;; palenight like colors
           `((bg-main "#292D3E")
@@ -210,7 +213,6 @@
         '((bg-main "#052525")))
 
   (load-theme 'modus-vivendi-tinted t)
-
 #+end_src
 
 
