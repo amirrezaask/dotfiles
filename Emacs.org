@@ -146,7 +146,13 @@
 
 * Theme and UI
 #+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
-  ;; (add-to-list 'default-frame-alist '(undecorated . t)) ;; Who uses titlabr ?
+
+  ;; This package helps with Emacs in macOS and will automatically change titlebar color based on your theme.
+  (when is-macos
+    (ensure-package 'ns-auto-titlebar))
+
+  (ensure-package 'ef-themes)
+  (ensure-package 'modus-themes)
 
   (when (and is-macos (fboundp 'ns-auto-titlebar-mode)
              (ns-auto-titlebar-mode +1)))
@@ -157,7 +163,6 @@
   (defadvice load-theme (before disable-themes-first activate)
     (dolist (i custom-enabled-themes)
       (disable-theme i)))
-
 
   (setopt modus-vivendi-tinted-palette-overrides ;; palenight like colors
           `((bg-main "#292D3E")
@@ -580,26 +585,7 @@ xref is emacs infrastructure that provides functionality to jump to definition, 
 #+end_src
 
 
-* Extras
-In here I add packages that can be installed optionaly to extend functionality of core Emacs
-but are not mandatory for Emacs experience.
-
-** Themes
-#+BEGIN_SRC emacs-lisp
-  (ensure-package 'ef-themes)
-  (ensure-package 'modus-themes)
-  (ensure-package 'doom-themes)
-#+END_SRC
-
-
-** Ns-auto-titlebar
-This package helps with Emacs in macOS and will automatically change titlebar color based on your theme.
-#+begin_src emacs-lisp
-  (ensure-package 'ns-auto-titlebar)
-#+end_src
-
-
-** Language Modes
+* Language Modes
 Hopefully someday we don't need these anymore when treesitter support becomes superior.
 I don't tangle this block into =init.el= because I have this rule that init.el should work only with what is available in Emacs by default
 and rely on no external packages.
@@ -609,4 +595,3 @@ and rely on no external packages.
   (ensure-package 'go-mode)
   (ensure-package 'php-mode)
 #+end_src
-
