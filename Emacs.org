@@ -440,6 +440,18 @@ this code block does not get tangled.
 
 * Projects
 Project.el is emacs builtin package to work with projects. by default It uses =C-x p= acts as prefix.
+
+These are a list of project commands that are most useful in my opinion:
+
+| Key     | Command                     |
+|---------+-----------------------------|
+| C-x p f | project-find-file           |
+| C-x p b | project-switch-to-buffer    |
+| C-x p g | project-grep                |
+| C-x p s | project-async-shell-command |
+| C-x p c | project-compile             |
+| C-x p e | project-eshell              |
+
 #+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
   (defun project-grep (&optional EDIT)
     (interactive "P")
@@ -447,7 +459,9 @@ Project.el is emacs builtin package to work with projects. by default It uses =C
       (grep (format "rg --no-heading --color=\"never\" %s" (read-string "Grep: ")))))
 
   (define-key project-prefix-map (kbd "g") 'project-grep)
+  (define-key project-prefix-map (kbd "s") 'project-async-shell-command)
   (global-set-key (kbd "C-x p g") 'project-grep)
+  (global-set-key (kbd "C-x p s") 'project-async-shell-command)
 
   ;; TODO: project-switch-to-buffer is really handy but even better would be to have project-switch-dwim command that supports both files and buffers.
   (setq project-switch-commands
@@ -612,7 +626,7 @@ Project.el is emacs builtin package to work with projects. by default It uses =C
 #+end_src
 
 
-* Xref
+* xref
 xref is emacs infrastructure that provides functionality to jump to definition, references, ...
 #+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
   (global-set-key (kbd "M-.") 'xref-find-definitions)
