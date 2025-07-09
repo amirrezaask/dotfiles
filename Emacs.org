@@ -222,6 +222,8 @@
 
 
 * Completion and Minibuffer
+
+** Base Completion configuration
 #+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
   ;; Allow for minibuffer-ception. Sometimes we need another minibuffer command
   ;; while we're in the minibuffer.
@@ -246,20 +248,33 @@
   (setq completion-auto-help 'visible)
   (setq completion-auto-select 'second-tab) ;; On first TAB show completion window and on second TAB switch to it.
   (setq completions-header-format nil) ;;
+
+#+END_SRC
+
+
+** Icomplete/Fido
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el
   (setq icompelete-compute-delay 0.05) ;; Delay before computation and sorting is started.
   (setq icomplete-max-delay-chars 1) ;; Number of keypresses before compute delay is counted for.
 
   (defun my/fido-vertical-mode-hook ()
     (setq-local completion-styles '(basic substring partial-completion emacs22)))
 
-  (add-hook 'fido-vertical-mode-hook 'my/fido-vertical-mode-hook)
   (fido-vertical-mode 1)
-  (keymap-set icomplete-fido-mode-map "TAB" 'icomplete-force-complete)
-  (keymap-set icomplete-fido-mode-map "DEL" 'delete-backward-char)
+
+  (with-eval-after-load 'icomplete
+    (keymap-set icomplete-fido-mode-map "TAB" 'icomplete-force-complete)
+    (keymap-set icomplete-fido-mode-map "DEL" 'delete-backward-char)
+    (add-hook 'fido-vertical-mode-hook 'my/fido-vertical-mode-hook))
+
   (keymap-set minibuffer-local-map "C-p" #'minibuffer-previous-completion)
   (keymap-set minibuffer-local-map "C-n" #'minibuffer-next-completion)
+#+END_SRC
 
-  ;; Inline completions
+
+** completion-preview-mode
+Emacs 30+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
   (when (fboundp 'completion-preview-mode) ;; Emacs 30+
     (completion-preview-mode +1)
     (add-hook 'prog-mode-hook #'completion-preview-mode)
@@ -268,10 +283,17 @@
     ;; and in \\[shell] and friends
     (with-eval-after-load 'comint
       (add-hook 'comint-mode-hook #'completion-preview-mode))
-
+    
     (keymap-set completion-preview-active-mode-map "M-n" #'completion-preview-next-candidate)
-
     (keymap-set completion-preview-active-mode-map "M-p" #'completion-preview-prev-candidate))
+#+end_src
+
+
+** Vertico [Disabled]
+Currently I am trying to use emacs builtin functionality when it's available so I am using Fido mode instead of vertico, this code block does not get tangled.
+#+begin_src emacs-lisp
+  (ensure-package 'vertico)
+  (vertico-mode +1)
 #+end_src
 
 
