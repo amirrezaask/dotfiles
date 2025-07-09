@@ -144,8 +144,7 @@
 
 * Theme and UI
 #+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
-  (add-to-list 'default-frame-alist '(undecorated . t)) ;; Who uses titlabr ?
-  (toggle-frame-maximized) ;; maximize emacs
+  ;; (add-to-list 'default-frame-alist '(undecorated . t)) ;; Who uses titlabr ?
 
   (when (and is-macos (fboundp 'ns-auto-titlebar-mode)
   	   (ns-auto-titlebar-mode +1)))
@@ -369,6 +368,7 @@
 
 #+end_src
 
+
 ** "Modern" Cut/Copy/Paste
 #+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
    (defun copy () "Either copy region or the current line."
@@ -402,18 +402,17 @@ Project.el is emacs builtin package to work with projects. by default It uses =C
     (interactive "P")
     (let ((default-directory (if (project-current) (project-root (project-current)) default-directory)))
       (grep (format "rg --no-heading --color=\"never\" %s" (read-string "Grep: ")))))
+
   (define-key project-prefix-map (kbd "g") 'project-grep)
-  (define-key project-prefix-map (kbd "s") 'project-eshell)
   (global-set-key (kbd "C-x p g") 'project-grep)
-  (global-set-key (kbd "C-x p s") 'project-eshell)
 
   ;; TODO: project-switch-to-buffer is really handy but even better would be to have project-switch-dwim command that supports both files and buffers.
   (setq project-switch-commands
         '((project-find-file "Find file")
           (project-find-dir "Find directory")
+  	(project-switch-to-buffer "Switch to buffer")
           (project-grep "Grep")
           (project-eshell "Eshell")))
-
 #+end_src
 
 
@@ -575,8 +574,7 @@ xref is emacs infrastructure that provides functionality to jump to definition, 
 #+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
   (global-set-key (kbd "M-.") 'xref-find-definitions)
   (global-set-key (kbd "M-,") 'xref-go-back)
-  (global-set-key (kbd "M-?") 'xref-find-references)
-  (global-set-key (kbd "M-/") 'xref-find-references)
+  (global-set-key (kbd "M->") 'xref-find-references)
 #+end_src
 
 
