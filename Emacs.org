@@ -146,14 +146,8 @@
 
 * Theme and UI
 #+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
-
   ;; This package helps with Emacs in macOS and will automatically change titlebar color based on your theme.
-  (when is-macos
-    (ensure-package 'ns-auto-titlebar))
-
-  (ensure-package 'ef-themes)
-  (ensure-package 'modus-themes)
-
+  ;; Since this is an external package we wrap it in a conditional to make sure we enable it if installed.
   (when (and is-macos (fboundp 'ns-auto-titlebar-mode)
              (ns-auto-titlebar-mode +1)))
 
@@ -218,6 +212,16 @@
         '((bg-main "#052525")))
 
   (load-theme 'modus-vivendi-tinted t)
+#+end_src
+
+** External packages
+Some external to emacs builtin packages to improve functionality and better themes, they are not included in the output =init.el=
+#+begin_src emacs-lisp
+  (when is-macos
+    (ensure-package 'ns-auto-titlebar))
+
+  (ensure-package 'ef-themes)
+  (ensure-package 'modus-themes)
 #+end_src
 
 
@@ -298,8 +302,9 @@ backward.
 #+end_src
 
 
-** Vertico [Disabled]
-Currently I am trying to use emacs builtin functionality when it's available so I am using Fido mode instead of vertico, this code block does not get tangled.
+** vertico
+Currently I am trying to use emacs builtin functionality when it's available so I am using Fido mode instead of vertico,
+this code block does not get tangled.
 #+begin_src emacs-lisp
   (ensure-package 'vertico)
   (vertico-mode +1)
