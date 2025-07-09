@@ -252,7 +252,10 @@
 #+END_SRC
 
 
-** Icomplete/Fido
+** icomplete/fido
+From Emacs 28 icomplete mode had a lot of improvements specifically =fido(fake-ido)-mode= which emulates =ido-mode=
+but remains compatible with =completing-read= API of core emacs. Based on my usage
+it's more than enough for daily usage and the need for packages like =ivy=, =vertico= is removed in last few emacs versions.
 #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el
   (setq icompelete-compute-delay 0.05) ;; Delay before computation and sorting is started.
   (setq icomplete-max-delay-chars 1) ;; Number of keypresses before compute delay is counted for.
@@ -273,7 +276,13 @@
 
 
 ** completion-preview-mode
-Emacs 30+
+From Emacs 30 there is a builtin mode to show completion candidates in line similar to inline hints in
+vscode. This mode automatically shows and updates the completion preview according to the text around point. When the preview is visible, TAB accepts the
+completion suggestion, M-i completes up to
+the longest common prefix of all completion candidates,
+M-n cycles forward to the next
+completion suggestion, and M-p cycles
+backward.
 #+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
   (when (fboundp 'completion-preview-mode) ;; Emacs 30+
     (completion-preview-mode +1)
