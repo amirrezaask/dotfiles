@@ -17,12 +17,12 @@
 ** Startup specific garbage collector options
 #+begin_src emacs-lisp :tangle ~/.emacs.d/early-init.el
   (setq gc-cons-threshold most-positive-fixnum
-      gc-cons-percentage 1.0)
+        gc-cons-percentage 1.0)
 #+end_src
 ** Normal garbage collector options
 #+begin_src emacs-lisp :tangle ~/.emacs.d/early-init.el
   (add-hook 'emacs-startup-hook (lambda ()
-  				(setq gc-cons-threshold 50 * 1000 * 1000 ;; 50MB
+                                  (setq gc-cons-threshold 50 * 1000 * 1000 ;; 50MB
                                         gc-cons-percentage 0.8)))
 
 #+end_src
@@ -37,8 +37,8 @@
 #+end_src
 ** Package manager tweaks
 #+begin_src emacs-lisp :tangle ~/.emacs.d/early-init.el
-(setq package-enable-at-startup t
-      package-quickstart t)
+  (setq package-enable-at-startup t
+        package-quickstart t)
 #+end_src
 
 ** Remove startup screen and splash screen
@@ -144,16 +144,46 @@
 #+end_src
 
 
-* Theme and UI
+* Appearance
+
+** Frame Transparency
 #+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
-  ;; This package helps with Emacs in macOS and will automatically change titlebar color based on your theme.
-  ;; Since this is an external package we wrap it in a conditional to make sure we enable it if installed.
+  (defvar alpha-level 95)
+
+  ;; for some reason macos version uses different face attribute than the linux/windows port.
+  (when is-macos
+    (set-frame-parameter (selected-frame) 'alpha alpha-level)
+    (add-to-list 'default-frame-alist `(alpha . ,alpha-level)))
+
+  (unless is-macos
+    (set-frame-parameter (selected-frame) 'alpha-background alpha-level)
+    (add-to-list 'default-frame-alist `(alpha-background . ,alpha-level)))
+
+#+end_src
+
+
+** Fullscreen on start
+#+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
+  (set-frame-parameter (selected-frame) 'fullscreen 'maximized)
+  (add-to-list 'default-frame-alist '(fullscreen . maximized))
+#+end_src
+
+
+** Macos titlebar color
+This package helps with Emacs in macOS and will automatically change titlebar color based on your theme.
+Since this is an external package we wrap it in a conditional to make sure we enable it if installed.
+#+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
   (when (and is-macos (fboundp 'ns-auto-titlebar-mode)
              (ns-auto-titlebar-mode +1)))
+#+end_src
 
+
+** Theme
+#+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
   ;; Load all themes without asking for permission.
   (setq custom-safe-themes t)
 
+  ;; This advice will make sure that themes don't get stacked on top of each other when loading.
   (defadvice load-theme (before disable-themes-first activate)
     (dolist (i custom-enabled-themes)
       (disable-theme i)))
@@ -214,6 +244,8 @@
   (load-theme 'modus-vivendi-tinted t)
 #+end_src
 
+
+
 ** External packages
 Some external to emacs builtin packages to improve functionality and better themes, they are not included in the output =init.el=
 #+begin_src emacs-lisp
@@ -267,8 +299,6 @@ it's more than enough for daily usage and the need for packages like =ivy=, =ver
   (defun my/fido-vertical-mode-hook ()
     (setq-local completion-styles '(basic substring partial-completion emacs22)))
 
-  (fido-vertical-mode 1)
-
   (with-eval-after-load 'icomplete
     (keymap-set icomplete-fido-mode-map "TAB" 'icomplete-force-complete)
     (keymap-set icomplete-fido-mode-map "DEL" 'delete-backward-char)
@@ -276,6 +306,8 @@ it's more than enough for daily usage and the need for packages like =ivy=, =ver
 
   (keymap-set minibuffer-local-map "C-p" #'minibuffer-previous-completion)
   (keymap-set minibuffer-local-map "C-n" #'minibuffer-next-completion)
+
+  (fido-vertical-mode 1)
 #+END_SRC
 
 
@@ -296,7 +328,7 @@ backward.
     ;; and in \\[shell] and friends
     (with-eval-after-load 'comint
       (add-hook 'comint-mode-hook #'completion-preview-mode))
-    
+
     (keymap-set completion-preview-active-mode-map "M-n" #'completion-preview-next-candidate)
     (keymap-set completion-preview-active-mode-map "M-p" #'completion-preview-prev-candidate))
 #+end_src
@@ -329,7 +361,7 @@ this code block does not get tangled.
   (global-auto-revert-mode +1)
 
   ;; Highlight current line.
-  ;; (global-hl-line-mode +1)
+  (global-hl-line-mode +1)
 
   ;; Delete selected region before inserting.
   (delete-selection-mode +1)
@@ -414,7 +446,7 @@ this code block does not get tangled.
 
 ** "Modern" Cut/Copy/Paste
 #+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
-   (defun copy () "Either copy region or the current line."
+  (defun copy () "Either copy region or the current line."
          (interactive)
          (if (use-region-p)
              (kill-ring-save (region-beginning) (region-end)) ;; copy active region contents
@@ -434,7 +466,7 @@ this code block does not get tangled.
 
 * Font
 #+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
-  (set-face-attribute 'default nil :font "Jetbrains Mono-15")
+  (set-face-attribute 'default nil :font "Hack-15")
 #+end_src
 
 
@@ -467,7 +499,7 @@ These are a list of project commands that are most useful in my opinion:
   (setq project-switch-commands
         '((project-find-file "Find file")
           (project-find-dir "Find directory")
-  	(project-switch-to-buffer "Switch to buffer")
+          (project-switch-to-buffer "Switch to buffer")
           (project-grep "Grep")
           (project-eshell "Eshell")))
 #+end_src
@@ -534,7 +566,7 @@ These are a list of project commands that are most useful in my opinion:
   (with-eval-after-load 'compile
     (define-key compilation-mode-map (kbd "k") 'kill-compilation)
     (define-key compilation-mode-map (kbd "G") (lambda () (interactive) (recompile t))))
-  
+
 #+end_src
 
 
@@ -619,7 +651,7 @@ These are a list of project commands that are most useful in my opinion:
 
   (defun user/eshell-prompt-function ()
     (format " %s > "
-  	  (propertize (if (project-current) (project-name (project-current)) default-directory) 'face 'font-lock-warning-face)))
+            (propertize (if (project-current) (project-name (project-current)) default-directory) 'face 'font-lock-warning-face)))
 
 
   (setq eshell-prompt-function 'user/eshell-prompt-function)
