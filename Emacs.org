@@ -178,8 +178,9 @@ Since this is an external package we wrap it in a conditional to make sure we en
 #+end_src
 
 
-** Theme
-*** Palenight Palette override for modus themes
+** Themes
+
+*** Palenight palette override for modus themes
 =modus-themes= is a theme package from @protesilas that is included in Emacs and since it supports palette overrides i use it to create
 overrides to emulate themes that I like.
 #+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
@@ -232,6 +233,7 @@ overrides to emulate themes that I like.
               (constant "#f78c6c")))
 #+end_src
 
+
 *** ef-bio palette override
 #+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
   ;; better color background for ef-bio
@@ -240,10 +242,75 @@ overrides to emulate themes that I like.
         '((bg-main "#052525")))
 #+end_src
 
+
+*** Jonathan Blow color palettes
+#+begin_src emacs-lisp :tangle ~/.emacs.d/themes/witness-theme.el
+  (deftheme witness "Theme Inspired by legendary Jonathan Blow Emacs.")
+
+  (custom-set-faces                   ;; Witness
+   
+   `(default                          ((t (:foreground "#d3b58d" :background "#072626"))))
+   `(hl-line                          ((t (:background "#0c4141"))))
+   `(region                           ((t (:background "#0000cd"))))
+   `(cursor                           ((t (:background "#90ee90"))))
+   `(font-lock-keyword-face           ((t (:foreground "#ffffff"))))
+   `(font-lock-type-face              ((t (:foreground "#8cde94"))))
+   `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
+   `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
+   `(font-lock-builtin-face           ((t (:foreground "#90ee90"))))
+   `(font-lock-string-face            ((t (:foreground "#0fdfaf"))))
+   `(font-lock-comment-face           ((t (:foreground "#3fdf1f"))))
+   `(font-lock-comment-delimiter-face ((t (:foreground "#3fdf1f"))))
+   `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
+   `(font-lock-function-name-face     ((t (:foreground "#ffffff"))))
+   `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
+   `(hightlight                       ((t (:foreground "#000080" :background "#b4eeb4"))))
+   `(font-lock-warning-face           ((t (:foreground "#504038"))))
+   `(font-lock-note-face              ((t (:foreground "#eee685" ))))
+   `(mode-line                        ((t (:foreground "#000000" :background "#d3b58d"))))
+   `(mode-line-inactive               ((t (:background "#333333" :foreground "#ffffff"))))
+   `(show-paren-match                 ((t (:background "#3cb371")))))
+
+  (global-hl-line-mode -1)
+  (setq-default cursor-type 'box)
+#+end_src
+#+begin_src emacs-lisp :tangle ~/.emacs.d/themes/braid-theme.el
+  (deftheme braid "Another Theme from Jonathan Blow")
+
+  (custom-set-faces ;; Braid
+   `(default                          ((t (:foreground "#debe95" :background "#252525"))))
+   `(hl-line                          ((t (:background "#353535"))))
+   `(vertico-current                  ((t (:background "#0000cd"))))
+   `(region                           ((t (:background "#0000cd"))))
+   `(cursor                           ((t (:background "#90ee90"))))
+   `(font-lock-keyword-face           ((t (:foreground "#d4d4d4"))))
+   `(font-lock-type-face              ((t (:foreground "#8cde94"))))
+   `(font-lock-constant-face          ((t (:foreground "#7ad0c6"))))
+   `(font-lock-variable-name-face     ((t (:foreground "#c8d4ec"))))
+   `(font-lock-builtin-face           ((t (:foreground "#ffffff"))))
+   `(font-lock-string-face            ((t (:foreground "#b3b3b3"))))
+   `(font-lock-comment-face           ((t (:foreground "#ffff00"))))
+   `(font-lock-comment-delimiter-face ((t (:foreground "#ffff00"))))
+   `(font-lock-doc-face               ((t (:foreground "#3fdf1f"))))
+   `(font-lock-function-name-face     ((t (:foreground "#ffffff"))))
+   `(font-lock-doc-string-face        ((t (:foreground "#3fdf1f"))))
+   `(font-lock-warning-face           ((t (:foreground "#ffff00"))))
+   `(font-lock-note-face              ((t (:foreground "#eee685" ))))
+   `(mode-line                        ((t (:foreground "#000000" :background "#d3b58d"))))
+   `(mode-line-inactive               ((t (:background "#333333" :foreground "#ffffff"))))
+   `(show-paren-match                 ((t (:background "#3cb371")))))
+
+  (global-hl-line-mode -1)
+  (setq-default cursor-type 'box)
+#+end_src
+
+
 *** Loading Themes
 #+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
   ;; Load all themes without asking for permission.
   (setq custom-safe-themes t)
+
+  (add-to-list 'custom-theme-load-path (expand-file-name "themes" user-emacs-directory))
 
   ;; This advice will make sure that themes don't get stacked on top of each other when loading.
   (defadvice load-theme (before disable-themes-first activate)
