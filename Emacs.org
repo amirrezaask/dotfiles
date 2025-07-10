@@ -179,6 +179,68 @@ Since this is an external package we wrap it in a conditional to make sure we en
 
 
 ** Theme
+*** Palenight Palette override for modus themes
+=modus-themes= is a theme package from @protesilas that is included in Emacs and since it supports palette overrides i use it to create
+overrides to emulate themes that I like.
+#+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
+    (setopt modus-vivendi-tinted-palette-overrides ;; palenight like colors
+            `((bg-main "#292D3E")
+              (bg-active bg-main)
+              (fg-main "#EEFFFF")
+              (fg-active fg-main)
+              (bg-line-number-inactive bg-main)
+              (bg-line-number-active bg-main)
+              (fringe unspecified)
+              (border-mode-line-active "#c792ea")
+              (border-mode-line-inactive unspecified)
+              (fg-mode-line-active "#A6Accd")
+              (bg-mode-line-active "#232635")
+              (fg-mode-line-inactive "#676E95")
+              (bg-mode-line-inactive "#282c3d")
+              (bg-tab-bar      "#242837")
+              (bg-tab-current  bg-main)
+              (bg-tab-other    bg-active)
+              (fg-prompt "#c792ea")
+              (bg-prompt unspecified)
+              (bg-hover-secondary "#676E95")
+              (bg-completion "#2f447f")
+              (fg-completion white)
+              (bg-region "#3C435E")
+              (fg-region white)
+
+              (fg-heading-0 "#82aaff")
+              (fg-heading-1 "#82aaff")
+              (fg-heading-2 "#c792ea")
+              (fg-heading-3 "#bb80b3")
+              (fg-heading-4 "#a1bfff")
+
+              (fg-prose-verbatim "#c3e88d")
+              (bg-prose-block-contents "#232635")
+              (fg-prose-block-delimiter "#676E95")
+              (bg-prose-block-delimiter bg-prose-block-contents)
+
+              (accent-1 "#79a8ff")
+
+              (keyword "#89DDFF")
+              (builtin "#82aaff")
+              (comment "#676E95")
+              (string "#c3e88d")
+              (fnname "#82aaff")
+              (type "#c792ea")
+              (variable "#ffcb6b")
+              (docstring "#8d92af")
+              (constant "#f78c6c")))
+#+end_src
+
+*** ef-bio palette override
+#+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
+  ;; better color background for ef-bio
+  ;; similar in tone with jonathan blow setup.
+  (setq ef-bio-palette-overrides
+        '((bg-main "#052525")))
+#+end_src
+
+*** Loading Themes
 #+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
   ;; Load all themes without asking for permission.
   (setq custom-safe-themes t)
@@ -188,60 +250,7 @@ Since this is an external package we wrap it in a conditional to make sure we en
     (dolist (i custom-enabled-themes)
       (disable-theme i)))
 
-  (setopt modus-vivendi-tinted-palette-overrides ;; palenight like colors
-          `((bg-main "#292D3E")
-            (bg-active bg-main)
-            (fg-main "#EEFFFF")
-            (fg-active fg-main)
-            (bg-line-number-inactive bg-main)
-            (bg-line-number-active bg-main)
-            (fringe unspecified)
-            (border-mode-line-active unspecified)
-            (border-mode-line-inactive unspecified)
-            (fg-mode-line-active "#A6Accd")
-            (bg-mode-line-active "#232635")
-            (fg-mode-line-inactive "#676E95")
-            (bg-mode-line-inactive "#282c3d")
-            (bg-tab-bar      "#242837")
-            (bg-tab-current  bg-main)
-            (bg-tab-other    bg-active)
-            (fg-prompt "#c792ea")
-            (bg-prompt unspecified)
-            (bg-hover-secondary "#676E95")
-            (bg-completion "#2f447f")
-            (fg-completion white)
-            (bg-region "#3C435E")
-            (fg-region white)
-
-            (fg-heading-0 "#82aaff")
-            (fg-heading-1 "#82aaff")
-            (fg-heading-2 "#c792ea")
-            (fg-heading-3 "#bb80b3")
-            (fg-heading-4 "#a1bfff")
-
-            (fg-prose-verbatim "#c3e88d")
-            (bg-prose-block-contents "#232635")
-            (fg-prose-block-delimiter "#676E95")
-            (bg-prose-block-delimiter bg-prose-block-contents)
-
-            (accent-1 "#79a8ff")
-
-            (keyword "#89DDFF")
-            (builtin "#82aaff")
-            (comment "#676E95")
-            (string "#c3e88d")
-            (fnname "#82aaff")
-            (type "#c792ea")
-            (variable "#ffcb6b")
-            (docstring "#8d92af")
-            (constant "#f78c6c")))
-
-  ;; better color background for ef-bio
-  ;; similar in tone with jonathan blow setup.
-  (setq ef-bio-palette-overrides
-        '((bg-main "#052525")))
-
-  (load-theme 'modus-vivendi-tinted t)
+  (load-theme 'modus-vivendi-tinted t) ;; this will load modus-vivendi-tinted which we have set override to emulate doom-palenight colors.
 #+end_src
 
 
@@ -361,7 +370,7 @@ this code block does not get tangled.
   (global-auto-revert-mode +1)
 
   ;; Highlight current line.
-  (global-hl-line-mode +1)
+  ;; (global-hl-line-mode +1)
 
   ;; Delete selected region before inserting.
   (delete-selection-mode +1)
