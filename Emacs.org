@@ -113,7 +113,9 @@
   ;; Don't report warnings and errors when native compiling packages, I don't care about other people's code.
   (setq native-comp-async-report-warnings-errors nil)
 
-
+  ;; Custom file
+  (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+        
   ;; No flashing and sounds.
   (setq-default ring-bell-function 'ignore)
 
@@ -134,12 +136,10 @@
 
   (tool-bar-mode -1)
 
-
   (defun reload-emacs ()
     (interactive)
     (org-babel-tangle "~/src/github/dotfiles/Emacs.org")
-    (load-file "~/.emacs.d/init.el")
-    )
+    (load-file "~/.emacs.d/init.el"))
 
 #+end_src
 
@@ -148,7 +148,7 @@
 
 ** Frame Transparency
 #+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
-  (defvar alpha-level 95)
+  (defvar alpha-level 93)
 
   ;; for some reason macos version uses different face attribute than the linux/windows port.
   (when is-macos
@@ -169,7 +169,7 @@
 #+end_src
 
 
-** Macos titlebar color
+** MacOS titlebar color
 This package helps with Emacs in macOS and will automatically change titlebar color based on your theme.
 Since this is an external package we wrap it in a conditional to make sure we enable it if installed.
 #+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
@@ -247,8 +247,8 @@ overrides to emulate themes that I like.
 #+begin_src emacs-lisp :tangle ~/.emacs.d/themes/witness-theme.el
   (deftheme witness "Theme Inspired by legendary Jonathan Blow Emacs.")
 
-  (custom-set-faces                   ;; Witness
-   
+  (custom-theme-set-faces                   ;; Witness
+   'witness
    `(default                          ((t (:foreground "#d3b58d" :background "#072626"))))
    `(hl-line                          ((t (:background "#0c4141"))))
    `(region                           ((t (:background "#0000cd"))))
@@ -277,7 +277,8 @@ overrides to emulate themes that I like.
 #+begin_src emacs-lisp :tangle ~/.emacs.d/themes/braid-theme.el
   (deftheme braid "Another Theme from Jonathan Blow")
 
-  (custom-set-faces ;; Braid
+  (custom-theme-set-faces ;; Braid
+   'braid
    `(default                          ((t (:foreground "#debe95" :background "#252525"))))
    `(hl-line                          ((t (:background "#353535"))))
    `(vertico-current                  ((t (:background "#0000cd"))))
@@ -542,7 +543,7 @@ this code block does not get tangled.
 
 * Font
 #+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
-  (set-face-attribute 'default nil :font "Hack-15")
+  (set-face-attribute 'default nil :font "Jetbrains Mono-15")
 #+end_src
 
 
