@@ -572,6 +572,12 @@ These are a list of project commands that are most useful in my opinion:
     (let ((default-directory (if (project-current) (project-root (project-current)) default-directory)))
       (ansi-term "/bin/zsh" (format "ansi-term-%s" (project-root (project-current))))))
 
+  (when (fboundp 'vterm)
+    (defun project-vterm ()
+      (interactive)
+      (let ((default-directory (if (project-current) (project-root (project-current)) default-directory)))
+        (vterm))))
+
   (define-key project-prefix-map (kbd "g") 'project-grep)
   (define-key project-prefix-map (kbd "s") 'project-async-shell-command)
   (define-key project-prefix-map (kbd "t") 'project-ansi-term)
