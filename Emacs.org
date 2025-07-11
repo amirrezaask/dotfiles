@@ -570,14 +570,13 @@ These are a list of project commands that are most useful in my opinion:
   (defun project-ansi-term ()
     (interactive)
     (let ((default-directory (if (project-current) (project-root (project-current)) default-directory)))
-
-      (ansi-term "/bin/zsh" (format "ansi-term-%s" (project-root (project-current)))))
-    
-    )
+      (ansi-term "/bin/zsh" (format "ansi-term-%s" (project-root (project-current))))))
 
   (define-key project-prefix-map (kbd "g") 'project-grep)
   (define-key project-prefix-map (kbd "s") 'project-async-shell-command)
+  (define-key project-prefix-map (kbd "t") 'project-ansi-term)
   (global-set-key (kbd "C-x p g") 'project-grep)
+  (global-set-key (kbd "C-x p t") 'project-ansi-term)
   (global-set-key (kbd "C-x p s") 'project-async-shell-command)
 
   ;; TODO: project-switch-to-buffer is really handy but even better would be to have project-switch-dwim command that supports both files and buffers.
@@ -587,7 +586,7 @@ These are a list of project commands that are most useful in my opinion:
           (project-switch-to-buffer "Switch to buffer")
           (project-grep "Grep")
           (project-eshell "Eshell")
-  	  ))
+          (project-ansi-term "AnsiTerm")))
 #+end_src
 
 
