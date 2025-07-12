@@ -5,16 +5,20 @@ set -e
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 XDG_CONFIG="$HOME/.config"
 
-mkdir -p "$XDG_CONFIG"
 
 rm -rf  "$XDG_CONFIG/nvim" \
 	"$HOME/.tmux-sessionizer" \
 	"$XDG_CONFIG/ghostty" \
 	"$HOME/.tmux.conf" \
 	"$HOME/.zshrc" \
+	"$XDG_CONFIG/fish" \
 	"$HOME/.gitconfig"
 
+mkdir -p "$XDG_CONFIG"
+mkdir -p "$XDG_CONFIG/fish"
+
 ln -s "$DOTFILES_DIR/nvim" "$XDG_CONFIG/"
+ln -s "$DOTFILES_DIR/config.fish" "$XDG_CONFIG/fish/config.fish"
 ln -s "$DOTFILES_DIR/tmux/tmux-sessionizer" "$HOME/.tmux-sessionizer"
 ln -s "$DOTFILES_DIR/ghostty" "$XDG_CONFIG/ghostty"
 ln -s "$DOTFILES_DIR/.gitconfig" "$HOME/.gitconfig"

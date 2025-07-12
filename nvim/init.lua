@@ -27,32 +27,18 @@ o.scrolloff = 10 -- Scroll when cursor is 8 lines away from screen edge
 o.statusline = "%m%w%q%h%r%f%=[%l :%c]%y"
 o.title = true -- Sets title of the terminal window to current project name.
 o.titlestring = [[ %{v:lua.vim.fs.basename(finddir(getcwd(),'.git'))} ]]
-
-autocmd("TextYankPost", { -- Highlight yanked section.
-  pattern = "*",
-  callback = function()
-    vim.highlight.on_yank({
-      higroup = "IncSearch",
-      timeout = 40,
-    })
-  end,
-})
-
 -- Y yanks whole line.
 map("n", "Y", "^v$y", { desc = "Copy whole line" })
-
 -- Ways to escape the INSERT mode
 map("t", "<esc>", [[<C-\><C-n>]])
 map("i", "jk", "<ESC>")
 map("i", "kj", "<ESC>")
 map("i", "<C-c>", "<esc>")
-
 -- Moving around will always keep you at the center.
 map("n", "<C-d>", "<C-d>zz")
 map("n", "<C-u>", "<C-u>zz")
 map("n", "n", "nzz")
 map("n", "N", "Nzz")
-
 -- Split navigation
 map("n", "<C-j>", "<C-w>j")
 map("n", "<C-k>", "<C-w>k")
@@ -62,21 +48,14 @@ map("t", "<C-j>", "<C-\\><C-n><C-w>j", { noremap = true })
 map("t", "<C-k>", "<C-\\><C-n><C-w>k", { noremap = true })
 map("t", "<C-h>", "<C-\\><C-n><C-w>h", { noremap = true })
 map("t", "<C-l>", "<C-\\><C-n><C-w>l", { noremap = true })
-
+-- Disable inc-search on <CR>
 map("n", "<CR>", "v:hlsearch ? ':nohlsearch<CR>' : '<CR>'", { expr = true, noremap = true })
-
 -- Wrapped lines are just lines.
 map("n", "j", "gj")
 map("n", "k", "gk")
-
 -- Quickfix list navigation.
 map("n", "{", "<cmd>cprev<CR>")
 map("n", "}", "<cmd>cnext<CR>")
-
--- Move code around
-map({ "x" }, "<M-j>", ":move '>+1<CR>gv=gv", { noremap = true, silent = true })
-map({ "x" }, "<M-k>", ":move '<-2<CR>gv=gv", { noremap = true, silent = true })
-
 -- Fat finger support
 vim.cmd [[ command! W w ]]
 vim.cmd [[ command! Q q ]]
@@ -101,26 +80,11 @@ vim.o.rtp = vim.o.rtp .. "," .. lazypath -- Add lazy.nvim to runtimepath
 
 require("lazy").setup({
   {
-    "rose-pine/neovim",
-    name = "rose-pine",
+    "amirrezaask/nvim-sitruuna.lua",
     config = function()
-      require("rose-pine").setup { styles = { transparency = true, italic = false } }
-      vim.cmd.colorscheme("rose-pine")
+      vim.cmd.colorscheme("sitruuna")
     end,
   },
-  { -- Git
-    "lewis6991/gitsigns.nvim",
-    opts = {
-      signs = {
-        add = { text = "+" },
-        change = { text = "~" },
-        delete = { text = "_" },
-        topdelete = { text = "‾" },
-        changedelete = { text = "~" },
-      },
-    },
-  },
-
   { -- Treesitter
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
@@ -186,7 +150,7 @@ require("lazy").setup({
       cmdline = { enabled = false },
       completion = { list = { selection = { preselect = false } } },
       sources = {
-        default = { "lsp", "path", "snippets", "lazydev" },
+        default = { "lsp", "path", "snippets" },
         providers = {
           lazydev = { module = "lazydev.integrations.blink", score_offset = 100 },
         },
@@ -215,59 +179,34 @@ require("lazy").setup({
       })
     end,
   },
-  { -- Collection of plugins by folkee.
-    "folke/snacks.nvim",
+  {
+    "ibhagwan/fzf-lua",
     dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
-      require("snacks").setup {
-        picker = {
-          prompt = "> ",
-          enabled = true,
-          ---@diagnostic disable-next-line: assign-type-mismatch
-          layout = { preset = "telescope" },
-        },
-        bigfile = { enabled = true },
-        termainal = { enabled = true },
+      Fzf = require("fzf-lua")
+      Fzf.setup {
+        fzf_colors = true,
+        keymap = { fzf = { ["ctrl-q"] = "select-all+accept" } },
+        files = { previewer = false },
       }
+      vim.api.nvim_set_hl(0, "FzfLuaNormal", { link = "NormalFloat" })
+      vim.api.nvim_set_hl(0, "FzfLuaBorder", { link = "NormalFloat" })
 
-      Snacks = require("snacks")
-      SnacksPicker = Snacks.picker
+      Fzf.register_ui_select()
 
-      local grep_input = function()
-        vim.ui.input({ prompt = "Grep> " }, function(input)
-          if input == "" or input == nil then
-            return
-          end
-          SnacksPicker.grep_word({
-            search = function(_)
-              return input
-            end,
-          })
-        end)
-      end
+      vim.keymap.set("n", "<leader><leader>", Fzf.files, { desc = "Find Files" })
+      vim.keymap.set("n", "<leader>pf", Fzf.git_files, { desc = "Find Files" })
+      vim.keymap.set("n", "<leader>ph", Fzf.helptags, { desc = "Vim Help Tags" })
+      vim.keymap.set("n", "<leader>pg", Fzf.live_grep, { desc = "Live Grep" })
+      vim.keymap.set("n", "<leader>pw", Fzf.grep, { desc = "Grep word" })
+      vim.keymap.set("v", "<leader>pw", Fzf.grep_cword, { desc = "Grep <cword>" })
+      vim.keymap.set("n", "<leader>ps", Fzf.lsp_document_symbols, { desc = "LSP Document Symbols" })
+      vim.keymap.set("n", "<leader>pS", Fzf.lsp_live_workspace_symbols, { desc = "LSP Workspace Symbols" })
 
-      -- <leader> [p]ick [s]omething
-      vim.keymap.set("n", "<leader><leader>", SnacksPicker.files)
-      vim.keymap.set("n", "<leader>pf", SnacksPicker.files)
-      vim.keymap.set("n", "<leader>pF", SnacksPicker.git_files)
-      vim.keymap.set("n", "<leader>pg", SnacksPicker.grep)
-      vim.keymap.set({ "n", "v" }, "<leader>pw", SnacksPicker.grep_word)
-      vim.keymap.set("n", "<leader>pW", grep_input)
-      vim.keymap.set("n", "<leader>ps", SnacksPicker.lsp_symbols)
-      vim.keymap.set("n", "<leader>pS", SnacksPicker.lsp_workspace_symbols)
-      vim.keymap.set("n", "<leader>pd", SnacksPicker.diagnostics)
-      vim.keymap.set("n", "<leader>ph", SnacksPicker.help)
-      vim.keymap.set("n", "<leader>pc", function()
-        SnacksPicker.files { cwd = "~/src/github/dotfiles" }
-      end)
-      vim.keymap.set("n", "<leader>pp", SnacksPicker.pickers)
-
-      vim.lsp.buf.definition = SnacksPicker.lsp_definitions
-      vim.lsp.buf.implementation = SnacksPicker.lsp_implementations
-      vim.lsp.buf.references = SnacksPicker.lsp_references
-      vim.lsp.buf.type_definition = SnacksPicker.lsp_type_definitions
-
-      vim.keymap.set({ "n", "t" }, "<C-t>", Snacks.terminal.toggle, { desc = "Terminal" }) -- Terminal
+      vim.lsp.buf.definition = Fzf.lsp_definitions
+      vim.lsp.buf.implementation = Fzf.lsp_implementations
+      vim.lsp.buf.references = Fzf.lsp_references
+      vim.lsp.buf.type_definition = Fzf.lsp_type_definitions
     end,
   },
 })
