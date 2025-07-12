@@ -92,9 +92,7 @@ require("lazy").setup({
       indent = { enable = true, disable = { "ruby" } },
     },
   },
-
   "tpope/vim-sleuth", -- Configure indentation based on current indentation of the file.
-
   { -- LSP configurations.
     "neovim/nvim-lspconfig",
     dependencies = {
@@ -170,9 +168,7 @@ require("lazy").setup({
       }
       vim.api.nvim_set_hl(0, "FzfLuaNormal", { link = "NormalFloat" })
       vim.api.nvim_set_hl(0, "FzfLuaBorder", { link = "NormalFloat" })
-
       Fzf.register_ui_select()
-
       vim.keymap.set("n", "<leader><leader>", Fzf.files, { desc = "Find Files" })
       vim.keymap.set("n", "<leader>pf", Fzf.git_files, { desc = "Find Files" })
       vim.keymap.set("n", "<leader>ph", Fzf.helptags, { desc = "Vim Help Tags" })
