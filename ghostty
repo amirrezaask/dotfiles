@@ -1,5 +1,6 @@
+font-family = Fira Code
 maximize = true
-macos-titlebar-style = tabs
+# macos-titlebar-style = tabs
 window-colorspace = "display-p3"
 cursor-style-blink = false
 mouse-hide-while-typing = true
