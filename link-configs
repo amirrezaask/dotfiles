@@ -14,11 +14,11 @@ rm -rf  "$XDG_CONFIG/nvim" \
 	"$HOME/.zshrc" \
 	"$HOME/.gitconfig"
 
-ln -s "$DOTFILES_DIR/xdg_config/nvim" "$XDG_CONFIG/"
-ln -s "$DOTFILES_DIR/tmux-sessionizer" "$HOME/.tmux-sessionizer"
+ln -s "$DOTFILES_DIR/nvim" "$XDG_CONFIG/"
+ln -s "$DOTFILES_DIR/tmux/tmux-sessionizer" "$HOME/.tmux-sessionizer"
 ln -s "$DOTFILES_DIR/ghostty" "$XDG_CONFIG/ghostty"
 ln -s "$DOTFILES_DIR/.gitconfig" "$HOME/.gitconfig"
-ln -s "$DOTFILES_DIR/.tmux.conf" "$HOME/.tmux.conf"
+ln -s "$DOTFILES_DIR/tmux/.tmux.conf" "$HOME/.tmux.conf"
 ln -s "$DOTFILES_DIR/.zshrc" "$HOME/.zshrc"
 
 # VSCode (or Cursor) configs
@@ -26,16 +26,16 @@ if [ -d "$HOME/Library/Application Support/Cursor" ]; then
   rm -rf "$HOME/Library/Application Support/Cursor/User/keybindings.json"
   rm -rf "$HOME/Library/Application Support/Cursor/User/settings.json"
 
-  ln -s "$DOTFILES_DIR/xdg_config/Code/vscode-keybindings.json" "$HOME/Library/Application Support/Cursor/User/keybindings.json"
-  ln -s "$DOTFILES_DIR/xdg_config/Code/vscode-settings.json" "$HOME/Library/Application Support/Cursor/User/settings.json"
+  ln -s "$DOTFILES_DIR/Code/vscode-keybindings.json" "$HOME/Library/Application Support/Cursor/User/keybindings.json"
+  ln -s "$DOTFILES_DIR/Code/vscode-settings.json" "$HOME/Library/Application Support/Cursor/User/settings.json"
 fi
 
 if [ -d "$HOME/Library/Application Support/Code" ]; then
   rm -rf "$HOME/Library/Application Support/Code/User/keybindings.json"
   rm -rf "$HOME/Library/Application Support/Code/User/settings.json"
 
-  ln -s "$DOTFILES_DIR/xdg_config/Code/vscode-keybindings.json" "$HOME/Library/Application Support/Code/User/keybindings.json"
-  ln -s "$DOTFILES_DIR/xdg_config/Code/vscode-settings.json" "$HOME/Library/Application Support/Code/User/settings.json"
+  ln -s "$DOTFILES_DIR/Code/vscode-keybindings.json" "$HOME/Library/Application Support/Code/User/keybindings.json"
+  ln -s "$DOTFILES_DIR/Code/vscode-settings.json" "$HOME/Library/Application Support/Code/User/settings.json"
 fi
 
 
@@ -44,6 +44,6 @@ if [ -d "$HOME/.config/Code" ]; then
   rm -rf "$HOME/.config/Code/User/keybindings.json"
   rm -rf "$HOME/.config/Code/User/settings.json"
 
-  ln -s "$DOTFILES_DIR/xdg_config/Code/vscode-keybindings.json" "$HOME/.config/Code/User/keybindings.json"
-  ln -s "$DOTFILES_DIR/xdg_config/Code/vscode-settings.json" "$HOME/.config/Code/User/settings.json"
+  ln -s "$DOTFILES_DIR/Code/vscode-keybindings.json" "$HOME/.config/Code/User/keybindings.json"
+  ln -s "$DOTFILES_DIR/Code/vscode-settings.json" "$HOME/.config/Code/User/settings.json"
 fi
