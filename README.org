@@ -2,7 +2,7 @@
 My configurations are a set of org files that get tangled into right locations for different programs.
 
 - [[file:Emacs.org][Emacs]]
-- [[file:Ghostty.org][Ghostty]]
+- [[file:./ghostty/config][Ghostty]]
 - [[file:ZSH.org][ZSH]]
 - [[file:Tmux.org][Tmux]]
 - [[file:Git.org][Git]]

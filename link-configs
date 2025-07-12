@@ -8,10 +8,12 @@ XDG_CONFIG="$HOME/.config"
 mkdir -p "$XDG_CONFIG"
 
 rm -rf  "$XDG_CONFIG/nvim" \
-	"$HOME/.tmux-sessionizer"
+	"$HOME/.tmux-sessionizer" \
+	"$XDG_CONFIG/ghostty"
 
 ln -s "$DOTFILES_DIR/xdg_config/nvim" "$XDG_CONFIG/"
 ln -s "$DOTFILES_DIR/tmux-sessionizer" "$HOME/.tmux-sessionizer"
+ln -s "$DOTFILES_DIR/ghostty" "$XDG_CONFIG/ghostty"
 
 # VSCode (or Cursor) configs
 if [ -d "$HOME/Library/Application Support/Cursor" ]; then
@@ -29,6 +31,7 @@ if [ -d "$HOME/Library/Application Support/Code" ]; then
   ln -s "$DOTFILES_DIR/xdg_config/Code/vscode-keybindings.json" "$HOME/Library/Application Support/Code/User/keybindings.json"
   ln -s "$DOTFILES_DIR/xdg_config/Code/vscode-settings.json" "$HOME/Library/Application Support/Code/User/settings.json"
 fi
+
 
 
 if [ -d "$HOME/.config/Code" ]; then
