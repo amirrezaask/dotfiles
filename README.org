@@ -5,5 +5,5 @@
 - [[file:.zshrc][ZSH]]
 - [[file:.tmux.conf][Tmux]]
 - [[file:.gitconfig][Git]]
-- [[file:nvim/init.lua][Neovim]]
+- [[file:init.lua][Neovim]]
 

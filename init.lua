@@ -1,61 +1,56 @@
-local map = vim.keymap.set
-local autocmd = vim.api.nvim_create_autocmd
-local o, g = vim.o, vim.g
-
-g.mapleader = " "
-g.maplocalleader = ","
-
-o.wrap = true -- Wrap long lines.
-o.breakindent = true -- Indent wrapped lines.
-o.signcolumn = "yes" -- Always show signcolumn.
-o.swapfile = false -- Disable swapfile.
-o.undofile = true -- Store undo history on disk
-o.splitbelow = true -- Split windows below the current windows
-o.splitright = true -- Split windows right to the current windows
-o.clipboard = "unnamedplus" -- Copy/Cut/Paste to system clipboard
-o.ignorecase = true -- Search case insensitive...
-o.smartcase = true -- ... but not if it contains caps
-o.formatoptions = "jcql" -- See :help fo-table
-o.updatetime = 100 -- Faster completion
-o.laststatus = 3 -- Single Statusline for all windows
-o.timeoutlen = 300 -- Faster completion
-o.number = true -- Line numbers
-o.termguicolors = true -- Enable 24-bit RGB colors
-o.inccommand = "split" -- Show partial commands in the command line
-o.relativenumber = true -- Relative line numbers
-o.scrolloff = 10 -- Scroll when cursor is 8 lines away from screen edge
-o.statusline = "%m%w%q%h%r%f%=[%l :%c]%y"
-o.title = true -- Sets title of the terminal window to current project name.
-o.titlestring = [[ %{v:lua.vim.fs.basename(finddir(getcwd(),'.git'))} ]]
+vim.g.mapleader = " " -- <leader> in keybindings means Space.
+vim.o.wrap = true -- Wrap long lines.
+vim.o.breakindent = true -- Indent wrapped lines.
+vim.o.signcolumn = "yes" -- Always show signcolumn.
+vim.o.swapfile = false -- Disable swapfile.
+vim.o.undofile = true -- Store undo history on disk
+vim.o.splitbelow = true -- Split windows below the current windows
+vim.o.splitright = true -- Split windows right to the current windows
+vim.o.clipboard = "unnamedplus" -- Copy/Cut/Paste to system clipboard
+vim.o.ignorecase = true -- Search case insensitive...
+vim.o.smartcase = true -- ... but not if it contains caps
+vim.o.formatoptions = "jcql" -- See :help fo-table
+vim.o.updatetime = 100 -- Faster completion
+vim.o.laststatus = 3 -- Single Statusline for all windows
+vim.o.timeoutlen = 300 -- Faster completion
+vim.o.number = true -- Line numbers
+vim.o.termguicolors = true -- Enable 24-bit RGB colors
+vim.o.inccommand = "split" -- Show partial commands in the command line
+vim.o.relativenumber = true -- Relative line numbers
+vim.o.scrolloff = 10 -- Scroll when cursor is 8 lines away from screen edge
+vim.o.statusline = "%m%w%q%h%r%f%=[%l :%c]%y"
+vim.o.title = true -- Sets title of the terminal window to current project name.
+vim.o.titlestring = [[ %{v:lua.vim.fs.basename(finddir(getcwd(),'.git'))} ]]
+vim.o.guicursor = "" -- Don't tinker with the cursor.
 -- Y yanks whole line.
-map("n", "Y", "^v$y", { desc = "Copy whole line" })
+vim.keymap.set("n", "Y", "^v$y", { desc = "Copy whole line" })
 -- Ways to escape the INSERT mode
-map("t", "<esc>", [[<C-\><C-n>]])
-map("i", "jk", "<ESC>")
-map("i", "kj", "<ESC>")
-map("i", "<C-c>", "<esc>")
+vim.keymap.set("t", "<esc>", [[<C-\><C-n>]])
+vim.keymap.set("i", "jk", "<ESC>")
+vim.keymap.set("i", "kj", "<ESC>")
+vim.keymap.set("i", "<C-c>", "<esc>")
 -- Moving around will always keep you at the center.
-map("n", "<C-d>", "<C-d>zz")
-map("n", "<C-u>", "<C-u>zz")
-map("n", "n", "nzz")
-map("n", "N", "Nzz")
+vim.keymap.set("n", "<C-d>", "<C-d>zz")
+vim.keymap.set("n", "<C-u>", "<C-u>zz")
+vim.keymap.set("n", "n", "nzz")
+vim.keymap.set("n", "N", "Nzz")
 -- Split navigation
-map("n", "<C-j>", "<C-w>j")
-map("n", "<C-k>", "<C-w>k")
-map("n", "<C-h>", "<C-w>h")
-map("n", "<C-l>", "<C-w>l")
-map("t", "<C-j>", "<C-\\><C-n><C-w>j", { noremap = true })
-map("t", "<C-k>", "<C-\\><C-n><C-w>k", { noremap = true })
-map("t", "<C-h>", "<C-\\><C-n><C-w>h", { noremap = true })
-map("t", "<C-l>", "<C-\\><C-n><C-w>l", { noremap = true })
+vim.keymap.set("n", "<C-j>", "<C-w>j")
+vim.keymap.set("n", "<C-k>", "<C-w>k")
+vim.keymap.set("n", "<C-h>", "<C-w>h")
+vim.keymap.set("n", "<C-l>", "<C-w>l")
+vim.keymap.set("t", "<C-j>", "<C-\\><C-n><C-w>j", { noremap = true })
+vim.keymap.set("t", "<C-k>", "<C-\\><C-n><C-w>k", { noremap = true })
+vim.keymap.set("t", "<C-h>", "<C-\\><C-n><C-w>h", { noremap = true })
+vim.keymap.set("t", "<C-l>", "<C-\\><C-n><C-w>l", { noremap = true })
 -- Disable inc-search on <CR>
-map("n", "<CR>", "v:hlsearch ? ':nohlsearch<CR>' : '<CR>'", { expr = true, noremap = true })
+vim.keymap.set("n", "<CR>", "v:hlsearch ? ':nohlsearch<CR>' : '<CR>'", { expr = true, noremap = true })
 -- Wrapped lines are just lines.
-map("n", "j", "gj")
-map("n", "k", "gk")
+vim.keymap.set("n", "j", "gj")
+vim.keymap.set("n", "k", "gk")
 -- Quickfix list navigation.
-map("n", "{", "<cmd>cprev<CR>")
-map("n", "}", "<cmd>cnext<CR>")
+vim.keymap.set("n", "{", "<cmd>cprev<CR>")
+vim.keymap.set("n", "}", "<cmd>cnext<CR>")
 -- Fat finger support
 vim.cmd [[ command! W w ]]
 vim.cmd [[ command! Q q ]]
@@ -79,12 +74,6 @@ end
 vim.o.rtp = vim.o.rtp .. "," .. lazypath -- Add lazy.nvim to runtimepath
 
 require("lazy").setup({
-  {
-    "amirrezaask/nvim-sitruuna.lua",
-    config = function()
-      vim.cmd.colorscheme("sitruuna")
-    end,
-  },
   { -- Treesitter
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
@@ -104,13 +93,10 @@ require("lazy").setup({
     "neovim/nvim-lspconfig",
     dependencies = {
       { "mason-org/mason.nvim", opts = {} },
-      {
-        "mason-org/mason-lspconfig.nvim",
-        opts = { ensure_installed = { "gopls", "intelephense", "lua_ls" } },
-      },
+      { "mason-org/mason-lspconfig.nvim", opts = { ensure_installed = { "gopls", "intelephense", "lua_ls" } } },
     },
     config = function()
-      autocmd("LspAttach", {
+      vim.api.nvim_create_autocmd("LspAttach", {
         callback = function(args)
           vim.keymap.set("n", "[[", function()
             vim.diagnostic.jump({ count = -1 })
@@ -130,14 +116,6 @@ require("lazy").setup({
         end,
       })
       vim.diagnostic.config({ virtual_text = true })
-    end,
-  },
-
-  { -- File management done right.
-    "stevearc/oil.nvim",
-    config = function()
-      require("oil").setup {}
-      vim.keymap.set("n", "-", "<cmd>Oil<CR>")
     end,
   },
 
@@ -165,14 +143,11 @@ require("lazy").setup({
         formatters_by_ft = {
           lua = { "stylua" },
           go = { "goimports" },
-          ocmal = { "ocamlformat" },
           php = {},
         },
       })
-      local autoformat_languages = { "*.lua", "*.go", "*.ocmal" }
-
-      autocmd("BufWritePre", {
-        pattern = autoformat_languages,
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        pattern = { "*.lua", "*.go", "*.ocmal" },
         callback = function(args)
           require("conform").format({ bufnr = args.buf })
         end,
@@ -181,13 +156,11 @@ require("lazy").setup({
   },
   {
     "ibhagwan/fzf-lua",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
       Fzf = require("fzf-lua")
       Fzf.setup {
-        fzf_colors = true,
+        "fzf-vim", -- setup similar to fzf.vim
         keymap = { fzf = { ["ctrl-q"] = "select-all+accept" } },
-        files = { previewer = false },
       }
       vim.api.nvim_set_hl(0, "FzfLuaNormal", { link = "NormalFloat" })
       vim.api.nvim_set_hl(0, "FzfLuaBorder", { link = "NormalFloat" })
