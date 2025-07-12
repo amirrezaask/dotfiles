@@ -74,6 +74,12 @@ end
 vim.o.rtp = vim.o.rtp .. "," .. lazypath -- Add lazy.nvim to runtimepath
 
 require("lazy").setup({
+  { -- Colorscheme
+    "eemed/sitruuna.vim",
+    config = function()
+      vim.cmd.colorscheme("sitruuna")
+    end,
+  },
   { -- Treesitter
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
