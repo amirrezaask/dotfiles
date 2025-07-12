@@ -148,7 +148,7 @@
 
 ** Frame Transparency
 #+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
-  (defvar alpha-level 93)
+  (defvar alpha-level 96)
 
   ;; for some reason macos version uses different face attribute than the linux/windows port.
   (when is-macos
