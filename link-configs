@@ -9,11 +9,17 @@ mkdir -p "$XDG_CONFIG"
 
 rm -rf  "$XDG_CONFIG/nvim" \
 	"$HOME/.tmux-sessionizer" \
-	"$XDG_CONFIG/ghostty"
+	"$XDG_CONFIG/ghostty" \
+	"$HOME/.tmux.conf" \
+	"$HOME/.zshrc" \
+	"$HOME/.gitconfig"
 
 ln -s "$DOTFILES_DIR/xdg_config/nvim" "$XDG_CONFIG/"
 ln -s "$DOTFILES_DIR/tmux-sessionizer" "$HOME/.tmux-sessionizer"
 ln -s "$DOTFILES_DIR/ghostty" "$XDG_CONFIG/ghostty"
+ln -s "$DOTFILES_DIR/.gitconfig" "$HOME/.gitconfig"
+ln -s "$DOTFILES_DIR/.tmux.conf" "$HOME/.tmux.conf"
+ln -s "$DOTFILES_DIR/.zshrc" "$HOME/.zshrc"
 
 # VSCode (or Cursor) configs
 if [ -d "$HOME/Library/Application Support/Cursor" ]; then

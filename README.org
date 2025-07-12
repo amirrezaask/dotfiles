@@ -1,16 +1,9 @@
 #+TITLE: Amirreza Computing Environment
-My configurations are a set of org files that get tangled into right locations for different programs.
 
 - [[file:Emacs.org][Emacs]]
-- [[file:./ghostty/config][Ghostty]]
-- [[file:ZSH.org][ZSH]]
-- [[file:Tmux.org][Tmux]]
-- [[file:Git.org][Git]]
-- [[file:Fish.org][Fish]]
+- [[file:ghostty/config][Ghostty]]
+- [[file:.zshrc][ZSH]]
+- [[file:.tmux.conf][Tmux]]
+- [[file:.gitconfig][Git]]
+- [[file:nvim/init.lua][Neovim]]
 
-** Rebuild my system
-Since I have all my configurations as org files, I can do a refresh with just this simple code block
-#+begin_src emacs-lisp
-  (dolist (file (directory-files "~/src/github/dotfiles" t "\\.org\\'"))
-    (org-babel-tangle-file file))
-#+end_src
