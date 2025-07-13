@@ -19,7 +19,7 @@ function neovim() {
   sudo make install
 }
 
-function system() {
+function macos() {
   echo "Installing Homebrew..."
   if ! command -v brew &> /dev/null; then
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -32,7 +32,7 @@ function help() {
   echo ""
   echo "Commands:"
   echo "  neovim       Build and install Neovim from source"
-  echo "  brew         Install Homebrew packages from Brewfile"
+  echo "  macos        Install Homebrew packages from Brewfile"
   echo "  help         Show this help message"
 }
 

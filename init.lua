@@ -70,17 +70,22 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 	end
 end
 
+vim.cmd([[ 
+	hi Normal guibg=none 
+	]])
+
 vim.o.rtp = vim.o.rtp .. "," .. lazypath -- Add lazy.nvim to runtimepath
 
 require("lazy").setup({
-	{
-		"vague2k/vague.nvim",
-		config = function()
-			require("vague").setup({ transparent = true })
-			vim.cmd.colorscheme("vague")
-			vim.cmd([[ hi! StatusLine guibg=none ]])
-		end,
-	},
+	-- {
+	-- 	"vague2k/vague.nvim",
+	-- 	enabled = false,
+	-- 	config = function()
+	-- 		require("vague").setup({ transparent = true })
+	-- 		vim.cmd.colorscheme("vague")
+	-- 		vim.cmd([[ hi! StatusLine guibg=none ]])
+	-- 	end,
+	-- },
 	{ "tpope/vim-fugitive" }, -- Git client
 	{ -- Treesitter
 		"nvim-treesitter/nvim-treesitter",
@@ -108,7 +113,16 @@ require("lazy").setup({
 				opts = {
 					keymap = { preset = "enter" },
 					cmdline = { enabled = false },
-					completion = { list = { selection = { preselect = false } } },
+					completion = {
+						list = { selection = { preselect = false } },
+						menu = {
+							draw = {
+								columns = {
+									{ "label", "label_description", gap = 1 },
+								},
+							},
+						},
+					},
 					sources = {
 						default = { "lsp", "path", "snippets" },
 					},
