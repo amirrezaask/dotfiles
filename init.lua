@@ -51,135 +51,135 @@ vim.keymap.set("n", "k", "gk")
 vim.keymap.set("n", "{", "<cmd>cprev<CR>")
 vim.keymap.set("n", "}", "<cmd>cnext<CR>")
 -- Fat finger support
-vim.cmd [[ command! W w ]]
-vim.cmd [[ command! Q q ]]
+vim.cmd([[ command! W w ]])
+vim.cmd([[ command! Q q ]])
 
 -- Lazy package manager initialization
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
-  local lazyrepo = "https://github.com/folke/lazy.nvim.git"
-  local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
-  if vim.v.shell_error ~= 0 then
-    vim.api.nvim_echo({
-      { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
-      { out, "WarningMsg" },
-      { "\nPress any key to exit..." },
-    }, true, {})
-    vim.fn.getchar()
-    os.exit(1)
-  end
+	local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+	local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
+	if vim.v.shell_error ~= 0 then
+		vim.api.nvim_echo({
+			{ "Failed to clone lazy.nvim:\n", "ErrorMsg" },
+			{ out, "WarningMsg" },
+			{ "\nPress any key to exit..." },
+		}, true, {})
+		vim.fn.getchar()
+		os.exit(1)
+	end
 end
 
 vim.o.rtp = vim.o.rtp .. "," .. lazypath -- Add lazy.nvim to runtimepath
 
 require("lazy").setup({
-  {
-    "vague2k/vague.nvim",
-    config = function()
-      require("vague").setup { transparent = true }
-      vim.cmd.colorscheme("vague")
-      vim.cmd [[ hi! StatusLine guibg=none ]]
-    end,
-  },
-  { "tpope/vim-fugitive" }, -- Git client
-  { -- Treesitter
-    "nvim-treesitter/nvim-treesitter",
-    build = ":TSUpdate",
-    dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
-    main = "nvim-treesitter.configs",
-    opts = {
-      ensure_installed = { "go", "php", "bash" },
-      auto_install = true,
-      highlight = { enable = true },
-      indent = { enable = true, disable = { "ruby" } },
-    },
-  },
-  "tpope/vim-sleuth", -- Configure indentation based on current indentation of the file.
-  { -- LSP configurations.
-    "neovim/nvim-lspconfig",
-    dependencies = {
-      { "mason-org/mason.nvim" },
-      { "mason-org/mason-lspconfig.nvim" },
-      { "stevearc/conform.nvim" },
-      { -- Blazingly fast autocomplete
-        "saghen/blink.cmp",
-        tag = "v1.1.1",
-        dependencies = { { "folke/lazydev.nvim", opts = { library = {} } } }, -- Better neovim development support. },
-        opts = {
-          keymap = { preset = "enter" },
-          cmdline = { enabled = false },
-          completion = { list = { selection = { preselect = false } } },
-          sources = {
-            default = { "lsp", "path", "snippets" },
-          },
-        },
-      },
-    },
-    config = function()
-      require("mason").setup()
-      require("mason-lspconfig").setup({ ensure_installed = { "gopls", "intelephense", "lua_ls" } })
-      vim.api.nvim_create_autocmd("LspAttach", {
-        callback = function(args)
-          vim.keymap.set("n", "[[", function()
-            vim.diagnostic.jump({ count = -1 })
-          end, { buffer = args.buf })
-          vim.keymap.set("n", "]]", function()
-            vim.diagnostic.jump({ count = 1 })
-          end, { buffer = args.buf })
-          vim.keymap.set("n", "C-]", vim.lsp.buf.definition, { buffer = args.buf })
-          vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = args.buf })
-          vim.keymap.set("n", "gr", vim.lsp.buf.references, { buffer = args.buf })
-          vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { buffer = args.buf })
-          vim.keymap.set("n", "R", vim.lsp.buf.rename, { buffer = args.buf })
-          vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = args.buf })
-          vim.keymap.set("n", "L", vim.diagnostic.open_float, { buffer = args.buf })
-          vim.keymap.set("n", "C", vim.lsp.buf.code_action, { buffer = args.buf })
-          vim.keymap.set({ "n", "i" }, "<C-s>", vim.lsp.buf.signature_help, { buffer = args.buf })
-        end,
-      })
-      vim.diagnostic.config({ virtual_text = true })
-      -- Autoformat
-      require("conform").setup({
-        formatters_by_ft = {
-          lua = { "stylua" },
-          go = { "goimports" },
-          php = {},
-        },
-      })
-      vim.api.nvim_create_autocmd("BufWritePre", {
-        pattern = { "*.lua", "*.go", "*.ocmal" },
-        callback = function(args)
-          require("conform").format({ bufnr = args.buf })
-        end,
-      })
-    end,
-  },
+	{
+		"vague2k/vague.nvim",
+		config = function()
+			require("vague").setup({ transparent = true })
+			vim.cmd.colorscheme("vague")
+			vim.cmd([[ hi! StatusLine guibg=none ]])
+		end,
+	},
+	{ "tpope/vim-fugitive" }, -- Git client
+	{ -- Treesitter
+		"nvim-treesitter/nvim-treesitter",
+		build = ":TSUpdate",
+		dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
+		main = "nvim-treesitter.configs",
+		opts = {
+			ensure_installed = { "go", "php", "bash" },
+			auto_install = true,
+			highlight = { enable = true },
+			indent = { enable = true, disable = { "ruby" } },
+		},
+	},
+	"tpope/vim-sleuth", -- Configure indentation based on current indentation of the file.
+	{ -- LSP configurations.
+		"neovim/nvim-lspconfig",
+		dependencies = {
+			{ "mason-org/mason.nvim" },
+			{ "mason-org/mason-lspconfig.nvim" },
+			{ "stevearc/conform.nvim" },
+			{ -- Blazingly fast autocomplete
+				"saghen/blink.cmp",
+				tag = "v1.1.1",
+				dependencies = { { "folke/lazydev.nvim", opts = { library = {} } } }, -- Better neovim development support. },
+				opts = {
+					keymap = { preset = "enter" },
+					cmdline = { enabled = false },
+					completion = { list = { selection = { preselect = false } } },
+					sources = {
+						default = { "lsp", "path", "snippets" },
+					},
+				},
+			},
+		},
+		config = function()
+			require("mason").setup()
+			require("mason-lspconfig").setup({ ensure_installed = { "gopls", "intelephense", "lua_ls" } })
+			vim.api.nvim_create_autocmd("LspAttach", {
+				callback = function(args)
+					vim.keymap.set("n", "[[", function()
+						vim.diagnostic.jump({ count = -1 })
+					end, { buffer = args.buf })
+					vim.keymap.set("n", "]]", function()
+						vim.diagnostic.jump({ count = 1 })
+					end, { buffer = args.buf })
+					vim.keymap.set("n", "C-]", vim.lsp.buf.definition, { buffer = args.buf })
+					vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = args.buf })
+					vim.keymap.set("n", "gr", vim.lsp.buf.references, { buffer = args.buf })
+					vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { buffer = args.buf })
+					vim.keymap.set("n", "R", vim.lsp.buf.rename, { buffer = args.buf })
+					vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = args.buf })
+					vim.keymap.set("n", "L", vim.diagnostic.open_float, { buffer = args.buf })
+					vim.keymap.set("n", "C", vim.lsp.buf.code_action, { buffer = args.buf })
+					vim.keymap.set({ "n", "i" }, "<C-s>", vim.lsp.buf.signature_help, { buffer = args.buf })
+				end,
+			})
+			vim.diagnostic.config({ virtual_text = true })
+			-- Autoformat
+			require("conform").setup({
+				formatters_by_ft = {
+					lua = { "stylua" },
+					go = { "goimports" },
+					php = {},
+				},
+			})
+			vim.api.nvim_create_autocmd("BufWritePre", {
+				pattern = { "*.lua", "*.go", "*.ocmal" },
+				callback = function(args)
+					require("conform").format({ bufnr = args.buf })
+				end,
+			})
+		end,
+	},
 
-  {
-    "ibhagwan/fzf-lua",
-    config = function()
-      Fzf = require("fzf-lua")
-      Fzf.setup {
-        "fzf-vim", -- setup similar to fzf.vim
-        keymap = { fzf = { ["ctrl-q"] = "select-all+accept" } },
-      }
-      vim.api.nvim_set_hl(0, "FzfLuaNormal", { link = "NormalFloat" })
-      vim.api.nvim_set_hl(0, "FzfLuaBorder", { link = "NormalFloat" })
-      Fzf.register_ui_select()
-      vim.keymap.set("n", "<leader><leader>", Fzf.files, { desc = "Find Files" })
-      vim.keymap.set("n", "<leader>pf", Fzf.git_files, { desc = "Git Files" })
-      vim.keymap.set("n", "<C-p>", Fzf.git_files, { desc = "Git Files" })
-      vim.keymap.set("n", "<leader>ph", Fzf.helptags, { desc = "Vim Help Tags" })
-      vim.keymap.set("n", "<leader>pg", Fzf.live_grep, { desc = "Live Grep" })
-      vim.keymap.set("n", "<leader>pw", Fzf.grep, { desc = "Grep word" })
-      vim.keymap.set("v", "<leader>pw", Fzf.grep_cword, { desc = "Grep <cword>" })
-      vim.keymap.set("n", "<leader>ps", Fzf.lsp_document_symbols, { desc = "LSP Document Symbols" })
-      vim.keymap.set("n", "<leader>pS", Fzf.lsp_live_workspace_symbols, { desc = "LSP Workspace Symbols" })
+	{
+		"ibhagwan/fzf-lua",
+		config = function()
+			Fzf = require("fzf-lua")
+			Fzf.setup({
+				"fzf-vim", -- setup similar to fzf.vim
+				keymap = { fzf = { ["ctrl-q"] = "select-all+accept" } },
+			})
+			vim.api.nvim_set_hl(0, "FzfLuaNormal", { link = "NormalFloat" })
+			vim.api.nvim_set_hl(0, "FzfLuaBorder", { link = "NormalFloat" })
+			Fzf.register_ui_select()
+			vim.keymap.set("n", "<leader><leader>", Fzf.files, { desc = "Find Files" })
+			vim.keymap.set("n", "<leader>pf", Fzf.git_files, { desc = "Git Files" })
+			vim.keymap.set("n", "<C-p>", Fzf.git_files, { desc = "Git Files" })
+			vim.keymap.set("n", "<leader>ph", Fzf.helptags, { desc = "Vim Help Tags" })
+			vim.keymap.set("n", "<leader>pg", Fzf.live_grep, { desc = "Live Grep" })
+			vim.keymap.set("n", "<leader>pw", Fzf.grep, { desc = "Grep word" })
+			vim.keymap.set("v", "<leader>pw", Fzf.grep_cword, { desc = "Grep <cword>" })
+			vim.keymap.set("n", "<leader>ps", Fzf.lsp_document_symbols, { desc = "LSP Document Symbols" })
+			vim.keymap.set("n", "<leader>pS", Fzf.lsp_live_workspace_symbols, { desc = "LSP Workspace Symbols" })
 
-      vim.lsp.buf.definition = Fzf.lsp_definitions
-      vim.lsp.buf.implementation = Fzf.lsp_implementations
-      vim.lsp.buf.references = Fzf.lsp_references
-      vim.lsp.buf.type_definition = Fzf.lsp_type_definitions
-    end,
-  },
+			vim.lsp.buf.definition = Fzf.lsp_definitions
+			vim.lsp.buf.implementation = Fzf.lsp_implementations
+			vim.lsp.buf.references = Fzf.lsp_references
+			vim.lsp.buf.type_definition = Fzf.lsp_type_definitions
+		end,
+	},
 })

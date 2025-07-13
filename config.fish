@@ -48,24 +48,5 @@ end
 function fish_greeting
 end
 
-function fish_right_prompt
-      set_color brblack
-      echo -n "["(date "+%H:%M")"] "
-end
-
-# function fish_prompt
-#   echo -n " "
-#   set_color blue
-#   if [ $PWD != $HOME ]
-# 	  set_color yellow
-# 	  echo -n (basename $PWD)
-#   end
-#   set_color green
-#   printf '%s ' (__fish_git_prompt)
-#   set_color red
-#   echo -n '$ '
-#   set_color normal
-# end
-
 export PATH="/Applications/Emacs.app/Contents/MacOS:$PATH"
 alias emacs='/Applications/Emacs.app/Contents/MacOS/Emacs'
