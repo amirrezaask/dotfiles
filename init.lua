@@ -1,7 +1,7 @@
 vim.g.mapleader = " " -- <leader> in keybindings means Space.
 vim.o.wrap = true -- Wrap long lines.
+vim.o.signcolumn = "no"
 vim.o.breakindent = true -- Indent wrapped lines.
-vim.o.signcolumn = "yes" -- Always show signcolumn.
 vim.o.swapfile = false -- Disable swapfile.
 vim.o.undofile = true -- Store undo history on disk
 vim.o.splitbelow = true -- Split windows below the current windows
@@ -21,9 +21,8 @@ vim.o.scrolloff = 10 -- Scroll when cursor is 8 lines away from screen edge
 vim.o.statusline = "%m%w%q%h%r%f%=[%l :%c]%y"
 vim.o.title = true -- Sets title of the terminal window to current project name.
 vim.o.titlestring = [[ %{v:lua.vim.fs.basename(finddir(getcwd(),'.git'))} ]]
-vim.o.guicursor = "" -- Don't tinker with the cursor.
--- Y yanks whole line.
-vim.keymap.set("n", "Y", "^v$y", { desc = "Copy whole line" })
+-- vim.o.guicursor = "" -- Don't tinker with the cursor.
+vim.keymap.set("n", "Y", "^v$y", { desc = "Copy whole line" }) -- Y yanks whole line.
 -- Ways to escape the INSERT mode
 vim.keymap.set("t", "<esc>", [[<C-\><C-n>]])
 vim.keymap.set("i", "jk", "<ESC>")
@@ -74,12 +73,15 @@ end
 vim.o.rtp = vim.o.rtp .. "," .. lazypath -- Add lazy.nvim to runtimepath
 
 require("lazy").setup({
-  { -- Colorscheme
-    "eemed/sitruuna.vim",
+  {
+    "vague2k/vague.nvim",
     config = function()
-      vim.cmd.colorscheme("sitruuna")
+      require("vague").setup { transparent = true }
+      vim.cmd.colorscheme("vague")
+      vim.cmd [[ hi! StatusLine guibg=none ]]
     end,
   },
+  { "tpope/vim-fugitive" }, -- Git client
   { -- Treesitter
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
@@ -96,10 +98,26 @@ require("lazy").setup({
   { -- LSP configurations.
     "neovim/nvim-lspconfig",
     dependencies = {
-      { "mason-org/mason.nvim", opts = {} },
-      { "mason-org/mason-lspconfig.nvim", opts = { ensure_installed = { "gopls", "intelephense", "lua_ls" } } },
+      { "mason-org/mason.nvim" },
+      { "mason-org/mason-lspconfig.nvim" },
+      { "stevearc/conform.nvim" },
+      { -- Blazingly fast autocomplete
+        "saghen/blink.cmp",
+        tag = "v1.1.1",
+        dependencies = { { "folke/lazydev.nvim", opts = { library = {} } } }, -- Better neovim development support. },
+        opts = {
+          keymap = { preset = "enter" },
+          cmdline = { enabled = false },
+          completion = { list = { selection = { preselect = false } } },
+          sources = {
+            default = { "lsp", "path", "snippets" },
+          },
+        },
+      },
     },
     config = function()
+      require("mason").setup()
+      require("mason-lspconfig").setup({ ensure_installed = { "gopls", "intelephense", "lua_ls" } })
       vim.api.nvim_create_autocmd("LspAttach", {
         callback = function(args)
           vim.keymap.set("n", "[[", function()
@@ -120,29 +138,7 @@ require("lazy").setup({
         end,
       })
       vim.diagnostic.config({ virtual_text = true })
-    end,
-  },
-
-  { -- Blazingly fast autocomplete
-    "saghen/blink.cmp",
-    tag = "v1.1.1",
-    dependencies = { { "folke/lazydev.nvim", opts = { library = {} } } }, -- Better neovim development support. },
-    opts = {
-      keymap = { preset = "enter" },
-      cmdline = { enabled = false },
-      completion = { list = { selection = { preselect = false } } },
-      sources = {
-        default = { "lsp", "path", "snippets" },
-        providers = {
-          lazydev = { module = "lazydev.integrations.blink", score_offset = 100 },
-        },
-      },
-    },
-  },
-
-  { -- Autoformat/fixes
-    "stevearc/conform.nvim",
-    config = function()
+      -- Autoformat
       require("conform").setup({
         formatters_by_ft = {
           lua = { "stylua" },
@@ -158,6 +154,7 @@ require("lazy").setup({
       })
     end,
   },
+
   {
     "ibhagwan/fzf-lua",
     config = function()
@@ -170,7 +167,8 @@ require("lazy").setup({
       vim.api.nvim_set_hl(0, "FzfLuaBorder", { link = "NormalFloat" })
       Fzf.register_ui_select()
       vim.keymap.set("n", "<leader><leader>", Fzf.files, { desc = "Find Files" })
-      vim.keymap.set("n", "<leader>pf", Fzf.git_files, { desc = "Find Files" })
+      vim.keymap.set("n", "<leader>pf", Fzf.git_files, { desc = "Git Files" })
+      vim.keymap.set("n", "<C-p>", Fzf.git_files, { desc = "Git Files" })
       vim.keymap.set("n", "<leader>ph", Fzf.helptags, { desc = "Vim Help Tags" })
       vim.keymap.set("n", "<leader>pg", Fzf.live_grep, { desc = "Live Grep" })
       vim.keymap.set("n", "<leader>pw", Fzf.grep, { desc = "Grep word" })
