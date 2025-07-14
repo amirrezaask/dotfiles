@@ -62,4 +62,5 @@
       ],
     },
   ],
+  "editor.bracketPairColorization.enabled": false,
 }
