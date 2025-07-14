@@ -21,6 +21,7 @@ vim.o.scrolloff = 10 -- Scroll when cursor is 8 lines away from screen edge
 vim.o.statusline = "%m%w%q%h%r%f%=[%l :%c]%y"
 vim.o.title = true -- Sets title of the terminal window to current project name.
 vim.o.titlestring = [[ %{v:lua.vim.fs.basename(finddir(getcwd(),'.git'))} ]]
+vim.o.winborder = "rounded"
 -- vim.o.guicursor = "" -- Don't tinker with the cursor.
 vim.keymap.set("n", "Y", "^v$y", { desc = "Copy whole line" }) -- Y yanks whole line.
 -- Ways to escape the INSERT mode
@@ -71,8 +72,11 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 
 -- default colorscheme is good enough let's just add some modifications
-vim.cmd([[ hi Normal guibg=none ]])
-vim.cmd([[ hi! link StatusLine  Normal]])
+vim.cmd([[ 
+	hi Normal guibg=none 
+	hi! link StatusLine  Normal
+	hi! link NormalFloat Normal
+]])
 
 vim.o.rtp = vim.o.rtp .. "," .. lazypath -- Add lazy.nvim to runtimepath
 
