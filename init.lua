@@ -70,23 +70,13 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 	end
 end
 
-vim.cmd([[ 
-	hi Normal guibg=none 
-	]])
+-- default colorscheme is good enough let's just add some modifications
+vim.cmd([[ hi Normal guibg=none ]])
+vim.cmd([[ hi! link StatusLine  Normal]])
 
 vim.o.rtp = vim.o.rtp .. "," .. lazypath -- Add lazy.nvim to runtimepath
 
 require("lazy").setup({
-	-- {
-	-- 	"vague2k/vague.nvim",
-	-- 	enabled = false,
-	-- 	config = function()
-	-- 		require("vague").setup({ transparent = true })
-	-- 		vim.cmd.colorscheme("vague")
-	-- 		vim.cmd([[ hi! StatusLine guibg=none ]])
-	-- 	end,
-	-- },
-	{ "tpope/vim-fugitive" }, -- Git client
 	{ -- Treesitter
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
@@ -99,7 +89,9 @@ require("lazy").setup({
 			indent = { enable = true, disable = { "ruby" } },
 		},
 	},
+
 	"tpope/vim-sleuth", -- Configure indentation based on current indentation of the file.
+
 	{ -- LSP configurations.
 		"neovim/nvim-lspconfig",
 		dependencies = {
@@ -177,8 +169,6 @@ require("lazy").setup({
 				"fzf-vim", -- setup similar to fzf.vim
 				keymap = { fzf = { ["ctrl-q"] = "select-all+accept" } },
 			})
-			vim.api.nvim_set_hl(0, "FzfLuaNormal", { link = "NormalFloat" })
-			vim.api.nvim_set_hl(0, "FzfLuaBorder", { link = "NormalFloat" })
 			Fzf.register_ui_select()
 			vim.keymap.set("n", "<leader><leader>", Fzf.files, { desc = "Find Files" })
 			vim.keymap.set("n", "<leader>pf", Fzf.git_files, { desc = "Git Files" })
