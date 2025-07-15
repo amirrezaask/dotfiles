@@ -13,12 +13,11 @@ vim.o.formatoptions = "jcql" -- See :help fo-table
 vim.o.updatetime = 100 -- Faster completion
 vim.o.laststatus = 3 -- Single Statusline for all windows
 vim.o.timeoutlen = 300 -- Faster completion
-vim.o.number = true -- Line numbers
 vim.o.termguicolors = true -- Enable 24-bit RGB colors
 vim.o.inccommand = "split" -- Show partial commands in the command line
-vim.o.relativenumber = true -- Relative line numbers
-vim.o.scrolloff = 10 -- Scroll when cursor is 8 lines away from screen edge
-vim.o.statusline = "%m%w%q%h%r%f%=[%l :%c]%y"
+-- vim.o.relativenumber = true -- Relative line numbers
+-- vim.o.scrolloff = 10 -- Scroll when cursor is 8 lines away from screen edge
+-- vim.o.statusline = "%m%w%q%h%r%f%=[%l :%c]%y"
 vim.o.title = true -- Sets title of the terminal window to current project name.
 vim.o.titlestring = [[ %{v:lua.vim.fs.basename(finddir(getcwd(),'.git'))} ]]
 vim.o.winborder = "rounded"
@@ -70,13 +69,6 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 		os.exit(1)
 	end
 end
-
--- default colorscheme is good enough let's just add some modifications
-vim.cmd([[ 
-	hi Normal guibg=none 
-	hi! link StatusLine  Normal
-	hi! link NormalFloat Normal
-]])
 
 vim.o.rtp = vim.o.rtp .. "," .. lazypath -- Add lazy.nvim to runtimepath
 
@@ -192,3 +184,11 @@ require("lazy").setup({
 		end,
 	},
 })
+
+-- default colorscheme is good enough let's just add some modifications
+vim.cmd([[
+	hi Normal guibg=none
+	hi! link StatusLine  Normal
+	hi! link NormalFloat Normal
+	hi! Function guifg=NvimLightBlue
+]])
