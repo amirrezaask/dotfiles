@@ -11,17 +11,10 @@ vim.o.ignorecase = true -- Search case insensitive...
 vim.o.smartcase = true -- ... but not if it contains caps
 vim.o.formatoptions = "jcql" -- See :help fo-table
 vim.o.updatetime = 100 -- Faster completion
-vim.o.laststatus = 3 -- Single Statusline for all windows
 vim.o.timeoutlen = 300 -- Faster completion
 vim.o.termguicolors = true -- Enable 24-bit RGB colors
 vim.o.inccommand = "split" -- Show partial commands in the command line
--- vim.o.relativenumber = true -- Relative line numbers
--- vim.o.scrolloff = 10 -- Scroll when cursor is 8 lines away from screen edge
--- vim.o.statusline = "%m%w%q%h%r%f%=[%l :%c]%y"
-vim.o.title = true -- Sets title of the terminal window to current project name.
-vim.o.titlestring = [[ %{v:lua.vim.fs.basename(finddir(getcwd(),'.git'))} ]]
 vim.o.winborder = "rounded"
--- vim.o.guicursor = "" -- Don't tinker with the cursor.
 vim.keymap.set("n", "Y", "^v$y", { desc = "Copy whole line" }) -- Y yanks whole line.
 -- Ways to escape the INSERT mode
 vim.keymap.set("t", "<esc>", [[<C-\><C-n>]])
@@ -33,15 +26,6 @@ vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("n", "n", "nzz")
 vim.keymap.set("n", "N", "Nzz")
--- Split navigation
-vim.keymap.set("n", "<C-j>", "<C-w>j")
-vim.keymap.set("n", "<C-k>", "<C-w>k")
-vim.keymap.set("n", "<C-h>", "<C-w>h")
-vim.keymap.set("n", "<C-l>", "<C-w>l")
-vim.keymap.set("t", "<C-j>", "<C-\\><C-n><C-w>j", { noremap = true })
-vim.keymap.set("t", "<C-k>", "<C-\\><C-n><C-w>k", { noremap = true })
-vim.keymap.set("t", "<C-h>", "<C-\\><C-n><C-w>h", { noremap = true })
-vim.keymap.set("t", "<C-l>", "<C-\\><C-n><C-w>l", { noremap = true })
 -- Disable inc-search on <CR>
 vim.keymap.set("n", "<CR>", "v:hlsearch ? ':nohlsearch<CR>' : '<CR>'", { expr = true, noremap = true })
 -- Wrapped lines are just lines.
@@ -166,17 +150,12 @@ require("lazy").setup({
 			})
 			Fzf.register_ui_select()
 			vim.keymap.set("n", "<leader><leader>", Fzf.files, { desc = "Find Files" })
-			vim.keymap.set("n", "<leader>pf", Fzf.git_files, { desc = "Git Files" })
-			vim.keymap.set("n", "<C-p>", Fzf.git_files, { desc = "Git Files" })
-			vim.keymap.set("n", "<leader>ph", Fzf.helptags, { desc = "Vim Help Tags" })
-			vim.keymap.set("n", "<leader>pg", Fzf.live_grep, { desc = "Live Grep" })
 			vim.keymap.set("n", "<leader>j", Fzf.lines, { desc = "Buffer Lines" })
-			vim.keymap.set("n", "<leader>J", Fzf.live_grep, { desc = "Live Grep" })
-			vim.keymap.set("n", "<leader>pw", Fzf.grep, { desc = "Grep word" })
-			vim.keymap.set("v", "<leader>pw", Fzf.grep_cword, { desc = "Grep <cword>" })
-			vim.keymap.set("n", "<leader>ps", Fzf.lsp_document_symbols, { desc = "LSP Document Symbols" })
-			vim.keymap.set("n", "<leader>pS", Fzf.lsp_live_workspace_symbols, { desc = "LSP Workspace Symbols" })
-
+			vim.keymap.set("n", "<leader>l", Fzf.live_grep, { desc = "Live Grep" })
+			vim.keymap.set("n", "<leader>w", Fzf.grep, { desc = "Grep word" })
+			vim.keymap.set({ "n", "v" }, "<leader>.", Fzf.grep_cword, { desc = "Grep <cword>" })
+			vim.keymap.set("n", "<leader>s", Fzf.lsp_document_symbols, { desc = "LSP Document Symbols" })
+			vim.keymap.set("n", "<leader>S", Fzf.lsp_live_workspace_symbols, { desc = "LSP Workspace Symbols" })
 			vim.lsp.buf.definition = Fzf.lsp_definitions
 			vim.lsp.buf.implementation = Fzf.lsp_implementations
 			vim.lsp.buf.references = Fzf.lsp_references
@@ -185,7 +164,6 @@ require("lazy").setup({
 	},
 })
 
--- default colorscheme is good enough let's just add some modifications
 vim.cmd([[
 	hi Normal guibg=none
 	hi! link StatusLine  Normal
