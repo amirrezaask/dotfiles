@@ -84,10 +84,9 @@ require("lazy").setup({
 	{ -- Treesitter
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
-		dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
 		main = "nvim-treesitter.configs",
 		opts = {
-			ensure_installed = { "go", "php", "bash" },
+			ensure_installed = { "go", "php" },
 			auto_install = true,
 			highlight = { enable = true },
 			indent = { enable = true, disable = { "ruby" } },
