@@ -178,6 +178,8 @@ require("lazy").setup({
 			vim.keymap.set("n", "<C-p>", Fzf.git_files, { desc = "Git Files" })
 			vim.keymap.set("n", "<leader>ph", Fzf.helptags, { desc = "Vim Help Tags" })
 			vim.keymap.set("n", "<leader>pg", Fzf.live_grep, { desc = "Live Grep" })
+			vim.keymap.set("n", "<leader>j", Fzf.lines, { desc = "Buffer Lines" })
+			vim.keymap.set("n", "<leader>J", Fzf.live_grep, { desc = "Live Grep" })
 			vim.keymap.set("n", "<leader>pw", Fzf.grep, { desc = "Grep word" })
 			vim.keymap.set("v", "<leader>pw", Fzf.grep_cword, { desc = "Grep <cword>" })
 			vim.keymap.set("n", "<leader>ps", Fzf.lsp_document_symbols, { desc = "LSP Document Symbols" })

@@ -1,7 +1,8 @@
 # This is Git's per-user configuration file.
-; [url "git@gitlab.snappcloud.io:"]
-; insteadOf = https://gitlab.snappcloud.io/
-;
+
+[url "git@gitlab.snappcloud.io:"]
+	insteadOf = https://gitlab.snappcloud.io/
+
 [user]
 	name = amirrezaask
 	email = raskarpour@gmail.com

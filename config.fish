@@ -45,8 +45,17 @@ function gwip
     git push origin $branch
 end
 
-function fish_greeting
+function fish_prompt
+  set -l branch (command git rev-parse --abbrev-ref HEAD 2>/dev/null)
+
+  printf '%s%s ' (set_color $fish_color_user) (whoami) 
+  printf '%s%s ' (set_color $fish_color_cwd) (prompt_pwd)
+  if test -n "$branch"
+    printf '%s(%s)' (set_color normal) $branch
+  end
+  printf '%s> ' (set_color normal)
+
 end
 
-export PATH="/Applications/Emacs.app/Contents/MacOS:$PATH"
-alias emacs='/Applications/Emacs.app/Contents/MacOS/Emacs'
+function fish_greeting
+end
