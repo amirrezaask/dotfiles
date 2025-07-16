@@ -59,3 +59,6 @@ end
 
 function fish_greeting
 end
+
+# Created by `pipx` on 2025-07-16 22:02:36
+set PATH $PATH /home/amirreza/.local/bin

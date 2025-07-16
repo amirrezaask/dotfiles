@@ -1,6 +1,6 @@
 vim.g.mapleader = " " -- <leader> in keybindings means Space.
 vim.o.wrap = true -- Wrap long lines.
-vim.o.signcolumn = "no"
+vim.o.signcolumn = "no" -- No need for my code jump around because some plugin wants to show a sign in the left.
 vim.o.breakindent = true -- Indent wrapped lines.
 vim.o.swapfile = false -- Disable swapfile.
 vim.o.undofile = true -- Store undo history on disk
@@ -12,7 +12,7 @@ vim.o.shiftwidth = 4 -- Default indent size
 vim.o.ignorecase = true -- Search case insensitive...
 vim.o.smartcase = true -- ... but not if it contains caps
 vim.o.formatoptions = "jcql" -- See :help fo-table
-vim.o.cursorline = true
+vim.o.cursorline = true -- highlight current line with the cursor.
 vim.o.inccommand = "split" -- Show partial commands in the command line
 vim.o.winborder = "rounded"
 
@@ -54,7 +54,10 @@ paq({
 	"neovim/nvim-lspconfig",
 	{ "saghen/blink.cmp", branch = "v1.1.1" },
 	"stevearc/conform.nvim",
+	"folke/tokyonight.nvim",
 })
+
+vim.cmd.colorscheme("tokyonight-night")
 
 -- https://github.com/junegunn/fzf
 Fzf = require("fzf-lua")
