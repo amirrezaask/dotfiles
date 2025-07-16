@@ -38,7 +38,6 @@ vim.cmd([[ " Colors
 	hi Normal guibg=none
 	hi! link StatusLine  Normal
 	hi! link NormalFloat Normal
-	hi! Function guifg=NvimLightBlue
 ]])
 
 local paq_installed, paq = pcall(require, "paq")
