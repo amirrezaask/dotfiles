@@ -37,6 +37,9 @@ vim.keymap.set("n", "}", "<cmd>cnext<CR>")
 -- Fat finger support
 vim.cmd([[ command! W w ]])
 vim.cmd([[ command! Q q ]])
+-- Diagnostics
+vim.keymap.set("n", "[[", function() vim.diagnostic.jump({ count = -1 }) end, {})
+vim.keymap.set("n", "]]", function() vim.diagnostic.jump({ count = 1 }) end, {})
 
 -- Improve default colors
 vim.cmd([[
@@ -109,12 +112,6 @@ require("lspconfig").lua_ls.setup({
 
 vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(args)
-		vim.keymap.set("n", "[[", function()
-			vim.diagnostic.jump({ count = -1 })
-		end, { buffer = args.buf })
-		vim.keymap.set("n", "]]", function()
-			vim.diagnostic.jump({ count = 1 })
-		end, { buffer = args.buf })
 		vim.keymap.set("n", "C-]", vim.lsp.buf.definition, { buffer = args.buf })
 		vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = args.buf })
 		vim.keymap.set("n", "gr", vim.lsp.buf.references, { buffer = args.buf })
