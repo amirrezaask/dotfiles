@@ -15,28 +15,26 @@ vim.o.formatoptions = "jcql" -- See :help fo-table
 vim.o.cursorline = true
 vim.o.inccommand = "split" -- Show partial commands in the command line
 vim.o.winborder = "rounded"
--- Ways to escape the INSERT mode
+
+vim.keymap.set("n", "<C-d>", "<C-d>zz")
+vim.keymap.set("n", "<C-u>", "<C-u>zz")
+vim.keymap.set("n", "n", "nzz")
+vim.keymap.set("n", "N", "Nzz")
 vim.keymap.set("i", "jk", "<ESC>")
 vim.keymap.set("i", "kj", "<ESC>")
 vim.keymap.set("i", "<C-c>", "<esc>")
--- Disable inc-search on <CR>
 vim.keymap.set("n", "<CR>", "v:hlsearch ? ':nohlsearch<CR>' : '<CR>'", { expr = true, noremap = true })
--- Wrapped lines are just lines.
 vim.keymap.set("n", "j", "gj")
 vim.keymap.set("n", "k", "gk")
--- Quickfix list navigation.
 vim.keymap.set("n", "{", "<cmd>cprev<CR>")
 vim.keymap.set("n", "}", "<cmd>cnext<CR>")
--- Fat finger support
 vim.cmd([[ command! W w ]])
 vim.cmd([[ command! Q q ]])
--- Diagnostics
 vim.keymap.set("n", "[[", function() vim.diagnostic.jump({ count = -1 }) end, {})
 vim.keymap.set("n", "]]", function() vim.diagnostic.jump({ count = 1 }) end, {})
 vim.keymap.set("n", "L", vim.diagnostic.open_float, {})
 
--- Improve default colors
-vim.cmd([[
+vim.cmd([[ " Colors
 	hi Normal guibg=none
 	hi! link StatusLine  Normal
 	hi! link NormalFloat Normal
@@ -59,7 +57,6 @@ paq({
 	"stevearc/conform.nvim",
 })
 
--- Fuzzy Finder
 -- https://github.com/junegunn/fzf
 Fzf = require("fzf-lua")
 Fzf.setup({
@@ -86,13 +83,10 @@ require("nvim-treesitter.configs").setup { -- Treesitter enables richer syntax h
 	indent = { enable = true, disable = { "ruby" } },
 }
 
--- Langauge Server Protocol:
--- https://github.com/LuaLS/lua-language-server/releases/latest
--- go install golang.org/x/tools/gopls@latest
--- npm install -g intelephense
-require("lspconfig").gopls.setup {}
-require("lspconfig").intelephense.setup {}
-require("lspconfig").lua_ls.setup {
+-- Langauge Server Protocol
+require("lspconfig").gopls.setup {} -- go install golang.org/x/tools/gopls@latest
+require("lspconfig").intelephense.setup {} -- npm install -g intelephense
+require("lspconfig").lua_ls.setup { -- https://github.com/LuaLS/lua-language-server/releases/latest
 	settings = {
 		Lua = {
 			diagnostics = { enable = true, globals = { "vim" } },
@@ -101,7 +95,7 @@ require("lspconfig").lua_ls.setup {
 	},
 }
 
-vim.api.nvim_create_autocmd("LspAttach", {
+vim.api.nvim_create_autocmd("LspAttach", { -- Lsp keybindings
 	callback = function(args)
 		vim.keymap.set("n", "C-]", vim.lsp.buf.definition, { buffer = args.buf })
 		vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = args.buf })
@@ -115,8 +109,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 })
 vim.diagnostic.config({ virtual_text = true })
 
--- Autocomplete
-require("blink.cmp").setup({
+require("blink.cmp").setup({ -- Autocomplete
 	keymap = { preset = "enter" },
 	cmdline = { enabled = false },
 	completion = {
@@ -126,13 +119,10 @@ require("blink.cmp").setup({
 	sources = { default = { "lsp", "path", "snippets" } },
 })
 
--- Autoformat
--- github.com/JohnnyMorganz/StyLua/releases/latest
--- go install golang.org/x/tools/cmd/goimports@latest
-require("conform").setup({
+require("conform").setup({ -- Autoformat on save
 	formatters_by_ft = {
-		lua = { "stylua" },
-		go = { "goimports" },
+		lua = { "stylua" }, -- github.com/JohnnyMorganz/StyLua/releases/latest
+		go = { "goimports" }, -- go install golang.org/x/tools/cmd/goimports@latest
 	},
 	format_on_save = {},
 })
