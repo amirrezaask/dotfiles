@@ -7,25 +7,18 @@ vim.o.undofile = true -- Store undo history on disk
 vim.o.splitbelow = true -- Split windows below the current windows
 vim.o.splitright = true -- Split windows right to the current windows
 vim.o.clipboard = "unnamedplus" -- Copy/Cut/Paste to system clipboard
-vim.o.tabstop = 4
-vim.o.shiftwidth = 4
+vim.o.tabstop = 4 -- Default indent size
+vim.o.shiftwidth = 4 -- Default indent size
 vim.o.ignorecase = true -- Search case insensitive...
 vim.o.smartcase = true -- ... but not if it contains caps
 vim.o.formatoptions = "jcql" -- See :help fo-table
--- vim.o.updatetime = 100 -- Faster completion
-vim.o.termguicolors = true -- Enable 24-bit RGB colors
+vim.o.cursorline = true
 vim.o.inccommand = "split" -- Show partial commands in the command line
 vim.o.winborder = "rounded"
 -- Ways to escape the INSERT mode
-vim.keymap.set("t", "<esc>", [[<C-\><C-n>]])
 vim.keymap.set("i", "jk", "<ESC>")
 vim.keymap.set("i", "kj", "<ESC>")
 vim.keymap.set("i", "<C-c>", "<esc>")
--- Moving around will always keep you at the center.
-vim.keymap.set("n", "<C-d>", "<C-d>zz")
-vim.keymap.set("n", "<C-u>", "<C-u>zz")
-vim.keymap.set("n", "n", "nzz")
-vim.keymap.set("n", "N", "Nzz")
 -- Disable inc-search on <CR>
 vim.keymap.set("n", "<CR>", "v:hlsearch ? ':nohlsearch<CR>' : '<CR>'", { expr = true, noremap = true })
 -- Wrapped lines are just lines.
@@ -40,6 +33,7 @@ vim.cmd([[ command! Q q ]])
 -- Diagnostics
 vim.keymap.set("n", "[[", function() vim.diagnostic.jump({ count = -1 }) end, {})
 vim.keymap.set("n", "]]", function() vim.diagnostic.jump({ count = 1 }) end, {})
+vim.keymap.set("n", "L", vim.diagnostic.open_float, {})
 
 -- Improve default colors
 vim.cmd([[
@@ -85,30 +79,27 @@ vim.lsp.buf.implementation = Fzf.lsp_implementations
 vim.lsp.buf.references = Fzf.lsp_references
 vim.lsp.buf.type_definition = Fzf.lsp_type_definitions
 
--- Treesitter enables richer syntax highlight
-require("nvim-treesitter.configs").setup({
+require("nvim-treesitter.configs").setup { -- Treesitter enables richer syntax highlight
 	ensure_installed = { "go", "php" },
 	auto_install = true,
 	highlight = { enable = true },
 	indent = { enable = true, disable = { "ruby" } },
-})
+}
 
 -- Langauge Server Protocol:
--- github.com/LuaLS/lua-language-server/releases/latest
+-- https://github.com/LuaLS/lua-language-server/releases/latest
 -- go install golang.org/x/tools/gopls@latest
 -- npm install -g intelephense
-for _, lsp in pairs({ "gopls", "intelephense" }) do
-	require("lspconfig")[lsp].setup({})
-end
-
-require("lspconfig").lua_ls.setup({
+require("lspconfig").gopls.setup {}
+require("lspconfig").intelephense.setup {}
+require("lspconfig").lua_ls.setup {
 	settings = {
 		Lua = {
 			diagnostics = { enable = true, globals = { "vim" } },
 			workspace = { library = { vim.fn.expand("$VIMRUNTIME/lua") }, maxPreload = 10000, preloadFileSize = 10000 },
 		},
 	},
-})
+}
 
 vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(args)
@@ -118,7 +109,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { buffer = args.buf })
 		vim.keymap.set("n", "R", vim.lsp.buf.rename, { buffer = args.buf })
 		vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = args.buf })
-		vim.keymap.set("n", "L", vim.diagnostic.open_float, { buffer = args.buf })
 		vim.keymap.set("n", "C", vim.lsp.buf.code_action, { buffer = args.buf })
 		vim.keymap.set({ "n", "i" }, "<C-s>", vim.lsp.buf.signature_help, { buffer = args.buf })
 	end,
@@ -131,17 +121,9 @@ require("blink.cmp").setup({
 	cmdline = { enabled = false },
 	completion = {
 		list = { selection = { preselect = false } },
-		menu = {
-			draw = {
-				columns = {
-					{ "label", "label_description", gap = 1 },
-				},
-			},
-		},
+		menu = { draw = { columns = { { "label", "label_description", gap = 1 } } } }, -- No icons
 	},
-	sources = {
-		default = { "lsp", "path", "snippets" },
-	},
+	sources = { default = { "lsp", "path", "snippets" } },
 })
 
 -- Autoformat
