@@ -54,10 +54,7 @@ paq({
 	"neovim/nvim-lspconfig",
 	{ "saghen/blink.cmp", branch = "v1.1.1" },
 	"stevearc/conform.nvim",
-	"folke/tokyonight.nvim",
 })
-
-vim.cmd.colorscheme("tokyonight-night")
 
 -- https://github.com/junegunn/fzf
 Fzf = require("fzf-lua")

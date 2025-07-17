@@ -19,3 +19,10 @@
 [merge]
 	conflictstyle = zdiff3
 
+[alias]
+	co = checkout
+	br = branch
+	ci = commit
+	st = status
+[pull]
+	rebase = true
