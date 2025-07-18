@@ -12,7 +12,6 @@ vim.o.shiftwidth = 4 -- Default indent size
 vim.o.ignorecase = true -- Search case insensitive...
 vim.o.smartcase = true -- ... but not if it contains caps
 vim.o.formatoptions = "jcql" -- See :help fo-table
-vim.o.cursorline = true -- highlight current line with the cursor.
 vim.o.inccommand = "split" -- Show partial commands in the command line
 vim.o.winborder = "rounded"
 
@@ -54,8 +53,10 @@ paq({
 	"neovim/nvim-lspconfig",
 	{ "saghen/blink.cmp", branch = "v1.1.1" },
 	"stevearc/conform.nvim",
+	"folke/tokyonight.nvim"
 })
 
+vim.cmd.colorscheme("tokyonight-night")
 -- https://github.com/junegunn/fzf
 Fzf = require("fzf-lua")
 Fzf.setup({

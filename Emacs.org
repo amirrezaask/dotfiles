@@ -543,7 +543,7 @@ this code block does not get tangled.
 
 * Font
 #+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
-  (set-face-attribute 'default nil :font "Jetbrains Mono-15")
+  (set-face-attribute 'default nil :font "Jetbrains Mono-13")
 #+end_src
 
 
