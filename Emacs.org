@@ -335,89 +335,57 @@ Some external to emacs builtin packages to improve functionality and better them
 
 
 * Completion and Minibuffer
-
-** Base Completion configuration
 #+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
-  ;; Allow for minibuffer-ception. Sometimes we need another minibuffer command
-  ;; while we're in the minibuffer.
-  (setq enable-recursive-minibuffers t)
 
-  ;; Show current key-sequence in minibuffer ala 'set showcmd' in vim. Any
-  ;; feedback after typing is better UX than no feedback at all.
-  (setq echo-keystrokes 0.02)
+   (setq
+    ;; Show current key-sequence in minibuffer ala 'set showcmd' in vim. Any
+    ;; feedback after typing is better UX than no feedback at all.
+    echo-keystrokes 0.02
 
-  (setq completions-format 'one-column) ;; vertical
-  (setq completions-max-height 15)
-  (setq completion-auto-select t) ;; automatically switch to completion window.
-  (setq completion-auto-help t)
-  (setq completion-ignore-case t)
-  (setq tab-always-indent 'complete) ;; TAB will first try to indent the line then acts as 'complete-at-point
-  (setq completion-styles '(basic partial-completion substring flex))
-  (setq read-buffer-completion-ignore-case t) ;; same as completeion-ignore-case but for buffers.
-  (setq read-file-name-completion-ignore-case t) ;; same as completeion-ignore-case but for files.
-  (setq completion-show-help nil) ;; Don't show help message in *Completions* buffer
-  (setq completions-detailed t) ;; display completions with details added as prefix/suffix.
-  (setq completions-group t)
-  (setq completion-auto-help 'visible)
-  (setq completion-auto-select 'second-tab) ;; On first TAB show completion window and on second TAB switch to it.
-  (setq completions-header-format nil) ;;
+    ;; Allow for minibuffer-ception. Sometimes we need another minibuffer command
+    ;; while we're in the minibuffer.
+    enable-recursive-minibuffers t
 
-#+END_SRC
+    ;; Single column for completion items.
+    completions-format 'one-column
 
+    completions-max-height 15
 
-** icomplete/fido
-From Emacs 28 icomplete mode had a lot of improvements specifically =fido(fake-ido)-mode= which emulates =ido-mode=
-but remains compatible with =completing-read= API of core emacs. Based on my usage
-it's more than enough for daily usage and the need for packages like =ivy=, =vertico= is removed in last few emacs versions.
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el
-  (setq icompelete-compute-delay 0.05) ;; Delay before computation and sorting is started.
-  (setq icomplete-max-delay-chars 1) ;; Number of keypresses before compute delay is counted for.
+    ;; case insensitive search and sorting of the candidates.
+    completion-ignore-case t
 
-  (defun my/fido-vertical-mode-hook ()
-    (setq-local completion-styles '(basic substring partial-completion emacs22)))
+    ;; TAB will first try to indent the line then acts as 'complete-at-point
+    tab-always-indent 'complete 
 
-  (with-eval-after-load 'icomplete
-    (keymap-set icomplete-fido-mode-map "TAB" 'icomplete-force-complete)
-    (keymap-set icomplete-fido-mode-map "DEL" 'delete-backward-char)
-    (add-hook 'fido-vertical-mode-hook 'my/fido-vertical-mode-hook))
+    completion-styles '(basic partial-completion substring flex)
+
+    ;; same as completeion-ignore-case but for buffers.
+    read-buffer-completion-ignore-case t
+
+    ;; same as completeion-ignore-case but for files.
+    read-file-name-completion-ignore-case t
+    
+    ;; Don't show help message in *Completions* buffer
+    completion-show-help nil
+
+    ;; display completions with details added as prefix/suffix.
+    completions-detailed t
+
+    ;; Enables grouping of completion candidates on Emacs.
+    completions-group t
+    
+    completion-auto-help 'visible
+
+    ;; Switch to *completions* buffer on second TAB, first TAB will just show the *completions* buffer.
+    completion-auto-select 'second-tab 
+
+    completions-header-format nil
+    )
 
   (keymap-set minibuffer-local-map "C-p" #'minibuffer-previous-completion)
   (keymap-set minibuffer-local-map "C-n" #'minibuffer-next-completion)
 
-  (fido-vertical-mode 1)
 #+END_SRC
-
-
-** completion-preview-mode
-From Emacs 30 there is a builtin mode to show completion candidates in line similar to inline hints in
-vscode. This mode automatically shows and updates the completion preview according to the text around point. When the preview is visible, TAB accepts the
-completion suggestion, M-i completes up to
-the longest common prefix of all completion candidates,
-M-n cycles forward to the next
-completion suggestion, and M-p cycles
-backward.
-#+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
-  (when (fboundp 'completion-preview-mode) ;; Emacs 30+
-    (completion-preview-mode +1)
-    (add-hook 'prog-mode-hook #'completion-preview-mode)
-    ;; also in text buffers
-    (add-hook 'text-mode-hook #'completion-preview-mode)
-    ;; and in \\[shell] and friends
-    (with-eval-after-load 'comint
-      (add-hook 'comint-mode-hook #'completion-preview-mode))
-
-    (keymap-set completion-preview-active-mode-map "M-n" #'completion-preview-next-candidate)
-    (keymap-set completion-preview-active-mode-map "M-p" #'completion-preview-prev-candidate))
-#+end_src
-
-
-** vertico
-Currently I am trying to use emacs builtin functionality when it's available so I am using Fido mode instead of vertico,
-this code block does not get tangled.
-#+begin_src emacs-lisp
-  (ensure-package 'vertico)
-  (vertico-mode +1)
-#+end_src
 
 
 * Editing
@@ -543,7 +511,7 @@ this code block does not get tangled.
 
 * Font
 #+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
-  (set-face-attribute 'default nil :font "Jetbrains Mono-13")
+  (set-face-attribute 'default nil :font "TX-02-13")
 #+end_src
 
 
