@@ -13,7 +13,7 @@ vim.o.ignorecase = true -- Search case insensitive...
 vim.o.smartcase = true -- ... but not if it contains caps
 vim.o.formatoptions = "jcql" -- See :help fo-table
 vim.o.inccommand = "split" -- Show partial commands in the command line
-vim.o.winborder = "rounded"
+vim.o.winborder = "rounded" -- All created windows in neovim will follow this setting for borders.
 
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
@@ -27,6 +27,7 @@ vim.keymap.set("n", "j", "gj")
 vim.keymap.set("n", "k", "gk")
 vim.keymap.set("n", "{", "<cmd>cprev<CR>")
 vim.keymap.set("n", "}", "<cmd>cnext<CR>")
+vim.keymap.set("n", "<leader>i", ":edit $MYVIMRC<CR>")
 vim.cmd([[ command! W w ]])
 vim.cmd([[ command! Q q ]])
 vim.keymap.set("n", "[[", function() vim.diagnostic.jump({ count = -1 }) end, {})
@@ -53,10 +54,11 @@ paq({
 	"neovim/nvim-lspconfig",
 	{ "saghen/blink.cmp", branch = "v1.1.1" },
 	"stevearc/conform.nvim",
-	"folke/tokyonight.nvim"
+	"amirrezaask/nvim-sitruuna.lua",
 })
 
-vim.cmd.colorscheme("tokyonight-night")
+vim.cmd.colorscheme("sitruuna")
+
 -- https://github.com/junegunn/fzf
 Fzf = require("fzf-lua")
 Fzf.setup({

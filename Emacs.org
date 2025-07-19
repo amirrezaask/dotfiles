@@ -511,7 +511,7 @@ Some external to emacs builtin packages to improve functionality and better them
 
 * Font
 #+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
-  (set-face-attribute 'default nil :font "TX-02-13")
+  (set-face-attribute 'default nil :font "TX-02-11")
 #+end_src
 
 

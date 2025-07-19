@@ -21,6 +21,10 @@ end
 export PATH="$HOME/go/bin:$PATH"
 export PATH="/opt/homebrew/bin:$PATH"
 
+
+export GOPROXY=goproxy.io
+export GOPRIVATE=gitlab.snappcloud.io
+
 function reload
   source ~/.config/fish/config.fish 
 end
@@ -45,20 +49,9 @@ function gwip
     git push origin $branch
 end
 
-function fish_prompt
-  set -l branch (command git rev-parse --abbrev-ref HEAD 2>/dev/null)
-
-  printf '%s%s ' (set_color $fish_color_user) (whoami) 
-  printf '%s%s ' (set_color $fish_color_cwd) (prompt_pwd)
-  if test -n "$branch"
-    printf '%s(%s)' (set_color normal) $branch
-  end
-  printf '%s> ' (set_color normal)
-
-end
-
 function fish_greeting
 end
 
 # Created by `pipx` on 2025-07-16 22:02:36
 set PATH $PATH /home/amirreza/.local/bin
+
