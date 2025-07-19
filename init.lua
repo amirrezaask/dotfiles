@@ -54,10 +54,7 @@ paq({
 	"neovim/nvim-lspconfig",
 	{ "saghen/blink.cmp", branch = "v1.1.1" },
 	"stevearc/conform.nvim",
-	"amirrezaask/nvim-sitruuna.lua",
 })
-
-vim.cmd.colorscheme("sitruuna")
 
 -- https://github.com/junegunn/fzf
 Fzf = require("fzf-lua")
@@ -67,18 +64,19 @@ Fzf.setup({
 })
 Fzf.register_ui_select()
 vim.keymap.set("n", "<leader><leader>", Fzf.files, { desc = "Find Files" })
-vim.keymap.set("n", "<leader>j", Fzf.lines, { desc = "Buffer Lines" })
-vim.keymap.set("n", "<leader>l", Fzf.live_grep, { desc = "Live Grep" })
-vim.keymap.set("n", "<leader>w", Fzf.grep, { desc = "Grep word" })
-vim.keymap.set({ "n", "v" }, "<leader>.", Fzf.grep_cword, { desc = "Grep <cword>" })
-vim.keymap.set("n", "<leader>s", Fzf.lsp_document_symbols, { desc = "LSP Document Symbols" })
-vim.keymap.set("n", "<leader>S", Fzf.lsp_live_workspace_symbols, { desc = "LSP Workspace Symbols" })
+vim.keymap.set("n", "<leader>j", Fzf.live_grep, { desc = "Live Grep" })
+vim.keymap.set("n", "<leader>k", Fzf.grep, { desc = "Grep word" })
+vim.keymap.set("n", "<leader>K", Fzf.grep_cword, { desc = "Grep <cword>" })
+vim.keymap.set("v", "<leader>K", Fzf.grep_visual, { desc = "Grep visualy selected text" })
+vim.keymap.set("n", "<leader>o", Fzf.lsp_document_symbols, { desc = "LSP Document Symbols" })
+vim.keymap.set("n", "<leader>O", Fzf.lsp_live_workspace_symbols, { desc = "LSP Workspace Symbols" })
 vim.lsp.buf.definition = Fzf.lsp_definitions
 vim.lsp.buf.implementation = Fzf.lsp_implementations
 vim.lsp.buf.references = Fzf.lsp_references
 vim.lsp.buf.type_definition = Fzf.lsp_type_definitions
 
-require("nvim-treesitter.configs").setup { -- Treesitter enables richer syntax highlight
+-- Treesitter enables richer syntax highlight
+require("nvim-treesitter.configs").setup {
 	ensure_installed = { "go", "php" },
 	auto_install = true,
 	highlight = { enable = true },
@@ -111,7 +109,8 @@ vim.api.nvim_create_autocmd("LspAttach", { -- Lsp keybindings
 })
 vim.diagnostic.config({ virtual_text = true })
 
-require("blink.cmp").setup({ -- Autocomplete
+-- Autocomplete
+require("blink.cmp").setup({
 	keymap = { preset = "enter" },
 	cmdline = { enabled = false },
 	completion = {
@@ -121,7 +120,8 @@ require("blink.cmp").setup({ -- Autocomplete
 	sources = { default = { "lsp", "path", "snippets" } },
 })
 
-require("conform").setup({ -- Autoformat on save
+-- Autoformat on save
+require("conform").setup({
 	formatters_by_ft = {
 		lua = { "stylua" }, -- github.com/JohnnyMorganz/StyLua/releases/latest
 		go = { "goimports" }, -- go install golang.org/x/tools/cmd/goimports@latest
