@@ -4,6 +4,8 @@ mouse-hide-while-typing = true
 macos-option-as-alt = true
 window-padding-x = 0
 window-padding-y = 0
+shell-integration-features=no-cursor
+cursor-style=bar
 
 keybind = cmd+n=next_tab
 keybind = cmd+p=previous_tab
