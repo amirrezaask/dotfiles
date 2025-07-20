@@ -1,6 +1,4 @@
-maximize = true
 window-colorspace = "display-p3"
-window-theme = ghostty
 cursor-style-blink = false
 mouse-hide-while-typing = true
 macos-option-as-alt = true

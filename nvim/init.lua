@@ -62,7 +62,7 @@ paq({
 -- https://github.com/junegunn/fzf
 Fzf = require("fzf-lua")
 Fzf.setup({
-	"fzf-vim", -- setup similar to fzf.vim
+	"telescope", -- setup similar to telescope
 	keymap = { fzf = { ["ctrl-q"] = "select-all+accept" } },
 })
 Fzf.register_ui_select()
