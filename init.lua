@@ -54,6 +54,7 @@ paq({
 	"neovim/nvim-lspconfig",
 	{ "saghen/blink.cmp", branch = "v1.1.1" },
 	"stevearc/conform.nvim",
+	"stevearc/oil.nvim",
 })
 
 -- https://github.com/junegunn/fzf
@@ -128,3 +129,6 @@ require("conform").setup({
 	},
 	format_on_save = {},
 })
+
+-- Manage files using vim text editing power.
+require("oil").setup()
