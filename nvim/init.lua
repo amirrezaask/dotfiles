@@ -40,6 +40,8 @@ vim.cmd([[ " Colors
 	hi! link NormalFloat Normal
 ]])
 
+vim.cmd.colorscheme("nordish")
+
 local paq_installed, paq = pcall(require, "paq")
 if not paq_installed then
 	vim.fn.system(

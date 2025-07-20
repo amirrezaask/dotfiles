@@ -16,10 +16,9 @@ rm -rf  "$XDG_CONFIG/nvim" \
 
 mkdir -p "$XDG_CONFIG"
 mkdir -p "$XDG_CONFIG/fish"
-mkdir -p "$XDG_CONFIG/nvim/"
 mkdir -p "$XDG_CONFIG/ghostty"
 
-ln -s "$DOTFILES_DIR/init.lua" "$XDG_CONFIG/nvim/init.lua"
+ln -s "$DOTFILES_DIR/nvim" "$XDG_CONFIG/nvim"
 ln -s "$DOTFILES_DIR/config.fish" "$XDG_CONFIG/fish/config.fish"
 ln -s "$DOTFILES_DIR/tmux/tmux-sessionizer" "$HOME/.tmux-sessionizer"
 ln -s "$DOTFILES_DIR/ghostty" "$XDG_CONFIG/ghostty/config"
