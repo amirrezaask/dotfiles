@@ -1,3 +1,19 @@
+-- Goals:
+-- 		* No external package unless necessary
+-- 		* Stick to defaults
+-- 		* Minimum number of new keys
+-- 		* Prefer muscle memory to mnemonic for new keys ( vim way )
+
+-- j k l play a key part in my neovim experience
+-- 		<leader> j -> Find File
+-- 		<leader> J -> Live Grep
+-- 		<leader> k -> Grep ( with input )
+-- 		<leader> K -> Grep Word/<CWORD>
+
+-- 		<C-j>      -> Goto Definition
+-- 		<C-k>      -> Goto References
+-- 		<C-l>      -> Goto Implementations
+
 vim.g.mapleader = " " -- <leader> in keybindings means Space.
 vim.o.wrap = true -- Wrap long lines.
 vim.o.signcolumn = "no" -- No need for my code jump around because some plugin wants to show a sign in the left.
@@ -14,6 +30,7 @@ vim.o.smartcase = true -- ... but not if it contains caps
 vim.o.formatoptions = "jcql" -- See :help fo-table
 vim.o.inccommand = "split" -- Show partial commands in the command line
 vim.o.winborder = "rounded" -- All created windows in neovim will follow this setting for borders.
+vim.o.timeoutlen = 500 -- Time in milliseconds to wait for a mapped sequence to complete.
 
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
@@ -34,13 +51,12 @@ vim.keymap.set("n", "[[", function() vim.diagnostic.jump({ count = -1 }) end, {}
 vim.keymap.set("n", "]]", function() vim.diagnostic.jump({ count = 1 }) end, {})
 vim.keymap.set("n", "L", vim.diagnostic.open_float, {})
 
-vim.cmd([[ " Colors
+-- Colors
+vim.cmd([[ 
 	hi Normal guibg=none
 	hi! link StatusLine  Normal
 	hi! link NormalFloat Normal
 ]])
-
-vim.cmd.colorscheme("nordish")
 
 local paq_installed, paq = pcall(require, "paq")
 if not paq_installed then
@@ -66,13 +82,14 @@ Fzf.setup({
 	keymap = { fzf = { ["ctrl-q"] = "select-all+accept" } },
 })
 Fzf.register_ui_select()
-vim.keymap.set("n", "<leader><leader>", Fzf.files, { desc = "Find Files" })
-vim.keymap.set("n", "<leader>j", Fzf.live_grep, { desc = "Live Grep" })
+-- vim.keymap.set("n", "<leader><leader>", Fzf.files, { desc = "Find Files" })
+vim.keymap.set("n", "<leader>j", Fzf.files, { desc = "Find Files" })
+vim.keymap.set("n", "<leader>J", Fzf.live_grep, { desc = "Live Grep" })
 vim.keymap.set("n", "<leader>k", Fzf.grep, { desc = "Grep word" })
 vim.keymap.set("n", "<leader>K", Fzf.grep_cword, { desc = "Grep <cword>" })
 vim.keymap.set("v", "<leader>K", Fzf.grep_visual, { desc = "Grep visualy selected text" })
-vim.keymap.set("n", "<leader>o", Fzf.lsp_document_symbols, { desc = "LSP Document Symbols" })
-vim.keymap.set("n", "<leader>O", Fzf.lsp_live_workspace_symbols, { desc = "LSP Workspace Symbols" })
+vim.keymap.set("n", "<leader>l", Fzf.lsp_document_symbols, { desc = "LSP Document Symbols" })
+vim.keymap.set("n", "<leader>L", Fzf.lsp_live_workspace_symbols, { desc = "LSP Workspace Symbols" })
 vim.lsp.buf.definition = Fzf.lsp_definitions
 vim.lsp.buf.implementation = Fzf.lsp_implementations
 vim.lsp.buf.references = Fzf.lsp_references
@@ -100,10 +117,10 @@ require("lspconfig").lua_ls.setup { -- https://github.com/LuaLS/lua-language-ser
 
 vim.api.nvim_create_autocmd("LspAttach", { -- Lsp keybindings
 	callback = function(args)
-		vim.keymap.set("n", "C-]", vim.lsp.buf.definition, { buffer = args.buf })
-		vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = args.buf })
-		vim.keymap.set("n", "gr", vim.lsp.buf.references, { buffer = args.buf })
-		vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { buffer = args.buf })
+		vim.keymap.set("n", "C-]", vim.lsp.buf.definition, { buffer = args.buf }) -- extend default vim
+		vim.keymap.set("n", "<C-j>", vim.lsp.buf.definition, { buffer = args.buf })
+		vim.keymap.set("n", "<C-k>", vim.lsp.buf.references, { buffer = args.buf })
+		vim.keymap.set("n", "<C-l>", vim.lsp.buf.implementation, { buffer = args.buf })
 		vim.keymap.set("n", "R", vim.lsp.buf.rename, { buffer = args.buf })
 		vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = args.buf })
 		vim.keymap.set("n", "C", vim.lsp.buf.code_action, { buffer = args.buf })

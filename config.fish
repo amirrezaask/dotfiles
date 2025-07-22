@@ -48,7 +48,7 @@ end
 function fish_prompt
     # Colors
     set_color normal
-    set -l color_dir (set_color cyan)
+	set -l color_dir (set_color green)
     set -l color_branch (set_color yellow)
     set -l color_reset (set_color normal)
 
@@ -60,13 +60,13 @@ function fish_prompt
     if git rev-parse --is-inside-work-tree >/dev/null 2>&1
         set branch (git rev-parse --abbrev-ref HEAD 2>/dev/null)
         if test -n "$branch"
-            set branch " $color_branch($branch)$color_reset"
+            set branch " ($branch)"
         end
     end
 
     # Line 1: colored directory and branch
-    echo -n "$color_dir$cwd$color_reset$branch"
+    echo -n "$color_dir$cwd$color_reset$branch> "
 
     # Line 2: prompt
-    echo -e "\n\$ "
+    # echo -e "\n\$ "
 end
