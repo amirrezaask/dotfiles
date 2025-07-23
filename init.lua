@@ -5,10 +5,13 @@
 -- 		* Prefer muscle memory to mnemonic for new keys ( vim way )
 
 -- j k l play a key part in my neovim experience
+--
 -- 		<leader> j -> Find File
 -- 		<leader> J -> Live Grep
 -- 		<leader> k -> Grep ( with input )
 -- 		<leader> K -> Grep Word/<CWORD>
+-- 		<leader> l -> LSP Document Symbols
+-- 		<leader> L -> LSP Workspace Symbols
 
 -- 		<C-j>      -> Goto Definition
 -- 		<C-k>      -> Goto References
@@ -78,7 +81,7 @@ paq({
 -- https://github.com/junegunn/fzf
 Fzf = require("fzf-lua")
 Fzf.setup({
-	"telescope", -- setup similar to telescope
+	"fzf-vim",
 	keymap = { fzf = { ["ctrl-q"] = "select-all+accept" } },
 })
 Fzf.register_ui_select()
