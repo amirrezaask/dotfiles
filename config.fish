@@ -28,6 +28,7 @@ if type -q nvim
   alias v='nvim'
   export EDITOR='nvim'
   export GIT_EDITOR="$EDITOR"
+  export MANPAGER='nvim +Man!'
 end
 
 if type -q fzf
@@ -70,3 +71,6 @@ function fish_prompt
     # Line 2: prompt
     # echo -e "\n\$ "
 end
+
+
+

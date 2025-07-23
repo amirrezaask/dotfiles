@@ -82,7 +82,7 @@ Fzf.setup({
 	keymap = { fzf = { ["ctrl-q"] = "select-all+accept" } },
 })
 Fzf.register_ui_select()
--- vim.keymap.set("n", "<leader><leader>", Fzf.files, { desc = "Find Files" })
+vim.keymap.set("n", "<leader><leader>", Fzf.files, { desc = "Find Files" })
 vim.keymap.set("n", "<leader>j", Fzf.files, { desc = "Find Files" })
 vim.keymap.set("n", "<leader>J", Fzf.live_grep, { desc = "Live Grep" })
 vim.keymap.set("n", "<leader>k", Fzf.grep, { desc = "Grep word" })
@@ -118,6 +118,11 @@ require("lspconfig").lua_ls.setup { -- https://github.com/LuaLS/lua-language-ser
 vim.api.nvim_create_autocmd("LspAttach", { -- Lsp keybindings
 	callback = function(args)
 		vim.keymap.set("n", "C-]", vim.lsp.buf.definition, { buffer = args.buf }) -- extend default vim
+
+		vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = args.buf })
+		vim.keymap.set("n", "gr", vim.lsp.buf.references, { buffer = args.buf })
+		vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { buffer = args.buf })
+
 		vim.keymap.set("n", "<C-j>", vim.lsp.buf.definition, { buffer = args.buf })
 		vim.keymap.set("n", "<C-k>", vim.lsp.buf.references, { buffer = args.buf })
 		vim.keymap.set("n", "<C-l>", vim.lsp.buf.implementation, { buffer = args.buf })

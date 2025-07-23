@@ -1,9 +1,0 @@
-#+TITLE: Amirreza Computing Environment
-
-- [[file:Emacs.org][Emacs]]
-- [[file:ghostty/config][Ghostty]]
-- [[file:.zshrc][ZSH]]
-- [[file:.tmux.conf][Tmux]]
-- [[file:.gitconfig][Git]]
-- [[file:init.lua][Neovim]]
-
