@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+set -e
+
+DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+XDG_CONFIG="$HOME/.config"
+NEOVIM_RELEASE="master"
+
+if [ ! -d "$HOME/.neovim" ]; then
+git clone https://github.com/neovim/neovim.git "$HOME/.neovim"
+	fi
+cd "$HOME/.neovim"
+
+git pull
+git checkout "$NEOVIM_RELEASE"
+
+sudo make distclean || true
+sudo make clean || true
+make CMAKE_BUILD_TYPE=Release
+sudo make install
+
