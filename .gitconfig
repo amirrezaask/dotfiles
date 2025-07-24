@@ -15,11 +15,12 @@
 	br = branch
 	ci = commit
 	st = status
+
 [pull]
 	rebase = true
 
 [core]
-	pager = nvim -R
+	pager = nvim -R -d
 
 [color]
 	pager = no
