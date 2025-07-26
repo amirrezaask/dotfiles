@@ -162,13 +162,6 @@
 #+end_src
 
 
-** Fullscreen on start
-#+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
-  (set-frame-parameter (selected-frame) 'fullscreen 'maximized)
-  (add-to-list 'default-frame-alist '(fullscreen . maximized))
-#+end_src
-
-
 ** MacOS titlebar color
 This package helps with Emacs in macOS and will automatically change titlebar color based on your theme.
 Since this is an external package we wrap it in a conditional to make sure we enable it if installed.
@@ -511,7 +504,7 @@ Some external to emacs builtin packages to improve functionality and better them
 
 * Font
 #+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
-  (set-face-attribute 'default nil :font "TX-02-11")
+  (set-face-attribute 'default nil :font "Hack-11")
 #+end_src
 
 

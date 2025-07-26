@@ -34,6 +34,7 @@ vim.o.formatoptions = "jcql" -- See :help fo-table
 vim.o.inccommand = "split" -- Show partial commands in the command line
 vim.o.winborder = "rounded" -- All created windows in neovim will follow this setting for borders.
 vim.o.timeoutlen = 500 -- Time in milliseconds to wait for a mapped sequence to complete.
+vim.o.guicursor = ""
 
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
@@ -86,8 +87,7 @@ Fzf.setup({
 })
 Fzf.register_ui_select()
 vim.keymap.set("n", "<leader><leader>", Fzf.files, { desc = "Find Files" })
-vim.keymap.set("n", "<leader>j", Fzf.files, { desc = "Find Files" })
-vim.keymap.set("n", "<leader>J", Fzf.live_grep, { desc = "Live Grep" })
+vim.keymap.set("n", "<leader>j", Fzf.live_grep, { desc = "Live Grep" })
 vim.keymap.set("n", "<leader>k", Fzf.grep, { desc = "Grep word" })
 vim.keymap.set("n", "<leader>K", Fzf.grep_cword, { desc = "Grep <cword>" })
 vim.keymap.set("v", "<leader>K", Fzf.grep_visual, { desc = "Grep visualy selected text" })

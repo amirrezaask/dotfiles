@@ -47,16 +47,13 @@ function fish_greeting
 end
 
 function fish_prompt
-    # Colors
     set_color normal
 	set -l color_dir (set_color green)
     set -l color_branch (set_color yellow)
     set -l color_reset (set_color normal)
 
-    # Abbreviated path
     set -l cwd (prompt_pwd)
 
-    # Git branch if inside repo
     set -l branch ""
     if git rev-parse --is-inside-work-tree >/dev/null 2>&1
         set branch (git rev-parse --abbrev-ref HEAD 2>/dev/null)
@@ -65,12 +62,13 @@ function fish_prompt
         end
     end
 
-    # Line 1: colored directory and branch
     echo -n "$color_dir$cwd$color_reset$branch> "
-
-    # Line 2: prompt
-    # echo -e "\n\$ "
 end
 
 
-
+function ref
+	git checkout -b "ref-$argv[1]"
+end
+function feat
+	git checkout -b "feat-$argv[1]"
+end
