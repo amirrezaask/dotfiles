@@ -4,7 +4,8 @@ vim.o.signcolumn = "no" -- No need for my code jump around because some plugin w
 vim.o.breakindent = true -- Indent wrapped lines.
 vim.o.swapfile = false -- Disable swapfile.
 vim.o.clipboard = "unnamedplus" -- Copy/Cut/Paste to system clipboard
-vim.o.tabstop = 4 -- Default indent size
+vim.o.tabstop = 4 -- Indent Size
+vim.o.shiftwidth = 4 -- Default indent size
 vim.o.shiftwidth = 4 -- Default indent size
 vim.o.ignorecase = true -- Search case insensitive...
 vim.o.smartcase = true -- ... but not if it contains caps
@@ -46,7 +47,6 @@ vim.pack.add({
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
 	{ src = "https://github.com/stevearc/conform.nvim" },
 	{ src = "https://github.com/stevearc/oil.nvim" },
-	{ src = "https://github.com/vague2k/vague.nvim" },
 })
 
 require("conform").setup({ formatters_by_ft = { lua = { "stylua" }, go = { "goimports" } }, format_on_save = {} })
@@ -75,9 +75,6 @@ vim.api.nvim_create_autocmd("LspAttach", { -- Lsp keybindings
 		vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = args.buf })
 		vim.keymap.set("n", "gr", vim.lsp.buf.references, { buffer = args.buf })
 		vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { buffer = args.buf })
-		vim.keymap.set("n", "<C-j>", vim.lsp.buf.definition, { buffer = args.buf })
-		vim.keymap.set("n", "<C-k>", vim.lsp.buf.references, { buffer = args.buf })
-		vim.keymap.set("n", "<C-l>", vim.lsp.buf.implementation, { buffer = args.buf })
 		vim.keymap.set("n", "R", vim.lsp.buf.rename, { buffer = args.buf })
 		vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = args.buf })
 		vim.keymap.set("n", "C", vim.lsp.buf.code_action, { buffer = args.buf })
