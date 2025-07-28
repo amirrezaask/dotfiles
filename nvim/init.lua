@@ -42,13 +42,14 @@ vim.cmd.colorscheme("cyberdream")
 require("conform").setup({ formatters_by_ft = { lua = { "stylua" }, go = { "goimports" } }, format_on_save = {} })
 require("nvim-treesitter.configs").setup { ensure_installed = { "go", "php" }, highlight = { enable = true }, auto_install = true }
 require("oil").setup()
-require("snacks").setup { picker = { enabled = true } }
+require("snacks").setup { picker = { enabled = true }, terminal = { enabled = true } }
 require("blink.cmp").setup { keymap = { preset = "enter" } }
 
 vim.keymap.set("n", "<leader><leader>", Snacks.picker.files)
 vim.keymap.set("n", "<leader>j", Snacks.picker.grep)
 vim.keymap.set({ "n", "v" }, "<leader>k", Snacks.picker.grep_word)
 vim.keymap.set("n", "<leader>l", Snacks.picker.lsp_workspace_symbols)
+vim.keymap.set({ "n", "i", "t" }, "<C-j>", Snacks.terminal.toggle)
 
 vim.keymap.set("i", "jk", "<ESC>")
 vim.keymap.set("i", "kj", "<ESC>")
