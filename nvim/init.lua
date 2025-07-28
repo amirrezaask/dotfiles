@@ -12,6 +12,11 @@ vim.o.formatoptions = "jcql"
 vim.o.inccommand = "split"
 vim.o.winborder = "rounded"
 vim.o.guicursor = ""
+vim.cmd([[ " Colors
+	hi Normal guibg=none
+	hi! link StatusLine  Normal
+	hi! link NormalFloat Normal
+]])
 
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -27,28 +32,33 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup { -- When vim.pack becomes more stable I will move to native package management.
-	"https://github.com/nvim-tree/nvim-web-devicons",
-	"https://github.com/folke/snacks.nvim",
+	"https://github.com/ibhagwan/fzf-lua",
 	"https://github.com/nvim-treesitter/nvim-treesitter",
 	"https://github.com/neovim/nvim-lspconfig",
 	"https://github.com/stevearc/conform.nvim",
 	"https://github.com/stevearc/oil.nvim",
-	"https://github.com/scottmckendry/cyberdream.nvim",
 	{ "https://github.com/saghen/blink.cmp", version = "1.6.0" },
 }
-
-require("cyberdream").setup { saturation = 0.7 }
-vim.cmd.colorscheme("cyberdream")
 
 require("conform").setup({ formatters_by_ft = { lua = { "stylua" }, go = { "goimports" } }, format_on_save = {} })
 require("nvim-treesitter.configs").setup { ensure_installed = { "go", "php" }, highlight = { enable = true }, auto_install = true }
 require("oil").setup()
-require("snacks").setup { picker = { enabled = true }, terminal = { enabled = true } }
-require("blink.cmp").setup { keymap = { preset = "enter" } }
+require("blink.cmp").setup {
+	keymap = { preset = "enter" },
+	completion = { list = { selection = { preselect = false } }, menu = { draw = { columns = { { "label", "label_description", gap = 1 } } } } },
+}
 
-vim.keymap.set("n", "<leader><leader>", Snacks.picker.files)
-vim.keymap.set("n", "<leader>j", Snacks.picker.grep)
-vim.keymap.set({ "n", "v" }, "<leader>k", Snacks.picker.grep_word)
+require("fzf-lua").setup { "fzf-vim", keymap = { fzf = { ["ctrl-q"] = "select-all+accept" } } }
+require("fzf-lua").register_ui_select()
+
+vim.keymap.set("n", "<leader><leader>", require("fzf-lua").files, { desc = "Find Files" })
+vim.keymap.set("n", "<leader>j", require("fzf-lua").live_grep, { desc = "Live Grep" })
+vim.keymap.set({ "n", "v" }, "<leader>k", require("fzf-lua").grep_cword, { desc = "Grep <cword>" })
+
+vim.lsp.buf.definition = require("fzf-lua").lsp_definitions
+vim.lsp.buf.implementation = require("fzf-lua").lsp_implementations
+vim.lsp.buf.references = require("fzf-lua").lsp_references
+vim.lsp.buf.type_definition = require("fzf-lua").lsp_type_definitions
 
 vim.keymap.set("i", "jk", "<ESC>")
 vim.keymap.set("i", "kj", "<ESC>")
