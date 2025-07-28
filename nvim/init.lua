@@ -1,13 +1,10 @@
 vim.g.mapleader = " "
-vim.o.number = true
-vim.o.relativenumber = true
+vim.o.number = true; vim.o.relativenumber = true
 vim.o.signcolumn = "yes"
 vim.o.swapfile = false
 vim.o.clipboard = "unnamedplus"
-vim.o.tabstop = 4
-vim.o.shiftwidth = 0
-vim.o.ignorecase = true
-vim.o.smartcase = true
+vim.o.tabstop = 4; vim.o.shiftwidth = 0
+vim.o.ignorecase = true; vim.o.smartcase = true
 vim.o.formatoptions = "jcql"
 vim.o.inccommand = "split"
 vim.o.winborder = "rounded"
@@ -18,20 +15,12 @@ vim.cmd([[ " Colors
 	hi! link NormalFloat Normal
 ]])
 
-local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
-	vim.fn.system {
-		"git",
-		"clone",
-		"--filter=blob:none",
-		"https://github.com/folke/lazy.nvim.git",
-		"--branch=stable", -- latest stable release
-		lazypath,
-	}
+if not vim.loop.fs_stat(vim.fn.stdpath "data" .. "/lazy/lazy.nvim") then
+	vim.fn.system { "git", "clone", "--filter=blob:none", "https://github.com/folke/lazy.nvim.git", "--branch=stable" }
 end
-vim.opt.rtp:prepend(lazypath)
+vim.opt.rtp:prepend(vim.fn.stdpath "data" .. "/lazy/lazy.nvim")
 
-require("lazy").setup { -- When vim.pack becomes more stable I will move to native package management.
+require("lazy").setup { 
 	"https://github.com/ibhagwan/fzf-lua",
 	"https://github.com/nvim-treesitter/nvim-treesitter",
 	"https://github.com/neovim/nvim-lspconfig",
@@ -40,7 +29,7 @@ require("lazy").setup { -- When vim.pack becomes more stable I will move to nati
 	{ "https://github.com/saghen/blink.cmp", version = "1.6.0" },
 }
 
-require("conform").setup({ formatters_by_ft = { lua = { "stylua" }, go = { "goimports" } }, format_on_save = {} })
+require("conform").setup({ formatters_by_ft = { lua = {}, go = { "goimports" } }, format_on_save = {} })
 require("nvim-treesitter.configs").setup { ensure_installed = { "go", "php" }, highlight = { enable = true }, auto_install = true }
 require("oil").setup()
 require("blink.cmp").setup {
@@ -55,16 +44,9 @@ vim.keymap.set("n", "<leader><leader>", require("fzf-lua").files, { desc = "Find
 vim.keymap.set("n", "<leader>j", require("fzf-lua").live_grep, { desc = "Live Grep" })
 vim.keymap.set({ "n", "v" }, "<leader>k", require("fzf-lua").grep_cword, { desc = "Grep <cword>" })
 
-vim.lsp.buf.definition = require("fzf-lua").lsp_definitions
-vim.lsp.buf.implementation = require("fzf-lua").lsp_implementations
-vim.lsp.buf.references = require("fzf-lua").lsp_references
-vim.lsp.buf.type_definition = require("fzf-lua").lsp_type_definitions
-
-vim.keymap.set("i", "jk", "<ESC>")
-vim.keymap.set("i", "kj", "<ESC>")
-vim.keymap.set("i", "<C-c>", "<esc>")
-vim.keymap.set("n", "[[", function() vim.diagnostic.jump({ count = -1 }) end, {})
-vim.keymap.set("n", "]]", function() vim.diagnostic.jump({ count = 1 }) end, {})
+vim.keymap.set("i", "jk", "<ESC>"); vim.keymap.set("i", "kj", "<ESC>"); vim.keymap.set("i", "<C-c>", "<esc>")
+vim.keymap.set("n", "(", function() vim.diagnostic.jump({ count = -1 }) end, {})
+vim.keymap.set("n", ")", function() vim.diagnostic.jump({ count = 1 }) end, {})
 
 vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(args)
