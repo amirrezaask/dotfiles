@@ -1,12 +1,11 @@
 vim.g.mapleader = " "
-vim.o.wrap = true
+vim.o.number = true
+vim.o.relativenumber = true
 vim.o.signcolumn = "no"
-vim.o.breakindent = true
 vim.o.swapfile = false
 vim.o.clipboard = "unnamedplus"
 vim.o.tabstop = 4
-vim.o.shiftwidth = 4
-vim.o.shiftwidth = 4
+vim.o.shiftwidth = 0
 vim.o.ignorecase = true
 vim.o.smartcase = true
 vim.o.formatoptions = "jcql"
@@ -16,38 +15,41 @@ vim.o.timeoutlen = 500
 vim.o.guicursor = ""
 vim.cmd("set completeopt+=noselect")
 
-vim.keymap.set("n", "<C-d>", "<C-d>zz")
-vim.keymap.set("n", "<C-u>", "<C-u>zz")
-vim.keymap.set("n", "n", "nzz")
-vim.keymap.set("n", "N", "Nzz")
 vim.keymap.set("i", "jk", "<ESC>")
 vim.keymap.set("i", "kj", "<ESC>")
 vim.keymap.set("i", "<C-c>", "<esc>")
 vim.keymap.set("n", "<CR>", "v:hlsearch ? ':nohlsearch<CR>' : '<CR>'", { expr = true, noremap = true })
-vim.keymap.set("n", "j", "gj")
-vim.keymap.set("n", "k", "gk")
-vim.keymap.set("n", "{", "<cmd>cprev<CR>")
-vim.keymap.set("n", "}", "<cmd>cnext<CR>")
 vim.keymap.set("n", "<leader>i", ":edit $MYVIMRC<CR>")
 vim.keymap.set("n", "<leader>w", ":write <CR>")
 vim.keymap.set("n", "[[", function() vim.diagnostic.jump({ count = -1 }) end, {})
 vim.keymap.set("n", "]]", function() vim.diagnostic.jump({ count = 1 }) end, {})
-vim.keymap.set("n", "L", vim.diagnostic.open_float, {})
 
--- -- Colors
 vim.cmd([[
 	hi Normal guibg=none
 	hi! link StatusLine  Normal
 	hi! link NormalFloat Normal
 ]])
 
-vim.pack.add({
-	{ src = "https://github.com/nvim-treesitter/nvim-treesitter" },
-	{ src = "https://github.com/ibhagwan/fzf-lua" },
-	{ src = "https://github.com/neovim/nvim-lspconfig" },
-	{ src = "https://github.com/stevearc/conform.nvim" },
-	{ src = "https://github.com/stevearc/oil.nvim" },
-})
+local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+	vim.fn.system {
+		"git",
+		"clone",
+		"--filter=blob:none",
+		"https://github.com/folke/lazy.nvim.git",
+		"--branch=stable", -- latest stable release
+		lazypath,
+	}
+end
+vim.opt.rtp:prepend(lazypath)
+
+require("lazy").setup { -- When vim.pack becomes more stable I will move to native package management.
+	"https://github.com/nvim-treesitter/nvim-treesitter",
+	"https://github.com/ibhagwan/fzf-lua",
+	"https://github.com/neovim/nvim-lspconfig",
+	"https://github.com/stevearc/conform.nvim",
+	"https://github.com/stevearc/oil.nvim",
+}
 
 require("conform").setup({ formatters_by_ft = { lua = { "stylua" }, go = { "goimports" } }, format_on_save = {} })
 require("nvim-treesitter.configs").setup { ensure_installed = { "go", "php" }, highlight = { enable = true }, auto_install = true }
@@ -70,14 +72,15 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		local client = vim.lsp.get_client_by_id(args.data.client_id)
 		if client ~= nil and client:supports_method("textDocument/completion") then
 			vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
+			vim.keymap.set("n", "C-]", vim.lsp.buf.definition, { buffer = args.buf })
+			vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = args.buf })
+			vim.keymap.set("n", "gr", vim.lsp.buf.references, { buffer = args.buf })
+			vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { buffer = args.buf })
+			vim.keymap.set("n", "R", vim.lsp.buf.rename, { buffer = args.buf })
+			vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = args.buf })
+			vim.keymap.set("n", "C", vim.lsp.buf.code_action, { buffer = args.buf })
+			vim.keymap.set({ "n", "i" }, "<C-s>", vim.lsp.buf.signature_help, { buffer = args.buf })
+			vim.keymap.set("n", "L", vim.diagnostic.open_float, {})
 		end
-		vim.keymap.set("n", "C-]", vim.lsp.buf.definition, { buffer = args.buf })
-		vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = args.buf })
-		vim.keymap.set("n", "gr", vim.lsp.buf.references, { buffer = args.buf })
-		vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { buffer = args.buf })
-		vim.keymap.set("n", "R", vim.lsp.buf.rename, { buffer = args.buf })
-		vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = args.buf })
-		vim.keymap.set("n", "C", vim.lsp.buf.code_action, { buffer = args.buf })
-		vim.keymap.set({ "n", "i" }, "<C-s>", vim.lsp.buf.signature_help, { buffer = args.buf })
 	end,
 })

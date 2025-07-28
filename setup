@@ -9,6 +9,7 @@ XDG_CONFIG="$HOME/.config"
 rm -rf  "$XDG_CONFIG/nvim" \
 	"$HOME/.tmux-sessionizer" \
 	"$XDG_CONFIG/ghostty" \
+	"$XDG_CONFIG/kitty" \
 	"$HOME/.tmux.conf" \
 	"$HOME/.zshrc" \
 	"$XDG_CONFIG/fish" \
@@ -23,6 +24,7 @@ ln -s "$DOTFILES_DIR/ghostty" "$XDG_CONFIG/ghostty"
 ln -s "$DOTFILES_DIR/.gitconfig" "$HOME/.gitconfig"
 ln -s "$DOTFILES_DIR/tmux/.tmux.conf" "$HOME/.tmux.conf"
 ln -s "$DOTFILES_DIR/.zshrc" "$HOME/.zshrc"
+ln -s "$DOTFILES_DIR/kitty" "$XDG_CONFIG/kitty"
 
 # VSCode (or Cursor) configs
 if [ -d "$HOME/Library/Application Support/Cursor" ]; then
