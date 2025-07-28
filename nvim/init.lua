@@ -37,6 +37,7 @@ require("lazy").setup { -- When vim.pack becomes more stable I will move to nati
 	{ "https://github.com/saghen/blink.cmp", version = "1.6.0" },
 }
 
+require("cyberdream").setup { saturation = 0.7 }
 vim.cmd.colorscheme("cyberdream")
 
 require("conform").setup({ formatters_by_ft = { lua = { "stylua" }, go = { "goimports" } }, format_on_save = {} })
@@ -48,8 +49,6 @@ require("blink.cmp").setup { keymap = { preset = "enter" } }
 vim.keymap.set("n", "<leader><leader>", Snacks.picker.files)
 vim.keymap.set("n", "<leader>j", Snacks.picker.grep)
 vim.keymap.set({ "n", "v" }, "<leader>k", Snacks.picker.grep_word)
-vim.keymap.set("n", "<leader>l", Snacks.picker.lsp_workspace_symbols)
-vim.keymap.set({ "n", "i", "t" }, "<C-j>", Snacks.terminal.toggle)
 
 vim.keymap.set("i", "jk", "<ESC>")
 vim.keymap.set("i", "kj", "<ESC>")
