@@ -29,16 +29,12 @@ require("lazy").setup {
 	{ "https://github.com/saghen/blink.cmp", version = "1.6.0" },
 }
 
-require("conform").setup({ formatters_by_ft = { lua = {}, go = { "goimports" } }, format_on_save = {} })
+require("conform").setup({ formatters_by_ft = { go = { "goimports" } }, format_on_save = {} })
 require("nvim-treesitter.configs").setup { ensure_installed = { "go", "php" }, highlight = { enable = true }, auto_install = true }
 require("oil").setup()
-require("blink.cmp").setup {
-	keymap = { preset = "enter" },
-	completion = { list = { selection = { preselect = false } }, menu = { draw = { columns = { { "label", "label_description", gap = 1 } } } } },
-}
+require("blink.cmp").setup { keymap = { preset = "enter" }, completion = { list = { selection = { preselect = false } }, menu = { draw = { columns = { { "label", "label_description", gap = 1 } } } } } }
 
-require("fzf-lua").setup { "fzf-vim", keymap = { fzf = { ["ctrl-q"] = "select-all+accept" } } }
-require("fzf-lua").register_ui_select()
+require("fzf-lua").setup { "fzf-vim", keymap = { fzf = { ["ctrl-q"] = "select-all+accept" } } }; require("fzf-lua").register_ui_select()
 
 vim.keymap.set("n", "<leader><leader>", require("fzf-lua").files, { desc = "Find Files" })
 vim.keymap.set("n", "<leader>j", require("fzf-lua").live_grep, { desc = "Live Grep" })
