@@ -24,12 +24,6 @@ vim.keymap.set("n", "<leader>w", ":write <CR>")
 vim.keymap.set("n", "[[", function() vim.diagnostic.jump({ count = -1 }) end, {})
 vim.keymap.set("n", "]]", function() vim.diagnostic.jump({ count = 1 }) end, {})
 
-vim.cmd([[
-	hi Normal guibg=none
-	hi! link StatusLine  Normal
-	hi! link NormalFloat Normal
-]])
-
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
 	vim.fn.system {
@@ -44,27 +38,28 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup { -- When vim.pack becomes more stable I will move to native package management.
+	"https://github.com/nvim-tree/nvim-web-devicons",
+	"https://github.com/folke/snacks.nvim",
 	"https://github.com/nvim-treesitter/nvim-treesitter",
-	"https://github.com/ibhagwan/fzf-lua",
 	"https://github.com/neovim/nvim-lspconfig",
 	"https://github.com/stevearc/conform.nvim",
 	"https://github.com/stevearc/oil.nvim",
+	"https://github.com/scottmckendry/cyberdream.nvim",
 }
+
+vim.cmd.colorscheme("cyberdream")
 
 require("conform").setup({ formatters_by_ft = { lua = { "stylua" }, go = { "goimports" } }, format_on_save = {} })
 require("nvim-treesitter.configs").setup { ensure_installed = { "go", "php" }, highlight = { enable = true }, auto_install = true }
 require("oil").setup()
 
-Fzf = require("fzf-lua")
-Fzf.setup({ "fzf-vim", keymap = { fzf = { ["ctrl-q"] = "select-all+accept" } } })
-Fzf.register_ui_select()
-vim.keymap.set("n", "<leader><leader>", Fzf.files)
-vim.keymap.set("n", "<leader>j", Fzf.live_grep)
-vim.keymap.set("n", "<leader>k", Fzf.grep)
-vim.keymap.set("n", "<leader>K", Fzf.grep_cword)
-vim.keymap.set("v", "<leader>K", Fzf.grep_visual)
-vim.keymap.set("n", "<leader>l", Fzf.lsp_document_symbols)
-vim.keymap.set("n", "<leader>L", Fzf.lsp_live_workspace_symbols)
+require("snacks").setup { picker = { enabled = true } }
+
+vim.keymap.set("n", "<leader><leader>", Snacks.picker.files)
+vim.keymap.set("n", "<leader>j", Snacks.picker.grep)
+vim.keymap.set({ "n", "v" }, "<leader>k", Snacks.picker.grep_word)
+vim.keymap.set("n", "<leader>l", Snacks.picker.lsp_symbols)
+vim.keymap.set("n", "<leader>L", Snacks.picker.lsp_workspace_symbols)
 
 vim.lsp.enable({ "gopls", "intelephense", "lua_ls" })
 vim.api.nvim_create_autocmd("LspAttach", {
