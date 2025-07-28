@@ -11,14 +11,13 @@ vim.o.smartcase = true
 vim.o.formatoptions = "jcql"
 vim.o.inccommand = "split"
 vim.o.winborder = "rounded"
-vim.o.timeoutlen = 500
+-- vim.o.timeoutlen = 500
 vim.o.guicursor = ""
-vim.cmd("set completeopt+=noselect")
+-- vim.cmd("set completeopt+=noselect")
 
 vim.keymap.set("i", "jk", "<ESC>")
 vim.keymap.set("i", "kj", "<ESC>")
 vim.keymap.set("i", "<C-c>", "<esc>")
-vim.keymap.set("n", "<CR>", "v:hlsearch ? ':nohlsearch<CR>' : '<CR>'", { expr = true, noremap = true })
 vim.keymap.set("n", "<leader>i", ":edit $MYVIMRC<CR>")
 vim.keymap.set("n", "<leader>w", ":write <CR>")
 vim.keymap.set("n", "[[", function() vim.diagnostic.jump({ count = -1 }) end, {})
@@ -45,6 +44,7 @@ require("lazy").setup { -- When vim.pack becomes more stable I will move to nati
 	"https://github.com/stevearc/conform.nvim",
 	"https://github.com/stevearc/oil.nvim",
 	"https://github.com/scottmckendry/cyberdream.nvim",
+	{ "https://github.com/saghen/blink.cmp", version = "1.6.0" },
 }
 
 vim.cmd.colorscheme("cyberdream")
@@ -52,8 +52,8 @@ vim.cmd.colorscheme("cyberdream")
 require("conform").setup({ formatters_by_ft = { lua = { "stylua" }, go = { "goimports" } }, format_on_save = {} })
 require("nvim-treesitter.configs").setup { ensure_installed = { "go", "php" }, highlight = { enable = true }, auto_install = true }
 require("oil").setup()
-
 require("snacks").setup { picker = { enabled = true } }
+require("blink.cmp").setup { keymap = { preset = "enter" } }
 
 vim.keymap.set("n", "<leader><leader>", Snacks.picker.files)
 vim.keymap.set("n", "<leader>j", Snacks.picker.grep)
@@ -64,18 +64,14 @@ vim.keymap.set("n", "<leader>L", Snacks.picker.lsp_workspace_symbols)
 vim.lsp.enable({ "gopls", "intelephense", "lua_ls" })
 vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(args)
-		local client = vim.lsp.get_client_by_id(args.data.client_id)
-		if client ~= nil and client:supports_method("textDocument/completion") then
-			vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
-			vim.keymap.set("n", "C-]", vim.lsp.buf.definition, { buffer = args.buf })
-			vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = args.buf })
-			vim.keymap.set("n", "gr", vim.lsp.buf.references, { buffer = args.buf })
-			vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { buffer = args.buf })
-			vim.keymap.set("n", "R", vim.lsp.buf.rename, { buffer = args.buf })
-			vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = args.buf })
-			vim.keymap.set("n", "C", vim.lsp.buf.code_action, { buffer = args.buf })
-			vim.keymap.set({ "n", "i" }, "<C-s>", vim.lsp.buf.signature_help, { buffer = args.buf })
-			vim.keymap.set("n", "L", vim.diagnostic.open_float, {})
-		end
+		vim.keymap.set("n", "C-]", vim.lsp.buf.definition, { buffer = args.buf })
+		vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = args.buf })
+		vim.keymap.set("n", "gr", vim.lsp.buf.references, { buffer = args.buf })
+		vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { buffer = args.buf })
+		vim.keymap.set("n", "R", vim.lsp.buf.rename, { buffer = args.buf })
+		vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = args.buf })
+		vim.keymap.set("n", "C", vim.lsp.buf.code_action, { buffer = args.buf })
+		vim.keymap.set({ "n", "i" }, "<C-s>", vim.lsp.buf.signature_help, { buffer = args.buf })
+		vim.keymap.set("n", "L", vim.diagnostic.open_float, {})
 	end,
 })
