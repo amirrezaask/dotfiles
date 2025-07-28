@@ -1,7 +1,7 @@
 vim.g.mapleader = " "
 vim.o.number = true
 vim.o.relativenumber = true
-vim.o.signcolumn = "no"
+vim.o.signcolumn = "yes"
 vim.o.swapfile = false
 vim.o.clipboard = "unnamedplus"
 vim.o.tabstop = 4
@@ -11,17 +11,7 @@ vim.o.smartcase = true
 vim.o.formatoptions = "jcql"
 vim.o.inccommand = "split"
 vim.o.winborder = "rounded"
--- vim.o.timeoutlen = 500
 vim.o.guicursor = ""
--- vim.cmd("set completeopt+=noselect")
-
-vim.keymap.set("i", "jk", "<ESC>")
-vim.keymap.set("i", "kj", "<ESC>")
-vim.keymap.set("i", "<C-c>", "<esc>")
-vim.keymap.set("n", "<leader>i", ":edit $MYVIMRC<CR>")
-vim.keymap.set("n", "<leader>w", ":write <CR>")
-vim.keymap.set("n", "[[", function() vim.diagnostic.jump({ count = -1 }) end, {})
-vim.keymap.set("n", "]]", function() vim.diagnostic.jump({ count = 1 }) end, {})
 
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -58,10 +48,14 @@ require("blink.cmp").setup { keymap = { preset = "enter" } }
 vim.keymap.set("n", "<leader><leader>", Snacks.picker.files)
 vim.keymap.set("n", "<leader>j", Snacks.picker.grep)
 vim.keymap.set({ "n", "v" }, "<leader>k", Snacks.picker.grep_word)
-vim.keymap.set("n", "<leader>l", Snacks.picker.lsp_symbols)
-vim.keymap.set("n", "<leader>L", Snacks.picker.lsp_workspace_symbols)
+vim.keymap.set("n", "<leader>l", Snacks.picker.lsp_workspace_symbols)
 
-vim.lsp.enable({ "gopls", "intelephense", "lua_ls" })
+vim.keymap.set("i", "jk", "<ESC>")
+vim.keymap.set("i", "kj", "<ESC>")
+vim.keymap.set("i", "<C-c>", "<esc>")
+vim.keymap.set("n", "[[", function() vim.diagnostic.jump({ count = -1 }) end, {})
+vim.keymap.set("n", "]]", function() vim.diagnostic.jump({ count = 1 }) end, {})
+
 vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(args)
 		vim.keymap.set("n", "C-]", vim.lsp.buf.definition, { buffer = args.buf })
@@ -75,3 +69,5 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		vim.keymap.set("n", "L", vim.diagnostic.open_float, {})
 	end,
 })
+
+vim.lsp.enable({ "gopls", "intelephense", "lua_ls" })
