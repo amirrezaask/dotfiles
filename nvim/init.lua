@@ -8,15 +8,18 @@ vim.o.ignorecase = true; vim.o.smartcase = true
 vim.o.formatoptions = "jcql"
 vim.o.inccommand = "split"
 vim.o.winborder = "rounded"
-vim.o.guicursor = ""
 
-if not vim.loop.fs_stat(vim.fn.stdpath "data" .. "/lazy/lazy.nvim") then
-	vim.fn.system { "git", "clone", "--filter=blob:none", "https://github.com/folke/lazy.nvim.git", "--branch=stable" }
-end
+vim.cmd([[ " Colors
+	hi Normal guibg=none
+	hi! link StatusLine  Normal
+	hi! link NormalFloat Normal
+]])
+
+if not vim.loop.fs_stat(vim.fn.stdpath "data" .. "/lazy/lazy.nvim") then vim.fn.system { "git", "clone", "--filter=blob:none", "https://github.com/folke/lazy.nvim.git", "--branch=stable" } end
+
 vim.opt.rtp:prepend(vim.fn.stdpath "data" .. "/lazy/lazy.nvim")
 
-require("lazy").setup { 
-	"https://github.com/catppuccin/nvim",
+require("lazy").setup {
 	"https://github.com/ibhagwan/fzf-lua",
 	"https://github.com/nvim-treesitter/nvim-treesitter",
 	"https://github.com/neovim/nvim-lspconfig",
@@ -25,15 +28,12 @@ require("lazy").setup {
 	{ "https://github.com/saghen/blink.cmp", version = "1.6.0" },
 }
 
-
-vim.cmd.colorscheme("catppuccin-mocha")
-
 require("conform").setup({ formatters_by_ft = { go = { "goimports" } }, format_on_save = {} })
 require("nvim-treesitter.configs").setup { ensure_installed = { "go", "php" }, highlight = { enable = true }, auto_install = true }
 require("oil").setup()
 require("blink.cmp").setup { keymap = { preset = "enter" }, completion = { list = { selection = { preselect = false } }, menu = { draw = { columns = { { "label", "label_description", gap = 1 } } } } } }
-
 require("fzf-lua").setup { "fzf-vim", keymap = { fzf = { ["ctrl-q"] = "select-all+accept" } } }; require("fzf-lua").register_ui_select()
+
 
 vim.keymap.set("n", "<leader><leader>", require("fzf-lua").files, { desc = "Find Files" })
 vim.keymap.set("n", "<leader>j", require("fzf-lua").live_grep, { desc = "Live Grep" })
