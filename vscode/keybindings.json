@@ -17,4 +17,15 @@
   { "key": "cmd+,",               "command": "workbench.action.navigateBack",      },
 
   // Linux/Windows
+
+  { "key": "ctrl+shift+o",          "command": "workbench.action.files.openFileFolderInNewWindow", },
+  { "key": "ctrl+o",                "command": "workbench.action.files.openFileFolder" },
+  { "key": "ctrl+j",                "command": "workbench.action.terminal.toggleTerminal" },
+  { "key": "ctrl+shift+w",          "command": "workbench.action.closeAllEditors" },
+  { "key": "ctrl+l ctrl+d",         "command": "editor.action.revealDefinition",     "when": "editorHasDefinitionProvider && editorTextFocus" },
+  { "key": "ctrl+l ctrl+r",         "command": "editor.action.goToReferences",       "when": "editorHasReferenceProvider && editorTextFocus" },
+  { "key": "ctrl+l ctrl+i",         "command": "editor.action.goToImplementation",   "when": "editorHasImplementationProvider && editorTextFocus" },
+  { "key": "ctrl+l ctrl+n",         "command": "editor.action.rename",               "when": "editorHasRenameProvider && editorTextFocus && !editorReadonly" },
+  { "key": "ctrl+,",                "command": "workbench.action.navigateBack",      },
+
 ]

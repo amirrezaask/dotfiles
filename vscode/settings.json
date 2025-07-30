@@ -1,7 +1,7 @@
 {
   // "http.proxy": "http://localhost:1081",
   "editor.fontSize": 14,
-  "editor.fontFamily": "Fira Code",
+  "editor.fontFamily": "TX-02",
   "workbench.editor.editorActionsLocation": "hidden",
   "editor.wordWrap": "on",
   "editor.minimap.enabled": false,

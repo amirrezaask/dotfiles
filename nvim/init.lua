@@ -26,6 +26,7 @@ require("lazy").setup {
 	"https://github.com/stevearc/conform.nvim",
 	"https://github.com/stevearc/oil.nvim",
 	{ "https://github.com/saghen/blink.cmp", version = "1.6.0" },
+	{ "https://github.com/catppuccin/nvim", name = "catppuccin" }
 }
 
 require("conform").setup({ formatters_by_ft = { go = { "goimports" } }, format_on_save = {} })
