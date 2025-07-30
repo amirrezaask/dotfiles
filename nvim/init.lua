@@ -2,8 +2,10 @@ vim.g.mapleader = " "
 vim.o.signcolumn = "yes"
 vim.o.swapfile = false
 vim.o.clipboard = "unnamedplus"
-vim.o.tabstop = 4; vim.o.shiftwidth = 0
-vim.o.ignorecase = true; vim.o.smartcase = true
+vim.o.tabstop = 4;
+vim.o.shiftwidth = 0
+vim.o.ignorecase = true;
+vim.o.smartcase = true
 vim.o.formatoptions = "jcql"
 vim.o.inccommand = "split"
 vim.o.winborder = "rounded"
@@ -27,12 +29,19 @@ require("conform").setup({ formatters_by_ft = { go = { "goimports" } }, format_o
 require("nvim-treesitter.configs").setup { highlight = { enable = true }, auto_install = true }
 require("oil").setup()
 
-require("fzf-lua").setup { "fzf-vim", keymap = { fzf = { ["ctrl-q"] = "select-all+accept" } } }; require("fzf-lua").register_ui_select()
-vim.keymap.set("n", "<leader><leader>", require("fzf-lua").files, { desc = "Find Files" })
-vim.keymap.set("n", "<leader>j", require("fzf-lua").live_grep, { desc = "Live Grep" })
-vim.keymap.set({ "n", "v" }, "<leader>k", require("fzf-lua").grep_cword, { desc = "Grep <cword>" })
 
-vim.keymap.set("i", "jk", "<ESC>"); vim.keymap.set("i", "kj", "<ESC>"); vim.keymap.set("i", "<C-c>", "<esc>")
+local FzfLua = require("fzf-lua")
+FzfLua.setup { "fzf-vim", keymap = { fzf = { ["ctrl-q"] = "select-all+accept" } } }
+FzfLua.register_ui_select()
+
+vim.keymap.set("n", "<leader><leader>", FzfLua.files)
+vim.keymap.set("n", "<leader>j",        FzfLua.live_grep)
+vim.keymap.set("n", "<leader>k",        FzfLua.grep_cword)
+vim.keymap.set("v", "<leader>k",        FzfLua.grep_visual)
+
+vim.keymap.set("i", "jk", "<ESC>")
+vim.keymap.set("i", "kj", "<ESC>")
+vim.keymap.set("i", "<C-c>", "<esc>")
 
 vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(args)
@@ -47,6 +56,9 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		vim.keymap.set("n", "C", vim.lsp.buf.code_action, { buffer = args.buf })
 		vim.keymap.set({ "n", "i" }, "<C-s>", vim.lsp.buf.signature_help, { buffer = args.buf })
 		vim.keymap.set("n", "L", vim.diagnostic.open_float, {})
+		vim.keymap.set("n", "<leader>l", FzfLua.lsp_workspace_symbols, {buffer = args.buf })
+		vim.keymap.set("n", "<leader>o", FzfLua.diagnostics_document, {buffer = args.buf })
+		vim.keymap.set("n", "<leader>O", FzfLua.diagnostics_workspace, {buffer = args.buf })
 	end,
 })
 
