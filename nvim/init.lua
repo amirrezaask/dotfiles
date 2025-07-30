@@ -11,6 +11,7 @@ vim.o.inccommand = "split"
 vim.o.winborder = "rounded"
 vim.cmd [[ set completeopt=menuone,noselect,popup ]]
 
+
 vim.cmd([[ " Colors
 	hi Normal guibg=none
 	hi! link StatusLine  Normal
@@ -42,6 +43,11 @@ vim.keymap.set("v", "<leader>k",        FzfLua.grep_visual)
 vim.keymap.set("i", "jk", "<ESC>")
 vim.keymap.set("i", "kj", "<ESC>")
 vim.keymap.set("i", "<C-c>", "<esc>")
+
+vim.keymap.set("n", "<C-d>", "<C-d>zz")
+vim.keymap.set("n", "<C-u>", "<C-u>zz")
+vim.keymap.set("n", "n", "nzz")
+vim.keymap.set("n", "N", "Nzz")
 
 vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(args)
