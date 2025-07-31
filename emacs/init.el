@@ -275,6 +275,11 @@
 (global-set-key (kbd "M-w") 'copy)
 
 
+(defun project-compilation-buffer-name (MODE)
+  (format "*compilation-%s*" (project-root (project-current))))
+
+(setq project-compilation-buffer-name-function 'project-compilation-buffer-name)
+
 (defun project-grep (&optional EDIT)
   (interactive "P")
   (let ((default-directory (if (project-current) (project-root (project-current)) default-directory)))
