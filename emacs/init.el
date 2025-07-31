@@ -19,10 +19,22 @@
 (setq package-archives '(("gnu-elpa" . "https://elpa.gnu.org/packages/")
                          ("melpa"    . "https://melpa.org/packages/")))
 
-(defun ensure-package (package) "Ensures a package is installed through package.el"
-       (unless (package-installed-p package) (package-install package)))
+(setq packages '(
+		 vertico
+		 consult
+		 embark
+		 embark-consult
+		 corfu
+		 wgrep
+		 gruber-darker-theme
+		 base16-theme
+		 ))
 
-(defun ensure-package-vc (package repo) (unless (package-installed-p package) (package-vc-install package repo)))
+(defun install-optional-packages ()
+  (interactive)
+  (dolist (pkg packages)
+    (unless (package-installed-p pkg)
+      (package-install pkg))))
 
 ;; Update builtin packages as well.
 (setq package-install-upgrade-built-in t)
@@ -59,7 +71,6 @@
 ;; Visit files opened outside of Emacs in existing frame, not a new one
 (setq ns-pop-up-frames nil)
 
-
 ;; In macos use CMD key as Meta.
 (setq mac-command-modifier 'meta)
 
@@ -72,11 +83,6 @@
 (scroll-bar-mode -1)
 
 (tool-bar-mode -1)
-
-(defun reload-emacs ()
-  (interactive)
-  (org-babel-tangle "~/src/github/dotfiles/Emacs.org")
-  (load-file "~/.emacs.d/init.el"))
 
 (defvar alpha-level 96)
 
@@ -92,11 +98,6 @@
 (when (and is-macos (fboundp 'ns-auto-titlebar-mode)
            (ns-auto-titlebar-mode +1)))
 
-;; better color background for ef-bio
-;; similar in tone with jonathan blow setup.
-(setq ef-bio-palette-overrides
-      '((bg-main "#052525")))
-
 ;; Load all themes without asking for permission.
 (setq custom-safe-themes t)
 
@@ -107,7 +108,7 @@
   (dolist (i custom-enabled-themes)
     (disable-theme i)))
 
-(load-theme 'tango-dark)
+(load-theme 'base16-default-dark)
 
 (setq
  ;; Show current key-sequence in minibuffer ala 'set showcmd' in vim. Any
@@ -154,8 +155,16 @@
  completions-header-format nil
  )
 
-(keymap-set minibuffer-local-map "C-p" #'minibuffer-previous-completion)
-(keymap-set minibuffer-local-map "C-n" #'minibuffer-next-completion)
+
+(if (package-installed-p 'vertico)
+    (progn
+      (vertico-mode +1))
+  (progn
+    (keymap-set minibuffer-local-map "C-p" #'minibuffer-previous-completion)
+    (keymap-set minibuffer-local-map "C-n" #'minibuffer-next-completion)))
+
+(when (package-installed-p 'embark)
+  (keymap-set minibuffer-local-map "C-;" 'embark-export))
 
 ;; If we want better autocomplete experience.
 (when (package-installed-p 'corfu)
@@ -288,10 +297,10 @@
     (let ((default-directory (if (project-current) (project-root (project-current)) default-directory)))
       (vterm))))
 
-(define-key project-prefix-map (kbd "g") 'project-grep)
+(define-key project-prefix-map (kbd "g") (if (package-installed-p 'consult) 'consult-ripgrep 'project-grep))
 (define-key project-prefix-map (kbd "s") 'project-async-shell-command)
 (define-key project-prefix-map (kbd "t") 'project-ansi-term)
-(global-set-key (kbd "C-x p g") 'project-grep)
+(global-set-key (kbd "C-x p g") (if (package-installed-p 'consult) 'consult-ripgrep 'project-grep))
 (global-set-key (kbd "C-x p t") 'project-ansi-term)
 (global-set-key (kbd "C-x p s") 'project-async-shell-command)
 
@@ -310,11 +319,6 @@
     (call-interactively 'project-find-file)))
 
 (global-set-key (kbd "C-x i") 'system/configs)
-
-(defun system/reload-all ()
-  (interactive)
-  (dolist (file (directory-files literate-configuration-location t "\\.org\\'"))
-    (org-babel-tangle-file file)))
 
 (setq-default mode-line-format
               '("%e" "  "
