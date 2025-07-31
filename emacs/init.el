@@ -52,7 +52,7 @@
 
 ;; Custom file
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-      
+
 ;; No flashing and sounds.
 (setq-default ring-bell-function 'ignore)
 
@@ -92,54 +92,6 @@
 (when (and is-macos (fboundp 'ns-auto-titlebar-mode)
            (ns-auto-titlebar-mode +1)))
 
-(setopt modus-vivendi-tinted-palette-overrides ;; palenight like colors
-        `((bg-main "#292D3E")
-          (bg-active bg-main)
-          (fg-main "#EEFFFF")
-          (fg-active fg-main)
-          (bg-line-number-inactive bg-main)
-          (bg-line-number-active bg-main)
-          (fringe unspecified)
-          (border-mode-line-active "#c792ea")
-          (border-mode-line-inactive unspecified)
-          (fg-mode-line-active "#A6Accd")
-          (bg-mode-line-active "#232635")
-          (fg-mode-line-inactive "#676E95")
-          (bg-mode-line-inactive "#282c3d")
-          (bg-tab-bar      "#242837")
-          (bg-tab-current  bg-main)
-          (bg-tab-other    bg-active)
-          (fg-prompt "#c792ea")
-          (bg-prompt unspecified)
-          (bg-hover-secondary "#676E95")
-          (bg-completion "#2f447f")
-          (fg-completion white)
-          (bg-region "#3C435E")
-          (fg-region white)
-
-          (fg-heading-0 "#82aaff")
-          (fg-heading-1 "#82aaff")
-          (fg-heading-2 "#c792ea")
-          (fg-heading-3 "#bb80b3")
-          (fg-heading-4 "#a1bfff")
-
-          (fg-prose-verbatim "#c3e88d")
-          (bg-prose-block-contents "#232635")
-          (fg-prose-block-delimiter "#676E95")
-          (bg-prose-block-delimiter bg-prose-block-contents)
-
-          (accent-1 "#79a8ff")
-
-          (keyword "#89DDFF")
-          (builtin "#82aaff")
-          (comment "#676E95")
-          (string "#c3e88d")
-          (fnname "#82aaff")
-          (type "#c792ea")
-          (variable "#ffcb6b")
-          (docstring "#8d92af")
-          (constant "#f78c6c")))
-
 ;; better color background for ef-bio
 ;; similar in tone with jonathan blow setup.
 (setq ef-bio-palette-overrides
@@ -159,56 +111,57 @@
 (load-theme 'tango-dark)
 
 (setq
-  ;; Show current key-sequence in minibuffer ala 'set showcmd' in vim. Any
-  ;; feedback after typing is better UX than no feedback at all.
-  echo-keystrokes 0.02
+ ;; Show current key-sequence in minibuffer ala 'set showcmd' in vim. Any
+ ;; feedback after typing is better UX than no feedback at all.
+ echo-keystrokes 0.02
 
-  ;; Allow for minibuffer-ception. Sometimes we need another minibuffer command
-  ;; while we're in the minibuffer.
-  enable-recursive-minibuffers t
+ ;; Allow for minibuffer-ception. Sometimes we need another minibuffer command
+ ;; while we're in the minibuffer.
+ enable-recursive-minibuffers t
 
-  ;; Single column for completion items.
-  completions-format 'one-column
+ ;; Single column for completion items.
+ completions-format 'one-column
 
-  completions-max-height 15
+ completions-max-height 15
 
-  ;; case insensitive search and sorting of the candidates.
-  completion-ignore-case t
+ ;; case insensitive search and sorting of the candidates.
+ completion-ignore-case t
 
-  ;; TAB will first try to indent the line then acts as 'complete-at-point
-  tab-always-indent 'complete 
+ ;; TAB will first try to indent the line then acts as 'complete-at-point
+ tab-always-indent 'complete
 
-  completion-styles '(basic partial-completion substring flex)
+ completion-styles '(basic partial-completion substring flex)
 
-  ;; same as completeion-ignore-case but for buffers.
-  read-buffer-completion-ignore-case t
+ ;; same as completeion-ignore-case but for buffers.
+ read-buffer-completion-ignore-case t
 
-  ;; same as completeion-ignore-case but for files.
-  read-file-name-completion-ignore-case t
-  
-  ;; Don't show help message in *Completions* buffer
-  completion-show-help nil
+ ;; same as completeion-ignore-case but for files.
+ read-file-name-completion-ignore-case t
 
-  ;; display completions with details added as prefix/suffix.
-  completions-detailed t
+ ;; Don't show help message in *Completions* buffer
+ completion-show-help nil
 
-  ;; Enables grouping of completion candidates on Emacs.
-  completions-group t
-  
-  completion-auto-help 'visible
+ ;; display completions with details added as prefix/suffix.
+ completions-detailed t
 
-  ;; Switch to *completions* buffer on second TAB, first TAB will just show the *completions* buffer.
-  completion-auto-select 'second-tab 
+ ;; Enables grouping of completion candidates on Emacs.
+ completions-group t
 
-  completions-header-format nil
-  )
+ completion-auto-help 'visible
+
+ ;; Switch to *completions* buffer on second TAB, first TAB will just show the *completions* buffer.
+ completion-auto-select 'second-tab
+
+ completions-header-format nil
+ )
 
 (keymap-set minibuffer-local-map "C-p" #'minibuffer-previous-completion)
 (keymap-set minibuffer-local-map "C-n" #'minibuffer-next-completion)
 
-(ensure-package 'corfu)
-(setq corfu-auto t)
-(global-corfu-mode +1)
+;; If we want better autocomplete experience.
+(when (package-installed-p 'corfu)
+  (setq corfu-auto t)
+  (global-corfu-mode +1))
 
 ;; better scrolling experience.
 (pixel-scroll-precision-mode +1)
