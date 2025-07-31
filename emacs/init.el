@@ -2,8 +2,6 @@
       is-linux (eq system-type 'gnu/linux)
       is-macos (eq system-type 'darwin))
 
-(setq literate-configuration-location "~/src/github/dotfiles")
-
 ;; Add directory to exec-path and also set emacs process PATH variable.
 (defun home (path) (expand-file-name path (getenv "HOME")))
 (add-to-list 'exec-path (home ".local/bin"))
@@ -83,8 +81,6 @@
 (scroll-bar-mode -1)
 
 (tool-bar-mode -1)
-
-(defvar alpha-level 96)
 
 ;; for some reason macos version uses different face attribute than the linux/windows port.
 (when is-macos
