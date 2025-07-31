@@ -13,6 +13,7 @@ rm -rf  "$XDG_CONFIG/nvim" \
 	"$HOME/.tmux.conf" \
 	"$HOME/.zshrc" \
 	"$XDG_CONFIG/fish" \
+	"$XDG_CONFIG/sway" \
 	"$HOME/.emacs.d/init.el" \
 	"$HOME/.emacs.d/early-init.el" \
 	"$HOME/.gitconfig"
@@ -28,6 +29,7 @@ ln -s "$DOTFILES_DIR/.gitconfig" "$HOME/.gitconfig"
 ln -s "$DOTFILES_DIR/tmux/.tmux.conf" "$HOME/.tmux.conf"
 ln -s "$DOTFILES_DIR/.zshrc" "$HOME/.zshrc"
 ln -s "$DOTFILES_DIR/kitty" "$XDG_CONFIG/kitty"
+ln -s "$DOTFILES_DIR/sway" "$XDG_CONFIG/sway"
 ln -s "$DOTFILES_DIR/emacs/init.el" "$HOME/.emacs.d/init.el"
 ln -s "$DOTFILES_DIR/emacs/early-init.el" "$HOME/.emacs.d/early-init.el"
 
