@@ -1,3 +1,10 @@
+;; Font
+(set-face-attribute 'default nil :font "GoMono-13")
+
+;; Show line number and column in modeline
+(line-number-mode +1)
+(column-number-mode +1)
+
 (setq is-windows (eq system-type 'windows-nt)
       is-linux (eq system-type 'gnu/linux)
       is-macos (eq system-type 'darwin))
@@ -251,16 +258,6 @@
 (keymap-set global-map "C-v" 'jump-down)
 (keymap-set global-map "M-v" 'jump-up)
 
-;; Explicitly define a width to reduce the cost of on-the-fly computation
-(setq-default display-line-numbers-width 3)
-
-;; Show absolute line numbers for narrowed regions to make it easier to tell the
-;; buffer is narrowed, and where you are, exactly.
-(setq-default display-line-numbers-widen t)
-
-;; Enable line numbers globally.
-(global-display-line-numbers-mode +1)
-
 (defun copy () "Either copy region or the current line."
        (interactive)
        (if (use-region-p)
@@ -277,7 +274,6 @@
 (global-set-key (kbd "C-z") 'undo)
 (global-set-key (kbd "M-w") 'copy)
 
-(set-face-attribute 'default nil :font "GoMono-15")
 
 (defun project-grep (&optional EDIT)
   (interactive "P")
@@ -288,12 +284,6 @@
   (interactive)
   (let ((default-directory (if (project-current) (project-root (project-current)) default-directory)))
     (ansi-term "/bin/zsh" (format "ansi-term-%s" (project-root (project-current))))))
-
-(when (fboundp 'vterm)
-  (defun project-vterm ()
-    (interactive)
-    (let ((default-directory (if (project-current) (project-root (project-current)) default-directory)))
-      (vterm))))
 
 (define-key project-prefix-map (kbd "g") (if (package-installed-p 'consult) 'consult-ripgrep 'project-grep))
 (define-key project-prefix-map (kbd "s") 'project-async-shell-command)
