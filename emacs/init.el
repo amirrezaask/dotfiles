@@ -18,14 +18,14 @@
                          ("melpa"    . "https://melpa.org/packages/")))
 
 (setq packages '(
-		 vertico
-		 consult
-		 embark
-		 embark-consult
+		 ;; vertico
+		 ;; consult
+		 ;; embark
+		 ;; embark-consult
 		 corfu
 		 wgrep
-		 gruber-darker-theme
-		 base16-theme
+		 ;; gruber-darker-theme
+		 ;; base16-theme
 		 ))
 
 (defun install-optional-packages ()
@@ -82,6 +82,8 @@
 
 (tool-bar-mode -1)
 
+(setq alpha-level 80)
+
 ;; for some reason macos version uses different face attribute than the linux/windows port.
 (when is-macos
   (set-frame-parameter (selected-frame) 'alpha alpha-level)
@@ -104,7 +106,7 @@
   (dolist (i custom-enabled-themes)
     (disable-theme i)))
 
-(load-theme 'base16-default-dark)
+(load-theme 'tango-dark)
 
 (setq
  ;; Show current key-sequence in minibuffer ala 'set showcmd' in vim. Any
