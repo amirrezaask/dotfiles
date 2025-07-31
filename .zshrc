@@ -24,11 +24,11 @@ fi
 
 # Plugins
 if [ ! -d "$ZSH_PLUGINS_DIR/zsh-syntax-highlighting" ]; then
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_PLUGINS_DIR}/zsh-syntax-highlighting
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_PLUGINS_DIR}/zsh-syntax-highlighting
 fi
 
 if [ ! -d "$ZSH_PLUGINS_DIR/zsh-completions" ]; then
-git clone https://github.com/zsh-users/zsh-completions ${ZSH_PLUGINS_DIR}/zsh-completions
+    git clone https://github.com/zsh-users/zsh-completions ${ZSH_PLUGINS_DIR}/zsh-completions
 fi
 
 source ${ZSH_PLUGINS_DIR}/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
@@ -92,6 +92,3 @@ curl -sS https://starship.rs/install.sh | sh
 fi
 
 eval "$(starship init zsh)"
-alias emacs='/Applications/Emacs.app/Contents/MacOS/Emacs -nw'
-
-
