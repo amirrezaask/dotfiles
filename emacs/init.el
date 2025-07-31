@@ -311,6 +311,14 @@
         (project-eshell "Eshell")
         (project-ansi-term "AnsiTerm")))
 
+
+;; Wgrep ( writable GREP buffers)
+(when (package-installed-p 'wgrep)
+  (setq wgrep-auto-save-buffer t)
+  (setq wgrep-enable-key "e")
+  )
+
+
 (defun system/configs ()
   (interactive)
   (let ((default-directory literate-configuration-location))
