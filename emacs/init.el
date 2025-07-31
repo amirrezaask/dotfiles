@@ -315,37 +315,14 @@
 ;; Wgrep ( writable GREP buffers)
 (when (package-installed-p 'wgrep)
   (setq wgrep-auto-save-buffer t)
-  (setq wgrep-enable-key "e")
-  )
-
+  (setq wgrep-enable-key "e"))
 
 (defun system/configs ()
   (interactive)
-  (let ((default-directory literate-configuration-location))
+  (let ((default-directory "~/src/github/dotfiles"))
     (call-interactively 'project-find-file)))
 
 (global-set-key (kbd "C-x i") 'system/configs)
-
-(setq-default mode-line-format
-              '("%e" "  "
-                (:propertize
-                 ("" mode-line-mule-info mode-line-client mode-line-modified mode-line-remote))
-                mode-line-frame-identification
-                mode-line-buffer-identification
-                "   "
-                mode-line-position
-                mode-line-format-right-align
-                "  "
-                (project-mode-line project-mode-line-format)
-                " "
-                (vc-mode vc-mode)
-                "  "
-                mode-line-modes
-                mode-line-misc-info
-                "  ")
-              project-mode-line t
-              mode-line-buffer-identification '(" %b")
-              mode-line-position-column-line-format '(" %l:%c"))
 
 ;; to make project-grep function even better we add keys to grep-mode buffers so we can kill a grep process and restart it.
 (with-eval-after-load 'grep
