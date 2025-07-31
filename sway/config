@@ -7,7 +7,7 @@ set $down j
 set $up k
 set $right l
 # Your preferred terminal emulator
-set $term ghostty
+set $term foot
 
 # Your preferred application launcher
 set $menu wmenu-run
@@ -17,10 +17,20 @@ include /etc/sway/config-vars.d/*
 bindsym $mod+Return exec $term
 
 # Kill focused window
-bindsym $mod+w kill
+bindsym $mod+Shift+w kill
+
+# Lockscreen
+bindsym $mod+l exec swaylock -k --color 000000ff
+
+# Keyboard Layouts
+input * {
+    xkb_layout us,ir
+    xkb_options grp:win_space_toggle,ctrl:nocaps
+}
 
 # Start your launcher
-bindsym $mod+d exec $menu
+bindsym $mod+d exec wofi --show drun
+bindsym $mod+Shift+d exec wofi --show run
 
 floating_modifier $mod normal
 
@@ -31,10 +41,10 @@ bindsym $mod+Shift+c reload
 bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
 
 # Move your focus around
-bindsym $mod+$left focus left
-bindsym $mod+$down focus down
-bindsym $mod+$up focus up
-bindsym $mod+$right focus right
+# bindsym $mod+$left focus left
+# bindsym $mod+$down focus down
+# bindsym $mod+$up focus up
+# bindsym $mod+$right focus right
 
 # Or use $mod+[up|down|left|right]
 bindsym $mod+Left focus left
@@ -145,16 +155,19 @@ bindsym --locked XF86MonBrightnessUp exec brightnessctl set 5%+
 # Special key to take a screenshot with grim
 bindsym Print exec grim
 
+
+
+
 bar {
     position top
-
-    status_command while date +'%Y-%m-%d %X'; do sleep 1; done
+    status_command ~/.config/sway/statusbar.sh
 
     colors {
+        background #000000
         statusline #ffffff
-	background #323232
-	inactive_workspace #32323200 #32323200 #5c5c5c
     }
+
 }
 
 include /etc/sway/config.d/*
+
