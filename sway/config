@@ -28,6 +28,9 @@ input * {
     xkb_options grp:win_space_toggle,ctrl:nocaps
 }
 
+# Font
+font pango:monospace bold 12
+
 # Start your launcher
 bindsym $mod+d exec wofi --show drun
 bindsym $mod+Shift+d exec wofi --show run
