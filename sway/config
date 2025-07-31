@@ -40,12 +40,6 @@ bindsym $mod+Shift+c reload
 # Exit sway (logs you out of your Wayland session)
 bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
 
-# Move your focus around
-# bindsym $mod+$left focus left
-# bindsym $mod+$down focus down
-# bindsym $mod+$up focus up
-# bindsym $mod+$right focus right
-
 # Or use $mod+[up|down|left|right]
 bindsym $mod+Left focus left
 bindsym $mod+Down focus down
@@ -103,6 +97,7 @@ bindsym $mod+v splitv
 
 # Switch the current container between different layout styles
 bindsym $mod+t layout tabbed
+bindsym $mod+s layout stacking
 bindsym $mod+e layout toggle split
 
 # Make the current focus fullscreen
@@ -159,7 +154,7 @@ bindsym Print exec grim
 
 
 bar {
-    position top
+    position bottom
     status_command ~/.config/sway/statusbar.sh
 
     colors {

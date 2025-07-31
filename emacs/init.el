@@ -107,7 +107,6 @@
   (dolist (i custom-enabled-themes)
     (disable-theme i)))
 
-;;(load-theme 'modus-vivendi-tinted t) ;; this will load modus-vivendi-tinted which we have set override to emulate doom-palenight colors.
 (load-theme 'tango-dark)
 
 (setq
@@ -271,7 +270,7 @@
 (global-set-key (kbd "C-z") 'undo)
 (global-set-key (kbd "M-w") 'copy)
 
-(set-face-attribute 'default nil :font "Hack-11")
+(set-face-attribute 'default nil :font "GoMono-14")
 
 (defun project-grep (&optional EDIT)
   (interactive "P")
