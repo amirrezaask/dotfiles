@@ -1,5 +1,5 @@
 font-family = "TX-02"
-window-colorspace = "display-p3"
+# window-colorspace = "display-p3"
 cursor-style-blink = false
 mouse-hide-while-typing = true
 macos-option-as-alt = true
@@ -10,5 +10,12 @@ shell-integration-features=no-cursor
 keybind = cmd+n=next_tab
 keybind = cmd+p=previous_tab
 keybind = cmd+f=toggle_split_zoom
-background = #000000
-foreground = #ffffff
+
+keybind = shift+right=next_tab
+keybind = shift+left=previous_tab
+keybind = ctrl+shift+f=toggle_split_zoom
+
+background = 232627
+foreground = fcfcfc
+
+gtk-tabs-location = bottom
