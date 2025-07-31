@@ -270,7 +270,7 @@
 (global-set-key (kbd "C-z") 'undo)
 (global-set-key (kbd "M-w") 'copy)
 
-(set-face-attribute 'default nil :font "GoMono-14")
+(set-face-attribute 'default nil :font "GoMono-15")
 
 (defun project-grep (&optional EDIT)
   (interactive "P")
