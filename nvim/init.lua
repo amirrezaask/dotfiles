@@ -20,24 +20,22 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("n", "n", "nzz")
 vim.keymap.set("n", "N", "Nzz")
 
-vim.cmd [[
-	hi Normal guibg=none
-	hi! link StatusLine  Normal
-	hi! link NormalFloat Normal
-]]
-
 vim.pack.add {
-	"https://github.com/ibhagwan/fzf-lua",
-	"https://github.com/nvim-treesitter/nvim-treesitter",
-	"https://github.com/neovim/nvim-lspconfig",
-	"https://github.com/stevearc/conform.nvim",
-	"https://github.com/stevearc/oil.nvim",
+	"https://github.com/vague2k/vague.nvim", -- Colorscheme
+	"https://github.com/ibhagwan/fzf-lua", -- Fuzzy Finder
+	"https://github.com/nvim-treesitter/nvim-treesitter", -- Syntax Highlighting
+	"https://github.com/neovim/nvim-lspconfig", -- LSP
+	"https://github.com/stevearc/conform.nvim", -- Autoformat
+	"https://github.com/stevearc/oil.nvim", -- File manager
 }
 
 require("conform").setup({ formatters_by_ft = { go = { "goimports" } }, format_on_save = {} })
 require("nvim-treesitter.configs").setup { highlight = { enable = true }, auto_install = true }
 require("oil").setup()
+require("vague").setup { transparent = true, italic = false }
 
+vim.cmd.colorscheme('vague')
+vim.cmd [[ hi StatusLine guibg=NONE ]]
 
 local FzfLua = require("fzf-lua")
 FzfLua.setup { "fzf-vim", keymap = { fzf = { ["ctrl-q"] = "select-all+accept" } } }
