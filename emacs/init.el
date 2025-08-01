@@ -1,5 +1,5 @@
 ;; Font
-(set-face-attribute 'default nil :font "GoMono-13")
+(set-face-attribute 'default nil :font "GoMono-11")
 
 ;; Show line number and column in modeline
 (line-number-mode +1)
@@ -89,7 +89,7 @@
 
 (tool-bar-mode -1)
 
-(setq alpha-level 80)
+(setq alpha-level 100)
 
 ;; for some reason macos version uses different face attribute than the linux/windows port.
 (when is-macos
@@ -113,7 +113,9 @@
   (dolist (i custom-enabled-themes)
     (disable-theme i)))
 
+;; (setq theme (if (package-installed-p 'base16-theme) 'base16-eighties 'tango-dark))
 (load-theme 'tango-dark)
+
 
 (setq
   ;; Show current key-sequence in minibuffer ala 'set showcmd' in vim. Any
@@ -333,6 +335,11 @@
 ;; scroll to first error in compile buffer.
 (setq compilation-scroll-output 'first-error)
 
+;; xref
+(global-set-key (kbd "M-.") 'xref-find-definitions)
+(global-set-key (kbd "M-,") 'xref-go-back)
+(global-set-key (kbd "M->") 'xref-find-references)
+
 ;; same keys as grep buffers.
 (with-eval-after-load 'compile
   (define-key compilation-mode-map (kbd "k") 'kill-compilation)
@@ -408,6 +415,3 @@
 
 (setq eshell-prompt-function 'user/eshell-prompt-function)
 
-(global-set-key (kbd "M-.") 'xref-find-definitions)
-(global-set-key (kbd "M-,") 'xref-go-back)
-(global-set-key (kbd "M->") 'xref-find-references)

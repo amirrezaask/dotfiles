@@ -29,7 +29,7 @@ input * {
 }
 
 # Font
-font pango:monospace bold 11
+font pango:monospace bold 9
 
 # Start your launcher
 bindsym $mod+d exec wofi --show drun
