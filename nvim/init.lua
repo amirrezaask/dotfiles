@@ -21,21 +21,17 @@ vim.keymap.set("n", "n", "nzz")
 vim.keymap.set("n", "N", "Nzz")
 
 vim.pack.add {
-	"https://github.com/vague2k/vague.nvim", -- Colorscheme
 	"https://github.com/ibhagwan/fzf-lua", -- Fuzzy Finder
 	"https://github.com/nvim-treesitter/nvim-treesitter", -- Syntax Highlighting
 	"https://github.com/neovim/nvim-lspconfig", -- LSP
 	"https://github.com/stevearc/conform.nvim", -- Autoformat
 	"https://github.com/stevearc/oil.nvim", -- File manager
+	'https://github.com/tpope/vim-fugitive', -- Git Client
 }
 
 require("conform").setup({ formatters_by_ft = { go = { "goimports" } }, format_on_save = {} })
 require("nvim-treesitter.configs").setup { highlight = { enable = true }, auto_install = true }
 require("oil").setup()
-require("vague").setup { transparent = true, italic = false }
-
-vim.cmd.colorscheme('vague')
-vim.cmd [[ hi StatusLine guibg=NONE ]]
 
 local FzfLua = require("fzf-lua")
 FzfLua.setup { "fzf-vim", keymap = { fzf = { ["ctrl-q"] = "select-all+accept" } } }
@@ -45,7 +41,6 @@ vim.keymap.set("n", "<leader><leader>", FzfLua.files)
 vim.keymap.set("n", "<leader>j",        FzfLua.live_grep)
 vim.keymap.set("n", "<leader>k",        FzfLua.grep_cword)
 vim.keymap.set("v", "<leader>k",        FzfLua.grep_visual)
-
 
 vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(args)
