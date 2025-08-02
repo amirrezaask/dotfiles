@@ -26,6 +26,11 @@ keybind = ctrl+shift+plus=equalize_splits
 keybind = ctrl+shift+d=new_split:right
 keybind = ctrl+shift+n=new_split:down
 
+keybind = ctrl+shift+h=goto_split:left
+keybind = ctrl+shift+j=goto_split:down
+keybind = ctrl+shift+k=goto_split:up
+keybind = ctrl+shift+l=goto_split:right
+
 background = #000000
 foreground = #ffffff
 cursor-color = green
