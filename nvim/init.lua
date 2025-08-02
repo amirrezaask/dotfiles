@@ -26,7 +26,6 @@ vim.pack.add {
 	"https://github.com/neovim/nvim-lspconfig", -- LSP
 	"https://github.com/stevearc/conform.nvim", -- Autoformat
 	"https://github.com/stevearc/oil.nvim", -- File manager
-	'https://github.com/tpope/vim-fugitive', -- Git Client
 }
 
 require("conform").setup({ formatters_by_ft = { go = { "goimports" } }, format_on_save = {} })
