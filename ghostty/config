@@ -7,7 +7,6 @@ shell-integration-features=no-cursor
 window-decoration = none
 maximize=true
 
-
 keybind = cmd+n=next_tab
 keybind = cmd+p=previous_tab
 keybind = cmd+f=toggle_split_zoom

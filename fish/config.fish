@@ -72,3 +72,10 @@ end
 function feat
 	git checkout -b "feat-$argv[1]"
 end
+
+
+if ! command -v starship &> /dev/null
+	curl -sS https://starship.rs/install.sh | fish
+end
+
+starship init fish | source
