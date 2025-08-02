@@ -1,5 +1,7 @@
 vim.g.mapleader = " "
 vim.o.signcolumn = "yes"
+vim.o.number = true
+vim.o.relativenumber = true
 vim.o.swapfile = false
 vim.o.clipboard = "unnamedplus"
 vim.o.tabstop = 4
@@ -18,23 +20,24 @@ vim.o.cursorline = true
 vim.o.splitbelow = true
 vim.o.splitright = true
 vim.o.laststatus = 3
-vim.cmd [[ set wildoptions+=fuzzy ]]
 
 vim.cmd [[
+	set wildoptions+=fuzzy
+
 	hi! link StatusLine Normal
 	hi! Visual guibg=fg guifg=bg
+
+	autocmd TextYankPost * silent! lua vim.hl.on_yank {higroup='Visual', timeout=150 }
+
+	imap jk    <ESC>
+	imap kj    <ESC>
+	imap <C-c> <ESC>
+
+	nmap <C-d> <C-d>zz
+	nmap <C-u> <C-u>zz
+	nmap n     nzz
+	nmap N     Nzz
 ]]
-
-vim.cmd [[ autocmd TextYankPost * silent! lua vim.hl.on_yank {higroup='Visual', timeout=150 } ]]
-
-vim.keymap.set("i", "jk", "<ESC>")
-vim.keymap.set("i", "kj", "<ESC>")
-vim.keymap.set("i", "<C-c>", "<esc>")
-
-vim.keymap.set("n", "<C-d>", "<C-d>zz")
-vim.keymap.set("n", "<C-u>", "<C-u>zz")
-vim.keymap.set("n", "n", "nzz")
-vim.keymap.set("n", "N", "Nzz")
 
 vim.pack.add {
 	"https://github.com/ibhagwan/fzf-lua",                -- Fuzzy Finder
@@ -83,14 +86,10 @@ vim.api.nvim_create_autocmd('BufWritePre', {
 	callback = function()
 		vim.lsp.buf.code_action({ context = { only = { 'source.organizeImports' }, }, apply = true, })
 		vim.lsp.buf.format()
-		vim.cmd('write')
 	end,
 })
 
-local runtime_path = vim.split(package.path, ';')
-table.insert(runtime_path, 'lua/?.lua')
-table.insert(runtime_path, 'lua/?/init.lua')
 vim.lsp.config('lua_ls',
-	{ settings = { Lua = { runtime = { version = 'LuaJIT', path = runtime_path }, diagnostics = { globals = { 'vim' } }, workspace = { library = vim.api.nvim_get_runtime_file('', true) } } } })
+	{ settings = { Lua = { diagnostics = { globals = { 'vim' } }, workspace = { library = vim.api.nvim_get_runtime_file('', true) } } } })
 
 vim.lsp.enable({ "gopls", "intelephense", "lua_ls" })
