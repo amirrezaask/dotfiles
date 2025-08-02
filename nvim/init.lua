@@ -10,6 +10,7 @@ vim.o.formatoptions = "jcql"
 vim.o.inccommand = "split"
 vim.o.winborder = "rounded"
 vim.cmd [[ set completeopt=menuone,noselect,popup ]]
+vim.cmd [[ hi! link StatusLine Normal ]]
 
 vim.keymap.set("i", "jk", "<ESC>")
 vim.keymap.set("i", "kj", "<ESC>")
