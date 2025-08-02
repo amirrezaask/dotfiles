@@ -9,8 +9,19 @@ vim.o.smartcase = true
 vim.o.formatoptions = "jcql"
 vim.o.inccommand = "split"
 vim.o.winborder = "rounded"
-vim.cmd [[ set completeopt=menuone,noselect,popup ]]
-vim.cmd [[ hi! link StatusLine Normal ]]
+vim.o.scrolloff = 5
+vim.o.splitkeep = 'topline'
+vim.o.showmode = false
+vim.o.linebreak = true
+vim.o.completeopt="menuone,noselect,noinsert,fuzzy"
+vim.cmd [[ set wildoptions+=fuzzy ]]
+
+vim.cmd [[ 
+	hi! link StatusLine Normal 
+	hi! Visual guibg=fg guifg=bg 
+]]
+
+vim.cmd [[ autocmd TextYankPost * silent! lua vim.hl.on_yank {higroup='Visual', timeout=150 } ]]
 
 vim.keymap.set("i", "jk", "<ESC>")
 vim.keymap.set("i", "kj", "<ESC>")
@@ -22,11 +33,11 @@ vim.keymap.set("n", "n", "nzz")
 vim.keymap.set("n", "N", "Nzz")
 
 vim.pack.add {
-	"https://github.com/ibhagwan/fzf-lua", -- Fuzzy Finder
+	"https://github.com/ibhagwan/fzf-lua",                -- Fuzzy Finder
 	"https://github.com/nvim-treesitter/nvim-treesitter", -- Syntax Highlighting
-	"https://github.com/neovim/nvim-lspconfig", -- LSP
-	"https://github.com/stevearc/conform.nvim", -- Autoformat
-	"https://github.com/stevearc/oil.nvim", -- File manager
+	"https://github.com/neovim/nvim-lspconfig",           -- LSP
+	"https://github.com/stevearc/conform.nvim",           -- Autoformat
+	"https://github.com/stevearc/oil.nvim",               -- File manager
 }
 
 require("conform").setup({ formatters_by_ft = { go = { "goimports" } }, format_on_save = {} })
@@ -34,7 +45,7 @@ require("nvim-treesitter.configs").setup { highlight = { enable = true }, auto_i
 require("oil").setup()
 
 local FzfLua = require("fzf-lua")
-FzfLua.setup { "fzf-vim", keymap = { fzf = { ["ctrl-q"] = "select-all+accept" } } }
+FzfLua.setup { "telescope", keymap = { fzf = { ["ctrl-q"] = "select-all+accept" } } }
 FzfLua.register_ui_select()
 
 vim.keymap.set("n", "<leader><leader>", FzfLua.files)
@@ -61,4 +72,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
 	end,
 })
 
+local runtime_path = vim.split(package.path, ';')
+table.insert(runtime_path, 'lua/?.lua')
+table.insert(runtime_path, 'lua/?/init.lua')
+vim.lsp.config('lua_ls', { settings = { Lua = { runtime = { version = 'LuaJIT', path = runtime_path }, diagnostics = { globals = {'vim'}} , workspace = {library = vim.api.nvim_get_runtime_file('', true)}}}})
+
 vim.lsp.enable({ "gopls", "intelephense", "lua_ls" })
+
