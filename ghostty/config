@@ -1,3 +1,4 @@
+font-family = TX-02
 cursor-style-blink = false
 mouse-hide-while-typing = true
 macos-option-as-alt = true
@@ -19,3 +20,5 @@ keybind = ctrl+shift+f=toggle_split_zoom
 background = #000000
 foreground = #ffffff
 cursor-color = green
+
+gtk-custom-css="~/src/github/dotfiles/ghostty/gtk-tabs.css"

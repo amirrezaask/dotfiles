@@ -14,6 +14,7 @@ vim.o.splitkeep = 'topline'
 vim.o.showmode = false
 vim.o.linebreak = true
 vim.o.completeopt="menuone,noselect,noinsert,fuzzy"
+vim.o.cursorline = true
 vim.cmd [[ set wildoptions+=fuzzy ]]
 
 vim.cmd [[ 
@@ -45,7 +46,7 @@ require("nvim-treesitter.configs").setup { highlight = { enable = true }, auto_i
 require("oil").setup()
 
 local FzfLua = require("fzf-lua")
-FzfLua.setup { "telescope", keymap = { fzf = { ["ctrl-q"] = "select-all+accept" } } }
+FzfLua.setup { "fzf-vim", keymap = { fzf = { ["ctrl-q"] = "select-all+accept" } } }
 FzfLua.register_ui_select()
 
 vim.keymap.set("n", "<leader><leader>", FzfLua.files)
