@@ -16,7 +16,6 @@ vim.o.splitkeep = 'topline'
 vim.o.showmode = false
 vim.o.linebreak = true
 vim.o.completeopt = "menuone,noselect,noinsert,fuzzy"
-vim.o.cursorline = true
 vim.o.splitbelow = true
 vim.o.splitright = true
 vim.o.laststatus = 3
@@ -37,6 +36,8 @@ vim.cmd [[
 	nmap <C-u> <C-u>zz
 	nmap n     nzz
 	nmap N     Nzz
+
+	nmap <leader>i :edit $MYVIMRC<CR>
 ]]
 
 vim.pack.add {

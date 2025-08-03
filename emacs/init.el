@@ -1,13 +1,9 @@
 ;; Font
-(set-face-attribute 'default nil :font "GoMono-11")
+;; (set-face-attribute 'default nil :font "Terminus-11")
 
 ;; Show line number and column in modeline
 (line-number-mode +1)
 (column-number-mode +1)
-
-(setq is-windows (eq system-type 'windows-nt)
-      is-linux (eq system-type 'gnu/linux)
-      is-macos (eq system-type 'darwin))
 
 ;; Add directory to exec-path and also set emacs process PATH variable.
 (defun home (path) (expand-file-name path (getenv "HOME")))
@@ -18,21 +14,15 @@
 (add-to-list 'exec-path "/usr/local/go/bin")
 (add-to-list 'exec-path "/opt/homebrew/bin")
 (add-to-list 'exec-path "/usr/local/bin")
-(if is-windows (setenv "PATH" (string-join exec-path ";")) (setenv "PATH" (string-join exec-path ":"))) ;; set emacs process PATH
+(if (eq system-type 'windows-nt) (setenv "PATH" (string-join exec-path ";")) (setenv "PATH" (string-join exec-path ":"))) ;; set emacs process PATH
 
 ;; Set package mirrors.
 (setq package-archives '(("gnu-elpa" . "https://elpa.gnu.org/packages/")
                          ("melpa"    . "https://melpa.org/packages/")))
 
 (setq packages '(
-                 ;; vertico
-                 ;; consult
-                 ;; embark
-                 ;; embark-consult
                  corfu
                  wgrep
-                 ;; gruber-darker-theme
-                 ;; base16-theme
                  ))
 
 (defun install-optional-packages ()
@@ -89,18 +79,7 @@
 
 (tool-bar-mode -1)
 
-(setq alpha-level 100)
-
-;; for some reason macos version uses different face attribute than the linux/windows port.
-(when is-macos
-  (set-frame-parameter (selected-frame) 'alpha alpha-level)
-  (add-to-list 'default-frame-alist `(alpha . ,alpha-level)))
-
-(unless is-macos
-  (set-frame-parameter (selected-frame) 'alpha-background alpha-level)
-  (add-to-list 'default-frame-alist `(alpha-background . ,alpha-level)))
-
-(when (and is-macos (fboundp 'ns-auto-titlebar-mode)
+(when (and (eq system-type 'darwin) (fboundp 'ns-auto-titlebar-mode)
            (ns-auto-titlebar-mode +1)))
 
 ;; Load all themes without asking for permission.
@@ -114,8 +93,18 @@
     (disable-theme i)))
 
 ;; (setq theme (if (package-installed-p 'base16-theme) 'base16-eighties 'tango-dark))
-(load-theme 'tango-dark)
+;; (load-theme 'tango-dark)
+(defun dark-mode ()
+  (interactive)
+  (set-face-background 'default "#000000")
+  (set-face-foreground 'default "#ffffff"))
 
+(defun light-mode ()
+  (interactive)
+  (set-face-background 'default "#ffffff")
+  (set-face-foreground 'default "#000000"))
+
+(dark-mode)
 
 (setq
   ;; Show current key-sequence in minibuffer ala 'set showcmd' in vim. Any
@@ -314,12 +303,7 @@
   (setq wgrep-auto-save-buffer t)
   (setq wgrep-enable-key "e"))
 
-(defun system/configs ()
-  (interactive)
-  (let ((default-directory "~/src/github/dotfiles"))
-    (call-interactively 'project-find-file)))
-
-(global-set-key (kbd "C-x i") 'system/configs)
+(global-set-key (kbd "C-x i") (lambda () (interactive) (find-file (expand-file-name "init.el" user-emacs-directory))))
 
 ;; to make project-grep function even better we add keys to grep-mode buffers so we can kill a grep process and restart it.
 (with-eval-after-load 'grep
