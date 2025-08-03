@@ -155,21 +155,13 @@
   (let ((default-directory (if (project-current) (project-root (project-current)) default-directory)))
     (ansi-term "/bin/zsh" (format "ansi-term-%s" (project-root (project-current))))))
 
-(define-key project-prefix-map (kbd "g") (if (package-installed-p 'consult) 'consult-ripgrep 'project-grep))
-(define-key project-prefix-map (kbd "s") 'project-async-shell-command)
-(define-key project-prefix-map (kbd "t") 'project-ansi-term)
-(global-set-key (kbd "C-x p g") (if (package-installed-p 'consult) 'consult-ripgrep 'project-grep))
+(keymap-set project-prefix-map "g" 'project-grep)
+(keymap-set project-prefix-map "s" 'project-async-shell-command)
+(keymap-set project-prefix-map "t" 'project-ansi-term)
+
+(global-set-key (kbd "C-x p g") 'project-grep)
 (global-set-key (kbd "C-x p t") 'project-ansi-term)
 (global-set-key (kbd "C-x p s") 'project-async-shell-command)
-
-(setq project-switch-commands
-      '((project-find-file "Find file")
-        (project-find-dir "Find directory")
-        (project-switch-to-buffer "Switch to buffer")
-        (project-grep "Grep")
-        (project-eshell "Eshell")
-        (project-ansi-term "AnsiTerm")))
-
 
 (when (package-installed-p 'wgrep)
   (setq wgrep-auto-save-buffer t)
@@ -201,9 +193,9 @@
 (global-set-key (kbd "M-\\") 'kmacro-end-and-call-macro)
 
 (with-eval-after-load 'eglot
-  (define-key eglot-mode-map (kbd "C-c C-r") 'eglot-rename)
-  (define-key eglot-mode-map (kbd "M-RET")   'eglot-organize-imports-format)
-  (define-key eglot-mode-map (kbd "C-c C-c") 'eglot-code-actions))
+  (keymap-set eglot-mode-map "C-c C-r" 'eglot-rename)
+  (keymap-set eglot-mode-map "M-RET"   'eglot-organize-imports-format)
+  (keymap-set eglot-mode-map "C-c C-c" 'eglot-code-actions))
 
 (setq eldoc-echo-area-use-multiline-p nil)
 (setq eglot-ignored-server-capabilities '(
