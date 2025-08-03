@@ -46,19 +46,7 @@
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
 
-(defun dark-mode ()
-  (interactive)
-  (set-cursor-color "green")
-  (set-face-background 'default "#000000")
-  (set-face-foreground 'default "#ffffff"))
-
-(defun light-mode ()
-  (interactive)
-  (set-cursor-color "black")
-  (set-face-background 'default "#ffffff")
-  (set-face-foreground 'default "#000000"))
-
-(dark-mode)
+(load-theme 'tango-dark)
 
 (setq
  echo-keystrokes 0.02
@@ -99,12 +87,18 @@
 (global-set-key (kbd "C-SPC")      'set-mark-command)
 (global-set-key (kbd "M-RET")      'indent-buffer)
 (global-set-key (kbd "M-q")        'quoted-insert)
+(global-set-key (kbd "M-r")        'replace-regexp)
+(global-set-key (kbd "C--")        'text-scale-decrease)
+(global-set-key (kbd "C-=")        'text-scale-increase)
+
+(setq split-width-threshold 160 split-height-threshold nil)
+
+(advice-add 'split-window-right :after 'balance-windows)
+(advice-add 'split-window-below :after 'balance-windows)
+(advice-add 'delete-window      :after 'balance-windows)
+
 
 (with-eval-after-load 'replace (define-key query-replace-map (kbd "<return>") 'act))
-(global-set-key (kbd "M-r") 'replace-regexp)
-
-(global-set-key (kbd "C--") 'text-scale-decrease)
-(global-set-key (kbd "C-=") 'text-scale-increase)
 
 (defun indent-buffer () "Indent an entire buffer using the default intenting scheme."
        (interactive)
@@ -183,7 +177,6 @@
   (keymap-set compilation-mode-map "k" 'kill-compilation)
   (keymap-set compilation-mode-map "G" (lambda () (interactive) (recompile t))))
 
-
 (global-set-key (kbd "M->") 'xref-find-references)
 
 (global-set-key (kbd "M-[")  'kmacro-start-macro)
@@ -219,7 +212,3 @@
   (keymap-set eglot-mode-map "C-c C-c" 'eglot-code-actions)
   )
 
-(setq split-width-threshold 160 split-height-threshold nil)
-(advice-add 'split-window-right :after 'balance-windows)
-(advice-add 'split-window-below :after 'balance-windows)
-(advice-add 'delete-window :after 'balance-windows)
