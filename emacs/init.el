@@ -149,6 +149,8 @@
   (let ((default-directory (if (project-current) (project-root (project-current)) default-directory)))
     (ansi-term "/bin/zsh" (format "ansi-term-%s" (project-root (project-current))))))
 
+(add-to-list 'project-switch-commands '(project-grep "Grep"))
+
 (keymap-set project-prefix-map "g" 'project-grep)
 (keymap-set project-prefix-map "s" 'project-async-shell-command)
 (keymap-set project-prefix-map "t" 'project-ansi-term)
