@@ -170,8 +170,8 @@
 (global-set-key (kbd "C-x i") (lambda () (interactive) (find-file (expand-file-name "init.el" user-emacs-directory))))
 
 (with-eval-after-load 'grep
-  (define-key grep-mode-map (kbd "k") 'kill-compilation)
-  (define-key grep-mode-map (kbd "G") (lambda () (interactive) (recompile t))))
+  (keymap-set grep-mode-map "k" 'kill-compilation)
+  (keymap-set grep-mode-map "G" (lambda () (interactive) (recompile t))))
 
 (setq
  compilation-always-kill t
@@ -180,22 +180,15 @@
  )
 
 (with-eval-after-load 'compile
-  (define-key compilation-mode-map (kbd "k") 'kill-compilation)
-  (define-key compilation-mode-map (kbd "G") (lambda () (interactive) (recompile t))))
+  (keymap-set compilation-mode-map "k" 'kill-compilation)
+  (keymap-set compilation-mode-map "G" (lambda () (interactive) (recompile t))))
 
 
-(global-set-key (kbd "M-.") 'xref-find-definitions)
-(global-set-key (kbd "M-,") 'xref-go-back)
 (global-set-key (kbd "M->") 'xref-find-references)
 
 (global-set-key (kbd "M-[")  'kmacro-start-macro)
 (global-set-key (kbd "M-]")  'kmacro-end-or-call-macro)
 (global-set-key (kbd "M-\\") 'kmacro-end-and-call-macro)
-
-(with-eval-after-load 'eglot
-  (keymap-set eglot-mode-map "C-c C-r" 'eglot-rename)
-  (keymap-set eglot-mode-map "M-RET"   'eglot-organize-imports-format)
-  (keymap-set eglot-mode-map "C-c C-c" 'eglot-code-actions))
 
 (setq eldoc-echo-area-use-multiline-p nil)
 (setq eglot-ignored-server-capabilities '(
@@ -214,11 +207,17 @@
 (add-hook 'go-mode-hook #'eglot-ensure)
 (add-hook 'php-mode-hook #'eglot-ensure)
 
-(with-eval-after-load 'eglot
-  (add-to-list 'eglot-server-programs '(php-mode . ("intelephense" "--stdio"))))
 
-(defun eglot-organize-imports () (interactive) (eglot-code-actions nil nil "source.organizeImports" t))
-(defun eglot-organize-imports-format () (interactive) (eglot-format) (eglot-organize-imports))
+(with-eval-after-load 'eglot
+  (defun eglot-organize-imports () (interactive) (eglot-code-actions nil nil "source.organizeImports" t))
+  (defun eglot-organize-imports-format () (interactive) (eglot-format) (eglot-organize-imports))
+  
+  (add-to-list 'eglot-server-programs '(php-mode . ("intelephense" "--stdio")))
+  (keymap-set eglot-mode-map "M-i" 'eglot-find-implementation)
+  (keymap-set eglot-mode-map "M-RET" 'eglot-organize-imports-format)
+  (keymap-set eglot-mode-map "C-c C-r" 'eglot-rename)
+  (keymap-set eglot-mode-map "C-c C-c" 'eglot-code-actions)
+  )
 
 (setq split-width-threshold 160 split-height-threshold nil)
 (advice-add 'split-window-right :after 'balance-windows)
