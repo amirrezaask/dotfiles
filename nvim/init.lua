@@ -53,14 +53,12 @@ require("nvim-treesitter.configs").setup { highlight = { enable = true }, auto_i
 require("oil").setup()
 require"vague".setup { transparent = true, italic = false }
 
--- vim.cmd [[ 
--- 	colorscheme vague
--- 	hi StatusLine guibg=none
--- ]]
+vim.cmd [[ 
+	colorscheme vague
+	hi StatusLine guibg=none
+]]
 
-
-F = require("fzf-lua").setup { "fzf-vim", keymap = { fzf = { ["ctrl-q"] = "select-all+accept" } } }
-FzfLua.register_ui_select()
+require("fzf-lua").setup { "fzf-vim", keymap = { fzf = { ["ctrl-q"] = "select-all+accept" } } }
 
 vim.cmd [[
 	nnoremap <leader><leader> <cmd>lua FzfLua.files()<CR>
@@ -76,13 +74,13 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		vim.cmd [[
 			nnoremap <buffer> <C-]>          <cmd>lua vim.lsp.buf.definition() <CR>
 			nnoremap <buffer> gd             <cmd>lua vim.lsp.buf.definition() <CR>
-			nnoremap <buffer> gr             <cmd>lua F.lsp_references() <CR>
-			nnoremap <buffer> gi             <cmd>lua F.lsp_implementations() <CR>
+			nnoremap <buffer> gr             <cmd>lua FzfLua.lsp_references() <CR>
+			nnoremap <buffer> gi             <cmd>lua FzfLua.lsp_implementations() <CR>
 			nnoremap <buffer> R              <cmd>lua vim.lsp.buf.rename()<CR>
 			nnoremap <buffer> K              <cmd>lua vim.lsp.buf.hover()<CR>
 			nnoremap <buffer> C              <cmd>lua vim.lsp.buf.code_action()<CR>
 			nnoremap <buffer> L              <cmd>lua vim.diagnostic.open_float()<CR>
-		    nnoremap <buffer> <leader>l      <cmd>lua F.lsp_workspace_symbols()<CR>
+		    nnoremap <buffer> <leader>l      <cmd>lua FzfLua.lsp_workspace_symbols()<CR>
 			nnoremap <buffer> <C-s>          <cmd>lua vim.lsp.buf.signature_help()<CR>
 			inoremap <buffer> <C-s>          <cmd>lua vim.lsp.buf.signature_help()<CR>
 		]]
