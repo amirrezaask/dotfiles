@@ -30,10 +30,14 @@ keybind = ctrl+shift+h=goto_split:left
 keybind = ctrl+shift+j=goto_split:down
 keybind = ctrl+shift+k=goto_split:up
 keybind = ctrl+shift+l=goto_split:right
+keybind = ctrl+enter=new_tab
+
 
 background = #000000
 foreground = #ffffff
-cursor-color = green
 split-divider-color = green
+cursor-color = green
+
+# theme = vague
 
 gtk-custom-css="~/src/github/dotfiles/ghostty/gtk-tabs.css"
