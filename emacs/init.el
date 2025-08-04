@@ -1,15 +1,15 @@
 (line-number-mode +1)
 (column-number-mode +1)
 
-(defun home (path) (expand-file-name path (getenv "HOME")))
-(add-to-list 'exec-path (home ".local/bin"))
-(add-to-list 'exec-path (home "go/bin"))
-(add-to-list 'exec-path (home ".cargo/bin"))
-(add-to-list 'exec-path (home "bin"))
-(add-to-list 'exec-path "/usr/local/go/bin")
-(add-to-list 'exec-path "/opt/homebrew/bin")
-(add-to-list 'exec-path "/usr/local/bin")
-(if (eq system-type 'windows-nt) (setenv "PATH" (string-join exec-path ";")) (setenv "PATH" (string-join exec-path ":"))) ;; set emacs process PATH
+(defun toggle-colors () (interactive)
+       (if (string= (face-background 'default) "white") (set-face-background 'default "black") (set-face-background 'default "white"))
+       (if (string= (face-foreground 'default) "black") (set-face-foreground 'default "white") (set-face-foreground 'default "black")))
+
+(global-set-key (kbd "M-t") 'toggle-colors)
+
+(unless (eq system-type 'windows-nt)
+  (dolist (path (string-split (getenv "PATH") ":"))
+    (add-to-list 'exec-path path)))
 
 (setq package-archives '(("gnu-elpa" . "https://elpa.gnu.org/packages/")
                          ("melpa"    . "https://melpa.org/packages/")))
@@ -45,8 +45,6 @@
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
-
-(load-theme 'tango-dark)
 
 (setq
  echo-keystrokes 0.02
@@ -149,7 +147,8 @@
   (let ((default-directory (if (project-current) (project-root (project-current)) default-directory)))
     (ansi-term "/bin/zsh" (format "ansi-term-%s" (project-root (project-current))))))
 
-(add-to-list 'project-switch-commands '(project-grep "Grep"))
+(with-eval-after-load 'project
+  (add-to-list 'project-switch-commands '(project-grep "Grep")))
 
 (keymap-set project-prefix-map "g" 'project-grep)
 (keymap-set project-prefix-map "s" 'project-async-shell-command)
@@ -202,15 +201,13 @@
 (add-hook 'go-mode-hook #'eglot-ensure)
 (add-hook 'php-mode-hook #'eglot-ensure)
 
-
 (with-eval-after-load 'eglot
   (defun eglot-organize-imports () (interactive) (eglot-code-actions nil nil "source.organizeImports" t))
   (defun eglot-organize-imports-format () (interactive) (eglot-format) (eglot-organize-imports))
-  
+
   (add-to-list 'eglot-server-programs '(php-mode . ("intelephense" "--stdio")))
   (keymap-set eglot-mode-map "M-i" 'eglot-find-implementation)
   (keymap-set eglot-mode-map "M-RET" 'eglot-organize-imports-format)
   (keymap-set eglot-mode-map "C-c C-r" 'eglot-rename)
   (keymap-set eglot-mode-map "C-c C-c" 'eglot-code-actions)
   )
-
