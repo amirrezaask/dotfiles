@@ -52,10 +52,10 @@ require("nvim-treesitter.configs").setup { highlight = { enable = true }, auto_i
 require("oil").setup()
 require"vague".setup { transparent = false, italic = false }
 
--- vim.cmd [[ 
--- 	colorscheme vague
--- 	hi StatusLine guibg=none
--- ]]
+vim.cmd [[ 
+	colorscheme vague
+	hi StatusLine guibg=none
+]]
 
 require("fzf-lua").setup { "ivy", keymap = { fzf = { ["ctrl-q"] = "select-all+accept" } } }
 
@@ -67,9 +67,7 @@ vim.cmd [[
 ]]
 
 vim.api.nvim_create_autocmd("LspAttach", {
-	callback = function(args)
-		local client = vim.lsp.get_client_by_id(args.data.client_id)
-		-- vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
+	callback = function(_)
 		vim.cmd [[
 			nnoremap <buffer> <C-]>          <cmd>lua vim.lsp.buf.definition() <CR>
 			nnoremap <buffer> gd             <cmd>lua vim.lsp.buf.definition() <CR>

@@ -1,0 +1,86 @@
+autoload -U colors && colors
+bindkey -e
+PS1="%{$fg[magenta]%}%~%{$fg[red]%} %{$reset_color%}$%b "
+
+HISTSIZE=10000
+SAVEHIST=10000
+setopt HIST_SAVE_NO_DUPS
+setopt INC_APPEND_HISTORY
+
+autoload -U compinit; compinit
+
+# Pretty menu selection like Oh My Zsh
+zstyle ':completion:*' menu select
+
+# Group results in sections
+zstyle ':completion:*' group-name ''
+
+# Use colors (depends on LS_COLORS or dircolors)
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+
+# Describe options with help text
+zstyle ':completion:*' verbose yes
+
+# Ignore duplicate entries
+zstyle ':completion:*' ignore-duplicates true
+
+source <(fzf --zsh)
+
+reload() { source ~/.zshrc }
+
+function set-title() { print -Pn "\e]0;${PWD:t}\a" }
+
+precmd_functions+=(set-title)
+
+if command -v nvim &> /dev/null
+then
+	alias vim='nvim'
+	alias vi='nvim'
+	alias v='nvim'
+	export EDITOR='nvim'
+	export GIT_EDITOR="$EDITOR"
+fi
+
+function git_branch() {
+	local branch
+	branch=$(git symbolic-ref --short HEAD 2>/dev/null)
+	if [[ -n "$branch" ]]; then
+		echo "$branch"
+		else
+		echo ""
+	fi
+}
+
+alias l='ls -lah'
+alias la='ls -lAh'
+alias ll='ls -lh'
+alias ls='ls -G'
+alias lsa='ls -lah'
+alias gs='git status'
+alias gd='git diff'
+alias ga='git add'
+alias gc='git commit'
+alias gp='git push origin $(basename $(git rev-parse --abbrev-ref HEAD))'
+alias gl='git pull $(basename $(git rev-parse --abbrev-ref HEAD))'
+alias gll='git pull --all'
+alias glg='git pull --rebase'
+
+
+export ZSH_PLUGINS_DIR="$HOME/.zsh/plugins"
+# Define ZSH_PLUGINS_DIR if not already defined
+if [ -z "$ZSH_PLUGINS_DIR" ]; then
+	mkdir -p "$ZSH_PLUGINS_DIR"
+fi
+
+# Plugins
+if [ ! -d "$ZSH_PLUGINS_DIR/zsh-syntax-highlighting" ]; then
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_PLUGINS_DIR}/zsh-syntax-highlighting
+fi
+
+if [ ! -d "$ZSH_PLUGINS_DIR/zsh-completions" ]; then
+    git clone https://github.com/zsh-users/zsh-completions ${ZSH_PLUGINS_DIR}/zsh-completions
+fi
+
+source ${ZSH_PLUGINS_DIR}/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source ${ZSH_PLUGINS_DIR}/zsh-completions/zsh-completions.plugin.zsh
+

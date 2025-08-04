@@ -1,64 +1,23 @@
 #!/usr/bin/env bash
-
 set -e
 
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 XDG_CONFIG="$HOME/.config"
 
-
 rm -rf  "$XDG_CONFIG/nvim" \
 	"$HOME/.tmux-sessionizer" \
 	"$XDG_CONFIG/ghostty" \
-	"$XDG_CONFIG/kitty" \
 	"$HOME/.tmux.conf" \
-	"$HOME/.zshrc" \
 	"$XDG_CONFIG/fish" \
-	"$XDG_CONFIG/foot" \
-	"$XDG_CONFIG/sway" \
-	"$XDG_CONFIG/alacritty" \
-	"$HOME/.emacs.d/init.el" \
-	"$HOME/.emacs.d/early-init.el" \
+	"$HOME/.zshrc" \
 	"$HOME/.gitconfig"
 
 mkdir -p "$XDG_CONFIG"
-mkdir -p "$HOME/.emacs.d"
 
 ln -s "$DOTFILES_DIR/nvim" "$XDG_CONFIG/nvim"
 ln -s "$DOTFILES_DIR/fish" "$XDG_CONFIG/fish"
 ln -s "$DOTFILES_DIR/tmux/tmux-sessionizer" "$HOME/.tmux-sessionizer"
 ln -s "$DOTFILES_DIR/ghostty" "$XDG_CONFIG/ghostty"
 ln -s "$DOTFILES_DIR/.gitconfig" "$HOME/.gitconfig"
-ln -s "$DOTFILES_DIR/tmux/.tmux.conf" "$HOME/.tmux.conf"
-ln -s "$DOTFILES_DIR/.zshrc" "$HOME/.zshrc"
-ln -s "$DOTFILES_DIR/kitty" "$XDG_CONFIG/kitty"
-ln -s "$DOTFILES_DIR/sway" "$XDG_CONFIG/sway"
-ln -s "$DOTFILES_DIR/foot" "$XDG_CONFIG/foot"
-ln -s "$DOTFILES_DIR/alacritty" "$XDG_CONFIG/alacritty"
-ln -s "$DOTFILES_DIR/emacs/init.el" "$HOME/.emacs.d/init.el"
-ln -s "$DOTFILES_DIR/emacs/early-init.el" "$HOME/.emacs.d/early-init.el"
-
-
-# VSCode (or Cursor) configs
-if [ -d "$HOME/Library/Application Support/Cursor" ]; then
-  rm -rf "$HOME/Library/Application Support/Cursor/User/keybindings.json"
-  rm -rf "$HOME/Library/Application Support/Cursor/User/settings.json"
-
-  ln -s "$DOTFILES_DIR/vscode/keybindings.json" "$HOME/Library/Application Support/Cursor/User/keybindings.json"
-  ln -s "$DOTFILES_DIR/vscode/settings.json" "$HOME/Library/Application Support/Cursor/User/settings.json"
-fi
-
-if [ -d "$HOME/Library/Application Support/Code" ]; then
-  rm -rf "$HOME/Library/Application Support/Code/User/keybindings.json"
-  rm -rf "$HOME/Library/Application Support/Code/User/settings.json"
-
-  ln -s "$DOTFILES_DIR/vscode/keybindings.json" "$HOME/Library/Application Support/Code/User/keybindings.json"
-  ln -s "$DOTFILES_DIR/vscode/settings.json" "$HOME/Library/Application Support/Code/User/settings.json"
-fi
-
-if [ -d "$HOME/.config/Code" ]; then
-  rm -rf "$HOME/.config/Code/User/keybindings.json"
-  rm -rf "$HOME/.config/Code/User/settings.json"
-
-  ln -s "$DOTFILES_DIR/vscode/keybindings.json" "$HOME/.config/Code/User/keybindings.json"
-  ln -s "$DOTFILES_DIR/vscode/settings.json" "$HOME/.config/Code/User/settings.json"
-fi
+ln -s "$DOTFILES_DIR/tmux/tmux.conf" "$HOME/.tmux.conf"
+ln -s "$DOTFILES_DIR/zsh/zshrc" "$HOME/.zshrc"
