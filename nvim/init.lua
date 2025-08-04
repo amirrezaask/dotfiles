@@ -38,6 +38,7 @@ vim.cmd [[
 	nmap N     Nzz
 
 	nmap <leader>i :edit $MYVIMRC<CR>
+	nmap <leader>o :Oil<CR>
 ]]
 
 vim.pack.add {
@@ -45,20 +46,27 @@ vim.pack.add {
 	"https://github.com/nvim-treesitter/nvim-treesitter", -- Syntax Highlighting
 	"https://github.com/neovim/nvim-lspconfig",           -- LSP
 	"https://github.com/stevearc/oil.nvim",               -- File manager
+	"https://github.com/vague2k/vague.nvim",               -- Colorscheme
 }
 
 require("nvim-treesitter.configs").setup { highlight = { enable = true }, auto_install = true }
 require("oil").setup()
+require"vague".setup { transparent = true, italic = false }
 
-F = require("fzf-lua")
-F.setup { "fzf-vim", keymap = { fzf = { ["ctrl-q"] = "select-all+accept" } } }
-F.register_ui_select()
+-- vim.cmd [[ 
+-- 	colorscheme vague
+-- 	hi StatusLine guibg=none
+-- ]]
+
+
+F = require("fzf-lua").setup { "fzf-vim", keymap = { fzf = { ["ctrl-q"] = "select-all+accept" } } }
+FzfLua.register_ui_select()
 
 vim.cmd [[
-	nnoremap <leader><leader> <cmd>lua F.files()<CR>
-	nnoremap <leader>j        <cmd>lua F.live_grep()<CR>
-	nnoremap <leader>k        <cmd>lua F.grep_cword()<CR>
-	vnoremap <leader>k        <cmd>lua F.grep_cword()<CR>
+	nnoremap <leader><leader> <cmd>lua FzfLua.files()<CR>
+	nnoremap <leader>j        <cmd>lua FzfLua.live_grep()<CR>
+	nnoremap <leader>k        <cmd>lua FzfLua.grep_cword()<CR>
+	vnoremap <leader>k        <cmd>lua FzfLua.grep_cword()<CR>
 ]]
 
 vim.api.nvim_create_autocmd("LspAttach", {
@@ -90,7 +98,6 @@ vim.api.nvim_create_autocmd('BufWritePre', {
 	end,
 })
 
-vim.lsp.config('lua_ls',
-	{ settings = { Lua = { diagnostics = { globals = { 'vim' } }, workspace = { library = vim.api.nvim_get_runtime_file('', true) } } } })
+vim.lsp.config('lua_ls', { settings = { Lua = { workspace = { library = vim.api.nvim_get_runtime_file('', true) } } } })
 
 vim.lsp.enable({ "gopls", "intelephense", "lua_ls" })
