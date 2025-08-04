@@ -13,7 +13,6 @@ vim.o.inccommand = "split"
 vim.o.winborder = "rounded"
 vim.o.scrolloff = 5
 vim.o.splitkeep = 'topline'
-vim.o.showmode = false
 vim.o.linebreak = true
 vim.o.completeopt = "menuone,noselect,noinsert,fuzzy"
 vim.o.splitbelow = true
