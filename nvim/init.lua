@@ -45,7 +45,7 @@ vim.pack.add {
 	"https://github.com/nvim-treesitter/nvim-treesitter", -- Syntax Highlighting
 	"https://github.com/neovim/nvim-lspconfig",           -- LSP
 	"https://github.com/stevearc/oil.nvim",               -- File manager
-	"https://github.com/vague2k/vague.nvim",               -- Colorscheme
+	"https://github.com/vague2k/vague.nvim",              -- Colorscheme
 }
 
 require("nvim-treesitter.configs").setup { highlight = { enable = true }, auto_install = true }
@@ -57,7 +57,7 @@ vim.cmd [[
 	hi StatusLine guibg=none
 ]]
 
-require("fzf-lua").setup { "fzf-vim", keymap = { fzf = { ["ctrl-q"] = "select-all+accept" } } }
+require("fzf-lua").setup { "ivy", keymap = { fzf = { ["ctrl-q"] = "select-all+accept" } } }
 
 vim.cmd [[
 	nnoremap <leader><leader> <cmd>lua FzfLua.files()<CR>
