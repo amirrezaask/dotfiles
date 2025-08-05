@@ -46,18 +46,21 @@ vim.pack.add {
 	"https://github.com/neovim/nvim-lspconfig",           -- LSP
 	"https://github.com/stevearc/oil.nvim",               -- File manager
 	"https://github.com/vague2k/vague.nvim",              -- Colorscheme
+	"https://github.com/ellisonleao/gruvbox.nvim"         -- Colorscheme
 }
 
 require("nvim-treesitter.configs").setup { highlight = { enable = true }, auto_install = true }
-require("oil").setup()
+require("oil").setup {}
 require"vague".setup { transparent = false, italic = false }
+require("gruvbox").setup { italic = { strings=false, emphasis=false, comments=false, operators=false, folds=false}, contrast='hard' }
 
 vim.cmd [[ 
 	colorscheme vague
 	hi StatusLine guibg=none
+	hi SignColumn guibg=none
 ]]
 
-require("fzf-lua").setup { "ivy", keymap = { fzf = { ["ctrl-q"] = "select-all+accept" } } }
+require("fzf-lua").setup { "fzf-vim", keymap = { fzf = { ["ctrl-q"] = "select-all+accept" } } }
 
 vim.cmd [[
 	nnoremap <leader><leader> <cmd>lua FzfLua.files()<CR>

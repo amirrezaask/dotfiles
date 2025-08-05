@@ -39,5 +39,6 @@ keybind = ctrl+enter=new_tab
 # cursor-color = green
 
 theme = vague
+# theme = GruvboxDarkHard
 
-gtk-custom-css="~/src/github/dotfiles/ghostty/gtk-tabs.css"
+# gtk-custom-css="~/src/github/dotfiles/ghostty/gtk-tabs.css"
