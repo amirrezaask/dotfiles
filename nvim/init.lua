@@ -46,6 +46,7 @@ vim.pack.add {
 	"https://github.com/nvim-treesitter/nvim-treesitter",	               -- Syntax Highlighting
 	"https://github.com/neovim/nvim-lspconfig",				               -- LSP
 	"https://github.com/stevearc/oil.nvim",					               -- File manager
+	"https://github.com/tpope/vim-fugitive",                               -- Git
 }
 
 require("nvim-treesitter.configs").setup { highlight = { enable = true }, auto_install = true }
