@@ -1,17 +1,4 @@
 #!/usr/bin/env bash
-sudo apt install -y gnome-shell-extension-manager pipx
-pipx install gnome-extensions-cli --system-site-packages
-
-gnome-extensions disable tiling-assistant@ubuntu.com
-gnome-extensions disable ubuntu-appindicators@ubuntu.com
-gnome-extensions disable ubuntu-dock@ubuntu.com
-gnome-extensions disable ding@rastersoft.com
-
-gext install blur-my-shell@aunetx
-gext install space-bar@luchrioh
-
-sudo apt install -y gnome-sushi # file preview
-
 gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-1 "['<Super>1']"
 gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-2 "['<Super>2']"
 gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-3 "['<Super>3']"

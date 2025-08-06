@@ -24,7 +24,6 @@ vim.cmd [[
 
 	hi! Normal guibg=none
 	hi! link StatusLine Normal
-	" hi! Visual guibg=fg guifg=bg
 
 	autocmd TextYankPost * silent! lua vim.hl.on_yank {higroup='Visual', timeout=150 }
 
@@ -46,7 +45,6 @@ vim.pack.add {
 	"https://github.com/nvim-treesitter/nvim-treesitter",	               -- Syntax Highlighting
 	"https://github.com/neovim/nvim-lspconfig",				               -- LSP
 	"https://github.com/stevearc/oil.nvim",					               -- File manager
-	"https://github.com/tpope/vim-fugitive",                               -- Git
 }
 
 require("nvim-treesitter.configs").setup { highlight = { enable = true }, auto_install = true }
