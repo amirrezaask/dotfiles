@@ -41,24 +41,14 @@ vim.cmd [[
 ]]
 
 vim.pack.add {
-	"https://github.com/ibhagwan/fzf-lua",                -- Fuzzy Finder
-	"https://github.com/nvim-treesitter/nvim-treesitter", -- Syntax Highlighting
-	"https://github.com/neovim/nvim-lspconfig",           -- LSP
-	"https://github.com/stevearc/oil.nvim",               -- File manager
-	"https://github.com/vague2k/vague.nvim",              -- Colorscheme
-	"https://github.com/ellisonleao/gruvbox.nvim"         -- Colorscheme
+	"https://github.com/ibhagwan/fzf-lua",					               -- Fuzzy Finder
+	"https://github.com/nvim-treesitter/nvim-treesitter",	               -- Syntax Highlighting
+	"https://github.com/neovim/nvim-lspconfig",				               -- LSP
+	"https://github.com/stevearc/oil.nvim",					               -- File manager
 }
 
 require("nvim-treesitter.configs").setup { highlight = { enable = true }, auto_install = true }
 require("oil").setup {}
-require"vague".setup { transparent = false, italic = false }
-require("gruvbox").setup { italic = { strings=false, emphasis=false, comments=false, operators=false, folds=false}, contrast='hard' }
-
-vim.cmd [[ 
-	colorscheme vague
-	hi StatusLine guibg=none
-	hi SignColumn guibg=none
-]]
 
 require("fzf-lua").setup { "fzf-vim", keymap = { fzf = { ["ctrl-q"] = "select-all+accept" } } }
 
@@ -70,7 +60,11 @@ vim.cmd [[
 ]]
 
 vim.api.nvim_create_autocmd("LspAttach", {
-	callback = function(_)
+	callback = function(args)
+		local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
+		if client:supports_method('textDocument/completion') then
+		  vim.lsp.completion.enable(true, client.id, args.buf, {autotrigger = true})
+		end
 		vim.cmd [[
 			nnoremap <buffer> <C-]>          <cmd>lua vim.lsp.buf.definition() <CR>
 			nnoremap <buffer> gd             <cmd>lua vim.lsp.buf.definition() <CR>

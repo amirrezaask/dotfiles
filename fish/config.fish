@@ -48,43 +48,28 @@ end
 function fish_greeting
 end
 
-function fish_prompt
-	set_color brblack
-	echo -n "["(date "+%H:%M")"] "
-	if [ $PWD != $HOME ]
-		set_color yellow
-		echo -n (basename $PWD)
-	end
-	set_color green
-	printf '%s ' (__fish_git_prompt)
-	set_color red
-	echo -n '| '
-	set_color normal
-end
-
-# function fish_prompt
-#     set_color normal
-# 	set -l color_dir (set_color green)
-#     set -l color_branch (set_color yellow)
-#     set -l color_reset (set_color normal)
-#
-#     set -l cwd (prompt_pwd)
-#
-#     set -l branch ""
-#     if git rev-parse --is-inside-work-tree >/dev/null 2>&1
-#         set branch (git rev-parse --abbrev-ref HEAD 2>/dev/null)
-#         if test -n "$branch"
-#             set branch " ($branch)"
-#         end
-#     end
-#
-#     echo -n "$color_dir$cwd$color_reset$branch> "
-# end
-
-
 function ref
 	git checkout -b "ref-$argv[1]"
 end
+
+function fix
+	git checkout -b "fix-$argv[1]"
+end
+
 function feat
 	git checkout -b "feat-$argv[1]"
+end
+
+function fish_prompt
+	set_color red
+	printf '%s ' (__fish_git_prompt)
+
+	set_color green
+	if [ $PWD != $HOME ]
+		echo -n (basename $PWD)
+	else
+		echo -n "~"
+	end
+	echo -n ' '
+	set_color normal
 end
