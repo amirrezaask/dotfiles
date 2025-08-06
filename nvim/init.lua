@@ -22,8 +22,9 @@ vim.o.laststatus = 3
 vim.cmd [[
 	set wildoptions+=fuzzy
 
+	hi! Normal guibg=none
 	hi! link StatusLine Normal
-	hi! Visual guibg=fg guifg=bg
+	" hi! Visual guibg=fg guifg=bg
 
 	autocmd TextYankPost * silent! lua vim.hl.on_yank {higroup='Visual', timeout=150 }
 

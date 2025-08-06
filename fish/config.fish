@@ -61,10 +61,10 @@ function feat
 end
 
 function fish_prompt
-	set_color red
+	set_color cyan
 	printf '%s ' (__fish_git_prompt)
 
-	set_color green
+	set_color white
 	if [ $PWD != $HOME ]
 		echo -n (basename $PWD)
 	else
