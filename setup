@@ -7,6 +7,7 @@ XDG_CONFIG="$HOME/.config"
 rm -rf  "$XDG_CONFIG/nvim" \
 	"$XDG_CONFIG/ghostty" \
 	"$XDG_CONFIG/fish" \
+	"$XDG_CONFIG/.config/sublime-text/Packages/User" \
 	"$HOME/.gitconfig"
 
 mkdir -p "$XDG_CONFIG"
@@ -15,3 +16,4 @@ ln -s "$DOTFILES_DIR/nvim" "$XDG_CONFIG/nvim"
 ln -s "$DOTFILES_DIR/fish" "$XDG_CONFIG/fish"
 ln -s "$DOTFILES_DIR/ghostty" "$XDG_CONFIG/ghostty"
 ln -s "$DOTFILES_DIR/.gitconfig" "$HOME/.gitconfig"
+ln -s "$DOTFILES_DIR/sublime" "$XDG_CONFIG/sublime-text/Packages/User"

@@ -1,0 +1,14 @@
+{
+	"font_face": "Fira Code",
+	"font_size": 20,
+	"overlay_scroll_bars": "disabled",
+	"ignored_packages":
+	[
+		"Vintage",
+	],
+	"hot_exit": "disabled",
+
+	"theme": "Adaptive.sublime-theme",
+	"index_files": true,
+	"color_scheme": "gruvbox (Dark) (Hard).sublime-color-scheme",
+}
