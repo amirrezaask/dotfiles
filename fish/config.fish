@@ -1,8 +1,3 @@
-alias l='ls -lah'
-alias la='ls -lAh'
-alias ll='ls -lh'
-alias ls='ls -G'
-alias lsa='ls -lah'
 alias gs='git status'
 alias gd='git diff'
 alias ga='git add'
