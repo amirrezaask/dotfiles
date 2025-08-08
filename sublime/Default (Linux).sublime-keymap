@@ -1,6 +1,9 @@
 [
 	{ "keys": ["primary+,"], "command": "jump_back" },
 
+    { "keys": ["primary+."], "command": "goto_definition" },
+    { "keys": ["primary+shift+."], "command": "goto_reference" },
+
     // Goto Definition
     {
         "keys": ["primary+."],

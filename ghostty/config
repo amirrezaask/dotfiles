@@ -33,8 +33,9 @@ keybind = ctrl+shift+l=goto_split:right
 keybind = ctrl+enter=new_tab
 
 
-background = #000000
-foreground = #ffffff
-split-divider-color = green
+# background = #000000
+# foreground = #ffffff
+# split-divider-color = green
+theme = GruvboxDarkHard
 
 gtk-custom-css="./gtk-tabs.css"
