@@ -1,0 +1,39 @@
+{
+    "name": "GingerBill",
+    "globals":
+    {
+        "background": "#000000",
+        "foreground": "#ffffff",
+        "caret": "white",
+        "line_highlight": "#1a1a1a",
+        "selection": "#15a1bf",
+    },
+    "rules":
+    [
+        {
+          "name": "Identifiers",
+          "scope": "entity.name",
+          "foreground": "#b3f065"
+        },
+        {
+          "name": "Functions And Types",
+          "scope": "variable.function, storage.type",
+          "foreground": "#54e3d5"
+        },
+        {
+          "name": "Keywords2",
+          "scope": "keyword - keyword.operator",
+          "foreground": "#aaafb2"
+        },
+        {
+          "name": "Comment",
+          "scope": "comment",
+          "foreground": "#828385"
+        },
+        {
+          "name": "String",
+          "scope": "string",
+          "foreground": "#dade62"
+        }
+    ]
+}
