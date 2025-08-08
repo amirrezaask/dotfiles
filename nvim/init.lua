@@ -73,6 +73,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		vim.lsp.buf.document_symbol = FzfLua.lsp_document_symbols
 		vim.lsp.buf.workspace_symbol = FzfLua.lsp_workspace_symbols
 
+		-- :h lsp-defaults
 		vim.cmd [[
 			nnoremap <buffer> gd             <cmd>lua vim.lsp.buf.definition() <CR>
 			nnoremap <buffer> <C-]>          gd 
