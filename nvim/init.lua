@@ -54,6 +54,10 @@ require("rose-pine").setup { disable_background = true, styles = { transparency 
 vim.cmd.colorscheme("rose-pine-moon")
 
 require("fzf-lua").setup { "fzf-vim", keymap = { fzf = { ["ctrl-q"] = "select-all+accept" } } }
+vim.lsp.buf.references = FzfLua.lsp_references
+vim.lsp.buf.definition = FzfLua.lsp_definitions
+vim.lsp.buf.document_symbol = FzfLua.lsp_document_symbols
+vim.lsp.buf.workspace_symbol = FzfLua.lsp_workspace_symbols
 
 vim.cmd [[
 	nnoremap <leader><leader> <cmd>lua FzfLua.files()<CR>
@@ -62,19 +66,15 @@ vim.cmd [[
 	vnoremap <leader>k        <cmd>lua FzfLua.grep_cword()<CR>
 ]]
 
+-- Default Keybindings
+-- see :h lsp-defaults
+-- see :h vim.lsp.buf.tagfunc()
 vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(args)
 		local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
 		if client:supports_method('textDocument/completion') then
 		  vim.lsp.completion.enable(true, client.id, args.buf, {autotrigger = true})
 		end
-
-		vim.lsp.buf.references = FzfLua.lsp_references
-		vim.lsp.buf.definition = FzfLua.lsp_definitions
-		vim.lsp.buf.document_symbol = FzfLua.lsp_document_symbols
-		vim.lsp.buf.workspace_symbol = FzfLua.lsp_workspace_symbols
-
-		-- :h lsp-defaults
 		vim.cmd [[
 			nnoremap <buffer> L              <cmd>lua vim.diagnostic.open_float()<CR>
 		    nnoremap <buffer> <leader>O      <cmd>lua FzfLua.lsp_workspace_symbols()<CR>
