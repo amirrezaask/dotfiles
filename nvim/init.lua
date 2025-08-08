@@ -68,6 +68,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		if client:supports_method('textDocument/completion') then
 		  vim.lsp.completion.enable(true, client.id, args.buf, {autotrigger = true})
 		end
+
 		vim.lsp.buf.references = FzfLua.lsp_references
 		vim.lsp.buf.definition = FzfLua.lsp_definitions
 		vim.lsp.buf.document_symbol = FzfLua.lsp_document_symbols
@@ -75,9 +76,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 		-- :h lsp-defaults
 		vim.cmd [[
-			nnoremap <buffer> gd             <cmd>lua vim.lsp.buf.definition() <CR>
-			nnoremap <buffer> <C-]>          gd 
-			nnoremap <buffer> grd            <cmd>lua vim.diagnostic.open_float()<CR>
+			nnoremap <buffer> L              <cmd>lua vim.diagnostic.open_float()<CR>
 		    nnoremap <buffer> <leader>O      <cmd>lua FzfLua.lsp_workspace_symbols()<CR>
 		]]
 	end
