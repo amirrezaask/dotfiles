@@ -41,9 +41,7 @@ vim.cmd [[
 ]]
 
 vim.pack.add {
-	{ src = "https://github.com/rose-pine/neovim", name = "rose-pine" },
-	-- "https://github.com/vague2k/vague.nvim",
-
+	{ src = "https://github.com/rose-pine/neovim", name = "rose-pine" },   -- Colorscheme
 	"https://github.com/ibhagwan/fzf-lua",					               -- Fuzzy Finder
 	"https://github.com/nvim-treesitter/nvim-treesitter",	               -- Syntax Highlighting
 	"https://github.com/neovim/nvim-lspconfig",				               -- LSP
@@ -54,7 +52,6 @@ require("nvim-treesitter.configs").setup { highlight = { enable = true }, auto_i
 require("oil").setup {}
 require("rose-pine").setup { disable_background = true, styles = { transparency = true } }
 vim.cmd.colorscheme("rose-pine-moon")
--- require("vague").setup { transparent = true, italic = false }
 
 require("fzf-lua").setup { "fzf-vim", keymap = { fzf = { ["ctrl-q"] = "select-all+accept" } } }
 
@@ -71,18 +68,16 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		if client:supports_method('textDocument/completion') then
 		  vim.lsp.completion.enable(true, client.id, args.buf, {autotrigger = true})
 		end
+		vim.lsp.buf.references = FzfLua.lsp_references
+		vim.lsp.buf.definition = FzfLua.lsp_definitions
+		vim.lsp.buf.document_symbol = FzfLua.lsp_document_symbols
+		vim.lsp.buf.workspace_symbol = FzfLua.lsp_workspace_symbols
+
 		vim.cmd [[
-			nnoremap <buffer> <C-]>          <cmd>lua vim.lsp.buf.definition() <CR>
 			nnoremap <buffer> gd             <cmd>lua vim.lsp.buf.definition() <CR>
-			nnoremap <buffer> gr             <cmd>lua FzfLua.lsp_references() <CR>
-			nnoremap <buffer> gi             <cmd>lua FzfLua.lsp_implementations() <CR>
-			nnoremap <buffer> R              <cmd>lua vim.lsp.buf.rename()<CR>
-			nnoremap <buffer> K              <cmd>lua vim.lsp.buf.hover()<CR>
-			nnoremap <buffer> C              <cmd>lua vim.lsp.buf.code_action()<CR>
-			nnoremap <buffer> L              <cmd>lua vim.diagnostic.open_float()<CR>
-		    nnoremap <buffer> <leader>l      <cmd>lua FzfLua.lsp_workspace_symbols()<CR>
-			nnoremap <buffer> <C-s>          <cmd>lua vim.lsp.buf.signature_help()<CR>
-			inoremap <buffer> <C-s>          <cmd>lua vim.lsp.buf.signature_help()<CR>
+			nnoremap <buffer> <C-]>          gd 
+			nnoremap <buffer> grd            <cmd>lua vim.diagnostic.open_float()<CR>
+		    nnoremap <buffer> <leader>O      <cmd>lua FzfLua.lsp_workspace_symbols()<CR>
 		]]
 	end
 })
