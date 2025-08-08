@@ -41,6 +41,9 @@ vim.cmd [[
 ]]
 
 vim.pack.add {
+	{ src = "https://github.com/rose-pine/neovim", name = "rose-pine" },
+	-- "https://github.com/vague2k/vague.nvim",
+
 	"https://github.com/ibhagwan/fzf-lua",					               -- Fuzzy Finder
 	"https://github.com/nvim-treesitter/nvim-treesitter",	               -- Syntax Highlighting
 	"https://github.com/neovim/nvim-lspconfig",				               -- LSP
@@ -49,6 +52,9 @@ vim.pack.add {
 
 require("nvim-treesitter.configs").setup { highlight = { enable = true }, auto_install = true }
 require("oil").setup {}
+require("rose-pine").setup { disable_background = true, styles = { transparency = true } }
+vim.cmd.colorscheme("rose-pine")
+-- require("vague").setup { transparent = true, italic = false }
 
 require("fzf-lua").setup { "fzf-vim", keymap = { fzf = { ["ctrl-q"] = "select-all+accept" } } }
 
