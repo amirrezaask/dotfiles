@@ -81,6 +81,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		]]
 	end
 })
+vim.lsp.config('lua_ls', { settings = { Lua = { workspace = { library = vim.api.nvim_get_runtime_file('', true) } } } })
+vim.lsp.enable({ "gopls", "intelephense", "lua_ls" })
 
 -- Go Autoformat
 vim.api.nvim_create_autocmd('BufWritePre', {
@@ -90,7 +92,3 @@ vim.api.nvim_create_autocmd('BufWritePre', {
 		vim.lsp.buf.format()
 	end,
 })
-
-vim.lsp.config('lua_ls', { settings = { Lua = { workspace = { library = vim.api.nvim_get_runtime_file('', true) } } } })
-
-vim.lsp.enable({ "gopls", "intelephense", "lua_ls" })
