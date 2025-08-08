@@ -53,7 +53,7 @@ vim.pack.add {
 require("nvim-treesitter.configs").setup { highlight = { enable = true }, auto_install = true }
 require("oil").setup {}
 require("rose-pine").setup { disable_background = true, styles = { transparency = true } }
-vim.cmd.colorscheme("rose-pine")
+vim.cmd.colorscheme("rose-pine-moon")
 -- require("vague").setup { transparent = true, italic = false }
 
 require("fzf-lua").setup { "fzf-vim", keymap = { fzf = { ["ctrl-q"] = "select-all+accept" } } }
