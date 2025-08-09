@@ -41,6 +41,7 @@ vim.cmd [[
 ]]
 
 vim.pack.add {
+	{ src = "https://github.com/rose-pine/neovim", name = "rose-pine" },
 	"https://github.com/ibhagwan/fzf-lua",					               -- Fuzzy Finder
 	"https://github.com/nvim-treesitter/nvim-treesitter",	               -- Syntax Highlighting
 	"https://github.com/neovim/nvim-lspconfig",				               -- LSP
@@ -48,8 +49,14 @@ vim.pack.add {
 	"https://github.com/mfussenegger/nvim-lint",                           -- Linters
 }
 
+require("rose-pine").setup { styles= {transparency = true, italic = false } }
+vim.cmd [[  colorscheme rose-pine-moon ]]
 require("nvim-treesitter.configs").setup { highlight = { enable = true }, auto_install = true }
 require("oil").setup {}
+
+require("lint").linters_by_ft = {
+	go = {"golangcilint"},
+}
 
 require("fzf-lua").setup { "fzf-vim", keymap = { fzf = { ["ctrl-q"] = "select-all+accept" } } }
 vim.lsp.buf.references = FzfLua.lsp_references
@@ -64,6 +71,7 @@ vim.cmd [[
 	vnoremap <leader>k        <cmd>lua FzfLua.grep_cword()<CR>
 ]]
 
+vim.diagnostic.config({ virtual_text = true })
 -- Default Keybindings
 -- see :h lsp-defaults
 -- see :h vim.lsp.buf.tagfunc()
