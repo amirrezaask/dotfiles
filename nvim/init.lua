@@ -41,37 +41,40 @@ vim.cmd [[
 ]]
 
 vim.pack.add {
-	{ src = "https://github.com/rose-pine/neovim", name = "rose-pine" },
-	"https://github.com/ibhagwan/fzf-lua",					               -- Fuzzy Finder
+	"https://github.com/scottmckendry/cyberdream.nvim",                    -- Theme
+	"https://github.com/nvim-tree/nvim-web-devicons",                      -- icons
+	"https://github.com/folke/snacks.nvim",                                -- File picker, etc...
 	"https://github.com/nvim-treesitter/nvim-treesitter",	               -- Syntax Highlighting
 	"https://github.com/neovim/nvim-lspconfig",				               -- LSP
 	"https://github.com/stevearc/oil.nvim",					               -- File manager
 	"https://github.com/mfussenegger/nvim-lint",                           -- Linters
 }
 
-require("rose-pine").setup { styles= {transparency = true, italic = false } }
-vim.cmd [[  colorscheme rose-pine-moon ]]
+require("cyberdream").setup { transparent = true, saturation = 0.9, borderless_pickers = true }
+vim.cmd [[ colorscheme cyberdream ]]
+
 require("nvim-treesitter.configs").setup { highlight = { enable = true }, auto_install = true }
+
 require("oil").setup {}
 
-require("lint").linters_by_ft = {
-	go = {"golangcilint"},
-}
+require("lint").linters_by_ft = { go = {"golangcilint"} }
 
-require("fzf-lua").setup { "fzf-vim", keymap = { fzf = { ["ctrl-q"] = "select-all+accept" } } }
-vim.lsp.buf.references = FzfLua.lsp_references
-vim.lsp.buf.definition = FzfLua.lsp_definitions
-vim.lsp.buf.document_symbol = FzfLua.lsp_document_symbols
-vim.lsp.buf.workspace_symbol = FzfLua.lsp_workspace_symbols
-
+require("snacks").setup { picker = { enabled = true } }
 vim.cmd [[
-	nnoremap <leader><leader> <cmd>lua FzfLua.files()<CR>
-	nnoremap <leader>j        <cmd>lua FzfLua.live_grep()<CR>
-	nnoremap <leader>k        <cmd>lua FzfLua.grep_cword()<CR>
-	vnoremap <leader>k        <cmd>lua FzfLua.grep_cword()<CR>
+	nnoremap <leader><leader> <cmd>lua Snacks.picker.files()<CR>
+	nnoremap <leader>j        <cmd>lua Snacks.picker.grep()<CR>
+	nnoremap <leader>k        <cmd>lua Snacks.picker.grep_word()<CR>
+	vnoremap <leader>k        <cmd>lua Snacks.picker.grep_word()<CR>
 ]]
 
+vim.lsp.buf.references =       Snacks.picker.lsp_references
+vim.lsp.buf.definition =       Snacks.picker.lsp_definitions
+vim.lsp.buf.implementation =   Snacks.picker.lsp_implementations
+vim.lsp.buf.document_symbol =  Snacks.picker.lsp_symbols
+vim.lsp.buf.workspace_symbol = Snacks.picker.lsp_workspace_symbols
+
 vim.diagnostic.config({ virtual_text = true })
+
 -- Default Keybindings
 -- see :h lsp-defaults
 -- see :h vim.lsp.buf.tagfunc()
@@ -84,17 +87,12 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		vim.cmd [[
 			nnoremap <buffer> gd             <cmd>lua vim.lsp.buf.definition()<CR>
 			nnoremap <buffer> L              <cmd>lua vim.diagnostic.open_float()<CR>
-		    nnoremap <buffer> <leader>O      <cmd>lua FzfLua.lsp_workspace_symbols()<CR>
+			nnoremap <buffer> <leader>O      <cmd>lua Snacks.picker.lsp_workspace_symbols()<CR>
 		]]
 	end
 })
 vim.lsp.config('lua_ls', { settings = { Lua = { workspace = { library = vim.api.nvim_get_runtime_file('', true) } } } })
 vim.lsp.enable({ "gopls", "intelephense", "lua_ls" })
-
-vim.keymap.set("n", "<leader>m", function()
-	vim.cmd [[ make ]]
-	vim.cmd [[ copen ]]
-end)
 
 vim.api.nvim_create_autocmd('BufEnter', { -- Go related stuff
 	pattern = "*.go",

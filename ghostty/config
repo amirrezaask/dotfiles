@@ -1,4 +1,4 @@
-font-family = Fira Code
+font-family = TX-02
 cursor-style-blink = false
 mouse-hide-while-typing = true
 macos-option-as-alt = true
@@ -33,10 +33,12 @@ keybind = ctrl+shift+l=goto_split:right
 keybind = ctrl+enter=new_tab
 
 
-theme = rose-pine-moon
+theme = cyberdream
 
-background = #000000
-foreground = #ffffff
-split-divider-color = green
+# background-opacity=0.92
+# background-blur = true
+# background = #000000
+# foreground = #ffffff
+# split-divider-color = green
 
 gtk-custom-css="./gtk-tabs.css"

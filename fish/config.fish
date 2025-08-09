@@ -55,19 +55,9 @@ function feat
 	git checkout -b "feat-$argv[1]"
 end
 
-function fish_prompt
-	set_color '#3e8fb0'
-	# set_color '#EEF1F8'
-	if [ $PWD != $HOME ]
-		echo -n (basename $PWD)
-	else
-		echo -n "~"
-	end
 
-	set_color '#ea9a97'
-	# set_color '#A6DBFF'
-	printf '%s ' (__fish_git_prompt)
+set -g theme_name "cyberdream"
 
-	set_color normal
-	echo -n '➜ '
+if type -q starship
+	eval (starship init fish)
 end
