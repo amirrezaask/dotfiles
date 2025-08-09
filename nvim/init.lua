@@ -41,17 +41,15 @@ vim.cmd [[
 ]]
 
 vim.pack.add {
-	{ src = "https://github.com/rose-pine/neovim", name = "rose-pine" },   -- Colorscheme
 	"https://github.com/ibhagwan/fzf-lua",					               -- Fuzzy Finder
 	"https://github.com/nvim-treesitter/nvim-treesitter",	               -- Syntax Highlighting
 	"https://github.com/neovim/nvim-lspconfig",				               -- LSP
 	"https://github.com/stevearc/oil.nvim",					               -- File manager
+	"https://github.com/mfussenegger/nvim-lint",                           -- Linters
 }
 
 require("nvim-treesitter.configs").setup { highlight = { enable = true }, auto_install = true }
 require("oil").setup {}
-require("rose-pine").setup { disable_background = true, styles = { transparency = true, italic = false } }
-vim.cmd.colorscheme("rose-pine-moon")
 
 require("fzf-lua").setup { "fzf-vim", keymap = { fzf = { ["ctrl-q"] = "select-all+accept" } } }
 vim.lsp.buf.references = FzfLua.lsp_references
@@ -76,6 +74,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		  vim.lsp.completion.enable(true, client.id, args.buf, {autotrigger = true})
 		end
 		vim.cmd [[
+			nnoremap <buffer> gd             <cmd>lua vim.lsp.buf.definition()<CR>
 			nnoremap <buffer> L              <cmd>lua vim.diagnostic.open_float()<CR>
 		    nnoremap <buffer> <leader>O      <cmd>lua FzfLua.lsp_workspace_symbols()<CR>
 		]]
@@ -84,11 +83,24 @@ vim.api.nvim_create_autocmd("LspAttach", {
 vim.lsp.config('lua_ls', { settings = { Lua = { workspace = { library = vim.api.nvim_get_runtime_file('', true) } } } })
 vim.lsp.enable({ "gopls", "intelephense", "lua_ls" })
 
--- Go Autoformat
-vim.api.nvim_create_autocmd('BufWritePre', {
-	pattern  = '*.go',
-	callback = function()
-		vim.lsp.buf.code_action({ context = { only = { 'source.organizeImports' }, }, apply = true, })
-		vim.lsp.buf.format()
-	end,
+vim.keymap.set("n", "<leader>m", function()
+	vim.cmd [[ make ]]
+	vim.cmd [[ copen ]]
+end)
+
+vim.api.nvim_create_autocmd('BufEnter', { -- Go related stuff
+	pattern = "*.go",
+	callback = function(args)
+		vim.o.makeprg = "golangci-lint run --tests=false --show-stats=false"
+		vim.o.errorformat = "%f:%l:%c %m"
+		vim.api.nvim_create_autocmd("BufWritePre", {
+			buffer = args.buf,
+			callback = function()
+				vim.lsp.buf.code_action({ context = { only = { 'source.organizeImports' }, }, apply = true, })
+				vim.lsp.buf.format()
+				require("lint").try_lint("golangcilint")
+			end,
+		})
+	end
 })
+

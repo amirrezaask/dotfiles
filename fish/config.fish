@@ -56,16 +56,16 @@ function feat
 end
 
 function fish_prompt
-	set_color '#3e8fb0'
-	# set_color '#EEF1F8'
+	# set_color '#3e8fb0'
+	set_color '#EEF1F8'
 	if [ $PWD != $HOME ]
 		echo -n (basename $PWD)
 	else
 		echo -n "~"
 	end
 
-	set_color '#ea9a97'
-	# set_color '#A6DBFF'
+	#set_color '#ea9a97'
+	set_color '#A6DBFF'
 	printf '%s ' (__fish_git_prompt)
 
 	set_color normal
