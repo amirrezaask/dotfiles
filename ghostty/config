@@ -1,4 +1,4 @@
-font-family = TX-02
+font-family = Fira Code
 cursor-style-blink = false
 mouse-hide-while-typing = true
 macos-option-as-alt = true
@@ -30,15 +30,13 @@ keybind = ctrl+shift+h=goto_split:left
 keybind = ctrl+shift+j=goto_split:down
 keybind = ctrl+shift+k=goto_split:up
 keybind = ctrl+shift+l=goto_split:right
-keybind = ctrl+enter=new_tab
 
+# theme = cyberdream
 
-theme = cyberdream
+background = #000000
+foreground = #ffffff
 
-# background-opacity=0.92
-# background-blur = true
-# background = #000000
-# foreground = #ffffff
-# split-divider-color = green
+custom-shader = shaders/cursor_smear.glsl
+custom-shader = shaders/cursor_blaze_no_trail.glsl
 
-gtk-custom-css="./gtk-tabs.css"
+gtk-custom-css= ./gtk-tabs.css

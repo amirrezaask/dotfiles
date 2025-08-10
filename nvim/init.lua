@@ -41,36 +41,33 @@ vim.cmd [[
 ]]
 
 vim.pack.add {
-	"https://github.com/scottmckendry/cyberdream.nvim",                    -- Theme
-	"https://github.com/nvim-tree/nvim-web-devicons",                      -- icons
-	"https://github.com/folke/snacks.nvim",                                -- File picker, etc...
+	"https://github.com/folke/snacks.nvim",                                -- Blazing fast fuzzy finder
 	"https://github.com/nvim-treesitter/nvim-treesitter",	               -- Syntax Highlighting
 	"https://github.com/neovim/nvim-lspconfig",				               -- LSP
 	"https://github.com/stevearc/oil.nvim",					               -- File manager
-	"https://github.com/mfussenegger/nvim-lint",                           -- Linters
 }
-
-require("cyberdream").setup { transparent = true, saturation = 0.9, borderless_pickers = true }
-vim.cmd [[ colorscheme cyberdream ]]
 
 require("nvim-treesitter.configs").setup { highlight = { enable = true }, auto_install = true }
 
 require("oil").setup {}
 
-require("lint").linters_by_ft = { go = {"golangcilint"} }
 
-require("snacks").setup { picker = { enabled = true } }
+require("snacks").setup { picker = { enabled = true }, terminal = { enabled = true } }
+vim.cmd [[ hi! link SnacksPickerDir Comment ]]
+
 vim.cmd [[
-	nnoremap <leader><leader> <cmd>lua Snacks.picker.files()<CR>
+	nnoremap <leader><leader> <cmd>lua Snacks.picker.smart()<CR>
 	nnoremap <leader>j        <cmd>lua Snacks.picker.grep()<CR>
 	nnoremap <leader>k        <cmd>lua Snacks.picker.grep_word()<CR>
 	vnoremap <leader>k        <cmd>lua Snacks.picker.grep_word()<CR>
+	nnoremap <C-;>            <cmd>lua Snacks.terminal.toggle()<CR>
+	tnoremap <C-;>            <cmd>lua Snacks.terminal.toggle()<CR>
 ]]
 
-vim.lsp.buf.references =       Snacks.picker.lsp_references
-vim.lsp.buf.definition =       Snacks.picker.lsp_definitions
-vim.lsp.buf.implementation =   Snacks.picker.lsp_implementations
-vim.lsp.buf.document_symbol =  Snacks.picker.lsp_symbols
+vim.lsp.buf.references       = Snacks.picker.lsp_references
+vim.lsp.buf.definition       = Snacks.picker.lsp_definitions
+vim.lsp.buf.implementation   = Snacks.picker.lsp_implementations
+vim.lsp.buf.document_symbol  = Snacks.picker.lsp_symbols
 vim.lsp.buf.workspace_symbol = Snacks.picker.lsp_workspace_symbols
 
 vim.diagnostic.config({ virtual_text = true })
@@ -99,12 +96,11 @@ vim.api.nvim_create_autocmd('BufEnter', { -- Go related stuff
 	callback = function(args)
 		vim.o.makeprg = "golangci-lint run --tests=false --show-stats=false"
 		vim.o.errorformat = "%f:%l:%c %m"
-		vim.api.nvim_create_autocmd("BufWritePre", {
+		vim.api.nvim_create_autocmd("BufWritePre", { -- Autoformat + imports
 			buffer = args.buf,
 			callback = function()
 				vim.lsp.buf.code_action({ context = { only = { 'source.organizeImports' }, }, apply = true, })
 				vim.lsp.buf.format()
-				require("lint").try_lint("golangcilint")
 			end,
 		})
 	end
