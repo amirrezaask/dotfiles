@@ -1,4 +1,4 @@
-font-family = Fira Code
+font-family = TX-02
 cursor-style-blink = false
 mouse-hide-while-typing = true
 macos-option-as-alt = true
@@ -31,10 +31,11 @@ keybind = ctrl+shift+j=goto_split:down
 keybind = ctrl+shift+k=goto_split:up
 keybind = ctrl+shift+l=goto_split:right
 
-# theme = cyberdream
+theme = tokyonight_night
 
-background = #000000
-foreground = #ffffff
+cursor-color = green
+# background = #000000
+# foreground = #ffffff
 
 custom-shader = shaders/cursor_smear.glsl
 custom-shader = shaders/cursor_blaze_no_trail.glsl

@@ -7,11 +7,16 @@ XDG_CONFIG="$HOME/.config"
 rm -rf  "$XDG_CONFIG/nvim" \
 	"$XDG_CONFIG/ghostty" \
 	"$XDG_CONFIG/fish" \
+	"$XDG_CONFIG/Code/User/settings.json" \
+	"$XDG_CONFIG/Code/User/keybindings.json" \
 	"$HOME/.gitconfig"
 
 mkdir -p "$XDG_CONFIG"
+mkdir -p "$XDG_CONFIG/Code/User"
 
 ln -s "$DOTFILES_DIR/nvim" "$XDG_CONFIG/nvim"
 ln -s "$DOTFILES_DIR/fish" "$XDG_CONFIG/fish"
 ln -s "$DOTFILES_DIR/ghostty" "$XDG_CONFIG/ghostty"
 ln -s "$DOTFILES_DIR/.gitconfig" "$HOME/.gitconfig"
+ln -s "$DOTFILES_DIR/code/settings.json" "$XDG_CONFIG/Code/User/settings.json"
+ln -s "$DOTFILES_DIR/code/keybindings.json" "$XDG_CONFIG/Code/User/keybindings.json"

@@ -18,34 +18,30 @@ vim.o.completeopt = "menuone,noselect,noinsert,fuzzy"
 vim.o.splitbelow = true
 vim.o.splitright = true
 vim.o.laststatus = 3
+vim.opt.wildoptions:append("fuzzy")
+vim.o.cursorline = true
+vim.cmd [[ autocmd TextYankPost * silent! lua vim.hl.on_yank {higroup='Visual', timeout=150 } ]]
+local map = vim.keymap.set
 
-vim.cmd [[
-	set wildoptions+=fuzzy
-
-	hi! Normal guibg=none
-	hi! link StatusLine Normal
-
-	autocmd TextYankPost * silent! lua vim.hl.on_yank {higroup='Visual', timeout=150 }
-
-	imap jk    <ESC>
-	imap kj    <ESC>
-	imap <C-c> <ESC>
-
-	nmap <C-d> <C-d>zz
-	nmap <C-u> <C-u>zz
-	nmap n     nzz
-	nmap N     Nzz
-
-	nmap <leader>i :edit $MYVIMRC<CR>
-	nmap <leader>o :Oil<CR>
-]]
+map("i", "jk", "<esc>")
+map("i", "kj", "<esc>")
+map("i", "<C-c>", "<esc>")
+map("n", "<C-d>", "<C-d>zz")
+map("n", "<C-u>", "<C-u>zz")
+map("n", "n", "nzz")
+map("n", "N", "Nzz")
+map("n", "<leader>i", ":edit $MYVIMRC<CR>")
 
 vim.pack.add {
+	"https://github.com/nvim-tree/nvim-web-devicons",
+	"https://github.com/folke/tokyonight.nvim",
 	"https://github.com/folke/snacks.nvim",                                -- Blazing fast fuzzy finder
 	"https://github.com/nvim-treesitter/nvim-treesitter",	               -- Syntax Highlighting
 	"https://github.com/neovim/nvim-lspconfig",				               -- LSP
 	"https://github.com/stevearc/oil.nvim",					               -- File manager
 }
+
+vim.cmd.colorscheme("tokyonight-night")
 
 require("nvim-treesitter.configs").setup { highlight = { enable = true }, auto_install = true }
 
@@ -53,16 +49,11 @@ require("oil").setup {}
 
 
 require("snacks").setup { picker = { enabled = true }, terminal = { enabled = true } }
-vim.cmd [[ hi! link SnacksPickerDir Comment ]]
 
-vim.cmd [[
-	nnoremap <leader><leader> <cmd>lua Snacks.picker.smart()<CR>
-	nnoremap <leader>j        <cmd>lua Snacks.picker.grep()<CR>
-	nnoremap <leader>k        <cmd>lua Snacks.picker.grep_word()<CR>
-	vnoremap <leader>k        <cmd>lua Snacks.picker.grep_word()<CR>
-	nnoremap <C-;>            <cmd>lua Snacks.terminal.toggle()<CR>
-	tnoremap <C-;>            <cmd>lua Snacks.terminal.toggle()<CR>
-]]
+map ("n", "<leader><leader>", Snacks.picker.files)
+map ("n", "<leader>j", Snacks.picker.grep)
+map ({ "n", "v" }, "<leader>k", Snacks.picker.grep_word)
+map ({ "n", "t" }, "<C-;>", Snacks.terminal.toggle)
 
 vim.lsp.buf.references       = Snacks.picker.lsp_references
 vim.lsp.buf.definition       = Snacks.picker.lsp_definitions
@@ -81,11 +72,9 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		if client:supports_method('textDocument/completion') then
 		  vim.lsp.completion.enable(true, client.id, args.buf, {autotrigger = true})
 		end
-		vim.cmd [[
-			nnoremap <buffer> gd             <cmd>lua vim.lsp.buf.definition()<CR>
-			nnoremap <buffer> L              <cmd>lua vim.diagnostic.open_float()<CR>
-			nnoremap <buffer> <leader>O      <cmd>lua Snacks.picker.lsp_workspace_symbols()<CR>
-		]]
+		map("n", "gd", vim.lsp.buf.definition, {buffer = args.buf})
+		map("n", "L", vim.diagnostic.open_float, {buffer = args.buf})
+		map("n", "<leader>O", Snacks.picker.lsp_workspace_symbols, {buffer = args.buf})
 	end
 })
 vim.lsp.config('lua_ls', { settings = { Lua = { workspace = { library = vim.api.nvim_get_runtime_file('', true) } } } })
@@ -105,4 +94,3 @@ vim.api.nvim_create_autocmd('BufEnter', { -- Go related stuff
 		})
 	end
 })
-
