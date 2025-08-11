@@ -1,4 +1,4 @@
-font-family = TX-02
+font-family = Maple Mono
 cursor-style-blink = false
 mouse-hide-while-typing = true
 macos-option-as-alt = true
@@ -31,7 +31,8 @@ keybind = ctrl+shift+j=goto_split:down
 keybind = ctrl+shift+k=goto_split:up
 keybind = ctrl+shift+l=goto_split:right
 
-theme = tokyonight_night
+# theme = tokyonight_night
+theme = cyberdream
 
 cursor-color = green
 # background = #000000

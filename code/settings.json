@@ -5,7 +5,6 @@
   "editor.wordWrap": "on",
   "editor.minimap.enabled": false,
   "window.menuBarVisibility": "toggle",
-  "workbench.editor.showTabs": "none",
   "diffEditor.renderSideBySide": false,
   "editor.mouseWheelScrollSensitivity": 2,
   "window.restoreWindows": "none",
@@ -27,6 +26,16 @@
   "extensions.ignoreRecommendations": true,
   "window.autoDetectColorScheme": true,
   "workbench.preferredLightColorTheme": "Visual Studio Light",
-  "workbench.activityBar.location": "hidden",
-  "workbench.iconTheme": "vs-minimal"
+  "gitProjectManager.baseProjectsFolders": [ "~/d", "~/p" ],
+  "gitProjectManager.openInNewWindow": true,
+  "workbench.iconTheme": "vs-minimal",
+  "chat.instructionsFilesLocations": {
+    ".github/instructions": true,
+    "/tmp/postman-collections-post-response.instructions.md": true,
+    "/tmp/postman-collections-pre-request.instructions.md": true,
+    "/tmp/postman-folder-post-response.instructions.md": true,
+    "/tmp/postman-folder-pre-request.instructions.md": true,
+    "/tmp/postman-http-request-post-response.instructions.md": true,
+    "/tmp/postman-http-request-pre-request.instructions.md": true
+  },
 }

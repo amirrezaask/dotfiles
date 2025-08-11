@@ -33,12 +33,14 @@ map("n", "N", "Nzz")
 map("n", "<leader>i", ":edit $MYVIMRC<CR>")
 
 vim.pack.add {
-	"https://github.com/nvim-tree/nvim-web-devicons",
+	"https://github.com/scottmckendry/cyberdream.nvim",
 	"https://github.com/folke/tokyonight.nvim",
-	"https://github.com/folke/snacks.nvim",                                -- Blazing fast fuzzy finder
-	"https://github.com/nvim-treesitter/nvim-treesitter",	               -- Syntax Highlighting
-	"https://github.com/neovim/nvim-lspconfig",				               -- LSP
-	"https://github.com/stevearc/oil.nvim",					               -- File manager
+	"https://github.com/nvim-tree/nvim-web-devicons",
+	"https://github.com/folke/snacks.nvim",
+	"https://github.com/nvim-treesitter/nvim-treesitter",
+	"https://github.com/neovim/nvim-lspconfig",
+	"https://github.com/stevearc/oil.nvim",
+	{ src = 'https://github.com/saghen/blink.cmp', version="v1.6.0" }
 }
 
 vim.cmd.colorscheme("tokyonight-night")
@@ -47,6 +49,9 @@ require("nvim-treesitter.configs").setup { highlight = { enable = true }, auto_i
 
 require("oil").setup {}
 
+require("blink.cmp").setup {
+    keymap = { preset = 'default' },
+}
 
 require("snacks").setup { picker = { enabled = true }, terminal = { enabled = true } }
 
@@ -68,10 +73,10 @@ vim.diagnostic.config({ virtual_text = true })
 -- see :h vim.lsp.buf.tagfunc()
 vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(args)
-		local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
-		if client:supports_method('textDocument/completion') then
-		  vim.lsp.completion.enable(true, client.id, args.buf, {autotrigger = true})
-		end
+		-- local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
+		-- if client:supports_method('textDocument/completion') then
+		--   vim.lsp.completion.enable(true, client.id, args.buf, {autotrigger = true})
+		-- end
 		map("n", "gd", vim.lsp.buf.definition, {buffer = args.buf})
 		map("n", "L", vim.diagnostic.open_float, {buffer = args.buf})
 		map("n", "<leader>O", Snacks.picker.lsp_workspace_symbols, {buffer = args.buf})
