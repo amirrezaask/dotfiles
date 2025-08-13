@@ -33,17 +33,17 @@ map("n", "N", "Nzz")
 map("n", "<leader>i", ":edit $MYVIMRC<CR>")
 
 vim.pack.add {
+	"https://github.com/ibhagwan/fzf-lua",
 	"https://github.com/scottmckendry/cyberdream.nvim",
 	"https://github.com/folke/tokyonight.nvim",
 	"https://github.com/nvim-tree/nvim-web-devicons",
-	"https://github.com/folke/snacks.nvim",
 	"https://github.com/nvim-treesitter/nvim-treesitter",
 	"https://github.com/neovim/nvim-lspconfig",
 	"https://github.com/stevearc/oil.nvim",
 	{ src = 'https://github.com/saghen/blink.cmp', version="v1.6.0" }
 }
 
-vim.cmd.colorscheme("tokyonight-night")
+vim.cmd [[ hi StatusLine guibg=none guifg=fg ]]
 
 require("nvim-treesitter.configs").setup { highlight = { enable = true }, auto_install = true }
 
@@ -52,19 +52,19 @@ require("oil").setup {}
 require("blink.cmp").setup {
     keymap = { preset = 'default' },
 }
+require("fzf-lua").setup { "fzf-vim", keymap = { fzf = { ["ctrl-q"] = "select-all+accept" } } }
+vim.cmd [[
+	nnoremap <leader><leader> <cmd>lua FzfLua.files()<CR>
+	nnoremap <leader>j        <cmd>lua FzfLua.live_grep()<CR>
+	nnoremap <leader>k        <cmd>lua FzfLua.grep_cword()<CR>
+	vnoremap <leader>k        <cmd>lua FzfLua.grep_cword()<CR>
+]]
 
-require("snacks").setup { picker = { enabled = true }, terminal = { enabled = true } }
-
-map ("n", "<leader><leader>", Snacks.picker.files)
-map ("n", "<leader>j", Snacks.picker.grep)
-map ({ "n", "v" }, "<leader>k", Snacks.picker.grep_word)
-map ({ "n", "t" }, "<C-;>", Snacks.terminal.toggle)
-
-vim.lsp.buf.references       = Snacks.picker.lsp_references
-vim.lsp.buf.definition       = Snacks.picker.lsp_definitions
-vim.lsp.buf.implementation   = Snacks.picker.lsp_implementations
-vim.lsp.buf.document_symbol  = Snacks.picker.lsp_symbols
-vim.lsp.buf.workspace_symbol = Snacks.picker.lsp_workspace_symbols
+vim.lsp.buf.references       = FzfLua.lsp_references
+vim.lsp.buf.definition       = FzfLua.lsp_definitions
+vim.lsp.buf.implementation   = FzfLua.lsp_implementations
+vim.lsp.buf.document_symbol  = FzfLua.lsp_document_symbols
+vim.lsp.buf.workspace_symbol = FzfLua.lsp_workspace_symbols
 
 vim.diagnostic.config({ virtual_text = true })
 
@@ -79,7 +79,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		-- end
 		map("n", "gd", vim.lsp.buf.definition, {buffer = args.buf})
 		map("n", "L", vim.diagnostic.open_float, {buffer = args.buf})
-		map("n", "<leader>O", Snacks.picker.lsp_workspace_symbols, {buffer = args.buf})
+		map("n", "<leader>O", FzfLua.lsp_workspace_symbols, {buffer = args.buf})
 	end
 })
 vim.lsp.config('lua_ls', { settings = { Lua = { workspace = { library = vim.api.nvim_get_runtime_file('', true) } } } })
