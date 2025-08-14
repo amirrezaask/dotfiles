@@ -4,7 +4,7 @@
 	insteadOf = https://gitlab.snappcloud.io/
 
 [user]
-	name = amirrezaask
+	name = Amirreza Askarpour
 	email = raskarpour@gmail.com
 
 [merge]
@@ -24,3 +24,5 @@
 
 [color]
 	pager = no
+[init]
+	defaultBranch = master
