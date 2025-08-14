@@ -20,6 +20,7 @@
   "breadcrumbs.enabled": false,
   "window.commandCenter": false,
   "workbench.startupEditor": "none",
+  "window.titleBarStyle": "native",
   "window.customTitleBarVisibility": "windowed",
   "go.toolsManagement.autoUpdate": true,
   "editor.bracketPairColorization.enabled": false,
@@ -28,7 +29,8 @@
   "workbench.preferredLightColorTheme": "Visual Studio Light",
   "gitProjectManager.baseProjectsFolders": [ "~/d", "~/p" ],
   "gitProjectManager.openInNewWindow": true,
-  "workbench.iconTheme": "vs-minimal",
+  "workbench.iconTheme": "material-icon-theme",
+  "git.blame.statusBarItem.enabled": true,
   "chat.instructionsFilesLocations": {
     ".github/instructions": true,
     "/tmp/postman-collections-post-response.instructions.md": true,
@@ -38,4 +40,5 @@
     "/tmp/postman-http-request-post-response.instructions.md": true,
     "/tmp/postman-http-request-pre-request.instructions.md": true
   },
+  "workbench.preferredDarkColorTheme": "Visual Studio Light"
 }

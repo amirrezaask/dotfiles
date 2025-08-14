@@ -43,7 +43,10 @@ vim.pack.add {
 	{ src = 'https://github.com/saghen/blink.cmp', version="v1.6.0" }
 }
 
-vim.cmd [[ hi StatusLine guibg=none guifg=fg ]]
+
+require"cyberdream".setup { transparent = true }
+
+vim.cmd.colorscheme("cyberdream")
 
 require("nvim-treesitter.configs").setup { highlight = { enable = true }, auto_install = true }
 
