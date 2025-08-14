@@ -49,9 +49,11 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
+	{ "https://github.com/catppuccin/nvim", name = "catppuccin" },
+	"https://github.com/folke/tokyonight.nvim",
+
 	"https://github.com/ibhagwan/fzf-lua",
 	"https://github.com/scottmckendry/cyberdream.nvim",
-	"https://github.com/folke/tokyonight.nvim",
 	"https://github.com/nvim-tree/nvim-web-devicons",
 	"https://github.com/nvim-treesitter/nvim-treesitter",
 	"https://github.com/neovim/nvim-lspconfig",
@@ -59,9 +61,7 @@ require("lazy").setup({
 	{ "https://github.com/saghen/blink.cmp", version = "v1.6.0" },
 })
 
-require("cyberdream").setup({ transparent = true })
-
-vim.cmd.colorscheme("cyberdream")
+vim.cmd.colorscheme("tokyonight")
 
 require("nvim-treesitter.configs").setup({ highlight = { enable = true }, auto_install = true })
 
@@ -117,3 +117,8 @@ vim.api.nvim_create_autocmd("BufEnter", { -- Go related stuff
 		})
 	end,
 })
+
+
+
+
+
