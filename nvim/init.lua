@@ -49,8 +49,8 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-	{ "https://github.com/catppuccin/nvim", name = "catppuccin" },
-	"https://github.com/folke/tokyonight.nvim",
+	{ "https://github.com/catppuccin/nvim", name = "catppuccin", opts = {transparent = true} },
+	{ "https://github.com/folke/tokyonight.nvim", opts = { transparent = true }},
 
 	"https://github.com/ibhagwan/fzf-lua",
 	"https://github.com/scottmckendry/cyberdream.nvim",
@@ -62,6 +62,14 @@ require("lazy").setup({
 })
 
 vim.cmd.colorscheme("tokyonight")
+
+vim.cmd [[
+	hi! Normal       guibg=none
+	hi! SignColumn   guibg=none
+	hi! StatusLine   guibg=none
+	hi! NormalFloat  guibg=none
+
+]]
 
 require("nvim-treesitter.configs").setup({ highlight = { enable = true }, auto_install = true })
 
