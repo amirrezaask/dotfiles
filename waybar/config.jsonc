@@ -9,14 +9,12 @@
   ],
   "modules-center": [
     "clock",
-    "custom/update"
   ],
   "modules-right": [
     "tray",
     "bluetooth",
     "network",
     "pulseaudio",
-    "cpu",
     "battery"
   ],
   "hyprland/workspaces": {

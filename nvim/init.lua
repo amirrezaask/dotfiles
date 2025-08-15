@@ -31,6 +31,7 @@ map("n", "<C-u>", "<C-u>zz")
 map("n", "n", "nzz")
 map("n", "N", "Nzz")
 map("n", "<leader>i", ":edit $MYVIMRC<CR>")
+
 -- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
