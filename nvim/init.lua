@@ -50,9 +50,6 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 local plugins = {
-	{ "catppuccin/nvim", name = "catppuccin", opts = {transparent = true} },
-	{ "folke/tokyonight.nvim", opts = { transparent = true }},
-
 	"ibhagwan/fzf-lua",
 	"scottmckendry/cyberdream.nvim",
 	"nvim-tree/nvim-web-devicons",
@@ -68,8 +65,6 @@ if ok then
 end
 
 require("lazy").setup(plugins)
-
-vim.cmd.colorscheme(theme_manager.colorscheme)
 
 vim.cmd [[
 	hi! Normal       guibg=none

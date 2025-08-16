@@ -6,3 +6,4 @@ ln -s $1 current
 hyprctl reload
 pkill waybar; waybar &2>/dev/null &
 pkill swaybg; swaybg -i ./current/backgrounds/$(ls ./current/backgrounds/ | head -n 1) &2>/dev/null &
+unlink ~/.config/nvim/lua/theme-manager.lua; ln -s $PWD/current/neovim.lua ~/.config/nvim/lua/theme-manager.lua
