@@ -1,4 +1,8 @@
 return {
-	lazy_spec = { "ellisonleao/gruvbox.nvim" },
-	colorscheme = "gruvbox"
+	lazy_spec = { 
+		"ellisonleao/gruvbox.nvim",
+		config = function()
+			vim.cmd.colorscheme("gruvbox")
+		end
+	},
 }
