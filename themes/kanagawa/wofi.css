@@ -1,0 +1,40 @@
+/* Kanagawa theme for Wofi */
+#window {
+    background-color: #1f1f28;
+    border-radius: 8px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 14px;
+}
+
+#input {
+    background-color: #2a2a37;
+    color: #dcd7ba;
+    border-radius: 6px;
+    padding: 8px;
+    margin: 10px;
+}
+
+#input:focus {
+    background-color: #363646;
+}
+
+#entry {
+    background-color: #1f1f28;
+    color: #dcd7ba;
+    padding: 8px;
+    margin: 2px 10px;
+}
+
+#entry:selected {
+    background-color: #363646;
+    color: #7aa89f;
+    border-radius: 6px;
+}
+
+#text {
+    color: #dcd7ba;
+}
+
+#text:selected {
+    color: #7aa89f;
+}

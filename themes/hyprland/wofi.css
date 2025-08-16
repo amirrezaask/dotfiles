@@ -1,0 +1,40 @@
+/* Hyprland Default Colors theme for Wofi (Optimized for Readability) */
+#window {
+    background-color: #11111b;
+    border-radius: 8px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 16px;
+}
+
+#input {
+    background-color: #313244;
+    color: #cdd6f4;
+    border-radius: 6px;
+    padding: 12px;
+    margin: 12px;
+}
+
+#input:focus {
+    background-color: #45475a;
+}
+
+#entry {
+    background-color: #11111b;
+    color: #cdd6f4;
+    padding: 12px;
+    margin: 4px 12px;
+}
+
+#entry:selected {
+    background-color: #45475a;
+    color: #89b4fa;
+    border-radius: 6px;
+}
+
+#text {
+    color: #cdd6f4;
+}
+
+#text:selected {
+    color: #89b4fa;
+}

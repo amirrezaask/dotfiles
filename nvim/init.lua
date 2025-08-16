@@ -49,20 +49,27 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-require("lazy").setup({
-	{ "https://github.com/catppuccin/nvim", name = "catppuccin", opts = {transparent = true} },
-	{ "https://github.com/folke/tokyonight.nvim", opts = { transparent = true }},
+local plugins = {
+	{ "catppuccin/nvim", name = "catppuccin", opts = {transparent = true} },
+	{ "folke/tokyonight.nvim", opts = { transparent = true }},
 
-	"https://github.com/ibhagwan/fzf-lua",
-	"https://github.com/scottmckendry/cyberdream.nvim",
-	"https://github.com/nvim-tree/nvim-web-devicons",
-	"https://github.com/nvim-treesitter/nvim-treesitter",
-	"https://github.com/neovim/nvim-lspconfig",
-	"https://github.com/stevearc/oil.nvim",
-	{ "https://github.com/saghen/blink.cmp", version = "v1.6.0" },
-})
+	"ibhagwan/fzf-lua",
+	"scottmckendry/cyberdream.nvim",
+	"nvim-tree/nvim-web-devicons",
+	"nvim-treesitter/nvim-treesitter",
+	"neovim/nvim-lspconfig",
+	"stevearc/oil.nvim",
+	{ "saghen/blink.cmp", version = "v1.6.0" },
+}
 
-vim.cmd.colorscheme("tokyonight")
+local ok, theme_manager = pcall(require, "theme-manager")
+if ok then
+	table.insert(plugins, theme_manager.lazy_spec)
+end
+
+require("lazy").setup(plugins)
+
+vim.cmd.colorscheme(theme_manager.colorscheme)
 
 vim.cmd [[
 	hi! Normal       guibg=none
