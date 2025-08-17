@@ -1,0 +1,21 @@
+general.import = [ "~/.config/themes/current/alacritty.toml" ]
+
+[env]
+TERM = "xterm-256color"
+
+[font]
+normal = { family = "Maple Mono", style = "Regular" }
+bold = { family = "Maple Mono", style = "Bold" }
+italic = { family = "Maple Mono", style = "Italic" }
+size = 9
+
+[window]
+padding.x = 14
+padding.y = 14
+decorations = "None"
+opacity = 0.98
+
+[keyboard]
+bindings = [
+	{ key = "F11", action = "ToggleFullscreen" }
+]

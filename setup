@@ -12,6 +12,7 @@ rm -rf  "$XDG_CONFIG/nvim" \
 	"$XDG_CONFIG/waybar" \
 	"$XDG_CONFIG/swayosd" \
 	"$XDG_CONFIG/wofi" \
+	"$XDG_CONFIG/alacritty" \
 	"$XDG_CONFIG/kitty" \
 	"$XDG_CONFIG/Code/User/settings.json" \
 	"$XDG_CONFIG/Code/User/keybindings.json" \
@@ -27,6 +28,7 @@ ln -s "$DOTFILES_DIR/hypr" "$XDG_CONFIG/hypr"
 ln -s "$DOTFILES_DIR/waybar" "$XDG_CONFIG/waybar"
 ln -s "$DOTFILES_DIR/swayosd" "$XDG_CONFIG/swayosd"
 ln -s "$DOTFILES_DIR/wofi" "$XDG_CONFIG/wofi"
+ln -s "$DOTFILES_DIR/alacritty" "$XDG_CONFIG/alacritty"
 ln -s "$DOTFILES_DIR/kitty" "$XDG_CONFIG/kitty"
 ln -s "$DOTFILES_DIR/ghostty" "$XDG_CONFIG/ghostty"
 ln -s "$DOTFILES_DIR/.gitconfig" "$HOME/.gitconfig"
