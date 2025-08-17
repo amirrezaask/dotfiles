@@ -35,35 +35,54 @@ map("n", "<leader>i", ":edit $MYVIMRC<CR>")
 -- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
-  local lazyrepo = "https://github.com/folke/lazy.nvim.git"
-  local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
-  if vim.v.shell_error ~= 0 then
-    vim.api.nvim_echo({
-      { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
-      { out, "WarningMsg" },
-      { "\nPress any key to exit..." },
-    }, true, {})
-    vim.fn.getchar()
-    os.exit(1)
-  end
+	local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+	local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
+	if vim.v.shell_error ~= 0 then
+		vim.api.nvim_echo({
+			{ "Failed to clone lazy.nvim:\n", "ErrorMsg" },
+			{ out,                            "WarningMsg" },
+			{ "\nPress any key to exit..." },
+		}, true, {})
+		vim.fn.getchar()
+		os.exit(1)
+	end
 end
 vim.opt.rtp:prepend(lazypath)
 
 local plugins = {
-	"ibhagwan/fzf-lua",
-	"scottmckendry/cyberdream.nvim",
+	{
+		'stevearc/conform.nvim',
+		opts = {
+			formatters_by_ft = {
+				php = {},
+				go = { "goimports" },
+				lua = { "stylua" }
+			},
+			format_on_save = {
+				timeout_ms = 500,
+				lsp_format = "fallback"
+			}
+		},
+	},
+	{
+		"mason-org/mason-lspconfig.nvim",
+		opts = {
+			ensure_installed = { "lua_ls", "gopls" }
+		},
+		dependencies = {
+			{ "mason-org/mason.nvim", opts = {} },
+			"neovim/nvim-lspconfig",
+		},
+	},
+	{ "folke/snacks.nvim", opts = { dashboard = { enabled = true } } },
+	{ "ibhagwan/fzf-lua",  opts = { "fzf-vim", keymap = { fzf = { ["ctrl-q"] = "select-all+accept" } } } },
 	"nvim-tree/nvim-web-devicons",
-	"nvim-treesitter/nvim-treesitter",
-	"neovim/nvim-lspconfig",
-	"stevearc/oil.nvim",
+	{ "nvim-treesitter/nvim-treesitter", main = "nvim-treesitter.configs", opts = { highlight = { enable = true }, auto_install = true } },
+	{ "stevearc/oil.nvim",               opts = {} },
 	"tpope/vim-surround",
 	"tpope/vim-unimpaired",
-	{ "saghen/blink.cmp", version = "v1.6.0" },
-	{
-		'nvim-lualine/lualine.nvim',
-		dependencies = { 'nvim-tree/nvim-web-devicons' },
-		opts = {},
-	}
+	{ "saghen/blink.cmp",          version = "v1.6.0",                               opts = {} },
+	{ 'nvim-lualine/lualine.nvim', dependencies = { 'nvim-tree/nvim-web-devicons' }, opts = {} }
 }
 
 local ok, theme_manager = pcall(require, "theme-manager")
@@ -85,14 +104,6 @@ vim.cmd [[
 
 ]]
 
-require("nvim-treesitter.configs").setup({ highlight = { enable = true }, auto_install = true })
-
-require("oil").setup({})
-
-require("blink.cmp").setup({
-	keymap = { preset = "default" },
-})
-require("fzf-lua").setup({ "fzf-vim", keymap = { fzf = { ["ctrl-q"] = "select-all+accept" } } })
 vim.cmd([[
 	nnoremap <leader><leader> <cmd>lua FzfLua.files()<CR>
 	nnoremap <leader>j        <cmd>lua FzfLua.live_grep()<CR>
@@ -123,24 +134,3 @@ vim.api.nvim_create_autocmd("LspAttach", {
 	end,
 })
 vim.lsp.config("lua_ls", { settings = { Lua = { workspace = { library = vim.api.nvim_get_runtime_file("", true) } } } })
-vim.lsp.enable({ "gopls", "intelephense", "lua_ls" })
-
-vim.api.nvim_create_autocmd("BufEnter", { -- Go related stuff
-	pattern = "*.go",
-	callback = function(args)
-		vim.o.makeprg = "golangci-lint run --tests=false --show-stats=false"
-		vim.o.errorformat = "%f:%l:%c %m"
-		vim.api.nvim_create_autocmd("BufWritePre", { -- Autoformat + imports
-			buffer = args.buf,
-			callback = function()
-				vim.lsp.buf.code_action({ context = { only = { "source.organizeImports" } }, apply = true })
-				vim.lsp.buf.format()
-			end,
-		})
-	end,
-})
-
-
-
-
-
