@@ -56,12 +56,23 @@ local plugins = {
 	"nvim-treesitter/nvim-treesitter",
 	"neovim/nvim-lspconfig",
 	"stevearc/oil.nvim",
+	"tpope/vim-surround",
+	"tpope/vim-unimpaired",
 	{ "saghen/blink.cmp", version = "v1.6.0" },
+	{
+		'nvim-lualine/lualine.nvim',
+		dependencies = { 'nvim-tree/nvim-web-devicons' },
+		opts = {},
+	}
 }
 
 local ok, theme_manager = pcall(require, "theme-manager")
-if ok then
+if ok and theme_manager.lazy_spec then
 	table.insert(plugins, theme_manager.lazy_spec)
+end
+
+if ok and theme_manager.callback then
+	theme_manager.callback()
 end
 
 require("lazy").setup(plugins)

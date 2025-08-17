@@ -17,4 +17,4 @@ gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
 
 touch ~/.config/alacritty/alacritty.toml
 
-kitty @ set-colors -a "~/.config/themes/current/kitty.conf"
+kitty @ load-config
