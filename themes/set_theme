@@ -16,3 +16,5 @@ unlink ~/.config/nvim/lua/theme-manager.lua; ln -s $THEMES_DIR/current/neovim.lu
 gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
 
 touch ~/.config/alacritty/alacritty.toml
+
+kitty @ set-colors -a "~/.config/themes/current/kitty.conf"
