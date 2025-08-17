@@ -99,18 +99,13 @@ local plugins = {
 		},
 	},
 
-	{ "folke/snacks.nvim", opts = { dashboard = { enabled = true }, picker = { enabled = true } } },
 	{
 		"ibhagwan/fzf-lua",
 		config = function()
 			require("fzf-lua").setup({ "telescope", keymap = { fzf = { ["ctrl-q"] = "select-all+accept" } } })
-
-			vim.cmd([[
-				nnoremap <leader><leader> <cmd>lua FzfLua.files()<CR>
-				nnoremap <leader>j        <cmd>lua FzfLua.live_grep()<CR>
-				nnoremap <leader>k        <cmd>lua FzfLua.grep_cword()<CR>
-				vnoremap <leader>k        <cmd>lua FzfLua.grep_cword()<CR>
-			]])
+			vim.keymap.set("n", "<leader><leader>", FzfLua.files)
+			vim.keymap.set("n", "<leader>j", FzfLua.live_grep)
+			vim.keymap.set({ "n", "v" }, "<leader>k", FzfLua.grep_cword)
 			local FzfLua = require("fzf-lua")
 			vim.lsp.buf.references = FzfLua.lsp_references
 			vim.lsp.buf.definition = FzfLua.lsp_definitions

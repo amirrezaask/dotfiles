@@ -5,10 +5,12 @@
   "spacing": 0,
   "height": 26,
   "modules-left": [
-    "hyprland/workspaces"
+    "custom/launcher",
+	"hyprland/workspaces"
   ],
   "modules-center": [
     "clock",
+	"cpu",
   ],
   "modules-right": [
     "tray",
@@ -50,7 +52,6 @@
     "format": "{:%A %H:%M}",
     "format-alt": "{:%d %B %Y}",
     "tooltip": false,
-    "on-click-right": "omarchy-cmd-tzupdate"
   },
   "network": {
     "format-icons": ["󰤯","󰤟","󰤢","󰤥","󰤨"],
@@ -63,7 +64,6 @@
     "tooltip-format-disconnected": "Disconnected",
     "interval": 3,
     "nospacing": 1,
-    "on-click": "alacritty --class=Impala -e impala"
   },
   "battery": {
     "format": "{capacity}% {icon}",
@@ -92,7 +92,7 @@
     "format-disabled": "󰂲",
     "format-connected": "",
     "tooltip-format": "Devices connected: {num_connections}",
-    "on-click": "kitty bluetui"
+    "on-click": "alacritty bluetui"
   },
   "pulseaudio": {
     "format": "{icon}",
@@ -104,6 +104,11 @@
     "format-icons": {
       "default": ["", "", ""]
     }
+  },
+ "custom/launcher": {
+    "format": "",
+    "on-click": "wofi --show drun",
+    "tooltip-format": "App Launcher\n\nSuper+d"
   },
   "tray": {
     "icon-size": 12,

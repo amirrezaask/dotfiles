@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+if [[ -z "$1" && "$1" != "CNCLD" ]]; then
+  echo "Usage: theme-set <theme-name>" >&2
+  exit 1
+fi
+
+THEMES_DIR="$HOME/.config/themes"
+
+THEME_NAME=$(echo "$1" | sed -E 's/<[^>]+>//g' | tr '[:upper:]' '[:lower:]' | tr ' ' '-')
+THEME_PATH="$THEMES_DIR/$THEME_NAME"
+
+CURRENT_THEME_DIR="$HOME/.config/themes/current"
+
+unlink $THEMES_DIR/current
+ln -nsf $THEME_PATH $CURRENT_THEME_DIR
+
+notify-send "Theme changed to $THEME_NAME" -t 2000
+
+hyprctl reload
+
+restart-app waybar
+
+pkill swaybg; swaybg -i $THEMES_DIR/current/backgrounds/$(ls $THEMES_DIR/current/backgrounds/ | head -n 1) &2>/dev/null &
+
+unlink ~/.config/nvim/lua/theme-manager.lua; ln -s $THEMES_DIR/current/neovim.lua ~/.config/nvim/lua/theme-manager.lua
+
+gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
+
+touch ~/.config/alacritty/alacritty.toml

@@ -11,6 +11,7 @@ alias o='xdg-open'
 export PATH="$HOME/go/bin:$PATH"
 export PATH="/opt/homebrew/bin:$PATH"
 export PATH="/home/amirreza/.local/bin:$PATH"
+export PATH="/home/amirreza/p/dotfiles/bin:$PATH"
 
 export GOPROXY=goproxy.io
 export GOPRIVATE=gitlab.snappcloud.io

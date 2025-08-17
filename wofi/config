@@ -1,1 +1,2 @@
 stylesheet = /home/amirreza/.config/themes/current/wofi.css
+allow_images=true

@@ -4,16 +4,16 @@ general.import = [ "~/.config/themes/current/alacritty.toml" ]
 TERM = "xterm-256color"
 
 [font]
-normal = { family = "Maple Mono", style = "Regular" }
-bold = { family = "Maple Mono", style = "Bold" }
-italic = { family = "Maple Mono", style = "Italic" }
+normal = { family = "CaskaydiaCove Nerd Font Mono" }
+bold =   { family = "CaskaydiaCove Nerd Font Mono" }
+italic = { family = "CaskaydiaCove Nerd Font Mono" }
 size = 9
 
 [window]
 padding.x = 14
 padding.y = 14
 decorations = "None"
-opacity = 0.98
+opacity = 0.90
 
 [keyboard]
 bindings = [

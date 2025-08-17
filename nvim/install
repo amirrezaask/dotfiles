@@ -7,8 +7,9 @@ XDG_CONFIG="$HOME/.config"
 NEOVIM_RELEASE="master"
 
 if [ ! -d "$HOME/.neovim" ]; then
-git clone https://github.com/neovim/neovim.git "$HOME/.neovim"
-	fi
+	git clone https://github.com/neovim/neovim.git "$HOME/.neovim"
+fi
+
 cd "$HOME/.neovim"
 
 git pull
