@@ -1,10 +1,10 @@
 return {
-	lazy_spec = { 
-		"catppuccin/nvim", name = "catppuccin",
+	lazy_spec = {
+		"catppuccin/nvim",
+		name = "catppuccin",
 		config = function()
-			require("catppuccin").setup {transparent = true} 
-			vim.cmd.colorscheme "catppuccin"
-		end
-
+			require("catppuccin").setup({ transparent = true })
+			vim.cmd.colorscheme("catppuccin-macchiato")
+		end,
 	},
 }
