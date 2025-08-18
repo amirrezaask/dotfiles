@@ -31,6 +31,8 @@ restart-swaybg
 
 unlink ~/.config/nvim/lua/theme-manager.lua; ln -s $THEMES_DIR/current/neovim.lua ~/.config/nvim/lua/theme-manager.lua
 
+unlink $HOME/.config/btop/themes/current; ln -nsf $THEMES_DIR/current/btop.theme $HOME/.config/btop/themes/current.theme
+
 gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
 
 touch ~/.config/alacritty/alacritty.toml
