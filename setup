@@ -34,3 +34,6 @@ ln -s "$DOTFILES_DIR/ghostty" "$XDG_CONFIG/ghostty"
 ln -s "$DOTFILES_DIR/.gitconfig" "$HOME/.gitconfig"
 ln -s "$DOTFILES_DIR/code/settings.json" "$XDG_CONFIG/Code/User/settings.json"
 ln -s "$DOTFILES_DIR/code/keybindings.json" "$XDG_CONFIG/Code/User/keybindings.json"
+
+
+sudo ln -nsf $DOTFILES_DIR/bin/* /usr/local/bin/

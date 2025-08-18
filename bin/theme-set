@@ -5,15 +5,21 @@ if [[ -z "$1" && "$1" != "CNCLD" ]]; then
   exit 1
 fi
 
+THEME_NAME=$(echo "$1" | sed -E 's/<[^>]+>//g' | tr '[:upper:]' '[:lower:]' | tr ' ' '-')
+
 THEMES_DIR="$HOME/.config/themes"
 
-THEME_NAME=$(echo "$1" | sed -E 's/<[^>]+>//g' | tr '[:upper:]' '[:lower:]' | tr ' ' '-')
 THEME_PATH="$THEMES_DIR/$THEME_NAME"
 
 CURRENT_THEME_DIR="$HOME/.config/themes/current"
+CURRENT_BACKGROUND="$HOME/.config/current-background"
 
 unlink $THEMES_DIR/current
 ln -nsf $THEME_PATH $CURRENT_THEME_DIR
+
+NEW_BACKGROUND_PATH=$THEMES_DIR/current/backgrounds/$(ls $THEMES_DIR/current/backgrounds/ | head -n 1)
+echo $NEW_BACKGROUND_PATH
+ln -nsf $NEW_BACKGROUND_PATH $CURRENT_BACKGROUND
 
 notify-send "Theme changed to $THEME_NAME" -t 2000
 
@@ -21,7 +27,7 @@ hyprctl reload
 
 restart-app waybar
 
-pkill swaybg; swaybg -i $THEMES_DIR/current/backgrounds/$(ls $THEMES_DIR/current/backgrounds/ | head -n 1) &2>/dev/null &
+restart-swaybg
 
 unlink ~/.config/nvim/lua/theme-manager.lua; ln -s $THEMES_DIR/current/neovim.lua ~/.config/nvim/lua/theme-manager.lua
 

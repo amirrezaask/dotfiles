@@ -5,7 +5,6 @@
   "spacing": 0,
   "height": 26,
   "modules-left": [
-    "custom/launcher",
 	"hyprland/workspaces"
   ],
   "modules-center": [
@@ -92,7 +91,7 @@
     "format-disabled": "󰂲",
     "format-connected": "",
     "tooltip-format": "Devices connected: {num_connections}",
-    "on-click": "alacritty bluetui"
+    "on-click": "alacritty -e bluetui"
   },
   "pulseaudio": {
     "format": "{icon}",

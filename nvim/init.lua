@@ -52,18 +52,48 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 local plugins = {
-	{
+	{ -- Collection of Awesome plugins by @folke
+		"folke/snacks.nvim",
+		dependencies = {
+			"nvim-tree/nvim-web-devicons",
+		},
+		opts = {
+			dashboard = { enabled = true },
+			picker = { enabled = true },
+			indent = { enabled = true },
+			input = { enabled = true },
+			notifier = { enabled = true },
+		},
+		config = function(_, opts)
+			require("snacks").setup(opts)
+			local Snacks = require("snacks")
+			vim.keymap.set("n", "<leader><leader>", Snacks.picker.files)
+			vim.keymap.set("n", "<leader>j", Snacks.picker.grep)
+			vim.keymap.set({ "n", "v" }, "<leader>k", Snacks.picker.grep_word)
+			map("n", "<leader>O", Snacks.picker.lsp_workspace_symbols)
+
+			vim.lsp.buf.references = Snacks.picker.lsp_references
+			vim.lsp.buf.definition = Snacks.picker.lsp_definitions
+			vim.lsp.buf.implementation = Snacks.picker.lsp_implementations
+			vim.lsp.buf.document_symbol = Snacks.picker.lsp_symbols
+			vim.lsp.buf.workspace_symbol = Snacks.picker.lsp_workspace_symbols
+		end,
+	},
+	{ -- Code Autoformat
 		"stevearc/conform.nvim",
 		opts = {
 			formatters_by_ft = {
-				php = {},
+				php = nil,
 				go = { "goimports" },
 				lua = { "stylua" },
 			},
-			format_on_save = {
-				timeout_ms = 500,
-				lsp_format = "fallback",
-			},
+			format_on_save = function(bufnr)
+				-- Skip formatting for PHP files
+				if vim.bo[bufnr].filetype == "php" then
+					return false
+				end
+				return { timeout_ms = 500, lsp_fallback = true }
+			end,
 		},
 	},
 	{
@@ -87,7 +117,6 @@ local plugins = {
 							-- end
 							map("n", "gd", vim.lsp.buf.definition, { buffer = args.buf })
 							map("n", "L", vim.diagnostic.open_float, { buffer = args.buf })
-							map("n", "<leader>O", FzfLua.lsp_workspace_symbols, { buffer = args.buf })
 						end,
 					})
 					vim.lsp.config(
@@ -98,49 +127,30 @@ local plugins = {
 			},
 		},
 	},
-
-	{
-		"ibhagwan/fzf-lua",
-		config = function()
-			require("fzf-lua").setup({ "telescope", keymap = { fzf = { ["ctrl-q"] = "select-all+accept" } } })
-			vim.keymap.set("n", "<leader><leader>", FzfLua.files)
-			vim.keymap.set("n", "<leader>j", FzfLua.live_grep)
-			vim.keymap.set({ "n", "v" }, "<leader>k", FzfLua.grep_cword)
-			local FzfLua = require("fzf-lua")
-			vim.lsp.buf.references = FzfLua.lsp_references
-			vim.lsp.buf.definition = FzfLua.lsp_definitions
-			vim.lsp.buf.implementation = FzfLua.lsp_implementations
-			vim.lsp.buf.document_symbol = FzfLua.lsp_document_symbols
-			vim.lsp.buf.workspace_symbol = FzfLua.lsp_workspace_symbols
-		end,
-	},
-	"nvim-tree/nvim-web-devicons",
 	{
 		"nvim-treesitter/nvim-treesitter",
 		main = "nvim-treesitter.configs",
 		opts = { highlight = { enable = true }, auto_install = true },
 	},
+
 	{ "stevearc/oil.nvim", opts = {} },
+
 	"tpope/vim-surround",
 	"tpope/vim-unimpaired",
+
 	{ "saghen/blink.cmp", version = "v1.6.0", opts = {} },
+
 	{ "nvim-lualine/lualine.nvim", dependencies = { "nvim-tree/nvim-web-devicons" }, opts = {} },
 }
 
 local ok, theme_manager = pcall(require, "theme-manager")
-if ok and theme_manager.lazy_spec then
-	table.insert(plugins, theme_manager.lazy_spec)
-end
-
-if ok and theme_manager.callback then
-	theme_manager.callback()
+if ok then
+	if theme_manager.lazy_spec then
+		table.insert(plugins, theme_manager.lazy_spec)
+	end
+	if theme_manager.callback then
+		theme_manager.callback()
+	end
 end
 
 require("lazy").setup(plugins)
-
-vim.cmd([[
-	hi! Normal       guibg=none
-	hi! SignColumn   guibg=none
-	hi! StatusLine   guibg=none
-	hi! NormalFloat  guibg=none
-]])
