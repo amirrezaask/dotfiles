@@ -69,6 +69,7 @@ local plugins = {
 			indent = { enabled = true },
 			input = { enabled = true },
 			notifier = { enabled = true },
+			terminal = { enabled = true },
 		},
 		config = function(_, opts)
 			require("snacks").setup(opts)
@@ -76,7 +77,8 @@ local plugins = {
 			vim.keymap.set("n", "<leader><leader>", Snacks.picker.files)
 			vim.keymap.set("n", "<leader>j", Snacks.picker.grep)
 			vim.keymap.set({ "n", "v" }, "<leader>k", Snacks.picker.grep_word)
-			map("n", "<leader>O", Snacks.picker.lsp_workspace_symbols)
+			vim.keymap.set("n", "<leader>O", Snacks.picker.lsp_workspace_symbols)
+			vim.keymap.set({ "n", "t" }, "<C-j>", Snacks.terminal.toggle)
 
 			vim.lsp.buf.references = Snacks.picker.lsp_references
 			vim.lsp.buf.definition = Snacks.picker.lsp_definitions
