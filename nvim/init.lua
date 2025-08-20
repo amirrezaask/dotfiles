@@ -52,6 +52,12 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 local plugins = {
+	{
+		"supermaven-inc/supermaven-nvim",
+		config = function()
+			require("supermaven-nvim").setup({})
+		end,
+	},
 	{ -- Collection of Awesome plugins by @folke
 		"folke/snacks.nvim",
 		dependencies = {
