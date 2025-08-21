@@ -1,2 +1,15 @@
 # Dotfiles
-Hyprland and scripts are heavily inspired by omarchy
+My Personal linux setup, an opinionated hyperland setup.
+
+## Installation
+
+### Installing
+
+```bash
+git clone https://github.com/amirreza/dotfiles.git ~/.dotfiles
+./linux/ubuntu.sh # for ubuntu/mint
+```
+
+## Screenshots
+
+![screenshot](https://raw.githubusercontent.com/amirreza/dotfiles/master/screenshots/screenshot1.png)
