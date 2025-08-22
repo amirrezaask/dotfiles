@@ -7,6 +7,7 @@ if [[ -n "$font_name" && "$font_name" != "CNCLD" ]]; then
     sed -i "s/family = \".*\"/family = \"$font_name\"/g" ~/.config/alacritty/alacritty.toml
     sed -i "s/font-family: .*/font-family: $font_name;/g" ~/.config/waybar/style.css
     sed -i "s/font-family: .*/font-family: $font_name;/g" ~/.config/swayosd/style.css
+	sed -i "s/font_family .*/font_family $font_name/g" ~/.config/kitty/kitty.conf
     xmlstarlet ed -L \
       -u '//match[@target="pattern"][test/string="monospace"]/edit[@name="family"]/string' \
       -v "$font_name" \
@@ -14,6 +15,7 @@ if [[ -n "$font_name" && "$font_name" != "CNCLD" ]]; then
 
     restart-app waybar
     restart-app swayosd-server
+	kitty @ load-config
   else
     echo "Font '$font_name' not found."
     exit 1
