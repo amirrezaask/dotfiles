@@ -29,7 +29,7 @@ restart-app waybar
 
 restart-swaybg
 
-unlink ~/.config/nvim/lua/theme-manager.lua; ln -s $THEMES_DIR/current/neovim.lua ~/.config/nvim/lua/theme-manager.lua
+unlink ~/.config/nvim/lua/theme-manager.lua; ln -s $THEMES_DIR/current/neovim.lua ~/.config/nvim/lua/plugins/theme.lua
 
 unlink $HOME/.config/btop/themes/current; ln -nsf $THEMES_DIR/current/btop.theme $HOME/.config/btop/themes/current.theme
 

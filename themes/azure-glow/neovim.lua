@@ -1,5 +1,6 @@
 return {
-	callback = function()
+	"",
+	config = function()
 		-- Azure Glow Colorscheme
 		local colors = {
 			bg = "#0A0E14", -- Deep midnight
