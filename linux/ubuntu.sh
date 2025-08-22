@@ -7,6 +7,7 @@ sudo apt update && sudo apt upgrade -y
 sudo apt install -y \
 	git \
     curl \
+	kitty \
     wget \
 	btop \
 	hyprland \
@@ -38,5 +39,3 @@ cargo install bluetui
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -O /tmp/google-chrome-stable_current_amd64.deb
 sudo apt install -y /tmp/google-chrome-stable_current_amd64.deb
 
-# Install Ghostty
-wget $(wget -qO- https://api.github.com/repos/mkasberg/ghostty-ubuntu/releases/latest | grep "browser_download_url.*deb" | cut -d\" -f4) -O ghostty.deb && sudo apt install -y ./ghostty.deb
