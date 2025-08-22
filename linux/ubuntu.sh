@@ -24,7 +24,8 @@ sudo apt install -y \
 	golang-go
 
 # Install hyprshot for screenshots
-sudo curl https://raw.githubusercontent.com/Gustash/Hyprshot/refs/heads/main/hyprshot > /usr/bin/hyprshot
+sudo curl https://raw.githubusercontent.com/Gustash/Hyprshot/refs/heads/main/hyprshot > ~/hyprshot
+sudo mv ~/hyprshot /usr/bin/hyprshot
 sudo chmod +x /usr/bin/hyprshot
 
 # Install cargo

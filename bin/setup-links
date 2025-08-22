@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.."
 XDG_CONFIG="$HOME/.config"
 
 rm -rf  "$XDG_CONFIG/nvim" \

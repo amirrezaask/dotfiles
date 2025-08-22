@@ -162,3 +162,9 @@ if ok then
 end
 
 require("lazy").setup(plugins)
+
+vim.cmd([[ 
+	hi Normal guibg=NONE 
+	hi NormalFloat guibg=NONE
+	hi SignColumn guibg=NONE
+]])

@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+theme-set $(themes-list | wofi --show dmenu --prompt "Select theme")

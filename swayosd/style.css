@@ -9,7 +9,7 @@ window {
 }
 
 label {
-  font-family: TX-02;
+  font-family: Maple Mono;
   font-size: 11pt;
 
   color: @label;

@@ -33,6 +33,12 @@ if type -q fzf
     fzf --fish | source
 end
 
+if type -q exa
+	alias ls='exa'
+	alias ll='exa -la'
+	alias la='exa -a'
+end
+
 function gwip
     set branch (git symbolic-ref --short HEAD)
     set timestamp (date "+%Y-%m-%d %H:%M:%S")

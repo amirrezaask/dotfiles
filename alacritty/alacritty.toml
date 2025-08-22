@@ -4,9 +4,9 @@ general.import = [ "~/.config/themes/current/alacritty.toml" ]
 TERM = "xterm-256color"
 
 [font]
-normal = { family = "TX-02" }
-bold =   { family = "TX-02" }
-italic = { family = "TX-02" }
+normal = { family = "Maple Mono" }
+bold =   { family = "Maple Mono" }
+italic = { family = "Maple Mono" }
 size = 9
 
 [window]
