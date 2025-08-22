@@ -1,5 +1,5 @@
 return {
-	"",
+	"folke/tokyonight.nvim",
 	config = function()
 		-- Azure Glow Colorscheme
 		local colors = {
