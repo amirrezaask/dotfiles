@@ -25,6 +25,13 @@
   { "key": "ctrl+l ctrl+r",         "command": "editor.action.goToReferences",       "when": "editorHasReferenceProvider && editorTextFocus" },
   { "key": "ctrl+l ctrl+i",         "command": "editor.action.goToImplementation",   "when": "editorHasImplementationProvider && editorTextFocus" },
   { "key": "ctrl+l ctrl+n",         "command": "editor.action.rename",               "when": "editorHasRenameProvider && editorTextFocus && !editorReadonly" },
-  { "key": "ctrl+,",                "command": "workbench.action.navigateBack",      },
+  {
+    "key": "ctrl+,",
+    "command": "workbench.action.navigateBack",
+  },
+  {
+    "key": "ctrl+e",
+    "command": "composerMode.background"
+  },
 
 ]

@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 if [[ -z "$1" && "$1" != "CNCLD" ]]; then
   echo "Usage: theme-set <theme-name>" >&2
   exit 1
@@ -29,7 +31,7 @@ restart-app waybar
 
 restart-swaybg
 
-unlink ~/.config/nvim/lua/theme-manager.lua; ln -s $THEMES_DIR/current/neovim.lua ~/.config/nvim/lua/plugins/theme.lua
+unlink ~/.config/nvim/lua/plugins/theme.lua; ln -s $THEMES_DIR/current/neovim.lua ~/.config/nvim/lua/plugins/theme.lua
 
 unlink $HOME/.config/btop/themes/current; ln -nsf $THEMES_DIR/current/btop.theme $HOME/.config/btop/themes/current.theme
 

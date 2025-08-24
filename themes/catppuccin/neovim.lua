@@ -3,6 +3,6 @@ return {
 	name = "catppuccin",
 	config = function()
 		require("catppuccin").setup({ transparent = true })
-		vim.cmd.colorscheme("catppuccin-macchiato")
+		vim.cmd.colorscheme("catppuccin-mocha")
 	end,
 }
