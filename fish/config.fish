@@ -63,8 +63,6 @@ function feat
 end
 
 
-set -g theme_name "cyberdream"
-
 if type -q starship
 	eval (starship init fish)
 end
