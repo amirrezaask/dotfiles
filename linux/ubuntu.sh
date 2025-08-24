@@ -23,6 +23,7 @@ sudo apt install -y \
 	wofi \
 	swayosd \
 	polkit-gnome \
+	chromium \
 	golang-go
 
 # Install hyprshot for screenshots
@@ -36,7 +37,4 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 # manage bluetooth
 cargo install bluetui
 
-# Install Google-Chrome
-wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -O /tmp/google-chrome-stable_current_amd64.deb
-sudo apt install -y /tmp/google-chrome-stable_current_amd64.deb
 

@@ -26,6 +26,8 @@ return {
 			vim.lsp.buf.implementation = Snacks.picker.lsp_implementations
 			vim.lsp.buf.document_symbol = Snacks.picker.lsp_symbols
 			vim.lsp.buf.workspace_symbol = Snacks.picker.lsp_workspace_symbols
+
+			vim.cmd([[ hi! link WarningMsg SnacksPickerPathIgnored ]])
 		end,
 	},
 }
