@@ -13,6 +13,7 @@ sudo apt install -y \
 	hyprland \
 	hyprlock \
 	hypridle \
+	pulsemixer \
 	mako-notifier \
 	fish \
     alacritty \
