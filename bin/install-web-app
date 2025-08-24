@@ -2,8 +2,15 @@
 
 APP_NAME=$1
 APP_URL=$2
+INPUT_ICON_FILE=$3
+
 
 DESKTOP_FILE="$HOME/.local/share/applications/$APP_NAME.desktop"
+ICON_FILE="$HOME/.local/share/applications/icons/$APP_NAME.svg"
+
+mkdir -p "$HOME/.local/share/applications/icons"
+
+cp "$INPUT_ICON_FILE" "$ICON_FILE"
 
 cat >"$DESKTOP_FILE" <<EOF
 [Desktop Entry]
@@ -14,6 +21,7 @@ Exec=google-chrome --new-window --ozone-platform=wayland --app="$APP_URL" --name
 Terminal=false
 Type=Application
 StartupNotify=true
+Icon=$ICON_FILE
 EOF
 
 
