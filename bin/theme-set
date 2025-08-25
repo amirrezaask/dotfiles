@@ -19,10 +19,6 @@ CURRENT_BACKGROUND="$HOME/.config/current-background"
 unlink $THEMES_DIR/current
 ln -nsf $THEME_PATH $CURRENT_THEME_DIR
 
-NEW_BACKGROUND_PATH=$THEMES_DIR/current/backgrounds/$(ls $THEMES_DIR/current/backgrounds/ | head -n 1)
-echo $NEW_BACKGROUND_PATH
-ln -nsf $NEW_BACKGROUND_PATH $CURRENT_BACKGROUND
-
 notify-send "Theme changed to $THEME_NAME" -t 2000
 
 touch "$HOME/.config/alacritty/alacritty.toml"
@@ -44,3 +40,5 @@ hyprctl reload
 restart-app waybar
 
 restart-swaybg
+
+theme-bg-next
