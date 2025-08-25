@@ -7,7 +7,6 @@ sudo apt update && sudo apt upgrade -y
 sudo apt install -y \
 	git \
     curl \
-	kitty \
     wget \
 	btop \
 	hyprland \
