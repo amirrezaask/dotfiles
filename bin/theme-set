@@ -37,6 +37,4 @@ unlink $HOME/.config/btop/themes/current; ln -nsf $THEMES_DIR/current/btop.theme
 
 gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
 
-touch ~/.config/alacritty/alacritty.toml
-
-kitty @ load-config
+touch -h "$HOME/.config/alacritty/alacritty.toml"
