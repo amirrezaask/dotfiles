@@ -4,7 +4,7 @@ set -e
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 XDG_CONFIG="$HOME/.config"
 
-rm -rf  "$XDG_CONFIG/nvim" \
+rm -rf "$XDG_CONFIG/nvim" \
 	"$XDG_CONFIG/ghostty" \
 	"$XDG_CONFIG/fish" \
 	"$XDG_CONFIG/sway" \
@@ -15,6 +15,7 @@ rm -rf  "$XDG_CONFIG/nvim" \
 	"$XDG_CONFIG/alacritty" \
 	"$XDG_CONFIG/btop" \
 	"$XDG_CONFIG/kitty" \
+	"$XDG_CONFIG/starship.toml" \
 	"$XDG_CONFIG/Code/User/settings.json" \
 	"$XDG_CONFIG/Code/User/keybindings.json" \
 	"$HOME/.gitconfig"
@@ -33,6 +34,7 @@ ln -s "$DOTFILES_DIR/alacritty" "$XDG_CONFIG/alacritty"
 ln -s "$DOTFILES_DIR/btop" "$XDG_CONFIG/btop"
 ln -s "$DOTFILES_DIR/kitty" "$XDG_CONFIG/kitty"
 ln -s "$DOTFILES_DIR/ghostty" "$XDG_CONFIG/ghostty"
+ln -s "$DOTFILES_DIR/starship.toml" "$XDG_CONFIG/starship.toml"
 ln -s "$DOTFILES_DIR/.gitconfig" "$HOME/.gitconfig"
 ln -s "$DOTFILES_DIR/code/settings.json" "$XDG_CONFIG/Code/User/settings.json"
 ln -s "$DOTFILES_DIR/code/keybindings.json" "$XDG_CONFIG/Code/User/keybindings.json"

@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+pidof elephant | pkill elephant
+
+elephant &2>/dev/null &
+disown
+
+pidof walker | pkill walker
+
+walker --gapplication-service &2>/dev/null &
+disown
