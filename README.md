@@ -37,5 +37,5 @@ git clone https://github.com/amirreza/dotfiles.git ~/.dotfiles
 
 ## Screenshots
 
-![screenshot](https://raw.githubusercontent.com/amirrezaask/dotfiles/refs/heads/master/screenshots/screenshot1.png)
+![screenshot](https://raw.githubusercontent.com/amirrezaask/dotfiles/refs/heads/master/.screenshots/screenshot1.png)
 
