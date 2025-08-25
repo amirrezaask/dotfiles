@@ -5,9 +5,17 @@ Scripts and overall configurations are heavily inspired by [Omarchy](https://git
 ## Installation
 ```bash
 git clone https://github.com/amirreza/dotfiles.git ~/.dotfiles
-./linux/ubuntu.sh # for ubuntu/mint
+# Run setup script for your distribution
+# Example for Ubuntu
+./base/ubuntu.sh
 ./bin/setup-links #  sets up configuration symlinks
 ```
+### Supported Distributions
+- [Ubuntu](https://ubuntu.com/)
+- [Mint](https://linuxmint.com/) TBA
+- [Arch](https://archlinux.org/) TBA
+- [Manjaro](https://manjaro.org/) TBA
+
 # Software
 
 ## Base
@@ -25,6 +33,7 @@ git clone https://github.com/amirreza/dotfiles.git ~/.dotfiles
 - Polkit-gnome
 - Mako-notifier
 - PulseMixer
+- Wofi
 
 ## User space 
 
