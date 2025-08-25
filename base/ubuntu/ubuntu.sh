@@ -36,4 +36,5 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 # manage bluetooth
 cargo install bluetui
 
-
+# To let brightness control work
+sudo usermod -a -G video $USER
