@@ -28,11 +28,9 @@ unlink $HOME/.config/nvim/lua/plugins/theme.lua; ln -s $THEMES_DIR/current/neovi
 unlink $HOME/.config/btop/themes/current.theme; ln -nsf $THEMES_DIR/current/btop.theme $HOME/.config/btop/themes/current.theme
 
 if [[ -f ~/.config/themes/current/light.mode ]]; then
-  gsettings set org.gnome.desktop.interface color-scheme "prefer-light"
-  gsettings set org.gnome.desktop.interface gtk-theme "Adwaita"
+	light-mode
 else
-  gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"
-  gsettings set org.gnome.desktop.interface gtk-theme "Adwaita-dark"
+	dark-mode
 fi
 
 hyprctl reload
