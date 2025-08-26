@@ -3,7 +3,6 @@
   "editor.fontSize": 14,
   "workbench.editor.editorActionsLocation": "hidden",
   "editor.wordWrap": "on",
-  "editor.cursorStyle": "block",
   "editor.minimap.enabled": false,
   "window.menuBarVisibility": "toggle",
   "diffEditor.renderSideBySide": false,
@@ -28,10 +27,9 @@
   "extensions.ignoreRecommendations": true,
   "window.autoDetectColorScheme": true,
   "workbench.preferredLightColorTheme": "Visual Studio Light",
-  "gitProjectManager.baseProjectsFolders": [ "~/d", "~/p" ],
+  "gitProjectManager.baseProjectsFolders": [ "~/p" ],
   "gitProjectManager.openInNewWindow": true,
   "workbench.secondarySideBar.defaultVisibility": "hidden",
-  "workbench.iconTheme": "material-icon-theme",
   "git.blame.statusBarItem.enabled": true,
   "chat.instructionsFilesLocations": {
     ".github/instructions": true,
@@ -43,5 +41,4 @@
     "/tmp/postman-http-request-pre-request.instructions.md": true
   },
   "workbench.activityBar.location": "top",
-  "workbench.preferredDarkColorTheme": "Catppuccin Mocha"
 }
