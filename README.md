@@ -33,7 +33,7 @@ git clone https://github.com/amirreza/dotfiles.git ~/.dotfiles
 - Polkit-gnome
 - Mako-notifier
 - PulseMixer
-- Wofi
+- Walker + Elephant
 
 ## User space 
 

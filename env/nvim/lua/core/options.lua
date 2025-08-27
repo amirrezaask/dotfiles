@@ -1,4 +1,6 @@
 vim.g.mapleader = " "
+vim.o.undofile = true
+
 vim.o.signcolumn = "yes"
 vim.o.number = true
 vim.o.relativenumber = true

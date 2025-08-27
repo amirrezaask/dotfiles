@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+BIN_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+sudo cp -r "$BIN_DIR"/* "/usr/local/bin/"

@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+theme-set "$(themes-list | walker --dmenu -p "Select theme")"

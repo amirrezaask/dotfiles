@@ -4,18 +4,13 @@
   "position": "top",
   "spacing": 0,
   "height": 26,
-  "modules-left": [
-	"hyprland/workspaces"
-  ],
-  "modules-center": [
-    "clock",
-	"cpu",
-  ],
+  "modules-left": ["hyprland/workspaces"],
+  "modules-center": ["clock"],
   "modules-right": [
-    "tray",
     "bluetooth",
     "network",
     "pulseaudio",
+    "cpu",
     "battery"
   ],
   "hyprland/workspaces": {
@@ -23,15 +18,15 @@
     "format": "{icon}",
     "format-icons": {
       "default": "",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5",
-      "6": "6",
-      "7": "7",
-      "8": "8",
-      "9": "9",
+      // "1": "1",
+      // "2": "2",
+      // "3": "3",
+      // "4": "4",
+      // "5": "5",
+      // "6": "6",
+      // "7": "7",
+      // "8": "8",
+      // "9": "9",
       "active": "󱓻"
     },
     "persistent-workspaces": {
@@ -42,23 +37,24 @@
       "5": []
     }
   },
+
   "cpu": {
     "interval": 5,
     "format": "󰍛",
     "on-click": "alacritty -e btop"
   },
   "clock": {
-    "format": "{:%H:%M}",
-	"tooltip-format": "{:%A %d %B %Y}",
-	"on-click": "xdg-open https://time.ir",
-    "tooltip": true,
+    "format": "{:%A %H:%M}",
+    "format-alt": "{:%d %B W%V %Y}",
+    "tooltip": false,
+    "on-click-right": "xdg-open https://time.ir"
   },
   "network": {
-    "format-icons": ["󰤯","󰤟","󰤢","󰤥","󰤨"],
-    "format" : "{icon}",
-    "format-wifi" : "{icon}",
-    "format-ethernet" : "󰀂",
-    "format-disconnected" : "󰖪",
+    "format-icons": ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"],
+    "format": "{icon}",
+    "format-wifi": "{icon}",
+    "format-ethernet": "󰀂",
+    "format-disconnected": "󰖪",
     "tooltip-format-wifi": "{essid} ({frequency} GHz)\n⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}",
     "tooltip-format-ethernet": "⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}",
     "tooltip-format-disconnected": "Disconnected",
@@ -68,15 +64,11 @@
   "battery": {
     "format": "{capacity}% {icon}",
     "format-discharging": "{icon}",
-    "format-charging":    "{icon}",
-    "format-plugged":     "",
+    "format-charging": "{icon}",
+    "format-plugged": "",
     "format-icons": {
-      "charging": [
-        "󰢜", "󰂆", "󰂇", "󰂈", "󰢝", "󰂉", "󰢞", "󰂊", "󰂋", "󰂅"
-      ],
-      "default": [
-        "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"
-      ]
+      "charging": ["󰢜", "󰂆", "󰂇", "󰂈", "󰢝", "󰂉", "󰢞", "󰂊", "󰂋", "󰂅"],
+      "default": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
     },
     "format-full": "󰂅",
     "tooltip-format-discharging": "{power:>1.0f}W↓ {capacity}%",
@@ -96,14 +88,26 @@
   },
   "pulseaudio": {
     "format": "{icon}",
-    "on-click": "alacritty --class=Wiremix -e pulsemixer",
-    "on-click-right": "pavucontrol",
+    "on-click": "alacritty --class=Wiremix -e wiremix",
+    "on-click-right": "pamixer -t",
     "tooltip-format": "Playing at {volume}%",
     "scroll-step": 5,
     "format-muted": "󰝟",
     "format-icons": {
       "default": ["", "", ""]
     }
+  },
+  "group/tray-expander": {
+    "orientation": "inherit",
+    "drawer": {
+      "transition-duration": 600,
+      "children-class": "tray-group-item"
+    },
+    "modules": ["custom/expand-icon", "tray"]
+  },
+  "custom/expand-icon": {
+    "format": " ",
+    "tooltip": false
   },
   "tray": {
     "icon-size": 12,

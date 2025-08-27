@@ -5,6 +5,7 @@ return {
 	},
 	dependencies = {
 		{ "mason-org/mason.nvim", opts = {} },
+		{ "folke/trouble.nvim", opts = {} },
 		{
 			"neovim/nvim-lspconfig",
 			config = function()
@@ -19,6 +20,7 @@ return {
 						-- end
 						vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = args.buf })
 						vim.keymap.set("n", "L", vim.diagnostic.open_float, { buffer = args.buf })
+						vim.keymap.set("n", "<leader>E", ":Trouble diagnostics<CR>", { buffer = args.buf })
 					end,
 				})
 				vim.lsp.config(
