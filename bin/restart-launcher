@@ -2,10 +2,10 @@
 
 pidof elephant | pkill elephant
 
-elephant &2>/dev/null &
+elephant >/dev/null &2>/dev/null &
 disown
 
 pidof walker | pkill walker
 
-walker --gapplication-service &2>/dev/null &
+walker --gapplication-service >/dev/null &2>/dev/null &
 disown

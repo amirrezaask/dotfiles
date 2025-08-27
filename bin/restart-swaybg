@@ -3,5 +3,5 @@
 CURRENT_BACKGROUND="$HOME/.config/current-background"
 
 killall swaybg
-swaybg -i $CURRENT_BACKGROUND &2>/dev/null &
+swaybg -i $CURRENT_BACKGROUND >/dev/null &2>/dev/null &
 disown
