@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
 BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+DOTFILES_DIR="$BASE_DIR/.."
+
 echo "Base directory: $BASE_DIR"
 
 # Detect the Linux distribution
@@ -33,3 +35,7 @@ if !command -v starship &> /dev/null; then
 	curl -sS https://starship.rs/install.sh | sh
 fi
 
+
+ln -nsf "$DOTFILES_DIR/themes" "$HOME/.config/themes"
+
+"$DOTFILES_DIR/bin/theme-set" "Tokyo Night"
