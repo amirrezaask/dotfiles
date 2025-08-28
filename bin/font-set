@@ -15,7 +15,6 @@ if [[ -n "$font_name" && "$font_name" != "CNCLD" ]]; then
 
     restart-app waybar
     restart-app swayosd-server
-	kitty @ load-config
   else
     echo "Font '$font_name' not found."
     exit 1

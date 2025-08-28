@@ -6,9 +6,9 @@ general.live_config_reload = true
 TERM = "xterm-256color"
 
 [font]
-normal = { family = "CaskaydiaCove Nerd Font Mono" }
-bold   = { family = "CaskaydiaCove Nerd Font Mono" }
-italic = { family = "CaskaydiaCove Nerd Font Mono" }
+normal = { family = "CaskaydiaCove Nerd Font" }
+bold   = { family = "CaskaydiaCove Nerd Font" }
+italic = { family = "CaskaydiaCove Nerd Font" }
 size   = 12
 
 [window]

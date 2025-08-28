@@ -18,6 +18,7 @@ CURRENT_BACKGROUND="$HOME/.config/current-background"
 
 unlink $THEMES_DIR/current
 ln -nsf $THEME_PATH $CURRENT_THEME_DIR
+echo "Inja"
 
 notify-send "Theme changed to $THEME_NAME" -t 2000
 
@@ -27,11 +28,15 @@ unlink $HOME/.config/nvim/lua/plugins/theme.lua; ln -s $THEMES_DIR/current/neovi
 
 unlink $HOME/.config/btop/themes/current.theme; ln -nsf $THEMES_DIR/current/btop.theme $HOME/.config/btop/themes/current.theme
 
+echo "Links setup done"
+
 if [[ -f ~/.config/themes/current/light.mode ]]; then
 	light-mode
 else
 	dark-mode
 fi
+
+echo "Colorscheme setup done"
 
 hyprctl reload
 
