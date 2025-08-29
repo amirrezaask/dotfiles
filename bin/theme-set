@@ -45,3 +45,5 @@ restart-app waybar
 restart-swaybg
 
 theme-bg-next
+
+kitty @ load-config

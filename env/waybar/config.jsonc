@@ -4,15 +4,25 @@
   "position": "top",
   "spacing": 0,
   "height": 26,
-  "modules-left": ["hyprland/workspaces"],
+  "modules-left": ["custom/launcher", "hyprland/workspaces"],
   "modules-center": ["clock"],
   "modules-right": [
     "bluetooth",
     "network",
     "pulseaudio",
     "cpu",
-    "battery"
+    "battery",
+	"custom/wlogout"
   ],
+  "custom/launcher": {
+	"format": " 🞇 ",
+	"on-click": "wofi --show drun"
+  },
+  "custom/wlogout": {
+	"format":  "  ", // Power icon (requires a Nerd Font or Font Awesome)
+	"on-click": "wlogout",
+	"tooltip": false
+  },
   "hyprland/workspaces": {
     "on-click": "activate",
     "format": "{icon}",

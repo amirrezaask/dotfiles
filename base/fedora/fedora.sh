@@ -3,9 +3,10 @@
 set -e
 
 # sudo dnf update
-sudo dnf copr enable solopasha/hyprland 
+sudo dnf copr -y enable solopasha/hyprland 
+sudo dnf copr -y enable markupstart/SwayOSD
 # Install base packages
-sudo dnf install \
+sudo dnf -y install \
 	git \
 	curl \
 	wget \
@@ -21,7 +22,13 @@ sudo dnf install \
 	wl-clipboard \
 	wofi \
 	chromium \
-	golang-go
+	golang-go \
+	dbus-devel  \
+	pavucontrol \
+	pkgconf-pkg-config \
+	swayosd \
+	wlogout
+
 
 # Install hyprshot for screenshots
 sudo curl https://raw.githubusercontent.com/Gustash/Hyprshot/refs/heads/main/hyprshot > ~/hyprshot
