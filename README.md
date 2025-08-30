@@ -12,9 +12,7 @@ git clone https://github.com/amirreza/dotfiles.git ~/.dotfiles
 ```
 ### Supported Distributions
 - [Ubuntu](https://ubuntu.com/)
-- [Mint](https://linuxmint.com/) TBA
-- [Arch](https://archlinux.org/) TBA
-- [Manjaro](https://manjaro.org/) TBA
+- [Fedora] (https://fedoraproject.org/)
 
 # Software
 
