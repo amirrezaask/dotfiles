@@ -18,7 +18,6 @@ CURRENT_BACKGROUND="$HOME/.config/current-background"
 
 unlink $THEMES_DIR/current
 ln -nsf $THEME_PATH $CURRENT_THEME_DIR
-echo "Inja"
 
 notify-send "Theme changed to $THEME_NAME" -t 2000
 
@@ -35,6 +34,16 @@ if [[ -f ~/.config/themes/current/light.mode ]]; then
 else
 	dark-mode
 fi
+
+
+if [[ -f ~/.config/themes/current/vscode.theme ]]; then
+  . ~/.config/themes/current/vscode.theme
+  if [[ -n "$vscode_theme_ext" ]]; then
+    code --install-extension "$vscode_theme_ext"
+  fi
+  sed -i "s/\"workbench.colorTheme\": \".*\"/\"workbench.colorTheme\": \"$vscode_theme_name\"/g" ~/.config/Code/User/settings.json
+fi
+
 
 echo "Colorscheme setup done"
 

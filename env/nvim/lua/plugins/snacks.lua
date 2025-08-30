@@ -19,7 +19,7 @@ return {
 			vim.keymap.set("n", "<leader>j", Snacks.picker.grep)
 			vim.keymap.set({ "n", "v" }, "<leader>k", Snacks.picker.grep_word)
 			vim.keymap.set("n", "<leader>O", Snacks.picker.lsp_workspace_symbols)
-			vim.keymap.set({ "n", "t" }, "<C-j>", Snacks.terminal.toggle)
+			vim.keymap.set({ "n", "t" }, "<C-S-j>", Snacks.terminal.toggle)
 
 			vim.lsp.buf.references = Snacks.picker.lsp_references
 			vim.lsp.buf.definition = Snacks.picker.lsp_definitions

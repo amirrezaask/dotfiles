@@ -1,5 +1,5 @@
 {
-  "editor.fontFamily": "Fira Code",
+  "editor.fontFamily": "Maple Mono",
   "editor.fontSize": 14,
   "workbench.editor.editorActionsLocation": "hidden",
   "editor.wordWrap": "on",
@@ -66,6 +66,27 @@
     { "before": ["j"], "after": ["g", "j"]},
     { "before": ["k"], "after": ["g", "k"]}
   ],
-  "vim.insertModeKeyBindings": [ { "before": ["j", "k"], "after": [ "<esc>" ], }, { "before": ["k", "j"], "after": [ "<esc>" ], }, ],
+  "vim.insertModeKeyBindings": [
+    {
+      "before": [
+        "j",
+        "k"
+      ],
+      "after": [
+        "<esc>"
+      ],
+    },
+    {
+      "before": [
+        "k",
+        "j"
+      ],
+      "after": [
+        "<esc>"
+      ],
+    },
+  ],
+  "workbench.preferredDarkColorTheme": "Visual Studio Light",
+  "workbench.statusBar.visible": false,
 
 }
