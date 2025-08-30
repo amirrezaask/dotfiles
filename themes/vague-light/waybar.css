@@ -1,0 +1,7 @@
+/* Vague Light theme for Waybar
+ * Based on https://github.com/vague2k/vague.nvim
+ * License: MIT
+ */
+
+@define-color foreground #2e2e30;
+@define-color background #f8f8f9;
