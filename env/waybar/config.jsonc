@@ -7,6 +7,7 @@
   "modules-left": ["custom/launcher", "hyprland/workspaces"],
   "modules-center": ["clock"],
   "modules-right": [
+    "hyprland/language",
     "bluetooth",
     "network",
     "pulseaudio",
@@ -95,6 +96,11 @@
     "format-connected": "",
     "tooltip-format": "Devices connected: {num_connections}",
     "on-click": "alacritty -e bluetui"
+  },
+  "hyprland/language": {
+    "format": " {short} ",
+    "tooltip": true,
+    "on-click": "hyprctl switchxkblayout at-translated-set-2-keyboard next"
   },
   "pulseaudio": {
     "format": "{icon}",
