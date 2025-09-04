@@ -7,6 +7,7 @@
   "modules-left": ["custom/launcher", "hyprland/workspaces"],
   "modules-center": ["clock"],
   "modules-right": [
+	"custom/toggle-color-mode",
     "hyprland/language",
     "bluetooth",
     "network",
@@ -23,6 +24,10 @@
 	"format":  "  ", // Power icon (requires a Nerd Font or Font Awesome)
 	"on-click": "wlogout",
 	"tooltip": false
+  },
+  "custom/toggle-color-mode": {
+	"format": " ☼ ",
+	"on-click": "toggle-color-mode"
   },
   "hyprland/workspaces": {
     "on-click": "activate",
