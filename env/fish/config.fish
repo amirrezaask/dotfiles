@@ -24,6 +24,7 @@ if type -q nvim
   alias vim='nvim'
   alias vi='nvim'
   alias v='nvim'
+  alias n='nvim'
   export EDITOR='nvim'
   export GIT_EDITOR="$EDITOR"
   export MANPAGER='nvim +Man!'

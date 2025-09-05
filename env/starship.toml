@@ -6,15 +6,14 @@ format = "[$directory$git_branch$git_status]($style)$character"
 error_symbol = "✗"
 success_symbol = "❯"
 
-#
-# [directory]
-# truncation_length = 2
-# truncation_symbol = "…/"
-# repo_root_format = "$repo_root[$path]($style)[$read_only]($read_only_style) "
-#
+[directory]
+truncation_length = 2
+truncation_symbol = "…/"
+repo_root_format = "$repo_root[$path]($style)[$read_only]($read_only_style) "
+
 [git_branch]
 format = "$branch "
-#
+
 [git_status]
 format     = '$all_status'
 ahead      = "⇡${count} "
