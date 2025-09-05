@@ -27,7 +27,8 @@ sudo dnf -y install \
 	pavucontrol \
 	pkgconf-pkg-config \
 	swayosd \
-	wlogout
+	wlogout \
+	fzf
 
 
 # Install hyprshot for screenshots

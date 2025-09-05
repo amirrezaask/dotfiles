@@ -1,0 +1,87 @@
+#!/usr/bin/env bash
+
+if [ -f /etc/bashrc ]; then
+    . /etc/bashrc
+fi
+
+if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:" ]]; then
+    PATH="$HOME/p/dotfiles/bin:$HOME/.local/bin:$HOME/bin:$PATH"
+fi
+
+if [ -f $HOME/.cargo/env ]; then
+	. $HOME/.cargo/env
+fi
+
+if [ -d ~/.bashrc.d ]; then
+    for rc in ~/.bashrc.d/*; do
+        if [ -f "$rc" ]; then
+            . "$rc"
+        fi
+    done
+fi
+
+alias gs='git status'
+alias gd='git diff'
+alias ga='git add'
+alias gc='git commit'
+alias gp='git push origin $vcs_info_msg_0_'
+alias gl='git pull $vcs_info_msg_0_'
+alias gll='git pull --all'
+alias glg='git pull --rebase'
+alias o='xdg-open'
+
+export PATH
+export PATH="$HOME/go/bin:$PATH"
+export PATH="/opt/homebrew/bin:$PATH"
+export PATH="/home/amirreza/.local/bin:$PATH"
+export PATH="/home/amirreza/p/dotfiles/bin:$PATH"
+
+export GOPROXY=goproxy.io
+export GOPRIVATE=gitlab.snappcloud.io
+
+reload() {
+  source ~/.config/fish/config.fish 
+}
+
+if command -v nvim >/dev/null 2>&1; then
+    alias vim='nvim'
+    alias vi='nvim'
+    alias v='nvim'
+    alias n='nvim'
+    export EDITOR='nvim'
+    export GIT_EDITOR="$EDITOR"
+    export MANPAGER='nvim +Man!'
+fi
+
+if command -v fzf >/dev/null 2>&1; then
+    source <(fzf --bash)
+fi
+
+if command -v exa >/dev/null 2>&1; then
+    alias ls='exa'
+    alias ll='exa -la'
+    alias la='exa -a'
+fi
+
+gwip() {
+    branch = `git symbolic-ref --short HEAD`
+    timestamp = `date "+%Y-%m-%d %H:%M:%S"`
+    git add .
+    git commit -m "Automated WIP Commit: $timestamp"
+    git push origin $branch
+}
+
+ref() {
+	git checkout -b "ref-$argv[1]"
+}
+fix() {
+	git checkout -b "fix-$argv[1]"
+}
+
+feat() {
+	git checkout -b "feat-$argv[1]"
+}
+
+
+
+eval "$(starship init bash)"
