@@ -18,6 +18,7 @@ rm -rf "$XDG_CONFIG/nvim" \
 	"$XDG_CONFIG/starship.toml" \
 	"$XDG_CONFIG/Code/User/settings.json" \
 	"$XDG_CONFIG/Code/User/keybindings.json" \
+	"$XDG_CONFIG/bash" \
 	"$HOME/.gitconfig" \
 	"$HOME/.bashrc" 
 
@@ -39,4 +40,5 @@ ln -s "$DOTFILES_DIR/starship.toml" "$XDG_CONFIG/starship.toml"
 ln -s "$DOTFILES_DIR/.gitconfig" "$HOME/.gitconfig"
 ln -s "$DOTFILES_DIR/code/settings.json" "$XDG_CONFIG/Code/User/settings.json"
 ln -s "$DOTFILES_DIR/code/keybindings.json" "$XDG_CONFIG/Code/User/keybindings.json"
+ln -s "$DOTFILES_DIR/bash" "$XDG_CONFIG/bash"
 ln -s "$DOTFILES_DIR/bash/rc" "$HOME/.bashrc"
