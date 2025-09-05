@@ -5,6 +5,8 @@ set -e
 # sudo dnf update
 sudo dnf copr -y enable solopasha/hyprland 
 sudo dnf copr -y enable markupstart/SwayOSD
+sudo dnf copr -y enable dejan/lazygit
+
 # Install base packages
 sudo dnf -y install \
 	git \
@@ -28,6 +30,7 @@ sudo dnf -y install \
 	pkgconf-pkg-config \
 	swayosd \
 	wlogout \
+	lazygit \
 	fzf
 
 
@@ -43,6 +46,9 @@ sudo chmod +x /usr/bin/hyprshot
 
 # manage bluetooth
 cargo install bluetui
+
+# better ls
+cargo install exa
 
 # To let brightness control work
 sudo usermod -a -G video $USER

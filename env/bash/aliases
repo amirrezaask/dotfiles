@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 alias o='xdg-open'
+alias lg='lazygit'
 
 if command -v nvim >/dev/null 2>&1; then
     alias vim='nvim'
