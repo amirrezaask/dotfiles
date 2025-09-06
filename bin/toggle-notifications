@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+makoctl mode -t do-not-disturb && makoctl mode | grep -q 'do-not-disturb' && notify-send "Do Not Disturb Enabled" || notify-send "Do Not Disturb Disabled"
+

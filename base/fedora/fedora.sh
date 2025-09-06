@@ -29,7 +29,6 @@ sudo dnf -y install \
 	pavucontrol \
 	pkgconf-pkg-config \
 	swayosd \
-	wlogout \
 	lazygit \
 	fzf
 

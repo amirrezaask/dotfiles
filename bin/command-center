@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+menu() {
+	local prompt="$1"
+	local options="$2"
+	printf "${options}" | wofi --show dmenu -p "$prompt"
+}
+
+case "$(menu 'Select Action:' '🖥️Apps \nSystem \n◐ Toggle Light/Dark Mode \n🌑Dark Mode \n☀ Light Mode \n🎨 Themes \n🔤 Fonts\n')" in
+	*Apps*)
+		launcher
+		;;
+	*System*)
+		session-control
+		;;
+	*"Toggle Light/Dark Mode"*)
+		toggle-color-mode
+		;;
+	*"Dark Mode"*)
+		dark-mode
+		;;
+	*"Light Mode"*)
+		light-mode
+		;;
+	*Themes*)
+		select-theme
+		;;
+	*Fonts*)
+		select-font
+		;;
+	*)
+		echo "Invalid action"
+		exit 1
+		;;
+esac
+
+

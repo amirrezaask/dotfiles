@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+env_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 XDG_CONFIG="$HOME/.config"
 
 rm -rf "$XDG_CONFIG/nvim" \
@@ -25,20 +25,24 @@ rm -rf "$XDG_CONFIG/nvim" \
 mkdir -p "$XDG_CONFIG"
 mkdir -p "$XDG_CONFIG/Code/User"
 
-ln -s "$DOTFILES_DIR/nvim" "$XDG_CONFIG/nvim"
-ln -s "$DOTFILES_DIR/fish" "$XDG_CONFIG/fish"
-ln -s "$DOTFILES_DIR/sway" "$XDG_CONFIG/sway"
-ln -s "$DOTFILES_DIR/hypr" "$XDG_CONFIG/hypr"
-ln -s "$DOTFILES_DIR/waybar" "$XDG_CONFIG/waybar"
-ln -s "$DOTFILES_DIR/swayosd" "$XDG_CONFIG/swayosd"
-ln -s "$DOTFILES_DIR/wofi" "$XDG_CONFIG/wofi"
-ln -s "$DOTFILES_DIR/alacritty" "$XDG_CONFIG/alacritty"
-ln -s "$DOTFILES_DIR/btop" "$XDG_CONFIG/btop"
-ln -s "$DOTFILES_DIR/kitty" "$XDG_CONFIG/kitty"
-ln -s "$DOTFILES_DIR/ghostty" "$XDG_CONFIG/ghostty"
-ln -s "$DOTFILES_DIR/starship.toml" "$XDG_CONFIG/starship.toml"
-ln -s "$DOTFILES_DIR/.gitconfig" "$HOME/.gitconfig"
-ln -s "$DOTFILES_DIR/code/settings.json" "$XDG_CONFIG/Code/User/settings.json"
-ln -s "$DOTFILES_DIR/code/keybindings.json" "$XDG_CONFIG/Code/User/keybindings.json"
-ln -s "$DOTFILES_DIR/bash" "$XDG_CONFIG/bash"
-ln -s "$DOTFILES_DIR/bash/rc" "$HOME/.bashrc"
+ln -s "$env_DIR/nvim" "$XDG_CONFIG/nvim"
+ln -s "$env_DIR/fish" "$XDG_CONFIG/fish"
+ln -s "$env_DIR/sway" "$XDG_CONFIG/sway"
+ln -s "$env_DIR/hypr" "$XDG_CONFIG/hypr"
+ln -s "$env_DIR/waybar" "$XDG_CONFIG/waybar"
+ln -s "$env_DIR/swayosd" "$XDG_CONFIG/swayosd"
+ln -s "$env_DIR/wofi" "$XDG_CONFIG/wofi"
+ln -s "$env_DIR/alacritty" "$XDG_CONFIG/alacritty"
+ln -s "$env_DIR/btop" "$XDG_CONFIG/btop"
+ln -s "$env_DIR/kitty" "$XDG_CONFIG/kitty"
+ln -s "$env_DIR/ghostty" "$XDG_CONFIG/ghostty"
+ln -s "$env_DIR/starship.toml" "$XDG_CONFIG/starship.toml"
+ln -s "$env_DIR/.gitconfig" "$HOME/.gitconfig"
+ln -s "$env_DIR/code/settings.json" "$XDG_CONFIG/Code/User/settings.json"
+ln -s "$env_DIR/code/keybindings.json" "$XDG_CONFIG/Code/User/keybindings.json"
+ln -s "$env_DIR/bash" "$XDG_CONFIG/bash"
+ln -s "$env_DIR/bash/rc" "$HOME/.bashrc"
+
+
+cd $env_DIR/.. && chmod +x ./bin/*
+cd $env_DIR/.. && sudo cp --remove-destination ./bin/* /usr/bin/

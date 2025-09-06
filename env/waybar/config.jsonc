@@ -14,15 +14,15 @@
     "pulseaudio",
     "cpu",
     "battery",
-	"custom/wlogout"
+	"custom/session-control"
   ],
   "custom/launcher": {
 	"format": " 🞇 ",
-	"on-click": "wofi --show drun"
+	"on-click": "command-center"
   },
-  "custom/wlogout": {
+  "custom/session-control": {
 	"format":  "  ", // Power icon (requires a Nerd Font or Font Awesome)
-	"on-click": "wlogout",
+	"on-click": "session-control",
 	"tooltip": false
   },
   "custom/toggle-color-mode": {
