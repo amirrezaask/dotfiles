@@ -4,6 +4,8 @@
     background-color: #0a0f1a;
     border: 2px solid #00ccff; /* cursor color for border */
     border-radius: 8px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 21px;
 }
 
 #input {
@@ -35,6 +37,7 @@
 
 #text {
     color: #cceeff; /* color7 */
+	padding-left: 10px;
 }
 
 #text:selected {

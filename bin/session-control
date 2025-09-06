@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+action="$1"
+
+if [[ ! -n "$action" ]]; then
+	action=`printf "Lock\nShutdown\nReboot\nLogout" | wofi --show dmenu -p "Select Action: "`
+fi
+
+echo "Performing action: $action"
+
+case $action in
+	"Lock")
+		hyprlock
+		;;
+	"Shutdown")
+		systemctl poweroff
+		;;
+	"Reboot")
+		systemctl reboot
+		;;
+	"Logout")
+		hyprctl dispatch exit
+		;;
+esac

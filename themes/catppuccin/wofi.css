@@ -3,7 +3,7 @@
     background-color: #1e1e2e;
     border-radius: 8px;
     font-family: "JetBrains Mono", monospace;
-    font-size: 14px;
+    font-size: 21px;
 }
 
 #input {
@@ -33,6 +33,7 @@
 
 #text {
     color: #cdd6f4;
+	padding-left: 10px;
 }
 
 #text:selected {
