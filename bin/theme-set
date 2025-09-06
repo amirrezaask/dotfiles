@@ -19,7 +19,6 @@ CURRENT_BACKGROUND="$HOME/.config/current-background"
 unlink $THEMES_DIR/current
 ln -nsf $THEME_PATH $CURRENT_THEME_DIR
 
-notify-send "Theme changed to $THEME_NAME" -t 2000
 
 touch "$HOME/.config/alacritty/alacritty.toml"
 
@@ -28,12 +27,6 @@ unlink $HOME/.config/nvim/lua/plugins/theme.lua; ln -s $THEMES_DIR/current/neovi
 unlink $HOME/.config/btop/themes/current.theme; ln -nsf $THEMES_DIR/current/btop.theme $HOME/.config/btop/themes/current.theme
 
 echo "Links setup done"
-
-if [[ -f ~/.config/themes/current/light.mode ]]; then
-	light-mode
-else
-	dark-mode
-fi
 
 
 if [[ -f ~/.config/themes/current/vscode.theme ]]; then
@@ -51,8 +44,18 @@ hyprctl reload
 
 restart-app waybar
 
-restart-swaybg
-
 theme-bg-next
 
-kitty @ load-config
+restart-app swaybg -i $CURRENT_BACKGROUND >/dev/null &2>/dev/null &
+
+if [[ -f ~/.config/themes/current/mako.ini ]]; then
+	restart-app mako -c $HOME/.config/themes/current/mako.ini
+fi
+
+if [[ -f ~/.config/themes/current/light.mode ]]; then
+	light-mode
+else
+	dark-mode
+fi
+
+notify-send "Theme changed to $THEME_NAME" -t 2000

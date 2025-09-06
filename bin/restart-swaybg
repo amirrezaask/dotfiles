@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-
-CURRENT_BACKGROUND="$HOME/.config/current-background"
-
-killall swaybg
-swaybg -i $CURRENT_BACKGROUND >/dev/null &2>/dev/null &
-disown
