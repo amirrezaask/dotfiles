@@ -6,6 +6,7 @@ set -e
 sudo dnf copr -y enable solopasha/hyprland 
 sudo dnf copr -y enable markupstart/SwayOSD
 sudo dnf copr -y enable dejan/lazygit
+sudo dnf copr -y enable scottames/ghostty
 
 # Install base packages
 sudo dnf -y install \
@@ -30,6 +31,7 @@ sudo dnf -y install \
 	pkgconf-pkg-config \
 	swayosd \
 	lazygit \
+	ghostty \
 	fzf
 
 
