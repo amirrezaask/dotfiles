@@ -6,8 +6,8 @@ reload() {
 
 
 gwip() {
-    branch = `git symbolic-ref --short HEAD`
-    timestamp = `date "+%Y-%m-%d %H:%M:%S"`
+    branch=`git symbolic-ref --short HEAD`
+    timestamp=`date "+%Y-%m-%d %H:%M:%S"`
     git add .
     git commit -m "Automated WIP Commit: $timestamp"
     git push origin $branch
