@@ -16,3 +16,12 @@ map('t', '<C-j>', '<C-\\><C-n><C-w>j', { noremap = true, silent = true })
 map('t', '<C-k>', '<C-\\><C-n><C-w>k', { noremap = true, silent = true })
 map('t', '<C-h>', '<C-\\><C-n><C-w>h', { noremap = true, silent = true })
 map('t', '<C-l>', '<C-\\><C-n><C-w>l', { noremap = true, silent = true })
+map("n", "<CR>", function()
+	---@diagnostic disable-next-line: undefined-field
+	if vim.v.hlsearch == 1 then
+		vim.cmd.nohl()
+		return ""
+	else
+		return vim.keycode "<CR>"
+	end
+end, { expr = true })

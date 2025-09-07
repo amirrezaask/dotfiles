@@ -32,6 +32,7 @@ sudo dnf -y install \
 	swayosd \
 	lazygit \
 	ghostty \
+	kitty \
 	fzf
 
 

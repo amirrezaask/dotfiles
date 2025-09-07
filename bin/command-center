@@ -7,18 +7,23 @@ menu() {
 show_style_menu() {
 	case "$(menu 'Style Menu:' '󰸌  Theme\n  Font\n◐  Toggle Light/Dark Mode \n🌑  Dark Mode \n☀  Light Mode')" in
 		*"Theme"*)
+			echo "Selecting theme"
 			select-theme
 			;;
 		*"Font"*)
+			echo "Selecting font"
 			show_font_menu
 			;;
 		*"Toggle"*)
-			toggle-light-dark-mode
+			echo "Selecting Toggle"
+			toggle-color-mode
 			;;
 		*Dark*)
+			echo "Selecting Dark Mode"
 			dark-mode
 			;;
 		*Light*)
+			echo "Selecting Light Mode"
 			light-mode
 			;;
 		*)
@@ -29,11 +34,11 @@ show_style_menu() {
 }
 
 show_font_menu() {
-	font-set "$(fonts-list | fuzzy_menu "Select font: ")"
+	font-set "$(fonts-list | wofi --show dmenu -p "Select font: ")"
 }
 
 show_theme_menu() {
-	theme-set "$(themes-list | fuzzy_menu "Select theme: ")"
+	theme-set "$(themes-list | wofi --show dmenu -p "Select theme: ")"
 }
 
 show_menu() {
