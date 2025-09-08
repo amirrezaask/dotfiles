@@ -46,4 +46,5 @@ git clone https://github.com/amirreza/dotfiles.git ~/.dotfiles
 
 ![Ubuntu](https://raw.githubusercontent.com/amirrezaask/dotfiles/refs/heads/master/.screenshots/screenshot1.png)
 ![Fedora](https://raw.githubusercontent.com/amirrezaask/dotfiles/refs/heads/master/.screenshots/screenshot-fedora.png)
+![Nord](https://raw.githubusercontent.com/amirrezaask/dotfiles/refs/heads/master/.screenshots/nord.png)
 
