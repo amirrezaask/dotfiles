@@ -58,4 +58,6 @@ else
 	dark-mode
 fi
 
+reload-kitty
+
 notify-send "Theme changed to $THEME_NAME" -t 2000

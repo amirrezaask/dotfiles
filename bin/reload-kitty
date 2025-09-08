@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+SOCKET_DIR="/tmp/kitty*"
+
+# Find all kitty windows (sockets) and reload config for each
+for socket in "$(ls /tmp/kitty*)"; do
+    if [[ -S "$socket" ]]; then
+        kitty @ --to unix:"$socket" load-config
+        echo "Reloaded config for $socket"
+    fi
+done
+
+echo "Reloaded kitty"
