@@ -39,14 +39,5 @@ cargo install bluetui
 # To let brightness control work
 sudo usermod -a -G video $USER
 
-# Clone Walker + Elephant
-git clone https://github.com:abenz1267/walker.git
-git clone https://github.com:abenz1267/elephant.git
 
-cd elephant
-go install ./cmd/
-cd ..
-cd walker
-cargo build --release
-sudo cp target/release/walker /usr/local/bin/
-cd ..
+go install github.com/savedra1/clipse@v1.1.0

@@ -7,7 +7,7 @@ if [[ -n "$font_name" && "$font_name" != "CNCLD" ]]; then
     sed -i "s/family = \".*\"/family = \"$font_name\"/g" ~/.config/alacritty/alacritty.toml
     sed -i "s/font-family: .*/font-family: $font_name;/g" ~/.config/waybar/style.css
     sed -i "s/font-family: .*/font-family: $font_name;/g" ~/.config/swayosd/style.css
-    sed -i "s/font-family: .*/font-family: $font_name;/g" ~/.config/wofi/style.css
+    sed -i "s/font-family: .*/font-family: $font_name;/g" ~/.config/themes/current/wofi.css
 	sed -i "s/font_family .*/font_family $font_name/g" ~/.config/kitty/kitty.conf
     sed -i 's/"editor.fontFamily":.*/"editor.fontFamily": "'"$font_name"'",/' ~/.config/Code/User/settings.json
     
