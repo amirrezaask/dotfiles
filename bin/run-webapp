@@ -2,4 +2,4 @@
 
 APP_URL=$1
 
-chromium --new-window --ozone-platform=wayland --app="$APP_URL"
+google-chrome --new-window --ozone-platform=wayland --app="$APP_URL"

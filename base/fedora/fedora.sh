@@ -34,7 +34,6 @@ sudo dnf -y install \
 	swayosd \
 	lazygit \
 	ghostty \
-	kitty \
 	clipse \
 	yazi \
 	fzf
