@@ -1,1 +1,0 @@
-/home/amirreza/.config/themes/current/neovim.lua

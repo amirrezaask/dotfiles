@@ -22,8 +22,6 @@ ln -nsf $THEME_PATH $CURRENT_THEME_DIR
 
 touch "$HOME/.config/alacritty/alacritty.toml"
 
-unlink $HOME/.config/nvim/lua/plugins/theme.lua; ln -s $THEMES_DIR/current/neovim.lua ~/.config/nvim/lua/plugins/theme.lua
-
 unlink $HOME/.config/btop/themes/current.theme; ln -nsf $THEMES_DIR/current/btop.theme $HOME/.config/btop/themes/current.theme
 
 echo "Links setup done"
@@ -58,6 +56,12 @@ else
 	dark-mode
 fi
 
-reload-kitty
+if [[ -f ~/.config/themes/current/neovim.theme ]]; then
+	neovim_colorscheme=`cat ~/.config/themes/current/neovim.theme`
+	for sock in /tmp/nvimsocket-*; do
+		echo "$sock"	
+		nvim --server "$sock" --remote-expr "execute('colorscheme $neovim_colorscheme')" >/dev/null 2>&1
+	done
+fi
 
 notify-send "Theme changed to $THEME_NAME" -t 2000
