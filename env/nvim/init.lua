@@ -88,8 +88,8 @@ local theme_name = themefile[1]
 local theme_plugin = themefile[2]
 
 require("lazy").setup({
-	{ theme_plugin,        opts = {} }, -- load theme from theme system
-	{                                -- AI
+	theme_plugin, -- load theme from theme system
+	{          -- AI
 		"supermaven-inc/supermaven-nvim",
 		config = function()
 			require("supermaven-nvim").setup({})
@@ -220,7 +220,7 @@ require("lazy").setup({
 		opts = { highlight = { enable = true }, auto_install = true },
 	},
 
-	{ "saghen/blink.cmp", version = "v1.6.0", opts = {} }
+	{ "saghen/blink.cmp",  version = "v1.6.0", opts = {} }
 })
 
 -- Start server to allow remote access

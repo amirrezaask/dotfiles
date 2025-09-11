@@ -1,0 +1,36 @@
+@define-color selected-text #e1b55e;
+@define-color text #ebfff2;
+@define-color base #11221C;
+@define-color border #214237;
+@define-color foreground #11221C;
+@define-color background #11221C;
+
+window {
+    background-color: @background;
+    color: @text;
+    border: 2px solid @border;
+    border-radius: 8px;
+}
+
+#input {
+    background-color: @base;
+    color: @text;
+    border: 1px solid @border;
+    padding: 5px;
+    margin: 5px;
+}
+
+#entry {
+    padding: 5px;
+    margin: 2px;
+}
+
+#entry:selected {
+    background-color: @selected-text;
+    color: @foreground;
+    border-radius: 4px;
+}
+
+#text:selected {
+    color: @foreground;
+}
