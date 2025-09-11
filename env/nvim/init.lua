@@ -83,9 +83,20 @@ vim.opt.rtp:prepend(lazypath)
 
 
 
-local themefile = vim.fn.readfile(vim.fn.expand("~/.config/themes/current/neovim.theme"))
-local theme_name = themefile[1]
-local theme_plugin = themefile[2]
+local themefile = vim.fn.expand("~/.config/themes/current/neovim.theme")
+local theme_name
+local theme_plugin
+
+if vim.fn.filereadable(themefile) then
+	local themefile_contents = vim.fn.readfile(themefile)
+	theme_name = themefile_contents[1]
+	theme_plugin = themefile_contents[2]
+end
+
+if not theme_plugin then
+	theme_plugin = "folke/tokyonight.nvim"
+	theme_name = "tokyonight"
+end
 
 require("lazy").setup({
 	theme_plugin, -- load theme from theme system

@@ -5,7 +5,7 @@
   "spacing": 0,
   "height": 26,
   "modules-left": [
-	  // "custom/launcher", 
+	  "custom/launcher", 
 	  "hyprland/workspaces"
   ],
   "modules-center": ["clock"],
