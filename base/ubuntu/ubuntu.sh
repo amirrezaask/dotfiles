@@ -23,7 +23,8 @@ sudo apt install -y \
 	swayosd \
 	polkit-gnome \
 	chromium \
-	golang-go
+	golang-go \
+	fzf
 
 # Install hyprshot for screenshots
 sudo curl https://raw.githubusercontent.com/Gustash/Hyprshot/refs/heads/main/hyprshot > ~/hyprshot
@@ -40,4 +41,10 @@ cargo install bluetui
 sudo usermod -a -G video $USER
 
 
+# Install clipse which is a simple clipboard manager
 go install github.com/savedra1/clipse@v1.1.0
+
+# Install google-chrome
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+sudo dpkg -i google-chrome-stable_current_amd64.deb
+sudo apt-get install -f

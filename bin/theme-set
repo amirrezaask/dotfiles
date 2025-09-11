@@ -14,6 +14,7 @@ THEMES_DIR="$HOME/.config/themes"
 THEME_PATH="$THEMES_DIR/$THEME_NAME"
 
 CURRENT_THEME_DIR="$HOME/.config/themes/current"
+NEW_CURRENT_THEME_DIR="$HOME/.config/current-theme"
 CURRENT_BACKGROUND="$HOME/.config/current-background"
 
 unlink $THEMES_DIR/current
