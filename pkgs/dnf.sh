@@ -7,6 +7,14 @@ sudo dnf copr -y enable markupstart/SwayOSD
 sudo dnf copr -y enable dejan/lazygit
 sudo dnf copr -y enable azandure/clipse
 
+
+sudo dnf -y install \
+    https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-42.noarch.rpm \
+    https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-42.noarch.rpm
+
+sudo dnf groupupdate multimedia --setop="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin
+sudo dnf -y install gstreamer1-libav gstreamer1-plugins-{base,good,bad-free,bad-free-extras,ugly} ffmpeg
+
 # Install base packages
 sudo dnf -y install \
 	git \
