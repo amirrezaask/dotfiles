@@ -24,6 +24,17 @@ vim.opt.wildoptions:append("fuzzy")
 vim.o.cursorline = true
 vim.diagnostic.config({ virtual_text = true })
 vim.g.lazyvim_check_order = false
+vim.o.list = true
+
+vim.opt.listchars = {
+  tab = '│ ',      -- Tab: pipe followed by space (fills tab width; use '│─' for dashes)
+  lead = '·',      -- Leading spaces: single dot per space (unchanged)
+  trail = '·',     -- Trailing spaces: dot (unchanged)
+  extends = '…',   -- Line extends beyond window: ellipsis (unchanged)
+  precedes = '…',  -- Line precedes window: ellipsis (unchanged)
+  nbsp = '␣',      -- Non-breaking space: special char (unchanged)
+  eol = '↲'        -- End of line: arrow (optional)
+}
 vim.cmd([[ autocmd TextYankPost * silent! lua vim.hl.on_yank {higroup='Visual', timeout=150 } ]])
 
 vim.api.nvim_create_autocmd("ColorScheme", {
@@ -100,7 +111,7 @@ end
 
 require("lazy").setup({
 	theme_plugin, -- load theme from theme system
-	{          -- AI
+	{ -- AI
 		"supermaven-inc/supermaven-nvim",
 		config = function()
 			require("supermaven-nvim").setup({})

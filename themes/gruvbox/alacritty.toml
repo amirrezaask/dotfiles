@@ -1,3 +1,6 @@
+[window]
+opacity = 1
+
 [colors]
 [colors.primary]
 background = "0x282828"
@@ -23,5 +26,3 @@ magenta = "0xd3869b"
 cyan = "0x89b482"
 white = "0xd4be98"
 
-[window]
-opacity = 1
