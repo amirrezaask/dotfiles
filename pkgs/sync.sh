@@ -48,6 +48,13 @@ if ! command -v exa >/dev/null 2>&1; then
 	cargo install exa
 fi
 
+# Prompt
+if ! command -v starship >/dev/null 2>&1; then
+	cargo install starship --locked
+fi
+
+# Neovim
+$PKGS_DIR/neovim.sh
 
 
 # To let brightness control work

@@ -12,6 +12,10 @@ echo "DOTFILES_DIR $DOTFILES_DIR"
 # Install configs
 ./configs/sync.sh
 
+# Install fonts
+mkdir -p ~/.local/share/fonts
+cp $DOTFILES_DIR/fonts/* ~/.local/share/fonts/
+
 # Install themes
 ln -nsf $DOTFILES_DIR/themes ~/.local/themes
 

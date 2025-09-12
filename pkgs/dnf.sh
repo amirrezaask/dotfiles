@@ -32,6 +32,7 @@ sudo dnf -y install \
 	lazygit \
 	clipse \
 	ripgrep \
+	cmake \
 	fzf
 
 
