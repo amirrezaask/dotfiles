@@ -19,12 +19,13 @@ vim.o.linebreak = true
 vim.o.completeopt = "menuone,noselect,noinsert,fuzzy"
 vim.o.splitbelow = true
 vim.o.splitright = true
-vim.o.laststatus = 3
 vim.opt.wildoptions:append("fuzzy")
 vim.o.cursorline = false
 vim.diagnostic.config({ virtual_text = true })
-vim.g.lazyvim_check_order = false
 vim.o.list = true
+vim.o.winbar='%f %h%w%m%r'
+vim.o.laststatus=0
+
 
 vim.opt.listchars = {
   tab = '│ ',      -- Tab: pipe followed by space (fills tab width; use '│─' for dashes)
@@ -221,31 +222,6 @@ require("lazy").setup({
 		},
 	},
 	{
-		"nvim-lualine/lualine.nvim",
-		dependencies = { "nvim-tree/nvim-web-devicons" },
-		opts = {
-
-			options = {
-				theme = "auto",
-				globalstatus = vim.o.laststatus == 3,
-				disabled_filetypes = { statusline = { "dashboard", "alpha", "ministarter", "snacks_dashboard" } },
-			},
-			sections = {
-				lualine_a = { "mode" },
-				lualine_b = { "branch" },
-
-				lualine_c = {
-					{ "filetype", icon_only = true, separator = "", padding = { left = 1, right = 0 } },
-					{ 'filename', path = 1 },
-				},
-				lualine_x = { 'encoding', 'fileformat', 'filetype' },
-				lualine_y = { 'progress' },
-				lualine_z = { 'location' }
-			},
-			extensions = {},
-		}
-	},
-	{
 		"nvim-treesitter/nvim-treesitter",
 		main = "nvim-treesitter.configs",
 		opts = { highlight = { enable = true }, auto_install = true },
@@ -254,7 +230,11 @@ require("lazy").setup({
 	{ "saghen/blink.cmp",  version = "v1.6.0", opts = {} }
 })
 
--- Start server to allow remote access
-vim.fn.serverstart("/tmp/nvimsocket-" .. vim.fn.getpid())
-
 vim.cmd("colorscheme " .. theme_name)
+
+-- Start server to allow remote access
+local servername = "/tmp/nvimsocket-" .. vim.fn.getpid()
+if not vim.tbl_contains(vim.fn.serverlist(), servername) then
+	vim.fn.serverstart(servername)
+end
+
