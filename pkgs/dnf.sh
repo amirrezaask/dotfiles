@@ -37,6 +37,7 @@ sudo dnf -y install \
 	pavucontrol \
 	pkgconf-pkg-config \
 	swayosd \
+	mpv \
 	lazygit \
 	clipse \
 	ripgrep \

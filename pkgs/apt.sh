@@ -24,4 +24,5 @@ sudo apt install -y \
 	polkit-gnome \
 	chromium \
 	golang-go \
+	mpv \
 	fzf
