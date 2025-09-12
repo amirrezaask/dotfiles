@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+set -e
+
+DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+echo "DOTFILES_DIR $DOTFILES_DIR"
+
+# Resolve base OS dependency
+./pkgs/sync.sh
+
+
+# Install configs
+./configs/sync.sh
+
+# Install themes
+ln -nsf $DOTFILES_DIR/themes ~/.local/themes
+
+# Copy scripts
+cd $DOTFILES_DIR/bin && chmod +x *
+cd $DOTFILES_DIR/bin && sudo cp ./* /usr/bin/

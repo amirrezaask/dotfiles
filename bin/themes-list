@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
-find ~/.config/themes/ -mindepth 1 -maxdepth 1 \( -type d -o -type l \) | sort | while read -r path; do
+find ~/.local/themes/ -mindepth 1 -maxdepth 1 \( -type d -o -type l \) | sort | while read -r path; do
   basename "$path" | grep -v '^current$' | sed -E 's/(^|-)([a-z])/\1\u\2/g; s/-/ /g'
 done

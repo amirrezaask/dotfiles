@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-THEMES_DIR="$HOME/.config/themes/"
-CURRENT_THEME_LINK="$HOME/.config/themes/current"
+THEMES_DIR="$HOME/.local/themes/"
+CURRENT_THEME_LINK="$HOME/.config/current-theme"
 
 THEMES=($(find "$THEMES_DIR" -type d ! -name 'current' -mindepth 1 -maxdepth 1 | sort))
 TOTAL=${#THEMES[@]}
