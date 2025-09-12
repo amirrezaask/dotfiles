@@ -1,5 +1,4 @@
 general.import = [ "~/.config/current-theme/alacritty.toml" ]
-
 general.live_config_reload = true
 
 [env]
@@ -15,9 +14,10 @@ size   = 12
 padding.x = 14
 padding.y = 14
 decorations = "None"
-opacity = 0.80
+opacity = 0.90
 
 [keyboard]
 bindings = [
 	{ key = "F11", action = "ToggleFullscreen" }
 ]
+
