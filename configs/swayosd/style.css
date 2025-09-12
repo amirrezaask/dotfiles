@@ -9,7 +9,7 @@ window {
 }
 
 label {
-  font-family: CaskaydiaCove Nerd Font;
+  font-family: Maple Mono;
   font-size: 11pt;
 
   color: @label;

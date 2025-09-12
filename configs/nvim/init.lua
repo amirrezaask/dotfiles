@@ -21,7 +21,7 @@ vim.o.splitbelow = true
 vim.o.splitright = true
 vim.o.laststatus = 3
 vim.opt.wildoptions:append("fuzzy")
-vim.o.cursorline = true
+vim.o.cursorline = false
 vim.diagnostic.config({ virtual_text = true })
 vim.g.lazyvim_check_order = false
 vim.o.list = true
@@ -92,13 +92,22 @@ end
 
 vim.opt.rtp:prepend(lazypath)
 
-
-
+package.path = package.path .. ";" .. vim.fn.expand("~/.config/current-theme/?.lua")
 local themefile = vim.fn.expand("~/.config/current-theme/neovim.theme")
 local theme_name
 local theme_plugin
 
-if vim.fn.filereadable(themefile) then
+if pcall(require, "neovim-theme") then
+	local theme_table = require("neovim-theme")
+	theme_name = theme_table.name
+	theme_plugin = {
+		theme_table[1],
+		name = theme_table.name,
+		config = function()
+			theme_table.config()
+		end,
+	} 
+elseif vim.fn.filereadable(themefile) then
 	local themefile_contents = vim.fn.readfile(themefile)
 	theme_name = themefile_contents[1]
 	theme_plugin = themefile_contents[2]
