@@ -8,7 +8,7 @@ set $right l
 set $term alacritty
 set $menu wofi --show drun -a
 
-set $font_family "Maple Mono"
+set $font_family ""
 set $font_size 12
 
 font pango:$font_family $font_size
@@ -154,13 +154,13 @@ bindsym $mod+a focus parent
 
 bindsym $mod+Shift+v exec alacritty --class 'Clipse' -e clipse
 
+bindsym $mod+Shift+t exec select-theme 
+bindsym $mod+Shift+f exec select-font
+bindsym $mod+Shift+b exec theme-bg-next 
+
 exec_always --no-startup-id nm-applet
 
 mode "resize" {
-    # left will shrink the containers width
-    # right will grow the containers width
-    # up will shrink the containers height
-    # down will grow the containers height
     bindsym $left resize shrink width 10px
     bindsym $down resize grow height 10px
     bindsym $up resize shrink height 10px
@@ -199,6 +199,7 @@ bindsym $mod+Shift+r exec grim -g - - | wl-copy
 bindswitch --reload lid:on exec systemctl suspend
 
 exec_always /usr/bin/restart-app waybar
+exec_always /usr/bin/restart-app mako -C /home/amirreza/.config/current-theme/mako.ini
 
 include /etc/sway/config.d/*
 include ~/.config/current-theme/sway.config
