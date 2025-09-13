@@ -8,6 +8,11 @@ set $right l
 set $term alacritty
 set $menu wofi --show drun -a
 
+font pango:CaskaydiaCove Nerd Font 12
+
+for_window [tiling] border none
+
+for_window [window_role="pop-up"] floating enable
 
 input * {
     xkb_layout "us,ir"
@@ -21,13 +26,12 @@ input type:touchpad {
 
 output eDP-1 {
     position 0 0
-	scale 2
+	scale 1.5
 }
 
 output "ChangHong Electric Co.,Ltd GDM-245LN 0000000000001" {
 	position 1440 0
 }
-
 
 exec mako -c ~/.config/current-theme/mako.ini
 exec swaybg -i ~/.config/current-theme/backgrounds/$(ls ~/.config/current-theme/backgrounds/ | head -n 1) &2>/dev/null &
@@ -145,6 +149,7 @@ bindsym $mod+a focus parent
 bindsym $mod+Shift+v exec alacritty --class 'Clipse' -e clipse
 for_window [class="^Clipse$"] floating enable
 
+exec_always --no-startup-id nm-applet
 
 mode "resize" {
     # left will shrink the containers width
