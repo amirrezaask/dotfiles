@@ -6,8 +6,7 @@ set $up k
 set $right l
 
 set $term alacritty
-
-set $menu wofi --show drun
+set $menu wofi --show drun -a
 
 
 input * {
@@ -20,10 +19,15 @@ input type:touchpad {
     natural_scroll enabled
 }
 
-#
-#   output HDMI-A-1 resolution 1920x1080 position 1920,0
-#
-# You can get the names of your outputs by running: swaymsg -t get_outputs
+output eDP-1 {
+    position 0 0
+	scale 2
+}
+
+output "ChangHong Electric Co.,Ltd GDM-245LN 0000000000001" {
+	position 1440 0
+}
+
 
 exec mako -c ~/.config/current-theme/mako.ini
 exec swaybg -i ~/.config/current-theme/backgrounds/$(ls ~/.config/current-theme/backgrounds/ | head -n 1) &2>/dev/null &
@@ -62,6 +66,7 @@ bindsym $mod+$left focus left
 bindsym $mod+$down focus down
 bindsym $mod+$up focus up
 bindsym $mod+$right focus right
+
 # Or use $mod+[up|down|left|right]
 bindsym $mod+Left focus left
 bindsym $mod+Down focus down
@@ -73,22 +78,25 @@ bindsym $mod+Shift+$left move left
 bindsym $mod+Shift+$down move down
 bindsym $mod+Shift+$up move up
 bindsym $mod+Shift+$right move right
+
 # Ditto, with arrow keys
 bindsym $mod+Shift+Left move left
 bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
-set $ws1  "[1] "   
-set $ws2  "[2] "   
-set $ws3  "[3] "   
-set $ws4  "[4]"   
-set $ws5  "[5]"   
-set $ws6  "[6]"   
-set $ws7  "[7]"   
-set $ws8  "[8]"   
-set $ws9  "[9]"   
-set $ws10 "[10]"  
+bindsym $mod+escape exec swaylock -f -c 000000 
+
+set $ws1  "1"
+set $ws2  "2"
+set $ws3  "3"
+set $ws4  "4"
+set $ws5  "5"
+set $ws6  "6"
+set $ws7  "7"
+set $ws8  "8"
+set $ws9  "9"
+set $ws10 "10"
 
 # Switch to workspace
 bindsym $mod+1 workspace $ws1
@@ -131,26 +139,13 @@ bindsym $mod+f fullscreen
 # Toggle the current focus between tiling and floating mode
 bindsym $mod+Shift+space floating toggle
 
-# Swap focus between the tiling area and the floating area
-bindsym $mod+space focus mode_toggle
-
 # Move focus to the parent container
 bindsym $mod+a focus parent
-# #
-# # Scratchpad:
-# #
-# # Sway has a "scratchpad", which is a bag of holding for windows.
-# # You can send windows there and get them back later.
-#
-# # Move the currently focused window to the scratchpad
-# bindsym $mod+Shift+minus move scratchpad
-#
-# # Show the next scratchpad window or hide the focused scratchpad window.
-# # If there are multiple scratchpad windows, this command cycles through them.
-# bindsym $mod+minus scratchpad show
-#
-# Resizing containers:
-#
+
+bindsym $mod+Shift+v exec alacritty --class 'Clipse' -e clipse
+for_window [class="^Clipse$"] floating enable
+
+
 mode "resize" {
     # left will shrink the containers width
     # right will grow the containers width
@@ -188,6 +183,9 @@ bindsym --locked XF86MonBrightnessUp exec brightnessctl set 5%+
 # Special key to take a screenshot with grim
 bindsym $mod+Shift+s exec grim
 
+
+bindswitch --reload lid:on exec systemctl suspend
+
 #
 # Status Bar:
 #
@@ -202,8 +200,8 @@ bar {
     colors {
         statusline #ffffff
         background #323232
-        inactive_workspace #32323200 #32323200 #5c5c5c
     }
 }
 
 include /etc/sway/config.d/*
+include ~/.config/current-theme/sway.config
