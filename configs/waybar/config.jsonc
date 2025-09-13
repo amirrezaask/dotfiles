@@ -5,8 +5,9 @@
   "spacing": 0,
   "height": 26,
   "modules-left": [
-	  // "custom/launcher", 
-	  "hyprland/workspaces"
+	  "sway/workspaces",
+	  "hyprland/workspaces",
+	  "sway/mode"
   ],
   "modules-center": ["clock"],
   "modules-right": [
@@ -32,6 +33,15 @@
 	"format": " ☼ ",
 	"on-click": "toggle-color-mode"
   },
+	"sway/workspaces": {
+		"disable-scroll": true,
+		"all-outputs": true,
+		"format": "{name}:{icon}",
+		"format-icons": {
+			"focused": "󱓻",
+			"default": ""
+		},
+	},
   "hyprland/workspaces": {
     "on-click": "activate",
     "format": "{icon}",

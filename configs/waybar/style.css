@@ -7,7 +7,7 @@
   border: none;
   border-radius: 0;
   min-height: 0;
-  font-family: CaskaydiaCove Nerd Font;
+  font-family: Maple Mono;
   font-size: 16px;
 }
 
@@ -26,9 +26,9 @@
   min-width: 9px;
 }
 
-#workspaces button.empty {
-  opacity: 0.5;
-}
+/* #workspaces button.empty { */
+/*   opacity: 0.5; */
+/* } */
 
 #tray,
 #cpu,
@@ -36,14 +36,9 @@
 #network,
 #bluetooth,
 #pulseaudio,
-#clock,
-#custom-omarchy {
+#clock {
   min-width: 12px;
   margin: 0 7.5px;
-}
-
-#custom-expand-icon {
-  margin-right: 7px;
 }
 
 tooltip {

@@ -8,11 +8,20 @@ set $right l
 set $term alacritty
 set $menu wofi --show drun -a
 
-font pango:CaskaydiaCove Nerd Font 12
+set $font_family "Maple Mono"
+set $font_size 12
 
-for_window [tiling] border none
+font pango:$font_family $font_size
 
+for_window [class=".*"] border pixel 1
 for_window [window_role="pop-up"] floating enable
+for_window [class="^Clipse$"] floating enable
+
+default_border pixel 1
+
+gaps inner 5 
+gaps outer 15
+smart_gaps on
 
 input * {
     xkb_layout "us,ir"
@@ -26,7 +35,7 @@ input type:touchpad {
 
 output eDP-1 {
     position 0 0
-	scale 1.5
+	scale 2
 }
 
 output "ChangHong Electric Co.,Ltd GDM-245LN 0000000000001" {
@@ -44,10 +53,6 @@ exec swayidle -w \
          timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
          before-sleep 'swaylock -f -c 000000'
 
-### Key bindings
-#
-# Basics:
-#
 # Start a terminal
 bindsym $mod+Return exec $term
 
@@ -129,13 +134,14 @@ bindsym $mod+Shift+0 move container to workspace $ws10
 # Move workspace to other monitor
 bindsym $mod+m  move workspace to output left
 
+# Split in horizontal/vertical orientation
 bindsym $mod+b splith
 bindsym $mod+v splitv
 
 # Layout strategy
-bindsym $mod+s layout stacking
-bindsym $mod+w layout tabbed
-bindsym $mod+e layout toggle split
+# bindsym $mod+s layout stacking
+bindsym $mod+t layout tabbed
+bindsym $mod+s layout toggle split
 
 # Make the current focus fullscreen
 bindsym $mod+f fullscreen
@@ -147,7 +153,6 @@ bindsym $mod+Shift+space floating toggle
 bindsym $mod+a focus parent
 
 bindsym $mod+Shift+v exec alacritty --class 'Clipse' -e clipse
-for_window [class="^Clipse$"] floating enable
 
 exec_always --no-startup-id nm-applet
 
@@ -176,7 +181,7 @@ bindsym $mod+r mode "resize"
 #
 # Utilities:
 #
-    # Special keys to adjust volume via PulseAudio
+# Special keys to adjust volume via PulseAudio
 bindsym --locked XF86AudioMute exec pactl set-sink-mute \@DEFAULT_SINK@ toggle
 bindsym --locked XF86AudioLowerVolume exec pactl set-sink-volume \@DEFAULT_SINK@ -5%
 bindsym --locked XF86AudioRaiseVolume exec pactl set-sink-volume \@DEFAULT_SINK@ +5%
@@ -185,28 +190,15 @@ bindsym --locked XF86AudioMicMute exec pactl set-source-mute \@DEFAULT_SOURCE@ t
 bindsym --locked XF86MonBrightnessDown exec brightnessctl set 5%-
 bindsym --locked XF86MonBrightnessUp exec brightnessctl set 5%+
 
-# Special key to take a screenshot with grim
-bindsym $mod+Shift+s exec grim
+# Special key to take a screenshot with grim and copy to clipboard
+bindsym $mod+Shift+s exec slurp | grim -g - - | wl-copy
+bindsym $mod+Shift+r exec grim -g - - | wl-copy
 
 
+# Lid close will suspend
 bindswitch --reload lid:on exec systemctl suspend
 
-#
-# Status Bar:
-#
-# Read `man 5 sway-bar` for more information about this section.
-bar {
-    position top
-
-    # When the status_command prints a new line to stdout, swaybar updates.
-    # The default just shows the current date and time.
-    status_command i3status
-
-    colors {
-        statusline #ffffff
-        background #323232
-    }
-}
+exec_always /usr/bin/restart-app waybar
 
 include /etc/sway/config.d/*
 include ~/.config/current-theme/sway.config
