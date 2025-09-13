@@ -52,3 +52,16 @@ if [[ ! -f /usr/bin/hyprshot ]]; then
 	sudo chmod +x /usr/bin/hyprshot
 fi
 
+
+# Let hypridle/swayidle handle these events to have more control.
+sudo tee /etc/systemd/logind.conf > /dev/null <<'EOF'
+[Login]
+HandlePowerKey=poweroff
+HandleSuspendKey=ignore
+HandleHibernateKey=ignore
+HandleLidSwitch=ignore
+HandleLidSwitchExternalPower=ignore
+KillUserProcesses=no
+IdleAction=ignore
+EOF
+

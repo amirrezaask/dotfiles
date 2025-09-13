@@ -16,6 +16,7 @@ rm -rf "$XDG_CONFIG/nvim" \
 	"$XDG_CONFIG/wofi" \
 	"$XDG_CONFIG/alacritty" \
 	"$XDG_CONFIG/btop" \
+	"$XDG_CONFIG/sway" \
 	"$XDG_CONFIG/kitty" \
 	"$XDG_CONFIG/starship.toml" \
 	"$XDG_CONFIG/Code/User/settings.json" \
@@ -37,6 +38,7 @@ ln -s "$CONFIGS_DIR/wofi" "$XDG_CONFIG/wofi"
 ln -s "$CONFIGS_DIR/alacritty" "$XDG_CONFIG/alacritty"
 ln -s "$CONFIGS_DIR/btop" "$XDG_CONFIG/btop"
 ln -s "$CONFIGS_DIR/kitty" "$XDG_CONFIG/kitty"
+ln -s "$CONFIGS_DIR/sway" "$XDG_CONFIG/sway"
 ln -s "$CONFIGS_DIR/ghostty" "$XDG_CONFIG/ghostty"
 ln -s "$CONFIGS_DIR/starship.toml" "$XDG_CONFIG/starship.toml"
 ln -s "$CONFIGS_DIR/.gitconfig" "$HOME/.gitconfig"
