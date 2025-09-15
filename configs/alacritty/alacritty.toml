@@ -13,6 +13,7 @@ padding.x = 14
 padding.y = 14
 decorations = "None"
 opacity = 0.97
+dynamic_title = false
 
 [keyboard]
 bindings = [

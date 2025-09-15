@@ -5,12 +5,15 @@
 	"spacing": 0,
 	"height": 26,
 	"modules-left": [
+		"custom/session-control",
+		"custom/space",
+		"sway/window",
+		"hyprland/window"
+	],
+	"modules-center": [
 		"sway/workspaces",
 		"hyprland/workspaces",
 		"sway/mode"
-	],
-	"modules-center": [
-		"clock"
 	],
 	"modules-right": [
 		"custom/toggle-color-mode",
@@ -20,8 +23,19 @@
 		"pulseaudio",
 		"cpu",
 		"battery",
-		"custom/session-control"
+		"clock"
 	],
+	"sway/window": {
+		"icon": true,
+		"rewrite": {
+			".*Google Chrome.*": "Google Chrome",
+			".*Firefox.*": "Firefox",
+			"(.*) - zsh": "> [$1]"
+		}
+	},
+	"custom/space": {
+		"format": " "
+	},
 	"custom/launcher": {
 		"format": " ⧈ ",
 		"on-click": "command-center"
