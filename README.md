@@ -1,5 +1,5 @@
 # Dotfiles
-My Personal linux setup, an opinionated hyperland setup.
+My Personal linux setup, an opinionated hyperland/sway setup.
 Scripts and overall configurations are heavily inspired by [Omarchy](https://github.com/basecamp/omarchy) by [DHH](https://github.com/dhh), Unlike Omarchy this setup is distro agnostic and in some parts is less opinionated and more vanilla.
 
 ## Installation
