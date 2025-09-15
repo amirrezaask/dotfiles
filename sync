@@ -5,8 +5,21 @@ set -e
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 echo "DOTFILES_DIR $DOTFILES_DIR"
 
+INSTALL_PACKAGES=false
+
+# Parse args
+for arg in "$@"; do
+    case "$arg" in
+        --with-packages)
+            INSTALL_PACKAGES=true
+            ;;
+    esac
+done
+
 # Resolve base OS dependency
-./pkgs/sync.sh
+if [ "$INSTALL_PACKAGES" = true ]; then
+	./pkgs/sync.sh
+fi
 
 
 # Install configs

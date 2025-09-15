@@ -33,6 +33,11 @@ input type:touchpad {
     natural_scroll enabled
 }
 
+input "Logitech G502" {
+	pointer_accel 0.1
+	accel_profile adaptive
+}
+
 output eDP-1 {
     position 0 0
 	scale 2
