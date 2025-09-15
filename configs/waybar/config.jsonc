@@ -38,7 +38,7 @@
     "interval": 5
   },
   "network": {
-    "format-wifi": "WiFi: {essid} ({signalStrength}%)",
+    "format-wifi": "WiFi: {essid}",
     "format-ethernet": "ETH: {ipaddr}",
     "format-disconnected": "NET: Disconnected",
     "interval": 10
