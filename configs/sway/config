@@ -6,7 +6,6 @@ set $font_size 12
 
 font pango:$font_family $font_size
 
-
 include /etc/sway/config.d/*
 include ~/.config/sway/*.conf
 include ~/.config/current-theme/sway.config

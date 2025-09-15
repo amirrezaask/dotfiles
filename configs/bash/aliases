@@ -33,5 +33,6 @@ alias gl='git pull $vcs_info_msg_0_'
 alias gll='git pull --all'
 alias glg='git pull --rebase'
 alias gcb='git checkout -b'
+alias gcm='git commit -m'
 
 
