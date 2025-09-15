@@ -23,18 +23,18 @@ vim.opt.wildoptions:append("fuzzy")
 vim.o.cursorline = false
 vim.diagnostic.config({ virtual_text = true })
 vim.o.list = true
-vim.o.winbar='%f %h%w%m%r'
-vim.o.laststatus=0
+vim.o.winbar = '%f %h%w%m%r'
+vim.o.laststatus = 0
 
 
 vim.opt.listchars = {
-  tab = '│ ',      -- Tab: pipe followed by space (fills tab width; use '│─' for dashes)
-  lead = '·',      -- Leading spaces: single dot per space (unchanged)
-  trail = '·',     -- Trailing spaces: dot (unchanged)
-  extends = '…',   -- Line extends beyond window: ellipsis (unchanged)
-  precedes = '…',  -- Line precedes window: ellipsis (unchanged)
-  nbsp = '␣',      -- Non-breaking space: special char (unchanged)
-  eol = '↲'        -- End of line: arrow (optional)
+	tab = '│ ', -- Tab: pipe followed by space (fills tab width; use '│─' for dashes)
+	lead = '·', -- Leading spaces: single dot per space (unchanged)
+	trail = '·', -- Trailing spaces: dot (unchanged)
+	extends = '…', -- Line extends beyond window: ellipsis (unchanged)
+	precedes = '…', -- Line precedes window: ellipsis (unchanged)
+	nbsp = '␣', -- Non-breaking space: special char (unchanged)
+	eol = '↲' -- End of line: arrow (optional)
 }
 vim.cmd([[ autocmd TextYankPost * silent! lua vim.hl.on_yank {higroup='Visual', timeout=150 } ]])
 
@@ -107,7 +107,7 @@ if pcall(require, "neovim-theme") then
 		config = function()
 			theme_table.config()
 		end,
-	} 
+	}
 elseif vim.fn.filereadable(themefile) then
 	local themefile_contents = vim.fn.readfile(themefile)
 	theme_name = themefile_contents[1]
@@ -121,7 +121,7 @@ end
 
 require("lazy").setup({
 	theme_plugin, -- load theme from theme system
-	{ -- AI
+	{          -- AI
 		"supermaven-inc/supermaven-nvim",
 		config = function()
 			require("supermaven-nvim").setup({})
@@ -211,6 +211,7 @@ require("lazy").setup({
 				php = nil,
 				go = { "goimports" },
 				lua = { "stylua" },
+				json = { "jq" },
 			},
 			format_on_save = function(bufnr)
 				-- Skip formatting for PHP files
@@ -237,4 +238,3 @@ local servername = "/tmp/nvimsocket-" .. vim.fn.getpid()
 if not vim.tbl_contains(vim.fn.serverlist(), servername) then
 	vim.fn.serverstart(servername)
 end
-
