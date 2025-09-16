@@ -26,7 +26,7 @@
 		"clock"
 	],
 	"sway/window": {
-		"icon": true,
+		// "icon": true,
 		"rewrite": {
 			".*Google Chrome.*": "Google Chrome",
 			".*Firefox.*": "Firefox",
@@ -98,8 +98,7 @@
 		"on-click": "alacritty -e btop"
 	},
 	"clock": {
-		"format": "{:%A %H:%M}",
-		"format-alt": "{:%d %B %Y}",
+		"format": ":: {:%d %B %Y %H:%M}",
 		"tooltip": false,
 		"on-click-right": "xdg-open https://time.ir"
 	},

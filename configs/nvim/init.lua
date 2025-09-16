@@ -24,8 +24,7 @@ vim.o.cursorline = false
 vim.diagnostic.config({ virtual_text = true })
 vim.o.list = true
 vim.o.winbar = '%f %h%w%m%r'
-vim.o.laststatus = 0
-
+vim.o.laststatus = 0 -- Disable status line
 
 vim.opt.listchars = {
 	tab = '│ ', -- Tab: pipe followed by space (fills tab width; use '│─' for dashes)
@@ -144,6 +143,7 @@ require("lazy").setup({
 			vim.keymap.set("n", "<leader>j", FzfLua.live_grep)
 			vim.keymap.set({ "n" }, "<leader>k", FzfLua.grep_cword)
 			vim.keymap.set({ "v" }, "<leader>k", FzfLua.grep_visual)
+			vim.keymap.set("n", "<leader>o", FzfLua.lsp_document_symbols)
 			vim.keymap.set("n", "<leader>O", FzfLua.lsp_workspace_symbols)
 
 			vim.lsp.buf.references = FzfLua.lsp_references
