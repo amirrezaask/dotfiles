@@ -11,10 +11,14 @@
 		"hyprland/workspaces",
 		"sway/mode"
 	],
-	"modules-center": [],
+	"modules-center": [
+		"sway/window",
+		"hyprland/window"
+	],
 	"modules-right": [
-		"custom/toggle-color-mode",
 		"hyprland/language",
+		"sway/language",
+		"custom/toggle-color-mode",
 		"bluetooth",
 		"network",
 		"pulseaudio",
@@ -61,12 +65,7 @@
 			"2": [],
 			"3": [],
 			"4": [],
-			"5": [],
-			"6": [],
-			"7": [],
-			"8": [],
-			"9": [],
-			"10": []
+			"5": []
 		},
 		"format": "{icon}",
 		"format-icons": {
@@ -80,9 +79,10 @@
 			"8": "8",
 			"9": "9",
 			"10": "10",
-			"urgent": "",
-			"focused": "",
-			"default": "○"
+			"urgent": "*",
+			// "focused": "",
+			"focused": "|",
+			"default": "o"
 		}
 	},
 	"hyprland/workspaces": {
@@ -112,10 +112,11 @@
 	"cpu": {
 		"interval": 5,
 		"format": "󰍛",
-		"on-click": "alacritty -e btop"
+		"on-click": "kitty -e btop"
 	},
 	"clock": {
-		"format": ":: {:%d %B %Y %H:%M}",
+		"format": ":: {:%H:%M}",
+		"format-alt": ":: {:%d %B %Y}",
 		"tooltip": false,
 		"on-click-right": "xdg-open https://time.ir"
 	},
@@ -182,7 +183,7 @@
 		"format-disabled": "󰂲",
 		"format-connected": "",
 		"tooltip-format": "Devices connected: {num_connections}",
-		"on-click": "alacritty -e bluetui"
+		"on-click": "kitty -e bluetui"
 	},
 	"hyprland/language": {
 		"format": " {short} ",
