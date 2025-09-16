@@ -7,14 +7,11 @@
 	"modules-left": [
 		"custom/session-control",
 		"custom/space",
-		"sway/window",
-		"hyprland/window"
-	],
-	"modules-center": [
 		"sway/workspaces",
 		"hyprland/workspaces",
 		"sway/mode"
 	],
+	"modules-center": [],
 	"modules-right": [
 		"custom/toggle-color-mode",
 		"hyprland/language",
@@ -26,7 +23,14 @@
 		"clock"
 	],
 	"sway/window": {
-		// "icon": true,
+		"rewrite": {
+			".*Google Chrome.*": "Google Chrome",
+			".*Firefox.*": "Firefox",
+			"(.*) - zsh": "> [$1]"
+		}
+	},
+	"hypr/window": {
+		"format": "{initialTitle}",
 		"rewrite": {
 			".*Google Chrome.*": "Google Chrome",
 			".*Firefox.*": "Firefox",
@@ -52,6 +56,18 @@
 	"sway/workspaces": {
 		"disable-scroll": true,
 		"all-outputs": true,
+		"persistent-workspaces": {
+			"1": [],
+			"2": [],
+			"3": [],
+			"4": [],
+			"5": [],
+			"6": [],
+			"7": [],
+			"8": [],
+			"9": [],
+			"10": []
+		},
 		"format": "{icon}",
 		"format-icons": {
 			"1": "1",
@@ -63,6 +79,7 @@
 			"7": "7",
 			"8": "8",
 			"9": "9",
+			"10": "10",
 			"urgent": "",
 			"focused": "",
 			"default": "○"

@@ -20,7 +20,7 @@ vim.o.completeopt = "menuone,noselect,noinsert,fuzzy"
 vim.o.splitbelow = true
 vim.o.splitright = true
 vim.opt.wildoptions:append("fuzzy")
-vim.o.cursorline = false
+vim.o.cursorline = true
 vim.diagnostic.config({ virtual_text = true })
 vim.o.list = true
 vim.o.winbar = '%f %h%w%m%r'
