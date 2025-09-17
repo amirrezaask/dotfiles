@@ -10,8 +10,8 @@ sudo apt install -y \
     wget \
 	btop \
 	hyprland \
-	hyprlock \
 	hypridle \
+	swaylock \
 	pulsemixer \
 	mako-notifier \
 	fish \

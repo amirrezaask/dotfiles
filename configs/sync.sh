@@ -13,6 +13,7 @@ rm -rf "$XDG_CONFIG/nvim" \
 	"$XDG_CONFIG/hypr" \
 	"$XDG_CONFIG/waybar" \
 	"$XDG_CONFIG/swayosd" \
+	"$XDG_CONFIG/swaylock" \
 	"$XDG_CONFIG/wofi" \
 	"$XDG_CONFIG/alacritty" \
 	"$XDG_CONFIG/btop" \
@@ -33,6 +34,7 @@ ln -s "$CONFIGS_DIR/sway" "$XDG_CONFIG/sway"
 ln -s "$CONFIGS_DIR/hypr" "$XDG_CONFIG/hypr"
 ln -s "$CONFIGS_DIR/waybar" "$XDG_CONFIG/waybar"
 ln -s "$CONFIGS_DIR/swayosd" "$XDG_CONFIG/swayosd"
+ln -s "$CONFIGS_DIR/swaylock" "$XDG_CONFIG/swaylock"
 ln -s "$CONFIGS_DIR/wofi" "$XDG_CONFIG/wofi"
 ln -s "$CONFIGS_DIR/alacritty" "$XDG_CONFIG/alacritty"
 ln -s "$CONFIGS_DIR/btop" "$XDG_CONFIG/btop"

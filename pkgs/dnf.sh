@@ -22,12 +22,14 @@ sudo dnf -y install \
 	wget \
 	btop \
 	hyprland \
-	hyprlock \
 	hypridle \
 	mako \
 	fish \
 	alacritty \
 	swaybg \
+	sway \
+	swayidle \
+	swaylock \
 	waybar \
 	wl-clipboard \
 	wofi \

@@ -25,7 +25,7 @@ case $action in
 		systemctl suspend
 		;;
 	*lock*)
-		hyprlock
+		lock
 		;;
 	*shutdown*)
 		systemctl poweroff
