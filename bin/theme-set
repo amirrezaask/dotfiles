@@ -19,6 +19,9 @@ CURRENT_BACKGROUND="$HOME/.config/current-background"
 ln -nsf $THEME_PATH $CURRENT_THEME_DIR
 
 
+ln -nsf $CURRENT_THEME_DIR/neovim.lua $HOME/.config/nvim/lua/plugins/theme.lua
+
+
 touch "$HOME/.config/alacritty/alacritty.toml"
 
 unlink $HOME/.config/btop/themes/current.theme; ln -nsf $CURRENT_THEME_DIR/btop.theme $HOME/.config/btop/themes/current.theme

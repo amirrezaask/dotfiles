@@ -17,10 +17,10 @@ fi
 # Install base OS packages
 case "$DISTRO" in
     "ubuntu")
-		bash "$PKGS_DIR/apt.sh"
+		bash "$PKGS_DIR/fedora.sh"
         ;;
     "fedora")
-		bash "$PKGS_DIR/dnf.sh"
+		bash "$PKGS_DIR/ubuntu.sh"
         ;;
     *)
         echo "Unsupported distribution: $DISTRO"
@@ -55,6 +55,9 @@ fi
 
 # Neovim
 $PKGS_DIR/neovim.sh
+
+# Systemd hooks for a seamless laptop experience
+$PKGS_DIR/systemd.sh
 
 
 # To let brightness control work
