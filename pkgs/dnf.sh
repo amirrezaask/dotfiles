@@ -55,15 +55,3 @@ if [[ ! -f /usr/bin/hyprshot ]]; then
 fi
 
 
-# Let wm handle these events to have more control.
-sudo tee /etc/systemd/logind.conf > /dev/null <<'EOF'
-[Login]
-HandlePowerKey=poweroff
-HandleSuspendKey=ignore
-HandleHibernateKey=ignore
-HandleLidSwitch=ignore
-HandleLidSwitchExternalPower=ignore
-KillUserProcesses=no
-IdleAction=ignore
-EOF
-

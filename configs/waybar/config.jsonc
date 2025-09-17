@@ -5,15 +5,13 @@
 	"spacing": 0,
 	"height": 26,
 	"modules-left": [
-		"custom/session-control",
 		"custom/space",
 		"sway/workspaces",
 		"hyprland/workspaces",
 		"sway/mode"
 	],
 	"modules-center": [
-		"sway/window",
-		"hyprland/window"
+		"clock"
 	],
 	"modules-right": [
 		"hyprland/language",
@@ -23,8 +21,7 @@
 		"network",
 		"pulseaudio",
 		"cpu",
-		"battery",
-		"clock"
+		"battery"
 	],
 	"sway/window": {
 		"rewrite": {
@@ -115,8 +112,8 @@
 		"on-click": "kitty -e btop"
 	},
 	"clock": {
-		"format": ":: {:%H:%M}",
-		"format-alt": ":: {:%d %B %Y}",
+		"format": "{:%H:%M}",
+		"format-alt": "{:%d %B %Y}",
 		"tooltip": false,
 		"on-click-right": "xdg-open https://time.ir"
 	},
