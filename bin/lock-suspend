@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+restart-app swaylock
+systemctl suspend
