@@ -1,4 +1,5 @@
 {
+  "workbench.colorTheme": "Tokyo Night",
   "editor.fontFamily": "Maple Mono",
   "editor.fontSize": 14,
   "workbench.editor.editorActionsLocation": "hidden",
@@ -25,8 +26,6 @@
   "go.toolsManagement.autoUpdate": true,
   "editor.bracketPairColorization.enabled": false,
   "extensions.ignoreRecommendations": true,
-  "window.autoDetectColorScheme": true,
-  "workbench.preferredLightColorTheme": "Visual Studio Light",
   "gitProjectManager.baseProjectsFolders": [ "~/p" ],
   "gitProjectManager.openInNewWindow": true,
   "workbench.secondarySideBar.defaultVisibility": "hidden",
@@ -86,7 +85,6 @@
       ],
     },
   ],
-  "workbench.preferredDarkColorTheme": "Visual Studio Light",
   "workbench.statusBar.visible": false,
 
 }
