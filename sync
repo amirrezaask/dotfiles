@@ -10,15 +10,15 @@ INSTALL_PACKAGES=false
 # Parse args
 for arg in "$@"; do
     case "$arg" in
-        --with-packages)
-            INSTALL_PACKAGES=true
+        --with-platform)
+            INSTALL_PLATFORM=true
             ;;
     esac
 done
 
 # Resolve base OS dependency
-if [ "$INSTALL_PACKAGES" = true ]; then
-	./pkgs/sync.sh
+if [ "$INSTALL_PLATFORM" = true ]; then
+	./platform/sync.sh
 fi
 
 

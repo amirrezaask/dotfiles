@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-PKGS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-DOTFILES_DIR="$PKGS_DIR/.."
+PLATFORM_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+DOTFILES_DIR="$PLATFORM_DIR/.."
 
-echo "PKGS directory: $PKGS_DIR"
+echo "PLATFORM_DIR: $PLATFORM_DIR"
 
 # Detect the Linux distribution
 if [ -f /etc/os-release ]; then
@@ -17,10 +17,10 @@ fi
 # Install base OS packages
 case "$DISTRO" in
     "ubuntu")
-		bash "$PKGS_DIR/fedora.sh"
+		bash "$PLATFORM_DIR/fedora.sh"
         ;;
     "fedora")
-		bash "$PKGS_DIR/ubuntu.sh"
+		bash "$PLATFORM_DIR/ubuntu.sh"
         ;;
     *)
         echo "Unsupported distribution: $DISTRO"
@@ -54,10 +54,10 @@ if ! command -v starship >/dev/null 2>&1; then
 fi
 
 # Neovim
-$PKGS_DIR/neovim.sh
+$PLATFORM_DIR/neovim.sh
 
 # Systemd hooks for a seamless laptop experience
-$PKGS_DIR/systemd.sh
+$PLATFORM_DIR/systemd.sh
 
 
 # To let brightness control work
