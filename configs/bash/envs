@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+export HISTSIZE=100000
+export HISTFILESIZE=100000
 
 if [ -f /etc/bashrc ]; then
     . /etc/bashrc

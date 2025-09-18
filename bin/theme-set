@@ -49,7 +49,9 @@ if command -v swaymsg >/dev/null 2>&1; then
 	swaymsg reload
 fi
 
-restart-app waybar
+if pidof waybar >/dev/null 2>&1; then
+	restart-app waybar
+fi
 
 theme-bg-next
 
