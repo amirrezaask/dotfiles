@@ -18,6 +18,8 @@ return {
 		vim.keymap.set({ "n", "v" }, "<leader>k", picker.grep_word)
 		vim.keymap.set("n", "<leader>o", picker.lsp_symbols)
 		vim.keymap.set("n", "<leader>O", picker.lsp_workspace_symbols)
+		vim.keymap.set("n", "<leader>g", Snacks.lazygit.open)
+		vim.keymap.set({ "n", "t" }, "<C-j>", Snacks.terminal.toggle)
 
 		vim.lsp.buf.references = picker.lsp_references
 		vim.lsp.buf.definition = picker.lsp_definitions
