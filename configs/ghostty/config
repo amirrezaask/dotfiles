@@ -1,0 +1,33 @@
+font-family = Fira Code
+cursor-style-blink = false
+mouse-hide-while-typing = true
+macos-option-as-alt = true
+window-padding-x = 0
+window-padding-y = 0
+shell-integration-features=no-cursor
+maximize=true
+
+keybind = cmd+n=next_tab
+keybind = cmd+p=previous_tab
+keybind = cmd+f=toggle_split_zoom
+
+keybind = ctrl+shift+enter=toggle_maximize
+
+keybind = shift+right=next_tab
+keybind = shift+left=previous_tab
+
+keybind = ctrl+shift+f=toggle_split_zoom
+keybind = ctrl+shift+down=resize_split:down,10
+keybind = ctrl+shift+left=resize_split:left,10
+keybind = ctrl+shift+up=resize_split:up,10
+keybind = ctrl+shift+right=resize_split:right,10
+keybind = ctrl+shift+plus=equalize_splits
+keybind = ctrl+shift+d=new_split:right
+keybind = ctrl+shift+n=new_split:down
+
+keybind = ctrl+shift+h=goto_split:left
+keybind = ctrl+shift+j=goto_split:down
+keybind = ctrl+shift+k=goto_split:up
+keybind = ctrl+shift+l=goto_split:right
+keybind = ctrl+enter=new_tab
+theme = Monokai Classic
