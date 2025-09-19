@@ -1,4 +1,4 @@
-return {  -- Code Autoformat
+return { -- Code Autoformat
 	"stevearc/conform.nvim",
 	opts = {
 		formatters_by_ft = {
@@ -8,7 +8,6 @@ return {  -- Code Autoformat
 			json = { "jq" },
 		},
 		format_on_save = function(bufnr)
-			-- Skip formatting for PHP files
 			if vim.bo[bufnr].filetype == "php" then
 				return false
 			end

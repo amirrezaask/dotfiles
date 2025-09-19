@@ -5,6 +5,7 @@
 	"spacing": 0,
 	"height": 26,
 	"modules-left": [
+		"custom/launcher",
 		"custom/space",
 		"sway/workspaces",
 		"hyprland/workspaces",
