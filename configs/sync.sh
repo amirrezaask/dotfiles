@@ -22,6 +22,7 @@ rm -rf "$XDG_CONFIG/nvim" \
 	"$XDG_CONFIG/Code/User/settings.json" \
 	"$XDG_CONFIG/Code/User/keybindings.json" \
 	"$XDG_CONFIG/bash" \
+	"$HOME/.zshrc" \
 	"$HOME/.gitconfig" \
 	"$HOME/.bashrc" 
 
@@ -46,5 +47,6 @@ ln -s "$CONFIGS_DIR/code/settings.json" "$XDG_CONFIG/Code/User/settings.json"
 ln -s "$CONFIGS_DIR/code/keybindings.json" "$XDG_CONFIG/Code/User/keybindings.json"
 ln -s "$CONFIGS_DIR/bash" "$XDG_CONFIG/bash"
 ln -s "$CONFIGS_DIR/bash/rc" "$HOME/.bashrc"
+ln -s "$CONFIGS_DIR/zsh/.zshrc" "$HOME/.zshrc"
 
 
