@@ -1,6 +1,6 @@
 {
 	"font_face": "Fira Code",
-	"font_size": 21,
+	"font_size": 18,
 	"line_padding_top": 15,
 	"line_padding_bottom": 15,
 	"ignored_packages":
@@ -9,5 +9,5 @@
 	],
 	"index_files": true,
 	"theme": "Adaptive.sublime-theme",
-	"color_scheme": "Monokai.sublime-color-scheme",
+	"color_scheme": "Mariana.sublime-color-scheme",
 }
