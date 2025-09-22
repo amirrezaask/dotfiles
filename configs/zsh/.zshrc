@@ -38,26 +38,42 @@ alias gp='git push origin $(basename $(git rev-parse --abbrev-ref HEAD))'
 alias gl='git pull $(basename $(git rev-parse --abbrev-ref HEAD))'
 alias gll='git pull --all'
 alias glg='git pull --rebase'
+unalias gwip 2>/dev/null
 
-
-function gwip() {
-    branch=`git symbolic-ref --short HEAD`
-    timestamp=`date "+%Y-%m-%d %H:%M:%S"`
+gwip() {
+    branch=$(git symbolic-ref --short HEAD 2>/dev/null)
+    if [ -z "$branch" ]; then
+        echo "Not on a git branch."
+        return 1
+    fi
+    timestamp=$(date "+%Y-%m-%d %H:%M:%S")
     git add .
     git commit -m "Automated WIP Commit: $timestamp"
-    git push origin $branch
+    git push origin "$branch"
 }
 
-function ref() {
-	git checkout -b "ref-$argv[1]"
+ref() {
+    if [ -z "$1" ]; then
+        echo "Usage: ref <branch-name>"
+        return 1
+    fi
+    git checkout -b "ref-$1"
 }
 
-function fix() {
-	git checkout -b "fix-$argv[1]"
+fix() {
+    if [ -z "$1" ]; then
+        echo "Usage: fix <branch-name>"
+        return 1
+    fi
+    git checkout -b "fix-$1"
 }
 
-function feat() {
-	git checkout -b "feat-$argv[1]"
+feat() {
+    if [ -z "$1" ]; then
+        echo "Usage: feat <branch-name>"
+        return 1
+    fi
+    git checkout -b "feat-$1"
 }
 
 if command -v starship &>/dev/null
