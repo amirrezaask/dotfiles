@@ -49,4 +49,16 @@ ln -s "$CONFIGS_DIR/bash" "$XDG_CONFIG/bash"
 ln -s "$CONFIGS_DIR/bash/rc" "$HOME/.bashrc"
 ln -s "$CONFIGS_DIR/zsh/.zshrc" "$HOME/.zshrc"
 
-
+# Now some mac stuff
+if [[ "$(uname)" == "Darwin" ]]; then
+  echo "# Only for macOS"
+  MACOS_CONFIGS_DIR="$HOME/Library/Application Support"
+  echo "# macOS configuration Directory: $MACOS_CONFIGS_DIR"
+  rm -rf "$MACOS_CONFIGS_DIR/Sublime Text/Packages/User"
+  mkdir -p "$MACOS_CONFIGS_DIR/Sublime Text/Packages"
+  ln -nsf "$CONFIGS_DIR/sublime" "$MACOS_CONFIGS_DIR/Sublime Text/Packages/User"
+  rm -rf "$MACOS_CONFIGS_DIR/Code/User/settings.json"
+  rm -rf "$MACOS_CONFIGS_DIR/Code/User/keybindings.json"
+  ln -nsf "$CONFIGS_DIR/code/settings.json" "$MACOS_CONFIGS_DIR/Code/User/settings.json"
+  ln -nsf "$CONFIGS_DIR/code/keybindings.json" "$MACOS_CONFIGS_DIR/Code/User/keybindings.json"
+fi

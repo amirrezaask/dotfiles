@@ -5,9 +5,11 @@
 	],
 	"installed_packages":
 	[
+		"Git blame",
 		"LSP",
 		"LSP-gopls",
 		"LSP-intelephense",
+		"Night Owl",
 		"Package Control",
 	],
 }
