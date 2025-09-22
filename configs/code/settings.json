@@ -1,5 +1,4 @@
 {
-  "workbench.colorTheme": "Tokyo Night",
   "editor.fontFamily": "Maple Mono",
   "editor.fontSize": 14,
   "workbench.editor.editorActionsLocation": "hidden",
@@ -21,8 +20,7 @@
   "breadcrumbs.enabled": false,
   "window.commandCenter": false,
   "workbench.startupEditor": "none",
-  "window.titleBarStyle": "native",
-  "window.customTitleBarVisibility": "windowed",
+  "window.titleBarStyle": "custom",
   "go.toolsManagement.autoUpdate": true,
   "editor.bracketPairColorization.enabled": false,
   "extensions.ignoreRecommendations": true,
