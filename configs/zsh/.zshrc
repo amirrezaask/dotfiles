@@ -19,10 +19,8 @@ then
 	alias vi='nvim'
 	alias v='nvim'
 	export EDITOR='nvim'
-	export GIT_EDITOR="$EDITOR"
-	export MANPAGER='nvim +Man!'
+	# export MANPAGER='nvim +Man!'
 fi
-
 
 alias l='ls -lah'
 alias la='ls -lAh'
