@@ -1,0 +1,45 @@
+{
+	"globals":
+	{
+		"background": "#000000",
+		"caret": "white",
+		"foreground": "#ffffff",
+		"line_highlight": "#1a1a1a",
+		"selection": "#15a1bf"
+	},
+	"name": "GingerBill",
+	"rules":
+	[
+		{
+			"background": "#0af",
+			"foreground": "#0af1",
+			"name": "GitSavvy Multiselect Marker",
+			"scope": "git_savvy.multiselect"
+		},
+		{
+			"foreground": "#b3f065",
+			"name": "Identifiers",
+			"scope": "entity.name"
+		},
+		{
+			"foreground": "#54e3d5",
+			"name": "Functions And Types",
+			"scope": "variable.function, storage.type"
+		},
+		{
+			"foreground": "#67ccf5",
+			"name": "Keywords2",
+			"scope": "keyword - keyword.operator"
+		},
+		{
+			"foreground": "#828385",
+			"name": "Comment",
+			"scope": "comment"
+		},
+		{
+			"foreground": "#dade62",
+			"name": "String",
+			"scope": "string"
+		}
+	]
+}

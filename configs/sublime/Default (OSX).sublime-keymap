@@ -3,8 +3,9 @@
     { "keys": ["command+2"], "command": "toggle_terminus_panel"},
 	{ "keys": ["command+."], "command": "goto_definition" },
     { "keys": ["command+,"], "command": "jump_back" },
+    {"keys": ["command+option+b"], "command": "blame_show_all"},
+    { "keys": ["command+0"], "command": "gs_show_status" },
 
-	{"keys": ["command+option+b"], "command": "blame_show_all"},
     { // LSP: Goto Definition
         "keys": ["command+."],
         "command": "lsp_symbol_definition",

@@ -8,7 +8,7 @@ shell-integration-features=no-cursor
 maximize=true
 adjust-cell-height=40%
 cursor-style=bar
-theme=Night Owl
+theme=Kitty Default
 background-opacity = 0.95
 
 keybind = cmd+n=next_tab
