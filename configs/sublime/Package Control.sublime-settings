@@ -5,11 +5,15 @@
 	],
 	"installed_packages":
 	[
+		"Case Conversion",
 		"Git blame",
 		"LSP",
 		"LSP-gopls",
 		"LSP-intelephense",
+		"LSP-yaml",
+		"Materialize",
 		"Night Owl",
 		"Package Control",
+		"Terminus",
 	],
 }

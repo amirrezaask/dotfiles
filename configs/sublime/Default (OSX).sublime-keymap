@@ -1,4 +1,6 @@
 [
+    { "keys": ["command+1"], "command": "toggle_side_bar"},
+    { "keys": ["command+2"], "command": "toggle_terminus_panel"},
 	{ "keys": ["command+."], "command": "goto_definition" },
     { "keys": ["command+,"], "command": "jump_back" },
 

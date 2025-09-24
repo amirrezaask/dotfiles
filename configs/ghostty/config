@@ -1,4 +1,4 @@
-font-family = Fira Code
+font-family = Jetbrains Mono
 cursor-style-blink = false
 mouse-hide-while-typing = true
 macos-option-as-alt = true
@@ -6,6 +6,12 @@ window-padding-x = 0
 window-padding-y = 0
 shell-integration-features=no-cursor
 maximize=true
+adjust-cell-height=40%
+cursor-style=bar
+
+
+
+theme=Mariana
 
 keybind = cmd+n=next_tab
 keybind = cmd+p=previous_tab

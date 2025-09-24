@@ -38,12 +38,12 @@ vim.opt.listchars = {
 
 vim.cmd([[ autocmd TextYankPost * silent! lua vim.hl.on_yank {higroup='Visual', timeout=150 } ]])
 
-vim.api.nvim_create_autocmd("ColorScheme", {
-	callback = function()
-		vim.cmd([[
-			hi Normal guibg=NONE
-			hi NormalFloat guibg=NONE
-			hi SignColumn guibg=NONE
-		]])
-	end,
-})
+-- vim.api.nvim_create_autocmd("ColorScheme", {
+-- 	callback = function()
+-- 		vim.cmd([[
+-- 			hi Normal guibg=NONE
+-- 			hi NormalFloat guibg=NONE
+-- 			hi SignColumn guibg=NONE
+-- 		]])
+-- 	end,
+-- })
