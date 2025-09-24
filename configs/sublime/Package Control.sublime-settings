@@ -11,9 +11,9 @@
 		"LSP-gopls",
 		"LSP-intelephense",
 		"LSP-yaml",
-		"Materialize",
 		"Night Owl",
 		"Package Control",
 		"Terminus",
+		"Text Pastry",
 	],
 }

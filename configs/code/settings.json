@@ -1,10 +1,10 @@
 {
-  "editor.fontFamily": "Maple Mono",
+  "editor.fontFamily": "Operator Mono",
   "editor.fontSize": 14,
+  "editor.lineHeight": 35,
   "workbench.editor.editorActionsLocation": "hidden",
   "editor.wordWrap": "on",
   "editor.minimap.enabled": false,
-  "window.menuBarVisibility": "toggle",
   "diffEditor.renderSideBySide": false,
   "editor.mouseWheelScrollSensitivity": 2,
   "window.restoreWindows": "none",
@@ -24,7 +24,7 @@
   "go.toolsManagement.autoUpdate": true,
   "editor.bracketPairColorization.enabled": false,
   "extensions.ignoreRecommendations": true,
-  "gitProjectManager.baseProjectsFolders": [ "~/p" ],
+  "gitProjectManager.baseProjectsFolders": [ "~/dev" ],
   "gitProjectManager.openInNewWindow": true,
   "workbench.secondarySideBar.defaultVisibility": "hidden",
   "git.blame.statusBarItem.enabled": true,
@@ -38,51 +38,6 @@
     "/tmp/postman-http-request-pre-request.instructions.md": true
   },
   "workbench.activityBar.location": "top",
-  "vim.leader": " ",
-    "vim.useSystemClipboard": true,
-    "vim.timeout": 200,
-    "vim.normalModeKeyBindings": [
-    { "before": ["<C-d>"], "after": ["<C-d>", "z", "z"] },
-    { "before": ["<C-u>"], "after": ["<C-u>", "z", "z"] },
-    { "before": ["<leader>", "f"], "commands": [ "workbench.view.search" ], },
-    { "before": [ "<leader>", "e" ], "commands": [ "workbench.view.explorer" ], },
-    { "before": [ "<leader>", "<space>" ], "commands": [ "workbench.action.showCommands" ], },
-    { "before": [ "<leader>", "<tab>" ], "commands": [ "workbench.action.quickOpen" ], },
-    { "before": [ "<leader>", "o" ], "commands": ["workbench.action.gotoSymbol"], },
-    { "before": [ "<leader>", "O" ], "commands": ["workbench.action.showAllSymbols"], },
-    { "before": [ "g", "r" ], "commands": [ "references-view.findReferences" ], },
-    { "before": [ "g", "l" ], "commands": [ "editor.action.showHover" ], },
-    { "before": [ "K" ], "commands": [ "editor.action.showHover" ], },
-    { "before": [ "[", "[" ], "commands": [ "editor.action.marker.prev" ], },
-    { "before": [ "]", "]" ], "commands": [ "editor.action.marker.next" ], },
-    { "before": [ "C"], "commands": ["editor.action.quickFix"] },
-    { "before": [ "R" ], "commands": [ "editor.action.rename" ] },
-    { "before": ["{"], "commands": [ "references-view.prev"] },
-    { "before": ["}"], "commands": [ "references-view.next"] },
-    { "before": ["<c-q>"], "commands": ["references-view.tree.focus"] },
-    { "before": ["j"], "after": ["g", "j"]},
-    { "before": ["k"], "after": ["g", "k"]}
-  ],
-  "vim.insertModeKeyBindings": [
-    {
-      "before": [
-        "j",
-        "k"
-      ],
-      "after": [
-        "<esc>"
-      ],
-    },
-    {
-      "before": [
-        "k",
-        "j"
-      ],
-      "after": [
-        "<esc>"
-      ],
-    },
-  ],
   "workbench.statusBar.visible": false,
 
 }

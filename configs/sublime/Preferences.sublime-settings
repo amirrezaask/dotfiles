@@ -1,6 +1,6 @@
 {
 	"font_face": "Operator Mono Book",
-	"font_size": 21,
+	"font_size": 20,
 	"font_options": ["no_italic"],
 	"line_padding_top": 15,
 	"line_padding_bottom": 15,
@@ -11,7 +11,5 @@
 	"index_files": true,
 	"hot_exit": false,
 	"theme": "Adaptive.sublime-theme",
-	"show_tab_close_buttons": false,
-
-	"color_scheme": "Mariana.sublime-color-scheme",
+	"color_scheme": "Night Owl.sublime-color-scheme",
 }

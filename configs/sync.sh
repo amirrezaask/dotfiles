@@ -61,4 +61,8 @@ if [[ "$(uname)" == "Darwin" ]]; then
   rm -rf "$MACOS_CONFIGS_DIR/Code/User/keybindings.json"
   ln -nsf "$CONFIGS_DIR/code/settings.json" "$MACOS_CONFIGS_DIR/Code/User/settings.json"
   ln -nsf "$CONFIGS_DIR/code/keybindings.json" "$MACOS_CONFIGS_DIR/Code/User/keybindings.json"
+  rm -rf "$MACOS_CONFIGS_DIR/Cursor/User/settings.json"
+  rm -rf "$MACOS_CONFIGS_DIR/Cursor/User/keybindings.json"
+  ln -nsf "$CONFIGS_DIR/code/settings.json" "$MACOS_CONFIGS_DIR/Cursor/User/settings.json"
+  ln -nsf "$CONFIGS_DIR/code/keybindings.json" "$MACOS_CONFIGS_DIR/Cursor/User/keybindings.json"
 fi

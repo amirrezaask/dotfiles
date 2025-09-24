@@ -28,10 +28,5 @@
   {
     "key": "ctrl+,",
     "command": "workbench.action.navigateBack",
-  },
-  {
-    "key": "ctrl+e",
-    "command": "composerMode.background"
-  },
-
+  }
 ]
