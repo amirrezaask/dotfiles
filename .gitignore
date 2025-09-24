@@ -6,3 +6,4 @@ env/fish/conf.d
 env/fish/functions
 env/fish/fish_variables
 env/nvim/lazy-lock.json
+**/.DS_Store

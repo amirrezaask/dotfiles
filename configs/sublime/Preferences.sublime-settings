@@ -1,9 +1,9 @@
 {
 	"font_face": "Maple Mono",
-	"font_size": 20,
+	"font_size": 16,
 	"font_options": ["no_italic"],
-	"line_padding_top": 15,
-	"line_padding_bottom": 15,
+	"line_padding_top": 10,
+	"line_padding_bottom": 10,
 	"ignored_packages":
 	[
 		"Vintage",
@@ -11,5 +11,5 @@
 	"index_files": true,
 	"hot_exit": false,
 	"theme": "Adaptive.sublime-theme",
-	"color_scheme": "Night Owl.sublime-color-scheme",
+	"color_scheme": "GingerBil.sublime-color-scheme",
 }

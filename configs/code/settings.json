@@ -1,7 +1,7 @@
 {
   "editor.fontFamily": "Operator Mono",
   "editor.fontSize": 14,
-  "editor.lineHeight": 35,
+  "editor.lineHeight": 32,
   "workbench.editor.editorActionsLocation": "hidden",
   "editor.wordWrap": "on",
   "editor.minimap.enabled": false,
@@ -39,5 +39,6 @@
   },
   "workbench.activityBar.location": "top",
   "workbench.statusBar.visible": false,
+  "workbench.editor.showTabs": "none",
 
 }

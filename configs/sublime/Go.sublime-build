@@ -1,0 +1,17 @@
+{
+  "file_regex": "^(.+\\.go):(\\d+):(\\d+):?\\s*(.*)$",
+  "working_dir": "$folder",
+  "selector": "source.go",
+  "shell_cmd": "go build -v ./...",
+  "variants":
+  [
+    {
+      "name": "Test",
+      "shell_cmd": "go test -coverprofile=cover.out -v ./..."
+    },
+    {
+      "name": "Lint",
+      "shell_cmd": "golangci-lint run"
+    }
+  ]
+}
