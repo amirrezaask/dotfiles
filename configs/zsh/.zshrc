@@ -76,7 +76,7 @@ feat() {
     git checkout -b "feat-$1"
 }
 
-if command -v starship &>/dev/null
-then
-	eval "$(starship init zsh)"
-fi
+# if command -v starship &>/dev/null
+# then
+# 	eval "$(starship init zsh)"
+# fi

@@ -9,6 +9,7 @@ maximize=true
 adjust-cell-height=40%
 cursor-style=bar
 theme=Night Owl
+background-opacity = 0.95
 
 keybind = cmd+n=next_tab
 keybind = cmd+p=previous_tab
