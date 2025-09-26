@@ -8,8 +8,8 @@ shell-integration-features=no-cursor
 maximize=true
 adjust-cell-height=40%
 cursor-style=bar
-theme=Catppuccin Macchiato
-background-opacity = 0.95
+theme=Night Owl
+# background-opacity = 0.95
 
 keybind = cmd+n=next_tab
 keybind = cmd+p=previous_tab
