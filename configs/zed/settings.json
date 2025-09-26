@@ -1,4 +1,5 @@
 {
+  "vim_mode": false,
   "notification_panel": {
     "dock": "left"
   },
@@ -22,6 +23,6 @@
   "theme": {
     "mode": "system",
     "light": "One Light",
-    "dark": "Sublime Mariana"
+    "dark": "Aura Dark"
   }
 }

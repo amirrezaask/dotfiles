@@ -1,5 +1,11 @@
 [
   {
+    "bindings": {
+      "cmd-1": "workspace::ToggleLeftDock",
+      "cmd-2": "workspace::ToggleBottomDock"
+    }
+  },
+  {
     "context": "Editor",
     "bindings": {
       "cmd-shift-g": "git::Blame",
