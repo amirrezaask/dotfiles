@@ -1,9 +1,10 @@
 {
 	"font_face": "Jetbrains Mono",
-	"font_size": 18,
+	"font_size": 15,
 	"font_options": ["no_italic"],
-	"line_padding_top": 15,
-	"line_padding_bottom": 15,
+	"line_padding_top": 20,
+	"line_padding_bottom": 20,
+	"highlight_line": true,
 	"ignored_packages":
 	[
 		"Vintage",
