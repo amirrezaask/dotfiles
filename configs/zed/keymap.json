@@ -7,10 +7,13 @@
 // from the command palette.
 [
   {
-    "context": "Workspace",
+    "context": "Editor",
     "bindings": {
-      // "shift shift": "file_finder::Toggle",
-      "cmd-shift-g": "git::Blame"
+      "cmd-shift-g": "git::Blame",
+      "cmd-.": "editor::GoToDefinition",
+      "cmd-b": "editor::GoToDefinition",
+      "cmd-,": "pane::GoBack",
+      "cmd-shift-r": "editor::Rename"
     }
   },
   {
