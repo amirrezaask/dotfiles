@@ -10,7 +10,7 @@
   "notification_panel": {
     "dock": "left"
   },
-  "buffer_font_family": "Maple Mono",
+  "buffer_font_family": "JetBrains Mono",
   "cursor_blink": false,
   "disable_ai": true,
   "ui_font_size": 16,
@@ -30,6 +30,6 @@
   "theme": {
     "mode": "system",
     "light": "One Light",
-    "dark": "Monokai-og"
+    "dark": "Night Owl No Italics"
   }
 }
