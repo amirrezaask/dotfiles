@@ -12,5 +12,5 @@
 	"index_files": true,
 	"hot_exit": false,
 	"theme": "Adaptive.sublime-theme",
-	"color_scheme": "Night Owl.sublime-color-scheme",
+	"color_scheme": "Packages/User/Aura.tmTheme",
 }
