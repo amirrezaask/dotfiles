@@ -21,10 +21,12 @@ rm -rf "$XDG_CONFIG/nvim" \
 	"$XDG_CONFIG/starship.toml" \
 	"$XDG_CONFIG/Code/User/settings.json" \
 	"$XDG_CONFIG/Code/User/keybindings.json" \
+	"$XDG_CONFIG/zed/settings.json" \
+	"$XDG_CONFIG/zed/keymap.json" \
 	"$XDG_CONFIG/bash" \
 	"$HOME/.zshrc" \
 	"$HOME/.gitconfig" \
-	"$HOME/.bashrc" 
+	"$HOME/.bashrc"
 
 mkdir -p "$XDG_CONFIG"
 mkdir -p "$XDG_CONFIG/Code/User"
@@ -45,6 +47,8 @@ ln -s "$CONFIGS_DIR/starship.toml" "$XDG_CONFIG/starship.toml"
 ln -s "$CONFIGS_DIR/.gitconfig" "$HOME/.gitconfig"
 ln -s "$CONFIGS_DIR/code/settings.json" "$XDG_CONFIG/Code/User/settings.json"
 ln -s "$CONFIGS_DIR/code/keybindings.json" "$XDG_CONFIG/Code/User/keybindings.json"
+ln -s "$CONFIGS_DIR/zed/settings.json" "$XDG_CONFIG/zed/settings.json"
+ln -s "$CONFIGS_DIR/zed/keymap.json" "$XDG_CONFIG/zed/keymap.json"
 ln -s "$CONFIGS_DIR/bash" "$XDG_CONFIG/bash"
 ln -s "$CONFIGS_DIR/bash/rc" "$HOME/.bashrc"
 ln -s "$CONFIGS_DIR/zsh/.zshrc" "$HOME/.zshrc"

@@ -1,0 +1,21 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette (cmd-shift-p / ctrl-shift-p)
+{
+  "buffer_font_family": "Maple Mono",
+  "cursor_blink": false,
+  "disable_ai": true,
+  "ui_font_size": 16,
+  "buffer_font_size": 15,
+  "buffer_line_height": { "custom": 3 },
+  "theme": {
+    "mode": "system",
+    "light": "Gruvbox Light Hard",
+    "dark": "Ayu Dark"
+  }
+}
