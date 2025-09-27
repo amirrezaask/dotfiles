@@ -20,7 +20,7 @@ then
 	alias vim='nvim'
 	alias vi='nvim'
 	alias v='nvim'
-	export EDITOR='nvim'
+	# export EDITOR='nvim'
 	# export MANPAGER='nvim +Man!'
 fi
 

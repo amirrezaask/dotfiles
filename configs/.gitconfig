@@ -18,11 +18,3 @@
 
 [pull]
 	rebase = true
-
-[core]
-	pager = nvim -R -d
-
-[color]
-	pager = no
-[init]
-	defaultBranch = master

@@ -1,4 +1,3 @@
-font-family = JetBrains Mono
 cursor-style-blink = false
 mouse-hide-while-typing = true
 macos-option-as-alt = true
@@ -6,18 +5,36 @@ window-padding-x = 0
 window-padding-y = 0
 shell-integration-features=no-cursor
 maximize=true
-adjust-cell-height=80%
+adjust-cell-height=10
 cursor-style=bar
 theme=Night Owl
+macos-titlebar-style=tabs
+
+keybind = shift+right=next_tab
+keybind = shift+left=previous_tab
 
 keybind = cmd+n=next_tab
 keybind = cmd+p=previous_tab
 keybind = cmd+f=toggle_split_zoom
+keybind = cmd+shift+f=toggle_split_zoom
+keybind = cmd+shift+down=resize_split:down,10
+keybind = cmd+shift+left=resize_split:left,10
+keybind = cmd+shift+up=resize_split:up,10
+keybind = cmd+shift+right=resize_split:right,10
+keybind = cmd+shift+plus=equalize_splits
+keybind = cmd+d=new_split:right
+keybind = cmd+shift+d=new_split:down
+keybind = cmd+shift+h=goto_split:left
+keybind = cmd+shift+j=goto_split:down
+keybind = cmd+shift+k=goto_split:up
+keybind = cmd+shift+l=goto_split:right
+keybind = cmd+down=goto_split:down
+keybind = cmd+left=goto_split:left
+keybind = cmd+up=goto_split:up
+keybind = cmd+right=goto_split:right
+keybind = cmd+enter=new_tab
+keybind = cmd+shift+enter=toggle_maximize
 
-keybind = ctrl+shift+enter=toggle_maximize
-
-keybind = shift+right=next_tab
-keybind = shift+left=previous_tab
 
 keybind = ctrl+shift+f=toggle_split_zoom
 keybind = ctrl+shift+down=resize_split:down,10
