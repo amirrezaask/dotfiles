@@ -24,6 +24,13 @@ then
 	# export MANPAGER='nvim +Man!'
 fi
 
+
+if command -v subl &> /dev/null
+then
+    export EDITOR='subl'
+    alias ss='subl .'
+fi
+
 alias l='ls -lah'
 alias la='ls -lAh'
 alias ll='ls -lh'

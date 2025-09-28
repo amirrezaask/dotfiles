@@ -1,7 +1,7 @@
 {
-  "editor.fontFamily": "Maple Mono",
+  "editor.fontFamily": "MonoLisa",
   "editor.fontSize": 14,
-  "editor.lineHeight": 32,
+  "editor.lineHeight": 2.5,
   "workbench.editor.editorActionsLocation": "hidden",
   "editor.wordWrap": "on",
   "editor.minimap.enabled": false,
@@ -38,7 +38,7 @@
     "/tmp/postman-http-request-pre-request.instructions.md": true
   },
   "workbench.activityBar.location": "top",
-  "workbench.statusBar.visible": false,
-  "workbench.editor.showTabs": "none",
+  "workbench.iconTheme": "vs-minimal",
+  "workbench.sideBar.location": "right",
 
 }
