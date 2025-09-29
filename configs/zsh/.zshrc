@@ -36,15 +36,6 @@ alias la='ls -lAh'
 alias ll='ls -lh'
 alias ls='ls -G'
 alias lsa='ls -lah'
-
-alias gs='git status'
-alias gd='git diff'
-alias ga='git add'
-alias gc='git commit'
-alias gp='git push origin $(basename $(git rev-parse --abbrev-ref HEAD))'
-alias gl='git pull $(basename $(git rev-parse --abbrev-ref HEAD))'
-alias gll='git pull --all'
-alias glg='git pull --rebase'
 unalias gwip 2>/dev/null
 
 gwip() {

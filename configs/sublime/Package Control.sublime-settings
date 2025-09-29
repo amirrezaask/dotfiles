@@ -6,8 +6,6 @@
 	"installed_packages":
 	[
 		"Case Conversion",
-		"Git blame",
-		"GitSavvy",
 		"LSP",
 		"LSP-gopls",
 		"LSP-intelephense",
