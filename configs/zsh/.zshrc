@@ -44,9 +44,8 @@ gwip() {
         echo "Not on a git branch."
         return 1
     fi
-    timestamp=$(date "+%Y-%m-%d %H:%M:%S")
     git add .
-    git commit -m "Automated WIP Commit: $timestamp"
+    git commit -m "wip"
     git push origin "$branch"
 }
 

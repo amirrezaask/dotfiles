@@ -12,6 +12,8 @@
 		"LSP-yaml",
 		"Package Control",
 		"Sesame",
+		"SublimeLinter",
+		"SublimeLinter-golangcilint",
 		"Terminus",
 		"Text Pastry",
 	],
