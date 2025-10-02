@@ -1,12 +1,13 @@
 {
 	"font_face": "MonoLisa",
-	"font_size": 14,
-	"font_options": ["no_italic"],
-	"line_padding_top": 10,
-	"line_padding_bottom": 10,
+	"font_size": 16,
+	"font_options": [
+		"no_italic"
+	],
+	"line_padding_top": 12,
+	"line_padding_bottom": 12,
 	"highlight_line": true,
-	"ignored_packages":
-	[
+	"ignored_packages": [
 		"Vintage",
 	],
 	"index_files": true,

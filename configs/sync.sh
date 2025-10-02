@@ -55,16 +55,21 @@ ln -s "$CONFIGS_DIR/zsh/.zshrc" "$HOME/.zshrc"
 
 # Now some mac stuff
 if [[ "$(uname)" == "Darwin" ]]; then
-  echo "# Only for macOS"
   MACOS_CONFIGS_DIR="$HOME/Library/Application Support"
   echo "# macOS configuration Directory: $MACOS_CONFIGS_DIR"
+
+  echo "Linking Sublime $MACOS_CONFIGS_DIR/Sublime Text/Packages/User"
   rm -rf "$MACOS_CONFIGS_DIR/Sublime Text/Packages/User"
   mkdir -p "$MACOS_CONFIGS_DIR/Sublime Text/Packages"
   ln -nsf "$CONFIGS_DIR/sublime" "$MACOS_CONFIGS_DIR/Sublime Text/Packages/User"
+
+  echo "Linking VSCode $MACOS_CONFIGS_DIR/Code/User"
   rm -rf "$MACOS_CONFIGS_DIR/Code/User/settings.json"
   rm -rf "$MACOS_CONFIGS_DIR/Code/User/keybindings.json"
   ln -nsf "$CONFIGS_DIR/code/settings.json" "$MACOS_CONFIGS_DIR/Code/User/settings.json"
   ln -nsf "$CONFIGS_DIR/code/keybindings.json" "$MACOS_CONFIGS_DIR/Code/User/keybindings.json"
+
+  echo "Linking Cursor $MACOS_CONFIGS_DIR/Cursor/User/settings.json"
   rm -rf "$MACOS_CONFIGS_DIR/Cursor/User/settings.json"
   rm -rf "$MACOS_CONFIGS_DIR/Cursor/User/keybindings.json"
   ln -nsf "$CONFIGS_DIR/code/settings.json" "$MACOS_CONFIGS_DIR/Cursor/User/settings.json"

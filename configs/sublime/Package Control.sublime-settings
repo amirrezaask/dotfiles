@@ -5,10 +5,12 @@
 	],
 	"installed_packages":
 	[
+		"All Autocomplete",
 		"Case Conversion",
 		"LSP",
 		"LSP-gopls",
 		"LSP-intelephense",
+		"LSP-json",
 		"LSP-yaml",
 		"Package Control",
 		"Sesame",
