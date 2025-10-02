@@ -79,7 +79,10 @@ feat() {
 if [[ "$(uname)" == "Darwin" ]]; then
     alias goland='open -na "Goland.app" --args'
     alias pstorm='open -na "Goland.app" --args'
+    alias gg='goland .'
+    alias pp='pstorm .'
 fi
+
 # if command -v starship &>/dev/null
 # then
 # 	eval "$(starship init zsh)"
