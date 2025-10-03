@@ -10,11 +10,14 @@ adjust-cell-height=10
 cursor-style=bar
 theme=Night Owl
 macos-titlebar-style=tabs
+background-opacity=0.8
+background-blur=true
 
 keybind = shift+right=next_tab
 keybind = shift+left=previous_tab
 
 keybind = cmd+n=next_tab
+keybind = cmd+enter=new_tab
 keybind = cmd+p=previous_tab
 keybind = cmd+f=toggle_split_zoom
 keybind = cmd+shift+f=toggle_split_zoom
