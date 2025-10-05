@@ -12,6 +12,8 @@ source "$ZSH/oh-my-zsh.sh"
 export HISTSIZE=100000
 export HISTFILESIZE=100000
 
+export PATH="$HOME/go/bin:$PATH"
+
 if command -v fzf &> /dev/null
 then
     source <(fzf --zsh)
