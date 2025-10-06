@@ -7,7 +7,7 @@ shell-integration-features=no-cursor
 maximize=true
 adjust-cell-height=10
 cursor-style=bar
-theme=Night Owl
+theme=Mariana
 
 macos-titlebar-style=tabs
 background-opacity=0.9
