@@ -8,6 +8,7 @@ maximize=true
 adjust-cell-height=10
 cursor-style=bar
 theme=Night Owl
+
 macos-titlebar-style=tabs
 background-opacity=0.9
 background-blur=true
