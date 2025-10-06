@@ -1,11 +1,10 @@
 {
-	"font_face": "Operator Mono Book",
-	"font_size": 14,
+	"font_face": "MonoLisa",
+	"font_size": 16,
 	"default_font_size": 13,
 	"font_options": [
 		"no_italic"
 	],
-	"sidebar_on_right": true,
 	"line_padding_top": 12,
 	"line_padding_bottom": 12,
 	"highlight_line": true,

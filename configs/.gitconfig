@@ -15,6 +15,12 @@
 	br = branch
 	ci = commit
 	st = status
+	diff = difftool --no-prompt
 
 [pull]
 	rebase = true
+
+[diff]
+	tool = vscode
+[difftool "vscode"]
+	cmd = code --wait --diff \"$LOCAL\" \"$REMOTE\"

@@ -34,6 +34,16 @@ then
     export EDITOR='subl -w'
 	export GIT_EDITOR='subl -w'
     alias ss='subl .'
+    alias gd='git diff | subl -'
+    alias glo='git log --oneline --decorate | subl'
+fi
+
+if command -v code &> /dev/null
+then
+	export EDITOR='code -w'
+	export GIT_EDITOR='code -w'
+    alias gd='git diff | code -'
+    alias glo='git log --oneline --decorate | code -'
 fi
 
 alias l='ls -lah'
