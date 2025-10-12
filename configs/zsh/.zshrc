@@ -34,6 +34,7 @@ then
     export EDITOR='subl -w'
 	export GIT_EDITOR='subl -w'
     alias ss='subl .'
+    alias s='subl'
     alias gd='git diff | subl -'
     alias glo='git log --oneline --decorate | subl'
 fi
@@ -52,6 +53,9 @@ alias ll='ls -lh'
 alias ls='ls -G'
 alias lsa='ls -lah'
 unalias wip 2>/dev/null
+
+alias nah='git restore --staged . && git restore . && git clean -fd'
+alias clean='git restore --staged . && git restore . && git clean -fd'
 
 wip() {
     branch=$(git symbolic-ref --short HEAD 2>/dev/null)
@@ -89,13 +93,11 @@ feat() {
 }
 
 if [[ "$(uname)" == "Darwin" ]]; then
-    alias goland='open -na "Goland.app" --args'
-    alias pstorm='open -na "Goland.app" --args'
-    alias gg='goland .'
-    alias pp='pstorm .'
+    alias idea='open -na "Intellij IDEA.app" --args'
+    alias gg='idea .'
 fi
 
-# if command -v starship &>/dev/null
-# then
-# 	eval "$(starship init zsh)"
-# fi
+if command -v starship &>/dev/null
+then
+	eval "$(starship init zsh)"
+fi
