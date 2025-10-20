@@ -1,3 +1,4 @@
+COLORSCHEME = "tokyonight"
 vim.g.mapleader = " "
 vim.o.undofile = true
 

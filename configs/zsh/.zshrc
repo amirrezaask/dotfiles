@@ -26,26 +26,21 @@ then
 	alias vim='nvim'
 	alias vi='nvim'
 	alias v='nvim'
+	export GIT_EDITOR='nvim'
+	export EDITOR='nvim'
 fi
 
 
 if command -v subl &> /dev/null
 then
     export EDITOR='subl -w'
-	export GIT_EDITOR='subl -w'
+	  export GIT_EDITOR='subl -w'
     alias ss='subl .'
     alias s='subl'
     alias gd='git diff | subl -'
     alias glo='git log --oneline --decorate | subl'
 fi
 
-# if command -v code &> /dev/null
-# then
-# 	export EDITOR='code -w'
-# 	export GIT_EDITOR='code -w'
-#     alias gd='git diff | code -'
-#     alias glo='git log --oneline --decorate | code -'
-# fi
 
 alias l='ls -lah'
 alias la='ls -lAh'
@@ -94,10 +89,10 @@ feat() {
 
 if [[ "$(uname)" == "Darwin" ]]; then
     alias idea='open -na "Intellij IDEA.app" --args'
-    alias gg='idea .'
+    alias jj='idea .'
 fi
 
-if command -v starship &>/dev/null
-then
-	eval "$(starship init zsh)"
-fi
+# if command -v starship &>/dev/null
+# then
+# 	eval "$(starship init zsh)"
+# fi

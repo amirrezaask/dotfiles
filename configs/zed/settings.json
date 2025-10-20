@@ -3,9 +3,11 @@
   "notification_panel": {
     "dock": "left"
   },
+  "features": {
+    "edit_prediction_provider": "supermaven"
+  },
   "buffer_font_family": "JetBrains Mono",
   "cursor_blink": false,
-  "disable_ai": true,
   "ui_font_size": 16,
   "buffer_font_size": 15,
   "buffer_line_height": { "custom": 3 },
@@ -22,7 +24,7 @@
   },
   "theme": {
     "mode": "system",
-    "light": "One Light",
+    "light": "Sublime Mariana",
     "dark": "Monokai-og"
   }
 }
