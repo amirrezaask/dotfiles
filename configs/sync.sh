@@ -26,7 +26,8 @@ rm -rf "$XDG_CONFIG/nvim" \
 	"$XDG_CONFIG/bash" \
 	"$HOME/.zshrc" \
 	"$HOME/.gitconfig" \
-	"$HOME/.bashrc"
+	"$HOME/.bashrc" \
+	"$HOME/.tmux.conf"
 
 mkdir -p "$XDG_CONFIG"
 mkdir -p "$XDG_CONFIG/Code/User"
@@ -52,6 +53,7 @@ ln -s "$CONFIGS_DIR/zed/keymap.json" "$XDG_CONFIG/zed/keymap.json"
 ln -s "$CONFIGS_DIR/bash" "$XDG_CONFIG/bash"
 ln -s "$CONFIGS_DIR/bash/rc" "$HOME/.bashrc"
 ln -s "$CONFIGS_DIR/zsh/.zshrc" "$HOME/.zshrc"
+ln -s "$CONFIGS_DIR/tmux/tmux.conf" "$HOME/.tmux.conf"
 
 # Now some mac stuff
 if [[ "$(uname)" == "Darwin" ]]; then

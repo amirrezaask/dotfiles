@@ -31,17 +31,6 @@ then
 fi
 
 
-if command -v subl &> /dev/null
-then
-    export EDITOR='subl -w'
-	  export GIT_EDITOR='subl -w'
-    alias ss='subl .'
-    alias s='subl'
-    alias gd='git diff | subl -'
-    alias glo='git log --oneline --decorate | subl'
-fi
-
-
 alias l='ls -lah'
 alias la='ls -lAh'
 alias ll='ls -lh'

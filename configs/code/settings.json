@@ -1,7 +1,7 @@
 {
   "editor.fontFamily": "Fira Code",
   "editor.fontSize": 14,
-  "editor.lineHeight": 2.5,
+  "editor.lineHeight": 1.8,
   "workbench.editor.editorActionsLocation": "hidden",
   "editor.wordWrap": "on",
   "editor.minimap.enabled": false,
@@ -93,5 +93,4 @@
       "statusBarItem.remoteHoverForeground": "#000000"
     }
   },
-  "workbench.colorTheme": "Monokai",
 }

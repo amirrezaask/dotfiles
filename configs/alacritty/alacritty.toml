@@ -11,7 +11,7 @@ size   = 12
 [window]
 padding.x = 14
 padding.y = 14
-decorations = "None"
+# decorations = "None"
 opacity = 0.97
 dynamic_title = false
 
@@ -21,5 +21,5 @@ bindings = [
 ]
 
 [general]
-import = [ "~/.config/current-theme/alacritty.toml" ]
+# import = [ "~/.config/current-theme/alacritty.toml" ]
 live_config_reload = true
