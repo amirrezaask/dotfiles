@@ -1,9 +1,9 @@
 *~
-env/btop/btop.log
-env/btop/themes/current.theme
-env/fish/completions
-env/fish/conf.d
-env/fish/functions
-env/fish/fish_variables
-env/nvim/lazy-lock.json
+configs/btop/btop.log
+configs/btop/themes/current.theme
+configs/fish/completions
+configs/fish/conf.d
+configs/fish/functions
+configs/fish/fish_variables
+configs/nvim/lazy-lock.json
 **/.DS_Store
