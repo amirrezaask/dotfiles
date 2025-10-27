@@ -369,18 +369,28 @@
 (defun eglot-organize-imports-format () (interactive) (eglot-format) (eglot-organize-imports))
 
 
-
 ;; xref is emacs infrastructure that provides functionality to jump to definition, references, ...
 (global-set-key (kbd "M-.") 'xref-find-definitions)
 (global-set-key (kbd "M-,") 'xref-go-back)
 (global-set-key (kbd "M-?") 'xref-find-references)
 (global-set-key (kbd "M-/") 'xref-find-references)
 
-;; installing support for languages, hopefuly emacs will start shipping all needed tressitter parsers soon and I can remove these.
+;; Installing support for languages, hopefuly emacs will start shipping all needed tressitter parsers soon and I can remove these.
 (ensure-package 'json-mode)
 (ensure-package 'yaml-mode)
 (ensure-package 'go-mode)
 (ensure-package 'rust-mode)
 (ensure-package 'php-mode )
 
+;; Evil Mode
+(ensure-package 'evil)
+(setq evil-want-keybinding nil)
+(setq evil-want-C-u-scroll t)
+(evil-mode +1)
 
+(evil-global-set-key 'normal (kbd "SPC SPC") 'find-file)
+(evil-global-set-key 'normal (kbd "SPC p f") 'project-find-file)
+
+
+(ensure-package 'evil-collection)
+(evil-collection-init)
