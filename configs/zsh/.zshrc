@@ -81,6 +81,15 @@ if [[ "$(uname)" == "Darwin" ]]; then
     alias jj='idea .'
 fi
 
+if [[ "$(uname)" == "Darwin" ]]; then
+    alias goland='open -na "GoLand.app" --args'
+    alias gg='goland .'
+fi
+if [[ "$(uname)" == "Darwin" ]]; then
+    alias pstorm='open -na "PhpStorm.app" --args'
+    alias pp='pstorm .'
+fi
+
 # if command -v starship &>/dev/null
 # then
 # 	eval "$(starship init zsh)"
