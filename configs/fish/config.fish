@@ -34,14 +34,38 @@ alias gcb='git checkout -b'
 alias gcd='git clone'
 alias gd='git diff'
 alias gdc='git diff --cached'
+alias gds='git diff --staged'
 alias gdt='git difftool'
 alias gdt='git difftool'
 alias gl='git pull --tags --prune'
 alias glg='git log'
 alias ga='git add'
+alias gp='git push'
+alias gpsup='git push --set-upstream origin $(git symbolic-ref --short HEAD)'
+alias gs='git status'
+
 
 alias l='ls -lah'
 alias la='ls -lAh'
 alias ll='ls -lh'
 alias ls='ls -G'
 alias lsa='ls -lah'
+
+function fish_prompt
+	set -l branch (git symbolic-ref --short HEAD 2>/dev/null)
+	if test -n "$branch"
+		set_color green
+		echo -n "$branch"
+		set_color normal
+		echo -n ' '
+		set_color blue
+		echo -n (prompt_pwd)
+		echo -n ' '
+		set_color normal
+	else
+		set_color red
+		echo -n (prompt_pwd)
+		set_color normal
+		echo -n ' '
+    end
+end
