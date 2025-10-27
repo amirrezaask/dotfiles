@@ -25,8 +25,7 @@ vim.o.splitright = true
 vim.opt.wildoptions:append("fuzzy")
 vim.o.cursorline = true
 vim.diagnostic.config({ virtual_text = true })
-vim.o.winbar = '%f %h%w%m%r'
-vim.o.laststatus = 0 -- Disable status line
+vim.o.laststatus = 3 -- Disable status line
 
 vim.cmd([[ autocmd TextYankPost * silent! lua vim.hl.on_yank {higroup='Visual', timeout=150 } ]])
 
@@ -164,7 +163,7 @@ require("lazy").setup({
 			vim.lsp.buf.workspace_symbol = picker.lsp_workspace_symbols
 		end,
 	},
-	{ "saghen/blink.cmp", version = "v1.6.0", opts = {} },
+	{ "saghen/blink.cmp",          version = "v1.6.0", opts = {} },
 	{
 		"nvim-treesitter/nvim-treesitter",
 		main = "nvim-treesitter.configs",
@@ -196,7 +195,10 @@ require("lazy").setup({
 		config = function()
 			vim.g.everforest_background = 'hard'
 			vim.cmd("colorscheme everforest")
+			vim.cmd("hi! Normal guibg=#1E2326")
 		end,
 	},
+
+	{ "nvim-lualine/lualine.nvim", opts = {} },
 
 })
