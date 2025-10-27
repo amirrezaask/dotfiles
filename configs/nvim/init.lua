@@ -1,4 +1,4 @@
-COLORSCHEME = "tokyonight"
+COLORSCHEME = "everforest"
 TRANSPARENT = true
 
 vim.g.mapleader = " "
@@ -25,19 +25,8 @@ vim.o.splitright = true
 vim.opt.wildoptions:append("fuzzy")
 vim.o.cursorline = true
 vim.diagnostic.config({ virtual_text = true })
-vim.o.list = true
 vim.o.winbar = '%f %h%w%m%r'
 vim.o.laststatus = 0 -- Disable status line
-
-vim.opt.listchars = {
-	tab = '│ ', -- Tab: pipe followed by space (fills tab width; use '│─' for dashes)
-	lead = '·', -- Leading spaces: single dot per space (unchanged)
-	trail = '·', -- Trailing spaces: dot (unchanged)
-	extends = '…', -- Line extends beyond window: ellipsis (unchanged)
-	precedes = '…', -- Line precedes window: ellipsis (unchanged)
-	nbsp = '␣', -- Non-breaking space: special char (unchanged)
-	eol = '↲' -- End of line: arrow (optional)
-}
 
 vim.cmd([[ autocmd TextYankPost * silent! lua vim.hl.on_yank {higroup='Visual', timeout=150 } ]])
 
@@ -89,12 +78,6 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-
-	{ "stevearc/oil.nvim", opts = {} },
-
-	"tpope/vim-surround",
-	"tpope/vim-unimpaired",
-
 	{ -- AI autocomplete
 		"supermaven-inc/supermaven-nvim",
 		config = function()
@@ -181,7 +164,7 @@ require("lazy").setup({
 			vim.lsp.buf.workspace_symbol = picker.lsp_workspace_symbols
 		end,
 	},
-	{ "saghen/blink.cmp",  version = "v1.6.0", opts = {} },
+	{ "saghen/blink.cmp", version = "v1.6.0", opts = {} },
 	{
 		"nvim-treesitter/nvim-treesitter",
 		main = "nvim-treesitter.configs",
@@ -206,6 +189,14 @@ require("lazy").setup({
 			vim.cmd("colorscheme catppuccin-macchiato")
 		end,
 	},
-
+	{
+		"sainnhe/everforest",
+		name = "everforest",
+		enabled = COLORSCHEME == "everforest",
+		config = function()
+			vim.g.everforest_background = 'hard'
+			vim.cmd("colorscheme everforest")
+		end,
+	},
 
 })

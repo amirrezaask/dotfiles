@@ -1,3 +1,4 @@
+font-family = Maple Mono
 mouse-hide-while-typing = true
 macos-option-as-alt = true
 window-padding-x = 0
@@ -7,9 +8,7 @@ maximize=true
 adjust-cell-height=10
 cursor-style=bar
 macos-titlebar-style=tabs
-background-opacity=0.95
-background-blur = true
-theme = Catppuccin Macchiato
+theme = Everforest Dark Hard
 
 keybind = shift+right=next_tab
 keybind = shift+left=previous_tab
