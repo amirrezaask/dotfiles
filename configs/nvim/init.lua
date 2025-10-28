@@ -102,6 +102,15 @@ vim.keymap.set("v", "<leader>j", FzfLua.grep_visual, { silent = true })
 require("blink.cmp").setup({})
 require("lualine").setup({})
 require("nvim-treesitter.configs").setup({ highlight = { enable = true }, auto_install = true })
+vim.opt.foldmethod = "expr"
+vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+vim.opt.foldcolumn = "0"
+vim.opt.foldtext = ""
+vim.opt.foldlevel = 99
+vim.opt.foldlevelstart = 1
+vim.opt.foldnestmax = 4
+
+
 
 vim.g.everforest_background = 'hard'
 vim.cmd("colorscheme everforest")
