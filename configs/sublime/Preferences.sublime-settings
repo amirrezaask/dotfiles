@@ -1,5 +1,5 @@
 {
-	"font_face": "Jetbrains Mono",
+	"font_face": "Maple Mono",
 	"font_size": 21,
 	"default_font_size": 13,
 	"font_options": [
@@ -16,7 +16,7 @@
 	"index_files": true,
 	"hot_exit": false,
 	"theme": "Adaptive.sublime-theme",
-	"color_scheme": "Catppuccin Macchiato.sublime-color-scheme",
+	"color_scheme": "EverforestDark.sublime-color-scheme",
 	"sesame.path": "~/dev",
 	"sesame.vcs": true,
 	"sesame.depth": 1,

@@ -1,11 +1,10 @@
 font-family = Maple Mono
 mouse-hide-while-typing = true
 macos-option-as-alt = true
-window-padding-x = 0
-window-padding-y = 0
+window-padding-balance = true
 shell-integration-features=no-cursor
 maximize=true
-adjust-cell-height=10
+adjust-cell-height=35%
 cursor-style=bar
 macos-titlebar-style=tabs
 theme = Everforest Dark Hard

@@ -43,10 +43,10 @@
 
 ;; Since on macos menubar is a section that is wasted anyway let's just have it.
 (unless is-macos (menu-bar-mode -1))
-
 (scroll-bar-mode -1)
-
 (tool-bar-mode -1)
+
+(setq-default cursor-type 'bar)
 
 ;;; Stack traces on errors.
 (setq debug-on-error nil)
@@ -220,7 +220,7 @@
 (setq custom-safe-themes t)
 (ensure-package 'catppuccin-theme)
 (ensure-package 'ef-themes)
-(load-theme 'catppuccin)
+(load-theme 'ef-night)
 
 ;; Autocomplete UI
 (ensure-package 'corfu)
@@ -231,6 +231,7 @@
 ;; Minibuffer completion
 (ensure-package 'vertico)
 (ensure-package 'consult)
+(setq vertico-count 20)
 (vertico-mode +1)
 
 (ensure-package 'go-mode)
@@ -259,12 +260,6 @@
 (with-eval-after-load 'grep
   (define-key grep-mode-map (kbd "k") 'kill-compilation)
   (define-key grep-mode-map (kbd "G") (lambda () (interactive) (recompile t))))
-
-(setq project-switch-commands
-      '((project-find-file "Find file")
-        (project-find-dir "Find directory")
-        (project-grep "Grep")
-        (project-eshell "Eshell")))
 
 ;; kill compilation process before starting another
 (setq compilation-always-kill t)
@@ -382,19 +377,19 @@
 (ensure-package 'rust-mode)
 (ensure-package 'php-mode )
 
-;; Evil Mode
-(ensure-package 'evil)
-(setq evil-want-keybinding nil)
-(setq evil-want-C-u-scroll t)
-(evil-mode +1)
+;; Evil section ...
+;; (ensure-package 'evil)
+;; (setq evil-want-keybinding nil)
+;; (setq evil-want-C-u-scroll t)
+;; (evil-mode +1)
 
-(evil-global-set-key 'normal (kbd "SPC SPC") 'find-file)
-(evil-global-set-key 'normal (kbd "SPC p f") 'project-find-file)
-(evil-global-set-key 'normal (kbd "SPC p p") 'project-switch-project)
-(evil-global-set-key 'normal (kbd "SPC h v") 'describe-variable)
-(evil-global-set-key 'normal (kbd "SPC h f") 'describe-function)
+;; (evil-global-set-key 'normal (kbd "SPC f f") 'project-find-file)
+;; (evil-global-set-key 'normal (kbd "SPC SPC") 'project-find-file)
+;; (evil-global-set-key 'normal (kbd "SPC j")   'project-grep)
+;; (evil-global-set-key 'normal (kbd "SPC p f") 'project-find-file)
+;; (evil-global-set-key 'normal (kbd "SPC p p") 'project-switch-project)
+;; (evil-global-set-key 'normal (kbd "SPC h v") 'describe-variable)
+;; (evil-global-set-key 'normal (kbd "SPC h f") 'describe-function)
 
-
-
-(ensure-package 'evil-collection)
-(evil-collection-init)
+;; (ensure-package 'evil-collection)
+;; (evil-collection-init)
