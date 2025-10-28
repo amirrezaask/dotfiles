@@ -224,7 +224,7 @@
 
 ;; Autocomplete UI
 (ensure-package 'corfu)
-(setq corfu-atuo t)
+(setq corfu-auto t)
 (global-corfu-mode +1)
 (global-set-key (kbd "C-j") 'completion-at-point)
 
@@ -390,6 +390,10 @@
 
 (evil-global-set-key 'normal (kbd "SPC SPC") 'find-file)
 (evil-global-set-key 'normal (kbd "SPC p f") 'project-find-file)
+(evil-global-set-key 'normal (kbd "SPC p p") 'project-switch-project)
+(evil-global-set-key 'normal (kbd "SPC h v") 'describe-variable)
+(evil-global-set-key 'normal (kbd "SPC h f") 'describe-function)
+
 
 
 (ensure-package 'evil-collection)

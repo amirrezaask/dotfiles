@@ -1,9 +1,5 @@
-COLORSCHEME = "everforest"
-TRANSPARENT = true
-
 vim.g.mapleader = " "
 vim.o.undofile = true
-
 vim.o.signcolumn = "yes"
 vim.o.number = true
 vim.o.relativenumber = true
@@ -25,32 +21,20 @@ vim.o.splitright = true
 vim.opt.wildoptions:append("fuzzy")
 vim.o.cursorline = true
 vim.diagnostic.config({ virtual_text = true })
-vim.o.laststatus = 3 -- Disable status line
+vim.o.laststatus = 3
 
 vim.cmd([[ autocmd TextYankPost * silent! lua vim.hl.on_yank {higroup='Visual', timeout=150 } ]])
 
-local map = vim.keymap.set
-
-map("i", "jk", "<esc>")
-map("i", "kj", "<esc>")
-map("i", "<C-c>", "<esc>")
-map("n", "<C-d>", "<C-d>zz")
-map("n", "<C-u>", "<C-u>zz")
-map("n", "n", "nzz")
-map("n", "N", "Nzz")
-map("n", "j", "gj")
-map("n", "k", "gk")
-map("n", "<C-j>", "<C-w>j")
-map("n", "<C-k>", "<C-w>k")
-map("n", "<C-h>", "<C-w>h")
-map("n", "<C-l>", "<C-w>l")
-map('t', '<Esc>', '<C-\\><C-n>', { noremap = true, silent = true })
-map('t', '<C-j>', '<C-\\><C-n><C-w>j', { noremap = true, silent = true })
-map('t', '<C-k>', '<C-\\><C-n><C-w>k', { noremap = true, silent = true })
-map('t', '<C-h>', '<C-\\><C-n><C-w>h', { noremap = true, silent = true })
-map('t', '<C-l>', '<C-\\><C-n><C-w>l', { noremap = true, silent = true })
-map("n", "<CR>", function()
-	---@diagnostic disable-next-line: undefined-field
+vim.keymap.set("i", "jk", "<esc>")
+vim.keymap.set("i", "kj", "<esc>")
+vim.keymap.set("i", "<C-c>", "<esc>")
+vim.keymap.set("n", "<C-d>", "<C-d>zz")
+vim.keymap.set("n", "<C-u>", "<C-u>zz")
+vim.keymap.set("n", "n", "nzz")
+vim.keymap.set("n", "N", "Nzz")
+vim.keymap.set("n", "j", "gj")
+vim.keymap.set("n", "k", "gk")
+vim.keymap.set("n", "<CR>", function()
 	if vim.v.hlsearch == 1 then
 		vim.cmd.nohl()
 		return ""
@@ -59,146 +43,66 @@ map("n", "<CR>", function()
 	end
 end, { expr = true })
 
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not (vim.uv or vim.loop).fs_stat(lazypath) then
-	local lazyrepo = "https://github.com/folke/lazy.nvim.git"
-	local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
-	if vim.v.shell_error ~= 0 then
-		vim.api.nvim_echo({
-			{ "Failed to clone lazy.nvim:\n", "ErrorMsg" },
-			{ out,                            "WarningMsg" },
-			{ "\nPress any key to exit..." },
-		}, true, {})
-		vim.fn.getchar()
-		os.exit(1)
-	end
-end
+vim.pack.add { -- See :h vim.pack
+	{ src = "https://github.com/supermaven-inc/supermaven-nvim" },
+	{ src = "https://github.com/mason-org/mason.nvim" },
+	{ src = "https://github.com/mason-org/mason-lspconfig.nvim" },
+	{ src = "https://github.com/neovim/nvim-lspconfig" },
+	{ src = "https://github.com/folke/tokyonight.nvim" },
+	{ src = "https://github.com/catppuccin/nvim" },
+	{ src = "https://github.com/sainnhe/everforest" },
+	{ src = "https://github.com/nvim-lualine/lualine.nvim" },
+	{ src = "https://github.com/nvim-treesitter/nvim-treesitter" },
+	{ src = "https://github.com/stevearc/conform.nvim" },
+	{ src = "https://github.com/saghen/blink.cmp",               version = "v1.6.0" },
+	{ src = "https://github.com/ibhagwan/fzf-lua" }
+}
 
-vim.opt.rtp:prepend(lazypath)
+require("supermaven-nvim").setup({})
 
-require("lazy").setup({
-	{ -- AI autocomplete
-		"supermaven-inc/supermaven-nvim",
-		config = function()
-			require("supermaven-nvim").setup({})
-		end,
-	},
-
-	{
-		"mason-org/mason-lspconfig.nvim",
-		opts = {
-			ensure_installed = { "lua_ls", "gopls" },
-		},
-		dependencies = {
-			{ "mason-org/mason.nvim", opts = {} },
-			{ "folke/trouble.nvim",   opts = {} },
-			{
-				"neovim/nvim-lspconfig",
-				config = function()
-					-- Default Keybindings
-					-- see :h lsp-defaults
-					-- see :h vim.lsp.buf.tagfunc()
-					vim.api.nvim_create_autocmd("LspAttach", {
-						callback = function(args)
-							-- local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
-							-- if client:supports_method('textDocument/completion') then
-							--   vim.lsp.completion.enable(true, client.id, args.buf, {autotrigger = true})
-							-- end
-							vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = args.buf })
-							vim.keymap.set("n", "L", vim.diagnostic.open_float, { buffer = args.buf })
-							vim.keymap.set("n", "<leader>E", ":Trouble diagnostics<CR>", { buffer = args.buf })
-						end,
-					})
-					vim.lsp.config(
-						"lua_ls",
-						{ settings = { Lua = { workspace = { library = vim.api.nvim_get_runtime_file("", true) } } } }
-					)
-				end,
-			},
-		},
-	},
-	{
-		-- Code Autoformat
-		"stevearc/conform.nvim",
-		opts = {
-			formatters_by_ft = {
-				php = nil,
-				go = { "goimports" },
-				lua = { "stylua" },
-				json = { "jq" },
-			},
-			format_on_save = function(bufnr)
-				if vim.bo[bufnr].filetype == "php" then
-					return false
-				end
-				return { timeout_ms = 500, lsp_fallback = true }
-			end,
-		},
-	},
-	{
-		"folke/snacks.nvim",
-		config = function()
-			require("snacks").setup {
-				terminal = { enabled = true },
-				indent = { enabled = true },
-				picker = { enabled = true },
-				input = { enabled = true },
-				lazygit = { enabled = true },
-			}
-
-			local Snacks = require "snacks"
-			local picker = Snacks.picker
-			vim.keymap.set("n", "<leader><leader>", picker.files)
-			vim.keymap.set("n", "<leader>j", picker.grep)
-			vim.keymap.set({ "n", "v" }, "<leader>k", picker.grep_word)
-			vim.keymap.set("n", "<leader>o", picker.lsp_symbols)
-			vim.keymap.set("n", "<leader>O", picker.lsp_workspace_symbols)
-			vim.keymap.set("n", "<leader>g", Snacks.lazygit.open)
-			vim.keymap.set({ "n", "t" }, "<C-j>", Snacks.terminal.toggle)
-
-			vim.lsp.buf.references = picker.lsp_references
-			vim.lsp.buf.definition = picker.lsp_definitions
-			vim.lsp.buf.implementation = picker.lsp_implementations
-			vim.lsp.buf.document_symbol = picker.lsp_symbols
-			vim.lsp.buf.workspace_symbol = picker.lsp_workspace_symbols
-		end,
-	},
-	{ "saghen/blink.cmp",          version = "v1.6.0", opts = {} },
-	{
-		"nvim-treesitter/nvim-treesitter",
-		main = "nvim-treesitter.configs",
-		opts = { highlight = { enable = true }, auto_install = true },
-	},
-	{
-		"folke/tokyonight.nvim",
-		enabled = COLORSCHEME == "tokyonight",
-		config = function()
-			require("tokyonight").setup({
-				style = "night",
-				transparent = TRANSPARENT,
-			})
-			vim.cmd("colorscheme tokyonight-night")
-		end,
-	},
-	{
-		"catppuccin/nvim",
-		name = "catppuccin",
-		enabled = COLORSCHEME == "catppuccin",
-		config = function()
-			vim.cmd("colorscheme catppuccin-macchiato")
-		end,
-	},
-	{
-		"sainnhe/everforest",
-		name = "everforest",
-		enabled = COLORSCHEME == "everforest",
-		config = function()
-			vim.g.everforest_background = 'hard'
-			vim.cmd("colorscheme everforest")
-			vim.cmd("hi! Normal guibg=#1E2326")
-		end,
-	},
-
-	{ "nvim-lualine/lualine.nvim", opts = {} },
-
+-- Default Keybindings
+-- see :h lsp-defaults
+-- see :h vim.lsp.buf.tagfunc()
+vim.api.nvim_create_autocmd("LspAttach", {
+	callback = function(args)
+		-- local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
+		-- if client:supports_method('textDocument/completion') then
+		-- 	vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
+		-- end
+		vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = args.buf })
+		vim.keymap.set("n", "L", vim.diagnostic.open_float, { buffer = args.buf })
+	end,
 })
+vim.lsp.config("lua_ls",
+	{ settings = { Lua = { workspace = { library = vim.api.nvim_get_runtime_file("", true) } } } })
+
+require("mason").setup()
+require("mason-lspconfig").setup({ ensure_installed = { "lua_ls", "gopls" } })
+require("conform").setup({
+	formatters_by_ft = {
+		php = nil,
+		go = { "goimports" },
+		lua = { "stylua" },
+		json = { "jq" },
+	},
+	format_on_save = function(bufnr)
+		if vim.bo[bufnr].filetype == "php" then
+			return false
+		end
+		return { timeout_ms = 500, lsp_fallback = true }
+	end,
+})
+require("fzf-lua").setup({ "fzf-vim" })
+vim.keymap.set("n", "<leader><leader>", ":Files<CR>", { silent = true })
+vim.keymap.set("n", "<leader>j", ":Rg<CR>", { silent = true })
+vim.keymap.set("n", "<leader>J", FzfLua.grep_cword, { silent = true })
+vim.keymap.set("v", "<leader>j", FzfLua.grep_visual, { silent = true })
+
+
+require("blink.cmp").setup({})
+require("lualine").setup({})
+require("nvim-treesitter.configs").setup({ highlight = { enable = true }, auto_install = true })
+
+vim.g.everforest_background = 'hard'
+vim.cmd("colorscheme everforest")
+vim.cmd("hi! Normal guibg=#1E2326")

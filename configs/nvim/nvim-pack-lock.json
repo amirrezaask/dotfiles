@@ -1,0 +1,53 @@
+{
+  "plugins": {
+    "blink.cmp": {
+      "rev": "bae4bae",
+      "src": "https://github.com/saghen/blink.cmp",
+      "version": "'v1.6.0'"
+    },
+    "conform.nvim": {
+      "rev": "9fd3d5e",
+      "src": "https://github.com/stevearc/conform.nvim"
+    },
+    "everforest": {
+      "rev": "0909c23",
+      "src": "https://github.com/sainnhe/everforest"
+    },
+    "fzf-lua": {
+      "rev": "6bb2a26",
+      "src": "https://github.com/ibhagwan/fzf-lua"
+    },
+    "lualine.nvim": {
+      "rev": "3946f01",
+      "src": "https://github.com/nvim-lualine/lualine.nvim"
+    },
+    "mason-lspconfig.nvim": {
+      "rev": "1d77bd8",
+      "src": "https://github.com/mason-org/mason-lspconfig.nvim"
+    },
+    "mason.nvim": {
+      "rev": "ad7146a",
+      "src": "https://github.com/mason-org/mason.nvim"
+    },
+    "nvim": {
+      "rev": "8c4125e",
+      "src": "https://github.com/catppuccin/nvim"
+    },
+    "nvim-lspconfig": {
+      "rev": "2b52bc2",
+      "src": "https://github.com/neovim/nvim-lspconfig"
+    },
+    "nvim-treesitter": {
+      "rev": "42fc28ba",
+      "src": "https://github.com/nvim-treesitter/nvim-treesitter"
+    },
+    "supermaven-nvim": {
+      "rev": "07d20fc",
+      "src": "https://github.com/supermaven-inc/supermaven-nvim"
+    },
+    "tokyonight.nvim": {
+      "rev": "4fe1b0c",
+      "src": "https://github.com/folke/tokyonight.nvim"
+    }
+  }
+}

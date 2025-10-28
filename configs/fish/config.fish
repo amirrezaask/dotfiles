@@ -44,6 +44,42 @@ alias gp='git push'
 alias gpsup='git push --set-upstream origin $(git symbolic-ref --short HEAD)'
 alias gs='git status'
 
+function ref 
+    if [ -z "$1" ]; then
+        echo "Usage: ref <branch-name>"
+        return 1
+	end
+    git checkout -b "ref-$1"
+end
+
+function fix 
+    if [ -z "$1" ]; then
+        echo "Usage: fix <branch-name>"
+        return 1
+	end
+    git checkout -b "fix-$1"
+end
+
+set system (uname)
+
+function feat
+    if [ -z "$1" ]; then
+        echo "Usage: feat <branch-name>"
+        return 1
+	end
+    git checkout -b "feat-$1"
+end
+
+if test "$system" = "Darwin"
+    alias idea='open -na "Intellij IDEA.app" --args'
+    alias jj='idea .'
+
+    alias goland='open -na "GoLand.app" --args'
+    alias gg='goland .'
+
+    alias pstorm='open -na "PhpStorm.app" --args'
+    alias pp='pstorm .'
+end
 
 alias l='ls -lah'
 alias la='ls -lAh'
@@ -55,7 +91,7 @@ function fish_prompt
 	set -l branch (git symbolic-ref --short HEAD 2>/dev/null)
 	if test -n "$branch"
 		set_color green
-		echo -n "$branch"
+		echo -n " $branch"
 		set_color normal
 		echo -n ' '
 		set_color blue
@@ -64,8 +100,10 @@ function fish_prompt
 		set_color normal
 	else
 		set_color red
+		echo -n " "
 		echo -n (prompt_pwd)
 		set_color normal
 		echo -n ' '
     end
 end
+
