@@ -76,6 +76,6 @@ if [[ "$(uname)" == "Darwin" ]]; then
   echo "Linking Cursor $MACOS_CONFIGS_DIR/Cursor/User/settings.json"
   rm -rf "$MACOS_CONFIGS_DIR/Cursor/User/settings.json"
   rm -rf "$MACOS_CONFIGS_DIR/Cursor/User/keybindings.json"
-  ln -nsf "$CONFIGS_DIR/code/settings.json" "$MACOS_CONFIGS_DIR/Cursor/User/settings.json"
-  ln -nsf "$CONFIGS_DIR/code/keybindings.json" "$MACOS_CONFIGS_DIR/Cursor/User/keybindings.json"
+  ln -nsf "$CONFIGS_DIR/cursor/settings.json" "$MACOS_CONFIGS_DIR/Cursor/User/settings.json"
+  ln -nsf "$CONFIGS_DIR/cursor/keybindings.json" "$MACOS_CONFIGS_DIR/Cursor/User/keybindings.json"
 fi

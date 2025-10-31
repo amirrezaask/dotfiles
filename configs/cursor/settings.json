@@ -29,4 +29,6 @@
   "gitProjectManager.openInNewWindow": true,
   "terminal.integrated.lineHeight": 2,
   "git.blame.statusBarItem.enabled": true,
+  "workbench.colorTheme": "Cursor Light",
+  "tabnine.experimentalAutoImports": true,
 }

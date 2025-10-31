@@ -1,0 +1,22 @@
+[
+  // Universal
+  { "key": "ctrl+n", "command": "selectNextSuggestion", "when": "suggestWidgetMultipleSuggestions && suggestWidgetVisible && textInputFocus || suggestWidgetVisible && textInputFocus && !suggestWidgetHasFocusedSuggestion" },
+  { "key": "ctrl+p", "command": "selectPrevSuggestion", "when": "suggestWidgetMultipleSuggestions && suggestWidgetVisible && textInputFocus || suggestWidgetVisible && textInputFocus && !suggestWidgetHasFocusedSuggestion" },
+  { "key": "ctrl+n", "command": "workbench.action.quickOpenSelectNext", "when": "inQuickOpen" },
+  { "key": "ctrl+p", "command": "workbench.action.quickOpenSelectPrevious", "when": "inQuickOpen" },
+  // macos
+  { "key": "cmd+shift+o", "command": "workbench.action.files.openFileFolderInNewWindow", },
+  { "key": "cmd+o", "command": "workbench.action.files.openFileFolder" },
+  { "key": "cmd+j", "command": "workbench.action.terminal.toggleTerminal" },
+  { "key": "cmd+shift+w", "command": "workbench.action.closeAllEditors" },
+  { "key": "cmd+.", "command": "editor.action.revealDefinition", "when": "editorHasDefinitionProvider && editorTextFocus" },
+  { "key": "cmd+shift+.", "command": "editor.action.goToReferences", "when": "editorHasReferenceProvider && editorTextFocus" },
+  { "key": "cmd+shift+r", "command": "editor.action.rename", "when": "editorHasRenameProvider && editorTextFocus && !editorReadonly" },
+  { "key": "cmd+,", "command": "workbench.action.navigateBack" },
+  { "key": "cmd+1", "command": "workbench.view.explorer" },
+  { "key": "cmd+1", "command": "workbench.action.closeSidebar", "when": "sideBarVisible && activeViewlet == 'workbench.view.explorer'" },
+  { "key": "cmd+2", "command": "workbench.action.terminal.toggleTerminal" },
+  { "key": "cmd+0", "command": "workbench.view.scm", "when": "!sideBarVisible || activeViewlet != 'workbench.view.scm'" },
+  { "key": "cmd+0", "command": "workbench.action.closeSidebar", "when": "sideBarVisible && activeViewlet == 'workbench.view.scm'" },
+  { "key": "cmd+ctrl+p", "command": "gitProjectManager.openProjectNewWindow"},
+]

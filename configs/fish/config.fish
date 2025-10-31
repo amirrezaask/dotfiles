@@ -43,6 +43,7 @@ alias ga='git add'
 alias gp='git push'
 alias gpsup='git push --set-upstream origin $(git symbolic-ref --short HEAD)'
 alias gs='git status'
+alias gf='git fetch --all --prune -f'
 
 function ref 
     if [ -z "$1" ]; then
@@ -90,14 +91,14 @@ alias lsa='ls -lah'
 function fish_prompt
 	set -l branch (git symbolic-ref --short HEAD 2>/dev/null)
 	if test -n "$branch"
-		set_color green
-		echo -n " $branch"
 		set_color normal
 		echo -n ' '
 		set_color blue
 		echo -n (prompt_pwd)
-		echo -n ' '
+		set_color green
+		echo -n " $branch"
 		set_color normal
+		echo -n ' '
 	else
 		set_color red
 		echo -n " "
