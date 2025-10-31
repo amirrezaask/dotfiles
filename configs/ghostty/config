@@ -4,7 +4,6 @@ macos-option-as-alt = true
 window-padding-balance = true
 shell-integration-features=no-cursor
 maximize=true
-adjust-cell-height=35%
 cursor-style=bar
 macos-titlebar-style=tabs
 theme = Everforest Dark Hard

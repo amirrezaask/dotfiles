@@ -10,6 +10,12 @@ if command -v nvim &> /dev/null
 	export EDITOR='nvim'
 end
 
+
+if command -v subl &> /dev/null
+	alias s='subl'
+	alias ss='subl .'
+end
+
 function reload
 	source ~/.config/fish/config.fish
 end

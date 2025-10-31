@@ -220,7 +220,7 @@
 (setq custom-safe-themes t)
 (ensure-package 'catppuccin-theme)
 (ensure-package 'ef-themes)
-(load-theme 'ef-night)
+(load-theme 'catppuccin)
 
 ;; Autocomplete UI
 (ensure-package 'corfu)
