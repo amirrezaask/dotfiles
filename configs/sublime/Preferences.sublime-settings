@@ -5,8 +5,8 @@
 	"font_options": [
 		"no_italic"
 	],
-	"line_padding_top": 12,
-	"line_padding_bottom": 12,
+	// "line_padding_top": 12,
+	// "line_padding_bottom": 12,
 	"highlight_line": true,
 	"ignored_packages": [
 		"Vintage",

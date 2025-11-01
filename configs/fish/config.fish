@@ -102,7 +102,7 @@ function fish_prompt
 		set_color blue
 		echo -n (prompt_pwd)
 		set_color green
-		echo -n " $branch"
+		echo -n " ($branch)"
 		set_color normal
 		echo -n ' '
 	else

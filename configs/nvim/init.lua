@@ -58,6 +58,12 @@ vim.pack.add { -- See :h vim.pack
 	{ src = "https://github.com/ibhagwan/fzf-lua" }
 }
 
+vim.g.everforest_background = 'hard'
+vim.cmd("colorscheme everforest")
+if vim.g.colors_name == "everforest" then
+	vim.cmd("hi! Normal guibg=#1E2326")
+end
+
 require("supermaven-nvim").setup({})
 
 -- Default Keybindings
@@ -109,9 +115,3 @@ vim.opt.foldtext = ""
 vim.opt.foldlevel = 99
 vim.opt.foldlevelstart = 1
 vim.opt.foldnestmax = 4
-
-
-
-vim.g.everforest_background = 'hard'
-vim.cmd("colorscheme everforest")
-vim.cmd("hi! Normal guibg=#1E2326")

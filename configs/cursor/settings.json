@@ -1,7 +1,6 @@
 {
   "editor.fontFamily": "Maple Mono",
   "editor.fontSize": 14,
-  "editor.lineHeight": 2,
   "workbench.editor.editorActionsLocation": "hidden",
   "editor.wordWrap": "on",
   "editor.minimap.enabled": false,
@@ -29,6 +28,5 @@
   "gitProjectManager.openInNewWindow": true,
   "terminal.integrated.lineHeight": 2,
   "git.blame.statusBarItem.enabled": true,
-  "workbench.colorTheme": "Cursor Light",
-  "tabnine.experimentalAutoImports": true,
+  "window.autoDetectColorScheme": true,
 }
