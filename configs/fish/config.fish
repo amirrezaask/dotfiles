@@ -114,3 +114,6 @@ function fish_prompt
     end
 end
 
+
+# opencode
+fish_add_path /Users/amirrezaask/.opencode/bin
