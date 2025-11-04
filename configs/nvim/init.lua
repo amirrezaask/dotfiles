@@ -63,6 +63,7 @@ vim.cmd("colorscheme everforest")
 if vim.g.colors_name == "everforest" then
 	vim.cmd("hi! Normal guibg=#1E2326")
 end
+vim.cmd [[ hi! Normal guibg=none ]]
 
 require("supermaven-nvim").setup({})
 

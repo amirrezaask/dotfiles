@@ -91,93 +91,44 @@
        (unless (package-installed-p package) (package-vc-install package repo)))
 
 (set-frame-font "Maple Mono-17" nil t)
-
 (setq-default custom-file "~/.custom.el")
-
-;; No startup screen.
 (setq inhibit-startup-screen t)
-
-;; better scrolling experience.
 (pixel-scroll-precision-mode +1)
-
-
-;; Highlight current line
 (global-hl-line-mode +1)
-
-;; better scrolling experience.
 (pixel-scroll-precision-mode +1)
-
-;; Wrap long lines
 (toggle-truncate-lines -1)
-
-;; Don't choke on minified code.
 (global-so-long-mode +1)
-
-;; Always use UTF8
 (set-default-coding-systems 'utf-8)
-
-;; Auto revert to disk changes, do we really want this ??
 (global-auto-revert-mode +1)
-
-;; Highlight current line.
 (global-hl-line-mode +1)
-
-;; Delete selected region before inserting.
 (delete-selection-mode +1)
-
-;; Don't blink the paren matching the one at point, it's too distracting.
 (setq blink-matching-paren nil)
-
-;; Don't stretch the cursor to fit wide characters, it is disorienting,
-;; especially for tabs.
 (setq x-stretch-cursor nil)
-
-;; Allow for minibuffer-ception. Sometimes we need another minibuffer command
-;; while we're in the minibuffer.
 (setq enable-recursive-minibuffers t)
-
-;; Show current key-sequence in minibuffer ala 'set showcmd' in vim. Any
-;; feedback after typing is better UX than no feedback at all.
 (setq echo-keystrokes 0.02)
-
-;; Explicitly define a width to reduce the cost of on-the-fly computation
 (setq-default display-line-numbers-width 3)
-
-;; Show absolute line numbers for narrowed regions to make it easier to tell the
-;; buffer is narrowed, and where you are, exactly.
 (setq-default display-line-numbers-widen t)
-
-;; Enable line numbers globally.
 (global-display-line-numbers-mode +1)
-
-;; no emacs ~ backup files
 (setq make-backup-files nil)
-
-;; Don't prompt if encounter a symlink file, just follow the link.
 (setq vc-follow-symlinks t)
-
-;; Using C-l always puts cursor at the middle.
 (setq recenter-positions '(middle))
-
 (setq kill-whole-line t)
+(setq-default cursor-type 'bar)
 
 ;; handy string transformation functions.
 (ensure-package 'string-inflection)
 
-(global-set-key (kbd "C-/") 'comment-line) ;; Comment
+(global-set-key (kbd "C-/")        'comment-line) ;; Comment
 (global-set-key (kbd "C-<return>") 'save-buffer)
-
-(global-set-key (kbd "M-RET") 'indent-buffer) ;; Format buffer
-
-
-(global-set-key   (kbd "M--") 'text-scale-decrease)
-(global-set-key   (kbd "M-=") 'text-scale-increase)
+(global-set-key (kbd "M-RET")      'indent-buffer) ;; Format buffer
+(global-set-key   (kbd "M--")      'text-scale-decrease)
+(global-set-key   (kbd "M-=")      'text-scale-increase)
 
 ;; Themes
 (setq custom-safe-themes t)
 (ensure-package 'catppuccin-theme)
 (ensure-package 'ef-themes)
-(load-theme 'catppuccin)
+(load-theme 'ef-dream)
 
 ;; Autocomplete UI
 (ensure-package 'corfu)
@@ -278,19 +229,22 @@
 (add-hook 'php-mode-hook #'eglot-ensure)
 
 ;; Evil section ...
+
 (ensure-package 'evil)
+(ensure-package 'evil-collection)
 (setq evil-want-integration t)
 (setq evil-want-keybinding nil)
 (setq evil-want-C-u-scroll t)
 (setq evil-vsplit-window-right t)
 (setq evil-split-window-below t)
 (evil-mode +1)
+(evil-collection-init)
 
 (evil-define-key 'normal global-map (kbd "gcc") 'comment-line)
 (evil-define-key 'visual global-map (kbd "gc")  'comment-line)
 (evil-define-key 'normal global-map (kbd "gd")  'xref-find-definitions)
 (evil-define-key 'normal global-map (kbd "grr") 'xref-find-references)
 (evil-define-key 'normal global-map (kbd "SPC SPC") 'project-find-file)
+(evil-define-key 'normal global-map (kbd "SPC p p") 'project-switch-project)
 (with-eval-after-load 'eglot
   (evil-define-key 'normal eglot-mode-map (kbd "grn") 'eglot-rename))
-

@@ -1,16 +1,15 @@
 {
-  "vim_mode": false,
+  "base_keymap": "JetBrains",
   "notification_panel": {
     "dock": "left"
   },
   "features": {
     "edit_prediction_provider": "supermaven"
   },
-  "buffer_font_family": "JetBrains Mono",
+  "buffer_font_family": "Maple Mono",
   "cursor_blink": false,
   "ui_font_size": 16,
   "buffer_font_size": 15,
-  "buffer_line_height": { "custom": 3 },
   "tab_bar": {
     "show_nav_history_buttons": false,
     "show_tab_bar_buttons": false
@@ -25,6 +24,6 @@
   "theme": {
     "mode": "system",
     "light": "Sublime Mariana",
-    "dark": "Monokai-og"
+    "dark": "Catppuccin Mocha - No Italics"
   }
 }

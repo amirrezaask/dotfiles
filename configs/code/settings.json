@@ -8,7 +8,7 @@
   "diffEditor.renderSideBySide": false,
   "editor.mouseWheelScrollSensitivity": 2,
   "window.restoreWindows": "none",
-  // "http.proxy": "socks://localhost:1080",
+  "http.proxy": "socks://localhost:1080",
   "workbench.settings.editor": "json",
   "terminal.integrated.macOptionIsMeta": true,
   "files.simpleDialog.enable": true,

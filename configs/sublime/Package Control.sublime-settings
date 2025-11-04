@@ -19,6 +19,7 @@
 		"SublimeLinter",
 		"SublimeLinter-golangcilint",
 		"Terminus",
+		"Test",
 		"Text Pastry",
 	],
 }
