@@ -19,7 +19,6 @@ vim.o.completeopt = "menuone,noselect,noinsert,fuzzy"
 vim.o.splitbelow = true
 vim.o.splitright = true
 vim.opt.wildoptions:append("fuzzy")
-vim.o.cursorline = true
 vim.diagnostic.config({ virtual_text = true })
 vim.o.laststatus = 3
 
@@ -56,12 +55,6 @@ vim.pack.add { -- See :h vim.pack
 	{ src = "https://github.com/ibhagwan/fzf-lua" },
 }
 
-vim.g.everforest_background = 'hard'
-vim.cmd("colorscheme everforest")
-if vim.g.colors_name == "everforest" then
-	vim.cmd("hi! Normal guibg=#1E2326")
-end
-vim.cmd [[ hi! Normal guibg=none ]]
 
 -- Default Keybindings
 -- see :h lsp-defaults
@@ -112,3 +105,14 @@ vim.opt.foldtext = ""
 vim.opt.foldlevel = 99
 vim.opt.foldlevelstart = 3
 vim.opt.foldnestmax = 4
+
+vim.g.everforest_background = 'hard'
+vim.cmd("colorscheme everforest")
+if vim.g.colors_name == "everforest" then
+	vim.cmd("hi! Normal guibg=#1E2326")
+end
+vim.cmd [[
+	hi! Normal guibg=none
+	hi! NormalFloat guibg=none
+	hi! FzfLuaPreviewNormal guibg=none
+]]

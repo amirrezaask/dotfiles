@@ -27,7 +27,6 @@
   "extensions.ignoreRecommendations": true,
   "gitProjectManager.baseProjectsFolders": [ "~/dev" ],
   "gitProjectManager.openInNewWindow": true,
-  "terminal.integrated.lineHeight": 2,
   "git.blame.statusBarItem.enabled": true,
-  "workbench.activityBar.location": "top",
+  "workbench.activityBar.location": "top"
 }

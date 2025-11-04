@@ -30,6 +30,7 @@ function wip
 	git commit -m "wip"
 	git push origin "$branch"
 end
+alias g='git'
 alias nah='git restore --staged . && git restore . && git clean -fd'
 alias gcm='git commit -m'
 alias gcam='git commit -am'
@@ -107,7 +108,7 @@ function fish_prompt
 		echo ''
 		echo -n ' 🚀 '
 	else
-		set_color red
+		set_color blue
 		echo -n " "
 		echo -n (prompt_pwd)
 		set_color normal
