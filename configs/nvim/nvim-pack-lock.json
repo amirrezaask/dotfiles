@@ -41,6 +41,10 @@
       "rev": "42fc28ba",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter"
     },
+    "snacks.nvim": {
+      "rev": "41712e3",
+      "src": "https://github.com/folke/snacks.nvim"
+    },
     "supermaven-nvim": {
       "rev": "07d20fc",
       "src": "https://github.com/supermaven-inc/supermaven-nvim"

@@ -34,28 +34,26 @@ vim.keymap.set("n", "n", "nzz")
 vim.keymap.set("n", "N", "Nzz")
 vim.keymap.set("n", "j", "gj")
 vim.keymap.set("n", "k", "gk")
-vim.keymap.set("n", "<CR>", function()
-	if vim.v.hlsearch == 1 then
-		vim.cmd.nohl()
-		return ""
-	else
-		return vim.keycode "<CR>"
-	end
-end, { expr = true })
+vim.keymap.set("n", "<CR>",
+	function()
+		if vim.v.hlsearch == 1 then
+			vim.cmd.nohl()
+			return ""
+		else
+			return vim.keycode "<CR>"
+		end
+	end, { expr = true })
 
 vim.pack.add { -- See :h vim.pack
-	{ src = "https://github.com/supermaven-inc/supermaven-nvim" },
 	{ src = "https://github.com/mason-org/mason.nvim" },
 	{ src = "https://github.com/mason-org/mason-lspconfig.nvim" },
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
-	{ src = "https://github.com/folke/tokyonight.nvim" },
-	{ src = "https://github.com/catppuccin/nvim" },
 	{ src = "https://github.com/sainnhe/everforest" },
 	{ src = "https://github.com/nvim-lualine/lualine.nvim" },
 	{ src = "https://github.com/nvim-treesitter/nvim-treesitter" },
 	{ src = "https://github.com/stevearc/conform.nvim" },
 	{ src = "https://github.com/saghen/blink.cmp",               version = "v1.6.0" },
-	{ src = "https://github.com/ibhagwan/fzf-lua" }
+	{ src = "https://github.com/ibhagwan/fzf-lua" },
 }
 
 vim.g.everforest_background = 'hard'
@@ -64,8 +62,6 @@ if vim.g.colors_name == "everforest" then
 	vim.cmd("hi! Normal guibg=#1E2326")
 end
 vim.cmd [[ hi! Normal guibg=none ]]
-
-require("supermaven-nvim").setup({})
 
 -- Default Keybindings
 -- see :h lsp-defaults
@@ -99,9 +95,9 @@ require("conform").setup({
 		return { timeout_ms = 500, lsp_fallback = true }
 	end,
 })
-require("fzf-lua").setup({ "fzf-vim" })
-vim.keymap.set("n", "<leader><leader>", ":Files<CR>", { silent = true })
-vim.keymap.set("n", "<leader>j", ":Rg<CR>", { silent = true })
+require("fzf-lua").setup({ "telescope" })
+vim.keymap.set("n", "<leader><leader>", FzfLua.files, { silent = true })
+vim.keymap.set("n", "<leader>j", FzfLua.live_grep, { silent = true })
 vim.keymap.set("n", "<leader>J", FzfLua.grep_cword, { silent = true })
 vim.keymap.set("v", "<leader>j", FzfLua.grep_visual, { silent = true })
 

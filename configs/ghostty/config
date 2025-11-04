@@ -7,12 +7,15 @@ maximize=true
 macos-titlebar-style=tabs
 theme = Everforest Dark Hard
 background-opacity = 0.8
+background-blur = true
 
 keybind = shift+right=next_tab
 keybind = shift+left=previous_tab
 
 keybind = cmd+n=next_tab
 keybind = cmd+p=previous_tab
+keybind = cmd+[=previous_tab
+keybind = cmd+]=next_tab
 keybind = cmd+enter=new_tab
 keybind = cmd+shift+enter=new_window
 keybind = cmd+f=toggle_split_zoom
@@ -22,17 +25,17 @@ keybind = cmd+left=goto_split:left
 keybind = cmd+up=goto_split:up
 keybind = cmd+right=goto_split:right
 
-keybind = ctrl+shift+f=toggle_split_zoom
-keybind = ctrl+shift+down=resize_split:down,10
-keybind = ctrl+shift+left=resize_split:left,10
-keybind = ctrl+shift+up=resize_split:up,10
-keybind = ctrl+shift+right=resize_split:right,10
-keybind = ctrl+shift+plus=equalize_splits
-keybind = ctrl+shift+d=new_split:right
-keybind = ctrl+shift+n=new_split:down
+# keybind = ctrl+shift+f=toggle_split_zoom
+# keybind = ctrl+shift+down=resize_split:down,10
+# keybind = ctrl+shift+left=resize_split:left,10
+# keybind = ctrl+shift+up=resize_split:up,10
+# keybind = ctrl+shift+right=resize_split:right,10
+# keybind = ctrl+shift+plus=equalize_splits
+# keybind = ctrl+shift+d=new_split:right
+# keybind = ctrl+shift+n=new_split:down
 
-keybind = ctrl+shift+h=goto_split:left
-keybind = ctrl+shift+j=goto_split:down
-keybind = ctrl+shift+k=goto_split:up
-keybind = ctrl+shift+l=goto_split:right
-keybind = ctrl+enter=new_tab
+# keybind = ctrl+shift+h=goto_split:left
+# keybind = ctrl+shift+j=goto_split:down
+# keybind = ctrl+shift+k=goto_split:up
+# keybind = ctrl+shift+l=goto_split:right
+# keybind = ctrl+enter=new_tab
