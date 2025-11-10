@@ -47,8 +47,6 @@ vim.pack.add { -- See :h vim.pack
 	{ src = "https://github.com/mason-org/mason.nvim" },
 	{ src = "https://github.com/mason-org/mason-lspconfig.nvim" },
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
-	{ src = "https://github.com/sainnhe/everforest" },
-	{ src = "https://github.com/nvim-lualine/lualine.nvim" },
 	{ src = "https://github.com/nvim-treesitter/nvim-treesitter" },
 	{ src = "https://github.com/stevearc/conform.nvim" },
 	{ src = "https://github.com/saghen/blink.cmp",               version = "v1.6.0" },
@@ -95,24 +93,59 @@ vim.keymap.set("n", "<leader>J", FzfLua.grep_cword, { silent = true })
 vim.keymap.set("v", "<leader>j", FzfLua.grep_visual, { silent = true })
 
 
-require("blink.cmp").setup({})
-require("lualine").setup({})
+require("blink.cmp").setup({
+	keymap = { preset = 'super-tab' },
+})
 require("nvim-treesitter.configs").setup({ highlight = { enable = true }, auto_install = true })
 vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 vim.opt.foldcolumn = "0"
 vim.opt.foldtext = ""
 vim.opt.foldlevel = 99
-vim.opt.foldlevelstart = 3
+vim.opt.foldlevelstart = 5
 vim.opt.foldnestmax = 4
 
-vim.g.everforest_background = 'hard'
-vim.cmd("colorscheme everforest")
-if vim.g.colors_name == "everforest" then
-	vim.cmd("hi! Normal guibg=#1E2326")
-end
 vim.cmd [[
 	hi! Normal guibg=none
 	hi! NormalFloat guibg=none
 	hi! FzfLuaPreviewNormal guibg=none
+	hi! StatusLine guibg=none guifg=white
 ]]
+
+
+-- restore cursor to file position in previous editing session
+vim.api.nvim_create_autocmd("BufReadPost", {
+	callback = function(args)
+		local mark = vim.api.nvim_buf_get_mark(args.buf, '"')
+		local line_count = vim.api.nvim_buf_line_count(args.buf)
+		if mark[1] > 0 and mark[1] <= line_count then
+			vim.api.nvim_win_set_cursor(0, mark)
+			-- defer centering slightly so it's applied after render
+			vim.schedule(function()
+				vim.cmd("normal! zz")
+			end)
+		end
+	end,
+})
+
+-- auto resize splits when the terminal's window is resized
+vim.api.nvim_create_autocmd("VimResized", {
+	command = "wincmd =",
+})
+
+
+-- show cursorline only in active window enable
+vim.api.nvim_create_autocmd({ "WinEnter", "BufEnter" }, {
+	group = vim.api.nvim_create_augroup("active_cursorline", { clear = true }),
+	callback = function()
+		vim.opt_local.cursorline = true
+	end,
+})
+
+-- show cursorline only in active window disable
+vim.api.nvim_create_autocmd({ "WinLeave", "BufLeave" }, {
+	group = "active_cursorline",
+	callback = function()
+		vim.opt_local.cursorline = false
+	end,
+})

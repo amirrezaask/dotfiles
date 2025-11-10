@@ -5,8 +5,8 @@
 	"font_options": [
 		"no_italic"
 	],
-	// "line_padding_top": 12,
-	// "line_padding_bottom": 12,
+	"line_padding_top": 12,
+	"line_padding_bottom": 12,
 	"highlight_line": true,
 	"ignored_packages": [
 		"Vintage",
@@ -16,7 +16,7 @@
 	"index_files": true,
 	"hot_exit": false,
 	"theme": "Adaptive.sublime-theme",
-	"color_scheme": "EverforestDark.sublime-color-scheme",
+	"color_scheme": "Night Owl.sublime-color-scheme",
 	"sesame.path": "~/dev",
 	"sesame.vcs": true,
 	"sesame.depth": 1,

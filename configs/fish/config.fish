@@ -95,6 +95,10 @@ alias ll='ls -lh'
 alias ls='ls -G'
 alias lsa='ls -lah'
 
+function fish_greeting
+
+end
+
 function fish_prompt
 	set -l branch (git symbolic-ref --short HEAD 2>/dev/null)
 	if test -n "$branch"
@@ -106,14 +110,14 @@ function fish_prompt
 		echo -n " $branch"
 		set_color normal
 		echo ''
-		echo -n ' 🚀 '
+		echo -n ' 🚀  '
 	else
 		set_color blue
 		echo -n " "
 		echo -n (prompt_pwd)
 		set_color normal
 		echo ''
-		echo -n ' 🚀 '
+		echo -n ' 🚀  '
     end
 end
 
