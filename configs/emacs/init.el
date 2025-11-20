@@ -230,21 +230,21 @@
 
 ;; Evil section ...
 
-(ensure-package 'evil)
-(ensure-package 'evil-collection)
-(setq evil-want-integration t)
-(setq evil-want-keybinding nil)
-(setq evil-want-C-u-scroll t)
-(setq evil-vsplit-window-right t)
-(setq evil-split-window-below t)
-(evil-mode +1)
-(evil-collection-init)
+;; (ensure-package 'evil)
+;; (ensure-package 'evil-collection)
+;; (setq evil-want-integration t)
+;; (setq evil-want-keybinding nil)
+;; (setq evil-want-C-u-scroll t)
+;; (setq evil-vsplit-window-right t)
+;; (setq evil-split-window-below t)
+;; (evil-mode +1)
+;; (evil-collection-init)
 
-(evil-define-key 'normal global-map (kbd "gcc") 'comment-line)
-(evil-define-key 'visual global-map (kbd "gc")  'comment-line)
-(evil-define-key 'normal global-map (kbd "gd")  'xref-find-definitions)
-(evil-define-key 'normal global-map (kbd "grr") 'xref-find-references)
-(evil-define-key 'normal global-map (kbd "SPC SPC") 'project-find-file)
-(evil-define-key 'normal global-map (kbd "SPC p p") 'project-switch-project)
-(with-eval-after-load 'eglot
-  (evil-define-key 'normal eglot-mode-map (kbd "grn") 'eglot-rename))
+;; (evil-define-key 'normal global-map (kbd "gcc") 'comment-line)
+;; (evil-define-key 'visual global-map (kbd "gc")  'comment-line)
+;; (evil-define-key 'normal global-map (kbd "gd")  'xref-find-definitions)
+;; (evil-define-key 'normal global-map (kbd "grr") 'xref-find-references)
+;; (evil-define-key 'normal global-map (kbd "SPC SPC") 'project-find-file)
+;; (evil-define-key 'normal global-map (kbd "SPC p p") 'project-switch-project)
+;; (with-eval-after-load 'eglot
+;;   (evil-define-key 'normal eglot-mode-map (kbd "grn") 'eglot-rename))

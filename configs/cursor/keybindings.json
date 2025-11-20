@@ -7,16 +7,16 @@
   
   // macos
   { "key": "cmd+shift+o", "command": "workbench.action.files.openFileFolderInNewWindow", },
-  { "key": "cmd+o", "command": "workbench.action.files.openFileFolder" },
-  { "key": "cmd+j", "command": "workbench.action.terminal.toggleTerminal" },
+  { "key": "cmd+o",       "command": "workbench.action.files.openFileFolder" },
+  { "key": "cmd+j",       "command": "workbench.action.terminal.toggleTerminal" },
   { "key": "cmd+shift+w", "command": "workbench.action.closeAllEditors" },
   
   // Code Navigation
-  { "key": "cmd+.", "command": "editor.action.revealDefinition", "when": "editorHasDefinitionProvider && editorTextFocus" },
-  { "key": "cmd+shift+.", "command": "editor.action.goToReferences", "when": "editorHasReferenceProvider && editorTextFocus" },
-  { "key": "cmd+shift+r", "command": "editor.action.rename", "when": "editorHasRenameProvider && editorTextFocus && !editorReadonly" },
-  { "key": "cmd+,", "command": "workbench.action.navigateBack" },
-  
+  { "key": "cmd+b",       "command": "editor.action.revealDefinition", "when": "editorHasDefinitionProvider && editorTextFocus" },
+  { "key": "cmd+shift+b", "command": "editor.action.goToReferences", "when": "editorHasReferenceProvider && editorTextFocus" },
+  { "key": "cmd+[",       "command": "workbench.action.navigateBack" },
+  { "key": "cmd+]",       "command": "workbench.action.navigateForward" },
+
   // Toggle viewlets
   { "key": "cmd+1", "command": "workbench.action.toggleSidebarVisibility", "when": "sideBarVisible" },
   { "key": "cmd+1", "command": "workbench.view.explorer", "when": "!sideBarVisible" },

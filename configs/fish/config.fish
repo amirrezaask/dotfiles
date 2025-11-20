@@ -124,3 +124,4 @@ end
 
 # opencode
 fish_add_path /Users/amirrezaask/.opencode/bin
+fish_add_path $HOME/.local/bin

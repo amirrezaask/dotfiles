@@ -1,5 +1,5 @@
 {
-  "editor.fontFamily": "Maple Mono",
+  "editor.fontFamily": "Fira Code",
   "editor.fontSize": 14,
   "editor.lineHeight": 2,
   "workbench.editor.editorActionsLocation": "hidden",
@@ -28,5 +28,7 @@
   "gitProjectManager.baseProjectsFolders": [ "~/dev" ],
   "gitProjectManager.openInNewWindow": true,
   "git.blame.statusBarItem.enabled": true,
-  "workbench.activityBar.location": "top"
+  "workbench.activityBar.location": "top",
+  "workbench.editor.showTabs": "none",
+  "chat.disableAIFeatures": true,
 }
