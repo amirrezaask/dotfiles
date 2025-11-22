@@ -125,3 +125,9 @@ end
 # opencode
 fish_add_path /Users/amirrezaask/.opencode/bin
 fish_add_path $HOME/.local/bin
+
+# Added by Windsurf
+fish_add_path /Users/amirrezaask/.codeium/windsurf/bin
+
+# Added by Antigravity
+fish_add_path /Users/amirrezaask/.antigravity/antigravity/bin

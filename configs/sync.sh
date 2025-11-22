@@ -73,9 +73,15 @@ if [[ "$(uname)" == "Darwin" ]]; then
   ln -nsf "$CONFIGS_DIR/code/settings.json" "$MACOS_CONFIGS_DIR/Code/User/settings.json"
   ln -nsf "$CONFIGS_DIR/code/keybindings.json" "$MACOS_CONFIGS_DIR/Code/User/keybindings.json"
 
-  echo "Linking Cursor $MACOS_CONFIGS_DIR/Cursor/User/settings.json"
+  echo "Linking Cursor $MACOS_CONFIGS_DIR/Cursor/User"
   rm -rf "$MACOS_CONFIGS_DIR/Cursor/User/settings.json"
   rm -rf "$MACOS_CONFIGS_DIR/Cursor/User/keybindings.json"
   ln -nsf "$CONFIGS_DIR/cursor/settings.json" "$MACOS_CONFIGS_DIR/Cursor/User/settings.json"
   ln -nsf "$CONFIGS_DIR/cursor/keybindings.json" "$MACOS_CONFIGS_DIR/Cursor/User/keybindings.json"
+
+  echo "Linking Antigravity $MACOS_CONFIGS_DIR/Antigravity/User/settings.json"
+  rm -rf "$MACOS_CONFIGS_DIR/Antigravity/User/settings.json"
+  rm -rf "$MACOS_CONFIGS_DIR/Antigravity/User/keybindings.json"
+  ln -nsf "$CONFIGS_DIR/Antigravity/settings.json" "$MACOS_CONFIGS_DIR/Antigravity/User/settings.json"
+  ln -nsf "$CONFIGS_DIR/Antigravity/keybindings.json" "$MACOS_CONFIGS_DIR/Antigravity/User/keybindings.json"
 fi
