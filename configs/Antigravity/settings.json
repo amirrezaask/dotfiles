@@ -1,5 +1,5 @@
 {
-  "editor.fontFamily": "Fira Code",
+  "editor.fontFamily": "MonoLisa",
   "editor.fontSize": 14,
   "editor.lineHeight": 2.0,
   "files.autoSave": "onFocusChange",
@@ -231,5 +231,5 @@
   "workbench.editor.showTabs": "none",
   "window.commandCenter": true,
   "workbench.navigationControl.enabled": false,
-  "workbench.colorTheme": "poimandres-noitalics",
+  "workbench.activityBar.location": "top",
 }

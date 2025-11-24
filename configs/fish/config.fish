@@ -131,3 +131,9 @@ fish_add_path /Users/amirrezaask/.codeium/windsurf/bin
 
 # Added by Antigravity
 fish_add_path /Users/amirrezaask/.antigravity/antigravity/bin
+
+# Added by Antigravity
+fish_add_path /Users/amirrezaask/.antigravity/antigravity/bin
+
+# Added by Antigravity
+fish_add_path /Users/amirrezaask/.antigravity/antigravity/bin

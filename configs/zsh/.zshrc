@@ -9,6 +9,25 @@ ZSH_THEME="robbyrussell"
 
 source "$ZSH/oh-my-zsh.sh"
 
+
+alias gs='git status'
+alias gd='git diff'
+alias ga='git add'
+alias gc='git commit'
+alias gp='git push'
+alias gl='git pull'
+alias gll='git pull --all'
+alias glg='git pull --rebase'
+alias gcb='git checkout -b'
+alias gcm='git commit -m'
+alias gcam='git commit -am'
+alias gca='git commit -a'
+alias gco='git checkout'
+alias gcd='git clone'
+alias gd='git diff'
+alias gdc='git diff --cached'
+alias gds='git diff --staged'
+
 export HISTSIZE=100000
 export HISTFILESIZE=100000
 
@@ -90,7 +109,7 @@ if [[ "$(uname)" == "Darwin" ]]; then
     alias pp='pstorm .'
 fi
 
-# if command -v starship &>/dev/null
-# then
-# 	eval "$(starship init zsh)"
-# fi
+if command -v starship &>/dev/null
+then
+	eval "$(starship init zsh)"
+fi
