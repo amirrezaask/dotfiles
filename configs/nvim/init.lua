@@ -99,7 +99,7 @@ vim.keymap.set("v", "<leader>j", FzfLua.grep_visual, { silent = true })
 
 
 require("blink.cmp").setup({
-	keymap = { preset = 'super-tab' },
+	keymap = { preset = 'enter' },
 })
 require("nvim-treesitter.configs").setup({ highlight = { enable = true }, auto_install = true })
 vim.opt.foldmethod = "expr"
