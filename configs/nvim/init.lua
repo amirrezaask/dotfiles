@@ -33,6 +33,7 @@ vim.keymap.set("n", "n", "nzz")
 vim.keymap.set("n", "N", "Nzz")
 vim.keymap.set("n", "j", "gj")
 vim.keymap.set("n", "k", "gk")
+vim.keymap.set("n", "<leader>i", ":edit $MYVIMRC<CR>")
 vim.keymap.set("n", "<CR>",
 	function()
 		if vim.v.hlsearch == 1 then

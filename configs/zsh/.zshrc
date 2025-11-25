@@ -113,3 +113,6 @@ if command -v starship &>/dev/null
 then
 	eval "$(starship init zsh)"
 fi
+
+# amp
+export PATH="$HOME/.local/bin:$PATH"
