@@ -17,6 +17,10 @@
       "rev": "0909c23",
       "src": "https://github.com/sainnhe/everforest"
     },
+    "everforest-nvim": {
+      "rev": "557bce9",
+      "src": "https://github.com/neanias/everforest-nvim"
+    },
     "fzf-lua": {
       "rev": "6bb2a26",
       "src": "https://github.com/ibhagwan/fzf-lua"

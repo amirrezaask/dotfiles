@@ -1,5 +1,5 @@
 {
-  "editor.fontFamily": "Fira Code",
+  "editor.fontFamily": "Maple Mono",
   "editor.fontSize": 14,
   "editor.lineHeight": 2.0,
   "files.autoSave": "onFocusChange",
@@ -71,7 +71,7 @@
   "workbench.editor.showTabs": "none",
   "window.commandCenter": true,
   "workbench.navigationControl.enabled": false,
-  "workbench.colorTheme": "poimandres-noitalics-storm",
   "symbols.hidesExplorerArrows": false,
-  "workbench.iconTheme": "symbols",
+  "workbench.iconTheme": "monospace-idx-file-icon-theme",
+  "workbench.colorTheme": "Monospace IDX Dark",
 }

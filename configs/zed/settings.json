@@ -1,10 +1,11 @@
 {
+  "buffer_line_height": {
+    "custom": 2.3000001907348633
+  },
+  "disable_ai": false,
   "base_keymap": "JetBrains",
   "notification_panel": {
     "dock": "left"
-  },
-  "features": {
-    "edit_prediction_provider": "supermaven"
   },
   "buffer_font_family": "Maple Mono",
   "cursor_blink": false,
@@ -23,7 +24,7 @@
   },
   "theme": {
     "mode": "system",
-    "light": "Sublime Mariana",
+    "light": "Catppuccin Macchiato - No Italics",
     "dark": "Catppuccin Mocha - No Italics"
   }
 }
