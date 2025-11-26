@@ -100,25 +100,19 @@ function fish_greeting
 end
 
 function fish_prompt
+	set_color blue
+	echo -n (prompt_pwd)
+	set_color normal
+	echo -n ' '
+end
+
+function fish_right_prompt
 	set -l branch (git symbolic-ref --short HEAD 2>/dev/null)
 	if test -n "$branch"
-		set_color normal
-		echo -n ' '
-		set_color blue
-		echo -n (prompt_pwd)
 		set_color green
-		echo -n " $branch"
+		echo -n "$branch"
 		set_color normal
-		echo ''
-		echo -n ' 🚀  '
-	else
-		set_color blue
-		echo -n " "
-		echo -n (prompt_pwd)
-		set_color normal
-		echo ''
-		echo -n ' 🚀  '
-    end
+	end
 end
 
 

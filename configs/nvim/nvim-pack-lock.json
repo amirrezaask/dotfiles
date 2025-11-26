@@ -45,9 +45,17 @@
       "rev": "2b52bc2",
       "src": "https://github.com/neovim/nvim-lspconfig"
     },
+    "nvim-navic": {
+      "rev": "7d914a3",
+      "src": "https://github.com/SmiteshP/nvim-navic"
+    },
     "nvim-treesitter": {
       "rev": "42fc28ba",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter"
+    },
+    "opencode.nvim": {
+      "rev": "fda7eed",
+      "src": "https://github.com/NickvanDyke/opencode.nvim"
     },
     "snacks.nvim": {
       "rev": "41712e3",

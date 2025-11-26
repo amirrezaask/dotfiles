@@ -11,7 +11,7 @@ vim.o.ignorecase = true
 vim.o.smartcase = true
 vim.o.formatoptions = "jcql"
 vim.o.inccommand = "split"
-vim.o.winborder = "rounded"
+-- vim.o.winborder = "rounded"
 vim.o.scrolloff = 5
 vim.o.splitkeep = "topline"
 vim.o.linebreak = true
@@ -46,18 +46,34 @@ vim.keymap.set("n", "<CR>",
 
 vim.pack.add { -- See :h vim.pack
 	{ src = "https://github.com/mason-org/mason.nvim" },
-	{ src = "https://github.com/neanias/everforest-nvim" },
 	{ src = "https://github.com/mason-org/mason-lspconfig.nvim" },
+	{ src = "https://github.com/sainnhe/everforest" },
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
 	{ src = "https://github.com/nvim-treesitter/nvim-treesitter" },
 	{ src = "https://github.com/stevearc/conform.nvim" },
 	{ src = "https://github.com/saghen/blink.cmp",               version = "v1.6.0" },
-	{ src = "https://github.com/ibhagwan/fzf-lua" },
+	{ src = "https://github.com/folke/snacks.nvim" },
+	{ src = "https://github.com/nvim-lualine/lualine.nvim" },
+	{ src = "https://github.com/SmiteshP/nvim-navic" }
+
+}
+require('lualine').setup {
+	sections = {
+		lualine_a = { 'mode' },
+		lualine_b = { 'branch', 'diff', 'diagnostics' },
+		lualine_c = { 'filename', 'lsp_progress', 'navic' },
+		lualine_x = { 'encoding', 'fileformat', 'filetype' },
+		lualine_y = { 'progress' },
+		lualine_z = { 'location' }
+	},
 }
 
-
-require("everforest").setup({ background = "hard" })
+vim.g.everforest_background = 'hard'
 vim.cmd.colorscheme("everforest")
+
+-- Match background with ghostty Everforest Dark Hard
+vim.api.nvim_set_hl(0, "Normal", { bg = "#1e2326" })
+vim.api.nvim_set_hl(0, "NormalFloat", { bg = "#1e2326" })
 
 
 -- Default Keybindings
@@ -65,10 +81,10 @@ vim.cmd.colorscheme("everforest")
 -- see :h vim.lsp.buf.tagfunc()
 vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(args)
-		-- local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
-		-- if client:supports_method('textDocument/completion') then
-		-- 	vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
-		-- end
+		local client = vim.lsp.get_clients({ bufnr = args.buf })[1]
+		if client then
+			require("nvim-navic").attach(client, args.buf)
+		end
 		vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = args.buf })
 		vim.keymap.set("n", "L", vim.diagnostic.open_float, { buffer = args.buf })
 	end,
@@ -77,6 +93,7 @@ vim.lsp.config("lua_ls",
 	{ settings = { Lua = { workspace = { library = vim.api.nvim_get_runtime_file("", true) } } } })
 
 require("mason").setup()
+require("nvim-navic").setup {}
 require("mason-lspconfig").setup({ ensure_installed = { "lua_ls", "gopls" } })
 require("conform").setup({
 	formatters_by_ft = {
@@ -92,11 +109,10 @@ require("conform").setup({
 		return { timeout_ms = 500, lsp_fallback = true }
 	end,
 })
-require("fzf-lua").setup({ "telescope" })
-vim.keymap.set("n", "<leader><leader>", FzfLua.files, { silent = true })
-vim.keymap.set("n", "<leader>j", FzfLua.live_grep, { silent = true })
-vim.keymap.set("n", "<leader>J", FzfLua.grep_cword, { silent = true })
-vim.keymap.set("v", "<leader>j", FzfLua.grep_visual, { silent = true })
+require("snacks").setup({ picker = { enabled = true }, terminal = { enabled = true }, input = { enabled = true }, indent = { enabled = true } })
+vim.keymap.set("n", "<leader><leader>", Snacks.picker.files, { silent = true })
+vim.keymap.set("n", "<leader>j", Snacks.picker.grep, { silent = true })
+vim.keymap.set({ "n", "v" }, "<leader>J", Snacks.picker.grep_word, { silent = true })
 
 
 require("blink.cmp").setup({
@@ -110,14 +126,6 @@ vim.opt.foldtext = ""
 vim.opt.foldlevel = 99
 vim.opt.foldlevelstart = 5
 vim.opt.foldnestmax = 4
-
-vim.cmd [[
-	hi! Normal guibg=none
-	hi! NormalFloat guibg=none
-	hi! FzfLuaPreviewNormal guibg=none
-	hi! StatusLine guibg=none guifg=white
-]]
-
 
 -- restore cursor to file position in previous editing session
 vim.api.nvim_create_autocmd("BufReadPost", {

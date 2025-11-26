@@ -15,7 +15,7 @@ keybind = cmd+[=previous_tab
 keybind = cmd+]=next_tab
 keybind = cmd+enter=new_tab
 keybind = cmd+shift+enter=new_window
-keybind = cmd+f=toggle_split_zoom
+keybind = cmd+shift+f=toggle_split_zoom
 keybind = cmd+d=new_split:right
 keybind = cmd+down=goto_split:down
 keybind = cmd+left=goto_split:left
