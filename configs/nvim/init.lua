@@ -70,11 +70,11 @@ require('lualine').setup {
 }
 
 vim.g.everforest_background = 'hard'
-vim.cmd.colorscheme("tokyonight-storm")
+vim.cmd.colorscheme("everforest")
 
 -- Match background with ghostty Everforest Dark Hard
--- vim.api.nvim_set_hl(0, "Normal", { bg = "#1e2326" })
--- vim.api.nvim_set_hl(0, "NormalFloat", { bg = "#1e2326" })
+vim.api.nvim_set_hl(0, "Normal", { bg = "#1e2326" })
+vim.api.nvim_set_hl(0, "NormalFloat", { bg = "#1e2326" })
 
 
 -- Default Keybindings

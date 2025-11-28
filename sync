@@ -24,14 +24,3 @@ fi
 
 # Install configs
 ./configs/sync.sh
-
-# Install fonts
-mkdir -p ~/.local/share/fonts
-cp $DOTFILES_DIR/fonts/* ~/.local/share/fonts/
-
-# Install themes
-ln -nsf $DOTFILES_DIR/themes ~/.local/themes
-
-# Copy scripts
-cd $DOTFILES_DIR/bin && chmod +x *
-cd $DOTFILES_DIR/bin && sudo cp ./* /usr/bin/
