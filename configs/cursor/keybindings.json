@@ -16,15 +16,8 @@
   { "key": "cmd+shift+b", "command": "editor.action.goToReferences", "when": "editorHasReferenceProvider && editorTextFocus" },
   { "key": "cmd+[",       "command": "workbench.action.navigateBack" },
   { "key": "cmd+]",       "command": "workbench.action.navigateForward" },
-
   // Toggle viewlets
-  { "key": "cmd+1", "command": "workbench.action.toggleSidebarVisibility", "when": "sideBarVisible" },
-  { "key": "cmd+1", "command": "workbench.view.explorer", "when": "!sideBarVisible" },
-  { "key": "cmd+shift+1", "command": "workbench.view.scm", "when": "!sideBarVisible" },
-  { "key": "cmd+shift+1", "command": "workbench.action.toggleSidebarVisibility", "when": "sideBarVisible" },
-  { "key": "cmd+2", "command": "workbench.action.terminal.toggleTerminal" },
-  { "key": "cmd+0", "command": "workbench.view.scm", "when": "!sideBarVisible" },
-  { "key": "cmd+0", "command": "workbench.action.toggleSidebarVisibility", "when": "sideBarVisible" },
+  { "key": "cmd+0", "command": "workbench.action.toggleSidebarVisibility" },
   
   { "key": "cmd+ctrl+p", "command": "gitProjectManager.openProjectNewWindow"},
 ]

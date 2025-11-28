@@ -53,6 +53,10 @@
       "rev": "42fc28ba",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter"
     },
+    "nvim-treesitter-context": {
+      "rev": "660861b",
+      "src": "https://github.com/nvim-treesitter/nvim-treesitter-context"
+    },
     "opencode.nvim": {
       "rev": "fda7eed",
       "src": "https://github.com/NickvanDyke/opencode.nvim"

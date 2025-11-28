@@ -18,6 +18,6 @@
   "gitProjectManager.openInNewWindow": true,
   "git.blame.statusBarItem.enabled": true,
   "symbols.hidesExplorerArrows": false,
-  "workbench.layoutControl.enabled": false,
   "amp.url": "https://ampcode.com/",
+  "window.commandCenter": true,
 }

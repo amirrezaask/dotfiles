@@ -5,6 +5,7 @@ window-padding-balance = true
 shell-integration-features=no-cursor
 maximize=true
 macos-titlebar-style=tabs
+macos-icon=blueprint
 theme = Everforest Dark Hard
 
 keybind = shift+right=next_tab

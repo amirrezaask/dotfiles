@@ -19,7 +19,7 @@ vim.o.completeopt = "menuone,noselect,noinsert,fuzzy"
 vim.o.splitbelow = true
 vim.o.splitright = true
 vim.opt.wildoptions:append("fuzzy")
-vim.diagnostic.config({ virtual_text = true })
+vim.diagnostic.config({ virtual_text = false })
 vim.o.laststatus = 3
 
 vim.cmd([[ autocmd TextYankPost * silent! lua vim.hl.on_yank {higroup='Visual', timeout=150 } ]])
@@ -48,10 +48,11 @@ vim.pack.add { -- See :h vim.pack
 	{ src = "https://github.com/mason-org/mason.nvim" },
 	{ src = "https://github.com/mason-org/mason-lspconfig.nvim" },
 	{ src = "https://github.com/sainnhe/everforest" },
+	{ src = "https://github.com/folke/tokyonight.nvim" },
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
 	{ src = "https://github.com/nvim-treesitter/nvim-treesitter" },
+	{ src = "https://github.com/nvim-treesitter/nvim-treesitter-context" },
 	{ src = "https://github.com/stevearc/conform.nvim" },
-	{ src = "https://github.com/saghen/blink.cmp",               version = "v1.6.0" },
 	{ src = "https://github.com/folke/snacks.nvim" },
 	{ src = "https://github.com/nvim-lualine/lualine.nvim" },
 	{ src = "https://github.com/SmiteshP/nvim-navic" }
@@ -69,7 +70,7 @@ require('lualine').setup {
 }
 
 vim.g.everforest_background = 'hard'
-vim.cmd.colorscheme("everforest")
+vim.cmd.colorscheme("tokyonight")
 
 -- Match background with ghostty Everforest Dark Hard
 vim.api.nvim_set_hl(0, "Normal", { bg = "#1e2326" })
@@ -85,10 +86,12 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		if client then
 			require("nvim-navic").attach(client, args.buf)
 		end
+		vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
 		vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = args.buf })
 		vim.keymap.set("n", "L", vim.diagnostic.open_float, { buffer = args.buf })
 	end,
 })
+
 vim.lsp.config("lua_ls",
 	{ settings = { Lua = { workspace = { library = vim.api.nvim_get_runtime_file("", true) } } } })
 
@@ -115,10 +118,8 @@ vim.keymap.set("n", "<leader>j", Snacks.picker.grep, { silent = true })
 vim.keymap.set({ "n", "v" }, "<leader>J", Snacks.picker.grep_word, { silent = true })
 
 
-require("blink.cmp").setup({
-	keymap = { preset = 'enter' },
-})
 require("nvim-treesitter.configs").setup({ highlight = { enable = true }, auto_install = true })
+require 'treesitter-context'.setup {}
 vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 vim.opt.foldcolumn = "0"
