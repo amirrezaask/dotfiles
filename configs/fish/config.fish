@@ -108,11 +108,12 @@ function fish_prompt
 	if test -n "$branch"
 		echo -n ' '
 		set_color green
-		echo -n "$branch"
+		echo -n "on $branch"
 		set_color normal
 	end
 
-	echo -n " 🚀 "
+	echo ""
+	echo "🚀 "
 end
 
 function fish_right_prompt
