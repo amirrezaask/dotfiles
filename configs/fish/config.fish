@@ -1,3 +1,4 @@
+fish_add_path $HOME/.local/bin
 if command -v fzf &> /dev/null
 	fzf --fish | source
 end
@@ -68,7 +69,6 @@ function fix
     git checkout -b "fix-$1"
 end
 
-set system (uname)
 
 function feat
     if [ -z "$1" ]; then
@@ -78,6 +78,7 @@ function feat
     git checkout -b "feat-$1"
 end
 
+set system (uname)
 if test "$system" = "Darwin"
     alias idea='open -na "Intellij IDEA.app" --args'
     alias jj='idea .'
@@ -104,33 +105,21 @@ function fish_prompt
 	echo -n (prompt_pwd)
 	set_color normal
 	echo -n ' '
-end
-
-function fish_right_prompt
 	set -l branch (git symbolic-ref --short HEAD 2>/dev/null)
 	if test -n "$branch"
 		set_color green
 		echo -n "$branch"
 		set_color normal
+		echo -n " "
 	end
+end
+
+function fish_right_prompt
+	set_color yellow
+	echo -n "$(date "+%Y/%m/%d %H:%M")"
+	set_color normal
 end
 
 
 # opencode
 fish_add_path /Users/amirrezaask/.opencode/bin
-fish_add_path $HOME/.local/bin
-
-# Added by Windsurf
-fish_add_path /Users/amirrezaask/.codeium/windsurf/bin
-
-# Added by Antigravity
-fish_add_path /Users/amirrezaask/.antigravity/antigravity/bin
-
-# Added by Antigravity
-fish_add_path /Users/amirrezaask/.antigravity/antigravity/bin
-
-# Added by Antigravity
-fish_add_path /Users/amirrezaask/.antigravity/antigravity/bin
-
-# Added by Antigravity
-fish_add_path /Users/amirrezaask/.antigravity/antigravity/bin

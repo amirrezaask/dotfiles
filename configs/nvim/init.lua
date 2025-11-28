@@ -11,7 +11,7 @@ vim.o.ignorecase = true
 vim.o.smartcase = true
 vim.o.formatoptions = "jcql"
 vim.o.inccommand = "split"
--- vim.o.winborder = "rounded"
+vim.o.winborder = "rounded"
 vim.o.scrolloff = 5
 vim.o.splitkeep = "topline"
 vim.o.linebreak = true
@@ -21,8 +21,20 @@ vim.o.splitright = true
 vim.opt.wildoptions:append("fuzzy")
 vim.diagnostic.config({ virtual_text = false })
 vim.o.laststatus = 3
+vim.opt.foldmethod = "expr"
+vim.opt.foldcolumn = "0"
+vim.opt.foldtext = ""
+vim.opt.foldlevel = 99
+vim.opt.foldlevelstart = 5
+vim.opt.foldnestmax = 4
 
+-- highlight yanked region for 150ms
 vim.cmd([[ autocmd TextYankPost * silent! lua vim.hl.on_yank {higroup='Visual', timeout=150 } ]])
+
+-- auto resize splits when the terminal's window is resized
+vim.api.nvim_create_autocmd("VimResized", {
+	command = "wincmd =",
+})
 
 vim.keymap.set("i", "jk", "<esc>")
 vim.keymap.set("i", "kj", "<esc>")
@@ -72,9 +84,10 @@ require('lualine').setup {
 vim.g.everforest_background = 'hard'
 vim.cmd.colorscheme("everforest")
 
--- Match background with ghostty Everforest Dark Hard
-vim.api.nvim_set_hl(0, "Normal", { bg = "#1e2326" })
-vim.api.nvim_set_hl(0, "NormalFloat", { bg = "#1e2326" })
+if vim.g.colors_name == "everforest" then
+	vim.api.nvim_set_hl(0, "Normal", { bg = "#1e2326" })
+	vim.api.nvim_set_hl(0, "NormalFloat", { bg = "#1e2326" })
+end
 
 
 -- Default Keybindings
@@ -92,8 +105,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 	end,
 })
 
-vim.lsp.config("lua_ls",
-	{ settings = { Lua = { workspace = { library = vim.api.nvim_get_runtime_file("", true) } } } })
+vim.lsp.config("lua_ls", { settings = { Lua = { workspace = { library = vim.api.nvim_get_runtime_file("", true) } } } })
 
 require("mason").setup()
 require("nvim-navic").setup {}
@@ -120,34 +132,8 @@ vim.keymap.set({ "n", "v" }, "<leader>J", Snacks.picker.grep_word, { silent = tr
 
 require("nvim-treesitter.configs").setup({ highlight = { enable = true }, auto_install = true })
 require 'treesitter-context'.setup {}
-vim.opt.foldmethod = "expr"
-vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-vim.opt.foldcolumn = "0"
-vim.opt.foldtext = ""
-vim.opt.foldlevel = 99
-vim.opt.foldlevelstart = 5
-vim.opt.foldnestmax = 4
 
--- restore cursor to file position in previous editing session
-vim.api.nvim_create_autocmd("BufReadPost", {
-	callback = function(args)
-		local mark = vim.api.nvim_buf_get_mark(args.buf, '"')
-		local line_count = vim.api.nvim_buf_line_count(args.buf)
-		if mark[1] > 0 and mark[1] <= line_count then
-			vim.api.nvim_win_set_cursor(0, mark)
-			-- defer centering slightly so it's applied after render
-			vim.schedule(function()
-				vim.cmd("normal! zz")
-			end)
-		end
-	end,
-})
-
--- auto resize splits when the terminal's window is resized
-vim.api.nvim_create_autocmd("VimResized", {
-	command = "wincmd =",
-})
-
+vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()" -- use treesitter for code folding
 
 -- show cursorline only in active window enable
 vim.api.nvim_create_autocmd({ "WinEnter", "BufEnter" }, {
