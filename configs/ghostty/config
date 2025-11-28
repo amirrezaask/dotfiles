@@ -1,10 +1,8 @@
-font-family = TX-02
 mouse-hide-while-typing = true
 macos-option-as-alt = true
 window-padding-balance = true
 shell-integration-features=no-cursor
 maximize=true
-macos-icon=blueprint
 theme = Everforest Dark Hard
 
 keybind = shift+right=next_tab

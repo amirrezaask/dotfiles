@@ -99,7 +99,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		if client then
 			require("nvim-navic").attach(client, args.buf)
 		end
-		vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
 		vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = args.buf })
 		vim.keymap.set("n", "L", vim.diagnostic.open_float, { buffer = args.buf })
 	end,
