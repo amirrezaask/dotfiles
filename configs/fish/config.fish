@@ -11,7 +11,6 @@ if command -v nvim &> /dev/null
 	export EDITOR='nvim'
 end
 
-
 if command -v subl &> /dev/null
 	alias s='subl'
 	alias ss='subl .'
@@ -31,6 +30,7 @@ function wip
 	git commit -m "wip"
 	git push origin "$branch"
 end
+
 alias g='git'
 alias nah='git restore --staged . && git restore . && git clean -fd'
 alias gcm='git commit -m'
@@ -99,29 +99,6 @@ alias lsa='ls -lah'
 function fish_greeting
 
 end
-
-function fish_prompt
-	set_color blue
-	echo -n (prompt_pwd)
-	set_color normal
-	set -l branch (git symbolic-ref --short HEAD 2>/dev/null)
-	if test -n "$branch"
-		echo -n ' '
-		set_color green
-		echo -n "on $branch"
-		set_color normal
-	end
-
-	echo ""
-	echo "🚀 "
-end
-
-function fish_right_prompt
-	set_color yellow
-	echo -n "$(date "+%Y/%m/%d %H:%M")"
-	set_color normal
-end
-
 
 # opencode
 fish_add_path /Users/amirrezaask/.opencode/bin
