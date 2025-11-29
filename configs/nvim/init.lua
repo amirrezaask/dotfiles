@@ -68,7 +68,8 @@ vim.pack.add { -- See :h vim.pack
 	{ src = "https://github.com/stevearc/conform.nvim" },
 	{ src = "https://github.com/folke/snacks.nvim" },
 	{ src = "https://github.com/nvim-lualine/lualine.nvim" },
-	{ src = "https://github.com/SmiteshP/nvim-navic" }
+	{ src = "https://github.com/SmiteshP/nvim-navic" },
+	{ src = "https://github.com/saghen/blink.cmp",                       version = "v1.6.0" }, -- Blazingly fast autocomplete popup
 
 }
 require('lualine').setup {
@@ -81,6 +82,14 @@ require('lualine').setup {
 		lualine_z = { 'location' }
 	},
 }
+
+require("blink.cmp").setup({
+	keymap = {
+		['<Tab>'] = { 'accept' },
+		['<Enter>'] = { 'accept' },
+	},
+})
+
 
 vim.g.everforest_background = 'hard'
 require("gruvbox").setup({
@@ -157,19 +166,3 @@ require("nvim-treesitter.configs").setup({ highlight = { enable = true }, auto_i
 require 'treesitter-context'.setup {}
 
 vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()" -- use treesitter for code folding
-
--- show cursorline only in active window enable
-vim.api.nvim_create_autocmd({ "WinEnter", "BufEnter" }, {
-	group = vim.api.nvim_create_augroup("active_cursorline", { clear = true }),
-	callback = function()
-		vim.opt_local.cursorline = true
-	end,
-})
-
--- show cursorline only in active window disable
-vim.api.nvim_create_autocmd({ "WinLeave", "BufLeave" }, {
-	group = "active_cursorline",
-	callback = function()
-		vim.opt_local.cursorline = false
-	end,
-})
