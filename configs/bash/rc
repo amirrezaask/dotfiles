@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-
-[[ $- == *i* ]] && bind -f ~/.config/bash/inputrc
-source ~/.config/bash/envs
-source ~/.config/bash/aliases
-source ~/.config/bash/functions
-source ~/.config/bash/prompt
-
-. "$HOME/.cargo/env"
