@@ -1,4 +1,36 @@
 fish_add_path $HOME/.local/bin
+
+alias g='git'
+alias nah='git restore --staged . && git restore . && git clean -fd'
+alias gcm='git commit -m'
+alias gcam='git commit -am'
+alias gca='git commit -a'
+alias gc='git commit'
+alias gco='git checkout'
+alias gcb='git checkout -b'
+alias gcd='git clone'
+alias gd='git diff'
+alias gdc='git diff --cached'
+alias gds='git diff --staged'
+alias gdt='git difftool'
+alias gdt='git difftool'
+alias gl='git pull --tags --prune'
+alias glg='git log'
+alias ga='git add'
+alias gp='git push'
+alias gpsup='git push --set-upstream origin $(git symbolic-ref --short HEAD)'
+alias gs='git status'
+alias gf='git fetch --all --prune -f'
+alias l='ls -lah'
+alias la='ls -lAh'
+alias ll='ls -lh'
+alias ls='ls -G'
+alias lsa='ls -lah'
+
+if command -v brew &>/dev/null
+	/opt/homebrew/bin/brew shellenv | source
+end
+
 if command -v fzf &> /dev/null
 	fzf --fish | source
 end
@@ -35,28 +67,6 @@ function wip
 	git commit -m "wip"
 	git push origin "$branch"
 end
-
-alias g='git'
-alias nah='git restore --staged . && git restore . && git clean -fd'
-alias gcm='git commit -m'
-alias gcam='git commit -am'
-alias gca='git commit -a'
-alias gc='git commit'
-alias gco='git checkout'
-alias gcb='git checkout -b'
-alias gcd='git clone'
-alias gd='git diff'
-alias gdc='git diff --cached'
-alias gds='git diff --staged'
-alias gdt='git difftool'
-alias gdt='git difftool'
-alias gl='git pull --tags --prune'
-alias glg='git log'
-alias ga='git add'
-alias gp='git push'
-alias gpsup='git push --set-upstream origin $(git symbolic-ref --short HEAD)'
-alias gs='git status'
-alias gf='git fetch --all --prune -f'
 
 function ref 
     if [ -z "$1" ]; then
@@ -95,15 +105,11 @@ if test "$system" = "Darwin"
     alias pp='pstorm .'
 end
 
-alias l='ls -lah'
-alias la='ls -lAh'
-alias ll='ls -lh'
-alias ls='ls -G'
-alias lsa='ls -lah'
 
 function fish_greeting
 
 end
+
 function fish_prompt
 	set_color brblack
 	echo -n "["(date "+%H:%M")"] "
@@ -117,5 +123,5 @@ function fish_prompt
 	echo -n '| '
 	set_color normal
 end
-# opencode
+
 fish_add_path /Users/amirrezaask/.opencode/bin
