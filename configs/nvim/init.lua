@@ -83,7 +83,29 @@ require('lualine').setup {
 }
 
 vim.g.everforest_background = 'hard'
-require("gruvbox").setup({ contrast = 'hard' })
+require("gruvbox").setup({
+	contrast = 'hard',
+	terminal_colors = true, -- add neovim terminal colors
+	undercurl = false,
+	underline = false,
+	bold = false,
+	italic = {
+		strings = false,
+		emphasis = false,
+		comments = false,
+		operators = false,
+		folds = false,
+	},
+	strikethrough = false,
+	invert_selection = false,
+	invert_signs = false,
+	invert_tabline = false,
+	inverse = true, -- invert background for search, diffs, statuslines and errors
+	palette_overrides = {},
+	overrides = {},
+	dim_inactive = false,
+	transparent_mode = false,
+})
 vim.cmd.colorscheme("gruvbox")
 
 if vim.g.colors_name == "everforest" then
@@ -125,7 +147,7 @@ require("conform").setup({
 		return { timeout_ms = 500, lsp_fallback = true }
 	end,
 })
-require("snacks").setup({ picker = { enabled = true }, terminal = { enabled = true }, input = { enabled = true }, indent = { enabled = true } })
+require("snacks").setup({ picker = { enabled = true }, terminal = { enabled = true }, input = { enabled = true }, indent = { enabled = false } })
 vim.keymap.set("n", "<leader><leader>", Snacks.picker.files, { silent = true })
 vim.keymap.set("n", "<leader>j", Snacks.picker.grep, { silent = true })
 vim.keymap.set({ "n", "v" }, "<leader>J", Snacks.picker.grep_word, { silent = true })

@@ -16,6 +16,11 @@ if command -v subl &> /dev/null
 	alias ss='subl .'
 end
 
+if command -v eza &> /dev/null
+	alias ls='eza'
+	alias ll='eza -l'
+end
+
 function reload
 	source ~/.config/fish/config.fish
 end
