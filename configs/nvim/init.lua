@@ -60,6 +60,7 @@ vim.pack.add { -- See :h vim.pack
 	{ src = "https://github.com/mason-org/mason.nvim" },
 	{ src = "https://github.com/mason-org/mason-lspconfig.nvim" },
 	{ src = "https://github.com/sainnhe/everforest" },
+	{ src = "https://github.com/ellisonleao/gruvbox.nvim" },
 	{ src = "https://github.com/folke/tokyonight.nvim" },
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
 	{ src = "https://github.com/nvim-treesitter/nvim-treesitter" },
@@ -82,7 +83,8 @@ require('lualine').setup {
 }
 
 vim.g.everforest_background = 'hard'
-vim.cmd.colorscheme("everforest")
+require("gruvbox").setup({ contrast = 'hard' })
+vim.cmd.colorscheme("gruvbox")
 
 if vim.g.colors_name == "everforest" then
 	vim.api.nvim_set_hl(0, "Normal", { bg = "#1e2326" })

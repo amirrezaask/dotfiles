@@ -3,7 +3,7 @@ macos-option-as-alt = true
 window-padding-balance = true
 shell-integration-features=no-cursor
 maximize=true
-theme = Everforest Dark Hard
+theme = Gruvbox Dark Hard
 
 keybind = shift+right=next_tab
 keybind = shift+left=previous_tab

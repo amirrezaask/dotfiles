@@ -25,6 +25,10 @@
       "rev": "6bb2a26",
       "src": "https://github.com/ibhagwan/fzf-lua"
     },
+    "gruvbox.nvim": {
+      "rev": "5e0a460",
+      "src": "https://github.com/ellisonleao/gruvbox.nvim"
+    },
     "lualine.nvim": {
       "rev": "3946f01",
       "src": "https://github.com/nvim-lualine/lualine.nvim"
