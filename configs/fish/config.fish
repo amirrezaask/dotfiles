@@ -111,8 +111,8 @@ end
 
 function fish_prompt
 	set_color cyan
-	echo -n (basename $PWD)
-	set_color yellow
+	echo -n (prompt_pwd)
+	set_color blue
 	printf '%s ' (__fish_git_prompt)
 	echo ''
 	set_color green
