@@ -1,9 +1,9 @@
-font-family = Operator Mono
-font-style = Book
+font-family = Fira Code
+font-style= Bold
 mouse-hide-while-typing = true
 macos-option-as-alt = true
 window-padding-balance = true
-adjust-cell-height = 30%
+adjust-cell-height = 10%
 shell-integration-features=no-cursor
 maximize=true
 theme = Gruvbox Dark Hard

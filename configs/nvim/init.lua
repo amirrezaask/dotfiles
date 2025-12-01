@@ -35,7 +35,20 @@ vim.cmd([[ autocmd TextYankPost * silent! lua vim.hl.on_yank {higroup='Visual', 
 vim.api.nvim_create_autocmd("VimResized", {
 	command = "wincmd =",
 })
-
+-- restore cursor to file position in previous editing session
+vim.api.nvim_create_autocmd("BufReadPost", {
+	callback = function(args)
+		local mark = vim.api.nvim_buf_get_mark(args.buf, '"')
+		local line_count = vim.api.nvim_buf_line_count(args.buf)
+		if mark[1] > 0 and mark[1] <= line_count then
+			vim.api.nvim_win_set_cursor(0, mark)
+			-- defer centering slightly so it's applied after render
+			vim.schedule(function()
+				vim.cmd("normal! zz")
+			end)
+		end
+	end,
+})
 vim.keymap.set("i", "jk", "<esc>")
 vim.keymap.set("i", "kj", "<esc>")
 vim.keymap.set("i", "<C-c>", "<esc>")
@@ -76,7 +89,7 @@ require('lualine').setup {
 	sections = {
 		lualine_a = { 'mode' },
 		lualine_b = { 'branch', 'diff', 'diagnostics' },
-		lualine_c = { 'filename', 'lsp_progress', 'navic' },
+		lualine_c = { { 'filename', path = 1 }, 'lsp_progress', 'navic' },
 		lualine_x = { 'encoding', 'fileformat', 'filetype' },
 		lualine_y = { 'progress' },
 		lualine_z = { 'location' }
@@ -84,9 +97,11 @@ require('lualine').setup {
 }
 
 require("blink.cmp").setup({
+	completion = { list = { selection = { preselect = false } } },
 	keymap = {
-		['<Tab>'] = { 'accept' },
-		['<Enter>'] = { 'accept' },
+		preset = 'default',
+		['<Tab>'] = { 'accept', 'fallback' },
+		['<CR>'] = { 'accept', 'fallback' },
 	},
 })
 

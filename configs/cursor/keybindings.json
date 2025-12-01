@@ -18,6 +18,7 @@
   { "key": "cmd+]",       "command": "workbench.action.navigateForward" },
   // Toggle viewlets
   { "key": "cmd+0", "command": "workbench.action.toggleSidebarVisibility" },
+  { "key": "cmd+2", "command": "workbench.action.terminal.toggleTerminal" },
   
   { "key": "cmd+ctrl+p", "command": "gitProjectManager.openProjectNewWindow"},
 ]
