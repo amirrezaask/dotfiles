@@ -70,18 +70,23 @@ vim.keymap.set("n", "<CR>",
 	end, { expr = true })
 
 vim.pack.add { -- See :h vim.pack
+	-- LSP & Package management
 	{ src = "https://github.com/mason-org/mason.nvim" },
 	{ src = "https://github.com/mason-org/mason-lspconfig.nvim" },
+	{ src = "https://github.com/neovim/nvim-lspconfig" },
+	-- Colors
 	{ src = "https://github.com/sainnhe/everforest" },
 	{ src = "https://github.com/ellisonleao/gruvbox.nvim" },
 	{ src = "https://github.com/folke/tokyonight.nvim" },
-	{ src = "https://github.com/neovim/nvim-lspconfig" },
+
+	-- Treesitter
 	{ src = "https://github.com/nvim-treesitter/nvim-treesitter" },
 	{ src = "https://github.com/nvim-treesitter/nvim-treesitter-context" },
-	{ src = "https://github.com/stevearc/conform.nvim" },
-	{ src = "https://github.com/folke/snacks.nvim" },
-	{ src = "https://github.com/nvim-lualine/lualine.nvim" },
-	{ src = "https://github.com/SmiteshP/nvim-navic" },
+
+	{ src = "https://github.com/stevearc/conform.nvim" },                                   -- Autoformat
+	{ src = "https://github.com/ibhagwan/fzf-lua" },                                        -- FZF, in neovim.
+	{ src = "https://github.com/nvim-lualine/lualine.nvim" },                               -- StatusLine
+	{ src = "https://github.com/SmiteshP/nvim-navic" },                                     -- Treesitter based location
 	{ src = "https://github.com/saghen/blink.cmp",                       version = "v1.6.0" }, -- Blazingly fast autocomplete popup
 
 }
@@ -137,7 +142,7 @@ if vim.g.colors_name == "everforest" then
 	vim.api.nvim_set_hl(0, "NormalFloat", { bg = "#1e2326" })
 end
 
-
+-- LSP [[
 -- Default Keybindings
 -- see :h lsp-defaults
 -- see :h vim.lsp.buf.tagfunc()
@@ -154,10 +159,13 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 vim.lsp.config("lua_ls", { settings = { Lua = { workspace = { library = vim.api.nvim_get_runtime_file("", true) } } } })
 
+
 require("mason").setup()
 require("nvim-navic").setup {}
 require("mason-lspconfig").setup({ ensure_installed = { "lua_ls", "gopls" } })
-require("conform").setup({
+-- ]]
+
+require("conform").setup({ -- Autoformat
 	formatters_by_ft = {
 		php = nil,
 		go = { "goimports" },
@@ -171,10 +179,22 @@ require("conform").setup({
 		return { timeout_ms = 500, lsp_fallback = true }
 	end,
 })
-require("snacks").setup({ picker = { enabled = true }, terminal = { enabled = true }, input = { enabled = true }, indent = { enabled = false } })
-vim.keymap.set("n", "<leader><leader>", Snacks.picker.files, { silent = true })
-vim.keymap.set("n", "<leader>j", Snacks.picker.grep, { silent = true })
-vim.keymap.set({ "n", "v" }, "<leader>J", Snacks.picker.grep_word, { silent = true })
+
+-- Fzflua
+require("fzf-lua").setup({
+	'fzf-vim',
+	winopts = {
+		split = "belowright 20new",
+		preview = {
+			hidden = true,
+		}
+	},
+})
+vim.keymap.set("n", "<leader><leader>", FzfLua.files, { silent = true })
+vim.keymap.set({ "n", "v" }, "<leader>j", FzfLua.live_grep, { silent = true })
+vim.keymap.set({ "n" }, "<leader>l", FzfLua.lines, { silent = true })
+vim.keymap.set("n", "<leader>J", FzfLua.grep_cword, { silent = true })
+vim.keymap.set("v", "<leader>J", FzfLua.grep_visual, { silent = true })
 
 
 require("nvim-treesitter.configs").setup({ highlight = { enable = true }, auto_install = true })

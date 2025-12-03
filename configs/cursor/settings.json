@@ -22,6 +22,5 @@
   "terminal.integrated.fontSize": 16,
   "everforest.darkContrast": "hard",
   "everforest.darkWorkbench": "high-contrast",
-  "workbench.colorTheme": "Cursor Dark Midnight",
   "workbench.iconTheme": "symbols"
 }

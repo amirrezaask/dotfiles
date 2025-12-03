@@ -22,7 +22,7 @@
       "src": "https://github.com/neanias/everforest-nvim"
     },
     "fzf-lua": {
-      "rev": "6bb2a26",
+      "rev": "cae96b04f6cad98a3ad24349731df5e56b384c3c",
       "src": "https://github.com/ibhagwan/fzf-lua"
     },
     "gruvbox.nvim": {
