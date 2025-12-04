@@ -137,7 +137,7 @@ require("gruvbox").setup({
 	transparent_mode = false,
 })
 require("poimandres").setup({})
-vim.cmd.colorscheme("everforest")
+vim.cmd.colorscheme("poimandres")
 
 if vim.g.colors_name == "everforest" then
 	vim.api.nvim_set_hl(0, "Normal", { bg = "#1e2326" })

@@ -65,6 +65,10 @@
       "rev": "fda7eed",
       "src": "https://github.com/NickvanDyke/opencode.nvim"
     },
+    "poimandres.nvim": {
+      "rev": "a488957d803943a4201ac3b774913fcafa9e6b3a",
+      "src": "https://github.com/olivercederborg/poimandres.nvim"
+    },
     "snacks.nvim": {
       "rev": "41712e3",
       "src": "https://github.com/folke/snacks.nvim"
