@@ -29,6 +29,31 @@ zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 zstyle ':completion:*' menu select
 zmodload zsh/complist
 
+# Plugin setup (minimal auto-install without a manager)
+ZSH_PLUGIN_DIR="${HOME}/.zsh/plugins"
+ZSH_AUTOSUGGESTIONS_DIR="${ZSH_PLUGIN_DIR}/zsh-autosuggestions"
+ZSH_SYNTAX_HIGHLIGHTING_DIR="${ZSH_PLUGIN_DIR}/zsh-syntax-highlighting"
+
+if command -v git &>/dev/null; then
+	if [ ! -d "${ZSH_AUTOSUGGESTIONS_DIR}" ]; then
+		mkdir -p "${ZSH_PLUGIN_DIR}"
+		git clone https://github.com/zsh-users/zsh-autosuggestions "${ZSH_AUTOSUGGESTIONS_DIR}" 2>/dev/null
+	fi
+
+	if [ ! -d "${ZSH_SYNTAX_HIGHLIGHTING_DIR}" ]; then
+		mkdir -p "${ZSH_PLUGIN_DIR}"
+		git clone https://github.com/zsh-users/zsh-syntax-highlighting "${ZSH_SYNTAX_HIGHLIGHTING_DIR}" 2>/dev/null
+	fi
+fi
+
+if [ -f "${ZSH_AUTOSUGGESTIONS_DIR}/zsh-autosuggestions.zsh" ]; then
+	source "${ZSH_AUTOSUGGESTIONS_DIR}/zsh-autosuggestions.zsh"
+fi
+
+if [ -f "${ZSH_SYNTAX_HIGHLIGHTING_DIR}/zsh-syntax-highlighting.zsh" ]; then
+	source "${ZSH_SYNTAX_HIGHLIGHTING_DIR}/zsh-syntax-highlighting.zsh"
+fi
+
 # Keybindings
 bindkey -e
 
@@ -209,7 +234,7 @@ setopt PROMPT_SUBST
 
 # Custom prompt (similar to fish prompt)
 PROMPT='%F{cyan}%~%f%F{blue}${vcs_info_msg_0_}%f
-%F{green}→%f '
+🚀 '
 
 # Disable greeting
 unsetopt BEEP
