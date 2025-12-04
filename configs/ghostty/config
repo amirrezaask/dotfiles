@@ -5,7 +5,7 @@ window-padding-balance = true
 adjust-cell-height = 10%
 shell-integration-features=no-cursor
 maximize=true
-theme = Gruvbox Dark Hard
+theme = Everforest Dark Hard
 cursor-style=block
 cursor-style-blink=false
 

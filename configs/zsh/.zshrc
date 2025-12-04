@@ -179,6 +179,27 @@ reload() {
 	source ~/.zshrc
 }
 
+# Theme change function
+theme() {
+	local script_path
+	
+	# Find the change-theme.py script
+	if [ -n "$DOTFILES_DIR" ] && [ -f "$DOTFILES_DIR/change-theme.py" ]; then
+		script_path="$DOTFILES_DIR/change-theme.py"
+	elif [ -f ~/dev/dotfiles/change-theme.py ]; then
+		script_path=~/dev/dotfiles/change-theme.py
+	elif [ -f ./change-theme.py ]; then
+		script_path="./change-theme.py"
+	else
+		echo "Error: Could not find change-theme.py script"
+		echo "Please ensure your dotfiles are in ~/dev/dotfiles or set DOTFILES_DIR environment variable"
+		return 1
+	fi
+	
+	# Call the Python script with all arguments
+	python3 "$script_path" "$@"
+}
+
 wip() {
 	local branch=$(git symbolic-ref --short HEAD 2>/dev/null)
 	if [ -z "$branch" ]; then

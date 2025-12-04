@@ -10,11 +10,15 @@
   "workbench.settings.editor": "json",
   "terminal.integrated.macOptionIsMeta": true,
   "files.simpleDialog.enable": true,
-  "[go]": { "editor.formatOnSave": true },
+  "[go]": {
+    "editor.formatOnSave": true
+  },
   "explorer.confirmDelete": false,
   "workbench.startupEditor": "none",
   "editor.bracketPairColorization.enabled": false,
-  "gitProjectManager.baseProjectsFolders": [ "~/dev" ],
+  "gitProjectManager.baseProjectsFolders": [
+    "~/dev"
+  ],
   "gitProjectManager.openInNewWindow": true,
   "git.blame.statusBarItem.enabled": true,
   "symbols.hidesExplorerArrows": false,
@@ -22,5 +26,6 @@
   "terminal.integrated.fontSize": 16,
   "everforest.darkContrast": "hard",
   "everforest.darkWorkbench": "high-contrast",
-  "workbench.iconTheme": "symbols"
+  "workbench.iconTheme": "symbols",
+  "workbench.colorTheme": "Everforest Dark"
 }
