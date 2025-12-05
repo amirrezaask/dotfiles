@@ -13,6 +13,10 @@
       "rev": "9fd3d5e",
       "src": "https://github.com/stevearc/conform.nvim"
     },
+    "cursor-dark.nvim": {
+      "rev": "9dfb25b261e972570247e05393b4a1ba4646ae12",
+      "src": "https://github.com/ydkulks/cursor-dark.nvim"
+    },
     "everforest": {
       "rev": "0909c23",
       "src": "https://github.com/sainnhe/everforest"

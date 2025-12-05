@@ -22,7 +22,6 @@
   "gitProjectManager.openInNewWindow": true,
   "git.blame.statusBarItem.enabled": true,
   "symbols.hidesExplorerArrows": false,
-  "window.commandCenter": true,
   "terminal.integrated.fontSize": 16,
   "everforest.darkContrast": "hard",
   "everforest.darkWorkbench": "high-contrast",

@@ -79,6 +79,7 @@ vim.pack.add { -- See :h vim.pack
 	{ src = "https://github.com/ellisonleao/gruvbox.nvim" },
 	{ src = "https://github.com/folke/tokyonight.nvim" },
 	{ src = "https://github.com/olivercederborg/poimandres.nvim" },
+	{ src = "https://github.com/ydkulks/cursor-dark.nvim" },
 
 	-- Treesitter
 	{ src = "https://github.com/nvim-treesitter/nvim-treesitter" },
@@ -137,7 +138,10 @@ require("gruvbox").setup({
 	transparent_mode = false,
 })
 require("poimandres").setup({})
-vim.cmd.colorscheme("poimandres")
+require("cursor-dark").setup {
+	transparent = true,
+}
+vim.cmd.colorscheme("cursor-dark")
 
 if vim.g.colors_name == "everforest" then
 	vim.api.nvim_set_hl(0, "Normal", { bg = "#1e2326" })

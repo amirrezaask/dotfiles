@@ -116,6 +116,10 @@ if command -v nvim &> /dev/null; then
 	export EDITOR='nvim'
 fi
 
+if command -v cursor &> /dev/null; then
+	alias c='cursor'
+fi
+
 # Git aliases
 alias g='git'
 alias nah='git restore --staged . && git restore . && git clean -fd'
