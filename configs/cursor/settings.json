@@ -1,7 +1,7 @@
 {
-  "editor.fontFamily": "Maple Mono",
+  "editor.fontFamily": "TX-02",
   "editor.fontSize": 14,
-  "editor.lineHeight": 2.0,
+  "editor.lineHeight": 1.7,
   "files.autoSave": "onFocusChange",
   "editor.wordWrap": "on",
   "editor.minimap.enabled": false,
@@ -23,8 +23,9 @@
   "git.blame.statusBarItem.enabled": true,
   "symbols.hidesExplorerArrows": false,
   "terminal.integrated.fontSize": 16,
-  "everforest.darkContrast": "hard",
-  "everforest.darkWorkbench": "high-contrast",
-  "workbench.iconTheme": "symbols",
-  "workbench.colorTheme": "Cursor Dark Midnight"
+  "window.autoDetectColorScheme": true,
+  "workbench.preferredDarkColorTheme": "Cursor Dark",
+  "workbench.preferredLightColorTheme": "Cursor Light",
+  "cursor.composer.usageSummaryDisplay": "always"
+  
 }

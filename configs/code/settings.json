@@ -1,11 +1,9 @@
 {
-  "editor.fontFamily": "Fira Code",
   "editor.fontSize": 14,
-  "editor.lineHeight": 2,
-  "workbench.editor.editorActionsLocation": "hidden",
+  "editor.lineHeight": 2.0,
+  "files.autoSave": "onFocusChange",
   "editor.wordWrap": "on",
   "editor.minimap.enabled": false,
-  "diffEditor.renderSideBySide": false,
   "editor.mouseWheelScrollSensitivity": 2,
   "window.restoreWindows": "none",
   "workbench.settings.editor": "json",
@@ -14,25 +12,20 @@
   "[go]": {
     "editor.formatOnSave": true
   },
-  "git.confirmSync": false,
-  "git.openRepositoryInParentFolders": "never",
   "explorer.confirmDelete": false,
-  "editor.stickyScroll.enabled": false,
-  "workbench.layoutControl.enabled": false,
-  "breadcrumbs.enabled": false,
-  "window.commandCenter": false,
   "workbench.startupEditor": "none",
-  "window.titleBarStyle": "custom",
-  "go.toolsManagement.autoUpdate": true,
   "editor.bracketPairColorization.enabled": false,
-  "extensions.ignoreRecommendations": true,
   "gitProjectManager.baseProjectsFolders": [
     "~/dev"
   ],
   "gitProjectManager.openInNewWindow": true,
   "git.blame.statusBarItem.enabled": true,
-  "workbench.activityBar.location": "top",
-  "workbench.editor.showTabs": "none",
-  "chat.disableAIFeatures": true,
-  "workbench.colorTheme": "Poimandres"
+  "symbols.hidesExplorerArrows": false,
+  "terminal.integrated.fontSize": 16,
+  "window.autoDetectColorScheme": true,
+  "workbench.preferredDarkColorTheme": "Cursor Dark",
+  "workbench.preferredLightColorTheme": "Cursor Light",
+  "update.showReleaseNotes": false,
+  "workbench.activityBar.location": "top"
+  
 }

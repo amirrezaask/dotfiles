@@ -1,12 +1,12 @@
-font-family = Maple Mono
+font-family = TX-02
 mouse-hide-while-typing = true
 macos-option-as-alt = true
 window-padding-balance = true
-adjust-cell-height = 10%
+adjust-cell-height = 30%
 shell-integration-features=no-cursor
 maximize=true
 theme = Cursor Dark
-cursor-style=block
+cursor-style=bar
 cursor-style-blink=false
 
 keybind = shift+right=next_tab
