@@ -3,7 +3,7 @@ command_timeout = 200
 
 # Minimal format
 format = """
-$directory$git_branch$git_status
+$directory$git_branch $git_status
 $character"""
 
 [character]
