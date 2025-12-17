@@ -263,3 +263,8 @@ PROMPT='%F{cyan}%~%f%F{blue}${vcs_info_msg_0_}%f
 
 # Disable greeting
 unsetopt BEEP
+
+# Starship prompt
+if command -v starship &> /dev/null; then
+    eval "$(starship init zsh)"
+fi

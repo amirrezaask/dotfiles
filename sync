@@ -140,30 +140,30 @@ if [ "$INSTALL_PLATFORM" = true ]; then
 
 			# Systemd login configuration
 			sudo tee /etc/systemd/logind.conf >/dev/null <<'EOF'
-			[Login]
-			HandlePowerKey=poweroff
-			HandleSuspendKey=ignore
-			HandleHibernateKey=ignore
-			HandleLidSwitch=suspend
-			HandleLidSwitchExternalPower=suspend
-			HandleLidSwitchDocked=suspend
-			KillUserProcesses=no
-			IdleAction=ignore
+[Login]
+HandlePowerKey=poweroff
+HandleSuspendKey=ignore
+HandleHibernateKey=ignore
+HandleLidSwitch=suspend
+HandleLidSwitchExternalPower=suspend
+HandleLidSwitchDocked=suspend
+KillUserProcesses=no
+IdleAction=ignore
 EOF
 
 			# Lock screen before suspend
 			sudo tee /etc/systemd/system/lock-before-suspend.service >/dev/null <<'EOF'
-			[Unit]
-			Description=Lock screen before suspend
-			Before=sleep.target
+[Unit]
+Description=Lock screen before suspend
+Before=sleep.target
 
-			[Service]
-			Type=oneshot
-			ExecStart=swaylock
-			RemainAfterExit=yes
+[Service]
+Type=oneshot
+ExecStart=swaylock
+RemainAfterExit=yes
 
-			[Install]
-			WantedBy=sleep.target
+[Install]
+WantedBy=sleep.target
 EOF
 
 			sudo systemctl daemon-reload
@@ -230,30 +230,30 @@ EOF
 
 			# Systemd login configuration
 			sudo tee /etc/systemd/logind.conf >/dev/null <<'EOF'
-			[Login]
-			HandlePowerKey=poweroff
-			HandleSuspendKey=ignore
-			HandleHibernateKey=ignore
-			HandleLidSwitch=suspend
-			HandleLidSwitchExternalPower=suspend
-			HandleLidSwitchDocked=suspend
-			KillUserProcesses=no
-			IdleAction=ignore
+[Login]
+HandlePowerKey=poweroff
+HandleSuspendKey=ignore
+HandleHibernateKey=ignore
+HandleLidSwitch=suspend
+HandleLidSwitchExternalPower=suspend
+HandleLidSwitchDocked=suspend
+KillUserProcesses=no
+IdleAction=ignore
 EOF
 
 			# Lock screen before suspend
 			sudo tee /etc/systemd/system/lock-before-suspend.service >/dev/null <<'EOF'
-			[Unit]
-			Description=Lock screen before suspend
-			Before=sleep.target
+[Unit]
+Description=Lock screen before suspend
+Before=sleep.target
 
-			[Service]
-			Type=oneshot
-			ExecStart=swaylock
-			RemainAfterExit=yes
+[Service]
+Type=oneshot
+ExecStart=swaylock
+RemainAfterExit=yes
 
-			[Install]
-			WantedBy=sleep.target
+[Install]
+WantedBy=sleep.target
 EOF
 
 			sudo systemctl daemon-reload
@@ -292,7 +292,7 @@ rm -rf "$XDG_CONFIG/nvim" \
 	"$XDG_CONFIG/alacritty" \
 	"$XDG_CONFIG/btop" \
 	"$XDG_CONFIG/kitty" \
-	"$XDG_CONFIG/starship.toml" \
+	"$XDG_CONFIG/starship" \
 	"$XDG_CONFIG/Code/User/settings.json" \
 	"$XDG_CONFIG/Code/User/keybindings.json" \
 	"$XDG_CONFIG/zed/settings.json" \
@@ -319,7 +319,7 @@ ln -s "$CONFIGS_DIR/alacritty" "$XDG_CONFIG/alacritty"
 ln -s "$CONFIGS_DIR/btop" "$XDG_CONFIG/btop"
 ln -s "$CONFIGS_DIR/kitty" "$XDG_CONFIG/kitty"
 ln -s "$CONFIGS_DIR/ghostty" "$XDG_CONFIG/ghostty"
-ln -s "$CONFIGS_DIR/starship.toml" "$XDG_CONFIG/starship.toml"
+ln -s "$CONFIGS_DIR/starship/starship.toml" "$XDG_CONFIG/starship.toml"
 ln -s "$CONFIGS_DIR/.gitconfig" "$HOME/.gitconfig"
 ln -s "$CONFIGS_DIR/code/settings.json" "$XDG_CONFIG/Code/User/settings.json"
 ln -s "$CONFIGS_DIR/code/keybindings.json" "$XDG_CONFIG/Code/User/keybindings.json"
@@ -350,12 +350,12 @@ if [[ "$(uname)" == "Darwin" ]]; then
   echo "Linking Cursor $MACOS_CONFIGS_DIR/Cursor/User"
   rm -rf "$MACOS_CONFIGS_DIR/Cursor/User/settings.json"
   rm -rf "$MACOS_CONFIGS_DIR/Cursor/User/keybindings.json"
-  ln -nsf "$CONFIGS_DIR/cursor/settings.json" "$MACOS_CONFIGS_DIR/Cursor/User/settings.json"
-  ln -nsf "$CONFIGS_DIR/cursor/keybindings.json" "$MACOS_CONFIGS_DIR/Cursor/User/keybindings.json"
+  ln -nsf "$CONFIGS_DIR/code/settings.json" "$MACOS_CONFIGS_DIR/Cursor/User/settings.json"
+  ln -nsf "$CONFIGS_DIR/code/keybindings.json" "$MACOS_CONFIGS_DIR/Cursor/User/keybindings.json"
 
   echo "Linking Antigravity $MACOS_CONFIGS_DIR/Antigravity/User/settings.json"
   rm -rf "$MACOS_CONFIGS_DIR/Antigravity/User/settings.json"
   rm -rf "$MACOS_CONFIGS_DIR/Antigravity/User/keybindings.json"
-  ln -nsf "$CONFIGS_DIR/Antigravity/settings.json" "$MACOS_CONFIGS_DIR/Antigravity/User/settings.json"
-  ln -nsf "$CONFIGS_DIR/Antigravity/keybindings.json" "$MACOS_CONFIGS_DIR/Antigravity/User/keybindings.json"
+  ln -nsf "$CONFIGS_DIR/code/settings.json" "$MACOS_CONFIGS_DIR/Antigravity/User/settings.json"
+  ln -nsf "$CONFIGS_DIR/code/keybindings.json" "$MACOS_CONFIGS_DIR/Antigravity/User/keybindings.json"
 fi

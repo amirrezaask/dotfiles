@@ -1,0 +1,40 @@
+add_newline = true
+command_timeout = 200
+
+# Minimal format
+format = """
+$directory$git_branch$git_status
+$character"""
+
+[character]
+success_symbol = "[🚀](bold yellow)"
+error_symbol = "[🚀](bold red)"
+
+[directory]
+truncation_length = 3
+truncate_to_repo = true
+style = "bold blue"
+
+[git_branch]
+format = "[$branch]($style)"
+style = "italic gray"
+
+[git_status]
+format = "([$all_status$ahead_behind]($style))"
+style = "cyan"
+
+# Disable language modules to ensure no versions are shown
+[package]
+disabled = true
+
+[nodejs]
+disabled = true
+
+[python]
+disabled = true
+
+[rust]
+disabled = true
+
+[golang]
+disabled = true

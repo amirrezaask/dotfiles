@@ -1,6 +1,8 @@
 {
+  "editor.fontFamily": "TX-02",
   "editor.fontSize": 14,
   "editor.lineHeight": 2.0,
+  "editor.cursorBlinking": "solid",
   "files.autoSave": "onFocusChange",
   "editor.wordWrap": "on",
   "editor.minimap.enabled": false,
@@ -18,14 +20,20 @@
   "gitProjectManager.baseProjectsFolders": [
     "~/dev"
   ],
+  // "go.languageServerFlags": [
+  //     "-mcp.listen=localhost:8092",
+  // ],
   "gitProjectManager.openInNewWindow": true,
   "git.blame.statusBarItem.enabled": true,
   "symbols.hidesExplorerArrows": false,
   "terminal.integrated.fontSize": 16,
   "window.autoDetectColorScheme": true,
-  "workbench.preferredDarkColorTheme": "Cursor Dark",
-  "workbench.preferredLightColorTheme": "Cursor Light",
-  "update.showReleaseNotes": false,
-  "workbench.activityBar.location": "top"
+  "workbench.preferredDarkColorTheme": "Cursor Dark Midnight",
+  "cursor.composer.usageSummaryDisplay": "always",
+  "sqltools.useNodeRuntime": true,
+  "extensions.ignoreRecommendations": true,
+  "go.toolsManagement.autoUpdate": true,
+  "window.commandCenter": true,
+  "workbench.preferredLightColorTheme": "Cursor Light"
   
 }

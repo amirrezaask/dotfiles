@@ -138,10 +138,10 @@ require("gruvbox").setup({
 	transparent_mode = false,
 })
 require("poimandres").setup({})
-require("cursor-dark").setup {
-	transparent = true,
-}
-vim.cmd.colorscheme("cursor-dark")
+-- require("cursor-dark").setup {
+-- 	transparent = true,
+-- }
+-- vim.cmd.colorscheme("cursor-dark")
 
 if vim.g.colors_name == "everforest" then
 	vim.api.nvim_set_hl(0, "Normal", { bg = "#1e2326" })

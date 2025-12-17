@@ -1,13 +1,15 @@
-font-family = TX-02
+font-style=bold
 mouse-hide-while-typing = true
 macos-option-as-alt = true
 window-padding-balance = true
 adjust-cell-height = 30%
 shell-integration-features=no-cursor
 maximize=true
-theme = Cursor Dark
+theme = Nvim Dark
 cursor-style=bar
 cursor-style-blink=false
+background-opacity=0.95
+background-blur = macos-glass-regular
 
 keybind = shift+right=next_tab
 keybind = shift+left=previous_tab
