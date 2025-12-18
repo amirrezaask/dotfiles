@@ -8,8 +8,6 @@ maximize=true
 theme = Cursor Dark
 cursor-style=bar
 cursor-style-blink=false
-background-opacity=0.95
-background-blur = macos-glass-regular
 
 keybind = shift+right=next_tab
 keybind = shift+left=previous_tab

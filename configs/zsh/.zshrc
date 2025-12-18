@@ -34,16 +34,14 @@ ZSH_PLUGIN_DIR="${HOME}/.zsh/plugins"
 ZSH_AUTOSUGGESTIONS_DIR="${ZSH_PLUGIN_DIR}/zsh-autosuggestions"
 ZSH_SYNTAX_HIGHLIGHTING_DIR="${ZSH_PLUGIN_DIR}/zsh-syntax-highlighting"
 
-if command -v git &>/dev/null; then
-	if [ ! -d "${ZSH_AUTOSUGGESTIONS_DIR}" ]; then
-		mkdir -p "${ZSH_PLUGIN_DIR}"
-		git clone https://github.com/zsh-users/zsh-autosuggestions "${ZSH_AUTOSUGGESTIONS_DIR}" 2>/dev/null
-	fi
+if [ ! -d "${ZSH_AUTOSUGGESTIONS_DIR}" ]; then
+	mkdir -p "${ZSH_PLUGIN_DIR}"
+	git clone https://github.com/zsh-users/zsh-autosuggestions "${ZSH_AUTOSUGGESTIONS_DIR}" 2>/dev/null
+fi
 
-	if [ ! -d "${ZSH_SYNTAX_HIGHLIGHTING_DIR}" ]; then
-		mkdir -p "${ZSH_PLUGIN_DIR}"
-		git clone https://github.com/zsh-users/zsh-syntax-highlighting "${ZSH_SYNTAX_HIGHLIGHTING_DIR}" 2>/dev/null
-	fi
+if [ ! -d "${ZSH_SYNTAX_HIGHLIGHTING_DIR}" ]; then
+	mkdir -p "${ZSH_PLUGIN_DIR}"
+	git clone https://github.com/zsh-users/zsh-syntax-highlighting "${ZSH_SYNTAX_HIGHLIGHTING_DIR}" 2>/dev/null
 fi
 
 if [ -f "${ZSH_AUTOSUGGESTIONS_DIR}/zsh-autosuggestions.zsh" ]; then
@@ -265,6 +263,11 @@ PROMPT='%F{cyan}%~%f%F{blue}${vcs_info_msg_0_}%f
 unsetopt BEEP
 
 # Starship prompt
+if ! command -v starship &> /dev/null; then
+    echo "Starship not found, installing..."
+    curl -sS https://starship.rs/install.sh | sh
+fi
+
 if command -v starship &> /dev/null; then
     eval "$(starship init zsh)"
 fi
