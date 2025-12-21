@@ -1,6 +1,5 @@
 {
   "editor.fontFamily": "TX-02",
-  "editor.fontWeight": "600",
   "editor.fontSize": 14,
   "editor.lineHeight": 2.0,
   "editor.cursorBlinking": "solid",
@@ -26,12 +25,12 @@
   "symbols.hidesExplorerArrows": false,
   "terminal.integrated.fontSize": 16,
   "window.autoDetectColorScheme": true,
-  "workbench.preferredDarkColorTheme": "Cursor Dark Midnight",
   "cursor.composer.usageSummaryDisplay": "always",
   "sqltools.useNodeRuntime": true,
   "extensions.ignoreRecommendations": true,
   "go.toolsManagement.autoUpdate": true,
-  "window.commandCenter": true,
-  "workbench.preferredLightColorTheme": "Cursor Light"
+  "cursor.cpp.disabledLanguages": [
+    "markdown"
+  ]
   
 }
