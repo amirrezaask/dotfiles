@@ -24,13 +24,16 @@
   "git.blame.statusBarItem.enabled": true,
   "symbols.hidesExplorerArrows": false,
   "terminal.integrated.fontSize": 16,
-  "window.autoDetectColorScheme": true,
-  "cursor.composer.usageSummaryDisplay": "always",
+  "window.autoDetectColorScheme": true,"cursor.composer.usageSummaryDisplay": "always",
   "sqltools.useNodeRuntime": true,
   "extensions.ignoreRecommendations": true,
   "go.toolsManagement.autoUpdate": true,
   "cursor.cpp.disabledLanguages": [
     "markdown"
-  ]
-  
-}
+  ],
+  "workbench.colorTheme": "Default Dark+",
+  "workbench.colorCustomizations": {
+    },
+  "window.titleBarStyle": "custom",
+  "workbench.preferredLightColorTheme": "Cursor Dark Midnight",
+  }

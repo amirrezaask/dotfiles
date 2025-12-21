@@ -5,7 +5,7 @@ macos-option-as-alt = true
 window-padding-balance = true
 shell-integration-features=no-cursor
 maximize=true
-theme = Cursor Dark
+theme = Poimandres
 cursor-style=bar
 cursor-style-blink=false
 
