@@ -1,11 +1,9 @@
-font-family=TX-02
 font-style=bold
 mouse-hide-while-typing = true
 macos-option-as-alt = true
 window-padding-balance = true
 shell-integration-features=no-cursor
 maximize=true
-theme = Poimandres
 cursor-style=bar
 cursor-style-blink=false
 
