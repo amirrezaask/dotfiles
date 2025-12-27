@@ -1,4 +1,4 @@
-font-style=bold
+theme = dark:Atom One Dark,light:Alabaster
 mouse-hide-while-typing = true
 macos-option-as-alt = true
 window-padding-balance = true

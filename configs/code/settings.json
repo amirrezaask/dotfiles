@@ -2,7 +2,7 @@
   "editor.fontFamily": "JetBrains Mono",
   "editor.fontWeight": "500",
   "editor.fontSize": 14,
-  "editor.lineHeight": 2.0,
+  "editor.lineHeight": 1.8,
   "editor.cursorBlinking": "solid",
   "files.autoSave": "onFocusChange",
   "editor.wordWrap": "on",
@@ -41,4 +41,5 @@
   "update.releaseTrack": "dev",
   "update.mode": "silentlyApplyOnQuit",
   "workbench.preferredDarkColorTheme": "Default Dark Modern",
+  "workbench.preferredLightColorTheme": "Solarized Light",
   }

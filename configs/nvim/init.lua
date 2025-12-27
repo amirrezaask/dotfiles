@@ -74,6 +74,7 @@ vim.pack.add { -- See :h vim.pack
 	{ src = "https://github.com/mason-org/mason.nvim" },
 	{ src = "https://github.com/mason-org/mason-lspconfig.nvim" },
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
+
 	-- Colors
 	{ src = "https://github.com/sainnhe/everforest" },
 	{ src = "https://github.com/ellisonleao/gruvbox.nvim" },
@@ -87,20 +88,8 @@ vim.pack.add { -- See :h vim.pack
 
 	{ src = "https://github.com/stevearc/conform.nvim" },                                   -- Autoformat
 	{ src = "https://github.com/ibhagwan/fzf-lua" },                                        -- FZF, in neovim.
-	{ src = "https://github.com/nvim-lualine/lualine.nvim" },                               -- StatusLine
-	{ src = "https://github.com/SmiteshP/nvim-navic" },                                     -- Treesitter based location
 	{ src = "https://github.com/saghen/blink.cmp",                       version = "v1.6.0" }, -- Blazingly fast autocomplete popup
 
-}
-require('lualine').setup {
-	sections = {
-		lualine_a = { 'mode' },
-		lualine_b = { 'branch', 'diff', 'diagnostics' },
-		lualine_c = { { 'filename', path = 1 }, 'lsp_progress', 'navic' },
-		lualine_x = { 'encoding', 'fileformat', 'filetype' },
-		lualine_y = { 'progress' },
-		lualine_z = { 'location' }
-	},
 }
 
 require("blink.cmp").setup({
@@ -113,41 +102,6 @@ require("blink.cmp").setup({
 })
 
 
-vim.g.everforest_background = 'hard'
-require("gruvbox").setup({
-	contrast = 'hard',
-	terminal_colors = true, -- add neovim terminal colors
-	undercurl = false,
-	underline = false,
-	bold = false,
-	italic = {
-		strings = false,
-		emphasis = false,
-		comments = false,
-		operators = false,
-		folds = false,
-	},
-	strikethrough = false,
-	invert_selection = false,
-	invert_signs = false,
-	invert_tabline = false,
-	inverse = true, -- invert background for search, diffs, statuslines and errors
-	palette_overrides = {},
-	overrides = {},
-	dim_inactive = false,
-	transparent_mode = false,
-})
-require("poimandres").setup({})
--- require("cursor-dark").setup {
--- 	transparent = true,
--- }
--- vim.cmd.colorscheme("cursor-dark")
-
-if vim.g.colors_name == "everforest" then
-	vim.api.nvim_set_hl(0, "Normal", { bg = "#1e2326" })
-	vim.api.nvim_set_hl(0, "NormalFloat", { bg = "#1e2326" })
-end
-
 -- LSP [[
 -- Default Keybindings
 -- see :h lsp-defaults
@@ -155,9 +109,6 @@ end
 vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(args)
 		local client = vim.lsp.get_clients({ bufnr = args.buf })[1]
-		if client then
-			require("nvim-navic").attach(client, args.buf)
-		end
 		vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = args.buf })
 		vim.keymap.set("n", "L", vim.diagnostic.open_float, { buffer = args.buf })
 	end,
@@ -167,7 +118,6 @@ vim.lsp.config("lua_ls", { settings = { Lua = { workspace = { library = vim.api.
 
 
 require("mason").setup()
-require("nvim-navic").setup {}
 require("mason-lspconfig").setup({ ensure_installed = { "lua_ls", "gopls" } })
 -- ]]
 
