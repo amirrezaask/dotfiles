@@ -1,4 +1,4 @@
-theme = dark:Atom One Dark,light:Alabaster
+theme = dark:Atom One Dark,light:Builtin Solarized Light
 mouse-hide-while-typing = true
 macos-option-as-alt = true
 window-padding-balance = true
