@@ -34,4 +34,5 @@
   "workbench.preferredLightColorTheme": "Solarized Light",
   "workbench.activityBar.location": "top",
   "workbench.preferredDarkColorTheme": "Default Dark Modern",
+  "window.commandCenter": true,
 }

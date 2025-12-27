@@ -77,10 +77,7 @@ vim.pack.add { -- See :h vim.pack
 
 	-- Colors
 	{ src = "https://github.com/sainnhe/everforest" },
-	{ src = "https://github.com/ellisonleao/gruvbox.nvim" },
 	{ src = "https://github.com/folke/tokyonight.nvim" },
-	{ src = "https://github.com/olivercederborg/poimandres.nvim" },
-	{ src = "https://github.com/ydkulks/cursor-dark.nvim" },
 	{ src = 'https://github.com/navarasu/onedark.nvim' },
 
 	-- Treesitter
@@ -103,24 +100,20 @@ require("blink.cmp").setup({
 })
 
 vim.g.everforest_background = 'hard'
+
+require('onedark').setup { style = 'darker' }
+require('onedark').load()
+require("tokyonight").setup {}
+
+vim.cmd.colorscheme("everforest")
+
 if vim.g.colors_name == "everforest" then
 	vim.api.nvim_set_hl(0, "Normal", { bg = "#1e2326" })
 	vim.api.nvim_set_hl(0, "NormalFloat", { bg = "#1e2326" })
 end
-require('onedark').setup {
-	style = 'darker'
-}
-require('onedark').load()
-
-vim.cmd.colorscheme("onedark")
-
 -- LSP [[
--- Default Keybindings
--- see :h lsp-defaults
--- see :h vim.lsp.buf.tagfunc()
 vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(args)
-		local client = vim.lsp.get_clients({ bufnr = args.buf })[1]
 		vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = args.buf })
 		vim.keymap.set("n", "L", vim.diagnostic.open_float, { buffer = args.buf })
 	end,
