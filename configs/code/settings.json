@@ -12,9 +12,7 @@
   "workbench.settings.editor": "json",
   "terminal.integrated.macOptionIsMeta": true,
   "files.simpleDialog.enable": true,
-  "[go]": {
-    "editor.formatOnSave": true
-  },
+  "[go]": { "editor.formatOnSave": true },
   "explorer.confirmDelete": false,
   "workbench.startupEditor": "none",
   "editor.bracketPairColorization.enabled": false,
@@ -23,23 +21,17 @@
   ],
   "gitProjectManager.openInNewWindow": true,
   "git.blame.statusBarItem.enabled": true,
-  "symbols.hidesExplorerArrows": false,
   "terminal.integrated.fontSize": 16,
-  "window.autoDetectColorScheme": true,"cursor.composer.usageSummaryDisplay": "always",
-  "sqltools.useNodeRuntime": true,
+  "window.autoDetectColorScheme": true,
+  "cursor.composer.usageSummaryDisplay": "always",
   "extensions.ignoreRecommendations": true,
   "go.toolsManagement.autoUpdate": true,
   "cursor.cpp.disabledLanguages": [
     "markdown"
   ],
-  "workbench.colorTheme": "Default Dark+",
-  "workbench.colorCustomizations": {
-    },
-  "window.titleBarStyle": "custom",
-  "window.commandCenter": false,
-  "amp.url": "https://ampcode.com/",
   "update.releaseTrack": "dev",
   "update.mode": "silentlyApplyOnQuit",
-  "workbench.preferredDarkColorTheme": "Default Dark Modern",
   "workbench.preferredLightColorTheme": "Solarized Light",
-  }
+  "workbench.activityBar.location": "top",
+  "workbench.preferredDarkColorTheme": "Default Dark Modern",
+}

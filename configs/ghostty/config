@@ -1,10 +1,10 @@
-theme = dark:Atom One Dark,light:Builtin Solarized Light
+theme = Atom One Dark
+font-style=bold
 mouse-hide-while-typing = true
 macos-option-as-alt = true
 window-padding-balance = true
 shell-integration-features=no-cursor
 maximize=true
-cursor-style=bar
 cursor-style-blink=false
 
 keybind = shift+right=next_tab

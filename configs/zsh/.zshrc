@@ -48,9 +48,9 @@ if [ -f "${ZSH_AUTOSUGGESTIONS_DIR}/zsh-autosuggestions.zsh" ]; then
 	source "${ZSH_AUTOSUGGESTIONS_DIR}/zsh-autosuggestions.zsh"
 fi
 
-if [ -f "${ZSH_SYNTAX_HIGHLIGHTING_DIR}/zsh-syntax-highlighting.zsh" ]; then
-	source "${ZSH_SYNTAX_HIGHLIGHTING_DIR}/zsh-syntax-highlighting.zsh"
-fi
+# if [ -f "${ZSH_SYNTAX_HIGHLIGHTING_DIR}/zsh-syntax-highlighting.zsh" ]; then
+# 	source "${ZSH_SYNTAX_HIGHLIGHTING_DIR}/zsh-syntax-highlighting.zsh"
+# fi
 
 # Keybindings
 bindkey -e

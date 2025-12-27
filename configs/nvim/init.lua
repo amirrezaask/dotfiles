@@ -81,6 +81,7 @@ vim.pack.add { -- See :h vim.pack
 	{ src = "https://github.com/folke/tokyonight.nvim" },
 	{ src = "https://github.com/olivercederborg/poimandres.nvim" },
 	{ src = "https://github.com/ydkulks/cursor-dark.nvim" },
+	{ src = 'https://github.com/navarasu/onedark.nvim' },
 
 	-- Treesitter
 	{ src = "https://github.com/nvim-treesitter/nvim-treesitter" },
@@ -101,6 +102,17 @@ require("blink.cmp").setup({
 	},
 })
 
+vim.g.everforest_background = 'hard'
+if vim.g.colors_name == "everforest" then
+	vim.api.nvim_set_hl(0, "Normal", { bg = "#1e2326" })
+	vim.api.nvim_set_hl(0, "NormalFloat", { bg = "#1e2326" })
+end
+require('onedark').setup {
+	style = 'darker'
+}
+require('onedark').load()
+
+vim.cmd.colorscheme("onedark")
 
 -- LSP [[
 -- Default Keybindings

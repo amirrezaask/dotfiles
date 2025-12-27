@@ -65,6 +65,10 @@
       "rev": "660861b",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter-context"
     },
+    "onedark.nvim": {
+      "rev": "213c23ae45a04797572242568d5d51937181792d",
+      "src": "https://github.com/navarasu/onedark.nvim"
+    },
     "opencode.nvim": {
       "rev": "fda7eed",
       "src": "https://github.com/NickvanDyke/opencode.nvim"
