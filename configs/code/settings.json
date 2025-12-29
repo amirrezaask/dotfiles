@@ -1,5 +1,5 @@
 {
-  "editor.fontFamily": "JetBrains Mono",
+  "editor.fontFamily": "Maple Mono",
   "editor.fontWeight": "500",
   "editor.fontSize": 14,
   "editor.lineHeight": 1.8,
@@ -11,6 +11,7 @@
   "window.restoreWindows": "none",
   "workbench.settings.editor": "json",
   "terminal.integrated.macOptionIsMeta": true,
+  "workbench.editor.enablePreview": false,
   "files.simpleDialog.enable": true,
   "[go]": { "editor.formatOnSave": true },
   "explorer.confirmDelete": false,
@@ -33,6 +34,6 @@
   "update.mode": "silentlyApplyOnQuit",
   "workbench.preferredLightColorTheme": "Solarized Light",
   "workbench.activityBar.location": "top",
-  "workbench.preferredDarkColorTheme": "Default Dark Modern",
   "window.commandCenter": true,
+  "workbench.preferredDarkColorTheme": "Default Dark Modern",
 }

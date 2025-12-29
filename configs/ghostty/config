@@ -6,6 +6,7 @@ window-padding-balance = true
 shell-integration-features=no-cursor
 maximize=true
 cursor-style-blink=false
+macos-titlebar-style=tabs
 
 keybind = shift+right=next_tab
 keybind = shift+left=previous_tab
