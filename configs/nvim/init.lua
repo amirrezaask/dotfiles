@@ -105,7 +105,7 @@ require('onedark').setup { style = 'darker' }
 require('onedark').load()
 require("tokyonight").setup {}
 
-vim.cmd.colorscheme("everforest")
+vim.cmd.colorscheme("onedark")
 
 if vim.g.colors_name == "everforest" then
 	vim.api.nvim_set_hl(0, "Normal", { bg = "#1e2326" })
