@@ -101,6 +101,7 @@ rm -rf "$XDG_CONFIG/nvim" \
 	"$XDG_CONFIG/Code/User/settings.json" \
 	"$XDG_CONFIG/Code/User/keybindings.json" \
 	"$HOME/.zshrc" \
+	"$HOME/.codex" \
 	"$HOME/.gitconfig"
 
 mkdir -p "$XDG_CONFIG"
@@ -114,6 +115,7 @@ ln -nsf "$CONFIGS_DIR/.gitconfig" "$HOME/.gitconfig"
 ln -nsf "$CONFIGS_DIR/code/settings.json" "$XDG_CONFIG/Code/User/settings.json"
 ln -nsf "$CONFIGS_DIR/code/keybindings.json" "$XDG_CONFIG/Code/User/keybindings.json"
 ln -nsf "$CONFIGS_DIR/zsh/.zshrc" "$HOME/.zshrc"
+ln -nsf "$CONFIGS_DIR/codex" "$HOME/.codex"
 
 # Now some mac stuff
 if [[ "$(uname)" == "Darwin" ]]; then
