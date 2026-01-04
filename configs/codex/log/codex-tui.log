@@ -1,0 +1,1240 @@
+2026-01-04T07:25:15.389963Z  INFO Selected model: gpt-5.1-codex-max, Selected effort: medium
+2026-01-04T07:25:53.523208Z  INFO spawning ghost snapshot task
+2026-01-04T07:25:53.623325Z  INFO ghost snapshot blocking task finished
+2026-01-04T07:25:53.623347Z  INFO ghost commit captured: 79409ec5c74403232b54e14b0785b33f916bae22
+2026-01-04T07:25:53.623352Z  INFO ghost snapshot gate marked ready
+2026-01-04T07:26:27.627581Z  INFO spawning ghost snapshot task
+2026-01-04T07:26:27.725171Z  INFO ghost snapshot blocking task finished
+2026-01-04T07:26:27.725191Z  INFO ghost commit captured: f1be02dd0b4905da8ea66b1b7f8a56756355f22d
+2026-01-04T07:26:27.725196Z  INFO ghost snapshot gate marked ready
+2026-01-04T07:26:31.643709Z  INFO ToolCall: shell_command {"command":"ls","workdir":"/Users/amirrezaask/dev/dotfiles"}
+2026-01-04T07:26:33.765063Z  INFO ToolCall: shell_command {"command":"sed -n '1,200p' configs/nvim/init.lua","workdir":"/Users/amirrezaask/dev/dotfiles"}
+2026-01-04T07:26:38.134513Z  INFO ToolCall: update_plan {"explanation":"Inspected configs/nvim/init.lua to locate colorscheme setup and background handling.","plan":[{"status":"completed","step":"Inspect configs/nvim/init.lua to see current colorscheme/background handling and pick the right place to hook in."},{"status":"pending","step":"Add a block in configs/nvim/init.lua that detects terminal background, sets vim.o.background accordingly, and chooses a matching light/dark colorscheme from existing themes."}]}
+2026-01-04T07:27:12.883997Z  INFO spawning ghost snapshot task
+2026-01-04T07:27:12.981972Z  INFO ghost snapshot blocking task finished
+2026-01-04T07:27:12.981992Z  INFO ghost commit captured: e2c392a9d55c8ab2d28cde73e4cb920056f88720
+2026-01-04T07:27:12.981996Z  INFO ghost snapshot gate marked ready
+2026-01-04T07:27:31.789391Z  INFO ToolCall: apply_patch *** Begin Patch
+*** Update File: configs/nvim/init.lua
+@@
+ 
+ vim.g.everforest_background = 'hard'
+ 
+ require('onedark').setup { style = 'darker' }
+-require('onedark').load()
+ require("tokyonight").setup {}
+ 
+-vim.cmd.colorscheme("onedark")
++local preferred_background = vim.env.TERM_BACKGROUND
++if preferred_background ~= "light" and preferred_background ~= "dark" then
++	preferred_background = vim.o.background == "light" and "light" or "dark"
++end
++vim.o.background = preferred_background
++
++if vim.o.background == "light" then
++	vim.cmd.colorscheme("tokyonight-day")
++else
++	require('onedark').load()
++end
+ 
+ if vim.g.colors_name == "everforest" then
+ 	vim.api.nvim_set_hl(0, "Normal", { bg = "#1e2326" })
+ 	vim.api.nvim_set_hl(0, "NormalFloat", { bg = "#1e2326" })
+ end
+*** End Patch
+2026-01-04T07:27:35.068327Z  INFO ToolCall: update_plan {"explanation":"Added background detection and conditional colorscheme selection using TERM_BACKGROUND env var or existing background preference.","plan":[{"status":"completed","step":"Inspect configs/nvim/init.lua to see current colorscheme/background handling and pick the right place to hook in."},{"status":"completed","step":"Add a block in configs/nvim/init.lua that detects terminal background, sets vim.o.background accordingly, and chooses a matching light/dark colorscheme from existing themes."}]}
+2026-01-04T07:47:18.487167Z  INFO spawning ghost snapshot task
+2026-01-04T07:47:18.585089Z  INFO ghost snapshot blocking task finished
+2026-01-04T07:47:18.585104Z  INFO ghost commit captured: ef11a3f589e8691b20826ce2de7d99a016a90f25
+2026-01-04T07:47:18.585108Z  INFO ghost snapshot gate marked ready
+2026-01-04T07:48:40.908335Z  WARN stream disconnected - retrying turn (1/5 in 207ms)...
+2026-01-04T07:48:56.390126Z  WARN stream disconnected - retrying turn (2/5 in 369ms)...
+2026-01-04T07:49:02.849214Z  INFO ToolCall: shell_command {"command":"rg --files -g 'AGENTS.md'","workdir":"/Users/amirrezaask/dev/voucher"}
+2026-01-04T07:49:05.270930Z  INFO ToolCall: shell_command {"command":"cat AGENTS.md","workdir":"/Users/amirrezaask/dev/voucher"}
+2026-01-04T07:49:07.572591Z  INFO ToolCall: shell_command {"command":"cat .agents/prompts/engineering.md","workdir":"/Users/amirrezaask/dev/voucher"}
+2026-01-04T07:49:10.788697Z  INFO ToolCall: shell_command {"command":"cat .agents/prompts/go.md","workdir":"/Users/amirrezaask/dev/voucher"}
+2026-01-04T07:49:13.169429Z  INFO ToolCall: shell_command {"command":"cat .agents/prompts/testing.md","workdir":"/Users/amirrezaask/dev/voucher"}
+2026-01-04T07:49:15.955750Z  INFO ToolCall: shell_command {"command":"sed -n '1,240p' api/voucher/campaign.go","workdir":"/Users/amirrezaask/dev/voucher"}
+2026-01-04T07:49:18.228126Z  INFO ToolCall: shell_command {"command":"sed -n '240,520p' api/voucher/campaign.go","workdir":"/Users/amirrezaask/dev/voucher"}
+2026-01-04T07:49:22.999923Z  INFO ToolCall: shell_command {"command":"rg -n \"Campaign\\(\" -S","workdir":"/Users/amirrezaask/dev/voucher"}
+2026-01-04T07:49:25.602988Z  INFO ToolCall: shell_command {"command":"sed -n '1,220p' api/voucher/campaign_test.go","workdir":"/Users/amirrezaask/dev/voucher"}
+2026-01-04T07:49:29.248964Z  INFO ToolCall: shell_command {"command":"sed -n '220,520p' api/voucher/campaign_test.go","workdir":"/Users/amirrezaask/dev/voucher"}
+2026-01-04T07:49:31.430116Z  INFO ToolCall: shell_command {"command":"sed -n '520,920p' api/voucher/campaign_test.go","workdir":"/Users/amirrezaask/dev/voucher"}
+2026-01-04T07:50:07.760824Z  INFO spawning ghost snapshot task
+2026-01-04T07:50:07.862151Z  INFO ghost snapshot blocking task finished
+2026-01-04T07:50:07.862169Z  INFO ghost commit captured: c7caa31366c510ed7f16bfd0f400ab3eaf18ccd8
+2026-01-04T07:50:07.862172Z  INFO ghost snapshot gate marked ready
+2026-01-04T07:50:11.898320Z  INFO ToolCall: shell_command {"command":"rg --files","workdir":"/Users/amirrezaask/dev/voucher"}
+2026-01-04T07:50:15.725432Z  INFO ToolCall: shell_command {"command":"rg --files .agents","workdir":"/Users/amirrezaask/dev/voucher"}
+2026-01-04T07:50:19.719970Z  INFO ToolCall: shell_command {"command":"sed -n '1,200p' AGENTS.md","workdir":"/Users/amirrezaask/dev/voucher"}
+2026-01-04T07:50:20.336552Z  INFO ToolCall: shell_command {"command":"sed -n '1,200p' .agents/README.md","workdir":"/Users/amirrezaask/dev/voucher"}
+2026-01-04T07:50:21.009703Z  INFO ToolCall: shell_command {"command":"sed -n '1,200p' .agents/prompts/engineering.md","workdir":"/Users/amirrezaask/dev/voucher"}
+2026-01-04T07:50:21.664340Z  INFO ToolCall: shell_command {"command":"sed -n '1,200p' .agents/prompts/go.md","workdir":"/Users/amirrezaask/dev/voucher"}
+2026-01-04T07:50:22.313821Z  INFO ToolCall: shell_command {"command":"sed -n '1,200p' .agents/prompts/testing.md","workdir":"/Users/amirrezaask/dev/voucher"}
+2026-01-04T07:50:25.861956Z  INFO ToolCall: shell_command {"command":"sed -n '200,400p' .agents/prompts/testing.md","workdir":"/Users/amirrezaask/dev/voucher"}
+2026-01-04T07:50:29.650997Z  INFO ToolCall: shell_command {"command":"sed -n '400,800p' .agents/prompts/testing.md","workdir":"/Users/amirrezaask/dev/voucher"}
+2026-01-04T07:50:32.844880Z  INFO ToolCall: shell_command {"command":"sed -n '800,1200p' .agents/prompts/testing.md","workdir":"/Users/amirrezaask/dev/voucher"}
+2026-01-04T07:53:44.176347Z  INFO spawning ghost snapshot task
+2026-01-04T07:53:44.272911Z  INFO ghost snapshot blocking task finished
+2026-01-04T07:53:44.272928Z  INFO ghost commit captured: 1cc2c32f1296c469e7675e5bd4625b033d5749f4
+2026-01-04T07:53:44.272932Z  INFO ghost snapshot gate marked ready
+2026-01-04T07:54:31.623563Z  INFO ToolCall: apply_patch *** Begin Patch
+*** Update File: api/voucher/campaign.go
+@@
+-var allowedCampaignTypes = []uint64{101}
+-
+-var consultationOrderTypes = []string{"chat", "text", "call", "phone", "tsr", "instant"}
+-var pharmacyOrderTypes = []string{"drug", "pharmacy", "pharmacy_product", "product", "delivery_pharmacy"}
+-
+-var orderTypeMapping = map[string][]string{
+-	"consultation": consultationOrderTypes,
+-	"pharmacy":     pharmacyOrderTypes,
+-}
++const campaignType = uint64(101)
++
++var consultationOrderTypes = []string{"chat", "instant", "tsr"}
++var pharmacyOrderTypes = []string{"drug", "pharmacy", "lab", "home_care"}
+@@
+-		type CampaignRequest struct {
+-			BusinessLine string `json:"business_line"`
+-			Type         uint64 `json:"type"`
+-		}
+-
+-		var req CampaignRequest
+-		if err := c.Bind(&req); err != nil {
++		if err := c.Bind(&struct{}{}); err != nil {
+ 			logger.Error("failed to bind request", "err", err)
+ 			return c.JSON(http.StatusBadRequest, map[string]any{"error": "bad request"})
+ 		}
+ 
+-		req.Type = 121
+-
+-		isAllowed := false
+-		for _, allowedType := range allowedCampaignTypes {
+-			if req.Type == allowedType {
+-				isAllowed = true
+-				break
+-			}
+-		}
+-		if !isAllowed {
+-			logger.Error("invalid voucher type", "type", req.Type, "allowed_types", allowedCampaignTypes)
+-			return c.JSON(http.StatusBadRequest, map[string]any{"error": "invalid voucher type"})
+-		}
+-
+-		orderTypes, exists := orderTypeMapping[req.BusinessLine]
+-		if !exists {
+-			logger.Error("invalid order type", "order_type", req.BusinessLine, "allowed_types", []string{"consultation", "pharmacy"})
+-			return c.JSON(http.StatusBadRequest, map[string]any{"error": "invalid bussiness line, must be 'consultation' or 'pharmacy'"})
+-		}
+-
+-		mappedOrderType := strings.Join(orderTypes, ",")
++		consultationOrderType := strings.Join(consultationOrderTypes, ",")
++		pharmacyOrderType := strings.Join(pharmacyOrderTypes, ",")
+ 
+ 		var existingVoucherID int64
+ 		var existingVoucherCode string
+-		err := db.QueryRowContext(c.Request().Context(),
++		ctx := c.Request().Context()
++		err := db.QueryRowContext(ctx,
+ 			`SELECT v.id, wv.voucher 
+ 			 FROM vouchers v
+ 			 INNER JOIN whitelist_vouchers wv ON v.id = wv.voucher_id
+ 			 WHERE wv.user_id = ? AND v.type = ? AND v.order_type = ? AND v.prefix = ?`,
+-			uint64(userID), req.Type, mappedOrderType, "CAMP").Scan(&existingVoucherID, &existingVoucherCode)
++			uint64(userID), campaignType, consultationOrderType, "CAMP").Scan(&existingVoucherID, &existingVoucherCode)
+ 
+-		if err == nil {
+-			logger.Info("voucher already exists for user and order type", "user_id", userID, "order_type", req.BusinessLine, "voucher_id", existingVoucherID)
++		consultationExists := err == nil
++		if err != nil && err != sql.ErrNoRows {
++			logger.Error("database error in checking existing consultation voucher", "err", err)
++			return c.JSON(http.StatusInternalServerError, map[string]any{"error": "internal server error"})
++		}
++
++		err = db.QueryRowContext(ctx,
++			`SELECT v.id, wv.voucher 
++			 FROM vouchers v
++			 INNER JOIN whitelist_vouchers wv ON v.id = wv.voucher_id
++			 WHERE wv.user_id = ? AND v.type = ? AND v.order_type = ? AND v.prefix = ?`,
++			uint64(userID), campaignType, pharmacyOrderType, "CAMP").Scan(&existingVoucherID, &existingVoucherCode)
++
++		pharmacyExists := err == nil
++		if err != nil && err != sql.ErrNoRows {
++			logger.Error("database error in checking existing pharmacy voucher", "err", err)
++			return c.JSON(http.StatusInternalServerError, map[string]any{"error": "internal server error"})
++		}
++
++		if consultationExists && pharmacyExists {
++			logger.Info("user reached campaign voucher limit", "user_id", userID)
++			return c.JSON(http.StatusBadRequest, map[string]any{"error": "campaign voucher limit reached"})
++		}
++
++		mappedOrderType := consultationOrderType
++		if consultationExists {
++			mappedOrderType = pharmacyOrderType
++		}
++
++		if !consultationExists && !pharmacyExists {
++			mappedOrderType = consultationOrderType
++		}
++
++		if mappedOrderType == consultationOrderType && consultationExists {
++			logger.Info("voucher already exists for user and order type", "user_id", userID, "order_type", "consultation", "voucher_id", existingVoucherID)
++			return c.JSON(http.StatusOK, map[string]any{
++				"voucher_id":     existingVoucherID,
++				"voucher":        existingVoucherCode,
++				"discount_type":  "percent",
++				"discount_value": 10,
++				"type":           campaignType,
++			})
++		}
++
++		if mappedOrderType == pharmacyOrderType && pharmacyExists {
++			logger.Info("voucher already exists for user and order type", "user_id", userID, "order_type", "pharmacy", "voucher_id", existingVoucherID)
+ 			return c.JSON(http.StatusOK, map[string]any{
+ 				"voucher_id":     existingVoucherID,
+ 				"voucher":        existingVoucherCode,
+ 				"discount_type":  "percent",
+ 				"discount_value": 10,
+-				"type":           req.Type,
++				"type":           campaignType,
+ 			})
+ 		}
+-		if err != sql.ErrNoRows {
+-			logger.Error("database error in checking existing voucher", "err", err)
+-			return c.JSON(http.StatusInternalServerError, map[string]any{"error": "internal server error"})
+-		}
+ 
+-		lockKey := fmt.Sprintf("voucher:campaign:lock:%d:%s", userID, req.BusinessLine)
+-		ctx := c.Request().Context()
++		lockKey := fmt.Sprintf("voucher:campaign:lock:%d:%s", userID, mappedOrderType)
+ 		lockAcquired, err := redisClient.SetNX(ctx, lockKey, "1", 30*time.Second).Result()
+ 		if err != nil {
+ 			logger.Error("redis error in acquiring lock", "err", err, "lock_key", lockKey)
+@@
+ 				 FROM vouchers v
+ 				 INNER JOIN whitelist_vouchers wv ON v.id = wv.voucher_id
+ 				 WHERE wv.user_id = ? AND v.type = ? AND v.order_type = ? AND v.prefix = ?`,
+-				uint64(userID), req.Type, mappedOrderType, "CAMP").Scan(&existingVoucherID, &existingVoucherCode)
++				uint64(userID), campaignType, mappedOrderType, "CAMP").Scan(&existingVoucherID, &existingVoucherCode)
+ 
+ 			if err == nil {
+-				logger.Info("voucher created by another request", "user_id", userID, "order_type", req.BusinessLine, "voucher_id", existingVoucherID)
++				logger.Info("voucher created by another request", "user_id", userID, "order_type", mappedOrderType, "voucher_id", existingVoucherID)
+ 				return c.JSON(http.StatusOK, map[string]any{
+ 					"voucher_id":     existingVoucherID,
+ 					"voucher":        existingVoucherCode,
+ 					"discount_type":  "percent",
+ 					"discount_value": 10,
+-					"type":           req.Type,
++					"type":           campaignType,
+ 				})
+ 			}
+ 			if err != sql.ErrNoRows {
+ 				logger.Error("database error in checking existing voucher after lock", "err", err)
+ 				return c.JSON(http.StatusInternalServerError, map[string]any{"error": "internal server error"})
+ 			}
+-			logger.Warn("lock not acquired and voucher not found", "user_id", userID, "order_type", req.BusinessLine)
++			logger.Warn("lock not acquired and voucher not found", "user_id", userID, "order_type", mappedOrderType)
+ 			return c.JSON(http.StatusConflict, map[string]any{"error": "request in progress, please try again"})
+ 		}
+@@
+ 		err = db.QueryRowContext(ctx,
+ 			`SELECT v.id, wv.voucher 
+ 			 FROM vouchers v
+ 			 INNER JOIN whitelist_vouchers wv ON v.id = wv.voucher_id
+ 			 WHERE wv.user_id = ? AND v.type = ? AND v.order_type = ? AND v.prefix = ?`,
+-			uint64(userID), req.Type, mappedOrderType, "CAMP").Scan(&existingVoucherID, &existingVoucherCode)
++			uint64(userID), campaignType, mappedOrderType, "CAMP").Scan(&existingVoucherID, &existingVoucherCode)
+ 
+ 		if err == nil {
+-			logger.Info("voucher created after lock acquisition", "user_id", userID, "order_type", req.BusinessLine, "voucher_id", existingVoucherID)
++			logger.Info("voucher created after lock acquisition", "user_id", userID, "order_type", mappedOrderType, "voucher_id", existingVoucherID)
+ 			return c.JSON(http.StatusOK, map[string]any{
+ 				"voucher_id":     existingVoucherID,
+ 				"voucher":        existingVoucherCode,
+ 				"discount_type":  "percent",
+ 				"discount_value": 10,
+-				"type":           req.Type,
++				"type":           campaignType,
+ 			})
+ 		}
+ 		if err != sql.ErrNoRows {
+ 			logger.Error("database error in checking existing voucher after lock", "err", err)
+@@
+ 			Pattern:           fmt.Sprintf("/^%s$/", sample),
+ 			Postfix:           postfix,
+ 			Sample:            sql.NullString{Valid: true, String: sample},
+-			Type:              req.Type,
++			Type:              campaignType,
+ 			OrderType:         mappedOrderType,
+ 			OrderCategoryId:   sql.NullString{Valid: false},
+ 			ExceptCategoryId:  sql.NullString{Valid: false},
+@@
+ 		return c.JSON(http.StatusCreated, map[string]any{
+ 			"voucher_id":     voucherID,
+ 			"voucher":        sample,
+ 			"expire_at":      expireAt.Format(time.RFC3339),
+ 			"discount_type":  "percent",
+ 			"discount_value": 10,
+-			"type":           req.Type,
++			"type":           campaignType,
+ 		})
+ 	}
+ }
+*** End Patch
+2026-01-04T07:54:35.191450Z  INFO ToolCall: shell_command {"command":"rg -n \"Voucher\\{\" -n api/voucher/campaign.go","workdir":"/Users/amirrezaask/dev/voucher"}
+2026-01-04T07:54:37.525695Z  INFO ToolCall: shell_command {"command":"sed -n '140,220p' api/voucher/campaign.go","workdir":"/Users/amirrezaask/dev/voucher"}
+2026-01-04T07:54:43.060748Z  INFO spawning ghost snapshot task
+2026-01-04T07:54:43.121764Z  INFO ToolCall: apply_patch *** Begin Patch
+*** Update File: api/voucher/campaign.go
+@@
+-var allowedCampaignTypes = []uint64{101}
+-
+-var consultationOrderTypes = []string{"chat", "text", "call", "phone", "tsr", "instant"}
+-var pharmacyOrderTypes = []string{"drug", "pharmacy", "pharmacy_product", "product", "delivery_pharmacy"}
+-
+-var orderTypeMapping = map[string][]string{
+-	"consultation": consultationOrderTypes,
+-	"pharmacy":     pharmacyOrderTypes,
+-}
++const campaignType = uint64(101)
++
++var consultationOrderTypes = []string{"chat", "instant", "tsr"}
++var pharmacyOrderTypes = []string{"drug", "pharmacy", "lab", "home_care"}
+*** End Patch
+2026-01-04T07:54:43.153584Z  INFO ghost snapshot blocking task finished
+2026-01-04T07:54:43.153599Z  INFO ghost commit captured: 1d762fd18b69e9322ca2079ede1620365acc49ce
+2026-01-04T07:54:43.153603Z  INFO ghost snapshot gate marked ready
+2026-01-04T07:54:46.178738Z  INFO ToolCall: shell_command {"command":"sed -n '40,120p' api/voucher/campaign.go","workdir":"/Users/amirrezaask/dev/voucher"}
+2026-01-04T07:55:16.189428Z  INFO ToolCall: shell_command {"command":"cat <<'EOF' > /Users/amirrezaask/dev/voucher/AGENTS.md\n# AGENTS\n\nThis document is the single, cohesive source of truth for AI agents working in this repository. It merges the prior `AGENTS.md` and all `.agents/` prompts and guidance.\n\n## Scope and Discovery\n\nThis repository contains guidance, skills, prompts, tools, contracts, and evaluations for AI agents. Use the following structure when discovering resources:\n\n- `prompts/` - Behavioral guidelines and system prompts\n- `skills/` - Knowledge and skill documents\n- `tools/` - Tool documentation and usage patterns\n- `contracts/` - Schemas, API contracts, and IO expectations\n- `evals/` - Tests, rubrics, and scoring criteria\n\nApply prompts first, then check for skills and contracts, then validate with evals. Use documented tools where applicable.\n\n## Engineering Guidelines\n\n### Reasoning and Planning\n\nBefore taking any action, reason through the problem systematically:\n\n1. Dependency analysis, in order of importance:\n   - Constraints: policy-based rules, mandatory prerequisites, existing contracts\n   - Order of operations: ensure actions don't block later steps\n   - Prerequisites: information or setup needed before proceeding\n   - User preferences: explicit constraints from the user\n2. Error anticipation:\n   - Consider consequences and downstream effects\n   - Prefer action over asking for exploratory tasks unless missing info blocks progress\n3. Root cause analysis:\n   - Trace beyond immediate causes\n   - Form and test hypotheses methodically\n   - Keep edge cases in mind\n4. Adapt to feedback:\n   - Evaluate each action\n   - Change strategy when something fails\n5. Information gathering:\n   - Use tools, policies, and prior context\n   - Ask only when blocked\n6. Precision:\n   - Ground claims in evidence\n   - Quote exact code, logs, or policies when relevant\n7. Completeness:\n   - Address all requirements\n   - Consider multiple valid approaches\n8. Persistence:\n   - Retry transient errors within reason\n   - Change approach on persistent failures\n9. Commit only when ready:\n   - Complete reasoning before acting\n\n### Incremental Work Process\n\nAll work must be done incrementally with user approval at each step.\n\n1. Divide work into small, buildable, testable chunks.\n2. Ask for approval before each chunk and describe the change and expected outcome.\n3. Validate after each chunk (tests and lint), unless the user explicitly waives this for the change.\n4. Never batch multiple logical changes into one approval cycle.\n\n### Core Principles\n\n- Explicit over implicit: no hidden behavior.\n- Simplicity over cleverness: straightforward solutions.\n- Handle every error: check assumptions and edge cases.\n- Composition over complexity.\n- Fail fast, fail loud.\n\n## Go Engineering Guidelines\n\n### Mission and Mindset\n\nYou are a senior Go backend engineer on a production-critical health-tech platform. Patient safety and business continuity trump shortcuts.\n\nNon-negotiables:\n- Preserve or improve observability, auth guarantees, and data integrity.\n- Always run `make test` to validate functionality and correctness, unless the user explicitly waives this for a given change.\n\n### Go Code Style and Patterns\n\nGeneral style:\n- Use `gofmt`.\n- Prefer inline code over single-use helper functions.\n- Preallocate slices/arrays when size is known or estimable.\n- Keep database code in repository packages only.\n\nNaming:\n- Short, clear names.\n- Uppercase for exported, lowercase for unexported.\n- Avoid abbreviations and Hungarian notation.\n\nError handling:\n- Always handle errors explicitly.\n- Return errors instead of `panic` except for truly unrecoverable situations.\n- Wrap errors with context: `fmt.Errorf(\"failed to open file: %w\", err)`.\n- Use `errors.Is` / `errors.As` when checking error types.\n- Propagate goroutine errors through channels.\n\nInterfaces and composition:\n- Favor composition via struct embedding.\n- Program to interfaces, not concrete types.\n- Keep interfaces small and behavior-focused.\n\nConcurrency:\n- Use goroutines + channels for concurrent tasks.\n- Use `context` for lifecycle management and cancellation.\n- Ensure goroutines can be cancelled or timed out.\n- Use `defer` + `recover` for panic handling in goroutines when necessary.\n\nAnti-patterns to avoid:\n- Returning unexported types from exported functions.\n- Using `_` to ignore errors.\n- Unnecessary nil checks on slices.\n- `panic` for expected error conditions.\n- Ignoring `context` for cancellation/timeouts.\n\n## Testing Guidelines\n\nThese guidelines cover test structure, setup, assertions, and required scenarios. Follow them for any tests you add or modify.\n\n### Structure and Setup\n\n- Every test must call `app.TestingInit(t)` (or equivalent setup) first.\n- Use `t.Run()` with descriptive subtest names.\n- Create `is := is.New(t)` in each subtest.\n- Use `t.Parallel()` only when tests are isolated.\n\n### Data Setup\n\n- Never hardcode IDs; use factories and returned IDs.\n- Prefer negative IDs for \"not found\" cases.\n- Create related entities in dependency order.\n- Use `sql.Null*` types correctly.\n\n### Handler Tests\n\nRequired test cases per handler:\n- Unauthenticated access\n- Invalid input\n- Not found\n- Happy path\n- Permission/ownership checks\n- Edge cases (SQL nulls, zero values, empty arrays, boundaries)\n\n### Assertions\n\nOrder:\n1. Assert handler returns no error.\n2. Assert HTTP status.\n3. Decode response body.\n4. Assert response structure and all critical fields.\n\nUse `dbassert` for database side effects and count checks.\n\n### Mocking\n\n- Use `httptest.NewServer` for external HTTP mocks.\n- Use pre-configured mocks from `app.TestingInit(t)` when available.\n- Add new mocks via `testutils/mocks/` and wire into `app.TestingInit()`.\n\n### Coverage\n\n- Minimum coverage enforced: 60%.\n- Target 70%+ for most code paths; 80%+ for critical paths.\n- 100% coverage for error handling branches when feasible.\n\n### Anti-Patterns\n\n- Hardcoding IDs\n- Skipping response/body assertions\n- Missing error-case tests\n- Mocking repositories instead of using real DB\n- Tests depending on each other\n- Direct DB inserts instead of factories\n\n## Observability and Error Handling\n\n- Logging uses `slog` and Prometheus metrics pre-registered in `app/testing.go`.\n- Avoid mutating global registries outside that setup.\n- Prefer explicit error codes/messages matching client contracts in handler tests.\n\n## Delivery Checklist\n\n- Handlers implement proper auth, validation, and error handling.\n- Tests per handler cover unauthenticated, invalid input, not found, and happy path scenarios with real DB assertions.\n- `make lint` passes locally and coverage remains at least 60% (or higher when required by policy).\n- Response schemas and error codes remain backward compatible; document behavioral changes in PR descriptions.\nEOF","workdir":"/Users/amirrezaask/dev/voucher"}
+2026-01-04T07:55:28.123971Z  INFO ToolCall: apply_patch *** Begin Patch
+*** Update File: api/voucher/campaign.go
+@@
+-		type CampaignRequest struct {
+-			BusinessLine string `json:"business_line"`
+-			Type         uint64 `json:"type"`
+-		}
+-
+-		var req CampaignRequest
+-		if err := c.Bind(&req); err != nil {
++		if c.Request().ContentLength > 0 {
++			if err := c.Bind(&struct{}{}); err != nil {
++				logger.Error("failed to bind request", "err", err)
++				return c.JSON(http.StatusBadRequest, map[string]any{"error": "bad request"})
++			}
++		}
++
++		consultationOrderType := strings.Join(consultationOrderTypes, ",")
++		pharmacyOrderType := strings.Join(pharmacyOrderTypes, ",")
++
++		ctx := c.Request().Context()
++
++		var existingVoucherID int64
++		var existingVoucherCode string
++		err := db.QueryRowContext(ctx,
++			`SELECT v.id, wv.voucher 
++			 FROM vouchers v
++			 INNER JOIN whitelist_vouchers wv ON v.id = wv.voucher_id
++			 WHERE wv.user_id = ? AND v.type = ? AND v.order_type = ? AND v.prefix = ?`,
++			uint64(userID), campaignType, consultationOrderType, "CAMP").Scan(&existingVoucherID, &existingVoucherCode)
++
++		consultationExists := err == nil
++		if err != nil && err != sql.ErrNoRows {
++			logger.Error("database error in checking existing consultation voucher", "err", err)
++			return c.JSON(http.StatusInternalServerError, map[string]any{"error": "internal server error"})
++		}
++
++		err = db.QueryRowContext(ctx,
++			`SELECT v.id, wv.voucher 
++			 FROM vouchers v
++			 INNER JOIN whitelist_vouchers wv ON v.id = wv.voucher_id
++			 WHERE wv.user_id = ? AND v.type = ? AND v.order_type = ? AND v.prefix = ?`,
++			uint64(userID), campaignType, pharmacyOrderType, "CAMP").Scan(&existingVoucherID, &existingVoucherCode)
++
++		pharmacyExists := err == nil
++		if err != nil && err != sql.ErrNoRows {
++			logger.Error("database error in checking existing pharmacy voucher", "err", err)
++			return c.JSON(http.StatusInternalServerError, map[string]any{"error": "internal server error"})
++		}
++
++		if consultationExists && pharmacyExists {
++			logger.Info("user reached campaign voucher limit", "user_id", userID)
++			return c.JSON(http.StatusBadRequest, map[string]any{"error": "campaign voucher limit reached"})
++		}
++
++		mappedOrderType := consultationOrderType
++		if consultationExists {
++			mappedOrderType = pharmacyOrderType
++		}
++
++		if !consultationExists && !pharmacyExists {
++			mappedOrderType = consultationOrderType
++		}
++		err = nil
++		if err := c.Bind(&req); err != nil {
+ 			logger.Error("failed to bind request", "err", err)
+ 			return c.JSON(http.StatusBadRequest, map[string]any{"error": "bad request"})
+ 		}
+-
+-		req.Type = 121
+-
+-		isAllowed := false
+-		for _, allowedType := range allowedCampaignTypes {
+-			if req.Type == allowedType {
+-				isAllowed = true
+-				break
+-			}
+-		}
+-		if !isAllowed {
+-			logger.Error("invalid voucher type", "type", req.Type, "allowed_types", allowedCampaignTypes)
+-			return c.JSON(http.StatusBadRequest, map[string]any{"error": "invalid voucher type"})
+-		}
+-
+-		orderTypes, exists := orderTypeMapping[req.BusinessLine]
+-		if !exists {
+-			logger.Error("invalid order type", "order_type", req.BusinessLine, "allowed_types", []string{"consultation", "pharmacy"})
+-			return c.JSON(http.StatusBadRequest, map[string]any{"error": "invalid bussiness line, must be 'consultation' or 'pharmacy'"})
+-		}
+-
+-		mappedOrderType := strings.Join(orderTypes, ",")
+-
+-		var existingVoucherID int64
+-		var existingVoucherCode string
+-		err := db.QueryRowContext(c.Request().Context(),
+-			`SELECT v.id, wv.voucher 
+-			 FROM vouchers v
+-			 INNER JOIN whitelist_vouchers wv ON v.id = wv.voucher_id
+-			 WHERE wv.user_id = ? AND v.type = ? AND v.order_type = ? AND v.prefix = ?`,
+-			uint64(userID), req.Type, mappedOrderType, "CAMP").Scan(&existingVoucherID, &existingVoucherCode)
+-
+-		if err == nil {
+-			logger.Info("voucher already exists for user and order type", "user_id", userID, "order_type", req.BusinessLine, "voucher_id", existingVoucherID)
+-			return c.JSON(http.StatusOK, map[string]any{
+-				"voucher_id":     existingVoucherID,
+-				"voucher":        existingVoucherCode,
+-				"discount_type":  "percent",
+-				"discount_value": 10,
+-				"type":           req.Type,
+-			})
+-		}
+-		if err != sql.ErrNoRows {
+-			logger.Error("database error in checking existing voucher", "err", err)
+-			return c.JSON(http.StatusInternalServerError, map[string]any{"error": "internal server error"})
+-		}
+-
+-		lockKey := fmt.Sprintf("voucher:campaign:lock:%d:%s", userID, req.BusinessLine)
+-		ctx := c.Request().Context()
++
++		lockKey := fmt.Sprintf("voucher:campaign:lock:%d:%s", userID, mappedOrderType)
+*** End Patch
+2026-01-04T07:55:33.195075Z  INFO ToolCall: shell_command {"command":"sed -n '40,140p' api/voucher/campaign.go","workdir":"/Users/amirrezaask/dev/voucher"}
+2026-01-04T07:55:43.682711Z  INFO ToolCall: apply_patch *** Begin Patch
+*** Update File: api/voucher/campaign.go
+@@
+-		if !consultationExists && !pharmacyExists {
+-			mappedOrderType = consultationOrderType
+-		}
+-		err = nil
+-		if err := c.Bind(&req); err != nil {
+-			logger.Error("failed to bind request", "err", err)
+-			return c.JSON(http.StatusBadRequest, map[string]any{"error": "bad request"})
+-		}
++		if !consultationExists && !pharmacyExists {
++			mappedOrderType = consultationOrderType
++		}
+@@
+-				uint64(userID), req.Type, mappedOrderType, "CAMP").Scan(&existingVoucherID, &existingVoucherCode)
++				uint64(userID), campaignType, mappedOrderType, "CAMP").Scan(&existingVoucherID, &existingVoucherCode)
+ 
+ 			if err == nil {
+-				logger.Info("voucher created by another request", "user_id", userID, "order_type", req.BusinessLine, "voucher_id", existingVoucherID)
++				logger.Info("voucher created by another request", "user_id", userID, "order_type", mappedOrderType, "voucher_id", existingVoucherID)
+ 				return c.JSON(http.StatusOK, map[string]any{
+ 					"voucher_id":     existingVoucherID,
+ 					"voucher":        existingVoucherCode,
+ 					"discount_type":  "percent",
+ 					"discount_value": 10,
+-					"type":           req.Type,
++					"type":           campaignType,
+ 				})
+ 			}
+ 			if err != sql.ErrNoRows {
+ 				logger.Error("database error in checking existing voucher after lock", "err", err)
+ 				return c.JSON(http.StatusInternalServerError, map[string]any{"error": "internal server error"})
+ 			}
+-			logger.Warn("lock not acquired and voucher not found", "user_id", userID, "order_type", req.BusinessLine)
++			logger.Warn("lock not acquired and voucher not found", "user_id", userID, "order_type", mappedOrderType)
+*** End Patch
+2026-01-04T07:55:46.573220Z  INFO ToolCall: shell_command {"command":"rg -n \"req\\.\" api/voucher/campaign.go","workdir":"/Users/amirrezaask/dev/voucher"}
+2026-01-04T07:55:52.881935Z  INFO ToolCall: apply_patch *** Begin Patch
+*** Update File: api/voucher/campaign.go
+@@
+-			Type:              req.Type,
++			Type:              campaignType,
+@@
+-			uint64(userID), req.Type, mappedOrderType, "CAMP").Scan(&existingVoucherID, &existingVoucherCode)
++			uint64(userID), campaignType, mappedOrderType, "CAMP").Scan(&existingVoucherID, &existingVoucherCode)
+@@
+-			logger.Info("voucher created after lock acquisition", "user_id", userID, "order_type", req.BusinessLine, "voucher_id", existingVoucherID)
++			logger.Info("voucher created after lock acquisition", "user_id", userID, "order_type", mappedOrderType, "voucher_id", existingVoucherID)
+@@
+-				"type":           req.Type,
++				"type":           campaignType,
+@@
+-			"type":           req.Type,
++			"type":           campaignType,
+*** End Patch
+2026-01-04T07:55:56.413033Z  INFO ToolCall: shell_command {"command":"rg -n \"req\\.\" api/voucher/campaign.go","workdir":"/Users/amirrezaask/dev/voucher"}
+2026-01-04T07:56:00.737508Z  INFO ToolCall: shell_command {"command":"rg -n \"allowedCampaignTypes|orderTypeMapping|BusinessLine|Type\" api/voucher/campaign.go","workdir":"/Users/amirrezaask/dev/voucher"}
+2026-01-04T07:56:11.778130Z  INFO ToolCall: shell_command {"command":"make test","workdir":"/Users/amirrezaask/dev/voucher"}
+2026-01-04T07:56:16.275427Z  INFO ToolCall: shell_command {"command":"make lint","workdir":"/Users/amirrezaask/dev/voucher"}
+2026-01-04T08:03:19.549347Z  INFO spawning ghost snapshot task
+2026-01-04T08:03:19.656449Z  INFO ghost snapshot blocking task finished
+2026-01-04T08:03:19.656465Z  INFO ghost commit captured: d4d4687ef9fae0eb3d0d9aa7f32ac1d0275a00b8
+2026-01-04T08:03:19.656468Z  INFO ghost snapshot gate marked ready
+2026-01-04T08:04:02.262866Z  INFO spawning ghost snapshot task
+2026-01-04T08:04:02.364764Z  INFO ghost snapshot blocking task finished
+2026-01-04T08:04:02.364778Z  INFO ghost commit captured: 5083361395c3eec5b0f40981f8be82a1f15857aa
+2026-01-04T08:04:02.364781Z  INFO ghost snapshot gate marked ready
+2026-01-04T08:04:18.802574Z  INFO ToolCall: shell_command {"command":"rg -n \"missing type|type zero|invalid voucher type|invalid order type\" api/voucher/campaign_test.go","workdir":"/Users/amirrezaask/dev/voucher"}
+2026-01-04T08:04:27.914893Z  INFO ToolCall: shell_command {"command":"sed -n '1,220p' api/voucher/campaign_test.go","workdir":"/Users/amirrezaask/dev/voucher"}
+2026-01-04T08:04:50.274880Z  INFO ToolCall: shell_command {"command":"sed -n '220,520p' api/voucher/campaign_test.go","workdir":"/Users/amirrezaask/dev/voucher"}
+2026-01-04T08:04:58.942487Z  INFO ToolCall: shell_command {"command":"sed -n '520,920p' api/voucher/campaign_test.go","workdir":"/Users/amirrezaask/dev/voucher"}
+2026-01-04T08:06:30.421109Z  INFO ToolCall: apply_patch *** Begin Patch
+*** Update File: api/voucher/campaign_test.go
+@@
+-	t.Run("missing type should return bad request", func(t *testing.T) {
++	t.Run("user with consultation and pharmacy vouchers should return limit reached", func(t *testing.T) {
+ 		db, _, err := sqlmock.New()
+ 		if err != nil {
+ 			t.Fatal(err)
+ 		}
+ 		defer db.Close()
+@@
+ 		sequelDB := newMockSequelDB(db)
+ 		redisClient := newMockRedisClient(t)
+ 		e := echo.New()
+-		reqBody := `{"order_type": "consultation"}`
++		existingVoucherID := int64(42)
++		existingVoucherCode := "CAMPabc12345"
++		mock, err := sqlmock.New(sqlmock.QueryMatcherOption(sqlmock.QueryMatcherEqual))
++		if err != nil {
++			t.Fatal(err)
++		}
++		db = mock
++		mock.ExpectQuery(`SELECT v.id, wv.voucher 
++			 FROM vouchers v
++			 INNER JOIN whitelist_vouchers wv ON v.id = wv.voucher_id
++			 WHERE wv.user_id = ? AND v.type = ? AND v.order_type = ? AND v.prefix = ?`).
++			WithArgs(uint64(userID), uint64(101), "chat,instant,tsr", "CAMP").
++			WillReturnRows(sqlmock.NewRows([]string{"id", "voucher"}).AddRow(existingVoucherID, existingVoucherCode))
++		mock.ExpectQuery(`SELECT v.id, wv.voucher 
++			 FROM vouchers v
++			 INNER JOIN whitelist_vouchers wv ON v.id = wv.voucher_id
++			 WHERE wv.user_id = ? AND v.type = ? AND v.order_type = ? AND v.prefix = ?`).
++			WithArgs(uint64(userID), uint64(101), "drug,pharmacy,lab,home_care", "CAMP").
++			WillReturnRows(sqlmock.NewRows([]string{"id", "voucher"}).AddRow(existingVoucherID, existingVoucherCode))
++
++		reqBody := `{}`
+ 		req := httptest.NewRequest(http.MethodPost, "/api/v1/vouchers/campaign", strings.NewReader(reqBody))
+ 		req.Header.Set("Content-Type", "application/json")
+ 		rec := httptest.NewRecorder()
+ 		c := e.NewContext(req, rec)
+@@
+ 		err = Campaign(sequelDB, redisClient)(c)
+ 		assert.NoError(t, err)
+ 		assert.Equal(t, http.StatusBadRequest, rec.Code)
+ 
+ 		var response map[string]any
+ 		err = json.NewDecoder(rec.Body).Decode(&response)
+ 		assert.NoError(t, err)
+-		assert.Equal(t, "type is required", response["error"])
++		assert.Equal(t, "campaign voucher limit reached", response["error"])
+ 	})
+ 
+-	t.Run("type zero should return bad request", func(t *testing.T) {
+-		db, _, err := sqlmock.New()
++	t.Run("pharmacy voucher exists should create consultation voucher", func(t *testing.T) {
++		db, mock, err := sqlmock.New()
+ 		if err != nil {
+ 			t.Fatal(err)
+ 		}
+ 		defer db.Close()
+@@
+-		sequelDB := newMockSequelDB(db)
+-		redisClient := newMockRedisClient(t)
+-		e := echo.New()
+-		reqBody := `{"order_type": "consultation", "type": 0}`
+-		req := httptest.NewRequest(http.MethodPost, "/api/v1/vouchers/campaign", strings.NewReader(reqBody))
+-		req.Header.Set("Content-Type", "application/json")
+-		rec := httptest.NewRecorder()
+-		c := e.NewContext(req, rec)
+-		c.Set("user", token)
+-
+-		err = Campaign(sequelDB, redisClient)(c)
+-		assert.NoError(t, err)
+-		assert.Equal(t, http.StatusBadRequest, rec.Code)
+-
+-		var response map[string]any
+-		err = json.NewDecoder(rec.Body).Decode(&response)
+-		assert.NoError(t, err)
+-		assert.Equal(t, "type is required", response["error"])
+-	})
+-
+-	t.Run("invalid voucher type should return bad request", func(t *testing.T) {
+-		db, _, err := sqlmock.New()
+-		if err != nil {
+-			t.Fatal(err)
+-		}
+-		defer db.Close()
+-
+-		userID := int32(123)
+-		token := &jwt.Token{
+-			Claims: jwt.MapClaims{
+-				"sub": float64(userID),
+-			},
+-		}
+-
+-		sequelDB := newMockSequelDB(db)
+-		redisClient := newMockRedisClient(t)
+-		e := echo.New()
+-		reqBody := `{"order_type": "consultation", "type": 999}`
+-		req := httptest.NewRequest(http.MethodPost, "/api/v1/vouchers/campaign", strings.NewReader(reqBody))
+-		req.Header.Set("Content-Type", "application/json")
+-		rec := httptest.NewRecorder()
+-		c := e.NewContext(req, rec)
+-		c.Set("user", token)
+-
+-		err = Campaign(sequelDB, redisClient)(c)
+-		assert.NoError(t, err)
+-		assert.Equal(t, http.StatusBadRequest, rec.Code)
+-
+-		var response map[string]any
+-		err = json.NewDecoder(rec.Body).Decode(&response)
+-		assert.NoError(t, err)
+-		assert.Equal(t, "invalid voucher type", response["error"])
+-	})
+-
+-	t.Run("invalid order type should return bad request", func(t *testing.T) {
+-		db, _, err := sqlmock.New()
+-		if err != nil {
+-			t.Fatal(err)
+-		}
+-		defer db.Close()
+-
+-		userID := int32(123)
+-		token := &jwt.Token{
+-			Claims: jwt.MapClaims{
+-				"sub": float64(userID),
+-			},
+-		}
+-
+-		sequelDB := newMockSequelDB(db)
+-		redisClient := newMockRedisClient(t)
+-		e := echo.New()
+-		reqBody := `{"order_type": "invalid", "type": 101}`
+-		req := httptest.NewRequest(http.MethodPost, "/api/v1/vouchers/campaign", strings.NewReader(reqBody))
+-		req.Header.Set("Content-Type", "application/json")
+-		rec := httptest.NewRecorder()
+-		c := e.NewContext(req, rec)
+-		c.Set("user", token)
+-
+-		err = Campaign(sequelDB, redisClient)(c)
+-		assert.NoError(t, err)
+-		assert.Equal(t, http.StatusBadRequest, rec.Code)
+-
+-		var response map[string]any
+-		err = json.NewDecoder(rec.Body).Decode(&response)
+-		assert.NoError(t, err)
+-		assert.Equal(t, "invalid order type, must be 'consultation' or 'pharmacy'", response["error"])
+-	})
+-
+-	t.Run("pharmacy order type should map correctly", func(t *testing.T) {
+-		db, mock, err := sqlmock.New()
+-		if err != nil {
+-			t.Fatal(err)
+-		}
+-		defer db.Close()
+-
+-		userID := int32(123)
+-		token := &jwt.Token{
+-			Claims: jwt.MapClaims{
+-				"sub": float64(userID),
+-			},
+-		}
+-
+-		mock.ExpectQuery(`SELECT v.id, wv.voucher`).
+-			WithArgs(uint64(userID), uint64(101), "drug,pharmacy,pharmacy_product,product,delivery_pharmacy", "CAMP").
+-			WillReturnError(sql.ErrNoRows)
++		existingVoucherID := int64(42)
++		existingVoucherCode := "CAMPabc12345"
++		mock.ExpectQuery(`SELECT v.id, wv.voucher`).
++			WithArgs(uint64(userID), uint64(101), "chat,instant,tsr", "CAMP").
++			WillReturnError(sql.ErrNoRows)
++		mock.ExpectQuery(`SELECT v.id, wv.voucher`).
++			WithArgs(uint64(userID), uint64(101), "drug,pharmacy,lab,home_care", "CAMP").
++			WillReturnRows(sqlmock.NewRows([]string{"id", "voucher"}).AddRow(existingVoucherID, existingVoucherCode))
++		mock.ExpectQuery(`SELECT v.id, wv.voucher`).
++			WithArgs(uint64(userID), uint64(101), "chat,instant,tsr", "CAMP").
++			WillReturnError(sql.ErrNoRows)
+ 		mock.ExpectBegin()
+ 		mock.ExpectExec(`INSERT INTO vouchers`).
+ 			WithArgs(sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg()).
+ 			WillReturnResult(sqlmock.NewResult(1, 1))
+@@
+ 		sequelDB := newMockSequelDB(db)
+ 		redisClient := newMockRedisClient(t)
+ 		e := echo.New()
+-		reqBody := `{"order_type": "pharmacy", "type": 101}`
++		reqBody := `{}`
+ 		req := httptest.NewRequest(http.MethodPost, "/api/v1/vouchers/campaign", strings.NewReader(reqBody))
+ 		req.Header.Set("Content-Type", "application/json")
+ 		rec := httptest.NewRecorder()
+ 		c := e.NewContext(req, rec)
+@@
+ 		assert.Contains(t, response, "voucher")
+ 
+ 		assert.NoError(t, mock.ExpectationsWereMet())
+ 	})
+ 
+-	t.Run("existing voucher for user and order type should return existing voucher", func(t *testing.T) {
++	t.Run("consultation voucher exists should create pharmacy voucher", func(t *testing.T) {
+ 		db, mock, err := sqlmock.New()
+ 		if err != nil {
+ 			t.Fatal(err)
+ 		}
+@@
+-		existingVoucherID := int64(42)
+-		existingVoucherCode := "CAMPabc12345"
+-		mock.ExpectQuery(`SELECT v.id, wv.voucher`).
+-			WithArgs(uint64(userID), uint64(101), "chat,text,call,phone,tsr,instant", "CAMP").
+-			WillReturnRows(sqlmock.NewRows([]string{"id", "voucher"}).AddRow(existingVoucherID, existingVoucherCode))
+-
+-		sequelDB := newMockSequelDB(db)
+-		redisClient := newMockRedisClient(t)
+-		e := echo.New()
+-		reqBody := `{"order_type": "consultation", "type": 101}`
+-		req := httptest.NewRequest(http.MethodPost, "/api/v1/vouchers/campaign", strings.NewReader(reqBody))
+-		req.Header.Set("Content-Type", "application/json")
+-		rec := httptest.NewRecorder()
+-		c := e.NewContext(req, rec)
+-		c.Set("user", token)
+-
+-		err = Campaign(sequelDB, redisClient)(c)
+-		assert.NoError(t, err)
+-		assert.Equal(t, http.StatusOK, rec.Code)
+-
+-		var response map[string]any
+-		err = json.NewDecoder(rec.Body).Decode(&response)
+-		assert.NoError(t, err)
+-		assert.Equal(t, float64(existingVoucherID), response["voucher_id"])
+-		assert.Equal(t, existingVoucherCode, response["voucher"])
+-		assert.Equal(t, "percent", response["discount_type"])
+-		assert.Equal(t, float64(10), response["discount_value"])
+-		assert.Equal(t, float64(101), response["type"])
+-
+-		assert.NoError(t, mock.ExpectationsWereMet())
+-	})
+-
+-	t.Run("happy path - creates voucher and whitelist entry", func(t *testing.T) {
+-		db, mock, err := sqlmock.New()
+-		if err != nil {
+-			t.Fatal(err)
+-		}
+-		defer db.Close()
+-
+-		userID := int32(123)
+-		token := &jwt.Token{
+-			Claims: jwt.MapClaims{
+-				"sub": float64(userID),
+-			},
+-		}
+-
+-		mock.ExpectQuery(`SELECT v.id, wv.voucher`).
+-			WithArgs(uint64(userID), uint64(101), "chat,text,call,phone,tsr,instant", "CAMP").
+-			WillReturnError(sql.ErrNoRows)
++		existingVoucherID := int64(42)
++		existingVoucherCode := "CAMPabc12345"
++		mock.ExpectQuery(`SELECT v.id, wv.voucher`).
++			WithArgs(uint64(userID), uint64(101), "chat,instant,tsr", "CAMP").
++			WillReturnRows(sqlmock.NewRows([]string{"id", "voucher"}).AddRow(existingVoucherID, existingVoucherCode))
++		mock.ExpectQuery(`SELECT v.id, wv.voucher`).
++			WithArgs(uint64(userID), uint64(101), "drug,pharmacy,lab,home_care", "CAMP").
++			WillReturnError(sql.ErrNoRows)
++		mock.ExpectQuery(`SELECT v.id, wv.voucher`).
++			WithArgs(uint64(userID), uint64(101), "drug,pharmacy,lab,home_care", "CAMP").
++			WillReturnError(sql.ErrNoRows)
+ 		mock.ExpectBegin()
+ 		mock.ExpectExec(`INSERT INTO vouchers`).
+ 			WithArgs(sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg()).
+ 			WillReturnResult(sqlmock.NewResult(1, 1))
+@@
+ 		sequelDB := newMockSequelDB(db)
+ 		redisClient := newMockRedisClient(t)
+ 		e := echo.New()
+-		reqBody := `{"order_type": "consultation", "type": 101}`
++		reqBody := `{}`
+ 		req := httptest.NewRequest(http.MethodPost, "/api/v1/vouchers/campaign", strings.NewReader(reqBody))
+ 		req.Header.Set("Content-Type", "application/json")
+ 		rec := httptest.NewRecorder()
+ 		c := e.NewContext(req, rec)
+@@
+-		assert.NoError(t, mock.ExpectationsWereMet())
+-	})
++		assert.NoError(t, mock.ExpectationsWereMet())
++	})
++
++	t.Run("happy path - creates voucher and whitelist entry", func(t *testing.T) {
++		db, mock, err := sqlmock.New()
++		if err != nil {
++			t.Fatal(err)
++		}
++		defer db.Close()
++
++		userID := int32(123)
++		token := &jwt.Token{
++			Claims: jwt.MapClaims{
++				"sub": float64(userID),
++			},
++		}
++
++		mock.ExpectQuery(`SELECT v.id, wv.voucher`).
++			WithArgs(uint64(userID), uint64(101), "chat,instant,tsr", "CAMP").
++			WillReturnError(sql.ErrNoRows)
++		mock.ExpectQuery(`SELECT v.id, wv.voucher`).
++			WithArgs(uint64(userID), uint64(101), "drug,pharmacy,lab,home_care", "CAMP").
++			WillReturnError(sql.ErrNoRows)
++		mock.ExpectQuery(`SELECT v.id, wv.voucher`).
++			WithArgs(uint64(userID), uint64(101), "chat,instant,tsr", "CAMP").
++			WillReturnError(sql.ErrNoRows)
++		mock.ExpectBegin()
++		mock.ExpectExec(`INSERT INTO vouchers`).
++			WithArgs(sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg()).
++			WillReturnResult(sqlmock.NewResult(1, 1))
++		mock.ExpectExec(`INSERT INTO whitelist_vouchers`).
++			WithArgs(sqlmock.AnyArg(), uint64(userID), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg()).
++			WillReturnResult(sqlmock.NewResult(1, 1))
++		mock.ExpectCommit()
++
++		sequelDB := newMockSequelDB(db)
++		redisClient := newMockRedisClient(t)
++		e := echo.New()
++		reqBody := `{}`
++		req := httptest.NewRequest(http.MethodPost, "/api/v1/vouchers/campaign", strings.NewReader(reqBody))
++		req.Header.Set("Content-Type", "application/json")
++		rec := httptest.NewRecorder()
++		c := e.NewContext(req, rec)
++		c.Set("user", token)
++
++		err = Campaign(sequelDB, redisClient)(c)
++		assert.NoError(t, err)
++		assert.Equal(t, http.StatusCreated, rec.Code)
++
++		var response map[string]any
++		err = json.NewDecoder(rec.Body).Decode(&response)
++		assert.NoError(t, err)
++		assert.Contains(t, response, "voucher_id")
++		assert.Contains(t, response, "voucher")
++		assert.Contains(t, response, "expire_at")
++		assert.Contains(t, response, "discount_type")
++		assert.Contains(t, response, "discount_value")
++		assert.Contains(t, response, "type")
++
++		voucherCode, ok := response["voucher"].(string)
++		assert.True(t, ok)
++		assert.Contains(t, voucherCode, "CAMP")
++		assert.Equal(t, "percent", response["discount_type"])
++		assert.Equal(t, float64(10), response["discount_value"])
++		assert.Equal(t, float64(101), response["type"])
++
++		assert.NoError(t, mock.ExpectationsWereMet())
++	})
+*** End Patch
+2026-01-04T08:06:34.355092Z  INFO ToolCall: shell_command {"command":"sed -n '70,200p' api/voucher/campaign_test.go","workdir":"/Users/amirrezaask/dev/voucher"}
+2026-01-04T08:06:47.149052Z  INFO ToolCall: apply_patch *** Begin Patch
+*** Update File: api/voucher/campaign_test.go
+@@
+-	t.Run("user with consultation and pharmacy vouchers should return limit reached", func(t *testing.T) {
+-		db, _, err := sqlmock.New()
++	t.Run("user with consultation and pharmacy vouchers should return limit reached", func(t *testing.T) {
++		db, mock, err := sqlmock.New()
+ 		if err != nil {
+ 			t.Fatal(err)
+ 		}
+ 		defer db.Close()
+@@
+-		sequelDB := newMockSequelDB(db)
+-		redisClient := newMockRedisClient(t)
+-		e := echo.New()
+ 		existingVoucherID := int64(42)
+ 		existingVoucherCode := "CAMPabc12345"
+-		mock, err := sqlmock.New(sqlmock.QueryMatcherOption(sqlmock.QueryMatcherEqual))
+-		if err != nil {
+-			t.Fatal(err)
+-		}
+-		db = mock
+ 		mock.ExpectQuery(`SELECT v.id, wv.voucher 
+ 			 FROM vouchers v
+ 			 INNER JOIN whitelist_vouchers wv ON v.id = wv.voucher_id
+ 			 WHERE wv.user_id = ? AND v.type = ? AND v.order_type = ? AND v.prefix = ?`).
+@@
+ 		mock.ExpectQuery(`SELECT v.id, wv.voucher 
+ 			 FROM vouchers v
+ 			 INNER JOIN whitelist_vouchers wv ON v.id = wv.voucher_id
+ 			 WHERE wv.user_id = ? AND v.type = ? AND v.order_type = ? AND v.prefix = ?`).
+ 			WithArgs(uint64(userID), uint64(101), "drug,pharmacy,lab,home_care", "CAMP").
+ 			WillReturnRows(sqlmock.NewRows([]string{"id", "voucher"}).AddRow(existingVoucherID, existingVoucherCode))
+ 
++		sequelDB := newMockSequelDB(db)
++		redisClient := newMockRedisClient(t)
++		e := echo.New()
+ 		reqBody := `{}`
+ 		req := httptest.NewRequest(http.MethodPost, "/api/v1/vouchers/campaign", strings.NewReader(reqBody))
+@@
+ 		var response map[string]any
+ 		err = json.NewDecoder(rec.Body).Decode(&response)
+ 		assert.NoError(t, err)
+ 		assert.Equal(t, "campaign voucher limit reached", response["error"])
++
++		assert.NoError(t, mock.ExpectationsWereMet())
+ 	})
+*** End Patch
+2026-01-04T08:06:50.618097Z  INFO ToolCall: shell_command {"command":"rg -n \"happy path - creates voucher\" api/voucher/campaign_test.go","workdir":"/Users/amirrezaask/dev/voucher"}
+2026-01-04T08:06:54.932353Z  INFO ToolCall: shell_command {"command":"sed -n '200,340p' api/voucher/campaign_test.go","workdir":"/Users/amirrezaask/dev/voucher"}
+2026-01-04T08:07:15.244967Z  INFO ToolCall: apply_patch *** Begin Patch
+*** Update File: api/voucher/campaign_test.go
+@@
+-	t.Run("database error in checking existing voucher should return internal server error", func(t *testing.T) {
++	t.Run("database error in checking existing consultation voucher should return internal server error", func(t *testing.T) {
+ 		db, mock, err := sqlmock.New()
+ 		if err != nil {
+ 			t.Fatal(err)
+ 		}
+@@
+ 
+ 		mock.ExpectQuery(`SELECT v.id, wv.voucher`).
+-			WithArgs(uint64(userID), uint64(101), "chat,text,call,phone,tsr,instant", "CAMP").
++			WithArgs(uint64(userID), uint64(101), "chat,instant,tsr", "CAMP").
+ 			WillReturnError(sql.ErrConnDone)
+ 
+ 		sequelDB := newMockSequelDB(db)
+ 		redisClient := newMockRedisClient(t)
+ 		e := echo.New()
+-		reqBody := `{"order_type": "consultation", "type": 101}`
++		reqBody := `{}`
+ 		req := httptest.NewRequest(http.MethodPost, "/api/v1/vouchers/campaign", strings.NewReader(reqBody))
+ 		req.Header.Set("Content-Type", "application/json")
+@@
+ 
+ 		assert.NoError(t, mock.ExpectationsWereMet())
+ 	})
++
++	t.Run("database error in checking existing pharmacy voucher should return internal server error", func(t *testing.T) {
++		db, mock, err := sqlmock.New()
++		if err != nil {
++			t.Fatal(err)
++		}
++		defer db.Close()
++
++		userID := int32(123)
++		token := &jwt.Token{
++			Claims: jwt.MapClaims{
++				"sub": float64(userID),
++			},
++		}
++
++		mock.ExpectQuery(`SELECT v.id, wv.voucher`).
++			WithArgs(uint64(userID), uint64(101), "chat,instant,tsr", "CAMP").
++			WillReturnError(sql.ErrNoRows)
++		mock.ExpectQuery(`SELECT v.id, wv.voucher`).
++			WithArgs(uint64(userID), uint64(101), "drug,pharmacy,lab,home_care", "CAMP").
++			WillReturnError(sql.ErrConnDone)
++
++		sequelDB := newMockSequelDB(db)
++		redisClient := newMockRedisClient(t)
++		e := echo.New()
++		reqBody := `{}`
++		req := httptest.NewRequest(http.MethodPost, "/api/v1/vouchers/campaign", strings.NewReader(reqBody))
++		req.Header.Set("Content-Type", "application/json")
++		rec := httptest.NewRecorder()
++		c := e.NewContext(req, rec)
++		c.Set("user", token)
++
++		err = Campaign(sequelDB, redisClient)(c)
++		assert.NoError(t, err)
++		assert.Equal(t, http.StatusInternalServerError, rec.Code)
++
++		var response map[string]any
++		err = json.NewDecoder(rec.Body).Decode(&response)
++		assert.NoError(t, err)
++		assert.Equal(t, "internal server error", response["error"])
++
++		assert.NoError(t, mock.ExpectationsWereMet())
++	})
+*** End Patch
+2026-01-04T08:07:23.506824Z  INFO ToolCall: apply_patch *** Begin Patch
+*** Update File: api/voucher/campaign_test.go
+@@
+ 		mock.ExpectQuery(`SELECT v.id, wv.voucher`).
+-			WithArgs(uint64(userID), uint64(101), "chat,text,call,phone,tsr,instant", "CAMP").
++			WithArgs(uint64(userID), uint64(101), "chat,instant,tsr", "CAMP").
++			WillReturnError(sql.ErrNoRows)
++		mock.ExpectQuery(`SELECT v.id, wv.voucher`).
++			WithArgs(uint64(userID), uint64(101), "drug,pharmacy,lab,home_care", "CAMP").
++			WillReturnError(sql.ErrNoRows)
++		mock.ExpectQuery(`SELECT v.id, wv.voucher`).
++			WithArgs(uint64(userID), uint64(101), "chat,instant,tsr", "CAMP").
+ 			WillReturnError(sql.ErrNoRows)
+ 		mock.ExpectBegin().WillReturnError(sql.ErrConnDone)
+@@
+-		reqBody := `{"order_type": "consultation", "type": 101}`
++		reqBody := `{}`
+*** End Patch
+2026-01-04T08:07:29.891645Z  INFO ToolCall: apply_patch *** Begin Patch
+*** Update File: api/voucher/campaign_test.go
+@@
+ 		mock.ExpectQuery(`SELECT v.id, wv.voucher`).
+-			WithArgs(uint64(userID), uint64(101), "chat,text,call,phone,tsr,instant", "CAMP").
++			WithArgs(uint64(userID), uint64(101), "chat,instant,tsr", "CAMP").
++			WillReturnError(sql.ErrNoRows)
++		mock.ExpectQuery(`SELECT v.id, wv.voucher`).
++			WithArgs(uint64(userID), uint64(101), "drug,pharmacy,lab,home_care", "CAMP").
++			WillReturnError(sql.ErrNoRows)
++		mock.ExpectQuery(`SELECT v.id, wv.voucher`).
++			WithArgs(uint64(userID), uint64(101), "chat,instant,tsr", "CAMP").
+ 			WillReturnError(sql.ErrNoRows)
+ 		mock.ExpectBegin()
+@@
+-		reqBody := `{"order_type": "consultation", "type": 101}`
++		reqBody := `{}`
+*** End Patch
+2026-01-04T08:07:36.157538Z  INFO ToolCall: apply_patch *** Begin Patch
+*** Update File: api/voucher/campaign_test.go
+@@
+ 		mock.ExpectQuery(`SELECT v.id, wv.voucher`).
+-			WithArgs(uint64(userID), uint64(101), "chat,text,call,phone,tsr,instant", "CAMP").
++			WithArgs(uint64(userID), uint64(101), "chat,instant,tsr", "CAMP").
++			WillReturnError(sql.ErrNoRows)
++		mock.ExpectQuery(`SELECT v.id, wv.voucher`).
++			WithArgs(uint64(userID), uint64(101), "drug,pharmacy,lab,home_care", "CAMP").
++			WillReturnError(sql.ErrNoRows)
++		mock.ExpectQuery(`SELECT v.id, wv.voucher`).
++			WithArgs(uint64(userID), uint64(101), "chat,instant,tsr", "CAMP").
+ 			WillReturnError(sql.ErrNoRows)
+ 		mock.ExpectBegin()
+@@
+-		reqBody := `{"order_type": "consultation", "type": 101}`
++		reqBody := `{}`
+*** End Patch
+2026-01-04T08:07:42.599422Z  INFO ToolCall: apply_patch *** Begin Patch
+*** Update File: api/voucher/campaign_test.go
+@@
+ 		mock.ExpectQuery(`SELECT v.id, wv.voucher`).
+-			WithArgs(uint64(userID), uint64(101), "chat,text,call,phone,tsr,instant", "CAMP").
++			WithArgs(uint64(userID), uint64(101), "chat,instant,tsr", "CAMP").
++			WillReturnError(sql.ErrNoRows)
++		mock.ExpectQuery(`SELECT v.id, wv.voucher`).
++			WithArgs(uint64(userID), uint64(101), "drug,pharmacy,lab,home_care", "CAMP").
++			WillReturnError(sql.ErrNoRows)
++		mock.ExpectQuery(`SELECT v.id, wv.voucher`).
++			WithArgs(uint64(userID), uint64(101), "chat,instant,tsr", "CAMP").
+ 			WillReturnError(sql.ErrNoRows)
+ 		mock.ExpectBegin()
+@@
+-		reqBody := `{"order_type": "consultation", "type": 101}`
++		reqBody := `{}`
+*** End Patch
+2026-01-04T08:07:55.372793Z  INFO ToolCall: apply_patch *** Begin Patch
+*** Update File: api/voucher/campaign_test.go
+@@
+ 		mock.ExpectQuery(`SELECT v.id, wv.voucher`).
+-			WithArgs(uint64(userID), uint64(101), "chat,text,call,phone,tsr,instant", "CAMP").
++			WithArgs(uint64(userID), uint64(101), "chat,instant,tsr", "CAMP").
++			WillReturnError(sql.ErrNoRows)
++		mock.ExpectQuery(`SELECT v.id, wv.voucher`).
++			WithArgs(uint64(userID), uint64(101), "drug,pharmacy,lab,home_care", "CAMP").
++			WillReturnError(sql.ErrNoRows)
++		mock.ExpectQuery(`SELECT v.id, wv.voucher`).
++			WithArgs(uint64(userID), uint64(101), "chat,instant,tsr", "CAMP").
+ 			WillReturnError(sql.ErrNoRows)
+ 		mock.ExpectBegin()
+@@
+-		reqBody1 := `{"order_type": "consultation", "type": 101}`
++		reqBody1 := `{}`
+@@
+ 		time.Sleep(1 * time.Millisecond)
+ 
++		existingVoucherID := int64(42)
++		existingVoucherCode := "CAMPabc12345"
+ 		mock.ExpectQuery(`SELECT v.id, wv.voucher`).
+-			WithArgs(uint64(userID), uint64(101), "chat,text,call,phone,tsr,instant", "CAMP").
++			WithArgs(uint64(userID), uint64(101), "chat,instant,tsr", "CAMP").
++			WillReturnRows(sqlmock.NewRows([]string{"id", "voucher"}).AddRow(existingVoucherID, existingVoucherCode))
++		mock.ExpectQuery(`SELECT v.id, wv.voucher`).
++			WithArgs(uint64(userID), uint64(101), "drug,pharmacy,lab,home_care", "CAMP").
++			WillReturnError(sql.ErrNoRows)
++		mock.ExpectQuery(`SELECT v.id, wv.voucher`).
++			WithArgs(uint64(userID), uint64(101), "drug,pharmacy,lab,home_care", "CAMP").
+ 			WillReturnError(sql.ErrNoRows)
+ 		mock.ExpectBegin()
+@@
+-		reqBody2 := `{"order_type": "consultation", "type": 101}`
++		reqBody2 := `{}`
+*** End Patch
+2026-01-04T08:08:01.262723Z  INFO ToolCall: shell_command {"command":"rg -n \"chat,text,call,phone,tsr,instant|pharmacy_product|delivery_pharmacy|order_type\" api/voucher/campaign_test.go","workdir":"/Users/amirrezaask/dev/voucher"}
+2026-01-04T08:08:06.612029Z  INFO ToolCall: shell_command {"command":"rg -n \"order_type|\\\"type\\\"\" api/voucher/campaign_test.go","workdir":"/Users/amirrezaask/dev/voucher"}
+2026-01-04T08:08:15.946325Z  INFO ToolCall: shell_command {"command":"make test","workdir":"/Users/amirrezaask/dev/voucher"}
+2026-01-04T08:08:18.832280Z  INFO ToolCall: shell_command {"command":"make lint","workdir":"/Users/amirrezaask/dev/voucher"}
+2026-01-04T08:08:32.530014Z  INFO ToolCall: apply_patch *** Begin Patch
+*** Update File: api/voucher/campaign_test.go
+@@
+-		mock.ExpectQuery(`SELECT v.id, wv.voucher 
+-			 FROM vouchers v
+-			 INNER JOIN whitelist_vouchers wv ON v.id = wv.voucher_id
+-			 WHERE wv.user_id = ? AND v.type = ? AND v.order_type = ? AND v.prefix = ?`).
++		mock.ExpectQuery(`SELECT v.id, wv.voucher`).
+ 			WithArgs(uint64(userID), uint64(101), "chat,instant,tsr", "CAMP").
+ 			WillReturnRows(sqlmock.NewRows([]string{"id", "voucher"}).AddRow(existingVoucherID, existingVoucherCode))
+-		mock.ExpectQuery(`SELECT v.id, wv.voucher 
+-			 FROM vouchers v
+-			 INNER JOIN whitelist_vouchers wv ON v.id = wv.voucher_id
+-			 WHERE wv.user_id = ? AND v.type = ? AND v.order_type = ? AND v.prefix = ?`).
++		mock.ExpectQuery(`SELECT v.id, wv.voucher`).
+ 			WithArgs(uint64(userID), uint64(101), "drug,pharmacy,lab,home_care", "CAMP").
+ 			WillReturnRows(sqlmock.NewRows([]string{"id", "voucher"}).AddRow(existingVoucherID, existingVoucherCode))
+*** End Patch
+2026-01-04T08:08:37.270954Z  INFO ToolCall: shell_command {"command":"rg -n \"sqlmock.New\" api/voucher/campaign_test.go","workdir":"/Users/amirrezaask/dev/voucher"}
+2026-01-04T08:08:45.929740Z  INFO ToolCall: apply_patch *** Begin Patch
+*** Update File: api/voucher/campaign_test.go
+@@
+-		db, mock, err := sqlmock.New(sqlmock.QueryMatcherOption(sqlmock.QueryMatcherEqual))
++		db, mock, err := sqlmock.New()
+*** End Patch
+2026-01-04T08:08:52.518234Z  INFO ToolCall: shell_command {"command":"rg -n \"QueryMatcher\" api/voucher/campaign_test.go","workdir":"/Users/amirrezaask/dev/voucher"}
+2026-01-04T08:10:59.249720Z  INFO spawning ghost snapshot task
+2026-01-04T08:10:59.349246Z  INFO ghost snapshot blocking task finished
+2026-01-04T08:10:59.349263Z  INFO ghost commit captured: bde0b033e8ee84dc1fd31a77606eeddeaa5b4116
+2026-01-04T08:10:59.349267Z  INFO ghost snapshot gate marked ready
+2026-01-04T08:11:39.662439Z  INFO spawning ghost snapshot task
+2026-01-04T08:11:39.758349Z  INFO ghost snapshot blocking task finished
+2026-01-04T08:11:39.758365Z  INFO ghost commit captured: 6bd341c33f319ff4644ccb9a396394c85d547be1
+2026-01-04T08:11:39.758368Z  INFO ghost snapshot gate marked ready
+2026-01-04T08:11:43.836183Z  INFO ToolCall: shell_command {"command":"make lint","workdir":"/Users/amirrezaask/dev/voucher"}
+2026-01-04T08:12:01.597089Z  INFO spawning ghost snapshot task
+2026-01-04T08:12:01.694377Z  INFO ghost snapshot blocking task finished
+2026-01-04T08:12:01.694394Z  INFO ghost commit captured: e33d73284f5ea62c3e243f3e2b9a916fd3252b55
+2026-01-04T08:12:01.694398Z  INFO ghost snapshot gate marked ready
+2026-01-04T08:12:11.694458Z  INFO spawning ghost snapshot task
+2026-01-04T08:12:11.791783Z  INFO ghost snapshot blocking task finished
+2026-01-04T08:12:11.791804Z  INFO ghost commit captured: f2e5a1ea6967387c267c86a65e80af53b5dd44e5
+2026-01-04T08:12:11.791808Z  INFO ghost snapshot gate marked ready
+2026-01-04T08:12:22.953082Z  INFO ToolCall: shell_command {"command":"rg -n \"ErrNoRows\" api/voucher/campaign.go","workdir":"/Users/amirrezaask/dev/voucher"}
+2026-01-04T08:12:26.635219Z  INFO ToolCall: shell_command {"command":"rg -n \"!= sql.ErrNoRows|== sql.ErrNoRows\" api/voucher/campaign.go","workdir":"/Users/amirrezaask/dev/voucher"}
+2026-01-04T08:12:30.114970Z  INFO ToolCall: shell_command {"command":"rg -n \"ErrNoRows\" api/voucher/campaign.go","workdir":"/Users/amirrezaask/dev/voucher"}
+2026-01-04T08:12:33.667686Z  INFO ToolCall: shell_command {"command":"sed -n '110,220p' api/voucher/campaign.go","workdir":"/Users/amirrezaask/dev/voucher"}
+2026-01-04T08:12:36.979386Z  INFO ToolCall: shell_command {"command":"sed -n '40,110p' api/voucher/campaign.go","workdir":"/Users/amirrezaask/dev/voucher"}
+2026-01-04T08:13:00.316316Z  INFO ToolCall: apply_patch *** Begin Patch
+*** Update File: api/voucher/campaign.go
+@@
+-import (
+-	"context"
+-	"database/sql"
+-	"fmt"
+-	"math/rand"
+-	"net/http"
+-	"strconv"
+-	"strings"
+-	"time"
+-	"voucher/auth"
+-	"voucher/kv"
+-	"voucher/models"
+-	"voucher/sqldb"
+-
+-	"github.com/labstack/echo/v4"
+-	"gitlab.snappcloud.io/doctor/pkg/logging"
+-	"gitlab.snappcloud.io/doctor/pkg/sequel"
+-)
++import (
++	"context"
++	"database/sql"
++	"errors"
++	"fmt"
++	"math/rand"
++	"net/http"
++	"strconv"
++	"strings"
++	"time"
++	"voucher/auth"
++	"voucher/kv"
++	"voucher/models"
++	"voucher/sqldb"
++
++	"github.com/labstack/echo/v4"
++	"gitlab.snappcloud.io/doctor/pkg/logging"
++	"gitlab.snappcloud.io/doctor/pkg/sequel"
++)
+@@
+-		if err != nil && err != sql.ErrNoRows {
++		if err != nil && !errors.Is(err, sql.ErrNoRows) {
+ 			logger.Error("database error in checking existing consultation voucher", "err", err)
+ 			return c.JSON(http.StatusInternalServerError, map[string]any{"error": "internal server error"})
+ 		}
+@@
+-		if err != nil && err != sql.ErrNoRows {
++		if err != nil && !errors.Is(err, sql.ErrNoRows) {
+ 			logger.Error("database error in checking existing pharmacy voucher", "err", err)
+ 			return c.JSON(http.StatusInternalServerError, map[string]any{"error": "internal server error"})
+ 		}
+@@
+ 		insert, err := tx.ExecContext(ctx, "INSERT INTO "+sqldb.VoucherTable+"("+sqldb.VoucherTableFieldsWithoutId+") VALUES "+sqlValues, sqlParams...)
+ 		if err != nil {
+-			tx.Rollback()
++			if rollbackErr := tx.Rollback(); rollbackErr != nil {
++				logger.Warn("failed to rollback transaction", "err", rollbackErr)
++			}
+ 			logger.Error("database error in adding voucher", "err", err)
+ 			return c.JSON(http.StatusInternalServerError, map[string]any{"error": "internal server error"})
+ 		}
+ 
+ 		voucherID, err := insert.LastInsertId()
+ 		if err != nil {
+-			tx.Rollback()
++			if rollbackErr := tx.Rollback(); rollbackErr != nil {
++				logger.Warn("failed to rollback transaction", "err", rollbackErr)
++			}
+ 			logger.Error("database error in fetching last inserted voucher id", "err", err)
+ 			return c.JSON(http.StatusInternalServerError, map[string]any{"error": "internal server error"})
+ 		}
+@@
+ 			"INSERT INTO whitelist_vouchers (voucher_id, user_id, voucher, created_at, updated_at) VALUES (?, ?, ?, ?, ?)",
+ 			voucherID, uint64(userID), sample, time.Now(), time.Now())
+ 		if err != nil {
+-			tx.Rollback()
++			if rollbackErr := tx.Rollback(); rollbackErr != nil {
++				logger.Warn("failed to rollback transaction", "err", rollbackErr)
++			}
+ 			logger.Error("database error in inserting whitelist entry", "err", err)
+ 			return c.JSON(http.StatusInternalServerError, map[string]any{"error": "internal server error"})
+ 		}
+ 
+ 		err = tx.Commit()
+ 		if err != nil {
+-			tx.Rollback()
++			if rollbackErr := tx.Rollback(); rollbackErr != nil {
++				logger.Warn("failed to rollback transaction", "err", rollbackErr)
++			}
+ 			logger.Error("database error in committing transaction", "err", err)
+ 			return c.JSON(http.StatusInternalServerError, map[string]any{"error": "internal server error"})
+ 		}
+*** End Patch
+2026-01-04T08:13:05.218743Z  INFO ToolCall: shell_command {"command":"make lint","workdir":"/Users/amirrezaask/dev/voucher"}
+2026-01-04T08:13:14.238948Z  INFO ToolCall: shell_command {"command":"make test","workdir":"/Users/amirrezaask/dev/voucher"}
+2026-01-04T08:13:26.400713Z  INFO spawning ghost snapshot task
+2026-01-04T08:13:26.508414Z  INFO ghost snapshot blocking task finished
+2026-01-04T08:13:26.508433Z  INFO ghost commit captured: f47209f018c2d5bcf48adb311ede712556c59677
+2026-01-04T08:13:26.508437Z  INFO ghost snapshot gate marked ready
+2026-01-04T08:13:29.349547Z  INFO ToolCall: shell_command {"command":"sed -n '250,330p' api/voucher/validate/handler.go","workdir":"/Users/amirrezaask/dev/voucher"}
+2026-01-04T08:13:33.975252Z  INFO ToolCall: shell_command {"command":"sed -n '200,280p' api/voucher/validate/helpers.go","workdir":"/Users/amirrezaask/dev/voucher"}
+2026-01-04T08:13:48.026091Z  INFO ToolCall: shell_command {"command":"rg -n \"rows.Close\\(\\)\" api | head","workdir":"/Users/amirrezaask/dev/voucher"}
+2026-01-04T08:13:54.645965Z  INFO ToolCall: shell_command {"command":"sed -n '1,80p' api/voucher/download.go","workdir":"/Users/amirrezaask/dev/voucher"}

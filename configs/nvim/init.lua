@@ -102,10 +102,13 @@ require("blink.cmp").setup({
 vim.g.everforest_background = 'hard'
 
 require('onedark').setup { style = 'darker' }
-require('onedark').load()
 require("tokyonight").setup {}
 
-vim.cmd.colorscheme("onedark")
+if vim.o.background == "light" then
+	vim.cmd.colorscheme("onedark")
+else
+	vim.cmd.colorscheme("everforest")
+end
 
 if vim.g.colors_name == "everforest" then
 	vim.api.nvim_set_hl(0, "Normal", { bg = "#1e2326" })
