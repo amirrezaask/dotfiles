@@ -6,4 +6,14 @@ configs/fish/conf.d
 configs/fish/functions
 configs/fish/fish_variables
 configs/nvim/lazy-lock.json
+configs/codex/sessions
+configs/codex/logs
+configs/codex/skills
+configs/codex/version.json
+configs/codex/history.json
+configs/codex/history.jsonl
+configs/codex/auth.json
+configs/codex/log
+
+
 **/.DS_Store

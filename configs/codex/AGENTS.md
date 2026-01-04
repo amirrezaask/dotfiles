@@ -4,7 +4,7 @@
 
 * List affected files and functions
 
-* Wait for explicit approval
+* Wait for explicit approval of the plan not each singular chunk
 
 
 ## Reasoning & Planning
@@ -62,17 +62,16 @@ Only act after reasoning is complete. Once committed, you can't rollback.
 
 ## Incremental Work Process
 
-**CRITICAL: All work must be done incrementally with user approval at each step.**
+**CRITICAL: All work must be done incrementally.**
 
 1. **Divide Work into Small Chunks**: Break down any task into small, buildable, and testable chunks. Each chunk should be:
    - Self-contained and independently verifiable
    - Small enough to review quickly
    - Buildable without breaking existing functionality
 
-2. **Ask for Approval Before Each Chunk**: Before implementing each chunk:
+2. **Report each chunk**: Before implementing each chunk:
    - Clearly describe what will be changed
    - Explain the expected outcome
-   - Wait for explicit user approval before proceeding
 
 3. **Validate After Each Chunk**: After completing each chunk:
    - Run tests to ensure all tests pass
@@ -80,6 +79,8 @@ Only act after reasoning is complete. Once committed, you can't rollback.
    - Only proceed to the next chunk if the current one is fully validated
 
 4. **Never Batch Multiple Chunks**: Do not combine multiple logical changes into a single step. Each approval cycle should cover exactly one chunk of work.
+
+**Don't overdo the approval, only the initial plan should be apporved.**
 
 ## Core Principles
 
