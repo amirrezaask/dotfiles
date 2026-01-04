@@ -1,4 +1,4 @@
-theme = Atom One Dark
+theme = light:Atom One Light,dark:Atom One Dark
 font-style=bold
 mouse-hide-while-typing = true
 macos-option-as-alt = true

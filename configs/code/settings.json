@@ -32,8 +32,8 @@
   ],
   "update.releaseTrack": "dev",
   "update.mode": "silentlyApplyOnQuit",
-  "workbench.preferredLightColorTheme": "Solarized Light",
-  "workbench.activityBar.location": "top",
-  "window.commandCenter": true,
+  "window.commandCenter": false,
   "workbench.preferredDarkColorTheme": "Default Dark Modern",
+  "chat.commandCenter.enabled": false,
+  "workbench.layoutControl.enabled": false,
 }
