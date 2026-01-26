@@ -16,14 +16,18 @@
   { "key": "cmd+shift+b", "command": "editor.action.goToReferences", "when": "editorHasReferenceProvider && editorTextFocus" },
   { "key": "cmd+option+b", "command": "editor.action.goToImplementation", "when": "editorHasImplementationProvider && editorTextFocus" },
   { "key": "cmd+[",       "command": "workbench.action.navigateBack" },
+  { "key": "ctrl+[",       "command": "workbench.action.navigateBack" },
   { "key": "cmd+]",       "command": "workbench.action.navigateForward" },
+  { "key": "ctrl+]",       "command": "workbench.action.navigateForward" },
 
   // Toggle viewlets
   { "key": "cmd+0", "command": "workbench.action.toggleSidebarVisibility" },
-  { "key": "cmd+1", "command": "workbench.view.explorer" },
-  { "key": "cmd+1", "command": "workbench.action.toggleSidebarVisibility", "when": "explorerViewletFocus"},
+  { "key": "cmd+1", "command": "workbench.action.toggleSidebarVisibility" },
+  { "key": "ctrl+1", "command": "workbench.action.toggleSidebarVisibility" },
   { "key": "cmd+2", "command": "workbench.action.terminal.toggleTerminal" },
-  { "key": "cmd+3", "command": "workbench.view.scm", "when": "!sideBarVisible || activeViewlet != 'workbench.view.scm'" },
+  { "key": "ctrl+2", "command": "workbench.action.terminal.toggleTerminal" },
+  { "key": "cmd+3", "command": "workbench.action.toggleAuxiliaryBar" },
+  { "key": "ctrl+3", "command": "workbench.action.toggleAuxiliaryBar" },
 
   { "key": "cmd+ctrl+p", "command": "gitProjectManager.openProjectNewWindow"},
 ]

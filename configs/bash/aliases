@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+alias o='xdg-open'
+alias open='xdg-open'
+alias lg='lazygit'
+
+if command -v nvim >/dev/null 2>&1; then
+    alias vim='nvim'
+    alias vi='nvim'
+    alias v='nvim'
+    alias n='nvim'
+    export EDITOR='nvim'
+    export GIT_EDITOR="$EDITOR"
+    export MANPAGER='nvim +Man!'
+fi
+
+if command -v fzf >/dev/null 2>&1; then
+    source <(fzf --bash)
+fi
+
+if command -v exa >/dev/null 2>&1; then
+    alias ls='exa'
+    alias ll='exa -la'
+    alias la='exa -a'
+fi
+
+alias gs='git status'
+alias gd='git diff'
+alias ga='git add'
+alias gc='git commit'
+alias gp='git push origin $vcs_info_msg_0_'
+alias gl='git pull $vcs_info_msg_0_'
+alias gll='git pull --all'
+alias glg='git pull --rebase'
+alias gcb='git checkout -b'
+alias gcm='git commit -m'
+alias gcam='git commit -am'
+
+

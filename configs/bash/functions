@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+reload() {
+  source ~/.bashrc
+}
+
+gwip() {
+    branch=`git symbolic-ref --short HEAD`
+    timestamp=`date "+%Y-%m-%d %H:%M:%S"`
+    git add .
+    git commit -m "Automated WIP Commit: $timestamp"
+    git push origin $branch
+}
+
+ref() {
+	git checkout -b "ref-$argv[1]"
+}
+
+fix() {
+	git checkout -b "fix-$argv[1]"
+}
+
+feat() {
+	git checkout -b "feat-$argv[1]"
+}

@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+export HISTSIZE=100000
+export HISTFILESIZE=100000
+
+if [ -f /etc/bashrc ]; then
+    . /etc/bashrc
+fi
+
+if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:" ]]; then
+    PATH="$HOME/p/dotfiles/bin:$HOME/.local/bin:$HOME/bin:$PATH"
+fi
+
+if [ -f $HOME/.cargo/env ]; then
+	. $HOME/.cargo/env
+fi
+
+if [ -d ~/.bashrc.d ]; then
+    for rc in ~/.bashrc.d/*; do
+        if [ -f "$rc" ]; then
+            . "$rc"
+        fi
+    done
+fi
+
+
+export PATH="$HOME/go/bin:$PATH"
+export PATH="/opt/homebrew/bin:$PATH"
+export PATH="/home/amirreza/.local/bin:$PATH"
+export PATH="/home/amirreza/p/dotfiles/bin:$PATH"
+
+export GOPROXY=goproxy.io
+export GOPRIVATE=gitlab.snappcloud.io
+

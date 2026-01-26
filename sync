@@ -102,6 +102,7 @@ rm -rf "$XDG_CONFIG/nvim" \
 	"$XDG_CONFIG/Code/User/keybindings.json" \
 	"$HOME/.zshrc" \
 	"$HOME/.codex" \
+	"$XDG_CONFIG/bash" \
 	"$HOME/.gitconfig"
 
 mkdir -p "$XDG_CONFIG"
@@ -116,6 +117,8 @@ ln -nsf "$CONFIGS_DIR/code/settings.json" "$XDG_CONFIG/Code/User/settings.json"
 ln -nsf "$CONFIGS_DIR/code/keybindings.json" "$XDG_CONFIG/Code/User/keybindings.json"
 ln -nsf "$CONFIGS_DIR/zsh/.zshrc" "$HOME/.zshrc"
 ln -nsf "$CONFIGS_DIR/codex" "$HOME/.codex"
+ln -nsf "$CONFIGS_DIR/bash/" "$XDG_CONFIG/bash"
+ln -nsf "$HOME/.bashrc" "$XDG_CONFIG/bash/bashrc"
 
 # Now some mac stuff
 if [[ "$(uname)" == "Darwin" ]]; then
@@ -144,4 +147,22 @@ if [[ "$(uname)" == "Darwin" ]]; then
   rm -rf "$MACOS_CONFIGS_DIR/Antigravity/User/keybindings.json"
   ln -nsf "$CONFIGS_DIR/code/settings.json" "$MACOS_CONFIGS_DIR/Antigravity/User/settings.json"
   ln -nsf "$CONFIGS_DIR/code/keybindings.json" "$MACOS_CONFIGS_DIR/Antigravity/User/keybindings.json"
+else
+  echo "Linking VSCode $XDG_CONFIG/Code/User"
+  rm -rf "$XDG_CONFIG/Code/User/settings.json"
+  rm -rf "$XDG_CONFIG/Code/User/keybindings.json"
+  ln -nsf "$CONFIGS_DIR/code/settings.json" "$XDG_CONFIG/Code/User/settings.json"
+  ln -nsf "$CONFIGS_DIR/code/keybindings.json" "$XDG_CONFIG/Code/User/keybindings.json"
+
+  echo "Linking Cursor $XDG_CONFIG/Cursor/User"
+  rm -rf "$XDG_CONFIG/Cursor/User/settings.json"
+  rm -rf "$XDG_CONFIG/Cursor/User/keybindings.json"
+  ln -nsf "$CONFIGS_DIR/code/settings.json" "$XDG_CONFIG/Cursor/User/settings.json"
+  ln -nsf "$CONFIGS_DIR/code/keybindings.json" "$XDG_CONFIG/Cursor/User/keybindings.json"
+
+  echo "Linking Antigravity $XDG_CONFIG/Antigravity/User/settings.json"
+  rm -rf "$XDG_CONFIG/Antigravity/User/settings.json"
+  rm -rf "$XDG_CONFIG/Antigravity/User/keybindings.json"
+  ln -nsf "$CONFIGS_DIR/code/settings.json" "$XDG_CONFIG/Antigravity/User/settings.json"
+  ln -nsf "$CONFIGS_DIR/code/keybindings.json" "$XDG_CONFIG/Antigravity/User/keybindings.json"
 fi
