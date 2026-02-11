@@ -28,8 +28,7 @@
   "window.commandCenter": false,
   "chat.commandCenter.enabled": false,
   "workbench.layoutControl.enabled": false,
-  "workbench.preferredLightColorTheme": "Catppuccin Macchiato",
-  "workbench.activityBar.location": "top",
+  "workbench.preferredLightColorTheme": "Default Dark Modern",
   "diffEditor.ignoreTrimWhitespace": false,
   "workbench.iconTheme": "symbols",
   "kilo-code.debug": false,
@@ -39,4 +38,6 @@
     "git show"
   ],
   "kilo-code.deniedCommands": [],
+  "workbench.editor.showTabs": "single",
+  "redhat.telemetry.enabled": true,
 }
