@@ -79,6 +79,9 @@ vim.pack.add { -- See :h vim.pack
 	{ src = "https://github.com/sainnhe/everforest" },
 	{ src = "https://github.com/folke/tokyonight.nvim" },
 	{ src = 'https://github.com/navarasu/onedark.nvim' },
+	{ src = 'https://github.com/rose-pine/neovim' },
+	{ src = 'https://github.com/vague-theme/vague.nvim' },
+
 
 	-- Treesitter
 	{ src = "https://github.com/nvim-treesitter/nvim-treesitter" },
@@ -107,7 +110,7 @@ require("tokyonight").setup {}
 if vim.o.background == "light" then
 	vim.cmd.colorscheme("onedark")
 else
-	vim.cmd.colorscheme("everforest")
+	vim.cmd.colorscheme("vague")
 end
 
 if vim.g.colors_name == "everforest" then

@@ -45,6 +45,10 @@
       "rev": "ad7146a",
       "src": "https://github.com/mason-org/mason.nvim"
     },
+    "neovim": {
+      "rev": "cf2a288696b03d0934da713d66c6d71557b5c997",
+      "src": "https://github.com/rose-pine/neovim"
+    },
     "nvim": {
       "rev": "8c4125e",
       "src": "https://github.com/catppuccin/nvim"
@@ -88,6 +92,10 @@
     "tokyonight.nvim": {
       "rev": "4fe1b0c",
       "src": "https://github.com/folke/tokyonight.nvim"
+    },
+    "vague.nvim": {
+      "rev": "c1ab4d4891ff3a27deba6a80222d895ac8ffb2e5",
+      "src": "https://github.com/vague-theme/vague.nvim"
     }
   }
 }
