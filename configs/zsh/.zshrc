@@ -44,13 +44,13 @@ if [ ! -d "${ZSH_SYNTAX_HIGHLIGHTING_DIR}" ]; then
 	git clone https://github.com/zsh-users/zsh-syntax-highlighting "${ZSH_SYNTAX_HIGHLIGHTING_DIR}" 2>/dev/null
 fi
 
-# if [ -f "${ZSH_AUTOSUGGESTIONS_DIR}/zsh-autosuggestions.zsh" ]; then
-# 	source "${ZSH_AUTOSUGGESTIONS_DIR}/zsh-autosuggestions.zsh"
-# fi
+if [ -f "${ZSH_AUTOSUGGESTIONS_DIR}/zsh-autosuggestions.zsh" ]; then
+	source "${ZSH_AUTOSUGGESTIONS_DIR}/zsh-autosuggestions.zsh"
+fi
 
-# if [ -f "${ZSH_SYNTAX_HIGHLIGHTING_DIR}/zsh-syntax-highlighting.zsh" ]; then
-# 	source "${ZSH_SYNTAX_HIGHLIGHTING_DIR}/zsh-syntax-highlighting.zsh"
-# fi
+if [ -f "${ZSH_SYNTAX_HIGHLIGHTING_DIR}/zsh-syntax-highlighting.zsh" ]; then
+	source "${ZSH_SYNTAX_HIGHLIGHTING_DIR}/zsh-syntax-highlighting.zsh"
+fi
 
 # Keybindings
 bindkey -e
