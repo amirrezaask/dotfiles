@@ -1,2 +1,0 @@
-prefix_rule(pattern=["go", "test", "./..."], decision="allow")
-prefix_rule(pattern=["rm", "-rf", "autoscaler_mvp/context", "autoscaler_mvp/env", "autoscaler_mvp/experiments", "autoscaler_mvp/forecasting", "autoscaler_mvp/observability", "autoscaler_mvp/rl", "autoscaler_mvp/workload", "run_experiment.py", "autoscaler_mvp/evaluation/plots_stub.py"], decision="allow")

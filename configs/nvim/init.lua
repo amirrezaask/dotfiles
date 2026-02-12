@@ -27,6 +27,7 @@ vim.opt.foldtext = ""
 vim.opt.foldlevel = 99
 vim.opt.foldlevelstart = 5
 vim.opt.foldnestmax = 4
+vim.opt.cursorline = true
 
 -- highlight yanked region for 150ms
 vim.cmd([[ autocmd TextYankPost * silent! lua vim.hl.on_yank {higroup='Visual', timeout=150 } ]])
@@ -76,9 +77,7 @@ vim.pack.add { -- See :h vim.pack
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
 
 	-- Colors
-	{ src = "https://github.com/sainnhe/everforest" },
 	{ src = "https://github.com/folke/tokyonight.nvim" },
-	{ src = 'https://github.com/navarasu/onedark.nvim' },
 	{ src = 'https://github.com/rose-pine/neovim' },
 	{ src = 'https://github.com/vague-theme/vague.nvim' },
 
@@ -102,22 +101,12 @@ require("blink.cmp").setup({
 	},
 })
 
-vim.g.everforest_background = 'hard'
 
-require('onedark').setup { style = 'darker' }
 require("tokyonight").setup {}
 
-if vim.o.background == "light" then
-	vim.cmd.colorscheme("onedark")
-else
-	vim.cmd.colorscheme("vague")
-end
+vim.cmd.colorscheme("vague")
 
-if vim.g.colors_name == "everforest" then
-	vim.api.nvim_set_hl(0, "Normal", { bg = "#1e2326" })
-	vim.api.nvim_set_hl(0, "NormalFloat", { bg = "#1e2326" })
-end
--- LSP [[
+-- IDE [[
 vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(args)
 		vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = args.buf })
@@ -130,7 +119,6 @@ vim.lsp.config("lua_ls", { settings = { Lua = { workspace = { library = vim.api.
 
 require("mason").setup()
 require("mason-lspconfig").setup({ ensure_installed = { "lua_ls", "gopls" } })
--- ]]
 
 require("conform").setup({ -- Autoformat
 	formatters_by_ft = {
@@ -146,18 +134,15 @@ require("conform").setup({ -- Autoformat
 		return { timeout_ms = 500, lsp_fallback = true }
 	end,
 })
+-- ]]
+
 
 -- Fzflua
-require("fzf-lua").setup({
-	'fzf-vim',
-	winopts = {
-		split = "belowright 20new",
-		preview = {
-			hidden = true,
-		}
-	},
-})
+require("fzf-lua").setup({ 'telescope' })
 vim.keymap.set("n", "<leader><leader>", FzfLua.files, { silent = true })
+vim.keymap.set("n", "gd", FzfLua.lsp_definitions, { silent = true })
+vim.keymap.set("n", "grr", FzfLua.lsp_references, { silent = true })
+vim.keymap.set("n", "gri", FzfLua.lsp_implementations, { silent = true })
 vim.keymap.set({ "n", "v" }, "<leader>j", FzfLua.live_grep, { silent = true })
 vim.keymap.set({ "n" }, "<leader>l", FzfLua.lines, { silent = true })
 vim.keymap.set("n", "<leader>J", FzfLua.grep_cword, { silent = true })
@@ -165,6 +150,7 @@ vim.keymap.set("v", "<leader>J", FzfLua.grep_visual, { silent = true })
 
 
 require("nvim-treesitter.configs").setup({ highlight = { enable = true }, auto_install = true })
+
 require 'treesitter-context'.setup {}
 
 vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()" -- use treesitter for code folding
