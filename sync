@@ -103,6 +103,7 @@ rm -rf "$XDG_CONFIG/nvim" \
 	"$HOME/.zshrc" \
 	"$HOME/.codex" \
 	"$XDG_CONFIG/bash" \
+	"$XDG_CONFIG/kitty" \
 	"$HOME/.gitconfig"
 
 mkdir -p "$XDG_CONFIG"
@@ -118,6 +119,7 @@ ln -nsf "$CONFIGS_DIR/code/keybindings.json" "$XDG_CONFIG/Code/User/keybindings.
 ln -nsf "$CONFIGS_DIR/zsh/.zshrc" "$HOME/.zshrc"
 ln -nsf "$CONFIGS_DIR/codex" "$HOME/.codex"
 ln -nsf "$CONFIGS_DIR/bash/" "$XDG_CONFIG/bash"
+ln -nsf "$CONFIGS_DIR/kitty/" "$XDG_CONFIG/kitty"
 ln -nsf "$HOME/.bashrc" "$XDG_CONFIG/bash/bashrc"
 
 # Now some mac stuff

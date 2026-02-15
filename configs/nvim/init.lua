@@ -33,9 +33,7 @@ vim.opt.cursorline = true
 vim.cmd([[ autocmd TextYankPost * silent! lua vim.hl.on_yank {higroup='Visual', timeout=150 } ]])
 
 -- auto resize splits when the terminal's window is resized
-vim.api.nvim_create_autocmd("VimResized", {
-	command = "wincmd =",
-})
+vim.api.nvim_create_autocmd("VimResized", { command = "wincmd =", })
 -- restore cursor to file position in previous editing session
 vim.api.nvim_create_autocmd("BufReadPost", {
 	callback = function(args)
@@ -79,6 +77,7 @@ vim.pack.add { -- See :h vim.pack
 	-- Colors
 	{ src = "https://github.com/folke/tokyonight.nvim" },
 	{ src = 'https://github.com/rose-pine/neovim' },
+	{ src = 'https://github.com/catppuccin/nvim',                        name = 'catppuccin' },
 	{ src = 'https://github.com/vague-theme/vague.nvim' },
 
 
@@ -104,7 +103,13 @@ require("blink.cmp").setup({
 
 require("tokyonight").setup {}
 
-vim.cmd.colorscheme("vague")
+vim.cmd.colorscheme("catppuccin-macchiato")
+
+
+vim.cmd [[
+	hi Normal guibg=none
+	hi NormalFloat guibg=none
+]]
 
 -- IDE [[
 vim.api.nvim_create_autocmd("LspAttach", {

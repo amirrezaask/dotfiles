@@ -1,4 +1,4 @@
-theme = vague
+theme = Catppuccin Macchiato
 font-style=semibold
 mouse-hide-while-typing = true
 macos-option-as-alt = true
