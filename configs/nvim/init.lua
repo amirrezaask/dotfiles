@@ -151,9 +151,7 @@ require("snacks").setup {
 	picker = { enabled = true },
 	notifier = { enabled = true },
 	quickfile = { enabled = true },
-	scope = { enabled = true },
 	statuscolumn = { enabled = true },
-	words = { enabled = true },
 }
 
 vim.keymap.set("n", "<leader><leader>", Snacks.picker.files, { silent = true })

@@ -1,12 +1,21 @@
 theme = Catppuccin Macchiato
 font-family = Maple Mono
+font-size = 14
 mouse-hide-while-typing = true
 macos-option-as-alt = true
 window-padding-balance = true
+window-padding-x = 10
+window-padding-y = 10
 shell-integration-features=no-cursor
 maximize=true
 cursor-style-blink=false
+cursor-style = block
 macos-titlebar-style=tabs
+background-opacity = 0.95
+background-blur-radius = 20
+adjust-cell-height = 2
+adjust-cell-width = 0
+window-theme = auto
 
 keybind = shift+right=next_tab
 keybind = shift+left=previous_tab
