@@ -157,6 +157,7 @@ require("snacks").setup {
 }
 
 vim.keymap.set("n", "<leader><leader>", Snacks.picker.files, { silent = true })
+vim.keymap.set("n", "<leader>pf", Snacks.picker.git_files, { silent = true })
 vim.keymap.set("n", "gd", Snacks.picker.lsp_definitions, { silent = true })
 vim.keymap.set("n", "grr", Snacks.picker.lsp_references, { silent = true })
 vim.keymap.set("n", "gri", Snacks.picker.lsp_implementations, { silent = true })

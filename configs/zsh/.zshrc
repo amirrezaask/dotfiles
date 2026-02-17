@@ -1,4 +1,3 @@
-
 # History configuration
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
@@ -29,29 +28,6 @@ zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 zstyle ':completion:*' menu select
 zmodload zsh/complist
-
-# Plugin setup (minimal auto-install without a manager)
-ZSH_PLUGIN_DIR="${HOME}/.zsh/plugins"
-ZSH_AUTOSUGGESTIONS_DIR="${ZSH_PLUGIN_DIR}/zsh-autosuggestions"
-ZSH_SYNTAX_HIGHLIGHTING_DIR="${ZSH_PLUGIN_DIR}/zsh-syntax-highlighting"
-
-if [ ! -d "${ZSH_AUTOSUGGESTIONS_DIR}" ]; then
-	mkdir -p "${ZSH_PLUGIN_DIR}"
-	git clone https://github.com/zsh-users/zsh-autosuggestions "${ZSH_AUTOSUGGESTIONS_DIR}" 2>/dev/null
-fi
-
-if [ ! -d "${ZSH_SYNTAX_HIGHLIGHTING_DIR}" ]; then
-	mkdir -p "${ZSH_PLUGIN_DIR}"
-	git clone https://github.com/zsh-users/zsh-syntax-highlighting "${ZSH_SYNTAX_HIGHLIGHTING_DIR}" 2>/dev/null
-fi
-
-# if [ -f "${ZSH_AUTOSUGGESTIONS_DIR}/zsh-autosuggestions.zsh" ]; then
-# 	source "${ZSH_AUTOSUGGESTIONS_DIR}/zsh-autosuggestions.zsh"
-# fi
-#
-# if [ -f "${ZSH_SYNTAX_HIGHLIGHTING_DIR}/zsh-syntax-highlighting.zsh" ]; then
-# 	source "${ZSH_SYNTAX_HIGHLIGHTING_DIR}/zsh-syntax-highlighting.zsh"
-# fi
 
 # Keybindings
 bindkey -e
@@ -148,12 +124,6 @@ alias ll='ls -lh'
 alias ls='ls -G'
 alias lsa='ls -lah'
 
-# Sublime Text aliases
-if command -v subl &> /dev/null; then
-	alias s='subl'
-	alias ss='subl .'
-fi
-
 # eza aliases (if eza is available)
 if command -v eza &> /dev/null; then
 	alias ls='eza'
@@ -180,27 +150,6 @@ fi
 # Custom functions
 reload() {
 	source ~/.zshrc
-}
-
-# Theme change function
-theme() {
-	local script_path
-	
-	# Find the change-theme.py script
-	if [ -n "$DOTFILES_DIR" ] && [ -f "$DOTFILES_DIR/change-theme.py" ]; then
-		script_path="$DOTFILES_DIR/change-theme.py"
-	elif [ -f ~/dev/dotfiles/change-theme.py ]; then
-		script_path=~/dev/dotfiles/change-theme.py
-	elif [ -f ./change-theme.py ]; then
-		script_path="./change-theme.py"
-	else
-		echo "Error: Could not find change-theme.py script"
-		echo "Please ensure your dotfiles are in ~/dev/dotfiles or set DOTFILES_DIR environment variable"
-		return 1
-	fi
-	
-	# Call the Python script with all arguments
-	python3 "$script_path" "$@"
 }
 
 wip() {
@@ -250,15 +199,6 @@ if [[ "$(uname)" == "Darwin" ]]; then
 	alias pp='pstorm .'
 fi
 
-# Git prompt function
-autoload -Uz vcs_info
-precmd() { vcs_info }
-zstyle ':vcs_info:git:*' formats ' %b'
-setopt PROMPT_SUBST
-
-# Custom prompt (similar to fish prompt)
-PROMPT='%F{cyan}%~%f%F{blue}${vcs_info_msg_0_}%f
-🚀 '
 
 # Disable greeting
 unsetopt BEEP
@@ -271,6 +211,16 @@ fi
 
 if command -v starship &> /dev/null; then
     eval "$(starship init zsh)"
+else
+	# Git prompt function
+	autoload -Uz vcs_info
+	precmd() { vcs_info }
+	zstyle ':vcs_info:git:*' formats ' %b'
+	setopt PROMPT_SUBST
+
+	# Custom prompt (similar to fish prompt)
+	PROMPT='%F{cyan}%~%f%F{blue}${vcs_info_msg_0_}%f
+	🚀 '
 fi
 
 export PNPM_HOME="$HOME/Library/pnpm"
