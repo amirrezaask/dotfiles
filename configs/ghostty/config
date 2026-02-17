@@ -1,5 +1,5 @@
 theme = Catppuccin Macchiato
-font-style=semibold
+font-family = TX-02
 mouse-hide-while-typing = true
 macos-option-as-alt = true
 window-padding-balance = true

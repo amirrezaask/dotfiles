@@ -69,6 +69,8 @@ vim.keymap.set("n", "<CR>",
 	end, { expr = true })
 
 vim.pack.add { -- See :h vim.pack
+
+
 	-- LSP & Package management
 	{ src = "https://github.com/mason-org/mason.nvim" },
 	{ src = "https://github.com/mason-org/mason-lspconfig.nvim" },
@@ -77,19 +79,21 @@ vim.pack.add { -- See :h vim.pack
 	-- Colors
 	{ src = "https://github.com/folke/tokyonight.nvim" },
 	{ src = 'https://github.com/rose-pine/neovim' },
-	{ src = 'https://github.com/catppuccin/nvim',                        name = 'catppuccin' },
+	{ src = 'https://github.com/catppuccin/nvim',                name = 'catppuccin' },
 	{ src = 'https://github.com/vague-theme/vague.nvim' },
 
 
 	-- Treesitter
 	{ src = "https://github.com/nvim-treesitter/nvim-treesitter" },
-	{ src = "https://github.com/nvim-treesitter/nvim-treesitter-context" },
 
-	{ src = "https://github.com/stevearc/conform.nvim" },                                   -- Autoformat
-	{ src = "https://github.com/ibhagwan/fzf-lua" },                                        -- FZF, in neovim.
-	{ src = "https://github.com/saghen/blink.cmp",                       version = "v1.6.0" }, -- Blazingly fast autocomplete popup
+	{ src = 'https://github.com/nvim-lualine/lualine.nvim', },                      -- Statusline
+	{ src = "https://github.com/stevearc/conform.nvim" },                           -- Autoformat
+	{ src = "https://github.com/folke/snacks.nvim" },
+	{ src = "https://github.com/saghen/blink.cmp",               version = "v1.6.0" }, -- Blazingly fast autocomplete popup
 
 }
+
+require('lualine').setup {}
 
 require("blink.cmp").setup({
 	completion = { list = { selection = { preselect = false } } },
@@ -141,21 +145,28 @@ require("conform").setup({ -- Autoformat
 })
 -- ]]
 
+require("snacks").setup {
+	bigfile = { enabled = true },
+	explorer = { enabled = true },
+	indent = { enabled = true },
+	input = { enabled = true },
+	picker = { enabled = true },
+	notifier = { enabled = true },
+	quickfile = { enabled = true },
+	scope = { enabled = true },
+	statuscolumn = { enabled = true },
+	words = { enabled = true },
+}
 
--- Fzflua
-require("fzf-lua").setup({ 'telescope' })
-vim.keymap.set("n", "<leader><leader>", FzfLua.files, { silent = true })
-vim.keymap.set("n", "gd", FzfLua.lsp_definitions, { silent = true })
-vim.keymap.set("n", "grr", FzfLua.lsp_references, { silent = true })
-vim.keymap.set("n", "gri", FzfLua.lsp_implementations, { silent = true })
-vim.keymap.set({ "n", "v" }, "<leader>j", FzfLua.live_grep, { silent = true })
-vim.keymap.set({ "n" }, "<leader>l", FzfLua.lines, { silent = true })
-vim.keymap.set("n", "<leader>J", FzfLua.grep_cword, { silent = true })
-vim.keymap.set("v", "<leader>J", FzfLua.grep_visual, { silent = true })
+vim.keymap.set("n", "<leader><leader>", Snacks.picker.files, { silent = true })
+vim.keymap.set("n", "gd", Snacks.picker.lsp_definitions, { silent = true })
+vim.keymap.set("n", "grr", Snacks.picker.lsp_references, { silent = true })
+vim.keymap.set("n", "gri", Snacks.picker.lsp_implementations, { silent = true })
+vim.keymap.set({ "n", "v" }, "<leader>j", Snacks.picker.grep, { silent = true })
+vim.keymap.set({ "n", "v" }, "<leader>J", Snacks.picker.grep_word, { silent = true })
+
 
 
 require("nvim-treesitter.configs").setup({ highlight = { enable = true }, auto_install = true })
-
-require 'treesitter-context'.setup {}
 
 vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()" -- use treesitter for code folding
