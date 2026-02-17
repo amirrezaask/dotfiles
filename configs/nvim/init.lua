@@ -103,7 +103,7 @@ require("blink.cmp").setup({
 
 require("tokyonight").setup {}
 
-vim.cmd.colorscheme("rose-pine")
+vim.cmd.colorscheme("catppuccin-macchiato")
 
 
 vim.cmd [[
