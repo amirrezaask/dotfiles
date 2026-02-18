@@ -101,6 +101,7 @@ rm -rf "$XDG_CONFIG/nvim" \
 	"$XDG_CONFIG/Code/User/settings.json" \
 	"$XDG_CONFIG/Code/User/keybindings.json" \
 	"$HOME/.zshrc" \
+	"$HOME/.tmux.conf" \
 	"$HOME/.codex" \
 	"$XDG_CONFIG/bash" \
 	"$XDG_CONFIG/kitty" \
@@ -117,6 +118,7 @@ ln -nsf "$CONFIGS_DIR/.gitconfig" "$HOME/.gitconfig"
 ln -nsf "$CONFIGS_DIR/code/settings.json" "$XDG_CONFIG/Code/User/settings.json"
 ln -nsf "$CONFIGS_DIR/code/keybindings.json" "$XDG_CONFIG/Code/User/keybindings.json"
 ln -nsf "$CONFIGS_DIR/zsh/.zshrc" "$HOME/.zshrc"
+ln -nsf "$CONFIGS_DIR/tmux/.tmux.conf" "$HOME/.tmux.conf"
 ln -nsf "$CONFIGS_DIR/codex" "$HOME/.codex"
 ln -nsf "$CONFIGS_DIR/bash/" "$XDG_CONFIG/bash"
 ln -nsf "$CONFIGS_DIR/kitty/" "$XDG_CONFIG/kitty"

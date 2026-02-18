@@ -228,3 +228,36 @@ case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
+
+# Taken from omarchy
+tml() {
+  local current_dir="${PWD}"
+  local editor_pane ai_pane
+  local ai="$1"
+
+  # Get current pane ID (will become editor pane after splits)
+  editor_pane=$(tmux display-message -p '#{pane_id}')
+
+  # Split window vertically - top 85%, bottom 15%
+  tmux split-window -v -p 15 -c "$current_dir"
+
+  # Go back to top pane (editor_pane) and split it horizontally
+  tmux select-pane -t "$editor_pane"
+  tmux split-window -h -p 30 -c "$current_dir"
+
+  # After horizontal split, cursor is in the right pane (new pane)
+  # Get its ID and run ai there
+  ai_pane=$(tmux display-message -p '#{pane_id}')
+  tmux send-keys -t "$ai_pane" "$ai" C-m
+
+  # Run nvim in the left pane
+  tmux send-keys -t "$editor_pane" "$EDITOR ." C-m
+
+  # Select the nvim pane for focus
+  tmux select-pane -t "$editor_pane"
+}
+
+# Create a dev layout using tmux with editor, opencode, and terminal
+nic() {
+  tml c
+}
