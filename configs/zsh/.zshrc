@@ -91,10 +91,6 @@ if command -v nvim &> /dev/null; then
 	export EDITOR='nvim'
 fi
 
-if command -v cursor &> /dev/null; then
-	alias c='cursor'
-fi
-
 # Git aliases
 alias g='git'
 alias nah='git restore --staged . && git restore . && git clean -fd'
@@ -129,13 +125,6 @@ if command -v eza &> /dev/null; then
 	alias ls='eza'
 	alias ll='eza -l'
 fi
-
-# Suffix aliases
-alias -s go='go run'
-alias -s ts='ts-node'
-alias -s js='node'
-alias -s py='python3'
-alias -s sh='sh'
 
 # Homebrew
 if command -v brew &>/dev/null; then
@@ -187,19 +176,6 @@ feat() {
 	git checkout -b "feat-$1"
 }
 
-# macOS specific aliases
-if [[ "$(uname)" == "Darwin" ]]; then
-	alias idea='open -na "Intellij IDEA.app" --args'
-	alias jj='idea .'
-
-	alias goland='open -na "GoLand.app" --args'
-	alias gg='goland .'
-
-	alias pstorm='open -na "PhpStorm.app" --args'
-	alias pp='pstorm .'
-fi
-
-
 # Disable greeting
 unsetopt BEEP
 
@@ -229,35 +205,6 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 
-# Taken from omarchy
-tml() {
-  local current_dir="${PWD}"
-  local editor_pane ai_pane
-  local ai="$1"
-
-  # Get current pane ID (will become editor pane after splits)
-  editor_pane=$(tmux display-message -p '#{pane_id}')
-
-  # Split window vertically - top 85%, bottom 15%
-  tmux split-window -v -p 15 -c "$current_dir"
-
-  # Go back to top pane (editor_pane) and split it horizontally
-  tmux select-pane -t "$editor_pane"
-  tmux split-window -h -p 30 -c "$current_dir"
-
-  # After horizontal split, cursor is in the right pane (new pane)
-  # Get its ID and run ai there
-  ai_pane=$(tmux display-message -p '#{pane_id}')
-  tmux send-keys -t "$ai_pane" "$ai" C-m
-
-  # Run nvim in the left pane
-  tmux send-keys -t "$editor_pane" "$EDITOR ." C-m
-
-  # Select the nvim pane for focus
-  tmux select-pane -t "$editor_pane"
-}
-
-# Create a dev layout using tmux with editor, opencode, and terminal
-nic() {
-  tml c
-}
+if [[ -n "${GHOSTTY_RESOURCES_DIR}" ]]; then
+  source "${GHOSTTY_RESOURCES_DIR}/shell-integration/zsh/ghostty-integration"
+fi
