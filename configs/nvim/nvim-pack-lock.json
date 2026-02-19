@@ -21,6 +21,10 @@
       "rev": "9dfb25b261e972570247e05393b4a1ba4646ae12",
       "src": "https://github.com/ydkulks/cursor-dark.nvim"
     },
+    "eldritch.nvim": {
+      "rev": "0415fa72c348e814a7a6cc9405593a4f812fe12f",
+      "src": "https://github.com/eldritch-theme/eldritch.nvim"
+    },
     "everforest": {
       "rev": "0909c23",
       "src": "https://github.com/sainnhe/everforest"

@@ -82,6 +82,7 @@ vim.pack.add { -- See :h vim.pack
 	{ src = 'https://github.com/rose-pine/neovim' },
 	{ src = 'https://github.com/catppuccin/nvim',                name = 'catppuccin' },
 	{ src = 'https://github.com/vague-theme/vague.nvim' },
+	{ src = 'https://github.com/eldritch-theme/eldritch.nvim' },
 
 
 	-- Treesitter
@@ -114,7 +115,9 @@ require("blink.cmp").setup({
 })
 
 
-require("tokyonight").setup {}
+require("tokyonight").setup {
+	transparent = true
+}
 
 vim.cmd.colorscheme("tokyonight-night")
 
