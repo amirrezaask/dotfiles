@@ -1,4 +1,25 @@
+-- Leader must be set before plugins
 vim.g.mapleader = " "
+vim.g.maplocalleader = " "
+
+-- Bootstrap lazy.nvim
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+local uv = vim.uv or vim.loop
+if not uv.fs_stat(lazypath) then
+	vim.fn.system({
+		"git",
+		"clone",
+		"--filter=blob:none",
+		"https://github.com/folke/lazy.nvim.git",
+		"--branch=stable",
+		lazypath,
+	})
+end
+vim.opt.rtp:prepend(lazypath)
+
+-- =========================
+-- Options
+-- =========================
 vim.o.undofile = true
 vim.o.signcolumn = "yes"
 vim.o.number = true
@@ -34,6 +55,7 @@ vim.cmd([[ autocmd TextYankPost * silent! lua vim.hl.on_yank {higroup='Visual', 
 
 -- auto resize splits when the terminal's window is resized
 vim.api.nvim_create_autocmd("VimResized", { command = "wincmd =", })
+
 -- restore cursor to file position in previous editing session
 vim.api.nvim_create_autocmd("BufReadPost", {
 	callback = function(args)
@@ -48,6 +70,8 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 		end
 	end,
 })
+
+-- Keymaps (unchanged)
 vim.keymap.set("i", "jk", "<esc>")
 vim.keymap.set("i", "kj", "<esc>")
 vim.keymap.set("i", "<C-c>", "<esc>")
@@ -58,124 +82,165 @@ vim.keymap.set("n", "N", "Nzz")
 vim.keymap.set("n", "j", "gj")
 vim.keymap.set("n", "k", "gk")
 vim.keymap.set("n", "<leader>i", ":edit $MYVIMRC<CR>")
-vim.keymap.set("n", "<CR>",
-	function()
-		if vim.v.hlsearch == 1 then
-			vim.cmd.nohl()
-			return ""
-		else
-			return vim.keycode "<CR>"
-		end
-	end, { expr = true })
+vim.keymap.set("n", "<CR>", function()
+	if vim.v.hlsearch == 1 then
+		vim.cmd.nohl()
+		return ""
+	else
+		return vim.keycode("<CR>")
+	end
+end, { expr = true })
 
-vim.pack.add { -- See :h vim.pack
-	{ src = "https://github.com/nvim-tree/nvim-web-devicons" },
-	{ src = 'https://github.com/akinsho/bufferline.nvim' },
+-- =========================
+-- Plugins (lazy.nvim)
+-- =========================
+require("lazy").setup({
+	-- Icons
+	{ "nvim-tree/nvim-web-devicons" },
+
+	-- Bufferline
+	{
+		"akinsho/bufferline.nvim",
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+		config = function()
+			require("bufferline").setup({
+				options = {
+					show_buffer_icons = true,
+					show_buffer_close_icons = false,
+					show_close_icon = false,
+				},
+			})
+		end,
+	},
 
 	-- LSP & Package management
-	{ src = "https://github.com/mason-org/mason.nvim" },
-	{ src = "https://github.com/mason-org/mason-lspconfig.nvim" },
-	{ src = "https://github.com/neovim/nvim-lspconfig" },
+	{
+		"mason-org/mason-lspconfig.nvim",
+		dependencies = { "mason-org/mason.nvim", "neovim/nvim-lspconfig" },
+		opts = {
+			ensure_installed = { "lua_ls", "gopls" }
+		}
+	},
+	{ "mason-org/mason.nvim",       opts = {} },
+	{
+		"neovim/nvim-lspconfig",
+		config = function()
+			vim.api.nvim_create_autocmd("LspAttach", {
+				callback = function(args)
+					vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = args.buf })
+					vim.keymap.set("n", "L", vim.diagnostic.open_float, { buffer = args.buf })
+				end,
+			})
+			vim.lsp.config('lua_ls', {
+				settings = {
+					Lua = {
+						diagnostics = {
+							globals = { "vim" }, -- stop "Undefined global 'vim'" warnings
+						},
+						workspace = { library = vim.api.nvim_get_runtime_file("", true) },
+					},
+				},
+			})
+		end,
+	},
 
-	-- Colors
-	{ src = "https://github.com/folke/tokyonight.nvim" },
-	{ src = 'https://github.com/rose-pine/neovim' },
-	{ src = 'https://github.com/catppuccin/nvim',                name = 'catppuccin' },
-	{ src = 'https://github.com/vague-theme/vague.nvim' },
-	{ src = 'https://github.com/eldritch-theme/eldritch.nvim' },
-
+	-- Colorschemes (keep your selection: tokyonight-night)
+	{
+		"folke/tokyonight.nvim",
+		priority = 1000,
+		config = function()
+			require("tokyonight").setup({ transparent = true })
+			vim.cmd.colorscheme("tokyonight-night")
+			vim.cmd([[
+        hi Normal guibg=none
+        hi NormalFloat guibg=none
+      ]])
+		end,
+	},
+	{ "rose-pine/neovim",      name = "rose-pine" },
+	{ "catppuccin/nvim",       name = "catppuccin" },
+	{ "vague-theme/vague.nvim" },
 
 	-- Treesitter
-	{ src = "https://github.com/nvim-treesitter/nvim-treesitter" },
+	{
+		"nvim-treesitter/nvim-treesitter",
+		build = ":TSUpdate",
+		config = function()
+			require("nvim-treesitter.configs").setup({
+				highlight = { enable = true },
+				auto_install = true,
+			})
+			vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+		end,
+	},
 
-	{ src = 'https://github.com/nvim-lualine/lualine.nvim', },                      -- Statusline
-	{ src = "https://github.com/stevearc/conform.nvim" },                           -- Autoformat
-	{ src = "https://github.com/folke/snacks.nvim" },
-	{ src = "https://github.com/saghen/blink.cmp",               version = "v1.6.0" }, -- Blazingly fast autocomplete popup
+	-- Statusline
+	{
+		"nvim-lualine/lualine.nvim",
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+		config = function()
+			require("lualine").setup({})
+		end,
+	},
 
-}
+	-- Autoformat
+	{
+		"stevearc/conform.nvim",
+		config = function()
+			require("conform").setup({
+				formatters_by_ft = {
+					php = nil,
+					go = { "goimports" },
+					lua = { "stylua" },
+					json = { "jq" },
+				},
+				format_on_save = function(bufnr)
+					if vim.bo[bufnr].filetype == "php" then
+						return false
+					end
+					return { timeout_ms = 500, lsp_fallback = true }
+				end,
+			})
+		end,
+	},
 
-require('bufferline').setup {
-	options = {
-		show_buffer_icons = true,
-		show_buffer_close_icons = false,
-		show_close_icon = false,
-	}
-}
+	-- Snacks
+	{
+		"folke/snacks.nvim",
+		config = function()
+			require("snacks").setup({
+				bigfile = { enabled = true },
+				indent = { enabled = true },
+				picker = { enabled = true },
+				notifier = { enabled = true },
+				quickfile = { enabled = true },
+				statuscolumn = { enabled = true },
+				dashboard = { enabled = true },
+			})
 
-require('lualine').setup {}
+			vim.keymap.set("n", "<leader><leader>", Snacks.picker.files, { silent = true })
+			vim.keymap.set("n", "<leader>pf", Snacks.picker.git_files, { silent = true })
+			vim.keymap.set("n", "gd", Snacks.picker.lsp_definitions, { silent = true })
+			vim.keymap.set("n", "grr", Snacks.picker.lsp_references, { silent = true })
+			vim.keymap.set("n", "gri", Snacks.picker.lsp_implementations, { silent = true })
+			vim.keymap.set({ "n", "v" }, "<leader>j", Snacks.picker.grep, { silent = true })
+			vim.keymap.set({ "n", "v" }, "<leader>J", Snacks.picker.grep_word, { silent = true })
+		end,
+	},
 
-require("blink.cmp").setup({
-	completion = { list = { selection = { preselect = false } } },
-	keymap = {
-		preset = 'default',
-		['<Tab>'] = { 'accept', 'fallback' },
-		['<CR>'] = { 'accept', 'fallback' },
+	-- Autocomplete
+	{
+		"saghen/blink.cmp",
+		version = "v1.6.0",
+		config = function()
+			require("blink.cmp").setup({
+				completion = { list = { selection = { preselect = false } } },
+				keymap = {
+					preset = "default",
+					["<Tab>"] = { "accept", "fallback" },
+					["<CR>"] = { "accept", "fallback" },
+				},
+			})
+		end,
 	},
 })
-
-
-require("tokyonight").setup {
-	transparent = true
-}
-
-vim.cmd.colorscheme("tokyonight-night")
-
-
-vim.cmd [[
-	hi Normal guibg=none
-	hi NormalFloat guibg=none
-]]
-
--- IDE [[
-vim.api.nvim_create_autocmd("LspAttach", {
-	callback = function(args)
-		vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = args.buf })
-		vim.keymap.set("n", "L", vim.diagnostic.open_float, { buffer = args.buf })
-	end,
-})
-
-vim.lsp.config("lua_ls", { settings = { Lua = { workspace = { library = vim.api.nvim_get_runtime_file("", true) } } } })
-
-
-require("mason").setup()
-require("mason-lspconfig").setup({ ensure_installed = { "lua_ls", "gopls" } })
-
-require("conform").setup({ -- Autoformat
-	formatters_by_ft = {
-		php = nil,
-		go = { "goimports" },
-		lua = { "stylua" },
-		json = { "jq" },
-	},
-	format_on_save = function(bufnr)
-		if vim.bo[bufnr].filetype == "php" then
-			return false
-		end
-		return { timeout_ms = 500, lsp_fallback = true }
-	end,
-})
--- ]]
-
-require("snacks").setup {
-	bigfile = { enabled = true },
-	indent = { enabled = true },
-	picker = { enabled = true },
-	notifier = { enabled = true },
-	quickfile = { enabled = true },
-	statuscolumn = { enabled = true },
-}
-
-vim.keymap.set("n", "<leader><leader>", Snacks.picker.files, { silent = true })
-vim.keymap.set("n", "<leader>pf", Snacks.picker.git_files, { silent = true })
-vim.keymap.set("n", "gd", Snacks.picker.lsp_definitions, { silent = true })
-vim.keymap.set("n", "grr", Snacks.picker.lsp_references, { silent = true })
-vim.keymap.set("n", "gri", Snacks.picker.lsp_implementations, { silent = true })
-vim.keymap.set({ "n", "v" }, "<leader>j", Snacks.picker.grep, { silent = true })
-vim.keymap.set({ "n", "v" }, "<leader>J", Snacks.picker.grep_word, { silent = true })
-
-
-
-require("nvim-treesitter.configs").setup({ highlight = { enable = true }, auto_install = true })
-
-vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()" -- use treesitter for code folding
