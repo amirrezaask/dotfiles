@@ -69,7 +69,8 @@ vim.keymap.set("n", "<CR>",
 	end, { expr = true })
 
 vim.pack.add { -- See :h vim.pack
-
+	{ src = "https://github.com/nvim-tree/nvim-web-devicons" },
+	{ src = 'https://github.com/akinsho/bufferline.nvim' },
 
 	-- LSP & Package management
 	{ src = "https://github.com/mason-org/mason.nvim" },
@@ -91,6 +92,14 @@ vim.pack.add { -- See :h vim.pack
 	{ src = "https://github.com/folke/snacks.nvim" },
 	{ src = "https://github.com/saghen/blink.cmp",               version = "v1.6.0" }, -- Blazingly fast autocomplete popup
 
+}
+
+require('bufferline').setup {
+	options = {
+		show_buffer_icons = true,
+		show_buffer_close_icons = false,
+		show_close_icon = false,
+	}
 }
 
 require('lualine').setup {}

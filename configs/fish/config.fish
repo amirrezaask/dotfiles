@@ -5,12 +5,19 @@ if set -q fish_word_delimiters
 else
     set -g fish_word_delimiters "/"
 end
+
+set -gx PNPM_HOME "$HOME/Library/pnpm"
+fish_add_path -g $PNPM_HOME
+fish_add_path -g "/usr/local/bin"
 fish_add_path -g $HOME/.local/bin $HOME/.opencode/bin
+
 if type -q nvim
     alias vim nvim; alias vi nvim; alias v nvim
     set -gx EDITOR nvim
     set -gx GIT_EDITOR nvim
 end
+
+
 alias g git
 alias nah 'git restore --staged .; and git restore .; and git clean -fd'
 alias gcm 'git commit -m'
@@ -97,8 +104,6 @@ if not type -q starship
 end
 type -q starship; and starship init fish | source
 
-set -gx PNPM_HOME "$HOME/Library/pnpm"
-fish_add_path -g $PNPM_HOME
 
 if set -q GHOSTTY_RESOURCES_DIR
     for f in "$GHOSTTY_RESOURCES_DIR/shell-integration/fish/ghostty-integration.fish" "$GHOSTTY_RESOURCES_DIR/shell-integration/fish/ghostty-integration"

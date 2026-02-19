@@ -5,6 +5,10 @@
       "src": "https://github.com/saghen/blink.cmp",
       "version": "'v1.6.0'"
     },
+    "bufferline.nvim": {
+      "rev": "655133c3b4c3e5e05ec549b9f8cc2894ac6f51b3",
+      "src": "https://github.com/akinsho/bufferline.nvim"
+    },
     "catppuccin": {
       "rev": "da33755",
       "src": "https://github.com/catppuccin/nvim"
@@ -68,6 +72,10 @@
     "nvim-treesitter-context": {
       "rev": "660861b",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter-context"
+    },
+    "nvim-web-devicons": {
+      "rev": "746ffbb17975ebd6c40142362eee1b0249969c5c",
+      "src": "https://github.com/nvim-tree/nvim-web-devicons"
     },
     "onedark.nvim": {
       "rev": "213c23ae45a04797572242568d5d51937181792d",

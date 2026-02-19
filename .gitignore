@@ -15,6 +15,10 @@ configs/codex/history.jsonl
 configs/codex/tmp
 configs/codex/auth.json
 configs/codex/log
+configs/fish/completions
+configs/fish/conf.d
+configs/fish/fish_variables
+configs/fish/functions
 
 
 **/.DS_Store
