@@ -98,6 +98,7 @@ echo "CONFIGS_DIR $CONFIGS_DIR"
 rm -rf "$XDG_CONFIG/nvim" \
 	"$XDG_CONFIG/ghostty" \
 	"$XDG_CONFIG/lazyvim" \
+	"$XDG_CONFIG/nvimsingle" \
 	"$XDG_CONFIG/starship.toml" \
 	"$XDG_CONFIG/Code/User/settings.json" \
 	"$XDG_CONFIG/Code/User/keybindings.json" \
@@ -125,6 +126,7 @@ ln -nsf "$CONFIGS_DIR/codex" "$HOME/.codex"
 ln -nsf "$CONFIGS_DIR/fish/" "$XDG_CONFIG/fish"
 ln -nsf "$CONFIGS_DIR/lazyvim" "$XDG_CONFIG/lazyvim"
 ln -nsf "$CONFIGS_DIR/kitty" "$XDG_CONFIG/kitty"
+ln -nsf "$CONFIGS_DIR/nvimsingle" "$XDG_CONFIG/nvimsingle"
 
 # Now some mac stuff
 if [[ "$(uname)" == "Darwin" ]]; then
