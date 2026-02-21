@@ -1,6 +1,7 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
+-- Install lazy.nvim package manager
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 local uv = vim.uv or vim.loop
 if not uv.fs_stat(lazypath) then
@@ -19,3 +20,4 @@ require("config.options")
 require("config.autocmds")
 require("config.keymaps")
 require("lazy").setup({ import = "plugins" })
+
