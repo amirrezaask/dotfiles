@@ -102,12 +102,10 @@ end
 if not type -q starship
     curl -sS https://starship.rs/install.sh | sh -s -- -y
 end
+
 type -q starship; and starship init fish | source
 
 
-if set -q GHOSTTY_RESOURCES_DIR
-    for f in "$GHOSTTY_RESOURCES_DIR/shell-integration/fish/ghostty-integration.fish" "$GHOSTTY_RESOURCES_DIR/shell-integration/fish/ghostty-integration"
-        test -f $f; and source $f
-    end
+function lvim
+	NVIM_APPNAME='lazyvim' nvim $argv
 end
-

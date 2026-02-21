@@ -54,7 +54,7 @@ vim.opt.cursorline = true
 vim.cmd([[ autocmd TextYankPost * silent! lua vim.hl.on_yank {higroup='Visual', timeout=150 } ]])
 
 -- auto resize splits when the terminal's window is resized
-vim.api.nvim_create_autocmd("VimResized", { command = "wincmd =", })
+vim.api.nvim_create_autocmd("VimResized", { command = "wincmd =" })
 
 -- restore cursor to file position in previous editing session
 vim.api.nvim_create_autocmd("BufReadPost", {
@@ -118,10 +118,10 @@ require("lazy").setup({
 		"mason-org/mason-lspconfig.nvim",
 		dependencies = { "mason-org/mason.nvim", "neovim/nvim-lspconfig" },
 		opts = {
-			ensure_installed = { "lua_ls", "gopls" }
-		}
+			ensure_installed = { "lua_ls", "gopls" },
+		},
 	},
-	{ "mason-org/mason.nvim",       opts = {} },
+	{ "mason-org/mason.nvim", opts = {} },
 	{
 		"neovim/nvim-lspconfig",
 		config = function()
@@ -131,7 +131,7 @@ require("lazy").setup({
 					vim.keymap.set("n", "L", vim.diagnostic.open_float, { buffer = args.buf })
 				end,
 			})
-			vim.lsp.config('lua_ls', {
+			vim.lsp.config("lua_ls", {
 				settings = {
 					Lua = {
 						diagnostics = {
@@ -151,14 +151,10 @@ require("lazy").setup({
 		config = function()
 			require("tokyonight").setup({ transparent = true })
 			vim.cmd.colorscheme("tokyonight-night")
-			vim.cmd([[
-        hi Normal guibg=none
-        hi NormalFloat guibg=none
-      ]])
 		end,
 	},
-	{ "rose-pine/neovim",      name = "rose-pine" },
-	{ "catppuccin/nvim",       name = "catppuccin" },
+	{ "rose-pine/neovim", name = "rose-pine" },
+	{ "catppuccin/nvim", name = "catppuccin" },
 	{ "vague-theme/vague.nvim" },
 
 	-- Treesitter
@@ -179,16 +175,16 @@ require("lazy").setup({
 		"nvim-lualine/lualine.nvim",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 		config = function()
-			require('lualine').setup {
+			require("lualine").setup({
 				sections = {
-					lualine_a = { 'mode' },
-					lualine_b = { 'branch', 'diff', 'diagnostics' },
-					lualine_c = { { 'filename', path = 1 } },
-					lualine_x = { 'encoding', 'fileformat', 'filetype' },
-					lualine_y = { 'progress' },
-					lualine_z = { 'location' }
+					lualine_a = { "mode" },
+					lualine_b = { "branch", "diff", "diagnostics" },
+					lualine_c = { { "filename", path = 1 } },
+					lualine_x = { "encoding", "fileformat", "filetype" },
+					lualine_y = { "progress" },
+					lualine_z = { "location" },
 				},
-			}
+			})
 		end,
 	},
 
