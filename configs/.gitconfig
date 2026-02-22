@@ -18,4 +18,4 @@
 	diff = difftool --no-prompt
 
 [pull]
-	rebase = true
+	rebase = false
