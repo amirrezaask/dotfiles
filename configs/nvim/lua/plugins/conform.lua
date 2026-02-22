@@ -6,14 +6,17 @@ return {
 			go = { "goimports" },
 			lua = { "stylua" },
 			json = { "jq" },
-			javascript = { "eslint" },
-			javascriptreact = { "eslint" },
-			typescript = { "eslint" },
-			typescriptreact = { "eslint" },
+			javascript = { "eslint_d" },
+			typescript = { "eslint_d" },
+			javascriptreact = { "eslint_d" },
+			typescriptreact = { "eslint_d" },
 		},
 		format_on_save = function(bufnr)
-			if vim.bo[bufnr].filetype == "php" then
-				return false
+			local ft = vim.bo[bufnr].filetype
+			if
+				({ php = true, javascript = true, typescript = true, javascriptreact = true, typescriptreact = true })[ft]
+			then
+				return { timeout_ms = 500, lsp_fallback = false }
 			end
 			return { timeout_ms = 500, lsp_fallback = true }
 		end,
