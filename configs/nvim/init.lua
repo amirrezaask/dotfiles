@@ -20,4 +20,4 @@ require("config.options")
 require("config.autocmds")
 require("config.keymaps")
 require("lazy").setup({ import = "plugins" })
-
+vim.cmd([[ colorscheme tokyonight-night ]])
