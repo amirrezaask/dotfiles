@@ -1,88 +1,18 @@
-# History configuration
-HISTFILE=~/.zsh_history
-HISTSIZE=10000
-SAVEHIST=10000
-setopt SHARE_HISTORY
-setopt HIST_IGNORE_DUPS
-setopt HIST_IGNORE_ALL_DUPS
-setopt HIST_REDUCE_BLANKS
-setopt HIST_IGNORE_SPACE
-setopt HIST_VERIFY
-setopt INC_APPEND_HISTORY
+ZSH="$HOME/.oh-my-zsh"
 
-# Directory navigation
-setopt AUTO_CD
-setopt AUTO_PUSHD
-setopt PUSHD_IGNORE_DUPS
-setopt PUSHD_SILENT
+if [ ! -d "$ZSH" ]; then
+    echo "Oh My Zsh not found, installing..."
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+fi
 
-# Extended globbing
-setopt EXTENDED_GLOB
-setopt GLOB_COMPLETE
-setopt NO_CASE_GLOB
+ZSH_THEME="robbyrussell"
+plugins=(git)
 
-# Completion
-autoload -Uz compinit
-compinit
-zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
-zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
-zstyle ':completion:*' menu select
-zmodload zsh/complist
+source $ZSH/oh-my-zsh.sh
 
-# Keybindings
-bindkey -e
-
-# Word navigation - Option + Arrow (macOS)
-bindkey "\e\e[D" backward-word
-bindkey "\e\e[C" forward-word
-
-# Word navigation - Option + Arrow (alternative sequences)
-bindkey "\e[1;3D" backward-word
-bindkey "\e[1;3C" forward-word
-
-# Word navigation - Ctrl + Arrow
-bindkey "\e[1;5D" backward-word
-bindkey "\e[1;5C" forward-word
-
-# Word navigation - Ctrl + Arrow (alternative)
-bindkey "\e[5D" backward-word
-bindkey "\e[5C" forward-word
-
-# Delete word - Option + Delete/Backspace
-bindkey "\e[3;3~" kill-word
-bindkey "\e\b" backward-kill-word
-bindkey "\e[3;5~" kill-word
-
-# Home/End keys
-bindkey "\e[H" beginning-of-line
-bindkey "\e[F" end-of-line
-bindkey "\e[1~" beginning-of-line
-bindkey "\e[4~" end-of-line
-bindkey "\eOH" beginning-of-line
-bindkey "\eOF" end-of-line
-
-# Delete key
-bindkey "\e[3~" delete-char
-
-# Better word boundaries (treat / as word separator)
-autoload -U select-word-style
-select-word-style bash
-
-# History search with up/down arrows
-autoload -U up-line-or-beginning-search
-autoload -U down-line-or-beginning-search
-zle -N up-line-or-beginning-search
-zle -N down-line-or-beginning-search
-bindkey "^[[A" up-line-or-beginning-search
-bindkey "^[[B" down-line-or-beginning-search
-bindkey "^P" up-line-or-beginning-search
-bindkey "^N" down-line-or-beginning-search
-
-# Path additions
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.opencode/bin:$PATH"
 
-# Editor configuration
 if command -v nvim &> /dev/null; then
 	alias vim='nvim'
 	alias vi='nvim'
@@ -91,7 +21,6 @@ if command -v nvim &> /dev/null; then
 	export EDITOR='nvim'
 fi
 
-# Git aliases
 alias g='git'
 alias nah='git restore --staged . && git restore . && git clean -fd'
 alias gcm='git commit -m'
@@ -113,30 +42,25 @@ alias gpsup='git push --set-upstream origin $(git symbolic-ref --short HEAD)'
 alias gs='git status'
 alias gf='git fetch --all --prune -f'
 
-# ls aliases
 alias l='ls -lah'
 alias la='ls -lAh'
 alias ll='ls -lh'
 alias ls='ls -G'
 alias lsa='ls -lah'
 
-# eza aliases (if eza is available)
 if command -v eza &> /dev/null; then
 	alias ls='eza'
 	alias ll='eza -l'
 fi
 
-# Homebrew
 if command -v brew &>/dev/null; then
 	eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
-# fzf integration
 if command -v fzf &> /dev/null; then
 	source <(fzf --zsh)
 fi
 
-# Custom functions
 reload() {
 	source ~/.zshrc
 }
@@ -176,10 +100,8 @@ feat() {
 	git checkout -b "feat-$1"
 }
 
-# Disable greeting
 unsetopt BEEP
 
-# Starship prompt
 if ! command -v starship &> /dev/null; then
     echo "Starship not found, installing..."
     curl -sS https://starship.rs/install.sh | sh
@@ -187,16 +109,6 @@ fi
 
 if command -v starship &> /dev/null; then
     eval "$(starship init zsh)"
-else
-	# Git prompt function
-	autoload -Uz vcs_info
-	precmd() { vcs_info }
-	zstyle ':vcs_info:git:*' formats ' %b'
-	setopt PROMPT_SUBST
-
-	# Custom prompt (similar to fish prompt)
-	PROMPT='%F{cyan}%~%f%F{blue}${vcs_info_msg_0_}%f
-	🚀 '
 fi
 
 export PNPM_HOME="$HOME/Library/pnpm"
@@ -205,6 +117,6 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 
-if [[ -n "${GHOSTTY_RESOURCES_DIR}" ]]; then
-  source "${GHOSTTY_RESOURCES_DIR}/shell-integration/zsh/ghostty-integration"
-fi
+
+export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"

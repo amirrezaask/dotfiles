@@ -37,4 +37,7 @@
   "workbench.editor.showTabs": "single",
   "redhat.telemetry.enabled": true,
   "workbench.activityBar.location": "top",
+  "window.autoDetectColorScheme": true,
+  "workbench.preferredLightColorTheme": "Experimental Light",
+  "workbench.preferredDarkColorTheme": "Experimental Dark",
 }

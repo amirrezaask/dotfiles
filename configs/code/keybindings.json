@@ -19,6 +19,8 @@
   { "key": "ctrl+[",       "command": "workbench.action.navigateBack" },
   { "key": "cmd+]",       "command": "workbench.action.navigateForward" },
   { "key": "ctrl+]",       "command": "workbench.action.navigateForward" },
+  
+  { "key": "cmd+shift+l", "command": "editor.action.insertCursorAtEndOfEachLineSelected", "when": "editorTextFocus" },
 
   // Toggle viewlets
   { "key": "cmd+0", "command": "workbench.action.toggleSidebarVisibility" },
