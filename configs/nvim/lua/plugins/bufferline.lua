@@ -1,6 +1,7 @@
 return {
 	"akinsho/bufferline.nvim",
 	dependencies = { "nvim-tree/nvim-web-devicons" },
+	enabled = false,
 	opts = {
 		options = {
 			show_buffer_icons = true,
@@ -9,3 +10,4 @@ return {
 		},
 	},
 }
+

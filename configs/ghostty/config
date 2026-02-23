@@ -17,7 +17,7 @@ adjust-cell-height = 2
 adjust-cell-width = 0
 window-theme = auto
 
-keybind = cmd+n=next_tab
+# keybind = cmd+n=next_tab
 keybind = cmd+p=previous_tab
 
 keybind = cmd+[=previous_tab
