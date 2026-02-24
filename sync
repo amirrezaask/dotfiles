@@ -81,12 +81,6 @@ if [ "$INSTALL_PLATFORM" = true ]; then
 	if ! command -v eza >/dev/null 2>&1; then
 		cargo install eza
 	fi
-
-	# starship (prompt)
-	if ! command -v starship >/dev/null 2>&1; then
-		echo "Installing starship prompt..."
-		curl -sS https://starship.rs/install.sh | sh
-	fi
 fi
 
 # Install configs

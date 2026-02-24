@@ -13,13 +13,11 @@ source $ZSH/oh-my-zsh.sh
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.opencode/bin:$PATH"
 
-if command -v nvim &> /dev/null; then
-	alias vim='nvim'
-	alias vi='nvim'
-	alias v='nvim'
-	export GIT_EDITOR='nvim'
-	export EDITOR='nvim'
-fi
+alias vim='nvim'
+alias vi='nvim'
+alias v='nvim'
+export GIT_EDITOR='nvim'
+export EDITOR='nvim'
 
 alias g='git'
 alias nah='git restore --staged . && git restore . && git clean -fd'
@@ -47,11 +45,6 @@ alias la='ls -lAh'
 alias ll='ls -lh'
 alias ls='ls -G'
 alias lsa='ls -lah'
-
-if command -v eza &> /dev/null; then
-	alias ls='eza'
-	alias ll='eza -l'
-fi
 
 if command -v brew &>/dev/null; then
 	eval "$(/opt/homebrew/bin/brew shellenv)"
@@ -101,15 +94,6 @@ feat() {
 }
 
 unsetopt BEEP
-
-if ! command -v starship &> /dev/null; then
-    echo "Starship not found, installing..."
-    curl -sS https://starship.rs/install.sh | sh
-fi
-
-if command -v starship &> /dev/null; then
-    eval "$(starship init zsh)"
-fi
 
 export PNPM_HOME="$HOME/Library/pnpm"
 case ":$PATH:" in
