@@ -1,6 +1,5 @@
 {
-  "editor.fontFamily": "Maple Mono, JetBrains Mono",
-  "editor.fontWeight": "500",
+  "editor.fontFamily": "JetBrains Mono",
   "editor.fontSize": 14,
   "editor.cursorBlinking": "solid",
   "files.autoSave": "onFocusChange",
@@ -26,7 +25,6 @@
   "window.commandCenter": false,
   "workbench.layoutControl.enabled": false,
   "diffEditor.ignoreTrimWhitespace": false,
-  "workbench.iconTheme": "symbols",
   "kilo-code.debug": false,
   "kilo-code.allowedCommands": [
     "git log",
@@ -38,6 +36,6 @@
   "redhat.telemetry.enabled": true,
   "workbench.activityBar.location": "top",
   "window.autoDetectColorScheme": true,
-  "workbench.preferredLightColorTheme": "Experimental Light",
+  "workbench.preferredLightColorTheme": "Experimental Dark",
   "workbench.preferredDarkColorTheme": "Experimental Dark",
 }

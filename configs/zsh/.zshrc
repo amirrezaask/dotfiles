@@ -46,9 +46,6 @@ alias ll='ls -lh'
 alias ls='ls -G'
 alias lsa='ls -lah'
 
-if command -v brew &>/dev/null; then
-	eval "$(/opt/homebrew/bin/brew shellenv)"
-fi
 
 if command -v fzf &> /dev/null; then
 	source <(fzf --zsh)
