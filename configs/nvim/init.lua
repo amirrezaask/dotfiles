@@ -251,15 +251,13 @@ require("lazy").setup({
 			format_on_save = function(bufnr)
 				local ft = vim.bo[bufnr].filetype
 				if
-					(
-						{
-							php = true,
-							javascript = true,
-							typescript = true,
-							javascriptreact = true,
-							typescriptreact = true,
-						}
-					)[ft]
+					({
+						php = true,
+						javascript = true,
+						typescript = true,
+						javascriptreact = true,
+						typescriptreact = true,
+					})[ft]
 				then
 					return { timeout_ms = 500, lsp_fallback = false }
 				end
@@ -425,4 +423,4 @@ require("lazy").setup({
 -- ============================================================
 -- Colorscheme
 -- ============================================================
-vim.cmd([[ colorscheme tokyonight-moon ]])
+vim.cmd([[ colorscheme tokyonight-night ]])
