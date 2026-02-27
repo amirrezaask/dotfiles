@@ -1,5 +1,5 @@
 {
-  "editor.fontFamily": "JetBrains Mono",
+  "editor.fontFamily": "Maple Mono",
   "editor.fontSize": 14,
   "editor.cursorBlinking": "solid",
   "files.autoSave": "onFocusChange",
@@ -21,7 +21,6 @@
   "terminal.integrated.fontSize": 16,
   "extensions.ignoreRecommendations": true,
   "go.toolsManagement.autoUpdate": true,
-  "update.mode": "silentlyApplyOnQuit",
   "window.commandCenter": false,
   "workbench.layoutControl.enabled": false,
   "diffEditor.ignoreTrimWhitespace": false,
