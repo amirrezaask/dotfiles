@@ -1,5 +1,4 @@
-theme = TokyoNight Moon
-font-family = TX-02
+theme = TokyoNight Night
 font-size = 14
 mouse-hide-while-typing = true
 macos-option-as-alt = true
@@ -11,21 +10,18 @@ maximize=true
 cursor-style-blink=false
 cursor-style = block
 macos-titlebar-style=tabs
-# background-opacity = 0.90
+background-opacity = 0.90
 background-blur-radius = 70
 adjust-cell-height = 2
 adjust-cell-width = 0
 window-theme = auto
 
-# keybind = cmd+n=next_tab
+# Tab Control
+keybind = cmd+n=next_tab
 keybind = cmd+p=previous_tab
-
 keybind = cmd+[=previous_tab
 keybind = cmd+]=next_tab
-
 keybind = cmd+t=new_tab
-
-keybind = cmd+shift+n=new_window
 
 keybind = cmd+shift+f=toggle_split_zoom
 
