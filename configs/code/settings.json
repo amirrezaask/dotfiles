@@ -1,5 +1,5 @@
 {
-  "editor.fontFamily": "Maple Mono",
+  "editor.fontFamily": "Maple Mono, Jetbrains Mono",
   "editor.fontSize": 14,
   "editor.cursorBlinking": "solid",
   "files.autoSave": "onFocusChange",
@@ -22,7 +22,6 @@
   "extensions.ignoreRecommendations": true,
   "go.toolsManagement.autoUpdate": true,
   "window.commandCenter": false,
-  "workbench.layoutControl.enabled": false,
   "diffEditor.ignoreTrimWhitespace": false,
   "kilo-code.debug": false,
   "kilo-code.allowedCommands": [
@@ -31,10 +30,13 @@
     "git show"
   ],
   "kilo-code.deniedCommands": [],
-  "workbench.editor.showTabs": "single",
   "redhat.telemetry.enabled": true,
-  "workbench.activityBar.location": "top",
   "window.autoDetectColorScheme": true,
-  "workbench.preferredLightColorTheme": "Experimental Dark",
-  "workbench.preferredDarkColorTheme": "Experimental Dark",
+  "workbench.preferredLightColorTheme": "Light 2026",
+  "workbench.preferredDarkColorTheme": "Dark 2026",
+  "terminal.integrated.commandsToSkipShell": [
+    "kilo-code.new.agentManagerOpen",
+    "kilo-code.new.agentManager.showTerminal"
+  ],
+  "workbench.activityBar.location": "top",
 }
