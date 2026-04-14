@@ -166,6 +166,17 @@ require("lazy").setup({
 		"vague-theme/vague.nvim",
 		opts = { transparent = true },
 	},
+	{
+		"navarasu/onedark.nvim",
+		opts = {
+			style = "darker",
+			transparent = true,
+		},
+	},
+	{
+		"AlexvZyl/nordic.nvim",
+		opts = {},
+	},
 
 	-- --------------------------------------------------------
 	-- Completion: blink.cmp
@@ -432,4 +443,4 @@ require("lazy").setup({
 -- ============================================================
 -- Colorscheme
 -- ============================================================
-vim.cmd([[ colorscheme tokyonight-night ]])
+vim.cmd([[ colorscheme onedark ]])
