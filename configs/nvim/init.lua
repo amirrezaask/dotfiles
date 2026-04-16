@@ -203,6 +203,17 @@ require("nordic").setup({})
 vim.cmd([[ colorscheme everforest ]])
 vim.cmd([[ hi! Normal guibg=#1e2326 ]])
 
+-- Fzf
+FzfLua = require("fzf-lua")
+FzfLua.setup({ "fzf-vim" })
+K("n", "<leader><leader>", ":Files<CR>")
+K("n", "<leader>pf", ":GitFiles<CR>")
+K("n", "<leader>gd", FzfLua.lsp_definitions)
+K("n", "<leader>grr", FzfLua.lsp_references)
+K("n", "<leader>gri", FzfLua.lsp_implementations)
+K("n", "<leader>j", FzfLua.live_grep)
+K({ "n", "v" }, "<leader>j", FzfLua.grep_cword)
+
 -- Setting Up LSP servers using Mason package manager.
 require("mason").setup({})
 require("mason-lspconfig").setup({ ensure_installed = { "lua_ls", "gopls" } })
@@ -258,13 +269,3 @@ require("conform").setup({
 
 require("nvim-treesitter.configs").setup({ highlight = { enable = true }, auto_install = true })
 vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-
-FzfLua = require("fzf-lua")
-FzfLua.setup({ "fzf-vim" })
-K("n", "<leader><leader>", ":Files<CR>")
-K("n", "<leader>pf", ":GitFiles<CR>")
-K("n", "<leader>gd", FzfLua.lsp_definitions)
-K("n", "<leader>grr", FzfLua.lsp_references)
-K("n", "<leader>gri", FzfLua.lsp_implementations)
-K("n", "<leader>j", FzfLua.live_grep)
-K({ "n", "v" }, "<leader>j", FzfLua.grep_cword)
