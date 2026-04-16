@@ -1,7 +1,6 @@
 -- ============================================================
 -- Leader Keys
 -- ============================================================
--- Set leader key to space and local leader to space
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 K = vim.keymap.set
@@ -147,13 +146,13 @@ vim.pack.add({
 	-- --------------------------------------------------------
 	-- Colorschemes
 	-- --------------------------------------------------------
-	gh("folke/tokyonight.nvim"),
-	{ src = gh("rose-pine/neovim"), name = "rose-pine" },
-	{ src = gh("catppuccin/nvim"), name = "catppuccin" },
-	gh("vague-theme/vague.nvim"),
-	gh("navarasu/onedark.nvim"),
-	gh("AlexvZyl/nordic.nvim"),
-	gh("sainnhe/everforest"),
+	-- gh("folke/tokyonight.nvim"),
+	-- { src = gh("rose-pine/neovim"), name = "rose-pine" },
+	-- { src = gh("catppuccin/nvim"), name = "catppuccin" },
+	-- gh("vague-theme/vague.nvim"),
+	-- gh("navarasu/onedark.nvim"),
+	-- gh("AlexvZyl/nordic.nvim"),
+	-- gh("sainnhe/everforest"),
 
 	-- --------------------------------------------------------
 	-- LSP: mason + nvim-lspconfig
@@ -193,15 +192,15 @@ vim.pack.add({
 }, { confirm = false, load = true })
 
 -- Setting up colorschemes
-require("tokyonight").setup({ transparent = true })
-require("rose-pine").setup({ styles = { transparency = true } })
-require("catppuccin").setup({ transparent = true })
-require("vague").setup({ transparent = true })
-require("onedark").setup({ style = "darker", transparent = true })
-require("nordic").setup({})
+-- require("tokyonight").setup({ transparent = true })
+-- require("rose-pine").setup({ styles = { transparency = true } })
+-- require("catppuccin").setup({ transparent = true })
+-- require("vague").setup({ transparent = true })
+-- require("onedark").setup({ style = "darker", transparent = true })
+-- require("nordic").setup({})
 
-vim.cmd([[ colorscheme everforest ]])
-vim.cmd([[ hi! Normal guibg=#1e2326 ]])
+-- vim.cmd([[ colorscheme everforest ]])
+-- vim.cmd([[ hi! Normal guibg=#1e2326 ]])
 
 -- Fzf
 FzfLua = require("fzf-lua")
@@ -214,7 +213,7 @@ K("n", "<leader>gri", FzfLua.lsp_implementations)
 K("n", "<leader>j", FzfLua.live_grep)
 K({ "n", "v" }, "<leader>j", FzfLua.grep_cword)
 
--- Setting Up LSP servers using Mason package manager.
+-- LSP setup
 require("mason").setup({})
 require("mason-lspconfig").setup({ ensure_installed = { "lua_ls", "gopls" } })
 
