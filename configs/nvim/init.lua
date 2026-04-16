@@ -172,17 +172,15 @@ vim.pack.add({
 	gh("nvim-treesitter/nvim-treesitter"),
 
 	-- --------------------------------------------------------
-	-- Status Line: lualine
+	-- File handling
 	-- --------------------------------------------------------
-	gh("nvim-lualine/lualine.nvim"),
+	gh("nvim-treesitter/nvim-treesitter"),
 
 	gh("stevearc/oil.nvim"),
 
 	-- --------------------------------------------------------
-	-- Utils: snacks.nvim
+	-- Fuzzy Finder
 	-- --------------------------------------------------------
-	{ src = gh("folke/snacks.nvim"), version = "main" },
-
 	gh("ibhagwan/fzf-lua"),
 
 	-- --------------------------------------------------------
@@ -204,7 +202,7 @@ vim.pack.add({
 
 -- Fzf
 FzfLua = require("fzf-lua")
-FzfLua.setup({ "ivy" })
+FzfLua.setup({ "telescope" })
 K("n", "<leader><leader>", FzfLua.files)
 K("n", "<leader>pf", FzfLua.git_files)
 K("n", "<leader>gd", FzfLua.lsp_definitions)
