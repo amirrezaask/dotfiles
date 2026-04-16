@@ -444,6 +444,15 @@ require("lazy").setup({
 	-- --------------------------------------------------------
 	-- File icons used by lualine, bufferline, snacks, etc.
 	{ "nvim-tree/nvim-web-devicons" },
+
+	{
+		"folke/noice.nvim",
+		opts = {},
+		dependencies = {
+			-- "MunifTanjim/nui.nvim",
+			"rcarriga/nvim-notify",
+		},
+	},
 })
 
 -- ============================================================
