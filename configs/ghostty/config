@@ -13,7 +13,7 @@ cursor-style = bar
 macos-titlebar-style=tabs
 # background-opacity = 0.93
 # background-blur-radius = 70
-# adjust-cell-height = 2
+adjust-cell-height = 2
 adjust-cell-width = 0
 window-theme = auto
 
