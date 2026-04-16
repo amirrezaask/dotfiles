@@ -205,9 +205,9 @@ vim.cmd([[ hi! Normal guibg=#1e2326 ]])
 
 -- Fzf
 FzfLua = require("fzf-lua")
-FzfLua.setup({ "fzf-vim" })
-K("n", "<leader><leader>", ":Files<CR>")
-K("n", "<leader>pf", ":GitFiles<CR>")
+FzfLua.setup({ "telescope" })
+K("n", "<leader><leader>", FzfLua.files)
+K("n", "<leader>pf", FzfLua.git_files)
 K("n", "<leader>gd", FzfLua.lsp_definitions)
 K("n", "<leader>grr", FzfLua.lsp_references)
 K("n", "<leader>gri", FzfLua.lsp_implementations)
