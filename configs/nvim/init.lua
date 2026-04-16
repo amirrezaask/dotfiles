@@ -204,7 +204,7 @@ vim.pack.add({
 
 -- Fzf
 FzfLua = require("fzf-lua")
-FzfLua.setup({ "telescope" })
+FzfLua.setup({ "ivy" })
 K("n", "<leader><leader>", FzfLua.files)
 K("n", "<leader>pf", FzfLua.git_files)
 K("n", "<leader>gd", FzfLua.lsp_definitions)
