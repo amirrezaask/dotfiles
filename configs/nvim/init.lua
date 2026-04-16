@@ -166,6 +166,7 @@ require("lazy").setup({
 		"vague-theme/vague.nvim",
 		opts = { transparent = true },
 	},
+	-- OneDark
 	{
 		"navarasu/onedark.nvim",
 		opts = {
@@ -173,9 +174,14 @@ require("lazy").setup({
 			transparent = true,
 		},
 	},
+	-- Nordic
 	{
 		"AlexvZyl/nordic.nvim",
 		opts = {},
+	},
+	-- Everforest
+	{
+		"sainnhe/everforest",
 	},
 
 	-- --------------------------------------------------------
@@ -443,4 +449,5 @@ require("lazy").setup({
 -- ============================================================
 -- Colorscheme
 -- ============================================================
-vim.cmd([[ colorscheme onedark ]])
+vim.cmd([[ colorscheme everforest ]])
+vim.cmd([[ hi! Normal guibg=#1e2326 ]])

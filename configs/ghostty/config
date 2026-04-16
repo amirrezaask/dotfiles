@@ -1,5 +1,5 @@
-theme = dark:Atom,light:Atom One Light
-font-family = TX-02
+theme = Everforest Dark Hard
+font-family = Maple Mono
 font-size = 14
 mouse-hide-while-typing = true
 macos-option-as-alt = true
