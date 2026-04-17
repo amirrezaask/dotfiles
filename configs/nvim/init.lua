@@ -295,7 +295,13 @@ require("blink.cmp").setup({
 	sources = {
 		default = { "lsp", "path", "buffer", "snippets" },
 	},
-	completion = { list = { selection = { preselect = false } } },
+	completion = {
+		list = { selection = { preselect = false } },
+		documentation = { auto_show = true, auto_show_delay_ms = 0, window = {
+			border = "rounded",
+		} },
+	},
+
 	keymap = {
 		preset = "default",
 		["<Tab>"] = { "accept", "fallback" },
