@@ -130,9 +130,6 @@ end, { expr = true })
 -- ============================================================
 vim.api.nvim_create_autocmd("PackChanged", { -- Updating Treesitter parsers if plugin updates.
 	callback = function(event)
-		if event.data.spec.name ~= "nvim-treesitter" then
-			return
-		end
 		if event.data.kind == "install" or event.data.kind == "update" then
 			vim.cmd("TSUpdate")
 		end
@@ -146,13 +143,13 @@ vim.pack.add({
 	-- --------------------------------------------------------
 	-- Colorschemes
 	-- --------------------------------------------------------
-	-- gh("folke/tokyonight.nvim"),
-	-- { src = gh("rose-pine/neovim"), name = "rose-pine" },
-	-- { src = gh("catppuccin/nvim"), name = "catppuccin" },
-	-- gh("vague-theme/vague.nvim"),
-	-- gh("navarasu/onedark.nvim"),
-	-- gh("AlexvZyl/nordic.nvim"),
-	-- gh("sainnhe/everforest"),
+	gh("folke/tokyonight.nvim"),
+	{ src = gh("rose-pine/neovim"), name = "rose-pine" },
+	{ src = gh("catppuccin/nvim"), name = "catppuccin" },
+	gh("vague-theme/vague.nvim"),
+	gh("navarasu/onedark.nvim"),
+	gh("AlexvZyl/nordic.nvim"),
+	gh("sainnhe/everforest"),
 
 	-- --------------------------------------------------------
 	-- LSP: mason + nvim-lspconfig
@@ -167,14 +164,8 @@ vim.pack.add({
 	gh("stevearc/conform.nvim"),
 
 	-- --------------------------------------------------------
-	-- Syntax: treesitter
-	-- --------------------------------------------------------
-	gh("nvim-treesitter/nvim-treesitter"),
-
-	-- --------------------------------------------------------
 	-- File handling
 	-- --------------------------------------------------------
-	gh("nvim-treesitter/nvim-treesitter"),
 
 	gh("stevearc/oil.nvim"),
 
@@ -187,29 +178,31 @@ vim.pack.add({
 	-- Icons
 	-- --------------------------------------------------------
 	gh("nvim-tree/nvim-web-devicons"),
+
+	gh("nvim-treesitter/nvim-treesitter"),
 }, { confirm = false, load = true })
 
--- Setting up colorschemes
--- require("tokyonight").setup({ transparent = true })
--- require("rose-pine").setup({ styles = { transparency = true } })
--- require("catppuccin").setup({ transparent = true })
--- require("vague").setup({ transparent = true })
--- require("onedark").setup({ style = "darker", transparent = true })
--- require("nordic").setup({})
+-- Colorschemes
+require("tokyonight").setup({ transparent = true })
+require("rose-pine").setup({ styles = { transparency = true } })
+require("catppuccin").setup({ transparent = true })
+require("vague").setup({ transparent = true })
+require("onedark").setup({ style = "darker", transparent = true })
+require("nordic").setup({})
 
--- vim.cmd([[ colorscheme everforest ]])
--- vim.cmd([[ hi! Normal guibg=#1e2326 ]])
+vim.cmd([[ colorscheme everforest ]])
+vim.cmd([[ hi! Normal guibg=#1e2326 ]])
 
 -- Fzf
 FzfLua = require("fzf-lua")
 FzfLua.setup({ "telescope" })
 K("n", "<leader><leader>", FzfLua.files)
 K("n", "<leader>pf", FzfLua.git_files)
-K("n", "<leader>gd", FzfLua.lsp_definitions)
-K("n", "<leader>grr", FzfLua.lsp_references)
-K("n", "<leader>gri", FzfLua.lsp_implementations)
 K("n", "<leader>j", FzfLua.live_grep)
-K({ "n", "v" }, "<leader>j", FzfLua.grep_cword)
+K({ "n", "v" }, "<leader>J", FzfLua.grep_cword)
+K("n", "gd", FzfLua.lsp_definitions)
+K("n", "grr", FzfLua.lsp_references)
+K("n", "gri", FzfLua.lsp_implementations)
 
 -- LSP setup
 require("mason").setup({})
@@ -264,5 +257,39 @@ require("conform").setup({
 	end,
 })
 
-require("nvim-treesitter.configs").setup({ highlight = { enable = true }, auto_install = true })
-vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+vim.api.nvim_create_autocmd("FileType", {
+	callback = function(args)
+		pcall(vim.treesitter.start, args.buf)
+	end,
+})
+
+require("nvim-treesitter").install({
+	"bash",
+	"c",
+	"cpp",
+	"fish",
+	"gitcommit",
+	"go",
+	"graphql",
+	"html",
+	"hyprlang",
+	"java",
+	"javascript",
+	"json",
+	"json5",
+	"lua",
+	"markdown",
+	"markdown_inline",
+	"python",
+	"query",
+	"rasi",
+	"regex",
+	"rust",
+	"scss",
+	"toml",
+	"tsx",
+	"typescript",
+	"vim",
+	"vimdoc",
+	"yaml",
+})

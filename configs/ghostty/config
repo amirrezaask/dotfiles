@@ -1,4 +1,5 @@
-theme = dark:Nvim Dark,light:Nvim Light
+# theme = dark:Nvim Dark,light:Nvim Light
+theme = Everforest Dark Hard
 font-family = Maple Mono
 font-style=bold
 font-size = 14
