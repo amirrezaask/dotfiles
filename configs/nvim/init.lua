@@ -187,8 +187,8 @@ require("vague").setup({ transparent = true })
 require("onedark").setup({ style = "darker", transparent = true })
 require("nordic").setup({})
 
-vim.cmd([[ colorscheme everforest ]])
-vim.cmd([[ hi! Normal guibg=#1e2326 ]])
+-- vim.cmd([[ colorscheme everforest ]])
+-- vim.cmd([[ hi! Normal guibg=#1e2326 ]])
 
 -- Fzf
 FzfLua = require("fzf-lua")
@@ -292,9 +292,7 @@ require("nvim-treesitter").install({
 })
 
 require("blink.cmp").setup({
-	sources = {
-		default = { "lsp", "path", "buffer", "snippets" },
-	},
+	sources = { default = { "lsp", "path", "buffer", "snippets" } },
 	completion = {
 		list = { selection = { preselect = false } },
 		documentation = { auto_show = true, auto_show_delay_ms = 0, window = {
