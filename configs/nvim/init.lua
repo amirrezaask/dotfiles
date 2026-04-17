@@ -58,11 +58,6 @@ vim.opt.wildoptions:append("fuzzy") -- Fuzzy completion in command line
 -- Diagnostics
 vim.diagnostic.config({ virtual_text = false }) -- Show diagnostics in floating window only
 
--- Autocomplete
-vim.o.autocomplete = true
-vim.o.pumborder = "rounded"
-vim.o.pummaxwidth = 40
-
 require("vim._core.ui2").enable({ enable = true })
 
 -- ============================================================
@@ -180,6 +175,8 @@ vim.pack.add({
 	gh("nvim-tree/nvim-web-devicons"),
 
 	gh("nvim-treesitter/nvim-treesitter"),
+
+	{ src = gh("saghen/blink.cmp"), version = "v1.6.0" },
 }, { confirm = false, load = true })
 
 -- Colorschemes
@@ -292,4 +289,16 @@ require("nvim-treesitter").install({
 	"vim",
 	"vimdoc",
 	"yaml",
+})
+
+require("blink.cmp").setup({
+	sources = {
+		default = { "lsp", "path", "buffer", "snippets" },
+	},
+	completion = { list = { selection = { preselect = false } } },
+	keymap = {
+		preset = "default",
+		["<Tab>"] = { "accept", "fallback" },
+		["<CR>"] = { "accept", "fallback" },
+	},
 })
