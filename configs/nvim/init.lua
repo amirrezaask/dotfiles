@@ -1,18 +1,9 @@
--- ============================================================
--- Leader Keys
--- ============================================================
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 K = vim.keymap.set
 
--- ============================================================
--- Options
--- ============================================================
--- Persistence
 vim.o.undofile = true -- Persist undo history across sessions
 vim.o.swapfile = false -- Disable swap files
-
--- Editor UI
 vim.o.number = true -- Show line numbers
 vim.o.relativenumber = true -- Use relative line numbers
 vim.o.signcolumn = "yes" -- Always show sign column
@@ -22,7 +13,6 @@ vim.o.linebreak = true -- Wrap at word boundaries
 vim.o.winborder = "rounded" -- Rounded borders for floating windows
 vim.o.laststatus = 3 -- Global statusline
 
--- Folding (treesitter-based)
 vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "" -- Set by treesitter plugin
 vim.opt.foldcolumn = "0"
@@ -31,50 +21,40 @@ vim.opt.foldlevel = 99
 vim.opt.foldlevelstart = 5
 vim.opt.foldnestmax = 4
 
--- Indentation
 vim.o.tabstop = 4 -- Tab width
 vim.o.shiftwidth = 0 -- Use tabstop value
 
--- Search
 vim.o.ignorecase = true -- Case-insensitive search
 vim.o.smartcase = true -- Case-sensitive if uppercase in pattern
 
--- Editing
 vim.o.formatoptions = "jcql" -- Auto-formatting options
 vim.o.inccommand = "split" -- Preview substitutions in split
 vim.o.completeopt = "menuone,noselect,noinsert,fuzzy" -- Completion behavior
 
--- Splits
 vim.o.splitbelow = true -- Horizontal splits go below
 vim.o.splitright = true -- Vertical splits go right
 vim.o.splitkeep = "topline" -- Keep cursor line when splitting
 
--- Clipboard
 vim.o.clipboard = "unnamedplus" -- Use system clipboard
 
--- Wildmenu
 vim.opt.wildoptions:append("fuzzy") -- Fuzzy completion in command line
 
--- Diagnostics
 vim.diagnostic.config({ virtual_text = false }) -- Show diagnostics in floating window only
 
-require("vim._core.ui2").enable({ enable = true })
+local ok, ui2 = pcall(require, "vim._core.ui2")
+if ok then
+	ui2.enable({ enable = true })
+end
 
--- ============================================================
--- Autocommands
--- ============================================================
--- Highlight yanked text briefly
-vim.api.nvim_create_autocmd("TextYankPost", {
+vim.api.nvim_create_autocmd("TextYankPost", { -- Highlight yanked text briefly
 	callback = function()
 		vim.hl.on_yank({ higroup = "Visual", timeout = 150 })
 	end,
 })
 
--- Equalize windows on resize
-vim.api.nvim_create_autocmd("VimResized", { command = "wincmd =" })
+vim.api.nvim_create_autocmd("VimResized", { command = "wincmd =" }) -- Equalize windows on resize
 
--- Restore cursor position when reopening file
-vim.api.nvim_create_autocmd("BufReadPost", {
+vim.api.nvim_create_autocmd("BufReadPost", { -- Restore cursor position when reopening file
 	callback = function(args)
 		local mark = vim.api.nvim_buf_get_mark(args.buf, '"')
 		local line_count = vim.api.nvim_buf_line_count(args.buf)
@@ -87,31 +67,22 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 	end,
 })
 
--- ============================================================
--- Keymaps
--- ============================================================
--- Escape alternatives in insert mode
 K("i", "jk", "<esc>")
 K("i", "kj", "<esc>")
 K("i", "<C-c>", "<esc>")
 
--- Center screen when scrolling
 K("n", "<C-d>", "<C-d>zz")
 K("n", "<C-u>", "<C-u>zz")
 
--- Center screen when searching
 K("n", "n", "nzz")
 K("n", "N", "Nzz")
 
--- Move by visual lines (for wrapped text)
 K("n", "j", "gj")
 K("n", "k", "gk")
 
--- Quick edit config
 K("n", "<leader>i", ":edit $MYVIMRC<CR>")
 
--- Clear search highlight with Enter
-K("n", "<CR>", function()
+K("n", "<CR>", function() -- Clear search highlight with Enter
 	if vim.v.hlsearch == 1 then
 		vim.cmd.nohl()
 		return ""
@@ -120,83 +91,21 @@ K("n", "<CR>", function()
 	end
 end, { expr = true })
 
--- ============================================================
--- Package Manager: vim.pack
--- ============================================================
-vim.api.nvim_create_autocmd("PackChanged", { -- Updating Treesitter parsers if plugin updates.
-	callback = function(event)
-		if event.data.kind == "install" or event.data.kind == "update" then
-			vim.cmd("TSUpdate")
-		end
-	end,
-})
 local gh = function(repo)
 	return "https://github.com/" .. repo
 end
 
 vim.pack.add({
-	-- --------------------------------------------------------
-	-- Colorschemes
-	-- --------------------------------------------------------
-	-- gh("folke/tokyonight.nvim"),
-	-- { src = gh("rose-pine/neovim"), name = "rose-pine" },
-	-- { src = gh("catppuccin/nvim"), name = "catppuccin" },
-	-- gh("vague-theme/vague.nvim"),
-	-- gh("navarasu/onedark.nvim"),
-	-- gh("AlexvZyl/nordic.nvim"),
-	-- gh("sainnhe/everforest"),
-
-	-- --------------------------------------------------------
-	-- LSP: mason + nvim-lspconfig
-	-- --------------------------------------------------------
 	gh("mason-org/mason.nvim"),
 	gh("mason-org/mason-lspconfig.nvim"),
 	gh("neovim/nvim-lspconfig"),
-
-	-- --------------------------------------------------------
-	-- Formatting: conform.nvim
-	-- --------------------------------------------------------
 	gh("stevearc/conform.nvim"),
-
-	-- --------------------------------------------------------
-	-- File handling
-	-- --------------------------------------------------------
-
 	gh("stevearc/oil.nvim"),
-
-	-- --------------------------------------------------------
-	-- Fuzzy Finder
-	-- --------------------------------------------------------
 	gh("ibhagwan/fzf-lua"),
-
-	-- --------------------------------------------------------
-	-- Icons
-	-- --------------------------------------------------------
-	gh("nvim-tree/nvim-web-devicons"),
-
-	-- --------------------------------------------------------
-	-- Treesitter
-	-- --------------------------------------------------------
 	gh("nvim-treesitter/nvim-treesitter"),
-
-	-- --------------------------------------------------------
-	-- Blink.cmp: Fast Autocomplete provider
-	-- --------------------------------------------------------
 	{ src = gh("saghen/blink.cmp"), version = "v1.6.0" },
 }, { confirm = false, load = true })
 
--- Colorschemes
--- require("tokyonight").setup({ transparent = true })
--- require("rose-pine").setup({ styles = { transparency = true } })
--- require("catppuccin").setup({ transparent = true })
--- require("vague").setup({ transparent = true })
--- require("onedark").setup({ style = "darker", transparent = true })
--- require("nordic").setup({})
-
--- vim.cmd([[ colorscheme everforest ]])
--- vim.cmd([[ hi! Normal guibg=#1e2326 ]])
-
--- Fzf
 FzfLua = require("fzf-lua")
 FzfLua.setup({ "fzf-vim" })
 K("n", "<leader><leader>", FzfLua.files)
@@ -207,11 +116,9 @@ K("n", "gd", FzfLua.lsp_definitions)
 K("n", "grr", FzfLua.lsp_references)
 K("n", "gri", FzfLua.lsp_implementations)
 
--- LSP setup
 require("mason").setup({})
 require("mason-lspconfig").setup({ ensure_installed = { "lua_ls", "gopls" } })
 
--- LSP keymaps on attach
 vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(args)
 		K("n", "gd", vim.lsp.buf.definition, { buffer = args.buf })
@@ -219,7 +126,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
 	end,
 })
 
--- Lua language server settings
 vim.lsp.config("lua_ls", {
 	settings = {
 		Lua = {
@@ -231,8 +137,7 @@ vim.lsp.config("lua_ls", {
 	},
 })
 
--- Autoformat on save
-require("conform").setup({
+require("conform").setup({ -- Autoformat on save
 	formatters_by_ft = {
 		php = nil,
 		go = { "goimports" },
@@ -260,7 +165,6 @@ require("conform").setup({
 	end,
 })
 
--- Treesitter
 vim.api.nvim_create_autocmd("FileType", {
 	callback = function(args)
 		pcall(vim.treesitter.start, args.buf)
@@ -298,7 +202,6 @@ require("nvim-treesitter").install({
 	"yaml",
 })
 
--- Blink
 require("blink.cmp").setup({
 	sources = { default = { "lsp", "path", "buffer", "snippets" } },
 	completion = {
