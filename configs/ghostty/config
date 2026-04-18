@@ -1,11 +1,13 @@
-theme = dark:Nvim Dark,light:Nvim Light
-font-family = Menlo Regular
-font-style=bold
+# theme = dark:Nvim Dark,light:Nvim Light
+theme = Nvim Dark
+font-family = Maple Mono
+font-style=Bold
 font-size = 14
 mouse-hide-while-typing = true
 macos-option-as-alt = true
 window-padding-balance = true
 shell-integration-features=no-cursor
+window-inherit-working-directory = false
 maximize=true
 cursor-style-blink=false
 cursor-style = block

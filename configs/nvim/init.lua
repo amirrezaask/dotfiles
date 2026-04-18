@@ -14,7 +14,7 @@ vim.o.winborder = "rounded" -- Rounded borders for floating windows
 vim.o.laststatus = 3 -- Global statusline
 
 vim.opt.foldmethod = "expr"
-vim.opt.foldexpr = "" -- Set by treesitter plugin
+vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()" -- Set by treesitter plugin
 vim.opt.foldcolumn = "0"
 vim.opt.foldtext = ""
 vim.opt.foldlevel = 99
@@ -41,7 +41,7 @@ vim.opt.wildoptions:append("fuzzy") -- Fuzzy completion in command line
 
 vim.diagnostic.config({ virtual_text = false }) -- Show diagnostics in floating window only
 
-local ok, ui2 = pcall(require, "vim._core.ui2")
+local ok, ui2 = pcall(require, "vim._core.ui2") -- EXPERIMENTAL: Neovim 0.12 new UI
 if ok then
 	ui2.enable({ enable = true })
 end
@@ -112,17 +112,19 @@ K("n", "<leader><leader>", FzfLua.files)
 K("n", "<leader>pf", FzfLua.git_files)
 K("n", "<leader>j", FzfLua.live_grep)
 K({ "n", "v" }, "<leader>J", FzfLua.grep_cword)
-K("n", "gd", FzfLua.lsp_definitions)
-K("n", "grr", FzfLua.lsp_references)
-K("n", "gri", FzfLua.lsp_implementations)
 
 require("mason").setup({})
 require("mason-lspconfig").setup({ ensure_installed = { "lua_ls", "gopls" } })
 
 vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(args)
-		K("n", "gd", vim.lsp.buf.definition, { buffer = args.buf })
 		K("n", "L", vim.diagnostic.open_float, { buffer = args.buf })
+		K("n", "gd", FzfLua.lsp_definitions)
+		K("n", "grr", FzfLua.lsp_references)
+		K("n", "gri", FzfLua.lsp_implementations)
+		K("n", "gO", FzfLua.lsp_document_symbols)
+		K("n", "<leader>o", FzfLua.lsp_document_symbols)
+		K("n", "<leader>O", FzfLua.lsp_live_workspace_symbols)
 	end,
 })
 
