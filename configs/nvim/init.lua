@@ -138,13 +138,13 @@ vim.pack.add({
 	-- --------------------------------------------------------
 	-- Colorschemes
 	-- --------------------------------------------------------
-	gh("folke/tokyonight.nvim"),
-	{ src = gh("rose-pine/neovim"), name = "rose-pine" },
-	{ src = gh("catppuccin/nvim"), name = "catppuccin" },
-	gh("vague-theme/vague.nvim"),
-	gh("navarasu/onedark.nvim"),
-	gh("AlexvZyl/nordic.nvim"),
-	gh("sainnhe/everforest"),
+	-- gh("folke/tokyonight.nvim"),
+	-- { src = gh("rose-pine/neovim"), name = "rose-pine" },
+	-- { src = gh("catppuccin/nvim"), name = "catppuccin" },
+	-- gh("vague-theme/vague.nvim"),
+	-- gh("navarasu/onedark.nvim"),
+	-- gh("AlexvZyl/nordic.nvim"),
+	-- gh("sainnhe/everforest"),
 
 	-- --------------------------------------------------------
 	-- LSP: mason + nvim-lspconfig
@@ -174,25 +174,31 @@ vim.pack.add({
 	-- --------------------------------------------------------
 	gh("nvim-tree/nvim-web-devicons"),
 
+	-- --------------------------------------------------------
+	-- Treesitter
+	-- --------------------------------------------------------
 	gh("nvim-treesitter/nvim-treesitter"),
 
+	-- --------------------------------------------------------
+	-- Blink.cmp: Fast Autocomplete provider
+	-- --------------------------------------------------------
 	{ src = gh("saghen/blink.cmp"), version = "v1.6.0" },
 }, { confirm = false, load = true })
 
 -- Colorschemes
-require("tokyonight").setup({ transparent = true })
-require("rose-pine").setup({ styles = { transparency = true } })
-require("catppuccin").setup({ transparent = true })
-require("vague").setup({ transparent = true })
-require("onedark").setup({ style = "darker", transparent = true })
-require("nordic").setup({})
+-- require("tokyonight").setup({ transparent = true })
+-- require("rose-pine").setup({ styles = { transparency = true } })
+-- require("catppuccin").setup({ transparent = true })
+-- require("vague").setup({ transparent = true })
+-- require("onedark").setup({ style = "darker", transparent = true })
+-- require("nordic").setup({})
 
 -- vim.cmd([[ colorscheme everforest ]])
 -- vim.cmd([[ hi! Normal guibg=#1e2326 ]])
 
 -- Fzf
 FzfLua = require("fzf-lua")
-FzfLua.setup({ "telescope" })
+FzfLua.setup({ "fzf-vim" })
 K("n", "<leader><leader>", FzfLua.files)
 K("n", "<leader>pf", FzfLua.git_files)
 K("n", "<leader>j", FzfLua.live_grep)
@@ -254,6 +260,7 @@ require("conform").setup({
 	end,
 })
 
+-- Treesitter
 vim.api.nvim_create_autocmd("FileType", {
 	callback = function(args)
 		pcall(vim.treesitter.start, args.buf)
@@ -291,6 +298,7 @@ require("nvim-treesitter").install({
 	"yaml",
 })
 
+-- Blink
 require("blink.cmp").setup({
 	sources = { default = { "lsp", "path", "buffer", "snippets" } },
 	completion = {
