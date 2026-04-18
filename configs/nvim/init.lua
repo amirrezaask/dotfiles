@@ -41,6 +41,9 @@ vim.opt.wildoptions:append("fuzzy") -- Fuzzy completion in command line
 
 vim.diagnostic.config({ virtual_text = false }) -- Show diagnostics in floating window only
 
+vim.o.autocomplete = true -- :h 'autocomplete', neovim 0.12+
+vim.o.pumheight = 10
+
 local ok, ui2 = pcall(require, "vim._core.ui2") -- EXPERIMENTAL: Neovim 0.12 new UI
 if ok then
 	ui2.enable({ enable = true })
@@ -82,6 +85,7 @@ K("n", "k", "gk")
 
 K("n", "<leader>i", ":edit $MYVIMRC<CR>")
 
+K("i", "<C-Space>", "<C-x><C-o>", { desc = "Trigger LSP completion" })
 K("n", "<CR>", function() -- Clear search highlight with Enter
 	if vim.v.hlsearch == 1 then
 		vim.cmd.nohl()
@@ -103,7 +107,6 @@ vim.pack.add({
 	gh("stevearc/oil.nvim"),
 	gh("ibhagwan/fzf-lua"),
 	gh("nvim-treesitter/nvim-treesitter"),
-	{ src = gh("saghen/blink.cmp"), version = "v1.6.0" },
 }, { confirm = false, load = true })
 
 FzfLua = require("fzf-lua")
@@ -118,6 +121,30 @@ require("mason-lspconfig").setup({ ensure_installed = { "lua_ls", "gopls" } })
 
 vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(args)
+		local client = vim.lsp.get_client_by_id(args.data.client_id)
+
+		if client and client:supports_method("textDocument/completion") then
+			vim.lsp.completion.enable(true, client.id, args.buf, {
+				autotrigger = true,
+			})
+		end
+		local opts = { buffer = args.buf, expr = true, replace_keycodes = false }
+		vim.keymap.set("i", "<Tab>", function()
+			if vim.fn.pumvisible() == 1 then
+				return vim.keycode("<C-y>")
+			else
+				return vim.keycode("<Tab>")
+			end
+		end, opts)
+
+		vim.keymap.set("i", "<CR>", function()
+			if vim.fn.pumvisible() == 1 then
+				return vim.keycode("<C-y>")
+			else
+				return vim.keycode("<CR>")
+			end
+		end, opts)
+
 		K("n", "L", vim.diagnostic.open_float, { buffer = args.buf })
 		K("n", "gd", FzfLua.lsp_definitions)
 		K("n", "grr", FzfLua.lsp_references)
@@ -202,20 +229,4 @@ require("nvim-treesitter").install({
 	"vim",
 	"vimdoc",
 	"yaml",
-})
-
-require("blink.cmp").setup({
-	sources = { default = { "lsp", "path", "buffer", "snippets" } },
-	completion = {
-		list = { selection = { preselect = false } },
-		documentation = { auto_show = true, auto_show_delay_ms = 0, window = {
-			border = "rounded",
-		} },
-	},
-
-	keymap = {
-		preset = "default",
-		["<Tab>"] = { "accept", "fallback" },
-		["<CR>"] = { "accept", "fallback" },
-	},
 })
