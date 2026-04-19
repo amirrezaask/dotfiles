@@ -1,6 +1,5 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
-K = vim.keymap.set
 
 vim.o.undofile = true -- Persist undo history across sessions
 vim.o.swapfile = false -- Disable swap files
@@ -43,6 +42,7 @@ vim.diagnostic.config({ virtual_text = false }) -- Show diagnostics in floating 
 
 vim.o.autocomplete = true -- :h 'autocomplete', neovim 0.12+
 vim.o.pumheight = 10
+vim.o.pumblend = 15
 
 local ok, ui2 = pcall(require, "vim._core.ui2") -- EXPERIMENTAL: Neovim 0.12 new UI
 if ok then
@@ -70,23 +70,23 @@ vim.api.nvim_create_autocmd("BufReadPost", { -- Restore cursor position when reo
 	end,
 })
 
-K("i", "jk", "<esc>")
-K("i", "kj", "<esc>")
-K("i", "<C-c>", "<esc>")
+vim.keymap.set("i", "jk", "<esc>")
+vim.keymap.set("i", "kj", "<esc>")
+vim.keymap.set("i", "<C-c>", "<esc>")
 
-K("n", "<C-d>", "<C-d>zz")
-K("n", "<C-u>", "<C-u>zz")
+vim.keymap.set("n", "<C-d>", "<C-d>zz")
+vim.keymap.set("n", "<C-u>", "<C-u>zz")
 
-K("n", "n", "nzz")
-K("n", "N", "Nzz")
+vim.keymap.set("n", "n", "nzz")
+vim.keymap.set("n", "N", "Nzz")
 
-K("n", "j", "gj")
-K("n", "k", "gk")
+vim.keymap.set("n", "j", "gj")
+vim.keymap.set("n", "k", "gk")
 
-K("n", "<leader>i", ":edit $MYVIMRC<CR>")
+vim.keymap.set("n", "<leader>i", ":edit $MYVIMRC<CR>")
 
-K("i", "<C-Space>", "<C-x><C-o>", { desc = "Trigger LSP completion" })
-K("n", "<CR>", function() -- Clear search highlight with Enter
+vim.keymap.set("i", "<C-Space>", "<C-x><C-o>", { desc = "Trigger LSP completion" })
+vim.keymap.set("n", "<CR>", function() -- Clear search highlight with Enter
 	if vim.v.hlsearch == 1 then
 		vim.cmd.nohl()
 		return ""
@@ -111,10 +111,10 @@ vim.pack.add({
 
 FzfLua = require("fzf-lua")
 FzfLua.setup({ "fzf-vim" })
-K("n", "<leader><leader>", FzfLua.files)
-K("n", "<leader>pf", FzfLua.git_files)
-K("n", "<leader>j", FzfLua.live_grep)
-K({ "n", "v" }, "<leader>J", FzfLua.grep_cword)
+vim.keymap.set("n", "<leader><leader>", FzfLua.files)
+vim.keymap.set("n", "<leader>pf", FzfLua.git_files)
+vim.keymap.set("n", "<leader>j", FzfLua.live_grep)
+vim.keymap.set({ "n", "v" }, "<leader>J", FzfLua.grep_cword)
 
 require("mason").setup({})
 require("mason-lspconfig").setup({ ensure_installed = { "lua_ls", "gopls" } })
@@ -123,6 +123,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(args)
 		local client = vim.lsp.get_client_by_id(args.data.client_id)
 
+		vim.lsp.inlay_hint.enable(true, { bufnr = args.buf })
 		if client and client:supports_method("textDocument/completion") then
 			vim.lsp.completion.enable(true, client.id, args.buf, {
 				autotrigger = true,
@@ -145,13 +146,13 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			end
 		end, opts)
 
-		K("n", "L", vim.diagnostic.open_float, { buffer = args.buf })
-		K("n", "gd", FzfLua.lsp_definitions)
-		K("n", "grr", FzfLua.lsp_references)
-		K("n", "gri", FzfLua.lsp_implementations)
-		K("n", "gO", FzfLua.lsp_document_symbols)
-		K("n", "<leader>o", FzfLua.lsp_document_symbols)
-		K("n", "<leader>O", FzfLua.lsp_live_workspace_symbols)
+		vim.keymap.set("n", "L", vim.diagnostic.open_float, { buffer = args.buf })
+		vim.keymap.set("n", "gd", FzfLua.lsp_definitions)
+		vim.keymap.set("n", "grr", FzfLua.lsp_references)
+		vim.keymap.set("n", "gri", FzfLua.lsp_implementations)
+		vim.keymap.set("n", "gO", FzfLua.lsp_document_symbols)
+		vim.keymap.set("n", "<leader>o", FzfLua.lsp_document_symbols)
+		vim.keymap.set("n", "<leader>O", FzfLua.lsp_live_workspace_symbols)
 	end,
 })
 

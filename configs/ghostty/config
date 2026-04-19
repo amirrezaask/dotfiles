@@ -1,7 +1,7 @@
 # theme = dark:Nvim Dark,light:Nvim Light
 theme = Nvim Dark
-font-family = Maple Mono
-font-style=Bold
+font-family = Fira Code
+font-style=SemiBold
 font-size = 14
 mouse-hide-while-typing = true
 macos-option-as-alt = true

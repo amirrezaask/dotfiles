@@ -1,7 +1,7 @@
 {
   "editor.fontFamily": "Maple Mono, Jetbrains Mono",
   "editor.fontSize": 14,
-  "editor.lineHeight": 2,
+  "editor.lineHeight": 1.5,
   "editor.cursorBlinking": "solid",
   "files.autoSave": "onFocusChange",
   "editor.wordWrap": "on",
@@ -34,7 +34,7 @@
   ],
   "kilo-code.deniedCommands": [],
   "redhat.telemetry.enabled": true,
-  "window.autoDetectColorScheme": true,
+  "window.autoDetectColorScheme": false,
   "workbench.preferredLightColorTheme": "Light 2026",
   "workbench.preferredDarkColorTheme": "Dark 2026",
   "terminal.integrated.commandsToSkipShell": [
