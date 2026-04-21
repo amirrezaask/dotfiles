@@ -23,7 +23,6 @@
   { "key": "cmd+shift+l", "command": "editor.action.insertCursorAtEndOfEachLineSelected", "when": "editorTextFocus" },
 
   // Toggle viewlets
-  { "key": "cmd+0", "command": "workbench.action.toggleSidebarVisibility" },
   { "key": "cmd+1", "command": "workbench.action.toggleSidebarVisibility" },
   { "key": "ctrl+1", "command": "workbench.action.toggleSidebarVisibility" },
   { "key": "cmd+2", "command": "workbench.action.terminal.toggleTerminal" },
@@ -31,5 +30,7 @@
   { "key": "cmd+3", "command": "workbench.action.toggleAuxiliaryBar" },
   { "key": "ctrl+3", "command": "workbench.action.toggleAuxiliaryBar" },
 
-  { "key": "cmd+ctrl+p", "command": "gitProjectManager.openProjectNewWindow"},
+  { "key": "cmd+ctrl+p", "command": "gitProjectManager.openProjectNewWindow" },
+  { "key": "cmd+.", "command": "workbench.action.showNextWindowTab"},
+  { "key": "cmd+,", "command": "workbench.action.showPreviousWindowTab"},
 ]

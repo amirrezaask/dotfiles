@@ -32,7 +32,7 @@ alias gd='git diff'
 alias gdc='git diff --cached'
 alias gds='git diff --staged'
 alias gdt='git difftool'
-alias gl='git pull --tags --prune'
+alias gl='git pull --tags --prune --force'
 alias glg='git log'
 alias ga='git add'
 alias gp='git push'
@@ -107,3 +107,6 @@ export PATH="/Users/amirrezaask/.gapcode/bin:$PATH"
 
 eval "$(starship init zsh)"
 
+
+# opencode
+export PATH=/Users/amirrezaask/.opencode/bin:$PATH
