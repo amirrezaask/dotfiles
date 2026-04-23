@@ -1,5 +1,6 @@
 # theme = Nvim Dark
-theme = Vague
+# theme = Vague
+theme = Everforest Dark Hard
 font-family = CaskaydiaCove Nerd Font Mono
 # font-style=SemiBold
 font-size = 14

@@ -107,6 +107,7 @@ vim.pack.add({
 	{ src = gh("embark-theme/vim"), name = "embark" },
 	gh("datsfilipe/vesper.nvim"),
 	gh("daltonmenezes/aura-theme"),
+	gh("sainnhe/everforest"),
 
 	-- LSP
 	gh("mason-org/mason.nvim"),
@@ -140,7 +141,15 @@ require("vesper").setup({
 		variables = false, -- Boolean: Italicizes variables
 	},
 })
-vim.cmd([[ colorscheme  vague ]])
+
+vim.g.everforest_background = "hard"
+vim.api.nvim_create_autocmd("ColorScheme", {
+	pattern = "everforest",
+	callback = function()
+		vim.cmd([[ hi! Normal guibg=#1e2326 ]])
+	end,
+})
+vim.cmd([[ colorscheme everforest ]])
 
 FzfLua = require("fzf-lua")
 FzfLua.setup({ "telescope" })
