@@ -149,7 +149,10 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 		vim.cmd([[ hi! Normal guibg=#1e2326 ]])
 	end,
 })
-vim.cmd([[ colorscheme everforest ]])
+vim.cmd([[ colorscheme default ]])
+vim.cmd([[ 
+	hi! Normal guibg=none
+]])
 
 FzfLua = require("fzf-lua")
 FzfLua.setup({ "telescope" })
