@@ -100,17 +100,47 @@ local gh = function(repo)
 end
 
 vim.pack.add({
+	-- Themes
+	gh("folke/tokyonight.nvim"),
+	gh("vague-theme/vague.nvim"),
+	{ src = gh("catppuccin/nvim"), name = "catppuccin" },
+	{ src = gh("embark-theme/vim"), name = "embark" },
+	gh("datsfilipe/vesper.nvim"),
+	gh("daltonmenezes/aura-theme"),
+
+	-- LSP
 	gh("mason-org/mason.nvim"),
 	gh("mason-org/mason-lspconfig.nvim"),
 	gh("neovim/nvim-lspconfig"),
+
 	gh("stevearc/conform.nvim"),
 	gh("stevearc/oil.nvim"),
 	gh("ibhagwan/fzf-lua"),
 	gh("nvim-treesitter/nvim-treesitter"),
 }, { confirm = false, load = true })
 
+vim.opt.rtp:append(vim.fn.stdpath("data") .. "/site/pack/core/opt/aura-theme" .. "/packages/neovim")
+
+require("vague").setup({
+	transparent = false, -- If true, background is not set
+	bold = false, -- Disable bold globally
+	italic = false, -- Disable italic globally
+})
+
+require("vesper").setup({
+	transparent = false, -- Boolean: Sets the background to transparent
+	italics = {
+		comments = false, -- Boolean: Italicizes comments
+		keywords = false, -- Boolean: Italicizes keywords
+		functions = false, -- Boolean: Italicizes functions
+		strings = false, -- Boolean: Italicizes strings
+		variables = false, -- Boolean: Italicizes variables
+	},
+})
+vim.cmd([[ colorscheme  vague ]])
+
 FzfLua = require("fzf-lua")
-FzfLua.setup({ "fzf-vim" })
+FzfLua.setup({ "telescope" })
 vim.keymap.set("n", "<leader><leader>", FzfLua.files)
 vim.keymap.set("n", "<leader>pf", FzfLua.git_files)
 vim.keymap.set("n", "<leader>j", FzfLua.live_grep)

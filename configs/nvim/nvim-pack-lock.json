@@ -1,5 +1,9 @@
 {
   "plugins": {
+    "aura-theme": {
+      "rev": "c607be79c8eeaa5a5d7ac66421f8b5c51d936fe8",
+      "src": "https://github.com/baliestri/aura-theme"
+    },
     "blink.cmp": {
       "rev": "bae4bae",
       "src": "https://github.com/saghen/blink.cmp",
@@ -24,6 +28,10 @@
     "eldritch.nvim": {
       "rev": "0415fa72c348e814a7a6cc9405593a4f812fe12f",
       "src": "https://github.com/eldritch-theme/eldritch.nvim"
+    },
+    "embark": {
+      "rev": "7014644e25d5cebcb3e70a079804c44ec14d8e46",
+      "src": "https://github.com/embark-theme/vim"
     },
     "everforest": {
       "rev": "0909c23",
@@ -125,6 +133,10 @@
     "vague.nvim": {
       "rev": "c1ab4d4891ff3a27deba6a80222d895ac8ffb2e5",
       "src": "https://github.com/vague-theme/vague.nvim"
+    },
+    "vesper.nvim": {
+      "rev": "1717b1ad657c94bec3fc2bdebb0c55452d9fe46d",
+      "src": "https://github.com/datsfilipe/vesper.nvim"
     }
   }
 }
