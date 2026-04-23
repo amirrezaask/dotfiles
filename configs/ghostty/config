@@ -14,7 +14,10 @@ cursor-style-blink=false
 cursor-style = block
 # adjust-cell-height = 40%
 # adjust-cell-width = 0
+# background=#000000
+# foreground=#ffffff
 cursor-color = green
+
 split-divider-color = green
 # background-opacity = 0.85
 # background-blur = true

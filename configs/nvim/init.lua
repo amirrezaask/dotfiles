@@ -150,12 +150,12 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 	end,
 })
 vim.cmd([[ colorscheme default ]])
-vim.cmd([[ 
-	hi! Normal guibg=none
-]])
+-- vim.cmd([[
+-- 	hi! Normal guibg=none
+-- ]])
 
 FzfLua = require("fzf-lua")
-FzfLua.setup({ "telescope" })
+FzfLua.setup({ "fzf-vim" })
 vim.keymap.set("n", "<leader><leader>", FzfLua.files)
 vim.keymap.set("n", "<leader>pf", FzfLua.git_files)
 vim.keymap.set("n", "<leader>j", FzfLua.live_grep)
@@ -218,10 +218,10 @@ require("conform").setup({ -- Autoformat on save
 		go = { "goimports" },
 		lua = { "stylua" },
 		json = { "jq" },
-		javascript = { "eslint_d" },
-		typescript = { "eslint_d" },
-		javascriptreact = { "eslint_d" },
-		typescriptreact = { "eslint_d" },
+		-- javascript = { "eslint_d" },
+		-- typescript = { "eslint_d" },
+		-- javascriptreact = { "eslint_d" },
+		-- typescriptreact = { "eslint_d" },
 	},
 	format_on_save = function(bufnr)
 		local ft = vim.bo[bufnr].filetype
