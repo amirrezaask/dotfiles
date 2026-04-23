@@ -114,8 +114,11 @@ vim.pack.add({
 	gh("neovim/nvim-lspconfig"),
 
 	gh("stevearc/conform.nvim"),
+
 	gh("stevearc/oil.nvim"),
+
 	gh("ibhagwan/fzf-lua"),
+
 	gh("nvim-treesitter/nvim-treesitter"),
 }, { confirm = false, load = true })
 

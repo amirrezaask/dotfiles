@@ -1,6 +1,7 @@
-theme = Nvim Dark
+# theme = Nvim Dark
+theme = Vague
 font-family = CaskaydiaCove Nerd Font Mono
-font-style=Bold
+# font-style=SemiBold
 font-size = 14
 mouse-hide-while-typing = true
 macos-option-as-alt = true
