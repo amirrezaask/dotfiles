@@ -106,24 +106,23 @@ vim.pack.add({
 	{ src = gh("catppuccin/nvim"), name = "catppuccin" },
 	{ src = gh("embark-theme/vim"), name = "embark" },
 	gh("datsfilipe/vesper.nvim"),
-	gh("daltonmenezes/aura-theme"),
 	gh("sainnhe/everforest"),
+
+	gh("nvim-lualine/lualine.nvim"), -- StatusLine
 
 	-- LSP
 	gh("mason-org/mason.nvim"),
 	gh("mason-org/mason-lspconfig.nvim"),
 	gh("neovim/nvim-lspconfig"),
 
-	gh("stevearc/conform.nvim"),
+	gh("stevearc/conform.nvim"), -- Autoformatting
 
-	gh("stevearc/oil.nvim"),
+	gh("stevearc/oil.nvim"), -- File management
 
-	gh("ibhagwan/fzf-lua"),
+	gh("ibhagwan/fzf-lua"), -- Fuzzy Finder
 
-	gh("nvim-treesitter/nvim-treesitter"),
+	gh("nvim-treesitter/nvim-treesitter"), -- Syntax Highlighting
 }, { confirm = false, load = true })
-
-vim.opt.rtp:append(vim.fn.stdpath("data") .. "/site/pack/core/opt/aura-theme" .. "/packages/neovim")
 
 require("vague").setup({
 	transparent = false, -- If true, background is not set
@@ -149,10 +148,25 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 		vim.cmd([[ hi! Normal guibg=#1e2326 ]])
 	end,
 })
-vim.cmd([[ colorscheme default ]])
-vim.cmd([[
-	hi! Normal guibg=none
-]])
+vim.cmd([[ colorscheme everforest ]])
+
+if false then -- Transparency
+	vim.cmd([[
+		hi! Normal guibg=none
+		hi! CursorLine guibg=none
+	]])
+end
+
+require("lualine").setup({
+	sections = {
+		lualine_a = { "mode" },
+		lualine_b = { "branch", "diff", "diagnostics" },
+		lualine_c = { { "filename", path = 1 } },
+		lualine_x = { "encoding", "fileformat", "filetype" },
+		lualine_y = { "progress" },
+		lualine_z = { "location" },
+	},
+})
 
 FzfLua = require("fzf-lua")
 FzfLua.setup({ "telescope" })
