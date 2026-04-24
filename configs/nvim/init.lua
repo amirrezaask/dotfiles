@@ -150,12 +150,12 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 	end,
 })
 vim.cmd([[ colorscheme default ]])
--- vim.cmd([[
--- 	hi! Normal guibg=none
--- ]])
+vim.cmd([[
+	hi! Normal guibg=none
+]])
 
 FzfLua = require("fzf-lua")
-FzfLua.setup({ "fzf-vim" })
+FzfLua.setup({ "telescope" })
 vim.keymap.set("n", "<leader><leader>", FzfLua.files)
 vim.keymap.set("n", "<leader>pf", FzfLua.git_files)
 vim.keymap.set("n", "<leader>j", FzfLua.live_grep)

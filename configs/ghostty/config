@@ -19,8 +19,8 @@ cursor-style = block
 cursor-color = green
 
 split-divider-color = green
-# background-opacity = 0.85
-# background-blur = true
+background-opacity = 0.85
+background-blur = true
 
 keybind = cmd+n=next_tab
 keybind = cmd+p=previous_tab

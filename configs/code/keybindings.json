@@ -32,5 +32,13 @@
 
   { "key": "cmd+ctrl+p", "command": "gitProjectManager.openProjectNewWindow" },
   { "key": "cmd+.", "command": "workbench.action.showNextWindowTab"},
-  { "key": "cmd+,", "command": "workbench.action.showPreviousWindowTab"},
+  {
+    "key": "cmd+,",
+    "command": "workbench.action.showPreviousWindowTab"
+  },
+  {
+    "key": "alt+cmd+s",
+    "command": "workbench.action.toggleUnifiedSidebarFromKeyboard",
+    "when": "!isAuxiliaryWindowFocusedContext"
+  },
 ]

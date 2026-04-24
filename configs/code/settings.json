@@ -1,6 +1,5 @@
 {
-  "editor.fontFamily": "CaskaydiaCove Nerd Font Mono",
-  "editor.renderWhitespace": "all",
+  "editor.fontFamily": "Maple Mono",
   "editor.fontSize": 14,
   "editor.cursorBlinking": "solid",
   "files.autoSave": "onFocusChange",
@@ -28,7 +27,7 @@
   "window.autoDetectColorScheme": true,
   "workbench.preferredLightColorTheme": "Light 2026",
   "workbench.preferredDarkColorTheme": "Dark 2026",
-  "workbench.statusBar.visible": false,
-  "window.nativeTabs": true,
-  "window.customTitleBarVisibility": "never",
+  "workbench.layoutControl.enabled": false,
+  "workbench.browser.showInTitleBar": false,
+  "workbench.activityBar.location": "top",
 }
