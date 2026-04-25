@@ -40,10 +40,10 @@ vim.opt.wildoptions:append("fuzzy") -- Fuzzy completion in command line
 
 vim.diagnostic.config({ virtual_text = false }) -- Show diagnostics in floating window only
 
-vim.o.autocomplete = true -- :h 'autocomplete', neovim 0.12+
-vim.o.pumheight = 10
-vim.o.pumblend = 15
-
+-- vim.o.autocomplete = true -- :h 'autocomplete', neovim 0.12+
+-- vim.o.pumheight = 10
+-- vim.o.pumblend = 15
+--
 local ok, ui2 = pcall(require, "vim._core.ui2") -- EXPERIMENTAL: Neovim 0.12 new UI
 if ok then
 	ui2.enable({ enable = true })
@@ -119,9 +119,15 @@ vim.pack.add({
 
 	gh("stevearc/oil.nvim"), -- File management
 
-	gh("ibhagwan/fzf-lua"), -- Fuzzy Finder
+	-- gh("ibhagwan/fzf-lua"), -- Fuzzy Finder
 
 	gh("nvim-treesitter/nvim-treesitter"), -- Syntax Highlighting
+
+	{ src = gh("saghen/blink.cmp"), version = "v1.6.0" },
+
+	gh("folke/snacks.nvim"), -- Qol Plugins by folke
+	gh("MunifTanjim/nui.nvim"),
+	gh("folke/noice.nvim"),
 }, { confirm = false, load = true })
 
 require("vague").setup({
@@ -148,46 +154,71 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 		vim.cmd([[ hi! Normal guibg=#1e2326 ]])
 	end,
 })
-vim.cmd([[ colorscheme everforest ]])
+vim.cmd([[ colorscheme default ]])
+
+-- SnacksPicker content highlights
+if vim.g.colors_name then
+	vim.api.nvim_set_hl(0, "SnacksPickerDir", { link = "SnacksPickerNormal" })
+end
 
 if false then -- Transparency
 	vim.cmd([[
 		hi! Normal guibg=none
+		hi! NormalFloat guibg=none
 		hi! CursorLine guibg=none
 	]])
 end
 
-require("lualine").setup({
-	sections = {
-		lualine_a = { "mode" },
-		lualine_b = { "branch", "diff", "diagnostics" },
-		lualine_c = { { "filename", path = 1 } },
-		lualine_x = { "encoding", "fileformat", "filetype" },
-		lualine_y = { "progress" },
-		lualine_z = { "location" },
-	},
+-- require("lualine").setup({
+-- 	sections = {
+-- 		lualine_a = { "mode" },
+-- 		lualine_b = { "branch", "diff", "diagnostics" },
+-- 		lualine_c = { { "filename", path = 1 } },
+-- 		lualine_x = { "encoding", "fileformat", "filetype" },
+-- 		lualine_y = { "progress" },
+-- 		lualine_z = { "location" },
+-- 	},
+-- })
+
+if false then
+	FzfLua = require("fzf-lua")
+	FzfLua.setup({ "telescope" })
+	vim.keymap.set("n", "<leader><leader>", FzfLua.files)
+	vim.keymap.set("n", "<leader>pf", FzfLua.git_files)
+	vim.keymap.set("n", "<leader>j", FzfLua.live_grep)
+	vim.keymap.set({ "n", "v" }, "<leader>J", FzfLua.grep_cword)
+end
+
+require("snacks").setup({
+	bigfile = { enabled = true },
+	indent = { enabled = true },
+	picker = { enabled = true },
+	notifier = { enabled = true },
+	quickfile = { enabled = true },
+	statuscolumn = { enabled = true },
 })
 
-FzfLua = require("fzf-lua")
-FzfLua.setup({ "telescope" })
-vim.keymap.set("n", "<leader><leader>", FzfLua.files)
-vim.keymap.set("n", "<leader>pf", FzfLua.git_files)
-vim.keymap.set("n", "<leader>j", FzfLua.live_grep)
-vim.keymap.set({ "n", "v" }, "<leader>J", FzfLua.grep_cword)
+local picker = Snacks.picker
+
+vim.keymap.set("n", "<leader><leader>", picker.files)
+vim.keymap.set("n", "<leader>pf", picker.git_files)
+vim.keymap.set("n", "<leader>j", picker.grep)
+vim.keymap.set({ "n", "v" }, "<leader>J", picker.grep_word)
 
 require("mason").setup({})
 require("mason-lspconfig").setup({ ensure_installed = { "lua_ls", "gopls" } })
 
 vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(args)
-		local client = vim.lsp.get_client_by_id(args.data.client_id)
+		-- local client = vim.lsp.get_client_by_id(args.data.client_id)
 
-		vim.lsp.inlay_hint.enable(true, { bufnr = args.buf })
-		if client and client:supports_method("textDocument/completion") then
-			vim.lsp.completion.enable(true, client.id, args.buf, {
-				autotrigger = true,
-			})
-		end
+		-- vim.lsp.inlay_hint.enable(true, { bufnr = args.buf })
+		-- if client and client:supports_method("textDocument/completion") then
+		-- 	vim.lsp.completion.enable(true, client.id, args.buf, {
+		-- 		autotrigger = true,
+		-- 	})
+		-- end
+
 		local opts = { buffer = args.buf, expr = true, replace_keycodes = false }
 		vim.keymap.set("i", "<Tab>", function()
 			if vim.fn.pumvisible() == 1 then
@@ -206,12 +237,12 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		end, opts)
 
 		vim.keymap.set("n", "L", vim.diagnostic.open_float, { buffer = args.buf })
-		vim.keymap.set("n", "gd", FzfLua.lsp_definitions)
-		vim.keymap.set("n", "grr", FzfLua.lsp_references)
-		vim.keymap.set("n", "gri", FzfLua.lsp_implementations)
-		vim.keymap.set("n", "gO", FzfLua.lsp_document_symbols)
-		vim.keymap.set("n", "<leader>o", FzfLua.lsp_document_symbols)
-		vim.keymap.set("n", "<leader>O", FzfLua.lsp_live_workspace_symbols)
+		vim.keymap.set("n", "gd", Snacks.picker.lsp_definitions)
+		vim.keymap.set("n", "grr", Snacks.picker.lsp_references)
+		vim.keymap.set("n", "gri", Snacks.picker.lsp_implementations)
+		vim.keymap.set("n", "gO", Snacks.picker.lsp_symbols)
+		vim.keymap.set("n", "<leader>o", Snacks.picker.lsp_symbols)
+		vim.keymap.set("n", "<leader>O", Snacks.picker.lsp_workspace_symbols)
 	end,
 })
 
@@ -289,4 +320,38 @@ require("nvim-treesitter").install({
 	"vim",
 	"vimdoc",
 	"yaml",
+})
+
+require("blink.cmp").setup({
+	sources = {
+		default = { "lsp", "path", "buffer", "snippets" },
+	},
+	completion = {
+		list = { selection = { preselect = false } },
+		documentation = { auto_show = true, auto_show_delay_ms = 0, window = {
+			border = "rounded",
+		} },
+	},
+
+	keymap = {
+		preset = "default",
+		["<Tab>"] = { "accept", "fallback" },
+		["<CR>"] = { "accept", "fallback" },
+	},
+})
+
+require("noice").setup({
+	lsp = {
+		override = {
+			["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+			["vim.lsp.util.stylize_markdown"] = true,
+		},
+	},
+	presets = {
+		bottom_search = true, -- use a classic bottom cmdline for search
+		command_palette = true, -- position the cmdline and popupmenu together
+		long_message_to_split = true, -- long messages will be sent to a split
+		inc_rename = false, -- enables an input dialog for inc-rename.nvim
+		lsp_doc_border = false, -- add a border to hover docs and signature help
+	},
 })

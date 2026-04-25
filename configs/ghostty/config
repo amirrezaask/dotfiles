@@ -1,7 +1,7 @@
-# theme = Nvim Dark
+theme = Nvim Dark
 # theme = Vague
-theme = Everforest Dark Hard
-font-family = Operator Mono Book
+# theme = Everforest Dark Hard
+font-family = Jetbrains Mono
 # font-style=SemiBold
 font-size = 14
 mouse-hide-while-typing = true
@@ -19,15 +19,14 @@ cursor-style = block
 cursor-color = green
 
 split-divider-color = green
-background-opacity = 0.95
-background-blur = true
+# background-opacity = 0.95
+# background-blur = true
 
-keybind = cmd+n=next_tab
-keybind = cmd+p=previous_tab
 keybind = cmd+[=previous_tab
 keybind = cmd+]=next_tab
-keybind = cmd+t=new_tab
 keybind = cmd+shift+f=toggle_split_zoom
+keybind = cmd+,=previous_tab
+keybind = cmd+.=next_tab
 
 keybind = cmd+d=new_split:right
 keybind = cmd+shift+d=new_split:down

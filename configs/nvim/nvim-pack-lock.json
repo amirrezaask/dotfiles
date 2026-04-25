@@ -69,9 +69,17 @@
       "rev": "cf2a288696b03d0934da713d66c6d71557b5c997",
       "src": "https://github.com/rose-pine/neovim"
     },
+    "noice.nvim": {
+      "rev": "7bfd942445fb63089b59f97ca487d605e715f155",
+      "src": "https://github.com/folke/noice.nvim"
+    },
     "nordic.nvim": {
       "rev": "9f757428264ef1fcd1703e17702d3a28f307a2f7",
       "src": "https://github.com/AlexvZyl/nordic.nvim"
+    },
+    "nui.nvim": {
+      "rev": "de740991c12411b663994b2860f1a4fd0937c130",
+      "src": "https://github.com/MunifTanjim/nui.nvim"
     },
     "nvim": {
       "rev": "8c4125e",
@@ -119,8 +127,7 @@
     },
     "snacks.nvim": {
       "rev": "41712e3",
-      "src": "https://github.com/folke/snacks.nvim",
-      "version": "'main'"
+      "src": "https://github.com/folke/snacks.nvim"
     },
     "supermaven-nvim": {
       "rev": "07d20fc",
