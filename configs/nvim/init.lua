@@ -155,7 +155,11 @@ vim.g.everforest_background = "hard"
 vim.api.nvim_create_autocmd("ColorScheme", {
 	pattern = "everforest",
 	callback = function()
-		vim.cmd([[ hi! Normal guibg=#1e2326 ]])
+		vim.cmd([[ 
+			hi! Normal guibg=#1e2326 
+			hi! NormalFloat guibg=#1e2326 
+			hi! Terminal guibg=#1e2326
+		]])
 	end,
 })
 vim.cmd([[ colorscheme everforest ]])
@@ -208,6 +212,7 @@ vim.keymap.set("n", "<leader><leader>", picker.files)
 vim.keymap.set("n", "<leader>pf", picker.git_files)
 vim.keymap.set("n", "<leader>j", picker.grep)
 vim.keymap.set({ "n", "v" }, "<leader>J", picker.grep_word)
+vim.keymap.set({ "n", "i", "t" }, "<C-j>", Snacks.terminal.toggle)
 
 require("mason").setup({})
 require("mason-lspconfig").setup({ ensure_installed = { "lua_ls", "gopls" } })
