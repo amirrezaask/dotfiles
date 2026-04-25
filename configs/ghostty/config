@@ -1,6 +1,6 @@
-theme = Nvim Dark
+# theme = Nvim Dark
 # theme = Vague
-# theme = Everforest Dark Hard
+theme = Everforest Dark Hard
 font-family = Jetbrains Mono
 # font-style=SemiBold
 font-size = 14

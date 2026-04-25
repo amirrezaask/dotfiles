@@ -108,8 +108,6 @@ vim.pack.add({
 	gh("datsfilipe/vesper.nvim"),
 	gh("sainnhe/everforest"),
 
-	gh("nvim-lualine/lualine.nvim"), -- StatusLine
-
 	-- LSP
 	gh("mason-org/mason.nvim"),
 	gh("mason-org/mason-lspconfig.nvim"),
@@ -119,15 +117,21 @@ vim.pack.add({
 
 	gh("stevearc/oil.nvim"), -- File management
 
-	-- gh("ibhagwan/fzf-lua"), -- Fuzzy Finder
-
 	gh("nvim-treesitter/nvim-treesitter"), -- Syntax Highlighting
 
 	{ src = gh("saghen/blink.cmp"), version = "v1.6.0" },
 
-	gh("folke/snacks.nvim"), -- Qol Plugins by folke
+	gh("folke/snacks.nvim"), -- Qol Plugins by folke ( Fuzzy Finder specificaly )
+
+	-- Nice UI
 	gh("MunifTanjim/nui.nvim"),
 	gh("folke/noice.nvim"),
+
+	gh("nvim-tree/nvim-web-devicons"), -- Nice Icons
+
+	gh("nvim-lualine/lualine.nvim"),
+
+	{ src = gh("amirrezaask/http.nvim"), name = "http-upstream" }, -- Http Client
 }, { confirm = false, load = true })
 
 require("vague").setup({
@@ -154,7 +158,7 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 		vim.cmd([[ hi! Normal guibg=#1e2326 ]])
 	end,
 })
-vim.cmd([[ colorscheme default ]])
+vim.cmd([[ colorscheme everforest ]])
 
 -- SnacksPicker content highlights
 if vim.g.colors_name then
@@ -169,16 +173,16 @@ if false then -- Transparency
 	]])
 end
 
--- require("lualine").setup({
--- 	sections = {
--- 		lualine_a = { "mode" },
--- 		lualine_b = { "branch", "diff", "diagnostics" },
--- 		lualine_c = { { "filename", path = 1 } },
--- 		lualine_x = { "encoding", "fileformat", "filetype" },
--- 		lualine_y = { "progress" },
--- 		lualine_z = { "location" },
--- 	},
--- })
+require("lualine").setup({
+	sections = {
+		lualine_a = { "mode" },
+		lualine_b = { "branch", "diff", "diagnostics" },
+		lualine_c = { { "filename", path = 1 } },
+		lualine_x = { "encoding", "fileformat", "filetype" },
+		lualine_y = { "progress" },
+		lualine_z = { "location" },
+	},
+})
 
 if false then
 	FzfLua = require("fzf-lua")
@@ -355,3 +359,7 @@ require("noice").setup({
 		lsp_doc_border = false, -- add a border to hover docs and signature help
 	},
 })
+
+vim.o.rtp = vim.o.rtp .. vim.fn.expand(",~/dev/http.nvim")
+
+require("http").setup()

@@ -49,6 +49,10 @@
       "rev": "5e0a460",
       "src": "https://github.com/ellisonleao/gruvbox.nvim"
     },
+    "http-upstream": {
+      "rev": "026b09af8a6bb3d1713478e40130fc3dcc5b28ff",
+      "src": "https://github.com/amirrezaask/http.nvim"
+    },
     "lualine.nvim": {
       "rev": "3946f01",
       "src": "https://github.com/nvim-lualine/lualine.nvim"
