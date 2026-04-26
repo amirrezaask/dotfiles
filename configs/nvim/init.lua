@@ -40,9 +40,9 @@ vim.opt.wildoptions:append("fuzzy") -- Fuzzy completion in command line
 
 vim.diagnostic.config({ virtual_text = false }) -- Show diagnostics in floating window only
 
--- vim.o.autocomplete = true -- :h 'autocomplete', neovim 0.12+
--- vim.o.pumheight = 10
--- vim.o.pumblend = 15
+vim.o.autocomplete = true -- :h 'autocomplete', neovim 0.12+
+vim.o.pumheight = 10
+vim.o.pumblend = 15
 --
 local ok, ui2 = pcall(require, "vim._core.ui2") -- EXPERIMENTAL: Neovim 0.12 new UI
 if ok then
@@ -52,6 +52,15 @@ end
 vim.api.nvim_create_autocmd("TextYankPost", { -- Highlight yanked text briefly
 	callback = function()
 		vim.hl.on_yank({ higroup = "Visual", timeout = 150 })
+	end,
+})
+
+vim.api.nvim_create_autocmd("BufEnter", {
+	-- pattern = "prompt",
+	callback = function(args)
+		if vim.bo[args.buf].buftype == "prompt" then
+			vim.bo[args.buf].autocomplete = false
+		end
 	end,
 })
 
@@ -95,60 +104,39 @@ vim.keymap.set("n", "<CR>", function() -- Clear search highlight with Enter
 	end
 end, { expr = true })
 
-local gh = function(repo)
-	return "https://github.com/" .. repo
-end
-
 vim.pack.add({
 	-- Themes
-	gh("folke/tokyonight.nvim"),
-	gh("vague-theme/vague.nvim"),
-	{ src = gh("catppuccin/nvim"), name = "catppuccin" },
-	{ src = gh("embark-theme/vim"), name = "embark" },
-	gh("datsfilipe/vesper.nvim"),
-	gh("sainnhe/everforest"),
+	"https://github.com/folke/tokyonight.nvim",
+	"https://github.com/vague-theme/vague.nvim",
+	{ src = "https://github.com/catppuccin/nvim", name = "catppuccin" },
+	{ src = "https://github.com/embark-theme/vim", name = "embark" },
+	"https://github.com/sainnhe/everforest",
+	"https://github.com/ellisonleao/gruvbox.nvim",
 
 	-- LSP
-	gh("mason-org/mason.nvim"),
-	gh("mason-org/mason-lspconfig.nvim"),
-	gh("neovim/nvim-lspconfig"),
+	"https://github.com/mason-org/mason.nvim",
+	"https://github.com/mason-org/mason-lspconfig.nvim",
+	"https://github.com/neovim/nvim-lspconfig",
 
-	gh("stevearc/conform.nvim"), -- Autoformatting
+	"https://github.com/stevearc/conform.nvim", -- Autoformatting
 
-	gh("stevearc/oil.nvim"), -- File management
+	"https://github.com/stevearc/oil.nvim", -- File management
 
-	gh("nvim-treesitter/nvim-treesitter"), -- Syntax Highlighting
+	"https://github.com/nvim-treesitter/nvim-treesitter", -- Syntax Highlighting
 
-	{ src = gh("saghen/blink.cmp"), version = "v1.6.0" },
-
-	gh("folke/snacks.nvim"), -- Qol Plugins by folke ( Fuzzy Finder specificaly )
+	"https://github.com/folke/snacks.nvim", -- Qol Plugins by folke ( Fuzzy Finder specificaly )
 
 	-- Nice UI
-	gh("MunifTanjim/nui.nvim"),
-	gh("folke/noice.nvim"),
+	"https://github.com/MunifTanjim/nui.nvim",
+	"https://github.com/folke/noice.nvim",
 
-	gh("nvim-tree/nvim-web-devicons"), -- Nice Icons
-
-	gh("nvim-lualine/lualine.nvim"),
-
-	{ src = gh("amirrezaask/http.nvim"), name = "http-upstream" }, -- Http Client
+	"https://github.com/nvim-tree/nvim-web-devicons", -- Nice Icons
 }, { confirm = false, load = true })
 
 require("vague").setup({
 	transparent = false, -- If true, background is not set
 	bold = false, -- Disable bold globally
 	italic = false, -- Disable italic globally
-})
-
-require("vesper").setup({
-	transparent = false, -- Boolean: Sets the background to transparent
-	italics = {
-		comments = false, -- Boolean: Italicizes comments
-		keywords = false, -- Boolean: Italicizes keywords
-		functions = false, -- Boolean: Italicizes functions
-		strings = false, -- Boolean: Italicizes strings
-		variables = false, -- Boolean: Italicizes variables
-	},
 })
 
 vim.g.everforest_background = "hard"
@@ -162,12 +150,22 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 		]])
 	end,
 })
-vim.cmd([[ colorscheme everforest ]])
 
--- SnacksPicker content highlights
-if vim.g.colors_name then
-	vim.api.nvim_set_hl(0, "SnacksPickerDir", { link = "SnacksPickerNormal" })
-end
+require("gruvbox").setup({
+	undercurl = false,
+	underline = false,
+	bold = false,
+	italic = {
+		strings = false,
+		emphasis = false,
+		comments = false,
+		operators = false,
+		folds = false,
+	},
+	contrast = "hard",
+})
+
+vim.cmd([[ colorscheme default ]])
 
 if false then -- Transparency
 	vim.cmd([[
@@ -177,16 +175,16 @@ if false then -- Transparency
 	]])
 end
 
-require("lualine").setup({
-	sections = {
-		lualine_a = { "mode" },
-		lualine_b = { "branch", "diff", "diagnostics" },
-		lualine_c = { { "filename", path = 1 } },
-		lualine_x = { "encoding", "fileformat", "filetype" },
-		lualine_y = { "progress" },
-		lualine_z = { "location" },
-	},
-})
+-- require("lualine").setup({
+-- 	sections = {
+-- 		lualine_a = { "mode" },
+-- 		lualine_b = { "branch", "diff", "diagnostics" },
+-- 		lualine_c = { { "filename", path = 1 } },
+-- 		lualine_x = { "encoding", "fileformat", "filetype" },
+-- 		lualine_y = { "progress" },
+-- 		lualine_z = { "location" },
+-- 	},
+-- })
 
 if false then
 	FzfLua = require("fzf-lua")
@@ -205,28 +203,32 @@ require("snacks").setup({
 	quickfile = { enabled = true },
 	statuscolumn = { enabled = true },
 })
+if vim.g.colors_name then
+	vim.api.nvim_set_hl(0, "SnacksPickerDir", { link = "SnacksPickerNormal" })
+end
 
 local picker = Snacks.picker
 
 vim.keymap.set("n", "<leader><leader>", picker.files)
 vim.keymap.set("n", "<leader>pf", picker.git_files)
 vim.keymap.set("n", "<leader>j", picker.grep)
+vim.keymap.set("n", "<leader>b", picker.buffers)
 vim.keymap.set({ "n", "v" }, "<leader>J", picker.grep_word)
 vim.keymap.set({ "n", "i", "t" }, "<C-j>", Snacks.terminal.toggle)
 
 require("mason").setup({})
-require("mason-lspconfig").setup({ ensure_installed = { "lua_ls", "gopls" } })
+require("mason-lspconfig").setup({ ensure_installed = { "lua_ls", "gopls", "typescript-language-server" } })
 
 vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(args)
-		-- local client = vim.lsp.get_client_by_id(args.data.client_id)
+		local client = vim.lsp.get_client_by_id(args.data.client_id)
 
-		-- vim.lsp.inlay_hint.enable(true, { bufnr = args.buf })
-		-- if client and client:supports_method("textDocument/completion") then
-		-- 	vim.lsp.completion.enable(true, client.id, args.buf, {
-		-- 		autotrigger = true,
-		-- 	})
-		-- end
+		vim.lsp.inlay_hint.enable(true, { bufnr = args.buf })
+		if client and client:supports_method("textDocument/completion") then
+			vim.lsp.completion.enable(true, client.id, args.buf, {
+				autotrigger = true,
+			})
+		end
 
 		local opts = { buffer = args.buf, expr = true, replace_keycodes = false }
 		vim.keymap.set("i", "<Tab>", function()
@@ -331,40 +333,24 @@ require("nvim-treesitter").install({
 	"yaml",
 })
 
-require("blink.cmp").setup({
-	sources = {
-		default = { "lsp", "path", "buffer", "snippets" },
-	},
-	completion = {
-		list = { selection = { preselect = false } },
-		documentation = { auto_show = true, auto_show_delay_ms = 0, window = {
-			border = "rounded",
-		} },
-	},
-
-	keymap = {
-		preset = "default",
-		["<Tab>"] = { "accept", "fallback" },
-		["<CR>"] = { "accept", "fallback" },
-	},
-})
-
 require("noice").setup({
 	lsp = {
+		progress = { enabled = false },
 		override = {
 			["vim.lsp.util.convert_input_to_markdown_lines"] = true,
 			["vim.lsp.util.stylize_markdown"] = true,
 		},
 	},
+	popupmenu = { enabled = false },
 	presets = {
 		bottom_search = true, -- use a classic bottom cmdline for search
 		command_palette = true, -- position the cmdline and popupmenu together
 		long_message_to_split = true, -- long messages will be sent to a split
-		inc_rename = false, -- enables an input dialog for inc-rename.nvim
-		lsp_doc_border = false, -- add a border to hover docs and signature help
+		inc_rename = true, -- enables an input dialog for inc-rename.nvim
+		lsp_doc_border = true, -- add a border to hover docs and signature help
 	},
 })
 
 vim.o.rtp = vim.o.rtp .. vim.fn.expand(",~/dev/http.nvim")
 
-require("http").setup()
+require("http").setup({})
