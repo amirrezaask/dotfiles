@@ -1,9 +1,10 @@
 # theme = Nvim Dark
 # theme = Vague
 # theme = Everforest Dark Hard
-theme = Gruvbox Dark Hard
+# theme = Gruvbox Dark Hard
+theme = Tokyonight Moon
 
-font-family = Operator Mono Book
+font-family = Jetbrains Mono
 font-size = 14
 mouse-hide-while-typing = true
 macos-option-as-alt = true
@@ -17,7 +18,7 @@ cursor-style = block
 # adjust-cell-width = 0
 # background=#000000
 # foreground=#ffffff
-cursor-color = green
+# cursor-color = green
 
 split-divider-color = green
 # background-opacity = 0.95

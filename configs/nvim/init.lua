@@ -12,13 +12,16 @@ vim.o.linebreak = true -- Wrap at word boundaries
 vim.o.winborder = "rounded" -- Rounded borders for floating windows
 vim.o.laststatus = 3 -- Global statusline
 
-vim.opt.foldmethod = "expr"
-vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()" -- Set by treesitter plugin
-vim.opt.foldcolumn = "0"
-vim.opt.foldtext = ""
-vim.opt.foldlevel = 99
-vim.opt.foldlevelstart = 5
-vim.opt.foldnestmax = 4
+vim.o.foldmethod = "expr"
+vim.o.foldexpr = "v:lua.vim.treesitter.foldexpr()" -- Set by treesitter plugin
+vim.o.foldcolumn = "0"
+vim.o.foldtext = ""
+vim.o.foldlevel = 99
+vim.o.foldlevelstart = 5
+vim.o.foldnestmax = 4
+
+-- vim.o.winbar = "%f %l:%c"
+vim.o.laststatus = 3
 
 vim.o.tabstop = 4 -- Tab width
 vim.o.shiftwidth = 0 -- Use tabstop value
@@ -42,7 +45,7 @@ vim.diagnostic.config({ virtual_text = false }) -- Show diagnostics in floating 
 
 vim.o.autocomplete = true -- :h 'autocomplete', neovim 0.12+
 vim.o.pumheight = 10
-vim.o.pumblend = 15
+vim.o.pumblend = 10
 --
 local ok, ui2 = pcall(require, "vim._core.ui2") -- EXPERIMENTAL: Neovim 0.12 new UI
 if ok then
@@ -92,7 +95,7 @@ vim.keymap.set("n", "N", "Nzz")
 vim.keymap.set("n", "j", "gj")
 vim.keymap.set("n", "k", "gk")
 
-vim.keymap.set("n", "<leader>i", ":edit $MYVIMRC<CR>")
+vim.keymap.set("n", "<leader>i", ":edit $MYVIMRC<CR>", { desc = "Edit Configuration" })
 
 vim.keymap.set("i", "<C-Space>", "<C-x><C-o>", { desc = "Trigger LSP completion" })
 vim.keymap.set("n", "<CR>", function() -- Clear search highlight with Enter
@@ -130,6 +133,11 @@ vim.pack.add({
 	-- Nice UI
 	"https://github.com/MunifTanjim/nui.nvim",
 	"https://github.com/folke/noice.nvim",
+
+	"https://github.com/folke/which-key.nvim",
+
+	"https://github.com/nvim-tree/nvim-web-devicons",
+	"https://github.com/nvim-lualine/lualine.nvim",
 }, { confirm = false, load = true })
 
 require("vague").setup({
@@ -164,49 +172,48 @@ require("gruvbox").setup({
 	contrast = "hard",
 })
 
-vim.cmd.colorscheme("gruvbox")
-
-if false then -- Transparency
-	vim.cmd([[
-		hi! Normal guibg=none
-		hi! NormalFloat guibg=none
-		hi! CursorLine guibg=none
-	]])
-end
+vim.cmd.colorscheme("tokyonight-moon")
 
 require("oil").setup({})
-if false then
-	FzfLua = require("fzf-lua")
-	FzfLua.setup({ "telescope" })
-	vim.keymap.set("n", "<leader><leader>", FzfLua.files)
-	vim.keymap.set("n", "<leader>pf", FzfLua.git_files)
-	vim.keymap.set("n", "<leader>j", FzfLua.live_grep)
-	vim.keymap.set({ "n", "v" }, "<leader>J", FzfLua.grep_cword)
-end
+
+require("lualine").setup({
+	sections = {
+		lualine_a = { "mode" },
+		lualine_b = { "branch", "diff", "diagnostics" },
+		lualine_c = { { "filename", path = 1 } },
+		lualine_x = { "encoding", "fileformat", "filetype" },
+		lualine_y = { "progress" },
+		lualine_z = { "location" },
+	},
+})
+
+require("which-key").setup({
+	preset = "helix",
+	loop = true,
+})
 
 require("snacks").setup({
 	bigfile = { enabled = true },
 	indent = { enabled = true },
+	input = { enabled = true },
 	picker = { enabled = true },
 	notifier = { enabled = true },
 	quickfile = { enabled = true },
 	statuscolumn = { enabled = true },
+	scroll = { enabled = true },
 })
-if vim.g.colors_name then
-	vim.api.nvim_set_hl(0, "SnacksPickerDir", { link = "SnacksPickerNormal" })
-end
 
-local picker = Snacks.picker
-
-vim.keymap.set("n", "<leader><leader>", picker.files)
-vim.keymap.set("n", "<leader>pf", picker.git_files)
-vim.keymap.set("n", "<leader>j", picker.grep)
-vim.keymap.set("n", "<leader>b", picker.buffers)
-vim.keymap.set({ "n", "v" }, "<leader>J", picker.grep_word)
-vim.keymap.set({ "n", "i", "t" }, "<C-j>", Snacks.terminal.toggle)
+vim.keymap.set("n", "<leader><leader>", Snacks.picker.files, { desc = "Find Files" })
+vim.keymap.set("n", "<leader>pf", Snacks.picker.git_files, { desc = "Git Files" })
+vim.keymap.set("n", "<leader>gl", Snacks.picker.git_log, { desc = "Git Log" })
+vim.keymap.set("n", "<leader>pp", Snacks.picker.pick, { desc = "All Pickers" })
+vim.keymap.set("n", "<leader>j", Snacks.picker.grep, { desc = "Grep" })
+vim.keymap.set("n", "<leader>b", Snacks.picker.buffers, { desc = "Buffers" })
+vim.keymap.set({ "n", "v" }, "<leader>J", Snacks.picker.grep_word, { desc = "Grep Word" })
+vim.keymap.set({ "n", "i", "t" }, "<C-j>", Snacks.terminal.toggle, { desc = "Toggle Terminal" })
 
 require("mason").setup({})
-require("mason-lspconfig").setup({ ensure_installed = { "lua_ls", "gopls", "typescript-language-server" } })
+require("mason-lspconfig").setup({ ensure_installed = { "lua_ls", "gopls", "ts_ls" } })
 
 vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(args)
@@ -236,13 +243,23 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			end
 		end, opts)
 
-		vim.keymap.set("n", "L", vim.diagnostic.open_float, { buffer = args.buf })
-		vim.keymap.set("n", "gd", Snacks.picker.lsp_definitions)
-		vim.keymap.set("n", "grr", Snacks.picker.lsp_references)
-		vim.keymap.set("n", "gri", Snacks.picker.lsp_implementations)
-		vim.keymap.set("n", "gO", Snacks.picker.lsp_symbols)
-		vim.keymap.set("n", "<leader>o", Snacks.picker.lsp_symbols)
-		vim.keymap.set("n", "<leader>O", Snacks.picker.lsp_workspace_symbols)
+		vim.keymap.set("n", "L", vim.diagnostic.open_float, { buffer = args.buf, desc = "Open Floating Diagnostic" })
+		vim.keymap.set("n", "gd", Snacks.picker.lsp_definitions, { buffer = args.buf, desc = "[g]oto [d]efinition" })
+		vim.keymap.set("n", "grr", Snacks.picker.lsp_references, { buffer = args.buf, desc = "[g]oto [r]eferences" })
+		vim.keymap.set(
+			"n",
+			"gri",
+			Snacks.picker.lsp_implementations,
+			{ buffer = args.buf, desc = "[g]oto [i]mplmentations" }
+		)
+		vim.keymap.set("n", "gO", Snacks.picker.lsp_symbols, { buffer = args.buf, desc = "[g]oto symbol" })
+		vim.keymap.set("n", "<leader>o", Snacks.picker.lsp_symbols, { buffer = args.buf, desc = "[g]oto symbol" })
+		vim.keymap.set(
+			"n",
+			"<leader>O",
+			Snacks.picker.lsp_workspace_symbols,
+			{ buffer = args.buf, desc = "[g]oto workspace symbol" }
+		)
 	end,
 })
 
