@@ -1,9 +1,9 @@
-theme = Nvim Dark
+# theme = Nvim Dark
 # theme = Vague
 # theme = Everforest Dark Hard
-# theme = Gruvbox Dark Hard
+theme = Gruvbox Dark Hard
 
-font-family = Maple Mono
+font-family = Operator Mono Book
 font-size = 14
 mouse-hide-while-typing = true
 macos-option-as-alt = true

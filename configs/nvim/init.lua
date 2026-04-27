@@ -110,6 +110,7 @@ vim.pack.add({
 	"https://github.com/vague-theme/vague.nvim",
 	{ src = "https://github.com/catppuccin/nvim", name = "catppuccin" },
 	{ src = "https://github.com/embark-theme/vim", name = "embark" },
+	{ src = "https://github.com/rose-pine/neovim", name = "rose-pine" },
 	"https://github.com/sainnhe/everforest",
 	"https://github.com/ellisonleao/gruvbox.nvim",
 
@@ -129,8 +130,6 @@ vim.pack.add({
 	-- Nice UI
 	"https://github.com/MunifTanjim/nui.nvim",
 	"https://github.com/folke/noice.nvim",
-
-	"https://github.com/nvim-tree/nvim-web-devicons", -- Nice Icons
 }, { confirm = false, load = true })
 
 require("vague").setup({
@@ -143,9 +142,9 @@ vim.g.everforest_background = "hard"
 vim.api.nvim_create_autocmd("ColorScheme", {
 	pattern = "everforest",
 	callback = function()
-		vim.cmd([[ 
-			hi! Normal guibg=#1e2326 
-			hi! NormalFloat guibg=#1e2326 
+		vim.cmd([[
+			hi! Normal guibg=#1e2326
+			hi! NormalFloat guibg=#1e2326
 			hi! Terminal guibg=#1e2326
 		]])
 	end,
@@ -165,7 +164,7 @@ require("gruvbox").setup({
 	contrast = "hard",
 })
 
-vim.cmd([[ colorscheme default ]])
+vim.cmd.colorscheme("gruvbox")
 
 if false then -- Transparency
 	vim.cmd([[
@@ -175,17 +174,7 @@ if false then -- Transparency
 	]])
 end
 
--- require("lualine").setup({
--- 	sections = {
--- 		lualine_a = { "mode" },
--- 		lualine_b = { "branch", "diff", "diagnostics" },
--- 		lualine_c = { { "filename", path = 1 } },
--- 		lualine_x = { "encoding", "fileformat", "filetype" },
--- 		lualine_y = { "progress" },
--- 		lualine_z = { "location" },
--- 	},
--- })
-
+require("oil").setup({})
 if false then
 	FzfLua = require("fzf-lua")
 	FzfLua.setup({ "telescope" })
