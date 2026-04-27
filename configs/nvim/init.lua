@@ -1,65 +1,84 @@
+-- Use Space as the global leader and localleader so custom mappings are easy to type.
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
-vim.o.undofile = true -- Persist undo history across sessions
-vim.o.swapfile = false -- Disable swap files
-vim.o.number = true -- Show line numbers
-vim.o.relativenumber = true -- Use relative line numbers
-vim.o.signcolumn = "yes" -- Always show sign column
-vim.o.cursorline = true -- Highlight current line
-vim.o.scrolloff = 5 -- Keep 5 lines context when scrolling
-vim.o.linebreak = true -- Wrap at word boundaries
-vim.o.winborder = "rounded" -- Rounded borders for floating windows
-vim.o.laststatus = 3 -- Global statusline
+-- -----------------------------------------------------------------------------
+-- Core editor behavior
+-- -----------------------------------------------------------------------------
 
-vim.o.foldmethod = "expr"
-vim.o.foldexpr = "v:lua.vim.treesitter.foldexpr()" -- Set by treesitter plugin
-vim.o.foldcolumn = "0"
-vim.o.foldtext = ""
-vim.o.foldlevel = 99
-vim.o.foldlevelstart = 5
-vim.o.foldnestmax = 4
+vim.o.undofile = true -- Persist undo history across editor restarts.
+vim.o.swapfile = false -- Avoid creating swap files next to edited files.
+vim.o.number = true -- Show absolute line numbers.
+vim.o.relativenumber = true -- Show relative line numbers for faster motions.
+vim.o.signcolumn = "yes" -- Keep the sign column visible to avoid text shifting.
+vim.o.cursorline = true -- Highlight the line under the cursor.
+vim.o.scrolloff = 5 -- Keep five lines of context above/below the cursor.
+vim.o.linebreak = true -- Wrap long lines at word boundaries instead of mid-word.
+vim.o.winborder = "rounded" -- Use rounded borders for floating windows.
+vim.o.laststatus = 3 -- Use one global statusline instead of one per window.
 
--- vim.o.winbar = "%f %l:%c"
-vim.o.laststatus = 3
+-- -----------------------------------------------------------------------------
+-- Folding
+-- -----------------------------------------------------------------------------
 
-vim.o.tabstop = 4 -- Tab width
-vim.o.shiftwidth = 0 -- Use tabstop value
+vim.o.foldmethod = "expr" -- Compute folds from an expression instead of markers/indent.
+vim.o.foldexpr = "v:lua.vim.treesitter.foldexpr()" -- Let Tree-sitter provide semantic folds.
+vim.o.foldcolumn = "0" -- Hide the fold column in the gutter.
+vim.o.foldtext = "" -- Use the default line text for folded regions.
+vim.o.foldlevel = 99 -- Keep almost all folds open after changing buffers.
+vim.o.foldlevelstart = 5 -- Start with moderately nested folds open when reading files.
+vim.o.foldnestmax = 4 -- Cap fold nesting so deeply nested code stays navigable.
 
-vim.o.ignorecase = true -- Case-insensitive search
-vim.o.smartcase = true -- Case-sensitive if uppercase in pattern
+-- vim.o.winbar = "%f %l:%c" -- Optional per-window filename and cursor position.
+vim.o.laststatus = 3 -- Re-assert the global statusline setting.
 
-vim.o.formatoptions = "jcql" -- Auto-formatting options
-vim.o.inccommand = "split" -- Preview substitutions in split
-vim.o.completeopt = "menuone,noselect,noinsert,fuzzy" -- Completion behavior
+-- -----------------------------------------------------------------------------
+-- Indentation, searching, completion, windows, and clipboard
+-- -----------------------------------------------------------------------------
 
-vim.o.splitbelow = true -- Horizontal splits go below
-vim.o.splitright = true -- Vertical splits go right
-vim.o.splitkeep = "topline" -- Keep cursor line when splitting
+vim.o.tabstop = 4 -- Display a tab character as four spaces wide.
+vim.o.shiftwidth = 0 -- Use 'tabstop' as the indent width.
 
-vim.o.clipboard = "unnamedplus" -- Use system clipboard
+vim.o.ignorecase = true -- Search case-insensitively by default.
+vim.o.smartcase = true -- Switch to case-sensitive search when the pattern has capitals.
 
-vim.opt.wildoptions:append("fuzzy") -- Fuzzy completion in command line
+vim.o.formatoptions = "jcql" -- Control automatic comment/text formatting behavior.
+vim.o.inccommand = "split" -- Preview substitutions in a live split window.
+vim.o.completeopt = "menuone,noselect,noinsert,fuzzy" -- Show completion menu without auto-inserting.
 
-vim.diagnostic.config({ virtual_text = false }) -- Show diagnostics in floating window only
+vim.o.splitbelow = true -- Open horizontal splits below the current window.
+vim.o.splitright = true -- Open vertical splits to the right of the current window.
+vim.o.splitkeep = "topline" -- Preserve the top visible line when opening splits.
 
-vim.o.autocomplete = true -- :h 'autocomplete', neovim 0.12+
-vim.o.pumheight = 10
-vim.o.pumblend = 10
---
-local ok, ui2 = pcall(require, "vim._core.ui2") -- EXPERIMENTAL: Neovim 0.12 new UI
+vim.o.clipboard = "unnamedplus" -- Sync yank/delete/put with the system clipboard.
+
+vim.opt.wildoptions:append("fuzzy") -- Enable fuzzy matching for command-line completion.
+
+vim.diagnostic.config({ virtual_text = false }) -- Prefer diagnostic floats over inline virtual text.
+
+vim.o.autocomplete = true -- Enable built-in automatic completion. See :h 'autocomplete'.
+vim.o.pumheight = 10 -- Limit completion popup height.
+vim.o.pumblend = 10 -- Make the completion popup slightly transparent.
+
+-- EXPERIMENTAL: Enable Neovim's new core UI layer when it exists.
+local ok, ui2 = pcall(require, "vim._core.ui2")
 if ok then
 	ui2.enable({ enable = true })
 end
 
-vim.api.nvim_create_autocmd("TextYankPost", { -- Highlight yanked text briefly
+-- -----------------------------------------------------------------------------
+-- Autocommands
+-- -----------------------------------------------------------------------------
+
+vim.api.nvim_create_autocmd("TextYankPost", {
+	-- Flash the yanked region so it is obvious what was copied.
 	callback = function()
 		vim.hl.on_yank({ higroup = "Visual", timeout = 150 })
 	end,
 })
 
 vim.api.nvim_create_autocmd("BufEnter", {
-	-- pattern = "prompt",
+	-- Prompt buffers do their own input handling, so autocomplete gets in the way.
 	callback = function(args)
 		if vim.bo[args.buf].buftype == "prompt" then
 			vim.bo[args.buf].autocomplete = false
@@ -67,38 +86,44 @@ vim.api.nvim_create_autocmd("BufEnter", {
 	end,
 })
 
-vim.api.nvim_create_autocmd("VimResized", { command = "wincmd =" }) -- Equalize windows on resize
+vim.api.nvim_create_autocmd("VimResized", { command = "wincmd =" }) -- Equalize split sizes after terminal/window resize.
 
-vim.api.nvim_create_autocmd("BufReadPost", { -- Restore cursor position when reopening file
+vim.api.nvim_create_autocmd("BufReadPost", {
+	-- Restore the cursor to the last saved position when reopening a normal file.
 	callback = function(args)
 		local mark = vim.api.nvim_buf_get_mark(args.buf, '"')
 		local line_count = vim.api.nvim_buf_line_count(args.buf)
 		if mark[1] > 0 and mark[1] <= line_count then
 			vim.api.nvim_win_set_cursor(0, mark)
 			vim.schedule(function()
-				vim.cmd("normal! zz")
+				vim.cmd("normal! zz") -- Center the restored cursor after the window settles.
 			end)
 		end
 	end,
 })
 
-vim.keymap.set("i", "jk", "<esc>")
-vim.keymap.set("i", "kj", "<esc>")
-vim.keymap.set("i", "<C-c>", "<esc>")
+-- -----------------------------------------------------------------------------
+-- Keymaps
+-- -----------------------------------------------------------------------------
 
-vim.keymap.set("n", "<C-d>", "<C-d>zz")
-vim.keymap.set("n", "<C-u>", "<C-u>zz")
+vim.keymap.set("i", "jk", "<esc>") -- Leave insert mode without reaching for Escape.
+vim.keymap.set("i", "kj", "<esc>") -- Alternate insert-mode Escape chord.
+vim.keymap.set("i", "<C-c>", "<esc>") -- Make Ctrl-C behave like Escape in insert mode.
 
-vim.keymap.set("n", "n", "nzz")
-vim.keymap.set("n", "N", "Nzz")
+vim.keymap.set("n", "<C-d>", "<C-d>zz") -- Half-page down and recenter.
+vim.keymap.set("n", "<C-u>", "<C-u>zz") -- Half-page up and recenter.
 
-vim.keymap.set("n", "j", "gj")
-vim.keymap.set("n", "k", "gk")
+vim.keymap.set("n", "n", "nzz") -- Next search result and recenter.
+vim.keymap.set("n", "N", "Nzz") -- Previous search result and recenter.
+
+vim.keymap.set("n", "j", "gj") -- Move by visual lines when text wraps.
+vim.keymap.set("n", "k", "gk") -- Move by visual lines when text wraps.
 
 vim.keymap.set("n", "<leader>i", ":edit $MYVIMRC<CR>", { desc = "Edit Configuration" })
 
 vim.keymap.set("i", "<C-Space>", "<C-x><C-o>", { desc = "Trigger LSP completion" })
-vim.keymap.set("n", "<CR>", function() -- Clear search highlight with Enter
+vim.keymap.set("n", "<CR>", function()
+	-- Pressing Enter clears an active search highlight; otherwise it behaves normally.
 	if vim.v.hlsearch == 1 then
 		vim.cmd.nohl()
 		return ""
@@ -107,8 +132,12 @@ vim.keymap.set("n", "<CR>", function() -- Clear search highlight with Enter
 	end
 end, { expr = true })
 
+-- -----------------------------------------------------------------------------
+-- Plugin installation
+-- -----------------------------------------------------------------------------
+
 vim.pack.add({
-	-- Themes
+	-- Themes kept installed so colorschemes can be swapped quickly.
 	"https://github.com/folke/tokyonight.nvim",
 	"https://github.com/vague-theme/vague.nvim",
 	{ src = "https://github.com/catppuccin/nvim", name = "catppuccin" },
@@ -117,39 +146,44 @@ vim.pack.add({
 	"https://github.com/sainnhe/everforest",
 	"https://github.com/ellisonleao/gruvbox.nvim",
 
-	-- LSP
+	-- LSP server installation and Neovim LSP configuration helpers.
 	"https://github.com/mason-org/mason.nvim",
 	"https://github.com/mason-org/mason-lspconfig.nvim",
 	"https://github.com/neovim/nvim-lspconfig",
 
-	"https://github.com/stevearc/conform.nvim", -- Autoformatting
+	"https://github.com/stevearc/conform.nvim", -- Formatter runner and format-on-save integration.
 
-	"https://github.com/stevearc/oil.nvim", -- File management
+	"https://github.com/stevearc/oil.nvim", -- Edit directories as buffers.
 
-	"https://github.com/nvim-treesitter/nvim-treesitter", -- Syntax Highlighting
+	"https://github.com/nvim-treesitter/nvim-treesitter", -- Tree-sitter parser management and highlighting.
 
-	"https://github.com/folke/snacks.nvim", -- Qol Plugins by folke ( Fuzzy Finder specificaly )
+	"https://github.com/folke/snacks.nvim", -- Collection of quality-of-life tools, especially pickers.
 
-	-- Nice UI
+	-- UI framework and command/message replacement.
 	"https://github.com/MunifTanjim/nui.nvim",
 	"https://github.com/folke/noice.nvim",
 
-	"https://github.com/folke/which-key.nvim",
+	"https://github.com/folke/which-key.nvim", -- Show available keybindings as you type.
 
-	"https://github.com/nvim-tree/nvim-web-devicons",
-	"https://github.com/nvim-lualine/lualine.nvim",
+	"https://github.com/nvim-tree/nvim-web-devicons", -- Filetype icons used by UI plugins.
+	"https://github.com/nvim-lualine/lualine.nvim", -- Statusline.
 }, { confirm = false, load = true })
 
+-- -----------------------------------------------------------------------------
+-- Theme setup
+-- -----------------------------------------------------------------------------
+
 require("vague").setup({
-	transparent = false, -- If true, background is not set
-	bold = false, -- Disable bold globally
-	italic = false, -- Disable italic globally
+	transparent = false, -- Keep an explicit background color.
+	bold = false, -- Disable bold globally for a flatter look.
+	italic = false, -- Disable italic globally for consistent text rendering.
 })
 
-vim.g.everforest_background = "hard"
+vim.g.everforest_background = "hard" -- Use Everforest's highest-contrast dark variant.
 vim.api.nvim_create_autocmd("ColorScheme", {
 	pattern = "everforest",
 	callback = function()
+		-- Make key backgrounds match when Everforest is active.
 		vim.cmd([[
 			hi! Normal guibg=#1e2326
 			hi! NormalFloat guibg=#1e2326
@@ -159,9 +193,9 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 })
 
 require("gruvbox").setup({
-	undercurl = false,
-	underline = false,
-	bold = false,
+	undercurl = false, -- Avoid curly underline decorations.
+	underline = false, -- Avoid underline decorations.
+	bold = false, -- Keep the theme from applying bold text.
 	italic = {
 		strings = false,
 		emphasis = false,
@@ -169,58 +203,79 @@ require("gruvbox").setup({
 		operators = false,
 		folds = false,
 	},
-	contrast = "hard",
+	contrast = "hard", -- Use the highest-contrast Gruvbox palette.
 })
 
-vim.cmd.colorscheme("tokyonight-moon")
+require("tokyonight").setup({
+	transparent = true,
+	styles = {
+		comments = { italic = false }, -- Keep comments upright.
+		keywords = { italic = false }, -- Keep keywords upright.
+	},
+})
 
-require("oil").setup({})
+vim.cmd.colorscheme("tokyonight-night") -- Active colorscheme.
+
+-- -----------------------------------------------------------------------------
+-- Plugin configuration
+-- -----------------------------------------------------------------------------
+
+require("oil").setup({}) -- Use plugin defaults for directory editing.
 
 require("lualine").setup({
 	sections = {
-		lualine_a = { "mode" },
-		lualine_b = { "branch", "diff", "diagnostics" },
-		lualine_c = { { "filename", path = 1 } },
-		lualine_x = { "encoding", "fileformat", "filetype" },
-		lualine_y = { "progress" },
-		lualine_z = { "location" },
+		lualine_a = { "mode" }, -- Current editor mode.
+		lualine_b = { "branch", "diff", "diagnostics" }, -- Git and diagnostic summary.
+		lualine_c = { { "filename", path = 1 } }, -- Relative file path.
+		lualine_x = { "encoding", "fileformat", "filetype" }, -- Buffer metadata.
+		lualine_y = { "progress" }, -- Percent through file.
+		lualine_z = { "location" }, -- Line and column.
 	},
 })
 
 require("which-key").setup({
-	preset = "helix",
-	loop = true,
+	preset = "helix", -- Use Helix-style which-key layout.
+	loop = true, -- Keep which-key open for repeated key exploration.
 })
 
 require("snacks").setup({
-	bigfile = { enabled = true },
-	indent = { enabled = true },
-	input = { enabled = true },
-	picker = { enabled = true },
-	notifier = { enabled = true },
-	quickfile = { enabled = true },
-	statuscolumn = { enabled = true },
-	scroll = { enabled = true },
+	bigfile = { enabled = true }, -- Disable expensive features for very large files.
+	indent = { enabled = true }, -- Draw indentation guides.
+	input = { enabled = true }, -- Use Snacks input UI.
+	picker = { enabled = true }, -- Enable fuzzy pickers.
+	notifier = { enabled = true }, -- Enable notification UI.
+	quickfile = { enabled = true }, -- Speed up opening files passed on the command line.
+	statuscolumn = { enabled = true }, -- Enhanced status column integration.
 })
 
+-- Snacks picker and terminal shortcuts.
 vim.keymap.set("n", "<leader><leader>", Snacks.picker.files, { desc = "Find Files" })
+vim.keymap.set("n", "<leader>i", function()
+	Snacks.picker.files({ cwd = "~/dev/dotfiles" })
+end, { desc = "Find Configuration" })
 vim.keymap.set("n", "<leader>pf", Snacks.picker.git_files, { desc = "Git Files" })
 vim.keymap.set("n", "<leader>gl", Snacks.picker.git_log, { desc = "Git Log" })
 vim.keymap.set("n", "<leader>pp", Snacks.picker.pick, { desc = "All Pickers" })
 vim.keymap.set("n", "<leader>j", Snacks.picker.grep, { desc = "Grep" })
-vim.keymap.set("n", "<leader>b", Snacks.picker.buffers, { desc = "Buffers" })
+vim.keymap.set("n", "<leader>k", Snacks.picker.buffers, { desc = "Buffers" })
 vim.keymap.set({ "n", "v" }, "<leader>J", Snacks.picker.grep_word, { desc = "Grep Word" })
 vim.keymap.set({ "n", "i", "t" }, "<C-j>", Snacks.terminal.toggle, { desc = "Toggle Terminal" })
 
-require("mason").setup({})
-require("mason-lspconfig").setup({ ensure_installed = { "lua_ls", "gopls", "ts_ls" } })
+-- -----------------------------------------------------------------------------
+-- LSP setup
+-- -----------------------------------------------------------------------------
+
+require("mason").setup({}) -- Install and manage external language tools.
+require("mason-lspconfig").setup({ ensure_installed = { "lua_ls", "gopls", "ts_ls" } }) -- Keep core LSPs installed.
 
 vim.api.nvim_create_autocmd("LspAttach", {
+	-- Configure buffer-local LSP behavior after a language server attaches.
 	callback = function(args)
 		local client = vim.lsp.get_client_by_id(args.data.client_id)
 
-		vim.lsp.inlay_hint.enable(true, { bufnr = args.buf })
+		vim.lsp.inlay_hint.enable(true, { bufnr = args.buf }) -- Show inline type/parameter hints.
 		if client and client:supports_method("textDocument/completion") then
+			-- Use Neovim's built-in LSP completion with automatic popup triggering.
 			vim.lsp.completion.enable(true, client.id, args.buf, {
 				autotrigger = true,
 			})
@@ -228,6 +283,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 		local opts = { buffer = args.buf, expr = true, replace_keycodes = false }
 		vim.keymap.set("i", "<Tab>", function()
+			-- Accept the selected completion item when the popup menu is visible.
 			if vim.fn.pumvisible() == 1 then
 				return vim.keycode("<C-y>")
 			else
@@ -236,6 +292,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		end, opts)
 
 		vim.keymap.set("i", "<CR>", function()
+			-- Enter confirms completion when the popup is visible; otherwise it inserts a newline.
 			if vim.fn.pumvisible() == 1 then
 				return vim.keycode("<C-y>")
 			else
@@ -243,6 +300,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			end
 		end, opts)
 
+		-- LSP navigation uses Snacks pickers for previewable result lists.
 		vim.keymap.set("n", "L", vim.diagnostic.open_float, { buffer = args.buf, desc = "Open Floating Diagnostic" })
 		vim.keymap.set("n", "gd", Snacks.picker.lsp_definitions, { buffer = args.buf, desc = "[g]oto [d]efinition" })
 		vim.keymap.set("n", "grr", Snacks.picker.lsp_references, { buffer = args.buf, desc = "[g]oto [r]eferences" })
@@ -267,19 +325,23 @@ vim.lsp.config("lua_ls", {
 	settings = {
 		Lua = {
 			diagnostics = {
-				globals = { "vim" },
+				globals = { "vim" }, -- Teach lua_ls that the Neovim global exists.
 			},
-			workspace = { library = vim.api.nvim_get_runtime_file("", true) },
+			workspace = { library = vim.api.nvim_get_runtime_file("", true) }, -- Add runtime files for better completion.
 		},
 	},
 })
 
-require("conform").setup({ -- Autoformat on save
+-- -----------------------------------------------------------------------------
+-- Formatting
+-- -----------------------------------------------------------------------------
+
+require("conform").setup({
 	formatters_by_ft = {
-		php = nil,
-		go = { "goimports" },
-		lua = { "stylua" },
-		json = { "jq" },
+		php = nil, -- Explicitly skip PHP formatter configuration.
+		go = { "goimports" }, -- Format Go and organize imports.
+		lua = { "stylua" }, -- Format Lua with Stylua.
+		json = { "jq" }, -- Format JSON with jq.
 		-- javascript = { "eslint_d" },
 		-- typescript = { "eslint_d" },
 		-- javascriptreact = { "eslint_d" },
@@ -296,13 +358,20 @@ require("conform").setup({ -- Autoformat on save
 				typescriptreact = true,
 			})[ft]
 		then
+			-- For these filetypes, only run explicitly configured formatters.
 			return { timeout_ms = 500, lsp_fallback = false }
 		end
+		-- Other filetypes may fall back to LSP formatting when no formatter is configured.
 		return { timeout_ms = 500, lsp_fallback = true }
 	end,
 })
 
+-- -----------------------------------------------------------------------------
+-- Tree-sitter
+-- -----------------------------------------------------------------------------
+
 vim.api.nvim_create_autocmd("FileType", {
+	-- Start Tree-sitter highlighting opportunistically; pcall avoids errors for missing parsers.
 	callback = function(args)
 		pcall(vim.treesitter.start, args.buf)
 	end,
@@ -339,24 +408,31 @@ require("nvim-treesitter").install({
 	"yaml",
 })
 
+-- -----------------------------------------------------------------------------
+-- Noice UI
+-- -----------------------------------------------------------------------------
+
 require("noice").setup({
 	lsp = {
-		progress = { enabled = false },
+		progress = { enabled = false }, -- Hide noisy LSP progress messages.
 		override = {
-			["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-			["vim.lsp.util.stylize_markdown"] = true,
+			["vim.lsp.util.convert_input_to_markdown_lines"] = true, -- Render LSP markdown through Noice.
+			["vim.lsp.util.stylize_markdown"] = true, -- Improve markdown styling in LSP popups.
 		},
 	},
-	popupmenu = { enabled = false },
+	popupmenu = { enabled = false }, -- Let built-in completion/Snacks handle popup menus.
 	presets = {
-		bottom_search = true, -- use a classic bottom cmdline for search
-		command_palette = true, -- position the cmdline and popupmenu together
-		long_message_to_split = true, -- long messages will be sent to a split
-		inc_rename = true, -- enables an input dialog for inc-rename.nvim
-		lsp_doc_border = true, -- add a border to hover docs and signature help
+		bottom_search = true, -- Use a classic bottom command line for search.
+		command_palette = true, -- Position the command line and popup menu together.
+		long_message_to_split = true, -- Send long messages to a split.
+		inc_rename = true, -- Enable an input dialog for inc-rename.nvim.
+		lsp_doc_border = true, -- Add a border to hover docs and signature help.
 	},
 })
 
-vim.o.rtp = vim.o.rtp .. vim.fn.expand(",~/dev/http.nvim")
+-- -----------------------------------------------------------------------------
+-- Local development plugins
+-- -----------------------------------------------------------------------------
 
-require("http").setup({})
+vim.o.rtp = vim.o.rtp .. vim.fn.expand(",~/dev/http.nvim") -- Add local http.nvim checkout to runtimepath.
+require("http").setup({}) -- Configure the local http.nvim plugin with defaults.
