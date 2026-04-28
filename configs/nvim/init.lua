@@ -16,6 +16,7 @@ vim.o.scrolloff = 5 -- Keep five lines of context above/below the cursor.
 vim.o.linebreak = true -- Wrap long lines at word boundaries instead of mid-word.
 vim.o.winborder = "rounded" -- Use rounded borders for floating windows.
 vim.o.laststatus = 3 -- Use one global statusline instead of one per window.
+vim.g.fuzzy_finder = "fzf-lua" -- Can be snacks
 
 -- -----------------------------------------------------------------------------
 -- Folding
@@ -138,129 +139,138 @@ end, { expr = true })
 
 vim.pack.add({
 	-- Themes kept installed so colorschemes can be swapped quickly.
-	"https://github.com/folke/tokyonight.nvim",
-	"https://github.com/vague-theme/vague.nvim",
-	{ src = "https://github.com/catppuccin/nvim", name = "catppuccin" },
-	{ src = "https://github.com/embark-theme/vim", name = "embark" },
-	{ src = "https://github.com/rose-pine/neovim", name = "rose-pine" },
-	"https://github.com/sainnhe/everforest",
-	"https://github.com/ellisonleao/gruvbox.nvim",
+	-- "https://github.com/folke/tokyonight.nvim",
+	-- "https://github.com/vague-theme/vague.nvim",
+	-- { src = "https://github.com/catppuccin/nvim", name = "catppuccin" },
+	-- { src = "https://github.com/rose-pine/neovim", name = "rose-pine" },
+	-- "https://github.com/sainnhe/everforest",
+	-- "https://github.com/ellisonleao/gruvbox.nvim",
 
 	-- LSP server installation and Neovim LSP configuration helpers.
 	"https://github.com/mason-org/mason.nvim",
 	"https://github.com/mason-org/mason-lspconfig.nvim",
 	"https://github.com/neovim/nvim-lspconfig",
 
-	"https://github.com/stevearc/conform.nvim", -- Formatter runner and format-on-save integration.
+	-- Formatter runner and format-on-save integration.
+	"https://github.com/stevearc/conform.nvim",
+	-- Edit directories as buffers.
+	"https://github.com/stevearc/oil.nvim",
 
-	"https://github.com/stevearc/oil.nvim", -- Edit directories as buffers.
+	-- Tree-sitter parser management and highlighting.
+	"https://github.com/nvim-treesitter/nvim-treesitter",
 
-	"https://github.com/nvim-treesitter/nvim-treesitter", -- Tree-sitter parser management and highlighting.
-
-	"https://github.com/folke/snacks.nvim", -- Collection of quality-of-life tools, especially pickers.
-
-	-- UI framework and command/message replacement.
-	"https://github.com/MunifTanjim/nui.nvim",
-	"https://github.com/folke/noice.nvim",
-
-	"https://github.com/folke/which-key.nvim", -- Show available keybindings as you type.
-
+	-- Collection of 40+ plugins, I just use icons and statusline.
 	"https://github.com/nvim-mini/mini.nvim",
 
+	-- Git Diff Signs
 	"https://github.com/lewis6991/gitsigns.nvim",
 
-	"https://github.com/folke/trouble.nvim",
+	-- Fuzzy Finder
+	"https://github.com/ibhagwan/fzf-lua",
 }, { confirm = false, load = true })
 
 -- -----------------------------------------------------------------------------
 -- Theme setup
 -- -----------------------------------------------------------------------------
-
-require("vague").setup({
-	transparent = false, -- Keep an explicit background color.
-	bold = false, -- Disable bold globally for a flatter look.
-	italic = false, -- Disable italic globally for consistent text rendering.
-})
-
-vim.g.everforest_background = "hard" -- Use Everforest's highest-contrast dark variant.
-vim.api.nvim_create_autocmd("ColorScheme", {
-	pattern = "everforest",
-	callback = function()
-		-- Make key backgrounds match when Everforest is active.
-		vim.cmd([[
-			hi! Normal guibg=#1e2326
-			hi! NormalFloat guibg=#1e2326
-			hi! Terminal guibg=#1e2326
-		]])
-	end,
-})
-
-require("gruvbox").setup({
-	undercurl = false, -- Avoid curly underline decorations.
-	underline = false, -- Avoid underline decorations.
-	bold = false, -- Keep the theme from applying bold text.
-	italic = {
-		strings = false,
-		emphasis = false,
-		comments = false,
-		operators = false,
-		folds = false,
-	},
-	contrast = "hard", -- Use the highest-contrast Gruvbox palette.
-})
-
-require("tokyonight").setup({
-	transparent = true,
-	styles = {
-		comments = { italic = false }, -- Keep comments upright.
-		keywords = { italic = false }, -- Keep keywords upright.
-	},
-})
-
-vim.cmd.colorscheme("default") -- Active colorscheme.
-
-if vim.g.colors_name then
-	vim.api.nvim_set_hl(0, "SnacksPickerDir", { link = "SnacksPickerNormal" })
-end
+--
+-- require("vague").setup({
+-- 	transparent = false, -- Keep an explicit background color.
+-- 	bold = false, -- Disable bold globally for a flatter look.
+-- 	italic = false, -- Disable italic globally for consistent text rendering.
+-- })
+--
+-- vim.g.everforest_background = "hard" -- Use Everforest's highest-contrast dark variant.
+-- vim.api.nvim_create_autocmd("ColorScheme", {
+-- 	pattern = "everforest",
+-- 	callback = function()
+-- 		-- Make key backgrounds match when Everforest is active.
+-- 		vim.cmd([[
+-- 			hi! Normal guibg=#1e2326
+-- 			hi! NormalFloat guibg=#1e2326
+-- 			hi! Terminal guibg=#1e2326
+-- 		]])
+-- 	end,
+-- })
+--
+-- require("gruvbox").setup({
+-- 	undercurl = false, -- Avoid curly underline decorations.
+-- 	underline = false, -- Avoid underline decorations.
+-- 	bold = false, -- Keep the theme from applying bold text.
+-- 	italic = {
+-- 		strings = false,
+-- 		emphasis = false,
+-- 		comments = false,
+-- 		operators = false,
+-- 		folds = false,
+-- 	},
+-- 	contrast = "hard", -- Use the highest-contrast Gruvbox palette.
+-- })
+--
+-- require("tokyonight").setup({
+-- 	transparent = true,
+-- 	styles = {
+-- 		comments = { italic = false }, -- Keep comments upright.
+-- 		keywords = { italic = false }, -- Keep keywords upright.
+-- 	},
+-- })
 
 -- -----------------------------------------------------------------------------
--- Plugin configuration
+-- Oil: netrw ++
 -- -----------------------------------------------------------------------------
 
-require("oil").setup({}) -- Use plugin defaults for directory editing.
+require("oil").setup({})
+
+-- -----------------------------------------------------------------------------
+-- not so mini
+-- -----------------------------------------------------------------------------
 
 require("mini.statusline").setup()
 require("mini.icons").setup()
+require("mini.indentscope").setup({
+	draw = {
+		delay = 0,
+	},
+	options = {
+		indent_at_cursor = false,
+	},
+})
+require("mini.cmdline").setup()
+require("mini.notify").setup()
+require("mini.cursorword").setup()
+require("mini.git").setup()
 
 require("gitsigns").setup({})
 
-require("which-key").setup({
-	preset = "helix", -- Use Helix-style which-key layout.
-	loop = true, -- Keep which-key open for repeated key exploration.
-})
-
-require("snacks").setup({
-	bigfile = { enabled = true }, -- Disable expensive features for very large files.
-	indent = { enabled = true }, -- Draw indentation guides.
-	input = { enabled = true }, -- Use Snacks input UI.
-	picker = { enabled = true }, -- Enable fuzzy pickers.
-	notifier = { enabled = true }, -- Enable notification UI.
-	quickfile = { enabled = true }, -- Speed up opening files passed on the command line.
-	statuscolumn = { enabled = true }, -- Enhanced status column integration.
-})
-
--- Snacks picker and terminal shortcuts.
-vim.keymap.set("n", "<leader><leader>", Snacks.picker.files, { desc = "Find Files" })
+-- -----------------------------------------------------------------------------
+-- Fuzzy Finder
+-- -----------------------------------------------------------------------------
+FzfLua = require("fzf-lua")
+FzfLua.setup({ "telescope" })
+vim.keymap.set("n", "<leader><leader>", FzfLua.files, { desc = "Find Files" })
 vim.keymap.set("n", "<leader>i", function()
-	Snacks.picker.files({ cwd = "~/dev/dotfiles" })
+	FzfLua.files({ cwd = "~/dev/dotfiles" })
 end, { desc = "Find Configuration" })
-vim.keymap.set("n", "<leader>pf", Snacks.picker.git_files, { desc = "Git Files" })
-vim.keymap.set("n", "<leader>gl", Snacks.picker.git_log, { desc = "Git Log" })
-vim.keymap.set("n", "<leader>pp", Snacks.picker.pick, { desc = "All Pickers" })
-vim.keymap.set("n", "<leader>j", Snacks.picker.grep, { desc = "Grep" })
-vim.keymap.set("n", "<leader>k", Snacks.picker.buffers, { desc = "Buffers" })
-vim.keymap.set({ "n", "v" }, "<leader>J", Snacks.picker.grep_word, { desc = "Grep Word" })
-vim.keymap.set({ "n", "i", "t" }, "<C-j>", Snacks.terminal.toggle, { desc = "Toggle Terminal" })
+vim.keymap.set("n", "<leader>pf", FzfLua.git_files, { desc = "Git Files" })
+vim.keymap.set("n", "<leader>k", FzfLua.buffers, { desc = "Buffers" })
+vim.keymap.set("n", "<leader>j", FzfLua.live_grep, { desc = "Grep" })
+vim.keymap.set("n", "<leader>;", FzfLua.commands, { desc = "Commands" })
+vim.keymap.set({ "n", "v", "x" }, "<leader>J", FzfLua.grep_cword, { desc = "Grep Word" })
+
+vim.api.nvim_create_autocmd("LspAttach", {
+	callback = function(args)
+		vim.keymap.set("n", "gd", FzfLua.lsp_definitions, { buffer = args.buf, desc = "[g]oto [d]efinition" })
+		vim.keymap.set("n", "grr", FzfLua.lsp_references, { buffer = args.buf, desc = "[g]oto [r]eferences" })
+		vim.keymap.set("n", "gri", FzfLua.lsp_implementations, { buffer = args.buf, desc = "[g]oto [i]mplmentations" })
+		vim.keymap.set("n", "gO", FzfLua.lsp_document_symbols, { buffer = args.buf, desc = "[g]oto symbol" })
+		vim.keymap.set("n", "<leader>o", FzfLua.lsp_workspace_symbols, { buffer = args.buf, desc = "[g]oto symbol" })
+		vim.keymap.set(
+			"n",
+			"<leader>O",
+			FzfLua.lsp_workspace_symbols,
+			{ buffer = args.buf, desc = "[g]oto workspace symbol" }
+		)
+	end,
+})
 
 -- -----------------------------------------------------------------------------
 -- LSP setup
@@ -268,8 +278,6 @@ vim.keymap.set({ "n", "i", "t" }, "<C-j>", Snacks.terminal.toggle, { desc = "Tog
 
 require("mason").setup({}) -- Install and manage external language tools.
 require("mason-lspconfig").setup({ ensure_installed = { "lua_ls", "gopls", "ts_ls" } }) -- Keep core LSPs installed.
-
-require("trouble").setup({})
 
 vim.api.nvim_create_autocmd("LspAttach", {
 	-- Configure buffer-local LSP behavior after a language server attaches.
@@ -303,24 +311,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			end
 		end, opts)
 
-		-- LSP navigation uses Snacks pickers for previewable result lists.
 		vim.keymap.set("n", "L", vim.diagnostic.open_float, { buffer = args.buf, desc = "Open Floating Diagnostic" })
-		vim.keymap.set("n", "gd", Snacks.picker.lsp_definitions, { buffer = args.buf, desc = "[g]oto [d]efinition" })
-		vim.keymap.set("n", "grr", Snacks.picker.lsp_references, { buffer = args.buf, desc = "[g]oto [r]eferences" })
-		vim.keymap.set(
-			"n",
-			"gri",
-			Snacks.picker.lsp_implementations,
-			{ buffer = args.buf, desc = "[g]oto [i]mplmentations" }
-		)
-		vim.keymap.set("n", "gO", Snacks.picker.lsp_symbols, { buffer = args.buf, desc = "[g]oto symbol" })
-		vim.keymap.set("n", "<leader>o", Snacks.picker.lsp_symbols, { buffer = args.buf, desc = "[g]oto symbol" })
-		vim.keymap.set(
-			"n",
-			"<leader>O",
-			Snacks.picker.lsp_workspace_symbols,
-			{ buffer = args.buf, desc = "[g]oto workspace symbol" }
-		)
 	end,
 })
 
@@ -409,28 +400,6 @@ require("nvim-treesitter").install({
 	"vim",
 	"vimdoc",
 	"yaml",
-})
-
--- -----------------------------------------------------------------------------
--- Noice UI
--- -----------------------------------------------------------------------------
-
-require("noice").setup({
-	lsp = {
-		progress = { enabled = false }, -- Hide noisy LSP progress messages.
-		override = {
-			["vim.lsp.util.convert_input_to_markdown_lines"] = true, -- Render LSP markdown through Noice.
-			["vim.lsp.util.stylize_markdown"] = true, -- Improve markdown styling in LSP popups.
-		},
-	},
-	popupmenu = { enabled = false }, -- Let built-in completion/Snacks handle popup menus.
-	presets = {
-		bottom_search = true, -- Use a classic bottom command line for search.
-		command_palette = true, -- Position the command line and popup menu together.
-		long_message_to_split = true, -- Send long messages to a split.
-		inc_rename = true, -- Enable an input dialog for inc-rename.nvim.
-		lsp_doc_border = true, -- Add a border to hover docs and signature help.
-	},
 })
 
 -- -----------------------------------------------------------------------------
