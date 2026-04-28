@@ -110,3 +110,7 @@ eval "$(starship init zsh)"
 
 # opencode
 export PATH=/Users/amirrezaask/.opencode/bin:$PATH
+
+
+# Mason
+export PATH="$HOME/.local/share/nvim/mason/bin:$PATH"

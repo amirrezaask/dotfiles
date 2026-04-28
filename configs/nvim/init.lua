@@ -56,7 +56,7 @@ vim.opt.wildoptions:append("fuzzy") -- Enable fuzzy matching for command-line co
 
 vim.diagnostic.config({ virtual_text = false }) -- Prefer diagnostic floats over inline virtual text.
 
-vim.o.autocomplete = true -- Enable built-in automatic completion. See :h 'autocomplete'.
+-- vim.o.autocomplete = true -- Enable built-in automatic completion. See :h 'autocomplete', disabled for now since it collides with the lsp autocomplete.
 vim.o.pumheight = 10 -- Limit completion popup height.
 vim.o.pumblend = 10 -- Make the completion popup slightly transparent.
 
@@ -166,6 +166,10 @@ vim.pack.add({
 	"https://github.com/folke/which-key.nvim", -- Show available keybindings as you type.
 
 	"https://github.com/nvim-mini/mini.nvim",
+
+	"https://github.com/lewis6991/gitsigns.nvim",
+
+	"https://github.com/folke/trouble.nvim",
 }, { confirm = false, load = true })
 
 -- -----------------------------------------------------------------------------
@@ -213,7 +217,11 @@ require("tokyonight").setup({
 	},
 })
 
-vim.cmd.colorscheme("tokyonight-night") -- Active colorscheme.
+vim.cmd.colorscheme("default") -- Active colorscheme.
+
+if vim.g.colors_name then
+	vim.api.nvim_set_hl(0, "SnacksPickerDir", { link = "SnacksPickerNormal" })
+end
 
 -- -----------------------------------------------------------------------------
 -- Plugin configuration
@@ -223,6 +231,8 @@ require("oil").setup({}) -- Use plugin defaults for directory editing.
 
 require("mini.statusline").setup()
 require("mini.icons").setup()
+
+require("gitsigns").setup({})
 
 require("which-key").setup({
 	preset = "helix", -- Use Helix-style which-key layout.
@@ -258,6 +268,8 @@ vim.keymap.set({ "n", "i", "t" }, "<C-j>", Snacks.terminal.toggle, { desc = "Tog
 
 require("mason").setup({}) -- Install and manage external language tools.
 require("mason-lspconfig").setup({ ensure_installed = { "lua_ls", "gopls", "ts_ls" } }) -- Keep core LSPs installed.
+
+require("trouble").setup({})
 
 vim.api.nvim_create_autocmd("LspAttach", {
 	-- Configure buffer-local LSP behavior after a language server attaches.

@@ -1,4 +1,5 @@
-theme = light:Tokyonight Moon,dark:TokyoNight Night
+# theme = light:Tokyonight Moon,dark:TokyoNight Night
+theme = Nvim Dark
 font-size = 15
 mouse-hide-while-typing = true
 macos-option-as-alt = true
