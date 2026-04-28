@@ -1,5 +1,4 @@
 theme = light:Tokyonight Moon,dark:TokyoNight Night
-font-family = TX-02
 font-size = 15
 mouse-hide-while-typing = true
 macos-option-as-alt = true
@@ -17,6 +16,7 @@ keybind = cmd+]=next_tab
 keybind = cmd+shift+f=toggle_split_zoom
 keybind = cmd+,=previous_tab
 keybind = cmd+.=next_tab
+keybind = cmd+0=reset_font_size
 
 keybind = cmd+d=new_split:right
 keybind = cmd+shift+d=new_split:down

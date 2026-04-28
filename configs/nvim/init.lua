@@ -165,8 +165,7 @@ vim.pack.add({
 
 	"https://github.com/folke/which-key.nvim", -- Show available keybindings as you type.
 
-	"https://github.com/nvim-tree/nvim-web-devicons", -- Filetype icons used by UI plugins.
-	"https://github.com/nvim-lualine/lualine.nvim", -- Statusline.
+	"https://github.com/nvim-mini/mini.nvim",
 }, { confirm = false, load = true })
 
 -- -----------------------------------------------------------------------------
@@ -222,16 +221,8 @@ vim.cmd.colorscheme("tokyonight-night") -- Active colorscheme.
 
 require("oil").setup({}) -- Use plugin defaults for directory editing.
 
-require("lualine").setup({
-	sections = {
-		lualine_a = { "mode" }, -- Current editor mode.
-		lualine_b = { "branch", "diff", "diagnostics" }, -- Git and diagnostic summary.
-		lualine_c = { { "filename", path = 1 } }, -- Relative file path.
-		lualine_x = { "encoding", "fileformat", "filetype" }, -- Buffer metadata.
-		lualine_y = { "progress" }, -- Percent through file.
-		lualine_z = { "location" }, -- Line and column.
-	},
-})
+require("mini.statusline").setup()
+require("mini.icons").setup()
 
 require("which-key").setup({
 	preset = "helix", -- Use Helix-style which-key layout.
