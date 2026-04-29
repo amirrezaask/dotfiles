@@ -57,7 +57,7 @@ vim.opt.wildoptions:append("fuzzy") -- Enable fuzzy matching for command-line co
 
 vim.diagnostic.config({ virtual_text = false }) -- Prefer diagnostic floats over inline virtual text.
 
--- vim.o.autocomplete = true -- Enable built-in automatic completion. See :h 'autocomplete', disabled for now since it collides with the lsp autocomplete.
+vim.o.autocomplete = true -- Enable built-in automatic completion. See :h 'autocomplete', disabled for now since it collides with the lsp autocomplete.
 vim.o.pumheight = 10 -- Limit completion popup height.
 vim.o.pumblend = 10 -- Make the completion popup slightly transparent.
 
@@ -138,14 +138,6 @@ end, { expr = true })
 -- -----------------------------------------------------------------------------
 
 vim.pack.add({
-	-- Themes kept installed so colorschemes can be swapped quickly.
-	-- "https://github.com/folke/tokyonight.nvim",
-	-- "https://github.com/vague-theme/vague.nvim",
-	-- { src = "https://github.com/catppuccin/nvim", name = "catppuccin" },
-	-- { src = "https://github.com/rose-pine/neovim", name = "rose-pine" },
-	-- "https://github.com/sainnhe/everforest",
-	-- "https://github.com/ellisonleao/gruvbox.nvim",
-
 	-- LSP server installation and Neovim LSP configuration helpers.
 	"https://github.com/mason-org/mason.nvim",
 	"https://github.com/mason-org/mason-lspconfig.nvim",
@@ -168,51 +160,6 @@ vim.pack.add({
 	-- Fuzzy Finder
 	"https://github.com/ibhagwan/fzf-lua",
 }, { confirm = false, load = true })
-
--- -----------------------------------------------------------------------------
--- Theme setup
--- -----------------------------------------------------------------------------
---
--- require("vague").setup({
--- 	transparent = false, -- Keep an explicit background color.
--- 	bold = false, -- Disable bold globally for a flatter look.
--- 	italic = false, -- Disable italic globally for consistent text rendering.
--- })
---
--- vim.g.everforest_background = "hard" -- Use Everforest's highest-contrast dark variant.
--- vim.api.nvim_create_autocmd("ColorScheme", {
--- 	pattern = "everforest",
--- 	callback = function()
--- 		-- Make key backgrounds match when Everforest is active.
--- 		vim.cmd([[
--- 			hi! Normal guibg=#1e2326
--- 			hi! NormalFloat guibg=#1e2326
--- 			hi! Terminal guibg=#1e2326
--- 		]])
--- 	end,
--- })
---
--- require("gruvbox").setup({
--- 	undercurl = false, -- Avoid curly underline decorations.
--- 	underline = false, -- Avoid underline decorations.
--- 	bold = false, -- Keep the theme from applying bold text.
--- 	italic = {
--- 		strings = false,
--- 		emphasis = false,
--- 		comments = false,
--- 		operators = false,
--- 		folds = false,
--- 	},
--- 	contrast = "hard", -- Use the highest-contrast Gruvbox palette.
--- })
---
--- require("tokyonight").setup({
--- 	transparent = true,
--- 	styles = {
--- 		comments = { italic = false }, -- Keep comments upright.
--- 		keywords = { italic = false }, -- Keep keywords upright.
--- 	},
--- })
 
 -- -----------------------------------------------------------------------------
 -- Oil: netrw ++
@@ -335,30 +282,18 @@ require("conform").setup({
 		php = nil, -- Explicitly skip PHP formatter configuration.
 		go = { "goimports" }, -- Format Go and organize imports.
 		lua = { "stylua" }, -- Format Lua with Stylua.
-		json = { "jq" }, -- Format JSON with jq.
-		-- javascript = { "eslint_d" },
-		-- typescript = { "eslint_d" },
-		-- javascriptreact = { "eslint_d" },
-		-- typescriptreact = { "eslint_d" },
+		-- json = { "jq" }, -- Format JSON with jq.
+		-- javascript = { "oxfmt" },
+		-- typescript = { "oxfmt" },
+		-- javascriptreact = { "oxfmt" },
+		-- typescriptreact = { "oxfmt" },
 	},
-	format_on_save = function(bufnr)
-		local ft = vim.bo[bufnr].filetype
-		if
-			({
-				php = true,
-				javascript = true,
-				typescript = true,
-				javascriptreact = true,
-				typescriptreact = true,
-			})[ft]
-		then
-			-- For these filetypes, only run explicitly configured formatters.
-			return { timeout_ms = 500, lsp_fallback = false }
-		end
-		-- Other filetypes may fall back to LSP formatting when no formatter is configured.
-		return { timeout_ms = 500, lsp_fallback = true }
-	end,
+	format_on_save = { timeout_ms = 500, lsp_fallback = true },
 })
+
+vim.api.nvim_create_user_command("Format", function(_)
+	require("conform").format({ bufnr = 0 })
+end, {})
 
 -- -----------------------------------------------------------------------------
 -- Tree-sitter

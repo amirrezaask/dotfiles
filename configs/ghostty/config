@@ -10,7 +10,7 @@ maximize=true
 cursor-style-blink=false
 cursor-style = block
 cursor-color = green
-# adjust-cell-height = 15%
+split-divider-color=green
 
 keybind = cmd+[=previous_tab
 keybind = cmd+]=next_tab
