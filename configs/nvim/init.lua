@@ -121,6 +121,13 @@ vim.keymap.set("n", "j", "gj") -- Move by visual lines when text wraps.
 vim.keymap.set("n", "k", "gk") -- Move by visual lines when text wraps.
 
 vim.keymap.set("n", "<leader>i", ":edit $MYVIMRC<CR>", { desc = "Edit Configuration" })
+vim.keymap.set("n", "<C-q>", function()
+	if vim.fn.getqflist({ winid = 0 }).winid ~= 0 then
+		vim.cmd.cclose()
+	else
+		vim.cmd.copen()
+	end
+end, { desc = "Toggle quickfix list" })
 
 vim.keymap.set("i", "<C-Space>", "<C-x><C-o>", { desc = "Trigger LSP completion" })
 vim.keymap.set("n", "<CR>", function()
@@ -138,6 +145,14 @@ end, { expr = true })
 -- -----------------------------------------------------------------------------
 
 vim.pack.add({
+	-- Themes kept installed so colorschemes can be swapped quickly.
+	"https://github.com/folke/tokyonight.nvim",
+	"https://github.com/vague-theme/vague.nvim",
+	{ src = "https://github.com/catppuccin/nvim", name = "catppuccin" },
+	{ src = "https://github.com/rose-pine/neovim", name = "rose-pine" },
+	"https://github.com/sainnhe/everforest",
+	"https://github.com/ellisonleao/gruvbox.nvim",
+
 	-- LSP server installation and Neovim LSP configuration helpers.
 	"https://github.com/mason-org/mason.nvim",
 	"https://github.com/mason-org/mason-lspconfig.nvim",
@@ -160,6 +175,50 @@ vim.pack.add({
 	-- Fuzzy Finder
 	"https://github.com/ibhagwan/fzf-lua",
 }, { confirm = false, load = true })
+
+-- -----------------------------------------------------------------------------
+-- Themes setup
+-- -----------------------------------------------------------------------------
+require("vague").setup({
+	transparent = false, -- Keep an explicit background color.
+	bold = false, -- Disable bold globally for a flatter look.
+	italic = false, -- Disable italic globally for consistent text rendering.
+})
+
+vim.g.everforest_background = "hard" -- Use Everforest's highest-contrast dark variant.
+vim.api.nvim_create_autocmd("ColorScheme", {
+	pattern = "everforest",
+	callback = function()
+		-- Make key backgrounds match when Everforest is active.
+		vim.cmd([[
+			hi! Normal guibg=#1e2326
+			hi! NormalFloat guibg=#1e2326
+			hi! Terminal guibg=#1e2326
+		]])
+	end,
+})
+
+require("gruvbox").setup({
+	undercurl = false, -- Avoid curly underline decorations.
+	underline = false, -- Avoid underline decorations.
+	bold = false, -- Keep the theme from applying bold text.
+	italic = {
+		strings = false,
+		emphasis = false,
+		comments = false,
+		operators = false,
+		folds = false,
+	},
+	contrast = "hard", -- Use the highest-contrast Gruvbox palette.
+})
+
+require("tokyonight").setup({
+	transparent = true,
+	styles = {
+		comments = { italic = false }, -- Keep comments upright.
+		keywords = { italic = false }, -- Keep keywords upright.
+	},
+})
 
 -- -----------------------------------------------------------------------------
 -- Oil: netrw ++

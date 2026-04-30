@@ -105,7 +105,7 @@ export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || pr
 # GapCode
 export PATH="/Users/amirrezaask/.gapcode/bin:$PATH"
 
-eval "$(starship init zsh)"
+# eval "$(starship init zsh)"
 
 
 # opencode
