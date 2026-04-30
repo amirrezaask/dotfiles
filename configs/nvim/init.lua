@@ -244,7 +244,6 @@ require("mini.indentscope").setup({
 	},
 })
 require("mini.cmdline").setup()
-require("mini.notify").setup()
 require("mini.cursorword").setup()
 require("mini.git").setup()
 
