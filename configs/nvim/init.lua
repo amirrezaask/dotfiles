@@ -186,6 +186,9 @@ require("mini.notify").setup()
 require("mini.cursorword").setup()
 require("mini.git").setup()
 
+-- -----------------------------------------------------------------------------
+-- Git Diff Signs
+-- -----------------------------------------------------------------------------
 require("gitsigns").setup({})
 
 -- -----------------------------------------------------------------------------
@@ -203,8 +206,11 @@ vim.keymap.set("n", "<leader>j", FzfLua.live_grep, { desc = "Grep" })
 vim.keymap.set("n", "<leader>;", FzfLua.commands, { desc = "Commands" })
 vim.keymap.set({ "n", "v", "x" }, "<leader>J", FzfLua.grep_cword, { desc = "Grep Word" })
 
+FzfLua.register_ui_select()
+
 vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(args)
+		vim.keymap.set("n", "<C-]>", FzfLua.lsp_definitions, { buffer = args.buf, desc = "goto definition" })
 		vim.keymap.set("n", "gd", FzfLua.lsp_definitions, { buffer = args.buf, desc = "[g]oto [d]efinition" })
 		vim.keymap.set("n", "grr", FzfLua.lsp_references, { buffer = args.buf, desc = "[g]oto [r]eferences" })
 		vim.keymap.set("n", "gri", FzfLua.lsp_implementations, { buffer = args.buf, desc = "[g]oto [i]mplmentations" })
