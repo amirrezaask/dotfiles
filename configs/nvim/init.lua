@@ -160,7 +160,8 @@ vim.pack.add({
 
 	-- Formatter runner and format-on-save integration.
 	"https://github.com/stevearc/conform.nvim",
-	-- Edit directories as buffers.
+
+	-- Edit file trees as buffers.
 	"https://github.com/stevearc/oil.nvim",
 
 	-- Tree-sitter parser management and highlighting.
@@ -219,6 +220,8 @@ require("tokyonight").setup({
 		keywords = { italic = false }, -- Keep keywords upright.
 	},
 })
+
+vim.cmd.colorscheme("default") -- Default colorscheme from neovim 0.11+ is awesome.
 
 -- -----------------------------------------------------------------------------
 -- Oil: netrw ++
@@ -401,10 +404,3 @@ require("nvim-treesitter").install({
 	"vimdoc",
 	"yaml",
 })
-
--- -----------------------------------------------------------------------------
--- Local development plugins
--- -----------------------------------------------------------------------------
-
-vim.o.rtp = vim.o.rtp .. vim.fn.expand(",~/dev/http.nvim") -- Add local http.nvim checkout to runtimepath.
-require("http").setup({}) -- Configure the local http.nvim plugin with defaults.

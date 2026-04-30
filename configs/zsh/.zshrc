@@ -1,3 +1,4 @@
+# Setting up oh my zsh, with auto install if not there
 ZSH="$HOME/.oh-my-zsh"
 
 if [ ! -d "$ZSH" ]; then
@@ -10,9 +11,8 @@ plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 
-export PATH="$HOME/.local/bin:$PATH"
-export PATH="$HOME/.opencode/bin:$PATH"
 
+# Neovim
 alias vim='nvim'
 alias vi='nvim'
 alias v='nvim'
@@ -99,18 +99,14 @@ case ":$PATH:" in
 esac
 
 
+export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.opencode/bin:$PATH"
+
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
-# GapCode
 export PATH="/Users/amirrezaask/.gapcode/bin:$PATH"
 
-# eval "$(starship init zsh)"
-
-
-# opencode
 export PATH=/Users/amirrezaask/.opencode/bin:$PATH
 
-
-# Mason
 export PATH="$HOME/.local/share/nvim/mason/bin:$PATH"
