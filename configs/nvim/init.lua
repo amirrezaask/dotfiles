@@ -129,6 +129,55 @@ vim.keymap.set("n", "<C-q>", function()
 	end
 end, { desc = "Toggle quickfix list" })
 
+local function toggle_cwd_terminal(open_mode)
+	return function()
+		local function open_terminal_window()
+			if open_mode == "vertical" then
+				vim.cmd("botright " .. 15 .. "vsplit")
+			elseif open_mode == "tab" then
+				vim.cmd.tabnew()
+			else
+				vim.cmd("botright " .. 10 .. "split")
+			end
+		end
+
+		local terminal_name = "term://" .. vim.fn.fnamemodify(vim.fn.getcwd(), ":p")
+
+		-- First check to see if there is an open window that is displaying our terminal buffer.
+		for _, win in ipairs(vim.api.nvim_list_wins()) do
+			local buf = vim.api.nvim_win_get_buf(win)
+			if vim.bo[buf].buftype == "terminal" and vim.api.nvim_buf_get_name(buf) == terminal_name then
+				vim.api.nvim_win_close(win, false)
+				return
+			end
+		end
+
+		-- Check to see if there is an open terminal buffer with our naming, if so open a window and set it's buffer to the terminal we found.
+		for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+			if
+				vim.api.nvim_buf_is_loaded(buf)
+				and vim.bo[buf].buftype == "terminal"
+				and vim.api.nvim_buf_get_name(buf) == terminal_name
+			then
+				open_terminal_window()
+				vim.api.nvim_win_set_buf(0, buf)
+				vim.cmd.startinsert()
+				return
+			end
+		end
+
+		-- Open window and terminal buffer.
+		open_terminal_window()
+		vim.cmd.terminal()
+		local buf = vim.api.nvim_get_current_buf()
+		vim.bo[buf].bufhidden = "hide"
+		vim.api.nvim_buf_set_name(buf, terminal_name)
+		vim.cmd.startinsert()
+	end
+end
+
+vim.keymap.set({ "n", "t" }, "<C-j>", toggle_cwd_terminal("tab"), { desc = "Toggle cwd terminal" })
+
 vim.keymap.set("i", "<C-Space>", "<C-x><C-o>", { desc = "Trigger LSP completion" })
 vim.keymap.set("n", "<CR>", function()
 	-- Pressing Enter clears an active search highlight; otherwise it behaves normally.
@@ -233,16 +282,8 @@ require("oil").setup({})
 -- not so mini
 -- -----------------------------------------------------------------------------
 
-require("mini.statusline").setup()
 require("mini.icons").setup()
-require("mini.indentscope").setup({
-	draw = {
-		delay = 0,
-	},
-	options = {
-		indent_at_cursor = false,
-	},
-})
+require("mini.indentscope").setup({ draw = { delay = 0 }, options = { indent_at_cursor = false } })
 require("mini.cmdline").setup()
 require("mini.cursorword").setup()
 require("mini.git").setup()
@@ -296,9 +337,9 @@ require("mason-lspconfig").setup({ ensure_installed = { "lua_ls", "gopls", "ts_l
 vim.api.nvim_create_autocmd("LspAttach", {
 	-- Configure buffer-local LSP behavior after a language server attaches.
 	callback = function(args)
-		local client = vim.lsp.get_client_by_id(args.data.client_id)
-
 		vim.lsp.inlay_hint.enable(true, { bufnr = args.buf }) -- Show inline type/parameter hints.
+
+		local client = vim.lsp.get_client_by_id(args.data.client_id)
 		if client and client:supports_method("textDocument/completion") then
 			-- Use Neovim's built-in LSP completion with automatic popup triggering.
 			vim.lsp.completion.enable(true, client.id, args.buf, {
