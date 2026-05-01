@@ -1,4 +1,5 @@
 theme = Nvim Dark
+font-family = Menlo
 font-size = 15
 mouse-hide-while-typing = true
 macos-option-as-alt = true
