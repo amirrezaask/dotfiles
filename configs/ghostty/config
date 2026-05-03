@@ -1,11 +1,10 @@
 theme = Nvim Dark
-font-family = Menlo
+# theme = Everforest Dark Hard
 font-size = 15
 mouse-hide-while-typing = true
 macos-option-as-alt = true
 window-padding-balance = true
 shell-integration-features=no-cursor
-window-inherit-working-directory = false
 maximize=true
 cursor-style-blink=false
 cursor-style = block

@@ -19,6 +19,10 @@ alias v='nvim'
 export GIT_EDITOR='nvim'
 export EDITOR='nvim'
 
+
+alias o='opencode'
+alias c='claude'
+alias gap='gapcode'
 alias g='git'
 alias nah='git restore --staged . && git restore . && git clean -fd'
 alias gcm='git commit -m'

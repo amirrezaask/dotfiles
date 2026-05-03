@@ -194,6 +194,20 @@ end, { expr = true })
 -- -----------------------------------------------------------------------------
 
 vim.pack.add({
+	-- Themes kept installed so colorschemes can be swapped quickly.
+	"https://github.com/folke/tokyonight.nvim",
+	"https://github.com/vague-theme/vague.nvim",
+	{ src = "https://github.com/catppuccin/nvim", name = "catppuccin" },
+	{ src = "https://github.com/rose-pine/neovim", name = "rose-pine" },
+	"https://github.com/sainnhe/everforest",
+	"https://github.com/ellisonleao/gruvbox.nvim",
+	"https://github.com/casedami/neomodern.nvim",
+	"https://github.com/aktersnurra/no-clown-fiesta.nvim",
+	"https://github.com/ydkulks/cursor-dark.nvim",
+
+	-- Collection of 40+ plugins
+	"https://github.com/nvim-mini/mini.nvim",
+
 	-- LSP server installation and Neovim LSP configuration helpers.
 	"https://github.com/mason-org/mason.nvim",
 	"https://github.com/mason-org/mason-lspconfig.nvim",
@@ -202,14 +216,8 @@ vim.pack.add({
 	-- Formatter runner and format-on-save integration.
 	"https://github.com/stevearc/conform.nvim",
 
-	-- Edit file trees as buffers.
-	"https://github.com/stevearc/oil.nvim",
-
 	-- Tree-sitter parser management and highlighting.
 	"https://github.com/nvim-treesitter/nvim-treesitter",
-
-	-- Collection of 40+ plugins, I just use icons and statusline.
-	"https://github.com/nvim-mini/mini.nvim",
 
 	-- Git Diff Signs
 	"https://github.com/lewis6991/gitsigns.nvim",
@@ -217,24 +225,67 @@ vim.pack.add({
 	-- Fuzzy Finder
 	"https://github.com/ibhagwan/fzf-lua",
 
+	-- Git Client
 	"https://github.com/tpope/vim-fugitive",
+
+	"https://github.com/tpope/vim-sleuth",
 }, { confirm = false, load = true })
 
 -- -----------------------------------------------------------------------------
--- Oil: netrw ++
+-- Themes setup
 -- -----------------------------------------------------------------------------
+require("vague").setup({
+	transparent = false, -- Keep an explicit background color.
+	bold = false, -- Disable bold globally for a flatter look.
+	italic = false, -- Disable italic globally for consistent text rendering.
+})
 
-require("oil").setup({})
+vim.g.everforest_background = "hard" -- Use Everforest's highest-contrast dark variant.
+vim.api.nvim_create_autocmd("ColorScheme", {
+	pattern = "everforest",
+	callback = function()
+		-- Make key backgrounds match when Everforest is active.
+		vim.cmd([[
+			hi! Normal guibg=#1e2326
+			hi! NormalFloat guibg=#1e2326
+			hi! Terminal guibg=#1e2326
+		]])
+	end,
+})
+
+require("gruvbox").setup({
+	undercurl = false, -- Avoid curly underline decorations.
+	underline = false, -- Avoid underline decorations.
+	bold = false, -- Keep the theme from applying bold text.
+	italic = {
+		strings = false,
+		emphasis = false,
+		comments = false,
+		operators = false,
+		folds = false,
+	},
+	contrast = "hard", -- Use the highest-contrast Gruvbox palette.
+})
+
+require("tokyonight").setup({
+	transparent = true,
+	styles = {
+		comments = { italic = false }, -- Keep comments upright.
+		keywords = { italic = false }, -- Keep keywords upright.
+	},
+})
+
+vim.cmd.colorscheme("default")
 
 -- -----------------------------------------------------------------------------
--- not so mini
+-- mini.nvim
 -- -----------------------------------------------------------------------------
 
 require("mini.icons").setup()
 require("mini.indentscope").setup({ draw = { delay = 0 }, options = { indent_at_cursor = false } })
 require("mini.cmdline").setup()
 require("mini.cursorword").setup()
-require("mini.git").setup()
+require("mini.files").setup()
 
 -- -----------------------------------------------------------------------------
 -- Git Diff Signs
@@ -245,7 +296,7 @@ require("gitsigns").setup({})
 -- Fuzzy Finder
 -- -----------------------------------------------------------------------------
 FzfLua = require("fzf-lua")
-FzfLua.setup({ "telescope" })
+FzfLua.setup()
 vim.keymap.set("n", "<leader><leader>", FzfLua.files, { desc = "Find Files" })
 vim.keymap.set("n", "<leader>i", function()
 	FzfLua.files({ cwd = "~/dev/dotfiles" })
@@ -253,6 +304,7 @@ end, { desc = "Find Configuration" })
 vim.keymap.set("n", "<leader>pf", FzfLua.git_files, { desc = "Git Files" })
 vim.keymap.set("n", "<leader>k", FzfLua.buffers, { desc = "Buffers" })
 vim.keymap.set("n", "<leader>j", FzfLua.live_grep, { desc = "Grep" })
+vim.keymap.set("n", "<leader>h", FzfLua.helptags, { desc = "Help Tags" })
 vim.keymap.set("n", "<leader>;", FzfLua.commands, { desc = "Commands" })
 vim.keymap.set({ "n", "v", "x" }, "<leader>J", FzfLua.grep_cword, { desc = "Grep Word" })
 
@@ -265,12 +317,11 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		vim.keymap.set("n", "grr", FzfLua.lsp_references, { buffer = args.buf, desc = "[g]oto [r]eferences" })
 		vim.keymap.set("n", "gri", FzfLua.lsp_implementations, { buffer = args.buf, desc = "[g]oto [i]mplmentations" })
 		vim.keymap.set("n", "gO", FzfLua.lsp_document_symbols, { buffer = args.buf, desc = "[g]oto symbol" })
-		vim.keymap.set("n", "<leader>o", FzfLua.lsp_workspace_symbols, { buffer = args.buf, desc = "[g]oto symbol" })
 		vim.keymap.set(
 			"n",
-			"<leader>O",
-			FzfLua.lsp_workspace_symbols,
-			{ buffer = args.buf, desc = "[g]oto workspace symbol" }
+			"<leader>o",
+			FzfLua.lsp_live_workspace_symbols,
+			{ buffer = args.buf, desc = "[g]oto symbol" }
 		)
 	end,
 })
