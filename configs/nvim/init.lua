@@ -149,9 +149,6 @@ vim.pack.add({
 	"https://github.com/sainnhe/everforest",
 	"https://github.com/ellisonleao/gruvbox.nvim",
 
-	-- Collection of 40+ plugins
-	"https://github.com/nvim-mini/mini.nvim",
-
 	-- LSP server installation and Neovim LSP configuration helpers.
 	"https://github.com/mason-org/mason.nvim",
 	"https://github.com/mason-org/mason-lspconfig.nvim",
@@ -166,9 +163,6 @@ vim.pack.add({
 	-- Git Diff Signs
 	"https://github.com/lewis6991/gitsigns.nvim",
 
-	-- Fuzzy Finder
-	"https://github.com/ibhagwan/fzf-lua",
-
 	-- Git Client
 	"https://github.com/tpope/vim-fugitive",
 
@@ -182,6 +176,9 @@ vim.pack.add({
 	"https://github.com/folke/noice.nvim",
 
 	"https://github.com/folke/snacks.nvim",
+
+	"https://github.com/nvim-tree/nvim-web-devicons",
+	"https://github.com/nvim-lualine/lualine.nvim",
 }, { confirm = false, load = true })
 
 -- -----------------------------------------------------------------------------
@@ -230,15 +227,6 @@ require("tokyonight").setup({
 vim.cmd.colorscheme("everforest")
 
 -- -----------------------------------------------------------------------------
--- mini.nvim
--- -----------------------------------------------------------------------------
-
--- require("mini.icons").setup()
--- require("mini.indentscope").setup({ draw = { delay = 0 }, options = { indent_at_cursor = false } })
--- require("mini.cmdline").setup()
--- require("mini.statusline").setup()
-
--- -----------------------------------------------------------------------------
 -- Git Diff Signs
 -- -----------------------------------------------------------------------------
 require("gitsigns").setup({})
@@ -247,40 +235,6 @@ require("gitsigns").setup({})
 -- Git Diff Signs
 -- -----------------------------------------------------------------------------
 require("oil").setup({})
-
--- -----------------------------------------------------------------------------
--- Fzf-lua
--- -----------------------------------------------------------------------------
--- FzfLua = require("fzf-lua")
--- FzfLua.setup({})
--- vim.keymap.set("n", "<leader><leader>", FzfLua.files, { desc = "Find Files" })
--- vim.keymap.set("n", "<leader>i", function()
--- 	FzfLua.files({ cwd = "~/dev/dotfiles" })
--- end, { desc = "Find Configuration" })
--- vim.keymap.set("n", "<leader>pf", FzfLua.git_files, { desc = "Git Files" })
--- vim.keymap.set("n", "<leader>k", FzfLua.buffers, { desc = "Buffers" })
--- vim.keymap.set("n", "<leader>j", FzfLua.live_grep, { desc = "Grep" })
--- vim.keymap.set("n", "<leader>h", FzfLua.helptags, { desc = "Help Tags" })
--- vim.keymap.set("n", "<leader>;", FzfLua.commands, { desc = "Commands" })
--- vim.keymap.set({ "n", "v", "x" }, "<leader>J", FzfLua.grep_cword, { desc = "Grep Word" })
---
--- FzfLua.register_ui_select()
---
--- vim.api.nvim_create_autocmd("LspAttach", {
--- 	callback = function(args)
--- 		vim.keymap.set("n", "<C-]>", FzfLua.lsp_definitions, { buffer = args.buf, desc = "goto definition" })
--- 		vim.keymap.set("n", "gd", FzfLua.lsp_definitions, { buffer = args.buf, desc = "[g]oto [d]efinition" })
--- 		vim.keymap.set("n", "grr", FzfLua.lsp_references, { buffer = args.buf, desc = "[g]oto [r]eferences" })
--- 		vim.keymap.set("n", "gri", FzfLua.lsp_implementations, { buffer = args.buf, desc = "[g]oto [i]mplmentations" })
--- 		vim.keymap.set("n", "gO", FzfLua.lsp_document_symbols, { buffer = args.buf, desc = "[g]oto symbol" })
--- 		vim.keymap.set(
--- 			"n",
--- 			"<leader>o",
--- 			FzfLua.lsp_live_workspace_symbols,
--- 			{ buffer = args.buf, desc = "[g]oto symbol" }
--- 		)
--- 	end,
--- })
 
 -- -----------------------------------------------------------------------------
 -- Snacks
@@ -310,20 +264,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(args)
 		vim.keymap.set("n", "gd", Snacks.picker.lsp_definitions, { buffer = args.buf, desc = "[g]oto [d]efinition" })
 		vim.keymap.set("n", "grr", Snacks.picker.lsp_references, { buffer = args.buf, desc = "[g]oto [r]eferences" })
-		vim.keymap.set(
-			"n",
-			"gri",
-			Snacks.picker.lsp_implementations,
-			{ buffer = args.buf, desc = "[g]oto [i]mplmentations" }
-		)
+		vim.keymap.set("n", "gri", Snacks.picker.lsp_implementations, { buffer = args.buf, desc = "[g]oto [i]mplmentations" })
 		vim.keymap.set("n", "gO", Snacks.picker.lsp_symbols, { buffer = args.buf, desc = "[g]oto symbol" })
 		vim.keymap.set("n", "<leader>o", Snacks.picker.lsp_symbols, { buffer = args.buf, desc = "[g]oto symbol" })
-		vim.keymap.set(
-			"n",
-			"<leader>O",
-			Snacks.picker.lsp_workspace_symbols,
-			{ buffer = args.buf, desc = "[g]oto workspace symbol" }
-		)
+		vim.keymap.set("n", "<leader>O", Snacks.picker.lsp_workspace_symbols, { buffer = args.buf, desc = "[g]oto workspace symbol" })
 	end,
 })
 
@@ -344,8 +288,6 @@ require("noice").setup({
 		bottom_search = true, -- use a classic bottom cmdline for search
 		command_palette = true, -- position the cmdline and popupmenu together
 		long_message_to_split = true, -- long messages will be sent to a split
-		inc_rename = false, -- enables an input dialog for inc-rename.nvim
-		lsp_doc_border = false, -- add a border to hover docs and signature help
 	},
 })
 
