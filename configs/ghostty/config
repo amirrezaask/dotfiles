@@ -8,7 +8,7 @@ maximize=true
 cursor-style-blink=false
 cursor-color = green
 split-divider-color=green
-# background = #000000
+background = #000000
 
 # Tabs
 keybind = cmd+[=previous_tab
