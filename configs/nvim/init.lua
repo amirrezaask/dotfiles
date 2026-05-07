@@ -105,6 +105,9 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 -- Keymaps
 -- -----------------------------------------------------------------------------
 
+vim.keymap.set({ "n", "i" }, "<M-d>", "<cmd>vnew<CR>")
+vim.keymap.set({ "n", "i" }, "<M-D>", "<cmd>new<CR>")
+
 vim.keymap.set("i", "jk", "<esc>") -- Leave insert mode without reaching for Escape.
 vim.keymap.set("i", "kj", "<esc>") -- Alternate insert-mode Escape chord.
 vim.keymap.set("i", "<C-c>", "<esc>") -- Make Ctrl-C behave like Escape in insert mode.
@@ -218,27 +221,13 @@ require("lualine").setup {}
 vim.pack.add { "https://github.com/folke/snacks.nvim" }
 Snacks = require("snacks")
 require("snacks").setup {
-	bigfile = {
-		enabled = true,
-	}, -- Disable expensive features for very large files.
-	indent = {
-		enabled = true,
-	}, -- Draw indentation guides.
-	input = {
-		enabled = true,
-	}, -- Use Snacks input UI.
-	picker = {
-		enabled = true,
-	}, -- Enable fuzzy pickers.
-	notifier = {
-		enabled = true,
-	}, -- Enable notification UI.
-	quickfile = {
-		enabled = true,
-	}, -- Speed up opening files passed on the command line.
-	statuscolumn = {
-		enabled = true,
-	}, -- Enhanced status column integration.
+	bigfile = { enabled = true }, -- Disable expensive features for very large files.
+	indent = { enabled = true }, -- Draw indentation guides.
+	input = { enabled = true }, -- Use Snacks input UI.
+	picker = { enabled = true }, -- Enable fuzzy pickers.
+	notifier = { enabled = true }, -- Enable notification UI.
+	quickfile = { enabled = true }, -- Speed up opening files passed on the command line.
+	statuscolumn = { enabled = true }, -- Enhanced status column integration.
 }
 vim.keymap.set("n", "<leader><leader>", Snacks.picker.files, { desc = "Find Files" })
 vim.keymap.set("n", "<leader>i", function()
