@@ -1,5 +1,4 @@
 theme = Nvim Dark
-# theme = Everforest Dark Hard
 font-size = 15
 mouse-hide-while-typing = true
 macos-option-as-alt = true
@@ -7,9 +6,9 @@ window-padding-balance = true
 shell-integration-features=no-cursor
 maximize=true
 cursor-style-blink=false
-cursor-style = block
 cursor-color = green
 split-divider-color=green
+# background = #000000
 
 # Tabs
 keybind = cmd+[=previous_tab

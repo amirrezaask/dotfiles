@@ -11,12 +11,11 @@ vim.o.swapfile = false -- Avoid creating swap files next to edited files.
 vim.o.number = true -- Show absolute line numbers.
 vim.o.relativenumber = true -- Show relative line numbers for faster motions.
 vim.o.signcolumn = "yes" -- Keep the sign column visible to avoid text shifting.
-vim.o.cursorline = true -- Highlight the line under the cursor.
-vim.o.scrolloff = 5 -- Keep five lines of context above/below the cursor.
+-- vim.o.cursorline = true -- Highlight the line under the cursor.
+vim.o.scrolloff = 10 -- Keep five lines of context above/below the cursor.
 vim.o.linebreak = true -- Wrap long lines at word boundaries instead of mid-word.
 vim.o.winborder = "rounded" -- Use rounded borders for floating windows.
 vim.o.laststatus = 3 -- Use one global statusline instead of one per window.
-vim.g.fuzzy_finder = "fzf-lua" -- Can be snacks
 
 -- -----------------------------------------------------------------------------
 -- Folding
@@ -29,9 +28,6 @@ vim.o.foldtext = "" -- Use the default line text for folded regions.
 vim.o.foldlevel = 99 -- Keep almost all folds open after changing buffers.
 vim.o.foldlevelstart = 5 -- Start with moderately nested folds open when reading files.
 vim.o.foldnestmax = 4 -- Cap fold nesting so deeply nested code stays navigable.
-
--- vim.o.winbar = "%f %l:%c" -- Optional per-window filename and cursor position.
-vim.o.laststatus = 3 -- Re-assert the global statusline setting.
 
 -- -----------------------------------------------------------------------------
 -- Indentation, searching, completion, windows, and clipboard
@@ -57,7 +53,7 @@ vim.opt.wildoptions:append("fuzzy") -- Enable fuzzy matching for command-line co
 
 vim.diagnostic.config({ virtual_text = false }) -- Prefer diagnostic floats over inline virtual text.
 
-vim.o.autocomplete = true -- Enable built-in automatic completion. See :h 'autocomplete', disabled for now since it collides with the lsp autocomplete.
+vim.o.autocomplete = true -- Enable built-in automatic completion. See :h 'autocomplete'
 vim.o.pumheight = 10 -- Limit completion popup height.
 vim.o.pumblend = 10 -- Make the completion popup slightly transparent.
 
@@ -66,6 +62,8 @@ local ok, ui2 = pcall(require, "vim._core.ui2")
 if ok then
 	ui2.enable({ enable = true })
 end
+
+vim.cmd("hi! Normal guibg=none")
 
 -- -----------------------------------------------------------------------------
 -- Autocommands
@@ -129,55 +127,6 @@ vim.keymap.set("n", "<C-q>", function()
 	end
 end, { desc = "Toggle quickfix list" })
 
-local function toggle_cwd_terminal(open_mode)
-	return function()
-		local function open_terminal_window()
-			if open_mode == "vertical" then
-				vim.cmd("botright " .. 15 .. "vsplit")
-			elseif open_mode == "tab" then
-				vim.cmd.tabnew()
-			else
-				vim.cmd("botright " .. 10 .. "split")
-			end
-		end
-
-		local terminal_name = "term://" .. vim.fn.fnamemodify(vim.fn.getcwd(), ":p")
-
-		-- First check to see if there is an open window that is displaying our terminal buffer.
-		for _, win in ipairs(vim.api.nvim_list_wins()) do
-			local buf = vim.api.nvim_win_get_buf(win)
-			if vim.bo[buf].buftype == "terminal" and vim.api.nvim_buf_get_name(buf) == terminal_name then
-				vim.api.nvim_win_close(win, false)
-				return
-			end
-		end
-
-		-- Check to see if there is an open terminal buffer with our naming, if so open a window and set it's buffer to the terminal we found.
-		for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-			if
-				vim.api.nvim_buf_is_loaded(buf)
-				and vim.bo[buf].buftype == "terminal"
-				and vim.api.nvim_buf_get_name(buf) == terminal_name
-			then
-				open_terminal_window()
-				vim.api.nvim_win_set_buf(0, buf)
-				vim.cmd.startinsert()
-				return
-			end
-		end
-
-		-- Open window and terminal buffer.
-		open_terminal_window()
-		vim.cmd.terminal()
-		local buf = vim.api.nvim_get_current_buf()
-		vim.bo[buf].bufhidden = "hide"
-		vim.api.nvim_buf_set_name(buf, terminal_name)
-		vim.cmd.startinsert()
-	end
-end
-
-vim.keymap.set({ "n", "t" }, "<C-j>", toggle_cwd_terminal("tab"), { desc = "Toggle cwd terminal" })
-
 vim.keymap.set("i", "<C-Space>", "<C-x><C-o>", { desc = "Trigger LSP completion" })
 vim.keymap.set("n", "<CR>", function()
 	-- Pressing Enter clears an active search highlight; otherwise it behaves normally.
@@ -194,17 +143,6 @@ end, { expr = true })
 -- -----------------------------------------------------------------------------
 
 vim.pack.add({
-	-- Themes kept installed so colorschemes can be swapped quickly.
-	"https://github.com/folke/tokyonight.nvim",
-	"https://github.com/vague-theme/vague.nvim",
-	{ src = "https://github.com/catppuccin/nvim", name = "catppuccin" },
-	{ src = "https://github.com/rose-pine/neovim", name = "rose-pine" },
-	"https://github.com/sainnhe/everforest",
-	"https://github.com/ellisonleao/gruvbox.nvim",
-	"https://github.com/casedami/neomodern.nvim",
-	"https://github.com/aktersnurra/no-clown-fiesta.nvim",
-	"https://github.com/ydkulks/cursor-dark.nvim",
-
 	-- Collection of 40+ plugins
 	"https://github.com/nvim-mini/mini.nvim",
 
@@ -228,54 +166,12 @@ vim.pack.add({
 	-- Git Client
 	"https://github.com/tpope/vim-fugitive",
 
+	-- Deterministic buffer options (indent size, etc) based on current file and file type.
 	"https://github.com/tpope/vim-sleuth",
+
+	-- Oil: File management with the power of vim.
+	"https://github.com/stevearc/oil.nvim",
 }, { confirm = false, load = true })
-
--- -----------------------------------------------------------------------------
--- Themes setup
--- -----------------------------------------------------------------------------
-require("vague").setup({
-	transparent = false, -- Keep an explicit background color.
-	bold = false, -- Disable bold globally for a flatter look.
-	italic = false, -- Disable italic globally for consistent text rendering.
-})
-
-vim.g.everforest_background = "hard" -- Use Everforest's highest-contrast dark variant.
-vim.api.nvim_create_autocmd("ColorScheme", {
-	pattern = "everforest",
-	callback = function()
-		-- Make key backgrounds match when Everforest is active.
-		vim.cmd([[
-			hi! Normal guibg=#1e2326
-			hi! NormalFloat guibg=#1e2326
-			hi! Terminal guibg=#1e2326
-		]])
-	end,
-})
-
-require("gruvbox").setup({
-	undercurl = false, -- Avoid curly underline decorations.
-	underline = false, -- Avoid underline decorations.
-	bold = false, -- Keep the theme from applying bold text.
-	italic = {
-		strings = false,
-		emphasis = false,
-		comments = false,
-		operators = false,
-		folds = false,
-	},
-	contrast = "hard", -- Use the highest-contrast Gruvbox palette.
-})
-
-require("tokyonight").setup({
-	transparent = true,
-	styles = {
-		comments = { italic = false }, -- Keep comments upright.
-		keywords = { italic = false }, -- Keep keywords upright.
-	},
-})
-
-vim.cmd.colorscheme("default")
 
 -- -----------------------------------------------------------------------------
 -- mini.nvim
@@ -284,8 +180,6 @@ vim.cmd.colorscheme("default")
 require("mini.icons").setup()
 require("mini.indentscope").setup({ draw = { delay = 0 }, options = { indent_at_cursor = false } })
 require("mini.cmdline").setup()
-require("mini.cursorword").setup()
-require("mini.files").setup()
 
 -- -----------------------------------------------------------------------------
 -- Git Diff Signs
@@ -293,10 +187,15 @@ require("mini.files").setup()
 require("gitsigns").setup({})
 
 -- -----------------------------------------------------------------------------
+-- Git Diff Signs
+-- -----------------------------------------------------------------------------
+require("oil").setup({})
+
+-- -----------------------------------------------------------------------------
 -- Fuzzy Finder
 -- -----------------------------------------------------------------------------
 FzfLua = require("fzf-lua")
-FzfLua.setup()
+FzfLua.setup({})
 vim.keymap.set("n", "<leader><leader>", FzfLua.files, { desc = "Find Files" })
 vim.keymap.set("n", "<leader>i", function()
 	FzfLua.files({ cwd = "~/dev/dotfiles" })
@@ -336,14 +235,10 @@ require("mason-lspconfig").setup({ ensure_installed = { "lua_ls", "gopls", "ts_l
 vim.api.nvim_create_autocmd("LspAttach", {
 	-- Configure buffer-local LSP behavior after a language server attaches.
 	callback = function(args)
-		vim.lsp.inlay_hint.enable(true, { bufnr = args.buf }) -- Show inline type/parameter hints.
-
 		local client = vim.lsp.get_client_by_id(args.data.client_id)
 		if client and client:supports_method("textDocument/completion") then
 			-- Use Neovim's built-in LSP completion with automatic popup triggering.
-			vim.lsp.completion.enable(true, client.id, args.buf, {
-				autotrigger = true,
-			})
+			vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
 		end
 
 		local opts = { buffer = args.buf, expr = true, replace_keycodes = false }

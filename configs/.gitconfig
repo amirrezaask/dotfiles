@@ -19,3 +19,6 @@
 
 [pull]
 	rebase = false
+
+[core]
+    pager = hunk pager
