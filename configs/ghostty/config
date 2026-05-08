@@ -1,4 +1,5 @@
 theme = Everforest Dark Hard
+font-family = Maple Mono
 font-size = 15
 mouse-hide-while-typing = true
 macos-option-as-alt = true
@@ -8,6 +9,7 @@ maximize=true
 cursor-style-blink=false
 cursor-color = green
 split-divider-color=green
+adjust-cell-height = 15%
 
 # Tabs
 keybind = cmd+[=previous_tab

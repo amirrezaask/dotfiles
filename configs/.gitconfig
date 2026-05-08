@@ -20,5 +20,5 @@
 [pull]
 	rebase = false
 
-[core]
-    pager = hunk pager
+; [core]
+;     pager = hunk pager
