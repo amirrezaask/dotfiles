@@ -100,9 +100,7 @@ vim.o.pumblend = 10 -- Make the completion popup slightly transparent.
 
 -- EXPERIMENTAL: Enable Neovim's new core UI layer when it exists.
 local ok, ui2 = pcall(require, "vim._core.ui2")
-if ok then
-  ui2.enable { enable = true }
-end
+if ok then ui2.enable { enable = true } end
 
 -- -----------------------------------------------------------------------------
 -- Autocommands
@@ -110,17 +108,13 @@ end
 
 vim.api.nvim_create_autocmd("TextYankPost", {
   -- Flash the yanked region so it is obvious what was copied.
-  callback = function()
-    vim.hl.on_yank { higroup = "Visual", timeout = 150 }
-  end,
+  callback = function() vim.hl.on_yank { higroup = "Visual", timeout = 150 } end,
 })
 
 vim.api.nvim_create_autocmd("BufEnter", {
   -- Prompt buffers do their own input handling, so autocomplete gets in the way.
   callback = function(args)
-    if vim.bo[args.buf].buftype == "prompt" then
-      vim.bo[args.buf].autocomplete = false
-    end
+    if vim.bo[args.buf].buftype == "prompt" then vim.bo[args.buf].autocomplete = false end
   end,
 })
 
@@ -269,30 +263,22 @@ require("lazy").setup({
       -- ════════════════════════════════════════════════════════════════════
       {
         "<leader><leader>",
-        function()
-          Snacks.picker.files()
-        end,
+        function() Snacks.picker.files() end,
         desc = "Find Files",
       },
       {
         "<leader>j",
-        function()
-          Snacks.picker.grep()
-        end,
+        function() Snacks.picker.grep() end,
         desc = "Grep",
       },
       {
         "<leader>J",
-        function()
-          Snacks.picker.grep_word()
-        end,
+        function() Snacks.picker.grep_word() end,
         desc = "Grep",
       },
       {
         "<leader>k",
-        function()
-          Snacks.picker.buffers()
-        end,
+        function() Snacks.picker.buffers() end,
         desc = "Buffers",
       },
 
@@ -301,30 +287,22 @@ require("lazy").setup({
       -- ════════════════════════════════════════════════════════════════════
       {
         "<leader>dd",
-        function()
-          Snacks.picker.diagnostics()
-        end,
+        function() Snacks.picker.diagnostics() end,
         desc = "Workspace Diagnostics",
       },
       {
         "<leader>db",
-        function()
-          Snacks.picker.diagnostics_buffer()
-        end,
+        function() Snacks.picker.diagnostics_buffer() end,
         desc = "Buffer Diagnostics",
       },
       {
         "<leader>dq",
-        function()
-          Snacks.picker.qflist()
-        end,
+        function() Snacks.picker.qflist() end,
         desc = "Quickfix List",
       },
       {
         "<leader>dl",
-        function()
-          Snacks.picker.loclist()
-        end,
+        function() Snacks.picker.loclist() end,
         desc = "Location List",
       },
 
@@ -333,37 +311,27 @@ require("lazy").setup({
       -- ════════════════════════════════════════════════════════════════════
       {
         "<leader>ff",
-        function()
-          Snacks.picker.files()
-        end,
+        function() Snacks.picker.files() end,
         desc = "Find Files",
       },
       {
         "<leader>fr",
-        function()
-          Snacks.picker.recent()
-        end,
+        function() Snacks.picker.recent() end,
         desc = "Recent Files",
       },
       {
         "<leader>fg",
-        function()
-          Snacks.picker.git_files()
-        end,
+        function() Snacks.picker.git_files() end,
         desc = "Git Files",
       },
       {
         "<leader>fp",
-        function()
-          Snacks.picker.projects()
-        end,
+        function() Snacks.picker.projects() end,
         desc = "Projects",
       },
       {
         "<leader>fR",
-        function()
-          Snacks.rename.rename_file()
-        end,
+        function() Snacks.rename.rename_file() end,
         desc = "Rename File",
       },
 
@@ -372,44 +340,32 @@ require("lazy").setup({
       -- ════════════════════════════════════════════════════════════════════
       {
         "<leader>gl",
-        function()
-          Snacks.picker.git_log()
-        end,
+        function() Snacks.picker.git_log() end,
         desc = "Log",
       },
       {
         "<leader>gL",
-        function()
-          Snacks.picker.git_log_line()
-        end,
+        function() Snacks.picker.git_log_line() end,
         desc = "Log (line)",
       },
       {
         "<leader>gf",
-        function()
-          Snacks.picker.git_log_file()
-        end,
+        function() Snacks.picker.git_log_file() end,
         desc = "Log (file)",
       },
       {
         "<leader>gs",
-        function()
-          Snacks.picker.git_status()
-        end,
+        function() Snacks.picker.git_status() end,
         desc = "Status",
       },
       {
         "<leader>gd",
-        function()
-          Snacks.picker.git_diff()
-        end,
+        function() Snacks.picker.git_diff() end,
         desc = "Diff (picker)",
       },
       {
         "<leader>gc",
-        function()
-          Snacks.picker.git_branches()
-        end,
+        function() Snacks.picker.git_branches() end,
         desc = "Checkout Branch",
       },
 
@@ -418,115 +374,83 @@ require("lazy").setup({
       -- ════════════════════════════════════════════════════════════════════
       {
         "<leader>sg",
-        function()
-          Snacks.picker.grep()
-        end,
+        function() Snacks.picker.grep() end,
         desc = "Grep",
       },
       {
         "<leader>sw",
-        function()
-          Snacks.picker.grep_word()
-        end,
+        function() Snacks.picker.grep_word() end,
         desc = "Word",
         mode = { "n", "x" },
       },
       {
         "<leader>sb",
-        function()
-          Snacks.picker.lines()
-        end,
+        function() Snacks.picker.lines() end,
         desc = "Buffer Lines",
       },
       {
         "<leader>sB",
-        function()
-          Snacks.picker.grep_buffers()
-        end,
+        function() Snacks.picker.grep_buffers() end,
         desc = "Grep Buffers",
       },
       {
         "<leader>sh",
-        function()
-          Snacks.picker.help()
-        end,
+        function() Snacks.picker.help() end,
         desc = "Help",
       },
       {
         "<leader>sm",
-        function()
-          Snacks.picker.marks()
-        end,
+        function() Snacks.picker.marks() end,
         desc = "Marks",
       },
       {
         "<leader>sj",
-        function()
-          Snacks.picker.jumps()
-        end,
+        function() Snacks.picker.jumps() end,
         desc = "Jumps",
       },
       {
         "<leader>sk",
-        function()
-          Snacks.picker.keymaps()
-        end,
+        function() Snacks.picker.keymaps() end,
         desc = "Keymaps",
       },
       {
         "<leader>sc",
-        function()
-          Snacks.picker.commands()
-        end,
+        function() Snacks.picker.commands() end,
         desc = "Commands",
       },
       {
         "<leader>s:",
-        function()
-          Snacks.picker.command_history()
-        end,
+        function() Snacks.picker.command_history() end,
         desc = "Command History",
       },
       {
         "<leader>s/",
-        function()
-          Snacks.picker.search_history()
-        end,
+        function() Snacks.picker.search_history() end,
         desc = "Search History",
       },
       {
         "<leader>sr",
-        function()
-          Snacks.picker.registers()
-        end,
+        function() Snacks.picker.registers() end,
         desc = "Registers",
       },
       {
         "<leader>sR",
-        function()
-          Snacks.picker.resume()
-        end,
+        function() Snacks.picker.resume() end,
         desc = "Resume Last",
       },
       {
         "<leader>su",
-        function()
-          Snacks.picker.undo()
-        end,
+        function() Snacks.picker.undo() end,
         desc = "Undo History",
       },
       {
         "<leader>sM",
-        function()
-          Snacks.picker.man()
-        end,
+        function() Snacks.picker.man() end,
         desc = "Man Pages",
       },
       {
         "<leader>si",
-        function()
-          Snacks.picker.icons()
-        end,
+        function() Snacks.picker.icons() end,
         desc = "Icons",
       },
     },
@@ -643,9 +567,7 @@ require("lazy").setup({
     build = ":TSUpdate",
     config = function()
       vim.api.nvim_create_autocmd("FileType", {
-        callback = function(args)
-          pcall(vim.treesitter.start, args.buf)
-        end,
+        callback = function(args) pcall(vim.treesitter.start, args.buf) end,
       })
       require("nvim-treesitter").install {
         "bash",
@@ -694,9 +616,7 @@ require("lazy").setup({
         completion = {
           list = { selection = { preselect = false } },
           menu = {
-            auto_show = function(_)
-              return vim.fn.getcmdtype() == ":"
-            end,
+            auto_show = function(_) return vim.fn.getcmdtype() == ":" end,
           },
           ghost_text = { enabled = true },
         },
