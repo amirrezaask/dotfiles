@@ -439,6 +439,7 @@ require("lazy").setup({
   },
   {
     "dmtrKovalenko/fff.nvim",
+    enabled = false,
     build = function() require("fff.download").download_or_build_binary() end,
     opts = {
       debug = {
