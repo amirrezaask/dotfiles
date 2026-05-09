@@ -1,4 +1,4 @@
-vim.g.colorscheme = os.getenv("NEOVIM_THEME") or "cyberdream"
+vim.g.colorscheme = os.getenv("NVIM_THEME") or "cyberdream"
 -- -----------------------------------------------------------------------------
 -- Lazy.nvim Bootstrap
 -- -----------------------------------------------------------------------------
@@ -447,13 +447,7 @@ require("lazy").setup({
         show_scores = true,
       },
     },
-    lazy = false, -- the plugin lazy-initialises itself
-    -- keys = {
-    --   { "ff", function() require("fff").find_files() end, desc = "FFFind files" },
-    --   { "fg", function() require("fff").live_grep() end, desc = "LiFFFe grep" },
-    --   { "fz", function() require("fff").live_grep { grep = { modes = { "fuzzy", "plain" } } } end, desc = "Live fffuzy grep" },
-    --   { "fc", function() require("fff").live_grep { query = vim.fn.expand("<cword>") } end, desc = "Search current word" },
-    -- },
+    lazy = false,
   },
 
   {
