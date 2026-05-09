@@ -1,15 +1,14 @@
-theme = Everforest Dark Hard
-font-family = Maple Mono
-font-size = 15
+theme = cyberdream
+font-size = 13
 mouse-hide-while-typing = true
 macos-option-as-alt = true
 window-padding-balance = true
 shell-integration-features=no-cursor
 maximize=true
 cursor-style-blink=false
-cursor-color = green
-split-divider-color=green
-adjust-cell-height = 15%
+# cursor-color = green
+# split-divider-color=green
+adjust-cell-height = 10%
 
 # Tabs
 keybind = cmd+[=previous_tab

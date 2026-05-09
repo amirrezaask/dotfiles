@@ -1,4 +1,4 @@
-vim.g.colorscheme = "everforest"
+vim.g.colorscheme = os.getenv("NEOVIM_THEME") or "cyberdream"
 -- -----------------------------------------------------------------------------
 -- Lazy.nvim Bootstrap
 -- -----------------------------------------------------------------------------
@@ -192,18 +192,46 @@ vim.g.dotfiles_location = "~/dev/dotfiles"
 -- Plugins
 -- -----------------------------------------------------------------------------
 require("lazy").setup({
-  { "tpope/vim-fugitive" },
-  { "tpope/vim-sleuth" },
-
   {
     "vague-theme/vague.nvim",
-    enabled = vim.g.colorscheme == "vague",
     opts = { bold = false, italic = false },
-    config = function() vim.cmd.colorscheme("vague") end,
+    config = function() vim.cmd.colorscheme(vim.g.colorscheme) end,
+  },
+  {
+    "scottmckendry/cyberdream.nvim",
+    opts = {},
+    config = function() vim.cmd.colorscheme(vim.g.colorscheme) end,
+  },
+  {
+    "tiesen243/vercel.nvim",
+    opts = { theme = vim.o.background },
+    config = function(opts)
+      require("vercel").setup(opts)
+      vim.cmd.colorscheme(vim.g.colorscheme)
+    end,
+  },
+  {
+    "eldritch-theme/eldritch.nvim",
+    opts = {},
+    config = function() vim.cmd.colorscheme(vim.g.colorscheme) end,
+  },
+  {
+    "oxfist/night-owl.nvim",
+    opts = {},
+    config = function() vim.cmd.colorscheme(vim.g.colorscheme) end,
+  },
+  {
+    "navarasu/onedark.nvim",
+    opts = { style = "cool" },
+    config = function() vim.cmd.colorscheme(vim.g.colorscheme) end,
+  },
+  {
+    "tanvirtin/monokai.nvim",
+    opts = {},
+    config = function() vim.cmd.colorscheme(vim.g.colorscheme) end,
   },
   {
     "sainnhe/everforest",
-    enabled = vim.g.colorscheme == "everforest",
     config = function()
       vim.g.everforest_background = "hard"
       vim.g.everforest_enable_italic = 0
@@ -222,8 +250,7 @@ require("lazy").setup({
   },
   {
     "ellisonleao/gruvbox.nvim",
-    enabled = vim.g.colorscheme == "gruvbox",
-    config = function() vim.cmd.colorscheme("gruvbox") end,
+    config = function() vim.cmd.colorscheme(vim.g.colorscheme) end,
     opts = {
       undercurl = false,
       underline = false,
@@ -240,18 +267,28 @@ require("lazy").setup({
   },
   {
     "folke/tokyonight.nvim",
-    enabled = vim.g.colorscheme == "gruvbox",
-    config = function() vim.cmd.colorscheme("tokyonight-night") end,
+    config = function() vim.cmd.colorscheme(vim.g.colorscheme) end,
     opts = { styles = { comments = { italic = false }, keywords = { italic = false } } },
   },
-  { "catppuccin/nvim", name = "catppuccin", enabled = vim.g.colorscheme == "catppuccin", config = function() vim.cmd.colorscheme("catppuccin") end },
-  { "rose-pine/neovim", name = "rose-pine", enabled = vim.g.colorscheme == "rose-pine", config = function() vim.cmd.colorscheme("rose-pine") end },
+  {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    config = function() vim.cmd.colorscheme(vim.g.colorscheme) end,
+  },
+  {
+    "rose-pine/neovim",
+    name = "rose-pine",
+    config = function() vim.cmd.colorscheme(vim.g.colorscheme) end,
+  },
 
   { "lewis6991/gitsigns.nvim", opts = {} },
   { "stevearc/oil.nvim", opts = {} },
 
   { "nvim-tree/nvim-web-devicons" },
   { "nvim-lualine/lualine.nvim", opts = {} },
+
+  { "tpope/vim-fugitive" },
+  { "tpope/vim-sleuth" },
 
   {
     "folke/snacks.nvim",
@@ -269,6 +306,7 @@ require("lazy").setup({
       -- ════════════════════════════════════════════════════════════════════
       { "<leader><leader>", function() Snacks.picker.files() end, desc = "Find Files" },
       { "<leader>j", function() Snacks.picker.grep() end, desc = "Grep" },
+      { "<leader>i", function() Snacks.picker.files { cwd = vim.g.dotfiles_location } end, desc = "Grep" },
       { "<leader>J", function() Snacks.picker.grep_word() end, desc = "Grep" },
       { "<leader>k", function() Snacks.picker.buffers() end, desc = "Buffers" },
 
@@ -493,10 +531,11 @@ require("lazy").setup({
       keymap = {
         preset = "enter",
         ["<C-y>"] = { "select_and_accept" },
+        ["<tab>"] = { "select_and_accept" },
       },
       completion = {
         accept = { auto_brackets = { enabled = true } },
-        menu = { draw = { treesitter = { "lsp" } } },
+        menu = { border = "none", draw = { treesitter = { "lsp" } } },
         documentation = { auto_show = true, auto_show_delay_ms = 200 },
         ghost_text = { enabled = true },
       },

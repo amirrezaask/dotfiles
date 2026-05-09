@@ -1,7 +1,6 @@
 {
   "breadcrumbs.enabled": false,
   "editor.fontSize": 14,
-  "editor.fontFamily": "TX-02",
   "editor.cursorBlinking": "smooth",
   "editor.renderLineHighlight": "none",
   "editor.stickyScroll.enabled": false,

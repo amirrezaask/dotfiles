@@ -22,3 +22,5 @@
 
 ; [core]
 ;     pager = hunk pager
+[core]
+    pager = delta
