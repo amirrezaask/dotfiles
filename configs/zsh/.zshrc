@@ -9,6 +9,7 @@ fi
 ZSH_THEME="robbyrussell"
 plugins=(git)
 
+export DISABLE_AUTO_TITLE=1
 source $ZSH/oh-my-zsh.sh
 
 
@@ -114,3 +115,7 @@ export PATH="/Users/amirrezaask/.gapcode/bin:$PATH"
 export PATH=/Users/amirrezaask/.opencode/bin:$PATH
 
 export PATH="$HOME/.local/share/nvim/mason/bin:$PATH"
+
+precmd() {
+  print -Pn "\e]0;%~\a"
+}

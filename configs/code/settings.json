@@ -73,4 +73,5 @@
     { "before": [ "k", "j" ], "after": [ "<esc>" ] },
     { "before": [ "<c-w" ],   "commands": [ "editor.deleteWord"] },
   ],
+  "git.openRepositoryInParentFolders": "never",
 }

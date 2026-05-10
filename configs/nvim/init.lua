@@ -1,4 +1,4 @@
-vim.g.colorscheme = os.getenv("NVIM_THEME") or "cyberdream"
+vim.g.colorscheme = os.getenv("NVIM_THEME") or "default"
 -- -----------------------------------------------------------------------------
 -- Lazy.nvim Bootstrap
 -- -----------------------------------------------------------------------------
@@ -29,8 +29,10 @@ vim.o.scrolloff = 10 -- Keep five lines of context above/below the cursor.
 vim.o.linebreak = true -- Wrap long lines at word boundaries instead of mid-word.
 vim.o.winborder = "rounded" -- Use rounded borders for floating windows.
 vim.o.laststatus = 3 -- Use one global statusline instead of one per window.
-vim.opt.showmode = false -- Don't show mode in command line (shown in statusline)
-vim.opt.showcmd = false -- Don't show partial command in command line
+vim.o.showmode = false -- Don't show mode in command line (shown in statusline)
+vim.o.showcmd = false -- Don't show partial command in command line
+vim.o.title = true
+vim.o.titlestring = "%{fnamemodify(getcwd(), ':~')}"
 
 -- ============================================================================
 -- Disable Built-in Plugins
@@ -55,8 +57,7 @@ vim.o.foldexpr = "v:lua.vim.treesitter.foldexpr()" -- Let Tree-sitter provide se
 vim.o.foldcolumn = "0" -- Hide the fold column in the gutter.
 vim.o.foldtext = "" -- Use the default line text for folded regions.
 vim.o.foldlevel = 99 -- Keep almost all folds open after changing buffers.
-vim.o.foldlevelstart = 5 -- Start with moderately nested folds open when reading files.
-vim.o.foldnestmax = 4 -- Cap fold nesting so deeply nested code stays navigable.
+vim.o.foldlevelstart = 99 -- Start with moderately nested folds open when reading files.
 
 -- -----------------------------------------------------------------------------
 -- Indentation
@@ -64,7 +65,7 @@ vim.o.foldnestmax = 4 -- Cap fold nesting so deeply nested code stays navigable.
 vim.o.shiftround = true
 vim.o.shiftwidth = 2
 vim.o.tabstop = 2
-vim.opt.expandtab = true
+vim.o.expandtab = true
 
 -- -----------------------------------------------------------------------------
 -- Searching
@@ -188,106 +189,30 @@ end, {
 
 vim.g.dotfiles_location = "~/dev/dotfiles"
 
+vim.api.nvim_create_autocmd("ColorScheme", {
+  pattern = "default",
+  callback = function(args)
+    if args.match == "default" then
+      vim.cmd([[ 
+  hi! Normal guibg=#000000 
+]]) -- Pure black background for default color
+    end
+  end,
+})
+
 -- -----------------------------------------------------------------------------
 -- Plugins
 -- -----------------------------------------------------------------------------
 require("lazy").setup({
-  {
-    "vague-theme/vague.nvim",
-    opts = { bold = false, italic = false },
-    config = function() vim.cmd.colorscheme(vim.g.colorscheme) end,
-  },
-  {
-    "scottmckendry/cyberdream.nvim",
-    opts = {},
-    config = function() vim.cmd.colorscheme(vim.g.colorscheme) end,
-  },
-  {
-    "tiesen243/vercel.nvim",
-    opts = { theme = vim.o.background },
-    config = function(opts)
-      require("vercel").setup(opts)
-      vim.cmd.colorscheme(vim.g.colorscheme)
-    end,
-  },
-  {
-    "eldritch-theme/eldritch.nvim",
-    opts = {},
-    config = function() vim.cmd.colorscheme(vim.g.colorscheme) end,
-  },
-  {
-    "oxfist/night-owl.nvim",
-    opts = {},
-    config = function() vim.cmd.colorscheme(vim.g.colorscheme) end,
-  },
-  {
-    "navarasu/onedark.nvim",
-    opts = { style = "cool" },
-    config = function() vim.cmd.colorscheme(vim.g.colorscheme) end,
-  },
-  {
-    "tanvirtin/monokai.nvim",
-    opts = {},
-    config = function() vim.cmd.colorscheme(vim.g.colorscheme) end,
-  },
-  {
-    "sainnhe/everforest",
-    config = function()
-      vim.g.everforest_background = "hard"
-      vim.g.everforest_enable_italic = 0
-      vim.api.nvim_create_autocmd("ColorScheme", {
-        pattern = "everforest",
-        callback = function()
-          vim.cmd([[
-            hi! Normal guibg=#1e2326
-            hi! NormalFloat guibg=#1e2326
-            hi! Terminal guibg=#1e2326
-          ]])
-        end,
-      })
-      vim.cmd.colorscheme(vim.g.colorscheme)
-    end,
-  },
-  {
-    "ellisonleao/gruvbox.nvim",
-    config = function() vim.cmd.colorscheme(vim.g.colorscheme) end,
-    opts = {
-      undercurl = false,
-      underline = false,
-      bold = false,
-      italic = {
-        strings = false,
-        emphasis = false,
-        comments = false,
-        operators = false,
-        folds = false,
-      },
-      contrast = "hard",
-    },
-  },
-  {
-    "folke/tokyonight.nvim",
-    config = function() vim.cmd.colorscheme(vim.g.colorscheme) end,
-    opts = { styles = { comments = { italic = false }, keywords = { italic = false } } },
-  },
-  {
-    "catppuccin/nvim",
-    name = "catppuccin",
-    config = function() vim.cmd.colorscheme(vim.g.colorscheme) end,
-  },
-  {
-    "rose-pine/neovim",
-    name = "rose-pine",
-    config = function() vim.cmd.colorscheme(vim.g.colorscheme) end,
-  },
 
   { "lewis6991/gitsigns.nvim", opts = {} },
+
   { "stevearc/oil.nvim", opts = {} },
 
   { "nvim-tree/nvim-web-devicons" },
-  { "nvim-lualine/lualine.nvim", opts = {} },
 
   { "tpope/vim-fugitive" },
+
   { "tpope/vim-sleuth" },
 
   {
@@ -300,6 +225,10 @@ require("lazy").setup({
       quickfile = { enabled = true },
       statuscolumn = { enabled = true },
     },
+    config = function(_, opts)
+      require("snacks").setup(opts)
+      vim.cmd([[ hi! link SnacksPickerDir Normal ]])
+    end,
     keys = {
       -- ════════════════════════════════════════════════════════════════════
       -- Top-level (most used - quick access)
@@ -438,15 +367,19 @@ require("lazy").setup({
     end,
   },
   {
-    "dmtrKovalenko/fff.nvim",
-    enabled = false,
+    "dmtrKovalenko/fff",
     build = function() require("fff.download").download_or_build_binary() end,
+    enabled = false,
     opts = {
       debug = {
         enabled = true,
         show_scores = true,
       },
     },
+    keys = {
+      { "<leader><leader>", function() require("fff").find_files() end, desc = "Find Files" },
+    },
+
     lazy = false,
   },
 
@@ -559,3 +492,5 @@ require("lazy").setup({
     notify = false,
   },
 })
+
+vim.cmd.colorscheme(vim.g.colorscheme)
