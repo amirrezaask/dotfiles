@@ -9,20 +9,21 @@ fi
 
 PLUGINS="$ZSH/custom/plugins"
 
-if [ ! -d "$PLUGINS/zsh-autocomplete" ]; then
-    git clone --depth 1 "https://github.com/marlonrichert/zsh-autocomplete.git" "$PLUGINS/zsh-autocomplete"
-fi
 if [ ! -d "$PLUGINS/zsh-syntax-highlighting" ]; then
 	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$PLUGINS/zsh-syntax-highlighting"
 fi
+if [ ! -d "$PLUGINS/zsh-completions" ]; then
+	git clone https://github.com/zsh-users/zsh-completions.git "$PLUGINS/zsh-completions"
+fi
+if [ ! -d "$PLUGINS/zsh-autosuggestions" ]; then
+	git clone https://github.com/zsh-users/zsh-autosuggestions.git "$PLUGINS/zsh-autosuggestions"
+fi
 
 ZSH_THEME="robbyrussell"
-plugins=(git)
+plugins=(git zsh-autosuggestions zsh-completions zsh-syntax-highlighting)
 
 export DISABLE_AUTO_TITLE=1
 source $ZSH/oh-my-zsh.sh
-source $PLUGINS/zsh-autocomplete/zsh-autocomplete.plugin.zsh
-source $PLUGINS/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # Neovim
 alias vim='nvim'
