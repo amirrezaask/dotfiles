@@ -6,12 +6,23 @@ if [ ! -d "$ZSH" ]; then
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 fi
 
+
+PLUGINS="$ZSH/custom/plugins"
+
+if [ ! -d "$PLUGINS/zsh-autocomplete" ]; then
+    git clone --depth 1 "https://github.com/marlonrichert/zsh-autocomplete.git" "$PLUGINS/zsh-autocomplete"
+fi
+if [ ! -d "$PLUGINS/zsh-syntax-highlighting" ]; then
+	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$PLUGINS/zsh-syntax-highlighting"
+fi
+
 ZSH_THEME="robbyrussell"
 plugins=(git)
 
 export DISABLE_AUTO_TITLE=1
 source $ZSH/oh-my-zsh.sh
-
+source $PLUGINS/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+source $PLUGINS/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # Neovim
 alias vim='nvim'
@@ -50,6 +61,7 @@ alias la='ls -lAh'
 alias ll='ls -lh'
 alias ls='ls -G'
 alias lsa='ls -lah'
+alias gg='go build -v ./...'
 
 
 if command -v fzf &> /dev/null; then

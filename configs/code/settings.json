@@ -1,8 +1,8 @@
 {
   "breadcrumbs.enabled": false,
   "editor.fontSize": 14,
+  "editor.fontFamily": "JetBrains Mono",
   "editor.cursorBlinking": "smooth",
-  "editor.renderLineHighlight": "none",
   "editor.stickyScroll.enabled": false,
   "files.autoSave": "onFocusChange",
   "editor.tabSize": 2,
@@ -16,7 +16,6 @@
   "workbench.editor.enablePreview": false,
   "window.title": "${rootName} ${seperator} ${activeEditorMedium}",
   "window.titleBarStyle": "custom",
-  // "window.nativeTabs": true,
   "window.customTitleBarVisibility": "windowed",
   "files.simpleDialog.enable": true,
   "[go]": { "editor.formatOnSave": true },
@@ -34,7 +33,6 @@
   "workbench.preferredDarkColorTheme": "Dark 2026",
   "workbench.browser.showInTitleBar": false,
   "explorer.confirmDragAndDrop": false,
-  "workbench.activityBar.location": "top",
   "workbench.editor.showTabs": "none",
   "workbench.navigationControl.enabled": false,
   "workbench.openInAgents.enabled": false,
@@ -44,6 +42,11 @@
   "[typescript]": { 
     "editor.formatOnSave": true,
     "editor.indentSize": 2,
+    "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
+  },
+
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
   },
 
   // Vscode <3 Vim
@@ -54,6 +57,7 @@
   "vim.normalModeKeyBindings": [
     { "before": ["<C-d>"], "after": ["<C-d>", "z", "z"] },
     { "before": ["<C-u>"], "after": ["<C-u>", "z", "z"] },
+    { "before": [ "<leader>", "<leader>" ], "commands": ["workbench.action.quickOpen"], },
     { "before": [ "<leader>", "o" ], "commands": ["workbench.action.gotoSymbol"], },
     { "before": [ "<leader>", "O" ], "commands": ["workbench.action.showAllSymbols"], },
     { "before": [ "g", "r" ], "commands": [ "references-view.findReferences" ], },
@@ -74,4 +78,6 @@
     { "before": [ "<c-w" ],   "commands": [ "editor.deleteWord"] },
   ],
   "git.openRepositoryInParentFolders": "never",
+  "workbench.colorTheme": "GitHub Dark Default",
+  "workbench.activityBar.location": "top",
 }

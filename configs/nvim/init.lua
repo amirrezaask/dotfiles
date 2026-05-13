@@ -1,20 +1,4 @@
-vim.g.colorscheme = os.getenv("NVIM_THEME") or "default"
--- -----------------------------------------------------------------------------
--- Lazy.nvim Bootstrap
--- -----------------------------------------------------------------------------
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not (vim.uv or vim.loop).fs_stat(lazypath) then
-  vim.fn.system {
-    "git",
-    "clone",
-    "--filter=blob:none",
-    "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable",
-    lazypath,
-  }
-end
-vim.opt.rtp:prepend(lazypath)
-
+vim.g.colorscheme = os.getenv("NVIM_THEME") or "everforest"
 -- -----------------------------------------------------------------------------
 -- Core editor behavior
 -- -----------------------------------------------------------------------------
@@ -60,7 +44,7 @@ vim.o.foldlevel = 99 -- Keep almost all folds open after changing buffers.
 vim.o.foldlevelstart = 99 -- Start with moderately nested folds open when reading files.
 
 -- -----------------------------------------------------------------------------
--- Indentation
+-- Indentation & Tabs
 -- -----------------------------------------------------------------------------
 vim.o.shiftround = true
 vim.o.shiftwidth = 2
@@ -192,26 +176,90 @@ vim.g.dotfiles_location = "~/dev/dotfiles"
 vim.api.nvim_create_autocmd("ColorScheme", {
   pattern = "default",
   callback = function(args)
-    if args.match == "default" then
-      vim.cmd([[ 
-  hi! Normal guibg=#000000 
-]]) -- Pure black background for default color
-    end
+    if args.match == "default" then vim.cmd([[ 
+        hi! Normal guibg=#000000 
+        hi! link SnacksPickerDir Normal
+]]) end
   end,
 })
 
 -- -----------------------------------------------------------------------------
 -- Plugins
--- -----------------------------------------------------------------------------
+-- ---------------------------------------------------------------------------
+
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not (vim.uv or vim.loop).fs_stat(lazypath) then
+  vim.fn.system {
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable",
+    lazypath,
+  }
+end
+vim.opt.rtp:prepend(lazypath)
+
 require("lazy").setup({
+  { "vague-theme/vague.nvim", opts = { bold = false, italic = false } },
+  { "scottmckendry/cyberdream.nvim", opts = {} },
+  { "navarasu/onedark.nvim", opts = { style = "darker" } },
+  {
+    "sainnhe/everforest",
+    config = function()
+      vim.g.everforest_background = "hard"
+      vim.g.everforest_enable_italic = 0
+      vim.api.nvim_create_autocmd("ColorScheme", {
+        pattern = "everforest",
+        callback = function()
+          if vim.o.background == "dark" then
+            vim.cmd([[
+            hi! Normal guibg=#1e2326 guifg=#ffffff
+            hi! NormalFloat guibg=#1e2326 guifg=#ffffff
+            hi! Terminal guibg=#1e2326 guifg=#ffffff
+          ]])
+          end
+        end,
+      })
+    end,
+  },
+  {
+    "ellisonleao/gruvbox.nvim",
+    opts = {
+      undercurl = false,
+      underline = false,
+      bold = false,
+      italic = {
+        strings = false,
+        emphasis = false,
+        comments = false,
+        operators = false,
+        folds = false,
+      },
+      contrast = "hard",
+    },
+  },
+
+  { "folke/tokyonight.nvim", opts = { styles = { comments = { italic = false }, keywords = { italic = false } } } },
+  { "catppuccin/nvim", name = "catppuccin" },
+  { "rose-pine/neovim", name = "rose-pine" },
+
+  {
+    "nvim-lualine/lualine.nvim",
+    opts = {
+      sections = {
+        lualine_a = {
+          {
+            "filename",
+            path = 1,
+          },
+        },
+      },
+    },
+  },
 
   { "lewis6991/gitsigns.nvim", opts = {} },
-
-  { "stevearc/oil.nvim", opts = {} },
-
   { "nvim-tree/nvim-web-devicons" },
-
-  { "tpope/vim-fugitive" },
 
   { "tpope/vim-sleuth" },
 
@@ -225,10 +273,7 @@ require("lazy").setup({
       quickfile = { enabled = true },
       statuscolumn = { enabled = true },
     },
-    config = function(_, opts)
-      require("snacks").setup(opts)
-      vim.cmd([[ hi! link SnacksPickerDir Normal ]])
-    end,
+    config = function(_, opts) require("snacks").setup(opts) end,
     keys = {
       -- ════════════════════════════════════════════════════════════════════
       -- Top-level (most used - quick access)
@@ -367,23 +412,6 @@ require("lazy").setup({
     end,
   },
   {
-    "dmtrKovalenko/fff",
-    build = function() require("fff.download").download_or_build_binary() end,
-    enabled = false,
-    opts = {
-      debug = {
-        enabled = true,
-        show_scores = true,
-      },
-    },
-    keys = {
-      { "<leader><leader>", function() require("fff").find_files() end, desc = "Find Files" },
-    },
-
-    lazy = false,
-  },
-
-  {
     "stevearc/conform.nvim",
     opts = {
       formatters_by_ft = {
@@ -453,7 +481,18 @@ require("lazy").setup({
       }
     end,
   },
-
+  {
+    "mfussenegger/nvim-lint",
+    config = function()
+      require("lint").linters_by_ft = {
+        typescript = { "eslint" },
+        typescriptreact = { "eslint" },
+      }
+      vim.api.nvim_create_autocmd({ "BufWritePost", "TextChanged", "BufEnter" }, {
+        callback = function() require("lint").try_lint() end,
+      })
+    end,
+  },
   {
     "saghen/blink.cmp",
     version = "1.10.2",
@@ -474,9 +513,10 @@ require("lazy").setup({
         },
       },
       keymap = {
-        preset = "enter",
+        preset = "super-tab",
         ["<C-y>"] = { "select_and_accept" },
-        ["<tab>"] = { "select_and_accept" },
+        ["<enter>"] = { "select_and_accept", "fallback" },
+        ["<tab>"] = { "select_and_accept", "fallback" },
       },
       completion = {
         accept = { auto_brackets = { enabled = true } },

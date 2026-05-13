@@ -1,0 +1,47 @@
+let mapleader=" "
+let maplocalleader=" "
+
+set relativenumber
+set scrolloff=5
+set incsearch
+set hlsearch
+set ignorecase
+set smartcase
+set clipboard=unnamedplus,unnamed,ideaput
+set showmode
+set timeoutlen=400
+set multiple-cursors
+set surround
+set commentary
+set argtextobj
+set textobj-entire
+set ReplaceWithRegister
+
+inoremap jk <esc>
+inoremap kj <esc>
+inoremap <C-c> <esc>
+
+nnoremap Q gq
+
+nnoremap <C-d> <C-d>zz
+nnoremap <C-u> <C-u>zz
+
+nnoremap n nzz
+nnoremap N Nzz
+
+nnoremap L $
+nnoremap H ^
+
+nnoremap <silent> <CR> :nohlsearch<CR><CR>
+
+" IDE actions should always be mapped using map
+map <leader><leader> :action GotoFile<CR>
+map <leader>o :action GotoClass<CR>
+map <leader>O :action GotoSymbol<CR>
+map <leader>r :action Run<CR>
+map <leader>d :action Debug<CR>
+map grn :action RenameElement<CR>
+map grr :action ShowUsages<CR>
+map gd :action GotoDeclaration<CR>
+map gri :action GotoImplementation<CR>
+map <leader>g :action Annotate<CR>

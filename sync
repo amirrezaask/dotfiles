@@ -74,6 +74,8 @@ rm -rf "$XDG_CONFIG/nvim" \
 	"$HOME/.zshrc" \
 	"$HOME/.tmux.conf" \
 	"$XDG_CONFIG/bash" \
+	"$XDG_CONFIG/fish" \
+	"$HOME/.ideavimrc" \
 	"$XDG_CONFIG/kitty" \
 	"$HOME/.gitconfig"
 
@@ -91,6 +93,8 @@ ln -nsf "$CONFIGS_DIR/zsh/.zshrc" "$HOME/.zshrc"
 ln -nsf "$CONFIGS_DIR/tmux/.tmux.conf" "$HOME/.tmux.conf"
 ln -nsf "$CONFIGS_DIR/lazyvim" "$XDG_CONFIG/lazyvim"
 ln -nsf "$CONFIGS_DIR/kitty" "$XDG_CONFIG/kitty"
+ln -nsf "$CONFIGS_DIR/fish" "$XDG_CONFIG/fish"
+ln -nsf "$CONFIGS_DIR/ideavimrc/ideavimrc" "$HOME/.ideavimrc"
 
 # Now some mac stuff
 if [[ "$(uname)" == "Darwin" ]]; then
