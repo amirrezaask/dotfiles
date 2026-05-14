@@ -15,7 +15,6 @@ set surround
 set commentary
 set argtextobj
 set textobj-entire
-set ReplaceWithRegister
 
 inoremap jk <esc>
 inoremap kj <esc>
@@ -35,13 +34,13 @@ nnoremap H ^
 nnoremap <silent> <CR> :nohlsearch<CR><CR>
 
 " IDE actions should always be mapped using map
-map <leader><leader> :action GotoFile<CR>
-map <leader>o :action GotoClass<CR>
-map <leader>O :action GotoSymbol<CR>
-map <leader>r :action Run<CR>
-map <leader>d :action Debug<CR>
-map grn :action RenameElement<CR>
-map grr :action ShowUsages<CR>
-map gd :action GotoDeclaration<CR>
-map gri :action GotoImplementation<CR>
-map <leader>g :action Annotate<CR>
+nmap <leader><leader> :action GotoFile<CR>
+nmap <leader>o :action GotoClass<CR>
+nmap <leader>O :action GotoSymbol<CR>
+nmap <leader>r :action Run<CR>
+nmap <leader>d :action Debug<CR>
+nmap grn :action RenameElement<CR>
+nmap grr :action ShowUsages<CR>
+nmap gd :action GotoDeclaration<CR>
+nmap gri :action GotoImplementation<CR>
+nmap <leader>g :action Annotate<CR>
