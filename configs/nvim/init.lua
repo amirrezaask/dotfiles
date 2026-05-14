@@ -1,4 +1,8 @@
-vim.g.colorscheme = os.getenv("NVIM_THEME") or "everforest"
+vim.g.colorscheme = os.getenv("NVIM_THEME") or "default"
+vim.g.fuzzy_finder = os.getenv("NVIM_FUZZY_FINDER") or "fzf"
+vim.g.noice = os.getenv("NVIM_NOICE") == "true" or false
+vim.g.lualine = os.getenv("NVIM_LUALINE") == "true" or false
+
 -- -----------------------------------------------------------------------------
 -- Core editor behavior
 -- -----------------------------------------------------------------------------
@@ -17,6 +21,7 @@ vim.o.showmode = false -- Don't show mode in command line (shown in statusline)
 vim.o.showcmd = false -- Don't show partial command in command line
 vim.o.title = true
 vim.o.titlestring = "%{fnamemodify(getcwd(), ':~')}"
+vim.o.shortmess = vim.o.shortmess .. "I"
 
 -- ============================================================================
 -- Disable Built-in Plugins
@@ -243,9 +248,31 @@ require("lazy").setup({
   { "folke/tokyonight.nvim", opts = { styles = { comments = { italic = false }, keywords = { italic = false } } } },
   { "catppuccin/nvim", name = "catppuccin" },
   { "rose-pine/neovim", name = "rose-pine" },
+  -- Fuzzy Finder
+  {
+    "https://github.com/ibhagwan/fzf-lua",
+    enabled = vim.g.fuzzy_finder == "fzf",
+    opts = {},
+    config = function(_, opts)
+      require("fzf-lua").setup(opts)
+      FzfLua = require("fzf-lua")
+      FzfLua.setup { "fzf-vim" }
+      vim.keymap.set("n", "<leader><leader>", FzfLua.files, { desc = "Find Files" })
+      vim.keymap.set("n", "<leader>i", function() FzfLua.files { cwd = "~/dev/dotfiles" } end, { desc = "Find Configuration" })
+      vim.keymap.set("n", "<leader>pf", FzfLua.git_files, { desc = "Git Files" })
+      vim.keymap.set("n", "<leader>k", FzfLua.buffers, { desc = "Buffers" })
+      vim.keymap.set("n", "<leader>j", FzfLua.live_grep, { desc = "Grep" })
+      vim.keymap.set("n", "<leader>h", FzfLua.helptags, { desc = "Help Tags" })
+      vim.keymap.set("n", "<leader>;", FzfLua.commands, { desc = "Commands" })
+      vim.keymap.set({ "n", "v", "x" }, "<leader>J", FzfLua.grep_cword, { desc = "Grep Word" })
+
+      FzfLua.register_ui_select()
+    end,
+  },
 
   {
     "nvim-lualine/lualine.nvim",
+    enabled = vim.g.lualine,
     opts = {
       sections = {
         lualine_a = {
@@ -269,7 +296,7 @@ require("lazy").setup({
       bigfile = { enabled = true },
       indent = { enabled = true },
       input = { enabled = true },
-      picker = { enabled = true },
+      picker = { enabled = vim.g.fuzzy_finder == "snacks" },
       quickfile = { enabled = true },
       statuscolumn = { enabled = true },
     },
@@ -345,6 +372,7 @@ require("lazy").setup({
 
   {
     "folke/noice.nvim",
+    enabled = vim.g.noice,
     dependencies = { { "MunifTanjim/nui.nvim" } },
     opts = {
       lsp = {
