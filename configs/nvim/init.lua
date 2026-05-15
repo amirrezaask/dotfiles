@@ -236,27 +236,13 @@ require("lazy").setup({
       vim.keymap.set("n", "<leader>k", FzfLua.buffers, { desc = "Buffers" })
       vim.keymap.set("n", "<leader>j", FzfLua.live_grep, { desc = "Grep" })
       vim.keymap.set("n", "<leader>h", FzfLua.helptags, { desc = "Help Tags" })
+      vim.keymap.set("n", "<leader>l", FzfLua.diagnostics_document, { desc = "Diagnostics Document" })
+      vim.keymap.set("n", "<leader>L", FzfLua.diagnostics_workspace, { desc = "Diagnostics Workspace" })
       vim.keymap.set("n", "<leader>;", FzfLua.commands, { desc = "Commands" })
       vim.keymap.set({ "n", "v", "x" }, "<leader>J", FzfLua.grep_cword, { desc = "Grep Word" })
 
       FzfLua.register_ui_select()
     end,
-  },
-
-  {
-    "nvim-lualine/lualine.nvim",
-    enabled = false,
-    dependencies = { { "nvim-tree/nvim-web-devicons" } },
-    opts = {
-      sections = {
-        lualine_a = {
-          {
-            "filename",
-            path = 1,
-          },
-        },
-      },
-    },
   },
 
   { "lewis6991/gitsigns.nvim", opts = {} },
@@ -314,17 +300,17 @@ require("lazy").setup({
         php = nil,
         go = { "goimports" },
         lua = { "stylua" },
-        javascript = { "prettier" },
-        typescript = { "prettier" },
-        javascriptreact = { "prettier" },
-        typescriptreact = { "prettier" },
-        json = { "prettier" },
-        jsonc = { "prettier" },
-        yaml = { "prettier" },
-        markdown = { "prettier" },
-        html = { "prettier" },
-        css = { "prettier" },
-        scss = { "prettier" },
+        javascript = { "prettierd" },
+        typescript = { "prettierd" },
+        javascriptreact = { "prettierd" },
+        typescriptreact = { "prettierd" },
+        json = { "prettierd" },
+        jsonc = { "prettierd" },
+        yaml = { "prettierd" },
+        markdown = { "prettierd" },
+        html = { "prettierd" },
+        css = { "prettierd" },
+        scss = { "prettierd" },
       },
       format_on_save = {
         timeout_ms = 500,
@@ -375,11 +361,11 @@ require("lazy").setup({
     "mfussenegger/nvim-lint",
     config = function()
       require("lint").linters_by_ft = {
-        typescript = { "eslint" },
-        typescriptreact = { "eslint" },
+        typescript = { "eslint_d" },
+        typescriptreact = { "eslint_d" },
         go = { "golangcilint" },
       }
-      vim.api.nvim_create_autocmd({ "BufWritePost", "TextChanged", "BufEnter", "FocusGained" }, {
+      vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPost", "InsertLeave" }, {
         callback = function() pcall(require("lint").try_lint) end,
       })
     end,
