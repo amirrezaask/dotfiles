@@ -1,7 +1,4 @@
 vim.g.colorscheme = os.getenv("NVIM_THEME") or "default"
-vim.g.fuzzy_finder = os.getenv("NVIM_FUZZY_FINDER") or "fzf"
-vim.g.noice = os.getenv("NVIM_NOICE") == "true" or false
-vim.g.lualine = os.getenv("NVIM_LUALINE") == "true" or false
 
 -- -----------------------------------------------------------------------------
 -- Core editor behavior
@@ -22,12 +19,6 @@ vim.o.showcmd = false -- Don't show partial command in command line
 vim.o.title = true
 vim.o.titlestring = "%{fnamemodify(getcwd(), ':~')}"
 vim.o.shortmess = vim.o.shortmess .. "I"
-
--- ============================================================================
--- Disable Built-in Plugins
--- ============================================================================
-vim.g.loaded_netrw = 1 -- Disable netrw file explorer (using a different file explorer)
-vim.g.loaded_netrwPlugin = 1 -- Disable netrw plugin component
 
 -- ============================================================================
 -- Disable Providers (silence health check warnings)
@@ -127,9 +118,6 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
-vim.keymap.set({ "n", "i" }, "<M-d>", "<cmd>vnew<CR>")
-vim.keymap.set({ "n", "i" }, "<M-D>", "<cmd>new<CR>")
-
 vim.keymap.set("i", "jk", "<esc>") -- Leave insert mode without reaching for Escape.
 vim.keymap.set("i", "kj", "<esc>") -- Alternate insert-mode Escape chord.
 vim.keymap.set("i", "<C-c>", "<esc>") -- Make Ctrl-C behave like Escape in insert mode.
@@ -182,7 +170,7 @@ vim.api.nvim_create_autocmd("ColorScheme", {
   pattern = "default",
   callback = function(args)
     if args.match == "default" then vim.cmd([[ 
-        hi! Normal guibg=#000000 
+        " hi! Normal guibg=#000000 
         hi! link SnacksPickerDir Normal
 ]]) end
   end,
@@ -211,6 +199,7 @@ require("lazy").setup({
   { "navarasu/onedark.nvim", opts = { style = "darker" } },
   {
     "sainnhe/everforest",
+    enabled = vim.g.colors,
     config = function()
       vim.g.everforest_background = "hard"
       vim.g.everforest_enable_italic = 0
@@ -228,30 +217,14 @@ require("lazy").setup({
       })
     end,
   },
-  {
-    "ellisonleao/gruvbox.nvim",
-    opts = {
-      undercurl = false,
-      underline = false,
-      bold = false,
-      italic = {
-        strings = false,
-        emphasis = false,
-        comments = false,
-        operators = false,
-        folds = false,
-      },
-      contrast = "hard",
-    },
-  },
-
+  { "morhetz/gruvbox", enabled = vim.g.colors, config = function() vim.g.gruvbox_contrast_dark = "hard" end },
   { "folke/tokyonight.nvim", opts = { styles = { comments = { italic = false }, keywords = { italic = false } } } },
-  { "catppuccin/nvim", name = "catppuccin" },
-  { "rose-pine/neovim", name = "rose-pine" },
+  { "catppuccin/nvim", enabled = vim.g.colors, name = "catppuccin" },
+  { "rose-pine/neovim", enabled = vim.g.colors, name = "rose-pine" },
   -- Fuzzy Finder
   {
     "https://github.com/ibhagwan/fzf-lua",
-    enabled = vim.g.fuzzy_finder == "fzf",
+    dependencies = { { "nvim-tree/nvim-web-devicons" } },
     opts = {},
     config = function(_, opts)
       require("fzf-lua").setup(opts)
@@ -272,7 +245,8 @@ require("lazy").setup({
 
   {
     "nvim-lualine/lualine.nvim",
-    enabled = vim.g.lualine,
+    enabled = false,
+    dependencies = { { "nvim-tree/nvim-web-devicons" } },
     opts = {
       sections = {
         lualine_a = {
@@ -286,122 +260,16 @@ require("lazy").setup({
   },
 
   { "lewis6991/gitsigns.nvim", opts = {} },
-  { "nvim-tree/nvim-web-devicons" },
 
   { "tpope/vim-sleuth" },
 
   {
-    "folke/snacks.nvim",
-    opts = {
-      bigfile = { enabled = true },
-      indent = { enabled = true },
-      input = { enabled = true },
-      picker = { enabled = vim.g.fuzzy_finder == "snacks" },
-      quickfile = { enabled = true },
-      statuscolumn = { enabled = true },
-    },
-    config = function(_, opts) require("snacks").setup(opts) end,
-    keys = {
-      -- ════════════════════════════════════════════════════════════════════
-      -- Top-level (most used - quick access)
-      -- ════════════════════════════════════════════════════════════════════
-      { "<leader><leader>", function() Snacks.picker.files() end, desc = "Find Files" },
-      { "<leader>j", function() Snacks.picker.grep() end, desc = "Grep" },
-      { "<leader>i", function() Snacks.picker.files { cwd = vim.g.dotfiles_location } end, desc = "Grep" },
-      { "<leader>J", function() Snacks.picker.grep_word() end, desc = "Grep" },
-      { "<leader>k", function() Snacks.picker.buffers() end, desc = "Buffers" },
-
-      -- ════════════════════════════════════════════════════════════════════
-      -- <leader>d = Diagnostics
-      -- ════════════════════════════════════════════════════════════════════
-      { "<leader>dd", function() Snacks.picker.diagnostics() end, desc = "Workspace Diagnostics" },
-      { "<leader>db", function() Snacks.picker.diagnostics_buffer() end, desc = "Buffer Diagnostics" },
-      { "<leader>dq", function() Snacks.picker.qflist() end, desc = "Quickfix List" },
-      { "<leader>dl", function() Snacks.picker.loclist() end, desc = "Location List" },
-
-      -- ════════════════════════════════════════════════════════════════════
-      -- <leader>f = Files
-      -- ════════════════════════════════════════════════════════════════════
-      { "<leader>ff", function() Snacks.picker.files() end, desc = "Find Files" },
-      { "<leader>fr", function() Snacks.picker.recent() end, desc = "Recent Files" },
-      { "<leader>fg", function() Snacks.picker.git_files() end, desc = "Git Files" },
-      { "<leader>fp", function() Snacks.picker.projects() end, desc = "Projects" },
-      { "<leader>fR", function() Snacks.rename.rename_file() end, desc = "Rename File" },
-
-      -- ════════════════════════════════════════════════════════════════════
-      -- <leader>g = Git
-      -- ════════════════════════════════════════════════════════════════════
-      { "<leader>gl", function() Snacks.picker.git_log() end, desc = "Log" },
-      { "<leader>gL", function() Snacks.picker.git_log_line() end, desc = "Log (line)" },
-      { "<leader>gf", function() Snacks.picker.git_log_file() end, desc = "Log (file)" },
-      { "<leader>gs", function() Snacks.picker.git_status() end, desc = "Status" },
-      { "<leader>gd", function() Snacks.picker.git_diff() end, desc = "Diff (picker)" },
-      { "<leader>gc", function() Snacks.picker.git_branches() end, desc = "Checkout Branch" },
-
-      -- ════════════════════════════════════════════════════════════════════
-      -- <leader>s = Search
-      -- ════════════════════════════════════════════════════════════════════
-      { "<leader>sg", function() Snacks.picker.grep() end, desc = "Grep" },
-      { "<leader>sw", function() Snacks.picker.grep_word() end, desc = "Word", mode = { "n", "x" } },
-      { "<leader>sb", function() Snacks.picker.lines() end, desc = "Buffer Lines" },
-      { "<leader>sB", function() Snacks.picker.grep_buffers() end, desc = "Grep Buffers" },
-      { "<leader>sh", function() Snacks.picker.help() end, desc = "Help" },
-      { "<leader>sm", function() Snacks.picker.marks() end, desc = "Marks" },
-      { "<leader>sj", function() Snacks.picker.jumps() end, desc = "Jumps" },
-      { "<leader>sk", function() Snacks.picker.keymaps() end, desc = "Keymaps" },
-      { "<leader>sc", function() Snacks.picker.commands() end, desc = "Commands" },
-      { "<leader>s:", function() Snacks.picker.command_history() end, desc = "Command History" },
-      { "<leader>s/", function() Snacks.picker.search_history() end, desc = "Search History" },
-      { "<leader>sr", function() Snacks.picker.registers() end, desc = "Registers" },
-      { "<leader>sR", function() Snacks.picker.resume() end, desc = "Resume Last" },
-      { "<leader>su", function() Snacks.picker.undo() end, desc = "Undo History" },
-      { "<leader>sM", function() Snacks.picker.man() end, desc = "Man Pages" },
-      { "<leader>si", function() Snacks.picker.icons() end, desc = "Icons" },
-
-      -- ════════════════════════════════════════════════════════════════════
-      -- LSP
-      -- ════════════════════════════════════════════════════════════════════
-      { "gd", function() Snacks.picker.lsp_definitions() end, desc = "[g]oto [d]efinition" },
-      { "grr", function() Snacks.picker.lsp_references() end, desc = "[g]oto [r]eferences" },
-      { "gri", function() Snacks.picker.lsp_implementations() end, desc = "[g]oto [i]mplmentations" },
-      { "gO", function() Snacks.picker.lsp_symbols() end, desc = "[g]oto symbol" },
-      { "<leader>o", function() Snacks.picker.lsp_symbols() end, desc = "[g]oto symbol" },
-      { "<leader>O", function() Snacks.picker.lsp_workspace_symbols() end, desc = "[g]oto workspace symbol" },
-    },
-  },
-
-  {
-    "folke/noice.nvim",
-    enabled = vim.g.noice,
-    dependencies = { { "MunifTanjim/nui.nvim" } },
-    opts = {
-      lsp = {
-        progress = { enabled = false },
-        override = {
-          ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-          ["vim.lsp.util.stylize_markdown"] = true,
-          ["cmp.entry.get_documentation"] = true,
-        },
-      },
-      popupmenu = { enabled = false },
-      presets = {
-        bottom_search = true,
-        command_palette = true,
-        long_message_to_split = true,
-      },
-    },
-  },
-
-  { "mason-org/mason.nvim", opts = {}, lazy = false },
-  {
-    "mason-org/mason-lspconfig.nvim",
-    opts = { ensure_installed = { "lua_ls", "gopls", "ts_ls" } },
-  },
-  {
     "neovim/nvim-lspconfig",
+    dependencies = {
+      { "mason-org/mason.nvim", opts = {} },
+      { "mason-org/mason-lspconfig.nvim", opts = { ensure_installed = { "lua_ls", "gopls", "ts_ls" } } },
+    },
     config = function()
-      require("mason-lspconfig").setup { ensure_installed = { "lua_ls", "gopls", "ts_ls" } }
-
       vim.api.nvim_create_autocmd("LspAttach", {
         callback = function(args)
           local opts = {
@@ -465,12 +333,6 @@ require("lazy").setup({
     },
   },
   {
-    "folke/which-key.nvim",
-    opts = {
-      preset = "helix",
-    },
-  },
-  {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
     config = function()
@@ -515,9 +377,10 @@ require("lazy").setup({
       require("lint").linters_by_ft = {
         typescript = { "eslint" },
         typescriptreact = { "eslint" },
+        go = { "golangcilint" },
       }
-      vim.api.nvim_create_autocmd({ "BufWritePost", "TextChanged", "BufEnter" }, {
-        callback = function() require("lint").try_lint() end,
+      vim.api.nvim_create_autocmd({ "BufWritePost", "TextChanged", "BufEnter", "FocusGained" }, {
+        callback = function() pcall(require("lint").try_lint) end,
       })
     end,
   },

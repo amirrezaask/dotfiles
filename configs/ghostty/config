@@ -1,6 +1,6 @@
 theme = Nvim Dark 
 font-family = Jetbrains Mono
-font-size = 13
+font-size = 11
 mouse-hide-while-typing = true
 macos-option-as-alt = true
 window-padding-balance = true
@@ -10,7 +10,7 @@ cursor-style-blink=false
 cursor-color = green
 split-divider-color=green
 adjust-cell-height = 10%
-background = #000000
+# background = #000000
 foreground = #ffffff
 
 # Tabs

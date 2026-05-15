@@ -1,7 +1,6 @@
 {
   "breadcrumbs.enabled": false,
   "editor.fontSize": 14,
-  "editor.fontFamily": "JetBrains Mono",
   "editor.cursorBlinking": "smooth",
   "editor.stickyScroll.enabled": false,
   "files.autoSave": "onFocusChange",
@@ -28,7 +27,7 @@
   "go.toolsManagement.autoUpdate": true,
   "diffEditor.ignoreTrimWhitespace": false,
   "redhat.telemetry.enabled": true,
-  "window.autoDetectColorScheme": false,
+  "window.autoDetectColorScheme": true,
   "workbench.preferredLightColorTheme": "Light 2026",
   "workbench.preferredDarkColorTheme": "Dark 2026",
   "workbench.browser.showInTitleBar": false,
@@ -42,11 +41,19 @@
   "[typescript]": { 
     "editor.formatOnSave": true,
     "editor.indentSize": 2,
-    "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-
   "[typescriptreact]": {
-    "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
+    "editor.formatOnSave": true,
+    "editor.indentSize": 2,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascript]": {
+    "editor.maxTokenizationLineLength": 2500,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
 
   // Vscode <3 Vim
