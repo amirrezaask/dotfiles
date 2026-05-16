@@ -20,7 +20,9 @@
 [pull]
 	rebase = false
 
-; [core]
-;     pager = hunk pager
 [core]
-    pager = delta
+    pager = hunk pager
+[diff]
+	tool = codediff
+[difftool "codediff"]
+	cmd = nvim \"$LOCAL\" \"$REMOTE\" +\"CodeDiff file $LOCAL $REMOTE\"
