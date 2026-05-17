@@ -190,21 +190,24 @@ vim.pack.add {
   "https://github.com/navarasu/onedark.nvim",
   "https://github.com/folke/tokyonight.nvim",
 
-  "https://github.com/ibhagwan/fzf-lua",
   "https://github.com/nvim-tree/nvim-web-devicons",
-  "https://github.com/sindrets/diffview.nvim",
-  "https://github.com/lewis6991/gitsigns.nvim",
+
+  "https://github.com/ibhagwan/fzf-lua",
   "https://github.com/tpope/vim-sleuth",
+
   "https://github.com/neovim/nvim-lspconfig",
   "https://github.com/mason-org/mason.nvim",
   "https://github.com/mason-org/mason-lspconfig.nvim",
   "https://github.com/stevearc/conform.nvim",
-  "https://github.com/nvim-treesitter/nvim-treesitter",
   "https://github.com/mfussenegger/nvim-lint",
   "https://github.com/saghen/blink.cmp",
+  "https://github.com/nvim-treesitter/nvim-treesitter",
 
+  -- Git
   "https://github.com/NeogitOrg/neogit",
   "https://github.com/m00qek/baleia.nvim",
+  "https://github.com/lewis6991/gitsigns.nvim",
+  "https://github.com/sindrets/diffview.nvim",
 }
 
 -- ============================================================================
