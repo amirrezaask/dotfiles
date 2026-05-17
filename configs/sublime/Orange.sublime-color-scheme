@@ -1,6 +1,5 @@
 {
   "name": "ScreenshotInspired",
-  "author": "User + GapGPT",
   "variables": {
     "background":    "#000000",
     "foreground":    "#EAEAEA",

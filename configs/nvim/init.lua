@@ -1,5 +1,3 @@
-vim.g.colorscheme = os.getenv("NVIM_THEME") or "tokyonight-night"
-
 -- -----------------------------------------------------------------------------
 -- Core editor behavior
 -- -----------------------------------------------------------------------------
@@ -151,6 +149,7 @@ vim.keymap.set("n", "<C-q>", function()
 end, {
   desc = "Toggle quickfix list",
 })
+vim.keymap.set({ "n" }, "<leader>q", function() vim.diagnostic.setloclist { open = true } end)
 
 vim.keymap.set("i", "<C-Space>", "<C-x><C-o>", { desc = "Trigger LSP completion" })
 vim.keymap.set("n", "<CR>", function()
@@ -181,262 +180,230 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 -- Plugins
 -- ---------------------------------------------------------------------------
 
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not (vim.uv or vim.loop).fs_stat(lazypath) then
-  vim.fn.system {
-    "git",
-    "clone",
-    "--filter=blob:none",
-    "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable",
-    lazypath,
-  }
-end
-vim.opt.rtp:prepend(lazypath)
+vim.pack.add {
+  "https://github.com/vague-theme/vague.nvim",
+  "https://github.com/sainnhe/everforest",
+  "https://github.com/morhetz/gruvbox",
+  { src = "https://github.com/catppuccin/nvim", name = "catppuccin" },
+  { src = "https://github.com/rose-pine/neovim", name = "rose-pine" },
+  "https://github.com/scottmckendry/cyberdream.nvim",
+  "https://github.com/navarasu/onedark.nvim",
+  "https://github.com/folke/tokyonight.nvim",
 
-require("lazy").setup({
-  { "vague-theme/vague.nvim", opts = { bold = false, italic = false } },
-  { "scottmckendry/cyberdream.nvim", opts = {} },
-  { "navarasu/onedark.nvim", opts = { style = "darker" } },
-  {
-    "sainnhe/everforest",
-    enabled = vim.g.colors,
-    config = function()
-      vim.g.everforest_background = "hard"
-      vim.g.everforest_enable_italic = 0
-      vim.api.nvim_create_autocmd("ColorScheme", {
-        pattern = "everforest",
-        callback = function()
-          if vim.o.background == "dark" then
-            vim.cmd([[
-            hi! Normal guibg=#1e2326 guifg=#ffffff
-            hi! NormalFloat guibg=#1e2326 guifg=#ffffff
-            hi! Terminal guibg=#1e2326 guifg=#ffffff
-          ]])
-          end
-        end,
-      })
-    end,
-  },
-  { "morhetz/gruvbox", enabled = vim.g.colors, config = function() vim.g.gruvbox_contrast_dark = "hard" end },
-  { "folke/tokyonight.nvim", opts = { styles = { comments = { italic = false }, keywords = { italic = false } } } },
-  { "catppuccin/nvim", enabled = vim.g.colors, name = "catppuccin" },
-  {
-    "rose-pine/neovim",
-    enabled = vim.g.colors,
-    name = "rose-pine",
-    opts = {
-      styles = {
-        bold = false,
-        italic = false,
-      },
+  "https://github.com/ibhagwan/fzf-lua",
+  "https://github.com/nvim-tree/nvim-web-devicons",
+  "https://github.com/sindrets/diffview.nvim",
+  "https://github.com/lewis6991/gitsigns.nvim",
+  "https://github.com/tpope/vim-sleuth",
+  "https://github.com/neovim/nvim-lspconfig",
+  "https://github.com/mason-org/mason.nvim",
+  "https://github.com/mason-org/mason-lspconfig.nvim",
+  "https://github.com/stevearc/conform.nvim",
+  "https://github.com/nvim-treesitter/nvim-treesitter",
+  "https://github.com/mfussenegger/nvim-lint",
+  "https://github.com/saghen/blink.cmp",
+}
+
+-- ============================================================================
+-- Plugin configurations
+-- ============================================================================
+
+-- Colorschemes
+require("vague").setup { bold = false, italic = false }
+require("onedark").setup { style = "darker" }
+require("tokyonight").setup {
+  styles = { comments = { italic = false }, keywords = { italic = false } },
+}
+
+vim.g.everforest_background = "hard"
+vim.g.everforest_enable_italic = 0
+vim.api.nvim_create_autocmd("ColorScheme", {
+  pattern = "everforest",
+  callback = function()
+    if vim.o.background == "dark" then
+      vim.cmd([[
+          hi! Normal guibg=#1e2326 guifg=#ffffff
+          hi! NormalFloat guibg=#1e2326 guifg=#ffffff
+          hi! Terminal guibg=#1e2326 guifg=#ffffff
+        ]])
+    end
+  end,
+})
+
+vim.g.gruvbox_contrast_dark = "hard"
+
+require("rose-pine").setup {
+  styles = { bold = false, italic = false },
+}
+
+vim.cmd.colorscheme(os.getenv("NVIM_THEME") or "tokyonight-night")
+
+-- Fzf-Lua
+require("fzf-lua").setup { "telescope" }
+FzfLua = require("fzf-lua")
+vim.keymap.set("n", "<leader><leader>", FzfLua.files, { desc = "Find Files" })
+vim.keymap.set("n", "<leader>i", function() FzfLua.files { cwd = "~/dev/dotfiles" } end, { desc = "Find Configuration" })
+vim.keymap.set("n", "<leader>pf", FzfLua.git_files, { desc = "Git Files" })
+vim.keymap.set("n", "<leader>k", FzfLua.buffers, { desc = "Buffers" })
+vim.keymap.set("n", "<leader>j", FzfLua.live_grep, { desc = "Grep" })
+vim.keymap.set("n", "<leader>h", FzfLua.helptags, { desc = "Help Tags" })
+vim.keymap.set("n", "<leader>l", FzfLua.diagnostics_document, { desc = "Diagnostics Document" })
+vim.keymap.set("n", "<leader>L", FzfLua.diagnostics_workspace, { desc = "Diagnostics Workspace" })
+vim.keymap.set("n", "<leader>;", FzfLua.commands, { desc = "Commands" })
+vim.keymap.set({ "n", "v", "x" }, "<leader>J", FzfLua.grep_cword, { desc = "Grep Word" })
+FzfLua.register_ui_select()
+
+vim.api.nvim_create_autocmd("LspAttach", {
+  callback = function(args)
+    local opts = { buffer = args.buf }
+    vim.keymap.set("n", "gd", FzfLua.lsp_definitions, opts)
+    vim.keymap.set("n", "grr", FzfLua.lsp_references, opts)
+    vim.keymap.set("n", "gri", FzfLua.lsp_implementations, opts)
+  end,
+})
+
+-- Diffview
+require("diffview").setup {}
+vim.keymap.set("n", "<leader>G", "<cmd>DiffviewOpen<CR>")
+
+-- LSP
+require("mason").setup {}
+require("mason-lspconfig").setup {
+  ensure_installed = { "lua_ls", "gopls", "ts_ls" },
+}
+
+vim.api.nvim_create_autocmd("LspAttach", {
+  callback = function(args)
+    local opts = {
+      buffer = args.buf,
+      expr = true,
+      replace_keycodes = false,
+    }
+    vim.keymap.set("i", "<Tab>", function()
+      if vim.fn.pumvisible() == 1 then
+        return vim.keycode("<C-y>")
+      else
+        return vim.keycode("<Tab>")
+      end
+    end, opts)
+
+    vim.keymap.set("i", "<CR>", function()
+      if vim.fn.pumvisible() == 1 then
+        return vim.keycode("<C-y>")
+      else
+        return vim.keycode("<CR>")
+      end
+    end, opts)
+
+    vim.keymap.set("n", "L", vim.diagnostic.open_float, { buffer = args.buf, desc = "Open Floating Diagnostic" })
+  end,
+})
+
+vim.lsp.config("lua_ls", {
+  settings = {
+    Lua = {
+      diagnostics = { globals = { "vim" } },
+      workspace = { library = vim.api.nvim_get_runtime_file("", true) },
     },
-  },
-  -- Fuzzy Finder
-  {
-    "https://github.com/ibhagwan/fzf-lua",
-    dependencies = { { "nvim-tree/nvim-web-devicons" } },
-    opts = {},
-    config = function(_, opts)
-      require("fzf-lua").setup(opts)
-      FzfLua = require("fzf-lua")
-      FzfLua.setup { "telescope" }
-      vim.keymap.set("n", "<leader><leader>", FzfLua.files, { desc = "Find Files" })
-      vim.keymap.set("n", "<leader>i", function() FzfLua.files { cwd = "~/dev/dotfiles" } end, { desc = "Find Configuration" })
-      vim.keymap.set("n", "<leader>pf", FzfLua.git_files, { desc = "Git Files" })
-      vim.keymap.set("n", "<leader>k", FzfLua.buffers, { desc = "Buffers" })
-      vim.keymap.set("n", "<leader>j", FzfLua.live_grep, { desc = "Grep" })
-      vim.keymap.set("n", "<leader>h", FzfLua.helptags, { desc = "Help Tags" })
-      vim.keymap.set("n", "<leader>l", FzfLua.diagnostics_document, { desc = "Diagnostics Document" })
-      vim.keymap.set("n", "<leader>L", FzfLua.diagnostics_workspace, { desc = "Diagnostics Workspace" })
-      vim.keymap.set("n", "<leader>;", FzfLua.commands, { desc = "Commands" })
-      vim.keymap.set({ "n", "v", "x" }, "<leader>J", FzfLua.grep_cword, { desc = "Grep Word" })
-
-      FzfLua.register_ui_select()
-      vim.api.nvim_create_autocmd("LspAttach", {
-        callback = function(args)
-          local opts = {
-            buffer = args.buf,
-          }
-          vim.keymap.set({ "n" }, "gd", FzfLua.lsp_definitions, opts)
-          vim.keymap.set({ "n" }, "grr", FzfLua.lsp_references, opts)
-          vim.keymap.set({ "n" }, "gri", FzfLua.lsp_implementations, opts)
-        end,
-      })
-    end,
-  },
-  {
-    "sindrets/diffview.nvim",
-    opts = {},
-    config = function(_, opts)
-      require("diffview").setup(opts)
-      vim.keymap.set({ "n" }, "<leader>G", "<cmd>DiffviewOpen<CR>")
-    end,
-  },
-
-  { "lewis6991/gitsigns.nvim", opts = {} },
-
-  { "tpope/vim-sleuth" },
-
-  {
-    "neovim/nvim-lspconfig",
-    dependencies = {
-      { "mason-org/mason.nvim", opts = {} },
-      { "mason-org/mason-lspconfig.nvim", opts = { ensure_installed = { "lua_ls", "gopls", "ts_ls" } } },
-    },
-    config = function()
-      vim.api.nvim_create_autocmd("LspAttach", {
-        callback = function(args)
-          local opts = {
-            buffer = args.buf,
-            expr = true,
-            replace_keycodes = false,
-          }
-          vim.keymap.set("i", "<Tab>", function()
-            if vim.fn.pumvisible() == 1 then
-              return vim.keycode("<C-y>")
-            else
-              return vim.keycode("<Tab>")
-            end
-          end, opts)
-
-          vim.keymap.set("i", "<CR>", function()
-            if vim.fn.pumvisible() == 1 then
-              return vim.keycode("<C-y>")
-            else
-              return vim.keycode("<CR>")
-            end
-          end, opts)
-
-          vim.keymap.set("n", "L", vim.diagnostic.open_float, { buffer = args.buf, desc = "Open Floating Diagnostic" })
-        end,
-      })
-
-      vim.lsp.config("lua_ls", {
-        settings = {
-          Lua = {
-            diagnostics = { globals = { "vim" } },
-            workspace = { library = vim.api.nvim_get_runtime_file("", true) },
-          },
-        },
-      })
-    end,
-  },
-  {
-    "stevearc/conform.nvim",
-    opts = {
-      formatters_by_ft = {
-        php = nil,
-        go = { "goimports" },
-        lua = { "stylua" },
-        javascript = { "prettierd" },
-        typescript = { "prettierd" },
-        javascriptreact = { "prettierd" },
-        typescriptreact = { "prettierd" },
-        json = { "prettierd" },
-        jsonc = { "prettierd" },
-        yaml = { "prettierd" },
-        markdown = { "prettierd" },
-        html = { "prettierd" },
-        css = { "prettierd" },
-        scss = { "prettierd" },
-      },
-      format_on_save = {
-        timeout_ms = 500,
-        lsp_fallback = false,
-      },
-    },
-  },
-  {
-    "nvim-treesitter/nvim-treesitter",
-    build = ":TSUpdate",
-    config = function()
-      vim.api.nvim_create_autocmd("FileType", {
-        callback = function(args) pcall(vim.treesitter.start, args.buf) end,
-      })
-      require("nvim-treesitter").install {
-        "bash",
-        "c",
-        "cpp",
-        "fish",
-        "gitcommit",
-        "go",
-        "graphql",
-        "html",
-        "hyprlang",
-        "java",
-        "javascript",
-        "json",
-        "json5",
-        "lua",
-        "markdown",
-        "markdown_inline",
-        "python",
-        "query",
-        "rasi",
-        "regex",
-        "rust",
-        "scss",
-        "toml",
-        "tsx",
-        "typescript",
-        "vim",
-        "vimdoc",
-        "yaml",
-      }
-    end,
-  },
-  {
-    "mfussenegger/nvim-lint",
-    config = function()
-      require("lint").linters_by_ft = {
-        typescript = { "eslint_d" },
-        typescriptreact = { "eslint_d" },
-        go = { "golangcilint" },
-      }
-      vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPost", "InsertLeave" }, {
-        callback = function() pcall(require("lint").try_lint) end,
-      })
-    end,
-  },
-  {
-    "saghen/blink.cmp",
-    version = "1.10.2",
-    opts = {
-      cmdline = {
-        enabled = true,
-        keymap = {
-          preset = "cmdline",
-          ["<Right>"] = false,
-          ["<Left>"] = false,
-        },
-        completion = {
-          list = { selection = { preselect = false } },
-          menu = {
-            auto_show = function(_) return vim.fn.getcmdtype() == ":" end,
-          },
-          ghost_text = { enabled = true },
-        },
-      },
-      keymap = {
-        preset = "super-tab",
-        ["<C-y>"] = { "select_and_accept" },
-        ["<enter>"] = { "select_and_accept", "fallback" },
-        ["<tab>"] = { "select_and_accept", "fallback" },
-      },
-      completion = {
-        accept = { auto_brackets = { enabled = true } },
-        menu = { border = "none", draw = { treesitter = { "lsp" } } },
-        documentation = { auto_show = true, auto_show_delay_ms = 200 },
-        ghost_text = { enabled = true },
-      },
-    },
-  },
-}, {
-  change_detection = {
-    enabled = true,
-    notify = false,
   },
 })
 
-vim.cmd.colorscheme(vim.g.colorscheme)
+-- Conform
+require("conform").setup {
+  formatters_by_ft = {
+    php = nil,
+    go = { "goimports" },
+    lua = { "stylua" },
+    javascript = { "prettierd" },
+    typescript = { "prettierd" },
+    javascriptreact = { "prettierd" },
+    typescriptreact = { "prettierd" },
+    json = { "prettierd" },
+    jsonc = { "prettierd" },
+    yaml = { "prettierd" },
+    markdown = { "prettierd" },
+    html = { "prettierd" },
+    css = { "prettierd" },
+    scss = { "prettierd" },
+  },
+  format_on_save = {
+    timeout_ms = 500,
+    lsp_fallback = false,
+  },
+}
+
+-- Treesitter
+vim.api.nvim_create_autocmd("FileType", {
+  callback = function(args) pcall(vim.treesitter.start, args.buf) end,
+})
+require("nvim-treesitter").install {
+  "bash",
+  "c",
+  "cpp",
+  "fish",
+  "gitcommit",
+  "go",
+  "graphql",
+  "html",
+  "hyprlang",
+  "java",
+  "javascript",
+  "json",
+  "json5",
+  "lua",
+  "markdown",
+  "markdown_inline",
+  "python",
+  "query",
+  "rasi",
+  "regex",
+  "rust",
+  "scss",
+  "toml",
+  "tsx",
+  "typescript",
+  "vim",
+  "vimdoc",
+  "yaml",
+}
+
+-- Lint
+require("lint").linters_by_ft = {
+  typescript = { "eslint_d" },
+  typescriptreact = { "eslint_d" },
+  go = { "golangcilint" },
+}
+vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPost", "InsertLeave" }, {
+  callback = function() pcall(require("lint").try_lint) end,
+})
+
+-- Blink CMP
+require("blink.cmp").setup {
+  cmdline = {
+    enabled = true,
+    keymap = {
+      preset = "cmdline",
+      ["<Right>"] = false,
+      ["<Left>"] = false,
+    },
+    completion = {
+      list = { selection = { preselect = false } },
+      menu = {
+        auto_show = function(_) return vim.fn.getcmdtype() == ":" end,
+      },
+      ghost_text = { enabled = true },
+    },
+  },
+  keymap = {
+    preset = "super-tab",
+    ["<C-y>"] = { "select_and_accept" },
+    ["<enter>"] = { "select_and_accept", "fallback" },
+    ["<tab>"] = { "select_and_accept", "fallback" },
+  },
+  completion = {
+    accept = { auto_brackets = { enabled = true } },
+    menu = { border = "none", draw = { treesitter = { "lsp" } } },
+    documentation = { auto_show = true, auto_show_delay_ms = 200 },
+    ghost_text = { enabled = true },
+  },
+}
