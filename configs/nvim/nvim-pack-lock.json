@@ -1,5 +1,9 @@
 {
   "plugins": {
+    "baleia.nvim": {
+      "rev": "32617940adb2eea56e85a64883a19961ceac9641",
+      "src": "https://github.com/m00qek/baleia.nvim"
+    },
     "blink.cmp": {
       "rev": "d3874d2a13aa19b095bdd10d37a82a8f0aa7cad3",
       "src": "https://github.com/saghen/blink.cmp"
@@ -51,6 +55,10 @@
     "mason.nvim": {
       "rev": "e54f5bf5f12c560da31c17eee5b3e1bd369f3ff9",
       "src": "https://github.com/mason-org/mason.nvim"
+    },
+    "neogit": {
+      "rev": "99326a1310fb2d616b455d2fd16d01bf00682f06",
+      "src": "https://github.com/NeogitOrg/neogit"
     },
     "noice.nvim": {
       "rev": "7bfd942445fb63089b59f97ca487d605e715f155",

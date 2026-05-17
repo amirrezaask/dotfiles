@@ -202,6 +202,9 @@ vim.pack.add {
   "https://github.com/nvim-treesitter/nvim-treesitter",
   "https://github.com/mfussenegger/nvim-lint",
   "https://github.com/saghen/blink.cmp",
+
+  "https://github.com/NeogitOrg/neogit",
+  "https://github.com/m00qek/baleia.nvim",
 }
 
 -- ============================================================================
@@ -236,7 +239,7 @@ require("rose-pine").setup {
   styles = { bold = false, italic = false },
 }
 
-vim.cmd.colorscheme(os.getenv("NVIM_THEME") or "tokyonight-night")
+vim.cmd.colorscheme(os.getenv("NVIM_THEME") or "cyberdream")
 
 -- Fzf-Lua
 require("fzf-lua").setup { "telescope" }
