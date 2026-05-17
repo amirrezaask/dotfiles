@@ -1,5 +1,5 @@
-theme = Nvim Dark 
-font-family = Jetbrains Mono
+theme = TokyoNight Night
+font-family = Fira Code
 font-size = 13
 mouse-hide-while-typing = true
 macos-option-as-alt = true
@@ -7,11 +7,7 @@ window-padding-balance = true
 shell-integration-features=no-cursor
 maximize=true
 cursor-style-blink=false
-cursor-color = green
-split-divider-color=green
 adjust-cell-height = 10%
-background = #000000
-foreground = #ffffff
 
 # Tabs
 keybind = cmd+[=previous_tab

@@ -1,0 +1,66 @@
+{
+  "name": "ScreenshotInspired",
+  "author": "User + GapGPT",
+  "variables": {
+    "background":    "#000000",
+    "foreground":    "#EAEAEA",
+    "comment":       "#545454",
+    "keyword":       "#E6A35C",
+    "string":        "#E7CF6B",
+    "function":      "#F0E8D2",
+    "variable":      "#FFFFFF",
+    "selection":     "#1C1E22",
+    "line_highlight":"#16181B",
+    "punctuation":   "#CFCFCF"
+  },
+
+  "globals": {
+    "background": "var(background)",
+    "foreground": "var(foreground)",
+    "caret": "#FFFFFF",
+    "invisibles": "#333333",
+    "line_highlight": "var(line_highlight)",
+    "selection": "var(selection)",
+    "selection_border": "#00000000"
+  },
+
+  "rules": [
+    {
+      "scope": "comment",
+      "foreground": "var(comment)",
+      "font_style": "italic"
+    },
+    {
+      "scope": "keyword, storage.type, storage.modifier",
+      "foreground": "var(keyword)"
+    },
+    {
+      "scope": "string, constant.character.escape",
+      "foreground": "var(string)"
+    },
+    {
+      "scope": "variable, variable.other.php, variable.language",
+      "foreground": "var(variable)"
+    },
+    {
+      "scope": "entity.name.function, meta.function-call",
+      "foreground": "var(function)"
+    },
+    {
+      "scope": "punctuation, punctuation.definition",
+      "foreground": "var(punctuation)"
+    },
+    {
+      "scope": "support.class, support.constant",
+      "foreground": "var(foreground)"
+    },
+    {
+      "scope": "meta.function-call.php",
+      "foreground": "var(function)"
+    },
+    {
+      "scope": "constant.numeric",
+      "foreground": "#EAC68A"
+    }
+  ]
+}

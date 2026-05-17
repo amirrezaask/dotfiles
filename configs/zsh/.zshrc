@@ -63,6 +63,8 @@ alias ll='ls -lh'
 alias ls='ls -G'
 alias lsa='ls -lah'
 alias gg='go build -v ./...'
+alias s='subl'
+alias ss='subl .'
 
 
 if command -v fzf &> /dev/null; then

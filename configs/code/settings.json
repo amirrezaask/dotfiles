@@ -1,5 +1,6 @@
 {
   "breadcrumbs.enabled": false,
+  "editor.fontFamily": "MonoLisa",
   "editor.fontSize": 14,
   "editor.cursorBlinking": "smooth",
   "editor.stickyScroll.enabled": false,
