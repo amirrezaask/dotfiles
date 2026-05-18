@@ -21,6 +21,11 @@ vim.o.titlestring = "%{fnamemodify(getcwd(), ':~')}" -- Terminal title will alwa
 vim.o.shortmess = vim.o.shortmess .. "I" -- No Intro screen
 vim.o.mouse = "a" -- Support Mouse in all modes
 vim.o.autoread = true -- Auto refresh file state from the disk.
+local count = 1
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold" }, {
+  callback = function() vim.cmd("checktime") end,
+})
+
 vim.o.guicursor = "" -- Don't change cursor shape when switching modes ( distracting ).
 
 -- ============================================================================
@@ -71,8 +76,14 @@ vim.o.clipboard = "unnamedplus" -- Sync yank/delete/put with the system clipboar
 
 vim.opt.wildoptions:append("fuzzy") -- Enable fuzzy matching for command-line completion.
 
-vim.diagnostic.config { virtual_text = false } -- Prefer diagnostic floats over inline virtual text.
+vim.diagnostic.config {
+  virtual_text = { prefix = "●" },
+  float = { border = "rounded" },
+  signs = true,
+  update_in_insert = false,
+}
 
+vim.o.updatetime = 300 -- ms before CursorHold fires (used for lint, etc.)
 vim.o.pumheight = 10 -- Limit completion popup height.
 vim.o.pumblend = 10 -- Make the completion popup slightly transparent.
 
@@ -200,6 +211,7 @@ vim.pack.add {
 
   "https://github.com/ibhagwan/fzf-lua",
   "https://github.com/tpope/vim-sleuth",
+  "https://github.com/folke/which-key.nvim",
 
   "https://github.com/neovim/nvim-lspconfig",
   "https://github.com/mason-org/mason.nvim",
@@ -303,11 +315,14 @@ vim.api.nvim_set_hl(0, "StatusLinePath", { bold = true })
 
 vim.o.statusline = "%#StatusLineMode# %{v:lua.statusline_mode()} %#StatusLine# %{v:lua.statusline_filepath()}%{v:lua.statusline_filename()} %="
 
+-- Which-key
+require("which-key").setup {}
+
 -- Fzf-Lua
 require("fzf-lua").setup { "telescope" }
 FzfLua = require("fzf-lua")
 vim.keymap.set("n", "<leader><leader>", FzfLua.files, { desc = "Find Files" })
-vim.keymap.set("n", "<leader>i", function() FzfLua.files { cwd = "~/dev/dotfiles" } end, { desc = "Find Configuration" })
+vim.keymap.set("n", "<leader>I", function() FzfLua.files { cwd = "~/dev/dotfiles" } end, { desc = "Find Configuration" })
 vim.keymap.set("n", "<leader>pf", FzfLua.git_files, { desc = "Git Files" })
 vim.keymap.set("n", "<leader>k", FzfLua.buffers, { desc = "Buffers" })
 vim.keymap.set("n", "<leader>j", FzfLua.live_grep, { desc = "Grep" })
@@ -332,6 +347,18 @@ vim.api.nvim_create_autocmd("LspAttach", {
 -- Diffview
 require("diffview").setup {}
 vim.keymap.set("n", "<leader>G", "<cmd>DiffviewOpen<CR>")
+
+-- Gitsigns
+local gitsigns = require("gitsigns")
+gitsigns.setup {
+  current_line_blame = true,
+  on_attach = function(bufnr)
+    vim.keymap.set("n", "<leader>gb", gitsigns.blame_line, { buffer = bufnr, desc = "Blame Line" })
+    vim.keymap.set("n", "<leader>gp", gitsigns.preview_hunk, { buffer = bufnr, desc = "Preview Hunk" })
+    vim.keymap.set("n", "<leader>gn", gitsigns.next_hunk, { buffer = bufnr, desc = "Next Hunk" })
+    vim.keymap.set("n", "<leader>gN", gitsigns.prev_hunk, { buffer = bufnr, desc = "Prev Hunk" })
+  end,
+}
 
 -- LSP
 require("mason").setup {}
@@ -413,7 +440,7 @@ require("lint").linters_by_ft = {
   typescriptreact = { "eslint_d" },
   go = { "golangcilint" },
 }
-vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPost", "InsertLeave" }, {
+vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPost", "BufEnter", "FocusGained" }, {
   callback = function() pcall(require("lint").try_lint) end,
 })
 
