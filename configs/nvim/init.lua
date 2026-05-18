@@ -1,3 +1,5 @@
+local start_time = vim.uv.hrtime()
+
 -- -----------------------------------------------------------------------------
 -- Core editor behavior
 -- -----------------------------------------------------------------------------
@@ -142,7 +144,8 @@ vim.keymap.set("n", "j", "gj") -- Move by visual lines when text wraps.
 vim.keymap.set("n", "k", "gk") -- Move by visual lines when text wraps.
 
 vim.keymap.set("n", "<leader>i", ":edit $MYVIMRC<CR>", { desc = "Edit Configuration" })
-vim.keymap.set("n", "<leader>t", ":edit ~/TODO.md", { desc = "Edit TODO.md" })
+vim.keymap.set("n", "<leader>R", ":source $MYVIMRC<CR>", { desc = "Reload Configuration" })
+vim.keymap.set("n", "<leader>t", ":edit ~/TODO.md<CR>", { desc = "Edit TODO.md" })
 vim.keymap.set("n", "<C-q>", function()
   if vim.fn.getqflist({ winid = 0 }).winid ~= 0 then
     vim.cmd.cclose()
@@ -251,47 +254,43 @@ vim.cmd.colorscheme(os.getenv("NVIM_THEME") or "rose-pine-moon")
 -- Statusline
 -- -----------------------------------------------------------------------------
 
-local modes = {
-  ["n"] = "NORMAL",
-  ["no"] = "NORMAL",
-  ["v"] = "VISUAL",
-  ["V"] = "V-LINE",
-  ["\22"] = "V-BLOCK",
-  ["s"] = "SELECT",
-  ["S"] = "S-LINE",
-  ["\19"] = "S-BLOCK",
-  ["i"] = "INSERT",
-  ["ic"] = "INSERT",
-  ["R"] = "REPLACE",
-  ["Rv"] = "V-REPLACE",
-  ["c"] = "COMMAND",
-  ["cv"] = "VIM",
-  ["ce"] = "EX",
-  ["r"] = "PROMPT",
-  ["rm"] = "MORE",
-  ["r?"] = "CONFIRM",
-  ["!"] = "SHELL",
-  ["t"] = "TERMINAL",
-}
-
 local function get_mode()
   local current_mode = vim.api.nvim_get_mode().mode
-  return string.format(" %s ", modes[current_mode] or "UNKNOWN"):upper()
+  return string
+    .format(" %s ", ({
+      ["n"] = "NORMAL",
+      ["no"] = "NORMAL",
+      ["v"] = "VISUAL",
+      ["V"] = "V-LINE",
+      ["\22"] = "V-BLOCK",
+      ["s"] = "SELECT",
+      ["S"] = "S-LINE",
+      ["\19"] = "S-BLOCK",
+      ["i"] = "INSERT",
+      ["ic"] = "INSERT",
+      ["R"] = "REPLACE",
+      ["Rv"] = "V-REPLACE",
+      ["c"] = "COMMAND",
+      ["cv"] = "VIM",
+      ["ce"] = "EX",
+      ["r"] = "PROMPT",
+      ["rm"] = "MORE",
+      ["r?"] = "CONFIRM",
+      ["!"] = "SHELL",
+      ["t"] = "TERMINAL",
+    })[current_mode] or "UNKNOWN")
+    :upper()
 end
 
 local function get_filepath()
-  local fpath = vim.fn.fnamemodify(vim.fn.expand "%", ":~:.:h")
-  if fpath == "" or fpath == "." then
-    return ""
-  end
+  local fpath = vim.fn.fnamemodify(vim.fn.expand("%"), ":~:.:h")
+  if fpath == "" or fpath == "." then return "" end
   return fpath .. "/"
 end
 
 local function get_filename()
-  local fname = vim.fn.expand "%:t"
-  if fname == "" then
-    return "[No Name]"
-  end
+  local fname = vim.fn.expand("%:t")
+  if fname == "" then return "[No Name]" end
   return fname
 end
 
@@ -448,3 +447,6 @@ require("blink.cmp").setup {
     ghost_text = { enabled = true },
   },
 }
+
+local end_time = vim.uv.hrtime()
+print(string.format("Neovim startup took %.2f ms", (end_time - start_time) / 1e6))
