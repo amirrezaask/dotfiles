@@ -81,6 +81,7 @@ rm -rf "$XDG_CONFIG/nvim" \
 
 mkdir -p "$XDG_CONFIG"
 mkdir -p "$XDG_CONFIG/Code/User"
+mkdir -p "$HOME/.local/bin"
 
 # Linking to $XDG_CONFIG
 ln -nsf "$CONFIGS_DIR/nvim" "$XDG_CONFIG/nvim"
@@ -95,6 +96,7 @@ ln -nsf "$CONFIGS_DIR/lazyvim" "$XDG_CONFIG/lazyvim"
 ln -nsf "$CONFIGS_DIR/kitty" "$XDG_CONFIG/kitty"
 ln -nsf "$CONFIGS_DIR/fish" "$XDG_CONFIG/fish"
 ln -nsf "$CONFIGS_DIR/ideavimrc/ideavimrc" "$HOME/.ideavimrc"
+ln -nsf "$CONFIGS_DIR/tmux/d" "$HOME/.local/bin/d"
 
 # Now some mac stuff
 if [[ "$(uname)" == "Darwin" ]]; then

@@ -66,7 +66,6 @@ alias gg='go build -v ./...'
 alias s='subl'
 alias ss='subl .'
 
-
 if command -v fzf &> /dev/null; then
 	source <(fzf --zsh)
 fi
@@ -138,3 +137,5 @@ export PATH="$HOME/.local/share/nvim/mason/bin:$PATH"
 precmd() {
   print -Pn "\e]0;%~\a"
 }
+
+unset -f d

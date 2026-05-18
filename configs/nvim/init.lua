@@ -7,7 +7,7 @@ vim.o.swapfile = false -- Avoid creating swap files next to edited files.
 vim.o.number = true -- Show absolute line numbers.
 vim.o.relativenumber = true -- Show relative line numbers for faster motions.
 vim.o.signcolumn = "yes" -- Keep the sign column visible to avoid text shifting.
-vim.o.cursorline = true -- Highlight the line under the cursor.
+vim.o.cursorline = false -- Highlight the line under the cursor.
 vim.o.scrolloff = 10 -- Keep five lines of context above/below the cursor.
 vim.o.linebreak = true -- Wrap long lines at word boundaries instead of mid-word.
 vim.o.winborder = "rounded" -- Use rounded borders for floating windows.
@@ -18,6 +18,7 @@ vim.o.title = true
 vim.o.titlestring = "%{fnamemodify(getcwd(), ':~')}"
 vim.o.shortmess = vim.o.shortmess .. "I"
 vim.o.mouse = "a"
+vim.o.autoread = true
 
 -- ============================================================================
 -- Disable Providers (silence health check warnings)
@@ -239,10 +240,10 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 vim.g.gruvbox_contrast_dark = "hard"
 
 require("rose-pine").setup {
-  styles = { bold = false, italic = false },
+  styles = { bold = false, italic = false, transparency = true },
 }
 
-vim.cmd.colorscheme(os.getenv("NVIM_THEME") or "cyberdream")
+vim.cmd.colorscheme(os.getenv("NVIM_THEME") or "rose-pine-moon")
 
 -- Fzf-Lua
 require("fzf-lua").setup { "telescope" }
@@ -265,6 +266,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
     vim.keymap.set("n", "gd", FzfLua.lsp_definitions, opts)
     vim.keymap.set("n", "grr", FzfLua.lsp_references, opts)
     vim.keymap.set("n", "gri", FzfLua.lsp_implementations, opts)
+    vim.keymap.set("n", "C", FzfLua.lsp_code_actions, opts)
+    vim.keymap.set("n", "L", vim.diagnostic.open_float, { buffer = args.buf, desc = "Open Floating Diagnostic" })
   end,
 })
 
@@ -277,33 +280,6 @@ require("mason").setup {}
 require("mason-lspconfig").setup {
   ensure_installed = { "lua_ls", "gopls", "ts_ls" },
 }
-
-vim.api.nvim_create_autocmd("LspAttach", {
-  callback = function(args)
-    local opts = {
-      buffer = args.buf,
-      expr = true,
-      replace_keycodes = false,
-    }
-    vim.keymap.set("i", "<Tab>", function()
-      if vim.fn.pumvisible() == 1 then
-        return vim.keycode("<C-y>")
-      else
-        return vim.keycode("<Tab>")
-      end
-    end, opts)
-
-    vim.keymap.set("i", "<CR>", function()
-      if vim.fn.pumvisible() == 1 then
-        return vim.keycode("<C-y>")
-      else
-        return vim.keycode("<CR>")
-      end
-    end, opts)
-
-    vim.keymap.set("n", "L", vim.diagnostic.open_float, { buffer = args.buf, desc = "Open Floating Diagnostic" })
-  end,
-})
 
 vim.lsp.config("lua_ls", {
   settings = {
@@ -320,17 +296,17 @@ require("conform").setup {
     php = nil,
     go = { "goimports" },
     lua = { "stylua" },
-    javascript = { "prettierd" },
-    typescript = { "prettierd" },
-    javascriptreact = { "prettierd" },
-    typescriptreact = { "prettierd" },
-    json = { "prettierd" },
-    jsonc = { "prettierd" },
-    yaml = { "prettierd" },
-    markdown = { "prettierd" },
-    html = { "prettierd" },
-    css = { "prettierd" },
-    scss = { "prettierd" },
+    -- javascript = { "prettierd" },
+    -- typescript = { "prettierd" },
+    -- javascriptreact = { "prettierd" },
+    -- typescriptreact = { "prettierd" },
+    -- json = { "prettierd" },
+    -- jsonc = { "prettierd" },
+    -- yaml = { "prettierd" },
+    -- markdown = { "prettierd" },
+    -- html = { "prettierd" },
+    -- css = { "prettierd" },
+    -- scss = { "prettierd" },
   },
   format_on_save = {
     timeout_ms = 500,
