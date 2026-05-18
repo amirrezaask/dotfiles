@@ -14,11 +14,12 @@ vim.o.winborder = "rounded" -- Use rounded borders for floating windows.
 vim.o.laststatus = 3 -- Use one global statusline instead of one per window.
 vim.o.showmode = false -- Don't show mode in command line (shown in statusline)
 vim.o.showcmd = false -- Don't show partial command in command line
-vim.o.title = true
-vim.o.titlestring = "%{fnamemodify(getcwd(), ':~')}"
-vim.o.shortmess = vim.o.shortmess .. "I"
-vim.o.mouse = "a"
-vim.o.autoread = true
+vim.o.title = true -- Control terminal title.
+vim.o.titlestring = "%{fnamemodify(getcwd(), ':~')}" -- Terminal title will always be the cwd.
+vim.o.shortmess = vim.o.shortmess .. "I" -- No Intro screen
+vim.o.mouse = "a" -- Support Mouse in all modes
+vim.o.autoread = true -- Auto refresh file state from the disk.
+vim.o.guicursor = "" -- Don't change cursor shape when switching modes ( distracting ).
 
 -- ============================================================================
 -- Disable Providers (silence health check warnings)
@@ -141,6 +142,7 @@ vim.keymap.set("n", "j", "gj") -- Move by visual lines when text wraps.
 vim.keymap.set("n", "k", "gk") -- Move by visual lines when text wraps.
 
 vim.keymap.set("n", "<leader>i", ":edit $MYVIMRC<CR>", { desc = "Edit Configuration" })
+vim.keymap.set("n", "<leader>t", ":edit ~/TODO.md", { desc = "Edit TODO.md" })
 vim.keymap.set("n", "<C-q>", function()
   if vim.fn.getqflist({ winid = 0 }).winid ~= 0 then
     vim.cmd.cclose()
@@ -244,6 +246,63 @@ require("rose-pine").setup {
 }
 
 vim.cmd.colorscheme(os.getenv("NVIM_THEME") or "rose-pine-moon")
+
+-- -----------------------------------------------------------------------------
+-- Statusline
+-- -----------------------------------------------------------------------------
+
+local modes = {
+  ["n"] = "NORMAL",
+  ["no"] = "NORMAL",
+  ["v"] = "VISUAL",
+  ["V"] = "V-LINE",
+  ["\22"] = "V-BLOCK",
+  ["s"] = "SELECT",
+  ["S"] = "S-LINE",
+  ["\19"] = "S-BLOCK",
+  ["i"] = "INSERT",
+  ["ic"] = "INSERT",
+  ["R"] = "REPLACE",
+  ["Rv"] = "V-REPLACE",
+  ["c"] = "COMMAND",
+  ["cv"] = "VIM",
+  ["ce"] = "EX",
+  ["r"] = "PROMPT",
+  ["rm"] = "MORE",
+  ["r?"] = "CONFIRM",
+  ["!"] = "SHELL",
+  ["t"] = "TERMINAL",
+}
+
+local function get_mode()
+  local current_mode = vim.api.nvim_get_mode().mode
+  return string.format(" %s ", modes[current_mode] or "UNKNOWN"):upper()
+end
+
+local function get_filepath()
+  local fpath = vim.fn.fnamemodify(vim.fn.expand "%", ":~:.:h")
+  if fpath == "" or fpath == "." then
+    return ""
+  end
+  return fpath .. "/"
+end
+
+local function get_filename()
+  local fname = vim.fn.expand "%:t"
+  if fname == "" then
+    return "[No Name]"
+  end
+  return fname
+end
+
+_G.statusline_mode = get_mode
+_G.statusline_filepath = get_filepath
+_G.statusline_filename = get_filename
+
+vim.api.nvim_set_hl(0, "StatusLineMode", { bold = true })
+vim.api.nvim_set_hl(0, "StatusLinePath", { bold = true })
+
+vim.o.statusline = "%#StatusLineMode# %{v:lua.statusline_mode()} %#StatusLine# %{v:lua.statusline_filepath()}%{v:lua.statusline_filename()} %="
 
 -- Fzf-Lua
 require("fzf-lua").setup { "telescope" }
