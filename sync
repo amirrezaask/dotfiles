@@ -77,6 +77,7 @@ rm -rf "$XDG_CONFIG/nvim" \
 	"$XDG_CONFIG/fish" \
 	"$HOME/.ideavimrc" \
 	"$XDG_CONFIG/kitty" \
+	"$XDG_CONFIG/alacritty" \
 	"$HOME/.gitconfig"
 
 mkdir -p "$XDG_CONFIG"
@@ -95,6 +96,7 @@ ln -nsf "$CONFIGS_DIR/tmux" "$XDG_CONFIG/tmux"
 ln -nsf "$CONFIGS_DIR/lazyvim" "$XDG_CONFIG/lazyvim"
 ln -nsf "$CONFIGS_DIR/kitty" "$XDG_CONFIG/kitty"
 ln -nsf "$CONFIGS_DIR/fish" "$XDG_CONFIG/fish"
+ln -nsf "$CONFIGS_DIR/alacritty" "$XDG_CONFIG/alacritty"
 ln -nsf "$CONFIGS_DIR/ideavimrc/ideavimrc" "$HOME/.ideavimrc"
 ln -nsf "$CONFIGS_DIR/tmux/d" "$HOME/.local/bin/d"
 

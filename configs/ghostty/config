@@ -27,3 +27,20 @@ keybind = cmd+shift+right=resize_split:right,20
 keybind = cmd+s=toggle_split_zoom
 
 keybind = shift+enter=text:\x1b\r
+
+# Tmux Suppprt
+keybind = cmd+digit_1=csi:49;9u
+keybind = cmd+digit_2=csi:50;9u
+keybind = cmd+digit_3=csi:51;9u
+keybind = cmd+digit_4=csi:52;9u
+keybind = cmd+digit_5=csi:53;9u
+keybind = cmd+digit_6=csi:54;9u
+keybind = cmd+digit_7=csi:55;9u
+keybind = cmd+digit_8=csi:56;9u
+keybind = cmd+digit_9=csi:57;9u
+keybind = cmd+digit_0=csi:48;9u
+
+# keybind = cmd+o=text:\x1a1a
+# keybind = cmd+j=text:\x1aj
+# keybind = cmd+k=text:\x1ak
+# keybind = cmd+l=text:\x1al
