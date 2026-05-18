@@ -18,6 +18,7 @@ if [ -n "$TMUX" ]; then
         tmux rename-session -t "$(tmux display-message -p '#S')" "$project_name"
     fi
 else
+    tmux attach 2>/dev/null && exit 0
     if [ -n "$project_name" ]; then
         tmux new-session -ds "$project_name" -n Code
     else
