@@ -120,6 +120,16 @@ mods = "Command"
 chars = "\u0002x"
 
 [[keyboard.bindings]]
+key = "D"
+mods = "Command"
+chars = "\u0002|"
+
+[[keyboard.bindings]]
+key = "D"
+mods = "Command|Shift"
+chars = "\u0002-"
+
+[[keyboard.bindings]]
 key = "Enter"
 mods = "Shift"
 chars = "\u001b[13;2u"
