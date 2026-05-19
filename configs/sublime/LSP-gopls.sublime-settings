@@ -2,7 +2,7 @@
 
 {
 	"command": [
-    	"/Users/amirrezaask/go/bin/gopls"
+    	"${home}/go/bin/gopls"
   	],
     "manageGoplsBinary": false,
 

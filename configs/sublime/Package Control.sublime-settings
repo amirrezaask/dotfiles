@@ -5,6 +5,7 @@
 	"installed_packages":
 	[
 		"Inspired GitHub Color Scheme",
+		"Jq",
 		"LSP",
 		"LSP-gopls",
 		"LSP-intelephense",

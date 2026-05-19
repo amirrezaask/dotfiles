@@ -1,0 +1,125 @@
+[general]
+# =============================================================================
+# THEME
+# =============================================================================
+import = ["~/.config/alacritty/themes/themes/tokyo_night.toml"]
+
+# =============================================================================
+# WINDOW DECORATIONS & LAYOUT
+# =============================================================================
+[window.padding]
+x = 8
+y = 8
+
+# =============================================================================
+# FONT
+# =============================================================================
+[font]
+size = 15.0
+
+[font.normal]
+family = "Fira Code"
+
+# =============================================================================
+# CURSOR
+# =============================================================================
+[cursor.style]
+shape = "Beam"
+blinking = "Off"
+
+[cursor]
+unfocused_hollow = true
+
+# =============================================================================
+# TMUX KEYBINDINGS
+# Send Ctrl+B (\u0002) prefix sequences to tmux using the Command key
+# =============================================================================
+[[keyboard.bindings]]
+key = "Key1"
+mods = "Command"
+chars = "\u00021"
+
+[[keyboard.bindings]]
+key = "Key2"
+mods = "Command"
+chars = "\u00022"
+
+[[keyboard.bindings]]
+key = "Key3"
+mods = "Command"
+chars = "\u00023"
+
+[[keyboard.bindings]]
+key = "Key4"
+mods = "Command"
+chars = "\u00024"
+
+[[keyboard.bindings]]
+key = "Key5"
+mods = "Command"
+chars = "\u00026"
+
+[[keyboard.bindings]]
+key = "Key6"
+mods = "Command"
+chars = "\u00027"
+
+[[keyboard.bindings]]
+key = "Key7"
+mods = "Command"
+chars = "\u00028"
+
+[[keyboard.bindings]]
+key = "Key8"
+mods = "Command"
+chars = "\u00029"
+
+[[keyboard.bindings]]
+key = "Key9"
+mods = "Command"
+chars = "\u00020"
+
+[[keyboard.bindings]]
+key = "J"
+mods = "Command"
+chars = "\u0002j"
+
+[[keyboard.bindings]]
+key = "K"
+mods = "Command"
+chars = "\u0002k"
+
+[[keyboard.bindings]]
+key = "L"
+mods = "Command"
+chars = "\u0002l"
+
+[[keyboard.bindings]]
+key = "O"
+mods = "Command"
+chars = "\u0002a"
+
+[[keyboard.bindings]]
+key = "P"
+mods = "Command"
+chars = "\u0002a"
+
+[[keyboard.bindings]]
+key = "R"
+mods = "Command"
+chars = "\u0002r"
+
+[[keyboard.bindings]]
+key = "T"
+mods = "Command"
+chars = "\u0002c"
+
+[[keyboard.bindings]]
+key = "W"
+mods = "Command"
+chars = "\u0002x"
+
+[[keyboard.bindings]]
+key = "Enter"
+mods = "Shift"
+chars = "\u001b[13;2u"

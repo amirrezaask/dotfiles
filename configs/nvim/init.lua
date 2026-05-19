@@ -207,8 +207,6 @@ vim.pack.add {
   "https://github.com/navarasu/onedark.nvim",
   "https://github.com/folke/tokyonight.nvim",
 
-  "https://github.com/nvim-tree/nvim-web-devicons",
-
   "https://github.com/ibhagwan/fzf-lua",
   "https://github.com/tpope/vim-sleuth",
   "https://github.com/folke/which-key.nvim",
@@ -385,19 +383,33 @@ require("conform").setup {
     -- typescript = { "prettierd" },
     -- javascriptreact = { "prettierd" },
     -- typescriptreact = { "prettierd" },
-    -- json = { "prettierd" },
-    -- jsonc = { "prettierd" },
-    -- yaml = { "prettierd" },
-    -- markdown = { "prettierd" },
-    -- html = { "prettierd" },
-    -- css = { "prettierd" },
-    -- scss = { "prettierd" },
+    json = { "jq" },
+    jsonc = { "jq" },
+    yaml = { "prettierd" },
+    markdown = { "prettierd" },
+    html = { "prettierd" },
+    css = { "prettierd" },
+    scss = { "prettierd" },
   },
   format_on_save = {
     timeout_ms = 500,
     lsp_fallback = false,
   },
 }
+
+vim.api.nvim_create_user_command(
+  "Format",
+  function()
+    require("conform").format {
+      bufnr = vim.api.nvim_get_current_buf(),
+      timeout_ms = 500,
+      lsp_fallback = false,
+    }
+  end,
+  { desc = "Format current buffer using conform" }
+)
+
+vim.api.nvim_create_user_command("Json", function() vim.bo.filetype = "json" end, { desc = "Set buffer filetype to JSON" })
 
 -- Treesitter
 vim.api.nvim_create_autocmd("FileType", {

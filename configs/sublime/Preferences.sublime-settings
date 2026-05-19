@@ -2,16 +2,17 @@
 // and are overridden in turn by syntax-specific settings.
 {
 	"font_face": "Fira Code",
-	"font_size": 17,
+	"font_size": 13,
 	"theme": "Adaptive.sublime-theme",
 	"ignored_packages":
 	[
 		"Vintage",
 	],
+	"hot_exit": "disabled",
 	"index_files": true,
 	"line_padding_top": 10,
 	"line_padding_bottom": 10,
-	"color_scheme": "New.sublime-color-scheme",
+	"color_scheme": "Packages/Inspired GitHub Color Scheme/InspiredGitHub.tmTheme",
 	"dark_color_scheme": "Orange.sublime-color-scheme",
 	"light_color_scheme": "Packages/Inspired GitHub Color Scheme/InspiredGitHub.tmTheme",
 }
