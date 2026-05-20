@@ -37,97 +37,97 @@ unfocused_hollow = true
 [[keyboard.bindings]]
 key = "Key1"
 mods = "Command"
-chars = "\u00021"
+chars = "\u00011"
 
 [[keyboard.bindings]]
 key = "Key2"
 mods = "Command"
-chars = "\u00022"
+chars = "\u00012"
 
 [[keyboard.bindings]]
 key = "Key3"
 mods = "Command"
-chars = "\u00023"
+chars = "\u00013"
 
 [[keyboard.bindings]]
 key = "Key4"
 mods = "Command"
-chars = "\u00024"
+chars = "\u00014"
 
 [[keyboard.bindings]]
 key = "Key5"
 mods = "Command"
-chars = "\u00026"
+chars = "\u00016"
 
 [[keyboard.bindings]]
 key = "Key6"
 mods = "Command"
-chars = "\u00027"
+chars = "\u00017"
 
 [[keyboard.bindings]]
 key = "Key7"
 mods = "Command"
-chars = "\u00028"
+chars = "\u00018"
 
 [[keyboard.bindings]]
 key = "Key8"
 mods = "Command"
-chars = "\u00029"
+chars = "\u00019"
 
 [[keyboard.bindings]]
 key = "Key9"
 mods = "Command"
-chars = "\u00020"
+chars = "\u00010"
 
 [[keyboard.bindings]]
 key = "J"
 mods = "Command"
-chars = "\u0002j"
+chars = "\u0001j"
 
 [[keyboard.bindings]]
 key = "K"
 mods = "Command"
-chars = "\u0002k"
+chars = "\u0001k"
 
 [[keyboard.bindings]]
 key = "L"
 mods = "Command"
-chars = "\u0002l"
+chars = "\u0001l"
 
 [[keyboard.bindings]]
 key = "O"
 mods = "Command"
-chars = "\u0002a"
+chars = "\u0001a"
 
 [[keyboard.bindings]]
 key = "P"
 mods = "Command"
-chars = "\u0002a"
+chars = "\u0001a"
 
 [[keyboard.bindings]]
 key = "R"
 mods = "Command"
-chars = "\u0002r"
+chars = "\u0001r"
 
 [[keyboard.bindings]]
 key = "T"
 mods = "Command"
-chars = "\u0002c"
+chars = "\u0001c"
 
 [[keyboard.bindings]]
 key = "W"
 mods = "Command"
-chars = "\u0002x"
+chars = "\u0001x"
 
 [[keyboard.bindings]]
 key = "D"
 mods = "Command"
-chars = "\u0002|"
+chars = "\u0001|"
 
 [[keyboard.bindings]]
 key = "D"
 mods = "Command|Shift"
-chars = "\u0002-"
+chars = "\u0001-"
 
 [[keyboard.bindings]]
 key = "Enter"

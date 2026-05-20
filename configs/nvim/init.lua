@@ -311,7 +311,8 @@ _G.statusline_filename = get_filename
 vim.api.nvim_set_hl(0, "StatusLineMode", { bold = true })
 vim.api.nvim_set_hl(0, "StatusLinePath", { bold = true })
 
-vim.o.statusline = "%#StatusLineMode# %{v:lua.statusline_mode()} %#StatusLine# %{v:lua.statusline_filepath()}%{v:lua.statusline_filename()} %="
+vim.o.statusline =
+  "%#StatusLineMode# %{v:lua.statusline_mode()} %#StatusLine# %m%r%h%w%{v:lua.statusline_filepath()}%{v:lua.statusline_filename()} %y%q%="
 
 -- Which-key
 require("which-key").setup {}

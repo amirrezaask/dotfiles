@@ -25,9 +25,10 @@ else
         tmux new-session -ds "temp" -n Code
     fi
     tmux send-keys -t "${project_name:-temp}:Code" "nvim" Enter
+
+    tmux new-window -t "${project_name:-temp}" -n Shell
     tmux new-window -t "${project_name:-temp}" -n Agent
     tmux send-keys -t "${project_name:-temp}:Agent" "opencode" Enter
-    tmux new-window -t "${project_name:-temp}" -n Shell
     tmux select-window -t "${project_name:-temp}:1"
     tmux attach -t "${project_name:-temp}"
 fi
