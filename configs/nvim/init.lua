@@ -14,7 +14,6 @@ vim.o.scrolloff = 10 -- Keep five lines of context above/below the cursor.
 vim.o.linebreak = true -- Wrap long lines at word boundaries instead of mid-word.
 vim.o.winborder = "rounded" -- Use rounded borders for floating windows.
 vim.o.laststatus = 3 -- Use one global statusline instead of one per window.
-vim.o.showmode = false -- Don't show mode in command line (shown in statusline)
 vim.o.showcmd = false -- Don't show partial command in command line
 vim.o.title = true -- Control terminal title.
 vim.o.titlestring = "%{fnamemodify(getcwd(), ':~')}" -- Terminal title will always be the cwd.
@@ -124,6 +123,8 @@ vim.api.nvim_create_autocmd("BufReadPost", {
     end
   end,
 })
+
+vim.api.nvim_create_user_command("Reload", function(_, _, _) vim.cmd.source("$MYVIMRC") end, {})
 
 -- -----------------------------------------------------------------------------
 -- Keymaps
@@ -264,56 +265,6 @@ vim.cmd.colorscheme(os.getenv("NVIM_THEME") or "rose-pine-moon")
 -- Statusline
 -- -----------------------------------------------------------------------------
 
-local function get_mode()
-  local current_mode = vim.api.nvim_get_mode().mode
-  return string
-    .format(" %s ", ({
-      ["n"] = "NORMAL",
-      ["no"] = "NORMAL",
-      ["v"] = "VISUAL",
-      ["V"] = "V-LINE",
-      ["\22"] = "V-BLOCK",
-      ["s"] = "SELECT",
-      ["S"] = "S-LINE",
-      ["\19"] = "S-BLOCK",
-      ["i"] = "INSERT",
-      ["ic"] = "INSERT",
-      ["R"] = "REPLACE",
-      ["Rv"] = "V-REPLACE",
-      ["c"] = "COMMAND",
-      ["cv"] = "VIM",
-      ["ce"] = "EX",
-      ["r"] = "PROMPT",
-      ["rm"] = "MORE",
-      ["r?"] = "CONFIRM",
-      ["!"] = "SHELL",
-      ["t"] = "TERMINAL",
-    })[current_mode] or "UNKNOWN")
-    :upper()
-end
-
-local function get_filepath()
-  local fpath = vim.fn.fnamemodify(vim.fn.expand("%"), ":~:.:h")
-  if fpath == "" or fpath == "." then return "" end
-  return fpath .. "/"
-end
-
-local function get_filename()
-  local fname = vim.fn.expand("%:t")
-  if fname == "" then return "[No Name]" end
-  return fname
-end
-
-_G.statusline_mode = get_mode
-_G.statusline_filepath = get_filepath
-_G.statusline_filename = get_filename
-
-vim.api.nvim_set_hl(0, "StatusLineMode", { bold = true })
-vim.api.nvim_set_hl(0, "StatusLinePath", { bold = true })
-
-vim.o.statusline =
-  "%#StatusLineMode# %{v:lua.statusline_mode()} %#StatusLine# %m%r%h%w%{v:lua.statusline_filepath()}%{v:lua.statusline_filename()} %y%q%="
-
 -- Which-key
 require("which-key").setup {}
 
@@ -329,6 +280,7 @@ vim.keymap.set("n", "<leader>h", FzfLua.helptags, { desc = "Help Tags" })
 vim.keymap.set("n", "<leader>l", FzfLua.diagnostics_document, { desc = "Diagnostics Document" })
 vim.keymap.set("n", "<leader>L", FzfLua.diagnostics_workspace, { desc = "Diagnostics Workspace" })
 vim.keymap.set("n", "<leader>;", FzfLua.commands, { desc = "Commands" })
+vim.keymap.set("n", "<leader>n", function() FzfLua.files { cwd = "~/dev/notes" } end, { desc = "Notes" })
 vim.keymap.set({ "n", "v", "x" }, "<leader>J", FzfLua.grep_cword, { desc = "Grep Word" })
 FzfLua.register_ui_select()
 

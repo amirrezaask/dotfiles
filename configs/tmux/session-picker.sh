@@ -1,10 +1,10 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 PROJECTS_DIR="$HOME/dev"
 
 # Build list: scratch option + git projects
 scratch_option="[scratch]"
 projects=$(find "$PROJECTS_DIR" -maxdepth 3 -name ".git" -type d 2>/dev/null | sed 's|/.git$||' | sed "s|^$PROJECTS_DIR/||")
-selected=$(echo -e "$scratch_option\n$projects" | fzf --reverse --prompt "Project: ")
+selected=$(echo -e "$scratch_option\n$projects" | fzf --prompt "Session: ")
 [ -z "$selected" ] && exit 0
 
 # Handle scratch session
