@@ -46,3 +46,5 @@ keybind = cmd+w=text:"\x01x"
 keybind = cmd+d=text:"\x01|"
 keybind = cmd+shift+d=text:\x02-
 keybind = shift+enter=text:\x1b[13;2u
+
+background-opacity = 1.00
