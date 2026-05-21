@@ -2,7 +2,7 @@
 PROJECTS_DIR="$HOME/dev"
 
 # Build list: scratch option + git projects
-scratch_option="[scratch]"
+scratch_option="scratch"
 projects=$(find "$PROJECTS_DIR" -maxdepth 3 -name ".git" -type d 2>/dev/null | sed 's|/.git$||' | sed "s|^$PROJECTS_DIR/||")
 selected=$(echo -e "$scratch_option\n$projects" | fzf --prompt "Session: ")
 [ -z "$selected" ] && exit 0
@@ -27,6 +27,9 @@ else
 
   tmux new-window -t "$session_name" -n Agent -c "$target_dir"
   tmux send-keys -t "$session_name:Agent" "opencode" Enter
+
+  tmux new-window -t "$session_name" -n Diff -c "$target_dir"
+  tmux send-keys -t "$session_name:Diff" "nvim +DiffviewOpen" Enter
 
   tmux select-window -t "$session_name:1"
   tmux switch-client -t="$session_name"

@@ -7,6 +7,10 @@ import = ["~/.config/alacritty/themes/themes/tokyo_night.toml"]
 # =============================================================================
 # WINDOW DECORATIONS & LAYOUT
 # =============================================================================
+[window]
+decorations = 'None'
+startup_mode = 'Maximized'
+
 [window.padding]
 x = 8
 y = 8
