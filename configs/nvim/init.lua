@@ -252,6 +252,18 @@ vim.api.nvim_create_autocmd("ColorScheme", {
     end
   end,
 })
+vim.api.nvim_create_autocmd("ColorScheme", {
+  pattern = "gruvbox",
+  callback = function()
+    if vim.o.background == "dark" then
+      vim.cmd([[
+          hi! Normal guibg=none guifg=#ffffff
+          hi! NormalFloat guibg=none guifg=#ffffff
+          hi! Terminal guibg=none guifg=#ffffff
+        ]])
+    end
+  end,
+})
 
 vim.g.gruvbox_contrast_dark = "hard"
 
