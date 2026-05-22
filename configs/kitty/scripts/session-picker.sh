@@ -79,6 +79,11 @@ common_args=(
   --env "KITTY_SESSION_NAME=$session_name"
 )
 
+login_shell_cmd() {
+  local command="$1"
+  printf 'cd %q && exec %s' "$target_dir" "$command"
+}
+
 window_id=$(
   kitten @ launch \
     --type os-window \
@@ -87,7 +92,7 @@ window_id=$(
     --title Neovim \
     --var "kitty_session_primary=$session_name" \
     "${common_args[@]}" \
-    nvim
+    zsh -lic "$(login_shell_cmd nvim)"
 )
 
 kitten @ launch \
@@ -96,7 +101,7 @@ kitten @ launch \
   --tab-title Zsh \
   --title Zsh \
   "${common_args[@]}" \
-  zsh >/dev/null
+  zsh -lic "$(login_shell_cmd zsh)" >/dev/null
 
 kitten @ launch \
   --type tab \
@@ -104,7 +109,7 @@ kitten @ launch \
   --tab-title Agent \
   --title Agent \
   "${common_args[@]}" \
-  opencode >/dev/null
+  zsh -lic "$(login_shell_cmd opencode)" >/dev/null
 
 kitten @ launch \
   --type tab \
@@ -112,7 +117,7 @@ kitten @ launch \
   --tab-title Diff \
   --title Diff \
   "${common_args[@]}" \
-  nvim +DiffviewOpen >/dev/null
+  zsh -lic "$(login_shell_cmd 'nvim +DiffviewOpen')" >/dev/null
 
 kitten @ set-tab-title --match "$match_session" "$session_name"
 kitten @ focus-window --match "id:$window_id"

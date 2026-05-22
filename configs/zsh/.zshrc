@@ -133,9 +133,6 @@ export PATH="/Users/amirrezaask/.gapcode/bin:$PATH"
 export PATH=/Users/amirrezaask/.opencode/bin:$PATH
 
 export PATH="$HOME/.local/share/nvim/mason/bin:$PATH"
-
-precmd() {
-  print -Pn "\e]0;%~\a"
-}
+export PATH="/opt/homebrew/bin/fzf:$PATH"
 
 unset -f d
