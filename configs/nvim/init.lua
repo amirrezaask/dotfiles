@@ -19,14 +19,11 @@ vim.o.laststatus = 3 -- Use one global statusline instead of one per window.
 vim.o.showcmd = false -- Don't show partial command in command line
 vim.o.title = true -- Control terminal title.
 vim.o.titlestring = "%{fnamemodify(getcwd(), ':~')}" -- Terminal title will always be the cwd.
-vim.o.shortmess = vim.o.shortmess .. "I" -- No Intro screen
 vim.o.mouse = "a" -- Support Mouse in all modes
 vim.o.autoread = true -- Auto refresh file state from the disk.
 vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold" }, {
   callback = function() vim.cmd("checktime") end,
 })
-
--- vim.o.guicursor = "" -- Don't change cursor shape when switching modes ( distracting ).
 
 -- ============================================================================
 -- Disable Providers (silence health check warnings)
@@ -309,7 +306,6 @@ end
 
 Snacks = require("snacks")
 require("snacks").setup {
-  dashboard = { enabled = true },
   bigfile = { enabled = true }, -- Disable expensive features for very large files.
   indent = { enabled = true }, -- Draw indentation guides.
   input = { enabled = true }, -- Use Snacks input UI.
@@ -529,7 +525,6 @@ require("blink.cmp").setup {
       list = { selection = { preselect = false } },
       menu = {
         auto_show = function(_) return vim.fn.getcmdtype() == ":" end,
-        border = "rounded",
       },
       ghost_text = { enabled = true },
     },
@@ -542,7 +537,7 @@ require("blink.cmp").setup {
   },
   completion = {
     accept = { auto_brackets = { enabled = true } },
-    menu = { border = "none", draw = { treesitter = { "lsp" } } },
+    menu = { border = "rounded", draw = { treesitter = { "lsp" } } },
     documentation = { auto_show = true, auto_show_delay_ms = 200 },
     ghost_text = { enabled = true },
   },
