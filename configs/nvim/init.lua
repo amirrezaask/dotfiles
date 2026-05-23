@@ -1,4 +1,6 @@
 local start_time = vim.uv.hrtime()
+local colorscheme = os.getenv("NVIM_THEME") or "radioactive-fiambre"
+local picker = "snacks" -- can be fzf
 
 -- -----------------------------------------------------------------------------
 -- Core editor behavior
@@ -9,7 +11,7 @@ vim.o.swapfile = false -- Avoid creating swap files next to edited files.
 vim.o.number = true -- Show absolute line numbers.
 vim.o.relativenumber = true -- Show relative line numbers for faster motions.
 vim.o.signcolumn = "yes" -- Keep the sign column visible to avoid text shifting.
-vim.o.cursorline = false -- Highlight the line under the cursor.
+vim.o.cursorline = true -- Highlight the line under the cursor.
 vim.o.scrolloff = 10 -- Keep five lines of context above/below the cursor.
 vim.o.linebreak = true -- Wrap long lines at word boundaries instead of mid-word.
 vim.o.winborder = "rounded" -- Use rounded borders for floating windows.
@@ -123,7 +125,7 @@ vim.api.nvim_create_autocmd("BufReadPost", {
   end,
 })
 
-vim.api.nvim_create_user_command("Reload", function(_, _, _) vim.cmd.source("$MYVIMRC") end, {})
+vim.api.nvim_create_user_command("Reload", function(_) vim.cmd.source("$MYVIMRC") end, {})
 
 -- -----------------------------------------------------------------------------
 -- Keymaps
@@ -206,11 +208,10 @@ vim.pack.add {
   "https://github.com/scottmckendry/cyberdream.nvim",
   "https://github.com/navarasu/onedark.nvim",
   "https://github.com/folke/tokyonight.nvim",
-
   "https://github.com/ibhagwan/fzf-lua",
   "https://github.com/tpope/vim-sleuth",
   "https://github.com/folke/which-key.nvim",
-
+  "https://github.com/folke/snacks.nvim",
   "https://github.com/neovim/nvim-lspconfig",
   "https://github.com/mason-org/mason.nvim",
   "https://github.com/mason-org/mason-lspconfig.nvim",
@@ -218,12 +219,10 @@ vim.pack.add {
   "https://github.com/mfussenegger/nvim-lint",
   "https://github.com/saghen/blink.cmp",
   "https://github.com/nvim-treesitter/nvim-treesitter",
-
-  -- Git
-  "https://github.com/NeogitOrg/neogit",
   "https://github.com/m00qek/baleia.nvim",
   "https://github.com/lewis6991/gitsigns.nvim",
   "https://github.com/sindrets/diffview.nvim",
+  "https://github.com/laytan/cloak.nvim",
 }
 
 -- ============================================================================
@@ -270,7 +269,7 @@ require("rose-pine").setup {
   styles = { bold = false, italic = false, transparency = true },
 }
 
-vim.cmd.colorscheme(os.getenv("NVIM_THEME") or "radioactive-fiambre")
+vim.cmd.colorscheme(colorscheme)
 
 -- -----------------------------------------------------------------------------
 -- Statusline
@@ -280,31 +279,68 @@ vim.cmd.colorscheme(os.getenv("NVIM_THEME") or "radioactive-fiambre")
 require("which-key").setup {}
 
 -- Fzf-Lua
-require("fzf-lua").setup { "telescope" }
-FzfLua = require("fzf-lua")
-vim.keymap.set("n", "<leader><leader>", FzfLua.files, { desc = "Find Files" })
-vim.keymap.set("n", "<leader>I", function() FzfLua.files { cwd = "~/dev/dotfiles" } end, { desc = "Find Configuration" })
-vim.keymap.set("n", "<leader>pf", FzfLua.git_files, { desc = "Git Files" })
-vim.keymap.set("n", "<leader>k", FzfLua.buffers, { desc = "Buffers" })
-vim.keymap.set("n", "<leader>j", FzfLua.live_grep, { desc = "Grep" })
-vim.keymap.set("n", "<leader>h", FzfLua.helptags, { desc = "Help Tags" })
-vim.keymap.set("n", "<leader>l", FzfLua.diagnostics_document, { desc = "Diagnostics Document" })
-vim.keymap.set("n", "<leader>L", FzfLua.diagnostics_workspace, { desc = "Diagnostics Workspace" })
-vim.keymap.set("n", "<leader>;", FzfLua.commands, { desc = "Commands" })
-vim.keymap.set("n", "<leader>n", function() FzfLua.files { cwd = "~/dev/notes" } end, { desc = "Notes" })
-vim.keymap.set({ "n", "v", "x" }, "<leader>J", FzfLua.grep_cword, { desc = "Grep Word" })
-FzfLua.register_ui_select()
+if picker == "fzf" then
+  require("fzf-lua").setup { "telescope" }
+  FzfLua = require("fzf-lua")
+  vim.keymap.set("n", "<leader><leader>", FzfLua.files, { desc = "Find Files" })
+  vim.keymap.set("n", "<leader>i", function() FzfLua.files { cwd = "~/dev/dotfiles" } end, { desc = "Find Configuration" })
+  vim.keymap.set("n", "<leader>pf", FzfLua.git_files, { desc = "Git Files" })
+  vim.keymap.set("n", "<leader>k", FzfLua.buffers, { desc = "Buffers" })
+  vim.keymap.set("n", "<leader>j", FzfLua.live_grep, { desc = "Grep" })
+  vim.keymap.set("n", "<leader>h", FzfLua.helptags, { desc = "Help Tags" })
+  vim.keymap.set("n", "<leader>l", FzfLua.diagnostics_document, { desc = "Diagnostics Document" })
+  vim.keymap.set("n", "<leader>L", FzfLua.diagnostics_workspace, { desc = "Diagnostics Workspace" })
+  vim.keymap.set("n", "<leader>;", FzfLua.commands, { desc = "Commands" })
+  vim.keymap.set("n", "<leader>n", function() FzfLua.files { cwd = "~/dev/notes" } end, { desc = "Notes" })
+  vim.keymap.set({ "n", "v", "x" }, "<leader>J", FzfLua.grep_cword, { desc = "Grep Word" })
+  FzfLua.register_ui_select()
 
-vim.api.nvim_create_autocmd("LspAttach", {
-  callback = function(args)
-    local opts = { buffer = args.buf }
-    vim.keymap.set("n", "gd", FzfLua.lsp_definitions, opts)
-    vim.keymap.set("n", "grr", FzfLua.lsp_references, opts)
-    vim.keymap.set("n", "gri", FzfLua.lsp_implementations, opts)
-    vim.keymap.set("n", "C", FzfLua.lsp_code_actions, opts)
-    vim.keymap.set("n", "L", vim.diagnostic.open_float, { buffer = args.buf, desc = "Open Floating Diagnostic" })
-  end,
-})
+  vim.api.nvim_create_autocmd("LspAttach", {
+    callback = function(args)
+      local opts = { buffer = args.buf }
+      vim.keymap.set("n", "gd", FzfLua.lsp_definitions, opts)
+      vim.keymap.set("n", "grr", FzfLua.lsp_references, opts)
+      vim.keymap.set("n", "gri", FzfLua.lsp_implementations, opts)
+      vim.keymap.set("n", "C", FzfLua.lsp_code_actions, opts)
+      vim.keymap.set("n", "L", vim.diagnostic.open_float, { buffer = args.buf, desc = "Open Floating Diagnostic" })
+    end,
+  })
+end
+
+Snacks = require("snacks")
+require("snacks").setup {
+  dashboard = { enabled = true },
+  bigfile = { enabled = true }, -- Disable expensive features for very large files.
+  indent = { enabled = true }, -- Draw indentation guides.
+  input = { enabled = true }, -- Use Snacks input UI.
+  picker = { enabled = true }, -- Enable fuzzy pickers.
+  notifier = { enabled = true }, -- Enable notification UI.
+  quickfile = { enabled = true }, -- Speed up opening files passed on the command line.
+  statuscolumn = { enabled = true }, -- Enhanced status column integration.
+}
+if picker == "snacks" then
+  vim.keymap.set("n", "<leader><leader>", Snacks.picker.files, { desc = "Find Files" })
+  vim.keymap.set("n", "<leader>i", function() Snacks.picker.files { cwd = "~/dev/dotfiles" } end, { desc = "Find Configuration" })
+  vim.keymap.set("n", "<leader>pf", Snacks.picker.git_files, { desc = "Git Files" })
+  vim.keymap.set("n", "<leader>gl", Snacks.picker.git_log, { desc = "Git Log" })
+  vim.keymap.set("n", "<leader>pp", Snacks.picker.pick, { desc = "All Pickers" })
+  vim.keymap.set("n", "<leader>j", Snacks.picker.grep, { desc = "Grep" })
+  vim.keymap.set("n", "<leader>k", Snacks.picker.buffers, { desc = "Buffers" })
+  vim.keymap.set("n", "<leader>;", Snacks.picker.commands, { desc = "Commands" })
+  vim.keymap.set("n", "<leader>c", Snacks.picker.colorschemes, { desc = "Commands" })
+  vim.keymap.set({ "n", "v" }, "<leader>J", Snacks.picker.grep_word, { desc = "Grep Word" })
+
+  vim.api.nvim_create_autocmd("LspAttach", {
+    callback = function(args)
+      vim.keymap.set("n", "gd", Snacks.picker.lsp_definitions, { buffer = args.buf, desc = "[g]oto [d]efinition" })
+      vim.keymap.set("n", "grr", Snacks.picker.lsp_references, { buffer = args.buf, desc = "[g]oto [r]eferences" })
+      vim.keymap.set("n", "gri", Snacks.picker.lsp_implementations, { buffer = args.buf, desc = "[g]oto [i]mplmentations" })
+      vim.keymap.set("n", "gO", Snacks.picker.lsp_symbols, { buffer = args.buf, desc = "[g]oto symbol" })
+      vim.keymap.set("n", "<leader>o", Snacks.picker.lsp_symbols, { buffer = args.buf, desc = "[g]oto symbol" })
+      vim.keymap.set("n", "<leader>O", Snacks.picker.lsp_workspace_symbols, { buffer = args.buf, desc = "[g]oto workspace symbol" })
+    end,
+  })
+end
 
 -- Diffview
 require("diffview").setup {}
@@ -411,6 +447,29 @@ vim.api.nvim_create_user_command(
 
 vim.api.nvim_create_user_command("Json", function() vim.bo.filetype = "json" end, { desc = "Set buffer filetype to JSON" })
 
+require("cloak").setup {
+  patterns = {
+    {
+      file_pattern = "**/*.vars*",
+      cloak_pattern = "=.+",
+    },
+    {
+      file_pattern = "**/*.env*",
+      cloak_pattern = "=.+",
+    },
+    {
+      file_pattern = "**/*.opencode.json",
+      cloak_pattern = '("apiKey":) .+',
+      replace = "%1 ",
+    },
+    {
+      file_pattern = "**/config.toml",
+      cloak_pattern = "(token =) .+",
+      replace = "%1 ",
+    },
+  },
+}
+
 -- Treesitter
 vim.api.nvim_create_autocmd("FileType", {
   callback = function(args) pcall(vim.treesitter.start, args.buf) end,
@@ -452,6 +511,7 @@ require("lint").linters_by_ft = {
   typescriptreact = { "eslint_d" },
   go = { "golangcilint" },
 }
+
 vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPost", "BufEnter", "FocusGained" }, {
   callback = function() pcall(require("lint").try_lint) end,
 })
@@ -469,6 +529,7 @@ require("blink.cmp").setup {
       list = { selection = { preselect = false } },
       menu = {
         auto_show = function(_) return vim.fn.getcmdtype() == ":" end,
+        border = "rounded",
       },
       ghost_text = { enabled = true },
     },
