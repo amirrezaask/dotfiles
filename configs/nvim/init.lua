@@ -20,12 +20,11 @@ vim.o.titlestring = "%{fnamemodify(getcwd(), ':~')}" -- Terminal title will alwa
 vim.o.shortmess = vim.o.shortmess .. "I" -- No Intro screen
 vim.o.mouse = "a" -- Support Mouse in all modes
 vim.o.autoread = true -- Auto refresh file state from the disk.
-local count = 1
 vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold" }, {
   callback = function() vim.cmd("checktime") end,
 })
 
-vim.o.guicursor = "" -- Don't change cursor shape when switching modes ( distracting ).
+-- vim.o.guicursor = "" -- Don't change cursor shape when switching modes ( distracting ).
 
 -- ============================================================================
 -- Disable Providers (silence health check warnings)
@@ -271,7 +270,7 @@ require("rose-pine").setup {
   styles = { bold = false, italic = false, transparency = true },
 }
 
-vim.cmd.colorscheme(os.getenv("NVIM_THEME") or "rose-pine-moon")
+vim.cmd.colorscheme(os.getenv("NVIM_THEME") or "catppuccin-mocha")
 
 -- -----------------------------------------------------------------------------
 -- Statusline
@@ -343,22 +342,57 @@ require("conform").setup {
   formatters_by_ft = {
     php = nil,
     go = { "goimports" },
-    lua = { "stylua" },
-    -- javascript = { "prettierd" },
-    -- typescript = { "prettierd" },
-    -- javascriptreact = { "prettierd" },
-    -- typescriptreact = { "prettierd" },
     json = { "jq" },
     jsonc = { "jq" },
-    yaml = { "prettierd" },
-    markdown = { "prettierd" },
-    html = { "prettierd" },
-    css = { "prettierd" },
-    scss = { "prettierd" },
+    astro = { "oxfmt", "biome", "prettierd", stop_after_first = true },
+    javascript = { "oxfmt", "biome", "prettierd", stop_after_first = true },
+    typescript = { "oxfmt", "biome", "prettierd", stop_after_first = true },
+    javascriptreact = { "oxfmt", "biome", "prettierd", stop_after_first = true },
+    typescriptreact = { "oxfmt", "biome", "prettierd", stop_after_first = true },
+    svelte = { "oxfmt", "prettierd", stop_after_first = true },
+    lua = { "stylua" },
   },
   format_on_save = {
     timeout_ms = 500,
     lsp_fallback = false,
+  },
+  formatters = {
+    oxfmt = {
+      condition = function(_, ctx)
+        return vim.fs.find({ ".oxfmtrc.json", ".oxfmtrc.jsonc" }, {
+          path = ctx.filename,
+          upward = true,
+          stop = vim.uv.os_homedir(),
+        })[1] ~= nil
+      end,
+    },
+    biome = {
+      condition = function(_, ctx)
+        return vim.fs.find({ "biome.json", "biome.jsonc" }, {
+          path = ctx.filename,
+          upward = true,
+          stop = vim.uv.os_homedir(),
+        })[1] ~= nil
+      end,
+    },
+    prettierd = {
+      condition = function(_, ctx)
+        return vim.fs.find({
+          ".prettierrc",
+          ".prettierrc.json",
+          ".prettierrc.js",
+          ".prettierrc.cjs",
+          ".prettierrc.mjs",
+          "prettier.config.js",
+          "prettier.config.cjs",
+          "prettier.config.mjs",
+        }, {
+          path = ctx.filename,
+          upward = true,
+          stop = vim.uv.os_homedir(),
+        })[1] ~= nil
+      end,
+    },
   },
 }
 

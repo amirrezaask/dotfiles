@@ -133,6 +133,7 @@ export PATH="/Users/amirrezaask/.gapcode/bin:$PATH"
 export PATH=/Users/amirrezaask/.opencode/bin:$PATH
 
 export PATH="$HOME/.local/share/nvim/mason/bin:$PATH"
-export PATH="/opt/homebrew/bin/fzf:$PATH"
+
+export PATH="/opt/homebrew/bin:$PATH"
 
 unset -f d
