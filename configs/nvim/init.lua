@@ -270,7 +270,7 @@ require("rose-pine").setup {
   styles = { bold = false, italic = false, transparency = true },
 }
 
-vim.cmd.colorscheme(os.getenv("NVIM_THEME") or "catppuccin-mocha")
+vim.cmd.colorscheme(os.getenv("NVIM_THEME") or "rose-pine-moon")
 
 -- -----------------------------------------------------------------------------
 -- Statusline
