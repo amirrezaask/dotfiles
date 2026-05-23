@@ -309,6 +309,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 -- Diffview
 require("diffview").setup {}
 vim.keymap.set("n", "<leader>G", "<cmd>DiffviewOpen<CR>")
+vim.keymap.set("n", "<leader>gr", "<cmd>DiffviewRefresh<CR>", { desc = "Diffview Refresh" })
 
 -- Gitsigns
 local gitsigns = require("gitsigns")

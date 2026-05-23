@@ -7,8 +7,6 @@ scratch_option="scratch"
 
 fzf_options=(
   --prompt "Project: "
-  --height "90%"
-  --min-height 12
   --layout reverse
   --border rounded
 )
@@ -58,26 +56,26 @@ fi
 match_session="var:kitty_session_name=$session_name"
 kitty_state=$(kitten @ ls) || die "Unable to query Kitty windows. Is remote control enabled?"
 
-existing_window_id=$(printf "%s" "$kitty_state" | jq -r --arg session "$session_name" '
+existing_tab_id=$(printf "%s" "$kitty_state" | jq -r --arg session "$session_name" '
   [
-    .[].tabs[].windows[]?
-    | select(.user_vars.kitty_session_primary == $session)
-    | .id
+    .[].tabs[]? as $tab
+    | select(any($tab.windows[]?; .user_vars.kitty_session_primary == $session))
+    | $tab.id
   ][0] // empty
 ')
 
-if [ -z "$existing_window_id" ]; then
-  existing_window_id=$(printf "%s" "$kitty_state" | jq -r --arg session "$session_name" '
+if [ -z "$existing_tab_id" ]; then
+  existing_tab_id=$(printf "%s" "$kitty_state" | jq -r --arg session "$session_name" '
     [
-      .[].tabs[].windows[]?
-      | select(.user_vars.kitty_session_name == $session)
-      | .id
+      .[].tabs[]? as $tab
+      | select(any($tab.windows[]?; .user_vars.kitty_session_name == $session))
+      | $tab.id
     ][0] // empty
   ')
 fi
 
-if [ -n "$existing_window_id" ]; then
-  kitten @ focus-window --match "id:$existing_window_id"
+if [ -n "$existing_tab_id" ]; then
+  kitten @ focus-tab --match "id:$existing_tab_id"
   exit 0
 fi
 
@@ -89,9 +87,8 @@ common_args=(
 
 window_id=$(
   kitten @ launch \
-    --type os-window \
-    --os-window-title "$session_name" \
-    --tab-title "$session_name: Neovim" \
+    --type tab \
+    --tab-title "$session_name" \
     --title Neovim \
     --var "kitty_session_primary=$session_name" \
     "${common_args[@]}"
