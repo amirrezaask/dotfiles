@@ -13,6 +13,7 @@ vim.o.title = true
 vim.o.titlestring = "%{fnamemodify(getcwd(), ':~')}"
 vim.o.mouse = "a"
 vim.o.autoread = true
+vim.o.shortmess = vim.o.shortmess .. "I" -- No Intro screen
 
 vim.g.loaded_node_provider = 0
 vim.g.loaded_perl_provider = 0

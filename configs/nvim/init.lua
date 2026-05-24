@@ -1,7 +1,18 @@
 local start_time = vim.uv.hrtime()
-vim.g.nvim_colorscheme = os.getenv("NVIM_THEME") or "catppuccin-macchiato"
-vim.g.nvim_picker = "snacks"
 
-require("amirreza")
+require("amirreza.neovim")
+require("amirreza.colors")
+require("amirreza.editor")
+require("amirreza.blink")
+require("amirreza.which-key")
+require("amirreza.snacks")
+require("amirreza.lualine")
+require("amirreza.git")
+require("amirreza.lsp")
+require("amirreza.outline")
+require("amirreza.conform")
+require("amirreza.cloak")
+require("amirreza.treesitter")
+require("amirreza.lint")
 
 print(string.format("Neovim startup took %.2f ms", (vim.uv.hrtime() - start_time) / 1e6))

@@ -49,4 +49,4 @@ vim.api.nvim_create_autocmd("ColorScheme", {
   end,
 })
 
-vim.cmd.colorscheme(vim.g.nvim_colorscheme)
+vim.cmd.colorscheme(os.getenv("NVIM_THEME") or "catppuccin-macchiato")
