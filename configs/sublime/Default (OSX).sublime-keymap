@@ -31,4 +31,9 @@
             {"key": "auto_complete_visible", "operand": false}
         ]
     },
+    // Project Picker - Open in new window
+    {
+        "keys": ["command+o"],
+        "command": "project_picker"
+    },
 ]

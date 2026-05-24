@@ -1,8 +1,8 @@
 // Settings in here override those in "Default/Preferences.sublime-settings",
 // and are overridden in turn by syntax-specific settings.
 {
-	"font_face": "Fira Code",
-	"font_size": 22,
+	"font_face": "MonoLisa",
+	"font_size": 15,
 	"theme": "Adaptive.sublime-theme",
 	"ignored_packages":
 	[
@@ -12,5 +12,5 @@
 	"index_files": true,
 	"line_padding_top": 10,
 	"line_padding_bottom": 10,
-	"color_scheme": "Orange.sublime-color-scheme",
+	"color_scheme": "Catppuccin Macchiato.sublime-color-scheme",
 }

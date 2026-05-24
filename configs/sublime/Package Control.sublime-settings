@@ -4,12 +4,14 @@
 	],
 	"installed_packages":
 	[
+		"Catppuccin color schemes",
 		"Inspired GitHub Color Scheme",
 		"Jq",
 		"LSP",
 		"LSP-gopls",
 		"LSP-intelephense",
 		"LSP-typescript",
+		"Materialize",
 		"Package Control",
 	],
 }
