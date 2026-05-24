@@ -12,6 +12,7 @@ require("snacks").setup {
   notifier = { enabled = true },
   quickfile = { enabled = true },
   statuscolumn = { enabled = true },
+  explorer = { enabled = true },
 }
 
 vim.keymap.set("n", "<leader><leader>", Snacks.picker.files, { desc = "Find Files" })
@@ -24,6 +25,7 @@ vim.keymap.set("n", "<leader>k", Snacks.picker.buffers, { desc = "Buffers" })
 vim.keymap.set("n", "<leader>;", Snacks.picker.commands, { desc = "Commands" })
 vim.keymap.set("n", "<leader>c", Snacks.picker.colorschemes, { desc = "Commands" })
 vim.keymap.set({ "n", "v" }, "<leader>J", Snacks.picker.grep_word, { desc = "Grep Word" })
+vim.keymap.set("n", "<leader>e", Snacks.explorer.reveal, { desc = "Reveal current file/buffer file list" })
 
 vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(args)
