@@ -1,5 +1,5 @@
 local start_time = vim.uv.hrtime()
-local colorscheme = os.getenv("NVIM_THEME") or "radioactive-fiambre"
+local colorscheme = os.getenv("NVIM_THEME") or "catppuccin-mocha"
 local picker = "snacks" -- can be fzf
 
 -- -----------------------------------------------------------------------------
@@ -216,10 +216,14 @@ vim.pack.add {
   "https://github.com/mfussenegger/nvim-lint",
   "https://github.com/saghen/blink.cmp",
   "https://github.com/nvim-treesitter/nvim-treesitter",
+  "https://github.com/nvim-treesitter/nvim-treesitter-context",
   "https://github.com/m00qek/baleia.nvim",
   "https://github.com/lewis6991/gitsigns.nvim",
   "https://github.com/sindrets/diffview.nvim",
   "https://github.com/laytan/cloak.nvim",
+  "https://github.com/dmtrKovalenko/fff.nvim",
+  "https://github.com/brenoprata10/nvim-highlight-colors",
+  "https://github.com/knubie/vim-kitty-navigator",
 }
 
 -- ============================================================================
@@ -232,6 +236,8 @@ require("onedark").setup { style = "darker" }
 require("tokyonight").setup {
   styles = { comments = { italic = false }, keywords = { italic = false } },
 }
+
+require("catppuccin").setup { transparent_background = true }
 
 vim.g.everforest_background = "hard"
 vim.g.everforest_enable_italic = 0
@@ -338,6 +344,29 @@ if picker == "snacks" then
   })
 end
 
+-- vim.api.nvim_create_autocmd("PackChanged", {
+--   callback = function(ev)
+--     local name, kind = ev.data.spec.name, ev.data.kind
+--     if name == "fff.nvim" and (kind == "install" or kind == "update") then
+--       if not ev.data.active then vim.cmd.packadd("fff.nvim") end
+--       require("fff.download").download_or_build_binary()
+--     end
+--   end,
+-- })
+--
+-- vim.g.fff = {
+--   lazy_sync = true,
+--   debug = { enabled = true, show_scores = true },
+-- }
+-- require("fff").setup {
+--   keymaps = {
+--     close = "<C-c>",
+--   },
+-- }
+--
+-- vim.keymap.set("n", "<leader><leader>", function() require("fff").find_files() end, { desc = "FFFind files" })
+-- vim.keymap.set("n", "<leader>j", function() require("fff").live_grep() end, { desc = "FFFGrep" })
+
 -- Diffview
 require("diffview").setup {}
 vim.keymap.set("n", "<leader>G", "<cmd>DiffviewOpen<CR>")
@@ -371,6 +400,25 @@ vim.lsp.config("lua_ls", {
 })
 
 -- Conform
+vim.api.nvim_create_user_command("ConformDisable", function(args)
+  if args.bang then
+    -- FormatDisable! will disable formatting just for this buffer
+    vim.b.disable_autoformat = true
+  else
+    vim.g.disable_autoformat = true
+  end
+end, {
+  desc = "Disable conform-autoformat-on-save",
+  bang = true,
+})
+
+vim.api.nvim_create_user_command("ConformEnable", function()
+  vim.b.disable_autoformat = false
+  vim.g.disable_autoformat = false
+end, {
+  desc = "Re-enable conform-autoformat-on-save",
+})
+
 require("conform").setup {
   formatters_by_ft = {
     php = nil,
@@ -385,10 +433,20 @@ require("conform").setup {
     svelte = { "oxfmt", "prettierd", stop_after_first = true },
     lua = { "stylua" },
   },
-  format_on_save = {
+  notify_on_error = false,
+  default_format_opts = {
+    async = true,
     timeout_ms = 500,
-    lsp_fallback = false,
+    lsp_format = "fallback",
   },
+  format_after_save = function(buffer_number)
+    if vim.g.disable_autoformat or vim.b[buffer_number].disable_autoformat then return end
+    return {
+      async = true,
+      timeout_ms = 500,
+      lsp_format = "fallback",
+    }
+  end,
   formatters = {
     oxfmt = {
       condition = function(_, ctx)
@@ -470,6 +528,9 @@ require("cloak").setup {
 vim.api.nvim_create_autocmd("FileType", {
   callback = function(args) pcall(vim.treesitter.start, args.buf) end,
 })
+require("treesitter-context").setup {
+  enable = true,
+}
 require("nvim-treesitter").install {
   "bash",
   "c",
@@ -535,12 +596,80 @@ require("blink.cmp").setup {
     ["<enter>"] = { "select_and_accept", "fallback" },
     ["<tab>"] = { "select_and_accept", "fallback" },
   },
+  sources = {
+    default = { "lsp", "path", "buffer" },
+    providers = {
+      lsp = {
+        score_offset = 1000, -- Extreme priority to override fuzzy matching
+      },
+      path = {
+        score_offset = 3, -- File paths moderate priority
+      },
+      buffer = {
+        score_offset = -150, -- Lowest priority
+        min_keyword_length = 3, -- Only show after 3 chars
+      },
+    },
+  },
   completion = {
     accept = { auto_brackets = { enabled = true } },
-    menu = { border = "rounded", draw = { treesitter = { "lsp" } } },
+    menu = {
+      border = "rounded",
+      max_height = 10,
+      draw = {
+        columns = {
+          { "kind_icon" },
+          { "label", "label_description", gap = 1 },
+          { "source_name" },
+        },
+        components = {
+          -- Native icon support (no lspkind needed)
+          source_name = {
+            text = function(ctx)
+              local source_names = {
+                lsp = "[LSP]",
+                buffer = "[Buffer]",
+                path = "[Path]",
+                snippets = "[Snippet]",
+              }
+              return (source_names[ctx.source_name] or "[") .. ctx.source_name .. "]"
+            end,
+            highlight = "CmpItemMenu",
+          },
+        },
+      },
+      auto_show = true,
+    },
     documentation = { auto_show = true, auto_show_delay_ms = 200 },
     ghost_text = { enabled = true },
   },
+}
+
+require("nvim-highlight-colors").setup {
+  ---Render style
+  ---@usage 'background'|'foreground'|'virtual'
+  render = "background",
+
+  ---Highlight hex colors, e.g. '#FFFFFF'
+  enable_hex = true,
+
+  ---Highlight short hex colors e.g. '#fff'
+  enable_short_hex = true,
+
+  ---Highlight rgb colors, e.g. 'rgb(0 0 0)'
+  enable_rgb = true,
+
+  ---Highlight hsl colors, e.g. 'hsl(150deg 30% 40%)'
+  enable_hsl = true,
+
+  ---Highlight CSS variables, e.g. 'var(--testing-color)'
+  enable_var_usage = true,
+
+  ---Highlight named colors, e.g. 'green'
+  enable_named_colors = true,
+
+  ---Highlight tailwind colors, e.g. 'bg-blue-500'
+  enable_tailwind = true,
 }
 
 local end_time = vim.uv.hrtime()
