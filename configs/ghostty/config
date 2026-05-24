@@ -1,5 +1,5 @@
-theme = TokyoNight Moon
-font-family = Fira Code
+theme = Catppuccin Macchiato
+font-family = MonoLisa-Regular
 font-size = 15
 mouse-hide-while-typing = true
 macos-option-as-alt = true
@@ -7,7 +7,7 @@ window-padding-balance = true
 shell-integration-features=no-cursor
 maximize=true
 cursor-style-blink=false
-adjust-cell-height = 10%
+adjust-cell-height = 30%
 
 # Tabs
 keybind = cmd+[=previous_tab
@@ -25,26 +25,3 @@ keybind = cmd+shift+down=resize_split:down,20
 keybind = cmd+shift+left=resize_split:left,20
 keybind = cmd+shift+right=resize_split:right,20
 keybind = cmd+s=toggle_split_zoom
-
-keybind = shift+enter=text:\x1b\r
-
-# Tmux Support - send Ctrl+A prefix sequences to tmux
-keybind = cmd+1=text:"\x011"
-keybind = cmd+2=text:"\x012"
-keybind = cmd+3=text:"\x013"
-keybind = cmd+4=text:"\x014"
-keybind = cmd+5=text:"\x015"
-keybind = cmd+6=text:"\x016"
-keybind = cmd+7=text:"\x017"
-keybind = cmd+8=text:"\x018"
-keybind = cmd+9=text:"\x019"
-keybind = cmd+o=text:"\x01a"
-keybind = cmd+p=text:"\x01a"
-keybind = cmd+r=text:"\x01r"
-keybind = cmd+t=text:"\x01c"
-keybind = cmd+w=text:"\x01x"
-keybind = cmd+d=text:"\x01|"
-keybind = cmd+shift+d=text:\x02-
-keybind = shift+enter=text:\x1b[13;2u
-
-background-opacity = 1.00
