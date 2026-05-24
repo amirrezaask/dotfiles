@@ -65,7 +65,7 @@ XDG_CONFIG="$HOME/.config"
 
 echo "CONFIGS_DIR $CONFIGS_DIR"
 
-rm -rf "$XDG_CONFIG/nvim" \
+	rm -rf "$XDG_CONFIG/nvim" \
 	"$XDG_CONFIG/ghostty" \
 	"$XDG_CONFIG/lazyvim" \
 	"$XDG_CONFIG/starship.toml" \
@@ -78,6 +78,7 @@ rm -rf "$XDG_CONFIG/nvim" \
 	"$HOME/.ideavimrc" \
 	"$XDG_CONFIG/kitty" \
 	"$XDG_CONFIG/alacritty" \
+	"$XDG_CONFIG/wezterm" \
 	"$HOME/.gitconfig"
 
 mkdir -p "$XDG_CONFIG"
@@ -97,6 +98,7 @@ ln -nsf "$CONFIGS_DIR/lazyvim" "$XDG_CONFIG/lazyvim"
 ln -nsf "$CONFIGS_DIR/kitty" "$XDG_CONFIG/kitty"
 ln -nsf "$CONFIGS_DIR/fish" "$XDG_CONFIG/fish"
 ln -nsf "$CONFIGS_DIR/alacritty" "$XDG_CONFIG/alacritty"
+ln -nsf "$CONFIGS_DIR/wezterm" "$XDG_CONFIG/wezterm"
 ln -nsf "$CONFIGS_DIR/ideavimrc/ideavimrc" "$HOME/.ideavimrc"
 ln -nsf "$CONFIGS_DIR/tmux/d" "$HOME/.local/bin/d"
 
