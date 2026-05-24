@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Ensure PATH includes common locations for tools
+PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$HOME/.local/bin:$PATH"
+
 # Mode parameter: 'tab' or 'os-window' (default: os-window)
 MODE="${1:-os-window}"
 
