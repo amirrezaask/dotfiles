@@ -1,5 +1,5 @@
 local start_time = vim.uv.hrtime()
-local colorscheme = os.getenv("NVIM_THEME") or "catppuccin-mocha"
+local colorscheme = os.getenv("NVIM_THEME") or "catppuccin-macchiato"
 local picker = "snacks" -- can be fzf
 
 -- -----------------------------------------------------------------------------
@@ -197,6 +197,7 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 -- ---------------------------------------------------------------------------
 
 vim.pack.add {
+  -- [[ Colroschemes
   "https://github.com/vague-theme/vague.nvim",
   "https://github.com/sainnhe/everforest",
   "https://github.com/morhetz/gruvbox",
@@ -205,8 +206,10 @@ vim.pack.add {
   "https://github.com/scottmckendry/cyberdream.nvim",
   "https://github.com/navarasu/onedark.nvim",
   "https://github.com/folke/tokyonight.nvim",
-  "https://github.com/ibhagwan/fzf-lua",
+  -- ]]
+  -- "https://github.com/ibhagwan/fzf-lua",
   "https://github.com/tpope/vim-sleuth",
+  "https://github.com/tpope/vim-fugitive",
   "https://github.com/folke/which-key.nvim",
   "https://github.com/folke/snacks.nvim",
   "https://github.com/neovim/nvim-lspconfig",
@@ -221,9 +224,9 @@ vim.pack.add {
   "https://github.com/lewis6991/gitsigns.nvim",
   "https://github.com/sindrets/diffview.nvim",
   "https://github.com/laytan/cloak.nvim",
-  "https://github.com/dmtrKovalenko/fff.nvim",
+  -- Highlight colorcodes
   "https://github.com/brenoprata10/nvim-highlight-colors",
-  "https://github.com/knubie/vim-kitty-navigator",
+  "https://github.com/nvim-lualine/lualine.nvim",
 }
 
 -- ============================================================================
@@ -343,29 +346,23 @@ if picker == "snacks" then
     end,
   })
 end
-
--- vim.api.nvim_create_autocmd("PackChanged", {
---   callback = function(ev)
---     local name, kind = ev.data.spec.name, ev.data.kind
---     if name == "fff.nvim" and (kind == "install" or kind == "update") then
---       if not ev.data.active then vim.cmd.packadd("fff.nvim") end
---       require("fff.download").download_or_build_binary()
---     end
---   end,
--- })
---
--- vim.g.fff = {
---   lazy_sync = true,
---   debug = { enabled = true, show_scores = true },
--- }
--- require("fff").setup {
---   keymaps = {
---     close = "<C-c>",
---   },
--- }
---
--- vim.keymap.set("n", "<leader><leader>", function() require("fff").find_files() end, { desc = "FFFind files" })
--- vim.keymap.set("n", "<leader>j", function() require("fff").live_grep() end, { desc = "FFFGrep" })
+-- Lualine
+require("lualine").setup {
+  options = {
+    theme = "catppuccin-macchiato",
+    globalstatus = true,
+    component_separators = { left = "", right = "" },
+    section_separators = { left = "█", right = "█" },
+  },
+  sections = {
+    lualine_c = {
+      { "filename", path = 1 },
+    },
+    lualine_x = {
+      "filetype",
+    },
+  },
+}
 
 -- Diffview
 require("diffview").setup {}
