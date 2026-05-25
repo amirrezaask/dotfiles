@@ -57,16 +57,16 @@ color1=$(get_kitty_color color1)
 color1=${color1:-#f38ba8}
 
 fzf_options=(
-  --prompt "  "
-  --height "50%"
-  --min-height 40
+  # --prompt "  "
+  # --height "50%"
+  # --min-height 40
   --layout reverse
-  --border none
-  --margin "25%,15%"
-  --padding "2"
-  --info inline-right
-  --pointer "▶"
-  --marker "✓"
+  # --border none
+  # --margin "25%,15%"
+  # --padding "2"
+  # --info inline-right
+  # --pointer "▶"
+  # --marker "✓"
   --color "bg:${bg},bg+:${color0},fg:${fg},fg+:${fg}"
   --color "hl:${color4},hl+:${color5},info:${color7}"
   --color "prompt:${color4},pointer:${color5},marker:${color2}"
