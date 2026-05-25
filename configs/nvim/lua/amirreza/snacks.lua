@@ -12,7 +12,6 @@ require("snacks").setup {
   notifier = { enabled = true },
   quickfile = { enabled = true },
   statuscolumn = { enabled = true },
-  explorer = { enabled = true },
 }
 
 vim.keymap.set("n", "<leader><leader>", Snacks.picker.files, { desc = "Find Files" })
