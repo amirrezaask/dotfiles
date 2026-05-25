@@ -2,6 +2,7 @@ vim.pack.add {
   "https://github.com/neovim/nvim-lspconfig",
   "https://github.com/mason-org/mason.nvim",
   "https://github.com/mason-org/mason-lspconfig.nvim",
+  "https://github.com/rachartier/tiny-inline-diagnostic.nvim",
 }
 
 require("mason").setup {}
@@ -24,3 +25,18 @@ vim.api.nvim_create_autocmd("LspAttach", {
     vim.keymap.set("n", "C", vim.lsp.buf.code_action, { buffer = args.buf, desc = "Code Actions" })
   end,
 })
+
+require("tiny-inline-diagnostic").setup {
+  preset = "powerline",
+  options = {
+    add_messages = {
+      display_count = true,
+      messages = true,
+    },
+    multilines = {
+      always_show = true,
+      enabled = true,
+    },
+  },
+}
+vim.diagnostic.config { virtual_text = false }

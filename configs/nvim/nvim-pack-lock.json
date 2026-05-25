@@ -120,6 +120,10 @@
       "rev": "ad9ede6a9cddf16cedbd31b8932d6dcdee9b716e",
       "src": "https://github.com/folke/snacks.nvim"
     },
+    "tiny-inline-diagnostic.nvim": {
+      "rev": "6bdbc9a2f5a846ff5fc55a998ff97c0e2968b7e5",
+      "src": "https://github.com/rachartier/tiny-inline-diagnostic.nvim"
+    },
     "tokyonight.nvim": {
       "rev": "cdc07ac78467a233fd62c493de29a17e0cf2b2b6",
       "src": "https://github.com/folke/tokyonight.nvim"

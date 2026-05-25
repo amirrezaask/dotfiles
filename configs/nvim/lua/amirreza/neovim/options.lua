@@ -47,12 +47,12 @@ vim.o.clipboard = "unnamedplus"
 
 vim.opt.wildoptions:append("fuzzy")
 
-vim.diagnostic.config {
-  virtual_text = { prefix = "●" },
-  float = { border = "rounded" },
-  signs = true,
-  update_in_insert = false,
-}
+-- vim.diagnostic.config {
+--   virtual_text = { prefix = "●" },
+--   float = { border = "rounded" },
+--   signs = true,
+--   update_in_insert = false,
+-- }
 
 vim.o.updatetime = 300
 vim.o.pumheight = 10
