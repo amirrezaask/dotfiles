@@ -32,6 +32,8 @@
   { "key": "cmd+0", "command": "workbench.action.browser.resetZoom" },
 
   { "key": "cmd+.", "command": "workbench.action.showNextWindowTab"},
-  { "key": "cmd+,", "command": "workbench.action.showPreviousWindowTab" },
-  { "key": "alt+cmd+s", "command": "workbench.action.toggleUnifiedSidebarFromKeyboard", "when": "!isAuxiliaryWindowFocusedContext" },
+  {
+    "key": "cmd+,",
+    "command": "workbench.action.showPreviousWindowTab"
+  }
 ]

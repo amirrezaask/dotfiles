@@ -137,3 +137,8 @@ export PATH="$HOME/.local/share/nvim/mason/bin:$PATH"
 export PATH="/opt/homebrew/bin:$PATH"
 
 unset -f d
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/amirrezaask/.lmstudio/bin"
+# End of LM Studio CLI section
+
