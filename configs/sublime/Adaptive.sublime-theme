@@ -1,0 +1,14 @@
+{
+	"variables":
+	{
+		"font_face": "system",
+		"font_size_sm": 14,
+		"font_size": 15,
+		"font_size_lg": 16,
+		"font_size_title": 24,
+	},
+	"rules":
+	[
+		
+	]
+}

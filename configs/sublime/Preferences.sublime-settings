@@ -1,16 +1,17 @@
 // Settings in here override those in "Default/Preferences.sublime-settings",
 // and are overridden in turn by syntax-specific settings.
 {
-	"font_face": "MonoLisa",
-	"font_size": 15,
+	"font_face": "Jetbrains Mono",
+	"font_size": 17,
 	"theme": "Adaptive.sublime-theme",
 	"ignored_packages":
 	[
+		"MarkdownEditing",
 		"Vintage",
 	],
 	"hot_exit": "disabled",
-	"index_files": true,
+	"index_files": false,
 	"line_padding_top": 10,
 	"line_padding_bottom": 10,
-	"color_scheme": "Catppuccin Macchiato.sublime-color-scheme",
+	"color_scheme": "EverforestDark.sublime-color-scheme",
 }

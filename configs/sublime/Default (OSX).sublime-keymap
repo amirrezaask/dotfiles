@@ -3,6 +3,9 @@
         "keys": ["command+b"],
         "command": "goto_definition"
     },
+    { "keys": ["super+1"], "command": "toggle_side_bar" },
+    { "keys": ["super+shift+."], "command": "lsp_expand_selection" },
+
 
     // Goto Definition
     {

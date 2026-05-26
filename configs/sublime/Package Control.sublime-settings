@@ -1,6 +1,7 @@
 {
 	"in_process_packages":
 	[
+		"MarkdownEditing",
 	],
 	"installed_packages":
 	[
@@ -13,5 +14,6 @@
 		"LSP-typescript",
 		"Materialize",
 		"Package Control",
+		"Terminus",
 	],
 }

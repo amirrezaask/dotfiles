@@ -28,9 +28,9 @@ vim.api.nvim_create_autocmd("ColorScheme", {
   callback = function()
     if vim.o.background == "dark" then
       vim.cmd([[
-        hi! Normal guibg=#1e2326 guifg=#ffffff
-        hi! NormalFloat guibg=#1e2326 guifg=#ffffff
-        hi! Terminal guibg=#1e2326 guifg=#ffffff
+        hi! Normal guibg=#1e2326 
+        hi! NormalFloat guibg=#1e2326 
+        hi! Terminal guibg=#1e2326 
       ]])
     end
   end,
