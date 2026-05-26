@@ -46,6 +46,7 @@ vim.o.splitkeep = "topline"
 vim.o.clipboard = "unnamedplus"
 
 vim.opt.wildoptions:append("fuzzy")
+vim.o.guicursor = ""
 
 -- vim.diagnostic.config {
 --   virtual_text = { prefix = "●" },

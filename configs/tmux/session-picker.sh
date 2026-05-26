@@ -21,15 +21,12 @@ if tmux has-session -t="$session_name" 2>/dev/null; then
   tmux switch-client -t="$session_name"
 else
   tmux new-session -ds "$session_name" -n neovim -c "$target_dir"
-  tmux send-keys -t "$session_name:neovim" "nvim" Enter
 
   tmux new-window -t "$session_name" -n zsh -c "$target_dir"
 
   tmux new-window -t "$session_name" -n agent -c "$target_dir"
-  tmux send-keys -t "$session_name:agent" "opencode" Enter
 
   tmux new-window -t "$session_name" -n diff -c "$target_dir"
-  tmux send-keys -t "$session_name:diff" "nvim +DiffviewOpen" Enter
 
   tmux select-window -t "$session_name:1"
   tmux switch-client -t="$session_name"

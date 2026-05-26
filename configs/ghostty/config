@@ -1,5 +1,4 @@
-theme = Catppuccin Macchiato
-font-family = MonoLisa-Regular
+theme = TokyoNight Night
 font-size = 15
 mouse-hide-while-typing = true
 macos-option-as-alt = true
@@ -7,7 +6,7 @@ window-padding-balance = true
 shell-integration-features=no-cursor
 maximize=true
 cursor-style-blink=false
-adjust-cell-height = 30%
+# adjust-cell-height = 20%
 
 # Tabs
 keybind = cmd+[=previous_tab

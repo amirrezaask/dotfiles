@@ -1,4 +1,5 @@
 local start_time = vim.uv.hrtime()
+vim.g.colorscheme = os.getenv("NVIM_THEME") or "rose-pine-moon"
 
 require("amirreza.neovim")
 require("amirreza.colors")
