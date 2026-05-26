@@ -6,7 +6,6 @@ if [ ! -d "$ZSH" ]; then
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 fi
 
-
 PLUGINS="$ZSH/custom/plugins"
 
 if [ ! -d "$PLUGINS/zsh-syntax-highlighting" ]; then
@@ -24,6 +23,11 @@ plugins=(git zsh-autosuggestions zsh-completions zsh-syntax-highlighting)
 
 export DISABLE_AUTO_TITLE=1
 source $ZSH/oh-my-zsh.sh
+
+_set_terminal_title() {
+	printf '\033]0;%s\007' "${PWD##*/}"
+}
+precmd_functions+=(_set_terminal_title)
 
 # Neovim
 alias vim='nvim'
@@ -137,8 +141,3 @@ export PATH="$HOME/.local/share/nvim/mason/bin:$PATH"
 export PATH="/opt/homebrew/bin:$PATH"
 
 unset -f d
-
-# Added by LM Studio CLI (lms)
-export PATH="$PATH:/Users/amirrezaask/.lmstudio/bin"
-# End of LM Studio CLI section
-
