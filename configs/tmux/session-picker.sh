@@ -26,8 +26,6 @@ else
 
   tmux new-window -t "$session_name" -n agent -c "$target_dir"
 
-  tmux new-window -t "$session_name" -n diff -c "$target_dir"
-
   tmux select-window -t "$session_name:1"
   tmux switch-client -t="$session_name"
 fi
