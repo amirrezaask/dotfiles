@@ -6,7 +6,7 @@
 		"font_size": 15,
 		"font_size_lg": 16,
 		"font_size_title": 24,
-		"dark_bg": "color(var(--background) blend(white 99%))",
+		"dark_bg": "color(var(--background) blend(white 95%))",
 	},
 	"rules":
 	[

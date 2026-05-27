@@ -1,5 +1,5 @@
 theme = Night Owl
-font-family = Jetbrains Mono
+font-family = MonoLisa-Regular
 font-size = 15
 mouse-hide-while-typing = true
 macos-option-as-alt = true
@@ -8,7 +8,7 @@ shell-integration-features=no-cursor
 maximize=true
 cursor-style-blink=false
 cursor-style=bar
-# adjust-cell-height = 20%
+adjust-cell-height = 20%
 background = #000000
 foreground = #ffffff
 

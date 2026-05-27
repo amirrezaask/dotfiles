@@ -9,14 +9,15 @@ vim.pack.add {
   "https://github.com/folke/tokyonight.nvim",
 }
 
-require("vague").setup { bold = false, italic = false }
+require("vague").setup { bold = false, italic = false, transparent = vim.g.transparency }
 require("onedark").setup { style = "darker" }
 require("tokyonight").setup {
+  transparent = vim.g.transparency,
   styles = { comments = { italic = false }, keywords = { italic = false } },
 }
-require("catppuccin").setup { transparent_background = true }
+require("catppuccin").setup { transparent_background = vim.g.transparency }
 require("rose-pine").setup {
-  styles = { bold = false, italic = false, transparency = true },
+  styles = { bold = false, italic = false, transparency = vim.g.transparency },
 }
 
 vim.g.everforest_background = "hard"
