@@ -24,4 +24,5 @@ keybind = cmd+shift+up=resize_split:up,20
 keybind = cmd+shift+down=resize_split:down,20
 keybind = cmd+shift+left=resize_split:left,20
 keybind = cmd+shift+right=resize_split:right,20
-keybind = cmd+s=toggle_split_zoom
+keybind = cmd+enter=toggle_split_zoom
+keybind = cmd+x=toggle_split_zoom

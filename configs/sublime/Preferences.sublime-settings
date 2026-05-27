@@ -6,12 +6,42 @@
 	"theme": "Adaptive.sublime-theme",
 	"ignored_packages":
 	[
-		"MarkdownEditing",
 		"Vintage",
-	],
+    ],
 	"hot_exit": "disabled",
-	"index_files": false,
+	"index_files": true,
 	"line_padding_top": 10,
 	"line_padding_bottom": 10,
 	"color_scheme": "EverforestDark.sublime-color-scheme",
+	"folder_exclude_patterns":
+    [
+        "node_modules",
+        ".git",
+        "dist",
+        "build",
+        ".next",
+        "coverage",
+    ],
+
+    "find_in_files_exclude_patterns":
+    [
+        "*/node_modules/*",
+        "*/dist/*",
+        "*/build/*",
+        "*/.next/*",
+        "*/coverage/*",
+        "*/vendor/*",
+        "*/tmp/*",
+        "*/bin/*"
+    ],
+
+    "file_exclude_patterns":
+    [
+        "*.exe",
+        "*.dll",
+        "*.so",
+        "*.dylib",
+        "*.test",
+        "*.out"
+    ],
 }

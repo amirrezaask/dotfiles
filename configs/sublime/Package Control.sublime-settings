@@ -1,7 +1,6 @@
 {
 	"in_process_packages":
 	[
-		"MarkdownEditing",
 	],
 	"installed_packages":
 	[
@@ -9,9 +8,11 @@
 		"Inspired GitHub Color Scheme",
 		"Jq",
 		"LSP",
+		"LSP-eslint",
 		"LSP-gopls",
 		"LSP-intelephense",
 		"LSP-typescript",
+		"MarkdownEditing",
 		"Materialize",
 		"Package Control",
 		"Terminus",
