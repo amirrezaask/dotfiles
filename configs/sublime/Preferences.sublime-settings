@@ -1,13 +1,13 @@
 // Settings in here override those in "Default/Preferences.sublime-settings",
 // and are overridden in turn by syntax-specific settings.
 {
-	"font_face": "Jetbrains Mono",
-	"font_size": 22,
+	"font_face": "MonoLisa",
+	"font_size": 17,
 	"theme": "Adaptive.sublime-theme",
 	"ignored_packages":
 	[
-		"Vintage",
-        "Rust",
+		"Rust",
+        "Vintage",
     ],
 	"hot_exit": "disabled",
 	"index_files": true,

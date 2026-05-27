@@ -12,6 +12,7 @@
 		"LSP-gopls",
 		"LSP-intelephense",
 		"LSP-typescript",
+		"MarkdownEditing",
 		"Package Control",
 		"Rust Enhanced",
 		"Terminus",
