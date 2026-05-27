@@ -4,17 +4,16 @@
 	],
 	"installed_packages":
 	[
-		"Catppuccin color schemes",
-		"Inspired GitHub Color Scheme",
+		"ColorHints",
+		"INI",
 		"Jq",
 		"LSP",
 		"LSP-eslint",
 		"LSP-gopls",
 		"LSP-intelephense",
 		"LSP-typescript",
-		"MarkdownEditing",
-		"Materialize",
 		"Package Control",
+		"Rust Enhanced",
 		"Terminus",
 	],
 }

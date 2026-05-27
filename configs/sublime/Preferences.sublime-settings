@@ -2,17 +2,18 @@
 // and are overridden in turn by syntax-specific settings.
 {
 	"font_face": "Jetbrains Mono",
-	"font_size": 17,
+	"font_size": 22,
 	"theme": "Adaptive.sublime-theme",
 	"ignored_packages":
 	[
 		"Vintage",
+        "Rust",
     ],
 	"hot_exit": "disabled",
 	"index_files": true,
 	"line_padding_top": 10,
 	"line_padding_bottom": 10,
-	"color_scheme": "EverforestDark.sublime-color-scheme",
+	"color_scheme": "auto",
 	"folder_exclude_patterns":
     [
         "node_modules",
@@ -44,4 +45,6 @@
         "*.test",
         "*.out"
     ],
+    "dark_color_scheme": "BlackOwl.sublime-color-scheme",
+    "light_color_scheme": "Packages/User/InspiredGithub.tmTheme",
 }

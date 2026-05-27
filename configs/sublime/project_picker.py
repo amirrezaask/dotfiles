@@ -1,5 +1,6 @@
 """
 Sublime Text Project Picker Plugin (Ultra-Fast with fd/find fallback)
+Same idea as tmux session picker and kitty session picker.
 
 Priority:
 1. 'fd' command (fastest, Rust-based)
