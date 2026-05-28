@@ -1,3 +1,8 @@
+format = "$directory$git_branch$git_state$git_status$character"
+
 [character]
 error_symbol = "[󰘧](bold red)"
 success_symbol = "[󰘧](bold green)"
+
+[git_branch]
+format = '[on $branch(:$remote_branch)]($style) '

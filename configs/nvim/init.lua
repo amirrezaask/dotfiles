@@ -1,8 +1,8 @@
 local start_time = vim.uv.hrtime()
-vim.g.colorscheme = os.getenv("NVIM_THEME") or "default"
+vim.g.colorscheme = os.getenv("NVIM_THEME") or "onedark"
 vim.g.transparency = os.getenv("NVIM_TRANSPARENCY") or true
 
--- [options] {{{
+--{{{
 vim.o.undofile = true
 vim.o.swapfile = false
 vim.o.number = true
@@ -59,8 +59,7 @@ vim.o.pumblend = 10
 local ok, ui2 = pcall(require, "vim._core.ui2")
 if ok then ui2.enable { enable = true } end
 
-vim.g.dotfiles_location = "~/dev/dotfiles"
--- }}}
+--- }}}
 
 -- [keymaps] {{{
 vim.g.mapleader = " "
@@ -368,21 +367,28 @@ vim.keymap.set("n", "<leader>e", require("oil").toggle_float, { desc = "Toggle f
 -- }}}
 
 -- [lualine] {{{
-vim.pack.add {
-  "https://github.com/nvim-lualine/lualine.nvim",
-}
+vim.pack.add { "https://github.com/nvim-lualine/lualine.nvim" }
 
 require("lualine").setup {
+  globalstatus = true,
   sections = {
     lualine_a = {
       { "mode", fmt = function(str) return str:sub(1, 1) end },
     },
     lualine_c = {
-      { "filename", path = 1 },
+      {},
     },
     lualine_x = {
       "filetype",
     },
+  },
+  winbar = {
+    lualine_a = { { "filename", path = 1 } },
+    lualine_b = {},
+    lualine_c = {},
+    lualine_x = {},
+    lualine_y = {},
+    lualine_z = {},
   },
 }
 -- }}}
