@@ -375,15 +375,20 @@ require("lualine").setup {
     lualine_a = {
       { "mode", fmt = function(str) return str:sub(1, 1) end },
     },
+    lualine_b = {
+      { "filename", path = 1 },
+      "diagnostics",
+    },
     lualine_c = {
       {},
     },
     lualine_x = {
+      "lsp_status",
       "filetype",
     },
   },
   winbar = {
-    lualine_a = { { "filename", path = 1 } },
+    lualine_a = {},
     lualine_b = {},
     lualine_c = {},
     lualine_x = {},
