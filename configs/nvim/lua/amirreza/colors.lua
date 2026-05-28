@@ -10,7 +10,7 @@ vim.pack.add {
 }
 
 require("vague").setup { bold = false, italic = false, transparent = vim.g.transparency }
-require("onedark").setup { style = "darker" }
+require("onedark").setup { style = "darker", transparent = vim.g.transparency }
 require("tokyonight").setup {
   transparent = vim.g.transparency,
   styles = { comments = { italic = false }, keywords = { italic = false } },
