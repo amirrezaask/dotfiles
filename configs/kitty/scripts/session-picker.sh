@@ -196,12 +196,25 @@ else
     kitten @ launch \
       --type os-window \
       --os-window-title "$session_name" \
-      --tab-title "$session_name: Neovim" \
-      --title Neovim \
+      --tab-title "vim" \
+      --title "$session_name" \
       --var "kitty_session_primary=$session_name" \
       "${common_args[@]}"
   )
+  
+  kitten @ launch \
+    --type tab \
+    --tab-title "shell" \
+    --title "$session_name" \
+    --var "kitty_session_primary=$session_name" \
+    "${common_args[@]}"
+
+  kitten @ launch \
+    --type tab \
+    --tab-title "agent" \
+    --title "$session_name" \
+    --var "kitty_session_primary=$session_name" \
+    "${common_args[@]}"
 fi
 
-kitten @ set-tab-title --match "$match_session" "$session_name"
 kitten @ focus-window --match "id:$window_id"
