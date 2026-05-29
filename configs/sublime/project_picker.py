@@ -141,7 +141,7 @@ class ProjectCache:
     def _scan_with_fd(self, projects_dir):
         """Use fd command to find git repos (blazing fast)."""
         result = subprocess.run(
-            ["fd", "-H", "-t", "d", "-d", "3", "\\.git$", projects_dir],
+            ["fd", "-H", "-t", "d", "-d", "3", "-c", "never", "-a", "\\.git", projects_dir],
             capture_output=True,
             text=True,
             timeout=5
@@ -169,7 +169,7 @@ class ProjectCache:
             if not line:
                 continue
                 
-            git_dir = line.strip()
+            git_dir = line.strip().rstrip('/')
             project_path = os.path.dirname(git_dir)
             rel_path = os.path.relpath(project_path, projects_dir)
             
