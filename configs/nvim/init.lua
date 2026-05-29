@@ -1,5 +1,5 @@
 local start_time = vim.uv.hrtime()
-vim.g.colorscheme = os.getenv("NVIM_THEME") or "adwaita"
+vim.g.colorscheme = os.getenv("NVIM_THEME") or "catppuccin-macchiato"
 vim.g.transparency = os.getenv("NVIM_TRANSPARENCY") or true
 
 --{{{
@@ -15,7 +15,6 @@ vim.o.winborder = "rounded"
 vim.o.laststatus = 3
 vim.o.showcmd = false
 vim.o.title = true
--- vim.o.titlestring = "%{fnamemodify(getcwd(), ':~')}"
 vim.o.mouse = "a"
 vim.o.autoread = true
 vim.o.shortmess = vim.o.shortmess .. "I"
@@ -373,7 +372,7 @@ require("lualine").setup {
   globalstatus = true,
   sections = {
     lualine_a = {
-      { "mode", fmt = function(str) return str:sub(1, 1) end },
+      { "mode" },
     },
     lualine_b = {
       { "filename", path = 1 },
