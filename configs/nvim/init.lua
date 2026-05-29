@@ -1,5 +1,5 @@
 local start_time = vim.uv.hrtime()
-vim.g.colorscheme = os.getenv("NVIM_THEME") or "onedark"
+vim.g.colorscheme = os.getenv("NVIM_THEME") or "adwaita"
 vim.g.transparency = os.getenv("NVIM_TRANSPARENCY") or true
 
 --{{{
@@ -396,7 +396,7 @@ require("lualine").setup {
     lualine_z = {},
   },
 }
--- }}}
+--- }}}
 
 -- [git] {{{
 vim.pack.add {
