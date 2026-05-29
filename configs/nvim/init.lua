@@ -1,5 +1,5 @@
 local start_time = vim.uv.hrtime()
-vim.g.colorscheme = os.getenv("NVIM_THEME") or "catppuccin-macchiato"
+vim.g.colorscheme = os.getenv("NVIM_THEME") or "catppuccin-nvim"
 vim.g.transparency = os.getenv("NVIM_TRANSPARENCY") or true
 
 --{{{
@@ -164,6 +164,7 @@ vim.pack.add {
   "https://github.com/navarasu/onedark.nvim",
   "https://github.com/folke/tokyonight.nvim",
   "https://github.com/Mofiqul/adwaita.nvim",
+  { src = "https://codeberg.org/evergarden/nvim.git", name = "evergarden" },
 }
 
 require("vague").setup { bold = false, italic = false, transparent = vim.g.transparency }
@@ -172,9 +173,24 @@ require("tokyonight").setup {
   transparent = vim.g.transparency,
   styles = { comments = { italic = false }, keywords = { italic = false } },
 }
-require("catppuccin").setup { transparent_background = vim.g.transparency }
+require("catppuccin").setup {
+  transparent_background = vim.g.transparency,
+  background = { -- :h background
+    light = "latte",
+    dark = "macchiato",
+  },
+}
 require("rose-pine").setup {
   styles = { bold = false, italic = false, transparency = vim.g.transparency },
+}
+require("evergarden").setup {
+  theme = {
+    variant = "fall", -- 'winter'|'fall'|'spring'|'summer'
+    accent = "green",
+  },
+  editor = {
+    transparent_background = vim.g.transparency,
+  },
 }
 
 vim.g.everforest_background = "hard"

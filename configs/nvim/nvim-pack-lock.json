@@ -36,6 +36,10 @@
       "rev": "aeef62ee97872d2557d25904d160ec93a4a355f8",
       "src": "https://github.com/sainnhe/everforest"
     },
+    "evergarden": {
+      "rev": "477ad8d38d4da828ef72243a0bb14dc7cce310d7",
+      "src": "https://codeberg.org/evergarden/nvim.git"
+    },
     "fff.nvim": {
       "rev": "cf3dcf6d0b47c299614ba54f341ce7b5284e73ff",
       "src": "https://github.com/dmtrKovalenko/fff.nvim"
