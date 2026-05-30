@@ -7,6 +7,9 @@ set -gx PATH "$HOME/.opencode/bin" $PATH
 set -gx PATH "/Users/amirrezaask/.gapcode/bin" $PATH
 set -gx PATH "$HOME/.local/share/nvim/mason/bin" $PATH
 set -gx PATH "/opt/homebrew/bin" $PATH
+set -gx PATH "$HOME/.cargo/bin" $PATH
+set -gx PATH "$HOME/go/bin" $PATH
+set -gx PATH "/usr/local/bin" $PATH
 
 
 # Neovim
