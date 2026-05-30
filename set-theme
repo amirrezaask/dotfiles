@@ -4,61 +4,52 @@ set -euo pipefail
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 KITTY_CONF="$DOTFILES_DIR/configs/kitty/kitty.conf"
 KITTY_THEMES_DIR="$DOTFILES_DIR/configs/kitty/themes"
+GHOSTTY_CONF="$DOTFILES_DIR/configs/ghostty/config"
+GHOSTTY_THEMES_DIR="$DOTFILES_DIR/configs/ghostty/themes"
 NVIM_INIT="$DOTFILES_DIR/configs/nvim/init.lua"
 
+# Format: kitty_theme:nvim_colorscheme:ghostty_theme
+# ghostty_theme: empty = use kitty name; "builtin:<name>" = built-in; otherwise path in themes/
+# ghostty theme names from: ghostty +list-themes --plain
 Themes=(
-  "Catppuccin-Mocha:catppuccin-nvim"
-  "Catppuccin-Latte:catppuccin-nvim"
-  "Catppuccin-Macchiato:catppuccin-nvim"
-  "Catppuccin-Frappe:catppuccin-nvim"
-  "gruvbox-dark:gruvbox"
-  "everforest_dark_hard:everforest"
-  "everforest_dark_medium:everforest"
-  "rose-pine:rose-pine"
-  "rose-pine-moon:rose-pine"
-  "rose-pine-dawn:rose-pine"
-  "tokyo_night_night:tokyonight-night"
-  "tokyo_night_storm:tokyonight-storm"
-  "tokyo_night_moon:tokyonight-moon"
-  "OneDark:onedark"
-  "OneDark-Pro:onedark"
-  "Cyberdream:cyberdream"
-  "evergarden-fall-green:evergarden"
-  "evergarden-winter-blue:evergarden"
-  "Vague:vague"
+  "Catppuccin-Mocha:catppuccin-nvim:Catppuccin Mocha"
+  "Catppuccin-Latte:catppuccin-nvim:Catppuccin Latte"
+  "Catppuccin-Macchiato:catppuccin-nvim:Catppuccin Macchiato"
+  "Catppuccin-Frappe:catppuccin-nvim:Catppuccin Frappe"
+  "gruvbox-dark:gruvbox:Gruvbox Dark"
+  "gruvbox-light:gruvbox:Gruvbox Light"
+  "everforest_dark_hard:everforest:Everforest Dark Hard"
+  "everforest_dark_medium:everforest:Everforest Dark Hard"
+  "everforest_light_soft:everforest:Everforest Light Med"
+  "rose-pine:rose-pine:Rose Pine"
+  "rose-pine-moon:rose-pine:Rose Pine Moon"
+  "rose-pine-dawn:rose-pine:Rose Pine Dawn"
+  "tokyo_night_night:tokyonight:TokyoNight Night"
+  "tokyo_night_day:tokyonight:TokyoNight Day"
+  "tokyo_night_storm:tokyonight:TokyoNight Storm"
+  "tokyo_night_moon:tokyonight:TokyoNight Moon"
+  "OneDark:onedark:Atom One Dark"
+  "OneDark-Pro:onedark:One Dark Two"
+  "Cyberdream:cyberdream:cyberdream"
+  "evergarden-fall-green:evergarden:evergarden-fall-green"
+  "evergarden-winter-blue:evergarden:evergarden-winter-blue"
+  "Vague:vague:Vague"
 )
-
-# nvim plugin + setup registry
-# format: colorscheme_name|pack_url|optional_name|setup_snippet
-nvim_plugins() {
-  cat <<'EOF'
-catppuccin-nvim|https://github.com/catppuccin/nvim|catppuccin|require("catppuccin").setup { transparent_background = vim.g.transparency, background = { light = "macchiato", dark = "mocha" } }
-gruvbox|https://github.com/morhetz/gruvbox||require("gruvbox").setup {}
-everforest|https://github.com/sainnhe/everforest||require("everforest").setup {}
-rose-pine|https://github.com/rose-pine/neovim|rose-pine|require("rose-pine").setup { styles = { bold = false, italic = false, transparency = vim.g.transparency } }
-tokyonight|https://github.com/folke/tokyonight.nvim||require("tokyonight").setup { transparent = vim.g.transparency, styles = { comments = { italic = false }, keywords = { italic = false } } }
-onedark|https://github.com/navarasu/onedark.nvim||require("onedark").setup { style = "darker", transparent = vim.g.transparency }
-cyberdream|https://github.com/scottmckendry/cyberdream.nvim||require("cyberdream").setup { transparent = vim.g.transparency }
-adwaita|https://github.com/Mofiqul/adwaita.nvim||require("adwaita").setup {}
-evergarden|https://codeberg.org/evergarden/nvim.git|evergarden|require("evergarden").setup { theme = { variant = "fall", accent = "green" }, editor = { transparent_background = vim.g.transparency } }
-vague|https://github.com/vague-theme/vague.nvim||require("vague").setup { bold = false, italic = false, transparent = vim.g.transparency }
-EOF
-}
-
 
 KITTY_THEME="${1:-}"
 NVIM_THEME="${2:-}"
+GHOSTTY_THEME=""
 
+# Usage / fzf
 usage() {
   echo "Usage: $(basename "$0") [kitty-theme] [nvim-colorscheme]"
   echo ""
   echo "No args -> fzf picker from Themes array"
-  echo "1 arg  -> auto-map nvim colorscheme"
-  echo "2 args -> explicit kitty + nvim"
+  echo "1 arg  -> auto-map nvim + ghostty"
+  echo "2 args -> explicit kitty + nvim, ghostty auto-map"
   exit 1
 }
 
-# FZF picker
 if [ -z "$KITTY_THEME" ]; then
   if ! command -v fzf &>/dev/null; then
     echo "Error: no args given and fzf not found"
@@ -67,34 +58,27 @@ if [ -z "$KITTY_THEME" ]; then
 
   SELECTED=$(
     for pair in "${Themes[@]}"; do
-      kitty="${pair%%:*}"
-      nvim="${pair##*:}"
-      printf "%-40s %s\n" "$kitty" "$nvim"
-    done | fzf --header="kitty-theme            nvim-colorscheme" \
+      IFS=: read -r k n g <<< "$pair"
+      printf "%-40s %-20s %s\n" "$k" "$n" "$g"
+    done | fzf --header="kitty-theme                            nvim-colorscheme      ghostty" \
                --with-nth=1 --preview='echo {}' | awk '{print $1}'
   )
 
-  if [ -z "$SELECTED" ]; then
-    echo "No theme selected"
-    exit 1
-  fi
-
+  [ -z "$SELECTED" ] && { echo "No theme selected"; exit 1; }
   KITTY_THEME="$SELECTED"
 fi
 
-# Look up NVIM_THEME from Themes array if not given
-if [ -z "$NVIM_THEME" ]; then
-  for pair in "${Themes[@]}"; do
-    kitty="${pair%%:*}"
-    nvim="${pair##*:}"
-    if [ "$kitty" = "$KITTY_THEME" ]; then
-      NVIM_THEME="$nvim"
-      break
-    fi
-  done
-fi
+# Resolve nvim + ghostty from Themes array
+for pair in "${Themes[@]}"; do
+  IFS=: read -r k n g <<< "$pair"
+  if [ "$k" = "$KITTY_THEME" ]; then
+    [ -z "$NVIM_THEME" ] && NVIM_THEME="$n"
+    [ -z "$GHOSTTY_THEME" ] && GHOSTTY_THEME="$g"
+    break
+  fi
+done
 
-# If still no match, try auto-map or fallback
+# Auto-map nvim if still empty
 if [ -z "$NVIM_THEME" ]; then
   case "$KITTY_THEME" in
     Catppuccin-*)          NVIM_THEME="catppuccin-nvim" ;;
@@ -111,10 +95,16 @@ if [ -z "$NVIM_THEME" ]; then
   esac
 fi
 
+# Auto-map ghostty if not in array
+if [ -z "$GHOSTTY_THEME" ]; then
+  # use lowercase-hyphenated kitty name as ghostty built-in name
+  GHOSTTY_THEME=$(echo "$KITTY_THEME" | tr '[:upper:]' '[:lower:]' | tr '_' '-' | tr ' ' '-')
+fi
+
+# --- Validate kitty theme ---
 THEME_FILE="$KITTY_THEMES_DIR/$KITTY_THEME.conf"
 if [ ! -f "$THEME_FILE" ]; then
   echo "Error: kitty theme '$KITTY_THEME' not found in themes/"
-  echo "Available:"
   ls "$KITTY_THEMES_DIR"/*.conf 2>/dev/null | sed 's/.*\///; s/\.conf$//' | sort
   exit 1
 fi
@@ -132,6 +122,22 @@ fi
 
 echo "Kitty: $KITTY_THEME"
 
-# set active colorscheme
+# --- Ghostty ---
+if [ -f "$GHOSTTY_THEMES_DIR/$GHOSTTY_THEME" ]; then
+  GHOSTTY_VAL="$GHOSTTY_THEMES_DIR/$GHOSTTY_THEME"
+  echo "Ghostty: $GHOSTTY_THEME (custom file)"
+elif grep -qi "^theme = " "$GHOSTTY_CONF" 2>/dev/null; then
+  GHOSTTY_VAL="$GHOSTTY_THEME"
+fi
+
+if grep -qi "^theme = " "$GHOSTTY_CONF" 2>/dev/null; then
+  sed -i '' "s|^theme = .*|theme = $GHOSTTY_VAL|I" "$GHOSTTY_CONF"
+else
+  echo "theme = $GHOSTTY_VAL" >> "$GHOSTTY_CONF"
+fi
+
+echo "Ghostty: $GHOSTTY_VAL"
+
+
 sed -i '' "s|vim.g.colorscheme = os.getenv(\"NVIM_THEME\") or \"[^\"]*\"|vim.g.colorscheme = os.getenv(\"NVIM_THEME\") or \"$NVIM_THEME\"|" "$NVIM_INIT"
-echo "Neovim: active -> $NVIM_THEME"
+echo "Neovim: $NVIM_THEME"
