@@ -1,6 +1,6 @@
 {
   "breadcrumbs.enabled": false,
-  "editor.fontFamily": "MonoLisa",
+  "editor.fontFamily": "JetBrains Mono",
   "editor.fontSize": 14,
   "editor.cursorBlinking": "smooth",
   "editor.stickyScroll.enabled": false,
@@ -33,9 +33,7 @@
   "workbench.preferredDarkColorTheme": "Dark 2026",
   "workbench.browser.showInTitleBar": false,
   "explorer.confirmDragAndDrop": false,
-  "workbench.editor.showTabs": "none",
   "workbench.navigationControl.enabled": false,
-  "workbench.openInAgents.enabled": false,
   "workbench.editor.editorActionsLocation": "hidden",
   "workbench.layoutControl.enabled": false,
   "window.commandCenter": false,

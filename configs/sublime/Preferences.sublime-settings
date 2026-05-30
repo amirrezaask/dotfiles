@@ -1,8 +1,8 @@
 // Settings in here override those in "Default/Preferences.sublime-settings",
 // and are overridden in turn by syntax-specific settings.
 {
-	"font_face": "Operator Mono Book",
-	"font_size": 19,
+	"font_face": "Fira Code",
+	"font_size": 15,
 	"theme": "Adaptive.sublime-theme",
 	"ignored_packages":
 	[
@@ -13,7 +13,7 @@
 	"index_files": true,
 	"line_padding_top": 10,
 	"line_padding_bottom": 10,
-	"color_scheme": "Packages/User/InspiredGithub.tmTheme",
+	"color_scheme": "BlackOwl.sublime-color-scheme",
 	"folder_exclude_patterns":
     [
         "node_modules",

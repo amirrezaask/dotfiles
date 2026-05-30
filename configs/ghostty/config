@@ -1,4 +1,4 @@
-theme = Night Owl
+theme = Everforest Dark Hard
 font-family = MonoLisa-Regular
 font-size = 15
 mouse-hide-while-typing = true
@@ -8,9 +8,7 @@ shell-integration-features=no-cursor
 maximize=true
 cursor-style-blink=false
 cursor-style=bar
-adjust-cell-height = 20%
-background = #000000
-foreground = #ffffff
+adjust-cell-height = 30%
 
 # Tabs
 keybind = cmd+[=previous_tab

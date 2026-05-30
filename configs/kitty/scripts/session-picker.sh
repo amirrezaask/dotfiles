@@ -196,7 +196,7 @@ else
     kitten @ launch \
       --type os-window \
       --os-window-title "$session_name" \
-      --tab-title "vim" \
+      --tab-title "$session_name: vim" \
       --title "$session_name" \
       --var "kitty_session_primary=$session_name" \
       "${common_args[@]}"
@@ -204,14 +204,14 @@ else
   
   kitten @ launch \
     --type tab \
-    --tab-title "shell" \
+    --tab-title "$session_name: shell" \
     --title "$session_name" \
     --var "kitty_session_primary=$session_name" \
     "${common_args[@]}"
 
   kitten @ launch \
     --type tab \
-    --tab-title "agent" \
+    --tab-title "$session_name: agent" \
     --title "$session_name" \
     --var "kitty_session_primary=$session_name" \
     "${common_args[@]}"

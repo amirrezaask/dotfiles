@@ -176,8 +176,8 @@ require("tokyonight").setup {
 require("catppuccin").setup {
   transparent_background = vim.g.transparency,
   background = { -- :h background
-    light = "latte",
-    dark = "macchiato",
+    light = "macchiato",
+    dark = "mocha",
   },
 }
 require("rose-pine").setup {
