@@ -11,9 +11,9 @@
     ],
 	"hot_exit": "disabled",
 	"index_files": true,
-	"line_padding_top": 10,
-	"line_padding_bottom": 10,
-	"color_scheme": "BlackOwl.sublime-color-scheme",
+	"line_padding_top": 8,
+	"line_padding_bottom": 8,
+	"color_scheme": "Packages/Material Theme/schemes/Material-Theme.tmTheme",
 	"folder_exclude_patterns":
     [
         "node_modules",

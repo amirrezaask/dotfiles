@@ -4,6 +4,7 @@
 	],
 	"installed_packages":
 	[
+		"Agila Theme",
 		"ColorHints",
 		"INI",
 		"Jq",
@@ -13,6 +14,7 @@
 		"LSP-intelephense",
 		"LSP-typescript",
 		"MarkdownEditing",
+		"Material Theme",
 		"Package Control",
 		"Rust Enhanced",
 		"Terminus",
