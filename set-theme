@@ -1,0 +1,137 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+KITTY_CONF="$DOTFILES_DIR/configs/kitty/kitty.conf"
+KITTY_THEMES_DIR="$DOTFILES_DIR/configs/kitty/themes"
+NVIM_INIT="$DOTFILES_DIR/configs/nvim/init.lua"
+
+Themes=(
+  "Catppuccin-Mocha:catppuccin-nvim"
+  "Catppuccin-Latte:catppuccin-nvim"
+  "Catppuccin-Macchiato:catppuccin-nvim"
+  "Catppuccin-Frappe:catppuccin-nvim"
+  "gruvbox-dark:gruvbox"
+  "everforest_dark_hard:everforest"
+  "everforest_dark_medium:everforest"
+  "rose-pine:rose-pine"
+  "rose-pine-moon:rose-pine"
+  "rose-pine-dawn:rose-pine"
+  "tokyo_night_night:tokyonight-night"
+  "tokyo_night_storm:tokyonight-storm"
+  "tokyo_night_moon:tokyonight-moon"
+  "OneDark:onedark"
+  "OneDark-Pro:onedark"
+  "Cyberdream:cyberdream"
+  "evergarden-fall-green:evergarden"
+  "evergarden-winter-blue:evergarden"
+  "Vague:vague"
+)
+
+# nvim plugin + setup registry
+# format: colorscheme_name|pack_url|optional_name|setup_snippet
+nvim_plugins() {
+  cat <<'EOF'
+catppuccin-nvim|https://github.com/catppuccin/nvim|catppuccin|require("catppuccin").setup { transparent_background = vim.g.transparency, background = { light = "macchiato", dark = "mocha" } }
+gruvbox|https://github.com/morhetz/gruvbox||require("gruvbox").setup {}
+everforest|https://github.com/sainnhe/everforest||require("everforest").setup {}
+rose-pine|https://github.com/rose-pine/neovim|rose-pine|require("rose-pine").setup { styles = { bold = false, italic = false, transparency = vim.g.transparency } }
+tokyonight|https://github.com/folke/tokyonight.nvim||require("tokyonight").setup { transparent = vim.g.transparency, styles = { comments = { italic = false }, keywords = { italic = false } } }
+onedark|https://github.com/navarasu/onedark.nvim||require("onedark").setup { style = "darker", transparent = vim.g.transparency }
+cyberdream|https://github.com/scottmckendry/cyberdream.nvim||require("cyberdream").setup { transparent = vim.g.transparency }
+adwaita|https://github.com/Mofiqul/adwaita.nvim||require("adwaita").setup {}
+evergarden|https://codeberg.org/evergarden/nvim.git|evergarden|require("evergarden").setup { theme = { variant = "fall", accent = "green" }, editor = { transparent_background = vim.g.transparency } }
+vague|https://github.com/vague-theme/vague.nvim||require("vague").setup { bold = false, italic = false, transparent = vim.g.transparency }
+EOF
+}
+
+
+KITTY_THEME="${1:-}"
+NVIM_THEME="${2:-}"
+
+usage() {
+  echo "Usage: $(basename "$0") [kitty-theme] [nvim-colorscheme]"
+  echo ""
+  echo "No args -> fzf picker from Themes array"
+  echo "1 arg  -> auto-map nvim colorscheme"
+  echo "2 args -> explicit kitty + nvim"
+  exit 1
+}
+
+# FZF picker
+if [ -z "$KITTY_THEME" ]; then
+  if ! command -v fzf &>/dev/null; then
+    echo "Error: no args given and fzf not found"
+    usage
+  fi
+
+  SELECTED=$(
+    for pair in "${Themes[@]}"; do
+      kitty="${pair%%:*}"
+      nvim="${pair##*:}"
+      printf "%-40s %s\n" "$kitty" "$nvim"
+    done | fzf --header="kitty-theme            nvim-colorscheme" \
+               --with-nth=1 --preview='echo {}' | awk '{print $1}'
+  )
+
+  if [ -z "$SELECTED" ]; then
+    echo "No theme selected"
+    exit 1
+  fi
+
+  KITTY_THEME="$SELECTED"
+fi
+
+# Look up NVIM_THEME from Themes array if not given
+if [ -z "$NVIM_THEME" ]; then
+  for pair in "${Themes[@]}"; do
+    kitty="${pair%%:*}"
+    nvim="${pair##*:}"
+    if [ "$kitty" = "$KITTY_THEME" ]; then
+      NVIM_THEME="$nvim"
+      break
+    fi
+  done
+fi
+
+# If still no match, try auto-map or fallback
+if [ -z "$NVIM_THEME" ]; then
+  case "$KITTY_THEME" in
+    Catppuccin-*)          NVIM_THEME="catppuccin-nvim" ;;
+    gruvbox*)              NVIM_THEME="gruvbox" ;;
+    everforest*)           NVIM_THEME="everforest" ;;
+    rose-pine*)            NVIM_THEME="rose-pine" ;;
+    tokyo*|Tokyo*)         NVIM_THEME="tokyonight" ;;
+    onedark*|OneDark*)     NVIM_THEME="onedark" ;;
+    cyberdream*|Cyberdream*) NVIM_THEME="cyberdream" ;;
+    adwaita*)              NVIM_THEME="adwaita" ;;
+    evergarden*)           NVIM_THEME="evergarden" ;;
+    vague*)                NVIM_THEME="vague" ;;
+    *)                     NVIM_THEME="catppuccin-nvim" ;;
+  esac
+fi
+
+THEME_FILE="$KITTY_THEMES_DIR/$KITTY_THEME.conf"
+if [ ! -f "$THEME_FILE" ]; then
+  echo "Error: kitty theme '$KITTY_THEME' not found in themes/"
+  echo "Available:"
+  ls "$KITTY_THEMES_DIR"/*.conf 2>/dev/null | sed 's/.*\///; s/\.conf$//' | sort
+  exit 1
+fi
+
+# --- Kitty ---
+rm -f "$DOTFILES_DIR/configs/kitty/dark-theme.auto.conf" \
+     "$DOTFILES_DIR/configs/kitty/light-theme.auto.conf"
+
+INCLUDE_LINE="include themes/$KITTY_THEME.conf"
+if grep -q "^include themes/" "$KITTY_CONF"; then
+  sed -i '' "s|^include themes/.*|$INCLUDE_LINE|" "$KITTY_CONF"
+else
+  printf "\n# Theme\n%s\n" "$INCLUDE_LINE" >> "$KITTY_CONF"
+fi
+
+echo "Kitty: $KITTY_THEME"
+
+# set active colorscheme
+sed -i '' "s|vim.g.colorscheme = os.getenv(\"NVIM_THEME\") or \"[^\"]*\"|vim.g.colorscheme = os.getenv(\"NVIM_THEME\") or \"$NVIM_THEME\"|" "$NVIM_INIT"
+echo "Neovim: active -> $NVIM_THEME"

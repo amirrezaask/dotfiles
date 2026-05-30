@@ -1,5 +1,5 @@
 local start_time = vim.uv.hrtime()
-vim.g.colorscheme = os.getenv("NVIM_THEME") or "catppuccin-nvim"
+vim.g.colorscheme = os.getenv("NVIM_THEME") or "tokyonight-moon"
 vim.g.transparency = os.getenv("NVIM_TRANSPARENCY") or true
 
 --{{{
