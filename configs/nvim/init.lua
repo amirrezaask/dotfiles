@@ -1,5 +1,5 @@
 local start_time = vim.uv.hrtime()
-vim.g.colorscheme = os.getenv("NVIM_THEME") or "cyberdream"
+vim.g.colorscheme = os.getenv("NVIM_THEME") or "tokyonight-night"
 vim.g.transparency = os.getenv("NVIM_TRANSPARENCY") or true
 
 --{{{
@@ -8,7 +8,7 @@ vim.o.swapfile = false
 vim.o.number = true
 vim.o.relativenumber = true
 vim.o.signcolumn = "yes"
-vim.o.cursorline = true
+vim.o.cursorline = false
 vim.o.scrolloff = 10
 vim.o.linebreak = true
 vim.o.winborder = "rounded"

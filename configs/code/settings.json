@@ -85,4 +85,5 @@
   ],
   "git.openRepositoryInParentFolders": "never",
   "workbench.activityBar.location": "top",
+  "cursor.composer.shouldChimeAfterChatFinishes": true,
 }
