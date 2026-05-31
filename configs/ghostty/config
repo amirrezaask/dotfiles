@@ -1,5 +1,4 @@
 theme = TokyoNight Night
-font-family = TX-02
 font-size = 15
 mouse-hide-while-typing = true
 macos-option-as-alt = true
@@ -7,7 +6,6 @@ window-padding-balance = true
 shell-integration-features=no-cursor
 maximize=true
 cursor-style-blink=false
-adjust-cell-height = 10%
 
 # Tabs
 keybind = cmd+[=previous_tab
