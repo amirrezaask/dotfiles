@@ -9,6 +9,7 @@ vim.o.number = true
 vim.o.relativenumber = true
 vim.o.signcolumn = "yes"
 vim.o.cursorline = false
+vim.o.guicursor = ""
 vim.o.scrolloff = 10
 vim.o.linebreak = true
 vim.o.winborder = "rounded"
@@ -54,6 +55,9 @@ vim.opt.wildoptions:append("fuzzy")
 vim.o.updatetime = 300
 vim.o.pumheight = 10
 vim.o.pumblend = 10
+
+vim.o.laststatus = 0 -- Experimental: disables the statusbar
+vim.o.winbar = "%m%r%h%f %l:%c"
 
 local ok, ui2 = pcall(require, "vim._core.ui2")
 if ok then ui2.enable { enable = true } end
@@ -163,8 +167,6 @@ vim.pack.add {
   "https://github.com/scottmckendry/cyberdream.nvim",
   "https://github.com/navarasu/onedark.nvim",
   "https://github.com/folke/tokyonight.nvim",
-  "https://github.com/Mofiqul/adwaita.nvim",
-  { src = "https://codeberg.org/evergarden/nvim.git", name = "evergarden" },
 }
 
 require("vague").setup { bold = false, italic = false, transparent = vim.g.transparency }
@@ -182,15 +184,6 @@ require("catppuccin").setup {
 }
 require("rose-pine").setup {
   styles = { bold = false, italic = false, transparency = vim.g.transparency },
-}
-require("evergarden").setup {
-  theme = {
-    variant = "fall", -- 'winter'|'fall'|'spring'|'summer'
-    accent = "green",
-  },
-  editor = {
-    transparent_background = vim.g.transparency,
-  },
 }
 
 vim.g.everforest_background = "hard"
@@ -382,35 +375,35 @@ vim.keymap.set("n", "<leader>e", require("oil").toggle_float, { desc = "Toggle f
 -- }}}
 
 -- [lualine] {{{
-vim.pack.add { "https://github.com/nvim-lualine/lualine.nvim" }
+-- vim.pack.add { "https://github.com/nvim-lualine/lualine.nvim" }
 
-require("lualine").setup {
-  globalstatus = true,
-  sections = {
-    lualine_a = {
-      { "mode" },
-    },
-    lualine_b = {
-      { "filename", path = 1 },
-      "diagnostics",
-    },
-    lualine_c = {
-      {},
-    },
-    lualine_x = {
-      "lsp_status",
-      "filetype",
-    },
-  },
-  winbar = {
-    lualine_a = {},
-    lualine_b = {},
-    lualine_c = {},
-    lualine_x = {},
-    lualine_y = {},
-    lualine_z = {},
-  },
-}
+-- require("lualine").setup {
+--   globalstatus = true,
+--   sections = {
+--     lualine_a = {
+--       { "mode" },
+--     },
+--     lualine_b = {
+--       { "filename", path = 1 },
+--       "diagnostics",
+--     },
+--     lualine_c = {
+--       {},
+--     },
+--     lualine_x = {
+--       "lsp_status",
+--       "filetype",
+--     },
+--   },
+--   winbar = {
+--     lualine_a = {},
+--     lualine_b = {},
+--     lualine_c = {},
+--     lualine_x = {},
+--     lualine_y = {},
+--     lualine_z = {},
+--   },
+-- }
 --- }}}
 
 -- [git] {{{

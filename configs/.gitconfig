@@ -18,7 +18,7 @@
 	diff = difftool --no-prompt
 
 [pull]
-	rebase = false
+	rebase = true
 
 [diff]
 	tool = nvim

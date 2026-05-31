@@ -1,5 +1,4 @@
 theme = TokyoNight Night
-font-family = MonoLisa-Regular
 font-size = 15
 mouse-hide-while-typing = true
 macos-option-as-alt = true
@@ -7,14 +6,14 @@ window-padding-balance = true
 shell-integration-features=no-cursor
 maximize=true
 cursor-style-blink=false
-cursor-style=bar
-adjust-cell-height = 30%
+adjust-cell-height = 10%
 
 # Tabs
 keybind = cmd+[=previous_tab
 keybind = cmd+]=next_tab
 keybind = cmd+,=previous_tab
 keybind = cmd+.=next_tab
+keybind = cmd+o=text:~/.config/ghostty/scripts/session-picker.sh\n
 
 # Splits
 keybind = cmd+down=goto_split:down
