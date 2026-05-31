@@ -1,5 +1,4 @@
 local start_time = vim.uv.hrtime()
-vim.g.colorscheme = os.getenv("NVIM_THEME") or "tokyonight-night"
 vim.g.transparency = os.getenv("NVIM_TRANSPARENCY") or true
 
 --{{{
@@ -91,6 +90,7 @@ vim.keymap.set("n", "k", "gk")
 vim.keymap.set("n", "<leader>i", ":edit $MYVIMRC<CR>", { desc = "Edit Configuration" })
 vim.keymap.set("n", "<leader>R", ":source $MYVIMRC<CR>", { desc = "Reload Configuration" })
 vim.keymap.set("n", "<leader>t", ":edit ~/TODO.md<CR>", { desc = "Edit TODO.md" })
+
 vim.keymap.set("n", "<C-q>", function()
   if vim.fn.getqflist({ winid = 0 }).winid ~= 0 then
     vim.cmd.cclose()
@@ -102,7 +102,6 @@ end, {
 })
 vim.keymap.set("n", "<leader>q", function() vim.diagnostic.setloclist { open = true } end)
 
-vim.keymap.set("i", "<C-Space>", "<C-x><C-o>", { desc = "Trigger LSP completion" })
 vim.keymap.set("n", "<CR>", function()
   if vim.v.hlsearch == 1 then
     vim.cmd.nohl()
@@ -114,13 +113,13 @@ end, {
 })
 -- }}}
 
--- [autocmds] {{{
+-- [autocmds for better editor experience] {{{
 vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold" }, {
   callback = function() vim.cmd("checktime") end,
 })
 
 vim.api.nvim_create_autocmd("TextYankPost", {
-  callback = function() vim.hl.on_yank { higroup = "Visual", timeout = 150 } end,
+  callback = function() vim.hl.hl_op { higroup = "Visual", timeout = 150 } end,
 })
 
 vim.api.nvim_create_autocmd("BufEnter", {
@@ -144,17 +143,6 @@ vim.api.nvim_create_autocmd("BufReadPost", {
   end,
 })
 
-vim.api.nvim_create_user_command("Reload", function(_) vim.cmd.source("$MYVIMRC") end, {})
-
-vim.api.nvim_create_autocmd("ColorScheme", {
-  pattern = "default",
-  callback = function(args)
-    if args.match == "default" then vim.cmd([[
-        hi! Normal guibg=none
-        hi! link SnacksPickerDir Normal
-      ]]) end
-  end,
-})
 -- }}}
 
 -- [colors] {{{
@@ -166,6 +154,15 @@ vim.pack.add {
   "https://github.com/scottmckendry/cyberdream.nvim",
 }
 
+vim.api.nvim_create_autocmd("ColorScheme", {
+  pattern = "default",
+  callback = function(args)
+    if args.match == "default" then vim.cmd([[
+        hi! Normal guibg=none
+        hi! link SnacksPickerDir Normal
+      ]]) end
+  end,
+})
 require("vague").setup { bold = false, italic = false, transparent = vim.g.transparency }
 require("tokyonight").setup {
   transparent = vim.g.transparency,
@@ -182,7 +179,7 @@ require("rose-pine").setup {
   styles = { bold = false, italic = false, transparency = vim.g.transparency },
 }
 
-vim.cmd.colorscheme(vim.g.colorscheme)
+vim.cmd.colorscheme(os.getenv("NVIM_THEME") or "tokyonight-night")
 -- }}}
 
 -- [editor] {{{
@@ -502,13 +499,9 @@ vim.pack.add {
   "https://github.com/nvim-treesitter/nvim-treesitter-context",
 }
 
-vim.api.nvim_create_autocmd("FileType", {
-  callback = function(args) pcall(vim.treesitter.start, args.buf) end,
-})
+vim.api.nvim_create_autocmd("FileType", { callback = function(args) pcall(vim.treesitter.start, args.buf) end })
 
-require("treesitter-context").setup {
-  enable = true,
-}
+require("treesitter-context").setup { enable = true }
 
 require("nvim-treesitter").install {
   "bash",
