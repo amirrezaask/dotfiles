@@ -20,12 +20,6 @@ fi
 if tmux has-session -t="$session_name" 2>/dev/null; then
   tmux switch-client -t="$session_name"
 else
-  tmux new-session -ds "$session_name" -n neovim -c "$target_dir"
-
-  tmux new-window -t "$session_name" -n zsh -c "$target_dir"
-
-  tmux new-window -t "$session_name" -n agent -c "$target_dir"
-
-  tmux select-window -t "$session_name:1"
+  tmux new-session -ds "$session_name" -c "$target_dir"
   tmux switch-client -t="$session_name"
 fi
