@@ -2,59 +2,30 @@ local start_time = vim.uv.hrtime()
 vim.g.transparency = os.getenv("NVIM_TRANSPARENCY") or true
 
 --{{{
-vim.o.undofile = true
-vim.o.swapfile = false
-vim.o.number = true
-vim.o.relativenumber = true
-vim.o.signcolumn = "yes"
-vim.o.cursorline = false
-vim.o.guicursor = ""
-vim.o.scrolloff = 10
-vim.o.linebreak = true
-vim.o.winborder = "rounded"
-vim.o.laststatus = 3
-vim.o.showcmd = false
-vim.o.title = true
-vim.o.mouse = "a"
-vim.o.autoread = true
-vim.o.shortmess = vim.o.shortmess .. "I"
-
-vim.g.loaded_node_provider = 0
-vim.g.loaded_perl_provider = 0
-vim.g.loaded_python3_provider = 0
-vim.g.loaded_ruby_provider = 0
-
-vim.o.foldmethod = "expr"
-vim.o.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-vim.o.foldcolumn = "0"
-vim.o.foldtext = ""
-vim.o.foldlevel = 99
-vim.o.foldlevelstart = 99
-
-vim.o.shiftround = true
-vim.o.shiftwidth = 2
-vim.o.tabstop = 2
-vim.o.expandtab = true
-
-vim.o.ignorecase = true
-vim.o.smartcase = true
-vim.o.inccommand = "split"
-
-vim.o.formatoptions = "jcql"
-vim.o.completeopt = "menuone,noselect,noinsert,fuzzy"
-
-vim.o.splitbelow = true
-vim.o.splitright = true
-vim.o.splitkeep = "topline"
-
+vim.opt.guicursor = ""
+vim.opt.nu = true
+vim.opt.relativenumber = true
+vim.opt.tabstop = 4
+vim.opt.softtabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.expandtab = true
+vim.opt.smartindent = true
+vim.opt.wrap = false
+vim.opt.swapfile = false
+vim.opt.backup = false
+vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
+vim.opt.undofile = true
+vim.opt.hlsearch = false
+vim.opt.incsearch = true
+vim.opt.termguicolors = true
+vim.opt.scrolloff = 8
+vim.opt.signcolumn = "yes"
+vim.opt.isfname:append("@-@")
+vim.opt.updatetime = 50
 vim.o.clipboard = "unnamedplus"
-
 vim.opt.wildoptions:append("fuzzy")
-
-vim.o.updatetime = 300
 vim.o.pumheight = 10
 vim.o.pumblend = 10
-
 vim.o.laststatus = 0 -- Experimental: disables the statusbar
 vim.o.winbar = "%m%r%h%f %l:%c"
 
@@ -291,16 +262,14 @@ require("snacks").setup {
 }
 
 vim.keymap.set("n", "<leader><leader>", Snacks.picker.files, { desc = "Find Files" })
-vim.keymap.set("n", "<leader>i", function() Snacks.picker.files { cwd = "~/dev/dotfiles" } end, { desc = "Find Configuration" })
-vim.keymap.set("n", "<leader>pf", Snacks.picker.git_files, { desc = "Git Files" })
+vim.keymap.set("n", "<C-p>", Snacks.picker.files, { desc = "Git Files" })
+vim.keymap.set("n", "<leader>l", Snacks.picker.lines, { desc = "Buffer Lines" })
+vim.keymap.set("n", "<leader>gf", Snacks.picker.git_files, { desc = "Git Files" })
 vim.keymap.set("n", "<leader>gl", Snacks.picker.git_log, { desc = "Git Log" })
 vim.keymap.set("n", "<leader>gL", Snacks.picker.git_log_line, { desc = "Git Log Line" })
 vim.keymap.set("n", "<leader>j", Snacks.picker.grep, { desc = "Grep" })
-vim.keymap.set("n", "<leader>k", Snacks.picker.buffers, { desc = "Buffers" })
-vim.keymap.set("n", "<leader>;", Snacks.picker.commands, { desc = "Commands" })
-vim.keymap.set("n", "<leader>c", Snacks.picker.colorschemes, { desc = "Commands" })
 vim.keymap.set({ "n", "v" }, "<leader>J", Snacks.picker.grep_word, { desc = "Grep Word" })
-vim.keymap.set("n", "<leader>e", Snacks.explorer.reveal, { desc = "Reveal current file/buffer file list" })
+vim.keymap.set("n", "<leader>k", Snacks.picker.buffers, { desc = "Buffers" })
 
 vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(args)
@@ -320,10 +289,6 @@ vim.pack.add { "https://github.com/stevearc/oil.nvim" }
 
 require("oil").setup {
   float = {
-    padding = 2,
-    max_width = 0,
-    max_height = 0,
-    border = nil,
     win_options = {
       winblend = 5,
     },
