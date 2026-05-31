@@ -339,38 +339,6 @@ require("oil").setup {
 vim.keymap.set("n", "<leader>e", require("oil").toggle_float, { desc = "Toggle floating Oil window" })
 -- }}}
 
--- [lualine] {{{
--- vim.pack.add { "https://github.com/nvim-lualine/lualine.nvim" }
-
--- require("lualine").setup {
---   globalstatus = true,
---   sections = {
---     lualine_a = {
---       { "mode" },
---     },
---     lualine_b = {
---       { "filename", path = 1 },
---       "diagnostics",
---     },
---     lualine_c = {
---       {},
---     },
---     lualine_x = {
---       "lsp_status",
---       "filetype",
---     },
---   },
---   winbar = {
---     lualine_a = {},
---     lualine_b = {},
---     lualine_c = {},
---     lualine_x = {},
---     lualine_y = {},
---     lualine_z = {},
---   },
--- }
---- }}}
-
 -- [git] {{{
 vim.pack.add {
   "https://github.com/tpope/vim-fugitive",
@@ -526,35 +494,6 @@ vim.api.nvim_create_user_command(
 )
 
 vim.api.nvim_create_user_command("Json", function() vim.bo.filetype = "json" end, { desc = "Set buffer filetype to JSON" })
--- }}}
-
--- [cloak] {{{
-vim.pack.add {
-  "https://github.com/laytan/cloak.nvim",
-}
-
-require("cloak").setup {
-  patterns = {
-    {
-      file_pattern = "**/*.vars*",
-      cloak_pattern = "=.+",
-    },
-    {
-      file_pattern = "**/*.env*",
-      cloak_pattern = "=.+",
-    },
-    {
-      file_pattern = "**/*.opencode.json",
-      cloak_pattern = '("apiKey":) .+',
-      replace = "%1 ",
-    },
-    {
-      file_pattern = "**/config.toml",
-      cloak_pattern = "(token =) .+",
-      replace = "%1 ",
-    },
-  },
-}
 -- }}}
 
 -- [treesitter] {{{
