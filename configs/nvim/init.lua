@@ -28,6 +28,8 @@ vim.o.pumheight = 10
 vim.o.pumblend = 10
 vim.o.laststatus = 0 -- Experimental: disables the statusbar
 vim.o.winbar = "%m%r%h%f %l:%c"
+vim.o.title = true
+vim.o.titlestring = "%{fnamemodify(getcwd(), ':~')}"
 
 local ok, ui2 = pcall(require, "vim._core.ui2")
 if ok then ui2.enable { enable = true } end

@@ -116,7 +116,10 @@ end
 function fish_greeting
 end
 
+function fish_title
+    prompt_pwd
+end
+
 # Added by LM Studio CLI (lms)
 set -gx PATH $PATH /Users/amirrezaask/.lmstudio/bin
 # End of LM Studio CLI section
-

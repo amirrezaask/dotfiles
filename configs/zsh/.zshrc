@@ -24,6 +24,15 @@ plugins=(git zsh-autosuggestions zsh-completions zsh-syntax-highlighting)
 export DISABLE_AUTO_TITLE=1
 source $ZSH/oh-my-zsh.sh
 
+set_terminal_title() {
+  print -Pn "\e]0;%~\a"
+}
+
+autoload -Uz add-zsh-hook
+add-zsh-hook precmd set_terminal_title
+add-zsh-hook chpwd set_terminal_title
+set_terminal_title
+
 # Neovim
 alias vim='nvim'
 alias vi='nvim'
