@@ -136,3 +136,6 @@ export PATH="$HOME/.local/share/nvim/mason/bin:$PATH"
 export PATH="/opt/homebrew/bin:$PATH"
 
 unset -f d
+
+# bun completions
+[ -s "/Users/amirrezaask/.bun/_bun" ] && source "/Users/amirrezaask/.bun/_bun"
