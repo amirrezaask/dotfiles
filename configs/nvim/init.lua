@@ -27,9 +27,10 @@ vim.opt.wildoptions:append("fuzzy")
 vim.o.pumheight = 10
 vim.o.pumblend = 10
 vim.o.laststatus = 0 -- Experimental: disables the statusbar
-vim.o.winbar = "%m%r%h%f %l:%c"
+vim.o.winbar = "%m%r%h%f"
 vim.o.title = true
 vim.o.titlestring = "%{fnamemodify(getcwd(), ':~')}"
+vim.o.shortmess = vim.o.shortmess .. "I"
 
 local ok, ui2 = pcall(require, "vim._core.ui2")
 if ok then ui2.enable { enable = true } end
@@ -120,8 +121,8 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 
 -- [colors] {{{
 vim.pack.add {
-  "https://github.com/vague-theme/vague.nvim",
   "https://github.com/folke/tokyonight.nvim",
+  "https://github.com/vague-theme/vague.nvim",
   { src = "https://github.com/catppuccin/nvim", name = "catppuccin" },
   { src = "https://github.com/rose-pine/neovim", name = "rose-pine" },
   "https://github.com/scottmckendry/cyberdream.nvim",
@@ -152,7 +153,7 @@ require("rose-pine").setup {
   styles = { bold = false, italic = false, transparency = vim.g.transparency },
 }
 
-vim.cmd.colorscheme(os.getenv("NVIM_THEME") or "tokyonight-night")
+vim.cmd.colorscheme(os.getenv("NVIM_THEME") or "rose-pine-moon")
 -- }}}
 
 -- [editor] {{{

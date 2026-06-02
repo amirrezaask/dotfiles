@@ -1,5 +1,5 @@
-theme = TokyoNight
-font-size = 15
+theme = TokyoNight Night
+font-size = 14
 mouse-hide-while-typing = true
 macos-option-as-alt = true
 window-padding-balance = true
@@ -24,3 +24,7 @@ keybind = cmd+shift+left=resize_split:left,20
 keybind = cmd+shift+right=resize_split:right,20
 keybind = cmd+enter=toggle_split_zoom
 keybind = cmd+x=toggle_split_zoom
+keybind = cmd+j=goto_split:down
+keybind = cmd+h=goto_split:left
+keybind = cmd+k=goto_split:up
+keybind = cmd+l=goto_split:right
