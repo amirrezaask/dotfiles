@@ -1,0 +1,26 @@
+{
+  "name": "vercel-theme",
+  "displayName": "Vercel",
+  "description": "Pure black Vercel / GitHub Dark theme for VS Code",
+  "version": "1.0.0",
+  "publisher": "dotfiles",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": ["Themes"],
+  "contributes": {
+    "themes": [
+      {
+        "label": "Vercel Dark",
+        "uiTheme": "vs-dark",
+        "path": "./themes/vercel-dark.json"
+      },
+      {
+        "label": "Vercel Light",
+        "uiTheme": "vs",
+        "path": "./themes/vercel-light.json"
+      }
+    ]
+  }
+}
