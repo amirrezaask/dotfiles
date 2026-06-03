@@ -2,7 +2,7 @@
 // and are overridden in turn by syntax-specific settings.
 {
 	"font_face": "Geist Mono",
-	"font_size": 17,
+	"font_size": 18,
 	"theme": "Adaptive.sublime-theme",
 	"ignored_packages":
 	[
@@ -11,8 +11,6 @@
     ],
 	"hot_exit": "disabled",
 	"index_files": true,
-	"line_padding_top": 8,
-	"line_padding_bottom": 8,
 	"color_scheme": "vercel.sublime-color-scheme",
 	"folder_exclude_patterns":
     [
