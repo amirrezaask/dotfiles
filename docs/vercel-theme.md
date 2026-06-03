@@ -28,7 +28,7 @@ brew install --cask font-geist   # optional, UI only
 1. **Terminal background:** Dark Kitty uses **pure black** `#000000`; light uses **white** `#ffffff`.
 2. **Syntax:** Pink keywords, purple functions, blue constants/types/properties/components, green strings & HTML tags, default variables in **foreground** (not orange).
 3. **Surfaces:** `surface` `#0a0a0a` (dark editor) / `#fafafa` (light chrome); borders `#242424` / `#333333` (dark), `#ebebeb` / `#cccccc` (light).
-4. **Source theme:** When in doubt, diff against `themes/vercel-dark.json` in [gantoreno/vscode-vercel](https://github.com/gantoreno/vscode-vercel).
+4. **Source theme:** When in doubt, diff against `themes/vercel/vscode/themes/vercel-dark.json` in this repo (upstream: [gantoreno/vscode-vercel](https://github.com/gantoreno/vscode-vercel)).
 
 ---
 
@@ -149,12 +149,15 @@ brew install --cask font-geist   # optional, UI only
 
 ## Implementations in this repo
 
-| Program | Dark | Light | Notes |
-|---------|------|-------|-------|
-| **Kitty** | `configs/kitty/themes/vercel.conf` | `vercel-light.conf` | `include` in `kitty.conf` |
-| **Neovim** | `configs/nvim/colors/vercel.lua` | auto (`vim.o.background`) | `:colorscheme vercel` |
-| **VS Code / Cursor** | `configs/code/vercel-theme/themes/vercel-dark.json` | `vercel-light.json` | Extension: `dotfiles.vercel-theme-1.0.0` |
-| **Sublime** | `configs/sublime/vercel.sublime-color-scheme` | `vercel-light.sublime-color-scheme` | *(still GitHub palette — update separately if needed)* |
+Canonical files live under **`themes/vercel/`** (see [themes/README.md](../themes/README.md)). App configs use **symlinks** at the paths below so Kitty/Neovim/`set-theme` keep working unchanged.
+
+| Program | Canonical path | Symlink (for apps) | Notes |
+|---------|----------------|-------------------|-------|
+| **Kitty** | `themes/vercel/kitty/vercel.conf` | `configs/kitty/themes/vercel.conf` | `vercel-light.conf`; `include` in `kitty.conf` |
+| **Neovim** | `themes/vercel/nvim/vercel.lua` | `configs/nvim/colors/vercel.lua` | Light via `vim.o.background`; `:colorscheme vercel` |
+| **VS Code / Cursor** | `themes/vercel/vscode/themes/vercel-dark.json` | `configs/code/vercel-theme` | Extension package in `themes/vercel/vscode/` |
+| **Chrome** | `themes/vercel/chrome/vercel-theme/` | `configs/chrome/vercel-theme` | `vercel-theme-light/` for light |
+| **Sublime** | `configs/sublime/vercel.sublime-color-scheme` | — | *(still in configs; GitHub palette — update separately if needed)* |
 
 ### Switching themes
 

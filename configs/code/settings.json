@@ -3,7 +3,7 @@
   "editor.fontSize": 14,
   "editor.fontFamily": "Geist Mono",
   "editor.fontLigatures": false,
-  "workbench.colorTheme": "Vercel (Dark)",
+  "workbench.colorTheme": "Vercel Dark",
   "workbench.preferredDarkColorTheme": "Vercel Dark",
   "workbench.preferredLightColorTheme": "Vercel Light",
   "editor.cursorBlinking": "smooth",
@@ -85,4 +85,5 @@
   "git.openRepositoryInParentFolders": "never",
   "workbench.activityBar.location": "top",
   "cursor.composer.shouldChimeAfterChatFinishes": true,
+  "workbench.preferredHighContrastColorTheme": "Vercel Dark",
 }
