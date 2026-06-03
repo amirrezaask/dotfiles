@@ -1,7 +1,7 @@
 {
   "name": "vercel-theme",
   "displayName": "Vercel",
-  "description": "Pure black Vercel / GitHub Dark theme for VS Code",
+  "description": "Vercel theme for VS Code (palette from gantoreno/vscode-vercel)",
   "version": "1.0.0",
   "publisher": "dotfiles",
   "license": "MIT",

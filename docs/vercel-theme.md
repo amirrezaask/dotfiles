@@ -1,9 +1,9 @@
 # Vercel theme palette
 
 Canonical reference for the **Vercel** color system used across this dotfiles repo.  
-Based on [Vercel docs](https://vercel.com/docs) / [Geist](https://vercel.com/font) styling and Shiki themes **`github-dark-default`** (dark) and **`github-light-default`** (light).
+Syntax and UI colors follow [gantoreno/vscode-vercel](https://github.com/gantoreno/vscode-vercel) (Vercel’s editor theme), not GitHub’s `github-dark-default`.
 
-**For agents:** Use the token tables below as the single source of truth when adding or updating themes. Do not invent new accent colors unless the user asks — keep pure black / white backgrounds and map syntax roles to the named tokens.
+**For agents:** Use the token tables below as the single source of truth when adding or updating themes. Terminal/chrome backgrounds stay **pure black** (dark) / **white** (light editor); editor surface in VS Code uses `#0a0a0a` / `#fafafa` chrome per upstream.
 
 ---
 
@@ -25,10 +25,10 @@ brew install --cask font-geist   # optional, UI only
 
 ## Design principles
 
-1. **Backgrounds:** Dark mode uses **pure black** `#000000`, not GitHub’s `#0d1117`. Light mode uses **pure white** `#ffffff`.
-2. **Syntax:** Match Vercel docs code blocks — pink keywords, purple functions, blue variables/properties, green strings & HTML tags, blue React components (PascalCase).
-3. **Surfaces:** Use `surface` / `border` only for subtle UI chrome (line highlight, gutters, markdown blocks). Floating UI in Neovim should match `bg` (transparent or pure black).
-4. **Source theme:** When in doubt, check Shiki `github-dark-default` / `github-light-default` token colors.
+1. **Terminal background:** Dark Kitty uses **pure black** `#000000`; light uses **white** `#ffffff`.
+2. **Syntax:** Pink keywords, purple functions, blue constants/types/properties/components, green strings & HTML tags, default variables in **foreground** (not orange).
+3. **Surfaces:** `surface` `#0a0a0a` (dark editor) / `#fafafa` (light chrome); borders `#242424` / `#333333` (dark), `#ebebeb` / `#cccccc` (light).
+4. **Source theme:** When in doubt, diff against `themes/vercel-dark.json` in [gantoreno/vscode-vercel](https://github.com/gantoreno/vscode-vercel).
 
 ---
 
@@ -36,55 +36,45 @@ brew install --cask font-geist   # optional, UI only
 
 | Token | Hex | Use |
 |-------|-----|-----|
-| `bg` | `#000000` | Editor, terminal, browser chrome, panels |
-| `fg` | `#e6edf3` | Default text, punctuation |
-| `muted` | `#8b949e` | Comments, hints, inactive UI text |
-| `dim` | `#6e7681` | Secondary UI |
-| `subtle` | `#484f58` | Line numbers, dim chrome |
-| `border` | `#30363d` | Borders, selection (solid), widgets |
-| `surface` | `#0d1117` | Line highlight alt, code blocks (non-float) |
-| `surface_alt` | `#161b22` | Incognito / secondary surfaces |
-| `cursorline` | `#111111` | Active line, tab lift (Chrome) |
+| `bg` | `#000000` | Terminal, browser chrome, panels |
+| `fg` | `#ededed` | Default text, variables, punctuation |
+| `muted` | `#a1a1a1` | Comments, hints, inactive UI text |
+| `dim` | `#878787` | Inactive line numbers, secondary UI |
+| `subtle` | `#676767` | Dim chrome |
+| `border` | `#333333` | Borders, widgets |
+| `surface` | `#0a0a0a` | Editor background (VS Code), code blocks |
+| `surface_alt` | `#242424` | Tab borders, secondary surfaces |
+| `cursorline` | `#1a1a1a` | Active line (~`#ffffff1a` on `#0a0a0a`) |
 | `selection` | `#333333` | Selection background |
-| `cursor` | `#ffffff` | Caret |
-| `on_accent` | `#000000` | Text on colored badges (diagnostics) |
+| `cursor` | `#ededed` | Caret |
+| `on_accent` | `#000000` | Text on colored badges |
 
 ### Syntax (dark)
 
 | Token | Hex | TextMate / Tree-sitter role |
 |-------|-----|----------------------------|
-| `pink` | `#ff7b72` | Keywords, `export`, `const`, `await`, `return` |
-| `purple` | `#d2a8ff` | Functions, methods, JSX attributes (`key`, `fallback`) |
-| `blue` | `#79c0ff` | Variables (members), properties, constants, React components, links |
-| `green` | `#7ee787` | Strings, HTML tags (`div`, `ul`), diff add |
-| `string_alt` | `#a5d6ff` | Regex, escapes, markdown links |
-| `orange` | `#ffa657` | Types, general `variable` bindings, diff change |
-| `red` | `#ffa198` | Errors, diff delete, invalid |
+| `pink` | `#f05b8d` | Keywords, storage, operators (word) |
+| `purple` | `#b675f1` | Functions, methods, JSX attributes |
+| `blue` | `#62a6ff` | Constants, types, properties, React components, links, regex |
+| `green` | `#58c760` | Strings, HTML tags |
+| `string_alt` | `#62a6ff` | Regex, escapes (same as blue in upstream) |
+| `orange` | `#f99902` | Warnings, diff change, markdown list markers |
+| `red` | `#f56464` | Errors, terminal red |
 
 ### ANSI → token (Kitty dark)
 
 | ANSI | Hex | Maps to |
 |------|-----|---------|
 | 0 | `#000000` | `bg` |
-| 1 | `#ff7b72` | `pink` |
-| 2 | `#7ee787` | `green` |
-| 3 | `#ffa657` | `orange` |
-| 4 | `#79c0ff` | `blue` |
-| 5 | `#d2a8ff` | `purple` |
-| 6 | `#a5d6ff` | `string_alt` |
-| 7 | `#e6edf3` | `fg` |
-| 8 | `#8b949e` | `muted` |
-| 15 | `#ffffff` | bright white |
-
-### Chrome dark (RGB)
-
-| UI | RGB | Hex |
-|----|-----|-----|
-| Frame / inactive tabs bg | `0, 0, 0` | `#000000` |
-| Toolbar / active tab bg | `17, 17, 17` | `#111111` |
-| Active tab text | `255, 255, 255` | `#ffffff` |
-| Inactive tab text | `139, 148, 158` | `#8b949e` |
-| Tab indicator | `121, 192, 255` | `#79c0ff` |
+| 1 | `#f56464` | `red` |
+| 2 | `#58c760` | `green` |
+| 3 | `#f99902` | `orange` |
+| 4 | `#62a6ff` | `blue` |
+| 5 | `#b675f1` | `purple` |
+| 6 | `#14cbb7` | cyan |
+| 7 | `#ededed` | `fg` |
+| 8 | `#676767` | `subtle` |
+| 15 | `#ededed` | bright white |
 
 ---
 
@@ -92,71 +82,59 @@ brew install --cask font-geist   # optional, UI only
 
 | Token | Hex | Use |
 |-------|-----|-----|
-| `bg` | `#ffffff` | Editor, terminal, browser chrome |
-| `fg` | `#1f2328` | Default text, punctuation |
-| `muted` | `#6e7781` | Comments, hints |
-| `dim` | `#57606a` | Secondary UI |
-| `subtle` | `#8c959f` | Line numbers |
-| `border` | `#d0d7de` | Borders, selection |
-| `surface` | `#f6f8fa` | Line highlight, inactive tabs |
-| `surface_alt` | `#eaeef2` | Secondary surfaces |
-| `cursorline` | `#f6f8fa` | Active line |
-| `selection` | `#dddddd` | Selection |
-| `cursor` | `#1f2328` | Caret |
-| `on_accent` | `#ffffff` | Text on colored badges |
+| `bg` | `#ffffff` | Editor, terminal |
+| `fg` | `#171717` | Default text, variables |
+| `muted` | `#666666` | Comments, hints |
+| `dim` | `#a8a8a8` | Line numbers |
+| `subtle` | `#bbbbbb` | Ignored git, dim chrome |
+| `border` | `#cccccc` | Borders |
+| `surface` | `#fafafa` | Chrome, inactive tabs |
+| `surface_alt` | `#ebebeb` | Section borders |
+| `cursorline` | `#f5f5f5` | Active line (~`#0000001a` on white) |
+| `selection` | `#cccccc` | Selection |
+| `cursor` | `#171717` | Caret |
+| `on_accent` | `#fafafa` | Text on colored badges |
 
 ### Syntax (light)
 
 | Token | Hex | Role |
 |-------|-----|------|
-| `pink` | `#cf222e` | Keywords |
-| `purple` | `#8250df` | Functions, JSX attributes |
-| `blue` | `#0550ae` | Constants, properties, React components |
-| `green` | `#116329` | HTML tags, diff add |
-| `string` | `#0a3069` | Strings |
-| `string_alt` | `#0550ae` | Links, regex |
-| `orange` | `#953800` | Types, variables |
-| `red` | `#82071e` | Errors |
+| `pink` | `#b32c62` | Keywords |
+| `purple` | `#7200c4` | Functions, JSX attributes |
+| `blue` | `#005ee9` | Constants, types, properties, components |
+| `green` | `#397c3b` | Strings, HTML tags |
+| `string_alt` | `#005ee9` | Links, regex |
+| `orange` | `#9e5200` | Warnings, diff change |
+| `red` | `#c62128` | Errors |
 
 ### ANSI → token (Kitty light)
 
 | ANSI | Hex | Maps to |
 |------|-----|---------|
-| 0 | `#ffffff` | `bg` |
-| 1 | `#cf222e` | `pink` |
-| 2 | `#116329` | `green` |
-| 3 | `#953800` | `orange` |
-| 4 | `#0550ae` | `blue` |
-| 5 | `#8250df` | `purple` |
-| 6 | `#0a3069` | `string` |
-| 7 | `#1f2328` | `fg` |
-| 8 | `#6e7781` | `muted` |
-
-### Chrome light (RGB)
-
-| UI | RGB | Hex |
-|----|-----|-----|
-| Frame / editor | `255, 255, 255` | `#ffffff` |
-| Inactive tabs bg | `246, 248, 250` | `#f6f8fa` |
-| Active tab text | `31, 35, 40` | `#1f2328` |
-| Inactive tab text | `110, 119, 129` | `#6e7781` |
-| Tab indicator | `9, 105, 218` | `#0969da` |
+| 0 | `#171717` | dark fg / bright black context |
+| 1 | `#c62128` | `red` |
+| 2 | `#397c3b` | `green` |
+| 3 | `#9e5200` | `orange` |
+| 4 | `#005ee9` | `blue` |
+| 5 | `#7200c4` | `purple` |
+| 6 | `#027d70` | cyan |
+| 7 | `#171717` | `fg` |
+| 8 | `#666666` | `muted` |
+| 15 | `#fafafa` | bright white |
 
 ---
 
 ## Syntax mapping (all editors)
-
-Use this table when adding highlight rules to a new tool:
 
 | Role | Dark | Light |
 |------|------|-------|
 | Comment | `muted` | `muted` |
 | Keyword / storage | `pink` | `pink` |
 | Function / method | `purple` | `purple` |
-| String | `green` (dark) / `string` (light) | `#7ee787` / `#0a3069` |
+| String | `green` | `green` |
 | Number / boolean / constant | `blue` | `blue` |
-| Type / class | `orange` | `orange` |
-| Variable (general) | `orange` | `orange` |
+| Type / class / interface | `blue` | `blue` |
+| Variable (general) | `fg` | `fg` |
 | Variable / parameter (plain) | `fg` | `fg` |
 | Property / member | `blue` | `blue` |
 | HTML tag (lowercase) | `green` | `green` |
@@ -174,35 +152,21 @@ Use this table when adding highlight rules to a new tool:
 | Program | Dark | Light | Notes |
 |---------|------|-------|-------|
 | **Kitty** | `configs/kitty/themes/vercel.conf` | `vercel-light.conf` | `include` in `kitty.conf` |
-| **Ghostty** | Geist Mono + theme via `set-theme` | same | `configs/ghostty/config` |
 | **Neovim** | `configs/nvim/colors/vercel.lua` | auto (`vim.o.background`) | `:colorscheme vercel` |
-| **Sublime** | `configs/sublime/vercel.sublime-color-scheme` | `vercel-light.sublime-color-scheme` | `dark_color_scheme` / `light_color_scheme` in Preferences |
 | **VS Code / Cursor** | `configs/code/vercel-theme/themes/vercel-dark.json` | `vercel-light.json` | Extension: `dotfiles.vercel-theme-1.0.0` |
-| **Chrome** | `configs/chrome/vercel-theme/` | `vercel-theme-light/` | Load unpacked in `chrome://extensions` |
+| **Sublime** | `configs/sublime/vercel.sublime-color-scheme` | `vercel-light.sublime-color-scheme` | *(still GitHub palette — update separately if needed)* |
 
 ### Switching themes
 
 ```bash
-# Kitty + Neovim (from repo root)
 ./set-theme vercel          # dark
-./set-theme vercel-light    # light (Neovim still uses `vercel` + background)
+./set-theme vercel-light    # light
 ```
 
 Environment overrides:
 
-- `NVIM_THEME=vercel` — Neovim colorscheme name (always `vercel`; palette follows `'background'`)
-- `NVIM_TRANSPARENCY=true` — Neovim `Normal` bg `NONE` (terminal black shows through)
-
----
-
-## Adding a new program (agent checklist)
-
-1. Read **Syntax mapping** and pick hex from **Dark** or **Light** tables — do not duplicate hex values with typos.
-2. Keep editor/terminal **background** = `bg` (`#000000` / `#ffffff`).
-3. Map UI chrome to `border`, `surface`, `muted` — not random grays.
-4. Put new theme files under `configs/<app>/` and add a row to **Implementations** above.
-5. If the tool supports semantic tokens, mirror the **Syntax (dark)** table in `semanticTokenColors` (see VS Code theme).
-6. Prefer **Geist Mono** for monospace UI.
+- `NVIM_THEME=vercel` — Neovim colorscheme name (palette follows `'background'`)
+- `NVIM_TRANSPARENCY=true` — Neovim `Normal` bg `NONE`
 
 ---
 
@@ -210,4 +174,5 @@ Environment overrides:
 
 | Date | Notes |
 |------|-------|
-| 2026-06-03 | Initial palette doc; themes for Kitty, Neovim, Chrome, Sublime, VS Code |
+| 2026-06-03 | Align Kitty, Neovim, VS Code with gantoreno/vscode-vercel palette |
+| 2026-06-03 | Initial palette doc (GitHub-based); superseded by row above |

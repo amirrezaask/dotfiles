@@ -1,9 +1,9 @@
 {
   "breadcrumbs.enabled": false,
   "editor.fontSize": 14,
-  "editor.fontFamily": "Geist Mono, monospace",
+  "editor.fontFamily": "Geist Mono",
   "editor.fontLigatures": false,
-  "workbench.colorTheme": "Vercel Dark",
+  "workbench.colorTheme": "Vercel (Dark)",
   "workbench.preferredDarkColorTheme": "Vercel Dark",
   "workbench.preferredLightColorTheme": "Vercel Light",
   "editor.cursorBlinking": "smooth",
