@@ -12,6 +12,7 @@ themes/
     kitty/          # vercel.conf, vercel-light.conf
     nvim/           # vercel.lua, vercel-light.lua
     vscode/         # VS Code / Cursor extension (package.json, themes/*.json, .vsix)
+    jetbrains/      # IntelliJ Platform plugin (.zip)
     chrome/         # unpacked extensions + .crx / .pem
 ```
 
