@@ -7,6 +7,7 @@
   "colors": {
     "bg": "#000000",
     "fg": "#ededed",
+    "uiText": "#c9c9c9",
     "muted": "#a1a1a1",
     "dim": "#878787",
     "subtle": "#676767",
@@ -40,7 +41,7 @@
 
     "*": {
       "background": "surface",
-      "foreground": "muted",
+      "foreground": "uiText",
       "selectionBackground": "treeSelection",
       "selectionForeground": "fg",
       "selectionInactiveBackground": "treeSelection",
@@ -61,7 +62,7 @@
     "MainWindow.Tab.selectedBackground": "tabActive",
     "MainWindow.Tab.selectedInactiveBackground": "tabActive",
     "MainWindow.Tab.selectedForeground": "fg",
-    "MainWindow.Tab.foreground": "muted",
+    "MainWindow.Tab.foreground": "uiText",
     "MainWindow.Tab.hoverBackground": "elevated",
     "MainWindow.Tab.borderColor": "transparent",
     "MainWindow.Tab.separatorColor": "surfaceAlt",
@@ -79,17 +80,21 @@
 
     "TitlePane.background": "bg",
     "TitlePane.inactiveBackground": "bg",
-    "TitlePane.foreground": "muted",
+    "TitlePane.foreground": "uiText",
     "TitlePane.Button.hoverBackground": "elevated",
 
     "NavBar.background": "bg",
+    "NavBar.foreground": "uiText",
     "NavBar.borderColor": "transparent",
 
     "Panel.background": "bg",
 
+    "Label.foreground": "uiText",
+
     "Tree.background": "bg",
-    "Tree.foreground": "muted",
+    "Tree.foreground": "fg",
     "Tree.textForeground": "fg",
+    "Tree.modifySelectionForeground": "dim",
     "Tree.selectionBackground": "treeSelection",
     "Tree.selectionInactiveBackground": "elevated",
     "Tree.selectionForeground": "fg",
@@ -99,14 +104,14 @@
     "Tree.rowHeight": 24,
 
     "List.background": "bg",
-    "List.foreground": "muted",
+    "List.foreground": "fg",
     "List.selectionBackground": "treeSelection",
     "List.selectionForeground": "fg",
     "List.lightSelectionBackground": "treeSelection",
     "List.hoverBackground": "elevated",
 
     "Table.background": "surface",
-    "Table.foreground": "muted",
+    "Table.foreground": "uiText",
     "Table.selectionBackground": "selection",
     "Table.selectionForeground": "fg",
     "Table.gridColor": "border",
@@ -121,7 +126,7 @@
     "EditorTabs.underlinedBorderColor": "accent",
     "EditorTabs.inactiveUnderlinedTabBorderColor": "border",
     "EditorTabs.selectedBackground": "tabActive",
-    "EditorTabs.selectedForeground": "muted",
+    "EditorTabs.selectedForeground": "uiText",
     "EditorTabs.hoverBackground": "elevated",
     "EditorTabs.hoverInactiveBackground": "bg",
     "EditorTabs.borderColor": "transparent",
@@ -139,7 +144,7 @@
     "TabbedPane.background": "bg",
     "TabbedPane.contentAreaColor": "surface",
     "TabbedPane.selectedBackground": "tabActive",
-    "TabbedPane.selectedForeground": "muted",
+    "TabbedPane.selectedForeground": "uiText",
     "TabbedPane.hoverColor": "elevated",
     "TabbedPane.underlineColor": "accent",
     "TabbedPane.focusColor": "accent",
@@ -163,7 +168,7 @@
     "ToolWindow.Button.hoverBackground": "elevated",
     "ToolWindow.Button.selectedBackground": "elevated",
     "ToolWindow.underlinedTabForeground": "fg",
-    "ToolWindow.underlinedTabInactiveForeground": "dim",
+    "ToolWindow.underlinedTabInactiveForeground": "uiText",
 
     "TextField.background": "inputBg",
     "TextField.foreground": "fg",
@@ -179,7 +184,7 @@
 
     "ComboBox.background": "inputBg",
     "ComboBox.nonEditableBackground": "inputBg",
-    "ComboBox.foreground": "muted",
+    "ComboBox.foreground": "uiText",
     "ComboBox.selectionBackground": "selection",
     "ComboBox.ArrowButton.background": "inputBg",
 
@@ -202,28 +207,28 @@
     "Popup.Header.inactiveBackground": "bg",
 
     "PopupMenu.background": "bg",
-    "PopupMenu.foreground": "muted",
+    "PopupMenu.foreground": "uiText",
     "PopupMenu.selectionBackground": "treeSelection",
     "PopupMenu.selectionForeground": "fg",
 
     "Menu.background": "bg",
-    "Menu.foreground": "muted",
+    "Menu.foreground": "uiText",
     "Menu.selectionBackground": "treeSelection",
     "Menu.selectionForeground": "fg",
     "Menu.borderColor": "border",
 
     "MenuItem.background": "bg",
-    "MenuItem.foreground": "muted",
+    "MenuItem.foreground": "uiText",
     "MenuItem.selectionBackground": "treeSelection",
     "MenuItem.selectionForeground": "fg",
 
     "MenuBar.background": "bg",
-    "MenuBar.foreground": "muted",
+    "MenuBar.foreground": "uiText",
     "MenuBar.selectionBackground": "treeSelection",
     "MenuBar.selectionForeground": "fg",
 
     "StatusBar.background": "bg",
-    "StatusBar.foreground": "muted",
+    "StatusBar.foreground": "uiText",
     "StatusBar.borderColor": "transparent",
     "StatusBar.hoverBackground": "elevated",
 
@@ -274,17 +279,17 @@
     "Focus.borderColor": "accent",
 
     "CheckBox.background": "bg",
-    "CheckBox.foreground": "muted",
+    "CheckBox.foreground": "uiText",
 
     "RadioButton.background": "bg",
-    "RadioButton.foreground": "muted",
+    "RadioButton.foreground": "uiText",
 
     "ToolTip.background": "surface",
-    "ToolTip.foreground": "muted",
+    "ToolTip.foreground": "uiText",
     "ToolTip.borderColor": "border",
 
     "HelpTooltip.background": "surface",
-    "HelpTooltip.foreground": "muted",
+    "HelpTooltip.foreground": "uiText",
 
     "ValidationTooltip.errorBackground": "surface",
     "ValidationTooltip.errorBorderColor": "pink",

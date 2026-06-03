@@ -7,15 +7,6 @@
     <property name="modified">2026-06-03</property>
     <property name="originalScheme">Vercel</property>
   </metaInfo>
-  <option name="LINE_SPACING" value="1.2" />
-  <font>
-    <option name="EDITOR_FONT_NAME" value="Geist Mono" />
-    <option name="EDITOR_FONT_SIZE" value="13" />
-  </font>
-  <console-font>
-    <option name="EDITOR_FONT_NAME" value="Geist Mono" />
-    <option name="EDITOR_FONT_SIZE" value="13" />
-  </console-font>
   <colors>
     <option name="ADDED_LINES_COLOR" value="58c760" />
     <option name="ANNOTATIONS_COLOR" value="ededed" />
