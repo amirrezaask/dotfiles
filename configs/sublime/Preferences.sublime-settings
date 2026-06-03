@@ -2,7 +2,7 @@
 // and are overridden in turn by syntax-specific settings.
 {
 	"font_face": "Geist Mono",
-	"font_size": 23,
+	"font_size": 17,
 	"theme": "Adaptive.sublime-theme",
 	"ignored_packages":
 	[
