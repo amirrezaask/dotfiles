@@ -1,0 +1,72 @@
+{
+  "manifest_version": 3,
+  "name": "Vercel Dark",
+  "description": "Pure black Vercel / GitHub Dark theme for Chrome",
+  "version": "1.0.3",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "theme": {
+    "colors": {
+      "frame": [0, 0, 0],
+      "frame_inactive": [0, 0, 0],
+      "frame_incognito": [13, 17, 23],
+      "frame_incognito_inactive": [13, 17, 23],
+
+      "toolbar": [17, 17, 17],
+      "toolbar_button_icon": [139, 148, 158],
+      "toolbar_button_icon_hover": [230, 237, 243],
+
+      "tab_text": [255, 255, 255],
+      "tab_background_text": [139, 148, 158],
+      "tab_background_text_inactive": [110, 118, 129],
+      "tab_background_text_incognito": [139, 148, 158],
+      "tab_line": [121, 192, 255],
+
+      "background_tab": [0, 0, 0],
+      "background_tab_inactive": [0, 0, 0],
+      "background_tab_incognito": [17, 17, 17],
+
+      "bookmark_text": [230, 237, 243],
+
+      "ntp_background": [0, 0, 0],
+      "ntp_text": [230, 237, 243],
+      "ntp_link": [121, 192, 255],
+      "ntp_header": [0, 0, 0],
+
+      "toolbar_field": [17, 17, 17],
+      "toolbar_field_text": [230, 237, 243],
+      "toolbar_field_border": [48, 54, 61],
+      "toolbar_field_focus_background": [17, 17, 17],
+      "toolbar_field_text_focus": [255, 255, 255],
+      "toolbar_field_border_focus": [51, 51, 51],
+      "toolbar_field_highlight": [51, 51, 51],
+      "toolbar_field_highlight_text": [255, 255, 255],
+
+      "omnibox_background": [17, 17, 17],
+      "omnibox_text": [230, 237, 243],
+      "omnibox_selection_text": [255, 255, 255],
+      "omnibox_selection_outline": [51, 51, 51],
+      "omnibox_results_background": [13, 17, 23],
+      "omnibox_results_text": [230, 237, 243],
+      "omnibox_results_url": [121, 192, 255],
+      "omnibox_results_button_border": [48, 54, 61],
+      "omnibox_results_button_border_hover": [121, 192, 255],
+      "omnibox_results_button_border_active": [210, 168, 255],
+
+      "button_background": [17, 17, 17],
+
+      "popup_background": [0, 0, 0],
+      "popup_text": [230, 237, 243],
+      "popup_button": [17, 17, 17],
+      "popup_button_text": [230, 237, 243],
+      "popup_button_hover": [48, 54, 61],
+
+      "sidebar_background": [0, 0, 0],
+      "sidebar_text": [230, 237, 243],
+      "sidebar_border": [48, 54, 61]
+    }
+  }
+}

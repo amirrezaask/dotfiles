@@ -1,0 +1,72 @@
+{
+  "manifest_version": 3,
+  "name": "Vercel Light",
+  "description": "Vercel / GitHub Light theme for Chrome",
+  "version": "1.0.0",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "theme": {
+    "colors": {
+      "frame": [255, 255, 255],
+      "frame_inactive": [255, 255, 255],
+      "frame_incognito": [246, 248, 250],
+      "frame_incognito_inactive": [246, 248, 250],
+
+      "toolbar": [255, 255, 255],
+      "toolbar_button_icon": [110, 119, 129],
+      "toolbar_button_icon_hover": [31, 35, 40],
+
+      "tab_text": [31, 35, 40],
+      "tab_background_text": [110, 119, 129],
+      "tab_background_text_inactive": [87, 96, 106],
+      "tab_background_text_incognito": [110, 119, 129],
+      "tab_line": [9, 105, 218],
+
+      "background_tab": [246, 248, 250],
+      "background_tab_inactive": [246, 248, 250],
+      "background_tab_incognito": [234, 238, 242],
+
+      "bookmark_text": [31, 35, 40],
+
+      "ntp_background": [255, 255, 255],
+      "ntp_text": [31, 35, 40],
+      "ntp_link": [5, 80, 174],
+      "ntp_header": [255, 255, 255],
+
+      "toolbar_field": [246, 248, 250],
+      "toolbar_field_text": [31, 35, 40],
+      "toolbar_field_border": [208, 215, 222],
+      "toolbar_field_focus_background": [255, 255, 255],
+      "toolbar_field_text_focus": [31, 35, 40],
+      "toolbar_field_border_focus": [9, 105, 218],
+      "toolbar_field_highlight": [221, 221, 221],
+      "toolbar_field_highlight_text": [31, 35, 40],
+
+      "omnibox_background": [246, 248, 250],
+      "omnibox_text": [31, 35, 40],
+      "omnibox_selection_text": [31, 35, 40],
+      "omnibox_selection_outline": [9, 105, 218],
+      "omnibox_results_background": [255, 255, 255],
+      "omnibox_results_text": [31, 35, 40],
+      "omnibox_results_url": [5, 80, 174],
+      "omnibox_results_button_border": [208, 215, 222],
+      "omnibox_results_button_border_hover": [9, 105, 218],
+      "omnibox_results_button_border_active": [130, 80, 223],
+
+      "button_background": [246, 248, 250],
+
+      "popup_background": [255, 255, 255],
+      "popup_text": [31, 35, 40],
+      "popup_button": [246, 248, 250],
+      "popup_button_text": [31, 35, 40],
+      "popup_button_hover": [234, 238, 242],
+
+      "sidebar_background": [255, 255, 255],
+      "sidebar_text": [31, 35, 40],
+      "sidebar_border": [208, 215, 222]
+    }
+  }
+}

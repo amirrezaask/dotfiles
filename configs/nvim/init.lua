@@ -2,7 +2,6 @@ local start_time = vim.uv.hrtime()
 vim.g.transparency = os.getenv("NVIM_TRANSPARENCY") or true
 
 --{{{
-vim.opt.guicursor = ""
 vim.opt.nu = true
 vim.opt.relativenumber = true
 vim.opt.tabstop = 4
@@ -153,7 +152,7 @@ require("rose-pine").setup {
   styles = { bold = false, italic = false, transparency = vim.g.transparency },
 }
 
-vim.cmd.colorscheme(os.getenv("NVIM_THEME") or "rose-pine-moon")
+vim.cmd.colorscheme(os.getenv("NVIM_THEME") or "vercel")
 -- }}}
 
 -- [editor] {{{

@@ -2,7 +2,7 @@
 // and are overridden in turn by syntax-specific settings.
 {
 	"font_face": "Fira Code",
-	"font_size": 17,
+	"font_size": 19,
 	"theme": "Adaptive.sublime-theme",
 	"ignored_packages":
 	[

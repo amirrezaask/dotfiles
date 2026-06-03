@@ -30,6 +30,8 @@ Themes=(
   "OneDark-Pro:onedark:One Dark Two"
   "Cyberdream:cyberdream:cyberdream"
   "Vague:vague:Vague"
+  "vercel:vercel:"
+  "vercel-light:vercel:"
 )
 
 KITTY_THEME="${1:-}"
