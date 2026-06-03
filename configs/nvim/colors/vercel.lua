@@ -75,11 +75,12 @@ end
 local function apply()
   local c = palette()
   local bg = transparent and "NONE" or c.bg
+  local float_bg = bg
   local cursor_fg = transparent and c.bg or c.bg
 
   local highlights = {
     Normal = { fg = c.fg, bg = bg },
-    NormalFloat = { fg = c.fg, bg = c.surface },
+    NormalFloat = { fg = c.fg, bg = float_bg },
     NormalNC = { fg = c.muted, bg = bg },
     Cursor = { bg = c.cursor, fg = cursor_fg },
     CursorLine = { bg = c.cursorline },
@@ -230,11 +231,11 @@ local function apply()
     RenderMarkdownCode = { bg = c.codeblock },
     RenderMarkdownCodeInline = { fg = c.blue, bg = c.surface },
 
-    FloatBorder = { fg = c.border, bg = c.surface },
-    FloatTitle = { fg = c.purple, bg = c.surface, bold = true },
-    Pmenu = { fg = c.fg, bg = c.surface },
+    FloatBorder = { fg = c.border, bg = float_bg },
+    FloatTitle = { fg = c.purple, bg = float_bg, bold = true },
+    Pmenu = { fg = c.fg, bg = float_bg },
     PmenuSel = { fg = c.heading_fg, bg = c.purple },
-    PmenuSbar = { bg = c.surface },
+    PmenuSbar = { bg = float_bg },
     PmenuThumb = { bg = c.subtle },
     MatchParen = { fg = c.pink, bold = true },
     Search = { fg = c.heading_fg, bg = c.orange },
@@ -246,9 +247,9 @@ local function apply()
     WinBar = { fg = c.muted, bg = "NONE" },
     WinBarNC = { fg = c.dim, bg = "NONE" },
 
-    TelescopeNormal = { fg = c.fg, bg = bg == "NONE" and c.surface or bg },
+    TelescopeNormal = { fg = c.fg, bg = float_bg },
     TelescopeSelection = { fg = c.heading_fg, bg = c.purple },
-    TelescopeMultiSelection = { fg = c.blue, bg = bg == "NONE" and c.surface or bg },
+    TelescopeMultiSelection = { fg = c.blue, bg = float_bg },
 
     GitSignsAdd = { fg = c.green },
     GitSignsChange = { fg = c.orange },
@@ -265,22 +266,28 @@ local function apply()
     SpellLocal = { sp = c.blue, undercurl = true },
     SpellRare = { sp = c.purple, undercurl = true },
 
-    BlinkCmpMenu = { fg = c.fg, bg = c.surface },
-    BlinkCmpMenuBorder = { fg = c.border, bg = c.surface },
+    BlinkCmpMenu = { fg = c.fg, bg = float_bg },
+    BlinkCmpMenuBorder = { fg = c.border, bg = float_bg },
     BlinkCmpMenuSelection = { fg = c.heading_fg, bg = c.purple },
-    BlinkCmpDoc = { fg = c.fg, bg = c.surface },
-    BlinkCmpDocBorder = { fg = c.border, bg = c.surface },
+    BlinkCmpDoc = { fg = c.fg, bg = float_bg },
+    BlinkCmpDocBorder = { fg = c.border, bg = float_bg },
     BlinkCmpGhostText = { fg = c.muted, italic = true },
 
-    SnacksPickerNormal = { fg = c.fg, bg = bg == "NONE" and c.surface or bg },
-    SnacksPickerBorder = { fg = c.border, bg = bg == "NONE" and c.surface or bg },
-    SnacksPickerTitle = { fg = c.purple, bg = bg == "NONE" and c.surface or bg, bold = true },
+    SnacksNormal = { fg = c.fg, bg = float_bg },
+    SnacksWin = { fg = c.fg, bg = float_bg },
+    SnacksInputNormal = { fg = c.fg, bg = float_bg },
+    SnacksInputBorder = { fg = c.border, bg = float_bg },
+    SnacksInputTitle = { fg = c.purple, bg = float_bg, bold = true },
+    SnacksPickerNormal = { fg = c.fg, bg = float_bg },
+    SnacksPickerBorder = { fg = c.border, bg = float_bg },
+    SnacksPickerTitle = { fg = c.purple, bg = float_bg, bold = true },
+    SnacksPickerList = { fg = c.fg, bg = float_bg },
     SnacksPickerSelected = { fg = c.heading_fg, bg = c.purple },
     SnacksPickerDir = { fg = c.blue },
     SnacksPickerMatch = { fg = c.pink, bold = true },
 
-    OilFloat = { fg = c.fg, bg = c.surface },
-    OilBorder = { fg = c.border, bg = c.surface },
+    OilFloat = { fg = c.fg, bg = float_bg },
+    OilBorder = { fg = c.border, bg = float_bg },
 
     TreesitterContext = { fg = c.muted, bg = c.surface },
     TreesitterContextBottom = { fg = c.border, bg = c.surface },
