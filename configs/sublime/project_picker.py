@@ -239,17 +239,17 @@ class ProjectCacheInvalidateCommand(sublime_plugin.ApplicationCommand):
         sublime.status_message("Project cache invalidated")
 
 
-class ProjectPickerCommand(sublime_plugin.ApplicationCommand):
-    """Command to show project picker and open/focus projects."""
+class ProjectPickerNewWindowCommand(sublime_plugin.WindowCommand):
+    """Command to show project picker and open project in new window."""
 
     def run(self, force_refresh=False):
         self.projects = _project_cache.get_projects(force_refresh=force_refresh)
         self.project_names = ["scratch"] + [p[0] for p in self.projects]
         
-        sublime.active_window().show_quick_panel(
+        self.window.show_quick_panel(
             self.project_names,
             self._on_project_selected,
-            placeholder="Select project..."
+            placeholder="Open project in new window..."
         )
 
     def _on_project_selected(self, index):
@@ -334,10 +334,10 @@ class ProjectPickerScratchCommand(sublime_plugin.ApplicationCommand):
 
 
 class ProjectPickerCurrentWindowCommand(sublime_plugin.WindowCommand):
-    """Command to open project in current window instead of new window."""
+    """Command to show project picker and open project in current window."""
     
-    def run(self):
-        self.projects = _project_cache.get_projects()
+    def run(self, force_refresh=False):
+        self.projects = _project_cache.get_projects(force_refresh=force_refresh)
         self.project_names = ["scratch"] + [p[0] for p in self.projects]
         
         self.window.show_quick_panel(
@@ -352,17 +352,44 @@ class ProjectPickerCurrentWindowCommand(sublime_plugin.WindowCommand):
             return
         
         if index == 0:
+            project_name = "scratch"
             project_path = os.path.expanduser("~/scratch")
             if not os.path.exists(project_path):
                 os.makedirs(project_path)
         else:
+            project_name = self.project_names[index]
             project_path = self.projects[index - 1][1]
         
-        self.window.set_project_data({
-            "folders": [{"path": project_path}]
-        })
+        existing_window = self._find_existing_window(project_name, project_path)
         
-        os.chdir(project_path)
+        if existing_window:
+            existing_window.bring_to_front()
+        else:
+            self.window.set_project_data({
+                "folders": [{
+                    "path": project_path,
+                    "name": project_name
+                }],
+                "settings": {
+                    "default_line_ending": "unix",
+                    "ensure_newline_at_eof_on_save": True
+                }
+            })
+            
+            os.chdir(project_path)
+    
+    def _find_existing_window(self, project_name, project_path):
+        """Find if a window with this project is already open."""
+        for window in sublime.windows():
+            if window.project_file_name():
+                if project_name.lower() in window.project_file_name().lower():
+                    return window
+            
+            for folder in window.folders():
+                if folder == project_path or os.path.basename(folder) == project_name:
+                    return window
+        
+        return None
 
 
 class ProjectPickerBackgroundScanner(sublime_plugin.EventListener):

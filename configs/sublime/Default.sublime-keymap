@@ -4,7 +4,8 @@
     { "keys": ["primary+2"], "command": "toggle_terminus_panel" },
     { "keys": ["primary+shift+."], "command": "lsp_expand_selection" },
     // Project Picker - Open in new window
-    {"keys": ["primary+o"], "command": "project_picker" },
+    {"keys": ["primary+o"], "command": "project_picker_current_window" },
+    {"keys": ["primary+shift+o"], "command": "project_picker_new_window" },
     {"keys": ["primary+,"], "command": "jump_back" },
 
     // Goto Definition
