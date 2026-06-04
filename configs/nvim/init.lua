@@ -78,9 +78,9 @@ vim.keymap.set("t", "<C-k>", term_normal .. "<C-w>k", { desc = "Window up (from 
 vim.keymap.set("t", "<C-l>", term_normal .. "<C-w>l", { desc = "Window right (from terminal)" })
 -- }}}
 
-require("project").setup { projects_dir = "~/dev" }
-vim.keymap.set("n", "<leader>p", require("project").switch, { desc = "Switch projects" })
-vim.keymap.set({ "n", "t" }, "<C-j>", require("project").terminal_toggle, {})
+-- require("project").setup { projects_dir = "~/dev" }
+-- vim.keymap.set("n", "<leader>p", require("project").switch, { desc = "Switch projects" })
+-- vim.keymap.set({ "n", "t" }, "<C-j>", require("project").terminal_toggle, {})
 
 vim.keymap.set("n", "<C-q>", function()
   if vim.fn.getqflist({ winid = 0 }).winid ~= 0 then
