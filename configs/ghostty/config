@@ -1,4 +1,4 @@
-theme = vercel
+theme = Catppuccin Mocha
 font-family = Jetbrains Mono
 font-size = 14
 font-feature=-calt
