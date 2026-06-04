@@ -154,6 +154,7 @@ Canonical files live under **`themes/vercel/`** (see [themes/README.md](../theme
 | Program | Canonical path | Symlink (for apps) | Notes |
 |---------|----------------|-------------------|-------|
 | **Kitty** | `themes/vercel/kitty/vercel.conf` | `configs/kitty/themes/vercel.conf` | `vercel-light.conf`; `include` in `kitty.conf` |
+| **Ghostty** | `themes/vercel/ghostty/vercel` | `configs/ghostty/themes/vercel` | `vercel-light`; `theme = vercel` in `configs/ghostty/config` |
 | **Neovim** | `themes/vercel/nvim/vercel.lua` | `configs/nvim/colors/vercel.lua` | Light via `vim.o.background`; `:colorscheme vercel` |
 | **VS Code / Cursor** | `themes/vercel/vscode/themes/vercel-dark.json` | `configs/code/vercel-theme` | Extension package in `themes/vercel/vscode/` |
 | **JetBrains IDEs** | `themes/vercel/jetbrains/` | — | Plugin: `./gradlew buildPlugin` → install ZIP from `build/distributions/` |
@@ -178,6 +179,7 @@ Environment overrides:
 
 | Date | Notes |
 |------|-------|
+| 2026-06-04 | Add Ghostty themes (`vercel`, `vercel-light`) |
 | 2026-06-03 | Add JetBrains Platform plugin (dark + light) |
 | 2026-06-03 | Align Kitty, Neovim, VS Code with gantoreno/vscode-vercel palette |
 | 2026-06-03 | Initial palette doc (GitHub-based); superseded by row above |

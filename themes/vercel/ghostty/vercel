@@ -1,0 +1,27 @@
+# Vercel theme for Ghostty
+# gantoreno/vscode-vercel dark — terminal on pure black.
+# Palette: docs/vercel-theme.md — mirrors themes/vercel/kitty/vercel.conf
+
+palette = 0=#000000
+palette = 1=#f56464
+palette = 2=#58c760
+palette = 3=#f99902
+palette = 4=#62a6ff
+palette = 5=#b675f1
+palette = 6=#14cbb7
+palette = 7=#ededed
+palette = 8=#676767
+palette = 9=#f56464
+palette = 10=#58c760
+palette = 11=#f99902
+palette = 12=#62a6ff
+palette = 13=#b675f1
+palette = 14=#14cbb7
+palette = 15=#ededed
+
+background = #000000
+foreground = #ededed
+cursor-color = #ededed
+cursor-text = #000000
+selection-background = #333333
+selection-foreground = #ededed
