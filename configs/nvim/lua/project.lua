@@ -95,13 +95,9 @@ local last_jumplist_persist_ms = 0
 ---@param path string|nil
 ---@return string|nil
 local function normalize_dir(path)
-  if not path or path == "" then
-    return nil
-  end
+  if not path or path == "" then return nil end
   local normalized = vim.fn.fnamemodify(path, ":p")
-  if type(normalized) ~= "string" then
-    return nil
-  end
+  if type(normalized) ~= "string" then return nil end
   return (normalized:gsub("/+$", ""))
 end
 
@@ -109,12 +105,8 @@ end
 ---@return string|nil
 local function normalize_file(path)
   local dir = normalize_dir(path)
-  if not dir then
-    return nil
-  end
-  if vim.fn.isdirectory(dir) == 1 then
-    return nil
-  end
+  if not dir then return nil end
+  if vim.fn.isdirectory(dir) == 1 then return nil end
   return dir
 end
 
@@ -122,29 +114,21 @@ end
 ---@param root string|nil
 ---@return boolean
 local function file_in_root(file, root)
-  if not file or not root then
-    return false
-  end
+  if not file or not root then return false end
   return file == root or vim.startswith(file, root .. "/")
 end
 
 ---@return string
 local function store_path()
-  if config.store_path then
-    return config.store_path
-  end
+  if config.store_path then return config.store_path end
   return vim.fn.stdpath("data") .. "/" .. M.DEFAULT_STORE_NAME
 end
 
 ---@return string
-local function legacy_store_path()
-  return vim.fn.stdpath("data") .. "/" .. M.LEGACY_STORE_NAME
-end
+local function legacy_store_path() return vim.fn.stdpath("data") .. "/" .. M.LEGACY_STORE_NAME end
 
 ---@return string|nil
-local function get_projects_dir()
-  return normalize_dir(config.projects_dir) or normalize_dir(vim.fn.expand("~/dev"))
-end
+local function get_projects_dir() return normalize_dir(config.projects_dir) or normalize_dir(vim.fn.expand("~/dev")) end
 
 -- ---------------------------------------------------------------------------
 -- JSON persistence utilities
@@ -153,9 +137,7 @@ end
 ---@param text string
 ---@return string
 local function repair_json_twos_indent(text)
-  return text:gsub("\n(2+)", function(twos)
-    return "\n" .. ("  "):rep(#twos)
-  end)
+  return text:gsub("\n(2+)", function(twos) return "\n" .. ("  "):rep(#twos) end)
 end
 
 ---@param text string
@@ -163,14 +145,10 @@ end
 ---@return boolean repaired
 local function decode_json_text(text)
   local ok, decoded = pcall(vim.json.decode, text)
-  if ok and type(decoded) == "table" then
-    return decoded, false
-  end
+  if ok and type(decoded) == "table" then return decoded, false end
   local fixed = repair_json_twos_indent(text)
   ok, decoded = pcall(vim.json.decode, fixed)
-  if ok and type(decoded) == "table" then
-    return decoded, true
-  end
+  if ok and type(decoded) == "table" then return decoded, true end
   return nil, false
 end
 
@@ -178,13 +156,9 @@ end
 ---@return table|nil decoded
 ---@return boolean repaired
 local function decode_json_file(path)
-  if vim.fn.filereadable(path) ~= 1 then
-    return nil, false
-  end
+  if vim.fn.filereadable(path) ~= 1 then return nil, false end
   local lines = vim.fn.readfile(path)
-  if #lines == 0 then
-    return nil, false
-  end
+  if #lines == 0 then return nil, false end
   return decode_json_text(table.concat(lines, "\n"))
 end
 
@@ -195,19 +169,13 @@ end
 ---@param raw table
 ---@return project.JumplistState|nil
 function M.normalize_jumplist(raw)
-  if type(raw) ~= "table" then
-    return nil
-  end
+  if type(raw) ~= "table" then return nil end
 
   ---@type project.JumplistState
   local result = {}
 
-  if type(raw.jumps_blob) == "string" and raw.jumps_blob ~= "" then
-    result.jumps_blob = raw.jumps_blob
-  end
-  if type(raw.jumps_b64) == "string" and raw.jumps_b64 ~= "" then
-    result.jumps_b64 = raw.jumps_b64
-  end
+  if type(raw.jumps_blob) == "string" and raw.jumps_blob ~= "" then result.jumps_blob = raw.jumps_blob end
+  if type(raw.jumps_b64) == "string" and raw.jumps_b64 ~= "" then result.jumps_b64 = raw.jumps_b64 end
 
   if type(raw.entries) == "table" then
     local entries = {}
@@ -227,46 +195,32 @@ function M.normalize_jumplist(raw)
     if #entries > 0 then
       result.entries = entries
       local pos = tonumber(raw.pos)
-      if not pos or pos < 1 or pos > #entries then
-        pos = #entries
-      end
+      if not pos or pos < 1 or pos > #entries then pos = #entries end
       result.pos = pos
     end
   end
 
-  if result.jumps_blob or result.jumps_b64 or result.entries then
-    return result
-  end
+  if result.jumps_blob or result.jumps_b64 or result.entries then return result end
   return nil
 end
 
 ---@param raw any
 ---@return project.Entry
 function M.normalize_entry(raw)
-  if type(raw) == "string" then
-    return { last_file = raw }
-  end
-  if type(raw) ~= "table" then
-    return {}
-  end
+  if type(raw) == "string" then return { last_file = raw } end
+  if type(raw) ~= "table" then return {} end
 
   ---@type project.Entry
   local entry = {}
 
-  if type(raw.last_file) == "string" then
-    entry.last_file = raw.last_file
-  end
+  if type(raw.last_file) == "string" then entry.last_file = raw.last_file end
 
-  if type(raw.cursor) == "table" and raw.cursor.lnum then
-    entry.cursor = {
-      lnum = raw.cursor.lnum,
-      col = raw.cursor.col or 0,
-    }
-  end
+  if type(raw.cursor) == "table" and raw.cursor.lnum then entry.cursor = {
+    lnum = raw.cursor.lnum,
+    col = raw.cursor.col or 0,
+  } end
 
-  if type(raw.jumplist) == "table" then
-    entry.jumplist = M.normalize_jumplist(raw.jumplist)
-  end
+  if type(raw.jumplist) == "table" then entry.jumplist = M.normalize_jumplist(raw.jumplist) end
 
   return entry
 end
@@ -281,9 +235,7 @@ end
 
 ---@return project.StateFile
 local function get_state()
-  if not state then
-    state = empty_state()
-  end
+  if not state then state = empty_state() end
   return state
 end
 
@@ -295,18 +247,12 @@ end
 ---@return boolean
 function M.is_managed_root(root)
   root = normalize_dir(root)
-  if not root then
-    return false
-  end
+  if not root then return false end
 
   local projects_dir = get_projects_dir()
-  if not projects_dir then
-    return false
-  end
+  if not projects_dir then return false end
 
-  if root ~= projects_dir and not vim.startswith(root, projects_dir .. "/") then
-    return false
-  end
+  if root ~= projects_dir and not vim.startswith(root, projects_dir .. "/") then return false end
 
   local detected = vim.fs.root(root, M.root_patterns)
   return detected ~= nil and normalize_dir(detected) == root
@@ -320,9 +266,7 @@ end
 local function prune_unmanaged_projects(projects)
   local to_remove = {}
   for root in pairs(projects) do
-    if not M.is_managed_root(root) then
-      to_remove[#to_remove + 1] = root
-    end
+    if not M.is_managed_root(root) then to_remove[#to_remove + 1] = root end
   end
   for _, root in ipairs(to_remove) do
     projects[root] = nil
@@ -371,9 +315,7 @@ function M.load_state()
       projects = projects,
     }
     state_dirty = true
-    if legacy_repaired then
-      vim.notify("Migrated legacy project-last-files.json", vim.log.levels.INFO)
-    end
+    if legacy_repaired then vim.notify("Migrated legacy project-last-files.json", vim.log.levels.INFO) end
     return
   end
 
@@ -383,15 +325,11 @@ end
 ---@param force? boolean
 function M.persist_state(force)
   if vim.in_fast_event() then
-    vim.schedule(function()
-      M.persist_state(force)
-    end)
+    vim.schedule(function() M.persist_state(force) end)
     return
   end
 
-  if not force and not state_dirty then
-    return
-  end
+  if not force and not state_dirty then return end
 
   local s = get_state()
   s.version = M.STORE_VERSION
@@ -401,19 +339,13 @@ function M.persist_state(force)
   local dir = vim.fn.fnamemodify(path, ":h")
 
   local ok_mkdir = pcall(vim.fn.mkdir, dir, "p")
-  if not ok_mkdir then
-    return
-  end
+  if not ok_mkdir then return end
 
   local ok_encode, encoded = pcall(vim.json.encode, s, { indent = "  ", sort_keys = true })
-  if not ok_encode or type(encoded) ~= "string" then
-    return
-  end
+  if not ok_encode or type(encoded) ~= "string" then return end
 
   local ok_write = pcall(vim.fn.writefile, vim.split(encoded, "\n", { plain = true }), path)
-  if ok_write then
-    state_dirty = false
-  end
+  if ok_write then state_dirty = false end
 end
 
 local function start_persist_timer()
@@ -426,20 +358,14 @@ local function start_persist_timer()
   end
 
   persist_timer = vim.uv.new_timer()
-  if persist_timer then
-    persist_timer:start(M.PERSIST_INTERVAL_MS, M.PERSIST_INTERVAL_MS, function()
-      M.persist_state(false)
-    end)
-  end
+  if persist_timer then persist_timer:start(M.PERSIST_INTERVAL_MS, M.PERSIST_INTERVAL_MS, function() M.persist_state(false) end) end
 end
 
 ---@param root string
 ---@return project.Entry
 function M.get_project(root)
   root = normalize_dir(root)
-  if not root then
-    return {}
-  end
+  if not root then return {} end
   local s = get_state()
   return M.normalize_entry(s.projects[root])
 end
@@ -448,9 +374,7 @@ end
 ---@param entry project.Entry
 function M.set_project(root, entry)
   root = normalize_dir(root)
-  if not root or not M.is_managed_root(root) then
-    return
-  end
+  if not root or not M.is_managed_root(root) then return end
   get_state().projects[root] = M.normalize_entry(entry)
   state_dirty = true
 end
@@ -462,24 +386,16 @@ end
 ---@param bufnr integer
 ---@return string|nil
 function M.path_root(bufnr)
-  if not vim.api.nvim_buf_is_valid(bufnr) then
-    return nil
-  end
+  if not vim.api.nvim_buf_is_valid(bufnr) then return nil end
 
   local name = vim.api.nvim_buf_get_name(bufnr)
-  if name == "" or name:match("^%w[%w%-]*://") then
-    return nil
-  end
+  if name == "" or name:match("^%w[%w%-]*://") then return nil end
 
   local path = vim.fn.fnamemodify(name, ":p")
-  if vim.fn.isdirectory(path) == 1 or vim.fn.filereadable(path) == 1 then
-    return vim.fs.root(path, M.root_patterns)
-  end
+  if vim.fn.isdirectory(path) == 1 or vim.fn.filereadable(path) == 1 then return vim.fs.root(path, M.root_patterns) end
 
   local parent = vim.fn.fnamemodify(path, ":h")
-  if parent ~= "" and parent ~= path then
-    return vim.fs.root(parent, M.root_patterns)
-  end
+  if parent ~= "" and parent ~= path then return vim.fs.root(parent, M.root_patterns) end
 
   return nil
 end
@@ -487,28 +403,20 @@ end
 ---@param bufnr integer
 ---@return string|nil
 function M.buffer_root(bufnr)
-  if not vim.api.nvim_buf_is_valid(bufnr) then
-    return nil
-  end
+  if not vim.api.nvim_buf_is_valid(bufnr) then return nil end
 
   local tagged = normalize_dir(vim.b[bufnr].project_root)
-  if tagged and M.is_managed_root(tagged) then
-    return tagged
-  end
+  if tagged and M.is_managed_root(tagged) then return tagged end
 
   local root = normalize_dir(M.path_root(bufnr))
-  if root and M.is_managed_root(root) then
-    return root
-  end
+  if root and M.is_managed_root(root) then return root end
 
   return nil
 end
 
 ---@param bufnr integer
 function M.assign_buffer_project(bufnr)
-  if not vim.api.nvim_buf_is_valid(bufnr) then
-    return
-  end
+  if not vim.api.nvim_buf_is_valid(bufnr) then return end
 
   local root = normalize_dir(M.path_root(bufnr))
   if root and M.is_managed_root(root) then
@@ -516,36 +424,24 @@ function M.assign_buffer_project(bufnr)
     return
   end
 
-  if vim.b[bufnr].project_root and not M.is_managed_root(vim.b[bufnr].project_root) then
-    vim.b[bufnr].project_root = nil
-  end
+  if vim.b[bufnr].project_root and not M.is_managed_root(vim.b[bufnr].project_root) then vim.b[bufnr].project_root = nil end
 
-  if vim.b[bufnr].project_root then
-    return
-  end
+  if vim.b[bufnr].project_root then return end
 
   local buftype = vim.bo[bufnr].buftype
   if buftype == "terminal" or (buftype == "" and vim.api.nvim_buf_get_name(bufnr) == "") then
     local current = M.current_root()
-    if current and M.is_managed_root(current) then
-      vim.b[bufnr].project_root = current
-    end
+    if current and M.is_managed_root(current) then vim.b[bufnr].project_root = current end
   end
 end
 
 ---@param bufnr integer
 ---@return boolean
 function M.should_track(bufnr)
-  if not vim.api.nvim_buf_is_valid(bufnr) then
-    return false
-  end
-  if vim.bo[bufnr].buftype ~= "" then
-    return false
-  end
+  if not vim.api.nvim_buf_is_valid(bufnr) then return false end
+  if vim.bo[bufnr].buftype ~= "" then return false end
   local name = vim.api.nvim_buf_get_name(bufnr)
-  if name == "" or name:match("^%w[%w%-]*://") then
-    return false
-  end
+  if name == "" or name:match("^%w[%w%-]*://") then return false end
   return vim.fn.filereadable(name) == 1
 end
 
@@ -558,9 +454,7 @@ end
 local function jump_file_path(jump)
   local name = jump.filename
   if type(name) ~= "string" or name == "" then
-    if not jump.bufnr or not vim.api.nvim_buf_is_valid(jump.bufnr) then
-      return nil
-    end
+    if not jump.bufnr or not vim.api.nvim_buf_is_valid(jump.bufnr) then return nil end
     name = vim.api.nvim_buf_get_name(jump.bufnr)
   end
   return normalize_file(name)
@@ -569,15 +463,11 @@ end
 ---@return project.JumplistState|nil
 function M.capture_jumplist()
   local ok_jl, jumplist = pcall(vim.fn.getjumplist)
-  if not ok_jl or type(jumplist) ~= "table" then
-    return nil
-  end
+  if not ok_jl or type(jumplist) ~= "table" then return nil end
 
   local list = jumplist[1]
   local pos = jumplist[2]
-  if type(list) ~= "table" then
-    list = {}
-  end
+  if type(list) ~= "table" then list = {} end
   pos = tonumber(pos) or #list
 
   local entries = {}
@@ -592,9 +482,7 @@ function M.capture_jumplist()
           col = jump.col or 0,
           coladd = jump.coladd or 0,
         }
-        if i == pos then
-          filtered_pos = #entries
-        end
+        if i == pos then filtered_pos = #entries end
       end
     end
   end
@@ -602,20 +490,12 @@ function M.capture_jumplist()
   local jumps_blob
   local ok_ctx, ctx = pcall(vim.api.nvim_get_context, { types = { "jumps" } })
   if ok_ctx and type(ctx) == "table" and type(ctx.jumps) == "table" then
-    local ok_enc, encoded = pcall(function()
-      return vim.base64.encode(vim.mpack.encode(ctx.jumps))
-    end)
-    if ok_enc and type(encoded) == "string" and encoded ~= "" then
-      jumps_blob = encoded
-    end
+    local ok_enc, encoded = pcall(function() return vim.base64.encode(vim.mpack.encode(ctx.jumps)) end)
+    if ok_enc and type(encoded) == "string" and encoded ~= "" then jumps_blob = encoded end
   end
 
-  if #entries == 0 and not jumps_blob then
-    return nil
-  end
-  if filtered_pos == 0 and #entries > 0 then
-    filtered_pos = #entries
-  end
+  if #entries == 0 and not jumps_blob then return nil end
+  if filtered_pos == 0 and #entries > 0 then filtered_pos = #entries end
 
   ---@type project.JumplistState
   local captured = {}
@@ -623,21 +503,15 @@ function M.capture_jumplist()
     captured.entries = entries
     captured.pos = filtered_pos
   end
-  if jumps_blob then
-    captured.jumps_blob = jumps_blob
-  end
+  if jumps_blob then captured.jumps_blob = jumps_blob end
   return captured
 end
 
 ---@param jumps_blob string
 ---@return boolean
 local function load_jumps_blob(jumps_blob)
-  local ok, chunks = pcall(function()
-    return vim.mpack.decode(vim.base64.decode(jumps_blob))
-  end)
-  if not ok or type(chunks) ~= "table" then
-    return false
-  end
+  local ok, chunks = pcall(function() return vim.mpack.decode(vim.base64.decode(jumps_blob)) end)
+  if not ok or type(chunks) ~= "table" then return false end
   pcall(vim.cmd.clearjumps)
   local ok_load = pcall(vim.api.nvim_load_context, { jumps = chunks })
   return ok_load
@@ -646,17 +520,11 @@ end
 ---@param pos integer|nil
 local function restore_jump_position(pos)
   pos = tonumber(pos)
-  if not pos or pos < 1 then
-    return
-  end
+  if not pos or pos < 1 then return end
   local ok_jl, current = pcall(vim.fn.getjumplist)
-  if not ok_jl then
-    return
-  end
+  if not ok_jl then return end
   local count = type(current[1]) == "table" and #current[1] or 0
-  if pos <= count then
-    pcall(vim.cmd, "jump " .. pos)
-  end
+  if pos <= count then pcall(vim.cmd, "jump " .. pos) end
 end
 
 ---@param entries project.JumpEntry[]
@@ -687,9 +555,7 @@ end
 ---@param opts? { stay_put?: boolean, file?: string, cursor?: { lnum: integer, col: integer } }
 function M.restore_jumplist(jumplist, opts)
   opts = opts or {}
-  if type(jumplist) ~= "table" then
-    return
-  end
+  if type(jumplist) ~= "table" then return end
 
   if jumplist.jumps_blob and load_jumps_blob(jumplist.jumps_blob) then
     if opts.stay_put then
@@ -717,33 +583,23 @@ function M.restore_jumplist(jumplist, opts)
   end
 
   local entries = jumplist.entries
-  if not entries or #entries == 0 then
-    return
-  end
+  if not entries or #entries == 0 then return end
 
   restore_jumplist_via_edits(entries, opts)
-  if not opts.stay_put then
-    restore_jump_position(jumplist.pos)
-  end
+  if not opts.stay_put then restore_jump_position(jumplist.pos) end
 end
 
 ---@param root string|nil
 function M.persist_jumplist(root)
   root = normalize_dir(root) or active_root
-  if not root or lock or not M.is_managed_root(root) then
-    return
-  end
+  if not root or lock or not M.is_managed_root(root) then return end
 
   local now = vim.uv.now()
-  if now - last_jumplist_persist_ms < M.JUMPLIST_DEBOUNCE_MS then
-    return
-  end
+  if now - last_jumplist_persist_ms < M.JUMPLIST_DEBOUNCE_MS then return end
   last_jumplist_persist_ms = now
 
   local captured = M.capture_jumplist()
-  if not captured then
-    return
-  end
+  if not captured then return end
 
   local entry = M.get_project(root)
   entry.jumplist = captured
@@ -759,9 +615,7 @@ end
 function M.isolate_buffers(root, opts)
   opts = opts or {}
   root = normalize_dir(root)
-  if not root then
-    return
-  end
+  if not root then return end
 
   if opts.close_wins ~= false then
     local wins_to_close = {}
@@ -769,9 +623,7 @@ function M.isolate_buffers(root, opts)
       if vim.api.nvim_win_is_valid(win) then
         local buf = vim.api.nvim_win_get_buf(win)
         local buf_root = M.buffer_root(buf)
-        if buf_root and buf_root ~= root then
-          wins_to_close[#wins_to_close + 1] = win
-        end
+        if buf_root and buf_root ~= root then wins_to_close[#wins_to_close + 1] = win end
       end
     end
     for _, win in ipairs(wins_to_close) do
@@ -783,9 +635,7 @@ function M.isolate_buffers(root, opts)
     if vim.api.nvim_buf_is_valid(buf) then
       M.assign_buffer_project(buf)
       local buf_root = M.buffer_root(buf)
-      if buf_root then
-        vim.bo[buf].buflisted = buf_root == root
-      end
+      if buf_root then vim.bo[buf].buflisted = buf_root == root end
     end
   end
 end
@@ -795,28 +645,20 @@ end
 -- ---------------------------------------------------------------------------
 
 ---@return string|nil
-function M.current_root()
-  return normalize_dir(active_root) or normalize_dir(vim.fn.getcwd())
-end
+function M.current_root() return normalize_dir(active_root) or normalize_dir(vim.fn.getcwd()) end
 
 ---@return { lnum: integer, col: integer }
 function M.capture_cursor()
   local ok, cursor = pcall(vim.api.nvim_win_get_cursor, 0)
-  if ok and type(cursor) == "table" then
-    return { lnum = cursor[1], col = cursor[2] }
-  end
+  if ok and type(cursor) == "table" then return { lnum = cursor[1], col = cursor[2] } end
   return { lnum = 1, col = 0 }
 end
 
 ---@param cursor { lnum: integer, col: integer }|nil
 function M.apply_cursor(cursor)
-  if not cursor then
-    return
-  end
+  if not cursor then return end
   local ok_count, line_count = pcall(vim.api.nvim_buf_line_count, 0)
-  if not ok_count then
-    return
-  end
+  if not ok_count then return end
   local lnum = math.min(math.max(cursor.lnum, 1), line_count)
   pcall(vim.api.nvim_win_set_cursor, 0, { lnum, cursor.col or 0 })
 end
@@ -826,9 +668,7 @@ end
 function M.fallback_file(root)
   for _, name in ipairs(M.fallback_names) do
     local candidate = root .. "/" .. name
-    if vim.fn.filereadable(candidate) == 1 then
-      return candidate
-    end
+    if vim.fn.filereadable(candidate) == 1 then return candidate end
   end
   return nil
 end
@@ -838,9 +678,7 @@ end
 ---@return string|nil
 function M.resolve_open_path(entry, root)
   local path = entry.last_file
-  if path and vim.fn.filereadable(path) == 1 then
-    return path
-  end
+  if path and vim.fn.filereadable(path) == 1 then return path end
   return M.fallback_file(root)
 end
 
@@ -848,24 +686,18 @@ end
 ---@return string|nil
 function M.get_last(root)
   root = normalize_dir(root)
-  if not root then
-    return nil
-  end
+  if not root then return nil end
   return M.resolve_open_path(M.get_project(root), root)
 end
 
 ---@param root string
 function M.save_state(root)
   root = normalize_dir(root)
-  if not root or not M.is_managed_root(root) then
-    return
-  end
+  if not root or not M.is_managed_root(root) then return end
 
   local entry = M.get_project(root)
   local ok_buf, buf = pcall(vim.api.nvim_get_current_buf)
-  if not ok_buf then
-    return
-  end
+  if not ok_buf then return end
 
   if M.should_track(buf) then
     local file = normalize_file(vim.api.nvim_buf_get_name(buf))
@@ -886,16 +718,12 @@ end
 function M.on_root_change(from_root, to_root, opts)
   opts = opts or {}
 
-  if lock then
-    return
-  end
+  if lock then return end
 
   from_root = normalize_dir(from_root)
   to_root = normalize_dir(to_root)
 
-  if from_root == to_root then
-    return
-  end
+  if from_root == to_root then return end
 
   if to_root and not M.is_managed_root(to_root) then
     vim.notify("Not a managed project: " .. to_root, vim.log.levels.WARN)
@@ -906,20 +734,14 @@ function M.on_root_change(from_root, to_root, opts)
 
   local entry
   local ok, err = pcall(function()
-    if from_root then
-      M.save_state(from_root)
-    end
+    if from_root then M.save_state(from_root) end
 
     active_root = to_root
 
-    if not to_root then
-      return
-    end
+    if not to_root then return end
 
     local cwd = normalize_dir(vim.fn.getcwd())
-    if cwd ~= to_root then
-      vim.cmd.cd(vim.fn.fnameescape(to_root))
-    end
+    if cwd ~= to_root then vim.cmd.cd(vim.fn.fnameescape(to_root)) end
 
     M.isolate_buffers(to_root, { close_wins = true })
 
@@ -943,18 +765,18 @@ function M.on_root_change(from_root, to_root, opts)
     return
   end
 
-  if not to_root or not entry then
-    return
-  end
+  if not to_root or not entry then return end
 
   vim.schedule(function()
-    pcall(function()
-      M.restore_jumplist(entry.jumplist, {
-        stay_put = opts.open_last,
-        file = entry.last_file,
-        cursor = entry.cursor,
-      })
-    end)
+    pcall(
+      function()
+        M.restore_jumplist(entry.jumplist, {
+          stay_put = opts.open_last,
+          file = entry.last_file,
+          cursor = entry.cursor,
+        })
+      end
+    )
   end)
 end
 
@@ -962,9 +784,7 @@ end
 function M.chdir_to_buffer(bufnr)
   M.assign_buffer_project(bufnr)
   local root = M.buffer_root(bufnr)
-  if not root then
-    return
-  end
+  if not root then return end
 
   local cwd = normalize_dir(vim.fn.getcwd())
   if root == cwd and root == active_root then
@@ -977,29 +797,21 @@ end
 
 ---@param bufnr integer
 function M.record(bufnr)
-  if lock or not M.should_track(bufnr) then
-    return
-  end
+  if lock or not M.should_track(bufnr) then return end
 
   M.assign_buffer_project(bufnr)
   local root = M.buffer_root(bufnr)
-  if not root then
-    return
-  end
+  if not root then return end
 
   local path = normalize_file(vim.api.nvim_buf_get_name(bufnr))
-  if not path then
-    return
-  end
+  if not path then return end
 
   active_root = root
 
   local entry = M.get_project(root)
   local cursor = M.capture_cursor()
 
-  if entry.last_file == path and entry.cursor and entry.cursor.lnum == cursor.lnum and entry.cursor.col == cursor.col then
-    return
-  end
+  if entry.last_file == path and entry.cursor and entry.cursor.lnum == cursor.lnum and entry.cursor.col == cursor.col then return end
 
   entry.last_file = path
   entry.cursor = cursor
@@ -1014,12 +826,8 @@ end
 ---@return string|nil
 local function git_dir_to_root(git_path)
   git_path = git_path:gsub("/+$", "")
-  if git_path == "" then
-    return nil
-  end
-  if git_path:match("/%.git$") then
-    return normalize_dir(vim.fn.fnamemodify(git_path, ":h"))
-  end
+  if git_path == "" then return nil end
+  if git_path:match("/%.git$") then return normalize_dir(vim.fn.fnamemodify(git_path, ":h")) end
   return normalize_dir(git_path)
 end
 
@@ -1028,9 +836,7 @@ end
 ---@return string[]
 local function collect_git_roots(dir, max_depth)
   dir = normalize_dir(dir)
-  if not dir or vim.fn.isdirectory(dir) ~= 1 then
-    return {}
-  end
+  if not dir or vim.fn.isdirectory(dir) ~= 1 then return {} end
 
   local depth = max_depth + 1
   local quoted = vim.fn.shellescape(dir)
@@ -1043,9 +849,7 @@ local function collect_git_roots(dir, max_depth)
   end
 
   local ok, output = pcall(vim.fn.systemlist, cmd)
-  if not ok or type(output) ~= "table" then
-    return {}
-  end
+  if not ok or type(output) ~= "table" then return {} end
 
   local seen = {}
   local roots = {}
@@ -1062,9 +866,7 @@ end
 ---@return string[]
 function M.list_projects()
   local projects_dir = get_projects_dir()
-  if not projects_dir or vim.fn.isdirectory(projects_dir) ~= 1 then
-    return {}
-  end
+  if not projects_dir or vim.fn.isdirectory(projects_dir) ~= 1 then return {} end
   return collect_git_roots(projects_dir, config.max_depth or 3)
 end
 
@@ -1072,9 +874,7 @@ end
 ---@return string
 function M.project_label(root)
   local projects_dir = get_projects_dir()
-  if projects_dir and vim.startswith(root, projects_dir .. "/") then
-    return root:sub(#projects_dir + 2)
-  end
+  if projects_dir and vim.startswith(root, projects_dir .. "/") then return root:sub(#projects_dir + 2) end
   return vim.fn.fnamemodify(root, ":t")
 end
 
@@ -1083,12 +883,9 @@ function M.project_picker_items()
   local items = {}
   local s = get_state()
   for _, root in ipairs(M.list_projects()) do
-    local entry = M.normalize_entry(s.projects[root])
-    local last = M.resolve_open_path(entry, root)
-    local hint = last and vim.fn.fnamemodify(last, ":~:.") or "(new)"
     items[#items + 1] = {
       project = root,
-      text = string.format("%s — %s", M.project_label(root), hint),
+      text = string.format("%s", M.project_label(root)),
     }
   end
   return items
@@ -1109,9 +906,7 @@ local DEFAULT_TERMINAL_CONFIG = {
 
 ---@return project.TerminalConfig
 local function terminal_config()
-  if not config.terminal then
-    config.terminal = vim.deepcopy(DEFAULT_TERMINAL_CONFIG)
-  end
+  if not config.terminal then config.terminal = vim.deepcopy(DEFAULT_TERMINAL_CONFIG) end
   return config.terminal
 end
 
@@ -1134,14 +929,10 @@ end
 ---@return integer|nil
 function M.terminal_find_buf(root)
   root = normalize_dir(root)
-  if not root then
-    return nil
-  end
+  if not root then return nil end
 
   local primary = primary_terminal[root]
-  if primary and is_project_terminal_buf(primary) and normalize_dir(vim.b[primary].project_root) == root then
-    return primary
-  end
+  if primary and is_project_terminal_buf(primary) and normalize_dir(vim.b[primary].project_root) == root then return primary end
 
   for _, buf in ipairs(vim.api.nvim_list_bufs()) do
     if is_project_terminal_buf(buf) and normalize_dir(vim.b[buf].project_root) == root then
@@ -1158,9 +949,7 @@ end
 ---@param bufnr integer
 local function register_terminal(root, bufnr)
   root = normalize_dir(root)
-  if not root then
-    return
-  end
+  if not root then return end
   vim.b[bufnr].project_root = root
   vim.b[bufnr].project_terminal = true
   primary_terminal[root] = bufnr
@@ -1170,9 +959,7 @@ end
 ---@return integer|nil
 local function terminal_visible_win(bufnr)
   for _, win in ipairs(vim.api.nvim_list_wins()) do
-    if vim.api.nvim_win_is_valid(win) and vim.api.nvim_win_get_buf(win) == bufnr then
-      return win
-    end
+    if vim.api.nvim_win_is_valid(win) and vim.api.nvim_win_get_buf(win) == bufnr then return win end
   end
   return nil
 end
@@ -1186,9 +973,7 @@ local function find_new_split_win(before, prev_win)
     seen[win] = true
   end
   for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
-    if not seen[win] then
-      return win
-    end
+    if not seen[win] then return win end
   end
   return prev_win
 end
@@ -1340,18 +1125,14 @@ end
 ---@return string|nil
 function M.terminal_active_root()
   local root = M.current_root()
-  if root and M.is_managed_root(root) then
-    return root
-  end
+  if root and M.is_managed_root(root) then return root end
   vim.notify("No managed project for terminal", vim.log.levels.WARN)
   return nil
 end
 
 function M.terminal_toggle()
   local root = M.terminal_active_root()
-  if not root then
-    return
-  end
+  if not root then return end
 
   local buf = M.terminal_find_buf(root)
   if buf and vim.api.nvim_get_current_buf() == buf and terminal_visible_win(buf) then
@@ -1378,9 +1159,7 @@ end
 
 function M.terminal_new()
   local root = M.terminal_active_root()
-  if not root then
-    return
-  end
+  if not root then return end
   M.terminal_create(root)
 end
 
@@ -1415,9 +1194,7 @@ function M.terminal_configure(args)
         end
       elseif key == "width" then
         local n = tonumber(value)
-        if n then
-          t.float_width = n
-        end
+        if n then t.float_width = n end
       elseif key == "float_height" then
         t.float_height = tonumber(value) or t.float_height
       elseif key == "border" then
@@ -1427,9 +1204,7 @@ function M.terminal_configure(args)
       part = part:lower()
       positional[#positional + 1] = part
       local n = tonumber(part)
-      if n then
-        numbers[#numbers + 1] = n
-      end
+      if n then numbers[#numbers + 1] = n end
     end
   end
 
@@ -1468,14 +1243,10 @@ function M.terminal_cmd(opts)
     end
   end
 
-  if #layout_parts > 0 then
-    M.terminal_configure(table.concat(layout_parts, " "))
-  end
+  if #layout_parts > 0 then M.terminal_configure(table.concat(layout_parts, " ")) end
 
   if action == "show" then
-    if #layout_parts == 0 then
-      M.terminal_configure("show")
-    end
+    if #layout_parts == 0 then M.terminal_configure("show") end
     return
   end
 
@@ -1496,13 +1267,9 @@ local function term_cmd_complete(_, line)
   local parts = vim.split(vim.trim(line), "%s+")
   local last = parts[#parts] or ""
   if last:find("=") then
-    return vim.tbl_filter(function(c)
-      return vim.startswith(c, last)
-    end, TERM_CMD_KEYS)
+    return vim.tbl_filter(function(c) return vim.startswith(c, last) end, TERM_CMD_KEYS)
   end
-  return vim.tbl_filter(function(c)
-    return vim.startswith(c, last)
-  end, TERM_CMD_WORDS)
+  return vim.tbl_filter(function(c) return vim.startswith(c, last) end, TERM_CMD_WORDS)
 end
 
 -- ---------------------------------------------------------------------------
@@ -1522,13 +1289,9 @@ function M.restore_startup()
     end
   end
 
-  if not root then
-    root = normalize_dir(vim.fn.getcwd())
-  end
+  if not root then root = normalize_dir(vim.fn.getcwd()) end
 
-  if not root or not M.is_managed_root(root) then
-    return
-  end
+  if not root or not M.is_managed_root(root) then return end
 
   local open_last = vim.fn.argc(-1) == 0
   M.on_root_change(nil, root, { open_last = open_last })
@@ -1543,16 +1306,10 @@ function M.switch()
 
   vim.ui.select(items, {
     prompt = "Project",
-    format_item = function(item)
-      return item.text
-    end,
+    format_item = function(item) return item.text end,
   }, function(choice)
-    if not choice or not choice.project then
-      return
-    end
-    vim.schedule(function()
-      M.on_root_change(active_root, choice.project, { open_last = true })
-    end)
+    if not choice or not choice.project then return end
+    vim.schedule(function() M.on_root_change(active_root, choice.project, { open_last = true }) end)
   end)
 end
 
@@ -1565,16 +1322,16 @@ function M.setup(opts)
   opts = opts or {}
 
   config = {
-    projects_dir = opts.projects_dir or (vim.fn.expand("~/dev") --[[@as string]]),
+    projects_dir = opts.projects_dir or (
+        vim.fn.expand("~/dev") --[[@as string]]
+      ),
     max_depth = opts.max_depth or 3,
     store_path = opts.store_path,
     terminal = vim.tbl_deep_extend("force", vim.deepcopy(DEFAULT_TERMINAL_CONFIG), opts.terminal or {}),
   }
 
   M.load_state()
-  if state_dirty then
-    M.persist_state(true)
-  end
+  if state_dirty then M.persist_state(true) end
   start_persist_timer()
 
   active_root = normalize_dir(vim.fn.getcwd())
@@ -1589,9 +1346,7 @@ function M.setup(opts)
   vim.api.nvim_create_autocmd({ "BufNew", "TermOpen" }, {
     group = group,
     callback = function(args)
-      if not lock then
-        M.assign_buffer_project(args.buf)
-      end
+      if not lock then M.assign_buffer_project(args.buf) end
     end,
   })
 
@@ -1599,9 +1354,7 @@ function M.setup(opts)
     group = group,
     callback = function(args)
       for root, buf in pairs(primary_terminal) do
-        if buf == args.buf then
-          primary_terminal[root] = nil
-        end
+        if buf == args.buf then primary_terminal[root] = nil end
       end
     end,
   })
@@ -1609,25 +1362,19 @@ function M.setup(opts)
   vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
     group = group,
     callback = function(args)
-      if lock then
-        return
-      end
+      if lock then return end
       if args.event == "BufEnter" then
         M.chdir_to_buffer(args.buf)
         M.record(args.buf)
       end
-      if active_root then
-        M.isolate_buffers(active_root)
-      end
+      if active_root then M.isolate_buffers(active_root) end
     end,
   })
 
   vim.api.nvim_create_autocmd("VimLeavePre", {
     group = group,
     callback = function()
-      if active_root then
-        M.save_state(active_root)
-      end
+      if active_root then M.save_state(active_root) end
       M.persist_state(true)
     end,
   })
@@ -1635,9 +1382,7 @@ function M.setup(opts)
   vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
     group = group,
     callback = function()
-      if active_root then
-        M.persist_jumplist(active_root)
-      end
+      if active_root then M.persist_jumplist(active_root) end
     end,
   })
 
@@ -1645,9 +1390,7 @@ function M.setup(opts)
     group = group,
     once = true,
     callback = function()
-      vim.schedule(function()
-        M.restore_startup()
-      end)
+      vim.schedule(function() M.restore_startup() end)
     end,
   })
 
@@ -1681,17 +1424,23 @@ function M.setup(opts)
     end
   end, { desc = "Show active project and state file" })
 
-  local function project_term_cmd(cmd)
-    M.terminal_cmd({ args = cmd.args, bang = cmd.bang })
-  end
+  local function project_term_cmd(cmd) M.terminal_cmd { args = cmd.args, bang = cmd.bang } end
 
-  vim.api.nvim_create_user_command("ProjectTerm", project_term_cmd, vim.tbl_extend("force", {
-    desc = "Project terminal: toggle (default), ! or new, show, layout opts",
-  }, term_cmd_opts))
+  vim.api.nvim_create_user_command(
+    "ProjectTerm",
+    project_term_cmd,
+    vim.tbl_extend("force", {
+      desc = "Project terminal: toggle (default), ! or new, show, layout opts",
+    }, term_cmd_opts)
+  )
 
-  vim.api.nvim_create_user_command("Pt", project_term_cmd, vim.tbl_extend("force", {
-    desc = "Alias → ProjectTerm",
-  }, term_cmd_opts))
+  vim.api.nvim_create_user_command(
+    "Pt",
+    project_term_cmd,
+    vim.tbl_extend("force", {
+      desc = "Alias → ProjectTerm",
+    }, term_cmd_opts)
+  )
 end
 
 return M
