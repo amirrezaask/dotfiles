@@ -150,7 +150,6 @@ vim.api.nvim_create_autocmd("ColorScheme", {
   callback = function(args)
     if args.match == "default" then vim.cmd([[
         hi! Normal guibg=none
-        hi! link SnacksPickerDir Normal
       ]]) end
   end,
 })
@@ -265,40 +264,34 @@ require("blink.cmp").setup {
 }
 -- }}}
 
--- [snacks] {{{
-vim.pack.add { "https://github.com/folke/snacks.nvim" }
+-- [fzf-lua] {{{
+vim.pack.add { "https://github.com/ibhagwan/fzf-lua" }
 
-Snacks = require("snacks")
+local fzf = require("fzf-lua")
 
-require("snacks").setup {
-  bigfile = { enabled = true },
-  indent = { enabled = true },
-  input = { enabled = true },
-  picker = { enabled = true },
-  notifier = { enabled = true },
-  quickfile = { enabled = true },
-  statuscolumn = { enabled = true },
-  image = { enabled = false },
-}
+fzf.setup { "fzf-vim" }
 
-vim.keymap.set("n", "<leader><leader>", Snacks.picker.files, { desc = "Find Files" })
-vim.keymap.set("n", "<C-p>", Snacks.picker.files, { desc = "Git Files" })
-vim.keymap.set("n", "<leader>l", Snacks.picker.lines, { desc = "Buffer Lines" })
-vim.keymap.set("n", "<leader>gf", Snacks.picker.git_files, { desc = "Git Files" })
-vim.keymap.set("n", "<leader>gl", Snacks.picker.git_log, { desc = "Git Log" })
-vim.keymap.set("n", "<leader>gL", Snacks.picker.git_log_line, { desc = "Git Log Line" })
-vim.keymap.set("n", "<leader>j", Snacks.picker.grep, { desc = "Grep" })
-vim.keymap.set({ "n", "v" }, "<leader>J", Snacks.picker.grep_word, { desc = "Grep Word" })
-vim.keymap.set("n", "<leader>k", function() Snacks.picker.buffers { hidden = false } end, { desc = "Buffers" })
+fzf.register_ui_select()
+
+vim.keymap.set("n", "<leader><leader>", fzf.files, { desc = "Find Files" })
+vim.keymap.set("n", "<C-p>", fzf.files, { desc = "Git Files" })
+vim.keymap.set("n", "<leader>l", fzf.lines, { desc = "Buffer Lines" })
+vim.keymap.set("n", "<leader>gf", fzf.git_files, { desc = "Git Files" })
+vim.keymap.set("n", "<leader>gl", fzf.git_commits, { desc = "Git Log" })
+vim.keymap.set("n", "<leader>gL", fzf.git_bcommits, { desc = "Git Log Line" })
+vim.keymap.set("n", "<leader>j", fzf.live_grep, { desc = "Grep" })
+vim.keymap.set("n", "<leader>J", fzf.grep_cword, { desc = "Grep Word" })
+vim.keymap.set("v", "<leader>J", fzf.grep_visual, { desc = "Grep Word" })
+vim.keymap.set("n", "<leader>k", fzf.buffers, { desc = "Buffers" })
 
 vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(args)
-    vim.keymap.set("n", "gd", Snacks.picker.lsp_definitions, { buffer = args.buf, desc = "[g]oto [d]efinition" })
-    vim.keymap.set("n", "grr", Snacks.picker.lsp_references, { buffer = args.buf, desc = "[g]oto [r]eferences" })
-    vim.keymap.set("n", "gri", Snacks.picker.lsp_implementations, { buffer = args.buf, desc = "[g]oto [i]mplmentations" })
-    vim.keymap.set("n", "gO", Snacks.picker.lsp_symbols, { buffer = args.buf, desc = "[g]oto symbol" })
-    vim.keymap.set("n", "<leader>o", Snacks.picker.lsp_symbols, { buffer = args.buf, desc = "[s]ymbols (outline)" })
-    vim.keymap.set("n", "<leader>O", Snacks.picker.lsp_workspace_symbols, { buffer = args.buf, desc = "[s]ymbols [w]orkspace" })
+    vim.keymap.set("n", "gd", fzf.lsp_definitions, { buffer = args.buf, desc = "[g]oto [d]efinition" })
+    vim.keymap.set("n", "grr", fzf.lsp_references, { buffer = args.buf, desc = "[g]oto [r]eferences" })
+    vim.keymap.set("n", "gri", fzf.lsp_implementations, { buffer = args.buf, desc = "[g]oto [i]mplmentations" })
+    vim.keymap.set("n", "gO", fzf.lsp_document_symbols, { buffer = args.buf, desc = "[g]oto symbol" })
+    vim.keymap.set("n", "<leader>o", fzf.lsp_document_symbols, { buffer = args.buf, desc = "[s]ymbols (outline)" })
+    vim.keymap.set("n", "<leader>O", fzf.lsp_workspace_symbols, { buffer = args.buf, desc = "[s]ymbols [w]orkspace" })
     vim.keymap.set("n", "C", vim.lsp.buf.code_action, { buffer = args.buf, desc = "Code Actions" })
   end,
 })
