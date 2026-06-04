@@ -169,7 +169,7 @@ require("rose-pine").setup {
   styles = { bold = false, italic = false, transparency = vim.g.transparency },
 }
 
-vim.cmd.colorscheme(os.getenv("NVIM_THEME") or "vercel")
+vim.cmd.colorscheme(os.getenv("NVIM_THEME") or "rose-pine-moon")
 -- }}}
 
 -- [editor] {{{

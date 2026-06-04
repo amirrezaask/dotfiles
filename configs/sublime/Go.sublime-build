@@ -1,0 +1,21 @@
+{
+	"selector": "source.go",
+	"working_dir": "${folder:${project_path}}",
+	"shell": false,
+	"file_regex": "^(.*):(\\d+):(\\d+):\\s*(.+)$",
+	"variants": [
+		{
+			"name": "Test",
+			"cmd": ["go", "test", "./..."]
+		},
+		{
+			"name": "Vet",
+			"cmd": ["go", "vet", "./..."]
+		},
+		{
+			"name": "Lint",
+			"cmd": ["golangci-lint", "run", "./..."]
+		}
+	],
+	"cmd": ["go", "build", "./..."]
+}

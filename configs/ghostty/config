@@ -1,5 +1,5 @@
 theme = vercel
-font-family = Geist Mono
+font-family = Jetbrains Mono
 font-size = 14
 font-feature=-calt
 mouse-hide-while-typing = true

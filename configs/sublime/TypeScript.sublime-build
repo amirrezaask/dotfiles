@@ -1,0 +1,17 @@
+{
+	"selector": "source.ts, source.tsx",
+	"working_dir": "${folder:${project_path}}",
+	"shell": false,
+	"file_regex": "^(.+?):(\\d+):(\\d+)?(?:.*):\\s*(.+)$",
+	"variants": [
+		{
+			"name": "lint",
+			"cmd": ["npm", "run", "lint"]
+		},
+		{
+			"name": "test",
+			"cmd": ["npm", "run", "test"]
+		}
+	],
+	"cmd": ["npm", "run", "build"]
+}

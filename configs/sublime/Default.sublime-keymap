@@ -1,12 +1,15 @@
 [
-	{"keys":  ["primary+b"], "command": "goto_definition" },
+	{"keys":  ["primary+."], "command": "goto_definition" },
+    {"keys": ["primary+,"], "command": "jump_back" },
     { "keys": ["primary+1"], "command": "toggle_side_bar" },
     { "keys": ["primary+2"], "command": "toggle_terminus_panel" },
     { "keys": ["primary+shift+."], "command": "lsp_expand_selection" },
     // Project Picker - Open in new window
     {"keys": ["primary+o"], "command": "project_picker_current_window" },
     {"keys": ["primary+shift+o"], "command": "project_picker_new_window" },
-    {"keys": ["primary+,"], "command": "jump_back" },
+    
+    { "keys": ["primary+alt+]"], "command": "next_result" },
+    { "keys": ["primary+alt+shift+["], "command": "prev_result" },
 
     // Goto Definition
     {
