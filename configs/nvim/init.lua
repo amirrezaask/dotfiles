@@ -29,10 +29,15 @@ vim.o.laststatus = 0 -- Experimental: disables the statusbar
 vim.o.winbar = "%m%r%h%f"
 vim.o.title = true
 vim.o.titlestring = "%{fnamemodify(getcwd(), ':~')}"
-vim.o.shortmess = vim.o.shortmess .. "I"
+vim.o.shortmess = vim.o.shortmess .. "I" .. "W" .. "C"
+vim.o.cursorline = true
 
 local ok, ui2 = pcall(require, "vim._core.ui2")
-if ok then ui2.enable { enable = true } end
+if ok then
+  ui2.enable { enable = true }
+  vim.o.cmdheight = 0
+  vim.pack.add { "https://github.com/rachartier/tiny-cmdline.nvim" }
+end
 
 --- }}}
 
@@ -63,6 +68,18 @@ vim.keymap.set("n", "k", "gk")
 vim.keymap.set("n", "<leader>i", ":edit $MYVIMRC<CR>", { desc = "Edit Configuration" })
 vim.keymap.set("n", "<leader>R", ":source $MYVIMRC<CR>", { desc = "Reload Configuration" })
 vim.keymap.set("n", "<leader>t", ":edit ~/TODO.md<CR>", { desc = "Edit TODO.md" })
+
+local term_normal = [[<C-\><C-n>]]
+vim.keymap.set("t", "<Esc>", term_normal, { desc = "Leave terminal insert mode" })
+vim.keymap.set("t", "jk", term_normal, { desc = "Leave terminal insert mode" })
+vim.keymap.set("t", "<C-h>", term_normal .. "<C-w>h", { desc = "Window left (from terminal)" })
+vim.keymap.set("t", "<C-j>", term_normal .. "<C-w>j", { desc = "Window down (from terminal)" })
+vim.keymap.set("t", "<C-k>", term_normal .. "<C-w>k", { desc = "Window up (from terminal)" })
+vim.keymap.set("t", "<C-l>", term_normal .. "<C-w>l", { desc = "Window right (from terminal)" })
+-- }}}
+--
+--
+require("project").setup {}
 
 vim.keymap.set("n", "<C-q>", function()
   if vim.fn.getqflist({ winid = 0 }).winid ~= 0 then
@@ -271,7 +288,7 @@ vim.keymap.set("n", "<leader>gl", Snacks.picker.git_log, { desc = "Git Log" })
 vim.keymap.set("n", "<leader>gL", Snacks.picker.git_log_line, { desc = "Git Log Line" })
 vim.keymap.set("n", "<leader>j", Snacks.picker.grep, { desc = "Grep" })
 vim.keymap.set({ "n", "v" }, "<leader>J", Snacks.picker.grep_word, { desc = "Grep Word" })
-vim.keymap.set("n", "<leader>k", Snacks.picker.buffers, { desc = "Buffers" })
+vim.keymap.set("n", "<leader>k", function() Snacks.picker.buffers { hidden = false } end, { desc = "Buffers" })
 
 vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(args)
