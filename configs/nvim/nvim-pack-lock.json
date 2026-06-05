@@ -13,12 +13,8 @@
       "src": "https://github.com/stevearc/conform.nvim"
     },
     "cyberdream.nvim": {
-      "rev": "d1866f5b606896ca530be00bafbd12a3e6bb6efd",
+      "rev": "4fbdeb7376faed87ead7c7c805c02092ca7bac01",
       "src": "https://github.com/scottmckendry/cyberdream.nvim"
-    },
-    "diffview.nvim": {
-      "rev": "4516612fe98ff56ae0415a259ff6361a89419b0a",
-      "src": "https://github.com/sindrets/diffview.nvim"
     },
     "fzf-lua": {
       "rev": "988416cc782dfe28bff3f0da9b8c943b236cd86a",
@@ -57,12 +53,12 @@
       "src": "https://github.com/stevearc/oil.nvim"
     },
     "rose-pine": {
-      "rev": "6a961effd67f6130d36df6d1c05c48c739796dd2",
+      "rev": "ff483051a47e27d84bdef47703538df1ed9f4a47",
       "src": "https://github.com/rose-pine/neovim"
     },
-    "tiny-cmdline.nvim": {
-      "rev": "b1db8607a78f0c23b3bae08e079b1b7f147619d7",
-      "src": "https://github.com/rachartier/tiny-cmdline.nvim"
+    "tiny-inline-diagnostic.nvim": {
+      "rev": "680762989e8b05a72e90769959d0fb9a557e6917",
+      "src": "https://github.com/rachartier/tiny-inline-diagnostic.nvim"
     },
     "tokyonight.nvim": {
       "rev": "cdc07ac78467a233fd62c493de29a17e0cf2b2b6",

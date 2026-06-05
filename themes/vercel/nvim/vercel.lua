@@ -234,7 +234,7 @@ local function apply()
 		FloatBorder = { fg = c.border, bg = float_bg },
 		FloatTitle = { fg = c.purple, bg = float_bg, bold = true },
 		Pmenu = { fg = c.fg, bg = float_bg },
-		PmenuSel = { fg = c.heading_fg, bg = c.subtle },
+		PmenuSel = { fg = c.heading_fg, bg = c.purple },
 		PmenuSbar = { bg = float_bg },
 		PmenuThumb = { bg = c.subtle },
 		MatchParen = { fg = c.pink, bold = true },
@@ -248,7 +248,7 @@ local function apply()
 		WinBarNC = { fg = c.dim, bg = "NONE" },
 
 		TelescopeNormal = { fg = c.fg, bg = float_bg },
-		TelescopeSelection = { fg = c.heading_fg, bg = c.subtle },
+		TelescopeSelection = { fg = c.heading_fg, bg = c.purple },
 		TelescopeMultiSelection = { fg = c.blue, bg = float_bg },
 
 		GitSignsAdd = { fg = c.green },
@@ -268,7 +268,7 @@ local function apply()
 
 		BlinkCmpMenu = { fg = c.fg, bg = float_bg },
 		BlinkCmpMenuBorder = { fg = c.border, bg = float_bg },
-		BlinkCmpMenuSelection = { fg = c.heading_fg, bg = c.subtle },
+		BlinkCmpMenuSelection = { fg = c.heading_fg, bg = c.purple },
 		BlinkCmpDoc = { fg = c.fg, bg = float_bg },
 		BlinkCmpDocBorder = { fg = c.border, bg = float_bg },
 		BlinkCmpGhostText = { fg = c.muted, italic = true },
@@ -277,7 +277,7 @@ local function apply()
 		SnacksWin = { fg = c.fg, bg = float_bg },
 		SnacksInputNormal = { fg = c.fg, bg = float_bg },
 		SnacksInputBorder = { fg = c.border, bg = float_bg },
-		SnacksInputTitle = { fg = c.subtle, bg = float_bg, bold = true },
+		SnacksInputTitle = { fg = c.purple, bg = float_bg, bold = true },
 		SnacksPickerNormal = { fg = c.fg, bg = float_bg },
 		SnacksPickerBorder = { fg = c.border, bg = float_bg },
 		SnacksPickerTitle = { fg = c.purple, bg = float_bg, bold = true },

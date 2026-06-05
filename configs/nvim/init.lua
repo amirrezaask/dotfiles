@@ -1,5 +1,3 @@
-local start_time = vim.uv.hrtime()
-
 -- options {{{
 vim.o.nu = true
 vim.o.relativenumber = true
@@ -32,12 +30,12 @@ vim.o.titlestring = "%{fnamemodify(getcwd(), ':~')}"
 vim.o.shortmess = vim.o.shortmess .. "I" .. "W" .. "C"
 vim.o.cursorline = true
 
-local ok, ui2 = pcall(require, "vim._core.ui2")
-if ok then
-  ui2.enable { enable = true }
-  vim.o.cmdheight = 0
-  vim.pack.add { "https://github.com/rachartier/tiny-cmdline.nvim" }
-end
+-- local ok, ui2 = pcall(require, "vim._core.ui2")
+-- if ok then
+--   ui2.enable { enable = true }
+--   vim.o.cmdheight = 0
+--   -- vim.pack.add { "https://github.com/rachartier/tiny-cmdline.nvim" }
+-- end
 
 --- }}}
 
@@ -312,13 +310,7 @@ vim.keymap.set("n", "<leader>e", require("oil").toggle_float, { desc = "Toggle f
 -- [git] {{{
 vim.pack.add {
   "https://github.com/tpope/vim-fugitive",
-  "https://github.com/sindrets/diffview.nvim",
 }
-
-require("diffview").setup {}
-vim.keymap.set("n", "<leader>G", "<cmd>DiffviewOpen<CR>")
-vim.keymap.set("n", "<leader>gr", "<cmd>DiffviewRefresh<CR>", { desc = "Diffview Refresh" })
-
 -- }}}
 
 -- [lsp] {{{
@@ -372,6 +364,15 @@ end, {
   desc = "Re-enable conform-autoformat-on-save",
 })
 
+local has_markers = function(markers)
+  return function(_, ctx)
+    return vim.fs.find(markers, {
+      path = ctx.filename,
+      upward = true,
+      stop = vim.uv.os_homedir(),
+    })[1] ~= nil
+  end
+end
 require("conform").setup {
   formatters_by_ft = {
     php = nil,
@@ -402,40 +403,22 @@ require("conform").setup {
   end,
   formatters = {
     oxfmt = {
-      condition = function(_, ctx)
-        return vim.fs.find({ ".oxfmtrc.json", ".oxfmtrc.jsonc" }, {
-          path = ctx.filename,
-          upward = true,
-          stop = vim.uv.os_homedir(),
-        })[1] ~= nil
-      end,
+      condition = has_markers { ".oxfmtrc.json", ".oxfmtrc.jsonc" },
     },
     biome = {
-      condition = function(_, ctx)
-        return vim.fs.find({ "biome.json", "biome.jsonc" }, {
-          path = ctx.filename,
-          upward = true,
-          stop = vim.uv.os_homedir(),
-        })[1] ~= nil
-      end,
+      condition = has_markers { "biome.json", "biome.jsonc" },
     },
     prettierd = {
-      condition = function(_, ctx)
-        return vim.fs.find({
-          ".prettierrc",
-          ".prettierrc.json",
-          ".prettierrc.js",
-          ".prettierrc.cjs",
-          ".prettierrc.mjs",
-          "prettier.config.js",
-          "prettier.config.cjs",
-          "prettier.config.mjs",
-        }, {
-          path = ctx.filename,
-          upward = true,
-          stop = vim.uv.os_homedir(),
-        })[1] ~= nil
-      end,
+      condition = has_markers {
+        ".prettierrc",
+        ".prettierrc.json",
+        ".prettierrc.js",
+        ".prettierrc.cjs",
+        ".prettierrc.mjs",
+        "prettier.config.js",
+        "prettier.config.cjs",
+        "prettier.config.mjs",
+      },
     },
   },
 }
@@ -501,14 +484,29 @@ require("nvim-treesitter").install {
 vim.pack.add { "https://github.com/mfussenegger/nvim-lint" }
 
 require("lint").linters_by_ft = {
-  typescript = { "eslint_d" },
-  typescriptreact = { "eslint_d" },
+  typescript = { "eslint_d", "oxlint" },
+  typescriptreact = { "eslint_d", "oxlint" },
   go = { "golangcilint" },
 }
 
 vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPost", "BufEnter", "FocusGained" }, {
   callback = function() pcall(require("lint").try_lint) end,
 })
--- }}}
 
-print(string.format("Neovim startup took %.2f ms", (vim.uv.hrtime() - start_time) / 1e6))
+vim.pack.add { "https://github.com/rachartier/tiny-inline-diagnostic.nvim" }
+require("tiny-inline-diagnostic").setup {
+  preset = "powerline",
+  options = {
+    add_messages = {
+      display_count = true,
+      messages = true,
+    },
+    multilines = {
+      always_show = true,
+      enabled = true,
+    },
+  },
+}
+
+vim.diagnostic.config { virtual_text = false } -- Disable Neovim's default virtual text diagnostics, in favor of the tiny inline diagnostic
+-- }}}
