@@ -1,28 +1,28 @@
 local start_time = vim.uv.hrtime()
-vim.g.transparency = os.getenv("NVIM_TRANSPARENCY") or true
 
---{{{
-vim.opt.nu = true
-vim.opt.relativenumber = true
-vim.opt.tabstop = 4
-vim.opt.softtabstop = 4
-vim.opt.shiftwidth = 4
-vim.opt.expandtab = true
-vim.opt.smartindent = true
-vim.opt.wrap = false
-vim.opt.swapfile = false
-vim.opt.backup = false
-vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
-vim.opt.undofile = true
-vim.opt.hlsearch = false
-vim.opt.incsearch = true
-vim.opt.termguicolors = true
-vim.opt.scrolloff = 8
-vim.opt.signcolumn = "yes"
+-- options {{{
+vim.o.nu = true
+vim.o.relativenumber = true
+vim.o.tabstop = 4
+vim.o.softtabstop = 4
+vim.o.shiftwidth = 4
+vim.o.expandtab = true
+vim.o.smartindent = true
+vim.o.wrap = true
+vim.o.mousescroll = "ver:5,hor:0"
+vim.o.swapfile = false
+vim.o.backup = false
+vim.o.undodir = os.getenv("HOME") .. "/.vim/undodir"
+vim.o.undofile = true
+vim.o.hlsearch = false
+vim.o.incsearch = true
+vim.o.termguicolors = true
+vim.o.scrolloff = 8
+vim.o.signcolumn = "yes"
 vim.opt.isfname:append("@-@")
-vim.opt.updatetime = 50
-vim.o.clipboard = "unnamedplus"
 vim.opt.wildoptions:append("fuzzy")
+vim.o.updatetime = 50
+vim.o.clipboard = "unnamedplus"
 vim.o.pumheight = 10
 vim.o.pumblend = 10
 vim.o.laststatus = 0 -- Experimental: disables the statusbar
@@ -77,10 +77,6 @@ vim.keymap.set("t", "<C-j>", term_normal .. "<C-w>j", { desc = "Window down (fro
 vim.keymap.set("t", "<C-k>", term_normal .. "<C-w>k", { desc = "Window up (from terminal)" })
 vim.keymap.set("t", "<C-l>", term_normal .. "<C-w>l", { desc = "Window right (from terminal)" })
 -- }}}
-
--- require("project").setup { projects_dir = "~/dev" }
--- vim.keymap.set("n", "<leader>p", require("project").switch, { desc = "Switch projects" })
--- vim.keymap.set({ "n", "t" }, "<C-j>", require("project").terminal_toggle, {})
 
 vim.keymap.set("n", "<C-q>", function()
   if vim.fn.getqflist({ winid = 0 }).winid ~= 0 then
@@ -137,6 +133,7 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 -- }}}
 
 -- [colors] {{{
+vim.g.transparency = os.getenv("NVIM_TRANSPARENCY") or true
 vim.pack.add {
   "https://github.com/folke/tokyonight.nvim",
   { src = "https://github.com/catppuccin/nvim", name = "catppuccin" },
@@ -167,7 +164,7 @@ require("rose-pine").setup {
   styles = { bold = false, italic = false, transparency = vim.g.transparency },
 }
 
-vim.cmd.colorscheme(os.getenv("NVIM_THEME") or "catppuccin-mocha")
+vim.cmd.colorscheme(os.getenv("NVIM_THEME") or "vercel")
 -- }}}
 
 -- [editor] {{{
@@ -267,7 +264,7 @@ vim.pack.add { "https://github.com/ibhagwan/fzf-lua" }
 
 local fzf = require("fzf-lua")
 
-fzf.setup { "fzf-vim" }
+fzf.setup { "telescope" }
 
 fzf.register_ui_select()
 
