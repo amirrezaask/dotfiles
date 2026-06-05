@@ -19,6 +19,6 @@ configs/fish/completions
 configs/fish/conf.d
 configs/fish/fish_variables
 configs/fish/functions
-
+themes/vercel/chrome/vercel-theme/Cached\ Theme.pak
 
 **/.DS_Store

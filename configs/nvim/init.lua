@@ -38,6 +38,13 @@ o.cursorline = true
 o.winborder = "rounded"
 g.mapleader = " "
 g.maplocalleader = " "
+-- local ok, ui2 = pcall(require, "vim._core.ui2")
+-- if ok then
+--   ui2.enable { enable = true }
+--   vim.o.cmdheight = 0
+--   vim.pack.add { "https://github.com/rachartier/tiny-cmdline.nvim" }
+-- end
+
 --- }}}
 
 -- [keymaps] {{{
@@ -60,10 +67,6 @@ set("n", "N", "Nzz")
 
 set("n", "j", "gj")
 set("n", "k", "gk")
-
-set("n", "<leader>i", ":edit $MYVIMRC<CR>", { desc = "Edit Configuration" })
-set("n", "<leader>R", ":source $MYVIMRC<CR>", { desc = "Reload Configuration" })
-set("n", "<leader>t", ":edit ~/TODO.md<CR>", { desc = "Edit TODO.md" })
 
 local term_normal = [[<C-\><C-n>]]
 set("t", "<Esc>", term_normal, { desc = "Leave terminal insert mode" })

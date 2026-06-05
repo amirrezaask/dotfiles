@@ -8,8 +8,6 @@ PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$HOME/.loca
 MODE="${1:-os-window}"
 
 PROJECTS_DIR="${PROJECTS_DIR:-$HOME/dev}"
-SCRATCH_DIR="${SCRATCH_DIR:-$HOME/scratch}"
-scratch_option=" scratch"
 
 # Set icon and title based on mode
 if [[ "$MODE" == "tab" ]]; then
@@ -24,55 +22,6 @@ fi
 get_kitty_color() {
   kitten @ get-colors 2>/dev/null | grep "^$1 " | awk '{print $2}' | tr -d '\r'
 }
-
-# Fetch Kitty colors dynamically
-bg=$(get_kitty_color background)
-bg=${bg:-#1e1e2e}
-
-fg=$(get_kitty_color foreground)
-fg=${fg:-#cdd6f4}
-
-cursor=$(get_kitty_color cursor)
-cursor=${cursor:-#f5c2e7}
-
-color0=$(get_kitty_color color0)
-color0=${color0:-#313244}
-
-color4=$(get_kitty_color color4)
-color4=${color4:-#89b4fa}
-
-color5=$(get_kitty_color color5)
-color5=${color5:-#cba6f7}
-
-color6=$(get_kitty_color color6)
-color6=${color6:-#b4befe}
-
-color7=$(get_kitty_color color7)
-color7=${color7:-#a6adc8}
-
-color2=$(get_kitty_color color2)
-color2=${color2:-#a6e3a1}
-
-color1=$(get_kitty_color color1)
-color1=${color1:-#f38ba8}
-
-fzf_options=(
-  # --prompt "  "
-  # --height "50%"
-  # --min-height 40
-  --layout reverse
-  # --border none
-  # --margin "25%,15%"
-  # --padding "2"
-  # --info inline-right
-  # --pointer "▶"
-  # --marker "✓"
-  --color "bg:${bg},bg+:${color0},fg:${fg},fg+:${fg}"
-  --color "hl:${color4},hl+:${color5},info:${color7}"
-  --color "prompt:${color4},pointer:${color5},marker:${color2}"
-  --color "border:${color0},gutter:${bg}"
-  --color "header:${color6},spinner:${cursor}"
-)
 
 die() {
   echo "$1" >&2
@@ -95,7 +44,7 @@ projects=$(
 )
 
 set +e
-selected=$(printf "%s\n%s\n" "$scratch_option" "$projects" | awk 'NF' | fzf "${fzf_options[@]}")
+selected=$(printf "%s\n%s\n" "$projects" | awk 'NF' | fzf )
 fzf_status=$?
 set -e
 
@@ -112,14 +61,8 @@ fi
 # Strip icon prefix for processing
 selected_clean="${selected#* }"
 
-if [ "$selected" = "$scratch_option" ]; then
-  session_name="scratch"
-  target_dir="$SCRATCH_DIR"
-  mkdir -p "$target_dir"
-else
-  session_name=$(basename "$selected_clean" | tr . _)
-  target_dir="$PROJECTS_DIR/$selected_clean"
-fi
+session_name=$(basename "$selected_clean" | tr . _)
+target_dir="$PROJECTS_DIR/$selected_clean"
 
 match_session="var:kitty_session_name=$session_name"
 kitty_state=$(kitten @ ls) || die "Unable to query Kitty windows. Is remote control enabled?"
