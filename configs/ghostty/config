@@ -1,5 +1,5 @@
 theme = vercel
-font-family = Jetbrains Mono
+font-family = MonoLisa-Regular
 font-size = 14
 font-feature=-calt
 mouse-hide-while-typing = true
