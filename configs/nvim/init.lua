@@ -138,7 +138,11 @@ add {
   { src = "https://github.com/catppuccin/nvim", name = "catppuccin" },
 }
 
-require("tokyonight").setup { transparent = vim.g.transparency, styles = { comments = { italic = false }, keywords = { italic = false } } }
+require("tokyonight").setup {
+  transparent = vim.g.transparency,
+  styles = { comments = { italic = false }, keywords = { italic = false } },
+}
+
 require("catppuccin").setup {
   transparent_background = vim.g.transparency,
   background = { -- :h background

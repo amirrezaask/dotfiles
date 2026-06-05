@@ -273,7 +273,6 @@
 
 (GLOBAL (kbd "M-o") 'project-find-file)
 (GLOBAL (kbd "M-m") 'project-compile)
-(GLOBAL (kbd "M-s") #'deadgrep)
 
 ;; Pixel scrolling
 (pixel-scroll-precision-mode +1)
@@ -307,9 +306,6 @@
   (define-key eglot-mode-map (kbd "C-c C-r") 'eglot-rename)
   (define-key eglot-mode-map (kbd "M-RET")   'eglot-organize-imports-format)
   (define-key eglot-mode-map (kbd "C-c C-c") 'eglot-code-actions))
-
-(install 'eldoc-box)
-(add-hook 'eldoc-mode-hook 'eldoc-box-hover-mode)
 
 (setq eldoc-echo-area-use-multiline-p nil)
 
