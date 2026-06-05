@@ -21,7 +21,4 @@
 	rebase = true
 
 [diff]
-	tool = nvim
-
-[difftool "nvim"]
-	cmd = nvim +\"DiffviewOpen $LOCAL $REMOTE\"
+	tool = hunk diff

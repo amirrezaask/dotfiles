@@ -1,82 +1,79 @@
+local aucmd = vim.api.nvim_create_autocmd
+local command = vim.api.nvim_create_user_command
+local set = vim.keymap.set
+local o = vim.o
+local g = vim.g
+local add = vim.pack.add
+local a = vim.api
 -- options {{{
-vim.o.nu = true
-vim.o.relativenumber = true
-vim.o.tabstop = 4
-vim.o.softtabstop = 4
-vim.o.shiftwidth = 4
-vim.o.expandtab = true
-vim.o.smartindent = true
-vim.o.wrap = true
-vim.o.mousescroll = "ver:5,hor:0"
-vim.o.swapfile = false
-vim.o.backup = false
-vim.o.undodir = os.getenv("HOME") .. "/.vim/undodir"
-vim.o.undofile = true
-vim.o.hlsearch = false
-vim.o.incsearch = true
-vim.o.termguicolors = true
-vim.o.scrolloff = 8
-vim.o.signcolumn = "yes"
-vim.opt.isfname:append("@-@")
-vim.opt.wildoptions:append("fuzzy")
-vim.o.updatetime = 50
-vim.o.clipboard = "unnamedplus"
-vim.o.pumheight = 10
-vim.o.pumblend = 10
-vim.o.laststatus = 0 -- Experimental: disables the statusbar
-vim.o.winbar = "%m%r%h%f"
-vim.o.title = true
-vim.o.titlestring = "%{fnamemodify(getcwd(), ':~')}"
-vim.o.shortmess = vim.o.shortmess .. "I" .. "W" .. "C"
-vim.o.cursorline = true
-
--- local ok, ui2 = pcall(require, "vim._core.ui2")
--- if ok then
---   ui2.enable { enable = true }
---   vim.o.cmdheight = 0
---   -- vim.pack.add { "https://github.com/rachartier/tiny-cmdline.nvim" }
--- end
-
+o.nu = true
+o.relativenumber = true
+o.tabstop = 2
+o.softtabstop = 2
+o.shiftwidth = 2
+o.expandtab = true
+o.smartindent = true
+o.wrap = true
+o.mousescroll = "ver:5,hor:0"
+o.swapfile = false
+o.backup = false
+o.undodir = os.getenv("HOME") .. "/.vim/undodir"
+o.undofile = true
+o.hlsearch = false
+o.incsearch = true
+o.termguicolors = true
+o.scrolloff = 8
+o.signcolumn = "yes"
+o.wildoptions = o.wildoptions .. ",fuzzy"
+o.updatetime = 50
+o.clipboard = "unnamedplus"
+o.pumheight = 10
+o.pumblend = 10
+o.laststatus = 0 -- Experimental: disables the statusbar
+o.winbar = "%m%r%h%f"
+o.title = true
+o.titlestring = "%{fnamemodify(getcwd(), ':~')}"
+o.shortmess = vim.o.shortmess .. "I" .. "W" .. "C"
+o.cursorline = true
+g.mapleader = " "
+g.maplocalleader = " "
 --- }}}
 
 -- [keymaps] {{{
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
+set("i", "jk", "<esc>")
+set("i", "kj", "<esc>")
+set("i", "<C-c>", "<esc>")
 
-vim.keymap.set("i", "jk", "<esc>")
-vim.keymap.set("i", "kj", "<esc>")
-vim.keymap.set("i", "<C-c>", "<esc>")
+set({ "n", "x", "o" }, "H", "^", { desc = "Start of Line" })
+set({ "n", "x", "o" }, "L", "g_", { desc = "End of Line" })
 
-vim.keymap.set({ "n", "x", "o" }, "H", "^", { desc = "Start of Line" })
-vim.keymap.set({ "n", "x", "o" }, "L", "g_", { desc = "End of Line" })
+set("v", "<", "<gv", { desc = "Indent Left" })
+set("v", ">", ">gv", { desc = "Indent Right" })
+set("v", "p", '"_dP', { desc = "Paste (no yank)" })
 
-vim.keymap.set("v", "<", "<gv", { desc = "Indent Left" })
-vim.keymap.set("v", ">", ">gv", { desc = "Indent Right" })
-vim.keymap.set("v", "p", '"_dP', { desc = "Paste (no yank)" })
+set("n", "<C-d>", "<C-d>zz")
+set("n", "<C-u>", "<C-u>zz")
 
-vim.keymap.set("n", "<C-d>", "<C-d>zz")
-vim.keymap.set("n", "<C-u>", "<C-u>zz")
+set("n", "n", "nzz")
+set("n", "N", "Nzz")
 
-vim.keymap.set("n", "n", "nzz")
-vim.keymap.set("n", "N", "Nzz")
+set("n", "j", "gj")
+set("n", "k", "gk")
 
-vim.keymap.set("n", "j", "gj")
-vim.keymap.set("n", "k", "gk")
-
-vim.keymap.set("n", "<leader>i", ":edit $MYVIMRC<CR>", { desc = "Edit Configuration" })
-vim.keymap.set("n", "<leader>R", ":source $MYVIMRC<CR>", { desc = "Reload Configuration" })
-vim.keymap.set("n", "<leader>t", ":edit ~/TODO.md<CR>", { desc = "Edit TODO.md" })
+set("n", "<leader>i", ":edit $MYVIMRC<CR>", { desc = "Edit Configuration" })
+set("n", "<leader>R", ":source $MYVIMRC<CR>", { desc = "Reload Configuration" })
+set("n", "<leader>t", ":edit ~/TODO.md<CR>", { desc = "Edit TODO.md" })
 
 local term_normal = [[<C-\><C-n>]]
-vim.keymap.set("t", "<Esc>", term_normal, { desc = "Leave terminal insert mode" })
-vim.keymap.set("t", "jk", term_normal, { desc = "Leave terminal insert mode" })
-vim.keymap.set("t", "<C-h>", term_normal .. "<C-w>h", { desc = "Window left (from terminal)" })
-vim.keymap.set("t", "<C-j>", term_normal .. "<C-w>j", { desc = "Window down (from terminal)" })
-vim.keymap.set("t", "<C-k>", term_normal .. "<C-w>k", { desc = "Window up (from terminal)" })
-vim.keymap.set("t", "<C-l>", term_normal .. "<C-w>l", { desc = "Window right (from terminal)" })
+set("t", "<Esc>", term_normal, { desc = "Leave terminal insert mode" })
+set("t", "jk", term_normal, { desc = "Leave terminal insert mode" })
+set("t", "<C-h>", term_normal .. "<C-w>h", { desc = "Window left (from terminal)" })
+set("t", "<C-j>", term_normal .. "<C-w>j", { desc = "Window down (from terminal)" })
+set("t", "<C-k>", term_normal .. "<C-w>k", { desc = "Window up (from terminal)" })
+set("t", "<C-l>", term_normal .. "<C-w>l", { desc = "Window right (from terminal)" })
 -- }}}
 
-vim.keymap.set("n", "<C-q>", function()
+set("n", "<C-q>", function()
   if vim.fn.getqflist({ winid = 0 }).winid ~= 0 then
     vim.cmd.cclose()
   else
@@ -85,9 +82,9 @@ vim.keymap.set("n", "<C-q>", function()
 end, {
   desc = "Toggle quickfix list",
 })
-vim.keymap.set("n", "<leader>q", function() vim.diagnostic.setloclist { open = true } end)
+set("n", "<leader>q", function() vim.diagnostic.setloclist { open = true } end)
 
-vim.keymap.set("n", "<CR>", function()
+set("n", "<CR>", function()
   if vim.v.hlsearch == 1 then
     vim.cmd.nohl()
     return ""
@@ -99,30 +96,30 @@ end, {
 -- }}}
 
 -- [autocmds for better editor experience] {{{
-vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold" }, {
+aucmd({ "FocusGained", "BufEnter", "CursorHold" }, {
   callback = function() vim.cmd("checktime") end,
 })
 
-vim.api.nvim_create_autocmd("TextYankPost", {
+aucmd("TextYankPost", {
   callback = function() vim.hl.hl_op { higroup = "Visual", timeout = 150 } end,
 })
 
-vim.api.nvim_create_autocmd("BufEnter", {
+aucmd("BufEnter", {
   callback = function(args)
     if vim.bo[args.buf].buftype == "prompt" then vim.bo[args.buf].autocomplete = false end
   end,
 })
 
-vim.api.nvim_create_autocmd("VimResized", {
+aucmd("VimResized", {
   command = "wincmd =",
 })
 
-vim.api.nvim_create_autocmd("BufReadPost", {
+aucmd("BufReadPost", {
   callback = function(args)
-    local mark = vim.api.nvim_buf_get_mark(args.buf, '"')
-    local line_count = vim.api.nvim_buf_line_count(args.buf)
+    local mark = a.nvim_buf_get_mark(args.buf, '"')
+    local line_count = a.nvim_buf_line_count(args.buf)
     if mark[1] > 0 and mark[1] <= line_count then
-      vim.api.nvim_win_set_cursor(0, mark)
+      a.nvim_win_set_cursor(0, mark)
       vim.schedule(function() vim.cmd("normal! zz") end)
     end
   end,
@@ -132,14 +129,13 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 
 -- [colors] {{{
 vim.g.transparency = os.getenv("NVIM_TRANSPARENCY") or true
-vim.pack.add {
-  "https://github.com/folke/tokyonight.nvim",
+add {
+  { src = "https://github.com/folke/tokyonight.nvim", name = "tokyonight" },
   { src = "https://github.com/catppuccin/nvim", name = "catppuccin" },
   { src = "https://github.com/rose-pine/neovim", name = "rose-pine" },
-  "https://github.com/scottmckendry/cyberdream.nvim",
 }
 
-vim.api.nvim_create_autocmd("ColorScheme", {
+a.nvim_create_autocmd("ColorScheme", {
   pattern = "default",
   callback = function(args)
     if args.match == "default" then vim.cmd([[
@@ -166,8 +162,7 @@ vim.cmd.colorscheme(os.getenv("NVIM_THEME") or "vercel")
 -- }}}
 
 -- [editor] {{{
-vim.pack.add {
-  "https://github.com/tpope/vim-sleuth",
+add {
   "https://github.com/brenoprata10/nvim-highlight-colors",
 }
 
@@ -184,7 +179,7 @@ require("nvim-highlight-colors").setup {
 -- }}}
 
 -- [blink.cmp] {{{
-vim.pack.add { "https://github.com/saghen/blink.cmp" }
+add { "https://github.com/saghen/blink.cmp" }
 
 require("blink.cmp").setup {
   cmdline = {
@@ -258,7 +253,7 @@ require("blink.cmp").setup {
 -- }}}
 
 -- [fzf-lua] {{{
-vim.pack.add { "https://github.com/ibhagwan/fzf-lua" }
+add { "https://github.com/ibhagwan/fzf-lua" }
 
 local fzf = require("fzf-lua")
 
@@ -277,7 +272,7 @@ vim.keymap.set("n", "<leader>J", fzf.grep_cword, { desc = "Grep Word" })
 vim.keymap.set("v", "<leader>J", fzf.grep_visual, { desc = "Grep Word" })
 vim.keymap.set("n", "<leader>k", fzf.buffers, { desc = "Buffers" })
 
-vim.api.nvim_create_autocmd("LspAttach", {
+a.nvim_create_autocmd("LspAttach", {
   callback = function(args)
     vim.keymap.set("n", "gd", fzf.lsp_definitions, { buffer = args.buf, desc = "[g]oto [d]efinition" })
     vim.keymap.set("n", "grr", fzf.lsp_references, { buffer = args.buf, desc = "[g]oto [r]eferences" })
@@ -291,7 +286,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 -- }}}
 
 -- [oil] {{{
-vim.pack.add { "https://github.com/stevearc/oil.nvim" }
+add { "https://github.com/stevearc/oil.nvim" }
 
 require("oil").setup {
   float = {
@@ -308,13 +303,13 @@ vim.keymap.set("n", "<leader>e", require("oil").toggle_float, { desc = "Toggle f
 -- }}}
 
 -- [git] {{{
-vim.pack.add {
+add {
   "https://github.com/tpope/vim-fugitive",
 }
 -- }}}
 
 -- [lsp] {{{
-vim.pack.add {
+add {
   "https://github.com/neovim/nvim-lspconfig",
   "https://github.com/mason-org/mason.nvim",
   "https://github.com/mason-org/mason-lspconfig.nvim",
@@ -329,12 +324,12 @@ vim.lsp.config("lua_ls", {
   settings = {
     Lua = {
       diagnostics = { globals = { "vim" } },
-      workspace = { library = vim.api.nvim_get_runtime_file("", true) },
+      workspace = { library = a.nvim_get_runtime_file("", true) },
     },
   },
 })
 
-vim.api.nvim_create_autocmd("LspAttach", {
+a.nvim_create_autocmd("LspAttach", {
   callback = function(args)
     vim.keymap.set("n", "L", vim.diagnostic.open_float, { buffer = args.buf, desc = "Open Floating Diagnostic" })
     vim.keymap.set("n", "C", vim.lsp.buf.code_action, { buffer = args.buf, desc = "Code Actions" })
@@ -344,9 +339,9 @@ vim.api.nvim_create_autocmd("LspAttach", {
 -- }}}
 
 -- [conform: Autoformat] {{{
-vim.pack.add { "https://github.com/stevearc/conform.nvim" }
+add { "https://github.com/stevearc/conform.nvim" }
 
-vim.api.nvim_create_user_command("ConformDisable", function(args)
+a.nvim_create_user_command("ConformDisable", function(args)
   if args.bang then
     vim.b.disable_autoformat = true
   else
@@ -357,7 +352,7 @@ end, {
   bang = true,
 })
 
-vim.api.nvim_create_user_command("ConformEnable", function()
+a.nvim_create_user_command("ConformEnable", function()
   vim.b.disable_autoformat = false
   vim.g.disable_autoformat = false
 end, {
@@ -423,11 +418,11 @@ require("conform").setup {
   },
 }
 
-vim.api.nvim_create_user_command(
+command(
   "Format",
   function()
     require("conform").format {
-      bufnr = vim.api.nvim_get_current_buf(),
+      bufnr = a.nvim_get_current_buf(),
       timeout_ms = 500,
       lsp_fallback = false,
     }
@@ -435,16 +430,16 @@ vim.api.nvim_create_user_command(
   { desc = "Format current buffer using conform" }
 )
 
-vim.api.nvim_create_user_command("Json", function() vim.bo.filetype = "json" end, { desc = "Set buffer filetype to JSON" })
+command("Json", function() vim.bo.filetype = "json" end, { desc = "Set buffer filetype to JSON" })
 -- }}}
 
 -- [treesitter] {{{
-vim.pack.add {
+add {
   "https://github.com/nvim-treesitter/nvim-treesitter",
   "https://github.com/nvim-treesitter/nvim-treesitter-context",
 }
 
-vim.api.nvim_create_autocmd("FileType", { callback = function(args) pcall(vim.treesitter.start, args.buf) end })
+aucmd("FileType", { callback = function(args) pcall(vim.treesitter.start, args.buf) end })
 
 require("treesitter-context").setup { enable = true }
 
@@ -481,7 +476,7 @@ require("nvim-treesitter").install {
 -- }}}
 
 -- [lint] {{{
-vim.pack.add { "https://github.com/mfussenegger/nvim-lint" }
+add { "https://github.com/mfussenegger/nvim-lint" }
 
 require("lint").linters_by_ft = {
   typescript = { "eslint_d", "oxlint" },
@@ -489,11 +484,11 @@ require("lint").linters_by_ft = {
   go = { "golangcilint" },
 }
 
-vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPost", "BufEnter", "FocusGained" }, {
+aucmd({ "BufWritePost", "BufReadPost", "BufEnter", "FocusGained" }, {
   callback = function() pcall(require("lint").try_lint) end,
 })
 
-vim.pack.add { "https://github.com/rachartier/tiny-inline-diagnostic.nvim" }
+add { "https://github.com/rachartier/tiny-inline-diagnostic.nvim" }
 require("tiny-inline-diagnostic").setup {
   preset = "powerline",
   options = {
