@@ -8,6 +8,7 @@ local a = vim.api
 -- options {{{
 o.nu = true
 o.relativenumber = true
+o.guicursor = "n-v-c-sm-i-ci-ve:block,r-cr-o:hor20,t:block-blinkon500-blinkoff500-TermCursor"
 o.tabstop = 2
 o.softtabstop = 2
 o.shiftwidth = 2
@@ -51,20 +52,13 @@ g.maplocalleader = " "
 set("i", "jk", "<esc>")
 set("i", "kj", "<esc>")
 set("i", "<C-c>", "<esc>")
-
-set({ "n", "x", "o" }, "H", "^", { desc = "Start of Line" })
-set({ "n", "x", "o" }, "L", "g_", { desc = "End of Line" })
-
 set("v", "<", "<gv", { desc = "Indent Left" })
 set("v", ">", ">gv", { desc = "Indent Right" })
 set("v", "p", '"_dP', { desc = "Paste (no yank)" })
-
 set("n", "<C-d>", "<C-d>zz")
 set("n", "<C-u>", "<C-u>zz")
-
 set("n", "n", "nzz")
 set("n", "N", "Nzz")
-
 set("n", "j", "gj")
 set("n", "k", "gk")
 
@@ -114,6 +108,10 @@ aucmd("BufEnter", {
   end,
 })
 
+aucmd("DiagnosticChanged", {
+  callback = function(args) vim.diagnostic.setqflist { open = false } end,
+})
+
 aucmd("VimResized", {
   command = "wincmd =",
 })
@@ -151,6 +149,7 @@ require("catppuccin").setup {
   },
 }
 
+-- For vercel theme checkout themes directory in the root of dotfiles.
 vim.cmd.colorscheme(os.getenv("NVIM_THEME") or "vercel")
 -- }}}
 
