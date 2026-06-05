@@ -71,7 +71,6 @@ alias ll='ls -lh'
 alias ls='ls -G'
 alias lsa='ls -lah'
 alias gg='go build -v ./...'
-alias s='subl'
 alias ss='subl .'
 
 if command -v fzf &> /dev/null; then
@@ -154,3 +153,11 @@ export PATH="$HOME/.grok/bin:$PATH"
 fpath=(~/.grok/completions/zsh $fpath)
 autoload -Uz compinit && compinit -C
 # <<< grok installer <<<
+
+# pnpm
+export PNPM_HOME="/Users/amirrezaask/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME/bin:"*) ;;
+  *) export PATH="$PNPM_HOME/bin:$PATH" ;;
+esac
+# pnpm end

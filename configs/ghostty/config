@@ -1,5 +1,5 @@
-theme = Catppuccin Macchiato
-font-family = TX-02
+theme = vercel
+font-family = Jetbrains Mono
 font-size = 14
 font-feature=-calt
 mouse-hide-while-typing = true
