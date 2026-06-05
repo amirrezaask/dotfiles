@@ -30,11 +30,12 @@ o.clipboard = "unnamedplus"
 o.pumheight = 10
 o.pumblend = 10
 o.laststatus = 0 -- Experimental: disables the statusbar
-o.winbar = "%m%r%h%f"
+-- o.winbar = "%m%r%h%f"
 o.title = true
 o.titlestring = "%{fnamemodify(getcwd(), ':~')}"
 o.shortmess = vim.o.shortmess .. "I" .. "W" .. "C"
 o.cursorline = true
+o.winborder = "rounded"
 g.mapleader = " "
 g.maplocalleader = " "
 --- }}}
@@ -135,18 +136,7 @@ add {
   { src = "https://github.com/rose-pine/neovim", name = "rose-pine" },
 }
 
-a.nvim_create_autocmd("ColorScheme", {
-  pattern = "default",
-  callback = function(args)
-    if args.match == "default" then vim.cmd([[
-        hi! Normal guibg=none
-      ]]) end
-  end,
-})
-require("tokyonight").setup {
-  transparent = vim.g.transparency,
-  styles = { comments = { italic = false }, keywords = { italic = false } },
-}
+require("tokyonight").setup { transparent = vim.g.transparency, styles = { comments = { italic = false }, keywords = { italic = false } } }
 require("catppuccin").setup {
   transparent_background = vim.g.transparency,
   background = { -- :h background
@@ -154,14 +144,12 @@ require("catppuccin").setup {
     dark = "mocha",
   },
 }
-require("rose-pine").setup {
-  styles = { bold = false, italic = false, transparency = vim.g.transparency },
-}
+require("rose-pine").setup { styles = { bold = false, italic = false, transparency = vim.g.transparency } }
 
-vim.cmd.colorscheme(os.getenv("NVIM_THEME") or "vercel")
+vim.cmd.colorscheme(os.getenv("NVIM_THEME") or "catppuccin-mocha")
 -- }}}
 
--- [editor] {{{
+-- [color highlight] {{{
 add {
   "https://github.com/brenoprata10/nvim-highlight-colors",
 }
@@ -177,6 +165,16 @@ require("nvim-highlight-colors").setup {
   enable_tailwind = true,
 }
 -- }}}
+
+add { "https://github.com/nvim-lualine/lualine.nvim" }
+require("lualine").setup {
+  sections = {
+    lualine_a = {
+      { "filename", path = 1 },
+    },
+  },
+  -- winbar = { lualine_a = { { "filename", path = 1 } } },
+}
 
 -- [blink.cmp] {{{
 add { "https://github.com/saghen/blink.cmp" }
@@ -303,9 +301,7 @@ vim.keymap.set("n", "<leader>e", require("oil").toggle_float, { desc = "Toggle f
 -- }}}
 
 -- [git] {{{
-add {
-  "https://github.com/tpope/vim-fugitive",
-}
+add { "https://github.com/tpope/vim-fugitive" }
 -- }}}
 
 -- [lsp] {{{
