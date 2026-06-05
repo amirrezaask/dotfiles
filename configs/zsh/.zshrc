@@ -161,3 +161,17 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME/bin:$PATH" ;;
 esac
 # pnpm end
+
+p() {
+  local projects_dir="${PROJECTS_DIR:-$HOME/dev}"
+  local projects
+  projects=$(find "$projects_dir" -maxdepth 3 -name ".git" -type d 2>/dev/null \
+    | sed 's|/.git$||' \
+    | sed "s|^$projects_dir/||" \
+    | sort)
+
+  local selected
+  selected=$(printf "%s\n" "$projects" | fzf) || return 0
+  [ -z "$selected" ] && return 0
+  cd "$projects_dir/$selected" || return 1
+}
