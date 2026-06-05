@@ -136,7 +136,6 @@ vim.g.transparency = os.getenv("NVIM_TRANSPARENCY") or true
 add {
   { src = "https://github.com/folke/tokyonight.nvim", name = "tokyonight" },
   { src = "https://github.com/catppuccin/nvim", name = "catppuccin" },
-  { src = "https://github.com/rose-pine/neovim", name = "rose-pine" },
 }
 
 require("tokyonight").setup { transparent = vim.g.transparency, styles = { comments = { italic = false }, keywords = { italic = false } } }
@@ -147,9 +146,8 @@ require("catppuccin").setup {
     dark = "mocha",
   },
 }
-require("rose-pine").setup { styles = { bold = false, italic = false, transparency = vim.g.transparency } }
 
-vim.cmd.colorscheme(os.getenv("NVIM_THEME") or "catppuccin-mocha")
+vim.cmd.colorscheme(os.getenv("NVIM_THEME") or "vercel")
 -- }}}
 
 -- [color highlight] {{{
