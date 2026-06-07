@@ -31,7 +31,9 @@ o.clipboard = "unnamedplus"
 o.pumheight = 10
 o.pumblend = 10
 o.laststatus = 0 -- Experimental: disables the statusbar
--- o.winbar = "%m%r%h%f"
+o.winbar = "%m%r%h%f"
+o.splitbelow = true
+o.splitright = true
 o.title = true
 o.titlestring = "%{fnamemodify(getcwd(), ':~')}"
 o.shortmess = vim.o.shortmess .. "I" .. "W" .. "C"
@@ -39,12 +41,12 @@ o.cursorline = true
 o.winborder = "rounded"
 g.mapleader = " "
 g.maplocalleader = " "
--- local ok, ui2 = pcall(require, "vim._core.ui2")
--- if ok then
---   ui2.enable { enable = true }
---   vim.o.cmdheight = 0
---   vim.pack.add { "https://github.com/rachartier/tiny-cmdline.nvim" }
--- end
+local ok, ui2 = pcall(require, "vim._core.ui2")
+if ok then
+  ui2.enable { enable = true }
+  vim.o.cmdheight = 0
+  vim.pack.add { "https://github.com/rachartier/tiny-cmdline.nvim" }
+end
 
 --- }}}
 
@@ -130,7 +132,7 @@ aucmd("BufReadPost", {
 -- }}}
 
 -- [colors] {{{
-vim.g.transparency = os.getenv("NVIM_TRANSPARENCY") or true
+vim.g.transparency = os.getenv("NVIM_TRANSPARENCY") or false
 add {
   { src = "https://github.com/folke/tokyonight.nvim", name = "tokyonight" },
   { src = "https://github.com/catppuccin/nvim", name = "catppuccin" },
@@ -150,7 +152,7 @@ require("catppuccin").setup {
 }
 
 -- For vercel theme checkout themes directory in the root of dotfiles.
-vim.cmd.colorscheme(os.getenv("NVIM_THEME") or "vercel")
+vim.cmd.colorscheme(os.getenv("NVIM_THEME") or "rf_4coder")
 -- }}}
 
 -- [color highlight] {{{
@@ -170,15 +172,15 @@ require("nvim-highlight-colors").setup {
 }
 -- }}}
 
-add { "https://github.com/nvim-lualine/lualine.nvim" }
-require("lualine").setup {
-  sections = {
-    lualine_a = {
-      { "filename", path = 1 },
-    },
-  },
-  -- winbar = { lualine_a = { { "filename", path = 1 } } },
-}
+-- add { "https://github.com/nvim-lualine/lualine.nvim" }
+-- require("lualine").setup {
+--   sections = {
+--     lualine_a = {
+--       { "filename", path = 1 },
+--     },
+--   },
+--   -- winbar = { lualine_a = { { "filename", path = 1 } } },
+-- }
 
 -- [blink.cmp] {{{
 add { "https://github.com/saghen/blink.cmp" }
@@ -436,12 +438,11 @@ command("Json", function() vim.bo.filetype = "json" end, { desc = "Set buffer fi
 -- [treesitter] {{{
 add {
   "https://github.com/nvim-treesitter/nvim-treesitter",
-  "https://github.com/nvim-treesitter/nvim-treesitter-context",
 }
 
 aucmd("FileType", { callback = function(args) pcall(vim.treesitter.start, args.buf) end })
 
-require("treesitter-context").setup { enable = true }
+-- require("treesitter-context").setup { enable = true }
 
 require("nvim-treesitter").install {
   "bash",

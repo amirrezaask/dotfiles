@@ -86,4 +86,7 @@
   "workbench.activityBar.location": "top",
   "cursor.composer.shouldChimeAfterChatFinishes": true,
   "workbench.preferredHighContrastColorTheme": "Vercel Dark",
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
 }
