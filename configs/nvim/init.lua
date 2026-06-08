@@ -31,7 +31,7 @@ o.clipboard = "unnamedplus"
 o.pumheight = 10
 o.pumblend = 10
 o.laststatus = 0 -- Experimental: disables the statusbar
-o.winbar = "%m%r%h%f"
+o.winbar = "%m%r%h%f%=%y %l:%c "
 o.splitbelow = true
 o.splitright = true
 o.title = true
@@ -41,13 +41,6 @@ o.cursorline = true
 o.winborder = "rounded"
 g.mapleader = " "
 g.maplocalleader = " "
-local ok, ui2 = pcall(require, "vim._core.ui2")
-if ok then
-  ui2.enable { enable = true }
-  vim.o.cmdheight = 0
-  vim.pack.add { "https://github.com/rachartier/tiny-cmdline.nvim" }
-end
-
 --- }}}
 
 -- [keymaps] {{{
@@ -152,7 +145,7 @@ require("catppuccin").setup {
 }
 
 -- For vercel theme checkout themes directory in the root of dotfiles.
-vim.cmd.colorscheme(os.getenv("NVIM_THEME") or "rf_4coder")
+vim.cmd.colorscheme(os.getenv("NVIM_THEME") or "vercel")
 -- }}}
 
 -- [color highlight] {{{
