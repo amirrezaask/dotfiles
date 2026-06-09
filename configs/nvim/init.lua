@@ -5,6 +5,7 @@ local o = vim.o
 local g = vim.g
 local add = vim.pack.add
 local a = vim.api
+
 -- options {{{
 o.nu = true
 o.relativenumber = true
@@ -104,7 +105,7 @@ aucmd("BufEnter", {
 })
 
 aucmd("DiagnosticChanged", {
-  callback = function(args) vim.diagnostic.setqflist { open = false } end,
+  callback = function(_) vim.diagnostic.setqflist { open = false } end,
 })
 
 aucmd("VimResized", {
@@ -121,7 +122,6 @@ aucmd("BufReadPost", {
     end
   end,
 })
-
 -- }}}
 
 -- [colors] {{{
@@ -129,6 +129,11 @@ vim.g.transparency = os.getenv("NVIM_TRANSPARENCY") or false
 add {
   { src = "https://github.com/folke/tokyonight.nvim", name = "tokyonight" },
   { src = "https://github.com/catppuccin/nvim", name = "catppuccin" },
+  { src = "https://github.com/rose-pine/neovim", name = "rose-pine" },
+}
+
+require("rose-pine").setup {
+  styles = { italic = false, transparency = true },
 }
 
 require("tokyonight").setup {
@@ -145,7 +150,7 @@ require("catppuccin").setup {
 }
 
 -- For vercel theme checkout themes directory in the root of dotfiles.
-vim.cmd.colorscheme(os.getenv("NVIM_THEME") or "vercel")
+vim.cmd.colorscheme(os.getenv("NVIM_THEME") or "rose-pine-moon")
 -- }}}
 
 -- [color highlight] {{{
@@ -164,16 +169,6 @@ require("nvim-highlight-colors").setup {
   enable_tailwind = true,
 }
 -- }}}
-
--- add { "https://github.com/nvim-lualine/lualine.nvim" }
--- require("lualine").setup {
---   sections = {
---     lualine_a = {
---       { "filename", path = 1 },
---     },
---   },
---   -- winbar = { lualine_a = { { "filename", path = 1 } } },
--- }
 
 -- [blink.cmp] {{{
 add { "https://github.com/saghen/blink.cmp" }

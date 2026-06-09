@@ -1,5 +1,5 @@
-theme = vercel
-font-family = Fira Code
+theme = TokyoNight Night
+font-family = Jetbrains Mono
 font-size = 14
 font-feature=-calt
 mouse-hide-while-typing = true
