@@ -249,14 +249,21 @@ add { "https://github.com/ibhagwan/fzf-lua" }
 
 local fzf = require("fzf-lua")
 
-fzf.setup { "telescope" }
+fzf.setup {
+  "telescope",
+  winopts = {
+    height = 0.99,
+    width = 0.99,
+  },
+}
 
 fzf.register_ui_select()
 
 vim.keymap.set("n", "<leader><leader>", fzf.files, { desc = "Find Files" })
 vim.keymap.set("n", "<C-p>", fzf.files, { desc = "Git Files" })
 vim.keymap.set("n", "<leader>l", fzf.lines, { desc = "Buffer Lines" })
-vim.keymap.set("n", "<leader>gf", fzf.git_files, { desc = "Git Files" })
+vim.keymap.set("n", "<leader>pf", fzf.git_files, { desc = "Git Files" })
+vim.keymap.set("n", "<leader>pg", fzf.grep_project, { desc = "RG Grep" })
 vim.keymap.set("n", "<leader>gl", fzf.git_commits, { desc = "Git Log" })
 vim.keymap.set("n", "<leader>gL", fzf.git_bcommits, { desc = "Git Log Line" })
 vim.keymap.set("n", "<leader>j", fzf.live_grep, { desc = "Grep" })
