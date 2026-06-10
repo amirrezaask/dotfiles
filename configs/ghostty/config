@@ -32,3 +32,4 @@ keybind = cmd+j=goto_split:down
 keybind = cmd+h=goto_split:left
 keybind = cmd+k=goto_split:up
 keybind = cmd+l=goto_split:right
+keybind = shift+enter=text:\x1b\r

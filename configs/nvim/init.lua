@@ -264,6 +264,8 @@ vim.keymap.set("n", "<C-p>", fzf.files, { desc = "Git Files" })
 vim.keymap.set("n", "<leader>l", fzf.lines, { desc = "Buffer Lines" })
 vim.keymap.set("n", "<leader>pf", fzf.git_files, { desc = "Git Files" })
 vim.keymap.set("n", "<leader>pg", fzf.grep_project, { desc = "RG Grep" })
+vim.keymap.set("n", "<leader>pw", fzf.live_grep, { desc = "Live Grep" })
+vim.keymap.set("n", "<leader>pW", fzf.grep_cword, { desc = "Grep <cword>" })
 vim.keymap.set("n", "<leader>gl", fzf.git_commits, { desc = "Git Log" })
 vim.keymap.set("n", "<leader>gL", fzf.git_bcommits, { desc = "Git Log Line" })
 vim.keymap.set("n", "<leader>j", fzf.live_grep, { desc = "Grep" })
@@ -436,8 +438,6 @@ add {
 }
 
 aucmd("FileType", { callback = function(args) pcall(vim.treesitter.start, args.buf) end })
-
--- require("treesitter-context").setup { enable = true }
 
 require("nvim-treesitter").install {
   "bash",
