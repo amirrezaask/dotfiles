@@ -89,4 +89,6 @@
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+  "workbench.agentsWindowButton.enabled": false,
+  "workbench.editor.showTabs": "single",
 }

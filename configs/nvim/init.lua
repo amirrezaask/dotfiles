@@ -31,14 +31,13 @@ o.updatetime = 50
 o.clipboard = "unnamedplus"
 o.pumheight = 10
 o.pumblend = 10
-o.laststatus = 0 -- Experimental: disables the statusbar
-o.winbar = "%m%r%h%f%=%y %l:%c "
+o.statusline= "%m%r%h%f%=%y %l:%c "
 o.splitbelow = true
 o.splitright = true
 o.title = true
 o.titlestring = "%{fnamemodify(getcwd(), ':~')}"
 o.shortmess = vim.o.shortmess .. "I" .. "W" .. "C"
-o.cursorline = true
+o.cursorline = false
 o.winborder = "rounded"
 g.mapleader = " "
 g.maplocalleader = " "
@@ -262,16 +261,14 @@ fzf.register_ui_select()
 vim.keymap.set("n", "<leader><leader>", fzf.files, { desc = "Find Files" })
 vim.keymap.set("n", "<C-p>", fzf.files, { desc = "Git Files" })
 vim.keymap.set("n", "<leader>l", fzf.lines, { desc = "Buffer Lines" })
-vim.keymap.set("n", "<leader>pf", fzf.git_files, { desc = "Git Files" })
-vim.keymap.set("n", "<leader>pg", fzf.grep_project, { desc = "RG Grep" })
-vim.keymap.set("n", "<leader>pw", fzf.live_grep, { desc = "Live Grep" })
-vim.keymap.set("n", "<leader>pW", fzf.grep_cword, { desc = "Grep <cword>" })
-vim.keymap.set("n", "<leader>gl", fzf.git_commits, { desc = "Git Log" })
-vim.keymap.set("n", "<leader>gL", fzf.git_bcommits, { desc = "Git Log Line" })
+vim.keymap.set("n", "<leader>f", fzf.git_files, { desc = "Git Files" })
 vim.keymap.set("n", "<leader>j", fzf.live_grep, { desc = "Grep" })
 vim.keymap.set("n", "<leader>J", fzf.grep_cword, { desc = "Grep Word" })
 vim.keymap.set("v", "<leader>J", fzf.grep_visual, { desc = "Grep Word" })
 vim.keymap.set("n", "<leader>k", fzf.buffers, { desc = "Buffers" })
+
+command("GitCommits", FzfLua.git_commits, {})
+command("GitBCommits", FzfLua.git_bcommits, {})
 
 a.nvim_create_autocmd("LspAttach", {
   callback = function(args)
