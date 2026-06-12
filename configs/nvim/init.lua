@@ -124,7 +124,7 @@ aucmd("BufReadPost", {
 -- }}}
 
 -- [colors] {{{
-vim.g.transparency = os.getenv("NVIM_TRANSPARENCY") or false
+vim.g.transparency = os.getenv("NVIM_TRANSPARENCY") or true
 add {
  { src = "https://github.com/folke/tokyonight.nvim", name = "tokyonight" },
  { src = "https://github.com/catppuccin/nvim", name = "catppuccin" },

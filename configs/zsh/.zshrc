@@ -42,8 +42,8 @@ zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path "$HOME/.zcache"
 
 # Load plugins
-source "$ZSH_PLUGINS/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
-source "$ZSH_PLUGINS/zsh-autosuggestions/zsh-autosuggestions.zsh"
+# source "$ZSH_PLUGINS/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+# source "$ZSH_PLUGINS/zsh-autosuggestions/zsh-autosuggestions.zsh"
 
 # Starship prompt
 if command -v starship &> /dev/null; then
