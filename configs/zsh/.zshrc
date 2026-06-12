@@ -1,37 +1,54 @@
-# Setting up oh my zsh, with auto install if not there
-ZSH="$HOME/.oh-my-zsh"
+# Profiling - run 'profile' to see startup times
+zmodload zsh/datetime 2>/dev/null
+typeset -g _profile_start=$EPOCHREALTIME
 
-if [ ! -d "$ZSH" ]; then
-    echo "Oh My Zsh not found, installing..."
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-fi
-
-PLUGINS="$ZSH/custom/plugins"
-
-if [ ! -d "$PLUGINS/zsh-syntax-highlighting" ]; then
-	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$PLUGINS/zsh-syntax-highlighting"
-fi
-if [ ! -d "$PLUGINS/zsh-completions" ]; then
-	git clone https://github.com/zsh-users/zsh-completions.git "$PLUGINS/zsh-completions"
-fi
-if [ ! -d "$PLUGINS/zsh-autosuggestions" ]; then
-	git clone https://github.com/zsh-users/zsh-autosuggestions.git "$PLUGINS/zsh-autosuggestions"
-fi
-
-ZSH_THEME="robbyrussell"
-plugins=(git zsh-autosuggestions zsh-completions zsh-syntax-highlighting)
-
-export DISABLE_AUTO_TITLE=1
-source $ZSH/oh-my-zsh.sh
-
-set_terminal_title() {
-  print -Pn "\e]0;%~\a"
+profile() {
+  echo "Zsh startup: $(( $EPOCHREALTIME - $_profile_start ))ms"
 }
 
-autoload -Uz add-zsh-hook
-add-zsh-hook precmd set_terminal_title
-add-zsh-hook chpwd set_terminal_title
-set_terminal_title
+# Plugins directory
+ZSH_PLUGINS="$HOME/.zsh-plugins"
+
+mkdir -p "$ZSH_PLUGINS"
+
+# Install plugins if missing
+if [ ! -d "$ZSH_PLUGINS/zsh-syntax-highlighting" ]; then
+	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$ZSH_PLUGINS/zsh-syntax-highlighting"
+fi
+if [ ! -d "$ZSH_PLUGINS/zsh-completions" ]; then
+	git clone https://github.com/zsh-users/zsh-completions.git "$ZSH_PLUGINS/zsh-completions"
+fi
+if [ ! -d "$ZSH_PLUGINS/zsh-autosuggestions" ]; then
+	git clone https://github.com/zsh-users/zsh-autosuggestions.git "$ZSH_PLUGINS/zsh-autosuggestions"
+fi
+
+# Add plugins to fpath for completions
+fpath=("$ZSH_PLUGINS/zsh-completions/src" $fpath)
+
+# Completion system
+autoload -Uz compinit
+compinit -C
+
+# Completion settings
+zstyle ':completion:*' menu select
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+zstyle ':completion:*' list-prompt '%SAt %p: Hit TAB for more, or the string to insert%s'
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*:descriptions' format '%F{green}-- %d --%f'
+zstyle ':completion:*:warnings' format '%F{yellow}-- No matches for: %d --%f'
+zstyle ':completion:*' squeeze-slashes true
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path "$HOME/.zcache"
+
+# Load plugins
+source "$ZSH_PLUGINS/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+source "$ZSH_PLUGINS/zsh-autosuggestions/zsh-autosuggestions.zsh"
+
+# Starship prompt
+if command -v starship &> /dev/null; then
+	eval "$(starship init zsh)"
+fi
 
 # Neovim
 alias vim='nvim'
@@ -39,7 +56,6 @@ alias vi='nvim'
 alias v='nvim'
 export GIT_EDITOR='nvim'
 export EDITOR='nvim'
-
 
 alias o='opencode'
 alias c='claude'
@@ -84,10 +100,6 @@ if command -v eza &> /dev/null; then
   alias ls='eza -G'
   alias lsa='eza -lah'
 fi
-
-# if command -v starship &> /dev/null; then
-# 	eval "$(starship init zsh)"
-# fi
 
 reload() {
 	source ~/.zshrc
@@ -136,12 +148,31 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 
-
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.opencode/bin:$PATH"
 
+# Lazy load NVM (biggest startup cost)
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+nvm() {
+  unfunction nvm
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+  nvm "$@"
+}
+node() {
+  unfunction node npm npx
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+  node "$@"
+}
+npm() {
+  unfunction node npm npx
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+  npm "$@"
+}
+npx() {
+  unfunction node npm npx
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+  npx "$@"
+}
 
 export PATH="/Users/amirrezaask/.gapcode/bin:$PATH"
 
@@ -151,15 +182,12 @@ export PATH="$HOME/.local/share/nvim/mason/bin:$PATH"
 
 export PATH="/opt/homebrew/bin:$PATH"
 
-unset -f d
-
 # bun completions
 [ -s "/Users/amirrezaask/.bun/_bun" ] && source "/Users/amirrezaask/.bun/_bun"
 
 # >>> grok installer >>>
 export PATH="$HOME/.grok/bin:$PATH"
 fpath=(~/.grok/completions/zsh $fpath)
-autoload -Uz compinit && compinit -C
 # <<< grok installer <<<
 
 # pnpm
