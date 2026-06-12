@@ -77,6 +77,14 @@ if command -v fzf &> /dev/null; then
 	source <(fzf --zsh)
 fi
 
+if command -v eza &> /dev/null; then
+  alias l='eza -lah'
+  alias la='eza -lAh'
+  alias ll='eza -lh'
+  alias ls='eza -G'
+  alias lsa='eza -lah'
+fi
+
 # if command -v starship &> /dev/null; then
 # 	eval "$(starship init zsh)"
 # fi

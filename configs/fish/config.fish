@@ -69,7 +69,7 @@ end
 
 # Starship prompt
 if type -q starship
-    starship init fish | source
+  # starship init fish | source
 end
 
 # Functions
@@ -119,7 +119,3 @@ end
 function fish_title
     prompt_pwd
 end
-
-# Added by LM Studio CLI (lms)
-set -gx PATH $PATH /Users/amirrezaask/.lmstudio/bin
-# End of LM Studio CLI section
