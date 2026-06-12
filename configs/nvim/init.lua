@@ -251,8 +251,9 @@ local fzf = require("fzf-lua")
 fzf.setup {
  "telescope",
  winopts = {
-  height = 0.99,
-  width = 0.99,
+  -- Full screen fzf
+  height = 1,
+  width = 1,
  },
 }
 
