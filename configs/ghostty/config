@@ -1,4 +1,4 @@
-theme = Vague
+theme = Gruvbox Dark Hard
 font-family = Fira Code
 font-size = 14
 font-feature=-calt
@@ -9,31 +9,11 @@ shell-integration-features=no-cursor
 maximize=true
 cursor-style-blink=false
 
-# Tabs
 keybind = cmd+[=previous_tab
 keybind = cmd+]=next_tab
 keybind = cmd+,=previous_tab
 keybind = cmd+.=next_tab
-
-# Splits
 keybind = cmd+shift+f=start_search
-keybind = cmd+down=text:\x01\x6a
-keybind = cmd+left=text:\x01\x68
-keybind = cmd+up=text:\x01\x6b
-keybind = cmd+right=text:\x01\x6c
-keybind = cmd+shift+up=text:\x01\x4b
-keybind = cmd+shift+down=text:\x01\x4a
-keybind = cmd+shift+left=text:\x01\x48
-keybind = cmd+shift+right=text:\x01\x4c
-keybind = cmd+enter=text:\x01\x7a
-keybind = cmd+f=text:\x01\x7a
-keybind = cmd+x=text:\x01\x78
-keybind = cmd+d=text:\x01\x64
-keybind = cmd+shift+d=text:\x01\x44
-keybind = cmd+j=text:\x01\x6a
-keybind = cmd+h=text:\x01\x68
-keybind = cmd+k=text:\x01\x6b
-keybind = cmd+l=text:\x01\x6c
 keybind = shift+enter=text:\x1b\r
 
 # tmux-compatible shortcuts: send C-a followed by the tmux binding from

@@ -95,23 +95,33 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 })
 -- }}}
 
--- [colors] {{{
-vim.g.transparency = os.getenv("NVIM_TRANSPARENCY") or true
+-- Installing plugins
+
 vim.pack.add {
  { src = "https://github.com/rose-pine/neovim", name = "rose-pine" },
  { src = "https://github.com/vague-theme/vague.nvim", name = "vague" },
+ { src = "https://github.com/ellisonleao/gruvbox.nvim", name = "gruvbox" },
+ "https://github.com/brenoprata10/nvim-highlight-colors",
+ "https://github.com/ibhagwan/fzf-lua",
+ "https://github.com/stevearc/oil.nvim",
+ "https://github.com/tpope/vim-fugitive",
+ "https://github.com/neovim/nvim-lspconfig",
+ "https://github.com/mason-org/mason.nvim",
+ "https://github.com/stevearc/conform.nvim",
+ "https://github.com/nvim-treesitter/nvim-treesitter",
+ "https://github.com/mfussenegger/nvim-lint",
 }
+
+-- [colors] {{{
+vim.g.transparency = os.getenv("NVIM_TRANSPARENCY") or true
 require("rose-pine").setup { styles = { italic = false, transparency = vim.g.transparency } }
 require("vague").setup { transparent = vim.g.transparency, italic = false }
+require("gruvbox").setup { contrast = "hard" }
 
-vim.cmd.colorscheme(os.getenv("NVIM_THEME") or "vague")
+vim.cmd.colorscheme(os.getenv("NVIM_THEME") or "gruvbox")
 -- }}}
 
 -- [color highlight] {{{
-vim.pack.add {
- "https://github.com/brenoprata10/nvim-highlight-colors",
-}
-
 require("nvim-highlight-colors").setup {
  render = "background",
  enable_hex = true,
@@ -125,8 +135,6 @@ require("nvim-highlight-colors").setup {
 -- }}}
 
 -- [fzf-lua] {{{
-vim.pack.add { "https://github.com/ibhagwan/fzf-lua" }
-
 local fzf = require("fzf-lua")
 
 fzf.setup {
@@ -163,21 +171,13 @@ vim.api.nvim_create_autocmd("LspAttach", {
 -- }}}
 
 -- [oil] {{{
-vim.pack.add { "https://github.com/stevearc/oil.nvim" }
 require("oil").setup {
  float = { win_options = { winblend = 0 }, get_win_title = nil, preview_split = "auto", override = function(conf) return conf end },
 }
 vim.keymap.set("n", "<leader>e", require("oil").toggle_float, { desc = "Toggle floating Oil window" })
 -- }}}
 
-vim.pack.add { "https://github.com/tpope/vim-fugitive" }
-
 -- [lsp] {{{
-vim.pack.add {
- "https://github.com/neovim/nvim-lspconfig",
- "https://github.com/mason-org/mason.nvim",
-}
-
 local mason_bin = vim.fn.stdpath("data") .. "/mason/bin"
 vim.env.PATH = mason_bin .. ":" .. (vim.env.PATH or "")
 
@@ -202,26 +202,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
 -- }}}
 
 -- [conform: Autoformat] {{{
-vim.pack.add { "https://github.com/stevearc/conform.nvim" }
-
-vim.api.nvim_create_user_command("ConformDisable", function(args)
- if args.bang then
-  vim.b.disable_autoformat = true
- else
-  vim.g.disable_autoformat = true
- end
-end, {
- desc = "Disable conform-autoformat-on-save",
- bang = true,
-})
-
-vim.api.nvim_create_user_command("ConformEnable", function()
- vim.b.disable_autoformat = false
- vim.g.disable_autoformat = false
-end, {
- desc = "Re-enable conform-autoformat-on-save",
-})
-
 local has_markers = function(markers)
  return function(_, ctx)
   return vim.fs.find(markers, {
@@ -291,43 +271,10 @@ vim.api.nvim_create_user_command("Json", function() vim.bo.filetype = "json" end
 -- }}}
 
 -- [treesitter] {{{
-vim.pack.add { "https://github.com/nvim-treesitter/nvim-treesitter" }
-
 vim.api.nvim_create_autocmd("FileType", { callback = function(args) pcall(vim.treesitter.start, args.buf) end })
-
-require("nvim-treesitter").install {
- "bash",
- "c",
- "cpp",
- "fish",
- "gitcommit",
- "go",
- "html",
- "hyprlang",
- "java",
- "javascript",
- "json",
- "json5",
- "lua",
- "markdown",
- "markdown_inline",
- "python",
- "query",
- "regex",
- "rust",
- "scss",
- "toml",
- "tsx",
- "typescript",
- "vim",
- "vimdoc",
- "yaml",
-}
 -- }}}
 
 -- [lint] {{{
-vim.pack.add { "https://github.com/mfussenegger/nvim-lint" }
-
 require("lint").linters_by_ft = {
  typescript = { "eslint_d", "oxlint" },
  typescriptreact = { "eslint_d", "oxlint" },
