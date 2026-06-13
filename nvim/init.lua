@@ -88,7 +88,7 @@ vim.pack.add { -- Installing plugins
  "https://github.com/mfussenegger/nvim-lint",
 }
 
-vim.g.transparency = os.getenv("NVIM_TRANSPARENCY") or true
+vim.g.transparency = os.getenv("NVIM_TRANSPARENCY") or false
 require("rose-pine").setup { styles = { italic = false, transparency = vim.g.transparency } }
 require("vague").setup { transparent = vim.g.transparency, italic = false }
 require("gruvbox").setup {

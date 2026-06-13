@@ -1,0 +1,48 @@
+general.import = ["themes/gruvbox-dark-hard.toml"]
+
+[window]
+startup_mode = "Maximized"
+option_as_alt = "Both"
+
+[font]
+size = 14.0
+normal = { family = "Fira Code" }
+bold = { family = "Fira Code" }
+italic = { family = "Fira Code" }
+bold_italic = { family = "Fira Code" }
+
+[mouse]
+hide_when_typing = true
+
+[keyboard]
+bindings = [
+  { key = "Return", mods = "Shift", chars = "\u001b\r" },
+  { key = "F", mods = "Command|Shift", action = "SearchForward" },
+
+  { key = "Key1", mods = "Command", chars = "\u0001\u0031" },
+  { key = "Key2", mods = "Command", chars = "\u0001\u0032" },
+  { key = "Key3", mods = "Command", chars = "\u0001\u0033" },
+  { key = "Key4", mods = "Command", chars = "\u0001\u0034" },
+  { key = "Key5", mods = "Command", chars = "\u0001\u0035" },
+  { key = "Key6", mods = "Command", chars = "\u0001\u0036" },
+  { key = "Key7", mods = "Command", chars = "\u0001\u0037" },
+  { key = "Key8", mods = "Command", chars = "\u0001\u0038" },
+
+  { key = "T", mods = "Command", chars = "\u0001\u0003" },
+  { key = "W", mods = "Command", chars = "\u0001\u0018" },
+  { key = "F", mods = "Command", chars = "\u0000\u0066" },
+  { key = "O", mods = "Command", chars = "\u0001\u000f" },
+  { key = "P", mods = "Command", chars = "\u0001\u0010" },
+  { key = "N", mods = "Command", chars = "\u0001\u000e" },
+  { key = "Y", mods = "Command", chars = "\u0000\u0079" },
+  { key = "G", mods = "Command", chars = "\u0000\u0047" },
+  { key = "K", mods = "Command", chars = "\u0000\u006b" },
+  { key = "L", mods = "Command", chars = "\u0000\u004c" },
+  { key = "D", mods = "Command", chars = "\u0000\u0044" },
+  { key = "M", mods = "Command", chars = "\u0000\u006d" },
+
+  { key = "LBracket", mods = "Command", chars = "\u0001\u005b" },
+  { key = "RBracket", mods = "Command", chars = "\u0001\u005d" },
+  { key = "Comma", mods = "Command", chars = "\u0001\u002c" },
+  { key = "Period", mods = "Command", chars = "\u0001\u002e" },
+]
