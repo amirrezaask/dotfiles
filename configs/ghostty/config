@@ -1,5 +1,5 @@
 theme = Vague
-font-family = Jetbrains Mono
+font-family = Fira Code
 font-size = 14
 font-feature=-calt
 mouse-hide-while-typing = true
@@ -17,19 +17,54 @@ keybind = cmd+.=next_tab
 
 # Splits
 keybind = cmd+shift+f=start_search
-keybind = cmd+down=goto_split:down
-keybind = cmd+left=goto_split:left
-keybind = cmd+up=goto_split:up
-keybind = cmd+right=goto_split:right
-keybind = cmd+shift+up=resize_split:up,20
-keybind = cmd+shift+down=resize_split:down,20
-keybind = cmd+shift+left=resize_split:left,20
-keybind = cmd+shift+right=resize_split:right,20
-keybind = cmd+enter=toggle_split_zoom
-keybind = cmd+f=toggle_split_zoom
-keybind = cmd+x=toggle_split_zoom
-keybind = cmd+j=goto_split:down
-keybind = cmd+h=goto_split:left
-keybind = cmd+k=goto_split:up
-keybind = cmd+l=goto_split:right
+keybind = cmd+down=text:\x01\x6a
+keybind = cmd+left=text:\x01\x68
+keybind = cmd+up=text:\x01\x6b
+keybind = cmd+right=text:\x01\x6c
+keybind = cmd+shift+up=text:\x01\x4b
+keybind = cmd+shift+down=text:\x01\x4a
+keybind = cmd+shift+left=text:\x01\x48
+keybind = cmd+shift+right=text:\x01\x4c
+keybind = cmd+enter=text:\x01\x7a
+keybind = cmd+f=text:\x01\x7a
+keybind = cmd+x=text:\x01\x78
+keybind = cmd+d=text:\x01\x64
+keybind = cmd+shift+d=text:\x01\x44
+keybind = cmd+j=text:\x01\x6a
+keybind = cmd+h=text:\x01\x68
+keybind = cmd+k=text:\x01\x6b
+keybind = cmd+l=text:\x01\x6c
 keybind = shift+enter=text:\x1b\r
+
+# tmux-compatible shortcuts: send C-a followed by the tmux binding from
+# configs/tmux/tmux.conf.
+keybind = super+1=text:\x01\x31
+keybind = super+2=text:\x01\x32
+keybind = super+3=text:\x01\x33
+keybind = super+4=text:\x01\x34
+keybind = super+5=text:\x01\x35
+keybind = super+6=text:\x01\x36
+keybind = super+7=text:\x01\x37
+keybind = super+8=text:\x01\x38
+
+keybind = super+digit_1=text:\x01\x31
+keybind = super+digit_2=text:\x01\x32
+keybind = super+digit_3=text:\x01\x33
+keybind = super+digit_4=text:\x01\x34
+keybind = super+digit_5=text:\x01\x35
+keybind = super+digit_6=text:\x01\x36
+keybind = super+digit_7=text:\x01\x37
+keybind = super+digit_8=text:\x01\x38
+
+keybind = super+t=text:\x01\x03
+keybind = super+w=text:\x01\x18
+keybind = super+f=text:\x00\x66
+keybind = super+o=text:\x01\x0f
+keybind = super+p=text:\x01\x10
+keybind = cmd+n=text:\x01\x0e
+keybind = super+y=text:\x00\x79
+keybind = super+g=text:\x00\x47
+keybind = super+k=text:\x00\x6b
+keybind = super+l=text:\x00\x4c
+keybind = super+d=text:\x00\x44
+keybind = super+m=text:\x00\x6d
