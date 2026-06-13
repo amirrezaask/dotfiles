@@ -9,15 +9,6 @@ MODE="${1:-os-window}"
 
 PROJECTS_DIR="${PROJECTS_DIR:-$HOME/dev}"
 
-# Set icon and title based on mode
-if [[ "$MODE" == "tab" ]]; then
-  icon="󰚢"
-  title="Tab"
-else
-  icon="󰣇"
-  title="OS Window"
-fi
-
 # Get colors from Kitty's current colorscheme
 get_kitty_color() {
   kitten @ get-colors 2>/dev/null | grep "^$1 " | awk '{print $2}' | tr -d '\r'
@@ -39,8 +30,7 @@ projects=$(
   find "$PROJECTS_DIR" -maxdepth 3 -name ".git" -type d 2>/dev/null \
     | sed 's|/.git$||' \
     | sed "s|^$PROJECTS_DIR/||" \
-    | sort \
-    | sed "s/^/${icon} /"
+    | sort
 )
 
 set +e
@@ -58,11 +48,9 @@ fi
 
 [ -z "$selected" ] && exit 0
 
-# Strip icon prefix for processing
-selected_clean="${selected#* }"
 
-session_name=$(basename "$selected_clean" | tr . _)
-target_dir="$PROJECTS_DIR/$selected_clean"
+session_name=$(basename "$selected" | tr . _)
+target_dir="$PROJECTS_DIR/$selected"
 
 match_session="var:kitty_session_name=$session_name"
 kitty_state=$(kitten @ ls) || die "Unable to query Kitty windows. Is remote control enabled?"
