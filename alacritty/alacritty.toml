@@ -1,4 +1,4 @@
-general.import = ["themes/gruvbox-dark-hard.toml"]
+general.import = ["themes/vague.toml"]
 
 [window]
 startup_mode = "Maximized"
@@ -6,10 +6,7 @@ option_as_alt = "Both"
 
 [font]
 size = 14.0
-normal = { family = "Fira Code" }
-bold = { family = "Fira Code" }
-italic = { family = "Fira Code" }
-bold_italic = { family = "Fira Code" }
+normal = { family = "Jetbrains Mono" }
 
 [mouse]
 hide_when_typing = true
