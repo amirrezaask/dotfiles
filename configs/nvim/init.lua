@@ -32,6 +32,7 @@ vim.o.shortmess = vim.o.shortmess .. "I" .. "W" .. "C"
 vim.o.cursorline = false
 vim.o.winborder = "rounded"
 vim.o.completeopt = "menuone,noselect,popup"
+vim.o.autocomplete = true
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 --- }}}
