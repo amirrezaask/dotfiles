@@ -5,13 +5,10 @@ vim.o.guicursor = ""
 vim.o.tabstop = 1
 vim.o.softtabstop = 1
 vim.o.shiftwidth = 1
-vim.o.expandtab = true
 vim.o.smartindent = true
 vim.o.wrap = true
-vim.o.mousescroll = "ver:5,hor:0"
 vim.o.swapfile = false
 vim.o.backup = false
-vim.o.undodir = os.getenv("HOME") .. "/.vim/undodir"
 vim.o.undofile = true
 vim.o.hlsearch = false
 vim.o.incsearch = true
@@ -19,25 +16,20 @@ vim.o.termguicolors = true
 vim.o.scrolloff = 8
 vim.o.signcolumn = "yes"
 vim.o.wildoptions = vim.o.wildoptions .. ",fuzzy"
-vim.o.updatetime = 50
 vim.o.clipboard = "unnamedplus"
-vim.o.pumheight = 10
-vim.o.pumblend = 10
 vim.o.statusline = "%m%r%h%f%=%y %l:%c "
 vim.o.splitbelow = true
 vim.o.splitright = true
-vim.o.title = true
-vim.o.titlestring = "%{fnamemodify(getcwd(), ':~')}"
 vim.o.shortmess = vim.o.shortmess .. "I" .. "W" .. "C"
 vim.o.cursorline = false
 vim.o.winborder = "rounded"
 vim.o.completeopt = "menuone,noselect,popup"
 vim.o.autocomplete = true
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
 --- }}}
 
 -- [keymaps] {{{
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
 vim.keymap.set("i", "jk", "<esc>")
 vim.keymap.set("i", "kj", "<esc>")
 vim.keymap.set("i", "<C-c>", "<esc>")
@@ -51,16 +43,13 @@ vim.keymap.set("n", "N", "Nzz")
 vim.keymap.set("n", "j", "gj")
 vim.keymap.set("n", "k", "gk")
 -- }}}
-
 vim.keymap.set("n", "<C-q>", function()
  if vim.fn.getqflist({ winid = 0 }).winid ~= 0 then
   vim.cmd.cclose()
  else
   vim.cmd.copen()
  end
-end, {
- desc = "Toggle quickfix list",
-})
+end)
 vim.keymap.set("n", "<leader>q", function() vim.diagnostic.setloclist { open = true } end)
 
 vim.keymap.set("n", "<CR>", function()
@@ -74,7 +63,7 @@ end, {
 })
 -- }}}
 
--- [autocmds for better editor experience] {{{
+-- [Quality of life autocmds] {{{
 vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold" }, { callback = function() vim.cmd("checktime") end })
 vim.api.nvim_create_autocmd("TextYankPost", { callback = function() vim.hl.hl_op { higroup = "Visual", timeout = 150 } end })
 vim.api.nvim_create_autocmd("BufEnter", {
@@ -117,9 +106,19 @@ vim.pack.add {
 vim.g.transparency = os.getenv("NVIM_TRANSPARENCY") or true
 require("rose-pine").setup { styles = { italic = false, transparency = vim.g.transparency } }
 require("vague").setup { transparent = vim.g.transparency, italic = false }
-require("gruvbox").setup { contrast = "hard" }
+require("gruvbox").setup {
+ contrast = "hard",
+ italic = {
+  strings = false,
+  emphasis = false,
+  comments = false,
+  operators = false,
+  folds = false,
+ },
+ transparent_mode = vim.g.transparency,
+}
 
-vim.cmd.colorscheme(os.getenv("NVIM_THEME") or "gruvbox")
+vim.cmd.colorscheme(os.getenv("NVIM_THEME") or "vague")
 -- }}}
 
 -- [color highlight] {{{
@@ -138,14 +137,7 @@ require("nvim-highlight-colors").setup {
 -- [fzf-lua] {{{
 local fzf = require("fzf-lua")
 
-fzf.setup {
- "telescope",
- winopts = {
-  -- Full screen fzf
-  height = 1,
-  width = 1,
- },
-}
+fzf.setup { "telescope", winopts = { height = 1, width = 1 } }
 
 fzf.register_ui_select()
 
@@ -189,7 +181,7 @@ vim.lsp.config(
  { settings = { Lua = { diagnostics = { globals = { "vim" } }, workspace = { library = vim.api.nvim_get_runtime_file("", true) } } } }
 )
 
-vim.lsp.enable { "gopls", "lua_ls", "typescript_language_server", "rust_analyzer" }
+vim.lsp.enable { "gopls", "lua_ls", "ts_ls", "rust_analyzer", "clangd" }
 
 vim.api.nvim_create_autocmd("LspAttach", {
  callback = function(args)

@@ -1,4 +1,4 @@
-theme = Gruvbox Dark Hard
+theme = Vague
 font-family = Fira Code
 font-size = 14
 font-feature=-calt
@@ -18,33 +18,33 @@ keybind = shift+enter=text:\x1b\r
 
 # tmux-compatible shortcuts: send C-a followed by the tmux binding from
 # configs/tmux/tmux.conf.
-keybind = super+1=text:\x01\x31
-keybind = super+2=text:\x01\x32
-keybind = super+3=text:\x01\x33
-keybind = super+4=text:\x01\x34
-keybind = super+5=text:\x01\x35
-keybind = super+6=text:\x01\x36
-keybind = super+7=text:\x01\x37
-keybind = super+8=text:\x01\x38
+keybind = cmd+1=text:\x01\x31
+keybind = cmd+2=text:\x01\x32
+keybind = cmd+3=text:\x01\x33
+keybind = cmd+4=text:\x01\x34
+keybind = cmd+5=text:\x01\x35
+keybind = cmd+6=text:\x01\x36
+keybind = cmd+7=text:\x01\x37
+keybind = cmd+8=text:\x01\x38
 
-keybind = super+digit_1=text:\x01\x31
-keybind = super+digit_2=text:\x01\x32
-keybind = super+digit_3=text:\x01\x33
-keybind = super+digit_4=text:\x01\x34
-keybind = super+digit_5=text:\x01\x35
-keybind = super+digit_6=text:\x01\x36
-keybind = super+digit_7=text:\x01\x37
-keybind = super+digit_8=text:\x01\x38
+keybind = cmd+digit_1=text:\x01\x31
+keybind = cmd+digit_2=text:\x01\x32
+keybind = cmd+digit_3=text:\x01\x33
+keybind = cmd+digit_4=text:\x01\x34
+keybind = cmd+digit_5=text:\x01\x35
+keybind = cmd+digit_6=text:\x01\x36
+keybind = cmd+digit_7=text:\x01\x37
+keybind = cmd+digit_8=text:\x01\x38
 
-keybind = super+t=text:\x01\x03
-keybind = super+w=text:\x01\x18
-keybind = super+f=text:\x00\x66
-keybind = super+o=text:\x01\x0f
-keybind = super+p=text:\x01\x10
+keybind = cmd+t=text:\x01\x03
+keybind = cmd+w=text:\x01\x18
+keybind = cmd+f=text:\x00\x66
+keybind = cmd+o=text:\x01\x0f
+keybind = cmd+p=text:\x01\x10
 keybind = cmd+n=text:\x01\x0e
-keybind = super+y=text:\x00\x79
-keybind = super+g=text:\x00\x47
-keybind = super+k=text:\x00\x6b
-keybind = super+l=text:\x00\x4c
-keybind = super+d=text:\x00\x44
-keybind = super+m=text:\x00\x6d
+keybind = cmd+y=text:\x00\x79
+keybind = cmd+g=text:\x00\x47
+keybind = cmd+k=text:\x00\x6b
+keybind = cmd+l=text:\x00\x4c
+keybind = cmd+d=text:\x00\x44
+keybind = cmd+m=text:\x00\x6d
