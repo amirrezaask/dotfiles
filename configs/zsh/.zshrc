@@ -45,10 +45,24 @@ zstyle ':completion:*' cache-path "$HOME/.zcache"
 source "$ZSH_PLUGINS/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 source "$ZSH_PLUGINS/zsh-autosuggestions/zsh-autosuggestions.zsh"
 
-# Starship prompt
-if command -v starship &> /dev/null; then
-	eval "$(starship init zsh)"
-fi
+# Robby Russell-style prompt
+autoload -U colors && colors
+setopt PROMPT_SUBST
+PROMPT='%(?:%{$fg_bold[green]%}➜%{$reset_color%}:%{$fg_bold[red]%}➜%{$reset_color%}) %{$fg_bold[blue]%}%1~%{$reset_color%}$(git_prompt_info) %{$fg_bold[blue]%}➜%{$reset_color%} '
+
+git_prompt_info() {
+  if git rev-parse --git-dir >/dev/null 2>&1; then
+    local branch
+    branch=$(git symbolic-ref --short HEAD 2>/dev/null || git rev-parse --short HEAD 2>/dev/null)
+    if [ -n "$branch" ]; then
+      if git diff --quiet 2>/dev/null && git diff --cached --quiet 2>/dev/null; then
+        echo " %{$fg_bold[cyan]%}git:(%{$fg_bold[red]%}${branch}%{$fg_bold[cyan]%})%{$reset_color%}"
+      else
+        echo " %{$fg_bold[cyan]%}git:(%{$fg_bold[red]%}${branch}%{$fg_bold[cyan]%})%{$fg[yellow]%} ✗%{$reset_color%}"
+      fi
+    fi
+  fi
+}
 
 # Neovim
 alias vim='nvim'
@@ -94,11 +108,11 @@ if command -v fzf &> /dev/null; then
 fi
 
 if command -v eza &> /dev/null; then
-  alias l='eza -lah'
-  alias la='eza -lAh'
-  alias ll='eza -lh'
-  alias ls='eza -G'
-  alias lsa='eza -lah'
+ alias l='eza -lah'
+ alias la='eza -lAh'
+ alias ll='eza -lh'
+ alias ls='eza -G'
+ alias lsa='eza -lah'
 fi
 
 reload() {
@@ -114,30 +128,6 @@ wip() {
 	git add .
 	git commit -m "wip"
 	git push origin "$branch"
-}
-
-ref() {
-	if [ -z "$1" ]; then
-		echo "Usage: ref <branch-name>"
-		return 1
-	fi
-	git checkout -b "ref-$1"
-}
-
-fix() {
-	if [ -z "$1" ]; then
-		echo "Usage: fix <branch-name>"
-		return 1
-	fi
-	git checkout -b "fix-$1"
-}
-
-feat() {
-	if [ -z "$1" ]; then
-		echo "Usage: feat <branch-name>"
-		return 1
-	fi
-	git checkout -b "feat-$1"
 }
 
 unsetopt BEEP
