@@ -132,20 +132,6 @@ else
       --var "kitty_session_primary=$session_name" \
       "${common_args[@]}"
   )
-  
-  kitten @ launch \
-    --type tab \
-    --tab-title "2.$session_name" \
-    --title "$session_name" \
-    --var "kitty_session_primary=$session_name" \
-    "${common_args[@]}"
-
-  kitten @ launch \
-    --type tab \
-    --tab-title "3.$session_name" \
-    --title "$session_name" \
-    --var "kitty_session_primary=$session_name" \
-    "${common_args[@]}"
 fi
 
 kitten @ focus-window --match "id:$window_id"
