@@ -1,4 +1,3 @@
--- options {{{
 vim.o.number = true
 vim.o.relativenumber = true
 vim.o.guicursor = ""
@@ -10,24 +9,16 @@ vim.o.wrap = true
 vim.o.swapfile = false
 vim.o.backup = false
 vim.o.undofile = true
-vim.o.hlsearch = false
 vim.o.incsearch = true
-vim.o.termguicolors = true
-vim.o.scrolloff = 8
-vim.o.signcolumn = "yes"
 vim.o.wildoptions = vim.o.wildoptions .. ",fuzzy"
 vim.o.clipboard = "unnamedplus"
-vim.o.statusline = "%m%r%h%f%=%y %l:%c "
 vim.o.splitbelow = true
 vim.o.splitright = true
 vim.o.shortmess = vim.o.shortmess .. "I" .. "W" .. "C"
-vim.o.cursorline = false
 vim.o.winborder = "rounded"
 vim.o.completeopt = "menuone,noselect,popup"
 vim.o.autocomplete = true
---- }}}
 
--- [keymaps] {{{
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 vim.keymap.set("i", "jk", "<esc>")
@@ -42,7 +33,6 @@ vim.keymap.set("n", "n", "nzz")
 vim.keymap.set("n", "N", "Nzz")
 vim.keymap.set("n", "j", "gj")
 vim.keymap.set("n", "k", "gk")
--- }}}
 vim.keymap.set("n", "<C-q>", function()
  if vim.fn.getqflist({ winid = 0 }).winid ~= 0 then
   vim.cmd.cclose()
@@ -61,9 +51,7 @@ vim.keymap.set("n", "<CR>", function()
 end, {
  expr = true,
 })
--- }}}
 
--- [Quality of life autocmds] {{{
 vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold" }, { callback = function() vim.cmd("checktime") end })
 vim.api.nvim_create_autocmd("TextYankPost", { callback = function() vim.hl.hl_op { higroup = "Visual", timeout = 150 } end })
 vim.api.nvim_create_autocmd("BufEnter", {
@@ -83,7 +71,6 @@ vim.api.nvim_create_autocmd("BufReadPost", {
   end
  end,
 })
--- }}}
 
 vim.pack.add { -- Installing plugins
  { src = "https://github.com/rose-pine/neovim", name = "rose-pine" },

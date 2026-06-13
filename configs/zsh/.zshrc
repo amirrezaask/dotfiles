@@ -29,6 +29,9 @@ fpath=("$ZSH_PLUGINS/zsh-completions/src" $fpath)
 autoload -Uz compinit
 compinit -C
 
+# Use emacs-style line editing regardless of inherited shell defaults.
+bindkey -e
+
 # Completion settings
 zstyle ':completion:*' menu select
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
