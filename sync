@@ -60,7 +60,7 @@ if [ "$INSTALL_PLATFORM" = true ]; then
 fi
 
 # Install configs
-CONFIGS_DIR="$DOTFILES_DIR/configs"
+CONFIGS_DIR="$DOTFILES_DIR"
 XDG_CONFIG="$HOME/.config"
 
 echo "CONFIGS_DIR $CONFIGS_DIR"
