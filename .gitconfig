@@ -1,0 +1,24 @@
+# This is Git's per-user configuration file.
+
+[url "git@gitlab.snappcloud.io:"]
+	insteadOf = https://gitlab.snappcloud.io/
+
+[user]
+	name = AmirrezaAskarpour
+	email = raskarpour@gmail.com
+
+[merge]
+	conflictstyle = zdiff3
+
+[alias]
+	co = checkout
+	br = branch
+	ci = commit
+	st = status
+	diff = difftool --no-prompt
+
+[pull]
+	rebase = true
+
+[diff]
+	tool = hunk diff
