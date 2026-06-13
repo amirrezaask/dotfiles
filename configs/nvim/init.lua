@@ -129,10 +129,16 @@ add {
  { src = "https://github.com/folke/tokyonight.nvim", name = "tokyonight" },
  { src = "https://github.com/catppuccin/nvim", name = "catppuccin" },
  { src = "https://github.com/rose-pine/neovim", name = "rose-pine" },
+ { src = "https://github.com/vague-theme/vague.nvim", name = "vague" },
 }
 
 require("rose-pine").setup {
  styles = { italic = false, transparency = vim.g.transparency },
+}
+
+require("vague").setup {
+ transparent = vim.g.transparency,
+ italic = false,
 }
 
 require("tokyonight").setup {
@@ -149,7 +155,7 @@ require("catppuccin").setup {
 }
 
 -- For vercel theme checkout themes directory in the root of dotfiles.
-vim.cmd.colorscheme(os.getenv("NVIM_THEME") or "rose-pine-moon")
+vim.cmd.colorscheme(os.getenv("NVIM_THEME") or "vague")
 -- }}}
 
 -- [color highlight] {{{
@@ -288,14 +294,7 @@ a.nvim_create_autocmd("LspAttach", {
 add { "https://github.com/stevearc/oil.nvim" }
 
 require("oil").setup {
- float = {
-  win_options = {
-   winblend = 5,
-  },
-  get_win_title = nil,
-  preview_split = "auto",
-  override = function(conf) return conf end,
- },
+ float = { win_options = { winblend = 0 }, get_win_title = nil, preview_split = "auto", override = function(conf) return conf end },
 }
 
 vim.keymap.set("n", "<leader>e", require("oil").toggle_float, { desc = "Toggle floating Oil window" })
