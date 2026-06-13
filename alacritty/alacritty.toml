@@ -40,9 +40,4 @@ bindings = [
   { key = "L", mods = "Command", chars = "\u0000\u004c" },
   { key = "D", mods = "Command", chars = "\u0000\u0044" },
   { key = "M", mods = "Command", chars = "\u0000\u006d" },
-
-  { key = "LBracket", mods = "Command", chars = "\u0001\u005b" },
-  { key = "RBracket", mods = "Command", chars = "\u0001\u005d" },
-  { key = "Comma", mods = "Command", chars = "\u0001\u002c" },
-  { key = "Period", mods = "Command", chars = "\u0001\u002e" },
 ]
