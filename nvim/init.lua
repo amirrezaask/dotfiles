@@ -1,6 +1,5 @@
 vim.o.number = true
 vim.o.relativenumber = true
-vim.o.guicursor = ""
 vim.o.tabstop = 1
 vim.o.softtabstop = 1
 vim.o.shiftwidth = 1
@@ -8,13 +7,13 @@ vim.o.smartindent = true
 vim.o.wrap = true
 vim.o.swapfile = false
 vim.o.backup = false
+vim.o.signcolumn = "yes"
 vim.o.undofile = true
 vim.o.incsearch = true
 vim.o.wildoptions = vim.o.wildoptions .. ",fuzzy"
 vim.o.clipboard = "unnamedplus"
 vim.o.splitbelow = true
 vim.o.splitright = true
-vim.o.shortmess = vim.o.shortmess .. "I" .. "W" .. "C"
 vim.o.winborder = "rounded"
 vim.o.completeopt = "menuone,noselect,popup"
 vim.o.autocomplete = true
@@ -33,6 +32,7 @@ vim.keymap.set("n", "n", "nzz")
 vim.keymap.set("n", "N", "Nzz")
 vim.keymap.set("n", "j", "gj")
 vim.keymap.set("n", "k", "gk")
+vim.keymap.set("n", "<leader>i", ":edit $MYVIMRC<CR>")
 vim.keymap.set("n", "<C-q>", function()
  if vim.fn.getqflist({ winid = 0 }).winid ~= 0 then
   vim.cmd.cclose()
@@ -53,6 +53,7 @@ end, {
 })
 
 vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold" }, { callback = function() vim.cmd("checktime") end })
+vim.api.nvim_create_autocmd("FileType", { callback = function(args) pcall(vim.treesitter.start, args.buf) end })
 vim.api.nvim_create_autocmd("TextYankPost", { callback = function() vim.hl.hl_op { higroup = "Visual", timeout = 150 } end })
 vim.api.nvim_create_autocmd("BufEnter", {
  callback = function(args)
@@ -108,8 +109,7 @@ require("nvim-highlight-colors").setup {}
 
 local fzf = require("fzf-lua")
 
-fzf.setup { "telescope", winopts = { height = 1, width = 1 } }
-
+fzf.setup { "fzf-vim", winopts = { height = 1, width = 1, border = "none" } }
 fzf.register_ui_select()
 
 vim.keymap.set("n", "<leader><leader>", fzf.files, { desc = "Find Files" })
@@ -218,15 +218,8 @@ require("conform").setup {
  },
 }
 
-vim.api.nvim_create_user_command(
- "Format",
- function() require("conform").format { bufnr = vim.api.nvim_get_current_buf(), timeout_ms = 500, lsp_fallback = false } end,
- { desc = "Format current buffer using conform" }
-)
-
+vim.api.nvim_create_user_command("Format", function() require("conform").format {} end, { desc = "Format current buffer using conform" })
 vim.api.nvim_create_user_command("Json", function() vim.bo.filetype = "json" end, { desc = "Set buffer filetype to JSON" })
-
-vim.api.nvim_create_autocmd("FileType", { callback = function(args) pcall(vim.treesitter.start, args.buf) end })
 
 require("lint").linters_by_ft = {
  typescript = { "eslint_d", "oxlint" },
@@ -234,6 +227,7 @@ require("lint").linters_by_ft = {
  go = { "golangcilint" },
 }
 
-vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPost", "BufEnter", "FocusGained" }, {
- callback = function() pcall(require("lint").try_lint) end,
-})
+vim.api.nvim_create_autocmd(
+ { "BufWritePost", "BufReadPost", "BufEnter", "FocusGained" },
+ { callback = function() pcall(require("lint").try_lint) end }
+)
