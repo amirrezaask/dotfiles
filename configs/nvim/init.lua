@@ -1,5 +1,5 @@
 -- options {{{
-vim.o.nu = true
+vim.o.number = true
 vim.o.relativenumber = true
 vim.o.guicursor = ""
 vim.o.tabstop = 1
@@ -85,9 +85,7 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 })
 -- }}}
 
--- Installing plugins
-
-vim.pack.add {
+vim.pack.add { -- Installing plugins
  { src = "https://github.com/rose-pine/neovim", name = "rose-pine" },
  { src = "https://github.com/vague-theme/vague.nvim", name = "vague" },
  { src = "https://github.com/ellisonleao/gruvbox.nvim", name = "gruvbox" },
@@ -102,7 +100,6 @@ vim.pack.add {
  "https://github.com/mfussenegger/nvim-lint",
 }
 
--- [colors] {{{
 vim.g.transparency = os.getenv("NVIM_TRANSPARENCY") or true
 require("rose-pine").setup { styles = { italic = false, transparency = vim.g.transparency } }
 require("vague").setup { transparent = vim.g.transparency, italic = false }
@@ -119,22 +116,9 @@ require("gruvbox").setup {
 }
 
 vim.cmd.colorscheme(os.getenv("NVIM_THEME") or "vague")
--- }}}
 
--- [color highlight] {{{
-require("nvim-highlight-colors").setup {
- render = "background",
- enable_hex = true,
- enable_short_hex = true,
- enable_rgb = true,
- enable_hsl = true,
- enable_var_usage = true,
- enable_named_colors = true,
- enable_tailwind = true,
-}
--- }}}
+require("nvim-highlight-colors").setup {}
 
--- [fzf-lua] {{{
 local fzf = require("fzf-lua")
 
 fzf.setup { "telescope", winopts = { height = 1, width = 1 } }
@@ -161,16 +145,12 @@ vim.api.nvim_create_autocmd("LspAttach", {
   vim.keymap.set("n", "C", vim.lsp.buf.code_action, { buffer = args.buf, desc = "Code Actions" })
  end,
 })
--- }}}
 
--- [oil] {{{
 require("oil").setup {
  float = { win_options = { winblend = 0 }, get_win_title = nil, preview_split = "auto", override = function(conf) return conf end },
 }
 vim.keymap.set("n", "<leader>e", require("oil").toggle_float, { desc = "Toggle floating Oil window" })
--- }}}
 
--- [lsp] {{{
 local mason_bin = vim.fn.stdpath("data") .. "/mason/bin"
 vim.env.PATH = mason_bin .. ":" .. (vim.env.PATH or "")
 
@@ -192,9 +172,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
  end,
 })
 
--- }}}
-
--- [conform: Autoformat] {{{
 local has_markers = function(markers)
  return function(_, ctx)
   return vim.fs.find(markers, {
@@ -222,14 +199,14 @@ require("conform").setup {
  default_format_opts = {
   async = true,
   timeout_ms = 500,
-  lsp_format = "fallback",
+  lsp_format = "never",
  },
  format_after_save = function(buffer_number)
   if vim.g.disable_autoformat or vim.b[buffer_number].disable_autoformat then return end
   return {
    async = true,
    timeout_ms = 500,
-   lsp_format = "fallback",
+   lsp_format = "never",
   }
  end,
  formatters = {
@@ -261,13 +238,9 @@ vim.api.nvim_create_user_command(
 )
 
 vim.api.nvim_create_user_command("Json", function() vim.bo.filetype = "json" end, { desc = "Set buffer filetype to JSON" })
--- }}}
 
--- [treesitter] {{{
 vim.api.nvim_create_autocmd("FileType", { callback = function(args) pcall(vim.treesitter.start, args.buf) end })
--- }}}
 
--- [lint] {{{
 require("lint").linters_by_ft = {
  typescript = { "eslint_d", "oxlint" },
  typescriptreact = { "eslint_d", "oxlint" },
@@ -277,4 +250,3 @@ require("lint").linters_by_ft = {
 vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPost", "BufEnter", "FocusGained" }, {
  callback = function() pcall(require("lint").try_lint) end,
 })
--- }}}
