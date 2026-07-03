@@ -1,9 +1,9 @@
 {
   "breadcrumbs.enabled": false,
   "editor.fontSize": 14,
+  "editor.lineHeight": 1.5,
   "editor.fontFamily": "Geist Mono",
   "editor.fontLigatures": false,
-  "workbench.colorTheme": "Vercel Dark",
   "workbench.preferredDarkColorTheme": "Vercel Dark",
   "workbench.preferredLightColorTheme": "Vercel Light",
   "editor.cursorBlinking": "smooth",
@@ -90,5 +90,5 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "workbench.agentsWindowButton.enabled": false,
-  "workbench.editor.showTabs": "single",
+  "window.autoDetectColorScheme": false,
 }

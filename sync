@@ -68,6 +68,8 @@ echo "CONFIGS_DIR $CONFIGS_DIR"
 	rm -rf "$XDG_CONFIG/nvim" \
 	"$XDG_CONFIG/ghostty" \
 	"$XDG_CONFIG/lazyvim" \
+	"$HOME/.emacs.d" \
+	"$XDG_CONFIG/emacs" \
 	"$XDG_CONFIG/starship.toml" \
 	"$XDG_CONFIG/Code/User/settings.json" \
 	"$XDG_CONFIG/Code/User/keybindings.json" \
@@ -86,6 +88,8 @@ mkdir -p "$HOME/.local/bin"
 
 # Linking to $XDG_CONFIG
 ln -nsf "$CONFIGS_DIR/nvim" "$XDG_CONFIG/nvim"
+ln -nsf "$CONFIGS_DIR/emacs" "$HOME/.emacs.d"
+ln -nsf "$CONFIGS_DIR/emacs" "$XDG_CONFIG/emacs"
 ln -nsf "$CONFIGS_DIR/ghostty" "$XDG_CONFIG/ghostty"
 ln -nsf "$CONFIGS_DIR/starship/starship.toml" "$XDG_CONFIG/starship.toml"
 ln -nsf "$CONFIGS_DIR/.gitconfig" "$HOME/.gitconfig"

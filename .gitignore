@@ -20,5 +20,9 @@ configs/fish/conf.d
 configs/fish/fish_variables
 configs/fish/functions
 themes/vercel/chrome/vercel-theme/Cached\ Theme.pak
+emacs/custom.el
+emacs/elpa/
+emacs/eln-cache/
+emacs/auto-save-list/
 
 **/.DS_Store

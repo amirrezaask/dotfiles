@@ -2,7 +2,7 @@
 // and are overridden in turn by syntax-specific settings.
 {
 	"font_face": "Geist Mono",
-	"font_size": 16,
+	"font_size": 28,
     "line_padding_top": 5,
     "line_padding_bottom": 5,
 	"theme": "Adaptive.sublime-theme",
@@ -13,7 +13,7 @@
     ],
 	"hot_exit": "disabled",
 	"index_files": true,
-	"color_scheme": "vercel.sublime-color-scheme",
+	"color_scheme": "auto",
 	"folder_exclude_patterns":
     [
         "node_modules",
@@ -45,6 +45,6 @@
         "*.test",
         "*.out"
     ],
-    "dark_color_scheme": "vercel.sublime-color-scheme",
-    "light_color_scheme": "vercel-light.sublime-color-scheme",
+    "dark_color_scheme": "Mariana.sublime-color-scheme",
+    "light_color_scheme": "Mariana.sublime-color-scheme",
 }

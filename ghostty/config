@@ -1,4 +1,4 @@
-theme = Gruvbox Dark Hard
+theme = Cursor Dark
 font-family = Fira Code
 font-size = 14
 font-feature=-calt
@@ -6,6 +6,7 @@ mouse-hide-while-typing = true
 macos-option-as-alt = true
 window-padding-balance = true
 shell-integration-features=no-cursor
+macos-titlebar-style = tabs
 maximize=true
 cursor-style-blink=false
 
@@ -18,33 +19,33 @@ keybind = shift+enter=text:\x1b\r
 
 # tmux-compatible shortcuts: send C-a followed by the tmux binding from
 # configs/tmux/tmux.conf.
-keybind = cmd+1=text:\x01\x31
-keybind = cmd+2=text:\x01\x32
-keybind = cmd+3=text:\x01\x33
-keybind = cmd+4=text:\x01\x34
-keybind = cmd+5=text:\x01\x35
-keybind = cmd+6=text:\x01\x36
-keybind = cmd+7=text:\x01\x37
-keybind = cmd+8=text:\x01\x38
+# keybind = cmd+1=text:\x01\x31
+# keybind = cmd+2=text:\x01\x32
+#// keybind = cmd+3=text:\x01\x33
+#// keybind = cmd+4=text:\x01\x34
+#// keybind = cmd+5=text:\x01\x35
+#// keybind = cmd+6=text:\x01\x36
+#// keybind = cmd+7=text:\x01\x37
+#// keybind = cmd+8=text:\x01\x38
 
-keybind = cmd+digit_1=text:\x01\x31
-keybind = cmd+digit_2=text:\x01\x32
-keybind = cmd+digit_3=text:\x01\x33
-keybind = cmd+digit_4=text:\x01\x34
-keybind = cmd+digit_5=text:\x01\x35
-keybind = cmd+digit_6=text:\x01\x36
-keybind = cmd+digit_7=text:\x01\x37
-keybind = cmd+digit_8=text:\x01\x38
-
-keybind = cmd+t=text:\x01\x03
-keybind = cmd+w=text:\x01\x18
-keybind = cmd+f=text:\x00\x66
-keybind = cmd+o=text:\x01\x0f
-keybind = cmd+p=text:\x01\x10
-keybind = cmd+n=text:\x01\x0e
-keybind = cmd+y=text:\x00\x79
-keybind = cmd+g=text:\x00\x47
-keybind = cmd+k=text:\x00\x6b
-keybind = cmd+l=text:\x00\x4c
-keybind = cmd+d=text:\x00\x44
-keybind = cmd+m=text:\x00\x6d
+#// keybind = cmd+digit_1=text:\x01\x31
+#// keybind = cmd+digit_2=text:\x01\x32
+#// keybind = cmd+digit_3=text:\x01\x33
+#// keybind = cmd+digit_4=text:\x01\x34
+#// keybind = cmd+digit_5=text:\x01\x35
+#// keybind = cmd+digit_6=text:\x01\x36
+#// keybind = cmd+digit_7=text:\x01\x37
+#// keybind = cmd+digit_8=text:\x01\x38
+#// 
+#// keybind = cmd+t=text:\x01\x03
+#/ keybind = cmd+w=text:\x01\x18
+#/ keybind = cmd+f=text:\x00\x66
+#/ keybind = cmd+o=text:\x01\x0f
+#// keybind = cmd+p=text:\x01\x10
+#// keybind = cmd+n=text:\x01\x0e
+#// keybind = cmd+y=text:\x00\x79
+#// keybind = cmd+g=text:\x00\x47
+#// keybind = cmd+k=text:\x00\x6b
+#// keybind = cmd+l=text:\x00\x4c
+#// keybind = cmd+d=text:\x00\x44
+#// keybind = cmd+m=text:\x00\x6d

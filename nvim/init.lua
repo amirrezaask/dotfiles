@@ -16,7 +16,6 @@ vim.o.splitbelow = true
 vim.o.splitright = true
 vim.o.winborder = "rounded"
 vim.o.completeopt = "menuone,noselect,popup"
-vim.o.autocomplete = true
 
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
@@ -86,6 +85,7 @@ vim.pack.add { -- Installing plugins
  "https://github.com/stevearc/conform.nvim",
  "https://github.com/nvim-treesitter/nvim-treesitter",
  "https://github.com/mfussenegger/nvim-lint",
+ "https://github.com/saghen/blink.cmp",
 }
 
 vim.g.transparency = os.getenv("NVIM_TRANSPARENCY") or false
@@ -133,10 +133,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
  end,
 })
 
-require("oil").setup {
- float = { win_options = { winblend = 0 }, get_win_title = nil, preview_split = "auto", override = function(conf) return conf end },
-}
-vim.keymap.set("n", "<leader>e", require("oil").toggle_float, { desc = "Toggle floating Oil window" })
+-- require("oil").setup {
+--  float = { win_options = { winblend = 0 }, get_win_title = nil, preview_split = "auto", override = function(conf) return conf end },
+-- }
+-- vim.keymap.set("n", "<leader>e", require("oil").toggle_float, { desc = "Toggle floating Oil window" })
 
 local mason_bin = vim.fn.stdpath("data") .. "/mason/bin"
 vim.env.PATH = mason_bin .. ":" .. (vim.env.PATH or "")
@@ -152,10 +152,8 @@ vim.lsp.enable { "gopls", "lua_ls", "ts_ls", "rust_analyzer", "clangd" }
 
 vim.api.nvim_create_autocmd("LspAttach", {
  callback = function(args)
-  local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
   vim.keymap.set("n", "L", vim.diagnostic.open_float, { buffer = args.buf, desc = "Open Floating Diagnostic" })
   vim.keymap.set("n", "C", vim.lsp.buf.code_action, { buffer = args.buf, desc = "Code Actions" })
-  vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
  end,
 })
 
@@ -168,6 +166,7 @@ local has_markers = function(markers)
   })[1] ~= nil
  end
 end
+
 require("conform").setup {
  formatters_by_ft = {
   php = nil,
@@ -231,3 +230,73 @@ vim.api.nvim_create_autocmd(
  { "BufWritePost", "BufReadPost", "BufEnter", "FocusGained" },
  { callback = function() pcall(require("lint").try_lint) end }
 )
+
+require("blink.cmp").setup {
+ cmdline = {
+  enabled = true,
+  keymap = {
+   preset = "cmdline",
+   ["<Right>"] = false,
+   ["<Left>"] = false,
+  },
+  completion = {
+   list = { selection = { preselect = false } },
+   menu = {
+    auto_show = function(_) return vim.fn.getcmdtype() == ":" end,
+   },
+   ghost_text = { enabled = true },
+  },
+ },
+ keymap = {
+  preset = "super-tab",
+  ["<C-y>"] = { "select_and_accept" },
+  ["<enter>"] = { "select_and_accept", "fallback" },
+  ["<tab>"] = { "select_and_accept", "fallback" },
+ },
+ sources = {
+  default = { "lsp", "path", "buffer" },
+  providers = {
+   lsp = {
+    score_offset = 1000,
+   },
+   path = {
+    score_offset = 3,
+   },
+   buffer = {
+    score_offset = -150,
+    min_keyword_length = 3,
+   },
+  },
+ },
+ completion = {
+  accept = { auto_brackets = { enabled = true } },
+  menu = {
+   border = "rounded",
+   max_height = 10,
+   draw = {
+    columns = {
+     { "kind_icon" },
+     { "label", "label_description", gap = 1 },
+     { "source_name" },
+    },
+    components = {
+     source_name = {
+      text = function(ctx)
+       local source_names = {
+        lsp = "[LSP]",
+        buffer = "[Buffer]",
+        path = "[Path]",
+        snippets = "[Snippet]",
+       }
+       return (source_names[ctx.source_name] or "[") .. ctx.source_name .. "]"
+      end,
+      highlight = "CmpItemMenu",
+     },
+    },
+   },
+   auto_show = true,
+  },
+  documentation = { auto_show = true, auto_show_delay_ms = 200 },
+  ghost_text = { enabled = true },
+ },
+}
