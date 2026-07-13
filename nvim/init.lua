@@ -103,7 +103,7 @@ require("gruvbox").setup {
  transparent_mode = vim.g.transparency,
 }
 
-vim.cmd.colorscheme(os.getenv("NVIM_THEME") or "vague")
+vim.cmd.colorscheme(os.getenv("NVIM_THEME") or "gruvbox")
 
 require("nvim-highlight-colors").setup {}
 

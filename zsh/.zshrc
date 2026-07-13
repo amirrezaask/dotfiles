@@ -29,24 +29,124 @@ fpath=("$ZSH_PLUGINS/zsh-completions/src" $fpath)
 autoload -Uz compinit
 compinit -C
 
-# Use emacs-style line editing regardless of inherited shell defaults.
-bindkey -e
+# History (oh-my-zsh style)
+HISTFILE="${HISTFILE:-$HOME/.zsh_history}"
+HISTSIZE=50000
+SAVEHIST=10000
+setopt extended_history hist_expire_dups_first hist_ignore_dups hist_ignore_space
+setopt hist_verify share_history
 
-# Completion settings
+# Directory / shell niceties (oh-my-zsh style)
+setopt auto_cd auto_pushd pushd_ignore_dups pushdminus
+setopt interactive_comments multios long_list_jobs
+unsetopt BEEP
+
+alias -g ...='../..'
+alias -g ....='../../..'
+alias -g .....='../../../..'
+alias -- -='cd -'
+
+# Completion settings (oh-my-zsh style)
+zmodload -i zsh/complist
+unsetopt menu_complete flowcontrol
+setopt auto_menu complete_in_word always_to_end
 zstyle ':completion:*' menu select
-zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
+zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' 'r:|=*' 'l:|=* r:|=*'
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' list-prompt '%SAt %p: Hit TAB for more, or the string to insert%s'
 zstyle ':completion:*' group-name ''
 zstyle ':completion:*:descriptions' format '%F{green}-- %d --%f'
 zstyle ':completion:*:warnings' format '%F{yellow}-- No matches for: %d --%f'
 zstyle ':completion:*' squeeze-slashes true
+zstyle ':completion:*' special-dirs true
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path "$HOME/.zcache"
+bindkey -M menuselect '^o' accept-and-infer-next-history
 
-# Load plugins
-source "$ZSH_PLUGINS/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+# Bracketed paste + URL quoting (built-in zsh, oh-my-zsh style)
+autoload -Uz bracketed-paste-magic url-quote-magic
+zle -N bracketed-paste bracketed-paste-magic
+zle -N self-insert url-quote-magic
+
+# Emacs line editing + macOS/Ghostty keybindings (macos-option-as-alt)
+autoload -Uz select-word-style
+select-word-style bash
+
+bindkey -e
+
+if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} )); then
+  zle-line-init() { echoti smkx }
+  zle-line-finish() { echoti rmkx }
+  zle -N zle-line-init
+  zle -N zle-line-finish
+fi
+
+# Single-char delete (plain Backspace/Delete)
+bindkey '^?' backward-delete-char
+bindkey '^H' backward-delete-char
+if [[ -n "${terminfo[kdch1]}" ]]; then
+  bindkey "${terminfo[kdch1]}" delete-char
+else
+  bindkey '^[[3~' delete-char
+fi
+
+# Word kill — Option+Backspace/Delete with option-as-alt (Ghostty, VS Code, iTerm)
+bindkey '^[^?' backward-kill-word
+bindkey '^[^H' backward-kill-word
+bindkey '^[d' kill-word
+bindkey '^[D' kill-word
+bindkey '^[[3;3~' kill-word
+bindkey '^[[3;5~' kill-word
+
+# Word navigation — Option+Arrow
+bindkey '\e\e[D' backward-word
+bindkey '\e\e[C' forward-word
+bindkey '\e[1;3D' backward-word
+bindkey '\e[1;3C' forward-word
+
+# Word navigation — Ctrl+Arrow
+bindkey '^[[1;5D' backward-word
+bindkey '^[[1;5C' forward-word
+
+# Home / End
+if [[ -n "${terminfo[khome]}" ]]; then
+  bindkey "${terminfo[khome]}" beginning-of-line
+fi
+if [[ -n "${terminfo[kend]}" ]]; then
+  bindkey "${terminfo[kend]}" end-of-line
+fi
+bindkey '\e[H' beginning-of-line
+bindkey '\e[F' end-of-line
+bindkey '\e[1~' beginning-of-line
+bindkey '\e[4~' end-of-line
+bindkey '\eOH' beginning-of-line
+bindkey '\eOF' end-of-line
+
+# History search — type prefix + Up/Down
+autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+bindkey '^[[A' up-line-or-beginning-search
+bindkey '^[[B' down-line-or-beginning-search
+if [[ -n "${terminfo[kcuu1]}" ]]; then
+  bindkey "${terminfo[kcuu1]}" up-line-or-beginning-search
+fi
+if [[ -n "${terminfo[kcud1]}" ]]; then
+  bindkey "${terminfo[kcud1]}" down-line-or-beginning-search
+fi
+bindkey '^P' up-line-or-beginning-search
+bindkey '^N' down-line-or-beginning-search
+
+bindkey ' ' magic-space
+autoload -Uz edit-command-line
+zle -N edit-command-line
+bindkey '^X^E' edit-command-line
+
+# Load plugins (syntax-highlighting must be last)
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=240'
+ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 source "$ZSH_PLUGINS/zsh-autosuggestions/zsh-autosuggestions.zsh"
+source "$ZSH_PLUGINS/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 
 # Robby Russell-style prompt
 autoload -U colors && colors
@@ -133,16 +233,18 @@ wip() {
 	git push origin "$branch"
 }
 
-unsetopt BEEP
-
 export PNPM_HOME="$HOME/Library/pnpm"
 case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
+  *":$PNPM_HOME/bin:"*) ;;
+  *) export PATH="$PNPM_HOME/bin:$PATH" ;;
 esac
 
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.opencode/bin:$PATH"
+export PATH="$HOME/.gapcode/bin:$PATH"
+export PATH="$HOME/.grok/bin:$PATH"
+export PATH="$HOME/.local/share/nvim/mason/bin:$PATH"
+export PATH="/opt/homebrew/bin:$PATH"
 
 # Lazy load NVM (biggest startup cost)
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
@@ -167,26 +269,7 @@ npx() {
   npx "$@"
 }
 
-export PATH="/Users/amirrezaask/.gapcode/bin:$PATH"
-
-export PATH=/Users/amirrezaask/.opencode/bin:$PATH
-
-export PATH="$HOME/.local/share/nvim/mason/bin:$PATH"
-
-export PATH="/opt/homebrew/bin:$PATH"
-
 # bun completions
-[ -s "/Users/amirrezaask/.bun/_bun" ] && source "/Users/amirrezaask/.bun/_bun"
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
-# >>> grok installer >>>
-export PATH="$HOME/.grok/bin:$PATH"
-fpath=(~/.grok/completions/zsh $fpath)
-# <<< grok installer <<<
-
-# pnpm
-export PNPM_HOME="/Users/amirrezaask/Library/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME/bin:"*) ;;
-  *) export PATH="$PNPM_HOME/bin:$PATH" ;;
-esac
-# pnpm end
+fpath=("$HOME/.grok/completions/zsh" $fpath)

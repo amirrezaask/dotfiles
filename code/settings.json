@@ -91,4 +91,5 @@
   },
   "workbench.agentsWindowButton.enabled": false,
   "window.autoDetectColorScheme": false,
+  "workbench.colorTheme": "Cursor Light",
 }
