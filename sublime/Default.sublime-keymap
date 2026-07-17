@@ -1,6 +1,6 @@
 [
 	{"keys":  ["primary+."], "command": "goto_definition" },
-    {"keys": ["primary+,"], "command": "jump_back" },
+    {"keys":  ["primary+,"], "command": "jump_back" },
     { "keys": ["primary+1"], "command": "toggle_side_bar" },
     { "keys": ["primary+2"], "command": "toggle_terminus_panel" },
     { "keys": ["primary+shift+."], "command": "lsp_expand_selection" },

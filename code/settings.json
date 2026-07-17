@@ -4,8 +4,6 @@
   "editor.lineHeight": 1.5,
   "editor.fontFamily": "Geist Mono",
   "editor.fontLigatures": false,
-  "workbench.preferredDarkColorTheme": "Vercel Dark",
-  "workbench.preferredLightColorTheme": "Vercel Light",
   "editor.cursorBlinking": "smooth",
   "editor.stickyScroll.enabled": false,
   "files.autoSave": "onFocusChange",
@@ -84,12 +82,9 @@
   ],
   "git.openRepositoryInParentFolders": "never",
   "workbench.activityBar.location": "top",
-  "cursor.composer.shouldChimeAfterChatFinishes": true,
-  "workbench.preferredHighContrastColorTheme": "Vercel Dark",
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "workbench.agentsWindowButton.enabled": false,
   "window.autoDetectColorScheme": false,
-  "workbench.colorTheme": "Cursor Light",
+  "workbench.colorTheme": "Solarized Light",
 }

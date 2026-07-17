@@ -1,8 +1,8 @@
 // Settings in here override those in "Default/Preferences.sublime-settings",
 // and are overridden in turn by syntax-specific settings.
 {
-	"font_face": "Geist Mono",
-	"font_size": 14,
+	"font_face": "Liberation Mono",
+	"font_size": 18,
     "line_padding_top": 5,
     "line_padding_bottom": 5,
 	"theme": "Adaptive.sublime-theme",
@@ -13,7 +13,8 @@
     ],
 	"hot_exit": "disabled",
 	"index_files": true,
-	"color_scheme": "auto",
+	"color_scheme": "Mariana.sublime-color-scheme",
+
 	"folder_exclude_patterns":
     [
         "node_modules",
@@ -46,5 +47,5 @@
         "*.out"
     ],
     "dark_color_scheme": "Mariana.sublime-color-scheme",
-    "light_color_scheme": "Mariana.sublime-color-scheme",
+    "light_color_scheme": "Breakers.sublime-color-scheme",
 }
