@@ -76,9 +76,9 @@ vim.pack.add { -- Installing plugins
  { src = "https://github.com/rose-pine/neovim", name = "rose-pine" },
  { src = "https://github.com/vague-theme/vague.nvim", name = "vague" },
  { src = "https://github.com/ellisonleao/gruvbox.nvim", name = "gruvbox" },
+ { src = "https://github.com/shatur/neovim-ayu", name = "ayu" },
  "https://github.com/brenoprata10/nvim-highlight-colors",
  "https://github.com/ibhagwan/fzf-lua",
- "https://github.com/stevearc/oil.nvim",
  "https://github.com/tpope/vim-fugitive",
  "https://github.com/neovim/nvim-lspconfig",
  "https://github.com/mason-org/mason.nvim",
@@ -91,6 +91,7 @@ vim.pack.add { -- Installing plugins
 vim.g.transparency = os.getenv("NVIM_TRANSPARENCY") or false
 require("rose-pine").setup { styles = { italic = false, transparency = vim.g.transparency } }
 require("vague").setup { transparent = vim.g.transparency, italic = false }
+require("ayu").setup {}
 require("gruvbox").setup {
  contrast = "hard",
  italic = {
@@ -103,7 +104,7 @@ require("gruvbox").setup {
  transparent_mode = vim.g.transparency,
 }
 
-vim.cmd.colorscheme(os.getenv("NVIM_THEME") or "gruvbox")
+vim.cmd.colorscheme(os.getenv("NVIM_THEME") or "ayu-dark")
 
 require("nvim-highlight-colors").setup {}
 
@@ -132,11 +133,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
   vim.keymap.set("n", "C", vim.lsp.buf.code_action, { buffer = args.buf, desc = "Code Actions" })
  end,
 })
-
--- require("oil").setup {
---  float = { win_options = { winblend = 0 }, get_win_title = nil, preview_split = "auto", override = function(conf) return conf end },
--- }
--- vim.keymap.set("n", "<leader>e", require("oil").toggle_float, { desc = "Toggle floating Oil window" })
 
 local mason_bin = vim.fn.stdpath("data") .. "/mason/bin"
 vim.env.PATH = mason_bin .. ":" .. (vim.env.PATH or "")
