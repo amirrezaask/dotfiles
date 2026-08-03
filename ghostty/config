@@ -1,4 +1,5 @@
 font-family = Fira Code
+theme = dark:Ayu,light:Ayu Light
 font-size = 14
 font-feature=-calt
 mouse-hide-while-typing = true
@@ -8,13 +9,14 @@ shell-integration-features=no-cursor
 macos-titlebar-style = tabs
 maximize=true
 cursor-style-blink=false
+cursor-style=bar
 
-keybind = cmd+[=previous_tab
-keybind = cmd+]=next_tab
-keybind = cmd+,=previous_tab
-keybind = cmd+.=next_tab
-keybind = cmd+shift+f=start_search
-keybind = shift+enter=text:\x1b\r
+# keybind = cmd+[=previous_tab
+# keybind = cmd+]=next_tab
+# keybind = cmd+,=previous_tab
+# keybind = cmd+.=next_tab
+# keybind = cmd+shift+f=start_search
+# keybind = shift+enter=text:\x1b\r
 
 # tmux-compatible shortcuts: send C-a followed by the tmux binding from
 # configs/tmux/tmux.conf.

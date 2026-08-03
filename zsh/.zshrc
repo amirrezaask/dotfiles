@@ -242,7 +242,7 @@ esac
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.opencode/bin:$PATH"
 export PATH="$HOME/.gapcode/bin:$PATH"
-export PATH="$HOME/.grok/bin:$PATH"
+# export PATH="$HOME/.grok/bin:$PATH"
 export PATH="$HOME/.local/share/nvim/mason/bin:$PATH"
 export PATH="/opt/homebrew/bin:$PATH"
 
@@ -273,3 +273,15 @@ npx() {
 [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
 fpath=("$HOME/.grok/completions/zsh" $fpath)
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+# pnpm
+export PNPM_HOME="/Users/amirrezaask/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME/bin:"*) ;;
+  *) export PATH="$PNPM_HOME/bin:$PATH" ;;
+esac
+# pnpm end

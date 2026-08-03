@@ -13,7 +13,7 @@
     ],
 	"hot_exit": "disabled",
 	"index_files": true,
-	"color_scheme": "Mariana.sublime-color-scheme",
+	"color_scheme": "vercel.sublime-color-scheme",
 
 	"folder_exclude_patterns":
     [
