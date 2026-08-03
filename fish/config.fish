@@ -65,6 +65,7 @@ fish_add_path "$HOME/.local/share/nvim/mason/bin"
 # Bun
 set -gx BUN_INSTALL "$HOME/.bun"
 fish_add_path "$BUN_INSTALL/bin"
+source ~/.cargo/env.fish
 
 # ---- NVM lazy-load (mirrors zsh) ---------------------------------
 set -gx NVM_DIR "$HOME/.nvm"

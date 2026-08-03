@@ -285,3 +285,4 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME/bin:$PATH" ;;
 esac
 # pnpm end
+export PATH="/opt/homebrew/opt/zig@0.15/bin:$PATH"
