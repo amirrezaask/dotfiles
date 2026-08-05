@@ -131,7 +131,6 @@ function fish_prompt
     set_color green
     printf '%s ' $project
     set_color normal
-    printf ' '
 end
 
 function fish_right_prompt
