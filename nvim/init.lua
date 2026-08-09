@@ -112,12 +112,12 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 })
 
 vim.pack.add({
-	{ src = "https://github.com/shatur/neovim-ayu", name = "ayu" },
+	{ src = "https://github.com/catppuccin/nvim", name = "catppuccin" },
 	"https://github.com/nvim-treesitter/nvim-treesitter",
 	"https://github.com/mason-org/mason.nvim",
 })
-require("ayu").setup({})
-vim.cmd.colorscheme("ayu-dark")
+require("catppuccin").setup({ flavour = "mocha" })
+vim.cmd.colorscheme("catppuccin")
 
 local mason_bin = vim.fn.stdpath("data") .. "/mason/bin"
 vim.env.PATH = mason_bin .. ":" .. (vim.env.PATH or "")

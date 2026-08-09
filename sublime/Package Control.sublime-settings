@@ -1,6 +1,7 @@
 {
 	"in_process_packages":
 	[
+		"LSP-gopls",
 	],
 	"installed_packages":
 	[

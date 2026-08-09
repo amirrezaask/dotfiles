@@ -1,5 +1,5 @@
 font-family = Fira Code
-theme = dark:Ayu,light:Ayu Light
+theme = dark:Catppuccin Mocha,light:catppuccin-latte
 font-size = 14
 font-feature=-calt
 mouse-hide-while-typing = true

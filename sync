@@ -81,10 +81,12 @@ echo "CONFIGS_DIR $CONFIGS_DIR"
 	"$XDG_CONFIG/alacritty" \
 	"$XDG_CONFIG/wezterm" \
 	"$XDG_CONFIG/fish" \
-	"$HOME/.gitconfig"
+	"$HOME/.gitconfig" \
+	"$XDG_CONFIG/herdr/config.toml"
 
 mkdir -p "$XDG_CONFIG"
 mkdir -p "$XDG_CONFIG/Code/User"
+mkdir -p "$XDG_CONFIG/herdr"
 mkdir -p "$HOME/.local/bin"
 
 # Linking to $XDG_CONFIG
@@ -105,6 +107,7 @@ ln -nsf "$CONFIGS_DIR/wezterm" "$XDG_CONFIG/wezterm"
 ln -nsf "$CONFIGS_DIR/fish" "$XDG_CONFIG/fish"
 ln -nsf "$CONFIGS_DIR/ideavimrc/ideavimrc" "$HOME/.ideavimrc"
 ln -nsf "$CONFIGS_DIR/tmux/d" "$HOME/.local/bin/d"
+ln -nsf "$CONFIGS_DIR/herdr/config.toml" "$XDG_CONFIG/herdr/config.toml"
 
 # Now some mac stuff
 if [[ "$(uname)" == "Darwin" ]]; then
