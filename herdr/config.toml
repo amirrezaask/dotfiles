@@ -1,10 +1,15 @@
 onboarding = false
 [theme]
-name = "catppuccin-macchiato"
+name = "tokyo-night"
 
+auto_switch = false
 [ui]
 agent_panel_sort = "priority"
 prompt_new_tab_name = false
 
+[experimental]
+kitty_graphics = true
+
 [keys]
 prefix = "ctrl+a"
+rename_tab = "prefix+,"
