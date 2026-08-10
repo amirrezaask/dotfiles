@@ -117,7 +117,7 @@ vim.pack.add({
 	"https://github.com/mason-org/mason.nvim",
 })
 require("catppuccin").setup({ flavour = "mocha" })
-vim.cmd.colorscheme("catppuccin")
+vim.cmd.colorscheme("catppuccin-macchiato")
 
 local mason_bin = vim.fn.stdpath("data") .. "/mason/bin"
 vim.env.PATH = mason_bin .. ":" .. (vim.env.PATH or "")

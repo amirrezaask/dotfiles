@@ -1,8 +1,7 @@
 onboarding = false
 [theme]
-name = "tokyo-night"
+name = "catppuccin-macchiato"
 
-auto_switch = false
 [ui]
 agent_panel_sort = "priority"
 prompt_new_tab_name = false
@@ -11,5 +10,19 @@ prompt_new_tab_name = false
 kitty_graphics = true
 
 [keys]
+# Keep tmux-era prefix; Ghostty forwards cmd+* as ctrl+a + action (\x01…).
 prefix = "ctrl+a"
 rename_tab = "prefix+,"
+
+# Defaults Ghostty depends on (documented here so they stay stable):
+# new_tab = prefix+c          → cmd+t
+# next_tab / previous_tab     → cmd+n / cmd+p
+# switch_tab = prefix+1..9    → cmd+1..9
+# close_pane = prefix+x       → cmd+w
+# close_tab = prefix+shift+x  → cmd+shift+w
+# workspace_picker = prefix+w → cmd+o
+# goto = prefix+g             → cmd+g
+# split_vertical = prefix+v   → cmd+d
+# split_horizontal = prefix+minus → cmd+shift+d
+# zoom = prefix+z             → cmd+f
+# focus_pane_* = prefix+hjkl  → cmd+alt+hjkl

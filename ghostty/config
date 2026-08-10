@@ -1,6 +1,6 @@
 font-family = MonoLisa 
 font-style = Regular
-theme = dark:Catppuccin Mocha,light:catppuccin-latte
+theme = dark:Catppuccin Macchiato,light:Catppuccin Frappe
 font-size = 14
 font-feature=-calt
 mouse-hide-while-typing = true
@@ -12,42 +12,65 @@ maximize=true
 cursor-style-blink=false
 cursor-style=bar
 
-# keybind = cmd+[=previous_tab
-# keybind = cmd+]=next_tab
-# keybind = cmd+,=previous_tab
-# keybind = cmd+.=next_tab
-# keybind = cmd+shift+f=start_search
-# keybind = shift+enter=text:\x1b\r
+# Herdr-compatible shortcuts: send C-a (herdr prefix from herdr/config.toml)
+# followed by the Herdr binding. Ghostty eats cmd+* by default, so unbind the
+# stock action and send via cmd+Key* (see herdr.dev/docs/keyboard).
+# Prefix byte: ctrl+a = \x01
 
-# tmux-compatible shortcuts: send C-a followed by the tmux binding from
-# configs/tmux/tmux.conf.
-# keybind = cmd+1=text:\x01\x31
-# keybind = cmd+2=text:\x01\x32
-#// keybind = cmd+3=text:\x01\x33
-#// keybind = cmd+4=text:\x01\x34
-#// keybind = cmd+5=text:\x01\x35
-#// keybind = cmd+6=text:\x01\x36
-#// keybind = cmd+7=text:\x01\x37
-#// keybind = cmd+8=text:\x01\x38
+# Tabs: cmd+t new, cmd+w close pane, cmd+shift+w close tab
+keybind = cmd+KeyT=text:\x01c
+keybind = cmd+t=unbind
+keybind = cmd+KeyW=text:\x01x
+keybind = cmd+w=unbind
+keybind = cmd+shift+KeyW=text:\x01X
+keybind = cmd+shift+w=unbind
 
-#// keybind = cmd+digit_1=text:\x01\x31
-#// keybind = cmd+digit_2=text:\x01\x32
-#// keybind = cmd+digit_3=text:\x01\x33
-#// keybind = cmd+digit_4=text:\x01\x34
-#// keybind = cmd+digit_5=text:\x01\x35
-#// keybind = cmd+digit_6=text:\x01\x36
-#// keybind = cmd+digit_7=text:\x01\x37
-#// keybind = cmd+digit_8=text:\x01\x38
-#// 
-#// keybind = cmd+t=text:\x01\x03
-#/ keybind = cmd+w=text:\x01\x18
-#/ keybind = cmd+f=text:\x00\x66
-#/ keybind = cmd+o=text:\x01\x0f
-#// keybind = cmd+p=text:\x01\x10
-#// keybind = cmd+n=text:\x01\x0e
-#// keybind = cmd+y=text:\x00\x79
-#// keybind = cmd+g=text:\x00\x47
-#// keybind = cmd+k=text:\x00\x6b
-#// keybind = cmd+l=text:\x00\x4c
-#// keybind = cmd+d=text:\x00\x44
-#// keybind = cmd+m=text:\x00\x6d
+# Tab cycle: cmd+n / cmd+p (same muscle memory as old tmux binds)
+keybind = cmd+KeyN=text:\x01n
+keybind = cmd+n=unbind
+keybind = cmd+KeyP=text:\x01p
+keybind = cmd+p=unbind
+
+# Jump to tab 1..9
+keybind = cmd+digit_1=text:\x011
+keybind = cmd+1=text:\x011
+keybind = cmd+digit_2=text:\x012
+keybind = cmd+2=text:\x012
+keybind = cmd+digit_3=text:\x013
+keybind = cmd+3=text:\x013
+keybind = cmd+digit_4=text:\x014
+keybind = cmd+4=text:\x014
+keybind = cmd+digit_5=text:\x015
+keybind = cmd+5=text:\x015
+keybind = cmd+digit_6=text:\x016
+keybind = cmd+6=text:\x016
+keybind = cmd+digit_7=text:\x017
+keybind = cmd+7=text:\x017
+keybind = cmd+digit_8=text:\x018
+keybind = cmd+8=text:\x018
+keybind = cmd+digit_9=text:\x019
+keybind = cmd+9=text:\x019
+
+# Workspace picker (old cmd+o session picker) + goto
+keybind = cmd+KeyO=text:\x01w
+keybind = cmd+o=unbind
+keybind = cmd+KeyG=text:\x01g
+keybind = cmd+g=unbind
+
+# Rename tab (herdr: prefix+,)
+keybind = cmd+KeyR=text:\x01,
+keybind = cmd+r=unbind
+
+# Splits: cmd+d vertical, cmd+shift+d horizontal; zoom
+keybind = cmd+KeyD=text:\x01v
+keybind = cmd+d=unbind
+keybind = cmd+shift+KeyD=text:\x01-
+keybind = cmd+shift+d=unbind
+keybind = cmd+KeyF=text:\x01z
+keybind = cmd+f=unbind
+
+# Pane focus: cmd+alt+hjkl
+keybind = cmd+alt+KeyH=text:\x01h
+keybind = cmd+alt+KeyJ=text:\x01j
+keybind = cmd+alt+KeyK=text:\x01k
+keybind = cmd+alt+KeyL=text:\x01l
