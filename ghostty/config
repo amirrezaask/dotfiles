@@ -51,6 +51,34 @@ keybind = cmd+8=text:\x018
 keybind = cmd+digit_9=text:\x019
 keybind = cmd+9=text:\x019
 
+# Jump to workspace 1..9 (herdr: prefix+shift+1..9; US shifted digits !@#$%^&*()
+# #\x23 avoids starting a Ghostty config comment)
+keybind = cmd+shift+digit_1=text:\x01!
+keybind = cmd+shift+1=unbind
+keybind = cmd+shift+digit_2=text:\x01@
+keybind = cmd+shift+2=unbind
+keybind = cmd+shift+digit_3=text:\x01\x23
+keybind = cmd+shift+3=unbind
+keybind = cmd+shift+digit_4=text:\x01$
+keybind = cmd+shift+4=unbind
+keybind = cmd+shift+digit_5=text:\x01%
+keybind = cmd+shift+5=unbind
+keybind = cmd+shift+digit_6=text:\x01^
+keybind = cmd+shift+6=unbind
+keybind = cmd+shift+digit_7=text:\x01&
+keybind = cmd+shift+7=unbind
+keybind = cmd+shift+digit_8=text:\x01*
+keybind = cmd+shift+8=unbind
+keybind = cmd+shift+digit_9=text:\x01(
+keybind = cmd+shift+9=unbind
+
+# Workspace cycle: cmd+shift+n / cmd+shift+p (herdr: prefix+shift+n/p)
+# Unbinds Ghostty's stock cmd+shift+p command palette.
+keybind = cmd+shift+KeyN=text:\x01N
+keybind = cmd+shift+n=unbind
+keybind = cmd+shift+KeyP=text:\x01P
+keybind = cmd+shift+p=unbind
+
 # Workspace picker (old cmd+o session picker) + goto
 keybind = cmd+KeyO=text:\x01w
 keybind = cmd+o=unbind

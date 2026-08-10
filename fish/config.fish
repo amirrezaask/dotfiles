@@ -100,6 +100,28 @@ function npx
     command npx $argv
 end
 
+
+function fish_prompt
+    set -l project (basename (pwd))
+    set_color green
+    printf '%s ' $project
+    set_color normal
+end
+
+function fish_right_prompt
+    set -l branch (git symbolic-ref --short HEAD 2>/dev/null)
+    if test -n "$branch"
+        set_color yellow
+        printf '%s' "($branch)"
+        set_color normal
+    end
+end
+
+# ---- Starship prompt ------------------------------------------------
+if command -q starship
+    starship init fish | source
+end
+
 # ---- fzf key bindings ------------------------------------------------
 if command -q fzf
     fzf --fish | source
@@ -126,18 +148,3 @@ function profile --description 'Show fish startup timing'
     /usr/bin/time fish --command 'exit' 2>&1 | tail -1
 end
 
-function fish_prompt
-    set -l project (basename (pwd))
-    set_color green
-    printf '%s ' $project
-    set_color normal
-end
-
-function fish_right_prompt
-    set -l branch (git symbolic-ref --short HEAD 2>/dev/null)
-    if test -n "$branch"
-        set_color yellow
-        printf '%s' "($branch)"
-        set_color normal
-    end
-end

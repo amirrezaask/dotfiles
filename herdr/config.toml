@@ -14,10 +14,20 @@ kitty_graphics = true
 prefix = "ctrl+a"
 rename_tab = "prefix+,"
 
+# Workspace jump / cycle (Ghostty: cmd+shift+1..9, cmd+shift+n/p).
+# Takes shift+n/p from the stock new_workspace / rename_pane defaults.
+switch_workspace = "prefix+shift+1..9"
+next_workspace = "prefix+shift+n"
+previous_workspace = "prefix+shift+p"
+new_workspace = "prefix+shift+c"
+rename_pane = "prefix+shift+e"
+
 # Defaults Ghostty depends on (documented here so they stay stable):
 # new_tab = prefix+c          → cmd+t
 # next_tab / previous_tab     → cmd+n / cmd+p
 # switch_tab = prefix+1..9    → cmd+1..9
+# switch_workspace = prefix+shift+1..9 → cmd+shift+1..9
+# next_workspace / previous_workspace → cmd+shift+n / cmd+shift+p
 # close_pane = prefix+x       → cmd+w
 # close_tab = prefix+shift+x  → cmd+shift+w
 # workspace_picker = prefix+w → cmd+o
