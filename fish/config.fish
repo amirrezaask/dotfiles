@@ -10,7 +10,8 @@ set -gx EDITOR nvim
 set -gx GIT_EDITOR nvim
 
 # ---- Tools ----------------------------------------------------
-abbr o opencode
+abbr o opencode2
+abbr opencode opencode2
 abbr c claude
 abbr gap gapcode
 
@@ -66,21 +67,6 @@ fish_add_path "$HOME/.local/share/nvim/mason/bin"
 set -gx BUN_INSTALL "$HOME/.bun"
 fish_add_path "$BUN_INSTALL/bin"
 source ~/.cargo/env.fish
-
-# ---- NVM lazy-load (mirrors zsh) ---------------------------------
-set -gx NVM_DIR "$HOME/.nvm"
-if test -z "$XDG_CONFIG_HOME"
-    set -gx NVM_DIR "$HOME/.nvm"
-else
-    set -gx NVM_DIR "$XDG_CONFIG_HOME/nvm"
-end
-
-function nvm
-    functions --erase nvm node npm npx
-    set -gx NVM_DIR "$HOME/.nvm"
-    test -s "$NVM_DIR/nvm.sh"; and source "$NVM_DIR/nvm.sh"
-    command nvm $argv
-end
 
 function node
     functions --erase node npm npx

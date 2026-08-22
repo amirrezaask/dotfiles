@@ -286,3 +286,6 @@ case ":$PATH:" in
 esac
 # pnpm end
 export PATH="/opt/homebrew/opt/zig@0.15/bin:$PATH"
+
+# Vite+ bin (https://viteplus.dev)
+. "$HOME/.vite-plus/env"

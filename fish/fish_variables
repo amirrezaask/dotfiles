@@ -1,4 +1,5 @@
 # This file contains fish universal variable definitions.
 # VERSION: 3.0
 SETUVAR __fish_initialized:4300
+SETUVAR fish_features:no\x2dquery\x2dterm
 SETUVAR fish_user_paths:/Users/amirrezaask/\x2ebun/bin\x1e/Users/amirrezaask/\x2elocal/share/nvim/mason/bin\x1e/Users/amirrezaask/\x2egapcode/bin\x1e/Users/amirrezaask/\x2eopencode/bin\x1e/Users/amirrezaask/\x2elocal/bin\x1e/opt/homebrew/bin\x1e/Users/amirrezaask/Library/pnpm/bin

@@ -1,6 +1,6 @@
-font-family = MonoLisa 
+font-family = Jetbrains Mono
 font-style = Regular
-theme = dark:Catppuccin Macchiato,light:Catppuccin Frappe
+theme = Catppuccin Macchiato
 font-size = 14
 font-feature=-calt
 mouse-hide-while-typing = true
