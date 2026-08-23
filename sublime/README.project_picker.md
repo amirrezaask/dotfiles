@@ -4,12 +4,12 @@ A Sublime Text plugin inspired by the kitty session-picker.sh script.
 
 ## Features
 
-- **Project Picker** (`Command+Ctrl+P`): Shows a quick panel with all git projects from `~/dev`.
+- **Project Picker** (`Command+Shift+O` on macOS): Shows a quick panel with all git projects from `~/dev`.
   - If a project is already open in a Sublime window, it will focus that window
   - If not open, it creates a new window with the project
   - First option is always "scratch" (opens `~/scratch`)
 
-- **Project Picker (Current Window)** (`Command+Ctrl+Shift+P`): Same as above but opens in the current window instead of creating a new one
+- **Project Picker (Current Window)** (`Command+O` on macOS): Same as above but opens in the current window instead of creating a new one
 
 ## Commands
 
@@ -33,7 +33,7 @@ The plugin looks for projects in `~/dev` and uses `~/scratch` for the scratch di
 
 ## Key Bindings
 
-- `Command+Ctrl+P` - Open project picker (new window)
-- `Command+Ctrl+Shift+P` - Open project picker (current window)
+- `Command+Shift+O` - Open project picker in a new window
+- `Command+O` - Open project picker in the current window
 
-Edit `Default (OSX).sublime-keymap` to customize these bindings.
+Edit `Default.sublime-keymap` to customize these bindings.

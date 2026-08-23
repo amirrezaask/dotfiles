@@ -1,2 +1,4 @@
 # Vite+ bin (https://viteplus.dev)
-source "$HOME/.vite-plus/env.fish"
+if test -r "$HOME/.vite-plus/env.fish"
+    source "$HOME/.vite-plus/env.fish"
+end

@@ -13,10 +13,14 @@
 	br = branch
 	ci = commit
 	st = status
-	diff = difftool --no-prompt
+	hd = !hunk diff
+	hds = !hunk diff --staged
 
 [pull]
 	rebase = true
 
 [diff]
-	tool = hunk diff
+	tool = hunk
+
+[difftool "hunk"]
+	cmd = hunk diff "$LOCAL" "$REMOTE"

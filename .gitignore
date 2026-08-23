@@ -1,28 +1,22 @@
 *~
-configs/btop/btop.log
-configs/btop/themes/current.theme
-configs/fish/completions
-configs/fish/conf.d
-configs/fish/functions
-configs/fish/fish_variables
-configs/nvim/lazy-lock.json
-configs/codex/sessions
-configs/codex/logs
-configs/codex/skills
-configs/codex/version.json
-configs/codex/history.json
-configs/codex/history.jsonl
-configs/codex/tmp
-configs/codex/auth.json
-configs/codex/log
-configs/fish/completions
-configs/fish/conf.d
-configs/fish/fish_variables
-configs/fish/functions
-themes/vercel/chrome/vercel-theme/Cached\ Theme.pak
-emacs/custom.el
-emacs/elpa/
-emacs/eln-cache/
-emacs/auto-save-list/
-
 **/.DS_Store
+**/__pycache__/
+*.pyc
+
+# Machine-generated state
+fish/fish_variables
+nvim/lazy-lock.json
+sublime/Terminus.hidden-color-scheme
+
+# Locally licensed fonts (keep outside public history)
+.fonts/MonoLisa-*
+.fonts/OperatorMono-*
+.fonts/TX-02-*
+
+# Generated theme build artifacts and signing material
+themes/vercel/chrome/*.crx
+themes/vercel/chrome/*.pem
+themes/vercel/chrome/*/Cached\ Theme.pak
+themes/vercel/jetbrains/**/.idea/workspace.xml
+themes/vercel/jetbrains/**/out/
+themes/vercel/jetbrains/**/*.jar

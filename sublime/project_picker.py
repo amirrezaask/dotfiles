@@ -100,10 +100,10 @@ class ProjectCache:
     
     def _scan_async(self):
         """Asynchronous scan."""
-        if self._is_scanning:
-            return
-        
-        self._is_scanning = True
+        with self._lock:
+            if self._is_scanning:
+                return
+            self._is_scanning = True
         
         def scan_worker():
             try:
@@ -112,7 +112,8 @@ class ProjectCache:
                     self._cache = projects
                     self._last_update = time.time()
             finally:
-                self._is_scanning = False
+                with self._lock:
+                    self._is_scanning = False
         
         thread = threading.Thread(target=scan_worker, daemon=True)
         thread.start()
@@ -141,7 +142,7 @@ class ProjectCache:
     def _scan_with_fd(self, projects_dir):
         """Use fd command to find git repos (blazing fast)."""
         result = subprocess.run(
-            ["fd", "-H", "-t", "d", "-d", "3", "-c", "never", "-a", "\\.git", projects_dir],
+            ["fd", "-H", "-d", "3", "-c", "never", "-a", "^\\.git$", projects_dir],
             capture_output=True,
             text=True,
             timeout=5
@@ -153,7 +154,7 @@ class ProjectCache:
         """Use standard Unix find command (fast and universally available)."""
         # find ~/dev -maxdepth 3 -name ".git" -type d
         result = subprocess.run(
-            ["find", projects_dir, "-maxdepth", "3", "-name", ".git", "-type", "d"],
+            ["find", projects_dir, "-maxdepth", "3", "-name", ".git"],
             capture_output=True,
             text=True,
             timeout=10
@@ -203,7 +204,7 @@ class ProjectCache:
                     del dirs[:]
                     continue
                 
-                if ".git" in dirs:
+                if ".git" in dirs or ".git" in files:
                     rel_path = os.path.relpath(root, projects_dir)
                     
                     # Skip subdirectories of git repos
@@ -216,11 +217,13 @@ class ProjectCache:
                                 break
                             parent = os.path.dirname(parent)
                         if parent_has_git:
-                            dirs.remove(".git")
+                            if ".git" in dirs:
+                                dirs.remove(".git")
                             continue
                     
                     projects.append((rel_path, root))
-                    dirs.remove(".git")
+                    if ".git" in dirs:
+                        dirs.remove(".git")
         except Exception:
             pass
         
@@ -304,8 +307,6 @@ class ProjectPickerNewWindowCommand(sublime_plugin.WindowCommand):
                 "ensure_newline_at_eof_on_save": True
             }
         })
-        
-        os.chdir(project_path)
 
 
 class ProjectPickerScratchCommand(sublime_plugin.ApplicationCommand):
@@ -375,8 +376,6 @@ class ProjectPickerCurrentWindowCommand(sublime_plugin.WindowCommand):
                     "ensure_newline_at_eof_on_save": True
                 }
             })
-            
-            os.chdir(project_path)
     
     def _find_existing_window(self, project_name, project_path):
         """Find if a window with this project is already open."""

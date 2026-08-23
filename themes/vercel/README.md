@@ -143,35 +143,23 @@ brew install --cask font-geist   # optional, UI only
 | Import identifier | `fg` | `fg` |
 | Punctuation / operator | `fg` | `fg` |
 
-**Neovim TSX:** PascalCase tags use `@constructor` → `blue`; lowercase tags use `@tag` → `green`. Queries: `configs/nvim/queries/{tsx,jsx}/highlights.scm`.
+**Neovim TSX:** PascalCase tags use `@constructor` → `blue`; lowercase tags use `@tag` → `green`.
 
 ---
 
 ## Implementations in this repo
 
-Canonical files live under **`themes/vercel/`** (see [themes/README.md](../themes/README.md)). App configs use **symlinks** at the paths below so Kitty/Neovim/`set-theme` keep working unchanged.
+Canonical files live under **`themes/vercel/`**. The app-facing links below are relative so the repository remains relocatable.
 
-| Program | Canonical path | Symlink (for apps) | Notes |
-|---------|----------------|-------------------|-------|
-| **Kitty** | `themes/vercel/kitty/vercel.conf` | `configs/kitty/themes/vercel.conf` | `vercel-light.conf`; `include` in `kitty.conf` |
-| **Ghostty** | `themes/vercel/ghostty/vercel` | `configs/ghostty/themes/vercel` | `vercel-light`; `theme = vercel` in `configs/ghostty/config` |
-| **Neovim** | `themes/vercel/nvim/vercel.lua` | `configs/nvim/colors/vercel.lua` | Light via `vim.o.background`; `:colorscheme vercel` |
-| **VS Code / Cursor** | `themes/vercel/vscode/themes/vercel-dark.json` | `configs/code/vercel-theme` | Extension package in `themes/vercel/vscode/` |
-| **JetBrains IDEs** | `themes/vercel/jetbrains/` | — | Plugin: `./gradlew buildPlugin` → install ZIP from `build/distributions/` |
-| **Chrome** | `themes/vercel/chrome/vercel-theme/` | `configs/chrome/vercel-theme` | `vercel-theme-light/` for light |
-| **Sublime** | `configs/sublime/vercel.sublime-color-scheme` | — | *(still in configs; GitHub palette — update separately if needed)* |
-
-### Switching themes
-
-```bash
-./set-theme vercel          # dark
-./set-theme vercel-light    # light
-```
-
-Environment overrides:
-
-- `NVIM_THEME=vercel` — Neovim colorscheme name (palette follows `'background'`)
-- `NVIM_TRANSPARENCY=true` — Neovim `Normal` bg `NONE`
+| Program | Canonical path | App-facing path | Notes |
+|---------|----------------|-----------------|-------|
+| **Kitty** | `themes/vercel/kitty/vercel.conf` | — | `vercel-light.conf` is also available; select one from `kitty/kitty.conf` |
+| **Ghostty** | `themes/vercel/ghostty/vercel` | `ghostty/themes/vercel` | `vercel-light` is linked alongside it |
+| **Neovim** | `themes/vercel/nvim/vercel.lua` | `nvim/colors/vercel.lua` | Use `:colorscheme vercel` |
+| **VS Code / Cursor** | `themes/vercel/vscode/themes/vercel-dark.json` | `code/vercel-theme` | Extension package in `themes/vercel/vscode/` |
+| **JetBrains IDEs** | `themes/vercel/jetbrains/` | — | Install the built plugin artifact |
+| **Chrome** | `themes/vercel/chrome/vercel-theme/` | — | `themes/vercel/chrome/vercel-theme-light/` contains the light source |
+| **Sublime** | `themes/vercel/sublime/vercel.sublime-color-scheme` | `sublime/vercel.sublime-color-scheme` | Light variant is linked alongside it |
 
 ---
 

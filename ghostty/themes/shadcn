@@ -1,0 +1,32 @@
+# shadcn/ui default neutral dark theme
+# Source: https://ui.shadcn.com/docs/theming
+# Surfaces stay on shadcn's neutral scale. ANSI accents follow its dark chart
+# and destructive hues, lifted only where terminal text needs more contrast.
+# ANSI black stays dark for TUI backgrounds; Ghostty's contrast guard lifts it
+# only when an application uses it as foreground text.
+
+minimum-contrast = 4.5
+
+palette = 0=#262626
+palette = 1=#ff6467
+palette = 2=#00bc7d
+palette = 3=#fe9a00
+palette = 4=#60a5fa
+palette = 5=#ad46ff
+palette = 6=#2dd4bf
+palette = 7=#fafafa
+palette = 8=#737373
+palette = 9=#ff6467
+palette = 10=#34d399
+palette = 11=#ffb454
+palette = 12=#93c5fd
+palette = 13=#c084fc
+palette = 14=#5eead4
+palette = 15=#ffffff
+
+background = #0a0a0a
+foreground = #fafafa
+cursor-color = #e5e5e5
+cursor-text = #0a0a0a
+selection-background = #404040
+selection-foreground = #fafafa

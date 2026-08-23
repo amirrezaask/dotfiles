@@ -3,7 +3,7 @@ zmodload zsh/datetime 2>/dev/null
 typeset -g _profile_start=$EPOCHREALTIME
 
 profile() {
-  echo "Zsh startup: $(( $EPOCHREALTIME - $_profile_start ))ms"
+  printf 'Zsh startup: %.1fms\n' "$(( (EPOCHREALTIME - _profile_start) * 1000 ))"
 }
 
 # Plugins directory
@@ -11,19 +11,11 @@ ZSH_PLUGINS="$HOME/.zsh-plugins"
 
 mkdir -p "$ZSH_PLUGINS"
 
-# Install plugins if missing
-if [ ! -d "$ZSH_PLUGINS/zsh-syntax-highlighting" ]; then
-	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$ZSH_PLUGINS/zsh-syntax-highlighting"
+# Plugin installation is explicit (`./sync --with-platform`) so shell startup
+# never performs network access. Missing plugins degrade gracefully.
+if [[ -d "$ZSH_PLUGINS/zsh-completions/src" ]]; then
+  fpath=("$ZSH_PLUGINS/zsh-completions/src" $fpath)
 fi
-if [ ! -d "$ZSH_PLUGINS/zsh-completions" ]; then
-	git clone https://github.com/zsh-users/zsh-completions.git "$ZSH_PLUGINS/zsh-completions"
-fi
-if [ ! -d "$ZSH_PLUGINS/zsh-autosuggestions" ]; then
-	git clone https://github.com/zsh-users/zsh-autosuggestions.git "$ZSH_PLUGINS/zsh-autosuggestions"
-fi
-
-# Add plugins to fpath for completions
-fpath=("$ZSH_PLUGINS/zsh-completions/src" $fpath)
 
 # Completion system
 autoload -Uz compinit
@@ -142,11 +134,11 @@ autoload -Uz edit-command-line
 zle -N edit-command-line
 bindkey '^X^E' edit-command-line
 
-# Load plugins (syntax-highlighting must be last)
+# Load autosuggestions now; syntax highlighting is sourced at the very end.
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=240'
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
-source "$ZSH_PLUGINS/zsh-autosuggestions/zsh-autosuggestions.zsh"
-source "$ZSH_PLUGINS/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+[[ -r "$ZSH_PLUGINS/zsh-autosuggestions/zsh-autosuggestions.zsh" ]] && \
+  source "$ZSH_PLUGINS/zsh-autosuggestions/zsh-autosuggestions.zsh"
 
 # Robby Russell-style prompt
 autoload -U colors && colors
@@ -278,14 +270,11 @@ fpath=("$HOME/.grok/completions/zsh" $fpath)
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
-# pnpm
-export PNPM_HOME="/Users/amirrezaask/Library/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME/bin:"*) ;;
-  *) export PATH="$PNPM_HOME/bin:$PATH" ;;
-esac
-# pnpm end
 export PATH="/opt/homebrew/opt/zig@0.15/bin:$PATH"
 
 # Vite+ bin (https://viteplus.dev)
-. "$HOME/.vite-plus/env"
+[[ -r "$HOME/.vite-plus/env" ]] && . "$HOME/.vite-plus/env"
+
+# zsh-syntax-highlighting must be the final sourced plugin.
+[[ -r "$ZSH_PLUGINS/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]] && \
+  source "$ZSH_PLUGINS/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"

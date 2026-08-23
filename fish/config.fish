@@ -66,24 +66,9 @@ fish_add_path "$HOME/.local/share/nvim/mason/bin"
 # Bun
 set -gx BUN_INSTALL "$HOME/.bun"
 fish_add_path "$BUN_INSTALL/bin"
-source ~/.cargo/env.fish
 
-function node
-    functions --erase node npm npx
-    test -s "$NVM_DIR/nvm.sh"; and source "$NVM_DIR/nvm.sh"
-    command node $argv
-end
-
-function npm
-    functions --erase node npm npx
-    test -s "$NVM_DIR/nvm.sh"; and source "$NVM_DIR/nvm.sh"
-    command npm $argv
-end
-
-function npx
-    functions --erase node npm npx
-    test -s "$NVM_DIR/nvm.sh"; and source "$NVM_DIR/nvm.sh"
-    command npx $argv
+if test -r "$HOME/.cargo/env.fish"
+    source "$HOME/.cargo/env.fish"
 end
 
 

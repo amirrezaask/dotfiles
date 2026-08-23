@@ -1,6 +1,6 @@
-font-family = Jetbrains Mono
+font-family = MonoLisa
 font-style = Regular
-theme = Catppuccin Macchiato
+theme = shadcn
 font-size = 14
 font-feature=-calt
 mouse-hide-while-typing = true

@@ -1,1 +1,1 @@
-../../../themes/vercel/nvim/vercel.lua
+../../themes/vercel/nvim/vercel.lua

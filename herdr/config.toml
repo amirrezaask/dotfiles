@@ -1,8 +1,30 @@
 onboarding = false
+# shadcn/ui default neutral dark tokens, with ANSI colors inherited from Ghostty.
 [theme]
-name = "catppuccin-macchiato"
+name = "terminal"
 
 auto_switch = false
+
+[theme.custom]
+panel_bg = "#0a0a0a"
+sidebar_bg = "#171717"
+active_row_bg = "#262626"
+selection_bg = "#3f3f46"
+surface_dim = "#0a0a0a"
+surface0 = "#262626"
+surface1 = "#171717"
+overlay0 = "#737373"
+overlay1 = "#a1a1a1"
+text = "#fafafa"
+subtext0 = "#a1a1a1"
+accent = "#e5e5e5"
+mauve = "#ad46ff"
+green = "#00bc7d"
+yellow = "#fe9a00"
+red = "#ff6467"
+blue = "#60a5fa"
+teal = "#2dd4bf"
+peach = "#fe9a00"
 [ui]
 agent_panel_sort = "priority"
 prompt_new_tab_name = false

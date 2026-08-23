@@ -17,12 +17,20 @@ die() {
 command -v fzf >/dev/null 2>&1 || die "fzf is required"
 command -v osascript >/dev/null 2>&1 || die "osascript is required"
 
-projects=$(
-  find "$PROJECTS_DIR" -maxdepth 3 -name ".git" -type d 2>/dev/null \
-    | sed 's|/.git$||' \
-    | sed "s|^$PROJECTS_DIR/||" \
-    | sort
-)
+if [[ "$MODE" != "window" && "$MODE" != "tab" ]]; then
+  die "Invalid mode: $MODE (expected: window or tab)"
+fi
+
+projects=""
+if [ -d "$PROJECTS_DIR" ]; then
+  projects=$(
+    while IFS= read -r git_path; do
+      project_path="${git_path%/.git}"
+      printf '%s\n' "${project_path#"$PROJECTS_DIR"/}"
+    done < <(find "$PROJECTS_DIR" -maxdepth 3 -name ".git" 2>/dev/null)
+  )
+  projects=$(printf '%s\n' "$projects" | sort)
+fi
 
 set +e
 selected=$(printf "%s\n%s\n" "$scratch_option" "$projects" | awk 'NF' | fzf --prompt "Ghostty Session: " --layout reverse)
@@ -31,6 +39,8 @@ set -e
 
 if [ "$fzf_status" -eq 130 ] || [ "$fzf_status" -eq 1 ]; then
   exit 0
+elif [ "$fzf_status" -ne 0 ]; then
+  die "fzf failed with exit code $fzf_status"
 fi
 
 [ -z "$selected" ] && exit 0
@@ -40,16 +50,13 @@ if [ "$selected" = "$scratch_option" ]; then
   target_dir="$SCRATCH_DIR"
   mkdir -p "$target_dir"
 else
-  session_name=$(basename "$selected" | tr . _)
+  # Keep the full relative path so same-named projects do not collide.
+  session_name=$(printf '%s' "$selected" | tr '/.:' '_')
   target_dir="$PROJECTS_DIR/$selected"
 fi
 
 if [ ! -d "$target_dir" ]; then
   die "Target directory does not exist: $target_dir"
-fi
-
-if [[ "$MODE" != "window" && "$MODE" != "tab" ]]; then
-  die "Invalid mode: $MODE (expected: window or tab)"
 fi
 
 # Try to focus an existing terminal whose working directory is inside target_dir.
@@ -64,7 +71,7 @@ on run argv
     repeat with t in terminals
       try
         set wd to working directory of t
-        if wd starts with targetDir then
+        if wd is targetDir or wd starts with (targetDir & "/") then
           focus t
           set foundId to (id of t) as text
           exit repeat

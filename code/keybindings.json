@@ -29,7 +29,7 @@
   { "key": "cmd+1", "command": "workbench.action.toggleSidebarVisibility" },
   { "key": "cmd+2", "command": "workbench.action.terminal.toggleTerminal" },
   { "key": "cmd+3", "command": "workbench.action.toggleAuxiliaryBar" },
-  { "key": "cmd+0", "command": "workbench.action.browser.resetZoom" },
+  { "key": "cmd+0", "command": "workbench.action.zoomReset" },
 
   { "key": "cmd+.", "command": "workbench.action.showNextWindowTab"},
   {

@@ -19,7 +19,7 @@
   "terminal.integrated.macOptionIsMeta": true,
   "editor.lineNumbers": "off",
   "workbench.editor.enablePreview": false,
-  "window.title": "${rootName} ${seperator} ${activeEditorMedium}",
+  "window.title": "${rootName} ${separator} ${activeEditorMedium}",
   "window.titleBarStyle": "custom",
   "files.simpleDialog.enable": true,
   "[go]": { "editor.formatOnSave": true },
@@ -80,7 +80,7 @@
   "vim.insertModeKeyBindings": [
     { "before": [ "j", "k" ], "after": [ "<esc>" ] },
     { "before": [ "k", "j" ], "after": [ "<esc>" ] },
-    { "before": [ "<c-w" ],   "commands": [ "editor.deleteWord"] },
+    { "before": [ "<c-w>" ], "commands": [ "editor.deleteWord" ] },
   ],
   "git.openRepositoryInParentFolders": "never",
   "[json]": {

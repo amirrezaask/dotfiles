@@ -9,11 +9,6 @@ MODE="${1:-os-window}"
 
 PROJECTS_DIR="${PROJECTS_DIR:-$HOME/dev}"
 
-# Get colors from Kitty's current colorscheme
-get_kitty_color() {
-  kitten @ get-colors 2>/dev/null | grep "^$1 " | awk '{print $2}' | tr -d '\r'
-}
-
 die() {
   echo "$1" >&2
   echo "Press Enter to close..." >&2
@@ -25,16 +20,24 @@ command -v fzf >/dev/null 2>&1 || die "fzf is required"
 command -v kitten >/dev/null 2>&1 || die "kitten is required"
 command -v jq >/dev/null 2>&1 || die "jq is required"
 
-# Get project list with icons
-projects=$(
-  find "$PROJECTS_DIR" -maxdepth 3 -name ".git" -type d 2>/dev/null \
-    | sed 's|/.git$||' \
-    | sed "s|^$PROJECTS_DIR/||" \
-    | sort
-)
+if [[ "$MODE" != "tab" && "$MODE" != "os-window" ]]; then
+  die "Invalid mode: $MODE (expected: tab or os-window)"
+fi
+
+# Get the project list.
+projects=""
+if [ -d "$PROJECTS_DIR" ]; then
+  projects=$(
+    while IFS= read -r git_path; do
+      project_path="${git_path%/.git}"
+      printf '%s\n' "${project_path#"$PROJECTS_DIR"/}"
+    done < <(find "$PROJECTS_DIR" -maxdepth 3 -name ".git" 2>/dev/null)
+  )
+  projects=$(printf '%s\n' "$projects" | sort)
+fi
 
 set +e
-selected=$(printf "%s\n%s\n" "$projects" | awk 'NF' | fzf )
+selected=$(printf '%s\n' "$projects" | awk 'NF' | fzf)
 fzf_status=$?
 set -e
 
@@ -48,11 +51,10 @@ fi
 
 [ -z "$selected" ] && exit 0
 
-
-session_name=$(basename "$selected" | tr . _)
+# Keep the full relative path so same-named projects do not collide.
+session_name=$(printf '%s' "$selected" | tr '/.:' '_')
 target_dir="$PROJECTS_DIR/$selected"
 
-match_session="var:kitty_session_name=$session_name"
 kitty_state=$(kitten @ ls) || die "Unable to query Kitty windows. Is remote control enabled?"
 
 if [[ "$MODE" == "tab" ]]; then

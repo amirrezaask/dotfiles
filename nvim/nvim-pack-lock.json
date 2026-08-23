@@ -16,6 +16,10 @@
       "rev": "dca1a190aa85f9065979ef35802fb77131911106",
       "src": "https://github.com/stevearc/conform.nvim"
     },
+    "fff": {
+      "rev": "28fce4145a3aa6ee7ab72de010539a498365aa45",
+      "src": "https://github.com/dmtrKovalenko/fff"
+    },
     "fzf-lua": {
       "rev": "988416cc782dfe28bff3f0da9b8c943b236cd86a",
       "src": "https://github.com/ibhagwan/fzf-lua"
