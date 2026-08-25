@@ -111,7 +111,10 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 	end,
 })
 
-vim.g.fff = { lazy_sync = true }
+vim.g.fff = {
+	lazy_sync = true,
+	keymaps = { close = { "<Esc>", "<C-c>" } },
+}
 
 vim.api.nvim_create_autocmd("PackChanged", {
 	callback = function(args)
@@ -129,8 +132,9 @@ vim.pack.add({
 	"https://github.com/nvim-treesitter/nvim-treesitter",
 	"https://github.com/mason-org/mason.nvim",
 	"https://github.com/dmtrKovalenko/fff",
+	{ src = "https://github.com/catppuccin/nvim", name = "catppuccin" },
 })
-vim.cmd.colorscheme("shadcn")
+vim.cmd.colorscheme("catppuccin-macchiato")
 
 local mason_bin = vim.fn.stdpath("data") .. "/mason/bin"
 vim.env.PATH = mason_bin .. ":" .. (vim.env.PATH or "")

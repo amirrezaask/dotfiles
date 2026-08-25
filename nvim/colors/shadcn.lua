@@ -12,7 +12,7 @@ if vim.fn.exists("syntax_on") == 1 then vim.cmd("syntax reset") end
 local c = {
  -- shadcn neutral dark roles
  bg = "#0a0a0a", -- background
- fg = "#fafafa", -- foreground
+ fg = "#d4d4d4", -- foreground
  fg_dim = "#a1a1a1", -- muted-foreground
  cursor = "#e5e5e5", -- primary
  surface = "#171717", -- card / popover
@@ -40,7 +40,7 @@ local c = {
 
  operator = "#a1a1a1",
  punctuation = "#8a8a8a",
- variable = "#fafafa",
+ variable = "#d4d4d4",
  string = "#00bc7d",
  comment = "#a1a1a1",
  function_name = "#60a5fa",

@@ -1,6 +1,6 @@
 font-family = MonoLisa
 font-style = Regular
-theme = shadcn
+theme = Catppuccin Macchiato
 font-size = 14
 font-feature=-calt
 mouse-hide-while-typing = true
