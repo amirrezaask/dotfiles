@@ -111,27 +111,9 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 	end,
 })
 
-vim.g.fff = {
-	lazy_sync = true,
-	keymaps = { close = { "<Esc>", "<C-c>" } },
-}
-
-vim.api.nvim_create_autocmd("PackChanged", {
-	callback = function(args)
-		local name, kind = args.data.spec.name, args.data.kind
-		if name == "fff" and (kind == "install" or kind == "update") then
-			if not args.data.active then
-				vim.cmd.packadd("fff")
-			end
-			require("fff.download").download_or_build_binary()
-		end
-	end,
-})
-
 vim.pack.add({
 	"https://github.com/nvim-treesitter/nvim-treesitter",
 	"https://github.com/mason-org/mason.nvim",
-	"https://github.com/dmtrKovalenko/fff",
 	{ src = "https://github.com/catppuccin/nvim", name = "catppuccin" },
 })
 vim.cmd.colorscheme("catppuccin-macchiato")
@@ -144,8 +126,71 @@ require("mason").setup({})
 -- find / grep / buffers / format / netrw
 --------------------------------------------------------------------
 
+local file_cache, file_cache_cwd = {}, nil
+
 local function executable(bin)
 	return vim.fn.executable(bin) == 1
+end
+
+local function list_files()
+	local cwd = vim.fn.getcwd()
+	if file_cache_cwd == cwd and #file_cache > 0 then
+		return file_cache
+	end
+	local files
+	if executable("fd") then
+		files =
+			vim.fn.systemlist({ "fd", "--type", "f", "--hidden", "--follow", "--exclude", ".git", "--color", "never" })
+		if vim.v.shell_error ~= 0 then
+			files = {}
+		end
+	elseif executable("rg") then
+		files = vim.fn.systemlist({ "rg", "--files", "--hidden", "--follow", "--glob", "!.git", "--color", "never" })
+		if vim.v.shell_error ~= 0 then
+			files = {}
+		end
+	else
+		files = vim.tbl_filter(function(f)
+			return vim.fn.isdirectory(f) == 0
+		end, vim.fn.glob("**/*", true, true))
+	end
+	file_cache, file_cache_cwd = files, cwd
+	return file_cache
+end
+
+local function fuzzy_filter(files, pattern)
+	if pattern == "" then
+		return files
+	end
+	if executable("fzf") then
+		local out = vim.fn.systemlist({ "fzf", "--filter=" .. pattern }, table.concat(files, "\n") .. "\n")
+		if vim.v.shell_error == 0 or #out > 0 then
+			return out
+		end
+	end
+	return vim.fn.matchfuzzy(files, pattern)
+end
+
+function _G.native_find(cmdarg, _)
+	return fuzzy_filter(list_files(), cmdarg or "")
+end
+vim.o.findfunc = "v:lua.native_find"
+
+vim.api.nvim_create_autocmd({ "DirChanged", "CmdlineEnter" }, {
+	callback = function(args)
+		if args.event == "CmdlineEnter" and vim.fn.getcmdtype() ~= ":" then
+			return
+		end
+		file_cache, file_cache_cwd = {}, nil
+	end,
+})
+
+local function grep(pattern)
+	if not pattern or pattern == "" then
+		return
+	end
+	vim.cmd("silent grep! " .. vim.fn.fnameescape(pattern))
+	vim.cmd("copen")
 end
 
 local function fuzzy_lines(pattern)
@@ -252,20 +297,20 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 	end,
 })
 
-vim.keymap.set("n", "<leader><leader>", function()
-	require("fff").find_files()
-end, { desc = "Find Files" })
-vim.keymap.set("n", "<C-p>", function()
-	require("fff").find_files()
-end, { desc = "Find Files" })
-vim.keymap.set("n", "<leader>f", function()
-	require("fff").find_files()
-end, { desc = "Find Files" })
+vim.keymap.set("n", "<leader><leader>", ":find ", { desc = "Find Files" })
+vim.keymap.set("n", "<C-p>", ":find ", { desc = "Find Files" })
+vim.keymap.set("n", "<leader>f", ":find ", { desc = "Find Files" })
 vim.keymap.set("n", "<leader>j", function()
-	require("fff").live_grep()
+	vim.ui.input({ prompt = "Grep: " }, grep)
 end, { desc = "Grep" })
-vim.keymap.set({ "n", "x" }, "<leader>J", function()
-	require("fff").live_grep_under_cursor()
+vim.keymap.set("n", "<leader>J", function()
+	grep(vim.fn.expand("<cword>"))
+end, { desc = "Grep Word" })
+vim.keymap.set("v", "<leader>J", function()
+	local selection =
+		table.concat(vim.fn.getregion(vim.fn.getpos("v"), vim.fn.getpos("."), { type = vim.fn.mode() }), "\n")
+	vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "n", false)
+	grep(vim.fn.trim(selection))
 end, { desc = "Grep Word" })
 vim.keymap.set("n", "<leader>k", ":buffer ", { desc = "Buffers" })
 vim.keymap.set("n", "<leader>l", function()
