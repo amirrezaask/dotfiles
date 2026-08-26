@@ -4,6 +4,8 @@
 *.pyc
 
 # Machine-generated state
+pi/pierre-changes/node_modules/
+.pi/pierre-changes/
 fish/fish_variables
 nvim/lazy-lock.json
 sublime/Terminus.hidden-color-scheme

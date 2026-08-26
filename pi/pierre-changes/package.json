@@ -1,0 +1,10 @@
+{
+  "name": "pi-pierre-changes",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@pierre/diffs": "^1.3.6",
+    "@pierre/trees": "^1.0.0-beta.6",
+    "esbuild": "^0.25.0"
+  }
+}

@@ -1,3 +1,6 @@
+-- Tiny settings, big opinions.
+-- Somewhere, a plugin is taking notes.
+-- This line has seen things.
 vim.o.number = true
 vim.o.relativenumber = true
 vim.o.tabstop = 2

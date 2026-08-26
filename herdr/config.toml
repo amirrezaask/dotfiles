@@ -2,8 +2,16 @@ onboarding = false
 # shadcn/ui default neutral dark tokens, with ANSI colors inherited from Ghostty.
 [theme]
 name = "catppuccin"
-
 auto_switch = false
+
+[theme.custom]
+accent = "#c6a0f6"
+panel_bg = "#24273a"
+green = "#a6da95"
+yellow = "#eed49f"
+red = "#ed8796"
+blue = "#8aadf4"
+
 
 [ui]
 agent_panel_sort = "priority"

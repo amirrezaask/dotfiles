@@ -12,3 +12,7 @@ Environment overrides:
 - `PI_CONSENT_MODEL_PATTERNS` — comma-separated model-name patterns. Defaults to `opus,sol`.
 
 In non-interactive modes, the extension blocks expensive prompts because no user can provide consent.
+
+## `pierre-changes`
+
+`pierre-changes` records net file changes at the end of each completed Pi turn and opens a local report with Pierre’s file tree and split diff renderer. Install its npm dependencies from `pi/pierre-changes`, then run `./sync`. Use `/changes` to reopen the latest report; set `PI_PIERRE_CHANGES_AUTO_OPEN=0` to disable automatic browser opening.
