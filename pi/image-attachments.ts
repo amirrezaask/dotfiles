@@ -1,13 +1,17 @@
-import { existsSync, readFileSync, realpathSync, statSync } from "node:fs";
+import { existsSync, realpathSync, statSync } from "node:fs";
+import { readFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { basename, extname, isAbsolute, resolve } from "node:path";
-import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
+import { convertToPng, resizeImage, type ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { Image, truncateToWidth, type Component } from "@earendil-works/pi-tui";
 
 const WIDGET_KEY = "image-attachments";
 const IMAGE_EXTENSIONS = new Set([".avif", ".gif", ".jpeg", ".jpg", ".png", ".webp"]);
 const MAX_ATTACHMENTS = 6;
 const MAX_IMAGE_BYTES = 20 * 1024 * 1024;
+const PREVIEW_MAX_WIDTH_PX = 640;
+const PREVIEW_MAX_HEIGHT_PX = 384;
+const PREVIEW_MAX_ENCODED_BYTES = 2 * 1024 * 1024;
 
 const MIME_TYPES: Record<string, string> = {
 	".avif": "image/avif",
@@ -23,6 +27,12 @@ interface Attachment {
 	mimeType: string;
 	size: number;
 	mtimeMs: number;
+}
+
+interface Preview {
+	signature: string;
+	status: "loading" | "ready" | "error";
+	image?: Image;
 }
 
 /** Split editor text like a shell, preserving paths escaped or quoted by terminal drag-and-drop. */
@@ -110,10 +120,53 @@ export default function imageAttachments(pi: ExtensionAPI) {
 
 		ctx.ui.setWidget(
 			WIDGET_KEY,
-			(_tui, theme) => {
+			(tui, theme) => {
 				let attachments: Attachment[] = [];
 				let previousSignature = "";
-				const images = new Map<string, Image>();
+				const previews = new Map<string, Preview>();
+
+				const preparePreview = async (attachment: Attachment): Promise<Image | undefined> => {
+					const resized = await resizeImage(await readFile(attachment.path), attachment.mimeType, {
+						maxWidth: PREVIEW_MAX_WIDTH_PX,
+						maxHeight: PREVIEW_MAX_HEIGHT_PX,
+						maxBytes: PREVIEW_MAX_ENCODED_BYTES,
+					});
+					if (!resized) return undefined;
+
+					const normalized = resized.mimeType === "image/png"
+						? resized
+						: await convertToPng(resized.data, resized.mimeType);
+					if (!normalized) return undefined;
+
+					return new Image(normalized.data, normalized.mimeType, {
+						fallbackColor: (text) => theme.fg("dim", text),
+					}, {
+						maxWidthCells: 28,
+						maxHeightCells: 8,
+						filename: basename(attachment.path),
+					});
+				};
+
+				const startPreview = (attachment: Attachment) => {
+					const signature = `${attachment.size}:${attachment.mtimeMs}`;
+					if (previews.get(attachment.path)?.signature === signature) return;
+
+					previews.set(attachment.path, { signature, status: "loading" });
+					void preparePreview(attachment)
+						.then((image) => {
+							const preview = previews.get(attachment.path);
+							if (preview?.signature !== signature) return;
+							preview.status = image ? "ready" : "error";
+							preview.image = image;
+							tui.requestRender();
+						})
+						.catch(() => {
+							const preview = previews.get(attachment.path);
+							if (preview?.signature !== signature) return;
+							preview.status = "error";
+							tui.requestRender();
+						});
+				};
 
 				const refresh = () => {
 					const next = imageReferences(ctx.ui.getEditorText(), ctx.cwd).flatMap((path): Attachment[] => {
@@ -142,10 +195,13 @@ export default function imageAttachments(pi: ExtensionAPI) {
 					);
 					attachments = next;
 					previousSignature = signature;
-					for (const path of images.keys()) {
+					for (const path of previews.keys()) {
 						if (stalePaths.has(path) || !attachments.some((attachment) => attachment.path === path)) {
-							images.delete(path);
+							previews.delete(path);
 						}
+					}
+					for (const attachment of attachments) {
+						if (attachment.size <= MAX_IMAGE_BYTES) startPreview(attachment);
 					}
 				};
 
@@ -164,29 +220,22 @@ export default function imageAttachments(pi: ExtensionAPI) {
 								continue;
 							}
 
-							let image = images.get(attachment.path);
-							if (!image) {
-								try {
-									image = new Image(readFileSync(attachment.path).toString("base64"), attachment.mimeType, {
-										fallbackColor: (text) => theme.fg("dim", text),
-									}, {
-										maxWidthCells: Math.min(28, width),
-										maxHeightCells: 8,
-										filename: basename(attachment.path),
-									});
-									images.set(attachment.path, image);
-								} catch {
-									lines.push(truncateToWidth(theme.fg("warning", "  Preview unavailable"), width));
-									continue;
-								}
+							const preview = previews.get(attachment.path);
+							if (!preview || preview.status === "loading") {
+								lines.push(truncateToWidth(theme.fg("dim", "  Preparing preview…"), width));
+								continue;
 							}
-							lines.push(...image.render(width));
+							if (preview.status === "error" || !preview.image) {
+								lines.push(truncateToWidth(theme.fg("warning", "  Preview unavailable"), width));
+								continue;
+							}
+							lines.push(...preview.image.render(width));
 						}
 						return lines;
 					},
 					invalidate() {
 						previousSignature = "";
-						for (const image of images.values()) image.invalidate();
+						for (const preview of previews.values()) preview.image?.invalidate();
 					},
 				};
 
