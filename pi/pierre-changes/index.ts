@@ -373,8 +373,7 @@ function sessionTitle(pi: ExtensionAPI, ctx: ExtensionContext): string {
 				.filter((block): block is { type: "text"; text: string } => block.type === "text")
 				.map((block) => block.text)
 				.join(" ");
-		const firstLine = text.split(/\r?\n/).find((line) => line.trim())?.trim();
-		if (firstLine) return firstLine.length > 80 ? `${firstLine.slice(0, 77)}…` : firstLine;
+		if (text.trim()) return text.trim();
 	}
 
 	return basename(ctx.cwd) || "Untitled session";
@@ -410,13 +409,14 @@ function htmlDocument(data: ReturnType<typeof reportData>, bundle: string): stri
 		* { box-sizing: border-box; }
 		body { margin: 0; min-width: 760px; height: 100vh; overflow: hidden; background: radial-gradient(circle at 70% -20%, #1c2738 0, transparent 38%), #0b0d10; }
 		button, select { font: inherit; }
-		.app { display: grid; grid-template-rows: 72px minmax(0, 1fr); height: 100vh; }
-		.topbar { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 0 28px; border-bottom: 1px solid #222832; background: rgba(11, 13, 16, .78); backdrop-filter: blur(18px); }
-		.brand { display: flex; align-items: center; gap: 13px; min-width: 0; }
-		.mark { display: grid; place-items: center; width: 34px; height: 34px; border: 1px solid #4f8cff; border-radius: 10px; color: #9dc1ff; background: #15243d; box-shadow: 0 0 28px rgba(67, 131, 255, .2); font-weight: 700; }
-		h1 { margin: 0; font-size: 15px; letter-spacing: -.02em; }
+		.app { display: grid; grid-template-rows: auto minmax(0, 1fr); height: 100vh; }
+		.topbar { display: flex; align-items: center; justify-content: space-between; gap: 24px; min-height: 72px; padding: 16px 28px; border-bottom: 1px solid #222832; background: rgba(11, 13, 16, .78); backdrop-filter: blur(18px); }
+		.brand { display: flex; flex: 1 1 auto; align-items: center; gap: 13px; min-width: 0; }
+		.brand-copy { flex: 1 1 auto; min-width: 0; }
+		.mark { display: grid; flex: 0 0 auto; place-items: center; width: 34px; height: 34px; border: 1px solid #4f8cff; border-radius: 10px; color: #9dc1ff; background: #15243d; box-shadow: 0 0 28px rgba(67, 131, 255, .2); font-weight: 700; }
+		h1 { margin: 0; font-size: 15px; line-height: 1.35; letter-spacing: -.02em; white-space: pre-wrap; overflow-wrap: anywhere; }
 		.subtitle { margin-top: 4px; color: #7e8796; font: 11px/1.2 "Geist Mono", monospace; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 42vw; }
-		.controls { display: flex; align-items: center; gap: 14px; }
+		.controls { display: flex; flex: 0 0 auto; align-items: center; gap: 14px; }
 		.stats { display: flex; gap: 12px; color: #aab2c0; font: 11px "Geist Mono", monospace; }
 		.stats span { padding: 6px 9px; border: 1px solid #27303c; border-radius: 7px; background: #12161d; }
 		.stats .plus { color: #62d991; }
@@ -453,7 +453,7 @@ function htmlDocument(data: ReturnType<typeof reportData>, bundle: string): stri
 		<header class="topbar">
 			<div class="brand">
 				<div class="mark">Δ</div>
-				<div><h1>${escapeHtml(data.sessionTitle)}</h1><div class="subtitle" id="project"></div></div>
+				<div class="brand-copy"><h1>${escapeHtml(data.sessionTitle)}</h1><div class="subtitle" id="project"></div></div>
 			</div>
 			<div class="controls">
 				<div class="stats"><span id="file-count">0 files</span><span id="turn-count">0 turns</span><span class="plus" id="additions">0 added</span><span class="minus" id="deletions">0 deleted</span></div>

@@ -1,6 +1,4 @@
-font-family = MonoLisa
-font-style = Regular
-theme = Catppuccin Macchiato
+theme = Everforest Dark Hard
 font-size = 14
 font-feature=-calt
 mouse-hide-while-typing = true
@@ -11,94 +9,5 @@ macos-titlebar-style = tabs
 maximize=true
 cursor-style-blink=false
 cursor-style=bar
-
-# Herdr-compatible shortcuts: send C-a (herdr prefix from herdr/config.toml)
-# followed by the Herdr binding. Ghostty eats cmd+* by default, so unbind the
-# stock action and send via cmd+Key* (see herdr.dev/docs/keyboard).
-# Prefix byte: ctrl+a = \x01
-
-# Tabs: cmd+t new, cmd+w close pane, cmd+shift+w close tab
-keybind = cmd+KeyT=text:\x01c
-keybind = cmd+t=unbind
-keybind = cmd+KeyW=text:\x01x
-keybind = cmd+w=unbind
-keybind = cmd+shift+KeyW=text:\x01X
-keybind = cmd+shift+w=unbind
-
-# Tab cycle: cmd+n / cmd+p (same muscle memory as old tmux binds)
-keybind = cmd+KeyN=text:\x01n
-keybind = cmd+n=unbind
-keybind = cmd+KeyP=text:\x01p
-keybind = cmd+p=unbind
-
-# Jump to tab 1..9
-keybind = cmd+digit_1=text:\x011
-keybind = cmd+1=text:\x011
-keybind = cmd+digit_2=text:\x012
-keybind = cmd+2=text:\x012
-keybind = cmd+digit_3=text:\x013
-keybind = cmd+3=text:\x013
-keybind = cmd+digit_4=text:\x014
-keybind = cmd+4=text:\x014
-keybind = cmd+digit_5=text:\x015
-keybind = cmd+5=text:\x015
-keybind = cmd+digit_6=text:\x016
-keybind = cmd+6=text:\x016
-keybind = cmd+digit_7=text:\x017
-keybind = cmd+7=text:\x017
-keybind = cmd+digit_8=text:\x018
-keybind = cmd+8=text:\x018
-keybind = cmd+digit_9=text:\x019
-keybind = cmd+9=text:\x019
-
-# Jump to workspace 1..9 (herdr: prefix+shift+1..9; US shifted digits !@#$%^&*()
-# #\x23 avoids starting a Ghostty config comment)
-keybind = cmd+shift+digit_1=text:\x01!
-keybind = cmd+shift+1=unbind
-keybind = cmd+shift+digit_2=text:\x01@
-keybind = cmd+shift+2=unbind
-keybind = cmd+shift+digit_3=text:\x01\x23
-keybind = cmd+shift+3=unbind
-keybind = cmd+shift+digit_4=text:\x01$
-keybind = cmd+shift+4=unbind
-keybind = cmd+shift+digit_5=text:\x01%
-keybind = cmd+shift+5=unbind
-keybind = cmd+shift+digit_6=text:\x01^
-keybind = cmd+shift+6=unbind
-keybind = cmd+shift+digit_7=text:\x01&
-keybind = cmd+shift+7=unbind
-keybind = cmd+shift+digit_8=text:\x01*
-keybind = cmd+shift+8=unbind
-keybind = cmd+shift+digit_9=text:\x01(
-keybind = cmd+shift+9=unbind
-
-# Workspace cycle: cmd+shift+n / cmd+shift+p (herdr: prefix+shift+n/p)
-# Unbinds Ghostty's stock cmd+shift+p command palette.
-keybind = cmd+shift+KeyN=text:\x01N
-keybind = cmd+shift+n=unbind
-keybind = cmd+shift+KeyP=text:\x01P
-keybind = cmd+shift+p=unbind
-
-# Workspace picker (old cmd+o session picker) + goto
-keybind = cmd+KeyO=text:\x01w
-keybind = cmd+o=unbind
-keybind = cmd+KeyG=text:\x01g
-keybind = cmd+g=unbind
-
-# Rename tab (herdr: prefix+,)
-keybind = cmd+KeyR=text:\x01,
-keybind = cmd+r=unbind
-
-# Splits: cmd+d vertical, cmd+shift+d horizontal; zoom
-keybind = cmd+KeyD=text:\x01v
-keybind = cmd+d=unbind
-keybind = cmd+shift+KeyD=text:\x01-
-keybind = cmd+shift+d=unbind
-keybind = cmd+KeyF=text:\x01z
-keybind = cmd+f=unbind
-
-# Pane focus: cmd+alt+hjkl
-keybind = cmd+alt+KeyH=text:\x01h
-keybind = cmd+alt+KeyJ=text:\x01j
-keybind = cmd+alt+KeyK=text:\x01k
-keybind = cmd+alt+KeyL=text:\x01l
+adjust-cell-height=20%
+keybind = cmd+enter=toggle_split_zoom

@@ -9,11 +9,7 @@ abbr v nvim
 set -gx EDITOR nvim
 set -gx GIT_EDITOR nvim
 
-# ---- Tools ----------------------------------------------------
-abbr o opencode2
 abbr opencode opencode2
-abbr c claude
-abbr gap gapcode
 
 # ---- Git ------------------------------------------------------
 abbr g git
@@ -89,9 +85,9 @@ function fish_right_prompt
 end
 
 # ---- Starship prompt ------------------------------------------------
-if command -q starship
-    starship init fish | source
-end
+# if command -q starship
+#     starship init fish | source
+# end
 
 # ---- fzf key bindings ------------------------------------------------
 if command -q fzf

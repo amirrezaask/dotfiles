@@ -117,9 +117,13 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 vim.pack.add({
 	"https://github.com/nvim-treesitter/nvim-treesitter",
 	"https://github.com/mason-org/mason.nvim",
-	{ src = "https://github.com/catppuccin/nvim", name = "catppuccin" },
+	{ src = "https://github.com/sainnhe/everforest" },
 })
-vim.cmd.colorscheme("catppuccin-macchiato")
+vim.g.everforest_background = "hard"
+vim.cmd.colorscheme("everforest")
+vim.cmd([[ 
+	hi! Normal guibg=#1E2326
+]])
 
 local mason_bin = vim.fn.stdpath("data") .. "/mason/bin"
 vim.env.PATH = mason_bin .. ":" .. (vim.env.PATH or "")

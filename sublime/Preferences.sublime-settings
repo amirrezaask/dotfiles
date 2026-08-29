@@ -8,12 +8,11 @@
 	"theme": "Adaptive.sublime-theme",
 	"ignored_packages":
 	[
-		"LSP-gopls",
-        "Rust",
+		"Rust",
         "Vintage",
     ],
 	"hot_exit": "disabled",
-	"index_files": false,
+	"index_files": true,
 	"color_scheme": "vercel.sublime-color-scheme",
 
 	"folder_exclude_patterns":
