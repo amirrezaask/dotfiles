@@ -1,6 +1,6 @@
 # Dotfiles
 
-Personal configuration for Neovim, Ghostty, Kitty, Alacritty, tmux, Fish, Zsh, VS Code/Cursor, Sublime Text, Git, Herdr, and Pi.
+Personal configuration for Neovim, Ghostty, Kitty, Alacritty, tmux, Fish, Nushell, Zsh, VS Code/Cursor, Sublime Text, Git, Herdr, and Pi.
 
 ## Install
 
@@ -22,6 +22,7 @@ Use `./sync --with-platform` to install Rust/eza and the configured Zsh plugins.
 bash -n sync ghostty/scripts/session-picker.sh kitty/scripts/session-picker.sh \
   tmux/session-picker.sh tmux/copy-to-clipboard.sh
 fish -n fish/config.fish fish/conf.d/vite-plus.fish
+nu --env-config nushell/env.nu --config nushell/config.nu --commands 'exit'
 zsh -n zsh/.zshrc
 ghostty +validate-config
 nvim --headless -u nvim/init.lua '+qa'

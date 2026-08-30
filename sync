@@ -144,12 +144,16 @@ link_config "$DOTFILES_DIR/pi/pierre-changes" "$HOME/.pi/agent/extensions/pierre
 
 if [[ "$OS" == macos ]]; then
 	APP_SUPPORT="$HOME/Library/Application Support"
+	link_config "$DOTFILES_DIR/nushell/config.nu" "$APP_SUPPORT/nushell/config.nu"
+	link_config "$DOTFILES_DIR/nushell/env.nu" "$APP_SUPPORT/nushell/env.nu"
 	link_config "$DOTFILES_DIR/sublime" "$APP_SUPPORT/Sublime Text/Packages/User"
 	for app in Code Cursor Antigravity; do
 		link_config "$DOTFILES_DIR/code/settings.json" "$APP_SUPPORT/$app/User/settings.json"
 		link_config "$DOTFILES_DIR/code/keybindings.json" "$APP_SUPPORT/$app/User/keybindings.json"
 	done
 else
+	link_config "$DOTFILES_DIR/nushell/config.nu" "$XDG_CONFIG/nushell/config.nu"
+	link_config "$DOTFILES_DIR/nushell/env.nu" "$XDG_CONFIG/nushell/env.nu"
 	for app in Code Cursor Antigravity; do
 		link_config "$DOTFILES_DIR/code/settings.json" "$XDG_CONFIG/$app/User/settings.json"
 		link_config "$DOTFILES_DIR/code/keybindings.json" "$XDG_CONFIG/$app/User/keybindings.json"
