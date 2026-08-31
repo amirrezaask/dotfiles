@@ -122,7 +122,7 @@ vim.pack.add({
 vim.g.everforest_background = "hard"
 vim.cmd.colorscheme("everforest")
 vim.cmd([[ 
-	hi! Normal guibg=#1E2326
+	hi! Normal guibg=none
 ]])
 
 local mason_bin = vim.fn.stdpath("data") .. "/mason/bin"

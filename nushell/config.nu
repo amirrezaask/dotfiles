@@ -1,5 +1,7 @@
 # Nushell config mirroring fish/config.fish.
 
+$env.config.show_banner = false
+
 # ---- Editor -----------------------------------------------------------
 alias vim = nvim
 alias vi = nvim
@@ -40,11 +42,10 @@ def nah [] {
 }
 
 # ---- Files ------------------------------------------------------------
-alias l = eza -lah
-alias la = eza -lAh
-alias ll = eza -lh
-alias ls = eza -G
-alias lsa = eza -lah
+alias l = ls -la
+alias la = ls -la
+alias ll = ls -l
+alias lsa = ls -la
 
 # ---- Go / Sublime -----------------------------------------------------
 alias gg = go build -v ./...

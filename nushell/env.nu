@@ -17,6 +17,7 @@ let fish_paths = [
     ($nu.home-dir | path join ".opencode" "bin")
     ($nu.home-dir | path join ".local" "bin")
     "/opt/homebrew/bin"
+    "/usr/local/bin"
     ($env.PNPM_HOME | path join "bin")
 ]
 

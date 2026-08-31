@@ -91,4 +91,5 @@
   "chat.titleBar.openInAgentsWindow.enabled": false,
   "workbench.activityBar.compact": true,
   "workbench.editor.showTabs": "none",
+  "editor.hover.showLongLineWarning": false,
 }

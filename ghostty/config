@@ -10,4 +10,7 @@ maximize=true
 cursor-style-blink=false
 cursor-style=bar
 adjust-cell-height=20%
+background-opacity=0.97
+
+keybind = cmd+r=prompt_tab_title
 keybind = cmd+enter=toggle_split_zoom
