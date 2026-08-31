@@ -119,11 +119,11 @@ vim.pack.add({
 	"https://github.com/mason-org/mason.nvim",
 	{ src = "https://github.com/sainnhe/everforest" },
 })
-vim.g.everforest_background = "hard"
-vim.cmd.colorscheme("everforest")
-vim.cmd([[ 
-	hi! Normal guibg=none
-]])
+-- vim.g.everforest_background = "hard"
+vim.cmd.colorscheme("vercel")
+-- vim.cmd([[
+-- 	hi! Normal guibg=none
+-- ]])
 
 local mason_bin = vim.fn.stdpath("data") .. "/mason/bin"
 vim.env.PATH = mason_bin .. ":" .. (vim.env.PATH or "")

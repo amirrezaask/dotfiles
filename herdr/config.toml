@@ -1,7 +1,7 @@
 onboarding = false
 [theme]
 auto_switch = false
-name = "catppuccin"
+name = "vesper"
 
 # [theme.custom]
 # accent = "#A7C080"
