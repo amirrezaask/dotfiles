@@ -18,7 +18,6 @@ vim.o.wildmode = "noselect:lastused,full"
 vim.o.clipboard = "unnamedplus"
 vim.o.splitbelow = true
 vim.o.splitright = true
-vim.o.cursorline = true
 vim.o.winborder = "rounded"
 vim.o.completeopt = "menuone,noselect,popup"
 vim.o.grepprg = "rg --vimgrep --smart-case --hidden"
@@ -118,12 +117,13 @@ vim.pack.add({
 	"https://github.com/nvim-treesitter/nvim-treesitter",
 	"https://github.com/mason-org/mason.nvim",
 	{ src = "https://github.com/sainnhe/everforest" },
+	{ src = "https://github.com/catppuccin/nvim", name = "catppuccin" },
 })
 -- vim.g.everforest_background = "hard"
-vim.cmd.colorscheme("vercel")
--- vim.cmd([[
--- 	hi! Normal guibg=none
--- ]])
+vim.cmd.colorscheme("catppuccin-macchiato")
+vim.cmd([[
+	hi! Normal guibg=none
+]])
 
 local mason_bin = vim.fn.stdpath("data") .. "/mason/bin"
 vim.env.PATH = mason_bin .. ":" .. (vim.env.PATH or "")

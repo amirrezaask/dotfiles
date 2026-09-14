@@ -1,7 +1,7 @@
 // Settings in here override those in "Default/Preferences.sublime-settings",
 // and are overridden in turn by syntax-specific settings.
 {
-	"font_face": "Liberation Mono",
+	"font_face": "Jetbrains Mono",
 	"font_size": 18,
     "line_padding_top": 5,
     "line_padding_bottom": 5,
@@ -13,7 +13,7 @@
     ],
 	"hot_exit": "disabled",
 	"index_files": true,
-	"color_scheme": "vercel.sublime-color-scheme",
+	"color_scheme": "auto",
 
 	"folder_exclude_patterns":
     [
@@ -47,5 +47,5 @@
         "*.out"
     ],
     "dark_color_scheme": "Mariana.sublime-color-scheme",
-    "light_color_scheme": "Breakers.sublime-color-scheme",
+    "light_color_scheme": "vercel-light.sublime-color-scheme",
 }

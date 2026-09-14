@@ -12,7 +12,6 @@
   "editor.wordWrap": "on",
   "editor.glyphMargin": false,
   "editor.minimap.enabled": false,
-  "workbench.experimental.modernUI": true,
   "window.restoreWindows": "none",
   "chat.agentHost.enabled": true,
   "workbench.settings.editor": "json",
@@ -92,4 +91,6 @@
   "workbench.activityBar.compact": true,
   "workbench.editor.showTabs": "none",
   "editor.hover.showLongLineWarning": false,
+  "cursor.composer.queueMessageDefaultBehavior": "steer",
+  "workbench.colorTheme": "Dark Modern",
 }

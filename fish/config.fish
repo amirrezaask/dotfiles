@@ -85,9 +85,9 @@ function fish_right_prompt
 end
 
 # ---- Starship prompt ------------------------------------------------
-# if command -q starship
-#     starship init fish | source
-# end
+if command -q starship
+    starship init fish | source
+end
 
 # ---- fzf key bindings ------------------------------------------------
 if command -q fzf
@@ -115,3 +115,6 @@ function profile --description 'Show fish startup timing'
     /usr/bin/time fish --command 'exit' 2>&1 | tail -1
 end
 
+
+alias codex-raskarpour='CODEX_HOME="$HOME/.codex_raskarpour" codex'
+alias codex-amirov='CODEX_HOME="$HOME/.codex_comradeamirov" codex'

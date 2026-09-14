@@ -1,29 +1,16 @@
 onboarding = false
 [theme]
 auto_switch = false
-name = "vesper"
+name = "catppuccin"
 
-# [theme.custom]
-# accent = "#A7C080"
-# panel_bg = "#272E33"        # bg0
-# sidebar_bg = "#1E2326"      # bg_dim
-# active_row_bg = "#2E383C"   # bg1
-# selection_bg = "#4C3743"    # bg_visual
-# surface0 = "#2E383C"        # bg1
-# surface1 = "#374145"        # bg2
-# surface_dim = "#1E2326"     # bg_dim
-# overlay0 = "#7A8478"        # grey0
-# overlay1 = "#859289"        # grey1
-# text = "#D3C6AA"            # fg
-# subtext0 = "#9DA9A0"        # grey2
-# mauve = "#D699B6"
-# green = "#A7C080"
-# yellow = "#DBBC7F"
-# red = "#E67E80"
-# blue = "#7FBBB3"
-# teal = "#83C092"
-# peach = "#E69875"
-#
+[theme.custom]
+accent = "#c6a0f6"
+panel_bg = "#24273a"
+green = "#a6da95"
+yellow = "#eed49f"
+red = "#ed8796"
+blue = "#8aadf4"
+
 [ui]
 agent_panel_sort = "priority"
 prompt_new_tab_name = false

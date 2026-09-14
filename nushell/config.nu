@@ -44,7 +44,7 @@ def nah [] {
 # ---- Files ------------------------------------------------------------
 alias l = ls -la
 alias la = ls -la
-alias ll = ls -l
+alias ll = ls
 alias lsa = ls -la
 
 # ---- Go / Sublime -----------------------------------------------------
