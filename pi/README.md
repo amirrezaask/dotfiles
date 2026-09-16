@@ -1,18 +1,5 @@
 # Pi extensions
 
-## `consent`
-
-`consent.ts` asks for confirmation before sending a user prompt to an expensive model. It recognizes Opus and Sol models by name and also gates models whose published input/output/cache rate reaches the configured threshold.
-
-Run `./sync` to link it into `~/.pi/agent/extensions/`, then reload Pi with `/reload`.
-
-Environment overrides:
-
-- `PI_CONSENT_COST_THRESHOLD` — maximum published rate in USD per million tokens before consent is required. Defaults to `10`.
-- `PI_CONSENT_MODEL_PATTERNS` — comma-separated model-name patterns. Defaults to `opus,sol`.
-
-In non-interactive modes, the extension blocks expensive prompts because no user can provide consent.
-
 ## `image-attachments`
 
 `image-attachments.ts` shows a compact thumbnail below the editor whenever the prompt contains a local PNG, JPEG, GIF, WebP, or AVIF path. It understands quoted paths, shell-escaped paths from terminal drag-and-drop, `@path` references, `file://` URLs, and Markdown image references. Deleting the path removes its preview.
@@ -20,6 +7,12 @@ In non-interactive modes, the extension blocks expensive prompts because no user
 The extension previews up to six images and skips thumbnail decoding for files larger than 20 MB. The path remains in the editor and is submitted normally. Terminal image rendering requires a supported terminal such as Ghostty, Kitty, iTerm2, WezTerm, Warp, or another terminal implementing a supported graphics protocol.
 
 Run `./sync`, then use `/reload` in Pi.
+
+## `codex-mux`
+
+`codex-mux` exposes multiple independent OpenAI Codex OAuth account slots and an `openai-codex-mux` provider that picks the account with the most remaining cached usage. It tracks Codex limits with delayed background requests and an O(1) status item; it does not replace the footer, scan session history while rendering, poll continuously, or spawn `codex app-server`.
+
+Run `./sync`, then `/reload`. Log in with `/login openai-codex-account-1` and `/login openai-codex-account-2`, select an `openai-codex-mux` model, and use `/codex-accounts` for status and controls.
 
 ## `pierre-changes`
 

@@ -140,9 +140,9 @@ link_config "$DOTFILES_DIR/nushell" "$XDG_CONFIG/nu"
 link_config "$DOTFILES_DIR/nushell" "$XDG_CONFIG/nushell"
 link_config "$DOTFILES_DIR/ideavimrc/ideavimrc" "$HOME/.ideavimrc"
 link_config "$DOTFILES_DIR/herdr/config.toml" "$XDG_CONFIG/herdr/config.toml"
-link_config "$DOTFILES_DIR/pi/consent.ts" "$HOME/.pi/agent/extensions/consent.ts"
 link_config "$DOTFILES_DIR/pi/image-attachments.ts" "$HOME/.pi/agent/extensions/image-attachments.ts"
 link_config "$DOTFILES_DIR/pi/pierre-changes" "$HOME/.pi/agent/extensions/pierre-changes"
+link_config "$DOTFILES_DIR/pi/codex-mux" "$HOME/.pi/agent/extensions/codex-mux"
 
 if [[ "$OS" == macos ]]; then
 	APP_SUPPORT="$HOME/Library/Application Support"

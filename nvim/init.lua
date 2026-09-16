@@ -116,6 +116,7 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 vim.pack.add({
 	"https://github.com/nvim-treesitter/nvim-treesitter",
 	"https://github.com/mason-org/mason.nvim",
+	"https://github.com/folke/snacks.nvim",
 	{ src = "https://github.com/sainnhe/everforest" },
 	{ src = "https://github.com/catppuccin/nvim", name = "catppuccin" },
 })
@@ -133,90 +134,13 @@ require("mason").setup({})
 -- find / grep / buffers / format / netrw
 --------------------------------------------------------------------
 
-local file_cache, file_cache_cwd = {}, nil
-
 local function executable(bin)
 	return vim.fn.executable(bin) == 1
 end
 
-local function list_files()
-	local cwd = vim.fn.getcwd()
-	if file_cache_cwd == cwd and #file_cache > 0 then
-		return file_cache
-	end
-	local files
-	if executable("fd") then
-		files =
-			vim.fn.systemlist({ "fd", "--type", "f", "--hidden", "--follow", "--exclude", ".git", "--color", "never" })
-		if vim.v.shell_error ~= 0 then
-			files = {}
-		end
-	elseif executable("rg") then
-		files = vim.fn.systemlist({ "rg", "--files", "--hidden", "--follow", "--glob", "!.git", "--color", "never" })
-		if vim.v.shell_error ~= 0 then
-			files = {}
-		end
-	else
-		files = vim.tbl_filter(function(f)
-			return vim.fn.isdirectory(f) == 0
-		end, vim.fn.glob("**/*", true, true))
-	end
-	file_cache, file_cache_cwd = files, cwd
-	return file_cache
-end
-
-local function fuzzy_filter(files, pattern)
-	if pattern == "" then
-		return files
-	end
-	if executable("fzf") then
-		local out = vim.fn.systemlist({ "fzf", "--filter=" .. pattern }, table.concat(files, "\n") .. "\n")
-		if vim.v.shell_error == 0 or #out > 0 then
-			return out
-		end
-	end
-	return vim.fn.matchfuzzy(files, pattern)
-end
-
-function _G.native_find(cmdarg, _)
-	return fuzzy_filter(list_files(), cmdarg or "")
-end
-vim.o.findfunc = "v:lua.native_find"
-
-vim.api.nvim_create_autocmd({ "DirChanged", "CmdlineEnter" }, {
-	callback = function(args)
-		if args.event == "CmdlineEnter" and vim.fn.getcmdtype() ~= ":" then
-			return
-		end
-		file_cache, file_cache_cwd = {}, nil
-	end,
+require("snacks").setup({
+	picker = { enabled = true },
 })
-
-local function grep(pattern)
-	if not pattern or pattern == "" then
-		return
-	end
-	vim.cmd("silent grep! " .. vim.fn.fnameescape(pattern))
-	vim.cmd("copen")
-end
-
-local function fuzzy_lines(pattern)
-	if not pattern or pattern == "" then
-		return
-	end
-	local bufnr = vim.api.nvim_get_current_buf()
-	local candidates = {}
-	for i, line in ipairs(vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)) do
-		candidates[#candidates + 1] = { text = line, lnum = i }
-	end
-	local items = {}
-	for _, m in ipairs(vim.fn.matchfuzzy(candidates, pattern, { key = "text" })) do
-		items[#items + 1] = { bufnr = bufnr, lnum = m.lnum, col = 1, text = m.text }
-	end
-	vim.fn.setloclist(0, items, " ")
-	vim.fn.setloclist(0, {}, "a", { title = "Buffer lines: " .. pattern })
-	vim.cmd("lopen")
-end
 
 local js_fts = {
 	astro = true,
@@ -304,24 +228,26 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 	end,
 })
 
-vim.keymap.set("n", "<leader><leader>", ":find ", { desc = "Find Files" })
-vim.keymap.set("n", "<C-p>", ":find ", { desc = "Find Files" })
-vim.keymap.set("n", "<leader>f", ":find ", { desc = "Find Files" })
+vim.keymap.set("n", "<leader><leader>", function()
+	Snacks.picker.files({ hidden = true, follow = true })
+end, { desc = "Find Files" })
+vim.keymap.set("n", "<C-p>", function()
+	Snacks.picker.files({ hidden = true, follow = true })
+end, { desc = "Find Files" })
+vim.keymap.set("n", "<leader>f", function()
+	Snacks.picker.files({ hidden = true, follow = true })
+end, { desc = "Find Files" })
 vim.keymap.set("n", "<leader>j", function()
-	vim.ui.input({ prompt = "Grep: " }, grep)
+	Snacks.picker.grep({ hidden = true })
 end, { desc = "Grep" })
-vim.keymap.set("n", "<leader>J", function()
-	grep(vim.fn.expand("<cword>"))
+vim.keymap.set({ "n", "x" }, "<leader>J", function()
+	Snacks.picker.grep_word({ hidden = true })
 end, { desc = "Grep Word" })
-vim.keymap.set("v", "<leader>J", function()
-	local selection =
-		table.concat(vim.fn.getregion(vim.fn.getpos("v"), vim.fn.getpos("."), { type = vim.fn.mode() }), "\n")
-	vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "n", false)
-	grep(vim.fn.trim(selection))
-end, { desc = "Grep Word" })
-vim.keymap.set("n", "<leader>k", ":buffer ", { desc = "Buffers" })
+vim.keymap.set("n", "<leader>k", function()
+	Snacks.picker.buffers()
+end, { desc = "Buffers" })
 vim.keymap.set("n", "<leader>l", function()
-	vim.ui.input({ prompt = "Lines: " }, fuzzy_lines)
+	Snacks.picker.lines()
 end, { desc = "Buffer Lines" })
 vim.keymap.set("n", "<leader>e", ":Lexplore<CR>", { desc = "File Tree" })
 
