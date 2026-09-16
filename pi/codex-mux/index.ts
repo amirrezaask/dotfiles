@@ -1,5 +1,5 @@
 import { createAssistantMessageEventStream, getModels, streamOpenAICodexResponses, type Api, type AssistantMessage, type Context, type Model, type Provider, type SimpleStreamOptions } from "@earendil-works/pi-ai/compat";
-import type { ExtensionAPI, ModelRegistry, ProviderModelConfig } from "@earendil-works/pi-coding-agent";
+import type { ExtensionAPI, ExtensionContext, ModelRegistry, ProviderModelConfig } from "@earendil-works/pi-coding-agent";
 import { mkdirSync, readFileSync, renameSync, writeFileSync } from "node:fs";
 import { homedir } from "node:os";
 import { dirname, join } from "node:path";
@@ -8,7 +8,7 @@ import { accountIdFromToken, CODEX_USAGE_URL, compactUsage, emailFromToken, pars
 const MUX_PROVIDER = "openai-codex-mux";
 const CODEX_BASE_URL = "https://chatgpt.com/backend-api";
 const ACCOUNT_PREFIX = "openai-codex-account-";
-const STATUS_KEY = "codex-mux";
+const WIDGET_KEY = "codex-mux";
 const PLACEHOLDER_API_KEY = "__codex_mux_resolves_account_auth__";
 const CONFIG_PATH = join(homedir(), ".pi", "agent", "codex-mux.json");
 const CACHE_PATH = join(homedir(), ".pi", "agent", "codex-mux-usage.json");
@@ -136,17 +136,23 @@ export default function codexMux(pi: ExtensionAPI) {
 
 	const displayName = (slot: AccountSlot): string => usageByAccount[providerId(slot)]?.email ?? slot.label;
 
-	const updateStatus = (ctx: { ui: { setStatus(key: string, value: string | undefined): void } }) => {
+	const updateDisplay = (ctx: ExtensionContext) => {
 		const configured = config.accounts.filter((slot) => modelRegistry?.getProviderAuthStatus(providerId(slot)));
 		if (configured.length === 0) {
-			ctx.ui.setStatus(STATUS_KEY, undefined);
+			ctx.ui.setWidget(WIDGET_KEY, undefined);
 			return;
 		}
-		const summary = configured
-			.map((slot) => `${displayName(slot)}:${compactUsage(usageByAccount[providerId(slot)]).split(" /")[0]}`)
-			.join(" ");
-		const selectedSlot = config.accounts.find((slot) => providerId(slot) === lastSelectedAccount);
-		ctx.ui.setStatus(STATUS_KEY, `codex ${summary}${selectedSlot ? ` →${displayName(selectedSlot)}` : ""}`);
+		const lines = [
+			ctx.ui.theme.fg("muted", "Codex accounts"),
+			...configured.map((slot) => {
+				const selected = providerId(slot) === lastSelectedAccount;
+				const marker = selected ? ctx.ui.theme.fg("accent", "›") : " ";
+				const email = selected ? ctx.ui.theme.fg("accent", displayName(slot)) : displayName(slot);
+				const usage = ctx.ui.theme.fg("dim", compactUsage(usageByAccount[providerId(slot)]));
+				return `${marker} ${email}  ${usage}`;
+			}),
+		];
+		ctx.ui.setWidget(WIDGET_KEY, lines, { placement: "belowEditor" });
 	};
 
 	const saveUsage = () => writeJson(CACHE_PATH, { version: 1, accounts: usageByAccount });
@@ -302,7 +308,7 @@ export default function codexMux(pi: ExtensionAPI) {
 				return `${displayName(slot)}: ${configured ? compactUsage(usageByAccount[id]) : `not logged in — /login ${id}`}`;
 			});
 			ctx.ui.notify(["OpenAI Codex accounts", ...lines, `Mux provider: ${MUX_PROVIDER}`].join("\n"), "info");
-			updateStatus(ctx);
+			updateDisplay(ctx);
 		},
 	});
 
@@ -315,10 +321,10 @@ export default function codexMux(pi: ExtensionAPI) {
 			return;
 		}
 		for (const slot of config.accounts) registerAccount(slot);
-		updateStatus(ctx);
+		updateDisplay(ctx);
 		startupTimer = setTimeout(() => {
 			if (!alive) return;
-			void refreshAccounts().then(() => alive && updateStatus(ctx));
+			void refreshAccounts().then(() => alive && updateDisplay(ctx));
 		}, 1_500);
 		startupTimer.unref?.();
 	});
@@ -327,15 +333,16 @@ export default function codexMux(pi: ExtensionAPI) {
 		if (!lastSelectedAccount) return;
 		const slot = config.accounts.find((candidate) => providerId(candidate) === lastSelectedAccount);
 		if (!slot) return;
+		updateDisplay(ctx);
 		const cached = usageByAccount[lastSelectedAccount];
 		if (cached && Date.now() - cached.capturedAt < POST_TURN_MAX_AGE_MS) return;
-		void refreshAccount(slot).then(() => alive && updateStatus(ctx));
+		void refreshAccount(slot).then(() => alive && updateDisplay(ctx));
 	});
 
 	pi.on("session_shutdown", (_event, ctx) => {
 		alive = false;
 		if (startupTimer) clearTimeout(startupTimer);
 		startupTimer = undefined;
-		ctx.ui.setStatus(STATUS_KEY, undefined);
+		ctx.ui.setWidget(WIDGET_KEY, undefined);
 	});
 }

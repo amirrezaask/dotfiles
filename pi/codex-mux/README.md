@@ -16,7 +16,7 @@ Log in to each slot separately:
 /login openai-codex-account-2
 ```
 
-Then select a model under `openai-codex-mux`. The mux chooses the logged-in account with the lowest cached Codex usage. Account lists and the status line use the email from each OAuth token instead of its numeric slot ID.
+Then select a model under `openai-codex-mux`. The mux chooses the logged-in account with the lowest cached Codex usage. The account widget shows one email and its usage per line below the editor.
 
 Use `/codex-accounts` to inspect the slots and usage. Other forms:
 
