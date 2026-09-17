@@ -10,9 +10,9 @@ Run `./sync`, then use `/reload` in Pi.
 
 ## `codex-mux`
 
-`codex-mux` exposes multiple independent OpenAI Codex OAuth account slots and an `openai-codex-mux` provider that picks the account with the most remaining cached usage. It tracks Codex limits with delayed background requests and shows each account on its own line below the editor. It does not replace the footer, scan session history while rendering, poll continuously, or spawn `codex app-server`.
+`codex-mux` exposes multiple independent OpenAI Codex OAuth account slots and an `openai-codex-mux` provider that picks the account with the most remaining cached usage. It tracks Codex limits with delayed background requests, shows each account on its own line below the editor, and highlights the active account. It does not replace the footer, scan session history while rendering, poll continuously, or spawn `codex app-server`.
 
-Run `./sync`, then `/reload`. Log in with `/login openai-codex-account-1` and `/login openai-codex-account-2`, select an `openai-codex-mux` model, and use `/codex-accounts` for status and controls.
+Run `./sync`, then `/reload`. Log in with `/login openai-codex-account-1` and `/login openai-codex-account-2`, select an `openai-codex-mux` model, and use `/codex-accounts` to interactively choose an account.
 
 ## `pierre-changes`
 

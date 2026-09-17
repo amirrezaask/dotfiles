@@ -18,7 +18,7 @@ Log in to each slot separately:
 
 Then select a model under `openai-codex-mux`. The mux chooses the logged-in account with the lowest cached Codex usage. The account widget shows one email and its usage per line below the editor.
 
-Use `/codex-accounts` to inspect the slots and usage. Other forms:
+Use `/codex-accounts` to open an interactive account picker. Choose an email to pin that account for the session, or choose **Automatic** to let the mux select by remaining usage. Management forms:
 
 ```text
 /codex-accounts refresh
@@ -31,4 +31,4 @@ Account slot metadata is stored in `~/.pi/agent/codex-mux.json`. OAuth credentia
 
 ## Performance
 
-This intentionally does not install or invoke `pi-usage`. It calls the same Codex usage endpoint directly, but only in delayed/background refreshes. It does not replace Pi's footer, scan session history during renders, poll continuously, or spawn `codex app-server` as a fallback.
+This intentionally does not install or invoke `pi-usage`. It calls the same Codex usage endpoint directly, but only in delayed/background refreshes. The active account is highlighted in the widget using in-memory state; account auth checks and formatting happen only when the widget is updated, never inside its render loop. Usage cache writes are batched once per refresh batch. It does not replace Pi's footer, scan session history during renders, poll continuously, or spawn `codex app-server` as a fallback.

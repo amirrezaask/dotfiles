@@ -114,7 +114,8 @@ export default function codexMux(pi: ExtensionAPI) {
 	let baseProvider: Provider | undefined;
 	let usageByAccount: Record<string, AccountUsage> = {};
 	let pinnedAccount: string | undefined;
-	let lastSelectedAccount: string | undefined;
+	let activeAccount: string | undefined;
+	let uiContext: ExtensionContext | undefined;
 	let roundRobinOffset = 0;
 	let startupTimer: NodeJS.Timeout | undefined;
 	let alive = false;
@@ -145,9 +146,11 @@ export default function codexMux(pi: ExtensionAPI) {
 		const lines = [
 			ctx.ui.theme.fg("muted", "Codex accounts"),
 			...configured.map((slot) => {
-				const selected = providerId(slot) === lastSelectedAccount;
+				const selected = providerId(slot) === (pinnedAccount ?? activeAccount);
 				const marker = selected ? ctx.ui.theme.fg("accent", "›") : " ";
-				const email = selected ? ctx.ui.theme.fg("accent", displayName(slot)) : displayName(slot);
+				const email = selected
+					? ctx.ui.theme.fg("accent", ctx.ui.theme.bold(displayName(slot)))
+					: displayName(slot);
 				const usage = ctx.ui.theme.fg("dim", compactUsage(usageByAccount[providerId(slot)]));
 				return `${marker} ${email}  ${usage}`;
 			}),
@@ -155,7 +158,18 @@ export default function codexMux(pi: ExtensionAPI) {
 		ctx.ui.setWidget(WIDGET_KEY, lines, { placement: "belowEditor" });
 	};
 
-	const saveUsage = () => writeJson(CACHE_PATH, { version: 1, accounts: usageByAccount });
+	let usageDirty = false;
+	const saveUsage = () => {
+		if (!usageDirty) return;
+		usageDirty = false;
+		writeJson(CACHE_PATH, { version: 1, accounts: usageByAccount });
+	};
+
+	const markActive = (id: string) => {
+		if (activeAccount === id) return;
+		activeAccount = id;
+		if (alive && uiContext) updateDisplay(uiContext);
+	};
 
 	const refreshAccount = async (slot: AccountSlot, force = false): Promise<void> => {
 		const id = providerId(slot);
@@ -189,7 +203,7 @@ export default function codexMux(pi: ExtensionAPI) {
 					...usageByAccount,
 					[id]: { ...parseUsagePayload(await response.json()), email: emailFromToken(apiKey) },
 				};
-				saveUsage();
+				usageDirty = true;
 			} finally {
 				clearTimeout(timeout);
 			}
@@ -200,6 +214,8 @@ export default function codexMux(pi: ExtensionAPI) {
 
 	const refreshAccounts = async (slots = config.accounts, force = false): Promise<void> => {
 		await Promise.allSettled(slots.map((slot) => refreshAccount(slot, force)));
+		// Persist once per refresh batch, rather than once per account response.
+		saveUsage();
 	};
 
 	const orderedAccounts = (): AccountSlot[] => {
@@ -228,7 +244,7 @@ export default function codexMux(pi: ExtensionAPI) {
 					const resolved = await modelRegistry.getProviderAuth(id);
 					const apiKey = resolved?.auth.apiKey;
 					if (!apiKey) continue;
-					lastSelectedAccount = id;
+					markActive(id);
 					const inner = streamOpenAICodexResponses(codexModel, context, {
 						...options,
 						apiKey,
@@ -264,9 +280,42 @@ export default function codexMux(pi: ExtensionAPI) {
 	}
 
 	pi.registerCommand("codex-accounts", {
-		description: "Show, add, refresh, or select Codex subscription accounts",
+		description: "Interactively select a Codex account, or manage account slots",
 		handler: async (args, ctx) => {
-			const [action = "show", ...rest] = args.trim().split(/\s+/).filter(Boolean);
+			const tokens = args.trim().split(/\s+/).filter(Boolean);
+			if (tokens.length === 0 && ctx.hasUI) {
+				const autoLabel = `Automatic${pinnedAccount ? "" : " (selected)"}`;
+				const choices = [
+					autoLabel,
+					...config.accounts.map((slot) => {
+						const id = providerId(slot);
+						const configured = !!ctx.modelRegistry.getProviderAuthStatus(id);
+						const selected = pinnedAccount === id ? " (selected)" : "";
+						const detail = configured ? compactUsage(usageByAccount[id]) : "not logged in";
+						return `${displayName(slot)} · ${detail}${selected}`;
+					}),
+				];
+				const choice = await ctx.ui.select("Choose Codex account", choices);
+				if (!choice) return;
+				if (choice === autoLabel) {
+					pinnedAccount = undefined;
+					ctx.ui.notify("Codex account selection set to automatic.", "info");
+				} else {
+					const index = choices.indexOf(choice) - 1;
+					const slot = config.accounts[index];
+					if (!slot) return;
+					const id = providerId(slot);
+					if (!ctx.modelRegistry.getProviderAuthStatus(id)) {
+						ctx.ui.notify(`${displayName(slot)} is not logged in. Run /login ${id}.`, "warning");
+						return;
+					}
+					pinnedAccount = id;
+					ctx.ui.notify(`Pinned Codex mux to ${displayName(slot)} for this session.`, "info");
+				}
+				updateDisplay(ctx);
+				return;
+			}
+			const [action = "show", ...rest] = tokens;
 			if (action === "add") {
 				const nextId = String(Math.max(0, ...config.accounts.map((slot) => Number(slot.id) || 0)) + 1);
 				const slot = { id: nextId, label: rest.join(" ") || `Account ${nextId}` };
@@ -281,6 +330,7 @@ export default function codexMux(pi: ExtensionAPI) {
 				if (!requested || requested === "auto") {
 					pinnedAccount = undefined;
 					ctx.ui.notify("Codex account selection set to automatic.", "info");
+					updateDisplay(ctx);
 					return;
 				}
 				const normalized = requested.toLowerCase();
@@ -295,6 +345,7 @@ export default function codexMux(pi: ExtensionAPI) {
 				}
 				pinnedAccount = providerId(slot);
 				ctx.ui.notify(`Pinned Codex mux to ${displayName(slot)} for this session.`, "info");
+				updateDisplay(ctx);
 				return;
 			}
 			if (action !== "show" && action !== "refresh") {
@@ -314,6 +365,7 @@ export default function codexMux(pi: ExtensionAPI) {
 
 	pi.on("session_start", (_event, ctx) => {
 		alive = true;
+		uiContext = ctx;
 		modelRegistry = ctx.modelRegistry;
 		baseProvider = ctx.modelRegistry.getProvider("openai-codex");
 		if (!baseProvider) {
@@ -330,19 +382,24 @@ export default function codexMux(pi: ExtensionAPI) {
 	});
 
 	pi.on("agent_settled", (_event, ctx) => {
-		if (!lastSelectedAccount) return;
-		const slot = config.accounts.find((candidate) => providerId(candidate) === lastSelectedAccount);
+		if (!activeAccount) return;
+		const slot = config.accounts.find((candidate) => providerId(candidate) === activeAccount);
 		if (!slot) return;
 		updateDisplay(ctx);
-		const cached = usageByAccount[lastSelectedAccount];
+		const cached = usageByAccount[activeAccount];
 		if (cached && Date.now() - cached.capturedAt < POST_TURN_MAX_AGE_MS) return;
-		void refreshAccount(slot).then(() => alive && updateDisplay(ctx));
+		void refreshAccount(slot).then(() => {
+			saveUsage();
+			if (alive) updateDisplay(ctx);
+		});
 	});
 
 	pi.on("session_shutdown", (_event, ctx) => {
 		alive = false;
 		if (startupTimer) clearTimeout(startupTimer);
 		startupTimer = undefined;
+		uiContext = undefined;
+		saveUsage();
 		ctx.ui.setWidget(WIDGET_KEY, undefined);
 	});
 }

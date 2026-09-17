@@ -1,4 +1,8 @@
 onboarding = false
+
+[terminal]
+default_shell = "nu"
+
 [theme]
 auto_switch = false
 name = "catppuccin"
