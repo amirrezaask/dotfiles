@@ -14,6 +14,7 @@ const CONFIG_PATH = join(homedir(), ".pi", "agent", "codex-mux.json");
 const CACHE_PATH = join(homedir(), ".pi", "agent", "codex-mux-usage.json");
 const CACHE_MAX_AGE_MS = 3 * 60_000;
 const POST_TURN_MAX_AGE_MS = 60_000;
+const USAGE_REFRESH_INTERVAL_MS = 15_000;
 const REQUEST_TIMEOUT_MS = 8_000;
 
 interface AccountSlot {
@@ -24,6 +25,7 @@ interface AccountSlot {
 interface Config {
 	version: 1;
 	accounts: AccountSlot[];
+	lastActiveAccount?: string;
 }
 
 function defaultConfig(): Config {
@@ -45,7 +47,9 @@ function readConfig(): Config {
 					? [{ id: account.id, label: account.label }]
 					: [],
 			);
-			if (accounts.length > 0) return { version: 1, accounts };
+			if (accounts.length > 0) {
+				return { version: 1, accounts, lastActiveAccount: typeof parsed.lastActiveAccount === "string" ? parsed.lastActiveAccount : undefined };
+			}
 		}
 	} catch {}
 	return defaultConfig();
@@ -115,9 +119,12 @@ export default function codexMux(pi: ExtensionAPI) {
 	let usageByAccount: Record<string, AccountUsage> = {};
 	let pinnedAccount: string | undefined;
 	let activeAccount: string | undefined;
+	let useInitialAccount = false;
+	let fastMode = false;
 	let uiContext: ExtensionContext | undefined;
 	let roundRobinOffset = 0;
 	let startupTimer: NodeJS.Timeout | undefined;
+	let usageRefreshTimer: NodeJS.Timeout | undefined;
 	let alive = false;
 	const refreshing = new Map<string, Promise<void>>();
 
@@ -168,6 +175,8 @@ export default function codexMux(pi: ExtensionAPI) {
 	const markActive = (id: string) => {
 		if (activeAccount === id) return;
 		activeAccount = id;
+		config = { ...config, lastActiveAccount: id };
+		writeJson(CONFIG_PATH, config);
 		if (alive && uiContext) updateDisplay(uiContext);
 	};
 
@@ -225,9 +234,15 @@ export default function codexMux(pi: ExtensionAPI) {
 		}
 		const rotated = config.accounts.map((_, index) => config.accounts[(index + roundRobinOffset) % config.accounts.length]!);
 		roundRobinOffset = (roundRobinOffset + 1) % Math.max(1, config.accounts.length);
-		return rotated.sort(
+		const sorted = rotated.sort(
 			(a, b) => usageScore(usageByAccount[providerId(a)]) - usageScore(usageByAccount[providerId(b)]),
 		);
+		if (useInitialAccount && activeAccount) {
+			useInitialAccount = false;
+			const initial = sorted.find((slot) => providerId(slot) === activeAccount);
+			if (initial) return [initial, ...sorted.filter((slot) => slot !== initial)];
+		}
+		return sorted;
 	};
 
 	const streamMux = (model: Model<Api>, context: Context, options?: SimpleStreamOptions) => {
@@ -248,6 +263,7 @@ export default function codexMux(pi: ExtensionAPI) {
 					const inner = streamOpenAICodexResponses(codexModel, context, {
 						...options,
 						apiKey,
+						serviceTier: fastMode ? "priority" : undefined,
 						headers: { ...resolved.auth.headers, ...options?.headers },
 					});
 					for await (const event of inner) outer.push(event);
@@ -278,6 +294,20 @@ export default function codexMux(pi: ExtensionAPI) {
 			streamSimple: streamMux,
 		});
 	}
+
+	pi.registerCommand("codex-fast", {
+		description: "Toggle OpenAI Codex fast mode",
+		handler: async (args, ctx) => {
+			const value = args.trim().toLowerCase();
+			if (value === "on" || value === "enable" || value === "true") fastMode = true;
+			else if (value === "off" || value === "disable" || value === "false") fastMode = false;
+			else if (value && value !== "toggle") {
+				ctx.ui.notify("Usage: /codex-fast [on|off|toggle]", "warning");
+				return;
+			} else fastMode = !fastMode;
+			ctx.ui.notify(`Codex fast mode ${fastMode ? "enabled" : "disabled"}.`, "info");
+		},
+	});
 
 	pi.registerCommand("codex-accounts", {
 		description: "Interactively select a Codex account, or manage account slots",
@@ -310,7 +340,8 @@ export default function codexMux(pi: ExtensionAPI) {
 						return;
 					}
 					pinnedAccount = id;
-					ctx.ui.notify(`Pinned Codex mux to ${displayName(slot)} for this session.`, "info");
+					markActive(id);
+					ctx.ui.notify(`Pinned Codex mux to ${displayName(slot)}.`, "info");
 				}
 				updateDisplay(ctx);
 				return;
@@ -344,7 +375,8 @@ export default function codexMux(pi: ExtensionAPI) {
 					return;
 				}
 				pinnedAccount = providerId(slot);
-				ctx.ui.notify(`Pinned Codex mux to ${displayName(slot)} for this session.`, "info");
+				markActive(pinnedAccount);
+				ctx.ui.notify(`Pinned Codex mux to ${displayName(slot)}.`, "info");
 				updateDisplay(ctx);
 				return;
 			}
@@ -363,7 +395,7 @@ export default function codexMux(pi: ExtensionAPI) {
 		},
 	});
 
-	pi.on("session_start", (_event, ctx) => {
+	pi.on("session_start", async (_event, ctx) => {
 		alive = true;
 		uiContext = ctx;
 		modelRegistry = ctx.modelRegistry;
@@ -372,13 +404,46 @@ export default function codexMux(pi: ExtensionAPI) {
 			ctx.ui.notify("Codex mux could not find Pi's built-in OpenAI Codex provider.", "error");
 			return;
 		}
+		// Restore the last account first, then fall back to the current mux model.
+		if (config.lastActiveAccount && config.accounts.some((slot) => providerId(slot) === config.lastActiveAccount)) {
+			activeAccount = config.lastActiveAccount;
+			useInitialAccount = true;
+		} else if (ctx.model?.provider.startsWith(ACCOUNT_PREFIX)) {
+			activeAccount = ctx.model.provider;
+			useInitialAccount = true;
+		}
+
+		// The built-in provider is only used as the source for account registrations;
+		// hide it so users cannot accidentally bypass the mux.
+		let currentCodexEmail: string | undefined;
+		try {
+			currentCodexEmail = emailFromToken((await ctx.modelRegistry.getProviderAuth("openai-codex"))?.auth.apiKey ?? "");
+		} catch {}
+		// Remove the built-in provider through the extension API as well as the
+		// session registry. The latter alone can leave the built-in provider in
+		// the model picker until the next reload.
+		pi.unregisterProvider("openai-codex");
+		ctx.modelRegistry.unregisterProvider("openai-codex");
 		for (const slot of config.accounts) registerAccount(slot);
+		if (!activeAccount && currentCodexEmail) {
+			for (const slot of config.accounts) {
+				const auth = await ctx.modelRegistry.getProviderAuth(providerId(slot));
+				if (emailFromToken(auth?.auth.apiKey ?? "") === currentCodexEmail) {
+					activeAccount = providerId(slot);
+					useInitialAccount = true;
+					break;
+				}
+			}
+		}
 		updateDisplay(ctx);
-		startupTimer = setTimeout(() => {
+		const refreshUsage = () => {
 			if (!alive) return;
-			void refreshAccounts().then(() => alive && updateDisplay(ctx));
-		}, 1_500);
+			void refreshAccounts(config.accounts, true).then(() => alive && updateDisplay(ctx));
+		};
+		startupTimer = setTimeout(refreshUsage, 1_500);
 		startupTimer.unref?.();
+		usageRefreshTimer = setInterval(refreshUsage, USAGE_REFRESH_INTERVAL_MS);
+		usageRefreshTimer.unref?.();
 	});
 
 	pi.on("agent_settled", (_event, ctx) => {
@@ -397,7 +462,9 @@ export default function codexMux(pi: ExtensionAPI) {
 	pi.on("session_shutdown", (_event, ctx) => {
 		alive = false;
 		if (startupTimer) clearTimeout(startupTimer);
+		if (usageRefreshTimer) clearInterval(usageRefreshTimer);
 		startupTimer = undefined;
+		usageRefreshTimer = undefined;
 		uiContext = undefined;
 		saveUsage();
 		ctx.ui.setWidget(WIDGET_KEY, undefined);

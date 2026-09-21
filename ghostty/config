@@ -1,5 +1,4 @@
 theme = Catppuccin Macchiato
-font-family=MonoLisa
 font-style=Medium
 font-size = 14
 font-feature=-calt
@@ -11,8 +10,8 @@ macos-titlebar-style = tabs
 maximize=true
 cursor-style-blink=false
 cursor-style=bar
-# adjust-cell-height=20%
-# background-opacity=0.93
+# adjust-cell-height=30%
+background-opacity=0.90
 background-blur=true
 
 # Herdr-compatible shortcuts: send C-a (herdr prefix from herdr/config.toml)

@@ -113,13 +113,28 @@ function windowLabel(window: UsageWindow): string {
 	return `${minutes}m`;
 }
 
-export function compactUsage(usage: AccountUsage | undefined): string {
+function resetLabel(resetsAt: number, now: number): string {
+	const seconds = (resetsAt * 1000 - now) / 1000;
+	if (seconds <= 0) return "now";
+	if (seconds < 60) return `${Math.max(1, Math.round(seconds))}s`;
+	if (seconds < 60 * 60) return `${Math.round(seconds / 60)}m`;
+	if (seconds < 24 * 60 * 60) return `${Math.round(seconds / 360) / 10}h`;
+	return `${Math.round(seconds / 8640) / 10}d`;
+}
+
+function compactWindow(window: UsageWindow, now: number): string {
+	const reset = window.resetsAt ? resetLabel(window.resetsAt, now) : undefined;
+	const resetSuffix = reset ? (reset === "now" ? " (resets now)" : ` (resets in ${reset})`) : "";
+	return `${Math.round(window.usedPercent)}% ${windowLabel(window)}${resetSuffix}`;
+}
+
+export function compactUsage(usage: AccountUsage | undefined, now = Date.now()): string {
 	if (!usage) return "?";
 	const snapshot = usage.snapshots.find((item) => item.limitId === "codex") ?? usage.snapshots[0];
 	if (!snapshot) return "?";
 	const parts: string[] = [];
-	if (snapshot.primary) parts.push(`${Math.round(snapshot.primary.usedPercent)}% ${windowLabel(snapshot.primary)}`);
-	if (snapshot.secondary) parts.push(`${Math.round(snapshot.secondary.usedPercent)}% ${windowLabel(snapshot.secondary)}`);
+	if (snapshot.primary) parts.push(compactWindow(snapshot.primary, now));
+	if (snapshot.secondary) parts.push(compactWindow(snapshot.secondary, now));
 	return parts.join(" / ") || "?";
 }
 

@@ -15,7 +15,10 @@ test("parses Codex rolling limits", () => {
 		},
 	});
 	assert.equal(usage.planType, "pro");
-	assert.equal(compactUsage(usage), "23% 5h / 67% 7d");
+	assert.equal(
+		compactUsage(usage, 1_999_996_400_000),
+		"23% 5h (resets in 1h) / 67% 7d (resets in 1h)",
+	);
 	assert.equal(usageScore(usage), 67);
 });
 
@@ -26,6 +29,17 @@ test("uses the provider's actual window duration", () => {
 		},
 	});
 	assert.equal(compactUsage(usage), "42% 7d");
+});
+
+test("shows compact relative reset times", () => {
+	const now = 1_700_000_000_000;
+	const usage = parseUsagePayload({
+		rate_limit: {
+			primary_window: { used_percent: 42, limit_window_seconds: 18_000, reset_at: now / 1000 + 90 * 60 },
+			secondary_window: { used_percent: 8, limit_window_seconds: 604_800, reset_at: now / 1000 - 1 },
+		},
+	});
+	assert.equal(compactUsage(usage, now), "42% 5h (resets in 1.5h) / 8% 7d (resets now)");
 });
 
 test("exhausted accounts sort last until reset", () => {

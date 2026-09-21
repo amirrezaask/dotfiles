@@ -6,7 +6,6 @@ $env.config.show_banner = false
 alias vim = nvim
 alias vi = nvim
 alias v = nvim
-alias opencode = opencode2
 
 # ---- Git --------------------------------------------------------------
 alias g = git
