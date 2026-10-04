@@ -1,0 +1,13 @@
+{
+  "name": "pi-router-usage",
+  "private": true,
+  "type": "module",
+  "pi": {
+    "extensions": [
+      "./index.ts"
+    ]
+  },
+  "scripts": {
+    "test": "node --test usage.test.ts"
+  }
+}

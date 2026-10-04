@@ -2,6 +2,37 @@
 
 $env.config.show_banner = false
 
+# ---- History ---------------------------------------------------------
+# SQLite records the directory where each command was run. Run `history import`
+# once after switching to preserve old plaintext commands; those older entries
+# have no directory metadata, so only new commands appear in the directory menu.
+$env.config.history.file_format = "sqlite"
+
+# Ctrl-R searches only commands from the current directory. Keep this query
+# bounded so the menu stays responsive even with a large global history.
+$env.config.menus ++= [{
+    name: history_menu
+    only_buffer_difference: true
+    marker: "? "
+    type: {
+        layout: list
+        page_size: 10
+    }
+    style: {
+        text: green
+        selected_text: green_reverse
+        description_text: yellow
+    }
+    source: {|buffer, position|
+        history --long
+        | where cwd == $env.PWD
+        | reverse
+        | take 1000
+        | where ($it.command | str contains --ignore-case $buffer)
+        | each {|entry| {value: $entry.command}}
+    }
+}]
+
 # ---- Editor -----------------------------------------------------------
 alias vim = nvim
 alias vi = nvim

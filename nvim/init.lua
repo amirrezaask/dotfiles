@@ -117,11 +117,12 @@ vim.pack.add({
 	"https://github.com/nvim-treesitter/nvim-treesitter",
 	"https://github.com/mason-org/mason.nvim",
 	"https://github.com/folke/snacks.nvim",
+	"https://github.com/folke/tokyonight.nvim",
 	{ src = "https://github.com/sainnhe/everforest" },
 	{ src = "https://github.com/catppuccin/nvim", name = "catppuccin" },
 })
--- vim.g.everforest_background = "hard"
-vim.cmd.colorscheme("catppuccin-macchiato")
+vim.g.everforest_background = "hard"
+vim.cmd.colorscheme("tokyonight")
 vim.cmd([[
 	hi! Normal guibg=none
 ]])

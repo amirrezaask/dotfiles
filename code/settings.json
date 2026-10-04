@@ -1,5 +1,5 @@
 {
-  "editor.fontFamily": "Fira Code",
+  "editor.fontFamily": "Comic Shanns Mono",
   "breadcrumbs.enabled": false,
   "editor.fontSize": 14,
   "chat.agentHost.codexAgent.enabled": true,
@@ -85,7 +85,7 @@
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "window.autoDetectColorScheme": false,
+  "window.autoDetectColorScheme": true,
   "chat.tips.enabled": false,
   "chat.titleBar.openInAgentsWindow.enabled": false,
   "workbench.activityBar.compact": true,
