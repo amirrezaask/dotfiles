@@ -1,7 +1,7 @@
 // Settings in here override those in "Default/Preferences.sublime-settings",
 // and are overridden in turn by syntax-specific settings.
 {
-	"font_face": "Jetbrains Mono",
+	"font_face": "TX-02",
 	"font_size": 18,
     "line_padding_top": 5,
     "line_padding_bottom": 5,

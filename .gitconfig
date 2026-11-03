@@ -2,7 +2,7 @@
 	insteadOf = https://gitlab.snappcloud.io/
 
 [user]
-	name = AmirrezaAskarpour
+	name = Amirreza Askarpour
 	email = raskarpour@gmail.com
 
 [merge]
@@ -24,3 +24,8 @@
 
 [difftool "hunk"]
 	cmd = hunk diff "$LOCAL" "$REMOTE"
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true

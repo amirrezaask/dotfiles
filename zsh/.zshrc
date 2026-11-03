@@ -278,3 +278,10 @@ export PATH="/opt/homebrew/opt/zig@0.15/bin:$PATH"
 # zsh-syntax-highlighting must be the final sourced plugin.
 [[ -r "$ZSH_PLUGINS/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]] && \
   source "$ZSH_PLUGINS/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+# >>> retcomm-toolchain (cmake-clang-v1) >>>
+# Managed by psxrecomp / Retro — remove via uninstall.sh
+if [ -f "/Users/amirrezaask/.local/share/retcomm/toolchains/cmake-clang-v1/path.sh" ]; then
+  # shellcheck disable=SC1091
+  . "/Users/amirrezaask/.local/share/retcomm/toolchains/cmake-clang-v1/path.sh"
+fi
+# <<< retcomm-toolchain (cmake-clang-v1) <<<
