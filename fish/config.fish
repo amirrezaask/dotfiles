@@ -34,12 +34,12 @@ abbr gf 'git fetch --all --prune -f'
 abbr nah 'git restore --staged .; and git restore .; and git clean -fd'
 
 # ---- Files ----------------------------------------------------
-abbr l 'eza -lah'
-abbr la 'eza -lAh'
-abbr ll 'eza -lh'
-abbr ls 'eza -G'
-abbr lsa 'eza -lah'
-
+# abbr l 'eza -lah'
+# abbr la 'eza -lAh'
+# abbr ll 'eza -lh'
+# abbr ls 'eza -G'
+# abbr lsa 'eza -lah'
+#
 # ---- Go / Sublime ------------------------------------------------
 abbr gg 'go build -v ./...'
 abbr ss 'subl .'

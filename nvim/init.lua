@@ -117,15 +117,198 @@ vim.pack.add({
 	"https://github.com/nvim-treesitter/nvim-treesitter",
 	"https://github.com/mason-org/mason.nvim",
 	"https://github.com/folke/snacks.nvim",
-	"https://github.com/folke/tokyonight.nvim",
-	{ src = "https://github.com/sainnhe/everforest" },
-	{ src = "https://github.com/catppuccin/nvim", name = "catppuccin" },
 })
-vim.g.everforest_background = "hard"
-vim.cmd.colorscheme("catppuccin-macchiato")
-vim.cmd([[
-	hi! Normal guibg=none
-]])
+
+-- Colors come from the terminal. The 16 ANSI slots + fg/bg are queried over OSC 4/10/11
+-- and every other shade (cursorline, visual, popup, diff, diagnostics, dimmed text) is
+-- blended from them, so nvim follows the terminal theme but still has a full palette.
+-- Until the terminal answers (or if it never does) the cterm-only `vim` scheme is used.
+vim.o.termguicolors = false
+vim.cmd.colorscheme("vim")
+
+local term = {}
+
+local function rgb(hex)
+	return { tonumber(hex:sub(1, 2), 16), tonumber(hex:sub(3, 4), 16), tonumber(hex:sub(5, 6), 16) }
+end
+
+local function mix(a, b, t)
+	local out = "#"
+	for i = 1, 3 do
+		out = out .. string.format("%02x", math.floor(a[i] + (b[i] - a[i]) * t + 0.5))
+	end
+	return out
+end
+
+local applying = false
+local function apply_terminal_palette()
+	local bg, fg = term.bg, term.fg
+	if not (bg and fg) then
+		return
+	end
+	local c = {}
+	for i = 0, 15 do
+		if not term[i] then
+			return
+		end
+		c[i] = term[i]
+	end
+	local function hex(v)
+		return mix(v, v, 0)
+	end
+	local red, green, yellow, blue, magenta, cyan = c[1], c[2], c[3], c[4], c[5], c[6]
+	local orange = rgb(mix(red, yellow, 0.5):sub(2))
+	local dim = mix(bg, fg, 0.45)
+	local faint = mix(bg, fg, 0.3)
+	local function tint(color, t)
+		return mix(bg, color, t)
+	end
+
+	applying = true
+	vim.o.termguicolors = true
+	vim.cmd.colorscheme("vim")
+	for i = 0, 15 do
+		vim.g["terminal_color_" .. i] = hex(c[i])
+	end
+	local hl = {
+		Normal = { fg = hex(fg) },
+		NormalFloat = { fg = hex(fg), bg = mix(bg, fg, 0.05) },
+		FloatBorder = { fg = faint, bg = mix(bg, fg, 0.05) },
+		FloatTitle = { fg = hex(blue), bold = true },
+		CursorLine = { bg = mix(bg, fg, 0.06) },
+		ColorColumn = { bg = mix(bg, fg, 0.06) },
+		CursorLineNr = { fg = hex(yellow), bold = true },
+		LineNr = { fg = faint },
+		SignColumn = {},
+		EndOfBuffer = { fg = mix(bg, fg, 0.15) },
+		WinSeparator = { fg = mix(bg, fg, 0.2) },
+		Visual = { bg = tint(blue, 0.3) },
+		Search = { bg = tint(yellow, 0.35) },
+		CurSearch = { fg = hex(bg), bg = hex(yellow) },
+		IncSearch = { fg = hex(bg), bg = hex(orange) },
+		MatchParen = { bg = tint(magenta, 0.35), bold = true },
+		Pmenu = { fg = hex(fg), bg = mix(bg, fg, 0.08) },
+		PmenuSel = { bg = mix(bg, fg, 0.2), bold = true },
+		PmenuSbar = { bg = mix(bg, fg, 0.12) },
+		PmenuThumb = { bg = dim },
+		StatusLine = { fg = hex(fg), bg = mix(bg, fg, 0.1) },
+		StatusLineNC = { fg = dim, bg = mix(bg, fg, 0.05) },
+		Folded = { fg = dim, bg = mix(bg, fg, 0.06) },
+		NonText = { fg = mix(bg, fg, 0.2) },
+		Whitespace = { fg = mix(bg, fg, 0.2) },
+		Directory = { fg = hex(blue) },
+		Title = { fg = hex(blue), bold = true },
+		ErrorMsg = { fg = hex(red), bold = true },
+		WarningMsg = { fg = hex(yellow) },
+		MoreMsg = { fg = hex(green) },
+		Question = { fg = hex(green) },
+
+		Comment = { fg = dim, italic = true },
+		Constant = { fg = hex(orange) },
+		String = { fg = hex(green) },
+		Character = { fg = hex(green) },
+		Number = { fg = hex(orange) },
+		Boolean = { fg = hex(orange) },
+		Identifier = { fg = hex(fg) },
+		Function = { fg = hex(blue) },
+		Statement = { fg = hex(magenta) },
+		Operator = { fg = hex(cyan) },
+		PreProc = { fg = hex(magenta) },
+		Type = { fg = hex(yellow) },
+		Special = { fg = hex(cyan) },
+		Delimiter = { fg = mix(bg, fg, 0.65) },
+		Error = { fg = hex(red) },
+		Todo = { fg = hex(bg), bg = hex(yellow), bold = true },
+		["@variable"] = { fg = hex(fg) },
+		["@variable.builtin"] = { fg = hex(red) },
+		["@variable.parameter"] = { fg = mix(fg, red, 0.3) },
+		["@property"] = { fg = hex(cyan) },
+		["@constructor"] = { fg = hex(yellow) },
+		["@tag"] = { fg = hex(red) },
+		["@tag.attribute"] = { fg = hex(yellow) },
+		["@markup.heading"] = { fg = hex(blue), bold = true },
+		["@markup.link"] = { fg = hex(cyan), underline = true },
+
+		DiffAdd = { bg = tint(green, 0.2) },
+		DiffDelete = { bg = tint(red, 0.2) },
+		DiffChange = { bg = tint(blue, 0.15) },
+		DiffText = { bg = tint(blue, 0.35) },
+		Added = { fg = hex(green) },
+		Removed = { fg = hex(red) },
+		Changed = { fg = hex(blue) },
+	}
+	for name, color in pairs({ Error = red, Warn = yellow, Info = blue, Hint = cyan, Ok = green }) do
+		hl["Diagnostic" .. name] = { fg = hex(color) }
+		hl["DiagnosticVirtualText" .. name] = { fg = hex(color), bg = tint(color, 0.12) }
+		hl["DiagnosticUnderline" .. name] = { undercurl = true, sp = hex(color) }
+	end
+	for name, spec in pairs(hl) do
+		vim.api.nvim_set_hl(0, name, spec)
+	end
+	-- keep the terminal's own background (transparency, blur, wallpaper) visible
+	for _, group in ipairs({ "Normal", "NormalNC", "SignColumn", "EndOfBuffer", "LineNr", "CursorLineNr" }) do
+		vim.cmd.highlight(group .. " guibg=NONE")
+	end
+	applying = false
+end
+
+local apply_timer = assert(vim.uv.new_timer())
+local function apply_soon()
+	-- 18 replies arrive back to back; apply once after they settle
+	apply_timer:stop()
+	apply_timer:start(
+		30,
+		0,
+		vim.schedule_wrap(function()
+			apply_terminal_palette()
+		end)
+	)
+end
+
+local function parse_color(r, g, b)
+	local function chan(h)
+		return tonumber(h, 16) / (16 ^ #h - 1) * 255
+	end
+	return { chan(r), chan(g), chan(b) }
+end
+
+vim.api.nvim_create_autocmd("TermResponse", {
+	callback = function(ev)
+		local seq = ev.data and ev.data.sequence or ""
+		local n, r, g, b = seq:match("^\27%]4;(%d+);rgb:(%x+)/(%x+)/(%x+)")
+		if n then
+			term[tonumber(n)] = parse_color(r, g, b)
+		else
+			local k
+			k, r, g, b = seq:match("^\27%]1([01]);rgb:(%x+)/(%x+)/(%x+)")
+			if k then
+				term[k == "0" and "fg" or "bg"] = parse_color(r, g, b)
+			else
+				return
+			end
+		end
+		apply_soon()
+	end,
+})
+
+local function query_terminal_palette()
+	local q = { "\27]10;?\27\\", "\27]11;?\27\\" }
+	for i = 0, 15 do
+		q[#q + 1] = ("\27]4;%d;?\27\\"):format(i)
+	end
+	vim.api.nvim_ui_send(table.concat(q))
+end
+query_terminal_palette()
+-- re-query when returning to nvim so a terminal theme switch is picked up
+vim.api.nvim_create_autocmd("FocusGained", { callback = query_terminal_palette })
+-- a :colorscheme change wipes our groups; re-apply them
+vim.api.nvim_create_autocmd("ColorScheme", {
+	callback = function()
+		if vim.o.termguicolors and not applying then
+			vim.schedule(apply_terminal_palette)
+		end
+	end,
+})
 
 local mason_bin = vim.fn.stdpath("data") .. "/mason/bin"
 vim.env.PATH = mason_bin .. ":" .. (vim.env.PATH or "")
